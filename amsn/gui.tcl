@@ -5997,69 +5997,165 @@ proc show_umenu {user_login grId x y} {
 }
 
 #///////////////////////////////////////////////////////////////////////
+#Download window
 proc amsn_update { new_version } {
-	destroy .update.i
-	destroy .update.d
-	.update.q configure -text "Downloading new amsn version. Please Wait..."
-	#code the new amsn version url
+
+	set w .downloadwindow
+	if {[winfo exists $w]} {
+		raise $w
+		return
+	}
+	#Create the window .downloadwindow
+	toplevel $w
+	wm title $w "Download"
+	
+	#Create 2 frames
+	frame $w.top
+	frame $w.bottom
+	
+	#Add bitmap and text at the top
+	label $w.top.bitmap -image [::skin::loadPixmap download]
+	label $w.top.text -text "Downloading new amsn version. Please Wait..." -font bigfont
+	#Get the download URL
+	set amsn_url [get_download_link $new_version]
+	
+	#Add button at the bottom
+	button $w.bottom.cancel -text "Cancel"
+	
+	#Pack all the stuff for the top
+	pack $w.top.bitmap -pady 5
+	pack $w.top.text -pady 10
+	
+	#Pack the progress bar and cancel button at the bottom
+	pack [::dkfprogress::Progress $w.bottom.prbar] -fill x -expand 0 -padx 5 -pady 10
+	pack $w.bottom.cancel -pady 5
+	
+	#Pack the frames
+	pack $w.top -side top
+	pack $w.bottom -side bottom -fill x
+	
+	#Start download
+	set amsn_tarball [::http::geturl $amsn_url -progress "amsn_download_progress $amsn_url" -command "amsn_choose_dir $amsn_url"]
+	
+	moveinscreen $w 30
+}
+#Create the download link (change on the differents platforms)
+proc get_download_link {new_version} {
 	set new_version [string replace $new_version 1 1 "_"]
+	#set new_version [string replace $new_version 1 1 "-"]
 	append amsn_url "http://aleron.dl.sourceforge.net/sourceforge/amsn/amsn-" $new_version
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		append amsn_url ".dmg"
-	} else {
-		if { $::tcl_platform(platform)=="windows" } {
-			append amsn_url ".exe"
-		} else { append amsn_url ".tar.gz" }
+	} elseif { $::tcl_platform(platform)=="windows" } {
+		append amsn_url ".exe"
+	} else { 
+		append amsn_url ".tar.gz"
 	}
-	#progress bar
-	pack [::dkfprogress::Progress .update.prbar] -fill x -expand 0 -padx 5 -pady 5 -side top
-	#download new amsn version
-	set amsn_tarball [::http::geturl $amsn_url -progress "amsn_download_progress $amsn_url" -command "amsn_choose_dir $amsn_url"]
+	
+	return $amsn_url
 }
 
 #///////////////////////////////////////////////////////////////////////
 proc amsn_download_progress { url token {total 0} {current 0} } {
-	#config cancel button to cancel the download
-	.update.c configure -command "::http::reset $token"
-	#check if url is valid
+	set w .downloadwindow
+	#Config cancel button to cancel the download
+	$w.bottom.cancel configure -command "::http::reset $token"
+	bind $w <<Escape>> "::http::reset $token"
+	bind $w <<Destroy>> "::http::reset $token"
+	wm protocol $w WM_DELETE_WINDOW "::http::reset $token"
+	#Check if url is valid
 	if { $total == 0 } {
-		.update.q configure -text "Couldn't get $url"
+		$w.top.text configure -text "Couldn't get $url"
+		$w.bottom.cancel configure -text "Close" -command "destroy $w"
+		bind $w <<Escape>> "destroy $w"
+		bind $w <<Destroy>> "destroy $w"
+		wm protocol $w WM_DELETE_WINDOW "destroy $w"
 		return
 	}
-	#update progress bar
-	::dkfprogress::SetProgress .update.prbar [expr {$current*100/$total}]
-	.update.q configure -text "$url\n[trans receivedbytes $current $total]"
+	#Update progress bar and text bar, use size in KB and MB
+	::dkfprogress::SetProgress $w.bottom.prbar [expr {$current*100/$total}]
+	$w.top.text configure -text "$url\n[trans receivedbytes [::amsn::sizeconvert $current] [::amsn::sizeconvert $total]]"
 }
 
 #///////////////////////////////////////////////////////////////////////
 proc amsn_choose_dir { url token } {
+	set w .downloadwindow
+	#If user cancel the download
 	if { [::http::status $token] == "reset" } {
 		::http::cleanup $token
-		destroy .update.prbar
-		.update.q configure -text "Download canceled."
-		.update.c configure -text "Close" -command "destroy .update"
+		$w.top.text configure -text "Download canceled."
+		$w.bottom.cancel configure -text "Close" -command "destroy $w"
+		bind $w <<Escape>> "destroy $w"
+		bind $w <<Destroy>> "destroy $w"
+		wm protocol $w WM_DELETE_WINDOW "destroy $w"
 		return
 	}
+	#If it's impossible to get the URL
 	if { [::http::status $token] != "ok" || [::http::ncode $token] != 200 } {
-		.update.q configure -text "Couldn't get $url"
+		$w.top.text configure -text "Couldn't get $url"
+		$w.bottom.cancel configure -text "Close" -command "destroy $w"
+		bind $w <<Escape>> "destroy $w"
+		bind $w <<Destroy>> "destroy $w"
+		wm protocol $w WM_DELETE_WINDOW "destroy $w"
 		return
 	}
-	destroy .update.prbar
-	.update.q configure -text "Where do you want to save the file?"
-	entry .update.dir
-	button .update.save -command "amsn_save $url $token" -text "Save"
-	pack .update.dir -side left
-	pack .update.save -side left
-	.update.c configure -command "destroy .update"
+	#If the download is over, remove cancel button and progress bar
+	destroy $w.bottom.prbar
+	destroy $w.bottom.cancel
+	
+	#Get default location for each platform
+	set location [get_default_location]
+	set namelocation [lindex $location 0]
+	set defaultlocation [lindex $location 1]
+	
+	$w.top.text configure -text "Save file on $namelocation?"
+	#Create 2 buttons, save and save as
+	button $w.bottom.save -command "amsn_save $url $token $defaultlocation" -text "Save" -default active
+	button $w.bottom.saveas -command "amsn_save_as $url $token $defaultlocation" -text "Save in another directory" -default normal
+	pack $w.bottom.save
+	pack $w.bottom.saveas -pady 5
+	#If user try to close the window, just save in default directory
+	bind $w <<Escape>> "amsn_save $url $token $defaultlocation"
+	bind $w <<Destroy>> "amsn_save $url $token $defaultlocation"
+	wm protocol $w WM_DELETE_WINDOW "amsn_save $url $token $defaultlocation"
+}
+
+#When user click on save in another directory, he gets a window to choose the directory
+proc amsn_save_as {url token defaultlocation} {
+	set location [tk_chooseDirectory -initialdir $defaultlocation]
+	if { $location !="" } {
+		amsn_save $url $token $location
+	} else {
+		return
+	}
+}
+
+#Define default directory on the three platforms 
+#(It's ok For Mac OS X, change it on your platform if you feel it's not good)
+proc get_default_location {} {
+	global files_dir env
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		set namelocation "Desktop"
+		set defaultlocation "[file join $env(HOME) Desktop]"
+	} elseif { $::tcl_platform(platform)=="windows" } {
+		set namelocation "Desktop"
+		set defaultlocation "$files_dir"
+	} else { 
+		set namelocation "Home folder"
+		set defaultlocation "[file join $env(HOME)]"
+	}
+	lappend location $namelocation
+	lappend location $defaultlocation
+	return $location
 }
 
 #///////////////////////////////////////////////////////////////////////
-proc amsn_save { url token } {
-	set savedir [.update.dir get]
-	destroy .update.dir
-	destroy .update.save
-	if { [string equal $savedir ""] } { set savedir "~/" }
-	#write the file into disk
+proc amsn_save { url token location} {
+	
+	set savedir $location
+	set w .downloadwindow
+	
+	#Save the file
 	set lastslash [expr {[string last "/" $url]+1}]
 	set fname [string range $url $lastslash end]
 	
@@ -6069,18 +6165,37 @@ proc amsn_save { url token } {
 		puts -nonewline $file_id [::http::data $token]
 		close $file_id
 	}]} {
-		.update.q configure -text "File can't be saved (check permissions and free space avaiable and path)."
+		#Can't save the file at this place
+		#Get informations of the default location for this system
+		set location [get_default_location]
+		set namelocation [lindex $location 0]
+		set defaultlocation [lindex $location 1]
+		#Show the button to choose a new file location or use default location
+		$w.top.text configure -text "File can't be saved at this place."
+		$w.bottom.save configure -command "amsn_save $url $token $defaultlocation" -text "Save in default location" -default active
+		$w.bottom.saveas configure -command "amsn_save_as $url $token $defaultlocation" -text "Choose new file location" -default normal
+		
+		bind $w <<Escape>> "amsn_save $url $token $defaultlocation"
+		bind $w <<Destroy>> "amsn_save $url $token $defaultlocation"
+		wm protocol $w WM_DELETE_WINDOW "amsn_save $url $token $defaultlocation"
 	} else {
-		.update.q configure -text "Saved $fname in $savedir."
+		#The saving is a sucess, show a button to open directory of the saved file and close button
+		$w.top.text configure -text "Done\n Saved $fname in $savedir."
+		$w.bottom.save configure -command "launch_filemanager \"$savedir\";destroy $w" -text "Open directory" -default normal
+		$w.bottom.saveas configure -command "destroy $w" -text "Close" -default active
 		#if { $::tcl_platform(platform)=="unix" } {
-		#	button .update.install -text "Install" -command "amsn_install_linux $savedir $fname"
-		#	pack .update.install -side left
+		#	button $w.bottom.install -text "Install" -command "amsn_install_linux $savedir $fname"
+		#	pack $w.bottom.install
 		#}
-		if { $::tcl_platform(platform)=="windows" } {
-			button .update.install -text "Install" -command "amsn_install_windows $savedir $fname"
-			pack .update.install -side left
-		}
+		#if { $::tcl_platform(platform)=="windows" } {
+		#	button $w.bottom.install -text "Install" -command "amsn_install_windows $savedir $fname"
+		#	pack $w.bottom.install
+		#}
+		bind $w <<Escape>> "destroy $w"
+		bind $w <<Destroy>> "destroy $w"
+		wm protocol $w WM_DELETE_WINDOW "destroy $w"
 	}
+
 }
 
 #///////////////////////////////////////////////////////////////////////
@@ -6139,20 +6254,28 @@ proc check_web_version { token } {
 		}
 
 		catch {status_log "check_web_ver: Current= $yourver New=$lastver ($tmp_data)\n"}
-		if { $newer == 1} {
-			toplevel .update
-			wm title .update "[trans newveravailable $tmp_data]"
-			#info
-			label .update.i -font splainf -text "[trans newveravailable $tmp_data]"
-			label .update.q -font splainf -text "Would you like to update aMSN?"
-			#options
-			button .update.d -text "Update" -font splainf -command "amsn_update $tmp_data"
-			button .update.c -text "Cancel" -font splainf -command "destroy .update"
-			#packing
-			pack .update.i -side top
-			pack .update.q -side top
-			pack .update.d -side left
-			pack .update.c -side right
+		#Time in second when the user clicked to not have an alert before 3 days
+		set weekdate [::config::getKey weekdate]
+		#Actual time in seconds
+		set actualtime "[clock seconds]"
+		#Number of seconds for 3 days
+		set three_days "[expr 60*60*24*3]"
+		#If you tant to test just with 60 seconds, add # on the previous line and remove the # on the next one
+		#set three_days "60"
+		#Compare the difference betwen actualtime and the time when he clicked
+		if {$weekdate != ""} {
+			set diff_time "[expr {$actualtime-$weekdate}]"
+		} else {
+			set diff_time "[expr {$three_days + 1 } ]"
+		}
+		status_log "Three days (in seconds) :$three_days\n" blue
+		status_log "Difference time (in seconds): $diff_time\n" blue
+		#If new version and more than 3 days since the last alert (if user choosed that feature)
+		#Open the update window
+		if { $newer == 1 && $diff_time > $three_days} {
+			update_window $tmp_data
+		} else {
+			status_log "Not yet 3 days\n" red 
 		}
 
 
@@ -6165,7 +6288,71 @@ proc check_web_version { token } {
 	return $newer
 }
 #///////////////////////////////////////////////////////////////////////
+proc update_window {tmp_data} {	
+	set w .update
+	#If the window was created before
+	if {[winfo exists $w]} {
+		raise $w
+		return
+	}
+	#Create the update window
+	toplevel $w
+	wm title $w "[trans newveravailable $tmp_data]"
+	set changeloglink "http://amsn.sourceforge.net/wiki/tiki-index.php?page=ChangeLog"
+	set homepagelink "http://amsn.sourceforge.net/"
+	#Create the frames
+	frame $w.top
+	frame $w.top.buttons
+	frame $w.bottom
+	frame $w.bottom.buttons
+	
+	#Top frame
+	label $w.top.bitmap -image [::skin::loadPixmap warning]
+	label $w.top.i -text "[trans newveravailable $tmp_data]" -font bigfont
+	button $w.top.buttons.changelog -text "Change log" -command "launch_browser $changeloglink"
+	button $w.top.buttons.homepage -text "aMSN homepage" -command "launch_browser $homepagelink"
+	
+	#Bottom frame
+	label $w.bottom.bitmap -image [::skin::loadPixmap greyline]
+	label $w.bottom.q -text "Would you like to update aMSN immediatly?" -font bigfont
+	button $w.bottom.buttons.update -text "Update" -command "amsn_update $tmp_data;destroy $w" -default active
+	button $w.bottom.buttons.cancel -text "Cancel" -command "dont_ask_before;destroy $w"
+	label $w.bottom.lastbar -image [::skin::loadPixmap greyline]
+	#Checkbox to verify if the user want to have an alert again or just in one week
+	checkbutton $w.bottom.ignoreoneweek -text "Don't ask update again for one week" -variable "dont_ask_for_one_week" -font sboldf
+	
+	#Pack all the stuff for the top
+	pack $w.top.bitmap -side top -padx 3m -pady 3m
+	pack $w.top.i
+	pack $w.top.buttons.changelog -side left
+	pack $w.top.buttons.homepage -side right
+	pack $w.top.buttons -fill x
+	pack $w.top -side top -pady 5
+	
+	#Pack all the stuff for the bottom
+	pack $w.bottom.bitmap
+	pack $w.bottom.q
+	pack $w.bottom.buttons.update -side left -padx 5
+	pack $w.bottom.buttons.cancel -side right -padx 5
+	pack $w.bottom.buttons
+	pack $w.bottom.lastbar -pady 5
+	pack $w.bottom.ignoreoneweek
+	pack $w.bottom -side bottom -pady 15
+	
+	bind $w <<Escape>> "dont_ask_before;destroy .update"
+	bind $w <<Destroy>> "dont_ask_before;destroy .update"
+	wm protocol $w WM_DELETE_WINDOW "dont_ask_before;destroy .update"
+	moveinscreen $w 30
+}
 
+#When the user cancel the update, we check if he clicked on "Don't ask update again for one week"
+#If yes, save the actual time in seconds in the weekdate
+proc dont_ask_before {} {
+
+	if {$::dont_ask_for_one_week} {
+		::config::setKey weekdate "[clock seconds]"
+	}
+}
 #///////////////////////////////////////////////////////////////////////
 proc check_version {} {
 	global weburl tcl_platform
