@@ -1475,7 +1475,7 @@ namespace eval ::amsn {
 
       scrollbar .${win_name}.f.out.ys -command ".${win_name}.f.out.text yview" \
          -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
-      
+
       text .${win_name}.status  -width 30 -height 1 -wrap none\
          -font bplainf -borderwidth 1
 
@@ -1493,7 +1493,7 @@ namespace eval ::amsn {
       pack .${win_name}.f.out -expand true -fill both -padx 3 -pady 0
       pack .${win_name}.f.out.text -side right -expand true -fill both -padx 2 -pady 2
       pack .${win_name}.f.out.ys -side right -fill y -padx 0
-      
+
       pack .${win_name}.f.top.textto -side left -fill y -anchor nw -padx 0 -pady 3
       pack .${win_name}.f.top.text -side left -expand true -fill x -padx 4 -pady 3
 
@@ -1538,7 +1538,7 @@ namespace eval ::amsn {
       bind .${win_name}.f.in.input <Button2-ButtonRelease> "paste .${win_name} 1"
       bind .${win_name}.f.out.text <Button3-ButtonRelease> "tk_popup .${win_name}.copy %X %Y"
       bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
-   
+
       if {$tcl_platform(platform) == "unix" } {
 	  bind .${win_name} <Control-x> "status_log cut\n;copy 1 .${win_name}"
 	  bind .${win_name} <Control-c> "status_log copy\n;copy 0 .${win_name}"
@@ -1546,7 +1546,7 @@ namespace eval ::amsn {
       }
 
       bind .${win_name} <Control-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
-      
+
       bind .${win_name} <Destroy> "window_history clear %W; ::amsn::closeWindow .${win_name} %W"
 
       focus .${win_name}.f.in.input
@@ -1576,32 +1576,32 @@ namespace eval ::amsn {
          bind .${win_name}.f.in.input <Key-Control_R> "break;"
 		}
 
-      bind .${win_name}.f.in.input <Return> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-      bind .${win_name}.f.in.input <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-      bind .${win_name}.f.in.input <Alt-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
+		bind .${win_name}.f.in.input <Return> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
+		bind .${win_name}.f.in.input <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
+		bind .${win_name}.f.in.input <Alt-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
 
-      bind .${win_name}.f.in.input <Escape> "destroy .${win_name} %W; break"
+		bind .${win_name}.f.in.input <Escape> "destroy .${win_name} %W; break"
 
-      bind .${win_name} <Configure> "::amsn::ChangeWinSize .${win_name}"
+		bind .${win_name} <Configure> "::amsn::ChangeWinSize .${win_name}"
 
-      bind .${win_name}.f.in.input <Control-Up> "window_history previous %W; break"
-      bind .${win_name}.f.in.input <Control-Down> "window_history next %W; break"
-      set window_titles(.${win_name}) ""
-      set first_message(.${win_name}) 1
+		bind .${win_name}.f.in.input <Control-Up> "window_history previous %W; break"
+		bind .${win_name}.f.in.input <Control-Down> "window_history next %W; break"
+		set window_titles(.${win_name}) ""
+		set first_message(.${win_name}) 1
 
-      bind .${win_name} <Configure> "::amsn::ConfiguredChatWin .${win_name}"
+		bind .${win_name} <Configure> "::amsn::ConfiguredChatWin .${win_name}"
 
 
-      if { $config(newchatwinstate) == 0 } {.${win_name}
-	 wm state .${win_name} normal
-	 raise .${win_name}
-      } else {
-         wm state .${win_name} iconic
-      }
-      #wm state .${win_name} iconic
-      return ".${win_name}"
+		if { $config(newchatwinstate) == 0 } {
+			wm state .${win_name} normal
+			raise .${win_name}
+		} else {
+			wm state .${win_name} iconic
+		}
 
-   }
+		return ".${win_name}"
+
+	}
 
 	proc ConfiguredChatWin {win} {
 		set chatid [ChatFor $win]
@@ -2146,7 +2146,7 @@ namespace eval ::amsn {
    proc chatUser { user } {
 
       set lowuser [string tolower $user]
-   
+
       set win_name [WindowFor $lowuser]
 
       if { $win_name == 0 } {
