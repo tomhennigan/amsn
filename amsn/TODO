@@ -9,9 +9,9 @@ DONE We must finish MSNP2P (Sending files through MSNP2P and do transfer
 dialogs)
 DONE We must send to waste all MSNP7 code
 - We should do a GUI cleanup (alarms...)
-- We must do proxy's work...
--It doesn't update with the new people that enters the chat... it doesn't give you a chance to talk to certain people...
--In logging/preferences, look at disabled items (add features or remove this items from GUI)
+DONE We must do proxy's work...
+DONE It doesn't update with the new people that enters the chat... it doesn't give you a chance to talk to certain people...
+DONE In logging/preferences, look at disabled items (add features or remove this items from GUI)
 
 BugList / TODO list
 
@@ -41,7 +41,7 @@ DONE	Improve font selection (unify with color selection)
 -	Check for connection state, make sure amsn disconnects if connection goes down. -> add timeouts to changestates and keepalive
 -	When we get a NAK from a message, try to enqueue it again, as probably it will success.
 DONE	Fix focus and children things with list window. (For example add_user from chat window), and dialogs in general.
--	Check functionality of all proxies with new MSNP9 protocol (socks, not keep-alive http proxies)
+DONE	Check functionality of all proxies with new MSNP9 protocol (socks, not keep-alive http proxies)
 DONE	Get rid of all MSNP7 code.. it sure is useless now
 DONE	We sometimes get double pasting, just bind our paste procedure to the <<Paste>> event, instead of to <Ctrl-Key-V>
 
@@ -56,7 +56,7 @@ DONE	Make a Pure PNG Reader (will be used for buddy icons + filetransfer preview
 DONE	In the Privacy tab, if 2 users have exactly the same nickname in a listbox, we can control only the first user 
 	(we can't delete the second user with that nick from the list ...)
 -	Improve truncation to check picture widths, instead of using fixed values
--	Load AMSN faster (load pictures on demand -> GetImage wrapper? Maybe use GetSkinFile?)
+DONE	Load AMSN faster (load pictures on demand -> GetImage wrapper? Maybe use GetSkinFile?)
 DONE	Get rid of global variables list_al, list_bl, make use of ::abook:: namespace (avatars, custom nicknames, etc)
 -	Clean ugly GUI code (long window names xx.xx.xxx.xx, use -Class instead of repeated options all the time)
 
@@ -73,7 +73,7 @@ DONE	Get rid of global variables list_al, list_bl, make use of ::abook:: namespa
 -	Send files through server with MSNP2P if behind NAT
 
 	** Alarm system improvements and bugs **
--	JPG Support (use same as for MSN6 Pictures)
+DONE	JPG Support (use same as for MSN6 Pictures)
 
 	** Logging system improvements and bugs **
 -	Use XML instead of custom syntax to speed up things
@@ -82,16 +82,16 @@ DONE	Get rid of global variables list_al, list_bl, make use of ::abook:: namespa
 -	Save to LOG (if logging disabled, allows to log certain conversations only)
 -	Compress log files with optimal algorithm for text files
 -	Logging syntax options (timestamps, email or nics, etc)
--	Display by day/month/year
+DONE	Display by day/month/year
 -	Display last X lines of the log in the window when opening a chat window with someone
 
 	** WindowsXP issues **
--	Problem with URLs
--	Problem with sound
+DONE	Problem with URLs
+DONE	Problem with sound
 -	Selections don't appear
 -	Ugly program icons (WISH icon, not ours)
 DONE	Fonts dialog all messed up
--	Alarms options (paths) aren't saved correctly if they contain spaces
+DONE	Alarms options (paths) aren't saved correctly if they contain spaces
 -	ImageMagick is never detected since there is a convert.exe program in the System32 DIR and exec looks for that one first
 -	Browser problems in windows when URL contains weird characters
 
@@ -104,10 +104,10 @@ DONE	Fonts dialog all messed up
 	*********************************
 
 -	Have status always on top of contact list
--	Finish the plugins system
+DONE	Finish the plugins system
 -	Menu accelerators
 -	Be able to change their font in chat (same as you, or different)
--	Autoconnect (when connection detected)
+DONE	Autoconnect (when connection detected)
 -	Notebook like chat windows (as an option)
 -	Resume File Transfers
 -	Socks5 Proxy Support with UserName/Password
