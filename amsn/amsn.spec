@@ -83,6 +83,9 @@ make  proot=%{prefix} prefix=${RPM_BUILD_ROOT}%{prefix} version=%{version} wmapp
 /usr/share/amsn/i/bonline.gif
 /usr/share/amsn/i/boyhug.gif
 /usr/share/amsn/i/busy.gif
+/usr/share/amsn/i/butblock.gif
+/usr/share/amsn/i/butfont.gif
+/usr/share/amsn/i/butsmile.gif
 /usr/share/amsn/i/cake.gif
 /usr/share/amsn/i/clk.gif
 /usr/share/amsn/i/coctail.gif
