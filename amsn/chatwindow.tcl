@@ -368,13 +368,18 @@ namespace eval ::ChatWindow {
 		if { [::ChatWindow::For $chatid] != 0 } {
 			set window [::ChatWindow::For $chatid]
 		} else {
-			return 0
+			if { [winfo exists $chatid] } { 
+				set window $chatid
+			} else {
+				return 0
+			}
 		}
 
 		set container [GetContainerFromWindow $window]
 		if { $container != "" } {
 			status_log "Calling flickertab\n" red
 			FlickerTab $window 
+			Flicker $container
 			return
 		}
 
@@ -1948,6 +1953,8 @@ namespace eval ::ChatWindow {
 			} else {
 				wm title ${win_name} ${title}
 			}
+		} else {
+			NameTabButton $win_name $chatid
 		}
 
 		if { $scrolling } { catch {[::ChatWindow::GetOutText ${win_name}] yview end} }
@@ -2048,6 +2055,7 @@ namespace eval ::ChatWindow {
 
 	}
 
+
 	proc GetContainerFor { user } {
 		variable containers
 		 
@@ -2060,7 +2068,7 @@ namespace eval ::ChatWindow {
 			}
 
 		} elseif { [::config::getKey tabbedchat] == 2 } {
-			set gid [lindex [::abook::getContactData $user group] 0]
+			set gid "group[lindex [::abook::getContactData $user group] 0]"
 			if { [info exists containers($gid)] && $containers($gid) != ""} {
 				return $containers($gid)
 			} else {
@@ -2213,23 +2221,25 @@ namespace eval ::ChatWindow {
 		
 		set tab [set win2tab($win)]
 		set users [::MSN::usersInChat $chatid]
-		status_log "naming tab $win with chatid info $chatid\n" red
+		#status_log "naming tab $win with chatid info $chatid\n" red
 		set max_w [image width [::skin::loadPixmap tab]]
+		incr max_w -5
 		if { $users == "" || [llength $users] == 1} {
 			set nick [::abook::getContactData $chatid nick]
 			if { $nick == "" } {
-				status_log "writing chatid\n" red
+				#status_log "writing chatid\n" red
 				$tab configure -text "[trunc $chatid $tab $max_w sboldf]"
 			} else {
-				status_log "found nick $nick\n" red
+				#status_log "found nick $nick\n" red
 				$tab configure -text "[trunc $nick $tab $max_w sboldf]"
 			}
 		} elseif { [llength $users] != 1 } {
 			set number [llength $users]
-			status_log "Conversation with $number users\n" red
+			#status_log "Conversation with $number users\n" red
 			$tab configure -text "[trunc [trans conversationwith $number] $tab $max_w sboldf]"
 		}
-		
+
+		::ChatWindow::UpdateContainerTitle [winfo toplevel $win]
 	}
 
 
@@ -2249,6 +2259,7 @@ namespace eval ::ChatWindow {
 		variable win2tab
 		variable containerprevious
 
+		set title ""
 
 		if { [info exists containercurrent($container)] && [set containercurrent($container)] != "" } {
 			set w [set containercurrent($container)]
@@ -2272,10 +2283,58 @@ namespace eval ::ChatWindow {
 			$tab configure -image [::skin::loadPixmap tab_current]
 		}
 
-		wm title $container [set ::ChatWindow::titles($win)] 
+
+		::ChatWindow::UpdateContainerTitle $container
+
+
+	}
+
+	proc UpdateContainerTitle { container } {
+
+		set win [GetCurrentWindow $container]
+		set chatid [::ChatWindow::Name $win]
+
+		set title "[GetContainerName $container]"
+
+		if { $chatid != 0 } {
+	
+			foreach user [::MSN::usersInChat $chatid] { 
+				set nick [string map {"\n" " "} [::abook::getDisplayNick $user]]
+				set title "${title}${nick}, "
+			}
+			
+			set title [string replace $title end-1 end " - [trans chat]"]
+		}
+
+		set ::ChatWindow::titles($container) $title
+
+		wm title $container $title
 		
 	}
 
+	proc GetContainerName { container } {
+		variable containers
+
+		foreach type [array names containers] {
+			if { $container == [set containers($type)] } {
+				if { $type == "global" } {
+					return "[trans globalcontainer] : "
+				} elseif { [string first "group" $type] == 0} {
+					set gid [string range $type 5 end]
+					set name [::groups::GetName $gid]
+					if {$name != "" } {
+						return "$name : "
+					} else {
+						return "$type : "
+					}
+				} else {
+					return "$type : "
+				}
+			}
+		} 
+
+		return ""
+	}
 
 	proc UseContainer { } {
 		set istabbed [::config::getKey tabbedchat]

@@ -264,6 +264,7 @@ ftsendinvitation File transfer invitation for file '$2' ($3 bytes) has been sent
 fullcontactlist Sorry, your contact list if full. You'll need to remove some contacts in order to add new ones.
 getdisppic Enable receiving Display Pictures from other users
 globalnick Insert a pattern to form all your contacts' nicknames. You can use these variables: \$user_login for you contacts' address, \$nick for your contacts' nickname and \$customnick for your contacts' custom nickname. For example: '\$user_login is \$nick' will be 'contact@msn.com is Contact'
+globalcontainer Global container
 globalnicktitle Global Nickname
 globaloverride Global nicknames pattern should override custom nicknames
 gonelunch Gone to lunch
@@ -396,6 +397,7 @@ newmailfrom New mail from $1 ($2)
 newmailfromother New mail in other folder from $1 ($2)
 newmsg New message
 newstate Add custom state
+newtabbedfeature aMSN has a new feature for managing conversation, you can now have all of your windows from the same group or from your whole contact list in one tabbed window. Please choose the way aMSN should manage your conversations
 newveravailable Newer version $1 available for download
 next Next
 nick Nick
@@ -427,6 +429,7 @@ notifytyping Send other users notifications when typing
 notifywin Notify Window
 notinlist You aren't on his/her contact list
 notls The MSN Protocol 9 requires the TLS package. This package does not seem to be installed on this machine. If it's installed, the path to the library directory should be specified in the Preferences window (ex: /opt/tls/lib). \n \n It's possible to download TLS from http://tls.sf.net.
+nottabbed Normal windows without tabs
 nousersinsession No users in session
 nudge $1 requests your attention
 offline Offline
@@ -588,6 +591,8 @@ stylelog Select the format in which you would like to view your History
 style Style
 syntaxerror Syntax Error
 tabbed Tabbed Windows
+tabbedglobal A tabbed window for all users in the contact list
+tabbedgroups A tabbed window for users from the same group
 tabtitlenick Do you want to display nicks in the tabs instead of email?
 temp_state Don't save (Temporary state, will be missed when close AMSN)
 textsize Text size

@@ -2362,25 +2362,26 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		if { [::ChatWindow::UseContainer] == 0 } {
-			if { [winfo exists .bossmode] } {
-				set ::BossMode(${win_name}) "normal"
-				wm state ${win_name} withdraw
-			} else {
-				wm state ${win_name} normal
-			}
-			
-			wm deiconify ${win_name}
+		set top_win [winfo toplevel $win_name]
+
+		if { [winfo exists .bossmode] } {
+			set ::BossMode(${top_win}) "normal"
+			wm state ${top_win} withdraw
+		} else {
+			wm state ${top_win} normal
 		}
+		
+		wm deiconify ${top_win}
+		
 
 		update idletasks
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			::ChatWindow::MacPosition ${win_name}
+			::ChatWindow::MacPosition ${top_win}
 		}
 		::ChatWindow::TopUpdate $chatid
 
 		#We have a window for that chatid, raise it
-		raise ${win_name}
+		raise ${top_win}
 
 		focus [::ChatWindow::GetInputText ${win_name}]
 
