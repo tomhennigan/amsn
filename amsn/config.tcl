@@ -22,7 +22,6 @@ namespace eval ::config {
 		::config::setKey log_event_disconnect 0	;#Log when someone disconnect
 		::config::setKey log_event_email 0		;#Log when a new E-Mail is received
 		::config::setKey log_event_state 0		;#Log changement of status
-		::config::setKey eventdisconnected 1		;#Test to know if we must display or/and log the connection or not
 	
 		::config::setKey connectiontype direct	;# Connection type: direct|http|proxy
 		::config::setKey proxy ""			;# If using proxy, proxy host

@@ -878,8 +878,9 @@ proc eventlog { } {
 
 #Display/log when we connect if we display/log an event
 proc eventlogin { } {
-	if { [::config::getKey eventdisconnected] } {
-		::config::setKey eventdisconnected 0
+	global eventdisconnected
+	if { $eventdisconnected } {
+		set eventdisconnected 0
 		if { [::log::eventdisplay] } {
 			.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : [trans connectedwith [::config::getKey login]]"
 		}
@@ -893,7 +894,6 @@ proc eventlogin { } {
 
 #Display/log when we disconnect if we display/log an event
 proc eventlogout { } {
-	::config::setKey eventdisconnected 1
 	if { [::log::eventdisplay] } {
 		.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : [trans disconnectedfrom [::config::getKey login]]"
 	}

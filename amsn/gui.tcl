@@ -4688,7 +4688,9 @@ proc cmsn_draw_offline {} {
 proc cmsn_draw_signin {} {
 	bind . <Configure> ""
 
-	global pgBuddy
+	global pgBuddy eventdisconnected
+
+	set eventdisconnected 1
 
 	wm title . "[trans title] - [::config::getKey login]"
 
