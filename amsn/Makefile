@@ -3,6 +3,7 @@
 #
 # TODO
 #	- integrate to both kde & gnome, check if existing
+#	- Debian ppl should include amsn.debianmenu into debianlinks
 name=amsn
 version=0.60
 release=1
@@ -28,6 +29,7 @@ transcript=uninstall.sh
 # For integration with the current desktop
 gnomelinks=/etc/X11/applnk/Internet
 kdelinks=/usr/share/applnk/Internet
+debianlinks=/usr/lib/menu
 wmapps=${gnomelinks}
 icon=messenger.png
 desklink=amsn.desktop
@@ -76,12 +78,12 @@ installsubdirs:
 		    echo "rm -f $$dstfile/$$myfile" >> .$(transcript); \
 		  fi; \
 		done; \
-		echo "rmdir -f $$mydir" >> .$(transcript); \
+		echo "rmdir $$mydir" >> .$(transcript); \
 		done; \
 
 # Install core files from root directory
 install: mkdirs newtranscript installsubdirs 
-	@core=`ls langlist README *tcl *htm*`; for corefile in $$core; do \
+	@core=`ls amsn langlist README *tcl *htm*`; for corefile in $$core; do \
 		myfile=$(libdir)/$$corefile; \
 		cp $$corefile $(libdir); \
 		echo "rm -f $$myfile" >> .$(transcript); \
