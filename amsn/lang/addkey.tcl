@@ -1,4 +1,4 @@
-#!/usr/bin/tclsh
+#!/usr/bin/env tclsh
 # Written by:   Alexandre Hamelin (ahamelin users sourceforge net)
 # Date:         Sept 2, 2003
 # Usage:        ./addkey.tcl
