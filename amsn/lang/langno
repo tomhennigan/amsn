@@ -1,15 +1,16 @@
 amsn_lang_version 2
+
 about Om
 accept Aksepter
 acceptfile Aksepter fil $1, størrelse $2? Lagret i $3
 actions Hendelser
 addacontact Legg til en kontakt
 addedyou $1 ($2) har lagt deg til sin kontaktliste
-addprofiledesc Skriv inn e-postadressen for profilen du vil opprette. \nInnlogginger med profiler lar deg ha forskjellige konfigurasjoner for hver e-postadresse.\nUten profiler kan du ikke bruke Historie, Alarmer eller "Husk Passord" funksjon.
 addprofile Legg til profil
+addprofiledesc Skriv inn e-postadressen for profilen du vil opprette. \nInnlogginger med profiler lar deg ha forskjellige konfigurasjoner for hver e-postadresse.\nUten profiler kan du ikke bruke Historie, Alarmer eller "Husk Passord" funksjon.
 addstate Legg til ny
-addtocontacts Legg til kontaktliste
 addto Legg til i $1
+addtocontacts Legg til kontaktliste
 addtoo Legg til denne personen i kontaktlisten
 admincontacts Administrer kontakter
 admingroups Administrer grupper
@@ -40,8 +41,8 @@ autoaccepted Fil overføring akseptert automatisk
 autoacceptft Aksepter filoverføringsforespørsler automatisk
 autoaway Vis meg som "Borte" når jeg er ikke er aktiv etter
 autocheckver Sjekk automatisk etter nyere versjoner under oppstarten
-autoconnect2 Log inn automatisk når aMSN startes
 autoconnect Koble til når aMSN startes
+autoconnect2 Log inn automatisk når aMSN startes
 autohotmaillog Auto Hotmail innlogging
 autoidle Automatisk gå "No Activity"
 autoip Automatisk IP
@@ -66,27 +67,27 @@ blockmessage Disse personene er koblet til, men har blokkert deg
 blockusers Brukere som sjekkes på en gang
 broughtby Gitt til deg av følgende utviklere
 browse Bla Gjennom
-browserexample ( \$url vil bli erstattet med adressen). F.eks: mozilla \$url
 browser Nettleser
+browserexample ( \$url vil bli erstattet med adressen). F.eks: mozilla \$url
 busy Opptatt
 cancel Avbryt
 cannotdeleteprofile Kan ikke slette profil, den ser ut til å være i bruk av en amsn session
 cantexec Kan ikke kjøre program $1, sjekk instillingene
 cantremoveothers Kan ikke fjerne "Andre"-gruppen
 casesensitive Skill mellom store og små bokstaver
-cfgalarmall Konfigurer/Legg til/Fjern Global Alarm
 cfgalarm  Konfiguer/Legg til/Fjern Alarm
+cfgalarmall Konfigurer/Legg til/Fjern Global Alarm
 changecustomstate Bytt til
 changedisplaypic Endre Personlig Bilde
 changefont Skift skrifttype
 changenick Endre kallenavn
 changestate $1 endrer status til $2
-chatack Aksepterer chat fra
 chat Chat
+chatack Aksepterer chat fra
 chatmaxmin Når en kontakt åpner en chat med meg, vil jeg at den skal være:
 chatreq Forespørsel om  chat
-chatsmileys2 Vis uttrykksikoner og smileys i chattevinduer
 chatsmileys Chat smileyer
+chatsmileys2 Vis uttrykksikoner og smileys i chattevinduer
 checkblocking Sjekk konstant om noen blokkerer deg
 checkfilman Sjekk file manageren i instillingene
 checkingver Ser etter nyere versjon
@@ -98,22 +99,22 @@ choosebgcolor Velg bakgrunnsfarge
 choosecontact Velg en kontakt fra listen
 choosefontcolor Velg skrift farge
 chooseskin Velg hvilket skall du vil bruke
+clearlog Slett logg
 clearlog2 Slett historien for alle kontaktene dine
 clearlog3 Slett alle loggene
-clearlog Slett logg
 clicktologin Klikk her for å logge inn
-closed Samtale med $1 ble lukket på grunn av inaktivitet
 close Lukk
+closed Samtale med $1 ble lukket på grunn av inaktivitet
 closingdocks Lukke-knappen minimerer vinduet
 command Kommando
 commandstatus Utfør kommando
-confirmdelete Er du sikker på at du vil slette $1?
 confirm Er du sikker?
+confirmdelete Er du sikker på at du vil slette $1?
 connected Du er nå tilkoblet
 connecterror Feil ved tilkobling til server
 connecting Kobler til
-connectionlost Frakoblet: Tilkobling til serveren ble lukket
 connection Tilkobling
+connectionlost Frakoblet: Tilkobling til serveren ble lukket
 contactadded Kontakten er lagt til
 contactdoesnotexist Kontakten eksisterer ikke!
 contactlist Kontaktliste (KL):
@@ -127,13 +128,13 @@ cut Klipp ut
 date Dato
 days Dager
 dcprofile Ikke Opprett Profil
-defaultloginradio Logg inn med standardkonfigurasjonen
-default Standardkonfigurasjon
 default Standardkonfigurasjon
+default Standardkonfigurasjon
+defaultloginradio Logg inn med standardkonfigurasjonen
 delete Slett
 deliverfail Det var problemer med å levere følgende melding
-delprofile2 Velg hvilken profil du vil fjerne
 delprofile Slett Profil
+delprofile2 Velg hvilken profil du vil fjerne
 description Beskrivelse
 directconnection Direkte tilkobling til internett (bruker port 1863)
 disabled Deaktivert
@@ -147,10 +148,10 @@ dockkde KDE-dokk
 dontdownload ikke last ned TLS, jeg vil installere det selv
 dontshow Ikke vis
 downloadingtls Laster ned TLS-modul fra:\n $1
+edit Rediger
 editcurrentstate Rediger nåværende
 editnewstate Ny Personlig Auto-beskjed-status
 editprofile Rediger Profil
-edit Rediger
 editstate Rediger Eksisterende Auto-beskjed-status
 emotisounds Spill av lyder for visse uttrykksikoner
 enablebanner Vis aMSN's banner (krever omstart av aMSN)
@@ -158,8 +159,8 @@ enabled Aktivert
 enableproxy Bruk proxy
 enableremote Aktiver fjernkontrollering
 enablesound Spill av lyd
-encoding2 Endre tegnkoding
 encoding Velg koding
+encoding2 Endre tegnkoding
 entercontactemail Oppgi kontakt e-post
 enterfilename Vennligst oppgi et filnavn
 enternick Oppgi nytt kallenavn
@@ -167,26 +168,30 @@ errortls Problemer med installasjon av TLS-modul:
 examples Eksempler
 exitamsn Er du sikker på at du vil avslutte?
 extras Ekstra tjenester
+failed Feilet
 faq FAQ (Jevnlig Besvarte Spørsmål)
+file Fil
 filedoesnotexist Filen eksisterer ikke
-filemanexample ( \$location vil bli byttet ut med mappeny ) F.eks: nautilus \$location
 fileman Filhåndterer
+filemanexample ( \$location vil bli byttet ut med mappeny ) F.eks: nautilus \$location
 filename Filnavn
 filetransfercancelled Filoverføringen ble avbrutt
 filetransfercomplete Filoverføringen er fullført
 followtext Scroll ned når ny tekst blir skrevet inn
-ftacceptedby $1 aksepterte invitasjonen til filoverføring av '$2'.
 ftaccepted Sending av fil akseptert
+ftacceptedby $1 aksepterte invitasjonen til filoverføring av '$2'.
 ftaccepting Aksepterer ivitasjon til filoverføring
 ftconnecting Kobler til $1 port $2
 ftgotinvitation $1 vil sende deg '$2' ($3 bytes). Den vil bli lagret i mappen $4. Ønsker du å motta filen?
 ftrejected Sending av fil avslått
+ftrejectedby $1 avviste filoverføring av fil $2.
+ftsendinvitation Filoverføring for fil '$2' ($3 bytes) har blitt sendt til $1.
 getdisppic Aktiver mottak av Personlige Bilder fra andre brukere
 gonelunch Ute til lunsj
+group Gruppe
 groupadd Legg til en gruppe
 groupdelete Slett en gruppe
 groupexists Gruppen eksisterer allerede
-group Gruppe
 groupmissing Finner ikke gruppen
 groupnewname Nytt navn
 groupnotempty Gruppen er ikke tom!
@@ -194,8 +199,8 @@ groupoldname Gammelt navn
 grouprename Gi nytt navn til en gruppe
 groupunknown Ukjent gruppe
 handle Handle
-helpcontents Hjelp innhold
 help Hjelp
+helpcontents Hjelp innhold
 hidedisplaypic Skjul Personlig Bilde
 hiden Skjul uttrykksikonet fra smileymenyen
 hidewindow Skjul Vindu
@@ -203,6 +208,7 @@ history Vis Historie
 home Hjem
 ident Identifiserer
 identity Identitet
+imagefiles Bilde filer
 inbox Innboks
 invalidusername Ugyldig brukernavn
 invite Inviter
@@ -218,8 +224,8 @@ listsmileys Vis alle Smileys
 loadcontacts Last inn kontaktliste
 loggedotherlocation Frakoblet, Logget inn et annet sted
 loggingin Logger inn
-loginas Logg inn som
 login Logg inn
+loginas Logg inn som
 logout Logg ut
 logsin har nettopp logget inn
 logsout har akkurat koblet fra
@@ -244,8 +250,9 @@ newmailfrom Ny e-post fra $1 ($2)
 newmsg Ny melding
 newveravailable Nyere versjon $1 tilgjengelig for nedlasting
 next Neste
-noactivity Ingen aktivitet
 no Nei
+noactivity Ingen aktivitet
+noneavailable Ingen tilgjengelig
 nonewmail Ingen nye meldinger i Innboksen
 nonewver Det er ingen nye versjoner tilgjengelig for nedlasting
 nopic Ikke noe bilde
@@ -270,62 +277,63 @@ phone Telefon
 picbrowser Personlige Bilder
 picfile Bilde for alarm (GIF < 500 x 500)
 picstatus Skru På / Av bilde alarm
+playing Spiller: $1
 port Port
 prefapps Applikasjoner
 prefblock2 Sjekk konstant
 prefconnection  Tilkoblingsinstillinger
 prefemotic Uttrykksikoner og smileys
 preferences Innstillinger
+preffont Min meldingstekst
 preffont2 Endre min meldingstekst og størrelse
 preffont3 Endre aMSN's skrift og størrelse
-preffont Min meldingstekst
 prefname Mitt kallenavn
-prefphone2 Skriv inn telefonnummerene som du vil at personer \n på din Tillatte-liste skal se\n
 prefphone Mine Telefonnummer
-prefprofile2 Opprett eller modifiser min offentlige profil \n(beskrivelse av meg selv som andre kan se)
+prefphone2 Skriv inn telefonnummerene som du vil at personer \n på din Tillatte-liste skal se\n
 prefprofile Min Offentlige Profil
+prefprofile2 Opprett eller modifiser min offentlige profil \n(beskrivelse av meg selv som andre kan se)
 prefsound Lyder
 profiledconfig Profilkonfigurasjon
 profileexists Du can ikke opprette en profil med denne adressen \n fordi det allerede finnes en profil for adressen. Velg en annen adresse.
 profileinuse Denne profilen blir brukt av en annen aMSN-sesjon. Vennligst velg en annen profil.
 profiles Profiler
 properties Egenskaper
-proxyconfhttp HTTP proxy support konfigurasjon
 proxyconf Proxy konfigurasjon
+proxyconfhttp HTTP proxy support konfigurasjon
 publishphones Publiser mine telefonnummer
 purge Tøm
 raised Åpnet
 receivedbytes Mottatt $1 av $2 bytes
 receivefile Motta fil
-reconnecting Kobler til serveren på nytt
 reconnect Venter på at $1 skal koble til på nytt
+reconnecting Kobler til serveren på nytt
 reject Avslå
 rememberpass Husk passord
 rightback Straks tilbake
+save Lagre
 saveas Lagre som
 savecontacts Lagre kontaktliste
-save Lagre
 savetofile Lagre til fil
 says $1 sier
 sbcon Kobler til koblingstavle
 selectskin Velg et skall fra listen
+send Send
 sendfile Send fil
 sendmail Send e-post
 sendmsg Send beskjed
-send Send
 sentbytes Sendt $1 av $2 bytes
-servergoingdown Frakoblet: Serveren går ned
 server Server
-showdisplaypic2 Vis Personlig Bilde som standard når et chattevindu blir åpnet
+servergoingdown Frakoblet: Serveren går ned
 showdisplaypic Vis Personlig Bilde
+showdisplaypic2 Vis Personlig Bilde som standard når et chattevindu blir åpnet
 showmypic Mitt Personlige Bilde
 showuserpic $1's Personlige Bilde
-skinselector Velg Skall
 skin Skall
+skinselector Velg Skall
+sound Hendelseslyd
 sound2 Spill av lyder når personer logger inn eller sender meg en melding
 soundfile Handlings lyd
 soundfiles Lydfiler
-sound Hendelseslyd
 soundloop lyd loop
 soundstatus Skru Av / På alarm
 sourcecode Kildekode (Krever kompilering og installasjon)
@@ -339,22 +347,22 @@ syntaxerror  Syntax Error
 textsize Skriftstørrelse
 timeremaining Tid gjennstår
 title Al's Messenger
-tools Verktøy
 to Til
+tools Verktøy
 transnotexists Den forspurte filen har ikke enda blitt oversatt til dette språket enda
 twonewmail $1 nye meldinger i Innboksen
 unblock Deblokker
 uoffline Offline
 uonline Online
+user Bruker
 useralreadyonlist Brukeren er allerede i kontaktlisten
 userblocked Brukeren er koblet til, men har blokkert deg 
-user Bruker
 usernotonline Brukeren er ikke koblet til
 useryourself Du kan ikke snakke med deg selv
 verifyblocked Se etter folk som blokkerer deg
 version Versjon
-viewprofile Vis profil
 view Vis
+viewprofile Vis profil
 willjoin Venter $1 blir med i samtalen
 work Arbeid
 wrongfields "$1", "$2" og/eller "$3" feltene er ikke gyldig
