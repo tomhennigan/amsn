@@ -2664,7 +2664,8 @@ namespace eval ::amsn {
 			set p4c 0	
 		}
 		
-		if { [string length $msg] > 400 } {
+		#Removed doubling up of code.
+		#if { [string length $msg] > 400 } {
 			set first 0
 			while { [expr {$first + 400}] <= [string length $msg] } {
 				set msgchunk [string range $msg $first [expr {$first + 399}]]
@@ -2679,15 +2680,15 @@ namespace eval ::amsn {
 			messageFrom $chatid [::abook::getPersonal login] $nick "$msg" user [list $fontfamily $fontstyle $fontcolor] $p4c
 
 			::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
-		} else {
-			set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msg]]
-			#::MSN::chatQueue $chatid [list ::MSN::messageTo $chatid "$msg" $ackid]
-
-			#Draw our own message
-			messageFrom $chatid [::abook::getPersonal login] $nick "$msg" user [list $fontfamily $fontstyle $fontcolor] $p4c
-
-			::MSN::messageTo $chatid "$msg" $ackid $friendlyname
-		}
+		#} else {
+		#	set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msg]]
+		#	#::MSN::chatQueue $chatid [list ::MSN::messageTo $chatid "$msg" $ackid]
+		#
+		#	#Draw our own message
+		#	messageFrom $chatid [::abook::getPersonal login] $nick "$msg" user [list $fontfamily $fontstyle $fontcolor] $p4c
+		#
+		#	::MSN::messageTo $chatid "$msg" $ackid $friendlyname
+		#}
 
 
 		CharsTyped $chatid ""
