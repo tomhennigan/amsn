@@ -155,3 +155,16 @@ version Version
 view Ansicht
 willjoin Warte... $1 wird dem Chat hinzugefügt
 work Arbeit
+lastmsgtime Letzte Nachricht angekommen am $1
+broughtby Von diesen Entwickler für dich gebracht
+choosebgcolor Hintergrundfarbe Auswählen
+extras Extras
+copytogroup Kopieren zur Gruppe
+addtocontacts In die Kontaktliste einfügen
+status Status
+leaveblankforhotmail Leer lassen, um Hotmail zu benutzen
+movetogroup Zur Gruppe bewegen
+groupnotempty Gruppe ist nicht leer
+choosebasefont Schriftart auswählen
+encoding Encoding auswählen
+choosefontcolor Schriftfarbe auswählen
