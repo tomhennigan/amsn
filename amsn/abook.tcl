@@ -544,148 +544,170 @@ namespace eval ::abookGui {
    }
    
    proc showUserProperties { email } {
-   	set w ".user_[::md5::md5 $email]_prop"
-   	if { [winfo exists $w] } {
-		raise $w
-		return
-	}
-   	toplevel $w
-	wm title $w [trans userproperties $email]
-	
-	NoteBook $w.nb
-	$w.nb insert 0 userdata -text [trans userdata]
-	$w.nb insert 1 alarms -text [trans alarms]
-	
-	#Userdata page
-	set nbIdent [$w.nb getframe userdata]
-	ScrolledWindow $nbIdent.sw
-	set sw $nbIdent.sw
-	ScrollableFrame $nbIdent.sw.sf -constrainedwidth 1
-	$nbIdent.sw setwidget $nbIdent.sw.sf
-	set nbIdent [$nbIdent.sw.sf getframe]
-
-
-	label $nbIdent.title1 -text [trans identity] -font bboldunderf
-	   	
-	label $nbIdent.e -text "Email:"
-   	label $nbIdent.e1 -text $email -font splainf -fg blue 
-	
-	label $nbIdent.h -text "[trans nick]:"
-	label $nbIdent.h1 -text [::abook::getNick $email] -font splainf -fg blue 
-	
-	label $nbIdent.customnickl -text "[trans customnick]:"
-	entry $nbIdent.customnickent -font splainf -bg white
-	$nbIdent.customnickent insert end [::abook::getContactData $email customnick] 
-        label $nbIdent.customcolorl -text "[trans customcolor]:"
-        entry $nbIdent.customcolorent -font splainf -bg white
-        $nbIdent.customcolorent insert end [::abook::getContactData $email customcolor]
-
-	
-	
-	label $nbIdent.g -text "[trans group]:"
-	set groups ""
-	foreach gid [::abook::getGroups $email] {
-		set groups "$groups[::groups::GetName $gid]\n"
-	}
-	set groups [string range $groups 0 end-1]
-	label $nbIdent.g1 -text $groups -font splainf -fg blue -justify left
-
-	
-	label $nbIdent.titlephones -text [trans phones] -font bboldunderf
-	
-	set nbPhone $nbIdent
-	label $nbPhone.phh -text "[trans home]:" 
-	label $nbPhone.phh1 -font splainf -text [::abook::getContactData $email phh] -fg blue \
+	   global colorval_$email
+	   set w ".user_[::md5::md5 $email]_prop"
+	   if { [winfo exists $w] } {
+		   raise $w
+		   return
+	   }
+	   toplevel $w
+	   wm title $w [trans userproperties $email]
+	   
+	   NoteBook $w.nb
+	   $w.nb insert 0 userdata -text [trans userdata]
+	   $w.nb insert 1 alarms -text [trans alarms]
+	   
+	   #Userdata page
+	   set nbIdent [$w.nb getframe userdata]
+	   ScrolledWindow $nbIdent.sw
+	   set sw $nbIdent.sw
+	   ScrollableFrame $nbIdent.sw.sf -constrainedwidth 1
+	   $nbIdent.sw setwidget $nbIdent.sw.sf
+	   set nbIdent [$nbIdent.sw.sf getframe]
+	   
+	   
+	   label $nbIdent.title1 -text [trans identity] -font bboldunderf
+	   
+	   label $nbIdent.e -text "Email:"
+	   label $nbIdent.e1 -text $email -font splainf -fg blue 
+	   
+	   label $nbIdent.h -text "[trans nick]:"
+	   label $nbIdent.h1 -text [::abook::getNick $email] -font splainf -fg blue 
+	   
+	   label $nbIdent.customnickl -text "[trans customnick]:"
+	   entry $nbIdent.customnickent -font splainf -bg white
+	   $nbIdent.customnickent insert end [::abook::getContactData $email customnick]
+ 
+	   # The custom color frame
+	   set colorval_$email [::abook::getContactData $email customcolor] 
+	   if { [set colorval_$email] == "" } {
+		    frame $nbIdent.customcolor 
+	   } else {
+		   frame $nbIdent.customcolor -background [set colorval_${email}]
+	   }
+	   button $nbIdent.customcolor.b -text "[trans customcolor]:" -command "::abookGui::ChangeColor $email $nbIdent" 
+	   pack $nbIdent.customcolor.b 
+	   
+	   
+	   label $nbIdent.g -text "[trans group]:"
+	   set groups ""
+	   foreach gid [::abook::getGroups $email] {
+		   set groups "$groups[::groups::GetName $gid]\n"
+	   }
+	   set groups [string range $groups 0 end-1]
+	   label $nbIdent.g1 -text $groups -font splainf -fg blue -justify left
+	   
+	   
+	   label $nbIdent.titlephones -text [trans phones] -font bboldunderf
+	   
+	   set nbPhone $nbIdent
+	   label $nbPhone.phh -text "[trans home]:" 
+	   label $nbPhone.phh1 -font splainf -text [::abook::getContactData $email phh] -fg blue \
+	       -justify left
+	   label $nbPhone.phw -text "[trans work]:"
+	   label $nbPhone.phw1 -font splainf -text [::abook::getContactData $email phw] -fg blue \
 		-justify left
-	label $nbPhone.phw -text "[trans work]:"
-	label $nbPhone.phw1 -font splainf -text [::abook::getContactData $email phw] -fg blue \
-		-justify left
-	label $nbPhone.phm -text "[trans mobile]:" 
-	label $nbPhone.phm1 -font splainf -text [::abook::getContactData $email phm] -fg blue \
-		-justify left
-	label $nbPhone.php -text "[trans pager]:" 
-	label $nbPhone.php1 -font splainf -text [::abook::getContactData $email mob] -fg blue \
-		-justify left
-	
+	   label $nbPhone.phm -text "[trans mobile]:" 
+	   label $nbPhone.phm1 -font splainf -text [::abook::getContactData $email phm] -fg blue \
+	       -justify left
+	   label $nbPhone.php -text "[trans pager]:" 
+	   label $nbPhone.php1 -font splainf -text [::abook::getContactData $email mob] -fg blue \
+	       -justify left
+	   
+	   
+	   label $nbIdent.titleothers -text [trans others] -font bboldunderf 
+	   
+	   label $nbIdent.lastlogin -text "[trans lastlogin]:"
+	   label $nbIdent.lastlogin1 -text [::abook::getContactData $email last_login] -font splainf -fg blue 
+	   
+	   label $nbIdent.lastlogout -text "[trans lastlogout]:"
+	   label $nbIdent.lastlogout1 -text [::abook::getContactData $email last_logout] -font splainf -fg blue 
+	   
+	   label $nbIdent.lastmsgedme -text "[trans lastmsgedme]:"
+	   label $nbIdent.lastmsgedme1 -text [::abook::getContactData $email last_msgedme] -font splainf -fg blue
+	   
+	   grid $nbIdent.title1 -row 0 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
+	   grid $nbIdent.e -row 1 -column 0 -sticky e
+	   grid $nbIdent.e1 -row 1 -column 1 -sticky w
+	   grid $nbIdent.h -row 2 -column 0 -sticky e
+	   grid $nbIdent.h1 -row 2 -column 1 -sticky w
+	   grid $nbIdent.customnickl -row 3 -column 0 -sticky en
+	   grid $nbIdent.customnickent -row 3 -column 1 -sticky wne
+	   grid $nbIdent.customcolor -row 4 -column 1 -sticky wne
 
-	label $nbIdent.titleothers -text [trans others] -font bboldunderf 
-	
-	label $nbIdent.lastlogin -text "[trans lastlogin]:"
-	label $nbIdent.lastlogin1 -text [::abook::getContactData $email last_login] -font splainf -fg blue 
-		
-	label $nbIdent.lastlogout -text "[trans lastlogout]:"
-	label $nbIdent.lastlogout1 -text [::abook::getContactData $email last_logout] -font splainf -fg blue 
-
-	label $nbIdent.lastmsgedme -text "[trans lastmsgedme]:"
-	label $nbIdent.lastmsgedme1 -text [::abook::getContactData $email last_msgedme] -font splainf -fg blue
-				
-	grid $nbIdent.title1 -row 0 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
-	grid $nbIdent.e -row 1 -column 0 -sticky e
-	grid $nbIdent.e1 -row 1 -column 1 -sticky w
-	grid $nbIdent.h -row 2 -column 0 -sticky e
-	grid $nbIdent.h1 -row 2 -column 1 -sticky w
-	grid $nbIdent.customnickl -row 3 -column 0 -sticky en
-	grid $nbIdent.customnickent -row 3 -column 1 -sticky wne
-        grid $nbIdent.customcolorl -row 4 -column 0 -sticky en
-        grid $nbIdent.customcolorent -row 4 -column 1 -sticky wne
-
-	grid $nbIdent.g -row 5 -column 0 -sticky en
-	grid $nbIdent.g1 -row 5 -column 1 -sticky wn
-	
-	grid $nbIdent.titlephones -row 6 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
-	grid $nbPhone.phh -row 7 -column 0 -sticky e
-	grid $nbPhone.phh1 -row 7 -column 1 -sticky w
-	grid $nbPhone.phw -row 8 -column 0 -sticky e
-	grid $nbPhone.phw1 -row 8 -column 1 -sticky w
-	grid $nbPhone.phm -row 9 -column 0 -sticky e
-	grid $nbPhone.phm1 -row 9 -column 1 -sticky w
-	grid $nbPhone.php -row 10 -column 0 -sticky e
-	grid $nbPhone.php1 -row 10 -column 1 -sticky w
-
-	grid $nbIdent.titleothers -row 15 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
-	grid $nbPhone.lastlogin -row 16 -column 0 -sticky e
-	grid $nbPhone.lastlogin1 -row 16 -column 1 -sticky w
-	grid $nbPhone.lastlogout -row 17 -column 0 -sticky e
-	grid $nbPhone.lastlogout1 -row 17 -column 1 -sticky w
-        grid $nbPhone.lastmsgedme -row 18 -column 0 -sticky e
-        grid $nbPhone.lastmsgedme1 -row 18 -column 1 -sticky w
+	   grid $nbIdent.g -row 5 -column 0 -sticky en
+	   grid $nbIdent.g1 -row 5 -column 1 -sticky wn
+	   
+	   grid $nbIdent.titlephones -row 6 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
+	   grid $nbPhone.phh -row 7 -column 0 -sticky e
+	   grid $nbPhone.phh1 -row 7 -column 1 -sticky w
+	   grid $nbPhone.phw -row 8 -column 0 -sticky e
+	   grid $nbPhone.phw1 -row 8 -column 1 -sticky w
+	   grid $nbPhone.phm -row 9 -column 0 -sticky e
+	   grid $nbPhone.phm1 -row 9 -column 1 -sticky w
+	   grid $nbPhone.php -row 10 -column 0 -sticky e
+	   grid $nbPhone.php1 -row 10 -column 1 -sticky w
+	   
+	   grid $nbIdent.titleothers -row 15 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
+	   grid $nbPhone.lastlogin -row 16 -column 0 -sticky e
+	   grid $nbPhone.lastlogin1 -row 16 -column 1 -sticky w
+	   grid $nbPhone.lastlogout -row 17 -column 0 -sticky e
+	   grid $nbPhone.lastlogout1 -row 17 -column 1 -sticky w
+	   grid $nbPhone.lastmsgedme -row 18 -column 0 -sticky e
+	   grid $nbPhone.lastmsgedme1 -row 18 -column 1 -sticky w
 
 	
-	grid columnconfigure $nbIdent 1 -weight 1
-
-	pack $sw -expand true -fill both
-	
-		
-	#Alarms frame
-	set nbIdent [$w.nb getframe alarms]
-	ScrolledWindow $nbIdent.sw
-	pack $nbIdent.sw -expand true -fill both
-	ScrollableFrame $nbIdent.sw.sf
-	$nbIdent.sw setwidget $nbIdent.sw.sf
-	set nbIdent [$nbIdent.sw.sf getframe]
-	
-	#::alarms::configDialog $email $nbIdent
-	
-	$w.nb compute_size
-	pack $w.nb -expand true -fill both -side top
-	$w.nb raise userdata
-	
-	frame $w.buttons
-	
-	button $w.buttons.ok -text [trans accept] -command [list ::abookGui::PropOk $email $w]
-	button $w.buttons.cancel -text [trans cancel] -command [list destroy $w]
-	
-	pack $w.buttons.ok $w.buttons.cancel -side right -padx 5 -pady 3
-	
-	pack $w.buttons -fill x -side top
+	   grid columnconfigure $nbIdent 1 -weight 1
+	   
+	   pack $sw -expand true -fill both
+	   
+	   
+	   #Alarms frame
+	   set nbIdent [$w.nb getframe alarms]
+	   ScrolledWindow $nbIdent.sw
+	   pack $nbIdent.sw -expand true -fill both
+	   ScrollableFrame $nbIdent.sw.sf
+	   $nbIdent.sw setwidget $nbIdent.sw.sf
+	   set nbIdent [$nbIdent.sw.sf getframe]
+	   
+	   #::alarms::configDialog $email $nbIdent
+	   
+	   $w.nb compute_size
+	   pack $w.nb -expand true -fill both -side top
+	   $w.nb raise userdata
+	   
+	   frame $w.buttons
+	   
+	   button $w.buttons.ok -text [trans accept] -command [list ::abookGui::PropOk $email $w]
+	   button $w.buttons.cancel -text [trans cancel] -command [list destroy $w]
+	   
+	   pack $w.buttons.ok $w.buttons.cancel -side right -padx 5 -pady 3
+	   
+	   pack $w.buttons -fill x -side top
 	
    }
 
+	proc ChangeColor { email w } {
+		global colorval_$email
+		set color  [SelectColor $w.customcolor.dialog  -type dialog  -title "[trans customcolor]" -parent $w]
+		if { $color == "" } { return }
+
+#		if { [string length $color ] > 7 } {
+	#		set color "\#[string range $color 7 end]"
+		#} else {
+			#set color [string range $color 0 6]
+		#}
+
+		$w.customcolor configure -background $color
+		set colorval_$email $color
+	}
+
    proc PropOk { email w } {
+	   global colorval_$email
 	set nbIdent [$w.nb getframe userdata]
 	set nbIdent [$nbIdent.sw.sf getframe]
    	::abook::setContactData $email customnick [$nbIdent.customnickent get]
-        ::abook::setContactData $email customcolor [$nbIdent.customcolorent get]
+        ::abook::setContactData $email customcolor [set colorval_$email]
    	destroy $w
 	::MSN::contactListChanged
 	cmsn_draw_online
