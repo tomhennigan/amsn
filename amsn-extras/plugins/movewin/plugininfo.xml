@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<plugin>
+	<name>movewin</name>
+	<author>lio_lion (Arieh Schneier)</author>
+	<description>Move chat windows when they are created.</description>
+	<amsn_version>0.94</amsn_version>
+	<plugin_version>0.1</plugin_version>
+	<plugin_file>movewin.tcl</plugin_file>
+	<plugin_namespace>movewin</plugin_namespace>
+	<init_procedure>Init</init_procedure>
+</plugin>
