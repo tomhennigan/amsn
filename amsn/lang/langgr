@@ -1,169 +1,171 @@
 amsn_lang_version 2
-about Pkgqovoq_er cia to amsn
-acceptfile Apodow^ aqwe_ou $1, l]cehor $2? Apoh^jeusg sto $3
-actions Em]qceier
-addacontact Pqosh^jg epav^r
-addedyou sar pq|shese stgm k_sta epav~m tou/tgr
-addtocontacts Pq|shese stgm k_sta epav~m
-addtoo Pq|shese aut| to \tolo stgm k_sta epav~m lou
-admincontacts Diawe_qisg epav~m
-admingroups Diawe_qisg ol\dym
-adverts Diavgl_seir
-allowseen Ep]tqexe se aut| to \tolo ma bk]pei p|te e_lai sumdedel]mor jai ma epijoimyme_ laf_ lou
-appearoff Elv\misg ejt|r s}mdesgr
-aretyping o/g $1 tup~mei ]ma l^mula
-autohotmaillog Aut|latg s}mdesg le Hotmail.
-autoip Aut|lato IP
-avoidseen Ap]tqexe aut| to \tolo ma bk]pei tgm jat\stasg lou jai emgl]qysg le
-away Dem bq_sjolai stom upokocist^
-baduserpass K\hor user name ^ password
-blankdirect Av^ste jem| cia apeuhe_ar s}mdesg
-block Apojkeisl|r
-blocked Apojkeisl]mor
+about Πληροφορίες για το amsn
+acceptfile Αποδοχή αρχείου $1, μέγεθος $2? Αποθήκευση στο $3
+actions Ενέργειες
+addacontact Προσθήκη επαφής
+addedyou σας πρόσθεσε στην λίστα επαφών του/της
+addtocontacts Πρόσθεσε στην λίστα επαφών
+addtoo Πρόσθεσε αυτό το άτομο στην λίστα επαφών μου
+admincontacts Διαχείριση επαφών
+admingroups Διαχείριση ομάδων
+adverts Διαφημίσεις
+allowseen Επέτρεψε σε αυτό το άτομο να βλέπει πότε είμαι συνδεδεμένος και 
+να επικοινωνεί μαζί μου
+appearoff Εμφάνιση εκτός σύνδεσης
+aretyping ο/η $1 τυπώνει ένα μήνυμα
+autohotmaillog Αυτόματη σύνδεση με Hotmail.
+autoip Αυτόματο IP
+avoidseen Απέτρεψε αυτό το άτομο να βλέπει την κατάσταση μου και ενημέρωση 
+με
+away Δεν βρίσκομαι στον υπολογιστή
+baduserpass Λάθος user name ή password
+blankdirect Αφήστε κενό για απευθείας σύνδεση
+block Αποκλεισμός
+blocked Αποκλεισμένος
 browser Browser
-broughtby Aut| to pq|cqalla vti\wtgje ap| tour
-busy Apaswokgl]mor
-cancel Aj}qysg
-changenick Akkac^ xeud~mulou
-chat Sumolik_a
-chatreq Pqospah~ ma dgliouqc^sy sumolik_a
-chatsmileys Wal|ceka sumolik_ar
-chatack Apodow^ sumolik_ar ap|
-checkver Amaf^tgsg jaimo}qiar ]jdosgr
-checkingver Ek]cwy cia jaimo}qier ejd|seir
-choosebasefont Epikoc^ t}pou cqallatoseiq\r
-choosebgcolor Epikoc^ background wq~lator
-clicktologin Pat^ste ed~ cia s}mdesg
-close Jke_silo
-closingdocks To joulp_ jkeis_lator lafe}ei to paq\huqo
-command Emtok^
-confirmdelete H]kete pq\clati ma sbgste_ to $1?
-contactadded Epav^ pqost]hgje
-contactdoesnotexist G epav^ dem up\qwei
-connecterror Apotuw_a s}mdesgr le tom server
-copytogroup Amt]cqaxe stgm ol\da
-date Gleqolgm_a
-delete Diacqav^
-enableproxy Emeqcopo_gsg diajolist^
-encoding Di\kene jydijopo_gsg
-entercontactemail D~ste to e-mail tgr epav^r
-enterfilename Paqajak~ d~ste |mola aqwe_ou
-enternick D~ste to xeud~mulo sar
-examples Paqade_clata
-exitamsn H]kete pq\clati ma v}cete?
-extras Pq|sheter keitouqc_er
-filedoesnotexist To aqwe_o dem up\qwei
-filename <mola aqwe_ou
-filetransfercancelled G letavoq\ tou aqwe_ou ajuq~hgje
-filetransfercomplete G letavoq\ tou aqwe_ou okojkgq~hgje
-gonelunch Ke_py cia vacgt|
-group Ol\da
-groupadd Pqosh^jg l_ar ol\dar
-groupdelete Diacqav^ l_ar ol\dar
-grouprename Letomolas_a liar ol\dar
-groupoldname Paki| |mola
-groupnewname Jaimo}qio |mola
-groupunknown 6cmystg ol\da
-groupexists G ol\da up\qwei
-groupmissing G ol\da dem up\qwei
-groupnotempty G ol\da dem e_mai \deia
-handle Weiqisl|r
-help Bo^heia
-helpcontents H]lata stgm bo^heia
-home Sp_ti
-ident Amacmyq_fy
-identity Taut|tgta
-inbox Jak\hi e-mail
-invalidusername Lg apodejt| |mola wq^stg
-invite Pqosj\kese
-ipaddress IP Die}humsg
-istyping o/g $1 tup~mei ]ma l^mula
-joins $1 $2 eis]qwetai stgm suf^tgsg
-language Ck~ssa
-lastmsgtime To tekeuta_o l^mula k^vhgje stir $1
-leaveblankforhotmail 6vgse jem| cia wq^sg tou hotmail
-leaves o/g $1 apowyqe_ ap| tgm suf^tgsg
-listeningon Peqil]my sto port $1
-listsmileys K_sta wal|cekym
-loadcontacts Eisacyc^ epav~m
-loggedotherlocation Apos}mdesg. 9dg sumdedel]mor ap| \kkg topohes_a
-loggingin Sumd]olai
-login S}mdesg
-loginas S}mdesg yr
-logout Apos}mdesg
-logsin l|kir sumd]hgje
-mailer Gkejtqomij|r tawudq|lor
-mobile Jimgt|
-movetogroup Letaj_mgsg stgm ol\da
-mustrestart Wqei\fetai epamejj_mgsg ~ste oi akkac]r ma isw}soum
-mystatus Jat\stasg
-msg 6leso l^mula
+broughtby Αυτό το πρόγραμμα φτιάχτηκε από τους
+busy Απασχολημένος
+cancel Ακύρωση
+changenick Αλλαγή ψευδώνυμου
+chat Συνομιλία
+chatreq Προσπαθώ να δημιουργήσω συνομιλία
+chatsmileys Χαμόγελα συνομιλίας
+chatack Αποδοχή συνομιλίας από
+checkver Αναζήτηση καινούριας έκδοσης
+checkingver Ελέγχω για καινούριες εκδόσεις
+choosebasefont Επιλογή τύπου γραμματοσειράς
+choosebgcolor Επιλογή background χρώματος
+clicktologin Πατήστε εδώ για σύνδεση
+close Κλείσιμο
+closingdocks Το κουμπί κλεισίματος μαζεύει το παράθυρο
+command Εντολή
+confirmdelete Θέλετε πράγματι να σβηστεί το $1?
+contactadded Επαφή προστέθηκε
+contactdoesnotexist Η επαφή δεν υπάρχει
+connecterror Αποτυχία σύνδεσης με τον server
+copytogroup Αντέγραψε στην ομάδα
+date Ημερομηνία
+delete Διαγραφή
+enableproxy Ενεργοποίηση διακομιστή
+encoding Διάλεξε κωδικοποίηση
+entercontactemail Δώστε το e-mail της επαφής
+enterfilename Παρακαλώ δώστε όνομα αρχείου
+enternick Δώστε το ψευδώνυμο σας
+examples Παραδείγματα
+exitamsn Θέλετε πράγματι να φύγετε?
+extras Πρόσθετες λειτουργίες
+filedoesnotexist Το αρχείο δεν υπάρχει
+filename Όνομα αρχείου
+filetransfercancelled Η μεταφορά του αρχείου ακυρώθηκε
+filetransfercomplete Η μεταφορά του αρχείου ολοκληρώθηκε
+gonelunch Λείπω για φαγητό
+group Ομάδα
+groupadd Προσθήκη μίας ομάδας
+groupdelete Διαγραφή μίας ομάδας
+grouprename Μετονομασία μιας ομάδας
+groupoldname Παλιό όνομα
+groupnewname Καινούριο όνομα
+groupunknown Άγνωστη ομάδα
+groupexists Η ομάδα υπάρχει
+groupmissing Η ομάδα δεν υπάρχει
+groupnotempty Η ομάδα δεν είναι άδεια
+handle Χειρισμός
+help Βοήθεια
+helpcontents Θέματα στην βοήθεια
+home Σπίτι
+ident Αναγνωρίζω
+identity Ταυτότητα
+inbox Καλάθι e-mail
+invalidusername Μη αποδεκτό όνομα χρήστη
+invite Προσκάλεσε
+ipaddress IP Διεύθυνση
+istyping ο/η $1 τυπώνει ένα μήνυμα
+joins $1 $2 εισέρχεται στην συζήτηση
+language Γλώσσα
+lastmsgtime Το τελευταίο μήνυμα λήφθηκε στις $1
+leaveblankforhotmail Άφησε κενό για χρήση του hotmail
+leaves ο/η $1 αποχωρεί από την συζήτηση
+listeningon Περιμένω στο port $1
+listsmileys Λίστα χαμόγελων
+loadcontacts Εισαγωγή επαφών
+loggedotherlocation Αποσύνδεση. Ήδη συνδεδεμένος από άλλη τοποθεσία
+loggingin Συνδέομαι
+login Σύνδεση
+loginas Σύνδεση ως
+logout Αποσύνδεση
+logsin μόλις συνδέθηκε
+mailer Ηλεκτρονικός ταχυδρόμος
+mobile Κινητό
+movetogroup Μετακίνηση στην ομάδα
+mustrestart Χρειάζεται επανεκκίνηση ώστε οι αλλαγές να ισχύσουν
+mystatus Κατάσταση
+msg Άμεσο μήνυμα
 msn AMSN
-needonline Aj|la e_ste/va_meste ejt|r s}mdesgr!
-newmail $1 jaimo}qia lgm}lata gkejtqomijo} tawudqole_ou
-newmailfrom Jaimo}qio mail ap| tom/tgm
-newmsg Jaimo}qio l^mgla
-newveravailable Jaimo}qia ]jdosg $1 diah]silg cia jat]basla
-next Ep|lemo
-noactivity Jal_a dqastgqi|tgta
-nonewmail Dem up\qwoum m]a lgm}lata gkejtqomijo} tawudqole_ou
-nonewver Dem up\qwei jaimo}qia ]jdosg
-notify amajo_myse
-nousersinsession Jam]mar wq^stgr stgm sumedq_asg
-ok Emt\nei
-offline Ejt|r s}mdesgr
-onenewmail 1 jaimo}qio l^mula gkejtqomijo} tawudqole_ou
-online Sumdedel]mor
-onphone Bq_sjolai sto tgk]vymo
-openreceived 6moicla kgvh]mtym aqwe_ym
-options Epikoc]r
-ordercontactsby Tanim|lgsg epav~m jata
-other 6kko
-pager Bolbgt^r
-pass Jydij|r
-phone Tgk]vymo
+needonline Ακόμα είστε/φαίνεστε εκτός σύνδεσης!
+newmail $1 καινούρια μηνύματα ηλεκτρονικού ταχυδρομείου
+newmailfrom Καινούριο mail από τον/την
+newmsg Καινούριο μήνημα
+newveravailable Καινούρια έκδοση $1 διαθέσιμη για κατέβασμα
+next Επόμενο
+noactivity Καμία δραστηριότητα
+nonewmail Δεν υπάρχουν νέα μηνύματα ηλεκτρονικού ταχυδρομείου
+nonewver Δεν υπάρχει καινούρια έκδοση
+notify ανακοίνωσε
+nousersinsession Κανένας χρήστης στην συνεδρίαση
+ok Εντάξει
+offline Εκτός σύνδεσης
+onenewmail 1 καινούριο μήνυμα ηλεκτρονικού ταχυδρομείου
+online Συνδεδεμένος
+onphone Βρίσκομαι στο τηλέφωνο
+openreceived Άνοιγμα ληφθέντων αρχείων
+options Επιλογές
+ordercontactsby Ταξινόμηση επαφών κατα
+other Άλλο
+pager Βομβητής
+pass Κωδικός
+phone Τηλέφωνο
 port port
-prefapps Evaqloc]r
-preferences Pqotil^seir
-prefsound 9woi
-properties Idi|tgter
-proxyconf Idi|tgter apolajqusl]mou diajolist^
-proxyconfhttp Idi|tgter HTTP apolajqusl]mou diajolist^
-publishphones Cmystopo_gse ta tgk]vyma lou
-receivedbytes 8wy k\bei $1 ap| $2 bytes
-receivefile K^xg aqwe_ou
-reconnect Peqil]my tom/tgm $1 ma epamasumdehe_
-reconnecting Epamas}mdesg le apolajqusl]mo upokocist^
-rememberpass Apoh^jeuse tom jydij|
-rightback Epistq]vy al]syr
-save Apoh^jeusg
-saveas Apoh^jeusg yr
-savecontacts Apoh^jeusg k_star epav~m
-says $1 k]ei
-sbcon Sumd]olai sto Switch Board
-send Apostok^
-sendfile Apostok^ aqwe_ou
-sendmail Apostok^ lgm}lator gkejtqomijo} tawudqole_ou
-sendmsg Apostok^ \lesou lgm}lator
-sentbytes 8wy ste_kei $1 ap| $2 bytes
+prefapps Εφαρμογές
+preferences Προτιμήσεις
+prefsound Ήχοι
+properties Ιδιότητες
+proxyconf Ιδιότητες απομακρυσμένου διακομιστή
+proxyconfhttp Ιδιότητες HTTP απομακρυσμένου διακομιστή
+publishphones Γνωστοποίησε τα τηλέφωνα μου
+receivedbytes Έχω λάβει $1 από $2 bytes
+receivefile Λήψη αρχείου
+reconnect Περιμένω τον/την $1 να επανασυνδεθεί
+reconnecting Επανασύνδεση με απομακρυσμένο υπολογιστή
+rememberpass Αποθήκευσε τον κωδικό
+rightback Επιστρέφω αμέσως
+save Αποθήκευση
+saveas Αποθήκευση ως
+savecontacts Αποθήκευση λίστας επαφών
+says $1 λέει
+sbcon Συνδέομαι στο Switch Board
+send Αποστολή
+sendfile Αποστολή αρχείου
+sendmail Αποστολή μηνύματος ηλεκτρονικού ταχυδρομείου
+sendmsg Αποστολή άμεσου μηνύματος
+sentbytes Έχω στείλει $1 από $2 bytes
 server Server
-servergoingdown Aposumd]hgja: O server teqlat_fei tgm keitouqc_a tou
-sound 9wor cecom|tym
-startoffline Ejj_mgsg aposumdedel]mor
-status Jat\stasg
-syntaxerror K\hor s}mtangr
-textsize L]cehor jeil]mou
+servergoingdown Αποσυνδέθηκα: O server τερματίζει την λειτουργία του
+sound Ήχος γεγονότων
+startoffline Εκκίνηση αποσυνδεδεμένος
+status Κατάσταση
+syntaxerror Λάθος σύνταξης
+textsize Μέγεθος κειμένου
 title Al's Messenger
-to Sto
-tools Eqcake_a
-yousay Es} ker
-youwant Es} h]keir
-unblock Apodow^
-uoffline Aposumdedel]moi
-uonline Sumdedel]moi
-user Wq^stgr
-useralreadyonlist O wq^stgr e_mai ^dg stgm k_sta epav~m
-version 8jdosg
-view Pqobok^
-willjoin Peqil]my tom/tgm $1 ma eis]khei stgm suf^tgsg
-work Doukei\
+to Στο
+tools Εργαλεία
+yousay Εσύ λες
+youwant Εσύ θέλεις
+unblock Αποδοχή
+uoffline Αποσυνδεδεμένοι
+uonline Συνδεδεμένοι
+user Χρήστης
+useralreadyonlist Ο χρήστης είναι ήδη στην λίστα επαφών
+version Έκδοση
+view Προβολή
+willjoin Περιμένω τον/την $1 να εισέλθει στην συζήτηση
+work Δουλειά
