@@ -313,9 +313,12 @@ proc statusicon_proc {status} {
 					configureti $statusicon -pixmap $pixmap -tooltip $tooltip
 				}
 			} else {
-				winico taskbar delete $wintrayicon
-				set wintrayicon $trayicon
-				winico taskbar add $wintrayicon -text $tooltip -callback "taskbar_icon_handler %m %x %y"
+				if { ![winfo exists .bossmode] || $status == "BOSS" } {
+					#skip if in bossmode and not setting to BOSS
+					winico taskbar delete $wintrayicon
+					set wintrayicon $trayicon
+					winico taskbar add $wintrayicon -text $tooltip -callback "taskbar_icon_handler %m %x %y"
+				}
 			}
 
 		}
