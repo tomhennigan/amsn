@@ -2292,7 +2292,7 @@ proc cmsn_draw_login {} {
 
    set proftrig 0
 
-   if {[winfo exists login_request]} {
+   if {[winfo exists .login]} {
       raise .login
       return 0
    }
