@@ -55,7 +55,6 @@ jpeg/libjpeg.a:
 
 clean : 
 	rm ${OBJECTS} ${OUTPUT} 2> /dev/null | true
-	for i in ${SUBDIRS}; do cd $$i && make clean && cd ../; done
 
 distclean :
 	rm -rf *~ ${OBJECTS} ${OUTPUT} Makefile config.* autom4te.cache 2>/dev/null | true

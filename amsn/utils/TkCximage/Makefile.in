@@ -1,10 +1,11 @@
-subdirs		= src
+subdirs		= src/CxImage src/zlib src/png src/jpeg src
 TKCXIMAGE_FILE	= @TKCXIMAGE_FILE@
+TOP_DIR		= @TOP_DIR@
 
 .PHONY : all test check clean distclean
 
 all : 
-	for i in ${subdirs}; do cd $$i && make all && cd ../; done
+	for i in ${subdirs}; do cd $$i && make all && cd ${TOP_DIR}; done
 	cp src/${TKCXIMAGE_FILE} ./
 
 test : check
@@ -13,10 +14,10 @@ check : all
 	wish demos/demo.tcl || true
 
 clean : 
-	for i in ${subdirs}; do cd $$i && make clean && cd ../; done
+	for i in ${subdirs}; do cd $$i && make clean && cd ${TOP_DIR}; done
 	rm -f ${TKCXIMAGE_FILE} pkgIndex.tcl
 
 distclean :
-	for i in ${subdirs}; do cd $$i && make distclean && cd ../; done
+	for i in ${subdirs}; do cd $$i && make distclean && cd ${TOP_DIR}; done
 	rm -rf Makefile config.* *~ autom4te.cache 2>/dev/null | true
 	rm -f ${TKCXIMAGE_FILE} pkgIndex.tcl
