@@ -396,6 +396,14 @@ namespace eval ::plugins {
 	    LoadPlugin $selection(name) $selection(file)
 	    # change the color in the listbox
 	    $w.select.plugin_list itemconfigure $selection(id) -background #DDF3FE
+	   	#Call PostEvent Load
+	   	#Keep in variable if we are online or not
+	   	if {[sb get ns stat] == "o" } {
+	   		set epvar(status) online
+	   	} else {
+	   		set epvar(status) offline
+	   	}
+		::plugins::PostEvent Load epvar
 	    # and upate other info
 	    GUI_NewSel
 	}
@@ -422,6 +430,14 @@ namespace eval ::plugins {
 	variable w
 	# change the color
 	$w.select.plugin_list itemconfigure $selection(id) -background #FFFFFF
+	# Call PostEvent Unload
+	# Verify if we are online or offline
+  	if {[sb get ns stat] == "o" } {
+	   	set epvar(status) online
+	} else {
+   		set epvar(status) offline
+   	}
+	::plugins::PostEvent Unload epvar
 	# do the actual unloading
 	UnLoadPlugin $selection(name)
 	# update info in selection
