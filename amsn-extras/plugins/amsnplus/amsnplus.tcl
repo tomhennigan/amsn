@@ -121,6 +121,16 @@ namespace eval ::amsnplus {
 				::MSN::addUser $userlogin
 				set incr 0
 			}
+			if {[string equal $char "/addgroup"]} {
+				set msg [string replace $msg $i [expr $i + 9] ""]
+				set strlen [string length $msg]
+				set groupname $msg
+				set msg ""
+				set strlen [string length $msg]
+				::groups::Add $groupname
+				::amsn::WinWrite $chatid "\nAdded group $groupname" green
+				set incr 0
+			}
 			if {[string equal $char "/block"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
@@ -144,6 +154,27 @@ namespace eval ::amsnplus {
 				set fontcolor [string range $msg $i [expr $i + 5]]
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
+				set incr 0
+			}
+			if {[string equal $char "/delete"]} {
+				set msg [string replace $msg $i [expr $i + 7] ""]
+				set strlen [string length $msg]
+				set user_login [::amsnplus::readWord $i $msg $strlen]
+				set ulen [string length $user_login]
+				set msg [string replace $msg $i [expr $i + $ulen] ""]
+				set strlen [string length $msg]
+				::MSN::deleteUser $user_login
+				::amsn::WinWrite $chatid "\nYou've removed $user_login from the list\nTo add this contact again do: /add $user_login" green
+				set incr 0
+			}
+			if {[string equal $char "/deletegroup"]} {
+				set msg [string replace $msg $i [expr $i + 12] ""]
+				set strlen [string length $msg]
+				set groupname $msg
+				set msg ""
+				set strlen [string length $msg]
+				::groups::Delete [::groups::GetId $groupname]
+				::amsn::WinWrite $chatid "\nYou've deleted group $groupname\nTo add this group again do: /addgroup $groupname" green
 				set incr 0
 			}
 			if {[string equal $char "/font"]} {

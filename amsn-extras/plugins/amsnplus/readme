@@ -19,9 +19,12 @@ Features:
             a look at msg plus commands list for ideas)
     Command list (alphabetical):
       /add user_login		add user_login to a contact list
+      /addgroup groupname	add a new group of contacts
       /block user_login		block user_login
       /clear			clears the chat window
       /color rgb_color		changes (only) the sending text to a rgb_color
+      /delete user_login	deletes a contact from list (without confirmation)
+      /deletegroup groupname	delete a group of contacts
       /font font_face		changes (only) the sending font to a font_face
       /help			displays this help
       /info nick|state		displays your current nick or your current state
@@ -37,7 +40,7 @@ Features:
       /unblock user_login	unblocks user_login
       /whois user_login		gives informateion about a contact specified by the user_login
     Mini How-To:
-      Most of the commands are cummulative but this are the exceptions: leave, logout, nick, sendfile.
+      Most of the commands are cummulative but this are the exceptions: addgroup, leave, logout, nick, sendfile.
       So if you send /leave asdfg /logout, asdfg will be lost and logout command also.
       But if you send /clear asdfg you will clear the chat window and after you will send asdfg.
       You have to note that the first is resolved are the commands and then the text is sent
