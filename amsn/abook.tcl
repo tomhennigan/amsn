@@ -611,6 +611,9 @@ namespace eval ::abookGui {
 		
 	label $nbIdent.lastlogout -text "[trans lastlogout]:"
 	label $nbIdent.lastlogout1 -text [::abook::getContactData $email last_logout] -font splainf -fg blue 
+
+	label $nbIdent.lastmsgedme -text "[trans lastmsgedme]:"
+	label $nbIdent.lastmsgedme1 -text [::abook::getContactData $email last_msgedme] -font splainf -fg blue
 				
 	grid $nbIdent.title1 -row 0 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
 	grid $nbIdent.e -row 1 -column 0 -sticky e
@@ -637,7 +640,9 @@ namespace eval ::abookGui {
 	grid $nbPhone.lastlogin1 -row 16 -column 1 -sticky w
 	grid $nbPhone.lastlogout -row 17 -column 0 -sticky e
 	grid $nbPhone.lastlogout1 -row 17 -column 1 -sticky w
-		
+        grid $nbPhone.lastmsgedme -row 18 -column 0 -sticky e
+        grid $nbPhone.lastmsgedme1 -row 18 -column 1 -sticky w
+
 	
 	grid columnconfigure $nbIdent 1 -weight 1
 
@@ -799,10 +804,16 @@ namespace eval ::abookGui {
    	label $nbOthers.e1 -text $last_login -font splainf -fg blue 
 	label $nbOthers.h -text "[trans lastlogout]:" -font bboldf 
 	label $nbOthers.h1 -text $last_logout -font splainf -fg blue 
+        label $nbOthers.h2 -text "[trans lastmsgedme]:" -font bboldf
+        label $nbOthers.h3 -text $last_msgmedme -font splainf -fg blue
+
 	grid $nbOthers.e -row 0 -column 0 -sticky e
 	grid $nbOthers.e1 -row 0 -column 1 -sticky w
 	grid $nbOthers.h -row 1 -column 0 -sticky e
 	grid $nbOthers.h1 -row 1 -column 1 -sticky w	
+        grid $nbOthers.h2 -row 2 -column 0 -sticky e
+        grid $nbOthers.h3 -row 2 -column 1 -sticky w
+
 	
 	frame $w.b -class ABook
 	    button $w.b.ok -text "[trans close]" -command "destroy $w"

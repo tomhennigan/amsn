@@ -258,6 +258,7 @@ keeplog2 Registrar las conversaciones en el historial para verlas más tarde
 language Idioma
 lastlogin Última conexión
 lastlogout Última desconexión
+lastmsgedme Último mensaje
 lastmsgtime Último mensaje recibido a las $1
 lclosedwin $1 ha cerrado la ventana a las $2
 lconftopriv La conversación pasa a ser un privado con $1
