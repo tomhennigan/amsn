@@ -148,6 +148,7 @@ contactadded Contact ajouté
 contactdoesnotexist Personne introuvable
 contactlist Liste de contacts :
 continuously Continuellement
+conversationwith En conversation avec $1 utilisateurs
 convertexplain  Chemin vers l'exécutable CONVERT, de ImageMagick (requis pour afficher des images).\n Laisser le blanc si CONVERT est dans le PATH
 copy Copier
 copytogroup Copier vers groupe
@@ -262,6 +263,7 @@ ftrejected Transfert de fichier refusé
 ftsendinvitation L'invitation de transfert du fichier '$2' ($3 bytes) a été envoyé à $1.
 fullcontactlist Désolé, votre liste de contact est pleine. Vous devez supprimer des contacts pour en ajouter de nouveaux.
 getdisppic Permettre la réception d'icônes des autres utilisateurs
+globalcontainer Fenêtre globale
 globalnick Insérez un modèle afin de former les pseudonymes de vos contacts.Vous pouvez utiliser ces variables : \$user_login pour les adresses de vos contacts, \$nick pour les pseudonymes de vos contacts et enfin \$customnick pour les pseudonymes personnalisés de vos contacts. Par exemple : "\$user_login est \$nick" donnera "contact@msn.com est Contact"
 globalnicktitle Pseudonyme général
 globaloverride Modèles de pseudonymes devant remplacer les pseudonymes personnalisés
@@ -395,6 +397,7 @@ newmailfromother Nouveau message dans un autre dossier de $1 ($2)
 newmailfolder $1 nouveaux messages dans les autres dossiers Hotmail
 newmsg Nouveau message
 newstate Ajouter un statut personnel
+newtabbedfeature aMSN a une nouvelle caractéristique pour gérer les conversations : vous pouvez maintenant avoir toutes vos fenêtres pour le même groupe ou pour la liste complète de vos contacts dans une fenêtre à onglets. Merci de choisir la manière dont vous souhaitez que aMSN gère vos conversations
 newveravailable Nouvelle version disponible ($1)
 next Suivant
 nick Pseudonyme
@@ -412,6 +415,7 @@ noprofileexists Utiliser les profils... \nUtiliser le boutton Ajouter nouveau pr
 normal Ordre normal
 noskins Ne trouve l'apparence par défaut dans le dossier skins/. Ne peut lancer aMSN.
 nosystemtray La poubelle n'est pas accessible
+nottabbed Fenêtre normale sans onglets
 notificationserver Serveur MSN initial de notification (Serveur MSN Messenger)
 notify1_5 Afficher une notification quand les contacts se déconnectent
 notify1_75 Afficher une notification quand les contacts changent de statut
@@ -529,6 +533,7 @@ selectskin Sélectionnez dans la liste l'apparence que vous souhaitez utiliser
 send Envoyer
 sendfile Envoyer un fichier
 sendmail Envoyer un courrier
+sendmobmsg $1 envoyé au mobile
 sendmsg Envoyer un message
 sentbytes $1 sur $2 octets envoyés
 serverbusy Le serveur est occupé
@@ -586,6 +591,9 @@ stylehist Apparence des historiques d'aMSN
 stylelog Sélectionner le format dans lequel vous voulez voir l'historique
 syntaxerror Erreur de syntaxe
 tabbed Onglets
+tabbedglobal Une fenêtre à onglets pour tous les utilisateurs se trouvant dans votre liste de contacts
+tabbedgroups  Une fenêtre à onglets pour tous les utilisateurs se trouvant dans une même groupe
+tabtitlenick Afficher le pseudonyme dans les onglets au lieu de l'email
 temp_state Ne pas enregistrer (état temporaire, sera perdu à la fermeture d'aMSN)
 textsize Taille du texte
 timeremaining Temps restant
@@ -631,6 +639,7 @@ view Vue
 webcaminvite $1 vous invite à démarrer un conversation par Webcam, mais aMSN ne supporte pas cette option.
 willjoin Dans l'attente que $1 rejoigne la conversation
 winkreceived Vous avez reçu un 'clin d'oeil' provenant de $1. Cette fonctionnalité n'est pas encore supporté par aMSN.
+wintitlenick Afficher le pseudonyme dans les fenêtres à onglets au lieu de l'email
 work Travail
 wrongfields Les champs "$1", "$2" et/ou "$3" sont invalides
 wrongprofileversion Mauvaise version du fichier de profil. Afin de la fixer, enlevez le répertoire $1, ou mettez à jour aMSN
