@@ -5,6 +5,8 @@ accept Kubali
 actions Vitendo
 addacontact Ongeza muongeaji
 addedyou $1 ($2) amekuongeza kwenye orodha yake ya waongeaji
+addprofiledesc Weka jina ambalo ungependa kulitengenezea profaili mpya.\nMajina yenye profaili yanakuwezesha kuwa na mipangilio mbalimbali kwa kila jina.\nBila profaili huwezi kutumia historia, Alamu au kumbuka maneno-siri.
+addprofile Ongeza Profaili mpya
 addstate Ongeza Hali Mpya
 addtocontacts Ongeza kwenya orodha ya waongeaji
 addtoo Muongeze mtu huyu kwenye orodha yangu ya waongeaji
@@ -12,6 +14,10 @@ addto Ongeza kwenye $1
 admincontacts Panga waongeaji
 admingroups Panga makundi
 adverts Matangazo
+alarmonconnect Fanya alamu wakati mtumiaji ameingia kutumia
+alarmondisconnect Fanya alamu wakati mtumiaji anacha kutumia/haonekani
+alarmonmsg Fanya alamu wakati mtumiaji anakutumia ujumbe
+alarmonstatus Fanya alamu wakati mtumiaji anabadilisha hali
 alarmpref Mipangilio ya sauti kwa mtumiaji
 alarmstatus ZIMA/WASHA sauti kwa mtumiaji huyu
 allowallbutbl Ruhusu watumiaji wote, isipokuwa wale waliopo kwenye Orodha-zuia, kuwasiliana nami
@@ -25,7 +31,8 @@ appearance Muonekano
 appearoff Onekana sijaunganishwa
 areacode Kodi ya Eneo
 aretyping $1 wana chapa ujumbe
-askprofile Muingilio huu kwa sasa hauna utashi. Ungependa kuutenganezea mpya? \n Kama hutaki hautaweza kutumia historia, au kuhifadhi alamu zako na neno-siri. \n kama unataka utakuwa na mpangilio tofauti kwa utashi huu mpya. \n \n Bofya "Tengeneza Utashi" ili kutengeneza  utashi wa $1
+autoaccepted Muamisho wa faili umekubakilika moja kwa moja
+autoacceptft Kubali maombi ya Muamisho wa Faili moja kwa moja
 autoaway Nionyeshe kama sipo ninapokuwa sijishughulishi kwa
 autoconnect2 Saini moja kwa moja wakati aMSN inapoanzishwa
 autoconnect Unganisha wakati amsn inaanza
@@ -41,15 +48,18 @@ baduserpass Jina la mtumiaji au neno-siri si la kweli
 bgcolor Badilisha rangi ya  nyuma ya aMSN
 blankdirect Acha wazi kwa muunganisho wa moja kwa moja
 blocked Amezuiwa
+blockedyougroup Onyesha kundi la pekeyake kwa watu ambao wamekuzuia
 blocking Inazuia
 blockinter1 Ukiwa umeunganishwa angalia kila
 blockinter2 sekunde, vingnevyo angalia kila :
 blockinter3 kila
+blockinter4 sekunde.
 blocklist Orodha-zuia :
 blockmessage Watu hawa wameunganishwa na wamekuzuia kupiga soga nao
 blockusers Idadi ya watumiaji ya kuwaangalia mara moja
 block Zuia
 broughtby  Imeretwa kwako na watengenezaji wafuatao
+browserexample ( \$url itabadilishwa na URL). MFN: mozilla \$url
 browser Kitandaaji
 browse Tandaa
 busy Ninashughuli
@@ -60,6 +70,7 @@ casesensitive Tumia case-sensitive triggers
 cfgalarm Panga/Ongeza/Ondoa Sauti
 changefont Badilisha Maandishi
 changenick Badilisha jina
+changestate $1 inabadilika kuwa to $2
 chatack Inakubali maongezi kutoka
 chatmaxmin Muongeaji anapoanzisha maongezi na mimi nataka dirisha liwe:
 chat Ongea
@@ -71,10 +82,12 @@ checkfilman Mafaili yaliyopokewa yatahifadhiwa katika $1. Tafadhali angalia tara
 checkingver Inaangalia Matoleo Mapya
 checkonfln Angalia kama mtumiaji amekuzuia, anapoacha kuunganishwa
 checkver Angalia tolea jipya
+choosearq Chagua aina ya mfumo wako
 choosebasefont Chagua aina za maandishi
 choosebgcolor Chagua rangi ya nyuma
 choosecontact Tafadhali chagua mzungumzaji kutoka katika orodha
 choosefontcolor Chagua rangi ya maandishi
+chooseskin Tafadhali chagua Muonekano ambao ungependa kutumia
 clearlog2 Futa historia ya waongeaji wenzako wote
 clearlog3 Futa Hesabu Zote
 clearlog Futa hesabu
@@ -103,6 +116,7 @@ cut Kata
 date Tarehe
 days Siku
 dcprofile Usitengeneze Utashi
+defaultloginradio Ingia kwa kutumia mpangilio wa awali
 default Mpangilio wa awali
 delete Futa
 deliverfail kulikuwa na tatizo katika kupeleka ujumbe ufuatao
@@ -110,11 +124,16 @@ delprofile2 Chagua Utashi unaotaka uondelewe
 delprofile Futa Utashi
 description Maelezo
 directconnection Naunganishwa kwenye mtandao moja kwa moja ( tumia poti 1863)
+disablessl Zuia SSL
+disconnect $1 ameondoka.
 dockfreedesktop MezaHuru (KDE3/Gnome2)
 dockgtk Gnome Doki
 docking Inadoki
 dockingoff Doki Imezimwa
 dockkde KDE Doki
+dontdownload Usishushe TLS, nitaiweka mwenyewe
+downloadingtls Inashusha TLS mojuli kutoka:\n $1
+editcurrentstate Rekebisha iliyopo
 edit Hariri
 editnewstate Hali Binafsi Mpya ya Kutuma-ujumbe-yenyewe
 editprofile Hariri Utashi
@@ -128,11 +147,13 @@ encoding Chagua aina ya maandishi
 entercontactemail Weka barua-p ya muongeaji
 enterfilename Tafadhali jaza jina la faili
 enternick Jaza jina la kutumia
+errortls Kosa katika kuweka mojuli ya TLS:
 examples Mifano
 exitamsn Unataka kufunga?
 extras Huduma zaidi
 faq MYM (Maswali yajibiwayo mara kwa mara)
 filedoesnotexist Faili halipo
+filemanexample ( \$location itabadilishwa na jarada) MFN: nautilus \$location
 fileman Meneja ya Faili
 filename Jina la faili
 filetransfercancelled Muamisho wa faili umesitishwa
@@ -164,6 +185,7 @@ handle Hendo
 helpcontents Yaliyomo kwenye msaada
 help Msaada
 hiden Ficha visura-hisia kutoka orodha ya visura
+hidewindow Hide Window
 history Ongalia Historia
 home Nyumbani
 httpconnection Unganisha kwa kutumia njia za HTTP ( tumia protokali za HTTP katika poti 80)
@@ -212,6 +234,7 @@ logsmileys Onyesha Aikoni za Hisia na Visura katika dirisha la historia la aMSN
 logsout ametoka sasa hivi
 lprivtoconf $1 amefanya Maongezi binafsi kuwa Kusanyiko
 luclosedwin Umefunga dirisha katika $1
+mailerexample ( \$recipient = Mpokeaji ) Acha wazi kwa kutumia hotmail
 mailer Kitumaji
 maximised Imekuzwa
 minimised Imefupishwa/ImefanywaAikoni
@@ -220,6 +243,7 @@ mobile simu ya mkononi
 morepersonal Hali zaidi ->
 move Sogeza
 movetogroup Nenda kwenye Kundi
+msgflicker WashaWasha jina la dirisha la maongezi wakati ujumbe mpya umefika katika dirisha isiyotumika.
 msgmaxmin Ujumbe mpya ukija, nataka uwe :
 msgmode Chagua jinsi ya kushughulikia madirisha ya ujumbe zaidi ya mmoja :
 msg Ujumbe
@@ -241,8 +265,10 @@ noactivity Hajishughulishi
 nodataavailable Hakuna kwa ajili ya $1
 no Hapana
 nologfile Hakuna Faili ya Hesabu ya $1
+noneavailable Haipatikani
 nonewmail Hakuna ujumbe mpya katika sanduku-kuingia
 nonewver Hakuna toleo jipya kwa ajili kutelemsha
+noprofileexists Kwa sasa hakuna profaili, \n lazima utengeneze moja kama ungependa kutumia profaili sasa. \nTumia funguo ya Ongeza Profaili katika dirisha hili ili kuongeza profaili mpya.
 normal Kawaida
 nosystemtray Trei ya mfumo haipatikani
 notify1_5 Onyesha dirisha-ufahamisho wakati mzungumzaji anaacha mawasiliano
@@ -253,6 +279,7 @@ notify3 Onyesha dirisha la kufahamishia wakati barua-p zinapofikia
 notify fahamisha
 notifyoffset Panga sehemu ya dirisha la kufahamishia kwa kulipa umbali wa sehemu
 notifywin dirisha la kufahamishia
+notls Protokali 9 ya MSN inahitaji kifurushi cha tls. Inaonekana kifurushi hichi hakikukuwekwa katika mashine hii. Kama kimewekwa, njia ya jarada la maktaba yapaswa ielezwe katika Dirisha-la-mapendeleo (mfn: /opt/tls/lib). \n \n Unaweza kupata tls kutoka http://tls.sf.net.
 nousersinsession Hakuna mtumiaji katika kipindi
 offline Ujaunganishwa
 ok Sawa
@@ -271,18 +298,21 @@ personal Pesono
 phone Simu
 picfile Faili ya picha (GIF < 500 x 500)
 picstatus Sauti ya picha
+pluginselector Chagua Viingizo
 port Poti
 prefalerts Ving'ora Tukio vyangu na Sauti
 prefapps Programu za matumizi
 prefawaymsg Ujumbe Wangu wa kuwa Mbali
 prefblock1 Angalina wakati wa kuacha kuunganisha
 prefblock2 Endelea kuangalian
+prefblock3 "Umezuiwa na" kundi
 prefconnection Mipangilio ya muunganisho
 prefemotic Aikoni za hisia na visura
 preferences Mapendeleo
 preffont2 Badilisha jinsi wengine wanavyoona maandishi yangu katika maongezi
 preffont3 Badilisha maandishi na ukubwa wa muonekano wa aMSN
 preffont Mandishi ya Ujumbe wangu
+preflibs Maktaba majarada
 preflog1 Historia yangu na chaguo langu la kuingia
 preflook Muonekano wangu wa Mesenja ya aMSN
 prefmsging Sehemu yangu ya Kutumia Ujumbe
@@ -301,7 +331,9 @@ prefshared Miunganisho ya kushirikiana (kwa NAT tu)
 prefsound Sauti
 privacy Faragha
 profiledconfig Mpangilio uliotashiwa
+profileexists Uwezi kutengeneza profaili kwa muungilio huu \n kwasababu tayari upo. Tafadhali chagua muingilio mwingine.
 profileinuse Utashi huu unatumiwa na kipindi kingine cha Amsn, tafadhali chagua mwingine
+profileloginradio Ingia kwa kutumia profaili iliyopo
 profiles Utashi
 properties Tabia
 proxyconfhttp Mpangilio wa msaada wa HTTP proksi
@@ -310,6 +342,8 @@ proxyconnection Naunganishwa kwenye mtandao kwa kutumia proksi-tumishi:
 proxy Nipo nyuma ya Programu Tumishi ya Proksi (HTTP au SOCKS5)
 publishphones Tawanya namba zangu za simu
 raised Kuzwa
+readonlymsgbox Uhamisho wa faili umesitishwa kutakona na jarada-pokea kuwa hali ya andika-tu. Tafadhali rekebisha ruhusa katika jarada hili.
+readonlywarn TAHADHARI: Faili hili linaweza lisiifadhiwe sawasawa kwasababu jarada la "Faili Zilizopokelewa" linaonekana kuwa limerindwa-kuandikwa. Tafadhali hakikisha kuwa ruhusa ya jarada ($1) zimewekwa ipasavyo kabla ya kuhamisha faili
 receivedbytes $1 ya $2 baiti zimepokelewa
 receivefile Pokea faili
 reconnecting Unganisha tena kwenye programu-tumishi
@@ -327,6 +361,8 @@ save Hifadhi
 savetofile Hifadhi kwenye Faili
 says $1 anasema
 sbcon Inangaunisha kweye meza ya mitambo
+selectplugins Tafadhali chagua viingizo unavyotaka vitumike
+selectskin Tafadhali chagua muonekano kwenye orodha hii
 sendfile Tuma faili
 sendmail Tuma barua-p
 sendmsg Tuma ujumbe
@@ -336,20 +372,24 @@ servergoingdown Imekatishwa: Progamu-tumishi inazimwa
 server Progamu-tumishi
 session Kipindi
 showblockedlist Onyesha orodha ya watu waliokuzuia kupiga soga nao
+skin Muonekano
+skinselector Chagua muonekano
 smileconfig Mapangilio binafsi ya visura-hisia
 smilefile Jina la faili la visura
 smileintro2 Tafadhali rekebisha nafasi zinazohitahika ili kurekebisha kisura hichi (angalia FAQ kwa msaada)
 smileintro Tafadhali jaza nafasi zinazohijiwa kutengeneza kisura binafsi(angalia FAQ kwa msaada)
 sound2 Cheza sauti kama waongeaji wanaingia au wanatuma ujumbe
 soundcommand Hii in amri ya cheza (mfn: esdplay)
+soundexample ( \$sound = Faili ya sauti itakayochezwa) Mfn: esdplay \$sound
 soundfile Faili ya sauti
 soundloop Sauti ya kuzunguka
 sound Sauti ya tukio
 soundserver Programu tumishi ya sauti
 soundstatus Sauti ya alamu
+sourcecode Maandishi ya programu (inahitaji kutengenezwa na kuwekwa)
+sslwarning TAHADHARI!! Kuachisha SSL kutazuia inkripsheni, kwahiyo neno-siri laka litatumwa wazi kapitia mtandao. Tumia tu kwa proksi ngumu au mipangilio migumu ya mtandao.
 startoffline2 Saini kimya kimya kama "Onekana Ujaunganishwa"
 startoffline Anza ukiwa ujaunganiswa
-state  Nataka nionekane kama
 stateautomsg Ujumbe-wa-kujituma wa kutuma
 statechange hali imebadilika kuwa :
 stateedittext Tafadhali hariri nafasi ambazo ungetaka \n zibadilike na bonyeza Hifadhi
@@ -365,7 +405,12 @@ stylelog Chagua jinsi utakavyotaka uione historia yako
 syntaxerror  kosa katika kupanga
 tabbed Madirisha yenye Tabu
 textsize Ukubwa wa maandishi
+timeremaining Muda uliobaki
 title Mesenja ya AL
+tlsdowncompleted Faili $1 imetelemshwa kwenye jarada $2. Lazima uifungue, uijenge (kama ulitelemsha maandishi ya programu) na uiweka ndani ya $3.
+tlsinstallexp AMSN sasa inatumia MSNP9, ambayo inahitaji matumizi ya \nconnection salama kwa kutumia SSL. Ili kutumia SSL, AMSN inahitaji kuweka mojuli inayoitwa TLS,\nambayo kwa sasa haipo katika mashine yako. Pragramu-rahisi hii itakusaidia katika kutelemsha na\nuwekaji wa TLS. Tafadhili chagua aina ya mfumo wako ili tuweze kutelemsha moja kwa moja\nfaili za TLS zinazohitajika.
+tlsinstall Programu-rahisi ya kuweka mojuli ya TLS
+tlsinstcompleted Mojuli ya TLS imewekwa vizuri, sasa yapaswa uweze kutumia MSNP9. Kama hii ikishindikana, basi labda hukuchagua mojuli sahihi, au mojuli iliyotayari kwa mfumo wako haipatikani.
 to Kwenda kwa
 tools Vifaa
 tooltips Ruhusu vidokezo
