@@ -588,9 +588,18 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.1.lmailer -text "[trans mailer] :" -padx 5 -font sboldf
 	entry $lfname.1.mailer -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable config(mailcommand)
 	label $lfname.1.lmailerex -text "[trans mailerexample]" -font examplef
+
 	label $lfname.1.lsound -text "[trans soundserver] :" -padx 5 -font sboldf
-	entry $lfname.1.sound -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable config(soundcommand)
-	label $lfname.1.lsoundex -text "[trans soundexample]" -font examplef
+	frame $lfname.1.sound -class Degt
+
+	radiobutton $lfname.1.sound.snack -text "[trans usesnack]" -value 1 -variable config(usesnack) -command UpdatePreferences
+	pack $lfname.1.sound.snack -anchor w -side top -padx 10
+	radiobutton $lfname.1.sound.other -text "[trans useother]" -value 0 -variable config(usesnack) -command UpdatePreferences
+	pack $lfname.1.sound.other -anchor w -side top -padx 10
+	entry $lfname.1.sound.sound -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable config(soundcommand)
+	pack $lfname.1.sound.sound -anchor w -side top -padx 10
+	label $lfname.1.sound.lsoundex -text "[trans soundexample]" -font examplef
+	pack $lfname.1.sound.lsoundex -anchor w -side top -padx 10
 
 	grid $lfname.1.lbrowser -row 1 -column 1 -sticky w
 	grid $lfname.1.browser -row 1 -column 2 -sticky w
@@ -601,9 +610,9 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.1.lmailer -row 5 -column 1 -sticky w
 	grid $lfname.1.mailer -row 5 -column 2 -sticky w
 	grid $lfname.1.lmailerex -row 6 -column 2 -columnspan 1 -sticky w
-	grid $lfname.1.lsound -row 7 -column 1 -sticky w
+	grid $lfname.1.lsound -row 7 -column 1 -sticky nw
 	grid $lfname.1.sound -row 7 -column 2 -sticky w
-	grid $lfname.1.lsoundex -row 8 -column 2 -columnspan 1 -sticky w
+	#grid $lfname.1.lsoundex -row 8 -column 2 -columnspan 1 -sticky w
 
 	## Library directories frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans preflibs]]
@@ -1157,6 +1166,16 @@ proc UpdatePreferences {} {
 		$lfname.2.pass configure -state normal
 	} else {
 		$lfname.2.pass configure -state disabled 
+	}
+
+	# sound
+	set lfname [$nb.nn getframe others]
+	set lfname [$lfname.sw.sf getframe]
+	set lfname "${lfname}.lfname.f.f"
+	if { $config(usesnack) == 1 } {
+		$lfname.1.sound.sound configure -state disabled
+	} else {
+		$lfname.1.sound.sound configure -state normal 
 	}
 
 }

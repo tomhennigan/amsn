@@ -43,6 +43,20 @@ namespace eval ::skin {
 		return no_pic
 	}
 	
+	#Remember which sounds are loaded
+	proc loadSound {sound_name} {
+		variable loaded_sounds
+		
+		if { [info exists loaded_sounds($sound_name)] } {
+			return snd_$sound_name
+		}
+		
+		snack::sound snd_$sound_name -file [GetSkinFile sounds $sound_name]
+		set loaded_sounds($sound_name) 1
+		
+		return snd_$sound_name
+	}
+	
 	proc reloadSkin { {skin_name ""} } {
 		variable loaded_images
 		variable loaded_pixmaps
@@ -57,6 +71,11 @@ namespace eval ::skin {
 		if {[info exists loaded_images(no_pic)]} { unset loaded_images(no_pic) }
 		getNoDisplayPicture $skin_name
 		
+		#Reload sounds
+		variable loaded_sounds
+		foreach name [array names loaded_sounds] {
+			snd_$name configure -file [GetSkinFile sounds $name]
+		}
 	}
 }
 

@@ -6,26 +6,26 @@ proc ConfigDefaults {} {
 	global config tcl_platform password auto_path advanced_options
 
 	set config(protocol) "9"		;# Which MSN Protocol do you prefer to use: 9
-	set config(nossl) 0				;#Disable the use of SSL, so it doesn't requite TLS package: 0|1
+	set config(nossl) 0			;#Disable the use of SSL, so it doesn't requite TLS package: 0|1
 
-	set config(login) ""				;# These are defaults for users without
-	set config(save_password) 0	;# a config file: 0|1
+	set config(login) ""			;# These are defaults for users without
+	set config(save_password) 0		;# a config file: 0|1
 
 	set config(keep_logs) 1			;#Save log files: 0|1
 
 	set config(connectiontype) direct	;# Connection type: direct|http|proxy
-	set config(proxy) ""						;# If using proxy, proxy host
-	set config(proxytype) "http"			;# Proxy type: http|ssl|socks5
+	set config(proxy) ""			;# If using proxy, proxy host
+	set config(proxytype) "http"		;# Proxy type: http|ssl|socks5
 	set config(proxyauthenticate) 0		;# SOCKS5 use username/password
-	set config(proxyuser) ""				;# user and password for SOCKS5 proxy
-	set config(proxypass) ""				;#
+	set config(proxyuser) ""		;# user and password for SOCKS5 proxy
+	set config(proxypass) ""		;#
 
-	set config(sound) 1				;#Sound enabled: 0|1
+	set config(sound) 1			;#Sound enabled: 0|1
 	set config(mailcommand) ""		;#Command for checking mail. Blank for hotmail
         set config(notifytyping) 1		;#Send typing notifications
         set config(soundactive) 0               ;#Typing sound even on active window
 	
-	set config(chatstyle)	"msn"	;#Chat display style
+	set config(chatstyle)	"msn"		;#Chat display style
 
 	#Some Autodetected options
 	if {$tcl_platform(os) == "Darwin"} {
@@ -39,25 +39,29 @@ proc ConfigDefaults {} {
 	   set config(notifyXoffset) 100
 	   set config(notifyYoffset) 75
 	   set config(filemanager) "open \$location"   
+	   set config(usesnack) 0
 	} elseif {$tcl_platform(platform) == "unix"} {
 	   set config(soundcommand) "play \$sound"
 	   set config(browser) "mozilla \$url"
 	   set config(notifyXoffset) 0
 	   set config(notifyYoffset) 0
 	   set config(filemanager) "my_filemanager open \$location"
+	   set config(usesnack) 0
 	} elseif {$tcl_platform(platform) == "windows"} {
 	   set config(soundcommand) "utils/plwav.exe \$sound"
 	   set config(browser) "explorer \$url"
 	   set config(notifyXoffset) 0
 	   set config(notifyYoffset) 28
 	   set config(filemanager) "explorer \$location"
+	   set config(usesnack) 1
 	} else {
-	   set config(soundcommand) ""	;#Sound player command
+	   set config(soundcommand) ""			;#Sound player command
 	   set config(browser) ""			;#Browser command
-	   set config(filemanager) ""		;#Filemanager command
+	   set config(filemanager) ""			;#Filemanager command
 
-	   set config(notifyXoffset) 0	;#Notify window offsets
+	   set config(notifyXoffset) 0			;#Notify window offsets
 	   set config(notifyYoffset) 0
+	   set config(usesnack) 0			;#Use the Snack library for sounds
 	}
 	
 	set config(autoidle) 1				;#Enable/disable auto-idle feature: 0|1
@@ -66,7 +70,7 @@ proc ConfigDefaults {} {
 	set config(awaytime) 10				;#Minutes before setting status to away
 
 	set config(orderbygroup) 0			;#Order contacts by group: 0=No | 1=Groups | 2=Hybrid
-	set config(ordergroupsbynormal) 1;#Order groups normal or inverted
+	set config(ordergroupsbynormal) 1		;#Order groups normal or inverted
 
 	set config(listsmileys) 1			;#Show smileys in contact list
 	set config(chatsmileys) 1			;#Show smileys in chat window
@@ -74,7 +78,7 @@ proc ConfigDefaults {} {
 	set config(startoffline) 0			;#Start session as offline (hidden)
 
 	set config(autoftip) 1				;#Detect IP for file transfers automatically
-	set config(myip) "127.0.0.1"		;#Your IP
+	set config(myip) "127.0.0.1"			;#Your IP
 	set config(manualip) "127.0.0.1"		;#Manual IP
 
 	
@@ -96,8 +100,8 @@ proc ConfigDefaults {} {
 
 	set config(textsize) 2							;#User text size
 	set config(mychatfont) "{Helvetica} {} 000000"	;#User chat font
-	set config(winchatsize) "350x320" ;#Default chat window size
-	set config(savechatwinsize) 1 ;#Save chat window sizes when changed?
+	set config(winchatsize) "350x320"		;#Default chat window size
+	set config(savechatwinsize) 1			;#Save chat window sizes when changed?
 
 	set config(notifymsg) 1				;#Show notify window when a message arrives
 	set config(notifyonline) 1			;#Show notify window when a user goes online
@@ -105,7 +109,7 @@ proc ConfigDefaults {} {
 	set config(notifystate) 0			;#Show notify window when a user changes status
 	set config(notifyemail) 1			;#Show notify window when a new mail arrives
 
-	set config(dock) 0					;#Docking type
+	set config(dock) 0				;#Docking type
 
 	
 	#Specific for Mac OS X, if newchatwinstate=1, new windows of message never appear

@@ -549,6 +549,7 @@ twonewmail $1 new messages in Inbox
 unblock Unblock
 uoffline Offline
 uonline Online
+useother Use a different program
 useralreadyonlist User is already on contact list
 userblocked The user is online but blocked you
 userdata User Data
@@ -556,6 +557,7 @@ usernotonline The user is not online
 userproperties User properties of $1
 user User
 useryourself You can't chat with yourself
+usesnack Use the Snack library (Tcl internal)
 verifyblocked Check for people blocking you
 version Version
 viewcontactsby View contacts by

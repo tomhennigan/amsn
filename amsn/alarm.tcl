@@ -263,11 +263,11 @@ proc run_alarm {user msg} {
 	incr alarm_win_number
 	set wind_name alarm_${alarm_win_number}
 
-	set command $config(soundcommand)
-	set command [string map { "$sound" "" } $command]
+	#set command $config(soundcommand)
+	#set command [string map { "$sound" "" } $command]
 
-	#only creates popup if it is a picture alarm or its a sound alarm (non looping for windows)
-	if { ([::alarms::getAlarmItem ${user} pic_st] == 1) || ([::alarms::getAlarmItem ${user} sound_st] == 1 && ($tcl_platform(platform) != "windows" || [::alarms::getAlarmItem ${user} loop] == 1) ) } {
+	#only creates popup if it is a picture alarm or its a sound alarm
+	if { ([::alarms::getAlarmItem ${user} pic_st] == 1) || ([::alarms::getAlarmItem ${user} sound_st] == 1) } {
 		toplevel .${wind_name}
 		set myDate [ clock format [clock seconds] -format " - %d/%m/%y at %H:%M" ]
 		wm title .${wind_name} "[trans alarm] $user $myDate"	
@@ -285,37 +285,45 @@ proc run_alarm {user msg} {
 	}
 
 	if { [::alarms::getAlarmItem ${user} sound_st] == 1 } {
-		#need different commands for windows as no kill or bash etc
-		if { $tcl_platform(platform) == "windows" } {
-			#Some verions of tk don't support this
-			catch { wm attributes .${wind_name} -topmost 1 }
-			if { [::alarms::getAlarmItem ${user} loop] == 1 } {
-				global stoploopsound
-				set stoploopsound 0
-				button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; set stoploopsound 1"
-				wm protocol .${wind_name} WM_DELETE_WINDOW "destroy .${wind_name}; set stoploopsound 1"
-				pack .${wind_name}.stopmusic -padx 2
-				while { $stoploopsound == 0 } {
-					update
-					after 100
-					catch { eval exec "[regsub -all {\\} $command {\\\\}] [regsub -all {/} [::alarms::getAlarmItem ${user} sound] {\\\\}]" & } res 
-					update
-				}
-			} else {
-				#button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}"
-				#pack .${wind_name}.stopmusic -padx 2
-				#update
-				catch { eval exec "[regsub -all {\\} $command {\\\\}] [regsub -all {/} [::alarms::getAlarmItem ${user} sound] {\\\\}]" & } res 
-			}			
+		if { [::config::getKey usesnack] } {
+			snack::sound alarmsnd_${alarm_win_number} -load [::alarms::getAlarmItem ${user} sound]
+			snack_play_sound alarmsnd_${alarm_win_number} [::alarms::getAlarmItem ${user} loop]
+			button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; alarmsnd_${alarm_win_number} destroy "
+			wm protocol .${wind_name} WM_DELETE_WINDOW "destroy .${wind_name}; alarmsnd_${alarm_win_number} destroy "
+			pack .${wind_name}.stopmusic -padx 2
 		} else {
-			if { [::alarms::getAlarmItem ${user} loop] == 1 } {
-				button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; catch { eval exec killall jwakeup } ; catch { eval exec killall -TERM $command }"
-				pack .${wind_name}.stopmusic -padx 2
-				catch { eval exec ${program_dir}/jwakeup $command [::alarms::getAlarmItem ${user} sound] & } res
+			#need different commands for windows as no kill or bash etc
+			if { $tcl_platform(platform) == "windows" } {
+				#Some verions of tk don't support this
+				catch { wm attributes .${wind_name} -topmost 1 }
+				if { [::alarms::getAlarmItem ${user} loop] == 1 } {
+					global stoploopsound
+					set stoploopsound 0
+					button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; set stoploopsound 1"
+					wm protocol .${wind_name} WM_DELETE_WINDOW "destroy .${wind_name}; set stoploopsound 1"
+					pack .${wind_name}.stopmusic -padx 2
+					while { $stoploopsound == 0 } {
+						update
+						after 100
+						catch { eval exec "[regsub -all {\\} $command {\\\\}] [regsub -all {/} [::alarms::getAlarmItem ${user} sound] {\\\\}]" & } res 
+						update
+					}
+				} else {
+					#button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}"
+					#pack .${wind_name}.stopmusic -padx 2
+					#update
+					catch { eval exec "[regsub -all {\\} $command {\\\\}] [regsub -all {/} [::alarms::getAlarmItem ${user} sound] {\\\\}]" & } res 
+				}			
 			} else {
-				catch { eval exec $command [::alarms::getAlarmItem ${user} sound] & } res 
-				button .${wind_name}.stopmusic -text [trans stopalarm] -command "catch { eval exec killall -TERM $command } res ; destroy .${wind_name}"
-				pack .${wind_name}.stopmusic -padx 2
+				if { [::alarms::getAlarmItem ${user} loop] == 1 } {
+					button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; catch { eval exec killall jwakeup } ; catch { eval exec killall -TERM $command }"
+					pack .${wind_name}.stopmusic -padx 2
+					catch { eval exec ${program_dir}/jwakeup $command [::alarms::getAlarmItem ${user} sound] & } res
+				} else {
+					catch { eval exec $command [::alarms::getAlarmItem ${user} sound] & } res 
+					button .${wind_name}.stopmusic -text [trans stopalarm] -command "catch { eval exec killall -TERM $command } res ; destroy .${wind_name}"
+					pack .${wind_name}.stopmusic -padx 2
+				}
 			}
 		}
 	} elseif { [::alarms::getAlarmItem ${user} pic_st] == 1 } {

@@ -1,7 +1,11 @@
 package require AMSN_BWidget
-#Use QuickeTimeTcl on Mac OS X to play sounds
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-package require QuickTimeTcl
+	#Use QuickeTimeTcl on Mac OS X to play sounds
+	package require QuickTimeTcl
+} else {
+	#Use Snack on other OSs to play sounds
+	package require snack
+	snack::audio playLatency 750
 }
 
 if { $initialize_amsn == 1 } {
@@ -4088,6 +4092,27 @@ proc cmsn_msgwin_sendmail {name} {
 
 #///////////////////////////////////////////////////////////////////////
 proc play_sound {sound_name} {
+	if { [::config::getKey sound] == 1 } {
+		#If Mac OS X, use play_Sound_Mac to play sounds
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			play_Sound_Mac $sound_name [GetSkinFile sounds $sound_name]
+		} elseif { [::config::getKey usesnack] } {
+			snack_play_sound [::skin::loadSound $sound_name]
+		} else {
+			play_sound_other $sound_name
+		}
+	}
+}
+
+proc snack_play_sound {snd {loop 0}} {
+	if { $loop } {
+		$snd play -command [list snack_play_sound $snd 1]
+	} else {
+		$snd play
+	}
+}
+
+proc play_sound_other {sound_name} {
 	global config tcl_platform
 
 	if { [string first "\$sound" $config(soundcommand)] == -1 } {
