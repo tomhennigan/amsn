@@ -79,6 +79,7 @@ set sounds_folder "[file join $program_dir s]"
 #Splash bonline.gif 3000 $images_folder
 
 #Load program modules
+source [file join $program_dir notebook.tcl]	;# Notebook Megawidget
 source [file join $program_dir migmd5.tcl]
 source [file join $program_dir config.tcl]
 source [file join $program_dir protocol.tcl]
