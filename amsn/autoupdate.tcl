@@ -577,7 +577,7 @@ namespace eval ::autoupdate {
 	}
 
 	proc check_version {} {
-		global weburl tcl_platform
+		global weburl
 
 
 		if { [winfo exists .checking] } {
@@ -588,12 +588,11 @@ namespace eval ::autoupdate {
 
 		wm title .checking "[trans title]"
 		ShowTransient .checking
-		canvas .checking.c -width 250 -height 50
+		canvas .checking.c -width 300 -height 50
 
-		label .checking.d -image [::skin::loadPixmap download]
-		.checking.c create text 125 25 -font splainf -anchor n \
+		.checking.c create image 25 10 -anchor n -image [::skin::loadPixmap download]
+		.checking.c create text 155 20 -font splainf -anchor n \
 		    -text "[trans checkingver]..." -justify center -width 250
-		pack .checking.d -expand true -side left
 		pack .checking.c -expand true
 		tkwait visibility .checking
 		catch {grab .checking}
