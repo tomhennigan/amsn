@@ -310,3 +310,6 @@ xoffset X-positie
 yoffset Y-positie
 yousay Jij zegt
 youwant Jij wilt
+checkfilman Ontvangen bestanden zullen bewaard worden in $1. Gelieve
+bestandsbeheerinstellingen na te kijken in het instellingenvenster.
+soundcommand Dit moet het afspeelcommando zijn (vb: esdplay)
