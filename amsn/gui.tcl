@@ -3477,28 +3477,24 @@ proc cmsn_draw_main {} {
 	"msg_box \"[trans version]: $version\n[trans date]: $date\n$weburl\""
 
 
+	. conf -menu .main_menu
+	
+	
 	#image create photo mainback -file [GetSkinFile pixmaps back.gif]
 
 	wm title . "[trans title] - [trans offline]"
 	wm command . [concat $argv0 $argv]
 	wm group . .
 
-	
 	#For All Platforms (except Mac)
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-	#For Mac OS X (AquaTK) only
-		#Always place the contact list at the same position but keep the size from config
-		catch {wm geometry . $config(wingeometry)}
-		wm geometry . +0+30
-		#Always put a white border around the contact list 
 		frame .main -class Amsn -relief flat -background white
 	} else {
-		#Set the position on the screen and the size for the contact list, from config
-		catch {wm geometry . $config(wingeometry)}
-		#Put the color of the border around the contact list (from the skin)
+		#Put the color of the border around the contact list (from the skin)	
 		frame .main -class Amsn -relief flat -background $bgcolor
 	}
-
+	
+	
 	
 	frame .main.f -class Amsn -relief flat -background white
 	#pack .main -expand true -fill both
@@ -3588,7 +3584,7 @@ proc cmsn_draw_main {} {
 
 	image create photo blockedme -file [GetSkinFile pixmaps blockedme.gif]
 	image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
-
+	
 	text $pgBuddy.text -background white -width 30 -height 0 -wrap none \
 		-yscrollcommand "adjust_yscroll $pgBuddy.text $pgBuddy.ys" -cursor left_ptr -font splainf \
 		-selectbackground white -selectborderwidth 0 -exportselection 0 \
@@ -3664,8 +3660,18 @@ proc cmsn_draw_main {} {
 		catch {wm iconmask . @[GetSkinFile pixmaps amsnmask.xbm]}
 	}
 
-	. conf -menu .main_menu
-
+	#For All Platforms (except Mac)
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	#For Mac OS X (AquaTK) only
+		#Always place the contact list at the same position but keep the size from config
+		catch {wm geometry . $config(wingeometry)}
+		wm geometry . +0+30
+	} else {
+		#Set the position on the screen and the size for the contact list, from config
+		catch {wm geometry . $config(wingeometry)}
+	}
+	
+	
 	#allow for display updates so window size is correct
 	update idletasks
 
