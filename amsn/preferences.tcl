@@ -863,7 +863,7 @@ proc reload_advanced_options {path} {
 			} elseif {[lindex $opt 0] == "global"} {
 				set config_var [::config::getGlobalVar [lindex $opt 1]]
 			} else {
-				label $path.l$i -text "ERROR: Unknown advanced option type: \"[lindex $opt01]\""
+				label $path.l$i -text "ERROR: Unknown advanced option type: \"[lindex $opt 0]\""
 				pack $path.l$i -side top -anchor w
 				continue
 			}
