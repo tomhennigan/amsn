@@ -4227,28 +4227,26 @@ proc urldecode {str} {
 
 		#TODO: Here, why some nicks can have thins like %he ??? why is it allowed if they're encoded
 		# using ulrencode??? We "catch" the error and try another thing.
-		if {[catch {set carval [format %d 0x[string range $str [expr {$end+1}] [expr {$end+2}]]]} res]} {
-			if {[catch {set carval [format %d 0x[string range $str [expr {$end+1}] [expr {$end+1}]]]} res]} {
-				binary scan [string range $str [expr {$end+1}] [expr {$end+1}]] c carval
-		status_log "urldecode: strange thing number 2 with string: $str\n" red
-	} else {
-		status_log "urldecode: strange thing number 1 with string: $str\n" red
-	}
+		set hexvalue [string range $str [expr {$end+1}] [expr {$end+2}]]
+		if {[catch {set carval [format %d 0x$hexvalue]} res]} {
+			set decode "${decode}\%"
+			set begin [expr {$end+1}]
+		
+		} else {
+			if {$carval > 128} {
+				set carval [expr { $carval - 0x100 }]
+			}
+
+			set car [binary format c $carval]
+
+			set decode "${decode}$car"
+
+			#if {[catch {set decode2 "${decode2}[format %c 0x[string range $str [expr {$end+1}] [expr {$end+2}]]]"} res]} {
+			#   catch {set decode2 "${decode2}[format %c 0x[string range $str [expr {$end+1}] [expr {$end+1}]]]"} res
+			#}
+	
+			set begin [expr {$end+3}]
 		}
-		if {$carval > 128} {
-			set carval [expr { $carval - 0x100 }]
-		}
-
-		set car [binary format c $carval]
-#      status_log "carval: $carval = $car\n"
-
-		set decode "${decode}$car"
-
-		#if {[catch {set decode2 "${decode2}[format %c 0x[string range $str [expr {$end+1}] [expr {$end+2}]]]"} res]} {
-		#   catch {set decode2 "${decode2}[format %c 0x[string range $str [expr {$end+1}] [expr {$end+1}]]]"} res
-		#}
-
-		set begin [expr {$end+3}]
 		set end [string first "%" $str $begin]
 	}
 
