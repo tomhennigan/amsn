@@ -583,15 +583,15 @@ proc cmsn_ns_handler {item} {
 	  return 0
       }
       BPR {
-      	status_log "BPR: TODO\n" white
+      	status_log "BPR: TODO $item\n" white
 	return 0
       }
       PRP {
-      	status_log "PRP: TODO\n" white
+      	status_log "PRP: TODO $item\n" white
 	return 0
       }
       LSG {
-      	status_log "LSG: TODO\n" white
+      	status_log "LSG: TODO $item\n" white
 	return 0
       }
       200 {
