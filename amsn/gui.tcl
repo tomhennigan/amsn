@@ -276,8 +276,6 @@ namespace eval ::amsn {
 
       }
 
-      status_log "Calling PutMessage with chatid $chatid\n" red
-
       PutMessage $chatid $user $msg $type $fontformat
 
       if { "[wm state $win_name]" == "withdrawn" } {

@@ -317,7 +317,12 @@ namespace eval ::MSN {
       variable trid
       incr trid
 
-      puts [sb get $sbn sock] "$cmd $trid $param\r"
+      if {[catch {puts [sb get $sbn sock] "$cmd $trid $param\r"} res]} {
+         status_log "::MSN::WriteSB: UHUH BAD BAD, problem when writing to the socket...\n" WHITE
+	  catch {close $sbn} res
+	  cmsn_sb_sessionclosed $sbn
+         return 0
+      }
       degt_protocol "->SB $cmd $trid $param"
 
       if {$handler != ""} {
@@ -933,6 +938,7 @@ namespace eval ::MSN {
 
 	  if {[catch {eof $sb_sock} res]} {
 	     status_log "Error in the EOF command\n"
+	     catch {close $sb_sock} res
 	     cmsn_sb_sessionclosed $sbn
 	     return 0
 	  }
