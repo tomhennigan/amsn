@@ -1,8 +1,9 @@
 #! /usr/bin/env python
-# Author: Gustavo Carneiro
-# Modified by: Alvaro J. Iradier
-# Use: missing.py langXX
+# Author: Hatredman
+# Use: untranslated.py langXX
 # lists all missing translations keys in language
+# Based on the missing.py script 
+# by Gustavo Caneiro and Alvaro J. Iradier
 
 import string
 import fileinput
@@ -35,4 +36,4 @@ for key, val in msg_list.items():
     
 print
 print "---------------------------------------------------"
-print "There are still",cont,"missing (untranslated) keys."
+print "Missing (untranslated) keys:",cont
