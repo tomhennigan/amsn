@@ -703,13 +703,34 @@ namespace eval ::plugins {
 							grid $confwin.${i}e -column 2 -row $row	-sticky w
 						}
 						lst {
-							#This configuration item is a listbox that stores the selected item.
-							listbox $confwin.$i
+							# This configuration item is a listbox that stores the selected item.
+							set height [llength [lindex $confitem 1]]
+							set width 0
+							foreach item [lindex $confitem 1] {
+								if { [string length "$item"] > $width } {
+									set width [string length "$item"]
+								}
+							}
+							listbox $confwin.$i -height $height -width $width
 							foreach item [lindex $confitem 1] {
 								$confwin.$i insert end $item
 							}
 							bind $confwin.$i <<ListboxSelect>> "::plugins::lst_refresh $confwin.$i ::${namespace}::config([lindex $confitem 2])"
-							grid $confwin.$i -column 2 -row $row -sticky w
+							grid $confwin.$i -column 1 -row $row -sticky w -padx 40
+						}
+						rbt {
+							# This configuration item contains checkbutton
+							set buttonlist [lrange $confitem 1 end-1]
+							set value 0
+							foreach item $buttonlist {
+								incr value
+								radiobutton $confwin.$i -text "$item" -variable ::${namespace}::config([lindex $confitem end]) -value $value
+								grid $confwin.$i -column 1 -row $row -sticky w -padx 40
+								incr i
+								incr row
+							}
+							incr i -1
+							incr row -1
 						}
 					}
 				}
