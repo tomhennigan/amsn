@@ -13,6 +13,7 @@ addtocontacts Afegir als contactes
 addtoo Afegeix aquesta persona a la meva llista de contactes
 admincontacts Administrar la llista de contactes
 admingroups Administrar grups
+advanced Avançades
 adverts Anuncis
 alarmonconnect Activa l'alarma quan l'usuari es connecti
 alarmondisconnect Activa l'alarma quan l'usuari canviï a l'estat "Desconnectat"
@@ -73,11 +74,11 @@ changedisplaypic Canviar la Imatge Mostrada
 changefont Canviar font
 changenick Canviar el meu sobrenom
 changestate $1 canvia l'estat a $2
-chatack Acceptant xat de
+chatack Acceptant la conversa de l'usuari
 chatmaxmin Quan un contacte obri una conversa, vull que sigui:
-chatreq Demanant xat
-chatsmileys2 Mostrar emoticones a la finestra del xat
-chatsmileys Emoticones al xat
+chatreq Demanant conversa
+chatsmileys2 Mostrar emoticones a la finestra de la conversa
+chatsmileys Emoticones a la conversa
 chat Xat
 checkblocking Comprovar contínuament si algun usuari m'ha bloquejant
 checkfilman Els fitxers rebuts es desaran a $1. Comprova l'opció de l'administrador de fitxers a la finestra de preferències.
@@ -122,10 +123,12 @@ dcprofile No crear perfil
 defaultloginradio Configuració per defecte
 default Utilitza la configuració predeterminada
 delete Esborrar
+delimiters Delimitadors de temps:
 deliverfail Hi ha hagut un problema al enviar el missatge
 delprofile2 Selecciona el perfil que t'agradaria eliminar
 delprofile Esborrar perfil
 description Descripció
+displaychat Opcions del text mostrat
 directconnection Tinc una connexió directa a Internet (utilitza el port 1863)
 disablessl Desactiva l'SSL
 disconnect $1 s'ha desconnectat.
@@ -300,6 +303,7 @@ options Opcions
 ordercontactsby Ordenar els contactes per
 ordergroupsby Ordenar grups per
 other Un altre
+others Altres
 pager Paginador
 pass Contrasenya
 paste Enganxa
@@ -381,6 +385,8 @@ sendmsg Enviar missatge
 sentbytes Enviats $1 de $2 bytes
 servergoingdown Desconnectat: El servidor s'apagarà per manteniment
 server Servidor
+serverbusy El servidor està ocupat
+serverunavailable El servidor no contesta
 session Sessió
 showblockedlist Mostra'm la llista de la gent que em té bloquejat a la seva llista de contactes
 showdisplaypic2 Mostra la Imatge Mostrada quan s'obri una nova conversa
@@ -414,13 +420,14 @@ statenewtext Emplena la informació necessària per crear\nel nou estat personalit
 state Vull aparèixer com
 status Estat
 stopalarm Parar l'alarma
-stylechat La mateixa aparença que als xats
+stylechat La mateixa aparença que a les converses
 stylehist Aparença de l'historial de l'aMSN
 stylelog Escull l'estil en que desitjes veure l'historial
 syntaxerror Error de sintaxi
 tabbed Finestres sobreposades
 textsize Mida del text
 timeremaining Temps restant
+timestamps Mostra l'hora a les converses
 title aMSN
 tlsdowncompleted El fitxer $1 ha estat desat al directori $2. L'has de descomprimir, compilar (si és el codi font) i instal·lar-lo a dins de $3.
 tlsinstall Assistent d'instal·lació del mòdul TLS
@@ -432,6 +439,7 @@ tooltips Activa el rètol indicador de funcions
 transnotexists Aquest fitxer encara no ha estat traduït
 traynotcompiled La icona de la safata de connexió no s'ha compilat. Comprova el directori plugins/traydock
 triggers Text disparador
+truncatenicks Escurça els sobrenoms més llargs que l'amplada de la finestra
 twonewmail $1 missatges nous a la bústia
 unblock Desbloquejar
 uoffline Desconnectats
@@ -440,7 +448,7 @@ useralreadyonlist L'usuari ja és a la llista de contactes
 userblocked Aquest usuari està connectat però t'ha bloquejat a la seva llista
 usernotonline L'usuari no està connectat
 user Usuari
-useryourself No pots xatejar amb tu mateix
+useryourself No pots conversar amb tu mateix
 verifyblocked Comprova la gent que em té bloquejat a la seva llista
 version Versió
 viewprofile Mostrar perfil
