@@ -47,6 +47,7 @@ set weburl "http://amsn.sourceforge.net"
 #Look if we are launched from a link and set
 #the correct working dir
 
+
 if {[catch {file readlink [info script]} res]!=0} {
   set program_dir [file dirname [info script]]
 } else {
