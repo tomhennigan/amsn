@@ -76,4 +76,41 @@ namespace eval ::Nudge {
 			after 100
 		}
 	}
+	################################################
+	# ::Nudge::sendbutton event epvar              #
+	# -------------------------------------------  #
+	# Button to add in the chat window             #
+	# When we click on that button, we send a nudge#
+	# to the other contact                         #
+	################################################	
+	proc sendbutton { event evpar } {
+		upvar 2 evpar newvar
+		upvar 2 bottom bottom
+		#Create the button with an actual Pixmal
+		button $bottom.buttons.nudge -image [::skin::loadPixmap bell] -relief flat -padx 3 \
+		-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0
+		#Define baloon info
+		set_balloon $bottom.buttons.nudge "Send Nudge"
+		#Pack the button in the right area
+		pack $bottom.buttons.nudge -side right
+		#Call ::Nudge::sendprocedure when we click on the button
+		bind  $bottom.buttons.nudge  <Button1-ButtonRelease> "::Nudge::sendprocedure $newvar(window_name)"
+	}
+
+	################################################
+	# ::Nudge::sendprocedure window_name               #
+	# -------------------------------------------  #
+	# Protocole code to send a nudge to someone    #
+	# via the button we created in sendbutton      #		
+	################################################
+	proc sendprocedure {window_name} {
+		#Find the SB
+		set chatid [::ChatWindow::Name $window_name]
+		set sbn [::MSN::SBFor $chatid]
+		#Write the packet
+		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msnmsgr-datacast\r\n\r\nID: 1\r\n\r\n\r\n"
+    	set msg_len [string length $msg]
+    	#Send the packet
+    	::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
+	}
 }
