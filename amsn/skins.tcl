@@ -7,6 +7,7 @@
 namespace eval ::skin {
 
 	variable ContactListColors
+	variable preview_skin_change 0
 
 	##################################
 	#  Colors Management Procedures  #
@@ -411,8 +412,7 @@ proc SelectSkinGui { } {
 
 	button $w.ok -text "[trans ok]" -command "selectskinok $w" 
 	button $w.cancel -text "[trans cancel]" -command "selectskincancel $w" 
-	checkbutton $w.preview -text "[trans preview]" -variable preview_skin_change -onvalue 1 -offvalue 0
-	set ::preview_skin_change 1
+	checkbutton $w.preview -text "[trans preview]" -variable ::skin::preview_skin_change -onvalue 1 -offvalue 0
 
 	pack $w.ok  $w.cancel $w.preview -side right -pady 5 -padx 5
 
@@ -424,16 +424,19 @@ proc SelectSkinGui { } {
 		incr idx
 	}
 
+	set ::skin::skin_reloaded_needs_reset 0
 	if { $select == -1 } {
 		set select 0
-		status_log "select is -1\n"
-		status_log "select = $select --- [::config::getGlobalKey skin]\n"
+		status_log "selecy = 0 --- didn't find current skin defaulting to first"
 		
 		$w.main.right.box selection set $select
- 		$w.main.right.box itemconfigure $select
+ 		$w.main.right.box itemconfigure $select -background #AAAAAA
 
 		set currentskin [lindex [lindex $the_skins 0] 0]
+		if { $::skin::preview_skin_change == 1 } {
+			set ::skin::skin_reloaded_needs_reset 1
 		::skin::reloadSkin $currentskin
+		}
 	} else {
 		status_log "select = $select --- [::config::getGlobalKey skin]\n"
 
@@ -441,18 +444,41 @@ proc SelectSkinGui { } {
 		$w.main.right.box itemconfigure $select -background #AAAAAA
 	}
 		
-	#set the 2 pix that aren't necessarily set yet (not set in gui.tcl)
-	::skin::setPixmap prefpers prefpers.gif
-	::skin::setPixmap amsnicon amsnicon.gif
+	applychanges 1
+	bind $w <Destroy> "grab release $w"
+	bind $w.main.right.box <Button1-ButtonRelease> "applychanges"
 
-	label $w.main.left.images.1 -image [::skin::loadPixmap prefpers]
-	label $w.main.left.images.2 -image [::skin::loadPixmap bonline]
-	label $w.main.left.images.3 -image [::skin::loadPixmap offline]
-	label $w.main.left.images.4 -image [::skin::loadPixmap baway]
-	label $w.main.left.images.5 -image [::skin::loadPixmap amsnicon]
-	label $w.main.left.images.6 -image [::skin::loadPixmap butblock]
-	label $w.main.left.images.7 -image [::skin::loadPixmap butsmile]
-	label $w.main.left.images.8 -image [::skin::loadPixmap butsend]
+	moveinscreen $w 30
+}
+
+proc applychanges { {skip_reload 0} } {
+	set w .skin_selector
+	
+	set the_skins [findskins]
+
+	set currentskin [lindex [lindex $the_skins [$w.main.right.box curselection]] 0]
+	set currentdesc [lindex [lindex $the_skins [$w.main.right.box curselection]] 1]
+
+	clear_exampleimg
+
+	# If our skin hasn't the example images, take them from the default one
+	image create photo preview1 -file [GetSkinFile pixmaps prefpers.gif $currentskin] -format gif
+	image create photo preview2 -file [GetSkinFile pixmaps bonline.gif $currentskin] -format gif
+	image create photo preview3 -file [GetSkinFile pixmaps offline.gif $currentskin] -format gif
+	image create photo preview4 -file [GetSkinFile pixmaps baway.gif $currentskin] -format gif
+	image create photo preview5 -file [GetSkinFile pixmaps amsnicon.gif $currentskin] -format gif
+	image create photo preview6 -file [GetSkinFile pixmaps butblock.gif $currentskin] -format gif
+	image create photo preview7 -file [GetSkinFile pixmaps butsmile.gif $currentskin] -format gif
+	image create photo preview8 -file [GetSkinFile pixmaps butsend.gif $currentskin] -format gif
+	
+	label $w.main.left.images.1 -image preview1
+	label $w.main.left.images.2 -image preview2
+	label $w.main.left.images.3 -image preview3
+	label $w.main.left.images.4 -image preview4
+	label $w.main.left.images.5 -image preview5
+	label $w.main.left.images.6 -image preview6
+	label $w.main.left.images.7 -image preview7
+	label $w.main.left.images.8 -image preview8
 	grid $w.main.left.images.1 -in $w.main.left.images -row 1 -column 1
 	grid $w.main.left.images.2 -in $w.main.left.images -row 1 -column 2
 	grid $w.main.left.images.3 -in $w.main.left.images -row 1 -column 3
@@ -461,35 +487,17 @@ proc SelectSkinGui { } {
 	grid $w.main.left.images.6 -in $w.main.left.images -row 1 -column 6
 	grid $w.main.left.images.7 -in $w.main.left.images -row 1 -column 7
 	grid $w.main.left.images.8 -in $w.main.left.images -row 1 -column 8
+
 	grid $w.main.left.images.blank -in $w.main.left.images -row 1 -column 10
 	grid $w.main.left.images.blank2 -in $w.main.left.images -row 2 -column 1 -columnspan 8
 
-	set currentdesc [lindex [lindex $the_skins [$w.main.right.box curselection]] 1]
-	$w.main.left.desc configure -state normal
-	$w.main.left.desc delete 0.0 end
-	$w.main.left.desc insert end "[trans description]\n\n$currentdesc"
-	$w.main.left.desc configure -state disabled
-
-	bind $w <Destroy> "grab release $w"
-	bind $w.main.right.box <Button1-ButtonRelease> "applychanges"
-
-	moveinscreen $w 30
-}
-
-proc applychanges { } {
-	set w .skin_selector
-	
-	set the_skins [findskins]
-
-	set currentskin [lindex [lindex $the_skins [$w.main.right.box curselection]] 0]
-	set currentdesc [lindex [lindex $the_skins [$w.main.right.box curselection]] 1]
-
 	$w.main.left.desc configure -state normal
 	$w.main.left.desc delete 0.0 end
 	$w.main.left.desc insert end "[trans description]\n\n$currentdesc"
 	$w.main.left.desc configure -state disabled
 	
-	if { $::preview_skin_change == 1 } {
+	if { (!$skip_reload) && $::skin::preview_skin_change == 1 } {
+		set ::skin::skin_reloaded_needs_reset 1
 		::skin::reloadSkin $currentskin
 	}
 }
@@ -525,6 +533,7 @@ proc selectskinok { w } {
 	config::setGlobalKey skin $skin
 	save_config
 	::config::saveGlobal
+	unset ::skin::skin_reloaded_needs_reset
 	::skin::reloadSkin $skin
 	#msg_box [trans mustrestart]
 
@@ -533,7 +542,10 @@ proc selectskinok { w } {
 }
 
 proc selectskincancel { w } {
+	if { $::skin::skin_reloaded_needs_reset } {
+		unset ::skin::skin_reloaded_needs_reset
 	::skin::reloadSkin [::config::getGlobalKey skin]
+	}
 	destroy $w
 }
 
