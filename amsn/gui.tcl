@@ -1859,7 +1859,7 @@ namespace eval ::amsn {
 	      "${win_name}.f.out.text tag conf $urlname -underline true;\
 	      ${win_name}.f.out.text conf -cursor left_ptr"
 	   ${win_name}.f.out.text tag bind $urlname <Button1-ButtonRelease> \
-	      "launch_browser \"$urltext\""
+	      "launch_browser [list $urltext]"
 
   	   ${win_name}.f.out.text delete $pos $endpos
 	   ${win_name}.f.out.text insert $pos "$urltext" $urlname
@@ -3977,12 +3977,13 @@ proc launch_browser { url } {
 
 	if { $tcl_platform(platform) == "windows" } {
 
-		regsub -all -nocase {htm} $url {ht%6D} url
+		#regsub -all -nocase {htm} $url {ht%6D} url
+		regsub -all -nocase {&} $url {^&} url
     		exec rundll32 url.dll,FileProtocolHandler $url &
 
   	} else {
 
-		eval exec $config(browser) $url &
+		eval exec $config(browser) [list $url] &
 
 	}
 
