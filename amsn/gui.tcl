@@ -1,3 +1,5 @@
+package require BWidget
+
 if { $initialize_amsn == 1 } {
 	global bgcolor bgcolor2
 	
@@ -3705,9 +3707,7 @@ proc cmsn_draw_main {} {
 }
 #///////////////////////////////////////////////////////////////////////
 
-package require BWidget
-
-proc choose_font { parent title {initialfont ""} } {
+proc choose_font { parent title {initialfont ""} {initialcolor ""}} {
 	if { [winfo exists .fontsel] } {
 		raise .fontsel
 		return
@@ -3716,8 +3716,7 @@ proc choose_font { parent title {initialfont ""} } {
 	status_log "$initialfont\n"
 	status_log "[::config::getKey basefont]\n"
 	
-	set selected_font [SelectFont .fontsel -parent $parent -title $title -font $initialfont]
-	status_log "$selected_font\n"
+	set selected_font [SelectFont .fontsel -parent $parent -title $title -font $initialfont -initialcolor $initialcolor]
 	return $selected_font
 }
 
@@ -3731,29 +3730,31 @@ proc change_myfont {win_name} {
 	set fontstyle [lindex $config(mychatfont) 1]	
 	set fontcolor [lindex $config(mychatfont) 2]
 
+	if { [catch {
+			set selfont_and_color [choose_font .${win_name} [trans choosebasefont] [list $fontname $fontsize $fontstyle] "#$fontcolor"]
+		}]} {
+		
+		set selfont_and_color [choose_font .${win_name} [trans choosebasefont] [list "helvetica" 12 [list]] #000000]
+		
+	}
 	
-	set selfont [choose_font .${win_name} [trans choosebasefont] [list $fontname $fontsize $fontstyle]]
-
-	if { [string length $selfont] <1} {
+	set selfont [lindex $selfont_and_color 0]
+	set color [lindex $selfont_and_color 1]
+	
+	if { $selfont == ""} {
 		return
 	}
-
-	set config(textsize) [expr {[lindex $selfont 1]- [lindex $config(basefont) 1]}]
-	set config(mychatfont) [list [lindex $selfont 0] [lrange $selfont 2 end] $fontcolor]
-
-	set color [tk_chooseColor -title "[trans choosefontcolor]" -parent .${win_name} \
-		-initialcolor #$fontcolor]
-
-	if { [string length $color] <1} {
+	
+	if { $color == "" } {
 		set color $fontcolor
 	} else {
 		set color [string range $color 1 end]
 	}
+	
+	set config(mychatfont) [list [lindex $selfont 0] [lrange $selfont 2 end] $color]
 
-	set config(mychatfont) [lreplace $config(mychatfont) 2 2 $color]
-
-	status_log "color selected: $color\n"
-
+	
+	set config(textsize) [expr {[lindex $selfont 1]- [lindex $config(basefont) 1]}]
 	change_myfontsize $config(textsize) ${win_name}
 
 }

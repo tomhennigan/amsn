@@ -1819,9 +1819,13 @@ set $configitem $browsechoose
 
 #///////////////////////////////////////////////////////////////////////
 proc choose_basefont { } {
+	if { [winfo exists .basefontsel] } {
+		raise .basefontsel
+		return
+	}
+			
+	set font [SelectFont .basefontsel -parent .cfg -title [trans choosebasefont] -font [::config::getKey basefont] -styles [list]]
 	
-	set font [choose_font .cfg [trans choosebasefont] [::config::getKey basefont]]
-
 	if { [llength $font] < 2 } {
 		return 0
 	}
