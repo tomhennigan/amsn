@@ -2568,9 +2568,9 @@ proc cmsn_ns_handler {item} {
 	  return 0
       }
       911 {
+	  set password ""      
 	  ::MSN::logout          
 	  status_log "Error: User/Password\n" red
-	  set password ""
 	  ::amsn::errorMsg "[trans baduserpass]"
           return 0
       }
