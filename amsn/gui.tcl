@@ -1537,17 +1537,19 @@ namespace eval ::amsn {
 		set yview [lindex [[::ChatWindow::GetOutText $win] yview] 1]
 
 
+		#Get the path to the image
+		set pictureinner [$win.f.bottom.pic.image getinnerframe]
 		if { $balloontext != "" } {
-			#unset_balloon $win.f.bottom.pic.image
-			change_balloon $win.f.bottom.pic.image $balloontext
+			#TODO: Improve this!!! Use some kind of abstraction!
+			change_balloon $pictureinner $balloontext
+			#change_balloon $win.f.bottom.pic.image $balloontext
 		}
 		if { [catch {$win.f.bottom.pic.image configure -image $picture}] } {
 			status_log "Failed to set picture, using no_pic\n" red
 			$win.f.bottom.pic.image configure -image [::skin::getNoDisplayPicture]
-			#unset_balloon $win.f.bottom.pic.image
-			change_balloon $win.f.bottom.pic.image [trans nopic]
+			#change_balloon $win.f.bottom.pic.image [trans nopic]
+			change_balloon $pictureinner [trans nopic]
 		} elseif { $nopack == "" } {
-			#grid $win.f.bottom.pic.image -row 0 -column 1 -padx 0 -pady 3 -rowspan 2
 			pack $win.f.bottom.pic.image -side left -padx 0 -pady 0 -anchor w
 			set h [image height $picture]
 			if { $h < 100 } {
@@ -1557,9 +1559,7 @@ namespace eval ::amsn {
 			if { $::tcl_version >= 8.4 } {                   
 				$win.f paneconfigure $win.f.bottom -minsize $h
 			}
-			#grid forget $win.f.bottom.pic.showpic
 			$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imghide]
-			#unset_balloon $win.f.bottom.pic.showpic
 			change_balloon $win.f.bottom.pic.showpic [trans hidedisplaypic]
 			set show_pic 1
 		}
