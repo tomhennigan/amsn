@@ -27,6 +27,7 @@ alarmpref Alarmi seaded kasutajale
 alarms Alarmid
 alarmstatus Alarm selle kasutaja puhul Sees/Väljas
 allfiles Kõik failid
+allmonths Kõik kuud
 allow_sms Luban kasutajatel endaga läbi MSNis määratud mobiili suhelda
 allowallbutbl Luba kõikidel kasutajatel väljaarvatud minu Blokk Listis olevatel võtta minuga ühendust
 allowbadwords Lülita välja nimede tsensuur
@@ -128,6 +129,7 @@ clicktologin Vajuta siia, et sisse logida
 clientcaps Saada vestluskaaslase kliendile x-clientcap pakett
 clientname Kliendi nimi
 close Sulge
+closeall Sulged kõik aknas olevad tabid ?
 closed Vestlus $1'ga suleti passiivsuse pärast
 closingdocks Sulgemisnupp minimeerib akna
 command Käsk
@@ -191,6 +193,7 @@ deliverfail Järgneva sõnumi edastamisega tekkis probleem
 delprofile Kustuta profiil
 delprofile2 Vali profiil, mida soovid eemaldada
 description Kirjeldus
+detach Ühenda lahti
 directconnection Mul on otse ühendus internetti (kasutab porti 1863)
 disabled Keelatud
 disableprofiles Keela profiilid (Kasulik avalikes kohtades)
@@ -563,6 +566,7 @@ showdisplaypic Näita pilti
 showdisplaypic2 Näida pilti vaikimisi kui aken avatakse
 showmypic Minu pilt
 shownotify Mõndade sündmuste korral näita teadvustavat akent
+showpicnotify Näita teavitusaknas kasutaja pilti
 showuserpic $1'e pilt
 skin Skin
 skinselector Vali skin
@@ -596,6 +600,7 @@ stateinfo Isikliku oleku konfiguratsioon
 statename Personaalse staatuse nimi
 statenewtext Palun sisesta vajalik informatsioon,\net teha uus Personaalne Staatus\nLõpetuseks vajuta Salvesta
 statenick Kohandatud nimi (kui ei soovi muuta siis jäta tühjaks)
+stats Statistika
 status Olek
 stopalarm Peata alarm
 storenickname Taasta esialgne nimi peale kohandatud nimega ise tehtud olekust naasmist
@@ -613,6 +618,7 @@ tabbedgroups Samas grupis olevad inimesed ühes tabidega aknas
 tabtitlenick Soovid e-maili asemel tabides hüüdnime näidata ?
 temp_state Ära salvesta (Ajutine seisund mida ei salvestata AMSNi sulgemisel)
 textsize Teksti suurus
+thismonth Käesoleval kuul
 timeremaining Aega on jäänud
 timestamps Luba ajatemplid vestluse aknas
 title Al's Messenger
@@ -624,6 +630,7 @@ tlsinstallexp aMSN kasutab nüüd MSNP9-t, mis vajab tööks krüptitud\nühendust kas
 tlsinstcompleted TLS mooduli installeerimine õnnestus - sa peaksid nüüd saama kasutada MSNP9-t. Kui see ei tööta, siis tõenäoliselt valisid sa vale mooduli või sinu süsteemi jaoks ei ole kompileeritud moodulit.
 to Kellele
 today Täna
+tomobile Mobiilile
 tools Tööriistad
 tooltips Luba abistavad vihjed
 transnotexists Vajalikku faili pole veel eesti keelde tõlgitud.
@@ -654,6 +661,7 @@ view Vaade
 viewcontactsby Vaata kontakte sorteerides
 viewprofile Vaata profiili
 webcaminvite $1 kutsus sind alustama veebikaamera seanssi kuid aMSN ei toeta seda võimalust
+whatsize Pilt mida sa küsid ei ole tavasuuruses (96x96).\n Mis suuruses sa seda näidata soovid ?
 willjoin Ootan, et $1 liituks vestlusega
 winkreceived $1 saatis sulle Winki kuid aMSN ei toeta seda hetkel.
 wintitlenick Soovid e-maili asemel tabidega aknas hüüdnime näidata ?

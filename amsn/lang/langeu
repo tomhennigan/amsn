@@ -674,3 +674,11 @@ deleteall Guztia ezabatu
 opendir Direktorioa ireki
 openfile Ireki
 openfilecommand Ireki fitxategia komandoa
+allmonths Hilabete guztiak
+closeall Leihoan dauden Tab edo fitxa guztiak itxi?
+detach Deskonektatu
+showpicnotify Jakinarazpen leihoan erabiltzaileen argazkiak erakutsi
+stats Estatistikak
+thismonth	 Hilabete hau
+tomobile Mugikorrera
+whatsize Eskatu duzun irudia ez dago erakusteko tamaina normalean\nsize (96x96)? Irudi hau ze tamainan erakustea gustatuko litzaizuke?
