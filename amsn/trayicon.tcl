@@ -193,7 +193,9 @@ proc statusicon_proc {status} {
 }
 
 proc mailicon_proc {num} {
-	global systemtray_exist mailicon config password
+	# Workaround for bug in the traydock-plugin - statusicon added - BEGIN
+	global systemtray_exist mailicon statusicon config password
+	# Workaround for bug in the traydock-plugin - statusicon added - END
 	set icon .mi
 	if {$systemtray_exist == 1 && $mailicon == 0 && $config(dock) == 3  && $num >0} {
 		set pixmap "[GetSkinFile pixmaps unread.gif]"
@@ -209,6 +211,11 @@ proc mailicon_proc {num} {
 	} elseif {$systemtray_exist == 1 && $mailicon != 0 && $num ==0} {
 		remove_icon $mailicon
 		set mailicon 0
+		# Workaround for bug in the traydock-plugin - simply re-initialize - BEGIN
+		remove_icon $statusicon
+		set statusicon 0	
+		init_dock
+		# Workaround for bug in the traydock-plugin - simply re-initialize - END
 	} elseif {$systemtray_exist == 1 && $mailicon != 0 && $config(dock) == 3  && $num >0} {
 		if { $num == 1 } {
 			set msg [trans onenewmail]
