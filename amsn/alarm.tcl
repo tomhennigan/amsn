@@ -32,19 +32,17 @@ proc load_alarms {} {
 
 # Function that writes all alarm settings into a config file called alarms
 proc save_alarms {} {
-   global tcl_platform alarms HOME config
+   global tcl_platform alarms HOME HOME2 config
 
    # Only save if current login has a profile
-   if { [LoginList exists 0 $config(login) ] == 0 } {
+   if { $HOME == $HOME2 } {
 	return 1
    }
    
 
    if { ([info exists alarms]) && ([array size alarms] != 0) } {
 
-       #puts "saving alarms [array size alarms]"
-
-	if {$tcl_platform(platform) == "unix"} {
+        if {$tcl_platform(platform) == "unix"} {
 		set file_id [open "[file join ${HOME} alarms]" w 00600]
 	} else {
 	        set file_id [open "[file join ${HOME} alarms]" w]
@@ -60,11 +58,16 @@ proc save_alarms {} {
 		puts $file_id "$var_attribute $var_value"
 	}
 	close $file_id
-	unset alarms 
+#	unset alarms 
    
    } else {
-       #puts "erasing alarms file"
-	#catch { exec rm [file join ${HOME} alarms] } res
+	if {$tcl_platform(platform) == "unix"} {
+		set file_id [open "[file join ${HOME} alarms]" w 00600]
+	} else {
+	        set file_id [open "[file join ${HOME} alarms]" w]
+	}
+	puts $file_id "amsn_alarm_version 1"
+	close $file_id
    }
 }
 
