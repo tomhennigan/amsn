@@ -1,3 +1,4 @@
+q
 amsn_lang_version 2
 about Sobre
 accept Acceptar
@@ -39,6 +40,7 @@ browse Navegar
 browser Navegador
 busy Ocupat
 cancel Cancel·la
+cannotdeleteprofile No es pot eliminar el perfil, sembla que està sent utilitzat per una altra sessió Amsn
 cfgalarm Configurar l'alarma per aquest usuari
 changefont Canviar font
 changenick Canviar el meu sobrenom
@@ -233,6 +235,7 @@ prefsession Inici de sessió
 prefshared Connexions compartides (només per NAT)
 prefsound So
 profiledconfig Configuració de perfil
+profileinuse Aquest perfil està sent utilitzat per una altra sessió Amsn. Per favor, escolliu-ne un altre
 profiles Perfils
 properties Propietats
 proxyconfhttp Configuració del suport per al servidor intermediari HTTP

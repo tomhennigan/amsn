@@ -39,6 +39,7 @@ browse Naviguer
 browser Navigateur web
 busy Occupé
 cancel Annuler
+cannotdeleteprofile le profil ne peut être supprimé car il semble utilisé par une session Amsn
 cfgalarm Configurer/Ajouter/Supprimer alarme
 changefont Changer la police
 changenick Changer de pseudonyme
@@ -234,6 +235,7 @@ prefsession Ma connexion et mon statut
 prefshared Connexions partagées (Seulement pour NAT)
 prefsound Sons
 profiledconfig Configuration par profils
+profileinuse Profil actuellement utilisé par une autre session Amsn. Veuillez choisir un autre profil.
 profiles Profils
 properties Propriétés
 proxyconf Configuration du proxy
@@ -282,7 +284,7 @@ textsize Taille du texte
 title Al's Messenger
 to À
 tools Outils
-transnotexists	Le fichier demandé n'est pas encore été traduit dans votre langue
+transnotexists	Le fichier demandé n'a pas encore été traduit dans votre langue
 unblock Débloquer
 uoffline Déconnectés
 uonline Connectés
