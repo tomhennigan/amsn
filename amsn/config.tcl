@@ -65,6 +65,7 @@ set config(keepalive) 0
 set config(notifywin) 1
 set config(natip) 0
 set config(dock) 0
+set config(autoconnect) 0
 
 set password ""
 

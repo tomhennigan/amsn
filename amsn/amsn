@@ -462,7 +462,7 @@ proc cmsn_draw_main {} {
    menu .dock_menu -tearoff 0 -type normal
    .dock_menu add radio -label "[trans dockingoff]" -value 0 -variable config(dock) -command "init_dock"
    .dock_menu add radio -label "[trans dockgtk]" -value 1 -variable config(dock) -command "init_dock"
-   .dock_menu add radio -label "[trans dockkde]" -value 2 -variable config(dock) -command "init_dock"
+   #.dock_menu add radio -label "[trans dockkde]" -value 2 -variable config(dock) -command "init_dock"
 
    .options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
    #Let's disable adverts until it works, it's only problems for know
@@ -473,6 +473,7 @@ proc cmsn_draw_main {} {
    .options add checkbutton -label "[trans autoidle]" -onvalue 1 -offvalue 0 -variable config(autoidle)
    .options add checkbutton -label "[trans notifywin]" -onvalue 1 -offvalue 0 -variable config(notifywin)
    .options add checkbutton -label "[trans startoffline]" -onvalue 1 -offvalue 0 -variable config(startoffline) 
+   .options add checkbutton -label "[trans autoconnect]" -onvalue 1 -offvalue 0 -variable config(autoconnect) 
    .options add checkbutton -label "[trans chatsmileys]" -onvalue 1 -offvalue 0 -variable config(chatsmileys)
    .options add checkbutton -label "[trans listsmileys]" -onvalue 1 -offvalue 0 -variable config(listsmileys)
    .options add checkbutton -label "[trans keepalive]" -onvalue 1 -offvalue 0 -variable config(keepalive) -command "::MSN::TogglePolling"
@@ -1401,13 +1402,19 @@ proc login_ok {} {
 proc cmsn_draw_msgwin {email} {
    global images_folder sb_num sb_list config HOME files_dir msg_windows
 
+   status_log "MWB: Entering cmsn_draw_msgwin\n" white
+
    incr sb_num
    set name "sb$sb_num"
    set win_name "msg_[string tolower ${name}]"
-   
+
    set msg_windows([string tolower ${email}]) $name
 
+   status_log "MWB:   msg_windows([string tolower ${email}]) is now $name\n" white
+
    lappend sb_list "$name"
+
+   status_log "MWB:   sb_list is now $sb_list\n" white
    sb set $name name $name
    sb set $name sock ""
    sb set $name data [list]
@@ -1567,6 +1574,8 @@ proc cmsn_draw_msgwin {email} {
    focus .${win_name}.in.input
 
    change_myfontsize $config(textsize) ${win_name}
+   
+   status_log "MWB: returning from cmsn_draw_msgwin\n" white
    return ${name}
 
 }
@@ -1580,7 +1589,7 @@ proc copy { cut window } {
 proc paste { window } {
 	catch { set contents [ selection get -selection CLIPBOARD ] }
     	catch { set point [ .$window.in.input index insert ] }
-    	catch { .$window.in.input insert $point $contents } 
+    	catch { .$window.in.input insert $point $contents }
 }
 
 
@@ -1640,11 +1649,14 @@ proc change_myfontsize {size name} {
 proc cmsn_destroyed_msgwin {name winpath email} {
    global sb_list ${name}_info config msg_windows
 
+
    set win_name "msg_[string tolower ${name}]"
 
    if {"${winpath}" != ".${win_name}"} {
       return 0
    }
+
+   status_log "MWB: Entering cmsn_destroyed_msgwin\n" white
 
    set idx [lsearch -exact $sb_list $name]
    if {$idx == -1} {
@@ -1667,10 +1679,13 @@ proc cmsn_destroyed_msgwin {name winpath email} {
    unset ${name}_info
 
    if { [info exists msg_windows([string tolower ${email}])] } {
+      status_log "MWB:   msg_windows([string tolower ${email}]) exists\n" white
       if {"${name}" == "$msg_windows([string tolower ${email}])"} {
-        unset msg_windows([string tolower ${email}])
+        status_log "MWB:   and its value is ${name} (same of this window), unsetting msg_windows\n" white
+	 unset msg_windows([string tolower ${email}])
       }
    }
+   status_log "MWB: returning cmsn_destroyed_msgwin with no return value\n" white
 }
 
 proc cmsn_show_typers {name} {
@@ -1688,7 +1703,7 @@ proc cmsn_show_typers {name} {
          set statusmsg "[trans lastmsgtime $lasttime]"
       } res
    } else {
-     
+
       upvar #0 [sb name $name typers] typers_list
       set statusmsg ""
       
@@ -2335,12 +2350,15 @@ proc cmsn_sb_sessionclosed {sbn} {
 proc cmsn_update_users {sb_name recv} {
    global config msg_windows
 
+   status_log "MWB: entering cmsn_update_users(${sb_name},$recv)\n" white
+
    switch [lindex $recv 0] {
       BYE { if {[sb get $sb_name stat] != "d"} {
          set leaves [sb search $sb_name users "[lindex $recv 1] *"]
 	 sb ldel $sb_name users $leaves
+	 status_log "MWB:   User [lindex $recv 1] leaves. Setting it as last user\n" white
 	 sb set $sb_name last_user [lindex $recv 1]
-	 
+
 	 set win_name "msg_[string tolower ${sb_name}]"
          set timestamp [clock format [clock seconds] -format %H:%M]
          set statusmsg "\[$timestamp\] [trans leaves [lindex $recv 1]]\n"
@@ -2354,7 +2372,7 @@ proc cmsn_update_users {sb_name recv} {
 	 set usr_login [string tolower [lindex $recv 4]]
 	 set usr_name [urldecode [lindex $recv 5]]
 	 sb append $sb_name users [list $usr_login $usr_name]
-         
+
 	 set win_name "msg_[string tolower ${sb_name}]"
          set timestamp [clock format [clock seconds] -format %H:%M]
 	 set statusmsg "\[$timestamp\] [trans joins $usr_name]\n"
@@ -2369,7 +2387,7 @@ proc cmsn_update_users {sb_name recv} {
 	 set usr_login [string tolower [lindex $recv 1]]
 	 set usr_name [urldecode [lindex $recv 2]]
 	 sb append $sb_name users [list $usr_login $usr_name]
-         
+
 	 set win_name "msg_[string tolower ${sb_name}]"
          set timestamp [clock format [clock seconds] -format %H:%M]
 	 set statusmsg "\[$timestamp\] [trans joins $usr_name]\n"
@@ -2380,10 +2398,12 @@ proc cmsn_update_users {sb_name recv} {
       }
    }
 
+
    if {[sb exists $sb_name log_fcid]} {
       close [sb get $sb_name log_fcid]
       sb unset $sb_name log_fcid
    }
+
    if {$config(keep_logs) && [sb length $sb_name users]} {	;# LOGS!
       global log_dir
       upvar #0 [sb name $sb_name users] tmp_users_list
@@ -2400,7 +2420,9 @@ proc cmsn_update_users {sb_name recv} {
 
    cmsn_msgwin_title $sb_name
    set win_name "msg_[string tolower ${sb_name}]"
+
    if {[sb length $sb_name users] > 0} {
+
       .${win_name}.in.input configure -state normal
       .${win_name}.in.send configure -state normal
 
@@ -2414,7 +2436,7 @@ proc cmsn_update_users {sb_name recv} {
    } else {
 
      .${win_name}.menu.msn entryconfigure 3 -state disabled
-     .${win_name}.menu.actions entryconfigure 5 -state disabled   
+     .${win_name}.menu.actions entryconfigure 5 -state disabled
 
       if {[sb get $sb_name stat] != "d"} { sb set $sb_name stat "n" }
       .${win_name}.in.send configure -state disabled
@@ -2425,26 +2447,36 @@ proc cmsn_update_users {sb_name recv} {
    }
 
    upvar #0 [sb name $sb_name users] sb_users
+
    if { [llength $sb_users] > 1 } {
-   foreach usrinfo $sb_users {
+     status_log "MWB:   more than 1 user in chat\n" white
+     foreach usrinfo $sb_users {
       	set temp [lindex $usrinfo 0]
-   	status_log "temp is : $temp \n"
+   	status_log "MWB:   temp is : $temp \n"
    	if { [info exists msg_windows([string tolower ${temp}])]} {
-		if { $msg_windows([string tolower ${temp}]) == $sb_name } {
-   			status_log "unsetting\n"
-			unset msg_windows([string tolower ${temp}])
-		}
+         status_log "MWB:   msg_windows([string tolower ${temp}]) exists\n" white
+         if { $msg_windows([string tolower ${temp}]) == $sb_name } {
+           status_log "MWB:   msg_windows([string tolower ${temp}]) value is the same as window ($sb_name), unsetting\n" white
+           unset msg_windows([string tolower ${temp}])
+         }
 	}
-   }
+     }
    } elseif { [llength $sb_users] == 1 } {
-   foreach usrinfo $sb_users {
+     status_log "MWB:   just 1 user in chat\n" white
+     foreach usrinfo $sb_users {
    	set temp [lindex $usrinfo 0]
 	if {[info exists msg_windows([string tolower ${temp}])] == 0} {
+	  status_log "MWB:   msg_windows([string tolower ${temp}]) doesn't exist, setting to this window ($sb_name)\n" white
 	  set msg_windows([string tolower ${temp}]) $sb_name
+	} else {
+	  status_log "MWB:   msg_windows([string tolower ${temp}]) exists, don't touch it\n" white
 	}
-   }
+     }
+   } else {
+     status_log "MWB:   no users in chat\n" white
    }
 
+   status_log "MWB: exiting cmsn_update_users(${sb_name},$recv)\n" white
 }
 
 
@@ -2657,4 +2689,6 @@ if {$version != $config(last_client_version)} {
 
 init_dock
 
-#::MSN::connect $config(login) password
+if { $config(autoconnect) == 1 } {
+  ::MSN::connect $config(login) password
+}

@@ -316,7 +316,7 @@ namespace eval ::MSN {
    #New protocol by AIM, challenges
    proc AnswerChallenge { item } {
       if { [lindex $item 1] != 0 } {
-        status_log "Invalid challenge\n" white
+        status_log "Invalid challenge\n" red
       } else {
         set cadenita [lindex $item 2]Q1P7W2E4J9R8U3S5
         set cadenita [::md5::md5 $cadenita]
@@ -394,7 +394,7 @@ namespace eval ::MSN {
 
       lappend atransfer($cookie) $sockid
 
-      status_log "Conexión aceptada sockid: $sockid hostaddr: $hostaddr port: $hostport\n" white
+      status_log "Conexión aceptada sockid: $sockid hostaddr: $hostaddr port: $hostport\n" black
       fconfigure $sockid -blocking 1 -buffering none -translation {binary binary}
 
       gets $sockid tmpdata
@@ -951,7 +951,7 @@ proc cmsn_sb_msg {sb_name recv} {
 	set data [aim_get_str $body $requestdata]
 	
 	if { $data == "" } {
-  	  status_log "Invitation cookie $cookie ACCEPTED\n" white
+  	  status_log "Invitation cookie $cookie ACCEPTED\n" black
 	  ::MSN::SendFile $cookie $sb_name  
 	} else {
 	  set ipaddr $data
@@ -974,7 +974,7 @@ proc cmsn_sb_msg {sb_name recv} {
 	 set cookie [aim_get_str $body Invitation-Cookie]
 	 set filename [aim_get_str $body Application-File]	 
 	 set filesize [aim_get_str $body Application-FileSize]
-	 status_log "Invited to $app\n" white
+	 status_log "Invited to $app\n" black
 	 status_log "$body\n" black
 
          set fromlogin [lindex $recv 1]	 
@@ -986,10 +986,10 @@ proc cmsn_sb_msg {sb_name recv} {
          }
 	
       } else {
-        status_log "Unknown invitation!!\n" white
+        status_log "Unknown invitation!!\n" black
       }
    } else {
-      status_log "=== UNKNOWN MSG ===\n$msg\n" white
+      status_log "=== UNKNOWN MSG ===\n$msg\n" red
    }
 
 }
@@ -1034,35 +1034,40 @@ proc cmsn_sb_handler {sb_name item} {
 }
 
 proc cmsn_invite_user {name user} {
-   status_log "$name: Inviting $user\n" green
+   status_log "MWB:   $name: Inviting $user (in cmsn_invite_user)\n" white
    ::MSN::WriteSB $name "CAL" $user
 }
 
 proc cmsn_chat_user {user} {
    global msg_windows
 
+   status_log "MWB: Entering cmsn_chat_user($user)\n" white
+
    if { ([::MSN::myStatusIs] == "HDN") || ([::MSN::myStatusIs] == "FLN") } {
        msg_box "[trans needonline]"
        return
    }
-   
+
    set lowuser [string tolower ${user}]
-   
+
    if { [info exists msg_windows(${lowuser})] } {
+       status_log "MWB:   msg_windows(${lowuser}) exists, value = $msg_windows(${lowuser})\n" white
 	wm state .msg_$msg_windows($lowuser) normal
 	wm deiconify .msg_$msg_windows($lowuser)
    	raise .msg_$msg_windows($lowuser)
    	focus .msg_$msg_windows($lowuser).in.input
 	upvar #0 [sb name $msg_windows($lowuser) users] users_list
 	if { [llength $users_list] == 0 } {
+              status_log "MWB:   no users, reconnecting\n" white
 		cmsn_reconnect $msg_windows($lowuser)
 	}
+	status_log "MWB: Exiting cmsn_chat_user($user)\n" white
 	return 0
    }
-	
+
    set name [cmsn_draw_msgwin $user]
 
-   status_log "name is : $name"
+   status_log "MWB:   msg_windows(${lowuser}) didn't exist, got new sb = $name \n" white
    if { $name == 0 } {
    	return
    }
@@ -1070,7 +1075,7 @@ proc cmsn_chat_user {user} {
    sb set $name stat "r"
    sb set $name invite $user
 
-   status_log "$name: CHAT1 Talking with $user\n" green
+   status_log "MWB:   $name: CHAT1 Talking with $user\n" white
    ::MSN::WriteNS "XFR" "SB" "cmsn_open_sb $name"
    
    cmsn_msgwin_top $name "[trans chatreq]..."
@@ -1078,10 +1083,12 @@ proc cmsn_chat_user {user} {
 #     msg_box "Ventana de chat ya cerrada"
 #      puts [sb get $name sock] "OUT"
 #      close [sb get $name sock]
-#   } 
+#   }
 
    set win_name "msg_[string tolower ${name}]"
    wm state .${win_name} normal
+
+   status_log "MWB: Exiting cmsn_chat_user($user)\n" white
 
 }
 
@@ -1106,19 +1113,46 @@ proc cmsn_open_sb {sbn recv} {
 }
 
 proc cmsn_rng {recv} {
-   global config msg_windows
+   global config msg_windows sb_list
 
-   set emaill [lindex $recv 5]
+   set emaill [string lower [lindex $recv 5]]
+
+   status_log "MWB: entering cmsn_rng($recv)\n" white
 
    if { [info exists msg_windows($emaill)] } {
+
    	set sbn $msg_windows($emaill)
-	
-	catch { close [sb get $sbn sock] }
+       status_log "MWB:   A window for that user already exists: $sbn\n" white
+	#catch { close [sb get $sbn sock] }
+       #We leave the switchboard if it exists
+
+       set idx [lsearch -exact $sb_list $sbn]
+
+       if {$idx == -1} {
+         status_log "MWB:   tried to destroy unknown SB $sbn\n" white
+
+       } else {
+
+         set sb_list [lreplace $sb_list $idx $idx]
+         if {[sb get $name stat] != "d"} {
+           catch {
+           puts [sb get $name sock] "OUT"
+           close [sb get $name sock]
+           } res
+         }
+
+         #if {$config(keep_logs) && [sb exists $name log_fcid]} {		;# LOGS!
+         #  close [sb get $name log_fcid]
+         #}
+	  global ${name}_info
+         unset ${name}_info
+       }
 
    } else {
    	set sbn [cmsn_draw_msgwin $emaill]
+       status_log "MWB:   Getting a new window: $sbn\n" white
    }
-   
+
    sb set $sbn serv [split [lindex $recv 2] ":"]
    sb set $sbn connected "cmsn_conn_ans $sbn"
    sb set $sbn readable "read_sb_sock $sbn"
@@ -1127,7 +1161,7 @@ proc cmsn_rng {recv} {
 
    status_log "$sbn: ANS1 answering [lindex $recv 5]\n" green
    cmsn_msgwin_top $sbn "[trans chatack] [lindex $recv 5]..."
-   
+
    cmsn_socket $sbn
    return 0
 }
@@ -1146,7 +1180,7 @@ proc cmsn_open_sb {sbn recv} {
    sb set $sbn auth_cmd "USR"
    sb set $sbn auth_param "$config(login) [lindex $recv 5]"
 
-   status_log "$sbn: CHAT2: connecting to Switch Board [lindex $recv 3]\n"   
+   status_log "MWB:   $sbn: CHAT2: connecting to Switch Board [lindex $recv 3]\n"   
 
 
    if {[catch { cmsn_msgwin_top $sbn "[trans sbcon]..."} res]}  {
@@ -1190,7 +1224,7 @@ proc cmsn_reconnect {name} {
          "[trans reconnect [sb get $name last_user]]..."
    } elseif {[sb get $name stat] == "d"} {
 
- 	status_log "Calling reconnect with d tag"
+ 	status_log "Calling reconnect with d tag\n"
    
       sb set $name stat "rc"
       sb set $name invite [lindex [sb get $name last_user] 0]
@@ -1239,7 +1273,7 @@ proc cmsn_ns_handler {item} {
       }
       REA {
          global user_info config
-	      status_log "Item: $item\n" white
+	      #status_log "Item: $item\n" white
 	      if { [lindex $item 3] == $config(login) } {
             set user_info $item
    	      cmsn_draw_online
@@ -1704,7 +1738,7 @@ proc cmsn_socket {name} {
       sb set $name stat "cw"
    }
 
-     status_log "HSiiiiiiit\n$readable_handler"
+     status_log "MWB:  Readable handler in cmn_socket: $readable_handler\n" white
 
      set sock [socket -async $tmp_serv $tmp_port]
      sb set $name sock $sock
