@@ -227,6 +227,7 @@ proc selectskinok { w } {
 	status_log "Chose skin No $skinidx : $skin\n"
 	config::setGlobalKey skin $skin
 	save_config
+	::config::saveGlobal
 	msg_box [trans mustrestart]
 
 	destroy $w
