@@ -25,7 +25,7 @@ namespace eval ::amsnplus {
 		#	list [list bool "Colour Nicks?" colour_nicks] \
 		#]
 		#register events
-		::plugins::RegisterEvent "aMSN Plus" UserNameWritten parse_nick
+		#::plugins::RegisterEvent "aMSN Plus" UserNameWritten parse_nick
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_send parseCommand
 	}
 
