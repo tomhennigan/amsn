@@ -2641,7 +2641,7 @@ proc cmsn_draw_main {} {
      -menu .my_menu -state disabled
    .main_menu.file add separator
    .main_menu.file add command -label "[trans inbox]" -command \
-     "hotmail_login $config(login) $password"
+     "hotmail_login [list $config(login)] [list $password]"
    .main_menu.file add separator
    .main_menu.file add command -label "[trans savecontacts]..." \
    	-command "debug_cmd_lists -export" -state disabled
@@ -3735,7 +3735,7 @@ proc cmsn_draw_online { {delay 0} } {
 
 	#Set up TAGS for mail notification
 	$pgBuddy.text tag conf mail -fore black -underline true -font splainf
-	$pgBuddy.text tag bind mail <Button1-ButtonRelease> "hotmail_login $config(login) $password"
+	$pgBuddy.text tag bind mail <Button1-ButtonRelease> "hotmail_login [list $config(login)] [list $password]"
 	$pgBuddy.text tag bind mail <Enter> \
 		"$pgBuddy.text tag conf mail -under false;$pgBuddy.text conf -cursor hand2"
 	$pgBuddy.text tag bind mail <Leave> \
@@ -3865,7 +3865,7 @@ proc cmsn_draw_online { {delay 0} } {
 	$pgBuddy.text insert end "\n"
 
 	# Show Mail Notification status
-	clickableImage $pgBuddy.text mailbox mailbox {hotmail_login $config(login) $password} 5 0
+	clickableImage $pgBuddy.text mailbox mailbox "hotmail_login [list $config(login)] [list $password]" 5 0
 
 	set unread [::hotmail::unreadMessages]
 
@@ -5200,7 +5200,7 @@ proc show_umenu {user_login grId x y} {
    .user_menu add command -label "[trans sendmail]" \
       -command "launch_mailer $user_login"
    .user_menu add command -label "[trans viewprofile]" \
-      -command "::hotmail::viewProfile ${user_login}"
+      -command "::hotmail::viewProfile [list ${user_login}]"
    .user_menu add command -label "[trans history]" \
       -command "::log::OpenLogWin ${user_login}"
    .user_menu add separator
