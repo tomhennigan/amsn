@@ -4708,6 +4708,7 @@ proc cmsn_draw_online_wrapped {} {
 	#Change button mouse on Mac OS X
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		$pgBuddy.text.mystatus tag bind mystatus <Button2-ButtonRelease> "tk_popup .my_menu %X %Y"
+		$pgBuddy.text.mystatus tag bind mystatus <Control-ButtonRelease> "tk_popup .my_menu %X %Y"
 	} else {
 		$pgBuddy.text.mystatus tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
 	}
