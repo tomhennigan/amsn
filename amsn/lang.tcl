@@ -28,6 +28,56 @@ proc scan_languages {} {
 
 }
 
+proc detect_language { {default "en"} } {
+	global env
+	if { ![info exists env(LANG)] } {
+		return $default
+	}
+	
+	set system_language [string tolower $env(LANG)]
+	set idx [string first "@" $system_language]
+	#Remove @euro thing or similar
+	if { $idx != -1 } {
+		incr idx -1
+		set system_language [string range $system_language 0 $idx]
+	}
+	
+	if { [language_in_list $system_language] } {
+		return $system_language
+	}
+	
+	set idx [string first "_" $system_language]
+	#Remove _variant thing, like BR in pt_BR
+	if { $idx != -1 } {
+		incr idx -1
+		set system_language [string range $system_language 0 $idx]
+	}
+	if { [language_in_list $system_language] } {
+		return $system_language
+	}
+	
+	return $default
+}
+
+proc language_in_list { lang_name } {
+	global lang_list
+	
+	if {![info exists lang_list]} {
+		scan_languages
+	}
+	
+	foreach lang_desc $lang_list {
+		set lang_short [lindex $lang_desc 0]
+		if {[string compare $lang_short $lang_name] == 0 } {
+			status_log "Language \"$lang_name\" is in available languages, using it\n" blue
+			return 1
+		}
+		
+	}
+	
+	return 0
+}
+
 proc trans {msg args} {
 	global lang
 	for {set i 1} {$i <= [llength $args]} {incr i} {
