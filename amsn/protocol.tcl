@@ -1067,7 +1067,7 @@ proc cmsn_ns_handler {item} {
       ADD -
       LST {
          cmsn_listupdate $item
-	 if { [lindex $item 0] == "ADD" } {
+	 if { ([lindex $item 0] == "ADD") && ([lindex $item 2] == "FL") } {
 	     set contact [lindex $item 4]	;# Email address
 	     set addtrid [lindex $item 3]	;# Transaction ID
 	     msg_box "[trans contactadded]\n$contact"
@@ -1154,6 +1154,7 @@ proc cmsn_ns_handler {item} {
       }
       201 {
           status_log "Error: Invalid parameter\n" red
+	  msg_box "[trans contactdoesnotexist]"
           return 0
       }
       205 {
