@@ -4,6 +4,27 @@
 # New skin selector by Alberto (yozko) on 01/19/2004
 #########################################################
 
+namespace eval ::skin {
+	proc setImage {image_name image_file} {
+		variable loaded_images
+		variable image_names
+		image create photo $image_name -file [GetSkinFile pixmaps $image_file] -format gif
+		set loaded_images($image_name) 1
+		set image_names($image_name) $image_file
+	}
+	
+	proc loadImage {image_name} {
+	}
+	
+	proc reloadSkin { {skin_name ""} } {
+		variable loaded_images
+		variable image_names
+		foreach name [array names loaded_images] {
+			image create photo $name -file [GetSkinFile pixmaps $image_names($name) $skin_name] -format gif
+		}
+		
+	}
+}
 
 proc GetSkinFile { type filename {skin_override ""} } {
     global HOME2 HOME
@@ -122,7 +143,7 @@ proc SelectSkinGui { } {
 	set idx 0
 
 	button $w.ok -text "[trans ok]" -command "selectskinok $w" -font sboldf
-	button $w.cancel -text "[trans cancel]" -command "destroy $w" -font sboldf
+	button $w.cancel -text "[trans cancel]" -command "selectskincancel $w" -font sboldf
 
 	pack $w.ok  $w.cancel -side right -pady 5 -padx 5
 
@@ -195,6 +216,8 @@ proc applychanges { } {
 	$w.main.left.desc delete 0.0 end
 	$w.main.left.desc insert end "[trans description]\n\n$currentdesc"
 	$w.main.left.desc configure -state disabled
+	
+	::skin::reloadSkin $currentskin
 
 }
 
@@ -230,10 +253,16 @@ proc selectskinok { w } {
 	config::setGlobalKey skin $skin
 	save_config
 	::config::saveGlobal
-	msg_box [trans mustrestart]
+	::skin::reloadSkin
+	#msg_box [trans mustrestart]
 
 	destroy $w
     }
+}
+
+proc selectskincancel { w } {
+	::skin::reloadSkin
+	destroy $w
 }
 
 

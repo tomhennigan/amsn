@@ -3771,57 +3771,54 @@ proc cmsn_draw_main {} {
 	}
 	# End of Notebook Creation/Initialization
 
-	image create photo msndroid -file [GetSkinFile pixmaps msnbot.gif]
-	image create photo online -file [GetSkinFile pixmaps online.gif]
-	image create photo offline -file [GetSkinFile pixmaps offline.gif]
-	image create photo away -file [GetSkinFile pixmaps away.gif]
-	image create photo busy -file [GetSkinFile pixmaps busy.gif]
-
-	image create photo bonline -file [GetSkinFile pixmaps bonline.gif]
-	image create photo boffline -file [GetSkinFile pixmaps boffline.gif]
-	image create photo baway -file [GetSkinFile pixmaps baway.gif]
-	image create photo bbusy -file [GetSkinFile pixmaps bbusy.gif]
-
-	image create photo mailbox -file [GetSkinFile pixmaps unread.gif]
-
-	image create photo contract -file [GetSkinFile pixmaps contract.gif]
-	image create photo expand -file [GetSkinFile pixmaps expand.gif]
-
-	image create photo globe -file [GetSkinFile pixmaps globe.gif]
-	image create photo download -file [GetSkinFile pixmaps download.gif]
-	image create photo warning -file [GetSkinFile pixmaps warning.gif]
-
-	image create photo typingimg -file [GetSkinFile pixmaps typing.gif]
-	image create photo miniinfo -file [GetSkinFile pixmaps miniinfo.gif]
-	image create photo miniwarning -file [GetSkinFile pixmaps miniwarn.gif]
-	image create photo minijoins -file [GetSkinFile pixmaps minijoins.gif]
-	image create photo minileaves -file [GetSkinFile pixmaps minileaves.gif]
-
-
-	image create photo butsmile -file [GetSkinFile pixmaps butsmile.gif]
-	image create photo butfont -file [GetSkinFile pixmaps butfont.gif]
-	image create photo butblock -file [GetSkinFile pixmaps butblock.gif]
-	image create photo butsend -file [GetSkinFile pixmaps butsend.gif]
-	image create photo butinvite -file [GetSkinFile pixmaps butinvite.gif]
-	image create photo sendbutton -file [GetSkinFile pixmaps sendbut.gif]
-
-
-	image create photo fticon -file [GetSkinFile pixmaps fticon.gif]
-	image create photo ftreject -file [GetSkinFile pixmaps ftreject.gif]
-
-	image create photo notifico -file [GetSkinFile pixmaps notifico.gif]
-	image create photo notifclose -file [GetSkinFile pixmaps notifclose.gif]
-	image create photo notifyonline -file [GetSkinFile pixmaps notifyonline.gif] -format gif
-	image create photo notifyoffline -file [GetSkinFile pixmaps notifyoffline.gif] -format gif
-	image create photo notifystate -file [GetSkinFile pixmaps notifystate.gif] -format gif
-
-
-	image create photo blocked -file [GetSkinFile pixmaps blocked.gif]
-
-	image create photo colorbar -file [GetSkinFile pixmaps colorbar.gif]
-
-	image create photo imgshow -file [GetSkinFile pixmaps imgshow.gif]
-	image create photo imghide -file [GetSkinFile pixmaps imghide.gif]
+	#New image proxy system
+	::skin::setImage msndroid msnbot.gif
+	::skin::setImage online online.gif
+	::skin::setImage offline offline.gif
+	::skin::setImage away away.gif
+	::skin::setImage busy busy.gif
+	
+	::skin::setImage bonline bonline.gif
+	::skin::setImage boffline boffline.gif
+	::skin::setImage baway baway.gif
+	::skin::setImage bbusy bbusy.gif
+	
+	::skin::setImage mailbox unread.gif
+	
+	::skin::setImage contract contract.gif
+	::skin::setImage expand expand.gif
+	
+	::skin::setImage globe globe.gif
+	::skin::setImage download download.gif
+	::skin::setImage warning warning.gif
+	
+	::skin::setImage typingimg typing.gif
+	::skin::setImage miniinfo miniinfo.gif
+	::skin::setImage miniwarning miniwarn.gif
+	::skin::setImage minijoins minijoins.gif
+	::skin::setImage minileaves minileaves.gif
+	
+	::skin::setImage butsmile butsmile.gif
+	::skin::setImage butfont butfont.gif
+	::skin::setImage butblock butblock.gif
+	::skin::setImage butsend butsend.gif
+	::skin::setImage butinvite butinvite.gif
+	::skin::setImage sendbutton sendbut.gif
+	::skin::setImage imgshow imgshow.gif
+	::skin::setImage imghide imghide.gif
+	
+	::skin::setImage fticon fticon.gif
+	::skin::setImage ftreject ftreject.gif
+	
+	::skin::setImage notifico notifico.gi
+	::skin::setImage notifclose notifclose.gif
+	::skin::setImage notifyonline notifyonline.gif
+	::skin::setImage notifyoffline notifyoffline.gif
+	::skin::setImage notifystate notifystate.gif
+	
+	::skin::setImage blocked blocked.gif
+	::skin::setImage colorbar colorbar.gif
+	
 
 	set barwidth [image width colorbar]
 	set barheight [image height colorbar]
