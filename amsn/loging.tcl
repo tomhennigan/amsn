@@ -452,7 +452,7 @@ proc OpenLogWin { email } {
 	pack $wname.buttons.save -padx 0 -side right
 	pack $wname.buttons.clear -padx 0 -side right
 	pack $wname.buttons -side bottom -fill x -pady 3
-	bind $wname <Escape> "destroy $wname"
+	bind $wname <<Escape>> "destroy $wname"
 	bind ${wname}.blueframe.log.txt <Button3-ButtonRelease> "tk_popup ${wname}.copypaste %X %Y"
 	bind ${wname} <Control-c> "tk_textCopy ${wname}.blueframe.log.txt"
 }
