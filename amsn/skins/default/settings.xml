@@ -19,9 +19,9 @@
 
 	<General>
 		<Colors>
-			<balloonbgcolor>#daeafe</balloonbgcolor>
-			<balloonbordercolor>#2e8afe</balloonbordercolor>
-			<balloontextcolor>#000000</balloontextcolor>
+			<balloonbackground>#daeafe</balloonbackground>
+			<balloonborder>#2e8afe</balloonborder>
+			<balloontext>#000000</balloontext>
 		</Colors>
 		<Geometry>
 			<notifwidth>150</notifwidth>
