@@ -1,11 +1,12 @@
+proc hotmail_login {userlogin {pass ""}} {
+# Note: pass can be empty, so user must enter password in the login
+# page.
 #
 # $Id$
 #
-
-proc hotmail_login {userlogin pass} {
   global tcl_platform HOME program_dir config
 
-  if {$config(autohotlogin)} {
+  if {($config(autohotlogin)) && ($pass != "")} {
 
     set read_id [open "${program_dir}/hotmlog.htm" r]
 
