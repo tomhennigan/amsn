@@ -39,14 +39,15 @@ package require http
 # Initialize the Advertisement module (hey! need bread on the table!)
 #
 proc adv_initialize { win } {
-    global adv_cycle adv_enable adv_paused adv_after_id
+    global adv_cycle adv_enable adv_paused adv_after_id bgcolor
 
-    image create photo banner
+#    image create photo banner
 #    banner blank
 
-    label ${win}.banner -bd 0 -relief flat -background #FFFFFF
+#    label ${win}.banner -bd 0 -relief flat -background #FFFFFF
+    label ${win}.banner -bd 0 -relief flat -background $bgcolor
     pack ${win}.banner -side bottom -fill x
-    ${win}.banner configure -image banner
+#    ${win}.banner configure -image banner
 
     # Banner is clickable, but so far no way to get the URL
     # that corresponds to that banner
@@ -59,6 +60,20 @@ proc adv_initialize { win } {
         set adv_after_id [after $adv_cycle adv_fetch]
     }
 }
+
+# Reset the banner, either showing it or hiding it
+proc resetBanner {} {
+
+	if {[::config::getKey enablebanner]} {
+		# This one is not a banner but a branding. When adverts are enabled
+		# they share this space with the branding image. The branding image
+		# is cycled in between adverts.
+		.main.banner configure -image [::skin::loadPixmap logolinmsn]
+	} else {
+		.main.banner configure -image [::skin::loadPixmap nullimage]
+	}
+}
+
 
 # Progress callback for the HTTP advertisement module
 proc adv_progress {token total current} {

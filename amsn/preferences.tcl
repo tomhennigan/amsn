@@ -1324,6 +1324,9 @@ proc SavePreferences {} {
     if { [::MSN::myStatusIs] != "FLN" } {
        cmsn_draw_online
     }
+    
+    #Reset the banner incase the option changed
+    resetBanner
 
 }
 

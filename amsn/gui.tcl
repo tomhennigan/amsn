@@ -3835,6 +3835,13 @@ proc cmsn_draw_main {} {
 
 	::skin::setPixmap notinlist notinlist.gif
 	
+	::skin::setPixmap nullimage null
+	if { $tcl_platform(os) == "Darwin" } {
+		::skin::setPixmap logolinmsn logomacmsn.gif
+	} else {
+		::skin::setPixmap logolinmsn logolinmsn.gif
+	}
+	
 	::skin::loadPixmap colorbar
 	set barwidth [image width colorbar]
 	set barheight [image height colorbar]
@@ -3859,22 +3866,27 @@ proc cmsn_draw_main {} {
 	$pgBuddy setwidget $pgBuddy.text
 
 
-	if {$config(enablebanner)} {
+	# Initialize the banner for when the user wants to see aMSN Banner
+	adv_initialize .main
+	# Add the banner to main window when the user wants (By default "Yes")
+	resetBanner
+
+	#if {$config(enablebanner)} {
 
 		# If user wants to see aMSN Banner, we add it to main window (By default "Yes")
-		adv_initialize .main
+	#	adv_initialize .main
 
 		# This one is not a banner but a branding. When adverts are enabled
 		# they share this space with the branding image. The branding image
 		# is cycled in between adverts.
-		if {$tcl_platform(os) == "Darwin"} {
-			::skin::setPixmap banner logomacmsn.gif
+	#	if {$tcl_platform(os) == "Darwin"} {
+	#		::skin::setPixmap banner logomacmsn.gif
 			#adv_show_banner file [GetSkinFile pixmaps logomacmsn.gif]
-		} else {
-			::skin::setPixmap banner logolinmsn.gif
+	#	} else {
+	#		::skin::setPixmap banner logolinmsn.gif
 			#adv_show_banner file [GetSkinFile pixmaps logolinmsn.gif]
-		}
-	}
+	#	}
+	#}
 
 	#Command-key for "key shortcut" in Mac OS X
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {

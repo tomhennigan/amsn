@@ -538,7 +538,13 @@ proc load_config {} {
     
     if { $config(enableremote) } {
 	init_remote_DS
-    } 
+    }
+    
+    #set the banner for this user when switching users
+    global initialize_amsn
+    if { $initialize_amsn != 1 } {
+	resetBanner
+    }
     
 }
 
