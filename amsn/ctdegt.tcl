@@ -826,13 +826,17 @@ proc Preferences { { settings ""} } {
 
 
 	frame $lfname.buttons -borderwidth 0
-	button $lfname.buttons.right -text [trans movetoright] -font sboldf -command "Allow_to_Block $lfname" -width 10
-	button $lfname.buttons.left -text [trans movetoleft] -font sboldf -command "Block_to_Allow $lfname" -width 10
+	button $lfname.buttons.right -text "[trans move] -->" -font sboldf -command "Allow_to_Block $lfname" -width 10
+	button $lfname.buttons.left -text "<-- [trans move]" -font sboldf -command "Block_to_Allow $lfname" -width 10
 	pack $lfname.buttons.right $lfname.buttons.left  -side top
     
         label $lfname.status -text ""
-        checkbutton $lfname.allowall -text "[trans allowallusers]" -onvalue 1 -offvalue 0 -variable list_BLP
-        pack $lfname.status $lfname.allowall -side bottom  -anchor w -fill x
+	frame $lfname.allowframe
+        radiobutton $lfname.allowframe.allowallbutbl -text "[trans allowallbutbl]" -value 1 -variable list_BLP
+	radiobutton $lfname.allowframe.allowonlyinal -text "[trans allowonlyinal]" -value 0 -variable list_BLP
+	grid $lfname.allowframe.allowallbutbl -row 1 -column 1 -sticky w 
+	grid $lfname.allowframe.allowonlyinal -row 2 -column 1 -sticky w 
+        pack $lfname.status $lfname.allowframe -side bottom -anchor w -fill x
 	pack $lfname.allowlist $lfname.buttons $lfname.blocklist -anchor w -side left -padx 10 -pady 10 -expand 1 -fill both
 
         bind $lfname.allowlist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"allow\" %X %Y"
@@ -867,8 +871,8 @@ proc Preferences { { settings ""} } {
 
 
 	frame $lfname.buttons -borderwidth 0
-	button $lfname.buttons.right -text [trans movetonull] -font sboldf -command "Remove_Contact $lfname" -width 15
-	button $lfname.buttons.left -text [trans copytoleft] -font sboldf -command "Reverse_to_Contact $lfname" -width 15
+	button $lfname.buttons.right -text "[trans delete] -->" -font sboldf -command "Remove_Contact $lfname" -width 15
+	button $lfname.buttons.left -text "<-- [trans copy]" -font sboldf -command "Reverse_to_Contact $lfname" -width 15
 	pack $lfname.buttons.right $lfname.buttons.left -side top
 
         label $lfname.status -text ""
@@ -1280,6 +1284,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.58  2003/06/15 11:14:55  airadier
+# Updated languages and minor changes in preferences window
+#
 # Revision 1.57  2003/06/15 10:11:40  kakaroto
 # privacy listboxes resizable with the preferences window
 #

@@ -344,3 +344,16 @@ yoffset Desplazamiento Y
 youblocked Has sido bloqueado
 yousay Tú dices
 youwant Quieres
+move Mover
+internalerror Error interno del servidor
+removefromlist Borrar de esta lista
+choosecontact Por favor selecciona un contacto de la lista
+prefprivacy2 Lista de Contactos/Inversa del usuario
+prefprivacy Lista de Aceptados/Bloqueados del usuario
+allowallbutbl Permitir que todos los usuarios excepto los bloqueados me puedan contactar
+allowonlyinal Permitir sólo a los usuarios Aceptados contactar conmigo
+privacy Privacidad
+allowlist Lista de Aceptados:
+blocklist Lista de Bloqueados:
+contactlist Lista de Contactos:
+reverselist Lista Inversa:
