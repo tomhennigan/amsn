@@ -56,7 +56,11 @@ proc trayicon_init {} {
 		set config(dock) 0
 		return
 	}
-	load $ext winico
+	if { [catch {load $ext winico}] }	{
+		set config(dock) 0
+		close_dock
+		return
+	}
 	set systemtray_exist 1
 	set wintrayicon [winico create [file join $program_dir icons winicons msn.ico]]
 	winico taskbar add $wintrayicon -text "[trans offline]" -callback "taskbar_icon_handler %m %x %y"
@@ -71,7 +75,12 @@ proc trayicon_init {} {
 	}
 
 	if { $systemtray_exist == 0 && $config(dock) == 3} {
-		load $ext Tray
+		if { [catch {load $ext Tray}] }	{
+			set config(dock) 0
+			close_dock
+			return
+		}
+
 		set  systemtray_exist [systemtray_exist]; #a system tray exist?
 	}
   }
