@@ -70,6 +70,7 @@ browse Navegar
 browserexample (\$url serà substituïda per l'adreça) Ex: mozilla \$url
 browser Navegador
 busy Ocupat
+cachedpics $1 imatges agafades
 cancel Cancel·la
 cannotdeleteprofile No es pot eliminar el perfil, sembla que s'està utilitzant en una altra sessió aMSN
 cantexec No puc executar l'aplicació $1. Comprova les preferències.
@@ -130,6 +131,7 @@ corruptstates El fitxer d'estats personalitzats conté errors. Ara en crearé un d
 countrycode Codi de país o regió
 cprofile Crear perfil
 credits Crèdits
+currentdate Data actual
 custom_edit Editar emoticona personalitzada
 custom_new Afegir emoticona personalitzada
 cut Talla
@@ -276,6 +278,7 @@ login Connectar-se
 loging Connectant
 logolder Registrar només les converses que s'han realitzat en els últims
 logout Desconnectar-se
+logsbydate Ordena els registres per data (mostra l'historial molt més ràpidament)
 logsin s'acaba de connectar
 logsmileys Mostrar emoticones a la finestra d'historial de l'aMSN
 logsout s'acaba de desconnectar
@@ -436,6 +439,7 @@ server Servidor
 serverunavailable El servidor no contesta
 session Sessió
 showblockedlist Mostra'm la llista de la gent que em té bloquejat a la seva llista de contactes
+showcachedpics Mostra/Oculta les imatges mostrades agafades
 showdisplaypic2 Mostra la Imatge Mostrada quan s'obri una nova conversa
 showdisplaypic Mostra la Imatge Mostrada
 showmypic La meva Imatge Mostrada
