@@ -1350,8 +1350,13 @@ namespace eval ::plugins {
 # Update the plugin (.tcl file)
 
 	proc UpdateMain { plugin path version place URL } {
-
+	
 		global HOME HOME2
+		
+		# If we already have the lattest version
+		if { $version == 0 } {
+			return 1
+		}
 
 		set program_dir [set ::program_dir]
 		
@@ -1369,7 +1374,7 @@ namespace eval ::plugins {
 			set URL "[subst $URL]"
 			set token [::http::geturl "$URL" -timeout 10000 -binary 1]
 		} else {
-			return
+			return 0
 		}
 
 		set content [::http::data $token]
@@ -1415,7 +1420,7 @@ namespace eval ::plugins {
 				set URL "[subst $URL]"
 				set token [::http::geturl "$URL" -timeout 10000 -binary 1]
 			} else {
-				return
+				return 0
 			}
 
 			set content [::http::data $token]
@@ -1479,7 +1484,7 @@ namespace eval ::plugins {
 				set URL "[subst $URL]"
 				set token [::http::geturl "$URL" -timeout 10000 -binary 1]
 			} else {
-				return
+				return 0
 			}
 
 			set content [::http::data $token]
