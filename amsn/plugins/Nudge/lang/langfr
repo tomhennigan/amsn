@@ -1,0 +1,13 @@
+amsn_lang_version 2
+shake_receive Remuer la fenêtre lors de la réception d'un nudge
+shake_send Remuer la fenêtre lors de l'envoi d'un nudge
+shake_nudge Nombre de remous par nudge
+popup_nudge Notifier un nudge avec la fenêtre de notifications (pop-up)
+notify_send  Notifier dans la fenêtre de discussion l'envoi d'un nudge
+notify_receive Notifier dans la fenêtre de discussion l'envoi d'un nudge
+sound_send Jouer un son lors de l'envoi d'un nudge
+sound_receive Jouer un son lors de la réception d'un nudge.
+add_button Ajouter un bouton à la fenêtre de discussion pour envoyer directement un nudge
+send_nudge Envoyer un nudge
+no_nudge_support Vous ne pouvez pas envoyer un nudge car votre contact utilise un logiciel qui qui ne supporte pas les nudges
+nudge_sent Vous avez envoyé un nudge
