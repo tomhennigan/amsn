@@ -230,6 +230,7 @@ namespace eval ::config {
 			[list local displayp4context bool displayp4context] \
 			[list local p4contextprefix str p4contextprefix] \
 			[list title others] \
+			[list local activeautoupdate bool activeautoupdate] \
 			[list local allowbadwords bool allowbadwords] \
 			[list local libtls_temp folder TLS tlsexplain] \
 			[list local notifytyping bool notifytyping] \
@@ -254,6 +255,7 @@ namespace eval ::config {
 		::config::setKey leftdelimiter \[		;#Left Timestamps' delimiter  '[' by default
 		::config::setKey rightdelimiter \]		;#Right Timestamps' delimiter ']' by default
 		::config::setKey start_ns_server "messenger.hotmail.com:1863"
+		::config::setKey activeautoupdate 1		;#Active the auto update
 		::config::setKey allowbadwords 1		;#Disable censure on nicks
 		::config::setKey enablebanner 1		;#Show or Hide AMSN Banner (By default Show)
 		::config::setKey startontray 0		;#Start amsn on tray icon only (hide contact list)

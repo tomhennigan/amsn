@@ -3,6 +3,7 @@ about About
 accept Accept
 acceptfile Accept file $1, size $2? Saved in $3
 actions Actions
+activeautoupdate Active auto-update
 addacontact Add a contact
 addedyou $1 ($2) has added you to his/her contact list
 addprofile Add New Profile

@@ -6144,7 +6144,10 @@ proc check_web_version { token } {
 	}
 	::http::cleanup $token
 
-	::lang::UpdateLang
+	# Auto-update for language files
+	if { [::config::getKey activeautoupdate] } {
+		::lang::UpdateLang
+	}
 
 	return $newer
 }
