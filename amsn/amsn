@@ -38,7 +38,7 @@
 
 
 set version "0.52dev"
-set date "06/13/2002"
+set date "06/15/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -318,7 +318,7 @@ proc cmsn_draw_main {} {
 
    #Tools menu
    menu .main_menu.tools -tearoff 0 -type normal -background #D0D0E0
-   .main_menu.tools add command -label "[trans addacontact]" -command \
+   .main_menu.tools add command -label "[trans addacontact]..." -command \
      cmsn_draw_addcontact
    .main_menu.tools add cascade -label "[trans admincontacts]" -command \
      "" -state disabled
@@ -337,11 +337,13 @@ proc cmsn_draw_main {} {
    .options add command -label "[trans proxyconf]..." -command cmsn_proxy
    .options add cascade -label "[trans preferences]..." -menu .pref_menu
    .options add separator
-   .options add cascade -label "[trans language]..." -menu .lang_menu
+   .options add cascade -label "[trans language]" -menu .lang_menu
    .options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
    .options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
      -command "msg_box \"[trans mustrestart]\""
    .options add checkbutton -label "[trans autohotmaillog]" -onvalue 1 -offvalue 0 -variable config(autohotlogin)
+   .options add checkbutton -label "[trans startoffline]" -onvalue 1 -offvalue 0 \
+     -variable config(startoffline) 
    .options add checkbutton -label "[trans chatsmileys]" -onvalue 1 -offvalue 0 \
      -variable config(chatsmileys)
    .options add checkbutton -label "[trans listsmileys]" -onvalue 1 -offvalue 0 \
