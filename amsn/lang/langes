@@ -16,7 +16,6 @@ admingroups Administrar grupos
 advanced Avanzadas
 advancedprefs Configuración de opciones avanzadas
 adverts Anuncios
-#Ahora puedo poner comentarios
 alarmonconnect Activar alarma para este usuario cuando se conecte
 alarmondisconnect Activar alarma para este usuario cuando se desconecte
 alarmonmsg Activar alarma para este usuario cuando te envie un mensaje
@@ -86,7 +85,6 @@ change Cambiar
 changecustomstate Cambiar a
 changedisplaypic Cambiar imagen mostrada
 changefont Cambiar fuente
-changeglobalnick Establecer apodo global
 changeglobnick Cambiar nick personalizado globalmente
 changenick Cambiar apodo
 changestate $1 cambia su estado a $2
@@ -114,6 +112,7 @@ clearlog2 Limpiar historial para todos los contactos
 clearlog3 Limpiar todos los registros
 clearlog Limpiar historial
 clicktologin Haga click aquí para iniciar la sesión
+clientname Nombre del cliente
 close Cerrar
 closed Conversación con $1 cerrada por inactividad
 closingdocks Botón de cerrar iconifica la ventana
@@ -151,6 +150,8 @@ customnick Apodo personal
 customstyle Estilo personalizado
 cut Cortar
 date Fecha
+dateformat Cambiar formato de la fecha
+day Día
 days Días
 dcprofile No Crear Perfil
 default Configuración por defecto
@@ -324,6 +325,7 @@ maximised Maximizada
 minimised Minimizada/Iconificada
 mins minutos
 mobile Celular
+month Mes
 morepersonal Más estados ->
 move Mover
 movetogroup Mover al grupo
@@ -347,7 +349,9 @@ needonline Todavía estás/apareces desconectado
 needwinico Se necesita el archivo winico03.dll en el directorio plugins para que el icono de la bandeja funcione
 never Nunca
 newmail $1 mensajes nuevos en bandeja de entrada
+newmailfolder Tienes $1 mensajes nuevos en otras carpetas de Hotmail
 newmailfrom Nuevo correo de $1 ($2)
+newmailfromother Nuevo correo electrónico de $1 ($2) en otras carpetas
 newmsg Nuevo mensaje
 newstate Añadir estado personalizado
 newveravailable Nueva versión $1 disponible para descarga
@@ -373,6 +377,7 @@ notify1_75 Mostrar ventana de aviso cuando un contacto cambia de estado
 notify1 Mostrar ventana de aviso cuando un contacto se conecte
 notify2 Mostrar ventana de aviso cuando llegan nuevos mensajes
 notify3 Mostrar ventana de aviso al recibir un nuevo correo electrónico
+notify4 Mostrar ventana de avisos cuando llega nuevo correo a otras carpetas
 notify aviso
 notifyoffset Ajusta la posición de la ventana de aviso mediante un desplazamiento
 notifytimeout Número de milisegundos que permanece la ventana de notificaciones
@@ -499,6 +504,7 @@ smileconfig Configuración de emoticono personalizado
 smilefile Nombre del archivo
 smileintro2 Edita los siguientes campos para personalizar el emoticono (ver FAQ para más información)
 smileintro Rellena los siguientes campos para crear un emoticono personalizado (ver FAQ para más información)
+snackfailed Fallo al cargar SNACK, volviendo a configuración por defecto
 sngdblclick Un sólo click para abrir una ventana de conversación
 sound2 Reproducir sonidos cuando los contactos se conectan o envían mensajes
 soundactive Reproducir sonidos al recibir mensajes también en ventanas activas
@@ -544,6 +550,7 @@ tlsexplain Carpeta donde se encuentra el módulo TLS para tcl. Si AMSN no lo encu
 tlsinstall Asistente de instalación del módulo TLS
 tlsinstallexp AMSN ahora usa el protocolo MSNP9, que requiere utilzar una conexión\nsegura usando SSL. Para poder usar SSL, AMSN necesita un módulo llamado TLS,\nque no se pudo encontrar en su sistema. Este asistente le ayudará a descargar\ny instalar TLS. Por favor, elija su tipo de sistema para poder\ndescargar los archivos requeridos para TLS automáticamente.
 tlsinstcompleted La instalación del módulo TLS concluyó satisfactoriamente, ya deberías poder usar MSNP9. Si no funciona, es probable que no hayas escogido el tipo de módulo correcto, o que no exista una versión compilada para tu sistema.
+today Hoy
 tools Herramientas
 tooltips Activar globos de ayuda
 to Para
@@ -580,7 +587,9 @@ xmmscurrent Mostrar canción actual
 xmmserr No hay canción en reproducción, o no tienes xmms-infopipe instalado.
 xmmssend Enviar canción actual
 xoffset Desplazamiento X
+year Año
 yes Si
+yesterday Ayer
 yoffset Desplazamiento Y
 youblocked Has sido bloqueado
 yousay Tú dices
