@@ -1,12 +1,12 @@
 #
 # $Id$
+# Todo: This file is very BETA :) but it works for now :P
+#       Need to include compiling of traydock, and copy the amsn.* menu files.
 #
-# TODO
-#	- integrate to both kde & gnome, check if existing
-#	- Debian ppl should include amsn.debianmenu into debianlinks
+
 name=amsn
-version=0.62
-release=1b
+version=0.83
+release=1a
 module=msn
 
 # Installation paths
@@ -23,7 +23,6 @@ plibdir=${proot}/share/${name}
 pdatadir=${proot}/share/pixmaps
 pdocdir=${proot}/share/doc/${name}-${version}
 
-SUBDIRS=i s lang
 transcript=uninstall.sh
 
 # For integration with the current desktop
@@ -34,18 +33,9 @@ wmapps=${gnomelinks}
 icon=messenger.png
 desklink=amsn.desktop
 
-# Items to be installed
-docs= LEEME TODO changelog
-
-# From sandbox do:
-# 1) make install prefix=<ROOT> version=<VERSION> wmapps=blahblash
-# 2) make tar
-# Then assuming the spec file & tar file are into the RPM tree
-# 3)  rpm -bb --target noarch --clean amsn.spec
 all: install
 
 mkdirs:
-	echo "LIB $(libdir) DATA $(datadir) BIN $(bindir)" 
 	mkdir -p $(libdir)
 	mkdir -p $(datadir)
 	mkdir -p $(wmapps)
@@ -53,60 +43,29 @@ mkdirs:
 
 installdoc:
 	mkdir -p ${DOCDIR}
-	cp ${docs} ${DOCDIR}
+	cp -rp docs/ ${DOCDIR}
 
-uninstallold:
-	rm -f  ${DOCDIR}
-	rm -f  ${libdir}/i/*
-	rm -f  ${libdir}/sounds/*
-	rm -f  ${wmapps}/${desklink}
-	rm -f  ${datadir}/${icon}
 
-newtranscript:
-	cat /dev/null > .${transcript}
+install: mkdirs installdoc
+	# Installing traydock
+	# cd plugins/traydock
+	# make && cd ..
 
-# Install everything in subdirectories (sounds,images,languages)
-installsubdirs:
-	@list='$(SUBDIRS)'; for subdir in $$list; do \
-		mydir=$(libdir)/$$subdir; \
-		mkdir -p $$mydir; \
-		files=`ls $$subdir`; for myfile in $$files; do \
-		  if [ ! -d $$myfile ]; then \
-		    srcfile=$$subdir/$$myfile; \
-		    dstfile=$$mydir; \
-		    cp $$srcfile $$dstfile; \
-		    echo "rm -f $$dstfile/$$myfile" >> .$(transcript); \
-		  fi; \
-		done; \
-		echo "rmdir $$mydir" >> .$(transcript); \
-		done; \
+	mkdir -p ${libdir}
+	cp -a * ${libdir}
 
-# Install core files from root directory
-install: mkdirs newtranscript installsubdirs 
-	@core=`ls amsn langlist jwakeup README *tcl *htm*`; for corefile in $$core; do \
-		myfile=$(libdir)/$$corefile; \
-		cp $$corefile $(libdir); \
-		echo "rm -f $$myfile" >> .$(transcript); \
-		done; \
-		cp i/$(icon) $(datadir)/$(icon); \
-		echo "rm -f $(datadir)/$(icon)" >> .$(transcript); \
-		cp $(desklink) $(wmapps); \
-		echo "rm -f $(wmapps)/$(desklink)" >> .$(transcript)
-#		ln -sf $(libdir)/i/$(icon) $(datadir)/$(icon)
-	@cp .$(transcript) $(libdir)/$(transcript)
-#	Now we install the executable in the binary directory
-#	@ln -sf $(libdir)/${name} $(bindir)/${name}
-	@cp amsn $(bindir)/amsn
-	@echo "rm -f $(bindir)/amsn" >> .$(transcript)
-#	cat .$(transcript)
+	# Copy menu file.
+	# cp ${desklink} ${wmapps}
 
-# WARNING: This target is only used when installing a tarball. When
-#	   distributed in an RPM this uninstall transcript must NOT
-#	   be executed!.
+	# Remove CVS directorys.
+	# find ${libdir} -type d -name CVS -exec rm -rf {} \;
+
+	# Installing pixmaps.
+	mkdir -p ${pdatadir}
+	cp -a icons/32x32/* ${pdatadir}
+
+	ln -s ${libdir}/amsn ${bindir}
+
 uninstall:
-#	@echo "sh $(libdir)/$(transcript)"
-	sh $(libdir)/$(transcript)
-
-tar:
-	(cd ..; ln -s ${module} ${name}-${version}; tar --exclude=CVS* --dereference -czvf /tmp/${name}-${version}-${release}.tar.gz ${name}-${version}; rm -f ${name}-${version}; cd -)
-
+	rm -rf ${libdir}
+	rm ${bindir}/amsn
