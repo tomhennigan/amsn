@@ -548,3 +548,24 @@ userproperties Propriétés de l'utilisateur $1
 automessage Message-automatique
 phones Numéros de téléphone
 displaypic Icône
+changeglobnick Changer le pseudonyme global
+custnotifymsg Afficher la fenêtre de notification quand un message d'un nouvel usager est reçu
+custnotifyoffline Afficher la fenêtre de notification quand ce contact se deconnecte
+custnotifyonline Afficher la fenêtre de notification quand ce contact se connecte
+custnotifystatus Afficher la fenêtre de notification quand l'état de ce contact change
+displayp4context Afficher le contenu du champ P4-Context comme message d'envoie
+email Courriel
+friendlyname Nom amical
+globalnicktitle Pseudonyme global
+ignoreerrors Ignorer silentieusement les autres erreurs de AMSN jusqu'à la fin de la session
+ircstyle Discussion de type IRC
+longp4c Votre nom amical est plus long que 130 caractères. Le nom amical qui va apparaître sur le client MSN officiel sera $1. Êtes-vous certain de vouloir cette configuration?
+msnstyle Discussion de type MSN
+myfriendlyname Mon nom amical
+mynick Mon pseudonyme
+needwinico Nécessite winico03.dll dans le répertoire de plugins pour intégrer le programme à la barre de tâche de windows
+notifytimeout Nombre de milisecondes avant que la fenêtre de notification disparaîsse
+showbanner Afficher la publicité de aMSN
+splashstart Démarrer
+viewcontactsby Voir contacts par
+webcaminvite $1 vous a invité(e) à démarrer une session de webcam, cependant aMSN ne supporte pas cette option
