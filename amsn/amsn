@@ -218,6 +218,9 @@ if { $config(receiveddir) != "" } {
    } else {
       create_dir $files_dir
    }
+} else {
+	set config(receiveddir) $files_dir
+	create_dir $files_dir
 }
 
 cmsn_draw_main
