@@ -3003,8 +3003,16 @@ proc cmsn_change_state {recv} {
 
 		set maxw [expr {$config(notifwidth)-20}]
 		set short_name [trunc $user_name . $maxw splainf]
-
-		if {[lindex $user_data 2] < 7} {		;# User was online before
+		
+		if {$substate == "FLN"} {	#User logsout
+			
+			#Register last logout
+			::abook::setContactData $user last_logout [clock format [clock seconds] -format "%D - %H:%M:%S"]
+		
+			if { $config(notifyoffline) == 1 } {
+				::amsn::notifyAdd "$short_name\n[trans logsout]." "" offline offline
+			}
+		} elseif {[lindex $user_data 2] < 7} {		;# User was online before
 
 			if { $config(notifystate) == 1 &&  $substate != "FLN" && [lindex $recv 0] != "ILN" } {
 				::amsn::notifyAdd "$short_name\n[trans statechange]\n[trans [lindex [lindex $list_states $state_no] 1]]." \
@@ -3027,15 +3035,7 @@ proc cmsn_change_state {recv} {
 			} elseif { ([info exists alarms(all_onconnect)]) && ($alarms(all_onconnect) == 1) && ([info exists alarms(all)]) && ($alarms(all) == 1)} {	
 				run_alarm all "$user_name [trans logsin]"
 			}
-		} elseif {$substate == "FLN"} {
-			
-			#Register last logout
-			::abook::setContactData $user last_logout [clock format [clock seconds] -format "%D - %H:%M:%S"]
-		
-			if { $config(notifyoffline) == 1 } {
-				::amsn::notifyAdd "$short_name\n[trans logsout]." "" offline offline
-			}
-		}
+		} 
 
 		#TODO: Change this with ::MSN::setUserInfo
 		set oldmsnobj [lindex $user_data 3]
