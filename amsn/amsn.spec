@@ -125,6 +125,8 @@ if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 /usr/share/amsn/i/emstar.gif
 /usr/share/amsn/i/expand.gif
 /usr/share/amsn/i/film.gif
+/usr/share/amsn/i/fticon.gif
+/usr/share/amsn/i/ftreject.gif
 /usr/share/amsn/i/gift.gif
 /usr/share/amsn/i/girlhug.gif
 /usr/share/amsn/i/globe.gif

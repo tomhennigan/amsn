@@ -147,23 +147,26 @@ namespace eval ::amsn {
 
 
      set timestamp [clock format [clock seconds] -format %H:%M]
-            
+
      set txt [trans acceptfile '$filename' $filesize $files_dir]
 
-     .${win_name}.text insert end "\[$timestamp\] $fromname: $txt" darkgreen
-     .${win_name}.text insert end " - (" darkgreen
+     .${win_name}.text insert end "----------\n" gray
+     .${win_name}.text image create end -image fticon -pady 2 -padx 3
+     .${win_name}.text insert end "\[$timestamp\] $fromname: $txt" gray
+     .${win_name}.text insert end " - (" gray
      .${win_name}.text insert end "[trans accept]" ftyes$cookie
-     .${win_name}.text insert end " / " darkgreen
+     .${win_name}.text insert end " / " gray
      .${win_name}.text insert end "[trans reject]" ftno$cookie
-     .${win_name}.text insert end " )\n" darkgreen
+     .${win_name}.text insert end " )\n" gray
+     .${win_name}.text insert end "----------\n" gray
 
      .${win_name}.text yview moveto 1.0
      .${win_name}.text configure -state disabled
 
       #Trozo repetido en cmsn_sb_msg (protocol.tcl)
       #Hace falta unificar el sistema de ventanas de chat
-      
-      cmsn_msgwin_flicker $sb_name 20     
+
+      cmsn_msgwin_flicker $sb_name 20
       set win_name "msg_[string tolower ${sb_name}]"
 
       if { [string compare [wm state .${win_name}] "withdrawn"] == 0 } {
@@ -188,14 +191,14 @@ namespace eval ::amsn {
 
 
      .${win_name}.text tag configure ftyes$cookie \
-       -foreground darkblue -background white -font bboldf -underline true
+       -foreground #808080 -background white -font bplainf -underline false
      .${win_name}.text tag bind ftyes$cookie <Enter> ""
      .${win_name}.text tag bind ftyes$cookie <Leave> ""
      .${win_name}.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
 
 
      .${win_name}.text tag configure ftno$cookie \
-       -foreground darkblue -background white -font bboldf -underline false
+       -foreground #808080 -background white -font bplainf -underline false
      .${win_name}.text tag bind ftno$cookie <Enter> ""
      .${win_name}.text tag bind ftno$cookie <Leave> ""
      .${win_name}.text tag bind ftno$cookie <Button1-ButtonRelease> ""
@@ -204,7 +207,10 @@ namespace eval ::amsn {
 
      set txt [trans ftaccepted]
 
-     .${win_name}.text insert end " ** $txt\n" darkgreen
+     .${win_name}.text insert end "----------\n" gray
+     .${win_name}.text image create end -image fticon -pady 2 -padx 3
+     .${win_name}.text insert end " $txt\n" gray
+     .${win_name}.text insert end "----------\n" gray
 
      .${win_name}.text yview moveto 1.0
      .${win_name}.text configure -state disabled
@@ -218,13 +224,13 @@ namespace eval ::amsn {
 
 
      .${win_name}.text tag configure ftyes$cookie \
-       -foreground darkblue -background white -font bboldf -underline false
+       -foreground #808080 -background white -font bplainf -underline false
      .${win_name}.text tag bind ftyes$cookie <Enter> ""
      .${win_name}.text tag bind ftyes$cookie <Leave> ""
      .${win_name}.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
 
      .${win_name}.text tag configure ftno$cookie \
-       -foreground darkblue -background white -font bboldf -underline true
+       -foreground #808080 -background white -font bplainf -underline false
      .${win_name}.text tag bind ftno$cookie <Enter> ""
      .${win_name}.text tag bind ftno$cookie <Leave> ""
      .${win_name}.text tag bind ftno$cookie <Button1-ButtonRelease> ""
@@ -233,7 +239,10 @@ namespace eval ::amsn {
 
      set txt [trans ftrejected]
 
-     .${win_name}.text insert end " ** $txt\n" darkgreen
+     .${win_name}.text insert end "----------\n" gray
+     .${win_name}.text image create end -image ftreject -pady 2 -padx 3
+     .${win_name}.text insert end "$txt\n" gray
+     .${win_name}.text insert end "----------\n" gray
 
      .${win_name}.text yview moveto 1.0
      .${win_name}.text configure -state disabled
@@ -246,7 +255,7 @@ namespace eval ::amsn {
       toplevel $w
       wm title $w "[trans sendfile] $filename"
       wm geometry $w 300x100
-      
+
       label $w.file -text "$filename"
       pack $w.file -side top
       label $w.progress -text "Waiting for file transfer to start"

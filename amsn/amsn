@@ -463,7 +463,7 @@ proc cmsn_draw_main {} {
    image create photo notifico -file [file join ${images_folder} notifico.gif]
 
    image create photo blocked -file [file join ${images_folder} blocked.gif]
-   
+
    image create photo colorbar -file [file join ${images_folder} colorbar.gif]
    image create photo mailbox -file [file join ${images_folder} unread.gif]
 
@@ -479,11 +479,15 @@ proc cmsn_draw_main {} {
    image create photo butfont -file [file join ${images_folder} butfont.gif]
    image create photo butblock -file [file join ${images_folder} butblock.gif]
 
+   image create photo fticon -file [file join ${images_folder} fticon.gif]
+   image create photo ftreject -file [file join ${images_folder} ftreject.gif]
+
+
 
    text $pgBuddy.text -background white -width 30 -height 30 -wrap none \
       -yscrollcommand "$pgBuddy.ys set" -cursor left_ptr -font splainf \
       -selectbackground white -selectborderwidth 0 -exportselection 0
-   scrollbar $pgBuddy.ys -command "$pgBuddy.text yview" 
+   scrollbar $pgBuddy.ys -command "$pgBuddy.text yview"
 #   text .main.status  -width 30 -height 1 -wrap none
 
    #This shouldn't go here
