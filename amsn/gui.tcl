@@ -5262,9 +5262,10 @@ proc check_version {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc check_version_silent {} {
+	global weburl
 
 	catch {
-		::http::geturl {amsn.sourceforge.net/amsn_latest} -timeout 8000 -command check_web_version
+		::http::geturl [list $weburl/amsn_latest] -timeout 2000 -command check_web_version
 	}
 
 }

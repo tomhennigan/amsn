@@ -804,6 +804,8 @@ namespace eval ::MSN {
           return
       }
 
+      http::register https 443 ::tls::socket
+
       #Log out
       .main_menu.file entryconfigure 2 -state normal
 
@@ -1018,6 +1020,7 @@ namespace eval ::MSN {
 
 		if { $config(autoftip) } {
 			set sock [sb get ns sock]
+			if { $sock == "" } return
 
 			set localip [lindex [fconfigure $sock -sockname] 0]
 
@@ -1027,8 +1030,8 @@ namespace eval ::MSN {
 			|| [string compare -length 4 $localip "127."] == 0 \
 			|| [string compare -length 8 $localip "192.168."] == 0 \
 			|| $config(natip) == 1 } {
-				catch {set token [::http::geturl "http://www.showmyip.com/simple/" \
-					-timeout 10000 -command "::MSN::GotMyIPSilent"]}
+				#catch {set token [::http::geturl "http://www.showmyip.com/simple/" \
+				#	-timeout 10000 -command "::MSN::GotMyIPSilent"]}
 			} else {
 				set config(myip) $localip
 				status_log "IP automatically set to: $config(myip)\n" blue
@@ -3162,8 +3165,6 @@ proc cmsn_ns_handler {item} {
 
 }
 
-proc amsn_ssl_handler {} {
-}
 
 proc cmsn_ns_msg {recv} {
 
@@ -3349,122 +3350,209 @@ proc cmsn_auth {{recv ""}} {
    return -1
 }
 
-proc cmsn_auth_msnp9 {{recv ""}} {
-   global config list_version info protocol
 
-   switch [sb get ns stat] {
-      c {
-         ::MSN::WriteSB ns "VER" "MSNP9 MSNP8 CVR0"
-	 sb set ns stat "v"
-	 return 0
-      }
-      v {
-         if {[lindex $recv 0] != "VER"} {
-	    status_log "cmsn_auth: was expecting VER reply but got a [lindex $recv 0]\n" red
-	    return 1
-	 } elseif {[lsearch -exact $recv "CVR0"] != -1} {
-            ::MSN::WriteSB ns "CVR" "0x0409 winnt 5.1 i386 MSNMSGR 5.0.0540 MSMSGS $config(login)"
-	    sb set ns stat "i"
-	    return 0
-	 } else {
-	    status_log "cmsn_auth: could not negotiate protocol!\n" red
-	    return 1
-	 }
-      }
-      i {
-         if {[lindex $recv 0] != "CVR"} {
-	    status_log "cmsn_auth: was expecting CVR reply but got a [lindex $recv 0]\n" red
-            return 1
-         } else {
-            global config
-            ::MSN::WriteSB ns "USR" "TWN I $config(login)"
-            sb set ns stat "u"
-            return 0
-         }
-      }
-      u {
-         if {([lindex $recv 0] != "USR") || \
-            ([lindex $recv 2] != "TWN") || \
-            ([lindex $recv 3] != "S")} {
-            status_log "cmsn_auth: was expecting USR x TWN S xxxxx but got something else!\n" red
-            return 1
-         }
+proc msnp9_userpass_error {} {
 
-	 foreach x [split [lrange $recv 4 end] ","] { set info([lindex [split $x "="] 0]) [lindex [split $x "="] 1] }
-	 set info(all) [lrange $recv 4 end]
+	::MSN::logout
+	status_log "Error: User/Password\n" red
+	::amsn::errorMsg "[trans baduserpass]"
 
-	 set auth [amsn_ssl_connect $info(all)]
-	 set auth [split [lrange $auth 2 end] ","]
-	 set auth [lindex [split [lindex $auth 4] "'"] 1]
+}
 
-	status_log "auth=${auth}--\n" blue
-	if { $auth=="" } {
-	  ::MSN::logout
-	  status_log "Error: User/Password\n" red
-	  ::amsn::errorMsg "[trans baduserpass]"
-	  return 0
+proc msnp9_auth_error {} {
+
+	status_log "Error connecting to server\n"
+	::MSN::logout
+	::amsn::errorMsg "[trans connecterror]"
+
+}
+
+proc gotNexusReply {str token {total 0} {current 0}} {
+	if { [::http::status $token] != "ok" || [::http::ncode $token ] != 200 } {
+		::http::cleanup $token
+		msnp9_auth_error
+		return
+	}
+	upvar #0 $token state
+
+	set index [expr {[lsearch $state(meta) "PassportURLs"]+1}]
+	set values [split [lindex $state(meta) $index] ","]
+	set index [lsearch $values "DALogin=*"]
+	set loginurl "https://[string range [lindex $values $index] 8 end]"
+	status_log "gotNexusReply: loginurl=$loginurl\n"
+	::http::cleanup $token
+	msnp9_do_auth [list $str] $loginurl
+
+
+}
+
+proc gotAuthReply { str token } {
+	if { [::http::status $token] != "ok" } {
+		::http::cleanup $token
+		msnp9_auth_error
+		return
 	}
 
-	 ::MSN::WriteSB ns "USR" "TWN S $auth"
-         sb set ns stat "us"
-         return 0
-      }
-      us {
-         if {[lindex $recv 0] != "USR"} {
-            status_log "cmsn_auth: was expecting USR reply but got a [lindex $recv 0]\n" red
-            return 1
-         }
-         if {[lindex $recv 2] != "OK"} {
-            status_log "cmsn_auth: error authenticating with server!\n" red
-            return 1
-         }
-         global user_info
-         set user_info $recv
-         sb set ns stat "o"
-	 save_config						;# CONFIG
-	  load_contact_list
-	 ::MSN::WriteSB ns "SYN" "$list_version"
+	upvar #0 $token state
 
-         if {$config(startoffline)} {
-            ::MSN::changeStatus "HDN"
- 	    send_dock "STATUS" "HDN"	    
-         } else {
-            ::MSN::changeStatus "NLN"
-	    send_dock "STATUS" "NLN"         
-	 }
-	       #Alert dock of status change
-         #      send_dock "NLN"
-	 send_dock "MAIL" 0
+	if { [::http::ncode $token] == 200 } {
+		set index [expr {[lsearch $state(meta) "Authentication-Info"]+1}]
+		set values [split [lindex $state(meta) $index] ","]
+		set index [lsearch $values "from-PP=*"]
+		set value [string range [lindex $values $index] 9 end-2]
+		status_log "gotAuthReply 200: $value\n"
+		msnp9_authenticate $value
 
-         #Log out
-         .main_menu.file entryconfigure 2 -state normal
-         #My status
-         .main_menu.file entryconfigure 3 -state normal
-         #Add a contact
-         .main_menu.tools entryconfigure 0 -state normal
-         .main_menu.tools entryconfigure 1 -state normal
-         .main_menu.tools entryconfigure 4 -state normal
-         #Added by Trevor Feeney
-	 #Enables the Group Order Menu
-	 .main_menu.tools entryconfigure 5 -state normal
- 
-         #Change nick
-	 configureMenuEntry .main_menu.actions "[trans changenick]..." normal
-	 #configureMenuEntry .options "[trans changenick]..." normal
-
-	 configureMenuEntry .main_menu.actions "[trans sendmail]..." normal
-	 configureMenuEntry .main_menu.actions "[trans sendmsg]..." normal
-	 
-	 #configureMenuEntry .main_menu.actions "[trans verifyblocked]..." normal
-	 #configureMenuEntry .main_menu.actions "[trans showblockedlist]..." normal
+	} elseif {[::http::ncode $token] == 302} {
+		set index [expr {[lsearch $state(meta) "Location"]+1}]
+		set url [lindex $state(meta) $index]
+		msnp9_do_auth $str $url
+	} elseif {[::http::ncode $token] == 401} {
+		msnp9_userpass_error
+	} else {
+		msnp9_auth_error
+	}
+	::http::cleanup $token
 
 
-	 configureMenuEntry .main_menu.file "[trans savecontacts]..." normal
+}
 
-         return 0
-      }
-   }
-   return -1
+
+proc msnp9_do_auth {str url} {
+	status_log "msnp9_do_auth\n"
+	global config password
+
+	set head [list Authorization "Passport1.4 OrgVerb=GET,OrgURL=http%3A%2F%2Fmessenger%2Emsn%2Ecom,sign-in=$config(login),pwd=$password,$str"]
+	status_log "msnp9_do_auth: Getting $url\n"
+	::http::geturl $url -command "gotAuthReply [list $str]" -headers $head
+
+}
+
+
+proc msnp9_authenticate { ticket } {
+
+	::MSN::WriteSB ns "USR" "TWN S $ticket"
+	sb set ns stat "us"
+	return
+
+}
+
+proc cmsn_auth_msnp9 {{recv ""}} {
+	global config list_version info protocol
+
+	switch [sb get ns stat] {
+
+		c {
+			::MSN::WriteSB ns "VER" "MSNP9 MSNP8 CVR0"
+			sb set ns stat "v"
+			return 0
+		}
+
+		v {
+			if {[lindex $recv 0] != "VER"} {
+				status_log "cmsn_auth: was expecting VER reply but got a [lindex $recv 0]\n" red
+				return 1
+			} elseif {[lsearch -exact $recv "CVR0"] != -1} {
+				::MSN::WriteSB ns "CVR" "0x0409 winnt 5.1 i386 MSNMSGR 5.0.0540 MSMSGS $config(login)"
+				sb set ns stat "i"
+				return 0
+			} else {
+				status_log "cmsn_auth: could not negotiate protocol!\n" red
+				return 1
+			}
+		}
+
+		i {
+			if {[lindex $recv 0] != "CVR"} {
+				status_log "cmsn_auth: was expecting CVR reply but got a [lindex $recv 0]\n" red
+				return 1
+			} else {
+				global config
+				::MSN::WriteSB ns "USR" "TWN I $config(login)"
+				sb set ns stat "u"
+				return 0
+			}
+		}
+
+		u {
+			if {([lindex $recv 0] != "USR") || \
+				([lindex $recv 2] != "TWN") || \
+				([lindex $recv 3] != "S")} {
+
+				status_log "cmsn_auth: was expecting USR x TWN S xxxxx but got something else!\n" red
+				return 1
+			}
+
+			foreach x [split [lrange $recv 4 end] ","] { set info([lindex [split $x "="] 0]) [lindex [split $x "="] 1] }
+			set info(all) [lrange $recv 4 end]
+
+			if {[catch {::http::geturl https://nexus.passport.com/rdr/pprdr.asp -command "gotNexusReply [list $info(all)]"}]} {
+				msnp9_auth_error
+			}
+
+			return 0
+
+		}
+
+		us {
+
+			if {[lindex $recv 0] != "USR"} {
+				status_log "cmsn_auth: was expecting USR reply but got a [lindex $recv 0]\n" red
+				return 1
+			}
+
+			if {[lindex $recv 2] != "OK"} {
+				status_log "cmsn_auth: error authenticating with server!\n" red
+				return 1
+			}
+
+			global user_info
+			set user_info $recv
+			sb set ns stat "o"
+			save_config						;# CONFIG
+			load_contact_list
+
+			::MSN::WriteSB ns "SYN" "$list_version"
+
+			if {$config(startoffline)} {
+				::MSN::changeStatus "HDN"
+				send_dock "STATUS" "HDN"
+			} else {
+				::MSN::changeStatus "NLN"
+				send_dock "STATUS" "NLN"
+			}
+			#Alert dock of status change
+			#      send_dock "NLN"
+			send_dock "MAIL" 0
+
+			#Log out
+			.main_menu.file entryconfigure 2 -state normal
+			#My status
+			.main_menu.file entryconfigure 3 -state normal
+			#Add a contact
+			.main_menu.tools entryconfigure 0 -state normal
+			.main_menu.tools entryconfigure 1 -state normal
+			.main_menu.tools entryconfigure 4 -state normal
+			#Added by Trevor Feeney
+			#Enables the Group Order Menu
+			.main_menu.tools entryconfigure 5 -state normal
+
+			#Change nick
+			configureMenuEntry .main_menu.actions "[trans changenick]..." normal
+			#configureMenuEntry .options "[trans changenick]..." normal
+
+			configureMenuEntry .main_menu.actions "[trans sendmail]..." normal
+			configureMenuEntry .main_menu.actions "[trans sendmsg]..." normal
+
+			configureMenuEntry .main_menu.file "[trans savecontacts]..." normal
+
+			return 0
+		}
+
+	}
+
+	return -1
+	
 }
 
 proc sb_change { chatid } {
@@ -3681,43 +3769,8 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
    return 0
 }
 
-proc amsn_ssl_connect {string} {
-   global config password info
-#   set socket [tls::socket nexus.passport.com 443]
-#   puts $socket "GET /rdr/pprdr.asp"
-#   flush $socket; gets $socket; flush $socket; gets $socket
-#   flush $socket; gets $socket; flush $socket
-#   set recv [gets $socket]
 
-#   set host [split [lindex [split [lindex [split [lrange $recv 1 end] ","] 1] "="] 1] "/"]
-#   set host [lindex $host 0]
 
-#   close $socket
-#   unset socket
-
-   set socket [tls::socket loginnet.passport.com 443]
-   puts $socket "GET /login2.srf?lc=$info(lc)"
-   puts $socket "Authorization: Passport1.4 OrgVerb=GET,OrgURL=http%3A%2F%2Fmessenger%2Emsn%2Ecom,sign-in=$config(login),pwd=$password,$string"
-   puts $socket "User-Agent: MSMSGS"
-   puts $socket "Host: login.passport.com"
-   puts $socket "Connection: Keep-Alive"
-   puts $socket "Cache-Control: no-cache"
-
-  # TODO: Make a proc who handle those :)
-
-   flush $socket; status_log "[gets $socket]\n"; flush $socket; status_log "[gets $socket]\n"
-   flush $socket; status_log "[gets $socket]\n"; flush $socket; status_log "[gets $socket]\n"
-   flush $socket; status_log "[gets $socket]\n"; flush $socket; status_log "[gets $socket]\n"
-   flush $socket; status_log "[gets $socket]\n"; flush $socket; status_log "[gets $socket]\n"
-   flush $socket; status_log "[gets $socket]\n"; flush $socket; status_log "[gets $socket]\n"
-   flush $socket; status_log "[gets $socket]\n"; flush $socket; status_log "[gets $socket]\n"
-   flush $socket; status_log "[gets $socket]\n"; flush $socket; status_log "[gets $socket]\n"
-   flush $socket; status_log "[gets $socket]\n"; flush $socket; status_log "[gets $socket]\n"
-   flush $socket; status_log "[gets $socket]\n"; flush $socket; set recv [gets $socket]
-	status_log "$recv\n"
-
-   return $recv
-}
 
 proc get_password {method data} {
    global password
