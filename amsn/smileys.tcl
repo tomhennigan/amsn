@@ -278,22 +278,23 @@ namespace eval ::smiley {
 		foreach name [::config::getKey customsmileys] {
 	
 			array set emotion $custom_emotions($name)
-			set symbol $emotion(text)
+			foreach symbol $emotion(text) {
 			
-			if { [info exists emotion(casesensitive)] && [is_true $emotion(casesensitive)]} {set nocase "-exact"} else {set nocase "-nocase"}
-			
-			set start $textbegin
-			
-			#Keep searching umtil no matches
-			while {[set pos [$tw search -exact $nocase -- $symbol $start $end]] != ""} {
-			
-				set animated [expr {[info exists emotion(animated)] && [is_true $emotion(animated)]}]
-				if { $contact_list == 0 && [info exists emotion(sound)] && $emotion(sound) != "" } {
-					set sound $emotion(sound)
-				} else { set sound "" }
+				if { [info exists emotion(casesensitive)] && [is_true $emotion(casesensitive)]} {set nocase "-exact"} else {set nocase "-nocase"}
 				
-				set start [::smiley::SubstSmiley $tw $pos $symbol $emotion(image_name) $emotion(file) $animated $sound]
-		
+				set start $textbegin
+				
+				#Keep searching umtil no matches
+				while {[set pos [$tw search -exact $nocase -- $symbol $start $end]] != ""} {
+				
+					set animated [expr {[info exists emotion(animated)] && [is_true $emotion(animated)]}]
+					if { $contact_list == 0 && [info exists emotion(sound)] && $emotion(sound) != "" } {
+						set sound $emotion(sound)
+					} else { set sound "" }
+					
+					set start [::smiley::SubstSmiley $tw $pos $symbol $emotion(image_name) $emotion(file) $animated $sound]
+			
+				}
 			}
 		}
 	
@@ -350,7 +351,7 @@ namespace eval ::smiley {
 		global custom_emotions
 		foreach name [::config::getKey customsmileys] {
 			array set emotion $custom_emotions($name)
-			set symbol $emotion(text)
+			set symbol [lindex $emotion(text) 0]
 			catch { 
 				#TODO: Improve this now we know about quoting a bit more?
 				if { [string match {(%)} $symbol] != 0 } {
@@ -467,14 +468,15 @@ namespace eval ::smiley {
 			set animated [expr {$emotion(animated) && [::config::getKey animatedsmileys 0]}]
 			
 			CreateSmileyInMenu $w.c $cols $rows $smiw $smih \
-				$emot_num $name $emotion(text) $emotion(image_name) $emotion(file) $animated
+				$emot_num $name [lindex $emotion(text) 0] $emotion(image_name) $emotion(file) $animated
 			
 			#Add binding for custom emoticons
 			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-				bind $w.c.$emot_num <Button2-ButtonRelease> "[list ::smiley::editCustomEmotion $name]\; event generate $w <Leave>"
-				bind $w.c.$emot_num <Control-ButtonRelease> "[list ::smiley::editCustomEmotion $name]\; event generate $w <Leave>"
+				
+				bind $w.c.$emot_num <Button2-ButtonRelease> [list ::smiley::editCustomEmotion $name]
+				bind $w.c.$emot_num <Control-ButtonRelease> [list ::smiley::editCustomEmotion $name]
 			} else {
-				bind $w.c.$emot_num <Button3-ButtonRelease> "[list ::smiley::editCustomEmotion $name]\; event generate $w <Leave>"
+				bind $w.c.$emot_num <Button3-ButtonRelease> [list ::smiley::editCustomEmotion $name]
 			}
 			
 			incr emot_num
@@ -636,15 +638,18 @@ namespace eval ::smiley {
 	proc editCustomEmotion { name } {
 		global custom_emotions new_custom_cfg
 		
+		catch { event generate .smile_selector <Leave> }
+		
 		array set emotion $custom_emotions($name)
 		
-		foreach element [list name file text animated sound casesensitive] {
+		foreach element [list name file animated sound casesensitive] {
 			if {[info exists emotion($element)]} {
 				set new_custom_cfg($element) $emotion($element)
 			} else {
 				set new_custom_cfg($element) ""
 			}
 		}
+		set new_custom_cfg(text) [join $emotion(text)]
 		
 		if { "$new_custom_cfg(sound)" != "" } {
 			set new_custom_cfg(enablesound) 1
@@ -712,7 +717,14 @@ namespace eval ::smiley {
 		
 		set emotion(file) "[filenoext $file].gif"
 		set emotion(name) $name
-		set emotion(text) $new_custom_cfg(text)
+		
+		#Create a list of symbols
+		set emotion(text) [list]
+		foreach symbol [split $new_custom_cfg(text)] {
+			if { $symbol != "" } {
+				lappend emotion(text) $symbol
+			}
+		}
 		
 		foreach element [list casesensitive animated] {
 			if { $new_custom_cfg($element) == 1} {
