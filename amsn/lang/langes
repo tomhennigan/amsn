@@ -296,6 +296,7 @@ logsin acaba de iniciar sesión
 logsmileys Mostrar emoticonos y smileys en la ventana de historial de aMSN
 logsout acaba de terminar la sesión
 longnick La longitud de tu apodo es mayor de 130 caracteres. Esto no es soportado oficialmente por el protocolo MSN. ¿Estás seguro de que deseas cambiarlo?
+longp4c Tu apodo en conversación tiene más de 130 caracteres. Y el apodo mostrado en el cliente MSN oficial será "$1". ¿ Deseas continuar ?
 lprivtoconf El privado se convierte en conversación múltiple con $1
 luclosedwin Tú cierras la ventana a las $1
 mailer Comando de email
