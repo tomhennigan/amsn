@@ -527,3 +527,13 @@ yousay Vous avez dit
 youwant Vous voulez
 charscounter Compteur de caractères tapés dans la fenêtre de discussion
 statenick Pseudonyme personnalisé (laissez vide pour ne pas changer)
+alarms Alarmes 
+customnick Pseudonyme personnalisé
+invalidgroup Groupe invalide
+lastlogin Dernière connexion 
+lastlogout Dernière déconnexion
+leavejoinsinchat Afficher les notifications "part/joint la conversation" à l'intérieur de la fenêtre de discussion 
+nick pseudonyme
+nogroup Aucun groupe 
+userdata Données de l'utilisateur
+userproperties Propriétés de l'utilisateur $1
