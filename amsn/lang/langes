@@ -226,6 +226,7 @@ fullcontactlist Su lista de contactos está llena. Necesitará eliminar algún cont
 getdisppic Habilitar la recepción de Imágenes para Mostrar de otros usuarios
 globalnick Introduzca una expresión con la que formar todos los apodos, puede usar las variables \$user_login para la dirección del contacto y \$nick para su apodo o \$customnick para su apodo personalizado.\nPor ejemplo: '\$user_login es \$nick' mostraría 'contacto@hotmail.com es Contacto'
 globalnicktitle Apodo global
+globaloverride El apodo global debe sobreescribir el apodo personalizado
 gonelunch Salí a comer
 groupadd Añadir un grupo
 groupdelete Borrar un grupo

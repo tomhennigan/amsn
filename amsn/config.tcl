@@ -209,6 +209,7 @@ proc ConfigDefaults {} {
 		[list local lineflushlog bool lineflushlog] \
 		[list local autocheckver bool autocheckver] \
 		[list local storename bool storenickname] \
+		[list local globaloverride bool globaloverride ] \
 		[list global disableprofiles bool disableprofiles] \
 	]
 	set config(tooltips) 1				;#Enable/disable tooltips
@@ -238,7 +239,7 @@ proc ConfigDefaults {} {
 	set config(displayp4context) 1	;#Accept P4-Context fieds
 	set config(p4contextprefix) "P4C: " ; #Prefix for P4-Context messages
 	set config(globalnick) ""		;#The global custom nickname (pattern), disabled by default
-
+	set config(globaloverride) 0		;# Sets whether Global nicknames pattern should override custom nicks, disabled by default
 
 	#System options, not intended to be edited (unless you know what you're doing)
 	set password ""
