@@ -5019,7 +5019,7 @@ proc cmsn_draw_online { {delay 0} } {
 proc cmsn_draw_online_wrapped {} {
 
 	global emotions login \
-	config password pgBuddy bgcolor automessage emailBList tcl_platform
+		password pgBuddy bgcolor automessage emailBList tcl_platform
 
 	set scrollidx [$pgBuddy.text yview]
 
