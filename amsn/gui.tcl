@@ -1849,7 +1849,7 @@ if { $config(getdisppic) != 0 } {
 		#Differents shorcuts on Mac OS X
 		if {$tcl_platform(os) == "Darwin"} {
 		bind $bottom.in.input <Control-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-		bind $bottom.in.input <Command-w> "destroy .${win_name} %W; break"
+		bind .${win_name} <Command-w> "destroy .${win_name} %W; break"
 		bind .${win_name} <Command-,> "Preferences"
 		bind all <Command-q> {
 	 	close_cleanup;exit
