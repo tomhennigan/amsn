@@ -33,10 +33,12 @@ details. This is an ongoing project, and it is already going pretty well.
 %define gnomelinks	/etc/X11/applnk/Internet
 %define kdelinks	/usr/share/applnk/Internet
 %define wmapps		${RPM_BUILD_ROOT}%{gnomelinks}
+%define docdirname	%{name}-%{version}
 #make  localroot=%{localroot} prefix=%{prefix} version=%{version} wmapps=%{wmapps} install
 make  proot=%{prefix} prefix=${RPM_BUILD_ROOT}%{prefix} version=%{version} wmapps=%{wmapps} install
 
 ln -sf %{prefix}/share/amsn/amsn ${RPM_BUILD_ROOT}%{prefix}/bin/amsn
+ln -sf %{prefix}/share/doc/%{docdirname}/README ${RPM_BUILD_ROOT}%{prefix}/share/amsn/README
 
 %clean
 #rm -rf ${RPM_BUILD_ROOT}
@@ -48,6 +50,7 @@ if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 
 # Before Uninstall (Triggers get executed at this stage too)
 %preun
+rm -f %{prefix}/share/amsn/README
 
 # Tasks after Uninstall
 %postun
@@ -55,11 +58,9 @@ rm -f %{prefix}/bin/amsn
 if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 
 %files
-#%doc README TODO changelog GNUGPL
+%doc README LEEME TODO changelog GNUGPL
 /usr/bin/amsn
-/usr/share/amsn/LEEME
 /usr/share/amsn/README
-/usr/share/amsn/TODO
 /usr/share/amsn/amsn
 /usr/share/amsn/uninstall.sh
 /usr/share/amsn/abook.tcl
