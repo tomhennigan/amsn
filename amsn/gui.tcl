@@ -1452,8 +1452,10 @@ namespace eval ::amsn {
 
       if { $win_name == 0 } {
 
+         variable first_message
 	  set win_name [OpenChatWindow]
          SetWindowFor $lowuser $win_name
+	 set first_message($win_name) 0
 
       }
 
