@@ -1245,6 +1245,9 @@ if { $initialize_amsn == 1 } {
 	scan_languages
 	load_lang [::config::getGlobalKey language]
 
+	global gui_language
+	set gui_language [::config::getGlobalKey language]
+
 	load_config		;# So this loads the config of this newest dude
 
 	# Init smileys

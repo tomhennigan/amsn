@@ -3951,12 +3951,15 @@ proc show_languagechoose {} {
 
 
 proc set_language { langname } {
-	set oldlang  [::config::getGlobalKey language]
+	global gui_language
 
 	load_lang $langname
 	msg_box [trans mustrestart]
-
-	load_lang $oldlang
+	
+	#Reload english to overwrite any missing sentences
+	load_lang en
+	#Reload the current GUI language
+	load_lang $gui_language
 
 	::config::setGlobalKey language $langname
 	::config::saveGlobal
@@ -4201,7 +4204,6 @@ proc cmsn_draw_offline {} {
 
 	#Change nick
 	configureMenuEntry .main_menu.actions "[trans changenick]..." disabled
-	#configureMenuEntry .options "[trans changenick]..." disabled
 
 	configureMenuEntry .main_menu.actions "[trans sendmail]..." disabled
 	configureMenuEntry .main_menu.actions "[trans sendmsg]..." disabled
