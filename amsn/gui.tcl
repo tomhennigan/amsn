@@ -2823,7 +2823,7 @@ proc adjust_yscroll {text bar begin end } {
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_main {} {
    global program_dir emotion_files version date weburl lang_list \
-     password config HOME files_dir pgBuddy pgNews bgcolor bgcolor2 argv0 argv langlong
+     password config HOME files_dir pgBuddy pgNews bgcolor bgcolor2 argv0 argv langlong tcl_platform
 
    #User status menu
    menu .my_menu -tearoff 0 -type normal
@@ -2947,8 +2947,14 @@ proc cmsn_draw_main {} {
    #User to reverese group lists
    .main_menu.tools add cascade -label "[trans ordergroupsby]" \
      -menu .ordergroups_by
-
-   .main_menu.tools add separator
+     
+#Unecessary separator when you remove the 2 dockings items menu on Mac OS X
+   	if {$tcl_platform(os) == "Darwin"} {
+	#.main_menu.tools add separator
+	} else {
+	.main_menu.tools add separator
+	}
+	
    #.main_menu.tools add cascade -label "[trans options]" -menu .options
 
    #Options menu
@@ -2962,7 +2968,14 @@ proc cmsn_draw_main {} {
 
    #TODO: Move this into preferences window
    #.options add cascade -label "[trans docking]" -menu .dock_menu
-   .main_menu.tools add cascade -label "[trans docking]" -menu .dock_menu
+
+#Disable item menu for docking in Mac OS X(incompatible)
+   	if {$tcl_platform(os) == "Darwin"} {
+	#.main_menu.tools add cascade -label "[trans docking]" -menu .dock_menu
+	} else {
+	.main_menu.tools add cascade -label "[trans docking]" -menu .dock_menu
+	}
+	
    menu .dock_menu -tearoff 0 -type normal
    .dock_menu add radio -label "[trans dockingoff]" -value 0 -variable config(dock) -command "init_dock"
    .dock_menu add radio -label "[trans dockfreedesktop]" -value 3 -variable config(dock) -command "init_dock"
@@ -2982,7 +2995,14 @@ proc cmsn_draw_main {} {
 #    .options add command -label "[trans pluginselector]..." -command ::plugins::PluginGui
 
 	.main_menu.tools add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
+	
+	#Disable item menu for docking in Mac OS X(incompatible)
+	if {$tcl_platform(os) == "Darwin"} {
+	#.main_menu.tools add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable config(closingdocks)
+	} else {
 	.main_menu.tools add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable config(closingdocks)
+	}
+	
 
 	.main_menu.tools add separator
    .main_menu.tools add command -label "[trans language]..." -command show_languagechoose
