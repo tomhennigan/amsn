@@ -5733,7 +5733,7 @@ proc convert_image { filename size } {
 
 	if { ![file exists $filename] } {
 		status_log "Tring to convert file $filename that does not exist\n" error
-		return 0
+		return ""
 	}
 
 	set filename2 [filenoext $filename]
@@ -5750,7 +5750,7 @@ proc convert_image { filename size } {
 	if { [catch { exec convert "$filename" "${filename}.gif" } res] } {
 		status_log "CONVERT ERROR IN CONVERSION 1: $res" white
 		catch {[file delete $filename]}
-		return 0
+		return ""
 	}
 	
 	set img [image create photo -file "${filename}.gif"]
@@ -5785,7 +5785,7 @@ proc convert_image { filename size } {
 	if { [catch { exec convert -size "${resizew}x${resizeh}" "$filename" -resize "${resizew}x${resizeh}" "${filename}.gif" } res] } {
 		status_log "CONVERT ERROR IN CONVERSION 2: $res" white
 		catch {[file delete $filename]}
-		return 0
+		return ""
 	}
 	
 	if { [file exists $filename2.png.0] } {
@@ -5861,7 +5861,7 @@ proc convert_image_plus { filename type size } {
 
     set file [convert_image [GetSkinFile $type $endfile] $size]
 
-    if { $file == 0 } { return 0}
+    if { $file == "" } { return ""}
 
 
     return $file
@@ -5883,7 +5883,7 @@ proc convert_display_picture { filename } {
 
 	set file [convert_image [GetSkinFile displaypic $endfile] 96]
 
-	if { $file == 0 } { return 0 }
+	if { $file == "" } { return "" }
 	return $file
 	
 }
@@ -6086,7 +6086,8 @@ proc pictureDeleteFile {} {
 		set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans delete] -parent $parent]
 		if {$answer == "yes"} {
 			set filename [file join $HOME displaypic $selected_image]
-			file delete $filename
+			catch {file delete $filename}
+			catch {file delete [filenoext $filename].gif}
 			set selected_image ""
 			.picbrowser.mypic configure -image no_pic
 

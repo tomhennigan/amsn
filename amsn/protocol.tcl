@@ -4858,9 +4858,12 @@ namespace eval ::MSNP2P {
 			    	SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" $user_login $config(login) "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex $session_data 5] 0 0] 1]
 				set filename [::MSNP2P::GetFilenameFromMSNOBJ [lindex $userinfo 3]]
 				status_log "Closed file $filename.. finished writing\n" red
-				set file [filenoext [convert_image [file join $HOME displaypic cache $filename].png 96x96]].gif
-				image create photo user_pic_${user_login} -file "[file join $HOME displaypic cache $filename].gif"
-			    } elseif { [lindex [SessionList get $cSid] 7] == "filetransfer" } {
+				set file [convert_image [file join $HOME displaypic cache ${filename}.png] 96x96]
+				if { $file != "" } {
+					set file [filenoext $file].gif
+					image create photo user_pic_${user_login} -file "[file join $HOME displaypic cache ${filename}.gif]"
+				}
+				} elseif { [lindex [SessionList get $cSid] 7] == "filetransfer" } {
 			       	# Display message that file transfer is finished...
 				status_log "File transfer finished!\n"
 				::amsn::WinWrite $chatid "File Transfer Completed Successfully!\n" gray
