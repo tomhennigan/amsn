@@ -733,12 +733,12 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.1.llibtls -text "TLS" -padx 5 -font sboldf
 	entry $lfname.1.libtls -bg #FFFFFF -bd 1 -width 45 -highlightthickness 0 -textvariable libtls_temp
 	label $lfname.1.llibtlsexp -text [trans tlsexplain] -justify left -font examplef
-	button $lfname.1.browsetls -text [trans browse] -command "Browse_Dialog libtls_temp tk_chooseDirectory"
+	button $lfname.1.browsetls -text [trans browse] -command "Browse_Dialog_dir libtls_temp"
 
 	label $lfname.1.lconvertpath -text "CONVERT" -padx 5 -font sboldf
 	entry $lfname.1.convertpath -bg #FFFFFF -bd 1 -width 45 -highlightthickness 0 -textvariable config(convertpath)
 	label $lfname.1.lconvertpathexp -text [trans convertexplain] -justify left -font examplef
-	button $lfname.1.browseconv -text [trans browse] -command "Browse_Dialog config(convertpath) tk_getOpenFile"
+	button $lfname.1.browseconv -text [trans browse] -command "Browse_Dialog_file config(convertpath)"
 
 
 
@@ -993,7 +993,7 @@ proc reload_advanced_options {path} {
 				}
 				folder {
 					frame $path.fr$i
-					button $path.fr$i.browse -text [trans browse]
+					button $path.fr$i.browse -text [trans browse] -command "Browse_Dialog_dir config([lindex $opt 0])"
 					LabelEntry $path.fr$i.le "[trans [lindex $opt 2]]:" config([lindex $opt 0]) 20
 					pack $path.fr$i.le -side left -anchor w -expand true -fill x
 					pack $path.fr$i.browse -side left
@@ -1001,6 +1001,7 @@ proc reload_advanced_options {path} {
 				}
 				int {
 					LabelEntry $path.le$i "[trans [lindex $opt 2]]:" config([lindex $opt 0]) 20
+					$path.le$i.ent configure -validate focus -validatecommand "check_int %W" -invalidcommand "$path.le$i.ent delete 0 end; $path.le$i.ent insert end $config([lindex $opt 0])"
 					pack $path.le$i -side top -anchor w -expand true -fill x
 				}
 				default {
@@ -1017,60 +1018,6 @@ proc reload_advanced_options {path} {
 }
 
 
-
-proc change_advanced_option {opt_list} {
-	global advanced_options config
-	status_log "Going to change [$opt_list curselection]\n" red
-	set sel [$opt_list curselection]
-	set opt [lindex $advanced_options $sel]
-	if { [lindex $opt 0] != "" } {
-		toplevel .value_change
-		wm title .value_change [trans editvalue]
-		label .value_change.name -text [trans [lindex $opt 2]] -font sboldf
-		pack .value_change.name -side top -padx 5 -pady 2 -expand true -fill both
-		if { [lindex $opt 3] != ""} {
-			label .value_change.desc -text [trans [lindex $opt 3]] -font splainf
-			pack .value_change.desc -side top -padx 5 -pady 2 -expand true -fill both -anchor e
-		}
-
-		frame .value_change.b
-
-		switch [lindex $opt 1] {
-			bool {
-				checkbutton .value_change.value -font splainf -text [trans enabled] -variable option_value
-				if { $config([lindex $opt 0])} {
-					.value_change.value select
-				} else {
-					.value_change.value deselect
-				}
-				pack .value_change.value -side top -padx 5 -pady 2 -expand true -fill x
-
-				button .value_change.b.ok -text "[trans accept]" -command "set config([lindex $opt 0]) \$option_value;destroy .value_change; reload_advanced_options $opt_list" -font sboldf
-
-			}
-			int {
-				entry .value_change.value -font splainf -width 50 -validate focus -validatecommand "check_int %W" -invalidcommand ".value_change.value delete 0 end; .value_change.value insert end $config([lindex $opt 0])"
-				.value_change.value insert end $config([lindex $opt 0])
-				pack .value_change.value -side top -padx 5 -pady 2 -expand true -fill x
-				button .value_change.b.ok -text "[trans accept]" -command "set config([lindex $opt 0]) \[.value_change.value get\];destroy .value_change; reload_advanced_options $opt_list" -font sboldf
-			}
-			default {
-				entry .value_change.value -font splainf -width 50
-				.value_change.value insert end $config([lindex $opt 0])
-				pack .value_change.value -side top -padx 5 -pady 2 -expand true -fill x
-				button .value_change.b.ok -text "[trans accept]" -command "set config([lindex $opt 0]) \[.value_change.value get\];destroy .value_change; reload_advanced_options $opt_list" -font sboldf
-			}
-		}
-		button .value_change.b.cancel -text "[trans cancel]" -command "destroy .value_change" -font sboldf
-		pack .value_change.b.ok -side left -padx 0
-		pack .value_change.b.cancel -side left -padx 5
-		pack .value_change.b -side top -pady 2 -expand true -fill x -anchor w -padx 5
-
-		tkwait visibility .value_change
-		grab set .value_change
-
-	}
-}
 
 proc check_int {text} {
 	set int_val "0"
@@ -1723,14 +1670,29 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 #proc Browse_Dialog {}
 #Browse dialog function (used in TLS directory and convert file), first show the dialog (choose folder or choose file), after check if user choosed something, if yes, set the new variable
-proc Browse_Dialog {configitem dialogitem} {
-global config libtls_temp
-set browsechoose [$dialogitem]
-if { $browsechoose !="" } {
-set $configitem $browsechoose
-}
+proc Browse_Dialog_dir {configitem {initialdir ""}} {
+	global config libtls_temp
+	
+	if { $initialdir == "" } {
+		set initialdir [set $configitem]
+	}
+	
+	set browsechoose [tk_chooseDirectory -parent [focus] -initialdir $initialdir]
+	if { $browsechoose !="" } {
+		set $configitem $browsechoose
+	}
 }
 
+proc Browse_Dialog_file {configitem {initialfile ""}} {
+	global config libtls_temp
+	if { $initialfile == "" } {
+		set initialfile [set $configitem]
+	}
+	set browsechoose [tk_getOpenFile -parent [focus] -initialfile $initialfile]
+	if { $browsechoose !="" } {
+		set $configitem $browsechoose
+	}
+}
 
 #///////////////////////////////////////////////////////////////////////
 proc choose_basefont { } {

@@ -887,7 +887,19 @@ namespace eval ::MSN {
 		StopPolling
 		
 		::abook::saveToDisk
-		clean_contact_lists
+		
+		global list_BLP emailBList
+	
+		::MSN::clearList AL
+		::MSN::clearList BL
+		::MSN::clearList FL
+		::MSN::clearList rL
+		set list_BLP -1
+		if { [info exists emailBList] } {
+			unset emailBList
+		}
+		
+		::abook::unsetConsistent
 		
 		set automessage "-1"
 		
@@ -3950,8 +3962,6 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	::MSN::clearList AL
 	::MSN::clearList BL
 	::MSN::clearList RL
-	::abook::clearData
-
 
 	if {[sb get ns stat] != "d"} {
 		catch {fileevent [sb get ns sock] readable {}} res
@@ -4266,22 +4276,6 @@ proc new_contact_list { version } {
 }
 
 
-
-#TODO: ::abook sytem
-proc clean_contact_lists {} {
-	global list_BLP emailBList
-
-	::MSN::clearList AL
-	::MSN::clearList BL
-	::MSN::clearList FL
-	::MSN::clearList rL
-	set list_BLP -1
-	if { [info exists emailBList] } {
-		unset emailBList
-	}
-	
-	::abook::clearData
-}
 
 proc checking_package_tls { }  {
 	global tlsinstalled
