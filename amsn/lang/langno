@@ -1,84 +1,168 @@
 amsn_lang_version 2
 about Om
+acceptfile Aksepter fil $1, størrelse $2? Lagret i $3
+actions Hendelser
 addacontact Legg til en kontakt
 addedyou har lagt deg til sin kontaktliste
-addtoo Legg denne person til min kontaktliste
-allowseen La denne person se når jeg er online og kontakte meg
+addtocontacts Legg til kontaktliste
+addtoo Legg denne personen til i min kontaktliste
+admincontacts Administrer kontakter
+admingroups Administrer grupper
+adverts Reklame
+allowseen La denne personen se meg når jeg er online og kontakte meg
 appearoff Se ut som jeg er offline
-aretyping $1 er skriver en beskjed
-avoidseen Hindre denne person fra å se når jeg er online og kontakte meg
+aretyping $1 skriver en beskjed
+autohotmaillog Auto Hotmail innlogging
+autoip Automatisk IP
+avoidseen Hindre denne personen i å se når jeg er online og kontakte meg
 away Borte
+baduserpass Feil brukernavn eller passord
 blankdirect La stå tom for direkte tilkobling
-block Blokkér
+block Blokker
+blocked Blokkert
+browser Nettleser
+broughtby Gitt til deg av følgende utviklere
 busy Opptatt
 cancel Avbryt
-changenick Endre nick
+changenick Endre kallenavn
 chat Chat
-chatreq Forespørsel om chat
-chatack Akseptér chat fra
+chatreq Forespørsel om  chat
+chatsmileys Chat smileyer
+chatack Aksepterer chat fra
 checkver Se etter nyere versjon
-checkingver Ser etter nyere versjoner
+checkingver Ser etter nyere versjon
+choosebasefont Velg skrifttype
+choosebgcolor Velg bakgrunnsfarge
 clicktologin Klikk her for å logge inn
 close Lukk
-contactadded Kontakt lagt til
-set lang(connecterror) "Feil ved tilkobling til server"
+closingdocks Lukke-knappen minimerer vinduet
+command Kommando
+confirmdelete Er du sikker på at du vil slette $1?
+contactadded Kontakten er lagt til
+contactdoesnotexist Kontakten eksisterer ikke!
+connecterror Feil ved tilkobling til server
+copytogroup Kopier til gruppe
 date Dato
 delete Slett
+enableproxy Bruk proxy
+encoding Velg encoding
 entercontactemail Oppgi kontakt e-post
-enternick Oppgi nick
+enterfilename Vennligst oppgi et filnavn
+enternick Oppgi ditt nick
 examples Eksempler
+exitamsn Er du sikker på at du vil avslutte?
+extras Ekstra tjenester
+filedoesnotexist Filen eksisterer ikke
+filename Filnavn
+filetransfercancelled Filoverføringen ble avbrutt
+filetransfercomplete Filoverføringen er fullført
 gonelunch Ute til lunsj
+group Gruppe
+groupadd Legg til en gruppe
+groupdelete Slett en gruppe
+grouprename Gi nytt navn til en gruppe
+groupoldname Gammelt navn
+groupnewname Nytt navn
+groupunknown Ukjent gruppe
+groupexists Gruppen eksisterer allerede
+groupmissing Finner ikke gruppen
+groupnotempty Gruppen er ikke tom!
+handle Handle
 help Hjelp
+helpcontents Hjelp innhold
+home Hjem
 ident Identifiserer
-invite Invitér
-istyping $1 er skriver en beskjed
-joins $1 $2 blir med i konversasjonen
+identity Identitet
+inbox Innboks
+invalidusername Ugyldig brukernavn
+invite Inviter
+ipaddress IP addresse
+istyping $1 skriver en beskjed
+joins $1 $2 blir med i samtalen
 language Språk
-leaves $1 forlater konversasjonen
+leaveblankforhotmail La stå tom for å bruke Hotmail web
+leaves $1 forlater samtalen
+listeningon Lytter til port $1
+listsmileys Vis alle Smileys
+loadcontacts Last inn kontaktliste
+loggedotherlocation Frakoblet, Logget inn et annet sted
 loggingin Logger inn
 login Logg inn
+loginas Logg inn som
 logout Logg ut
 logsin har nettopp logget inn
-mustrestart Du må starte programmet på nytt for å aktivisere endringer
+mailer Mailer
+mobile Mobil
+movetogroup Flytt til gruppe
+mustrestart Du må starte programmet på nytt for å aktivere endringene
 mystatus Min status
-msg Melding
+msg Beskjed
 msn AMSN
-newmail $1 nye meldinger i innboksen
+needonline Du er ennå/ser ut til å være offline!
+newmail $1 nye meldinger i Innboksen
 newmailfrom Ny e-post fra
 newmsg Ny melding
 newveravailable Nyere versjon $1 tilgjengelig for nedlasting
 next Neste
 noactivity Ingen aktivitet
-nonewmail 0 nye meldinger i innboksen
-nonewver Det er ingen nye versjoner klare til nedlasting
+nonewmail Ingen nye meldinger i Innboksen
+nonewver Det er ingen nye versjoner tilgjengelig for nedlasting
 notify gi beskjed
 nousersinsession Ingen brukere i sesjonen
 ok OK
 offline Offline
-nonewmail 1 nye meldinger i innboksen
+onenewmail 1 ny melding i Innboksen
 online Online
 onphone I telefonen
-other Abdre
+openreceived Åpne mottatte filer
+options Alternativer
+ordercontactsby Sorter kontakter etter
+other Andre
+pager Personsøker
 pass Passord
+phone Telefon
 port Port
+prefapps Applikasjoner
+preferences Innstillinger
+prefsound Lyder
+properties Egenskaper
 proxyconf Proxy konfigurasjon
 proxyconfhttp HTTP proxy support konfigurasjon
+publishphones Publiser mine telefonnummer
+receivedbytes Mottatt $1 av $2 bytes
+receivefile Motta fil
 reconnect Venter på at $1 skal koble til på nytt
-reconnecting Kobler til server på nytt
+reconnecting Kobler til serveren på nytt
 rememberpass Husk passord
 rightback Straks tilbake
+save Lagre
+saveas Lagre som
+savecontacts Lagre kontaktliste
 says $1 sier
 sbcon Kobler til koblingstavle
 send Send
+sendfile Send fil
+sendmail Send e-post
+sendmsg Send beskjed
+sentbytes Sendt $1 av $2 bytes
 server Server
+servergoingdown Frakoblet: Serveren går ned
 sound Hendelseslyd
+startoffline Start offline
+status Status
+syntaxerror  Syntax Error
+textsize Skriftstørrelse
 title Al's Messenger
 to Til
+tools Verktøy
 yousay Du sier
-youwant Du vil ha
-unblock Deblokkér
+youwant Du vil
+unblock Deblokker
 uoffline Offline
 uonline Online
 user Bruker
+useralreadyonlist Brukeren er allerede i kontaktlisten
 version Versjon
-willjoin Venter $1 blir med i konversasjonen
+view Vis
+willjoin Venter $1 blir med i samtalen
+work Arbeid
