@@ -36,6 +36,8 @@ This is an ongoing project, and it is already going pretty well.
 #make  localroot=%{localroot} prefix=%{prefix} version=%{version} wmapps=%{wmapps} install
 make  proot=%{prefix} prefix=${RPM_BUILD_ROOT}%{prefix} version=%{version} wmapps=%{wmapps} install
 
+ln -sf %{prefix}/share/amsn/amsn ${RPM_BUILD_ROOT}%{prefix}/bin/amsn
+
 %clean
 #rm -rf ${RPM_BUILD_ROOT}
 #echo clean ${RPM_BUILD_ROOT}
@@ -48,6 +50,7 @@ make  proot=%{prefix} prefix=${RPM_BUILD_ROOT}%{prefix} version=%{version} wmapp
 
 # Tasks after Uninstall
 %postun
+rm -f %{prefix}/bin/amsn
 
 %files
 %doc README TODO changelog GNUGPL
