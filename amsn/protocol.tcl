@@ -1922,6 +1922,7 @@ proc cmsn_change_state {recv} {
       if {$user_name != [lindex $user_data 1]} {
       	#Nick differs from the one on our list, so change it
 	#in the server list too
+	status_log "This can give an error if no encoded, so TODO FIX IT\n" red
 	::MSN::changeName $user $user_name
       }
 
@@ -2486,21 +2487,31 @@ proc urldecode {str} {
     set end [string first "%" $str $begin]
     set decode ""
   
-  
+
     while { $end >=0 } {
       set decode "${decode}[string range $str $begin [expr {$end-1}]]"
 
-      if {[catch {set decode "${decode}[format %c 0x[string range $str [expr {$end+1}] [expr {$end+2}]]]"} res]} {
-         catch {set decode "${decode}[format %c 0x[string range $str [expr {$end+1}] [expr {$end+1}]]]"} res
+      set carval [format %d 0x[string range $str [expr {$end+1}] [expr {$end+2}]]]
+      if {$carval > 128} {
+      	set carval [expr { $carval - 0x100 }]
       }
+      set car [binary format c $carval]
+#      status_log "carval: $carval = $car\n"
+
+      set decode "${decode}$car"
+
+      #if {[catch {set decode2 "${decode2}[format %c 0x[string range $str [expr {$end+1}] [expr {$end+2}]]]"} res]} {
+      #   catch {set decode2 "${decode2}[format %c 0x[string range $str [expr {$end+1}] [expr {$end+1}]]]"} res
+      #}
 
       set begin [expr {$end+3}]
       set end [string first "%" $str $begin]
     }
-    
+
     set decode ${decode}[string range $str $begin [string length $str]]
 
-    return $decode
+   #status_log "urldecode: original:$str\n   decoded=$decode\n   un-utf-8=[encoding convertfrom utf-8 $decode]\n"
+    return [encoding convertfrom utf-8 $decode]
 }
 
 proc urlencode {str} {
@@ -2508,26 +2519,24 @@ proc urlencode {str} {
 
    set encode ""
 
-   set str [encoding convertto utf-8 $str]
-   
-   for {set i 0} {$i<[string length $str]} {incr i} {
-     set character [string range $str $i $i]
-     if {[string match {[^a-zA-Z0-9]} $character]==0} {       
-       #Try 8 bits character, then 16 bits unicode
+   set utfstr [encoding convertto utf-8 $str]
+
+
+   for {set i 0} {$i<[string length $utfstr]} {incr i} {
+     set character [string range $utfstr $i $i]
        binary scan $character c charval
-       binary scan $character s charval
-       set charval [expr {( $charval + 0x10000 ) % 0x10000}]
+       #binary scan $character s charval
+       set charval [expr {($charval + 0x100) % 0x100}]
+       #set charval [expr {( $charval + 0x10000 ) % 0x10000}]
        if {$charval <= 0xFF} {
           set encode "${encode}%[format %.2X $charval]"
        } else {
-          set charval1 [expr {$charval & 0xFF} ]
-          set charval2 [expr {$charval >> 8}]
-          set encode "${encode}$character"
+          status_log "THIS ELSE SHOULDN'T HAPPEN, CHECK IT IN proc urlencode!!!\n" red
+          #set charval1 [expr {$charval & 0xFF} ]
+          #set charval2 [expr {$charval >> 8}]
+          #set encode "${encode}$character"
        }
-     } else {
-       set encode "${encode}$character"
-     }
-   } 
-  
+   }
+   #status_log "urlencode: original=$str\n   utf-8=$utfstr\n   encoded=$encode\n"
    return $encode
 }

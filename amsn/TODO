@@ -33,7 +33,7 @@ DONE	Fix use of default config for non profile logins (currently uses hard coded
 -	Improve enabling/disabling menu entries procedure, make language independant
 DONE	When notify window is for a file transfer, clicking on it triggers a bug! 
 -	Add "Make this config default profile" button in Preferences
-
+DONE	Bug fixes in urlencode/decode procedure that didn't allow some characters in nicks and would cause bogus "Invalid nick" messages.
 	
 	***Existing Feature Improvements (priority 2)***
 
