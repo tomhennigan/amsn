@@ -1090,10 +1090,12 @@ namespace eval ::amsnplus {
 					set strlen [string length $msg]
 					set group [::groups::GetName [::abook::getContactData $user_login group]]
 					set nick [::abook::getContactData $user_login nick]
+					set client [::abook::getContactData $user_login clientname]
+					set os [::abook::getContactData $user_login operatingsystem]
 					if {[::amsnplus::version_094]} {
-						::amsnplus::write_window $chatid "\n$user_login info: $nick $group" 0
+						::amsnplus::write_window $chatid "\n$user_login info: $nick $group $client $os" 0
 					} else {
-						::amsnplus::write_window $chatid "[trans cinfo $user_login $nick $group]" 0
+						::amsnplus::write_window $chatid "[trans cinfo $user_login $nick $group $client $os]" 0
 					}
 				}
 				set incr 0
