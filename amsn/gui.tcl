@@ -61,7 +61,12 @@ namespace eval ::amsn {
 		option add *Menu.font menufont
 		option add *background $bgcolor
 		option add *selectColor #DD0000
+		#Use different width for scrollbar on Mac OS X
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		option add *Scrollbar.width 15 userDefault
+		} else {
 		option add *Scrollbar.width 12 userDefault
+		}
 		option add *Font splainf userDefault
 		option add *Button.Font sboldf userDefault
 		option add *Scrollbar.borderWidth 1 userDefault
