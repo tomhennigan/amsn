@@ -42,6 +42,7 @@
 
    		 </Colors>
 		 <Options>
+			<emailabovecolorbar>0</emailabovecolorbar>
 			<underline_contact>0</underline_contact>
 			<showdisplaycontactlist>1</showdisplaycontactlist>
 		 </Options>
