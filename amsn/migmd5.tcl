@@ -20,63 +20,12 @@
 # - Don
 #
 # Modified by Miguel Sofer to use inlines and simple variables
+# Modified by Alvaro J. Iradier Muro to avoid using package Trf
 ##################################################
 
 namespace eval ::md5 {
 }
 
-if {![catch {package require Trf 2.0}]} {
-    # Trf is available, so implement the functionality provided here
-    # in terms of calls to Trf for speed.
-
-    proc ::md5::md5 {msg} {
-	string tolower [::hex -mode encode [::md5 $msg]]
-    }
-
-    # hmac: hash for message authentication
-
-    # MD5 of Trf and MD5 as defined by this package have slightly
-    # different results. Trf returns the digest in binary, here we get
-    # it as hex-string. In the computation of the HMAC the latter
-    # requires back conversion into binary in some places. With Trf we
-    # can use omit these.
-
-    proc ::md5::hmac {key text} {
-	# if key is longer than 64 bytes, reset it to MD5(key).  If shorter, 
-	# pad it out with null (\x00) chars.
-	set keyLen [string length $key]
-	if {$keyLen > 64} {
-	    #old: set key [binary format H32 [md5 $key]]
-	    set key [::md5 $key]
-	    set keyLen [string length $key]
-	}
-    
-	# ensure the key is padded out to 64 chars with nulls.
-	set padLen [expr {64 - $keyLen}]
-	append key [binary format "a$padLen" {}]
-
-	# Split apart the key into a list of 16 little-endian words
-	binary scan $key i16 blocks
-
-	# XOR key with ipad and opad values
-	set k_ipad {}
-	set k_opad {}
-	foreach i $blocks {
-	    append k_ipad [binary format i [expr {$i ^ 0x36363636}]]
-	    append k_opad [binary format i [expr {$i ^ 0x5c5c5c5c}]]
-	}
-    
-	# Perform inner md5, appending its results to the outer key
-	append k_ipad $text
-	#old: append k_opad [binary format H* [md5 $k_ipad]]
-	append k_opad [::md5 $k_ipad]
-
-	# Perform outer md5
-	#old: md5 $k_opad
-	string tolower [::hex -mode encode [::md5 $k_opad]]
-    }
-
-} else {
     # Without Trf use the all-tcl implementation by Don Libes.
 
     # T will be inlined after the definition of md5body
@@ -409,7 +358,7 @@ if {![catch {package require Trf 2.0}]} {
 	# ensure the key is padded out to 64 chars with nulls.
 	set padLen [expr {64 - $keyLen}]
 	append key [binary format "a$padLen" {}]
-	
+
 	# Split apart the key into a list of 16 little-endian words
 	binary scan $key i16 blocks
 
@@ -428,6 +377,5 @@ if {![catch {package require Trf 2.0}]} {
 	# Perform outer md5
 	md5 $k_opad
     }
-}
 
 package provide md5 1.4
