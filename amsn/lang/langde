@@ -84,6 +84,7 @@ dockgtk In GTK festankern
 docking Festankern eingeschaltet
 dockingoff Festankern ausgeschaltet
 dockkde In KDE festankern
+dockfreedesktop In freiem Desktop festankern (KDE3/Gnome2)
 edit Ändern
 editprofile Profil ändern
 enableproxy Proxy aktivieren
@@ -284,6 +285,7 @@ title Al's Messenger
 to An
 tools Extras
 transnotexists Die gewünschte Datei wurde noch nicht in die aktuelle Sprache übersetzt.
+traynotcompiled Ablage Icon Plugin ist nicht compiliert. Überprüfen Sie Plugins/Ablageanker
 unblock Blockieren entfernen
 uoffline Offline
 uonline Online
@@ -295,6 +297,7 @@ view Ansicht
 viewprofile Profil ansehen
 willjoin Warte... $1 wird dem Chat hinzugefügt
 work Arbeit
+wrongprofileversion Falsche Version der Profil-Konfigurationsdatei. Um das Problem zu beheben entfernen Sie bitte das Verzeichnis $1, oder installieren Sie eine aktuelle Version von aMSN.
 xoffset X Offset
 yoffset Y Offset
 yousay Du sagst
