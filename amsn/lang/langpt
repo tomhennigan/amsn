@@ -171,6 +171,7 @@ ftportpref Use esta porta e as seguintes para transferência de ficheiros
 ftrejectedby $1 rejeita o pedido de transferência do ficheiro $2
 ftrejected Trnsferência de Ficheiro rejeitada
 ftsendinvitation O ficheiro '$2' ($3 bytes) foi enviado para $1
+getdisppic Activar recepção das imagens de exibição dos outros utilizadores
 gonelunch Saí para comer
 groupadd Adicionar grupo
 groupdelete Apagar grupo
@@ -254,6 +255,7 @@ msn AMSN
 mustrestart Deve reiniciar o programa para aplicar as modificações
 myhomephone  Meu Telefone de casa
 mymobilephone Meu Telemóvel
+mypic A minha imagem de exibição:
 mystatus O meu estado
 myworkphone Meu Telefone do trabalho
 natip Detecção de IP por página web
@@ -300,6 +302,7 @@ pass Senha
 paste Colar
 personal Pessoal
 phone Telefone
+picbrowser Visualizador de imagens de exibição
 picfile Imagem (GIF < 500 x 500)
 picstatus Imagem de alarme
 playing A jogar: $1
@@ -346,6 +349,7 @@ proxyconfhttp Configurar suporte de proxy http
 proxyconnection Eu ligo-me à internet através de um servidor proxy
 proxy Estou atrás de um Proxy (HTTP or SOCKS5)
 publishphones Publicar telefones
+purge Apagar
 raised Maximizado/Minimizado
 readonlymsgbox A transferência foi cancelada devido a directória que estava a receber o ficheiro ser read-only. Por Favor arranje as permissões nesta directória
 readonlywarn AVISO: O ficheiro provavelmente NÃO irá ser guardado correctamente, devido à Directória "Received Files"  parecer estar write-protected. Por favor tenha a certexa que a permissão da directória ($1) está posta correctamente antes de transferir o ficheiro.
