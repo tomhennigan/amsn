@@ -217,9 +217,6 @@ namespace eval notebook {
 	selectLabel $w $idx
     }
 
-    namespace export getNote notebook pickNote
-}
-namespace import notebook::*
 
 # -----------------------------------------------------------------------
 # Demo code
@@ -255,3 +252,8 @@ proc tkDarkenn {color percent} {
      }
      return [format "#%02x%02x%02x" $red $green $blue]
  }
+
+     namespace export getNote notebook pickNote tkDarkenn
+}
+namespace import notebook::*
+

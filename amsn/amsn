@@ -1426,7 +1426,7 @@ proc cmsn_draw_msgwin {email} {
    wm iconmask . @${images_folder}/amsnmask.xbm
    
    menu .${win_name}.menu -tearoff 0 -type menubar  \
-      -borderwidth 0 -activeborderwidth -0 
+      -borderwidth 2 -relief ridge -activeborderwidth -0 
    .${win_name}.menu add cascade -label "[trans msn]" -menu .${win_name}.menu.msn
    .${win_name}.menu add cascade -label "[trans edit]" -menu .${win_name}.menu.edit
    .${win_name}.menu add cascade -label "[trans view]" -menu .${win_name}.menu.view
@@ -1490,8 +1490,8 @@ proc cmsn_draw_msgwin {email} {
    .${win_name}.copypaste add command -label [trans paste] -command "status_log paste\n;paste ${win_name}"
 
    frame .${win_name}.top -class Amsn
-   text .${win_name}.top.text  -borderwidth 0 -width 45 \
-      -height 1 -wrap word -yscrollcommand ".${win_name}.top.ys set"
+   text .${win_name}.top.text  -borderwidth 1 -width 45 -relief solid -padx 7 -pady 3\
+      -height 1 -wrap none -yscrollcommand ".${win_name}.top.ys set" -background [notebook::tkDarkenn $config(backgroundcolor) 90]
    scrollbar .${win_name}.top.ys -command ".${win_name}.top.text yview" \
       
    text .${win_name}.text -background white -width 45 -height 15 -wrap word \
@@ -1507,7 +1507,7 @@ proc cmsn_draw_msgwin {email} {
    button .${win_name}.in.send  -text [trans send] -width 5 \
       -command "sb_enter $name .${win_name}.in.input" -font bboldf
 
-   frame .${win_name}.buttons -class Amsn
+   frame .${win_name}.buttons -class Amsn -borderwidth 2 -relief ridge
 
    button .${win_name}.buttons.smileys  -image butsmile -relief flat -padx 5
    button .${win_name}.buttons.fontsel -image butfont -relief flat -padx 5
@@ -1735,17 +1735,28 @@ proc cmsn_msgwin_sendmail {name} {
 }
 
 proc cmsn_msgwin_title {name} {
+   global list_states
    upvar #0 [sb name $name users] users_list
    set win_name "msg_[string tolower ${name}]"
 
    if {[llength $users_list]} {
       set title ""
-      set topmsg "[trans to]: "
+#      set topmsg "[trans to]:"
+      set topmsg ""
       foreach usrinfo $users_list {
          set user_login [lindex $usrinfo 0]
          set user_name [lindex $usrinfo 1]
          set title "${title}${user_name}, "
-         set topmsg "${topmsg}${user_name} <${user_login}>, "
+#	 set user_state_no [lindex $usrinfo 2]
+#	 status_log "$user_state_no\n"
+#         set state [lindex $list_states $user_state_no]
+#         set state_code [lindex $state 1]
+#	 status_log "$state_code\n"
+#	 if { $state_code == "online" } {
+	 	set topmsg "${topmsg}${user_name} <${user_login}> \n"
+#	 } else {
+#	 	set topmsg "${topmsg}${user_name} \([trans $state_code]\) <${user_login}> \n"
+#	 }
       }
       set title [string replace $title end-1 end " - [trans chat]"]
       set topmsg [string replace $topmsg end-1 end]
@@ -1796,8 +1807,16 @@ proc cmsn_msgwin_flicker {name count} {
 
 proc cmsn_msgwin_top {name txt} {
    set win_name "msg_[string tolower ${name}]"
+   upvar #0 [sb name $name users] users
+   set nbusers [llength $users]
+   
+   status_log "got this many users : $nbusers\n"
 
-   .${win_name}.top.text configure -state normal -font splainf
+   if { $nbusers > 0 } {
+	.${win_name}.top.text configure -state normal -font splainf -height $nbusers
+   } else {
+      	.${win_name}.top.text configure -state normal -font splainf -height 1
+   }
    .${win_name}.top.text delete 0.0 end
    .${win_name}.top.text insert end $txt
    .${win_name}.top.text configure -state disabled
