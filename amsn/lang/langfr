@@ -36,7 +36,8 @@ animatenotify Animer la fenêtre de notifications
 appearance Apparence
 appearoff Apparaître déconnecté
 areacode Code régional
-aretyping $1 est en train de taper un message
+aretyping $1 sont en train de taper un message
+author Auteur
 autoaccepted Transfert de fichier accepté automatiquement
 autoacceptft Accepter automatiquement les transferts de fichiers
 autoaway Me marquer "Absent" quand inactif plus de
@@ -318,7 +319,7 @@ listsmileys2 Afficher les émoticons et les smileys dans la liste de contacts pri
 listsmileys Liste des smileys
 ljoinedconf $1 a rejoint la conférence
 lleftconf $1 a quitté la conférence
-load Chargement
+load Activer
 loadcontacts Charger la liste de contacts
 logbigger Taille du fichier Log pour chaque contact ne dépasse jamais
 logeventconnect Enregistrer les connexions
@@ -366,6 +367,7 @@ mynick Mon pseudonyme
 mypic Mon icône
 mystatus Mon état
 myworkphone Mon numéro professionnel
+name Nom
 natip Détection de l'adresse IP par page web
 natkeepalive Si vous êtes souvent déconnecté involontairement, activez cet option
 needonline Vous êtes toujours déconnecté(e)!
@@ -495,6 +497,7 @@ rememberpass Enregistrer le mot de passe
 removeempty Retirer les groupes vides de la liste des contacts
 removefromlist Supprimer de cette liste
 rename Renommer
+required_version Impossible de charger ce plugin. Il nécessite au moins la version $1 d'aMSN
 reversed Ordre inversé
 reverselist Liste inversée :
 rightback Bientôt de retour
@@ -590,6 +593,8 @@ truncatenames2 Tronquer les pseudos plus long que la largeur de la fenêtre dans 
 truncatenicks Tronquer les pseudos plus long que la largeur de la fenêtre
 twonewmail $1 nouveaux messages dans votre boîte de réception
 unblock Débloquer
+unknown Inconnu
+unload Désactiver
 uoffline Déconnectés
 uonline Connectés
 useralreadyonlist Utilisateur déjà présent dans la liste

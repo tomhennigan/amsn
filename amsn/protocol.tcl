@@ -4849,7 +4849,7 @@ proc add_Clientid {chatid clientid} {
 			::abook::setContactData $chatid clientid "Web Messenger"
 		}
 		default {
-			::abook::setContactData $chatid clientid "Unknown"
+			::abook::setContactData $chatid clientid "[trans unknown]"
 		}
 	}
 }

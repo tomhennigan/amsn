@@ -593,6 +593,7 @@ truncatenames2 Truncate nicknames longer than window width inside conversations
 truncatenicks Truncate nicknames longer than window width
 twonewmail $1 new messages in Inbox
 unblock Unblock
+unknown Unknown
 unload Unload
 uoffline Offline
 uonline Online
