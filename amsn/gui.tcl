@@ -1389,7 +1389,10 @@ namespace eval ::amsn {
       set window_titles(.${win_name}) ""
       set first_message(.${win_name}) 1
 
-      if { $config(newchatwinstate) == 0 } {
+      bind .${win_name} <Configure> "::amsn::ConfiguredChatWin .${win_name}"
+
+
+      if { $config(newchatwinstate) == 0 } {.${win_name}
 	 wm state .${win_name} normal
 	 raise .${win_name}
       } else {
@@ -1399,6 +1402,14 @@ namespace eval ::amsn {
       return ".${win_name}"
 
    }
+
+	proc ConfiguredChatWin {win} {
+		set chatid [ChatFor $win]
+		if { $chatid != 0 } {
+			after cancel "::amsn::WinTopUpdate $chatid"
+			after 200 "::amsn::WinTopUpdate $chatid"
+		}
+	}
 
 
    proc ChangeWinSize { win } {
@@ -2991,6 +3002,8 @@ proc status_save_file { filename } {
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_offline {} {
 
+   bind . <Configure> ""
+
    after cancel "cmsn_draw_online 1"
 
    global sboldf config password pgBuddy
@@ -3132,7 +3145,9 @@ proc cmsn_draw_offline {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_signin {} {
-    global config pgBuddy
+   bind . <Configure> ""
+
+	 global config pgBuddy
 
    wm title . "[trans title] - $config(login)"
 
@@ -3193,6 +3208,7 @@ proc login_ok {} {
 # cmsn_draw_login {}
 # 
 proc cmsn_draw_login {} {
+
 	global config password loginmode HOME HOME2 protocol
 
 	if {[winfo exists .login]} {
@@ -3389,6 +3405,7 @@ proc clickableImage {tw name image command {padx 0} {pady 0}} {
 #///////////////////////////////////////////////////////////////////////
 # TODO: move into ::amsn namespace, and maybe improve it
 proc cmsn_draw_online { {force 0} } {
+
 
    if { !$force } {
      after cancel "cmsn_draw_online 1"
@@ -3738,7 +3755,7 @@ proc cmsn_draw_online { {force 0} } {
          if {$myGroupExpanded} {
             ShowUser $user_name $user_login $state $state_code $colour $section $user_group
          }
-	 
+
 	 if { !$config(orderbygroup) } {
 	    #Avoid adding users more than once when ordering by online/offline!!
 	    break
@@ -3777,7 +3794,7 @@ proc cmsn_draw_online { {force 0} } {
 	   #$pgBuddy.text insert $gtag.last " ($::groups::uMemberCnt($gname))\n" $gtag
 		if { $gname == "blocked" } {
 		    $pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))\n" blocked
-		} else { 
+		} else {
 		    $pgBuddy.text insert ${gtag}.last \
 			" ($::groups::uMemberCnt_online(${gname})/$::groups::uMemberCnt($gname))\n" $gtag
 		}
@@ -3803,9 +3820,25 @@ proc cmsn_draw_online { {force 0} } {
    	InitPref
    }
 
+	global wingeom
+	set wingeom [list [winfo width .] [winfo height .]]
+
+	bind . <Configure> "configured_main_win"
+	#wm protocol . WM_RESIZE_WINDOW "cmsn_draw_online 0"
+
 
 }
 #///////////////////////////////////////////////////////////////////////
+
+proc configured_main_win {{w ""}} {
+	global wingeom
+	set w [winfo width .]
+	set h [winfo height .]
+	if { [lindex $wingeom 0] != $w  || [lindex $wingeom 1] != $h} {
+		set wingeom [list $w $h]
+		cmsn_draw_online
+	}
+}
 
 proc getUniqueValue {} {
    global uniqueValue
@@ -4990,7 +5023,7 @@ proc check_version_silent {} {
 	::http::cleanup $token
 	
 	set lastver [split $tmp_data "."]
-	set yourver [split $version "."]    
+	set yourver [split $version "."]
 
          if { [lindex $lastver 0] > [lindex $yourver 0] } {
             set newer 1
