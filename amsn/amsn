@@ -2182,7 +2182,6 @@ if { $config(encoding) != "auto" } {
 }
 
 cmsn_draw_main
-#cmsn_draw_notify
 
 degt_protocol_win
 degt_ns_command_win
