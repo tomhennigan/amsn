@@ -427,8 +427,8 @@ proc OpenLogWin { {email ""} } {
 
 	ParseLog $wname $logvar
 
-	button $wname.buttons.close -text "[trans close]" -command "destroy $wname" -font sboldf
-	button $wname.buttons.save -text "[trans savetofile]" -command "::log::SaveToFile ${wname} ${email} [list ${logvar}]" -font sboldf
+	button $wname.buttons.close -text "[trans close]" -command "destroy $wname"
+	button $wname.buttons.save -text "[trans savetofile]" -command "::log::SaveToFile ${wname} ${email} [list ${logvar}]"
   	button $wname.buttons.clear -text "[trans clearlog]" \
 				    -command "if { !\[winfo exists $wname.top.date.list\] } { \
 				                    set date \".\" \
@@ -438,7 +438,7 @@ proc OpenLogWin { {email ""} } {
                                               if { \[::log::ClearLog $email \"\$date\"\] } { 
 				                    destroy $wname
 			         	      }" \
-	                            -font sboldf
+	                            
 
 
 	menu ${wname}.copypaste -tearoff 0 -type normal
@@ -454,7 +454,7 @@ proc OpenLogWin { {email ""} } {
 	pack $wname.buttons.clear -padx 0 -side right
 	pack $wname.buttons -side bottom -fill x -pady 3
 	bind $wname <<Escape>> "destroy $wname"
-	bind ${wname}.blueframe.log.txt <Button3-ButtonRelease> "tk_popup ${wname}.copypaste %X %Y"
+	bind ${wname}.blueframe.log.txt <<Button3>> "tk_popup ${wname}.copypaste %X %Y"
 	bind ${wname} <Control-c> "tk_textCopy ${wname}.blueframe.log.txt"
 	moveinscreen $wname 30
 }

@@ -78,12 +78,12 @@ namespace eval ::groups {
 			destroy .dlgag
 		}
 		frame .dlgag.b 
-		button .dlgag.b.ok -text "[trans ok]"  -font sboldf \
+		button .dlgag.b.ok -text "[trans ok]"   \
 			-command {
 				::groups::Add "[.dlgag.d.ent get]" dlgMsg; 
 				destroy .dlgag
 			}
-		button .dlgag.b.cancel -text "[trans cancel]"  -font sboldf \
+		button .dlgag.b.cancel -text "[trans cancel]"   \
 			-command {
 				set pgc 0
 				destroy .dlgag;
@@ -91,6 +91,7 @@ namespace eval ::groups {
 		pack .dlgag.b.ok .dlgag.b.cancel -side right -padx 5
 		pack .dlgag.d -side top -pady 3 -padx 5
 		pack .dlgag.b  -side top -anchor e -pady 3
+		moveinscreen .dlgag 30
 	}
 
 	proc dlgRenGroup {} {
@@ -117,16 +118,17 @@ namespace eval ::groups {
 		pack .dlgrg.n.lbl .dlgrg.n.ent -side left
 		
 		frame .dlgrg.b 
-		button .dlgrg.b.ok -text "[trans ok]" -font sboldf \
+		button .dlgrg.b.ok -text "[trans ok]"  \
 			-command { \
 			::groups::Rename $::groups::groupname "[.dlgrg.n.ent get]" dlgMsg;\
 			destroy .dlgrg }
-		button .dlgrg.b.cancel -text "[trans cancel]" -font sboldf \
+		button .dlgrg.b.cancel -text "[trans cancel]"  \
 			-command "set pgc 0; destroy .dlgrg"
 		pack .dlgrg.b.ok .dlgrg.b.cancel -side right -padx 5
 			
 		pack .dlgrg.d .dlgrg.n -side top
 		pack .dlgrg.b -side top -anchor e -pady 3
+		moveinscreen .dlgrg 30
 	
 	}
 
@@ -159,12 +161,13 @@ namespace eval ::groups {
 		pack .dlgthis.data.lbl .dlgthis.data.ent -side left
 		
 		frame .dlgthis.buttons 
-		button .dlgthis.buttons.ok -text "[trans ok]" -command "::groups::ThisOkPressed $gid" -font sboldf
+		button .dlgthis.buttons.ok -text "[trans ok]" -command "::groups::ThisOkPressed $gid" 
 		button .dlgthis.buttons.cancel -text "[trans cancel]" \
-			-command "set pgc 0; destroy .dlgthis" -font sboldf
+			-command "set pgc 0; destroy .dlgthis" 
 		pack .dlgthis.buttons.ok .dlgthis.buttons.cancel -side left -pady 5
 			
 		pack .dlgthis.data .dlgthis.buttons -side top
+		moveinscreen .dlgthis 30
 	
 	}
    

@@ -360,7 +360,7 @@ proc EditNewState { mode { idx "" } } {
     
 	# Frame for buttons
 	frame .editstate.buttons -class Degt
-	button .editstate.buttons.cancel -text [trans cancel] -font sboldf -command "destroy .editstate"
+	button .editstate.buttons.cancel -text [trans cancel] -command "destroy .editstate"
 
 	# Insert states in the combobox
 	eval $lfname.statebox list insert end [list [trans online] \
@@ -384,10 +384,10 @@ proc EditNewState { mode { idx "" } } {
 	#else {
 	#	$lfname.enick insert end [::abook::getPersonal nick]
 	#}
-	button .editstate.buttons.save -text [trans ok] -font sboldf -command "ButtonSaveState $lfname $idx; destroy .editstate"
+	button .editstate.buttons.save -text [trans ok] -command "ButtonSaveState $lfname $idx; destroy .editstate"
 	pack .editstate.buttons.save .editstate.buttons.cancel -side right -padx 10 -pady 5
 	pack .editstate.buttons -side top -fill x -pady 10
-
+	moveinscreen .editstate
 }
 
 #///////////////////////////////////////////////////////////////////////////////

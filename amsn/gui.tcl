@@ -138,7 +138,7 @@ namespace eval ::amsn {
 			option add *Scrollbar.borderWidth		1 
 			option add *Scrollbar.highlightThickness	0 widgetDefault
 		}
-
+		option add *Font splainf userDefault
 		#Use different width for scrollbar on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			option add *Scrollbar.width 15 userDefault
@@ -150,8 +150,8 @@ namespace eval ::amsn {
 			option add *Scrollbar.width 12 userDefault
 			option add *Button.Font sboldf userDefault
 		}
-		option add *Font splainf userDefault
-		option add *Button.Font sboldf userDefault
+		
+		
 		option add *Button.activeForeground #5b76c6 userDefault
 
 		#option add *Scrollbar.borderWidth 1 userDefault

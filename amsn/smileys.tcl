@@ -268,12 +268,12 @@ proc new_custom_emoticon_gui {{name ""}} {
     label $w.lfile -text "[trans smilefile]" -font splainf
     entry $w.file -textvariable new_custom_cfg(file)  -background white -font splainf
     button $w.browsefile -text "[trans browse]" -command [list chooseFileDialog "" "" .new_custom $w.file open  \
-	 	[list [list [trans imagefiles] [list *.gif *.GIF *.jpg *.JPG *.bmp *.BMP *.png *.PNG]] [list [trans allfiles] *]]] -width 10 -font sboldf
+	 	[list [list [trans imagefiles] [list *.gif *.GIF *.jpg *.JPG *.bmp *.BMP *.png *.PNG]] [list [trans allfiles] *]]] -width 10 
 
     label $w.lsound -text "[trans soundfile]" -font splainf
     entry $w.sound -textvariable new_custom_cfg(sound)  -background white -font splainf
     button $w.browsesound -text "[trans browse]" -command [list chooseFileDialog "" "" .new_custom $w.sound open \
-	  [list [list [trans soundfiles] [list *.wav *.mp3 *.au *.ogg]] [list [trans allfiles] *]]] -width 10 -font sboldf
+	  [list [list [trans soundfiles] [list *.wav *.mp3 *.au *.ogg]] [list [trans allfiles] *]]] -width 10 
     checkbutton $w.enablesound -text "[trans enablesound]" -onvalue 1 -offvalue 0 -variable new_custom_cfg(enablesound) -command update_enabled_sound_smileys -font sboldf
     checkbutton $w.animated -text "[trans animatedemoticon]" -onvalue 1 -offvalue 0 -variable new_custom_cfg(animated) -font sboldf
     checkbutton $w.hiden -text "[trans hiden]" -onvalue 1 -offvalue 0 -variable new_custom_cfg(hiden) -font sboldf
@@ -284,17 +284,17 @@ proc new_custom_emoticon_gui {{name ""}} {
     if { $name == "" } {
 	wm title .new_custom "[trans custom_new]"
 	label .new_custom.1.intro -text "[trans smileintro]" -font splainf
-	button .new_custom.buttons.ok -text "[trans ok]" -command "new_custom_emoticon_from_gui;destroy .new_custom" -width 15 -font sboldf
-	button .new_custom.buttons.delete -text "[trans delete]" -command "" -width 15 -state disabled -font sboldf
+	button .new_custom.buttons.ok -text "[trans ok]" -command "new_custom_emoticon_from_gui;destroy .new_custom" -width 15 
+	button .new_custom.buttons.delete -text "[trans delete]" -command "" -width 15 -state disabled 
     } else {
 	wm title .new_custom "[trans custom_edit]"
 	label .new_custom.1.intro -text "[trans smileintro2]" -font splainf
-	button .new_custom.buttons.ok -text "[trans ok]" -command "new_custom_emoticon_from_gui \"$name\";destroy .new_custom" -width 15 -font sboldf
-	button .new_custom.buttons.delete -text "[trans delete]" -command "set new_custom_cfg(disabled) 1;new_custom_emoticon_from_gui \"$name\";destroy .new_custom" -width 15 -font sboldf
+	button .new_custom.buttons.ok -text "[trans ok]" -command "new_custom_emoticon_from_gui \"$name\";destroy .new_custom" -width 15 
+	button .new_custom.buttons.delete -text "[trans delete]" -command "set new_custom_cfg(disabled) 1;new_custom_emoticon_from_gui \"$name\";destroy .new_custom" -width 15
 	$w.name configure -state disabled
     }
 
-    button .new_custom.buttons.cancel -text "[trans cancel]" -command "destroy .new_custom" -width 15 -font sboldf
+    button .new_custom.buttons.cancel -text "[trans cancel]" -command "destroy .new_custom" -width 15
 
 
     grid .new_custom.buttons.ok -row 0 -column 0

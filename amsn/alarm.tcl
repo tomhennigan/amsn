@@ -94,7 +94,7 @@ namespace eval ::alarms {
 	
 		frame $w.sound1
 		LabelEntry $w.sound1.entry "[trans soundfile]" my_alarms(${user}_sound) 30
-		button $w.sound1.browse -text [trans browse] -command [list chooseFileDialog "" "" $w $w.sound1.entry.ent] -font sboldf
+		button $w.sound1.browse -text [trans browse] -command [list chooseFileDialog "" "" $w $w.sound1.entry.ent]
 		pack $w.sound1.entry -side left -expand true -fill x
 		pack $w.sound1.browse -side left
 		pack $w.sound1 -side top -padx 10 -pady 2 -anchor w -fill x
@@ -126,7 +126,7 @@ namespace eval ::alarms {
 	
 		frame $w.pic1
 		LabelEntry $w.pic1.entry "[trans picfile]" my_alarms(${user}_pic) 30
-		button $w.pic1.browse -text [trans browse] -command [list chooseFileDialog "" "" $w $w.pic1.entry.ent] -font sboldf
+		button $w.pic1.browse -text [trans browse] -command [list chooseFileDialog "" "" $w $w.pic1.entry.ent]
 		pack $w.pic1.entry -side left -expand true -fill x
 		pack $w.pic1.browse -side left
 		pack $w.pic1 -side top -padx 10 -pady 2 -anchor w -fill x
@@ -136,16 +136,16 @@ namespace eval ::alarms {
 		if { $window == "" } {
 			#Window mode
 			frame $w.b -class Degt
-			button $w.b.save -text [trans ok] -command [list ::alarms::OkPressed $user $w] -font sboldf
-			button $w.b.cancel -text [trans close] -command "destroy $w; unset my_alarms" -font sboldf
-			button $w.b.delete -text [trans delete] -command "::alarms::DeleteAlarm $user; destroy $w" -font sboldf
+			button $w.b.save -text [trans ok] -command [list ::alarms::OkPressed $user $w]
+			button $w.b.cancel -text [trans close] -command "destroy $w; unset my_alarms" 
+			button $w.b.delete -text [trans delete] -command "::alarms::DeleteAlarm $user; destroy $w"
 			pack $w.b.save $w.b.cancel $w.b.delete -side right -padx 10
 			pack $w.b -side top -padx 0 -pady 4 -anchor e -expand true -fill both
 		} else {
 			#Embedded mode
 			Separator $w.sepbutton -orient horizontal		
 			pack $w.sepbutton -side top -anchor w -expand true -fill x -padx 5 -pady 5
-			button $w.delete -text [trans delete] -command "::alarms::DeleteAlarm $user" -font sboldf
+			button $w.delete -text [trans delete] -command "::alarms::DeleteAlarm $user" 
 			pack $w.delete -side top -anchor c
 		
 		}

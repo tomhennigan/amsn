@@ -195,8 +195,8 @@ proc SelectSkinGui { } {
 	set select -1
 	set idx 0
 
-	button $w.ok -text "[trans ok]" -command "selectskinok $w" -font sboldf
-	button $w.cancel -text "[trans cancel]" -command "selectskincancel $w" -font sboldf
+	button $w.ok -text "[trans ok]" -command "selectskinok $w" 
+	button $w.cancel -text "[trans cancel]" -command "selectskincancel $w" 
 
 	pack $w.ok  $w.cancel -side right -pady 5 -padx 5
 
@@ -219,7 +219,7 @@ proc SelectSkinGui { } {
 	bind $w <Destroy> "grab release $w"
 	bind $w.main.right.box <Button1-ButtonRelease> "applychanges"
 
-	
+	moveinscreen $w 30
    
 }
 
