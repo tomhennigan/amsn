@@ -5058,7 +5058,9 @@ namespace eval ::MSNP2P {
 				    set file [png_to_gif [file join $HOME displaypic cache ${filename}.png]]
 				    if { $file != "" } {
 							set file [filenoext $file].gif
-							image create photo user_pic_${user_login} -file "[file join $HOME displaypic cache ${filename}.gif]"
+							if {[catch{ image create photo user_pic_${user_login} -file [file join $HOME displaypic cache "${filename}.gif"]}] } {
+								image create photo user_pic_${user_login} -file [GetSkinFile displaypic nopic.gif]
+							}
 
 							set desc_file "[file join $HOME displaypic cache ${filename}.dat]"
 					                create_dir [file join $HOME displaypic]
