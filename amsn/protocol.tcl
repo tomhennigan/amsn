@@ -4031,23 +4031,23 @@ proc process_msnp9_lists { bin } {
 
     set lists [list]
     
-    if { [expr $bin % 2] } {
+    if { [expr {$bin % 2}] } {
 	lappend lists "list_fl"
     }
-    set bin [expr $bin >> 1]
+    set bin [expr {$bin >> 1}]
 
-    if { [expr $bin % 2] } {
+    if { [expr {$bin % 2}] } {
 	lappend lists "list_al"
     }
 
-    set bin [expr $bin >> 1]
+    set bin [expr {$bin >> 1}]
 
-    if { [expr $bin % 2] } {
+    if { [expr {$bin % 2}] } {
 	lappend lists "list_bl"
     }
-    set bin [expr $bin >> 1]
+    set bin [expr {$bin >> 1}]
 
-    if { [expr $bin % 2] } {
+    if { [expr {$bin % 2}] } {
 	lappend lists "list_rl"
     }
 
