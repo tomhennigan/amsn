@@ -2127,7 +2127,8 @@ proc cmsn_sb_sessionclosed {sbn} {
       sb ldel $sbn users $idx
       .${win_name}.in.send configure -state disabled
       
-      set statusmsg "[trans leaves [lindex $user_info 0]]\n"
+      set timestamp [clock format [clock seconds] -format %H:%M]
+      set statusmsg "\[$timestamp\] [trans leaves [lindex $user_info 0]]\n"
       .${win_name}.status configure -state normal
       .${win_name}.status delete 0.0 end
       .${win_name}.status insert end $statusmsg
@@ -2157,7 +2158,8 @@ proc cmsn_update_users {sb_name recv} {
 	 sb set $sb_name last_user [lindex $recv 1]
 	 
 	 set win_name "msg_[string tolower ${sb_name}]"
-	 set statusmsg "[trans leaves [lindex $recv 1]]\n"
+         set timestamp [clock format [clock seconds] -format %H:%M]
+         set statusmsg "\[$timestamp\] [trans leaves [lindex $user_info 0]]\n"
 	 .${win_name}.status configure -state normal
 	 .${win_name}.status delete 0.0 end
 	 .${win_name}.status insert end $statusmsg
@@ -2170,7 +2172,8 @@ proc cmsn_update_users {sb_name recv} {
 	 sb append $sb_name users [list $usr_login $usr_name]
          
 	 set win_name "msg_[string tolower ${sb_name}]"
-	 set statusmsg "[trans joins $usr_name ($usr_login)]\n"
+         set timestamp [clock format [clock seconds] -format %H:%M]
+	 set statusmsg "\[$timestamp\] [trans joins $usr_name ($usr_login)]\n"
 	 .${win_name}.status configure -state normal
    	 .${win_name}.status delete 0.0 end
 	 .${win_name}.status insert end $statusmsg
@@ -2184,7 +2187,8 @@ proc cmsn_update_users {sb_name recv} {
 	 sb append $sb_name users [list $usr_login $usr_name]
          
 	 set win_name "msg_[string tolower ${sb_name}]"
-	 set statusmsg "[trans joins $usr_name ($usr_login)]\n"
+         set timestamp [clock format [clock seconds] -format %H:%M]
+	 set statusmsg "\[$timestamp\] [trans joins $usr_name ($usr_login)]\n"
 	 .${win_name}.status configure -state normal
 	 .${win_name}.status delete 0.0 end
 	 .${win_name}.status insert end $statusmsg
