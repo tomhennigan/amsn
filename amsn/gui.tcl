@@ -2097,7 +2097,7 @@ namespace eval ::amsn {
 				::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
 				incr first 400
 			}
-		}
+		
 		set msgchunk [string range $msg $first end]
 		set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
 
@@ -2110,6 +2110,7 @@ namespace eval ::amsn {
 		CharsTyped $chatid ""
 		
 		::plugins::PostEvent chat_msg_sent evPar
+		}
 
 	}
 	#///////////////////////////////////////////////////////////////////////////////
