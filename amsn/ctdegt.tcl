@@ -89,10 +89,11 @@ proc degt_protocol_win { } {
     checkbutton .degt.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable followtext_degt
 
     frame .degt.bot -relief sunken -borderwidth 1 -class Degt
+    button .degt.bot.save -text "[trans savetofile]" -command degt_protocol_save
     	button .degt.bot.clear  -text "Clear" -font sboldf \
 		-command ".degt.mid.txt delete 0.0 end"
     	button .degt.bot.close -text [trans close] -command degt_protocol_win_toggle -font sboldf
-	pack .degt.bot.close .degt.bot.clear -side left
+	pack .degt.bot.save .degt.bot.close .degt.bot.clear -side left
 
     pack .degt.top .degt.mid .degt.follow .degt.bot -side top
 
@@ -110,6 +111,39 @@ proc degt_ns_command_win_toggle {} {
 	wm state .nscmd normal
 	set degt_command_window_visible 1
     }
+}
+
+proc degt_protocol_save { } {
+    set w .protocol_save
+	
+    toplevel $w
+    wm title $w \"[trans savetofile]\"
+    label $w.msg -justify center -text "Please give a filename"
+    pack $w.msg -side top
+    
+    frame $w.buttons -class Degt
+    pack $w.buttons -side bottom -fill x -pady 2m
+    button $w.buttons.dismiss -text Cancel -command "destroy $w"
+    button $w.buttons.save -text Save -command "degt_protocol_save_file $w.filename.entry; destroy $w"
+    pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
+    
+    frame $w.filename -bd 2 -class Degt
+    entry $w.filename.entry -relief sunken -width 40
+    label $w.filename.label -text "Filename:"
+    pack $w.filename.entry -side right 
+    pack $w.filename.label -side left
+    pack $w.msg $w.filename -side top -fill x
+    focus $w.filename.entry
+    
+    fileDialog $w $w.filename.entry save "protocol"
+}
+
+proc degt_protocol_save_file { filename } {
+
+    set fd [open [${filename} get] a+]
+
+    puts $fd "[.degt.mid.txt get 0 end]"
+
 }
 
 # Ctrl-M to toggle raise/hide. This window is for developers only 
@@ -1140,6 +1174,10 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.50  2003/06/14 02:06:05  kakaroto
+# blocking thing support
+# remote control support
+#
 # Revision 1.49  2003/06/14 01:24:53  kakaroto
 # fixed the block thing support
 # fixed bugs with the remote controler
