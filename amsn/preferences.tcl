@@ -520,7 +520,7 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname -anchor n -side top -expand 0 -fill x
 	label $lfname.plook -image [::skin::loadPixmap preflook]
 	frame $lfname.1 -class Degt
-	frame $lfname.2 -class Degt
+#	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
 	frame $lfname.4 -class Degt
 	label $lfname.1.llook -text "[trans encoding2]" -padx 10
@@ -529,11 +529,11 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.1 -side top -padx 0 -pady 0 -expand 1 -fill both
 	pack $lfname.1.llook -side left
 	pack $lfname.1.bencoding -side right -padx 15
-	label $lfname.2.llook -text "[trans bgcolor]" -padx 10
-	button $lfname.2.bbgcolor -text [trans choosebgcolor] -font sboldf -command "choose_theme"
-	pack $lfname.2 -side top -padx 0 -pady 0 -expand 1 -fill both
-	pack $lfname.2.llook -side left	
-	pack $lfname.2.bbgcolor -side right -padx 15
+#	label $lfname.2.llook -text "[trans bgcolor]" -padx 10
+#	button $lfname.2.bbgcolor -text [trans choosebgcolor] -font sboldf -command "choose_theme"
+#	pack $lfname.2 -side top -padx 0 -pady 0 -expand 1 -fill both
+#	pack $lfname.2.llook -side left	
+#	pack $lfname.2.bbgcolor -side right -padx 15
 	label $lfname.3.llook -text "[trans preffont3]" -padx 10
 	button $lfname.3.bfont -text [trans changefont] -font sboldf -command "choose_basefont"
 	pack $lfname.3 -side top -padx 0 -pady 0 -expand 1 -fill both
