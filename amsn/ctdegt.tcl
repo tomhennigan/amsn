@@ -820,6 +820,10 @@ proc SavePreferences {} {
     if { [string is digit $config(awaytime)] == 0 } {
     	set config(awaytime) $myconfig(awaytime)
     }
+    if { $config(idletime) >= $config(awaytime) } {
+    	set config(awaytime) $myconfig(awaytime)
+    	set config(idletime) $myconfig(idletime)
+    }
 
     # Check and save phone numbers
     if { $user_stat != "FLN" } {
@@ -1036,6 +1040,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.40  2003/05/24 05:50:04  burgerman
+# fixed issues with autoaway autoidle
+#
 # Revision 1.39  2003/05/23 20:16:57  burgerman
 # removed the blocking feature for now, could ban account for spaming, still to be tested further
 # small features

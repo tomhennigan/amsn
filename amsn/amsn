@@ -342,8 +342,11 @@ set oldmousepos [list]
 # idleCheck()
 # Check idle every five seconds and reset idle if the mouse has moved
 proc idleCheck {} {
-   global idletime config oldmousepos
+   global oldtime idletime config oldmousepos trigger
 
+   if { [info exists trigger] != 1 } {
+   	set trigger 0
+   }
 
    set mousepos [winfo pointerxy .]
    if { $mousepos != $oldmousepos } {
@@ -367,16 +370,19 @@ proc idleCheck {} {
 	set firststate "IDL"
    }
   
-   if { $idletime >= $first && [::MSN::myStatusIs] == $secondstate && $config($firstvar) == 1 } {
-   	::MSN::changeStatus $firststate
-   } elseif {$idletime >= $second && [::MSN::myStatusIs] == "NLN" && $config($secondvar) == 1} {
-	::MSN::changeStatus $secondstate
-   } elseif { $idletime == 0 && [::MSN::myStatusIs] == $firststate} {
+   if { $idletime >= $first && [::MSN::myStatusIs] == "IDL" && $config(autoaway) == 1 } {
+   	::MSN::changeStatus AWY
+	set trigger 1
+   } elseif {$idletime >= $second && [::MSN::myStatusIs] == "NLN" && $config(autoidle) == 1} {
+	::MSN::changeStatus IDL
+   } elseif { $idletime < $config(awaytime) && [::MSN::myStatusIs] == "AWY" && $trigger == 1} {
 	::MSN::changeStatus NLN
-   } elseif { $idletime == 0 && [::MSN::myStatusIs] == $secondstate } {
+	set trigger 0
+   } elseif { $idletime < $config(idletime) && [::MSN::myStatusIs] == "IDL" && $oldtime != 0} {
    	::MSN::changeStatus NLN
    }
 
+   set oldtime $idletime
    set idletime [expr {$idletime + 5}]
    after 5000 idleCheck
 }
