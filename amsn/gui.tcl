@@ -5606,49 +5606,80 @@ proc Fill_users_list { path path2} {
 
 	foreach user [lsort [::MSN::getList AL]] {
 		$path.allowlist.box insert end $user
-		if {[lsearch [::abook::getLists $user] RL] == -1} {
-			set colour #FF00FF
+		
+		set foreground #008000
+		
+		if {([lsearch [::abook::getLists $user] RL] == -1) && ([lsearch [::abook::getLists $user] FL] == -1)} {
+			set colour #000000
+			set foreground #8FFF8F
+		} elseif {[lsearch [::abook::getLists $user] RL] == -1} {
+			set colour #FF6060
+		} elseif {[lsearch [::abook::getLists $user] FL] == -1} {
+			set colour #FFFF80
 		} else {
 			set colour #FFFFFF
 		}
 
-		$path.allowlist.box itemconfigure end -background $colour
+		$path.allowlist.box itemconfigure end -background $colour -foreground $foreground
 	}
 
 	foreach user [lsort [::MSN::getList BL]] {
 		$path.blocklist.box insert end $user
-			if {[lsearch [::abook::getLists $user] RL] == -1} {
-				set colour #FF00FF
-			} else {
-				set colour #FFFFFF
-			}
+		
+		set foreground #A00000
+		
+		if {([lsearch [::abook::getLists $user] RL] == -1) && ([lsearch [::abook::getLists $user] FL] == -1)} {
+			set colour #000000
+			set foreground #FF8F8F
+		} elseif {[lsearch [::abook::getLists $user] RL] == -1} {
+			set colour #FF6060
+		} elseif {[lsearch [::abook::getLists $user] FL] == -1} {
+			set colour #FFFF80
+		} else {
+			set colour #FFFFFF
+		}
 
-		$path.blocklist.box itemconfigure end -background $colour
+		$path.blocklist.box itemconfigure end -background $colour -foreground $foreground
 	}
 
 	foreach user [lsort [::MSN::getList FL]] {
 		$path2.contactlist.box insert end $user
 
+		set foreground #000000
+		
+		if {[lsearch [::MSN::getList AL] $user] != -1} {
+			set foreground #008000
+		} elseif {[lsearch [::MSN::getList BL] $user] != -1} {
+			set foreground #A00000
+		}
+		
 		if {[lsearch [::MSN::getList RL] $user] == -1} {
-			set colour #FF00FF
-		} elseif { [info exists emailBList($user)]} {
-			set colour #FF0000
+			set colour #FF6060
 		} else {
 			set colour #FFFFFF
 		}
 
-		$path2.contactlist.box itemconfigure end -background $colour
+		$path2.contactlist.box itemconfigure end -background $colour -foreground $foreground
 	}
 
 
 	foreach user [lsort [::MSN::getList RL]] {
 		$path2.reverselist.box insert end $user
+			
+		set foreground #000000
+		
+		if {[lsearch [::MSN::getList AL] $user] != -1} {
+			set foreground #008000
+		} elseif {[lsearch [::MSN::getList BL] $user] != -1} {
+			set foreground #A00000
+		}
+		
 		if {[lsearch [::MSN::getList FL] $user] == -1} {
-			set colour #00FF00
+			set colour #FFFF80
 		} else {
 			set colour #FFFFFF
 		}
-		$path2.reverselist.box itemconfigure end -background $colour
+		$path2.reverselist.box itemconfigure end -background $colour -foreground $foreground
 	}
 
 }
