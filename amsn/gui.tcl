@@ -2,8 +2,9 @@
 if { $initialize_amsn == 1 } {
     global bgcolor bgcolor2
 
-    if { ! [info exists bgcolor] } { set bgcolor #0050C0 }
-    if { ! [info exists bgcolor2 ] } { set bgcolor2 #D0D0F0 }
+    set bgcolor #0050C0
+    set bgcolor2 #D0D0F0
+
 }
 
 namespace eval ::amsn {
@@ -68,7 +69,9 @@ namespace eval ::amsn {
 		pack .tlsdown.choose -side top -anchor w -padx 10 -pady 10
 
 		radiobutton .tlsdown.linuxx86 -text "Linux-x86" -variable tlsplatform -value "linuxx86" -font splainf
+		radiobutton .tlsdown.linuxsparc -text "Linux-SPARC" -variable tlsplatform -value "linuxsparc" -font splainf
 		radiobutton .tlsdown.netbsdx86 -text "NetBSD-x86" -variable tlsplatform -value "netbsdx86" -font splainf
+		radiobutton .tlsdown.netbsdsparc64 -text "NetBSD-SPARC64" -variable tlsplatform -value "netbsdsparc64" -font splainf
 		radiobutton .tlsdown.freebsdx86 -text "FreeBSD-x86" -variable tlsplatform -value "freebsdx86" -font splainf
 		radiobutton .tlsdown.solaris26 -text "Solaris 2.6 SPARC" -variable tlsplatform -value "solaris26" -font splainf
 		radiobutton .tlsdown.win32 -text "Windows" -variable tlsplatform -value "win32" -font splainf
@@ -85,7 +88,9 @@ namespace eval ::amsn {
 		pack .tlsdown.f.ok -side right -padx 10 -pady 10
 
 		pack .tlsdown.linuxx86 -side top -anchor w -padx 15
+		pack .tlsdown.linuxsparc -side top -anchor w -padx 15
 		pack .tlsdown.netbsdx86 -side top -anchor w -padx 15
+		pack .tlsdown.netbsdsparc64 -side top -anchor w -padx 15
 		pack .tlsdown.freebsdx86 -side top -anchor w -padx 15
 		pack .tlsdown.solaris26 -side top -anchor w -padx 15
 		pack .tlsdown.win32 -side top -anchor w -padx 15
@@ -115,8 +120,14 @@ namespace eval ::amsn {
 				"linuxx86" {
 					set downloadurl "$baseurl-linux-x86.tar.gz"
 				}
+				"linuxsparc" {
+					set downloadurl "$baseurl-linux-sparc.tar.gz"
+				}
 				"netbsdx86" {
 					set downloadurl "$baseurl-netbsd-x86.tar.gz"
+				}
+				"netbsdsparc64" {
+					set downloadurl "$baseurl-netbsd-sparc64.tar.gz"
 				}
 				"freebsdx86" {
 					set downloadurl "$baseurl-freebsd-x86.tar.gz"
@@ -190,7 +201,9 @@ namespace eval ::amsn {
 		switch $tlsplatform {
 			"solaris26" -
 			"linuxx86" -
+			"linuxsparc" -
 			"netbsdx86" -
+			"netbsdsparc64" -
 			"freebsdx86" -
 			"win32" {
 				if { [catch {
