@@ -385,21 +385,39 @@ proc LoadLoginList {{trigger 0}} {
 		set HOME2 $HOME
 	}
 
-	if {([file readable "[file join ${HOME} profiles]"] != 0) && ([file isfile "[file join ${HOME}/profiles]"] != 0)} {
+	if {([file readable "[file join ${HOME} profiles]"] != 0) && ([file isfile "[file join ${HOME} profiles]"] != 0)} {
 		set HOMEE $HOME
-	} elseif {([file readable "[file join ${HOME2} profiles]"] != 0) && ([file isfile "[file join ${HOME2}/profiles]"] != 0)} {
+	} elseif {([file readable "[file join ${HOME2} profiles]"] != 0) && ([file isfile "[file join ${HOME2} profiles]"] != 0)} {
 		set HOMEE $HOME2
 	} else {
 		return 1
 	}
-	
-	set file_id [open "${HOMEE}/profiles" r]
+
+	set file_id [open "[file join ${HOMEE} profiles]" r]
 	gets $file_id tmp_data
 	if {$tmp_data != "amsn_profiles_version 1"} {	;# config version not supported!
-      		msg_box [trans wrongprofileversion $HOME]
+		msg_box [trans wrongprofileversion $HOME]
 		close $file_id
+
+		if { [catch {set file_id [open "[file join ${HOMEE} profiles]" w]}]} {
+			return -1
+		}
+
+		puts $file_id "amsn_profiles_version 1"
+		#Recreate profiles file
+		if { [catch {set folders [glob -directory ${HOMEE} -tails -types d *]}] } {
+			return -1
+		}
+		foreach folder $folders {
+			if {[file readable [file join ${HOMEE} $folder config.xml]]} {
+				puts $file_id "$folder 0"
+			}
+		}
+		close $file_id
+
 		return -1
-   	}
+		set file_id [open "[file join ${HOMEE} profiles]" r]
+	}
 
 	# Clear all list
 	set top [LoginList size 0]
