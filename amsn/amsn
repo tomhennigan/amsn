@@ -177,21 +177,26 @@ proc check_imagemagick {} {
 	if {$config(convertpath) == ""} {
 		set config(convertpath) "convert"
 	}
-	
-	# Check if ImageMagick is Installed, if so dont do nothing, otherwise disable display pics
-	status_log "Checking ImageMagick...\n"
-	if { [catch { exec $config(convertpath) } res] } {
-		if {$config(getdisppic) == 1 } {
-			msg_box "[trans installconvert]"
-			status_log "ImageMagick not installed in \"$config(convertpath)\" got error $res\n Disabling display pictures\n"
+
+	set found -1
+
+	foreach path { "[config::getKey convertpath]" "convert" "[file join [set ::program_dir] utils convert]" } {
+		# Check if ImageMagick is Installed, if so dont do nothing, otherwise disable display pics
+		status_log "Checking ImageMagick in $path...\n"
+		if { ![catch { exec $path } res] } {
+			set found $path
+			break
+
 		}
+	}
+	if  { $found != -1  } {
+		set config(convertpath) "$found"
+		set config(getdisppic) 1
+	} else {
 		#-1 means you want them enabled, but imagemagic is not installed...
 		set config(getdisppic) -1
-		return 0
-	} else {
-		set config(getdisppic) 1
-		return 1
 	}
+
 }
 
 

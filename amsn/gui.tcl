@@ -6765,7 +6765,7 @@ proc reloadAvailablePics { } {
 		set skin_file "[GetSkinFile displaypic [file tail [filenoext $filename].gif]]"
 		if { [file exists $skin_file] } {
 			set the_image [image create photo -file $skin_file ]	
-			addPicture $the_image "[getPictureDesc $filename]" [file tail $skin_file]
+			addPicture $the_image "[getPictureDesc $filename]" [file tail $filename]
 			lappend image_names $the_image
 		}
 	}
