@@ -3,7 +3,7 @@ Ficheiro de ajuda para o amsn (Versão Portuguesa)
 Requisitos:
 O amsn está escrito em tcl/tk, por isso apenas precisam de um interpretador tcl/tk 
 a funcionar versão 8.3 ou mais recente. Podem arranjar um em http://tcl.sourceforge.net.
-O interpretador está disponível para Linux, Windows, e macintosh. Algumas funções 
+O interpretador está disponível para Linux, Windows, e Macintosh. Algumas funções 
 especiais podem requerer programas ou bibliotecas extra, como o ícone de atracamento, 
 o uso de imagem de exibição ou a conecção SSL para o protocolo 9 do MSN.
 
@@ -17,9 +17,9 @@ Para iniciar o amsn, basta fazer:
   ./amsn
 ou, se isto n funcionar, tente:
   wish amsn
-Se o comando "wish" não existir, então não tem o tcl/tk correctamente instalado.
-Se "wish amsn" funcionar, mas "./amsn" não existir, edite "amsn" e configure o caminho 
-correcto para "wish" na primeira linha. Por defeito o caminho é:
+Se o comando "wish" não existir, então não tens o tcl/tk correctamente instalado.
+Se "wish amsn" funcionar, mas "./amsn" não, edite "amsn" e configure o caminho 
+correcto para "wish" na primeira linha. Por padrão o caminho é:
   /usr/bin/wish
 
 Se ainda tiver problemas tente usar o FAQ
