@@ -1,6 +1,6 @@
   #===========================================#
   #         AMSN's User Notes System          #
-  #     By Alberto Díaz Hernández (yozko)     #
+  #                By Fred                    #
   #   Contact at yozko@users.sourceforge.net  #
   #         Started on May 1st 2004           #
   #===========================================#
@@ -62,7 +62,7 @@ namespace eval ::notes {
   	 
   		toplevel $w
   		wm title $w "[trans notes]"
-  		wm geometry $w 700x500+30+30
+  		wm geometry $w 700x530+30+30
 
 
 		# Create the frame containing the list of the contacts
@@ -92,34 +92,45 @@ namespace eval ::notes {
 
 		# Display the E-Mail of the contact
 		frame $w.right.contact
-		label $w.right.contact.txt -text "$email"
-		pack configure $w.right.contact.txt -expand true -fill x
+		label $w.right.contact.note -text "Contact" -font bigfont
+		label $w.right.contact.txt -text "$email\n[::abook::getDisplayNick $email]" -font bold
+		
+		pack configure $w.right.contact.note
+		pack configure $w.right.contact.txt -expand true
+		
 
 
 		# Create the listbox containing the notes
   		frame $w.right.notes -relief sunken -borderwidth 3
+  		label $w.right.notes.current -text "Current notes" -font bold
   		listbox $w.right.notes.box -yscrollcommand "$w.right.notes.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 10 -width 60
   		scrollbar $w.right.notes.ys -command "$w.right.notes.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
+  		pack $w.right.notes.current -expand true -fill both
   		pack $w.right.notes.ys -side right -fill y
   		pack $w.right.notes.box -side left -expand true -fill both
 
 
 		# Create the frame containing informations about the note
 		frame $w.right.info -borderwidth 3
-		label $w.right.info.date -text ""
+		label $w.right.info.date -text "Click on Add button for a new note"
 		pack configure $w.right.info.date -side top -fill x
 
 
 		# Display the subject of the note
 		frame $w.right.subject -relief sunken -borderwidth 3
-		text $w.right.subject.txt -font splainf -background white -relief flat -highlightthickness 0 -height 1 -width 60
+		label $w.right.subject.desc -text "Subject" -font bold
+		text $w.right.subject.txt -font splainf -background white -relief flat -highlightthickness 0 -height 1 -width 60 -state disabled
+		pack $w.right.subject.desc -expand true -fill both
 		pack $w.right.subject.txt -expand true -fill both
+		
 
 
 		# Display the note
 		frame $w.right.note -relief sunken -borderwidth 3
-		text $w.right.note.txt -yscrollcommand "$w.right.note.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 10 -width 60
+		label $w.right.note.desc -text "Note" -font bold
+		text $w.right.note.txt -yscrollcommand "$w.right.note.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 10 -width 60 -state disabled
   		scrollbar $w.right.note.ys -command "$w.right.note.txt yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
+  		pack $w.right.note.desc -expand true -fill both
   		pack $w.right.note.ys -side right -fill y
   		pack $w.right.note.txt -side left -expand true -fill both
 
@@ -143,9 +154,14 @@ namespace eval ::notes {
 		pack configure $w.right.button.edit -side left -padx 3 -pady 3
 		pack configure $w.right.button.delete -side right -padx 3 -pady 3
 		pack configure $w.right.button.new -side right -padx 3 -pady 3
-
+		
+		#If user click on a note, display the note
   		bind $w.right.notes.box <<ListboxSelect>> "::notes::Notes_Selected_Note"
+  		#If user click on a contact at left
 		bind $w.contact.box <<ListboxSelect>> [list "::notes::Notes_Selected_Contact" "$sortedcontact_list"]
+		bind $w.right.subject.txt <Button1-ButtonRelease> "::notes::Note_New"
+		bind $w.right.note.txt <Button1-ButtonRelease> "::notes::Note_New"
+		
   	   	 
   		pack configure $w.contact -side left -fill y
 		pack configure $w.right.contact -side top -fill x
@@ -156,7 +172,8 @@ namespace eval ::notes {
 		pack configure $w.right.warning -side top -fill x
 		pack configure $w.right.button -side top -fill x
 		pack configure $w.right -side right -fill y
-
+		
+		bind $w.right.subject.txt <Tab> "focus $w.right.note.txt; break"
 
 		# If the E-Mail is given, display its notes
 		set ::notes::email $email
@@ -171,7 +188,7 @@ namespace eval ::notes {
 			$w.right.button.new configure -state normal
 
 		}
-
+		bind $w <<Escape>> "destroy $w"
 	}
 
 
@@ -222,8 +239,13 @@ namespace eval ::notes {
 		$w.right.subject.txt delete 0.0 end
 		$w.right.subject.txt insert end "$subject"
 		$w.right.subject.txt configure -state disabled
-
-		$w.right.info.date configure -text "[trans created] : $created  -  [trans modified] : $modified"
+		
+		#Show created and modified info only if it exists
+		if { $created != "" & $modified != ""} {
+			$w.right.info.date configure -text "[trans created] : $created  -  [trans modified] : $modified"
+		} else {
+			$w.right.info.date configure -text "Click on Add button for a new note"
+		}
 
 		$w.right.button.edit configure -state normal
 		$w.right.button.delete configure -state normal
@@ -259,7 +281,7 @@ namespace eval ::notes {
 
 		set ::notes::email $contact
 
-		$w.right.contact.txt configure -text "$contact"
+		$w.right.contact.txt configure -text "$contact\n[::abook::getDisplayNick $contact]" -font bold
 
 		$w.right.button.new configure -state normal
 		$w.right.note.txt configure -state normal
@@ -268,10 +290,14 @@ namespace eval ::notes {
 		$w.right.subject.txt configure -state normal
 		$w.right.subject.txt delete 0.0 end
 		$w.right.subject.txt configure -state disabled
-		$w.right.info.date configure -text ""
+		$w.right.info.date configure -text "Click on Add button for a new note"
 
 		$w.right.button.edit configure -state disabled
 		$w.right.button.delete configure -state disabled
+		
+		#Add binding for the subject and note field
+		bind $w.right.subject.txt <Button1-ButtonRelease> "::notes::Note_New"
+		bind $w.right.note.txt <Button1-ButtonRelease> "::notes::Note_New"
 
 	}
 
@@ -299,13 +325,17 @@ namespace eval ::notes {
 	proc Note_Edit { } {
 
 		set w ".notemanager"
-
+		
+		#Remove binding on theses 2 textbox
+		bind $w.right.subject.txt <Button1-ButtonRelease> ""
+		bind $w.right.note.txt <Button1-ButtonRelease> ""
+		
 		$w.right.notes.box configure -state disabled
 		$w.contact.box configure -state disabled
 
 		$w.right.note.txt configure -state normal
 		$w.right.subject.txt configure -state normal
-		$w.right.info.date configure -text ""
+		$w.right.info.date configure -text "Edit the content of the subject field and the note field"
 
 		pack forget $w.right.button.delete
 		pack forget $w.right.button.new
@@ -352,7 +382,10 @@ namespace eval ::notes {
 	proc Note_New { } {
 
 		set w ".notemanager"
-
+		#Remove binding on theses 2 textbox
+		bind $w.right.subject.txt <Button1-ButtonRelease> ""
+		bind $w.right.note.txt <Button1-ButtonRelease> ""
+		
 		$w.right.notes.box configure -state disabled
 		$w.contact.box configure -state disabled
 
@@ -360,7 +393,7 @@ namespace eval ::notes {
 		$w.right.note.txt delete 0.0 end
 		$w.right.subject.txt configure -state normal
 		$w.right.subject.txt delete 0.0 end
-		$w.right.info.date configure -text ""
+		$w.right.info.date configure -text "Insert text inside the subject field and the note field, then click on Save"
 
 		pack forget $w.right.button.delete
 		pack forget $w.right.button.new
@@ -368,6 +401,8 @@ namespace eval ::notes {
 
 		pack configure $w.right.button.save -side right -padx 3 -pady 3
 		pack configure $w.right.button.cancel -side right -padx 3 -pady 3
+		
+		focus $w.right.subject.txt
 
 	}
 
@@ -383,7 +418,7 @@ namespace eval ::notes {
 		set note "[.notemanager.right.note.txt get 0.0 {end - 1 chars}]"
 
 		if { $subject == "" } {
-			$w.right.warning.txt configure -text "[trans titlerequired]" -foreground red
+			$w.right.warning.txt configure -text "[trans titlerequired]" -foreground red -font bold
 
 		} else {
 
