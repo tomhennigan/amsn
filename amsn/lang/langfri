@@ -1,440 +1,627 @@
 amsn_lang_version 2
 about Ynformaasje
-acceptfile Nim bestân $1 oan, grute $2? Bware yn $3
 accept Oannimme
+acceptfile Nim bestân $1 oan, grute $2? Bware yn $3
 actions Aksje
-addacontact Foeg in kontakt ta
-addedyou $1 ($2) hat dy tafoegd oan syn/har kontaktenlist
-addprofiledesc Vul de neije log-yn yn, wer atst n nei profyl foar meitsje wolst. \n Profylearde log-yns litte dy ta om ferskeidene konfiguraasjes foar eltse log-yn. \n Sonder profylen kinst de skiednis, alarm en wachtwurdherinnerje net bruke.
-addprofile Foech n nei profyl ta.
-addstate  Foech n neije tastan ta
-addtocontacts Tafoegje oan kontaktenlist
-addto Foech ta oan $1
-addtoo Foeg dizze persoan ta oan myn kontaktenlist
+addacontact Foegje in kontaktpersoan ta
+addedyou $1 ($2) hat jo tafoege oan syn/har kontaktlist
+addprofile Foegje in nij profyl ta
+addprofiledesc Folje de nije log-yn yn, wer't jo in nij profyl foar meitsje wolle. \n Profylearde log-yns steane jo ta om ferskate konfiguraasjes foar eltse log-yn. \n Sûnder profylen kinne jo de skiednis, alarm en wachtwurdoantinken net brûke.
+addstate Foegje in nije tastân ta
+addto Foegje ta oan $1
+addtocontacts Tafoegje oan kontaktlist
+addtoo Foegje dizze persoan ta oan myn kontaktlist
 admincontacts Behear kontakten
 admingroups Behear groepen
+advanced Avansearre
+advancedprefs Avansearre ynstellings
 adverts Advertinsjes
-alarmonconnect Aktifear het alarm at de bruker oan e lyne komt.
-alarmondisconnect Aktifear het alarm at de bruker fan e lyne giet.
-alarmonmsg Aktifear het alarm at de bruker dy een berjocht stjoerd.
-alarmonstatus Aktifear het alarm at de bruker syn status feroaret.
-alarmpref Alarmynstellings foar dizze gebrûker
-alarmstatus Doch alarm oan/út foar dizze gebrûker
-allowallbutbl  Stean alle brukers, beheale de minsken dy ik blokkeart haw, ta om contact mei my te sykjen
-allowbadwords Skakel de censuur op schul-nammen ut.
-allowlist  Betrouwbar-liste
-allowonlyinal Stean allinich de minsken ut myn Betrouwbar-liste ta om om contact mei my te sykjen
-allowseen Stea dizze persoan ta om te sjen wannear't ik oanmeld bin, en om my te sprekke
-animatedemoticon Dizze Gnysker is beweeglyk.
-animatedsmileys Skakel bewegende Gnyskers oan.
-appearance Status
+alarmonconnect Aktivearje it alarm at de brûker op'e triid komt.
+alarmondisconnect Aktivearje it alarm at de brûker fan'e triid giet.
+alarmonmsg Aktivearje it alarm at de brûker jo in berjocht stjoerd.
+alarmonstatus Aktivearje it alarm at de brûker syn tastân feroaret.
+alarmpref Alarmynstellings foar dizze brûker
+alarms Alarms
+alarmstatus Doch alarm oan/út foar dizze brûker
+allfiles Alle bestannen
+allowallbutbl Stean alle brûkers, útsein de minsken dy't ik blokkeart haw, ta om kontakt mei my te sykjen
+allowbadwords Skeakelje de sensuer op raar praat út
+allowlist Betrouber-list
+allowonlyinal Stean allinne de minsken út myn Betrouber-list ta om kontact mei my te sykjen
+allowseen Stean dizze persoan ta om te sjen wannear't ik oanmeld bin, en om my te sprekken
+allprofilesinuse Alle besteande profylen binne op it stuit yn gebrûk
+animatedemoticon Dizze gnysker is beweeglik
+animatedsmileys Skeakelje beweegjende gnyskers yn
+animatenotify Beweegjend meldingsfinster
+appearance Tastân
 appearoff Ferskyn "Net oanmeld"
-areacode Geakode
-aretyping $1 binne oan't type
-autoaccepted Bestans-ferstjoering automatiesk acceptearje.
-autoacceptft Automaties bestans-oerstjoering akseptearje
-autoaway Feroarje myn status yn "Net oanwêzich" as't ik net warber bin nei
-autoconnect2 Automatysk oanmelde wannear't aMSN start wurdt
+areacode Geakoade
+aretyping $1 binne oan't typen
+author Auteur
+autoaccepted Bestâns-ferstjoering automatysk akseptearje
+autoacceptft Automatysk bestâns-ferstjoering akseptearje
+autoaway Feroarje myn tastân yn "Net oanwêzich" at ik net warber west bin foar
+autocheckver By it starten automatysk om nije ferzjes sjen
 autoconnect Automatysk oanmelde
+autoconnect2 Automatysk oanmelde wannear't aMSN start wurdt
+autodetectip Detektearje IP-adres automatysk
 autohotmaillog Automatysk oanmelde by Hotmail
 autoidle Automatysk "Net oanwêzich" 
 autoip Automatysk IP
-autonoact Automatysk "Net oanwêzich" as't ik net warber bin nei
-avoidseen Foarkom dat dizze persoan sjen kin wannear't ik oanmeld bin en dat hy my sprekke kin.
-awaymsg1 Freagje om berjocht foar "Net oanwêzich" as de status feroarje wurdt naar "Net oanwêzich".
-awaymsg2 Net freagje en altiid it ondersteande berjocht foar "Net oanwêzich" brûke.
+automessage Automatysk berjocht
+autonoact Automatysk "Net oanwêzich" at ik net warber west bin foar
+avoidseen Foarkom dat dizze persoan sjen kin wannear't ik oanmeld bin en dat hy/sy my sprekke kin
 away Net oanwêzich
-baduserpass Gjin goed gebrûkersnamme of wachtwurd
+awaymsg1 Freegje om berjocht foar "Net oanwêzich" as de tastân feroare wurdt naar "Net oanwêzich"
+awaymsg2 Net freegje en altyd it ûndersteande berjocht foar "Net oanwêzich" brûke
+baduserpass Gjin goed brûkersnamme of wachtwurd
 bgcolor Feroarje aMSN's eftergrûnkleur
 blankdirect Lit leech foar direkte ferbining
 block Blokkear
 blocked Blokkeard
-blockedyougroup Lit n aparte groep sjen foar minsken dy t dy blokkeart hawwe
-blocking Blokkearen
-blockinter1 At dyn staus op "oan e lyne" stiet, controlear dan eltse
-blockinter2 seconden, oars controlear dan eltse:
+blockedyougroup Lit in aparte groep sjen foar minsken dy't jo blokkeart hawwe
+blocking Blokkeare
+blockinter1 At jo tastân op "op'e triid" stiet, kontrolearje dan eltse
+blockinter2 seconden, oars kontrolearje dan eltse:
 blockinter3 seconden.
 blockinter4 seconden.
-blocklist Blokkear-liste
-blockmessage Dizze minsken binne oan e line, mar hawwe dy blokkeard
-blockusers Oantal brukers om gelyk te controlearen
-broughtby Oanbean troch de folgende ontwikkelers
-browse Ferkenne
-browser Browser
-browserexample ( \$url wurdt ferfangen troch de URL) Start mozilla \$url
-busy Beset
+blocklist Blokkearlist
+blockmessage Dizze minsken binne op'e triid, mar hawwe jo blokkeard
+blockusers Oantal brûkers om fuortdaliks te kontrolearen
+bouncedock Lit it aMSN-byldkaike yn it systeemfak dosse at der in berjocht binnenkomt
+broughtby Oanbean troch de folgende ûntjouwers
+browse Sneupe
+browser Sneuper
+browserexample ( \$url wurdt ferfangen troch de URL) Start Mozilla \$url
+busy Drok
+cachedpics $1 opsleine plaatsjes
 cancel Annulearje
-cannotdeleteprofile Het profyl kon net fuortsmiten wurdde, omdat t derop lyket dat het yn gebruk is, troch een oare amsn-sesje
-cantexec Ik kin het programma $1 net utfoere. Controlear de ynstellings mar efkes.
-casesensitive Haadlettergefoelig
-cfgalarm Alarm konfigurearje/tafoege/foartsmite
+cannotdeleteprofile It profyl koe net fuortsmiten wurde, omdat it der op liket dat it yn gebrûk is troch in oare aMSN-sesje
+cantexec Ik kin het programma $1 net útfiere. Kontrolearje de ynstellings efkes
+cantremoveothers Kin de groep "Oare kontaktpersoanen" net fuortsmite
+casesensitive Haadlettergefoelich
+cfgalarm Alarm konfigurearje/tafoegje/foartsmite
+cfgalarmall Algemien alarm konfigurearje/tafoegje/fuortsmite
+ch_to_state Gean op de nije status oer
+change Wiizigje
+changecustomstate Feroarje status yn
+changedisplaypic Persoanlike ôfbylding wiizigje
 changefont Feroarje lettertype
+changeglobnick Feroarje algemiene skermnamme
 changenick Feroarje skermnamme
+changesize Grutte oanpasse
 changestate $1 feroaret yn $2
-chatack Nim chat oan fan
-chat Chat
-chatmaxmin At ien een gesprek mei my begjint, dan wol ik het finster:
-chatreq Freagje om te chatten
-chatsmileys2 Toan emoticons en smileys yn chat-finsters
-chatsmileys Toan emoticons
-checkblocking Controlear constant of minsken dy blokkeare.
-checkfilman Ûntfangen bestânen wurde bewarre yn $1. Sjoch de ynstellings fan it bestânbehear by ynstellings.
-checkingver Op in neiere fersy oan't kontrolearje 
-checkonfln Controlear of een bruker dy blokkeart hat, at hy "oan e lyne" komt.
-checkver Sjoch foar in neiere fersy
-choosearq Kies de systeem-opbouw
+charscounter Teller fan typte tekens yn tsjotterfinster
+chat Tsjotter
+chatack Nim tsjotterfersyk oan fan
+chatmaxmin At immen in petear mei my begjint, dan wol ik it finster:
+chatreq Freegje om te tsjotterjen
+chatsmileys Toan gnyskers
+chatsmileys2 Toan gnyskers yn tsjotter-finsters
+checkblocking Yn'e gaten hâlde oft minsken jo blokkeare
+checkemail Lit yn de kontaktenlist sjen at der nije berjochten binne
+checkfilman Untfangen bestannen wurde bewarre yn $1. Sjoch de ynstellings fan it bestânbehear by ynstellings
+checkingver Op in nijere ferzje oan't kontrolearjen
+checkonfln Kontrolearje oft in brûker jo blokkeart hat, sa gau hy/sy op'e tried komt
+checkver Sjoch foar in nijere ferzje
+choosearq Kies de systeem-opbou
 choosebasefont Lettertype
 choosebgcolor Eftergrûnkleur
-choosecontact  Sykje een kontaktpersoan ut de liste ut
+choosecontact Sykje in kontaktpersoan út de list út
 choosefontcolor Kies tekstkleur
-chooseskin Kies de hud diest bruke wolst.
-clearlog2 Smit alle skiednis foar al dyn contacten fuort
-clearlog3 Smit alle logboeken fuort
-clearlog Smit fuort
-clicktologin Klik hjirre om dy oan te melde
-closed Dyn konversaasje mei $1 is sluten, omdat jimme net actief genoch binne.
+chooseskin Kies de hûd dy'st brûke wolst
+clear Fuortsmite
+clearlog Smyt fuort
+clearlog2 Smyt alle skiednis foar al dyn kontacten fuort
+clearlog3 Smyt alle logboeken fuort
+clicktologin Klik hjirre om dy oan te melden
+clientcaps Ferstjoer in x-clientcaps pakketsje nei oare brûkers
+clientname Brûkernamme
 close Slúte
+closed Jo konversaasje mei $1 is slúten, omdat jimme net aktyf genôch binne
 closingdocks Slút finster
 command Programma
+commandstatus Kommando útfiere
+configure Ynstelle
+confirm Binne jo der wis fan?
+confirmbl Wolle jo grif dizze persoan fuortsmite?
 confirmdelete Wolst grif $1 foartsmite?
-confirm Wytst it grif?
-connected ferbun
+confirmdg Wolle jo grif dizze groep fuortsmite?
+confirmdu Wolle jo grif dizze brûker fuortsmite?
+confirmeg Wolle jo grif dizze groep leechje?
+confirmpurge Wolle jo grif alle opsleine persoanlike ôfbyldings fan jo kontaktpersoanen fuortsmite?
+confirmrfl Wolle jo grif dizze brûker út dizze groep smite?
+connected Ferbûn
+connectedwith Ferbûn mei $1
 connecterror Ferbiningsflater
-connecting besig mei ferbyne
+connecting Dwaande mei ferbinen
 connection Ferbining
-connectionlost De ferbyning mei de server is fuort
-contactadded Kontaktpersoan tafoegd
+connectionlost De ferbining mei de tsjinner is fuort
+contactadded Kontaktpersoan tafoege
 contactdoesnotexist Kontaktpersoan bestiet net
-contactlist kontaktpersoanenliste
+contactlist Kontaktlist
+continuously Oan ien tried troch
+convertexplain Paad nei it programma CONVERT fan ImageMagick (nedich foar persoanlike ôfbyldings). \n Leechlitte at CONVERT binnen it sykpaad stiet
 copy Kopiearje
 copytogroup Kopiearje nei groep
+corruptconfig Konfiguraasjebestân doocht net. Dwaande in nijen-ien oan te meitsjen. It âlde sil opslein wurde yn $1. Wolle jo it âlde bestân nei ús opstjoere dat wy neigean kinne wat er bart is?
+corruptstates It bestân mei oanpaste tastannen doocht net. Dwaande in nijen-ien oan te meitsjen. It âlde sil opslein wurde yn $1. Wolle jo it âlde bestân nei ús opstjoere dat wy neigean kinne wat er bart is?
 countrycode Myn lân/geakode
 cprofile Meitsje profyl
-custom_edit Bewurkje dyn eigen  Gnysker
-custom_new Meitsje neije Gnysker
+credits Fertsjinsten
+currentdate Datum fan hjoed
+custnotifymsg Lit it meldingsfinster sjen at in nij berjocht binnenkommen is
+custnotifyoffline Lit it meldingsfinster sjen at dizze persoan fan'e tried giet
+custnotifyonline Lit it meldingsfinster sjen at dizze persoan op'e tried komt
+custnotifystatus Lit it meldingsfinster sjen at dizze persoan syn tastân feroaret
+custom_edit Bewurkje jo eigen gnysker
+custom_new Meitsje nije gnysker
+customcolor Oanpaste kleur
+customnick Oanpaste bynamme
+customstyle Oanpaste styl
 cut Knippe
-date \nDatum
+date Datum
+dateformat Datumnotaasje wiizigje
+day Dei
 days Dagen
 dcprofile Gjin profyl oanmeitsje
-defaultloginradio Ynlogge mei de gewoane ynstellings.
-default Standaard konfiguraasje
+default Standerd konfiguraasje
+defaultloginradio Ynlogge mei de gewoane ynstellings
+defchatwinsize Standerd grutte foar tsjotterfinsters (Xgrutte x Ygrutte)
 delete Wis
-deliverfail D'r wie in problem by it beswargje fan de folgende boadskip
-delprofile2 Kies it profyl dast foartsmite wolst
-delprofile Smit profyl foart
+deletecustomstate Wis oanpaste status
+delimiters Skiedingstekens foar tiidwerjefte
+deliverfail Der wie in probleem by it besoargjen fan de folgende boadskip
+delprofile Smyt profyl foart
+delprofile2 Kies it profyl datst foartsmite wolst
 description Beskriuwing
-directconnection Ik haw n directe ferbyning mei het internet, troch poarte 1863
-disconnect $1 hat de ferbyning ferbrutsen
+directconnection Ik haw in direkte ferbining mei it ynternet troch poarte 1863
+disabled Utskeakele
+disableprofiles Skeakelje profylen út (handich foar seiber-kafees of dielde omjouwings)
+disablessl SSL útsette
+disableuserfonts Negear de lettertype-ynstellings fan jo peteargenoat en brûk jo eigen lettertype
+disconnect $1 hat de ferbining ferbrutsen
+disconnectedfrom Ferbining mei $1 is ferbrutsen
+displaychat Lit tekstopsjes sjen
+displayeventconnect Lit sjen wannear kontaktpersoanen op'e tried komme
+displayeventdisconnect Lit sjen wannear kontaktpersoanen fan'e tried geane
+displayeventemail Lit sjen wannear in eamel binnenkomt
+displayeventstate Lit sjen wannear kontaktpersoanen fan tastân feroarje
+displayp4context Lit yn in tsjotterfinster de "Opsjoniele skermnamme" sjen fan de peteargenoat
+displaypic Persoanlike ôfbylding
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
-dockgtk Ferbergje foar gnome
-docking Ferberg
-dockingoff Ferbergje út
-dockkde Ferbergje foar KDE
-dontdownload Donder TLS net del, ik sil TLS sels wol ynstallearje.
-downloadingtls Dondert TLS-module del fan: \n $1
+dockgtk Fêstsette foar Gnome
+docking Fêstsette
+dockingoff Fêstsette útskeakelje
+dockkde Fêstsette foar KDE
+dontdownload Helje TLS net oer, ik sil TLS sels wol ynstallearje
+dontshow Net sjen litte
+downloadingtls Hellet TLS-module oer fan: \n $1
 edit Bewurkje
-editcurrentstate Bewurkje dizze
-editnewstate Nei automatisch berjocht
+editcustomstate Bewurkje oanpaste tastân
+editnewstate Nei automatysk berjocht
 editprofile Bewurkje profyl
-editstate Bewurkje een besteand automatisch berjocht
-emotisounds Spielje gelud by bepaalde gnyskers
-enableproxy Brûk proxy
-enableremote meitsje op ofstan betsjinje mogelijk
-enablesound Spielje geluk
-encoding2 Feroarje fan encodering by dyn tekens
-encoding Encoderen
+editstate Bewurkje in besteand automatysk berjocht
+editvalue Wearde oanpasse
+email Eamel
+emailsinlist Eameladres sjen litte yn'e kontaktenlist
+emotisounds Spylje lûd by bepaalde gnyskers
+emptygroup Groep leechje
+enabled Ynskeakele
+enableproxy Brûk proksy
+enableremote Meitsje op ofstân betsjinje mooglik
+enablesound Spylje lûd
+encoding Fersiferje
+encoding2 Feroarje fan fersifering by dyn tekens
 entercontactemail Jou Kontakt-email
 enterfilename Jou in bestânsnamme op
 enternick Jou dyn skermnamme
-errortls Foutsje by het ynstallearen fan de TLS-module
+errortls Flaterke by het ynstallearen fan de TLS-module
+eventshistory Lit foarfalskiednis sjen
 examples Foarbylden
-exitamsn Slút amsn
+exitamsn Slút aMSN
 extras Ekstra's
-faq FAQ (Faak stelde fragen (yn't Engels))
+failed Misleare
+faileddelete Wisse misleare
+faileddeleteperso Dizze ôfbylding kin net fuortsmiten wurde omdat it net in persoanlik ôfbyldingsbestân is. Allinne ôfbyldingen dy't by jo persoanlike profyl heare kinne sa fuortsmiten wurde.
+faq FAQ (Faak stelde fragen (yn't Ingelsk))
+file Bestân
 filedoesnotexist Bestân bestiet net
 fileman Bestânbehear
-filemanexample ( \$location sil wurdde ferfangen troch de map ) Start nautilus \$location
+filemanexample ( \$location sil ferfangen wurde troch de map ) Start nautilus \$location
 filename Bestânsnamme
+filetransfer Bestânsoerdracht
 filetransfercancelled Bestânsferstjoering annuleard
 filetransfercomplete Bestânsferstjoering klear
-followtext  Scroll nei under, at der neije tekst ynfoecht is
-ftaccepted Bestânsferstjoering oannôm
-ftacceptedby $1 akseptearet de bestansferstjoer-utnoeching foar het bestan: '$2'
-ftaccepting Akseptear de bestansferstjoering
-ftconnecterror Ferbyningsflater mei de oare kompjoeter
+followtext Skow nei ûnderen at der nije tekst ynfoege is
+friendlyname Skermnamme ûnder it petear
+ftaccepted Bestânsferstjoering oannômmen
+ftacceptedby $1 akseptearet de bestânsferstjoer-útnoeging foar it bestân: '$2'
+ftaccepting Akseptearje de bestânsferstjoering
+ftconnecterror Ferbiningsflater mei de oare kompjûter
 ftconnecting Ferbynt nei $1 mei poarte $2
-ftconnectionlost Ferbyning mei de oare kompjoer bist kwyt
-ftgotinvitation $1 wol dy '$2' ($3 bytes) stjoere. kinst t werom fyne yn dizze map:  $4. Wolst dit bestan echt oannimme?
-ftportpref Begjinpoarte foar bestansferstjoer
-ftrejected Bestânsferstjoering âfwesen
-ftrejectedby $1 kitste de bestansferstjoering fan het bestan '$2' of.
-ftsendinvitation Bestansferstjoering-utnoeching foar het bestan '$2' ($3 bytes) is fertsjoerd nei $1
-gonelunch Itenspauze
-groupadd Foeg in groep ta
-groupdelete Smit in groep foart
-groupexists Groep bestiet al
+ftconnectionlost Ferbining mei de oare kompjûter is ferlen
+ftgotinvitation $1 wol dy '$2' ($3 bytes) stjoere. Kinst it werom fine yn dizze map:  $4. Wolst dit bestân grif oannimme?
+ftportpref Begjinpoarte foar bestânsferstjoering
+ftrejected Bestânsferstjoering ôfkarre
+ftrejectedby $1 karde de bestânsferstjoering fan it bestân '$2' ôf
+ftsendinvitation Bestansferstjoering-útnoeging foar het bestân '$2' ($3 bytes) is fertsjoerd nei $1
+fullcontactlist Sorry, jo kontaktenlist is fol. At jo mear kontaktpersoanen tafoegje wolle, dan sille jo earst guonen fuortsmite moatte
+getdisppic Skeakelje it ûntfangen fan de persoanlike ôfbyldings fan oare brûkers yn
+globalnick Fier in patroan yn dat brûkt wurde kin om in skermnamme op te stellen foar al jo kontaktpersoanen. Jo kinne de neikommende fariabelen opnimme: \$user_login foar it eameladres fan de kontaktpersoan, \$nick foar syn/har skermnamme en \$customnick foar syn/har oanpaste skermnamme.
+globalnicktitle Algemiene bynamme
+globaloverride It algemiene bynammenpatroan hat foarrang op de oanpaste bynammen
+gonelunch Skoft
 group Groep
+groupadd Foegje in groep ta
+groupdelete Smyt in groep fourt
+groupexists Groep bestiet al
 groupmissing Kin de groep net fine
-groupnewname Neie namme
+groupnewname Nije namme
 groupnotempty Dizze groep is net leech!
-groupoldname Âlde namme
+groupoldname Alde namme
 grouprename Feroarje in groepsnamme
-groupunknown Onbekende groep
+groups Groepen
+groupunknown Unbekende groep
 handle Dwaan
-helpcontents Help inhâld
 help Help
-hiden Verberg dizze Gnysker yn t Gnysker-menu.
-hidewindow Ferberg finster
+helpcontents Help ynhâld
+hidedisplaypic Bring persoanlike ôfbylding ferside
+hiden Bring dizze gnysker ferside yn it gnysker-menu
+hidewindow Bring finster ferside
 history Besjoch Skiednis
 home Thús
-httpconnection Ferbyne mei een HTTP-protocol, oer poarte 80
-hybrid Twa-slachtige modus
-identity Identiteit
-ident Oan't identificearje
-inbox Inbox
-internalerror   Ynterne Server Fout
-invalidfile Bestan $2 ynvult yn fjild "$1" bestiet net, of is net lesber.
-invalidusername Dyn gebrûkersnamme is net júst.
-invitationcancelled bestansferstjoering is ofkitst
+httpconnection Ferbine mei in HTTP-protokol, oer poarte 80
+hybrid Twaslachtige modus
+ident Oan it ydentifisearjen
+identity Ydentiteit
+ignoreerrors Negearje oare aMSN-flaters sûnder it te melden, ta de ein fan de sesje
+imagefiles Ofbyldingsbestannen
+inbox Postfak yn
+insertsmiley Gnysker ynfoegje
+installconvert Jo moatte ImageMagick (in omsetprogramma) ynstallearje at jo Kameraadbyldkaikes en Oanpaste gnyskers brûke wolle. Jo kinne in ferzje foar jo bestjoeringssysteem oerhelje fan ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . At jo dat al ynstalleart hawwe, dan is dizze melding in programmearflater; meitsje der asjebleaft gewach oer. Dizze mooglikheden wurde no útskeakele; at jo ImageMagik letter noch ris ynstallearje, skeakelje dizze opsjes dan yn fanút it Foarkarren-finster.
+internalerror Ynterne Tsjinner Flater
+invalidfile Bestân $2 ynvult yn fjild "$1" bestiet net, of is net lêsber
+invalidfile2 Bestânsnamme $1 kin net oanmakke wurde. Hawwe jo wol de nedige tawurden?
+invalidgroup Groep is net jildich
+invalidpic De opjûne ôfbylding bestiet net
+invalidpicsize De opjûne ôfbylding is te grut; kies in lytsere
+invalidsound It opjûne lûdsbestân bestiet net
+invalidusername Jo brûkersnamme is net júst
+invitationcancelled Bestânsferstjoering is ofkitst
 invite Noegje út
 ipaddress IP-adres
-ipdetect Detektear júste IP-adres foar bestânsoerdracht troch HTTP
-istyping $1 is oan't type
+ipdetect Detektearje it júste IP-adres foar bestânsoerdracht troch HTTP
+ircstyle Petear yn IRC-styl
+istyping $1 is oan it typen
 joins $1 nimt diel oan konfersaasje
-keepalive Hâld ferbining in stân
-keeplog2 Bewarje alle gesprekken yn it logboek fan aMSN-Skiednis om se lettber besjen te kinne
-keeplog Bewarje logboek fan chatgesprekken
+justonce Mar ien kear
+keepalive Hâld ferbining yn stân
+keeplog Bewarje logboek fan tsjotterpetearen
+keeplog2 Bewarje alle petearen yn it logboek fan aMSN-Skiednis om se letter besjen te kinnen
 language Taal
-lastmsgtime Leste berjocht krigen om $1
+lastlogin Foarige oanmelding
+lastlogout Foarige ôfmelding
+lastmsgedme Lêste berjocht
+lastmsgtime Lêste berjocht krigen om $1
+lastseen Lêste kear oanmeld
 lclosedwin $1 hat it finster slúten om $2
-lconftopriv Gearkomste feroarje yn Privechat mei $1
+lconftopriv Gearkomste feroare yn priveepraatsje mei $1
 lconvstarted Konfersaasje start om $1
-leaveblankforhotmail Lit leech foar it brûken fan Hotmail web
-leaves $1 ferlit Konfersaasje
+leaveblankforhotmail Leechlitte foar it brûken fan Hotmail web
+leavejoinsinchat Yn it tsjotterfinster oanjaan wannear't immen it petear binnenkomt of fuortgiet
+leaves $1 ferlit konfersaasje
 lenteredconf $1 kôm by de gearkomste op $2
-linprivate YN PRIVE
-listeningon Op poarte $1 oan't lústerje
-listsmileys2 Toan emoticons en smileys yn aMSN's haadkontaktenlist
-listsmileys Toan smileys yn list
-ljoinedconf $1 nôm diel oan de gearkomste
+lineflushlog Wurkje logbestannen by nei eltse rigel
+linprivate YN PRIVEE
+listeningon Op poarte $1 oan it lústerjen
+listsmileys2 Toan gnyskers yn aMSN's haadkontaktenlist
+listsmileys Toan gnyskers yn list
+ljoinedconf $1 hat oan de gearkomste dielnommen
 lleftconf $1 hat de gearkomste ferlitten
-loadcontacts Kontaktenlist oan't laden
-logbigger It logbestân fan elk kontakt mei net grutter wurde as
+load Lade
+loadcontacts Kontaktenlist oan it laden
+logbigger It logbestân fan elts kontakt mei net grutter wurde as
+logeventconnect Yn in logbestân byhâlde wannear kontaktpersoanen harren oanmelde
+logeventdisconnect Yn in logbestân byhâlde wannear kontaktpersoanen harren ôfmelde
+logeventemail Yn in logbestân byhâlde wannear in eamel binnenkomt
+logeventstate Yn in logbestân byhâlde wannear kontaktpersoanen harren tastân feroarje
 logfandexp Bewarje tiidlik alle bestânsgrute en Skiednis
-loggedotherlocation Do bist al oanmeld
-loggingin Oan't oanmelde
+loggedotherlocation Jo binne al oanmeld
+loggingin Oan it oanmelden
 loginas Oanmelde as
 loging Oanmelde
 login Meld dy oan
-logolder Alline gesprekken bewarje dy't plak fûn yn'e ôfrûne
+logolder Allinne petearen bewarje dy't plak fûn hawwe yn'e ôfrûne
 logout Meld ôf
+logsbydate Logbestânnen sortearje op datum (Skiednis laadt folle hurder)
 logsin hat sich krekt oanmeld
-logsmileys Toan emoticons en smileys yn aMSN's Skiednisfinsters
-logsout Utlogge
-lprivtoconf Privechat feroare yn Gearkomste mei $1
+logsmileys Toan gnyskers yn aMSN's skiednisfinsters
+logsout Ofmelde
+longnick Jo bynamme is mear as 130 tekens lang. Dit wurdt offisjeel net stipe troch it MSN protokol. Wolle jo it dochs besykje?
+longp4c Jo skermnamme is mear as 130 tekens lang. De skermnamme sa't er yn de offisjele MSN-programma's ferskine sil is $1. Wolle jo de opjûne namme dochs brûke?
+lprivtoconf Priveepraatsje feroare yn Gearkomste mei $1
 luclosedwin Do hast it finster slúten op $1
-mailerexample  ( \$recipient = Recipient ) Lit leech foar gebruk fan Hotmail
-mailer Mail-client
-maximised Fergrut
-minimised Ferlytse
+mailerexample  ( \$recipient = Recipient ) Leechlitte foar gebrûk fan Hotmail
+mailer Eamelprogramma
+mailerexample ( \$recipient = Adressearde ) Lit dit fjild leech at jo Hotmail brûke wolle
+maximised Fergrutsje
+minimised Ferlytsje
 mins minúten
-mobile Mobiele telefoan
+mobile Mobiele tillefoan
+month Moanne
 morepersonal Mear tastannen ==>
-move  Beweeg
+move Beweegje
 movetogroup Ferhûzje nei groep
 msg Berjocht
-msgflicker Lit de titelbalke fan het chat-finster knipperje at der een nei berjocht oankaam is yn een finster wer gjin focus op stiet.
-msgmaxmin As in berjocht ûntfange wurdt, wol ik dat se wurde:
-msgmode Hoe't meardere chat-finsters wêrjûn wurde moatte:
+msgflicker Lit de titelbalke fan it tsjotter-finster knipperje at der in nij berjocht oankaam is yn in finster wêr't gjin fokus op stiet
+msgmaxmin As in berjocht ûntfongen wurdt, wol ik dat se wurde:
+msgmode Hoe't meardere tsjotter-finsters wêrjûn wurde moatte:
 msn AMSN
-mustrestart Do moast it programma op'e nei starte foardat de feroaringen effekt ha
-myhomephone Myn telefoannûmer (thús)
-mymobilephone Myn mobiele nûmer
-mystatus Myn status
-myworkphone Myn telefoannûmer (wurk)
-natip IP-deteksje troch website
+msnstyle Petear yn MSN-styl
+mustrestart Jo moatte it programma op'e nij starte foardat de feroaringen fertúten dogge
+myfriendlyname Myn skermnamme
+myhomephone Myn tillefoannûmer (thús)
+mymobilephone Myn mobiele tillefoannûmer
+mynick Myn bynamme
+mypic Myn ôfbylding:
+mystatus Myn tastân
+myworkphone Myn tillefoannûmer (wurk)
+name Namme
+natip IP-deteksje troch webside
 natkeepalive Ast faak ôfmeld wurdst, moast dit oanfinke
-needonline Do bist (of bearest) net oanmeld
-newmail $1 neie berjochten
-newmailfrom Neie email fan $1 ($2)
-newmsg Nei berjocht
-newveravailable Neiere fersy $1 beskikber
-next Folgende 
-ng
+needonline Jo binne net oanmeld
+needwinico It bestân winico03.dll moat yn de plugin-map stean om it Windows-systeemfak brûke te kinnen
+never Nea
+new_ft_protocol Brûk it nije bestânoerdrachtsprotokol (der sitte noch in pear programmearflaters yn)
+newmail $1 nije berjochten
+newmailfolder Jo hawwe $1 nije berjochten yn oare Hotmail mappen
+newmailfrom Nije eamel fan $1 ($2)
+newmailfromother Nije berjochten yn in oare map fan $1 ($2)
+newmsg Nij berjocht
+newstate Foegje in eigen tastân ta
+newveravailable Nijere ferzje $1 beskikber
+next Folgjende 
+nick Bynamme
+no Nee
 noactivity Gjin aksje
-nodataavailable Gjin data beskikbar foar $1
+nodataavailable Gjin data beskikber foar $1
+nogap Gjin romte tusken de groepen
+nogroup Gjin groep
 nologfile Gjin logboek foar $1
-noneavailable Gjin beskikber.
-no nee
-nonewmail Gjin berjochten yn In-Box
-nonewver D'r binne gjin neiere fersys beskikber
-noprofileexists Der binne op t stut gjin profylen, \n moast ien meitsje atst profylearde ynlogs bruke wolst. \n Bruk de "foch nei profyl ta"-knop yn dit skerm om een nei profyl te meitsjen.
+noneavailable Gjin beskikber
+nonewmail Gjin berjochten yn Postfak-yn
+nonewver Der binne gjin nijere ferzjes beskikber
+nopic Gjin ôfbylding
+noprofileexists Der binne op it stuit gjin profylen, \n moatst ien meitsje atst profylearde oanmeldings brûke wolst. \n Brûk de "foegje nij profyl ta"-knop yn dit skerm om in nij profyl te meitsjen
 normal Normaal
-nosystemtray der is gjin systeembalke oanwezich
-notify1_5 Lit yn een skermke sjen at minsken fan e lyne gean.
-notify1_75 Lit yn een skermke sjen at minsken de status feroarje.
-notify1 Toan advysfinster wannear't in kontakt sich oanmeldt
-notify2 Toan advysfinster wannear't neie berjochten ûntfange wurde
-notify3 Toan advysfinster wannear't d'r neie emails ûntfange wurde
-notify Jou advys
+noskins Kin aMSN net opstarte, om't der gjin hûden ynstalleare binne yn de map skins/
+nosystemtray Der is gjin systeembalke oanwêzich
+notify Op'e hichte bringe
+notify1_5 Lit yn in skermke sjen at minsken fan'e tried geane
+notify1_75 Lit yn in skermke sjen at minsken de tastân feroarje
+notify1 Lit meidielfinster sjen wannear't in kontakt sich oanmeldt
+notify2 Lit meidielfinster sjen wannear't nije berjochten ûntfangen wurde
+notify3 Lit meidielfinster sjen wannear't der nije eamels binnenkomme
+notify4 Lit meidielfinster sjen wannear't der nije eamels binnenkomme yn oare mappen
 notifyoffset Feroarje de posysje fan it advysfinster mei it jaan fan koördinaten
-notifywin Advysfinster
-notls Het MSN Protocol 9 hathet tls-package nedich. Dizze package is net installeard op dizze computer. At it wol installeard is, moast de bibliotheek-map beskriuwn wurde yn het ynstellings-menu. (fb /opt/tls/lib) \n \n Kinst t ek deldonderje fan http://tls.sf.net
-nousersinsession Gjin gebrûker yn sitting
+notifytimeout Oantal millisekonden foardat it meidielfinster weiwurdt
+notifytyping Bring oare brûkers op'e hichte at ik oan it typen bin
+notifywin Meidielfinster
+notinlist Jo steanne net yn syn/har kontaktpersoanlist
+notls It MSN Protokol 9 is it TLS-pakket nedich. Dit pakket is net ynstalleard op dizze kompjûter. At it wol ynstalleard is, moatte jo de bibleteek-map omskriuwe yn it ynstellings-menu. (fb /opt/tls/lib) \n \n Jo kinne it ek oerhelje fan http://tls.sf.net
+nousersinsession Gjin brûker yn sitting
+nudge $1 freget jo omtinken
 offline Net oanmeld
 ok Ok
-onenewmail 1 nei berjocht yn In-Box
+onenewmail 1 nei berjocht yn Postfak-yn
 online Oanmeld
-onphone Oan de telefoan
-openreceived Iepen ûntfangen bestânen
+onphone Oan de tillefoan
+openreceived Iepen ûntfangen bestânnen
 options Ynstellings
 ordercontactsby Sortear kontakten op
 ordergroupsby Sortear groepen op
+original Orizjineel
 other Oare
-pager Pager
+others Oaren
+p4contextprefix Foarheaksel foar de opsjoniele skermnamme
+pager Semifoan
 pass Wachtwurd
 paste Plakke
 personal Persoanlik
-phone Telefoan
+phone Tillefoan
+phones Tillefoannûmers
+picbrowser Lit de ôfbyldingsneuper sjen
 picfile Alarm byldbestân (GIF < 500 x 500 pixels)
-picstatus Skakel alarm byldbestân oan/út
-pluginselector Selectear de Plugins
+picstatus Skeakelje alarm byldbestân oan/út
+playing $1 spilet
+pluginselector Selektearje de Plugins
 port Poarte
 prefalerts Myn Alarm en Lûd
 prefapps Programma's
-prefawaymsg Myn ôfwezich-berjocht
-prefblock1 Controlear by contact-ferbrekke
-prefblock2 Controlear constant
-prefblock3 Bist blokkeart troch"- groep
-prefconnection FerbyningsYnstellings
-prefemotic Emoticons en smileys
-preferences Ynstellings
-preffont2 Feroarje hoe't oaren myn tekst sjoche
-preffont3 Feroarje aMSN's lettertype en grute
+prefawaymsg Myn ôfwêzich-berjocht
+prefblock1 Kontrolearje by kontact-ferbrekken
+prefblock2 Kontrolearje konstant
+prefblock3 "Jo binne blokkeart troch"- groep
+prefconnection Ferbynings ynstellings
+prefemotic Gnyskers
+preferences Foarkarren
 preffont Myn berjochtentekst
-preflibs Bibliotheek mappen
+preffont2 Feroarje hoe't oaren myn tekst sjogge
+preffont3 Feroarje aMSN's lettertype en grutte
+prefft Bestânsoerdracht, peer-to-peer en NAT ynstellings
+preflibs Bibleteek mappen
 preflog1 Myn Skiednis- en Logboekynstellings
+preflogevent Myn foarfalskiednis
 preflook Myn aMSN Messenger Styl
-prefmsging Hoe't myn berjochten d'r útsjoche
+prefmsging Hoe't myn berjochten der útsjogge
 prefname Myn MSN Messengernamme
-prefphone2 De telefoannûmers dy't minsken dyst derfoar tastimming jûn hast, sjen meie
-prefphone Myn telefoannûmers
-prefprivacy2 Gebrukers kontakt / Omgekearde liste
-prefprivacy Gebrukers Betroiuwbarren / Blokkearde liste
-prefprofile2 Meitsje of feroarje in profyl\n (beskriuwing fan dysels dy't oaren sjen kinne)
-prefprofile3 aMSN's konfiguraasjeprofylen foar gebrûkers
+prefphone2 De tillefoannûmers dy't minsken, dy't jo dêr tastimming foar jûn hawwe, sjen meie
+prefphone Myn tillefoannûmers
+prefprivacy2 De brûker's kontakt / Omkearde list
+prefprivacy De brûker's betrouberren / Blokkearde list
 prefprofile Myn profyl
-prefproxy Myn Proxy-ynstellings
-prefremote Ynstellings foar op afstan betsjinje
-prefsession Myn oanmelding en status
+prefprofile2 Meitsje of feroarje in profyl\n (beskriuwing fan josels dy't oaren sjen kinne)
+prefprofile3 aMSN's konfiguraasjeprofylen foar brûkers
+prefproxy Myn Proksy-ynstellings
+prefremote Ynstellings foar it op ôfstân betsjinjen
+prefsession Myn oanmelding en tastân
 prefshared Dielde ferbiningen (alline foar NAT)
 prefsound Lûd
 privacy privacy
 profiledconfig Profylkonfiguraasje
-profileexists Kinst net een profyl meitsje by dizze log-yn, omdat er al een profyl by is. Bruk een oare log-yn.
-profileinuse Dit profyn wurdt al brukt troch een oare amsn-sesje, do moast een oare utsykje
-profileloginradio By Ynlogge een besteand profyl bruke
+profileexists Jo kinne net in profyl meitsje by dizze oanmelding, omdat er al een profyl by is. Brûk in oare oanmelding
+profileinuse Dit profyl wurdt al brûkt troch in oare aMSN-sesje, jo moatte in oaren útsykje
+profileloginradio By Ynlogge een besteand profyl brûke
 profiles Profylen
 properties Eigenskippen
-proxyconfhttp HTTP proxy konfiguraasje ûnderst
-proxyconf Proxy konfiguraasje
-proxyconnection Ik bin mei het internet ferbun troch een proxy server
-proxy Ik meitsje brûk fan in Proxy Server (HTTP of SOCKS5)
-publishphones Publisear myn telefoannûmers
-raised omheech gien
-readonlymsgbox De bestans-ferstjoer is annuleard omdat de de ontfangende map allinich lezzen (read-only) is.
-readonlywarn Waarskoging: het bestan sil net goed opslein wurdde, omdat de "received files" -map tsjin skriuwen befeilige is. Soarche der earst foar dat de tastimmings op de map: ($1) goed stean, foar de bestansferstjoering begjint.
+proxyconfhttp HTTP proksy konfiguraasje stipe
+proxyconf Proksy konfiguraasje
+proxyconnection Ik bin mei it ynternet ferbûn troch in proksy tsjinner
+proxy Ik meitsje gebrûk fan in Proksy Tsjinner (HTTP of SOCKS5)
+publishphones Publisearje myn tillefoannûmers
+purge Skjin reagje
+raised Fergrutte fanút in byldkaike
+readonlymsgbox De bestânsferstjoering is annuleard omdat de ûntfangende map op allinne-lêzen ynstelt stiet
+readonlywarn Warskôging: it bestân sil net goed opslein wurde, omdat de map foar te ûntfangen bestanne tsjin skriuwen befeilige is. Soargje der earst foar dat de tastimmings op de map: ($1) goed steane, foardat de bestânsferstjoering begjint.
 receivedbytes $1 fan $2 bytes krigen
-receivefile Ûntfang bestân
-reconnecting Op'e nei oan't ferbine mei de server
-reconnect Wachtsje tot $1 opnei ferbint
-reject Ôfwise
+receiveddir Map foar binnenkommen bestannen
+receivefile Untfang bestân
+recentmsg Foarkom dat in tsjotterfinster slúten wurdt at der suver krekt in berjocht binnenkomt
+reconnect Wachtsje oant $1 op'e nij ferbynt
+reconnect2 Op'e nij ferbine at de ferbining fuortfalt
+reconnecting Op'e nij oan't ferbinen mei de tsjinner
+reject Ofwize
 rememberpass Bewarje wachtwurd
-removefromlist Helje ut dizze liste
-reversed Omgekeard
-reverselist Kear de liste om
+removeempty Lege groepen fuortsmite út de kontaktenlist
+removefromlist Helje út dizze list
+rename Oare namme jaan
+required_version Kin de plugin net lade, omdat dêrfoar teminsen aMSN $1 nedich is om te draaien
+reversed Omkeart
+reverselist Kear de list om
 rightback Sa werom
-saveas Bewarje as
 save Bewarje
-savecontacts Kontaktenlist bewarje
+saveas Bewarje as
+savechatwinsize Grutte fan tsjotterfinster opslaan nei it feroarjen fan de grutte
+savecontacts Kontaktlist bewarje
 savetofile Bestân bewarje
 says $1 seit
-sbcon Mei Switch Board oan't ferbine 
-selectplugins Selectear de plugins die ast oansette wolst.
-selectskin Kies een hud (skin) ut e liste.
-send Ferstjoer 
+sbcon Mei Switch Board oan it ferbinen
+selectplugins Selektearje de plug-ins dy't jo oansette wolle
+selectskin Kies in hûd út de list
+send Ferstjoer
 sendfile Ferstjoer in bestân
-sendmail Ferstjoer in email
+sendmail Ferstjoer in eamel
 sendmsg Ferstjoer in berjocht
-sentbytes $1 fan $2 bytes ferstjûrd
-servergoingdown De server giet út
-server Server
+sentbytes $1 fan $2 bytes ferstjoerd
+server Tsjinner
+serverbusy De tsjinner hat it drok
+servergoingdown De tsjinner giet út
+serverunavailable De tsjinner is net beskikber
 session Sitting
-showblockedlist Lit de list sjen, fan minsken dy dy blokkeart hawwe
-skin Hud (skin)
-skinselector Selectear de hud (skin)
-smileconfig Eigen Gnysker-ynstellings
-smilefile Gnysker bestansnamme:
-smileintro2 Bewurkje de benedigde fjilden om een neije eigen Gnysker te meitsjen
-smileintro Ful de benedigde fjilden yn om een neije Gnysker te meitjen. Foar hulp, sjoch yn de FAQ.
-sound2 Spielje lûd as kontakten sich oanmelde of in berjocht stjoere
-soundcommand Dit moat in ôfspielkommando wêse (bg: esdplay)
-soundexample (\$sound = Soud file to be played ) Ex. esdplay \$sound
-soundfile Lûdsbestân
-soundloop Lûd herhelje bliuwe
+showbanner Lit it findel fan aMSN sjen
+showblockedlist Lit de list sjen fan minsken dy't jo blokkeart hawwe
+showcachedpics Lit de opsleine ôfbyldings sjen
+showdisplaypic Lit de persoanlike ôfbylding sjen
+showdisplaypic2 Lit standerd de persoanlike ôfbylding sjen at in tsjotterfinster iepene wurdt
+showmypic Myn persoanlike ôfbylding
+shownotify Lit it meidielfinster sjen by bepaalde foarfallen
+showuserpic $1 syn/har persoanlike ôfbylding
+skin Hûd
+skinselector Selektearje de hûd
+smileconfig Eigen gnysker-ynstellings
+smilefile Gnysker bestânsnamme:
+smileintro Folje de nedige fjilden yn om in nije gnysker te meitsjen. Foar help, sjoch yn de FAQ.
+smileintro2 Bewurkje de benedigde fjilden om in nije eigen gnysker te meitsjen
+snackfailed It laden fan Snack is misleare; werom nei standert funksjes
+sngdblclick Ien kear klikke om in nij tsjotterfinster te iepenjen
 sound Lûd
-soundserver Lûdserver
-soundstatus Skakel alarmlûd oan/út
-sourcecode Broncode (moast wol compilearje en ynstallearje
-startoffline2 'Stil' oanmelde mei "Net oanmeld"-status
+sound2 Spylje lûd as kontakten sich oanmelde of in berjocht stjoere
+soundactive Meitsje ek lûd at in berjocht binnenkomt yn in aktyf finster
+soundcommand Dit moat in ôfspylkommando wêze (bg: esdplay)
+soundexample (\$sound = it te spyljen lûdsbestân) Ex. esdplay \$sound
+soundfile Lûdsbestân
+soundfiles Lûdsbestannen
+soundloop Lûd werheljen bliuwe
+soundserver Lûdtsjinner
+soundstatus Skeakelje alarmlûd oan/út
+sourcecode Boarnekoade (moat wol kompileart en ynstalleart wurde)
+splashstart Starte
+sslwarning WARSKOGING!! At jo SSL útskeakelje, dan wurdt jo wachtwurd by it ferstjoeren net fersifere. Skeakelje SSL dus allinne út at dit needsaaklik blykt te wêzen om ferbining te meitsjen.
+startoffline2 'Stil' oanmelde mei "Net oanmeld"-tastân
 startoffline Begjin "Net oanmeld"
-stateautomsg Automatisch Berjocht om te stjoeren:
-statechange Status feroare yn:
-stateedittext Bewurkje de fjilden die'st graach \n feroare hawwe wolst, en druk dan op Opslaan
+startontray Start aMSN allinne as systeemfak-byldkaike
 state Ik wol ferskyne as:
-stateinfo Persoanlyke Tastan Ynstellings
-statename Namme fan de persoanlyke tastan
-statenewtext Ful de ferplichte ynformaasje yn, \n om dyn neije persoanlyke tastan te meitsjen, en druk dan op Opslaan
-status Status
-stopalarm Stop it alarm
-stylechat Styl lyk as chatberjochten
+stateautomsg Automatysk berjocht om te stjoeren:
+statechange Tastân feroare yn:
+stateedittext Bewurkje de fjilden dy't jo graach \n feroare hawwe wolle en druk dan op Opslaan
+stateinfo Persoanlyke Tastân Ynstellings
+statename Namme fan de persoanlyke tastân
+statenewtext Folje de ferplichte ynformaasje yn, \n om jo nije persoanlyke tastân te meitsjen en druk dan op Opslaan
+statenick Oanpaste skermnamme (lit leech foar gjin feroarings)
+status Tastân
+stopalarm Stopje it alarm
+storenickname Ferhelje de oarspronklike skermnamme nei in oanpaste tastân mei in oanpaste skermnamme
+strictfonts Behein de lettergrutte oeral ta de grutte dy't ik selekteare haw, ek yn de tastânbalke en oare plakken
+style Styl
+stylechat Styl lyk as tsjotterberjochten
 stylehist aMSN's Skiednis styl
-stylelog Kies it foarmaat wêrst dyn Skiednis besjen wolst
-syntaxerror Syntaxflater
+stylelog Kies it formaat wêryn jo jo Skiednis besjen wolle
+syntaxerror Opbouflater
 tabbed 'Tabbed' finsters
-textsize Tekstgrute
+temp_state Net opslaan (Tydlike tastân, giet ferlern at aMSN ôfslúten wurdt)
+textsize Tekstgrutte
 timeremaining Tiid oer
-title Messenger
-tlsdowncompleted Bestan is deldondere yn map $2. Do moast t utpakke, compleare ast de brondode deldondere hast, en ynstalleare yn $3
-tlsinstallexp Amsn brukt no MSNP9, wat het gebruk fan een veilige ferbyning troch SSL nedich is. Om SSL te bruken, hat AMSN een module, (TLS) nedich, wat net yn dyn systeem sit. Dizze goochelaar helpt dy by het deldonderjen en ynstallearjen fan TLS. Kies dyn systeem-type, en dan gean ik automatiesk TLS foar dy deldonderjen.
-tlsinstall TLS module ynstallaasje-tovenaar
-tlsinstcompleted TLS is goed ynstalleard, kinst no MSNP9 bruke. At het net wurket, hast fest de ferkearde module deldondere, of de compilearde module is net beskikber foar dyn systeem.
+timestamps Lit de tiden sjen yn'e tsjotterfinsters
+title aMSN
+tlsdowncompleted Bestân is oerhelle yn map $2. Jo moatte it útpakke, kompilearje (at jo boarnekoade oerhelle hawwe) en ynstallearje yn $3
+tlsinstallexp aMSN brûkt no MSNP9, wat it brûken fan in feilige ferbining troch SSL fereasket. Om SSL te brûken hat aMSN in module nedich, TLS, dy't net yn jo systeem sit. Dizze gûchelder helpt jo by it oerheljen en ynstallearjen fan TLS. Kies jo systeem-soart sadat TLS automatysk foar jo oerhelle wurde kin.
+tlsinstall TLS module ynstallaasje-gûchelder
+tlsinstcompleted TLS is goed ynstalleard, jo kinne no MSNP9 brûke. At it net wurket, dan hawwe jo fêst de ferkearde module oerhelle, of de kompilearde module is net beskikber foar jo systeem.
 to Oan
+today Hjoed
 tools Ark
-tooltips Gereedschapstips oansette
-transnotexists Dit bestan is noch nei het Frysk oerset
-traynotcompiled Dizze funksje fan de balke is nog net complileare, sjoch de plugins mar efkes nei.
-triggers Tekst spul
-twonewmail $1 neie berjochten
+tooltips Arktips oansette
+transnotexists Dit bestân is noch net nei it Frysk oerset
+traynotcompiled Dizze funksje fan de balke is noch net kompileare, sjoch de plug-ins mar efkes nei.
+triggers Tekst triggers
+truncatenames1 Skermnammen yn de kontaktpersoanenlist en yn finstertitels ôfkappe at hja langer binne dan it finster breed is
+truncatenames2 Skermnammen yn petearen ôfkappe at hja langer binne dan it finster breed is
+truncatenicks Skermnammen ôfkappe at hja langer binne dan it finster breed is
+twonewmail $1 nije berjochten
 unblock Deblokkear
+unknown Unbekend
+unload Ut it ûnthâld helje
 uoffline Net oanmeld
 uonline Oanmeld
-useralreadyonlist Gebrûker stiet al yn dyn list
-userblocked Dizze bruker is wol oan e line, mar hat dy blokkeart
-user Gebrûker
-usernotonline De gebrûker is net oanmeld
-useryourself Oebele! Do kinst dochs net mei dysels chatte!
-verifyblocked Sykje ut welke minsken dy blokkeart hawwe
-version Fersy
+useother Brûk in oar programma
+user Brûker
+useralreadyonlist De brûker stiet al yn dyn list
+userblocked Dizze brûker is wol op'e tried, mar hat jo blokkeart
+userdata Brûker ynformaasje
+usernotonline De brûker is net oanmeld
+userproperties Eigenskippen fan brûker $1
+useryourself Oebele! Jo kinne dochs net mei josels tsjotterje!
+usesnack Brûk de Snack bibleteek (yntern yn Tcl)
+verifyblocked Sykje út hokker minsken jo blokkeart hawwe
+version Ferzje
 view Byld
+viewcontactsby Lit kontaktpersoanen sjen mei
 viewprofile Profyl werjaan
-willjoin Wachtsje tot $1 de konfersaasje bywenjen sil
+webcaminvite $1 wol in webkamera-sesje begjinne, mar dizze funksje wurdt net stipe troch aMSN
+willjoin Wachtsje oant $1 de konfersaasje bywenje sil
+winkreceived Jo hawwe in knipeach krige fan $1. Dizze funksje wurdt net stipe troch aMSN
 work wurk
-wrongfields "$1", "$2" en of "$3" binne net goed ynfult.
-wrongprofileversion Ferkearde profylkonfiguraasje-fersie. Om het te reparearjen, moast het bestan $1 fuortsmite, of amsn efkes update
+wrongfields "$1", "$2" en of "$3" binne net goed ynfolt
+wrongprofileversion Ferkearde profylkonfiguraasje-ferzje. Om it te reparearjen, moatte jo it bestân $1 fuortsmite, of aMSN efkes fernije
+xmmscurrent Lit it hjoeddeiske nûmer sjen
+xmmserr Der wurdt neat ôfspyle of jo hawwe xmms-infopipe net ynstalleare
+xmmssend Ferstjoer it hjoeddeiske nûmer
 xoffset X-posysje
-yes ja
+year Jier
+yes Ja
+yesterday Juster
 yoffset Y-posysje
-youblocked Do bist blokkeart
-yousay Do seist
-youwant Do wolst
+youblocked Jo binne blokkeart
+yousay Jo sizze
+youwant Jo wolle

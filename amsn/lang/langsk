@@ -549,3 +549,85 @@ automessage Odkazovac
 friendlyname Priatelske Meno
 longp4c Tvoje Priatelske Meno ma viac ako 130 pismen. Retazec ktory sa objavi v oficialnom MSN kliente bude $1. Si si isty ze chces aby sa zobrazil?
 soundactive Spustit zvuk aj ked dostanes odkaz v otvorenom okienku
+author Autor
+bouncedock Pohnut ikonu aMSN ked dostanes novy odkaz
+changeglobnick Zmenit globalny nickname
+changesize Zmenit velkost
+clear Zmazat
+clientcaps Odoslat balik x-clientcapsSend inym klientom
+clientname Meno klienta
+configure Nastavit
+confirmbl Si si isty ze chces zablokovat tento kontakt?
+confirmdg Si si isty ze chces zmazat tuto skupinu?
+confirmdu Si si isty ze chces zmazat tohto uzivatela?
+confirmeg Si si isty ze chces vyprazdnit tuto skupinu?
+confirmrfl Si si isty ze chces vymazat tohto uzivatela z tejto skupiny?
+connectedwith Pripojeny s $1
+continuously Nepretrzito
+custnotifymsg Ukazat notifikacne okienko ked dostanes novy odkaz od niekoho
+custnotifyoffline Ukazat notifikacne okienko ked tento kontakt sa odpoji
+custnotifyonline Ukazat notifikacne okienko ked tento kontakt sa pripoji
+custnotifystatus Ukazat notifikacne okienko ked tento kontakt zmeni status
+customstyle Vlastny styl
+dateformat Zmenit format datumu
+day Den
+disableuserfonts Ignoruj typ pisma uzivatela s ktorym hovorim, a pouzi moj vlastny typ
+disconnectedfrom Odpojeny z $1
+displayeventconnect Upozorni ma ked kontakt sa pripoji
+displayeventdisconnect Upozorni ma ked kontakt sa odpoji
+displayeventemail Upozorni ma ked dostanem mail
+displayeventstate Upozorni ma ked kontakt zmeni status
+email E-mail
+emptygroup Prazdna skupina
+eventhistory Otvorit historiu udalosti
+filetransfer Odosielanie/prijimanie suborov
+ftautoclose Zavriet okienko ked odosielanie/prijimanie skonci
+globalnick Pridat bazu na vytvorenie nickname-ov vsetkych tvojich kontaktov. Mozes pouzit tieto premenne: \$user_login pre adresy tvojich kontaktov, \$nick pre nickname-y tvojich kontaktov a \$customnick pre vlastne nickname-y tvojich kontaktov. Napriklad: '\$user_login je \$nick' bude 'contact@msn.com je kontakt'
+globalnicktitle	Globalny nickname
+globaloverride Bazy globalnych nickname-ov by mali ignorovat vlastne nickname-y
+groups Skupiny
+ignoreerrors Nezobrazovat ine chyby AMSN az kym vypnem program
+ircstyle Styl IRC chatu
+justonce Len raz
+lastseen Naposledy online
+load Load
+logeventconnect	Logovat pripojenia
+logeventdisconnect Logovat odpojenia
+logeventemail Logovat ked dostanem e-mail
+logeventstate Logovat zmeny statusu
+maintenance Server sa vypne kvoli udrziavaniu za $1 minut
+month Mesiac
+msnstyle Styl MSN chatu
+myfriendlyname Moje priatelske meno
+mynick Moj Nickname
+name Meno
+needwinico Potrebujem winico03.dll v priecinku plugin-och
+never Nikdy
+new_ft_protocol Pouzit novy protokol pre odosielanie/prijimanie (este stale tam su chyby)
+newmailfolder Mas $1 novych mailov v inych priecinkoch Hotmailu
+newmailfromother Novy mail v inych priecinkoch od $1 ($2)
+nogap Bez medzier medzi skupinami
+notify4	Ukazat notifikacne okienko ked mi dorucia nove maily v inych priecinkoch
+notifytimeout Napis cislo milisekund co mam zobrazit notifikacne okienko
+nudge $1 ta ziada o pozornost
+original Original
+preflogevent Moja historia udalosti
+preview	Preview
+reconnect2 Pripojit sa znova pri strateni kontaktu
+removeempty Vymazat prazdne skupiny z kontaktnej knizky
+required_version Nemozem otvorit tento plugin. Potrebuje novsiu verziu aMSN, aspon $1
+showbanner Ukazat reklamu v aMSN
+snackfailed Nemozem otvorit Snack, vraciam sa k povodnemu
+sngdblclick Jediny klik na otvorenie noveho okienka
+splashstart Start
+style Styl
+today Dnes
+unknown	Neznamy
+unload Unload
+useother Pouzi iny program
+usesnack Pouzit kniznicu Snack (Tcl internal)
+viewcontactsby Vidiet kontakty po:
+webcaminvite $1 ta pozyva na spustenie web-kamery, ale aMSN to zatial nepovoluje
+winkreceived Dostal si Wink od $1, ale aMSN to zatial nepovoluje
+year Rok
+yesterday Vcera

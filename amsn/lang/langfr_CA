@@ -608,3 +608,26 @@ preflogevent Mes Historiques d'événements
 today Aujourd'hui
 year Année
 yesterday Hier
+author Auteur
+clientcaps Envoyer les paquets x-clientcaps aux autres clients
+configure Configurer
+confirmbl Êtes-vous sûr de vouloir bloquer ce contacte?
+confirmdg Êtes-vous sûr de vouloir effacer ce groupe?
+confirmdu Êtes-vous sûr de vouloir effacer cet utilisateur?
+confirmeg Êtes-vous sûr de vouloir vider ce groupe?
+confirmrfl Êtes-vous sûr de vouloir effacer cet utilisateur de ce groupe?
+emptygroup Groupe vide
+filetransfer Envoie de fichier
+ftautoclose Fermer la fenêtre lorsque le transfert est terminé
+load Charger
+maintenance Le serveur va en maintenance dans $1 minutes
+name Nom
+new_ft_protocol Utiliser le nouveau protocol de transfert de fichier (il reste quelques bugs)
+nudge $1 demande votre attention
+preview Échantillon
+required_version Incapable de charger ce plugin. Il a besoin, d'au moins, aMSN version $1
+snackfailed Snack n'a pas pu se charger, retour au défaut
+style Style
+unknown Inconnu
+unload Décharger
+winkreceived Vous avez reçu un clin d'oeil de $1. Cette fonction n'est présentement pas supportée par aMSN.

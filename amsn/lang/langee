@@ -238,6 +238,7 @@ friendlyname Sõbralik nimi
 ftaccepted Faili edastamisega nõustutud
 ftacceptedby $1 aksepteeris faili '$2' laadimise
 ftaccepting Aksepteerin faili laadimise
+ftautoclose Ülekande lõpul sulge aken
 ftconnecterror Viga ühenduse loomises teise arvutiga
 ftconnecting Ühendan $1 pordil $2
 ftconnectionlost Ühendus teise arvutiga katkes
@@ -469,6 +470,7 @@ prefremote Kaug-ühenduse seaded
 prefsession Minu sisselogimine ja olek
 prefshared Jagatud ühendused (ainult NAT)
 prefsound Helid
+preview Eelvaade
 privacy Privaatsus
 profiledconfig Profiilide seaded
 profileexists Sa ei saa selle kasutajaga profiili luua, \nselline kasutaja juba eksisteerib. Vali teine kasutajatunnus

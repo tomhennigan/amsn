@@ -53,7 +53,7 @@ bgcolor Ŝanĝu fono-koloron de aMSN
 blankdirect Restigu blanka por rekta konekto
 block Barumu (Block)
 blocked Barumita (Blocked)
-blockedyougroup Montru kiel disiga grupo uzuloj kiujn havas barumita vin
+blockedyougroup Montru kiel disiga grupo uzuloj kiuj estas barumita vin
 blocking Barumanta
 blockinter1 Kiam via stato estas Enreta kontrolu po
 blockinter2 sekundoj, alimaniere kontrolu
@@ -90,8 +90,14 @@ clicktologin Klaku tie ĉi por saluti
 close Fermu
 closingdocks Fermo-butono Minimumigas
 command Komando
-confirm Ĉu vi estas certe?
+confirm Ĉu vi estas certa?
+confirmbl Ĉu vi vere volas barumi tiun kontaktulon?
 confirmdelete Ĉu vi vere volas viŝi $1?
+confirmdg Ĉu vi vere volas viŝi tiun grupon?
+confirmdu Ĉu vi vere volas viŝi tiun uzulon?
+confirmeg Ĉu vi vere volas malplenigi tiun grupon?
+confirmpurge Ĉiuj montrumaj bildoj de aliaj kontaktuloj (ne la viaj) estos viŝitaj. Ĉu vi estas certa?
+confirmrfl Ĉu vi vere volas viŝu tiun uzulon el tiu grupo?
 connecterror Eraro je konektado al servilo
 connection Konekto
 contactadded Kontaktulo estas aldonita
@@ -185,7 +191,7 @@ loginas Salutu kiel
 loging Protokolado
 login Salutu
 logolder Protokolu nur babilojn, kiuj okazis dum la pasinta[j]
-logout Adiaŭu
+logout Adiaŭ
 logsin ĵus salutis
 logsmileys Vidigu mienvinjetojn kaj ridetojn en la historio-fenestroj de aMSN
 lprivtoconf Nepublika babilo iĝas konferencon kun $1
@@ -306,31 +312,60 @@ soundserver Sono-Servilo
 soundstatus Sonigu Alarmon
 startoffline2 Salutu silente kiel "Ŝajnanta Malenreta"
 startoffline Komencu Malenrete
+state Mi volas ŝajni
 status Stato
 stopalarm Haltigu Alarmon
+style Stilo
 stylechat Sama aspekto kiel babiloj
 stylehist Aspekto de historio
 stylelog Elektu la formaton, per kiu vi amus rigardi vian historion
 syntaxerror Sintaska Eraro
 tabbed "Tabbed" Fenestroj
 textsize Teksto-grando
-title Al's Messenger
+timeremaining Cetera tempo
+timestamps Ebligi tempomarko en mesaĝoj
+title aMSN
 to Al
+today Hodiaŭ
 tools Iloj
+tooltips Aktivigu helpan globeton
+transnotexists La bezonata dosiero estas ankoraŭ netradukita
+triggers Tekstaj ĉanoj
+truncatenames1 Detranĉi kaŝnomojn kiujn estas pli longa ol la fenestra larĝo en fenestraj titoloj aŭ en la kontaktlisto
+truncatenames2  Detranĉi kaŝnomojn kiujn estas pli longa ol la fenestra larĝo en babiloj
+truncatenicks Detranĉi kaŝnomojn kiujn estas pli longa ol la fenestra larĝo
 twonewmail $1 novaj mesaĝoj en LeterKesto
 unblock Malbarumu (Unblock)
+unknown Nekonata
+unload Malŝarĝi
 uoffline Malenreta
 uonline Enreta
+useother Uzu alian programon
 useralreadyonlist Uzulo estas jam en kontaktulo-listo
+userblocked La uzulo estas enreta sed barumanta vin
+userdata Uzula Dateno
 usernotonline La uzulo ne estas enreta
 user Uzulo
+useryourself Vi ne povas babili kun vi mem
+usesnack Uzu la Snack-an bibliotekon (Tcl internaĵoj)
+verifyblocked Kontrolu por uzulo barumanta vin
 version Versio
-viewprofile Rigardu Profilonblockinter3
+viewcontactsby Vidu kontaktulojn laŭ
+viewprofile Vidu Profilon
 view Rigardu
+webcaminvite $1 vin invitis eki retkamera seanco, sed vi ne povas fari tion en aMSN-o.
 willjoin Atendas $1 enveni konversacion
+winkreceived Vi ricevis okulsignon de $1. Nuntempe aMSN ne subtenas tiun trajton
 work Laboro
+wrongfields Kampoj "$1", "$2" kaj/aŭ "$3" estas nevalida
+wrongprofileversion Erara versio de profil-konfigura dosiero. Por korekti ĝin, bonvolu viŝu dosierujon $1 aŭ aktualigi aMSN-on
+xmmscurrent Montru la nuntempan kanton
+xmmssend Sendi la nuntempan kanton
 xoffset X Deŝovo
+year Jaro
 yes Jes
+yesterday Hieraŭ
 yoffset Y Deŝovo
+youblocked Vi estas barumita de
 yousay Vi diras
 youwant Vi volas

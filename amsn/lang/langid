@@ -239,6 +239,7 @@ friendlyname Nama Akrab
 ftaccepted Transmisi berkas diterima
 ftacceptedby $1 menerima undangan pengalihan berkas untuk berkas ?$2?.
 ftaccepting Menerima undangan pengalihan berkas
+ftautoclose Tutup window setelah pengiriman berkas selesai
 ftconnecterror Kesalahan dalam peyambungan ke peer jarak jauh
 ftconnecting Menyambung ke $1 port $2
 ftconnectionlost Sambungan ke peer jarak jauh terputus
