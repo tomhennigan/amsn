@@ -171,6 +171,7 @@ ftportpref Usar este puerto y los sucesivos para transferencias de archivos
 ftrejectedby $1 ha rechazado la invitación a la transferencia del archivo '$2'.
 ftrejected Transferencia de archivo cancelada
 ftsendinvitation Una invitación para la transferencia del archivo '$2' ($3 bytes) ha sido enviada a $1.
+getdisppic Habilitar la recepción de Imágenes para Mostrar de otros usuarios
 gonelunch Salí a comer
 groupadd Añadir un grupo
 groupdelete Borrar un grupo
@@ -271,6 +272,7 @@ noneavailable No hay ninguno disponible
 nonewmail No hay mensajes nuevos en bandeja de entrada
 nonewver No hay versiones más actuales disponibles
 no No
+nopic Sin imagen
 noprofileexists Actualmente no existe ningún perfil. \n Debes crear uno si quieres usar los perfiles de usuario. \nUsa el botón "Añadir un perfil" en esta ventana para crearlo.
 normal Normal
 nosystemtray Bandeja del sistema no disponible
@@ -448,4 +450,3 @@ yoffset Desplazamiento Y
 youblocked Has sido bloqueado
 yousay Tú dices
 youwant Quieres
-nopic Sin imagen

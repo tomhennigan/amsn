@@ -171,6 +171,7 @@ ftportpref Starting port for file transfers
 ftrejectedby $1 rejected file transfer invitation for file '$2'.
 ftrejected File transfer rejected
 ftsendinvitation File transfer invitation for file '$2' ($3 bytes) has been sent to $1.
+getdisppic Enable receiving Display Pictures from other users
 gonelunch Gone to lunch
 groupadd Add a group
 groupdelete Delete a group
@@ -271,6 +272,7 @@ noneavailable None Available
 nonewmail No new messages in Inbox
 nonewver There are no new versions available to download
 no No
+nopic No picture
 noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
 normal Normal
 nosystemtray System tray not available
@@ -375,8 +377,8 @@ servergoingdown Disconnected: Server is going down
 server Server
 session Session
 showblockedlist Show list of people who blocked you
-showdisplaypic Show Display Picture
 showdisplaypic2 Show Display Picture by default when a chat window is opened
+showdisplaypic Show Display Picture
 showmypic My Display Picture
 showuserpic $1's Display Picture
 skinselector Select Skin
@@ -448,4 +450,3 @@ yoffset Y Offset
 youblocked You have been blocked by
 yousay You say
 youwant You want
-nopic No picture
