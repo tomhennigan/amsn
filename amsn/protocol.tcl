@@ -832,6 +832,7 @@ namespace eval ::MSN {
 	proc cancelReconnect { } {
 	
 		after cancel ::MSN::connect
+		unset ::oldstatus
 		::MSN::logout
 		
 	}
