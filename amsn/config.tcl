@@ -705,14 +705,28 @@ proc LoadLoginList {{trigger 0}} {
 	# Now add profiles from file to list
 	while {[gets $file_id tmp_data] != "-1"} {
 		set temp_data [split $tmp_data]
+
+		set user_login [lindex $tmp_data 0]
 		set locknum [lindex $tmp_data 1]
+		if [string first "@" $user_login] {
+			#Profile is wrong, fix it from config file
+				set oldHOME $HOME
+				set dirname [string map {"@" "_" "." "_"} $user_login]
+				set HOME [file join $HOMEE $dirname]
+				load_config
+				set user_login [::config::getKey login]
+				set HOME $oldHOME
+		}
+		
+		
 #	    puts "temp data : $temp_data"
 		if { $locknum == "" } {
 		   #Profile without lock, give it 0
 		   set locknum 0
 		}
-		LoginList add 0 [lindex $tmp_data 0] $locknum
-		status_log "LoadLoginList: adding profile [lindex $tmp_data 0] with lock num $locknum\n" blue
+		
+		LoginList add 0 $user_login $locknum
+		status_log "LoadLoginList: adding profile $user_login with lock num $locknum\n" blue
 	}
 	close $file_id
 
@@ -743,8 +757,9 @@ proc LoadLoginList {{trigger 0}} {
 		# if flag is 1 means we found a profile and we use it, if not defaults
 		if { $flag == 1 } {
 			set temp [LoginList get $idx]
-			set dirname [split $temp "@ ."]
-			set dirname [join $dirname "_"]
+			set dirname [string map {"@" "_" "." "_"} $temp]
+			#set dirname [split $temp "@ ."]
+			#set dirname [join $dirname "_"]
 			set HOME "[file join $HOME2 $dirname]"
 			::config::setKey login "$temp"
 			status_log "LoadLoginList: we found a free profile: $temp\n" green		
@@ -846,6 +861,9 @@ proc LoginList { action age {email ""} {lock ""} } {
 			}
 		}
 		
+		fix {
+		}
+		
 		exists {
 			set tmp_list [array get ProfileList]
 			set idx [lsearch $tmp_list "$email"]
@@ -926,9 +944,10 @@ proc ConfigChange { window email } {
 				
 				# Profile exists, make the switch
 				set OLDHOME $HOME
-		
-				set dirname [split $email "@ ."]
-				set dirname [join $dirname "_"]
+				
+				set dirname [string map {"@" "_" "." "_"} $email]
+				#set dirname [split $email "@ ."]
+				#set dirname [join $dirname "_"]
 				set HOME "[file join $HOME2 $dirname]"
 						
 				if { [CheckLock $email] == -1 } { 
@@ -1078,8 +1097,10 @@ proc CreateProfile { email } {
 	status_log "Creating new profile for $email\n" blue
 	# Create a new profile with $email
 	# Set HOME dir and create it
-	set dirname [split $email "@ ."]
-	set dirname [join $dirname "_"]
+	set dirname [string map {"@" "_" "." "_"} $email]
+	
+	#set dirname [split $email "@ ."]
+	#set dirname [join $dirname "_"]
 	set newHOMEdir "[file join $HOME2 $dirname]"
 	create_dir $newHOMEdir
 	set log_dir "[file join ${newHOMEdir} logs]"
@@ -1165,9 +1186,10 @@ proc DeleteProfile { email entrypath } {
 	return
 	}
 
+	set dir [string map {"@" "_" "." "_"} $email]
 
-	set dir [split $email "@ ."]
-	set dir [join $dir "_"]
+	#set dir [split $email "@ ."]
+	#set dir [join $dir "_"]
 	
 
 	set entryidx [$entrypath curselection]
