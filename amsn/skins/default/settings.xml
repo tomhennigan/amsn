@@ -43,6 +43,12 @@
      <buttonbarbg>#fefefe</buttonbarbg>
      <topbarbg>#fcfcee</topbarbg>
      <topbartext>#000000</topbartext>
+     <topbarawaybg>#ccffcc</topbarawaybg>
+     <topbarawaytext>#00aa00</topbarawaytext>
+     <topbarbusybg>#c10000</topbarbusybg>
+     <topbarbusytext>#ffefef</topbarbusytext>
+     <topbarofflinebg>#dedede</topbarofflinebg>
+     <topbarofflinetext>#a2a2a2</topbarofflinetext>
      <chatborders>1</chatborders>
      <statusbarbg>#fcfcee</statusbarbg>
      <statusbartext>#000000</statusbartext>
