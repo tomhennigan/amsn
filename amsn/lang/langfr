@@ -4,8 +4,8 @@ accept Accepter
 acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
 actions Actions
 activeautoupdate Activer la mise à jour automatique
-add Ajouter
 addacontact Ajouter un contact
+add Ajouter
 addedyou $1 ($2) vous a ajouté dans sa liste de contacts
 addprofile Ajouter un nouveau profil
 addprofiledesc \nLes profils vous permettent d'avoir des configurations différentes pour chaque compte.\nSans les profils, vous ne pourrez pas utiliser l'historique, les alarmes et les recupérations de mot de passe.
@@ -27,12 +27,12 @@ alarmpref Configuration de l'alarme du contact
 alarms Alarmes
 alarmstatus Activer/désactiver l'alarme pour ce contact
 allfiles Tous les fichiers
-allow_sms Autoriser mes contacts à me téléphoner sur mon mobile
 allowallbutbl Autoriser tout le monde à me contacter sauf les personnes que j'ai bloquées
 allowbadwords Désactiver la censure des pseudonymes
 allowlist Liste des personnes autorisées :
 allowonlyinal N'autoriser que les contacts de ma liste des personnes autorisées à me contacter
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
+allow_sms Autoriser mes contacts à me téléphoner sur mon mobile
 allprofilesinuse Tous les profils existants sont présentement utilisés
 animatedemoticon Cet émoticon est animé
 animatedsmileys Activer les émoticons animés
@@ -84,7 +84,7 @@ browser Navigateur web
 busy Occupé
 cachedpics $1 icônes masquées
 cancel Annuler
-cannotdeleteprofile le profil ne peut être supprimé car il semble être utilisé par une session aMSN
+cannotdeleteprofile leteprofile le profil ne peut être supprimé car il semble être utilisé par une session aMSN
 cantexec Impossible d'exécuter l'application : $1. Vérifiez les préférences et/ou les droits sur cette application.
 cantremoveothers Impossible de supprimer le groupe "Autres".
 casesensitive Utiliser des déclencheurs sensibles à la casse
@@ -125,20 +125,20 @@ clearlog3 Effacer tous les historiques
 clearlog Effacer les historiques
 clicktoadd Cliquer sur le bouton Ajouter pour une nouvelle note
 clicktologin Cliquez ici pour vous connecter
-clientname Nom du client
 clientcaps Envoyer les paquets x-clientcaps aux autres clients ?
+clientname Nom du client
 closed Conversation fermée pour inactivité ($1)
 close Fermer
 closingdocks Le bouton Fermer ancre l'application
 command Commande
 commandstatus Exécuter la commande
 configure Configurer
+confirmbl Etes-vous sûr de vouloir bloquer ce contact ?
 confirmdelete Confirmer suppression
-confirm Etes-vous sûr ?
-confirmbl  Etes-vous sûr de vouloir bloquer ce contact ?
 confirmdg Etes-vous sûr de vouloir supprimer ce groupe ?
 confirmdu Etes-vous sûr de vouloir supprimer ce contact ?
 confirmeg Etes-vous sûr de vouloir vider ce groupe ?
+confirm Etes-vous sûr ?
 confirmpurge Toutes les icônes de vos contacts vont être supprimées. Etes-vous sur de vouloir le faire ?
 confirmrfl Etes-vous sûr de vouloir effacer ce contact de ce groupe ?
 connected Vous êtes maintenant connecté[e]
@@ -153,22 +153,22 @@ contactdoesnotexist Personne introuvable
 contactlist Liste de contacts :
 continuously Continuellement
 conversationwith En conversation avec $1 contacts
-convertexplain  Chemin vers l'exécutable CONVERT, de ImageMagick (requis pour afficher des images).\n Laisser le blanc si CONVERT est dans le PATH
+convertexplain Chemin vers l'exécutable CONVERT, de ImageMagick (requis pour afficher des images).\n Laisser le blanc si CONVERT est dans le PATH
 copy Copier
 copytogroup Copier vers groupe
 corruptconfig Fichier de configuration corrompu. Créez-en un nouveau. L'ancien fichier sera sauvegardé vers $1. Envoyez-le nous afin que nous regardions ce qui s'est passé.
-corruptstates  Fichier de configuration des status corrompu. Créez-en un nouveau. L'ancien fichier sera sauvegardé vers $1. Envoyez-le nous afin que nous regardions ce qui s'est passé.
+corruptstates Fichier de configuration des status corrompu. Créez-en un nouveau. L'ancien fichier sera sauvegardé vers $1. Envoyez-le nous afin que nous regardions ce qui s'est passé.
 countrycode Mon pays/code région
 cprofile Créer un profil
 created créé[e]
 credits Crédits
+currentdate Date actuelle
+currentlanguage Langue actuelle
+currentnotes Notes actuelles
 custnotifymsg Affiche une notification quand vous recevez un message d'un de vos contacts
 custnotifyoffline Affiche une notification quand un de vos contact se déconnecte.
 custnotifyonline Affiche une notification quand un de vos contact se connecte
 custnotifystatus Affiche une notification quand un de vos contact change de status
-currentdate Date actuelle
-currentlanguage Langue actuelle
-currentnotes Notes actuelles
 customcolor Couleur personnalisée
 custom_edit Editer un émoticon personnalisé
 custom_new Créer un émoticon personnalisé
@@ -183,14 +183,15 @@ dcprofile Ne pas créer de profil
 default Configuration par défaut
 defaultloginradio Connexion avec la configuration par défaut
 defchatwinsize Taille par défaut des fenêtres de discussion (Largeur x Hauteur)
-delete Supprimer
 deleteall Tout supprimer
-deletecustomstate Suppression du statut personnel 
+deletecustomstate Suppression du statut personnel
+delete Supprimer
 delimiters Délimiteurs de l'horodateur
 deliverfail Une erreur est survenue lors de l'envoi du message suivant
 delprofile2 Sélectionnez le profil que vous voulez supprimer
 delprofile Supprimer un profil
 description Description
+detach Détacher
 directconnection J'ai une connexion directe à Internet (utilisation du port 1863)
 disabled Désactivé
 disableprofiles Désactiver les profils (utile pour la cyber-cafés ou pour les environnements partagés)
@@ -212,10 +213,10 @@ dockingoff Pas d'ancrage
 dockkde Ancrage dans KDE
 dontdownload Ne pas télécharger TLS, je l'installerai moi-même
 dontshow Ne pas montrer
-download Télécharger
 downloadingtls Téléchargement du module TLS à partir de :\n $1
-edit Edition
+download Télécharger
 editcustomstate Editer le statut personnel
+edit Edition
 editnewstate Nouveau statut avec message automatique personnalisé
 editprofile Modifier profil
 editstate Editer un statut existant avec message automatique
@@ -248,12 +249,12 @@ filemanexample (\$location sera remplacé par le répertoire) Ex: nautilus \$locat
 fileman Gestionnaire de fichiers
 filename Fichier
 filenotwritable Ce fichier ne peut pas être supprimé
-filetransfer Transfert de fichier
 filetransfercancelled Transfert de fichier annulé
 filetransfercomplete Transfert de fichier terminé
+filetransfer Transfert de fichier
 filters Filtres
-filtersx Sélection des filtres
 filtersselect Sélectionnez les filtres que vous souhaitez voir appliqué\n(Note : ne rien sélectionner implique de tous les appliquer)
+filtersx Sélection des filtres
 followtext Faire défiler lorsque du texte est entré
 friendlyname Pseudo de conversation
 ftacceptedby $1 accepte l'invitation de transfert de fichier pour le fichier '$2'.
@@ -279,12 +280,12 @@ groupadd Ajouter un groupe
 groupdelete Supprimer un groupe
 groupexists Le groupe existe déjà
 group Groupe
-groups Groupes
 groupmissing Impossible de trouver le groupe
 groupnewname Nouveau nom
 groupnotempty Groupe non vide
 groupoldname Ancien nom
 grouprename Renommer un groupe
+groups Groupes
 groupunknown Groupe inconnu
 handle Pseudonyme
 help Aide
@@ -365,15 +366,14 @@ logsmileys Afficher les émoticons et les smileys dans la fenêtre d'historique de
 logsout vient juste de se déconnecter
 longnick Votre pseudonyme est supèrieur à 130 caractères. Ce n'est pas supporté officiellement par le protocol MSN. Etes-vous sûrs de vouloir le mettre ?
 longp4c Votre pseudonyme de conversation dépasse les 130 caractères. Le client MSN officiel affichera $1. Voulez-vous continuer ?
-lprivtoconf  Conversation privée changée en conférence avec $1
+lprivtoconf Conversation privée changée en conférence avec $1
 luclosedwin Vous avez fermé la fenêtre sous $1
-maintenance Le serveur sera hors-service pour cause de maintenance dans $1 minutes
 mailerexample (\$recipient = destinataire) Laisser vide pour utiliser Hotmail
 mailer Programme de courrier
+maintenance Le serveur sera hors-service pour cause de maintenance dans $1 minutes
 maximised Maximisé
 minimised Minimisé/Icônifié
 mins minutes
-mobile Mobile
 mobilegrp1 Groupe Mobile
 mobilegrp2 Mettre les contacts dans le groupe "Mobile" quand vous êtes hors connexion (et les trier par status)
 modified modifié[e]
@@ -383,7 +383,6 @@ move Déplacer
 movetogroup Déplacer vers groupe
 msgflicker Faire clignoter la barre de titre d'une fenêtre inactive quand un message est reçu
 msgmaxmin Quand un nouveau message arrive, je veux qu'il soit
-msg Message
 msgmode Choisissez comment manier plusieurs fenêtres de messages :
 msn aMSN
 msnstyle Chat de type MSN
@@ -403,16 +402,15 @@ needwinico2 Winico05.dll doit figurer dans le dossier utilitaires/windows pour q
 never Jamais
 new_ft_protocol Utiliser le nouveau protocol de téléchargement de fichiers (certains peuvent bogues subsistent)
 newmail $1 nouveaux messages
+newmailfolder $1 nouveaux messages dans les autres dossiers Hotmail
 newmailfrom Nouveau message de $1 ($2)
 newmailfromother Nouveau message dans un autre dossier de $1 ($2)
-newmailfolder $1 nouveaux messages dans les autres dossiers Hotmail
 newmsg Nouveau message
 newstate Ajouter un statut personnel
 newtabbedfeature aMSN a une nouvelle caractéristique pour gérer les conversations : vous pouvez maintenant avoir toutes vos fenêtres pour le même groupe ou pour la liste complète de vos contacts dans une fenêtre à onglets. Merci de choisir la manière dont vous souhaitez que aMSN gère vos conversations
 newveravailable Nouvelle version disponible ($1)
 next Suivant
 nick Pseudonyme
-no Non
 noactivity Inactif
 nodataavailable Pas de données disponibles pour $1
 nogap Aucun espace entre les groupes
@@ -421,6 +419,7 @@ nologfile Pas d'historique pour $1
 noneavailable Pas disponible
 nonewmail Pas de nouveau message
 nonewver Il n'y a pas de nouvelle version disponible
+no Non
 nopic Pas d'icône
 noprofileexists Utiliser les profils... \nUtiliser le boutton Ajouter nouveau profil dans cette fenetre pour en créer un nouveau.
 normal Ordre normal
@@ -450,8 +449,8 @@ onenewmail un nouveau message
 online Connecté[e]
 onphone Au téléphone
 opendir Ouvrir le répertoire
-openfile Ouvrir
 openfilecommand Commande d'ouverture des fichiers
+openfile Ouvrir
 openreceived Ouvrir les fichiers reçus
 options Options
 ordercontactsby Trier les contacts
@@ -503,7 +502,7 @@ prefremote Contrôle à distance
 prefsession Ma connexion et statut
 prefshared Connexions partagées (Seulement pour NAT)
 prefsound Sons
-preview Aperçu 
+preview Aperçu
 privacy Privé
 profiledconfig Configuration profilée
 profileexists Vous ne pouvez pas créer un profil avec cet identifiant \n car il est déja utilisé par un profil. Choisissez en un autre.
@@ -524,8 +523,8 @@ receivedbytes $1 sur $2 octets reçus
 receiveddir Dossier des fichiers reçus
 receivefile Fichier reçu
 recentmsg Empêcher la fermeture d'une fenêtre de discussion lorsqu'un nouveau message est arrivé.
-reconnect Dans l'attente de la reconnexion de $1
 reconnect2 Se reconnecter en cas de déconnexion
+reconnect Dans l'attente de la reconnexion de $1
 reconnecting Reconnexion au serveur
 reject Refuser
 rememberpass Enregistrer le mot de passe
@@ -572,10 +571,10 @@ smileintro2 Veuillez editer les champs obligatoires pour personnaliser cet émoti
 smileintro Veuillez remplir les champs obligatoires pour créer un nouvel émoticon (voir la FAQ pour l'aide)
 snackfailed Snack n'a pas pu se lancer, retour à la valeur par défaut
 sngdblclick Un click simple ouvre une nouvelle fenêtre de discussion
-sound Evénements sonores
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 soundactive Jouer un son même lorsque le message arrive dans la fenêtre active
 soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
+sound Evénements sonores
 soundexample (\$sound = fichier audio qui sera joué) Ex: esdplay \$sound
 soundfile Fichier son associé à l'alarme
 soundfiles Fichiers son
@@ -583,8 +582,8 @@ soundloop Jouer le son en boucle
 soundserver Serveur de Sons
 soundstatus Activer/Désactiver l'alarme sonore
 sourcecode Code source (requiert une compilation et une installation)
-sslwarning ATTENTION !! Désactiver SSL désactivera l'encryptage, votre mot de passe sera alors envoyé en clair sur le réseau. A n'utiliser qu'avec des proxies ou des configurations de réseau très sûres.
 splashstart Démarrage
+sslwarning ATTENTION !! Désactiver SSL désactivera l'encryptage, votre mot de passe sera alors envoyé en clair sur le réseau. A n'utiliser qu'avec des proxies ou des configurations de réseau très sûres.
 startoffline2 Se connecter directement en : "Apparaître déconnecté"
 startoffline Démarrer déconnecté
 startontray Démarrer aMSN en arrière plan seulement
@@ -604,12 +603,12 @@ style Style
 stylechat Même apparence que les conversations
 stylehist Apparence des historiques d'aMSN
 stylelog Sélectionner le format dans lequel vous voulez voir l'historique
-subject Sujet
 subjectrequired Sujet requis
+subject Sujet
 syntaxerror Erreur de syntaxe
-tabbed Onglets
 tabbedglobal Une fenêtre à onglets pour tous les contacts se trouvant dans votre liste de contacts
 tabbedgroups Une fenêtre à onglets pour tous les contacts se trouvant dans une même groupe
+tabbed Onglets
 tabtitlenick Afficher le pseudonyme dans les onglets au lieu de l'email
 temp_state Ne pas enregistrer (état temporaire, sera perdu à la fermeture d'aMSN)
 textsize Taille du texte
@@ -639,13 +638,13 @@ unload Désactiver
 uoffline Déconnectés
 uonline Connectés
 update Mise à jour
+useother Utiliser un programme différent
 useralreadyonlist Utilisateur déjà présent dans la liste
 userblocked Ce contact est en ligne mais vous l'avez bloqué
 userdata Données du contact
 usernotonline Le contact n'est pas en ligne
 userproperties Propriétés du contact $1
 user Utilisateur
-useother Utiliser un programme différent
 useryourself Vous ne pouvez pas dialoguer avec vous-même
 usesnack Utiliser la librairie Snack (interne à Tcl)
 verifyblocked Contrôler les personnes qui vous ont bloqué
@@ -665,8 +664,8 @@ xmmserr Rien à jouer, ou vous n'avez pas installé xmms-infopipe.
 xmmssend Envoyer la chanson courante
 xoffset Position en X
 year Année
-yes Oui
 yesblock Oui et bloquer
+yes Oui
 yesterday Hier
 yoffset Position en Y
 youblocked Vous avez été bloqué
