@@ -513,12 +513,12 @@ proc Preferences { { settings ""} } {
 	frame $lfname.1 -class Degt
 	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
-	checkbutton $lfname.1.lautonoact -text "[trans autonoact]" -onvalue 1 -offvalue 0 -variable config(autoidle)
+	checkbutton $lfname.1.lautonoact -text "[trans autonoact]" -onvalue 1 -offvalue 0 -variable config(autoidle) -command UpdatePreferences
 	entry $lfname.1.eautonoact -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -textvariable config(idletime)
 	label $lfname.1.lmins -text "[trans mins]" -padx 5
 	pack $lfname.1 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.1.lautonoact $lfname.1.eautonoact $lfname.1.lmins -side left
-	checkbutton $lfname.2.lautoaway -text "[trans autoaway]" -onvalue 1 -offvalue 0 -variable config(autoaway)
+	checkbutton $lfname.2.lautoaway -text "[trans autoaway]" -onvalue 1 -offvalue 0 -variable config(autoaway) -command UpdatePreferences
 	entry $lfname.2.eautoaway -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -textvariable config(awaytime)
 	label $lfname.2.lmins -text "[trans mins]" -padx 5
 	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
@@ -656,11 +656,11 @@ proc Preferences { { settings ""} } {
 	frame $lfname.3 -class Degt
 	frame $lfname.4 -class Degt
 	frame $lfname.5 -class Degt
-	radiobutton $lfname.1.direct -text "[trans directconnection]" -value direct -variable config(connectiontype)
+	radiobutton $lfname.1.direct -text "[trans directconnection]" -value direct -variable config(connectiontype) -command UpdatePreferences
 	pack $lfname.1.direct -anchor w -side top -padx 10
-	radiobutton $lfname.2.http -text "[trans httpconnection]" -value http -variable config(connectiontype)
+	radiobutton $lfname.2.http -text "[trans httpconnection]" -value http -variable config(connectiontype) -command UpdatePreferences
 	pack $lfname.2.http -anchor w -side top -padx 10
-	radiobutton $lfname.3.proxy -text "[trans proxyconnection]" -value proxy -variable config(connectiontype)
+	radiobutton $lfname.3.proxy -text "[trans proxyconnection]" -value proxy -variable config(connectiontype) -command UpdatePreferences
 	pack $lfname.3.proxy -anchor w -side top -padx 10
 	
 	#checkbutton $lfname.1.proxy -text "[trans proxy]" -onvalue 1 -offvalue 0 -variable config(withproxy)
@@ -725,7 +725,7 @@ proc Preferences { { settings ""} } {
 	frame $lfname.1 -class Degt
         frame $lfname.2 -class Degt
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
-	checkbutton $lfname.1.eremote -text "[trans enableremote]" -onvalue 1 -offvalue 0 -variable config(enableremote)
+	checkbutton $lfname.1.eremote -text "[trans enableremote]" -onvalue 1 -offvalue 0 -variable config(enableremote) -command UpdatePreferences
 	pack $lfname.1.eremote  -anchor w -side top -padx 10
 	pack $lfname.1 $lfname.2  -anchor w -side top -padx 0 -pady 0 -expand 1 -fill both
 	label $lfname.2.lpass -text "[trans pass] :" -padx 5 -font sboldf
@@ -1006,6 +1006,58 @@ proc InitPref {} {
 }
 
 
+# This is where the preferences entries get enabled disabled
+proc UpdatePreferences {} {
+	global config
+	
+	set nb .cfg.notebook.nn
+	
+	# autoaway checkbuttons and entries
+	set lfname [Rnotebook:frame $nb 3]
+	set lfname "${lfname}.lfname.f.f"
+	if { $config(autoidle) == 0 } {
+		$lfname.1.eautonoact configure -state disabled
+	} else {
+		$lfname.1.eautonoact configure -state normal
+	}
+	if { $config(autoaway) == 0 } {
+		$lfname.2.eautoaway configure -state disabled
+	} else {
+		$lfname.2.eautoaway configure -state normal
+	}
+
+	# proxy connection entries and checkbuttons
+	set lfname [Rnotebook:frame $nb 5]
+	set lfname "${lfname}.lfnameconnection.f.f"
+	if { $config(connectiontype) == "proxy" } {
+		$lfname.4.post configure -state normal
+		$lfname.4.ssl configure -state normal
+		$lfname.4.socks5 configure -state normal
+		$lfname.5.server configure -state normal
+		$lfname.5.port configure -state normal
+		$lfname.5.user configure -state normal
+		$lfname.5.pass configure -state normal
+	} else {
+		$lfname.4.post configure -state disabled
+		$lfname.4.ssl configure -state disabled
+		$lfname.4.socks5 configure -state disabled
+		$lfname.5.server configure -state disabled
+		$lfname.5.port configure -state disabled
+		$lfname.5.user configure -state disabled
+		$lfname.5.pass configure -state disabled
+	}
+
+	# remote control
+	set lfname [Rnotebook:frame $nb 5]
+	set lfname "${lfname}.lfname3.f.f"
+	if { $config(enableremote) == 1 } {
+		$lfname.2.pass configure -state normal
+	} else {
+		$lfname.2.pass configure -state disabled
+	}
+}
+	
+
 # This function sets all fonts to plain instead of bold,
 # excluding the ones that are set to sboldf or examplef
 proc setCfgFonts {path value} {
@@ -1284,6 +1336,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.59  2003/06/15 21:22:29  burgerman
+# dynamique entries in pref
+#
 # Revision 1.58  2003/06/15 11:14:55  airadier
 # Updated languages and minor changes in preferences window
 #
