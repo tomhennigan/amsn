@@ -74,7 +74,6 @@ cantexec Aplicação não executada: $1. Verificar as preferências
 casesensitive Usar actuadores de "case-sensitive" (sensibilidade ao CAPS)
 cfgalarmall Configurar/Adicionar/Remover Alarme Global
 cfgalarm Configurar/Adicionar/Remover Alarme
-ch_to_state Mudar para novo estado
 changecustomstate Mudar para
 changedisplaypic Mudar a imagem de utilizador
 changefont Mudar o tipo de letra
@@ -97,6 +96,7 @@ choosebgcolor Escolher cor de fundo
 choosecontact Por favor escolha um contacto da lista
 choosefontcolor Escolher cor da letra
 chooseskin Por favor escolha o aspecto gráfico que gostaria de usar
+ch_to_state Mudar para novo estado
 clearlog2 Apagar o histórico de todos o contactos
 clearlog3 Apagar todos os registos
 clearlog Apagar registo
@@ -149,8 +149,8 @@ dontdownload Não descarregar TLS, eu instalo-o
 dontshow Não mostrar
 downloadingtls Descarregando o módulo TLS a partir de:\n $1
 editcurrentstate Editar presente
-editcustomstate Editar
 edit Editar
+editcustomstate Editar
 editnewstate Novo Estado Pessoal de Automensagem
 editprofile Editar Perfil
 editstate Editar o Estado de Automensagem Existente
@@ -170,10 +170,10 @@ errortls Erro ao instalar o módulo TLS:
 examples Exemplos
 exitamsn Tem a certeza que deseja sair?
 extras Serviços Extra
-faq FAQ (Perguntas Comuns)
 failed Falhou
-faileddelete Erro ao apagar
-faileddeleteperso Esta imagem não pode ser apagada porque não é um ficheiro de imagem pessoal. Somente imagens que pertençam ao perfil pessoal podem ser apagadas deste modo.
+faileddelete Falhou a apagar
+faileddeleteperso Esta imagem não pode ser apagada porque não é um ficheiro pessoal. Apenas figuras pertencentes ao seu perfil pessoal podem ser removidas deste modo.
+faq FAQ (Perguntas Comuns)
 filedoesnotexist Ficheiro não existe
 filemanexample ( \$location será substituído pela directoria ) Ex: nautilus \$location
 fileman Gestor de ficheiros
@@ -440,13 +440,13 @@ statename Nome do Estado Pessoal
 statenewtext Por favor introduza a informação necessária para criar \n o seu novo Estado Pessoal e escolha Guardar
 status Estado
 stopalarm Alarme para Parar
-storenickname Reverter ao nome de utilizador inicial após um estado personalizado com um nome de utilizador personalizado
+storenickname Regressar ao nick original
 stylechat O mesmo aspecto que nas conversações
 stylehist O aspecto do histórico do aMSN
 stylelog Seleccionar a forma na qual gostaria de ver o Histórico
 syntaxerror Erro de Sintaxe
 tabbed Janelas com Separadores
-temp_state Não gravar (Estado temporário, será necessário ao terminar o AMSN)
+temp_state Não grava (Estado temporário - desaparecerá quando o AMSN for terminado
 textsize Tamanho do Texto
 timeremaining Tempo que falta
 timestamps Activar carimbos de tempo nas janelas de conversação
@@ -481,7 +481,7 @@ view Ver
 willjoin Esperando que $1 se junte à conversação
 work Trabalho
 wrongfields Os campos "$1", "$2" e/ou "$3" não eram válidos.
-wrongprofileversion Versão errada do ficheiro de configuração do perfil. De modo a repará-lo, por favor remova a directoria $1, ou actualize o aMSN
+wrongprofileversion Versão errada do ficheiro de configuração do perfil. De modo a repará-lo, por favor remova a directoria $1, ou actualize o aMSNtemp_state
 xmmscurrent Mostrar a música currente
 xmmserr Nenhum som está a ser reproduzido, ou então não tem o "xmms-infopipe" instalado.
 xmmssend Enviar música currente
