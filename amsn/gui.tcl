@@ -6075,38 +6075,26 @@ proc idleCheck {} {
 		set config(idletime) 5
 	}
 
-
-	# TODO: According to preferences, this is always true
-	if { $config(awaytime) >= $config(idletime) } {
-		set first [expr {$config(awaytime) * 60}]
-		set firstvar "autoaway"
-		set firststate "AWY"
-		set second [expr $config(idletime) * 60]
-		set secondvar "autoidle"
-		set secondstate "IDL"
-	} else {
+	if { [string is digit $config(awaytime)] && [string is digit $config(idletime)] } {
+	#Avoid running this if the settings are not digits, which can happen while changing preferences
 		set second [expr {$config(awaytime) * 60}]
-		set secondvar "autoaway"
-		set secondstate "AWY"
-		set first [expr {$config(idletime) * 60}]
-		set firstvar "autoidle"
-		set firststate "IDL"
-	}
-
-	if { $idletime >= $first && $config(autoaway) == 1 && \
-		(([::MSN::myStatusIs] == "IDL" && $autostatuschange == 1) || \
-		 ([::MSN::myStatusIs] == "NLN"))} {
-		#We change to Away if time has passed, and if IDL was set automatically
-		::MSN::changeStatus AWY
-		set autostatuschange 1
-	} elseif {$idletime >= $second && [::MSN::myStatusIs] == "NLN" && $config(autoidle) == 1} {
-		#We change to idle if time has passed and we're online
-		::MSN::changeStatus IDL
+		set first [expr $config(idletime) * 60]
+	
+		if { $idletime >= $second && $config(autoaway) == 1 && \
+			(([::MSN::myStatusIs] == "IDL" && $autostatuschange == 1) || \
+			([::MSN::myStatusIs] == "NLN"))} {
+			#We change to Away if time has passed, and if IDL was set automatically
+			::MSN::changeStatus AWY
 			set autostatuschange 1
-	} elseif { $idletime == 0 && $autostatuschange == 1} {
-		#We change to only if mouse movement, and status change was automatic
-		::MSN::changeStatus NLN
-		#Status change always resets automatic change to 0
+		} elseif {$idletime >= $first && [::MSN::myStatusIs] == "NLN" && $config(autoidle) == 1} {
+			#We change to idle if time has passed and we're online
+			::MSN::changeStatus IDL
+			set autostatuschange 1
+		} elseif { $idletime == 0 && $autostatuschange == 1} {
+			#We change to only if mouse movement, and status change was automatic
+			::MSN::changeStatus NLN
+			#Status change always resets automatic change to 0
+		}
 	}
 
 	set idletime [expr {$idletime + 5}]
