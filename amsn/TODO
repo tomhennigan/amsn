@@ -21,7 +21,7 @@ Existing Feature Improvements (priority 2):
 
 # ** FIXED ** Send file behind NAT (get correct IP with http, add option to force http for wierd local ips)
 # File Transfer AUTH protocol fix (and add the nick of person sending file to transfer window)
-# Improve file transfers: non blocking negotiation
+# ** FIXED ** Improve file transfers: non blocking negotiation
 # Display link to received file and click to open
 # ** FIXED ** Unblock dosen't work from chat window
 # Change the block icon to unblock when user is blocked in chat window
