@@ -3601,6 +3601,15 @@ proc cmsn_draw_main {} {
 	.ordergroups_by add radio -label "[trans reversed]" -value 0 \
 		-variable config(ordergroupsbynormal) -command "cmsn_draw_online"
 
+	#Order Contacts By submenu
+	menu .view_by -tearoff 0 -type normal 
+	.view_by add radio -label "[trans nick]" -value 0 \
+		-variable config(emailsincontactlist) -command "cmsn_draw_online"
+	.view_by add radio -label "[trans email]" -value 1 \
+		-variable config(emailsincontactlist) -command "cmsn_draw_online"
+	.view_by add separator
+	.view_by add command -label "[trans changeglobnick]" -command "::abookGui::SetGlobalNick"
+
 
 
 	#Tools menu
@@ -3615,13 +3624,14 @@ proc cmsn_draw_main {} {
 	::groups::Init .main_menu.tools
 
 	.main_menu.tools add separator
-	.main_menu.tools add cascade -label "[trans ordercontactsby]" \
-	-menu .order_by
+	.main_menu.tools add cascade -label "[trans ordercontactsby]" -menu .order_by
 
 	#Added by Trevor Feeney
 	#User to reverse group lists
-	.main_menu.tools add cascade -label "[trans ordergroupsby]" \
-	-menu .ordergroups_by
+	.main_menu.tools add cascade -label "[trans ordergroupsby]" -menu .ordergroups_by
+
+	#User to reverse group lists
+	.main_menu.tools add cascade -label "[trans viewcontactsby]" -menu .view_by
 
 	#Unnecessary separator when you remove the 2 dockings items menu on Mac OS X
 	if {$tcl_platform(os) != "Darwin"} {
