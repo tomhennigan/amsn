@@ -1,0 +1,40 @@
+FAQ 1.8
+--------
+
+K: Mis on aMSN ?
+V: aMSN on Microsoft Messengeri kloon. Selle abil saad vestelda oma sõpradega, 
+nendega vahetada sõnumeid ja faile.
+
+PAIGALDAMINE JA TÖÖTAMINE
+========================
+
+K: Mida on vaja, et aMSN töötaks ?
+V: aMSN on kirjutatud tcl/tk keeles ja selle käivitamiseks vajad sa
+tcl/tk interpretaatorit mis oleks vähemalt versioon 8.3. tcl töötab
+nii linuxi, windowsi kui ka mac platvormil ja seda võib alla laadida
+aadressilt http://tcl.sourceforge.net. Mõned lisad, näiteks süsteemisalve ikoon,
+pildid, MSN protokolli 9 versiooni SSL ühendus, võivad vajada lisa programme
+või teeke.
+
+---
+
+K: Kuidas paigaldada aMSN linuxile/unixile ?
+V: Lae alla amsn-x_xx.tar.gz ja paki see lahti käskudega:
+	gzip -d amsn-x_xx.tar.gz 
+	tar xvf amsn-x_xx.tar
+See paigaldab aMSNi kataloogi msn/
+Käivitamiseks:
+	cd msn
+	./amsn
+või kui see ei tööta siis 
+	wish amsn
+Kui käsku wish ei eksisteeri siis ei ole tcl/tk korralikult paigaldatud.
+kui "wish amsn" töötab, kuid "./amsn" ei tööta siis tuleb failis "amsn"
+määrata õige tee failini 'wish'. Vaikeväärtusena on see /usr/bin/wish
+ 
+---
+
+K: Leidsin valesti/halvasti tõlgitud väljendi, kuhu peaks pöörduma ?
+V: Saada kiri ja väljend ning omapoolne versioon aadressile pajus@hot.ee
+
+---

@@ -1,0 +1,26 @@
+aMSN abifail
+
+Nõuded:
+aMSN on kirjutatud tcl/tk keeles ja selle käivitamiseks vajad sa
+tcl/tk interpretaatorit mis oleks vähemalt versioon 8.3. tcl töötab
+nii linuxi, windowsi kui ka mac platvormil ja seda võib alla laadida
+aadressilt http://tcl.sourceforge.net. Mõned lisad, näiteks süsteemisalve ikoon,
+pildid, MSN protokolli 9 versiooni SSL ühendus, võivad vajada lisa programme
+või teeke.
+
+Paigaldamine:
+Lae alla amsn-x_xx.tar.gz ja paki see lahti käskudega:
+	gzip -d amsn-x_xx.tar.gz 
+	tar xvf amsn-x_xx.tar
+See paigaldab aMSNi kataloogi msn/
+Käivitamiseks:
+	cd msn
+	./amsn
+või kui see ei tööta siis 
+	wish amsn
+Kui käsku wish ei eksisteeri siis ei ole tcl/tk korralikult paigaldatud.
+kui "wish amsn" töötab, kuid "./amsn" ei tööta siis tuleb failis "amsn"
+määrata õige tee failini 'wish'. Vaikeväärtusena on see /usr/bin/wish
+
+Edasiste probleemide korral vaata KKK või küsi abi foorumist:
+http://sourceforge.net/forum/forum.php?forum_id=180132
