@@ -1721,7 +1721,7 @@ namespace eval ::amsn {
 
 		text .${win_name}.f.top.textto  -borderwidth 0 -width [string length "[trans to]:"] -relief solid \
 		-height 1 -wrap none -background $bgcolor -foreground $bgcolor2 -highlightthickness 0 \
-		-selectbackground $bgcolor -selectforeground $bgcolor2 -selectborderwidth 0 -exportselection 0
+		-selectbackground $bgcolor -selectforeground $bgcolor2 -selectborderwidth 0 -exportselection 0 -padx 5
 		.${win_name}.f.top.textto configure -state normal -font bplainf
 		.${win_name}.f.top.textto insert end "[trans to]:"
 		.${win_name}.f.top.textto configure -state disabled
