@@ -1,0 +1,25 @@
+Fitxer d'ajuda per a l'aMSN (Versió valenciana)
+
+Requeriments:
+aMSN està escrit en tcl/tk, només necessites un intèrpret de tcl/tk, 
+versió 8.3 o superior. Si no el tens el pots aconseguir de http://tcl.sourceforge.net.
+L'intérpret està disponible tant per a Linux, Windows i Mac. Algunes característiques
+adicionals requerixen programes extra o llibreries, com l'icon permament,
+les imatges per a mostrar o la connexió SSL per a protocol MSN Protocol 9.
+
+Guia d'instal·lació:
+Simplement descarrega l'arxiu amsn-x_xx.tar.gz. Descomprimix-lo amb:
+  gzip -d amsn-x_xx.tar.gz
+  tar xvf amsn-x_xx.tar
+Es crearà el directori msn/, i l'aMSN ja estarà instal·lat i preparat per a executar-se.
+Per executar, escriu:
+  cd msn
+  ./amsn
+si no funciona, prova amb:
+  wish amsn
+Si el comand "wish" no existix, el teu sistema no té instalat tcl/tk correctament
+instalat. Si "wish amsn" funciona però "./amsn" no, edita l'arxiu "amsn" i posa la
+ruta correcta a l'executable "wish" a la primera línia. Per defecte, està configurat
+a: /usr/bin/wish
+
+Si continúa amb problemes, prove a llegir el FAQ

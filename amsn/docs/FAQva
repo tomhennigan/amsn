@@ -1,0 +1,281 @@
+FAQ 1.6
+--------
+
+P: Què és aMSN?
+R: Amsn és un clon del MS messenger. Et permet mantenir-te en contacte amb els teus amics, intercanviar missatges instantanis i fitxers.
+
+
+INSTALLING AND RUNNING
+=====================
+
+
+P: Què necesite per fer funcionar l'aMSN?
+R: aMSN està escrit en tcl/tk, només necessites un intèrpret de tcl/tk, 
+versió 8.3 o superior. Si no el tens el pots aconseguir de http://tcl.sourceforge.net.
+L'intérpret està disponible tant per a Linux, Windows i Mac. Algunes característiques
+adicionals requerixen programes extra o llibreries, com l'icon permament,
+les imatges per a mostrar o la connexió SSL per a protocol MSN Protocol 9.
+ 
+
+P: Com instal·le i execute l'AMSN en unix/linux?
+R: Simplement descarrega l'arxiu amsn-x_xx.tar.gz. Descomprimix-lo amb:
+  gzip -d amsn-x_xx.tar.gz
+  tar xvf amsn-x_xx.tar
+Es crearà el directori msn/, i l'aMSN ja estarà instal·lat i preparat per a executar-se.
+Per executar, escriu:
+  cd msn
+  ./amsn
+si no funciona, prova amb:
+  wish amsn
+Si el comand "wish" no existix, el teu sistema no té instalat tcl/tk correctament
+instalat. Si "wish amsn" funciona però "./amsn" no, edita l'arxiu "amsn" i posa la
+ruta correcta a l'executable "wish" a la primera línia. Per defecte, està configurat
+a: /usr/bin/wish
+
+P: Una vegada descarregat imagemagick, com active les Imatges per a Mostrar?
+R: Una vegada instal·lat imagemagick, ves a la finestra de Preferències de l'aMSN, fes
+click en "Altres", vés a un camp amb el nom "CONVERT", fes click en el butó "Explorar".
+Llavors vés a la carpeta on has instal·lat imagemagick, i selecciona l'arxiu "CONVERT.EXE". 
+Guarda les preferències i reinicia l'aMSN. Vés a Preferències de nou, i comprova que
+l'opció "Activar l'opció de rebre Imatges de Mostra d'altres usuaris" (dins la
+pestanya Avançades) està activada, ja que es desativa automàticament perquè CONVERT.EXE
+no ha pogut ser trobat.
+
+P: Quan faig doble click en l'arxiu "amsn" des d'una finestra d'exploració d'arxius, 
+com konqueror o nautilus, m'obri un editor de text enlloc d'obrir l'aMSN!
+R: aMSN estpa escrit en tcl/tk, un llenguatge interpretat, d'esta manera l'arxiu "amsn"
+és només un arxiu de text amb el codi del programa. El administrador d'arxius pensa que és
+un simple arxiu de text, i llença l'editor de text. Per a executar l'aMSN has de seleccionar
+l'opció "Obri amb...", "Executar amb..." o similar, i utilitzar el programa "wish" per obrir
+l'arxiu "amsn". Com s'ha dit en l'anterior pregunta, si el comandament "wish" no existix, 
+necessites instal·lar tcl/tk.
+
+P: Com puc crear un accés directe d'aMSN a l'escriptori?
+R: 1.- Inclueix un icon al teu escriptori gnome/kde o un menú que execute el
+	comand /on/estigui/instalat/amsn
+ 	Per exemple
+ 	/home/usuari/msn/amsn
+    2.- Una altre forma de fer el mateix:
+    Sent superusuari (root), crea un enllaç de /usr/bin al fitxer amsn.
+    ls -s /on/estiga/instalat/amsn amsn
+    D'esta forma pots executar amsn només escrivint "amsn" des de qualsevol lloc.
+    Llavors incloeix un icon que execute el comand "amsn"
+
+
+P: Com puc usar l'icon de la barra de feines a Gnome/Kde?
+R: Has d'executar "make" dins el directori de plugins, per compilar 
+el plugin de gnome1. Necessitaràs les llibreries de desenvolupament gnome. Quan
+el plugin estiga compilat, només executa amsn i selecciona Gnome Docking en el
+menú d'opcions. Per la versió de l'icon de la barra de freedesktop (compatible amb
+Gnome2 i KDE3), fes una ullada a l'arxiu README a plugins/traydoc.
+ 
+UTILITZANT AMSN
+===============
+ 
+P: Què significa que en la meua llista de contactes aparega un contacte de color magenta?
+R: Vol dir que tu no estàs en la llista de contactes d'aquella persona
+ 
+P: Puc copiar la direcció d'un contacte al portapapers?
+R: Si, fes click amb el botó dret en ell i llavors fes click en el menú en la seva direcció.
+La direcció de correu del contacte serà copiada al portapapers.
+ 
+P: Com puc accedir a l'historial de missatges que he enviat en una conversa (xat)?
+R: Si vos accedir als missatges enviats anteriorment en una finestra de xat,  simplement
+has de polsar a la vegada la tecla control junt amb les fletxes d'amunt i avall. Funciona
+similar a una terminal. Ctrl+Amunt et porta al missatge anterior i Ctrl+avall al següent.
+
+P: Què signifiquen les llistes de la seció "Privacitat" en les preferències?
+R: Hi ha 4 llistes, conegudes com "Llista d"acceptats (AL)", Llista de bloquejats(BL),
+Llista inversa(RL) i Llista de contactes. La última d'elles és obvia, i la resta signifiquen el següent:
+AL: Esta llista conté les direccions de la gent que pot veure't i parlar amb tu
+quan estàn en línia.
+BL: Esta és la llista de bloquejats, que conté una llista de persones a les que estàs
+bloquejant (no admesos). No et poden vore quan estàs connectat ni poden xarrar amb tu.
+RL: Esta és la llista inversa. Conté la llista de persones que t'han posat a la seua
+llista de contactes. Les direccions que apareixen en verd son persones que no tens a la teua
+llista de contactes, però tu estàs a la seva.
+ 
+
+P: Vull ficar els meus emoticons personalitzats, com ho he de fer?
+R: Hi ha una nova opció en el menú d'emoticons que et permet fer això.
+Selecciona-la i t'apareixerà una finestra, on has d"omplir els camps requerits.
+El camp "descripció" pot ser el que tu vullgues, només és la descripció que
+apareixerà en el globus d"ajuda.
+El camp "text disparador" es el text que vols que siga substituït pel nou emoticó.
+Per exemple, els emoticons per defecte tenen disparadors com :) :( XD etc... Pots posar varis
+textos disparadors separant-los entre ells amb un espai. si vols posar un espai en el text
+disparador hauràs de posar tot el text entre cometes, per exemple ["ei tu" ei "mare
+cridant"] seria un exemple d'un emoticon amb tres textos disparadors.
+El "Nom del fitxer de l'emoticon" és el nom de l'arxiu .gif amb l'imatge de l'emoticon, el
+qual ha de tindre un tamany de 19x19 píxels. Realment pot ser tant gran com vullgues, però
+si no es de 19x19, el menú o els textos es poden vore malament. Pots escriure directament
+el nom complet o la ruta de l'arxiu, utilitzar el butó "navegar", o simplement posar el nom de
+l'arxiu sense ruta si este es troba guardat en el directori ~/.amsn/<nom_del_perfil>/smileys
+o a msn/skins/<skin>/smileys. L'arxiu serà copiat al teu directori del perfil, per si de
+cas després el reanomenes o mous l'arxiu original.
+Les mateixes propietats són aplicables per al "Fitxer de so"... aquest s"utilitza per a
+reproduïr un so quan l"smiley és mostrat.
+Per exemple,
+L'emoticon "corder" que es dispara amb el text "corder" té el so d'un beee. El so ha de ser un
+arxiu .wav, o qualsevol arxiu de so soportat per el comand de so que tingues configurat
+(secció aplicacions dins de les preferències... play, esdplay, artsplay, mpg123...). per
+tindre este camp disponible, has d'activar la casella de verificació que posa "Reproduïr
+so".
+La casella de verificació "Este emoticon és animat" significa evidentment que el .gif
+és animat. Si no actives esta casella, i el .gif és animat, es mostrarà com una simple
+imatge estàtica.
+La opció "No mostres este emoticon al menú d'emoticons" fa que no aparega en el menú,
+cosa que no vol dir que no existisca, serà sent disparat amb el text o textos disparadors.
+el camp "diferenciar majúscules i minúscules" significa que els textos disparadors
+diferenciaràn entre Mayus i Minus, per tant no serà el mateix "Corder" que "corder".
+Quan hages acabat la configuració, polsa Bé. Es mostrarà un error si no has configurat
+alguna de les 3 opcions, o si els arxius no existeixen o l'usuari no té permís per
+obrir-los.
+ 
+P: Els mots (nicks) estàn tallats. És possible tornar a mostrar-los sencers?
+R: Si. Per a tindre els mots amb la llargària original completa a la llista de
+contactes, en els avisos i en la finestra de conversa (xat), vés a Preferències, 
+pestanya Avançades i deshabilita l'opció de truncar.
+
+P: La detecció de bloqueig ja no està disponible... per què?
+R: El bug del protocol que ens permetia detectar els bloquejos ha estat reparat.
+Ja no és possible detectar això, de manera que no té sentit incloure eixa opció.
+
+
+SOLUCIONANT PROBLEMES
+=====================
+
+P: A vegades aMSN es penja, com és això?
+R: Normalment, Quan aMSN es penja sol ser degut a un problema amb la configuració
+del so. Pot ser que tu estigues escoltant un so però la tarjeta de so estiga bloquejada,
+i l'ordre de reproduïr es para fins que la tarjeta estiga disponible. Prova deshabilitant
+el so o canviant la configuració de so.
+
+
+P: Execute l'aMSN, però m'ix este error:
+bash: ./amsn: bad interpreter: No such file or directory
+R: Necessits instal·lar els paquets del tcl/tk, ja que necessites el intèrpret wish.
+Si creus que ja el tens, intenta fer "wish amsn" enlloc de "./amsn". Si funciona, 
+edita amsn i canvia la primera línia:
+ #!/usr/bin/wish
+ amb la ruta del intèrpret wishr.
+
+P: Quan executa MSN m'ix este error:
+Error in startup script: bad option "map": must be
+compare, first, index, last, length, match, range,
+tolower, toupper, trim, trimleft, trimright, wordend,
+or wordstart
+while executing
+"string map $map $md5body"
+(in namespace eval "::md5" script line 65)
+invoked from within
+"namespace eval ::md5 { ... etc
+R: Estàs utilitzant una versió de tcl/tk més antga que la 8.3. Actualitza tcl/tk.
+
+P: Després d'actualitzar l'aMSN, em trobe això quan l'execute:
+Error in startup script: expected integer but got ""
+while executing
+"font create menufont -family $family -size $size
+-weight normal"
+(procedure "::amsn::initLook" line 5)
+invoked from within
+"::amsn::initLook $family $size $config(backgroundcolor)"
+(file "amsn" line 2184)
+R: S'han fet alguns canvis en els fitxers de configuració. Una ràpida sol·lució
+per a poder tindre la nova versió és esborrar l'antic fitxer config en el teu
+directori home.
+Esborra /home/elteunomdusuari/.amsn/config i ja hauria d'anar bé.
+
+P: No puc escriure en xinés/japonés/altres llengües en aMSN. Què puc fer?
+R: Sembla ser que xcin o alguns priogrames similars no sòn suportats per
+l'actual versió de tcl/tk, per això amsn no fuciona tampoc. Has d'esperar fins la
+nova versió de tcl/tk i esperar que suporte xcin. Mentrestant, pots escriure el text
+en un altre editor, i fer copiar-pegar en la finestra de conversa.
+Nou:Internacionalitzatió copia i pega. Si tens problemes pegant caràcters en aMSN,
+descarrega i instal·la este versió de Tcl/Tk des d'esta web:
+http://jfontain.free.fr/tcl-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tk-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tcl-thread-8.4a3-2.i386.rpm
+Please note that this could be a work around in case
+you can't type your language directly in to AMSN, for
+example Traditional Chinese using xcin.
+
+P: Puc utilitzar aMSN darrere d'un servidor proxy?
+R: Com en la versió de desenvolupament just després de la 0.61,
+HTTP proxy suport està disponible. Això significa que només pots connectar-te
+darrere un proxy HTTP (com squid per exemple). Si el teu servidr proxy és socks5
+llavors no pots connectar-te encara, però el suport per a socks5 arribarà prompte.
+
+P: aMSN sembla estar connectat, però quan inetente iniciar una conversa o canviar d'estat, em desconnecte. Passa a sovint, després s'uns minuts d'inactivitat.
+Segurament estic darrere un router o un firewall.
+R: Intenta activar "Keepalive (NAT)" en la secció Ferramentes->opcions, en preferències avançades. És un patch per a connexins d'internet compartides, que
+envia un paquet "dummy" al servidor cada 2 minuts per mantindre la connexió.
+
+P: L'event de so es repetix. Per exemple si XMMS està executant-se i algú
+es connecta o si estàs parlant amb alguna persona, després de tancar XMMS
+o l'arxiu ha acabat, tots els events de so que no es podien reproduïr perque
+estava el XMMS, ara es reproduixen de manera molesta.
+R: Tens moltes sol·lucions. Si utilitzes KDE, pots configurar XMMS per a reproduir
+a través d'arts, i utilitzar artsplay com el command de so per a aMSN.
+D'esta manera els sons seràn mesclats. Si utilitzes gnome, pots utilitzar esdplay
+i configurar xmms per a reproduir a través d'ESD. O enlloc d'utiltzar el command´
+de reproducció, pots fer un xicotet script que comprove si /dev/dsp està ocupat,
+o lliure, abans de cridar a "play".
+
+P: Utilizant aMSN darrere d'un firewall, o enmascarament d'IP, no funciona
+l'enviament d'arxius, puc arreglar-ho?
+R: Probàblement el firewall està bloquejant les conexxions d'entrada. La transferència
+funciona així: Quan comences a enviar un fitxer, envies una invitació amb la teua
+adreça IP i un número de port. Llavors el client remot ha de connectar a la teua
+IP:port per començar la transferència.
+El port utilitzat és normalment el 6891, 6892 i més (primera transferència pel port 6891,
+però si comences una de nova quan encara no ha acabat la primera, llavors s'utilitzarà
+el 6892, i així consecutivament).
+Per axiò, si utilitzes un firewall, has d'assegurar-te que permets connexions d'entrada
+pel port 6891 (i següents si vols poder tindre més d'una connexió a la vegada).
+Si estàs dins una xarxa privada, amb adreces privades, com per exemple 192.168.0.x,
+és més difícil fer anar la transferència de fitxers. Necessites enviar la IP d'internet
+real (pots posar-la manuàlment o dir-li a aMSN que l'endevine des d'una web), enlloc
+de l'adreça interna, i dir-li a la porta d'enllaç (el PC amb connexió directa a
+internet) que redirigisca les connexions d'entrada al port 6891 al teu PC dins la
+xarxa privada.
+
+Running on Windows
+==============
+
+P: Puc fer anar el so en Windws?
+R: Si, tenim un xicotet programa que es diu plwav.exe que només reproduix un
+wav baix Windows. Pots utilitzar-ho com a comand de so (aMSN necessita alguns
+programes externs). Vés a Ferramentes->opcions->preferències->aplicacions
+i posa "plwav" com el servidor de so.
+
+P: Quan apareix la finestra d'avís, la bara de feines s'amaga parcialment,
+puc arreglar-ho?
+R: Si, poys moure la finestra d'avís X píxels a l'esquerra i Y píxels amunt.
+Pots canviar-ho en Ferraments->opcions->Preferències, dins la secció
+"Avançades".
+
+ALTRES
+=====
+P: M'he adonat 	que aMSN obri alguns ports per damunt del 60000. És normal?
+És una porta trasera? Per què passa això?
+R: És normal. aMSN utilitza sockets com un sistema de bloqueig per a evitar que
+dos aMSN utilitzen el mateix perfil a la mateixa vegada (la qual cosa podria
+produir problemes). És la millor manera de bloquejar que hem trobat mantenint la independència de plataforma. Si trobs una millor manera de fer això, dis-nos-ho :)
+Si mires ~/.amsn/profiles, pots vore quin port està utilitzant-se per a cada perfil.
+
+
+P: Tinc una altra pregunta, podeu ajudar-me?
+R: Si podem. Però primer de tot, pega-li una ullada a la web del projecte
+sourceforge, en http://sourceforge.net/projects/amsn, i comprova tots els bugs,
+demandes de suport i fòrums generals per voe si el teu problema ja ha sigut contestat.
+No mires només el missatges marcats amb "Open". Hi ha una llista desplegable on pots
+seleccionar "Closed", o "Pending" al principi de la llista de missatgess.
+Les preguntes ja contestades es marquen com Closed.
+Abans d'enviar un bug o preguntar per suport, obtin la següent informació:
+- Versió d'aMSN.
+- Versió de Tcl i de Tk.
+- Volcat de pila (Stack trace) de l'error enviat (si és el cas).
+- Els últims missatges d'error en la finestra debug (Ctrl+D i Ctrl+S en la llista
+de contactes).
+Si encara tens preguntes, pots escriure'm a airadier@users.sourceforge.net.

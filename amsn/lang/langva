@@ -35,7 +35,7 @@ animatedsmileys Activar emoticons animats
 animatenotify Finestra de notificacions en animació
 appearance Apariència
 appearoff Sense connexió
-areacode Codic d'àrea
+areacode Codi d'àrea
 aretyping $1 està escrivint un missatge
 autoaccepted Transferència de fitxers acceptada automàticament
 autoacceptft Acceptar transferències de fitxers automàticament
@@ -91,7 +91,7 @@ changestate $1 canvia l'estat a $2
 charscounter Contador de caràcters escrits en la finestra de conversa
 chatack Acceptant conversació de
 chat Conversa
-chatmaxmin Quan un contacte obri una conversa, jo vull estar:
+chatmaxmin Quan un contacte obriga una conversa, jo vull estar:
 chatreq Sol·licitant una conversa
 chatsmileys2 Mostrar els emoticons en finestres de conversa
 chatsmileys Emoticons en la conversa
@@ -349,6 +349,7 @@ next Següent
 nick Mot
 noactivity Inactivitat
 nodataavailable Informació no disponible per a $1
+nogap Sense espai entre els grups
 nogroup Sense grup
 nologfile No hi ha fitxer de registre per a $1
 noneavailable Cap disponible
@@ -407,7 +408,7 @@ prefblock3 "Has sigut bloquejat per" grup
 prefconnection Configuració de la connexió
 prefemotic Emoticons
 preferences Preferències
-preffont2 Canvia la forma en la que altres vèuen el meu text en la conversa
+preffont2 Canvia la forma en la que els altres vèuen el meu text en la conversa
 preffont3 Canviar el tipus de lletra i tamany de la interfície d'aMSN
 preffont Text dels meus missatges
 prefft Transferències de fitxers, P2P i configuració de NAT
@@ -452,6 +453,7 @@ reconnect Esperant que $1 es reconnecte
 reconnecting Reconnectant al servidor
 reject Denegar
 rememberpass Recordar contrasenya
+removeempty Eliminar els grups buits de la Llista de Contactes
 removefromlist Esborrar d'esta llista
 rename Canviar nom
 reversed Invertit
@@ -502,6 +504,7 @@ sound So events
 soundstatus Encendre/Apagar el so de l'avís
 sourcecode Codi Font (necessita compilar i instalar)
 splashstart Inici
+sngdblclick Només un click per obrir una nova finestra de conversa
 sslwarning ATENCIÓ!! Desactivar SSL desactivarà l'encriptació, en eixe cas la teua contrasenya s'enviarà en text pla per la xarxa (sense protecció). Millor només en proxies i xarxes molt estrictes.
 startoffline2 Connectarse sigilosament aparentant "Desconnectat"
 startoffline Inicia en l'estat "Simula desconnexió"
@@ -547,6 +550,7 @@ twonewmail $1 missatges nous en safata d'entrada
 unblock Admetre
 uoffline Desconnectats
 uonline Connectats
+useother Utiltzar un altre programa
 useralreadyonlist L'usuari ja es troba en la llista de contactes.
 userblocked L'usuari està en línia pero t'ha bloquejat
 userdata Dades d'usuari
@@ -554,6 +558,7 @@ userproperties Propietats de l'usuari
 usernotonline L'usuari no està en línia
 user Usuari
 useryourself No pots conversar amb tu mateix
+usesnack Utilitzar la llibreria Snack (Tcl intern)
 verifyblocked Comprovar la gent que et bloqueja
 version Versió
 viewprofile Vore perfil
