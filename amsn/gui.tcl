@@ -4473,9 +4473,9 @@ proc cmsn_draw_login {} {
 	grid $mainframe.offline -row 6 -column 2 -sticky wn
 	grid $mainframe.example -row 1 -column 4 -rowspan 4
 
-	if { [::config::getGlobalKey disableprofiles] != 1 } {
+	#if { [::config::getGlobalKey disableprofiles] != 1 } {
 		grid $mainframe.nossl -row 7 -column 1 -sticky en -columnspan 4
-	}
+	#}
 
 	pack .login.main .login.buttons -side top -anchor n -expand true -fill both -padx 10 -pady 10
 
