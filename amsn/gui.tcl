@@ -7819,7 +7819,7 @@ proc show_bug_dialog {} {
 	
 	#Execute script on Mac OS X to create a mail in "Mail" application and attach the bugreport to the mail
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		button $w.mail -text [trans sendmail] -command "exec open plugins/applescript/mail-bugreport.app" -highlightbackground #e8e8e8 -activeforeground #5b76c6
+		button $w.mail -text [trans sendmail] -command "exec osascript plugins/applescript/mail-bugreport.scpt &" -highlightbackground #e8e8e8 -activeforeground #5b76c6
 		pack $w.mail -in $w.bot
 	}
 
