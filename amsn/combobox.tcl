@@ -216,7 +216,11 @@ proc ::combobox::Init {} {
 	# exist... 
 	scrollbar $tmpWidget
 	set sb_width [winfo reqwidth $tmpWidget]
-	set bbg [$tmpWidget cget -background]
+	#set bbg [$tmpWidget cget -background]
+        
+        #set bg to white - arrows are invariably inside textboxes
+        set bbg #ffffff  
+       
 	destroy $tmpWidget
 
 	# steal options from the entry widget
@@ -247,7 +251,7 @@ proc ::combobox::Init {} {
 	destroy $tmpWidget
 
 	# these are unique to us...
-	option add *Combobox.elementBorderWidth  1	widgetDefault
+	option add *Combobox.elementBorderWidth  0	widgetDefault
 	option add *Combobox.buttonBackground    $bbg	widgetDefault
 	option add *Combobox.dropdownWidth       {}     widgetDefault
 	option add *Combobox.openCommand         {}     widgetDefault
