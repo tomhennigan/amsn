@@ -1502,7 +1502,7 @@ proc cmsn_draw_msgwin {email} {
    .${win_name}.text tag configure url -foreground darkblue -background white -font bboldf -underline true
 
    
-   set afterid [after 270000 sb_change $name]
+   after 270000 sb_change_fake $name
    
    bind .${win_name}.in.input <Tab> "focus .${win_name}.in.send; break"
 
@@ -1514,7 +1514,7 @@ proc cmsn_draw_msgwin {email} {
       "sb_enter $name .${win_name}.in.input; break"
    bind .${win_name}.in.input <Control-Return> {%W insert end "\n"; break}
    status_log "$msg_windows(${email})\n" red
-   bind .${win_name} <Destroy> "cmsn_destroyed_msgwin $name %W $email $afterid"
+   bind .${win_name} <Destroy> "cmsn_destroyed_msgwin $name %W $email"
    
    focus .${win_name}.in.input
 
@@ -1576,7 +1576,7 @@ proc change_myfontsize {size name} {
   } res
 }
 
-proc cmsn_destroyed_msgwin {name winpath email afterid} {
+proc cmsn_destroyed_msgwin {name winpath email} {
    global sb_list ${name}_info config msg_windows
    set win_name "msg_[string tolower ${name}]"
 
@@ -1600,9 +1600,7 @@ proc cmsn_destroyed_msgwin {name winpath email afterid} {
    if {$config(keep_logs) && [sb exists $name log_fcid]} {		;# LOGS!
       close [sb get $name log_fcid]
    }
-   unset ${name}_info
-
-   after cancel $afterid	
+   unset ${name}_info	
 	
    if { [info exists msg_windows($email)] } {
       unset msg_windows($email)

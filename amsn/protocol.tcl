@@ -1462,9 +1462,31 @@ proc cmsn_auth {{recv ""}} {
    return -1
 }
 
+proc sb_change_fake { sbn } {
+	global typing config ${sbn}_info
+	
+	if { $typing != $sbn && [info exists ${sbn}_info] } {
+		set typing $sbn	
+
+		after 4000 "set typing \"\""
+		
+		set sock [sb get $sbn sock]
+
+		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgscontrol\r\nTypingUser: $config(login)\r\n\r\n\r\n"
+		set msg_len [string length $msg]
+
+		incr ::MSN::trid
+		puts $sock "MSG $::MSN::trid U $msg_len"
+		puts -nonewline $sock $msg
+	
+		after 270000 sb_change_fake $sbn
+	}
+
+}
+
 proc sb_change { sbn } {
 	global typing config
-
+	
 	if { $typing != $sbn } {
 		set typing $sbn	
 
