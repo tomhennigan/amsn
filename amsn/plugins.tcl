@@ -592,8 +592,14 @@ namespace eval ::plugins {
 		variable selection
 		# window path
 		variable w
+		#If the window is already here, just raise it to the front
+		if { [winfo exists $w.winconf] } {
+			raise $w.winconf
+			return
+		}
 		# current config, see it's declaration for more info
 		variable cur_config
+		
 		# get the name
 		set name $selection(name)
 		set namespace $selection(namespace)
