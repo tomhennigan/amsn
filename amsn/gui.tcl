@@ -145,7 +145,7 @@ namespace eval ::amsn {
 
 
      ${win_name}.f.out.text tag configure ftyes$cookie \
-       -foreground darkblue -background white -font bboldf -underline false
+       -foreground #000080 -background white -font bboldf -underline false
      ${win_name}.f.out.text tag bind ftyes$cookie <Enter> \
        "${win_name}.f.out.text tag conf ftyes$cookie -underline true;\
        ${win_name}.f.out.text conf -cursor hand2"
@@ -156,7 +156,7 @@ namespace eval ::amsn {
        "::amsn::AcceptedFT $chatid $cookie; ::amsn::RecvWin {$filename} $cookie; ::MSN::acceptFT $chatid {$filename} $filesize $cookie"
 
      ${win_name}.f.out.text tag configure ftno$cookie \
-       -foreground darkblue -background white -font bboldf -underline false
+       -foreground #000080 -background white -font bboldf -underline false
      ${win_name}.f.out.text tag bind ftno$cookie <Enter> \
        "${win_name}.f.out.text tag conf ftno$cookie -underline true;\
        ${win_name}.f.out.text conf -cursor hand2"
@@ -696,8 +696,8 @@ namespace eval ::amsn {
       .${win_name}.f.out.text tag configure blue -foreground blue -background white -font bboldf
       .${win_name}.f.out.text tag configure gray -foreground #808080 -background white
       .${win_name}.f.out.text tag configure white -foreground white -background black
-      .${win_name}.f.out.text tag configure url -foreground darkblue -background white -font bboldf -underline true
-      .${win_name}.f.out.text tag configure url -foreground darkblue -background white -font bboldf -underline true
+      .${win_name}.f.out.text tag configure url -foreground #000080 -background white -font bboldf -underline true
+      .${win_name}.f.out.text tag configure url -foreground #000080 -background white -font bboldf -underline true
 
 
       bind .${win_name}.f.in.input <Tab> "focus .${win_name}.f.in.f.send; break"
@@ -1295,7 +1295,7 @@ namespace eval ::amsn {
 	   set urlname "url_$urlcount"
 
 	   ${win_name}.f.out.text tag configure $urlname \
-	      -foreground darkblue -background white -font bboldf -underline true
+	      -foreground #000080 -background white -font bboldf -underline true
 	      ${win_name}.f.out.text tag bind $urlname <Enter> \
 	      "${win_name}.f.out.text tag conf $urlname -underline false;\
 	      ${win_name}.f.out.text conf -cursor hand2"
