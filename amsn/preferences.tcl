@@ -246,7 +246,15 @@ proc Preferences { { settings "personal"} } {
 	checkbutton $lfname.1.sound -text "[trans sound2]" -onvalue 1 -offvalue 0 -variable config(sound)
 	pack $lfname.1 -anchor w -side top -padx 0 -pady 5 -expand 1 -fill both
 	pack $lfname.1.alert1 $lfname.1.sound -anchor w -side top -padx 10 -pady 0
-	
+	#Bounce icon in the dock preference for Mac OS X
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		label $lfname.1.bouncedock -text "[trans bouncedock]" -padx 10
+		pack $lfname.1.bouncedock -anchor w -side top -padx 10
+		radiobutton $lfname.1.unlimited -text "[trans continuously]" -value unlimited -variable config(dockbounce)
+		radiobutton $lfname.1.once -text "[trans justonce]" -value once -variable config(dockbounce)
+		radiobutton $lfname.1.never -text "[trans never]" -value never -variable config(dockbounce)
+		pack $lfname.1.unlimited $lfname.1.once $lfname.1.never -side left -padx 10
+	}
 	$nb.nn compute_size
 	[$nb.nn getframe appearance].sw.sf compute_size
 	
