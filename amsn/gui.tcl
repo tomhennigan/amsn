@@ -1959,15 +1959,15 @@ namespace eval ::amsn {
 
 
 
-		button $bottom.buttons.smileys  -image butsmile -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
+		button $bottom.buttons.smileys  -image butsmile -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.smileys [trans insertsmiley]
-		button $bottom.buttons.fontsel -image butfont -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
+		button $bottom.buttons.fontsel -image butfont -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.fontsel [trans changefont]
-		button $bottom.buttons.block -image butblock -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
+		button $bottom.buttons.block -image butblock -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.block [trans block]
-		button $bottom.buttons.sendfile -image butsend -relief flat -padx 3 -background $bgcolor2 -highlightthickness 0
+		button $bottom.buttons.sendfile -image butsend -relief flat -padx 3 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.sendfile [trans sendfile]
-		button $bottom.buttons.invite -image butinvite -relief flat -padx 3 -background $bgcolor2 -highlightthickness 0
+		button $bottom.buttons.invite -image butinvite -relief flat -padx 3 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.invite [trans invite]
 		pack $bottom.buttons.fontsel $bottom.buttons.smileys -side left
 		pack $bottom.buttons.block $bottom.buttons.sendfile $bottom.buttons.invite -side right
