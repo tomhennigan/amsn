@@ -118,6 +118,8 @@ contactdoesnotexist Detail kontak tidak dapat ditemukan!
 contactlist Daftar Kontak :
 copy Salin
 copytogroup Salin ke kelompok
+corruptconfig Susunan berkas rusak. Menciptakan yang baru. Berkas lama akan disimpan ke $1. Mohon kirim berkas tersebut kepada kami untuk kami periksa apa yang terjadi.
+corruptstates Susunan kondisi tertentu rusak. Menciptakan yang baru. Berkas yang lama akan disimpan ke $1. Mohon kirim berkas tersebut kepada kami untuk kami periksa apa yang terjadi.
 countrycode Kode negara/daerah
 cprofile Ciptakan Profil
 custom_edit Rubah smiley sesuai kehendak
@@ -264,6 +266,7 @@ logout Daftar-Keluar
 logsin baru saja register
 logsmileys Tampilkan Emoticon dan Smiley dalam sejarah a'MSN
 logsout baru saja daftar-keluar
+longnick Nama panggilan anda lebih panjang dari 130 huruf. Hal tersebut tidak didukung secara resmi oleh protokol MSN. Apakah anda yakin anda ingin memasangnya?
 lprivtoconf Percakapan pribadi berubah menjadi konferensi dengan $1
 luclosedwin Anda telah menutup jendal pada $1
 mailer Aplikasi email
@@ -305,6 +308,7 @@ nonewver Belum ada versi baru
 nopic Gambar Tidak Ada
 noprofileexists Tidak ada profil aktif, \n anda harus menciptakan satu apabila anda ingin daftar-masuk berprofil. \nGunakan tombol Tambahkan Profil Baru dalam window ini untuk menambahkan profil baru.
 normal Normal
+noskins Tidak dapat menemukan kulit mendasar dalam direktori kulit. Tidak bisa menyalakan AMSN.
 nosystemtray Baki Sistem tidak tersedia
 notificationserver Server Pemberitahuan MSN Permulaan (Server Pesan MSN)
 notify beri tahu
@@ -500,3 +504,4 @@ yoffset Keseimbangan Posisi Y
 youblocked Anda telah diblokir
 yousay Anda berkata
 youwant Anda Inginkan
+youwant Anda inginkan 

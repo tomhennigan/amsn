@@ -118,6 +118,8 @@ contactdoesnotexist ¡El contacte que intentes afegir no existeix!
 contactlist Llista de contactes (FL):
 copy Copia
 copytogroup Copia al grup
+corruptconfig El fitxer de configuració conté errors. Ara en crearé un de nou i desaré l'antic a $1. Si vols ajudar-nos, envia'ns el fitxer erroni.
+corruptstates El fitxer d'estats personalitzats conté errors. Ara en crearé un de nou i desaré l'antic a $1. Si vols ajudar-nos, envia'ns el fitxer erroni.
 countrycode Codi de país o regió
 cprofile Crear perfil
 custom_edit Editar emoticona personalitzada
@@ -263,6 +265,7 @@ logout Desconnectar-se
 logsin s'acaba de connectar
 logsmileys Mostrar emoticones a la finestra d'historial de l'aMSN
 logsout s'acaba de desconnectar
+longnick El teu sobrenom conté més de 130 caràcters i el protocol MSN no els accepta. Estàs segur de voler tenir aquest sobrenom?
 lprivtoconf La conversa privada canvia a conversa múltiple amb $1
 luclosedwin Has tancat la finestra a les $1
 mailerexample (\$recipient serà substituït per l'adreça del contacte) Deixa-ho buit per utilitzar hotmail.
@@ -304,6 +307,7 @@ no No
 nopic Sense imatge
 noprofileexists No hi ha perfils definits.\nN'has de crear un, si vols utilitzar-los per iniciar la sessió.\nUtilitza el botó "Afegeix un nou perfil" per afegir un nou perfil.
 normal Normal
+noskins No puc trobar l'aparença per defecte en la carpeta d'aparences. L'aMSN no es podrà iniciar.
 nosystemtray Safata del sistema no disponible
 notificationserver Servidor inicial de notificacions MSN (Servidor MSN Messenger)
 notify1_5 Mostrar una finestra d'avís quan un contacte es desconnecti
@@ -371,7 +375,7 @@ prefsound So
 privacy Privacitat
 profiledconfig Configuració de perfil
 profileexists No pots crear perfil amb aquest identificador\nperquè ja existeix. Escull un altre identificador.
-profileinuse Aquest perfil està sent utilitzat per una altra sessió aMSN. Per favor, escull-ne un altre
+profileinuse Aquest perfil està sent utilitzat per una altra sessió aMSN. Escull-ne un altre
 profileloginradio Utilitza un perfil existent
 profiles Perfils
 properties Propietats
