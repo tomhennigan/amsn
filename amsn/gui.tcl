@@ -2129,7 +2129,7 @@ namespace eval ::amsn {
 		bind  $bottom.buttons.fontsel  <Button1-ButtonRelease> "change_myfont ${win_name}"
 		bind  $bottom.buttons.block  <Button1-ButtonRelease> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} ::amsn::blockUnblockUser"
 		bind $bottom.buttons.sendfile <Button1-ButtonRelease> "::amsn::FileTransferSend .${win_name}"
-		bind $bottom.buttons.invite <Button1-ButtonRelease> "::amsn::ShowInviteList \"[trans invite]\" .${win_name}"
+		bind $bottom.buttons.invite <Button1-ButtonRelease> "::amsn::ShowInviteMenu .${win_name} %X %Y"
 
 
 		bind $bottom.in.f.send <Return> \
@@ -2538,6 +2538,40 @@ namespace eval ::amsn {
 			cmsn_draw_otherwindow $title "::amsn::queueinviteUser [ChatFor $win_name]"
 		}
 	}
+
+	proc ShowInviteMenu { win_name x y } {
+
+		.menu_invite delete 0 end
+
+		set userlist [list]
+		set chatid [ChatFor $win_name]
+		set chatusers [::MSN::usersInChat $chatid]
+		set menulength 0
+
+		foreach user_login [::MSN::sortedContactList] {			
+			set user_state_code [::abook::getVolatileData $user_login state FLN]
+			set user_state_no [::MSN::stateToNumber $user_state_code]
+			
+			if {($user_state_no < 7) && ([lsearch $chatusers $user_login] == -1)} {
+				set menulength [expr $menulength + 1]
+				if { $user_state_code != "NLN" } {
+					.menu_invite add command -label "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" -command "::amsn::queueinviteUser $chatid $user_login"
+				} else {
+					.menu_invite add command -label "[::abook::getDisplayNick $user_login]" -command "::amsn::queueinviteUser $chatid $user_login"
+				}
+			}
+		}
+
+		if { $menulength != 0 } {
+			.menu_invite add separator
+		}
+
+		.menu_invite add command -label "[trans other]..." -command [list cmsn_draw_otherwindow [trans invite] "::amsn::queueinviteUser [ChatFor $win_name]"]
+
+		tk_popup .menu_invite $x $y
+
+	}
+	
 
 	proc queueinviteUser { chatid user } {
 		::MSN::ChatQueue $chatid [list ::MSN::inviteUser $chatid $user]
@@ -3746,6 +3780,7 @@ proc cmsn_draw_main {} {
 	menu .user_menu -tearoff 0 -type normal
 	menu .user_menu.move_group_menu -tearoff 0 -type normal
 	menu .user_menu.copy_group_menu -tearoff 0 -type normal
+	menu .menu_invite -tearoff 0 -type normal
 
 	#Main menu
 	menu .main_menu -tearoff 0 -type menubar -borderwidth 0 -activeborderwidth -0
