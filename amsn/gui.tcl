@@ -4194,7 +4194,7 @@ proc cmsn_draw_login {} {
 	bind .login <Escape> "ButtonCancelLogin .login"
 
 	#tkwait visibility .login
-	grab .login
+	catch {grab .login}
 }
 
 #///////////////////////////////////////////////////////////////////////
@@ -4548,25 +4548,27 @@ proc cmsn_draw_online { {delay 0} } {
 	$pgBuddy.text image create end -image mainbar
 	$pgBuddy.text insert end "\n"
 
-	# Show Mail Notification status
-	clickableImage $pgBuddy.text mailbox mailbox [list hotmail_login $config(login) $password] 5 0
+	if { [::config::getKey checkemail] } {
+		# Show Mail Notification status
+		clickableImage $pgBuddy.text mailbox mailbox [list hotmail_login $config(login) $password] 5 0
 
-	set unread [::hotmail::unreadMessages]
+		set unread [::hotmail::unreadMessages]
 
-	if { $unread == 0 } {
-		set mailmsg "[trans nonewmail]\n"
-	} elseif {$unread == 1} {
-		set mailmsg "[trans onenewmail]\n"
-	} elseif {$unread == 2} {
-		set mailmsg "[trans twonewmail 2]\n"
-	} else {
-		set mailmsg "[trans newmail $unread]\n"
+		if { $unread == 0 } {
+			set mailmsg "[trans nonewmail]\n"
+		} elseif {$unread == 1} {
+			set mailmsg "[trans onenewmail]\n"
+		} elseif {$unread == 2} {
+			set mailmsg "[trans twonewmail 2]\n"
+		} else {
+			set mailmsg "[trans newmail $unread]\n"
+		}
+
+		set maxw [expr [winfo width $pgBuddy.text] -30]
+		set short_mailmsg [trunc $mailmsg $pgBuddy.text $maxw splainf]
+		$pgBuddy.text insert end "$short_mailmsg\n" mail
+		$pgBuddy.text tag add dont_replace_smileys mail.first mail.last
 	}
-
-	set maxw [expr [winfo width $pgBuddy.text] -30]
-	set short_mailmsg [trunc $mailmsg $pgBuddy.text $maxw splainf]
-	$pgBuddy.text insert end "$short_mailmsg\n" mail
-	$pgBuddy.text tag add dont_replace_smileys mail.first mail.last
 
 	# For each named group setup its heading where >><< image
 	# appears together with the group name and total nr. of handles

@@ -180,6 +180,7 @@ proc ConfigDefaults {} {
 		[list notifyemail bool notify3] \
 		[list "" connection] \
 		[list getdisppic bool getdisppic] \
+		[list checkemail bool checkemail] \
 		[list autoconnect bool autoconnect autoconnect2] \
 		[list keepalive bool keepalive natkeepalive]\
 		[list start_ns_server str notificationserver]\
@@ -215,6 +216,7 @@ proc ConfigDefaults {} {
 	set config(strictfonts) 0		;#Use strict fonts' size in _ALL_ AMSN's fonts (Disabled by default)
 	set config(emailsincontactlist) 0	;#Display emails instead of nicks in the contact list
 	set config(charscounter)	1	;#Display typed characters counter
+	set config(checkemail)	1	;#Show inbox email notification line
 
 
 	#System options, not intended to be edited (unless you know what you're doing)
