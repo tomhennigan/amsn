@@ -1,0 +1,28 @@
+amsn_lang_version 2
+allowcommands Pretende permitir o uso de comandos na janela de chat?
+allowcolours Pretende permitir o uso de várias cores na janela de chat?
+bold Negrito
+ccolor \nA sua cor de texto é $1
+cfont \nA sua fonte de texto é $1
+cinfo \nInformação sobre o contacto:\n$1 \nNickname: $2 \nGrupo: $3
+cleave \nVocê abandonou esta conversa
+cnewnick \nO seu nickname é: $1
+cnewstate \nO seu novo estado é: $1
+cnewstatenotvalid \n$1 não é válido
+cnick \nO seu nickname é $1
+cnotvalid \nO seu comando não é válido
+colournicks Pretende colorir os nicknames? (não está completamente implementado)
+cresult \nResultado do comando:\n$1
+cshell \nExecutando na shell: $1
+cspecify \nTem que especificar um contacto
+cstatus \nO seu estado é $1
+cstyle \nO estilo da sua fonte é $1
+deleted \nRemoveu $1 da lista\nPara voltar a adicionar este contacto faça: /add $1
+groupadded \nFoi adicionado o grupo $1.
+groupdeleted \nRemoveu o grupo $1 \nPara voltar a adicionar este grupo faça: /addgroup $1
+italic Itálico
+multiplecolorsbutton Adicionar uma nova cor
+overstrike Rasurado
+parsenicks Pretende analisar a codificação de cores para os nicknames do MSN Plus
+reset Restaurar estilos
+underline Sublinhado

@@ -1,0 +1,29 @@
+amsn_lang_version 2
+allowcommands Gebruik commando's in het gespreksvenster
+allowcolours Gebruik meerdere kleuren in het gespreksvenster
+bold Vet
+ccolor \nJouw tekstkleur is: $1
+cfont \nJouw lettertype is $1
+cinfo \nContact-informatie:\n$1 \nSchermnaam: $2 \nGroep: $3
+cleave \nJe hebt dit gesprek verlaten
+cnewnick \nJe nieuwe schermnaam is: $1
+cnewstate \nJe nieuwe status is: $1
+cnewstatenotvalid \n$1 is geen geldige status
+cnick \nJe schermnaam is $1
+cnotvalid \nDit is geen geldig commando
+colournicks Wil je kleuren gebruiken in schermnamen? (onvolledige functie)
+cresult \nResultaat van het commando:\n$1
+cshell \nWordt uitgevoerd in een shell: $1
+cspecify \nJe moet een contactpersoon opgeven
+cstatus \nJe status is $1
+cstyle \nJe lettertype-stijl is $1
+deleted \nJe hebt &1 verwijderd van je contactpersonenlijst.\nMet het volgende commando kun je hem of haar opnieuw toevoegen: /add &1
+groupadded \nDe groep $1 is toegevoegd.
+groupdeleted \nJe hebt de groep &1 verwijderd van je contactenlijst.\nMet het volgende commando kun je deze groep weer toevoegen: /addgroup &1
+italic Cursief
+multiplecolorsbutton Voeg een nieuwe kleur toe
+overstrike Doorhalen
+parsenicks Wil je dat schermnamen met MSN Plus! kleurcodes in kleur worden weergegeven?
+reset Terug naar standaardstijl
+underline Onderstrepen
+
