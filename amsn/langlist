@@ -52,7 +52,7 @@
 	<lang>
 		<langcode>da</langcode>
 		<name>Danish</name>
-		<version>1.27</version>
+		<version>1.28</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -64,7 +64,7 @@
 	<lang>
 		<langcode>ee</langcode>
 		<name>Estonian</name>
-		<version>1.26</version>
+		<version>1.27</version>
 		<encoding>iso8859-4</encoding>
 	</lang>
 	<lang>
@@ -196,7 +196,7 @@
 	<lang>
 		<langcode>nl</langcode>
 		<name>Dutch</name>
-		<version>1.105</version>
+		<version>1.106</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -280,7 +280,7 @@
 	<lang>
 		<langcode>va</langcode>
 		<name>Valencian</name>
-		<version>1.28</version>
+		<version>1.29</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
