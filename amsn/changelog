@@ -20,6 +20,15 @@ Version 0.62
 		o Supports saving contact lists (~/.amsn/contactlist.txt)
 		  preserving group id's (MSN4Win ignores groups on save!)
 		o Color themes (alpha)
+		o The contact list export now exports files in two formats
+		  (both at once). One is the contactlist.txt file with
+		  all the info (enhanced import/export) and the other is
+		  the contactlist.ctt which is an XML file compatible
+		  with the Microsoft's MSN Windows version. Do note that
+		  the compatible format (Microsoft) is REALLY crippled, it
+		  does NOT store group or nick info so after the import
+		  you have to regroup manually! Do not remove the enhanced
+		  format!
 
 Version 0.61
 20020706

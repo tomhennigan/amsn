@@ -172,14 +172,23 @@ proc debug_cmd_lists {subcmd {basename ""}} {
 	if {$subcmd == "-export"} { set save_dir $HOME; }
 	set filepath [file join $save_dir $basename]
         if {$tcl_platform(platform) == "unix"} {
-	    set file_id [open "$filepath" w 00600]
+	    set file_id [open "$filepath.txt" w 00600]
+	    set cttfile_id [open "$filepath.ctt" w 00600]
 	} else {
-	    set file_id [open "$filepath" w]
+	    set file_id [open "$filepath.txt" w]
+	    set cttfile_id [open "$filepath.ctt" w]
 	}
 	set Date [clock format [clock seconds] -format %c]
+	# This is for the enhanced (AMSN) contact list export
 	puts $file_id "# AMSN-Contact-List version $cmdVersion"
 	puts $file_id "# AMSN-Contact-List date $Date"
 	puts $file_id "# AMSN-Contact-List info  FL(forward) RL(reverse) AL(allow) BL(block)"
+	# This is for the crippled (MSN) contact list export, it is
+	# compatible with Microsoft's MSN export/import functionality.
+	puts $cttfile_id "<?xml version=\"1.0\"?>"
+	puts $cttfile_id "<messenger>"
+	puts $cttfile_id "  <service name=\".NET Messenger Service\">"
+	puts $cttfile_id "    <contactlist>"
     }
     set user_entries [array get allBuddies]
     set items [llength $user_entries]
@@ -188,12 +197,21 @@ proc debug_cmd_lists {subcmd {basename ""}} {
 	set gid [::abook::getGroup $vkey -id]
         set unick  [urlencode [::abook::getName $vkey]]
         if {($subcmd == "-save") || ($subcmd == "-export")} {
+	    # This is for the enhanced (AMSN) contact list export
 	    puts $file_id "$allBuddies($vkey) $vkey (gid $gid) $unick"
+	    # This is for the crippled (MSN) contact list export
+	    puts $cttfile_id "      <contact>$vkey</contact>"
 	}
     }
     if {($subcmd == "-save") || ($subcmd == "-export")} {
         close $file_id
-	msg_box "$filepath"
+	# This is for the crippled (MSN) contact list export (XML format)
+	puts $cttfile_id "    </contactlist>"
+	puts $cttfile_id "  </service>"
+	puts $cttfile_id "</messenger>"
+        close $cttfile_id
+
+	msg_box "$filepath\n$basename.ctt & $basename.txt"
     }
 }
 
@@ -411,6 +429,13 @@ proc LabelEntryGet { path } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.14  2002/09/30 12:45:36  lordofscripts
+# - Now the contact list is saved in two formats:
+#   contactlist.txt is our (AMSN) enhanced format with all the group info
+#   contactlist.ctt is the Microsoft (MSN) format (XML) which only has the
+#                   id (email address) but no group info. You have to
+# 		  regroup yourself if you use that as import file
+#
 # Revision 1.13  2002/09/07 06:05:03  burgerman
 # Cleaned up source files, removed all commented lines that seemed outdated or used for debugging (outputs)...
 #
