@@ -191,6 +191,7 @@ namespace eval ::plugins {
 	     grid $w.desc -column 2 -row 1 -sticky n
 	     grid $w.command -column 1 -row 2 -columnspan 2 -sticky se
 	 }
+	 moveinscreen $w 30
 	 return
      }
 
