@@ -1557,7 +1557,7 @@ namespace eval ::amsn {
 #Test on Mac OS X(Darwin) if imagemagick is installed and kill all sndplay processes      
 if {$tcl_platform(os) == "Darwin"} {
 if { $config(getdisppic) != 0 } {
-	check_imagemagick2
+	check_imagemagick
 }
 catch {exec killall -c sndplay}
 }
