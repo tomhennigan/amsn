@@ -3,6 +3,7 @@ Name=aMSN
 Exec=amsn
 Icon=msn.png
 Info=AMSN
+Categories=Application;Network;
 Comment="MSN Messenger for Linux"
 Comment[fr]="MSN Messenger pour Linux"
 Comment[de]="MSN Messenger für Linux"
