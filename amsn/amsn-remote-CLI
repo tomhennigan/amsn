@@ -1,0 +1,193 @@
+#!/usr/bin/tclsh
+###
+### Remote controller program
+###
+
+set initialize_amsn 1
+proc readsocket { } {
+    global sock
+    if { [gets $sock response] == -1 } {
+	puts "Amsn server closed\n"
+	connect "Amsn server closed"
+    } elseif { $response != "" } {
+	set response [string map { \; \\\; \" \\\" \[ \\\[ \] \\\] \: \\\: \\ \\\\ \* \\\* \? \\\?} $response]
+	set colour [lindex "$response" end]
+	set response [string map [list "$colour" ""]  $response]
+	set response [string map { \\\\ "^[SLASHCAR]^"} $response]
+	set response [string map { \\ ""} $response]
+	set response [string map { "^[SLASHCAR]^" \\} $response]
+	puts $response
+    } 
+
+    
+}
+
+proc writesocket { command } {
+    global sock
+    set command [string map { \; \\\; \" \\\" \[ \\\[ \] \\\] \: \\\: \\ \\\\ \* \\\* \? \\\?} $command]
+    if { "$command" != "quit" } {
+	puts ${sock} "$command"
+	flush $sock
+    } else {
+	
+    }
+
+}
+
+proc authenticate { password } {
+    global sock
+
+    puts ${sock} "auth"
+    flush $sock
+    gets $sock response
+
+    if { "[lindex $response 0]" != "auth" } { 
+	return "fail"
+    } else {
+	set hash [::md5::hmac "[lindex $response 1]" "$password"]
+	puts $sock "auth2 $hash"
+	flush $sock
+	gets $sock response	
+	if { "$response" ==  "Authentication successfull normal" } {
+	    return "OK"
+	} elseif { "$response" == "Authentication failed normal" } {
+	    return "fail"
+	} else {
+	    return "disabled"
+	}
+       
+    }
+
+}
+
+proc connect { status } {
+    global sockDS stat
+	global ip
+    
+    if { $sockDS == 0 } {
+	set stat [catch {socket $ip 63251} sockDS]
+	set status "Connected to the server"
+    }
+
+    if { $stat != 0 } {
+	puts "Error connecting to server\n$sockDS"
+	set sockDS 0
+    }  else {
+	puts $status
+	puts "Account: "
+	set account [gets stdin]
+	puts "Password for remote access : "
+	catch {eval exec stty -echo 0}
+	set password [gets stdin]
+	catch {eval exec stty echo}
+	retreive_port $ip $account $password
+    }
+
+}
+
+proc retreive_port { ip account password} {
+    global sockDS sock
+    puts $sockDS "$account"
+
+    if { [catch { flush $sockDS}] } {
+	set sockDS 0
+	connect "Disconnected from the DS server" 
+	return 0
+    }
+
+    set port [gets $sockDS]
+
+    if { "$port" == "invalid" } {
+	connect "This Amsn Account is invalid"
+	return 0
+    }
+    if { "$port" == "noexist" } {
+	connect "The Amsn profile file doesn't exist or you don't have permissions to read from it"
+	return 0
+    }
+    if { "$port" == "versionerror" } {
+	connect "The Amsn profile file has an invalid version" 
+	return 0
+    }
+
+    if { [catch {socket $ip $port} sock] != 0 } {
+	connect "This Amsn Account isn't connected"
+	return 0
+    } else {
+	fconfigure $sock -buffering line
+	if { [set auth_response [authenticate "$password"]] == "fail" } {
+	    connect "Password incorrect or not set"
+	    return 0
+	} elseif { $auth_response == "disabled" } {
+	    connect "This account doesn't have remote controlling enabled"
+	    return 0
+	} else {
+	    puts "Connected to port : $port"
+	    fileevent $sock readable "readsocket"
+	    control
+	    return 1
+	}	
+    }
+}
+proc readstdin { } {
+	global commando
+	set commando [gets stdin]
+	writesocket $commando
+}
+
+proc control { } {
+    global sock
+    global commando
+	fconfigure stdin -blocking false
+	fileevent stdin readable "readstdin"
+	set goout 1
+	while {$goout != "quit"} {
+		vwait commando
+		
+		set goout $commando 
+	}
+    }
+
+proc main { } {
+    global sockDS
+    global ip
+    puts "Enter the IP address of the host : "
+    gets stdin ip
+    connect "Connected to the server"
+}
+
+
+############################################################
+### Look if we are launched from a link
+### and set the correct working directory
+############################################################
+
+if {[catch {file readlink [info script]} res]!=0} {
+
+   #Error in readlink, so it's not a symbolic link
+   set program_dir [file dirname [info script]]
+
+} else {
+
+   #Recursively update $resdir until it's not a link
+   set program_dir [file dirname $res]
+
+   while {[catch {file readlink $res} res2]==0} {
+      set res $res2
+
+      #Update $program_dir, depending on absolute or relative path
+      if { [string range $res2 0 0]=="/" } {
+         set program_dir [file dirname $res2]
+      } else {
+         set program_dir [file join $resdir [file dirname $res2]]
+      }
+
+   }
+}
+
+source [file join $program_dir migmd5.tcl]
+
+set sockDS 0
+
+main
+

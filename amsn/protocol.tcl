@@ -5087,7 +5087,7 @@ namespace eval ::MSNP2P {
 					set idx2 [expr [string first "\r\n" $data $idx] -1]
 					set port [string range $data $idx $idx2]
 					status_log "MSNP2P | $sid -> Receiver is listening with $addr : $port\n" red
-					after 5500 "::MSNP2P::SendData $sid $chatid [lindex [SessionList get $sid] 8]"
+					#after 5500 "::MSNP2P::SendData $sid $chatid [lindex [SessionList get $sid] 8]"
 					connectMsnFTP $sid $nonce $addr $port
 				} elseif { $listening == "false" } {
 					status_log "MSNP2P | $sid -> Receiver is not listening, sending INVITE\n" red
@@ -5647,7 +5647,7 @@ namespace eval ::MSNP2P {
 		if { [catch {set sock [ socket $ip $port] } ] } {
 			status_log "ERROR CONNECTING TO THE SERVER\n\n" red 
 		} else {
-			status_log "connected\n"
+			status_log "connected - $sock\n"
 		}
 	}
 
