@@ -238,6 +238,7 @@ friendlyname Pseudo de conversation
 ftacceptedby $1 accepte l'invitation de transfert de fichier pour le fichier '$2'.
 ftaccepted Transfert de fichier accepté
 ftaccepting Acceptez l'invitation de transfert de fichier
+ftautoclose Fermer la fenêtre lorsque le transfert de fichier est terminé
 ftconnecterror Erreur de connexion à l'hôte distant
 ftconnecting Connexion à $1 port $2
 ftconnectionlost Connexion avec l'hôte distant perdu

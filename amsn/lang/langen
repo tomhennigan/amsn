@@ -238,6 +238,7 @@ friendlyname Friendly Name
 ftacceptedby $1 accepted file transfer invitation for file '$2'.
 ftaccepted File transfer accepted
 ftaccepting Accepting file transfer invitation
+ftautoclose Close the window when the file transfer is finished
 ftconnecterror Error connecting to remote peer
 ftconnecting Connecting to $1 port $2
 ftconnectionlost Connection with remote peer lost
