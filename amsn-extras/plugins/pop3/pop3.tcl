@@ -282,9 +282,12 @@ namespace eval ::pop3 {
 	}
 	# continuation of send when data return is received
 	proc ::pop3::send2 {chan} {
-		fileevent $chan readable ""
 		set popRet [string trim [gets $chan]]
-	
+		if { $popRet == "" && ![eof $chan] } {
+			return
+		}
+		fileevent $chan readable ""
+
 		if {[string first "+OK" $popRet] == -1} {
 			plugins_log pop3 "ERROR : [string range $popRet 4 end]"
 			set ::pop3::chanreturn_$chan "ERROR"
