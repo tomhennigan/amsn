@@ -178,7 +178,11 @@ picstatus Skru På / Av bilde alarm
 port Port
 prefapps Applikasjoner
 preferences Innstillinger
+prefname Mitt MSN Messenger Navn/Kallenavn
+prefphone2 Skriv inn telefonnummerene som du vil at personer \n på din Tillatte-liste skal se\n
+prefphone Mine Telefonnummer
 prefsound Lyder
+profiles Profiler
 properties Egenskaper
 proxyconfhttp HTTP proxy support konfigurasjon
 proxyconf Proxy konfigurasjon
@@ -195,6 +199,7 @@ savecontacts Lagre kontaktliste
 save Lagre
 says $1 sier
 sbcon Kobler til koblingstavle
+selectskin Velg et skall fra listen
 sendfile Send fil
 sendmail Send e-post
 sendmsg Send beskjed
@@ -202,6 +207,8 @@ send Send
 sentbytes Sendt $1 av $2 bytes
 servergoingdown Frakoblet: Serveren går ned
 server Server
+skinselector Velg Skall
+skin Skall
 soundfile Handlings lyd
 sound Hendelseslyd
 soundloop lyd loop
