@@ -83,6 +83,24 @@ namespace eval ::amsn {
    }
    #///////////////////////////////////////////////////////////////////////////////
 
+   
+   #///////////////////////////////////////////////////////////////////////////////
+   # showHelpFile(filename,windowsTitle)
+   proc showTranslatedHelpFile {file title} {
+      global program_dir config
+      
+      set filename [file join "docs" "${file}$config(language)"]
+      set fullfilename [file join $program_dir $filename]
+      
+      if {[file exists $fullfilename]} { 
+         status_log "File $filename exists!!\n" blue
+	 showHelpFile $filename "$title"
+      } else {
+           status_log "File $filename NOT exists!!\n" red
+	   msg_box "[trans transnotexists]"
+      }
+   }   
+   
    #///////////////////////////////////////////////////////////////////////////////
    # showHelpFile(filename,windowsTitle)
    proc showHelpFile {file title} {
@@ -1960,11 +1978,13 @@ proc cmsn_draw_main {} {
    #Help menu
    menu .main_menu.help -tearoff 0 -type normal
 
-   .main_menu.help add command -label "[trans helpcontents]..." \
+   .main_menu.help add command -label "[trans helpcontents] ([trans translated])..." \
+      -command "::amsn::showTranslatedHelpFile HELP [list [trans helpcontents]]"
+   .main_menu.help add command -label "[trans helpcontents] (English)..." \
       -command "::amsn::showHelpFile HELP [list [trans helpcontents]]"
    .main_menu.help add separator
-   .main_menu.help add command -label "FAQ (Translated)" \
-      -command "::amsn::showHelpFile FAQ [list [trans faq]]"
+   .main_menu.help add command -label "FAQ ([trans translated])" \
+      -command "::amsn::showTranslatedHelpFile FAQ [list [trans faq]]"
    .main_menu.help add command -label "FAQ (English)" \
       -command "::amsn::showHelpFile FAQ [list [trans faq]]"
    .main_menu.help add separator
