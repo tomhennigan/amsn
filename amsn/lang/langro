@@ -194,6 +194,7 @@ httpconnection Conectare folosind protocolul HTTP (portul 80)
 ident In curs de identificare
 identity Identitate
 inbox Casuta postala
+installconvert Trebuie sa aveti instalat ImageMagick pentru a putea converti imaginile necesare pentru serverele MSN. Se pot descarca binarele de pe ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. In cazul in care aveti ImageMagick este posibil sa fie o greseala de programare.
 internalerror Eroare de server
 invalidfile Fisierul $2 introdus in campul "$1" nu exista sau nu poate fi citit
 invalidusername Nume gresit
@@ -375,13 +376,13 @@ showblockedlist Arata pesoanele care te-au blocat
 skinselector Selecteaza Skin-ul
 skin Skin
 smileconfig Configurarea semnelor de conversatie
-smilefile ??? Smiley filename ???
+smilefile Nume fisier
 smileintro2 Editeaza campurile necesare pentru a modifica un semn de conversatie (citeste FAQ)
 smileintro Complecteaza campurile necesare pentru a crea un nou semn de conversatie (citeste FAQ)
 sound2 Avertizare sonora cind peroanele se autentifica sau trimit mesaj
 soundcommand Ar trebui sa fie comanda pentru redare(ex: esdplay)
 soundexample ( \$sound = Sunet care sa fie redat ) Ex: esdplay \$sound
-soundfile Fisieru de avertizare (sunet)
+soundfile Fisierul de avertizare (sunet)
 soundloop Roteste sunetul
 soundserver Server de sunet
 soundstatus Inchide/Deschide avertizarile

@@ -76,10 +76,13 @@ contactadded Kontakten er lagt til
 contactdoesnotexist Kontakten eksisterer ikke!
 copytogroup Kopier til gruppe
 countrycode Min Lands-/Regionkode
+cut Klipp ut
 date Dato
+days Dager
 delete Slett
 disablessl Deaktiver SSL
 editprofile Rediger Profil
+edit Rediger
 enableproxy Bruk proxy
 encoding Velg encoding
 entercontactemail Oppgi kontakt e-post
@@ -108,6 +111,7 @@ groupunknown Ukjent gruppe
 handle Handle
 helpcontents Hjelp innhold
 help Hjelp
+hidewindow Skjul Vindu
 history Vis Historie
 home Hjem
 ident Identifiserer
@@ -167,6 +171,7 @@ ordercontactsby Sorter kontakter etter
 other Andre
 pager Personsøker
 pass Passord
+personal Personlig
 phone Telefon
 picfile Bilde for alarm (GIF < 500 x 500)
 picstatus Skru På / Av bilde alarm
@@ -201,6 +206,7 @@ soundfile Handlings lyd
 sound Hendelseslyd
 soundloop lyd loop
 soundstatus Skru Av / På alarm
+sourcecode Kildekode (Krever kompilering og installasjon)
 startoffline Start offline
 status Status
 stopalarm Stans alarm

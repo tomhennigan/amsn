@@ -17,7 +17,6 @@ appearance Udseende
 appearoff Vis som offline
 areacode Områdenummer
 aretyping $1 skriver en besked
-askprofile Dette login har ingen profil. Vil du oprette en ny? $1 Hvis du ikke opretter en ny vil du ikke kunne bruge Historien, eller gemme dine Alarmer og password. $1 Hvis du opretter en vil du få en seperat opsætning for denne profil. $1 $1 Klik på "Opret profil" for at oprette en ny profil for $2.
 autoaway Vis mig som "Ikke til stede" når jeg har været inaktiv i
 autoconnect2 automatisk log på når aMSN startes
 autoconnect Log på ved start
@@ -186,6 +185,7 @@ newveravailable Det er nu muligt at download den nye version $1
 next Næste
 noactivity Ingen aktivitet
 nologfile Der er ingen logfil for $1
+no Nei
 nonewmail Der er ingen nye beskeder i Indbakken
 nonewver Der er ikke nogen ny version at downloade
 normal Normal
@@ -288,6 +288,7 @@ tools Værktøjer
 to Til
 transnotexists Den kaldte fil er ikke blevet oversat til det valgte sprog endnu
 traynotcompiled Tray icon plugin'et er ikke blev kompileret endnu. Check plugin/traydock
+twonewmail $1 nye beskeder i Indbakken
 unblock Fjern blokkering
 uoffline Offline
 uonline Online
@@ -304,8 +305,8 @@ willjoin Venter på at $1 tilslutter sig til samtalen
 work Arbejde
 wrongprofileversion Forkert version på profil-instillingsfilen. For at reparere det, fjern da venligst mappen $1, eller updater amsn
 xoffset X Offset
+yes Ja
 yoffset Y Offset
 youblocked Du er blevet blokeret
 yousay Du siger
 youwant Du vil have
-twonewmail $1 nye beskeder i Indbakken
