@@ -6418,19 +6418,24 @@ proc window_history { command w } {
 #### ALL ABOUT CONVERTING AND CHOOSING DISPLAY PICTURES 
 ########################################################################
 
-proc convert_image { filename size } {
+# Converts the given $filename to the given size, and leaves 
+# xx.png and xxx.gif in the given destination directory
+proc convert_image { filename destdir size } {
 
 	global tcl_platform
+	
+	set filetail [file tail $filename]
+	set filetail_noext [filenoext $filetail]
 
-
+	set tempfile [file join $destdir $filetail]
+	set destfile [file join $destdir $filetail_noext]
+	
 	if { ![file exists $filename] } {
 		status_log "Tring to convert file $filename that does not exist\n" error
 		return ""
 	}
 
-	set filename2 [filenoext $filename]
-
-	status_log "converting $filename to $filename.gif with size $size\n"
+	status_log "converting $filename to $tempfile with size $size\n"
 
 	#IMPORTANT: If convertpath is blank, set it to "convert"
 	if { [::config::getKey convertpath] == "" } {
@@ -6438,13 +6443,13 @@ proc convert_image { filename size } {
 	}
 
 	#First converstion, no size, only .gif
-	if { [catch { exec [::config::getKey convertpath] "${filename}" "${filename}.gif" } res] } {
+	if { [catch { exec [::config::getKey convertpath] "${filename}" "${tempfile}.gif" } res] } {
 		status_log "CONVERT ERROR IN CONVERSION 1: $res" white
-		catch {[file delete $filename]}
 		return ""
 	}
 
-	set img [image create photo -file "${filename}.gif"]
+	#Now analyze the resulting .gif file to check aspect ratio
+	set img [image create photo -file "${tempfile}.gif"]
 	set origw [image width $img]
 	set origh [image height $img]
 	status_log "Image size is $origw $origh\n" blue
@@ -6473,32 +6478,29 @@ proc convert_image { filename size } {
 
 	if { $origw != [lindex $sizexy 0] || $origh != [lindex $sizexy 1] } {
 		status_log "Will resize to $resizew x $resizeh \n" blue		
-		catch { file delete ${filename}.gif}
-		if { [catch { exec [::config::getKey convertpath] "${filename}" -resize "${resizew}x${resizeh}" "${filename}.gif" } res] } {
+		catch { file delete ${tempfile}.gif}
+		if { [catch { exec [::config::getKey convertpath] "${filename}" -resize "${resizew}x${resizeh}" "${tempfile}.gif"} res] } {
 			status_log "CONVERT ERROR IN CONVERSION 2: $res" white
-			catch {[file delete ${filename}]}
 			return ""
 		}
 	}
 
 
-
-	if { [file exists $filename2.png.0] } {
+	if { [file exists ${tempfile}.png.0] } {
+		status_log "convert_image: HEY!! CHECK THIS!!" white
 		set idx 1
 		while { 1 } {
-			if { [file exists $filename2.png.$idx] } {
-				catch {file delete $filename2.png.$idx}
+			if { [file exists ${tempfile}.png.$idx] } {
+				catch {file delete ${tempfile}.png.$idx}
 				incr idx
 			} else { break }
 		}
-		file rename $filename2.png.0 $filename2.png
+		file rename ${tempfile}.png.0 ${tempfile}.png
 	}
 
-	catch {file delete ${filename}}
-
-
+	
 	#Now let's crop image, from the center
-	set img [image create photo -file "${filename}.gif"]
+	set img [image create photo -file "${tempfile}.gif"]
 	set centerx [expr { [image width $img] /2 } ]
 	set centery [expr { [image height $img] /2 } ]
 	set halfw [expr [lindex $sizexy 0] / 2]
@@ -6515,92 +6517,79 @@ proc convert_image { filename size } {
 	set x2 [expr {$x1+[lindex $sizexy 0]}]
 	set y2 [expr {$y1+[lindex $sizexy 1]}]
 
-	#Won't use convert to avoid the .png.0 .png.1... problem
-	#if { [catch { exec convert "${filename}.gif" -gravity Center -crop "[lindex $sizexy 0]x[lindex $sizexy 1]" "${filename2}.gif" } res] } {
-	#	msg_box "[trans installconvert]"
-	#	status_log "converting returned error : $res\n"
-	#	return 0
-	#}
-
 	set neww [image width $img]
 	set newh [image height $img]
 	status_log "Resized image size is $neww $newh\n" blue
 
 	status_log "Center of image is $centerx,$centery, will crop from $x1,$y1 to $x2,$y2 \n" blue
-	$img write "${filename2}.gif" -from $x1 $y1 $x2 $y2
+	$img write "${destfile}.gif" -from $x1 $y1 $x2 $y2
 	image delete $img
 
-	catch {file delete ${filename}.gif}
-
-	if { [catch { exec [::config::getKey convertpath] "${filename2}.gif"  "${filename2}.png"}] } {
+	catch {file delete ${tempfile}.gif}
+	
+	
+	if { [catch { exec [::config::getKey convertpath] "${destfile}.gif" "${destfile}.png"}] } {
 		status_log "CONVERT ERROR IN CONVERSION 3: $res" white
-		catch {[file delete ${filename2}.gif]}
+		catch {[file delete ${destfile}.gif]}
 		return ""
 	}
 
-	if { [file exists $filename2.png.0] } {
+	if { [file exists ${destfile}.png.0] } {
 		set idx 1
 		while { 1 } {
-			if { [file exists $filename2.png.$idx] } {
-				catch {file delete $filename2.png.$idx}
+			if { [file exists "${destfile}.png.$idx"] } {
+				catch {file delete "${destfile}.png.$idx"}
 				incr idx
 			} else { break }
 		}
-		catch {file delete $filename2.png}
-		file rename $filename2.png.0 $filename2.png
+		catch {file delete ${destfile}.png}
+		file rename "${destfile}.png.0" "${destfile}.png"
 	}
 
 
-	return ${filename2}.png
+	return ${destfile}.gif
+
+}
+
+
+
+proc png_to_gif { pngfile } {
+
+	global tcl_platform
+	
+	set file_noext [filenoext $pngfile]
+
+	if { ![file exists $pngfile] } {
+		status_log "Tring to convert file $pngfile that does not exist\n" error
+		return ""
+	}
+
+	status_log "png_to_gif: converting $pngfile to ${file_noext}.gif\n"
+
+	#IMPORTANT: If convertpath is blank, set it to "convert"
+	if { [::config::getKey convertpath] == "" } {
+		::config::setKey convertpath "convert"
+	}
+
+	if { [catch { exec [::config::getKey convertpath] "${pngfile}" "${file_noext}.gif" } res] } {
+		status_log "png_to_gif CONVERT ERROR IN CONVERSION: $res" white
+		return ""
+	}
+
+	return ${file_noext}.gif
 
 }
 
 
 proc convert_image_plus { filename type size } {
 
-	global HOME config
-
-
-	catch {
-		create_dir [file join $HOME $type]
-		file copy $filename [file join $HOME $type]
-		status_log "Copied $filename to [file join $HOME $type]\n"
-	}
-
-	set endfile [getfilename $filename]
-
-	if { $config(getdisppic) != -1 } {
-		set file [convert_image [GetSkinFile $type $endfile] $size]
-	} else { 
-		set file [GetSkinFile $type $endfile]
-	}
-
-	if { $file == "" } { return ""}
-
-
-	return $file
-}
-
-
-proc convert_display_picture { filename } {
-
 	global HOME
-
-
-	catch {
-		create_dir [file join $HOME displaypic]
-		file copy $filename [file join $HOME displaypic] 
-		status_log "Copied $filename to [file join $HOME displaypic]\n"
-	}
-
-	set endfile [getfilename $filename]
-
-	set file [convert_image [GetSkinFile displaypic $endfile] 96]
-
-	if { $file == "" } { return "" }
-	return $file
+	catch { create_dir [file join $HOME $type]}
+	return [convert_image $filename [file join $HOME $type] $size]
 
 }
+
+
 
 
 proc load_my_pic {} {
@@ -6670,7 +6659,6 @@ proc pictureBrowser {} {
 			global image_names
 			foreach img $image_names {
 				image delete $img
-				status_log "Deleting $img\n"			
 			}
 			unset image_names
 			unset selected_image
@@ -6728,8 +6716,6 @@ proc addPicture {the_image pic_text filename} {
 	bind .picbrowser.pics.text.$the_image <Leave> ".picbrowser.pics.text.$the_image.pic configure -highlightbackground black"
 	bind .picbrowser.pics.text.$the_image <Button1-ButtonRelease> "[list .picbrowser.mypic configure -image $the_image];[list set selected_image $filename]"
 	bind .picbrowser.pics.text.$the_image.pic <Button1-ButtonRelease> "[list .picbrowser.mypic configure -image $the_image];[list set selected_image $filename]"
-	status_log "File: $filename\n" blue
-
 	.picbrowser.pics.text window create end -window .picbrowser.pics.text.$the_image -padx 3 -pady 3
 	.picbrowser.pics.text insert end "\n"
 
@@ -6881,7 +6867,7 @@ proc pictureChooseFile { } {
 	set file [chooseFileDialog "" "" [list [list [trans imagefiles] [list *.gif *.jpg *.jpeg *.bmp *.png]] [list [trans allfiles] *.*]]]
 
 	if { $file != "" } {
-		if { ![catch {convert_display_picture $file} res]} {
+		if { ![catch {convert_image_plus $file displaypic "96x96"} res]} {
 			set image_name [image create photo -file [GetSkinFile displaypic "[filenoext [file tail $file]].gif"]]
 			.picbrowser.mypic configure -image $image_name
 			set selected_image "[filenoext [file tail $file]].png"

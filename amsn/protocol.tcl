@@ -3041,7 +3041,7 @@ proc cmsn_change_state {recv} {
 				set users_in_chat [sb get $sb users]
 				if { [lsearch $users_in_chat $user] != -1 } {
 					status_log "User changed image while image in use!! Updating!!\n" white
-					::MSNP2P::loadUserPic $sb $user
+					::MSNP2P::loadUserPic [::MSN::ChatFor $sb] $user
 				}
 			}
 		}
@@ -4533,7 +4533,7 @@ proc create_msnobj { Creator type filename } {
 }
 
 proc getfilename { filename } {
-	return "[string map [list [file dirname $filename]/ "" ] $filename]"
+	return "[file tail $filename]"
 }
 
 proc filenoext { filename } {
@@ -5045,7 +5045,7 @@ namespace eval ::MSNP2P {
 				if {$filename == $filename2 } {
 				
 				    status_log "MSNP2P | $sid -> Closed file $filename.. finished writing\n" red
-				    set file [convert_image [file join $HOME displaypic cache ${filename}.png] 96x96]
+				    set file [png_to_gif [file join $HOME displaypic cache ${filename}.png]]
 				    if { $file != "" } {
 							set file [filenoext $file].gif
 							image create photo user_pic_${user_login} -file "[file join $HOME displaypic cache ${filename}.gif]"
@@ -5059,7 +5059,7 @@ namespace eval ::MSNP2P {
 
 				    }
 				} else {
-				    set file [convert_image [file join $HOME smileys cache ${filename}.png] 19x19]
+				    set file [png_to_gif [file join $HOME smileys cache ${filename}.png]]
 				    if { $file != "" } {
 					set file [filenoext $file].gif
 					image create photo custom_smiley_${filename} -file "[file join $HOME smileys cache ${filename}.gif]"

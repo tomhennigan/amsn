@@ -196,7 +196,7 @@ proc new_custom_emoticon_from_gui { {name ""} } {
 	if { $quit == 1 } { return }
 	create_dir [file join $HOME smileys]
 	set file [convert_image_plus [GetSkinFile smileys "$new_custom_cfg(file)"] smileys 19x19]
-	if { $file == 0 } { return }
+	if { $file == "" } { return }
     }
     set custom_emotions(${name}_file) "[filenoext $file].gif"
     set custom_emotions(${name}_name) "$name"
