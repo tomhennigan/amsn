@@ -399,11 +399,14 @@ namespace eval ::plugins {
 	   	#Call PostEvent Load
 	   	#Keep in variable if we are online or not
 	   	if {[sb get ns stat] == "o" } {
-	   		set epvar(status) online
+	   		set status online
 	   	} else {
-	   		set epvar(status) offline
+	   		set status offline
 	   	}
-		::plugins::PostEvent Load epvar
+	
+	   	set evpar(status) status
+	   	
+		::plugins::PostEvent Load evpar
 	    # and upate other info
 	    GUI_NewSel
 	}
@@ -432,12 +435,14 @@ namespace eval ::plugins {
 	$w.select.plugin_list itemconfigure $selection(id) -background #FFFFFF
 	# Call PostEvent Unload
 	# Verify if we are online or offline
-  	if {[sb get ns stat] == "o" } {
-	   	set epvar(status) online
+	if {[sb get ns stat] == "o" } {	   
+		set status online
 	} else {
-   		set epvar(status) offline
-   	}
-	::plugins::PostEvent Unload epvar
+	   	set status offline
+	}
+	
+	set evpar(status) status
+	::plugins::PostEvent Unload evpar
 	# do the actual unloading
 	UnLoadPlugin $selection(name)
 	# update info in selection

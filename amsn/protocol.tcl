@@ -3389,11 +3389,10 @@ proc cmsn_change_state {recv} {
 	if {[lindex $recv 0] == "FLN"} {
 		#User is going offline
 		set user [lindex $recv 1]
-		set evpar(user) [lindex $recv 1]
+		set evpar(user) user
 		set user_name ""
-		set evpar(nick) [::abook::getDisplayNick [lindex $recv 1]]
 		set substate "FLN"
-		set evpar(substate) "FLN"
+		set evpar(substate) substate
 		set msnobj [::abook::getVolatileData $user msnobj ""]
 		::plugins::PostEvent ChangeState evpar
 	} elseif {[lindex $recv 0] == "ILN"} {
@@ -3407,12 +3406,11 @@ proc cmsn_change_state {recv} {
 	} else {
 		#Coming online or changing state
 		set user [lindex $recv 2]
-		set evpar(user) [lindex $recv 2]
+		set evpar(user) user
 		set encoded_user_name [lindex $recv 3]
 		set user_name [urldecode [lindex $recv 3]]
-		set evpar(nick) [::abook::getDisplayNick [lindex $recv 2]]
 		set substate [lindex $recv 1]
-		set evpar(substate) [lindex $recv 1]
+		set evpar(substate) substate
 		set msnobj [urldecode [lindex $recv 5]]
 		#Add clientID to abook
 		add_Clientid $user [lindex $recv 4]
@@ -3548,8 +3546,8 @@ proc cmsn_change_state {recv} {
 		::abook::setContactData $user last_login [clock format [clock seconds] -format "%D - %H:%M:%S"]
 		::log::eventconnect $custom_user_name
 		#Register PostEvent "UserConnect" for Plugins, email = email user_name=custom nick
-		set evPar(email) $user
-		set evPar(user_name) $custom_user_name
+		set evPar(user) user
+		set evPar(user_name) custom_user_name
 		::plugins::PostEvent UserConnect evPar
 		
 		if { ([::config::getKey notifyonline] == 1 && [::abook::getContactData $user notifyonline -1] != 0) ||
@@ -4114,8 +4112,6 @@ proc cmsn_auth {{recv ""}} {
 			configureMenuEntry .main_menu.actions "[trans sendmsg]..." normal
 				
 			#Send postevent "OnConnect" to plugin when we connect	
-			set evPar(email) [::abook::getPersonal login]
-			set evPar(nick) [::abook::getPersonal nick]
 			::plugins::PostEvent OnConnect evPar
 
 			return 0
