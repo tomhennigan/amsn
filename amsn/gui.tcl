@@ -85,7 +85,9 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey expand_ypad 6
 	::skin::setKey x_dp_top 4
 	::skin::setKey y_dp_top 4
-	::skin::setKey balloontext #000000 
+	::skin::setKey balloonbackground #daeefe
+	::skin::setKey balloonborder #2e8afe
+	::skin::setKey balloontext #0000dd
 	::skin::setKey buddy_ypad 3
 
 	::skin::setKey notifwidth 150
