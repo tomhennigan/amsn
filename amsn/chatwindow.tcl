@@ -2251,11 +2251,19 @@ namespace eval ::ChatWindow {
 		set w [string map { "." "_"} $win]
 		set tab $container.bar.$w
 
-		button $tab -image [::skin::loadPixmap tab] \
+		# We have two ways of creating this tab button
+		if { $::tcl_version >= 8.4 } {
+			set btcmd "button"
+		} else {
+			set btcmd "btimg83"
+		}
+
+		$btcmd $tab -image [::skin::loadPixmap tab] \
 		    -width [image width [::skin::loadPixmap tab]] \
 		    -command "::ChatWindow::SwitchToTab $container $win" \
 		    -fg black -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
-		    -activebackground [::skin::getKey tabbarbg] -activeforeground black -text "$win" \
+		    -activebackground [::skin::getKey tabbarbg] \
+		    -activeforeground black -text "$win" \
 		    -font sboldf -highlightthickness 0 -pady 0 -padx 0 
 		if { $::tcl_version >= 8.4 } {
 			$tab configure -overrelief flat -compound center
@@ -2344,6 +2352,12 @@ namespace eval ::ChatWindow {
 		
 		set tab [set win2tab($win)]
 		set users [::MSN::usersInChat $chatid]
+		# We have two ways of changing a tab button text
+		if { $::tcl_version >= 8.4 } {
+			set tabvar $tab
+		} else {
+			set tabvar ${tab}_lbl
+		}
 		#status_log "naming tab $win with chatid info $chatid\n" red
 		set max_w [image width [::skin::loadPixmap tab]]
 		incr max_w -5
@@ -2351,15 +2365,15 @@ namespace eval ::ChatWindow {
 			set nick [::abook::getDisplayNick $chatid]
 			if { $nick == "" || [::config::getKey tabtitlenick] == 0 } {
 				#status_log "writing chatid\n" red
-				$tab configure -text "[trunc $chatid $tab $max_w sboldf]"
+				$tabvar configure -text "[trunc $chatid $tab $max_w sboldf]"
 			} else {
 				#status_log "found nick $nick\n" red
-				$tab configure -text "[trunc $nick $tab $max_w sboldf]"
+				$tabvar configure -text "[trunc $nick $tab $max_w sboldf]"
 			}
 		} elseif { [llength $users] != 1 } {
 			set number [llength $users]
 			#status_log "Conversation with $number users\n" red
-			$tab configure -text "[trunc [trans conversationwith $number] $tab $max_w sboldf]"
+			$tabvar configure -text "[trunc [trans conversationwith $number] $tab $max_w sboldf]"
 		}
 
 		::ChatWindow::UpdateContainerTitle [winfo toplevel $win]

@@ -7612,3 +7612,21 @@ proc lsearchall {slist sterm} {
 	}
 	return $rlist
 }
+
+# Implements a button with background pixmap and text for Tcl/Tk 8.3
+proc btimg83 {w {args {}} } {
+	catch {destroy $w}
+	catch {destroy ${w}_lbl}
+	eval button $w  $args
+	pack propagate $w 0
+	pack [label ${w}_lbl -text [$w cget -text] \
+              -fg black -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
+	      -activebackground [::skin::getKey tabbarbg] \
+              -activeforeground black -font sboldf -highlightthickness 0 \
+              -pady 0 -padx 0] -side bottom -ipady 3 -in $w
+	foreach item [bind Button] {
+		bind ${w}_lbl $item [string map "%W $w" [bind Button $item]]
+	}
+	return $w
+}
+
