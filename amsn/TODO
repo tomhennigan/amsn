@@ -44,7 +44,7 @@ DONE	Fixed bug when adding a user from a chat window.
 -	Possible bug if the password has a semicolon (at the end?). Check.
 -	Be able to manually change status to "No activity" - Bug B657836
 -	When we get a NAK from a message, try to enqueue it again, as probably it will success.
--	Fix focus and children things with list window. (For example add_user from chat window).
+-	Fix focus and children things with list window. (For example add_user from chat window), and dialogs in general.
 -	Ctrl, alt and other special keys shouldn't send typing notification.
 -	Bug with font selection in preferences window. Saved if "close" clicked, but not if "save" clicked.
 
