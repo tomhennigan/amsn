@@ -68,6 +68,7 @@ cannotdeleteprofile Non posso concellare il profilo perché sembra essere usato d
 cantexec Non posso eseguire l'applicazione: $1. Controlla nelle preferenze
 casesensitive Usa comandi discriminanti tra maiuscole e minuscole
 cfgalarm Configure/Aggiungi/Rimuovi l'allarme
+changedisplaypic Cambia l'immagine personale
 changefont Cambia font
 changenick Cambia nick
 changestate $1 cambia stato in $2
@@ -184,6 +185,7 @@ groupunknown Gruppo sconosciuto
 handle Gestisci
 help Aiuto
 helpcontents Contenuti help
+hidedisplaypic Nascondi l'immagine personale
 hiden Nascondi le emoticon dal menu delle faccine
 hidewindow Nascondi Finestra
 history Mostra l'History
@@ -269,6 +271,7 @@ noneavailable Niente disponibile
 nonewmail Nessun nuovo messaggio di posta
 nonewver Non ci sono nuove versioni da scaricare
 no No
+nopic Nessuna immagine
 noprofileexists Non ci sono profili correnti, \n devi crearne one se vuoi usare i login con il profilo. \nUsa il pulsante Aggiungi nuovo profilo su questa finestra per aggiungere un nuovo profilo.
 normal Normale
 nosystemtray System tray non disponibile
@@ -299,6 +302,7 @@ personal Personale
 phone Telefono
 picfile File dell'immagine dell'allarme (GIF < 500x500)
 picstatus (Dis)Abilita l'immagine per l'allarme
+playing Sto ascoltando: $1
 pluginselector Seleziona i Plugins
 port Porta
 prefalerts Suoni e Allarmi dei miei eventi
@@ -372,6 +376,10 @@ servergoingdown Disconnesso: il server sta andando giù
 server Server
 session Sessione
 showblockedlist Mostra la lista delle persone che ti bloccano
+showdisplaypic2 Mostra l'mmagine personale in ogni nuova finestra di chat
+showdisplaypic Mostra l'immagine personale
+showmypic Immagine personale
+showuserpic Immagine di $1
 skinselector Seleziona Skin
 skin Skin
 smileconfig Configurazione delle emoticon personalizzate
@@ -434,6 +442,7 @@ willjoin Sto aspettando che $1 si unisca alla conversazione
 work Lavoro
 wrongfields I campi "$1", "$2" e/o "$3" non erano validi
 wrongprofileversion Risolvere il problema, per favore rimuovere la directory $1, o aggiornare aMSN
+xmmserr Non ci sono brani in ascolto o non possiedi xmms-infopipe.
 xoffset spostamento sull'asse delle X
 yes Sì
 yoffset Spostamento sull'asse delle Y
