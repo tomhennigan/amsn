@@ -59,7 +59,7 @@ Features:
     Mini How-To:
       You can add colour to your text by predefined colors (!FC followed by a number from 0 to 15 and closed by ) f.e. (!FC3)
       or by an rgb colour format (red,green,blue) f.e. (255,000,000) is red
-      You can notice that the 2nd way can be used by the button on the chat window (at right, just above the text input). If
+      You can notice that the 2nd way can be used by the button on the chat window (at left, above the text input). If
       you click, you'll see a colour chooser, when you're done, click ok and you'll see that some text has been added, don't
       remove this text or you won't see the color. That's all!
   Multi-formatted text in chat window:

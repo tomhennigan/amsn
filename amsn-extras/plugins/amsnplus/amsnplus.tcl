@@ -189,20 +189,38 @@ namespace eval ::amsnplus {
 	###############################################
 	# this adds a button to choose color for our
 	# multi-color text in the chatwindow
+	# now add buttons for multi-format text too
 	proc chat_color_button {event epvar} {
 		if { !$::amsnplus::config(allow_colours) } { return }
+		#get the event vars
 		upvar 2 bottom bottom
 		upvar 2 w w
-		button $bottom.buttons.multiple_colors -image [::skin::loadPixmap butfont] -relief flat -padx 3 \
+		#set the path to pixmaps
+		set amsnpluspath [::config::getKey "amsnpluspluginpath"]
+		#set the path to each pixmap
+		append pixmap1 $amsnpluspath "/pixmaps/multiple_colors.gif"
+		#append pixmap2 $amsnpluspath "/pixmaps/bold.gif"
+		#create the imgages
+		set img1 [image create photo -file $pixmap1 -format gif]
+		#set img2 [image create photo -file $pixmap2 -format gif]
+		#create the texts
+		set bold "(!FB)"
+		#create the widgeds
+		button $bottom.buttons.multiple_colors -image $img1 -relief flat -padx 3 \
 			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0 \
 			-highlightbackground [::skin::getColor buttonbarbg] \
 			-command "after 1 ::amsnplus::choose_color $w"
+		#button $bottom.buttons.bold -image $img2 -relief flat -padx 3 \
+		#	-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0 \
+		#	-command "after 1 $win.f.bottom.left.in.text insert end $bold"
+		#set the balloons
 		if {[string equal $::version "0.94"]} {
 			set_balloon $bottom.buttons.multiple_colors "Add a new color"
 		} else {
 			set_balloon $bottom.buttons.multiple_colors "[trans multiplecolorsbutton]"
 		}
-		pack $bottom.buttons.multiple_colors -side right
+		#pack the widgeds
+		pack $bottom.buttons.multiple_colors -side left
 	}
 
 	###############################################
@@ -441,6 +459,12 @@ namespace eval ::amsnplus {
 		set high [::amsnplus::hexToDigit [string index $number 0]]
 		set number [expr $high * 16]
 		set number [expr $number + $low]
+		if {[string length $number] == 1} {
+			set number "0$number"
+		}
+		if {[string length $number] == 2} {
+			set number "0$number"
+		}
 		return $number
 	}
 
