@@ -892,6 +892,7 @@ proc Preferences { { settings ""} } {
     Rnotebook:totalwidth $nb
 
     InitPref
+    UpdatePreferences
 
     wm geometry .cfg [expr [Rnotebook:totalwidth $nb] + 50]x595
 
@@ -906,7 +907,7 @@ proc Preferences { { settings ""} } {
 	privacy { Rnotebook:raise $nb 8 }
 	default { return }
     }
-
+    
     bind .cfg <Destroy> "RestorePreferences"
 
     #tkwait visibility .cfg
@@ -1336,6 +1337,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.60  2003/06/15 21:28:57  burgerman
+# pref
+#
 # Revision 1.59  2003/06/15 21:22:29  burgerman
 # dynamique entries in pref
 #
