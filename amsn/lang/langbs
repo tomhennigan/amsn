@@ -442,3 +442,134 @@ yoffset Y Offset
 youblocked Vi ste blokirani
 yousay Ti kazes
 youwant Ti zelis
+advanced Napredno
+advancedprefs Konfiguracija naprednih opcija
+alarms Alarmi
+allfiles Sve datoteke
+allprofilesinuse Svi postojeći profili se koriste
+animatenotify Animirani prozor za obavještenja
+autocheckver Automatski provjeri postojanjenove verzija prilikom pokretanja
+autodetectip Detektuj IP adresu automatski
+automessage AutoPoruka
+bouncedock Animiraj aMSN-ovu ikonicu u doku kad dođe poruka
+cachedpics $1 slika u cacheu
+cantremoveothers Ne mogu obrisati grupu "Others"
+cfgalarmall  Podesi/Dodaj/Obrisi globalni alarm
+change Promijeni
+changecustomstate Prebaci na
+changedisplaypic Promijeni sliku
+changeglobnick Promijeni globalni nadimak
+charscounter  Broj otkucanih znakova u chat prozoru 
+checkemail Prika mail notification line (inbox) in contact list
+ch_to_state Prebaci na novo stanje
+commandstatus Izvrši komandu
+confirmpurge  Sve snimljene slike drugih kontakata (NE VAŠE!) će biti obrisane. Da li ste sigurni?
+continuously Kontinuirano
+convertexplain Put do CONVERT izvršne datoteke, iz ImageMagick-a (potrebno za slike).\n Ostavite prazno ako je CONVERT dostupan s bilo kojeg mjesta (tj. u PATH varijabli)
+corruptconfig Konfiguracijska datoteka je pokvarena. Kreiram novu. Stara datoteka će biti snimljena pod imenom $1. Molim vas pošaljite je nama da vidimo šta se desilo.
+corruptstates Konfiguracija stanja(custom states) je pokvarena. Kreiram novu. Stara datoteka će biti snimljena pod imenom $1. Molim vas pošaljite je nama da vidimo šta se desilo.
+credits Zasluge
+currentdate Današnji datum
+custnotifymsg Prikaži napomenu kada dođe nova poruka
+custnotifyoffline Prikaži napomenu kad ovaj kontakt prekine vezu
+custnotifyonline Prikaži napomenu kad se ovaj kontakt spoji
+custnotifystatus Prikaži napomenu kad ovaj kontakt promijeni status
+customcolor Određena boja
+customnick Određeni nadimak
+defchatwinsize Uobičajena veličina za chat prozore (ŠIRINAxDUŽINA)
+deletecustomstate Obriši prilagođeno stanje
+delimiters Znakovi za odvajanje vremena:
+disabled Onemogućeno
+disableprofiles Onemogući profile (korisno za internet klubove)
+displaychat Prikaži opcije za tekst
+displayp4context Prikaži sadržaj P4-Context polja kao pošiljalac poruke
+displaypic Slika
+dontshow Ne prikazuj
+editcustomstate Promijeni prilagođeno stanje
+editvalue Promijeni vrijednost
+email E-pošta
+emailsinlist Prikazuj e-mail adrese umjesto nadimaka u kontakt listi
+enabled Omogućeno
+faileddelete Nisam uspio obrisati
+faileddeleteperso  Ova slika ne može biti obrisana jer datoteka ne pripada vašem ličnom profilu. Ovim putem mogu biti obrisane samo one slike koje pripadaju ličnom profilu. 
+failed Nije uspjelo
+file Datoteka
+friendlyname Prijateljsko ime
+fullcontactlist  Žao mi je, vaša lista je puna. Moraćete obrisati neke kontakte da dodate nove. 
+getdisppic Omogući primanje slika od drugih korisnika
+globalnick Upišite uzorak za nadimke vaših kontakata. Možete koristiti ove varijable: \$user_login za email adresu vašeg kontakta, \$nick za nadimak vašeg kontakta, \$customnick za nadimak koji ste vi dali kontaktu. Npr. '\$user_login je \$nick' će biti 'kontakt@msn.com je Kontakt''
+globalnicktitle Globalni nadimak
+globaloverride Globalni uzorak nadimka treba da preskoči nadimak koji ste vi dali
+hidedisplaypic Sakrij sliku
+ignoreerrors Ignoriši aMSN greške do kraja sesije
+imagefiles Datoteke sa slikama
+insertsmiley Ubaci smajlija
+installconvert Morate instalirati ImageMagick (program za konvertovanje) da bi ste mogli koristiti ikonice prijatelja, i ručne smajlije. Možete downloadovati program za vaš operativni sistem na stranici ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Ako već imate taj program, onda je ovo bug (greška), molim vas prijavite ga. Ove mogućnosti će biti onemogućene, ako kasnije instalirate ImageMagick onda ponovo omogućite ove opcije u postavkama. 
+invalidfile2 Datoteka $1 ne može biti napravljena, pogledajte imate li dozvole da to radite.
+invalidgroup Pogrešna grupa
+invalidpicsize Slika je prevelika, molim vas izaberite manju
+invalidpic Navedena datoteka sa slikom ne postoji
+invalidsound Navedena zvučna datoteka ne postoji
+ircstyle IRC stil chatanja
+justonce Samo jednom
+lastlogin Zadnje prijavljivanje
+lastlogout Zadnje odjavljivanje
+lastmsgedme Zadnja poruka
+leavejoinsinchat Prikaži napušta/priključuje se konverzaciji napomene unutar chat prozora
+lineflushlog Zapiši log datoteke poslije svake linije
+logsbydate  Sortiraj logove po datumu (Pogledaj historiju se učitava puno brže)
+longnick Vaš nadimak je duži od 130 znakova, ovo nije oficijelno podržano od strane MSN protokola. Da li ste sigurni da želite da ga postavite?
+longp4c Vaše prijateljsko ime je duže od 130 znakova. Ime koje će se pojaviti u oficijelnom MSN klijentu biće $1. Jeste li sigurni da želite da ga postavite ? 
+msnstyle MSN stil chatanja
+mypic Moja slika
+needwinico Trebam winico03.dll u plugins direKtoriju da bi tray dokiranju radilo u windowsu
+never Nikad
+newstate Dodaj stanje
+nick Nadimak
+nogroup Neodređena grupa
+nopic Nema slike
+noskins Ne mogu da pronađem uobičajeni skin in skins/ direktoriju. Ne mogu pokrenuti AMSN.
+notificationserver Inicijalni MSN Notification Server (MSN Messenger Server)
+notifytyping Šalji drugim korisnicima napomenu da kucaš
+notinlist Niste na njenoj/njegovoj kontakt listior you dont have
+others Ostali
+p4contextprefix Stavi ovaj string prije P4-Context pošiljalaca
+phones Telefonski brojevi
+picbrowser Pretraživač slika
+playing Puštam: $1
+prefft Transfer datoteka, peer-to-peer i NAT postavke
+purge Izbaci
+receiveddir Direktorij za primljene datoteke
+recentmsg Onemogući zatvaranje chat prozora ako je poruka došla
+rename Preimenuj
+savechatwinsize Snimi veličinu prozora
+serverbusy Server je zauzet
+serverunavailable Server je nedostupan ( nema signala ;) <- ŠALA ) 
+showbanner Prikaži aMSNovu zastavu
+showcachedpics Prikaži keširane slike
+showdisplaypic2 Prikaži sliku kad se otvori chat prozor
+showdisplaypic Prikaži sliku
+showmypic Moja slika
+shownotify Prikaži napomenu kad se neki događaji dese
+showuserpic Slika koja pripada nadimku: $1 
+soundactive Zvučno oglasi primanje poruke i u aktivnom prozoru
+soundfiles Zvučne datoteke
+splashstart Početak
+startontray Pokreni AMSN samo kao ikonicu pored sata
+statenick Nadimak (ostavite prazno ako ne želite promijeniti)
+storenickname Vrati u originalni nadimak poslije ručnog stanja sa drugim nadimkom
+strictfonts Prikaži sve veličine fontova onom veličinom koju sam ja izabrao 
+temp_state Don't save (Temporary state, will be missed when close AMSN)
+timestamps Prikaži vrijeme u chat prozorima
+tkerror TK je javio grešku, to je bug (greška) u amsnu, molim vas prijavite. Pošaljite datoteku $1 na amsn-bugs@lists.sf.net
+tlsexplain Direktorij gdje je tcl TLS modul lociran. Ako ga AMSN ne locira, molim vas navedite.\n(Potrebno za SSL autentikaciju).
+truncatenames1 Odsjeci nadimke duže nego dužina prozora u naslovima prozora i kontakt listi
+truncatenames2 Odsjeci nadimke duže nego prozor u konverzaciji
+truncatenicks Odsjeci nadimke duže nego prozor
+userdata Podaci o korisniku
+userproperties Korisničke postavke za $1
+viewcontactsby Pregledaj kontakte po
+webcaminvite $1 vas je pozvao na sesiju s kamerom, ali aMSN ne podržava ovu mogućnost :(
+xmmscurrent Prikaži trenutnu pjesmu
+xmmserr Ništa se ne pušta, ili nemate xmms-infopipe instaliran.
+xmmssend Pošalji trenutnu pjesmu
