@@ -2,14 +2,11 @@
 #=======================================================================
 
 if { $initialize_amsn == 1 } {
-	global user_info user_stat
 	global list_BLP list_cmdhnd sb_list contactlist_loaded
 	
 	set contactlist_loaded 0
 	
 	#To be deprecated and replaced with ::abook thing
-	set user_info ""
-	set user_stat "FLN"
 	set list_BLP -1
 	
 	#Clear all user infomation
@@ -864,7 +861,9 @@ namespace eval ::MSN {
 
 	 
 	proc logout {} {
-	
+		variable myStatus
+
+		
 		::MSN::WriteSBRaw ns "OUT\r\n";
 		
 		catch {close [sb get ns sock]} res
@@ -872,14 +871,11 @@ namespace eval ::MSN {
 		
 		CloseSB ns
 		
-		global config user_stat automessage
-		variable myStatus
+		global config automessage
 		
 		sb set ns serv [split $config(start_ns_server) ":"]
 		
 		set myStatus FLN
-		#TODO: Remove user_stat global variable
-		set user_stat FLN
 		status_log "Loging out\n"
 		
 		if {$config(enablebanner) && $config(adverts)} {
@@ -905,10 +901,10 @@ namespace eval ::MSN {
 
 	proc GotREAResponse { recv } {
 	
-		global user_info config
+		global  config
 	
 		if { [string tolower [lindex $recv 3]] == [string tolower $config(login)] } {
-			set user_info $recv
+			::abook::setPersonal nick [urldecode [lindex $recv 4]]
 			cmsn_draw_online 1
 		}
 	
@@ -953,7 +949,6 @@ namespace eval ::MSN {
 
   
 	proc changeStatus {new_status} {
-		variable myStatus
 		global autostatuschange config clientid
 	
 		if { $config(displaypic) != "" } {
@@ -961,7 +956,6 @@ namespace eval ::MSN {
 		} else {
 			::MSN::WriteSB ns "CHG" "$new_status 0"
 		}
-		set myStatus $new_status
 	
 		#Reset automatic status change to 0
 		set autostatuschange 0
@@ -972,6 +966,11 @@ namespace eval ::MSN {
 	proc myStatusIs {} {
 		variable myStatus
 		return $myStatus
+	}
+	
+	proc setMyStatus { status } {
+		variable myStatus
+		set myStatus $status
 	}
 
 	proc userIsBlocked {userlogin} {
@@ -1680,7 +1679,7 @@ namespace eval ::MSN {
 	# correctly, the procedure ::amsn::ackMessage will be called with the given 'ackid'
 	# parameter.
 	proc SendChatMsg { chatid txt ackid } {
-		global config user_info msgacks
+		global config msgacks
 
 		set sbn [SBFor $chatid]
 
@@ -3178,10 +3177,9 @@ proc cmsn_ns_handler {item} {
 				return 0
 			}
 			CHG {
-				global user_stat
-				if { $user_stat != [lindex $item 2] } {
-					set user_stat [lindex $item 2]
-
+				if { [::MSN::myStatusIs] != [lindex $item 2] } {
+					::abook::setVolatileData myself msnobj [lindex $item 4]
+					::MSN::setMyStatus [lindex $item 2]
 					cmsn_draw_online 1
 
 				#Alert dock of status change
@@ -3541,16 +3539,17 @@ proc cmsn_auth {{recv ""}} {
 				return 1
 			}
 
-			global user_info
-			set user_info $recv
 			sb set ns stat "o"
 
 			save_config						;# CONFIG
 			::config::saveGlobal
+			
 			if { [::abook::loadFromDisk] < 0 } {
 				::abook::clearData
 				::abook::setConsistent
 			}
+			
+
 			::abook::setPersonal nick [urldecode [lindex $recv 4]]	
 			::abook::setPersonal login [lindex $recv 3]
 			recreate_contact_lists
@@ -3614,7 +3613,7 @@ proc recreate_contact_lists {} {
 
 proc initial_syn_handler {recv} {
 
-	global HOME user_info
+	global HOME
 
 	# Switch to our cached nickname if the server's one is different that ours
 	if { [file exists [file join ${HOME} "nick.cache"]] && [::config::getKey storename] } {
@@ -3627,12 +3626,10 @@ proc initial_syn_handler {recv} {
 		gets $nickcache custom_nick
 		gets $nickcache stored_login
 
-		status_log "$storednick\n$custom_nick - [lindex $user_info 4]\n$stored_login - [lindex $user_info 3]\n"
-
 		close $nickcache
 
-		if { ($custom_nick == [urldecode [lindex $user_info 4]]) && ($stored_login == [lindex $user_info 3]) && ($storednick != "") } {
-			::MSN::changeName [lindex $user_info 3] $storednick 0
+		if { ($custom_nick == [::abook::GetPersonal nick]) && ($stored_login == [::abook::getPersonal login]) && ($storednick != "") } {
+			::MSN::changeName [::abook::getPersonal login] $storednick 0
 		}
 
 		catch { file delete [file join ${HOME} "nick.cache"] }

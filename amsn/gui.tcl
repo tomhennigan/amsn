@@ -1250,7 +1250,6 @@ namespace eval ::amsn {
 
 		foreach user_login $user_list {
 
-			#set user_name [lindex $user_info 1]
 			set user_name [string map {"\n" " "} [::abook::getNick $user_login]]
 			set state_code [::abook::getVolatileData $user_login state]
 			
@@ -2392,7 +2391,7 @@ namespace eval ::amsn {
 	# a timeout for the message
 	proc MessageSend { win_name input {custom_msg ""}} {
 
-		global user_info config
+		global config
 
 		set chatid [ChatFor $win_name]
 
@@ -2435,7 +2434,7 @@ namespace eval ::amsn {
 			set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
 
 			#Draw our own message
-			messageFrom $chatid [lindex $user_info 3] "$msg" user [list $fontfamily $fontstyle $fontcolor]      	
+			messageFrom $chatid [::abook::getPersonal login] "$msg" user [list $fontfamily $fontstyle $fontcolor]      	
 
 			::MSN::messageTo $chatid "$msgchunk" $ackid
 		} else {
@@ -2443,7 +2442,7 @@ namespace eval ::amsn {
 			#::MSN::chatQueue $chatid [list ::MSN::messageTo $chatid "$msg" $ackid]
 
 			#Draw our own message
-			messageFrom $chatid [lindex $user_info 3] "$msg" user [list $fontfamily $fontstyle $fontcolor]      	
+			messageFrom $chatid [::abook::getPersonal login] "$msg" user [list $fontfamily $fontstyle $fontcolor]      	
 
 			::MSN::messageTo $chatid "$msg" $ackid
 		}
@@ -4427,16 +4426,16 @@ proc cmsn_draw_online { {delay 0} } {
 
 proc cmsn_draw_online_wrapped {} {
 
-	global emotions user_stat login user_info \
+	global emotions login \
 	config password pgBuddy bgcolor automessage emailBList tcl_platform
 
 	set scrollidx [$pgBuddy.ys get]
 
-	set my_name [urldecode [lindex $user_info 4]]
-	set my_state_no [::MSN::stateToNumber $user_stat]
-	set my_state_desc [trans [::MSN::stateToDescription $user_stat]]
-	set my_colour [::MSN::stateToColor $user_stat]
-	set my_image_type [::MSN::stateToBigImage $user_stat]
+	set my_name [::abook::getPersonal nick]
+	set my_state_no [::MSN::stateToNumber [::MSN::myStatusIs]]
+	set my_state_desc [trans [::MSN::stateToDescription [::MSN::myStatusIs]]]
+	set my_colour [::MSN::stateToColor [::MSN::myStatusIs]]
+	set my_image_type [::MSN::stateToBigImage [::MSN::myStatusIs]]
 
 	#Clear every tag to avoid memory leaks:
 	foreach tag [$pgBuddy.text tag names] {
@@ -5368,7 +5367,7 @@ proc newcontact {new_login new_name} {
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_change_name {} {
-	global user_info tcl_platform
+	global tcl_platform
 
 	if {[winfo exists .change_name]} {
 		raise .change_name
@@ -5405,7 +5404,7 @@ proc cmsn_change_name {} {
 	bind .change_name.fn.name <Return> "change_name_ok"
 	bind .change_name.fn.smiley  <Button1-ButtonRelease> "smile_menu %X %Y .change_name.fn.name"
 
-	.change_name.fn.name insert 0 [urldecode [lindex $user_info 4]]
+	.change_name.fn.name insert 0 [::abook::getPersonal nick]
 
 	tkwait visibility .change_name
 	catch {

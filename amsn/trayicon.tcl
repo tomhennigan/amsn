@@ -151,7 +151,7 @@ proc trayicon_init {} {
 }
 
 proc statusicon_proc {status} {
-	global systemtray_exist config statusicon user_info list_states user_stat iconmenu wintrayicon tcl_platform
+	global systemtray_exist config statusicon list_states iconmenu wintrayicon tcl_platform
 	set cmdline ""
 
 	if { $config(dock) != 4 } {
@@ -165,7 +165,7 @@ proc statusicon_proc {status} {
 		}
 	}
 
-	set my_name [urldecode [lindex $user_info 4]]
+	set my_name [::abook::getPersonal nick]
    	
 	if { $systemtray_exist == 1 && $statusicon != 0 && $status == "REMOVE" } {
 		if {$tcl_platform(platform) == "windows"} {
@@ -372,12 +372,11 @@ proc remove_icon {icon} {
 }
 
 proc restart_tray { } {
-    global user_stat
 
     puts "RESTARTING the traydock"
 
     statusicon_proc "REMOVE"
-    statusicon_proc "$user_stat"
+    statusicon_proc [::MSN::myStatusIs]
     
 }
 		

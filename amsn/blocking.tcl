@@ -110,7 +110,7 @@ proc user_not_blocked { email } {
 # BeginVerifyBlocked { interval }
 # Starts the VerifyBlocked script every "interval" secondes
 proc BeginVerifyBlocked { {interval 60} {interval2 300} {nbre_users 2} {interval3 5}} {
-    global VerifyEnd user_stat stop_VerifyBlocked
+    global VerifyEnd stop_VerifyBlocked
 
     if { [info exists stop_VerifyBlocked] && $stop_VerifyBlocked == 0 } { return }
 
@@ -125,7 +125,7 @@ proc BeginVerifyBlocked { {interval 60} {interval2 300} {nbre_users 2} {interval
 	    break
 	}
 
-	if { "$user_stat" == "NLN" } {
+	if { [::MSN::myStatusIs] == "NLN" } {
 	    after [expr {$interval * 1000}] "VerifyBlocked $nbre_users $interval3"
 	} else {
 	    after [expr {$interval2 * 1000}] "VerifyBlocked $nbre_users $interval3"
@@ -156,11 +156,11 @@ proc StopVerifyBlocked { } {
 # VerifyBlocked { }
 # tests every offline user in your contact list
 proc VerifyBlocked { nbre_users interval } { 
-    global sbn_blocking blocking_ready sb_list user_stat stop_VerifyBlocked
+    global sbn_blocking blocking_ready sb_list stop_VerifyBlocked
 
     if { $stop_VerifyBlocked == 1 } {return}
 
-    if { "$user_stat" == "FLN" } {return}
+    if { [::MSN::myStatusIs] == "FLN" } {return}
 
     if { [info exists sbn_blocking] == 0  || [sb get $sbn_blocking stat] == "d" || [sb get $sbn_blocking stat] == "" } {
 	set sbn_blocking [::MSN::GetNewSB]

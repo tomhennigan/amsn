@@ -94,7 +94,7 @@ proc close_dock {} {
 
 
 proc accept_dock { sock addr cport } {
-	global docksock user_stat srvSock
+	global docksock srvSock
 	if { $addr == "127.0.0.1" } {
 		set docksock $sock
 		
@@ -106,7 +106,7 @@ proc accept_dock { sock addr cport } {
 
 		set reply [gets $docksock]
 		if { $reply == "SESSION_HAND" } {
-			puts $docksock $user_stat
+			puts $docksock [::MSN::myStatusIs]
 			fileevent $docksock readable [list dock_handler $docksock]
 		} else {
 			puts stdout "Error During HandShake! Closing!"
@@ -144,8 +144,7 @@ proc init_dock {} {
 					msg_box "[trans nosystemtray]"
 				}
 			}
-			global user_stat
-			statusicon_proc $user_stat
+			statusicon_proc [::MSN::myStatusIs]
 		} elseif { $config(dock) == 4} {
 			trayicon_init
 		}

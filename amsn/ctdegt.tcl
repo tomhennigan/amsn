@@ -1065,7 +1065,7 @@ proc check_int {text} {
 
 # This is where we fill in the Entries of the Preferences
 proc InitPref {} {
-	global user_stat user_info config Preftabs proxy_user proxy_pass
+	global config Preftabs proxy_user proxy_pass
 	set nb .cfg.notebook.nn
 
         set proxy_user $config(proxyuser)
@@ -1073,17 +1073,17 @@ proc InitPref {} {
 
 	# Insert nickname if online, disable if offline
 	set lfname [Rnotebook:frame $nb $Preftabs(personal)]
-	if { $user_stat == "FLN" } {
+	if { [::MSN::myStatusIs] == "FLN" } {
 		$lfname.lfname.f.f.1.name configure -state disabled
 	} else {
 		$lfname.lfname.f.f.1.name configure -state normal
 		$lfname.lfname.f.f.1.name delete 0 end
-		$lfname.lfname.f.f.1.name insert 0 [urldecode [lindex $user_info 4]]
+		$lfname.lfname.f.f.1.name insert 0 [::abook::getPersonal nick]
 	}
 
 	# Get My Phone numbers and insert them
 	set lfname "$lfname.lfname4.f.f"
-	if { $user_stat == "FLN" } {
+	if { [::MSN::myStatusIs] == "FLN" } {
 		$lfname.2.ephone1 configure -state disabled
 		$lfname.2.ephone31 configure -state disabled
 		$lfname.2.ephone32 configure -state disabled
@@ -1295,7 +1295,7 @@ proc setCfgFonts {path value} {
 
 
 proc SavePreferences {} {
-    global config myconfig proxy_server proxy_port user_info user_stat list_BLP temp_BLP Preftabs libtls libtls_temp proxy_user proxy_pass
+    global config myconfig proxy_server proxy_port list_BLP temp_BLP Preftabs libtls libtls_temp proxy_user proxy_pass
 
     set nb .cfg.notebook.nn
 
@@ -1353,7 +1353,7 @@ proc SavePreferences {} {
     }
 
     # Check and save phone numbers
-    if { $user_stat != "FLN" } {
+    if { [::MSN::myStatusIs] != "FLN" } {
 	    set lfname [Rnotebook:frame $nb $Preftabs(personal)]
 	    set lfname "$lfname.lfname4.f.f"
 
@@ -1396,7 +1396,7 @@ proc SavePreferences {} {
     set lfname [Rnotebook:frame $nb $Preftabs(personal)]
     set lfname "$lfname.lfname.f.f.1"
     set new_name [$lfname.name get]
-    if {$new_name != "" && $new_name != [urldecode [lindex $user_info 4]] && $user_stat != "FLN"} {
+    if {$new_name != "" && $new_name != [::abook::getPersonal nick] && [::MSN::myStatusIs] != "FLN"} {
 	::MSN::changeName $config(login) $new_name 0
     }
 
@@ -1466,14 +1466,14 @@ proc SavePreferences {} {
 	::MSN::contactListChanged
 	 ::config::saveGlobal
 
-    if { $user_stat != "FLN" } {
+    if { [::MSN::myStatusIs] != "FLN" } {
        cmsn_draw_online
     }
 
 }
 
 proc RestorePreferences {} {
-	global config myconfig proxy_server proxy_port user_info user_stat
+	global config myconfig proxy_server proxy_port
 
 	set nb .cfg.notebook.nn
 

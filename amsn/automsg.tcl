@@ -219,17 +219,17 @@ proc CreateStatesMenu { path } {
 # idx indicates the index of the personal state in the StateList, 
 # otherwise it indicates a normal state change (AWY, BSY, etc)
 proc ChCustomState { idx } {
-	global HOME automessage user_info config automsgsent user_stat original_nick
+	global HOME automessage config automsgsent original_nick
 	set automessage "-1"
 	set redraw 0
 	if { [string is digit $idx] == 1 } {
 		if { [lindex [StateList get $idx] 2] != "" } {
 			if {![info exists original_nick] && $config(storename)} {
-				set original_nick [urldecode [lindex $user_info 4]]
+				set original_nick [::abook::getPersonal nick]
 			}
 			#set new_state [lindex [lindex $list_states [lindex [StateList get $idx] 2]] 0]
 			set new_state [::MSN::numberToState [lindex [StateList get $idx] 2]]
-			if { $new_state == $user_stat } {
+			if { $new_state == [::MSN::myStatusIs] } {
 				set redraw 1
 			}
 			set automessage [StateList get $idx]
@@ -240,7 +240,7 @@ proc ChCustomState { idx } {
 						fconfigure $nickcache -encoding utf-8
 						puts $nickcache $original_nick
 						puts $nickcache $newname
-						puts $nickcache [lindex $user_info 3]
+						puts $nickcache [::abook::getPersonal login]
 						close $nickcache
 					}
 				::MSN::changeName $config(login) $newname 0
@@ -250,7 +250,7 @@ proc ChCustomState { idx } {
 		}
 	} else {
 		set automessage "-1"
-		if { $idx == $user_stat} {
+		if { $idx == [::MSN::myStatusIs]} {
 			set redraw 1
 		}
 		if {[info exists original_nick] && $config(storename)} {
@@ -276,7 +276,7 @@ proc ChCustomState { idx } {
 # mode is 1 for adding a temporary state
 # mode is 2 for editing an old state, need to give idx of state to edit
 proc EditNewState { mode { idx "" } } {
-	global stemp chstate user_info
+	global stemp chstate
 	if { $mode == 2 } {
 		if { $idx != "" } {
 			if { [StateList get $idx] == 0 } {
@@ -381,7 +381,7 @@ proc EditNewState { mode { idx "" } } {
 		$lfname.statebox select [lindex [StateList get $idx] 2]
 		$lfname.emsg insert end [lindex [StateList get $idx] 4]
 	} else {
-		$lfname.enick insert end [urldecode [lindex $user_info 4]]
+		$lfname.enick insert end [::abook::getPersonal nick]
 	}
 	button .editstate.buttons.save -text [trans save] -font sboldf -command "ButtonSaveState $lfname $idx; destroy .editstate"
 	pack .editstate.buttons.save .editstate.buttons.cancel -side left -padx 10 -pady 5
@@ -482,7 +482,6 @@ proc DeleteStateListBox  { { idx "" } path} {
 # Adds a new state to the states list
 
 proc new_state {cstack cdata saved_data cattr saved_attr args} {
-	global user_info
 	upvar $saved_data sdata
 
 	if { ! [info exists sdata(${cstack}:name)] } { return 0 }	

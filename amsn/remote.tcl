@@ -73,9 +73,8 @@ namespace eval ::remote {
     }
 
     proc getstate { } {
-	global user_stat
 
-	set my_state [::MSN::stateToDescription "$user_stat *"]
+	set my_state [::MSN::stateToDescription [::MSN::myStatusIs]]
 
 	write_remote "Your state is currently on : $my_state"
 
