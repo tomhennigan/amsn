@@ -210,14 +210,14 @@ namespace eval ::plugins {
 	 set selection(desc) $plugins(${selection(id)}_desc)
 
 	 if {[lsearch "$loadedplugins" $selection(name)] != -1 } {
-	     $w.command.load configure -state active -text "Unload" -command "::plugins::GUI_Unload"
+	     $w.command.load configure -state normal -text "Unload" -command "::plugins::GUI_Unload"
 	     if {[info exists ::${selection(name)}::configlist] == 1} {
-		 $w.command.config configure -state active
+		 $w.command.config configure -state normal
 	     } else {
 		 $w.command.config configure -state disabled
 	     }
 	 } else {
-	     $w.command.load configure -state active -text "Load" -command "::plugins::GUI_Load"
+	     $w.command.load configure -state normal -text "Load" -command "::plugins::GUI_Load"
 	     $w.command.config configure -state disabled
 	 }
      }
