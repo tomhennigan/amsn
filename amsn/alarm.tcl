@@ -226,6 +226,7 @@ proc save_alarm_pref { user } {
    cmsn_draw_online
 
    unset my_alarms
+   save_alarms
 }
 
 #Runs the alarm (sound and pic)
