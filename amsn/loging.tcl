@@ -485,12 +485,16 @@ proc ParseToFile { logvar filepath } {
 # email : email of log to delete
 
 proc ClearLog { email } {
+	set parent "."
+	catch {set parent [focus]}
+	set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans block] -parent $parent]
+	if {$answer == "yes"} {	
+		global log_dir
 	
-	global log_dir
-	
-	catch { file delete [file join ${log_dir} ${email}.log] }
+		catch { file delete [file join ${log_dir} ${email}.log] }
 
-	OpenLogWin $email
+		OpenLogWin $email
+	}
 }
 
 
@@ -501,10 +505,16 @@ proc ClearLog { email } {
 
 proc ClearAllLogs {} {
 	
-	global log_dir
+	set parent "."
+	catch {set parent [focus]}
+	set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans block] -parent $parent]
+	if {$answer == "yes"} {
 
-	catch { file delete -force ${log_dir} }
-	create_dir $log_dir
+		global log_dir
+
+		catch { file delete -force ${log_dir} }
+		create_dir $log_dir
+	}
 
 }
 
