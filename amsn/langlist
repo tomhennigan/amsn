@@ -59,7 +59,7 @@
 		<langcode>de</langcode>
 		<name>Deutsch</name>
 		<version>1.51</version>
-		<encoding>utf-8</encoding>
+		<encoding>iso8859-15</encoding>
 	</lang>
 	<lang>
 		<langcode>ee</langcode>
