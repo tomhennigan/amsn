@@ -13,6 +13,7 @@ addtocontacts Adicionar à lista de contactos
 addtoo Adicionar esta pessoa à minha lista de contactos
 admincontacts Administrar contactos
 admingroups Grupo de acesso
+advanced Avançadas
 adverts Avisos
 alarmonconnect Activa o Alarme quando um user se liga
 alarmondisconnect Activa o Alarme quando um user se desliga
@@ -122,6 +123,7 @@ dcprofile Não criar perfil
 default Configuração de Origem
 defaultloginradio Login com a configuração normal
 delete Eliminar
+delimiters Delimitadores de hora:
 deliverfail Erro ao entregar a seguinte mensagem
 delprofile2 Seleccione o perfil a remover
 delprofile Apagar perfil
@@ -129,6 +131,7 @@ description Descrição
 directconnection Direct connection para internet (usar porta 1863)
 disablessl Desactivar SSL
 disconnect $1 Disconectou-se.
+displaychat Mostrar opçôes de texto
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Atracar Gnome
 docking Atracando
@@ -300,6 +303,7 @@ options Opções
 ordercontactsby Ordenar contactos por
 ordergroupsby Ordenar groupos por
 other Outro
+others Outras
 pager Pager
 pass Senha
 paste Colar
@@ -379,8 +383,10 @@ sendfile Enviar ficheiro
 sendmail Enviar correio
 sendmsg Enviar mensagem
 sentbytes Enviando $1 de $2 Bytes
+serverbusy Servidor Ocupado
 servergoingdown A desligar servidor
 server Servidor
+serverunavailable O Servidor não está disponivel
 session Sessão
 showblockedlist Mostra lista de utilizadores que o bloqueram
 showdisplaypic2 Mostrar imagem sempre que uma janela de conversa for aberta
@@ -421,6 +427,7 @@ syntaxerror Erro de Sintaxe
 tabbed Janelas com separadores
 textsize Tamanho de texto
 timeremaining Tempo que falta
+timestamps Mostrar horas com a conversa
 title Al's Messenger
 tlsdowncompleted Foi feito o download de $1 para o directorio $2. É necessario fazer o 'extract' e 'build' do ficheiro (caso tenha feito o download do codigo fonte) e instalar o ficheiro dentro do directorio $3
 tlsinstall Assistente de instalação do modulo TLS
@@ -432,6 +439,7 @@ to Para
 transnotexists O ficheiro pretendido ainda não foi traduzido para o presente idioma
 traynotcompiled Plugin do icon da bandeja não está em conformidade. Verifique plugins/traydoc
 triggers dicas
+truncatenicks Encurtar as alcunhas maiores que a largura da janela
 twonewmail $1 novas mensagens na caixa de correio
 unblock Desbloquear
 uoffline Desligados
@@ -456,9 +464,3 @@ yoffset espaço Y
 youblocked Você foi bloqueado
 yousay Você diz
 youwant Queres
-timestamps Mostrar horas com a conversa
-others Outras
-advanced Avançadas
-delimiters Delimitadores de hora:
-displaychat Mostrar opçôes de texto
-truncatenicks Encurtar as alcunhas maiores que a largura da janela

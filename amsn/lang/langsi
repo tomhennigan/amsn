@@ -13,6 +13,7 @@ addto Dodaj na $1
 addtoo Dodaj to osebo na moj seznam stikov
 admincontacts Uredi stike
 admingroups Uredi skupine
+advanced Dodatno
 adverts Reklame
 alarmonconnect Vklopi alarm, ko se stik prijavi
 alarmondisconnect Vklopi alarm, ko se stik odjavi
@@ -123,6 +124,7 @@ dcprofile Ne ustvari profila
 defaultloginradio Prijavi se s privzetimi nastavitvami
 default Privzete nastavitve
 delete Izbrisi
+delimiters Krajisci prikaza casa
 deliverfail Pri dostavljanju sporocila je prislo do tezave
 delprofile2 Izberi profil, ki bi ga rad izbrisal
 delprofile Izbrisi profil
@@ -130,6 +132,7 @@ description Opis
 directconnection Neposredna povezava (vrata 1863)
 disablessl Onemogoci SSL
 disconnect $1 se je odjavil/a.
+displaychat Prikazi nastavitve besedila
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk gtk pomol
 dockingoff Pristaja prekinjena
@@ -302,6 +305,7 @@ options Nastavitve
 ordercontactsby Uredi stike
 ordergroupsby Uredi skupine
 other Ostalo
+others Ostalo
 pager Pager
 pass Geslo
 paste Prilepi
@@ -381,8 +385,10 @@ sendmail Poslji e-mail
 sendmsg Poslji sporocilo
 send Poslji
 sentbytes Poslano $1 od $2 bajtov
+serverbusy Streznik je zaseden
 servergoingdown Povezava prekinjena
 server Streznik
+serverunavailable Streznik ni dosegljiv
 session Seja
 showblockedlist Pokazi seznam ljudi, ki so te blokirali
 showdisplaypic2 Prikazi osebno sliko, ko se odpre pogovor
@@ -424,6 +430,7 @@ syntaxerror  Napaka v sintaksi
 tabbed Okna z "uhlji"
 textsize Velikost besedila
 timeremaining Cas do konca prenosa
+timestamps Omogoci prikaz casa v pogovorih
 title Al's Messenger
 tlsdowncompleted Datoteka $1 se je prenesla v imenik $2. Moras jo izvleci, prevesti (ce si pobral izvorno kodo) in namestiti v $3.
 tlsinstall Carovnik za namestitev modula TLS
@@ -435,6 +442,7 @@ to Za
 transnotexists Zahtevana datoteka se ni bila prevedena v slovenscino.
 traynotcompiled Plugin za tray ikono ni preveden. Preveri plugins/traydock.
 triggers Smeska sprozijo
+truncatenicks Skrajsaj nicke, ki ne stojijo v oknu
 twonewmail $1 novi sporocili v Inboxu
 unblock Odblokiraj
 uoffline Neprijavljeni
