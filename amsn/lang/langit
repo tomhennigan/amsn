@@ -4,8 +4,8 @@ accept Accetta
 acceptfile Accetto il file $1, dimensioni $2? Salvato in $3
 actions Azioni
 activeautoupdate Aggiornamento automatico
-add Aggiungi
 addacontact Aggiungi un contatto
+add Aggiungi
 addedyou $1 ($2) ti ha aggiunto alla sua lista dei contatti
 addprofile Aggiungi un nuovo profilo
 addprofiledesc Inserisci il login per il quale vorresti creare un nuovo profilo. \nI login con un profilo ti permettono di avere differenti configurazioni per ogni login.\n Senza profili non puoi usare l'History, gli Allarmi o ricordare le password.
@@ -27,6 +27,7 @@ alarmpref Impostazioni dell'allarme dell'utente
 alarms Allarmi
 alarmstatus (Dis)Abilita l'allarme per questo utente
 allfiles Tutti i files
+allmonths Tutti i mesi
 allowallbutbl Permetti a tutti gli utenti tranne quelli nella lista dei bloccati di contattarmi
 allowbadwords Disabilita la censura sui nicknames
 allowlist Permetti la lista:
@@ -46,8 +47,8 @@ autoaccepted Traferimento file accettato automaticamente
 autoacceptft Accetta automaticamente le richieste di trasferimento file
 autoaway Mostrami come "Assente" quando sono inattivo per
 autocheckver Controlla automaticamente all'avvio se ci sono nuove versioni
-autoconnect Connetti immediatamente all'esecuzione di aMSN
 autoconnect2 Accedi automaticamente quando aMSN viene lanciato
+autoconnect Connetti immediatamente all'esecuzione di aMSN
 autodetectip Ottieni indirizzo IP automaticamente
 autohotmaillog Auto-login Hotmail
 autoidle Nessuna attività automatica
@@ -59,9 +60,9 @@ avcanceled Chiamata di videoconferenza annullata
 avgotinvitation Ricevuto invito a videoconferenza da $1
 avinitfailed Inizializzazione del plugin audio/video fallita. Chiamata annullata
 avoidseen Impedisci a questa persona di vedermi e di contattarmi quando sono connesso
-away Non al computer
 awaymsg1 Chiedi di impostare un messaggio di "assente" ogni volta che cambio il mio stato in Assente/Torno Subito/Occupato
 awaymsg2 Non chiedere mai e usa sempre il messaggio di assente qui sotto
+away Non al computer
 baduserpass Username o password sbagliate
 bgcolor Cambia il colore di sfondo di aMSN
 blankdirect Lascia vuoto per connessioni dirette
@@ -88,8 +89,8 @@ cannotdeleteprofile Non posso concellare il profilo perché sembra essere usato d
 cantexec Non posso eseguire l'applicazione: $1. Controlla nelle preferenze
 cantremoveothers Non posso rimuovere il gruppo "Altri"
 casesensitive Usa comandi discriminanti tra maiuscole e minuscole
-cfgalarm Configura/Aggiungi/Rimuovi l'allarme
 cfgalarmall Configura/Aggiungi/Rimuovi l'allarme globale
+cfgalarm Configura/Aggiungi/Rimuovi l'allarme
 change Cambia
 changecustomstate Passa a
 changedisplaypic Cambia l'immagine personale
@@ -99,17 +100,18 @@ changenick Cambia nick
 changesize Cambia dimensione
 changestate $1 cambia stato in $2
 charscounter  Contatore dei caratteri digitati nella finestra di chat
-chat Inizia la conversazione
 chatack Sto accentando una chiamata da
+chat Inizia la conversazione
 chatmaxmin Quando un contatto apre una chat visualizzala in modo:
 chatreq Sto chiamando
-chatsmileys Faccine per la chat
 chatsmileys2 Mostra le Emoticon e le Faccine nella finestra della chat
+chatsmileys Faccine per la chat
 checkblocking Controlla continuamente se gli utenti ti stanno bloccando
 checkemail Visualizza riga notifica mail(posta in arrivo) nella lista dei contatti
 checkfilman I files ricevuti saranno salvati in $1. Per favore controlla le impostazioni del file manager nella finestra delle preferenze.
 checkingver Sto verificando una nuova versione
 checkonfln Controlla se un utente ti blocca quando va fuori linea.
+checkopenfilecommand Per piacere controlla il comando apri file nella finestra preferenze
 checkver Controlla l'esistenza di nuove versioni
 choosearq Scegli l'architettura del tuo sistema
 choosebasefont Seleziona il font
@@ -119,20 +121,20 @@ choosefontcolor Scegliere il colore del font
 chooseskin Scegli la Skin che preferisci usare
 ch_to_state Passa a nuovo stato
 clear Cancella
-clearlog Cancella i Log
 clearlog2 Cancella il diario per tutti i tuoi contatti
 clearlog3 Cancella tutti i Log
+clearlog Cancella i Log
 clicktoadd Clicca su Aggiungi per una nuova nota
 clicktologin Clicca qui per accedere
 clientcaps Invia pacchetto "x-clientcaps" a clients altrui
 clientname Nome client
+closeall Chiudi tutte le schede nella finestra?
 close Chiudi
 closed La conversazione con $1 è chiusa per inattività.
 closingdocks Pulsante chiudi riduce a icona
 command Comando
 commandstatus Esegui comando
 configure Configura
-confirm Sei sicuro?
 confirmbl Sei sicuro di voler bloccare questo contatto?
 confirmdelete Sei sicuro di voler cancellare $1?
 confirmdg Sei sicuro di voler cancellare questo gruppo?
@@ -140,14 +142,15 @@ confirmdu Sei sicuro di voler cancellare questo utente?
 confirmeg Sei sicuro di voler svuotare questo gruppo?
 confirmpurge Tutte le immagini salvate dei contatti eccetto le proprie saranno rimosse. Continuare?
 confirmrfl Sei sicuro di voler rimuovere quest'utente da questo gruppo?
+confirm Sei sicuro?
 connected Adesso sei connesso
 connectedwith Connesso con $1
 connecterror Errore durante la connessione al server
 connecting Errore connettendosi con il server
 connection Connessione
 connectionlost Disconnesso: Connessione con il server chiusa
-contact Contatto
 contactadded Contatto aggiunto
+contact Contatto
 contactdoesnotexist Il contatto non esiste
 contactlist Lista dei contatti:
 continuously Continuamente
@@ -182,13 +185,15 @@ dcprofile Non creare un profilo
 default Configurazione di default
 defaultloginradio Entra con la configurazione di default
 defchatwinsize Dimensione predefinita delle finestre di chat (XSIZExYSIZE)
+deleteall Cancella tutto
 delete Cancella
 deletecustomstate Elimina Stato personale
 delimiters Delimitatori del campo Ora:
 deliverfail Si è verificato un problema nell'inoltro del seguente messaggio
-delprofile Cancella il profilo
 delprofile2 Seleziona il profilo che vorresti rimuovere
+delprofile Cancella il profilo
 description Descrizione
+detach Stacca
 directconnection Ho una connessione diretta ad internet (uso la porta 1863)
 disabled Disattivato
 disableprofiles Disattiva i profili (utile per Net-cafè o ambienti condivisi)
@@ -210,10 +215,10 @@ dockingoff Disabilita dock
 dockkde Dock KDE
 dontdownload Non scaricare TLS, verrà installato automaticamente
 dontshow Non mostrare
-download Scarica
 downloadingtls Scaricamento del modulo TLS in corso da:\n $1
-edit Modifica
+download Scarica
 editcustomstate Modifica Stato personale
+edit Modifica
 editnewstate Nuove impostazioni personali di auto-risposta
 editprofile Modifica il Profilo
 editstate Modifica delle impostazioni di auto-risposta esistenti
@@ -226,8 +231,8 @@ enabled Attivato
 enableproxy Proxy abilitato
 enableremote Abilita il controllo a distanza
 enablesound Emetti un suono
-encoding Seleziona la codifica
 encoding2 Cambia il modo in cui sono codificati i caratteri
+encoding Seleziona la codifica
 entercontactemail Inserisci un contatto per e-mail
 enterfilename Inserisci un nome di file
 enternick Inserisci il tuo nick
@@ -236,26 +241,26 @@ eventhistory Visualizza cronologia Eventi
 examples Esempi
 exitamsn Sei sicuro di voler uscire ?
 extras Servizi extra
-failed Non riuscito
 faileddelete Eliminazione non riuscita
 faileddeleteperso Questo file non può essere rimosso perchè non è un'immagine personale. Solo le immagini appartenenti al proprio profilo possono essere rimosse in questo modo.
+failed Non riuscito
 faq FAQ (Risposte alle domande più frequenti)
 file Archivio
 filedoesnotexist Il file non esiste
-fileman File Manager
 filemanexample ( \$location sarà rimpiazzato dalla cartella ) Es: nautilus \$location
+fileman File Manager
 filename Filename
 filenotwritable Questo file non puo esser cancellato
-filetransfer Trasferimento file
 filetransfercancelled Trasferimento file cancellato
 filetransfercomplete Trasferimento del file completo
+filetransfer Trasferimento file
 filters Filtri
 filtersselect Seleziona i filtri che vuoi visualizzare\n(Nessuna selezione significa mostra tutti)
 filtersx Selezione filtri
 followtext Segui il nuovo testo quando viene inserito
 friendlyname Nome comune
-ftaccepted Trasferimento del file accettato
 ftacceptedby $1 ha accettato l'invito a trasferire il file '$2'.
+ftaccepted Trasferimento del file accettato
 ftaccepting In attesa di accettare l'invito al trasferimento file
 ftautoclose Chiudi la finestra quando finisce il trasferimento
 ftconnecterror Errore connettendosi all'utente remoto
@@ -263,8 +268,8 @@ ftconnecting Connessione a $1 porta $2
 ftconnectionlost La connessione con l'utente remoto e caduta.
 ftgotinvitation $1 vuole mandarti il file '$2' ($3 bytes). Sarà salvato nella directory $4. Vuoi ricevere questo file?
 ftportpref Porta iniziale per il trasferimento file
-ftrejected Trasferimento del file respinto
 ftrejectedby $1 ha rifiutato l'invito al trasferimento del file '$2'.
+ftrejected Trasferimento del file respinto
 ftsendinvitation L'invito al trasferimento del file '$2' ($3 bytes) è stato mandato a $1.
 fullcontactlist Spiacente, la tua lista dei contatti è piena. E' necessario rimuoverne qualcuno per aggiungerne altri.
 getdisppic Attiva la ricezione delle immagini personali dagli utenti
@@ -273,10 +278,10 @@ globalnick Crea un modello per mostrare i nick dei contatti. Puoi usare queste v
 globalnicktitle Nick globale
 globaloverride Il modello dei nick globali dovrebbe avere precedenza sui nick personalizzati
 gonelunch A pranzo
-group Gruppo
 groupadd Aggiungi un gruppo
 groupdelete Cancella un gruppo
 groupexists Il gruppo esiste già
+group Gruppo
 groupmissing Non riesco a trovare il gruppo
 groupnewname Nuovo nome
 groupnotempty Il gruppo non è vuoto!
@@ -303,8 +308,8 @@ insertsmiley Inserisci emoticon
 inserttextnote Riempi i campi Soggetto e Nota e clicca su Salva
 installconvert E' necessario installare il programma ImageMagick per convertire le immagini in un formato riconosciuto dai servers di MSN. I files binari per il proprio Sistema Operativo si trovano su ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Se il programma è già installato questo messaggio può essere dovuto ad un bug, in tal caso, per favore, segnalatelo.
 internalerror Errore interno del server
-invalidfile Il file $2 inserito nel campo "$1" non esiste o non è leggibile
 invalidfile2 Il file $1 non può essere creato, assicurati di avere i permessi necessari.
+invalidfile Il file $2 inserito nel campo "$1" non esiste o non è leggibile
 invalidgroup Gruppo non valido
 invalidpic La foto scelta non esiste
 invalidpicsize La foto scelta è troppo grande, scegline una più piccola
@@ -319,8 +324,8 @@ istyping $1 sta scrivendo un messaggio
 joins $1 si unisce alla conversazione
 justonce Solo una volta
 keepalive Keepalive (NAT)
-keeplog Mantiene un registro delle chat
 keeplog2 Registra tutte le conversazioni nel diario di aMSN per una visione futura
+keeplog Mantiene un registro delle chat
 language Linguaggio
 language_manager Gestore linguaggi
 lastlogin Ultimo Login
@@ -338,8 +343,8 @@ lenteredconf $1 è entrato in conversazione su $2
 lineflushlog Svuota il buffer del file di log ad ogni nuova riga
 linprivate IN PRIVATO
 listeningon In attesa sulla porta $1
-listsmileys Elenco faccine
 listsmileys2 Mostra Emoticons e faccine nella lista contatti principale di aMSN
+listsmileys Elenco faccine
 ljoinedconf $1 è entrato a far parte della conversazione
 lleftconf $1 ha lasciato la conversazione
 load Carica
@@ -371,17 +376,17 @@ maintenance Il server chiudera' la connessione tra $1 minuti per manutenzione
 maximised Massimizzato
 minimised Ridotto ad icona
 mins Minuti
-mobile Mobile
 mobilegrp1 Gruppo utenti "Mobile"
 mobilegrp2 Inserisci utenti nel gruppo "Mobile" quando sono offline (ordinati per status)
+mobile Mobile
 modified Modificato
 month Mese
 morepersonal Più stati personali ->
 move Muovi
 movetogroup Sposta al gruppo
-msg Messaggio
 msgflicker Evidenzia il titolo di una finestra di chat quando viene ricevuto un nuovo messaggio e la finestra è in secondo piano.
 msgmaxmin Quando arriva un nuovo messaggio voglio che sia:
+msg Messaggio
 msgmode Seleziona come gestire le finestre dei messaggi multipli:
 msn aMSN
 msnstyle Chat in stile MSN
@@ -410,7 +415,6 @@ newtabbedfeature Su aMSN e' ora possibile gestire le varie conversazioni anche r
 newveravailable La nuova versione $1 è disponibile per il download
 next Prossimo
 nick Soprannome
-no No
 noactivity Nessuna attività
 nodataavailable Non ci sono dati disponibili per $1
 nogap Nessuno spazio tra i gruppi
@@ -419,6 +423,7 @@ nologfile Non c'é un file di registro per $1
 noneavailable Niente disponibile
 nonewmail Nessun nuovo messaggio di posta
 nonewver Non ci sono nuove versioni da scaricare
+no No
 nopic Nessuna immagine
 noprofileexists Non ci sono profili correnti, \n devi crearne one se vuoi usare i login con il profilo. \nUsa il pulsante Aggiungi nuovo profilo su questa finestra per aggiungere un nuovo profilo.
 normal Normale
@@ -426,13 +431,13 @@ noskins Non sono riuscito a trovare la skin predefinita nella cartella skins/. N
 nosystemtray System tray non disponibile
 note Nota
 notificationserver Server di notifica iniziale di MSN (Server di MSN Messenger)
-notify Notifica
-notify1 Mostra una finestra di notifica quando i contatti vengono online
 notify1_5 Mostra una finestra di notifica quando i contatti vanno fuori linea
 notify1_75 Mostra una finestra di notifica quando i contatti cambiano stato
+notify1 Mostra una finestra di notifica quando i contatti vengono online
 notify2 Mostra una finestra di notifica quando viene ricevuto un nuovo messaggio
 notify3 Mostra una finestra di notifica quando una email raggiunge la tua casella di posta
 notify4 Mostra una finestra di notifica quando arriva nuova posta in cartelle varie
+notify Notifica
 notifyoffset Seleziona la posizione della finestra di notifica dandogli delle coordinate di posizione
 notifytimeout Tempo in millisecondi prima che la finestra di notifica scompaia
 notifytyping Invia agli altri utenti una notifica mentre digito
@@ -447,6 +452,9 @@ ok Ok
 onenewmail 1 nuovo messaggio di posta nella casella In Arrivo
 online Online
 onphone Al telefono
+opendir Apri cartella
+openfile Apri
+openfilecommand Comando apri file
 openreceived Apri un file ricevuto
 options Opzioni
 ordercontactsby Ordina i contatti per
@@ -459,8 +467,8 @@ pager Impaginatore
 pass Password
 paste Incolla
 personal Personale
-phone Telefono
 phones Numeri di Telefono
+phone Telefono
 picbrowser Mostra il selettore delle immagini personali
 picfile File dell'immagine dell'allarme (GIF < 500x500)
 picstatus (Dis)Abilita l'immagine per l'allarme
@@ -476,9 +484,9 @@ prefblock3 Gruppo "Sei stato bloccato da"
 prefconnection Impostazioni di connessione
 prefemotic Icone delle emozioni e Faccine
 preferences Preferenze
-preffont Testo del mio messaggio
 preffont2 Cambia il modo in cui gli altri vedono il mio testo nelle chat
 preffont3 Cambia la dimensione e il tipo dei caratteri dell'interfaccia di aMSN
+preffont Testo del mio messaggio
 prefft Settaggi trasferimento file, peer-to-peer e NAT
 preflibs Cartelle delle librerie
 preflog1 Opzioni di cronologia e utilizzo
@@ -486,13 +494,13 @@ preflogevent Cronologia degli Eventi
 preflook L'aspetto del mio aMSN
 prefmsging L'interfaccia dei miei messaggi
 prefname Il nome/soprannome del mio MSN messenger
-prefphone Il mio numero di telefono
 prefphone2 Inserisci il numero di telefono che vorresti fosse visto dalle persone \n sulla tua lista permessi \n
-prefprivacy Lista Permessi/Bloccati dell'utente
+prefphone Il mio numero di telefono
 prefprivacy2 Lista Contatti/Rifiutati dell'utente
-prefprofile Il mio Profilo Pubblico
+prefprivacy Lista Permessi/Bloccati dell'utente
 prefprofile2 Crea o modifica il tuo profilo pubblico(la \n descrizione di te stesso che gli altri possono vedere)
 prefprofile3 I Profili di configurazione dell'utente di aMSN
+prefprofile Il mio Profilo Pubblico
 prefproxy Le mie Impostazioni Proxy
 prefremote Preferenze della connessione remota
 prefsession La mia Registrazione e Stato
@@ -506,10 +514,10 @@ profileinuse Questo profilo è già in uso da un'altra sessione di aMSN, per favor
 profileloginradio Entra usando un profilo esistente
 profiles Profili
 properties Proprietà
-proxy Sono dietro un server proxy (HTTP o SOCKS5)
 proxyconf Configurazione proxy
 proxyconfhttp Configurazione supporto proxy HTTP
 proxyconnection Mi connetto ad internet usando un server proxy:
+proxy Sono dietro un server proxy (HTTP o SOCKS5)
 publishphones Pubblica il mio numero di telefono
 purge Elimina
 raised Ingrandito
@@ -519,9 +527,9 @@ receivedbytes Ricevuti $1 byte su $2
 receiveddir Cartella dei files ricevuti
 receivefile Sto ricevendo il file
 recentmsg Previeni la chiusura di una finestra di chat quando è appena arrivato un messaggio
-reconnect Sto aspettando che $1 si riconnetta
 reconnect2 Riconnetti su disconnessione
 reconnecting Riconnessione al server
+reconnect Sto aspettando che $1 si riconnetta
 reject Respingi
 rememberpass Ricorda password
 removeempty Eliminare gruppi vuoti dalla lista contatti
@@ -531,45 +539,46 @@ required_version Impossibile caricare il plugin. Richiede almeno la versione $1 
 reversed Invertito
 reverselist Invertire la lista (RL)
 rightback Torno subito
-save Salva
 saveas Salva come
 savechatwinsize Salva la dimensione della finestra di chat come predefinita ad ogni ridimensionamento
 savecontacts Salva la lista contatti
+save Salva
 savetofile Salva nel file
 says $1 dice
 sbcon Connessione a Switch Board
 selectplugins Seleziona i Plugins che desideri attivi
 selectskin Seleziona una Skin dalla lista
-send Invia
 sendfile Manda file
+send Invia
 sendmail Manda e-mail
 sendmobmsg Invia a dispositivo mobile
 sendmsg Manda un messaggio
 sentbytes Mandati $1 byte su $2
-server Server
 serverbusy Il server è occupato
 servergoingdown Sei stato disconnesso poiche' il server si sta fermando
+server Server
 serverunavailable Il server non è disponibile
 session Sessione
 showbanner Visualizza il banner di aMSN
 showblockedlist Mostra la lista delle persone che ti bloccano
 showcachedpics Visualizza le immagini memorizzate in cache
-showdisplaypic Mostra l'immagine personale
 showdisplaypic2 Mostra l'mmagine personale in ogni nuova finestra di chat
+showdisplaypic Mostra l'immagine personale
 showmypic Immagine personale
 shownotify Mostra una finestra di notifica quando accade qualcosa
+showpicnotify Mostra la foto degli utenti nella finestra di notifica
 showuserpic Immagine di $1
-skin Skin
 skinselector Seleziona Skin
+skin Skin
 smileconfig Configurazione delle emoticon personalizzate
 smilefile Nome del file della faccina
-smileintro Per favore riempi i campi richiesti per creare una nuova faccina personalizzata (guarda le FAQ per un aiuto)
 smileintro2 Per favore modifica i campi richiesti per personalizzare questa faccina (guarda le FAQ per un aiuto)
+smileintro Per favore riempi i campi richiesti per creare una nuova faccina personalizzata (guarda le FAQ per un aiuto)
 snackfailed Impossibile caricare libreria Snack, torno al default
 sngdblclick Un click per aprire una nuova finestra per i messaggi
-sound Attiva suoni
 sound2 Emetti un suono quando i contatti entrano o mandano un messaggio
 soundactive Riproduci un suono anche quando ricevi un messaggio nella finestra attiva
+sound Attiva suoni
 soundcommand Questo deve essere il comando per emettere il suono (es.: esdplay)
 soundexample (\$sound = Suono da riprodurre) Es: esdplay \$sound
 soundfile File del suono dell'allarme
@@ -580,10 +589,9 @@ soundstatus (Dis)Abilita il suono dell'allarme
 sourcecode Codice sorgente (necessita compilazione e installazione)
 splashstart Splash screen
 sslwarning ATTENZIONE!! Disabilitando la crittografia SSL, la password verrà inviata in chiaro sulla rete. Questa operazione deve essere compiuta solo se si ha a che fare con proxies particolarmente problematici.
-startoffline Inizio Offline
 startoffline2 Entra silenziosamente come "Fuori linea"
+startoffline Inizio Offline
 startontray Avvia aMSN direttamente nella traybar
-state Voglio apparire come
 stateautomsg Automessaggio da inviare
 statechange stato cambiato in:
 stateedittext Per favore modifica i campi che vorresti \n che fossero modificati e premi Salva
@@ -591,16 +599,18 @@ stateinfo Configurazione dello stato personale
 statename Nome dello stato personale
 statenewtext Per favore inserisci le informazioni richieste per creare \n il tuo nuovo Stato Personale e premi Salva
 statenick Personalizza nick (lasciare vuoto per non modificarlo)
+state Voglio apparire come
+stats Statistiche
 status Stato
 stopalarm Ferma l'allarme
 storenickname Ripristina il nick originale dopo una sessione personalizzata con nick diverso
 strictfonts Imposta tutti i fonts (barra di stato e altri) alla dimensione che ho scelto
-style Stile
 stylechat Stesso aspetto delle chat
 stylehist Aspetto dell'History di aMSN
 stylelog Seleziona il formato nel quale vorresti vedere la tua History
-subject Soggetto
+style Stile
 subjectrequired Soggetto richiesto
+subject Soggetto
 syntaxerror Errore di sintassi
 tabbed Finestre con linguette
 tabbedglobal Una finestra singola con linguette per tutti gli utenti della lista contatti
@@ -608,17 +618,19 @@ tabbedgroups Una finestra singola con linguette per tutti gli utenti di uno stes
 tabtitlenick Mostra nick nelle linguette anziche' l'email
 temp_state Non salvare (Stato temporaneo, si perderà alla chiusura di AMSN)
 textsize Dimensione del testo
+thismonth Questo mese
 timeremaining Tempo rimanente
 timestamps Mostra il campo Ora nelle finestre di chat
 title aMSN
 tkerror TK ha incontrato un possibile bug. Segnalatelo, per favore, inviando il file $1 a amsn-bugs@lists.sf.net
 tlsdowncompleted Il file $1 è stato scaricato nella cartella $2. Estrailo, compilalo (se hai scaricato i sorgenti) e installalo in $3.
 tlsexplain Cartella in cui è localizzato il modulo TLS. Se aMSN non riesce a localizzarla, specificarla.\n (E' richiesto per l'autenticazione SSL).
-tlsinstall Wizard per l'installazione del modulo TLS
 tlsinstallexp aMSN utilizza ora MSNP9. Questo richiede l'uso di una\nconnessione sicura con SSL. Per sfruttare SSL, aMSN necessita la presenza del modulo TLS,\nil quale non è al momento installato. Questo wizard ti guiderà nel recupero\n e nell'installazione di TLS. Per favore seleziona il tipo di sistema in uso per\n passare al download dei files richiesti.
+tlsinstall Wizard per l'installazione del modulo TLS
 tlsinstcompleted L'installazione del modulo TLS è andata a buon fine. Dovresti essere in grado di utilizzare MSNP9. Se così non fosse, probabilmente hai selezionato un modulo errato oppure non esiste un modulo precompilato per il tuo sistema.
 to A
 today Oggi
+tomobile To Mobile
 tools Strumenti
 tooltips Abilita i tooltips
 transnotexists Il file richiesto non è ancora stato tradotto nel linguaggio corrente.
@@ -635,20 +647,21 @@ uoffline Offline
 uonline Online
 update Aggiornamento
 useother Usa un altro programma
-user Utente
 useralreadyonlist L'utente è già nella lista contatti
 userblocked L'utente è online ma ti ha bloccato
 userdata Dati Utente
 usernotonline Questo Utente non è online
 userproperties Proprietà dell'utente $1
+user Utente
 useryourself Non puoi chattare con te stesso
 usesnack Utilizza la libreria Snack (Tcl)
 verifyblocked Controlla le persone che ti stanno bloccando
 version Versione
-view Vista
 viewcontactsby Visualizza contatti per
 viewprofile Mostra Profilo
+view Vista
 webcaminvite $1 ti ha invitato ad una conferenza via webcam, ma aMSN non supporta questa funzionalità.
+whatsize L'immagine che hai richiesto non è nel normale formato di visualizzazione immagini (96x96) In che formato vuoi che l'immagine venga visualizzata?
 willjoin Sto aspettando che $1 si unisca alla conversazione
 winkreceived Hai ricevuto un Wink da $1. Questa opzione non e' pero' al momento supportata da aMSN
 wintitlenick Mostra i nick nella finestra con linguette anziche' l'email
@@ -660,8 +673,8 @@ xmmserr Non ci sono brani in ascolto o non possiedi xmms-infopipe.
 xmmssend Invia il brano in esecuzione
 xoffset Spostamento sull'asse delle X
 year Anno
-yes Sì
 yesblock Si e blocca
+yes Sì
 yesterday Ieri
 yoffset Spostamento sull'asse delle Y
 youblocked Sei stato bloccato da

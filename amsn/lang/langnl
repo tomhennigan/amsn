@@ -568,6 +568,7 @@ showmypic Mijn Afbeelding
 shownotify Geef meldingsvenster weer bij bepaalde gebeurtenissen
 showpicnotify Geef schermafbeelding weer op meldingsvensters
 showuserpic Afbeelding van $1
+signinstatus Status na aanmelden
 skinselector Skin selecteren
 skin Skin
 smileconfig Configuratie voor zelfgemaakte emoticons
@@ -618,6 +619,7 @@ tabbedgroups Gesprekken per groep van contactpersonen in een venster plaatsen
 tabtitlenick Schermnamen weegeven op tabbladen
 temp_state Niet opslaan (Tijdelijke status, gaat verloren als aMSN wordt afgesloten)
 textsize Tekstgrootte
+thismonth Deze maand
 timeremaining Resterende tijd
 timestamps Tijd weergeven in gespreksvensters
 title Al's Messenger

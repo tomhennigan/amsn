@@ -566,6 +566,7 @@ showmypic Moja osebna slika
 shownotify Poka¾i obvestilo ob nekaterih dogodkih
 showpicnotify Prika¾i osebno sliko v obvestilnem oknu
 showuserpic Osebna slika uporabnika $1
+signinstatus Status ob vpisu
 skin Skin
 skinselector Izberi skin
 smileconfig Nastavitve tvojih emotikonov

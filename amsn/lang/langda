@@ -552,7 +552,7 @@ selectskin Vælg venligst et skin fra listen
 send Send
 sendfile Send fil
 sendmail Send mail
-sendmobmsg Send til Mobil
+sendmobmsg $1 Send til Mobil
 sendmsg Send besked
 sentbytes Har sendt $1 ud af $2 bytes
 server Server
@@ -569,6 +569,7 @@ showmypic Mit Display-billede
 shownotify Vis påmindelsesvindue når der sker noget
 showpicnotify Vis kontaktpersoners' billed i beskedvindue
 showuserpic $1's Display-billede
+signinstatus Login status
 skin Skin
 skinselector Vælg Skin
 smileconfig Brugerdefineret emoticon-konfiguration
