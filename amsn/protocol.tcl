@@ -4363,6 +4363,7 @@ proc cmsn_listupdate {recv} {
 		#Remove user from all lists while receiving List data
 		::abook::setContactData $username lists ""
 		
+		
 	}
 
 	::abook::setContactData $username nick $nickname
@@ -4373,21 +4374,14 @@ proc cmsn_listupdate {recv} {
 		if {$current != 0} {
 		
 			::abook::addContactToList $username $list_sort
-		
-			#Add only if user is not already in list
-			#upvar #0 $list_name the_list
-			#if { [lsearch $the_list $username] == -1 } {
-			#	lappend $list_name $username
-			#	#status_log "cmsn_listupdate: adding $username to $list_name\n"
-			#} else {
-			#	status_log "cmsn_listupdate: user $username already in list $list_name\n" white
-			#}
 			::MSN::addToList $list_sort $username
 
-			if { ($list_sort == "FL") } {
+			#No need to set groups and set offline state if command is not LST
+			if { ($list_sort == "FL") && ($command == "LST") } {
 				::abook::setContactData $username group $groups
 				set loading_list_info(last) $username
 				::abook::setVolatileData $username state "FLN"
+				
 			}
 		}
 	}
