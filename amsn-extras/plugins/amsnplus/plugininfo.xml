@@ -4,38 +4,46 @@
 	<author>Mark & Jerome Gagnon-Voyer</author>
 	<description>aMSN Extension (commands in chat window, coloring nicks...)</description>
 	<amsn_version>0.94</amsn_version>
-	<plugin_version>2.4</plugin_version>
+	<plugin_version>2.5</plugin_version>
 	<plugin_file>amsnplus.tcl</plugin_file>
 	<plugin_namespace>amsnplus</plugin_namespace>
 	<init_procedure>amsnplusStart</init_procedure>
+
 	<lang>
 		<langcode>ca</langcode>
 		<version>1.11</version>
 	</lang>
+
 	<lang>
 		<langcode>en</langcode>
 		<version>1.9</version>
 	</lang>
+
 	<lang>
 		<langcode>es</langcode>
 		<version>1.5</version>
 	</lang>
+
 	<lang>
 		<langcode>fr</langcode>
 		<version>1.3</version>
 	</lang>
+
 	<lang>
 		<langcode>it</langcode>
 		<version>1.1</version>
 	</lang>
+
 	<lang>
 		<langcode>nl</langcode>
 		<version>1.3</version>
 	</lang>
+
 	<lang>
 		<langcode>pt</langcode>
 		<version>1.2</version>
 	</lang>
+
 	<file>
 		<path>pixmaps/multiple_colors.gif</path>
 		<version>1.1</version>

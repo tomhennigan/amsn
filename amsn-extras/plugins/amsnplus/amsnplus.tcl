@@ -35,6 +35,7 @@ namespace eval ::amsnplus {
 				colour_nicks 0
 				allow_commands 1
 				allow_quicktext 1
+				on_connect "online"
 				quick_text_0 ""
 				quick_text_1 ""
 				quick_text_2 ""
@@ -46,21 +47,13 @@ namespace eval ::amsnplus {
 				quick_text_8 ""
 				quick_text_9 ""
 			}
-			if {[::amsnplus::version_094]} {
-				set ::amsnplus::configlist [ list \
-					[list bool "Do you want to parse nicks?" parse_nicks] \
-					[list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \
-					[list bool "Do you want to allow commands in the chat window?" allow_commands] \
-					[list bool "Do you want to use the quick text feature?" allow_quicktext] \
-				]
-			} else {
-				set ::amsnplus::configlist [ list \
-					[list bool "[trans parsenicks]" parse_nicks] \
-					[list bool "[trans colournicks]" colour_nicks] \
-					[list bool "[trans allowcommands]" allow_commands] \
-					[list bool "[trans allowquicktext]" allow_quicktext] \
-				]
-			}
+			set ::amsnplus::configlist [ list \
+				[list bool "Do you want to parse nicks?" parse_nicks] \
+				[list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \
+				[list bool "Do you want to allow commands in the chat window?" allow_commands] \
+				[list bool "Do you want to use the quick text feature?" allow_quicktext] \
+				[list str "Which state you want to switch on on connect?" on_connect] \
+			]
 		} else {
 			array set ::amsnplus::config {
 				parse_nicks 1
@@ -68,6 +61,7 @@ namespace eval ::amsnplus {
 				allow_commands 1
 				allow_colours 1
 				allow_quicktext 1
+				on_connect "online"
 				quick_text_0 ""
 				quick_text_1 ""
 				quick_text_2 ""
@@ -79,23 +73,14 @@ namespace eval ::amsnplus {
 				quick_text_8 ""
 				quick_text_9 ""
 			}
-			if {[::amsnplus::version_094]} {
-				set ::amsnplus::configlist [ list \
-					[list bool "Do you want to parse nicks?" parse_nicks] \
-					[list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \
-					[list bool "Do you want to allow commands in the chat window?" allow_commands] \
-					[list bool "Do you want to allow multiple colours in the chat window?" allow_colours] \
-					[list bool "Do you want to use the quick text feature?" allow_quicktext] \
-				]
-			} else {
-				set ::amsnplus::configlist [ list \
-					[list bool "[trans parsenicks]" parse_nicks] \
-					[list bool "[trans colournicks]" colour_nicks] \
-					[list bool "[trans allowcommands]" allow_commands] \
-					[list bool "[trans allowcolours]" allow_colours] \
-					[list bool "[trans allowquicktext]" allow_quicktext] \
-				]
-			}
+			set ::amsnplus::configlist [ list \
+				[list bool "[trans parsenicks]" parse_nicks] \
+				[list bool "[trans colournicks]" colour_nicks] \
+				[list bool "[trans allowcommands]" allow_commands] \
+				[list bool "[trans allowcolours]" allow_colours] \
+				[list bool "[trans allowquicktext]" allow_quicktext] \
+				[list str "[trans onconnect]" on_connect] \
+			]
 		}
 		#register events
 		::plugins::RegisterEvent "aMSN Plus" parse_nick parse_nick
@@ -104,6 +89,7 @@ namespace eval ::amsnplus {
 		::plugins::RegisterEvent "aMSN Plus" chatwindowbutton chat_color_button
 		::plugins::RegisterEvent "aMSN Plus" chatmenu edit_menu
 		::plugins::RegisterEvent "aMSN Plus" chatmenu add_quicktext
+		::plugins::RegisterEvent "aMSN Plus" OnConnect on_connect
 		
 		if {![::amsnplus::version_094]} {
 			::amsnplus::setPixmap
@@ -181,6 +167,23 @@ namespace eval ::amsnplus {
 
 
 
+	#//////////////////////////////////////////////////////////////////////////
+	#                              ON CONNECT
+	#//////////////////////////////////////////////////////////////////////////
+
+	################################################
+	# this does some operations on connect
+	proc on_connect {event epvar} {
+		#state on connect
+		if {[::amsnplus::stateIsValid ::amsnplus::config(on_connect)]} {
+			set cstate [::amsnplus::descriptionToState $nstate]
+			::MSN::changeStatus $cstate
+			status_log "================= OnConnect -> changing to status $cstate\n ==============="
+		}
+	}
+
+
+	
 	#//////////////////////////////////////////////////////////////////////////
 	#                          ALL ABOUT QUICK TEXT
 	#//////////////////////////////////////////////////////////////////////////
