@@ -6,7 +6,7 @@ addacontact Adauga o persoana noua
 addedyou te-a adaugat in lista lui/ei de contacte
 addtocontacts Adauga in lista de contact
 addtoo Adauga persoana in lista  
-admincontacts Administrare contact
+admincontacts Administrare nume
 admingroups Administrare grup
 adverts Avertismente
 allowseen  Permite persoanei sa ma vada autentificat si sa ma contacteze.
@@ -35,7 +35,7 @@ choosebasefont Alege caracterul
 choosebgcolor Alege culoarea  
 clicktologin Autentificare 
 close Inchide 
-closingdocks Inchide grupul de butoane
+closingdocks Minimizare in loc de inchidere
 command Commanda
 confirmdelete Sigur vrei sa stergi persoana $1?
 contactadded Persoana adaugata
@@ -89,7 +89,7 @@ loadcontacts Incarca lista de contacte
 loggedotherlocation Deconectat. Autentificare de la alt calculator.
 loggingin In curs de autentificare
 login Autentificare
-loginas Autentificate cu 
+loginas Autentificare cu
 logout Deautentificare
 logsin tocmai s-a autentificat 
 mailer Utilitar de e-mail

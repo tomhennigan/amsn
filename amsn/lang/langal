@@ -3,6 +3,7 @@ about Lidhje me
 acceptfile Pranoje skedën $1, madhësia $2? E ruajtur në $3
 actions Akcionet
 addacontact Shto një kontakt
+addtocontacts Shto kontakte
 addedyou Të ka shtuar listën e kontakteve të tij/a
 addtoo Shtoje këtë person në listën e kontakteve të mija
 admincontacts Rregullo kontaktet
@@ -10,7 +11,7 @@ admingroups Rregullo grupet
 adverts Reklamat
 allowseen Lejoje këtë person të më shohë dhe të më kontaktojë kur unë jam në linjë
 appearoff Paraqitu si jasht linjës
-are janë
+aretyping $1 janë duke shtypur porosi
 autohotmaillog Automatikisht kyçu në Hotmail
 autoip IP Automatike
 avoidseen Mos e lejoje këtë person të më shohë dhe të më kontaktojë kur unë jam në linjë
@@ -19,6 +20,7 @@ baduserpass Useri apo fjalëkalimi i gabuar
 blankdirect Lëre të zbrazët për lidhje direkte
 block Bllokoje
 blocked I/e Bllokuar
+broughtby Sjellur tek ju nga
 browser Shfletues
 busy I zënë
 cancel Anulo
@@ -29,6 +31,8 @@ chatsmileys :) e bisedave
 chatack Duke pranuar bisedën
 checkver Shiko për version të ri
 checkingver Duke shikuar për version të ri
+choosebasefont Zgjedh llojin e shkronjave
+choosebgcolor Zgjedh ngjyren e prapavise
 clicktologin Kliko këtu për të hyrë
 close Mbylle
 closingdocks Close button docks window
@@ -37,9 +41,11 @@ confirmdelete A jeni i sigurtë që do ta fshini $1?
 contactadded Kontakti u shtua
 contactdoesnotexist Kontakti nuk ekziston!
 connecterror Nuk mund të lidhet me serverin
+copytogroup Krypto Grupi
 date Data
 delete Fshije
 enableproxy Mundëso proxin
+encoding Enkodimi
 entercontactemail Shkruaje e-mail-ine kontaktit
 enterfilename Ju lutem shkruane emrin e skedës
 enternick Shkruaje nikun tuaj
@@ -71,10 +77,11 @@ inbox In-Box
 invalidusername Emër i gabuar i shfrytëzuesit
 invite Ftoje
 ipaddress IP Adresa
-is është
+istyping $1 është duke shtypur porosi
 joins $1 $2 i bashkangjitet bisedës
 language Gjuha
 leaves $1 e la bisedën
+leaveblankforhotmail Lëre zbrazët për hotmail web
 listeningon Duke dëgjuar në portin $1
 listsmileys List smileys
 loadcontacts Ngarkoje listën e kontakteve
@@ -90,7 +97,7 @@ movetogroup Lëviz grupin
 mustrestart Duhet ta startoni përsëri programin që t'i merr parasysh ndryshimet
 mystatus Statusi im
 msg Porosi
-msn Albanian-MSN
+msn AMSN-Shqip
 needonline Ju ende jeni i paraqitur si jashtë linjës!
 newmail $1 Mesazhe të reja në In-Box
 newmailfrom Masazh të ri nga
@@ -98,11 +105,13 @@ newmsg Mesazh i ri
 newveravailable Është e mundshme ta merrni versionin e ri $1
 next Tjetra
 noactivity Nuk ka aktivitet
+nonewmail Nuk ka Mail te ri
 nonewver Nuk ka version të ri për ta marrë
 notify Lajmëro
 nousersinsession Nuk ka shfrytëzues në sesion
 ok Ok
 offline Jashtë linjës
+onenewmail 1 Mesazhe të reja në In-Box
 online Në Linjë
 onphone Në telefon
 openreceived Hapi Skedat e marrura
@@ -146,7 +155,6 @@ textsize Madhësia e tekstit
 title Al's Messenger
 to Te
 tools Veglat
-typing $1 po shkruan mesazh
 yousay Ju thuani
 youwant Ju doni
 unblock Ç'bllokoje
