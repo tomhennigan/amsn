@@ -4,7 +4,7 @@
 #=======================================================================
 namespace eval ::abook {
    namespace export setGroup getGroup setContact getContact \
-   		    setPhone
+   		    setPhone setDemographics getDemographics
 
    #
    # P R I V A T E
@@ -14,11 +14,12 @@ namespace eval ::abook {
 			#	handle			   LST
 			#       groupId			   LST
 			#	phone { home work mobile } BPR.PHH/PHW/PHM
-			#	mobile			   BPR.MOB
+			#	pager			   BPR.MOB
 			# }
    variable groups;	# Array for groups
    			# groups(id) { name }		   LSG
    variable groupCnt 0
+   variable demographics;	# Demographic Information about user
 
    #
    # P R O T E C T E D
@@ -121,6 +122,40 @@ namespace eval ::abook {
 	    default { puts "setPhone error, unknown $item $value" }
 	}
    }
+
+    # This information is sent to us during the initial connection
+    # with the server. It comes in a MSG content "text/x-msmsgsprofile"
+    proc setDemographics { cdata } {
+        variable demographics 
+	upvar $cdata data
+
+    	set demographics(langpreference) $data(langpreference);# 1033 = English
+	set demographics(preferredemail) $data(preferredemail)
+	set demographics(country) [string toupper $data(country)];# NL
+	set demographics(gender) [string toupper $data(gender)]
+	set demographics(kids) $data(kids);	  # Number of kids
+	set demographics(age) $data(age)
+	set demographics(mspauth) $data(mspauth); # MS Portal Authorization?
+	set demographics(valid) Y
+    }
+
+    proc getDemographics { cdata } {
+        variable demographics 
+	upvar $cdata d
+
+	if [info exists data(valid)] {
+	    set demographics(langpreference) $data(langpreference);# 1033 = English
+	    set d(preferredemail) $demographics(preferredemail)
+	    set d(country) $demographics(country)
+	    set d(gender) $demographics(gender)
+	    set d(kids) $demographics(kids)
+	    set d(age) $demographics(age)
+	    set d(mspauth) $demographics(mspauth)
+	    set d(valid) Y
+	} else {
+	    set demographics(valid) N
+	}
+    }
 }
 
 namespace eval ::abookGui {
@@ -257,6 +292,9 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.6  2002/06/19 17:49:22  lordofscripts
+# Added setDemographics and getDemographics as handled by text/x-msmsgsprofile
+#
 # Revision 1.5  2002/06/19 14:34:58  lordofscripts
 # Added facility window (Ctrl+M) to enter commands to be issued to the
 # Notification Server. Abook now allows to either show (read only)
