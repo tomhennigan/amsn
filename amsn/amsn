@@ -2657,4 +2657,4 @@ if {$version != $config(last_client_version)} {
 
 init_dock
 
-::MSN::connect $config(login) password
+#::MSN::connect $config(login) password
