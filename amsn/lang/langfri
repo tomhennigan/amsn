@@ -1,0 +1,300 @@
+amsn_lang_version 2
+Dizze oersetting is makke troch Jurjen Huisman.
+about Ynformaasje
+accept Oannimme
+acceptfile Nim bestân $1 oan, grute $2? Bware yn $3
+actions Aksje
+addacontact Foeg in kontakt ta
+addedyou hat dy tafoegd oan syn/har kontaktenlist
+addtocontacts Tafoegje oan kontaktenlist
+addtoo Foeg dizze persoan ta oan myn kontaktenlist
+admincontacts Behear kontakten
+admingroups Behear groepen
+adverts Advertinsjes
+alarmpref Alarmynstellings foar dizze gebrûker
+alarmstatus Doch alarm oan/út foar dizze gebrûker
+allowsin Stea dizze persoan ta om te sjen wannear't ik oanmeld bin, en om my te sprekke
+appearance Status
+appearoff Ferskyn "Net oanmeld"
+areacode Geakode
+aretyping $1 binne oan't type
+askprofile Dizze oanmelding hat gjin profyl. Wolst in profyl oanmeitsje? \n Ast it net wols, kist de Skiednis net brûke of dyn alarmen en wachtwurden bewarje.\n Ast it wol wolst, hast in aparte konfiguraasje foar dit neie profyl.  \n \n Klik op "Meitsje Profyl" om in nei profyl te meitsje foar $1. 
+autoaway Feroarje myn status yn "Net oanwêzich" as't ik net warber bin nei
+autoconnect2 Automatysk oanmelde wannear't aMSN start wurdt
+autoconnect Automatysk oanmelde
+autohotmaillog Automatysk oanmelde by Hotmail
+autoidle Automatysk "Net oanwêzich" 
+autoip Automatysk IP
+autonoact Automatysk "Net oanwêzich" as't ik net warber bin nei
+avoidsin Foarkom dat dizze persoan sjen kin wannear't ik oanmeld bin en dat hy my sprekke kin.
+away Net oanwêzich
+awaymsg1 Freagje om berjocht foar "Net oanwêzich" as de status feroarje wurdt naar "Net oanwêzich".
+awaymsg2 Net freagje en altiid it ondersteande berjocht foar "Net oanwêzich" brûke.
+baduserpass Gjin goed gebrûkersnamme of wachtwurd
+bgcolor Feroarje aMSN's eftergrûnkleur
+blankdirect Lit leech foar direkte ferbining
+block Blokkear
+blocked Blokkeard
+broughtby Oanbean troch de folgende ontwikkelers
+browse Ferkenne
+browser Browser
+busy Beset
+cancel Annulearje
+cfgalarm Alarm konfigurearje/tafoege/foartsmite
+changefont Feroarje lettertype
+changenick Feroarje skermnamme
+chatack Nim chat oan fan
+chat Chat
+chatreq Freagje om te chatten
+chatsmileys2 Toan emoticons en smileys yn chat-finsters
+chatsmileys Toan emoticons
+checkfilman Ûntfangen bestânen wurde bewarre yn $1. Sjoch de ynstellings fan it bestânbehear by ynstellings.
+checkingver Op in neiere fersy oan't kontrolearje 
+checkver Sjoch foar in neiere fersy
+choosebasefont Lettertype
+choosebgcolor Eftergrûnkleur
+choosefontcolor Kies tekstkleur
+clearlog2 Smit logboek foar alle kontakten foart
+clearlog3 Smit alle logboeken foart
+clearlog Logboek leech meitsje
+clicktologin Klik hjirre om dy oan te melde
+close Slúte
+closingdocks Slút finster
+command Programma
+confirmdelete Wolst grif $1 foartsmite?
+confirm Wytst it grif?
+connecterror Ferbiningsflater
+connection Ferbining
+contactadded Kontaktpersoan tafoegd
+contactdoesnotexist Kontaktpersoan bestiet net
+copy Kopiearje
+copytogroup Kopiearje nei groep
+countrycode Myn lân/geakode
+cprofile Meitsje profyl
+cut Knippe
+date \nDatum
+days Dagen
+dcprofile Gjin profyl oanmeitsje
+default Standaard konfiguraasje
+delete Wis
+deliverfail D'r wie in problem by it beswargje fan de folgende boadskip
+delprofile2 Kies it profyl dast foartsmite wolst
+delprofile Smit profyl foart
+dockgtk Ferbergje foar gnome
+dockingoff Ferbergje út
+docking Ferberg
+dockkde Ferbergje foar KDE
+edit Bewurkje
+editprofile Bewurkje profyl
+enableproxy Brûk proxy
+encoding2 Feroarje fan encodering by dyn tekens
+encoding Encoderen
+entercontactemail Jou Kontakt-email
+enterfilename Jou in bestânsnamme op
+enternick Jou dyn skermnamme
+examples Foarbylden
+exitamsn Slút amsn
+extras Ekstra's
+faq FAQ (Faak stelde fragen (yn't Engels))
+filedoesnotexist Bestân bestiet net
+fileman Bestânbehear
+filename Bestânsnamme
+filetransfercancelled Bestânsferstjoering annuleard
+filetransfercomplete Bestânsferstjoering klear
+ftaccepted Bestânsferstjoering oannôm
+ftrejected Bestânsferstjoering âfwesen
+gonelunch Itenspauze
+groupadd Foeg in groep ta
+groupdelete Smit in groep foart
+groupexists Groep bestiet al
+group Groep
+groupmissing Kin de groep net fine
+groupnewname Neie namme
+groupnotempty Dizze groep is net leech!
+groupoldname Âlde namme
+grouprename Feroarje in groepsnamme
+groupunknown Onbekende groep
+handle Dwaan
+helpcontents Help inhâld
+help Help
+history Besjoch Skiednis
+home Thús
+ident Oan't identificearje
+identity Identiteit
+inbox Inbox
+invalidusername Dyn gebrûkersnamme is net júst.
+invite Noegje út
+ipaddress IP-adres
+ipdetect Detektear júste IP-adres foar bestânsoerdracht troch HTTP
+istyping $1 is oan't type
+joins $1 nimt diel oan konfersaasje
+keepalive Hâld ferbining in stân
+keeplog2 Bewarje alle gesprekken yn it logboek fan aMSN-Skiednis om se lettber besjen te kinne
+keeplog Bewarje logboek fan chatgesprekken
+language Taal
+lastmsgtime Leste berjocht krigen om $1
+lclosedwin $1 hat it finster slúten om $2
+lconftopriv Gearkomste feroarje yn Privechat mei $1
+lconvstarted Konfersaasje start om $1
+leaveblankforhotmail Lit leech foar it brûken fan Hotmail web
+leaves $1 ferlit Konfersaasje
+lenteredconf $1 kôm by de gearkomste op $2
+linprivate YN PRIVE
+listeningon Op poarte $1 oan't lústerje
+listsmileys2 Toan emoticons en smileys yn aMSN's haadkontaktenlist
+listsmileys Toan smileys yn list
+ljoinedconf $1 nôm diel oan de gearkomste
+lleftconf $1 hat de gearkomste ferlitten
+loadcontacts Kontaktenlist oan't laden
+logbigger It logbestân fan elk kontakt mei net grutter wurde as
+logfandexp Bewarje tiidlik alle bestânsgrute en Skiednis
+loggedotherlocation Do bist al oanmeld
+loggingin Oan't oanmelde
+loginas Oanmelde as
+loging Oanmelde
+login Meld dy oan
+logolder Alline gesprekken bewarje dy't plak fûn yn'e ôfrûne
+logout Meld ôf
+logsin hat sich krekt oanmeld
+logsmileys Toan emoticons en smileys yn aMSN's Skiednisfinsters
+lprivtoconf Privechat feroare yn Gearkomste mei $1
+luclosedwin Do hast it finster slúten op $1
+mailer Mail-client
+maximised Fergrut
+minimised Ferlytse
+mins minúten
+mobile Mobiele telefoan
+movetogroup Ferhûzje nei groep
+msg Berjocht
+msgmaxmin As in berjocht ûntfange wurdt, wol ik dat se wurde:
+msgmode Hoe't meardere chat-finsters wêrjûn wurde moatte:
+msn AMSN
+mustrestart Do moast it programma op'e nei starte foardat de feroaringen effekt ha
+myhomephone Myn telefoannûmer (thús)
+mymobilephone Myn mobiele nûmer
+mystatus Myn status
+myworkphone Myn telefoannûmer (wurk)
+natip IP-deteksje troch website
+natkeepalive Ast faak ôfmeld wurdst, moast dit oanfinke
+needonline Do bist (of bearest) net oanmeld
+newmail $1 neie berjochten
+newmailfrom Neie email fan
+newmsg Nei berjocht
+newveravailable Neiere fersy $1 beskikber
+next Folgende 
+noactivity Gjin aksje
+nologfile Gjin logboek foar $1
+nonewmail Gjin berjochten yn In-Box
+nonewver D'r binne gjin neiere fersys beskikber
+normal Normaal
+notify1 Toan advysfinster wannear't in kontakt sich oanmeldt
+notify2 Toan advysfinster wannear't neie berjochten ûntfange wurde
+notify3 Toan advysfinster wannear't d'r neie emails ûntfange wurde
+notify Jou advys
+notifyoffset Feroarje de posysje fan it advysfinster mei it jaan fan koördinaten
+notifywin Advysfinster
+nousersinsession Gjin gebrûker yn sitting
+offline Net oanmeld
+ok Ok
+onenewmail 1 nei berjocht yn In-Box
+online Oanmeld
+onphone Oan de telefoan
+openreceived Iepen ûntfangen bestânen
+options Ynstellings
+ordercontactsby Sortear kontakten op
+ordergroupsby Sortear groepen op
+other Oare
+pager Pager
+pass Wachtwurd
+paste Plakke
+personal Persoanlik
+phone Telefoan
+picfile Alarm byldbestân (GIF < 500 x 500 pixels)
+picstatus Skakel alarm byldbestân oan/út
+port Poarte
+prefalerts Myn Alarm en Lûd
+prefapps Programma's
+prefawaymsg Myn ôfwezich-berjocht
+prefemotic Emoticons en smileys
+preferences Ynstellings
+preffont2 Feroarje hoe't oaren myn tekst sjoche
+preffont3 Feroarje aMSN's lettertype en grute
+preffont Myn berjochtentekst
+preflog1 Myn Skiednis- en Logboekynstellings
+preflook Myn aMSN Messenger Styl
+prefmsging Hoe't myn berjochten d'r útsjoche
+prefname Myn MSN Messengernamme
+prefphone2 De telefoannûmers dy't minsken dyst derfoar tastimming jûn hast, sjen meie
+prefphone Myn telefoannûmers
+prefprofile2 Meitsje of feroarje in profyl\n (beskriuwing fan dysels dy't oaren sjen kinne)
+prefprofile3 aMSN's konfiguraasjeprofylen foar gebrûkers
+prefprofile Myn profyl
+prefproxy Myn Proxy-ynstellings
+prefsession Myn oanmelding en status
+prefshared Dielde ferbiningen (alline foar NAT)
+prefsound Lûd
+profiledconfig Profylkonfiguraasje
+profiles Profylen
+properties Eigenskippen
+proxyconfhttp HTTP proxy konfiguraasje ûnderst
+ng
+proxyconf Proxy konfiguraasje
+proxy Ik meitsje brûk fan in Proxy Server (HTTP of SOCKS5)
+publishphones Publisear myn telefoannûmers
+receivedbytes $1 fan $2 bytes krigen
+receivefile Ûntfang bestân
+reconnecting Op'e nei oan't ferbine mei de server
+reconnect Wachtsje tot $1 opnei ferbint
+reject Ôfwise
+rememberpass Bewarje wachtwurd
+reversed Omgekeard
+rightback Sa werom
+saveas Bewarje as
+savecontacts Kontaktenlist bewarje
+save Bewarje
+savetofile Bestân bewarje
+says $1 seit
+sbcon Mei Switch Board oan't ferbine 
+sendfile Ferstjoer in bestân
+sendmail Ferstjoer in email
+sendmsg Ferstjoer in berjocht
+send Ferstjoer 
+sentbytes $1 fan $2 bytes ferstjûrd
+servergoingdown De server giet út
+server Server
+session Sitting
+sound2 Spielje lûd as kontakten sich oanmelde of in berjocht stjoere
+soundcommand Dit moat in ôfspielkommando wêse (bg: esdplay)
+sound Lûd
+soundfile Lûdsbestân
+soundloop Lûd herhelje bliuwe
+soundserver Lûdserver
+soundstatus Skakel alarmlûd oan/út
+startoffline2 'Stil' oanmelde mei "Net oanmeld"-status
+startoffline Begjin "Net oanmeld"
+status Status
+stopalarm Stop it alarm
+stylechat Styl lyk as chatberjochten
+stylehist aMSN's Skiednis styl
+stylelog Kies it foarmaat wêrst dyn Skiednis besjen wolst
+syntaxerror Syntaxflater
+tabbed 'Tabbed' finsters
+textsize Tekstgrute
+title Messenger
+to Oan
+tools Ark
+unblock Deblokkear
+uoffline Net oanmeld
+uonline Oanmeld
+user Gebrûker 
+useralreadyonlist Gebrûker stiet al yn dyn list
+usernotonline De gebrûker is net oanmeld
+version Fersy
+view Byld
+viewprofile Profyl werjaan
+willjoin Wachtsje tot $1 de konfersaasje bywenjen sil
+work wurk
+xoffset X-posysje
+yoffset Y-posysje
+yousay Do seist
+youwant Do wolst
