@@ -6,7 +6,9 @@ set bgcolor2 #D0D0F0
 
 namespace eval ::amsn {
 
-   namespace export fileTransferRecv fileTransferProgress \
+   namespace export initLook aboutWindow showHelpFile errorMsg infoMsg\
+   blockUnblockUser blockUser unblockUser deleteUser\
+   fileTransferRecv fileTransferProgress\
    errorMsg notifyAdd initLook messageFrom chatChange userJoins\
    userLeaves updateTypers ackMessage nackMessage closeWindow \
    chatStatus chatUser
@@ -152,6 +154,14 @@ namespace eval ::amsn {
 
 
    #///////////////////////////////////////////////////////////////////////////////
+   proc unblockUser {user_login} {
+      set name [::abook::getName ${user_login}]
+      ::MSN::unblockUser ${user_login} [urlencode $name]
+   }
+   #///////////////////////////////////////////////////////////////////////////////   
+   
+   
+   #///////////////////////////////////////////////////////////////////////////////
    proc deleteUser { user_login } {
 
       global alarms
@@ -168,13 +178,6 @@ namespace eval ::amsn {
    }
    #///////////////////////////////////////////////////////////////////////////////
 
-
-   #///////////////////////////////////////////////////////////////////////////////
-   proc unblockUser {user_login} {
-      set name [::abook::getName ${user_login}]
-      ::MSN::unblockUser ${user_login} [urlencode $name]
-   }
-   #///////////////////////////////////////////////////////////////////////////////
 
    #///////////////////////////////////////////////////////////////////////////////
    # FileTransferSend (chatid)
@@ -335,11 +338,13 @@ namespace eval ::amsn {
    # ChatFor (win_name)
    # Returns the name of the chat assigned to window 'win_name'
    proc ChatFor { win_name } {
+   
          variable chat_ids
-	  if { [info exists chat_ids($win_name)]} {
-	     return $chat_ids($win_name)
-	  }
-	  return 0
+	 if { [info exists chat_ids($win_name)]} {
+	    return $chat_ids($win_name)
+	 }
+	  
+	 return 0
    }
    #///////////////////////////////////////////////////////////////////////////////
 
@@ -568,9 +573,9 @@ namespace eval ::amsn {
          return 0
       }
 
-      if { "$chatid" == "$usr_name" && [::MSN::chatReady $chatid] } {
-         return 0
-      }
+      #if { "$chatid" == "$usr_name" && [::MSN::chatReady $chatid] } {
+      #   return 0
+      #}
       
       set statusmsg "[timestamp] [trans joins $usr_name]\n"
       WinStatus [ WindowFor $chatid ] $statusmsg
@@ -1101,6 +1106,11 @@ namespace eval ::amsn {
    proc TypingNotification { win_name } {
 
       set chatid [ChatFor $win_name]
+      
+      if { $chatid == 0 } {
+         status_log "VERY BAD ERROR in ::amsn::TypingNotification!!!\n" red
+	 return 0
+      }
 
       #Don't queue unless chat is ready, but try to reconnect
       if { [::MSN::chatReady $chatid] } {
@@ -1125,6 +1135,12 @@ namespace eval ::amsn {
       global user_info config
 
       set chatid [ChatFor $win_name]
+      
+      if { $chatid == 0 } {
+         status_log "VERY BAD ERROR in ::amsn::MessageSend!!!\n" red
+	 return 0
+      }
+     
 
       set msg [$input get 0.0 end-1c]
 
@@ -1219,6 +1235,11 @@ namespace eval ::amsn {
 
 
       set chatid [ChatFor $win_name]
+      
+      if { $chatid == 0 } {
+         status_log "VERY BAD ERROR in ::amsn::closeWindow!!!\n" red
+	 return 0
+      }
 
       if {$config(keep_logs)} {
 		set user_list [::MSN::usersInChat $chatid]
@@ -1275,12 +1296,14 @@ namespace eval ::amsn {
    # mind in case we have a "chat ready to chat".
    proc chatStatus {chatid msg {icon ""} {ready ""}} {
 
-      if { [WindowFor $chatid] == 0} {
+      if { $chatid == 0} {
          return 0
-      } elseif { "$ready" != "" && [::MSN::chatReady $chatid]} {
+      } elseif { [WindowFor $chatid] == 0} {
+         return 0
+      } elseif { "$ready" != "" && [::MSN::chatReady $chatid] != 0 } {
          return 0
       } else {
-           WinStatus [ WindowFor $chatid ] $msg $icon
+           WinStatus [WindowFor $chatid] $msg $icon
       }
 
    }
@@ -1361,19 +1384,21 @@ namespace eval ::amsn {
    # one. 'user' is the mail address of the user to chat with.
    proc chatUser { user } {
 
-      set win_name [WindowFor $user]
+      set lowuser [string tolower $user]
+   
+      set win_name [WindowFor $lowuser]
 
       if { $win_name == 0 } {
 
 	  set win_name [OpenChatWindow]
-         SetWindowFor $user $win_name
+         SetWindowFor $lowuser $win_name
 
       }
 
-      set chatid [::MSN::chatTo $user]
+      set chatid [::MSN::chatTo $lowuser]
 
-      if { "$chatid" != "$user"} {
-         status_log "Error, expected same chatid as user, but was different\n" red
+      if { "$chatid" != "${lowuser}" } {
+         status_log "Error in ::amsn::chatUser, expected same chatid as user, but was different\n" red
          return 0
       }
 
@@ -1385,7 +1410,6 @@ namespace eval ::amsn {
       #We have a window for that chatid, raise it
       raise ${win_name}
       focus -force ${win_name}.f.in.input
-
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -2564,6 +2588,7 @@ proc cmsn_draw_login {} {
    grab set .login
 }
 #///////////////////////////////////////////////////////////////////////
+
 
 #///////////////////////////////////////////////////////////////////////////////
 # NewProfileAsk ()
