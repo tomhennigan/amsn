@@ -455,7 +455,7 @@ namespace eval ::ChatWindow {
 
 		set w [CreateTopLevelWindow]
 
-		# Test on Mac OS X(TkAqua) if ImageMagick is installed and kill all sndplay processes      
+		# Test on Mac OS X(TkAqua) if ImageMagick is installed   
 		if {$tcl_platform(os) == "Darwin"} {
 			if { [::config::getKey getdisppic] != 0 } {
 				check_imagemagick
@@ -1000,7 +1000,7 @@ namespace eval ::ChatWindow {
 			$paned paneconfigure $output -minsize 150 
 			$paned paneconfigure $input -minsize 100 -height 120
 		}
-		
+
 		# Bind on focus, so we always put the focus on the input window
 		bind $paned <FocusIn> "focus $input"
 		#bind $paned <Configure> "::ChatWindow::PanedWindowConfigured $paned %w %h"
@@ -1130,8 +1130,11 @@ namespace eval ::ChatWindow {
 		# Create my bindings
 		bind $text <Tab> "focus $sendbutton; break"
 		bind $sendbutton <Return> "::amsn::MessageSend $w $text; break"
-		bind $sendbutton <Enter> "$sendbutton configure -image [::skin::loadPixmap sendbutton_hover]"
-		bind $sendbutton <Leave> "$sendbutton configure -image [::skin::loadPixmap sendbutton]"
+		#Don't insert picture if TCL 8.3 or Mac OS X because it's the old-style button
+		if { $::tcl_version >= 8.4 && $tcl_platform(os) != "Darwin" } {
+			bind $sendbutton <Enter> "$sendbutton configure -image [::skin::loadPixmap sendbutton_hover]"
+			bind $sendbutton <Leave> "$sendbutton configure -image [::skin::loadPixmap sendbutton]"
+		}
 		bind $text <Shift-Return> {%W insert insert "\n"; %W see insert; break}
 		bind $text <Control-KP_Enter> {%W insert insert "\n"; %W see insert; break}
 		bind $text <Shift-KP_Enter> {%W insert insert "\n"; %W see insert; break}
