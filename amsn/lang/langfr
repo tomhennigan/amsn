@@ -129,6 +129,7 @@ dcprofile Ne pas créer de profil
 default Configuration par défaut
 defaultloginradio Identification avec la configuration par défaut
 delete Effacer
+deletecustomstate Suppression de l'état personnel 
 delimiters Délimiteurs de l'horodateur
 deliverfail Une erreur est survenue lors de l'envoi du message suivant
 delprofile2 Sélectionner le profil que vous voulez supprimer
@@ -149,7 +150,7 @@ dontdownload Ne pas télécharger TLS, je l'installerai moi-même
 dontshow Ne pas montrer
 downloadingtls Téléchargement du module TLS à partir de :\n $1
 editcurrentstate Editer l'etat actuel
-editcustomstate Éditer
+editcustomstate Editer l'état personnel
 edit Edition
 editnewstate Nouvel état avec message automatique personnalisé
 editprofile Modifier profil
@@ -287,6 +288,7 @@ needonline Vous êtes toujours déconnecté(e)!
 newmail $1 nouveaux messages
 newmailfrom Nouveau message de $1 ($2)
 newmsg Nouveau message
+newstate Ajouter un état personnel
 newveravailable Nouvelle version disponible ($1)
 next Suivant
 noactivity Inactif
@@ -308,6 +310,7 @@ notify2 Afficher une notification quand de nouveaux messages sont reçus
 notify3 Afficher une notification quand des emails arrivent dans votre boîte de réception
 notifyoffset Sélectionner la position de la fenêtre de notification en précisant ses coordonnées
 notify prévenir
+notifytyping Envoyer aux autres utilisateurs une notification lors de l'usage du clavier
 notifywin Fenêtre de notification
 notls Le protocole 9 de MSN requiert le module tls. Celui-ci ne semble pas être installé sur le système. S'il est installé,
 nousersinsession Pas d'utilisateur dans cette session
@@ -442,6 +445,8 @@ statename Nom du statut
 statenewtext Veuillez entrer les informations nécessaires \n a la création de votre nouveau statut et cliquez sur Enregistrer
 status Statut
 stopalarm Stopper l'alarme
+storenickname Revenir avec son surnom original après avoir un état particulier avec un surnom particulier
+strictfonts Force l'usage de toutes les polices de caracteres a celle selectionne (barre de status et autres)
 stylechat Même apparence que les conversations
 stylehist Apparence historique d'aMSN
 stylelog Sélectionner le format dans lequel vous voulez voir l'historique
