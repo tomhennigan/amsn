@@ -4902,7 +4902,7 @@ namespace eval ::MSNP2P {
 		append bheader [binary format i 0]
 		
 		# Just give the Ack Session ID some dumbo random number
-		append bheader [binary format i [myRand 4369 6545000]
+		append bheader [binary format i [myRand 4369 6545000]]
 
 		# Set last 2 ack fields to 0
 		append bheader [binary format i 0][binword 0]
