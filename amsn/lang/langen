@@ -59,6 +59,7 @@ groupnewname New name
 groupunknown Unknown group
 groupexists Group already exists
 groupmissing Cannot find group
+groupnotempty Group is not empty!
 handle Handle
 help Help
 helpcontents Help contents
@@ -84,6 +85,7 @@ logout Log Out
 logsin has just logged in
 mailer Mailer
 mobile Mobile
+movetogroup Move to Group
 mustrestart You must restart the program to apply changes
 mystatus My status
 msg Message

@@ -60,6 +60,7 @@ groupnewname Nuevo nombre
 groupunknown Grupo desconocido
 groupexists El grupo ya existe
 groupmissing No se puede encontrar el grupo
+groupnotempty El grupo no esta vacio
 handle Nick
 help Ayuda
 helpcontents Temas de ayuda
@@ -87,6 +88,7 @@ mailer Comando de email
 mobile Celular
 msg Mensaje
 msn AMSN
+movetogroup Mover al Grupo
 mustrestart Debes reiniciar el programa para aplicar los cambios
 mystatus Mi estado
 needonline Todavía estas/apareces desconectado 
