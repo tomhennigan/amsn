@@ -218,47 +218,52 @@ source socks.tcl	;# SOCKS5 proxy support
 ::snit::type ProxyHTTP {
 
 	option -name
+	option -proxy_queued_data
+	option -proxy_session_id
+	option -proxy_gateway_ip
+	option -options(-proxy_writing)
+
 
 	method write { name {msg ""} } {
-		variable proxy_queued_data
-		variable proxy_session_id
-		variable proxy_gateway_ip
-		variable proxy_writing
+#		variable proxy_queued_data
+#		variable proxy_session_id
+#		variable proxy_gateway_ip
+#		variable options(-proxy_writing)
 
 		#Cancel any previous attemp to write or POLL
 		after cancel "$self PollPOST $name"
 		after cancel "$self write $name"    
 	
-		if {![info exists proxy_queued_data($name)]} {
-			set proxy_queued_data($name) ""
+		if {![info exists options(-proxy_queued_data)]} {
+			set options(-proxy_queued_data) ""
 		}
 	
-		if { ![info exists proxy_session_id($name)]} {
+		if { ![info exists options(-proxy_session_id)]} {
 			return -1
 		}
 	
 		#Kind of mutex here, to avoid race conditions
-		set old_proxy_session_id $proxy_session_id($name)    
-		set proxy_session_id($name) ""      
+		set old_proxy_session_id $options(-proxy_session_id)    
+		set options(-proxy_session_id) ""      
 
 		if { $msg != "" } {
 			#If msg!="", enqueue it
-			set proxy_queued_data($name) "$proxy_queued_data($name)$msg"   
+			set options(-proxy_queued_data) "$options(-proxy_queued_data)$msg"   
 		}
 	
 	
 		#Check if we got the mutex, then write
 		if { $old_proxy_session_id != "" } {
-			set current_data $proxy_queued_data($name)    
+			set current_data $options(-proxy_queued_data)    
 			set size [string length $current_data]
 			set strend [expr {$size -1 }]
-			set proxy_queued_data($name) [string replace $proxy_queued_data($name) 0 $strend]         
+			set options(-proxy_queued_data) [string replace $options(-proxy_queued_data) 0 $strend]         
 
-			set tmp_data "POST http://$proxy_gateway_ip($name)/gateway/gateway.dll?SessionID=$old_proxy_session_id HTTP/1.1"                 
+			set tmp_data "POST http://$options(-proxy_gateway_ip)/gateway/gateway.dll?SessionID=$old_proxy_session_id HTTP/1.1"                 
 			set tmp_data "$tmp_data\r\nAccept: */*"
 			set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
 			set tmp_data "$tmp_data\r\nUser-Agent: MSMSGS"
-			set tmp_data "$tmp_data\r\nHost: $proxy_gateway_ip($name)"
+			set tmp_data "$tmp_data\r\nHost: $options(-proxy_gateway_ip)"
 			set tmp_data "$tmp_data\r\nProxy-Connection: Keep-Alive"
 			set tmp_data "$tmp_data\r\nConnection: Keep-Alive"
 			set tmp_data "$tmp_data\r\nPragma: no-cache"
@@ -272,15 +277,15 @@ source socks.tcl	;# SOCKS5 proxy support
 						
 			set tmp_data "$tmp_data\r\n\r\n$current_data"
 			status_log "::HTTPConnection::Write: PROXY POST Sending: ($name)\n$tmp_data\n" blue
-			set proxy_writing $tmp_data
+			set options(-proxy_writing) $tmp_data
 			if { [catch {puts -nonewline [$name cget -sock] "$tmp_data"} res] } {
-				connect $name [list ::HTTPConnection::RetryWrite $name]
+				connect $name [list $self RetryWrite $name]
 				return 0
 			}
 	    
 		} else {
 		
-			set proxy_session_id($name) $old_proxy_session_id
+			set options(-proxy_session_id) $old_proxy_session_id
 			after 500 "$self write $name"
 	    
 		}
@@ -322,9 +327,9 @@ source socks.tcl	;# SOCKS5 proxy support
 		
 		set url [string map { https:// http:// } $url]
 		status_log "::HTTPConnection::authenticate: Getting $url\n" blue
-		if {[catch {::http::geturl $url -command "::HTTPConnection::GotAuthReply [list $str]" -headers $head}]} {
-			eval [ns cget -autherror_handler]
-		}
+		::http::geturl $url -command "$self GotAuthReply [list $str]" -headers $head
+#			eval [ns cget -autherror_handler]
+#		
 	}
 
 	method GotAuthReply { str token } {
@@ -353,7 +358,7 @@ source socks.tcl	;# SOCKS5 proxy support
 			set index [expr {[lsearch $state(meta) "Location"]+1}]
 			set url [lindex $state(meta) $index]
 			status_log "::HTTPConnection::GotAuthReply 302: Forward to $url\n" green
-			::HTTPConnection::authenticate $str $url
+			$self authenticate $str $url
 		} elseif {[::http::ncode $token] == 401} {
 			eval [ns cget -passerror_handler]
 		} else {
@@ -368,19 +373,19 @@ source socks.tcl	;# SOCKS5 proxy support
 	method finish {name} {
 				
 		variable proxy_session_id
-		variable proxy_gateway_ip
+#		variable proxy_gateway_ip
 		variable proxy_queued_data
 
-		if {[info exists proxy_session_id($name)]} {
-			unset proxy_session_id($name)
+		if {[info exists options(-proxy_session_id)]} {
+			unset options(-proxy_session_id)
 		}
 
-		if {[info exists proxy_gateway_ip($name)]} {
-			unset proxy_gateway_ip($name)
+		if {[info exists options(-proxy_gateway_ip)]} {
+			unset options(-proxy_gateway_ip)
 		}
 
-		if {[info exists proxy_queued_data($name)]} {
-			unset proxy_queued_data($name)
+		if {[info exists options(-proxy_queued_data)]} {
+			unset options(-proxy_queued_data)
 		}
 		
 		set sock [$name cget -sock]
@@ -457,7 +462,12 @@ source socks.tcl	;# SOCKS5 proxy support
 			return
 		}
 
-		set tmp_data "POST http://gateway.messenger.hotmail.com/gateway/gateway.dll?Action=open&Server=[string toupper [string range $sb 0 1]]&IP=$remote_server HTTP/1.1"
+		set server "NS"
+		if { [string first "SB" $sb] != "-1" } {
+			set server "SB"
+		}
+
+		set tmp_data "POST http://gateway.messenger.hotmail.com/gateway/gateway.dll?Action=open&Server=$server&IP=$remote_server HTTP/1.1"
 		set tmp_data "$tmp_data\r\nAccept: */*"
 		set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
 		set tmp_data "$tmp_data\r\nUser-Agent: MSMSGS"
@@ -492,14 +502,14 @@ source socks.tcl	;# SOCKS5 proxy support
 	}	
 	
 	method RetryWrite { name } {
-		variable proxy_writing
+#		variable options(-proxy_writing)
 		status_log "Retrying write\n" blue
 		catch {fileevent [$name cget -sock] writable ""}
-		if { [catch {puts -nonewline [$name cget -sock] $proxy_writing} res] } {
+		if { [catch {puts -nonewline [$name cget -sock] $options(-proxy_writing)} res] } {
 			$name configure -error_msg $res
 			$name sockError
 		}
-		catch {unset proxy_writing}
+		catch {unset options(-proxy_writing)}
 		if { [catch {fileevent [$name cget -sock] readable [list $self HTTPRead $name]} res] } {
 			$name configure -error_msg $res
 			$name sockError
@@ -511,9 +521,9 @@ source socks.tcl	;# SOCKS5 proxy support
 	method HTTPRead { name } {
 
 		variable proxy_session_id
-		variable proxy_gateway_ip
+#		variable proxy_gateway_ip
 		variable proxy_data
-		variable proxy_writing
+		variable options(-proxy_writing)
 
 		after cancel "$self HTTPPoll $name"   
 
@@ -526,7 +536,7 @@ source socks.tcl	;# SOCKS5 proxy support
 			fileevent $sock writable ""	
 			catch { close $sock }
 			status_log "::HTTPConnection::HTTPRead: EOF, closing\n" red
-			if { [info exists proxy_writing] } {
+			if { [info exists options(-proxy_writing)] } {
 				connect $name [list $self RetryWrite $name]
 				return 0
 			} else {
@@ -541,7 +551,7 @@ source socks.tcl	;# SOCKS5 proxy support
 				return
 			}
 			
-			catch {unset proxy_writing}
+			catch {unset options(-proxy_writing)}
 
 			if { ([string range $tmp_data 9 11] != "200") && ([string range $tmp_data 9 11] != "100")} {
 				status_log "::HTTPConnection::HTTPRead: Proxy POST connection closed for $name:\n$tmp_data\n" red
@@ -581,7 +591,7 @@ source socks.tcl	;# SOCKS5 proxy support
 				status_log "::HTTPConnection::HTTPRead: Proxy POST Received ($name):\n$headers\n " green
 				while { $log != "" } {
 					set endofline [string first "\n" $log]
-					set command [string range $log 0 [expr {$endofline-1}]]
+					set command [string range $log 0 [expr {$endofline-2}]]
 					set log [string range $log [expr {$endofline +1}] end]
 					#sb append $name data $command
 
@@ -592,10 +602,11 @@ source socks.tcl	;# SOCKS5 proxy support
 						set msg_data [string range $log 0 [expr {[lindex $recv 3]-1}]]
 						set log [string range $log [expr {[lindex $recv 3]}] end]
 
-						set evcommand [$name cget -payload_handler]
-						lappend evcommand $command
-						lappend evcommand $msg_data
-						eval $evcommand
+						$name handleCommand $command $msg_data
+#						set evcommand [$name cget -payload_handler]
+#						lappend evcommand $command
+#						lappend evcommand $msg_data
+#						eval $evcommand
 						#degt_protocol " Message contents:\n$msg_data" msgcontents
 
 						#sb append $name data $msg_data
@@ -603,6 +614,7 @@ source socks.tcl	;# SOCKS5 proxy support
 #						set evalcomm [$name cget -command_handler]
 #						lappend evalcomm $command
 #						eval $evalcomm
+						status_log "command --$command--"
 						$name handleCommand $command
 					}
 
@@ -613,37 +625,37 @@ source socks.tcl	;# SOCKS5 proxy support
 					after 5000 "$self HTTPPoll $name"
 				}
 
-				set proxy_gateway_ip($name) $gateway_ip	 
-				set proxy_session_id($name) $session_id
+				set options(-proxy_gateway_ip) $gateway_ip	 
+				set options(-proxy_session_id) $session_id
 
 			}
 		}   
 	}
 
 	method HTTPPoll { name } {
-		variable proxy_session_id
-		variable proxy_gateway_ip 
-		variable proxy_queued_data  
-		variable proxy_writing
+#		variable proxy_session_id
+#		variable proxy_gateway_ip 
+#		variable proxy_queued_data  
+#		variable options(-proxy_writing)
 
-		if { ![info exists proxy_session_id($name)]} {
+		if { ![info exists options(-proxy_session_id)]} {
 			return
 		}
 	
 		#TODO: Race condition!! A write can happen here
-		set old_proxy_session_id $proxy_session_id($name)
-		set proxy_session_id($name) ""
+		set old_proxy_session_id $options(-proxy_session_id)
+		set options(-proxy_session_id) ""
 	
 		if { $old_proxy_session_id == ""} {
 			status_log "ERROR, RACE CONDITION, THIS SHOULD'T HAPPEN IN ::proxy::PollPOST!!!!\n" white
 		} else {	   
 			if { $old_proxy_session_id != ""} {
 
-				set tmp_data "POST http://$proxy_gateway_ip($name)/gateway/gateway.dll?Action=poll&SessionID=$old_proxy_session_id HTTP/1.1"      
+				set tmp_data "POST http://$options(-proxy_gateway_ip)/gateway/gateway.dll?Action=poll&SessionID=$old_proxy_session_id HTTP/1.1"      
 				set tmp_data "$tmp_data\r\nAccept: */*"
 				set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
 				set tmp_data "$tmp_data\r\nUser-Agent: MSMSGS"
-				set tmp_data "$tmp_data\r\nHost: $proxy_gateway_ip($name)"
+				set tmp_data "$tmp_data\r\nHost: $options(-proxy_gateway_ip)"
 				set tmp_data "$tmp_data\r\nProxy-Connection: Keep-Alive"
 				set tmp_data "$tmp_data\r\nConnection: Keep-Alive"
 				set tmp_data "$tmp_data\r\nPragma: no-cache"
@@ -655,7 +667,7 @@ source socks.tcl	;# SOCKS5 proxy support
 				set tmp_data "$tmp_data\r\n\r\n"
 
 				#status_log "PROXY POST polling connection ($name):\n$tmp_data\n" blue      
-				set proxy_writing $tmp_data
+				set options(-proxy_writing) $tmp_data
 				if { [catch {puts -nonewline [$name cget -sock] "$tmp_data" } res]} {
 					connect $name [list $self RetryWrite $name]
 					return 0
@@ -827,20 +839,20 @@ snit::type ProxyProxy {
 
 	method ClosePOST { name } {
 		variable proxy_session_id
-		variable proxy_gateway_ip
+#		variable proxy_gateway_ip
 		variable proxy_queued_data
 
 
-		if {[info exists proxy_session_id($name)]} {
-			unset proxy_session_id($name)
+		if {[info exists options(-proxy_session_id)]} {
+			unset options(-proxy_session_id)
 		}
 
-		if {[info exists proxy_gateway_ip($name)]} {
-			unset proxy_gateway_ip($name)
+		if {[info exists options(-proxy_gateway_ip)]} {
+			unset options(-proxy_gateway_ip)
 		}
 
-		if {[info exists proxy_queued_data($name)]} {
-			unset proxy_queued_data($name)
+		if {[info exists options(-proxy_queued_data)]} {
+			unset options(-proxy_queued_data)
 		}
 
 		catch {
@@ -871,13 +883,13 @@ snit::type ProxyProxy {
 		variable proxy_password
 		variable proxy_with_authentication
 
-		if { ![info exists proxy_session_id($name)]} {
+		if { ![info exists options(-proxy_session_id)]} {
 			return
 		}
 	
 		#TODO: Race condition!! A write can happen here
-		set old_proxy_session_id $proxy_session_id($name)
-		set proxy_session_id($name) ""
+		set old_proxy_session_id $options(-proxy_session_id)
+		set options(-proxy_session_id) ""
 	
 	
 		if { $old_proxy_session_id == ""} {
@@ -924,20 +936,20 @@ snit::type ProxyProxy {
 		after cancel "::Proxy::PollPOST $name"
 		after cancel "::Proxy::WritePOST $name"    
 	
-		if {![info exists proxy_queued_data($name)]} {
-			set proxy_queued_data($name) ""
+		if {![info exists options(-proxy_queued_data)]} {
+			set options(-proxy_queued_data) ""
 		}
 	
-		if { ![info exists proxy_session_id($name)]} {
+		if { ![info exists options(-proxy_session_id)]} {
 			return
 		}
 	
-		set old_proxy_session_id $proxy_session_id($name)    
-		set proxy_session_id($name) ""      
+		set old_proxy_session_id $options(-proxy_session_id)    
+		set options(-proxy_session_id) ""      
 
 		if { $msg != "" } {
 	    
-			set proxy_queued_data($name) "$proxy_queued_data($name)$msg"   
+			set options(-proxy_queued_data) "$options(-proxy_queued_data)$msg"   
 
 			if {$name != "ns" } {
 				degt_protocol "->Proxy($name) $msg" sbsend
@@ -950,7 +962,7 @@ snit::type ProxyProxy {
 		if { $old_proxy_session_id != "" } {
 	    
 	    
-			set size [string length $proxy_queued_data($name)]
+			set size [string length $options(-proxy_queued_data)]
 			set strend [expr {$size -1 }]
 
 			set tmp_data "POST http://$proxy_gateway_ip($name)/gateway/gateway.dll?SessionID=$old_proxy_session_id HTTP/1.1"                 
@@ -968,10 +980,10 @@ snit::type ProxyProxy {
 				set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode ${proxy_username}:${proxy_password}]"
 			}
 			
-			set tmp_data "$tmp_data\r\n\r\n[string range $proxy_queued_data($name) 0 $strend]"
+			set tmp_data "$tmp_data\r\n\r\n[string range $options(-proxy_queued_data) 0 $strend]"
 
 			status_log "PROXY POST Sending: ($name)\n$tmp_data\n" blue
-			set proxy_queued_data($name) [string replace $proxy_queued_data($name) 0 $strend]         
+			set options(-proxy_queued_data) [string replace $options(-proxy_queued_data) 0 $strend]         
 			if { [catch {puts -nonewline [$name cget -sock] "$tmp_data"} res] } {
 				$name configure -error_msg $res
 				ClosePOST $name
@@ -979,7 +991,7 @@ snit::type ProxyProxy {
 
 	    
 		} else {
-			set proxy_session_id($name) $old_proxy_session_id
+			set options(-proxy_session_id) $old_proxy_session_id
 			after 500 "::Proxy::WritePOST $name"
 	    
 		}
@@ -1071,7 +1083,7 @@ snit::type ProxyProxy {
 				}
 
 				set proxy_gateway_ip($name) $gateway_ip	 
-				set proxy_session_id($name) $session_id
+				set options(-proxy_session_id) $session_id
 
 			}
 		}   

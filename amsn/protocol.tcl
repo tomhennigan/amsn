@@ -1532,7 +1532,8 @@ namespace eval ::MSN {
 
 		global sb_list
 	
-		set lowuser [string tolower ${user}]
+#		set lowuser [string tolower ${user}]
+		set lowuser $user
 
 		#If there's already an existing chat for that user, and
 		#that chat is ready, return it as chatd
@@ -2212,6 +2213,8 @@ namespace eval ::MSN {
 	option -proxy ""
 	option -time ""
 	option -error_msg ""
+	option -proxy_host
+	option -proxy_authenticate
 
 	variable dataBuffer ""
 
@@ -2293,9 +2296,7 @@ namespace eval ::MSN {
 	option -autherror_handler ""
 	option -passerror_handler ""
 	option -ticket_handler ""
-	option -proxy_host
 	option -proxy_port
-	option -proxy_authenticate
 
 	constructor {args} {
 		install connection using Connection %AUTO% -name $self
