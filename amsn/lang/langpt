@@ -1,0 +1,78 @@
+amsn_lang_version 2
+about Acerca de
+addacontact Acrescentar um contacto
+addedyou acrescentou-o à sua lista de contactor
+addtoo Acrescentar esta pessoa à minha lista de contactos
+allowseen Permitir a esta pessoa ver quando você está ligado e contactar
+appearoff Sem ligação
+are estão
+avoidseen Evitar que esta pessoa veja a sua ligação e o contacte
+away Ausente
+blankdirect Deixar em branco para ligação directa
+block Não admitir
+busy Ocupado
+cancel Cancelar
+changenick Mudar alcunha
+chat Conversação
+chatreq Requisitando uma conversação
+chatack Aceitando uma conversação de
+clicktologin Clique aqui para iniciar a sessão
+close Fechar
+contactadded Contacto acrescentado
+date Data
+delete Eliminar
+entercontactemail Introduza o email do contacto
+enternick Introduza a sua alcunha
+examples Exemplos
+gonelunch Saí para comer
+help Ajuda
+ident Identificando-se
+invite Convidar
+is está
+joins $1 $2 junta-se à conversação
+language Linguagem
+leaves deixa a conversação
+loggingin Iniciando sessão
+login Iniciar sessão
+logout Terminar sessão
+logsin acaba de iniciar sessão
+mustrestart Deve reiniciar o programa para aplicar as modificações
+mystatus O meu estado
+msg Mensagem
+msn AMSN
+newmail $1 novas mensagens na caixa de correio
+newmailfrom Novo correio de
+newmsg Nova mensagem
+next Seguinte
+noactivity Sem actividade
+notify aviso
+nousersinsession Não existem utilizadores na sessão
+ok Aceitar
+offline Desligado
+online Ligado
+onphone Ao telefone
+other Outro
+pass Senha
+port Porto
+proxyconf Configuração de proxy
+proxyconfhttp Configurar suporte de proxy http
+reconnect Esperando que $1 volta a ligar-se
+reconnecting Ligando-se de novo ao servidor
+rememberpass Recordar senha
+rightback Volto já
+says $1 diz
+sbcon Ligando a Switch Board
+send Enviar
+server Servidor
+sound Sons para eventos
+title Al's Messenger
+to Para
+typing $1 escrevendo uma mensagem
+yousay Você diz
+youwant Queres
+unblock Admitir
+uoffline Desligados
+uonline Ligados
+user Utilizador
+version Versão
+willjoin Esperando que $1 se junte à conversação

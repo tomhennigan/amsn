@@ -1,0 +1,83 @@
+amsn_lang_version 2
+about About
+addacontact Add a contact
+addedyou has added you to his/her contact list
+addtoo Add this person to my contact list
+allowseen Allow this person to see when I'm online and contact me
+appearoff Appear offline
+are are
+avoidseen Avoid this person can see when I'm online and contact me
+away Away
+blankdirect Leave blank for direct connection
+block Block
+busy Busy
+cancel Cancel
+changenick Change nick
+chat Chat
+chatreq Requesting chat
+chatack Accepting chat from
+checkver Check for new version
+checkingver Checking for new versions
+clicktologin Click here to log in
+close Close
+contactadded Contact added
+set lang(connecterror) "Error connecting to server"
+date Date
+delete Delete
+entercontactemail Enter contact e-mail
+enternick Enter your nick
+examples Examples
+gonelunch Gone to lunch
+help Help
+ident Identifying
+invite Invite
+is is
+joins $1 $2 joins conversation
+language Language
+leaves $1 leaves conversation
+loggingin Logging In
+login Log In
+logout Log Out
+logsin has just logged in
+mustrestart You must restart the program to apply changes
+mystatus My status
+msg Message
+msn AMSN
+newmail $1 new messages in In-Box
+newmailfrom New mail from
+newmsg New message
+newveravailable Newer version $1 available for download
+next Next
+noactivity No activity
+nonewver There are no new versions available to download
+notify notify
+nousersinsession No users in session
+ok Ok
+offline Offline
+online Online
+onphone On phone
+other Other
+pass Password
+port Port
+proxyconf Proxy configuration
+proxyconfhttp HTTP proxy support configuration
+reconnect Waiting for $1 to reconnect
+reconnecting Reconnecting to server
+rememberpass Remember password
+rightback Be right back
+says $1 says
+sbcon Conecting to Switch Board
+send Send
+server Server
+sound Event Sound
+title Al's Messenger
+to To
+typing $1 typing a message
+yousay You say
+youwant You want
+unblock Unblock
+uoffline Offline
+uonline Online
+user User
+version Version
+willjoin Waiting $1 joins conversation

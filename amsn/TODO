@@ -1,0 +1,35 @@
+
+This stuff is mainly here for me! to know what's left to be done :)
+so some of them may not make sense to you :p
+
+dave a.k.a. Compu
+<dave at CompuCreations dot com>
+
+# TODO create a msg window "Talking to" area - there, but needs update
+# TODO ACKs!!!
+# TODO colour chats
+# TODO do not assume :'s in XFRs!
+# TODO do handle errors!
+# TODO anti-idle
+# TODO parse for errors from proxy etc!!
+# TODO think of how logs should be saved - and implement it :)
+# TODO proxy auth
+# TODO file transfers
+
+and more... by AIM
+
+# TODO Menu rearrangement
+# TODO Avoid blocking the messenger when reading from the socket
+# TODO Windows-like copy-paste
+# TODO Option for autoconnect (when connection detected)
+# TODO Mail sending from the contact list
+# TODO Ask for confirmation when deleting
+# TODO Clickable images in the contact list
+# TODo Background image, animation when logging in
+# TODO Unified option window (browser, fonts, use smileys, AL/BL/RL lists...)
+# TODO Smiley selection menu on chat windows
+# TODO Just one chat per user, not open many windows for the same user
+# TODO Number of online/offline contacts
+# TODO Improve logging
+
+

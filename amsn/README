@@ -1,0 +1,146 @@
+========================================================
+=== Version Alvaro's Messenger==========================
+
+The CCMSN was great, I found it when I was looking for 
+a MSN Messenger Linux client, and liked it very much,
+except for the visual aspect, it was little "ugly", font
+types were very bad looking, and not very fine emoticons, 
+so I started to improve it.
+
+Alvaro J. Iradier
+
+Please send bugs, comments, feedback or suggestions to
+Source Forge project page at:
+
+http://sourceforge.net/projects/amsn
+
+New versions, and homepage at:
+
+http://amsn.sourceforge.net
+
+========================================================
+=== Programmers ===============================
+
+Alvaro J. Iradier Muro - airadier@able.es
+Didimo E. Grimaldo T. - grimaldo@panama.iaehv.nl
+
+========================================================
+=== Multilanguage Support ==============================
+
+Added by Alvaro J. Iradier.
+
+Translations to:
+
+Danish: Anders Bach Nielsen
+
+English: by Alvaro J. Iradier
+            Gareth Ignatius
+            Jody Branter
+
+French: by Guillaume Vaillant
+
+Italian: Andrea Di Mento
+
+Portuguese: by Gustavo J.A.M. Carneiro
+
+Spanish: by Alvaro J. Iradier
+
+Turkish: by Baris Cicek
+
+========================================================
+=== More thanks and credits ============================
+
+Gareth Ignatius
+Baris Cicek
+
+
+ORIGINAL README:
+
+Compu's Messenger - http://messenger.CompuCreations.com/
+========================================================
+=== short note === version 0.3p3 - 20010926 ============
+
+Hej, this is still a relatively new project, so do not
+expect everything to work! :)
+
+BUT if anything doesn't work, and why not, even if it
+does, I'd be happy to hear from you - just drop me a
+line on:
+
+   dave@CompuCreations.com
+
+========================================================
+=== About ==============================================
+
+Compu's Messenger is a multi-platform MSN Messenger
+(though it works best on unix platform). It has support
+for getting the user list from the server, block lists,
+chats with more than two users, emotional icons, HTTP
+proxy and logging facility.
+
+Still lacks:
+   o font/colour in chats
+   o file transfers
+
+========================================================
+=== How to =============================================
+
+   o TO ADD A CONTACT, go to CCMSN menu, and select
+     "Add a Contact" from the menu. No error reporting
+     so far, so if the user does not show up in the
+     contact list, then there must have been an error
+     adding the user
+
+   o TO DELETE A CONTACT, just right click on his/her
+     display name, and select delete
+
+   o TO CHAT A USER, select the user from the "Message"
+     menu, or right click and select "Instant Message"
+
+     One have to wait for the other user to join before
+     being able to chat. A message saying:
+      "User display name (email@address.dom) joins chat"
+     informs you when someone else has just joined the
+     chat.
+
+     To have a multi-party chat, just select the user
+     you would like to join from the invite menu.
+
+     Emotions are supported, so typing ":)" and the rest
+     will show a graphic.
+
+   o TO CHANGE YOUR ONLINE STATUS, select the status
+     from the "My Status" sub-menu in the CCMSN menu.
+
+   o TO BLOCK A USER from seeing your online status,
+     right click and select "Block". Likewise to unblock
+
+   o TO CHANGE YOUR DISPLAY NAME, just select
+     "Change Display Name" from the CCMSN menu.
+
+   o TO CONFIGURE PROXY SERVER, make sure you are
+     disconnected, and select "Proxy settings" from the
+     CCMSN menu.
+
+   o TO SWITCH ON LOGGING, edit ~/.ccmsn/config and
+     append a line "keep_logs 1"
+
+========================================================
+=== Note on Logging ====================================
+
+logging should be retought a bit! main problem is
+deciding how to keep logs of chats with multiple users
+joining/leaving. Currently keeps msgs based on users in
+chat. i.e. if chatting to userx, it will be logged in
+file userx. If chatting to userx and usery, it will be
+kept in a file userx-usery. This causes a chat session
+to be split over multiple files if users are joining/
+leaving during the chat!
+
+========================================================
+=== Please send any feedback ===========================
+
+Just do not hesitate to send me any comments :))
+
+dave aka il-Compu
+

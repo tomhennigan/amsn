@@ -1,0 +1,78 @@
+amsn_lang_version 2
+about Om
+addacontact Tilføj
+addedyou har tilføjet dig til hans/hendes kontakt liste
+addtoo Tilføj denne person til min kontakt liste
+allowseen Tillad denne person at se når jeg er online
+appearoff Forstil at være offline
+are er
+avoidseen Undlad denne person at se når jeg er online
+away Væk
+blankdirect Forbliv blank for direkte forbindelse
+block Blokker
+busy Travlt
+cancel Annuller
+changenick Ændre nick
+chat Chat
+chatreq Forespørg chat
+chatack Accepter chat fra
+clicktologin Klik her for at logge ind
+close Luk
+contactadded Kontakt tilføjet
+date Dato
+delete Slet
+entercontactemail Skriv kontakt E-mail
+enternick Skriv dit nick
+examples Eksempler
+gonelunch Væk til frokost
+help Hjælp
+ident Identificerer
+invite Inviter
+is er
+joins $1 $2 tilslutter sig samtale
+language Sprog
+leaves $1 forlader samtale
+loggingin Logger Ind
+login Log Ind
+logout Log Ud
+logsin er lige logget ind
+mustrestart Du skal genstarte dit program for at ændringerne træder i kraft
+mystatus Min status
+msg Besked
+msn AMSN
+newmail $1 nye beskeder i In-Box
+newmailfrom Nye mail fra
+newmsg Nye besked
+next Næste
+noactivity Ingen aktivitet
+notify giv besked
+nousersinsession Ingen brugere i session
+ok Ok
+offline Offline
+online Online
+onphone I telefon
+other Andre
+pass Password
+port Port
+proxyconf Proxy konfiguration
+proxyconfhttp HTTP proxy support konfiguration
+reconnect Venter på at $1 genforbinder
+reconnecting Genforbinder til server
+rememberpass Husk password
+rightback Er straks tilbage
+says $1 siger
+sbcon Forbinder til Switch Board
+send Send
+server Server
+sound Event Sound
+title Al's Messenger
+to Til
+typing $1 skriver en besked
+yousay Du siger
+youwant Du vil
+unblock Fjern blokkering
+uoffline Offline
+uonline Online
+user Bruger
+version Version
+willjoin Venter på  $1 joiner samtale

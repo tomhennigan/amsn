@@ -1,0 +1,78 @@
+amsn_lang_version 2
+about A Propos...
+addacontact Ajouter un contact
+addedyou vous a ajouté dans sa liste de contacts
+addtoo Ajouter cette personne à ma liste de contacts
+allowseen Autoriser cette personne à me voir et à me contacter quand je suis connecté
+appearoff Apparaître déconnecté
+are est
+avoidseen Interdire à cette personne de me voir ou de me contacter quand je suis en ligne
+away Absent
+blankdirect Laisser vide pour une connexion sans proxy
+block Bloquer
+busy Occupé
+cancel Annuler
+changenick Changer de pseudonyme
+chat Discuter
+chatreq Inviter à discuter
+chatack Accepter de discuter avec
+clicktologin Cliquez pour vous connecter
+close Fermer
+contactadded Contact ajouté
+date Date
+delete Effacer
+entercontactemail Rajouter un contact de messagerie
+enternick Donner votre pseudonyme
+examples Exemples
+gonelunch Parti[e] déjeuner
+help Aide
+ident Identification
+invite Invitation
+is est
+joins $1 $2 a rejoint la conversation
+language Langage
+leaves $1 a quitté la conversation
+loggingin est en cours de connexion
+login Se connecter
+logout Se déconnecter
+logsin vient de se connecter
+mustrestart Vous devez redémarrer l'application pour que les changements prennent effet
+mystatus Mon état
+msg Message
+msn AMSN
+newmail $1 nouveau[x] message[s] dans votre boîte aux lettres
+newmailfrom Nouveau message de
+newmsg Nouveau message
+next Suivant
+noactivity Inactif
+notify prévenir
+nousersinsession Pas d'utilisateurs dans cette session
+ok Accepter
+offline Déconnecté
+online Connecté
+onphone Au téléphone
+other Autre
+pass Mot de passe
+port Port
+proxyconf Configuration du proxy
+proxyconfhttp Configuration pour le support du proxy HTTP
+reconnect Dans l'attente de la reconnexion de $1
+reconnecting Reconnexion au serveur
+rememberpass Enregistrer le mot de passe
+rightback Bientôt de retour
+says $1 dit
+sbcon Connexion au "Switch Board"
+send Envoyer
+server Serveur
+sound Evénements Sonores
+title Al's Messenger
+to A
+typing $1 tappe un message
+yousay Vous avez dit
+youwant Vous voulez
+unblock Débloquer
+uoffline Déconnectés
+uonline Connectés
+user Utilisateur
+version Version
+willjoin Dans l'attente que $1 rejoigne la conversation

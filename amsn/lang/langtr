@@ -1,0 +1,79 @@
+amsn_lang_version 2
+about Hakkinda
+addacontact Yeni kontak
+addedyou sizi kontak listesine ekledi
+addtoo Bu kisiyi kontak listesine ekle
+allowseen Bu kisinin bana ulasmasina ve beni cevirim ici olarak gormesine izin ver
+appearoff Cevirim disi gorun
+are  
+avoidseen Bu kisinin bana ulasmasina ve beni cevirim ici olarak gormesine engel ol
+away Uzak
+blankdirect Direk baglanti icin bos birakin
+block Engel koy
+busy Mesgul
+cancel Iptal
+changenick Kullanici adi degistir
+chat Sohbet et
+chatreq Sohbet istemi
+chatack Sohbet'i kabul edilen 
+clicktologin Baglanmak icin tiklayin
+close Kapat
+contactadded Kontak eklendi
+date Tarih
+delete Sil
+entercontactemail Kontak e-mail'ini girin
+enternick Kullanici adini girin
+examples Ornekler
+gonelunch Yemege cikti
+help Yardim
+ident Tanimlaniyor
+invite Cagir
+is 
+joins $1 $2 sohbete katiliyor
+language Dil
+leaves $1 sohbetten ayriliyor
+loggingin Baglaniyor
+login Baglan
+logout Baglantiyi kes
+logsin baglandi
+mustrestart Yeniliklerin uygulanmasi icin programi yeniden baslatmalisiniz
+mystatus Benim konumum
+msg Mesaj
+msn AMSN
+newmail Gelen Kutusunda $1 mesaj var 
+newmailfrom Yeni mail yollayan 
+newmsg Yeni mesaj
+next Ileri
+noactivity Aktivite yok
+notify uyar
+nousersinsession Ortamda kullanici yok
+ok Tamam
+offline Cevirim disi
+online Cevirim ici
+onphone Telefonda
+other Diger
+pass Sifre
+port Port
+proxyconf Proxy ayari
+proxyconfhttp HTTP proxy destegi ayari
+reconnect $1 tekrar baglanmasini bekliyor
+reconnecting Sunucuya tekrar baglaniliyor
+rememberpass Sifreyi hatirla
+rightback Hemen donucek
+says $1 soyler
+sbcon Switch Board'a baglaniyor
+send Yolla
+server Sunucu
+sound Ses
+title Al'in Messenger'i
+to Kime
+typing $1 mesaj yaziyor
+yousay Siz
+youwant Siz
+unblock Engeli kaldir
+uoffline Cevirim disi
+uonline Cevirim ici
+user Kullanici
+version Surum
+willjoin $1 sohbete katilmasi bekleniyor
+

@@ -1,0 +1,78 @@
+amsn_lang_version 2
+about Informazioni
+addacontact Aggiungi un contatto
+addedyou ti ha aggiunto alla sua lista dei contatti
+addtoo Aggiungi questa persona alla mia lista dei contatti
+allowseen Permetti a questa persona di vedermi e di contattarmi quando sono connesso
+appearoff Invisibile
+are sono
+avoidseen Impedisci a questa persona di vedermi e di contattarmi quando sono connesso
+away Non al computer
+blankdirect Lascia vuoto per connessioni dirette
+block Blocca
+busy Ho da fare
+cancel Cancella
+changenick Cambia nick
+chat Inizia la conversazione
+chatreq Sto chiamando
+chatack Sto accentando una chiamata da
+clicktologin Clicca qui per accedere
+close Chiudi
+contactadded Contatto aggiunto
+date Data
+delete Cancella
+entercontactemail Inserisci un contatto per e-mail
+enternick Inserisci il tuo nick
+examples Esempi
+gonelunch A pranzo
+help Aiuto
+ident Identificazione
+invite Invita
+is _
+joins $1 $2 si unisce alla conversazione
+language Linguaggio
+leaves $1 abbandona la conversazione
+loggingin Connessione in corso ...
+login Connessione
+logout Disconessione
+logsin si e' appena connesso
+mustrestart Devi far ripartire il programma per attivare le modifiche
+mystatus Il mio stato
+msg Messaggio
+msn AMSN
+newmail $1 nuove e-mail nella mailbox
+newmailfrom Nuova email da
+newmsg Nuovo messaggio
+next Prossimo
+noactivity Nessuna attivita'
+notify notifica
+nousersinsession Nessun utente nella sessione
+ok Ok
+offline Offline
+online Online
+onphone Al telefono
+other Altri
+pass Password
+port Porta
+proxyconf Configurazione proxy
+proxyconfhttp Configurazione supporto proxy HTTP
+reconnect Sto aspettando che $1 si riconnetta
+reconnecting Riconnessione al server
+rememberpass Ricorda password
+rightback Torno subito
+says $1 dice
+sbcon Connessione a Switch Board
+send Invia
+server Server
+sound Attiva suoni
+title Al's Messenger
+to A
+typing $1 sta scrivendo un messaggio
+yousay Tu dici
+youwant Tu vuoi
+unblock Sblocca
+uoffline Offline
+uonline Online
+user Utente
+version Versione
+willjoin Sto aspettando che $1 accetti la conversazione

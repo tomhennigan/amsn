@@ -1,0 +1,68 @@
+
+compu		Dave Mifsud <dave at CompuCreations dot com>
+###############################################################################
+
+Version 0.3p3aim
+20020430 AIM    o visual improvements
+                o new emoticons
+                o translation to spanish
+
+Version 0.3p3 released
+20010926 compu	o fixed error with map variable!
+
+Version 0.3p2 released
+20010926 compu	o fixed bug causing error when trying to reconnect to other
+		  user after getting disconnected
+
+Version 0.3p1 released
+20010926 compu	o fixed error when user does not save password
+
+Version 0.3 released
+20010925 compu	o Notifies you when a user adds you to his/her list - asked
+		  whether to Allow/Block user from seeing you online
+20010925 compu	o show blocked users in contact list with a special icon
+20010925 compu	o option to change user's display name
+20010925 compu	o added right mouse menu to Message, un/Block and Delete user
+20010924 tom	o Update main window when user changes his/her own online status
+20010924 compu	o config file support - unix uses "~/.ccmsn" directory, other
+		  platforms use "running directory/ccmsn" directory
+		  currently file keeps Sign-in name and proxy by default.
+		  - also used for logs, see below
+20010924 compu	o save password option - stores password in plain text in
+		  config file - no problem in unix as file/directory are
+		  only readable by user
+20010924 compu	o basic logging facility (edit ~/.ccmsn/config and append a
+		  line "keep_logs 1") - logging should be retought a bit!
+		  main problem is deciding how to keep logs of chats with
+		  multiple users joining/leaving. Currently keeps msgs based
+		  on users in chat. i.e. if chatting to userx, it will be
+		  logged in file userx. If chatting to userx and usery, it
+		  will be kept in a file userx-usery. This causes a chat
+		  session to be split over multiple files if users are
+		  joining/leaving during the chat!
+
+Version 0.24 released
+20010924 compu	o online notify when a user goes online
+20010924 compu	o reconnects to other user when you type in an empty session
+20010924 compu	o fixed problem with long messages - set socket to blocking 
+		  mode during msg only reads :) we'll see if it is noticed ;p
+20010924 compu	o invite menu now works in chats on Windows platform
+
+Version 0.23 released
+20010922 compu	o now wait for socket to be writable before sending any data
+20010922 compu	o fix HTTP proxy support
+20010922 compu	o included urldecode proc, solves needing ncgi package
+20010922 compu	o one can now add contacts - user is not informed of errors
+20010922 compu	o added menu in contacts window to invite users to start chat
+20010922 compu	o added menu in chat window to invite users to join a chat
+20010922 compu	o fixed the login dialog box - needed a face lift
+
+Version 0.2 released
+20010920 compu	o decode URL encoded information in user names
+20010920 compu	o Show the changes to display name of other users
+20010920 compu	o added support to change user online status
+20010919 compu	o added emotional icons support
+
+Version 0.1 initial release
+
+
