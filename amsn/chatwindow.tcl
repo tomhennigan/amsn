@@ -202,6 +202,7 @@ namespace eval ::ChatWindow {
 		set w .close$nodot
 
 		if { [winfo exists $w] } {
+			raise $w
 			return
 		}
 
