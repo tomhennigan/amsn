@@ -11,6 +11,9 @@ namespace eval ::amsnplus {
 	################################################
 	# this starts amsnplus
 	proc amsnplusStart { dir } {
+		#global vars
+		variable external_commands
+		array set ::amsnplus::external_commands [list]
 		#register plugin
 		::plugins::RegisterPlugin "aMSN Plus"
 		#set the amsnplus dir in config
@@ -46,8 +49,8 @@ namespace eval ::amsnplus {
 	################################################
 	# this proc add external commands to amsnplus
 	# (useful for other plugins)
-	proc add_command { keyword action } {
-		array set ::amsnplus::external_commands [list "/$keyword" $action]
+	proc add_command { keyword proc parameters } {
+		set ::amsnplus::external_commands($keyword) [list $proc $parameters]
 	}
 
 	################################################
@@ -140,8 +143,25 @@ namespace eval ::amsnplus {
 		while {$i<$strlen} {
 			set char [::amsnplus::readWord $i $msg $strlen]
 			#check for the external_commands
-			if {[info exists ::amsnplus::external_commands($char)]} {
-				[set ::amsnplus::external_commands($char)]
+			set keyword [string replace $char 0 0 ""]
+			if {[info exists ::amsnplus::external_commands($keyword)]} {
+				set clen [string length $char]
+				set msg [string replace $msg $i [expr $i + $clen]]
+				set strlen [string length $msg]
+				set kwdlist $::amsnplus::external_commands($keyword)
+				set proc [lindex $kwdlist 0]
+				set parameters [lindex $kwdlist 1]
+				set values ""
+				set j 0
+				while { $j < $parameters } {
+					set values [append values [::amsnplus::readWord $i $msg $strlen]]
+					incr j
+				}
+				set result [$proc $values]
+				status_log "$proc $values -> $result\n"
+				set msg ""
+				set strlen 0
+				set incr 0
 			}
 			#amsnplus commands
 			if {[string equal $char "/all"]} {
