@@ -12,7 +12,7 @@ namespace eval ::amsn {
       if {$answer == "yes"} {
          ::MSN::acceptFT $cookie $sb_name
       } else {
-         ::MSN::rejectFT $cookie
+         ::MSN::rejectFT $sb_name $cookie
       }
    }
    

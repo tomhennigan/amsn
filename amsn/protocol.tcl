@@ -31,7 +31,7 @@ namespace eval ::MSN {
    unblockUser addUser deleteUser login myStateIs
 
    proc connect { username password } {
-      if [catch { cmsn_ns_connect $username $password } res] {
+      if {[catch { cmsn_ns_connect $username $password } res]} {
         msg_box "[trans connecterror]"
 	
         sb set ns stat "d"
@@ -156,7 +156,7 @@ namespace eval ::MSN {
       set sock [sb get $sbn sock]
 
       #Calculate a random cookie
-      set cookie [expr $trid * $filesize % (65536 * 4)]
+      set cookie [expr {$trid * $filesize % (65536 * 4)}]
 
       set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
       set msg "${msg}Application-Name: File Transfer\r\n"
@@ -194,7 +194,7 @@ namespace eval ::MSN {
       set port 6891
 
       #Random authcookie
-      set authcookie [expr $trid * $port % (65536 * 4)]
+      set authcookie [expr {$trid * $port % (65536 * 4)}]
 	
       while {[catch {set sockid [socket -server "::MSN::AcceptConnection $sbn" $port]} res]} {
          incr port
@@ -266,6 +266,8 @@ namespace eval ::MSN {
       } 
       status_log "Transferencia cancelada\n"  
       close $sockid
+      return 1
+
    }
 
    proc SendPacket { sockid fileid filesize sbn } {
@@ -273,22 +275,22 @@ namespace eval ::MSN {
 
       set sentbytes [tell $fileid]
 
-      if {[expr $filesize-$sentbytes >2045]} {
+      if {[expr {$filesize-$sentbytes >2045}]} {
          set packetsize 2045
       } else {
-         set packetsize [expr $filesize-$sentbytes]
+         set packetsize [expr {$filesize-$sentbytes}]
       }
 
    
       if {$packetsize>0} {
          set datos [read $fileid $packetsize]
 	  
-         set byte1 [expr $packetsize & 0xFF]
-         set byte2 [expr $packetsize >> 8]
+         set byte1 [expr {$packetsize & 0xFF}]
+         set byte2 [expr {$packetsize >> 8}]
 	  
          puts -nonewline $sockid "\0[format %c $byte1][format %c $byte2]"
          puts -nonewline $sockid $datos
-         set sentbytes [expr $sentbytes + $packetsize]
+         set sentbytes [expr {$sentbytes + $packetsize}]
 	 ::amsn::fileTransferProgress s $sbn $sentbytes $filesize
          #status_log "sending $sentbytes of $filesize bytes\n"
       } else {
@@ -307,19 +309,19 @@ namespace eval ::MSN {
       if {[string range $datos 0 2] == "CCL"} {
          status_log "Connection cancelled\n"
          close $sockid
-         return 0
+         return
       }
   
       if {[string range $datos 0 2] == "BYE"} {
          status_log "Connection finished\n"
          close $sockid
-         return 0
+         return
       }
   
       if {[eof $sockid]} {
          status_log "EOF in connection\n"      
          close $sockid
-         return 0
+         return
       }
    }
 
@@ -347,7 +349,7 @@ namespace eval ::MSN {
    }
 
 
-   proc rejectFT {cookie} {
+   proc rejectFT {sbn cookie} {
       #Send the cancelation for a file transfer, request IP
       set sock [sb get $sbn sock]
 
@@ -415,7 +417,7 @@ namespace eval ::MSN {
 
    proc ReceivePacket { sockid fileid filesize sbn} {
       #Get a packet from the file transfer
-      set packetrest [expr 2045 - ([tell $fileid] % 2045)]
+      set packetrest [expr {2045 - ([tell $fileid] % 2045)}]
 
       if {$packetrest == 2045} { 
          #Need a full packet, header included
@@ -437,9 +439,9 @@ namespace eval ::MSN {
 
          #If you want to cancel, send "CCL\n"
 	
-         set packet2 [expr ($packet2 + 0x100) % 0x100]
-         set packet3 [expr ($packet3 + 0x100) % 0x100]
-         set packetsize [expr $packet2 + ($packet3<<8)]
+         set packet2 [expr {($packet2 + 0x100) % 0x100}]
+         set packet3 [expr {($packet3 + 0x100) % 0x100}]
+         set packetsize [expr {$packet2 + ($packet3<<8)}]
       
          fconfigure $sockid -blocking 0
 
@@ -535,7 +537,7 @@ proc sb {do sbn var {value ""}} {
          unset $sb_tmp
       }
    }
-
+   return 0
 }
 
 proc read_ns_sock {} {
@@ -591,6 +593,7 @@ proc proc_sb {} {
    } ;# foreach
 
    after 250 proc_sb
+   return 1
 }
 
 proc proc_ns {} {
@@ -612,6 +615,7 @@ proc proc_ns {} {
    }
 
    after 100 proc_ns
+   return 1
 }
 
 
@@ -630,8 +634,8 @@ proc cmsn_msg_parse {msg hname bname} {
    set head_lines [split $head "\n"]
    foreach line $head_lines {
       set colpos [string first ":" $line]
-      set attribute [string tolower [string range $line 0 [expr $colpos-1]]]
-      set value [string range $line [expr $colpos+2] [string length $line]]
+      set attribute [string tolower [string range $line 0 [expr {$colpos-1}]]]
+      set value [string range $line [expr {$colpos+2}] [string length $line]]
       array set headers [list $attribute $value]
    }
 
@@ -843,11 +847,12 @@ proc cmsn_open_sb {sbn recv} {
    status_log "$sbn: CHAT2: connecting to Switch Board [lindex $recv 3]\n"   
 
 
-   if [catch { cmsn_msgwin_top $sbn "[trans sbcon]..."} res]  {
+   if {[catch { cmsn_msgwin_top $sbn "[trans sbcon]..."} res]}  {
      status_log "Ignoring: Chat window $sbn has been closed\n"
    } else {
      cmsn_socket $sbn
    }
+   return 0
 }
 
 proc cmsn_conn_sb {name} {
@@ -1122,7 +1127,7 @@ proc cmsn_auth {{recv ""}} {
 	 return 0
       }
    }
-
+   return -1
 }
 
 proc sb_change { sbn } {
@@ -1177,6 +1182,7 @@ proc sb_enter { sbn name } {
    }
    $name delete 0.0 end
    focus ${name}
+   return 0
 }
 
 
@@ -1227,7 +1233,7 @@ proc fileDialog2 {w ent operation basename} {
 	set file [tk_getSaveFile -filetypes $types -parent $w \
 	    -initialfile $basename]
     }
-    if [string compare $file ""] {
+    if {[string compare $file ""]} {
 	$ent delete 0 end
 	$ent insert 0 $file
 	$ent xview end
@@ -1301,6 +1307,7 @@ proc cmsn_proxy_read {name} {
             eval [sb get $name connected]
           }
    }
+   return 0
 }
 
 proc cmsn_proxy_connect {name} {
@@ -1365,6 +1372,8 @@ proc cmsn_ns_connect { username {password ""}} {
    set unread 0
 
    cmsn_socket ns
+   
+   return 0
 }
 
 proc get_password {method data} {

@@ -8,8 +8,8 @@ proc scan_languages {} {
 
    while {[gets $file_id tmp_data] != "-1"} {
       set pos [string first " " $tmp_data]
-      set langshort [string range $tmp_data 0 [expr $pos -1]]
-      set langlong [string range $tmp_data [expr $pos +1] [string length $tmp_data]]
+      set langshort [string range $tmp_data 0 [expr {$pos -1}]]
+      set langlong [string range $tmp_data [expr {$pos +1}] [string length $tmp_data]]
       lappend lang_list "{$langshort} {$langlong}"
    }
    close $file_id
@@ -18,18 +18,17 @@ proc scan_languages {} {
 
 proc trans {msg args} {
 global lang
- for {set i 1} {$i <= [llength $args]} {incr i} {
-    set $i [lindex $args [expr $i-1]]
- }
- 
-if {[ catch {
+  for {set i 1} {$i <= [llength $args]} {incr i} {
+     set $i [lindex $args [expr {$i-1}]]
+  }
+   if {[ catch {
           if { [string length $lang($msg)] > 0 } {
             return [subst -nobackslashes -nocommands $lang($msg)]
           } else {
-            return $msg
+            return "$msg $args"
           }
        }  res] == 1} {
-    return $msg
+    return "$msg $args"
   } else {
     return $res
   }
@@ -49,9 +48,10 @@ proc load_lang {} {
 
    while {[gets $file_id tmp_data] != "-1"} {
       set pos [string first " " $tmp_data]
-      set l_msg [string range $tmp_data 0 [expr $pos -1]]
-      set l_trans [string range $tmp_data [expr $pos +1] [string length $tmp_data]]
+      set l_msg [string range $tmp_data 0 [expr {$pos -1}]]
+      set l_trans [string range $tmp_data [expr {$pos +1}] [string length $tmp_data]]
       set lang($l_msg) $l_trans
    }
    close $file_id
+   return 0
 }
