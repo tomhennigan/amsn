@@ -2255,7 +2255,7 @@ namespace eval ::DirectConnection {
 	proc Readable {sbn} {
 
 		set sb_sock [sb get $sbn sock]
-		catch {fileevent $sb_sock readable ""}
+		#catch {fileevent $sb_sock readable ""}
 	
 		if {[catch {eof $sb_sock} res]} {
 			status_log "::DirectConnection::Read: Error reading EOF for $sbn: $res\n" red
@@ -2286,7 +2286,7 @@ namespace eval ::DirectConnection {
 				}
 			}
 		}
-		catch {fileevent $sb_sock readable [list ::DirectConnection::Readable $sbn]}
+		#catch {fileevent $sb_sock readable [list ::DirectConnection::Readable $sbn]}
 	}
 
 	
