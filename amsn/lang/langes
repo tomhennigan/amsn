@@ -232,6 +232,9 @@ insertsmiley Insertar emoticono
 installconvert Debes instalar ImageMagick (comando 'convert') para poder convertir las imagenes al formato empleado por los servidores de MSN. Puedes descargar los binarios para tu Sistema Operativo desde ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Si ya los tienes, esto es un fallo en AMSN, por favor comunicanoslo.
 internalerror Error interno del servidor
 invalidfile El archivo $2 introducido en el campo "$1" no existe o no se pudo leer
+invalidpic El archivo de imagen elegido no existe
+invalidpicsize La imagen elegida es demasiado grande, por favor elija una más pequeña
+invalidsound El archivo de sonido elegido no existe
 invalidusername Nombre de usuario no válido
 invitationcancelled La invitación ha sido cancelada
 invite Invitar

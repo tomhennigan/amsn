@@ -232,6 +232,9 @@ insertsmiley Insert emoticon
 installconvert You must install ImageMagick (convert program) in order to use Buddy Icons and Custom Emoticons. You can download the binaries for your Operating System ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . If you already have it, then it is a bug, please report it. These features will now be disabled, if you install ImageMagik later on reenable these options from the Preferences. 
 internalerror Internal Server Error
 invalidfile File $2 entered in field "$1" does not exist or is not readable
+invalidpicsize The given picture is too big, please choose a smaller one
+invalidpic The given picture file doesn't exist
+invalidsound The given sound file doesn't exist
 invalidusername Invalid user name
 invitationcancelled The invitation was cancelled
 invite Invite
