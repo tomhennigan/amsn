@@ -1276,10 +1276,14 @@ namespace eval ::ChatWindow {
 
 		# Pack My input frame widgets
 		pack $text -side left -expand true -fill both -padx 1 -pady 1
-
-		pack $sendbutton -fill y -side left -padx [::skin::getKey chat_sendbutton_padx]\
-		 -pady [::skin::getKey chat_sendbutton_pady]
-		
+		#Don't fill y on Mac OS X
+		if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
+			pack $sendbutton -side left -padx [::skin::getKey chat_sendbutton_padx]\
+			-pady [::skin::getKey chat_sendbutton_pady]
+		} else {
+			pack $sendbutton -fill y -side left -padx [::skin::getKey chat_sendbutton_padx]\
+			-pady [::skin::getKey chat_sendbutton_pady]
+		}
 		
 		return $input
 	}
