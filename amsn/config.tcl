@@ -15,7 +15,7 @@ proc ConfigDefaults {} {
 	set config(display_event_connect) 1	;#Display when someone connect
 	set config(display_event_disconnect) 1	;#Display when someone disconnect
 	set config(display_event_email) 1	;#Display when a new E-Mail is received
-	set config(display_event_status) 0	;#Display changement of status
+	set config(display_event_state) 0	;#Display changement of status
 	set config(log_event_connect) 0		;#Log when someone connect
 	set config(log_event_disconnect) 0	;#Log when someone disconnect
 	set config(log_event_email) 0		;#Log when a new E-Mail is received
