@@ -86,7 +86,7 @@ namespace eval ::alarms {
 	
 		frame $w.sound1
 		LabelEntry $w.sound1.entry "[trans soundfile]" my_alarms(${user}_sound) 30
-		button $w.sound1.browse -text [trans browse] -command {fileDialog2 $w $w.sound1.entry.ent open "" } -font sboldf
+		button $w.sound1.browse -text [trans browse] -command [list fileDialog2 $w $w.sound1.entry.ent open "" ] -font sboldf
 		pack $w.sound1.entry -side left -expand true -fill x
 		pack $w.sound1.browse -side left
 		pack $w.sound1 -side top -padx 10 -pady 2 -anchor w -fill x
@@ -109,7 +109,7 @@ namespace eval ::alarms {
 	
 		frame $w.pic1
 		LabelEntry $w.pic1.entry "[trans picfile]" my_alarms(${user}_pic) 30
-		button $w.pic1.browse -text [trans browse] -command {fileDialog2 $w $w.pic1.entry.ent open "" } -font sboldf
+		button $w.pic1.browse -text [trans browse] -command [list fileDialog2 $w $w.pic1.entry.ent open "" ] -font sboldf
 		pack $w.pic1.entry -side left -expand true -fill x
 		pack $w.pic1.browse -side left
 		pack $w.pic1 -side top -padx 10 -pady 2 -anchor w -fill x
