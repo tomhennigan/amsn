@@ -326,7 +326,9 @@ namespace eval ::lang {
 	#///////////////////////////////////////////////////////////////////////
 	proc language_manager_close { } {
 
-		::lang::SaveVersions
+		if { $::lang::LoadOK == 1 } {
+			::lang::SaveVersions
+		}
 		destroy .langchoose
 
 	}
@@ -541,6 +543,7 @@ namespace eval ::lang {
 
 	proc LoadVersions { } {
 
+		global HOME
 
 		# Reinitialise all the versions
 		if { [info exists ::lang::Lang] } {
@@ -552,19 +555,19 @@ namespace eval ::lang {
 		set ::lang::Lang ""
 
 		set file_id [open "langlist"]
-		set file_id2 [open "langlist.xml" w]
+		set file_id2 [open "[file join $HOME langlist.xml]" w]
 		puts $file_id2 [read $file_id]
 		close $file_id
 		close $file_id2
 
-		set filename "langlist.xml"
+		set filename "[file join $HOME langlist.xml]"
 
 		set id [::sxml::init $filename]
 		sxml::register_routine $id "version:lang" "::lang::XMLLang"
 		sxml::parse $id
 		sxml::end $id
 
-		file delete langlist.xml
+		file delete [file join $HOME langlist.xml]
 
 	}
 
