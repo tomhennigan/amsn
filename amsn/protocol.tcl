@@ -4316,7 +4316,10 @@ proc new_contact_list { version {load 0} } {
 	    sxml::register_routine $contact_id "contactlist_${list_version}" "finished_loading_list"
 	    
 	    status_log "new_contact_list: parsing file\n"
-	    set ret [sxml::parse $contact_id]
+		 set ret -1
+		 catch {
+			set ret [sxml::parse $contact_id]
+		 }
 	    if { $ret < 0 } {
 		set list_version 0
 		::MSN::WriteSB ns "SYN" "0"

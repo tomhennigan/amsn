@@ -15,10 +15,16 @@ proc LoadStateList {} {
 
 	StateList clear
 	if { [file exists [file join ${HOME} "states.xml"]] } {
-		set file_id [sxml::init [file join ${HOME} "states.xml"]]
-		sxml::register_routine $file_id "states:newstate" "new_state"	    
-		sxml::parse $file_id
-		sxml::end $file_id
+		if { [catch {
+
+			set file_id [sxml::init [file join ${HOME} "states.xml"]]
+			sxml::register_routine $file_id "states:newstate" "new_state"
+			sxml::parse $file_id
+			sxml::end $file_id
+		} res] } {
+			::amsn::errorMsg "[trans corruptstates [file join ${HOME} "states.xml.old"]]"
+			file copy [file join ${HOME} "states.xml"] [file join ${HOME} "states.xml.old"]
+		}
 	}
 }
 

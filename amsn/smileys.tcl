@@ -49,7 +49,7 @@ proc is_true { data } {
 # proc new_emoticon {cstack cdata saved_data cattr saved_attr args}
 #
 # This is the main procedure for creating our emoticons, it gets data from the XML
-# parser (don't know what all args are made for) and retreives the data we need and 
+# parser (don't know what all args are made for) and retreives the data we need and
 # creates the arrays we need.
 # For every new emoticon, we add it's name to emotions_names (preceded by a number for
 # having the correct ordrer in the menu) then we add the elements in the array emotions
@@ -373,12 +373,14 @@ proc load_smileys { } {
 	}
     set skin_id [sxml::init [GetSkinFile "" settings.xml]]
 
+	 catch {
 	sxml::register_routine $skin_id "skin:smileys:emoticon" new_emoticon
 	sxml::register_routine $skin_id "skin:Description" skin_description
 	sxml::register_routine $skin_id "skin:Colors" SetBackgroundColors
 	sxml::parse $skin_id
 	sxml::end $skin_id
 	add_custom_emoticons
+	}
 
 
     if { ! [info exists smileys_drawn] } {
