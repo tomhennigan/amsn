@@ -652,7 +652,7 @@ namespace eval ::amsn {
 		frame $w.top.fields
 		entry $w.top.fields.file -width 40 -bg #FFFFFF
 		entry $w.top.fields.ip -width 15 -bg #FFFFFF
-		checkbutton $w.top.fields.autoip -text "[trans autoip]" -variable config(autoftip)
+		checkbutton $w.top.fields.autoip -text "[trans autoip]" -variable [::config::getVar autoftip]
 
 		pack $w.top.fields.file -side top -anchor w
 		pack $w.top.fields.ip $w.top.fields.autoip -side left -anchor w -pady 5
@@ -1901,7 +1901,7 @@ namespace eval ::amsn {
 		-menu .${win_name}.menutextsize
 		.${win_name}.menu.view add separator
 		.${win_name}.menu.view add checkbutton -label "[trans chatsmileys]" \
-		-onvalue 1 -offvalue 0 -variable config(chatsmileys)
+		-onvalue 1 -offvalue 0 -variable [::config::getVar chatsmileys]
 
 		global .${win_name}_show_picture
 		set .${win_name}_show_picture 0
@@ -1918,9 +1918,9 @@ namespace eval ::amsn {
 		}
 		
 		.${win_name}.menu.view add separator
-		.${win_name}.menu.view add radiobutton -label "[trans msnstyle]" -value "msn" -variable "config(chatstyle)"
-		.${win_name}.menu.view add radiobutton -label "[trans ircstyle]" -value "irc" -variable "config(chatstyle)"
-		.${win_name}.menu.view add radiobutton -label "[trans customstyle]..." -value "custom" -variable "config(chatstyle)" -command "::amsn::enterCustomStyle"
+		.${win_name}.menu.view add radiobutton -label "[trans msnstyle]" -value "msn" -variable [::config::getVar chatstyle]
+		.${win_name}.menu.view add radiobutton -label "[trans ircstyle]" -value "irc" -variable [::config::getVar chatstyle]
+		.${win_name}.menu.view add radiobutton -label "[trans customstyle]..." -value "custom" -variable [::config::getVar chatstyle] -command "::amsn::enterCustomStyle"
 
 		menu .${win_name}.menu.actions -tearoff 0 -type normal
 		.${win_name}.menu.actions add command -label "[trans addtocontacts]" \
@@ -3780,26 +3780,26 @@ proc cmsn_draw_main {} {
 	#Order Contacts By submenu
 	menu .order_by -tearoff 0 -type normal 
 	.order_by add radio -label "[trans status]" -value 0 \
-		-variable config(orderbygroup) -command "cmsn_draw_online"
+		-variable [::config::getVar orderbygroup] -command "cmsn_draw_online"
 	.order_by add radio -label "[trans group]" -value 1 \
-		-variable config(orderbygroup) -command "cmsn_draw_online"
+		-variable [::config::getVar orderbygroup] -command "cmsn_draw_online"
 	.order_by add radio -label "[trans hybrid]" -value 2 \
-		-variable config(orderbygroup) -command "cmsn_draw_online"
+		-variable [::config::getVar orderbygroup] -command "cmsn_draw_online"
 
 	#Order Groups By submenu
 	#Added by Trevor Feeney
 	menu .ordergroups_by -tearoff 0 -type normal
 	.ordergroups_by add radio -label "[trans normal]" -value 1 \
-		-variable config(ordergroupsbynormal) -command "cmsn_draw_online"
+		-variable [::config::getVar ordergroupsbynormal] -command "cmsn_draw_online"
 	.ordergroups_by add radio -label "[trans reversed]" -value 0 \
-		-variable config(ordergroupsbynormal) -command "cmsn_draw_online"
+		-variable [::config::getVar ordergroupsbynormal] -command "cmsn_draw_online"
 
 	#Order Contacts By submenu
 	menu .view_by -tearoff 0 -type normal 
 	.view_by add radio -label "[trans nick]" -value 0 \
-		-variable config(emailsincontactlist) -command "cmsn_draw_online"
+		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online"
 	.view_by add radio -label "[trans email]" -value 1 \
-		-variable config(emailsincontactlist) -command "cmsn_draw_online"
+		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online"
 	.view_by add separator
 	.view_by add command -label "[trans changeglobnick]" -command "::abookGui::SetGlobalNick"
 
@@ -3856,39 +3856,39 @@ proc cmsn_draw_main {} {
 	}
 
 	menu .dock_menu -tearoff 0 -type normal
-	.dock_menu add radio -label "[trans dockingoff]" -value 0 -variable config(dock) -command "init_dock"
+	.dock_menu add radio -label "[trans dockingoff]" -value 0 -variable [::config::getVar dock] -command "init_dock"
 	if { $tcl_platform(platform) == "windows"} {
-		.dock_menu add radio -label "[trans dockfreedesktop]" -value 3 -variable config(dock) -command "init_dock" -state disabled
-		.dock_menu add radio -label "[trans dockgtk]" -value 1 -variable config(dock) -command "init_dock" -state disabled
-		#.dock_menu add radio -label "[trans dockkde]" -value 2 -variable config(dock) -command "init_dock" -state disabled
+		.dock_menu add radio -label "[trans dockfreedesktop]" -value 3 -variable [::config::getVar dock] -command "init_dock" -state disabled
+		.dock_menu add radio -label "[trans dockgtk]" -value 1 -variable [::config::getVar dock] -command "init_dock" -state disabled
+		#.dock_menu add radio -label "[trans dockkde]" -value 2 -variable [::config::getVar dock] -command "init_dock" -state disabled
 		### need to add dockwindows to translation files
-		.dock_menu add radio -label "Windows" -value 4 -variable config(dock) -command "init_dock"
+		.dock_menu add radio -label "Windows" -value 4 -variable [::config::getVar dock] -command "init_dock"
 	} else {
-		.dock_menu add radio -label "[trans dockfreedesktop]" -value 3 -variable config(dock) -command "init_dock"
-		.dock_menu add radio -label "[trans dockgtk]" -value 1 -variable config(dock) -command "init_dock"
-		#.dock_menu add radio -label "[trans dockkde]" -value 2 -variable config(dock) -command "init_dock"
+		.dock_menu add radio -label "[trans dockfreedesktop]" -value 3 -variable [::config::getVar dock] -command "init_dock"
+		.dock_menu add radio -label "[trans dockgtk]" -value 1 -variable [::config::getVar dock] -command "init_dock"
+		#.dock_menu add radio -label "[trans dockkde]" -value 2 -variable [::config::getVar dock] -command "init_dock"
 		### need to add dockwindows to translation files
-		.dock_menu add radio -label "Windows" -value 4 -variable config(dock) -command "init_dock" -state disabled
+		.dock_menu add radio -label "Windows" -value 4 -variable [::config::getVar dock] -command "init_dock" -state disabled
 
 	}
 
 	.main_menu.tools add separator
-	#.options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
+	#.options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable [::config::getVar sound]
 	#Let's disable adverts until it works, it's only problems for know
 	::config::setKey adverts 0
-	#.options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
+	#.options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable [::config::getVar adverts] \
 	#-command "msg_box \"[trans mustrestart]\""
-	#.options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable config(closingdocks)
+	#.options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable [::config::getVar closingdocks]
 	#.options add separator
 	#.options add command -label "[trans language]..." -command show_languagechoose
 	# .options add command -label "[trans skinselector]..." -command SelectSkinGui
 
 
-	.main_menu.tools add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
+	.main_menu.tools add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable [::config::getVar sound]
 
 	#Disable item menu for docking in Mac OS X(incompatible)
 	if {$tcl_platform(os) != "Darwin"} {
-		.main_menu.tools add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable config(closingdocks)
+		.main_menu.tools add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable [::config::getVar closingdocks]
 	}
 
 
@@ -4804,15 +4804,15 @@ proc cmsn_draw_login {} {
 	label $mainframe.passlabel -text "[trans pass]: " -font sboldf
 	entry $mainframe.passentry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 25 -show "*"
 	entry $mainframe.passentry2 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 25 -show "*"
-	checkbutton $mainframe.remember -variable config(save_password) \
+	checkbutton $mainframe.remember -variable [::config::getVar save_password] \
 		-text "[trans rememberpass]" -font splainf -highlightthickness 0 -pady 5 -padx 10
-	checkbutton $mainframe.offline -variable config(startoffline) \
+	checkbutton $mainframe.offline -variable [::config::getVar startoffline] \
 		-text "[trans startoffline]" -font splainf -highlightthickness 0 -pady 5 -padx 10
 
 	#Set it, in case someone changes preferences...
 	::config::setKey protocol 9
 
-	checkbutton $mainframe.nossl -text "[trans disablessl]" -variable config(nossl) -padx 10 -command SSLToggled
+	checkbutton $mainframe.nossl -text "[trans disablessl]" -variable [::config::getVar nossl] -padx 10 -command SSLToggled
 
 	label $mainframe.example -text "[trans examples] :\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com" -font examplef -padx 10
 
