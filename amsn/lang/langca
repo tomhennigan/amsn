@@ -79,6 +79,7 @@ cantremoveothers No puc esborrar el grup "Altres"
 casesensitive Diferenciar les majúscules i les minúscules als disparadors
 cfgalarmall Configura, afegeix o elimina l'altarma global
 cfgalarm Configurar l'alarma per aquest usuari
+change Canvi
 changecustomstate Canvia a
 changedisplaypic Canviar la Imatge Mostrada 
 changefont Canviar font
@@ -517,17 +518,17 @@ twonewmail $1 missatges nous a la bústia
 unblock Desbloquejar
 uoffline Desconnectats
 uonline Connectats
+user Usuari
 useralreadyonlist L'usuari ja és a la llista de contactes
 userblocked Aquest usuari està connectat però t'ha bloquejat a la seva llista
-usernotonline L'usuari no està connectat
-user Usuari
 userdata Dades d'usuari
+usernotonline L'usuari no està connectat
 userproperties Propietats de l'usuari $1
 useryourself No pots conversar amb tu mateix
 verifyblocked Comprova la gent que em té bloquejat a la seva llista
 version Versió
-viewprofile Mostrar perfil
 view Veure
+viewprofile Mostrar perfil
 willjoin Esperant que $1 s'uneixi a la conversa
 work Treball
 wrongfields Els camps "$1", "$2" i/o "$3" no són vàlids
