@@ -1,30 +1,11 @@
 amsn_lang_version 2
-allowcommands Voulez-vous autoriser les commandes dans la fenêtre de conversation ?
-allowcolours Voulez vous autoriser plusieurs couleurs dans la fenêtre de discutions ?
-allowquicktext Voulez vous utiliser la fonction Texte Rapide ?
-bold Gras
-ccolor \nVotre couleur de texte est $1
-cfont \nVotre police est $1
-cinfo \nInformation sur le contact:\n$1 \nPseudo: $2 \nGroupe: $3
-cleave \nVous avez quitter cette conversation
-cnewnick \nVotre nouveau pseudo est : $1
-cnewstate \nVotre nouveau statut est : $1
-cnewstatenotvalid \n$1 n'est pas valide
-cnick \nVotre pseudo est $1
-cnotvalid \nVotre commande n'est pas valide
-cresult \nResultat de la commande :\n$1
-cshell \nExécution dans le shell: $1
-cspecify \nVous devez spécifier un contact
-cstatus \nVotre statut est $1
-cstyle \nVotre police est $1
-deleted \nVous avez supprimé $1 de votre liste\nPour ajouter à nouveau ce contact, tappez : /add $1
-groupadded \nAjout du groupe $1.
-groupdeleted \nVous avez supprimé le groupe $1 \nPour ajouter à nouveau ce groupe, tappez : /addgroup $1
-italic Italique
-multiplecolorsbutton Ajouter une nouvelle couleur
-overstrike Barré
-parsenicks Voulez-vous filtrer la codification des couleurs de MSN plus dans les pseudos ?
-qthelp Ici, vous pouvez configurer un Texte Rapide, le mot-clef ainsi que le texte.\nUne fois dans la fenêtre de discutions, taper /mot-clef pour afficher le texte associé
-quicktext Textes rapides
-reset Effacer les styles
-underline Souligné
+addsongtonick Ajouter la musique jouée au pseudo
+timeverify Vérifier la musique jouée toutes les ? secondes
+nickname Pseudo
+separator Symbole entre le pseudo et la musique
+stopmsg Message quand le lecteur est stoppé
+musiccurrent Afficher la musique courante
+musicsend Envoyer la musique courante
+musicerr Rien n'est joué, ou le plugin ne peut pas récupérer la musique jouée.
+playing Joue : $1
+oserr Votre système d'exploitation ($1) n'est pas encore géré par le plugin Music

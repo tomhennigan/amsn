@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<plugin>
+	<name>Music</name>
+	<author>Jerome Gagnon-Voyer & Le Philousophe</author>
+	<description>Music plugin compatible with iTunes and XMMS. Show current playing song in nickname and show/send current playing song from the chatwindow. Mac OS X or Linux</description>
+	<amsn_version>0.94</amsn_version>
+	<plugin_version>1.0</plugin_version>
+	<plugin_file>music.tcl</plugin_file>
+	<plugin_namespace>music</plugin_namespace>
+	<init_procedure>InitPlugin</init_procedure>
+	<deinit_procedure>stop</deinit_procedure>
+	<cvs_version>1.0</cvs_version>
+	
+	<lang>
+		<langcode>en</langcode>
+		<version>1.0</version>
+	</lang>
+	
+	<lang>
+		<langcode>fr</langcode>
+		<version>1.0</version>
+	</lang>
+	
+	<lang>
+		<langcode>fr_CA</langcode>
+		<version>1.0</version>
+	</lang>
+	
+	
+	<URL>
+		<main>http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/music/music.tcl?rev=$version&content-type=text/plain</main>
+		<plugininfo>http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/music/plugininfo.xml?rev=HEAD&content-type=text/plain</plugininfo>
+		<lang>http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/music/lang/lang$langcode?rev=$version&content-type=text/plain</lang>
+	</URL>
+	
+	
+</plugin>
