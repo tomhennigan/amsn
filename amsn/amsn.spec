@@ -1,0 +1,152 @@
+#
+# $Id$
+#
+%define prefix		/usr
+
+Summary: MSN Messenger clone for Linux
+Name: amsn
+Version: 0.52
+Release: 1
+Copyright: GPL
+Group: Applications/Internet
+Source0: ftp://ftp.sourceforge.net/projects/amsn/%{name}-%{version}-%{release}.tar.gz
+Prereq: tcl tk
+BuildRoot: %{_tmppath}/%{name}-root
+
+%description
+This is Tcl/Tk clone that implements the Microsoft Messenger (MSN)
+for Linux platforms. It lacks certain features but what is important
+is already supported. Visit http://amsn.sourceforge.net/ for details.
+This is an ongoing project, and it is already going pretty well.
+
+%prep
+%setup -q
+
+%build
+
+# Pre Install
+%pre
+
+%install
+
+%define localroot	${RPM_BUILD_ROOT}%{prefix}
+%define gnomelinks	/etc/X11/applnk/Internet
+%define kdelinks	/usr/share/applnk/Internet
+%define wmapps		${RPM_BUILD_ROOT}%{gnomelinks}
+#make  localroot=%{localroot} prefix=%{prefix} version=%{version} wmapps=%{wmapps} install
+make  proot=%{prefix} prefix=${RPM_BUILD_ROOT}%{prefix} version=%{version} wmapps=%{wmapps} install
+
+%clean
+#rm -rf ${RPM_BUILD_ROOT}
+#echo clean ${RPM_BUILD_ROOT}
+
+# Post Install
+%post
+
+# Before Uninstall (Triggers get executed at this stage too)
+%preun
+
+# Tasks after Uninstall
+%postun
+
+%files
+%doc README TODO changelog GNUGPL
+/usr/bin/amsn
+/usr/share/amsn/uninstall.sh
+/usr/share/amsn/checkver.tcl
+/usr/share/amsn/config.tcl
+/usr/share/amsn/ctadverts.tcl
+/usr/share/amsn/ctdegt.tcl
+/usr/share/amsn/emoticons.htm
+/usr/share/amsn/hotmail.tcl
+/usr/share/amsn/hotmlog.htm
+/usr/share/amsn/langlist
+/usr/share/amsn/lang.tcl
+/usr/share/amsn/migmd5.tcl
+/usr/share/amsn/smileys.tcl
+/usr/share/amsn/i/amsn.png
+/usr/share/amsn/i/amsn.xbm
+/usr/share/amsn/i/angel.gif
+/usr/share/amsn/i/angry.gif
+/usr/share/amsn/i/away.gif
+/usr/share/amsn/i/back.gif
+/usr/share/amsn/i/baway.gif
+/usr/share/amsn/i/bbusy.gif
+/usr/share/amsn/i/beer.gif
+/usr/share/amsn/i/blocked.gif
+/usr/share/amsn/i/boffline.gif
+/usr/share/amsn/i/bonline.gif
+/usr/share/amsn/i/boyhug.gif
+/usr/share/amsn/i/busy.gif
+/usr/share/amsn/i/cake.gif
+/usr/share/amsn/i/clk.gif
+/usr/share/amsn/i/coctail.gif
+/usr/share/amsn/i/colorbar.gif
+/usr/share/amsn/i/contract.gif
+/usr/share/amsn/i/crooked.gif
+/usr/share/amsn/i/devil.gif
+/usr/share/amsn/i/disgust.gif
+/usr/share/amsn/i/dog.gif
+/usr/share/amsn/i/email.gif
+/usr/share/amsn/i/emboy.gif
+/usr/share/amsn/i/embulb.gif
+/usr/share/amsn/i/emcat.gif
+/usr/share/amsn/i/emcup.gif
+/usr/share/amsn/i/emgirl.gif
+/usr/share/amsn/i/emhottie.gif
+/usr/share/amsn/i/emnote.gif
+/usr/share/amsn/i/emphone.gif
+/usr/share/amsn/i/emsleep.gif
+/usr/share/amsn/i/emstar.gif
+/usr/share/amsn/i/expand.gif
+/usr/share/amsn/i/film.gif
+/usr/share/amsn/i/gift.gif
+/usr/share/amsn/i/girlhug.gif
+/usr/share/amsn/i/globe.gif
+/usr/share/amsn/i/lips.gif
+/usr/share/amsn/i/logolinmsn.gif
+/usr/share/amsn/i/love.gif
+/usr/share/amsn/i/messenger.gif
+/usr/share/amsn/i/messenger.png
+/usr/share/amsn/i/notify.gif
+/usr/share/amsn/i/offline.gif
+/usr/share/amsn/i/online.gif
+/usr/share/amsn/i/photo.gif
+/usr/share/amsn/i/rainbow.gif
+/usr/share/amsn/i/rose.gif
+/usr/share/amsn/i/rosew.gif
+/usr/share/amsn/i/sad.gif
+/usr/share/amsn/i/smilec.gif
+/usr/share/amsn/i/smiled.gif
+/usr/share/amsn/i/smile.gif
+/usr/share/amsn/i/smilemb.gif
+/usr/share/amsn/i/smileo.gif
+/usr/share/amsn/i/smilep.gif
+/usr/share/amsn/i/sun.gif
+/usr/share/amsn/i/thumbd.gif
+/usr/share/amsn/i/thumbu.gif
+/usr/share/amsn/i/unlove.gif
+/usr/share/amsn/i/unread.gif
+/usr/share/amsn/i/vampire.gif
+/usr/share/amsn/i/wink.gif
+/usr/share/amsn/s/newemail.wav
+/usr/share/amsn/s/online.wav
+/usr/share/amsn/s/type.wav
+/usr/share/amsn/lang/langca
+/usr/share/amsn/lang/langda
+/usr/share/amsn/lang/langde
+/usr/share/amsn/lang/langen
+/usr/share/amsn/lang/langes
+/usr/share/amsn/lang/langfr
+/usr/share/amsn/lang/langit
+/usr/share/amsn/lang/langnl
+/usr/share/amsn/lang/langpt
+/usr/share/amsn/lang/langsw
+/usr/share/amsn/lang/langtr
+/usr/share/pixmaps/messenger.png
+/etc/X11/applnk/Internet/amsn.desktop
+
+%changelog
+* Thu Jun 06 2002 D.E. Grimaldo <lordofscripts AT users.sourceforge.net>
+- Created RPM spec file
+
