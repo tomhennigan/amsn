@@ -3197,7 +3197,7 @@ proc sb_change { chatid } {
 ###################### Other Features     ###########################
 
 
-proc fileDialog2 {w ent operation basename {types {"All files"         *} }} {
+proc fileDialog2 {w ent operation basename {types {{"All files"         *}} }} {
     #   Type names		Extension(s)	Mac File Type(s)
     #
     #---------------------------------------------------------

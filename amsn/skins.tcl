@@ -7,7 +7,7 @@
 proc GetSkinFile { type filename } {
     global program_dir env HOME
 
-    set pwd "$env(PWD)"
+    set pwd ""
     if { [catch { set skin "[::config::get skin]" } ] != 0 } {
 	set skin "default"
     }
