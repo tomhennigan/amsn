@@ -24,6 +24,8 @@ Luis Quesada T. - elezeta@users.sourceforge.net
 Luis Miguel Garcia - ktech@users.sourceforge.net
 Alexandre Hamelin - ahamelin@users.sourceforge.net
 Jerome Gagnon-Voyer (Mac mantainer) - germinator2000@users.sourceforge.net
+Arieh Schneier (Tray Icon for Windows)
+Aitor R. de Samaniego (Code contributions)
 ========================================================
 === Multilanguage Support ==============================
 
@@ -278,10 +280,9 @@ Luis Quesada: Cubic skin
 === More special thanks and credits ====================
 
 
+Danny Frezer (AMSN Website images and layout concept)
 Jason Bouzane (Fix for the tray icon)
 Luis Carlos Gallego (New sounds for default skin)
-Arieh Schneier (Tray Icon for Windows)
-Aitor R. de Samaniego (Some code contributions)
 Martijn Stolk (Fix for tray icon dettaching)
 Juan Araya Robles (MSN6 animated emoticons)
 Ignacio Armenteros (plwav.exe for windows)
