@@ -5,7 +5,7 @@
 #	- integrate to both kde & gnome, check if existing
 name=amsn
 version=0.52
-release=1
+release=0
 module=msn
 
 # Installation paths
