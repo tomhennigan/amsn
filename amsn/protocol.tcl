@@ -71,7 +71,7 @@ namespace eval ::MSNFT {
       status_log "Ok, so here we have cookie=$cookie, requestdata=$requestdata\n" red
       
       if { $requestdata != "IP-Address" } {
-         status_log "Requested data is not IP-Adress!!: $requesteddata\n" red
+         status_log "Requested data is not IP-Adress!!: $requestdata\n" red
 	 return
       }
 
