@@ -46,6 +46,18 @@ namespace eval ::glogs {
 			[list bool "[trans showfooter]" showfooter] \
 			[list bool "[trans htmlformat] \[not implemented\]" htmlformat] \
 		]
+		
+		# Funtion to set correct zone, because a problem on tcllib's mime packages on some locales.
+		set clock [clock seconds]
+		set gmt [clock format $clock -format "%Y-%m-%d %H:%M:%S" -gmt true]
+		if {[set diff [expr {($clock-[clock scan $gmt])/60}]] < 0} {
+			set s -
+			set diff [expr {-($diff)}]
+		} else {
+			set s +
+		}
+		set zone [format %s%02d%02d $s [expr {$diff/60}] [expr {$diff%60}]]
+		
 		#register events
 		::plugins::RegisterEvent "GLogs" chat_msg_received msg_received
 #		::plugins::RegisterEvent "GLogs" chat_msg_sent msg_received
@@ -255,8 +267,55 @@ namespace eval ::glogs {
 			-header [list To $::glogs::config(send_to)] \
 			-header [list Reply-To $email] \
 			-header [list Subject $subject] \
+			-header [list Date "[::glogs::date_mailformat]"] \
 			-header [list X-GLog Yes]
 		mime::finalize $tok
 		unset ::glogs::LogsArray($email)
+	}
+	
+	proc date_mailformat { } {
+		switch "[clock format [clock seconds] -format "%w"]" {
+			"0"
+				{ set weekday "Sun" }
+			"1"
+				{ set weekday "Mon" }
+			"2"
+				{ set weekday "Tue" }
+			"3"
+				{ set weekday "Wed" }
+			"4"
+				{ set weekday "Thu" }
+			"5"
+				{ set weekday "Fri" }
+			default
+				{ set weekday "Sat" }
+		}
+		switch "[clock format [clock seconds] -format "%m"]" {
+			"01"
+				{ set month "Jan" }
+			"02"
+				{ set month "Feb" }
+			"03"
+				{ set month "Mar" }
+			"04"
+				{ set month "Apr" }
+			"05"
+				{ set month "May" }
+			"06"
+				{ set month "Jun" }
+			"07"
+				{ set month "Jul" }
+			"08"
+				{ set month "Aug" }
+			"09"
+				{ set month "Sep" }
+			"10"
+				{ set month "Oct" }
+			"11"
+				{ set month "Nov" }
+			default
+				{ set month "Dec" }
+		}
+		return "$weekday, [clock format [clock seconds] -format "%d $month %Y %H:%M:%S"] $::glogs::zone"
 	}
 }
