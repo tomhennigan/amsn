@@ -8,4 +8,6 @@
 	<plugin_file>gename.tcl</plugin_file>
 	<plugin_namespace>gename</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
+	
+	<cvs_version>1.2</cvs_version>
 </plugin>
