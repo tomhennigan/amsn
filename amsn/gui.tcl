@@ -2256,11 +2256,14 @@ namespace eval ::amsn {
 
 		wm protocol .${win_name} WM_DELETE_WINDOW "::amsn::closeWindow .${win_name}"
 
-		wm state .${win_name} withdraw
-		
 		variable chat_windows 
 		lappend chat_windows ".${win_name}"
 
+		set evPar(win) ".${win_name}"
+		::plugins::PostEvent new_chatwindow evPar
+
+		wm state .${win_name} withdraw
+		
 		return ".${win_name}"
 	}
 	
