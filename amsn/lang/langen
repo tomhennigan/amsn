@@ -158,6 +158,7 @@ disableprofiles Disable profiles (Useful for cyber-cafes or shared environments)
 disablessl Disable SSL
 disconnect $1 has disconnected.
 displaychat Display text options
+displayp4context Display P4-Context field content as message sender
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
 docking Docking
@@ -360,6 +361,7 @@ ordercontactsby Order contacts by
 ordergroupsby Order groups by
 other Other
 others Others
+p4contextprefix Prefix P4-Context senders with this string
 pager Pager
 pass Password
 paste Paste

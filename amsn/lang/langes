@@ -1,4 +1,5 @@
 amsn_lang_version 2
+#Ahora puedo poner comentarios
 about Acerca de
 accept Aceptar
 acceptfile ¿Aceptar archivo $1, tamaño $2 bytes? Se guardará en $3
@@ -158,6 +159,7 @@ disableprofiles Desactivar perfiles (Útil para cibercafés o entornos compartidos
 disablessl Desactivar SSL
 disconnect $1 se ha desconectado
 displaychat Configuración de mensajes
+displayp4context Mostrar contenido del campo P4-Context como remitente del mensaje
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Icono Gtk
 docking Icono en bandeja de sistema
@@ -282,7 +284,7 @@ logfandexp Tamaño de archivos de registro y expiración de historial
 loggedotherlocation Desconectado: Se inició la sesión en otra ubicación
 loggingin Iniciando sesión
 login Iniciar sesión
-loginas Iniciar sesión como
+loginas Iniciar sesión como   #Comentario!!
 loging Historial
 logolder Registrar sólamente conversaciones ocurridas en el último
 logout Cerrar sesión
@@ -360,6 +362,7 @@ ordercontactsby Ordenar contactos por
 ordergroupsby Ordenar grupos por
 other Otro
 others Otras
+p4contextprefix Prefijar remitentes en P4-Context con esta cadena de caracteres
 pager Paginador
 pass Contraseña
 paste Pegar
