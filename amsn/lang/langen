@@ -126,7 +126,7 @@ ftconnecterror Error connecting to remote peer
 ftconnecting Connecting to $1 port $2
 ftconnectionlost Connection with remote peer lost
 ftgotinvitation $1 wants to send you the file '$2' ($3 bytes). It will be saved in directory $4. Do you want to receive this file?
-ftportpref Use this port and succesives for filetransfers
+ftportpref Starting port for file transfers
 ftrejectedby $1 rejected file transfer invitation for file '$2'.
 ftrejected File transfer rejected
 ftsendinvitation File transfer invitation for file '$2' ($3 bytes) has been sent to $1.
