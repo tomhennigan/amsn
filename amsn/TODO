@@ -10,10 +10,10 @@ Burger * burger@mwvision.com
 
 Bug Fixes(priority 1):
 
-# Try and find a quickfix until protocol rewrite for -> Just one chat per user, not open many windows for the same user
-# If login from other location, have to restart amsn before being able to reconnect
-# Sometimes can't rejoin a conversation after other person leaves conversation (closes chat window)
-# Add FAQ to Help Menu
+# ** FIXED ONE WAY ONLY ** Try and find a quickfix until protocol rewrite for -> Just one chat per user, not open many windows for the same user
+# ** FIXED ** If login from other location, have to restart amsn before being able to reconnect
+# ** SKIPPED ** Sometimes can't rejoin a conversation after other person leaves conversation (closes chat window)
+# ** FIXED ** Add FAQ to Help Menu
 
 
 Existing Feature Improvements (priority 2):

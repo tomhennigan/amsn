@@ -240,6 +240,32 @@ proc cmsn_draw_about {} {
    pack .about.bottom -expand 1
 }
 
+proc draw_faq {} {
+   global program_dir
+   toplevel .faq
+   wm title .faq "[trans faq]"
+   wm transient .faq .
+
+   text .faq.info -background white -width 60 -height 30 -wrap word \
+      -yscrollcommand ".faq.ys set" -font   examplef
+   scrollbar .faq.ys -command ".faq.info yview" 
+   pack .faq.ys -side right -fill y
+   pack .faq.info -expand true -fill both
+   set id [open "[file join $program_dir FAQ]" r]
+   .faq.info insert 1.0 [read $id]
+   close $id
+   .faq.info configure -state disabled
+   update idletasks
+   set x [expr {([winfo vrootwidth .faq] - [winfo width .faq]) / 2}]
+   set y [expr {([winfo vrootheight .faq] - [winfo height .faq]) / 2}]
+   wm geometry .faq +${x}+${y}
+
+   frame .faq.bottom -class Amsn
+       button .faq.bottom.close -text "[trans close]" -font splainf -command "destroy .faq"
+       pack .faq.bottom.close
+   pack .faq.bottom -expand 1
+}
+
 proc toggle_status {} {
    global status_show
 
@@ -431,6 +457,7 @@ proc cmsn_draw_main {} {
    .main_menu.help add command -label "[trans about]..." -command cmsn_draw_about
    .main_menu.help add command -label "[trans version]..." -command \
      "msg_box \"[trans version]: $version - [trans date]: $date\n$weburl\""
+   .main_menu.help add command -label "FAQ" -command draw_faq
 
 
    image create photo mainback -file [file join ${images_folder} back.gif]
@@ -1447,6 +1474,9 @@ proc cmsn_draw_msgwin {email} {
    .${win_name}.text tag configure white -foreground white -background black
    .${win_name}.text tag configure url -foreground darkblue -background white -font bboldf -underline true
 
+   
+   set afterid [after 270000 sb_change $name]
+   
    bind .${win_name}.in.input <Tab> "focus .${win_name}.in.send; break"
 
    bind  .${win_name}.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y .${win_name}.in.input"   
@@ -1457,7 +1487,7 @@ proc cmsn_draw_msgwin {email} {
       "sb_enter $name .${win_name}.in.input; break"
    bind .${win_name}.in.input <Control-Return> {%W insert end "\n"; break}
    status_log "$msg_windows(${email})\n" red
-   bind .${win_name} <Destroy> "cmsn_destroyed_msgwin $name %W $email"
+   bind .${win_name} <Destroy> "cmsn_destroyed_msgwin $name %W $email $afterid"
    
    focus .${win_name}.in.input
 
@@ -1519,7 +1549,7 @@ proc change_myfontsize {size name} {
   } res
 }
 
-proc cmsn_destroyed_msgwin {name winpath email} {
+proc cmsn_destroyed_msgwin {name winpath email afterid} {
    global sb_list ${name}_info config msg_windows
    set win_name "msg_[string tolower ${name}]"
 
@@ -1545,6 +1575,8 @@ proc cmsn_destroyed_msgwin {name winpath email} {
    }
    unset ${name}_info
 
+   after cancel $afterid	
+	
    if { [info exists msg_windows($email)] } {
       unset msg_windows($email)
    }

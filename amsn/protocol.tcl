@@ -622,7 +622,6 @@ namespace eval ::MSN {
 
 proc read_sb_sock {sbn} {
 
-   status_log "SB is : $sbn\n Socket is : [sb get $sbn sock]\n"
    set sb_sock [sb get $sbn sock]
    if {[eof $sb_sock]} {
       close $sb_sock
@@ -1293,8 +1292,10 @@ proc cmsn_ns_handler {item} {
       OUT {	# Remove Group
       	if { [lindex $item 1] == "OTH"} {
 	  msg_box "[trans loggedotherlocation]"
+	  return 0
 	} else {
 	  msg_box "[trans servergoingdown]"
+	  return 0
 	}
       }
       200 {
@@ -1465,7 +1466,6 @@ proc sb_change { sbn } {
 	global typing config
 
 	if { $typing != $sbn } {
-	
 		set typing $sbn	
 
 		after 4000 "set typing \"\""
