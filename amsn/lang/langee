@@ -21,6 +21,7 @@ alarmondisconnect Käivita alarm kui kasutaja lahkub/varjab
 alarmonmsg Käivita alarm kui kasutaja saadab sulle sõnumi
 alarmonstatus Käivita alarm kui kasutaja muudab staatust
 alarmpref Alarmi seaded kasutajale
+alarms Alarmid
 alarmstatus Alarm selle kasutaja puhul Sees/Väljas
 allfiles Kõik failid
 allowallbutbl Luba kõikidel kasutajatel väljaarvatud minu Blokk Listis olevatel võtta minuga ühendust
@@ -46,6 +47,7 @@ autodetectip Leia IP aadress automaatselt
 autohotmaillog Automaatne Hotmaili sisselogimine
 autoidle Automaatne "Pole tegevust" 
 autoip Automaatne IP
+automessage AutoTeade
 autonoact Näita mind "Pole tegevust", kui pole tegevust
 avoidseen Väldi seda inimest mind ühendatuna nägemast
 away Eemal
@@ -79,6 +81,7 @@ casesensitive Kasuta tõusutundlikke päästikuid
 cfgalarm Seadista/Lisa/Eemalda alarm
 cfgalarmall Seadista/Lisa/Eemalda üldine alarm
 ch_to_state Lülita uude olekusse
+change Muuda
 changecustomstate Lülita
 changedisplaypic Vaheta pilt
 changefont Muuda fonti
@@ -134,6 +137,8 @@ credits Tänud
 currentdate Jooksev kuupäev
 custom_edit Muuda emotikoni
 custom_new Lisa uus emotikon
+customcolor Kohandatud värv
+customnick Kohandatud nimi
 cut Lõika
 date Kuupäev
 days päeval
@@ -154,6 +159,8 @@ disableprofiles Keela profiilid (Kasulik avalikes kohtades)
 disablessl Keela SSL
 disconnect Ühendus katkes kasutajaga $1
 displaychat Kuvatava teksti häälestus
+displayp4context Näita P4-Context välja sisu sõnumi saatjana
+displaypic Kuvapilt
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome dokkimine
 docking Dokkimine
@@ -196,6 +203,7 @@ filename Failinimi
 filetransfercancelled Faili edastamine tühistatud
 filetransfercomplete Faili edastamine õnnestunud!
 followtext Keri alla kui sisestatakse uus tekst
+friendlyname Sõbralik nimi
 ftaccepted Faili edastamisega nõustutud
 ftacceptedby $1 aksepteeris faili '$2' laadimise
 ftaccepting Aksepteerin faili laadimise
@@ -239,6 +247,7 @@ installconvert Sa pead installeerima ImageMagicku (konverteerimis programm), et 
 internalerror Sisemine serveri viga
 invalidfile "Fail $2 sisestatud väljale "$1" ei eksisteeri või ei ole loetav"
 invalidfile2 Ei saa luua faili $1. Kontrolli, et sul oleks vastavad õigused.
+invalidgroup Vigane grupp
 invalidpic Määratud pildifaili pole olemas
 invalidpicsize Valitud pilt on liiga suur, palun vali väiksem
 invalidsound Määratud helifaili pole olemas
@@ -253,11 +262,15 @@ keepalive Ülalhoidmine (NAT)
 keeplog Säilita vestluste logisid
 keeplog2 Logi kõik vestlused aMSN'i Ajalukku, et neid tulevikus vaadata
 language Keel
+lastlogin Viimati logis sisse
+lastlogout Viimati logis välja
+lastmsgedme Viimane sõnum
 lastmsgtime Viimane sõnum saadud $1
 lclosedwin $1 sulges akna $2
 lconftopriv Konverents muudetud privaatvestluseks isikuga $1
 lconvstarted Vestlust alustatud $1
 leaveblankforhotmail Jäta tühjaks, et kasutada Hotmaili veebi
+leavejoinsinchat Näita "liitus vestlusega/lahkus vestluselt" teateid jutu aknas
 leaves $1 lahkub vestluselt
 lenteredconf $1 liitus konverentsiga $2
 lineflushlog Joonda logi failid peale iga rida
@@ -313,9 +326,11 @@ newmsg Uus sõnum
 newstate Lisa oma olek
 newveravailable Uuem versioon $1 allalaadimiseks saadaval
 next Edasi
+nick Hüüdnimi
 no Ei 
 noactivity Pole tegevust
 nodataavailable $1 jaoks andmed puuduvad
+nogroup Grupp puudub
 nologfile $1 jaoks logifail puudub
 noneavailable 
 nonewmail Postkastis pole uusi sõnumeid
@@ -349,11 +364,13 @@ ordercontactsby Sorteeri sõpru
 ordergroupsby Sorteeri gruppe
 other Muu
 others Muud
+p4contextprefix Liida P4-Context sõnumi saatjale see eesliide
 pager Piipar
 pass Salasõna
 paste Kleebi
 personal Isiklik
 phone Telefon
+phones Telefoni numbrid
 picbrowser Kuvapiltide brauser
 picfile Pildifail (GIF < 500 x 500)
 picstatus Pildialarm
@@ -409,6 +426,7 @@ readonlywarn TÄHELEPANU: Tõenäoliselt ei suudeta salvestada faili, sest kataloog
 receivedbytes Kätte saanud $1/$2 baiti
 receiveddir Vastuvõetud Failide kataloog
 receivefile Võta vastu fail
+recentmsg Väldi akna sulgemist siis kui sõnum on just saabunud
 reconnect Ootan $1 uuesti ühendumist
 reconnecting Uuesti ühendan serveriga
 reject Keeldu
@@ -508,7 +526,9 @@ uonline Online
 user Kasutaja
 useralreadyonlist Kasutaja on juba sõbranimekirjas
 userblocked Kasutaja on küll online, kuid sind blokeerinud
+userdata Kasutaja andmed
 usernotonline Kasutaja ei ole online
+userproperties Kasutaja $1 atribuudid
 useryourself Sa ei saa iseendaga vestelda
 verifyblocked Kontrolli ega sind ei ole blokitud
 version Versioon
