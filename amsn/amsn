@@ -108,6 +108,13 @@ if {$tcl_platform(platform) == "unix"} {
    set files_dir "[file join ${program_dir} amsn_received]"
 }
 
+set libtls ""
+
+catch { source [file join $HOME tlsconfig.tcl] }
+
+if { $libtls != "" && [lsearch $auto_path $libtls] == -1 } {
+    lappend auto_path $libtls
+}
 
 #TODO: Move this from here ??
 #///////////////////////////////////////////////////////////////////////
@@ -169,6 +176,17 @@ reload_files
 
 set initialize_amsn 0
 #///////////////////////////////////////////////////////////////////////
+
+if { [catch {package require tls}] } {
+    # Either tls is not installed, or $auto_path does not point to it.
+    # Should now never happen; the check for the presence of tls is made
+    # before this point.
+#    status_log "Could not find the package tls on this system.\n"
+    set tlsinstalled 0
+} else {
+    set tlsinstalled 1
+}
+
 
 #create_dir $HOME
 set log_dir "[file join ${HOME} logs]"

@@ -327,9 +327,10 @@ proc PreferencesMenu {m} {
 }
 
 proc Preferences { { settings "personal"} } {
-    global config myconfig proxy_server proxy_port temp_BLP list_BLP Preftabs
+    global config myconfig proxy_server proxy_port temp_BLP list_BLP Preftabs libtls_temp libtls
 
     set temp_BLP $list_BLP
+    set libtls_temp $libtls
 
     if {[ winfo exists .cfg ]} {
         return
@@ -819,7 +820,7 @@ proc Preferences { { settings "personal"} } {
     frame $lfname.1 -class Degt
     pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill both
     label $lfname.1.llibtls -text "tls :" -padx 5
-    entry $lfname.1.libtls -bg #FFFFFF -bd 1 -width 40 -highlightthickness 0 -textvariable config(libtls)
+    entry $lfname.1.libtls -bg #FFFFFF -bd 1 -width 40 -highlightthickness 0 -textvariable libtls_temp
 
     grid $lfname.1.llibtls -row 1 -column 1 -sticky w
     grid $lfname.1.libtls  -row 1 -column 2 -sticky w
@@ -1220,7 +1221,7 @@ proc setCfgFonts {path value} {
 
 
 proc SavePreferences {} {
-    global config myconfig proxy_server proxy_port user_info user_stat list_BLP temp_BLP Preftabs 
+    global config myconfig proxy_server proxy_port user_info user_stat list_BLP temp_BLP Preftabs libtls libtls_temp
 
     set nb .cfg.notebook.nn
 
@@ -1324,6 +1325,30 @@ proc SavePreferences {} {
     if { $list_BLP != $temp_BLP } {
 	AllowAllUsers $temp_BLP
     }
+
+    # Save tls package configuration
+    if { $libtls_temp != $libtls } {
+	set libtls $libtls_temp
+	global auto_path HOME2 tlsinstalled
+	if { $libtls != "" && [lsearch $auto_path $libtls] == -1 } {
+	    lappend auto_path $libtls
+	}
+
+	if { $tlsinstalled == 0 && [catch {package require tls}] } {
+	    # Either tls is not installed, or $auto_path does not point to it.
+	    # Should now never happen; the check for the presence of tls is made
+	    # before this point.
+	    status_log "Could not find the package tls on this system.\n"
+	    set tlsinstalled 0
+	} else {
+	    set tlsinstalled 1
+	}
+
+	set fd [open [file join $HOME2 tlsconfig.tcl] w]
+	puts $fd "set libtls $libtls"
+	close $fd
+    }
+    
 
     # Blocking
     if { $config(blockusers) == "" } { set config(blockusers) 1}
@@ -1553,6 +1578,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.78  2003/09/14 00:10:30  kakaroto
+# Better way to find out if TLS package is installed or not. Makes also the path global not user-specific
+#
 # Revision 1.77  2003/09/11 04:54:12  ahamelin
 # New configuration setting for the location of tls and added a check for
 # the presence of the package.

@@ -309,7 +309,7 @@ proc LoadLoginList {{trigger 0}} {
 	#puts stdout "called loadloginlist\n"
 	
 	if { $trigger != 0 } {
-		status_log "getting profiles"
+		status_log "getting profiles\n"
 	} else {
 		set HOME2 $HOME
 	}

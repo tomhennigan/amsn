@@ -791,10 +791,13 @@ namespace eval ::MSN {
 
    proc connect { username password } {
 
-      global config
-      if { $config(libtls) == "" && $config(protocol) == 9 } {
+      global config tlsinstalled
+      
+      if { $config(protocol) == 9 && $tlsinstalled == 0 && [checking_package_tls] == 0} {
           ::amsn::infoMsg [trans notls]
           set config(protocol) 7
+	  global protocol
+	  set protocol 7
           return
       }
 
@@ -3284,17 +3287,6 @@ proc cmsn_auth {{recv ""}} {
 proc cmsn_auth_msnp9 {{recv ""}} {
    global config list_version info protocol
 
-   if {$protocol == "9"} {
-      if [catch {package require $config(libtls)}] {
-         # Either tls is not installed, or $auto_path does not point to it.
-         # Should now never happen; the check for the presence of tls is made
-         # before this point.
-         status_log "Could not find the package tls on this system.\n"
-         return -1
-      }
-   }
-
-
    switch [sb get ns stat] {
       c {
          ::MSN::WriteSB ns "VER" "MSNP9 MSNP8 CVR0"
@@ -3823,22 +3815,23 @@ proc cmsn_listupdate {recv} {
 		
 		#status_log "cmsn_listupdate: adding to $list_name $contact_info\n"
 	    } 
-	}
-	 
-	# New entry in address book setContact(email,FL,groupID)
-	# NOTE: IF a user belongs to several groups, the group part
-	#       of this packet will have the group ids separated
-	#       by commas:  0,5  (group 0 & 5).
-	# It could be that it is in the FL but not in RL or viceversa.
-	# Everything that is in AL or BL is in either of the above.
-	# Only FL contains the group membership though...
-	if { ($list_name == "list_fl") } {
-	    ::abook::setContact $username group $groups
-	    ::abook::setContact $username nick $nickname
-	    if { $protocol == "9" } {
-		set loading_list_info(last) $username
+
+	    # New entry in address book setContact(email,FL,groupID)
+	    # NOTE: IF a user belongs to several groups, the group part
+	    #       of this packet will have the group ids separated
+	    #       by commas:  0,5  (group 0 & 5).
+	    # It could be that it is in the FL but not in RL or viceversa.
+	    # Everything that is in AL or BL is in either of the above.
+	    # Only FL contains the group membership though...
+	    if { ($list_name == "list_fl") } {
+		::abook::setContact $username group $groups
+		::abook::setContact $username nick $nickname
+		if { $protocol == "9" } {
+		    set loading_list_info(last) $username
+		}
 	    }
 	}
+	 
     }
 
     #Last user in list
@@ -4208,4 +4201,21 @@ proc clean_contact_lists {} {
     if { [info exists emailBList] } {
 	unset emailBList
     }
+}
+
+proc checking_package_tls { }  {
+    global tlsinstalled
+
+    if { [catch {package require tls}] } {
+	# Either tls is not installed, or $auto_path does not point to it.
+	# Should now never happen; the check for the presence of tls is made
+	# before this point.
+	#    status_log "Could not find the package tls on this system.\n"
+	set tlsinstalled 0
+	return 0
+    } else {
+	set tlsinstalled 1
+	return 1
+    }
+    
 }
