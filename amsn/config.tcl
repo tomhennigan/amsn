@@ -126,10 +126,12 @@ proc ConfigDefaults {} {
 	set config(receiveddir) ""			;#Directory where received files are stored
 	set config(lineflushlog) 1			;#Flush log files after each line
 	set config(autocheckver) 1			;#Automatically check for newer versions on startup
-	set config(truncatenames) 1		;#Truncate nicknames longer than window width
+	set config(truncatenames) 1		;#Truncate nicknames longer than window width in winows' title
+	set config(truncatenicks) 0		;#Truncate nicknames longer than window width in chat windows
 	set config(notifwidth) 150			;#Notify window width
 	set config(notifheight) 100		;#Notify window height
-	set config(keepalive) 1				;#Keep alive connection (ping every minute)	
+	set config(keepalive) 1				;#Keep alive connection (ping every minute)
+	set config(showtimestamps) 1		;#Show timestamps on messages ("Yes" by default)
 	set password ""
 
 
@@ -137,7 +139,7 @@ proc ConfigDefaults {} {
 	set config(start_ns_server) "messenger.hotmail.com:1863"
 	set config(last_client_version) ""
 	set config(withnotebook) 0			;#Use notebook tabs in contact lsit
-	set config(showtimestamps) 1		;#Show timestamps on messages
+
 	set config(adverts) 0				;#Enable banner advertisements
         set config(displaypic) "amsn.png"                   ;# Diplay picture
         set config(getdisppic) 1

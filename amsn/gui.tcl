@@ -2211,24 +2211,32 @@ namespace eval ::amsn {
    # - 'fontformat' is a list containing font style and color
    proc PutMessage { chatid user msg type fontformat } {
 
-      global config
-		
-		set tstamp [timestamp]
-		set says "$tstamp [trans says [list]]:"
-		
-      #set win_name [WindowFor $chatid]		
-		#set maxw [winfo width $win_name.f.out.text]
-		#incr maxw [expr -10-[font measure splainf -displayof $win_name "$says"]]
-		#set user_trunc [trunc [lindex [::MSN::getUserInfo $user] 1] $win_name $maxw splainf]
+	global config
+	set tstamp [timestamp]
+	if {$config(truncatenicks)} {
+		if {$config(showtimestamps)} {
+			set says "$tstamp [trans says [list]]:"
+		} else {
+			set says "[trans says [list]]:"
+		}
+		set win_name [WindowFor $chatid]
+		set maxw [winfo width $win_name.f.out.text]
+		incr maxw [expr -10-[font measure splainf -displayof $win_name "$says"]]
+		set user [trunc [lindex [::MSN::getUserInfo $user] 1] $win_name $maxw splainf]
+	} else {
 		set user [lindex [::MSN::getUserInfo $user] 1]
-		#set user_trunc [lindex [::MSN::getUserInfo $user] 1]
-      WinWrite $chatid "$tstamp [trans says $user]:\n" gray
-      WinWrite $chatid "$msg\n" $type $fontformat
-	   
-      if {$config(keep_logs)} {
-         ::log::PutLog $chatid $user $msg
-      }
+	}
 
+	if {$config(showtimestamps)} {
+		WinWrite $chatid "$tstamp [trans says $user]:\n" gray
+	} else {
+		WinWrite $chatid "[trans says $user]:\n" gray
+	}
+	WinWrite $chatid "$msg\n" $type $fontformat
+
+	if {$config(keep_logs)} {
+		::log::PutLog $chatid $user $msg
+	}
    }
    #///////////////////////////////////////////////////////////////////////////////
 
