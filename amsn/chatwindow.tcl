@@ -168,6 +168,10 @@ namespace eval ::ChatWindow {
 
 		if { [::config::getKey savechatwinsize] } {
 			::config::setKey winchatsize  [string range $geometry 0 [expr {$pos_start-1}]]
+
+			if { $::tcl_version >= 8.4 } {
+				::config::setKey winchatoutheight [lindex [$window.f sash coord 0] 1]
+			}
 		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -484,7 +488,20 @@ namespace eval ::ChatWindow {
 			pack $statusbar -side bottom -expand false -fill x
 			pack $paned -side top -expand true -fill both -padx [::skin::getColor chatpadx] -pady 0
 		}
-		
+
+		#set the pane sizes
+		if { $::tcl_version >= 8.4 } {
+			#need to set state to normal to change sash position
+			set origstate [wm state $w]
+			wm state $w normal
+
+			update
+
+			$paned sash place 0 0 [::config::getKey winchatoutheight]
+
+			wm state $w $origstate
+		}
+
 		focus $paned
 
 		# Sets the font size to the one stored in our configuration file
@@ -497,6 +514,9 @@ namespace eval ::ChatWindow {
 		set ::ChatWindow::first_message($w) 1
 		set ::ChatWindow::recent_message($w) 0
 		lappend ::ChatWindow::windows "$w"
+
+		#bind on configure for saving the window shape
+		bind $w <Configure> "::ChatWindow::Configured $w"
 
 		# PostEvent 'new_chatwindow' to notify plugins that the window was created
 		set evPar(win) "$w"
@@ -575,7 +595,6 @@ namespace eval ::ChatWindow {
 
 
 		# These bindings are handlers for closing the window (Leave the SB, store settings...)
-		bind $w <Configure> "::ChatWindow::Configured $w"
 		wm protocol $w WM_DELETE_WINDOW "::ChatWindow::Close $w"
 
 
@@ -990,7 +1009,7 @@ namespace eval ::ChatWindow {
 
 		if { $::tcl_version >= 8.4 } {
 			$paned add $output $input
-			$paned paneconfigure $output -minsize 150 
+			$paned paneconfigure $output -minsize 50
 			$paned paneconfigure $input -minsize 100 -height 120
 		}
 
