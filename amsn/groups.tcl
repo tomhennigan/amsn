@@ -32,7 +32,8 @@
 
 namespace eval ::groups {
    namespace export Init Enable Disable Set Rename Delete Add \
-   		    RenameCB DeleteCB AddCB GetList
+   		    RenameCB DeleteCB AddCB \
+		    GetList ToggleStatus UpdateCount
 
    #
    # P R I V A T E
@@ -43,6 +44,8 @@ namespace eval ::groups {
    variable groupCnt 0;
    variable groups;		# Group names (array). Not URLEncoded!
 				# indexed by ID. Message LSG
+   variable bShowing;		# (array) Y=shown/expanded N=hidden/collapsed
+   variable uMemberCnt;		# (array) member count for that group
    
    #<dlgMsg>
    proc dlgMsg {msg} {
@@ -161,6 +164,8 @@ namespace eval ::groups {
    proc DeleteCB {pdu} {	# RMG 24 12065 15
 	variable groupCnt
 	variable groups
+	variable bShowing
+	variable uMemberCnt
 
    	set trid [lindex $pdu 1]
 	set lmod [lindex $pdu 2]
@@ -169,6 +174,8 @@ namespace eval ::groups {
 	# Update our local information
 	unset groups($gid)
 	incr groupCnt -1
+	unset uMemberCnt($gid)
+	unset bShowing($gid)
 
 	# TODO: We are out of sync, maybe we should request
 	# a new list
@@ -180,6 +187,8 @@ namespace eval ::groups {
    proc AddCB {pdu} {	# ADG 23 12064 New%20Group 15 =?Ñ?-CC
 	variable groupCnt
 	variable groups
+	variable uMemberCnt
+	variable bShowing
 
    	set trid [lindex $pdu 1]
 	set lmod [lindex $pdu 2]
@@ -188,13 +197,41 @@ namespace eval ::groups {
 
  	set groups($gid) $gname
 	incr groupCnt
-#	puts "Group $gid ($gname) added.Trans #$trid"
-	# Update the Delete Group... menu
-#	::groups::Disable
-#	::groups::Enable
+	set uMemberCnt($gid) 0
+	set bShowing($gid) "Y"
 	::groups::updateMenu menu .group_list
    }
    
+    proc ToggleStatus {gid} {
+	variable bShowing
+
+        if {![info exists bShowing($gid)]} {
+	    return N
+	}
+
+	if { $bShowing($gid) == "Y" } {
+	    set bShowing($gid) "N"
+	} else {
+	    set bShowing($gid) "Y"
+	}
+	return $bShowing($gid)
+    }
+   
+    proc UpdateCount {gid rel_qty} {
+        variable uMemberCnt
+	variable bShowing
+
+        if {![info exists bShowing($gid)]} {
+	    return -1
+	}
+	if {($rel_qty == 0) || ($rel_qty == "clear")} {
+	    set uMemberCnt($gid) 0
+	} else {
+	    incr uMemberCnt($gid) $rel_qty
+	}
+	return $uMemberCnt($gid)
+    }
+    
    #
    # P U B L I C
    #
@@ -204,6 +241,8 @@ namespace eval ::groups {
    proc Init {p} {
    	variable parent 
 	variable entryid
+	variable bShowing
+	variable uMemberCnt
 
 	# The submenu with the list of defined groups (to be filled)
 	menu .group_list -tearoff 0 -type normal -background #D0D0E0
@@ -224,6 +263,13 @@ namespace eval ::groups {
 	set parent $p		;# parent menu where we attach
 	# We need the next to dynamically enable/disable the menu widget
 	set entryid [$p index "[trans admingroups]"]
+
+	# These are the default groups. Used when not sorting the
+	# display by user-defined groups
+	set uMemberCnt(online)	0
+	set uMemberCnt(offline) 0
+	set bShowing(online)	"Y"
+	set bShowing(offline)	"Y"
    }
 
    # Must only Enable it when the list of groups is already available!
@@ -252,10 +298,14 @@ namespace eval ::groups {
    proc Set { nr name } {	# There is a new group in the list
        variable groups
        variable groupCnt
+       variable uMemberCnt
+       variable bShowing
 
        set name [urldecode $name]
        set groups($nr) $name
        incr groupCnt
+       set uMemberCnt($nr) 0
+       set bShowing($nr)   "Y"
        status_log "Groups: added group $nr ($name)\n" blue
    }
 
@@ -265,7 +315,7 @@ namespace eval ::groups {
        variable groups
 
        if {![info exists groups($nr)]} {
-#           puts "TODO: Empty slot in groups"
+           puts "TODO: Empty slot in groups"
            return ""
        }
        if { $nr < $groupCnt } { 
@@ -332,7 +382,6 @@ namespace eval ::groups {
 	}
 
 	#TODO Keep track of transaction number
-#        puts "MSN-> REG %T $currentGid $new 0"; #TODO ::MSN::WriteNS
 	set new [urlencode $new]
 	::MSN::WriteNS "REG" "$currentGid $new 0"
 	# RenameCB() should be called when we receive the REG
@@ -365,7 +414,6 @@ namespace eval ::groups {
 	    return 0
 	}
 
-#        puts "MSN-> RMG %T $gid";	#TODO ::MSN::WriteNS
 	::MSN::WriteNS "RMG" $gid
 	# MSN sends back "RMG %T %M $gid"
 	# DeleteCB() should be called when we receive the RMG
