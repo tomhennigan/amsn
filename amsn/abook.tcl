@@ -773,6 +773,13 @@ namespace eval ::abookGui {
 		
 		label $nbIdent.lastmsgedme -text "[trans lastmsgedme]:"
 		label $nbIdent.lastmsgedme1 -text [::abook::getContactData $email last_msgedme] -font splainf -fg blue
+		
+		#Client-name of the user (from Gaim, dMSN, etc)
+		label $nbIdent.clientname -text "[trans clientname]:"
+		label $nbIdent.clientname1 -text [::abook::getContactData $email clientname] -font splainf -fg blue
+		#Does the user record the conversation or not
+		label $nbIdent.chatlogging -text "[trans chatlogging]:"
+		label $nbIdent.chatlogging1 -text [::abook::getContactData $email chatlogging] -font splainf -fg blue
 
 		set msnobj [::abook::getVolatileData $email msnobj]
 		#set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
@@ -817,10 +824,14 @@ namespace eval ::abookGui {
 		grid $nbIdent.titleothers -row 17 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
 		grid $nbPhone.lastlogin -row 18 -column 0 -sticky e
 		grid $nbPhone.lastlogin1 -row 18 -column 1 -sticky w
-		grid $nbPhone.lastlogout -row 19 -column 0 -sticky e
-		grid $nbPhone.lastlogout1 -row 19 -column 1 -sticky w
+		grid $nbPhone.lastlogout -row 18 -column 2 -sticky e
+		grid $nbPhone.lastlogout1 -row 18 -column 3 -sticky w
 		grid $nbPhone.lastmsgedme -row 20 -column 0 -sticky e
 		grid $nbPhone.lastmsgedme1 -row 20 -column 1 -sticky w
+		grid $nbPhone.clientname -row 21 -column 0 -sticky e
+		grid $nbPhone.clientname1 -row 21 -column 1 -sticky w
+		grid $nbPhone.chatlogging -row 21 -column 2 -sticky e
+		grid $nbPhone.chatlogging1 -row 21 -column 3 -sticky w
 		
 		grid $nbPhone.titlepic -row 27 -column 0 -sticky w -columnspan 2 -pady 5 -padx 5
 		grid $nbPhone.displaypic -row 28 -column 0 -sticky w -columnspan 2 -padx 8

@@ -219,7 +219,7 @@ namespace eval ::MSNFT {
 
    }
 
-
+   
    proc ConnectMSNFTP {ipaddr port authcookie cookie} {
       #I connect to a remote host to retrieve the file
       variable filedata
@@ -1317,6 +1317,49 @@ namespace eval ::MSN {
 	########################################################################
 	
 	########################################################################
+	#Send x-clientcaps packet, for third-party MSN client
+	proc clientCaps {chatid} {
+
+      set sbn [SBFor $chatid]
+	  #If not connected to the user, do nothing
+      if {$sbn == 0 } {
+         return
+      }
+
+      set msg "MIME-Version: 1.0\r\nContent-Type: text/x-clientcaps\r\n\r\n"
+      #Add the aMSN version to the message
+      set msg "${msg}Client-Name: aMSN [set ::version]\r\n"
+      #Verify if the user keep logs or not
+      if {[::config::getKey keep_logs]} {
+      	set chatlogging "Y"
+      } else {
+  		set chatlogging "N"
+      }
+      #Add the log information to the $msg
+      set msg "${msg}Chat-Logging: $chatlogging\r\n"
+      
+      #Jerome: I disable that feature because I'm not sure users will like to provide theses kinds of 
+      #informations to everybody, but it can be useful later..
+      #Verify the platform (feel free to improve it if you want better details, like bsd, etc)
+      #if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+      #	set operatingsystem "Mac OS X"
+      #} elseif {$tcl_platform(platform) == "windows"} {
+      #	set operatingsystem "Windows"
+      #} elseif {$tcl_platform(platform) == "unix"} {
+      #	set operatingsystem "Linux"
+      #}
+      #Add the operating system to the msg
+      #set msg "${msg}Operating-System: $operatingsystem\r\n\r\n"
+      #Send the packet
+      #set msg [encoding convertto utf-8 $msg]
+      set msg_len [string length $msg]
+      WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
+	
+      status_log "Send text/x-clientcaps\n" red
+      #status_log "$msg" red
+
+   }
+   
 	# Return a list of users in chat, or last user in chat is chat is closed
 	proc usersInChat { chatid } {
 
@@ -2786,29 +2829,41 @@ proc cmsn_sb_msg {sb_name recv} {
        }
 
 	} elseif { [string range $content 0 16] == "text/x-clientcaps" } {
-	status_log "Informations from others IM client\n"
 	
-		#Get String for Client-Name (Gaim & dMSN)
+		#Get String for Client-Name (Gaim, dMSN and others)
 		if {[string first "Client-Name:" $msg] != "-1"} {
 			set begin [expr {[string first "Client-Name:" $msg]+13}]
-			set end   [expr {[string first "\n" $msg $begin]-1}]
+			set end   [expr {[string first "\n" $msg $begin]-2}]
  			set clientname "[urldecode [string range $msg $begin $end]]"
- 			status_log "Client-Name:\n$clientname\n"
+ 			#status_log "Client-Name:\n$clientname\n"
+ 			#Add this information to abook
+ 			::abook::setContactData $chatid clientname $clientname
    			}
- 	   #Get String for Chat Logging (Gaim)
+ 	   #Get String for Chat Logging (Gaim and some others)
  	   if {[string first "Chat-Logging" $msg] != "-1"} {
 		    set begin [expr {[string first "Chat-Logging" $msg]+14}]
-		    set end   [expr {[string first "\n" $msg $begin]-1}]
+		    set end   [expr {[string first "\n" $msg $begin]-2}]
 		    set chatlogging "[urldecode [string range $msg $begin $end]]"
-		    status_log "ChatLogging:\n$chatlogging\n"
+		    #status_log "ChatLogging:\n$chatlogging\n"
+		    #Add this information to abook
+		    if {$chatlogging == "Y"} { 
+		    set chatlogging "[trans yes]" 
+		    } else { 
+		    set chatlogging "[trans no]" 
+		    }
+		    ::abook::setContactData $chatid chatlogging $chatlogging
 	 	   }
 	    #Get String for Operating System (dMSN)
+	    #This information is stored but not used anywhere inside aMSN
  	   if {[string first "Operating-System:" $msg] != "-1"} {
 	    	set begin [expr {[string first "Operating-System:" $msg]+18}]
  		   	set end   [expr {[string first "\n" $msg $begin]-1}]
  		   	set operatingsystem "[urldecode [string range $msg $begin $end]]"
- 		   	status_log "Operating System:\n$operatingsystem\n"
+ 		   	#status_log "Operating System:\n$operatingsystem\n"
+ 		   	#Add this information to abook
+ 		   	::abook::setContactData $chatid operatingsystem $operatingsystem
   		  }
+  		 # status_log $msg
   		  
    } else {
       status_log "cmsn_sb_msg: === UNKNOWN MSG ===\n$msg\n" red
@@ -4649,7 +4704,8 @@ namespace eval ::MSNP2P {
 		set msnobj [::abook::getVolatileData $user msnobj]
 
 		#status_log "::MSNP2P::GetUser: MSNOBJ is $msnobj\n" blue
-
+		#Send x-clientcaps information
+		::MSN::clientCaps $chatid
 		#set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
 		set filename [::abook::getContactData $user displaypicfile ""]
 		status_log "::MSNP2P::GetUser: filename is $filename\n" white
