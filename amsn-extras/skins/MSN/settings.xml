@@ -38,7 +38,12 @@
 
 
    <smileys>
-   
+
+      <size>
+         <smilew>19 </smilew>
+         <smileh>19 </smileh>
+      </size>
+
       <emoticon>
          <name> Smiley </name>
          <text> ":)" </text>
