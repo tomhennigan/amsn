@@ -6501,6 +6501,31 @@ proc convert_image { filename destdir size } {
 }
 
 
+proc run_convert { sourcefile destfile } {
+
+	global tcl_platform
+	
+	if { ![file exists $sourcefile] } {
+		status_log "Tring to convert file $sourcefile that does not exist\n" error
+		return ""
+	}
+
+	status_log "run_convert: converting $sourcefile to $destfile\n"
+
+	#IMPORTANT: If convertpath is blank, set it to "convert"
+	if { [::config::getKey convertpath] == "" } {
+		::config::setKey convertpath "convert"
+	}
+
+	if { [catch { exec [::config::getKey convertpath] "$sourcefile" "$destfile" } res] } {
+		status_log "run_convert CONVERT ERROR IN CONVERSION: $res" white
+		return ""
+	}
+
+	return $destfile
+
+}
+
 
 proc png_to_gif { pngfile } {
 

@@ -104,6 +104,7 @@ namespace eval ::alarms {
 	proc DeleteAlarm { user } {
 		global my_alarms
 
+		catch {file delete $my_alarms(${user}_pic)}
 		::abook::setContactData $user alarms ""
 		::abook::saveToDisk
 		unset my_alarms
@@ -113,28 +114,38 @@ namespace eval ::alarms {
 
 	#Saves alarm settings for current user on OK press.
 	proc SaveAlarm { user } {
-		global my_alarms 
+		global my_alarms HOME
 	
 		if { ($my_alarms(${user}_sound_st) == 1) && ([file exists "$my_alarms(${user}_sound)"] == 0) } {
 			msg_box [trans invalidsound]
 			return
 		}
-	
+		
+		
+		#Check the picture file, and copy to our home directory,
+		#converting it if necessary
 		if { ($my_alarms(${user}_pic_st) == 1) } {
 			if { ([file exists "$my_alarms(${user}_pic)"] == 0) } {
 				msg_box [trans invalidpic]
 				return
 			} else {
 				if { [catch {image create photo joanna -file $my_alarms(${user}_pic)}] } {
-					msg_box [trans invalidpicsize]
-					return
-				}
-				if { ([image width joanna] > 1024) && ([image height joanna] > 768) } {
+					set file [run_convert "$my_alarms(${user}_pic)" "[file join $HOME alarm_${user}.gif]"]
+					if { $file == "" } {
+						msg_box [trans installconvert]
+						return
+					} else {
+						set my_alarms(${user}_pic) $file
+					}
+				} elseif { ([image width joanna] > 1024) && ([image height joanna] > 768) } {
 					image delete joanna
 					msg_box [trans invalidpicsize]
 					return
+				} else {
+					image delete joanna					
+					catch {file copy -force $my_alarms(${user}_pic) [file join $HOME alarm_${user}.gif]}
+					set my_alarms(${user}_pic) [file join $HOME alarm_${user}.gif]
 				}
-				image delete joanna
 			}
 		}
 	

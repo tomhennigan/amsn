@@ -1562,7 +1562,7 @@ proc LabelEntry { path lbl variable width } {
 
     frame $path -class Degt
 	label $path.lbl -text $lbl -justify left \
-	    -font splainff
+	    -font splainf
 	entry $path.ent -textvariable $variable -relief sunken \
 	    -width $width -font splainf -background #FFFFFF
 	pack $path.lbl -side left -anchor e
