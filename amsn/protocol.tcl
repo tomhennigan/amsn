@@ -346,8 +346,6 @@ namespace eval ::MSN {
                fconfigure $fileid -translation {binary binary}
                status_log "Sending file $filename size $filesize\n"
 
-
-
                fconfigure $sockid -blocking 0
 	       fileevent $sockid writable "::MSN::SendPacket $sockid $fileid $filesize $cookie"
                fileevent $sockid readable "::MSN::MonitorTransfer $sockid $cookie"
@@ -366,8 +364,9 @@ namespace eval ::MSN {
 
    proc SendPacket { sockid fileid filesize cookie } {
       #Send a packet for the file transfer
-      variable atransfer
       set sentbytes [tell $fileid]
+
+      fileevent $sockid writable ""
 
       if {[expr {$filesize-$sentbytes >2045}]} {
          set packetsize 2045
@@ -382,18 +381,27 @@ namespace eval ::MSN {
          set byte1 [expr {$packetsize & 0xFF}]
          set byte2 [expr {$packetsize >> 8}]
 	  
-         puts -nonewline $sockid "\0[format %c $byte1][format %c $byte2]"
-         puts -nonewline $sockid $datos
+         if {[catch {
+	    puts -nonewline $sockid "\0[format %c $byte1][format %c $byte2]"
+            puts -nonewline $sockid $datos
+	 } res]} {
+	   cancelSending $cookie
+	   return
+	 }
          set sentbytes [expr {$sentbytes + $packetsize}]
 	 ::amsn::fileTransferProgress s $cookie $sentbytes $filesize
-         #status_log "sending $sentbytes of $filesize bytes\n"
+         fileevent $sockid writable "::MSN::SendPacket $sockid $fileid $filesize $cookie"
+
       } else {
-        close $fileid
-	fileevent $sockid writable ""
+         close $fileid
+   	 fileevent $sockid writable ""
+         variable atransfer
          array unset atransfer $cookie      
-        ::amsn::fileTransferProgress s $cookie $filesize $filesize
-	status_log "All file content sent\n"
+         ::amsn::fileTransferProgress s $cookie $filesize $filesize
+	 status_log "All file content sent\n"
+
       }
+      
    }
 
    proc MonitorTransfer { sockid cookie} {
@@ -413,12 +421,12 @@ namespace eval ::MSN {
          close $sockid
          return
       }
-  
       if {[eof $sockid]} {
          status_log "EOF in connection\n"      
          cancelSending $cookie
          return
-      }
+      }  
+
    }
       
 
@@ -436,11 +444,16 @@ namespace eval ::MSN {
       }
 
       status_log "Conectando a $ipaddr puerto $port\n"
+
       if { [catch {
       set sockid [socket $ipaddr $port] } res] } {
         ::MSN::cancelReceiving $cookie
         return 0
       }
+      
+      
+      lappend atransfer($cookie) $sockid
+
       fconfigure $sockid -blocking 1 -buffering none -translation {binary binary}   
 
       status_log "Conectado, voy a enviar\n"
@@ -462,6 +475,7 @@ namespace eval ::MSN {
             puts $sockid "TFR\r"
 	
             status_log "Recibiendo archivo...\n"
+
             set origfile [file join ${files_dir} $filename]
 	    set filename $origfile
 	    set num 1
@@ -471,15 +485,13 @@ namespace eval ::MSN {
 	    }
 
             set fileid [open $filename w]
-            fconfigure $fileid -blocking 0 -translation {binary binary}
+            fconfigure $fileid -blocking 1 -buffering none -translation {binary binary}
 
-            #Receive the file
-	    
-	    lappend atransfer($cookie) $sockid
+            #Receive the file	   
 	
             fconfigure $sockid -blocking 0	
             fileevent $sockid readable "::MSN::ReceivePacket $sockid $fileid $filesize $cookie"
-	
+	    	
             return 0
          }
 
@@ -494,43 +506,44 @@ namespace eval ::MSN {
 
    proc ReceivePacket { sockid fileid filesize cookie} {
       #Get a packet from the file transfer
-      variable atransfer
-      set packetrest [expr {2045 - ([tell $fileid] % 2045)}]
+
+     fileevent $sockid readable ""
+
+     set recvbytes [tell $fileid]
+     set packetrest [expr {2045 - ($recvbytes % 2045)}]
 
       if {$packetrest == 2045} { 
          #Need a full packet, header included
-   
-         fconfigure $sockid -blocking 1
+
+         fconfigure $sockid -blocking 1   
          set header [read $sockid 3]   
+         fconfigure $sockid -blocking 0	
 
          set packet1 1
          binary scan $header ccc packet1 packet2 packet3
 
          #If packet1 is 1 -- Transfer canceled by the other
          if { ($packet1 != 0) } {
-            status_log "File transfer cancelled\n"
+            status_log "File transfer cancelled by remote\n"
 	    
 	    ::amsn::fileTransferProgress c $cookie -1 -1
 	
             close $fileid
             close $sockid
-	    return 0
+	    return
 
          }
 
          #If you want to cancel, send "CCL\n"
-
          set packet2 [expr {($packet2 + 0x100) % 0x100}]
          set packet3 [expr {($packet3 + 0x100) % 0x100}]
          set packetsize [expr {$packet2 + ($packet3<<8)}]
-      
-         fconfigure $sockid -blocking 0
 
          set thedata [read $sockid $packetsize]
          puts -nonewline $fileid $thedata
-		
-         set recvbytes [tell $fileid]
 
+
+         set recvbytes [tell $fileid]	 		
          ::amsn::fileTransferProgress r $cookie $recvbytes $filesize
 
 
@@ -539,16 +552,19 @@ namespace eval ::MSN {
          set thedata [read $sockid $packetrest]
          puts -nonewline $fileid $thedata
          set recvbytes [tell $fileid]     
-      }   
-	
+      }   	
+
       if { $recvbytes >= $filesize} {
          ::amsn::fileTransferProgress r $cookie $recvbytes $filesize
-         puts $sockid "BYE 16777989\r"	
+         puts $sockid "BYE 16777989\r"
+	 variable atransfer	
          array unset atransfer $cookie
          status_log "File received\n"
 	
          close $fileid
          close $sockid
+      } else {
+         fileevent $sockid readable "::MSN::ReceivePacket $sockid $fileid $filesize $cookie"
       }
    }
 
