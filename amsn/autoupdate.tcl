@@ -243,7 +243,7 @@ namespace eval ::autoupdate {
 	}
 
 	proc errorDownloadingTLS { errormsg } {
-		errorMsg "[trans errortls]: $errormsg"
+		::amsn::errorMsg "[trans errortls]: $errormsg"
 		catch { destroy .tlsprogress }
 	}
 
