@@ -1425,7 +1425,9 @@ namespace eval ::amsn {
         -onvalue 1 -offvalue 0 -variable config(chatsmileys)
 		  global .${win_name}_show_picture
 		  set .${win_name}_show_picture 0
-		  .${win_name}.menu.view add checkbutton -label "[trans showdisplaypic]" -command "::amsn::ShowOrHidePicture .${win_name}" -onvalue 1 -offvalue 0 -variable ".${win_name}_show_picture"
+		  if { $config(getdisppic) == 1 } {
+		  	.${win_name}.menu.view add checkbutton -label "[trans showdisplaypic]" -command "::amsn::ShowOrHidePicture .${win_name}" -onvalue 1 -offvalue 0 -variable ".${win_name}_show_picture"
+		  }
       .${win_name}.menu.view add separator
       .${win_name}.menu.view add command -label "[trans history]" -command "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin" -accelerator "Ctrl+H"
       .${win_name}.menu.view add separator

@@ -195,7 +195,7 @@ hybrid Hybrid mode
 ident Identifying
 identity Identity
 inbox Inbox
-installconvert You must install ImageMagick (convert program) in order to convert the images to the format needed by MSN servers. You can download the binaries for your Operating System ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . If you already have it, then it is a bug, please report it.
+installconvert You must install ImageMagick (convert program) in order to use Buddy Icons and Custom Emoticons. You can download the binaries for your Operating System ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . If you already have it, then it is a bug, please report it. These features will now be disabled, if you install ImageMagik later on reenable these options from the Preferences. 
 internalerror Internal Server Error
 invalidfile File $2 entered in field "$1" does not exist or is not readable
 invalidusername Invalid user name

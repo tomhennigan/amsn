@@ -2972,12 +2972,11 @@ proc cmsn_change_state {recv} {
 	status_log "old is $oldmsnobj new is $msnobj\n"
 	if { $oldmsnobj != $msnobj} {
 		#TODO: Improve this, using usersInChat for every chat... useful if user in conference, but not private
-		if {![catch {image inuse user_pic_$user}] && [::MSN::SBFor $user] != 0 && [image inuse user_pic_$user]} {
+		if {![catch {image inuse user_pic_$user}] && [::MSN::SBFor $user] != 0 } {
 			status_log "User changed image while image in use!! Updating!!\n" white
 			::MSNP2P::loadUserPic $user $user
 		}
 	}
-
 
 	cmsn_draw_online 1
    } else {
@@ -4512,6 +4511,12 @@ namespace eval ::MSNP2P {
 	#Get picture from $user, if cached, or sets image as "loading", and request it
 	#using MSNP2P
 	proc loadUserPic { chatid user } {
+			global config
+			if { $config(getdisppic) == 0 } {
+				status_log "Display Pics disabled, exiting loadUserPic\n" red
+				return
+			}
+			
 			#status_log "::MSNP2P::GetUser: Checking if picture for user $user exists\n" blue
 
 			set userinfo [::MSN::getUserInfo $user]

@@ -176,7 +176,7 @@ proc StateList { action { argument "" } {argument2 ""} } {
 # Creates the menu that will be added under the default states
 # path points to the path of the menu where to add
 proc CreateStatesMenu { path } {
-    global automessage
+    global automessage config
     #$path add separator
     # Delete old menu to create new one
     if { [$path index end] != 8 } {
@@ -219,7 +219,9 @@ proc CreateStatesMenu { path } {
     }
     $path add separator
     $path add command -label "[trans changenick]..." -command cmsn_change_name
-    $path add command -label "[trans changedisplaypic]..." -command change_displaypic
+    if { $config(getdisppic) == 1 } {
+	$path add command -label "[trans changedisplaypic]..." -command change_displaypic
+    }
 }
 
 #///////////////////////////////////////////////////////////////////////////////
