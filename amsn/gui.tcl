@@ -4177,8 +4177,13 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 		#If not (ie for contacts _on_ list), then just draw as label.
 		if {$type == "mystatus"} {
 			canvas $tw.$name -width [image width [::skin::loadPixmap mystatus_bg]] -height [image height [::skin::loadPixmap mystatus_bg]] -bg white
-			$tw.$name create image +2 +2 -anchor nw -image [::skin::loadPixmap mystatus_bg]
-			$tw.$name create image [::skin::getKey x_dp_top] [::skin::getKey y_dp_top] -anchor nw -image my_pic_small
+			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+				$tw.$name create image +2 +2 -anchor nw -image [::skin::loadPixmap mystatus_bg]
+				$tw.$name create image eval[[::skin::getKey x_dp_top]+2] eval[[::skin::getKey y_dp_top]+2] -anchor nw -image my_pic_small
+			} else {
+				$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg]
+				$tw.$name create image [::skin::getKey x_dp_top] [::skin::getKey y_dp_top] -anchor nw -image my_pic_small
+			}
 		} 
 		#else {
 			#label $tw.$name -image my_pic_small -background white -bd 1 -relief solid
