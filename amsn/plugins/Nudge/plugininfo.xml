@@ -9,7 +9,7 @@
 	<plugin_namespace>Nudge</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 
-	<cvs_version>1.25</cvs_version>
+	<cvs_version>1.31</cvs_version>
 
 	<lang>
 		<langcode>ca</langcode>
@@ -28,7 +28,7 @@
 
 	<lang>
 		<langcode>fr</langcode>
-		<version>1.1</version>
+		<version>1.2</version>
 	</lang>
 
 	<lang>
@@ -43,28 +43,8 @@
 
 	<lang>
 		<langcode>tr</langcode>
-		<version>1.1</version>
+		<version>1.2</version>
 	</lang>
-
-	<file>
-		<path>pixmaps/nudge.gif</path>
-		<version>1.1</version>
-	</file>
-
-	<file>
-		<path>pixmaps/nudgeoff.gif</path>
-		<version>1.1</version>
-	</file>
-
-	<file>
-		<path>pixmaps/default/nudge.gif</path>
-		<version>1.1</version>
-	</file>
-
-	<file>
-		<path>pixmaps/default/nudgeoff.gif</path>
-		<version>1.1</version>
-	</file>
 
 	<file>
 		<path>nudge.wav</path>
