@@ -303,6 +303,18 @@ namespace eval ::amsnplus {
 					set style [linsert $style end "overstrike"]
 				}
 			}
+			if {[string equal $char "(!FR)"]} {
+				set msg [string replace $msg $i [expr $i + 3] ""]
+				set strlen [string length $msg]
+				set str [string range $msg 0 [expr $i - 1]]
+				set slen [string length $str]
+				set msg [string replace $msg 0 $slen ""]
+				set i -1
+				set strlen [string length $msg]
+				set customfont [list $font $style $color]
+				::amsn::WinWrite $chatid $str "user" $customfont
+				set style [list]
+			}
 			set char [string range $msg $i [expr $i + 3]]
 			if {[string equal $char "(!FC"]} {
 				if {[::amsnplus::is_a_number [string index $msg [expr $i + 5]]]} {
