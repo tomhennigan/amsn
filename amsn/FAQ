@@ -1,4 +1,4 @@
-FAQ 1.1
+FAQ 1.2
 --------
 
 Q: What is Amsn?
@@ -12,6 +12,21 @@ Q: What do I need to run amsn?
 A: Amsn is written in tcl/tk, so you just need a working tcl/tk interpreter,
 version 8.3 or later. You can get it at http://tcl.sourceforge.net. The
 interpreter is available for linux, windows and macintosh.
+
+Q: How do I install and run amsn?
+A: Just donwload the amsn-x_xx.tar.gz file. Untar it with the command:
+  gzip -d amsn-x_xx.tar.gz
+  tar xvf amsn-x_xx.tar
+It will create a msn/ directory, and amsn is installed and ready to run.
+To launch it, do:
+  cd msn
+  ./amsn
+or if this doesn't work, try
+  wish amsn
+If wish command doesn't exist, then you don't have tcl/tk correctly installed.
+If "wish amsn" works, but "./amsn" doesn't, edit 'amsn' file and set the 
+correct path to 'wish' in the first line. By default it's set to:
+/usr/bin/wish
 
 Q: How do I create a shortcut to amsn on my desktop?
 A: 1.- Add an icon to your gnome/kde desktop or menu, that
@@ -28,9 +43,10 @@ anywhere.
 
 Q: How do I get the Gnome/KDE docking to work?
 A: You have to run 'make' inside the plugins directory, to build
-the gnome1 plugin. You'll need gnome development libraries. When
+the OLD GNOME1 plugin. You'll need gnome development libraries. When
 the plugin is built, just run amsn and select Gnome Docking in the
-options menu. To build the freedesktop (Gnome2 and KDE3 compatible)
+options menu.
+To build the NEWER freedesktop (Gnome2 and KDE3 compatible)
 docking, read README file in plugins/traydoc.
 
 USING IT
@@ -39,10 +55,10 @@ USING IT
 Q: What do the magenta contacts in my contact list mean?
 A: It means that you are not in that person's contact list.
 
-Q: Why I can't change my status to "No activity"?
-A: That status is meant to be automatic after some time without
-using your computer. If you change to "No activity", it will get back
-to "Online" in a few seconds.
+Q: Can I copy a contact address to the clipboard?
+A: Yes, right click on that contact name on the contact list, and
+click its address on the pop-up menu. The contact email address
+will be copied to the clipboard.
 
 TROUBLESHOOTING
 ===============
@@ -106,11 +122,6 @@ available. This means that you can only connect behind an HTTP proxy (such as
 squid for example). If your proxy server is socks5 then you will not be able
 to connect yet, but socks5 support is on the way.
 
-Q: I am behind an HTTP proxy but I still can't connect!
-A: AMSN uses the CONNECT flag through the HTTP proxy. You have to make sure
-your proxy allows this type of connection (SSL). Ask your administrator to
-allow SSL connections through the CONNECT request.
-
 Q: Amsn looks connected, but when I try to chat with someone or change my state
 I get disconnected. This happens often, after some minutes of inactivity.
 Probably I'm behind a router or firewall.
@@ -164,28 +175,17 @@ the top. You can change this in Tools->Options->Preferences->Appearance.
 
 OTHER
 =====
-Q: If you choose to save your password, it's saved unencrypted inside the amsn
-config file. Isn't this unsecure?
-A: It's impossible to save the password in an encrypted form. The password must
-be used to generate an md5 digital signature that must be sent over the network
-during login. (The password is not sent in plain text over the network). We
-can't save it in a non-reversible way like passwords in /etc/passwd, because
-it's necessary to read the password to generate this sign. If we use some kind 
-of reversible encryption, then anyone could decode it just by looking at the 
-amsn code. On linux the config file is readable only by its owner. The only way 
-to be sure that no one can read your password is not to save it.
-
-
 Q: I have another question, can you help me?
 A: Yes, we can. But first, take a look at the sourceforge project page, located
 at http://sourceforge.net/projects/amsn, and check all the bugs, support
 request and general forums to check if your problem is already answered. Don't
 check only the messages marked as "Open". There's a drop down list where you
-can select "Closed" at the top of the messages list. Already answered question
-are usually marked as Closed. 
+can select "Closed", or "Pending" at the top of the messages list. Already answered
+question are usually marked as Closed. 
 Before submitting a bug or asking for support, get the following information:
 - Amsn version.
 - Tcl and Tk version.
 - Stack trace of the submited error (if applicable).
+- Last error messages in debug windows (Ctrl+D and Ctrl+S in contact list).
 If you still have a question, you can mail me at
 airadier@users.sourceforge.net.
