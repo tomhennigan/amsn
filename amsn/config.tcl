@@ -661,8 +661,10 @@ proc LoadLoginList {{trigger 0}} {
 	set file_id [open "[file join ${HOMEE} profiles]" r]
 	gets $file_id tmp_data
 	if {$tmp_data != "amsn_profiles_version 1"} {	;# config version not supported!
-		msg_box [trans wrongprofileversion $HOME]
+		#msg_box [trans wrongprofileversion $HOME]
 		close $file_id
+		
+		set OLDHOME $HOME
 		
 		status_log "LoadLoginList: Recreating profiles file\n" blue
 
@@ -677,13 +679,19 @@ proc LoadLoginList {{trigger 0}} {
 		}
 		foreach folder $folders {
 			if {[file readable [file join ${HOMEE} $folder config.xml]]} {
-				puts $file_id "$folder 0"
+				set HOME [file join $HOMEE $folder]
+				load_config
+				set login [::config::getKey login]
+				if {$login != "" } {
+					puts $file_id "$login 0"
+				}
 			}
 		}
 		close $file_id
+		
+		set HOME $OLDHOME
 
-		return -1
-		set file_id [open "[file join ${HOMEE} profiles]" r]
+		return [LoadLoginList $trigger]
 	}
 
 	# Clear all list
@@ -1333,6 +1341,8 @@ if { $initialize_amsn == 1 } {
 	::config::configDefaults
 	::config::loadGlobal
 	
+	load_lang ;#Load default english language
+	load_lang [::config::getGlobalKey language]
 	
 	;# Load of logins/profiles in combobox
 	;# Also sets the newest login as config(login)
@@ -1340,9 +1350,6 @@ if { $initialize_amsn == 1 } {
 	if { [LoadLoginList]==-1 } {
 		exit
 	}
-
-	load_lang ;#Load default english language
-	load_lang [::config::getGlobalKey language]
 
 	global gui_language
 	set gui_language [::config::getGlobalKey language]
