@@ -11,6 +11,7 @@ namespace eval ::pluginslog {
     variable followtext 1
     
     proc plugins_log {plugin msg} {
+	variable window
 	variable idx
 	variable log
 
@@ -20,18 +21,22 @@ namespace eval ::pluginslog {
 	}
 
 	incr idx
-	set log($idx) [list $plugin $msg]
-	::pluginslog::display
+	if { $idx > 499 } {
+		set idx 0
+	}
+	set log($idx) [list $plugin [timestamp] $msg]
+	if {"[wm state $window]" == "normal"} {	
+		::pluginslog::display
+	}
     }
     
     proc toggle {} {
 	variable window
 	if {"[wm state $window]" == "normal"} {
 		wm state $window withdrawn
-		set status_show 0
 	} else {
 		wm state $window normal
-		set status_show 1
+		::pluginslog::redisplay
 		raise $window
 	}
     }
@@ -46,7 +51,7 @@ namespace eval ::pluginslog {
 	#if no filters, show all
 	#if in filter, show it.
 	if {[llength $filters] == 0 || [lsearch $filters $plugin] != -1} { 
-		$window.info insert end "[timestamp] $plugin: [lindex $pluginslog::log($idx) 1]"
+		$window.info insert end "[lindex $pluginslog::log($idx) 1] $plugin: [lindex $pluginslog::log($idx) 2]"
 		#If option "scroll down when new text is entered" 
 		if {$followtext} {
 			catch {$window.info yview end}
@@ -61,12 +66,16 @@ namespace eval ::pluginslog {
 	variable filters
 
 	$window.info delete 1.0 end
-	for {set x 0} {$x <= $idx} {incr x} {
+	for {set count 0} {$count < [array size log]} {incr count} {
+		set x [expr $count + $idx]
+		if { $x > 499 } {
+			set x 0
+		}
 		set plugin [lindex $::pluginslog::log($x) 0]
 		#if no filters, show all
 		#if in filter, show it.
 		if {[llength $filters] == 0 || [lsearch $filters $plugin] != -1} { 
-			$window.info insert end "[timestamp] $plugin: [lindex $pluginslog::log($x) 1]"
+			$window.info insert end "[lindex $pluginslog::log($x) 1] $plugin: [lindex $pluginslog::log($x) 2]"
 		}
 	}
 	catch {$window.info yview end}
