@@ -2652,7 +2652,7 @@ proc cmsn_draw_login {} {
 proc ButtonCancelLogin { window {email ""} } {
 	grab release $window
 	if { $email != "" } {
-		ConfigChange $window $login 
+		ConfigChange $window $email 
 	} 
 	destroy $window -font sboldf
 }
