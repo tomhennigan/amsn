@@ -1,4 +1,4 @@
 #!/bin/sh
 echo "amsn_lang_version 2" > $1.ord
-grep -v amsn_lang_version $1 | sort >>$1.ord
+grep -v amsn_lang_version $1 | sort -d >>$1.ord
 mv $1.ord $1
