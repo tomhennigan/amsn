@@ -4091,7 +4091,7 @@ proc cmsn_draw_login {} {
 	#	-text "[trans startoffline]" -font splainf -highlightthickness 0 -pady 5 -padx 10
 	
 	#Combobox to choose our state on connect
-	label $mainframe.statetext -text "Sign-in status" -font splainf
+	label $mainframe.statetext -text "[trans signinstatus]" -font splainf
 	combobox::combobox $mainframe.statelist -editable false -highlightthickness 0 -width 15 -bg #FFFFFF -font splainf -textvariable [::config::getVar connectas]
 	$mainframe.statelist list delete 0 end
 	set i 0
