@@ -295,6 +295,7 @@ logsin has just logged in
 logsmileys Displays Emoticons and Smileys in aMSN's history windows
 logsout has just logged out
 longnick Your nickname is longer than 130 characters. This is not officially supported by the MSN protocol. Are you sure you want to set it?
+longp4c Your Friendly Name is longer than 130 characters. The Friendly Name that will appear on the official MSN client will be $1. Are you sure you want to set it?
 lprivtoconf Private chat turned into Conference with $1
 luclosedwin You have closed the window on $1
 mailer Mailer

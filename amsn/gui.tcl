@@ -5504,47 +5504,51 @@ proc newcontact_ok { w x0 x1 } {
 proc cmsn_change_name {} {
 	global tcl_platform
 
-	if {[winfo exists .change_name]} {
-		raise .change_name
+	set w .change_name
+	if {[winfo exists $w]} {
+		raise $w
 		return 0
 	}
 
-	toplevel .change_name
-	wm group .change_name .
-	wm title .change_name "[trans changenick] - [trans title]"
+	toplevel $w
+	wm group $w .
+	wm title $w "[trans changenick] - [trans title]"
 
-	#ShowTransient .change_name
-
-	label .change_name.label -font sboldf -text "[trans enternick]:"
-
-	frame .change_name.fn
-	entry .change_name.fn.name -width 40 -bg #FFFFFF -bd 1 -font splainf
-	button .change_name.fn.smiley -image butsmile -relief flat -padx 3 -highlightthickness 0
-
-	frame .change_name.fb
-	button .change_name.fb.ok -text [trans ok] -command change_name_ok -font sboldf
-	button .change_name.fb.cancel -text [trans cancel] -command "destroy .change_name" -font sboldf
+	#ShowTransient $w
 
 
-	pack .change_name.fn.name -side left -fill x -expand true
-	pack .change_name.fn.smiley -side left
+	frame $w.fn
+	label $w.fn.label -font sboldf -text "[trans enternick]:"
+	entry $w.fn.name -width 40 -bg #FFFFFF -bd 1 -font splainf
+	button $w.fn.smiley -image butsmile -relief flat -padx 3 -highlightthickness 0
 
-	pack .change_name.fb.ok -side right -padx 5
-	pack .change_name.fb.cancel -side right -padx 5
+	frame $w.p4c
+	label $w.p4c.label -font sboldf -text "[trans friendlyname]:"
+	entry $w.p4c.name -width 40 -bg #FFFFFF -bd 1 -font splainf
+	button $w.p4c.smiley -image butsmile -relief flat -padx 3 -highlightthickness 0
 
-	pack .change_name.label -side top -padx 5 -pady 3 -expand true
-	pack .change_name.fn -side top -fill x -expand true -padx 5
-	pack .change_name.fb -side top -pady 3 -expand true -anchor e
+	frame $w.fb
+	button $w.fb.ok -text [trans ok] -command change_name_ok -font sboldf
+	button $w.fb.cancel -text [trans cancel] -command "destroy $w" -font sboldf
 
-	bind .change_name.fn.name <Return> "change_name_ok"
-	bind .change_name.fn.smiley  <Button1-ButtonRelease> "smile_menu %X %Y .change_name.fn.name"
 
-	.change_name.fn.name insert 0 [::abook::getPersonal nick]
+	pack $w.fn.label $w.fn.name $w.fn.smiley -side left -fill x -expand true
+	pack $w.p4c.label $w.p4c.name $w.p4c.smiley -side left -fill x -expand true
+	pack $w.fb.ok $w.fb.cancel -side right -padx 5
 
-	tkwait visibility .change_name
+	pack $w.fn $w.p4c $w.fb -side top -fill x -expand true -padx 5
+
+	bind $w.fn.name <Return> "change_name_ok"
+	bind $w.p4c.name <Return> "change_name_ok"
+	bind $w.fn.smiley  <Button1-ButtonRelease> "smile_menu %X %Y $w.fn.name"
+	bind $w.p4c.smiley  <Button1-ButtonRelease> "smile_menu %X %Y $w.p4c.name"
+
+	$w.fn.name insert 0 [::abook::getPersonal nick]
+	$w.p4c.name insert 0 [::config::getKey p4c_name]
+
 	catch {
-		raise .change_name
-		focus -force .change_name.fb.ok
+		raise $w
+		focus -force $w.fn.name
 	}
 	
 }
@@ -5567,6 +5571,20 @@ proc change_name_ok {} {
 		}
 		::MSN::changeName $config(login) $new_name
 	}
+
+	set friendly [.change_name.p4c.name get]
+
+	if { [string length $friendly] > 130} {
+		set parent .change_name
+		set answer [tk_messageBox -message [trans longp4c [string range $friendly 0 129]] -type yesno -icon question -title [trans confirm] -parent $parent]
+		if { $answer != "yes" } {
+			return
+		}
+	}
+	::config::setKey p4c_name $friendly
+	
+
+
 	destroy .change_name
 }
 #///////////////////////////////////////////////////////////////////////
