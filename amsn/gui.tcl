@@ -2,9 +2,9 @@
 if { $initialize_amsn == 1 } {
     global bgcolor bgcolor2
 
-    set bgcolor #0050C0
-    set bgcolor2 #D0D0F0
-
+    if { ! [info exists bgcolor] } { set bgcolor #0050C0 }
+    if { ! [info exists bgcolor2 ] } { set bgcolor2 #D0D0F0 }
+	puts "GUI"
 }
 
 namespace eval ::amsn {

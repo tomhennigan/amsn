@@ -163,3 +163,14 @@ proc selectskinok { w } {
 	destroy $w
     }
 }
+
+
+proc SetBackgroundColors {cstack cdata saved_data cattr saved_attr args} {
+    global bgcolor bgcolor2
+    upvar $saved_data sdata
+    
+    if { [info exists sdata(${cstack}:background1)] } { set bgcolor [string trim $sdata(${cstack}:background1)] }
+    if { [info exists sdata(${cstack}:background2)] } { set bgcolor2 [string trim $sdata(${cstack}:background2)] }
+
+    return 0
+}
