@@ -2402,7 +2402,7 @@ namespace eval ::amsn {
 
 		if { [::ChatWindow::UseContainer] != 0 && $creating_window == 1} {
 			::ChatWindow::NameTabButton $win_name [::abook::getDisplayNick $chatid]
-			set_balloon $::ChatWindow::win2tab($win_name) "[::abook::getContactData $chatid nick]"
+			set_balloon $::ChatWindow::win2tab($win_name) "[::abook::getDisplayNick $chatid]"
 		}
 
 		if { "$chatid" != "${lowuser}" } {
