@@ -41,7 +41,7 @@
 ### Some global variables
 ############################################################
 set version "0.81pre1"
-set date "12/6/2003"
+set date "29/6/2003"
 set weburl "http://amsn.sourceforge.net"
 set program_dir ""
 set HOME ""
