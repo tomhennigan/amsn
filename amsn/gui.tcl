@@ -5941,11 +5941,17 @@ proc pictureBrowser {} {
 	grid row .picbrowser 3 -weight 1		
 
 
-	label .picbrowser.pics.text.nopic -image no_pic -relief flat -borderwidth 0 -highlightthickness 2 \
-		-background white -highlightbackground black
+	frame .picbrowser.pics.text.nopic -borderwidth 0 -highlightthickness 1 -background white -highlightbackground black
+	label .picbrowser.pics.text.nopic.pic -image no_pic -relief flat -borderwidth 1 -highlightthickness 0 \
+		-background white 
+	label .picbrowser.pics.text.nopic.desc -text "[trans nopic]" -font splainf -background white
+	pack .picbrowser.pics.text.nopic.pic -side top
+	pack .picbrowser.pics.text.nopic.desc -side top
+	
 	bind .picbrowser.pics.text.nopic <Enter> ".picbrowser.pics.text.nopic configure -highlightbackground red"
 	bind .picbrowser.pics.text.nopic <Leave> ".picbrowser.pics.text.nopic configure -highlightbackground black"
 	bind .picbrowser.pics.text.nopic <Button1-ButtonRelease> ".picbrowser.mypic configure -image no_pic; set selected_image \"\""
+	bind .picbrowser.pics.text.nopic.pic <Button1-ButtonRelease> ".picbrowser.mypic configure -image no_pic; set selected_image \"\""	
 	.picbrowser.pics.text window create end -window .picbrowser.pics.text.nopic -padx 3 -pady 3	
 	
 		
@@ -5953,17 +5959,24 @@ proc pictureBrowser {} {
 	foreach filename $files {
 		if { [file exists [filenoext $filename].gif] } {
 			set the_image [image create photo -file "[filenoext $filename].gif"]
-			label .picbrowser.pics.text.$the_image -image $the_image -relief flat -borderwidth 0 -highlightthickness 2 \
+			frame .picbrowser.pics.text.$the_image -borderwidth 0 -highlightthickness 1 -background white -highlightbackground black
+			label .picbrowser.pics.text.$the_image.pic -image $the_image -relief flat -borderwidth 0 -highlightthickness 2 \
 				-background white -highlightbackground black
+			label .picbrowser.pics.text.$the_image.desc -text "$the_image" -font splainf -background white
+			pack .picbrowser.pics.text.$the_image.pic -side top
+			pack .picbrowser.pics.text.$the_image.desc -side top				
 			bind .picbrowser.pics.text.$the_image <Enter> ".picbrowser.pics.text.$the_image configure -highlightbackground red"
 			bind .picbrowser.pics.text.$the_image <Leave> ".picbrowser.pics.text.$the_image configure -highlightbackground black"
 			bind .picbrowser.pics.text.$the_image <Button1-ButtonRelease> ".picbrowser.mypic configure -image $the_image; set selected_image [list $filename]"
+			bind .picbrowser.pics.text.$the_image.pic <Button1-ButtonRelease> ".picbrowser.mypic configure -image $the_image; set selected_image [list $filename]"			
 			status_log "File: $filename\n" blue
 			
 			.picbrowser.pics.text window create end -window .picbrowser.pics.text.$the_image -padx 3 -pady 3
 			lappend image_names $the_image
 		}
 	}
+	
+	#Liberar memoria!!!! (imagenes)
 	
 	.picbrowser.pics.text configure -state disabled
 		
