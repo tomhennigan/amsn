@@ -9,7 +9,7 @@
 	<plugin_namespace>Nudge</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 
-	<cvs_version>1.35</cvs_version>
+	<cvs_version>1.36</cvs_version>
 
 	<lang>
 		<langcode>ca</langcode>

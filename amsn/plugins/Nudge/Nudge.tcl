@@ -287,16 +287,15 @@ namespace eval ::Nudge {
 			#Use after 1 to avoid a bug on Mac OS X when we close the chatwindow before the end of the nudge
 			#Keep compatibility with 0.94 for the getColor
 			if {[::Nudge::version_094]} {
-				button $nudgebutton -image [::skin::loadPixmap nudgebutton] -relief flat -padx 3 \
+				label $nudgebutton -image [::skin::loadPixmap nudgebutton] -relief flat -padx 3 \
 				-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0 \
 				-highlightbackground [::skin::getColor background2] -activebackground [::skin::getColor background2]\
-				-command "after 1 ::Nudge::send_via_queue $newvar(window_name)"
 			} else {
-				button $nudgebutton -image [::skin::loadPixmap nudgebutton] -relief flat -padx 3 \
+				label $nudgebutton -image [::skin::loadPixmap nudgebutton] -relief flat -padx 3 \
 				-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
 				-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
-				-command "after 1 ::Nudge::send_via_queue $newvar(window_name)"
 			}
+			bind $nudgebutton <<Button1>> "after 1 ::Nudge::send_via_queue $newvar(window_name)"
 			#Configure hover button
 			bind $nudgebutton <Enter> "$nudgebutton configure -image [::skin::loadPixmap nudgebutton_hover]"
 			bind $nudgebutton <Leave> "$nudgebutton configure -image [::skin::loadPixmap nudgebutton]"
