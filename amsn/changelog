@@ -11,6 +11,7 @@ Version 0.60
   	        o Added some messages to the main language catalogs 
   		  (translations needed!)
 		o Fixed some translations and omissions
+		o New languages: Norwegian and Euskera
 		o Branding is always enabled. This space is shared
 		  (time & space) with the banners when advertisement is enabled
 		o Added "Save" option in the chat window to save the

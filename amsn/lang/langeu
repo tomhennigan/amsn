@@ -1,0 +1,149 @@
+amsn_lang_version 2
+about Honi buruz
+acceptfile Onartu $1 fitxategia, tamaina $2? $3 gisa gordeta
+actions Ekintzak
+addacontact Kontaktua gehitu
+addedyou k bere kontaktuen zerrendara gehitu zaitu
+addtoo Pertsona hau zure kontaktuen zerrendara gehitu
+admincontacts Kontaktuak administratu
+admingroups Taldeak administratu
+adverts Iragarpen
+allowseen Pertsona honek konektatuta nagoela ikusi dezan eta nirekin kontaktatzeko baimendu
+appearoff Konektatuta
+are daude
+autohotmaillog Hotmailen automatikoki hasi saioa
+autoip IP automatikoa
+avoidseen Pertsona honek konektatuta nagoela ikusi dezan eta nirekin kontaktatzeko galerazi
+away Ez dago
+baduserpass Erabiltzaile izena edo pasahitza ez da zuzena
+blankdirect Konexio zuzena erabiltzeko zuriz utzi
+block Blokeatu
+blocked Blokeatuta
+browser Nabigatzailea
+busy Okupatuta
+cancel Utzi
+changenick Ezizena aldatu
+chat Txat
+chatreq Txat eskakizuna
+chatsmileys Smiley-ak txatean
+chatack -ren txata onartzen
+checkver Bertsio berria dagoen egiaztatu
+checkingver Bertsio berriak dauden egiaztatzen
+clicktologin Klik egin hemen saioa hasteko
+close Itzi
+command Komandoa
+contactadded Kontaktua gehituta
+connecterror Akatsa zerbitzarira konektatzerakoan
+date Data
+delete Ezabatu
+enableproxy Proxya gaitu
+entercontactemail Kontaktuaren e-posta sartu
+enterfilename Fitxategi-izena sartu mesedez
+enternick Zure ezizena sartu
+examples Adibideak
+filedoesnotexist Fitxategia ez da existitzen
+filename Fitxategi-izena
+filetransfercancelled Fitxategien transferentzia bertan behera utzita
+filetransfercomplete Fitxategien transferentzia osatuta
+gonelunch Jatera joanda
+group Taldea
+groupadd Talde bat gehitu
+groupdelete Talde bat ezabatu
+grouprename Talde bat berizendatu
+groupoldname Izen zaharra
+groupnewname Izen berria
+groupunknown Talde ezezaguna
+groupexists Talde hau badago lehendik
+groupmissing Taldea ez dago
+handle Heldulekua
+help Laguntza
+helpcontents Laguntzaren edukiak
+home Etxea
+ident Identifikatzen
+identity Identitatea
+inbox Sarrera-bandeja
+invite Gonbidatu
+ipaddress IP Helbidea
+is da
+joins $1 $2 berriketan sartzen da
+language Hizkuntza
+leaves $1 berriketatik ateratzen da
+listeningon $1 ataka entzuten
+listsmileys Smiley-ak kontaktuan
+loadcontacts Kontaktuen zerrenda kargatu
+loggingin Saioa hasi
+login Saioa hasi
+loginas Beste saio bat hasteko
+logout Saioa amaitu
+logsin oraintxe bertan saioa hasi du
+mailer Bidalketa-funtzioa
+mobile Mugikorra
+mustrestart Aldaketak aplikatzeko programa berrabiarazi behar duzu
+mystatus Nire egoera
+msg Mezua
+msn AMSN
+needonline Oraindik deskonektatuta zaude edo deskonektatuta ematen duzu!
+newmail $1 mezu berri zure sarrera-bandejan
+newmailfrom -ren mezu berria
+newmsg Mezu berria
+newveravailable $1 bertsio berria deskargatzeko erabilgarri
+next Hurrengoa
+noactivity Ez dago aktibitaterik
+newmail 0 mezu berri zure sarrera-bandejan
+nonewver Ez dago bertsio berriagorik deskargatzeko erabilgarri
+notify jakinarazi
+nousersinsession Ez dago erabiltzailerik saioan
+ok Ok
+offline Deskonektatuta
+onenewmail 1 mezu berri zure sarrera-bandejan
+online Konektatuta
+onphone Telefonoz hitzegiten
+openreceived Ireki jasotako fitxategia
+options Aukerak
+ordercontactsby Kontaktuak ordenatu
+other Beste bat
+pager Bilagailu
+pass Pasahitza
+phone Telefonoa
+port Ataka
+prefapps Aplikazioak
+preferences Hobespenak
+prefsound Soinuak
+properties Propietateak
+proxyconf Proxyaren konfigurazioa
+proxyconfhttp HTTP proxy support configuration
+publishphones Nire telefono zenbakiak argitara eman
+receivedbytes $2 byteetako $1 jasota
+receivefile Fitxategia jaso
+reconnect $1 birkonektatzera itxaroten
+reconnecting Zerbitzariara birkonektatzen
+rememberpass Pasahitza gogoratu
+rightback Oraintxe bueltan nago
+save Gorde
+saveas Gorde Honela
+savecontacts Kontaktu zerrenda gorde
+says $1 dio
+sbcon Switch Board-era konektatzen
+send Bidali
+sendfile Fitxategia bidali
+sendmail E-posta bidali
+sendmsg Mezua bidali
+sentbytes $2 bytetako $1 bidaliak
+server Zerbitzaria
+sound Gertaeren soinuak
+startoffline Deskonektatuta hasi
+textsize Testuaren tamaina
+title Al's Messenger
+to Nori
+tools Tresnak
+typing $1 mezubat idazten
+yousay Zuk diozu
+youwant Zu itxaroten duzu
+unblock Desblokeatu
+uoffline Deskonektatuta
+uonline Konektatuta
+user Erabiltzaile
+version Bertsioa
+view Ikuspegia
+willjoin $1 berriketan sartzera itxaroten
+work Lana
