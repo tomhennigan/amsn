@@ -70,12 +70,12 @@ proc Setup {next_handler readable_handler name} {
     upvar $readable_handler read
 
     switch $proxy_type {
-        post {
+        http {
 	    status_log "Proxy is POST. Next handler is ::Proxy::Connect $name\n" white
 	    set next "::Proxy::Connect $name"
 	    set read "::Proxy::ConnectedPOST $name"
 	}
-        http {
+        ssl {
 	    status_log "proxy is CONNECT. Next handler is ::Proxy::Connect $name\n" white
 	    set next "::Proxy::Connect $name"
 	    set read "::Proxy::Read $name"
@@ -101,7 +101,7 @@ proc Connect {name} {
    set remote_port 1863
      
    switch $proxy_type {
-       post {
+       http {
        
          set error_msg [fconfigure [sb get $name sock] -error]   
          if { $error_msg != "" } {
@@ -128,7 +128,7 @@ proc Connect {name} {
 	      ClosePOST $name
 	   }
        }
-       http {
+       ssl {
 	   set tmp_data "CONNECT [join $remote_server ":"] HTTP/1.0"
 	   status_log "PROXY SEND: $tmp_data\n"
 	   puts -nonewline [sb get $name sock] "$tmp_data\r\n\r\n"
@@ -208,6 +208,8 @@ proc PollPOST { name } {
    
       if { $proxy_session_id($name) != ""} {
       
+         set proxy_session_id($name) ""   
+      
          set tmp_data "POST http://$proxy_gateway_ip($name)/gateway/gateway.dll?Action=poll&SessionID=$proxy_session_id($name) HTTP/1.1"      
          set tmp_data "$tmp_data\r\nAccept: */*"
          set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
@@ -220,8 +222,7 @@ proc PollPOST { name } {
          set tmp_data "$tmp_data\r\nContent-Length: 0"
          set tmp_data "$tmp_data\r\n\r\n"
 	 
-         #status_log "PROXY POST polling connection ($name):\n$tmp_data\n" blue
-         set proxy_session_id($name) ""         
+         #status_log "PROXY POST polling connection ($name):\n$tmp_data\n" blue      
 	 if { [catch {puts -nonewline [sb get $name sock] "$tmp_data" } res]} {
 	    sb set $name error_msg $res
             ClosePOST $name
@@ -264,7 +265,9 @@ proc WritePOST { name {msg ""} } {
    
    
    if { $proxy_session_id($name) != "" } {
-	 
+   
+      set proxy_session_id($name) ""      
+ 
       set size [string length $proxy_queued_data($name)]
       set strend [expr {$size -1 }]
 
@@ -281,7 +284,6 @@ proc WritePOST { name {msg ""} } {
       set tmp_data "$tmp_data\r\n\r\n[string range $proxy_queued_data($name) 0 $strend]"
       
       #status_log "PROXY POST Sending: ($name)\n$tmp_data\n" blue
-      set proxy_session_id($name) ""      
       set proxy_queued_data($name) [string replace $proxy_queued_data($name) 0 $strend]         
       if { [catch {puts -nonewline [sb get $name sock] "$tmp_data"} res] } {
          sb set $name error_msg $res
@@ -407,9 +409,9 @@ proc Read { name } {
 	 if {$tmp_data == ""} {
 	    set proxy_status [split [lindex $proxy_header 0]]
 	    if {[lindex $proxy_status 1] != "200"} {
-	       close $sock
-	       sb set $name stat "d"
-	       status_log "PROXY CLOSED: [lindex $proxy_header 0]\n"
+	       #close $sock
+	       #sb set $name stat "d"
+	       status_log "CLOSING PROXY: [lindex $proxy_header 0]\n"
 
 		# DEGT Use a callback mechanism to keep code pure
 		if {$proxy_dropped_cb != ""} {
@@ -427,6 +429,9 @@ proc Read { name } {
 }
 ###################################################################
 # $Log$
+# Revision 1.11  2003/06/05 14:24:41  airadier
+# Modified preferences por connections and proxy settings.
+#
 # Revision 1.10  2003/06/05 12:21:27  airadier
 # Fixed a thing that could make the proxy write messages not in the right order they were sent
 #

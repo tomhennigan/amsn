@@ -378,7 +378,7 @@ namespace eval ::MSN {
    proc StartPolling {} {
       global config
 
-      if {($config(keepalive) == 1) && ($config(withproxy) == 0)} {
+      if {($config(keepalive) == 1) && ($config(connectiontype) == "direct")} {
       	after 60000 "::MSN::PollConnection"
       } else {
       	after cancel "::MSN::PollConnection"
@@ -431,7 +431,7 @@ namespace eval ::MSN {
 
       global config
       #TODO: change this
-      if { ($config(withproxy) == 1)} {
+      if { ($config(connectiontype) == "http") || (($config(connectiontype) == "proxy") &&($config(proxytype) == "http"))} {
          ::Proxy::WritePOST $sbn "$cmd"
          return
       }
@@ -2810,52 +2810,65 @@ proc cmsn_socket {name} {
 
    global config
 
-   if {$config(withproxy) == 1} {
-
+   if {$config(connectiontype) == "direct" } {
+      set tmp_serv [lindex [sb get $name serv] 0]
+      set tmp_port [lindex [sb get $name serv] 1]
+      set readable_handler [sb get $name readable]
+      set next [sb get $name connected]   
+   } elseif {$config(connectiontype) == "http"} { 
+      
+      status_log "Setting up http connection\n"
+      set tmp_serv "gateway.messenger.hotmail.com"
+      set tmp_port 80
+      
+      ::Proxy::Init "$tmp_serv:$tmp_port" "http"
+      
+      ::Proxy::OnCallback "dropped" "proxy_callback"
+      
+      status_log "Calling proxy::Setup now\n" white  
+      ::Proxy::Setup next readable_handler $name
+      
+      
+   } elseif {$config(connectiontype) == "proxy"} {
+   
+      status_log "Setting up Proxy connection (type=$config(proxytype))\n"
+      ::Proxy::Init $config(proxy) $config(proxytype)
+      #::Proxy::Init $config(proxy) "post"
+      #::Proxy::Init $config(proxy) $config(proxytype)
+      #::Proxy::LoginData $config(proxyauthenticate) $config(proxyuser) $config(proxypass)
+   
       set proxy_serv [split $config(proxy) ":"]
       set tmp_serv [lindex $proxy_serv 0]
       set tmp_port [lindex $proxy_serv 1]        
       ::Proxy::OnCallback "dropped" "proxy_callback"
-
-      status_log "Calling proxy::Setup now\n" white
-      #Sets up next and readable_handler variables
+      
+      status_log "Calling proxy::Setup now\n" white  
       ::Proxy::Setup next readable_handler $name
-
-      #TODO: Add timeout for proxy in cmsn_reconnect
-      #sb set $name stat "pw"
-
-   } else {
-
-      set tmp_serv [lindex [sb get $name serv] 0]
-      set tmp_port [lindex [sb get $name serv] 1]
-      set readable_handler [sb get $name readable]
-      set next [sb get $name connected]
-
-      #Reset timer
-      #sb set $name time [clock seconds]
-      #sb set $name stat "cw"
-
-   }
-     sb set $name time [clock seconds]
-     sb set $name stat "cw"
-     sb set $name error_msg ""
    
-     if { [catch {set sock [socket -async $tmp_serv $tmp_port]} res ] } {
-        sb set $name error_msg $res
-        ::MSN::CloseSB $name
-	return
-     }
-     sb set $name sock $sock
-     fconfigure $sock -buffering none -translation {binary binary} -blocking 0
-     fileevent $sock readable $readable_handler
-     fileevent $sock writable $next
+   }
+     
+   sb set $name time [clock seconds]
+   sb set $name stat "cw"
+   sb set $name error_msg ""
+   
+   if { [catch {set sock [socket -async $tmp_serv $tmp_port]} res ] } {
+      sb set $name error_msg $res
+      ::MSN::CloseSB $name
+      return
+   }
+   sb set $name sock $sock
+   fconfigure $sock -buffering none -translation {binary binary} -blocking 0
+   fileevent $sock readable $readable_handler
+   fileevent $sock writable $next
 }
 
 proc cmsn_ns_connected {} {
    global config
 
-   set error_msg [fconfigure [sb get ns sock] -error]   
-   if { $error_msg != "" } {
+   
+   set error_msg ""
+   set therewaserror [catch {set error_msg [fconfigure [sb get ns sock] -error]} res]
+   if { ($error_msg != "") || $therewaserror == 1 } {
       sb set ns error_msg $error_msg
       ::MSN::CloseSB ns
       return
@@ -2900,7 +2913,6 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
    #Log in
    .main_menu.file entryconfigure 0 -state disabled
    .main_menu.file entryconfigure 1 -state disabled
-   #Proxy Config
 
    sb set ns data [list]
    sb set ns connected "cmsn_ns_connected"

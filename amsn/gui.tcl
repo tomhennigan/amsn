@@ -2156,13 +2156,13 @@ proc cmsn_draw_main {} {
 
 
    #This shouldn't go here
-   if {$config(withproxy)} {
+   #if {$config(withproxy)} {
 
      #::Proxy::Init $config(proxy) "http"
-     ::Proxy::Init $config(proxy) "post"
+     #::Proxy::Init $config(proxy) "post"
      #::Proxy::Init $config(proxy) $config(proxytype)
-     ::Proxy::LoginData $config(proxyauthenticate) $config(proxyuser) $config(proxypass)
-   }
+     #::Proxy::LoginData $config(proxyauthenticate) $config(proxyuser) $config(proxypass)
+   #}
 
    adv_initialize .main
 
@@ -3215,62 +3215,6 @@ proc cmsn_draw_otherwindow { title command } {
 
 
 
-#///////////////////////////////////////////////////////////////////////
-proc cmsn_proxy {} {
-   global configuring_proxy config
-
-   if {[info exists configuring_proxy]} {
-      raise .proxy_conf
-      return 0
-   }
-
-   set configuring_proxy true
-   toplevel .proxy_conf -width 400 -height 150
-   wm group .proxy_conf .
-   bind .proxy_conf <Destroy> {
-      if {"%W" == ".proxy_conf"} {
-         unset configuring_proxy
-      }
-   }
-
-   wm geometry .proxy_conf -0+100
-   wm title .proxy_conf "[trans proxyconf] - [trans title]"
-   wm transient .proxy_conf .
-   canvas .proxy_conf.c -width 400 -height 150 
-   pack .proxy_conf.c -expand true -fill both
-
-   checkbutton .proxy_conf.c.enable -relief flat -text [trans enableproxy] \
-   	-variable config(withproxy)
-   entry .proxy_conf.c.server -width 20 -bg #FFFFFF -bd 1 \
-      -font splainf
-   entry .proxy_conf.c.port -width 5 -bg #FFFFFF -bd 1 \
-      -font splainf
-   button .proxy_conf.c.ok -text [trans ok] -command proxy_conf_ok
-   button .proxy_conf.c.cancel -text [trans cancel] \
-      -command "grab release .proxy_conf;destroy .proxy_conf"
-
-   .proxy_conf.c create text 200 15 -font bigfont -anchor center \
-	-text "[trans proxyconfhttp]"
-   .proxy_conf.c create text 133 35 -font sboldf -anchor ne \
-	-text "[trans server]: "
-   .proxy_conf.c create text 133 60 -font sboldf -anchor ne \
-	-text "[trans port]: "
-   .proxy_conf.c create text 133 105 -font splainf -anchor nw \
-	-text "[trans blankdirect]"
-   .proxy_conf.c create window 133 35 -window .proxy_conf.c.server -anchor nw
-   .proxy_conf.c create window 133 60 -window .proxy_conf.c.port -anchor nw
-   .proxy_conf.c create window 133 80 -window .proxy_conf.c.enable -anchor nw
-   .proxy_conf.c create window 195 120 -window .proxy_conf.c.ok -anchor ne
-   .proxy_conf.c create window 205 120 -window .proxy_conf.c.cancel -anchor nw
-
-   set proxy_data [split $config(proxy) ":"]
-   .proxy_conf.c.server insert 0 [lindex $proxy_data 0]
-   .proxy_conf.c.port insert 0 [lindex $proxy_data 1]
-
-   tkwait visibility .proxy_conf
-   grab set .proxy_conf
-}
-#///////////////////////////////////////////////////////////////////////
 
 
 

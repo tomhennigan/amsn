@@ -324,7 +324,7 @@ proc close_cleanup {} {
   LoginList changelock 0 $config(login) 0
   if { [info exists lockSock] } {
   	if { $lockSock != 0 } {
-		close $lockSock
+		catch {close $lockSock} res
 	}
   }
   SaveLoginList
@@ -492,24 +492,6 @@ proc run_command_otherwindow { command } {
 #///////////////////////////////////////////////////////////////////////
 
 
-
-
-#///////////////////////////////////////////////////////////////////////
-proc proxy_conf_ok {} {
-   global config
-
-   set p_server [string trim [.proxy_conf.c.server get]]
-   set p_port   [string trim [.proxy_conf.c.port get]]
-   if { ($p_server != "") && ($p_port != "") } {
-       set config(proxy) [join [list $p_server $p_port] ":"]
-   } else {
-       set config(proxy) ""
-       set config(withproxy) 0
-   }
-   grab release .proxy_conf
-   destroy .proxy_conf
-}
-#///////////////////////////////////////////////////////////////////////
 
 
 #///////////////////////////////////////////////////////////////////////

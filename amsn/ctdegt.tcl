@@ -584,6 +584,59 @@ proc Preferences { { settings ""} } {
 
 	set frm [Rnotebook:frame $nb 5]
 	
+	## Connection Frame ##
+	set lfname [LabelFrame:create $frm.lfnameconnection -text [trans prefconnection]]
+	pack $frm.lfnameconnection -anchor n -side top -expand 1 -fill x
+	label $lfname.pshared -image prefproxy
+	pack $lfname.pshared -side left -anchor nw	
+	
+	frame $lfname.1 -class Degt
+	frame $lfname.2 -class Degt
+	frame $lfname.3 -class Degt
+	frame $lfname.4 -class Degt
+	frame $lfname.5 -class Degt
+	radiobutton $lfname.1.direct -text "[trans directconnection]" -value direct -variable config(connectiontype)
+	pack $lfname.1.direct -anchor w -side top -padx 10
+	radiobutton $lfname.2.http -text "[trans httpconnection]" -value http -variable config(connectiontype)
+	pack $lfname.2.http -anchor w -side top -padx 10
+	radiobutton $lfname.3.proxy -text "[trans proxyconnection]" -value proxy -variable config(connectiontype)
+	pack $lfname.3.proxy -anchor w -side top -padx 10
+	
+	#checkbutton $lfname.1.proxy -text "[trans proxy]" -onvalue 1 -offvalue 0 -variable config(withproxy)
+	#pack $lfname.1.proxy -anchor w -side top -padx 10
+	
+	#radiobutton $lfname.2.http -text "HTTP" -value http -variable config(proxytype)
+	#radiobutton $lfname.2.socks5 -text "SOCKS5" -value socks -variable config(proxytype) -state disabled
+	#pack $lfname.2.http $lfname.2.socks5 -anchor w -side left -padx 10
+	
+	pack $lfname.1 $lfname.2 $lfname.3 $lfname.4 $lfname.5 -anchor w -side top -padx 0 -pady 0 -expand 1 -fill both
+	
+	radiobutton $lfname.4.post -text "HTTP (POST method)" -value http -variable config(proxytype)
+	radiobutton $lfname.4.ssl -text "SSL (CONNECT method)" -value ssl -variable config(proxytype)
+	radiobutton $lfname.4.socks5 -text "SOCKS5" -value socks5 -variable config(proxytype) -state disabled
+	
+	grid $lfname.4.post -row 1 -column 1 -sticky w -pady 5 -padx 10
+	grid $lfname.4.ssl -row 1 -column 2 -sticky w -pady 5 -padx 10
+	grid $lfname.4.socks5 -row 1 -column 3 -sticky w -pady 5 -padx 10
+
+		
+	label $lfname.5.lserver -text "[trans server] :" -padx 5 -font sboldf
+	entry $lfname.5.server -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20 -textvariable proxy_server
+	label $lfname.5.lport -text "[trans port] :" -padx 5 -font sboldf
+	entry $lfname.5.port -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5 -textvariable proxy_port
+	label $lfname.5.luser -text "[trans user] :" -padx 5 -font sboldf
+	entry $lfname.5.user -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20
+	label $lfname.5.lpass -text "[trans pass] :" -padx 5 -font sboldf
+	entry $lfname.5.pass -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20 -show "*"
+	grid $lfname.5.lserver -row 2 -column 1 -sticky e
+	grid $lfname.5.server -row 2 -column 2 -sticky w -pady 5
+	grid $lfname.5.lport -row 2 -column 3 -sticky e
+	grid $lfname.5.port -row 2 -column 4 -sticky w -pady 5
+	grid $lfname.5.luser -row 3 -column 1 -sticky e
+	grid $lfname.5.user -row 3 -column 2 -sticky w
+	grid $lfname.5.lpass -row 3 -column 3 -sticky e
+	grid $lfname.5.pass -row 3 -column 4 -sticky w
+
 	## NAT Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefshared]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
@@ -595,37 +648,7 @@ proc Preferences { { settings ""} } {
 	checkbutton $lfname.1.ip -text "[trans ipdetect]" -onvalue 1 -offvalue 0 -variable config(natip)
 	pack $lfname.1.keepalive $lfname.1.ip -anchor w -side top -padx 10
 	
-	## Proxy Frame ##
-	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefproxy]]
-	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
-	label $lfname.pshared -image prefproxy
-	pack $lfname.pshared -side left -anchor nw	
-	frame $lfname.1 -class Degt
-	frame $lfname.2 -class Degt
-	frame $lfname.3 -class Degt
-	checkbutton $lfname.1.proxy -text "[trans proxy]" -onvalue 1 -offvalue 0 -variable config(withproxy)
-	pack $lfname.1.proxy -anchor w -side top -padx 10
-	radiobutton $lfname.2.http -text "HTTP" -value http -variable config(proxytype)
-	radiobutton $lfname.2.socks5 -text "SOCKS5" -value socks -variable config(proxytype) -state disabled
-	pack $lfname.2.http $lfname.2.socks5 -anchor w -side left -padx 10
-	pack $lfname.1 $lfname.2 $lfname.3 -anchor w -side top -padx 0 -pady 0 -expand 1 -fill both
-	label $lfname.3.lserver -text "[trans server] :" -padx 5 -font sboldf
-	entry $lfname.3.server -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20 -textvariable proxy_server
-	label $lfname.3.lport -text "[trans port] :" -padx 5 -font sboldf
-	entry $lfname.3.port -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5 -textvariable proxy_port
-	label $lfname.3.luser -text "[trans user] :" -padx 5 -font sboldf
-	entry $lfname.3.user -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20
-	label $lfname.3.lpass -text "[trans pass] :" -padx 5 -font sboldf
-	entry $lfname.3.pass -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20 -show "*"
-	grid $lfname.3.lserver -row 1 -column 1 -sticky e
-	grid $lfname.3.server -row 1 -column 2 -sticky w -pady 5
-	grid $lfname.3.lport -row 1 -column 3 -sticky e
-	grid $lfname.3.port -row 1 -column 4 -sticky w -pady 5
-	grid $lfname.3.luser -row 2 -column 1 -sticky e
-	grid $lfname.3.user -row 2 -column 2 -sticky w
-	grid $lfname.3.lpass -row 2 -column 3 -sticky e
-	grid $lfname.3.pass -row 2 -column 4 -sticky w
-    
+	    
         ## Remote Control Frame ##
         set lfname [LabelFrame:create $frm.lfname3 -text [trans prefremote]]
         pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
@@ -836,8 +859,10 @@ proc SavePreferences {} {
     if { ($p_server != "") && ($p_port != "") && [string is digit $proxy_port] } {
        set config(proxy) [join [list $p_server $p_port] ":"]
     } else {
-       set config(proxy) ""
-       set config(withproxy) 0
+       #Let's just show the connect error
+       set config(proxy) [join [list $p_server $p_port] ":"]
+       #set config(proxy) ""
+       #set config(withproxy) 0
     }
 
     # Make sure entries x and y offsets and idle time are digits, if not revert to old values
@@ -1079,6 +1104,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.45  2003/06/05 14:24:41  airadier
+# Modified preferences por connections and proxy settings.
+#
 # Revision 1.44  2003/06/05 12:06:02  airadier
 # Fixed a raise/minimize issue with chat windows, and added a new option for raising or iconifying window when a new chat starts
 #

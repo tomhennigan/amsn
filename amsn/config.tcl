@@ -8,8 +8,8 @@ proc ConfigDefaults {} {
 	set config(save_password) 0		;# a config file
 	set config(keep_logs) 1
 	set config(proxy) ""
-	set config(withproxy) 0			;# 1 to enable proxy settings
-	set config(proxytype) "http"		;# http|socks
+	set config(connectiontype) direct	;# direct|http|proxy
+	set config(proxytype) "http"		;# http|ssl|socks5
 	set config(proxyuser) ""		;# SOCKS5
 	set config(proxypass) ""		;# SOCKS5
 	set config(proxyauthenticate) 0		;# SOCKS5 use username/password
