@@ -293,13 +293,17 @@ namespace eval ::HTTPConnection {
 	proc RetryWrite { name } {
 		variable proxy_writing
 		status_log "Retrying write\n" blue
-		fileevent [sb get $name sock] writable ""
+		catch {fileevent [sb get $name sock] writable ""}
 		if { [catch {puts -nonewline [sb get $name sock] $proxy_writing} res] } {
 			sb set $name error_msg $res
 			eval [sb get $name error_handler]
 		}
 		catch {unset proxy_writing}
-		fileevent [sb get $name sock] readable [list ::HTTPConnection::HTTPRead $name]
+		if { [catch {fileevent [sb get $name sock] readable [list ::HTTPConnection::HTTPRead $name]} res] } {
+			sb set $name error_msg $res
+			eval [sb get $name error_handler]
+		}
+		
 		
 	}
 
