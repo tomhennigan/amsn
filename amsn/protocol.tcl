@@ -3271,17 +3271,24 @@ proc cmsn_change_state {recv} {
 	set maxw [expr {$config(notifwidth)-20}]
 	set short_name [trunc $custom_user_name . $maxw splainf]
 		
-	if {$substate == "FLN"} {	#User logsout
+	#User logsout
+	if {$substate == "FLN"} {
 		
 		#Register last logout
 		::abook::setContactData $user last_logout [clock format [clock seconds] -format "%D - %H:%M:%S"]
 		
-		if { $config(notifyoffline) == 1 } {
+		if { ($config(notifyoffline) == 1 && [::abook::getContactData $user notifyoffline -1] != 0) ||
+		     [::abook::getContactData $user notifyoffline -1] == 1 } {
+			#Show notify window if globally enabled, and not locally disabled, or if just locally enabled
 			::amsn::notifyAdd "$short_name\n[trans logsout]." "" offline offline
 		}
-	} elseif {[::abook::getVolatileData $user state FLN] != "FLN" } {		;# User was online before
+		
+	# User was online before, so it's just a status change, and it's not
+	# an initial state notification
+	} elseif {[::abook::getVolatileData $user state FLN] != "FLN" && [lindex $recv 0] != "ILN"  } {
 
-		if { $config(notifystate) == 1 &&  $substate != "FLN" && [lindex $recv 0] != "ILN" } {
+		if { ($config(notifystate) == 1 && [::abook::getContactData $user notifystatus -1] != 0) ||
+		     [::abook::getContactData $user notifystatus -1] == 1 } {
 			::amsn::notifyAdd "$short_name\n[trans statechange]\n[trans [::MSN::stateToDescription $substate]]." \
 				"::amsn::chatUser $user" state state
 		}
@@ -3293,7 +3300,8 @@ proc cmsn_change_state {recv} {
 		#Register last login
 		::abook::setContactData $user last_login [clock format [clock seconds] -format "%D - %H:%M:%S"]
 		
-		if { $config(notifyonline) == 1 } {
+		if { ($config(notifyonline) == 1 && [::abook::getContactData $user notifyonline -1] != 0) ||
+		     [::abook::getContactData $user notifyonline -1] == 1 } {
 			::amsn::notifyAdd "$short_name\n[trans logsin]." "::amsn::chatUser $user" online
 		}
 

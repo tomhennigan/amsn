@@ -779,10 +779,10 @@ namespace eval ::abookGui {
 		label $nbIdent.no -font sboldf -text [trans no] -justify center
 		
 		#Set default values
-		set ::notifyonline($email) [::abook::getContactData $email notifyonline -1]
-		set ::notifyoffline($email) [::abook::getContactData $email notifyoffline -1]
-		set ::notifystatus($email) [::abook::getContactData $email notifystatus -1]
-		set ::notifymsg($email) [::abook::getContactData $email notifymsg -1]
+		set ::notifyonline($email) [::abook::getContactData $email notifyonline ""]
+		set ::notifyoffline($email) [::abook::getContactData $email notifyoffline ""]
+		set ::notifystatus($email) [::abook::getContactData $email notifystatus ""]
+		set ::notifymsg($email) [::abook::getContactData $email notifymsg ""]
 		
 		#Add the checkboxes
 		AddOption $nbIdent notifyonline notifyonline($email) [trans custnotifyonline] 1
@@ -843,7 +843,7 @@ namespace eval ::abookGui {
 	}
 	
 	proc AddOption { nbIdent name var text row} {
-		radiobutton $nbIdent.${name}_default -value -1 -variable $var
+		radiobutton $nbIdent.${name}_default -value "" -variable $var
 		radiobutton $nbIdent.${name}_yes -value 1 -variable $var
 		radiobutton $nbIdent.${name}_no -value 0 -variable $var
 		label $nbIdent.${name} -font splainf -text $text -justify left

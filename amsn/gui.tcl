@@ -1279,8 +1279,12 @@ namespace eval ::amsn {
 			
 			set first_message($win_name) 0
 			
-			if { ($config(notifymsg) == 1) && ([string first ${win_name} [focus]] != 0)} {
-				notifyAdd "$msg" "::amsn::chatUser $chatid"
+			
+			if { [string first ${win_name} [focus]] != 0} {
+				if { ($config(notifymsg) == 1 && [::abook::getContactData $chatid notifymsg -1] != 0) ||
+				     [::abook::getContactData $chatid notifymsg -1] == 1} {
+					notifyAdd "$msg" "::amsn::chatUser $chatid"
+				}
 			}
 			
 			if { $config(newmsgwinstate) == 0 } {
@@ -2148,8 +2152,6 @@ namespace eval ::amsn {
 
 	proc ToggleShowPicture { win_name } {
 		upvar #0 .${win_name}_show_picture show_pic
-
-		status_log "show pic is $show_pic\n" white
 
 		if { $show_pic } {
 			set show_pic 0
