@@ -74,6 +74,7 @@ kakaroto * zyffe@hotmail.com
 -	JPG Support (use same as for MSN6 Pictures)
 
 	** Loging system improvements and bugs **
+-	Use XML instead of custom syntax to speed up things
 -	Add date limit or file size limit for log files
 -	Add option for partial loging of only certain users
 -	Save to LOG (if loging disabled, allows to log certain conversations only)
@@ -95,6 +96,7 @@ kakaroto * zyffe@hotmail.com
 -	Browser problems in windows when URL contains wierd characters
 
 	** MSNP2P Stuff **
+-	Do checksum checking, understand error message, send error messages, etc...
 -	Get custom emoticons working (send and receive them)
 -	Check if there is a way to receive pictures from ppl not on your contact list
 -	We only check for buddy icon changes of the first person in a conference, if others change we don't update buddy icon.
