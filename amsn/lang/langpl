@@ -5,65 +5,204 @@ accept Przyjmij
 actions Akcje
 addacontact Dodaj kontakt
 addedyou $1 ($2) dodal/a cie do swojej listy kontaktowej
+addprofiledesc Wprowadz login dla ktorego chcesz utworzyc nowy profil. \nProfilowe loginy pozwalają na posiadanie roznych konfiguracji dla kazdego loginu.\nBez profili nie możesz uzywac Historii, Alarmow oraz funkcji „Zapamietaj haslo”. 
+addprofile Dodaj nowy profil.. 
+addstate Dodaj nowy stan 
 addtocontacts Dodaj do listy kontaktowej
+addto Dodaj do $1 
 addtoo Dodaj ta osobe do mojej listy kontaktowej
 admincontacts Administracja kontaktami 
 admingroups Administracja grupami
+advancedprefs Konfiguracja opcji zaawansowanych 
+advanced Zaawansowane 
 adverts Reklamy
+alarmonconnect Informuj kiedy uzytkownik sie zalogowal 
+alarmondisconnect Informuj kiedy uzytkownik sie wylogowuje lub jest niewidoczny  
+alarmonmsg Informuj kiedy uzytkownik wysyla do ciebie wiadomosc
+alarmonstatus Informuj kiedy uzytkownik zmienia status 
 alarmpref Alarmowe preferencje uzytkownika
 alarmstatus WLACZ/WYLACZ alarm uzytkownika
+allfiles Wszystkie pliki
+allowallbutbl Pozwol wszystkim uzytkownikom z wyjatkiem tych na liscie zablokowanych do kontaktowania sie ze mna 
+allowbadwords Wylacz cezure w nickach 
+allowlist Lista pozwolen (LP): 
+allowonlyinal Pozwol tylko uzytkownikom na mojej liscie akceptowanych na kontaktowanie sie ze mna 
 allowseen Zezwol tej osobie na widzenie i kontaktowanie sie ze mna
+allprofilesinuse Wszystkie istniejace profile sa aktualnie w uzyciu 
+animatedemoticon Ten emotikon jest animowany 
+animatedsmileys Włącz animowane emotikony 
+animatenotify Okno zawiadomien animowanych 
+appearance Wyglad 
 appearoff Niewidzialny
+areacode Kod regionu 
 aretyping $1 pisza wiadomosc
+autoaccepted Transfer pliku zaakceptowany automaczynie 
+autoacceptft Automaczynie akceptuj prosby o transfer pliku 
+autoaway Show me as "Away" when inactive for 
+autocheckver Automatycznie sprawdzaj czy sa nowsze wersje przy uruchamianiu 
+autoconnect2 Zaloguj automatycznie po uruchomieniu aMSN 
+autoconnect Polacz po starcie amsn 
 autohotmaillog Automatyczny login do Hotmail
+autoidle Automatyczne Zajety 
 autoip Automatyczny IP
+autonoact Pokazuj “Nie aktywny” kiedy nieaktywny przez 
 avoidseen Nie zezwalaj tej osobie na widzenie i kontaktowanie sie ze mna
+awaymsg1 Pytaj o wiadomosc dla “z dala od...” za kazdym razem kiedy zmieniam status na Z dala od.../zaraz wracam/Zajety 
+awaymsg2 Nigdy nie pytaj i zawsze uzywaj ponizszej wiadomosci “z dala od...”  
 away Nie ma
 baduserpass Bledna nazwa uzytkownika lub haslo
+bgcolor Zmien kolor tla aMSN  
 blankdirect Zostaw puste dla bezposredniego polaczenia
+blockedyougroup Pokaz osobna grupe dla ludzi ktorzy cie zablokowali 
 blocked Zablokowany
+blocking Blokowanie
+blockinter1 Kiedy jestes zalogowany sprawdz co  
+blockinter2 sekund, takze sprawdz kazdy: 
+blockinter3 kazdy
+blockinter4 sekundy. 
+blocklist Lista zablokowanych (LB): 
+blockmessage Ci ludzie sa zalogowani i zablokowali cie 
+blockusers Liczba uzytkownikow do sprawdzenia za jednym razem  
 block Zablokuj
 broughtby  Dostarczony wam przez nastepujacych tworcow
 browse Przejrzyj
+browserexample ( \$url bedzie zastapione przez URL). np: mozilla \$url 
 browser Przegladarka
 busy Zajety
 cancel Wroc
+cannotdeleteprofile Nie mozna skasowac profile poniewaz prawdopodobnie jest on uzywany przez jakas sesje aMSN 
+cantexec Nie moge uruchomic aplikacji: $1. Sprawdz preferencje 
+cantremoveothers Nie moge usunac grupy “Pozostali” 
+casesensitive Uzyj zapadek odrozniajacych wielkosc liter 
+cfgalarmall Konfiguruj /Dodaj/Usun Alarm globalny 
 cfgalarm Ustaw/Dodaj//Odwolaj Alarm
+changecustomstate Przelacz do 
+changedisplaypic Zmien obraz wyswietlany 
+changefont Zmien czcionke 
 changenick Zmien nick
+changestate $1 zmienia status na $2 
 chatack Akceptuje czat od
 chat Czat
+chatmaxmin Kiedy kontakt otwiera czat ze mna chce żeby byl: 
 chatreq Zamawia chat
+chatsmileys2 Wyswietlaj emotikony w oknach czatu 
 chatsmileys Czatowe buzki
+checkblocking Caly czas sprawdzaj jesli uzytkownicy cie blokuja 
+checkfilman Otrzymane pliki beda zapisane w $1. Sprawdz ustawiania menedżera plikow w oknie preferencji. 
 checkingver Sprawdza czy jest nowa wersja
+checkonfln Sprawdzaj jesli uzytkownik blokuje cie  kiedy sie wylogowuje 
 checkver Sprawdz czy jest nowa wersja
+choosearq Wybierz architekture twojego systemu 
 choosebasefont Wybierz czcionke
 choosebgcolor Wybierz kolor tla
+choosecontact Prosze wybierz kontakt z listy 
 choosefontcolor Wybierz kolor czcionki
+chooseskin Prosze wybierz skore ktora chcesz uzywac 
+ch_to_state Zmien status 
+clearlog2 Wyczysc historie dla wszystkich twoich kontaktow 
+clearlog3 Wyczysc wszystkie logi 
+clearlog Czysc log 
 clicktologin Kliknij tu by sie zalogowac
+closed Rozmowa z $1 zamknieta z powodu nieaktywnosci
 close Zamknij
 closingdocks Guzik zamykania zaczepia okno
 command Komenda
+commandstatus Wykonaj polecenie 
 confirmdelete Czy na pewno chcesz usunac $1?
+confirm Jestes pewny? 
+confirmpurge Wszystkie zapisane obrazy wyswietlane od innych kontaktow (nie twoje) beda skasowane. Jestes pewien? 
+connected Jestes podlaczony 
 connecterror Blad przy laczeniu z serwerem
+connecting Podlaczanie 
+connectionlost Rozlaczony: Polaczenie z serwerem utracone
+connection Polaczenie 
 contactadded Kontakt dodany
 contactdoesnotexist Kontakt nie istnieje!
+contactlist Lista kontaktow (LK): 
+convertexplain Sciezka do wykonywalnego pliku CONVERT  z ImageMagick (potrzebnego do obrazow wyswietlanych).\n Pozostaw puste jesli CONVERT jest w sciezce 
+copy Kopiuj 
 copytogroup Kopiuj do grupy
+corruptconfig Plik konfiguracyjny jest uszkodzony. Tworzenie nowego. Stary plik bedzie zachowany w $1. Proszę wyslij go do nas aby sprawdzic co się stalo. 
+corruptstates Plik z wlasnymi statusami uszkodzony. Tworzenie nowego. Stary plik bedzie zachowany w $1. Proszę wyslij go do nas aby sprawdzic co się stalo. 
+countrycode Moj kod kraju/regionu 
+cprofile Utworz profil 
+custom_edit Edytoj wlasny emotikon 
+custom_new Dodaj wlasny emotikon 
+cut Wytnij 
 date Data
+days Dni
+dcprofile Nie tworz profilu 
+default Konfiguracja domyslna 
+defaultloginradio Loguj z konfiguracja domyslna 
+defchatwinsize Domyslny rozmiar okna rozmowy(XSIZExYSIZE) 
+deletecustomstate Skasuj wlasny status 
 delete Kasuj
+delimiters Ograniczniki znaczkików czasu: 
+deliverfail Wystapil problem przy dostarczaniu nastepujacej wiadomosci 
+delprofile2 Wybierz profil ktory chcesz skasowac  
+delprofile Skasuj profil
+description Opis 
+directconnection Jest polaczenie bezposrednie do internetu z uzyciem portu 1863 
+disabled Wylaczone 
+disableprofiles Wylacz profile(Uzyteczne dla kafejek) 
+disablessl Wylacz SSL 
+disconnect $1 odlaczyl/a sie. 
+displaychat Wyswietl opcje tekstowe 
+dockfreedesktop FreeDesktop (KDE3/Gnome2) 
+dockgtk Gnome Dock 
+docking Dokowanie
+dockingoff Oddokowywanie 
+dockkde KDE Dock 
+dontdownload Nie pobieraj TLS, sam to zainstaluje 
+dontshow Nie pokazuj 
+downloadingtls Pobieranie modulu TLS z:\n $1 
+editcustomstate Edytuj wlasny status 
+edit Edytuj
+editnewstate Nowy osobisty Autostatus 
+editprofile Edytuj profil 
+editstate Edytuj istniejacy Autostauts 
+editvalue Edytuj wartosc 
+emailsinlist Pokazuj adres e-mail obok nicka na liscie kontaktowej
+emotisounds Odtwarzaj dzwiek dla niektorych emotikon 
+enablebanner Pokazuj baner aMSN(Wymaga ponownego uruchomienia aMSN) 
+enabled Wlaczone 
 enableproxy Umozliw proxy
+enableremote Wlacz dostep zdalny 
+enablesound Odtworz dzwiek 
+encoding2 Zmien sposob kodowania znakow 
 encoding Wybierz kodowanie
 entercontactemail Wpisz e-mail kontaktowy
 enterfilename Wpisz nazwe pliku
 enternick Wpisz swoj nick
+errortls Blad podczas instalowania moduluTLS: 
 examples Przyklady
 exitamsn Czy na pewno chcesz wyjsc?
 extras Uslugi Dodatkowe
+faileddelete Niepowodzenie podczas kasowania 
+faileddeleteperso Ten obraz nie moze byc skasowany poniewaz nie jest to plik obrazu osobistego. Tylko obrazy które naleza do twojego profile moga byc kasowane w ten sposob. 
+failed Niepowodzenie 
+faq FAQ (Najczesciej zadawane pytania) 
 filedoesnotexist Plik nie istnieje
+filemanexample ( \$polozenie zostanie zamienione przez katalog) np: nautilus \$location 
+fileman Menedzer plikow 
 filename Nazwapliku
+file Plik 
 filetransfercancelled Przesylanie pliku zatrzymane
 filetransfercomplete Przesylanie pliku zakonczone
+followtext Przewijaj w dol kiedy wprowadzono nowy tekst 
+ftacceptedby $1 zakceptowal/a prosbe o transfer pliku '$2'. 
 ftaccepted Plik zostal przyjety
+ftaccepting Akceptowanie prosby o transfer pliku
+ftconnecterror Blad podczas podlaczania do hosta zdalnego 
+ftconnecting Podlaczanie do $1 port $2 
+ftconnectionlost Polaczenie z hostem zdalnym utracone 
+ftgotinvitation $1 chce wyslac do ciebie plik'$2' ($3 bajtow). Zostanie zapisany w $4. Chcesz odebrac ten plik? 
+ftportpref Uruchamianie portu do transferu pliku 
+ftrejectedby $1 odrzucil/a prosbe o transfer pliku '$2'. 
 ftrejected Plik zostal odmowiony
+ftsendinvitation Prosba o transfer pliku dla '$2' ($3 bajtow) zostala wyslana do $1. 
+fullcontactlist Przykro mi twoja lista kontaktow jest pelna. Musisz usunąć pewne kontakty aby dodac nowe. 
+getdisppic Wlacz odbieranie obrazow wyswietlanych od innych uzytkownikow 
 gonelunch Wyszedlem na obiad
 groupadd Dodaj grupe
 groupdelete Usun grupe
@@ -78,45 +217,114 @@ groupunknown Grupa nieznana
 handle Handle
 helpcontents Pomoc Spis Tresci
 help Pomoc
+hidedisplaypic Ukryj obraz wyswietlany 
+hiden Ukryj emotikony w menu usmiechow 
+hidewindow Ukryj okno 
+history Pokaz historie
 home Dom
-identity Identity
+httpconnection Polacz uzywajac HTTP (uzywa protokolu HTTP na porcie 80) 
+hybrid Tryb hybrydowy 
+identity Identyfikuj
 ident Rozpoznawanie
+imagefiles Pliki obrazkowe 
 inbox W Skrzynce
+insertsmiley wstaw emotikon 
+installconvert Musisz zainstalowac ImageMagick (program konwertujacy) w celu uzycia Ikon Kumpli i wlasnych emotikon. Odpowienie pliki dla swojego systemu operacyjnego możesz pobrac z ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Jeśli aktualnie je posiadasz to to jest bug, prosze to zglosic. Ta opcja będzie teraz wylaczona, jesli zainstalujesz ImageMagik pozniej wlacz ponownie ta opcje w oknie preferencji.  
+internalerror Wewnetrzny Blad Serwera 
+invalidfile Plik $2 wprowadzony w pole "$1" nie istnieje lub jest nieczytelny 
 invalidusername Nieprawidlowa nazwa uzytkownika
+invitationcancelled Zaproszenie zostalo anulowane 
 invite Zapros
 ipaddress Adres IP
+ipdetect Wykryj poprawne IP dla transferu plikow uzywajacych HTTP 
 istyping $1 pisze wiadomosc
 joins $1 wlaczyl sie do rozmowy
+keepalive Zostwzywe (NAT) 
+keeplog2 Loguj wszystkie rozmowy w histori aMSN's dla obejrzenia w przyszlosci
+keeplog Zachowuj logi czatow 
 language Jezyk
 lastmsgtime Ostatnia wiadomosc przyjeta o $1
+lclosedwin $1 zamknal/ela okno na $2 
+lconftopriv Konferencja przelaczona w czat prywatny z $1 
+lconvstarted Rozmowa rozpoczeta na $1 
 leaveblankforhotmail Zostaw puste do uzywania sieci Hotmail
 leaves $1 opuscil rozmowe
+lenteredconf $1 przylaczyl/a sie do konferencji na $2 
+lineflushlog Kasuj pliki logow po kazdej linii 
+linprivate PRYWATNE 
 listeningon Wysluchuje na porcie $1
+listsmileys2 Wyswietlaj emotikony i usmieszki na glownej liscie kontaktowej 
 listsmileys Pokaz buzki
+ljoinedconf $1 Pdloczyl/a sie do konferencji
+lleftconf $1 opuscil/a konferencje
 loadcontacts Wczytaj liste kontaktowa
+logbigger Loguj rozmiary plikow dla kontaktow ktore nigdy nie przekroczyly  
+logfandexp Loguj rozmiary plikow i wygasniecie Historii 
 loggedotherlocation Rozlaczony. Zalogowany gdzie indziej
 loggingin Loguje sie
 loginas Zaloguj sie jako
+loging Logowanie 
 login Zaloguj sie
+logolder Loguj tylko ostatnie rozmowy 
 logout Wyloguj sie
 logsin wlasnie sie zalogowal/a
+logsmileys Wyswietlaj emotikony i usmieszki w oknach historii aMSN 
+logsout wlasnie sie zalogowal/a 
+longnick Twoj nick jest dluzszy niz 130 znakow. To nie jest oficjalnie wspierane przez protokol MSN. Naprawde chcesz go uzywac? 
+lprivtoconf Czat prywatny przelaczony w konferencje z $1 
+luclosedwin Zamknales okno na $1 
+mailerexample ( \$recipient = Odbiorca ) Pozostaw puste aby uzyc Hotmail 
 mailer Poczta
+maximised Zmaksymalizowane 
+minimised Zminimalizowane/Zikonifikowane 
+mins minut
 mobile Przenosne
+morepersonal Wiecej statusow -> 
+move Przenies 
 movetogroup Przenies do grupy
+msgflicker Migaj pasek tutulu okna rozmowy kiedy nowa wiadomosc zostala odebrana w nieaktywnym oknie. 
+msgmaxmin Kiedy przychodzi nowa wiadomosc chce zeby to byla: 
+msgmode Wybierz jak manipulowac oknami z wieloma wiadomosciami: 
 msg Wiadomosc
 msn AMSN
 mustrestart Aby zakonczyc zmiany musisz ponownie uruchomic program
+myhomephone Moj telefon domowy 
+mymobilephone Moj telefon komorkowy 
+mypic Moj obraz wyswietlany: 
 mystatus Moj status
+myworkphone Moj telefon roboczy 
+natip Detekcja IP przez strone www 
+natkeepalive Jesli regularnie sie rozlaczasz wlacz KeepAlive 
 needonline Wciaz jestes rozlaczony lub niewidzialny!
 newmail $1 nowych wiadomosci w skrzynce
 newmailfrom Nowa poczta od $1 ($2)
 newmsg Nowa wiadomosc
+newstate Dodaj wlasny status 
 newveravailable Nowa wersja $1 moze byc uzyskana w Internecie
 next Dalej
 noactivity Brak aktywnosci
+nodataavailable Brak danych dla $1 
+nologfile Brak logu dla $1 
+noneavailable Nikt nie jest dostepny 
 nonewmail W skrzynce nie ma nowych wiadomosci
 nonewver Nie ma nowych wersji
+no Nie 
+nopic Brak obrazu 
+noprofileexists Aktualnie tutaj nie ma profili, \n musisz utworzyc jakis jezeli chcesz uzywac loginow profilowych. \nUzyj przycisku Dodaj nowy profil w tym oknie aby dodac nowy profil. 
+normal Normalny 
+noskins Nie mozna znalezc skory domyslnej w folderze skins/ . Nie można uruchomic AMSN 
+nosystemtray Zasobnik systemowy niedostepny 
+notificationserver Inicjujacy MSN serwer powiadomieniowy (MSN Messenger Server) 
+notify1_5 Wyswietl powiadomienie kiedy kontakt sie wylogowal 
+notify1_75 Wyswietl powiadomienie kiedy kontakt zmienia status 
+notify1 Wyswietl powiadomienie kiedy kontakt sie loguje 
+notify2 Wyswietl powiadomienie kiedy odebrano nowa wiadomosc 
+notify3 Wyswietl powiadomienie kiedy odebrano nowy e-mail 
+notifyoffset Wyrownaj pozycje okna powiadomienia 
 notify powiadom
+notifytyping Wysylaj powiadomienia innych uzytkownikow kiedy pisza
+notifywin Okno powiadomienia 
+notls Protokol MSN 9 potrzebuje pakietu TLS. Prawdopodobnie ten pakiet jest niezainstalowany w tym komputerze. Jeżeli jest zainstalowany latka do katalogu bibliotek powinna być If it's installed, the path to the library directory should be wyszczegolniona w oknie preferencji (np: /opt/tls/lib). \n \n TLS mozna pobrac z http://tls.sf.net. 
 nousersinsession W sesji nie ma uzytkownikow
 offline Rozlaczony
 ok Ok
@@ -126,60 +334,180 @@ onphone Rozmawia przez telefon
 openreceived Otworz otrzymane pliki
 options Opcje
 ordercontactsby Uporzadkuj kontakty wedlug
+ordergroupsby Porzadkuj grupy wedlug: 
 other Inne
+others Inni 
 pager Pager
 pass Haslo
+paste Wklej 
+personal Osobiste 
 phone Telefon
+picbrowser Pokaz przegladarke obrazow 
 picfile Plik Rysunku Alarmowego (GIF < 500 x 500)
 picstatus WLACZ/WYLACZ Rysunek Alarmowy
+playing Odtwarza: $1 
+pluginselector Wybierz wtyczki 
 port Port
+prefalerts Moje alarmy zdarzen i dzwieki 
 prefapps Applikacje
+prefawaymsg Moja wiadomosc “zdala od...” 
+prefblock1 Sprawdz przy razlaczaniu 
+prefblock2 Ciagle sprawdzaj 
+prefblock3 Grupa "Jestes zablokowany przez"  
+prefconnection Ustawienia polaczenia
+prefemotic Emotikony i usmieszki  
 preferences Ustawienia
+preffont2 Zmien sposob w jaki inni widza moj tekst w oknie rozmowy 
+preffont3 Zmien czcionke interfejsu aMSN 
+preffont Tekst mojej wiadomosci 
+preflibs Sciezki do bibliotek 
+preflog1 Opcje mojej historii i logowania 
+preflook Moj wyglad aMSN 
+prefmsging Moj interfejs wiadomosci 
+prefname Moj nick MSN 
+prefphone2 Wpisz numery telefonow ktore beda mobli zobaczyc uzytkownicy \n na twojej liscie dopuszczonych\n 
+prefphone Moje numry telefonow 
+prefprivacy2 Listy kontaktow uzytkownikow 
+prefprivacy Listy dopszczonych/blokowanych  
+prefprofile2 Utworz lub zmien twoj profil publiczny( \n opis ciebie który mogą zobaczyc inni uzytkownicy) 
+prefprofile3 Konfiguracja profilu uzytkownika aMSN 
+prefprofile Moj profil publiczny  
+prefproxy Moje ustawienia proxy 
+prefremote Opcje polaczenia zdalnego 
+prefsession Moje logowanie i stauts 
+prefshared Udostepnione polaczenia (tylko dla NAT) 
 prefsound Dzwieki
+privacy Prywatnosc
+profiledconfig Konfiguracja profilowa 
+profileexists Nie mozesz utowrzyc profilu z tym loginem \n ponieważ taki już istnieje. Wybierz inni login. 
+profileinuse Ten profil jest uzywany przez inna sesje aMSN, prosze wybierz inny 
+profileloginradio Loguj uzywajac istniejacego profilu 
+profiles Profile 
 properties Wlasciwosci
 proxyconfhttp Konfiguracja HTTP proxy support
 proxyconf Konfiguracja Proxy
+proxyconnection Jestem podloczony do internetu przez serwer proxy: 
+proxy Jestem za serwerem proxy (HTTP lub SOCKS5) 
 publishphones Opublikuj moje numery telefonow
+purge Wyczysc 
+raised Przywrocone/Zdeikonifikowane 
+readonlymsgbox Transfer pliku zostal anulowany poniewaz catalog zapisu jest tylko do odczytu. Skoryguj pozwolenia dla tego katalogu. 
+readonlywarn UWAGA: Plik prawdopodobnie nie zostal prawidlowo zapisany. Katalog “Pliki odebrane" wyglada na zabezpieczony przed zapisem. Upewnij sie ze pozwolenia katalogu docelowego($1) sa ustawione prawidlowo przed odebraniem pliku. 
 receivedbytes Otrzymano $1 z $2 bajtow
+receiveddir Folder Pliki Odebrane 
 receivefile Otrzymuje plik
 reconnect Czeka az $1 wznowi polaczenie
 reconnecting Wznawia polaczenie z serwerem
 reject Odmow
 rememberpass Zapamietaj haslo
+removefromlist Usun z listy 
+reversed Zwrocone 
+reverselist Lista zwroconych (LZ): 
 rightback Zaraz wracam
 saveas Zachowaj jako
+savechatwinsize Zapisz rozmiar okna rozmowy jako domyslny przy zmianie jego rozmiaru 
 savecontacts Zachowaj liste kontaktowa
+savetofile Zapisz do pliku 
 save Zachowaj
 says $1 mowi
 sbcon Laczy sie z Centrala
+selectplugins Wybierz wtyczki ktorych chcesz uzywac 
+selectskin Wybierz skore z listy 
 sendfile Wyslij plik
 sendmail Wyslij poczte
 sendmsg Wyslij wiadomosc
 send Wyslij
 sentbytes Wyslano $1 z $2 bajtow
+serverbusy Serwer jest zajety 
 servergoingdown Rozlaczony: Problemy z serwerem
 server Serwer
+serverunavailable Serwer jest niedostepny 
+session Sesja 
+showblockedlist Pokaz liste osob ktore mnie blokuja 
+showdisplaypic2 Pokaz obraz wyswietlany automatycznie kiedy okno rozmowy jest otwierane 
+showdisplaypic Pokaz obraz wyswietlany 
+showmypic Moj obraz wyswietlany 
+shownotify Pokaz powiadomienie kiedy cos sie wydarzylo 
+showuserpic obraz wyswietlany $1 
+skinselector Wybierz skore 
+skin Skora 
+smileconfig Konfiguracja wlasnych emotikon 
+smilefile Nazwa pliku usmieszka 
+smileintro2 Uzupelnij wymagane pola aby przystosowac tego usmieszka (zobacz FAQ aby zaczerpnąć pomocy) 
+smileintro Uzupelnij wymagane pola aby utworzyc nowego usmieszka (zobacz FAQ aby zaczerpnąć pomocy)
+sound2 Odtwarzaj dzwieki kiedy kontakt sie loguje albo przysyla wiadomość 
+soundcommand To powinno byc polecenie odtwarzania (np: esdplay) 
+soundexample ( \$sound = Plik dzwiekowy do odtworzenia) np: esdplay \$sound 
 soundfile Plik Dzwieku Alarmowego
+soundfiles Pliki dzwiekowe 
 soundloop Wlacz Powtarzajacy Dzwiek
 sound Odglosy zdarzen
+soundserver Serwer dzwieku 
 soundstatus WLACZ/WYLACZ Dzwiek Alarmowy
+sourcecode Kod zrodlowy (potrzebuje kompilacji i instalacji) 
+sslwarning UWAGA!! Wylaczenie SSL wylaczy kodowanie, wiec twoje haslo bedzie wyslane jako czysty tekst. Uzyj tylko dla naprawde skomplikowanych serwerow proxy. 
+startoffline2 Loguj po cichu jako ”Pozoruj niedostepny" 
 startoffline Zacznij rozlaczony
+startontray Uruchamiaj AMSN tylko jako ikona w zasobniku systemowym 
+stateautomsg Autowiadomosc do wyslania 
+statechange status zmieniony na:  
+state Chce sie pojawic jako  
+stateedittext Uzupelnij pola ktore chcesz \n i nacisnij Zapisz 
+stateinfo Konfiguracja statusow osobistych 
+statename Nazwa dla statusu osobistego 
+statenewtext Uzuepelnij potrzebne informacje aby utworzyc \n twoj nowy status osobisty i nacisnij Zapisz 
 status Status
 stopalarm Zaczymaj Alarm
+storenickname Wroc do oryginalnego nicka po statusie osobistych z osobistym nickiem 
+strictfonts Ogranicz rozmiar wszystkich czcionek do jednego wybranego (Pasek statusu i inne) 
+stylechat Ten sam wyglad co czaty 
+stylehist Wyglad historii 
+stylelog Wybierz format w jakim chcesz ogladac swoja historie 
 syntaxerror  Bledna kom
+tabbed Okna zakladkowe
+temp_state Nie zapisuj (Status tymczasowy bedzie skasowany przy zamykaniu aMSN) 
 textsize Rozmiar tekstu
+timeremaining Czas pozostaly 
+timestamps Wlacz znaczniki czasu w oknach rozmowy 
 title Al's Messenger
+tkerror TK zglosil blad, jest blad w aMSN zglos go. Wyslij plik $1 na amsn-bugs@lists.sf.net 
+tlsdowncompleted Plik $1 zostal pobrany do katalogu $2. Musisz go rozpakowac, skompilowac (jesli pobrales kod zrodlowy) i zainstalowac wewnatrz $3. 
+tlsexplain Folder w ktorym zlokalizowny jest modol TLS . Jesli AMSN nie moze go zlokalizowac, uzupelnij.\n(Potrzebne do autoryzacji SSL). 
+tlsinstallexp aMSN teraz uzywa MSNP9, ktory potrzebuje bezpiecznego \ncpolaczenia używającego SSL. Aby uzyc SSL aMSN potrzebuje zainstalownego modulu zwanego TLS,\nktorego nie ma w twoim systemie. Ten kreator pomorze ci go pobrac i zainstalowac\n. Wybierz typ swojego systemu aby mozna pobrac automatycznie \nniezbedne pliki. 
+tlsinstall Kreator instalacji modulu TLS 
+tlsinstcompleted modul TLS zainstalowany pomyslnie – teraz bedziesz w stanie uzywac MSNP9. Jeśli nadal nie dziala, bycmoze wybrałeś zły modul, lub skompilowany modul nie jest dostepny dla twojego systemu. 
 to Do
 tools Narzedzia
+tooltips Wlacz wskazowki 
+transnotexists Porzadany plik nie zostal jeszcze przetlumaczony na ten jezyk. 
+traynotcompiled Plugin ikony zasobnika nie jest skompilowany. Sprawdz plugins/traydock 
+triggers Zapadki tekstowe 
+truncatenames1 Skracaj nicki dlozsze niz szerokosz okna w naglowku okna I liscie kontaktow. 
+truncatenames2 Skracaj nicki dluzsze niz szerokosc okna w oknie rozmowy 
+truncatenicks Skracaj nicki dluzsze niz szerokosc okna 
+twonewmail $1 nowych wiadomosci w skrzynce
 unblock Odblokuj
 uoffline Rozlaczony
 uonline Polaczony
 useralreadyonlist Uzytkownik znajduje sie juz na liscie kontaktowej
+userblocked Uzytkownik jest zalogowany ale cie blokuje 
+usernotonline Uzytkownik jest wylogowany 
 user Uzytkownik
+useryourself Nie mozesz rozmawiac z samym soba 
+verifyblocked Sprawdz kto cie blokuje 
 version Wersja
+viewprofile Pokaz profil 
 view Zobacz
 willjoin Czeka $1 przylacza sie do rozmowy
 work Praca
+wrongfields Pola "$1", "$2" i/lub "$3" sa nieprawidlowe 
+wrongprofileversion Bledna wersja pliku konfiguracji profilu. Aby to naprawic usun katalog $1,lub uaktualnij aMSN 
+xmmscurrent Wyswietls aktualna piosenke 
+xmmserr Nic nie jest odtwarzane lub nie masz zainstalowanego xmms-infopipe  
+xmmssend Wyslij obecna piosenke 
+xoffset Polozenie X 
+yes Tak	
+yoffset Polozenie Y
+youblocked Jestes blokowany/a przez
 yousay Ty mowisz
 youwant Ty chcesz
-twonewmail $1 nowych wiadomosci w skrzynce

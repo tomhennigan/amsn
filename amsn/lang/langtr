@@ -82,6 +82,7 @@ changedisplaypic Kullanýcý resmini deðiþtir
 changefont Yazitipi deðiþtir
 changenick Kullanýcý ismini deðiþtir
 changestate $1, $2 durumuna geçti
+charscounter Sohbet penceresinde girilen harf sayacý
 chatack Sohbet istemi kabul edilen kiþi
 chatmaxmin Bir arkadaþým benimle sohbet penceresi açtýðýnda pencerenin þöyle olmasýný istiyorum:
 chatreq Sohbet istemi
@@ -144,7 +145,7 @@ delprofile Profili sil
 description Tarif
 directconnection Ýnternete doðrudan baðlantým var (1863. portu kullanýr)
 disabled Devredýþý
-disableprofiles Profilleri devredýþý býrak (?nternet cafe ve paylaþýlan ortamlar için uygun)
+disableprofiles Profilleri devredýþý býrak (Ýnternet cafe ve paylaþýlan ortamlar için uygun)
 disablessl SSL kullanma
 disconnect $1 ayrýldý
 displaychat Metin seçeneklerini göster
@@ -179,9 +180,9 @@ examples Örnekler
 exitamsn Çýkmak istediðinizden emin misiniz?
 extras Ek Hizmetler
 faq SYS (Sýkça Yanýtlanan Sorular)
-failed Baþar?lamad?
+failed Baþarýlamadý
 faileddelete Silinemedi
-faileddeleteperso Bu resim silinemiyor çünkü ki?isel resim dosyas? deðil. Yaln?zca sizin profilinize ait resimler silinebilir.
+faileddeleteperso Bu resim silinemiyor çünkü kiþisel resim dosyasý deðil. Yalnzýca sizin profilinize ait resimler silinebilir.
 file dosya
 filedoesnotexist Dosya bulunamadý
 fileman Dosya yöneticisi
@@ -232,6 +233,10 @@ insertsmiley Gülen adam koy
 installconvert Kullanýcý resimlerini ve özel gülen adamlarý kullanabilmek için ImageMagick ('convert' programý) kurulmuþ olmalýdýr. Sisteminiz için gereken çaýlýþtýrýlabilir dosyalarý ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ adresinden indirebilirsiniz. Eðer program zaten kuruluysa bu bir hatadýr, lütfen bize bildirin. Bu özellikler þimdilik devredýþýdýr, daha sonra Image Magick'i kurduðunuzda bunlarý Seçenekler'den etkinleþtirebilirsiniz.
 internalerror Ýç sunucu hatasý
 invalidfile "$1" alanýna girilen $2 dosyasý yok ya da okunamýyor
+invalidfile2 $1 dosyasý oluþturulamadý, yazma izniniz olduðundan emin olun.
+invalidpic Belirttiðiniz resim dosyasý yok
+invalidpicsize Seçilen resim çok büyük, lütfen daha küçük bir resim seçin.
+invalidsound Belirttiðiniz ses dosyasý yok
 invalidusername Geçersiz kullanýcý ismi
 invitationcancelled Davet iptal edildi
 invite Davet et
@@ -314,7 +319,7 @@ noprofileexists Henüz hiçbir profil yok. Eðer profille baðlanmak \nisterseniz bi
 normal normal
 noskins Varsayýlan kabuk skins/ dizininde bulunamadý. AMSN baþlatýlamadý.
 nosystemtray Görev çubuðu yok
-notificationserver ?lk MSN Uyarý Sunucusu (MSN Messenger Sunucusu)
+notificationserver Ýlk MSN Uyarý Sunucusu (MSN Messenger Sunucusu)
 notify1_5 Baðlantýlar çýkýnca uyarý penceresi göster
 notify1_75 Baðlantýlar durum deðiþtirince uyarý penceresi göster
 notify1 Baðlantýlar girince uyarý penceresi göster
@@ -364,7 +369,7 @@ preflibs Kütüphane dizinleri
 preflog1 Geçmiþ ve sohbet kayýt seçeneklerim
 preflook aMSN'imin görünüþü
 prefmsging Ýleti arayüzüm
-prefname MSN Messenger adým/rumuzum
+prefname MSN Messenger kullanýcý ismim (rumuzum)
 prefphone2 Ýzin verdiðiniz kiþilerin görmesini \n istediðiniz telefon numaralarýný girin
 prefphone Telefon numaralarým
 prefprivacy2 Kullanýcýnýn Baðlantý/Karþý listeleri
@@ -445,7 +450,7 @@ soundexample (\$sound = Çalýnacak ses dosyasý) Örn: esdplay \$sound
 soundfiles Ses Dosyalarý
 soundstatus Sesli alarmý aç/kapa
 sourcecode Kaynak kodu (derlenip kurulmasi gerekir)
-sslwarning UYARI!!! SSL'i kapatmak þifrelemeyi engeller, þ?ifreniz düz metin olarak aktarýlýr. Gerçekten kapatmayý gerektiren durumlar olmad?kça kullanmayýnýz.
+sslwarning UYARI!!! SSL'i kapatmak þifrelemeyi engeller, þifreniz düz metin olarak aktarýlýr. Gerçekten kapatmayý gerektiren durumlar olmadýkça kullanmayýnýz.
 startoffline2 Çevrim dýþý görünerek sessizce baðlan
 startoffline Çevrim dýþý olarak baþla
 startontray AMSN'i görev çubuðunda baþlat
@@ -470,7 +475,7 @@ textsize Metin boyutu
 timeremaining Kalan zaman
 timestamps Sohbet pencerelerinde zaman kaydý düþülsün
 title Al'ýn Messenger'ý
-tkerror TK hata verdi; AMSN'de bir hata var, lütfen bildirin. $1 dosyasýný amsn-bugs@lists.sf.net adresine yollayýn. 
+tkerror TK hata verdi; AMSN'de bir hata var. Lütfen $1 dosyasýný amsn-bugs@lists.sf.net adresine yollayarak hatayý bildirin. 
 tlsdowncompleted $1 dosyasý $2 dizinine kaydedildi. Sýkýþtýrýlmýþ dosyayý açýp, (kaynak kodsa) derleyip $dizinine kurunuz.
 tlsexplain Tcl TLS modülünün bulunduðu dizin. Eðer AMSN bulamazsa lütfen siz girin. \n(SSL onaylama için gerekli).
 tlsinstallexp AMSN artýk güvenli baðlantý için SSL gerektiren MSNP9 kullanýyor.SSL kullanabilmek\niçin AMSN'nin sisteminizde olmayan TLS kütüphanesini kurmasý gerekiyor. Bu sihirbaz\nTLS indirme kurulumunda size yardýmcý olacaktýr.\n\nLütfen doðru paketin indirilmesi için sistem türünüzü seçiniz.

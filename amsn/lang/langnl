@@ -81,9 +81,10 @@ changedisplaypic Schermafbeelding wijzigen
 changefont Lettertype instellen
 changenick Schermnaam wijzigen
 changestate $1 heeft de status veranderd in $2
+charscounter Getypte tekens-teller in gespreksvenster
 chatack Gesprek aanvaarden van
 chat Gesprek
-chatmaxmin Weergave discussievenster wanneer ik word aangesproken
+chatmaxmin Weergave gespreksvenster wanneer ik word aangesproken
 chatreq Indienen van verzoek voor gesprek
 chatsmileys2 Emoticons in berichten weergeven
 chatsmileys Emoticons weergeven
@@ -232,6 +233,10 @@ insertsmiley Voeg smiley in
 installconvert U moet het conversie-programma "ImageMagick" installeren om afbeeldingen te converteren naar de opmaak dat door de MSN-servers wordt gebruikt. U kunt een versie van ImageMagick voor uw besturingssysteem downloaden van ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Als deze melding verschijnt terwijl u het al hebt geïnstalleerd, dan is er mogelijk sprake van een bug. Meld dit dan alstublieft.
 internalerror Interne Serverfout
 invalidfile Het bestand "$2", ingevoerd in het veld "$1", bestaat niet of is onleesbaar
+invalidfile2 Het bestand $1 kan niet aangemaakt worden. Heeft u wel de juiste toegangsrechten?
+invalidpic Het opgegeven afbeeldingsbestand bestaat niet.
+invalidpicsize Het opgegeven plaatje is te groot. Zoek alsjeblieft een kleinere uit.
+invalidsound Het opgegeven geluidsbestand bestaat niet.
 invalidusername Ongeldige gebruikersnaam
 invitationcancelled De uitnodiging is geannuleerd
 invite Nodig uit
@@ -276,16 +281,16 @@ luclosedwin U hebt het venster gesloten op $1
 mailer E-mail programma
 mailerexample ( \$recipient = Geadresseerde ) Laat dit veld leeg als u hotmail wilt gebruiken
 maximised Gemaximaliseerd
-minimised Discussievenster niet activeren
+minimised Gespreksvenster niet activeren
 mins minuten
 mobile Mobiel
 morepersonal Meer persoonlijke statussen ->
 movetogroup Contactpersoon verplaatsten naar
 move Verplaats
 msg Bericht
-msgflicker Laat titel van discussievenster knipperen als een bericht aankomt in een inactief venster.
+msgflicker Laat titel van gespreksvenster knipperen als een bericht aankomt in een inactief venster.
 msgmaxmin Weergave binnenkomend bericht in een bestaande discussie
-msgmode Kies hoe meerdere discussievensters worden weergegeven
+msgmode Kies hoe meerdere gespreksvensters worden weergegeven
 msn AMSN
 mustrestart U moet het programma herstarten voordat de veranderingen effect hebben
 myhomephone Mijn telefoonnummer (thuis)
@@ -390,7 +395,7 @@ proxyconnection Gebruik de onderstaande proxyserver
 proxy Gebruik een Proxy Server (HTTP of SOCKS5)
 publishphones Mijn telefoonnummers publiceren
 purge Legen
-raised Discussievenster activeren
+raised Gespreksvenster activeren
 readonlymsgbox De bestandsoverdrachtis geannuleerd vanwege alleen-lezen toegang tot de map voor ontvangen bestanden. Pas de toegangsrechten voor deze map aan.
 readonlywarn WAARSCHUWING: Het bestand zal waarschijnlijk NIET correct worden opgeslagen, omdat de map voor ontvangen bestanden beschermd blijkt te zijn tegen schrijven. Zorg ervoor dat de rechten voor de doelmap ($1) correct zijn ingesteld voordat de bestandsoverdracht wordt gestart.
 receivedbytes $1 van de $2 bytes ontvangen
@@ -424,7 +429,7 @@ server Server
 serverunavailable Server is niet beschikbaar
 session Sessie
 showblockedlist Toon de lijst van mensen die u geblokkeerd hebben
-showdisplaypic2 Schermafbeelding standaard tonen bij het openen van een discussievenster
+showdisplaypic2 Schermafbeelding standaard tonen bij het openen van een gespreksvenster
 showdisplaypic Toon schermafbeelding
 showmypic Mijn Afbeelding
 shownotify Geef mededelingenvenster weer bij bepaalde gebeurtenissen
@@ -468,7 +473,7 @@ tabbed Vensters met tabbladen
 temp_state Niet opslaan (Tijdelijke status, gaat verloren als AMSN wordt afgesloten)
 textsize Tekstgrootte
 timeremaining Resterende tijd
-timestamps Tijdwergave in discussievensters inschakelen
+timestamps Tijd weergeven in gespreksvensters
 title Al's Messenger
 tkerror TK heeft een error gegeven, er zit een bug in amsn, reporteer het astublieft. stuur het bestand $1 naar amsn-bugs@lists.sf.net
 tlsdowncompleted Het bestand $1 is opgeslagen in $2. Pak dit bestand uit, maak er een build van (als u broncode hebt gedownload), en installeer het in $3.

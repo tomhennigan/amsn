@@ -82,6 +82,7 @@ changedisplaypic Spremeni osebno sliko
 changefont Zamenjaj pisavo
 changenick Zamenjaj nick
 changestate $1 je spremenil/a stanje na $2
+charscounter Natipkani znaki v oknu s pogovorom
 chatack Sprejemam pogovor od
 chatmaxmin Ko mi stik zacne pogovor z mano, hocem, da je:
 chat Pogovor
@@ -234,6 +235,7 @@ inbox Inbox
 insertsmiley Vstavi emotikon
 installconvert Namestiti moras ImageMagick (program za pretvarjanje), da bi pretvarjal slike v format, ki ga potrebujejo MSN-jevi strzniki. Binarne datoteke za tvoj operacijski sistem lahko poberes s ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Ce ga ze imas, je to hrosc. Prosim, povej zanj.
 internalerror Notranja napaka streznika
+invalidfile2 Datoteke $1 ni mogoce ustvariti, prepricaj se, da imas prava dovoljenja za ta cilj
 invalidfile Datoteka $2 iz polja "$1" ne obstaja ali ni berljiva
 invalidpicsize Slika je prevelika, izberi manjso
 invalidpic Slika ne obstaja

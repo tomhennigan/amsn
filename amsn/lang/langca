@@ -81,6 +81,7 @@ changedisplaypic Canviar la Imatge Mostrada
 changefont Canviar font
 changenick Canviar el meu sobrenom
 changestate $1 canvia l'estat a $2
+charscounter Comptador de caràcters teclejats a la finestra de conversa
 chatack Acceptant la conversa de l'usuari
 chat Conversa
 chatmaxmin Quan un contacte obri una conversa, vull que sigui:
@@ -233,6 +234,10 @@ insertsmiley Insereix emoticona
 installconvert Instal·lar conversor: Has d'instal·lar ImageMagick (un programa de conversió) per tal de convertir les imatges al format usat pels servidors de MSN. Pots descarregar els binaris per al teu sistema operatiu a ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ Si ja els tens, llavors és un error, sisplau comunica'l.
 internalerror Error intern del servidor
 invalidfile El fitxer $2 introduït al camp "$1" no existeix o no es pot llegir
+invalidfile2 No es pot crear el fitxer $1. Comprova que tinguis els permisos necessaris.
+invalidpic El fitxer d'imatge no existeix.
+invalidpicsize La imatge és massa gran. Escull-ne una de més petita.
+invalidsound El fitxer de so no existeix.
 invalidusername Nom d'usuari invàlid
 invitationcancelled La invitació ha sigut cancel·lada
 invite Convida
