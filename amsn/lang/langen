@@ -14,6 +14,7 @@ allowseen Allow this person to see when I'm online and contact me
 appearoff Appear offline
 aretyping $1 are typing a message
 autohotmaillog Auto Hotmail login
+autoidle Auto idle detection
 autoip Automatic IP
 avoidseen Avoid this person can see when I'm online and contact me
 away Away
