@@ -166,8 +166,15 @@ namespace eval ::guiContactList {
 		
 		$canvas create text [expr $xpos + [image width $img] + 5] [expr $ypos + [image height $img]/2] -text $text -anchor w \
 			-fill $colour -font splainf -tags [list contact $email]
+		
 		set grId [getGroupId $email]
+		if { [::config::getKey sngdblclick] } {
+			set singordblclick <Button-1>
+		} else {
+			set singordblclick <Double-Button-1>
+		}
 		$canvas bind $email <<Button3>> "show_umenu $email $grId %X %Y;"
+		$canvas bind $email $singordblclick "::amsn::chatUser $email"
 			
 		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + 3]]
 	}
@@ -199,6 +206,8 @@ namespace eval ::guiContactList {
 		
 		set gid [lindex $element 1]
 		$canvas bind $gid <<Button1>> "::groups::ToggleStatus [lindex $element 0];guiContactList::createCLWindow"
+		$canvas bind $gid <<Button3>> "::groups::GroupMenu $gid %X %Y"
+		
 		return [list $xpos [expr $ypos + 20]]
 	}
 
