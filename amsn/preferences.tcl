@@ -29,24 +29,53 @@ proc PreferencesCopyConfig {} {
 }
 
 ## Function that makes the group list in the preferences ##
+#this is the obsolete function (the one which used radiobutton)
+#proc MakeGroupList { lfgroup lfcontact } {
+#	global rbsel
+#	array set groups [::abook::getContactData contactlist groups]
+#	catch "frame $lfgroup.lbgroup.fix"
+#	catch "pack $lfgroup.lbgroup.fix -side left -anchor n -expand 1 -fill x"
+#	label $lfgroup.lbgroup.fix.l -text "[trans groups]" -font sboldf
+#	pack $lfgroup.lbgroup.fix.l -side top -anchor w -pady 5
+#	foreach gr [array names groups] {
+#		if {$groups($gr) != "Individuals"} {
+#			radiobutton $lfgroup.lbgroup.fix.$gr -text "$groups($gr)" -value $gr -variable rbsel \
+#				-command "MakeContactList $lfcontact" -justify left
+#			pack $lfgroup.lbgroup.fix.$gr -side top -anchor w
+#		}
+#	}
+#	## special group 'nogroup' ##
+#	radiobutton $lfgroup.lbgroup.fix.ng -text "[trans nogroup]" -value -1 -variable rbsel \
+#		-command "MakeContactList $lfcontact" -justify left
+#	pack $lfgroup.lbgroup.fix.ng -side top -anchor w
+#}
+#this is the new one wich uses listbox
 proc MakeGroupList { lfgroup lfcontact } {
 	global rbsel
 	array set groups [::abook::getContactData contactlist groups]
 	catch "frame $lfgroup.lbgroup.fix"
 	catch "pack $lfgroup.lbgroup.fix -side left -anchor n -expand 1 -fill x"
-	label $lfgroup.lbgroup.fix.l -text "[trans groups]" -font sboldf
-	pack $lfgroup.lbgroup.fix.l -side top -anchor w -pady 5
+	catch "label $lfgroup.lbgroup.fix.l -text \"[trans groups]\" -font sboldf"
+	catch "pack $lfgroup.lbgroup.fix.l -side top -anchor w -pady 5"
+	## create the listbox ##
+	listbox $lfgroup.lbgroup.fix.lb
+	pack $lfgroup.lbgroup.fix.lb -side top -anchor w -pady 5
+	## entries ##
+	$lfgroup.lbgroup.fix.lb insert end "[trans nogroup]"
 	foreach gr [array names groups] {
-		if {$groups($gr) != "Individuals"} {
-			radiobutton $lfgroup.lbgroup.fix.$gr -text "$groups($gr)" -value $gr -variable rbsel \
-				-command "MakeContactList $lfcontact" -justify left
-			pack $lfgroup.lbgroup.fix.$gr -side top -anchor w
+		if { $groups($gr) != "Individuals" } {
+			$lfgroup.lbgroup.fix.lb insert end $groups($gr)
 		}
 	}
-	## special group 'nogroup' ##
-	radiobutton $lfgroup.lbgroup.fix.ng -text "[trans nogroup]" -value -1 -variable rbsel \
-		-command "MakeContactList $lfcontact" -justify left
-	pack $lfgroup.lbgroup.fix.ng -side top -anchor w
+	## make binding ##
+	bind $lfgroup.lbgroup.fix.lb <<ListboxSelect>> "GroupSelectedIs $lfgroup $lfcontact"
+}
+
+## Function to be called when <<ListboxSelect>> event occurs to change rbsel value ##
+proc GroupSelectedIs { lfgroup lfcontact } {
+	global rbsel
+	set rbsel [$lfgroup.lbgroup.fix.lb index active]
+	MakeContactList $lfcontact
 }
 
 ## Function to be called after pressing delete/rename/add group button ##
@@ -61,30 +90,86 @@ proc RefreshGroupList { lfgroup lfcontact } {
 }
 
 ## Function to be called when a group is selected ##
+#the old one wich used radiobutton
+#proc MakeContactList { lfcontact } {
+#	global rbsel rbcon
+#	catch "DeleteContactList $lfcontact"
+#	if { ![::groups::Exists [::groups::GetName $rbsel]] || $rbsel == 0 } {
+#		DeleteContactList $lfcontact
+#		if { $rbsel == 0 } {
+#			## fix the name of the group ##
+#			label $lfcontact.lbcontact.fix.l -text "[trans nogroup]" -font sboldf
+#			pack $lfcontact.lbcontact.fix.l -side top -pady 5 -anchor w
+#			## list contacts that don't have a group ##
+#			set contacts [::MSN::getList FL]
+#			set i 0
+#			while { $i < [llength $contacts] } {
+#				set c [lindex $contacts $i]
+#				set g [::abook::getGroups $c]
+#				if { [lindex $g 0] == 0 } {
+#					radiobutton $lfcontact.lbcontact.fix.$i -text "$c" -value $c \
+#						-variable rbcon -justify left
+#					pack $lfcontact.lbcontact.fix.$i -side top -anchor w
+#				}
+#				incr i
+#			}
+#		}
+#		return
+#	}
+#	label $lfcontact.lbcontact.fix.l -text "[::groups::GetName $rbsel]" -font sboldf
+#	pack $lfcontact.lbcontact.fix.l -side top -pady 5 -anchor w
+#	set groups [::abook::getContactData contactlist groups]
+#	set contacts [::MSN::getList FL]
+#	set i 0
+#	while { $i < [llength $contacts] } {
+#		set contact [lindex $contacts $i]
+#		set group [::abook::getGroups $contact]
+#		set j 0
+#		while { $j < [llength $group] } {
+#			set g [lindex $group $j]
+#			if { $g == $rbsel } {
+#				radiobutton $lfcontact.lbcontact.fix.$i -text "$contact" -value $contact -variable rbcon \
+#					-justify left
+#				pack $lfcontact.lbcontact.fix.$i -side top -anchor w
+#			}
+#			incr j
+#		}
+#		incr i
+#	}
+#}
+#the new one wich uses listbox
 proc MakeContactList { lfcontact } {
 	global rbsel rbcon
 	catch "DeleteContactList $lfcontact"
-	label $lfcontact.lbcontact.fix.l -text "[::groups::GetName $rbsel]" -font sboldf
-	pack $lfcontact.lbcontact.fix.l -side top -pady 5 -anchor w
-	if { ![::groups::Exists [::groups::GetName $rbsel]] || $rbsel == -1 } {
-		DeleteContactList $lfcontact
-		if { $rbsel == -1 } {
+	if { ![::groups::Exists [::groups::GetName $rbsel]] || $rbsel == 0 } {
+		if { $rbsel == 0 } {
+			## fix the name of the group ##
+			label $lfcontact.lbcontact.fix.l -text "[trans nogroup]" -font sboldf
+			pack $lfcontact.lbcontact.fix.l -side top -pady 5 -anchor w
+			## create the listbox ##
+			listbox $lfcontact.lbcontact.fix.lb
+			pack $lfcontact.lbcontact.fix.lb -side top -anchor w -pady 5
 			## list contacts that don't have a group ##
 			set contacts [::MSN::getList FL]
 			set i 0
 			while { $i < [llength $contacts] } {
-				set c [lindex $contacts $i]
-				set g [::abook::getGroups $c]
+				set contact [lindex $contacts $i]
+				set g [::abook::getGroups $contact]
 				if { [lindex $g 0] == 0 } {
-					radiobutton $lfcontact.lbcontact.fix.$i -text "$c" -value $c \
-						-variable rbcon -justify left
-					pack $lfcontact.lbcontact.fix.$i -side top -anchor w
+					$lfcontact.lbcontact.fix.lb insert end $contact
 				}
 				incr i
 			}
 		}
+		## make the binding ##
+		bind $lfcontact.lbcontact.fix.lb <<ListboxSelect>> "ContactSelectedIs $lfcontact"
 		return
 	}
+	label $lfcontact.lbcontact.fix.l -text "[::groups::GetName $rbsel]" -font sboldf
+	pack $lfcontact.lbcontact.fix.l -side top -pady 5 -anchor w
+	## create the listbox ##
+	listbox $lfcontact.lbcontact.fix.lb
+	pack $lfcontact.lbcontact.fix.lb -side top -anchor w -pady 5
 	set groups [::abook::getContactData contactlist groups]
 	set contacts [::MSN::getList FL]
 	set i 0
@@ -95,14 +180,20 @@ proc MakeContactList { lfcontact } {
 		while { $j < [llength $group] } {
 			set g [lindex $group $j]
 			if { $g == $rbsel } {
-				radiobutton $lfcontact.lbcontact.fix.$i -text "$contact" -value $contact -variable rbcon \
-					-justify left
-				pack $lfcontact.lbcontact.fix.$i -side top -anchor w
+				$lfcontact.lbcontact.fix.lb insert end $contact
 			}
 			incr j
 		}
 		incr i
 	}
+	## make the binding ##
+	bind $lfcontact.lbcontact.fix.lb <<ListboxSelect>> "ContactSelectedIs $lfcontact"
+}
+
+## Function to be called when <<ListboxSelect>> event occurs to change rbsel value ##
+proc ContactSelectedIs { lfcontact } {
+	global rbcon
+	set rbcon [$lfcontact.lbcontact.fix.lb get active]
 }
 
 ## Function to be called when the selected group becomes unvalid ##
@@ -216,6 +307,24 @@ proc dlgCopyUser {} {
 		-command "destroy .dlgcu; set pcc 0;"
 	pack .dlgcu.b.ok .dlgcu.b.cancel -side right -padx 5
 	pack .dlgcu.b  -side top -anchor e -pady 3
+}
+
+## This is used to move all the contacts from a group to nogroup ##
+proc BuidarGrup { lfcontact } {
+	global rbsel pcc
+	if { $rbsel == 0 } { return; }
+	set contacts [::MSN::getList FL]
+	set i 0
+	while { $i < [llength $contacts] } {
+		set contact [lindex $contacts $i]
+		foreach gp [::abook::getContactData $contact group] {
+			if { $gp == $rbsel } {
+				::MSN::deleteUser $contact $rbsel
+				RefreshContactList $lfcontact
+			}
+		}
+		incr i
+	}
 }
 
 proc Preferences { { settings "personal"} } {
@@ -629,10 +738,13 @@ proc Preferences { { settings "personal"} } {
 		-command "if { \$rbsel \!= -1 } {::MSN::deleteUser \$rbcon \$rbsel; RefreshContactList $lfcontact;}"
 	button $lfcontact.lbcontact.b.bdel -text [trans delete] -width 25 -justify right \
 		-command "::MSN::deleteUser \$rbcon; RefreshContactList $lfcontact;"
+	button $lfcontact.lbcontact.b.bdal -text [trans toempty] -width 25 -justify right \
+		-command "BuidarGrup $lfcontact;"
 	pack $lfcontact.lbcontact.b.badd -side top -pady 2 -anchor w
 	pack $lfcontact.lbcontact.b.bmov -side top -pady 2 -anchor w
 	pack $lfcontact.lbcontact.b.bcopy -side top -pady 2 -anchor w
 	pack $lfcontact.lbcontact.b.brfg -side top -pady 2 -anchor w
+	pack $lfcontact.lbcontact.b.bdal -side top -pady 2 -anchor w
 	pack $lfcontact.lbcontact.b.bdel -side top -pady 2 -anchor w
 	
 	#compute_size
