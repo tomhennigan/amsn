@@ -1259,14 +1259,14 @@ namespace eval ::ChatWindow {
 		pack $fontsel $smileys -side left -pady 2
 		pack $block $sendfile $invite -side right -pady 2
 
-		# Create our bindings
-		bind  $smileys  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $input"
-		bind  $fontsel  <Button1-ButtonRelease> "after 1 change_myfont [string range $w 1 end]"
-		bind  $block  <Button1-ButtonRelease> \
-			"::amsn::ShowChatList \"[trans block]/[trans unblock]\" $w ::amsn::blockUnblockUser"
-		bind $sendfile <Button1-ButtonRelease> "::amsn::FileTransferSend $w"
-		bind $invite <Button1-ButtonRelease> "::amsn::ShowInviteMenu $w %X %Y"
+		# Configure our commands for onclick
+		$smileys  configure -command "::smiley::smileyMenu \[winfo pointerx $w\] \[winfo pointery $w\] $input"
+		$fontsel  configure -command "after 1 change_myfont [string range $w 1 end]"
+		$block    configure -command "::amsn::ShowChatList \"[trans block]/[trans unblock]\" $w ::amsn::blockUnblockUser"
+		$sendfile configure -command "::amsn::FileTransferSend $w"
+		$invite   configure -command "::amsn::ShowInviteMenu $w \[winfo pointerx $w\] \[winfo pointery $w\]"
 
+		# Create our bindings
 		bind  $smileys  <Enter> "$smileys configure -image [::skin::loadPixmap butsmile_hover]"
 		bind  $smileys  <Leave> "$smileys configure -image [::skin::loadPixmap butsmile]"
 		bind  $fontsel  <Enter> "$fontsel configure -image [::skin::loadPixmap butfont_hover]"
