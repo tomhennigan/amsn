@@ -2098,9 +2098,9 @@ namespace eval ::ChatWindow {
 
 		set istabbed [::config::getKey tabbedchat]
 
-		if { !([info exists ::forcetabs] && $::forcetabs == 1) } { 
-			set istabbed 0
-		}
+		#if { !([info exists ::forcetabs] && $::forcetabs == 1) } { 
+		#	set istabbed 0
+		#}
 
 		if { $istabbed == 1 || $istabbed == 2 } {
 			return 1
