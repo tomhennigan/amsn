@@ -3,269 +3,170 @@
 # $Id$
 #=======================================================================
 namespace eval ::abook {
-   namespace export setContact getContact getGroup getName \
-   		    setPhone setDemographics getDemographics \
-		    setPersonal getPersonal showPersonal
+	namespace export setContact getContact getGroup getName \
+		setPhone setDemographics getDemographics \
+		setPersonal getPersonal
 
-    if { $initialize_amsn == 1 } {
-
-	#
-	# P R I V A T E
-	#
-	variable myself "unknown";
-	variable contacts;	# Array for contacts. Same struct for myself
-	# contacts(email) {		   BPR*
-	#	handle			   LST
-	#       groupId			   LST
-	#	phone { home work mobile } BPR.PHH/PHW/PHM
-	#	pager			   BPR.MOB
-	# }
-	variable demographics;	# Demographic Information about user
-    }
-    #
-   # P R O T E C T E D
-   #
-   proc adjustGroup {g} {
-       set i [string first , $g]
-       if {$i == -1} {
-           return $g
-       }
-       # If we get here this one had multiple groups (g1,g2...) so
-       # we only use the first (TODO this is temporary workaround!)
-       incr i -1
-       set ag [string range $g 0 $i]
-       return $ag
-   }
-
-   #
-   # P U B L I C
-   #
-   proc setPersonal { field value} {
-   	variable myself 
-
-        if {$myself == "unknown"} {
-	    set myself [list Dummy Dummy Dummy Dummy Dummy]
+	if { $initialize_amsn == 1 } {
+		#
+		# P R I V A T E
+		#
+		variable myself "unknown";
+		variable demographics;	# Demographic Information about user
 	}
 	
-	# Phone numbers are countryCode%20areaCode%20subscriberNumber
-        switch $field {
-	    PHH {	;# From PRP.PHH (Home Phone Number)
-		set myself [lreplace $myself 0 0 $value]
-	    }
-	    PHW {	;# From PRP.PHW (Work Phone Number)
-		set myself [lreplace $myself 1 1 $value]
-	    }
-	    PHM {	;# From PRP.PHM (Mobile Phone Number)
-		set myself [lreplace $myself 2 2 $value]
-	    }
-	    MOB {	;# From PRP.MOB (Mobile pager) Y|N
-		set myself [lreplace $myself 3 3 $value]
-	    }
-	    MBE {	;# From PRP.MBE (?) Y|N
-		set myself [lreplace $myself 4 4 $value]
-	    }
-	    default {
-	        status_log "setPersonal unknown field $field -> $value\n"
-	    }
+	#
+	# P R O T E C T E D
+	#
+	proc adjustGroup {g} {
+		set i [string first , $g]
+		if {$i == -1} {
+			return $g
+		}
+		# If we get here this one had multiple groups (g1,g2...) so
+		# we only use the first (TODO this is temporary workaround!)
+		incr i -1
+		set ag [string range $g 0 $i]
+		return $ag
 	}
+
+	#
+	# P U B L I C
+	#
+	proc setPersonal { field value} {
+		setUserData myself $field $value
+		return
    }
    
    proc getPersonal { cdata } {
-   	variable myself 
-	upvar $cdata data
-
-	if { ![info exists myself] } {
-	    status_log "ERROR: what happened to me?\n"
-	    return
+		upvar $cdata data	
+		set data(group)  "n.a."
+		set data(handle) getUserData myself nick
+		set data(phh)    getUserData myself PHH
+		set data(phw)    getUserData myself PHW
+		set data(phm)    getUserData myself PHM
+		set data(mob)    getUserData myself MOB
+		set data(mbe)    getUserData myself MBE
+		set data(available) Y
 	}
-	
-	set data(group)  "n.a."
-	set data(handle) "You know that";#  FIXME
-	set data(phh)    [urldecode [lindex $myself 0]]
-	set data(phw)    [urldecode [lindex $myself 1]]
-	set data(phm)    [urldecode [lindex $myself 2]]
-	set data(mob)    [urldecode [lindex $myself 3]]
-	set data(mbe)    [urldecode [lindex $myself 4]]
-	set data(available) Y
-   }
-
-   proc showPersonal {} {
-   	variable myself
-	status_log "home : [urldecode [lindex $myself 0]]\nwork : [urldecode [lindex $myself 1]]\nmobile : [urldecode [lindex $myself 2]]"
-   }
 
    proc setContact { email field value } {
-   	variable contacts 
-
-	if { ![info exists contacts($email)] } {
-	  #                          group nick  PHH   PHW   PHM   MOB
-	  set contacts($email) [list 0 "" "" "" "" ""]
-	}
-
-	# Phone numbers are countryCode%20areaCode%20subscriberNumber
-        switch $field {
-	    group {	;# From LST.FL command, contains email, groupId
-		#set value [adjustGroup $value]
-		set contacts($email) [lreplace $contacts($email) 0 0 $value]
-		
-		#status_log "Added groups $value for $email\n" white
-		
-	    }
-	    nick {	;# From LST.FL (User handle)
-		set contacts($email) [lreplace $contacts($email) 1 1 $value]
-	    }
-	    PHH {	;# From BPR.PHH (Home Phone Number)
-		set contacts($email) [lreplace $contacts($email) 2 2 $value]
-	    }
-	    PHW {	;# From BPR.PHW (Work Phone Number)
-		set contacts($email) [lreplace $contacts($email) 3 3 $value]
-	    }
-	    PHM {	;# From BPR.PHM (Mobile Phone Number)
-		set contacts($email) [lreplace $contacts($email) 4 4 $value]
-	    }
-	    MOB {	;# From BPR.MOB (Mobile pager) Y|N
-		set contacts($email) [lreplace $contacts($email) 5 5 $value]
-	    }
-	    default {
-	        status_log "abook::setContact: setContact unknown field $field -> $value\n"
-	    }
-	}
+		setUserData $email $field $value
+		return
    }
 
    proc getContact { email cdata } {
-   	variable contacts 
-	upvar $cdata data
+		upvar $cdata data
 
-	if { ![info exists contacts($email)] } {
-	    status_log "getContact ERROR: unknown contact $email!\n"
-	    return
-	}
-	
-	set groupName    [::groups::GetName [lindex $contacts($email) 0]]
-	set data(group)  [urldecode $groupName]
-	set data(handle) [urldecode [lindex $contacts($email) 1]]
-	set data(phh)    [urldecode [lindex $contacts($email) 2]]
-	set data(phw)    [urldecode [lindex $contacts($email) 3]]
-	set data(phm)    [urldecode [lindex $contacts($email) 4]]
-	set data(mob)    [urldecode [lindex $contacts($email) 5]]
-	set data(available) Y
+		set groupName    [::groups::GetName [getUserData $email group]]
+		set data(group)  [urldecode $groupName]
+		set data(handle) [urldecode [getUserData $email nick]]
+		set data(phh) [urldecode [getUserData $email PHH]]
+		set data(phw) [urldecode [getUserData $email PHW]]
+		set data(phm) [urldecode [getUserData $email PHM]]
+		set data(mob) [urldecode [getUserData $email MOB]]
+		set data(available) "Y"
    }
 
    proc getName {passport} {
-	variable contacts
-	if { ![info exists contacts($passport)] } {
-	    status_log "getContact ERROR: unknown contact $passport!" red
-	    return ""
-	}
-
-	return [urldecode [lindex $contacts($passport) 1]]
+		return [urldecode [getUserData $passport nick]]
    }
    
-   # Used to fetch the group ID so that the caller can order by
-   # group if needed. Returns -1 on error.
-   # ::abook::getGroup my@passport.com -id    : returns group id
-   # ::abook::getGroup my@passport.com -name  : return group name
-   proc getGroup {passport how} {
-   	variable contacts 
-
-	if { ![info exists contacts($passport)] } {
-	    status_log "E: Group: unknown contact $passport!\n" red
-	    return -1
+	# Used to fetch the group ID so that the caller can order by
+	# group if needed. Returns -1 on error.
+	# ::abook::getGroup my@passport.com -id    : returns group id
+	# ::abook::getGroup my@passport.com -name  : return group name
+	proc getGroup {passport how} {
+		set groupId [getUserData $passport group]
+		if {$how == "-id"} {
+			return $groupId
+		}
+		set groupName [::groups::GetName $groupId]
+		return $groupName
 	}
-	
-	set groupId [lindex $contacts($passport) 0]
-	if {$how == "-id"} {
-	    return $groupId
-        }
-	set groupName [::groups::GetName $groupId]
-	return $groupName
-   }
    
-   proc addContactToGroup { email grId } {
-      variable contacts
-      set idx [lsearch [lindex $contacts($email) 0] $grId]
-      if { $idx == -1 } {
-         set contacts($email) [lreplace $contacts($email) 0 0 \
-	    [linsert [lindex $contacts($email) 0] 0 $grId] ]
-      }
-   }
+	proc addContactToGroup { email grId } {
+		set groups [getUserData $email group]
+		set idx [lsearch $groups $grId]
+		if { $idx == -1 } {
+			setUserData $email group [linsert $groups 0 $grId]
+		}
+	}
 
-   proc removeContactFromGroup { email grId } {
-      variable contacts
-      
-      set idx [lsearch [lindex $contacts($email) 0] $grId]
-      
-      if { $idx != -1 } {
-         set contacts($email) [lreplace $contacts($email) 0 0 \
-	   [lreplace [lindex $contacts($email) 0] $idx $idx]]
-      }
-   }
+	proc removeContactFromGroup { email grId } {
+		set groups [getUserData $email group]
+		set idx [lsearch $groups $grId]
+		
+		if { $idx != -1 } {
+			setUserData $email group [lreplace $groups $idx $idx]
+		}
+	}
    
       
-   # Sends a message to the notification server with the
-   # new set of phone numbers. Notice this can only be done
-   # for the user and not for the buddies!
-   # The value is urlencoded by this routine
-   proc setPhone { item value } {
-	switch $item {
-	    home { ::MSN::WriteSB ns PRP "PHH $value" }
-	    work { ::MSN::WriteSB ns PRP "PHW $value" }
-	    mobile { ::MSN::WriteSB ns PRP "PHM $value" }
-	    pager { ::MSN::WriteSB ns PRP "MOB $value" }
-	    default { status_log "setPhone error, unknown $item $value\n" }
+	# Sends a message to the notification server with the
+	# new set of phone numbers. Notice this can only be done
+	# for the user and not for the buddies!
+	# The value is urlencoded by this routine
+	proc setPhone { item value } {
+		switch $item {
+			home { ::MSN::WriteSB ns PRP "PHH $value" }
+			work { ::MSN::WriteSB ns PRP "PHW $value" }
+			mobile { ::MSN::WriteSB ns PRP "PHM $value" }
+			pager { ::MSN::WriteSB ns PRP "MOB $value" }
+			default { status_log "setPhone error, unknown $item $value\n" }
+		}
 	}
-   }
 
-    # This information is sent to us during the initial connection
-    # with the server. It comes in a MSG content "text/x-msmsgsprofile"
-    proc setDemographics { cdata } {
-        variable demographics 
-	upvar $cdata data
+	# This information is sent to us during the initial connection
+	# with the server. It comes in a MSG content "text/x-msmsgsprofile"
+	proc setDemographics { cdata } {
+		variable demographics 
+		upvar $cdata data
 
     	set demographics(langpreference) $data(langpreference);# 1033 = English
-	set demographics(preferredemail) $data(preferredemail)
-	set demographics(country) [string toupper $data(country)];# NL
-	set demographics(gender) [string toupper $data(gender)]
-	set demographics(kids) $data(kids);	  # Number of kids
-	set demographics(age) $data(age)
-	set demographics(mspauth) $data(mspauth); # MS Portal Authorization?
-	set demographics(kv) $data(kv)
-        set demographics(sid) $data(sid)
-	set demographics(sessionstart) $data(sessionstart)
-	set demographics(clientip) $data(clientip)
-	set demographics(valid) Y
-    }
-
-    proc getDemographicField { field } {
-        variable demographics
-        if { [info exists demographics($field)]} {
-            return $demographics($field)
-        } else {
-            return ""
-        }
-    }
-
-    proc getDemographics { cdata } {
-        variable demographics 
-	upvar $cdata d
-
-	if {[info exists d(valid)]} {
-	    set d(langpreference) $demographics(langpreference);# 1033 = English
-	    set d(preferredemail) $demographics(preferredemail)
-	    set d(country) $demographics(country)
-	    set d(gender) $demographics(gender)
-	    set d(kids) $demographics(kids)
-	    set d(age) $demographics(age)
-	    set d(mspauth) $demographics(mspauth)
-            set d(kv) $demographics(kv)
-            set d(sid) $demographics(sid)
-	    set d(sessionstart) $demographics(sessionstart)
-		 set d(clientip) $demographics(clientip)
-	    set d(valid) Y
-	} else {
-	    set d(valid) N
+		set demographics(preferredemail) $data(preferredemail)
+		set demographics(country) [string toupper $data(country)];# NL
+		set demographics(gender) [string toupper $data(gender)]
+		set demographics(kids) $data(kids);	  # Number of kids
+		set demographics(age) $data(age)
+		set demographics(mspauth) $data(mspauth); # MS Portal Authorization?
+		set demographics(kv) $data(kv)
+		set demographics(sid) $data(sid)
+		set demographics(sessionstart) $data(sessionstart)
+		set demographics(clientip) $data(clientip)
+		set demographics(valid) Y
 	}
-    }
+
+	proc getDemographicField { field } {
+		variable demographics
+		if { [info exists demographics($field)]} {
+			return $demographics($field)
+		} else {
+			return ""
+		}
+	}
+
+	proc getDemographics { cdata } {
+		variable demographics 
+		upvar $cdata d
+
+		if {[info exists d(valid)]} {
+			set d(langpreference) $demographics(langpreference);# 1033 = English
+			set d(preferredemail) $demographics(preferredemail)
+			set d(country) $demographics(country)
+			set d(gender) $demographics(gender)
+			set d(kids) $demographics(kids)
+			set d(age) $demographics(age)
+			set d(mspauth) $demographics(mspauth)
+			set d(kv) $demographics(kv)
+			set d(sid) $demographics(sid)
+			set d(sessionstart) $demographics(sessionstart)
+			set d(clientip) $demographics(clientip)
+			set d(valid) Y
+		} else {
+			set d(valid) N
+		}
+	}
 
 	############################################################
 	#New procedures for contact list managing
@@ -370,15 +271,16 @@ namespace eval ::abookGui {
    }
    
    proc showEntry { email {edit ""}} {
-        variable bgcol
+		variable bgcol
 
-	set cd(available) N
-	::abook::getContact $email cd
+		set cd(available) "N"
+		
+		::abook::getContact $email cd
 
-	if { $cd(available) == "N" } {
-	    msg_box "[trans nodataavailable $email]"
-	    return
-	}
+		if { $cd(available) == "N" } {
+			msg_box "[trans nodataavailable $email]"
+			return
+		}
 
 	# Generate a unique (almost) toplevel so that we can
 	# have several open info windows (for different users)
