@@ -2300,6 +2300,7 @@ proc cmsn_draw_status {} {
    .status.info tag configure red -foreground red -background white
    .status.info tag configure white -foreground white -background black
    .status.info tag configure blue -foreground blue -background white
+   .status.info tag configure error -foreground white -background black
 
    bind .status.enter <Return> ns_enter
    wm protocol .status WM_DELETE_WINDOW { toggle_status }

@@ -2157,14 +2157,14 @@ proc cmsn_update_users {sb_name recv} {
 
                if { "$newchatid" != "$desiredchatid" } {
                   #The GUI doesn't accept the change, as there's another window for that chatid
-                  status_log "sb_msg: change NOT accepted\n"
+                  status_log "sb_msg: change NOT accepted from $chatid to $desiredchatid\n"
 
                } else {
                   #The GUI accepts the change, so let's change
-                  status_log "sb_msg: change accepted\n"
+                  status_log "sb_msg: change accepted from $chatid to $desiredchatid\n"
                   ::MSN::DelSBFor $chatid $sb_name
-                  set chatid $newchatid
-                  ::MSN::AddSBFor $chatid $sb_name
+                  ::MSN::AddSBFor $newchatid $sb_name                  
+		  set chatid $newchatid
                }
 
             } elseif {[sb length $sb_name users] == 0 } {
@@ -2198,9 +2198,7 @@ proc cmsn_update_users {sb_name recv} {
 
 	  ::MSN::setUserInfo $usr_login $usr_name
 
-         sb set $sb_name last_user $usr_login
-	  status_log "Setting last_user as [list $usr_login $usr_name] in IRO\n"
-
+          sb set $sb_name last_user $usr_login
 
       }
 
@@ -2219,7 +2217,6 @@ proc cmsn_update_users {sb_name recv} {
 	  if { [sb length $sb_name users] == 1 } {
 
             sb set $sb_name last_user $usr_login
-	     status_log "Setting last_user as [list $usr_login $usr_name] in JOI\n"
 
 	     set chatid $usr_login
 
@@ -2229,6 +2226,12 @@ proc cmsn_update_users {sb_name recv} {
 
 	     #Procedure to change chatid-sb correspondences
 	     set oldchatid [::MSN::ChatFor $sb_name]
+	     
+	     if { $oldchatid == 0 } {
+	        status_log "cmsn_update_users: JOI - VERY BAD ERROR, oldchatid = 0. CHECK!!\n" error
+		return 0
+	     }
+	     
 	     set chatid $sb_name
 
 	     #Remove old chatid correspondence
@@ -2673,17 +2676,20 @@ proc cmsn_auth {{recv ""}} {
 }
 
 
-set typing ""
-
 proc sb_change { chatid } {
 	global typing config
 
 	set sbn [::MSN::SBFor $chatid]
+	
+	if { $sbn == 0 } {
+		status_log "sb_change: VERY BAD ERROR - SB=0\n" error
+		return 0
+	}
+	
+	if { ![info exists typing($sbn)] } {
+		set typing($sbn) 1
 
-	if { $typing != $sbn } {
-		set typing $sbn
-
-		after 4000 "set typing \"\""
+		after 4000 "unset typing($sbn)"
 
 		set sock [sb get $sbn sock]
 
