@@ -177,7 +177,7 @@ proc hotmail_viewmsg {msgurl userlogin {pass ""}} {
 
 proc aim_get_str { bodywithr str } {
 
-    set body [string map {"\r" ""} $bodywithr]
+    set body [stringmap {"\r" ""} $bodywithr]
     set pos [string first $str $body]
     
     if { $pos < 0 } {

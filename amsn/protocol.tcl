@@ -305,7 +305,7 @@ namespace eval ::MSN {
       #don't do send or receive something for a long time
 
       if { $myStatus != "FLN" } {
-	::MSN::WriteNS "REA" "dummy@dummy.com dummy@dummy.com"
+	puts -nonewline [sb get ns sock] "PNG\r\n"
       }
 
       after 60000 "::MSN::PollConnection"
@@ -1113,7 +1113,7 @@ namespace eval ::MSN {
 
       set sock [sb get $sbn sock]
 
-      set txt_send [encoding convertto utf-8 [string map {"\n" "\r\n"} $txt]]
+      set txt_send [encoding convertto utf-8 [stringmap {"\n" "\r\n"} $txt]]
 
       set fontfamily [lindex $config(mychatfont) 0]
       set fontstyle [lindex $config(mychatfont) 1]
@@ -1171,7 +1171,7 @@ proc read_sb_sock {sbn} {
    } else {
       gets $sb_sock tmp_data
       sb append $sbn data $tmp_data
-      set log [string map {\r ""} $tmp_data]
+      set log [stringmap {\r ""} $tmp_data]
       degt_protocol "<-SB $tmp_data"
       if {[string range $tmp_data 0 2] == "MSG"} {
          set recv [split $tmp_data]
@@ -1240,7 +1240,7 @@ proc read_ns_sock {} {
    } else {
       gets $ns_sock tmp_data
 
-      set log [string map {\r ""} $tmp_data]
+      set log [stringmap {\r ""} $tmp_data]
 
       degt_protocol "<-NS $tmp_data"
 
@@ -1336,9 +1336,9 @@ proc cmsn_msg_parse {msg hname bname} {
    set body [string range $msg [expr {$head_len + 4}] [string length $msg]]
 
    set body [encoding convertfrom utf-8 $body]
-   set body [string map {"\r" ""} $body]
+   set body [stringmap {"\r" ""} $body]
 
-   set head [string map {"\r" ""} $head]
+   set head [stringmap {"\r" ""} $head]
    set head_lines [split $head "\n"]
    foreach line $head_lines {
       set colpos [string first ":" $line]
@@ -1927,8 +1927,16 @@ proc cmsn_change_state {recv} {
 
 
       if {[lindex $user_data 2] < 7} {		;# User was online before
-         set oldusername [string map {\\ \\\\ \[ \\\[ * \\* ? \\?} \
-	   [urldecode [lindex $user_data 1]]]
+
+	 #TODO: Is this used for anything???
+	 set oldusername [urldecode [lindex $user_data 1]]
+         #set oldusername [string map {\\ \\\\ \[ \\\[ * \\* ? \\?} \
+	 #  [urldecode [lindex $user_data 1]]]
+	 set oldusername [stringmap {\\ \\\\} $oldusername]
+	 set oldusername [stringmap {\[ \\\[} $oldusername]
+	 set oldusername [stringmap {* \\*} $oldusername]
+	 set oldusername [stringmap {? \\?} $oldusername]
+
 
       } elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
          ::amsn::notifyAdd "$user_name\n[trans logsin]." "::amsn::chatUser $user" online
@@ -1950,7 +1958,7 @@ proc cmsn_change_state {recv} {
 
       cmsn_draw_online
    } else {
-      puts "PANIC!"
+      status_log "PANIC!\n" red
    }
 
 }
@@ -1959,7 +1967,7 @@ proc cmsn_ns_handler {item} {
    global list_cmdhnd password config
 
    set item [encoding convertfrom utf-8 $item]
-   set item [string map {\r ""} $item]
+   set item [stringmap {\r ""} $item]
 
    set ret_trid [lindex $item 1]
    set idx [lsearch $list_cmdhnd "$ret_trid *"]
@@ -2113,6 +2121,10 @@ proc cmsn_ns_handler {item} {
 	  return 0
 	}
       }
+      QNG {
+      	status_log "Ping response\n" blue
+	return 0
+      }
       200 {
           status_log "Error: Syntax error\n" red
 	  msg_box "[trans syntaxerror]"
@@ -2152,7 +2164,7 @@ proc cmsn_ns_handler {item} {
           return 0
       }
       216 {
-          status_log "Keeping connection alive\n" blue
+          #status_log "Keeping connection alive\n" blue
           return 0
       }
       600 {

@@ -280,7 +280,11 @@ namespace eval ::abookGui {
 	set ends  [string first @ $w]
 	incr ends -1
 	set w [string range $w 0 $ends]
-	set w [string map { @ "" _ "" - "" . "" } $w]
+	#set w [string map { @ "" _ "" - "" . "" } $w]
+	set w [stringmap { "@" "" } $w]
+	set w [stringmap { "_" "" } $w]
+	set w [stringmap { "-" "" } $w]
+	set w [stringmap { "." "" } $w]
  	set w ".a$w"	
 
 	if {[winfo exists $w]} {
@@ -379,6 +383,10 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.20  2003/03/01 19:02:07  airadier
+# Now using PNG command for keepalive connection.
+# Trying to change "string map" to "stringmap", our own string map procedure.
+#
 # Revision 1.19  2003/01/23 06:38:14  burgerman
 # more work on prefs
 # reomved status_log from UsersInChat

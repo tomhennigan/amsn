@@ -131,7 +131,7 @@ proc Read { name } {
       status_log "PROXY: $name CLOSED\n" red
    } elseif {[gets $sock tmp_data] != -1} {
 	 variable proxy_header
-	 set tmp_data [string map {\r ""} $tmp_data]
+	 set tmp_data [stringmap {\r ""} $tmp_data]
 	 lappend proxy_header $tmp_data
 	 status_log "PROXY RECV: $tmp_data\n"
 	 if {$tmp_data == ""} {
@@ -157,6 +157,10 @@ proc Read { name } {
 }
 ###################################################################
 # $Log$
+# Revision 1.4  2003/03/01 19:02:08  airadier
+# Now using PNG command for keepalive connection.
+# Trying to change "string map" to "stringmap", our own string map procedure.
+#
 # Revision 1.3  2002/11/09 03:49:44  burgerman
 # HTTP proxy seems to works now! there where only minor changes to do!
 # Leaves/Joins messages now added to statusbar

@@ -12,7 +12,7 @@ Burger * burger@mwvision.com
 
 	***Bug Fixes and TODO before next release (priority 1)***
 
--	Check Makefile and amsn.spec now that HELP and FAQ files are added. 
+-	Check Makefile and amsn.spec now that HELP and FAQ files are added.
 -	Make sure everything is installed correctly and FAQ and HELP are in the amsn directory.
 -	Make good RPMs, for Redhat, Suse, Mandrake, etc.
 DONE	Long messages knock out remote user from chat (if > 400, separate into 400 byte long fragments and send)
@@ -41,10 +41,11 @@ DONE	Fixed bug when adding a user from a chat window.
 -	Add timeouts when reconnecting or inviting a user to a switchboard, to avoid blocking on it.
 -	Same window name bug for filetransfers and help windows
 -	Possible bug if the password has a semicolon (at the end?). Check.
--	Be able to manually change status to "No activity" - Bug B657836 
+-	Be able to manually change status to "No activity" - Bug B657836
 -	When we get a NAK from a message, try to enqueue it again, as probably it will success.
 -	Fix focus and children things with list window. (For example add_user from chat window).
 -	Ctrl, alt and other special keys shouldn't send typing notification.
+-	Bug with font selection in preferences window. Saved if "close" clicked, but not if "save" clicked.
 
 	***Existing Feature Improvements (priority 2)***
 

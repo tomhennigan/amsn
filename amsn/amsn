@@ -712,6 +712,23 @@ proc view_profile {user_login} {
      launch_browser "http://members.msn.com/default.msnw?mem=${user_login}&pgmarket="
 }
 
+proc stringmap { substitution str } {
+
+	return [string map $substitution $str]
+
+	set newstr $str
+
+	set pos [expr {[string first [lindex $substitution 0] $newstr] -1}]
+
+	while { $pos > -1 } {
+		set end [expr {$pos + [string length [lindex $substitution 0]]}]
+		set newstr "[string range $newstr 0 $pos] [lindex $substitution 1][string range $newstr [expr {$end+1}] end]"
+		set pos [expr {[string first [lindex $substitution 0] $newstr] -1}]
+	}
+
+
+	return $newstr
+}
 
 ###############################################################
 create_dir $HOME
