@@ -4553,7 +4553,7 @@ namespace eval ::MSNP2P {
 	# For now only manages buddy and emoticon transfer
 	# TODO : Error checking on fields (to, from, sizes, etc)
 	proc ReadData { data chatid } {
-		global config fd user_info
+		global config fd user_info HOME
 		
 		status_log "called ReadData with $data\n" red
 		
@@ -4700,14 +4700,20 @@ namespace eval ::MSNP2P {
 			    # Lets send an ACK followed by a BYE
 			    SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
 			    SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" ks_test001@hotmail.com $config(login) "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex [SessionList get $sid] 5] 0 0] 1]
-			    
+			    set fd -1
+
+			    file rename -force [file join $HOME displaypic cache.png] [file join $HOME displaypic ks_test001_hotmail_com.png]
+			    set file [filenoext [convert_image [GetSkinFile displaypic ks_test001_hotmail_com.png] 96x96]].gif
+
+			    image create photo my_pic -file $file
+
 			    # Delete Session Vars
 			    SessionList unset $sid
 			}
 		    } elseif { $cMsgSize == 4 } {
 			# We got ourselves a DATA PREPARATION message, lets open file and send ACK
 			status_log "Got data preparation message, opening file for writing\n" red
-			set fd [open "/home/kakaroto/coding/test.png" "w"]
+			set fd [open "[file join $HOME displaypic cache.png]" "w"]
 			fconfigure $fd -translation binary
 			SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
 		    } else {
