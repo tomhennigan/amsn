@@ -2379,31 +2379,9 @@ proc cmsn_ns_handler {item} {
    } else {
    switch [lindex $item 0] {
       MSG {
-      
-         set msg_data [sb index ns data 1]
-         sb ldel ns data 1
-      
-	 # Demographic Information about subscriber/user. Can be used
-	 # for a variety of things.
-	 set content [::MSN::GetHeaderValue $msg_data Content-Type]
-	 if {[string range $content 0 19] == "text/x-msmsgsprofile"} {
-             status_log "Getting demographic and auth information\n"
-	     # 1033 is English. See XXXX for info
-	     set d(langpreference) [::MSN::GetHeaderValue $msg_data lang_preference]
-	     set d(preferredemail) [::MSN::GetHeaderValue $msg_data preferredEmail]
-	     set d(country) [::MSN::GetHeaderValue $msg_data country]
-	     set d(gender) [::MSN::GetHeaderValue $msg_data Gender]
-	     set d(kids) [::MSN::GetHeaderValue $msg_data Kid]
-	     set d(age) [::MSN::GetHeaderValue $msg_data Age]
-	     #Used for authentication
-	     set d(mspauth) [::MSN::GetHeaderValue $msg_data MSPAuth]
-	     set d(kv) [::MSN::GetHeaderValue $msg_data kv]
-	     set d(sid) [::MSN::GetHeaderValue $msg_data sid]
-	     set d(sessionstart) [clock seconds]
-	     ::abook::setDemographics d
-	 }
-	 
+         cmsn_ns_msg $item
 	 return 0
+
       }
       VER -
       INF -
@@ -2465,10 +2443,6 @@ proc cmsn_ns_handler {item} {
       REM {
          cmsn_listdel $item
          return 0
-      }
-      MSG {
-         cmsn_ns_msg $item
-	 return 0
       }
       FLN -
       ILN -
@@ -2611,15 +2585,34 @@ proc cmsn_ns_handler {item} {
 
 proc cmsn_ns_msg {recv} {
 
-   set msg [sb index ns data 1]
+   set msg_data [sb index ns data 1]
    sb ldel ns data 1
    
-   if { [lindex $recv 1] == "Hotmail" && [lindex $recv 2] == "Hotmail"} {
-     hotmail_procmsg $msg
-   } else {   
-     status_log "[lindex $recv 2] ([lindex $recv 1]) says:\n" green
-     status_log "$msg\n" green
-     status_log "=========================================\n" green
+   if { [lindex $recv 1] != "Hotmail" && [lindex $recv 2] != "Hotmail"} {
+      status_log "NS MSG From Unknown source ([lindex $recv 1] [lindex $recv 2]):\n$msg_data\n" red
+      return
+   }
+   
+   # Demographic Information about subscriber/user. Can be used
+   # for a variety of things.
+   set content [::MSN::GetHeaderValue $msg_data Content-Type]
+   if {[string range $content 0 19] == "text/x-msmsgsprofile"} {
+      status_log "Getting demographic and auth information\n"
+      # 1033 is English. See XXXX for info
+      set d(langpreference) [::MSN::GetHeaderValue $msg_data lang_preference]
+      set d(preferredemail) [::MSN::GetHeaderValue $msg_data preferredEmail]
+      set d(country) [::MSN::GetHeaderValue $msg_data country]
+      set d(gender) [::MSN::GetHeaderValue $msg_data Gender]
+      set d(kids) [::MSN::GetHeaderValue $msg_data Kid]
+      set d(age) [::MSN::GetHeaderValue $msg_data Age]
+      #Used for authentication
+      set d(mspauth) [::MSN::GetHeaderValue $msg_data MSPAuth]
+      set d(kv) [::MSN::GetHeaderValue $msg_data kv]
+      set d(sid) [::MSN::GetHeaderValue $msg_data sid]
+      set d(sessionstart) [clock seconds]
+      ::abook::setDemographics d
+   } else {
+      hotmail_procmsg $msg_data	 
    }
 }
 

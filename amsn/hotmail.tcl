@@ -206,7 +206,7 @@ proc hotmail_procmsg {msg} {
 	
 	set content [::MSN::GetHeaderValue $msg Content-Type]
 
-	if {[string range $content 0 29] == "text/x-msmsgsemailnotification"} {					     
+	if {[string range $content 0 29] == "text/x-msmsgsemailnotification"} {     
 	  if {[::MSN::GetHeaderValue $msg From] != ""} {				
 	    set from [::MSN::GetHeaderValue $msg From]
 	    set fromaddr [::MSN::GetHeaderValue $msg From-Addr]
