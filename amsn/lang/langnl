@@ -3,6 +3,7 @@ about Over aMSN
 accept Accepteren
 acceptfile Accepteer het bestand $1, grootte $2? Opgeslagen in $3
 actions Acties
+activeautoupdate Actief automatisch bijwerken
 addacontact Contactpersoon toevoegen
 addedyou Je bent toegevoegd aan de contactpersonenlijst van $1 ($2)
 addprofiledesc Geef de aanmeldingsnaam waarvoor je een nieuw profiel wilt aanmaken\nProfielen maken het mogelijk om verschillende configuraties te hebben voor iedere aanmeldingsnaam.\nZonder profielen kun je geen wachtwoorden onthouden of gebruik maken van geschiedenis en alarms
@@ -16,6 +17,7 @@ admingroups Groepen beheren
 advanced Geavanceerd
 advancedprefs Geavanceerde instellingen
 adverts Advertenties
+agotinvitation $1 nodigt je uit voor een gesprek via een audio-verbinding
 alarmonconnect Alarm laten afgaan als deze contactpersoon online komt
 alarmondisconnect Alarm laten afgaan als deze contactpersoon offline gaat
 alarmonmsg Alarm laten afgaan als deze contactpersoon je een bericht stuurt
@@ -50,6 +52,10 @@ autoidle Automatisch "Geen Activiteit"
 autoip Automatisch IP
 automessage Automatisch bericht
 autonoact Status op "Geen Activiteit" zetten als ik niet actief ben gedurende
+avaccepted Video Conferentie uitnodiging geaccepteerd
+avcanceled Video Conferentie uitnodiging genegeerd
+avgotinvitation $1 nodigt je uit voor een Video Conferentie.
+avinitfailed Initialisatie van de Audio/Video Plugin mislukt. Uitnodiging genegeerd.
 avoidseen Voorkom dat deze persoon kan zien of ik online ben en contact met mij opneemt.
 away Afwezig
 awaymsg1 Altijd om een afwezigheidsbericht vragen als ik mijn status verander in Afwezig/Ben zo terug/Bezet
@@ -132,7 +138,7 @@ confirmeg Weet je zeker dat je deze groep leeg wilt maken?
 confirmrfl weet je zeker dat je deze gebruiker uit deze groep wilt verwijderen?
 confirmpurge Alle opgeslagen schermafbeeldingen van je contactpersonen zullen verwijderd worden. Weet je het zeker?
 connected Je bent nu verbonden
-connectedwith Verbonden met $1
+connectedwith Aangemeld als $1
 connecterror Fout bij verbinden met server
 connecting Bezig met verbinden
 connectionlost De verbinding met de server is gesloten
@@ -176,7 +182,7 @@ deliverfail Er was een probleem bij het bezorgen van de volgende boodschap
 delprofile2 Selecteer het profiel waarvan je de locale configuratiebestanden wilt verwijderen
 delprofile Verwijder profiel
 description Omschrijving
-directconnection Directe verbonden met het internet (gebruik poort 1863)
+directconnection Directe verbinding met het internet (gebruik poort 1863)
 disabled Uitgeschakeld
 disableprofiles Schakel profielen uit (handig voor internet cafés en gedeelde omgevingen)
 disablessl SSL niet gebruiken
@@ -639,4 +645,3 @@ yoffset verticaal
 youblocked Je bent geblokkeerd
 yousay Jij zegt
 youwant Jij wilt
-

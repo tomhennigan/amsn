@@ -3,6 +3,7 @@ about Info
 accept Nõustu
 acceptfile Nõustu failiga $1, suurus $2? Salvestatud $3
 actions Tegevused
+activeautoupdate Aktiivene automaatuuendamine
 addacontact Lisa sõber
 addedyou $1 ($2) on lisanud sind enda sõbralisti
 addprofile Lisa uus profiil
@@ -16,6 +17,7 @@ admingroups Halda gruppe
 advanced Edasijõudnud
 advancedprefs Konfiguratsioonivalikud edasijõudnutele
 adverts Reklaamid
+agotinvitation $1 saatis sulle helivestluse kutse
 alarmonconnect Käivita alarm kui kasutaja tuleb liinile
 alarmondisconnect Käivita alarm kui kasutaja lahkub/varjab
 alarmonmsg Käivita alarm kui kasutaja saadab sulle sõnumi
@@ -50,6 +52,10 @@ autoidle Automaatne "Pole tegevust"
 autoip Automaatne IP
 automessage AutoTeade
 autonoact Näita mind "Pole tegevust", kui pole tegevust
+avaccepted Videokonverentsi kutse vastu võetud
+avcanceled Videokonverents tühistatud
+avgotinvitation $1 saatis sulle videokonverentsi kutse
+avinitfailed Audio/video plugini käivitamine ebaõnnestus. Kõne tühistatud
 avoidseen Väldi seda inimest mind ühendatuna nägemast
 away Eemal
 awaymsg1 Küsi Eemal-teadet iga kord, kui sean oma staatuseks Eemal/Kohe tagasi/Kiire
@@ -150,6 +156,7 @@ countrycode Minu riigi/regioonikood
 cprofile Loo profiil
 credits Tänud
 currentdate Jooksev kuupäev
+currentlanguage Hetkel kasutusel olev keel
 custnotifymsg Näita märguande akent kui tuleb uus sõnum
 custnotifyoffline Näita märguande akent kui see kasutaja läheb offline
 custnotifyonline Näita märguande akent kui see kasutaja tuleb online
@@ -196,6 +203,7 @@ dockingoff Dokkimine väljas
 dockkde KDE dokkimine
 dontdownload Ära salvesta TLSi, ma installeerin selle ise
 dontshow Ära näita
+download Lae alla
 downloadingtls Salvesta TLS moodul saidist:\n $1
 edit Toimeta
 editcustomstate Muuda kohandatud olekut
@@ -230,6 +238,7 @@ filedoesnotexist Faili ei eksisteeri
 fileman Failihaldur
 filemanexample (\$location asendadakse kataloogiga) Näiteks: nautilus \$location
 filename Failinimi
+filenotwritable Faili ei saa kustutada
 filetransfer Faili saatmine
 filetransfercancelled Faili edastamine tühistatud
 filetransfercomplete Faili edastamine õnnestunud!
@@ -304,6 +313,7 @@ keepalive Ülalhoidmine (NAT)
 keeplog Säilita vestluste logisid
 keeplog2 Logi kõik vestlused aMSN'i Ajalukku, et neid tulevikus vaadata
 language Keel
+language_manager Keelte haldur
 lastlogin Viimati logis sisse
 lastlogout Viimati logis välja
 lastmsgedme Viimane sõnum
@@ -630,8 +640,10 @@ xmmssend Saada see lugu
 xoffset Horisontaalnihe
 year Aasta
 yes Jah
+yesblock Jah, koos blokeerimisega
 yesterday Eile
 yoffset Vertikaalnihe
 youblocked Sind blokeeris kasutaja
 yousay Sa ütled
 youwant Sa tahad
+

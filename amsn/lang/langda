@@ -3,6 +3,7 @@ about Om
 accept Accepter
 acceptfile Accepter fil $1, størrelse $2? Gemt i $3
 actions Handlinger
+activeautoupdate Automatisk opdatering
 addacontact Tilføj en kontakt
 addedyou $1 ($2) har tilføjet dig til hans/hendes kontaktliste
 addprofile Tilføj ny profil
@@ -16,6 +17,7 @@ admingroups Admin grupper
 advanced Avanceret
 advancedprefs Avancerede indstillinger
 adverts Reklamer
+agotinvitation Invitation om lyd-samtale modtaget fra $1
 alarmonconnect Aktivér alarm når en bruger kommer online
 alarmondisconnect Aktivér alarm når en bruger bliver offline/usynlig
 alarmonmsg Aktivér alarm når en bruger sender dig en meddelelse
@@ -50,6 +52,10 @@ autoidle Automatisk Inaktiv
 autoip Automatisk IP
 automessage AutoBesked
 autonoact Vis mig som "Ikke aktiv" når jeg har været inaktiv i
+avaccepted Anmodning om videokonference accepteret
+avcanceled Anmodning om videokonference anulleret
+avgotinvitation Anmodning om videokonference modtaget fra $1
+avinitfailed Initialisering af lyd- eller videosamtale fejlede. Samtale anulleret
 avoidseen Undlad at denne person kan se, når jeg er online
 away Ikke til stede
 awaymsg1 Spørg efter "Ikke til stede" besked hver gang jeg ændrer min status til Ikke til stede/Er straks tilbage/Optaget
@@ -150,6 +156,7 @@ countrycode Min Lande-/Regions-kode
 cprofile Opret profil
 credits Credits
 currentdate Nuværende Dato
+currentlanguage Det aktuelle sprog
 custnotifymsg Vis beskedvindue når en ny brugerbesked modtages
 custnotifyoffline Vis beskedvindue når denne kontakt går offline
 custnotifyonline Vis beskedvindue når denne kontakt går online
@@ -196,9 +203,9 @@ dockingoff Minimer Ikke
 dockkde KDE Minimer
 dontdownload Download ikke TLS, jeg installerer det selv
 dontshow Vis ikke
+download Hent
 downloadingtls Downloader TLS-modulet fra:\n $1
 edit Rediger
-editcurrentstate Redigér nuværende
 editcustomstate Redigér brugerdefineret status
 editnewstate Ny Personlig Auto-besked-Status
 editprofile Rediger profil
@@ -232,6 +239,7 @@ filedoesnotexist Filen eksisterer ikke
 fileman Filhåndtering
 filemanexample ( \$location vil blive erstattet med biblioteket ) Eks: nautilus \$location
 filename Filnavn
+filenotwritable Denne fil kan ikke slettes
 filetransfer Filoverførsel
 filetransfercancelled Filoverførsel annulleret
 filetransfercomplete Filoverførsel fuldført
@@ -306,6 +314,7 @@ keepalive Hold-i-live (NAT)
 keeplog Gem logs af chat
 keeplog2 Logger alle samtaler til aMSN's historie til senere visning
 language Sprog
+language_manager Sproghåndtering
 lastlogin Sidste Log-ind
 lastlogout Sidste Log-ud
 lastmsgedme Sidste Besked
@@ -631,6 +640,7 @@ xmmssend Send nuværende sang
 xoffset X-koordinat
 year År
 yes Ja
+yesblock Ja og blokér
 yesterday I går
 yoffset Y-koordinat
 youblocked Du er blevet blokeret
