@@ -23,8 +23,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setDefaultColor chatborders 0
 	::skin::setDefaultColor chatpadx 0
 	::skin::setDefaultColor chatpady 0
-		
-	::skin::setDefaultColor menubackground #eae7e4 
+	
 	::skin::setDefaultColor menuforeground #000000 
 	::skin::setDefaultColor menuactivebackground #565672
 	::skin::setDefaultColor menuactiveforeground #ffffff
@@ -32,8 +31,10 @@ if { $initialize_amsn == 1 } {
 
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		::skin::setDefaultColor balloonbackground #ffffca
+		::skin::setDefaultColor menubackground #ECECEC 
 	} else {
 		::skin::setDefaultColor balloonbackground #ffffaa
+		::skin::setDefaultColor menubackground #eae7e4
 	}
 
 	::skin::setDefaultColor balloonborder #000000
@@ -96,10 +97,12 @@ namespace eval ::amsn {
 
 		catch {tk_setPalette [::skin::getColor menubackground]}
 		option add *Menu.font menufont
-		option add *background [::skin::getColor menubackground]
+		
 		option add *selectColor #DD0000
 
 		if { ![catch {tk windowingsystem} wsystem] && $wsystem  == "x11" } {
+			option add *background [::skin::getColor menubackground]
+			
 			option add *borderWidth 1 widgetDefault
 			option add *activeBorderWidth 1 widgetDefault
 			option add *selectBorderWidth 1 widgetDefault
@@ -151,22 +154,28 @@ namespace eval ::amsn {
 			option add *Scrollbar.width		10
 			option add *Scrollbar.borderWidth		1 
 			option add *Scrollbar.highlightThickness	0 widgetDefault
+			
+			option add *Button.activeForeground #5b76c6 userDefault
 		}
 		option add *Font splainf userDefault
 		#Use different width for scrollbar on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			option add *background #ECECEC
+			option add *highlightbackground #ECECEC
 			option add *Scrollbar.width 15 userDefault
-			option add *Button.Font macfont userDefault
+			option add *Button.Font macfont userDefault		
 		} elseif { $tcl_platform(platform) == "windows"} {
+			option add *background [::skin::getColor menubackground]
 			option add *Scrollbar.width 14 userDefault
 			option add *Button.Font sboldf userDefault
 		} else {
+			option add *background [::skin::getColor menubackground]
 			option add *Scrollbar.width 12 userDefault
 			option add *Button.Font sboldf userDefault
 		}
 		
 		
-		option add *Button.activeForeground #5b76c6 userDefault
+		
 
 		#option add *Scrollbar.borderWidth 1 userDefault
 
@@ -640,21 +649,21 @@ namespace eval ::amsn {
 		#Create the window
 		toplevel $w
 		wm title $w "[trans delete]"
-		$w configure -background #ECECEC
+
 		#Create the three frames
-		frame $w.top -background #ECECEC
-		frame $w.buttons -background #ECECEC
-		frame $w.block -background #ECECEC
+		frame $w.top
+		frame $w.buttons
+		frame $w.block
 		#Create the picture of warning (at left)
-		label $w.top.bitmap -image [::skin::loadPixmap warning] -background #ECECEC
+		label $w.top.bitmap -image [::skin::loadPixmap warning]
 		pack $w.top.bitmap -side left -pady 5 -padx 15
 		#Text to show to delete the user
-		label $w.top.question -text "[trans confirmdu]" -font bigfont -background #ECECEC
+		label $w.top.question -text "[trans confirmdu]" -font bigfont
 		pack $w.top.question -pady 5 -padx 25
 		#Create the three buttons, Yes and block / Yes / No
-		button $w.block.yesblock -text "[trans yesblock]" -command "::amsn::deleteUserAction $w $user_login yes_block $grId" -background #ECECEC -highlightbackground #ECECEC
-		button $w.buttons.yes -text "[trans yes]" -command "::amsn::deleteUserAction $w $user_login yes $grId" -default active -background #ECECEC -highlightbackground #ECECEC -width 6
-		button $w.buttons.no -text "[trans no]" -command "destroy $w" -background #ECECEC -highlightbackground #ECECEC -width 6
+		button $w.block.yesblock -text "[trans yesblock]" -command "::amsn::deleteUserAction $w $user_login yes_block $grId" 
+		button $w.buttons.yes -text "[trans yes]" -command "::amsn::deleteUserAction $w $user_login yes $grId" -default active -width 6
+		button $w.buttons.no -text "[trans no]" -command "destroy $w" -width 6
 		#Pack buttons
 		pack $w.buttons.yes -pady 5 -padx 5 -side right
 		pack $w.buttons.no -pady 5 -padx 5 -side left
