@@ -42,6 +42,7 @@ autoaway Bu süre kadar eylemsiz kalýrsam beni diþarýda göster:
 autocheckver Açýlýþta kendiliðinden yeni sürüm ara
 autoconnect2 aMSN baþlayýnca kendiliðinden baðlan
 autoconnect Açýlýþta kendiliðinden baðlan
+autodetectip IP adresini kendiliðinden bul
 autohotmaillog Hotmail'e otomatik giriþ
 autoidle Otomatik EtkinlikYok özelliði 
 autoip Otomatik IP
@@ -66,8 +67,8 @@ blockmessage Þu kiþiler baðlý ve sizi engellemiþ durumdalar
 blockusers Bir seferde denetlenecek kullanýcý sayýsý 
 broughtby Yazýlýmý geliþtirenler
 browse Gözat
-browser Ýnternet tarayýcý
 browserexample (\$url URL ile deðiþtirilecek) Örn: mozilla \$url
+browser Ýnternet tarayýcý
 busy Meþgul
 cancel Ýptal Et
 cannotdeleteprofile Profil kullanýmda olduðu için silinemiyor
@@ -76,7 +77,6 @@ cantremoveothers "Diðer" grubu silinemiyor
 casesensitive Yazýlý karþýlýklarda büyük/küçük harfe duyarlý ol
 cfgalarm Alarmý Düzenle/Ekle/Kaldýr
 cfgalarmall Genel Alarmý Düzenle/Ekle/Kaldýr
-ch_to_state Yeni duruma geç
 changecustomstate Þu duruma geç:
 changedisplaypic Kullanýcý resmini deðiþtir
 changefont Yazitipi deðiþtir
@@ -90,6 +90,7 @@ chatsmileys2 Sohbet penceresinde gülen adamlar görünsün
 chatsmileys Gülen adamlar
 chat Sohbet et
 checkblocking Diðerlerinin beni engelleyip engellemediðini sürekli denetle
+checkemail Baðlantý listesinde posta kutusu satýrý gözüksün
 checkfilman Alýnan dosyalar $1 konumuna kaydedilecek. Lütfen seçenekler penceresinde dosya yöneticisi ayarlarýný yapýnýz.
 checkingver Yeni sürüm aranýyor
 checkonfln Bir kullanýcýnýn beni engelleyip engellemediðini o çevrimdýþý olunca denetle
@@ -100,6 +101,7 @@ choosebgcolor Arkaplan rengini seç
 choosecontact Lütfen listeden bir baðlantý seçiniz
 choosefontcolor Yazi rengini seç
 chooseskin Lütfen kullanacaðýnýz kabuðu seçiniz
+ch_to_state Yeni duruma geç
 clearlog2 Tüm baðlantýlarýn Geçmiþini sil
 clearlog3 Tüm sohbet kayýtlarýný sil
 clearlog Sohbet kaydýný sil
@@ -109,8 +111,8 @@ close Kapat
 closingdocks Kapatma tuþu küçültsün
 command Komut
 commandstatus Komutu çalýþtýr
-confirm Emin misiniz?
 confirmdelete $1 i silmek istediðinizden emin misiniz?
+confirm Emin misiniz?
 confirmpurge Diðer kullanýcýlardan alýnan kullanýcý resimleri (sizinkiler deðil) silinecek. Emin misiniz?
 connected Þu an baglýsýnýz
 connecterror Sunucuya baðlanýrken hata oluþtu
@@ -127,6 +129,7 @@ corruptconfig Ayarlar dosyasý bozulmuþ. Yenisi oluþturulacak. Eski dosya $1 konu
 corruptstates Kiþisel durumlar ayar dosyasý bozulmuþ. Yenisi oluþturulacak. Eski dosya $1 konumuna kaydedilecek. Sorunu bulmamýz için lütfen bize gönderin.
 countrycode Ülke/Bölge kodum
 cprofile Profil oluþtur
+credits Emeði Geçenler
 custom_edit Özel gülen adamý düzenle
 custom_new Yeni özel gülen adam ekle
 cut Kes
@@ -136,8 +139,8 @@ dcprofile Profil oluþturma
 defaultloginradio Varsayýlan ayarlarla baðlan
 default Varsayýlan ayar
 defchatwinsize Sohbet pencereleri için varsayýlan boyutlar (XBOYUTU x YBOYUTU)
-delete Sil
 deletecustomstate Özel durumu sil
+delete Sil
 delimiters Tarih ayraçlarý:
 deliverfail Aþagýdaki iletinin gönderilmesinde hata oluþtu
 delprofile2 Sileceðiniz profili seçiniz
@@ -179,12 +182,12 @@ errortls TLS kurulumunda hata oluþtu:
 examples Örnekler
 exitamsn Çýkmak istediðinizden emin misiniz?
 extras Ek Hizmetler
-faq SYS (Sýkça Yanýtlanan Sorular)
 failed Baþarýlamadý
-faileddelete Silinemedi
 faileddeleteperso Bu resim silinemiyor çünkü kiþisel resim dosyasý deðil. Yalnzýca sizin profilinize ait resimler silinebilir.
-file dosya
+faileddelete Silinemedi
+faq SYS (Sýkça Yanýtlanan Sorular)
 filedoesnotexist Dosya bulunamadý
+file dosya
 fileman Dosya yöneticisi
 filemanexample (\$location dizin ile deðiþtirilecek) Örn: nautilus \$location
 filename Dosya adý
@@ -326,9 +329,10 @@ notify1 Baðlantýlar girince uyarý penceresi göster
 notify2 Yeni ileti gelince uyarý penceresi göster
 notify3 Yeni e-posta iletisi gelince uyarý penceresi göster
 notifyoffset Uyarý penceresinin konumunu giriniz
-notify uyar
 notifytyping Klavyeyi kullandýðým	 karþý tarafa gözüksün
+notify uyar
 notifywin Uyarý Penceresi
+notinlist Siz onun baðlantý listesinde deðilsiniz
 notls MSN 9 protokolü tls paketini gerektirir. Bu bilgisayarda tls kurulu görünmüyor. Eðer kuruluysa, tls kütüphanesi dizini Seçenekler bölümünde belirtilmelidir (örn: /opt/tls/lib). \n\n tls'yi http://tls.sf.net'ten indirebilirsiniz.
 nousersinsession Ortamda kullanýcý yok
 offline Çevrim dýþý
@@ -365,6 +369,7 @@ preferences Seçenekler
 preffont2 Yazýtipim diðerlerine daha baþka gözüksün
 preffont3 aMSN'in arayüz yazýtipi ve metin boyutunu deðiþtir
 preffont Ýleti yazýtipim
+prefft Dosya aktarýmý, p2p ve NAT ayarlarý
 preflibs Kütüphane dizinleri
 preflog1 Geçmiþ ve sohbet kayýt seçeneklerim
 preflook aMSN'imin görünüþü
@@ -406,13 +411,14 @@ reconnecting Sunucuya yeniden baðlanýlýyor
 reject Geri çevir
 rememberpass Þifreyi hatýrla
 removefromlist Bu listeden çýkar
+rename Yeniden adlandýr
 reversed ters
 reverselist Karþý liste
 rightback Hemen döneceðim
 saveas Farklý kaydet
+savechatwinsize Sohbet penceresinin boyutu degiþtiðinde yeni boyutu varsayýlan olarak kaydet. 
 savecontacts Baðlantý listesini kaydet
 save Kaydet
-savechatwinsize Sohbet penceresinin boyutu degiþtiðinde yeni boyutu varsayýlan olarak kaydet. 
 savetofile Dosyaya kaydet
 says $1 diyor ki
 sbcon Switch Board'a baðlanýyor
@@ -423,14 +429,14 @@ send Gönder
 sendmail E-posta iletisi gönder
 sendmsg Ýleti günder
 sentbytes $2 baytýn $1 (s)i gönderildi
+serverbusy Sunucu meþgul
 servergoingdown Sunucu kapanýyor: Baðlantý kesildi
 server Sunucu
-serverbusy Sunucu meþgul
 serverunavailable Sunucuya eriþilemiyor
 session Oturum
 showblockedlist Sizi engelleyenlerin listesi gösterilsin
-showdisplaypic Kullanýcý resmini göster
 showdisplaypic2 Bir sohbet penceresi açýldýðýnda kullanýcý resmini kendiliðinden göster
+showdisplaypic Kullanýcý resmini göster
 showmypic Kullanýcý Resmim
 shownotify Bazý olaylarda uyarý penceresi göster
 showuserpic $1'in kullanýcý resmi
@@ -442,12 +448,12 @@ smileintro2 Bu gülen adamý özelleþtirmek için ilgili alanlarý düzenleyiniz \n(ya
 smileintro Özel bir gülen adam yaratmak için ilgili alanlarý doldurunuz \n(yardým için SSS'a bakýnýz)
 sound2 Baðlantýlar girince ya da ileti gönderince ses çýkar
 soundcommand Ses çalma komutu (örn: esdplay)
+soundexample (\$sound = Çalýnacak ses dosyasý) Örn: esdplay \$sound
 soundfile Alarm ses dosyasý
+soundfiles Ses Dosyalarý
 soundloop Ses tekrarlasýn
 soundserver Ses Sunucusu
 sound Ses
-soundexample (\$sound = Çalýnacak ses dosyasý) Örn: esdplay \$sound
-soundfiles Ses Dosyalarý
 soundstatus Sesli alarmý aç/kapa
 sourcecode Kaynak kodu (derlenip kurulmasi gerekir)
 sslwarning UYARI!!! SSL'i kapatmak þifrelemeyi engeller, þifreniz düz metin olarak aktarýlýr. Gerçekten kapatmayý gerektiren durumlar olmadýkça kullanmayýnýz.
