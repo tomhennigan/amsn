@@ -46,8 +46,10 @@ namespace eval ::amsn {
 
 		if { $tcl_platform(os) == "Linux" } {
 			set tlsplatform "linuxx86"
+		} elseif { $tcl_platform(os) == "NetBSD"} {
+			set tlsplatform "netbsdx86"
 		} elseif { $tcl_platform(os) == "Solaris"} {
-			set tlsplatform "solaris266"
+			set tlsplatform "solaris26"
 		} elseif { $tcl_platform(platform) == "windows"} {
 			set tlsplatform "win32"
 		} else {
@@ -65,6 +67,7 @@ namespace eval ::amsn {
 		pack .tlsdown.choose -side top -anchor w -padx 10 -pady 10
 
 		radiobutton .tlsdown.linuxx86 -text "Linux-x86" -variable tlsplatform -value "linuxx86" -font splainf
+		radiobutton .tlsdown.linuxx86 -text "NetBSD-x86" -variable tlsplatform -value "netbsdx86" -font splainf
 		radiobutton .tlsdown.solaris26 -text "Solaris 2.6 SPARC" -variable tlsplatform -value "solaris26" -font splainf
 		radiobutton .tlsdown.win32 -text "Windows" -variable tlsplatform -value "win32" -font splainf
 		radiobutton .tlsdown.src -text "[trans sourcecode]" -variable tlsplatform -value "src" -font splainf
@@ -107,6 +110,9 @@ namespace eval ::amsn {
 			switch $tlsplatform {
 				"linuxx86" {
 					set downloadurl "$baseurl-linux-x86.tar.gz"
+				}
+				"netbsdx86" {
+					set downloadurl "$baseurl-netbsd-x86.tar.gz"
 				}
 				"solaris26" {
 					set downloadurl "$baseurl-solaris26-sparc.tar.gz"
@@ -177,6 +183,7 @@ namespace eval ::amsn {
 		switch $tlsplatform {
 			"solaris26" -
 			"linuxx86" -
+			"netbsdx86" -			
 			"win32" {
 				if { [catch {
 					set file_id [open [file join $files_dir $fname] w]
