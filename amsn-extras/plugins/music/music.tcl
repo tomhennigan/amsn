@@ -80,14 +80,14 @@ namespace eval ::music {
 		} else {
 			set stopmessage [trans musicstopdefault]
 		}
-		array set ::music::config {
-			player [lindex [array names playersarray] 0]
-			nickname {}
-			second {30}
-			symbol {-}
-			stop {$stopmessage}
-			active {0}
-		}
+		array set ::music::config [list \
+			player [lindex [array names playersarray] 0] \
+			nickname {} \
+			second {30} \
+			symbol {-} \
+			stop $stopmessage \
+			active {0} \
+		]
 		
 	}
 	########################################
@@ -571,7 +571,7 @@ namespace eval ::music {
 		if {[::music::version_094]} {
 			return
 		} else {
-			plugins_log music $message
+			plugins_log Music $message
 		}
 	}
 	
