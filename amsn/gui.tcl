@@ -1559,7 +1559,7 @@ namespace eval ::amsn {
    # window related to 'chatid'
    proc DeliveryFailed { chatid msg } {
 
-      ChatUser $chatid
+      chatUser $chatid
       set txt "[trans deliverfail]:\n $msg"
       WinWrite $chatid "[timestamp] [trans deliverfail]: " red
       WinWrite $chatid "$msg\n" gray
