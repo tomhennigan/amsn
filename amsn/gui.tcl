@@ -2120,6 +2120,7 @@ set y [expr $y - 115]
    # the protocol layer to send a typing notificacion to the chat that the window
    # 'win_name' is connected to
    proc TypingNotification { win_name inputbox} {
+      global config
 
       set chatid [ChatFor $win_name]
 
@@ -2138,7 +2139,9 @@ set y [expr $y - 115]
 
       #Don't queue unless chat is ready, but try to reconnect
       if { [::MSN::chatReady $chatid] } {
-         sb_change $chatid
+         if { $config(notifytyping) } {
+            sb_change $chatid
+         }
       } else {
          ::MSN::chatTo $chatid
       }
