@@ -30,7 +30,7 @@ proc PreferencesCopyConfig {} {
 	
 	# Now process certain exceptions. Should be reverted
 	# in the RestorePreferences procedure
-	set proxy_data [split $myconfig(proxy) ":"]
+	set proxy_data $myconfig(proxy)
 	set proxy_server [lindex $proxy_data 0]
 	set proxy_port [lindex $proxy_data 1]
 }
@@ -1210,8 +1210,7 @@ proc SavePreferences {} {
     set p_user [string trim $proxy_user]
     set p_pass [string trim $proxy_pass]
 
-    if { ($p_server != "") && ($p_port != "") && [string is digit $proxy_port] } {
-       set config(proxy) [join [list $p_server $p_port] ":"]
+       ::config::setKey proxy [list $p_server $p_port]
 
 	if { ($p_pass != "") && ($p_user != "")} {
 	    set config(proxypass) $p_pass
@@ -1222,12 +1221,6 @@ proc SavePreferences {} {
 	    set config(proxyuser) ""
 	    set config(proxyauthenticate) 0
 	}
-    } else {
-       #Let's just show the connect error
-       set config(proxy) [join [list $p_server $p_port] ":"]
-       #set config(proxy) ""
-       #set config(withproxy) 0
-    }
 
 	if {![string is digit $config(initialftport)] || [string length $config(initialftport)] == 0 } {
 		set config(initialftport) 6891

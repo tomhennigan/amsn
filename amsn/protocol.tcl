@@ -4163,18 +4163,6 @@ proc ns_enter {} {
    
 }
 
-# Added by DEGT during creation of Proxy namespace based on original
-# by Dave Mifsud and expanding on the idea.
-proc proxy_callback {event socket_name} {
-    switch $event {
-        dropped {   # Proxy connection dropped/closed during read
-	    if {$socket_name == "ns"} {
-	    	::MSN::CloseSB ns
-	    }
-	}
-    }
-}
-
 proc setup_connection {name} {
 
 	#This is the default read handler, if not changed by proxy
@@ -4208,7 +4196,7 @@ proc setup_connection {name} {
 	
 		#TODO: Right now it's always HTTP proxy!!
 		sb set $name connection_wrapper HTTPConnection
-		set proxy [split [::config::getKey proxy] ":"]
+		set proxy [::config::getKey proxy]
 		sb set $name proxy_host [lindex $proxy 0]
 		sb set $name proxy_port [lindex $proxy 1]
 		
