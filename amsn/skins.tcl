@@ -329,34 +329,74 @@ namespace eval ::skin {
 }
 
 proc GetSkinFile { type filename {skin_override ""} } {
-    global HOME2 HOME
-
-    if { [catch { set skin "[::config::getGlobalKey skin]" } ] != 0 } {
-	set skin "default"
-    }
-    
-    if { $skin_override != "" } {
-    	set skin $skin_override
-    }
-    set defaultskin "default"
-
-
-    if { "[string range $filename 0 0]" == "/" && [file readable  $filename] } {
-	return "$filename"
-    } elseif { [file readable [file join [set ::program_dir] skins $skin $type $filename]] } {
-	    return "[file join [set ::program_dir] skins $skin $type $filename]"
-    } elseif { [file readable [file join $HOME2 skins $skin $type $filename]] } {
-	return "[file join $HOME2 skins $skin $type $filename]"
-    } elseif { [file readable [file join $HOME skins $skin $type $filename]] } {
-	return "[file join $HOME skins $skin $type $filename]"
-    } elseif { [file readable [file join [set ::program_dir] skins $defaultskin $type $filename]] } {
-	return "[file join [set ::program_dir] skins $defaultskin $type $filename]"
-    } else {
-#	status_log "File [file join  [set ::program_dir]skins $skin $type $filename] not found!!!\n"
-	return "[file join [set ::program_dir] skins $defaultskin $type null]"
-    }
-
+	global HOME2 HOME
+	
+	if { [catch { set skin "[::config::getGlobalKey skin]" } ] != 0 } {
+		set skin "default"
+	}
+	
+	if { $skin_override != "" } {
+		set skin $skin_override
+	}
+	set defaultskin "default"
+	
+	
+	#Get file using global path
+	if { "[string range $filename 0 0]" == "/" && [file readable  $filename] } {
+		return "$filename"
+	#Get file from program dir skins folder
+	} elseif { [file readable [file join [set ::program_dir] skins $skin $type $filename]] } {
+		return "[file join [set ::program_dir] skins $skin $type $filename]"
+	#Get file from ~/.amsn/skins folder
+	} elseif { [file readable [file join $HOME2 skins $skin $type $filename]] } {
+		return "[file join $HOME2 skins $skin $type $filename]"
+	#Get file from ~/.amsn/profile/skins folder
+	} elseif { [file readable [file join $HOME skins $skin $type $filename]] } {
+		return "[file join $HOME skins $skin $type $filename]"
+	#Get file from default skin
+	} elseif { [file readable [file join [set ::program_dir] skins $defaultskin $type $filename]] } {
+		return "[file join [set ::program_dir] skins $defaultskin $type $filename]"
+	} else {
+	#	status_log "File [file join  [set ::program_dir]skins $skin $type $filename] not found!!!\n"
+		return "[file join [set ::program_dir] skins $defaultskin $type null]"
+	}
+	
 }
+
+proc GetDisplayPicture { filename } {
+	global HOME2 HOME
+	
+	if { [catch { set skin "[::config::getGlobalKey skin]" } ] != 0 } {
+		set skin "default"
+	}
+	
+	set defaultskin "default"
+		
+	#Get file using global path
+	if { "[string range $filename 0 0]" == "/" && [file readable  $filename] } {
+		return "$filename"
+	#Get from personal display pics
+	} elseif { [file readable [file join $HOME displaypic $filename]] } {
+		return "[file join $HOME displaypic $filename]"
+	#Get file from program dir skins folder
+	} elseif { [file readable [file join [set ::program_dir] skins $skin displaypic $filename]] } {
+		return "[file join [set ::program_dir] skins $skin displaypic $filename]"
+	#Get file from ~/.amsn/skins folder
+	} elseif { [file readable [file join $HOME2 skins $skin displaypic $filename]] } {
+		return "[file join $HOME2 skins $skin displaypic $filename]"
+	#Get file from ~/.amsn/profile/skins folder
+	} elseif { [file readable [file join $HOME skins $skin $type $filename]] } {
+		return "[file join $HOME skins $skin displaypic $filename]"
+	#Get file from default skin
+	} elseif { [file readable [file join [set ::program_dir] skins $defaultskin $type $filename]] } {
+		return "[file join [set ::program_dir] skins $defaultskin displaypic $filename]"
+	} else {
+	#	status_log "File [file join  [set ::program_dir]skins $skin $type $filename] not found!!!\n"
+		return "[file join [set ::program_dir] skins $defaultskin $type null]"
+	}
+	
+}
+
 
 
 proc skin_description {cstack cdata saved_data cattr saved_attr args} {

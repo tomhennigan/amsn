@@ -6661,9 +6661,11 @@ proc convert_image_plus { filename type size } {
 
 
 proc load_my_pic {} {
-	if {[file readable [filenoext [GetSkinFile displaypic [::config::getKey displaypic]]].gif]} {
-		image create photo my_pic -file "[filenoext [GetSkinFile displaypic [::config::getKey displaypic]]].gif"
+	status_log "load_my_pic: Trying to set display picture [::config::getKey displaypic]\n" blue
+	if {[file readable [filenoext [GetDisplayPicture [::config::getKey displaypic]]].gif]} {
+		image create photo my_pic -file "[filenoext [GetDisplayPicture [::config::getKey displaypic]]].gif"
 	} else {
+		status_log "load_my_pic: Picture not found!!\n" red
 		clear_disp
 	}
 }
