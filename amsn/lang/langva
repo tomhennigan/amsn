@@ -121,6 +121,7 @@ close Tancar
 closingdocks Botó de tancar/minimitzar
 command Ordre
 commandstatus Executar ordre
+configure Configurar
 confirmdelete Segur que vols esborrar a $1?
 confirm Estàs segur?
 confirmbl Segur que vols blocar este contacte?
@@ -229,6 +230,7 @@ filedoesnotexist El fitxer no existix
 fileman Administrador d'arxius
 filemanexample (\$location serà canviat pel directori o arxiu ) Ex: nautilus \$location
 filename Nom d'arxiu
+filetransfer Transferència de Fitxers
 filetransfercancelled Transferència de fitxer cancelada
 filetransfercomplete Transferència de fitxer completada
 followtext Avançar quan s'introduixca nou text
@@ -317,6 +319,7 @@ listsmileys2 Mostrar emoticons en la llista de contactes d'aMSN
 listsmileys Emoticons en contactes
 ljoinedconf s'unix a la conversa
 lleftconf deixa la conversa
+load Carregar
 loadcontacts Carregar llista de contactes
 logbigger Arxius d'un contacte no superen els
 logeventconnect Enregistrar les connexions
@@ -369,6 +372,7 @@ natkeepalive Si patixes desconnexions contínuament, activa esta opció
 needonline Encara estàs/aparentes desconnectat
 needwinico Es necessita el fitxer winico03.dll al directori de connectors perquè funcione l'acoblament per Windows
 never Mai
+new_ft_protocol Utilizar el nou protocol de Transferència de Fitxers (encara té alguns errors menors)
 newmail $1 missatges nous en safata d'entrada
 newmailfolder Tens $1 nous missatges en altres carpets de Hotmail
 newmailfrom Nou correu de $1 ($2)
@@ -605,6 +609,7 @@ viewcontactsby Mostra els contactes per
 view Vore
 webcaminvite $1 t'ha convidat a iniciar una conversa amb webcam però l'aMSN encara no ho suporta.
 willjoin Esperant que $1 s'unixca a la conversa
+winkreceived Has rebut un Wink de $1. Esta característica no està suportada per aMSN.
 work Treball
 wrongfields Els camps "$1","$2" i/o "$3" no son vàlids
 wrongprofileversion Versió del fitxer de configuració de perfils incorrecta. Per a arreglar-ho, per favor, esborra el directori $1, o actualitza aMSN

@@ -121,7 +121,9 @@ closed $1 ile olan sohbet etkinlik olmadýðý için kapatýldý.
 closingdocks Kapatma tuþu küçültsün
 command Komut
 commandstatus Komutu çalýþtýr
+configure Ayarla
 confirm Emin misiniz?
+confirmbl Bu baðlantýyý engellemek istediðinizden emin misiniz?
 confirmdelete $1 i silmek istediðinizden emin misiniz?
 confirmdg Bu grubu silmek istediðinizden emin misiniz?
 confirmdu Bu kullanýcýyý silmek istediðinizden emin misiniz?
@@ -227,6 +229,7 @@ filedoesnotexist Dosya bulunamadý
 fileman Dosya yöneticisi
 filemanexample (\$location dizin ile deðiþtirilecek) Örn: nautilus \$location
 filename Dosya adý
+filetransfer Dosya aktarýmý
 filetransfercancelled Dosya aktarýmý iptal edildi
 filetransfercomplete Dosya aktarýmý tamamlandý
 followtext Yeni metin girilince aþaði kaydýr
@@ -315,6 +318,7 @@ listsmileys Gülen adamlarý listele
 listsmileys2 Baðlantý listesinde gülen adamlar görünsün
 ljoinedconf $1 konferansa katýldý
 lleftconf $1 konferanstan ayrýldý
+load Yükle
 loadcontacts Baðlantý listesi yükle
 logbigger Her baðlantý için kayýt dosyasý boyutu üst sýnýrý
 logeventconnect Baðlantýlarý kayda geçir
@@ -338,7 +342,8 @@ longp4c Sohbet içi rumuzunuz 130 harften uzun. Resmi MSN Messenger sürümlerinde 
 lprivtoconf $1 ile özel görüþme konferansa çevrildi
 luclosedwin $1 de pencereyi kapadýnýz
 mailer E-posta uygulamasý
-mailerexample (\$recipient = alýcý) Hotmail'i kullanmak için boþ býrakýnýz 
+mailerexample (\$recipient = alýcý) Hotmail'i kullanmak için boþ býrakýnýz
+maintenance Sunucu bakým amacýyla $1 dakika içinde kapanacaktýr
 maximised Büyütülmüþ
 minimised Küçültülmüþ
 mins dakika
@@ -366,6 +371,7 @@ natkeepalive Eðer baðlantýnýz sürekli kopuyorsa, bu seçeneði (canlý tut - Keepal
 needonline Hala çevrim dýþý görünüyorsunuz!
 needwinico Windows'ta küçülme için plugins dizininde winico03.dll olmasý gerekmektedir.
 never Asla
+new_ft_protocol Yeni dosya aktarým protokolü (hala bazý hatalarý var)
 newmail Gelen kutunuzda $1 yeni ileti var
 newmailfolder Diðer Hotmail dizinlerinde $1 yeni ileti var
 newmailfrom Yeni ileti gönderen: $1 ($2)
@@ -404,6 +410,7 @@ notifywin Uyarý Penceresi
 notinlist Siz onun baðlantý listesinde deðilsiniz
 notls MSN 9 protokolü tls paketini gerektirir. Bu bilgisayarda tls kurulu görünmüyor. Eðer kuruluysa, tls kütüphanesi dizini Seçenekler bölümünde belirtilmelidir (örn: /opt/tls/lib). \n\n tls'yi http://tls.sf.net'ten indirebilirsiniz.
 nousersinsession Ortamda kullanýcý yok
+nudge $1 sizinle görüþmek istiyor
 offline Çevrim dýþý
 ok Tamam
 onenewmail Gelen kutusunda 1 yeni ileti var
@@ -601,6 +608,7 @@ viewcontactsby Baðlantý isimleri
 viewprofile Profili gör
 webcaminvite $1 sizi kamera kullanmaya davet etti; ancak aMSN'de bu iþlev yok.
 willjoin $1 in sohbete katýlmasý bekleniyor
+winkreceived $1 size bir Wink gönderdi. aMSN þu an bu özelliði desteklemiyor.
 work Ýþ
 wrongfields "$1", "$2" ve/veya "$3" alanlarý geçersiz 
 wrongprofileversion Yanlýþ profil ayar dosyasý sürümü. Düzeltmek için $1 dizinini siliniz ya da aMSN'yi güncelleyiniz

@@ -228,6 +228,7 @@ filedoesnotexist Datoteka ne obstaja
 fileman Upravljalec datotek
 filemanexample ( \$location bo zamenjan z mapo ) Npr.: nautilus \$location
 filename Ime datoteke
+filetransfer Prenos datoteke
 filetransfercancelled Prenos datoteke preklican
 filetransfercomplete Prenos datoteke konèan
 followtext Sledi novemu besedilu
@@ -604,6 +605,7 @@ viewcontactsby Prikaz stikov
 viewprofile Poglej profil
 webcaminvite $1 te je povabil/a na videokonferenco, a aMSN tega ne podpira.
 willjoin èakam, da se $1 pridru¾i pogovoru
+winkreceived $1 ti je pome¾iknil/a. aMSN trenutno tega ne podpira.
 work Delo
 wrongfields Polja "$1", "$2" in/ali "$3" niso veljavna
 wrongprofileversion Napaèna datoteka nastavitev profila. Da bi jo popravil, odstrani imenik $1 ali posodobi amsn.

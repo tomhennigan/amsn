@@ -617,3 +617,10 @@ logeventstate Rexistrar os cambios de estado
 original Orixinal
 preflogevent O meu Historial
 style Estilo
+configure Configurar
+filetransfer Transferencia de arquivo
+load Cargar
+maintenance O servidor quedará  fora de servizo en $1 minutos para o seu mantemento
+new_ft_protocol	Usar o novo protocolo de transferencia de arquivos (INESTABLE)
+nudge $1 reclama a sua atención
+winkreceived Recibiches un Wink de $1. Estas animacións aínda non están soportadas polo aMSN.

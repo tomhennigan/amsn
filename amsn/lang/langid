@@ -121,7 +121,9 @@ closed Percakapan dengan $1 ditutup karena tidak aktif
 closingdocks Tombol Tutup mengecilkan window
 command Perintah
 commandstatus Jalankan Perintah
+configure Memasang
 confirm Apakah anda yakin?
+confirmbl Apakah anda yakin ingin memblokir kontak (kenalan) ini ?
 confirmdelete Apakah anda yakin untuk menghapus $1?
 confirmdg Apakah anda yakin ingin menghapus kelompok (grup) ini?
 confirmdu Apakah anda yakin ingin menghapus pengguna ini?
@@ -228,6 +230,7 @@ filedoesnotexist Berkas tidak ditemukan
 fileman Pengatur Berkas
 filemanexample (\$lokasi akan digantikan dengan direktori) Contoh: nautilus \$lokasi
 filename Nama Berkas
+filetransfer Pemindahan Berkas
 filetransfercancelled Transmisi berkas dibatalkan
 filetransfercomplete Transmisi berkas telah usai
 followtext Gulung ke bawah saat tekst baru dimasukkan
@@ -316,6 +319,7 @@ listsmileys Daftar Smiley
 listsmileys2 Tampilkan Emoticon dan Smiley dalam daftar kontak a'MSN utama
 ljoinedconf $1 bergabung dalam konferensi
 lleftconf $1 meninggalkan konferensi
+load Memuat (Load)
 loadcontacts Baca daftar nama kenalan (kontak)
 logbigger Ukuran register berkas untuk setiap kontak tidak pernah melewati batas
 logeventconnect Arsipkan (Log) semua sambungan
@@ -340,6 +344,7 @@ lprivtoconf Percakapan pribadi berubah menjadi konferensi dengan $1
 luclosedwin Anda telah menutup jendal pada $1
 mailer Aplikasi email
 mailerexample (\$penerima = Penerima) Biarkan kosong untuk menggunakan Hotmail
+maintenance Server akan dimatikan untuk pemeliharaan dalam $1 menit
 maximised Dimaksimalkan
 minimised Diminimalkan/Di-ikon-kan
 mins menit
@@ -367,6 +372,7 @@ natkeepalive Apabila sambungan anda sering terputus, mungkinkan Biarkan Menyala
 needonline Anda masih tidak tersambung atau sedang sembunyi!
 needwinico Memerlukan winico03.dll dalam direktori plugins supaya labuhanbaki (traydoking) jendela dapat bekerja
 never Tidak Pernah
+new_ft_protocol Gunakan protokol Pemindahan Berkas yang baru (masih ada beberapa bug)
 newmail $1 email baru dalam Kotak-Masuk
 newmailfolder Anda memiliki $1 pesan baru di dalam map (folder) Hotmail yang lain
 newmailfrom Email baru dari $1 ($2)
@@ -405,6 +411,7 @@ notifywin Window pemberitahuan
 notinlist Anda tidak berada dalam daftar kontak miliknya
 notls Protokol MSN 9 memerlukan paket tls. Paket ini tampaknya tidak terinstal pada mesin ini. Apabila terinstalasi, cantumkan letak direktori kepustakaan dalam window Anjuran (contoh: /opt/tls/lib). \n \n Tls bisa didownload dari http://tls.sf.net.
 nousersinsession Tidak ada orang lain
+nudge $1 meminta perhatian anda
 offline Tidak Tersambung
 ok Ok
 onenewmail Ada email baru di Kotak-Masuk
@@ -602,6 +609,7 @@ viewcontactsby Lihat kenalan (kontak) berdasarkan
 viewprofile Lihat Profil Pemakai
 webcaminvite $1 mengundang anda untuk memulai sesi webcam, tetapi aMSN tidak mendukung fasilitas ini.
 willjoin Menunggu $1 untuk bergabung
+winkreceived Anda menerima Kedipan dari $1. Fungsi tersebut saat ini belum didukung oleh aMSN.
 work Kerja
 wrongfields Bidang "$1", "$2" dan/atau "$3" tidak dapat diterima
 wrongprofileversion Versi berkas pengaturan profil yang salah. Untuk memperbaikinya mohon hapus direktori $1 atau perbaharui a'MSN

@@ -121,7 +121,9 @@ closed Vestlus $1'ga suleti passiivsuse pärast
 closingdocks Sulgemisnupp minimeerib akna
 command Käsk
 commandstatus Käivita käsk
+configure Seadista
 confirm Oled kindel?
+confirmbl Oled kindel, et soovid selle kontakti blokeerida ?
 confirmdelete Oled sa kindel et tahad seda kustutada $1?
 confirmdg Oled kindel, et soovid selle grupi kustutada ?
 confirmdu Oled kindel, et soovid selle kasutaja kustutada ?
@@ -227,6 +229,7 @@ filedoesnotexist Faili ei eksisteeri
 fileman Failihaldur
 filemanexample (\$location asendadakse kataloogiga) Näiteks: nautilus \$location
 filename Failinimi
+filetransfer Faili saatmine
 filetransfercancelled Faili edastamine tühistatud
 filetransfercomplete Faili edastamine õnnestunud!
 followtext Keri alla kui sisestatakse uus tekst
@@ -315,6 +318,7 @@ listsmileys Emotsioonide nimekiri
 listsmileys2 Näita emotsioone aMSN'i peamises sõbranimekirjas
 ljoinedconf $1 liitus konverentsiga
 lleftconf $1 lahkus konverentsist
+load Lae
 loadcontacts Lae sõbranimekiri
 logbigger Logifailide suurus iga sõbraga ei ületa
 logeventconnect Logi ühendamised
@@ -339,6 +343,7 @@ lprivtoconf Privaatvestlus muudetud konverentsiks isikuga $1
 luclosedwin Sa sulgesid akna $1
 mailer E-posti klient
 mailerexample (\$recipient = Adresaat) Jäta tühjaks kui soovid kasutada Hotmaili
+maintenance Server läheb hoolduseks maha $1 minuti pärast.
 maximised Maksimeeritud
 minimised Minimeeritud/Ikoniseeritud
 mins minutit
@@ -366,6 +371,7 @@ natkeepalive Kui su ühendus pidevalt katkeb, võimalda see Ülalhoidmine
 needonline Sa oled/ilmud ikka lahtiühendatuna
 needwinico Plugins kataloogi on vaja panna winico03.dll, et Windowsi tray'mine töötaks
 never Mitte kunagi
+new_ft_protocol Kasuta failivahetuseks uut protokolli (võib esineda üksikuid vigu)
 newmail $1 uut sõnumit postkastis
 newmailfolder Sul on Hotmaili kirjakastis $1 uut kirja
 newmailfrom Uus kiri saatjalt $1 ($2)
@@ -404,6 +410,7 @@ notifywin Teateaken
 notinlist Sa ei ole tema kontaktide nimekirjas
 notls MSN protokoll 9 vajab TLS paketti. Tundub, et see pakett ei ole installeeritud. Kui see on installeeritud, siis tuleb kontrollida Seadete alt kas kataloog on määratud (näiteks: /opt/tls/lib). \n\nTLS on võimalik laadida aadressilt http://tls.sf.net playing Mängib: $1
 nousersinsession Ühtegi kasutajat sessioonis
+nudge $1 soovib sinu tähelepanu
 offline Offline
 ok Olgu
 onenewmail 1 uus sõnum postkastis
@@ -601,6 +608,7 @@ viewcontactsby Vaata kontakte sorteerides
 viewprofile Vaata profiili
 webcaminvite $1 kutsus sind alustama veebikaamera seanssi kuid aMSN ei toeta seda võimalust
 willjoin Ootan, et $1 liituks vestlusega
+winkreceived $1 saatis sulle Winki kuid aMSN ei toeta seda hetkel.
 work Töö
 wrongfields 
 wrongprofileversion Profiili konfiguratsiooni faili versioon on vale. Parandamiseks kustuta kataloog $1 või uuenda aMSN.

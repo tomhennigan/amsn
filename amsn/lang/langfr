@@ -120,6 +120,7 @@ close Fermer
 closingdocks Le bouton Fermer ancre l'application
 command Commande
 commandstatus Exécuter la commande
+configure Configurer
 confirmdelete Confirmer suppression
 confirm Êtes-vous sûr ?
 confirmbl  Êtes-vous sûr de vouloir bloquer ce contact ?
@@ -221,6 +222,7 @@ file Fichier
 filemanexample (\$location sera remplacé par le répertoire) Ex: nautilus \$location
 fileman Gestionnaire de fichiers
 filename Fichier
+filetransfer Transfert de fichier
 filetransfercancelled Transfert de fichier annulé
 filetransfercomplete Transfert de fichier terminé
 followtext Faire défiler lorsque du texte est entré
@@ -306,6 +308,7 @@ listsmileys2 Afficher les émoticons et les smileys dans la liste de contacts pri
 listsmileys Liste des smileys
 ljoinedconf $1 a rejoint la conférence
 lleftconf $1 a quitté la conférence
+load Chargement
 loadcontacts Charger la liste de contacts
 logbigger Taille du fichier Log pour chaque contact ne dépasse jamais
 logeventconnect Enregistrer les connexions
@@ -328,6 +331,7 @@ longnick Votre pseudo est supérieur à 130 caractères. Ce n'est pas supporté offi
 longp4c Votre pseudo de conversation dépasse les 130 caractères. Le client MSN officiel affichera $1. Voulez-vous continuer ?
 lprivtoconf  Conversation privée changée en conférence avec $1
 luclosedwin Vous avez fermé la fenêtre sous $1
+maintenance Le serveur est hors-service pour cause de maintenance pendant $1 minutes
 mailerexample (\$recipient = destinataire) Laisser vide pour utiliser Hotmail
 mailer Programme de courrier
 maximised Maximisé
@@ -356,6 +360,7 @@ natip Détection de l'adresse IP par page web
 natkeepalive Si vous êtes souvent déconnecté involontairement, activez cet option
 needonline Vous êtes toujours déconnecté(e)!
 needwinico Winico03.dll doit figurer dans le dossier de Plug-ins afin que l'icône dans la Barre des tâches fonctionne
+new_ftp_protocol Utiliser le nouveau protocol de téléchargement de fichiers (certains bogues subsistent)
 newmail $1 nouveaux messages
 newmailfrom Nouveau message de $1 ($2)
 newmailfromother Nouveau message dans un autre dossier de $1 ($2)
@@ -393,6 +398,7 @@ notifywin Fenêtre de notification
 notinlist Vous ne figurez pas dans sa liste de contact
 notls Le protocole 9 de MSN requiert le module tls. Celui-ci ne semble pas être installé sur le système. S'il est installé,
 nousersinsession Pas d'utilisateur dans cette session
+nudge $1 réclame votre attention
 offline Déconnecté
 ok Accepter
 onenewmail un nouveau message
@@ -617,3 +623,4 @@ reconnect2 Se reconnecter en cas de déconnexion
 removeempty Retirer les groupes vides de la liste des contacts
 useother Utiliser un programme différent
 usesnack Utiliser la librairie Snack (interne à Tcl)
+winkreceived Vous avez reçu 'clin d'oeil' un provenant de $1. Cette fonctionnalité n'est pas encore supporté pas aMSN

@@ -121,6 +121,8 @@ close Tancar
 closingdocks El botó tancar minimitza la finestra
 command Reproductor
 commandstatus Executar comanda
+configure Configurar
+confirmbl N'estàs segur de bloquejar aquest contacte?
 confirmdelete Estàs segur de voler eliminar a $1?
 confirm Estàs segur?
 confirmdg Segur que vols eliminar aquest grup?
@@ -229,6 +231,7 @@ file Fitxer
 filemanexample (\$location serà substituïda pel directori o fitxer) Ex: nautilus \$location
 fileman Gestor de fitxers
 filename Nom del fitxer
+filetransfer Transferència de fitxers
 filetransfercancelled S'ha cancel·lat la transferència
 filetransfercomplete La transferència del fitxer ha finalitzat
 followtext Vés a la part inferior quan s'introdueixi una nova línia de text
@@ -317,6 +320,7 @@ listsmileys2 Mostrar emoticones a la llista de contactes de l'aMSN
 listsmileys Llista d'emoticones
 ljoinedconf $1 s'uneix a la conversa
 lleftconf $1 deixa la conversa
+load Carregar
 loadcontacts Obrir una llista de contactes
 logbigger No vull que els fitxers de registre d'un contacte superin les
 logfandexp Mida dels fitxers de registre i expiració de l'històric
@@ -341,6 +345,7 @@ lprivtoconf La conversa privada canvia a conversa múltiple amb $1
 luclosedwin Has tancat la finestra a les $1
 mailerexample (\$recipient indica l'adreça del contacte) Deixa-ho buit per utilitzar hotmail.
 mailer Gestor de correu
+maintenance El servidor s'aturarà per realitzar manteniment d'aquí a $1 minuts
 maximised Maximitzada
 minimised Minimitzada/iconificada
 mins minuts
@@ -368,6 +373,7 @@ natkeepalive Si et desconnecten contínuament, activa aquesta opció
 needonline En l'estat "Simula desconnexió" no pots enviar missatges!
 needwinico Es necessita el fitxer winico03.dll al directori de connectors perquè funcioni l'acoplament per Windows
 never Mai
+new_ft_protocol Utilitza el nou protocol de transferència de fitxers (en fase de proves)
 newmail $1 missatges nous a la bústia
 newmailfolder Tens $1 missatges nous a les carpetes de Hotmail
 newmailfrom Nou missatge de correu de $1 ($2)
@@ -406,6 +412,7 @@ notifywin Finestra d'avís
 notinlist No ets a la seva llista de contactes
 notls La versió 9 del protocol MSN necessita el paquet tls i sembla que no el tingui instal·lat. Si està instal·lat, la ruta s'ha d'especificar a la finestra de Preferències (ex: /opt/tls/lib).\n\nPots descarregar-te el tls des de l'adreça http://tls.sf.net.
 nousersinsession No hi ha usuaris a la sessió
+nudge $1 necessita la teva atenció
 offline Desconnectat
 ok Bé
 onenewmail 1 missatge nou a la bústia
