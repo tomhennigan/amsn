@@ -2821,16 +2821,11 @@ catch {exec killall -c sndplay}
    }
 
    proc closeAmsn {} {
-      global tcl_platform
 		set parent [focus]
 		if { $parent == ""} { set parent "."}
 	
       set answer [tk_messageBox -message "[trans exitamsn]" -type yesno -icon question -title [trans title] -parent $parent]
       if {$answer == "yes"} {
-       #Kill soundplayer when we quit aMSN-Mac (sometime he stay open and eat your CPU)
-	if { $tcl_platform(os) == "Darwin" } {
-		catch [exec killall -c sndplay]
-	}
 	close_cleanup
 	exit
       }
@@ -5651,7 +5646,7 @@ proc configureMenuEntry {m e s} {
 # close_cleanup()
 # Makes some cleanup and config save before closing
 proc close_cleanup {} {
-  global HOME config lockSock
+  global HOME config lockSock tcl_platform
   set config(wingeometry) [wm geometry .]
   set config(showonline)  [::groups::IsExpanded online]
   set config(showoffline) [::groups::IsExpanded offline]
@@ -5669,6 +5664,11 @@ proc close_cleanup {} {
   }
   SaveLoginList
   SaveStateList
+  
+	#Kill soundplayer when we quit aMSN-Mac (sometime he stay open and eat your CPU)
+	if { $tcl_platform(os) == "Darwin" } {
+		catch [exec killall -c sndplay]
+	}
   
   catch {::MSN::logout}
   
