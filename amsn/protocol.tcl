@@ -20,7 +20,7 @@ if { $initialize_amsn == 1 } {
     #A list for temp users, usually that join chats but are not in your list
     set list_otherusers [list]
     set list_cmdhnd [list]
-    
+
     set sb_list [list]
 
     #Double array containing:
@@ -1340,7 +1340,7 @@ namespace eval ::MSN {
    }
 
    proc getUserInfo { user } {
-      
+
       global list_users list_states list_otherusers user_info
 
       set wanted_info [list $user $user 0]
@@ -1367,11 +1367,11 @@ namespace eval ::MSN {
 
       }
 
-      set user_login [lindex $wanted_info 0]
-      set user_name [lindex $wanted_info 1]
-      set state [lindex $wanted_info 2]
+      #set user_login [lindex $wanted_info 0]
+      #set user_name [lindex $wanted_info 1]
+      #set state [lindex $wanted_info 2]
 
-      return [list $user_login $user_name $state]
+      return $wanted_info
 
    }
 
@@ -1392,7 +1392,10 @@ namespace eval ::MSN {
 	    set user_state_no [lindex $olduserinfo 2]
 	 }
 
-	 set list_users [lreplace $list_users $idx $idx [list $user_login $user_name $user_state_no]]
+	 set newuserinfo [lreplace $olduserinfo 1 1 $user_name]
+	 set newuserinfo [lreplace $newuserinfo 2 2 $user_state_no]
+	 #set list_users [lreplace $list_users $idx $idx [list $user_login $user_name $user_state_no]]
+	 set list_users [lreplace $list_users $idx $idx $newuserinfo]
 	 set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
 
       } else {
@@ -2104,7 +2107,7 @@ proc cmsn_sb_msg {sb_name recv} {
 
    set msg [sb index $sb_name data 0]
    sb ldel $sb_name data 0
-   
+
    array set headers {}
    set body ""
    cmsn_msg_parse $msg headers body
@@ -2146,15 +2149,15 @@ proc cmsn_sb_msg {sb_name recv} {
           #Add it so it's moved to front
           ::MSN::AddSBFor $chatid $sb_name
       }
-      
+
    } else {
-   
+
       status_log "cmsn_sb_msg: NO chatid in cmsn_sb_msg, please check this!!\n" white
       set chatid $desiredchatid
       ::MSN::AddSBFor $chatid $sb_name
-      
+
    }
-   
+
 
 
    #TODO: better use afterID
@@ -2248,51 +2251,51 @@ proc cmsn_sb_msg {sb_name recv} {
       }
 
    } elseif {[string range $content 0 18] == "text/x-msmsgsinvite"} {
-      
+
       #File transfers or other invitations
-      set invcommand [::MSN::GetHeaderValue $body Invitation-Command]      
+      set invcommand [::MSN::GetHeaderValue $body Invitation-Command]
       set cookie [::MSN::GetHeaderValue $body Invitation-Cookie]
-      set fromlogin [lindex $recv 1]      
-      
+      set fromlogin [lindex $recv 1]
+
       if {$invcommand == "INVITE" } {
-      
+
          set guid [::MSN::GetHeaderValue $body Application-GUID]
-      	 
+
          #An invitation, generate invitation event
 	 if { $guid == "{5D3E02AB-6190-11d3-BBBB-00C04F795683}" } {
-	    #We have a file transfer here   
-	 
+	    #We have a file transfer here
+
 	    set filename [::MSN::GetHeaderValue $body Application-File]
 	    set filesize [::MSN::GetHeaderValue $body Application-FileSize]
-           
+
 	    ::MSNFT::invitationReceived $filename $filesize $cookie $chatid $fromlogin
 
 	 }
-	    
+
       } elseif { $invcommand == "ACCEPT" } {
-      
+
             #Generate "accept" event
 	    ::MSNFT::acceptReceived $cookie $chatid $fromlogin $body
-	    
-      } elseif {$invcommand =="CANCEL" } {  
-      
-         set cancelcode [::MSN::GetHeaderValue $body Cancel-Code] 
-	 
+
+      } elseif {$invcommand =="CANCEL" } {
+
+         set cancelcode [::MSN::GetHeaderValue $body Cancel-Code]
+
 	 if { $cancelcode == "FTTIMEOUT" } {
 	    ::MSNFT::timeoutedFT $cookie
-	 } elseif { $cancelcode == "REJECT" } {	 
+	 } elseif { $cancelcode == "REJECT" } {
 	    ::MSNFT::rejectedFT $chatid $fromlogin $cookie
 	 }
-	 
+
       } else {
 
 	 #... other types of commands
 
       }
-   
+
    } elseif { [string range $content 0 23] == "application/x-msnmsgrp2p" } {
    	status_log "Got an MSNP2P Message : \n$msg\n" red
-	status_log "Calling MSNP2P::Read with chatid $chatid\n"
+	status_log "Calling MSNP2P::Read with chatid $chatid msg=\n$msg\n"
 	MSNP2P::ReadData $msg $chatid
       
    } else {
@@ -2376,6 +2379,7 @@ proc cmsn_sb_handler {sb_name item} {
 
         foreach usr_login [sb get $sb_name users] {
            ::amsn::userJoins $chatid $usr_login
+           ::MSNP2P::loadUserPic $chatid $usr_login
 	}
 
 	 return 0
@@ -2813,6 +2817,7 @@ proc cmsn_update_users {sb_name recv} {
           #and get a fake "user joins" message if we don't check it
           if {[::MSN::SBFor $chatid] == $sb_name} {
              ::amsn::userJoins $chatid $usr_login
+				 ::MSNP2P::loadUserPic $chatid $usr_login
           }
 
       }
@@ -2953,7 +2958,7 @@ proc cmsn_change_state {recv} {
 	}
 
 	#TODO: Change this with ::MSN::setUserInfo
-	set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj]]
+	set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj Caca]]
 	set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
 
 	cmsn_draw_online 1
@@ -4460,10 +4465,48 @@ proc filenoext { filename } {
 #"
 
 namespace eval ::MSNP2P {
-	namespace export SessionList ReadData MakePacket MakeACK MakeSLP
+	namespace export loadUserPic SessionList ReadData MakePacket MakeACK MakeSLP
 
 	global fd
 	set fd -1
+
+	#Get picture from $user, if cached, or sets image as "loading", and request it
+	#using MSNP2P
+	proc loadUserPic { chatid user } {
+			#status_log "::MSNP2P::GetUser: Checking if picture for user $user exists\n" blue
+
+			set user_info [::MSN::getUserInfo $user]
+			set msnobj [lindex $user_info 3]
+
+			#status_log "::MSNP2P::GetUser: MSNOBJ is $msnobj\n" blue
+
+			set sha1d [::MSNP2P::GetSHA1DFromMSNOBJ $msnobj]
+			status_log "::MSNP2P::GetUser: SHA1D is $sha1d\n" white
+
+			if { $sha1d == "" } {
+				return
+			}
+
+			global HOME
+			if { ![file readable "[file join $HOME displaypic ${sha1d}].gif"] } {
+				status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic ${sha1d}] doesn't exist!!\n" white
+				image create photo user_pic_$user -file [GetSkinFile displaypic "loading.gif"]
+
+				::MSNP2P::RequestObject $chatid $user $msnobj
+			} else {
+				catch {image create photo user_pic_$user -file "[file join $HOME displaypic ${sha1d}].gif"}
+
+			}
+
+	}
+
+	proc GetSHA1DFromMSNOBJ { msnobj } {
+		set sha1d [split $msnobj " "]
+		set idx [lsearch $sha1d "SHA1D=*"]
+		set sha1d [lindex $sha1d $idx]
+		set sha1d [string range $sha1d 7 end-1]
+		return $sha1d
+	}
 
 	#//////////////////////////////////////////////////////////////////////////////
 	# SessionList (action sid [varlist])
@@ -4500,7 +4543,7 @@ namespace eval ::MSNP2P {
 					return 0
 				}
 			}
-			
+
 			set {
 				# This overwrites previous vars if they are set to something else than -1
 				if { [lindex $varlist 0] != -1 } {
@@ -4563,16 +4606,16 @@ namespace eval ::MSNP2P {
 	# TODO : Error checking on fields (to, from, sizes, etc)
 	proc ReadData { data chatid } {
 		global config fd user_info HOME
-		
+
 		status_log "called ReadData with $data\n" red
-		
+
 		# Get values from the header
 		set idx [expr [string first "\r\n\r\n" $data] + 4]
 		set headend [expr $idx + 48]
 		binary scan [string range $data $idx $headend] iiwwiiiiw cSid cId cOffset cTotalDataSize cMsgSize cFlags cAckId cAckUID cAckSize
-		
+
 		status_log "Read header : $cSid $cId $cOffset $cTotalDataSize $cMsgSize $cFlags $cAckId $cAckUID $cAckSize\n" red
-		
+
 		# Check if this is an ACK Message
 		# TODO : Actually check if the ACK is good ? check size and all that crap...
 		if { $cMsgSize == 0 } {
@@ -4674,7 +4717,7 @@ namespace eval ::MSNP2P {
 		
 		# Check if we got BYE message
 		if { [string first "BYE MSNMSGR:" $data] != -1 } {
-			# Lets get the call ID and find our SessionID	
+			# Lets get the call ID and find our SessionID
 			set idx [expr [string first "Call-ID: \{" $data] + 10]
 			set idx2 [expr [string first "\}" $data $idx] - 1]
 			set uid [string range $data $idx $idx2]
@@ -4704,7 +4747,7 @@ namespace eval ::MSNP2P {
 			# Check if this is last part if splitted
 			if { [expr $cOffset + $cMsgSize] >= $cTotalDataSize } {
 			    close $fd
-			    
+
 			    status_log "Closed file.. finished writing\n" red
 			    # Lets send an ACK followed by a BYE
 			    SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
@@ -4712,7 +4755,7 @@ namespace eval ::MSNP2P {
 			    set fd -1
 
 			    file rename -force [file join $HOME displaypic cache.png] [file join $HOME displaypic ks_test001_hotmail_com.png]
-			    set file [filenoext [convert_image [GetSkinFile displaypic ks_test001_hotmail_com.png] 96x96]].gif
+			    set file [filenoext [convert_image [file join $HOME displaypic ks_test001_hotmail_com.png] 96x96]].gif
 
 			    image create photo my_pic -file $file
 
@@ -4733,12 +4776,13 @@ namespace eval ::MSNP2P {
 	}
 
 	#//////////////////////////////////////////////////////////////////////////////
-	# RequestObject ( chatid msnobject )
+	# RequestObject ( chatid msnobject filename)
 	# This function creates the invitation packet in order to receive an MSNObject (custom emoticon and display buddy for now)
 	# chatid : Chatid from wich we will request the object
 	# dest : The email of the user that will receive our request
 	# msnobject : The object we want to request (has to be url decoded)
-	proc RequestObject { chatid dest msnobject } {
+	# filename: the file where data should be saved to
+	proc RequestObject { chatid dest msnobject} {
 		global config
 		# Let's create a new session
 		set sid [expr int([expr rand() * 1000000000])%125000000 + 4]
@@ -4747,13 +4791,13 @@ namespace eval ::MSNP2P {
 		set callid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 
 		SessionList set $sid [list 0 0 0 $dest 0 $callid 0]
-		
+
 		# Create and send our packet
 		set slpdata [MakeMSNSLP "INVITE" $dest $config(login) $branchid 0 $callid 0 0 "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" $sid 1 [string map { "\n" "" } [::base64::encode "${msnobject}%00"]]]
 		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
 		status_log "Sent an INVITE to $dest on chatid $chatid of object $msnobject\n"
 	}
-				
+
 
 	#//////////////////////////////////////////////////////////////////////////////
 	# GetDisplayPic	(user msnobj)
@@ -4762,7 +4806,7 @@ namespace eval ::MSNP2P {
 	#		     - When user changes state AND we have a window open with him
 	#		     - When someone is invited into your conversation
 
-					
+
 	#//////////////////////////////////////////////////////////////////////////////
 	# MakePacket ( sid slpdata [nullsid] [MsgId] [TotalSize] [Offset] [Destination] )
 	# This function creates the appropriate MSNP2P packet with the given SLP info
