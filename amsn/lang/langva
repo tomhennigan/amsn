@@ -26,6 +26,7 @@ alarmpref Configurar avís
 alarms Alarmes
 alarmstatus Avís encés/apagat per este usuari
 allfiles Tots els arxius
+allow_sms Permetre als usuaris contactar-me pel meu mòbil amb MSN
 allowallbutbl Permetre a tots els usuaris, llevat els de la Llista de bloqueig, contactar-me
 allowbadwords Desconnectar la censura de malnoms.
 allowlist Llista d'autoritzats (LA):
@@ -147,6 +148,7 @@ contactadded Contacte afegit
 contactdoesnotexist El contacte no existix!
 contactlist Llista de contactes (LC):
 continuously Contínuament
+conversationwith $1 usuaris en la conversa
 convertexplain Cami al executable CONVERT, del programa ImageMagick (necesari per a vore les imatges per a mostrar). Deixar en Blanc si CONVERT es pot trobar en el PATH.
 copy Copiar
 copytogroup Copiar al grup
@@ -262,6 +264,7 @@ ftrejected Transferència d'arxiu denegada
 ftsendinvitation La invitació per a transferir el fitxer '$2' ($3 bytes) s'ha enviat a $1.
 fullcontactlist La seua llista de contactes està plena. Necessitarà eliminar algun contacte per a poder afegir-ne nous.
 getdisppic Activar l'opció de rebre Imatges de Mostra d'altres usuaris
+globalcontainer Contenidor global
 globalnick Introduix un patró per crear els mots dels teus contactes. Pots utilitzar estes variables: \$user_login per l'adreça del teu contacte, \$nick pel mot i \$customnick pel nom personalitzat. Per exemple: '\$user_login és \$nick' serà 'contacte@msn.com és Contacte'
 globalnicktitle Mot global
 globaloverride Els mots globals han de substituir els mots personalitzats
@@ -396,6 +399,7 @@ newmailfrom Nou correu de $1 ($2)
 newmailfromother Nou correu de $1 ($2) en una altra carpeta
 newmsg Nou missatge
 newstate Afegir nou estat personalitzat
+newtabbedfeature aMSN té una nova característica en conversa, ara pots tindre totes les finestres d'un mateix grup o de tots els teus contactes en una sola finestra amb pestanyes. Per favor, tria la manera en què vols que aMSN mostre les converses.
 newveravailable Nova versió $1 disponible per a descàrrega
 next Següent
 nick Mot
@@ -427,6 +431,7 @@ notifytyping Enviar a altres usuaris notificacions quan s'esta teclejant
 notifywin Finestra de notificació
 notinlist No està en la seua llista de contactes
 notls El Protocol 9 de MSN requerix el paquet TLS. Este paquet no pareix que estiga instal·lat en el teu ordenador. Si està instal·lat, el camí al directori de la llibreria deu ser especificat en la finestra de preferències (ex: /opt/tls/lib). \n \n Pots descarregar TLS des de http://tls.sf.net.
+nottabbed Finestres normals sense pestanyes
 nousersinsession No hi han usuaris en la sessió
 nudge $1 reclama la teua atenció
 offline Desconnectat
@@ -530,6 +535,7 @@ selectskin Per favor, selecciona una pell (skin) de la llista
 send Enviar
 sendfile Enviar arxiu
 sendmail Enviar correu-e
+sendmobmsg $1 Enviar a un dispositiu mòbil
 sendmsg Enviar missatge
 sentbytes Enviats $1 de $2 bytes totals
 serverbusy Servidor ocupat
@@ -586,7 +592,10 @@ stylechat La mateixa aparença que a les converses
 stylehist apariència de l'historial de aMSN
 stylelog Tria l'estil en el que vols vore l'historial
 syntaxerror Error de sintaxi
-tabbed Finestres en solapes
+tabbed Finestres en pestanyes
+tabbedglobal Una finestra amb pestanyes per a tots els contactes
+tabbedgroups Una finestra amb pestanyes per a usuaris del mateix grup
+tabtitlenick Vols vore els nicks a les pestanyes en comptes del mail?
 temp_state No emmagatzemar (Estat temporal, es perdrà en reiniciar AMSN)
 textsize Tamany del text
 timeremaining Temps restant
@@ -606,7 +615,7 @@ transnotexists Este fitxer encara no ha estat traduït
 traynotcompiled El plug-in d'icon de la safata no estè compilat. Comprova plugins/traydock
 triggers Disparadors de text
 truncatenames1 Tallar mots mes llargs que l'ample de la finestra en títols i llista de contactes
-truncatenames2 Tallar mots mes llargs que lampli de la finestra en les converses
+truncatenames2 Tallar mots mes llargs que l'ample de la finestra en les converses
 truncatenicks Tallar mots mes llargs que l'ample de la finestra
 twonewmail $1 missatges nous en safata d'entrada
 unblock Desbloquejar
@@ -632,6 +641,7 @@ view Vore
 webcaminvite $1 t'ha convidat a iniciar una conversa amb webcam però l'aMSN encara no ho suporta.
 willjoin Esperant que $1 s'unixca a la conversa
 winkreceived Has rebut un Wink de $1. Esta característica no està suportada per aMSN.
+wintitlenick Vols veure els nicks en les finestres amb pestanyes en comptes del mail?
 work Treball
 wrongfields Els camps "$1","$2" i/o "$3" no son vàlids
 wrongprofileversion Versió del fitxer de configuració de perfils incorrecta. Per a arreglar-ho, per favor, esborra el directori $1, o actualitza aMSN
