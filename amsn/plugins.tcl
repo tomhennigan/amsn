@@ -84,7 +84,6 @@ namespace eval ::plugins {
 	# 1 - first time plugin registered
 	#    
 	proc RegisterPlugin { plugin } {
-		puts stdout "PLUGIN: $plugin\n"
 		variable knownplugins
 	
 		status_log "Plugins System: RegisterPlugin called with $plugin\n"
