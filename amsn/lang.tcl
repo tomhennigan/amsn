@@ -12,6 +12,8 @@ proc scan_languages {} {
    set lang_list [list]
 
    set file_id [open "[file join $program_dir langlist]" r]
+   fconfigure $file_id -encoding utf-8
+
 
    while {[gets $file_id tmp_data] != "-1"} {
       set pos [string first " " $tmp_data]

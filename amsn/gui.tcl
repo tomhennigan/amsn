@@ -4844,7 +4844,7 @@ proc cmsn_change_name {} {
 proc change_name_ok {} {
    global config
 
-   set new_name [.change_name.c.name get]
+   set new_name [.change_name.fn.name get]
    if {$new_name != ""} {
       ::MSN::changeName $config(login) $new_name
    }
