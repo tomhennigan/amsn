@@ -43,9 +43,12 @@ namespace eval ::abook {
    }
 
    proc setContact { email field value } {
-   	variable contacts
+   	variable contacts 
 
 	# Phone numbers are countryCode%20areaCode%20subscriberNumber
+	if { ![info exists contacts($email)] } {
+	  set contacts($email) [list Dummy Dummy Dummy Dummy Dummy]
+	}
         switch $field {
 	    FL {	;# From LST.FL command, contains email, groupId
 		set contacts($email) [list  $value "" "" "" "" ]
@@ -75,6 +78,9 @@ namespace eval ::abook {
    }
 }
 # $Log$
+# Revision 1.3  2002/06/17 12:31:32  airadier
+# Quick hack to avoid a bug when adding contacts (var contacts($email) non existing)
+#
 # Revision 1.2  2002/06/17 00:10:53  lordofscripts
 # *** empty log message ***
 #
