@@ -22,6 +22,7 @@ namespace eval ::HTTPConnection {
 		variable proxy_queued_data
 		variable proxy_session_id
 		variable proxy_gateway_ip
+		variable proxy_writing
 
 		#Cancel any previous attemp to write or POLL
 		after cancel "::HTTPConnection::PollPOST $name"
@@ -67,11 +68,13 @@ namespace eval ::HTTPConnection {
 				set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode [sb get $name proxy_user]:[sb get $name proxy_password]]"
 			}
 			
+						
 			set tmp_data "$tmp_data\r\n\r\n$current_data"
 			status_log "::HTTPConnection::Write: PROXY POST Sending: ($name)\n$tmp_data\n" blue
+			set proxy_writing $tmp_data
 			if { [catch {puts -nonewline [sb get $name sock] "$tmp_data"} res] } {
-				sb set $name error_msg $res
-				eval [sb get $name error_handler]
+				connect $name [list ::HTTPConnection::RetryWrite $name]
+				return 0
 			}
 	    
 		} else {
@@ -195,7 +198,7 @@ namespace eval ::HTTPConnection {
 	
 	#Called to stablish the given connection.
 	#The "server" field in the sbn data must be set to server:port
-	proc connect {sbn} {
+	proc connect {sbn {connected_handler ""}} {
 		variable http_gateway
 		variable proxy_user
 		variable proxy_password
@@ -225,7 +228,13 @@ namespace eval ::HTTPConnection {
 	
 		sb set $sbn sock $sock
 		fconfigure $sock -buffering none -translation {binary binary} -blocking 0
-		fileevent $sock writable [list ::HTTPConnection::Connected $sbn $sock]
+		
+		fileevent $sock readable ""
+		if { $connected_handler == "" } {
+			fileevent $sock writable [list ::HTTPConnection::Connected $sbn $sock]
+		} else {
+			fileevent $sock writable $connected_handler
+		}
 		return 0
 	
 	}
@@ -280,12 +289,26 @@ namespace eval ::HTTPConnection {
 			fileevent $sock writable $connected_command			
 		}
 	}	
+	
+	proc RetryWrite { name } {
+		variable proxy_writing
+		status_log "Retrying write\n" blue
+		fileevent [sb get $name sock] writable ""
+		if { [catch {puts -nonewline [sb get $name sock] $proxy_writing} res] } {
+			sb set $name error_msg $res
+			eval [sb get $name error_handler]
+		}
+		unset proxy_writing
+		fileevent [sb get $name sock] readable [list ::HTTPConnection::HTTPRead $name]
+		
+	}
 
 	proc HTTPRead { name } {
 
 		variable proxy_session_id
 		variable proxy_gateway_ip
 		variable proxy_data
+		variable proxy_writing
 
 		after cancel "::HTTPConnection::HTTPPoll $name"   
 
@@ -294,8 +317,16 @@ namespace eval ::HTTPConnection {
 			status_log "::HTTPConnection::HTTPRead: Error, closing\n" red
 			eval [sb get $name error_handler]
 		} elseif {[eof $sock]} {
+			fileevent $sock readable ""	
+			fileevent $sock writable ""	
+			catch { close $sock }
 			status_log "::HTTPConnection::HTTPRead: EOF, closing\n" red
-			eval [sb get $name error_handler]
+			if { [info exists proxy_writing] } {
+				connect $name [list ::HTTPConnection::RetryWrite $name]
+				return 0
+			} else {
+				after 5000 "::HTTPConnection::HTTPPoll $name"	
+			}
 		} else {
 			set tmp_data "ERROR READING POST PROXY !!\n"
 
@@ -304,6 +335,8 @@ namespace eval ::HTTPConnection {
 			if { $tmp_data == "" } {
 				return
 			}
+			
+			catch {unset proxy_writing}
 
 			if { ([string range $tmp_data 9 11] != "200") && ([string range $tmp_data 9 11] != "100")} {
 				status_log "::HTTPConnection::HTTPRead: Proxy POST connection closed for $name:\n$tmp_data\n" red
@@ -370,6 +403,7 @@ namespace eval ::HTTPConnection {
 				}
 
 				if { $session_id != ""} {
+					#status_log "Scheduling HTTPPoll\n" white
 					after 5000 "::HTTPConnection::HTTPPoll $name"
 				}
 
@@ -384,6 +418,7 @@ namespace eval ::HTTPConnection {
 		variable proxy_session_id
 		variable proxy_gateway_ip 
 		variable proxy_queued_data  
+		variable proxy_writing
 
 		if { ![info exists proxy_session_id($name)]} {
 			return
@@ -414,9 +449,10 @@ namespace eval ::HTTPConnection {
 				set tmp_data "$tmp_data\r\n\r\n"
 
 				#status_log "PROXY POST polling connection ($name):\n$tmp_data\n" blue      
+				set proxy_writing $tmp_data
 				if { [catch {puts -nonewline [sb get $name sock] "$tmp_data" } res]} {
-					sb set $name error_msg $res
-					eval [sb get $name error_handler]
+					connect $name [list ::HTTPConnection::RetryWrite $name]
+					return 0
 				}
 
 			} 
