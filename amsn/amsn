@@ -90,7 +90,7 @@ source [file join $program_dir hotmail.tcl]
 source [file join $program_dir checkver.tcl]
 source [file join $program_dir smileys.tcl]
 source [file join $program_dir abook.tcl]
-
+source [file join $program_dir gui.tcl]
 
 #by AIM
 set unread 0
@@ -387,6 +387,9 @@ proc cmsn_draw_main {} {
    image create photo expand -file ${images_folder}/expand.gif   
 
    image create photo globe -file ${images_folder}/globe.gif   
+
+   image create photo typingimg -file ${images_folder}/typing.gif   
+
 
    text .main.text -background white -width 30 -height 30 -wrap none \
       -yscrollcommand ".main.ys set" -cursor left_ptr -font splainf \
@@ -948,7 +951,7 @@ proc cmsn_draw_msgwin {} {
    scrollbar .${win_name}.ys -command ".${win_name}.text yview" \
       -background #D0D0E0
    text .${win_name}.status -background #D0D0E0 -width 30 -height 1 -wrap none\
-   -font splainf
+   -font bplainf
    frame .${win_name}.in
    text .${win_name}.in.input -background white -width 25 -height 3 -wrap word\
    -font bboldf
@@ -1065,8 +1068,7 @@ proc cmsn_show_typers {name} {
            .${win_name}.status configure -state disabled} res"
       }
       
-#	TODO? maybe a chatting mini-tux?
-#      .${win_name}.status image create end -image typingimg -pady 0 -padx 2
+      .${win_name}.status image create end -image typingimg -pady 0 -padx 1
       set statusmsg [string replace $statusmsg end-1 end " [trans typing $is_are]."]
    }
 

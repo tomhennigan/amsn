@@ -141,7 +141,7 @@ namespace eval ::MSN {
 
    #All about sending files
    
-   proc InviteFT { sbn file } {
+   proc inviteFT { sbn file } {
       #Invitation to filetransfer, initial message
       variable trid 
       variable atransfer
@@ -150,9 +150,7 @@ namespace eval ::MSN {
       set file [ $file get ]
 
       if { [catch {set filesize [file size $file]} res]} {
-        #::AMSN::Error ...
-	msg_box "File does not exist"
-	return 0;
+	::amsn::errorMsg "File does not exist"
       }
 
       set sock [sb get $sbn sock]
@@ -198,7 +196,7 @@ namespace eval ::MSN {
       #Random authcookie
       set authcookie [expr $trid * $port % (65536 * 4)]
 	
-      while {[catch {set sockid [socket -server ::MSN::AcceptConnection $port]} res]} {
+      while {[catch {set sockid [socket -server "::MSN::AcceptConnection $sbn" $port]} res]} {
          incr port
       }
 
@@ -224,7 +222,7 @@ namespace eval ::MSN {
 
    }
 
-   proc AcceptConnection {sockid hostaddr hostport} {
+   proc AcceptConnection {sbn sockid hostaddr hostport} {
       #Someone connects to my host to get the file i offer
       variable atransfer
   
@@ -258,7 +256,7 @@ namespace eval ::MSN {
                status_log "Sending file $filename size $filesize\n"
 
                fconfigure $sockid -blocking 0
-	       fileevent $sockid writable "::MSN::SendPacket $sockid $fileid $filesize"
+	       fileevent $sockid writable "::MSN::SendPacket $sockid $fileid $filesize $sbn"
                fileevent $sockid readable "::MSN::MonitorTransfer $sockid"
 	       	       
 	       return 0
@@ -270,7 +268,7 @@ namespace eval ::MSN {
       close $sockid
    }
 
-   proc SendPacket { sockid fileid filesize } {
+   proc SendPacket { sockid fileid filesize sbn } {
       #Send a packet for the file transfer
 
       set sentbytes [tell $fileid]
@@ -291,7 +289,8 @@ namespace eval ::MSN {
          puts -nonewline $sockid "\0[format %c $byte1][format %c $byte2]"
          puts -nonewline $sockid $datos
          set sentbytes [expr $sentbytes + $packetsize]
-         status_log "sending $sentbytes of $filesize bytes\n"
+	 ::amsn::fileTransferProgress s $sbn $sentbytes $filesize
+         #status_log "sending $sentbytes of $filesize bytes\n"
       } else {
         close $fileid
 	fileevent $sockid writable ""
@@ -328,7 +327,7 @@ namespace eval ::MSN {
 
    #All about receiving files
 
-   proc AcceptFT {cookie sbn} {
+   proc acceptFT {cookie sbn} {
       #Send the acceptation for a file transfer, request IP
       set sock [sb get $sbn sock]
 
@@ -344,6 +343,25 @@ namespace eval ::MSN {
       puts -nonewline $sock $msg
 
       status_log "Accepting filetransfer sent\n" red
+
+   }
+
+
+   proc rejectFT {cookie} {
+      #Send the cancelation for a file transfer, request IP
+      set sock [sb get $sbn sock]
+
+      set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+      set msg "${msg}Invitation-Command: CANCEL\r\n"
+      set msg "${msg}Invitation-Cookie: $cookie\r\n"
+      set msg "${msg}Cancel-Code: REJECT\r\n\r\n"
+
+      set msg_len [string length $msg]
+      incr ::MSN::trid
+      puts $sock "MSG $::MSN::trid N $msg_len"
+      puts -nonewline $sock $msg      
+
+      status_log "Rejecting filetransfer sent\n" red
 
    }
 
@@ -370,7 +388,7 @@ namespace eval ::MSN {
 
          if {[string range $tmpdata 0 2] == "FIL"} {
             set filesize [string range $tmpdata 3 [string length $tmpdata]]
-            status_log "Me envian archivo de tamaño $filesize\n"
+            status_log "Me envian archivo $filename de tamaño $filesize\n"
 
             puts $sockid "TFR\r"
 	
@@ -430,13 +448,7 @@ namespace eval ::MSN {
 		
          set recvbytes [tell $fileid]
 
-         set win_name "msg_[string tolower ${sbn}]"
-			
-         #Windows closed?
-         .${win_name}.status configure -state normal
-         .${win_name}.status delete 0.0 end
-         .${win_name}.status insert end "Received $recvbytes of $filesize\n"
-         .${win_name}.status configure -state disabled
+         ::amsn::fileTransferProgress r $sbn $recvbytes $filesize
 
 
       } else {
@@ -698,10 +710,7 @@ proc cmsn_sb_msg {sb_name recv} {
 	  status_log "Going to receive a file..\n" 
 	  status_log "Body: $body\n"
 
-          set answer [tk_messageBox -message "Accept file [lindex $filetoreceive 0], [lindex $filetoreceive 1] bytes?\nSaved to $files_dir" -type yesno -icon question]
-	  if {$answer == "yes"} {
-	     ::MSN::ConnectMSNFTP $ipaddr $port $authcookie \"[lindex $filetoreceive 0]\" $sb_name
-	  }
+          ::MSN::ConnectMSNFTP $ipaddr $port $authcookie [lindex $filetoreceive 0] $sb_name
 	  
 	}		
 
@@ -711,15 +720,18 @@ proc cmsn_sb_msg {sb_name recv} {
         set cancelcode [aim_get_str $body Cancel-Code]
 	status_log "Invitation cookie $cookie CANCELED: $cancelcode\n" white	
       } elseif {$invcommand == "INVITE" } {
-        set app [aim_get_str $body Application-Name]	
-	set cookie [aim_get_str $body Invitation-Cookie]
-	set filename [aim_get_str $body Application-File]
-	set filesize [aim_get_str $body Application-FileSize]
-	status_log "Invited to $app\n" white
-	status_log "$body\n" black
-	::MSN::AcceptFT $cookie $sb_name
+         set app [aim_get_str $body Application-Name]	
+	 set cookie [aim_get_str $body Invitation-Cookie]
+	 set filename [aim_get_str $body Application-File]
+	 set filesize [aim_get_str $body Application-FileSize]
+	 status_log "Invited to $app\n" white
+	 status_log "$body\n" black
+	 
+	 ::amsn::fileTransfer $filename $filesize $cookie $sb_name
+	 
+
 	
-	set filetoreceive [list "$filename" $filesize]
+	set filetoreceive [list $filename $filesize]
       } else {
         status_log "Unknown invitation!!\n" white
       }
@@ -1089,9 +1101,9 @@ proc cmsn_auth {{recv ""}} {
 	 ::MSN::WriteNS "SYN" "0"
 
          if {$config(startoffline)} {
-            ::MSN::WriteNS "CHG" "HDN" ;
+            ::MSN::changeStatus "HDN"
          } else {
-            ::MSN::WriteNS "CHG" "NLN" ;
+            ::MSN::changeStatus "NLN"
          }
          #Log out
          .main_menu.file entryconfigure 2 -state normal
@@ -1184,7 +1196,7 @@ proc SelectFileToTransfer { twn title } {
      pack $w.buttons -side bottom -fill x -pady 2m
       button $w.buttons.dismiss -text Cancel -command "destroy $w"
       button $w.buttons.save -text Send \
-        -command "::MSN::InviteFT $twn $w.filename.entry; destroy $w"
+        -command "::MSN::inviteFT $twn $w.filename.entry; destroy $w"
       pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
 
     frame $w.filename -bd 2
@@ -1306,7 +1318,6 @@ proc cmsn_ns_connected {} {
      adv_resume   
    }
    
-   set ::MSN::myState NLN
 }
 
 proc cmsn_sb_connected {name} {
