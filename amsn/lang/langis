@@ -1,0 +1,199 @@
+amsn_lang_version 2
+about Um
+acceptfile Taka við $1 ($2 bæti)? Verður vistuð í $3
+accept Samþykkja
+actions Aðgerðir
+addacontact Bæta við kunningja
+addedyou hefur bætt þér við kunningjalistann sinn
+addtocontacts Setja í kunningjalista
+addtoo Bæta viðkomandi í kunningjalistann minn
+admincontacts Eiga við kunningjalista
+admingroups Eiga við hópa
+adverts Auglýsingar
+alarmpref Viðvörunarstillingar notanda
+alarmstatus Kveikja/Slökkva á viðvörunum fyrir þennan notanda
+allowseen Leyfa viðkomandi að sjá þegar ég er tengd(ur), og hafa samband við mig
+appearoff Sýnast vera fjarverandi (offline)
+aretyping $1 er að skrifa eitthvað
+autoconnect Tengjast þegar amsn startar
+autohotmaillog Sjálfkrafa tenging við Hotmail
+autoidle Sjálfvirkt 'NoActivity'
+autoip Automatic IP
+avoidseen Forðast að þessi geti séð hvort ég er tengd(ur)
+away Skrapp frá
+baduserpass Rangt notandanafn eða lykilorð
+blankdirect Ekki skrifa neitt, ef þú ert með beintengingu
+block Blokka
+blocked Blokkað
+broughtby  Skrifað af eftirfarandi forriturum
+browser Vafri
+browse skoða
+busy Ekki trufla
+cancel Hætta við
+cfgalarm Stilla Aðvaranir
+changenick Breyta nafni
+chatack Samþykki spjall við
+chatreq Fer fram á spjall 
+chatsmileys bros-karlar
+chat Spjall
+checkingver Athuga með nýja útgáfu
+checkver Athuga hvort til er nýrri útgáfa
+choosebasefont Velja leturgerð
+choosebgcolor Velja bakgrunnslit
+choosefontcolor Velja lit á letur
+clicktologin Smelltu hér til að tengjast
+close Loka
+closingdocks 'Loka' takkinn minnkar glugga
+command Skipun
+confirmdelete Ertu ákveðin(n) í að eyða $1?
+confirm Ertu viss?
+connecterror Villa kom upp við að tengjast þjóni
+contactadded Kunningja bætt við
+contactdoesnotexist Þessi gaur er ekki til!
+copy Afrita
+copytogroup Afrita yfir í grúppu
+cut Klippa
+date Dags.
+delete Eyða
+dockgtk Gnome festingar
+docking Festingar
+dockingoff Engar festingar
+dockkde KDE festingar
+edit Sýsla
+enableproxy Virkja proxy
+encoding Velja kóðun
+entercontactemail Slá inn póstfang kunningja
+enterfilename Sláðu inn skráarnafn
+enternick Sláðu inn gælunafn
+examples Dæmi
+exitamsn Ertu ákveðin(n) í að hætta?
+extras Auka þjónustur
+faq FAQ (Frequently Answered Questions)
+filedoesnotexist Þessi skrá er ekki til
+filename Skráarnafn
+filetransfercancelled Skráarflutningi aflýst
+filetransfercomplete Skráarflutningi lokið
+ftaccepted Skráarflutnigur samþykktur
+ftrejected File Skráarflutningi hafnað
+gonelunch Fór í mat
+groupadd Búa til nýjan hóp
+groupdelete Eyða hóp
+groupexists Þessi hópur er til!
+group Hópur
+groupmissing Finn ekki hóp
+groupnewname Nýtt nafn
+groupnotempty Hópurinn er ekki tómur!
+groupoldname Gamalt nafn
+grouprename Endurskýra hóp
+groupunknown Óþekktur hópur
+handle Höndla
+helpcontents Hjálp, yfirlit
+help Hjálp
+home Heim
+ident Ber kennsl á
+identity Auðkenni
+inbox Pósthólf
+invalidusername Ógilt notendanafn
+invite Bjóða
+ipaddress IP Address
+istyping $1 er að krota eitthvað
+joins $1 slæst í hópinn
+keepalive Keepalive (NAT)
+language Tungumál
+lastmsgtime Síðasta skeyti kom kl. $1
+leaveblankforhotmail Skildu eftir autt til að nota hotmail vefinn
+leaves $1 yfirgefur spjallið
+listeningon Hlustar á porti $1
+listsmileys Lista yfir bros-karlaList smileys
+loadcontacts Hlaða inn kunningja lista
+loggedotherlocation Tenging rofin. Tengur frá annarri tölvu
+loggingin Tengist
+loginas Tengjast sem
+login Tengjast
+logout Aftengjast
+logsin var að tengjast
+mailer Mailer
+mobile Mobile
+movetogroup Færa í hóp
+msg Skilaboð
+msn AMSN
+mustrestart Það verður að ræsa forritið að nýju til að virkja breytingarnar
+mystatus Staða...
+natip Finna IP tölu útfrá vefsíðu (NAT) 
+needonline Þú virðist ekki vera/ert ekki tengdur!
+newmail $1 ný bréf í pósthólfinu
+newmailfrom Nýr póstur frá
+newmsg Nýtt skeyti
+newveravailable Nýrri útgáfa ($1) bíður þín...
+next Næst
+noactivity ekkert lífsmark
+nonewmail Ekkert markvert í pósthólfinu
+nonewver Þú ert að nota nýjustu 'stabílu' útgáfuna
+notify láta vita
+notifywin Notify Window (vantar þýðingu)
+nousersinsession No users in session (vantar þýðingu)
+offline Ekki tengd/ur
+ok Ok
+onenewmail 1 bréf í pósthólfinu
+online Tengd/ur
+onphone Í símanum
+openreceived Skoða skjöl sem aðrir hafa sent mér
+options Stillingar
+ordercontactsby Raða kunningjum eftir
+other Annað
+pager Símboði
+pass Lykilorð
+paste Líma
+phone Sími
+picfile Mynd (.GIF < 500 x 500)
+picstatus Picture Alarm
+port Port
+prefapps Applications
+preferences Preferences
+prefsound Sounds
+properties Properties
+proxyconfhttp HTTP proxy support configuration
+proxyconf Proxy configuration
+publishphones Publish my phone numbers
+receivedbytes Received $1 of $2 bytes
+receivefile Receive file
+reconnecting Reconnecting to server
+reconnect Waiting for $1 to reconnect
+reject Reject
+rememberpass Remember password
+rightback Be right back
+saveas Save as
+savecontacts Save contact list
+save Save
+says $1 says
+sbcon Connecting to Switch Board
+sendfile Send file
+sendmail Send mail
+sendmsg Send message
+send Send
+sentbytes Sent $1 of $2 bytes
+servergoingdown Disconnected: Server is going down
+server Server
+sound Event Sound
+soundfile Sound File
+soundloop Loop Sound
+soundstatus Sound Alarm
+startoffline Start Offline
+status Status
+stopalarm Stop Alarm
+syntaxerror  Syntax Error
+textsize Text size
+title Al's Messenger
+tools Tools
+to To
+unblock Unblock
+uoffline Offline
+uonline Online
+useralreadyonlist User is already on contact list
+user User
+version Version
+view View
+willjoin Waiting $1 joins conversation
+work Work
+yousay You say
+youwant You want
