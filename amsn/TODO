@@ -87,7 +87,7 @@ DONE	Fix conference messaging issues (mass file send)
 -	Option to display or not the chat button bar
 -	Remember chat window positions
 -	Option to enable/disable showing timestamps
--	Ability to see and edit AL and BL lists, and to check RL list
+DONE	Ability to see and edit AL and BL lists, and to check RL list
 -	Add a "typed characters" counter in chat window.
 -	Add an option to remove the amsn banner on contact list.
 DONE	Files with [] don't work? Check that and make sure.
