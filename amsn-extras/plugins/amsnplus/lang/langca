@@ -1,2 +1,7 @@
 amsn_lang_version 2
 allowcommands Vols permetre l'ús de comandes en la conversa?
+ccolor \nYour text color is $1
+cfont \nYour text font is $1
+deleted \nYou've removed $1 from the list\nTo add this contact again do: /add $1
+groupadded \nAfegir el grup $1.
+groupdeleted \nYou've deleted group $1 \nTo add this group again do: /addgroup $1

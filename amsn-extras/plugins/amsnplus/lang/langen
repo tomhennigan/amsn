@@ -1,0 +1,19 @@
+amsn_lang_version 2
+allowcommands Do you want to allow commands in the chat window?
+ccolor \nYour text color is $1
+cfont \nYour text font is $1
+cinfo \nContact information:\n$1 \nNick: $2 \nGroup: $3
+cleave \nYou have left this conversation
+cnewnick \nYour new nick is: $1
+cnewstate \nYour new state is: $1
+cnewstatenotvalid \n$1 is not valid
+cnick \nYour nick is $1
+cnotvalid \nYour command is not valid
+cresult \nResult of the command:\n$1
+cshell \nExecuting in the shell: $1
+cspecify \nYou must specify a contact
+cstatus \nYour status is $1
+cstyle \nYour font style is $1
+deleted \nYou've removed $1 from the list\nTo add this contact again do: /add $1
+groupadded \nAfegir el grup $1.
+groupdeleted \nYou've deleted group $1 \nTo add this group again do: /addgroup $1
