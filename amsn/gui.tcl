@@ -3101,6 +3101,8 @@ namespace eval ::amsn {
 		toplevel $w -width 1 -height 1
 		wm group $w .
 		wm state $w withdrawn
+		
+		#To put the notify window in front of all, specific for Windows only
 		if {$tcl_platform(platform) == "windows"} {
 			wm attributes $w -topmost 1
 		}
@@ -3515,15 +3517,23 @@ proc cmsn_draw_main {} {
 	wm command . [concat $argv0 $argv]
 	wm group . .
 
-	#Make mainwindow in AquaTK always start at the same place
+	
+	#For All Platforms (except Mac)
 	if {![catch {tk windowingsystem} wsystem] && $wsystem != "aqua"} {
+		#Set the position on the screen and the size for the contact list, from config
 		catch {wm geometry . $config(wingeometry)}
+		#Put the color of the border around the contact list (from the skin)
+		frame .main -class Amsn -relief flat -background $bgcolor
 	} else {
+	#For Mac OS X (AquaTK) only
+		#Always place the contact list at the same position but keep the size from config
 		catch {wm geometry . $config(wingeometry)}
 		wm geometry . +0+30
+		#Always put a white border around the contact list 
+		frame .main -class Amsn -relief flat -background white
 	}
 
-	frame .main -class Amsn -relief flat -background $bgcolor
+	
 	frame .main.f -class Amsn -relief flat -background white
 	#pack .main -expand true -fill both
 	#pack .main.f -expand true  -fill both  -padx 4 -pady 4 -side top
