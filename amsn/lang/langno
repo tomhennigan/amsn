@@ -81,7 +81,6 @@ cantremoveothers Kan ikke fjerne "andre"-gruppen
 casesensitive Skill mellom store og små bokstaver
 cfgalarm Konfiguer/legg til/fjern alarm
 cfgalarmall Konfigurer/legg til/fjern global alarm
-ch_to_state Skift til ny tilstand
 change Endre
 changecustomstate Bytt til
 changedisplaypic Endre personlig bilde
@@ -109,6 +108,7 @@ choosebgcolor Velg bakgrunnsfarge
 choosecontact Velg en kontakt fra listen
 choosefontcolor Velg skriftfarge
 chooseskin Velg hvilket utseende du vil bruke
+ch_to_state Skift til ny tilstand
 clear Fjern
 clearlog Slett logg
 clearlog2 Slett historien for alle kontaktene dine
@@ -149,13 +149,14 @@ countrycode Min lands- og regionkode
 cprofile Opprett profil
 credits Bidragsytere
 currentdate Dagens dato
+currentlanguage Dette er språket du bruker
 custnotifymsg Informer meg når en samtalemeding mottas
 custnotifyoffline Informer meg når denne kontakten kobler fra
 custnotifyonline Informer meg når denne kontakten kobler til
 custnotifystatus Informer meg når denne kontakten endrer status
+customcolor Egendefinert farge
 custom_edit Rediger et egendefinert uttrykksikon
 custom_new Legg til et ny egendefinert uttrykksikon
-customcolor Egendefinert farge
 customnick Egendefinert kallenavn
 customstyle Egendefinert stil
 cut Klipp ut
@@ -195,6 +196,7 @@ dockingoff Dokking av
 dockkde KDE-dokk
 dontdownload Ikke last ned TLS, jeg vil installere det selv
 dontshow Ikke vis
+download Last ned
 downloadingtls Laster ned TLS-modul fra:\n $1
 edit Rediger
 editcustomstate Rediger tilpasset tilstand
@@ -229,6 +231,7 @@ filedoesnotexist Filen eksisterer ikke
 fileman Filhåndterer
 filemanexample ( \$location vil bli byttet ut med mappeny) F.eks: nautilus \$location
 filename Filnavn
+filenotwritable Denne filen kan ikke slettes
 filetransfer Filoverføring
 filetransfercancelled Filoverføringen ble avbrutt
 filetransfercomplete Filoverføringen er fullført
@@ -300,6 +303,7 @@ keepalive Hold forbindelsen (Keepalive (NAT))
 keeplog Behold samtalelogger
 keeplog2 Logg alle samtaler inn i aMSNs historie
 language Språk
+language_manager Språkhåndterer
 lastlogin Siste innlogging
 lastlogout Siste utlogging
 lastmsgedme Siste melding
@@ -573,7 +577,7 @@ temp_state Ikke lagre (Midlertidig endring, vil ikke bli lagret når du lukker aM
 textsize Skriftstørrelse
 timeremaining Tid gjennstår
 timestamps Aktiver tidsvisning i samtalevinduer
-title Als Messenger
+title aMSN
 tkerror TK har forårsaket en feil, vennligst rapporter dette. Send filen $1 til amsn-bugs@lists.sf.net
 tlsdowncompleted Filen $1 er lastet ned til katalog $2. Du må pakke den opp, bygge den (om du lastet ned kildekoden) og deretter installere det i $3
 tlsexplain Kataloger hvor tcl-TLS-modulene ligger. Om aMSN ikke finner tcl-TLS-modulene, vennligst spesifiser stien.\n Dette er påkrevd for SSL-autentisering.
@@ -622,6 +626,7 @@ xmmssend Send gjeldende sang
 xoffset X-koordinat
 year År
 yes Ja
+yesblock Ja og blokker
 yesterday I går
 yoffset Y-koordinat
 youblocked Du har blitt blokkert av
