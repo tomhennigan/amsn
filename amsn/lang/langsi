@@ -1,15 +1,16 @@
 amsn_lang_version 2
+Shrani.
 about O programu
-acceptfile Ali sprejmes datoteko $1, njena velikost je $2? Shranjeno v $3
 accept sprejmi
+acceptfile Ali sprejmes datoteko $1, njena velikost je $2? Shranjeno v $3
 actions Akcije
 addacontact Dodaj stik
 addedyou $1 ($2) vas je dodal/a na svoj seznam stikov
-addprofiledesc Vpisi uporabnisko ime, ki ga bo uporabljal ta profil.\nProfili omogocajo razlicne nastavitve za razlicne prijave.\nBrez profilov ne mores uporabljati zgodovine, alarmov ali shraniti gesla.
 addprofile Dodaj profil
+addprofiledesc Vpisi uporabnisko ime, ki ga bo uporabljal ta profil.\nProfili omogocajo razlicne nastavitve za razlicne prijave.\nBrez profilov ne mores uporabljati zgodovine, alarmov ali shraniti gesla.
 addstate Dodaj novo stanje
-addtocontacts Dodaj na seznam stikov
 addto Dodaj na $1
+addtocontacts Dodaj na seznam stikov
 addtoo Dodaj to osebo na moj seznam stikov
 admincontacts Uredi stike
 admingroups Uredi skupine
@@ -34,16 +35,16 @@ aretyping $1 pisejo sporocilo
 autoaccepted Prenos datoteke avtomaticno sprejet
 autoacceptft Avtomaticno sprejmi prihajajoce datoteke
 autoaway Prikazi me kot "Odsoten", ko sem neaktiven
-autoconnect2 Prijavi se ob zagonu aMSN
 autoconnect Prijavi se ob zagonu amsn
+autoconnect2 Prijavi se ob zagonu aMSN
 autohotmaillog Samodejna prijava v Hotmail
 autoidle Samodejno idle stanje
 autoip Samodejni IP
 autonoact Prikazi me kot "Neaktiven", ko sem neaktiven
 avoidseen Ne dovoli tej osebi, da vidi moj status, ko sem prijavljen
+away Odsoten
 awaymsg1 Vprasam za away sporocilo vsakic, ko zamenjam stanje na Odsoten/Zaposlen?
 awaymsg2 Vedno uporabi to sporocilo
-away Odsoten
 baduserpass Napacno uporabnisko ime ali geslo
 bajtov).
 bgcolor Zamenjaj barvo ozadja
@@ -62,6 +63,7 @@ blockusers Hkrati preveri
 broughtby  Naredili naslednji programerji
 browse Prebrskaj
 browser Brskalnik
+browserexample ( \$url bo zamenjan z URL-jem). Npr.: mozilla \$url
 busy Zaposlen
 cancel Preklici
 cannotdeleteprofile Ne morem izbrisati profila, ker je v Amsn seji
@@ -71,12 +73,12 @@ cfgalarm Nastavi zvocni/slikovni alarm
 changefont Zamenjaj pisavo
 changenick Zamenjaj nick
 changestate $1 je spremenil/a stanje na $2
+chat Pogovor
 chatack Sprejemam pogovor od
 chatmaxmin Ko mi stik zacne pogovor z mano, hocem, da je:
-chat Pogovor
 chatreq Zahtevam pogovor
-chatsmileys2 Prikazi emotikone in smeske v pogovornih oknih
 chatsmileys Smeskoti
+chatsmileys2 Prikazi emotikone in smeske v pogovornih oknih
 checkblocking Preverjaj, ce te ostali blokirajo
 checkfilman Prejete datoteke bodo shranjene v $1. Preveri nastavitve upravljalca datotek v nastavitvah.
 checkingver Preverjam za nove verzije
@@ -87,12 +89,12 @@ choosebgcolor Izberi barvo ozadja
 choosecontact Prosim izberi stik s seznama
 choosefontcolor Izberi barvo pisave
 chooseskin Prosim izberi skin, ki bi ga rad uporabil
+clearlog Pocisti dnevnik
 clearlog2 Pocisti zgodovino za vse stike
 clearlog3 Pocisti vse dnevnike
-clearlog Pocisti dnevnik
 clicktologin Pritisni tukaj za prijavo
-closed Povezava z $1 zaprta zaradi neaktivnosti
 close Zapri
+closed Povezava z $1 zaprta zaradi neaktivnosti
 closingdocks Gumb za zaprtje minimira okno
 command Ukaz
 confirm Ali si preprican ?
@@ -100,8 +102,8 @@ confirmdelete Ali si preprican, da bos zbrisal $1?
 connected Zdaj si povezan
 connecterror Napaka pri povezavi na streznik
 connecting Povezujem se
-connectionlost Povezava s streznikom prekinjena
 connection Povezava
+connectionlost Povezava s streznikom prekinjena
 contactadded Stik dodan
 contactdoesnotexist Stik ne obstaja!
 contactlist Seznam stikov
@@ -115,32 +117,32 @@ cut Izrezi
 date Datum
 days Dni
 dcprofile Ne ustvari profila
-defaultloginradio Prijavi se s privzetimi nastavitvami
 default Privzete nastavitve
+defaultloginradio Prijavi se s privzetimi nastavitvami
 delete Izbrisi
 deliverfail Pri dostavljanju sporocila je prislo do tezave
-delprofile2 Izberi profil, ki bi ga rad izbrisal
 delprofile Izbrisi profil
+delprofile2 Izberi profil, ki bi ga rad izbrisal
 description Opis
 directconnection Neposredna povezava (vrata 1863)
 disconnect $1 se je odjavil/a.
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk gtk pomol
-dockingoff Pristaja prekinjena
 docking Pristaja
+dockingoff Pristaja prekinjena
 dockkde kde pomol
 drugi)
+edit Uredi
 editcurrentstate Uredi trenutno stanje
 editnewstate Novo osebno stanje za avtomatsko sporocilo
 editprofile Uredi profil
 editstate Uredi obstojece stanje za avtomatsko sporocilo
-edit Uredi
 emotisounds Igraj zvok na dolocene emotikone
 enableproxy Omogoci proxy
 enableremote Omogoci nadzor na daljavo
 enablesound Igraj zvok
-encoding2 Spremeni nacin kodiranja znakov
 encoding Izberi kodiranje
+encoding2 Spremeni nacin kodiranja znakov
 entercontactemail Vnesi e-mail osebe
 enterfilename Prosim vnesi ime datoteke
 enternick Vnesi svoj nick
@@ -149,23 +151,25 @@ exitamsn Ali si preprican, da zelis zapustiti program?
 extras Dodatne storitve
 faq Faq
 filedoesnotexist Datoteka ne obstaja
-fileman Urejevalnik datotek
+fileman Upravljalec datotek
+filemanexample ( \$location bo zamenjan z mapo ) Npr.: nautilus \$location
 filename Ime datoteke
 filetransfercancelled Prenos datoteke preklican
 filetransfercomplete Prenos datoteke koncan
 followtext Sledi novemu besedilu
-ftacceptedby $1 je sprejel/a povabilo za prenos datoteke '$2'
 ftaccepted Sprejem datoteke sprejet
+ftacceptedby $1 je sprejel/a povabilo za prenos datoteke '$2'
 ftaccepting Sprejemam povabilo za prenos datoteke
 ftconnecterror Napaka pri povezovanju z drugo stranjo
 ftconnecting Povezujem se na $1, vrata $2
 ftconnectionlost Povezava z drugo stranjo prekinjena
 ftgotinvitation $1 ti zeli poslati datoteko '$2' ($3 bajtov). Shranjena bo v $4. Jo zelis sprejeti?
 ftportpref Uporabi ta in visja vrata za prenos datotek
-ftrejectedby $1 je zavrnil/a povabilo za prenos datoteke '$2'.
 ftrejected Prenos datoteke je bil zavrnjen.
+ftrejectedby $1 je zavrnil/a povabilo za prenos datoteke '$2'.
 ftsendinvitation $1 bo prejel/a povabilo za prenos datoteke '$2' ($3 bajtov).
 gonelunch Na kosilu
+group Skupina
 groupadd Dodaj v skupino
 groupdelete Izbrisi skupino
 groupexists Skupina ze obstaja
@@ -174,11 +178,10 @@ groupnewname Novo ime
 groupnotempty Skupina ni prazna!
 groupoldname Staro ime
 grouprename Preimenuj skupino
-group Skupina
 groupunknown Neznana skupina
 handle Ime
-helpcontents Vsebina pomoci
 help Pomoc
+helpcontents Vsebina pomoci
 hiden Ne pokazi emotikona v menuju smeskov
 history Prikazi zgodovino
 home Doma
@@ -197,8 +200,8 @@ ipdetect Zaznaj IP za prenose datotek preko HTTP
 istyping $1 pise sporocilo
 joins $1 se je pridruzil/a pogovoru
 keepalive Drzi zivo (NAT)
-keeplog2 Belezi vse pogovore v aMSN dnevnik za kasnejsi pregled
 keeplog Hrani dnevnik pogovorov
+keeplog2 Belezi vse pogovore v aMSN dnevnik za kasnejsi pregled
 language Jezik
 lastmsgtime Zadnje sporocilo prejeto ob $1
 lclosedwin $1 je zaprl/a okno $2
@@ -209,8 +212,8 @@ leaves $1 je zapustil/a pogovor
 lenteredconf $1 je vstopil v konferenca na $2
 linprivate ZASEBNO
 listeningon Poslusam na vratih $1
-listsmileys2 Prikazi emotikone in smeske v seznamu stikov
 listsmileys Seznam smeskov
+listsmileys2 Prikazi emotikone in smeske v seznamu stikov
 ljoinedconf $1 se je pridruzil/a konferenci
 lleftconf $1 je zapustil/a konferenco
 loadcontacts Nalozi seznam stikov
@@ -218,9 +221,9 @@ logbigger Dnevniska datoteka za vsak stik je lahko velika najvec
 logfandexp Velikost dnevniskih datotek in izteka zgodovine
 loggedotherlocation Povezava prekinjena. Povezan drugje.
 loggingin Prijavljam
+login Prijavi se
 loginas Prijavi se kot
 loging Belezenje
-login Prijavi se
 logolder Belezi samo pogovore, ki so izpred
 logout Odjavi se
 logsin se je ravnokar prijavil/a
@@ -229,6 +232,7 @@ logsout se je ravnokar odjavil/a
 lprivtoconf Zasebni pogovor spremenjen v konferenco na $1
 luclosedwin Zaprli ste okno ($1)
 mailer Mailer
+mailerexample ( \$recipient = prejemnik ) Pusti prazno za uporabo Hotmaila
 maximised Maksimiran
 minimised Minimiran
 mins minut
@@ -236,10 +240,10 @@ mobile Mobilni
 morepersonal Vec stanj ->
 move Premakni
 movetogroup Premakni v skupino
+msg Sporocilo
 msgflicker Naslov okna s pogovorom naj utripa, ce prejme sporocilo, ko ni aktivno
 msgmaxmin Ko prispe novo sporocilo, hocem da je:
 msgmode Izberi nacin prikazovanja vec pogovornih oken:
-msg Sporocilo
 msn AMSN
 mustrestart Da bi spremembe prisle v veljavo, moras program ponovno zagnati
 myhomephone Domaci telefon
@@ -254,22 +258,22 @@ newmailfrom Novo sporocilo od $1 ($2)
 newmsg Novo sporocilo
 newveravailable Nova verzija $1 je na voljo za prenos
 next Naslednji
+no Ne
 noactivity Ni aktiven/a
 nodataavailable Ni podatkov za $1
 nologfile Brez dnevnika za $1
-no Ne
 noneavailable Noben ni na voljo
 nonewmail Ni novih sporocil v Inboxu
 nonewver Ni novih verzij na voljo za prenos
 noprofileexists Trenutno ni profilov.\nDa jih uporabljas, ustvari novega\nz gumbom dodaj profil.
 normal Normalno
 nosystemtray Tray ni na voljo
+notify obvesti
+notify1 Prikazi obvestilo, ko se kdo prijavi
 notify1_5 Prikazi obvestilo, ko se kdo odjavi
 notify1_75 Prikazi obvestilo, ko kdo zamenja stanje
-notify1 Prikazi obvestilo, ko se kdo prijavi
 notify2 Prikazi obvestilo ob novem sporocilu
 notify3 Prikazi obvestilo ob novem e-mailu
-notify obvesti
 notifyoffset Nastavi pozicijo obvestilnega okna
 notifywin Prikazi opozorilo ob dogodkih
 notls MSN protokol 9 potrebuje tls. Izgleda, da ni namescen na tem racunalniku. Ce je, vnesi pot do njegovega imenika v nastavitvah (npr.: /opt/tls/lib). \n \ntls lahko poberes s http://tls.sf.net.
@@ -302,21 +306,21 @@ prefblock3 Skupina "Blokirajo te"
 prefconnection Nastavitve povezave
 prefemotic Emotikoni in smeski
 preferences Nastavitve
+preffont Tekst mojih sporocil
 preffont2 Spremeni pisavo, kot jo vidijo drugi
 preffont3 Spremeni pisavo uporabniskega vmesnika
-preffont Tekst mojih sporocil
 preflibs Imenik s knjizicami
 preflog1 Zgodovina in dnevnik
 preflook Izgled uporabniskega vmesnika
 prefmsging Uporabniski vmesnik sporocil
 prefname Moje ime/nickname
-prefphone2 Vpisi telefonske stevilke za katere zelis da so vidne \n tistim, ki so na Allow seznamu. \n
 prefphone Moje telefonske stevilke
-prefprivacy2 Seznam stikov
+prefphone2 Vpisi telefonske stevilke za katere zelis da so vidne \n tistim, ki so na Allow seznamu. \n
 prefprivacy Allow in Block seznama
+prefprivacy2 Seznam stikov
+prefprofile Moj javni profil
 prefprofile2 Ustvari/spremeni javni profil \n (tvoj opis, ki ga lahko vidijo drugi)
 prefprofile3 aMSNjevi uporabniski profili nastavitev
-prefprofile Moj javni profil
 prefproxy Nastavitve proxy streznika
 prefremote Nastavitve nadzora na daljavo
 prefsession Moja prijava in stanje
@@ -329,10 +333,10 @@ profileinuse Ta profil uporablja druga seja Amsn. Prosim izberi drugega.
 profileloginradio Prijavi se s profilom
 profiles Profili
 properties Lastnosti
-proxyconfhttp Podpora HTTP proxyu
-proxyconf Nastavitve proxya
-proxyconnection Proxy povezava:
 proxy Sem za proxy streznikom (HTTP ali SOCKS5)
+proxyconf Nastavitve proxya
+proxyconfhttp Podpora HTTP proxyu
+proxyconnection Proxy povezava:
 publishphones Objavi moje tel. stevilke
 raised V oknu
 readonlymsgbox Prenos datoteke je preklican, ker je ciljna mapa samo za branje. Popravi njena ovoljenja.
@@ -347,46 +351,46 @@ removefromlist Zbrisi s tega seznama
 reversed Zamenjano
 reverselist Ljudje, ki si jim stik
 rightback Takoj bom nazaj
+save Shrani
 saveas Shrani kot
 savecontacts Shrani seznam stikov
-save Shrani
 savetofile Shrani v datoteko
 says $1 pravi
 sbcon Povezujem se na Switch Board
 selectplugins Izberi plugin, ki ga zelis omogociti
 selectskin Izberi skin s seznama
+send Poslji
 sendfile Poslji datoteko
 sendmail Poslji e-mail
 sendmsg Poslji sporocilo
-send Poslji
 sentbytes Poslano $1 od $2 bajtov
-servergoingdown Povezava prekinjena
 server Streznik
+servergoingdown Povezava prekinjena
 session Seja
 showblockedlist Pokazi seznam ljudi, ki so te blokirali
-Shrani.
-skinselector Izberi skin
 skin Skin
+skinselector Izberi skin
 smileconfig Nastavitve tvojih emotikonov
 smilefile Datoteka
-smileintro2 Uredi potrebna polja, ce zelis spremeniti tega smeska (poglej v FAQ za pomoc)
 smileintro Izpolni potrebna polja, ce zelis ustvariti novega lastnega smeska (poglej v FAQ za pomoc)
+smileintro2 Uredi potrebna polja, ce zelis spremeniti tega smeska (poglej v FAQ za pomoc)
+sound Zvok dogodka
 sound2 Predvajaj zvoke ob dogodkih:
 soundcommand To mora biti ukaz play (npr. esdplay)
+soundexample ( \$sound = Zvocna datoteka) Npr.: esdplay \$sound
 soundfile Zvocna datoteka
 soundloop Ponavljaj
 soundserver Zvocni streznik
 soundstatus Zvok omogocen
-sound Zvok dogodka
-startoffline2 Prijavi se kot "Na videz neprijavljen"
 startoffline Zacni neprijavljen
+startoffline2 Prijavi se kot "Na videz neprijavljen"
+state Zelim biti viden kot
 stateautomsg Avtomatsko sporocilo
 statechange je status spremenil/a na:
 stateedittext Prosim uredi polja, ki bi \n jih rad spremenil in pritisni Shrani.
 stateinfo Nastavitev osebnega stanja
 statename Ime osebnega stanja
 statenewtext Prosim vpisi potrebne podatke za \n tvoje novo osebno stanje in pritisni Shrani.
-state Zelim biti viden kot
 status Stanje
 stopalarm Ustavi alarm
 stylechat Enak izgled kot pogovori
@@ -397,9 +401,9 @@ tabbed Okna z "uhlji"
 textsize Velikost besedila
 timeremaining Cas do konca prenosa
 title Al's Messenger
+to Za
 tools Orodja
 tooltips Omogoci tooltipe
-to Za
 transnotexists Zahtevana datoteka se ni bila prevedena v slovenscino.
 traynotcompiled Plugin za tray ikono ni preveden. Preveri plugins/traydock.
 triggers Smeska sprozijo
@@ -407,10 +411,10 @@ twonewmail $1 novi sporocili v Inboxu
 unblock Odblokiraj
 uoffline Neprijavljeni
 uonline Prijavljeni
+user Uporabnik
 useralreadyonlist Uporabnik je ze na seznamu stikov
 userblocked Uporabnik je prijavljen, a te je blokiral
 usernotonline Uporabnik ni prijavljen
-user Uporabnik
 useryourself Ne mores govoriti sam s seboj
 verifyblocked Preveri, kdo te blokira
 version Verzija
