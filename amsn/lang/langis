@@ -13,15 +13,24 @@ adverts Auglýsingar
 alarmpref Stillingar fyrir vakningu/viðvörun
 alarmstatus Slökkva/Kveikja á vakning/viðvörun fyrir þennan notanda
 allowseen Leyfa þessari manneskju að sjá mig og hafa samband við mig
+appearance Staða
 appearoff Sýnast aftengdur
+areacode Svæðisnúmer
 aretyping $1 er að skrifa skilaboð
+askprofile Þetta notandanafn er ekki með skráðar stillingar. Viltu setja inn stillingar fyrir það? \n Ef þú gerir það ekki þá muntu ekki geta vistað stillingar eða lykilorð \n Ef þú skráir stillingar þá verða þær aðgreindar frá öðrum stillingum. \n \n Smelltu á "Skrá Stillingar" til að skrá nýjar stillinga fyrir $1.
+autoaway Sýna mig sem "Í burtu" ef engar aðgerðir hafa ferið framkvæmdar í
+autoconnect2 Tengjast sjálfkrafa þegar aMSN er keyrt
 autoconnect Tengjast við ræsingu
 autohotmaillog Tengjast Hotmail sjálfkrafa
 autoidle Setja Ekkert lífsmark á sjálfkrafa
 autoip Sjálfvirk IPtala
+autonoact Sýna mig sem "Ekkert Lífsmark" ef engar aðgerðir hafa ferið framkvæmdar í
 avoidseen Loka á þessi manneskju geti séð mig og haft samband við mig
 away Í burtu
+awaymsg1 Spyrja um "í burtu" skilaboð í hvert skipti sem ég breyti mínum ham í Í Burtu/BRB/Upptekin(n)
+awaymsg2 Spyrja aldrei og alltaf nota skilaboðin hér að neðan
 baduserpass Rangt notendanafn eða lykilorð
+bgcolor Breyta lit á aMSN bakgrunni
 blankdirect Leave blank for direct connection
 block Hafna
 blocked Hafnað
@@ -30,38 +39,56 @@ browse Vafra
 browser Vafri
 busy Upptekinn
 cancel Hætta við
+cannotdeleteprofile Get ekki eytt stillingum því aMSN er að nota þær
 cfgalarm Stilla/Bæta við/Eyða vakningu/viðvörun
+changefont Breyta Leturgerð
 changenick Breyta heiti mínu
 chatack Samþykki spjall frá
 chat Spjall
 chatreq Fer fram á spjall
+chatsmileys2 Sýna Skapbrigði og Broskalla í spjall glugga
 chatsmileys Broskallar
+checkfilman Mótteknar skrár verða vistaðar í $1. Vinsamlega athugið skráarþjóns stillingar í stillingar glugganum.
 checkingver Leita eftir nýrri útgáfu
 checkver Leita eftir nýrri útgáfu
 choosebasefont Veldu stafasett
 choosebgcolor Veldu bakgrunn
 choosefontcolor Veldu stafalit
+clearlog2 Hreinsa sögu allra tengiliða
+clearlog3 Hreinsa alla annála
+clearlog Hreinsa annál
 clicktologin Smelltu hér til að tengjast
 close Loka
 closingdocks Loka-hnappur minnkar glugga
 command Skipun
 confirm Ertu viss?
-confirmdelete Ertu viss um að eyða $1?
+confirmdelete Ertu viss um að þú viljir eyða $1?
 connecterror Villa við tengingu við netþjón
+connection Tenging
 contactadded Bætti við tengilið
-contactdoesnotexist Tengiliður finnst ekki!
+contactdoesnotexist Tengiliður er ekki til!
 copy Afrita
 copytogroup Afrita í grúppu
+countrycode Svæðisnúmer
+cprofile Búa til stillingar
 cut Klippa
 date Dagsetning
+days Dagar
+dcprofile Ekki búa til stillingarham
+default Sjálfgefinn stillingarhamur
 delete Eyða
 deliverfail Upp kom vandamál við sendingu skilaboðanna
+delprofile2 Veldu stillingarhaminn sem á að fjarlægja
+delprofile Eyða stillingarham
+dockgtk Gnome-taðsetning
 docking Staðsetning
 dockingoff Staðsetning óvirk
-dockgtk Gnome-staðsetning
 dockkde KDE-staðsetning
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
 edit Breyta
+editprofile Breyta stillingarham
 enableproxy Virkja proxy
+encoding2 Breyta hvernig textin er kóðaður
 encoding Veldu kóðun
 entercontactemail Sláðu inn netfang tengiliðs
 enterfilename Skráðu skráarnafn
@@ -69,14 +96,15 @@ enternick Sláðu inn heitið þitt
 examples Sýnidæmi
 exitamsn Viltu örugglega hætta?
 extras Viðbótarþjónustur
-faq FAQ (Spurningar)
+faq FAQ (Algengar Spurningar)
 filedoesnotexist Skrá finnst ekki
+fileman Skráarþjónn
 filename Skráarnafn
 filetransfercancelled Skráarflutningi slitið
 filetransfercomplete Skráarflutningi lokið
 ftaccepted Skráarflutningur samþykktur
 ftrejected Skráarflutningi hafnað
-gonelunch Úti í mat
+gonelunch Farin(n) í mat
 groupadd Bæta við grúppu
 groupdelete Eyða grúppu
 groupexists Grúppa nú þegar til
@@ -87,40 +115,67 @@ groupnotempty Grúppa er ekki tóm!
 groupoldname Fyrra heiti
 grouprename Endurskýra grúppu
 groupunknown Óþekkt grúppa
-handle Tak
+handle Kenninafn
 helpcontents Yfirlit yfir hjálp
 help Hjálp
+history Sjá sögu
 home Heima
 ident Auðkenni
-identity Identity
+identity Auðkenni
 inbox Innhólf
 invalidusername Rangt notendanafn
 invite Bjóða
-ipaddress IP Address
+ipaddress IP Tala
+ipdetect Finna rétta IP Tölu fyrir skráarflutning gegnum HTTP
 istyping $1 er að skrifa skilaboð
 joins $1 sett(ur) í samræðurnar
 keepalive Keepalive (NAT)
+keeplog2 Skrá öll samtöl í aMSN annála
+keeplog Skrá spjall í annála
 language Tungumál
 lastmsgtime Síðustu skilaboð bárust $1
+lclosedwin $1 hefur lokað glugganum á $2
+lconftopriv Fundur breyttist í einka spjall við $1
+lconvstarted Spjall við $1 hafið
 leaveblankforhotmail Skildu eftir autt til að nota Hotmail vefinn
 leaves $1 yfirgefur samræðurnar
+lenteredconf $1 er kominn í fundinn á $2
+linprivate Í EINKASPJALLI
 listeningon Hlusta á porti $1
+listsmileys2 Sýna skapbrigði og Broskalla í aMSN tengiliða lista
 listsmileys Sýna broskalla
+ljoinedconf $1 sett(ur) í fundinn
+lleftconf $1 hefur yfirgefið fundinn
 loadcontacts Hlaða inn lista yfir tengiliði
+logbigger Annálaskrá fyrir hvern tengilið af stærð
+logfandexp Stærð Annálaskráa og hvenar Sögu skrá rennur út
 loggedotherlocation Aftengdur. Tengdur inn á öðrum stað
 loggingin Tengist
 loginas Tengjast sem
+loging Skrái
 login Tengjast
+logolder Vista í annála spjöll sem voru síðustu
 logout Aftengjast
 logsin var að tengjast
+logsmileys Sýna Skapbrigði og Broskalla í sögu gluggum aMSN
+lprivtoconf Einka spjalli breytt í fund með $1
+luclosedwin Þú hefur lokað glugganum á $1
 mailer Póstforrit
+maximised full stærð
+minimised minnkuð stærð
+mins mínútur
 mobile Farsími
 movetogroup Færa í grúppu
+msgmaxmin Þegar ný skilaboð berast þá vil ég að þau séu
 msg Skilaboð
 msn AMSN
 mustrestart Þú verður að endurræsa forritið til að virkja breytingarnar
+myhomephone Heimasíminn minn
+mymobilephone Farsíminn minn
 mystatus Staðan mín
-natip Skynja iptölu gegnum vefsíðu 
+myworkphone Vinnusíminn minn
+natip Skynja IP tölu gegnum vefsíðu 
+natkeepalive Ef þú aftengist reglulega, virkjaðu þá þetta KeepAlive
 needonline Þú ert/sýnist ennþá útskráður!
 newmail $1 ný skeyti í innhólfinu
 newmailfrom Nýr póstur frá
@@ -128,9 +183,15 @@ newmsg Ný skilaboð
 newveravailable Til er nýrri útgáfa $1 
 next Áfram
 noactivity Ekkert lífsmark
+nologfile Enginn annálaskrá fyrir $1
 nonewmail Engin nýr póstur í innhólfinu
 nonewver Engar uppfærslur fáanlegar
+normal Eðlilegt
+notify1 Láta vita þegar tengiliður tengir sig
+notify2 Láta vita þegar ný skilaboð berast
+notify3 Láta vita þegar póstur berst í innhólfið
 notify láta vita
+notifyoffset Breyta hvar "tilkynningargluggar" eru staðsettir
 notifywin Láta vita
 nousersinsession Engir tengiliðir í samræðum
 offline Útskráður
@@ -141,20 +202,44 @@ onphone Í símanum
 openreceived Opna móteknar skrár
 options Valmöguleikar
 ordercontactsby Raða tengiliðum eftir
+ordergroupsby Raða grúppum eftir
 other Annað
 pager Símboði
 pass Lykilorð
 paste Líma
+personal Einka
 phone Sími
 picfile Myndaskrá (GIF < 500 x 500)
 picstatus Myndaviðvörun
 port Port
+prefalerts Atburðaviðvaranir og hljóð
 prefapps Forrit
+prefawaymsg Í burtu skilaboð
+prefemotic Skaprigðatákn og broskallar
 preferences Stillingar
+preffont2 Breyta textanum sem aðrir sjá í spjall glugga
+preffont3 Breyta Font og stærð á texta í aMSN glugga
+preffont Minn skilaboðatexti
+preflog1 Mín saga og Annála valmöguleikar
+preflook Mitt aMSN útlit
+prefmsging Mitt Skilaboða útlit
+prefname Mitt MSN Messenger Nafn/kenninafn
+prefphone2 Settu hér símanúmar sem tengiliðir \n þínir meiga sjá
+prefphone Mín símanúmar
+prefprofile2 Búa til að breyta þínum stillingum (stillingarnar \n lýsing á þér sem aðrir geta skoðað)
+prefprofile3 aMSN notanda stillingar
+prefprofile Mín opinberu stillingar
+prefproxy Mínar proxy stillingar
+prefsession Mín innskráða staða
+prefshared sameiginlegar tengingar (aðeins fyrir NAT)
 prefsound Hljóð
+profiledconfig Auðkenna stilliskrá
+profileinuse Þetta Auðkenni er í notkun annarstaðar, vinsamlegast veldu annað
+profiles Auðkennistillingar
 properties Stillingar
 proxyconfhttp HTTP proxy stillingar
 proxyconf Proxy stillingar
+proxy Ég er bakvið Proxy þjón (HTTP eða SOCKS5)
 publishphones Sýna símanúmerin mín
 receivedbytes Hef móttekið $1 af $2 bætum
 receivefile Móttek skrá
@@ -162,10 +247,12 @@ reconnecting Endurtengist netþjóni
 reconnect Bíð eftir að $1 endurtengist
 reject Hafna
 rememberpass Muna lykilorð
+reversed frátekið
 rightback Kem eftir augnablik
 saveas Vista sem
 savecontacts Vista lista yfir tengiliði
 save Vista
+savetofile Vista í skrá
 says $1 segir
 sbcon Tengist skiptiborði
 sendfile Senda skrá
@@ -175,27 +262,42 @@ send Senda
 sentbytes Hef sent $1 af $2 bætum
 servergoingdown Aftengdur: Netþjónn verður keyrður niður
 server Netþjónn
+session lota
+sound2 Spila hljóð þegar tengiliður tengist eða sendir skilaboð
+soundcommand Þetta verður að vera spilunarskipunin (t.d.: esdplay)
 sound Hljóð og atburðir
 soundfile Hljóðskrá
 soundloop Endurtaka hljóð
+soundserver Hljóð Þjónn
 soundstatus Hljóða vakning/viðvörun
+startoffline2 Tengja sig inn leynilega sem "ekki tengdur"
 startoffline Byrja útskráður
 status Staða
 stopalarm Stöðva vakning/viðvörun
+stylechat Sama útlit og í spjalli
+stylehist aMSN sögu útlit
+stylelog Velja skrársniðið sem þú vilt skoða sögu þína í
 syntaxerror  Villa í forriti
+tabbed flibbaðir gluggar
 textsize Stærð texta
 title Skilaboði Als
 tools Tól
 to Til
+transnotexists Skráin sem beðið var um hefur enn ekki verið þýdd í þetta tungumál.
+traynotcompiled Bakka merki ekki enn þýtt. Athugaðu viðbætur/bakkastilingar
 unblock afhafna
 uoffline Útskráður
 uonline Innskráður
 useralreadyonlist Tengiliður er nú þegar í listanum
-user Notandi
 usernotonline Tengiliður ekki tengdur
+user Notandi
 version Útgáfa
+viewprofile Sýna stilliham
 view Sýn
 willjoin Bíð eftir að $1 komi inn í samræðurnar
 work Vinna
+wrongprofileversion Röng útgáfa af stillihams skrá. Til að lagfæra þetta fjarlægðu þá möppuna $1, eða uppfærðu aMSN
+xoffset X staða
+yoffset Y staða
 yousay Þú segir
 youwant Þú vilt
