@@ -235,8 +235,7 @@ proc cmsn_draw_about {} {
    wm geometry .about +${x}+${y}
 
    frame .about.bottom -class Amsn
-       button .about.bottom.close -text "[trans close]" -font splainf \
-       		-command "destroy .about"
+       button .about.bottom.close -text "[trans close]" -font splainf -command "destroy .about"
        pack .about.bottom.close
    pack .about.bottom -expand 1
 }
@@ -313,8 +312,7 @@ proc cmsn_draw_main {} {
    menu .copy_group_menu -tearoff 0 -type normal
 
    #Main menu
-   menu .main_menu -tearoff 0 -type menubar  \
-      -borderwidth 0 -activeborderwidth -0 
+   menu .main_menu -tearoff 0 -type menubar  -borderwidth 0 -activeborderwidth -0 
    .main_menu add cascade -label "[trans msn]" -menu .main_menu.file
    .main_menu add cascade -label "[trans actions]" -menu .main_menu.actions
    .main_menu add cascade -label "[trans tools]" -menu .main_menu.tools
@@ -324,8 +322,13 @@ proc cmsn_draw_main {} {
    #File menu
    menu .main_menu.file -tearoff 0 -type normal 
    if { [string length $config(login)] > 0 } {
-     .main_menu.file add command -label "[trans login] $config(login)" \
-       -command "::MSN::connect $config(login) $password" -state normal
+     if {$password != ""} {
+        .main_menu.file add command -label "[trans login] $config(login)" \
+          -command "::MSN::connect $config(login) $password" -state normal
+     } else {
+     	.main_menu.file add command -label "[trans login] $config(login)" \
+          -command cmsn_draw_login -state normal
+     }
    } else {
      .main_menu.file add command -label "[trans login]" \
        -command "::MSN::connect $config(login) $password" -state disabled
@@ -353,14 +356,12 @@ proc cmsn_draw_main {} {
    set dummy_user "recipient@somewhere.com"
    menu .main_menu.actions -tearoff 0 -type normal 
    .main_menu.actions add command -label "[trans sendmsg]..." -command \
-      "user_choose \"[trans sendmsg]\" online cmsn_chat_user"
+   "user_choose \"[trans sendmsg]\" online cmsn_chat_user"
    .main_menu.actions add command -label "[trans sendmail]..." -command \
-      "user_choose \"[trans sendmail]\" both send_mail"
-   .main_menu.actions add command -label "[trans changenick]..." -command \
-     cmsn_change_name
+   "user_choose \"[trans sendmail]\" both send_mail"
+   .main_menu.actions add command -label "[trans changenick]..." -command cmsn_change_name
    .main_menu.actions add separator
-   .main_menu.actions add command -label "[trans checkver]..." -command \
-     "check_version"
+   .main_menu.actions add command -label "[trans checkver]..." -command "check_version"
    
 
    #Order Contacts By submenu
@@ -372,8 +373,7 @@ proc cmsn_draw_main {} {
 
    #Tools menu
    menu .main_menu.tools -tearoff 0 -type normal 
-   .main_menu.tools add command -label "[trans addacontact]..." -command \
-     cmsn_draw_addcontact
+   .main_menu.tools add command -label "[trans addacontact]..." -command cmsn_draw_addcontact
    .main_menu.tools add cascade -label "[trans admincontacts]" -menu .admin_contacts_menu
    
    menu .admin_contacts_menu -tearoff 0 -type normal   
@@ -405,26 +405,23 @@ proc cmsn_draw_main {} {
    .options add command -label "[trans choosebasefont]..." -command "choose_basefont"
    .options add command -label "[trans choosebgcolor]..." -command "choose_theme"
  
-   .options add cascade -label "Docking" -menu .dock_menu
+   .options add cascade -label "[trans docking]" -menu .dock_menu
    menu .dock_menu -tearoff 0 -type normal
-   .dock_menu add radio -label "Docking off" -value 0 -variable config(dock) -command "init_dock"
-   .dock_menu add radio -label "Gnome Dock" -value 1 -variable config(dock) -command "init_dock"
-   .dock_menu add radio -label "KDE Dock" -value 2 -variable config(dock) -command "init_dock"
+   .dock_menu add radio -label "[trans dockingoff]" -value 0 -variable config(dock) -command "init_dock"
+   .dock_menu add radio -label "[trans dockgtk]" -value 1 -variable config(dock) -command "init_dock"
+   .dock_menu add radio -label "[trans dockkde]" -value 2 -variable config(dock) -command "init_dock"
 
    .options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
    .options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
-     -command "msg_box \"[trans mustrestart]\""
+   -command "msg_box \"[trans mustrestart]\""
    .options add checkbutton -label "[trans autohotmaillog]" -onvalue 1 -offvalue 0 -variable config(autohotlogin)
    .options add checkbutton -label "[trans autoidle]" -onvalue 1 -offvalue 0 -variable config(autoidle)
    .options add checkbutton -label "[trans notifywin]" -onvalue 1 -offvalue 0 -variable config(notifywin)
-   .options add checkbutton -label "[trans startoffline]" -onvalue 1 -offvalue 0 \
-     -variable config(startoffline) 
-   .options add checkbutton -label "[trans chatsmileys]" -onvalue 1 -offvalue 0 \
-     -variable config(chatsmileys)
-   .options add checkbutton -label "[trans listsmileys]" -onvalue 1 -offvalue 0 \
-     -variable config(listsmileys) 
-   .options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 \
-     -variable config(closingdocks) 
+   .options add checkbutton -label "[trans startoffline]" -onvalue 1 -offvalue 0 -variable config(startoffline) 
+   .options add checkbutton -label "[trans chatsmileys]" -onvalue 1 -offvalue 0 -variable config(chatsmileys)
+   .options add checkbutton -label "[trans listsmileys]" -onvalue 1 -offvalue 0 -variable config(listsmileys)
+   .options add checkbutton -label "[trans keepalive]" -onvalue 1 -offvalue 0 -variable config(keepalive) -command "::MSN::TogglePolling"
+   .options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable config(closingdocks) 
 
    #Help menu
    menu .main_menu.help -tearoff 0 -type normal  
@@ -733,11 +730,17 @@ proc cmsn_draw_offline {} {
 
    $pgBuddy.text insert end "\n\n\n\n"
  
-   if { $config(login) != "" } {
-     $pgBuddy.text insert end "$config(login)\n" start_login
-     $pgBuddy.text insert end "[trans clicktologin]" start_login
-     $pgBuddy.text tag bind start_login <Button1-ButtonRelease> \
-	"::MSN::connect $config(login) $password"
+   if { $config(login) != ""} {
+     if { $password != "" } {
+        $pgBuddy.text insert end "$config(login)\n" start_login
+        $pgBuddy.text insert end "[trans clicktologin]" start_login
+     } else {
+     	$pgBuddy.text insert end "$config(login)\n" start_loginas
+        $pgBuddy.text insert end "[trans clicktologin]" start_loginas
+     }
+     
+     #$pgBuddy.text tag bind start_login <Button1-ButtonRelease> \
+	#"::MSN::connect $config(login) $password"
 
      $pgBuddy.text insert end "\n\n\n\n\n"
  

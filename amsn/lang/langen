@@ -16,6 +16,7 @@ allowseen Allow this person to see when I'm online and contact me
 appearoff Appear offline
 aretyping $1 are typing a message
 autohotmaillog Auto Hotmail login
+autoidle Auto NoActivity
 autoip Automatic IP
 avoidseen Avoid this person can see when I'm online and contact me
 away Away
@@ -41,7 +42,7 @@ choosebgcolor Choose background color
 choosefontcolor Choose font color
 clicktologin Click here to log in
 close Close
-closingdocks Close button docks window
+closingdocks Close button Minimizes
 command Command
 confirmdelete Are you sure you want to delete $1?
 connecterror Error connecting to server
@@ -50,6 +51,10 @@ contactdoesnotexist Contact does not exist!
 copytogroup Copy to group
 date Date
 delete Delete
+docking Docking
+dockingoff Docking Off
+dockgtk Gnome Dock
+dockkde	KDE Dock
 enableproxy Enable proxy
 encoding Choose encoding
 entercontactemail Enter contact e-mail
@@ -87,6 +92,7 @@ invite Invite
 ipaddress IP Address
 istyping $1 is typing a message
 joins $1 $2 joins conversation
+keepalive Keepalive (NAT)
 language Language
 lastmsgtime Last message received at $1
 leaveblankforhotmail Leave blank for using hotmail web
@@ -117,6 +123,7 @@ noactivity No activity
 nonewmail No new messages in In-Box
 nonewver There are no new versions available to download
 notify notify
+notifywin Notify Window
 nousersinsession No users in session
 offline Offline
 ok Ok

@@ -17,8 +17,9 @@ namespace eval ::MSN {
         cmsn_draw_offline
 
       }
-      ::MSN::StartPolling      
-
+      
+      ::MSN::TogglePolling
+      
       #Alert dock of status change
       send_dock "NLN"
    }
@@ -223,12 +224,14 @@ namespace eval ::MSN {
 
    #Internal procedures
 
-   proc StartPolling {} {
-      after 60000 "::MSN::PollConnection"
-   }
+   proc TogglePolling {} {
+      global config
 
-   proc StopPolling {} {
-      after cancel "::MSN::PollConnection"
+      if {$config(keepalive) == 1 } {
+      	after 60000 "::MSN::PollConnection"
+      } else {
+      	after cancel "::MSN::PollConnection"
+      }
    }
 
    proc PollConnection {} {
@@ -870,7 +873,7 @@ proc cmsn_sb_msg {sb_name recv} {
       if { [string compare [wm state .${win_name}] "withdrawn"] == 0 } {
         wm state .${win_name} iconic
 	::amsn::notifyAdd "[trans says [urldecode [lindex $recv 2]]]:\n$body" \
-	   "wm state .${win_name} normal"
+	   "wm state .${win_name} normal; grab .${win_name}"
       }            
 
       if { [string first $win_name [focus]] != 1 } {
