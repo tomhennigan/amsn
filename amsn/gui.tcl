@@ -1004,7 +1004,7 @@ namespace eval ::amsn {
       variable winid
       variable window_titles
       variable first_message
-      global images_folder config HOME files_dir bgcolor bgcolor2
+      global images_folder config HOME files_dir bgcolor bgcolor2 tcl_platform
 
       set win_name "msg_$winid"
       incr winid
@@ -1192,9 +1192,11 @@ namespace eval ::amsn {
       bind .${win_name}.f.in.input <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
       bind .${win_name}.f.out.text <Button3-ButtonRelease> "tk_popup .${win_name}.copy %X %Y"
       
-      bind .${win_name} <Control-x> "status_log cut\n;copy 1 ${win_name}"
-      bind .${win_name} <Control-c> "status_log copy\n;copy 0 ${win_name}"
-      bind .${win_name} <Control-v> "status_log paste\n;paste ${win_name}"
+      if {$tcl_platform(platform) == "unix" } {
+	  bind .${win_name} <Control-x> "status_log cut\n;copy 1 ${win_name}"
+	  bind .${win_name} <Control-c> "status_log copy\n;copy 0 ${win_name}"
+	  bind .${win_name} <Control-v> "status_log paste\n;paste ${win_name}"
+      }
 
       bind .${win_name} <Control-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
       
@@ -3409,19 +3411,19 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 
     if { $config(tooltips) == 1 } {
 	
-	set Bulle($user_unique_name) "$user_name \n $user_login \n [trans status] : [trans [lindex $state 1]] "
+	set balloon_message "$user_name \n $user_login \n [trans status] : [trans [lindex $state 1]] "
 	
 	$pgBuddy.text tag bind $user_unique_name <Enter> \
 	    "$pgBuddy.text tag conf $user_unique_name -under true; $pgBuddy.text conf -cursor hand2; \
-            set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $Bulle($user_unique_name)] %X %Y]\]"
+            set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message)] %X %Y]\]"
 	
 	$pgBuddy.text tag bind $user_unique_name <Leave> \
-	    "$pgBuddy.text tag conf $user_unique_name -under false;	$pgBuddy.text conf -cursor left_ptr; \
+	    "$pgBuddy.text tag conf $user_unique_name -under false; $pgBuddy.text conf -cursor left_ptr; \
             set Bulle(first) 0; kill_balloon"
 	
 	$pgBuddy.text tag bind $user_unique_name <Motion> \
 	    "if {\[set Bulle(set)\] == 0} \{after cancel \[set Bulle(id)\]; \
-            set Bulle(id) \[after 1000 [list balloon %W [list $Bulle($user_unique_name)] %X %Y]\]\} "
+            set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]\} "
 
     } else {
     	$pgBuddy.text tag bind $user_unique_name <Enter> \

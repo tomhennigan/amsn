@@ -65,7 +65,6 @@ proc kill_balloon {} {
 
 proc balloon {target message {cx 0} {cy 0} } {
     global Bulle
-    
     if {$Bulle(first) == 1 } {
         set Bulle(first) 2
 	if { $cx == 0 && $cy == 0 } {
