@@ -36,14 +36,13 @@ namespace eval ::amsnplus {
 				colour_nicks 0
 				allow_commands 1
 				allow_quicktext 1
-				on_connect "online"
 			}
 			set ::amsnplus::configlist [ list \
 				[list bool "Do you want to parse nicks?" parse_nicks] \
 				[list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \
 				[list bool "Do you want to allow commands in the chat window?" allow_commands] \
 				[list bool "Do you want to use the quick text feature?" allow_quicktext] \
-				[list str "Which state you want to switch on connect?" on_connect] \
+				
 			]
 		} else {
 			array set ::amsnplus::config {
@@ -52,7 +51,6 @@ namespace eval ::amsnplus {
 				allow_commands 1
 				allow_colours 1
 				allow_quicktext 1
-				on_connect "online"
 			}
 			set ::amsnplus::configlist [ list \
 				[list bool "[trans parsenicks]" parse_nicks] \
@@ -60,7 +58,6 @@ namespace eval ::amsnplus {
 				[list bool "[trans allowcommands]" allow_commands] \
 				[list bool "[trans allowcolours]" allow_colours] \
 				[list bool "[trans allowquicktext]" allow_quicktext] \
-				[list str "[trans onconnect]" on_connect] \
 			]
 		}
 
@@ -73,7 +70,6 @@ namespace eval ::amsnplus {
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_send parseCommand
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_receive parse_colours_and_sounds
 		::plugins::RegisterEvent "aMSN Plus" chatwindowbutton chat_color_button
-		::plugins::RegisterEvent "aMSN Plus" OnConnect on_connect
 		::plugins::RegisterEvent "aMSN Plus" chatmenu edit_menu
 		
 		if {![::amsnplus::version_094]} {
@@ -296,14 +292,14 @@ namespace eval ::amsnplus {
 
 	################################################
 	# this does some operations on connect
-	proc on_connect {event epvar} {
-		#state on connect
-		set nstate $::amsnplus::config(on_connect)
-		if {[::amsnplus::stateIsValid $nstate]} {
-			set cstate [::amsnplus::descriptionToState $nstate]
-			after 1000 ::MSN::changeStatus $cstate
-		}
-	}
+	#proc on_connect {event epvar} {
+	#	#state on connect
+	#	set nstate $::amsnplus::config(on_connect)
+	#	if {[::amsnplus::stateIsValid $nstate]} {
+	#		set cstate [::amsnplus::descriptionToState $nstate]
+	#		after 1000 ::MSN::changeStatus $cstate
+	#	}
+	#}
 
 
 	
