@@ -372,8 +372,15 @@ namespace eval ::pop3 {
 		set maxw [expr [winfo width $vars(text)] -30]
 		set short_mailmsg [trunc $mailmsg $vars(text) $maxw splainf]
 
+		clickableImage $vars(text) popmailpic mailbox {::pop3::stop 0 0; after 1 ::pop3::check} 5 0
+		#TODO needs translation
+		set balloon_message "Click here to check the number of messages now."
+		bind $vars(text).popmailpic <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+		bind $vars(text).popmailpic <Leave> "+set ::Bulle(first) 0; kill_balloon;"
+		bind $vars(text).popmailpic <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+
 		if { $::pop3::config(loadMailProg) } {
-			clickableImage $vars(text) popmailpic mailbox "::pop3::loadDefaultEmail" 5 0
+			#clickableImage $vars(text) popmailpic mailbox "::pop3::loadDefaultEmail" 5 0
 
 			#Set up TAGS for mail notification
 			$vars(text) tag conf pop3mail -fore black -underline true -font splainf
@@ -384,7 +391,7 @@ namespace eval ::pop3 {
 			$vars(text) insert end "$short_mailmsg\n"  pop3mail
 			$vars(text) tag add dont_replace_smileys pop3mail.first pop3mail.last
 		} else {
-			label $vars(text).popmailpic -image [::skin::loadPixmap mailbox] -background white
+			#label $vars(text).popmailpic -image [::skin::loadPixmap mailbox] -background white
 			$vars(text) window create end -window $vars(text).popmailpic -padx 3 -pady 0 -align center -stretch true
 
 			$vars(text) insert end "$short_mailmsg\n"
