@@ -122,13 +122,13 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.1.name $lfname.1.p4c -side top -anchor nw
 
 	## Public Profile Frame ##
-	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefprofile]]
-	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
-	label $lfname.pprofile -image prefprofile
-	label $lfname.lprofile -text [trans prefprofile2] -padx 10
-	button $lfname.bprofile -text [trans editprofile] -font sboldf -command "" -state disabled
-	pack $lfname.pprofile $lfname.lprofile -side left
-	pack $lfname.bprofile -side right -padx 15
+	#set lfname [LabelFrame:create $frm.lfname2 -text [trans prefprofile]]
+	#pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
+	#label $lfname.pprofile -image prefprofile
+	#label $lfname.lprofile -text [trans prefprofile2] -padx 10
+	#button $lfname.bprofile -text [trans editprofile] -font sboldf -command "" -state disabled
+	#pack $lfname.pprofile $lfname.lprofile -side left
+	#pack $lfname.bprofile -side right -padx 15
 
 	## Chat Font Frame ##
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans preffont]]
