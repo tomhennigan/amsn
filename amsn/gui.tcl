@@ -4,7 +4,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	package require tclCarbonHICommand
 }
 catch {package require QuickTimeTcl}
-
+catch {package require TkCximage}
 	
 	
 
@@ -1241,6 +1241,7 @@ namespace eval ::amsn {
 
 		set win_name [::ChatWindow::MakeFor $chatid $tmsg $user]
 
+
 		if { $remote_auth == 1 } {
 			if { "$user" != "$chatid" } {
 				write_remote "To $chatid : $msg" msgsent
@@ -2236,7 +2237,7 @@ namespace eval ::amsn {
 			set tstamp ""
 		}
 
-	
+		
 		switch [::config::getKey chatstyle] {
 			msn {
 				::config::setKey customchatstyle "\$tstamp [trans says \$nick]:\n"
@@ -2303,10 +2304,10 @@ namespace eval ::amsn {
 		if {![string equal $msg ""]} {
 
 			WinWrite $chatid "$message" $type $fontformat 1 $user
-
+			
 			if {[::config::getKey keep_logs]} {
 				::log::PutLog $chatid $nick $msg $fontformat
-
+				
 			}
 		}
 
@@ -2464,7 +2465,6 @@ namespace eval ::amsn {
 	proc WinWrite {chatid txt tagname {fontformat ""} {flicker 1} {user ""}} {
 
 		set win_name [::ChatWindow::For $chatid]
-
 		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}
@@ -7211,7 +7211,134 @@ proc clear_disp { } {
 	::MSN::changeStatus [set ::MSN::myStatus]
 
 }
+#############TKCXIMAGE#############
+#############TKCXIMAGE#############
+#############TKCXIMAGE#############
 
+proc PictureCxImageLoaded { } {
+
+	foreach lib [info loaded] {
+		if { [lindex $lib 1] == "Tkcximage" } {
+			return 1
+		} 
+	}
+	return 0
+}
+
+proc PictureConvert {original destination} {
+	if {[PictureCxImageLoaded]} {
+		#Use TkCxImage
+		if { [catch { ::CxImage::Convert "$original" "$destination" } res ] } {
+			status_log "Unable to convert picture with TkCximage \n$res" blue
+			return
+		}
+	} else {
+		#Use Imagemagick
+		
+		#IMPORTANT: If convertpath is blank, set it to "convert"
+		if { [::config::getKey convertpath] == "" } {
+			::config::setKey convertpath "convert"
+		}
+		
+		if { [catch { exec [::config::getKey convertpath] "$original" "$destination" } res] } {
+			status_log "Unable to convert picture with ImageMagick: $res" blue
+			return
+		}
+
+	}
+
+}
+
+proc PictureResize {photo width height} {
+	if {[PictureCxImageLoaded]} {
+		#TkCximage
+		if { [catch { ::CxImage::Resize $photo $width $height } res ] } {
+			status_log "Unable to resize picture with TkCximage \n$res"r
+			return
+		}
+	} else {
+		#ImageMagick
+		if { [catch { exec [::config::getKey convertpath] "${filename}" -resize "${width}x${height}" "${tempfile}.gif"} res] } {
+			status_log "CONVERT ERROR IN CONVERSION 2: $res" white
+			return ""
+		}
+	}
+	
+}
+
+#Alpha opacity for border (between 0 and 255)	
+proc PictureThumbnail { photo width height bordercolor {alpha ""} } {
+	if {[PictureCxImageLoaded]} {
+		if {$alpha == ""} {
+		
+			if { [catch {::CxImage::Thumbnail $photo $width $height $bordercolor} res] != 0 } {
+				status_log "Unable to create thumbnail with TkCximage \n$res" blue
+				return
+			}	
+		} else {
+			
+			if { [catch {::CxImage::Thumbnail $photo $width $height $bordercolor -alpha $alpha} res ] != 0 } {
+				status_log "Unable to create thumbnail with TkCximage \n$res" blue
+				return
+			}
+			
+		}
+	}	
+}
+
+proc PictureCrop {photo x1 y1 x2 y2} {
+
+	set temp [image create photo]
+	
+	if {[PictureCxImageLoaded]} {
+		if { [catch {$temp copy $photo -from $x1 $y1 $x2 $y2} res ] != 0 } {
+			status_log "Unable to crop image with TkCxImage\n$res" blue
+			return
+		}
+	}
+}
+
+#Format supported: "cxgif" "cxpng" "cxjpg" "cxtga"
+proc PictureSave {photo destination {format ""}} {
+	if {[PictureCxImageLoaded]} {
+		if {$format != ""} {
+			if { [catch {$photo write $destination -format $format} res] != 0} {
+				status_log "Error Saving to the file with TkCximage : \n$res" blue
+				return
+			}
+		} else {
+			if { [catch {$photo write $destination} res] != 0} {
+				status_log "Error Saving to the file with TkCximage : \n$res" blue
+				return
+			}
+		}
+	} else {
+		#Without TkCxImage
+		set destination "[filenoext $destination].gif"
+		if { [catch {$photo write $destination -format gif} res] != 0} {
+				status_log "Error Saving to the file without TkCximage : \n$res" blue
+				return
+		}
+	}
+}
+
+proc PictureGetSkinFile {directory file {format "gif"}} {
+	
+	if {[PictureCxImageLoaded]} {
+		#With TkCximage
+		if { [catch {image create photo -file [::skin::GetSkinFile "$directory" "[filenoext [file tail $file]].$format"]} res] != 0} {
+			status_log "Error while getting SkinFile with TkCximage : \n$res" blue
+			return
+		}
+	} else {
+		#Without TkCximage
+		if { [catch {image create photo -file [::skin::GetSkinFile "$directory" "[filenoext [file tail $file]].gif"]} res] != 0} {
+			status_log "Error while getting SkinFile without TkCximage : \n$res" blue
+			return
+		}
+	}
+
+}
 
 ###################### Protocol Debugging ###########################
 if { $initialize_amsn == 1 } {
@@ -7488,7 +7615,7 @@ proc show_bug_dialog {} {
 	
 	#Execute script on Mac OS X to create a mail in "Mail" application and attach the bugreport to the mail
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		button $w.mail -text [trans sendmail] -command "exec osascript utils/applescript/mail-bugreport.scpt &" -highlightbackground #e8e8e8 -activeforeground #5b76c6  -pady 1
+		button $w.mail -text [trans sendmail] -command "exec osascript utils/macosx/applescript/mail-bugreport.scpt &" -highlightbackground #e8e8e8 -activeforeground #5b76c6  -pady 1
 		pack $w.mail -in $w.bot
 	}
 
@@ -7773,16 +7900,26 @@ proc webcampicture_save {preview} {
 	}
 	#Convert the picture in png and gif to be a display picture
 	if { ![catch {convert_image_plus $file displaypic "96x96"} res]} {
-		set image_name [image create photo -file [::skin::GetSkinFile "displaypic" "[filenoext [file tail $file]].gif"]]
+		
+		#Set image_name
+		set image_name [PictureGetSkinFile displaypic $file png]
+		
+		#Change picture in .mypic frame of .picbrowser
 		.picbrowser.mypic configure -image $image_name
+		
+		#Set selected_image global variable
 		set selected_image "[filenoext [file tail $file]].png"
+		
+		#Write inside .dat file
 		set desc_file "[filenoext [file tail $file]].dat"
 		set fd [open [file join $HOME displaypic $desc_file] w]
-		status_log "Writing description to $desc_file\n"
+		#status_log "Writing description to $desc_file\n"
 		puts $fd "[clock format [clock seconds] -format %x]\n[filenoext [file tail $file]].png"
 		close $fd
+		
+		
 		lappend image_names $image_name
-		status_log "Created $image_name\n"
+		#status_log "Created $image_name\n"
 		destroy .webcampicturedoyoulikeit
 
 	} else {
@@ -7800,9 +7937,7 @@ proc webcampicture_saveas {preview} {
 	set filename [tk_getSaveFile -initialfile $file -initialdir [set ::files_dir]]
 
 	if {$filename != ""} { 
-		if { [info exists quicktimetcl::version] } {
-			$preview write "$filename" -format quicktimejpeg
-		}
+		PictureSave $preview $filename
 	}
 
 }
