@@ -433,3 +433,7 @@ yoffset Y Offset
 youblocked You have been blocked by
 yousay You say
 youwant You want
+downloadingtls Downloading TLS module from:\n $1
+tlsinstcompleted TLS module installation was sucessful, now you should be able to use MSNP9. If this doesn't work, then probably you didn't select the right module, or a compiled module is not available for your system.
+errortls Error installing TLS module:
+tlsdowncompleted File $1 was downloaded to directory $2. You must extract it, build it (if you downloaded source code) and install it inside $3.

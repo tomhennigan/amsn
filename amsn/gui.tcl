@@ -46,6 +46,8 @@ namespace eval ::amsn {
 
 		if { $tcl_platform(os) == "Linux" } {
 			set tlsplatform "linuxx86"
+		} elseif { [string compare $tcl_platform(platform) "Solaris"]} {
+			set tlsplatform "solaris266"
 		} elseif { [string compare $tcl_platform(platform) "windows"]} {
 			set tlsplatform "win32"
 		} else {
@@ -96,22 +98,24 @@ namespace eval ::amsn {
 	proc downloadTLS {} {
 		global tlsplatform
 
+		set baseurl "http://belnet.dl.sourceforge.net/sourceforge/tls/tls1.4.1"
+
 		if { $tlsplatform == "nodown" } {
 			::amsn::infoMsg [trans notls]
 			return
 		} else {
 			switch $tlsplatform {
 				"linuxx86" {
-					set downloadurl "http://belnet.dl.sourceforge.net/sourceforge/tls/tls1.4.1-linux-x86.tar.gz"
+					set downloadurl "$baseurl-linux-x86.tar.gz"
 				}
 				"solaris26" {
-					set downloadurl "http://belnet.dl.sourceforge.net/sourceforge/tls/tls1.4.1-solaris26-sparc.tar.gz"
+					set downloadurl "$baseurl-solaris26-sparc.tar.gz"
 				}
 				"win32" {
-					set downloadurl "http://belnet.dl.sourceforge.net/sourceforge/tls/tls1.4.1-win32.zip"
+					set downloadurl "$baseurl-win32.zip"
 				}
 				"src" {
-					set downloadurl "http://belnet.dl.sourceforge.net/sourceforge/tls/tls1.4.1-src.tar.gz"
+					set downloadurl "$baseurl-src.tar.gz"
 				}
 				- {
 					set downloadurl "none"
@@ -123,7 +127,7 @@ namespace eval ::amsn {
 			wm group $w .
 			#wm geometry $w 350x160
 
-			label $w.l -text "[trans downloadingtls]" -font splainf
+			label $w.l -text "[trans downloadingtls $downloadurl]" -font splainf
 			pack $w.l -side top -anchor w -padx 10 -pady 10
 			pack [::dkfprogress::Progress $w.prbar] -fill x -expand 0 -padx 5 -pady 5 -side top
 			label $w.progress -text "[trans receivedbytes 0 ?]" -font splainf
@@ -137,14 +141,15 @@ namespace eval ::amsn {
 
 			::dkfprogress::SetProgress $w.prbar 0
 
-
-			set downloadurl "http://192.168.1.2/~darkelf/amsn_tls_dsamodule.tar.gz"
 			if {[ catch {set tok [::http::geturl $downloadurl -progress "::amsn::downloadTLSProgress $downloadurl" -command "::amsn::downloadTLSCompleted $downloadurl"]} res ]} {
 				errorDownloadingTLS $res $tok
+			} else {
+				$w.close configure -command "::http::reset $tok"
+				wm protocol $w WM_DELETE_WINDOW "::http::reset $tok"
+				grab $w
 			}
 
-			$w.close configure -command "::http::reset $tok"
-			wm protocol $w WM_DELETE_WINDOW "::http::reset $tok"
+
 		}
 	}
 
@@ -165,12 +170,16 @@ namespace eval ::amsn {
 			return
 		}
 
+		set lastslash [expr {[string last "/" $downloadurl]+1}]
+		set fname [string range $downloadurl $lastslash end]
+
+
 		switch $tlsplatform {
 			"solaris26" -
 			"linuxx86" {
 				status_log "Here on linux/solaris\n"
 				if { [catch {
-					set file_id [open [file join $files_dir "amsn_tls_module.tar.gz"] w]
+					set file_id [open [file join $files_dir $fname] w]
 					fconfigure $file_id -translation {binary binary} -encoding binary
 					puts -nonewline $file_id [::http::data $token]
 					close $file_id
@@ -178,7 +187,7 @@ namespace eval ::amsn {
 					set olddir [pwd]
 					cd [file join $HOME2 plugins]
 
-					exec tar xvzf [file join $files_dir "amsn_tls_module.tar.gz"]
+					exec tar xvzf [file join $files_dir $fname]
 
 					cd $olddir
 					::amsn::infoMsg "[trans tlsinstcompleted]"
@@ -187,7 +196,8 @@ namespace eval ::amsn {
 					errorDownloadingTLS $res $token
 				}
 			}
-			- {
+			default {
+				::amsn::infoMsg "[trans tlsdowncompleted $fname $files_dir [file join $HOME2 plugins]]"
 			}
 		}
 
