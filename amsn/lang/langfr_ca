@@ -282,6 +282,7 @@ textsize Taille du texte
 title Al's Messenger
 to À
 tools Outils
+transnotexists	Le fichier demandé n'est pas encore été traduit dans votre langue
 unblock Débloquer
 uoffline Déconnectés
 uonline Connectés
