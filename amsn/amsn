@@ -35,7 +35,7 @@
 ###
 
 
-set version "0.50"
+set version "0.51"
 set date "06/04/2002"
 set weburl "http://amsn.sourceforge.net"
 
@@ -48,12 +48,19 @@ if ![catch {file readlink [info script]} res] {
   set program_dir [file dirname [info script]]
 }
 
+#=======================================================================
+set images_folder "[file join $program_dir i]"
+set sounds_folder "[file join $program_dir s]"
+#=======================================================================
+
+source [file join $program_dir config.tcl]
 source [file join $program_dir migmd5.tcl]
+source [file join $program_dir ctadverts.tcl]
 source [file join $program_dir lang.tcl]
 source [file join $program_dir ctdegt.tcl]
-source [file join $program_dir ctadverts.tcl]
 source [file join $program_dir hotmail.tcl]
 source [file join $program_dir checkver.tcl]
+source [file join $program_dir smileys.tcl]
 
 
 #by AIM
@@ -64,30 +71,7 @@ set urlstarts { "http://" "https://" "ftp://" "www." }
 set typing ""
 #end AIM
 
-#=======================================================================
-set images_folder "[file join $program_dir i]"
-set sounds_folder "[file join $program_dir s]"
 
-
-set emotions {{":-)" smile} {":)" smile} {":-D" smiled} {":D" smiled}
-	{":->" smiled} {":>" smiled} {":-O" smileo} {":O" smileo} {":-P" smilep}
-	{":P" smilep} {";-)" wink} {";)" wink} {":-(" sad} {":(" sad}
-	{":-<" sad} {":<" sad} {":-S" crooked} {":S" crooked} {":-|" disgust}
-	{":|" disgust} {"(Y)" thumbu} {"(N)" thumbd} {"(L)" love} {"(U)" unlove}
-	{"(K)" lips} {"(G)" gift} {"(F)" rose} {"(X)" emgirl} {"(Z)" emboy}
-	{"(P)" photo} {"(B)" beer} {"(D)" coctail} {"(T)" emphone} {"(@)" emcat}
-	{"(C)" emcup} {"(I)" embulb} {"(H)" emhottie} {"(S)" emsleep}
-	{"(*)" emstar} {"(8)" emnote} {"(E)" email} {"(M)" messenger}
-	{":-[" vampire} {":[" vampire} {"(\})" girlhug} {"(\{)" boyhug}
-	{"(A)" angel} {"(6)" devil} {"(^)" cake} {"(O)" clk} {":-@" angry}
-	{":@" angry} {"(&)" dog} {"(W)" rosew} {":`(" smilec} {":$" smilemb} 
-	{":-$" smilemb} {"(#)" sun} {"(R)" rainbow}}
-
-set emotion_files {smile smiled smileo smilep wink sad crooked disgust thumbu
-	thumbd love unlove lips gift rose emgirl emboy photo beer coctail
-	emphone emcat emcup embulb emhottie emsleep emstar emnote email
-	messenger vampire girlhug boyhug angel devil cake clk angry dog rosew
-	smilec smilemb smilemb sun rainbow}
 #=======================================================================
 font create menufont -family Helvetica -size 11 -weight normal
 font create sboldf -family Helvetica -size 11 -weight bold
@@ -103,6 +87,7 @@ set trid 0
 
 set user_info ""
 set user_stat "FLN"
+
 set list_fl [list]
 set list_rl [list]
 set list_al [list]
@@ -116,28 +101,6 @@ set sb_list [list]
 set sb_list_cal [list]
 
 set status_show 0
-
-set config(showonline) 1
-set config(showoffline) 1
-
-set config(login) ""			;# These are defaults for users without
-set config(save_password) 0		;# a config file
-set config(keep_logs) 0
-set config(proxy) ""
-set config(start_ns_server) "messenger.hotmail.com:1863"
-set config(last_client_version) ""
-#by AIM
-set config(sound) 1
-set config(browser) "mozilla"
-set config(soundcommand) "esdplay"
-set config(language) "en"
-set config(adverts) 1
-set config(autohotlogin) 1
-#end AIM
-
-set password ""
-
-
 
 set list_states {{NLN online #0000FF online online bonline}
 		{IDL noactivity #0000A0 online away baway}
@@ -231,54 +194,6 @@ proc create_dir {path} {
    }
 }
 
-proc save_config {} {
-   global tcl_platform config HOME version password
-
-   if {$tcl_platform(platform) == "unix"} {
-      set file_id [open "${HOME}/config" w 00600]
-   } else {
-      set file_id [open "${HOME}/config" w]
-   }
-   puts $file_id "amsn_config_version 1"
-   set config(last_client_version) $version
-
-   set config_entries [array get config]
-   set items [llength $config_entries]
-   for {set idx 0} {$idx < $items} {incr idx 1} {
-      set var_attribute [lindex $config_entries $idx]; incr idx 1
-      set var_value [lindex $config_entries $idx]
-      puts $file_id "$var_attribute $var_value"
-   }
-   if {$config(save_password)} {
-      puts $file_id "password ${password}"
-   }
-   close $file_id
-}
-
-proc load_config {} {
-   global config HOME password
-
-   if {([file readable "${HOME}/config"] == 0) ||
-       ([file isfile "${HOME}/config"] == 0)} {
-      return 1
-   }
-   set file_id [open "${HOME}/config" r]
-   gets $file_id tmp_data
-   if {$tmp_data != "amsn_config_version 1"} {	;# config version not supported!
-      return 1
-   }
-   while {[gets $file_id tmp_data] != "-1"} {
-      set var_data [split $tmp_data]
-      set var_attribute [lindex $var_data 0]
-      set var_value [lindex $var_data 1]
-      set config($var_attribute) $var_value
-   }
-   if {[info exists config(password)]} {
-      set password $config(password)
-      unset config(password)
-   }
-   close $file_id
-}
 #=======================================================================
 proc cmsn_draw_about {} {
    global program_dir
@@ -329,9 +244,10 @@ proc close_cleanup {} {
 }
 
 proc cmsn_draw_main {} {
-   global images_folder emotion_files config version date weburl lang_list \
-     password
+   global images_folder emotion_files version date weburl lang_list \
+     password config
 
+   #User status menu
    menu .my_menu -tearoff 0 -type normal -background #D0D0E0 
    .my_menu add command -label [trans online] -command "change_my_status NLN"
    .my_menu add command -label [trans busy] -command "change_my_status BSY"
@@ -341,64 +257,134 @@ proc cmsn_draw_main {} {
    .my_menu add command -label [trans gonelunch] -command "change_my_status LUN"
    .my_menu add command -label [trans appearoff] -command "change_my_status HDN"
 
-   menu .lang_menu -tearoff 0 -type normal -backgroun #D0D0E0
-
-
+   #Language selection menu
+   menu .lang_menu -tearoff 0 -type normal -background #D0D0E0
 
    for {set i 0} {$i < [llength $lang_list]} {incr i} {
      set langelem [lindex $lang_list $i]
      set langshort [lindex $langelem 0] 
      set langlong [lindex $langelem 1]
      .lang_menu add command -label "$langlong" -command \
-       "set config(language) $langshort; load_lang;msg_box \"\[trans mustrestart\]\""
-    }
+       "set $config(language) $langshort; load_lang;msg_box \"\[trans mustrestart\]\""
+   }
 
    menu .user_menu -tearoff 0 -type normal -background #D0D0E0 
 
+
+   #Main menu
    menu .main_menu -tearoff 0 -type menubar -background #D0D0E0 \
       -borderwidth 0 -activeborderwidth -0 
-   .main_menu add cascade -label [trans msn] -menu .main_menu.msn
-   .main_menu add cascade -label [trans msg] -menu .main_menu.msg -state disabled
-   .main_menu add cascade -label "[trans help]" -menu .main_menu.about
+#   .main_menu add cascade -label "[trans msn]" -menu .main_menu.msn
+#   .main_menu add cascade -label "[trans msg]" -menu .main_menu.msg -state disabled
+   .main_menu add cascade -label "[trans help]" -menu .main_menu.help
+
+   .main_menu add cascade -label "[trans msn]" -menu .main_menu.file
+   .main_menu add cascade -label "[trans actions]" -menu .main_menu.actions
+   .main_menu add cascade -label "[trans tools]" -menu .main_menu.tools
 
 
-   menu .main_menu.about -tearoff 0 -type normal -background #D0D0E0 
+   #File menu
+   menu .main_menu.file -tearoff 0 -type normal -background #D0D0E0
+   if { [string length $config(login)] > 0 } {
+     .main_menu.file add command -label "[trans login] $config(login)" \
+       -command cmsn_ns_connect -state normal
+   } else {
+     .main_menu.file add command -label "[trans login]" \
+       -command cmsn_ns_connect -state disabled
+   }
+   .main_menu.file add command -label "[trans login]..." -command \
+     cmsn_draw_login
+   .main_menu.file add command -label "[trans logout]" -command cmsn_logout 
+   .main_menu.file add cascade -label "[trans mystatus]" \
+     -menu .my_menu -state disabled
+   .main_menu.file add separator
+   .main_menu.file add command -label "[trans inbox]" -command \
+     "hotmail_login $config(login) $password"
+   .main_menu.file add separator
+   .main_menu.file add command -label "[trans savecontacts]..." -state disabled
+   .main_menu.file add command -label "[trans loadcontacts]..." -state disabled
+   .main_menu.file add separator
+   .main_menu.file add command -label "[trans sendfile]..." -state disabled
+   .main_menu.file add command -label "[trans openreceived]" -state disabled
+   .main_menu.file add separator
+   .main_menu.file add command -label "[trans close]" -command exit
 
-   .main_menu.about add command -label "[trans version]..." -command \
-     "msg_box \"[trans version]: $version - [trans date]: $date\n$weburl\""
-   .main_menu.about add command -label "[trans checkver]..." -command \
+   #Actions menu
+   menu .main_menu.actions -tearoff 0 -type normal -background #D0D0E0
+   .main_menu.actions add command -label "[trans sendmsg]..." -command \
+     send_im_other -state disabled
+   .main_menu.actions add command -label "[trans sendmail]" -command "" \
+      -state disabled
+   .main_menu.actions add command -label "[trans changenick]..." -command \
+     cmsn_change_name
+   .main_menu.actions add separator
+   .main_menu.actions add command -label "[trans checkver]..." -command \
      "check_version"
+   
 
-   .main_menu.about add separator
-   .main_menu.about add command -label "[trans about]..." -command cmsn_draw_about
+   #Tools menu
+   menu .main_menu.tools -tearoff 0 -type normal -background #D0D0E0
+   .main_menu.tools add command -label "[trans addacontact]" -command \
+     cmsn_draw_addcontact
+   .main_menu.tools add cascade -label "[trans admincontacts]" -command \
+     "" -state disabled
+   .main_menu.tools add cascade -label "[trans admingroups]" -command \
+     "" -state disabled
+   .main_menu.tools add separator
+   .main_menu.tools add cascade -label "[trans ordercontactsby]" \
+     -state disabled
+   .main_menu.tools add separator
+   .main_menu.tools add cascade -label "[trans options]" -menu .options
 
-   menu .main_menu.msn -tearoff 0 -type normal -background #D0D0E0 
-  
-   .main_menu.msn add command -label "[trans login]..." -command cmsn_draw_login
-   .main_menu.msn add command -label "[trans logout]" -state disabled \
-      -command cmsn_logout
-   .main_menu.msn add cascade -label "[trans mystatus]" -state disabled -menu .my_menu
-   .main_menu.msn add separator
-   .main_menu.msn add command -label "[trans addacontact]..." -state disabled \
-      -command cmsn_draw_addcontact
-#   .main_menu.msn add separator
-   .main_menu.msn add command -label "[trans changenick]..." -state disabled \
+   #Options menu
+   menu .options -tearoff 0 -type normal -background #D0D0E0
+   .options add command -label "[trans changenick]..." -state disabled \
       -command cmsn_change_name
-   .main_menu.msn add separator
-   .main_menu.msn add command -label "[trans proxyconf]..." -command cmsn_proxy
-   .main_menu.msn add separator
-   .main_menu.msn add cascade -label "[trans language]..." -menu .lang_menu
-   .main_menu.msn add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
-   .main_menu.msn add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
+   .options add command -label "[trans proxyconf]..." -command cmsn_proxy
+   .options add cascade -label "[trans language]..." -menu .lang_menu
+   .options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable $config(sound)
+   .options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable $config(adverts) \
      -command "msg_box \"[trans mustrestart]\""
+   .options add checkbutton -label "[trans autohotmaillog]" -onvalue 1 -offvalue 0 -variable $config(autohotlogin)
 
-   .main_menu.msn add checkbutton -label "[trans autohotmaillog]" -onvalue 1 -offvalue 0 -variable config(autohotlogin)
-   .main_menu.msn add separator
-   .main_menu.msn add command -label "[trans close]" -command exit
 
-   menu .main_menu.msg -tearoff 0 -type normal -background #D0D0E0 
-   .main_menu.msg add separator
-   .main_menu.msg add command -label "[trans other]..." -command send_im_other -state disabled
+   #Help menu
+   menu .main_menu.help -tearoff 0 -type normal -background #D0D0E0 
+
+   .main_menu.help add command -label "[trans helpcontents]..." -command cmsn_draw_about
+   .main_menu.help add separator
+   .main_menu.help add command -label "[trans about]..." -command cmsn_draw_about
+   .main_menu.help add command -label "[trans version]..." -command \
+     "msg_box \"[trans version]: $version - [trans date]: $date\n$weburl\""
+
+
+   #Messenger menu
+#   menu .main_menu.msn -tearoff 0 -type normal -background #D0D0E0 
+  
+#   .main_menu.msn add command -label "[trans login]..." -command cmsn_draw_login
+#   .main_menu.msn add command -label "[trans logout]" -state disabled \
+      -command cmsn_logout
+#   .main_menu.msn add cascade -label "[trans mystatus]" -state disabled -menu .my_menu
+#   .main_menu.msn add separator
+#    .main_menu.msn add command -label "[trans addacontact]..." -state disabled \
+#      -command cmsn_draw_addcontact
+#   .main_menu.msn add command -label "[trans changenick]..." -state disabled \
+#      -command cmsn_change_name
+#   .main_menu.msn add separator
+#   .main_menu.msn add command -label "[trans proxyconf]..." -command cmsn_proxy
+#   .main_menu.msn add separator
+#   .main_menu.msn add cascade -label "[trans language]..." -menu .lang_menu
+#   .main_menu.msn add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable $config(sound)
+#   .main_menu.msn add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable $config(adverts) \
+#     -command "msg_box \"[trans mustrestart]\""
+
+#   .main_menu.msn add checkbutton -label "[trans autohotmaillog]" -onvalue 1 -offvalue 0 -variable $config(autohotlogin)
+#   .main_menu.msn add separator
+#   .main_menu.msn add command -label "[trans close]" -command exit
+
+#   menu .main_menu.msg -tearoff 0 -type normal -background #D0D0E0 
+#   .main_menu.msg add separator
+#   .main_menu.msg add command -label "[trans other]..." -command send_im_other -state disabled
 
    image create photo mainback -file ${images_folder}/back.gif   
 
@@ -436,16 +422,14 @@ proc cmsn_draw_main {} {
    }
 
 
-
    text .main.text -background white -width 30 -height 30 -wrap none \
       -yscrollcommand ".main.ys set" -cursor left_ptr -font splainf \
       -selectbackground white -selectborderwidth 0 -exportselection 0
    scrollbar .main.ys -command ".main.text yview" -background #D0D0E0
    text .main.status -background #D0D0E0 -width 30 -height 1 -wrap none
 
-#   adv_initialize .main $config(proxy)
-
    if {$config(adverts)} {
+     adv_initialize .main $config(proxy)
      adv_show_banner  file ${images_folder}/logolinmsn.gif
    }
 
@@ -521,12 +505,19 @@ proc cmsn_draw_offline {} {
    .main.text tag bind start_login <Leave> \
 	    ".main.text tag conf start_login -fore #000000 -underline true;\
 	    .main.text conf -cursor left_ptr"
-   .main.text tag bind start_login <Button-1> \
-	    "cmsn_draw_login"
 
    .main.text insert end "\n\n\n\n\n\n\n\n\n\n"
 
-   .main.text insert end "[trans clicktologin]" start_login
+   if { $config(login) != "" } {
+     .main.text insert end "[trans clicktologin]\n$config(login)" start_login
+     .main.text tag bind start_login <Button-1> \
+	"cmsn_ns_connect"
+   } else {
+     .main.text insert end "[trans clicktologin]..." start_login
+     .main.text tag bind start_login <Button-1> \
+        "cmsn_draw_login"
+
+   }
 
    .main.text insert end "\n\n\n\n\n\n\n\n\n\n\n\n"
  
@@ -534,13 +525,30 @@ proc cmsn_draw_offline {} {
    
    .main.text configure -state disabled
 
-   .main_menu entryconfigure 1 -state disabled
-   .main_menu.msn entryconfigure 0 -state normal
-   .main_menu.msn entryconfigure 1 -state disabled
-   .main_menu.msn entryconfigure 2 -state disabled
-   .main_menu.msn entryconfigure 4 -state disabled
-   .main_menu.msn entryconfigure 5 -state disabled
-   .main_menu.msn entryconfigure 7 -state normal
+
+   #Log in
+   .main_menu.file entryconfigure 0 -state normal
+   .main_menu.file entryconfigure 1 -state normal
+   #Log out
+   .main_menu.file entryconfigure 2 -state disabled 
+   #My status
+   .main_menu.file entryconfigure 3 -state disabled
+   #Add a contact
+   .main_menu.tools entryconfigure 0 -state disabled
+   #Change nick
+   .main_menu.actions entryconfigure 2 -state disabled
+   .options entryconfigure 0 -state normal
+   #Proxy Config
+   .options entryconfigure 1 -state normal
+
+#OLD MENUS
+#   .main_menu entryconfigure 0 -state disabled
+#   .main_menu.msn entryconfigure 0 -state normal
+#   .main_menu.msn entryconfigure 1 -state disabled
+#   .main_menu.msn entryconfigure 2 -state disabled
+#   .main_menu.msn entryconfigure 4 -state disabled
+#   .main_menu.msn entryconfigure 5 -state disabled
+#   .main_menu.msn entryconfigure 7 -state normal
 }
 
 proc cmsn_draw_signin {} {
@@ -632,8 +640,7 @@ proc cmsn_draw_online {} {
 
    .main.text configure -state normal -font splainf
    .main.text delete 0.0 end
-   
-
+  
 
    .main.text tag conf mystatus -fore $my_colour -underline false \
      -font bboldf
@@ -806,18 +813,14 @@ proc show_umenu {user_login x y} {
 }
 
 proc login_ok {} {
-   global config password lista_al list_bl list_fl list_rl
-
+   global config password
+   
+   
    set config(login) [.login.c.signin get]
    set password [.login.c.password get]
    grab release .login
    destroy .login
 
-   set list_al [list]
-   set list_bl [list]
-   set list_fl [list]
-   set list_rl [list]      
-   status_log "Clearing lists\n"
    
    if [catch { cmsn_ns_connect } res] {
      msg_box "[trans connecterror]"
@@ -2080,7 +2083,7 @@ proc cmsn_reconnect {name} {
 }
 
 proc cmsn_ns_handler {item} {
-   global list_cmdhnd
+   global list_cmdhnd password
 
    set item [encoding convertfrom utf-8 $item]
    set item [string map {\r ""} $item]
@@ -2150,6 +2153,12 @@ proc cmsn_ns_handler {item} {
       SYN {
 	 return 0
       }
+      911 {
+          status_log "User/Password error\n" white
+	  set password ""
+	  msg_box "[trans baduserpass]"
+          return 0;        
+      }
       default {
          status_log "RECV: -[join $item]-\n" green
          status_log "Got unknown NS input!! --> [lindex $item 0]\n" red
@@ -2202,9 +2211,9 @@ proc cmsn_change_state {recv} {
 	   [urldecode [lindex $user_data 1]]]
 
 #         status_log "Deleting <$oldusername> from menu\n" white
-         if [catch {.main_menu.msg delete "$oldusername <$user>"} res] {
-	   status_log " ERROR deleting <$oldusername> from message menu\n" white
-	 }
+#         if [catch {.main_menu.msg delete "$oldusername <$user>"} res] {
+#	   status_log " ERROR deleting <$oldusername> from message menu\n" white
+#	 }
       } elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
             cmsn_notify_add $user_name\n[trans logsin]. "cmsn_chat_user $user"
 	    sonido online
@@ -2212,7 +2221,7 @@ proc cmsn_change_state {recv} {
 
       if {$substate != "FLN"} {
 #      	 status_log "Inserting <$user_name> in menu\n" white
-         .main_menu.msg insert 0 command -label "$user_name <$user>" \
+#         .main_menu.msg insert 0 command -label "$user_name <$user>" \
             -command "cmsn_chat_user $user"
       }
 
@@ -2406,11 +2415,23 @@ proc cmsn_auth {{recv ""}} {
 	 write_ns_sock "SYN" "0"
 # Me pongo online al comenzar
 	 write_ns_sock "CHG" "NLN" ; #Era NLN
-         .main_menu entryconfigure 1 -state normal
-         .main_menu.msn entryconfigure 1 -state normal
-         .main_menu.msn entryconfigure 2 -state normal
-         .main_menu.msn entryconfigure 4 -state normal
-         .main_menu.msn entryconfigure 5 -state normal
+
+
+   #Log out
+   .main_menu.file entryconfigure 2 -state normal
+   #My status
+   .main_menu.file entryconfigure 3 -state normal
+   #Add a contact
+   .main_menu.tools entryconfigure 0 -state normal
+   #Change nick
+   .main_menu.actions entryconfigure 2 -state normal
+   .options entryconfigure 0 -state normal
+
+#         .main_menu entryconfigure 0 -state normal
+#         .main_menu.msn entryconfigure 1 -state normal
+#         .main_menu.msn entryconfigure 2 -state normal
+#         .main_menu.msn entryconfigure 4 -state normal
+#         .main_menu.msn entryconfigure 5 -state normal
 	 return 0
       }
    }
@@ -2542,6 +2563,8 @@ proc cmsn_proxy_connect {name} {
 
 proc cmsn_ns_connected {} {
    global config
+   
+
    fileevent [sb get ns sock] writable {}
    sb set ns stat "c"
    cmsn_auth
@@ -2558,15 +2581,33 @@ proc cmsn_sb_connected {name} {
 }
 
 proc cmsn_ns_connect {} {
-   global config unread
+   global config unread list_al list_bl list_fl list_rl password
+
+   if { ($config(login) == "") || ($password == "")} {
+     cmsn_draw_login
+     return
+   }
+
+
+   set list_al [list]
+   set list_bl [list]
+   set list_fl [list]
+   set list_rl [list]      
+   status_log "Clearing lists\n"
 
    if {[sb get ns stat] != "d"} {
       fileevent [sb get ns sock] readable {}
       close [sb get ns sock]
    }
 
-   .main_menu.msn entryconfigure 0 -state disabled
-   .main_menu.msn entryconfigure 7 -state disabled
+   #Log in
+   .main_menu.file entryconfigure 0 -state disabled
+   .main_menu.file entryconfigure 1 -state disabled
+   #Proxy Config
+   .options entryconfigure 1 -state disabled
+
+#   .main_menu.msn entryconfigure 0 -state disabled
+#   .main_menu.msn entryconfigure 7 -state disabled
 
    wm title . "[trans title] - $config(login)"
    cmsn_draw_signin
