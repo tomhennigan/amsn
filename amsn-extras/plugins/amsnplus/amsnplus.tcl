@@ -133,7 +133,6 @@ namespace eval ::amsnplus {
 			######################################################
 			#                 MORE COMMAND IDEAS
 			# /sound file
-			# /whois contact
 			######################################################
 			if {[string equal $char "/add"]} {
 				set msg [string replace $msg $i [expr $i + 4] ""]
@@ -174,8 +173,10 @@ namespace eval ::amsnplus {
 			}
 			if {[string equal $char "/color"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
-				set fontcolor [string range $msg $i [expr $i + 5]]
-				set msg [string replace $msg $i [expr $i + 6] ""]
+				set strlen [string length $msg]
+				set fontcolor [::amsnplus::readWord $i $msg $strlen]
+				set flen [string length $fontcolor]
+				set msg [string replace $msg $i [expr $i + $flen] ""]
 				set strlen [string length $msg]
 				set incr 0
 			}
