@@ -4034,7 +4034,7 @@ proc cmsn_draw_online { {delay 0} } {
 		if { $config(showblockedgroup) == 1 && [info exists emailBList($user_login)]} {
 			::groups::UpdateCount blocked +1
 			if {[::groups::IsExpanded blocked]} {
-				ShowUser $user_name $user_login $state $state_code $colour "blocked" $user_group
+				ShowUser $user_name $user_login $state $state_code $colour "blocked" [lindex [::abook::getGroup $user_login -id] 0]
 			}
 		}
 	}
