@@ -158,7 +158,8 @@ proc init_dock {} {
 					msg_box "[trans nosystemtray]"
 				}
 			}
-			statusicon_proc "FLN"
+			global user_stat
+			statusicon_proc $user_stat
 		}
 		vwait events
 
