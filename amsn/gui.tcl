@@ -2821,6 +2821,7 @@ catch {exec killall -c sndplay}
    }
 
    proc closeAmsn {} {
+      global tcl_platform
 		set parent [focus]
 		if { $parent == ""} { set parent "."}
 	
