@@ -27,7 +27,7 @@ allfiles Tous les fichiers
 allowallbutbl Autoriser tout le monde à me contacter sauf les personnes que j'ai bloquées
 allowbadwords Désactiver la censure des pseudos
 allowlist Liste des personnes autorisées :
-allowonlyinal N'autoriser que les utilisateurs de ma Liste d'acception à me contacter
+allowonlyinal N'autoriser que les utilisateurs de ma liste d'acception à me contacter
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
 allprofilesinuse Tous les profils existants sont présentement utilisés
 animatedemoticon Cet émoticon est animé
@@ -126,8 +126,8 @@ configure Configurer
 confirmdelete Confirmer suppression
 confirm Êtes-vous sûr ?
 confirmbl  Êtes-vous sûr de vouloir bloquer ce contact ?
-confirmdg Êtes-vous sûr de vouloir effacer ce groupe ?
-confirmdu Êtes-vous sûr de vouloir effacer ce contact ?
+confirmdg Êtes-vous sûr de vouloir supprimer ce groupe ?
+confirmdu Êtes-vous sûr de vouloir supprimer ce contact ?
 confirmeg Êtes-vous sûr de vouloir vider ce groupe ?
 confirmpurge Toutes les icônes de vos contacts vont être supprimées. Êtes-vous sur de vouloir le faire ?
 confirmrfl Êtes-vous sûr de vouloir effacer ce contact de ce groupe ?
@@ -470,6 +470,7 @@ prefremote Contrôle à distance
 prefsession Ma connexion et statut
 prefshared Connexions partagées (Seulement pour NAT)
 prefsound Sons
+preview Aperçu 
 privacy Privé
 profiledconfig Configuration profilée
 profileexists Vous ne pouvez pas créer un profil avec cet identifiant \n car il est déja utilisé par un profil. Choisissez en un autre.
