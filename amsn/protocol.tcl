@@ -3418,114 +3418,144 @@ proc cmsn_listdel {recv} {
 }
 
 proc cmsn_auth {{recv ""}} {
-   global config list_version
 
    status_log "cmsn_auth starting, stat=[sb get ns stat]\n" blue
 
-    if { [info exist recv]} { return [cmsn_auth_msnp9 $recv]}
-    else {![info exist recv]} { return [cmsn_auth_msnp9]}
+	global HOME config list_version info
 
-   switch [sb get ns stat] {
-      c {
-#New version of protocol
-         ::MSN::WriteSB ns "VER" "MSNP7 MSNP6 MSNP5 MSNP4 CVR0"
-	 sb set ns stat "v"
-	 return 0
-      }
-      v {
-         if {[lindex $recv 0] != "VER"} {
-	    status_log "cmsn_auth: was expecting VER reply but got a [lindex $recv 0]\n" red
-	    return 1
-	 } elseif {[lsearch -exact $recv "CVR0"] != -1} {
-            ::MSN::WriteSB ns "INF" ""
-	    sb set ns stat "i"
-	    return 0
-	 } else {
-	    status_log "cmsn_auth: could not negotiate protocol!\n" red
-	    return 1
-	 }
-      }
-      i {
-         if {[lindex $recv 0] != "INF"} {
-	    status_log "cmsn_auth: was expecting INF reply but got a [lindex $recv 0]\n" red
-            return 1
-         } elseif {[lsearch -exact $recv "MD5"] != -1} {
-            global config
-            ::MSN::WriteSB ns "USR" "MD5 I $config(login)"
-            sb set ns stat "u"
-            return 0
-         } else {
-            status_log "cmsn_auth: could not negotiate authentication method!\n" red
-            return 1
-         }
-      }
-      u {
-         if {([lindex $recv 0] != "USR") || \
-            ([lindex $recv 2] != "MD5") || \
-            ([lindex $recv 3] != "S")} {
-            status_log "cmsn_auth: was expecting USR x MD5 S xxxxx but got something else!\n" red
-            return 1
-         }
-         ::MSN::WriteSB ns "USR" "MD5 S [get_password 'MD5' [lindex $recv 4]]"
-         sb set ns stat "us"
-         return 0
-      }
-      us {
-         if {[lindex $recv 0] != "USR"} {
-            status_log "cmsn_auth: was expecting USR reply but got a [lindex $recv 0]\n" red
-            return 1
-         }
-         if {[lindex $recv 2] != "OK"} {
-            status_log "cmsn_auth: error authenticating with server!\n" red
-            return 1
-         }
-         global user_info
-         set user_info $recv
-         sb set ns stat "o"
-	 save_config						;# CONFIG
-	  load_contact_list
-	 ::MSN::WriteSB ns "SYN" "$list_version"
+	switch [sb get ns stat] {
 
-         if {$config(startoffline)} {
-            ::MSN::changeStatus "HDN"
- 	    send_dock "STATUS" "HDN"	    
-         } else {
-            ::MSN::changeStatus "NLN"
-	    send_dock "STATUS" "NLN"         
-	 }
-	       #Alert dock of status change
-         #      send_dock "NLN"
-	 send_dock "MAIL" 0
+		c {
+			::MSN::WriteSB ns "VER" "MSNP9 MSNP8 CVR0"
+			sb set ns stat "v"
+			return 0
+		}
 
-         #Log out
-         .main_menu.file entryconfigure 2 -state normal
-         #My status
-         .main_menu.file entryconfigure 3 -state normal
-         #Add a contact
-         .main_menu.tools entryconfigure 0 -state normal
-         .main_menu.tools entryconfigure 1 -state normal
-         .main_menu.tools entryconfigure 4 -state normal
-         #Added by Trevor Feeney
-	 #Enables the Group Order Menu
-	 .main_menu.tools entryconfigure 5 -state normal
- 
-         #Change nick
-	 configureMenuEntry .main_menu.actions "[trans changenick]..." normal
-	 #configureMenuEntry .options "[trans changenick]..." normal
+		v {
+			if {[lindex $recv 0] != "VER"} {
+				status_log "cmsn_auth: was expecting VER reply but got a [lindex $recv 0]\n" red
+				return 1
+			} elseif {[lsearch -exact $recv "CVR0"] != -1} {
+				::MSN::WriteSB ns "CVR" "0x0409 winnt 6.0 i386 MSNMSGR 6.0.0602 MSMSGS $config(login)"
+				sb set ns stat "i"
+				return 0
+			} else {
+				status_log "cmsn_auth: could not negotiate protocol!\n" red
+				return 1
+			}
+		}
 
-	 configureMenuEntry .main_menu.actions "[trans sendmail]..." normal
-	 configureMenuEntry .main_menu.actions "[trans sendmsg]..." normal
-	 
-	 #configureMenuEntry .main_menu.actions "[trans verifyblocked]..." normal
-	 #configureMenuEntry .main_menu.actions "[trans showblockedlist]..." normal
+		i {
+			if {[lindex $recv 0] != "CVR"} {
+				status_log "cmsn_auth: was expecting CVR reply but got a [lindex $recv 0]\n" red
+				return 1
+			} else {
+				global config
+				::MSN::WriteSB ns "USR" "TWN I $config(login)"
+				sb set ns stat "u"
+				return 0
+			}
+		}
 
+		u {
+			if {([lindex $recv 0] != "USR") || \
+				([lindex $recv 2] != "TWN") || \
+				([lindex $recv 3] != "S")} {
 
-	 configureMenuEntry .main_menu.file "[trans savecontacts]..." normal
+				status_log "cmsn_auth: was expecting USR x TWN S xxxxx but got something else!\n" red
+				return 1
+			}
 
-         return 0
-      }
-   }
-   return -1
+			foreach x [split [lrange $recv 4 end] ","] { set info([lindex [split $x "="] 0]) [lindex [split $x "="] 1] }
+			set info(all) [lrange $recv 4 end]
+
+			#if {$config(nossl)
+			#|| ($config(connectiontype) != "direct" && $config(connectiontype) != "http") } {
+			#http::geturl "https://nexus.passport.com/rdr/pprdr.asp" -timeout 8000 -command "gotNexusReply [list $info(all)]"
+				global login_passport_url
+				if { $login_passport_url == 0 } {
+					status_log "cmsn_auth_msnp9: Nexus didn't reply yet...\n"
+					set login_passport_url [list $info(all)]
+				} else {
+					#catch {status_log "Error calling nexus: $res\n"}
+					#msnp9_do_auth [list $info(all)] https://login.passport.com/login2.srf
+					status_log "cmsn_auth_msnp9: Nexus has replied so we have login URL...\n"
+					msnp9_do_auth [list $info(all)] $login_passport_url
+				}
+			#}
+
+			return 0
+
+		}
+
+		us {
+
+			if {[lindex $recv 0] != "USR"} {
+				status_log "cmsn_auth: was expecting USR reply but got a [lindex $recv 0]\n" red
+				return 1
+			}
+
+			if {[lindex $recv 2] != "OK"} {
+				status_log "cmsn_auth: error authenticating with server!\n" red
+				return 1
+			}
+
+			global user_info
+			set user_info $recv
+			sb set ns stat "o"
+			# Switch to our cached nickname if the server's one is different that ours
+			if { [file exists [file join ${HOME} "nick.cache"]] && $config(storename) } {
+				set nickcache [open [file join ${HOME} "nick.cache"] r]
+				gets $nickcache storednick
+				if { $storednick != [urldecode [lindex $user_info 4]] && $storednick != "" } {
+					::MSN::changeName $config(login) $storednick 1
+				}
+				close $nickcache
+			}
+			save_config						;# CONFIG
+			load_contact_list
+
+			::MSN::WriteSB ns "SYN" "$list_version"
+
+			if {$config(startoffline)} {
+				::MSN::changeStatus "HDN"
+				send_dock "STATUS" "HDN"
+			} else {
+				::MSN::changeStatus "NLN"
+				send_dock "STATUS" "NLN"
+			}
+			#Alert dock of status change
+			#      send_dock "NLN"
+			send_dock "MAIL" 0
+
+			#Log out
+			.main_menu.file entryconfigure 2 -state normal
+			#My status
+			.main_menu.file entryconfigure 3 -state normal
+			#Add a contact
+			.main_menu.tools entryconfigure 0 -state normal
+			.main_menu.tools entryconfigure 1 -state normal
+			.main_menu.tools entryconfigure 4 -state normal
+			#Added by Trevor Feeney
+			#Enables the Group Order Menu
+			.main_menu.tools entryconfigure 5 -state normal
+
+			#Change nick
+			configureMenuEntry .main_menu.actions "[trans changenick]..." normal
+			#configureMenuEntry .options "[trans changenick]..." normal
+
+			configureMenuEntry .main_menu.actions "[trans sendmail]..." normal
+			configureMenuEntry .main_menu.actions "[trans sendmsg]..." normal
+
+			configureMenuEntry .main_menu.file "[trans savecontacts]..." normal
+
+			return 0
+		}
+
+	}
+
+	return -1
+
 }
 
 
@@ -3636,154 +3666,16 @@ proc msnp9_authenticate { ticket } {
 
 }
 
-proc cmsn_auth_msnp9 {{recv ""}} {
-	global HOME config list_version info
-
-	switch [sb get ns stat] {
-
-		c {
-			::MSN::WriteSB ns "VER" "MSNP9 MSNP8 CVR0"
-			sb set ns stat "v"
-			return 0
-		}
-
-		v {
-			if {[lindex $recv 0] != "VER"} {
-				status_log "cmsn_auth: was expecting VER reply but got a [lindex $recv 0]\n" red
-				return 1
-			} elseif {[lsearch -exact $recv "CVR0"] != -1} {
-				::MSN::WriteSB ns "CVR" "0x0409 winnt 6.0 i386 MSNMSGR 6.0.0602 MSMSGS $config(login)"
-				sb set ns stat "i"
-				return 0
-			} else {
-				status_log "cmsn_auth: could not negotiate protocol!\n" red
-				return 1
-			}
-		}
-
-		i {
-			if {[lindex $recv 0] != "CVR"} {
-				status_log "cmsn_auth: was expecting CVR reply but got a [lindex $recv 0]\n" red
-				return 1
-			} else {
-				global config
-				::MSN::WriteSB ns "USR" "TWN I $config(login)"
-				sb set ns stat "u"
-				return 0
-			}
-		}
-
-		u {
-			if {([lindex $recv 0] != "USR") || \
-				([lindex $recv 2] != "TWN") || \
-				([lindex $recv 3] != "S")} {
-
-				status_log "cmsn_auth: was expecting USR x TWN S xxxxx but got something else!\n" red
-				return 1
-			}
-
-			foreach x [split [lrange $recv 4 end] ","] { set info([lindex [split $x "="] 0]) [lindex [split $x "="] 1] }
-			set info(all) [lrange $recv 4 end]
-
-			#if {$config(nossl)
-			#|| ($config(connectiontype) != "direct" && $config(connectiontype) != "http") } {
-			#http::geturl "https://nexus.passport.com/rdr/pprdr.asp" -timeout 8000 -command "gotNexusReply [list $info(all)]"
-				global login_passport_url
-				if { $login_passport_url == 0 } {
-					status_log "cmsn_auth_msnp9: Nexus didn't reply yet...\n"
-					set login_passport_url [list $info(all)]
-				} else {
-					#catch {status_log "Error calling nexus: $res\n"}
-					#msnp9_do_auth [list $info(all)] https://login.passport.com/login2.srf
-					status_log "cmsn_auth_msnp9: Nexus has replied so we have login URL...\n"
-					msnp9_do_auth [list $info(all)] $login_passport_url
-				}
-			#}
-
-			return 0
-
-		}
-
-		us {
-
-			if {[lindex $recv 0] != "USR"} {
-				status_log "cmsn_auth: was expecting USR reply but got a [lindex $recv 0]\n" red
-				return 1
-			}
-
-			if {[lindex $recv 2] != "OK"} {
-				status_log "cmsn_auth: error authenticating with server!\n" red
-				return 1
-			}
-
-			global user_info
-			set user_info $recv
-			sb set ns stat "o"
-			# Switch to our cached nickname if the server's one is different that ours
-			if { [file exists [file join ${HOME} "nick.cache"]] && $config(storename) } {
-				set nickcache [open [file join ${HOME} "nick.cache"] r]
-				gets $nickcache storednick
-				if { $storednick != [urldecode [lindex $user_info 4]] && $storednick != "" } {
-					::MSN::changeName $config(login) $storednick 1
-				}
-				close $nickcache
-			} 
-			save_config						;# CONFIG
-			load_contact_list
-
-			::MSN::WriteSB ns "SYN" "$list_version"
-
-			if {$config(startoffline)} {
-				::MSN::changeStatus "HDN"
-				send_dock "STATUS" "HDN"
-			} else {
-				::MSN::changeStatus "NLN"
-				send_dock "STATUS" "NLN"
-			}
-			#Alert dock of status change
-			#      send_dock "NLN"
-			send_dock "MAIL" 0
-
-			#Log out
-			.main_menu.file entryconfigure 2 -state normal
-			#My status
-			.main_menu.file entryconfigure 3 -state normal
-			#Add a contact
-			.main_menu.tools entryconfigure 0 -state normal
-			.main_menu.tools entryconfigure 1 -state normal
-			.main_menu.tools entryconfigure 4 -state normal
-			#Added by Trevor Feeney
-			#Enables the Group Order Menu
-			.main_menu.tools entryconfigure 5 -state normal
-
-			#Change nick
-			configureMenuEntry .main_menu.actions "[trans changenick]..." normal
-			#configureMenuEntry .options "[trans changenick]..." normal
-
-			configureMenuEntry .main_menu.actions "[trans sendmail]..." normal
-			configureMenuEntry .main_menu.actions "[trans sendmsg]..." normal
-
-			configureMenuEntry .main_menu.file "[trans savecontacts]..." normal
-
-			return 0
-		}
-
-	}
-
-	return -1
-
-}
-
 proc sb_change { chatid } {
 	global typing config
 
 	set sbn [::MSN::SBFor $chatid]
-	
+
 	if { $sbn == 0 } {
 		status_log "sb_change: VERY BAD ERROR - SB=0\n" error
 		return 0
 	}
-	
+
 	if { ![info exists typing($sbn)] } {
 		set typing($sbn) 1
 
