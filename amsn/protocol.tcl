@@ -3643,9 +3643,13 @@ proc change_BLP_settings { item } {
 proc new_contact_list { version {load 0} } {
     global list_version HOME list_al list_fl list_bl list_rl list_users
 
+    status_log "new contact list version : $version --- previous version was : $list_version\n"
+
+
     if { $list_version == $version } {
 	if { $load } {
 
+	    status_log "loading contact list from file\n"
 	    if {[file readable "[file join ${HOME} contacts.ver]"] == 0} {
 		return 0
 	    }
@@ -3664,7 +3668,14 @@ proc new_contact_list { version {load 0} } {
 	    sxml::register_routine $contact_id "contactlist_${list_version}:Group" "create_group"
 	    sxml::register_routine $contact_id "contactlist_${list_version}" "finished_loading_list"
 	    
-	    sxml::parse $contact_id
+	    status_log "parsing file\n"
+	    set ret [sxml::parse $contact_id]
+	    if { $ret < 0 } {
+		set list_version 0
+		::MSN::WriteSB ns "SYN" "0"
+	    }
+
+	    status_log "ended parsing of file with return code : $ret \n"
 	    sxml::end $contact_id
 	}
 
@@ -3677,7 +3688,9 @@ proc new_contact_list { version {load 0} } {
 
 proc load_contact_list { } {
     global list_version HOME
-    
+
+    status_log "checking if contact list files exists\n"
+
     if {[file readable "[file join ${HOME} contacts.xml]"] == 0} {
 	set list_version "0"
 	return 0
@@ -3690,6 +3703,9 @@ proc load_contact_list { } {
 
     set file_id [open [file join ${HOME} contacts.ver] r]
     gets $file_id version
+    close $file_id
+
+    status_log "setting contact list version to $version \n"
 
     set list_version $version
 
@@ -3842,7 +3858,7 @@ proc finished_loading_list { cstack cdata saved_data cattr saved_attr args } {
 
 
 proc clean_contact_lists {} {
-    global list_version list_al list_fl list_bl list_rl list_users list_BLP
+    global list_version list_al list_fl list_bl list_rl list_users list_BLP emailBList
 
     set list_version 0
     set list_al [list]
@@ -3851,4 +3867,7 @@ proc clean_contact_lists {} {
     set list_rl [list]
     set list_users [list]
     set list_BLP -1
+    if { [info exists emailBList] } {
+	unset emailBList
+    }
 }

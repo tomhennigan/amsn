@@ -195,7 +195,7 @@ proc CreateStatesMenu { path } {
 
     if { [StateList size] > 0 && [info exists automessage] &&
 	 $automessage != -1} {
-	$path add command -label "[trans editcurrentstate]..." -command "EditNewState 2 0"
+	$path add command -label "[trans editcurrentstate]..." -command "EditNewState 3"
     }
 
     for {set idx 0} {$idx <= [expr $limit - 1] } { incr idx 1 } {
@@ -356,14 +356,23 @@ proc EditNewState { mode { idx "" } } {
     
     # Fill all entries if editing an existing state
     if { $mode == 2 } {
-	global automessage 
+
+	$lfname.edesc insert end [lindex [StateList get $idx] 0]
+	$lfname.statebox select [lindex [StateList get $idx] 1]
+	$lfname.emsg insert end [lindex [StateList get $idx] 3]
+	button .editstate.buttons.save -text [trans save] -font sboldf -command "ButtonSaveState $lfname $mode $idx; destroy .editstate"
+
+    } elseif { $mode == 3 } {
+	global automessage
+
 	$lfname.edesc insert end [lindex $automessage 0]
 	$lfname.statebox select [lindex $automessage 1]
 	$lfname.emsg insert end [lindex $automessage 3]
-	if { "$automessage" == "[StateList get $idx]" } {
-	    button .editstate.buttons.save -text [trans save] -font sboldf -command "ButtonSaveState $lfname $mode $idx; destroy .editstate"
+
+	if { "$automessage" == "[StateList get 0]" } {
+	    button .editstate.buttons.save -text [trans save] -font sboldf -command "ButtonSaveState $lfname 2 0; destroy .editstate"
 	} else {
-	    button .editstate.buttons.save -text [trans save] -font sboldf -command "ButtonSaveState $lfname 3 $idx; destroy .editstate"
+	    button .editstate.buttons.save -text [trans save] -font sboldf -command "ButtonSaveState $lfname 3 0; destroy .editstate"
 	}
     } else {
 	button .editstate.buttons.save -text [trans save] -font sboldf -command "ButtonSaveState $lfname $mode $idx; destroy .editstate"
