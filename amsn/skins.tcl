@@ -66,7 +66,21 @@ namespace eval ::skin {
 		::set ::skin_setting($key) $value
 	}
 	
-	proc setDefaults {} {
+	
+	proc InitSkinDefaults { } {
+		variable ContactListColors
+		global skinconfig
+		
+		set skinconfig(smilew) 22      ;# Smiley width
+		set skinconfig(smileh) 22      ;# Smiley height
+		
+		global emoticon_number emotions emotions_names emotions_data
+		set emoticon_number 0
+		set emotions_names [list]
+		if { [info exists emotions] } {unset emotions}
+		if { [info exists emotions_data] } {unset emotions_data}
+		if { [info exists ContactListColors] } {unset ContactListColors }
+
 		store bigstate_xpad 0
 		store bigstate_ypad 3
 		
@@ -81,6 +95,7 @@ namespace eval ::skin {
 		
 		store expand_xpad 5
 		store expand_ypad 0
+		
 	}
 
 	
@@ -257,23 +272,7 @@ namespace eval ::skin {
 		}
 		
 	}
-	
-	proc InitSkinDefaults { } {
-		variable ContactListColors
-		global skinconfig
 		
-		set skinconfig(smilew) 22      ;# Smiley width
-		set skinconfig(smileh) 22      ;# Smiley height
-		
-		global emoticon_number emotions emotions_names emotions_data
-		set emoticon_number 0
-		set emotions_names [list]
-		if { [info exists emotions] } {unset emotions}
-		if { [info exists emotions_data] } {unset emotions_data}
-		if { [info exists ContactListColors] } {unset ContactListColors }
-		
-	}
-	
 	#######################################################################
 	# Reload the given skin settings file
 	proc reloadSkinSettings { skin_name } {

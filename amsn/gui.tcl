@@ -7,8 +7,6 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 if { $initialize_amsn == 1 } {
 	init_ticket putmessage
 	
-	::skin::setDefaults
-
 	::skin::setDefaultColor mainwindowbg #7979f2
 	::skin::setDefaultColor chatwindowbg #EAEAEA
 	::skin::setDefaultColor buttonbarbg #eeeeff
