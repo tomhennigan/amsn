@@ -78,8 +78,6 @@ namespace eval ::MSN {
    }
 
    proc unblockUser { userlogin username} {
-      global list_al $user_login
-      lappend 
       ::MSN::WriteNS REM "BL $userlogin"
       ::MSN::WriteNS ADD "AL $userlogin $username"
 #      ::MSN::WriteNS LST "RL"
