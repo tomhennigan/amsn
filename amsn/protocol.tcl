@@ -57,9 +57,14 @@ namespace eval ::MSN {
    }
 
    proc logout {} {
+
       global config user_stat
       variable myStatus
-      catch {puts -nonewline [sb get ns sock] "OUT\r\n"; sb set ns stat "d"} res
+      catch {puts -nonewline [sb get ns sock] "OUT\r\n"; close [sb get ns sock]} res
+
+      sb set ns stat "d"
+      sb set ns sock ""
+      sb set ns serv [split $config(start_ns_server) ":"]
 
       set myStatus FLN
       set user_stat FLN
@@ -1374,11 +1379,16 @@ proc read_ns_sock {} {
 
    set ns_sock [sb get ns sock]
    if {[eof $ns_sock]} {
+      status_log "Closing NS socket! (stat= [sb get ns stat])\n" red
       close $ns_sock
-      sb set ns stat "d"
-      status_log "Closing NS socket!\n" red
 
-      ::MSN::logout
+      set oldstat [sb get ns stat]
+      sb set ns stat "d"
+
+      if { ("$oldstat" != "d") && ("$oldstat" != "u") } {
+         ::MSN::logout
+      }
+
    } else {
       gets $ns_sock tmp_data
 
@@ -1709,7 +1719,7 @@ proc cmsn_sb_handler {sb_name item} {
 	   # this should be related to user state changes
 	  #sb get $sb_name stat
 	  ::MSN::ClearQueue [::MSN::ChatFor $sb_name]
-	  ::MSN::CleanChat [::MSN::ChatFor $sb_name]
+	  #::MSN::CleanChat [::MSN::ChatFor $sb_name]
           ::amsn::chatStatus [::MSN::ChatFor $sb_name] "[trans usernotonline]\n" miniwarning
 	  #msg_box "[trans usernotonline]"
           return 0
@@ -2673,12 +2683,15 @@ proc cmsn_ns_connect { username {password ""}} {
      return -1
    }
 
+   cmsn_draw_signin
+
    set list_al [list]
    set list_bl [list]
    set list_fl [list]
    set list_rl [list]
    #TODO: I hope this breaks nothing
    set list_users [list]
+
 
    if {[sb get ns stat] != "d"} {
       fileevent [sb get ns sock] readable {}
@@ -2689,8 +2702,6 @@ proc cmsn_ns_connect { username {password ""}} {
    .main_menu.file entryconfigure 0 -state disabled
    .main_menu.file entryconfigure 1 -state disabled
    #Proxy Config
-
-   cmsn_draw_signin
 
    sb set ns data [list]
    sb set ns connected "cmsn_ns_connected"

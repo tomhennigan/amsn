@@ -94,6 +94,7 @@ DONE	"Clear all logs" button (in preferences)
 	***Extra Features (priority 3)***
 
 -	Menu accelerators
+-	Be able to change thers font in chat (same as you, or different)
 -	Gnome2 Docking + KDE Docking
 -	Autoconnect (when connection detected)
 -	Notebook like chat windows (as an option)
@@ -108,7 +109,8 @@ DONE	"Clear all logs" button (in preferences)
 	
 	***Graphical Interface (priority 4)***
 
--	Background image, animation when logging in
+-	Background image
+DONE	Animation when logging in
 -	Transparent background message windows (is it possible now with 8.4?)
 -	Skin\Themes selection
 -	... at the end of nicks that don't fit in the contact list

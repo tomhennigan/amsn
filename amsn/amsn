@@ -149,6 +149,7 @@ source [file join $program_dir checkver.tcl]
 source [file join $program_dir smileys.tcl]
 source [file join $program_dir groups.tcl]	;# Handle buddy groups
 source [file join $program_dir abook.tcl]	;# Handle buddy address book
+source [file join $program_dir anigif.tcl]	;# Animated GIFS
 source [file join $program_dir gui.tcl]
 source [file join $program_dir alarm.tcl]	;# Alarms code (Burger)
 source [file join $program_dir dock.tcl]	;# Docking routines

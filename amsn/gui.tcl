@@ -1,6 +1,5 @@
 #Default look
 
-
 set bgcolor #0050C0
 set bgcolor2 #D0D0F0
 
@@ -2029,6 +2028,7 @@ proc cmsn_draw_main {} {
    scrollbar $pgBuddy.ys -command "$pgBuddy.text yview" -highlightthickness 0 \
       -borderwidth 1 -elementborderwidth 2
 
+
    #This shouldn't go here
    if {$config(withproxy)} {
 
@@ -2404,17 +2404,29 @@ proc cmsn_draw_offline {} {
 
 
 #///////////////////////////////////////////////////////////////////////
-# TODO: Animate login
 proc cmsn_draw_signin {} {
-    global config pgBuddy
+    global config pgBuddy images_folder
 
    wm title . "[trans title] - $config(login)"
+
 
    $pgBuddy.text configure -state normal -font splainf
    $pgBuddy.text delete 0.0 end
    $pgBuddy.text tag conf signin -fore #000000 \
    -font sboldf -justify center
-   $pgBuddy.text insert end "\n\n\n\n\n\n\n"
+   #$pgBuddy.text insert end "\n\n\n\n\n\n\n"
+   $pgBuddy.text insert end "\n\n\n\n\n"
+
+   label .loginanim -background [$pgBuddy.text cget -background]
+   ::anigif::anigif [file join ${images_folder} loganim.gif] .loginanim
+
+   $pgBuddy.text insert end " " signin
+   $pgBuddy.text window create end -window .loginanim
+   $pgBuddy.text insert end " " signin
+
+   bind .loginanim <Destroy> "::anigif::destroy .loginanim"
+
+   $pgBuddy.text insert end "\n\n"
    $pgBuddy.text insert end "[trans loggingin]..." signin
    $pgBuddy.text insert end "\n"
    $pgBuddy.text configure -state disabled
@@ -2689,7 +2701,7 @@ proc cmsn_draw_online {} {
    $pgBuddy.text insert end "\n"
 
    #set width [expr {[winfo width $pgBuddy.text] - 10} ]
-   set width [expr {[winfo width $pgBuddy.text]} -1 ]
+   set width [expr {[winfo width $pgBuddy.text]} - 1 ]
 
    if { $width < 160 } {
        set width 160
