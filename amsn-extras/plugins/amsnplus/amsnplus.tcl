@@ -13,7 +13,6 @@ namespace eval ::amsnplus {
 	proc amsnplusStart { dir } {
 		#register plugin
 		::plugins::RegisterPlugin "aMSN Plus"
-		source [file join $dir amsnplus.tcl]
 		#plugin config
 		array set ::amsnplus::config {
 			colour_nicks {0}
