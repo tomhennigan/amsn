@@ -43,7 +43,7 @@ proc ConfigDefaults {} {
 	set config(adverts) 0
 	set config(autohotlogin) 1
 	set config(autoidle) 1
-	set config(idletime) 300	
+	set config(idletime) 300
 	set config(showonline) 1
 	set config(showoffline) 1
 	set config(listsmileys) 1
@@ -71,6 +71,7 @@ proc ConfigDefaults {} {
 	set config(autoconnect) 0
 	set config(showtimestamps) 1
 	set config(allowbadwords) 1
+	set config(receiveddir) ""
 	set password ""
 }
 

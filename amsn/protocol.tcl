@@ -1153,28 +1153,30 @@ namespace eval ::MSN {
       variable sb_chatid
 
       if { [info exists sb_chatid($chatid)] } {
-      
+
 	  if { [llength $sb_chatid($chatid)] > 0 } {
-	  
+
 	     #Try to find a connected SB
 	     foreach sbn $sb_chatid($chatid) {
-	     
-	        if { "[sb get $sbn stat]" == "o" } {
-		
-	           set sb_sock [sb get $sbn sock]
 
-	           if { "$sb_sock" != "" } {
-                      #status_log "SBFor: Returned $sbn as SB for $chatid\n" blue              	              
-		      return $sbn
+	        if {![catch {sb get $sbn stat} res ]} {
+	           if { "[sb get $sbn stat]" == "o" } {
+
+	              set sb_sock [sb get $sbn sock]
+
+	              if { "$sb_sock" != "" } {
+                         #status_log "SBFor: Returned $sbn as SB for $chatid\n" blue
+		         return $sbn
+	              }
+
 	           }
-		   
-	        }
+                }
 	     }
-	     
+
 	     #If not found, return first SB
-             #status_log "SBFor: Returned [lindex $sb_chatid($chatid) 0] as SB for $chatid\n" blue             
+             #status_log "SBFor: Returned [lindex $sb_chatid($chatid) 0] as SB for $chatid\n" blue
 	     return [lindex $sb_chatid($chatid) 0]
-	     
+
 	  }
       }
            
@@ -1483,7 +1485,7 @@ proc read_sb_sock {sbn} {
          degt_protocol "Message Contents:\n$msg_data" msgcontents
 
 	 sb append $sbn data $msg_data
-      } 
+      }
    }
 
 }
@@ -1495,6 +1497,10 @@ proc sb {do sbn var {value ""}} {
    global ${sbn}_info
    set sb_tmp "${sbn}_info(${var})"
    upvar #0 $sb_tmp sb_data
+
+   if {![info exists sb_data]} {
+      return ""
+   }
 
    switch $do {
       name {

@@ -118,7 +118,6 @@ if {$tcl_platform(platform) == "unix"} {
 }
 
 
-
 #TODO: Move this from here ??
 #///////////////////////////////////////////////////////////////////////
 #Notebook Pages (Buddies,News,Calendar,etc.)
@@ -156,7 +155,6 @@ source [file join $program_dir dock.tcl]	;# Docking routines
 source [file join $program_dir trayicon.tcl]	;# Docking routines for freedesktop system tray compliant docks
 source [file join $program_dir loging.tcl]	;# Euh yeh it's for loging :P
 source [file join $program_dir combobox.tcl]	;# The all mighty combobox is here! (B. Oakley)
-
 
 
 ###TODO: Replace all this msg_box calls with ::amsn::infoMsg
@@ -242,10 +240,15 @@ proc create_dir {path} {
    global tcl_platform
 
    if {[file isdirectory $path] == 0} {
-      file mkdir $path
+      if { [catch {file mkdir $path} res]} {
+         return -1
+      }
       if {$tcl_platform(platform) == "unix"} {
          file attributes $path -permissions 00700
       }
+      return 0
+   } else {
+      return 1
    }
 }
 #///////////////////////////////////////////////////////////////////////
@@ -531,6 +534,14 @@ degt_Init
 if { $config(encoding) != "auto" } {
   set_encoding $config(encoding)
 }
+
+if { $config(receiveddir) != "" } {
+   set res [create_dir $config(receiveddir)]
+   if { $res >= 0} {
+      set files_dir $config(receiveddir)
+   }
+}
+
 
 cmsn_draw_main
 
