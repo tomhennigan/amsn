@@ -46,6 +46,7 @@ changefont Promeni Font
 changenick Promeni nadimak
 chatack Prihvata chat od
 chat Chat
+chatmaxmin Kad kontakt otvori chat zelim da bude:
 chatreq Zahteva chat
 chatsmileys2 Prikazi Emotikone i Smajlije u chat prozoru
 chatsmileys Chat smajliji
@@ -68,6 +69,7 @@ connected Sada ste konektovani
 connecterror Greska prilikom konektovanja na server
 connecting Konektujem se
 connection Konekcija
+connectionlost Diskonektovan: zatvorena konekcija na server
 contactadded Kontakt dodat
 contactdoesnotexist Kontakt ne postoji!
 copy Kopiraj
@@ -83,6 +85,7 @@ delete Brisi
 deliverfail Problem prilikom isporuke sledece poruke
 delprofile2 Izaberi Profil koji bi zeleo da bude obrisan
 delprofile Obrisi Profil
+directconnection Imam direktnu vezu na internet (koristi port 1863)
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
 docking Docking
@@ -106,8 +109,16 @@ fileman Fajl Menadzer
 filename Ime fajla
 filetransfercancelled Prenos fajla prekinut
 filetransfercomplete Prenos fajla zavrsen
+ftacceptedby $1 prihvation fajl transfer fajla '$2'.
 ftaccepted Prenos fajla prihvacen
+ftaccepting Prihvatam poziv za transfer fajla
+ftconnecterror Greska prilikom konektovanja na remote peer
+ftconnecting Konekcija na $1 port $2
+ftconnectionlost Konekcija na remote peer izgubljena
+ftgotinvitation  $1 zeli da ti posalje fajl '$2' ($3 bajtova). Bice snimljen u direktorijumu $4. Da li zelis da ga primis?
+ftrejectedby  $1 je odbio poziv za transfer fajla '$2'.
 ftrejected Prenos fajla odbijen
+ftsendinvitation  Poziv za prenos fajla  '$2' ($3 bajtova) je poslan $1.
 gonelunch Otisao na klopu
 groupadd Dodaj u grupu
 groupdelete Obrisi groupu
@@ -124,10 +135,12 @@ helpcontents Sadrzaj pomoci
 help Pomoc
 history Vidi Istriju
 home Home
+httpconnection HTTP konekcija (koristi HTTP protokol preko porta 80)
 ident Identifikujem
 identity Identitet
 inbox Inbox
 invalidusername Nepropisno korisnicko ime
+invitationcancelled Poziv je otkazan
 invite Pozovi
 ipaddress IP Adresa
 ipdetect Detektuj ispravan IP za HTTP prenos fajlova
@@ -189,6 +202,7 @@ newveravailable Novija verzija $1 na raspolaganju za daunload
 next Sledece
 noactivity Neaktivan
 nologfile Nema log fajla za $1
+no ne
 nonewmail Nema novih porukau inbox-u
 nonewver Nema nove verzije na raspolaganju za daunload
 normal Normalno
@@ -221,6 +235,7 @@ port Port
 prefalerts Moji Dogadjaji Upozorenja i Zvuci
 prefapps Aplikacije
 prefawaymsg Moja "Otisao" Poruka
+prefconnection Podesavanja konekcije
 prefemotic Emotikoni Ikone i Smajliji
 preferences Podesavanja
 preffont2 Promeni nacin na koji drugi vide moj tekst u chatu
@@ -246,8 +261,10 @@ profiles Profili
 properties Svojstva
 proxyconfhttp Podesavanje HTTP proksi podrske
 proxyconf Podesavanje Proksija
+proxyconnection Kacim se na internet koristeci proksi server:
 proxy Ja sam iza Proksi Servera (HTTP ili SOCKS5)
 publishphones Objavi  moje telefonske brojeve
+raised Podignut/Deikonifikovan
 receivedbytes Primio $1 od $2 bajtova
 receivefile Primi fajl
 reconnect Cekam $1 da se  rekonektujem
@@ -309,6 +326,7 @@ willjoin Cekamg $1 da se prikljuci razgovoru
 work Posao
 wrongprofileversion Losa verzija konfig fajla. Da bi ga sredio, obrisi direktorijum $1, ili apdejtuj Amsn.
 xoffset X Ofset
+yes da
 yoffset Y Ofset
 youblocked Blokiran si
 yousay Ti kazes
