@@ -39,6 +39,7 @@ browse Explorar
 browser Explorador
 busy Ocupado
 cancel Cancelar
+cannotdeleteprofile Não é possível remover o perfil porque ele está a ser usado numa sessão Amsn
 cfgalarm Configurar/Adicinar/Remover Alarme
 changefont Mudar Fonte
 changenick Mudar a alcunha/nick
@@ -233,6 +234,7 @@ prefsession Meu login e estado
 prefshared Conexões Partilhadas(apenas para NAT)
 prefsound Som predefinido
 profiledconfig Configuração de perfil
+profileinuse Este perfil está a ser usado por uma outra sessão Amsn, por favor escolha outro
 profiles Perfíes
 properties Propriedades
 proxyconf Configuração de proxy
