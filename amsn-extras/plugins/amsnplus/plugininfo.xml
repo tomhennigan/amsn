@@ -10,7 +10,7 @@
 	<init_procedure>amsnplusStart</init_procedure>
 	<deinit_procedure>amsnplusStop</deinit_procedure>
 
-	<cvs_version>1.102</cvs_version>
+	<cvs_version>1.103</cvs_version>
 
 	<lang>
 		<langcode>ca</langcode>

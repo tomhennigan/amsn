@@ -369,6 +369,27 @@ namespace eval ::amsnplus {
 		
 		frame $w.top.left
 		frame $w.top.right
+
+		label $w.top.txt -text "[trans edit]"
+		pack $w.top.txt -side top
+
+		frame $w.top.top
+		button $w.top.top.amsnplusbutton -image [::skin::loadPixmap amsnplusbutton] -relief flat -padx 3 \
+			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
+			-highlightbackground [::skin::getKey buttonbarbg] \
+			-command "after 1 ::amsnplus::choose_color $w $w.top.right.entry" -activebackground [::skin::getKey buttonbarbg]
+		button $w.top.top.boldbutton -text "B" -command "::amsnplus::insert_text $w [binary format c 2] $w.top.right.entry"
+		button $w.top.top.italicbutton -text "I" -command "::amsnplus::insert_text $w [binary format c 5] $w.top.right.entry"
+		button $w.top.top.overstrikebutton -text "S" -command "::amsnplus::insert_text $w [binary format c 6] $w.top.right.entry"
+		button $w.top.top.underlinebutton -text "U" -command "::amsnplus::insert_text $w [binary format c 31] $w.top.right.entry"
+		button $w.top.top.resetbutton -text "R" -command "::amsnplus::insert_text $w [binary format c 15] $w.top.right.entry"
+		pack $w.top.top.amsnplusbutton -side left -padx 5
+		pack $w.top.top.boldbutton -side left -padx 5
+		pack $w.top.top.italicbutton -side left -padx 5
+		pack $w.top.top.overstrikebutton -side left -padx 5
+		pack $w.top.top.underlinebutton -side left -padx 5
+		pack $w.top.top.underlinebutton -side left -padx 5
+		pack $w.top.top -side top
 		
 		label $w.top.left.txt -text "[trans keyword]"
 		label $w.top.right.txt -text "[trans text]"
@@ -495,7 +516,7 @@ namespace eval ::amsnplus {
 	###############################################
 	#This is the proc to be compatible with the new way 
 	#in 0.95 to get path of input text (::ChatWindow::GetInputText)
-	proc insert_text {win character} {
+	proc insert_text {win character {input ""} } {
 		if {[::amsnplus::version_094]} {
 			$win.f.bottom.left.in.text insert end $character
 		} else {
@@ -503,7 +524,9 @@ namespace eval ::amsnplus {
 			if { [::ChatWindow::UseContainer] == 1 } {
 				set win [::ChatWindow::GetCurrentWindow $win]
 			}
-			set input [::ChatWindow::GetInputText $win]
+			if { [string equal $input ""] } {
+				set input [::ChatWindow::GetInputText $win]
+			}
 			$input insert end $character
 		}
 	}
@@ -549,12 +572,16 @@ namespace eval ::amsnplus {
 	# this opens a tk_color_palette to choose an
 	# rgb color in (rrr,ggg,bbb) format
 	# and insert the color code inside the input text
-	proc choose_color { win } {
+	proc choose_color { win {input ""} } {
 		set color [tk_chooseColor -parent $win];
 		if {[string equal $color ""]} { return }
 		set color [::amsnplus::hexToRGB [string replace $color 0 0 ""]];
 		set code "[binary format c 3]$color"
-		::amsnplus::insert_text $win $code
+		if { [string equal $input ""] } {
+			::amsnplus::insert_text $win $code
+		} else {
+			::amsnplus::insert_text $win $code $input
+		}
 	}
 	
 	###############################################
