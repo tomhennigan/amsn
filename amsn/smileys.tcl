@@ -202,7 +202,8 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
     foreach emotion $sortedemotions {
 	
 	set file $emotions(${emotion}_file)
-	
+	set filename [string map { "." "_"} $file]
+
 	foreach symbol $emotions(${emotion}_text) {
 	    set chars [string length $symbol]
 
@@ -229,7 +230,7 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
 # 		    if { [llength [$tw bbox $pos]] == 0 } {
 # 			$tw image create $pos -name anigif_$file -image $file -pady 1 -padx 1
 # 		    }
-		    set emoticon $tw.${smileys_drawn}_anigif_$file
+		    set emoticon $tw.${smileys_drawn}_anigif_$filename
 		    set smileys_drawn [expr $smileys_drawn + 1]		      
 		    
 		    label $emoticon -bd 0 -background [$tw cget -background]
@@ -467,12 +468,13 @@ proc smile_menu { {x 0} {y 0} {text text}} {
     foreach emotion [lsort $emotions_names] {
 	set symbol [lindex $emotions(${emotion}_text) 0]
 	set file $emotions(${emotion}_file)
+	set filename [string map { "." "_"} $file]
 
 	catch { 
 	    if { [string match {(%)} $symbol] != 0 } {
-		bind $w.text.$file <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; wm state $w withdrawn} res"
+		bind $w.text.$filename <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; wm state $w withdrawn} res"
 	    } else {
-		bind $w.text.$file <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\;[list wm state $w withdrawn]} res"     
+		bind $w.text.$filename <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\;[list wm state $w withdrawn]} res"     
 	    }
 	}
     }
@@ -520,6 +522,7 @@ proc create_smile_menu { {x 0} {y 0} } {
     foreach emotion [lsort $emotions_names] {
 	set symbol [lindex $emotions(${emotion}_text) 0]
 	set file $emotions(${emotion}_file)
+	set filename [string map { "." "_"} $file]
 	set chars [string length $symbol]
 	set hiden [valueforemot "$emotion" hiden]
 	set animated [valueforemot "$emotion" animated]
@@ -528,19 +531,19 @@ proc create_smile_menu { {x 0} {y 0} } {
 
 	catch {
  	    if { $animated } {
- 		label $w.text.$file -background [$w.text cget -background]
-  		::anigif::anigif  [file join $smileys_folder ${file}] $w.text.$file
- 		bind $w.text.$file <Destroy> "::anigif::destroy $w.text.$file"	
+ 		label $w.text.$filename -background [$w.text cget -background]
+  		::anigif::anigif  [file join $smileys_folder ${file}] $w.text.$filename
+ 		bind $w.text.$filename <Destroy> "::anigif::destroy $w.text.$file"	
  	    } else {
-		label $w.text.$file -image $file
+		label $w.text.$filename -image $file -background [$w.text cget -background]
 	    }
 
-	    $w.text.$file configure -cursor hand2 -borderwidth 1 -relief flat
+	    $w.text.$filename configure -cursor hand2 -borderwidth 1 -relief flat
 	   
 	    
-	    bind $w.text.$file <Enter> "$w.text.$file configure -relief raised"
-	    bind $w.text.$file <Leave> "$w.text.$file configure -relief flat"
-	    $w.text window create end -window $w.text.$file -padx 1 -pady 1
+	    bind $w.text.$filename <Enter> "$w.text.$filename configure -relief raised"
+	    bind $w.text.$filename <Leave> "$w.text.$filename configure -relief flat"
+	    $w.text window create end -window $w.text.$filename -padx 1 -pady 1
 	}
 	
 	
