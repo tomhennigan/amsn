@@ -311,6 +311,7 @@ internalerror Internal Server Error
 invalidfile2 Filename $1 could not be created, make sure you have the correct permissions for that target.
 invalidfile File $2 entered in field "$1" does not exist or is not readable
 invalidgroup Invalid group
+invalidparameter Error connecting to server: invalid parameter
 invalidpicsize The given picture is too big, please choose a smaller one
 invalidpic The given picture file doesn't exist
 invalidsound The given sound file doesn't exist
