@@ -11,6 +11,7 @@ set config(last_client_version) ""
 #by AIM
 set config(sound) 1
 set config(browser) "mozilla"
+set config(mailcommand) ""
 set config(soundcommand) "play"
 set config(language) "en"
 set config(adverts) 0
@@ -28,7 +29,7 @@ set config(yourfont) "Helvetiva 12 bold"
 set config(yourcolor) "red"
 #end AIM
 set config(orderbygroup) 0
-set config(withnotebook) 1
+set config(withnotebook) 0
 
 set password ""
 

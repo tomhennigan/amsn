@@ -390,8 +390,8 @@ proc cmsn_draw_main {} {
      -variable config(listsmileys) 
    .options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 \
      -variable config(closingdocks) 
-   .options add checkbutton -label "[trans extras]" -onvalue 1 -offvalue 0 \
-     -variable config(withnotebook) 
+#   .options add checkbutton -label "[trans extras]" -onvalue 1 -offvalue 0 \
+#     -variable config(withnotebook) 
 
    #Help menu
    menu .main_menu.help -tearoff 0 -type normal  
@@ -790,8 +790,8 @@ proc cmsn_draw_online {} {
    bind $pgBuddy.text.bigstate <Button3-ButtonRelease> {tk_popup .my_menu %X %Y}
    
    $pgBuddy.text insert end "   "
-   $pgBuddy.text insert end "$my_name " mystatus
-   $pgBuddy.text insert end "($my_state_desc)\n" mystatus
+   $pgBuddy.text insert end " $my_name " mystatus
+   $pgBuddy.text insert end "($my_state_desc) \n" mystatus
    $pgBuddy.text image create end -image colorbar 
    $pgBuddy.text insert end "\n"
 
@@ -1112,7 +1112,7 @@ proc cmsn_draw_msgwin {} {
    .${win_name}.menu.actions add command -label "[trans sendfile]..." \
       -command "::amsn::fileTransferSend ${name} ${name} " 
    .${win_name}.menu.actions add separator
-   .${win_name}.menu.actions add command -label [trans sendmail] -command "" -state disabled
+   .${win_name}.menu.actions add command -label [trans sendmail] -command "cmsn_msgwin_sendmail $name"
    menu .${win_name}.menu.actions.invite -tearoff 0 -type normal 
    .${win_name}.menu.actions.invite add separator
    .${win_name}.menu.actions.invite add command -label "[trans other]..." -state disabled
@@ -1275,6 +1275,28 @@ proc cmsn_show_typers {name} {
    .${win_name}.status configure -state disabled
 }
 
+proc cmsn_msgwin_sendmail {name} {
+   upvar #0 [sb name $name users] users_list
+   set win_name "msg_[string tolower ${name}]"
+
+   if {[llength $users_list]} {
+      set recipient ""
+      foreach usrinfo $users_list {
+         if { $recipient != "" } {
+            set recipient "${recipient}, "	 
+	 }
+         set user_login [lindex $usrinfo 0]
+         set recipient "${recipient}${user_login}"
+      }
+      set title [string replace $title end-1 end " - [trans chat]"]
+      set topmsg [string replace $topmsg end-1 end]
+   } else {
+      set recipient "recipient@somewhere.com"
+   }
+   
+   send_mail $recipient
+}
+
 proc cmsn_msgwin_title {name} {
    upvar #0 [sb name $name users] users_list
    set win_name "msg_[string tolower ${name}]"
@@ -1424,21 +1446,6 @@ proc cmsn_win_write {name txt {colour ""}} {
    }  
 
    
-#   foreach emotion $emotions {
-#      set symbol [lindex $emotion 0]
-#      set file [lindex $emotion 1]
-#      set chars [string length $symbol]
-#      while {[set pos [.${win_name}.text search -exact -nocase \
-#                              $symbol $text_start end]] != ""} {
-#         set posyx [split $pos "."]
-#         set endpos "[lindex $posyx 0].[expr [lindex $posyx 1] + $chars]"
-#         .${win_name}.text delete $pos $endpos
-#
-#         .${win_name}.text image create $pos -image $file -pady 1 -padx 1
-#
-#      }
-#   }
-
    .${win_name}.text yview moveto 1.0
    .${win_name}.text configure -state disabled
 
