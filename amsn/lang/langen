@@ -96,6 +96,7 @@ prefsound Sounds
 properties Properties
 proxyconf Proxy configuration
 proxyconfhttp HTTP proxy support configuration
+publishphones Publish my phone numbers
 receivedbytes Received $1 of $2 bytes
 receivefile Receive file
 reconnect Waiting for $1 to reconnect

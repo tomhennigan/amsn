@@ -95,6 +95,7 @@ prefsound Sonidos
 properties Propiedades
 proxyconf Configuración proxy
 proxyconfhttp Configurar soporte de proxy http
+publishphones Publicar mis numeros telefónicos
 receivedbytes Recibidos $1 de $2 bytes totales
 receivefile Recibir archivo
 reconnect Esperando que $1 se reconecte
