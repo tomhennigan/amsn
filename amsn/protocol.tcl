@@ -872,7 +872,7 @@ namespace eval ::MSN {
 
          if { [string tolower [lindex $recv 3]] == [string tolower $config(login)] } {
             set user_info $recv
-            cmsn_draw_online
+            cmsn_draw_online 1
          }
 
    }
@@ -2908,7 +2908,7 @@ proc cmsn_change_state {recv} {
       set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no]]
       set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
 
-      cmsn_draw_online
+      cmsn_draw_online 1
    } else {
       status_log "cmsn_change_state: PANIC!\n" red
    }
@@ -2993,7 +2993,7 @@ proc cmsn_ns_handler {item} {
 	 global user_stat
     	    if { $user_stat != [lindex $item 2] } {
 	       set user_stat [lindex $item 2]
-	       cmsn_draw_online
+	       cmsn_draw_online 1
 
 	       #Alert dock of status change
 #	       send_dock [lindex $item 2]
@@ -3074,21 +3074,21 @@ proc cmsn_ns_handler {item} {
 	  new_contact_list "[lindex $item 2]"
       	#status_log "$item\n" blue
 	::groups::RenameCB [lrange $item 0 5]
-	cmsn_draw_online
+	cmsn_draw_online 1
 	return 0
       }
       ADG {	# Add Group
 	  new_contact_list "[lindex $item 2]"
       	#status_log "$item\n" blue
 	::groups::AddCB [lrange $item 0 5]
-   	cmsn_draw_online
+   	cmsn_draw_online 1
 	return 0
       }
       RMG {	# Remove Group
 	  new_contact_list "[lindex $item 2]"
       	#status_log "$item\n" blue
 	::groups::DeleteCB [lrange $item 0 5]
-   	cmsn_draw_online
+   	cmsn_draw_online 1
 	return 0
       }
       OUT {	
@@ -3822,7 +3822,7 @@ proc list_users_refresh {} {
    }
 
    set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users_new]]
-   cmsn_draw_online
+   cmsn_draw_online 1
 
 }
 

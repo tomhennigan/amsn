@@ -502,6 +502,8 @@ proc smile_subst {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
 					continue
 				}
 
+				status_log "Replacing $symbol in tags [$tw tag names $pos]\n" green
+
 				$tw tag configure smiley -elide true
 				$tw tag add smiley $pos $endpos
 

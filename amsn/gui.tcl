@@ -3208,7 +3208,7 @@ proc cmsn_draw_offline {} {
 
    bind . <Configure> ""
 
-   after cancel "cmsn_draw_online 1"
+   after cancel "cmsn_draw_online"
 
    global sboldf config password pgBuddy
 
@@ -3644,255 +3644,237 @@ proc clickableImage {tw name image command {padx 0} {pady 0}} {
 
 #///////////////////////////////////////////////////////////////////////
 # TODO: move into ::amsn namespace, and maybe improve it
-proc cmsn_draw_online { {force 0} } {
+proc cmsn_draw_online { {delay 0} } {
+
+	#Delay not forced redrawing (to avoid too many redraws)
+	if { $delay } {
+		after cancel "cmsn_draw_online"
+		after 250 "cmsn_draw_online"
+		return
+	}
+
+	global emotions user_stat login list_users list_states user_info list_bl\
+		config showonline password pgBuddy bgcolor automessage emailBList
+
+	set scrollidx [$pgBuddy.ys get]
+
+	set my_name [urldecode [lindex $user_info 4]]
+	set my_state_no [lsearch $list_states "$user_stat *"]
+	set my_state [lindex $list_states $my_state_no]
+	set my_state_desc [trans [lindex $my_state 1]]
+	set my_colour [lindex $my_state 2]
+	set my_image_type [lindex $my_state 5]
+
+	#Clear every tag to avoid memory leaks:
+	foreach tag [$pgBuddy.text tag names] {
+		$pgBuddy.text tag delete $tag
+	}
+
+	# Decide which grouping we are going to use
+	if {$config(orderbygroup)} {
+
+		::groups::Enable
+
+		#Order alphabetically
+		set thelist [::groups::GetList]
+		set thelistnames [list]
+
+		foreach gid $thelist {
+			set thename [::groups::GetName $gid]
+			lappend thelistnames [list "$thename" $gid]
+		}
 
 
-   if { !$force } {
-     after cancel "cmsn_draw_online 1"
-     after 100 cmsn_draw_online 1
-     return
-   }
+		if {$config(ordergroupsbynormal)} {
+			set sortlist [lsort -dictionary -index 0 $thelistnames ]
+		} else {
+			set sortlist [lsort -decreasing -dictionary -index 0 $thelistnames ]
+		}
 
-   #puts "Drawing. Leveel: [info level] Previous: [info level [expr {[info level]-1}]]"
-   global emotions user_stat login list_users list_states user_info list_bl\
-    config showonline password pgBuddy bgcolor automessage emailBList
+		set glist [list]
 
-   set scrollidx [$pgBuddy.ys get]
+		foreach gdata $sortlist {
+			lappend glist [lindex $gdata 1]
+		}
 
-   set my_name [urldecode [lindex $user_info 4]]
-   set my_state_no [lsearch $list_states "$user_stat *"]
-   set my_state [lindex $list_states $my_state_no]
-   set my_state_desc [trans [lindex $my_state 1]]
-   set my_colour [lindex $my_state 2]
-   set my_image_type [lindex $my_state 5]
+		set gcnt [llength $glist]
 
-   #Clear every tag to avoid memory leaks:
-   foreach tag [$pgBuddy.text tag names] {
-      $pgBuddy.text tag delete $tag
-   }
+		# Now setup each of the group's defaults
+		for {set i 0} {$i < $gcnt} {incr i} {
+			set gid [lindex $glist $i]
+			::groups::UpdateCount $gid clear
+		}
 
-   # Decide which grouping we are going to use
-   if {$config(orderbygroup)} {
+		if {$config(orderbygroup) == 2 } {
+			lappend glist "offline"
+			incr gcnt
+		}
 
-       ::groups::Enable
+	} else {	# Order by Online/Offline
+		# Defaults already set in setup_groups
+		set glist [list online offline]
+		set gcnt 2
+		::groups::Disable
+	}
 
-       #Order alphabetically
-       set thelist [::groups::GetList]
-       set thelistnames [list]
+	if { $config(showblockedgroup) == 1 && [llength [array names emailBList] ] != 0 } {
+		lappend glist "blocked"
+		incr gcnt
+	}
 
-       foreach gid $thelist {
-	  set thename [::groups::GetName $gid]
-	  lappend thelistnames [list "$thename" $gid]
-       }
+	$pgBuddy.text configure -state normal -font splainf
+	$pgBuddy.text delete 0.0 end
 
+	#Set up TAGS for mail notification
+	$pgBuddy.text tag conf mail -fore black -underline true -font splainf
+	$pgBuddy.text tag bind mail <Button1-ButtonRelease> "hotmail_login $config(login) $password"
+	$pgBuddy.text tag bind mail <Enter> \
+		"$pgBuddy.text tag conf mail -under false;$pgBuddy.text conf -cursor hand2"
+	$pgBuddy.text tag bind mail <Leave> \
+		"$pgBuddy.text tag conf mail -under true;$pgBuddy.text conf -cursor left_ptr"
 
-       if {$config(ordergroupsbynormal)} {
-          set sortlist [lsort -dictionary -index 0 $thelistnames ]
-       } else {
-          set sortlist [lsort -decreasing -dictionary -index 0 $thelistnames ]
-       }
-       set glist [list]
+	# Configure bindings/tags for each named group in our scheme
+	foreach gname $glist {
 
-       foreach gdata $sortlist {
-          lappend glist [lindex $gdata 1]
-       }
+		if {$gname != "online" && $gname != "offline" && $gname != "blocked" } {
+			set gtag  "tg$gname"
+		} else {
+			set gtag $gname
+		}
 
-       set gcnt [llength $glist]
+		$pgBuddy.text tag conf $gtag -fore #000080 -font sboldf
+		$pgBuddy.text tag bind $gtag <Button1-ButtonRelease> \
+			"::groups::ToggleStatus $gname;cmsn_draw_online"
+		$pgBuddy.text tag bind $gtag <Button3-ButtonRelease> \
+			"tk_popup .group_menu %X %Y"
+		$pgBuddy.text tag bind $gtag <Enter> \
+			"$pgBuddy.text tag conf $gtag -under true;$pgBuddy.text conf -cursor hand2"
+		$pgBuddy.text tag bind $gtag <Leave> \
+			"$pgBuddy.text tag conf $gtag -under false;$pgBuddy.text conf -cursor left_ptr"
+	}
 
-       # Now setup each of the group's defaults
-       for {set i 0} {$i < $gcnt} {incr i} {
-	   set gid [lindex $glist $i]
-	   ::groups::UpdateCount $gid clear
-	   #set ::groups::uMemberCnt($gid) 0
-	   #set ::groups::uMemberCnt_online($gid) 0
-       }
+	$pgBuddy.text insert end "\n"
 
-       if {$config(orderbygroup) == 2 } {
-	   lappend glist "offline"
-	   incr gcnt
-       }
-
-   } else {	# Order by Online/Offline
-       # Defaults already set in setup_groups
-       set glist [list online offline]
-       set gcnt 2
-       ::groups::Disable
-   }
-
-   if { $config(showblockedgroup) == 1 && [llength [array names emailBList] ] != 0 } {
-       lappend glist "blocked"
-       incr gcnt
-   }
-
-   $pgBuddy.text configure -state normal -font splainf
-   $pgBuddy.text delete 0.0 end
-
-   #Set up TAGS for mail notification
-   $pgBuddy.text tag conf mail -fore black -underline true -font splainf
-   $pgBuddy.text tag bind mail <Button1-ButtonRelease> "hotmail_login $config(login) $password"
-   $pgBuddy.text tag bind mail <Enter> \
-   	"$pgBuddy.text tag conf mail -under false;$pgBuddy.text conf -cursor hand2"
-   $pgBuddy.text tag bind mail <Leave> \
-   	"$pgBuddy.text tag conf mail -under true;$pgBuddy.text conf -cursor left_ptr"
-
-   # Configure bindings/tags for each named group in our scheme
-   for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
-       set gname [lindex $glist $gidx]
-       if {$gname != "online" && $gname != "offline" && $gname != "blocked" } {
-           set gtag  "tg$gname"
-       } else {
-           set gtag $gname
-       }
-       $pgBuddy.text tag conf $gtag -fore #000080 -font sboldf
-       $pgBuddy.text tag bind $gtag <Button1-ButtonRelease> \
-	 "::groups::ToggleStatus $gname;cmsn_draw_online"
-       $pgBuddy.text tag bind $gtag <Button3-ButtonRelease> \
-	 "tk_popup .group_menu %X %Y"
-       $pgBuddy.text tag bind $gtag <Enter> \
-	    "$pgBuddy.text tag conf $gtag -under true;$pgBuddy.text conf -cursor hand2"
-       $pgBuddy.text tag bind $gtag <Leave> \
-	    "$pgBuddy.text tag conf $gtag -under false;$pgBuddy.text conf -cursor left_ptr"
-
-   }
-
-   $pgBuddy.text insert end "\n"
-
-   # Display MSN logo with user's handle. Make it clickable so
-   # that the user can change his/her status that way
-   clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y}
-   bind $pgBuddy.text.bigstate <Button3-ButtonRelease> {tk_popup .my_menu %X %Y}
+	# Display MSN logo with user's handle. Make it clickable so
+	# that the user can change his/her status that way
+	clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y}
+	bind $pgBuddy.text.bigstate <Button3-ButtonRelease> {tk_popup .my_menu %X %Y}
 
 
-   text $pgBuddy.text.mystatus -font bboldf -height 2 \
-      -width [expr {([winfo width $pgBuddy.text]-45)/[font measure bboldf -displayof $pgBuddy.text "0"]}] \
-      -background white -borderwidth 0 \
-      -relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
-       -exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
+	text $pgBuddy.text.mystatus -font bboldf -height 2 \
+		-width [expr {([winfo width $pgBuddy.text]-45)/[font measure bboldf -displayof $pgBuddy.text "0"]}] \
+		-background white -borderwidth 0 \
+		-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
+		-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
 	pack $pgBuddy.text.mystatus -expand true -fill x
 
-   $pgBuddy.text.mystatus configure -state normal
+	$pgBuddy.text.mystatus configure -state normal
 
-   $pgBuddy.text.mystatus tag conf mystatuslabel -fore gray -underline false \
-     -font splainf
+	$pgBuddy.text.mystatus tag conf mystatuslabel -fore gray -underline false \
+		-font splainf
 
-   $pgBuddy.text.mystatus tag conf mystatuslabel2 -fore gray -underline false \
-     -font bboldf
+	$pgBuddy.text.mystatus tag conf mystatuslabel2 -fore gray -underline false \
+		-font bboldf
 
-   $pgBuddy.text.mystatus tag conf mystatus -fore $my_colour -underline false \
-     -font bboldf
+	$pgBuddy.text.mystatus tag conf mystatus -fore $my_colour -underline false \
+		-font bboldf
 
-    $pgBuddy.text.mystatus tag bind mystatus <Enter> \
-      "$pgBuddy.text.mystatus tag conf mystatus -under true;$pgBuddy.text.mystatus conf -cursor hand2"
+	$pgBuddy.text.mystatus tag bind mystatus <Enter> \
+		"$pgBuddy.text.mystatus tag conf mystatus -under true;$pgBuddy.text.mystatus conf -cursor hand2"
 
-    $pgBuddy.text.mystatus tag bind mystatus <Leave> \
-      "$pgBuddy.text.mystatus tag conf mystatus -under false;$pgBuddy.text.mystatus conf -cursor left_ptr"
+	$pgBuddy.text.mystatus tag bind mystatus <Leave> \
+		"$pgBuddy.text.mystatus tag conf mystatus -under false;$pgBuddy.text.mystatus conf -cursor left_ptr"
 
-   $pgBuddy.text.mystatus tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
-   $pgBuddy.text.mystatus tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
+	$pgBuddy.text.mystatus tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
+	$pgBuddy.text.mystatus tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
 
-   if { [info exists automessage] } {
-   	if { $automessage != -1 } {
-		$pgBuddy.text.mystatus insert end "[trans mystatus]: " mystatuslabel
+	$pgBuddy.text.mystatus insert end "[trans mystatus]: " mystatuslabel
+
+	if { [info exists automessage] && $automessage != -1} {
 		$pgBuddy.text.mystatus insert end "[lindex $automessage 0]\n" mystatuslabel2
 	} else {
-		$pgBuddy.text.mystatus insert end "[trans mystatus]:\n" mystatuslabel
+		$pgBuddy.text.mystatus insert end "\n" mystatuslabel
 	}
-   } else {
-   	$pgBuddy.text.mystatus insert end "[trans mystatus]:\n" mystatuslabel
-   }
 
 	set maxw [expr [winfo width $pgBuddy.text] -45]
 	incr maxw [expr 0-[font measure bboldf -displayof $pgBuddy.text " ($my_state_desc)" ]]
 	set my_short_name [trunc $my_name $pgBuddy.text.mystatus $maxw bboldf]
-   $pgBuddy.text.mystatus insert end "$my_short_name " mystatus
-   $pgBuddy.text.mystatus insert end "($my_state_desc)" mystatus
-
-   if {$config(listsmileys)} {
-	smile_subst $pgBuddy.text.mystatus
-   }
-
+	$pgBuddy.text.mystatus insert end "$my_short_name " mystatus
+	$pgBuddy.text.mystatus insert end "($my_state_desc)" mystatus
 
 	set balloon_message "$my_name \n $config(login) \n [trans status] : $my_state_desc"
 
 	$pgBuddy.text.mystatus tag bind mystatus <Enter> \
-	    "+set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]"
+		"+set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]"
 
 	$pgBuddy.text.mystatus tag bind mystatus <Leave> \
-	    "+set Bulle(first) 0; kill_balloon"
+		"+set Bulle(first) 0; kill_balloon"
 
 	$pgBuddy.text.mystatus tag bind mystatus <Motion> \
-	    "if {\[set Bulle(set)\] == 0} \{after cancel \[set Bulle(id)\]; \
-            set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]\}"
+		"if {\[set Bulle(set)\] == 0} \{after cancel \[set Bulle(id)\]; \
+		set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]\}"
 
 
 	bind $pgBuddy.text.bigstate <Enter> \
-	    "+set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]"
+		"+set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]"
 	bind $pgBuddy.text.bigstate <Leave> \
 		"+set Bulle(first) 0; kill_balloon;"
 	bind $pgBuddy.text.bigstate <Motion> \
-	    "if {\[set Bulle(set)\] == 0} \{after cancel \[set Bulle(id)\]; \
-            set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]\} "
+		"if {\[set Bulle(set)\] == 0} \{after cancel \[set Bulle(id)\]; \
+		set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]\} "
 
 
-   #Calculate number of lines, and set my status size (for multiline nicks)
-   set size [$pgBuddy.text.mystatus index end]
-   set posyx [split $size "."]
-   set lines [expr {[lindex $posyx 0] - 1}]
-   if { [llength [$pgBuddy.text.mystatus image names]] } { incr lines}
+	#Calculate number of lines, and set my status size (for multiline nicks)
+	set size [$pgBuddy.text.mystatus index end]
+	set posyx [split $size "."]
+	set lines [expr {[lindex $posyx 0] - 1}]
+	if { [llength [$pgBuddy.text.mystatus image names]] } { incr lines }
 
-   $pgBuddy.text.mystatus configure -state normal -height $lines -wrap none
+	$pgBuddy.text.mystatus configure -state normal -height $lines -wrap none
+	$pgBuddy.text.mystatus configure -state disabled
 
-   $pgBuddy.text.mystatus configure -state disabled
+	$pgBuddy.text window create end -window $pgBuddy.text.mystatus -padx 6 -pady 0 -align bottom -stretch false
+	$pgBuddy.text insert end "\n"
 
+	#set width [expr {[winfo width $pgBuddy.text] - 10} ]
+	set width [expr {[winfo width $pgBuddy.text]} - 1 ]
 
+	if { $width < 160 } {
+		set width 160
+	}
 
-   $pgBuddy.text window create end -window $pgBuddy.text.mystatus -padx 6 -pady 0 -align bottom -stretch false
+	set barheight [image height colorbar]
+	set barwidth [image width colorbar]
 
+	image delete mainbar
+	image create photo mainbar -width $width -height $barheight
+	mainbar blank
+	mainbar copy colorbar -from 0 0 5 $barheight
+	mainbar copy colorbar -from 5 0 15 $barheight -to 5 0 [expr {$width - 150}] $barheight
+	mainbar copy colorbar -from [expr {$barwidth - 150}] 0 $barwidth $barheight -to [expr {$width - 150}] 0 $width $barheight
 
+	$pgBuddy.text image create end -image mainbar
+	$pgBuddy.text insert end "\n"
 
+	# Show Mail Notification status
+	clickableImage $pgBuddy.text mailbox mailbox {hotmail_login $config(login) $password} 5 0
 
-   $pgBuddy.text insert end "\n"
+	set unread [::hotmail::unreadMessages]
 
-   #set width [expr {[winfo width $pgBuddy.text] - 10} ]
-   set width [expr {[winfo width $pgBuddy.text]} - 1 ]
+	if { $unread == 0 } {
+		set mailmsg "[trans nonewmail]\n"
+	} elseif {$unread == 1} {
+		set mailmsg "[trans onenewmail]\n"
+	} elseif {$unread == 2} {
+		set mailmsg "[trans twonewmail 2]\n"
+	} else {
+		set mailmsg "[trans newmail $unread]\n"
+	}
 
-   if { $width < 160 } {
-       set width 160
-   }
-
-   set barheight [image height colorbar]
-   set barwidth [image width colorbar]
-
-   image delete mainbar
-   image create photo mainbar -width $width -height $barheight
-   mainbar blank
-   mainbar copy colorbar -from 0 0 5 $barheight
-   mainbar copy colorbar -from 5 0 15 $barheight -to 5 0 [expr {$width - 150}] $barheight
-   mainbar copy colorbar -from [expr {$barwidth - 150}] 0 $barwidth $barheight -to [expr {$width - 150}] 0 $width $barheight
-
-   $pgBuddy.text image create end -image mainbar
-   $pgBuddy.text insert end "\n"
-
-   # Show Mail Notification status
-   clickableImage $pgBuddy.text mailbox mailbox {hotmail_login $config(login) $password} 5 0
-
-   set unread [::hotmail::unreadMessages]
-
-   if { $unread == 0 } {
-      set mailmsg "[trans nonewmail]\n"
-   } elseif {$unread == 1} {
-      set mailmsg "[trans onenewmail]\n"
-   } elseif {$unread == 2} {
-      set mailmsg "[trans twonewmail 2]\n"
-   } else {
-      set mailmsg "[trans newmail $unread]\n"
-   }
 	set maxw [expr [winfo width $pgBuddy.text] -30]
 	set short_mailmsg [trunc $mailmsg $pgBuddy.text $maxw splainf]
 	$pgBuddy.text insert end "$short_mailmsg\n" mail
 	$pgBuddy.text tag add dont_replace_smileys mail.first mail.last
-
-#end AIM
 
 	$pgBuddy.text insert end "\n"
 	# For each named group setup its heading where >><< image
@@ -3927,153 +3909,191 @@ proc cmsn_draw_online { {force 0} } {
 			}
 
 			$pgBuddy.text insert end $gtitle $gtag
-			$pgBuddy.text tag add dont_replace_smileys $gtag.first $gtag.last
 
 		} else {
 
 			if {$gname == "online"} {
 				$pgBuddy.text insert end "[trans uonline]" online
-				$pgBuddy.text tag add dont_replace_smileys online.first online.last
 			} elseif {$gname == "offline" } {
 				$pgBuddy.text insert end "[trans uoffline]" offline
-				$pgBuddy.text tag add dont_replace_smileys offline.first offline.last
 			} elseif { $config(showblockedgroup) == 1 && [llength [array names emailBList] ] != 0 } {
 				$pgBuddy.text insert end "[trans youblocked]" blocked
-				$pgBuddy.text tag add dont_replace_smileys blocked.first blocked.last
 			}
 
 		}
 		$pgBuddy.text insert end "\n"
 	}
 
-   ::groups::UpdateCount online clear
-   ::groups::UpdateCount offline clear
-   ::groups::UpdateCount blocked clear
+	::groups::UpdateCount online clear
+	::groups::UpdateCount offline clear
+	::groups::UpdateCount blocked clear
 
-   foreach user $list_users {
-      set user_login [lindex $user 0]
-      set user_name [lindex $user 1]
-      set user_state_no [lindex $user 2]
-      set state [lindex $list_states $user_state_no]
-      set state_code [lindex $state 0]
+	#Draw the users in each group
+	foreach user $list_users {
 
-      set colour [lindex $state 2]
-      set section [lindex $state 3]; # Used in online/offline grouping
+		set user_login [lindex $user 0]
+		set user_name [lindex $user 1]
+		set user_state_no [lindex $user 2]
+		set state [lindex $list_states $user_state_no]
+		set state_code [lindex $state 0]
 
-      if { $section == "online"} {
-	   ::groups::UpdateCount online +1
-      } elseif {$section == "offline"} {
-	   ::groups::UpdateCount offline +1
-      }
+		set colour [lindex $state 2]
+		set section [lindex $state 3]; # Used in online/offline grouping
 
-
-       set breaking ""
-       
-      # Rename the section if we order by group
-      foreach user_group [::abook::getGroup $user_login -id] {
-         if {$config(orderbygroup)} {
-
-            set section $user_group
-	    set section "tg$section"
-	    #::groups::UpdateCount $user_group +1
-	    if { $section == "tgblocked" } {set section "blocked" }
-	    ::groups::UpdateCount $user_group +1 [lindex $state 3]
-
-	    if { $config(orderbygroup) == 2 } {
-		if { $state_code == "FLN" } { set section "offline"}
-		if { $breaking == "$user" } { break}
-	    }
-
-         }
-
-         # Check if the group/section is expanded, display accordingly
-         if {$config(orderbygroup)} {
-	    set myGroupExpanded [::groups::IsExpanded $user_group]
-	     if { $config(orderbygroup) == 2 } {
-		 if { $state_code == "FLN" } {
-		     set myGroupExpanded [::groups::IsExpanded offline]
-		 }
-	     }
-         } else {
-	    set myGroupExpanded [::groups::IsExpanded $section]
-         }
-
-         if {$myGroupExpanded} {
-            ShowUser $user_name $user_login $state $state_code $colour $section $user_group
-         }
-
-	 if { !$config(orderbygroup) } {
-	    #Avoid adding users more than once when ordering by online/offline!!
-	    break
-	 }
-	  if { $config(orderbygroup) == 2 && $state_code == "FLN" } { set breaking $user}
-      }
-   
-
-       if { $config(showblockedgroup) == 1 && [info exists emailBList($user_login)]} {
-	   ::groups::UpdateCount blocked +1
-	   set myGroupExpanded [::groups::IsExpanded blocked]
-	   if {$myGroupExpanded} {
-          ShowUser $user_name $user_login $state $state_code $colour "blocked" $user_group
-	   }
-       }
-   }
-
-
-   if {$config(orderbygroup)} {
-        for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
-	    set gname [lindex $glist $gidx]
-	    set gtag  "tg$gname"
-	    if {$config(orderbygroup) == 2 } {
-	       if { $gname == "offline" } {
-		$pgBuddy.text insert offline.last " ($::groups::uMemberCnt(offline))\n" offline
-	       } elseif { $gname == "blocked" } {
-		   $pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))\n" blocked
-	       } else {
-		$pgBuddy.text insert ${gtag}.last \
-		    " ($::groups::uMemberCnt_online(${gname}))\n" $gtag
-	       }
-	    } else {
-	   #$pgBuddy.text insert $gtag.last " ($::groups::uMemberCnt($gname))\n" $gtag
-		if { $gname == "blocked" } {
-		    $pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))\n" blocked
-		} else {
-		    $pgBuddy.text insert ${gtag}.last \
-			" ($::groups::uMemberCnt_online(${gname})/$::groups::uMemberCnt($gname))\n" $gtag
+		if { $section == "online"} {
+			::groups::UpdateCount online +1
+		} elseif {$section == "offline"} {
+			::groups::UpdateCount offline +1
 		}
-	    }
- 	}
-   } else {
-       $pgBuddy.text insert online.last " ($::groups::uMemberCnt(online))\n" online
-       $pgBuddy.text insert offline.last " ($::groups::uMemberCnt(offline))\n" offline
-       if { $config(showblockedgroup) == 1 && [llength [array names emailBList]] } {
-	   $pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))\n" blocked
-       }
-   }
 
-   $pgBuddy.ys set [lindex $scrollidx 0] [lindex $scrollidx 1]
-   $pgBuddy.text yview moveto [lindex $scrollidx 0]
 
-   $pgBuddy.text configure -state disabled
+		set breaking ""
 
-   #bind $pgBuddy.text <Configure>  "after cancel cmsn_draw_online; after 100 cmsn_draw_online"
+		if { $config(orderbygroup) } {
+			foreach user_group [::abook::getGroup $user_login -id] {
+				set section "tg$user_group"
 
-   #Init Preferences if window is open
-   if { [winfo exists .cfg] } {
-   	InitPref
-   }
+				if { $section == "tgblocked" } {set section "blocked" }
+
+				::groups::UpdateCount $user_group +1 [lindex $state 3]
+
+				if { $config(orderbygroup) == 2 } {
+					if { $state_code == "FLN" } { set section "offline"}
+					if { $breaking == "$user_login" } { continue }
+				}
+
+				set myGroupExpanded [::groups::IsExpanded $user_group]
+
+				if { $config(orderbygroup) == 2 } {
+					if { $state_code == "FLN" } {
+						set myGroupExpanded [::groups::IsExpanded offline]
+					}
+				}
+
+				if {$myGroupExpanded} {
+					ShowUser $user_name $user_login $state $state_code $colour $section $user_group
+				}
+
+				#Why "breaking"? Why not just a break? Or should we "continue" instead of breaking?
+				if { $config(orderbygroup) == 2 && $state_code == "FLN" } { set breaking $user_login}
+
+			}
+		} elseif {[::groups::IsExpanded $section]} {
+			ShowUser $user_name $user_login $state $state_code $colour $section 0
+		}
+
+		# Rename the section if we order by group
+		#foreach user_group [::abook::getGroup $user_login -id] {
+
+		#	if {$config(orderbygroup)} {
+
+		#		set section "tg$user_group"
+
+		#		if { $section == "tgblocked" } {set section "blocked" }
+
+		#		::groups::UpdateCount $user_group +1 [lindex $state 3]
+
+		#		if { $config(orderbygroup) == 2 } {
+		#			if { $state_code == "FLN" } { set section "offline"}
+		#			if { $breaking == "$user" } { break }
+		#		}
+
+		#		set myGroupExpanded [::groups::IsExpanded $user_group]
+
+		#		if { $config(orderbygroup) == 2 } {
+		#			if { $state_code == "FLN" } {
+		#				set myGroupExpanded [::groups::IsExpanded offline]
+		#			}
+		#		}
+
+		#	} else {
+		#		set myGroupExpanded [::groups::IsExpanded $section]
+		#	}
+
+		#	if {$myGroupExpanded} {
+		#		ShowUser $user_name $user_login $state $state_code $colour $section $user_group
+		#	}
+
+		#	if { !$config(orderbygroup) } {
+		#		#Avoid adding users more than once when ordering by online/offline!!
+		#		break
+		#	}
+
+		#	if { $config(orderbygroup) == 2 && $state_code == "FLN" } { set breaking $user}
+		#}
+
+
+		if { $config(showblockedgroup) == 1 && [info exists emailBList($user_login)]} {
+			::groups::UpdateCount blocked +1
+			if {[::groups::IsExpanded blocked]} {
+				ShowUser $user_name $user_login $state $state_code $colour "blocked" $user_group
+			}
+		}
+	}
+
+	if {$config(orderbygroup)} {
+		for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
+			set gname [lindex $glist $gidx]
+			set gtag  "tg$gname"
+			if {$config(orderbygroup) == 2 } {
+				if { $gname == "offline" } {
+					$pgBuddy.text insert offline.last " ($::groups::uMemberCnt(offline))\n" offline
+					$pgBuddy.text tag add dont_replace_smileys offline.first offline.last
+				} elseif { $gname == "blocked" } {
+					$pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))\n" blocked
+					$pgBuddy.text tag add dont_replace_smileys blocked.first blocked.last
+				} else {
+					$pgBuddy.text insert ${gtag}.last \
+						" ($::groups::uMemberCnt_online(${gname}))\n" $gtag
+					$pgBuddy.text tag add dont_replace_smileys $gtag.first $gtag.last
+				}
+			} else {
+				if { $gname == "blocked" } {
+					$pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))\n" blocked
+					$pgBuddy.text tag add dont_replace_smileys blocked.first blocked.last
+				} else {
+					$pgBuddy.text insert ${gtag}.last \
+						" ($::groups::uMemberCnt_online(${gname})/$::groups::uMemberCnt($gname))\n" $gtag
+					$pgBuddy.text tag add dont_replace_smileys $gtag.first $gtag.last
+				}
+			}
+		}
+	} else {
+		$pgBuddy.text insert online.last " ($::groups::uMemberCnt(online))\n" online
+		$pgBuddy.text insert offline.last " ($::groups::uMemberCnt(offline))\n" offline
+		$pgBuddy.text tag add dont_replace_smileys online.first online.last
+		$pgBuddy.text tag add dont_replace_smileys offline.first offline.last
+
+		if { $config(showblockedgroup) == 1 && [llength [array names emailBList]] } {
+			$pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))\n" blocked
+		}
+	}
+
+	status_log "Scrollidx is $scrollidx\n" blue
+	$pgBuddy.ys set [lindex $scrollidx 0] [lindex $scrollidx 1]
+	$pgBuddy.text yview moveto [lindex $scrollidx 0]
+
+
+	#Init Preferences if window is open
+	if { [winfo exists .cfg] } {
+		InitPref
+	}
 
 	global wingeom
 	set wingeom [list [winfo width .] [winfo height .]]
 
 	bind . <Configure> "configured_main_win"
-	#wm protocol . WM_RESIZE_WINDOW "cmsn_draw_online 0"
+	#wm protocol . WM_RESIZE_WINDOW "cmsn_draw_online"
 
 
 	#Don't replace smileys in all text, to avoid replacing in mail notification
 	if {$config(listsmileys)} {
+		smile_subst $pgBuddy.text.mystatus
 		smile_subst $pgBuddy.text 0.0 end
 	}
+
+	$pgBuddy.text configure -state disabled
+
 
 }
 #///////////////////////////////////////////////////////////////////////
@@ -4084,7 +4104,7 @@ proc configured_main_win {{w ""}} {
 	set h [winfo height .]
 	if { [lindex $wingeom 0] != $w  || [lindex $wingeom 1] != $h} {
 		set wingeom [list $w $h]
-		cmsn_draw_online
+		cmsn_draw_online 1
 	}
 }
 
