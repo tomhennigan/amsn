@@ -123,7 +123,7 @@ int GetFileTypeFromFormat(char * Format) {
 											which we'll add the new command
 
 
-	Return value : TCL_OK in case everything is ok, or TCL_ERROR in case there is an error (Tk version < 8.4)
+	Return value : TCL_OK in case everything is ok, or TCL_ERROR in case there is an error (Tk version < 8.3)
 
 	Comments     : hummmm... not much, it's simple :)
 
@@ -141,8 +141,8 @@ int Tkcximage_Init (Tcl_Interp *interp ) {
 		(Tk_ImageStringWriteProc *) StringWrite
 	};
 
-	//Check TK version is 8.0 or higher
-	if (Tk_InitStubs(interp, "8.4", 0) == NULL) {
+	//Check TK version is 8.3 or higher
+	if (Tk_InitStubs(interp, "8.3", 0) == NULL) {
 		return TCL_ERROR;
 	}
 	

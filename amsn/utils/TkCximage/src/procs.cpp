@@ -156,11 +156,15 @@ static int Tk_Resize (ClientData clientData,
 
   Tk_PhotoBlank(Photo);
 
+#if TK_MINOR_VERSION == 3
+  Tk_PhotoSetSize(Photo, width, height);
+#else 
 #if TK_MINOR_VERSION == 4
   Tk_PhotoSetSize(Photo, width, height);
 #else 
 #if TK_MINOR_VERSION == 5
   Tk_PhotoSetSize(interp, Photo, width, height);
+#endif
 #endif
 #endif
 
@@ -194,6 +198,9 @@ static int Tk_Resize (ClientData clientData,
   if (image.AlphaIsValid()) 
     block.offset[3] = 3;
 
+#if TK_MINOR_VERSION == 3
+	Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height);
+#else 
 #if TK_MINOR_VERSION == 4
   Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
 #else 
@@ -201,6 +208,8 @@ static int Tk_Resize (ClientData clientData,
   Tk_PhotoPutBlock((Tcl_Interp *) NULL, Photo, &block, 0, 0, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
 #endif
 #endif
+#endif
+
 
   image.FreeMemory(buffer);
 
@@ -305,11 +314,15 @@ static int Tk_Thumbnail (ClientData clientData,
 
   Tk_PhotoBlank(Photo);
 
+#if TK_MINOR_VERSION == 3
+  Tk_PhotoSetSize(Photo, width, height);
+#else 
 #if TK_MINOR_VERSION == 4
   Tk_PhotoSetSize(Photo, width, height);
 #else 
 #if TK_MINOR_VERSION == 5
   Tk_PhotoSetSize(interp, Photo, width, height);
+#endif
 #endif
 #endif
 
@@ -341,11 +354,15 @@ static int Tk_Thumbnail (ClientData clientData,
   if (image.AlphaIsValid()) 
     block.offset[3] = 3;
 
+#if TK_MINOR_VERSION == 3
+  Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height);
+#else 
 #if TK_MINOR_VERSION == 4
   Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
 #else 
 #if TK_MINOR_VERSION == 5
   Tk_PhotoPutBlock((Tcl_Interp *) NULL, Photo, &block, 0, 0, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
+#endif
 #endif
 #endif
 

@@ -137,11 +137,15 @@ static int ImageRead(Tcl_Interp *interp, CxImage image, Tk_PhotoHandle imageHand
   if (image.AlphaIsValid()) 
     block.offset[3] = 3;
 
+#if TK_MINOR_VERSION == 3
+  Tk_PhotoPutBlock(imageHandle, &block, destX, destY, width, height);
+#else
 #if TK_MINOR_VERSION == 4
   Tk_PhotoPutBlock(imageHandle, &block, destX, destY, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
 #else 
 #if TK_MINOR_VERSION == 5
   Tk_PhotoPutBlock((Tcl_Interp *) NULL, imageHandle, &block, destX, destY, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
+#endif
 #endif
 #endif
 
