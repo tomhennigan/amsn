@@ -7,7 +7,7 @@ activeautoupdate Activar actualización automática
 addacontact Añadir un contacto
 addedyou $1 ($2) te ha añadido a su lista de contactos
 addprofile Añadir un perfil
-addprofiledesc Introduce el nombre de usuario para el que quieres crear un perfil. \nLos perfiles permiten tener configuraciones distintas para cada usuario.\nSin un perfil no se puede usar el Historial, Alarmas o recordar contraseña.
+addprofiledesc Introduce el nombre de usuario para el que quieres crear un perfil. \nLos perfiles permiten tener configuraciones distintas para cada usuario.\nSin un perfil no se puede usar el historial, alarmas o recordar contraseña.
 addstate Añadir nuevo estado
 addto Añadir a $1
 addtocontacts Añadir a contactos
