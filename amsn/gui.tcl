@@ -3799,12 +3799,6 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	 }
          #$pgBuddy.text insert $section.last " $user_name$state_desc \n" $user_login
 
-	 #set imgname "img[expr {$::groups::uMemberCnt(online)+$::groups::uMemberCnt(offline)}]"
-	 set imgname "img[getUniqueValue]"
-         label $pgBuddy.text.$imgname -image $image_type
-         $pgBuddy.text.$imgname configure -cursor hand2 -borderwidth 0
-         $pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname -padx 3 -pady 1
-
 #	Draw alarm icon if alarm is set
 	if { [info exists alarms(${user_login})] } {
 	    #set imagee [string range [string tolower $user_login] 0 end-8]
@@ -3824,9 +3818,16 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	    bind $pgBuddy.text.$imagee <Button1-ButtonRelease> "switch_alarm $user_login $pgBuddy.text.$imagee"
 	    bind $pgBuddy.text.$imagee <Button3-ButtonRelease> "alarm_cfg $user_login"
 
-	} else {
-	    $pgBuddy.text insert $section.last "      "
 	}
+
+
+	 #set imgname "img[expr {$::groups::uMemberCnt(online)+$::groups::uMemberCnt(offline)}]"
+	 set imgname "img[getUniqueValue]"
+         label $pgBuddy.text.$imgname -image $image_type
+         $pgBuddy.text.$imgname configure -cursor hand2 -borderwidth 0
+         $pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname -padx 3 -pady 1
+
+    $pgBuddy.text insert $section.last "      "
 
 
     $pgBuddy.text tag bind $user_unique_name <Enter> \

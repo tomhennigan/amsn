@@ -1497,7 +1497,8 @@ proc LabelEntry { path lbl value width } {
 	    -font sboldf
 	entry $path.ent -text $value -relief sunken \
 	    -width $width -font splainf
-	pack $path.lbl $path.ent -side left -anchor e -expand 1 -fill x
+	pack $path.lbl -side left -anchor e
+	pack $path.ent -side left -anchor e -expand 1 -fill x
 #	pack $path.ent $path.lbl -side right -anchor e -expand 1 -fill x
 }
 
@@ -1602,6 +1603,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.83  2003/09/23 23:43:19  airadier
+# Some work on improving alarm configuration dialog, and alarm icon drawing.
+#
 # Revision 1.82  2003/09/23 00:31:26  airadier
 # Removed some "puts" in the code.
 #
