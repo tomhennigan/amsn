@@ -2133,7 +2133,7 @@ proc cmsn_reconnect { name } {
 
       status_log "cmsn_reconnect: stat = i , SB= $name\n" green   
    
-      if { [expr {[clock seconds] - [sb get $name time]}] > 10 } {
+      if { [expr {[clock seconds] - [sb get $name time]}] > 15 } {
          status_log "--cmsn_reconnect: called again while inviting timeouted\n" red
 	 catch { fileevent [sb get $name sock] readable "" } res
 	 catch { fileevent [sb get $name sock] writable "" } res
@@ -2146,7 +2146,7 @@ proc cmsn_reconnect { name } {
 
       status_log "cmsn_reconnect: stat = c , SB= $name\n" green      
    
-      if { [expr {[clock seconds] - [sb get $name time]}] > 5 } {
+      if { [expr {[clock seconds] - [sb get $name time]}] > 10 } {
          status_log "cmsn_reconnect: called again while reconnect timeouted\n" red
 	 catch { fileevent [sb get $name sock] readable "" } res
 	 catch { fileevent [sb get $name sock] writable "" } res
