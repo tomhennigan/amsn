@@ -26,7 +26,7 @@ baduserpass Nombre de usuario o contraseña incorrectos
 blankdirect Dejar en blanco para conexión directa
 blocked Bloqueado
 block No admitir
-broughtby Traido a Ud. por los siguientes programadores
+broughtby Traído a Ud. por los siguientes programadores
 browse Examinar
 browser Navegador
 busy No disponible
@@ -48,7 +48,7 @@ closingdocks Botón de cerrar minimiza
 command Comando
 confirm ¿ Estás seguro ?
 confirmdelete ¿Seguro que deseas borrar a $1?
-connecterror Error conectandose al servidor
+connecterror Error conectándose al servidor
 contactadded Contacto añadido
 contactdoesnotexist El contacto que intentas añadir no existe
 copy Copiar
@@ -65,7 +65,7 @@ enableproxy Activar proxy
 encoding Codificación de caracteres
 entercontactemail Introduce el email del contacto
 enterfilename Introduce el nombre del archivo
-enternick Introduce tu nick
+enternick Introduce tu apodo
 examples Ejemplos
 exitamsn ¿Estás seguro de que desear salir?
 extras Servicios Adicionales
@@ -83,7 +83,7 @@ groupexists El grupo ya existe
 group Grupo
 groupmissing No se puede encontrar el grupo
 groupnewname Nuevo nombre
-groupnotempty El grupo no esta vacio
+groupnotempty El grupo no esta vacío
 groupoldname Nombre antiguo
 grouprename Cambiar nombre a grupo
 groupunknown Grupo desconocido
@@ -101,7 +101,7 @@ istyping $1 está escribiendo un mensaje
 joins $1 se une a la conversación
 keepalive Mantener conexión activa (NAT)
 language Idioma
-lastmsgtime Ultimo mensaje recibido a las $1
+lastmsgtime Último mensaje recibido a las $1
 leaveblankforhotmail Dejar en blanco para usar hotmail
 leaves $1 deja la conversación
 listeningon Escuchando en el puerto $1
@@ -121,7 +121,7 @@ msn AMSN
 mustrestart Debes reiniciar el programa para aplicar los cambios
 mystatus Mi estado
 natip Detección de IP por Web
-needonline Todavía estas/apareces desconectado 
+needonline Todavía estás/apareces desconectado 
 newmail $1 mensajes nuevos en bandeja de entrada
 newmailfrom Nuevo correo de
 newmsg Nuevo mensaje
@@ -135,7 +135,7 @@ notifywin Ventana de avisos
 nousersinsession No hay usuarios en la sesión
 offline Desconectado
 ok Aceptar
-onenewmail 1 mensaje nuevos en bandeja de entrada
+onenewmail 1 mensaje nuevo en bandeja de entrada
 online Conectado
 onphone Al teléfono
 openreceived Abrir archivos recibidos
@@ -145,7 +145,7 @@ other Otro
 pager Paginador
 pass Contraseña
 paste Pegar
-phone Telefono
+phone Teléfono
 picfile Archivo de imagen (GIF < 500 x 500)
 picstatus Imagen para la alarma
 port Puerto
@@ -155,7 +155,7 @@ prefsound Sonidos
 properties Propiedades
 proxyconf Configuración proxy
 proxyconfhttp Configurar soporte de proxy http
-publishphones Publicar mis numeros telefónicos
+publishphones Publicar mis números telefónicos
 receivedbytes Recibidos $1 de $2 bytes totales
 receivefile Recibir archivo
 reconnect Esperando que $1 se reconecte
@@ -185,7 +185,6 @@ stopalarm Detener alarma
 syntaxerror Error de sintaxis
 textsize Tamaño del texto
 title Al's Messenger
-tools Herramientas
 tools Herramientas
 to Para
 unblock Admitir
