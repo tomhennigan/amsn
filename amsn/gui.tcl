@@ -1902,7 +1902,7 @@ namespace eval ::amsn {
       }
       
       if { $tagid == "" } {
-         set tagid [clock clicks]
+         set tagid [getUniqueValue]
       }
       
       ${win_name}.f.out.text configure -state normal
@@ -2533,8 +2533,11 @@ proc set_language { langname } {
    set config(language) $langname
    load_lang
    #Here instead of destroying, maybe we should call some kind of redraw
-   foreach w [winfo children .] {
-      destroy $w
+   set windows [winfo children .]
+   foreach w $windows {
+         puts "Destroying $w"
+         destroy $w
+	 set windows [winfo children .]
    }
    cmsn_draw_main
 }
@@ -3302,6 +3305,15 @@ proc cmsn_draw_online {} {
 }
 #///////////////////////////////////////////////////////////////////////
 
+proc getUniqueValue {} {
+   global uniqueValue
+
+   if {![info exists uniqueValue]} {
+      set uniqueValue 0
+   }
+   incr uniqueValue
+   return $uniqueValue
+}
 
 
 #///////////////////////////////////////////////////////////////////////
@@ -3313,8 +3325,8 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	 } else {
             set state_desc ""
          }
-	 
-	 set user_unique_name "$user_login[clock clicks]"
+
+	 set user_unique_name "$user_login[getUniqueValue]"
 
 	 # If user is not in the Reverse List it means (s)he has not
 	 # yet added/approved us. Show their name in yellow. A way
@@ -3322,7 +3334,7 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	 # removed you from their contact list even if you still
 	 # have them...
          if {[lsearch $list_rl "$user_login *"] == -1} {
-	     set colour #FF00FF
+	     set colour #DD00DD
 	 }
 
          set image_type [lindex $state 4]
@@ -3332,7 +3344,7 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
         	set colour #FF0000
 	        set image_type "blockedme"
          }
-	
+
 
 
          if {[lsearch $list_bl "$user_login *"] != -1} {
@@ -3362,7 +3374,7 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
          #$pgBuddy.text insert $section.last " $user_name$state_desc \n" $user_login
 
 	 #set imgname "img[expr {$::groups::uMemberCnt(online)+$::groups::uMemberCnt(offline)}]"
-	 set imgname "img[clock clicks]"
+	 set imgname "img[getUniqueValue]"
          label $pgBuddy.text.$imgname -image $image_type
          $pgBuddy.text.$imgname configure -cursor hand2 -borderwidth 0
          $pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname -padx 3 -pady 1
@@ -3372,7 +3384,7 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	    #set imagee [string range [string tolower $user_login] 0 end-8]
 	    #trying to make it non repetitive without the . in it
 	    #Patch from kobasoft
-	    set imagee "alrmimg_[clock clicks]"
+	    set imagee "alrmimg_[getUniqueValue]"
 	    #regsub -all "\[^\[:alnum:\]\]" [string tolower $user_login] "_" imagee
 
 	    if { $alarms(${user_login}) == 1 } {
