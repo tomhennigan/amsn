@@ -561,6 +561,12 @@ namespace eval ::groups {
 		::MSN::WriteSB ns "REG" "$currentGid $new 0"
 		# RenameCB() should be called when we receive the REG
 		# packet from the server
+
+		# If an "add contact" window is open, actualise the group list
+		if { [winfo exists .addcontact] == 1 } {
+			after 500 cmsn_draw_grouplist
+		}
+
 		return 1
 	}
 
@@ -580,6 +586,11 @@ namespace eval ::groups {
 		# MSN sends back "ADG %T %M $gname gid junkdata"
 		# AddCB() should be called when we receive the ADG
 		# packet from the server
+
+		# If an "add contact" window is open, actualise the group list
+		if { [winfo exists .addcontact] == 1 } {
+			after 500 cmsn_draw_grouplist
+		}
 		return 1
 	}
         
@@ -608,6 +619,12 @@ namespace eval ::groups {
 		# MSN sends back "RMG %T %M $gid"
 		# DeleteCB() should be called when we receive the RMG
 		# packet from the server
+
+		# If an "add contact" window is open, actualise the group list
+		if { [winfo exists .addcontact] == 1 } {
+			after 500 cmsn_draw_grouplist
+		}
+
 		return 1
 	}
 

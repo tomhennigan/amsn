@@ -617,7 +617,7 @@ namespace eval ::amsn {
 
 	#///////////////////////////////////////////////////////////////////////////////
 	proc deleteUser { user_login { grId ""} } {
-		set answer [::amsn::messageBox [trans confirmdelete $user_login] yesno question]
+		set answer [::amsn::messageBox [trans confirmdu $user_login] yesno question]
 		if { $answer == "yes"} {
 			::MSN::deleteUser ${user_login} $grId
 			::abook::setContactData $user_login alarms ""
@@ -5135,6 +5135,17 @@ proc cmsn_draw_addcontact {} {
 	label .addcontact.example -font examplef -justify left \
 		-text "[trans examples]:\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com"
 
+	frame .addcontact.group
+	combobox::combobox .addcontact.group.list -editable false -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection false
+	set groups [::groups::GetList]
+	foreach gid $groups {
+		.addcontact.group.list list insert end "[::groups::GetName $gid]"
+	}
+	.addcontact.group.list select 0
+	label .addcontact.group.l -font sboldf -text "[trans group] : "
+	pack .addcontact.group.l -side left
+	pack .addcontact.group.list -side left
+
 	frame .addcontact.b	
 	button .addcontact.b.next -text "[trans next]->" -command addcontact_next
 	button .addcontact.b.cancel -text [trans cancel] \
@@ -5146,6 +5157,7 @@ proc cmsn_draw_addcontact {} {
 	pack .addcontact.l -side top -anchor sw -padx 10 -pady 3
 	pack .addcontact.email -side top -fill x -padx 10 -pady 3
 	pack .addcontact.example -side top -anchor nw -padx 10 -pady 3
+	pack .addcontact.group -side top -fill x -padx 10 -pady 3
 	pack .addcontact.b -side top -pady 3 -expand true -fill x -anchor se
 
 	bind .addcontact.email <Return> "addcontact_next"
@@ -5157,13 +5169,27 @@ proc cmsn_draw_addcontact {} {
 }
 #///////////////////////////////////////////////////////////////////////
 
+#///////////////////////////////////////////////////////////////////////
+# Check if the "add contact" window is open and then re-make the group list
+proc cmsn_draw_grouplist {} {
+
+	.addcontact.group.list list delete 0 end
+	set groups [::groups::GetList]
+	foreach gid $groups {
+		.addcontact.group.list list insert end "[::groups::GetName $gid]"
+	}
+
+}
+#///////////////////////////////////////////////////////////////////////
 
 
 #///////////////////////////////////////////////////////////////////////
 proc addcontact_next {} {
 	set tmp_email [.addcontact.email get]
 	if { $tmp_email != ""} {
-		::MSN::addUser "$tmp_email"
+		set group [.addcontact.group.list curselection]
+		set gid [lindex [::groups::GetList] $group]
+		::MSN::addUser "$tmp_email" "" $gid
 		catch {grab release .addcontact}
 		destroy .addcontact
 	}
