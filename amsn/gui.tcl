@@ -5891,6 +5891,8 @@ proc convert_display_picture { filename } {
 
 
 proc pictureBrowser {} {
+	global config
+	
 	toplevel .picbrowser
 	
 	frame .picbrowser.pics
@@ -5905,6 +5907,8 @@ proc pictureBrowser {} {
 	#if { [catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}] } {
 #		image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
 #	}
+
+	catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}
 	if { [ catch {image inuse my_pic}]} {
 			image create photo my_pic -file [GetSkinFile displaypic nopic.gif]
 	}
