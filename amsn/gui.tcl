@@ -4257,14 +4257,11 @@ proc play_sound {sound {absolute_path 0} {force_play 0}} {
 	#from the skin, but just use it as an absolute path to the sound file
 
 	if { [::config::getKey sound] == 1 || $force_play == 1} {
-		#If Mac OS X, use play_Sound_Mac to play sounds
+		#Activate snack on Mac OS X (remove that during 0.94 CVS)
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			if { $absolute_path == 1 } {
-				play_Sound_Mac $sound
-			} else {
-				play_Sound_Mac [GetSkinFile sounds $sound]
-			}
-		} elseif { [::config::getKey usesnack] } {
+			::config::setKey usesnack 1
+		}
+		 if { [::config::getKey usesnack] } {
 			if { $absolute_path == 1 } {
 				snack_play_sound [::skin::loadSound $sound]
 			} else {
