@@ -547,3 +547,4 @@ p4contextprefix Adicionar este prefixo aos remetentes P4-Context
 phones Numeros de telefone
 automessage Mensagem automática
 friendlyname Nome amigavél
+longp4c O nome amigavél que escolheu tem mais de 130 caracteres. O nome amigavél que vai aparecer na versão oficial do MSN vai ser $1. Confirma este nome?
