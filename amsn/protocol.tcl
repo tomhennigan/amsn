@@ -4789,7 +4789,12 @@ namespace eval ::MSNP2P {
 					}
 					SENDDATA {
 					    status_log "SENDING DATA NOW \n" red
-					    SendData $sid $chatid "[lindex [SessionList get $sid] 8]"
+					    set file [lindex [SessionList get $sid] 8]
+					    if { $file != "" } {
+						SendData $sid $chatid "[lindex [SessionList get $sid] 8]"
+					    } else {
+						SendData $sid $chatid "[GetSkinFile displaypic $config(displaypic)]"
+					    }
 					}
 				}
 			}

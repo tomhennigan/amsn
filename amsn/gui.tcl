@@ -6270,3 +6270,12 @@ proc clear_disp { } {
     ::MSN::changeStatus [set ::MSN::myStatus]
 
 }
+
+
+proc bgerror { args } {
+    status_log "\n\n\n\n\n" error
+    status_log "GOT TCL/TK ERROR : $args" red
+    status_log "\n\n\n\n\n" error
+
+    msg_box "[trans tkerror]"
+}

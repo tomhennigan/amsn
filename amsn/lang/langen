@@ -442,6 +442,7 @@ textsize Text size
 timeremaining Time remaining
 timestamps Enable timestamps on chat windows
 title Al's Messenger
+tkerror TK has brought an error, there is a bug in amsn, please report it. press Ctrl-S in the main amsn window and look for the line "GOT TCL/TK ERROR".
 tlsdowncompleted File $1 was downloaded to directory $2. You must extract it, build it (if you downloaded source code) and install it inside $3.
 tlsinstallexp aMSN now uses MSNP9, which requires the use of a secure\nconnection using SSL. In order to use SSL, aMSN needs to install a module called TLS,\nwhich is missing from your system. This wizard will help you to download and\ninstall TLS. Please choose your system type so we can automatically download\nthe required TLS files.
 tlsinstall TLS Module installation wizard
