@@ -229,6 +229,12 @@ namespace eval ::alarms {
 		
 		return 0
 	}
+	
+	proc StopSnackAlarm {w snd} {	
+		destroy $w
+		$snd stop
+		$snd destroy
+	}
 }
 
 
@@ -316,11 +322,6 @@ proc run_alarm {user nick msg} {
 		catch {eval exec $the_command} res
 	}
 
-	proc StopSnackAlarm {w snd} {	
-		destroy $w
-		$snd stop
-		$snd destroy
-	}
 	
 }
 
