@@ -568,9 +568,9 @@ proc Preferences { { settings "personal"} } {
 	#  .------------------.
 	# _| Group Management |_______________________________________
 	
-	image create photo prefpersc -file [GetSkinFile pixmaps prefpers.gif]
-	image create photo prefprofilec -file [GetSkinFile pixmaps prefprofile.gif]
-	
+	::skin::setPixmap prefpersc prefpers.gif
+	::skin::setPixmap prefprofilec prefprofile.gif
+		
 	set frm [$nb.nn getframe groups]
 	ScrolledWindow $frm.sw
 	ScrollableFrame $frm.sw.sf -constrainedwidth 1
@@ -1755,7 +1755,6 @@ proc LabelEntryGet { path } {
 
 #/////////////////////////////////////////////////////////////
 # A Labeled Frame widget for Tcl/Tk
-# $Revision$
 #
 # Copyright (C) 1998 D. Richard Hipp
 #
