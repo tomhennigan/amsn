@@ -8,9 +8,9 @@ addedyou te-a adaugat in lista lui/ei de contacte
 addprofile Adauga un profil nou
 addprofiledesc Defineste o autentificare pentru a crea un profil nou.\nAutentificarile cu profil au configuratii diferite. \nNu se pot folosi jurnalele, sunetele de alarma sau retine parolele daca nu este definit un profil.
 addstate Adauga o stare noua
+addto Adauga la $1
 addtocontacts Adauga in lista de contact
 addtoo Adauga persoana in lista  
-addto Adauga la $1
 admincontacts Administrare nume
 admingroups Administrare grup
 adverts Avertismente
@@ -24,16 +24,15 @@ allowallbutbl  Permite tuturor sa ma contactaze in afara de cei din lista celor 
 allowbadwords Dezactiveaza cenzura de pe porecle
 allowlist Lista cu cei acceptati:
 allowonlyinal Numai cei din lista celor acceptati sa ma contacteze
-allowseen  Permite persoanei sa ma vada autentificat si sa ma contacteze.
-animatedsmileys	 Activeaza semnele de conversatie animate
+allowseen Permite persoanei sa ma vada autentificat si sa ma contacteze.
 animatedemoticon Acest semn este animat
+animatedsmileys Activeaza semnele de conversatie animate
 appearance Aparente
 appearoff Neautentificat
 areacode Codul postal
 aretyping $1 scrie un mesaj
 autoaccepted Transferul de fisier a fost acceptat automat
 autoacceptft Accepta automat transferul de fisiere
-askprofile Aceasta autentificare nu are un profil. Doriti sa creati unul nou? \n Daca nu, veti fi in imposibilitatea de a folosi jurnalizarea, de a seta sunetele si a salva parola. \n Daca veti crea profilul o sa aveti o configurare separata pentru noul profil. \n \n Apasati "Creare Profil" pentru a crea un nou profil pentru $1.
 autoaway Arata "Plecat" cind sunt inactiv de
 autoconnect2 Autentificare automata la pornirea aMSN-ului
 autoconnect Conectare automata la pornirea aMSN-ului
@@ -61,14 +60,15 @@ blockmessage Aceste persoane sunt online si te-au blocat
 blockusers Numarul de utilizatori care sa fie verificati odata
 broughtby aMSN Messenger programat de
 browse Rasfoieste
-browser Navigator
 browserexample ( \$url va fi inlocuit cu URL). Ex: mozilla \$url
+browser Navigator
 busy Ocupat
 cancel Renunta
 cannotdeleteprofile Nu se poate sterge profilul deoarece este folosit de o sesiune aMSN
 cantexec Nu pot executa aplicatia: $1. Verifica preferintele
 casesensitive Foloseste declansatoarele cu majuscule semnificative
 cfgalarm Configureaza/Adauga/Sterge sunete
+changedisplaypic Schimba poza afisata
 changefont Schimba caracterul
 changenick Schimba nick-ul
 changestate $1 si-a schimbat starea in $2
@@ -93,8 +93,8 @@ clearlog2 Sterge jurnalul pentru toate contactele
 clearlog3 Sterge toate jurnalele
 clearlog Sterge jurnalul
 clicktologin Autentificare
-close Inchide
 closed Incheiat conversatia cu $1 pentru inactivitate
+close Inchide
 closingdocks Minimizare in loc de inchidere
 command Commanda
 confirmdelete Sigur vrei sa stergi persoana $1?
@@ -140,9 +140,9 @@ editnewstate Creeaza o noua stare pentru mesajului automat
 editprofile Editeaza profilul
 editstate Editeaza starea mesajului automat existent
 emotisounds Semne in conversatie cu sunet
-enablesound Reda sunet
 enableproxy Activeaza proxy
 enableremote Activeaza posibilitatea de control de la distanta
+enablesound Reda sunet
 encoding2 Schimba tipul codului de caracter
 encoding Alege codul caracterului
 entercontactemail Introduce email-ul persoanei
@@ -171,6 +171,7 @@ ftportpref Foloseste acest port pentru transferurile de fisier
 ftrejectedby $1 a refuzat transferul de fisier pentru fisierul '$2'.
 ftrejected Transfer de fisier refuzat
 ftsendinvitation Inviatatia de transfer pentru fisierul '$2' ($3 bytes) a fost trimis la $1.
+getdisppic Vizualizare poza afisata de la alti utilizatori
 gonelunch Sunt la masa
 groupadd Adauga un grup
 groupdelete Sterge un grup
@@ -185,16 +186,16 @@ groupunknown Grup necunoscut
 handle Nick folosit
 help Ajutor
 helpcontents Continut
+hidedisplaypic Ascunde poza
+hiden Ascunde semnele de conversatie
 hidewindow Ascunde fereastra
 history Vizualizeaza jurnalul
-hiden Ascunde semnele de conversatie
-hybrid Modul Hybrid
 home Acasa
 httpconnection Conectare folosind protocolul HTTP (portul 80)
+hybrid Modul Hybrid
 ident In curs de identificare
 identity Identitate
 inbox Casuta postala
-installconvert Trebuie sa aveti instalat ImageMagick pentru a putea converti imaginile necesare pentru serverele MSN. Se pot descarca binarele de pe ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. In cazul in care aveti ImageMagick este posibil sa fie o greseala de programare.
 internalerror Eroare de server
 invalidfile Fisierul $2 introdus in campul "$1" nu exista sau nu poate fi citit
 invalidusername Nume gresit
@@ -232,8 +233,8 @@ loging Jurnale
 logolder Jurnalizeaza numai conversatile care au avut loc in urma cu
 logout Deautentificare
 logsin tocmai s-a autentificat
-logsout tocmai s-a deautentificat
 logsmileys Afiseaza semnele de converatie in fereastra jurnal
+logsout tocmai s-a deautentificat
 lprivtoconf Conversatiile private au devenit conferinte cu $1
 luclosedwin Ai inchis fereastra pe (la) $1
 mailerexample ( \$recipient = Recipient ) Nu completa pentru Hotmail
@@ -253,6 +254,7 @@ msn aMSN
 mustrestart Restarteaza aplicatia ca schimbarile sa devina active.
 myhomephone Telefon fix
 mymobilephone Telefon mobil
+mypic Poza mea:
 mystatus Apar ca
 myworkphone Telefonul de serviciu
 natip detectie de adresa IP prin pagina de web
@@ -269,13 +271,14 @@ nologfile Nu este jurnal pentru $1
 noneavailable Nimeni disponibil
 nonewmail Nu sint mesaje noi in casuta postala
 nonewver Nu este versiune noua disponibila pentru descarcare
-noprofileexists Nu exista profile, \n trebuie sa creati unul daca vreti sa folositi autentificare cu profil. \nFolositi butonul "Adauga un profil nou" pentru a crea un profil nou.
 no Nu
+nopic Fara poza
+noprofileexists Nu exista profile, \n trebuie sa creati unul daca vreti sa folositi autentificare cu profil. \nFolositi butonul "Adauga un profil nou" pentru a crea un profil nou.
 normal Normal
 nosystemtray System tray-ul nu este disponibil
-notify1 Afiseaza fereastra de atentionare cind cineva se autentifica
 notify1_5 Afiseaza fereastra de atentionare cind cineva se deautentifica
 notify1_75 Afiseaza fereastra de atentionare cind persoana isi schimba starea
+notify1 Afiseaza fereastra de atentionare cind cineva se autentifica
 notify2 Afiseaza fereastra de atentionare cind primesc mesaje noi
 notify3 Afiseaza fereastra de atentionare cind este e-mail nou in casuta postala
 notify Atentioneaza
@@ -298,8 +301,10 @@ pass Parola
 paste Adauga elementul(le) copiat in memorie
 personal Personal
 phone Telefon
+picbrowser Poze disponibile
 picfile Fisier imagine (poza) (GIF < 500 x 500)
 picstatus Inchide/Deschide avertizarea cu imagine
+playing Redare: $1 
 pluginselector Selecteaza Plugin-ul
 port Port
 prefalerts Evenimente si sunete
@@ -319,7 +324,7 @@ preflog1 Jurnal si optiuni de jurnalizare
 preflook Setari aMSN
 prefmsging Felul in care arata un mesaj primit
 prefname  Numele sau nick-ul
-prefphone2 Scrie numerele de telefon pe care vrei ca alti sa le vada din lista celor acceptati.
+prefphone2 Defineste numerele de telefon pe care alti sa le vada din lista celor acceptati.
 prefphone Numere de telefon
 prefprivacy2 Lista contactelor / celor opusi
 prefprivacy Lista cu cei acceptati / blocati
@@ -340,12 +345,13 @@ profiles Profil
 properties Proprietati
 proxyconf Configurare proxy
 proxyconfhttp Configurare pentru suport HTTP proxy
-proxyconnection Ma conectez la internet foloind proxy:
+proxyconnection Ma conectez la internet folosind proxy:
 proxy Sunt in spatele unui server Proxy (HTTP sau SOCKS5)
 publishphones Arata numerele de telefon
+purge Goleste
+raised Stearsa
 readonlymsgbox Transferul de fisier sa intrerupt datorita directorului ~/amsn_received care este protejat la scriere sau nu exista. Verificati permisiunile sau creati directorul ~/amsn_received
 readonlywarn ATENTIE: Probabil ca fisierul NU va fi salvat corect ca si "Fisiere Receptionate". Se pare ca directorul este protejat la scriere. Verificati daca permisiunile pe directorul ($1) sunt setate corect inainte de a transfera fisiere.
-raised Stearsa
 receivedbytes Receptionat $1 din $2 bytes
 receivefile Fisier receptionat
 reconnect Asteapta ca $1 sa se reconecteze
@@ -354,7 +360,7 @@ reject Rejectare
 rememberpass Retine parola
 removefromlist Sterge de pe aceasta lista
 reversed Ordine inversa
-reverselist Cei opusi :
+reverselist Cei opusi:
 rightback Revin imediat
 saveas Salveaza ca
 savecontacts Salveaza lista
@@ -373,10 +379,14 @@ servergoingdown Deconectat: se inchide serverul
 server Server
 session Sesiune
 showblockedlist Arata pesoanele care te-au blocat
+showdisplaypic2 La deschiderea ferestrei de chat arata poza implicit
+showdisplaypic Arata poza
+showmypic Poza mea
+showuserpic Poza lui $1
 skinselector Selecteaza Skin-ul
 skin Skin
 smileconfig Configurarea semnelor de conversatie
-smilefile Nume fisier
+smilefile Numele fisierului
 smileintro2 Editeaza campurile necesare pentru a modifica un semn de conversatie (citeste FAQ)
 smileintro Complecteaza campurile necesare pentru a crea un nou semn de conversatie (citeste FAQ)
 sound2 Avertizare sonora cind peroanele se autentifica sau trimit mesaj
@@ -386,18 +396,18 @@ soundfile Fisierul de avertizare (sunet)
 soundloop Roteste sunetul
 soundserver Server de sunet
 soundstatus Inchide/Deschide avertizarile
+sound Sunet
 sourcecode Codul Sursa (Necesita compilare si instalare)
 sslwarning ATENTIE!! Nefolosirea SSL va dezactiva criptarea parolei, deci parolele vor fi trimise sub forma de text.
-sound Sunet
 startoffline2 Autentificare invizibila "Apar neautentificat"
 startoffline Incepe neautentificat
 stateautomsg de trimis Mejas_Automat
+statechange starea schimbata in:
 stateedittext Editeaza cimpurile pe care vrei sa le salvezi \n apoi apasa Salveaza
 stateinfo Configurea starii persolanale
 statename Numele starii personale
 statenewtext Introdu informatia pentru a crea \n starea personala si apasa Salveaza
 state Vreau sa apar ca
-statechange starea schimbata in:
 status Stare
 stopalarm Opreste avertizarea
 stylechat La fel ca si conversatiile
@@ -405,8 +415,8 @@ stylehist Cum arata jurnalele
 stylelog Alege formatul in care vrei sa vizualizezi jurnalul
 syntaxerror Eroare de sintaxa
 tabbed In fereastra ingrosata
-timeremaining Timp ramas
 textsize Marime text
+timeremaining Timp ramas
 title aMSN Messanger
 tlsdowncompleted Fisierul $1 a fost salvat in directorul $2. Trebuie dezarhivat, compilat (daca e codul sursa) si instalat in $3.
 tlsinstallexp aMSN necesita MSNP9, care necesita conexie \nsecurizata folosind SSL. Pentru a folosi SSL, aMSN trebuie sa instaleze un modul numit TLS,\ncare lipseste din sistem. Acest utilitar va ajuta sa descarcati si \nsa instalati TLS. Selectati tipul sistemului pentru a putea descarca automat \nfisierele TLS.
@@ -433,9 +443,9 @@ viewprofile Vizualizare profil
 view Vizualizare
 willjoin Asteapta ca $1 sa se alature conversatiei
 work Lucru
-wrongprofileversion Versiunea fisierului de configurarea a profilului este gresit. Pentru remediere sterge directorul $1 sau descarca o
 wrongfields Campurile "$1", "$2" si/sau "$3" nu sunt valide
-versiune noua a aMSN
+wrongprofileversion Versiunea fisierului de configurarea a profilului este gresit. Pentru remediere sterge directorul $1 sau descarca o
+xmmserr Nu se reda nimic, sau nu aveti instalat xmms-infopipe.
 xoffset Coordonata X
 yes Da
 yoffset Coordonata Y

@@ -68,6 +68,7 @@ cannotdeleteprofile Het profiel kan niet verwijderd worden. Het wordt mogelijk g
 cantexec Kan het programma $1 niet starten, controleer uw instellingen
 casesensitive Gebruik hoofdlettergevoelige triggers
 cfgalarm Alarm configureren/toevoegen/verwijderen
+changedisplaypic Afbeelding wijzigen
 changefont Verander lettertype
 changenick Verander schermnaam
 changestate $1 heeft de status veranderd in $2
@@ -184,6 +185,7 @@ groupunknown Onbekende groep
 handle Nick
 helpcontents Help inhoud
 help Help
+hidedisplaypic Afbeelding verbergen
 hiden Verberg deze emoticon in het smileys-menu
 hidewindow Verberg venster
 history Toon geschiedenis
@@ -252,6 +254,7 @@ msn AMSN
 mustrestart Je moet het programma herstarten voordat de veranderingen effect hebben
 myhomephone Mijn telefoonnummer (thuis)
 mymobilephone Mijn mobiele nummer
+mypic Mijn Afbeelding
 mystatus Mijn status
 myworkphone Mijn telefoonnummer (werk)
 natip   IP detectie via website
@@ -269,6 +272,7 @@ noneavailable Geen beschikbaar.
 no Nee
 nonewmail Geen nieuwe berichten in Postvak IN
 nonewver Er zijn geen nieuwere versies beschikbaar
+nopic Geen afbeelding
 noprofileexists Er zijn momenteel geen profielen, \nJe moet er een aanmaken als je logins met een profiel wilt gebruiken. \n Gebruik de knop Nieuw profiel aanmaken in dit venster om een nieuw profiel toe te voegen.
 normal Normaal
 nosystemtray Systeemvak niet beschikbaar
@@ -372,6 +376,9 @@ servergoingdown Verbinding verbroken: De server gaat uit
 server Server
 session Sessie
 showblockedlist Toon de lijst van mensen die jou geblokkeerd hebben
+showdisplaypic Toon afbeelding
+showmypic Mijn Afbeelding
+showuserpic Afbeelding van $1
 skinselector Kies een skin
 skin Skin
 smileconfig Configuratie voor zelfgemaakte smileys
@@ -440,4 +447,3 @@ yoffset Y-positie
 youblocked Je bent geblokkeerd
 yousay Jij zegt
 youwant Jij wilt
-changedisplaypic Verander het gebruikte plaatje voor je display
