@@ -451,7 +451,10 @@ proc SaveToFile { wname email logvar } {
 
 proc ParseToFile { logvar filepath } {
 
+	global langenc
+
 	set fileid [open [${filepath} get] a+]
+	fconfigure $fileid -encoding $langenc			
 	if { $fileid != 0 } {
 		set aidx 0
 		while {1} {
