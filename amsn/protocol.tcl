@@ -2113,10 +2113,7 @@ global tcl_platform
       } else {
          status_log "problem processing NS data: $item!!\n" red
       }
-	#Kill soundplayer when we quit aMSN-Mac (sometime he stay open and eat your CPU)
-	if { $tcl_platform(os) == "Darwin" } {
-		catch {exec killall -c sndplay}
-	}
+
    }
 
 	after cancel proc_ns_watchdog
