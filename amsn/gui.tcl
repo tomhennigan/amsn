@@ -1556,6 +1556,50 @@ namespace eval ::amsn {
 	# enterCustomStyle ()
 	# Dialog window to edit the custom chat style
 	proc enterCustomStyle {} {
+	
+		set w .change_custom_style
+		if {[winfo exists $w]} {
+			raise $w
+			return 0
+		}
+	
+		toplevel $w
+		wm group $w .
+		wm title $w "[trans customstyle]"
+	
+		frame $w.fn
+		label $w.fn.label -font sboldf -text "[trans customstyle]:"
+		entry $w.fn.ent -width 40 -bg #FFFFFF -bd 1 -font splainf
+		menubutton $w.fn.help -font sboldf -text "<-" -menu $w.fn.help.menu
+		menu $w.fn.help.menu -tearoff 0
+		$w.fn.help.menu add command -label [trans nick] -command "$w.fn.ent insert insert \\\$nick"
+		$w.fn.help.menu add command -label [trans timestamp] -command "$w.fn.ent insert insert \\\$tstamp"
+		$w.fn.help.menu add separator
+		$w.fn.help.menu add command -label [trans delete] -command "$w.fn.ent delete 0 end"
+		$w.fn.ent insert end [::config::getKey customchatstyle]
+		
+		frame $w.fb
+		button $w.fb.ok -text [trans ok] -command [list ::amsn::enterCustomStyleOk $w] -font sboldf
+		button $w.fb.cancel -text [trans cancel] -command "destroy $w" -font sboldf
+	
+	
+		pack $w.fn.label $w.fn.ent $w.fn.help -side left -fill x -expand true
+		pack $w.fb.ok $w.fb.cancel -side right -padx 5
+	
+		pack $w.fn $w.fb -side top -fill x -expand true -padx 5
+	
+		bind $w.fn.ent <Return> [list ::amsn::enterCustomStyleOk $w]
+		
+		catch {
+			raise $w
+			focus -force $w.fn.ent
+		}
+		moveinscreen $w 30
+	}
+	
+	proc enterCustomStyleOk {w} {
+		::config::setKey customchatstyle [$w.fn.ent get]
+		destroy $w
 	}
 
 
