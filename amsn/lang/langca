@@ -34,6 +34,7 @@ bgcolor Canvia el color del fons de l'aMSN
 blankdirect Deixa-ho en blanc per a connectar-te directament
 block Bloquejar
 blocked Bloquejat
+blockmessage Aquesta gent estan connectats i t'han bloquejat
 broughtby Desenvolupat per
 browse Navegar
 browser Navegador
@@ -264,6 +265,7 @@ sentbytes Enviats $1 de $2 bytes
 servergoingdown Desconnectat: El servidor s'apagarà per manteniment
 server Servidor
 session Sessió
+showblockedlist Mostra'm la llista de la gent que em té bloquejat a la seva llista de contactes
 sound2 Reprodueix sons quan els contactes es connectin o enviïn missatges
 soundcommand La comanda per reproduir el so (ex: esdplay)
 soundfile Fitxer de so de l'alarma
@@ -285,13 +287,16 @@ title aMSN
 to A
 tools Eines
 transnotexists Aquest fitxer encara no ha estat traduït
-traynotcompiled La icona de la safata de connexió no s'ha compilat. Comprova el directori plugins/traydock 
+traynotcompiled La icona de la safata de connexió no s'ha compilat. Comprova el directori plugins/traydock
 unblock Desbloquejar
 uoffline Desconnectats
 uonline Connectats
-useralreadyonlist L'usuari ja és a la llista de contactes
-usernotonline L'usuari no està connectat
 user Usuari
+useralreadyonlist L'usuari ja és a la llista de contactes
+userblocked Aquest usuari està connectat però t'ha bloquejat a la seva llista
+usernotonline L'usuari no està connectat
+useryourself No pots xatejar amb tu mateix
+verifyblocked Comprova la gent que em té bloquejat a la seva llista
 version Versió
 viewprofile Mostrar perfil
 view Veure
@@ -300,5 +305,6 @@ work Treball
 wrongprofileversion Versió incorrecta del fitxer de configuració del perfil. Per arreglar-ho, esborra el directori $1 o actualitza l'aMSN
 xoffset Desplaçament X
 yoffset Desplaçament Y
+youblocked Has estat bloquejat
 yousay Dius
 youwant Vols

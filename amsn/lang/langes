@@ -34,6 +34,7 @@ baduserpass Nombre de usuario o contraseña incorrectos
 bgcolor Cambia el color de fondo de aMSN
 blankdirect Dejar en blanco para conexión directa
 blocked Bloqueado
+blockmessage Los siguientes contactos están conectados y bloqueandote
 block No admitir
 broughtby Traído a Ud. por los siguientes programadores
 browse Examinar
@@ -265,6 +266,7 @@ sentbytes Enviados $1 de $2 bytes totales
 servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
 server Servidor
 session Sesión
+showblockedlist Mostrar contactos que te bloquean
 sound2 Reproducir sonidos cuando los contactos se conectan o envían mensajes
 soundcommand El comando para reproducir un sonido (por ej: esdplay)
 soundfile Archivo de sonido
@@ -291,8 +293,11 @@ unblock Admitir
 uoffline Desconectados
 uonline Conectados
 useralreadyonlist El usuario ya se encuentra en la lista de contactos.
+userblocked El usuario se encuentra online pero estás bloqueado
 usernotonline El usuario no se encuentra en línea
 user Usuario
+useryourself No puedes hablar contigo mismo
+verifyblocked Comprobar qué contactos te bloquean
 version Versión
 viewprofile Ver perfil
 view Ver
@@ -301,5 +306,6 @@ work Trabajo
 wrongprofileversion Versión del archivo de perfiles incorrecta. Por favor borre el directorio $1 para solucionarlo, o actualice amsn.
 xoffset Desplazamiento X
 yoffset Desplazamiento Y
+youblocked Has sido bloqueado
 yousay Tú dices
 youwant Quieres

@@ -36,11 +36,13 @@ bgcolor Ändra aMSN's bakgrundsfärg
 blankdirect Lämna tom för direktanslutning.
 block Blockera
 blocked Blockerad
+blockmessage Dessa personer är online och har blockerat dig
 broughtby Skapat av följande utvecklare:
 browse Bläddra
 browser Webbläsare
 busy Upptagen
 cancel Avbryt
+cannotdeleteprofile Kan inte ta bort profilen eftersom det verkar som om den används av en Amsn session
 cfgalarm Konfigurera alarm
 changefont Ändra Font
 changenick Ändra smeknamn
@@ -49,8 +51,8 @@ chat Chat
 chatreq Efterfrågar chat
 chatsmileys2 Visa 'Emoticons' och Smileys i chat-fönster
 chatsmileys Chat smileys
-checkingver Kollar efter nya versioner
 checkfilman Inkomna filer sparas i $1. Välj filhanterare i programinställningarna.
+checkingver Kollar efter nya versioner
 checkver Kolla efter ny version
 choosebasefont Välj teckensnitt
 choosebgcolor Välj bakgrundsfärg
@@ -84,6 +86,7 @@ delete Ta bort
 deliverfail Det uppstod ett problem då följande meddelandet skickades
 delprofile2 Välj vilken profil du vill ta bort
 delprofile Ta bort profil
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Aktivera dockning i Gnome
 docking Dockning
 dockingoff Använd inte dockning
@@ -243,6 +246,7 @@ prefsession Mitt inloggningsnamn och Status
 prefshared Delade anslutningar (endast för NAT)
 prefsound Ljudinställningar
 profiledconfig Profilkonfiguration
+profileinuse Denna profil används redan av en annan Amsn session, välj en annan.
 profiles Profiler
 properties Egenskaper
 proxyconfhttp HTTP proxysupport konfiguration
@@ -271,6 +275,7 @@ sentbytes $1 av $2 bytes skickade
 servergoingdown Nedkopplad: Server-problem
 server Server
 session Session
+showblockedlist Visa en lista över personer som blockerar dig
 som andra kan se)
 sound2 Spela upp ljud när en kontakt loggar in eller skickar meddelande
 soundcommand Program som ska användas  för att spela upp ljud (t.ex: esdplay)
@@ -293,18 +298,24 @@ title Al's Messenger
 tools Verktyg
 to Till
 transnotexists Filen har inte blivit översatt till det nuvarande språket än.
+traynotcompiled Aktivitetsfältsikon pluginet har inte kompileras. Kolla i plugins/traydock
 unblock Ta bort blockering
 uoffline Nedkopplad
 uonline Uppkopplad
 useralreadyonlist Användaren finns redan i listan
 user Användare
+userblocked Användaren är online men blockerar dig
 usernotonline Användaren är inte online
+useryourself Du kan inte chatta med dig själv!
+verifyblocked Se efter om du är blockerad
 version Version
 view Alternativ
 viewprofile Se Profil
 willjoin Väntar på att $1 ska ansluta sig till konversationen
 work Arbete
+wrongprofileversion Fel profilversion. För att fixa det, ta bort $1 eller uppgradera Amsn
 xoffset X position
 yoffset Y position
+youblocked Du har blivit blockerad
 yousay Du säger
 youwant Du vill
