@@ -64,7 +64,9 @@ closingdocks Le bouton fermer ancre l'application
 command Commande
 confirmdelete Confirmer la suppression
 confirm Êtes vous sûr?
+connected Vous êtes maintenant connecté(e)
 connecterror Erreur de connexion
+connecting Se connecter
 connection Connexion
 contactadded Contact ajouté
 contactdoesnotexist Personne introuvable
@@ -89,6 +91,7 @@ dockkde Ancrage dans KDE
 edit Édition
 editprofile Modifier profil
 enableproxy Utiliser un proxy
+enableremote Permettre le contrôle à distance
 encoding2  Changer la manière dont les caractères sont encodés
 encoding Choisir l'encodage
 entercontactemail Rajouter un contact de messagerie
@@ -190,6 +193,7 @@ nologfile Pas de fichier journal pour $1
 nonewmail Pas de nouveau message
 nonewver Il n'y a pas de nouvelle version disponible
 normal Normal
+nosystemtray La poubelle n'est pas accessible
 notify1 Afficher un avertissement quand un contact est en ligne
 notify2 Afficher un avertissement quand de nouveaux messages sont reçus
 notify3 Afficher un avertissement quand des courriels arrivent dans votre boîte de réception
@@ -233,6 +237,7 @@ prefprofile2 Créer ou modifier votre profil publique (votre description \n visbl
 prefprofile3 profils de configuration de l'utilisateur d'aMSN
 prefprofile Mon profil publique
 prefproxy Ma configuration Proxy
+prefremote Préférences de connexion à distance
 prefsession Ma connexion et mon statut
 prefshared Connexions partagées (Seulement pour NAT)
 prefsound Sons

@@ -66,6 +66,8 @@ confirmdelete Confirmer suppression
 confirm Êtes vous sûr?
 connecterror Erreur de connexion
 connection Connexion
+connected Vous êtes maintenant connecté(e)
+connecting Se connecter
 contactadded Contact ajouté
 contactdoesnotexist Personne introuvable
 copy Copier
@@ -88,7 +90,8 @@ dockingoff Ancrage inactif
 dockkde Ancrage dans KDE
 edit Edition
 editprofile Modifier profil
-enableproxy Utiliser un proxy
+enableproxy Permettre de passer par un proxy
+enableremote Permettre le contrôle à distance
 encoding2  Changer la manière dont les caractères sont encodés
 encoding Choisir l'encodage
 entercontactemail Rajouter un contact de messagerie
@@ -190,6 +193,7 @@ nologfile Pas de fichier log pour $1
 nonewmail Pas de nouveau message
 nonewver Il n'y a pas de nouvelle version disponible
 normal Normal
+nosystemtray La poubelle n'est pas accessible
 notify1 Afficher une notification quand un contact est en ligne
 notify2 Afficher une notification quand de nouveaux messages sont reçus
 notify3 Afficher une notification quand des emails arrivent dans votre boîte de réception
@@ -233,6 +237,7 @@ prefprofile2 Créer ou modifier votre profil publique (votre description \n visbl
 prefprofile3 profils de configuration de l'utilisateur d'aMSN
 prefprofile Mon profil publique
 prefproxy Ma configuration Proxy
+prefremote Préférences de connexion à distance
 prefsession Ma connexion et statut
 prefshared Connexions partagées (Seulement pour NAT)
 prefsound Sons

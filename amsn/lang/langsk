@@ -1,0 +1,314 @@
+amsn_lang_version 2
+about Informacia
+accept Prijat
+acceptfile Prijat subor $1, s dlzkou $2? Ulozeny v $3
+actions Akcie
+addacontact Pridat kontakt
+addedyou $1 ($2) vas pridal do jeho/jej kontaktnej knizky
+addtocontacts Pridat do kontaktnej knizky
+addtoo Pridat tuto adresu do kontaktnej knizky
+admincontacts Zmenit kontakty
+admingroups Zmenit triedy
+adverts Reklamy
+alarmpref Nastavenia alarmu pre uzivatela
+alarmstatus Nastavit alarm ON/OFF pre tohto uzivatela
+allowseen Dovolit tomuto cloveku vediet kedy budem pripojeny/a a kontaktovat so mnou
+appearance Status
+appearoff Nepripojeny
+areacode PSC
+aretyping $1 ti prave pise odkaz
+askprofile Tento login momentalne nema ziaden profil. Chcete si ho vytvorit? \n Ak nie, nebudete moct pouzit opciu "History" alebo nastavit alarm alebo heslo. \n Ak ho vytvorite, budete mat osobitne nastavenie na tento novy profil. \n \n Kliknite na "Vytvorit Profil" na novy profil pre $1.
+autoaway Zmenit moj status na "Nepritomny" ked budem inaktivny/a viac ako 
+autoconnect2 Pripojit sa automaticky ked sa spusti aMSN
+autoconnect Pripojit sa na aMSN hned na zaciatku
+autohotmaillog Automaticky Hotmailovy login
+autoidle Auto Neaktivita
+autoip Automaticky IP
+autonoact Zmenit status na "NeAktivny" ked neprehovorim viac nez
+avoidseen Nedovolit tomuto cloveku vediet kedy budem pripojeny/a a kontaktovat so mnou
+away Nepritomny/a
+awaymsg1 Vzdy sa spytat na dovod ked zmenim status na Nepritomny/HSV/zaneprazdneny
+awaymsg2 Nespytat sa nikdy a vzdy pouzit tento dovod
+baduserpass Nespravny login alebo heslo
+bgcolor Zmenit farbu aMSN
+blankdirect Nechaj bez oznacenia pre direktne pripojenie na internet
+block Zablokovat
+blocked Zablokovane
+blockmessage Tito ludia su pripojeny a zablokovali vas
+broughtby Programovali
+browse Prehliadat
+browser Prehliadac
+busy Zaneprazdneny/a
+cancel Zrusit
+cannotdeleteprofile Nemozem zmazat profil lebo ho pouziva aMSN v tomto momente
+cfgalarm Nastavit/Pridat/Zrusit alarm
+changefont Zmenit Pismo
+changenick Zmenit Meno
+chatack Prijimanie chatu od
+chat Chat
+chatreq Pytam povolenie na chat
+chatsmileys2 Povolit emotikony a smajliky v okienkach
+chatsmileys Smajliky pre chat
+checkfilman Prijate subory budu ulozene v $1. Prosim prezrite nastavenie Suboroveho Manazera v "Uprednostit"
+checkingver Hladam novsiu verziu
+checkver Hladat novsiu verziu
+choosebasefont Vyber pismo
+choosebgcolor Vyber farbu pre aMSN
+choosefontcolor Vyber farbu pisma
+clearlog2 Vymazat "History" pre vsetky tvoje kontakty
+clearlog3 Vymazat vsetky Logy
+clearlog Vymazat log
+clicktologin Clikni sem na pripojenie
+close Zavriet
+closingdocks Zrusit opciu Zmensit
+command Prikaz
+confirm Si si isty/a?
+confirmdelete Si si isty/a ze chcete zmazat $1?
+connected Teraz si pripojeny/a
+connecterror Chyba pri pripojeni na server
+connecting Pripajam sa
+connection Pripojenie
+contactadded Kontakt ulozeny
+contactdoesnotexist Kontakt neexistuje!
+copy Kopirovat
+copytogroup Kopirovat do triedy
+countrycode Moja krajina/PSC
+cprofile Vytvorit profil
+cut Odstrihnut
+date Datum
+days dni
+dcprofile Nevytvorit profil
+default Povodny profil
+delete Zmazat
+deliverfail Nasiel sa problem kym som sa pokusal odovzdat nasledujuci odkaz
+delprofile2 Vyberte profil ktory chcete vymazat
+delprofile Vymazat profil
+dockgtk Gnome port
+docking Port
+dockingoff Vypnuty port
+dockkde KDE Port
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
+edit Editovat
+editprofile Zmenit profil
+enableproxy Aktivovat proxy
+enableremote Aktivovat kontrolu na dialku
+encoding2 Zmenit kodovanie tvojho pisma
+encoding Vybrat kodovanie
+entercontactemail Napis kontaktov e-mail
+enterfilename Napis meno suboru
+enternick Napis tvoj nickname
+examples Priklady
+exitamsn Si si isty/a ze chces uzavriet program?
+extras Extra Sluzby
+faq CRO (Casto Robene Otazky)
+filedoesnotexist Subor neexistuje
+fileman Nastavenia
+filename Meno suboru
+filetransfercancelled Uzivatel zrusil odosielanie
+filetransfercomplete Odosielanie ukoncilo spravne
+ftaccepted Odosielanie suboru prijate
+ftrejected Odosielanie suboru neprijate
+gonelunch Isiel/Isla som jest
+groupadd Pridat triedu
+groupdelete Zmazat triedu
+groupexists Trieda uz existuje
+group Trieda
+groupmissing Neviem najst triedu
+groupnewname Nove meno
+groupnotempty Trieda neni prazdna!
+groupoldname Predosle meno
+grouprename Premenovat triedu
+groupunknown Neznama trieda
+handle Handle
+helpcontents Temy na pomoc
+help Pomoc
+history Vidiet logy
+home Domov
+ident Identifikujem
+identity Identifikacia
+inbox In-Box
+invalidusername Nepovolene meno
+invite Pozvat
+ipaddress IP Adresa
+ipdetect Zistit spravnu IP adresu pre odosielanie s pomocou HTTP
+istyping $1 ti prave pise odkaz
+joins $1 sa pripojil do konverzacie
+keepalive Keepalive (NAT)
+keeplog2 Logovat vsetky konverzacie do Historie aMSN
+keeplog Ulozit logy
+language Jazyk
+lastmsgtime Posledny odkaz prijaty o $1
+lclosedwin $1 uzavrel okno o $2
+lconftopriv Konferencia sa zmenila na privatnu s $1
+lconvstarted konverzacia zacala o $1
+leaveblankforhotmail Vynechaj policko ak pouzivas Hotmailovu web stranku
+leaves $1 odisiel z konverzacie
+lenteredconf $1 sa pridal do konferencie o $2
+linprivate Privatne
+listeningon Skusam port $1
+listsmileys2 Povolit emotikony a smajliky uz v zozname kontaktov
+listsmileys Smajliky pre kontakty
+ljoinedconf $1 sa pridal do konferencie
+lleftconf $1 odisiel z konferencie
+loadcontacts Pridat zoznam zo suboru
+logbigger Dlzka logu pre kazdu adresu ma limit
+logfandexp Dlzka logu a platnost Historie
+loggedotherlocation Odpojeny. Niekto sa pripojil cez vasu adresu z ineho miesta.
+loggingin Startujem
+loginas Cez adresu
+loging Logovanie
+login Log in
+logolder Logovat len chaty ktore sa konaly v poslenych
+logout Odpojit sa
+logsin prave sa pripojil/a
+logsmileys Povolit emotikony a smajliky v okienkach Historie aMSN
+lprivtoconf Privatne okienko sa zmenilo na konferenciu s $1
+luclosedwin Zavrel/a si okno o $1
+mailer Mailer
+maximised Zvacsene okienko
+minimised Zmensene okienko
+mins minut
+mobile Mobil
+movetogroup Premiestnit do Triedy
+msgmaxmin Ked dostanem novu spravu chcem
+msg Odkaz
+msgmode Vyber ako kontrolovat viacero konverzacii :
+msn AMSN
+mustrestart Musis vypnut a znova zapnut program na aktovovanie zmien
+myhomephone Moje cislo domov
+mymobilephone Moj mobilny telefon
+mystatus Moj status
+myworkphone Moje cislo do prace
+natip Zistit IP adresu cez web stranku
+natkeepalive Ak mas slabe pripojenie na internet, aktivuj tento KeepAlive
+needonline Este stale nie si propojeny/a!
+newmail $1 novych mailov
+newmailfrom Novy mail od $1 ($2)
+newmsg Novy odkaz
+newveravailable Nova verzia $1 je disponibilna na stiahnutie
+next OK
+noactivity Bez aktivity
+nologfile Neexistuje logovy subor pre $1
+nonewmail Nemas nove maily
+nonewver Neni nova verzia na stiahnutie
+normal Normalne
+notify1 Ukazat notifikaciu ked sa niekto pripoji
+notify2 Ukazat notifikaciu ked dostanem novy odkaz
+notify3 Ukazat notifikaciu ked dostanem novy e-mail
+notify notifikacia
+notifyoffset Nastavit poziciu notifikacneho okienka nastavenim valut
+notifywin Notifikacne okienko
+nousersinsession Nie su pripojeny uzivatelia
+offline Nepripojeny
+ok OK
+onenewmail 1 novy mail
+online Pripojeny
+onphone Kvakam cez telefon
+openreceived Otvorit prijate subory
+options Nastavenia
+ordercontactsby Vytriedit kontakty cez :
+ordergroupsby Vytriedit triedy cez :
+other Ine
+pager Strankovac
+pass Heslo
+paste Prilepit
+personal Osobne
+phone Telefon
+picfile Obrazkovy subor (GIF < 500 x 500)
+picstatus Obrazkovy Alarm
+port Port
+prefalerts Moje Terminy a zvuky
+prefapps Aplikacie
+prefawaymsg Moj dovod ked budem nepritomny/a
+prefemotic Emotikony a smajliky
+preferences Nastavenia
+preffont2 Zmenit styl mojho texto pre ostatnych ludi
+preffont3 Zmenit pismo a velikost pisma pre aMSN
+preffont Moj text odkazu
+preflog1 Moje nastavenia pre Historiu a Logovanie
+preflook Moj look pre aMSN Messenger
+prefmsging Interfaza mojich odkazov
+prefname Moje Meno/Nickname pre MSN Messenger
+prefphone2 Napis telefonne cisla ktore chces aby bolo vidno \n pre ludi v tvojej Kontaktnej knizne \n
+prefphone Moje telefonne cisla
+prefprofile2 Vytvorit alebo zmenit moj profil (\n Informacia o vas, ktoru ostatni budu moct vidiet)
+prefprofile3 Nastavenie Profilov aMSN
+prefprofile Moj vereny profil
+prefproxy Moje proxy nastavenia
+prefremote Moje nastavenia pre pripojenie na internet
+prefsession Möj login a status
+prefshared Spolocne pripojenia (len pre NAT)
+prefsound Zvuky
+profiledconfig Konfiguracia
+profileinuse Tento profil sa momentalne pouziva pri inom pripojeni na aMSN, prosim, zvolte iny
+profiles Profily
+properties Data
+proxyconfhttp Nastavenie HTTP proxy
+proxyconf Proxy konfiguracia
+proxy Pouzivam Proxy Server (HTTP alebo SOCKS5)
+publishphones Ukazat moje telefonne cisla
+receivedbytes Stiahnute $1 z $2 byteov
+receivefile Subor bol stiahnuty
+reconnecting Znova sa pripajam na server
+reconnect Cakam na pripojenie $1
+reject Neprijat
+rememberpass Zapamatat si heslo
+reversed Naopak
+rightback Hned sa vratim
+saveas Ulozit ako
+savecontacts Ulozit kontaktnu knizku
+save Ulozit
+savetofile Ulozit do suboru
+says $1 povedal:
+sbcon Pripajam sa na Switch Board
+sendfile Poslat subor
+sendmail Poslat mail
+sendmsg Zacat konverzaciu
+send Poslat
+sentbytes Odoslane $1 z $2 byteov
+servergoingdown Odpojeny: Server sa vypol...
+server Server
+session Pripojenie
+showblockedlist Ukazat zoznam ludi ktorich ta zablokovali
+sound2 Spustit zvuk ak sa niekto pripoji alebo posle odkaz
+soundcommand Toto je prikaz na "play" (napr: esdplay)
+sound Zvuk
+soundfile Subor pre zvuky
+soundloop Opakovat zvuk
+soundserver Zvuk pre server
+soundstatus Zvuk pre alarm
+startoffline2 Pripojit sa tichym sposobom, budes pripojeny/a ale ostatni to nebudu vidiet.
+startoffline Pripojit sa tichym sposobom
+status Status
+stopalarm Zastavit Alarm
+stylechat Ten isty look ako pre chat
+stylehist Look pre "Historiu" aMSN
+stylelog Zvol format v ktorom chces vidiet tvoju "Historiu"
+syntaxerror Chyba v prikaze 
+tabbed Okienka s informaciou
+textsize Velikost textu
+title Al's Messenger
+tools Sluzby
+to Pre
+transnotexists Tento subor este nebol prelozeny do tohto jazyka.
+traynotcompiled Ikona este nebola vytvorena. Nastav Plug-In.
+unblock Odblokovat
+uoffline Nepripojeny
+uonline Pripojeny
+useralreadyonlist Uzivatel uz je v kontaktnej knizke
+usernotonline Uzivatel neni pripojeny
+user Uzivatel
+userblocked uzivatel je pripojeny ale zablokoval ta
+useryourself Nemozes chatovat so sebou...
+verifyblocked Ukazat ludi ktori ta zablokovali
+version Verzia
+viewprofile Vidiet profil
+view Vidiet
+willjoin Cakam na konverzaciu s $1 
+work Robota
+wrongprofileversion Zly subor nastavenia profilu. Na upravenie, vymazte archiv $1, alebo reinstalujte amsn
+xoffset Valuta X
+yoffset Valuta Y
+youblocked Bol/a si zablokovany/a!
+yousay Ty si povedal/a
+youwant Chces
