@@ -1,0 +1,96 @@
+Q: What is amsn?
+A: Amsn is a Microsoft Messenger clone. It allows you to keep in touch with
+your friends and exchange instant messages and files.
+
+Q: What do I need to run amsn?
+A: Amsn is written in tcl/tk, so you just need a working tcl/tk interpreter,
+version 8.3 or later. You can get it at http://tcl.sourceforge.net. The
+interpreter is available for linux, windows and macintosh.
+
+Q: How do I create a shortcut to amsn in my desktop?
+A: 1.- Add an icon to your gnome/kde desktop or menu, that 
+launchs the command: 
+/wherever/you/have/amsn/installed/amsn 
+ for example 
+ /home/yourusername/msn/amsn 
+ 2. Other way: 
+ As root, create a link in /usr/bin to the amsn file 
+ ln -s /wherever/you/have/amsn/installed/amsn amsn 
+ This way, you can launch amsn by just typing 'amsn' from 
+anywhere. 
+ Then add an icon that launchs the command 'amsn'. 
+
+Q: What do the magenta contacts in my contact list mean?
+A: It means that you are not in that person's contact list.
+
+Q: When I leave the amsn window in the background, and work in other windows,
+after a certain time my status changes to away. Is this a bug?
+A: No, it is working fine. Amsn detects key presses and mouse clicks INSIDE the
+amsn or chat windows. If you work in other windows but don't use amsn, and the
+auto-idle feature is enabled, your state will be changed after 5 minutes.
+
+Q: Sometimes amsn "hangs", why?
+A: When amsn hangs it's usually a problem with the sound configuration. Maybe
+you're playing a sound but the sound card is blocked, and the play command
+stops until the sound card is available. Try disabling sound or changing the
+sound command configuration.
+
+Q: amsn slows down or blocks every few seconds. What happens?
+Q: I get this errors:
+couldn't open socket: host is unreachable
+    invoked from within
+"::http::geturl $adv_url -timeout $adv_timeout -progress adv_progress"
+    (procedure "adv_fetch" line 11)
+    invoked from within
+"adv_fetch"
+    ("after" script...
+A: Check if you have the "advertisements" option enabled, in the preferences
+menu. It should be disabled as it isn't working for the moment.
+
+Q: I try to run amsn but I get this error:
+bash: ./amsn: bad interpreter: No such file or directory 
+A: Hi, you need to install the tcl/tk packages, because you need  the wish
+interpreter. If you think you have it, try "wish amsn" instead of "./amsn". If
+this works, edit amsn and change the first line: 
+ #!/usr/bin/wish 
+ with the location of the wish interpreter. 
+ 
+Q: When I run amsn i get this error:
+Error in startup script: bad option "map": must be
+compare, first, index, last, length, match, range,
+tolower, toupper, trim, trimleft, trimright, wordend,
+or wordstart
+while executing
+"string map $map $md5body"
+(in namespace eval "::md5" script line 65)
+invoked from within
+"namespace eval ::md5 { ... etc
+A: You're using tcl/tk older than 8.3. Update tcl/tk.
+
+Q: After updating amsn, this is what i get when I run it:
+Error in startup script: expected integer but got ""
+while executing
+"font create menufont -family $family -size $size
+-weight normal"
+(procedure "::amsn::initLook" line 5)
+invoked from within
+"::amsn::initLook $family $size $config(backgroundcolor)"
+(file "amsn" line 2184) 
+A: There have been some changes in the configuration file. A quick fix to have
+the new version working is to delete the old config file in your home dir.
+Delete /home/yourusername/.amsn/config and it should work now.
+
+Q: Can't type chinese / japanese / other languages in amsn. What can I do?
+A: It looks like xcin or similar programs are not supported in the current
+version of tcl/tk, so amsn doesn't work with them either. You should wait for
+next version of tcl/tk and hope it supports xcin. Meanwhile, you can type the
+text in another editor, and copy-paste it into the chat window.
+
+Q: I have another question, can you help me?
+A: Yes, we can. But first, take a look at the sourceforge project page, located
+at http://sourceforge.net/projects/amsn, and check all the bugs, support
+request and general forums to check if your problem is already answered. Don't
+check only the messages marked as "Open". There's a drop down list where you
+can select "Closed" at the top of the messages list. Already answered question
+are usually marked as Closed. If you still have a question, you can mail me at
+airadier@users.sourceforge.net.
