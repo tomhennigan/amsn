@@ -3836,6 +3836,8 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap notinlist notinlist.gif
 	
 	::skin::setPixmap nullimage null
+	#set the nullimage transparent
+	[::skin::loadPixmap nullimage] blank
 	if { $tcl_platform(os) == "Darwin" } {
 		::skin::setPixmap logolinmsn logomacmsn.gif
 	} else {
