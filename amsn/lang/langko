@@ -1,33 +1,33 @@
 amsn_lang_version 2
 about AMSN에 대하여
-acceptfile Accept file $1, size $2? Saved in $3
+acceptfile 파일을 받으시겠습니까? (파일명 : $1, 용량 : $2)
 actions 기능
 addacontact 친구추가
-addedyou has added you to his/her contact list
-addtocontacts Add to contact list
-addtoo Add this person to my contact list
-admincontacts Admin contacts
-admingroups Admin groups
-adverts Advertisements
-allowseen Allow this person to see when I'm online and contact me
-appearoff Appear offline
-aretyping $1 are typing a message
-autohotmaillog Auto Hotmail login
-autoip Automatic IP
-avoidseen Avoid this person can see when I'm online and contact me
-away Away
-baduserpass Wrong user name or password
+addedyou 님이 당신을 친구목록에 추가했습니다.
+addtocontacts 친구목록에 추가
+addtoo 이 사용자를 친구목록에 추가
+admincontacts 친구목록 관리
+admingroups 그룹 관리 
+adverts 광고
+allowseen 접속 정보를 상대방에게 보임
+appearoff 오프라인 표시
+aretyping $1 메세지 입력 중
+autohotmaillog Hotmail 자동 로그인
+autoip 자동 IP
+avoidseen 접속 정보를 상대방에게 보이지 않음
+away 자리에 없음
+baduserpass 아이디 또는 비밀번호 틀림
 blankdirect Leave blank for direct connection
-block Block
-blocked Blocked
-browser Browser
-broughtby  Brought to you by the following developers
-busy Busy
-cancel Cancel
+block 차단
+blocked 차단됨
+browser 웹브라우저
+broughtby 이 프로그램의 개발자들
+busy 다른 용무 중
+cancel 취소
 changenick 별명 변경
 chat Chat
 chatreq Requesting chat
-chatsmileys Chat smileys
+chatsmileys 이모티콘 보기
 chatack Accepting chat from
 checkver 새로운 버전 확인
 checkingver 새로운 버전 확인중
@@ -35,134 +35,134 @@ choosebasefont 폰트
 choosebgcolor 바탕색
 clicktologin 위 계정으로 로그인
 close 닫기
-closingdocks Close button docks window
-command Command
-confirmdelete Are you sure you want to delete $1?
-contactadded Contact added
-contactdoesnotexist Contact does not exist!
-connecterror Error connecting to server
-copytogroup Copy to group
+closingdocks 닫기 버튼 윈도우와 연결
+command 명령
+confirmdelete $1를 삭제 하시겠습니까?
+contactadded 그룹에 추가
+contactdoesnotexist 친구 목록에 없음!
+connecterror 서버 연결 중 에러
+copytogroup 그룹에 넣기
 date Date
-delete Delete
+delete 삭제
 enableproxy Enable proxy
 encoding Choose encoding
-entercontactemail Enter contact e-mail
-enterfilename Please enter a filename
-enternick Enter your nick
+entercontactemail 상대방 Email 입력
+enterfilename 파일명을 입력하세요
+enternick 별명을 입력하세요
 examples Examples
 exitamsn 종료하시겠습니까?
 extras Extra Services
-filedoesnotexist File does not exist
-filename Filename
-filetransfercancelled File transfer cancelled
-filetransfercomplete File transfer complete
-gonelunch Gone to lunch
-group Group
-groupadd Add a group
-groupdelete Delete a group
-grouprename Rename a group
-groupoldname Old name
-groupnewname New name
-groupunknown Unknown group
-groupexists Group already exists
-groupmissing Cannot find group
-groupnotempty Group is not empty!
-handle Handle
+filedoesnotexist 존재하지 않는 파일
+filename 파일명
+filetransfercancelled 파일 전송 취소
+filetransfercomplete 파일 전송 완료
+gonelunch 식사중
+group 그룹
+groupadd 그룹 추가
+groupdelete 그룹 삭제
+grouprename 그룹명 변경
+groupoldname 기존 그룹명
+groupnewname 새 그룹명
+groupunknown 알수 없는 그룹
+groupexists 이미 존재하는 그룹
+groupmissing 그룹을 찾을 수 없음
+groupnotempty 비어있지 않은 그룹임!
+handle 별명
 help 도움말
-helpcontents Help contents
-home Home
-ident Identifying
-identity Identity
-inbox In-Box
-invalidusername Invalid user name
-invite Invite
-ipaddress IP Address
-istyping $1 is typing a message
-joins $1 $2 joins conversation
+helpcontents 도움말 항목
+home 집
+ident 신원 확인 중
+identity 신원
+inbox 메일 확인
+invalidusername 허용되지 않는 이름
+invite 초대
+ipaddress IP 주소
+istyping $1 메세지 입력 중
+joins 연결 성공
 language 언어선택
 leaveblankforhotmail Leave blank for using hotmail web
-leaves $1 leaves conversation
+leaves $1 대화창 나감
 listeningon Listening on port $1
-listsmileys List smileys
-loadcontacts Load contact list
-loggedotherlocation Disconnected. Logged in other location
+listsmileys 목록에 이모티콘 보임
+loadcontacts 친구목록 불러오기
+loggedotherlocation 연결끊김. 다른곳에서 접속.
 loggingin 로그인중
 login 로그인
 loginas 다른 계정으로 로그인
 logout 로그아웃
-logsin has just logged in
+logsin 님이 로그인 했습니다.
 mailer Mailer
-mobile Mobile
-movetogroup Move to Group
+mobile 핸드폰
+movetogroup 그룹 변경 
 mustrestart 변경된 설정은 다시 시작 후 적용됩니다. 
 mystatus 내 상태 
-msg Message
+msg 메세지
 msn AMSN
-needonline You still are/appear offline!
-newmail $1 new messages in In-Box
-newmailfrom New mail from
+needonline 온라인 상태가 아닙니다.
+newmail $1 개의 새로운 메일
+newmailfrom $1에게 메일 받음
 newmsg 새로운 메세지
-newveravailable Newer version $1 available for download
+newveravailable 새버전($1) 다운로드
 next 다음
-noactivity No activity
+noactivity 자리비움
 nonewmail 새로운 메일 없음
-nonewver There are no new versions available to download
-notify notify
-nousersinsession No users in session
+nonewver 새로운 버전이 없습니다.
+notify 알림
+nousersinsession 목록에 사용자 없음.
 ok 확인
 offline 오프라인
-onenewmail 1 new message in In-Box
+onenewmail 새로운 메일 있음
 online 온라인
-onphone On phone
-openreceived Open received files
+onphone 통화중
+openreceived 받은 파일 열기
 options 옵션
-ordercontactsby Order contacts by
+ordercontactsby 목록 정렬 방식
 other Other
-pager Pager
-pass Password
-phone Phone
+pager 삐삐
+pass 비밀번호
+phone 전화번호
 port Port
-prefapps Applications
+prefapps 응용프로그램
 preferences 설정
-prefsound Sounds
-properties Properties
-proxyconf Proxy configuration
+prefsound 소리
+properties 프로필 보기
+proxyconf Proxy 설정
 proxyconfhttp HTTP proxy support configuration
-publishphones Publish my phone numbers
-receivedbytes Received $1 of $2 bytes
-receivefile Receive file
+publishphones 나의 프로필
+receivedbytes $1 중에 $2 받음
+receivefile 파일 받기
 reconnect Waiting for $1 to reconnect
-reconnecting Reconnecting to server
-rememberpass Remember password
-rightback Be right back
+reconnecting 서버 재접속 중
+rememberpass 비밀번호 기억
+rightback 곧 돌아오겠음
 save 저장
 saveas 다른 이름으로 저장..
-savecontacts Save contact list
-says $1 says
+savecontacts 친구목록 저장
+says $1 님의 말
 sbcon Connecting to Switch Board
 send 보내기
 sendfile 파일 보내기
 sendmail 메일 보내기
 sendmsg 메세지 전송
-sentbytes Sent $1 of $2 bytes
-server 서버
+sentbytes $1 중에 $2 bytes 보냄
+server Server
 servergoingdown 연결끊김: 서버에서 연결이 종료됨.
-sound Event Sound
-startoffline Start Offline
-status Status
+sound 효과음
+startoffline 오프라인 시작
+status 상태
 syntaxerror  문법 오류
-textsize Text size
-title Al's Messenger
+textsize 문자 크기
+title Al's 메신저
 to To
 tools 도구
 yousay You say
 youwant You want
-unblock Unblock
+unblock 차단해제
 uoffline 오프라인
 uonline 온라인
 user 사용자
 useralreadyonlist 이미 등록된 사용자입니다.
 version 버전
 view 보기
-willjoin Waiting $1 joins conversation
+willjoin $1의 대화창에 접속중
 work 작업
