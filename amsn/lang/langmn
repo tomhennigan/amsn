@@ -1,199 +1,360 @@
 amsn_lang_version 2
 about тухай
+acceptfile  $2- хэмжээтэй $1-ыг татахыг зөвшөөрөх үү? $3-д хадгалагдсан
 accept зөвшөөрөх
-acceptfile  $1-ыг татахыг зөвшөөрөх, хэмжээ $2? $3-д хадгалагдсан
 actions Үйлдэл
 addacontact Найз нэмэх
 addedyou таныг найзын жагсаалтандаа нэмсэн байна
+addstate Шинэ статус нэмэх
 addtocontacts Жагсаалтанд нэмэх
 addtoo Энэ хүнийг миний жагсаалтанд нэмэх
-admincontacts Удирдагчийн жагсаалт
-admingroups Удирдагч
+admincontacts  Жагсаалтын удирдлага
+admingroups Удирдлага
 adverts Сурталчилгаа
 alarmpref Дараах хэрэглэгчийн сэрүүлэгийн тохиргоо :
 alarmstatus Сэрүүлэгийг дараах хэрэглэгчийн хувьд АСАА/УНТРАА
+allowallbutbl Хориглосноос бусад бүх хэрэглэгчийг надтай холбогдохыг зөвшөөрөх
+allowlist  Жагсаалтыг Зөвшөөрөх
+allowonlyinal Зөвхөн зөвшөөрсөн жагсаалтан дахь хүмүүсыг надтай холбогдохыг зөвшөөрөх
 allowseen Энэ хэрэглэгчийг намайг идэвхтэй байхад харж холбогдохыг зөвшөөрөх
+appearance Харагдах байдал
 appearoff идэвхгүйгээр харуулах
+areacode Орон нутгийн код
 aretyping $1 зурвас бичиж байна
+askprofile Та одоогоор өөрийн хувийн мэдээлэлийг үүсгээгүй байна.Одоо үүсгэх үү?\nХэрэв та ингэвэл өөрийн зурвас,сэрүүлэг болон нууц үгээ хадгалж болно.\nТа $1 хаяганд шинэ мэдээлэл үүсгэхийн тулд "Шинээр үүсгэ" дээр дарна уу.
+autoaway Намайг дараах хугацаагаар хэрэглэхгүй байвал "Холдсон" гэж харуул
+autoconnect2 МСН буухиаг ачаалахад намайг автоматаар холбогдуул
 autoconnect Асаахад автоматаар холбогдох
 autohotmaillog Хотмайлд автоматаар холбогдох
 autoidle Автоматаар идэвхгүйгээр харуулах
 autoip Автомат IP
+autonoact Намайг дараах хугацаагаар хэрэглэхгүй байвал "Идэвхгүй" гэж харуул
 avoidseen Энэ хэрэглэгчийг намайг идэвхтэй байхад харж холбогдохыг хориглох
+awaymsg1 Намайг харагдах байдалаа Холдсон/Удалгүй ирнэ/Завгүй-руу солих бүрт асуу
+awaymsg2 Асуулгүй шууд доорх бичигийг хэрэглэ
 away Холдсон
 baduserpass Хэрэглэгчийн нэр юмуу нууц үгээ буруу оруулсан байна
+bgcolor Монгол буухиагийн дэвсгэр өнгө өөрчлөх
 blankdirect Шууд холбогдохын тулд хоосон үлдээнэ үү
-block Хоригло
 blocked Хориглогдсон
+blocklist Хориглогдсон хүмүүс:
+blockmessage Энэ хүмүүс идэвхтэй байгаа боловч таныг хориглосон байна
+block Хоригло
 broughtby  Зохиогчид
 browse Хөтлөх
 browser Хөтөч
 busy Завгүй
 cancel Цуцлах
+cannotdeleteprofile Хувийн мэдээлэлийг устгаж болохгүй,учир нь түүнийг ашиглаж байна
 cfgalarm Сэрүүлэг Тохируулах/нэмэх/хасах
+changefont Үсгийн хэлбэр сонгох
 changenick хочоо солих
 chatack Ярилцахыг зөвшөөрч байна
+chatmaxmin Хэрэглэгч надтай холбогдох үед ХИ ХБ хэмжээ:
 chat Чат(яриа)
 chatreq Чатлахыг урьж байна
+chatsmileys2 Чатны цонхон дотор инээмсэглэлүүдийг харуулах
 chatsmileys Инээмсэглэлүүд
+checkfilman Хүлээн авсан файлуудыг $1-д хадгалах болно.Тохируулга цонхон дахь файлын удирдлага тохируулгыг үзнэ үү
 checkingver Шинэ хувилбарыг шалгаж байна
 checkver Шинэ хувилбарыг шалга
 choosebasefont Үсгийн хэлбэр сонгох
-choosebgcolor Дэвсгэр өнгө сонгох color
+choosebgcolor Дэвсгэр өнгө сонгох
+choosecontact Жагсаалтаас чатлах хүнээ сонгоно уу
 choosefontcolor Үсгийн өнгө сонгох
+clearlog2 Бүх харилцагчтай чатласан бичлэгийг цэвэрлэх
+clearlog3 Бүх логуудыг цэвэрлэх
+clearlog Логыг цэвэрлэх
 clicktologin Энд дарж холбогдоно уу
 close Хаах
-closingdocks Хаах товчлуурь,багасгах
+closingdocks Хаах товчлуур,багасгах
 command тушаал
-confirm Та итгэлтэй байна уу?
 confirmdelete  Та үнэхээр $1-ыг устгах уу?
+confirm Та итгэлтэй байна уу?
+connected Та холбогдлоо
 connecterror Сэрвертэй холбогдоход алдаа гарлаа
+connecting Холбогдож байна
+connectionlost Холбогдсонгүй:Сервертэй холбох холболт хаагдсан
+connection Холболт
 contactadded Амжилттай нэмлээ
 contactdoesnotexist Ийм хэрэглэгч байхгүй байна!
+contactlist Жагсаалт:
 copy хуулах
-copytogroup груп рүү хуулах
+copytogroup бүлэг рүү хуулах
+countrycode Миний Улсын/Хотын код
+cprofile Хувийн Мэдээлэл Үүсгэх
 cut Таслах
 date Огноо
+days Өдрүүд
+dcprofile Хувийн Мэдээлэл Үүсгэхгүй
+default Үндсэн бүтэц
 delete Устгах
-docking Докинг асаа
-dockingoff Докинг унтраа
+deliverfail Зурвас илгээхэд асуудал гарлаа
+delprofile2 Устгах хувийн мэдээлэлийг сонгоно уу
+delprofile Устга
+directconnection Миний интернетийн холболт шууд(порт 1893-ыг хэрэглэдэг)
+dockfreedesktop Чөлөөт Дэлгэц(КДЕ-3/Жномь-2)
 dockgtk Жномь Док
-dockkde KДЕ Док
+dockingoff Докинг унтраа
+docking Докинг асаа
+dockkde КДЕ Док
+editnewstate Шинэ хувийн автомат зурвас
 edit Засах
-enableproxy Боломжтой proxy
-encoding Энкодин сонгоно уу
+editprofile Хувийн мэдээлэл засах
+editstate Хувийн автомат зурвасыг засах
+enableproxy Проксиг Боломжтой болго
+enableremote Удирдлагыг идэвхжүүл
+encoding2 Тэмдэгтийн код солих
+encoding Тэмдэгтийн код сонгоно уу
 entercontactemail Е-мейл хаягыг оруулна уу
 enterfilename Файлын нэрийг оруулна уу
 enternick Хочоо оруулна уу
-examples Жишээнүүд
+examples Жишээ
 exitamsn Та үнэхээр унтраах уу?
-extras Нэмэлт Services
+extras Нэмэлт Үйлчилгээ
 faq Асуулт хариулт
 filedoesnotexist Файл байхгүй байна
+fileman Файлын Удирдлага
 filename Файлын нэр
 filetransfercancelled Файл илгээлт цуцлагдсан
 filetransfercomplete Файлыг амжилттай илгээлээ
+followtext Шинэ зурвас ирвэл доош буулга
 ftaccepted Файлыг хүлээж авлаа
+ftacceptedby $1 файл $2-г хүлээж авахыг зөвшөөрөв
+ftaccepting Файл илгээх урилгыг хүлээн авч байна
+ftconnecterror Холболтын алдаа гарлаа
+ftconnecting $1-ын порт $2-д холбогдож байна
+ftconnectionlost Холболт амжилтгүй боллоо
+ftgotinvitation $1-ээс файл $2($3 байт)-ыг хүлээж авах урилга ирүүллээ
+ftportpref Файл илгээхийн тулд портыг эхлэж байна
 ftrejected Файлыг илгээлтыг зогсоосон
+ftrejectedby $1 файл $2-ыг хүлээн авахаас татгалзаж байна
+ftsendinvitation $1-д файл $2($3 байт)-ыг хүлээж авах урилга явууллаа
 gonelunch Үдийн хоолондоо явсан
 groupadd Бүлэг нэмэх
 groupdelete Бүлэг устгах
 groupexists Бүлэг давхардаж байна
-group Бүлэг
 groupmissing Бүлгийг олж чадсангүй
 groupnewname Шинэ нэр
 groupnotempty Бүлэг хоосон биш байна!
 groupoldname Хуучин нэр
+group Бүлэг
 grouprename Бүлгийн нэр солих
 groupunknown Үл мэдэгдэх бүлэг
-handle гардуулах
+handle хоч
 helpcontents Тусламжууд
 help тусламж
-home гэрт
-ident Тодотгож байна
+history Хадгалсан яриаг харах
+home гэр
+httpconnection Http хэрэглэн холбогдох
 identity Тодотгол
+ident Тодотгож байна
 inbox ирсэн
+internalerror Дотоод сүлжээний алдаа
 invalidusername Хүчингүй хэрэглэгчийн нэр
+invitationcancelled Урилгыг авахаас татгалзлаа
 invite Урих
-ipaddress IP хаяр
+ipaddress IP хаяг
+ipdetect Файл илгээхийн тулд Http хэрэглэн IP тодорхойлох
 istyping $1 зурвас бичиж байна
 joins $1 ярианд нэгдлээ
 keepalive Хэвээр нь хадгал (NAT)
+keeplog2 Бүх яриаг дараа харахын тулд МСН-ын Түүх-д  хадгал
+keeplog Чатуудын холболтыг хадгалах
 language Хэл
 lastmsgtime Сүүлчийн зурвас $1-д ирсэн
+lclosedwin $1 $2 дэх цонхыг хаалаа
+lconftopriv Нийтийн чатыг $1 хувийн болголоо
+lconvstarted Яриа $1-д эхэлсэн
 leaveblankforhotmail Хотмейл веб хэрэглэхийн тулд хоосон үлдээнэ үү
 leaves $1 яриаг орхилоо
+lenteredconf $1 нийтийн чатанд $2-д орж ирсэн
+linprivate ХУВИЙН
 listeningon Порт $1-ыг сонсож байна
+listsmileys2 Инээмсэглэлийг МСН-ын мейлийн жагсаалтанд харуулах
 listsmileys Инээмсэглэлүүд
+ljoinedconf $1 Ярилцлаганд нэгдэн орлоо
+lleftconf $1 Ярилцлагыг орхилоо
 loadcontacts Жагсаалтыг ачаалах
+logbigger Холболтын файлын хэмжээ харилцагч бүрийн хувьд дээд тал нь
+logfandexp Холболтын файлын хэмжээ болон түүхийг хадгалах хугацаа
 loggedotherlocation Сүлжээнээс гарсан.Өөр байршилаас холбогдсон
 loggingin Холбогдож байна
 loginas Дараах нэрээр холбогдох
+loging Холболт
 login Холбогдох
+logolder Зөвхөн сүүлийн чатуудыг холбох
 logout Гарах
 logsin дөнгөж сая холбогдлоо
+logsmileys Инээмсэглэлийг МСН-ын түүх цонхонд харуулах
+lprivtoconf Хувийн чатыг нийтийн ярилцлага болголоо
+luclosedwin Та $1 дэх цонхыг хаалаа
 mailer Шууданч
+maximised Томруулсан
+minimised Багасгасан
+mins минут
 mobile Гар утас
-movetogroup Ийшээ group ruu зөөх:
+morepersonal Өшөө статус
+move Хөдөлгөх
+movetogroup Өөр бүлэг рүү зөөх
+msgmaxmin Хүлээн авах зурвасны хэмжээ:
+msgmode Олон зурвасны цонхуудыг яаж гаргахыг сонгоно уу
 msg Зурвас
-msn Монгол МСН буухиа
+msn  МСН
 mustrestart Та өөрчлөлтийг идэвхжүүлэхийн тулд программийг дахин эхлүүлэх хэрэгтэй
-mystatus Миний байдал
+myhomephone Миний гэрийн утас
+mymobilephone Миний гар утас
+mystatus Миний Статус
+myworkphone Миний ажлын утас
 natip IP-г веб хуудсаар шалгах
-needonline You still are/appear offline!
+natkeepalive Хэрэв та үе үе холболтоос гараад байдаг бол дараах хэвээр нь хадгал хэсгийг идэвхжүүлнэ үү
+needonline Та идэвхгүй харагдсан хэвээр байна!
 newmail $1 шинэ захиа байна
 newmailfrom Танд шинэ захиа ирлээ. Хэнээс:
 newmsg Шинэ зурвас
 newveravailable $1-ын шинэ хувилбар татаж авахад бэлэн болсон байна
 next Дараах
-noactivity Үйл ажиллагаагүй
-nonewmail Шинэ зурвас алга
-nonewver There are no new versions available to download
+noactivity эзгүй
+nodataavailable $1-д ямар ч мэдээлэл алга байна
+nologfile $1-д ямар ч холболтын файл алга байна
+nonewmail Шинэ захиа алга
+nonewver Татаж авах шинэ хувилбар алга
+no Үгүй
+normal Энгийн
+nosystemtray System tray not available
+notify1 Найз онлайн болбол мэдээлэлийн цонх харуулах
+notify2 Шинэ зурвас ирвэл мэдээлэлийн цонх харуулах
+notify3 Шинэ захидал ирвэл мэдээлэлийн цонх харуулах
 notify мэдээлэх
+notifyoffset Мэдээлэлийн цонхны байрлалыг тааруулна уу
 notifywin Мэдээлэлийн Цонх
 nousersinsession Энэ хэсэгт хэрэглэгч алга
 offline Идэвхгүй
 ok Ok
 onenewmail 1 зурвас ирсэн байна
 online Идэвхтэй
-onphone Утсаар
+onphone Утас
 openreceived Хүлээж авсан файл нээх
 options Сонголтууд
-ordercontactsby Жагсаалтыг дараах байдлаар эрэмбэл
+ordercontactsby Жагсаалтыг эрэмблэх арга
+ordergroupsby Бүлэг эрэмблэх арга:
 other Бусад
 pager Пейжер
 pass Нууц үг
 paste Буулгах
+personal Хувийн
 phone Утас
 picfile Зургын файл (GIF < 500 x 500)
 picstatus Сэрүүлэгийн зураг
 port Порт
+prefalerts Миний дохио болон дуу
 prefapps Өргөдөл
+prefawaymsg Байхгүй хойгуурх зурвас
+prefconnection Холболтын тохируулга
+prefemotic Инээмсэглэл
 preferences Тохиргоо
+preffont2 чатны үсгийн хэлбэр солих
+preffont3 МСН программын үгний хэлбэр солих
+preffont Миний текст
+preflook МСН-ы харагдах байдал
+prefmsging Текст
+prefname Нэр,хоч
+prefphone2 Хүмүүст харуулах утасны дугаараа оруул
+prefphone Миний дугаар
+prefprivacy2 Хэрэглэгчийн жагсаалт
+prefprivacy Хэрэглэгчийг хориглох/зөвшөөрөх жагсаалт
+prefprofile2 Нийтэд харуулах хувийн мэдээлэл
+prefprofile3 МСН-ын хэрэглэгчийн мэдээлэл
+prefprofile Хувийн мэдээлэл
+prefproxy Прокси тохируулга
+prefremote Удирдлагын Холболтын тохиргоо
+prefsession Оролт ба статус
+prefshared Хувааж хэрэглэх Холболт(зөвхөн NAT)
 prefsound Дуу
-properties Шинж чанар
+privacy Хувийн
+profiledconfig Хувийн тохиргоо
+profileinuse Хэрэглэж буй мэдээлэл байна өөрийг сонгоно уу
+profiles Хувийн мэдээлэл
+properties Хэрэглэгчийн мэдээлэл
 proxyconfhttp HTTP Прокси тохируулах
 proxyconf Прокси тохиргоо
+proxyconnection Миний интернетэд хэрэглэдэг прокси:
+proxy Би прокси сервертэй
 publishphones Утасны дугаараа идэвхжүүлэх
+raised өргөгдсөн
 receivedbytes   Нийт $2-аас $1 байтыг хүлээж авлаа
 receivefile Файл татах
-reconnecting Дахин холбогдож байна
 reconnect  $1-ыг эргэж холбогдохыг хүлээж байна
+reconnecting Дахин холбогдож байна
 reject татгалз
 rememberpass Нууц үгийг санах
+removefromlist Жагсаалтаас хас
+reversed Урвуугаар эрэмблэгдсэн
+reverselist Урвуугаар эрэмбэл
 rightback Удахгүй ирнэ
 saveas Ингэж хадгал
 savecontacts Жагсаалтыг хадгал
+savetofile Файлд хадгал
 save Хадгал
-says $1 :
+says $1 хэлсэн нь
 sbcon Солигч самбартай холбогдож байна
+send Илгээ
 sendfile Файл илгээх
 sendmail Захиа илгээх
 sendmsg Зурвас илгээх
-send Илгээ
 sentbytes   Нийт $2-ээс $1 байт илгээгдсэн
 servergoingdown Холбогдсонгүй: Сервер доошилж байна
 server Сервер
-sound Дуут
+session Чуулган
+showblockedlist Хоригдлогдсон хүмүүсийн жагсаалтыг харуул
+sound2 Хүн холбогдох юумуу зурвас ирүүлбэл дуу тоглуулах
+soundcommand Энэ тоглуулдаг тушаал байх ёстой(жишээ нь:esdplay)
 soundfile Дууны файл
 soundloop Дууг давтах
+sound Дуут
+soundserver Дууны сервер
 soundstatus Дуут сэрүүлэг
+startoffline2 Чимээгүй,"идэвхгүй"-ээр холбогдох
 startoffline Идэвхгүйгээр эхлэх
-status байдал
+stateautomsg Илгээх автомат зурвас
+stateedittext Засах хэсгээ засаад \n"хадгал" товч дарна уу
+stateinfo Хувийн статусын мэдээлэл
+statename Хувийн статусын нэр
+statenewtext Шаардлагатай мэдээлэлийг оруулаад \n"хадгал" товчыг дарна уу
+state Миний хүссэн статус
+status статус
 stopalarm Сэрүүлэг зогсоо
+stylechat Чатуудтай адил харагдуулах
+stylehist Түүхийн харагдах байдал
+stylelog Түүхийн харагдах байдлыг сонгоно уу
 syntaxerror  өгүүлбэр зүйн алдаа
+tabbed таблагдсан цонх
 textsize Бичгийн хэмжээ
-title Монгол МСН буухиа (orch dzb)
+title AMSN Mongolian (by dzb)
+to хэнд
 tools Хэрэглүүр
-to руу
+transnotexists Таны хүссэн файл хараахан Монгол хэлэнд орчуулагдаагүй байна
+traynotcompiled
+twonewmail Танд хоёр шинэ захиа ирсэн байна
 unblock Зөвшөөрөх
 uoffline Идэвхгүй
 uonline Идэвхтэй
 useralreadyonlist Энэ хэрэглэгч аль хэдийн жагсаалтанд байна
+userblocked Энэ хэрэглэгч идэвхтэй байгаа боловч таныг хориглосон байна
+usernotonline Энэ хэрэглэгч идэвхгүй байна
 user Хэрэглэгч
+useryourself Та өөртэйгээ чатлах боломжгүй
+verifyblocked Намайг хориглосон хүмүүсийг шалгах/харуулах
 version Хувилбар
 view Харах
+viewprofile Хувийн мэдээлэлийг харуулах
 willjoin $1-ыг ярианд нэгдэхийг хүлээж байна
-work Ажиллах
+work Ажил
+wrongprofileversion Хувийн мэдээлэлийн файлын хувилбар алдаатай.Энэ асуудлыг шийдэхийн тулд $1хавтасыг зайлуулах эсвэл МСН-ы шинэ хувилбарыг татаж авч болно
+xoffset Х
+yes Тийм
+yoffset У
+youblocked Та хориглогдсон байна
 yousay Та хэлсэн
+youwant Та хүссэн
 youwant Та хүссэн
