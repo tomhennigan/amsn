@@ -932,6 +932,7 @@ namespace eval ::MSN {
 		if { [string tolower [lindex $recv 3]] == [string tolower [::config::getKey login]] } {
 			#This is our own nick change
 			::abook::setPersonal nick [urldecode [lindex $recv 4]]
+			send_dock STATUS [::MSN::myStatusIs]
 			cmsn_draw_online 1
 		} else {
 			#This is another one nick change
