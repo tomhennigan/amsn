@@ -236,7 +236,7 @@ proc PollPOST { name } {
 }
 
 
-proc WritePOST { name msg } {
+proc WritePOST { name {msg ""} } {
    variable proxy_queued_data
    variable proxy_session_id
    variable proxy_gateway_ip
@@ -251,8 +251,18 @@ proc WritePOST { name msg } {
       return
    }
    
-   set proxy_queued_data($name) "$msg"   
+   if { $msg != "" } {
+   
+      set proxy_queued_data($name) "$proxy_queued_data($name)$msg"   
 
+      if {$name != "ns" } {
+         degt_protocol "->Proxy($name) $msg" sbsend
+      } else {
+         degt_protocol "->Proxy($name) $msg" nssend
+      }
+   }	 
+   
+   
    if { $proxy_session_id($name) != "" } {
 	 
       set size [string length $proxy_queued_data($name)]
@@ -278,16 +288,11 @@ proc WritePOST { name msg } {
          ClosePOST $name
       }
 
-      if {$name != "ns" } {
-         degt_protocol "->Proxy($name) $msg" sbsend
-      } else {
-         degt_protocol "->Proxy($name) $msg" nssend
-      }	 
 	    
    } else {
 	
-      after cancel "::Proxy::WritePOST $name [list $msg]" 
-      after 500 "::Proxy::WritePOST $name [list $msg]"
+      after cancel "::Proxy::WritePOST $name" 
+      after 500 "::Proxy::WritePOST $name"
 	    
    }
    
@@ -422,6 +427,9 @@ proc Read { name } {
 }
 ###################################################################
 # $Log$
+# Revision 1.10  2003/06/05 12:21:27  airadier
+# Fixed a thing that could make the proxy write messages not in the right order they were sent
+#
 # Revision 1.9  2003/06/04 23:36:01  airadier
 # Fixed the latest proxy POST support bug (don't allow PNG command)
 #
