@@ -801,7 +801,8 @@ proc ConfigChange { window email } {
 					if { [LoginList exists 0 $config(login)] } {
 						LoginList changelock 0 $config(login) 0
 					}
-		
+					
+					config::setKey login $email
 					load_config
 		
 					set config(protocol) 9
