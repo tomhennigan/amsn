@@ -94,7 +94,7 @@ DONE	Ability to see and edit AL and BL lists, and to check RL list
 DONE	Files with [] don't work? Check that and make sure.
 
 	**Alarm system improvements and bugs :
--	URL Decode names when displaying alarm
+DONE	URL Decode names when displaying alarm
 -	Config seems to automagically disapear sometimes
 -	On Connect/ On Msg / On status / On disconnect change alarms
 -	Allow alarms to run a command

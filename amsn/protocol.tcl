@@ -2684,7 +2684,7 @@ proc cmsn_change_state {recv} {
 	 }
 	 
          if { ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1) } {
-             catch { run_alarm [lindex $recv 2] [lindex $recv 3]}        ;# Run Alarm using EMAIL ADDRESS (Burger)
+             catch { run_alarm [lindex $recv 2] $user_name}        ;# Run Alarm using EMAIL ADDRESS (Burger)
          }
       }
 
