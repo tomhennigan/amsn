@@ -2238,10 +2238,9 @@ namespace eval ::amsn {
 
 		#Return the custom nick, replacing backslashses and variables
 		set customchat [subst -nocommands $customchat]
-				
-		set evPar(user) $user
-		set evPar(nick) [::abook::getDisplayNick $user]
-		set evPar(msg) $msg
+		#Postevent for chat_msg_receive	
+		set evPar(user) user
+		set evPar(msg) msg
 		::plugins::PostEvent chat_msg_receive evPar
 				
 		WinWrite $chatid "\n$customchat" "says" $customfont
@@ -2429,9 +2428,9 @@ namespace eval ::amsn {
 			}
 		}
 
-		set evPar(tagname) $tagname
-		set evPar(winname) ${win_name}
-		set evPar(msg) $txt
+		set evPar(tagname) tagname
+		set evPar(winname) {win_name}
+		set evPar(msg) txt
 		::plugins::PostEvent WinWrite evPar
 
 		${win_name}.f.out.text insert end "$txt" $tagid
@@ -3651,8 +3650,6 @@ proc cmsn_draw_offline {} {
 	
 	
 	#Send postevent "OnDisconnect" to plugin when we disconnect	
-	set evPar(email) [::abook::getPersonal login]
-	set evPar(nick) [::abook::getPersonal nick]
 	::plugins::PostEvent OnDisconnect evPar
 	
 #Iniciar session
