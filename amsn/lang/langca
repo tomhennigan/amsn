@@ -80,6 +80,7 @@ ipaddress Adreça IP
 istyping $1 està escribint un missatge
 joins $1 $2 s'uneix a la conversa
 language Idioma
+lastmsgtime Últim missatge rebut a les $1
 leaveblankforhotmail Deixa en blanc per usar hotmail
 leaves $1 deixa la conversa
 listeningon Escoltant el port $1

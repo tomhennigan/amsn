@@ -32,6 +32,11 @@ command. By default, the sound player command is 'esdplay'
 preferences -> sound and change the command to 'play' or
 anyone you like.
 
+A frequent question: what does the magenta color in the
+contact list? Contacts in you contact list that appear
+magenta are contacts that don't have you in their contact
+list.
+
 
 ========================================================
 === Programmers ===============================
