@@ -33,7 +33,7 @@ animatedsmileys Activer les émoticons animés
 animatenotify Animer la fenêtre de notifications
 appearance Apparition
 appearoff Apparaître déconnecté
-areacode Code de la Zone
+areacode Code régional
 aretyping $1 est en train de taper un message
 autoaccepted Transfert de fichier accepté automatiquement
 autoacceptft Accepter automatiquement les transferts de fichiers
@@ -116,8 +116,11 @@ connectionlost Déconnecté(e) : la connexion avec le serveur s'est arrêté
 contactadded Contact ajouté
 contactdoesnotexist Personne introuvable
 contactlist Liste de contacts
+convertexplain  Chemin vers l'exécutable CONVERT, de ImageMagick (requis pour afficher des images).\n Laisser le blanc si CONVERT est dans le chemin
 copy Copier
 copytogroup Copier vers groupe
+corruptconfig Fichier de configuration corrompu. Créez-en un nouveau. L'ancien fichier sera sauvegardé vers $1. Envoyez-nous le afin que nous regardions ce qui s'est passé.
+corruptstates  Fichier de configuration des habitudes corrompu. Créez-en un nouveau. L'ancien fichier sera sauvegardé vers $1. Envoyez-nous le afin que nous regardions ce qui s'est passé.
 countrycode Mon pays/code région
 cprofile Créer profil
 custom_edit Editer un émoticon personnalisé
@@ -263,6 +266,7 @@ logout Se déconnecter
 logsin vient de se connecter
 logsmileys Afficher les Emoticons et les Smiley dans la fenêtre d'historique de aMSN
 logsout vient juste de se déconnecter
+longnick Votre surnom est supèrieur à 130 caractères. Ce n'est pas supporté officiellement par le protocol MSN. Etes-vous sûrs de voulloir le mettre ?
 lprivtoconf  Conversation privée changée en conférence avec $1
 luclosedwin Vous avez fermé la fenêtre sous $1
 mailerexample ( \$recipient = Récepteur ) Laisser vide pour utiliser Hotmail
@@ -304,6 +308,7 @@ no Non
 nopic Pas d'icône
 noprofileexists Utiliser les profils... \nUtiliser le boutton Ajouter nouveau profil dans cette fenetre pour en créer un nouveau.
 normal Normal
+noskins Ne trouve l'apparence par défaut dans le dossier skins/. Ne peut lancer AMSN.
 nosystemtray La poubelle n'est pas accessible
 notificationserver Serveur MSN initial de notification (Serveur MSN Messenger)
 notify1_5 Afficher une fenêtre d'information quand les contacts se déconnectent
@@ -462,6 +467,7 @@ timestamps Activation de l'horodateur des fenêtres de chat
 title Al's Messenger ;)
 tkerror TK a rapporté une erreur, il ya un bogue dans AMSN, s'il vous plait rapportez la. Envoyez le fichier $1 à amns-bug@lists.sf.netcd
 tlsdowncompleted Le fichier $1 a été téléchargé dans le répertoire $2. Vous devez l'extraire, le compiler (si vous avez téléchargé le code source) et l'installer dans $3.
+tlsexplain Dossier où se trouve le module TLS. Si AMSN ne peut pas le trouver, merci de le préciser.\n(Requis pour l'authentification SSL).
 tlsinstall Assistant d'installation du module TLS
 tlsinstallexp aMSN utilise maintenant le protocole 9 de MSN, qui requiert l'utilisation d'une connection\nsécurisée utilisant SSL. Pour utiliser SSL, AMSN a besoin d'installer un module nommé TLS,\nqui manque sur votre système. Cet assistant va vous aider à télécharger et à\ninstaller TLS. Veuillez choisir votre type de système pour que nous puissions télécharger automatiquement\nles fichiers TLS requis.
 tlsinstcompleted L'installation du module TLS a été réussie, vous pouvez maintenant utiliser le protocole 9 de MSN. S'il ne fonctionne pas, alors vous n'avez probablement pas sélectionné le bon module, ou un module compilé n'est pas disponible sur votre système.

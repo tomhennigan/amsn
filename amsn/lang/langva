@@ -13,6 +13,8 @@ addtocontacts Afegir a contactes
 addtoo Afegir ad esta persona a la meua llista de contactes
 admincontacts Administrar contactes
 admingroups Administrar grups
+advanced Avançades
+advancedprefs Configuracio d'opcions avançades
 adverts Anuncis
 alarmonconnect Activar avis quan l'usuari es conecte
 alarmondisconnect Activar avis quan l'usuari es desconecte / es faja invisible
@@ -25,8 +27,10 @@ allowbadwords Desconectar la censura de malnoms.
 allowlist Llista d'Autorisats (LA):
 allowonlyinal Permetre nomes als usuaris de la Llista d'Autorisats contactar-me
 allowseen Permetre ad esta persona vore quan estas conectat i contactar
+allprofilesinuse Tots els perfils que existixen estan en us actualment
 animatedemoticon Este emotico es animat
 animatedsmileys Activar smileys animats
+animatenotify Finestra de Notificacions en animacio
 appearance Apariencia
 appearoff Sense conexio
 areacode Codic d'area
@@ -34,8 +38,9 @@ aretyping $1 esta escrvint un mensage
 autoaccepted Transferencia de fichers acceptada automaticament
 autoacceptft Acceptar transferencies de fichers automaticament
 autoaway Mostrar-me com Absent quan no hi ha activitat en
-autoconnect Conectar al arrancar AMSN
+autocheckver Buscar noves versions automaticament al iniciar AMSN
 autoconnect2 Conectar-se automaticament quan s'inicia aMSN
+autoconnect Conectar al arrancar AMSN
 autohotmaillog Login hotmail automatic
 autoidle Marcar com inactiu automaticament
 autoip IP Automatica
@@ -47,7 +52,6 @@ awaymsg2 No preguntar mai i gastar el mensage a continuacio
 baduserpass Nom d'usuari o contrasenya incorrectes
 bgcolor Canvia el color de fondo de aMSN
 blankdirect Dixar en blanc per a la conexio directa
-block No admetre
 blocked Bloquejat
 blockedyougroup Mostrar un grup separat per a gent que t'ha bloquejat
 blocking Bloquejos
@@ -57,27 +61,30 @@ blockinter3 cada
 blockinter4 segons.
 blocklist Llista de Bloquejats (LB):
 blockmessage Estes persones estan en llinia i t'han bloquejat
+block No admetre
 blockusers Numero d'usuaris a comprovar a la volta
 broughtby Portat a voste per els siguients programadors
 browse Explorar
-browser Navegador
 browserexample ( \$url sera canviada per la URL). Ex: mizilla \$url
+browser Navegador
 busy No disponible
 cancel Cancelar
 cannotdeleteprofile No es pot borrar el perfil perque pareix que esta en us per una sessio de aMSN
 cantexec No es pot eixecutar l'aplicacio: $1. Comprova les preferencies
 casesensitive Usar disparadors sensibles a maj/min
+cfgalarmall Canviar/Afegir/Llevar avis global
 cfgalarm Configurar/Afegir/Borrar avis
+changecustomstate Canviar a
 changedisplaypic Canviar l'image a mostrar
 changefont Canviar font
 changenick Canviar mot
 changestate $1 cambia su estado a $2
-chat Conversacio
 chatack Aceptant conversacio de
+chat Conversacio
 chatmaxmin Quan un contacte obri una sessio de chat en mi yo vullc estar:
 chatreq Solicitant una conversacio
-chatsmileys Smileys en chat
 chatsmileys2 Mostrar els emoticons i smileys en finestres de chat
+chatsmileys Smileys en chat
 checkblocking Comprovar continuament si els usuaris t'estan bloquejant
 checkfilman Els archius rebuts es guardaran en . Comprova l'opcio d'administrador d'archius en la finestra de preferencies.
 checkingver Buscant si hi ha disponible una nova versio
@@ -89,17 +96,18 @@ choosebgcolor Triar color de fondo
 choosecontact Per favor, seleccione un contacte de la llista
 choosefontcolor Triar color de la lletra
 chooseskin Per favor, selecciona la pell que vols usar
-clearlog Netejar historial
+ch_to_state Canviar al nou estat
 clearlog2 Netejar l'historial per a tots els contactes
 clearlog3 Netejar tots els registres
+clearlog Netejar historial
 clicktologin Fes click aci per a iniciar la sessio
-close Tancar
 closed Conversacio en $1 tancada per inactivitat
+close Tancar
 closingdocks Boto de tancar/minimisar
 command Ordre
 commandstatus Eixecutar orde
-confirm ¿Estas sergur/a?
 confirmdelete ¿Segur que desiges borrar a $1?
+confirm ¿Estas sergur/a?
 connected Ara estas conectat
 connecterror Error conectant-se al servidor
 connecting Conectant
@@ -108,8 +116,11 @@ connectionlost Desconectat: Tancada la conexio en el servidor
 contactadded Contacte afegit
 contactdoesnotexist ¡El contacte no existix!
 contactlist Llista de Contactes (LC):
+convertexplain Cami al eixecutable CONVERT, del programa ImageMagick (necesari per a lesnImagens per a Mostrar). Deixar en Blanc si CONVERT es pot trobar en el PATH.
 copy Copiar
 copytogroup Copiar al grup
+corruptconfig L'Archiu de configuracio estar corrupte. Creant uno nou. L'antic sera salvat com . Per favor, envianos-el per a vore que ha passat.
+corruptstates L'archiu de la configuracio d'autoestats esta corrupte. Creant uno nou. L'antic sera guardat com . Per favor, envia-nos-el per a vore que ha passat.
 countrycode Codic de païs/regio
 cprofile Crear Perfil
 custom_edit Editar un smiley personalisat
@@ -120,32 +131,42 @@ days Dies
 dcprofile No Crear Perfil
 default Configuracio per defecte
 defaultloginradio Entrar en la configuracio per defecte
+deletecustomstate Eliminar estat personalisat
 delete Eliminar
+delimiters Delimitadors de l'hora
 deliverfail Ha ocorregut un problema al enviar el siguient mensage
-delprofile Borrar Perfil
 delprofile2 Selecciona el perfil que vols borrar
+delprofile Borrar Perfil
 description Descripccio
 directconnection Tinc una conexio directa a internet (usa el port 1863)
+disabled Desactivat
+disableprofiles Desactivar perfils (util per a cibercafes o entorns compartits)
 disablessl Descativar SSL
 disconnect $1 s'ha desconectat.
+displaychat Configuracio de mensages
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Icono GTK
 docking Icono en la safata del sistema
 dockingoff Desactivar
 dockkde Icono KDE
 dontdownload No descarregar TLS, l'instalare yo mateix
+dontshow No mostrar
 downloadingtls Descarregant modul TLS des de: \n $1
+editcustomstate Editar estat personalisat
 edit Editar
-editcurrentstate Editar estat actual
 editnewstate Nou mensage automatic personal d'estat
 editprofile Editar Perfil
 editstate Editar un mensage automatic d'estat existent
+editvalue Editar valor
+emailsinlist Mostrar correus-e en lloc de mots en la llista de contactes
 emotisounds Reproduir sons per a certs emoticons
+enablebanner Mostrar anunci de aMSN (Requerix Reiniciar)
+enabled Activat
 enableproxy Activar proxy
 enableremote Permetre control a distancia
 enablesound Reproduir sons
-encoding Codificacio de caracters
 encoding2 Canvia la forma en a que els caracters es codifiquen
+encoding Codificacio de caracters
 entercontactemail Introduix el correu-e del contacte
 enterfilename Introduix el nom de l'archiu
 enternick Introduix el teu mot
@@ -153,7 +174,11 @@ errortls Error instalant el modul TLS:
 examples Eixemples
 exitamsn ¿Estas segur que desiges eixir?
 extras Servicis Adicionals
+faileddelete No s'ha pogut borrar
+faileddeleteperso Esta image no es pot borrar perque no es una image personal per a mostrar. Nomes les imagens que perteneixen al teu perfil personal poden ser eliminades aixina.
+failed Falla
 faq Questions usualment preguntades
+file Archiu
 filedoesnotexist El ficher no existix
 fileman Administrador d'archius
 filemanexample (\$location sera canviat per el directory ) Ex: nautilus \$location
@@ -161,23 +186,24 @@ filename Nom d'Archiu
 filetransfercancelled Transferencia de ficher cancelada
 filetransfercomplete Transferencia de ficher completada
 followtext Avançar quan s'introduixca nou text
-ftaccepted Transferencia d'archiu aceptada
 ftacceptedby $1 ha acceptat l'invitacio de transferencia del ficher '$2'
+ftaccepted Transferencia d'archiu aceptada
 ftaccepting Acceptant l'invitacio de transferencia de ficher
 ftconnecterror Error conectant en l'usuari remot
 ftconnecting Conectant a $1 port $2
 ftconnectionlost Conexio tancada remotament
 ftgotinvitation $1 vol enviarte el ficher '$2' ($3 bytes). Es guardara en el directori ($4). ¿Vols rebre este ficher?
 ftportpref Iniciant el port per a la transferencia de fichers
-ftrejected Transferencia d'archiu denegada
 ftrejectedby $1 ha rebujat l'invitacio per a transferir el ficher '$2'.
+ftrejected Transferencia d'archiu denegada
 ftsendinvitation L'invitacio per a transferir el ficher '$2' ($3 bytes) s'ha enviat a $1.
+fullcontactlist La seua llista de contactes esta plena. Necessitara eliminar algun contacte per a poder afegir-ne nous.
 getdisppic Activar rebre Imagens de Mostra d'atres usuaris
 gonelunch Estic dinant
-group Grup
 groupadd Afegir un grup
 groupdelete Borrar un grup
 groupexists El grup ya existix
+group Grup
 groupmissing No es pot trobar el grup
 groupnewname Nou nom
 groupnotempty El grup no esta buit
@@ -197,6 +223,7 @@ hybrid Modo hibrit
 ident Identificant-se
 identity Identificacio
 inbox Safata d'entrada
+insertsmiley Instertar emotico
 installconvert Deus instalar ImageMagick (comand 'convert') per a poder convertir les imagens al format dels servidors de MSN. Pots descarregar els binaris per al teu sistema operatiu des de ftp://ftp.imagemagick.net/pub/ImageMagick/binaris/. Si ya els tens, es un error de AMSN, per favor, comunicans-lo.
 internalerror Error Intern del Servidor
 invalidfile El ficher $2 introduit en el camp "$1" no existix o no es llegible
@@ -208,8 +235,8 @@ ipdetect Detectar la IP correcta per a transferencies gastant HTTP
 istyping $1 esta escrivint un mensage
 joins $1 s'unix a la conversacio
 keepalive Mantindre conectat
-keeplog Guardar historal de les conversacion
 keeplog2 Registrar les conversacions en l'historial per a vore-les mes tart
+keeplog Guardar historal de les conversacion
 language Idioma
 lastmsgtime Ultim mensage rebut a les $1
 lclosedwin Has tancat la finestra en $1
@@ -218,10 +245,11 @@ lconvstarted Escomença la conversacio en $1
 leaveblankforhotmail Deixar en blanc per a usar hotmail
 leaves $1 deixa la conversacio
 lenteredconf $1 s'unix a la conversacio a les $2
+lineflushlog Escriure historics a disc llinea a llinea (sense buffer)
 linprivate EN PRIVAT
 listeningon Escoltant en el port $1
-listsmileys Smileys en contactes
 listsmileys2 Mostrar emoticons i smileys en la llista de contactes d'aMSN
+listsmileys Smileys en contactes
 ljoinedconf s'unix a la conversacio
 lleftconf deixa la conversacio
 loadcontacts Carregar llista de contactes
@@ -229,18 +257,19 @@ logbigger Archius d'un contacte no superen els
 logfandexp Tamany d'archius de registre i expiracio de l'historial
 loggedotherlocation Desconectat: S'ha iniciat la sessio en atra ubicacio
 loggingin Iniciant sessio
-login Iniciar sessio
 loginas Iniciar sessio com
 loging Historial
+login Iniciar sessio
 logolder Registrar nomes conversacions fetes en l'ultim
 logout Tancar sessio
 logsin acaba de iniciar sessio
 logsmileys Mostrar emoticons i smileys en la finestra d'historial de aMSN
 logsout acaba de tancar la sessio
+longnick La longitut del teu mot es major de 130 caracters. Aço no esta soportat oficialment pel protocol MSN. ¿Estas segur que desiges canviarlo?
 lprivtoconf en privat es convertix en una conversacio multiple en $1
 luclosedwin Tu tanques la finestra a les $1
-mailer Ordre de correu-e
 mailerexample (\$recipient = Recipient ) Deixar en blanc per a usar Hotmail
+mailer Ordre de correu-e
 maximised Maximizada
 minimised Minimizada/Iconificada
 mins minuts
@@ -248,9 +277,9 @@ mobile Mobil
 morepersonal Mes Estats ->
 move Moure
 movetogroup Moure al Grup
-msg Mensage
 msgflicker Parpalleig en el titul de la finestra quan es reba un mensage en una finestra inactiva.
 msgmaxmin Quan un nou mensage arriva vullc que siga:
+msg Mensage
 msgmode Tria com manejar finestres de multiples mensages:
 msn AMSN
 mustrestart Deus reiniciar el programa per a aplicar els canvis
@@ -265,26 +294,30 @@ needonline Encara estas/aparentes desconectat
 newmail $1 mensages nous en safata d'entrada
 newmailfrom Nou correu de $1 ($2)
 newmsg Nou mensage
+newstate Afegir nou estat personalisat
 newveravailable Nova versio $1 disponible per a descarrega
 next Siguient
-no No
 noactivity Inactivitat
 nodataavailable Informacio no disponible per a $1
 nologfile No hi ha ficher de registre per a $1
 noneavailable Cap disponible
 nonewmail No hi han mensages nous en la safata d'entrada
 nonewver No hi ha una nova versio disponible per a descarrega
+no No
 nopic No hi ha image
 noprofileexists No hi han perfils actualment, \n deus crear u si vols usar perfils d'entrada. \nUsa el boto Afegir Nou Perfil en esta finestra per a afegir un nou perfil.
 normal Normal
+noskins No s'ha pogut trobar el perfil per defecte (default) en la carpeta skins/. No es pot iniciar AMSN
 nosystemtray Safata del sistema no disponible
-notify notificacio
-notify1 Mostrar finestra de notificacio quan els contactes es conecten
+notificationserver Servidor inicial de notificacions MSN (Servidor MSN Messenger)
 notify1_5 Mostrar finestra de notificacio quan els contactes es desconecten
 notify1_75 Mostrar finestra de notificacio quan els contactes canvies d'estat
+notify1 Mostrar finestra de notificacio quan els contactes es conecten
 notify2 Mostrar finestra de notificacio quan reba nous mensages
 notify3 Mostrar finestra de notificacio quan reba nous correus
+notify notificacio
 notifyoffset Desplaçament de la posicio del pop-up de notificacio
+notifytyping Enviar a atres usuaris notificacions quan s'esta teclejant
 notifywin Finestra de Notificacio
 notls El Protocol 9 de MSN requerix el paquet TLS. Este paquet no pareix que estiga instalat en el teu ordenador. Si esta instalat, el cami al directori de la llibreria deu ser especificat en la finestra de preferencies (ex: /opt/tls/lib). \n \n Pots descarregar TLS des de http://tls.sf.net.
 nousersinsession No hi han usuaris en la sessio
@@ -298,6 +331,7 @@ options Opcions
 ordercontactsby Ordenar contactes per
 ordergroupsby Ordenar grups per
 other Atre
+others Atres
 pager Paginador
 pass Contrasenya
 paste Pegar
@@ -318,21 +352,21 @@ prefblock3 "Has sigut bloquejat per" grup
 prefconnection Ajusts de la conexio
 prefemotic Emoticons i smileys
 preferences Preferencies
-preffont Text dels meus mensages
 preffont2 Canvia la forma en la que atres veuen el meu text en la conversacio
 preffont3 Canviar el tipo de lletra i tamany de l'interfas de aMSN
+preffont Text dels meus mensages
 preflibs Directoris de Llibreries
 preflog1 Les meues opcions d'Historial i registres
 preflook Apariencia del meu aMSN Messenger
 prefmsging Interfas dels meus mensages
 prefname El meu nom/malnom en MSN Messenger
-prefphone Els meus numeros de telefon
 prefphone2 Escriu els numeros que vullgues permetre vore als contactes \n en la teua llista de Permitits \n
-prefprivacy Llista de Autorisats/Bloquejats de l'usuari
+prefphone Els meus numeros de telefon
 prefprivacy2 Llista de Contactes/Inversa de l'usuari
-prefprofile El meu perfil public
+prefprivacy Llista de Autorisats/Bloquejats de l'usuari
 prefprofile2 Crea o modifica el teu perfil public (la \n descripcio de tu mateixa que atres poden vore)
 prefprofile3 Perfils de configuracio dels usuaris
+prefprofile El meu perfil public
 prefproxy Configuracio del meu proxy
 prefremote Preferencies de Conexio Remota
 prefsession El meu inici de sessio i estat
@@ -345,16 +379,17 @@ profileinuse Este perfil esta siguent utilisat per atra sesio de aMSN, per favor
 profileloginradio Entrar usant un Perfil existent
 profiles Perfils
 properties Propietats
-proxy Estic darrere d'un servidor proxy (HTTP o SOCKS5)
 proxyconf Configuracio proxy
 proxyconfhttp Configurar soport de proxy http
 proxyconnection Conecte a internet a traves d'un servidor proxy:
+proxy Estic darrere d'un servidor proxy (HTTP o SOCKS5)
 publishphones Publicar els meus numeros telefonics
 purge Purgar
 raised Ampliat/Desinconisat
 readonlymsgbox La transferencia de ficher ha sigut cancelada perque el directori de recepcio es de nomes llectura. Per favor, corregix els pemisos en este directori.
 readonlywarn ATENCIO: El ficher probablement NO es guardara correctament perque el directori de "Archius Rebuts" pareix protegit contra escritura. Per favor, assegurat que el directori de desti ($1) te els permissos adecuats abans de transferir el ficher.
 receivedbytes Recibuts $1 de $2 bytes totals
+receiveddir Carpeta de Fichers Rebuts
 receivefile Rebre archiu
 reconnect Esperant que $1 es reconecte
 reconnecting Reconectant al servidor
@@ -364,9 +399,9 @@ removefromlist Borrar d'esta llista
 reversed Invertit
 reverselist Llista Inversa (LI):
 rightback Torne enseguida
-save Guardar
 saveas Guardar com
 savecontacts Guardar llista de contactes
+save Guardar
 savetofile Guardar en archiu
 says $1 diu
 sbcon Conectant a Switch Board
@@ -377,77 +412,92 @@ sendfile Enviar archiu
 sendmail Enviar correu-e
 sendmsg Enviar mensage
 sentbytes Enviats $1 de $2 bytes totals
-server Servidor
+serverbusy Servidor ocupat
 servergoingdown Desconectat: Els servidor esta caigut
+server Servidor
+serverunavailable El servidor no es troba disponible
 session Sessio
 showblockedlist Mostrar la llista de persones que t'ha bloquejat
-showdisplaypic Mostra Image de Mostra
 showdisplaypic2 Mostar Image de Mostra per defecte quan s'obri una finestra de chat
+showdisplaypic Mostra Image de Mostra
 showmypic La meua Image de Mostra
+shownotify Mostrar finestra d'avis al produïr-se diferents events
 showuserpic L'Image de Mostra de $1
 skin Pell
 skinselector Selector de pell
 smileconfig Configuracio personalisada d'emoticons
 smilefile Nom del ficher de Smiley
-smileintro Per favor, completa els camps requerit per a crear un nou smiley personalisat (mira el FAQ per a ajuda)
 smileintro2 Per favor, edita els camps requerit per a personalisar este smiley (mira el FAQ per a ajuda)
-sound So events
+smileintro Per favor, completa els camps requerit per a crear un nou smiley personalisat (mira el FAQ per a ajuda)
 sound2 Reproduir sons quan els contactes es conecten o envien mensages
 soundcommand En comando per a reproduir un so (i.e: esdplay)
 soundexample ( \$sound = Ficher de so per a reproduir) Ex: esdplay \$sound
 soundfile Archiu de so per a l'avis
 soundloop Reproduir el so continuament
 soundserver Servidor de so
+sound So events
 soundstatus Encendre/Apagar el so de l'avis
 sourcecode Codic Font (necessita compilar i instalar)
 sslwarning ¡ATENCIO! Desactivar SSL desactivara l'encriptacio, en eixe cas la teua contrasenya s'enviara en text pla per la ret. Usa unicament en servidors proxy i rets molt estrictes.
-startoffline Esomençar Desconectat
 startoffline2 Conectarse sigilosament aparentat "Desconectat"
-state Vullc aparentar com
+startoffline Esomençar Desconectat
+startontray Iniciar AMSN nomes en el ico de la safata del sistema
 stateautomsg Mensage Automatic a enviar
 statechange estat canviat a:
 stateedittext Per favor, edita els camps que vols \n canviar y apreta Guardar
 stateinfo Configuracio Personal d'Estat
 statename Name of Personal State
 statenewtext Per favor, reompli la informacio requerida per a crear \n el teu nou Estat Personal i pulsa Guardar
+state Vullc aparentar com
 status Estat
 stopalarm Parar el so de l'avis
+storenickname Tornar al mot original despres d'un estat personalisat en mot personalisat
+strictfonts Establir totes les fonts de AMSN al tamany que yo vaig triar.
 stylechat El mateix que els chats
 stylehist apariencia de l'historial de aMSN
 stylelog Tria l'estil en el que vols vore l'historial
 syntaxerror Error de sintaxis
 tabbed Finestres en solapes
+temp_state No almagacemar (Estat temporal, es pedra al reiniciar AMSN)
 textsize Tamany del text
 timeremaining Temps restant
+timestamps Activar hora en els mensages
 title Al's Messenger
+tkerror S'ha produït un error de TK, hi ha un fallo en AMSN, per favor informa'ns. Per a fer-lo envia l'archiu a amsn-bugs@lists.sf.net
 tlsdowncompleted El ficher $1 s'ha descarregat al directori $2. Deus extraure-lo, construir-lo (si has descarregat codic font) i instalar-lo dins de $3.
+tlsexplain Carpeta on es troba el modul TLS per a tcl. Si AMSN no el troba,nper favor especifical. (Necessari per a l'autentificacio mijantçant SSL).
 tlsinstall Assistent d'instalacio del modul TLS
 tlsinstallexp aMSN ara gasta MSNP9, que requerix l'us d'na conexio\nsegura usant SSL. Per a usar SSL, aMSN necessita instalar el modul anomenat TLS,\nque no es troba en el teu sistema. Este assistent t'ajudara a descarregar i\ninstalar TLS. Per favor, tria el tipo del teu sistema per a que es puga descarregar\nautomaticament els fichers TLS requerits.
 tlsinstcompleted El modul TLS s'ha instalat correctament, deuries poder usar MSNP9. Si no funciona, entonces probablement no seleccionares el modul correcte, o no hi ha un modul compilat per al teu sistema.
-to Per a
 tools Ferramentes
 tooltips Activar informacio de ferramentes
+to Per a
 transnotexists El ficher requerit no ha sigut traduit al llenguage actual encara.
 traynotcompiled El plug-in d'ico de la safata no esta compilat. Comprova plugins/traydock
 triggers Disparadors de text
+truncatenames1 Tallar mots mes llarcs que l'ample de la finestra en tituls i llista de contactes
+truncatenames2 Tallar mots mes llarcs que lampli de la finestra en les conversacions
+truncatenicks Tallar mots mes llarcs que l'ample de la finestra
 twonewmail $1 mensages nous en safata d'entrada
 unblock Admetre
 uoffline Desconectats
 uonline Conectats
-user Usuari
 useralreadyonlist L'usuario ya es troba en la llista de contactes.
 userblocked L'usuari esta en llinea pero t'ha bloquejat
 usernotonline L'usuari no esta en llinea
+user Usuari
 useryourself No pots chatejar en tu mateixa
 verifyblocked Comprovar la gent que te bloqueja
 version Versio
-view Vore
 viewprofile Vore perfil
+view Vore
 willjoin Esperant que $1 s'unixca a la conversacio
 work Treball
 wrongfields Els camps "$1","$2" i/o "$3" no son valits
 wrongprofileversion Versio del ficher de configuracio de perfils incorrecta. Per a arreglar-lo, per favor, borra el directori $1, o actualisa aMSN
+xmmscurrent Mostrar canço actual
 xmmserr No hi ha res reproduint-se, o no tens xmms-infopipe instalat.
+xmmssend Enviar canço actual
 xoffset Desplaçament X
 yes si
 yoffset Desplaçament Y
