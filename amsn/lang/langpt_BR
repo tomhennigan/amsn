@@ -550,7 +550,7 @@ selectskin Por Favor escolha uma skin da lista
 send Enviar
 sendfile Enviar arquivo
 sendmail Enviar e-mail
-sendmobmsg $1 Enviar ao Celular 
+sendmobmsg Enviar ao Celular 
 sendmsg Enviar mensagem
 sentbytes Enviados $1 de $2 bytes
 server Servidor

@@ -548,7 +548,7 @@ selectskin Alege un Skin din lista
 send Trimite
 sendfile Trimite fisier
 sendmail Trimite e-mail
-sendmobmsg $1 Trimite pe mobil
+sendmobmsg Trimite pe mobil
 sendmsg Trimite mesaj
 sentbytes Trimis $1 of $2 bytes
 server Server

@@ -541,7 +541,7 @@ selectskin 請從清單中選擇一個面板
 send 傳送
 sendfile 傳送檔案
 sendmail 傳送郵件
-sendmobmsg $1 傳送到MSN Mobile裝置
+sendmobmsg 傳送到MSN Mobile裝置
 sendmsg 傳送訊息
 sentbytes 傳送 $1 of $2 bytes
 server 伺服器

@@ -551,7 +551,7 @@ selectskin Selecciona una aparença de la llista
 send Enviar
 sendfile Enviar fitxer
 sendmail Enviar correu electrònic
-sendmobmsg $1 Enviar a Dispositiu Mòbil
+sendmobmsg Enviar a Dispositiu Mòbil
 sendmsg Enviar missatge
 sentbytes Enviats $1 de $2 bytes
 serverbusy El servidor està ocupat

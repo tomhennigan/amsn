@@ -548,7 +548,7 @@ selectskin Per favor, selecciona una pell (skin) de la llista
 send Enviar
 sendfile Enviar arxiu
 sendmail Enviar correu-e
-sendmobmsg $1 Enviar a un dispositiu mòbil
+sendmobmsg Enviar a un dispositiu mòbil
 sendmsg Enviar missatge
 sentbytes Enviats $1 de $2 bytes totals
 serverbusy Servidor ocupat

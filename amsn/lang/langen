@@ -550,7 +550,7 @@ selectplugins Please select the plugins you want enabled
 selectskin Please choose a skin from the list
 sendfile Send file
 sendmail Send mail
-sendmobmsg $1 Send to Mobile device
+sendmobmsg Send to Mobile device
 sendmsg Send message
 send Send
 sentbytes Sent $1 of $2 bytes

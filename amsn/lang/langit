@@ -543,7 +543,7 @@ selectskin Seleziona una Skin dalla lista
 send Invia
 sendfile Manda file
 sendmail Manda e-mail
-sendmobmsg $1 invia a dispositivo mobile
+sendmobmsg Invia a dispositivo mobile
 sendmsg Manda un messaggio
 sentbytes Mandati $1 byte su $2
 server Server

@@ -551,7 +551,7 @@ selectskin Sélectionnez dans la liste l'apparence que vous souhaitez utiliser
 send Envoyer
 sendfile Envoyer un fichier
 sendmail Envoyer un courrier
-sendmobmsg $1 envoyé au mobile
+sendmobmsg Envoyer un message au mobile
 sendmsg Envoyer un message
 sentbytes $1 sur $2 octets envoyés
 serverbusy Le serveur est occupé

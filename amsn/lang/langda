@@ -552,7 +552,7 @@ selectskin Vælg venligst et skin fra listen
 send Send
 sendfile Send fil
 sendmail Send mail
-sendmobmsg $1 Send til Mobil
+sendmobmsg Send til Mobil
 sendmsg Send besked
 sentbytes Har sendt $1 ud af $2 bytes
 server Server

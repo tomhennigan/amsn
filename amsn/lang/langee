@@ -551,7 +551,7 @@ selectskin Palun vali skin listist
 send Saada
 sendfile Saada fail
 sendmail Saada kiri
-sendmobmsg $1 saada mobiilile
+sendmobmsg saada mobiilile
 sendmsg Saada sõnum
 sentbytes Saadetud $1/$2 baiti
 server Server

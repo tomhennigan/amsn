@@ -548,7 +548,7 @@ selectskin Lütfen listeden bir kabuk seçiniz
 send Gönder
 sendfile Dosya gönder
 sendmail E-posta iletisi gönder
-sendmobmsg $1 taþýnabilir aygýta gönder
+sendmobmsg Taþýnabilir aygýta gönder
 sendmsg Ýleti günder
 sentbytes $2 baytýn $1 (s)i gönderildi
 server Sunucu

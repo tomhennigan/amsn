@@ -662,7 +662,7 @@ mobilegrp1 Mugikor taldea
 mobilegrp2 sartu kontaktuak "mugikor" taldean deskonektaturik daudenean (egoeraz ordenaturik)
 newtabbedfeature aMSN-ak ezaugarri berri bat dauka elkarrizketak antolatzeko, orain  leiho guztiak talde batean eduki ditzakezu edo zure kontaktu zerrenda osoa leiho batean. Mesedez, aukeratu  nola antolatu behar dituen zure elkarrizketak
 nottabbed Leihoak elkartuta egon barik
-sendmobmsg $1 bidali mugikor batera
+sendmobmsg Bidali mugikor batera
 subject Izenburua
 subjectrequired Izenburu bat behar da
 tabbedglobal Leiho bakar bat kontaktu guztientzat

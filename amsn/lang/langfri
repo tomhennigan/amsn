@@ -548,7 +548,7 @@ selectskin Kies in hûd út de list
 send Ferstjoer
 sendfile Ferstjoer in bestân
 sendmail Ferstjoer in eamel
-sendmobmsg $1 Stjoer nei mobyl apparaat
+sendmobmsg Stjoer nei mobyl apparaat
 sendmsg Ferstjoer in berjocht
 sentbytes $1 fan $2 bytes ferstjoerd
 server Tsjinner

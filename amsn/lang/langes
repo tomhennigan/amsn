@@ -551,7 +551,7 @@ selectskin Elige un tema (skin) de la lista
 send Enviar
 sendfile Enviar archivo
 sendmail Enviar email
-sendmobmsg $1 Enviar a dispositivo móvil
+sendmobmsg Enviar a dispositivo móvil
 sendmsg Enviar mensaje
 sentbytes Enviados $1 de $2 bytes totales
 serverbusy Servidor ocupado

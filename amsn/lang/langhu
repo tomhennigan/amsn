@@ -541,7 +541,7 @@ selectskin Légyszíves válassz egy felületet a listából
 send Küldés
 sendfile Fájl küldése
 sendmail Levél küldése
-sendmobmsg $1 Küldés mobil eszközre
+sendmobmsg Küldés mobil eszközre
 sendmsg Üzenet küldése
 sentbytes Küldve $1 -ból $2 bájt
 server Szerver
