@@ -1,4 +1,3 @@
-
 if { $initialize_amsn == 1 } {
 	global bgcolor bgcolor2 putmessage_inputs putmessage_outputs
 	set putmessage_inputs 0
@@ -2585,7 +2584,6 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 
 
-
 	#///////////////////////////////////////////////////////////////////////////////
 	# PutMessage (chatid,user,msg,type,fontformat)
 	# Writes a message into the window related to 'chatid'
@@ -2594,7 +2592,15 @@ namespace eval ::amsn {
 	# - 'type' can be red, gray... or any tag defined for the textbox when the windo
 	#   was created, or just "user" to use the fontformat parameter
 	# - 'fontformat' is a list containing font style and color
-	proc PutMessage { chatid user msg type fontformat {ticket ""}} {
+	proc PutMessage { chatid user msg type fontformat } {
+
+		global putmessage_inputs putmessage_outputs
+
+		#Run it in mutual exclusion
+		run_exclusive [list ::amsn::PutMessageWrapped $chatid $user $msg $type $fontformat] putmessage
+	}
+
+	proc PutMessageWrapped { chatid user msg type fontformat } {
 
 		global config
 		set tstamp [timestamp]
@@ -2612,27 +2618,6 @@ namespace eval ::amsn {
 			set user [lindex [::MSN::getUserInfo $user] 1]
 		}
 
-		#Use kind of mutex here (really a ticket counter)
-		global putmessage_inputs putmessage_outputs
-		#Get my turn
-		if { $ticket == "" } {
-			set my_ticket [incr putmessage_inputs]
-		} else {
-			set my_ticket $ticket
-		}
-		#Wait until it's my turn
-		#while { $my_ticket != $putmessage_outputs } {
-		#		incr putmessage_outputs
-		#		return 0
-		#	}
-		if {$my_ticket != $putmessage_outputs } {
-			after 100 [list ::amsn::PutMessage $chatid $user $msg $type $fontformat $my_ticket]
-			status_log "UPS! Another PutMessage running. Avoid interleaving by waiting 100ms and try again\n" white
-
-			return 0
-		}
-
-
 		if {$config(showtimestamps)} {
 			WinWrite $chatid "$tstamp [trans says $user]:\n" gray
 		} else {
@@ -2645,8 +2630,6 @@ namespace eval ::amsn {
 
 		WinWrite $chatid "$msg\n" $type $fontformat
 
-		#Give next turn
-		incr putmessage_outputs
 
 		if {$config(keep_logs)} {
 			::log::PutLog $chatid $user $msg
@@ -6970,3 +6953,4 @@ proc ShowTransient {win {parent "."}} {
 #}
 
 #after 2000 prueba
+

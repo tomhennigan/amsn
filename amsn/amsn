@@ -143,6 +143,7 @@ proc reload_files { } {
     source [file join $program_dir des.tcl]		;# DES encryption
     source [file join $program_dir sxml.tcl]   	;# Simple XML parser
 
+    source [file join $program_dir mutex.tcl]
     source [file join $program_dir lang.tcl]
     source [file join $program_dir automsg.tcl]
     source [file join $program_dir smileys.tcl]
