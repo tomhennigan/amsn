@@ -8,6 +8,40 @@ namespace eval ::pop3 {
     variable configlist
     variable emails 0
 
+        #######################################################################################
+        #######################################################################################
+        ####            Initialization Procedure (Called by the Plugins System)            ####
+        #######################################################################################
+        #######################################################################################
+
+	proc Init { dir } {
+	        ::plugins::RegisterPlugin pop3
+        	::plugins::RegisterEvent pop3 OnConnect start
+	        ::plugins::RegisterEvent pop3 Load start
+        	::plugins::RegisterEvent pop3 OnDisconnect stop
+	        ::plugins::RegisterEvent pop3 ContactListColourBarDrawn draw
+        	::plugins::RegisterEvent pop3 ContactListEmailsDraw addhotmail
+
+	        array set ::pop3::config {
+        	        host {"your.mailserver.here"}
+                	user {"user_login@here"}
+	                pass {""}
+        	        port {110}
+                	minute {5}
+	                notify {1}
+        	}
+
+	        set ::pop3::configlist [list \
+        	        [list str "Check for new messages every ? minutes" minute] \
+                	[list str "POP3 Server"  host] \
+	                [list str "Your user login" user] \
+        	        [list pass "Your password" pass] \
+                	[list str "Port (optional)" port] \
+	                [list bool "Show notify window" notify] \
+        	]
+	}
+
+
 	#######################################################################################
 	#######################################################################################
 	####                 AUXILIAR FUNCTIONS NEEDED BY THE POP3 CLIENT                  ####
@@ -79,12 +113,12 @@ namespace eval ::pop3 {
 		return $result
 	}
 
-	#######################################################################################
-	#######################################################################################
-	####            END OF AUXILIAR FUNCTIONS NEEDED BY THE POP3 CLIENT                ####
-	#######################################################################################
-	#######################################################################################
 
+	#######################################################################################
+	#######################################################################################
+	####                     CORE FUNCTIONS OF THE POP3 PLUGIN                         ####
+	#######################################################################################
+	#######################################################################################
 
 	# ::pop3::close
 	# Description:
@@ -97,7 +131,6 @@ namespace eval ::pop3 {
 		catch {::pop3::send $chan "QUIT"}
 		::close $chan
 	}
-
 
 
 	# pop3::open
@@ -196,7 +229,6 @@ namespace eval ::pop3 {
 	}
 	
 	
-	
 	# ::pop3::send
 	# Description:
 	#	Send a command string to the POP3 server.  This is an
@@ -223,7 +255,6 @@ namespace eval ::pop3 {
 	
 		return [string range $popRet 3 end]
 	}
-	
 
 
 	# ::pop3::status
@@ -240,7 +271,6 @@ namespace eval ::pop3 {
 		set data  [::pop3::send $chan "STAT"]
 		return [lindex [split [string range $data 1 end] ] 0]
 	}
-
 
 
 	# ::pop3::check
@@ -274,6 +304,7 @@ namespace eval ::pop3 {
 		return $mails
 	}
 
+
 	# ::pop3::start
 	# Description:
 	#	Starts checking for new messages
@@ -285,6 +316,7 @@ namespace eval ::pop3 {
 		catch { after 5000 ::pop3::check }
 	}
 
+
 	# ::pop3::stop
 	# Description:
 	#	Stops checking for new messages
@@ -294,6 +326,7 @@ namespace eval ::pop3 {
 	proc stop {event evPar} {
 		catch { after cancel ::pop3::check }
 	}
+
 
 	# ::pop3::draw
 	# Description:
@@ -325,6 +358,7 @@ namespace eval ::pop3 {
 			$vars(text) insert end "\n"
 		}
 	}
+
 
 	# ::pop3::addhotmail
 	# Description:
