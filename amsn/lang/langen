@@ -19,7 +19,7 @@ autoconnect Connect on amsn start
 autohotmaillog Auto Hotmail login
 autoidle Auto NoActivity
 autoip Automatic IP
-askprofile This login dosen't currently have a profile. Would you like to create a new one for it? $1 If you don't you will not be able to use the History, the Alarms or Save your password. $1 If you do you will have a separate configuration for this new profile. $1 $1 Click on "Create Profile" to create a new profile for $2.
+askprofile This login dosen't currently have a profile. Would you like to create a new one for it? $1 If you don't you will not be able to use the History, or save your Alarms and password. $1 If you do you will have a separate configuration for this new profile. $1 $1 Click on "Create Profile" to create a new profile for $2.
 avoidseen Avoid this person can see when I'm online and contact me
 away Away
 baduserpass Wrong user name or password

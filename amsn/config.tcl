@@ -326,6 +326,7 @@ proc CreateProfile { email value } {
 		load_config
 		set log_dir ""
 		set config(save_password) 0
+		set config(keep_logs) 0
 		.login.c.remember configure -state disabled
 	}
 }

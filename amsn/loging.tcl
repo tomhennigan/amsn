@@ -24,10 +24,12 @@ proc StartLog { email } {
 #        set dirname [join $dirname "_"]
 #        file mkdir [file join ${log_dir} ${dirname}]
 
-	LogArray $email set [open "[file join ${log_dir} ${email}.log]" a+]
-	fconfigure [LogArray $email get] -buffersize 1024
+	# if we got no profile, set fileid to 0
 	if { [LoginList exists 0 $config(login)] == 0 } {
-		LogArray $email set "stdout"
+		LogArray $email set 0
+	} else {
+		LogArray $email set [open "[file join ${log_dir} ${email}.log]" a+]
+		fconfigure [LogArray $email get] -buffersize 1024
 	}
 }
 
@@ -277,7 +279,7 @@ proc OpenLogWin { email } {
 	global bgcolor config log_dir
 	
 	set fileid [LogArray $email get]
-	if { $fileid != 0 } {
+	if { $fileid != 0 && $fileid != "stdout"} {
 		flush $fileid
 	}
 	unset fileid
@@ -479,10 +481,8 @@ proc ParseToFile { logvar filepath } {
 proc ClearLog { email } {
 	
 	global config log_dir
-	set dirname [split $config(login) "@ ."]
-	set dirname [join $dirname "_"]
 	
-	catch { file delete [file join ${log_dir} ${dirname} ${email}.log] }
+	catch { file delete [file join ${log_dir} ${email}.log] }
 
 	OpenLogWin $email
 }
