@@ -4392,8 +4392,8 @@ proc cmsn_draw_online { {delay 0} } {
 		$pgBuddy.text0.mystatus insert end "\n" mystatuslabel
 	}
 
-	set maxw [expr [winfo width $pgBuddy.text] -45]
-	incr maxw [expr 0-[font measure bboldf -displayof $pgBuddy.text " ($my_state_desc)" ]]
+	set maxw [expr [winfo width $pgBuddy.text0] - 70]
+	incr maxw [expr 0-[font measure bboldf -displayof $pgBuddy.text0.mystatus " ($my_state_desc)" ]]
 	set my_short_name [trunc $my_name $pgBuddy.text0.mystatus $maxw bboldf]
 	$pgBuddy.text0.mystatus insert end "$my_short_name " mystatus
 	$pgBuddy.text0.mystatus insert end "($my_state_desc)" mystatus
