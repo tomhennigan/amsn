@@ -51,6 +51,7 @@ namespace eval ::amsn {
 
       set w ${win_name}_sendfile
       toplevel $w
+      wm group $w .
       wm title $w "[trans sendfile]"
       label $w.msg -justify center -text "[trans enterfilename]"
       pack $w.msg -side top -pady 5
@@ -509,8 +510,8 @@ namespace eval ::amsn {
       #TODO: Here we should decide if start withdrawn or normal, depending on an option
       # Here or in userJoins? better use userJoins
       wm state .${win_name} withdrawn
-      wm title .${win_name} "[trans chat]"      
-      wm group .${win_name} ""
+      wm title .${win_name} "[trans chat]"
+      wm group .${win_name} .
 #      wm iconbitmap . @${images_folder}/amsn.xbm
 #      wm iconmask . @${images_folder}/amsnmask.xbm
 
@@ -847,6 +848,8 @@ namespace eval ::amsn {
          focus $wname
          return 0
       }
+      
+      wm group $wname .
 
       wm title $wname $title
       wm transient $wname .
@@ -1353,6 +1356,7 @@ namespace eval ::amsn {
       status_log "Creating send progress window\n"
       set w .ft$cookie
       toplevel $w
+      wm group $w .
       wm title $w "[trans sendfile] $filename"
       wm geometry $w 300x100
 
@@ -1375,6 +1379,7 @@ namespace eval ::amsn {
      status_log "Creating receive progress window\n"
       set w .ft$cookie
       toplevel $w
+      wm group $w .      
       wm title $w "[trans receivefile] $filename"
       wm geometry $w 300x100
 
@@ -1490,6 +1495,7 @@ namespace eval ::amsn {
       incr NotifID
 
       toplevel $w -width 1 -height 1
+      wm group $w .
       wm state $w withdrawn
 
       set xpos $config(notifyXoffset)
@@ -1567,7 +1573,7 @@ namespace eval ::amsn {
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_main {} {
    global images_folder program_dir emotion_files version date weburl lang_list \
-     password config HOME files_dir pgBuddy pgNews bgcolor bgcolor2
+     password config HOME files_dir pgBuddy pgNews bgcolor bgcolor2 argv0 argv
 
    #User status menu
    menu .my_menu -tearoff 0 -type normal
@@ -1734,6 +1740,8 @@ proc cmsn_draw_main {} {
    #image create photo mainback -file [file join ${images_folder} back.gif]
 
    wm title . "[trans title] - [trans offline]"
+   wm command . [concat $argv0 $argv]
+   wm group . .
    wm geometry . $config(wingeometry)
    wm iconname . "[trans title]"
    wm iconbitmap . @[file join ${images_folder} amsn.xbm]
@@ -2036,6 +2044,7 @@ proc set_encoding {enc} {
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_status {} {
    toplevel .status
+   wm group .status .
    wm state .status withdrawn
    wm title .status "status log - [trans title]"
 
@@ -2230,6 +2239,7 @@ proc cmsn_draw_login {} {
 
    set login_request true
    toplevel .login
+   wm group .login .
    bind .login <Destroy> {if {"%W" == ".login"} { unset login_request } }
 
    wm geometry .login
@@ -2614,6 +2624,7 @@ proc cmsn_draw_addcontact {} {
 
    set addcontact_request true
    toplevel .addcontact -width 400 -height 150
+   wm group .addcontact .
    bind .addcontact <Destroy> {
       if {"%W" == ".addcontact"} {
          unset addcontact_request
@@ -2674,6 +2685,7 @@ proc cmsn_draw_otherwindow { title command } {
    global lang
 
    toplevel .otherwindow -width 300 -height 100
+   wm group .otherwindow .
 
    wm title .otherwindow "$title"
    canvas .otherwindow.c -width 270 -height 100
@@ -2712,6 +2724,7 @@ proc cmsn_proxy {} {
 
    set configuring_proxy true
    toplevel .proxy_conf -width 400 -height 150
+   wm group .proxy_conf .
    bind .proxy_conf <Destroy> {
       if {"%W" == ".proxy_conf"} {
          unset configuring_proxy
@@ -2775,6 +2788,7 @@ proc newcontact {new_login new_name} {
       set newc_add_to_list 1
    }
    toplevel .newc
+   wm group .newc .
 
    wm geometry .newc -0+100
    wm title .newc "$new_name - [trans title]"
@@ -2829,6 +2843,7 @@ proc cmsn_change_name {} {
 
    set change_name true
    toplevel .change_name -width 400 -height 150
+   wm group .change_name .
    bind .change_name <Destroy> {
       if {"%W" == ".change_name"} {
          unset change_name
