@@ -3598,6 +3598,17 @@ proc cmsn_auth {{recv ""}} {
 }
 
 proc recreate_contact_lists {} {
+
+
+	#There's no need to recreate groups, as ::groups already gets all data
+	#from ::abook	
+	foreach groupid [::groups::GetList] {
+		if { [info exists config(expanded_group_$groupid)] } {
+			set ::groups::bShowing($groupid) $config(expanded_group_$groupid)
+		}
+	}
+
+	#Let's put every user in their contacts list and groups
 	::MSN::clearList AL
 	::MSN::clearList BL
 	::MSN::clearList FL
@@ -3607,6 +3618,7 @@ proc recreate_contact_lists {} {
 			::MSN::addToList $list_name $user
 		}
 	}
+	
 }
 
 proc initial_syn_handler {recv} {
