@@ -8,12 +8,17 @@ addedyou $1 ($2) amekuongeza kwenye orodha yake ya waongeaji
 addstate Ongeza Hali Mpya
 addtocontacts Ongeza kwenya orodha ya waongeaji
 addtoo Muongeze mtu huyu kwenye orodha yangu ya waongeaji
+addto Ongeza kwenye $1
 admincontacts Panga waongeaji
 admingroups Panga makundi
 adverts Matangazo
 alarmpref Mipangilio ya sauti kwa mtumiaji
 alarmstatus ZIMA/WASHA sauti kwa mtumiaji huyu
+allowallbutbl Ruhusu watumiaji wote, isipokuwa wale waliopo kwenye Orodha-zuia, kuwasiliana nami
+allowlist Orodha-ruhusu:
+allowonlyinal Ruhusu watumiaji walio kwenye Orodha-Kubali tu kuwasiliana nami
 allowseen Mruhusu mtu huyu kuniona na kuwasilina nami nipokuwa natumia
+animatedsmileys Ruhusu visura kucheza
 appearance Muonekano
 appearoff Onekana sijaunganishwa
 areacode Kodi ya Eneo
@@ -34,7 +39,13 @@ baduserpass Jina la mtumiaji au neno-siri si la kweli
 bgcolor Badilisha rangi ya  nyuma ya aMSN
 blankdirect Acha wazi kwa muunganisho wa moja kwa moja
 blocked Amezuiwa
+blocking Inazuia
+blockinter1 Ukiwa umeunganishwa angalia kila
+blockinter2 sekunde, vingnevyo angalia kila :
+blockinter3 kila
+blocklist Orodha-zuia :
 blockmessage Watu hawa wameunganishwa na wamekuzuia kupiga soga nao
+blockusers Idadi ya watumiaji ya kuwaangalia mara moja
 block Zuia
 broughtby  Imeretwa kwako na watengenezaji wafuatao
 browser Kitandaaji
@@ -51,11 +62,14 @@ chat Ongea
 chatreq Inaomba maongezi
 chatsmileys2 Onyesha aikoni za Hisia na Visura kwenye Madirisha ya maongezi
 chatsmileys Visura vya moengezi
+checkblocking Endelea kunaganlia kama watumiaji wanakuzuia
 checkfilman Mafaili yaliyopokewa yatahifadhiwa katika $1. Tafadhali angalia taratibu za faili-maneja katika dirisha la mapendeleo
 checkingver Inaangalia Matoleo Mapya
+checkonfln Angalia kama mtumiaji amekuzuia, anapoacha kuunganishwa
 checkver Angalia tolea jipya
 choosebasefont Chagua aina za maandishi
 choosebgcolor Chagua rangi ya nyuma
+choosecontact Tafadhali chagua mzungumzaji kutoka katika orodha
 choosefontcolor Chagua rangi ya maandishi
 clearlog2 Futa historia ya waongeaji wenzako wote
 clearlog3 Futa Hesabu Zote
@@ -73,6 +87,7 @@ connectionlost Disconnected: Mawasiliano na progrom-tumishi yamesitishwa
 connection Muunganisho
 contactadded Muongeaji ameongezwa
 contactdoesnotexist Muongeaji hayupo!
+contactlist Orodha ya Wazungumzaji :
 copy Nakili
 copytogroup Nakili kwenda kwenye kundi
 countrycode Kodi yangu ya Nchi/Mkoa
@@ -96,6 +111,7 @@ edit Hariri
 editnewstate Hali Binafsi Mpya ya Kutuma-ujumbe-yenyewe
 editprofile Hariri Utashi
 editstate Hariri Hali iliyopo ya Kutuma-ujumbe-yenyewe
+emotisounds Cheza sauti wakati wa ikoni-hisia
 enableproxy Ruhusu proksi
 enableremote Ruhusu kuongoza kutoka sehemu nyingine
 encoding2 Badilisha jinsi herufi zako zinavyoumbwa
@@ -144,6 +160,7 @@ httpconnection Unganisha kwa kutumia njia za HTTP ( tumia protokali za HTTP kati
 ident Inatambulisha
 identity Utambulisho
 inbox Sanduku-Kuingia
+internalerror tatizo la ndani la programu-tumishi
 invalidusername Jina la mtumiaji siyo la kweli
 invitationcancelled Mualiko ulisitishwa
 invite Karibisha
@@ -188,6 +205,7 @@ minimised Imefupishwa/ImefanywaAikoni
 mins dakika
 mobile simu ya mkononi
 morepersonal Hali zaidi ->
+move Sogeza
 movetogroup Nenda kwenye Kundi
 msgmaxmin Ujumbe mpya ukija, nataka uwe :
 msgmode Chagua jinsi ya kushughulikia madirisha ya ujumbe zaidi ya mmoja :
@@ -207,6 +225,7 @@ newmsg Ujumbe mpya
 newveravailable Toleo jipya $1 linapatika kwa kutelemsha
 next Inayofuatia
 noactivity Hajishughulishi
+nodataavailable Hakuna kwa ajili ya $1
 no Hapana
 nologfile Hakuna Faili ya Hesabu ya $1
 nonewmail Hakuna ujumbe mpya katika sanduku-kuingia
@@ -241,6 +260,8 @@ port Poti
 prefalerts Ving'ora Tukio vyangu na Sauti
 prefapps Programu za matumizi
 prefawaymsg Ujumbe Wangu wa kuwa Mbali
+prefblock1 Angalina wakati wa kuacha kuunganisha
+prefblock2 Endelea kuangalian
 prefconnection Mipangilio ya muunganisho
 prefemotic Aikoni za hisia na visura
 preferences Mapendeleo
@@ -253,6 +274,8 @@ prefmsging Sehemu yangu ya Kutumia Ujumbe
 prefname Jina/jina la kutima langu la MSN Mesenja
 prefphone2 Chapa namba za simu ambazo unataka watu \n katika oradha ruksa yako kuona \n
 prefphone Namba Zangu za Simu
+prefprivacy2 Orodha-wazungumzaji/Kinyume ya mtumiaji
+prefprivacy Orodha-ruhusu/zuia ya mtumiaji
 prefprofile2 Tengeneza au rekebisha utashi wako kwa wote kuona (\nmaelezo juu yako ambayo wengine wataona)
 prefprofile3 Utashi wa Mpangilio wa mtumiaji wa aMSN
 prefprofile Utashi wangu kwa wote
@@ -277,7 +300,9 @@ reconnecting Unganisha tena kwenye programu-tumishi
 reconnect Subiri kujiunga tena kwa $1
 reject Kataa
 rememberpass Kumbuka neno-siri
+removefromlist Ondoa kutoka kwenye orodha hii
 reversed Imewekwa kinyume
+reverselist Orodha-kenyume :
 rightback Narudi sasa hivi
 sanduku-kuingia
 saveas Hifadhi kama
@@ -321,8 +346,10 @@ textsize Ukubwa wa maandishi
 title Mesenja ya AL
 to Kwenda kwa
 tools Vifaa
+tooltips Ruhusu vidokezo
 transnotexists Faili linaloitajika bado alijatafsiriwa katika lugha inayotumiwa sasa.
 traynotcompiled Plagini ya trei ya aikoni haijakamilishwa. Angalia plugins/traydock
+twonewmail $1 ujumbe mpya katika sanduku-Kuingia
 unblock Ruhusu
 uoffline Wasiounganishwa
 uonline Waliounganishwa
@@ -344,4 +371,3 @@ yoffset nafasi Y
 youblocked Umezuiwa kupiga soga
 yousay Unasema
 youwant Unataka
-twonewmail $1 ujumbe mpya katika sanduku-Kuingia
