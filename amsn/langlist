@@ -76,7 +76,7 @@
 	<lang>
 		<langcode>en</langcode>
 		<name>English</name>
-		<version>1.278</version>
+		<version>1.279</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -94,7 +94,7 @@
 	<lang>
 		<langcode>eu</langcode>
 		<name>Basque (Euskera)</name>
-		<version>1.25</version>
+		<version>1.26</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -166,7 +166,7 @@
 	<lang>
 		<langcode>it</langcode>
 		<name>Italian</name>
-		<version>1.43</version>
+		<version>1.44</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -220,7 +220,7 @@
 	<lang>
 		<langcode>pt_BR</langcode>
 		<name>Portuguese (Brazil)</name>
-		<version>1.13</version>
+		<version>1.14</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
