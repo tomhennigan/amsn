@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<plugin>
+	<name>changeit</name>
+	<author>William Bowling</author>
+	<description>Convert sent/received messages using talkfiters. Example at: http://www.dystance.net/software/talkfilters/</description>
+	<amsn_version>0.94</amsn_version>
+	<plugin_version>1.0</plugin_version>
+	<plugin_file>changeit.tcl</plugin_file>
+	<plugin_namespace>changeit</plugin_namespace>
+	<init_procedure>InitPlugin</init_procedure>
+</plugin>
