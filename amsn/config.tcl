@@ -19,6 +19,7 @@ set config(showonline) 1
 set config(showoffline) 1
 set config(listsmileys) 1
 set config(chatsmileys) 1
+set config(startoffline) 0
 #end AIM
 
 set password ""

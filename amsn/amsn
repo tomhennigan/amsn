@@ -234,7 +234,7 @@ proc close_cleanup {} {
 
 proc cmsn_draw_main {} {
    global images_folder emotion_files version date weburl lang_list \
-     password config
+     password config HOME
 
    #User status menu
    menu .my_menu -tearoff 0 -type normal -background #D0D0E0 
@@ -297,7 +297,8 @@ proc cmsn_draw_main {} {
    .main_menu.file add command -label "[trans loadcontacts]..." -state disabled
    .main_menu.file add separator
    .main_menu.file add command -label "[trans sendfile]..." -state disabled
-   .main_menu.file add command -label "[trans openreceived]" -state disabled
+   .main_menu.file add command -label "[trans openreceived]" \
+      -command "msg_box \"Received files in ${HOME}\""
    .main_menu.file add separator
    .main_menu.file add command -label "[trans close]" -command exit
 
@@ -877,7 +878,7 @@ proc copypaste_menu {text x y delete} {
 
 
 proc cmsn_draw_msgwin {} {
-   global images_folder sb_num sb_list config
+   global images_folder sb_num sb_list config HOME
 
    incr sb_num
    set name "sb$sb_num"
@@ -917,7 +918,7 @@ proc cmsn_draw_msgwin {} {
    .${win_name}.menu.msn add command -label "[trans sendfile]..." \
       -command " SelectFileToTransfer ${name} ${name} " 
    .${win_name}.menu.msn add command -label "[trans openreceived]..." \
-      -command "msgbox not implemented" 
+      -command "msg_box \"Files saved in ${HOME}\"" 
    .${win_name}.menu.msn add separator
    .${win_name}.menu.msn add command -label "[trans close]" \
       -command "destroy .${win_name}" 
@@ -1842,5 +1843,6 @@ after 1000 cmsn_update_notify
 
 if {$version != $config(last_client_version)} {
    cmsn_draw_about
+  
 }
 

@@ -240,6 +240,7 @@ proc cmsn_msg_parse {msg hname bname} {
 }
 
 proc cmsn_sb_msg {sb_name recv} {
+   global filetoreceive HOME
 
    set msg [sb index $sb_name data 1]
 
@@ -310,7 +311,7 @@ proc cmsn_sb_msg {sb_name recv} {
 	  set authcookie [aim_get_str $body AuthCookie]
 	  status_log "Going to receive a file..\n" 
 	  status_log "Body: $body\n"
-	  amsn_connectfiletransfer $ipaddr $port $authcookie
+	  yesNoDialog "Accept file [lindex $filetoreceive 0], [lindex $filetoreceive 1] bytes?\nSaved to ${HOME}" "amsn_connectfiletransfer $ipaddr $port $authcookie [lindex $filetoreceive 0]"
 	  
 	}		
 
@@ -322,9 +323,13 @@ proc cmsn_sb_msg {sb_name recv} {
       } elseif {$invcommand == "INVITE" } {
         set app [aim_get_str $body Application-Name]	
 	set cookie [aim_get_str $body Invitation-Cookie]
+	set filename [aim_get_str $body Application-File]
+	set filesize [aim_get_str $body Application-FileSize]
 	status_log "Invited to $app\n" white
 	status_log "$body\n" black
 	amsn_acceptfiletransfer $cookie $sb_name
+	
+	set filetoreceive [list "$filename" $filesize]
       } else {
         status_log "Unknown invitation!!\n" white
       }
@@ -635,6 +640,8 @@ proc cmsn_listdel {recv} {
 }
 
 proc cmsn_auth {{recv ""}} {
+   global config
+
 
    switch [sb get ns stat] {
       c {
@@ -696,7 +703,11 @@ proc cmsn_auth {{recv ""}} {
 	 save_config						;# CONFIG
 	 write_ns_sock "SYN" "0"
 # Me pongo online al comenzar
-	 write_ns_sock "CHG" "NLN" ; #Era NLN
+   if {$config(startoffline)} {
+      write_ns_sock "CHG" "HDN" ;
+   } else {
+      write_ns_sock "CHG" "NLN" ;
+   }
    #Log out
    .main_menu.file entryconfigure 2 -state normal
    #My status
@@ -814,8 +825,10 @@ proc amsn_sendfile {cookie sbn} {
 	set msg "${msg}Launch-Application: FALSE\r\n"
 	set msg "${msg}Request-Data: IP-Address:\r\n\r\n"
 
-	set sockid [socket -server amsn_acceptconnection $port]
-	after 120000 "status_log \"Closing close $sockid\\n\";close $sockid"
+	while {[catch {set sockid [socket -server amsn_acceptconnection $port]} res]} {
+	  set port [expr $port + 1]
+	}
+	after 120000 "status_log \"Closing $sockid\n\";close $sockid"
 	lappend atransfer $authcookie
 	
 	set msg_len [string length $msg]
@@ -828,9 +841,26 @@ proc amsn_sendfile {cookie sbn} {
 }
 
 
-proc amsn_connectfiletransfer {ipaddr port authcookie} {
+proc yesNoDialog { msg yescmd {nocmd ""}} {
+    toplevel .yesno
+    wm title .yesno "Question"
+     label .yesno.msg -justify center -text $msg
+     pack .yesno.msg -side top
+
+     frame .yesno.buttons
+     pack .yesno.buttons -side bottom -fill x -pady 2m
+      button .yesno.buttons.no -text No -command "destroy .yesno; $nocmd"
+      button .yesno.buttons.yes -text Yes \
+        -command "$yescmd; destroy .yesno"
+      pack .yesno.buttons.yes .yesno.buttons.no -side left -expand 1
+
+    focus .yesno.buttons.yes
+
+}
+
+proc amsn_connectfiletransfer {ipaddr port authcookie filename} {
    #I connect to a remote host to retrive the file
-   global config
+   global config HOME
 
    status_log "Conectando a $ipaddr puerto $port\n"
    set sockid [socket $ipaddr $port]
@@ -858,7 +888,7 @@ proc amsn_connectfiletransfer {ipaddr port authcookie} {
 	
 	status_log "Recibiendo archivo...\n"
 
-	set fileid [open "receivedfile" w]
+	set fileid [open "${HOME}/$filename" w]
 	fconfigure $fileid -blocking 0 -translation {binary binary}
 
 	#TODO: Receive the file
@@ -1058,9 +1088,17 @@ proc sb_sendfile { sbn file} {
 
 
 proc ns_enter {} {
-   puts -nonewline [sb get ns sock] "[.status.enter get]\r\n"
-#   status_log "SEND: [.status.enter get]\n" red
+   set command "[.status.enter get]"
    .status.enter delete 0 end
+   if { [string range $command 0 0] == "/"} {
+     puts -nonewline [sb get ns sock] "[string range $command 1 [string length $command]]\r\n"
+   } else {
+     if {[catch {[ $command ]} res]} {
+        msg_box "$res"
+     }
+   }
+   
+#   status_log "SEND: [.status.enter get]\n" red
 }
 
 proc cmsn_socket {name} {
