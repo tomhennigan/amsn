@@ -183,6 +183,7 @@ editnewstate Nuevo mensaje automático para estado personalizado
 editprofile Editar Perfil
 editstate Editar mensaje automático para estado personalizado
 editvalue Editar valor
+email  E-Mail
 emailsinlist Mostrar e-mails en lugar de apodos en la lista de contactos
 emotisounds Reproducir sonidos asociados a ciertos emoticonos
 enablebanner Mostrar banner de aMSN (Requiere reiniciar aMSN)
@@ -550,7 +551,7 @@ user Usuario
 useryourself No puedes hablar contigo mismo
 verifyblocked Comprobar qué contactos te bloquean
 version Versión
-viewcontactsby Mostrar contactos por
+viewcontactsby Ver contactos como
 viewprofile Ver perfil
 view Ver
 webcaminvite $1 te ha invitado a una sesión de videoconferencia, pero AMSN todavía no soporta esta característica.
