@@ -280,7 +280,7 @@ proc EditNewState { mode { idx "" } } {
 	}
 	ShowTransient .editstate
 
-	set lfname [LabelFrame:create .editstate.lfname -text [trans stateinfo]]
+	set lfname [LabelFrame:create .editstate.lfname -text [trans stateinfo] -font splainf]
 	pack $lfname -anchor n -side top -expand 1 -fill x
     
 	frame .editstate.1 -class Degt
@@ -288,9 +288,9 @@ proc EditNewState { mode { idx "" } } {
 	pack .editstate.1.away -side left -anchor nw
     
 	if { $mode == 0 || $mode == 1 } {
-		label .editstate.1.laway -text [trans statenewtext] -padx 10 -justify left
+		label .editstate.1.laway -text [trans statenewtext] -padx 10 -justify left -font splainf
 	} else { 
-		label .editstate.1.laway -text [trans stateedittext] -padx 10 -justify left
+		label .editstate.1.laway -text [trans stateedittext] -padx 10 -justify left -font splainf
 	}
 	pack .editstate.1.laway -fill both -side left
     
@@ -327,7 +327,7 @@ proc EditNewState { mode { idx "" } } {
 	if { [info exists chstate] } {
 		unset chstate
 	}
-	checkbutton .editstate.options.chstate -text "[trans ch_to_state]" -onvalue 1 -offvalue 0
+	checkbutton .editstate.options.chstate -text "[trans ch_to_state]" -onvalue 1 -offvalue 0 -font sboldf
 	pack .editstate.options.chstate -anchor w -side top -padx 10 -pady 0
 	pack .editstate.options -fill both -side top
     
