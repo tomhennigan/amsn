@@ -110,7 +110,6 @@ checkemail Mutass levél információt a kapcsolati listában
 checkfilman A bejövõ fájlok ide lesznek mentve : $1. Légyszíves ellenõrizd a fájl kezelõ beállításokat.
 checkingver Új verzió ellenõrzése folyamatban...
 checkonfln Ellenõrizze, hogy ha egy felhasználó kijelentkezik és letilt téged
-checkopenfilecommand Kérem ellenõrizd a file megnyitás parancsot a beállítások ablakban
 checkver Új verzó ellenõrzése
 choosearq Válaszd ki a rendszered
 choosebasefont Betûtípus választása
@@ -184,7 +183,6 @@ default Alapértelmezett beállítás
 defaultloginradio Alapbeállítással való bejelentkezés
 defchatwinsize Beszélgetõ ablakok alap mérete (X*Y)
 delete Törlés
-deleteall Mindet töröl
 deletecustomstate Saját állapot törlése
 delimiters Idõbélyeg beállítása:
 deliverfail Néhány hiba fordult elõ az üzenet kézbesítése közben
@@ -374,8 +372,6 @@ maximised Teljes méret
 minimised kisméred/Ikonméret
 mins perc után
 mobile Mobil
-mobilegrp1 Mobil csoport
-mobilegrp2 Rakd a felhasználókat a "Mobil" csoportba amikor nem csatlakoznak, és állapot szerint rakd sorrendbe
 modified Módosítva
 month Hónap
 morepersonal Több állapot ->
@@ -449,10 +445,8 @@ ok Rendben
 onenewmail 1 új üzeneted van
 online Elérhetõ
 onphone Telefonálok
-opendir Könyvtár megnyitás
-openfile Nyitva
-openfilecommand File megnyitási parancsoptions Beállítások
 openreceived A beérkezett fájlok megnyitása
+options Beállítások
 ordercontactsby Partnerek rendezése
 ordergroupsby Csoportok rendezése
 original Eredeti
