@@ -590,7 +590,7 @@ namespace eval ::amsn {
 
 #		set filename [ $w.top.fields.file get ]
 		if { $filename == "" } {
-			set filename [tk_getOpenFile -filetypes  {{"All Files" {*.*}}} -parent $win_name -title "[trans sendfile]" -initialdir $starting_dir]
+			set filename [tk_getOpenFile -filetypes  {{"All Files" {*}}} -parent $win_name -title "[trans sendfile]" -initialdir $starting_dir]
 			status_log $filename
 		}
 		
@@ -6926,7 +6926,7 @@ proc reloadAvailablePics { } {
 }
 
 #proc chooseFileDialog {basename {initialfile ""} {types {{"All files"         *}} }} {}
-proc chooseFileDialog {basename {initialfile ""} {types { {"All Files" {*.*}}} }} {
+proc chooseFileDialog {basename {initialfile ""} {types { {"All Files" {*}}} }} {
 	set parent "."
 	catch {set parent [focus]}
 
@@ -6977,7 +6977,7 @@ proc pictureChooseFile { } {
 	}
 
 
-	set file [chooseFileDialog "" "" [list [list [trans imagefiles] [list *.gif *.jpg *.jpeg *.bmp *.png]] [list [trans allfiles] *.*]]]
+	set file [chooseFileDialog "" "" [list [list [trans imagefiles] [list *.gif *.jpg *.jpeg *.bmp *.png]] [list [trans allfiles] *]]]
 
 	if { $file != "" } {
 		if { ![catch {convert_image_plus $file displaypic "96x96"} res]} {
