@@ -262,7 +262,8 @@ prefmsging Interfície dels missatges
 prefname Sobrenom a l'aMSN
 prefphone2 Escriu els números de telèfon que vols permetre veure als contactes \n de la teva llista de contactes amb permís \n
 prefphone Números de telèfon
-prefprivacy Llista de contactes acceptats i bloquejats per l'usuari
+prefprivacy Llista dels contactes que poden veure el meu estat i dels bloquejats
+prefprivacy2 Llista de tots els contactes i dels usuaris que em tenen a la seva llista de contactes
 prefprofile2 Crea o modifica el teu perfil públic\n(la teva descripció que poden veure els altres)
 prefprofile3 Configuració dels perfils d'usuari de l'aMSN
 prefprofile Perfil públic
@@ -290,6 +291,7 @@ reject Rebutjar
 rememberpass Recordar contrasenya
 removefromlist Suprimeix d'aquesta llista
 reversed Invertit
+reverselist Llista inversa:
 rightback Ara torno
 saveas Desar com
 savecontacts Desar la llista de contactes
