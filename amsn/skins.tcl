@@ -172,7 +172,7 @@ namespace eval ::skin {
 		if { [info exists loaded_images(no_pic)] } {
 			return no_pic
 		}
-		image create photo no_pic -file [GetSkinFile displaypic nopic.gif $skin_name] -format gif
+		image create photo no_pic -file [GetDisplayPicture nopic.gif $skin_name] -format gif
 		set loaded_images(no_pic) 1
 		return no_pic
 	}
@@ -363,7 +363,7 @@ proc GetSkinFile { type filename {skin_override ""} } {
 	
 }
 
-proc GetDisplayPicture { filename } {
+proc GetDisplayPicture { filename {skin_override ""}} {
 	global HOME2 HOME
 	
 	if { [catch { set skin "[::config::getGlobalKey skin]" } ] != 0 } {

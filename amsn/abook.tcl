@@ -858,7 +858,7 @@ namespace eval ::abookGui {
 		if { [file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
 			catch {image create photo user_pic_$email -file "[file join $HOME displaypic cache ${filename}].gif"}
 		} else {
-			image create photo user_pic_$email -file [GetSkinFile displaypic "nopic.gif"]
+			image create photo user_pic_$email -file [GetDisplayPicture "nopic.gif"]
 		}
 		label $nbIdent.titlepic -text "[trans displaypic]" -font bboldunderf
 		label $nbIdent.displaypic -image user_pic_$email -highlightthickness 2 -highlightbackground black -borderwidth 0

@@ -6835,7 +6835,7 @@ proc reloadAvailablePics { } {
 
 
 	foreach filename [lsort -dictionary $files] {
-		set skin_file "[GetSkinFile displaypic [file tail [filenoext $filename].gif]]"
+		set skin_file "[GetDisplayPicture [file tail [filenoext $filename].gif]]"
 		if { [file exists $skin_file] } {
 			set the_image [image create photo -file $skin_file ]	
 			addPicture $the_image "[getPictureDesc $filename]" [file tail $filename]
@@ -6961,7 +6961,7 @@ proc pictureChooseFile { } {
 
 	if { $file != "" } {
 		if { ![catch {convert_image_plus $file displaypic "96x96"} res]} {
-			set image_name [image create photo -file [GetSkinFile displaypic "[filenoext [file tail $file]].gif"]]
+			set image_name [image create photo -file [GetDisplayPicture "[filenoext [file tail $file]].gif"]]
 			.picbrowser.mypic configure -image $image_name
 			set selected_image "[filenoext [file tail $file]].png"
 
@@ -7001,7 +7001,7 @@ proc clear_disp { } {
 
 	::config::setKey displaypic ""
 
-	catch {image create photo my_pic -file "[GetSkinFile displaypic nopic.gif]"}
+	catch {image create photo my_pic -file "[GetDisplayPicture nopic.gif]"}
 	::MSN::changeStatus [set ::MSN::myStatus]
 
 }
