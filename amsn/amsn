@@ -38,7 +38,7 @@
 
 
 set version "0.52dev"
-set date "06/10/2002"
+set date "06/13/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -120,29 +120,14 @@ set list_states {{NLN online #0000FF online online bonline}
 #=======================================================================
 if {$tcl_platform(platform) == "unix"} {
    set HOME "$env(HOME)/.amsn"
+} elseif {$tcl_platform(platform) == "windows"} {
+   set HOME "$env(USERPROFILE)/amsn"
 } else {
    set HOME "amsn"
 }
 
 set log_dir "${HOME}/logs"
-#=======================================================================
-for {set i 1} {$i <= 256} {incr i} {
-   set c [format %c $i]
-   set hex [string tolower %[format %.2X $i]]
-   if {![string match \[a-zA-Z0-9\] $c]} {
-      if { $c == ")" } {
-      	set url_map() $hex
-	set url_unmap($hex) "\)"
-      } elseif { $c == "," } {
-      	set url_map(\,) $hex
-	set url_unmap($hex) "\,"
-      } else {
-        set url_map($c) $hex
-        set url_unmap($hex) "$c"
-      }	
 
-   }
-}
 #=======================================================================
 
 proc msg_box {msg} {
@@ -236,6 +221,7 @@ proc status_log {txt {colour ""}} {
    set timestamp [clock format [clock seconds] -format %H:%M:%S]
    .status.info insert end "\[$timestamp\] $txt" $colour
    .status.info yview moveto 1.0
+   puts -nonewline $txt
 
 }
 
@@ -929,7 +915,7 @@ proc cmsn_draw_msgwin {} {
       -command " ChooseFilename .${win_name}.text ${name} " 
    .${win_name}.menu.msn add separator
    .${win_name}.menu.msn add command -label "[trans sendfile]..." \
-      -command " sb_sendfile $name " 
+      -command " SelectFileToTransfer ${name} ${name} " 
    .${win_name}.menu.msn add command -label "[trans openreceived]..." \
       -command "msgbox not implemented" 
    .${win_name}.menu.msn add separator

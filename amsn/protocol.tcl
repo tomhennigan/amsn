@@ -1,3 +1,20 @@
+#=======================================================================
+for {set i 1} {$i <= 256} {incr i} {
+   set c [format %c $i]
+   set hex [string tolower %[format %.2X $i]]
+      if { $c == ")" } {
+      	set url_map() $hex
+	set url_unmap($hex) "\)"
+      } elseif { $c == "," } {
+      	set url_map(\,) $hex
+	set url_unmap($hex) "\,"
+      } else {
+        set url_map($c) $hex
+        set url_unmap($hex) "$c"
+      }	
+
+}
+
 proc change_name_ok {} {
    global config
 
@@ -40,7 +57,7 @@ proc read_sb_sock {sbn} {
       gets $sb_sock tmp_data
       sb append $sbn data $tmp_data
       set log [string map {\r ""} $tmp_data]
-      status_log "$sbn: RECV: $log\n" green
+#      status_log "$sbn: RECV: $log\n" green
       degt_protocol "<-SB $tmp_data"
       if {[string range $tmp_data 0 2] == "MSG"} {
          set recv [split $tmp_data]
@@ -278,11 +295,36 @@ proc cmsn_sb_msg {sb_name recv} {
       set invcommand [aim_get_str $body Invitation-Command]
       set cookie [aim_get_str $body Invitation-Cookie]
       if { $invcommand == "ACCEPT" } {
-	status_log "Invitation cookie $cookie ACCEPTED\n" white
-	amsn_sendfile $cookie $sb_name
+      
+      	set requestdata [aim_get_str $body Request-Data]
+	set requestdata [string range $requestdata 0 [expr [string length requestdata] -2]]
+	
+	set data [aim_get_str $body $requestdata]
+	
+	if { $data == "" } {
+  	  status_log "Invitation cookie $cookie ACCEPTED\n" white
+	  amsn_sendfile $cookie $sb_name  
+	} else {
+	  set ipaddr $data
+	  set port [aim_get_str $body Port]
+	  set authcookie [aim_get_str $body AuthCookie]
+	  status_log "Going to receive a file..\n" 
+	  status_log "Body: $body\n"
+	  amsn_connectfiletransfer $ipaddr $port $authcookie
+	  
+	}		
+
+	
+
       } elseif {$invcommand =="CANCEL" } {
         set cancelcode [aim_get_str $body Cancel-Code]
-	status_log "Invitation cookie $cookie CANCELED: $cancelcode\n" white
+	status_log "Invitation cookie $cookie CANCELED: $cancelcode\n" white	
+      } elseif {$invcommand == "INVITE" } {
+        set app [aim_get_str $body Application-Name]	
+	set cookie [aim_get_str $body Invitation-Cookie]
+	status_log "Invited to $app\n" white
+	status_log "$body\n" black
+	amsn_acceptfiletransfer $cookie $sb_name
       } else {
         status_log "Unknown invitation!!\n" white
       }
@@ -564,7 +606,7 @@ proc cmsn_ns_handler {item} {
           return 0
       }     
       default {
-         status_log "RECV: -[join $item]-\n" green
+#         status_log "RECV: -[join $item]-\n" green
          status_log "Got unknown NS input!! --> [lindex $item 0]\n" red
 	 return 0
       }
@@ -731,19 +773,40 @@ proc sb_enter { sbn name } {
 
 set atransfer ""
 
+proc amsn_acceptfiletransfer {cookie sbn} {
+	global trid
+
+	set sock [sb get $sbn sock]
+
+	set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+	set msg "${msg}Invitation-Command: ACCEPT\r\n"
+	set msg "${msg}Invitation-Cookie: $cookie\r\n"
+	set msg "${msg}Launch-Application: FALSE\r\n"
+	set msg "${msg}Request-Data: IP-Address:\r\n\r\n"
+
+	set msg_len [string length $msg]
+	incr trid
+	puts $sock "MSG $trid N $msg_len"
+	puts -nonewline $sock $msg
+
+	status_log "Accepting filetransfer sent\n" red
+
+
+}
+
 proc amsn_sendfile {cookie sbn} {
 	global atransfer trid
 
 	set sock [sb get $sbn sock]
 
 	#Invitation accepted, send IP and Port to connect to
-	set ipaddr "192.168.0.10"
+	set ipaddr [lindex [fconfigure $sock -sockname] 0]
 	set port 6891
 	set authcookie [expr $trid * $port % (65536 * 4)]
 	
 
 	set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
-	set msg "${msg}Invitation-Command: INVITE\r\n"
+	set msg "${msg}Invitation-Command: ACCEPT\r\n"
 	set msg "${msg}Invitation-Cookie: $cookie\r\n"
 	set msg "${msg}IP-Address: $ipaddr\r\n"
 	set msg "${msg}Port: $port\r\n"
@@ -763,33 +826,169 @@ proc amsn_sendfile {cookie sbn} {
 
 }
 
-proc amsn_acceptconnection {sockid hostaddr hostport} {
-  status_log "Conexión aceptada sockid: $sockid hostaddr: $hostaddr port: $hostport\n" white  
-  fconfigure $sockig -blocking 1
-  gets $sockid tmpdata  
-  status_log "RECIBO: $tmp_data\n" green
-  if { $tmpdata == "VER MSNFTP"} {
-    puts $sockid "VER MSNFTP"
-    gets $sockid tmpdata      
-    
-    if { $tmpdata == "USR elpochero@hotmail.com 1111" } {
-      puts $sockid "FIL 87823"
-      
-      gets $sockid $tmpdata
-      if { $tmpdata == "TFR" } {
-        fconfigure $sockig -blocking 0
-        #Comenzar transmisión
+
+proc amsn_connectfiletransfer {ipaddr port authcookie} {
+   #I connect to a remote host to retrive the file
+   global config
+
+   status_log "Conectando a $ipaddr puerto $port\n"
+   set sockid [socket $ipaddr $port]
+   fconfigure $sockid -blocking 0 -buffering none -translation {binary binary}   
+   status_log "Conectado, voy a enviar\n"
+   puts $sockid "VER MSNFTP\r"
+   status_log "ENVIO: VER MSNFTP\r\n"
+   fconfigure $sockid -blocking 1
+   gets $sockid tmpdata
+   status_log "MEENVIAN: $tmpdata\n"
+   if {[string range $tmpdata 0 9] == "VER MSNFTP"} {
+     fconfigure $sockid -blocking 0
+     puts $sockid "USR $config(login) $authcookie\r"
+     status_log "ENVIO: USR $config(login) $authcookie\r\n"
+   
+      fconfigure $sockid -blocking 1
+      gets $sockid tmpdata
+      status_log "MEENVIAN: $tmpdata\n"
+      if {[string range $tmpdata 0 2] == "FIL"} {
+        set filesize [string range $tmpdata 3 [string length $tmpdata]]
+	status_log "Me envian archivo de tamaño $filesize\n"
+
+        fconfigure $sockid -blocking 0
+	puts $sockid "TRF\r"
+	
+	status_log "Recibiendo archivo...\n"
+	set fileid [open "received.txt" w]
+	fconfigure $fileid -blocking 0 -translation {binary binary}
+
+	#TODO: Receive the file
+	
+	set packet1 [read $sockid 1]
+	set packet2 [read $sockid 1]
+	set packet3 [read $sockid 1]
+	
+	set packetsize [expr 0x$packet2 + (0x$packet3*256)]
+	
+	status_log "packetsize: $packetsize\n"
+	
+        set packetdata [read $sockid $packsize]
+        puts -nonewline $fileid $packetdata
+	
+	
+	close $fileid
+	close $sockid
+	return 0;
       }
-    } else {    
-      #Abortar conexión
-    }
-  } else {
-      #Abortar conexión
-  }
+
+   }
+   
+   status_log "Fallo en la transferencia, conexion cerrada\n"
+   close $sockid
+   return 1;
 }
 
-proc sb_sendfile { sbn {file prueba.txt} {filesize 5}} {
+
+proc amsn_acceptconnection {sockid hostaddr hostport} {
+  global atransfer
+   #Someone connects to my host to get the file i offer
+  status_log "Conexión aceptada sockid: $sockid hostaddr: $hostaddr port: $hostport\n" white  
+  fconfigure $sockid -blocking 0 -buffering none -translation {binary binary}
+  fconfigure $sockid -blocking 1
+  gets $sockid tmpdata
+  status_log "RECIBO: $tmpdata\n"
+  if { [string range $tmpdata 0 9] == "VER MSNFTP"} {
+    puts $sockid "VER MSNFTP\r"
+    status_log "ENVIO: VER MSNFTP\n"
+    fconfigure $sockid -blocking 1
+    gets $sockid tmpdata
+    fconfigure $sockid -blocking 0
+    status_log "Recibo: $tmpdata\n"      
+    
+    if { [string range $tmpdata 0 2] == "USR" } {
+	set filename [lindex $atransfer 1]	
+	set filesize [lindex $atransfer 2]
+
+      puts $sockid "FIL $filesize\r"
+      status_log "ENVIO: FIL $filesize\n"
+
+      fconfigure $sockid -blocking 1      
+      gets $sockid tmpdata
+      fconfigure $sockid -blocking 0
+      status_log "Recibo: $tmpdata\n"
+      if { [string range $tmpdata 0 2] == "TFR" } {
+        fconfigure $sockid -blocking 0	
+        #Send the file
+
+
+	set fileid [open $filename r]
+	status_log "Sending file $filename size $filesize\n"
+
+	set sentbytes 0
+	
+	while {$sentbytes < $filesize} {
+	  status_log "sending $sentbytes of $filesize bytes\n"
+	  
+	  if {[expr $filesize-$sentbytes >2045]} {
+	    set packetsize 2045
+	  } else {
+	    set packetsize [expr $filesize-$sentbytes]
+	  }
+	  
+  	  set datos [read $fileid $packetsize]
+	  
+	  set byte1 [expr $packetsize & 0xFF]
+	  set byte2 [expr $packetsize >> 8]
+	  
+	  puts -nonewline $sockid \0[format %c $byte1][format %c $byte2]
+	  puts -nonewline $sockid $datos
+	  set sentbytes [expr $sentbytes + 2045]
+	}
+	
+	status_log "File sent complete\n"
+	close $sockid
+	close $fileid
+	return 0;
+
+      }
+    } 
+  } 
+  status_log "Transferencia cancelada\n"  
+  close $sockid
+}
+
+###################### Other Features     ###########################
+proc SelectFileToTransfer { twn title } {
+    # TODO File selection box, use nickname as filename (caller)
+    set w .form$title
+    toplevel $w
+    wm title $w "Send session"
+     label $w.msg -justify center -text "Please give a filename"
+     pack $w.msg -side top
+
+     frame $w.buttons
+     pack $w.buttons -side bottom -fill x -pady 2m
+      button $w.buttons.dismiss -text Cancel -command "destroy $w"
+      button $w.buttons.save -text Send \
+        -command "sb_sendfile $twn $w.filename.entry; destroy $w"
+      pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
+
+    frame $w.filename -bd 2
+     entry $w.filename.entry -relief sunken -width 40 
+     label $w.filename.label -text "Filename:"
+     pack $w.filename.entry -side right
+     pack $w.filename.label -side left
+    pack $w.msg $w.filename -side top -fill x
+    focus $w.filename.entry
+
+#    fileDialog $w $w.filename.entry save Untitled
+}
+
+
+proc sb_sendfile { sbn file} {
 	global trid atransfer
+
+	set file [ $file get ]
+
+	status_log "File size: [file size $file]\n"
+	set filesize [file size $file]
 
 	set sock [sb get $sbn sock]
 
@@ -801,7 +1000,7 @@ proc sb_sendfile { sbn {file prueba.txt} {filesize 5}} {
 	set msg "${msg}Application-GUID: {5D3E02AB-6190-11d3-BBBB-00C04F795683}\r\n"
 	set msg "${msg}Invitation-Command: INVITE\r\n"
 	set msg "${msg}Invitation-Cookie: $cookie\r\n"
-	set msg "${msg}Application-File: $file\r\n"
+	set msg "${msg}Application-File: [file tail $file]\r\n"
 	set msg "${msg}Application-FileSize: $filesize\r\n\r\n"
 	
 	set msg_len [string length $msg]
@@ -811,7 +1010,7 @@ proc sb_sendfile { sbn {file prueba.txt} {filesize 5}} {
 
 	status_log "Sending file $file\n" red
 
-	set atransfer { "Cookie:$cookie" "$file" $filesize $sbn }
+	set atransfer [list "Cookie:$cookie" "$file" $filesize $sbn ]
 
 }
 
