@@ -444,7 +444,7 @@ proc OpenLogWin { {email ""} } {
 	ParseLog $wname $logvar
 
 	button $wname.buttons.close -text "[trans close]" -command "destroy $wname"
-	button $wname.buttons.stat -text "[trans stat]" -command "::log::stat"
+	button $wname.buttons.stats -text "[trans stats]" -command "::log::stats"
 	button $wname.buttons.save -text "[trans savetofile]" -command "::log::SaveToFile ${wname} ${email} [list ${logvar}]"
   	button $wname.buttons.clear -text "[trans clearlog]" \
 				    -command "if { !\[winfo exists $wname.top.date.list\] } { \
@@ -467,7 +467,7 @@ proc OpenLogWin { {email ""} } {
  	pack $wname.blueframe.log -side top -expand true -fill both -padx 4 -pady 4
 	pack $wname.blueframe -side top -expand true -fill both
 	pack $wname.buttons.close -padx 0 -side left
-	pack $wname.buttons.stat -padx 0 -side right
+	pack $wname.buttons.stats -padx 0 -side right
 	pack $wname.buttons.save -padx 0 -side right
 	pack $wname.buttons.clear -padx 0 -side right
 	pack $wname.buttons -side bottom -fill x -pady 3
@@ -1111,11 +1111,11 @@ proc getAllDates { } {
 
 
 #///////////////////////////////////////////////////////////////////////////////
-# Make a stat window
+# Make a stats window
 
-proc stat { } {
+proc stats { } {
 
-	set w .stat
+	set w .stats
 	
 	if { [winfo exists $w] } {
 		raise $w
@@ -1124,30 +1124,31 @@ proc stat { } {
 
 	toplevel $w
 	
-	wm title $w "[trans stat]"
+	wm title $w "[trans stats]"
 	wm geometry $w 300x300
 		
 	set months [::log::getAllDates]
 	
 	frame $w.select
+	label $w.select.text -text [trans stats] -font bigfont
 	combobox::combobox $w.select.list -editable true -highlightthickness 0 -width 15 -bg #FFFFFF -font splainf
 	$w.select.list list delete 0 end
 		
-	$w.select.list list insert end "[trans all]"
+	$w.select.list list insert end "[trans allmonths]"
 	
 	$w.select.list select "0"
 	
 	foreach month $months {
 		$w.select.list list insert end "$month"
 	}
-		
+	pack configure $w.select.text -side top	
 	pack configure $w.select.list -side right
-	pack configure $w.select -side top -fill x -expand true
+	pack configure $w.select -side top -fill x -expand false
 	
 	ScrolledWindow $w.list
 	ScrollableFrame $w.list.sf -constrainedwidth 1
 	$w.list setwidget $w.list.sf
-	pack $w.list -anchor n -side top -fill both
+	pack $w.list -anchor n -side top -fill both -expand true
 	set frame [$w.list.sf getframe]
 	
 	set contactsize [::log::sortalllog]
@@ -1166,12 +1167,12 @@ proc stat { } {
 		pack configure $frame.$wlabel -side top
 	}
 	
-	$w.select.list configure -editable false -command "::log::stat_select $id"
+	$w.select.list configure -editable false -command "::log::stats_select $id"
 
-	frame $w.button
-	button $w.button.close -text "[trans close]" -command "destroy $w"
-	pack configure $w.button.close -side right -padx 10 -pady 10
-	pack configure $w.button -side bottom -fill x -expand true
+	#frame $w.button
+	button $w.close -text "[trans close]" -command "destroy $w"
+	pack configure $w.close -side bottom -padx 10 -pady 10
+	#pack configure $w.button -side bottom -fill x -expand true
 	
 	bind $w <<Escape>> "destroy $w"
 	moveinscreen $w 30
@@ -1180,9 +1181,9 @@ proc stat { } {
 }
 
 
-proc stat_select { id wname month} {
+proc stats_select { id wname month} {
 
-	set w .stat
+	set w .stats
 	
 	set frame [$w.list.sf getframe]
 	
@@ -1211,7 +1212,7 @@ proc stat_select { id wname month} {
 		pack configure $frame.$wlabel -side top
 	}
 	
-	$w.select.list configure -editable false -command "::log::stat_select $id"
+	$w.select.list configure -editable false -command "::log::stats_select $id"
 	
 	
 }

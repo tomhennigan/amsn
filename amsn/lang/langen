@@ -27,6 +27,7 @@ alarmpref Alarm Settings for user
 alarms Alarms
 alarmstatus Turn ON/OFF Alarm for this user
 allfiles All Files
+allmonths All Months
 allow_sms Allow users to contact me on my MSN mobile device
 allowallbutbl Allow all users apart from those in my Block List to contact me
 allowbadwords Disable censorship on nicknames
@@ -596,6 +597,7 @@ stateinfo Personal State Configuration
 statename Name of Personal State
 statenewtext Please fill the required information to create \n your new Personal State and press Save
 statenick Custom nick (leave blank for no change)
+stats Statistics
 status Status
 stopalarm Stop Alarm
 storenickname Return to original nickname after a custom state with custom nickname
