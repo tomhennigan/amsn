@@ -893,6 +893,7 @@ namespace eval ::MSN {
 		StopPolling
 		
 		save_contact_list
+		::abook::saveToDisk
 		clean_contact_lists
 		
 		set automessage "-1"
@@ -3009,7 +3010,10 @@ proc cmsn_change_state {recv} {
 		} elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
 
 			user_not_blocked "$user"
-
+			
+			#Register last login
+			::abook::setContactData $user last_login [clock format [clock seconds] -format "%D - %H:%M:%S"]
+			
 			if { $config(notifyonline) == 1 } {
 				::amsn::notifyAdd "$short_name\n[trans logsin]." "::amsn::chatUser $user" online
 			}
@@ -3020,6 +3024,10 @@ proc cmsn_change_state {recv} {
 				run_alarm all "$user_name [trans logsin]"
 			}
 		} elseif {$substate == "FLN"} {
+			
+			#Register last logout
+			::abook::setContactData $user last_logout [clock format [clock seconds] -format "%D - %H:%M:%S"]
+		
 			if { $config(notifyoffline) == 1 } {
 				::amsn::notifyAdd "$short_name\n[trans logsout]." "" offline offline
 			}
@@ -3520,6 +3528,7 @@ proc cmsn_auth {{recv ""}} {
 
 			save_config						;# CONFIG
 			::config::saveGlobal
+			::abook::loadFromDisk
 			load_contact_list
 
 			#We need to wait until the SYN reply comes, or we can send the CHG request before
@@ -4420,13 +4429,14 @@ proc create_contact_list {cstack cdata saved_data cattr saved_attr args } {
 
 	if { $list == "list_fl" } {
 		::abook::setContactData $sdata(${cstack}:email) group [split $sdata(${cstack}:gid) ,]
-		::abook::setContactData $sdata(${cstack}:email) nick $sdata(${cstack}:nickname)
 		::abook::setContactData $sdata(${cstack}:email) PHH $sdata(${cstack}:phh)
 		::abook::setContactData $sdata(${cstack}:email) PHW $sdata(${cstack}:phw)
 		::abook::setContactData $sdata(${cstack}:email) PHM $sdata(${cstack}:phm)
 		::abook::setContactData $sdata(${cstack}:email) MOB $sdata(${cstack}:mob)
-		::abook::addContactToList $sdata(${cstack}:email) $list_sort
 	}
+	::abook::setContactData $sdata(${cstack}:email) nick $sdata(${cstack}:nickname)	
+	::abook::addContactToList $sdata(${cstack}:email) $list_sort
+	
 
 	set contactinfo ""
 

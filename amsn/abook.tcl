@@ -163,8 +163,14 @@ namespace eval ::abook {
 		} else {
 			array set user_data [list]
 		}
-		 
-		set user_data($field) $data
+		
+		if { $data == "" } {
+			if { [info exists user_data($field)] } {
+				unset user_data($field)
+			}
+		} else { 
+			set user_data($field) $data
+		}
 		
 		#We store the array as a plain list, as we can't have an array of arrays
 		set users_data($user_login) [array get user_data]
@@ -187,6 +193,16 @@ namespace eval ::abook {
 		return $user_data($field)
 		
 	}
+	
+	proc getAllContacts { } {
+		variable users_data
+		return [array names users_data]
+	}
+	
+	
+	###########################################################################
+	# Auxiliar functions, macros, or shortcuts
+	###########################################################################
 
 					
 	#Returns the user nickname
@@ -247,6 +263,38 @@ namespace eval ::abook {
 			setContactData $email lists [lreplace $lists $idx $idx]
 		}
 	}	
+	
+	proc saveToDisk { {filename ""} } {
+		global HOME
+		variable users_data
+		
+		if { $filename == "" } {
+			set filename [file join $HOME abook]
+		}
+		
+		set file_id [open ${filename}.xml w]
+
+		fconfigure $file_id -encoding utf-8
+
+		puts $file_id "<?xml version=\"1.0\" standalone=\"yes\" encoding=\"UTF-8\"?>"
+		puts $file_id "<AMSN_AddressBook>"
+		foreach user [array names users_data] {
+			puts $file_id "<contact name=\"[::sxml::xmlreplace $user]\">"
+
+			array set temp_array $users_data($user)
+			foreach field [array names temp_array] {
+				puts -nonewline $file_id "\t<field name=\"[::sxml::xmlreplace $field]\">"
+				puts -nonewline $file_id "[::sxml::xmlreplace $temp_array($field)]"	
+				puts $file_id "</field>"				
+			}
+			puts $file_id "</contact>"
+		}
+		puts $file_id "</AMSN_AddressBook>"
+		close $file_id
+	}
+	
+	proc loadFromDisk { {filename ""} } {
+	}
 
 }
 
