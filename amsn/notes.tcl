@@ -107,7 +107,8 @@ namespace eval ::notes {
 		frame $w.right.contact
 		frame $w.right.contact.right
 		label $w.right.contact.right.note -text "Contact" -font bigfont
-		label $w.right.contact.right.txt -text "$email\n[::abook::getDisplayNick $email]" -font bold
+		set nickname "[trunc [::abook::getDisplayNick $email] $w 410 bold]"
+		label $w.right.contact.right.txt -text "$email\n$nickname" -font bold
 		pack configure $w.right.contact.right.note
 		pack configure $w.right.contact.right.txt -expand true
 		pack configure $w.right.contact.right -expand true -side right
@@ -349,8 +350,8 @@ namespace eval ::notes {
 		}
 
 		set ::notes::email $contact
-
-		$w.right.contact.right.txt configure -text "$contact\n[::abook::getDisplayNick $contact]" -font bold
+		set nickname "[trunc [::abook::getDisplayNick $contact] $w 410 bold]"
+		$w.right.contact.right.txt configure -text "$contact\n$nickname" -font bold
 
 		$w.right.button.new configure -state normal
 		$w.right.note.txt configure -state normal
