@@ -1,0 +1,165 @@
+amsn_lang_version 2
+about 關於
+acceptfile 接受檔案 $1, 大小 $2 儲存到 $3
+actions 執行
+addacontact 新增聯絡人
+addedyou 已加入你到他/她的清單
+addtocontacts 加入聯絡人清單
+addtoo 新增聯絡人到我的清單
+admincontacts 管理聯絡人
+admingroups 管理群組
+adverts 廣告
+allowseen 當你在線上時允許這個人看到你和聯絡你
+appearoff 隱形
+are 是
+autohotmaillog 自動登入 Hotmail
+autoip Automatic IP
+avoidseen 當你在線上時封鎖這個人看到你和聯絡你
+away 離開
+baduserpass 使用者名稱或密碼錯誤
+blankdirect 預留空白當作直接連線
+block 封鎖
+blocked 已封鎖
+browser 瀏覽
+busy 忙碌
+cancel 取消
+changenick 更改匿名
+chat 交談
+chatreq 邀請交談
+chatsmileys 表情符號
+chatack 正在接受聊天從
+checkver 檢查新版本
+checkingver 正在檢查新版本
+clicktologin 請按這裡登入
+close 關閉
+closingdocks Close button docks window
+command 命令
+confirmdelete 你確定要刪除 $1?
+contactadded 聯絡人被加入
+contactdoesnotexist 聯絡人不存在!
+connecterror 連結到伺服器時發生錯誤
+copytogroup 複製到群組
+date 日期
+delete 刪除
+enableproxy 啟動 proxy
+entercontactemail 輸入聯絡人的 e-mail
+enterfilename 請輸入一個檔案名稱
+enternick 輸入你的匿名
+examples 範例
+exitamsn 你確定要關閉?
+extras 增益集
+filedoesnotexist 檔案不存在
+filename 檔案名稱
+filetransfercancelled 檔案傳送被取消
+filetransfercomplete 檔案傳送完畢
+gonelunch 外出用餐
+group 群組
+groupadd 新增群組
+groupdelete 刪除群組
+grouprename 重新命名群組
+groupoldname 舊名稱
+groupnewname 新名稱
+groupunknown 未知群組
+groupexists 群組已經存在
+groupmissing 不能找到群組
+groupnotempty 群組不是空白!
+handle 顯示名稱
+help 說明
+helpcontents 說明主題
+home 家裡
+ident 正在確認
+identity 身份
+inbox 收件匣
+invalidusername 使用者名稱無效
+invite 邀請
+ipaddress IP 位址
+is 是
+joins $1 $2 加入交談
+language 語言
+leaveblankforhotmail 預留空白時Hotmail將會預設成郵件程式
+leaves $1 離開聊天
+listeningon Listening on port $1
+listsmileys List smileys
+loadcontacts 匯入聯絡人清單
+loggedotherlocation 離線. 登入到其他的地方
+loggingin 正登入
+login 登入
+loginas 以不同帳號登入
+logout 登出
+logsin 剛登入
+mailer 郵件程式
+mobile 大哥大
+movetogroup 搬移到群組
+mustrestart 你必須重新啟動程式
+mystatus 我的狀態
+msg 訊息
+msn AMSN
+needonline 你還是在離線中!
+newmail $1 有新的郵件在收信匣中
+newmailfrom 新郵件從
+newmsg 新訊息
+newveravailable 已有較新的版本 $1 可以下載
+next 下一步
+noactivity 閒置
+nonewmail 沒有新的郵件
+nonewver 這已是最新版本
+notify 通知
+nousersinsession 沒有使用者在開會
+ok 確定
+offline 離線
+onenewmail 1 新郵件在收件匣中
+online 線上
+onphone 電話中
+openreceived 開啟已接收的檔案
+options 選項
+ordercontactsby 聯絡人的排序依據
+other 其他
+pager 傳呼機
+pass 密碼
+phone 電話
+port Port
+prefapps 程式
+preferences 偏好設定
+prefsound 聲音
+properties 內容
+proxyconf Proxy 設定
+proxyconfhttp HTTP proxy 設定
+publishphones 公佈我的電話號碼
+receivedbytes 已收到 $1 of $2 bytes
+receivefile 接收檔案
+reconnect 等待 $1 重新連結
+reconnecting 重新連結伺服器
+rememberpass 儲存密碼
+rightback 馬上回來
+save 儲存
+saveas 另存
+savecontacts 儲存聯絡人清單
+says $1 說
+sbcon 轉接中
+send 傳送
+sendfile 傳送檔案
+sendmail 傳送郵件
+sendmsg 傳送訊息
+sentbytes 傳送 $1 of $2 bytes
+server 伺服器
+servergoingdown 離線: 連結伺服器失敗
+sound 事件音效
+startoffline 以隱形狀態登入
+status 狀態
+syntaxerror  句法錯誤
+textsize 字型大小
+title Al's Messenger
+to 給
+tools 工具
+typing $1 正在輸入訊息
+yousay 你說
+youwant 你要
+unblock 解除封鎖
+uoffline 離線
+uonline 線上
+user 使用者
+useralreadyonlist 聯絡人已經在清單上
+version 版本
+view 檢視
+willjoin 等待 $1 加入聊天
+work 工作
