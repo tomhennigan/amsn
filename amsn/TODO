@@ -15,14 +15,16 @@ Burger * burger@mwvision.com
 -	Check Makefile and amsn.spec now that HELP and FAQ files are added.
 -	Make sure everything is installed correctly and FAQ and HELP are in the amsn directory.
 -	Make good RPMs, for Redhat, Suse, Mandrake, etc.
+-	Add an entry in HELP menu that shows translated FAQ and HELP (if available)
 DONE	Long messages knock out remote user from chat (if > 400, separate into 400 byte long fragments and send)
 DONE	New unified preferences dialog with tabs
 DONE	Multiple user accounts combo box + separate user config files
--	Refinements to queuing and reconnection issues
+DONE	Refinements to queuing and reconnection issues
 -	Improve filetransfers, allow more than one at once. Fix progress bar, and special characters on filenames.
 -	Improve font selection (unify with color selection)
 DONE	Make status change dynamic in chat window
-PARTIAL	Disable input window when USER is offline (after offline error)
+DONE	Disable input window when USER is offline (after offline error)
+-	When queue is cleared, NAK every message in queue
 DONE	After user offline error, clean chat queue for that user.
 -	Don't save password if login fails becoz of wrong username or password
 -	Fix public profile, use html file for authentication and login to MSN profiles? -> use same system as hotmail login
@@ -39,14 +41,14 @@ DONE	When notify window is for a file transfer, clicking on it triggers a bug!
 DONE	Bug fixes in urlencode/decode procedure that didn't allow some characters in nicks and would cause bogus "Invalid nick" messages.
 DONE	Fixed bug when adding a user from a chat window.
 -	Write/Read profiles file on opening/closing login window, not start/stop amsn.
--	Add timeouts when reconnecting or inviting a user to a switchboard, to avoid blocking on it.
+DONE	Add timeouts when reconnecting or inviting a user to a switchboard, to avoid blocking on it.
 -	Same window name bug for filetransfers and help windows
 -	Possible bug if the password has a semicolon (at the end?). Check.
 -	Be able to manually change status to "No activity" - Bug B657836
 -	When we get a NAK from a message, try to enqueue it again, as probably it will success.
 -	Fix focus and children things with list window. (For example add_user from chat window), and dialogs in general.
--	Ctrl, alt and other special keys shouldn't send typing notification.
--	Bug with font selection in preferences window. Saved if "close" clicked, but not if "save" clicked.
+DONE	Ctrl, alt and other special keys shouldn't send typing notification.
+DONE	Bug with font selection in preferences window. Saved if "close" clicked, but not if "save" clicked.
 
 	***Existing Feature Improvements (priority 2)***
 
