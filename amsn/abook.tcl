@@ -155,8 +155,6 @@ namespace eval ::abook {
 	proc setContactData { user_login field data } {
 		variable users_data
 		
-		status_log "::abook::setUserInfo: Setting user ${user_login}($field) to $data\n" blue
-		
 		# There can't be double arrays, so users_data(user) is just a
 		# list like {entry1 data1 entry2 data2 ...}
 		if { [info exists users_data($user_login)] } {
@@ -183,7 +181,6 @@ namespace eval ::abook {
 		array set user_data $users_data($user_login)		
 				
 		if { ![info exists user_data($field)] } {
-			status_log "::abook::getUserInfo: ERROR! Field $field doesn't exist for user $user_login!\n" red
 			return ""
 		}
 		
