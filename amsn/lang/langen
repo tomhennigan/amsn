@@ -47,6 +47,7 @@ chat Chat
 chatreq Requesting chat
 chatsmileys2 Display Emoticons and Smileys in chat windows
 chatsmileys Chat smileys
+checkfilman Received files will be saved in $1. Please check file manager settings in preferences window.
 checkingver Checking for new versions
 checkver Check for new version
 choosebasefont Choose font type

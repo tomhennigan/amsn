@@ -48,6 +48,7 @@ chat Conversación
 chatreq Solicitando una conversación
 chatsmileys2 Mostrar emoticonos y smileys en ventanas de chat
 chatsmileys Smileys en chat
+checkfilman Los archivos recibidos se guardarán en $1. Comprueba la opción de administrador de archivos en la ventana de preferencias.
 checkingver Buscando si hay disponible una nueva versión
 checkver Buscar nuevas versiones
 choosebasefont Elegir tipo de letra

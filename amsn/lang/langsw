@@ -50,6 +50,7 @@ chatreq Efterfrågar chat
 chatsmileys2 Visa 'Emoticons' och Smileys i chat-fönster
 chatsmileys Chat smileys
 checkingver Kollar efter nya versioner
+checkfilman Inkomna filer sparas i $1. Välj filhanterare i programinställningarna.
 checkver Kolla efter ny version
 choosebasefont Välj teckensnitt
 choosebgcolor Välj bakgrundsfärg
