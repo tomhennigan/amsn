@@ -4418,14 +4418,6 @@ proc cmsn_draw_online_wrapped {} {
 	$pgBuddy.text configure -state normal -font splainf
 	$pgBuddy.text delete 0.0 end
 
-	#Set up TAGS for mail notification
-	$pgBuddy.text tag conf mail -fore black -underline true -font splainf
-	$pgBuddy.text tag bind mail <Button1-ButtonRelease> "$pgBuddy.text conf -cursor watch; do_hotmail_login"
-	$pgBuddy.text tag bind mail <Enter> \
-	"$pgBuddy.text tag conf mail -under false;$pgBuddy.text conf -cursor hand2"
-	$pgBuddy.text tag bind mail <Leave> \
-	"$pgBuddy.text tag conf mail -under true;$pgBuddy.text conf -cursor left_ptr"
-
 	# Configure bindings/tags for each named group in our scheme
 	foreach gname $glist {
 
@@ -4516,8 +4508,9 @@ proc cmsn_draw_online_wrapped {} {
 		$pgBuddyTop.mystatus insert end "\n" mystatuslabel
 	}
 
-	set maxw [expr [winfo width $pgBuddy.text] - 50]
-	incr maxw [expr 0-[font measure bboldf -displayof $pgBuddy.text " ($my_state_desc)" ]]
+	#need to update so that width of mystatus is correct
+	update idletasks
+	set maxw [expr [winfo width $pgBuddyTop.mystatus] - [font measure bboldf -displayof $pgBuddyTop.mystatus " ($my_state_desc)" ]]
 	set my_short_name [trunc $my_name $pgBuddyTop.mystatus $maxw bboldf]
 	$pgBuddyTop.mystatus insert end "$my_short_name " mystatus
 	$pgBuddyTop.mystatus insert end "($my_state_desc)" mystatus
@@ -4557,32 +4550,48 @@ proc cmsn_draw_online_wrapped {} {
 
 	if { [::config::getKey checkemail] } {
 		# Show Mail Notification status
-		clickableImage $pgBuddy.text mailbox mailbox [list hotmail_login [::config::getKey login] $password] [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
+		text $pgBuddyTop.mail -font bboldf -height 1 \
+			-background white -borderwidth 0 \
+			-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
+			-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
+		pack $pgBuddyTop.mail -expand true -fill x -before $colorbar -side bottom
+
+		$pgBuddyTop.mail configure -state normal
+
+		#Set up TAGS for mail notification
+		$pgBuddyTop.mail tag conf mail -fore black -underline true -font splainf
+		$pgBuddyTop.mail tag bind mail <Button1-ButtonRelease> "$pgBuddyTop.mail conf -cursor watch; do_hotmail_login"
+		$pgBuddyTop.mail tag bind mail <Enter> "$pgBuddyTop.mail tag conf mail -under false;$pgBuddyTop.mail conf -cursor hand2"
+		$pgBuddyTop.mail tag bind mail <Leave> "$pgBuddyTop.mail tag conf mail -under true;$pgBuddyTop.mail conf -cursor left_ptr"
+
+		clickableImage $pgBuddyTop.mail mailbox mailbox [list hotmail_login [::config::getKey login] $password] [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
 
 		set unread [::hotmail::unreadMessages]
 
 		if {$unread == 0} {
-			set mailmsg "[trans nonewmail]\n"
+			set mailmsg "[trans nonewmail]"
 		} elseif {$unread == 1} {
-			set mailmsg "[trans onenewmail]\n"
+			set mailmsg "[trans onenewmail]"
 		} elseif {$unread == 2} {
-			set mailmsg "[trans twonewmail 2]\n"
+			set mailmsg "[trans twonewmail 2]"
 		} else {
-			set mailmsg "[trans newmail $unread]\n"
+			set mailmsg "[trans newmail $unread]"
 		}
 
-	  	set evpar(text) pgBuddy.text
+	  	set evpar(text) pgBuddyTop.mail
 		set evpar(msg) mailmsg
   		::plugins::PostEvent ContactListEmailsDraw evpar	
 
-		set maxw [expr [winfo width $pgBuddy.text] -30]
-		set short_mailmsg [trunc $mailmsg $pgBuddy.text $maxw splainf]
-		$pgBuddy.text insert end "$short_mailmsg\n" mail
-		$pgBuddy.text tag add dont_replace_smileys mail.first mail.last
-	}
+		update idletasks
+		set maxw [expr [winfo width $pgBuddyTop.mail]-[winfo width $pgBuddyTop.mail.mailbox]-(2*[::skin::getKey mailbox_xpad])]
+		set short_mailmsg [trunc $mailmsg $pgBuddyTop.mail $maxw splainf]
+		$pgBuddyTop.mail insert end "$short_mailmsg" {mail dont_replace_smileys}
 
-  	set evpar(text) pgBuddy.text
-  	::plugins::PostEvent ContactListEmailsDrawn evpar	
+	  	set evpar(text) pgBuddyTop.mail
+  		::plugins::PostEvent ContactListEmailsDrawn evpar	
+
+		$pgBuddyTop.mystatus configure -state disabled
+	}
 
 
 	# For each named group setup its heading where >><< image
@@ -5094,7 +5103,13 @@ proc trunc {str {window ""} {maxw 0 } {font ""}} {
 		return $str
 	}
 
-	for {set idx 0} { $idx <= [string length $str]} {incr idx} {
+	#first check if whole message fits (increase speed)
+	if { [font measure $font -displayof $window $str] < $maxw } {
+		return $str
+	}
+
+	set slen [string length $str]
+	for {set idx 0} { $idx <= $slen} {incr idx} {
 		if { [font measure $font -displayof $window "[string range $str 0 $idx]..."] > $maxw } {
 			if { [string index $str end] == "\n" } {
 				return "[string range $str 0 [expr {$idx-1}]]...\n"
