@@ -97,6 +97,17 @@ namespace eval ::MSN {
        return $myStatus
    }
 
+   proc userIsBlocked {userlogin} {
+      global list_bl
+
+      if {[lsearch $list_bl "$userlogin*"] != -1} {
+         return 1
+      } else {
+         return 0
+      }
+
+   }
+
    proc blockUser { userlogin username} {
      ::MSN::WriteNS REM "AL $userlogin"
      ::MSN::WriteNS ADD "BL $userlogin $userlogin"
@@ -691,7 +702,7 @@ namespace eval ::MSN {
          #A full packet didn't come the previous reading, read the rest
          set thedata [read $sockid $packetrest]
          puts -nonewline $fileid $thedata
-         set recvbytes [tell $fileid]     
+         set recvbytes [tell $fileid]
       }   	
 
       if { $recvbytes >= $filesize} {
@@ -2541,7 +2552,7 @@ proc cmsn_ns_connect { username {password ""}} {
    set ::hotmail::unread 0
 
    cmsn_socket ns
-   
+
    load_alarms		;# Load alarms config on login
 
    return 0
@@ -2555,6 +2566,90 @@ proc get_password {method data} {
 
 }
 
+
+proc list_users_refresh {} {
+   global list_fl list_users list_states
+
+   set list_users_new [list]
+   set fln [lsearch $list_states "FLN *"]
+
+   foreach user $list_fl {
+      set user_login [lindex $user 0]
+      set user_name [lindex $user 1]
+      set idx [lsearch $list_users "$user_login *"]
+      if {$idx != -1} {
+         lappend list_users_new [lindex $list_users $idx]
+      } else {
+         lappend list_users_new [list $user_login $user_name $fln]
+      }
+   }
+
+   set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users_new]]
+   cmsn_draw_online
+
+}
+
+proc lists_compare {} {
+   global list_fl list_al list_bl list_rl
+   global newc_allow_block newc_add_to_list newc_exit
+   set list_albl [lsort [concat $list_al $list_bl]]
+   set list_rl [lsort $list_rl]
+
+   foreach x $list_rl {
+      if {[lsearch $list_albl "[lindex $x 0] *"] == -1} {
+         status_log "$x in your RL list but not in your AL/BL list!\n" white
+	 newcontact [lindex $x 0] [lindex $x 1]
+         tkwait window .newc
+         if {$newc_exit == "OK"} {
+	    if {$newc_allow_block == "allow"} {
+	       ::MSN::WriteNS "ADD" "AL [lindex $x 0] [urlencode [lindex $x 1]]"
+	    } else {
+	       ::MSN::WriteNS "ADD" "BL [lindex $x 0] [urlencode [lindex $x 1]]"
+	    }
+	    if {$newc_add_to_list} {
+	       ::MSN::addUser [lindex $x 0] [urlencode [lindex $x 1]]
+	    }
+	 } else {;# if clicked on OK, by default Accept List
+#	       ::MSN::WriteNS "ADD" "AL [lindex $x 0] [urlencode [lindex $x 1]]"
+	 }
+
+      } ;# NOT in AL/BL
+   }
+}
+
+proc cmsn_listupdate {recv} {
+   global list_fl list_al list_bl list_rl
+
+   set list_name "list_[string tolower [lindex $recv 2]]"
+
+   if {([lindex $recv 4] <= 1) && ([lindex $recv 0] == "LST")} {
+      set $list_name [list]
+      status_log "clearing $list_name\n"
+       if {$list_name == "list_al"} { # Here we have the groups already
+	   ::groups::Enable
+       }
+   }
+
+   if {[lindex $recv 0] == "ADD"} {		;# FIX: guess I should really
+      set recv [linsert $recv 4 "1" "1"]	;# get it out of here!!
+      status_log "ADDING...\n" blue
+   }
+
+   if {[lindex $recv 4] != 0} {
+      set contact_info ""
+      set user [lindex $recv 6]
+      lappend contact_info $user
+      lappend contact_info [urldecode [lindex $recv 7]]
+      lappend $list_name $contact_info
+      #status_log "adding to $list_name $contact_info\n"
+   }
+
+   if {[lindex $recv 4] == [lindex $recv 5]} {
+      lists_compare		;# FIX: hmm, maybe I should not run it always!
+      list_users_refresh
+   }
+}
+
 proc urldecode {str} {
 
 #New version, no need of url_unmap
@@ -2563,7 +2658,7 @@ proc urldecode {str} {
     set begin 0
     set end [string first "%" $str $begin]
     set decode ""
-  
+
 
     while { $end >=0 } {
       set decode "${decode}[string range $str $begin [expr {$end-1}]]"

@@ -11,6 +11,71 @@ namespace eval ::hotmail {
       variable unread
       set unread $number
    }
+
+   proc composeMail { toaddr userlogin {pass ""} } {
+   # Note: pass can be empty, so user must enter password in the login
+   # page.
+   #
+   # $Id$
+   #
+      global tcl_platform HOME program_dir config
+
+      if {($config(autohotlogin)) && ($pass != "")} {
+
+         set read_id [open "${program_dir}/hotmlog.htm" r]
+
+         set page_data ""
+         while {[gets $read_id tmp_data] != "-1"} {
+            set page_data "$page_data\n$tmp_data"
+         }
+
+         close $read_id
+
+         #Here we calculate the creds and fields in the web page
+         set d(valid) Y
+         ::abook::getDemographics d
+
+         set userdata [split $userlogin "@"]
+         set email $userlogin
+
+         set login [lindex $userdata 0]
+
+         set kv $d(kv)
+         set sl [expr {[clock seconds] - $d(sessionstart)}]
+         set sid $d(sid)
+         set auth $d(mspauth)
+         set tomd5 $auth$sl$pass
+         set creds [::md5::md5 $tomd5]
+
+         set url "/cgi-bin/compose?mailto=1&to=$toaddr"
+
+         #Now let's substitute the $vars in hotmlog.htm
+
+         set page_data [subst -nocommands -nobackslashes $page_data]
+
+         if {$tcl_platform(platform) == "unix"} {
+            set file_id [open "[file join ${HOME} hotlog.htm]" w 00600]
+         } else {
+            set file_id [open "[file join ${HOME} hotlog.htm]" w]
+         }
+
+         puts $file_id $page_data
+
+         close $file_id
+
+         launch_browser "file://${HOME}/hotlog.htm"
+
+      } else {
+
+	 launch_browser "http://www.hotmail.com"
+
+      }
+
+   }
+
+   proc viewProfile {user_login} {
+      launch_browser "http://members.msn.com/default.msnw?mem=${user_login}&pgmarket="
+   }
 }
 
 proc hotmail_login {userlogin {pass ""}} {
@@ -51,64 +116,6 @@ proc hotmail_login {userlogin {pass ""}} {
 
     set url "/cgi-bin/HoTMaiL"
 
-
-    #Now let's substitute the $vars in hotmlog.htm
-
-    set page_data [subst -nocommands -nobackslashes $page_data]
-
-    if {$tcl_platform(platform) == "unix"} {
-      set file_id [open "[file join ${HOME} hotlog.htm]" w 00600]
-    } else {
-      set file_id [open "[file join ${HOME} hotlog.htm]" w]
-    }
-
-     puts $file_id $page_data
-
-     close $file_id
-
-     launch_browser "file://${HOME}/hotlog.htm"
-   } else {
-     launch_browser "http://www.hotmail.com"
-   }
-
-}
-
-proc hotmail_compose { toaddr userlogin {pass ""} } {
-# Note: pass can be empty, so user must enter password in the login
-# page.
-#
-# $Id$
-#
-  global tcl_platform HOME program_dir config
-
-  if {($config(autohotlogin)) && ($pass != "")} {
-
-    set read_id [open "${program_dir}/hotmlog.htm" r]
-
-    set page_data ""
-    while {[gets $read_id tmp_data] != "-1"} {
-      set page_data "$page_data\n$tmp_data"
-    }
-
-    close $read_id
-
-    #Here we calculate the creds and fields in the web page
-    set d(valid) Y
-    ::abook::getDemographics d
-
-    set userdata [split $userlogin "@"]
-    set email $userlogin
-
-    set login [lindex $userdata 0]
-
-    set kv $d(kv)
-    set sl [expr {[clock seconds] - $d(sessionstart)}]
-    set sid $d(sid)
-    set auth $d(mspauth)
-    set tomd5 $auth$sl$pass
-    set creds [::md5::md5 $tomd5]
-
-    set url "/cgi-bin/compose?mailto=1&to=$toaddr"
 
     #Now let's substitute the $vars in hotmlog.htm
 

@@ -128,6 +128,56 @@ namespace eval ::amsn {
    #///////////////////////////////////////////////////////////////////////////////
 
    #///////////////////////////////////////////////////////////////////////////////
+   proc blockUnblockUser { user_login } {
+      global list_bl
+      if { [::MSN::userIsBlocked $user_login] } {
+         unblockUser $user_login
+      } else {
+         blockUser $user_login
+      }
+   }
+   #///////////////////////////////////////////////////////////////////////////////
+
+
+
+   #///////////////////////////////////////////////////////////////////////////////
+   proc blockUser {user_login} {
+
+       set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans block] -parent [focus]]
+       if {$answer == "yes"} {
+          set name [::abook::getName ${user_login}]
+          ::MSN::blockUser ${user_login} [urlencode $name]
+       }
+   }
+   #///////////////////////////////////////////////////////////////////////////////
+
+
+   #///////////////////////////////////////////////////////////////////////////////
+   proc deleteUser { user_login } {
+
+      global alarms
+      set answer [tk_messageBox -message "[trans confirmdelete ${user_login}]" -type yesno -icon question]
+
+      if {$answer == "yes"} {
+
+         ::MSN::deleteUser ${user_login}
+         if { [info exists alarms($user_login)] } {
+            unset alarms($user_login) alarms(${user_login}_sound) alarms(${user_login}_pic) \
+               alarms(${user_login}_sound_st) alarms(${user_login}_pic_st) alarms(${user_login}_loop)
+         }
+      }
+   }
+   #///////////////////////////////////////////////////////////////////////////////
+
+
+   #///////////////////////////////////////////////////////////////////////////////
+   proc unblockUser {user_login} {
+      set name [::abook::getName ${user_login}]
+      ::MSN::unblockUser ${user_login} [urlencode $name]
+   }
+   #///////////////////////////////////////////////////////////////////////////////
+
+   #///////////////////////////////////////////////////////////////////////////////
    # FileTransferSend (chatid)
    # Shows the file transfer window, for window win_name
    proc FileTransferSend { win_name } {
@@ -690,9 +740,9 @@ namespace eval ::amsn {
       .${win_name}.menu.actions add command -label "[trans addtocontacts]" \
          -command "::amsn::ShowAddList \"[trans addtocontacts]\" .${win_name} ::MSN::addUser"
       .${win_name}.menu.actions add command -label "[trans block]/[trans unblock]" \
-         -command "::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} blockun_user"
+         -command "::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} ::amsn::blockUnblockUser"
       .${win_name}.menu.actions add command -label "[trans viewprofile]" \
-         -command "::amsn::ShowChatList \"[trans viewprofile]\" .${win_name} view_profile"
+         -command "::amsn::ShowChatList \"[trans viewprofile]\" .${win_name} ::hotmail::viewProfile"
       .${win_name}.menu.actions add command -label "[trans properties]" \
          -command "::amsn::ShowChatList \"[trans properties]\" .${win_name} ::abookGui::showEntry"
       .${win_name}.menu.actions add separator
@@ -700,7 +750,8 @@ namespace eval ::amsn {
       .${win_name}.menu.actions add command -label "[trans sendfile]..." \
       -command "::amsn::FileTransferSend .${win_name}"  -state disabled
       .${win_name}.menu.actions add separator
-      .${win_name}.menu.actions add command -label [trans sendmail] -command "::amsn::ShowChatList \"[trans sendmail]\" .${win_name} send_mail"
+      .${win_name}.menu.actions add command -label [trans sendmail] \
+          -command "::amsn::ShowChatList \"[trans sendmail]\" .${win_name} launch_mailer"
       .${win_name} conf -menu .${win_name}.menu
 
       menu .${win_name}.copypaste -tearoff 0 -type normal
@@ -802,7 +853,7 @@ namespace eval ::amsn {
 
       bind  .${win_name}.f.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y .${win_name}.f.in.input"
       bind  .${win_name}.f.buttons.fontsel  <Button1-ButtonRelease> "change_myfont ${win_name}"
-      bind  .${win_name}.f.buttons.block  <Button1-ButtonRelease> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} blockun_user"
+      bind  .${win_name}.f.buttons.block  <Button1-ButtonRelease> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} ::amsn::blockUnblockUser"
 
       bind .${win_name}.f.in.f.send <Return> \
          "::amsn::MessageSend .${win_name} .${win_name}.f.in.input; break"
@@ -1534,7 +1585,7 @@ namespace eval ::amsn {
 
       pack [::dkfprogress::Progress $w.prbar] -fill x -expand 1 -padx 5 -pady 5
       
-      wm protocol $w WM_DELETE_WINDOW "::MSN::cancelReceiving $cookie"     
+      wm protocol $w WM_DELETE_WINDOW "::MSN::cancelReceiving $cookie"
    }
 
 
@@ -1778,7 +1829,7 @@ proc cmsn_draw_main {} {
    .main_menu.actions add command -label "[trans sendmsg]..." -command \
      "::amsn::ChooseList \"[trans sendmsg]\" online ::amsn::chatUser 1 0"
    .main_menu.actions add command -label "[trans sendmail]..." -command \
-     "::amsn::ChooseList \"[trans sendmail]\" both \"send_mail\" 1 0"
+     "::amsn::ChooseList \"[trans sendmail]\" both \"launch_mailer\" 1 0"
    .main_menu.actions add command -label "[trans changenick]..." -command cmsn_change_name
    .main_menu.actions add separator
    .main_menu.actions add command -label "[trans checkver]..." -command "check_version"
@@ -1808,7 +1859,7 @@ proc cmsn_draw_main {} {
 
    menu .admin_contacts_menu -tearoff 0 -type normal
    .admin_contacts_menu add command -label "[trans delete]..." \
-      -command  "::amsn::ChooseList \"[trans delete]\" both delete_user 0 0"
+      -command  "::amsn::ChooseList \"[trans delete]\" both ::amsn::deleteUser 0 0"
    .admin_contacts_menu add command -label "[trans properties]..." \
       -command "::amsn::ChooseList \"[trans properties]\" both ::abookGui::showEntry 0 1"
 
@@ -2081,7 +2132,7 @@ proc cmsn_msgwin_sendmail {name} {
       set recipient "recipient@somewhere.com"
    }
 
-   send_mail $recipient
+   launch_mailer $recipient
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -3110,4 +3161,16 @@ proc cmsn_change_name {} {
 }
 #///////////////////////////////////////////////////////////////////////
 
+
+#///////////////////////////////////////////////////////////////////////
+proc change_name_ok {} {
+   global config
+
+   set new_name [.change_name.c.name get]
+   if {$new_name != ""} {
+      ::MSN::changeName $config(login) $new_name
+   }
+   destroy .change_name
+}
+#///////////////////////////////////////////////////////////////////////
 

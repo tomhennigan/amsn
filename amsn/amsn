@@ -208,6 +208,30 @@ proc launch_filemanager {location} {
 }
 #///////////////////////////////////////////////////////////////////////
 
+#///////////////////////////////////////////////////////////////////////
+# launch_mailer(directory)
+# Launches the configured mailer program
+proc launch_mailer {user_login} {
+  global config password
+
+  set mail_param $user_login ;#By default, just the address
+  if {[string first "balsa" $config(mailcommand)] != -1} {
+      set mail_param "--compose=$user_login"
+  } elseif {[string first "mozilla" $config(mailcommand)] != -1} {
+      set mail_param "-compose mailto:$user_login"
+  } elseif {[string first "evolution" $config(mailcommand)] != -1} {
+      set mail_param "mailto:$user_login"
+  } elseif {[string first "sylpheed" $config(mailcommand)] != -1} {
+      set mail_param "--compose $user_login"
+  } elseif {[string length $config(mailcommand)]==0} {
+     ::hotmail::composeMail $user_login $config(login) $password
+     return 0
+  }
+
+  eval exec $config(mailcommand) $mail_param &
+  return 0
+}
+#///////////////////////////////////////////////////////////////////////
 
 #///////////////////////////////////////////////////////////////////////
 # create_dir(path)
@@ -349,82 +373,6 @@ proc setColor {w button name options} {
 
 
 
-#///////////////////////////////////////////////////////////////////////
-proc blockun_user { user_login } {
-   global list_bl
-   if {[lsearch $list_bl "$user_login *"] != -1} {
-	unblock_user $user_login
-   } else {
-   	block_user $user_login
-   }
-}
-#///////////////////////////////////////////////////////////////////////
-
-
-
-#///////////////////////////////////////////////////////////////////////
-proc block_user {user_login} {
-
-    set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans block] -parent [focus]]
-    if {$answer == "yes"} {
-      set name [::abook::getName ${user_login}]
-      ::MSN::blockUser ${user_login} [urlencode $name]
-    }
-}
-#///////////////////////////////////////////////////////////////////////
-
-
-
-#///////////////////////////////////////////////////////////////////////
-proc unblock_user {user_login} {
-    set name [::abook::getName ${user_login}]
-   ::MSN::unblockUser ${user_login} [urlencode $name]
-}
-#///////////////////////////////////////////////////////////////////////
-
-
-
-#///////////////////////////////////////////////////////////////////////
-proc delete_user {user_login} {
-
-   global alarms
-   set answer [tk_messageBox -message "[trans confirmdelete ${user_login}]" -type yesno -icon question]
-
-   if {$answer == "yes"} {
-
-      ::MSN::deleteUser ${user_login}
-      if { [info exists alarms($user_login)] } {
-	unset alarms($user_login) alarms(${user_login}_sound) alarms(${user_login}_pic) alarms(${user_login}_sound_st) alarms(${user_login}_pic_st) alarms(${user_login}_loop)
-      }
-   }
-}
-#///////////////////////////////////////////////////////////////////////
-
-
-
-#///////////////////////////////////////////////////////////////////////
-proc send_mail {user_login} {
-  global config password
-
-  set mail_param $user_login ;#By default, just the address
-  if {[string first "balsa" $config(mailcommand)] != -1} {
-      set mail_param "--compose=$user_login"
-  } elseif {[string first "mozilla" $config(mailcommand)] != -1} {
-      set mail_param "-compose mailto:$user_login"
-  } elseif {[string first "evolution" $config(mailcommand)] != -1} {
-      set mail_param "mailto:$user_login"
-  } elseif {[string first "sylpheed" $config(mailcommand)] != -1} {
-      set mail_param "--compose $user_login"
-  } elseif {[string length $config(mailcommand)]==0} {
-     hotmail_compose $user_login $config(login) $password
-     return 0
-  }
-
-  eval exec $config(mailcommand) $mail_param &
-  return 0
-}
-#///////////////////////////////////////////////////////////////////////
-
 
 
 #///////////////////////////////////////////////////////////////////////
@@ -441,22 +389,22 @@ proc menuCmdMove {newgid {paramlist ""}} {
 proc show_umenu {user_login x y} {
    global list_bl config alarms
 
-   set blocked [lsearch $list_bl "${user_login} *"]
+   set blocked [::MSN::userIsBlocked $user_login]
    .user_menu delete 0 end
    .user_menu add command -label "[trans sendmsg]" \
       -command "::amsn::chatUser ${user_login}"
    .user_menu add command -label "[trans sendmail] \($user_login\)" \
-      -command "send_mail $user_login"
+      -command "launch_mailer $user_login"
    .user_menu add command -label "[trans viewprofile]" \
-      -command "view_profile ${user_login}"
+      -command "::hotmail::viewProfile ${user_login}"
    .user_menu add command -label "[trans history]" \
       -command "::log::OpenLogWin ${user_login}"	
    .user_menu add separator
-   if {$blocked == -1} {
-      .user_menu add command -label "[trans block]" -command  "block_user ${user_login}"
+   if {$blocked == 0} {
+      .user_menu add command -label "[trans block]" -command  "::amsn::blockUser ${user_login}"
    } else {
       .user_menu add command -label "[trans unblock]" \
-         -command  "unblock_user ${user_login}"
+         -command  "::amsn::unblockUser ${user_login}"
    }
 
       ::groups::updateMenu menu .move_group_menu ::groups::menuCmdMove $user_login
@@ -468,7 +416,7 @@ proc show_umenu {user_login x y} {
    } else {
        .user_menu add command -label "[trans movetogroup]..." -command "tk_popup .move_group_menu $x $y" -state disabled
    }
-   .user_menu add command -label "[trans delete]" -command "delete_user ${user_login}"
+   .user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login}"
    .user_menu add command -label "[trans properties]" \
       -command "::abookGui::showEntry $user_login"
 
@@ -515,107 +463,11 @@ proc proxy_conf_ok {} {
 
 
 #///////////////////////////////////////////////////////////////////////
-proc change_name_ok {} {
-   global config
-
-   set new_name [.change_name.c.name get]
-   if {$new_name != ""} {
-      ::MSN::changeName $config(login) $new_name
-   }
-   destroy .change_name
-}
-#///////////////////////////////////////////////////////////////////////
-
-
-
-proc list_users_refresh {} {
-   global list_fl list_users list_states
-
-   set list_users_new [list]
-   set fln [lsearch $list_states "FLN *"]
-
-   foreach user $list_fl {
-      set user_login [lindex $user 0]
-      set user_name [lindex $user 1]
-      set idx [lsearch $list_users "$user_login *"]
-      if {$idx != -1} {
-         lappend list_users_new [lindex $list_users $idx]
-      } else {
-         lappend list_users_new [list $user_login $user_name $fln]
-      }
-   }
-
-   set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users_new]]
-   cmsn_draw_online
-
-}
-
-proc lists_compare {} {
-   global list_fl list_al list_bl list_rl
-   global newc_allow_block newc_add_to_list newc_exit
-   set list_albl [lsort [concat $list_al $list_bl]]
-   set list_rl [lsort $list_rl]
-
-   foreach x $list_rl {
-      if {[lsearch $list_albl "[lindex $x 0] *"] == -1} {
-         status_log "$x in your RL list but not in your AL/BL list!\n" white
-	 newcontact [lindex $x 0] [lindex $x 1]
-         tkwait window .newc 
-         if {$newc_exit == "OK"} {
-	    if {$newc_allow_block == "allow"} {
-	       ::MSN::WriteNS "ADD" "AL [lindex $x 0] [urlencode [lindex $x 1]]"
-	    } else {
-	       ::MSN::WriteNS "ADD" "BL [lindex $x 0] [urlencode [lindex $x 1]]"
-	    }
-	    if {$newc_add_to_list} {
-	       ::MSN::addUser [lindex $x 0] [urlencode [lindex $x 1]]
-	    }
-	 } else {;# if clicked on OK, by default Accept List	  
-#	       ::MSN::WriteNS "ADD" "AL [lindex $x 0] [urlencode [lindex $x 1]]"
-	 }
-
-      } ;# NOT in AL/BL
-   }
-}
-
-proc cmsn_listupdate {recv} {
-   global list_fl list_al list_bl list_rl
-
-   set list_name "list_[string tolower [lindex $recv 2]]"
-
-   if {([lindex $recv 4] <= 1) && ([lindex $recv 0] == "LST")} {
-      set $list_name [list]
-      status_log "clearing $list_name\n"
-       if {$list_name == "list_al"} { # Here we have the groups already
-	   ::groups::Enable
-       }
-   }
-
-   if {[lindex $recv 0] == "ADD"} {		;# FIX: guess I should really
-      set recv [linsert $recv 4 "1" "1"]	;# get it out of here!!
-      status_log "ADDING...\n" blue
-   }
-
-   if {[lindex $recv 4] != 0} {
-      set contact_info ""
-      set user [lindex $recv 6]
-      lappend contact_info $user
-      lappend contact_info [urldecode [lindex $recv 7]]
-      lappend $list_name $contact_info
-      #status_log "adding to $list_name $contact_info\n"
-   }
-
-   if {[lindex $recv 4] == [lindex $recv 5]} {
-      lists_compare		;# FIX: hmm, maybe I should not run it always!
-      list_users_refresh
-   }
-}
-
-proc view_profile {user_login} {
-     launch_browser "http://members.msn.com/default.msnw?mem=${user_login}&pgmarket="
-}
-
+# stringmap(substlist,string) returns string
+# A try to replace "string map" function
 proc stringmap { substitution str } {
+
+
 
 	return [string map $substitution $str]
 
@@ -632,6 +484,7 @@ proc stringmap { substitution str } {
 
 	return $newstr
 }
+#///////////////////////////////////////////////////////////////////////
 
 ###############################################################
 create_dir $HOME
