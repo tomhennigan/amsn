@@ -5250,6 +5250,8 @@ namespace eval ::MSNP2P {
 
 				set sid [SessionList findcallid $uid]
 
+				#this catches an error with MSN7, still need to find out why sid = -1
+				if {$sid == -1} {return}
 				set idx [expr [string first "Conn-Type: " $data] + 11]
 				set idx2 [expr [string first "\r\n" $data $idx] - 1]
 				set conntype [string range $data $idx $idx2]
