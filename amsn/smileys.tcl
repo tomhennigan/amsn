@@ -744,8 +744,8 @@ proc create_smile_menu { {x 0} {y 0} } {
     set xy_geo [calcul_geometry_smileys]
 
 	 #Smiley width and eight. Maybe we should load it from the skin settings
-	 set smiw 19
-	 set smih 19
+	 set smiw 22
+	 set smih 22
 
 	 incr smiw 4
 	 incr smih 4
