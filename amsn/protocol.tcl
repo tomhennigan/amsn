@@ -2,7 +2,7 @@
 #=======================================================================
 
 if { $initialize_amsn == 1 } {
-	global user_info user_stat list_version
+	global user_info user_stat
 	global list_BLP list_cmdhnd sb_list contactlist_loaded
 	
 	set contactlist_loaded 0
@@ -10,7 +10,6 @@ if { $initialize_amsn == 1 } {
 	#To be deprecated and replaced with ::abook thing
 	set user_info ""
 	set user_stat "FLN"
-	set list_version 0
 	set list_BLP -1
 	
 	#Clear all user infomation
@@ -891,7 +890,6 @@ namespace eval ::MSN {
 		
 		StopPolling
 		
-		save_contact_list
 		::abook::saveToDisk
 		clean_contact_lists
 		
@@ -3464,7 +3462,7 @@ proc cmsn_auth {{recv ""}} {
 
 	status_log "cmsn_auth starting, stat=[sb get ns stat]\n" blue
 
-	global HOME config list_version info
+	global HOME config info
 
 	switch [sb get ns stat] {
 
@@ -3553,13 +3551,14 @@ proc cmsn_auth {{recv ""}} {
 				::abook::clearData
 				::abook::setConsistent
 			}
+			recreate_contact_lists
 			#For compatibility only!!
 			load_alarms
-			load_contact_list
 
 			#We need to wait until the SYN reply comes, or we can send the CHG request before
 			#the server sends the list, and then it won't work (all contacts offline)
-			::MSN::WriteSB ns "SYN" "$list_version" initial_syn_handler
+			#::MSN::WriteSB ns "SYN" "$list_version" initial_syn_handler
+			::MSN::WriteSB ns "SYN" "[::abook::getContactData contactlist list_version 0]" initial_syn_handler
 
 			#Alert dock of status change
 			#      send_dock "NLN"
@@ -3598,6 +3597,18 @@ proc cmsn_auth {{recv ""}} {
 
 }
 
+proc recreate_contact_lists {} {
+	::MSN::clearList AL
+	::MSN::clearList BL
+	::MSN::clearList FL
+	::MSN::clearList RL
+	foreach user [::abook::getAllContacts] {
+		foreach list_name [::abook::getLists $user] {
+			::MSN::addToList $list_name $user
+			status_log "Adding user $user to list $list_name\n"
+		}
+	}
+}
 
 proc initial_syn_handler {recv} {
 
@@ -4227,239 +4238,30 @@ proc change_BLP_settings { state } {
 
 
 proc new_contact_list { version } {
-	global list_version contactlist_loaded
+	global contactlist_loaded
 
 	if {[string is digit $version] == 0} {
 		status_log "new_contact_list: Wrong version=$version\n" red
 		return
 	}
 
-	status_log "new_contact_list: new contact list version : $version --- previous was : $list_version\n"
+	status_log "new_contact_list: new contact list version : $version --- previous was : [::abook::getContactData contactlist list_version] \n"
 
-	if { $list_version != $version } {
-		set list_version $version
-	} else {
-		set contactlist_loaded 1
-	}
-
-}
-
-
-proc load_contact_list { } {
-	global list_version HOME contactlist_loaded
-
-	status_log "load_contact_list: checking if contact list files exists\n"
-
-	if {[file readable "[file join ${HOME} contacts.xml]"] == 0} {
-		set list_version 0
-		return 0
-	}
-
-	if {[file readable "[file join ${HOME} contacts.ver]"] == 0} {
-		set list_version 0
-		return 0
-	}
-
-	set file_id [open [file join ${HOME} contacts.ver] r]
-	gets $file_id version
-	close $file_id
-
-	if {$version == ""} {
-		set list_version 0
-		return 0
-	}
-
-	status_log "load_contact_list: setting contact list version to $version\n"
-	set list_version $version
-
-	status_log "load_contact_list loading contact list from file\n"
-
-
-	::MSN::clearList FL
-	::MSN::clearList AL
-	::MSN::clearList BL
-	::MSN::clearList RL
-	
-	foreach contact [::abook::getAllContacts] {
-		::abook::setContactData $contact lists ""
-	}
-
-	set contact_id [sxml::init [file join ${HOME} contacts.xml]]
-
-	sxml::register_routine $contact_id "contactlist_${list_version}:AL:user" "create_contact_list"
-	sxml::register_routine $contact_id "contactlist_${list_version}:BL:user" "create_contact_list"
-	sxml::register_routine $contact_id "contactlist_${list_version}:FL:user" "create_contact_list"
-	sxml::register_routine $contact_id "contactlist_${list_version}:RL:user" "create_contact_list"
-	sxml::register_routine $contact_id "contactlist_${list_version}:Group" "create_group"
-	sxml::register_routine $contact_id "contactlist_${list_version}" "finished_loading_list"
-
-	status_log "load_contact_list: parsing file\n"
-	set ret -1
-	catch {
-		set ret [sxml::parse $contact_id]
-	}
-
-	status_log "new_contact_list ended parsing of file with return code : $ret \n"
-	sxml::end $contact_id
-
-	if { $ret < 0 } {
-
-		set list_version 0
-		#::MSN::WriteSB ns "SYN" "0"
-
-	}
-
+	::abook::setContactData contactlist list_version $version
+	#if { $list_version != $version } {
+	#	set list_version $version
+	#} else {
+	#	set contactlist_loaded 1
+	#}
 
 }
 
-#TODO: ::abook system
-proc save_contact_list { } {
-    global HOME list_version list_BLP contactlist_loaded
-
-	 status_log "Saving contact list... contactlist_loaded=$contactlist_loaded. list_version=$list_version\n" blue
-    if { $contactlist_loaded == 0 || $list_version == 0 } { return }
-
-	 status_log "Saving contact list... saving to disk...\n" blue
-
-	if {[file readable "[file join ${HOME} contacts.ver]"] != 0} {
-
-		set file_id [open [file join ${HOME} contacts.ver] r]
-		gets $file_id version
-
-		if { $version == $list_version } {
-			close $file_id
-			status_log "Saving contact list... latest list version is already on disk...\n" blue
-			return
-		}
-		close $file_id
-	 }
-
-
-	set file_id [open "[file join ${HOME} contacts.ver]" w]
-	puts $file_id "$list_version"
-	close $file_id
-
-	set file_id [open "[file join ${HOME} contacts.xml]" w ]
-
-	fconfigure $file_id -encoding utf-8
-
-	puts $file_id "<?xml version=\"1.0\"?>"
-
-	puts $file_id "<contactlist_${list_version}>\n   <BLP>${list_BLP}</BLP>\n   <PHH>[::sxml::xmlreplace [::abook::getPersonal PHH]]</PHH>\n   <PHW>[::sxml::xmlreplace [::abook::getPersonal PHW]]</PHW>"
-	puts $file_id "   <PHM>[::sxml::xmlreplace [::abook::getPersonal PHM]]</PHM>\n   <MOB>[::sxml::xmlreplace [::abook::getPersonal MOB]]</MOB>\n   <MBE>[::sxml::xmlreplace [::abook::getPersonal MBE]]</MBE>"
-
-	foreach group [::groups::GetList] {
-		puts $file_id "   <Group>\n      <gid>${group}</gid>\n      <name>[::sxml::xmlreplace [::groups::GetName $group]]</name>\n   </Group>"
-	}
-
-	puts $file_id "   <AL>"
-
-
-	foreach user [::MSN::getList AL] {
-		set user [::sxml::xmlreplace $user]
-		puts $file_id "      <user>\n         <email>$user</email>\n         <nickname>[::abook::getNick $user]</nickname>\n      </user>"
-	}
-
-	puts $file_id "   </AL>\n\n   <BL>"
-
-	foreach user [::MSN::getList BL] {
-		set user [::sxml::xmlreplace $user]
-		puts $file_id "      <user>\n         <email>$user</email>\n         <nickname>[::abook::getNick $user]</nickname>\n      </user>"
-	}
-
-	puts $file_id "   </BL>\n\n   <RL>"
-
-	foreach user [::MSN::getList RL] {
-		set user [::sxml::xmlreplace $user]
-		puts $file_id "      <user>\n         <email>$user</email>\n         <nickname>[::abook::getNick $user]</nickname>\n      </user>"
-	}
-
-	puts $file_id "   </RL>\n\n   <FL>"
-
-	foreach user [::MSN::getList FL] {
-		::abook::getContact [lindex $user 0] userd
-		set user [::sxml::xmlreplace $user]
-
-		puts $file_id "      <user>\n         <email>$user</email>\n         <nickname>[::abook::getNick $user]</nickname>"
-		puts $file_id "         <gid>[join [::abook::getGroups $user] ,]</gid>\n         <PHH>[::sxml::xmlreplace [set userd(PHH)]]</PHH>"
-		puts $file_id "         <PHW>[::sxml::xmlreplace [set userd(PHW)]]</PHW>\n         <PHM>[::sxml::xmlreplace [set userd(PHM)]]</PHM>\n         <MOB>[::sxml::xmlreplace [set userd(MOB)]]</MOB>"
-		puts $file_id "\n      </user>"
-	}
-
-	puts $file_id "   </FL>\n</contactlist_${list_version}>\n"
-
-	close $file_id
-	status_log "Saving contact list... finished.\n" blue
-
-
-}
-
-#TODO: ::abook system
-proc create_contact_list {cstack cdata saved_data cattr saved_attr args } {
-
-	upvar $saved_data sdata
-
-	set list [string toupper [string range $cstack end-6 end-5]]
-
-	if { $list == "FL" } {
-		::abook::setContactData $sdata(${cstack}:email) group [split $sdata(${cstack}:gid) ,]
-		::abook::setContactData $sdata(${cstack}:email) PHH $sdata(${cstack}:phh)
-		::abook::setContactData $sdata(${cstack}:email) PHW $sdata(${cstack}:phw)
-		::abook::setContactData $sdata(${cstack}:email) PHM $sdata(${cstack}:phm)
-		::abook::setContactData $sdata(${cstack}:email) MOB $sdata(${cstack}:mob)
-		::abook::setContactData $sdata(${cstack}:email) nick $sdata(${cstack}:nickname)	
-	}
-	::abook::addContactToList $sdata(${cstack}:email) $list
-	
-
-	#set contactinfo ""
-	#lappend contactinfo "$sdata(${cstack}:email)"
-	#lappend contactinfo "$sdata(${cstack}:nickname)"
-
-	::MSN::addToList $list $sdata(${cstack}:email)
-
-
-	return 0
-}
-
-
-#TODO: ::abook system
-proc create_group { cstack cdata saved_data cattr saved_attr args } {
-	upvar $saved_data sdata
-	global config
-
-	::groups::Set $sdata(${cstack}:gid) "$sdata(${cstack}:name)"
-	if { [info exists config(expanded_group_$sdata(${cstack}:gid))] } {
-		set ::groups::bShowing($sdata(${cstack}:gid)) $config(expanded_group_$sdata(${cstack}:gid))
-	}
-	return 0
-}
-
-
-#TODO: ::abook system
-proc finished_loading_list { cstack cdata saved_data cattr saved_attr args } {
-
-	global list_BLP
-	upvar $saved_data sdata
-
-	set list_BLP $sdata(${cstack}:blp)
-
-	::abook::setPersonal PHH $sdata(${cstack}:phh)
-	::abook::setPersonal PHW $sdata(${cstack}:phw)
-	::abook::setPersonal PHM $sdata(${cstack}:phm)
-	::abook::setPersonal MOB $sdata(${cstack}:mob)
-	::abook::setPersonal MBE $sdata(${cstack}:mbe)
-
-	
-	return 0
-}
 
 
 #TODO: ::abook sytem
 proc clean_contact_lists {} {
-	global list_version list_BLP emailBList
+	global list_BLP emailBList
 
-	set list_version 0
 	::MSN::clearList AL
 	::MSN::clearList BL
 	::MSN::clearList FL
