@@ -893,6 +893,7 @@ proc InitPref {} {
 
 	# Let's fill our list of States
 	set lfname [Rnotebook:frame $nb 3]
+	$lfname.lfname2.f.f.statelist.box delete 0 end
 	for { set idx 0 } { $idx < [StateList size] } {incr idx } {
 		$lfname.lfname2.f.f.statelist.box insert end [lindex [StateList get $idx] 0]
 	}
@@ -1178,6 +1179,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.54  2003/06/15 02:58:31  burgerman
+# small bug in pref
+#
 # Revision 1.53  2003/06/14 23:27:50  kakaroto
 # added the 3 buttons in the status log
 #
