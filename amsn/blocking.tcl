@@ -219,7 +219,6 @@ proc reset_counter { } {
 
 
 proc create_sb_for_blocking { sbn_blocking recv} {
-   global config
 
 
    if {[lindex $recv 0] == "913"} {
@@ -237,7 +236,7 @@ proc create_sb_for_blocking { sbn_blocking recv} {
    sb set $sbn_blocking serv [split [lindex $recv 3] ":"]
    sb set $sbn_blocking connected "connect_blocking $sbn_blocking"
    sb set $sbn_blocking auth_cmd "USR"
-   sb set $sbn_blocking auth_param "$config(login) [lindex $recv 5]"
+   sb set $sbn_blocking auth_param "[::config::getKey login] [lindex $recv 5]"
 
    cmsn_socket $sbn_blocking
    return 0

@@ -112,7 +112,7 @@ namespace eval ::HTTPConnection {
 		variable proxy_authenticate
 		
 		set head [list Authorization "Passport1.4 OrgVerb=GET,OrgURL=http%3A%2F%2Fmessenger%2Emsn%2Ecom,sign-in=[::config::getKey login],pwd=[urlencode $::password],${str}"]
-		#if { $config(nossl) == 1 || ($config(connectiontype) != "direct" && $config(connectiontype) != "http") } {
+		#if { [::config::getKey nossl] == 1 || ([::config::getKey connectiontype] != "direct" && [::config::getKey connectiontype] != "http") } {
 		#	set url [string map { https:// http:// } $url]
 		#}
 		if {[info exists proxy_authenticate] && $proxy_authenticate  == 1 } {

@@ -17,7 +17,7 @@ if { $initialize_amsn == 1 } {
 }
 
 proc PreferencesCopyConfig {} {
-	global config myconfig proxy_server proxy_port
+	global myconfig proxy_server proxy_port
 	
 	set config_entries [array get config]
 	set items [llength $config_entries]
@@ -227,7 +227,7 @@ proc dlgCopyUser {} {
 }
 
 proc Preferences { { settings "personal"} } {
-    global config myconfig proxy_server proxy_port temp_BLP list_BLP Preftabs libtls_temp libtls proxy_user proxy_pass rbsel rbcon
+    global myconfig proxy_server proxy_port temp_BLP list_BLP Preftabs libtls_temp libtls proxy_user proxy_pass rbsel rbcon
 
     set temp_BLP $list_BLP
     set libtls_temp $libtls
@@ -241,10 +241,10 @@ proc Preferences { { settings "personal"} } {
 
     toplevel .cfg
 
-    if { [LoginList exists 0 $config(login)] == 1 } {
-	wm title .cfg "[trans preferences] - [trans profiledconfig] - $config(login)"
+    if { [LoginList exists 0 [::config::getKey login]] == 1 } {
+	wm title .cfg "[trans preferences] - [trans profiledconfig] - [::config::getKey login]"
     } else {
-	wm title .cfg "[trans preferences] - [trans defaultconfig] - $config(login)"
+	wm title .cfg "[trans preferences] - [trans defaultconfig] - [::config::getKey login]"
     }
 
     wm iconname .cfg [trans preferences]
@@ -1224,7 +1224,7 @@ proc moveinscreen {window {mindist 0}} {
 }
 
 proc reload_advanced_options {path} {
-	global advanced_options config gconfig
+	global advanced_options gconfig
 
 	set i 0
 	foreach opt $advanced_options {
@@ -1300,11 +1300,11 @@ proc check_int {text} {
 
 # This is where we fill in the Entries of the Preferences
 proc InitPref {} {
-	global config Preftabs proxy_user proxy_pass
+	global Preftabs proxy_user proxy_pass
 	set nb .cfg.notebook
 
-        set proxy_user $config(proxyuser)
-        set proxy_pass $config(proxypass)
+        set proxy_user [::config::getKey proxyuser]
+        set proxy_pass [::config::getKey proxypass]
 
 	# Insert nickname if online, disable if offline
 	#set lfname [Rnotebook:frame $nb $Preftabs(personal)]
@@ -1374,7 +1374,7 @@ proc InitPref {} {
 	$lfname.1.profile configure -editable false
 
 	# Lets disable loging if on default profile
-	if { [LoginList exists 0 $config(login)] == 0 } {
+	if { [LoginList exists 0 [::config::getKey login]] == 0 } {
 		#set lfname [Rnotebook:frame $nb $Preftabs(loging)]
 		set lfname [$nb.nn getframe loging]
 		set lfname "$lfname.lfname.f.f"
@@ -1401,14 +1401,14 @@ proc InitPref {} {
 	set lfname [$nb.nn getframe connection]	
 	set lfname [$lfname.sw.sf getframe]
         $lfname.lfname3.f.f.2.pass delete 0 end
-        $lfname.lfname3.f.f.2.pass insert 0 "$config(remotepassword)"
+        $lfname.lfname3.f.f.2.pass insert 0 "[::config::getKey remotepassword]"
 
 }
 
 
 # This is where the preferences entries get enabled disabled
 proc UpdatePreferences {} {
-	global config Preftabs
+	global Preftabs
 
 	set nb .cfg.notebook
 	
@@ -1417,12 +1417,12 @@ proc UpdatePreferences {} {
 	set lfname [$nb.nn getframe session]
 	set lfname [$lfname.sw.sf getframe]
 	set lfname "${lfname}.lfname.f.f"
-	if { $config(autoidle) == 0 } {
+	if { [::config::getKey autoidle] == 0 } {
 		$lfname.1.eautonoact configure -state disabled
 	} else {
 		$lfname.1.eautonoact configure -state normal
 	}
-	if { $config(autoaway) == 0 } {
+	if { [::config::getKey autoaway] == 0 } {
 		$lfname.2.eautoaway configure -state disabled
 	} else {
 		$lfname.2.eautoaway configure -state normal
@@ -1433,13 +1433,13 @@ proc UpdatePreferences {} {
 	set lfname [$nb.nn getframe connection]
 	set lfname [$lfname.sw.sf getframe]
 	set lfname "${lfname}.lfnameconnection.f.f"
-	if { $config(connectiontype) == "proxy" } {
+	if { [::config::getKey connectiontype] == "proxy" } {
 		$lfname.4.post configure -state normal
 		$lfname.4.ssl configure -state disable
 		$lfname.4.socks5 configure -state disabled
 		$lfname.5.server configure -state normal
 		$lfname.5.port configure -state normal
-		if { $config(proxytype) == "socks5" || $config(proxytype) == "http"} {
+		if { [::config::getKey proxytype] == "socks5" || [::config::getKey proxytype] == "http"} {
 			$lfname.5.user configure -state normal
 			$lfname.5.pass configure -state normal
 		} else {
@@ -1459,10 +1459,10 @@ proc UpdatePreferences {} {
 	set lfname [$nb.nn getframe connection]
 	set lfname [$lfname.sw.sf getframe]
 	set lfname "${lfname}.lfname.f.f"
-	if { $config(autoftip) } {
+	if { [::config::getKey autoftip] } {
 		$lfname.1.ipaddr.entry configure -textvariable "" -text "Hola"
 		$lfname.1.ipaddr.entry delete 0 end
-		$lfname.1.ipaddr.entry insert end $config(myip)
+		$lfname.1.ipaddr.entry insert end [::config::getKey myip]
 		$lfname.1.ipaddr.entry configure -state disabled
 	} else {
 		$lfname.1.ipaddr.entry configure -state normal -textvariable config(manualip)
@@ -1473,7 +1473,7 @@ proc UpdatePreferences {} {
 	set lfname [$nb.nn getframe connection]
 	set lfname [$lfname.sw.sf getframe]
 	set lfname "${lfname}.lfname3.f.f"
-	if { $config(enableremote) == 1 } {
+	if { [::config::getKey enableremote] == 1 } {
 		$lfname.2.pass configure -state normal
 	} else {
 		$lfname.2.pass configure -state disabled 
@@ -1487,7 +1487,7 @@ proc UpdatePreferences {} {
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		#Empty
 	} else {
-		if { $config(usesnack) == 1 } {
+		if { [::config::getKey usesnack] == 1 } {
 			#load Snack when being used
 			if {![catch {package require snack}]} {
 				$lfname.1.sound.sound configure -state disabled
@@ -1522,7 +1522,7 @@ proc setCfgFonts {path value} {
 
 
 proc SavePreferences {} {
-    global config myconfig proxy_server proxy_port list_BLP temp_BLP Preftabs libtls libtls_temp proxy_user proxy_pass
+    global myconfig proxy_server proxy_port list_BLP temp_BLP Preftabs libtls libtls_temp proxy_user proxy_pass
 
     set nb .cfg.notebook
 
@@ -1536,40 +1536,40 @@ proc SavePreferences {} {
        ::config::setKey proxy [list $p_server $p_port]
 
 	if { ($p_pass != "") && ($p_user != "")} {
-	    set config(proxypass) $p_pass
-	    set config(proxyuser) $p_user
-	    set config(proxyauthenticate) 1
+	    ::config::setKey proxypass $p_pass
+	    ::config::setKey proxyuser $p_user
+	    ::config::setKey proxyauthenticate 1
 	} else {
-	    set config(proxypass) ""
-	    set config(proxyuser) ""
-	    set config(proxyauthenticate) 0
+	    ::config::setKey proxypass ""
+	    ::config::setKey proxyuser ""
+	    ::config::setKey proxyauthenticate 0
 	}
 
-	if {![string is digit $config(initialftport)] || [string length $config(initialftport)] == 0 } {
-		set config(initialftport) 6891
+	if {![string is digit [::config::getKey initialftport]] || [string length [::config::getKey initialftport]] == 0 } {
+		::config::setKey initialftport 6891
 	}
 
-	if { $config(getdisppic) != 0 } {
+	if { [::config::getKey getdisppic] != 0 } {
 		check_imagemagick
 	}
 
 
     # Make sure entries x and y offsets and idle time are digits, if not revert to old values
-    if { [string is digit $config(notifyXoffset)] == 0 } {
-    	set config(notifyXoffset) $myconfig(notifyXoffset)
+    if { [string is digit [::config::getKey notifyXoffset]] == 0 } {
+    	::config::setKey notifyXoffset $myconfig(notifyXoffset)
     }
-    if { [string is digit $config(notifyYoffset)] == 0 } {
-    	set config(notifyYoffset) $myconfig(notifyYoffset)
+    if { [string is digit [::config::getKey notifyYoffset]] == 0 } {
+    	::config::setKey notifyYoffset $myconfig(notifyYoffset)
     }
-    if { [string is digit $config(idletime)] == 0 } {
-    	set config(idletime) $myconfig(idletime)
+    if { [string is digit [::config::getKey idletime]] == 0 } {
+    	::config::setKey idletime $myconfig(idletime)
     }
-    if { [string is digit $config(awaytime)] == 0 } {
-    	set config(awaytime) $myconfig(awaytime)
+    if { [string is digit [::config::getKey awaytime]] == 0 } {
+    	::config::setKey awaytime $myconfig(awaytime)
     }
-    if { $config(idletime) >= $config(awaytime) } {
-    	set config(awaytime) $myconfig(awaytime)
-    	set config(idletime) $myconfig(idletime)
+    if { [::config::getKey idletime] >= [::config::getKey awaytime] } {
+    	::config::setKey awaytime $myconfig(awaytime)
+    	::config::setKey idletime $myconfig(idletime)
     }
 
     # Check and save phone numbers
@@ -1621,13 +1621,13 @@ proc SavePreferences {} {
     set lfname "$lfname.lfname.f.f.1"
     set new_name [$lfname.name.entry get]
     if {$new_name != "" && $new_name != [::abook::getPersonal nick] && [::MSN::myStatusIs] != "FLN"} {
-	::MSN::changeName $config(login) $new_name
+	::MSN::changeName [::config::getKey login] $new_name
     }
 	::config::setKey p4c_name [$lfname.p4c.entry get]
 
 	 #Check if convertpath was left blank, set it to "convert"
-	 if { $config(convertpath) == "" } {
-	 	set config(convertpath) "convert"
+	 if { [::config::getKey convertpath] == "" } {
+	 	::config::setKey convertpath "convert"
 	 }
 
     # Get remote controlling preferences
@@ -1635,7 +1635,7 @@ proc SavePreferences {} {
     set lfname [$nb.nn getframe connection]
     set lfname [$lfname.sw.sf getframe]
     set myconfig(remotepassword) "[$lfname.lfname3.f.f.2.pass get]"
-    set config(remotepassword) $myconfig(remotepassword)
+    ::config::setKey remotepassword $myconfig(remotepassword)
 
 	 #Copy to myconfig array, because when the window is closed, these will be restored (RestorePreferences)
     set config_entries [array get config]
@@ -1680,9 +1680,9 @@ proc SavePreferences {} {
 
 
     # Blocking
-    #if { $config(blockusers) == "" } { set config(blockusers) 1}
-    #if { $config(checkblocking) == 1 } {
-	#BeginVerifyBlocked $config(blockinter1) $config(blockinter2) $config(blockusers) $config(blockinter3)
+    #if { [::config::getKey blockusers] == "" } { ::config::setKey blockusers 1}
+    #if { [::config::getKey checkblocking] == 1 } {
+	#BeginVerifyBlocked [::config::getKey blockinter1] [::config::getKey blockinter2] [::config::getKey blockusers] [::config::getKey blockinter3]
     #} else {
 	#StopVerifyBlocked
     #}
@@ -1706,7 +1706,7 @@ proc RestorePreferences { {win ".cfg"} } {
 	
 	if { $win != ".cfg" } { return }
 
-	global config myconfig proxy_server proxy_port
+	global myconfig proxy_server proxy_port
 	
 
 	set nb .cfg.notebook.nn
@@ -1718,7 +1718,7 @@ proc RestorePreferences { {win ".cfg"} } {
 	for {set idx 0} {$idx < $items} {incr idx 1} {
 		set var_attribute [lindex $config_entries $idx]; incr idx 1
 	set var_value [lindex $config_entries $idx]
-	set config($var_attribute) $var_value
+	::config::setKey $var_attribute $var_value
 #	puts "myCONFIG $var_attribute $var_value"
 	}
 
@@ -1860,7 +1860,6 @@ proc BlockValidateEntry { widget data type {correct 0} } {
     switch  $type  {
 	0 {
 	    if { [string is integer  $data] } {
-		global config
 		$widget delete 0 end
 		$widget insert 0 "$correct" 
 		after idle "$widget config -validate all"
@@ -1906,7 +1905,7 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 #proc Browse_Dialog {}
 #Browse dialog function (used in TLS directory and convert file), first show the dialog (choose folder or choose file), after check if user choosed something, if yes, set the new variable
 proc Browse_Dialog_dir {configitem {initialdir ""}} {
-	global config libtls_temp
+	global libtls_temp
 	
 	if { $initialdir == "" } {
 		set initialdir [set $configitem]
@@ -1923,7 +1922,7 @@ proc Browse_Dialog_dir {configitem {initialdir ""}} {
 }
 
 proc Browse_Dialog_file {configitem {initialfile ""}} {
-	global config libtls_temp
+	global libtls_temp
 	if { $initialfile == "" } {
 		set initialfile [set $configitem]
 	}

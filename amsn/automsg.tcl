@@ -121,7 +121,7 @@ proc StateList { action { argument "" } {argument2 ""} } {
 # Creates the menu that will be added under the default states
 # path points to the path of the menu where to add
 proc CreateStatesMenu { path } {
-	global automessage config iconmenu
+	global automessage iconmenu
 	# Delete old menu to create new one
 	if { [$path index end] != 7 } {
 		$path delete 8 end
@@ -133,7 +133,7 @@ proc CreateStatesMenu { path } {
 		menu $path.editstates -tearoff 0 -type normal
 		menu $path.deletestates -tearoff 0 -type normal
 	}
-#	if { $config(dock) != 0 && [winfo exists $iconmenu] && [$iconmenu index end] != 16} {
+#	if { [::config::getKey dock] != 0 && [winfo exists $iconmenu] && [$iconmenu index end] != 16} {
 #		$iconmenu delete 17 end
 #	}
     
@@ -148,7 +148,7 @@ proc CreateStatesMenu { path } {
 		$path.deletestates add command -label "[lindex [StateList get $idx] 0]" -command "DeleteState $idx $path"
 		$path.editstates add command -label "[lindex [StateList get $idx] 0]" -command "EditNewState 2 $idx"
 		$path add command -label "[lindex [StateList get $idx] 0]" -command "ChCustomState $idx"
-#		if { $config(dock) != 0 && [winfo exists $iconmenu] } {
+#		if { [::config::getKey dock] != 0 && [winfo exists $iconmenu] } {
 #			$iconmenu add command -label "   [lindex [StateList get $idx] 0]" -command "ChCustomState $idx" -state disabled
 #		}
 	}
@@ -160,20 +160,20 @@ proc CreateStatesMenu { path } {
 		} else {
 			$path.otherstates delete 0 end
 		}
-#		if { $config(dock) != 0 && [winfo exists $iconmenu] && ![winfo exists $iconmenu.otherstates] } {
+#		if { [::config::getKey dock] != 0 && [winfo exists $iconmenu] && ![winfo exists $iconmenu.otherstates] } {
 #			menu $iconmenu.otherstates -tearoff 0 -type normal
-#		} elseif { $config(dock) != 0 && [winfo exists $iconmenu.otherstates] } {
+#		} elseif { [::config::getKey dock] != 0 && [winfo exists $iconmenu.otherstates] } {
 #			$iconmenu.otherstates delete 0 end
 #		}
 		for {} { $idx <= [expr {[StateList size] - 1}] } { incr idx } {
 			$path.deletestates add command -label "[lindex [StateList get $idx] 0]" -command "DeleteState $idx $path"
 			$path.editstates add command -label "[lindex [StateList get $idx] 0]" -command "EditNewState 2 $idx"
 			$path.otherstates add command -label "[lindex [StateList get $idx] 0]" -command "ChCustomState $idx"
-#			if { $config(dock) != 0 && [winfo exists $iconmenu] } {
+#			if { [::config::getKey dock] != 0 && [winfo exists $iconmenu] } {
 #				$iconmenu.otherstates add command -label "[lindex [StateList get $idx] 0]" -command "ChCustomState $idx"
 #			}
 		}
-#		if { $config(dock) != 0 && [winfo exists $iconmenu.otherstates] } {
+#		if { [::config::getKey dock] != 0 && [winfo exists $iconmenu.otherstates] } {
 #			$iconmenu add cascade -label "   [trans morepersonal]" -menu $iconmenu.otherstates -state disabled
 #			$iconmenu add separator
 #			$iconmenu add command -label "[trans close]" -command "close_cleanup;exit"
@@ -190,14 +190,14 @@ proc CreateStatesMenu { path } {
 			$path add cascade -label "[trans editcustomstate]" -menu $path.editstates
 			$path add cascade -label "[trans deletecustomstate]" -menu $path.deletestates
 		}
-#		if { $config(dock) != 0 && [winfo exists $iconmenu] } {
+#		if { [::config::getKey dock] != 0 && [winfo exists $iconmenu] } {
 #			$iconmenu add separator
 #			$iconmenu add command -label "[trans close]" -command "close_cleanup;exit"
 #		}
 	}
 	$path add separator
 	$path add command -label "[trans changenick]..." -command cmsn_change_name
-	if { $config(getdisppic) == 1 } {
+	if { [::config::getKey getdisppic] == 1 } {
 		$path add command -label "[trans changedisplaypic]..." -command pictureBrowser 
 	} else {
 		$path add command -label "[trans changedisplaypic]..." -command pictureBrowser -state disabled
@@ -205,10 +205,10 @@ proc CreateStatesMenu { path } {
 	$path add command -label "[trans cfgalarmall]..." -command "::alarms::configDialog all"
 #	statusicon_proc [MSN::myStatusIs]
 
-	if { $config(dock) != 0 && [winfo exists $iconmenu.imstatus] && $path != "$iconmenu.imstatus" } {
+	if { [::config::getKey dock] != 0 && [winfo exists $iconmenu.imstatus] && $path != "$iconmenu.imstatus" } {
 		CreateStatesMenu $iconmenu.imstatus
 	}
-	if { $config(dock) != 0 && [winfo exists $iconmenu.imstatus] && $path == "$iconmenu.imstatus" } {
+	if { [::config::getKey dock] != 0 && [winfo exists $iconmenu.imstatus] && $path == "$iconmenu.imstatus" } {
 		$path delete [expr "[$path index end] - 3"] end
 	}
 }
@@ -219,12 +219,12 @@ proc CreateStatesMenu { path } {
 # idx indicates the index of the personal state in the StateList, 
 # otherwise it indicates a normal state change (AWY, BSY, etc)
 proc ChCustomState { idx } {
-	global HOME automessage config automsgsent original_nick
+	global HOME automessage automsgsent original_nick
 	set automessage "-1"
 	set redraw 0
 	if { [string is digit $idx] == 1 } {
 		if { [lindex [StateList get $idx] 2] != "" } {
-			if {![info exists original_nick] && $config(storename)} {
+			if {![info exists original_nick] && [::config::getKey storename]} {
 				set original_nick [::abook::getPersonal nick]
 			}
 			#set new_state [lindex [lindex $list_states [lindex [StateList get $idx] 2]] 0]
@@ -243,7 +243,7 @@ proc ChCustomState { idx } {
 						puts $nickcache [::abook::getPersonal login]
 						close $nickcache
 					}
-				::MSN::changeName $config(login) $newname
+				::MSN::changeName [::config::getKey login] $newname
 				StateList promote $idx
 			}
 			::MSN::changeStatus $new_state
@@ -253,8 +253,8 @@ proc ChCustomState { idx } {
 		if { $idx == [::MSN::myStatusIs]} {
 			set redraw 1
 		}
-		if {[info exists original_nick] && $config(storename)} {
-			::MSN::changeName $config(login) $original_nick
+		if {[info exists original_nick] && [::config::getKey storename]} {
+			::MSN::changeName [::config::getKey login] $original_nick
 			unset original_nick
 			catch { file delete [file join ${HOME} "nick.cache"] }
 		}

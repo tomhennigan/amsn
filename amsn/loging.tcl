@@ -19,15 +19,14 @@ namespace eval ::log {
 
 proc StartLog { email } {
 
-	global config
 
 	# if we got no profile, set fileid to 0
-	if { [LoginList exists 0 $config(login)] == 0 } {
+	if { [LoginList exists 0 [::config::getKey login]] == 0 } {
 		LogArray $email set 0
 	} else {
 	    LogArray $email set [CheckLogDate $email]
 
-	    if { $config(lineflushlog) == 1 } {
+	    if { [::config::getKey lineflushlog] == 1 } {
 		fconfigure [LogArray $email get] -buffering none -encoding utf-8 
 	    } else {
 		fconfigure [LogArray $email get] -buffersize 1024 -encoding utf-8

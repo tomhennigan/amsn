@@ -177,10 +177,9 @@ proc reload_files { } {
 }
 
 proc check_imagemagick {} {
-	global config
 
-	if {$config(convertpath) == ""} {
-		set config(convertpath) "convert"
+	if {[::config::getKey convertpath] == ""} {
+		::config::setKey convertpath "convert"
 	}
 
 	set found -1
@@ -195,12 +194,12 @@ proc check_imagemagick {} {
 		}
 	}
 	if  { $found != -1  } {
-		set config(convertpath) "$found"
-		set config(getdisppic) 1
+		::config::setKey convertpath "$found"
+		::config::setKey getdisppic 1
 		return 1
 	} else {
 		#-1 means you want them enabled, but imagemagic is not installed...
-		set config(getdisppic) -1
+		::config::setKey getdisppic -1
 		return 0
 	}
 
@@ -231,7 +230,7 @@ set log_dir "[file join ${HOME} logs]"
 sb set ns name ns
 sb set ns sock ""
 sb set ns data [list]
-sb set ns serv [split $config(start_ns_server) ":"]
+sb set ns serv [split [::config::getKey start_ns_server] ":"]
 sb set ns stat "d"
 
 set family [lindex [::config::getGlobalKey basefont] 0]
@@ -240,22 +239,22 @@ set size [lindex [::config::getGlobalKey basefont] 1]
 ::themes::Init
 if { $family == "" } { set family "Helvetica"}
 if { $size == "" } { set size "11"}
-::amsn::initLook $family $size $config(backgroundcolor)
+::amsn::initLook $family $size [::config::getKey backgroundcolor]
 
 
-if { $config(encoding) != "auto" } {
-  set_encoding $config(encoding)
+if { [::config::getKey encoding] != "auto" } {
+  set_encoding [::config::getKey encoding]
 }
 
-if { $config(receiveddir) != "" } {
-   set res [create_dir $config(receiveddir)]
+if { [::config::getKey receiveddir] != "" } {
+   set res [create_dir [::config::getKey receiveddir]]
    if { $res >= 0} {
-      set files_dir $config(receiveddir)
+      set files_dir [::config::getKey receiveddir]
    } else {
       create_dir $files_dir
    }
 } else {
-	set config(receiveddir) $files_dir
+	::config::setKey receiveddir $files_dir
 	create_dir $files_dir
 }
 
@@ -273,7 +272,7 @@ after 750 proc_sb
 
 #If you are on any operating system (except Darwin), test if imagemagick is there. For darwin, the verification is in "proc OpenChatWindow {}"
 if {$tcl_platform(os) != "Darwin"} { 
-	if { $config(getdisppic) != 0 } {
+	if { [::config::getKey getdisppic] != 0 } {
 		check_imagemagick
 	}
 }
@@ -288,19 +287,19 @@ if {$version != [::config::getGlobalKey last_client_version]} {
 
 update idletasks
 
-if { $config(autoconnect) == 1 } {
+if { [::config::getKey autoconnect] == 1 } {
   ::MSN::connect
 }
 
-if { $config(autocheckver) == 1 } {
+if { [::config::getKey autocheckver] == 1 } {
     set new [check_version_silent]
 }
 
 
 init_dock
 
-if {$config(startontray)} {
-	if {$config(dock)!=0} {
+if {[::config::getKey startontray]} {
+	if {[::config::getKey dock]!=0} {
 		wm state . withdraw
 		set ishidden 1
 	} else {

@@ -114,7 +114,7 @@ proc set_emoticon_size {cstack cdata saved_data cattr saved_attr args} {
 # emotions list...
 
 proc new_custom_emoticon {cstack cdata saved_data cattr saved_attr args} {
-    global custom_emotions config
+    global custom_emotions
     upvar $saved_data sdata
     
     if { ! [info exists sdata(${cstack}:name)] } { return 0 }
@@ -145,16 +145,16 @@ proc new_custom_emoticon {cstack cdata saved_data cattr saved_attr args} {
 # previously saved options
 
 proc new_custom_emoticon_from_gui { {name ""} } {
-    global custom_emotions config new_custom_cfg HOME
+    global custom_emotions new_custom_cfg HOME
 
 
     set w .new_custom
     set quit 0
 
     if { [info exists new_custom_cfg(disabled)] && $new_custom_cfg(disabled) == 1 } {
-	set idx [lsearch $config(customsmileys) $name]
+	set idx [lsearch [::config::getKey customsmileys] $name]
 	if { $idx != -1 } {
-	    set config(customsmileys) [lreplace $config(customsmileys) $idx $idx]
+	    ::config::setKey customsmileys [lreplace [::config::getKey customsmileys] $idx $idx]
 	}
 	load_smileys
 	return
@@ -449,10 +449,10 @@ proc load_smileys { } {
 # This adds the custom smileys to the general smileys
 
 proc add_custom_emoticons { } {
-    global custom_emotions emotions emotions_names emoticon_number config
+    global custom_emotions emotions emotions_names emoticon_number
 
-    set config(customsmileys2) [list]
-    foreach x $config(customsmileys) {
+    ::config::setKey customsmileys2 [list]
+    foreach x [::config::getKey customsmileys] {
 
 	if { ! ( [info exists custom_emotions(${x}_hiden)] && 
 		 [is_true $custom_emotions(${x}_hiden)] ) } {
@@ -527,7 +527,7 @@ proc valueforemot { emotion var } {
 # a sound if necessary, etc... It scans the widget for every smiley that exists
 
 proc smile_subst {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
-    global emotions sortedemotions config smileys_drawn ;# smileys_end_subst
+    global emotions sortedemotions smileys_drawn ;# smileys_end_subst
 
     foreach emotion $sortedemotions {
 
@@ -557,7 +557,7 @@ proc smile_subst {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
 		$tw tag configure smiley -elide true
 		$tw tag add smiley $pos $endpos
 
-		if { $animated && $config(animatedsmileys) } {
+		if { $animated && [::config::getKey animatedsmileys] } {
 
 		    set filename [string map { " " "_" "/" "_" "." "_"} $file]
 		    set emoticon "$tw.${smileys_drawn}"
@@ -585,7 +585,7 @@ proc smile_subst {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
 		    $tw tag remove smiley $endpos
 		}
 
-		if { $config(emotisounds) == 1 && $contact_list == 0 && $sound != "" } {
+		if { [::config::getKey emotisounds] == 1 && $contact_list == 0 && $sound != "" } {
 		    play_sound $sound
 		}
 
@@ -648,10 +648,9 @@ proc custom_smile_subst2 { chatid tw textbegin end } {
 
 proc parse_x_mms_emoticon { data chatid } {
     upvar #0 ${chatid}_smileys smile
-    global config
 
 
-    if { $config(getdisppic) != 1 } { return }
+    if { [::config::getKey getdisppic] != 1 } { return }
 
     set start 0
     while { $start < [string length $data]} {
@@ -669,10 +668,10 @@ proc parse_x_mms_emoticon { data chatid } {
 
 }
 proc process_custom_smileys_SB { txt } {
-    global emotions config 
+    global emotions 
     
 
-    #    if { $config(custom_smileys) == 0 } { return "" }
+    #    if { [::config::getKey custom_smileys] == 0 } { return "" }
 
     set msg ""
 
@@ -680,7 +679,7 @@ proc process_custom_smileys_SB { txt } {
 
     set txt2 [string toupper $txt]
 
-    foreach emotion $config(customsmileys2) {
+    foreach emotion [::config::getKey customsmileys2] {
 	
 	status_log "Parsing for $emotion\n"
 	foreach symbol $emotions(${emotion}_text) {
@@ -691,12 +690,12 @@ proc process_custom_smileys_SB { txt } {
 
 	    if { $cases == 1} {
 		if {  [string first $symbol $txt] != -1 } {
-		    set msg "$msg$symbol	[create_msnobj $config(login) 2 [GetSkinFile smileys [filenoext $file].png]]	"
+		    set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [GetSkinFile smileys [filenoext $file].png]]	"
 		    
 		}
 	    } else {
 		if {  [string first $symbol2 $txt2] != -1 } {
-		    set msg "$msg$symbol	[create_msnobj $config(login) 2 [GetSkinFile smileys [filenoext $file].png]]	"
+		    set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [GetSkinFile smileys [filenoext $file].png]]	"
 		}
 	    }
 	}
@@ -789,7 +788,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 
 
 proc create_smile_menu { {x 0} {y 0} } {
-    global emotions emotions_names config skinconfig
+    global emotions emotions_names skinconfig
     
     set w .smile_selector
     if {[catch {[toplevel $w]} res]} {
@@ -841,7 +840,7 @@ proc create_smile_menu { {x 0} {y 0} } {
 	set chars [string length $symbol]
 	set hiden [valueforemot "$emotion" hiden]
 	set animated [valueforemot "$emotion" animated]
-	if { $config(animatedsmileys) == 0 } {set animated 0}
+	if { [::config::getKey animatedsmileys] == 0 } {set animated 0}
 
 	if { $hiden} {continue}
 
@@ -859,7 +858,7 @@ proc create_smile_menu { {x 0} {y 0} } {
 
 	    bind $w.text.$filename <Enter>  [list $w.text.$filename configure -relief raised]
 	    bind $w.text.$filename <Leave> [list $w.text.$filename configure -relief flat]
-	    if { $config(tooltips) } {set_balloon $w.text.$filename "$name $symbol"}
+	    if { [::config::getKey tooltips] } {set_balloon $w.text.$filename "$name $symbol"}
 	    $w.text window create end -window $w.text.$filename -padx 1 -pady 1
 	}
 	

@@ -9,7 +9,7 @@ if { $initialize_amsn == 1 } {
 }
 
 proc iconify_proc {} {
-	global statusicon config systemtray_exist
+	global statusicon systemtray_exist
 	if { [focus] == "."} {
 		wm iconify .
 		wm state . withdrawn
@@ -72,18 +72,18 @@ proc taskbar_icon_handler { msg x y } {
 }
 
 proc trayicon_init {} {
-	global config systemtray_exist password iconmenu wintrayicon statusicon
+	global systemtray_exist password iconmenu wintrayicon statusicon
 
-	if { $config(dock) == 4 } {
+	if { [::config::getKey dock] == 4 } {
 		set ext "[file join plugins winico03.dll]"
 		if { [file exists $ext] != 1 } {
 			msg_box "[trans needwinico]"
 			close_dock
-			set config(dock) 0
+			::config::setKey dock 0
 			return
 		}
 		if { [catch {load $ext winico}] }	{
-			set config(dock) 0
+			::config::setKey dock 0
 			close_dock
 			return
 		}
@@ -94,15 +94,15 @@ proc trayicon_init {} {
 	} else {
 		set ext "[file join plugins traydock libtray.so]"
 		if { ![file exists $ext] } {
-			set config(dock) 0
+			::config::setKey dock 0
 			msg_box "[trans traynotcompiled]"
 			close_dock
 			return
 		}
 
-		if { $systemtray_exist == 0 && $config(dock) == 3} {
+		if { $systemtray_exist == 0 && [::config::getKey dock] == 3} {
 			if { [catch {load $ext Tray}] }	{
-				set config(dock) 0
+				::config::setKey dock 0
 				close_dock
 				return
 			}
@@ -135,11 +135,11 @@ proc trayicon_init {} {
 
 	$iconmenu add command -label "[trans offline]"
 	$iconmenu add separator
-	if { [string length $config(login)] > 0 } {
+	if { [string length [::config::getKey login]] > 0 } {
 	     if {$password != ""} {
-	        #$iconmenu add command -label "[trans login] $config(login)" -command "::MSN::connect" -state normal
+	        #$iconmenu add command -label "[trans login] [::config::getKey login]" -command "::MSN::connect" -state normal
 	     } else {
-	     	#$iconmenu add command -label "[trans login] $config(login)" -command cmsn_draw_login -state normal
+	     	#$iconmenu add command -label "[trans login] [::config::getKey login]" -command cmsn_draw_login -state normal
 	     }
 	} else {
 	     #$iconmenu add command -label "[trans login]" -command "::MSN::connect" -state disabled
@@ -174,13 +174,13 @@ proc trayicon_init {} {
 }
 
 proc statusicon_proc {status} {
-	global systemtray_exist config statusicon list_states iconmenu wintrayicon tcl_platform
+	global systemtray_exist statusicon list_states iconmenu wintrayicon tcl_platform
 	set cmdline ""
 
-	if { $config(dock) != 4 } {
+	if { [::config::getKey dock] != 4 } {
 
 		set icon .si
-		if { $systemtray_exist == 1 && $statusicon == 0 && $config(dock) == 3} {
+		if { $systemtray_exist == 1 && $statusicon == 0 && [::config::getKey dock] == 3} {
 			set pixmap "[GetSkinFile pixmaps doffline.xpm]"
 			set statusicon [newti $icon -pixmap $pixmap -tooltip offline]
 			bind $icon <Button1-ButtonRelease> iconify_proc
@@ -197,7 +197,7 @@ proc statusicon_proc {status} {
 			remove_icon $statusicon
 		}
 		set statusicon 0
-	} elseif {$systemtray_exist == 1 && $statusicon != 0 && ( $config(dock) == 3 || $config(dock) == 4 ) && $status != "REMOVE"} {
+	} elseif {$systemtray_exist == 1 && $statusicon != 0 && ( [::config::getKey dock] == 3 || [::config::getKey dock] == 4 ) && $status != "REMOVE"} {
 		if { $status != "" } {
 			if { $status == "FLN" } {
 				$iconmenu entryconfigure 2 -state disabled
@@ -245,86 +245,86 @@ proc statusicon_proc {status} {
 			  "FLN" {
 				set pixmap "[GetSkinFile pixmaps doffline.xpm]"
 				set tooltip "[trans offline]"
-				if { $config(dock) == 4 } {
+				if { [::config::getKey dock] == 4 } {
 					set trayicon [winico create [GetSkinFile winicons offline.ico]]
 				}
 			  }
 			
 			  "NLN" {
 				set pixmap "[GetSkinFile pixmaps donline.xpm]"
-				set tooltip "$my_name ($config(login)): [trans online]"
-				if { $config(dock) == 4 } {
+				set tooltip "$my_name ([::config::getKey login]): [trans online]"
+				if { [::config::getKey dock] == 4 } {
 					set trayicon [winico create [GetSkinFile winicons online.ico]]
 				}
 			  }
 			  
 			  "IDL" {
 				set pixmap "[GetSkinFile pixmaps dinactive.xpm]"
-				set tooltip "$my_name ($config(login)): [trans noactivity]"
-				if { $config(dock) == 4 } {
+				set tooltip "$my_name ([::config::getKey login]): [trans noactivity]"
+				if { [::config::getKey dock] == 4 } {
 					set trayicon [winico create [GetSkinFile winicons inactive.ico]]
 				}
 			  }
 			  "BSY" {
 				set pixmap "[GetSkinFile pixmaps dbusy.xpm]"
-				set tooltip "$my_name ($config(login)): [trans busy]"
-				if { $config(dock) == 4 } {
+				set tooltip "$my_name ([::config::getKey login]): [trans busy]"
+				if { [::config::getKey dock] == 4 } {
 					set trayicon [winico create [GetSkinFile winicons busy.ico]]
 				}
 			  }
 			  "BRB" {
 				set pixmap "[GetSkinFile pixmaps dbrb.xpm]"
-				set tooltip "$my_name ($config(login)): [trans rightback]"
-				if { $config(dock) == 4 } {
+				set tooltip "$my_name ([::config::getKey login]): [trans rightback]"
+				if { [::config::getKey dock] == 4 } {
 					set trayicon [winico create [GetSkinFile winicons brb.ico]]
 				}
 			  }
 			  "AWY" {
 				set pixmap "[GetSkinFile pixmaps daway.xpm]"
-				set tooltip "$my_name ($config(login)): [trans away]"
-				if { $config(dock) == 4 } {
+				set tooltip "$my_name ([::config::getKey login]): [trans away]"
+				if { [::config::getKey dock] == 4 } {
 					set trayicon [winico create [GetSkinFile winicons away.ico]]
 				}
 			  }
 			  "PHN" {
 				set pixmap "[GetSkinFile pixmaps dphone.xpm]"
-				set tooltip "$my_name ($config(login)): [trans onphone]"
-				if { $config(dock) == 4 } {
+				set tooltip "$my_name ([::config::getKey login]): [trans onphone]"
+				if { [::config::getKey dock] == 4 } {
 					set trayicon [winico create [GetSkinFile winicons phone.ico]]
 				}
 			  }
 			  "LUN" {
 				set pixmap "[GetSkinFile pixmaps dlunch.xpm]"
-				set tooltip "$my_name ($config(login)): [trans gonelunch]"
-				if { $config(dock) == 4 } {
+				set tooltip "$my_name ([::config::getKey login]): [trans gonelunch]"
+				if { [::config::getKey dock] == 4 } {
 					set trayicon [winico create [GetSkinFile winicons lunch.ico]]
 				}
 			  }
 			  "HDN" {
 				set pixmap "[GetSkinFile pixmaps dhidden.xpm]"
-				set tooltip "$my_name ($config(login)): [trans appearoff]"
-				if { $config(dock) == 4 } {
+				set tooltip "$my_name ([::config::getKey login]): [trans appearoff]"
+				if { [::config::getKey dock] == 4 } {
 					set trayicon [winico create [GetSkinFile winicons hidden.ico]]
 				}
 			  }
 			  "BOSS" {   #for bossmode, only for win at the moment
 				#set pixmap "[GetSkinFile pixmaps doffline.xpm]"
 				set tooltip "[trans pass]"
-				if { $config(dock) == 4 } {
+				if { [::config::getKey dock] == 4 } {
 					set trayicon [winico create [GetSkinFile winicons bossmode.ico]]
 				}
 			  }
 			  default {
 				set pixmap "null"
-				if { $config(dock) == 4 } {
+				if { [::config::getKey dock] == 4 } {
 					set trayicon [winico create [GetSkinFile winicons msn.ico]]
 				}
 			  }
 			}
 
-			$iconmenu entryconfigure 0 -label "$config(login)"
+			$iconmenu entryconfigure 0 -label "[::config::getKey login]"
 
-			if { $config(dock) != 4 } {
+			if { [::config::getKey dock] != 4 } {
 				if { $pixmap != "null"} {
 					configureti $statusicon -pixmap $pixmap -tooltip $tooltip
 				}
@@ -342,7 +342,7 @@ proc statusicon_proc {status} {
 }
 
 proc taskbar_mail_icon_handler { msg x y } {
-	global config password
+	global password
 
 	if { [winfo exists .bossmode] } {
 		if { $msg=="WM_LBUTTONDBLCLK" } {
@@ -353,16 +353,16 @@ proc taskbar_mail_icon_handler { msg x y } {
 	}
 
 	if { $msg=="WM_LBUTTONUP" } {
-		hotmail_login $config(login) $password
+		hotmail_login [::config::getKey login] $password
 	}
 }
 
 proc mailicon_proc {num} {
 	# Workaround for bug in the traydock-plugin - statusicon added - BEGIN
-	global systemtray_exist mailicon statusicon config password winmailicon tcl_platform
+	global systemtray_exist mailicon statusicon password winmailicon tcl_platform
 	# Workaround for bug in the traydock-plugin - statusicon added - END
 	set icon .mi
-	if {$systemtray_exist == 1 && $mailicon == 0 && ($config(dock) == 3 || $config(dock) == 4)  && $num >0} {
+	if {$systemtray_exist == 1 && $mailicon == 0 && ([::config::getKey dock] == 3 || [::config::getKey dock] == 4)  && $num >0} {
 		set pixmap "[GetSkinFile pixmaps unread.gif]"
 		if { $num == 1 } {
 			set msg [trans onenewmail]
@@ -372,9 +372,9 @@ proc mailicon_proc {num} {
 			set msg [trans newmail $num]
 		}
 
-		if { $config(dock) != 4 } {
+		if { [::config::getKey dock] != 4 } {
 			set mailicon [newti $icon -pixmap $pixmap -tooltip $msg]
-			bind $icon <Button-1> [list hotmail_login $config(login) $password]
+			bind $icon <Button-1> [list hotmail_login [::config::getKey login] $password]
 		} else {
 			set winmailicon [winico create [GetSkinFile winicons unread.ico]]
 			winico taskbar add $winmailicon -text $msg -callback "taskbar_mail_icon_handler %m %x %y"
@@ -389,7 +389,7 @@ proc mailicon_proc {num} {
 			winico taskbar delete $winmailicon
 			set mailicon 0
 		}
-	} elseif {$systemtray_exist == 1 && $mailicon != 0 && ($config(dock) == 3 || $config(dock) == 4)  && $num > 0} {
+	} elseif {$systemtray_exist == 1 && $mailicon != 0 && ([::config::getKey dock] == 3 || [::config::getKey dock] == 4)  && $num > 0} {
 		if { $num == 1 } {
 			set msg [trans onenewmail]
 		} elseif { $num == 2 } {
@@ -397,7 +397,7 @@ proc mailicon_proc {num} {
 		} else {
 			set msg [trans newmail $num]
 		}
-		if { $config(dock) != 4 } {
+		if { [::config::getKey dock] != 4 } {
 			configureti $mailicon -tooltip $msg
 		} else {
 			winico taskbar modify $winmailicon -text $msg
@@ -406,7 +406,7 @@ proc mailicon_proc {num} {
 }
 
 proc remove_icon {icon} {
-	global systemtray_exist config
+	global systemtray_exist
 	if {$systemtray_exist == 1 && $icon != 0} {
 		catch {removeti $icon}
 #                destroy $icon

@@ -485,7 +485,7 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 	# showHelpFile(filename,windowsTitle)
 	proc showTranslatedHelpFile {file title} {
-		global config langenc
+		global langenc
 
 		set filename [file join "docs" "${file}[::config::getGlobalKey language]"]
 
@@ -618,7 +618,6 @@ namespace eval ::amsn {
 	# FileTransferSend (chatid (filename))
 	# Shows the file transfer window, for window win_name
 	proc FileTransferSendOLD { win_name {filename ""}} {
-		global config
 
 		set w ${win_name}_sendfile
 		if { [ winfo exists $w ] } {
@@ -662,7 +661,7 @@ namespace eval ::amsn {
 		pack $w.top.labels -side left -padx 5
 		pack $w.top -side top
 
-		$w.top.fields.ip insert 0 "$config(myip)"
+		$w.top.fields.ip insert 0 "[::config::getKey myip]"
 
 		focus $w.top.fields.file
 
@@ -675,7 +674,7 @@ namespace eval ::amsn {
 	}
 
 	proc FileTransferSend { win_name {filename ""} } {
-		global config starting_dir
+		global starting_dir
 
 #		set filename [ $w.top.fields.file get ]
 		if { $filename == "" } {
@@ -694,21 +693,21 @@ namespace eval ::amsn {
 		}
 
 
-		#if {$config(autoftip) == 0 } {
-		#	set config(myip) [ $w.top.fields.ip get ]
+		#if {[::config::getKey autoftip] == 0 } {
+		#	::config::setKey myip [ $w.top.fields.ip get ]
 		#	set ipaddr [ $w.top.fields.ip get ]
 		#	destroy $w
 		#} else {
 		#	set ipaddr [ $w.top.fields.ip get ]
 		#	destroy $w
-		#	if { $ipaddr != $config(myip) } {
+		#	if { $ipaddr != [::config::getKey myip] } {
 		#		set ipaddr [ ::abook::getDemographicField clientip ]
 		#	}
 		#}
 		if { [::config::getKey autoftip] } {
-			set ipaddr $config(myip)
+			set ipaddr [::config::getKey myip]
 		} else {
-			set ipaddr $config(manualip)
+			set ipaddr [::config::getKey manualip]
 		}
 
 		if { [catch {set filesize [file size $filename]} res]} {
@@ -799,7 +798,7 @@ namespace eval ::amsn {
 	#  GotFileTransferRequest ( chatid dest branchuid cseq uid sid filename filesize)
 	#  This procedure is called when we receive an MSN6 File Transfer Request
 	proc GotFileTransferRequest { chatid dest branchuid cseq uid sid filename filesize} {
-		global config files_dir
+		global files_dir
 
 		set win_name [WindowFor $chatid]
 
@@ -824,7 +823,7 @@ namespace eval ::amsn {
 			WinWrite $chatid "----------\n" green
 		}
 
-		if { $config(ftautoaccept) == 1 } {
+		if { [::config::getKey ftautoaccept] == 1 } {
 			WinWrite $chatid "[trans autoaccepted]\n" green
 			::amsn::AcceptFT $chatid -1 [list $dest $branchuid $cseq $uid $sid $filename]
 		}
@@ -832,7 +831,7 @@ namespace eval ::amsn {
 
 	#Message shown when receiving a file
 	proc fileTransferRecv {filename filesize cookie chatid fromlogin} {
-		global files_dir config
+		global files_dir
 
 		set win_name [WindowFor $chatid]
 		if { [WindowFor $chatid] == 0} {
@@ -861,7 +860,7 @@ namespace eval ::amsn {
 			WinWrite $chatid "----------\n" green
 		}
 
-		if { $config(ftautoaccept) == 1 } {
+		if { [::config::getKey ftautoaccept] == 1 } {
 			WinWrite $chatid "[trans autoaccepted]\n" green
 			::amsn::AcceptFT $chatid $cookie
 		}
@@ -1238,7 +1237,7 @@ namespace eval ::amsn {
 	# The procedure will open a window if it does not exists, add a notifyWindow and
 	# play a sound if it's necessary
 	proc messageFrom { chatid user nick msg type {fontformat ""} {p4c 0} } {
-		global remote_auth config
+		global remote_auth
 		variable first_message
 
 
@@ -1254,11 +1253,11 @@ namespace eval ::amsn {
 		#If this is the first message, and no focus on window, then show notify
 		#if { $first_message($win_name) == 1 } {
 
-			set maxw [expr {$config(notifwidth)-20}]
+			set maxw [expr {[::config::getKey notifwidth]-20}]
 			incr maxw [expr 0-[font measure splainf "[trans says [list]]:"]]
 			set nickt [trunc $nick $maxw splainf]
 
-			#if { ($config(notifymsg) == 1) && ([string first ${win_name} [focus]] != 0)} {
+			#if { ([::config::getKey notifymsg] == 1) && ([string first ${win_name} [focus]] != 0)} {
 			#	notifyAdd "[trans says $nickt]:\n$msg" "::amsn::chatUser $chatid"
 			#}
 			set tmsg "[trans says $nickt]:\n$msg"
@@ -1296,7 +1295,6 @@ namespace eval ::amsn {
 	#adds msg to notify, and plays sound if enabled
 	proc MakeWindowFor { chatid {msg ""} {usr_name ""} } {
 
-		global config
 		variable first_message
 
 		set win_name [WindowFor $chatid]
@@ -1308,7 +1306,7 @@ namespace eval ::amsn {
 			update idletasks
 			WinTopUpdate $chatid
 
-			if { $config(showdisplaypic) && $usr_name != ""} {
+			if { [::config::getKey showdisplaypic] && $usr_name != ""} {
 				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name]
 			} else {
 				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name] nopack
@@ -1324,13 +1322,13 @@ namespace eval ::amsn {
 			
 			
 			if { [string first ${win_name} [focus]] != 0} {
-				if { ($config(notifymsg) == 1 && [::abook::getContactData $chatid notifymsg -1] != 0) ||
+				if { ([::config::getKey notifymsg] == 1 && [::abook::getContactData $chatid notifymsg -1] != 0) ||
 				     [::abook::getContactData $chatid notifymsg -1] == 1} {
 					notifyAdd "$msg" "::amsn::chatUser $chatid"
 				}
 			}
 			
-			if { $config(newmsgwinstate) == 0 } {
+			if { [::config::getKey newmsgwinstate] == 0 } {
 				if { [winfo exists .bossmode] } {
 					set ::BossMode(${win_name}) "normal"
 					wm state ${win_name} withdraw
@@ -1360,7 +1358,7 @@ namespace eval ::amsn {
 			
 			#If it's not a message event, then it's a window creation (user joins to chat)
 		} elseif { $msg == "" } {
-			if { $config(newchatwinstate) == 0 } {
+			if { [::config::getKey newchatwinstate] == 0 } {
 				if { [winfo exists .bossmode] } {
 					set ::BossMode(${win_name}) "normal"
 					wm state ${win_name} withdraw
@@ -1387,7 +1385,7 @@ namespace eval ::amsn {
 		}
 
 		#If no focus, and it's a message event, do something to the window
-		if { (($config(soundactive) == "1" && $usr_name != $config(login)) || [string first ${win_name} [focus]] != 0) && $msg != "" } {
+		if { (([::config::getKey soundactive] == "1" && $usr_name != [::config::getKey login]) || [string first ${win_name} [focus]] != 0) && $msg != "" } {
 			play_sound type.wav
 		}
 		#Dock Bouncing on Mac OS X
@@ -1395,11 +1393,11 @@ namespace eval ::amsn {
 		#tclCarbonNotification is in plugins
 		package require tclCarbonNotification
 			#Bounce unlimited of time when we are not in aMSN and receive a message, until we re-click on aMSN icon (or get back to aMSN)
-			if { (($config(dockbounce) == "unlimited" && $usr_name != $config(login)) && [focus] == "") && $msg != "" } {
+			if { (([::config::getKey dockbounce] == "unlimited" && $usr_name != [::config::getKey login]) && [focus] == "") && $msg != "" } {
 				tclCarbonNotification 1 ""
 			}
 			#Bounce then stop bouncing after 1 second, when we are not in aMSN and receive a message (default)
-			if { (($config(dockbounce) == "once" && $usr_name != $config(login)) && [focus] == "") && $msg != "" } {
+			if { (([::config::getKey dockbounce] == "once" && $usr_name != [::config::getKey login]) && [focus] == "") && $msg != "" } {
 				tclCarbonNotification 1 ""
 				after 1000 [list catch [list tclEndCarbonNotification]]
 			}
@@ -1419,7 +1417,6 @@ namespace eval ::amsn {
 
 		variable window_titles
 		variable new_message_on
-		global config
 
 		#set topmsg ""
 		set title ""
@@ -1456,7 +1453,7 @@ namespace eval ::amsn {
 			}
 
 			set user_image [::MSN::stateToImage $state_code]
-			if {$config(truncatenames)} {
+			if {[::config::getKey truncatenames]} {
 				#Calculate maximum string width
 				set maxw [winfo width ${win_name}.f.top.text]
 				if { "$user_state" != "" && "$user_state" != "online" } {
@@ -1629,10 +1626,9 @@ namespace eval ::amsn {
 	# - 'usr_login' is the user that joins email
 	proc userJoins { chatid usr_name } {
 
-		global config
 
 		set win_name [WindowFor $chatid]
-		if { $win_name == 0 && $config(newchatwinstate)!=2 } {
+		if { $win_name == 0 && [::config::getKey newchatwinstate]!=2 } {
 			set win_name [MakeWindowFor $chatid "" $usr_name]
 		}
 
@@ -1642,7 +1638,7 @@ namespace eval ::amsn {
 			WinStatus [ WindowFor $chatid ] $statusmsg minijoins
 			WinTopUpdate $chatid
 
-			if { $config(showdisplaypic) && $usr_name != ""} {
+			if { [::config::getKey showdisplaypic] && $usr_name != ""} {
 				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name]
 			} else {
 				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name] nopack
@@ -1654,7 +1650,7 @@ namespace eval ::amsn {
 			}
 		}
 
-		if { $config(keep_logs) } {
+		if { [::config::getKey keep_logs] } {
 			::log::JoinsConf $chatid $usr_name
 		}
 
@@ -1671,7 +1667,7 @@ namespace eval ::amsn {
 	# - 'usr_name' is the user email to show in the status message
 	proc userLeaves { chatid usr_name closed } {
 
-		global config automsgsent
+		global automsgsent
 
 		set win_name [WindowFor $chatid]
 		if { $win_name == 0} {
@@ -1710,7 +1706,7 @@ namespace eval ::amsn {
 
 		WinTopUpdate $chatid
 
-		if { $config(keep_logs) } {
+		if { [::config::getKey keep_logs] } {
 			::log::LeavesConf $chatid $usr_name
 		}
 
@@ -1731,7 +1727,6 @@ namespace eval ::amsn {
 	# a message in the status bar.
 	# - 'chatid' is the name of the chat
 	proc updateTypers { chatid } {
-		global config
 
 
 		if {[WindowFor $chatid] == 0} {
@@ -1797,7 +1792,7 @@ namespace eval ::amsn {
 		variable window_titles
 		variable first_message
 		variable recent_message
-		global  config HOME files_dir bgcolor bgcolor2 tcl_platform xmms
+		global  HOME files_dir bgcolor bgcolor2 tcl_platform xmms
 
 		set win_name "msg_$winid"
 		incr winid
@@ -1832,7 +1827,7 @@ namespace eval ::amsn {
 
 		#Test on Mac OS X(TkAqua) if imagemagick is installed and kill all sndplay processes      
 		if {$tcl_platform(os) == "Darwin"} {
-			if { $config(getdisppic) != 0 } {
+			if { [::config::getKey getdisppic] != 0 } {
 				check_imagemagick
 			}
 		}
@@ -2177,7 +2172,7 @@ namespace eval ::amsn {
 
 		focus $bottom.in.input
 
-		change_myfontsize $config(textsize) .${win_name}
+		change_myfontsize [::config::getKey textsize] .${win_name}
 
 
 
@@ -2260,7 +2255,7 @@ namespace eval ::amsn {
 		if { [::config::getKey savechatwinsize] } {
 			::config::setKey winchatsize  [string range $geom 0 [expr {$pos_start-1}]]
 		}
-		#status_log "$config(winchatsize)\n"
+		#status_log "[::config::getKey winchatsize]\n"
 	}
 
 
@@ -2331,7 +2326,6 @@ namespace eval ::amsn {
 		}
 
 	proc ChangePicture {win picture balloontext {nopack ""}} {
-		global config
 		#pack $win.bottom.pic -side left -padx 2 -pady 2
 		upvar #0 ${win}_show_picture show_pic
 
@@ -2639,7 +2633,7 @@ namespace eval ::amsn {
 	# the protocol layer to send a typing notification to the chat that the window
 	# 'win_name' is connected to
 	proc TypingNotification { win_name inputbox} {
-		global config skipthistime
+		global skipthistime
 
 		set chatid [ChatFor $win_name]
 
@@ -2669,7 +2663,7 @@ namespace eval ::amsn {
 
 		#Don't queue unless chat is ready, but try to reconnect
 		if { [::MSN::chatReady $chatid] } {
-			if { $config(notifytyping) } {
+			if { [::config::getKey notifytyping] } {
 				sb_change $chatid
 			}
 		} else {
@@ -2778,7 +2772,6 @@ namespace eval ::amsn {
 	# a timeout for the message
 	proc MessageSend { win_name input {custom_msg ""} {friendlyname ""}} {
 
-		global config
 
 		set chatid [ChatFor $win_name]
 
@@ -2805,9 +2798,9 @@ namespace eval ::amsn {
 			focus ${input}
 		}
 
-		set fontfamily [lindex $config(mychatfont) 0]
-		set fontstyle [lindex $config(mychatfont) 1]
-		set fontcolor [lindex $config(mychatfont) 2]
+		set fontfamily [lindex [::config::getKey mychatfont] 0]
+		set fontstyle [lindex [::config::getKey mychatfont] 1]
+		set fontcolor [lindex [::config::getKey mychatfont] 2]
 
 
 		if { $friendlyname != "" } {
@@ -2939,7 +2932,6 @@ namespace eval ::amsn {
 		}
 
 
-		global config
 		variable window_titles
 		variable first_message
 		variable recent_message
@@ -2952,7 +2944,7 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		if {$config(keep_logs)} {
+		if {[::config::getKey keep_logs]} {
 			set user_list [::MSN::usersInChat $chatid]
 			foreach user_login $user_list {
 				::log::StopLog $user_login
@@ -2998,7 +2990,6 @@ namespace eval ::amsn {
 
 	proc PutMessageWrapped { chatid user nick msg type fontformat {p4c 0 }} {
 
-		global config
 		
 		if { [::config::getKey showtimestamps] } {
 			set tstamp [timestamp]
@@ -3042,7 +3033,7 @@ namespace eval ::amsn {
 
 		set customfont [list $font $style $color]
 		
-		if {$config(truncatenicks)} {
+		if {[::config::getKey truncatenicks]} {
 			set oldnick $nick
 			set nick ""
 			set says [subst -nocommands $customchat]
@@ -3062,7 +3053,7 @@ namespace eval ::amsn {
 		WinWrite $chatid "$customchat" "says" $customfont
 		WinWrite $chatid "$msg\n" $type $fontformat
 
-		if {$config(keep_logs)} {
+		if {[::config::getKey keep_logs]} {
 			::log::PutLog $chatid $nick $msg
 		}
 	}
@@ -3165,7 +3156,6 @@ namespace eval ::amsn {
 	# - 'count' can be any number, it's just used in self calls
 	proc WinFlicker {chatid {count 0}} {
 
-		global config
 		variable window_titles
 		variable new_message_on
 
@@ -3176,7 +3166,7 @@ namespace eval ::amsn {
 		}
 
 
-		if { $config(flicker) == 0 } {
+		if { [::config::getKey flicker] == 0 } {
 			if { [string first $win_name [focus]] != 0 } {
 				catch {wm title ${win_name} "*$window_titles($win_name)"} res
 				set new_message_on(${win_name}) 1
@@ -3296,7 +3286,7 @@ namespace eval ::amsn {
 	# where it will use the same format as "user" but size 11.
 	proc WinWrite {chatid txt tagname {fontformat ""} {flicker 1} } {
 
-		global emotions config ;#smileys_end_subst
+		global emotions ;#smileys_end_subst
 
 		set win_name [WindowFor $chatid]
 
@@ -3406,7 +3396,7 @@ namespace eval ::amsn {
 			return
 		}
 
-		if {$config(chatsmileys)} {
+		if {[::config::getKey chatsmileys]} {
 			custom_smile_subst $chatid ${win_name}.f.out.text $text_start end
 			smile_subst ${win_name}.f.out.text $text_start end 0
 		}
@@ -3520,10 +3510,10 @@ namespace eval ::amsn {
 	}
 
 	proc closeOrDock { closingdocks } {
-		global systemtray_exist statusicon config ishidden
+		global systemtray_exist statusicon ishidden
 		if {$closingdocks} {
 			wm iconify .
-			if { $systemtray_exist == 1 && $statusicon != 0 && $config(closingdocks) } {
+			if { $systemtray_exist == 1 && $statusicon != 0 && [::config::getKey closingdocks] } {
 				status_log "Hiding\n" white
 				wm state . withdrawn
 				set ishidden 1
@@ -3550,14 +3540,14 @@ namespace eval ::amsn {
 	#plays "sound"
 	proc notifyAdd { msg command {sound ""} {type online}} {
 
-		global config tcl_platform
+		global tcl_platform
 		if { [winfo exists .bossmode] } {
 			return 
 		}
 		#Define lastfocus (for Mac OS X focus bug)
 		set lastfocus [focus]
 
-		if { $config(shownotify) == 0 } {
+		if { [::config::getKey shownotify] == 0 } {
 			return;
 		}
 		variable NotifID
@@ -3578,8 +3568,8 @@ namespace eval ::amsn {
 		}
 
 
-		set xpos $config(notifyXoffset)
-		set ypos $config(notifyYoffset)
+		set xpos [::config::getKey notifyXoffset]
+		set ypos [::config::getKey notifyYoffset]
 
 		#Search for a free notify window position
 		while { [lsearch -exact $NotifPos $ypos] >=0 } {
@@ -3591,7 +3581,7 @@ namespace eval ::amsn {
 		if { $xpos < 0 } { set xpos 0 }
 		if { $ypos < 0 } { set ypos 0 }
 
-		canvas $w.c -bg #EEEEFF -width $config(notifwidth) -height $config(notifheight) \
+		canvas $w.c -bg #EEEEFF -width [::config::getKey notifwidth] -height [::config::getKey notifheight] \
 			-relief ridge -borderwidth 2
 		pack $w.c
 
@@ -3618,8 +3608,8 @@ namespace eval ::amsn {
 			set msg "[string range $msg 0 100]..."
 		}
 
-		set notify_id [$w.c create text [expr $config(notifwidth)/2] 45 -font splainf \
-		-justify center -width [expr $config(notifwidth)-20] -anchor n -text "$msg"]
+		set notify_id [$w.c create text [expr [::config::getKey notifwidth]/2] 45 -font splainf \
+		-justify center -width [expr [::config::getKey notifwidth]-20] -anchor n -text "$msg"]
 
 		set after_id [after [::config::getKey notifytimeout] "::amsn::KillNotify $w $ypos"]
 
@@ -3743,7 +3733,7 @@ proc cmsn_draw_main {} {
 
 	#File menu
 	menu .main_menu.file -tearoff 0 -type normal 
-	if { [string length $config(login)] > 0 } {
+	if { [string length [::config::getKey login]] > 0 } {
 		if {$password != ""} {
 			.main_menu.file add command -label "[trans loginas]..." \
 				-command ::MSN::connect -state normal
@@ -3762,7 +3752,7 @@ proc cmsn_draw_main {} {
 		-menu .my_menu -state disabled
 	.main_menu.file add separator
 	.main_menu.file add command -label "[trans inbox]" -command \
-	[list hotmail_login $config(login) $password]
+	[list hotmail_login [::config::getKey login] $password]
 	.main_menu.file add separator
 	.main_menu.file add command -label "[trans savecontacts]..." \
 		-command "debug_cmd_lists -export" -state disabled
@@ -3853,7 +3843,7 @@ proc cmsn_draw_main {} {
 	#.options add command -label "[trans changenick]..." -state disabled \
 	#   -command cmsn_change_name -state disabled
 	#   .options add command -label "[trans publishphones]..." -state disabled \
-	#   -command "::abookGui::showUserProperties $config(login) -edit"
+	#   -command "::abookGui::showUserProperties [::config::getKey login] -edit"
 	#.options add separator
 	#.options add command -label "[trans preferences]..." -command Preferences
 
@@ -3885,7 +3875,7 @@ proc cmsn_draw_main {} {
 	.main_menu.tools add separator
 	#.options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
 	#Let's disable adverts until it works, it's only problems for know
-	set config(adverts) 0
+	::config::setKey adverts 0
 	#.options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
 	#-command "msg_box \"[trans mustrestart]\""
 	#.options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable config(closingdocks)
@@ -3975,7 +3965,7 @@ proc cmsn_draw_main {} {
 	# Create the Notebook and initialize the page paths. These
 	# page paths must be used for adding new widgets to the
 	# notebook tabs.
-	if {$config(withnotebook)} {
+	if {[::config::getKey withnotebook]} {
 		NoteBook .main.f.nb -background white 
 		.main.f.nb insert end buddies -text "Buddies"
 		.main.f.nb insert end news -text "News"
@@ -4085,7 +4075,7 @@ proc cmsn_draw_main {} {
 	# Add the banner to main window when the user wants (By default "Yes")
 	resetBanner
 
-	#if {$config(enablebanner)} {
+	#if {[::config::getKey enablebanner]} {
 
 		# If user wants to see aMSN Banner, we add it to main window (By default "Yes")
 	#	adv_initialize .main
@@ -4120,12 +4110,12 @@ proc cmsn_draw_main {} {
 		}
 	}
 
-	wm protocol . WM_DELETE_WINDOW {::amsn::closeOrDock $config(closingdocks)}
+	wm protocol . WM_DELETE_WINDOW {::amsn::closeOrDock [::config::getKey closingdocks]}
 
 	cmsn_draw_status
 	cmsn_draw_offline
 
-	status_log "Proxy is : $config(proxy)\n"
+	status_log "Proxy is : [::config::getKey proxy]\n"
 
 	#wm iconname . "[trans title]"
 	if {$tcl_platform(platform) == "windows"} {
@@ -4138,7 +4128,7 @@ proc cmsn_draw_main {} {
 
 		#Set the position on the screen and the size for the contact list, from config
 		update
-		catch {wm geometry . $config(wingeometry)}
+		catch {wm geometry . [::config::getKey wingeometry]}
 		moveinscreen . 30
 	
 	
@@ -4299,10 +4289,10 @@ proc snack_play_sound {snd {loop 0}} {
 }
 
 proc play_sound_other {sound} {
-	global config tcl_platform
+	global tcl_platform
 
-	if { [string first "\$sound" $config(soundcommand)] == -1 } {
-		set config(soundcommand) "$config(soundcommand) \$sound"
+	if { [string first "\$sound" [::config::getKey soundcommand]] == -1 } {
+		::config::setKey soundcommand "[::config::getKey soundcommand] \$sound"
 	}
 
 	set soundcommand [::config::getKey soundcommand]
@@ -4449,12 +4439,11 @@ proc show_encodingchoose {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc set_encoding {enc} {
-	global config
 	if {[catch {encoding system $enc} res]} {
 		msg_box "Selected encoding not available, selecting auto"
-		set config(encoding) auto
+		::config::setKey encoding auto
 	} else {
-		set config(encoding) $enc
+		::config::setKey encoding $enc
 	}
 }
 #///////////////////////////////////////////////////////////////////////
@@ -4556,7 +4545,7 @@ proc cmsn_draw_offline {} {
 
 	after cancel "cmsn_draw_online"
 
-	global sboldf config password pgBuddy
+	global sboldf password pgBuddy
 
 	bind $pgBuddy.text <Configure>  ""
 
@@ -4619,13 +4608,13 @@ proc cmsn_draw_offline {} {
 
 	if { ([::config::getKey login] != "") && ([::config::getGlobalKey disableprofiles] != 1)} {
 		if { $password != "" } {
-			$pgBuddy.text insert end "$config(login)\n" start_login
+			$pgBuddy.text insert end "[::config::getKey login]\n" start_login
 			$pgBuddy.text insert end "[trans clicktologin]" start_login
 		} else {
-			$pgBuddy.text insert end "$config(login)\n" start_loginas
+			$pgBuddy.text insert end "[::config::getKey login]\n" start_loginas
 			$pgBuddy.text insert end "[trans clicktologin]" start_loginas
 		}
-		.main_menu.file entryconfigure 0 -label "[trans loginas] $config(login)"
+		.main_menu.file entryconfigure 0 -label "[trans loginas] [::config::getKey login]"
 
 		$pgBuddy.text insert end "\n\n\n\n\n"
 
@@ -4700,9 +4689,9 @@ proc cmsn_draw_offline {} {
 proc cmsn_draw_signin {} {
 	bind . <Configure> ""
 
-	global config pgBuddy
+	global pgBuddy
 
-	wm title . "[trans title] - $config(login)"
+	wm title . "[trans title] - [::config::getKey login]"
 
 
 	$pgBuddy.text configure -state normal -font splainf
@@ -4738,11 +4727,11 @@ proc cmsn_draw_signin {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc login_ok {} {
-	global config password loginmode
+	global password loginmode
 
 
 	if { $loginmode == 0 } {
-		set config(login) [string tolower [.login.main.f.f.loginentry get]]
+		::config::setKey login [string tolower [.login.main.f.f.loginentry get]]
 		set password [.login.main.f.f.passentry get]
 	} else {
 		if { $password != [.login.main.f.f.passentry2 get] } {
@@ -4753,7 +4742,7 @@ proc login_ok {} {
 	catch {grab release .login}
 	destroy .login
 
-	if { $password != "" && $config(login) != "" } {
+	if { $password != "" && [::config::getKey login] != "" } {
 		::MSN::connect $password
 	} else {
 		cmsn_draw_login
@@ -4763,8 +4752,7 @@ proc login_ok {} {
 #///////////////////////////////////////////////////////////////////////
 
 proc SSLToggled {} {
-	global config
-	if {$config(nossl) == 1 } {
+	if {[::config::getKey nossl] == 1 } {
 		::amsn::infoMsg "[trans sslwarning]"
 	}
 }
@@ -4777,7 +4765,7 @@ proc SSLToggled {} {
 # 
 proc cmsn_draw_login {} {
 
-	global config password loginmode HOME HOME2 protocol tcl_platform
+	global password loginmode HOME HOME2 protocol tcl_platform
 
 	if {[winfo exists .login]} {
 		raise .login
@@ -4822,7 +4810,7 @@ proc cmsn_draw_login {} {
 		-text "[trans startoffline]" -font splainf -highlightthickness 0 -pady 5 -padx 10
 
 	#Set it, in case someone changes preferences...
-	set config(protocol) 9
+	::config::setKey protocol 9
 
 	checkbutton $mainframe.nossl -text "[trans disablessl]" -variable config(nossl) -padx 10 -command SSLToggled
 
@@ -4854,7 +4842,7 @@ proc cmsn_draw_login {} {
 	pack .login.main .login.buttons -side top -anchor n -expand true -fill both -padx 10 -pady 10
 
 	# Lets fill our combobox
-	#$mainframe.box insert 0 $config(login)
+	#$mainframe.box insert 0 [::config::getKey login]
 	set idx 0
 	set tmp_list ""
 	while { [LoginList get $idx] != 0 } {
@@ -5006,8 +4994,8 @@ proc clickableImage {tw name image command {padx 0} {pady 0}} {
 #///////////////////////////////////////////////////////////////////////
 
 proc do_hotmail_login {} {
-	global config password
-	hotmail_login $config(login) $password
+	global password
+	hotmail_login [::config::getKey login] $password
 }
 
 if { $initialize_amsn == 1 } {
@@ -5049,7 +5037,7 @@ proc cmsn_draw_online_wrapped {} {
 	}
 
 	# Decide which grouping we are going to use
-	if {$config(orderbygroup)} {
+	if {[::config::getKey orderbygroup]} {
 
 		::groups::Enable
 
@@ -5066,7 +5054,7 @@ proc cmsn_draw_online_wrapped {} {
 		}
 
 
-		if {$config(ordergroupsbynormal)} {
+		if {[::config::getKey ordergroupsbynormal]} {
 			set sortlist [lsort -dictionary -index 0 $thelistnames ]
 		} else {
 			set sortlist [lsort -decreasing -dictionary -index 0 $thelistnames ]
@@ -5088,7 +5076,7 @@ proc cmsn_draw_online_wrapped {} {
 			::groups::UpdateCount $gid clear
 		}
 
-		if {$config(orderbygroup) == 2 } {
+		if {[::config::getKey orderbygroup] == 2 } {
 			lappend glist "offline"
 			incr gcnt
 		}
@@ -5100,7 +5088,7 @@ proc cmsn_draw_online_wrapped {} {
 		::groups::Disable
 	}
 
-	if { $config(showblockedgroup) == 1 && [llength [array names emailBList] ] != 0 } {
+	if { [::config::getKey showblockedgroup] == 1 && [llength [array names emailBList] ] != 0 } {
 		lappend glist "blocked"
 		incr gcnt
 	}
@@ -5202,7 +5190,7 @@ proc cmsn_draw_online_wrapped {} {
 	$pgBuddy.text.mystatus insert end "$my_short_name " mystatus
 	$pgBuddy.text.mystatus insert end "($my_state_desc)" mystatus
 
-	set balloon_message "[string map {"%" "%%"} "$my_name\n $config(login)\n [trans status] : $my_state_desc"]"
+	set balloon_message "[string map {"%" "%%"} "$my_name\n [::config::getKey login]\n [trans status] : $my_state_desc"]"
 
 	$pgBuddy.text.mystatus tag bind mystatus <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 
@@ -5216,7 +5204,7 @@ proc cmsn_draw_online_wrapped {} {
 		"+set Bulle(first) 0; kill_balloon;"
 	bind $pgBuddy.text.bigstate <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
-	if {$config(listsmileys)} {
+	if {[::config::getKey listsmileys]} {
 		smile_subst $pgBuddy.text.mystatus
 	}
 	#Calculate number of lines, and set my status size (for multiline nicks)
@@ -5254,7 +5242,7 @@ proc cmsn_draw_online_wrapped {} {
 
 	if { [::config::getKey checkemail] } {
 		# Show Mail Notification status
-		clickableImage $pgBuddy.text mailbox mailbox [list hotmail_login $config(login) $password] 5 0
+		clickableImage $pgBuddy.text mailbox mailbox [list hotmail_login [::config::getKey login] $password] 5 0
 
 		set unread [::hotmail::unreadMessages]
 
@@ -5292,12 +5280,12 @@ proc cmsn_draw_online_wrapped {} {
 		}
 
 		# Show the group's name/title
-		if {$config(orderbygroup)} {
+		if {[::config::getKey orderbygroup]} {
 
 			# For user defined groups we don't have/need translations
 			set gtitle [::groups::GetName $gname]
 
-				if { $config(orderbygroup) == 2 } {
+				if { [::config::getKey orderbygroup] == 2 } {
 					if { $gname == "offline" } {
 						set gtitle "[trans uoffline]"
 						set gtag "offline"
@@ -5317,7 +5305,7 @@ proc cmsn_draw_online_wrapped {} {
 				$pgBuddy.text insert end "[trans uonline]" online
 			} elseif {$gname == "offline" } {
 				$pgBuddy.text insert end "[trans uoffline]" offline
-			} elseif { $config(showblockedgroup) == 1 && [llength [array names emailBList] ] != 0 } {
+			} elseif { [::config::getKey showblockedgroup] == 1 && [llength [array names emailBList] ] != 0 } {
 				$pgBuddy.text insert end "[trans youblocked]" blocked
 			}
 
@@ -5356,7 +5344,7 @@ proc cmsn_draw_online_wrapped {} {
 
 		set breaking ""
 
-		if { $config(orderbygroup) } {
+		if { [::config::getKey orderbygroup] } {
 			foreach user_group [::abook::getGroups $user_login] {
 				set section "tg$user_group"
 
@@ -5364,14 +5352,14 @@ proc cmsn_draw_online_wrapped {} {
 
 				::groups::UpdateCount $user_group +1 $state_section
 
-				if { $config(orderbygroup) == 2 } {
+				if { [::config::getKey orderbygroup] == 2 } {
 					if { $state_code == "FLN" } { set section "offline"}
 					if { $breaking == "$user_login" } { continue }
 				}
 				
 				set myGroupExpanded [::groups::IsExpanded $user_group]
 
-				if { $config(orderbygroup) == 2 } {
+				if { [::config::getKey orderbygroup] == 2 } {
 					if { $state_code == "FLN" } {
 						set myGroupExpanded [::groups::IsExpanded offline]
 					}
@@ -5382,14 +5370,14 @@ proc cmsn_draw_online_wrapped {} {
 				}
 
 				#Why "breaking"? Why not just a break? Or should we "continue" instead of breaking?
-				if { $config(orderbygroup) == 2 && $state_code == "FLN" } { set breaking $user_login}
+				if { [::config::getKey orderbygroup] == 2 && $state_code == "FLN" } { set breaking $user_login}
 
 			}
 		} elseif {[::groups::IsExpanded $state_section]} {
 				ShowUser $user_name $user_login $state_code $colour $state_section 0
 		}
 
-		if { $config(showblockedgroup) == 1 && [info exists emailBList($user_login)]} {
+		if { [::config::getKey showblockedgroup] == 1 && [info exists emailBList($user_login)]} {
 			::groups::UpdateCount blocked +1
 			if {[::groups::IsExpanded blocked]} {
 				ShowUser $user_name $user_login $state_code $colour "blocked" [lindex [::abook::getGroups $user_login] 0]
@@ -5397,7 +5385,7 @@ proc cmsn_draw_online_wrapped {} {
 		}
 	}
 
-	if {$config(orderbygroup)} {
+	if {[::config::getKey orderbygroup]} {
 		for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
 			set gname [lindex $glist $gidx]
 			set gtag  "tg$gname"
@@ -5423,7 +5411,7 @@ proc cmsn_draw_online_wrapped {} {
 				continue
 			}
 			
-			if {$config(orderbygroup) == 2 } {
+			if {[::config::getKey orderbygroup] == 2 } {
 				if { $gname == "offline" } {
 					$pgBuddy.text insert offline.last " ($::groups::uMemberCnt(offline))" offline
 					$pgBuddy.text tag add dont_replace_smileys offline.first offline.last
@@ -5452,7 +5440,7 @@ proc cmsn_draw_online_wrapped {} {
 		$pgBuddy.text tag add dont_replace_smileys online.first online.last
 		$pgBuddy.text tag add dont_replace_smileys offline.first offline.last
 
-		if { $config(showblockedgroup) == 1 && [llength [array names emailBList]] } {
+		if { [::config::getKey showblockedgroup] == 1 && [llength [array names emailBList]] } {
 			$pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))" blocked
 			$pgBuddy.text tag add dont_replace_smileys blocked.first blocked.last
 		}
@@ -5473,7 +5461,7 @@ proc cmsn_draw_online_wrapped {} {
 
 
 	#Don't replace smileys in all text, to avoid replacing in mail notification
-	if {$config(listsmileys)} {
+	if {[::config::getKey listsmileys]} {
 
 		smile_subst $pgBuddy.text 0.0 end
 	}
@@ -5517,7 +5505,7 @@ proc getUniqueValue {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc ShowUser {user_name user_login state_code colour section grId} {
-	global pgBuddy emailBList Bulle config tcl_platform
+	global pgBuddy emailBList Bulle tcl_platform
 
 	if {($state_code != "NLN") && ($state_code !="FLN")} {
 		set state_desc " ([trans [::MSN::stateToDescription $state_code]])"
@@ -5579,7 +5567,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 			set current_line " [lindex $user_lines $i]"
 		}
 
-		if {$config(truncatenames)} {
+		if {[::config::getKey truncatenames]} {
 			if { $i == $last_element && $i == 0} {
 				#First and only line
 				set strw $maxw
@@ -5666,13 +5654,13 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 
 
 
-	if { $config(tooltips) == 1 } {
+	if { [::config::getKey tooltips] == 1 } {
 		if {$not_in_reverse} {
 			set balloon_message2 "\n[trans notinlist]"
 		} else {
 			set balloon_message2 ""
 		}
-		if {$config(orderbygroup) == 0} {
+		if {[::config::getKey orderbygroup] == 0} {
 			set gname ""
 			set glist [::abook::getGroups $user_login]
 			foreach i $glist {
@@ -5770,8 +5758,7 @@ proc balloon_motion {window x y msg} {
 # appended to the truncated string.
 #
 proc trunc {str {window ""} {maxw 0 } {font ""}} {
-	global config
-	if { $window == "" || $font == "" || $config(truncatenames)!=1} {
+	if { $window == "" || $font == "" || [::config::getKey truncatenames]!=1} {
 		return $str
 	}
 
@@ -6106,7 +6093,6 @@ proc cmsn_change_name {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc change_name_ok {} {
-	global config
 
 	set new_name [.change_name.fn.name get]
 	if {$new_name != ""} {
@@ -6117,7 +6103,7 @@ proc change_name_ok {} {
 				return
 			}
 		}
-		::MSN::changeName $config(login) $new_name
+		::MSN::changeName [::config::getKey login] $new_name
 	}
 
 	set friendly [.change_name.p4c.name get]
@@ -6391,7 +6377,7 @@ proc msg_box {msg} {
 # Launches the configured file manager
 proc launch_browser { url {local 0}} {
 
-	global config tcl_platform
+	global tcl_platform
 
 	if { ![regexp ^\[\[:alnum:\]\]+:// $url] && $local != 1 } {
 		set url "http://$url"
@@ -6412,14 +6398,14 @@ proc launch_browser { url {local 0}} {
 
 	} else {
 
-		if { [string first "\$url" $config(browser)] == -1 } {
-			set config(browser) "$config(browser) \$url"
+		if { [string first "\$url" [::config::getKey browser]] == -1 } {
+			::config::setKey browser "[::config::getKey browser] \$url"
 		}
 
-		#if { [catch {eval exec $config(browser) [list $url] &} res ] } {}
-		#status_log "Launching $config(browser)\n"		
-		if { [catch {eval exec $config(browser) &} res ] } {
-			::amsn::errorMsg "[trans cantexec $config(browser)]"
+		#if { [catch {eval exec [::config::getKey browser] [list $url] &} res ] } {}
+		#status_log "Launching [::config::getKey browser]\n"		
+		if { [catch {eval exec [::config::getKey browser] &} res ] } {
+			::amsn::errorMsg "[trans cantexec [::config::getKey browser]]"
 		}
 
 	}
@@ -6432,9 +6418,9 @@ proc launch_browser { url {local 0}} {
 # launch_filemanager(directory)
 # Launches the configured file manager
 proc launch_filemanager {location} {
-	global config tcl_platform
+	global tcl_platform
 
-		if { [string length $config(filemanager)] < 1 } {
+		if { [string length [::config::getKey filemanager]] < 1 } {
 			msg_box "[trans checkfilman $location]"
 		} else {
 			#replace all / with \ for windows
@@ -6442,13 +6428,13 @@ proc launch_filemanager {location} {
 				regsub -all {/} $location {\\} location
 			}
 
-			if { [string first "\$location" $config(filemanager)] == -1 } {
-				set config(filemanager) "$config(filemanager) \$location"
+			if { [string first "\$location" [::config::getKey filemanager]] == -1 } {
+				::config::setKey filemanager "[::config::getKey filemanager] \$location"
 			}
 
 
-			if {[catch {eval exec $config(filemanager) &} res]} {
-				::amsn::errorMsg "[trans cantexec $config(filemanager)]"
+			if {[catch {eval exec [::config::getKey filemanager] &} res]} {
+				::amsn::errorMsg "[trans cantexec [::config::getKey filemanager]]"
 			}
 		}
 
@@ -6459,20 +6445,20 @@ proc launch_filemanager {location} {
 # launch_mailer(directory)
 # Launches the configured mailer program
 proc launch_mailer {recipient} {
-	global config password
+	global password
 
-	if {[string length $config(mailcommand)]==0} {
-		::hotmail::composeMail $recipient $config(login) $password
+	if {[string length [::config::getKey mailcommand]]==0} {
+		::hotmail::composeMail $recipient [::config::getKey login] $password
 			return 0
 	}
 
-	if { [string first "\$recipient" $config(mailcommand)] == -1 } {
-		set config(mailcommand) "$config(mailcommand) \$recipient"
+	if { [string first "\$recipient" [::config::getKey mailcommand]] == -1 } {
+		::config::setKey mailcommand "[::config::getKey mailcommand] \$recipient"
 	}
 
 
-	if { [catch {eval exec $config(mailcommand) &} res]} {
-		::amsn::errorMsg "[trans cantexec $config(mailcommand)]"
+	if { [catch {eval exec [::config::getKey mailcommand] &} res]} {
+		::amsn::errorMsg "[trans cantexec [::config::getKey mailcommand]]"
 	}
 	return 0
 }
@@ -6501,7 +6487,6 @@ proc toggle_status {} {
 # timestamp()
 # Returns a timestamp like [HH:MM:SS]
 proc timestamp {} {
-	global config
 	set stamp [clock format [clock seconds] -format %H:%M:%S]
 	return "[::config::getKey leftdelimiter]$stamp[::config::getKey rightdelimiter]"
 }
@@ -6544,16 +6529,16 @@ proc configureMenuEntry {m e s} {
 # close_cleanup()
 # Makes some cleanup and config save before closing
 proc close_cleanup {} {
-	global HOME config lockSock
+	global HOME lockSock
 	catch { ::MSN::logout}
-	set config(wingeometry) [wm geometry .]
+	::config::setKey wingeometry [wm geometry .]
 
 	save_config
 	::config::saveGlobal
 
 	LoadLoginList 1
 	# Unlock current profile
-	LoginList changelock 0 $config(login) 0
+	LoginList changelock 0 [::config::getKey login] 0
 	if { [info exists lockSock] } {
 		if { $lockSock != 0 } {
 			catch {close $lockSock} res
@@ -6580,7 +6565,7 @@ if { $initialize_amsn == 1 } {
 # idleCheck()
 # Check idle every five seconds and reset idle if the mouse has moved
 proc idleCheck {} {
-	global idletime config oldmousepos trigger autostatuschange
+	global idletime oldmousepos trigger autostatuschange
 
 	set mousepos [winfo pointerxy .]
 	if { $mousepos != $oldmousepos } {
@@ -6590,27 +6575,27 @@ proc idleCheck {} {
 
 
 	# Check for empty fields and use 5min by default
-	if {$config(awaytime) == ""} {
-		set config(awaytime) 10
+	if {[::config::getKey awaytime] == ""} {
+		::config::setKey awaytime 10
 	}
 
-	if {$config(idletime) == ""} {
+	if {[::config::getKey idletime] == ""} {
 
-		set config(idletime) 5
+		::config::setKey idletime 5
 	}
 
-	if { [string is digit $config(awaytime)] && [string is digit $config(idletime)] } {
+	if { [string is digit [::config::getKey awaytime]] && [string is digit [::config::getKey idletime]] } {
 	#Avoid running this if the settings are not digits, which can happen while changing preferences
-		set second [expr {$config(awaytime) * 60}]
-		set first [expr $config(idletime) * 60]
+		set second [expr {[::config::getKey awaytime] * 60}]
+		set first [expr [::config::getKey idletime] * 60]
 	
-		if { $idletime >= $second && $config(autoaway) == 1 && \
+		if { $idletime >= $second && [::config::getKey autoaway] == 1 && \
 			(([::MSN::myStatusIs] == "IDL" && $autostatuschange == 1) || \
 			([::MSN::myStatusIs] == "NLN"))} {
 			#We change to Away if time has passed, and if IDL was set automatically
 			::MSN::changeStatus AWY
 			set autostatuschange 1
-		} elseif {$idletime >= $first && [::MSN::myStatusIs] == "NLN" && $config(autoidle) == 1} {
+		} elseif {$idletime >= $first && [::MSN::myStatusIs] == "NLN" && [::config::getKey autoidle] == 1} {
 			#We change to idle if time has passed and we're online
 			::MSN::changeStatus IDL
 			set autostatuschange 1
@@ -6629,7 +6614,6 @@ proc idleCheck {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc choose_theme { } {
-	global config
 	setColor . . background {-background -highlightbackground}
 }
 #///////////////////////////////////////////////////////////////////////
@@ -6638,14 +6622,13 @@ proc choose_theme { } {
 
 #///////////////////////////////////////////////////////////////////////
 proc setColor {w button name options} {
-	global config
 
 	catch {grab $w}
 	set initialColor [$button cget -$name]
 	set color [tk_chooseColor -title "[trans choosebgcolor]" -parent $w \
 		-initialcolor $initialColor]
 	if { $color != "" } {
-		set config(backgroundcolor) $color
+		::config::setKey backgroundcolor $color
 		::themes::ApplyDeep $w $options $color
 	}
 	catch {grab release $w}
@@ -6659,7 +6642,6 @@ proc setColor {w button name options} {
 
 #///////////////////////////////////////////////////////////////////////
 proc show_umenu {user_login grId x y} {
-	global config
 
 	set blocked [::MSN::userIsBlocked $user_login]
 	.user_menu delete 0 end
@@ -6687,7 +6669,7 @@ proc show_umenu {user_login grId x y} {
 	::groups::updateMenu menu .user_menu.copy_group_menu ::groups::menuCmdCopy $user_login
 
 
-	if {$config(orderbygroup)} {
+	if {[::config::getKey orderbygroup]} {
 		.user_menu add cascade -label "[trans movetogroup]" -menu .user_menu.move_group_menu
 		.user_menu add cascade -label "[trans copytogroup]" -menu .user_menu.copy_group_menu
 		.user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login} $grId"
@@ -7235,16 +7217,15 @@ proc convert_image_plus { filename type size } {
 
 
 proc load_my_pic {} {
-	global config
-	if {[file readable [filenoext [GetSkinFile displaypic $config(displaypic)]].gif]} {
-		image create photo my_pic -file "[filenoext [GetSkinFile displaypic $config(displaypic)]].gif"
+	if {[file readable [filenoext [GetSkinFile displaypic [::config::getKey displaypic]]].gif]} {
+		image create photo my_pic -file "[filenoext [GetSkinFile displaypic [::config::getKey displaypic]]].gif"
 	} else {
 		clear_disp
 	}
 }
 
 proc pictureBrowser {} {
-	global config selected_image
+	global selected_image
 
 	if { [winfo exists .picbrowser] } {
 		raise .picbrowser
@@ -7253,7 +7234,7 @@ proc pictureBrowser {} {
 
 	toplevel .picbrowser
 
-	set selected_image $config(displaypic)
+	set selected_image [::config::getKey displaypic]
 
 	ScrolledWindow .picbrowser.pics -auto vertical -scrollbar vertical
 	text .picbrowser.pics.text -width 40 -font sboldf -background white \
@@ -7558,10 +7539,9 @@ proc pictureChooseFile { } {
 }
 
 proc set_displaypic { file } {
-	global config
 
 	if { $file != "" } {
-		set config(displaypic) $file
+		::config::setKey displaypic $file
 		status_log "set_displaypic: File set to $file\n" blue
 		load_my_pic
 		::MSN::changeStatus [set ::MSN::myStatus]
@@ -7572,9 +7552,8 @@ proc set_displaypic { file } {
 }
 
 proc clear_disp { } {
-	global config
 
-	set config(displaypic) ""
+	::config::setKey displaypic ""
 
 	catch {image create photo my_pic -file "[GetSkinFile displaypic nopic.gif]"}
 	::MSN::changeStatus [set ::MSN::myStatus]

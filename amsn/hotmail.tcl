@@ -20,7 +20,7 @@ namespace eval ::hotmail {
 		#
 		# $Id$
 		#
-		global tcl_platform HOME config
+		global tcl_platform HOME
 
 		if {$pass != ""} {
 
@@ -87,7 +87,7 @@ proc hotmail_login {userlogin {pass ""}} {
 	#
 	# $Id$
 	#
-	global tcl_platform HOME config d
+	global tcl_platform HOME d
 
 	if {$pass != ""} {
 
@@ -151,7 +151,7 @@ proc hotmail_viewmsg {msgurl userlogin {pass ""}} {
 	#
 	# $Id$
 	#
-	global tcl_platform HOME config
+	global tcl_platform HOME
 
 	if {$pass != ""} {
 
@@ -259,7 +259,7 @@ proc decode_from_field { from } {
 }
 
 proc hotmail_procmsg {msg} {
-	global config password
+	global password
 
 	#Nuevo by AIM
 	
@@ -280,14 +280,14 @@ proc hotmail_procmsg {msg} {
 			if {$dest == "ACTIVE"} {
 				::hotmail::setUnreadMessages [expr { [::hotmail::unreadMessages] + 1}]
 				cmsn_draw_online
-				if { $config(notifyemail) == 1 } {
+				if { [::config::getKey notifyemail] == 1 } {
 					::amsn::notifyAdd "[trans newmailfrom $from $fromaddr]" \
-						"hotmail_viewmsg $msgurl $config(login) $password" newemail
+						"hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
 				}
 			} else {
-				if { $config(notifyemailother) == 1 } {
+				if { [::config::getKey notifyemailother] == 1 } {
 					::amsn::notifyAdd "[trans newmailfromother $from $fromaddr]" \
-						"hotmail_viewmsg $msgurl $config(login) $password" newemail
+						"hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
 				}
 			}
 		}
@@ -306,9 +306,9 @@ proc hotmail_procmsg {msg} {
 		if { [string length $noleidos] > 0 && $noleidos != 0} {
 			::hotmail::setUnreadMessages $noleidos
 			cmsn_draw_online
-			if { $config(notifyemail) == 1} {
+			if { [::config::getKey notifyemail] == 1} {
 				::amsn::notifyAdd "[trans newmail $noleidos]" \
-					"hotmail_login $config(login) $password" newemail
+					"hotmail_login [::config::getKey login] $password" newemail
 			}
 		}
 
@@ -319,9 +319,9 @@ proc hotmail_procmsg {msg} {
 		set msgurl [::MSN::GetHeaderValue $msg Folders-URL]
 		status_log "Hotmail: $folderunread unread emails in others folders \n"
 		#If the pref notifyemail is active and more than 0 email unread, show a notify on connect
-		if { $config(notifyemailother) == 1 && [string length $folderunread] > 0} {
+		if { [::config::getKey notifyemailother] == 1 && [string length $folderunread] > 0} {
 			::amsn::notifyAdd "[trans newmailfolder $folderunread]" \
-				"hotmail_viewmsg $msgurl $config(login) $password" newemail
+				"hotmail_viewmsg $msgurl [::config::getKey login] $password" newemail
 		}
 	}
 	

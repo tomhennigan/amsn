@@ -115,11 +115,10 @@ namespace eval ::remote {
     }
 
     proc setnick { nickname } {
-	global config
 	
 
 	if {$nickname != ""} {
-	    ::MSN::changeName $config(login) "$nickname"
+	    ::MSN::changeName [::config::getKey login] "$nickname"
 	    write_remote "New nick set to : $nickname"
 	} else {
 	    write_remote "New nick not entered"
@@ -274,14 +273,14 @@ proc md5keygen { } {
 }
 
 proc authenticate { command sock } {
-    global remotemd5key remote_auth config remote_sock_lock
+    global remotemd5key remote_auth remote_sock_lock
 
     if { $command == "auth" } {
 	set remotemd5key "[md5keygen]"
 	write_remote "auth $remotemd5key"
     } elseif { [lindex $command 0] == "auth2" && [info exists remotemd5key] } {
-	if { "[lindex $command 1]" ==  "[::md5::hmac $remotemd5key [list $config(remotepassword)]]" } {
-	    if { $config(enableremote) == 1 } { 
+	if { "[lindex $command 1]" ==  "[::md5::hmac $remotemd5key [list [::config::getKey remotepassword]]]" } {
+	    if { [::config::getKey enableremote] == 1 } { 
 		set remote_auth 1
 		set remote_sock_lock $sock
 		write_remote "Authentication successfull"
@@ -290,7 +289,7 @@ proc authenticate { command sock } {
 		
 	    } 
 	} else {
-	    if { $config(enableremote) == 1 } { 
+	    if { [::config::getKey enableremote] == 1 } { 
 		write_remote "Authentication failed"
 	    } else { 
 		write_remote "User disabled remote control"
