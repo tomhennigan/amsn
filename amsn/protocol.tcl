@@ -466,8 +466,12 @@ namespace eval ::MSNFT {
       #Invitation to filetransfer, initial message
       variable filedata
 
-       #::MSN6FT::SendFT $chatid $filename $filesize
-       #return 0
+		#Use new FT protocol only if the user choosed this option in advanced preferences.
+      if {[::config::getKey new_ft_protocol]} {
+      	::MSN6FT::SendFT $chatid $filename $filesize
+       	return 0
+      }
+       
 
       set sbn [::MSN::SBFor $chatid]
       if {$sbn == 0 } {
@@ -6069,6 +6073,10 @@ proc int2word { int1 int2 } {
 
 namespace eval ::MSN6FT {
 	namespace export SendFT AcceptFT RejectFT handleMsnFT
+	
+	
+
+	
 	proc SendFT { chatid filename filesize} {
 
 		status_log "Sending File $filename with size $filesize to $chatid\n"
@@ -6241,8 +6249,14 @@ namespace eval ::MSN6FT {
 
 
 	proc connectMsnFTP { sid nonce ip port sending } {
-
-		return
+	
+	#Use new FT protocol only if the user choosed this option in advanced preferences.
+    if {[::config::getKey new_ft_protocol]} {
+   		#Nothing
+    } else {
+   		return
+    }
+	
 		::amsn::FTProgress c $sid "" $ip $port
 
 		if { [catch {set sock [ socket $ip $port] } ] } {
@@ -6682,18 +6696,11 @@ namespace eval ::MSN6FT {
 		binary scan [string range $context 8 11] i filesize
 		binary scan [string range $context 16 19] i nopreview
 		
-		#Another way to have the filename on Mac OS X because we're having problem with Unicode
-	#	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		#	set filename [encoding convertfrom utf-8 [string range $context 20 [expr $size - 20]]]
-			#set filename [string map { "\x00" "" } $filename]
-		#} else {
 		binary scan $context x20A[expr $size - 24] filename
+
 		set filename [ToBigEndian "$filename\x00" 2]
 		set filename [encoding convertfrom unicode "$filename"]
 
-
-#			set filename [string range $filename 0 [expr [string first "\x00" $filename] -1]]
-		#}
 
 		if { $nopreview == 0 } {
 			set previewdata [string range $context $size end]
@@ -6717,9 +6724,14 @@ namespace eval ::MSN6FT {
 	}
 
 	proc answerFTInvite { sid chatid branchid conntype } {
-
-		return
-
+	
+	#Use new FT protocol only if the user choosed this option in advanced preferences.
+    if {[::config::getKey new_ft_protocol]} {
+   		#Nothing
+    } else {
+   		return
+    }
+	
 		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 -1 -1 -1 -1 -1 "$branchid" ]
 		set session [::MSNP2P::SessionList get $sid]
 		set dest [lindex $session 3]
