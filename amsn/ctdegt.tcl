@@ -1624,8 +1624,8 @@ proc save_text_file { w ent } {
 
     set dstfile [ $ent get ]
 
-	 if {![file writable $dstfile]} {
-	 	msg_box "[trans invalidfile $dstfile [trans filename]]"
+	 if { [catch { open $dstfile w }] } {
+	 	msg_box "[trans invalidfile2 $dstfile]"
 		return
 	 }
 
@@ -1800,6 +1800,9 @@ set $configitem $browsechoose
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.113  2004/02/19 00:56:51  burgerman
+# apparently this didn't get through!
+#
 # Revision 1.112  2004/01/21 03:53:39  germinator2000
 # Correct the bug about convert and TLS browse button. When someone did'nt choose something in the dialog (clicked on cancel), the new path was blank (instead of keeping the original path). Now it's fixed with brand new   proc Browse_Dialog
 #
