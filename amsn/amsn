@@ -465,7 +465,13 @@ proc cmsn_draw_main {} {
    scrollbar $pgBuddy.ys -command "$pgBuddy.text yview" 
 #   text .main.status  -width 30 -height 1 -wrap none
 
-   adv_initialize .main $config(proxy)
+   #This shouldn't go here
+   if ($config(withproxy)) {
+     ::MSN::initProxy $config(proxy)
+   }
+   
+   adv_initialize .main
+   
    # This one is not a banner but a branding. When adverts are enabled
    # they share this space with the branding image. The branding image
    # is cycled in between adverts.

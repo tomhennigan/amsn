@@ -311,6 +311,7 @@ proc SavePreferences {} {
 
     # Save configuration.
     save_config
+
 }
 ###################### Other Features     ###########################
 proc ChooseFilename { twn title } {
@@ -398,6 +399,9 @@ proc LabelEntryGet { path } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.9  2002/07/01 00:50:31  airadier
+# Proxy support in checkver, fixed a problem with proxy, if entered but "use proxy" not checked
+#
 # Revision 1.8  2002/07/01 00:06:55  airadier
 # Translation
 #

@@ -29,9 +29,8 @@ package require http 2.3
 
 #
 # Initialize the Advertisement module (hey! need bread on the table!)
-# Proxy parameter is "" (no proxy) or "server:port"
 #
-proc adv_initialize { win proxy } {
+proc adv_initialize { win } {
     global adv_cycle adv_enable adv_paused adv_after_id
 
     image create photo banner
@@ -44,14 +43,6 @@ proc adv_initialize { win proxy } {
     # Banner is clickable, but so far no way to get the URL
     # that corresponds to that banner
     bind ${win}.banner <Button-3> { puts "browse" }
-
-    # TODO Test with Proxy
-    if {($proxy != ":") && ($proxy != "") } {
-        set lproxy [split $proxy ":"]
-	set proxy_host [lindex $lproxy 0]
-	set proxy_port [lindex $lproxy 1]
-        ::http::config -proxyhost $proxy_host -proxyport $proxy_port
-    }
     
     # Keybinding to enable/disable BanneR cycling on main window
     bind . <Control-b> { set adv_enable 0 }

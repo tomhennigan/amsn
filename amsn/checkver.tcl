@@ -2,28 +2,23 @@
 # $Id$
 #
 
+package require http 2.3
+
 proc checking_ver {} {
    global version weburl
 
-   
 
    if [catch {
-     set sock [socket -async amsn.sourceforge.net 80]
-     fconfigure $sock -buffering none -translation {binary binary} -blocking 1
-     status_log "Conected to web server\n" red
-     puts $sock "GET /amsn_latest HTTP/1.0\nUser-Agent: amsn\nHost: amsn.sourceforge.net\n\n"
-     status_log "Request sent, waiting response\n" red
 
-     gets $sock tmp_data
-     set end [string length $tmp_data]
-     set ok [string range $tmp_data [expr {$end -3}] [expr {$end -2}]]
 
-     if { $ok == "OK" } {
-     	while { [string length $tmp_data] > 1 } {
-	  gets $sock tmp_data
-	}
-        gets $sock tmp_data	
-     }
+    set token [::http::geturl {amsn.sourceforge.net/amsn_latest} -timeout 10000]
+
+
+    set tmp_data [ ::http::data $token ]
+
+  ::http::cleanup $token
+
+#     status_log "DATOS: $tmp_data\n" white
      set lastver [split $tmp_data "."]
      set yourver [split $version "."]    
 

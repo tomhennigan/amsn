@@ -27,10 +27,26 @@
 #
 #}
 
+package require http 2.3
+
 namespace eval ::MSN {
    namespace export changeName logout changeStatus connect blockUser \
    unblockUser addUser deleteUser login myStateIs inviteFT acceptFT rejectFT \
    cancelReceiving cancelSending getMyIP moveUser
+
+   proc initProxy { proxy } {
+      # TODO Test with Proxy
+      # for the moment, just configure the http to use proxy or not
+      if {($proxy != ":") && ($proxy != "") } {
+         set lproxy [split $proxy ":"]
+         set proxy_host [lindex $lproxy 0]
+         set proxy_port [lindex $lproxy 1]
+         ::http::config -proxyhost $proxy_host -proxyport $proxy_port
+      } else {
+         ::http::config -proxyhost ""
+      }
+
+   }
 
    proc connect { username password } {
       if {[catch { cmsn_ns_connect $username $password } res]} {
