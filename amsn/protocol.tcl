@@ -4279,7 +4279,7 @@ proc new_contact_list { version {load 0} } {
 
 
 proc load_contact_list { } {
-    global list_version HOME
+    global list_version HOME contactlist_loaded
 
     status_log "load_contact_list: checking if contact list files exists\n"
 
@@ -4296,6 +4296,8 @@ proc load_contact_list { } {
     set file_id [open [file join ${HOME} contacts.ver] r]
     gets $file_id version
     close $file_id
+
+    set contactlist_loaded 1
 
     status_log "load_contact_list: setting contact list version to $version\n"
 
