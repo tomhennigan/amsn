@@ -67,6 +67,7 @@ blockinter4 seconds.
 blocklist Block list (BL):
 blockmessage These people are online and blocked you
 blockusers Number of users to check at once 
+bouncedock Bounce aMSN's icon in the dock when a message is received
 broughtby  Brought to you by the following developers
 browse Browse
 browser Browser
@@ -126,6 +127,7 @@ connectionlost Disconnected: Connection with server closed
 contactadded Contact added
 contactdoesnotexist Contact does not exist!
 contactlist Contact list (FL):
+continuously Continuously
 convertexplain Path to CONVERT executable file, from ImageMagick (required for Display Pictures).\n Leave blanck if CONVERT is in the path
 copy Copy
 copytogroup Copy to group
@@ -263,6 +265,7 @@ ipaddress IP Address
 ipdetect Detect correct IP for File Transfers using HTTP
 istyping $1 is typing a message
 joins $1 joins conversation
+justonce Just once
 keepalive Keepalive (NAT)
 keeplog2 Log all conversations to aMSN's History for future viewing
 keeplog Keep Logs of Chats
@@ -326,6 +329,7 @@ myworkphone My Work Phone
 natip IP detection by web page 
 natkeepalive If you are getting disconnected regularly, enable this KeepAlive
 needonline You still are/appear offline!
+never Never
 newmail $1 new messages in Inbox
 newmailfrom New mail from $1 ($2)
 newmsg New message
