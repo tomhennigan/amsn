@@ -1,0 +1,14 @@
+amsn_lang_version 2
+serverlabel Insérez les informations de votre serveur de courrier sortant.
+smtpserver Serveur SMTP (ex: localhost, smtp.gmail.com)
+smtpport Port du serveur SMTP (défaut: 25)
+userlabel Si votre serveur a besoin d'une authentification, inserez la dans les prochaines cases.(Gmail en a besoin)
+smtpuser Utilisateur (ex: mon_courriel@gmail.com)
+smtppass Mot de passe
+sendtolabel Insérez dans la prochaine case l'adresse email à laquelle vous voulez recevoir les historiques de conversation (logs).
+sendto Envoyez les historiques à (ex.: mon_courriel@gmail.com)
+logslabel Options d'apparence.
+defaultprefix aMSN Conversation: 
+showfooter Pied de page.
+htmlformat Utiliser formatage HTML (couleur, emoticons)
+footer _________________________________________________________________\n aMSN Messenger http://amsn.sf.net/\n Historiques envoyés par GLogs plugin.
