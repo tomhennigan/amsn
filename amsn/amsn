@@ -44,10 +44,9 @@ set date "07/03/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
+#=======================================================================
 #Look if we are launched from a link and set
 #the correct working dir
-
-
 if {[catch {file readlink [info script]} res]!=0} {
   set program_dir [file dirname [info script]]
 } else {
@@ -61,9 +60,25 @@ if {[catch {file readlink [info script]} res]!=0} {
      }
    }
    set program_dir $resdir
-
 }
 
+# Setup other important directory paths
+if {$tcl_platform(platform) == "unix"} {
+   set HOME "$env(HOME)/.amsn"
+   set files_dir "$env(HOME)/amsn_received"
+} elseif {$tcl_platform(platform) == "windows"} {
+   set HOME "$env(USERPROFILE)/amsn"
+   set files_dir "$env(USERPROFILE)/amsn_received"
+} else {
+   set HOME "amsn"
+   set files_dir "amsn_received"
+}
+
+set log_dir "${HOME}/logs"
+
+# And setup where to find optional packages
+lappend auto_path $program_dir
+lappend auto_path ${HOME}
 
 #=======================================================================
 set images_folder "[file join $program_dir i]"
@@ -157,19 +172,6 @@ set list_states {{NLN online #0000FF online online bonline}
 		{HDN appearoff #404040 offline offline boffline}
 		{FLN offline #404040 offline offline boffline}}
 
-#=======================================================================
-if {$tcl_platform(platform) == "unix"} {
-   set HOME "$env(HOME)/.amsn"
-   set files_dir "$env(HOME)/amsn_received"
-} elseif {$tcl_platform(platform) == "windows"} {
-   set HOME "$env(USERPROFILE)/amsn"
-   set files_dir "$env(USERPROFILE)/amsn_received"
-} else {
-   set HOME "amsn"
-   set files_dir "amsn_received"
-}
-
-set log_dir "${HOME}/logs"
 
 #=======================================================================
 
