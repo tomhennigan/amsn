@@ -11,7 +11,7 @@
 #
 #-----------------------------------------------------------------------
 #	SYNOPSIS:
-#		framec pathName ?type? ?options?
+#		framec pathName ?options?
 #	STANDARD OPTIONS
 #		(all options available to 'type')
 #	WIDGET SPECIFIC OPTIONS
@@ -20,6 +20,7 @@
 #		-borderwidth or -bw
 #		-innerpadx
 #		-innerpady
+#		-type
 #	STANDARD COMMANDS
 #		(all commands available to 'type')
 #	WIDGET SPECIFIC COMMANDS
@@ -32,9 +33,7 @@
 package require snit
 package provide framec 0.2
 
-
 snit::widget framec {
-	component border
 	component padding
 	component inner
 
@@ -46,35 +45,45 @@ snit::widget framec {
 	option -bg -cgetmethod getOption -configuremethod changeBackground
 	option -innerpadx -default 0 -cgetmethod getOption -configuremethod changePadWidthx
 	option -innerpady -default 0 -cgetmethod getOption -configuremethod changePadWidthy
+	option -class
+	option -type
 
-	delegate option * to inner except {-bordercolor -bc -borderwidth -bd -background -bg -padwidth}
+	delegate option * to inner except {-bordercolor -bc -borderwidth -bd -background -bg -padwidth -type -class}
 	delegate method * to inner
 
-	constructor {itstype args} {
-		#test if type is given
-		if { [string equal -length 1 $itstype "-"] } {
-			set args [linsert $args 0 $itstype]
-			set itstype frame
+	constructor {args} {
+		#check for type and class
+		set itstype frame
+		set itsclass ""
+		foreach {option value} $args {
+			if { [string equal $option "-type"] } {
+				set itstype $value
+			} elseif { [string equal $option "-class"] } {
+				set itsclass $value
+			}
 		}
 
-		install border using frame $win.borderrr -background $options(-bordercolor) -relief solid -borderwidth 0
-		install padding using frame $border.padding -background $options(-background) -relief solid -borderwidth 0
-		install inner using $itstype $padding.inner -border 0
+		$hull configure -background $options(-bordercolor) -relief solid -borderwidth 0
+		install padding using frame $win.padding_%AUTO% -background $options(-background) -relief solid -borderwidth 0
+		if { $itsclass == "" } {
+			install inner using $itstype $win.inner -borderwidth 0
+		} else {
+			install inner using $itstype $win.inner -class $itsclass -borderwidth 0
+		}
 
-		pack $inner -padx $options(-innerpadx) -pady $options(-innerpady) -expand true -fill both
 		pack $padding -padx $options(-borderwidth) -pady $options(-borderwidth) -expand true -fill both
-		pack $border -padx 0 -pady 0 -expand true -fill both
+		pack $inner -padx $options(-innerpadx) -pady $options(-innerpady) -expand true -fill both -in $padding
 
 		# Apply any options passed at creation time.
 		$self configurelist $args
 	}
 
 	method getOption {option} {
-		if { string equal $option "-bd" } {
+		if { [string equal $option "-bd"] } {
 			set option "-borderwidth"
-		} elseif { string equal $option "-bg" } {
+		} elseif { [string equal $option "-bg"] } {
 			set option "-background"
-		} elseif { string equal $option "-bc" } {
+		} elseif { [string equal $option "-bc"] } {
 			set option "-bordercolor"
 		}
 
@@ -83,7 +92,7 @@ snit::widget framec {
 
 	method changeBorderColor {option value} {
 		set options(-bordercolor) $value
-		$border configure -background $value
+		$hull configure -background $value
 	}
 
 	method changeBorderWidth {option value} {

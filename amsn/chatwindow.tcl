@@ -951,8 +951,7 @@ namespace eval ::ChatWindow {
 
 		# Create our frame
 		set top $w.top
-			 # -class amsnChatFrame (need to fix class option and re-add below)
-		framec $top -relief solid\
+		framec $top -class amsnChatFrame -relief solid\
 				-borderwidth [::skin::getKey chat_top_border] \
 				-bordercolor [::skin::getKey topbarborder] \
 				-background [::skin::getKey topbarbg]
@@ -999,8 +998,7 @@ namespace eval ::ChatWindow {
 		
 		#Create the frame
 		set statusbar $w.statusbar
-			# -class Amsn (need to fix class option and re-add below)
-		framec $statusbar -relief solid\
+		framec $statusbar -class Amsn -relief solid\
 				-borderwidth [::skin::getKey chat_status_border] \
 				-bordercolor [::skin::getKey chat_status_border_color] \
 				-background [::skin::getKey statusbarbg]
@@ -1165,7 +1163,7 @@ namespace eval ::ChatWindow {
 		frame $fr -class Amsn -borderwidth 0 -relief solid \
 			-background [::skin::getKey chatwindowbg] -height [::config::getKey winchatoutheight]
 		ScrolledWindow $out -auto vertical -scrollbar vertical
-		framec $text text -relief solid -foreground white -background white -width 45 -height 3 \
+		framec $text -type text -relief solid -foreground white -background white -width 45 -height 3 \
 			-setgrid 0 -wrap word -exportselection 1 -highlightthickness 0 -selectborderwidth 1 \
 			-borderwidth [::skin::getKey chat_output_border] \
 			-bordercolor [::skin::getKey chat_output_border_color]
@@ -1262,8 +1260,7 @@ namespace eval ::ChatWindow {
 
 		# Create The input frame
 		set input $bottom.in
-			# -class Amsn (need to fix class option and re-add below)
-		framec $input -relief solid \
+		framec $input -class Amsn -relief solid \
 				-background [::skin::getKey buttonbarbg] \
 				-borderwidth [::skin::getKey chat_input_border] \
 				-bordercolor [::skin::getKey chat_input_border_color]
@@ -1385,8 +1382,7 @@ namespace eval ::ChatWindow {
 		status_log "Creating button bar\n"
 		# create the frame
 		set buttons $bottom.buttons
-			# -class Amsn (need to fix class option and re-add below)
-		framec $buttons -relief solid \
+		framec $buttons -class Amsn -relief solid \
 				-borderwidth [::skin::getKey chat_buttons_border] \
 				-bordercolor [::skin::getKey chat_buttons_border_color] \
 				-background [::skin::getKey buttonbarbg]	
@@ -1476,7 +1472,7 @@ namespace eval ::ChatWindow {
 
 		# Create them
 		frame $frame -class Amsn -borderwidth 0 -relief solid -background [::skin::getKey chatwindowbg]
-		framec $picture label -relief solid -image [::skin::getNoDisplayPicture] \
+		framec $picture -type label -relief solid -image [::skin::getNoDisplayPicture] \
 				-borderwidth [::skin::getKey chat_dp_border] \
 				-bordercolor [::skin::getKey chat_dp_border_color] \
 				-background [::skin::getKey chatwindowbg]
