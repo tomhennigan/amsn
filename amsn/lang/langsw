@@ -10,18 +10,29 @@ addtoo Lägg till denna person på kontaktlistan.
 admincontacts Administrera kontakter.
 admingroups Administrera grupper.
 adverts Reklam
+Aktivitet/Strax Tillbaka/Upptagen
 alarmpref Inställningar för informationsmeddelanden
 alarmstatus Stäng av /sätt på signal för den här kontakten.
 allowseen Tillåt denna person att se när jag är uppkopplad och kontakta mig.
+användare så kommer du få en separat konfiguration för denna profil. $1 $1 
+appearance Utseende
 appearoff Visa som offline
+areacode Riktnummer
 aretyping $1 skriver ett meddelande
+askprofile Denna användaren har för närvarande ingen profil. Vill du skapa 
+autoaway Visa som "Inte Vid Datorn" efter
+autoconnect2 Logga in automatiskt när aMSN startas
 autoconnect Automatisk anslutning
 autohotmaillog Automatisk inloggning
 autoidle Sätt min status till Inte vid datorn automatiskt.
 autoip Automatisk IP
+autonoact Visa som "Ingen Aktivitet" efter
 avoidseen Tillåt inte att denna person kan se att jag är uppkopplad eller skriva till mig.
 away Inte vid datorn
+awaymsg1 Fråga efter meddelande varje gång jag sätter min status till ingen 
+awaymsg2 Fråga aldrig och använd alltid nedanstående meddelande
 baduserpass Ogiltigt användarnamn eller lösenord.
+bgcolor Ändra aMSN's bakgrundsfärg
 blankdirect Lämna tom för direktanslutning.
 block Blockera
 blocked Blockerad
@@ -31,16 +42,22 @@ browser Webbläsare
 busy Upptagen
 cancel Avbryt
 cfgalarm Konfigurera alarm
+changefont Ändra Font
 changenick Ändra smeknamn
 chatack Acceptera chat från
 chat Chat
 chatreq Efterfrågar chat
+chatsmileys2 Visa 'Emoticons' och Smileys i chat-fönster
 chatsmileys Chat smileys
 checkingver Kollar efter nya versioner
 checkver Kolla efter ny version
 choosebasefont Välj teckensnitt
 choosebgcolor Välj bakgrundsfärg
 choosefontcolor Välj textfärg
+choosefont Välj Font
+clearlog2 Radera historian för Alla kontakter
+clearlog3 Radera alla loggar
+clearlog Radera log
 clearlog Rensa logg
 clicktologin Klicka för att logga in
 close Stäng
@@ -50,21 +67,34 @@ confirmdelete Bekräfta radering av $1
 confirm Konfirmera
 connecterror Fel uppstod när servern kontaktades
 connecterror Uppkopplingen misslyckades
+connection Anslutning
 contactadded Lagt till kontakt
 contactdoesnotexist Kontakten finns inte!
 copy Kopiera
 copytogroup Kopiera till grupp
+countrycode Min landskod
+cprofile Skapa profil
 cut Klipp ut
 date Datum
+date Datum
+days Dagar
+dcprofile Skapa inte profil
+default Standart konfiguration
 delete Ta bort
 deliverfail Det uppstod ett problem då följande meddelandet skickades
+delprofile2 Välj vilken profil du vill ta bort
+delprofile Ta bort profil
 dockgtk Aktivera dockning i Gnome
 docking Dockning
 dockingoff Använd inte dockning
 dockkde Aktivera dockning i KDE
+editprofile Editera Profil
 edit Redigera
+eller spara alarm eller lösenord. $1 Om du väljer att skapa profil för denna 
 enableproxy Aktivera proxy
+encoding2 Välj vilken charmap du ska använda
 encoding Kodning
+en ny profil? $1 Om du väljer att itne göra det så kan du inte se Historia 
 entercontactemail Skriv in kontaktens e-postadress
 enterfilename Ange filnamn
 enternick Skriv in ditt smeknamn
@@ -73,6 +103,7 @@ exitamsn Är du säker på att du vill avsluta?
 extras Extra
 faq FAQ (vanliga frågor)
 filedoesnotexist Filen finns inte
+fileman Filhanterare
 filename Filnamn
 filetransfercancelled Filöverföringen avbröts
 filetransfercomplete Filöverföringen klar
@@ -101,10 +132,13 @@ inbox Inkorg
 invalidusername Ogiltigt användarnamn
 invite Bjud in
 ipaddress IP Adress
+ipdetect Sök efter korrekt IP-adress för Filöversändelser via HTTP
 istyping $1 skriver ett meddelande
 joins $1 kommer in i konversationen
 keepalive Stäng aldrig av förbindelse till NAT/Proxy server
+keeplog2 Spara alla aMSN loggar
 keeplog Spara chatt-loggar
+Klicka på "Skapa Profil" för att skapa en ny profil för $2
 language Språk
 lastmsgtime Senaste meddelandet mottaget $1
 lclosedwin $1 stängde $2 's fönster
@@ -115,26 +149,43 @@ leaves $1 lämnar konversationen
 lenteredconf $1 kom in i konversationen med $2
 linprivate I PRIVAT
 listeningon lyssnar på $1
+listsmileys2 Lista smileys
 listsmileys Visa smileys
 ljoinedconf $1 anslöts till konversationen
-lleftconf $1 kom in i koversationen
+lleftconf $1 kom in i konversationen
 loadcontacts Ladda kontakter
+logbigger Individuella log-filer får inte bli större än
+logfandexp Logfilsstorlek och utgångstid av loggar
 loggedotherlocation Nedkopplad! Du är inloggad på ett annat ställe!
 loggingin Loggar in
+loggingin Spara historia/loggar i
 loginas Logga in som
+loging Logning
 login Logga in
+logolder Spara bara chat-loggar som är äldre än
 logout Logga ut
 logsin har just loggat in
+logsmileys Visa grafiska smileys i aMSN's logfönster
 lprivtoconf Privatchatt blev Konferens med $1
 luclosedwin Du stängde fönstret $1
 mailer Avsändare
+maximised Maximerad
+minimised Minimerad
+mins minuter
 mobile Mobil
 movetogroup Flytta till grupp
+msgmaxmin När ett nytt meddelande kommer så vill jag att det ska vara :
 msg Meddelande
+msg Meddelande
+msgmode Välj hur meddelanderutor ska hanteras :
 msn AMSN
 mustrestart Du måste starta om programmet för att ändringarna ska få effekt.
+myhomephone Mitt hemtelefonnummer
+mymobilephone Mitt mobilnummer
 mystatus Min status
+myworkphone Mitt arbetstelefonnummer
 natip NAT IP
+natkeepalive Om du blir nedkopplad ofta, välj detta alternativ
 needonline Du är nerkopplad/verkar vara nerkopplad
 newmail $1 nya meddelanden i Inkorgen
 newmailfrom Nytt mail från
@@ -146,7 +197,11 @@ nologfile Ingen log för $1
 nonewmail Inga nya meddelanden i Inkorgen
 nonewver Det finns inga nya versioner att ladda ner
 normal Normal
+notify1 Visa meddelanderuta när någon loggar in
+notify2 Visa meddelanderuta när någon skickar ett meddelande till dej
+notify3 Visa meddelanderuta när nya e-mails ankommer
 notify Meddela
+notifyoffset Välj meddelanderutans position
 notifywin Visa meddelanderuta när någon loggar in
 nousersinsession Inga användare i konversationen
 offline Frånkopplad
@@ -162,16 +217,38 @@ other Annat
 pager Personsökare
 pass Lösenord
 paste Klistra in
+personal Personligt
 phone Telefon
 picfile Bild för informationsmeddelanden (GIF-format, mindre än 500x500)
 picstatus Visa/dölj bild vid informationsmeddelanden.
 port Port
+prefalerts Ljud och Varningsmeddelanden
 prefapps Programinställningar
+prefawaymsg Mitt upptagetmeddelande
+prefemotic Smileys/ikoner
 preferences Inställningar
+preffont2 Ändra hur andra ser min text i chat
+preffont3 Ändra aMSN's GUI font och storlek
+preffont Min meddelandetext
+preflog1 Logg-inställningar
+preflook aMSN Messenger utseende
+prefmsging Meddelandeutseende
+prefname Mitt aMSN Messenger Namn/Smeknamn/Nickname
+prefphone2 Välj vilka nummer personer \n ska få se \n
+prefphone Mina telefonnummer
+prefprofile2 Skapa eller ändra din profil (Den \n beskrivning av dejsjälv 
+prefprofile3 aMSN's Användarkonfigurations Profiler
+prefprofile Min Profil
+prefproxy Mina proxyinställningar
+prefsession Mitt inloggningsnamn och Status
+prefshared Delade anslutningar (endast för NAT)
 prefsound Ljudinställningar
+profiledconfig Profilkonfiguration
+profiles Profiler
 properties Egenskaper
 proxyconfhttp HTTP proxysupport konfiguration
 proxyconf Proxy-konfiguration
+proxy Jag använder en proxyserver (HTTP eller SOCKS5)
 publishphones Dela ut mina telefonnummer
 receivedbytes $1 av $2 bytes mottagna
 receivefile Ta emot fil
@@ -194,14 +271,24 @@ send Skicka
 sentbytes $1 av $2 bytes skickade
 servergoingdown Nedkopplad: Server-problem
 server Server
+session Session
+som andra kan se)
+sound2 Spela upp ljud när en kontakt loggar in eller skickar meddelande
+soundcommand Program som ska användas  för att spela upp ljud (t.ex: esdplay)
 soundfile Ljud för informationsmeddelanden.
 sound Ljud
 soundloop Upprepa ljudet i en slinga.
+soundserver Ljudserver
 soundstatus Stäng av /sätt på signalljud.
+startoffline2 Logga in som "Visa som offline"
 startoffline Starta som "Visa som Offline"
 status Status
 stopalarm Stoppa alla varningar.
+stylechat Samma utseende som chat
+stylehist aMSN's logutseende
+stylelog Välj i vilket format du vill se din historia
 syntaxerror Felaktigt syntax
+tabbed Tabbade fönsnter
 textsize Textstorlek
 title Al's Messenger
 tools Verktyg
@@ -217,86 +304,7 @@ view Alternativ
 viewprofile Se Profil
 willjoin Väntar på att $1 ska ansluta sig till konversationen
 work Arbete
-yousay Du säger
-youwant Du vill
-appearance Utseende
-areacode Riktnummer
-askprofile Denna användaren har för närvarande ingen profil. Vill du skapa 
-en ny profil? $1 Om du väljer att itne göra det så kan du inte se Historia 
-eller spara alarm eller lösenord. $1 Om du väljer att skapa profil för denna 
-användare så kommer du få en separat konfiguration för denna profil. $1 $1 
-Klicka på "Skapa Profil" för att skapa en ny profil för $2
-autoaway Visa som "Inte Vid Datorn" efter
-autoconnect2 Logga in automatiskt när aMSN startas
-autonoact Visa som "Ingen Aktivitet" efter
-awaymsg1 Fråga efter meddelande varje gång jag sätter min status till ingen 
-Aktivitet/Strax Tillbaka/Upptagen
-awaymsg2 Fråga aldrig och använd alltid nedanstående meddelande
-bgcolor Ändra aMSN's bakgrundsfärg
-changefont Ändra Font
-chatsmileys2 Visa 'Emoticons' och Smileys i chat-fönster
-choosefont Välj Font
-clearlog Radera log
-clearlog2 Radera historian för Alla kontakter
-clearlog3 Radera alla loggar
-connection Anslutning
-countrycode Min landskod
-cprofile Skapa profil
-date Datum
-days Dagar
-dcprofile Skapa inte profil
-default Standart konfiguration
-editprofile Editera Profil
-ipdetect Sök efter korrekt IP-adress för Filöversändelser via HTTP
-keeplog2 Spara alla aMSN loggar
-listsmileys2 Lista smileys
-logbigger Individuella log-filer får inte bli större än
-logfandexp Logfilsstorlek och utgångstid av loggar
-loggingin Spara historia/loggar i
-logolder Spara bara chat-loggar som är äldre än
-logsmileys Visa grafiska smileys i aMSN's logfönster
-maximised Maximerad
-minimised Minimerad
-mins minuter
-msgmaxmin När ett nytt meddelande kommer så vill jag att det ska vara :
-msg Meddelande
-msgmode Välj hur meddelanderutor ska hanteras :
-myhomephone Mitt hemtelefonnummer
-mymobilephone Mitt mobilnummer
-myworkphone Mitt arbetstelefonnummer
-natkeepalive Om du blir nedkopplad ofta, välj detta alternativ
-notify1 Visa meddelanderuta när någon loggar in
-notify2 Visa meddelanderuta när någon skickar ett meddelande till dej
-notify3 Visa meddelanderuta när nya e-mails ankommer
-notifyoffset Välj meddelanderutans position
-personal Personligt
-prefalerts Ljud och Varningsmeddelanden
-prefawaymsg Mitt upptagetmeddelande
-prefemotic Smileys/ikoner
-preffont2 Ändra hur andra ser min text i chat
-preffont3 Ändra aMSN's GUI font och storlek
-preffont Min meddelandetext
-preflog1 Logg-inställningar
-preflook aMSN Messenger utseende
-prefmsging Meddelandeutseende
-prefname Mitt aMSN Messenger Namn/Smeknamn/Nickname
-prefphone2 Välj vilka nummer personer \n ska få se \n
-prefphone Mina telefonnummer
-prefprofile2 Skapa eller ändra din profil (Den \n beskrivning av dejsjälv 
-som andra kan se)
-prefprofile Min Profil
-prefproxy Mina proxyinställningar
-prefsession Mitt inloggningsnamn och Status
-prefshared Delade anslutningar (endast för NAT)
-profiledconfig Profilkonfiguration
-profiles Profiler
-proxy Jag använder en proxyserver (HTTP eller SOCKS5)
-session Session
-sound2 Spela upp ljud när en kontakt loggar in eller skickar meddelande
-startoffline2 Logga in som "Visa som offline"
-stylechat Samma utseende som chat
-stylehist aMSN's logutseende
-stylelog Välj i vilket format du vill se din historia
-tabbed Tabbade fönsnter
 xoffset X position
 yoffset Y position
+yousay Du säger
+youwant Du vill
