@@ -137,6 +137,9 @@ if {$tcl_platform(os) == "Darwin"} {
 	set config(custom_smileys) 1
 
 	#Advanced options, not in preferences window
+	# Create the entry in the list and then, set
+	# the variable at bottom
+	
 	#List like:
 	#	"" trans_section_name_1
 	#  optionname1 type1 trans_name1 trans_desc1(optional)
@@ -173,6 +176,7 @@ if {$tcl_platform(os) == "Darwin"} {
 		[list lineflushlog bool lineflushlog] \
 		[list autocheckver bool autocheckver] \
 		[list storename bool storenickname] \
+		[list strictfonts bool strictfonts] \
 
 	]
 	set config(tooltips) 1				;#Enable/disable tooltips
@@ -194,7 +198,7 @@ if {$tcl_platform(os) == "Darwin"} {
 	set config(enablebanner) 1		;#Show or Hide AMSN Banner (By default Show)
 	set config(startontray) 0		;#Start amsn on tray icon only (hide contact list)
 	set config(storename) 1			;#Store original nick in a variable when go to custom states to revert it when go back
-
+	set config(strictfonts) 0		;#Use strict fonts' size in _ALL_ AMSN's fonts (Disabled by default)
 
 
 	#System options, not intended to be edited (unless you know what you're doing)

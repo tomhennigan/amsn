@@ -36,14 +36,23 @@ namespace eval ::amsn {
    ##PUBLIC
 
    proc initLook { family size bgcolor} {
+      global config
 
       font create menufont -family $family -size $size -weight normal
       font create sboldf -family $family -size $size -weight bold
       font create splainf -family $family -size $size -weight normal
-      font create bboldf -family $family -size [expr {$size+1}] -weight bold
-      font create bplainf -family $family -size [expr {$size+1}] -weight normal
-      font create bigfont -family $family -size [expr {$size+2}] -weight bold
-      font create examplef -family $family -size [expr {$size-2}] -weight normal
+
+      if { $config(strictfonts) } {
+          font create bboldf -family $family -size $size -weight bold
+          font create bplainf -family $family -size $size -weight normal
+          font create bigfont -family $family -size $size -weight bold
+          font create examplef -family $family -size $size -weight normal
+      } else {
+          font create bboldf -family $family -size [expr {$size+1}] -weight bold
+          font create bplainf -family $family -size [expr {$size+1}] -weight normal
+          font create bigfont -family $family -size [expr {$size+2}] -weight bold
+          font create examplef -family $family -size [expr {$size-2}] -weight normal
+      }
 
       catch {tk_setPalette $bgcolor}
       option add *Menu.font menufont

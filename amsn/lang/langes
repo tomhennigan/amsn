@@ -442,6 +442,7 @@ state Quiero aparecer como
 status Estado
 stopalarm Detener alarma
 storenickname Volver al nick original tras un estado personalizado con nick personalizado
+strictfonts Establecer todas las fuentes de AMSN al tamaño que yo seleccioné (Barras de estado, y demás)
 stylechat El mismo que los chats
 stylehist apariencia de historial de aMSN
 stylelog Elige el estilo en el que deseas ver el historial
