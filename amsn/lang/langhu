@@ -1,6 +1,7 @@
 amsn_lang_version 2
 about Rólunk
-acceptfile Accept file $1, size $2? Saved in $3
+accept	Elfogad
+acceptfile Fogadott fájl $1, méret $2? Lementve $3
 actions Mûveletek
 addacontact Partner hozzáadása
 addedyou Téged hozzáadott a partnerlistájához
@@ -9,6 +10,8 @@ addtoo Ennek a személynek hozzáadása a partnerlistához
 admincontacts Partnerek szerkesztése
 admingroups Csoportok szerkesztése
 adverts Hírdetések
+alarmpref Figyelmeztetõ jeézés ennek a felhasználónak
+alarmstatus Figyelmeztetõ jelzés KI/BE kapcsolása ehhez a felhasználóhoz
 allowseen Ez a személy mindig láthat ha bejelentkezem
 appearoff Nem látható a bejelentkezés (rejtett üzemmód)
 aretyping $1 éppen üzenetet gépel
@@ -21,9 +24,11 @@ blankdirect Hagyd üresen a közvetlen kapcsolathoz
 block Blokkolás
 blocked Blokkolva
 broughtby  A fejlesztõk:
+browse Böngészés
 browser Böngészõ
 busy Dolgozom ne zavarj
 cancel Mégsem
+cfgalarm Beállítások, figyelmeztetõ jelzés Hozzáadása/Elvétele
 changenick Becenév váltása
 chatack Csevegés engedélyezése...
 chat Csevegés
@@ -33,6 +38,7 @@ checkingver Új verzió ellenõrzése folyamatban...
 checkver Új verzó ellenõrzése
 choosebasefont Betûtípus választása
 choosebgcolor Háttérszín választása
+choosefontcolor Betû szín választása
 clicktologin Kattints ide a bejelentkezéshez
 close Bezárás
 closingdocks Bezáró gomb dokkolása az ablakba
@@ -56,6 +62,8 @@ filedoesnotexist A fájl nem jött létre
 filename Fájlnév
 filetransfercancelled Fájl átvitel megszakítva
 filetransfercomplete Fájl átvitel kész
+ftaccepted Fájl átvitel engedélyezése
+ftrejected Fájl átvitel kész
 gonelunch Ebédelni mentem
 groupadd Csoport hozzáadása
 group Csoport
@@ -70,7 +78,7 @@ groupunknown Ismeretlen csoport
 handle Kezelés
 helpcontents A segítség összetevõi
 help Segítség
-home Home
+home Otthon
 ident Azonosítás
 identity Azonosító
 inbox Beérkezõ üzenetek
@@ -80,6 +88,7 @@ ipaddress IP Cím
 istyping $1 üzenetet gépel be.
 joins $1 $2 csatlakozott a beszélgetéshez
 language Nyelv
+lastmsgtime Az utolsó üzenet beérkezett:
 leaveblankforhotmail Hagyd üresen a hotmail web használatához
 leaves $1 elhagyta a beszélgetést
 listeningon Hallgatás a porton $1
@@ -90,7 +99,7 @@ loggingin Belépve
 loginas Bejelentkezés mint
 login Bejelentkezés
 logout Kilépés
-logsin Bejelentkeztél
+logsin Bejelentkezett
 mailer Levelezõ
 mobile Mobil
 movetogroup Mozgatás a csoportokba
@@ -110,7 +119,7 @@ nonewver Nincs elérhetõ új verzió
 notify értesítés
 nousersinsession Nincs felhasználó a kapcsolatok között
 offline Kapcsolat nélkül
-ok Ok
+ok Rendben
 onenewmail 1 új üzeneted van
 online Elérhetõ
 onphone Telefonálok
@@ -121,6 +130,8 @@ other Más
 pager Lapozás
 pass Jelszó
 phone Telefon
+picfile Gigyelmeztetõ kép fájl (GIF < 500 x 500)
+picstatus Figyelmeztetõ kép KI/BE kapcsolása
 port Port
 prefapps Alkalmazások
 preferences Beállítások
@@ -133,6 +144,7 @@ receivedbytes Érkezett $1 ból $2 bájt
 receivefile Fájl fogadása
 reconnecting Újra kapcsolódás a szerverhez
 reconnect Várakozás a $1kapcsolódására
+reject Elvet
 rememberpass Emlékezz a jelszavamra
 rightback Késõbb visszajövök
 saveas Mentés másként
@@ -147,9 +159,13 @@ sendmsg Üzenet küldése
 sentbytes Küldve $1 -ból $2 bájt
 servergoingdown Megszakítva: a szerver leállt
 server Szerver
+soundfile Figyelmeztetõ hang fájl
 sound Hang esemény
+soundloop Ismétlõdõ hang
+soundstatus Figyelmeztetõ hang KI/BE kapcsolása
 startoffline Indítás kapcsolat nélkül
 status Állapot
+stopalarm Figyelmeztetõ hang leállítása
 syntaxerror  Szintaktikai hiba
 textsize Szöveg méret
 title Al's Messenger
@@ -163,6 +179,6 @@ user Felhasználó
 version Verzió
 view Nézet
 willjoin  Várakozok $1  csatlakozására a beszélgetéshez
-work Dolgozok
+work Foglalkozás
 yousay Te mondtad
 youwant Te akartad
