@@ -1,30 +1,32 @@
 #
 # $Id$
 #
-set emotions {{":-)" smile} {":)" smile} {":-D" smiled} {":D" smiled}
-	{":->" smiled} {":>" smiled} {":-O" smileo} {":O" smileo} {":-P" smilep}
-	{":P" smilep} {";-)" wink} {";)" wink} {":-(" sad} {":(" sad}
-	{":-<" sad} {":<" sad} {":-S" crooked} {":S" crooked} {":-|" disgust}
-	{":|" disgust} {"(Y)" thumbu} {"(N)" thumbd} {"(L)" love} {"(U)" unlove}
+set emotions {{":-)" smile} {":)" smile}  {";-)" wink} {";)" wink} {":-D" smiled} {":D" smiled} {":>" smiled}
+	{":-P" smilep} {":P" smilep}  {":-(" sad} {":(" sad} {":-<" sad} {":<" sad} {":-|" disgust} {":|" disgust}
+	{":-S" crooked} {":S" crooked} {":-O" smileo} {":O" smileo} {":'(" smilec} {":`(" smilec2} 
+	{":@" angry}  {":-@" angry} {":->" smiled} {"8o|" aggresive} {":$" smilemb} {":-$" smilemb} {":-#" zip} 
+	{":*" kiss } {":-*" kiss} {":^)" new7} {"8-|" glasses} {"8-)" new5} {"|-)" new4} {"+o(" new3}
+	{"*-)" new2} {"^o)" new1} {"<:o)" party} {"(Y)" thumbu} {"(N)" thumbd} {"(L)" love} {"(U)" unlove}
 	{"(K)" lips} {"(G)" gift} {"(F)" rose} {"(X)" emgirl} {"(Z)" emboy}
 	{"(P)" photo} {"(B)" beer} {"(D)" coctail} {"(T)" emphone} {"(@)" emcat}
 	{"(C)" emcup} {"(I)" embulb} {"(H)" emhottie} {"(S)" emsleep}
 	{"(*)" emstar} {"(8)" emnote} {"(E)" email} {"(M)" messenger}
 	{":-\[" vampire} {":\[" vampire} {"(\})" girlhug} {"(\{)" boyhug}
-	{"(A)" angel} {"(6)" devil} {"(^)" cake} {"(O)" clk} {":-@" angry}
-	{":@" angry} {"(&)" dog} {"(W)" rosew} {":'(" smilec} {":`(" smilec} 
-	{":$" smilemb} {":-$" smilemb} {"(#)" sun} {"(R)" rainbow}
+	{"(A)" angel} {"(6)" devil} {"(^)" cake} {"(O)" clk}
+	 {"(&)" dog} {"(W)" rosew} 
+	 {"(#)" sun} {"(R)" rainbow}
 	{"(%)" handcuffs} {"(~)" film} {"(?)" asl}}
 
 set emotion_files {smile smiled smileo smilep wink sad crooked disgust thumbu
 	thumbd love unlove lips gift rose emgirl emboy photo beer coctail
 	emphone emcat emcup embulb emhottie emsleep emstar emnote email
 	messenger vampire girlhug boyhug angel devil cake clk angry dog rosew
-	smilec smilemb smilemb sun rainbow handcuffs film asl}
+	smilec smilec2 smilemb smilemb sun rainbow handcuffs film asl aggresive
+	zip kiss new7 glasses new5 new4 new3 new2 new1 party}
 
 
 foreach img_name $emotion_files {
-   image create photo $img_name -file [file join ${images_folder} ${img_name}.gif]
+   image create photo $img_name -file [file join ${smileys_folder} ${img_name}.gif]
 }
 
 

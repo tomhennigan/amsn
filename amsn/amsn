@@ -93,6 +93,7 @@ lappend auto_path "[file join ${HOME} plugins]"
 ############################################################
 
 set images_folder "[file join $program_dir i]"
+set smileys_folder "[file join $program_dir smileys]"
 set sounds_folder "[file join $program_dir s]"
 
 
