@@ -461,6 +461,7 @@ stateedittext Edita els camps que vulguis modificar\ni prem "Desar"
 stateinfo Configuració dels estats personalitzats
 statename Nom de l'estat personalitzat
 statenewtext Emplena la informació necessària per crear\nel nou estat personalitzat i prem "Desar"
+statenick Sobrenom personalitzat (deixa'l en blanc per no canviar res)
 state Vull aparèixer com
 status Estat
 stopalarm Parar l'alarma
