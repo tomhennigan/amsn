@@ -128,8 +128,9 @@ clicktoadd Klik op de knop 'Toevoegen' voor een nieuwe notitie
 clicktologin Klik hier om je aan te melden
 clientcaps Stuur x-clientcaps pakketje naar andere clients
 clientname Client naam
-closed Het gesprek met $1 is wegens inactiviteit afgesloten
 close Sluiten
+closed Het gesprek met $1 is wegens inactiviteit afgesloten
+closeall Alle tabbladen in dit venster sluiten?
 closingdocks Minimaliseren i.p.v. sluiten
 command Commando
 commandstatus Commandoregel uitvoeren
@@ -192,6 +193,7 @@ deliverfail Er was een probleem bij het bezorgen van de volgende boodschap
 delprofile2 Selecteer het profiel waarvan je de locale configuratiebestanden wilt verwijderen
 delprofile Verwijder profiel
 description Omschrijving
+detach Ontkoppelen
 directconnection Directe verbinding met het internet (gebruik poort 1863)
 disabled Uitgeschakeld
 disableprofiles Schakel profielen uit (handig voor internet cafés en gedeelde omgevingen)
@@ -564,6 +566,7 @@ showdisplaypic2 Schermafbeelding standaard tonen bij het openen van een gespreks
 showdisplaypic Toon schermafbeelding
 showmypic Mijn Afbeelding
 shownotify Geef meldingsvenster weer bij bepaalde gebeurtenissen
+showpicnotify Geef schermafbeelding weer op meldingsvensters
 showuserpic Afbeelding van $1
 skinselector Skin selecteren
 skin Skin
@@ -657,6 +660,7 @@ view Beeld
 viewcontactsby Contactpersonen weergeven met
 viewprofile Profiel weergeven
 webcaminvite $1 wil een webcam-sessie beginnen, maar deze functie wordt niet door aMSN ondersteund.
+whatsize De door jou gekozen afbeelding heeft niet het gebruikelijke formaat\nvoor schermafbeeldingen (96x96). Hoe groot wil je dat de afbeelding wordt weergegeven?
 willjoin Wachten tot $1 de conversatie zal bijwonen
 winkreceived Je hebt een knipoog ontvangen van $1. Deze functie wordt niet ondersteund door aMSN.
 wintitlenick Schermnamen weergeven op vensters met tabbladen

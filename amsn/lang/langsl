@@ -564,6 +564,7 @@ showdisplaypic Prika¾i osebno sliko
 showdisplaypic2 Prika¾i osebno sliko, ko se odpre pogovor
 showmypic Moja osebna slika
 shownotify Poka¾i obvestilo ob nekaterih dogodkih
+showpicnotify Prika¾i osebno sliko v obvestilnem oknu
 showuserpic Osebna slika uporabnika $1
 skin Skin
 skinselector Izberi skin
@@ -656,7 +657,8 @@ view Pogled
 viewcontactsby Prikaz stikov
 viewprofile Poglej profil
 webcaminvite $1 te je povabil/a na videokonferenco, a aMSN tega ne podpira.
-willjoin èakam, da se $1 pridru¾i pogovoru
+whatsize Zahtevana slika ni navadne velikosti prikazne\nslike (96x96). Kak¹ne velikosti naj bo?
+willjoin Èakam, da se $1 pridru¾i pogovoru
 winkreceived $1 ti je pome¾iknil/a. aMSN trenutno tega ne podpira.
 wintitlenick Nicki namesto e-po¹tnih naslovov v oknih z zavihki
 work Delo

@@ -128,6 +128,7 @@ clicktoadd Klik på tilfør for at tilføre en ny note
 clicktologin Klik her for at logge ind
 clientcaps Send x-klientcaps pakker til andre klienter
 clientname Klientnavn
+closeall Luk alle faneblade i chat vinduet?
 close Luk
 closed Samtalen med $1 er lukket pga. inaktivitet
 closingdocks Luk-knap minimerer vinduet
@@ -192,6 +193,7 @@ deliverfail Der var et problem med at levere følgende besked
 delprofile Slet profil
 delprofile2 Vælg den profil du vil have fjernet
 description Beskrivelse
+detach løsgør
 directconnection Jeg har en direkte forbindelse til Internettet (anvender port 1863)
 disabled Deaktiveret
 disableprofiles Deaktivér profiler (Nyttig i netcaféer eller offentlige områder)
@@ -565,6 +567,7 @@ showdisplaypic Vis Display-billede
 showdisplaypic2 Vis automatisk Display-billede når et chatvindue åbnes
 showmypic Mit Display-billede
 shownotify Vis påmindelsesvindue når der sker noget
+showpicnotify Vis kontaktpersoners' billed i beskedvindue
 showuserpic $1's Display-billede
 skin Skin
 skinselector Vælg Skin
@@ -616,6 +619,7 @@ tabbedgroups Faneblad vindue for alle personer i samme gruppe
 tabtitlenick Vis nicks i faneblad i stedet for email
 temp_state Gem ikke (Midlertidig status, vil blive glemt, når du lukker AMSN)
 textsize Tekststørrelse
+thismonth Denne måned
 timeremaining Tilbageværende tid
 timestamps Vis tidsstempler i Chat-vinduer
 title Al's Messenger
@@ -658,6 +662,7 @@ view Vis
 viewcontactsby Se kontakter efter
 viewprofile Vis profil
 webcaminvite $1 har inviteret dig til at starte webcam, men aMSN understøtter ikke dette. 
+whatsize Billedt du har anmodet er ikke det normale fremviste billed\nstørrelse (96x96) VIlken størrelse vil du have billedt vist som?
 willjoin Venter på at $1 slutter sig til samtalen
 winkreceived Du har modtaget et blink fra $1. Denne funktion understøttes ikke endnu af aMSN.
 wintitlenick Vis nicks i et faneblad vindue i stedet for email
