@@ -1119,8 +1119,10 @@ namespace eval ::amsn {
       incr winid
 
       toplevel .${win_name}
-      
-      wm geometry .${win_name} 350x320
+
+      if {[catch { wm geometry .${win_name} $config(winchatsize)} res]} {
+         wm geometry .${win_name} 350x320
+      }
       #wm state .${win_name} withdrawn
       wm state .${win_name} iconic
       wm title .${win_name} "[trans chat]"
@@ -1349,6 +1351,8 @@ namespace eval ::amsn {
 
       bind .${win_name}.f.in.input <Escape> "destroy .${win_name} %W; break"
 
+      bind .${win_name} <Configure> "::amsn::ChangeWinSize .${win_name}"
+
       bind .${win_name}.f.in.input <Control-Up> "window_history previous %W; break"
       bind .${win_name}.f.in.input <Control-Down> "window_history next %W; break"
       set window_titles(.${win_name}) ""
@@ -1364,7 +1368,17 @@ namespace eval ::amsn {
       return ".${win_name}"
 
    }
-   #///////////////////////////////////////////////////////////////////////////////
+
+
+   proc ChangeWinSize { win } {
+      global config
+      set geom [wm geometry $win]
+      set pos_start [string first "+" $geom]
+      set config(winchatsize)  [string range $geom 0 [expr {$pos_start-1}]]
+      #status_log "$config(winchatsize)\n"
+   }
+
+	#///////////////////////////////////////////////////////////////////////////////
 
 
    proc ShowAddList {title win_name command} {
