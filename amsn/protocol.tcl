@@ -809,7 +809,7 @@ namespace eval ::MSN {
 
       CloseSB ns
 
-      global config user_stat
+      global config user_stat automessage
       variable myStatus
 
       sb set ns serv [split $config(start_ns_server) ":"]
@@ -829,6 +829,8 @@ namespace eval ::MSN {
 
       save_contact_list
       clean_contact_lists
+
+      set automessage "-1"
 
       cmsn_draw_offline
       #Alert dock of status change

@@ -4613,7 +4613,6 @@ proc updatebossmodetime { } {
     after 1000 updatebossmodetime
 }
 
-
 proc window_history { command w } {
     global win_history
 
