@@ -21,6 +21,7 @@ alarmondisconnect Activar alarma para este usuario cuando se desconecte
 alarmonmsg Activar alarma para este usuario cuando te envie un mensaje
 alarmonstatus Activar alarma para este usuario cuando cambie su estado
 alarmpref Configuración de alarma para el usuario
+alarms Alarmas
 alarmstatus Activar alarma para este usuario
 allfiles Todos los archivos
 allowallbutbl Permitir que todos los usuarios excepto los bloqueados me puedan contactar
@@ -134,6 +135,7 @@ credits Creditos
 currentdate Fecha actual
 custom_edit Editar emoticono personalizado
 custom_new Añadir emoticono personalizado
+customnick Apodo personal
 cut Cortar
 date Fecha
 days Días
@@ -317,6 +319,7 @@ newmsg Nuevo mensaje
 newstate Añadir estado personalizado
 newveravailable Nueva versión $1 disponible para descarga
 next Siguiente
+nick Apodo
 no No
 noactivity Sin actividad
 nodataavailable No hay datos disponibles para $1
@@ -513,7 +516,9 @@ uonline Conectados
 user Usuario
 useralreadyonlist El usuario ya se encuentra en la lista de contactos.
 userblocked El usuario se encuentra online pero estás bloqueado
+userdata Datos de usuario 
 usernotonline El usuario no se encuentra en línea
+userproperties Propiedades del usuario $1
 useryourself No puedes hablar contigo mismo
 verifyblocked Comprobar qué contactos te bloquean
 version Versión

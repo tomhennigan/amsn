@@ -21,6 +21,7 @@ alarmondisconnect Activate alarm when user goes offline/invisible
 alarmonmsg Activate alarm when user sends you a message
 alarmonstatus  Activate alarm when user changes state
 alarmpref Alarm Settings for user
+alarms Alarms
 alarmstatus Turn ON/OFF Alarm for this user
 allfiles All Files
 allowallbutbl Allow all users apart from those in my Block List to contact me
@@ -134,6 +135,7 @@ credits Credits
 currentdate Current Date
 custom_edit Edit custom smiley
 custom_new Add new custom smiley
+customnick Custom Nick
 cut Cut
 date Date
 days Days
@@ -317,6 +319,7 @@ newmsg New message
 newstate Add custom state
 newveravailable Newer version $1 available for download
 next Next
+nick Nick
 no No
 noactivity No activity
 nodataavailable No data available for $1
@@ -513,7 +516,9 @@ uonline Online
 user User
 useralreadyonlist User is already on contact list
 userblocked The user is online but blocked you
+userdata User Data
 usernotonline The user is not online
+userproperties User properties of $1
 useryourself You can't chat with yourself
 verifyblocked Check for people blocking you
 version Version
