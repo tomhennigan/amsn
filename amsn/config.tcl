@@ -19,7 +19,7 @@ proc ConfigDefaults {} {
 	set config(log_event_connect) 0		;#Log when someone connect
 	set config(log_event_disconnect) 0	;#Log when someone disconnect
 	set config(log_event_email) 0		;#Log when a new E-Mail is received
-	set config(log_event_status) 0		;#Log changement of status
+	set config(log_event_state) 0		;#Log changement of status
 	set config(eventdisconnected) 1		;#Test to know if we must display or/and log the connection or not
 
 	set config(connectiontype) direct	;# Connection type: direct|http|proxy
