@@ -87,6 +87,7 @@ cachedpics $1 shranjenih slik
 cancel Preklièi
 cannotdeleteprofile Ne morem izbrisati profila, ker je v Amsn seji
 cantexec Ne morem izvesti programa $1. Preveri nastavitve.
+cantloadonlineversion Ne morem dobiti nazadnje posodobljenega seznama jezikov z interneta
 cantremoveothers Ni mogoèe izbrisati skupine "Ostali"
 casesensitive Obèutljiv na velikost èrk
 cfgalarm Nastavi zvoèni/slikovni alarm
@@ -309,6 +310,7 @@ internalerror Notranja napaka stre¾nika
 invalidfile Datoteka $2 iz polja "$1" ne obstaja ali ni berljiva
 invalidfile2 Datoteke $1 ni mogoèe ustvariti, preprièaj se, da ima¹ prava dovoljenja za ta cilj.
 invalidgroup Napaèna skupina
+invalidparameter Napaka pri povezovanju na stre¾nik: napaèen parameter
 invalidpicsize Slika je prevelika, izberi manj¹o
 invalidpic Slika ne obstaja
 invalidsound Zvok ne obstaja
@@ -544,6 +546,7 @@ savecontacts Shrani seznam stikov
 savetofile Shrani v datoteko
 says $1 pravi
 sbcon Povezujem se na Switch Board
+selectall Izberi vse
 selectplugins Izberi plugin, ki ga ¾eli¹ omogoèiti
 selectskin Izberi skin s seznama
 send Po¹lji
@@ -615,6 +618,7 @@ tabbed Okna z zavihki
 tabbedglobal Okno z zavihki za vse stike
 tabbedgroups Okno z zavihki za stike iz iste skupine
 tabtitlenick Nicki namesto e-po¹tnih naslovov v zavihkih
+takesnapshot Zajemi sliko
 temp_state Ne shrani (Trenutno, bo ponastavljeno ob ponovnem zagonu AMSN)
 textsize Velikost besedila
 thismonth Ta mesec
@@ -644,6 +648,8 @@ unload Ustavi
 uoffline Neprijavljeni
 uonline Prijavljeni
 update Posodobi
+updating Posodabljam
+useasdp Uporabi kot prikazno sliko
 useother Uporabi drugi program
 user Uporabnik
 useralreadyonlist Uporabnik je ¾e na seznamu stikov
@@ -659,6 +665,7 @@ view Pogled
 viewcontactsby Prikaz stikov
 viewprofile Poglej profil
 webcaminvite $1 te je povabil/a na videokonferenco, a aMSN tega ne podpira.
+webcamshot Slika s spletne kamere
 whatsize Zahtevana slika ni navadne velikosti prikazne\nslike (96x96). Kak¹ne velikosti naj bo?
 willjoin Èakam, da se $1 pridru¾i pogovoru
 winkreceived $1 ti je pome¾iknil/a. aMSN trenutno tega ne podpira.
@@ -678,3 +685,4 @@ yoffset Y odstopanje
 youblocked Blokirajo te
 yousay Pravi¹
 youwant Hoèe¹
+zoom Poveèava

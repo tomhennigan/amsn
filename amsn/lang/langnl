@@ -87,6 +87,7 @@ cachedpics $1 opgeslagen plaatjes
 cancel Annuleren
 cannotdeleteprofile Het profiel kan niet verwijderd worden. Het wordt mogelijk gebruikt door een andere aMSN sessie
 cantexec Kan het programma $1 niet starten, controleer je instellingen
+cantloadonlineversion Kan de bijgewerkte talen-lijst niet ophalen van het Internet
 cantremoveothers De groep "Andere contactpersonen" kan niet verwijderd worden
 casesensitive Gebruik hoofdlettergevoelige triggers
 cfgalarm Alarminstellingen
@@ -108,10 +109,10 @@ chatsmileys2 Emoticons in berichten weergeven
 chatsmileys Emoticons weergeven
 checkblocking Blijven controleren of gebruikers je blokkeren
 checkemail Het aantal berichten in je Postvak IN weergeven in de contactpersonenlijst
-checkfilman Ontvangen bestanden worden bewaard in de map $1.\nKies Extra > Opties > Geavanceerd om dit te wijzigen.
+checkfilman Ontvangen bestanden worden bewaard in de map $1.\nKies Extra > Voorkeuren > Geavanceerd om dit te wijzigen.
 checkingver Bezig te zoeken naar een nieuwere versie van aMSN
 checkonfln Controleer of een contactpersoon je heeft geblokkeerd wanneer hij offline gaat
-checkopenfilecommand Controleer het 'commando voor bestand openen' in het venster 'Opties'
+checkopenfilecommand Controleer het 'commando voor bestand openen' in het venster 'Voorkeuren'
 checkver aMSN Versiecontrole
 choosearq Selecteer je systeem
 choosebasefont Lettertype
@@ -328,7 +329,7 @@ keepalive Verbinding in stand houden (NAT)
 keeplog2 In een logboek automatisch een geschiedenis bijhouden van de gesprekken
 keeplog Gesprekken opslaan in een logboek
 language Taal
-language_manager Vertalingscoördinator
+language_manager Taalbeheer
 lastlogin Vorige login
 lastlogout Vorige logout
 lastmsgedme Laatste bericht
@@ -484,7 +485,7 @@ prefblock2 Doorlopende controle
 prefblock3 "Je bent geblokkeerd door" groep
 prefconnection Verbindingsinstellingen
 prefemotic Emoticons
-preferences Opties
+preferences Voorkeuren
 preffont2 Het lettertype voor berichten wijzigen
 preffont3 Lettertype en -grootte van aMSN wijzigen
 preffont Mijn berichttekst
@@ -547,6 +548,7 @@ save Opslaan
 savetofile Opslaan in bestand
 says $1 zegt
 sbcon Bezig met verbinden met schakelbord
+selectall Alles selecteren
 selectplugins Selecteer de plugins die je wilt activeren
 selectskin Kies een skin uit de lijst
 sendfile Een bestand of foto verzenden
@@ -618,6 +620,7 @@ tabbed Vensters met tabbladen
 tabbedglobal Alle gesprekken met contactpersonen in één venster
 tabbedgroups Gesprekken per groep van contactpersonen in een venster plaatsen
 tabtitlenick Schermnamen weegeven op tabbladen
+takesnapshot Maak een momentopname
 temp_state Niet opslaan (Tijdelijke status, gaat verloren als aMSN wordt afgesloten)
 textsize Tekstgrootte
 thismonth Deze maand
@@ -648,6 +651,8 @@ unload Deactiveren
 uoffline Offline
 uonline Online
 update Bijwerken
+updating Bezig met bijwerken
+useasdp Gebruiken als schermafbeelding
 useother Gebruik een ander programma
 usesnack Gebruik de Snack functie-bibliotheek (ingebouwd in Tcl)
 useralreadyonlist Deze gebruiker staat al in je lijst
@@ -663,6 +668,7 @@ view Beeld
 viewcontactsby Contactpersonen weergeven met
 viewprofile Profiel weergeven
 webcaminvite $1 wil een webcam-sessie beginnen, maar deze functie wordt niet door aMSN ondersteund.
+webcamshot WebCam opname
 whatsize De door jou gekozen afbeelding heeft niet het gebruikelijke formaat\nvoor schermafbeeldingen (96x96). Hoe groot wil je dat de afbeelding wordt weergegeven?
 willjoin Wachten tot $1 de conversatie zal bijwonen
 winkreceived Je hebt een knipoog ontvangen van $1. Deze functie wordt niet ondersteund door aMSN.
