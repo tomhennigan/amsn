@@ -160,6 +160,7 @@ namespace eval ::ChatWindow {
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc Clear { window } {
+		set window [::ChatWindow::getCurrentTab $window]
 		[::ChatWindow::GetOutText $window] configure -state normal
 		[::ChatWindow::GetOutText $window] delete 0.0 end
 		[::ChatWindow::GetOutText $window] configure -state disabled
@@ -1098,7 +1099,7 @@ namespace eval ::ChatWindow {
 		}
 		
 		$editmenu add separator
-		$editmenu add command -label "[trans clear]" -command "\[list ::ChatWindow::Clear \[::ChatWindow::getCurrentTab $w\]\]"
+		$editmenu add command -label "[trans clear]" -command [list ::ChatWindow::Clear $w]
 
 		return $editmenu
 	}
