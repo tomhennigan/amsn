@@ -1552,6 +1552,7 @@ proc cmsn_win_write {name txt {colour ""} {fontname ""} {fontstyle ""} {fontcolo
    #.${win_name}.text mark set new_text_start end
 
    if { $colour == "user" } {
+      set size [expr {[lindex $config(basefont) end-1]+1}]
       set font "$fontname 12 $fontstyle"
       status_log "Using font: $font\n" red
       if {[catch {.${win_name}.text tag configure user -foreground #$fontcolor -font $font} res] || [string length $fontname] <3} {
