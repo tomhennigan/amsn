@@ -468,7 +468,7 @@ proc Preferences { { settings "personal"} } {
 
 	radiobutton $lfname.4.post -text "HTTP (POST method)" -value http -variable config(proxytype) -command UpdatePreferences
 	radiobutton $lfname.4.ssl -text "SSL (CONNECT method)" -value ssl -variable config(proxytype) -command UpdatePreferences
-	radiobutton $lfname.4.socks5 -text "SOCKS5" -value socks5 -variable config(proxytype) -command UpdatePreferences
+	radiobutton $lfname.4.socks5 -text "SOCKS5" -value socks5 -variable config(proxytype) -command UpdatePreferences 
 
 	grid $lfname.4.post -row 1 -column 1 -sticky w -pady 5 -padx 10
 	grid $lfname.4.ssl -row 1 -column 2 -sticky w -pady 5 -padx 10
@@ -1071,8 +1071,8 @@ proc UpdatePreferences {} {
 	set lfname "${lfname}.lfnameconnection.f.f"
 	if { $config(connectiontype) == "proxy" } {
 		$lfname.4.post configure -state normal
-		$lfname.4.ssl configure -state normal
-		$lfname.4.socks5 configure -state normal
+		$lfname.4.ssl configure -state disable
+		$lfname.4.socks5 configure -state disabled
 		$lfname.5.server configure -state normal
 		$lfname.5.port configure -state normal
 		if { $config(proxytype) == "socks5" || $config(proxytype) == "http"} {
