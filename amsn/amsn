@@ -41,7 +41,7 @@
 ############################################################
 ### Some global variables
 ############################################################
-set version "0.89.99"
+set version "0.89.9"
 set date "09/11/2003"
 set weburl "http://amsn.sourceforge.net"
 set program_dir ""
@@ -93,12 +93,12 @@ if {$tcl_platform(platform) == "unix"} {
      set HOME "[file join $env(USERPROFILE) amsn]"
      set files_dir "[file join $env(USERPROFILE) amsn_received]"
   } else {
-   set HOME "[file join ${program_dir} amsn_config]"
-   set files_dir "[file join ${program_dir} amsn_received]"
+   set HOME "[file join [pwd] amsn_config]"
+   set files_dir "[file join [pwd] amsn_received]"
   }
 } else {
-   set HOME "[file join ${program_dir} amsn_config]"
-   set files_dir "[file join ${program_dir} amsn_received]"
+   set HOME "[file join [pwd] amsn_config]"
+   set files_dir "[file join [pwd] amsn_received]"
 }
 
 ############################################################
@@ -241,14 +241,15 @@ if {$version != $config(last_client_version)} {
 
 }
 
-if { $config(autocheckver) == 1 } {
-    update idletasks
-    check_version_silent
-}
-
-
 if { $config(autoconnect) == 1 } {
   ::MSN::connect $config(login) password
+}
+
+if { $config(autocheckver) == 1 } {
+    set new [check_version_silent]
+    if { [lindex $new 0] == 1 } {
+	msg_box "[trans newveravailable [lindex $new 1]]\n$weburl"
+    }
 }
 
 # BeginVerifyBlocked
