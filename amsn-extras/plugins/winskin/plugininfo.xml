@@ -8,4 +8,34 @@
 	<plugin_file>winskin.tcl</plugin_file>
 	<plugin_namespace>winskin</plugin_namespace>
 	<init_procedure>Init</init_procedure>
+	
+	<cvs_version>1.12</cvs_version>
+	<file>
+		<path>winutils.dll</path>
+		<version>1.2</version>
+	</file>
+	<file>
+		<path>pixmaps/winskin_close.gif</path>
+		<version>1.1</version>
+	</file>
+	<file>
+		<path>pixmaps/winskin_move.gif</path>
+		<version>1.1</version>
+	</file>
+	<file>
+		<path>pixmaps/winskin_remove.gif</path>
+		<version>1.1</version>
+	</file>
+	<file>
+		<path>pixmaps/winskin_replace.gif</path>
+		<version>1.1</version>
+	</file>
+	<file>
+		<path>pixmaps/winskin_resize.gif</path>
+		<version>1.1</version>
+	</file>
+	<file>
+		<path>pixmaps/winskin_resize2.gif</path>
+		<version>1.1</version>
+	</file>
 </plugin>
