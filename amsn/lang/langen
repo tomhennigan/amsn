@@ -150,6 +150,7 @@ customnick Custom Nick
 customstyle Customized style
 cut Cut
 date Date
+day Day
 days Days
 dcprofile Don't Create Profile
 default Default Config
@@ -322,6 +323,7 @@ maximised Maximised
 minimised Minimised/Iconified
 mins minutes
 mobile Mobile
+month Month
 morepersonal More States ->
 move Move
 movetogroup Move to Group
@@ -546,6 +548,7 @@ tlsinstcompleted TLS module installation was sucessful - you should now be able 
 tools Tools
 tooltips Enable tooltips
 to To
+today Today
 transnotexists The requested file has not been translated into the current language yet.
 traynotcompiled Tray icon plugin is not compiled. Check plugins/traydock
 triggers Text triggers
@@ -579,7 +582,9 @@ xmmscurrent Display current song
 xmmserr Nothing is playing, or you dont have xmms-infopipe installed.
 xmmssend Send current song
 xoffset X Offset
+year Year
 yes Yes
+yesterday Yesterday
 yoffset Y Offset
 youblocked You have been blocked by
 yousay You say
