@@ -30,6 +30,7 @@ Version 0.52
 		  the user to publish his/her phone numbers as used in
 		  the address book.
 		o Added smiley selector menu in the chat window
+		o Order by groups implemented (alpha-beta)
 
 Version 0.51
 20020604	o Some fixes and menu reorganizations
