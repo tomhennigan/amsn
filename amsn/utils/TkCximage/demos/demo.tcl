@@ -5,6 +5,7 @@ lappend auto_path "./"
 lappend auto_path "../"
 catch {package require TkCximage}
 
+set ::tcl_interactive 1
 
 proc CheckLoaded { } {
 

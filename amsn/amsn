@@ -186,6 +186,7 @@ proc reload_files { } {
 
 	source balloon.tcl	;# For the balloons tooltip
 	source png.tcl		;# PNG Parser and zlib deflate in pure TCL (KaKaRoTo)
+	source autoupdate.tcl   ;# AUTOUPDATE!!!!!!!!!! :@
 
 
 }
@@ -308,7 +309,7 @@ if { [::config::getKey autoconnect] == 1 } {
 }
 
 if { [::config::getKey autocheckver] == 1 } {
-    set new [check_version_silent]
+    set new [::autoupdate::check_version_silent]
 }
 
 
