@@ -568,6 +568,7 @@ showmypic Mostrar mi imagen
 shownotify Mostrar ventana de avisos al producirse diversos eventos
 showpicnotify Mostrar imágenes de usuarios en las ventanas de avisos
 showuserpic Imagen de $1
+signinstatus Estado inicial
 skinselector Elegir tema (skin)
 skin Tema (skin)
 smileconfig Configuración de emoticono personalizado
@@ -618,6 +619,7 @@ tabbed Ventanas con solapas
 tabtitlenick Mostrar apodos en lugar de emails en las patillas
 temp_state No almacenar (Estado temporal, se perderá al reiniciar AMSN)
 textsize Tamaño del texto
+thismonth Este mes
 timeremaining Tiempo restante
 timestamps Activar hora en los mensajes
 title aMSN
@@ -660,6 +662,7 @@ viewcontactsby Ver contactos como
 viewprofile Ver perfil
 view Ver
 webcaminvite $1 te ha invitado a una sesión de videoconferencia, pero AMSN todavía no soporta esta característica.
+whatsize La imagen seleccionada no es del tamaño predefinido (96x96). ¿A qué tamaño te gustaría que fuera mostrada?
 willjoin Esperando que $1 se una a la conversación
 winkreceived Has recibido un Wink de $1, estas animaciones no estan disponibles en esta versión de aMSN.
 wintitlenick Mostrar apodos en lugar de email en las ventanas con patillas
