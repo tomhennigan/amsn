@@ -778,35 +778,41 @@ namespace eval ::pop3 {
 	#	index        -> index of the email to delete
 	#	namesubject  -> the name/subject as displayed in the balloon
 	proc deletemail { index namesubject } {
-		set failed 0
 		set answer [::amsn::messageBox "Are you sure you want to delete the email:\n$namesubject" yesno question "Delete"]
 		if { $answer == "yes" } {
 			#dont run check during delete
 			after cancel ::pop3::check
+			set failed 0
 
 			set chan [::pop3::open $::pop3::config(host) $::pop3::config(user) $::pop3::config(pass) $::pop3::config(port)]
 
-			set info [::pop3::getinfo $chan $index]
-			set from [lindex $info 0]
-			set subject [lindex $info 1] 
-			set info "$from : \"$subject\""
+			#check that it opened properly
+			if { [set ::pop3::chanopen_$chan] == 1 } {
+				set info [::pop3::getinfo $chan $index]
+				set from [lindex $info 0]
+				set subject [lindex $info 1] 
+				set info "$from : \"$subject\""
 
-			if { $info == $namesubject } {
-				if {[catch {
-					set data [::pop3::send $chan "DELE $index"]
-				} errorStr]} {
+				if { $info == $namesubject } {
+					if {[catch {
+						set data [::pop3::send $chan "DELE $index"]
+					} errorStr]} {
+						set failed 1
+					}
+				} else {
 					set failed 1
 				}
+
+				::pop3::close $chan
 			} else {
-				set failed 1
+				msg_box "Failed to open a connection, please try again later"
 			}
 
-			::pop3::close $chan
-		}
-		after 1 ::pop3::check
+			after 1 ::pop3::check
 
-		if { $failed == 1 } {
-			msg_box "Delete failed\nYour email may have changed since last update\nUpdating now."
+			if { $failed == 1 } {
+				msg_box "Delete failed\nYour email may have changed since last update\nUpdating now."
+			}
 		}
 	}
 }
