@@ -351,13 +351,13 @@ namespace eval ::groups {
        variable groups
 
        if {![info exists groups($nr)]} {
-           puts "TODO: Empty slot $nr in groups"
+#           puts "TODO: Empty slot $nr in groups"
            return ""
        }
        if { $nr <= $groupCnt } { 
            return $groups($nr) 
        } else { 
-           puts "TODO: gid $nr too big"
+#           puts "TODO: gid $nr too big"
        	   return "" 
        }
    }

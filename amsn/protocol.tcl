@@ -127,7 +127,7 @@ namespace eval ::MSN {
 
       set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
       set msg "${msg}Application-Name: File Transfer\r\n"
-      set msg "${msg}Application-GUID: {5D3E02AB-6190-11d3-BBBB-00C04F795683}\r\n"
+      set msg "${msg}Application-GUID: {5D3E02AB-6190-11d3-BBBB-00C04F795683}\r\n"     
       set msg "${msg}Invitation-Command: INVITE\r\n"
       set msg "${msg}Invitation-Cookie: $cookie\r\n"
       set msg "${msg}Application-File: [file tail $filename]\r\n"
@@ -882,6 +882,7 @@ proc cmsn_sb_msg {sb_name recv} {
       } elseif {$invcommand == "INVITE" } {
          set body [encoding convertfrom utf-8 $body]
          set app [aim_get_str $body Application-Name]	
+         set guid [aim_get_str $body Application-GUID]	
 	 set cookie [aim_get_str $body Invitation-Cookie]
 	 set filename [aim_get_str $body Application-File]	 
 	 set filesize [aim_get_str $body Application-FileSize]
@@ -890,9 +891,12 @@ proc cmsn_sb_msg {sb_name recv} {
 
          set fromlogin [lindex $recv 1]	 
          set fromnick "[urldecode [lindex $recv 2]]"
-	 ::amsn::fileTransferRecv $filename $filesize $cookie $sb_name $fromlogin $fromnick
+	 
+	 if {[string range $guid 0 37] == "{5D3E02AB-6190-11d3-BBBB-00C04F795683}"}	 {
+  	   ::amsn::fileTransferRecv $filename $filesize $cookie $sb_name $fromlogin $fromnick
+  	   set filetoreceive [list $filename $filesize]
+         }
 	
-	set filetoreceive [list $filename $filesize]
       } else {
         status_log "Unknown invitation!!\n" white
       }

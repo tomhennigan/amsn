@@ -42,7 +42,7 @@ proc adv_initialize { win } {
 
     # Banner is clickable, but so far no way to get the URL
     # that corresponds to that banner
-    bind ${win}.banner <Button-3> { puts "browse" }
+#    bind ${win}.banner <Button-3> { puts "browse" }
     
     # Keybinding to enable/disable BanneR cycling on main window
     bind . <Control-b> { set adv_enable 0 }
