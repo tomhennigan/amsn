@@ -973,8 +973,14 @@ proc reload_advanced_options {path} {
 	set i 0
 	foreach opt $advanced_options {
 		if {[lindex $opt 0] == "" } {
-			label $path.l$i -font bboldf -text "[trans [lindex $opt 1]]"
-			pack $path.l$i -side top -anchor w
+			if { $i != 0 } {
+				label $path.sp$i -font bboldf
+				label $path.l$i -font bboldf -text "[trans [lindex $opt 1]]"
+				pack $path.sp$i $path.l$i -side top -anchor w -pady 4
+			} else {
+				label $path.l$i -font bboldf -text "[trans [lindex $opt 1]]"
+				pack $path.l$i -side top -anchor w -pady 4
+			}
 		} elseif {![info exists config([lindex $opt 0])]} {
 			label $path.l$i -text "ERROR: Non-existing option \"[lindex $opt 0]\"" -font splainf
 			pack $path.l$i -side top -anchor w
@@ -1297,7 +1303,7 @@ proc UpdatePreferences {} {
 proc setCfgFonts {path value} {
 	catch {set res [$path cget -font]}
 	if { [info exists res] } {
-		if { $res != "sboldf" && $res != "examplef" } {
+		if { $res != "sboldf" && $res != "examplef" && $res != "bboldf"} {
 		    catch { $path config -font $value }
 		}
 	}
