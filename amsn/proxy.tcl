@@ -95,6 +95,9 @@ namespace eval ::Proxy {
 	variable proxy_username
 	variable proxy_password
 	variable proxy_with_authentication
+	variable proxy_dropped_cb
+	variable proxy_host
+	variable proxy_port
 	status_log "Calliinnnggggg Connect !!\n" white
 	
 	fileevent [sb get $name sock] writable {}
@@ -136,12 +139,15 @@ namespace eval ::Proxy {
 		puts -nonewline [sb get $name sock] "$tmp_data\r\n\r\n"
 	    }
 	    socks5 {
+		set remote_server $proxy_host
+		set remote_port $proxy_port
 		set pusername $proxy_username
 		set ppassword $proxy_password
 		if {$proxy_with_authentication == 0} {
 		    set pusername ""
 		    set ppassword ""
 		}
+#		status_log "Connecting using socks5 to $remote_server ($proxy_host) at port $remote_port ($proxy_port) with user $pusername and password $ppassword\n\n"
 		set pstat [::Socks5::Init $name $remote_server $remote_port $proxy_with_authentication $pusername $ppassword]
 		if {$pstat != "OK"} {
 		    status_log "SOCKS5: $pstat"
@@ -438,6 +444,9 @@ namespace eval ::Proxy {
 }
 ###################################################################
 # $Log$
+# Revision 1.17  2003/09/17 09:32:41  kakaroto
+# "maybe" fixed the socks5 authentication issue... also corrected the ;-) smiley bug..
+#
 # Revision 1.16  2003/09/10 20:33:30  burgerman
 # small bug fix with require http 2.3
 #

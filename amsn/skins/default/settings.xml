@@ -50,6 +50,7 @@
       <emoticon>
          <name> Winking smiley </name>
          <text> ";)" </text>
+	 <text> ";-)" </text>
          <file> wink_smile.gif </file>
          <animated> yes </animated>
       </emoticon>

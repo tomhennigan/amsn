@@ -3510,7 +3510,7 @@ proc cmsn_socket {name} {
       ::Proxy::Init $config(proxy) $config(proxytype)
       #::Proxy::Init $config(proxy) "post"
       #::Proxy::Init $config(proxy) $config(proxytype)
-      #::Proxy::LoginData $config(proxyauthenticate) $config(proxyuser) $config(proxypass)
+      ::Proxy::LoginData $config(proxyauthenticate) $config(proxyuser) $config(proxypass)
    
       set proxy_serv [split $config(proxy) ":"]
       set tmp_serv [lindex $proxy_serv 0]

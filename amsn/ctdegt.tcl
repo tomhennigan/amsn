@@ -291,6 +291,8 @@ if { $initialize_amsn == 1 } {
     array set myconfig {}   ; # configuration backup
     set proxy_server ""
     set proxy_port ""
+    set proxy_pass ""
+    set proxy_user ""
     
 }
 
@@ -327,7 +329,7 @@ proc PreferencesMenu {m} {
 }
 
 proc Preferences { { settings "personal"} } {
-    global config myconfig proxy_server proxy_port temp_BLP list_BLP Preftabs libtls_temp libtls
+    global config myconfig proxy_server proxy_port temp_BLP list_BLP Preftabs libtls_temp libtls proxy_user proxy_pass
 
     set temp_BLP $list_BLP
     set libtls_temp $libtls
@@ -725,9 +727,9 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.5.lport -text "[trans port] :" -padx 5 -font sboldf
 	entry $lfname.5.port -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5 -textvariable proxy_port
 	label $lfname.5.luser -text "[trans user] :" -padx 5 -font sboldf
-	entry $lfname.5.user -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20
+	entry $lfname.5.user -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20 -textvariable proxy_user
 	label $lfname.5.lpass -text "[trans pass] :" -padx 5 -font sboldf
-	entry $lfname.5.pass -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20 -show "*"
+	entry $lfname.5.pass -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20 -show "*" -textvariable proxy_pass
 	grid $lfname.5.lserver -row 2 -column 1 -sticky e
 	grid $lfname.5.server -row 2 -column 2 -sticky w -pady 5
 	grid $lfname.5.lport -row 2 -column 3 -sticky e
@@ -1224,7 +1226,7 @@ proc setCfgFonts {path value} {
 
 
 proc SavePreferences {} {
-    global config myconfig proxy_server proxy_port user_info user_stat list_BLP temp_BLP Preftabs libtls libtls_temp
+    global config myconfig proxy_server proxy_port user_info user_stat list_BLP temp_BLP Preftabs libtls libtls_temp proxy_user proxy_pass
 
     set nb .cfg.notebook.nn
 
@@ -1232,14 +1234,29 @@ proc SavePreferences {} {
     # Proxy settings
     set p_server [string trim $proxy_server]
     set p_port [string trim $proxy_port]
+    set p_user [string trim $proxy_user]
+    set p_pass [string trim $proxy_pass]
+
     if { ($p_server != "") && ($p_port != "") && [string is digit $proxy_port] } {
        set config(proxy) [join [list $p_server $p_port] ":"]
+
+	if { ($p_pass != "") && ($p_user != "")} {
+	    set config(proxypass) $p_pass
+	    set config(proxyuser) $p_user
+	    set config(proxyauthenticate) 1
+	} else {
+	    set config(proxypass) ""
+	    set config(proxyuser) ""
+	    set config(proxyauthenticate) 0
+	}
     } else {
        #Let's just show the connect error
        set config(proxy) [join [list $p_server $p_port] ":"]
        #set config(proxy) ""
        #set config(withproxy) 0
     }
+
+
 
     # Make sure entries x and y offsets and idle time are digits, if not revert to old values
     if { [string is digit $config(notifyXoffset)] == 0 } {
@@ -1581,6 +1598,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.80  2003/09/17 09:32:41  kakaroto
+# "maybe" fixed the socks5 authentication issue... also corrected the ;-) smiley bug..
+#
 # Revision 1.79  2003/09/14 16:12:41  ahamelin
 # Modified the "tls :" label to "TLS" and set it bold.
 # Fixed a frame spacing issue in the Blocking tab.
