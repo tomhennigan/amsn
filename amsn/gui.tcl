@@ -261,7 +261,7 @@ namespace eval ::amsn {
 					::amsn::infoMsg "[trans tlsinstcompleted]"
 				} res ] } {
 
-					errorDownloadingTLS $res $token
+					errorDownloadingTLS $res
 				}
 			}
 			default {
@@ -277,7 +277,7 @@ namespace eval ::amsn {
 	proc downloadTLSProgress {url token {total 0} {current 0} } {
 
 		if { $total == 0 } {
-			errorDownloadingTLS "Couldn't get $url" $token
+			errorDownloadingTLS "Couldn't get $url"
 			return
 		}
 		::dkfprogress::SetProgress .tlsprogress.prbar [expr {$current*100/$total}]
@@ -286,7 +286,7 @@ namespace eval ::amsn {
 
 	}
 
-	proc errorDownloadingTLS { errormsg} {
+	proc errorDownloadingTLS { errormsg } {
 		errorMsg "[trans errortls]: $errormsg"
 		catch { destroy .tlsprogress }
 	}
