@@ -141,6 +141,8 @@ source [file join $program_dir smileys.tcl]
 source [file join $program_dir groups.tcl]	;# Handle buddy groups
 source [file join $program_dir abook.tcl]	;# Handle buddy address book
 source [file join $program_dir gui.tcl]
+source [file join $program_dir alarm.tcl]       ;# Alarms code (Burger)
+
 #by AIM
 set unread 0
 set notify_command ""
@@ -270,6 +272,7 @@ proc close_cleanup {} {
   set config(showonline)  [::groups::IsExpanded online]
   set config(showoffline) [::groups::IsExpanded offline]
   save_config
+  save_alarms   ;# Save alarm settings
   catch {file delete [file join $HOME hotlog.htm]} res
 }
 
@@ -331,7 +334,7 @@ proc cmsn_draw_main {} {
    }
    .main_menu.file add command -label "[trans login]..." -command \
      cmsn_draw_login
-   .main_menu.file add command -label "[trans logout]" -command ::MSN::logout
+   .main_menu.file add command -label "[trans logout]" -command "::MSN::logout; save_alarms"
    .main_menu.file add cascade -label "[trans mystatus]" \
      -menu .my_menu -state disabled
    .main_menu.file add separator
@@ -1118,11 +1121,15 @@ proc unblock_user {user_login} {
 
 proc delete_user {user_login} {
 
+   global alarms
    set answer [tk_messageBox -message "[trans confirmdelete ${user_login}]" -type yesno -icon question]
    
    if {$answer == "yes"} {
 
       ::MSN::deleteUser ${user_login}
+      if { [info exists alarms($user_login)] } {
+	unset alarms($user_login) alarms(${user_login}_sound) alarms(${user_login}_pic) alarms(${user_login}_sound_st) alarms(${user_login}_pic_st) alarms(${user_login}_loop)
+      }
    } 
 }
 
@@ -1210,7 +1217,7 @@ proc user_choose {title online command {userslist ""}} {
 }
 
 proc show_umenu {user_login x y} {
-   global list_bl config
+   global list_bl config alarms
 
    set blocked [lsearch $list_bl "${user_login} *"]
    .user_menu delete 0 end
@@ -1246,6 +1253,17 @@ proc show_umenu {user_login x y} {
    .user_menu add command -label "[trans properties]" \
       -command "::abookGui::showEntry $user_login"
 
+########## Added by Burger
+   .user_menu add separator
+   .user_menu add command -label "[trans cfgalarm]" -command "alarm_cfg ${user_login}"
+   if { [info exists alarms(${user_login})] } {
+      if { $alarms(${user_login}) } {
+          .user_menu add command -label "[trans offalarm]" -command "set alarms(${user_login}) 0"
+      } else {
+          .user_menu add command -label "[trans onalarm]" -command "set alarms(${user_login}) 1"
+      }
+   }
+######### End Added
 
    tk_popup .user_menu $x $y
 }
@@ -1259,7 +1277,6 @@ proc login_ok {} {
    destroy .login
 
    ::MSN::connect $config(login) $password
-
 }
 
 proc copypaste_menu {text x y delete} {
@@ -2174,7 +2191,7 @@ proc cmsn_change_state {recv} {
 
    set idx [lsearch $list_users "$user *"]
    if {$idx != -1} {
-      global list_users list_states
+      global list_users list_states alarms
 
       set user_data [lindex $list_users $idx]
       if {$user_name == ""} {
@@ -2198,6 +2215,9 @@ proc cmsn_change_state {recv} {
 #	 }
       } elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
          ::amsn::notifyAdd "$user_name\n[trans logsin]." "cmsn_chat_user $user" online
+         if { ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1) } {
+             run_alarm [lindex $recv 2] [lindex $recv 3]        ;# Run Alarm using EMAIL ADDRESS (Burger)
+         }
 #            cmsn_notify_add $user_name\n[trans logsin]. "cmsn_chat_user $user"
 #	    sonido online
       }

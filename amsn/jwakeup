@@ -1,0 +1,5 @@
+#!/bin/sh
+while [ "0" ];
+do
+$1 $2 ;
+done;

@@ -1651,6 +1651,8 @@ proc cmsn_ns_connect { username {password ""}} {
 
    cmsn_socket ns
    
+   load_alarms		;# Load alarms config on login
+
    return 0
 }
 

@@ -1,6 +1,5 @@
 amsn_lang_version 2
 about About
-accept Accept
 acceptfile Accept file $1, size $2? Saved in $3
 actions Actions
 addacontact Add a contact
@@ -10,11 +9,12 @@ addtoo Add this person to my contact list
 admincontacts Admin contacts
 admingroups Admin groups
 adverts Advertisements
+alarmpref Alarm Settings for user
+alarmstatus Turn ON/OFF Alarm for this user
 allowseen Allow this person to see when I'm online and contact me
 appearoff Appear offline
 aretyping $1 are typing a message
 autohotmaillog Auto Hotmail login
-autoidle Auto idle detection
 autoip Automatic IP
 avoidseen Avoid this person can see when I'm online and contact me
 away Away
@@ -26,6 +26,7 @@ browser Browser
 broughtby  Brought to you by the following developers
 busy Busy
 cancel Cancel
+cfgalarm Configure/Add/Remove Alarm
 changenick Change nick
 chat Chat
 chatreq Requesting chat
@@ -59,8 +60,6 @@ filedoesnotexist File does not exist
 filename Filename
 filetransfercancelled File transfer cancelled
 filetransfercomplete File transfer complete
-ftaccepted File transfer accepted
-ftrejected File transfer cancelled
 gonelunch Gone to lunch
 group Group
 groupadd Add a group
@@ -114,10 +113,11 @@ noactivity No activity
 nonewmail No new messages in In-Box
 nonewver There are no new versions available to download
 notify notify
-notifywin Notify Window
 nousersinsession No users in session
 ok Ok
+offalarm Turn Off Alarm
 offline Offline
+onalarm Turn On Alarm
 onenewmail 1 new message in In-Box
 online Online
 onphone On phone
@@ -128,6 +128,8 @@ other Other
 pager Pager
 pass Password
 phone Phone
+picfile Alarm Picture File (GIF < 300 x 400)
+picstatus Turn ON/OFF Picture Alarm
 port Port
 prefapps Applications
 preferences Preferences
@@ -140,7 +142,6 @@ receivedbytes Received $1 of $2 bytes
 receivefile Receive file
 reconnect Waiting for $1 to reconnect
 reconnecting Reconnecting to server
-reject Reject
 rememberpass Remember password
 rightback Be right back
 save Save
@@ -156,8 +157,12 @@ sentbytes Sent $1 of $2 bytes
 server Server
 servergoingdown Disconnected: Server is going down
 sound Event Sound
+soundfile Alarm Sound File
+soundloop Loop Sound
+soundstatus Turn ON/OFF Sound Alarm
 startoffline Start Offline
 status Status
+stopalarm Stop Alarm
 syntaxerror  Syntax Error
 textsize Text size
 title Al's Messenger

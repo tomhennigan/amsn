@@ -64,6 +64,7 @@ if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 /usr/share/amsn/amsn
 /usr/share/amsn/uninstall.sh
 /usr/share/amsn/abook.tcl
+/usr/share/amsn/alarm.tcl
 /usr/share/amsn/checkver.tcl
 /usr/share/amsn/config.tcl
 /usr/share/amsn/ctadverts.tcl
@@ -75,6 +76,7 @@ if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 /usr/share/amsn/gui.tcl
 /usr/share/amsn/hotmail.tcl
 /usr/share/amsn/hotmlog.htm
+/usr/share/amsn/jwakeup
 /usr/share/amsn/langlist
 /usr/share/amsn/lang.tcl
 /usr/share/amsn/migmd5.tcl
@@ -86,6 +88,7 @@ if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 /usr/share/amsn/smileys.tcl
 /usr/share/amsn/socks.tcl
 /usr/share/amsn/icons/amsn.png
+/usr/share/amsn/i/alarm.gif
 /usr/share/amsn/i/amsn.xbm
 /usr/share/amsn/i/angel.gif
 /usr/share/amsn/i/angry.gif
@@ -159,6 +162,7 @@ if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 /usr/share/amsn/i/unread.gif
 /usr/share/amsn/i/vampire.gif
 /usr/share/amsn/i/wink.gif
+/usr/share/amsn/s/alarm.wav
 /usr/share/amsn/s/newemail.wav
 /usr/share/amsn/s/online.wav
 /usr/share/amsn/s/type.wav
