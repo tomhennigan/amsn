@@ -171,6 +171,7 @@ ftportpref Start de poort voor bestandsoverdracht
 ftrejected Bestandsoverdracht geweigerd
 ftrejectedby $1 weigerde de overdracht van '$2'.
 ftsendinvitation De uitnodiging voor de overdracht van het bestand '$2' ($3 bytes) is verstuurd naar $1
+getdisppic Ontvang schermafbeeldingen van andere gebruikers.
 gonelunch Lunchpauze
 groupadd Voeg een groep toe
 groupdelete Verwijder een groep
@@ -301,8 +302,10 @@ pass Wachtwoord
 paste   Plakken
 personal Persoonlijk
 phone Telefoon
+picbrowser Afbeeldingen-browser
 picfile Alarm beeldbestand (GIF < 500 x 500 pixels)
 picstatus Schakel alarm beeldbestand aan/uit
+playing Bezig met afspelen van $1
 pluginselector Selecteer plugins
 port Poort
 prefalerts Mijn Alarm en Geluiden
@@ -346,6 +349,7 @@ proxyconf Proxy configuratie
 proxyconnection Ik heb een internetverbinding via een proxyserver:
 proxy Ik maak gebruik van een Proxy Server (HTTP of SOCKS5)
 publishphones Publiceer mijn telefoonnummers
+purge Zuiveren
 raised Zichtbaar/Gede-iconificeerd
 readonlymsgbox De bestandsoverdrachtis geannuleerd vanwege alleen-lezen toegang tot de map voor ontvangen bestanden. Pas de toegangsrechten voor deze map aan.
 readonlywarn WAARSCHUWING: Het bestand zal waarschijnlijk NIET correct worden opgeslagen, omdat de map voor ontvangen bestanden beschermd blijkt te zijn tegen schrijven. Zorg ervoor dat de rechten voor de doelmap ($1) correct zijn ingesteld voordat de bestandsoverdracht wordt gestart.
@@ -376,6 +380,7 @@ servergoingdown Verbinding verbroken: De server gaat uit
 server Server
 session Sessie
 showblockedlist Toon de lijst van mensen die jou geblokkeerd hebben
+showdisplaypic2 Geef schermafbeelding standaard weer wanneer een gespreksvenster wordt geopend
 showdisplaypic Toon afbeelding
 showmypic Mijn Afbeelding
 showuserpic Afbeelding van $1
@@ -441,6 +446,7 @@ willjoin Wachten tot $1 de conversatie zal bijwonen
 work werk
 wrongfields De velden "$1", "$2" en/of "$3" waren ongeldig
 wrongprofileversion Verkeerde profiel configuratiebestand versie. Om te repareren, gelieve directorie $1 te verwijderen, of aMSN te updaten.
+xmmserr Er wordt niets afgespeeld of je hebt xmms-infopipe niet geïnstalleerd.
 xoffset X-positie
 yes Ja
 yoffset Y-positie
