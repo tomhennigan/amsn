@@ -220,7 +220,7 @@ proc check_imagemagick {} {
 
 }
 
-if { $::tcl_version <= 8.4 } {
+if { $::tcl_version < 8.4 } {
 	proc K {a b} {return $a}
 	proc lset_r {list args val} {
 		if { [llength $args] == "0" } {
