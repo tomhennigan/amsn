@@ -5912,13 +5912,16 @@ proc pictureBrowser {} {
 	if { [ catch {image inuse my_pic}]} {
 			image create photo my_pic -file [GetSkinFile displaypic nopic.gif]
 	}
+	image create photo no_pic -file [GetSkinFile displaypic nopic.gif]	
+	
 	label .picbrowser.mypic -image my_pic -background white -borderwidth 2 -relief solid
 	label .picbrowser.mypic_label -text "[trans mypic]" -font splainf
 	
 	button .picbrowser.browse -command "destroy .picbrowser" -text "[trans browse]..." -font sboldf
 	button .picbrowser.delete -command "destroy .picbrowser" -text "[trans delete]" -font sboldf -state disabled
 	button .picbrowser.purge -command "destroy .picbrowser" -state disabled -text "[trans purge]..." -font sboldf
-	button .picbrowser.ok -command "status_log \$selected_image;destroy .picbrowser" -text "[trans ok]" -font sboldf
+	button .picbrowser.ok -command "set_displaypic \[file tail \$selected_image\];\
+		destroy .picbrowser" -text "[trans ok]" -font sboldf
 	button .picbrowser.cancel -command "destroy .picbrowser" -text "[trans cancel]" -font sboldf
 	
 	grid .picbrowser.pics -row 0 -column 0 -rowspan 4 -columnspan 3 -padx 3 -pady 3 -sticky nsew
@@ -5937,7 +5940,15 @@ proc pictureBrowser {} {
 	grid column .picbrowser 2 -weight 1	
 	grid row .picbrowser 3 -weight 1		
 
+
+	label .picbrowser.pics.text.nopic -image no_pic -relief flat -borderwidth 0 -highlightthickness 2 \
+		-background white -highlightbackground black
+	bind .picbrowser.pics.text.nopic <Enter> ".picbrowser.pics.text.nopic configure -highlightbackground red"
+	bind .picbrowser.pics.text.nopic <Leave> ".picbrowser.pics.text.nopic configure -highlightbackground black"
+	bind .picbrowser.pics.text.nopic <Button1-ButtonRelease> ".picbrowser.mypic configure -image no_pic; set selected_image \"\""
+	.picbrowser.pics.text window create end -window .picbrowser.pics.text.nopic -padx 3 -pady 3	
 	
+		
 	set image_names [list]
 	foreach filename $files {
 		if { [file exists [filenoext $filename].gif] } {
@@ -6017,11 +6028,10 @@ proc change_disp_ok { } {
     set file [$w.filename.file get]
 
     if { $file != "" } {
-		set config(displaypic) [convert_display_picture [$w.filename.file get]]
-		catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}
+	 	set_displaypic [file tail [convert_display_picture [$w.filename.file get]]]
     } else {
 		set config(displaypic) ""
-		catch {image create photo my_pic -file "[GetSkinFile displaypic $config(displaypic).gif]"}
+		catch {image create photo my_pic -file "[GetSkinFile displaypic nopic.gif]"}
     }
 
 
@@ -6030,6 +6040,24 @@ proc change_disp_ok { } {
 
     destroy $w
 
+}
+
+proc set_displaypic { file } {
+	global config
+	
+	if { $file != "" } {
+		set config(displaypic) $file
+		if { [catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}]} {
+			status_log "set_displaypic: File $file couldn't be found, setting to no_pic\n" blue
+			clear_disp
+			return
+		}
+		status_log "set_displaypic: File set to $file\n" blue
+		::MSN::changeStatus [set ::MSN::myStatus]
+	} else {
+		status_log "set_displaypic: Setting displaypic to no_pic\n" blue
+		clear_disp
+	}
 }
 
 proc clear_disp { } {
