@@ -146,6 +146,7 @@ dockingoff Desaktibatuta
 docking Sistemako bandejan ikonoa
 dockkde KDE ikonoa
 dontdownload TLS ez deskargatu, ni neuk nere kasa instalatuko dut
+dontshow Ez erakutsi
 downloadingtls $1-tik TLS modulua deskargatzen
 editcustomstate Editatu
 edit Editatu
@@ -425,6 +426,8 @@ sourcecode Iturburu-kodea (Konpilazioa eta instalazioa behar du)
 sslwarning KONTUZ: SSL desgaitzen baduzu enkripzioa desgaituko duzu ere, beraz zure gakoa testu arrunta bezalaxe bidalia izango da interneten bidez.
 startoffline2 "Deskonektatuta ematen du" bezala sarrera-sinadura egin
 startoffline Deskonektatuta hasi
+startontray AMSN aska ikurran bakarrik abiarazi
+stateautomsg Automezua bidaltzeko
 statechange Egoera honako honetara aldatuta:
 stateedittext Mesedez editatu aldatu nahi dituzun \n eremuak eta gero Gorde sakatu
 state Honako egoera honetan agertu nahi dut: 
@@ -443,6 +446,7 @@ textsize Testuaren tamaina
 timeremaining Falta den denpora
 timestamps Data-zigilua gaitu
 title Al's Messenger
+tkerror TK-k akats bat topatu du, amsn-n akats bat dago, eman honen berri mesedez. $1 fitxategia amsn-bugs@lists.sf.net helbidera bidali
 tlsdowncompleted $1 fitxategia $2 direktorioan gorde izan da. Atera eta eraiki behar duzu (kode iturburua deskargatu bazenuen) eta $3 -ren barruan instalatu.
 tlsinstallexp AMSn-k MSNP9 erabiltzen du orain, zeinak SSL konexio \n seguru bat erabili behar du. SSL erabiltzeko TLS izena duen modulu bat instalatu behar du aMSN-k, \n zeina zure sisteman ez dago. Morroi honek TLS deskargatu eta instalatzen lagunduko zaitu. \n Zure 
 tlsinstall TLS modulua instalatzeko morroia
@@ -473,7 +477,9 @@ willjoin $1 berriketan sartzera itxaroten
 work Lana
 wrongfields " ""$1"", ""$2"" eta ""$3"" eremuak ez zuzenak izan dira"
 wrongprofileversion Profil konfigurazio fitxategi okerra. Zuzentzeko $1 direktorioa ezabatu edo aMSN berritu
+xmmscurrent Erakutsi abesti hau
 xmmserr Ez dago ezer erreproduzitzen. Xmss-infopipe instalaturik
+xmmssend Abesti hau bidali
 xoffset X desplazaketa
 yes Bai
 yoffset Y desplazaketa
