@@ -527,17 +527,21 @@ yoffset Margem vertical
 youblocked Você foi bloqueado por
 yousay Você diz
 youwant Você quer
-alarms	Alarmes/Notificações
-change	Alterar	
-customcolor	Cor personalisada	
-customnick	Nick personalisado
-invalidgroup	Grupo inválido
-lastlogin	Último login	
-lastlogout	Último logout	
-lastmsgedme	Última mensagem
-leavejoinsinchat	Mostar notificação "entradas/saidas na conversação" na janela de conversação
-nick	Nick	
-nogroup	Sem grupo
-recentmsg	Impede o fecho da janela de conversação quando chega uma nova mensagem
-userdata	Dados do utilizador
-userproperties	Propriedades do utilizador $1
+alarms Alarmes/Notificações
+change Alterar	
+customcolor Cor personalisada	
+customnick Nick personalisado
+invalidgroup Grupo inválido
+lastlogin Último login	
+lastlogout Último logout	
+lastmsgedme Última mensagem
+leavejoinsinchat Mostar notificação "entradas/saidas na conversação" na janela de conversação
+nick Nick	
+nogroup Sem grupo
+recentmsg Impede o fecho da janela de conversação quando chega uma nova mensagem
+userdata Dados do utilizador
+userproperties Propriedades do utilizador $1
+displayp4context Mostrar o campo P4-Context como remetente da mensagem
+displaypic Mostrar imagem
+p4contextprefix	Adicionar este prefixo aos remetentes P4-Context
+phones Numeros de telefone
