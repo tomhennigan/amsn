@@ -83,7 +83,11 @@ namespace eval anigif {
 		}
 		default { puts "no match: $dispflag" }
 	    }
-	    [set ::anigif::${fname}(curimage)] copy [lindex $list $idx] -subsample 2 2
+
+	    [set ::anigif::${fname}(curimage)] copy [lindex $list 0] -subsample 2 2 -compositingrule set
+	    for { set i 1 } { $i <= $idx } { incr i } {
+		[set ::anigif::${fname}(curimage)] copy [lindex $list $i] -subsample 2 2 -compositingrule overlay
+	    }
 	    if { [lindex $delay $idx] == 0 } {
 		::anigif::stop $fname
 		return

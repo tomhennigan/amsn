@@ -77,6 +77,26 @@ RL : This is the reverse list, it contains the email adresses of people who adde
 their list. People appearing in green in this list are people who aren't in your contact list
 but you are still in theirs.
 
+Q: I want to add my own custom smileys, how can I do it ?
+A: There is a new button in the smileys menu that allows you to do this.
+Click on the "Add new custom smiley" button and a window will appear, you must fill the required fields.
+the "description" feild should be set to whatever you want, it will only be the description shown by the tooltip.
+the "text triggers" feild is what you want typed for the smiley to be shown, for example, the regular smiley has
+triggers like :) :-) .. the big smile smiley has triggers like :D :-D :> :-> ... to set multiple triggers, you
+must type them one after the other, separated by a space. if you want a trigger that already has a space in it for example 
+"hello there", you should put it between quotes.. for example : 
+"hello there" hi "what's up" 
+this will be 3 triggers for the same smiley.
+The "smiley file" feild is the filename of the gif file. it must be of size 19x19 so the smileys menu won't be corrupted. but it can have any size you want, but we some weird things might happen... (smielys menu corrupted, if you add that smiley to your nickname, the "My status" part of the main amsn window might get corrupted too, etc..). You can give a full pathname, use the browse button, or just put the name of the file, if it is a file in the ~/.amsn/<profile>/smileys or msn/skins/<skin>/smileys directory. The file will then be copied in your profile directory in case you move or rename the original file. 
+The same properties may be considered for the "Sound file" feild... this is used for playing a sound, when the smiley is shown.. for example the LOL smiley triggered on LOL make a laughing sound. The sound must be a .wav file or any extension supported by your sound player (set in the application preferences tab... play, esdplay, or mpg123 if you want it to be a .mp3 file...) . For that entry to be available, you must first activate the checkbutton that says "play sound"
+The check-button "animated" means that this GIF file is animated, if the GIF is animated and you don't set this option, then the smiley will be a still image.
+The "Hide from smileys menu" option, means that if you set this option on, then the smiley won't appear in the smileys menu, but will still be activated on triggers.
+The "case sensitive" option, means that the triggers should be considered case sensitive, that means, that a "LOL" trigger would be different from a "lol" trigger. if not set, then the lowercases/upercases won't have any importance.
+
+When you finished your settings, press the OK button, it will prompt errors if you forgot to set one of the 3 first option (description, triggers and GIF file) or if the files (GIF and/or sound) does not exist or are not readable by the user. if no error message is shown, then you can already use your new smileys.
+have fun.
+
+
 
 TROUBLESHOOTING
 ===============
