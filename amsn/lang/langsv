@@ -112,6 +112,7 @@ clearlog Ta bort loggfiler
 clearlog2 Radera historiken för alla kontakter
 clearlog3 Ta bort
 clicktologin Klicka här för att ansluta
+clientcaps Skicka x-clientcaps-paket till andra
 clientname Klientens namn
 close Stäng
 closed Konversationen med $1 stängdes på grund av inaktivitet.
@@ -119,9 +120,14 @@ closingdocks Stängknappen minimerar programmet till systemfältet
 command Kommando
 commandstatus Kör kommando vid kungörelse
 confirm Är du säker på att du vill utföra åtgärden?
+confirmdg Är du säker på att du vill radera gruppen?
+confirmdu Är du säker på att du vill ta bort kontakten från kontaktlistan?
+confirmeg Är du säker på att du vill tömma den här gruppen?
+confirmrfl Är du säker på att du vill ta bort kontakten från denna grupp?
 confirmdelete Är du säker på att du vill radera $1?
 confirmpurge Alla lagrade avatarer kommer att raderas, är du säker? (Din egna avatar påverkas inte)
 connected Du är nu ansluten
+connectedwith Ansluten med $1
 connecterror Kunde inte ansluta
 connecting Ansluter
 connection Anslutning
@@ -151,6 +157,7 @@ customnick Anpassat smeknamn
 customstyle Specialgjord stil
 cut Klipp ut
 date Datum
+dateformat Ändra datumformat
 days Dagar
 dcprofile Skapa inte ny profil
 default Standardkonfiguration
@@ -169,7 +176,12 @@ disableprofiles Inaktivera profiler (bra för till exempel internetcaféer)
 disablessl Använd inte SSL
 disableuserfonts Ignorera andra användares personliga teckensnitt i konversationer och använd ditt eget teckensnitt istället.
 disconnect $1 har lämnat.
+disconnectedfrom Ej ansluten till $1
 displaychat Visa textalternativ
+displayeventconnect Visa när en kontakt ansluter
+displayeventdisconnect Visa när en kontakt lämnar eller blir osynlig
+displayeventemail Visa när ett e-postmeddelande har inkommit
+displayeventstate Visa när en kontakt byter status
 displayp4context Display P4-Context field content as message sender
 displaypic Avatar
 dockfreedesktop Minimera till systemfältet (KDE 3.x/Gnome 2.x)
@@ -189,6 +201,7 @@ editvalue Ändra värde
 email E-post
 emailsinlist Visa användarnamn (e-postadresser) istället för smeknamn i kontaktlistan
 emotisounds Spela upp ljud vid vissa emoticons
+emptygroup Gruppen är tom
 enabled Aktiverad
 enableproxy Aktivera proxy
 enableremote Aktivera fjärranslutning
@@ -199,6 +212,7 @@ entercontactemail Skriv in kontaktens e-postadress
 enterfilename Ange ett filnamn
 enternick Skriv in ditt smeknamn
 errortls Fel när TLS installerades:
+eventhistory Visa händelsehistorik
 examples Exempel
 exitamsn Är du säker på att du vill avsluta?
 extras Extra
@@ -249,7 +263,7 @@ helpcontents Snabbhjälp
 hidedisplaypic Dölj avatar
 hiden Dölj ikonen från smileymenyn
 hidewindow Dölj fönster
-history Se historik
+history Visa historik
 home Hem
 httpconnection Brandvägg (använder HTTP-protokollet på port 80)
 hybrid Hybridläge
@@ -301,8 +315,12 @@ ljoinedconf $1 anslöts till konversationen
 lleftconf $1 kom in i konversationen
 loadcontacts Ladda kontakter
 logbigger Enskilda loggfiler får inte bli större än
+logeventconnect Bokför anslutningar
+logeventdisconnect Bokför utkastningar
+logeventemail Bokför när ett e-postmeddelande inkommer
+logeventstate Bokför statusändringar
 logfandexp Logfilsstorlek och utgångstid av loggfiler
-loggedotherlocation Ej ansluten! Du är inloggad på en annan plats!
+loggedotherlocation Utkastad! Du är inloggad på en annan plats!
 loggingin Ansluter till tjänsten\nvar god vänta
 login Anslut
 loginas Anslut som annan användare
@@ -341,12 +359,14 @@ mypic Avatar:
 mystatus Min status
 myworkphone Mitt arbetstelefonnummer
 natip NAT IP
-natkeepalive Om du blir utloggad ofta, välj detta alternativ
+natkeepalive Om du ofta blir utkastad bör du välja detta alternativ
 needonline Du är utloggad/verkar vara utloggad
 needwinico Behöver winico03.dll i plugins-mappen för att windowssystemfältsminimering ska fungera
 never Aldrig
-newmail $1 nya meddelanden i Inkorgen
-newmailfrom Nytt mail från $1 ($2)
+newmail $1 nya meddelanden i inkorgen
+newmailfolder Du har fått $1 nytt/nya meddelanden i annan hotmailmapp
+newmailfrom Nytt meddelande från $1 ($2)
+newmailfromother Nytt meddelande från $1 ($2) i annan mapp
 newmsg Nytt meddelande
 newstate Lägg till personlig status
 newveravailable Ny version $1 finns att ladda ner
@@ -372,7 +392,8 @@ notify1 Visa meddelanderuta när någon ansluter
 notify1_5 Visa ruta när en användare loggar ut
 notify1_75 Visa ruta när en användare byter status
 notify2 Visa meddelanderuta när någon skickar ett meddelande till dig
-notify3 Visa meddelanderuta när nya e-post ankommer
+notify3 Visa meddelanderuta när ny e-post ankommer
+notify4 Visa meddelanderuta när ny e-post inkommer in annan mapp
 notifyoffset Välj meddelanderutans position
 notifytimeout Antal millisekunder innan notifikationsfönstret försvinner
 notifytyping Skicka signaler vid författande av meddelande
@@ -419,6 +440,7 @@ preffont3 Ändra aMSNs teckensnitt och storlek
 prefft Filöverföring, "peer-to-peer" och NAT inställningar.
 preflibs TLS-mappen
 preflog1 Logg-inställningar
+preflogevent Händelsehistorik
 preflook aMSN Messenger utseende
 prefmsging Meddelandeutseende
 prefname Mitt aMSN Smeknamn
