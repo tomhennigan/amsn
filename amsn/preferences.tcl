@@ -5,8 +5,12 @@ package require AMSN_BWidget
 ::snit::type PreferenceItem {
 	
 	option -variable -default ""
+	#Enable or disable the item
+	option -enabled -default true
 
+	##########################################
 	#Common methods for all preference items
+	##########################################
 	
 	#Return the item value
 	method getValue {} {
@@ -29,7 +33,7 @@ package require AMSN_BWidget
 #This type is child of PreferenceItem. It groups some options under a 
 #frame with a label and an icon.
 ::snit::type ItemsFrame {
-	#Delegate to PrferenceItem!!
+	#Delegate to PreferenceItem!!
 	delegate method * to preferenceitem
 	delegate option * to preferenceitem
 
@@ -42,15 +46,17 @@ package require AMSN_BWidget
 	}
 	
 	destructor {
-		catch {
-			destroy preferenceitem
-			destroy $itemPath.f
+		#catch {
+			$preferenceitem destroy
+			if [winfo exists $itemPath.f] {
+				destroy $itemPath.f
+			}
 			
 			#Destroy child items
 			foreach item $items {
 				$item destroy
 			}
-		}
+		#}
 	}
 	
 	#########################
@@ -64,24 +70,36 @@ package require AMSN_BWidget
 	#Options for packing the frame
 	option -expand -readonly yes -default true
 	option -fill -readonly yes -default x
+	#Enable or disable the item
+	option -enabled -default true
 
 	#########################
 	#Dinamic options
 	#########################
-	
-	#Enable or disable the item
-	option -enabled true
-	
+		
 	#Add a new PreferenceItem to the group
 	method addItem {item} {
 		lappend items $item
 	}
 	
+	#Triggered when the -enabled option is changed
+	onconfigure -enabled { val } {
+		set options(-enabled) $val
+		#Now tell all the children to enable themshelves
+		set num 0
+		foreach item $items {
+			$item configure -enabled $val
+		}
+	}
+	
+	
 	#Create the label frame and icon, and tell all children items to draw themshelves
 	method draw { path } {
+	
+		set itemPath $path
 		
 		set f [LabelFrame:create $path.f -text $options(-text) -font splainf] 
-		pack $path.f -side top
+		pack $path.f -side top -fill x
 		
 		#If there is an icon, draw it
 		if { $options(-icon) != "" } {
@@ -129,11 +147,11 @@ package require AMSN_BWidget
 	}
 	
 	destructor {
-		catch {
-			destroy preferenceitem
+		#catch {
+			$preferenceitem destroy
 			destroy $itemPath.l
 			destroy $itemPath.t
-		}
+		#}
 	}
 	
 	#########################
@@ -209,24 +227,165 @@ package require AMSN_BWidget
 			pack $path.l -side right -expand false -padx 5 -pady 3
 		}
 	}
-}
-
-::snit::widget PreferencesWindow {
-	variable sections [list]
 	
-	method addSection {section} {
-		lappend sections $section
+	#TODO: store method
+	method store { } {
 	}
 }
 
+::snit::widget PreferencesWindow {
+	
+	#Object is a children of 
+	delegate method * to preferencessection
+	
+	option -title ""
+	
+	constructor {args} {
+		install preferencessection using PreferencesSection %AUTO%
+		$self configurelist $args
+	}
+	
+	destructor {
+		#catch {
+			$preferencessection destroy
+			destroy $self
+			if { [winfo exists $wname] } {
+				destroy $wname
+			}
+		#}
+	}
+
+	#A list with section objects, one per listbox element
+	variable sectionNames
+	variable wname
+	
+	method show { } {
+	
+		set w ${self}_window
+		set wname $w
+		
+		toplevel $w
+		wm title $w $options(-title)
+    		bind $w <Destroy> [list $self destroyWindow %W]
+		
+		listbox $w.sections -bg white
+		frame $w.items
+		
+		pack $w.sections -side left -fill y
+		pack $w.items -side right -fill both -expand true
+		
+		set sectionNames [list]
+		#Add sections to the listbox
+		foreach section [$self getSectionsList] {
+			set sectionNames [concat $sectionNames [$section insertIntoList $w.sections 0]]
+		}
+		bind $w.sections <<ListboxSelect>> [list $self sectionSelected]
+		
+		status_log "$sectionNames\n" white
+	}
+	
+	method sectionSelected { } {
+	
+		set idx [$wname.sections curselection]
+		set section [lindex $sectionNames $idx]
+		status_log "$section\n"
+		
+		set items "$wname.items.f"
+		
+		if {[winfo exists $items]} {
+			status_log "Destroying $items!\n" red
+			destroy $items
+		}
+		frame $items
+		pack $items -fill both -expand true
+		
+		status_log "Puting things in $items\n" white
+		
+		$section show $items
+		
+	}
+	
+	method destroyWindow { w } {
+		if { $w == $wname } {
+			destroy $self
+		}	
+	}
+	
+}
+
 ::snit::type PreferencesSection {
-	variable preferenceItems [list]
-	variable preferenceSections [list]
+	
+	variable items_list [list]
+	variable sections_list [list]
+	
+	option -text -readonly yes -default ""
+	
+	destructor {
+		#catch {
+			#Destroy child items
+			foreach item $items_list {
+				$item destroy
+			}
+			#Destroy child sections
+			foreach section $sections_list {
+				$section destroy
+			}
+		#}
+	}	
+	
+	method getSectionsList { } {
+		return $sections_list
+	}
+	
+	method addItem { item } {
+		lappend items_list $item
+	}
+
+	method addSection {section} {
+		lappend sections_list $section
+	}
+	
+	method insertIntoList { lb level } {
+	
+		set sectionNames $self
+	
+		#Set identation
+		set ident ""
+		for { set idx 0 } { $idx < $level } {incr idx } {
+			set ident "$ident   "
+		}
+		
+		#Add current section
+		if { [llength $sections_list] > 0 } {
+			$lb insert end "$ident$options(-text)"
+		} else {
+			$lb insert end "$ident$options(-text)"
+		}
+		
+		#Add all subsections
+		foreach subsection $sections_list {
+			set sectionNames [concat $sectionNames [$subsection insertIntoList $lb [expr {$level + 1}]]]
+		}
+		
+		return $sectionNames
+	}
+	
+	method show { path } {
+	
+		set idx 0
+		
+		foreach item $items_list {
+			set f [frame $path.f$idx]
+			$item draw $f
+			pack $f -side top -fill x
+			incr idx
+
+		}
+	}
+
 }
 
 proc test {} {
-	destroy .p
-	catch { .prefs.personal.nicks destroy }
 	
 	::skin::setPixmap prefpers prefpers.gif
 	::skin::setPixmap prefprofile prefprofile.gif
@@ -234,7 +393,11 @@ proc test {} {
 	::skin::setPixmap prefphone prefphone.gif
 	
 	
-	PreferencesWindow .prefs
+	if { [LoginList exists 0 [::config::getKey login]] == 1 } {
+		PreferencesWindow .prefs -title "[trans preferences] - [trans profiledconfig] - [::config::getKey login]"
+	} else {
+		PreferencesWindow .prefs -title "[trans preferences] - [trans defaultconfig] - [::config::getKey login]"
+	}
 	
 	set section [PreferencesSection create .prefs.personal -text [trans personal]]
 	
@@ -244,9 +407,14 @@ proc test {} {
 	$section addItem $frame
 	set c [ItemsFrame create .prefs.personal.preffont -text [trans preffont] -icon preffont]
 	$c addItem [TextEntry create .prefs.personal.preffont.test -text "Test"]
-	$section addItem $frame
+	$section addItem $c
+	
+	set othersection [PreferencesSection create .prefs.caca -text "Caca"]
+	$othersection addSection [PreferencesSection create .prefs.caca2 -text "Caca2"]
+	$othersection addSection [PreferencesSection create .prefs.caca3 -text "Caca3"]
 	
 	.prefs addSection $section
+	.prefs addSection $othersection
 	.prefs show
 	
 	
