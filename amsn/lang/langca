@@ -15,6 +15,7 @@ adverts Anuncis
 alarmpref Preferències de l'alarma per l'usuari
 alarmstatus Activar l'alarma per aquest usuari
 allowallbutbl Permet que tots els usuaris, llevat dels bloquejats, contactin amb mi
+allowbadwords Desactiva la censura als sobrenoms
 allowlist Llista d'acceptats:
 allowonlyinal Permet que contactin amb mi només els usuaris acceptats
 allowseen Deixa que aquesta persona vegi si estic connectat i que contacti amb mi
@@ -53,6 +54,7 @@ browser Navegador
 busy Ocupat
 cancel Cancel·la
 cannotdeleteprofile No es pot eliminar el perfil, sembla que està sent utilitzat per una altra sessió aMSN
+cantexec No puc executar l'aplicació $1. Comprova les preferències.
 cfgalarm Configurar l'alarma per aquest usuari
 changefont Canviar font
 changenick Canviar el meu sobrenom
@@ -76,13 +78,14 @@ clearlog3 Netejar tots els registres
 clearlog Neteja de l'historial
 clicktologin Apreta aquí per iniciar la sessió
 close Tancar
+closed Conversa amb $1 tancada per inactivitat
 closingdocks El botó tancar minimitza la finestra
 command Reproductor
 confirmdelete Estàs segur de voler eliminar a $1?
 confirm Estàs segur?
 contactlist Llista de contactes:
 connected Ara estàs connectat
-connecterror Error connectant-se amb el servidor
+connecterror Error connectant amb el servidor
 connecting Connectant
 connection Connexió
 connectionlost Desconnectat: connexió amb el servidor tancada
@@ -189,10 +192,10 @@ loadcontacts Obrir una llista de contactes
 logbigger No vull que els fitxers de registre d'un contacte superin les
 logfandexp Mida dels fitxers de registre i expiració de l'historial
 loggedotherlocation Desconnectat. S'ha iniciat la sessió en un altre lloc
-loggingin Connectant-se
+loggingin Connectant
 loginas Connectar-se com
 login Connectar-se
-loging Connectant-se
+loging Connectant
 logolder Registrar només les converses que s'han realitzat en els últims
 logout Desconnectar-se
 logsin s'acaba de connectar
@@ -298,7 +301,7 @@ raised Elevada/desiconificada
 receivedbytes Rebuts $1 de $2 bytes
 receivefile Rebent fitxer
 reconnect Esperant a que $1 es reconnecti
-reconnecting Reconnectant-se al servidor
+reconnecting Reconnectant amb el servidor
 reject Rebutjar
 rememberpass Recordar contrasenya
 removefromlist Suprimeix d'aquesta llista
@@ -310,7 +313,7 @@ savecontacts Desar la llista de contactes
 save Desar
 savetofile Desar en fitxer
 says $1 diu
-sbcon Connectant-se a la Switch Board
+sbcon Connectant amb la Switch Board
 send Enviar
 sendfile Enviar fitxer
 sendmail Enviar correu electrònic
