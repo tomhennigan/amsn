@@ -6629,7 +6629,7 @@ proc addPicture {the_image pic_text filename} {
 }
 
 proc reloadAvailablePics { } {
-	global HOME image_names show_cached_pics
+	global HOME image_names show_cached_pics skin
 
 	set scrollidx [.picbrowser.pics.text yview]
 
@@ -6655,13 +6655,10 @@ proc reloadAvailablePics { } {
 	.picbrowser.pics.text configure -state normal
 	.picbrowser.pics.text delete 0.0 end
 
-		set files [list]
-	#catch {set files [glob -directory [file join $program_dir skins $skin displaypic] *.png] }
-	#if { $skin != "default" } {
-	catch {set files [concat $files [glob -directory [file join skins default displaypic] *.png]]}
-	#}
-	catch {set myfiles [glob -directory [file join $HOME displaypic] *.png]}
-	catch {set cachefiles [glob -directory [file join $HOME displaypic cache] *.png]}
+#	set files [list]
+	set files [glob -nocomplain -directory [file join skins default displaypic] *.png]
+	set myfiles [glob -nocomplain -directory [file join $HOME displaypic] *.png]
+	set cachefiles [glob -nocomplain -directory [file join $HOME displaypic cache] *.png]
 
 	addPicture no_pic "[trans nopic]" ""
 
@@ -6674,53 +6671,45 @@ proc reloadAvailablePics { } {
 	}
 
 
-
-	if { [info exists files] } {			
-		set files [lsort -dictionary $files]
-		foreach filename $files {
-			if { [file exists "[filenoext $filename].gif"] } {
-				set the_image [image create photo -file "[filenoext $filename].gif" ]	
-				addPicture $the_image "[getPictureDesc $filename]" [file tail $filename]			
-				lappend image_names $the_image
-			}
+	foreach filename [lsort -dictionary $files] {
+		set skin_file "[GetSkinFile displaypic [file tail [filenoext $filename].gif]]"
+		if { [file exists $skin_file] } {
+			set the_image [image create photo -file $skin_file ]	
+			addPicture $the_image "[getPictureDesc $filename]" [file tail $skin_file]
+			lappend image_names $the_image
 		}
 	}
 	.picbrowser.pics.text insert end "___________________________\n\n"	
 
-	if { [info exists myfiles] } {
-		set myfiles [lsort -dictionary $myfiles]
-		foreach filename $myfiles {
-			if { [file exists "[filenoext $filename].gif"] } {
-				set the_image [image create photo -file "[filenoext $filename].gif" ]	
-				addPicture $the_image "[getPictureDesc $filename]" [file tail $filename]
-				lappend image_names $the_image
-			}
+	foreach filename [lsort -dictionary $myfiles] {
+		if { [file exists "[filenoext $filename].gif"] } {
+			set the_image [image create photo -file "[filenoext $filename].gif" ]	
+			addPicture $the_image "[getPictureDesc $filename]" [file tail $filename]
+			lappend image_names $the_image
 		}
 	}
 
 	.picbrowser.pics.text insert end "___________________________\n\n"	
 
-	if { [info exists cachefiles]} {
-		if { $show_cached_pics } {
-			foreach filename $cachefiles {
-				if { [file exists "[filenoext $filename].gif"] } {
-					set the_image [image create photo -file "[filenoext $filename].gif" ]
-					addPicture $the_image "[getPictureDesc $filename]" "cache/[file tail $filename]"
-					lappend image_names $the_image
-				}
+	if { $show_cached_pics } {
+		foreach filename $cachefiles {
+			if { [file exists "[filenoext $filename].gif"] } {
+				set the_image [image create photo -file "[filenoext $filename].gif" ]
+				addPicture $the_image "[getPictureDesc $filename]" "cache/[file tail $filename]"
+				lappend image_names $the_image
 			}
-		} else {
-			.picbrowser.pics.text tag configure morepics -font bplainf -underline true
-			.picbrowser.pics.text tag bind morepics <Enter> ".picbrowser.pics.text conf -cursor hand2"
-			.picbrowser.pics.text tag bind morepics <Leave> ".picbrowser.pics.text conf -cursor left_ptr"
-			.picbrowser.pics.text tag bind morepics <Button1-ButtonRelease> "global show_cached_pics; set show_cached_pics 1; reloadAvailablePics"
-
-			.picbrowser.pics.text insert end "  "
-			.picbrowser.pics.text insert end "[trans cachedpics [llength $cachefiles]]..." morepics
-			.picbrowser.pics.text insert end "\n"
-		
 		}
-	} 
+	} else {
+		.picbrowser.pics.text tag configure morepics -font bplainf -underline true
+		.picbrowser.pics.text tag bind morepics <Enter> ".picbrowser.pics.text conf -cursor hand2"
+		.picbrowser.pics.text tag bind morepics <Leave> ".picbrowser.pics.text conf -cursor left_ptr"
+		.picbrowser.pics.text tag bind morepics <Button1-ButtonRelease> "global show_cached_pics; set show_cached_pics 1; reloadAvailablePics"
+
+		.picbrowser.pics.text insert end "  "
+		.picbrowser.pics.text insert end "[trans cachedpics [llength $cachefiles]]..." morepics
+		.picbrowser.pics.text insert end "\n"
+	
+	}
 
 	update idletasks
 
