@@ -4850,6 +4850,9 @@ proc add_Clientid {chatid clientid} {
 		512 {
 			::abook::setContactData $chatid clientid "Web Messenger"
 		}
+		default {
+			::abook::setContactData $chatid clientid "Unknown"
+		}
 	}
 }
 
@@ -6175,9 +6178,7 @@ namespace eval ::MSN6FT {
 		binary scan [string range $context 8 11] i filesize
 		binary scan [string range $context 16 19] i nopreview
 		set filename [encoding convertfrom unicode [string range $context 20 [expr $size - 20]]]
-
 		set filename [string range $filename 0 [expr [string first "\x00" $filename] -1]]
-
 		if { $nopreview == 0 } {
 			set previewdata [string range $context $size end]
 			set dir [file join [set ::HOME] FT cache]
