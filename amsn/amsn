@@ -1426,7 +1426,7 @@ proc cmsn_draw_msgwin {email} {
    wm iconmask . @${images_folder}/amsnmask.xbm
    
    menu .${win_name}.menu -tearoff 0 -type menubar  \
-      -borderwidth 2 -relief ridge -activeborderwidth -0 
+     -borderwidth 0 -activeborderwidth -0 
    .${win_name}.menu add cascade -label "[trans msn]" -menu .${win_name}.menu.msn
    .${win_name}.menu add cascade -label "[trans edit]" -menu .${win_name}.menu.edit
    .${win_name}.menu add cascade -label "[trans view]" -menu .${win_name}.menu.view
@@ -1744,19 +1744,19 @@ proc cmsn_msgwin_title {name} {
 #      set topmsg "[trans to]:"
       set topmsg ""
       foreach usrinfo $users_list {
-         set user_login [lindex $usrinfo 0]
-         set user_name [lindex $usrinfo 1]
-         set title "${title}${user_name}, "
-#	 set user_state_no [lindex $usrinfo 2]
-#	 status_log "$user_state_no\n"
-#         set state [lindex $list_states $user_state_no]
-#         set state_code [lindex $state 1]
-#	 status_log "$state_code\n"
-#	 if { $state_code == "online" } {
-	 	set topmsg "${topmsg}${user_name} <${user_login}> \n"
-#	 } else {
-#	 	set topmsg "${topmsg}${user_name} \([trans $state_code]\) <${user_login}> \n"
-#	 }
+        set user_login [lindex $usrinfo 0]
+        set user_name [lindex $usrinfo 1]
+        set title "${title}${user_name}, "
+#	set user_state_no [lindex $usrinfo 2]
+#	status_log "user state is : $user_state_no \n"
+#       set state [lindex $list_states $user_state_no]
+#       set state_code [lindex $state 1]
+#	status_log "state code is : $state_code \n"
+#	if { $state_code == "online" } {
+		set topmsg "${topmsg}${user_name} <${user_login}> \n"
+#	} else {
+#		set topmsg "${topmsg}${user_name} \([trans $state_code]\) <${user_login}> \n"
+#	}
       }
       set title [string replace $title end-1 end " - [trans chat]"]
       set topmsg [string replace $topmsg end-1 end]
@@ -1810,8 +1810,6 @@ proc cmsn_msgwin_top {name txt} {
    upvar #0 [sb name $name users] users
    set nbusers [llength $users]
    
-   status_log "got this many users : $nbusers\n"
-
    if { $nbusers > 0 } {
 	.${win_name}.top.text configure -state normal -font splainf -height $nbusers
    } else {
@@ -2331,8 +2329,7 @@ proc cmsn_sb_sessionclosed {sbn} {
 
 
 proc cmsn_update_users {sb_name recv} {
-   global config
-
+   global config msg_windows
 
    switch [lindex $recv 0] {
       BYE { if {[sb get $sb_name stat] != "d"} {
@@ -2422,6 +2419,26 @@ proc cmsn_update_users {sb_name recv} {
       bind .${win_name}.in.input <Key-KP_Enter> "cmsn_reconnect ${sb_name}; break"
       bind .${win_name}.in.input <Alt-s> "cmsn_reconnect ${sb_name}; break"
    }
+
+   upvar #0 [sb name $sb_name users] sb_users
+   if { [llength $sb_users] > 1 } {
+   foreach usrinfo $sb_users {
+      	set temp [lindex $usrinfo 0]
+   	status_log "temp is : $temp \n"
+   	if { [info exists msg_windows([string tolower ${temp}])]} {
+		if { $msg_windows([string tolower ${temp}]) == $sb_name } {
+   			status_log "unsetting\n"
+			unset msg_windows([string tolower ${temp}])
+		}
+	}
+   }
+   } elseif { [llength $sb_users] == 1 } {
+   foreach usrinfo $sb_users {
+   	set temp [lindex $usrinfo 0]
+	set msg_windows([string tolower ${temp}]) $sb_name
+   }
+   }
+
 }
 
 
