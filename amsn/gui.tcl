@@ -568,6 +568,10 @@ namespace eval ::amsn {
          return 0
       }
 
+      if { "$chatid" == "$usr_name" && [::MSN::chatReady $chatid] } {
+         return 0
+      }
+      
       set statusmsg "[timestamp] [trans joins $usr_name]\n"
       WinStatus [ WindowFor $chatid ] $statusmsg
       WinTopUpdate $chatid
@@ -891,6 +895,8 @@ namespace eval ::amsn {
       bind .${win_name}.f.in.input <Return> "::amsn::MessageSend .${win_name} %W; break"
       bind .${win_name}.f.in.input <Key-KP_Enter> "::amsn::MessageSend .${win_name} %W; break"
       bind .${win_name}.f.in.input <Alt-s> "::amsn::MessageSend .${win_name} %W; break"
+      
+      bind .${win_name}.f.in.input <Escape> "destroy .${win_name} %W; break"
 
 
       set window_titles(.${win_name}) ""
@@ -1106,7 +1112,6 @@ namespace eval ::amsn {
          ::MSN::chatTo $chatid
       }
       
-      status_log "Typing notification\n" blue
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -1267,12 +1272,15 @@ namespace eval ::amsn {
    #///////////////////////////////////////////////////////////////////////////////
    # chatStatus (chatid,msg,[icon])
    # Called by the protocol layer to show some information about the chat, that
-   # should be shown in the status bar. It will only show it if the chat is not
+   # should be shown in the status bar. It parameter "ready" is different from "",
+   # then it will only show it if the chat is not
    # ready, as most information is about connections/reconnections, and we don't
    # mind in case we have a "chat ready to chat".
-   proc chatStatus {chatid msg {icon ""}} {
+   proc chatStatus {chatid msg {icon ""} {ready ""}} {
 
       if { [WindowFor $chatid] == 0} {
+         return 0
+      } elseif { "$ready" != "" && [::MSN::chatReady $chatid]} {
          return 0
       } else {
            WinStatus [ WindowFor $chatid ] $msg $icon
@@ -1429,8 +1437,10 @@ namespace eval ::amsn {
 
       ${win_name}.f.out.text insert end "$txt" $tagid
 
+      
+      #TODO: Make an url_subst procedure, and improve this using regular expressions
       set endpos $text_start
-
+      
       foreach url $urlstarts {
 
          while { $endpos != [${win_name}.f.out.text index end] && [set pos [${win_name}.f.out.text search -forward -exact -nocase \
@@ -1441,7 +1451,8 @@ namespace eval ::amsn {
 
 	   set final 0
 	   set caracter [string range $urltext $final $final]
-	   while { $caracter != " " && $caracter != "\n" } {
+	   while { $caracter != " " && $caracter != "\n" && $caracter != "," \
+	   	&& $caracter != ")" && $caracter != "("} {
 		set final [expr {$final+1}]
 		set caracter [string range $urltext $final $final]
 	   }

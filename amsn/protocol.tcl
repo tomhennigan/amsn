@@ -454,8 +454,9 @@ namespace eval ::MSN {
 
       } else {
 
+         set tmp_data "ERROR READING NS !!"
 	 catch {gets $ns_sock tmp_data} res
-         degt_protocol "<-NS $tmp_data" nsrecv
+         degt_protocol "<-NS $tmp_data\\n" nsrecv
 	 return "$tmp_data"
 
       }
@@ -1127,10 +1128,26 @@ namespace eval ::MSN {
 
       if { [info exists sb_chatid($chatid)]} {
 	  if {[llength $sb_chatid($chatid)] >0 } {
-	     return [lindex $sb_chatid($chatid) 0]
+	  
+	     #Try to find a connected SB
+	     foreach sbn $sb_chatid($chatid) {
+	     
+	        if { "[sb get $sbn stat]" == "o" } {
+	           set sb_sock [sb get $sbn sock]
+
+	           if { "$sb_sock" != "" } {
+ 	              return $sbn
+	           }
+		   
+	        }
+	     }
+	     
+	     #If not found, return first SB
+             return [lindex $sb_chatid($chatid) 0]
+	     
 	  }
       }
-
+            
       return 0
 
    }
@@ -1370,6 +1387,7 @@ namespace eval ::MSN {
 
 proc read_sb_sock {sbn} {
 
+   #puts "Here in read_sb_sock\n"
 
    set sb_sock [sb get $sbn sock]
    if {[catch {eof $sb_sock} res]} {
@@ -1385,13 +1403,22 @@ proc read_sb_sock {sbn} {
 
    } else {
 
-      catch {gets $sb_sock tmp_data} res
+      set tmp_data "ERROR READING SB !!!"
+      if {[catch {gets $sb_sock tmp_data} res] || "$tmp_data" == "" } {
+         catch {close $sb_sock} res
+         degt_protocol "<-SB($sbn) CLOSED" error
+         cmsn_sb_sessionclosed $sbn
+	 return 0
+
+      }
+      
       sb append $sbn data $tmp_data
 
-      degt_protocol "<-SB($sbn) $tmp_data" sbrecv
+      degt_protocol "<-SB($sbn) $tmp_data\\n" sbrecv
 
       if {[string range $tmp_data 0 2] == "MSG"} {
          set recv [split $tmp_data]
+	 #TODO: Do this non-blocking
 	 fconfigure $sb_sock -blocking 1
 	 set msg_data [read $sb_sock [lindex $recv 3]]
 	 fconfigure $sb_sock -blocking 0
@@ -1399,7 +1426,7 @@ proc read_sb_sock {sbn} {
          degt_protocol "Message Contents:\n$msg_data" msgcontents
 
 	 sb append $sbn data $msg_data
-      }
+      } 
    }
 
 }
@@ -1887,7 +1914,7 @@ proc cmsn_open_sb {sbn recv} {
 
 
    #status_log "[trans sbcon]...\n"
-   ::amsn::chatStatus [::MSN::ChatFor $sbn] "[trans sbcon]...\n" miniinfo
+   ::amsn::chatStatus [::MSN::ChatFor $sbn] "[trans sbcon]...\n" miniinfo ready
    cmsn_socket $sbn
    return 0
 }
@@ -1905,7 +1932,7 @@ proc cmsn_conn_sb {name} {
    set param [sb get $name auth_param]
 
    ::MSN::WriteSB $name $cmd $param "cmsn_connected_sb $name"
-   ::amsn::chatStatus [::MSN::ChatFor $name] "[trans ident]...\n" miniinfo
+   ::amsn::chatStatus [::MSN::ChatFor $name] "[trans ident]...\n" miniinfo ready
 }
 
 proc cmsn_conn_ans {name} {
@@ -1933,7 +1960,8 @@ proc cmsn_connected_sb {name recv} {
       sb set $name time [clock seconds]
       cmsn_invite_user $name [sb get $name invite]
 
-      ::amsn::chatStatus [::MSN::ChatFor $name] "[trans willjoin [sb get $name invite]]...\n" miniinfo
+      ::amsn::chatStatus [::MSN::ChatFor $name] \
+         "[trans willjoin [sb get $name invite]]...\n" miniinfo ready
 
    } else {
 
@@ -1962,7 +1990,8 @@ proc cmsn_reconnect { name } {
       sb set $name time [clock seconds]
       cmsn_invite_user $name [sb get $name last_user]
 
-      ::amsn::chatStatus [::MSN::ChatFor $name] "[trans willjoin [sb get $name last_user]]..." miniinfo
+      ::amsn::chatStatus [::MSN::ChatFor $name] \
+         "[trans willjoin [sb get $name last_user]]..." miniinfo ready
 
    } elseif {[sb get $name stat] == "d"} {
 
@@ -1975,7 +2004,7 @@ proc cmsn_reconnect { name } {
 
       ::MSN::WriteNS "XFR" "SB" "cmsn_open_sb $name"
 
-      ::amsn::chatStatus [::MSN::ChatFor $name] "[trans chatreq]..." miniinfo
+      ::amsn::chatStatus [::MSN::ChatFor $name] "[trans chatreq]..." miniinfo ready
 
    } elseif {[sb get $name stat] == "i"} {
 
@@ -2063,19 +2092,19 @@ proc cmsn_update_users {sb_name recv} {
 
          set chatid [::MSN::ChatFor $sb_name]
 
-	  if {[sb get $sb_name stat] != "d"} {
+         if {[sb get $sb_name stat] != "d"} {
 
             set leaves [sb search $sb_name users "[lindex $recv 1]"]
 
-	     sb set $sb_name last_user [sb index $sb_name users $leaves]
-	     sb ldel $sb_name users $leaves
+            sb set $sb_name last_user [sb index $sb_name users $leaves]
+            sb ldel $sb_name users $leaves
 
-	     set usr_login [sb index $sb_name users 0]
+            set usr_login [sb index $sb_name users 0]
 
             if {[sb length $sb_name users] == 1} {
-	        #We were a conference! try to become a private
+               #We were a conference! try to become a private
 
-	        set desiredchatid $usr_login
+               set desiredchatid $usr_login
 
                set newchatid [::amsn::chatChange $chatid $desiredchatid]
 
@@ -2087,22 +2116,22 @@ proc cmsn_update_users {sb_name recv} {
                   #The GUI accepts the change, so let's change
                   status_log "sb_msg: change accepted\n"
                   ::MSN::DelSBFor $chatid $sb_name
-	           set chatid $newchatid
-		    ::MSN::AddSBFor $chatid $sb_name
+                  set chatid $newchatid
+                  ::MSN::AddSBFor $chatid $sb_name
                }
 
             } elseif {[sb length $sb_name users] == 0 } {
-	        sb set $sb_name stat "n"
-	     }
+               sb set $sb_name stat "n"
+            }
 
          } else {
-	     status_log "BYE but sb is in \"d\" state, so \
-	     the close event has been catch before the BYE...\n"
-	  }
+            status_log "BYE but sb is in \"d\" state, so \
+            the close event has been catch before the BYE...\n"
+         }
 
-	  if {[::MSN::SBFor $chatid] == $sb_name} {
-  	     ::amsn::userLeaves $chatid [list [lindex $recv 1]]
-	  }
+         if { "$chatid" != "[lindex $recv 1]" || ![::MSN::chatReady $chatid]} {
+            ::amsn::userLeaves $chatid [list [lindex $recv 1]]
+         }
 
       }
 
