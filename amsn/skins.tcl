@@ -638,6 +638,9 @@ proc SetColors {cstack cdata saved_data cattr saved_attr args} {
 		::skin::setColor chat_buttons_border 0
 		::skin::setColor chat_input_border 0
 		::skin::setColor chat_status_border 0
+		::skin::setColor chat_top_pady 0
+		::skin::setColor chat_status_pady 0
+		::skin::setColor chat_paned_pady 0
 	}
 	
 	return 0
