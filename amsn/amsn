@@ -186,8 +186,10 @@ proc check_imagemagick {} {
 		}
 		#-1 means you want them enabled, but imagemagic is not installed...
 		set config(getdisppic) -1
+		return 0
 	} else {
 		set config(getdisppic) 1
+		return 1
 	}
 }
 

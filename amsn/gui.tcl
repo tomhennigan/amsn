@@ -1830,9 +1830,9 @@ catch {exec killall -c sndplay}
       bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
       
 		#Define this events, in case they were not defined by Tk
-		event add <<Paste>> <Control-Key-v> <Control-Key-V>
-		event add <<Copy>> <Control-Key-c> <Control-Key-C>
-		event add <<Cut>> <Control-Key-x> <Control-Key-X>
+		event add <<Paste>> <Control-v> <Control-V>
+		event add <<Copy>> <Control-c> <Control-C>
+		event add <<Cut>> <Control-x> <Control-X>
 		 
 	  #bind .${win_name} <<Cut>> "status_log cut\n;copy 1 .${win_name}"
 	  #bind .${win_name} <<Copy>> "status_log copy\n;copy 0 .${win_name}"
@@ -6650,8 +6650,17 @@ proc pictureDeleteFile {} {
 
 proc pictureChooseFile { } {
 	global selected_image image_names
+
+	if { [catch { exec [::config::getKey convertpath] } res] } {
+			msg_box "[trans installconvert]"
+			status_log "ImageMagick not installed got error $res\n Disabling display pictures\n"
+	return [::config::getKey displaypic]
+
+	}
+
+
 	set file [chooseFileDialog {{\"Image Files\" {*.gif *.jpg *.jpeg *.bmp *.png} }}]
-    
+
 	 if { $file != "" } {
 	 	if { ![catch {convert_display_picture $file} res]} {
 			set image_name [image create photo -file [GetSkinFile displaypic "[filenoext [file tail $file]].gif"]]
@@ -6664,7 +6673,7 @@ proc pictureChooseFile { } {
 			status_log "Writing description to $desc_file\n"
 			puts $fd "[clock format [clock seconds] -format %x]\n[filenoext [file tail $file]].png"
 			close $fd
-			
+
 			lappend image_names $image_name
 			status_log "Created $image_name\n"
 			return "[filenoext [file tail $file]].png"
