@@ -17,6 +17,13 @@ dave a.k.a. Compu
 
 and more... by AIM
 
+# TODO Auto change state to "No activity" when idle
+# TODO Menu accelerators
+# TODO Skin selection
+# TODO Font selection for chat window
+# TODO Improve proxy support
+# TODO Docking?
+# TODO Copy to group / a contact can be in more than one groups at once
 # TODO Avoid blocking the messenger when reading from the socket
 # TODO Windows-like copy-paste
 # TODO Option for autoconnect (when connection detected)

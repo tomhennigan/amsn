@@ -6,8 +6,9 @@ lordofscripts	D.E. Grimaldo <lordofscripts at users.sourceforge.net) (>0.3p3)
 alvaro       	Alvaro Iradier <airadier at users.sourceforge.net) (>=0.4)
 ###############################################################################
 
-Version 0.52
-20020605	o Added some messages to the main language catalogs 
+Version 0.60
+20020702
+  	        o Added some messages to the main language catalogs 
   		  (translations needed!)
 		o Fixed some translations and omissions
 		o Branding is always enabled. This space is shared
