@@ -6,6 +6,7 @@ actions Actions
 addacontact Add a contact
 addedyou $1 ($2) has added you to his/her contact list
 addstate Add New State
+addto Add to $1
 addtocontacts Add to contact list
 addtoo Add this person to my contact list
 admincontacts Admin contacts
@@ -347,6 +348,7 @@ tools Tools
 to To
 transnotexists The requested file has not been translated into the current language yet.
 traynotcompiled Tray icon plugin is not complied. Check plugins/traydock
+twonewmail $1 new messages in Inbox
 unblock Unblock
 uoffline Offline
 uonline Online
@@ -368,4 +370,3 @@ yoffset Y Offset
 youblocked You have been blocked
 yousay You say
 youwant You want
-twonewmail $1 new messages in Inbox
