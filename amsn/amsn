@@ -221,7 +221,7 @@ proc check_imagemagick {} {
 }
 
 if {[package vcompare [package provide Tcl] 8.4] < 0} {
-	proc tcl::K {a b} {return $a}
+	proc K {a b} {return $a}
 	proc lset_r {list args val} {
 		if { [llength $args] == "0" } {
 			return $val
@@ -231,7 +231,7 @@ if {[package vcompare [package provide Tcl] 8.4] < 0} {
 	}
 	proc lset {listName args} {
 		upvar $listName list
-		set list [lset_r [tcl::K $list [set list {}]] [lrange $args 0 end-1] [lindex $args end]]
+		set list [lset_r [K $list [set list {}]] [lrange $args 0 end-1] [lindex $args end]]
 	}
 }
 
