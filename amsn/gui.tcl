@@ -2207,10 +2207,10 @@ namespace eval ::amsn {
 
 		bind $bottom.in.input <Key-Delete> "::amsn::DeleteKeyPressed .${win_name} $bottom.in.input %K"
 		bind $bottom.in.input <Key-BackSpace> "::amsn::DeleteKeyPressed .${win_name} $bottom.in.input %K"
-		bind $bottom.in.input <Key-Up> {tk::TextSetCursor %W [::amsn::UpKeyPressed %W]; break}
-		bind $bottom.in.input <Key-Down> {tk::TextSetCursor %W [::amsn::DownKeyPressed %W]; break}
-		bind $bottom.in.input <Shift-Key-Up> {tk::TextKeySelect %W [::amsn::UpKeyPressed %W]; break}
-		bind $bottom.in.input <Shift-Key-Down> {tk::TextKeySelect %W [::amsn::DownKeyPressed %W]; break}
+		bind $bottom.in.input <Key-Up> {my_TextSetCursor %W [::amsn::UpKeyPressed %W]; break}
+		bind $bottom.in.input <Key-Down> {my_TextSetCursor %W [::amsn::DownKeyPressed %W]; break}
+		bind $bottom.in.input <Shift-Key-Up> {my_TextKeySelect %W [::amsn::UpKeyPressed %W]; break}
+		bind $bottom.in.input <Shift-Key-Down> {my_TextKeySelect %W [::amsn::DownKeyPressed %W]; break}
 		global skipthistime
 		set skipthistime 0
 
@@ -7887,4 +7887,62 @@ proc win_Position_Mac {win} {
 	if { $info2 < 25 } { set info2 25 }
 	#Replace the window to the new position on the screen
 	wm geometry $win +${info1}+${info2}
+}
+
+# taken from ::tk::TextSetCursor
+# Move the insertion cursor to a given position in a text.  Also
+# clears the selection, if there is one in the text, and makes sure
+# that the insertion cursor is visible.  Also, don't let the insertion
+# cursor appear on the dummy last line of the text.
+#
+# Arguments:
+# w -		The text window.
+# pos -		The desired new position for the cursor in the window.
+
+proc my_TextSetCursor {w pos} {
+
+    if {[$w compare $pos == end]} {
+	set pos {end - 1 chars}
+    }
+    $w mark set insert $pos
+    $w tag remove sel 1.0 end
+    $w see insert
+    #removed incase not supported for tk8.3
+    #if {[$w cget -autoseparators]} {$w edit separator}
+}
+
+# taken from ::tk::TextKeySelect
+# This procedure is invoked when stroking out selections using the
+# keyboard.  It moves the cursor to a new position, then extends
+# the selection to that position.
+#
+# Arguments:
+# w -		The text window.
+# new -		A new position for the insertion cursor (the cursor hasn't
+#		actually been moved to this position yet).
+
+proc my_TextKeySelect {w new} {
+
+    if {[string equal [$w tag nextrange sel 1.0 end] ""]} {
+	if {[$w compare $new < insert]} {
+	    $w tag add sel $new insert
+	} else {
+	    $w tag add sel insert $new
+	}
+	$w mark set anchor insert
+    } else {
+	if {[$w compare $new < anchor]} {
+	    set first $new
+	    set last anchor
+	} else {
+	    set first anchor
+	    set last $new
+	}
+	$w tag remove sel 1.0 $first
+	$w tag add sel $first $last
+	$w tag remove sel $last end
+    }
+    $w mark set insert $new
+    $w see insert
+    update idletasks
 }
