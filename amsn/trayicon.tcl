@@ -1,85 +1,85 @@
 if { $initialize_amsn == 1 } {
-    global statusicon mailicon systemtray_exist iconmenu ishidden
+global statusicon mailicon systemtray_exist iconmenu ishidden
 
-    set statusicon 0
-    set mailicon 0
-    set systemtray_exist 0
-    set iconmenu 0
-    set ishidden 0
+set statusicon 0
+set mailicon 0
+set systemtray_exist 0
+set iconmenu 0
+set ishidden 0
 }
 
 proc iconify_proc {} {
-	global statusicon systemtray_exist
-	if { [focus] == "."} {
-		wm iconify .
-		wm state . withdrawn
-	} else {
-		wm deiconify .
-		wm state . normal
-		raise .
-		focus -force .
-	}
-	#bind $statusicon <Button-1> deiconify_proc
+global statusicon systemtray_exist
+if { [focus] == "."} {
+wm iconify .
+wm state . withdrawn
+} else {
+wm deiconify .
+wm state . normal
+raise .
+focus -force .
+}
+#bind $statusicon <Button-1> deiconify_proc
 }
 
 proc taskbar_icon_handler { msg x y } {
-	global iconmenu ishidden
+global iconmenu ishidden
 
-	if { [winfo exists .bossmode] } {
-		if { $msg=="WM_LBUTTONDBLCLK" } {
-			wm state .bossmode normal
-			focus -force .bossmode
-		}
-		return
+if { [winfo exists .bossmode] } {
+if { $msg=="WM_LBUTTONDBLCLK" } {
+	wm state .bossmode normal
+	focus -force .bossmode
+}
+return
+}
+
+if { $msg=="WM_RBUTTONUP" } {
+#tk_popup $iconmenu $x $y
+
+#workaround for bug with the popup not unposting
+wm state .trayiconwin normal
+wm geometry .trayiconwin "+0+[expr 2 * [winfo screenheight .]]"
+focus -force .trayiconwin
+
+tk_popup $iconmenu [expr "$x + 85"] [expr "$y - 11"] [$iconmenu index end]
+
+#workaround for bug with the popup not unposting
+wm state .trayiconwin withdrawn
+}
+if { $msg=="WM_LBUTTONDBLCLK" } {
+if { $ishidden == 0 } {
+	#wm iconify .
+	if { [wm state .] == "zoomed" } {
+		set ishidden 2
+	} else {
+		set ishidden 1
 	}
-
-	if { $msg=="WM_RBUTTONUP" } {
-		#tk_popup $iconmenu $x $y
-
-		#workaround for bug with the popup not unposting
-		wm state .trayiconwin normal
-		wm geometry .trayiconwin "+0+[expr 2 * [winfo screenheight .]]"
-		focus -force .trayiconwin
-
-		tk_popup $iconmenu [expr "$x + 85"] [expr "$y - 11"] [$iconmenu index end]
-
-		#workaround for bug with the popup not unposting
-		wm state .trayiconwin withdrawn
+	wm state . withdrawn
+	#set ishidden 1
+} else {
+	#wm deiconify .
+	#wm state . normal
+	#raise .
+	if { $ishidden == 2 } {
+		wm state . zoomed
+	} else {
+		wm state . normal
 	}
-	if { $msg=="WM_LBUTTONDBLCLK" } {
-		if { $ishidden == 0 } {
-			#wm iconify .
-			if { [wm state .] == "zoomed" } {
-				set ishidden 2
-			} else {
-				set ishidden 1
-			}
-			wm state . withdrawn
-			#set ishidden 1
-		} else {
-			#wm deiconify .
-			#wm state . normal
-			#raise .
-			if { $ishidden == 2 } {
-				wm state . zoomed
-			} else {
-				wm state . normal
-			}
-			focus -force .
-			set ishidden 0
-		}
-	}
+	focus -force .
+	set ishidden 0
+}
+}
 }
 
 proc trayicon_init {} {
-	global systemtray_exist password iconmenu wintrayicon statusicon
+global systemtray_exist password iconmenu wintrayicon statusicon
 
-	if { [::config::getKey dock] == 4 } {
-		#added to stop creation of more than 1 icon
-		if { $statusicon != 0 } {
-			return
-		}
-		set ext "[file join plugins winico05.dll]"
+if { [::config::getKey dock] == 4 } {
+#added to stop creation of more than 1 icon
+if { $statusicon != 0 } {
+	return
+}
+set ext "[file join utils winico05.dll]"
 		if { [file exists $ext] != 1 } {
 			msg_box "[trans needwinico]"
 			close_dock
@@ -96,7 +96,7 @@ proc trayicon_init {} {
 		winico taskbar add $wintrayicon -text "[trans offline]" -callback "taskbar_icon_handler %m %x %y"
 		set statusicon 1
 	} else {
-		set ext "[file join plugins traydock libtray.so]"
+		set ext "[file join utils traydock libtray.so]"
 		if { ![file exists $ext] } {
 			::config::setKey dock 0
 			msg_box "[trans traynotcompiled]"

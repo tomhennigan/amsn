@@ -5713,7 +5713,7 @@ proc launch_browser { url {local 0}} {
 		#catch { exec rundll32 url.dll,FileProtocolHandler $url & } res
 		#run WinLoadFile, if its not loaded yet then load it
 		if { [catch { WinLoadFile $url } ] } {
-			load [file join plugins winutils winutils.dll]
+			load [file join utils winutils winutils.dll]
 			WinLoadFile $url
 		}
 	} else {
@@ -7283,7 +7283,7 @@ proc show_bug_dialog {} {
 	
 	#Execute script on Mac OS X to create a mail in "Mail" application and attach the bugreport to the mail
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		button $w.mail -text [trans sendmail] -command "exec osascript plugins/applescript/mail-bugreport.scpt &" -highlightbackground #e8e8e8 -activeforeground #5b76c6  -pady 1
+		button $w.mail -text [trans sendmail] -command "exec osascript utils/applescript/mail-bugreport.scpt &" -highlightbackground #e8e8e8 -activeforeground #5b76c6  -pady 1
 		pack $w.mail -in $w.bot
 	}
 

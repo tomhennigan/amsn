@@ -134,7 +134,7 @@ proc init_dock {} {
 				close_dock
 				::config::setKey dock 1
 			}
-			catch {exec [file join plugins gnomedock] [file join plugins icons]/ &} res
+			catch {exec [file join utils gnomedock] [file join utils icons]/ &} res
 		} elseif { [::config::getKey dock] == 2} {
 		} elseif { [::config::getKey dock] == 3} {
 			if { $systemtray_exist == 0 } {

@@ -109,7 +109,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 ### And setup where to find optional packages
 ############################################################
 
-lappend auto_path [file join plugins]
+lappend auto_path [file join utils]
 lappend auto_path [file join ${HOME} plugins]
 
 set libtls ""
@@ -167,7 +167,7 @@ proc reload_files { } {
 		source xmms.tcl
 	}
 	if {$tcl_platform(os) == "Darwin"} {
-		source [file join plugins applescript ae.tcl];#AppleEvent support
+		source [file join utils applescript ae.tcl];#AppleEvent support
 	}
 	source alarm.tcl	;# Alarms code (Burger)
 	source dock.tcl		;# Docking routines
