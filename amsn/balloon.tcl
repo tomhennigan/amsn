@@ -120,6 +120,9 @@ proc balloon {target message {cx 0} {cy 0} } {
 		set bw [expr [::skin::getKey balloonborderwidth]]
 	} else {
 		set bw [expr [::skin::getKey balloonborderwidth] - 1 ]
+		if {$bw < 0} {
+			set bw 0
+		}
 	}
 	
 	pack .balloon.l -side left -padx $bw -pady $bw
