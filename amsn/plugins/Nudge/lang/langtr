@@ -1,0 +1,12 @@
+shake_receive Dürtükleme alýnýnca pencereyi titret
+shake_send Dürtükleme gönderirken pencereyi titret
+shake_nudge Dürtüklemedeki pencere titreþim sayýsý
+popup_nudge Dürtüklemelerde uyarý penceresi çýksýn
+notify_send Dürtükleme gönderince sohbet penceresinde belirt
+notify_receive Dürtükleme alýnýnca sohbet penceresinde belirt
+sound_send Dürtükleme gönderirken ses çýkar
+sound_receive Dürtükleme alýnýnca ses çýkar
+add_button Sohbet penceresine dürtükleme gönderme düðmesi ekle
+send_nudge Dürtükle!
+no_nudge_support Baðlantýnýzýn istemcisi desteklemediði için dürtükleme gönderilemedi.
+nudge_sent Dütükleme gönderdiniz.
