@@ -1,106 +1,106 @@
 FAQno 0.5
 ---------
 
-denne filen er under utvikling. for mer informasjon, prÃ¸v den engelske versjonen.
+denne filen er under utvikling. for mer informasjon, prøv den engelske versjonen.
 
 Q: Hva er Amsn?
 A: Amsn er en Microsoft Messenger-klone. Den lar deg holde kontakten med
 og sende meldinger og filer til venner, familie og kolleger.
 
-INSTALLASJON OG KJÃ˜RING
+INSTALLASJON OG KJØRING
 =======================
 
-Q: Hva trenger jeg for Ã¥ kjÃ¸re amsn?
-A: Amsn er skrevet i tcl/tk, sÃ¥ du trenger kun en fungerende tcl/tk-tolk,
-versjon 8.3 eller nyere. Du kan skaffe tcl/tk pÃ¥ http://tcl.sourceforge.net. 
+Q: Hva trenger jeg for å kjøre amsn?
+A: Amsn er skrevet i tcl/tk, så du trenger kun en fungerende tcl/tk-tolk,
+versjon 8.3 eller nyere. Du kan skaffe tcl/tk på http://tcl.sourceforge.net. 
 Tcl/tk er tilgjengelig for linux, windows og macintosh. Noen 
 tillegsfunksjoner kan kreve ekstra programmer eller biblioteker, som f.eks 
 dokkingikonet, Display Pictures eller SSL-tilkobling for MSN Protocol 9.
 
 Q: Hvordan installerer jeg amsn?
 A: Last ned amsn-x_xx.tar.gz fra http://sourceforge.net/projects/amsn. 
-Pakk filen ut med fÃ¸lgende kommandoer:
+Pakk filen ut med følgende kommandoer:
   gzip -d amsn-x_xx.tar.gz
   tar xvf amsn-x_xx.tar
 Dette vil opprette en mappe kalt /msn.
-For Ã¥ starte amsn, skriv:
+For å starte amsn, skriv:
   cd msn
   ./amsn
-hvis ikke dette fungerer, prÃ¸v
+hvis ikke dette fungerer, prøv
   wish amsn
 Hvis wish-kommandoen ikke eksisterer har du ikke tcl/tk riktig installert.
-Hvis "wish amsn" fungerer men ikke "./amsn" mÃ¥ du redigere 'amsn' filen og skrive inn 
-den korrekte adressen til 'wish' pÃ¥ den fÃ¸rste linja. Som standard er den satt til:
+Hvis "wish amsn" fungerer men ikke "./amsn" må du redigere 'amsn' filen og skrive inn 
+den korrekte adressen til 'wish' på den første linja. Som standard er den satt til:
 /usr/bin/wish
 
-Q: NÃ¥r jeg dobbelklikker pÃ¥ "amsn"-filen fra en grafisk filhÃ¥ndterer som
-konqueror eller nautilus, Ã¥pner den en tekstredigerer i stedet for Ã¥ kjÃ¸re AMSN!
-A: AMSN er skrevet i tcl/tk som er et programmeringssprÃ¥k som bruker kildekoden 
-for Ã¥ kjÃ¸re programmet, sÃ¥ "amsn"-filen er kun en tekstfil med programkoden. 
-FilhÃ¥ndtereren kan tro at det er en tekstfil og starte en tekstredigerer. 
-For Ã¥ kjÃ¸re AMSN bÃ¸r du velge "Ã…pne med...", "Start med..." eller lignende,
-og bruke programmet "wish" for Ã¥ Ã¥pne "amsn"-filen. Hvis "wish"-kommandoen
+Q: Når jeg dobbelklikker på "amsn"-filen fra en grafisk filhåndterer som
+konqueror eller nautilus, åpner den en tekstredigerer i stedet for å kjøre AMSN!
+A: AMSN er skrevet i tcl/tk som er et programmeringsspråk som bruker kildekoden 
+for å kjøre programmet, så "amsn"-filen er kun en tekstfil med programkoden. 
+Filhåndtereren kan tro at det er en tekstfil og starte en tekstredigerer. 
+For å kjøre AMSN bør du velge "Åpne med...", "Start med..." eller lignende,
+og bruke programmet "wish" for å åpne "amsn"-filen. Hvis "wish"-kommandoen
 ikke eksisterer, har du ikke intallert tcl/tk.
 
-Q: Hvordan oppretter jeg en snarvei til amsn pÃ¥ skrivebordet?
-A: 1.- Opprett en snarvei pÃ¥ ditt gnome/kde-skrivebord eller menyen, som
-starter fÃ¸lgende kommando:
+Q: Hvordan oppretter jeg en snarvei til amsn på skrivebordet?
+A: 1.- Opprett en snarvei på ditt gnome/kde-skrivebord eller menyen, som
+starter følgende kommando:
  /der/du/har/amsn/installert/amsn
 for eksempel
  /home/dittbrukernavn/msn/amsn
-2. Den andre mÃ¥ten:
+2. Den andre måten:
 Som root oppretter du en link i /usr/bin til amsn-filen
  ln -s /der/du/har/amsn/installert/amsn amsn
-PÃ¥ denne mÃ¥ten kan du starte amsn ved Ã¥ skrive 'amsn' hvor
+På denne måten kan du starte amsn ved å skrive 'amsn' hvor
 som helst.
-SÃ¥ oppretter du en snarvei som starter kommandoen 'amsn'.
+Så oppretter du en snarvei som starter kommandoen 'amsn'.
 
-Q: Hvordan kan jeg fÃ¥ Gnome/KDE-dokking til Ã¥ fungere?
-A: Du mÃ¥ kjÃ¸re 'make' i plugins-mappen for Ã¥ bygge det 
+Q: Hvordan kan jeg få Gnome/KDE-dokking til å fungere?
+A: Du må kjøre 'make' i plugins-mappen for å bygge det 
 GAMLE GNOME1 innpluggingsprogrammet. Du vil trenge gnome development 
-bibliotekene. NÃ¥r innpluggingsprogrammet er bygd, er det bare Ã¥ kjÃ¸re 
-amsn og velge Gnome Docking i verktÃ¸ymenyen.
-For Ã¥ bygge den NYERE freedesktop (Gnome2 og KDE3 kompatibel)
+bibliotekene. Når innpluggingsprogrammet er bygd, er det bare å kjøre 
+amsn og velge Gnome Docking i verktøymenyen.
+For å bygge den NYERE freedesktop (Gnome2 og KDE3 kompatibel)
 dokkingen, les README-filen i plugins/traydoc.
 
 BRUK
 ====
 
-Q: Hva betyr det nÃ¥r en kontakt er rosa?
-A: Det betyr at du ikke er pÃ¥ personens kontaktliste.
+Q: Hva betyr det når en kontakt er rosa?
+A: Det betyr at du ikke er på personens kontaktliste.
 
 Q: Kan jeg kopiere en kontakts e-postadresse til utklippstavlen?
-A: Ja, hÃ¸yreklikk pÃ¥ kontakten pÃ¥ kontaktlisten og klikk
-pÃ¥ e-postadressen i pop-up-menyen. Kontaktens e-postadresse
+A: Ja, høyreklikk på kontakten på kontaktlisten og klikk
+på e-postadressen i pop-up-menyen. Kontaktens e-postadresse
 vil bli kopiert til utklippstavlen.
 
 Q: Hvordan kan jeg vise listen over meldinger sendt i chattevinduer?
 A: Hvis du vil vise meldinger du har sendt tidligere kan du trykke
-pÃ¥ Control og pil opp eller ned. SÃ¥ Ctrl-Opp gir deg den forrige
+på Control og pil opp eller ned. Så Ctrl-Opp gir deg den forrige
 meldingen og Ctrl-Ned gir deg den neste.
 
 PROBLEMER
 =========
 
 Q: Noen ganger henger amsn seg opp, hvorfor?
-A: nÃ¥r amsn henger seg opp er det vanligvis et problem med lydkonfigurasjonen. 
+A: når amsn henger seg opp er det vanligvis et problem med lydkonfigurasjonen. 
 Kanskje du spiller en lyd men lydkortet er blokkert, og play-kommandoen
-stopper til lydkortet er tilgjengelig. PrÃ¸v Ã¥ deaktiver lyden eller endre
+stopper til lydkortet er tilgjengelig. Prøv å deaktiver lyden eller endre
 lydkommando-konfigurasjonen.
 
 ANNET
 =====
-Q: Jeg har er nytt spÃ¸rsmÃ¥l, kan dere hjelpe meg?
-A: Ja, det kan vi. Men fÃ¸rst bÃ¸r du gÃ¥ inn pÃ¥ amsn's prosjektside, funnet
-pÃ¥ http://sourceforge.net/projects/amsn, og sjekke alle innsendte feil, problemer
-og generelle forum for Ã¥ sjekke om ditt problem allerede er besvart. Sjekk
+Q: Jeg har er nytt spørsmål, kan dere hjelpe meg?
+A: Ja, det kan vi. Men først bør du gå inn på amsn's prosjektside, funnet
+på http://sourceforge.net/projects/amsn, og sjekke alle innsendte feil, problemer
+og generelle forum for å sjekke om ditt problem allerede er besvart. Sjekk
 ikke bare meldinger merket som "Open". Det er en neddroppingsliste hvor du
-kan velge "Closed", eller "Pending" pÃ¥ toppen av meldingslisten. SpÃ¸rsmÃ¥l som
+kan velge "Closed", eller "Pending" på toppen av meldingslisten. Spørsmål som
 allerede er besvart er vanligvis merket som Closed. 
-FÃ¸r du sender inn en feil eller spÃ¸r etter hjelp mÃ¥ du skaffe fÃ¸lgende informasjon:
+Før du sender inn en feil eller spør etter hjelp må du skaffe følgende informasjon:
 - Amsn-versjon.
 - Tcl og Tk-versjon.
 - Hendelseslogg for feilen (hvis tilgjengelig).
 - Siste feilmeldinger (Ctrl+D and Ctrl+S in contact list).
-Hvis du fortsatt har et spÃ¸rsmÃ¥l, kan du maile meg pÃ¥
+Hvis du fortsatt har et spørsmål, kan du maile meg på
 airadier@users.sourceforge.net.
