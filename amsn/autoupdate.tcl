@@ -563,6 +563,7 @@ namespace eval ::autoupdate {
 		# Auto-update for language files
 		if { [::config::getKey activeautoupdate] } {
 			::lang::UpdateLang
+			::plugins::UpdatePlugins
 		}
 
 		return $newer
