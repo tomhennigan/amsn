@@ -3921,7 +3921,7 @@ proc cmsn_draw_status {} {
 	bind .status.enter <Key-Down> "window_history next %W"
 	wm protocol .status WM_DELETE_WINDOW { toggle_status }
 	
-	if { [info exists $queued_status] && [llength $queued_status] > 0 } {
+	if { [info exists queued_status] && [llength $queued_status] > 0 } {
 		foreach item $queued_status {
 			status_log [lindex $item 0] [lindex $item 1]
 		}
