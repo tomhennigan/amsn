@@ -9,18 +9,20 @@ addtoo Ajouter cette personne à ma liste de contacts
 admincontacts Gérer le contacts
 admingroups Gérer les groupes
 adverts Publicité ;)
-allowseen Autoriser cette personne à me voir et à me contacter quand je suis connecté
+allowseen Autoriser cette personne à me voir et à me contacter quand je 
+suis connecté
 appearoff Apparaître déconnecté
 aretyping $1 est en train de taper un message
 autohotmaillog Identification automatique à Hotmail
 autoip IP automatique
-avoidseen Interdire à cette personne de me voir ou de me contacter quand je suis en ligne
+avoidseen Interdire à cette personne de me voir ou de me contacter quand 
+je suis en ligne
 away Absent
 baduserpass Mauvais nom d'utilisateur ou mot de passe
 blankdirect Laisser vide pour une connexion sans proxy
 block Bloquer
 blocked Bloqué
-broughtby Developper pour vous par
+broughtby Développé pour vous par
 browser Navigateur web
 busy Occupé
 cancel Annuler
@@ -33,9 +35,10 @@ checkingver Recherche d'une nouvelle version
 checkver Nouvelle version
 choosebasefont Choisir la police de caractere
 choosebgcolor Choisir la couleur de fond
+choosefontcolor Choisir la couleur de police
 clicktologin Cliquez pour vous connecter
 close Fermer
-closingdocks Fermer pour docker l'application
+closingdocks Bouton fermer dock l'application
 command Commande
 confirmdelete Confirmer suppression
 connecterror Erreur de connection
@@ -97,7 +100,8 @@ mobile Mobile
 movetogroup Deplacer vers groupe
 msg Message
 msn AMSN
-mustrestart Vous devez redémarrer l'application pour que les changements prennent effet
+mustrestart Vous devez redémarrer l'application pour que les changements 
+prennent effet
 mystatus Mon état
 needonline Vous êtes toujours déconnecté!
 neweravailable nouvelle version disponible ($1)
@@ -148,7 +152,7 @@ sendmail Envoyer un couriel
 sendmsg Envoyer un message
 sentbytes $1 de $2 octets reçus
 server Serveur
-servergoingdown Serveur encours d'arret
+servergoingdown Serveur en cours d'arrêt
 sound Evénements Sonores
 startoffline Démarrer déconnecté
 status Statut
@@ -161,7 +165,7 @@ unblock Débloquer
 uoffline Déconnectés
 uonline Connectés
 user Utilisateur
-useralreadyonlist Utilisateur present dans la liste
+useralreadyonlist Utilisateur présent dans la liste
 version Version
 view Vue
 willjoin Dans l'attente que $1 rejoigne la conversation

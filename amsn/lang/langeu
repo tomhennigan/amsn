@@ -4,6 +4,7 @@ acceptfile Onartu $1 fitxategia, tamaina $2? $3 gisa gordeta
 actions Ekintzak
 addacontact Kontaktua gehitu
 addedyou k bere kontaktuen zerrendara gehitu zaitu
+addtocontacts Kontaktu zerrendara gehitu
 addtoo Pertsona hau zure kontaktuen zerrendara gehitu
 admincontacts Kontaktuak administratu
 admingroups Taldeak administratu
@@ -20,27 +21,38 @@ blankdirect Konexio zuzena erabiltzeko zuriz utzi
 block Blokeatu
 blocked Blokeatuta
 browser Nabigatzailea
+broughtby Honako progamatzaile hauei esker AMSN erabili dezakezu
 busy Okupatuta
 cancel Utzi
 changenick Ezizena aldatu
 chat Txat
+chatack -ren txata onartzen
 chatreq Txat eskakizuna
 chatsmileys Smiley-ak txatean
-chatack -ren txata onartzen
-checkver Bertsio berria dagoen egiaztatu
 checkingver Bertsio berriagorik dagoen egiaztatzen
+checkver Bertsio berria dagoen egiaztatu
+choosebasefont Letra-mota hautatu
+choosebgcolor Atzeko planoko kolorea hautatu
+choosefontcolor letrako kolorea hautatu
 clicktologin Klik egin hemen saioa hasteko
 close Itzi
+closingdocks Ixteko botoiak minimizatzen du
 command Komandoa
+confirmdelete $1 ezabatzearekin ados zaude?
 contactadded Kontaktua gehituta
+contactdoesnotexist Kontaktua ez da existitzen
 connecterror Akatsa zerbitzarira konektatzerakoan
+copytogroup Taldera kopiatu
 date Data
 delete Ezabatu
 enableproxy Proxya gaitu
+encoding Kodeatzen
 entercontactemail Kontaktuaren e-posta sartu
 enterfilename Fitxategi-izena sartu mesedez
 enternick Zure ezizena sartu
 examples Adibideak
+exitamsn Zihur programatik atera nahi zarela?
+extras Zerbitzu osagarriak
 filedoesnotexist Fitxategia ez da existitzen
 filename Fitxategi-izena
 filetransfercancelled Fitxategien transferentzia bertan behera utzita
@@ -55,6 +67,7 @@ groupnewname Izen berria
 groupunknown Talde ezezaguna
 groupexists Talde hau badago lehendik
 groupmissing Taldea ez dago
+groupnotempty Taldea ez dago utzik!
 handle Heldulekua
 help Laguntza
 helpcontents Laguntzaren edukiak
@@ -62,15 +75,19 @@ home Etxea
 ident Identifikatzen
 identity Identitatea
 inbox Sarrera-bandeja
+invalidusername Erabiltzaile izen ez zuzena
 invite Gonbidatu
 ipaddress IP Helbidea
 istyping $1 mezu bat idazten dago
 joins $1 $2 berriketan sartzen da
 language Hizkuntza
+lastmsgtime Azken mezuaren ordua
+leaveblankforhotmail Zuriz utzi Hotmailen weba erabiliko baduzu
 leaves $1 berriketatik ateratzen da
 listeningon $1 ataka entzuten
 listsmileys Smiley-ak kontaktuan
 loadcontacts Kontaktuen zerrenda kargatu
+loggedotherlocation Deskonektaturik: Beste lekuren batean saioa hasi da
 loggingin Saioa hasten
 login Saioa hasi
 loginas Beste saio bat hasteko
@@ -78,10 +95,11 @@ logout Saioa amaitu
 logsin oraintxe bertan saioa hasi du
 mailer Bidalketa-funtzioa
 mobile Mugikorra
+movetogroup Taldera mugitu
 mustrestart Aldaketak aplikatzeko programa berrabiarazi behar duzu
-mystatus Nire egoera
 msg Mezua
 msn AMSN
+mystatus Nire egoera
 needonline Oraindik deskonektatuta zaude edo deskonektatuta ematen duzu!
 newmail $1 mezu berri zure sarrera-bandejan
 newmailfrom -ren mezu berria
@@ -89,7 +107,7 @@ newmsg Mezu berria
 newveravailable $1 bertsio berria deskargatzeko erabilgarri
 next Hurrengoa
 noactivity Ez dago aktibitaterik
-newmail 0 mezu berri zure sarrera-bandejan
+nonewmail 0 mezu berri zure sarrera-bandejan
 nonewver Ez dago bertsio berriagorik deskargatzeko erabilgarri
 notify jakinarazi
 nousersinsession Ez dago erabiltzailerik saioan
@@ -136,8 +154,6 @@ textsize Testuaren tamaina
 title Al's Messenger
 to Nori
 tools Tresnak
-yousay Zuk diozu
-youwant Zu itxaroten duzu
 unblock Desblokeatu
 uoffline Deskonektatuta
 uonline Konektatuta
@@ -146,25 +162,9 @@ version Bertsioa
 view Ikuspegia
 willjoin $1 berriketan sartzera itxaroten
 work Lana
-lastmsgtime Azken mezuaren ordua
-broughtby Honako progamatzaile hauei esker AMSN erabili dezakezu
-choosebgcolor Atzeko planoko kolorea hautatu
-syntaxerror Akats sintaktikoa
-contactdoesnotexist Kontaktua ez da existitzen
-closingdocks Ixteko botoiak minimizatzen du
-extras Zerbitzu osagarriak
-copytogroup Taldera kopiatu
+yousay Zuk diozu
+youwant Zu itxaroten duzu
 servergoingdown Deskonektaturik: Zerbitzaria mantentze lanetarako itzaliko da
-nonewmail Ez dago mezu berririk
-loggedotherlocation Deskonektaturik: Beste lekuren batean saioa hasi da
-invalidusername Erabiltzaile izen ez zuzena
-addtocontacts Kontaktu zerrendara gehitu
 status Egoera
-exitamsn Zihur programatik atera nahi zarela?
-leaveblankforhotmail Zuriz utzi Hotmailen weba erabiliko baduzu
-movetogroup Taldera mugitu
-groupnotempty Taldea ez dago utzik!
-confirmdelete $1 ezabatzearekin ados zaude?
+syntaxerror Akats sintaktikoa
 useralreadyonlist Erabiltzailea kontaktuen zerrendan dago jada
-choosebasefont Letra-mota hautatu
-encoding Kodeatzen
