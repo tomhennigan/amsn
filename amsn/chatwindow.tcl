@@ -2135,7 +2135,7 @@ namespace eval ::ChatWindow {
 		    -width [image width [::skin::loadPixmap tab]] \
 		    -command "::ChatWindow::SwitchToTab $container $win" \
 		    -fg black -bg [::skin::getKey chatwindowbg] -bd 0 -relief flat \
-		    -activebackground [::skin::getKey sendbuttonbg] -activeforeground black -text "$win" \
+		    -activebackground [::skin::getKey chatwindowbg] -activeforeground black -text "$win" \
 		    -font sboldf -highlightthickness 0 -pady 0 -padx 0
 		if { $::tcl_version >= 8.4 } {
 			$tab configure -overrelief flat -compound center

@@ -49,8 +49,8 @@
 			<bigstate_ypad>0</bigstate_ypad>
 			<mystatus_xpad>3</mystatus_xpad>
 			<mystatus_ypad>0</mystatus_ypad>
-			<mailbox_xpad>0</mailbox_xpad>
-			<mailbox_ypad>0</mailbox_ypad>
+			<mailbox_xpad>2</mailbox_xpad>
+			<mailbox_ypad>2</mailbox_ypad>
 			<contract_xpad>8</contract_xpad>
 			<contract_ypad>6</contract_ypad>
 			<expand_xpad>8</expand_xpad>
