@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Acerca de
+accept Aceptar
 acceptfile ¿Aceptar archivo $1, tamaño $2 bytes? Se guardará en $3
 actions Acciones
 actions Acciones
@@ -58,6 +59,8 @@ filedoesnotexist El archivo no existe
 filename Nombre de Archivo
 filetransfercancelled Transferencia de archivo cancelada
 filetransfercomplete Transferencia de archivo completada
+ftaccepted Transferencia de archivo aceptada
+ftrejected Transferencia de archivo cancelada
 gonelunch Salí a comer
 group Grupo
 groupadd Añadir un grupo
@@ -137,6 +140,7 @@ receivefile Recibir archivo
 reconnect Esperando que $1 se reconecte
 reconnecting Reconectando al servidor
 rememberpass Recordar contraseña
+reject Rechazar
 rightback Vuelvo enseguida
 savecontacts Guardar lista de contactos
 save Guardar

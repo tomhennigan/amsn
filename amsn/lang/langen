@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about About
+accept Accept
 acceptfile Accept file $1, size $2? Saved in $3
 actions Actions
 addacontact Add a contact
@@ -57,6 +58,8 @@ filedoesnotexist File does not exist
 filename Filename
 filetransfercancelled File transfer cancelled
 filetransfercomplete File transfer complete
+ftaccepted File transfer accepted
+ftrejected File transfer cancelled
 gonelunch Gone to lunch
 group Group
 groupadd Add a group
@@ -135,6 +138,7 @@ receivedbytes Received $1 of $2 bytes
 receivefile Receive file
 reconnect Waiting for $1 to reconnect
 reconnecting Reconnecting to server
+reject Reject
 rememberpass Remember password
 rightback Be right back
 save Save
