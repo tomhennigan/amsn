@@ -3,7 +3,7 @@
 #
 
 proc ConfigDefaults {} {
-	global config tcl_platform password auto_path advanced_options
+	global gconfig config tcl_platform password auto_path advanced_options
 	set config(protocol) "9"		;# Which MSN Protocol do you prefeer too use: 7|9
 	set config(nossl) 0				;#Disable the use of SSL, so it doesn't requite TLS package: 0|1
 
@@ -193,21 +193,31 @@ proc ConfigDefaults {} {
 }
 
 namespace eval ::config {
-   proc get {key} {
-     global config
-     return $config($key)
-   }
+	proc get {key} {
+		global config
+		return $config($key)
+	}
 
-  proc getKey {key} {
-     global config
-     return $config($key)
-   }
+	proc getKey {key} {
+		global config
+		return $config($key)
+	}
 
 
-   proc setKey {key value} {
-     global config
-     set config($key) $value
-   }
+	proc setKey {key value} {
+		global config
+		set config($key) $value
+	}
+
+	proc getGlobalKey {key} {
+		global gconfig
+		return $gconfig($key)
+	}
+
+	proc setGlobalKey {key value} {
+		global gconfig
+		set gconfig($key) $value
+	}
 }
 
 proc save_config {} {
