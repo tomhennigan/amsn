@@ -48,7 +48,7 @@ namespace eval ::amsn {
 			set tlsplatform "linuxx86"
 		} elseif { $tcl_platform(os) == "Solaris"} {
 			set tlsplatform "solaris266"
-		} elseif { $tcl_platform(os) == "windows"} {
+		} elseif { $tcl_platform(platform) == "windows"} {
 			set tlsplatform "win32"
 		} else {
 			set tlsplatform "src"
