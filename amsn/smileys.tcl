@@ -357,20 +357,24 @@ proc update_enabled_sound_smileys { } {
 #
 # This is the GUI proc for edditing custom smileys
 proc edit_custom_emotion { emotion } {
-    global emotions new_custom_cfg
-    new_custom_emoticon_gui "[valueforemot $emotion name]"
-
-    set new_custom_cfg(name) [valueforemot "$emotion" name]
-    set new_custom_cfg(file) [valueforemot "$emotion" file]
-    set new_custom_cfg(text) [valueforemot "$emotion" text]
-    set new_custom_cfg(animated) [valueforemot "$emotion" animated]
-    set new_custom_cfg(sound) [valueforemot "$emotion" sound]
-    if { "$new_custom_cfg(sound)" != "" } {set new_custom_cfg(enablesound) 1 }
-    set new_custom_cfg(casesensitive) [valueforemot "$emotion" casesensitive]
-    set new_custom_cfg(hiden) [valueforemot "$emotion" hiden]
-    
-    update_enabled_sound_smileys 
-
+	global emotions new_custom_cfg
+	new_custom_emoticon_gui "[valueforemot $emotion name]"
+	
+	set new_custom_cfg(name) [valueforemot "$emotion" name]
+	set new_custom_cfg(file) [valueforemot "$emotion" file]
+	set new_custom_cfg(text) [valueforemot "$emotion" text]
+	set new_custom_cfg(animated) [valueforemot "$emotion" animated]
+	set new_custom_cfg(sound) [valueforemot "$emotion" sound]
+	if { "$new_custom_cfg(sound)" != "" } {
+		set new_custom_cfg(enablesound) 1
+	} else {
+		set new_custom_cfg(enablesound) 0
+	}
+	set new_custom_cfg(casesensitive) [valueforemot "$emotion" casesensitive]
+	set new_custom_cfg(hiden) [valueforemot "$emotion" hiden]
+	
+	update_enabled_sound_smileys 
+	
 }
 
 #///////////////////////////////////////////////////////////////////////////////
