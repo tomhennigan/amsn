@@ -708,14 +708,15 @@ proc LoadLoginList {{trigger 0}} {
 
 		set user_login [lindex $tmp_data 0]
 		set locknum [lindex $tmp_data 1]
-		if [string first "@" $user_login] {
+		if {[string first "@" $user_login] == -1} {
+			status_log "Profile $user_login is wrong!! Fixing\n" red
 			#Profile is wrong, fix it from config file
-				set oldHOME $HOME
-				set dirname [string map {"@" "_" "." "_"} $user_login]
-				set HOME [file join $HOMEE $dirname]
-				load_config
-				set user_login [::config::getKey login]
-				set HOME $oldHOME
+			set oldHOME $HOME
+			set dirname [string map {"@" "_" "." "_"} $user_login]
+			set HOME [file join $HOMEE $dirname]
+			load_config
+			set user_login [::config::getKey login]
+			set HOME $oldHOME
 		}
 		
 		
@@ -859,9 +860,6 @@ proc LoginList { action age {email ""} {lock ""} } {
 			} else {
 				return 0
 			}
-		}
-		
-		fix {
 		}
 		
 		exists {
