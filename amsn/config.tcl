@@ -35,12 +35,26 @@ set config(backgroundcolor)  "#AABBCC"
 set config(encoding) auto
 set config(basefont) "Helvetica 11 normal"
 set config(backgroundcolor) #D8D8E0
+set config(textsize) 2
+set config(mychatfont) "Helvetica normal 000000"
 #end AIM
 set config(orderbygroup) 0
 set config(withnotebook) 0
 
 set password ""
 
+
+namespace eval ::config {
+   proc get {key} {
+     global config
+     return $config($key)
+   }
+
+   proc set {key value} {
+     global config
+     set config($key) $value
+   }
+}
 
 proc save_config {} {
    global tcl_platform config HOME version password

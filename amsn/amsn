@@ -522,13 +522,13 @@ proc anti_idle {} {
 proc incr_idle {} {
   global idletime
   
-  status_log "Idle: $idletime \n" black
+#  status_log "Idle: $idletime \n" black
   
-  status_log "My status: [::MSN::myStatusIs]\n" red
+#  status_log "My status: [::MSN::myStatusIs]\n" red
   
   if {$idletime >= 300 && [::MSN::myStatusIs] == "NLN" } {
     ::MSN::changeStatus IDL
-  } elseif { [::MSN::myStatusIs] == "IDL"} {
+  } elseif { $idletime <300 && [::MSN::myStatusIs] == "IDL"} {
     ::MSN::changeStatus NLN
   }
   
@@ -1286,9 +1286,16 @@ proc cmsn_draw_msgwin {} {
    .${win_name}.menu.msn add command -label "[trans close]" \
       -command "destroy .${win_name}" 
 
+   menu .${win_name}.menutextsize -tearoff 0 -type normal
+   .${win_name}.menutextsize add command -label "+4" -command "change_myfontsize 4"
+   .${win_name}.menutextsize add command -label "+3" -command "change_myfontsize 3"
+   .${win_name}.menutextsize add command -label "+2" -command "change_myfontsize 2"
+   .${win_name}.menutextsize add command -label "+1" -command "change_myfontsize 1"   
+   .${win_name}.menutextsize add command -label "+0" -command "change_myfontsize 0"   
+      
    menu .${win_name}.menu.view -tearoff 0 -type normal  
-   .${win_name}.menu.view add command -label "[trans textsize]" \
-      -command " "  -state disabled
+   .${win_name}.menu.view add cascade -label "[trans textsize]" \
+      -menu .${win_name}.menutextsize
    .${win_name}.menu.view add separator
    .${win_name}.menu.view add checkbutton -label "[trans chatsmileys]" \
      -onvalue 1 -offvalue 0 -variable config(chatsmileys)
@@ -1395,6 +1402,11 @@ proc cmsn_draw_msgwin {} {
 
    return ${name}
 
+}
+
+proc change_myfontsize {size} {
+  global config
+  set config(textsize) $size
 }
 
 proc cmsn_destroyed_msgwin {name winpath} {
@@ -1560,7 +1572,7 @@ proc cmsn_msgwin_top {name txt} {
 }
 
 proc cmsn_win_write {name txt {colour ""} {fontname ""} {fontstyle ""} {fontcolor ""}} {
-   global emotions urlstarts config urlcount
+   global emotions urlstarts config urlcount config 
 
    set win_name "msg_[string tolower ${name}]"
 
@@ -1573,13 +1585,13 @@ proc cmsn_win_write {name txt {colour ""} {fontname ""} {fontstyle ""} {fontcolo
    
    #.${win_name}.text mark set new_text_start end
 
-   if { $colour == "user" } {
-      set size [expr {[lindex $config(basefont) end-1]+1}]
-      set font "$fontname 12 $fontstyle"
+   if { $colour == "user" || $colour == "yours" } {
+      set size [expr {[lindex $config(basefont) end-1]+$config(textsize)}]
+      set font "$fontname $size $fontstyle"
       status_log "Using font: $font\n" red
-      if {[catch {.${win_name}.text tag configure user -foreground #$fontcolor -font $font} res] || [string length $fontname] <3} {
+      if {[catch {.${win_name}.text tag configure $colour -foreground #$fontcolor -font $font} res] || [string length $fontname] <3} {
          status_log "Por defecto\n" red
-         .${win_name}.text tag configure user -foreground black -font bplainf
+         .${win_name}.text tag configure $colour -foreground black -font bplainf
       }
    }
 

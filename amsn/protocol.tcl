@@ -853,7 +853,7 @@ proc cmsn_sb_msg {sb_name recv} {
       
 
       
-      status_log "Font: $fontfamily, ($fontstyle) $style, $fontcolor\n" blue
+#      status_log "Font: $fontfamily, ($fontstyle) $style, $fontcolor\n" blue
 
       cmsn_win_write $sb_name \
         "\[$timestamp\] [trans says [urldecode [lindex $recv 2]]]:\n" gray
@@ -1442,7 +1442,7 @@ proc sb_change { sbn } {
 }
 
 proc sb_enter { sbn name } {
-   global user_info
+   global user_info config
 
    set txt [$name get 0.0 end-1c]
    if {[string length $txt] < 1} { return 0 }
@@ -1460,17 +1460,23 @@ proc sb_enter { sbn name } {
 
       set txt_send [encoding convertto utf-8 $txt_send]      
 
+      set fontfamily [lindex $config(mychatfont) 0]
+      set style [lindex $config(mychatfont) 1]
+      set fontcolor [lindex $config(mychatfont) 1]
+
       set msg "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n"
-      set msg "${msg}X-MMS-IM-Format: FN=Helvetica; EF=B; CO=ff; CS=0; PF=22\r\n\r\n"
+      set msg "${msg}X-MMS-IM-Format: FN=[urlencode $fontfamily]; EF=; CO=0; CS=0; PF=22\r\n\r\n"
       set msg "$msg$txt_send"
       set msg_len [string length $msg]
       set timestamp [clock format [clock seconds] -format %H:%M]
+
       incr ::MSN::trid
       puts $sock "MSG $::MSN::trid N $msg_len"
       puts -nonewline $sock $msg
-#      cmsn_win_write $sbn "\[$timestamp\] [trans yousay]:\n" gray
+
       cmsn_win_write $sbn "\[$timestamp\] [trans says [urldecode [lindex $user_info 4]]]:\n" gray
-      cmsn_win_write $sbn "$txt\n" blue
+#      cmsn_win_write $sbn "$txt\n" blue
+      cmsn_win_write $sbn "$txt\n" yours $fontfamily $style $fontcolor      
    } else {
       status_log "$sbn: trying to send, but no users in this session\n" white
       return 0
