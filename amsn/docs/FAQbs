@@ -1,0 +1,191 @@
+
+FAQ 1.3 
+----------------------------
+CESTA PITANJA I ODGOVORI 1.3
+----------------------------
+
+A: Sta ja amsn?
+O: Amsn je  Microsoft Messenger klon. Dozvoljava vam da kontaktirate      
+   sa prijateljima i da sa njima mjenjate datoteke.
+
+
+
+INSTALACIJA
+============
+
+P: Sta mi treba da amsn radi?
+O: Amsn je u tcl/tk pisan, i zbog toga vam je samo tcl/tk interpreter potreban,
+   versija 8.3 ili veca. Mozete je skinuti na sljedecoj adresi: 
+   http://tcl.sourceforge.net. Interpreter je dostupan za Linux, Windows
+   i Macintos.
+
+P: Kako da instaliram amsn?
+O: Morate skinuti datoteku amsn-x_xx.tar.gz. Otpakujte te datoteku sa naredbom
+   gzip -d amsn-x_xx.tar.gz
+   tar xvf amsn-x_xx.tar
+   Napravit'ce se direktorijum msn, u kojem je amsn instaliran.
+   Da bi startovali program, upisite:
+   cd msn
+   ./amsn
+   ili
+   ako ovo gore ne radi:
+   wish amsn
+  
+  Ako wish naredba nepostoji, onda niste tcl/tk korektno instalirali.
+  Ako "wish amsn" funkcionise ali "./amsn" ne, onda obradite datoteku
+  "amsn", i postavite korektni direktorijum u prvom redu, koji vodi do "wish".
+  Standard je /usr/bin/wish.
+
+P: Kako da napravim simbol na slobodnoj radnoj povrsini (Desktop)?
+O: 1. -Napravite ikonu, koja ce imati zadatak da startuje
+    naredbu amsn, pri cemu morate paziti na korektno upisivanje 
+    direktorijuma.Npr.: /home/username/msn/amsn
+
+   2. Druga mogucnost:
+      Kao root napravite jedan link sa ln -s do amsn datoteke:
+      Npr.: ln -s /home/username/msn/amsn
+
+P: Kako usidriti amsn na Gnome/KDE?
+O: Morate "make" u direktorijumu koji sadrzi plugins izvrsiti, kako bi
+   napravili OLD GNOME1 plugin. Zato vam trebaju izradjivacke Gnome biblioteke.
+   Ako je plugin napravljen, startujte amsn i koristite "Usidrivanje" u meniju.
+ 
+
+KORISTENJE
+==========
+P: Sta znace oni ljubicasti kontakti na mojoj listi?
+O: To znaci, da vi niste na listi tih osoba.
+
+P: Da li mogu neku adresu u "Clipboard" kopirati?
+O: Da, desni klik na misu, i klik u "Popup" meniju!
+
+P: Kako mogu pogledati istoriju poruka?
+O: Ako zelite pogledati poruke koje ste prije poslali,
+   onda morate sa Strg i sa strelicama gore i dole raditi.
+   Funkcionise isto kao u xterm-u.
+P: Sta znace izrazi u postavkama, opcija "Liste"?
+O: Tu imate cetiri liste, poznate kao AL (akceptiraj), BL (blokiraj),
+   OL(obrnuta) i lista na kojoj su svi kontakti.
+   AL: Ova lista sadrzi E-mail adrese od osoba koje imaju dozvolu,
+       da vide vas status, i da vas kontaktiraju.
+   BL: Na ovoj listi su osobe koje ste blokirali, nemogu vidjeti vas status i 
+       ne mogu vas kontaktirati.
+   OL: U ovoj listi su osobe koje ste vi ubacili u vasu kontaktnu lsitu.
+       Osobe na cijoj ste listi vi, a one nisu na vasoj listi, su selektirane
+       zelenom bojom.
+
+PROBLEMI
+========
+
+P: Ponekad se amsn objesi, zasto?
+O: Ako se amsn objesi, onda je najcesce problem u konfiguraciji muzicke kartice.
+   Deaktivirajte signale u amsn meniju.
+
+P: Pri pokusaju da startujem amsn, dobijam sljedece greske:
+   bash: ./amsn: bad interpreter: No such file or directory
+O: Morate tcl/tk paket instalirati, jer vam je potreban wish interpreter,
+   ali ako mislite da ga imate pokusajte "wish amsn" umjesto "./amsn".
+   Ako ovo funkcionise onda promjenite prvi red u datoteci amsn, unesite:
+   #!/usr/bin/wish
+   sa pozicijom wish interpretera.
+
+P: Kad startujem amsn dobijam sljedecu gresku:
+   Error in startup script: bad option "map": must be compare,
+   first, index, last, length, match, range, tolower, toupper,
+   trim, trimleft, trimright, wordend, or wordstart
+   while executing
+   "string map $map $md5body"
+  (in namespace eval "::md5" script line 65)
+   invoked from within
+   "namespace eval ::md5 { ... etc
+O: Koristite jednu verziju koja je starija od 8.3. Skinute novu.
+
+P: Nakon sto je uradjen update, dobijam sljedece pri startovanju amsn:
+   Error in startup script: expected integer but go ""
+   while executing
+   "font create menufont -family $family -size $size
+   -weight normal"
+   (procedure "::amsn__initLook" line 5)
+   invoked from within
+   "::amsn::initLook $family $size $config(backgroudcolor)"
+   (file "amsn" line 2184)
+O: Bilo je nekih promjena u konfiguracijskoj datoteci. Da bi amsn
+   bio brzi, morate staru konfiguracijsku datoteku u vasem
+   /home direktorijumu izbrisati. Izbrisite /home/username/.amsn/config,
+   i amsn bi trebao da radi.
+
+P: Ne mogu upisivati /japanski/kineski/drugi jezici. Sta treba da uradim?
+O: Navjerovatnije da xcin i slicni programi nisu podrzani od verzije tcl/tk koju
+   vi koristite. Skinite i instalirajte novu verziju koja pordzava
+   internacionalno kopiranje i ubacivanje, kako bi mogli da kopirate znakove i da
+   ih potom u amsn koristite.
+   http://jfontain.free.fr/tcl-8.4a3-2.i386.rpm
+   http://jfontain.free.fr/tk-8.4a3-2.i386.rpm
+   http://jfontain.free.fr/tcl-thread-8.4a3-2.i386.rpm
+
+P: Da li mogu amsn iza Proxy-Servera koristiti?
+O: Sa verzijom 0.61 je i ovo moguce. Ako je vas Proxy-Server Socks5,
+   onda necete moci vezu uspostaviti, medzutim vec se radi na podrsci
+   za socks5.
+
+P: Izgleda kao da amsn odrzava vezu, medzutim ako pokusam da
+   s nekim razgovaram ili da promjenim kod drzave, veza se izgubi...
+   Ovo se desava cesto u roku od par minuta nakon statusa "Neaktivan".
+   Navjerovatnije sam iza jednog "Routera" ili "Firewalla".
+O: Aktivirajte pod "Podesavanja->Postavke->Veza" opciju
+   "Ukljucite ako se veza cesto prekida".
+
+P: Ton se ponavlja. Ako npr. XMMS radi,  neko se prijavi ili ja s nekim 
+   razgovaram, nakon zaustavljanja XMMS-a sviraju tonovi od amsn-a,
+   koji prije nisu mogli biti odsvirani.
+O: Imate vise mogucnosti za ovaj problem. Ako koristite KDE, onda mozete
+   XMMS tako konfigurisati, da amsn-ovi signali i datoteka na XMMS-u 
+   istovremeno sviraju... Na ovaj nacin se mjesaju zanci dvije datoteke,
+   ali konfigurirajte XMMS tako da "artsplay" koristi kao Sound za amsn.
+   Ako koristite GNOME onda odaberite "esdplay", da bi XMMS konfigurisali,
+   da odsvira tonove kroz ESD. Umjesto "play" naredbe mozete i napisati
+   jednu malu skriptu koja prvjerava da li je "/dev/dsp" zauzet ili ne,
+   prije nego sto se pozove naredba "play".
+
+P: Koristim amsn iza "Firewall-a". Kako da ipak posaljem poruku?
+O: Moguce je da "Firewall" blokira veze, ali prenos podataka ce 
+   na sljedeci nacin funkcionisati:
+   Ako zelite nekom da posaljete jednu datoteku, onda mu prvo posaljite
+   jednu "Pozivnicu" sa vasom IP-adresom i brojem porta.
+   Poslije toga Remote-Client uspostavit' ce vezu na Vas Ip:port, kako
+   bi otpoceo prenos datoteke. Najcesce se koristi port 6891,6892 itd...
+   Prvi prenos koristi port 6891, medzutim ako prvi nije zavrsen
+   a drugi je startovan, onda se koristi port 6892 i tako dalje...
+   Ako se nalazite u jednoj privatnoj mrezi, koja koristi vlastite adrese, 
+   kao npr.: 192.168.0.x onda je malo teze omoguciti prenos podataka.
+   Morate korektnu Ip adresu pokazati (mozete je manuelno upisati,
+   ili ukljuciti opciju da amsn preko neke WEB stranice IP adresu pronadje)
+   ,ne adresu mreze i poslati je  gateway-u, zatim vezu dalje na port
+   6891 do vaseg racunara sprovesti. 
+
+Funkcioniranje pod Windowsom
+===========================
+P: Da li rade akusticni signali pod Windowsom?
+O: Da, mis smo napravili mali program koji se zove "plwav.exe" i koji
+   odsvira samo jednu *.wav datoteku.Unesite plwav.exe, "Podesavanja->
+   Postavke->Aplikacije", u polju "Server za akustiku".
+
+Ostalo
+======
+
+P: Imam neko drugo pitanje, mozete li mi pomoci?
+O: Da, mi to mozemo, ali molimo Vas da pogledate na 
+   http://sourceforge.net/projects/amsn, mozda je rjesenje 
+   za vas problem vec na ovoj stranici.
+   Prije nego sto prijavite neku gresku (Bug), ili zatrazite pomoc,
+   pribavite sljedece informacije:
+   - amsn verzija
+   - tcl/tk verzija
+   - "Stack trace"  od greske, ako je moguce
+   - Zadnju poruku od greske u Debug prozoru 
+   Ako jos uvijek imate pitanja, posaljite mi E-mail na
+   airadier@users.sourceforge.net
+
+
+
+
