@@ -3,6 +3,8 @@ about Om
 accept Aksepter
 acceptfile Aksepter fil $1, størrelse $2? filen vil lagres i $3
 actions Hendelser
+activeautoupdate Aktiv auto-oppdatering
+add legg til
 addacontact Legg til en kontakt
 addedyou $1 ($2) har lagt deg til sin kontaktliste
 addprofile Legg til en profil
@@ -136,10 +138,12 @@ connecterror Feil ved tilkobling til tjeneren
 connecting Kobler til
 connection Tilkobling
 connectionlost Frakoblet: Tilkobling til tjeneren ble lukket
+contact kontakt
 contactadded Kontakten er lagt til
 contactdoesnotexist Kontakten eksisterer ikke!
 contactlist Kontaktliste (KL):
 continuously Kontinuerlig
+conversationwith $1 brukere i samtalen
 convertexplain Filstien til CONVERT-programfilen, fra ImageMagick (kreves for bilder av kontakter).\n La stå tom hvis CONVERT er i filstien.
 copy Kopiér
 copytogroup Kopiér til gruppe
@@ -147,6 +151,7 @@ corruptconfig Konfigurasjonsfilen er ødelagt - lag en ny. Den gamle filen blir l
 corruptstates Den tilpassede tilstandsinnstillingen er ødelagt - opprett en ny. Den gamle filen vil bli lagret til $1. Vær vennlig å send den til oss, slik at vi kan sjekke hva som gikk galt.
 countrycode Min lands- og regionkode
 cprofile Opprett profil
+created Opprettet
 credits Bidragsytere
 currentdate Dagens dato
 currentlanguage Dette er språket du bruker
@@ -169,6 +174,7 @@ default Standardkonfigurasjon
 defaultloginradio Logg inn med standardkonfigurasjonen
 defchatwinsize Standard størrelse på pratevinduer (XSTØRRELSExYSTØRRELSE)
 delete Slett
+deleteall Slett alle
 deletecustomstate Fjern egendefinerte tilstander
 delimiters Tidsstempelavgrensning
 deliverfail Det var problemer med å levere følgende melding
@@ -353,6 +359,9 @@ maximised Maksimert
 minimised Minimert
 mins minutter
 mobile Mobil
+mobilegrp1 Mobil gruppe
+mobilegrp2 Sett brukere inn i "Mobilgruppen" når de er frakoblet (og sortert etter status)
+modified Modifisert
 month Måned
 morepersonal Flere statuser
 move Flytt
@@ -421,6 +430,8 @@ ok OK
 onenewmail 1 ny melding i Innboksen
 online Tilkoblet
 onphone I telefonen
+opendir Åpne mappe
+openfile Åpne
 openreceived Åpne mottatte filer
 options Alternativer
 ordercontactsby Sorter kontakter etter
@@ -571,6 +582,8 @@ style Stil
 stylechat Samme utseende som samtaler
 stylehist aMSNs historie-utseende
 stylelog Velg hvilke format du vil vise historie-loggen i
+subject Emne
+subjectrequired Emne påkrevd
 syntaxerror Syntaksfeil
 tabbed Vis vinduer som faneark
 temp_state Ikke lagre (Midlertidig endring, vil ikke bli lagret når du lukker aMSN)
