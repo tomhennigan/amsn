@@ -65,7 +65,11 @@ namespace eval ::hotmail {
 
          close $file_id
 
-         launch_browser "file://${HOME}/hotlog.htm"
+     if {$tcl_platform(os) != "Darwin"} {
+     launch_browser "file://${HOME}/hotlog.htm"
+     } else {
+     launch_browser "${HOME}/hotlog.htm"
+     }
 
       } else {
 
@@ -132,8 +136,12 @@ proc hotmail_login {userlogin {pass ""}} {
      puts $file_id $page_data
 
      close $file_id
-
+if {$tcl_platform(os) != "Darwin"} {
      launch_browser "file://${HOME}/hotlog.htm"
+     } else {
+     launch_browser "${HOME}/hotlog.htm"
+     }
+     
    } else {
      launch_browser "http://www.hotmail.com"
    }
@@ -192,7 +200,12 @@ proc hotmail_viewmsg {msgurl userlogin {pass ""}} {
 
      close $file_id
 
+if {$tcl_platform(os) != "Darwin"} {
      launch_browser "file://${HOME}/hotlog.htm"
+     } else {
+     launch_browser "${HOME}/hotlog.htm"
+     }
+     
    } else {
      launch_browser "http://www.hotmail.com"
    }
