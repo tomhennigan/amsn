@@ -1,12 +1,20 @@
-Arquivo READMEbr ainda não traduzido.
-Que tal VOCÊ fazê-lo? Hein? Hein? Hein?
+Este programa é um software livre; você pode redistribuí-lo e/ou modificá-lo sob os termos da GNU General Public License como publicado na Fundação pelo Software Livre (Free Software Foundation); seja a versão 2 da licença ou (a opção é sua) qualquer versão posterior.
 
-Vá até 
+Este programa é distribuído na esperança de que será útil, mas SEM QUALQUER GARANTIA; sem nem mesmo a garantia implícita de NEGOCIABILIDADE ou ADEQUAÇÂO A UM FIM PARTICULAR. Veja a GNU General Public License para maiores detalhes.
 
- http://amsn.sourceforge.net/modules.php?name=Translation
+Você deve ter recebido uma cópia da GNU General Public License junto com este programa; se não, escreva para a Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-ou escreva para hatredman@hotmail.com e veja como ajudar.
+========================================================
+=== Alvaro's Messenger==================================
+O CCMSN era muito bom, mas infelizmemte seu autor original abandonou o projeto. Embora ele fosse muito funcional, ainda precisava de bastante trabalho para melhorar sua aparência e usabilidade, assim como para completar o suporte de protocolo, entre muitas outras coisas. Foi então que nós, originalmente duas pessoas que trabalhavam nisso separadamente, decidimos unir esforços e trazer a você este belo (é o que esperamos!) trabalho ;)
 
-Neste meio tempo, consulte o README em inglês.
+Alvaro J. Iradier
+D. Emilio Grimaldo T.
+
+Favor enviar relatos de Bugs, comentários, sugestões e reclamações para a página do projeto no Source Forge:
+http://sourceforge.net/projects/amsn
 
 
+Novas versões e homepage:
+http://amsn.sourceforge.net
