@@ -15,6 +15,8 @@ set list_cmdhnd [list]
 
 set sb_list [list]
 
+#Double array containing:
+# CODE NAME COLOR ONLINE/OFFLINE  SMALLIMAGE BIGIMAGE
 set list_states {
 	{NLN online #0000A0 online online bonline}
 	{IDL noactivity #008000 online away baway}
@@ -224,7 +226,7 @@ namespace eval ::MSN {
    proc acceptFT {chatid filename filesize cookie} {
       #Send the acceptation for a file transfer, request IP
       variable atransfer
-      
+
       set sbn [SBFor $chatid]
       if {$sbn == 0 } {
          return 0
@@ -368,6 +370,7 @@ namespace eval ::MSN {
 
       if { $myStatus != "FLN" } {
 	puts -nonewline [sb get ns sock] "PNG\r\n"
+	status_log "Ping query sent\n"
       }
 
       after 60000 "::MSN::PollConnection"
@@ -585,7 +588,7 @@ namespace eval ::MSN {
 	 status_log "All file content sent\n"
 
       }
-      
+
    }
 
    proc MonitorTransfer { sockid cookie} {
@@ -924,38 +927,28 @@ namespace eval ::MSN {
 
       #TODO: Have some timeout for reconnection retries
 
-      if { [SBFor $lowuser] != 0 } {
-	  cmsn_reconnect [SBFor $lowuser]
-	  return $lowuser
+      if { [SBFor $lowuser] == 0 } {
+
+         set sbn [GetNewSB]
+
+         sb set $sbn name $sbn
+         sb set $sbn sock ""
+         sb set $sbn data [list]
+         sb set $sbn users [list]
+         sb set $sbn typers [list]
+         sb set $sbn title [trans chat]
+         sb set $sbn lastmsgtime 0
+
+         sb set $sbn last_user $lowuser
+
+         sb set $sbn stat "d"
+
+         lappend sb_list "$sbn"
+         AddSBFor $lowuser $sbn
       }
 
-      ::amsn::chatStatus $lowuser "[trans chatreq]...\n" miniinfo
-
-      set sbn [GetNewSB]
-
-      sb set $sbn name $sbn
-      sb set $sbn sock ""
-      sb set $sbn data [list]
-      sb set $sbn users [list]
-      sb set $sbn typers [list]
-      sb set $sbn title [trans chat]
-      sb set $sbn lastmsgtime 0
-      sb set $sbn flickering 0
-
-      sb set $sbn last_user $lowuser
-
-      lappend sb_list "$sbn"
-
-      sb set $sbn stat "r"
-      sb set $sbn invite $lowuser
-
-      set chatid $lowuser
-
-      AddSBFor $chatid $sbn
-
-      ::MSN::WriteNS "XFR" "SB" "cmsn_open_sb $sbn"
-
-      return $chatid
+      cmsn_reconnect [SBFor $lowuser]
+      return $lowuser
 
    }
 
@@ -1129,7 +1122,11 @@ namespace eval ::MSN {
    proc inviteUser { chatid user } {
 
       set sb_name [::MSN::SBFor $chatid]
-      cmsn_invite_user $sb_name $user
+
+      if { $sb_name != 0 } {
+         cmsn_invite_user $sb_name $user
+      }
+
 
    }
 
@@ -1302,27 +1299,36 @@ proc read_sb_sock {sbn} {
 
    set sb_sock [sb get $sbn sock]
    if {[eof $sb_sock]} {
+
       close $sb_sock
+      degt_protocol "<-SB-${sb_sock} CLOSED" red
       cmsn_sb_sessionclosed $sbn
+
    } else {
+
       gets $sb_sock tmp_data
       sb append $sbn data $tmp_data
-      set log [stringmap {\r ""} $tmp_data]
-      degt_protocol "<-SB $tmp_data"
+
+      degt_protocol "<-SB [stringmap {\r ""} $tmp_data]" green
+
       if {[string range $tmp_data 0 2] == "MSG"} {
          set recv [split $tmp_data]
 	 fconfigure $sb_sock -blocking 1
 	 set msg_data [read $sb_sock [lindex $recv 3]]
 	 fconfigure $sb_sock -blocking 0
-        degt_protocol "     $msg_data"
+
+         degt_protocol "[stringmap {\r ""} $msg_data]" blue
+
 	 sb append $sbn data $msg_data
       }
    }
 
 }
 
-
+#Manages the SwitchBoard (SB) structure
+#$do parameter is the action to perform over $sbn
 proc sb {do sbn var {value ""}} {
+
    global ${sbn}_info
    set sb_tmp "${sbn}_info(${var})"
    upvar #0 $sb_tmp sb_data
@@ -1724,7 +1730,19 @@ proc cmsn_sb_handler {sb_name item} {
 
 
 proc cmsn_invite_user {name user} {
-   ::MSN::WriteSB $name "CAL" $user
+
+   if { ("[sb get $name stat]" == "o") \
+      || ("[sb get $name stat]" == "n") \
+      || ("[sb get $name stat]" == "i")} {
+
+      ::MSN::WriteSB $name "CAL" $user
+
+   } else {
+
+      status_log "cmsn_invite_user: Can't invite user to non connected SB!!\n" red
+
+   }
+
 }
 
 
@@ -1745,7 +1763,6 @@ proc cmsn_rng {recv} {
    sb set $sbn users [list]
    sb set $sbn typers [list]
    sb set $sbn lastmsgtime 0
-   sb set $sbn flickering 0
    sb set $sbn serv [split [lindex $recv 2] ":"]
    sb set $sbn connected "cmsn_conn_ans $sbn"
    sb set $sbn readable "read_sb_sock $sbn"
@@ -1762,6 +1779,11 @@ proc cmsn_rng {recv} {
 
 proc cmsn_open_sb {sbn recv} {
    global config
+
+   #TODO: I hope this works. If stat is set to "d" due to timeout, abort
+   if { [sb get $sbn stat] == "d" } {
+      return 0
+   }
 
    if {[lindex $recv 0] == "913"} {
           status_log "Error: Not allowed when offline\n" red
@@ -1795,32 +1817,59 @@ proc cmsn_conn_sb {name} {
    status_log "cmsn_conn_sb\n"
    fileevent [sb get $name sock] writable {}
    sb set $name stat "a"
-   set cmd [sb get $name auth_cmd]; set param [sb get $name auth_param]
+
+   #Reset timeout timer
+   sb set $name time [clock seconds]
+
+   set cmd [sb get $name auth_cmd]
+   set param [sb get $name auth_param]
+
    ::MSN::WriteSB $name $cmd $param "cmsn_connected_sb $name"
    ::amsn::chatStatus [::MSN::ChatFor $name] "[trans ident]...\n" miniinfo
 }
 
 proc cmsn_conn_ans {name} {
+
    status_log "cmsn_conn_ans\n"
    fileevent [sb get $name sock] writable {}
+
    sb set $name stat "a"
+   sb set $name time [clock seconds]
+
    set cmd [sb get $name auth_cmd]; set param [sb get $name auth_param]
    ::MSN::WriteSB $name $cmd $param
    #cmsn_msgwin_top $name "[trans ident]..."
    status_log "[trans ident]...\n"
+
 }
 
 proc cmsn_connected_sb {name recv} {
 
    status_log "cmsn_connected_sb\n"
    sb set $name stat "i"
+
    if {[sb exists $name invite]} {
+
       cmsn_invite_user $name [sb get $name invite]
       ::amsn::chatStatus [::MSN::ChatFor $name] "[trans willjoin [sb get $name invite]]...\n" miniinfo
+
    } else {
+
       status_log "cmsn_connected_sb: got sb stat=i but no one to invite!!!\n" red
+
    }
+
 }
+
+#SB stat values:
+#  "d" - Disconnected, the SB is not connected to the server
+#  "c" - The SB is trying to get a socket to the server.
+#  "cw" - "Connect wait" The SB is trying to connect to the server.
+#  "pw" - "Proxy wait" The SB is trying to connect to the server using a proxy.
+#  "a" - Authenticating. The SB is authenticating to the server
+#  "i" - Inviting first person to the chat. Succesive invitations will be while in "o" status
+#  "o" - Opened. The SB is connected and ready for chat
+#  "n" - Nobody. The SB is connected but there's nobody at the conversation
 
 proc cmsn_reconnect { name } {
 
@@ -1829,19 +1878,55 @@ proc cmsn_reconnect { name } {
       sb set $name stat "i"
       cmsn_invite_user $name [sb get $name last_user]
 
+      sb set $name time [clock seconds]
+
       ::amsn::chatStatus [::MSN::ChatFor $name] "[trans willjoin [sb get $name last_user]]..." miniinfo
 
    } elseif {[sb get $name stat] == "d"} {
 
- 	status_log "Calling reconnect with d tag\n"
+      #status_log "--Calling reconnect with d tag\n"
 
-      sb set $name stat "rc"
+      sb set $name stat "c"
       sb set $name invite [sb get $name last_user]
+
+      sb set $name time [clock seconds]
+
       ::MSN::WriteNS "XFR" "SB" "cmsn_open_sb $name"
 
-      ::amsn::chatStatus [::MSN::ChatFor $name] "[trans reconnecting]..." miniinfo
+      ::amsn::chatStatus [::MSN::ChatFor $name] "[trans chatreq]..." miniinfo
 
-   } 
+   } elseif {[sb get $name stat] == "i"} {
+
+      if { [expr {[clock seconds] - [sb get $name time]}] > 10 } {
+         status_log "--cmsn_reconnect: called again while inviting timeouted\n" red
+	 sb set $name stat "n"
+	 cmsn_reconnect $name
+      }
+
+   } elseif {[sb get $name stat] == "c"} {
+
+      if { [expr {[clock seconds] - [sb get $name time]}] > 5 } {
+         status_log "cmsn_reconnect: called again while reconnect timeouted\n" red
+	 sb set $name stat "d"
+	 cmsn_reconnect $name
+      }
+
+   } elseif {([sb get $name stat] == "cw") \
+      || ([sb get $name stat] == "pw") \
+      || ([sb get $name stat] == "a")} {
+
+      if { [expr {[clock seconds] - [sb get $name time]}] > 10 } {
+         status_log "cmsn_reconnect: called again while reconnect using using timeouted\n" red
+	 close [sb get $name sock]
+	 sb set $name stat "d"
+	 cmsn_reconnect $name
+      }
+
+   } else {
+
+       status_log "--cmsn_reconnect: sb stat is [sb get $name stat]\n" red
+
+   }
 
 }
 
@@ -1928,7 +2013,8 @@ proc cmsn_update_users {sb_name recv} {
 	     }
 
          } else {
-	     status_log "BYE but sb is in \"d\" state, so the close event has been catch before the BYE...\n"
+	     status_log "BYE but sb is in \"d\" state, so \
+	     the close event has been catch before the BYE...\n"
 	  }
 
 	  if {[::MSN::SBFor $chatid] == $sb_name} {
@@ -1940,7 +2026,7 @@ proc cmsn_update_users {sb_name recv} {
       IRO {
 
          #You get an IRO message when you're invited to some chat. The chatid name won't be known
-	  #until the first message comes
+         #until the first message comes
          sb set $sb_name stat "o"
 
 	  set usr_login [string tolower [lindex $recv 4]]
@@ -1953,20 +2039,6 @@ proc cmsn_update_users {sb_name recv} {
 
          sb set $sb_name last_user $usr_login
 	  status_log "Setting last_user as [list $usr_login $usr_name] in IRO\n"
-
-	  if { [sb length $sb_name users] == 1 } {
-
-	     #set chatid $usr_login
-	     status_log "IRO - I'll be chatid $usr_login when a message comes (first user)\n"
-
-	  } else {
-
-	     #More than 1 user, change into conference
-            #set chatid $sb_name
-	     #::MSN::AddSBFor $chatid $sb_name
-
-	     status_log "IRO - Now i'll be conference chatid $sb_name when a message comes\n"
-	  }
 
 
       }
@@ -1990,11 +2062,6 @@ proc cmsn_update_users {sb_name recv} {
 
 	     set chatid $usr_login
 
-	     #TODO: Probably not necessary, as if we have opened a window, we also set the chat-sb correspondence
-	     #in chatTo. If we don't open a window, the correspondence will be set on first message
-	     #status_log "Here in JOI, setting SBFor ($chatid) to $sb_name \n"
-            #::MSN::AddSBFor $chatid $sb_name
-
 	  } else {
 
 	     #More than 1 user, change into conference
@@ -2012,35 +2079,17 @@ proc cmsn_update_users {sb_name recv} {
 
 	  }
 
-	  #Don't put it in status if we're not the preferred SB. It can happen that you invite a user to your sb, 
-	  #but just in that moment the user invites you, so you will connect to its sb and be able to chat, but after
-	  #a while the user will join your old invitation, and get a fake "user joins" message if we don't check it
+	  #Don't put it in status if we're not the preferred SB.
+	  #It can happen that you invite a user to your sb,
+	  #but just in that moment the user invites you,
+	  #so you will connect to its sb and be able to chat, but after
+	  #a while the user will join your old invitation,
+	  #and get a fake "user joins" message if we don't check it
 	  if {[::MSN::SBFor $chatid] == $sb_name} {
 	     ::amsn::userJoins $chatid $usr_name
 	  }
       }
    }
-
-
-#   if {[sb exists $sb_name log_fcid]} {
-#      close [sb get $sb_name log_fcid]
-#      sb unset $sb_name log_fcid
-#   }
-#
-#   if {$config(keep_logs) && [sb length $sb_name users]} {	;# LOGS!
-#      global log_dir
-#      upvar #0 [sb name $sb_name users] tmp_users_list
-#      set users_list [lsort $tmp_users_list]
-#      set file_name ""
-#      foreach usrinfo $users_list {
-#         set user_email [split [lindex $usrinfo 0] "@"]
-#	 set user_login [lindex $user_email 0]
-#        set file_name "${file_name}-${user_login}"
-#      }
-#      set file_name [string range ${file_name} 1 end]
-#      sb set $sb_name log_fcid [open "[file join ${log_dir} ${file_name}]" a+]
-#   }
-
 
 }
 #///////////////////////////////////////////////////////////////////////
@@ -2283,7 +2332,7 @@ proc cmsn_ns_handler {item} {
 	}
       }
       QNG {
-      	status_log "Ping response\n" blue
+      	status_log "Ping response\n"
 	return 0
       }
       200 {
@@ -2566,9 +2615,11 @@ proc proxy_callback {event socket_name} {
 }
 
 proc cmsn_socket {name} {
+
    global config
 
    if {$config(withproxy) == 1} {
+
       set proxy_serv [split $config(proxy) ":"]
       set tmp_serv [lindex $proxy_serv 0]
       set tmp_port [lindex $proxy_serv 1]
@@ -2577,14 +2628,21 @@ proc cmsn_socket {name} {
       status_log "Calling proxy::Setup now"
       ::Proxy::Setup next readable_handler $name
       status_log "Before sb set"
+      #TODO: Add timeout for proxy in cmsn_reconnect
       sb set $name stat "pw"
       status_log "After sbset"
+
    } else {
+
       set tmp_serv [lindex [sb get $name serv] 0]
       set tmp_port [lindex [sb get $name serv] 1]
       set readable_handler [sb get $name readable]
       set next [sb get $name connected]
+
       sb set $name stat "cw"
+      #Reset timer
+      sb set $name time [clock seconds]
+
    }
 
      set sock [socket -async $tmp_serv $tmp_port]

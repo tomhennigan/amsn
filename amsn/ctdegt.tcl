@@ -24,8 +24,8 @@ proc degt_Init {} {
 #    ::themes::AddClass Degt Frame $Frame 90
 }
 
-proc degt_protocol { str } {
-    .degt.mid.txt insert end "$str\n"
+proc degt_protocol { str {colour ""}} {
+    .degt.mid.txt insert end "[timestamp] $str\n" $colour
 }
 
 proc degt_protocol_win_toggle {} {
@@ -57,6 +57,11 @@ proc degt_protocol_win { } {
 		-xscrollcommand ".degt.mid.sx set"
 	scrollbar .degt.mid.sy -command ".degt.mid.txt yview"
 	scrollbar .degt.mid.sx -orient horizontal -command ".degt.mid.txt xview"
+
+   .degt.mid.txt tag configure green -foreground darkgreen -background white
+   .degt.mid.txt tag configure red -foreground red -background white
+   .degt.mid.txt tag configure white -foreground white -background black
+   .degt.mid.txt tag configure blue -foreground blue -background white
 
 
 	pack .degt.mid.sy -side right -fill y
@@ -995,6 +1000,10 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.32  2003/03/30 17:47:30  airadier
+# Added timeouts to switchboard reconnections and invitations.
+# Added (online/offline) number to group mode.
+#
 # Revision 1.31  2003/01/28 20:23:34  burgerman
 # bah
 #

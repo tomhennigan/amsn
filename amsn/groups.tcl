@@ -38,7 +38,8 @@ namespace eval ::groups {
 				# indexed by ID. Message LSG
    variable bShowing;		# (array) Y=shown/expanded N=hidden/collapsed
    variable uMemberCnt;		# (array) member count for that group
-   
+   variable uMemberCnt_online;	# (array) member count for that group
+
    #
    proc menuCmdDelete {gid {pars ""}} {
 	::groups::Delete $gid dlgMsg
@@ -179,6 +180,7 @@ namespace eval ::groups {
 	variable groups
 	variable bShowing
 	variable uMemberCnt
+	variable uMemberCnt_online
 
    	set trid [lindex $pdu 1]
 	set lmod [lindex $pdu 2]
@@ -188,6 +190,7 @@ namespace eval ::groups {
 	unset groups($gid)
 	incr groupCnt -1
 	unset uMemberCnt($gid)
+	unset uMemberCnt_online($gid)
 	unset bShowing($gid)
 
 	# TODO: We are out of sync, maybe we should request
@@ -201,6 +204,7 @@ namespace eval ::groups {
 	variable groupCnt
 	variable groups
 	variable uMemberCnt
+	variable uMemberCnt_online
 	variable bShowing
 
    	set trid [lindex $pdu 1]
@@ -211,6 +215,7 @@ namespace eval ::groups {
  	set groups($gid) $gname
 	incr groupCnt
 	set uMemberCnt($gid) 0
+	set uMemberCnt_online($gid) 0
 	set bShowing($gid) 1
 	::groups::updateMenu menu .group_list ::groups::menuCmdDelete
    }
@@ -231,8 +236,9 @@ namespace eval ::groups {
 	return $bShowing($gid)
     }
    
-    proc UpdateCount {gid rel_qty} {
+    proc UpdateCount {gid rel_qty {online ""}} {
         variable uMemberCnt
+	variable uMemberCnt_online
 	variable bShowing
 
         if {![info exists bShowing($gid)]} {
@@ -240,6 +246,10 @@ namespace eval ::groups {
 	}
 	if {($rel_qty == 0) || ($rel_qty == "clear")} {
 	    set uMemberCnt($gid) 0
+	    set uMemberCnt_online($gid) 0
+	} elseif {("$online" == "online")} {
+	    incr uMemberCnt($gid) $rel_qty
+	    incr uMemberCnt_online($gid) $rel_qty
 	} else {
 	    incr uMemberCnt($gid) $rel_qty
 	}
@@ -247,7 +257,6 @@ namespace eval ::groups {
     }
     
     proc IsExpanded {gid} {
-        variable uMemberCnt
 	variable bShowing
     
         return $bShowing($gid)
@@ -320,12 +329,14 @@ namespace eval ::groups {
        variable groups
        variable groupCnt
        variable uMemberCnt
+       variable uMemberCnt_online
        variable bShowing
 
        set name [urldecode $name]
        set groups($nr) $name
        incr groupCnt
        set uMemberCnt($nr) 0
+       set uMemberCnt_online($nr) 0
        set bShowing($nr)   1
        status_log "Groups: added group $nr ($name)\n" blue
    }

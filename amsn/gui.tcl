@@ -2606,7 +2606,9 @@ proc cmsn_draw_online {} {
        # Now setup each of the group's defaults
        for {set i 0} {$i < $gcnt} {incr i} {
 	   set gid [lindex $glist $i]
-	   set ::groups::uMemberCnt($gid) 0
+	   ::groups::UpdateCount $gid clear
+	   #set ::groups::uMemberCnt($gid) 0
+	   #set ::groups::uMemberCnt_online($gid) 0
        }
    } else {	# Order by Online/Offline
        # Defaults already set in setup_groups
@@ -2719,6 +2721,7 @@ proc cmsn_draw_online {} {
    # appears together with the group name and total nr. of handles
    # [<<] My Group Name (n)
    for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
+
        set gname [lindex $glist $gidx]
        set gtag  "tg$gname"
        if { [::groups::IsExpanded $gname] } {
@@ -2729,17 +2732,22 @@ proc cmsn_draw_online {} {
 
        # Show the group's name/title
        if {$config(orderbygroup)} {
+
            # For user defined groups we don't have/need translations
 	   set gtitle [::groups::GetName $gname]
            $pgBuddy.text insert end $gtitle $gtag
+
        } else {
+
 	    if {$gname == "online"} {
 	        $pgBuddy.text insert end "[trans uonline]" online
 	    } else {
 	        $pgBuddy.text insert end "[trans uoffline]" offline
 	    }
+
        }
        $pgBuddy.text insert end "\n"
+
    }
 
    ::groups::UpdateCount online clear
@@ -2765,9 +2773,13 @@ proc cmsn_draw_online {} {
       # Rename the section if we order by group
       set user_group [::abook::getGroup $user_login -id]
       if {$config(orderbygroup)} {
+
+
           set section $user_group
 	  set section "tg$section"
-	  ::groups::UpdateCount $user_group +1
+	  #::groups::UpdateCount $user_group +1
+	  ::groups::UpdateCount $user_group +1 [lindex $state 3]
+
       }
 
       # Check if the group/section is expanded, display accordingly
@@ -2776,7 +2788,7 @@ proc cmsn_draw_online {} {
       } else {
 	  set myGroupExpanded [::groups::IsExpanded $section]
       }
- 
+
       if {$myGroupExpanded} {
 	  ShowUser $user_name $user_login $state $state_code $colour $section
       }
@@ -2790,7 +2802,9 @@ proc cmsn_draw_online {} {
         for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
 	    set gname [lindex $glist $gidx]
 	    set gtag  "tg$gname"
-	   $pgBuddy.text insert $gtag.last " ($::groups::uMemberCnt($gname))\n" $gtag
+	   #$pgBuddy.text insert $gtag.last " ($::groups::uMemberCnt($gname))\n" $gtag
+	   $pgBuddy.text insert $gtag.last \
+	      " ($::groups::uMemberCnt_online(${gname})/$::groups::uMemberCnt($gname))\n" $gtag
  	}
    } else {
        $pgBuddy.text insert online.last " ($::groups::uMemberCnt(online))\n" online
@@ -2798,7 +2812,7 @@ proc cmsn_draw_online {} {
    }
 
    $pgBuddy.text configure -state disabled
-   
+
    bind $pgBuddy.text <Configure>  "after cancel cmsn_draw_online; after 100 cmsn_draw_online"
 
    #Init Preferences if window is open

@@ -240,7 +240,7 @@ proc hotmail_procmsg {msg} {
 	  } else {
 	    set noleidos [::hotmail::unreadMessages]
 	  }
-	  status_log "Hotmail cambio mensajes: $noleidos unread emails\n"
+	  status_log "Hotmail num of messages changed: $noleidos unread emails\n"
 	  if { [string length $noleidos] > 0 } {
 	    ::hotmail::setUnreadMessages $noleidos
 	    cmsn_draw_online
