@@ -15,9 +15,9 @@ admincontacts Admin contacts
 admingroups Admin groups
 adverts Advertisements
 alarmonconnect Activate alarm when user comes online
+alarmondisconnect Activate alarm when user goes offline/invisible 
 alarmonmsg Activate alarm when user sends you a message
 alarmonstatus  Activate alarm when user changes state
-alarmondisconnect Activate alarm when user goes offline/invisible 
 alarmpref Alarm Settings for user
 alarmstatus Turn ON/OFF Alarm for this user
 allowallbutbl Allow all users but those in Block List to contact me
@@ -25,21 +25,21 @@ allowbadwords Disable censorship on nicknames
 allowlist Allow list (AL):
 allowonlyinal Only allow users in my Accept List to contact me
 allowseen Allow this person to see when I'm online and contact me
-animatedsmileys Enable animated smileys
 animatedemoticon This emoticon is animated
+animatedsmileys Enable animated smileys
 appearance Appearance
 appearoff Appear offline
 areacode Area Code
 aretyping $1 are typing a message
+autoaccepted File transfer accepted automatically
 autoacceptft Automatically accept File Transfer requests
 autoaway Show me as "Away" when inactive for
-autoconnect2 Sign In automatically when aMSN is launched
 autoconnect Connect on amsn start
+autoconnect2 Sign In automatically when aMSN is launched
 autohotmaillog Auto Hotmail login
 autoidle Auto NoActivity
 autoip Automatic IP
 autonoact Show me as "Not Active" when inactive for
-autoaccepted File transfer accepted automatically
 avoidseen Avoid this person can see when I'm online and contact me
 away Away
 awaymsg1 Ask for away message each time I change my status to Away/BRB/Busy
@@ -70,12 +70,12 @@ cfgalarm Configure/Add/Remove Alarm
 changefont Change font
 changenick Change nick
 changestate $1 changes state to $2
-chatack Accepting chat from
 chat Chat
+chatack Accepting chat from
 chatmaxmin When a contact opens a chat with me I want it to be:
 chatreq Requesting chat
-chatsmileys2 Display Emoticons and Smileys in chat windows
 chatsmileys Chat smileys
+chatsmileys2 Display Emoticons and Smileys in chat windows
 checkblocking Continuously check if users are blocking you
 checkfilman Received files will be saved in $1. Please check file manager settings in preferences window.
 checkingver Checking for new versions
@@ -86,9 +86,9 @@ choosebgcolor Choose background color
 choosecontact Please choose a contact from the list
 choosefontcolor Choose font color
 chooseskin Please select the Skin you would like to use
+clearlog Clear Log
 clearlog2 Clear the history for all your contacts
 clearlog3 Clear All Logs
-clearlog Clear Log
 clicktologin Click here to log in
 close Close
 closed Conversation with $1 closed for inactivity
@@ -118,27 +118,27 @@ default Default Config
 defaultloginradio Login with default configuration
 delete Delete
 deliverfail There was a problem delivering the following message
-delprofile2 Select the Profile that you would like to have removed 
 delprofile Delete Profile
+delprofile2 Select the Profile that you would like to have removed 
 description Description
 directconnection I have direct connection to the internet (uses port 1863)
+disconnect $1 has disconnected.
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
 docking Docking
 dockingoff Docking Off
 dockkde KDE Dock
-disconnect $1 has disconnected.
 edit Edit
 editcurrentstate Edit current
 editnewstate New Personal Automessage State
 editprofile Edit Profile
 editstate Edit Existing Automessage State
 emotisounds Play sounds on certain emoticons
-enablesound Play sound
 enableproxy Enable proxy
 enableremote Enable remote controling
-encoding2 Change the way your characters are encoded
+enablesound Play sound
 encoding Choose encoding
+encoding2 Change the way your characters are encoded
 entercontactemail Enter contact e-mail
 enterfilename Please enter a filename
 enternick Enter your nick
@@ -152,22 +152,22 @@ filename Filename
 filetransfercancelled File transfer cancelled
 filetransfercomplete File transfer complete
 followtext Scroll down when new text is entered
-ftacceptedby $1 accepted file transfer invitation for file '$2'.
 ftaccepted File transfer accepted
+ftacceptedby $1 accepted file transfer invitation for file '$2'.
 ftaccepting Accepting file transfer invitation
 ftconnecterror Error connecting to remote peer
 ftconnecting Connecting to $1 port $2
 ftconnectionlost Connection with remote peer lost
 ftgotinvitation $1 wants to send you the file '$2' ($3 bytes). It will be saved in directory $4. Do you want to receive this file?
 ftportpref Starting port for file transfers
-ftrejectedby $1 rejected file transfer invitation for file '$2'.
 ftrejected File transfer rejected
+ftrejectedby $1 rejected file transfer invitation for file '$2'.
 ftsendinvitation File transfer invitation for file '$2' ($3 bytes) has been sent to $1.
 gonelunch Gone to lunch
+group Group
 groupadd Add a group
 groupdelete Delete a group
 groupexists Group already exists
-group Group
 groupmissing Cannot find group
 groupnewname New name
 groupnotempty Group is not empty!
@@ -175,13 +175,13 @@ groupoldname Old name
 grouprename Rename a group
 groupunknown Unknown group
 handle Handle
-helpcontents Help contents
 help Help
-history View History
+helpcontents Help contents
 hiden Hide the emoticon from the smileys menu
-hybrid Hybrid mode
+history View History
 home Home
 httpconnection Connect using HTTP method (uses HTTP protocol over port 80)
+hybrid Hybrid mode
 ident Identifying
 identity Identity
 inbox Inbox
@@ -195,8 +195,8 @@ ipdetect Detect correct IP for File Transfers using HTTP
 istyping $1 is typing a message
 joins $1 joins conversation
 keepalive Keepalive (NAT)
-keeplog2 Log all conversations to aMSN's History for future viewing
 keeplog Keep Logs of Chats
+keeplog2 Log all conversations to aMSN's History for future viewing
 language Language
 lastmsgtime Last message received at $1
 lclosedwin $1 has closed the window on $2
@@ -207,8 +207,8 @@ leaves $1 leaves conversation
 lenteredconf $1 has entered into a conference on $2
 linprivate IN PRIVATE
 listeningon Listening on port $1
-listsmileys2 Display Emoticons and Smileys in aMSN's main contact list
 listsmileys List smileys
+listsmileys2 Display Emoticons and Smileys in aMSN's main contact list
 ljoinedconf $1 has joined conference
 lleftconf $1 has left conference
 loadcontacts Load contact list
@@ -216,14 +216,14 @@ logbigger Log file sizes for each contact never exceed
 logfandexp Log File Sizes and History Expiry
 loggedotherlocation Disconnected. Logged in other location
 loggingin Logging In
+login Log In
 loginas Login as
 loging Logging
-login Log In
 logolder Only log chats that have taken place in the last
 logout Log Out
 logsin has just logged in
-logsout has just logged out
 logsmileys Displays Emoticons and Smileys in aMSN's history windows
+logsout has just logged out
 lprivtoconf Private chat turned into Conference with $1
 luclosedwin You have closed the window on $1
 mailer Mailer
@@ -234,9 +234,9 @@ mobile Mobile
 morepersonal More States ->
 move Move
 movetogroup Move to Group
-msgmaxmin When a new message arrives I want it to be :
 msg Message
 msgflicker Flicker chat window title when new message is received on unfocused window.
+msgmaxmin When a new message arrives I want it to be :
 msgmode Select how to handle multiple message windows :
 msn AMSN
 mustrestart You must restart the program to apply changes
@@ -252,22 +252,22 @@ newmailfrom New mail from $1 ($2)
 newmsg New message
 newveravailable Newer version $1 available for download
 next Next
+no No
 noactivity No activity
 nodataavailable No data available for $1
 nologfile No Log file for $1
 noneavailable None Available
 nonewmail No new messages in Inbox
 nonewver There are no new versions available to download
-no No
 noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
 normal Normal
 nosystemtray System tray not available
+notify notify
 notify1 Display notify window when contacts come online
 notify1_5 Display notify window when contacts goes offline
 notify1_75 Display notify window when contacts changes state
 notify2 Display notify window when new messages are received
 notify3 Display notify window when e-mails reach your Inbox
-notify notify
 notifyoffset Set the position of the notify window by giving it position offsets
 notifywin Notify Window
 nousersinsession No users in session
@@ -299,20 +299,20 @@ prefblock3 "You have been blocked by" group
 prefconnection Connection settings
 prefemotic Emotions Icons and Smileys 
 preferences Preferences
+preffont My Message Text
 preffont2 Change the way others see my text in chats
 preffont3 Change aMSN's interface font and size
-preffont My Message Text
 preflog1 My History and Logging Options
 preflook My aMSN Messenger Look
 prefmsging My Messaging Interface
 prefname My MSN Messenger Name/NickName
-prefphone2 Type the phone numbers that you would like people \n on your Allow List to see \n
 prefphone My Phone Numbers
-prefprivacy2 User's Contact/Reverse lists
+prefphone2 Type the phone numbers that you would like people \n on your Allow List to see \n
 prefprivacy User's Allow/Block lists
+prefprivacy2 User's Contact/Reverse lists
+prefprofile My Public Profile
 prefprofile2 Create or modify your public profile (the \n description of yourself that others can see)
 prefprofile3 aMSN's User Configuration Profiles
-prefprofile My Public Profile
 prefproxy My Proxy Settings
 prefremote Remote Connection Preferences
 prefsession My Sign In and Status
@@ -325,37 +325,39 @@ profileinuse This Profile is being used by another aMSN session, please chose an
 profileloginradio Login using an existing Profile
 profiles Profiles
 properties Properties
-proxyconfhttp HTTP proxy support configuration
-proxyconf Proxy configuration
-proxyconnection I connect to the internet using a proxy server:
 proxy I am behind a Proxy Server (HTTP or SOCKS5)
+proxyconf Proxy configuration
+proxyconfhttp HTTP proxy support configuration
+proxyconnection I connect to the internet using a proxy server:
 publishphones Publish my phone numbers
 raised Raised/Deiconified
+readonlymsgbox The file transfer has been canceled due to the received directory being read-only. Please fix permissions on this directory.
+readonlywarn WARNING: The file will probably NOT be saved correctly as the "Received files" directory seems to be write-protected. Please ensure that the permissions on the target directory ($1) are set correctly before transfering the file.
 receivedbytes Received $1 of $2 bytes
 receivefile Receive file
-reconnecting Reconnecting to server
 reconnect Waiting for $1 to reconnect
+reconnecting Reconnecting to server
 reject Reject
 rememberpass Remember password
 removefromlist Remove from this list
 reversed Reversed
 reverselist Reverse list (RL):
 rightback Be right back
+save Save
 saveas Save as
 savecontacts Save contact list
-save Save
 savetofile Save to File
 says $1 says
 sbcon Connecting to Switch Board
 selectplugins Please select the plugins you want enabled
 selectskin Please choose a skin from the list
+send Send
 sendfile Send file
 sendmail Send mail
 sendmsg Send message
-send Send
 sentbytes Sent $1 of $2 bytes
-servergoingdown Disconnected: Server is going down
 server Server
+servergoingdown Disconnected: Server is going down
 session Session
 showblockedlist Show list of people who blocked you
 skin Skin
@@ -364,20 +366,20 @@ smileconfig Custom emoticon configuration
 smilefile Smiley filename
 smileintro Please fill the required fields to create a new custom smiley (see the FAQ for help)
 smileintro2 Please edit the required fields to customize this smiley (see the FAQ for help)
+sound Event Sounds
 sound2 Play sounds when contacts sign in or send a message
 soundcommand This has to be the play command (ex: esdplay)
-sound Event Sounds
 soundfile Sound File
 soundloop Loop Sound
 soundserver Sound Server
 soundstatus Sound Alarm
-startoffline2 Sign In silently as "Appear Offline"
 startoffline Start Offline
+startoffline2 Sign In silently as "Appear Offline"
+state I want to appear as	
 stateautomsg AutoMessage to Send
+statechange status changed to : 
 stateedittext Please edit the fields you would like \n to have modified and press Save
 stateinfo Personal State Configuration
-state I want to appear as	
-statechange status changed to : 
 statename Name of Personal State
 statenewtext Please fill the required information to create \n your new Personal State and press Save
 status Status
@@ -390,9 +392,9 @@ tabbed Tabbed Windows
 textsize Text size
 timeremaining Time remaining
 title Al's Messenger
+to To
 tools Tools
 tooltips Enable tooltips
-to To
 transnotexists The requested file has not been translated into the current language yet.
 traynotcompiled Tray icon plugin is not complied. Check plugins/traydock
 triggers Text triggers
@@ -400,19 +402,19 @@ twonewmail $1 new messages in Inbox
 unblock Unblock
 uoffline Offline
 uonline Online
+user User
 useralreadyonlist User is already on contact list
 userblocked The user is online but blocked you
 usernotonline The user is not online
-user User
 useryourself You can't chat with yourself
 verifyblocked Check for people blocking you
 version Version
-viewprofile View Profile
 view View
+viewprofile View Profile
 willjoin Waiting $1 joins conversation
 work Work
-wrongprofileversion Wrong profile config file version. In order to fix it, please remove directory $1, or update amsn
 wrongfields The "$1", "$2" and/or "$3" fields were not valid
+wrongprofileversion Wrong profile config file version. In order to fix it, please remove directory $1, or update amsn
 xoffset X Offset
 yes Yes
 yoffset Y Offset
