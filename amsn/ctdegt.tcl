@@ -1182,7 +1182,7 @@ proc setCfgFonts {path value} {
 
 
 proc SavePreferences {} {
-    global config myconfig proxy_server proxy_port user_info user_stat list_BLP temp_BLP Preftabs
+    global config myconfig proxy_server proxy_port user_info user_stat list_BLP temp_BLP Preftabs 
 
     set nb .cfg.notebook.nn
 
@@ -1298,6 +1298,10 @@ proc SavePreferences {} {
 
     # Save configuration.
     save_config
+
+    if { $user_stat != "FLN" } {
+       cmsn_draw_online
+    }
 
 }
 
@@ -1505,6 +1509,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.68  2003/08/07 15:46:00  airadier
+# Call cmsn_draw_online on preferences exit (if online)
+#
 # Revision 1.67  2003/08/03 18:21:45  burgerman
 # Fixed profiles issues and cleaned them up:
 #
