@@ -2647,7 +2647,7 @@ namespace eval ::Event {
 				#File transfers or other invitations
 				set invcommand [$message getHeader Invitation-Command]
 				set cookie [$message getHeader Invitation-Cookie]
-				set fromlogin [lindex $recv 1]
+				set fromlogin [lindex $command 1]
 
 				puts $invcommand
 				puts $cookie
@@ -2716,7 +2716,7 @@ namespace eval ::Event {
 				global ${chatid}_smileys
 				status_log "Got a custom smiley from peer\n" red
 				set ${chatid}_smileys(dummy) ""
-				parse_x_mms_emoticon $body $chatid
+				parse_x_mms_emoticon [$message getBody] $chatid
 				status_log "got smileys : [array names ${chatid}_smileys]\n" blue
 				foreach smile [array names ${chatid}_smileys] {
 					if { $smile == "dummy" } { continue } 
