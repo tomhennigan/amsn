@@ -1,0 +1,199 @@
+amsn_lang_version 2
+about Pri
+accept Akceptu
+acceptfile Akceptu dosieron $1, grando $2? Registrita je $3
+actions Agoj
+addacontact Aldonu kontaktulon
+addedyou estis aldoninta vin al lia/ŝia kontaktulo-listo
+addtocontacts Aldonu al kontaktulo-listo
+addtoo Aldonu tiun homon al mia kontaktulo-listo
+admincontacts Kontrolu kontaktulojn
+admingroups Kontrolu grupojn
+adverts Reklamoj
+alarmpref Elektoj de Alarmilo por uzulo
+alarmstatus Ekfunkciigu/Malfunkciigu Alarmilon por tiu ĉi uzulo
+allowseen Permesu tiun ĉi homon vidi kiam mi estas enreta kaj kontakti min
+appearoff Sxajnu esti malenreta
+aretyping $1 estas tajpanta mesaĝon
+autoconnect Konektu kiam amsn komenciĝas
+autohotmaillog Aŭtomata Hotmail salutado
+autoidle Aŭtomata senfareco
+autoip Aŭtomata IP
+avoidseen Malpermesu tiun ĉi homon vidi kiam mi estas enreta kaj kontakti min
+away Fora
+baduserpass Malprava kaŝnomo aŭ pasvorto
+blankdirect Restigu blanka por rekta konekto
+block Barumu (Block)
+blocked Barumita (Blocked)
+broughtby  Alportita al vi de la sekvanta kodistoj
+browse Folumi
+browser Folumilo
+busy Okupata
+cancel Nuligu
+cfgalarm Ŝanĝu/Aldonu/Elprenu Alarmilon
+changenick Ŝanĝu kaŝnomon
+chatack Akceptanta babilon de
+chat Babilu
+chatreq Petanta babilon
+chatsmileys Babilo-mienvinjetoj
+checkingver Ŝerĉanta por novaj versioj
+checkver Ŝerĉu por novaj versioj
+choosebasefont Elektu tiparon
+choosebgcolor Elektu fono-koloron
+choosefontcolor Elektu tiparo-koloron
+clicktologin Klaku tie ĉi por saluti
+close Fermu
+closingdocks Fermo-butono Minimumigas
+command Komando
+confirm Ĉu vi estas certe?
+confirmdelete Ĉu vi vere volas forpreni $1?
+connecterror Eraro je konektado al servilo
+contactadded Kontaktulo estas aldonita
+contactdoesnotexist Kontaktulo ne ekzistas!
+copy Kopiu
+copytogroup Kopiu al grupo
+cut Movu en la poŝon
+date Dato
+delete Elprenu
+docking Dokado
+dockingoff Dokado Invalida
+dockgtk Gnome-Doko
+dockkde KDE-Doko
+edit Redaktu
+enableproxy Enable proxy
+encoding Elektu ĉifron
+entercontactemail Tajpu retadreson de kontaktulo
+enterfilename Bonvolu tajpi dosiero-nomon
+enternick Tajpu vian kaŝnomon
+examples Ekzemploj
+exitamsn Ĉu vi estas certa, ke vi volas eliri?
+extras Pliaj Servoj
+faq OD (Oftaj Demandoj)
+filedoesnotexist Dosiero ne ekzistas
+filename Dosiero-nomo
+filetransfercancelled Dosiero-translokado nuligas
+filetransfercomplete Dosiero-translokado estas finita
+ftaccepted Dosiero-translokado akceptiĝas
+ftrejected Dosiero-translokado malakceptiĝas
+gonelunch Fora por lunĉo
+groupadd Aldonu grupon
+groupdelete Elprenu grupon
+groupexists Grupo jam ekzistas
+group Grupo
+groupmissing Ne povas trovi grupon
+groupnewname Nova nomo
+groupnotempty Grupo ne estas malplena!
+groupoldname Malnova nomo
+grouprename Renomu grupon
+groupunknown Nekonata grupo
+handle Kromnomo
+helpcontents Helpo-indekso
+help Helpo
+home Hejmo
+ident Identanta
+identity Idento
+inbox LeterKesto
+invalidusername Malvalida uzulo-nomo
+invite Invitu
+ipaddress IP-Adreso
+istyping $1 tajpadas mesaĝon
+joins $1 envenas konversacion
+keepalive Keepalive (NAT)
+language Lingvo
+lastmsgtime Lasta mesaĝo receviĝis je $1
+leaveblankforhotmail Lasu blanka por uzado de Hotmail-TTT
+leaves $1 elrias konversacion
+listeningon Aŭskultas je konektejo $1
+listsmileys Listigu ridetumojn
+loadcontacts Ŝarĝu kontaktulo-liston
+loggedotherlocation Malkonektita. Salutita de alia loko
+loggingin Salutanta
+loginas Salutu kiel
+login Salutu
+logout Adiaŭu
+logsin ĵus salutis
+mailer Poŝtanto
+mobile Moveblo
+movetogroup Movu al Grupo
+msg Mesaĝo
+msn AMSN
+mustrestart Vi devas rekomenci la programon por apliki ŝanĝojn
+mystatus Mia stato
+natip IP malkovrado far retpaĝo
+needonline Vi ankoraŭ estas/ŝajnas malenreta!
+newmail $1 novaj mesaĝoj en LeterKesto
+newmailfrom Nova retletero de
+newmsg Nova mesaĝo
+newveravailable Pli nova versio $1 haveblas por elŝutado
+next Venonta
+noactivity Neniu agado
+nonewmail Neniu novaj mesaĝoj en LeterKesto
+nonewver Estas neniu novaj versioj haveblaj por elŝutado
+notify Avizu
+notifywin Avizu fenestron
+nousersinsession Neniuj uzuloj estas en sesio
+offline Malenreta
+ok Bone
+onenewmail 1 nova mesaĝo en LeterKesto
+online Enreta
+onphone Je telefono
+openreceived Malfermu ricevitajn dosierojn
+options Elektoj
+ordercontactsby Ordigu kontaktuloj per
+other Alia
+pager Peĝer (Pager)
+pass Pasvorto
+paste Elpoŝigu
+phone Telefono
+picfile Bildo-Dosiero (GIF < 500 x 500)
+picstatus Bilda Alarmo
+port Konektejo
+prefapps Programoj
+preferences Elektoj
+prefsound Sonoj
+properties Atributoj
+proxyconfhttp HTTP proxy subteno elektado
+proxyconf Konfiguro de proxy
+publishphones Eldonu miajn telefonnumerojn
+receivedbytes Ricevinta $1 de $2 bajtoj
+receivefile Ricevu dosieron
+reconnecting Rekonektanta al servilo
+reconnect Atendanta, ke $1 rekonektu
+reject Malakceptu
+rememberpass Memoru pasvorton
+rightback Baldaŭ Revenos Baldaŭ
+saveas Konservu al
+savecontacts Konservu kontakto-liston
+save Konservu
+says $1 diras
+sbcon Konektanta al Switch-Board
+sendfile Sendu dosieron
+sendmail Sendu retleteron
+sendmsg Sendu mesaĝon
+send Sendu
+sentbytes Sentinta $1 de $2 bajtoj
+servergoingdown Malkonektita: Servilo estas subiranta
+server Servilo
+sound Evento-Sono
+soundfile Sono-dosiero
+soundloop Ripetu Sonon
+soundstatus Sonigu Alarmon
+startoffline Komencu Malenrete
+status Stato
+stopalarm Haltigu Alarmon
+syntaxerror Sintaska Eraro
+textsize Teksto-grando
+title Al's Messenger
+tools Iloj
+to Al
+unblock Malbarumu (Unblock)
+uoffline Malenreta
+uonline Enreta
+useralreadyonlist Uzulo estas jam en kontaktulo-listo
+user Uzulo
+version Versio
+view Rigardu
+willjoin Atendas $1 enveni konversacion
+work Laboro
+yousay Vi diras
+youwant Vi volas
