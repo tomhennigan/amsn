@@ -18,25 +18,26 @@ namespace eval ::Nudge {
 	###############################################
 	proc received { event epvar } {
 		upvar 2 $epvar args
-		
 
+		if {$args(content_type) == "text/x-msnmsgr-datacast" && [::MSN::GetHeaderValue $args(msg) ID] == "1"} {
 		
-		#If the user choosed to have a notify window
-		if { $::Nudge::config(notify) == 1 } {
-			#Get a shorter nick-name for the notify window
-			set maxw [expr {[::config::getKey notifwidth]-20}]
-			set nickname [trunc $args(nick) . $maxw splainf]
-			::Nudge::notify $nickname $args(chatid)
-		}
-		#If the user choosed to make the window shake
-		if { $::Nudge::config(shake) == 1 } {
-			#Get the name of the window from the people who sent the nudge
-			set lowuser [string tolower $args(chatid)]
-			set win_name [WindowFor $lowuser]
-			#Shake that window
-			::Nudge::shake ${win_name} $::Nudge::config(shakes)
-		}
+			#If the user choosed to have a notify window
+			if { $::Nudge::config(notify) == 1 } {
+				#Get a shorter nick-name for the notify window
+				set maxw [expr {[::config::getKey notifwidth]-20}]
+				set nickname [trunc $args(nick) . $maxw splainf]
+				::Nudge::notify $nickname $args(chatid)
+			}
+			#If the user choosed to make the window shake
+			if { $::Nudge::config(shake) == 1 } {
+				#Get the name of the window from the people who sent the nudge
+				set lowuser [string tolower $args(chatid)]
+				set win_name [::ChatWindow::For $lowuser]
+				#Shake that window
+				::Nudge::shake ${win_name} $::Nudge::config(shakes)
+			}
 		
+		}
 	
 	}
 
