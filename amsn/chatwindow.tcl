@@ -945,7 +945,7 @@ namespace eval ::ChatWindow {
 
 		status_log "tabbed window is : $w\n" red
 
-		frame $w -background [::skin::getKey chatwindowbg]
+		frame $w -background [::skin::getKey chatwindowbg] -relief solid -bd 0 -padx 0 -pady 0
 
 		# If the platform is NOT windows, set the windows' icon to our xbm
 		if {$tcl_platform(platform) != "windows"} {
