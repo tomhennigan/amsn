@@ -3,7 +3,7 @@
 
 namespace eval ::amsn {
    namespace export fileTransferSend fileTransferRecv fileTransferProgress \
-   errorMsg notifyAdd
+   errorMsg notifyAdd initLook 
    
    ##PUBLIC
 
