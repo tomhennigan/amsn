@@ -359,25 +359,41 @@ proc ParseLog { wname logvar } {
 
 	set aidx 0
 
-	while {1} {
-		set color [string range $logvar [expr $aidx + 3] [expr $aidx + 5]]
-		set aidx [expr $aidx + 6]
-		set bidx [string first "\|\"L" $logvar $aidx]
-		if { $bidx != -1 } {
-			set string [string range $logvar [expr $aidx] [expr $bidx - 1]]
-			LogWriteWin $wname $string $color
+	# Set up formatting tags
+	${wname}.blueframe.log.txt tag configure red -foreground red
+	${wname}.blueframe.log.txt tag configure RED -foreground red
+	${wname}.blueframe.log.txt tag configure gray -foreground gray
+	${wname}.blueframe.log.txt tag configure GRA -foreground gray
+	${wname}.blueframe.log.txt tag configure normal -foreground black
+	${wname}.blueframe.log.txt tag configure NOR -foreground black
+	${wname}.blueframe.log.txt tag configure italic -foreground blue
+	${wname}.blueframe.log.txt tag configure ITA -foreground blue
+
+	set loglines [split $logvar "\n"]
+	set result [list]
+	foreach line $loglines {
+		set aidx 0
+		while {$aidx != -1} {
+			set color [string range $line [expr $aidx + 3] [expr $aidx + 5]]
+			set aidx [expr $aidx + 6]
+			set bidx [string first "\|\"L" $line $aidx]
+			if { $bidx != -1 } {
+				set string [string range $line [expr $aidx] [expr $bidx - 1]]
+			} else {
+				set string [string range $line [expr $aidx] end]
+			}
+			lappend result $string [list $color]
 			set aidx $bidx
-		} else {
-			set string [string range $logvar [expr $aidx] end]
-			LogWriteWin $wname $string $color
-			break
 		}
+		lappend result "\n" [list $color]
 	}
 
+	if {[llength $result] > 0} {
+		eval [list ${wname}.blueframe.log.txt insert end] $result
+	}
 	${wname}.blueframe.log.txt yview moveto 1.0
       	${wname}.blueframe.log.txt configure -state disabled
 }
-
 
 #///////////////////////////////////////////////////////////////////////////////
 # LogWriteWin (wname string color)
