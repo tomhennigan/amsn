@@ -67,7 +67,7 @@ proc language_in_list { lang_name } {
 	}
 	
 	foreach lang_desc $lang_list {
-		set lang_short [lindex $lang_desc 0]
+		set lang_short [string tolower [lindex $lang_desc 0]]
 		if {[string compare $lang_short $lang_name] == 0 } {
 			status_log "Language \"$lang_name\" is in available languages, using it\n" blue
 			return 1
