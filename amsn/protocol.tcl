@@ -39,6 +39,10 @@ namespace eval ::MSN {
    variable myStatus FLN
 
    proc connect { username password } {
+   
+      #Log out
+      .main_menu.file entryconfigure 2 -state normal
+   
 
       if {[catch { cmsn_ns_connect $username $password } res]} {
         msg_box "[trans connecterror]"
@@ -64,6 +68,7 @@ namespace eval ::MSN {
       WriteNSRaw "OUT\r\n";
       catch {close [sb get ns sock]} res
 
+      sb set ns data ""
       sb set ns stat "d"
       sb set ns sock ""
       sb set ns serv [split $config(start_ns_server) ":"]
@@ -446,15 +451,17 @@ namespace eval ::MSN {
 
       } elseif {[eof $ns_sock]} {
 
-         status_log "Closing NS socket! (stat= [sb get ns stat])\n" red
-         close $ns_sock
 
          set oldstat [sb get ns stat]
-         sb set ns stat "d"
 
          if { ("$oldstat" != "d") && ("$oldstat" != "u") } {
             logout
-         }
+         } else {
+            status_log "Closing NS socket! (stat= [sb get ns stat])\n" red
+            close $ns_sock
+            sb set ns stat "d"
+	 
+	 }
 
       } else {
 
