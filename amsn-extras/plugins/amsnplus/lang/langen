@@ -24,5 +24,6 @@ italic Italic
 multiplecolorsbutton Add a new color
 overstrike Overstrike
 parsenicks Do you want to parse the msn plus color codification in nicks?
+qthelp Here you should configure your quick text, the keywork and the text.\nThen in the chat window, if you do /keywork, you'll see the text
 reset Reset styles
 underline Underline

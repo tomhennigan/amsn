@@ -30,17 +30,29 @@ namespace eval ::amsnplus {
 		}
 		#plugin config
 		array set ::amsnplus::config {
-			parse_nicks {1}
-			colour_nicks {0}
-			allow_commands {1}
-			allow_colours {1}
+			parse_nicks 1
+			colour_nicks 0
+			allow_commands 1
+			allow_colours 1
+			allow_quicktext 1
+			quick_text_0 [list]
+			quick_text_1 [list]
+			quick_text_2 [list]
+			quick_text_3 [list]
+			quick_text_4 [list]
+			quick_text_5 [list]
+			quick_text_6 [list]
+			quick_text_7 [list]
+			quick_text_8 [list]
+			quick_text_9 [list]
 		}
 		if {[string equal $::version "0.94"]} {
 			set ::amsnplus::configlist [ list \
 				[list bool "Do you want to parse nicks?" parse_nicks] \
 				[list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \
 				[list bool "Do you want to allow commands in the chat window?" allow_commands] \
-				[list bool "Do you want to allow multiple colours in the chat window?" allow_colours] \ 
+				[list bool "Do you want to allow multiple colours in the chat window?" allow_colours] \
+				[list bool "Do you want to use the quick text feature?" allow_quicktext] \
 			]
 		} else {
 			set ::amsnplus::configlist [ list \
@@ -48,6 +60,7 @@ namespace eval ::amsnplus {
 				[list bool "[trans colournicks]" colour_nicks] \
 				[list bool "[trans allowcommands]" allow_commands] \
 				[list bool "[trans allowcolours]" allow_colours] \
+				[list bool "[trans quicktext]" allow_quicktext] \
 			]
 		}
 		#register events
@@ -123,6 +136,55 @@ namespace eval ::amsnplus {
 	# the config if its a received command (env)
 	proc write_window { chatid msg env {colour "green"} } {
 		::amsn::WinWrite $chatid $msg $colour
+	}
+
+
+
+	#//////////////////////////////////////////////////////////////////////////
+	#                          ALL ABOUT QUICK TEXT
+	#//////////////////////////////////////////////////////////////////////////
+
+	################################################
+	# this proc lets configure the quick texts
+	proc qtconfig { } {
+		#create the window
+		toplevel .qtconfig -width 600 -height 400
+		#add an explanation
+		if {[string equal $::version "0.94"]} {
+			label .qtconfig.help -text "Here you should configure your quick text, the keyword and the text.\nThen in the chat window, if you do /keyword, \
+				you'll see the text\n"
+		} else {
+			label .qtconfig.help -text "[trans qthelp]\n"
+		}
+		pack .qtconfig.help -side top
+		#entries
+		set i 0
+		while {$i < 10} {
+			labelframe .qtconfig.label$i -relief flat
+			entry .qtconfig.label$i.keyword
+			entry .qtconfig.label$i.text
+			pack .qtconfig.label$i -side top
+			pack .qtconfig.label$i.keyword -side left
+			.qtconfig.label$i.keyword insert end [lindex $::amsnplus::config(quick_text_$i) 0]
+			pack .qtconfig.label$i.text -side left
+			.qtconfig.label$i.text insert end [lindex $::amsnplus::config(quick_text_$i) 1]
+			incr i
+		}
+		#save button
+		button .qtconfig.save -text "[trans save]" -command "::amsnplus::save_qtconfig .qtconfig"
+		pack .qtconfig.save -side bottom
+	}
+
+	###############################################
+	# this proc saves the quick text configuration
+	proc save_qtconfig { win } {
+		set i 0
+		while {$i < 10} {
+			set keyword [$win.label$i.keyword get]
+			set str [$win.label$i.text get]
+			set ::amsnplus::config(quick_text_$i) [list $keyword $str]
+			incr i
+		}
 	}
 
 
@@ -773,6 +835,10 @@ namespace eval ::amsnplus {
 					::amsnplus::write_window $chatid "\nYour new nick is: $nick" 0
 				}
 				set incr 0
+			} elseif {[string equal $char "/qtconfig"]} {
+				set msg [string replace $msg $i [expr $i + 9] ""]
+				set strlen [string length $msg]
+				::amsnplus::qtconfig
 			} elseif {[string equal $char "/sendfile"]} {
 				set msg [string replace $msg $i [expr $i + 9] ""]
 				set strlen [string length $msg]
@@ -887,6 +953,21 @@ namespace eval ::amsnplus {
 						::amsnplus::write_window $chatid "[trans cinfo $user_login $nick $group]" 0
 					}
 				}
+				set incr 0
+			}
+			#check for the quick texts
+			set k 0
+			while {$k < 10} {
+				set word [lindex $::amsnplus::config(quick_text_$k) 0]
+				if {[string equal $char "/$word"]} {
+					set qt [lindex $::amsnplus::config(quick_text_$k) 1]
+					set clen [string length $char]
+					set msg [string replace $msg $i [expr $i + $clen] $qt]
+					set strlen [string length $msg]
+					set qtlen [string length $qt]
+					set i [expr $i + $qtlen]
+				}
+				incr k
 				set incr 0
 			}
 			if {[string equal $incr "1"]} { incr i }
