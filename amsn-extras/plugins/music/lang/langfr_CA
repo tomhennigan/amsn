@@ -1,11 +1,11 @@
 amsn_lang_version 2
-addsongtonick Ajouter la musique jouée au nickname
-timeverify Vérifier la musique jouée toutes les ? secondes
-nickname Nickname
-separator Symbole entre le nickname et la musique
-stopmsg Message quand le lecteur est arrèté
+musicaddsongtonick Ajouter la musique jouée au nickname
+musictimeverify Vérifier la musique jouée toutes les ? secondes
+musicnickname Nickname
+musicseparator Symbole entre le nickname et la musique
+musicstopmsg Message quand le lecteur est arrèté
 musiccurrent Afficher la musique qui joue actuellement
 musicsend Envoyer la musique qui joue actuellement
 musicerr Rien n'est joué, ou le plugin ne peut pas récupérer la musique jouée.
 playing Joue : $1
-oserr Votre système d'exploitation ($1) n'est pas encore géré par le plugin Music
+musicoserr Votre système d'exploitation ($1) n'est pas encore géré par le plugin Music
