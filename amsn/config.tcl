@@ -524,7 +524,10 @@ proc load_config {} {
 	::config::setKey login $user_login
     }
     
-
+    if { $config(enableremote) } {
+	init_remote_DS
+    } 
+    
 }
 
 

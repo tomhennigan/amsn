@@ -145,6 +145,7 @@ proc reload_files { } {
     source [file join automsg.tcl]
     source [file join smileys.tcl]
     source [file join skins.tcl]       ;# Used for skinning purposes
+    source [file join remote.tcl  ]    ;# The remote control procedures
 	source [file join gui.tcl] ;#gui.tcl must be at the beggining to make msg_box procedure available for errorss
 	source [file join config.tcl]
     source [file join proxy.tcl]
@@ -167,7 +168,7 @@ proc reload_files { } {
     source [file join loging.tcl]	;# Euh yeh it's for loging :P
     source [file join combobox.tcl]	;# The all mighty combobox is here! (B. Oakley)
     source [file join blocking.tcl]    ;# The blocking users feature
-    source [file join remote.tcl  ]    ;# The remote control procedures
+
     source [file join plugins.tcl]	;# Plugins system
     source [file join balloon.tcl]       ;# For the balloons tooltip
     source [file join png.tcl]       ;# PNG Parser and zlib deflate in pure TCL (KaKaRoTo)
@@ -294,9 +295,6 @@ if { $config(autocheckver) == 1 } {
 }
 
 
-if { $config(enableremote) } {
-	init_remote_DS
-}
 init_dock
 
 if {$config(startontray)} {

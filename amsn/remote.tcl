@@ -11,6 +11,14 @@ if { $initialize_amsn == 1 } {
     set remote_sock 0
 }
 
+proc remote_check_online { } {
+    if { [::MSN::myStatusIs] != "FLN" } {
+	write_remote "[trans conencted]..."
+	return
+    } else {
+	after 1000 "remote_check_online"
+    }
+}
 namespace eval ::remote {
 
     # connect 
@@ -21,8 +29,6 @@ namespace eval ::remote {
 	set username "null"
 	set password "null"
 
-	write_remote "[trans connecting] ..." 
-
 	if { [string match "*@*" $username] == 0 } {
 	    set username [split $username "@"]
 	    set username "[lindex $username 0]@hotmail.com"
@@ -31,7 +37,9 @@ namespace eval ::remote {
 	if { [catch { ::MSN::connect } res] } {
 	    write_remote "[trans connecterror]"
 	} else {
-	    write_remote "[trans connected]"
+	    write_remote "[trans connecting] ..." 
+	    after 1000 "remote_check_online"
+	    
 	}
 	
     }
@@ -66,7 +74,7 @@ namespace eval ::remote {
 	    set state_code [::abook::getVolatileData $username state]	    
 
 	    if { $state_code !="FLN" } {
-		write_remote "[::abook::getNick $username] --- [trans status] : [trans [lindex $state 1]]"
+		write_remote "[::abook::getNick $username] --- [trans status] : [trans [::MSN::stateToDescription $state_code]]"
 	    }
 	}
 
@@ -131,7 +139,7 @@ namespace eval ::remote {
 
 	foreach username [::MSN::getList FL] {
 	    if { "[::abook::getContactData $username nick]" == "$user" } {
-		write_remote "$user is : [::abook::getContactData $username]" 
+		write_remote "$user is : $username" 
 		set found 1
 		break
 	    }
