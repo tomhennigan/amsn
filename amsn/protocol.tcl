@@ -4492,6 +4492,9 @@ namespace eval ::MSNP2P {
 				status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic ${sha1d}] doesn't exist!!\n" white
 				image create photo user_pic_$user -file [GetSkinFile displaypic "loading.gif"]
 
+				global temporal_filename temporal_username
+				set temporal_filename [file join $HOME displaypic ${sha1d}]
+				set temporal_username $user
 				::MSNP2P::RequestObject $chatid $user $msnobj
 			} else {
 				catch {image create photo user_pic_$user -file "[file join $HOME displaypic ${sha1d}].gif"}
@@ -4760,10 +4763,12 @@ namespace eval ::MSNP2P {
 			    SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" ks_test001@hotmail.com $config(login) "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex [SessionList get $sid] 5] 0 0] 1]
 			    set fd -1
 
-			    file rename -force [file join $HOME displaypic cache.png] [file join $HOME displaypic ks_test001_hotmail_com.png]
-			    set file [filenoext [convert_image [file join $HOME displaypic ks_test001_hotmail_com.png] 96x96]].gif
+				 global temporal_username temporal_filename
 
-			    image create photo my_pic -file $file
+			    file rename -force [file join $HOME displaypic cache.png] "${temporal_filename}.png"
+			    set file [filenoext [convert_image ${temporal_filename}.png 96x96]].gif
+
+			    image create photo user_pic_$temporal_username -file $file
 
 			    # Delete Session Vars
 			    SessionList unset $sid

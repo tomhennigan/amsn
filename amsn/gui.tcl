@@ -1682,6 +1682,8 @@ namespace eval ::amsn {
 
 		}
 		$win.picmenu add separator
+		$win.picmenu add command -label "[trans changedisplaypic]..." -command change_displaypic
+		$win.picmenu add separator
 		$win.picmenu add command -label "[trans hidedisplaypic]" \
          -command "::amsn::HidePicture $win"
 
