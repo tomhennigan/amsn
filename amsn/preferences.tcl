@@ -51,31 +51,47 @@ proc PreferencesCopyConfig {} {
 #}
 #this is the new one wich uses listbox
 proc MakeGroupList { lfgroup lfcontact } {
-	global rbsel
+	
 	array set groups [::abook::getContactData contactlist groups]
-	catch "frame $lfgroup.lbgroup.fix"
-	catch "pack $lfgroup.lbgroup.fix -side left -anchor n -expand 1 -fill x"
-	catch "label $lfgroup.lbgroup.fix.l -text \"[trans groups]\" -font sboldf"
-	catch "pack $lfgroup.lbgroup.fix.l -side top -anchor w -pady 5"
+	
+	frame $lfgroup.lbgroup.fix
+	pack $lfgroup.lbgroup.fix -side left -anchor n -expand 1 -fill x -padx 5 -pady 5
+	label $lfgroup.lbgroup.fix.l -text \"[trans groups]\" -font sboldf
+	pack $lfgroup.lbgroup.fix.l -side top -anchor w -pady 5
+	
+	frame $lfgroup.lbgroup.fix.list
 	## create the listbox ##
-	listbox $lfgroup.lbgroup.fix.lb
-	pack $lfgroup.lbgroup.fix.lb -side top -anchor w -pady 5
+	listbox $lfgroup.lbgroup.fix.list.lb -background white -yscrollcommand "$lfgroup.lbgroup.fix.list.sb set"
+	scrollbar $lfgroup.lbgroup.fix.list.sb -command "$lfgroup.lbgroup.fix.list.lb yview" -highlightthickness 0 \
+		-borderwidth 1 -elementborderwidth 2
+
+	pack $lfgroup.lbgroup.fix.list.lb -side left -anchor w -pady 0 -padx 0 -expand true -fill both
+	pack $lfgroup.lbgroup.fix.list.sb -side left -anchor w -pady 0 -padx 0 -fill y
+	pack $lfgroup.lbgroup.fix.list -side top -expand true -fill both
+	
+
 	## entries ##
-	$lfgroup.lbgroup.fix.lb insert end "[trans nogroup]"
-	foreach gr [array names groups] {
+	$lfgroup.lbgroup.fix.list.lb insert end "[trans nogroup]"
+	status_log "[array get groups]\n" white
+	foreach gr [lsort [array names groups]] {
 		if { $groups($gr) != "Individuals" } {
-			$lfgroup.lbgroup.fix.lb insert end $groups($gr)
+			$lfgroup.lbgroup.fix.list.lb insert end $groups($gr)
 		}
 	}
 	## make binding ##
-	bind $lfgroup.lbgroup.fix.lb <<ListboxSelect>> "GroupSelectedIs $lfgroup $lfcontact"
+	bind $lfgroup.lbgroup.fix.list.lb <<ListboxSelect>> "GroupSelectedIs $lfgroup $lfcontact"
 }
 
 ## Function to be called when <<ListboxSelect>> event occurs to change rbsel value ##
 proc GroupSelectedIs { lfgroup lfcontact } {
 	global rbsel
-	set rbsel [$lfgroup.lbgroup.fix.lb index active]
-	MakeContactList $lfcontact
+	if {[$lfgroup.lbgroup.fix.list.lb curselection] != "" } {
+		set rbsel [$lfgroup.lbgroup.fix.list.lb curselection]
+		#Get the rbsel-th group. Note that groups must be inserted same order
+		array set groups [::abook::getContactData contactlist groups]
+		set rbsel [lindex [lsort [array names groups]] $rbsel]
+		MakeContactList $lfcontact 
+	}
 }
 
 ## Function to be called after pressing delete/rename/add group button ##
@@ -140,15 +156,24 @@ proc RefreshGroupList { lfgroup lfcontact } {
 #the new one wich uses listbox
 proc MakeContactList { lfcontact } {
 	global rbsel rbcon
-	catch "DeleteContactList $lfcontact"
+	catch {DeleteContactList $lfcontact}
+	
+	
 	if { ![::groups::Exists [::groups::GetName $rbsel]] || $rbsel == 0 } {
 		if { $rbsel == 0 } {
 			## fix the name of the group ##
 			label $lfcontact.lbcontact.fix.l -text "[trans nogroup]" -font sboldf
-			pack $lfcontact.lbcontact.fix.l -side top -pady 5 -anchor w
+			pack $lfcontact.lbcontact.fix.l -side top -pady 5 -padx 5  -anchor w
+			frame $lfcontact.lbcontact.fix.list
+			
 			## create the listbox ##
-			listbox $lfcontact.lbcontact.fix.lb
-			pack $lfcontact.lbcontact.fix.lb -side top -anchor w -pady 5
+			listbox $lfcontact.lbcontact.fix.list.lb -background white -yscrollcommand "$lfcontact.lbcontact.fix.list.sb set"
+			scrollbar $lfcontact.lbcontact.fix.list.sb -command "$lfcontact.lbcontac.fix.list.lb yview" -highlightthickness 0 \
+				-borderwidth 1 -elementborderwidth 2
+			
+			pack $lfcontact.lbcontact.fix.list.lb -side left -anchor w -expand true -fill both
+			pack $lfcontact.lbcontact.fix.list.sb -side left -anchor w -fill y
+			pack $lfcontact.lbcontact.fix.list -side top -anchor w -pady 5 -padx 5 -expand true -fill both
 			## list contacts that don't have a group ##
 			set contacts [::MSN::getList FL]
 			set i 0
@@ -156,44 +181,56 @@ proc MakeContactList { lfcontact } {
 				set contact [lindex $contacts $i]
 				set g [::abook::getGroups $contact]
 				if { [lindex $g 0] == 0 } {
-					$lfcontact.lbcontact.fix.lb insert end $contact
+					$lfcontact.lbcontact.fix.list.lb insert end $contact
 				}
 				incr i
 			}
 		}
 		## make the binding ##
-		bind $lfcontact.lbcontact.fix.lb <<ListboxSelect>> "ContactSelectedIs $lfcontact"
-		return
-	}
-	label $lfcontact.lbcontact.fix.l -text "[::groups::GetName $rbsel]" -font sboldf
-	pack $lfcontact.lbcontact.fix.l -side top -pady 5 -anchor w
-	## create the listbox ##
-	listbox $lfcontact.lbcontact.fix.lb
-	pack $lfcontact.lbcontact.fix.lb -side top -anchor w -pady 5
-	set groups [::abook::getContactData contactlist groups]
-	set contacts [::MSN::getList FL]
-	set i 0
-	while { $i < [llength $contacts] } {
-		set contact [lindex $contacts $i]
-		set group [::abook::getGroups $contact]
-		set j 0
-		while { $j < [llength $group] } {
-			set g [lindex $group $j]
-			if { $g == $rbsel } {
-				$lfcontact.lbcontact.fix.lb insert end $contact
+		bind $lfcontact.lbcontact.fix.list.lb <<ListboxSelect>> "ContactSelectedIs $lfcontact"
+	} else {
+		label $lfcontact.lbcontact.fix.l -text "[::groups::GetName $rbsel]" -font sboldf
+		pack $lfcontact.lbcontact.fix.l -side top -pady 5 -padx 5 -anchor w
+		frame $lfcontact.lbcontact.fix.list
+		
+		## create the listbox ##
+		listbox $lfcontact.lbcontact.fix.list.lb -background white -yscrollcommand "$lfcontact.lbcontact.fix.list.sb set"
+		scrollbar $lfcontact.lbcontact.fix.list.sb -command "$lfcontact.lbcontac.fix.list.lb yview" -highlightthickness 0 \
+			-borderwidth 1 -elementborderwidth 2
+
+		pack $lfcontact.lbcontact.fix.list.lb -side left -anchor w -expand true -fill both
+		pack $lfcontact.lbcontact.fix.list.sb -side left -anchor w -fill y
+		pack $lfcontact.lbcontact.fix.list -side top -anchor w -pady 5 -padx 5 -expand true -fill both
+
+		set groups [::abook::getContactData contactlist groups]
+		set contacts [::MSN::getList FL]
+		set i 0
+		while { $i < [llength $contacts] } {
+			set contact [lindex $contacts $i]
+			set group [::abook::getGroups $contact]
+			set j 0
+			while { $j < [llength $group] } {
+				set g [lindex $group $j]
+				if { $g == $rbsel } {
+					$lfcontact.lbcontact.fix.list.lb insert end $contact
+				}
+				incr j
 			}
-			incr j
+			incr i
 		}
-		incr i
+		## make the binding ##
+		bind $lfcontact.lbcontact.fix.list.lb <<ListboxSelect>> "ContactSelectedIs $lfcontact"
 	}
-	## make the binding ##
-	bind $lfcontact.lbcontact.fix.lb <<ListboxSelect>> "ContactSelectedIs $lfcontact"
 }
 
 ## Function to be called when <<ListboxSelect>> event occurs to change rbsel value ##
 proc ContactSelectedIs { lfcontact } {
 	global rbcon
-	set rbcon [$lfcontact.lbcontact.fix.lb get active]
+	if {[$lfcontact.lbcontact.fix.list.lb curselection] != "" } {
+		set rbcon [$lfcontact.lbcontact.fix.list.lb get [$lfcontact.lbcontact.fix.list.lb curselection]]
+	} else {
+		set rbcon ""
+	}
 }
 
 ## Function to be called when the selected group becomes unvalid ##
