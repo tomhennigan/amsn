@@ -1054,7 +1054,7 @@ proc Preferences { { settings "personal"} } {
 #     }
     
     bind .cfg <Destroy> "RestorePreferences"
-
+	
     #tkwait visibility .cfg
     #grab set .cfg
 }
@@ -1062,6 +1062,8 @@ proc Preferences { { settings "personal"} } {
 proc reload_advanced_options {opt_list} {
 	global advanced_options config
 
+	set scrollidx [$opt_list yview]	
+	
 	$opt_list delete 0 end
 	foreach opt $advanced_options {
 		if {[lindex $opt 0] == "" } {
@@ -1084,6 +1086,8 @@ proc reload_advanced_options {opt_list} {
 		}
 
 	}
+		$opt_list yview moveto [lindex $scrollidx 0]
+
 }
 
 proc change_advanced_option {opt_list} {
@@ -1761,6 +1765,9 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.103  2004/01/17 11:30:01  airadier
+# Scrolling fix for advanced preferences
+#
 # Revision 1.102  2004/01/10 12:57:24  airadier
 # Fixed save_to_file problem when saving a session.
 # Adding descriptions to display pictures
