@@ -2903,7 +2903,7 @@ proc cmsn_draw_login {} {
    .login.c.password insert 0 $password	
 
    button .login.c.ok -text [trans ok] -command login_ok  -font sboldf
-   button .login.c.cancel -text [trans cancel] -command "ButtonCancelLogin .login $oldlogin"
+   button .login.c.cancel -text [trans cancel] -command "ButtonCancelLogin .login $oldlogin" -font sboldf
 
    
    grid .login.c.ok -row 5 -column 3 -sticky e -padx 5
