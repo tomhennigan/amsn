@@ -45,16 +45,20 @@ close Fermer
 closingdocks Bouton fermer dock l'application
 command Commande
 confirmdelete Confirmer suppression
+confirm êtes vous sûr?
 connecterror Erreur de connection
 contactadded Contact ajouté
 contactdoesnotexist Personne introuvable
+copy copier
 copytogroup Copier vers groupe
+cut couper
 date Date
 delete Effacer
 dockgtk Ancrer dans GTK
 docking Ancrage actif
 dockingoff Ancrage inactif
 dockkde Ancrage dans KDE
+edit édition
 enableproxy Utiliser un proxy
 encoding Choisir l'encodage
 entercontactemail Rajouter un contact de messagerie
@@ -114,6 +118,7 @@ msg Message
 msn AMSN
 mustrestart Vous devez redémarrer l'application pour que les changements 
 mystatus Mon état
+natip détection du IP par page web
 needonline Vous êtes toujours déconnecté!
 neweravailable nouvelle version disponible ($1)
 newmail $1 nouveaux messages
@@ -138,6 +143,7 @@ ordercontactsby Trier les contacts par
 other Autre
 pager Pager
 pass Mot de passe
+paste coller
 phone Téléphone
 picfile Image associée à l'alarme (GIF < 500 x 500)
 picstatus Activer/Désactiver image associée à l'alarme

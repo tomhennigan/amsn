@@ -27,7 +27,7 @@ blocked Geblokkeerd
 broughtby Aangeboden door de volgende ontwikkelaars
 browser Browser
 browse Verkennen
-busy Bezig
+busy Bezet
 cancel Annuleren
 cfgalarm Alarm configureren/toevoegen/verwijderen
 changenick Verander Schermnaam
@@ -75,7 +75,7 @@ filetransfercancelled Bestandsverzending geannuleerd
 filetransfercomplete Bestandsverzending klaar
 ftaccepted Bestand transfer geaccepteerd
 ftrejected Bestand transfer afgewezen
-gonelunch Uit eten
+gonelunch Lunchpauze
 groupadd Voeg een groep toe
 groupdelete Verwijder een groep
 groupexists Groep bestaat al
@@ -165,7 +165,7 @@ reconnecting Bezig met opnieuw verbinden met de server
 reconnect Wachten tot $1 opnieuw verbindt
 reject Afwijzen
 rememberpass Bewaar wachtwoord
-rightback Onmiddellijk terug
+rightback Ben zo terug
 saveas Opslaan als
 savecontacts Contactenlijst opslaan
 save Opslaan

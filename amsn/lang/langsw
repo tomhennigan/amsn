@@ -1,19 +1,19 @@
 amsn_lang_version 2
 about Om
 accept Acceptera
-acceptfile Vill du ta emot filen $1 på $2 bytes? Den kommer då att sparas på din dator i $3
-actions Händelse
+acceptfile Vill du ta emot filen $1 ( $2 bytes ) Den kommer att sparas i $3
+actions Åtgärder
 addacontact Lägg till en kontakt
 addedyou har lagt till dig på sin kontaktlista.
 addtocontacts Lägg till på din kontaktlista.
-addtoo Lägg till denna person på min lista.
+addtoo Lägg till denna person på kontaktlistan.
 admincontacts Administrera kontakter.
 admingroups Administrera grupper.
 adverts Reklam
 alarmpref Inställningar för informationsmeddelanden
 alarmstatus Stäng av /sätt på signal för den här kontakten.
 allowseen Tillåt denna person att se när jag är uppkopplad och kontakta mig.
-appearoff Låtsas vara nedkopplad
+appearoff Visa som offline
 aretyping $1 skriver ett meddelande
 autohotmaillog Automatisk inloggning
 autoidle Sätt min status till Inte vid datorn automatiskt.
@@ -42,20 +42,24 @@ choosebgcolor Välj bakgrundsfärg
 choosefontcolor Välj textfärg
 clicktologin Klicka för att logga in
 close Stäng
-closingdocks Minimera fönster när man trycker på Stäng-knappen
+closingdocks Stäng-knappen dockar fönster
 command Kommando
 confirmdelete Bekräfta radering av $1
+confirm Konfirmera
 connecterror Fel uppstod när servern kontaktades
 connecterror Uppkopplingen misslyckades
 contactadded Lagt till kontakt
 contactdoesnotexist Kontakten finns inte!
+copy Kopiera
 copytogroup Kopiera till grupp
+cut Klipp ut
 date Datum
 delete Ta bort
 dockgtk Aktivera dockning i Gnome
-docking Använd dockning
+docking Dockning
 dockingoff Använd inte dockning
 dockkde Aktivera dockning i KDE
+edit Redigera
 enableproxy Aktivera proxy
 encoding Kodning
 entercontactemail Skriv in kontaktens e-postadress
@@ -70,9 +74,9 @@ filename Filnamn
 filetransfercancelled Filöverföringen avbröts
 filetransfercomplete Filöverföringen klar
 ftaccept Accepterade fil.
-ftaccepted Filöverföring tillåts.
+ftaccepted Filöverföring accepterad.
 ftrejected Filöverföring nekades.
-gonelunch Iväg på lunch
+gonelunch På lunch
 groupadd Lägg till grupp
 groupdelete Ta bort gruppen
 groupexists Gruppen finns
@@ -95,7 +99,7 @@ invite Bjud in
 ipaddress IP Adress
 istyping $1 skriver ett meddelande
 joins $1 kommer in i konversationen
-keepalive Stäng aldrig av förbindelse till servern
+keepalive Stäng aldrig av förbindelse till NAT/Proxy server
 language Språk
 lastmsgtime Senaste meddelandet mottaget $1
 leaveblankforhotmail Lämnas tom för hotmail
@@ -116,7 +120,8 @@ msg Meddelande
 msn AMSN
 mustrestart Du måste starta om programmet för att ändringarna ska få effekt.
 mystatus Min status
-needonline Du måste ändra din status till Uppkopplad.
+natip NAT IP
+needonline Du är nerkopplad/verkar vara nerkopplad
 newmail $1 nya meddelanden i Inkorgen
 newmailfrom Nytt mail från
 newmsg Nytt meddelande
@@ -131,17 +136,18 @@ nousersinsession Inga användare i konversationen
 offline Frånkopplad
 ok Ok
 onenewmail 1 nytt meddelande i Inkorgen
-online Uppkopplad
-onphone Pratar i telefonen
+online Online
+onphone Pratar i telefon
 openreceived Öppna mottagna filer
 options Alternativ
 ordercontactsby Sortera användare efter
 other Annat
 pager Personsökare
 pass Lösenord
+paste Klistra in
 phone Telefon
 picfile Bild för informationsmeddelanden (GIF-format, mindre än 500x500)
-picstatus Visa /dölj bild vid informationsmeddelanden.
+picstatus Visa/dölj bild vid informationsmeddelanden.
 port Port
 prefapps Programinställningar
 preferences Inställningar
@@ -156,9 +162,9 @@ reconnecting Återansluter till server
 reconnect Väntar på att $1 ska komma tillbaka
 reject Avslå
 rememberpass Kom ihåg lösenordet
-rightback Kommer strax tillbaka
+rightback Strax tillbaka
 saveas Spara som
-savecontacts Spara kontakter
+savecontacts Spara kontaktlista
 save Spara
 says $1 säger
 sbcon Ansluter till Switch Board
@@ -173,7 +179,7 @@ soundfile Ljud för informationsmeddelanden.
 sound Ljud
 soundloop Upprepa ljudet i en slinga.
 soundstatus Stäng av /sätt på signalljud.
-startoffline Starta i läget Nedkopplad
+startoffline Starta som "Visa som Offline"
 status Status
 stopalarm Stoppa alla varningar.
 syntaxerror Felaktigt syntax
