@@ -127,7 +127,7 @@ namespace eval ::guiContactList {
 		#Background image goes here
 		set bgimg [image create photo -file "" -format gif]
 		
-		$canvas create image 0 0 -image $bgimg -anchor nw
+		$canvas create image 0 0 -image [::skin::loadPixmap back] -anchor nw
 
 		# Now let's get a contact list
 		set contactList [generateCL]
@@ -166,7 +166,9 @@ namespace eval ::guiContactList {
 		
 		$canvas create text [expr $xpos + [image width $img] + 5] [expr $ypos + [image height $img]/2] -text $text -anchor w \
 			-fill $colour -font splainf -tags [list contact $email]
-
+		set grId [getGroupId $email]
+		$canvas bind $email <Button3-ButtonRelease> "show_umenu $email $grId %X %Y;"
+			
 		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + 3]]
 	}
 
@@ -179,20 +181,22 @@ namespace eval ::guiContactList {
 		# Let's setup the right image (expanded or contracted)
 		if { [::groups::IsExpanded [lindex $element 0]] } {
 			set xpad [::skin::getKey contract_xpad]
-			set ypas [::skin::getKey contract_ypad]
+			set ypad [::skin::getKey contract_ypad]
 			set img [::skin::loadPixmap contract]
 		} else {
 			set xpad [::skin::getKey expand_xpad]
-			set ypas [::skin::getKey expand_ypad]
+			set ypad [::skin::getKey expand_ypad]
 			set img [::skin::loadPixmap expand]
 		}
 		# First we draw our little group toggle button
 		$canvas create image [expr $xpos + $xpad] $ypos -image $img -anchor nw \
-			-tags [list group toggleimg [lindex $element 0]]
+			-tags [list group toggleimg [lindex $element 1]]
 
 		$canvas create text [expr $xpos + [image width $img] + (2*$xpad)] $ypos -text [lindex $element 1] -anchor nw \
-			-fill darkblue -font sboldf -tags [list group title [lindex $element 0]]
+			-fill darkblue -font sboldf -tags [list group title [lindex $element 1]]
 		
+		set gid [lindex $element 1]
+		$canvas bind $gid <Button1-ButtonRelease> "::groups::ToggleStatus [lindex $element 0];guiContactList::createCLWindow"
 		return [list $xpos [expr $ypos + 20]]
 	}
 
