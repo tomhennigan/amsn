@@ -137,6 +137,7 @@ source [file join $program_dir rnotebook.tcl]	;# Notebook Megawidget
 source [file join $program_dir progressbar.tcl]	;# Progressbar Megawidget
 source [file join $program_dir dkffont.tcl]	;# Font selection megawidget
 source [file join $program_dir migmd5.tcl]
+source [file join $program_dir des.tcl]		;# DES encryption
 source [file join $program_dir config.tcl]
 source [file join $program_dir proxy.tcl]
 source [file join $program_dir protocol.tcl]

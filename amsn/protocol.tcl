@@ -406,6 +406,27 @@ namespace eval ::MSN {
    variable trid 0
    variable atransfer
 
+   proc DirectWrite { sbn cmd } {
+   
+      set sb_sock [sb get $sbn sock]
+
+      #set command "[sb get ns puts] -nonewline [sb get ns sock] \"$cmd\""
+      if {[catch {puts -nonewline $sb_sock "$cmd"} res]} {
+         status_log "::MSN::DirectWrite: problem when writing to the socket: $res...\n" WHITE
+         ::MSN::CloseSB $sbn
+         degt_protocol "->$sbn FAILED: $cmd" error
+      } else {
+
+         if {$sbn != "ns" } {
+            degt_protocol "->$sbn-$sb_sock $cmd" sbsend
+         } else {
+            degt_protocol "->$sbn-$sb_sock $cmd" nssend
+         }
+	 
+      }
+      
+   }
+   
    proc WriteSB {sbn cmd param {handler ""}} {
       WriteSBNoNL $sbn $cmd "$param\r\n" $handler
    }
@@ -431,27 +452,12 @@ namespace eval ::MSN {
 
       global config
       #TODO: change this
-      if { ($config(connectiontype) == "http") || (($config(connectiontype) == "proxy") &&($config(proxytype) == "http"))} {
-         ::Proxy::WritePOST $sbn "$cmd"
-         return
-      }
+
+      #Finally, to write, use write_proc (by default ::MSN::DirectWrite)      
+      set command "[sb get $sbn write_proc] [list $cmd]"
+      status_log "Evaluating: $command\n" white
+      catch {eval $command}
       
-      set sb_sock [sb get $sbn sock]
-
-      #set command "[sb get ns puts] -nonewline [sb get ns sock] \"$cmd\""
-      if {[catch {puts -nonewline $sb_sock "$cmd"} res]} {
-         status_log "::MSN::WriteSB: problem when writing to the socket: $res...\n" WHITE
-         ::MSN::CloseSB $sbn
-         degt_protocol "->$sbn FAILED: $cmd" error
-      } else {
-
-         if {$sbn != "ns" } {
-            degt_protocol "->$sbn-$sb_sock $cmd" sbsend
-         } else {
-            degt_protocol "->$sbn-$sb_sock $cmd" nssend
-         }
-	 
-      }
 
    }
 
@@ -1946,7 +1952,6 @@ proc cmsn_rng {recv} {
    sb set $sbn lastmsgtime 0
    sb set $sbn serv [split [lindex $recv 2] ":"]
    sb set $sbn connected "cmsn_conn_ans $sbn"
-   sb set $sbn readable "read_sb_sock $sbn"
    sb set $sbn auth_cmd "ANS"
    sb set $sbn auth_param "$config(login) [lindex $recv 4] [lindex $recv 1]"
 
@@ -1985,7 +1990,6 @@ proc cmsn_open_sb {sbn recv} {
 
    sb set $sbn serv [split [lindex $recv 3] ":"]
    sb set $sbn connected "cmsn_conn_sb $sbn"
-   sb set $sbn readable "read_sb_sock $sbn"
    sb set $sbn auth_cmd "USR"
    sb set $sbn auth_param "$config(login) [lindex $recv 5]"
 
@@ -2810,11 +2814,21 @@ proc cmsn_socket {name} {
 
    global config
 
+   #This is the default read handler, if not changed by proxy
+   sb set $name readable "read_sb_sock $name"
+   
+   #read_proc not yet used, maybe in the future (by Alvaro)
+   #sb set $name read_proc "::MSN::DirectRead $name"
+   sb set $name write_proc "::MSN::DirectWrite $name"
+   
    if {$config(connectiontype) == "direct" } {
+   
       set tmp_serv [lindex [sb get $name serv] 0]
       set tmp_port [lindex [sb get $name serv] 1]
-      set readable_handler [sb get $name readable]
-      set next [sb get $name connected]   
+      set readable_handler "read_sb_sock $name"
+      set read_procedure "::MSN::ReadSB"
+      set next [sb get $name connected]  
+       
    } elseif {$config(connectiontype) == "http"} { 
       
       status_log "Setting up http connection\n"
@@ -2856,6 +2870,7 @@ proc cmsn_socket {name} {
       ::MSN::CloseSB $name
       return
    }
+   
    sb set $name sock $sock
    fconfigure $sock -buffering none -translation {binary binary} -blocking 0
    fileevent $sock readable $readable_handler
@@ -2916,7 +2931,6 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 
    sb set ns data [list]
    sb set ns connected "cmsn_ns_connected"
-   sb set ns readable "read_sb_sock ns"
 
    #TODO: Call "on connect" handlers, where hotmail will be registered.
    set ::hotmail::unread 0

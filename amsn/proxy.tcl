@@ -181,7 +181,10 @@ proc ConnectedPOST { name } {
 
    ReadPOST $name
    set proxy_queued_data($name) ""   
-   catch { fileevent [sb get $name sock] readable "::Proxy::ReadPOST $name" } res
+   sb set $name write_proc "::Proxy::WritePOST $name"
+   #sb set $name read_proc "::Proxy::ReadPOST $name"
+   #catch { fileevent [sb get $name sock] readable [sb get $name readable] } res      
+   catch { fileevent [sb get $name sock] readable "::Proxy::ReadPOST $name" } res   
    status_log "Evaluating: [sb get $name connected]\n" white
    eval [sb get $name connected]    
   
@@ -207,10 +210,9 @@ proc PollPOST { name } {
    } else {
    
       if { $proxy_session_id($name) != ""} {
-      
-         set proxy_session_id($name) ""   
-      
+            
          set tmp_data "POST http://$proxy_gateway_ip($name)/gateway/gateway.dll?Action=poll&SessionID=$proxy_session_id($name) HTTP/1.1"      
+         set proxy_session_id($name) ""	 
          set tmp_data "$tmp_data\r\nAccept: */*"
          set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
          set tmp_data "$tmp_data\r\nUser-Agent: MSMSGS"
@@ -266,12 +268,12 @@ proc WritePOST { name {msg ""} } {
    
    if { $proxy_session_id($name) != "" } {
    
-      set proxy_session_id($name) ""      
  
       set size [string length $proxy_queued_data($name)]
       set strend [expr {$size -1 }]
 
       set tmp_data "POST http://$proxy_gateway_ip($name)/gateway/gateway.dll?SessionID=$proxy_session_id($name) HTTP/1.1"            
+      set proxy_session_id($name) ""           
       set tmp_data "$tmp_data\r\nAccept: */*"
       set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
       set tmp_data "$tmp_data\r\nUser-Agent: MSMSGS"
@@ -429,8 +431,9 @@ proc Read { name } {
 }
 ###################################################################
 # $Log$
-# Revision 1.11  2003/06/05 14:24:41  airadier
-# Modified preferences por connections and proxy settings.
+# Revision 1.12  2003/06/05 15:56:53  airadier
+# Proxy finished, including preferences and minor things.
+# Begin to do password encryption
 #
 # Revision 1.10  2003/06/05 12:21:27  airadier
 # Fixed a thing that could make the proxy write messages not in the right order they were sent
