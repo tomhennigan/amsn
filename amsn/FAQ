@@ -105,6 +105,13 @@ A: AMSN uses the CONNECT flag through the HTTP proxy. You have to make sure
 your proxy allows this type of connection (SSL). Ask your administrator to
 allow SSL connections through the CONNECT request.
 
+Q: Amsn looks connected, but when I try to chat with someone or change my state
+I get disconnected. This happens often, after some minutes of inactiviry.
+Probably I'm behind a router or firewall.
+A: Try enabling "Keepalive (NAT)" in the tools->options menu. It's a fix for
+shared internet connections that keeps sending a dummy packet to the server
+every 2 minutes, to keep the connection alive.
+
 Q: I have another question, can you help me?
 A: Yes, we can. But first, take a look at the sourceforge project page, located
 at http://sourceforge.net/projects/amsn, and check all the bugs, support
