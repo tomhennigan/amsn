@@ -120,6 +120,7 @@ dockgtk Ancrer dans GTK
 docking Ancrage actif
 dockingoff Ancrage inactif
 dockkde Ancrage dans KDE
+editcurrentstate Editer l'etat actuel
 edit Edition
 editnewstate Nouvel état avec message automatique personnalisé
 editprofile Modifier profil
