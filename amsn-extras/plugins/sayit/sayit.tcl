@@ -19,11 +19,13 @@ namespace eval ::sayit {
 		array set ::sayit::config {
 			voice {}
 			linpath {festival}
+			snd_server_lin {0}
 		}
 
 		set ::sayit::configlist [list \
 			[list str "Voice (Mac only)"  voice] \
 			[list str "Path to festival (Linux)"  linpath] \
+			[list bool "Sound server running (Linux)" snd_server_lin] \
 		]
 	}
 
@@ -41,7 +43,11 @@ namespace eval ::sayit {
 			if { $::tcl_platform(platform) == "windows" } {
 				after 0 "WinSayit \"$msg\""
 			} elseif { $::tcl_platform(os)== "Linux" } {
-				exec echo \"$msg\" | $config(linpath) --tts &
+				if {$config(snd_server_lin)==1} {
+					exec echo "(Parameter.set 'Audio_Method 'Audio_Command)(Parameter.set 'Audio_Command \"esdplay \$FILE\")(Parameter.set 'Audio_Required_Format 'snd)(SayText \"$msg\")" | festival
+				} else {
+					exec echo \"$msg\" | $config(linpath) --tts &
+				}
 			} else {
 				if {$config(voice)!=""} {
 					exec say -v $config(voice) $msg
