@@ -2482,8 +2482,8 @@ proc cmsn_draw_offline {} {
    configureMenuEntry .main_menu.actions "[trans sendmsg]..." disabled
 
    configureMenuEntry .main_menu.actions "[trans sendmsg]..." disabled
-   configureMenuEntry .main_menu.actions "[trans verifyblocked]..." disabled
-   configureMenuEntry .main_menu.actions "[trans showblockedlist]..." disabled
+   #configureMenuEntry .main_menu.actions "[trans verifyblocked]..." disabled
+   #configureMenuEntry .main_menu.actions "[trans showblockedlist]..." disabled
 
 
    configureMenuEntry .main_menu.file "[trans savecontacts]..." disabled
