@@ -5900,7 +5900,7 @@ proc pictureBrowser {} {
 	frame .picbrowser.pics
 	text .picbrowser.pics.text -width 5 -font sboldf -background white -yscrollcommand ".picbrowser.pics.ys set" \
 		-cursor left_ptr -font splainf -selectbackground white -selectborderwidth 0 -exportselection 0 \
-		-relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
+		-relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0 -wrap none
 	scrollbar .picbrowser.pics.ys -command ".picbrowser.pics.text yview"
 		
 	pack .picbrowser.pics.text -side left -expand true -fill both -padx 0 -pady 0
@@ -5915,8 +5915,8 @@ proc pictureBrowser {} {
 	label .picbrowser.mypic -image my_pic -background white -borderwidth 2 -relief solid
 	label .picbrowser.mypic_label -text "[trans mypic]" -font splainf
 	
-	button .picbrowser.browse -command "pictureChooseFile; reloadAvailablePics" -text "[trans browse]..." -font sboldf
-	button .picbrowser.delete -command "destroy .picbrowser" -text "[trans delete]" -font sboldf -state disabled
+	button .picbrowser.browse -command "set selected_image \[pictureChooseFile\]; reloadAvailablePics" -text "[trans browse]..." -font sboldf
+	button .picbrowser.delete -command "pictureDeleteFile ;reloadAvailablePics" -text "[trans delete]" -font sboldf 
 	button .picbrowser.purge -command "destroy .picbrowser" -state disabled -text "[trans purge]..." -font sboldf
 	button .picbrowser.ok -command "set_displaypic \${selected_image};destroy .picbrowser" -text "[trans ok]" -font sboldf
 	button .picbrowser.cancel -command "destroy .picbrowser" -text "[trans cancel]" -font sboldf
@@ -5946,6 +5946,7 @@ proc pictureBrowser {} {
 			global image_names
 			foreach img $image_names {
 				image delete $img
+				status_log "Deleting $img\n"			
 			}
 			unset image_names
 			unset selected_image
@@ -5959,19 +5960,20 @@ proc pictureBrowser {} {
 }
 
 proc addPicture {the_image pic_text filename} {
-	frame .picbrowser.pics.text.$the_image -borderwidth 0 -highlightthickness 1 -background white -highlightbackground black
+	frame .picbrowser.pics.text.$the_image -borderwidth 0 -highlightthickness 0 -background white -highlightbackground black
 	label .picbrowser.pics.text.$the_image.pic -image $the_image -relief flat -borderwidth 0 -highlightthickness 2 \
 		-background white -highlightbackground black
 	label .picbrowser.pics.text.$the_image.desc -text "$pic_text" -font splainf -background white
-	pack .picbrowser.pics.text.$the_image.pic -side top
-	pack .picbrowser.pics.text.$the_image.desc -side top				
-	bind .picbrowser.pics.text.$the_image <Enter> ".picbrowser.pics.text.$the_image configure -highlightbackground red"
-	bind .picbrowser.pics.text.$the_image <Leave> ".picbrowser.pics.text.$the_image configure -highlightbackground black"
+	pack .picbrowser.pics.text.$the_image.pic -side left -padx 3 -pady 0
+	pack .picbrowser.pics.text.$the_image.desc -side left -padx 5 -pady 0
+	bind .picbrowser.pics.text.$the_image <Enter> ".picbrowser.pics.text.$the_image.pic configure -highlightbackground red"
+	bind .picbrowser.pics.text.$the_image <Leave> ".picbrowser.pics.text.$the_image.pic configure -highlightbackground black"
 	bind .picbrowser.pics.text.$the_image <Button1-ButtonRelease> "[list .picbrowser.mypic configure -image $the_image];[list set selected_image $filename]"
 	bind .picbrowser.pics.text.$the_image.pic <Button1-ButtonRelease> "[list .picbrowser.mypic configure -image $the_image];[list set selected_image $filename]"
 	status_log "File: $filename\n" blue
 			
 	.picbrowser.pics.text window create end -window .picbrowser.pics.text.$the_image -padx 3 -pady 3
+	.picbrowser.pics.text insert end "\n"
 	
 }
 
@@ -5987,12 +5989,19 @@ proc reloadAvailablePics { } {
 	#Delete all picture	
 	if { [info exists image_names] } {
 		foreach img $image_names {
-			image delete $img
+			if { ![image inuse $img]} {
+				image delete $img
+			} else {
+				lappend images_in_use $img
+			}
 		}
 		unset image_names
 	}
 	
-		
+	
+	.picbrowser.pics.text configure -state normal
+	.picbrowser.pics.text delete 0.0 end
+			
 	if { [catch { set skin "[::config::get skin]" } ] != 0 } {
 		set skin "default"
 	}
@@ -6008,67 +6017,47 @@ proc reloadAvailablePics { } {
 	addPicture no_pic "[trans nopic]" ""
 
 	
-	set image_names [list]		
-
-	set files [lsort -dictionary $files]
-	set myfiles [lsort -dictionary $myfiles]
-		
-	foreach filename $files {
-		set the_image [image create photo -file "[filenoext $filename].gif" ]	
-		addPicture $the_image "[trunc [filenoext [file tail $filename]] .picbrowser.pics.text 90 splainf]" [file tail $filename]
-		lappend image_names $the_image
-	}
-	
-	foreach filename $myfiles {
-		set the_image [image create photo -file "[filenoext $filename].gif" ]	
-		addPicture $the_image "[trunc [filenoext [file tail $filename]] .picbrowser.pics.text 90 splainf]" [file tail $filename]
-		lappend image_names $the_image
+	if { [info exists images_in_use]	} {
+		set image_names $images_in_use
+		unset images_in_use
+	} else {
+		set image_names [list]	
 	}
 
-	foreach filename $cachefiles {
-		set the_image [image create photo -file "[filenoext $filename].gif" ]	
-		addPicture $the_image "" "cache/[file tail $filename]"
-		lappend image_names $the_image
-	}
-	
-		
-	return
 
-	#Reload images		
-	frame .picbrowser.pics.text.nopic -borderwidth 0 -highlightthickness 1 -background white -highlightbackground black
-	label .picbrowser.pics.text.nopic.pic -image no_pic -relief flat -borderwidth 0 -highlightthickness 2 \
-		-background white -highlightbackground black
-	label .picbrowser.pics.text.nopic.desc -text "[trans nopic]" -font splainf -background white
-	pack .picbrowser.pics.text.nopic.pic -side top
-	pack .picbrowser.pics.text.nopic.desc -side top
-	
-	bind .picbrowser.pics.text.nopic <Enter> ".picbrowser.pics.text.nopic configure -highlightbackground red"
-	bind .picbrowser.pics.text.nopic <Leave> ".picbrowser.pics.text.nopic configure -highlightbackground black"
-	bind .picbrowser.pics.text.nopic <Button1-ButtonRelease> ".picbrowser.mypic configure -image no_pic; set selected_image \"\""
-	bind .picbrowser.pics.text.nopic.pic <Button1-ButtonRelease> ".picbrowser.mypic configure -image no_pic; set selected_image \"\""	
-	.picbrowser.pics.text window create end -window .picbrowser.pics.text.nopic -padx 3 -pady 3	
-	
-			
 
-	foreach filename $files {
-		if { [file exists [filenoext $filename].gif] } {
-			set the_image [image create photo -file "[filenoext $filename].gif" ]
-			frame .picbrowser.pics.text.$the_image -borderwidth 0 -highlightthickness 1 -background white -highlightbackground black
-			label .picbrowser.pics.text.$the_image.pic -image $the_image -relief flat -borderwidth 0 -highlightthickness 2 \
-				-background white -highlightbackground black
-			label .picbrowser.pics.text.$the_image.desc -text "[trunc [filenoext [file tail $filename]] .picbrowser.pics.text 90 splainf]" -font splainf -background white
-			pack .picbrowser.pics.text.$the_image.pic -side top
-			pack .picbrowser.pics.text.$the_image.desc -side top				
-			bind .picbrowser.pics.text.$the_image <Enter> ".picbrowser.pics.text.$the_image configure -highlightbackground red"
-			bind .picbrowser.pics.text.$the_image <Leave> ".picbrowser.pics.text.$the_image configure -highlightbackground black"
-			bind .picbrowser.pics.text.$the_image <Button1-ButtonRelease> ".picbrowser.mypic configure -image $the_image; set selected_image [list $filename]"
-			bind .picbrowser.pics.text.$the_image.pic <Button1-ButtonRelease> ".picbrowser.mypic configure -image $the_image; set selected_image [list $filename]"			
-			status_log "File: $filename\n" blue
-			
-			.picbrowser.pics.text window create end -window .picbrowser.pics.text.$the_image -padx 3 -pady 3
+	if { [info exists files] } {			
+		set files [lsort -dictionary $files]
+		foreach filename $files {
+			set the_image [image create photo -file "[filenoext $filename].gif" ]	
+			addPicture $the_image "[trunc [filenoext [file tail $filename]] .picbrowser.pics.text 90 splainf]" [file tail $filename]
 			lappend image_names $the_image
 		}
 	}
+	.picbrowser.pics.text insert end "___________________________\n\n"	
+		
+	if { [info exists myfiles] } {
+		set myfiles [lsort -dictionary $myfiles]
+		foreach filename $myfiles {
+			set the_image [image create photo -file "[filenoext $filename].gif" ]	
+			addPicture $the_image "[trunc [filenoext [file tail $filename]] .picbrowser.pics.text 90 splainf]" [file tail $filename]
+			lappend image_names $the_image
+		}
+	}
+
+	.picbrowser.pics.text insert end "___________________________\n\n"	
+	
+	if { [info exists cachefiles] } {
+		foreach filename $cachefiles {
+			set the_image [image create photo -file "[filenoext $filename].gif" ]	
+			addPicture $the_image "" "cache/[file tail $filename]"
+			lappend image_names $the_image
+		}
+	}
+	
+	.picbrowser.pics.text configure  -state disabled	
+	
+	
 	
 }
 
@@ -6081,11 +6070,37 @@ proc chooseFileDialog {basename {initialfile ""} {types {{"All files"         *}
     
 }
 
+proc pictureDeleteFile {} {
+	global selected_image HOME
+	
+	set parent "."
+	catch {set parent [focus]}
+	
+	if { $selected_image!="" && [file exists [file join $HOME displaypic $selected_image]]} {
+		set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans delete] -parent $parent]
+		if {$answer == "yes"} {
+			set filename [file join $HOME displaypic $selected_image]
+			file delete $filename
+			set selected_image ""
+			.picbrowser.mypic configure -image no_pic
+
+		}
+		
+	} 
+}
+
 proc pictureChooseFile { } {
+	global selected_image image_names
 	set file [chooseFileDialog {{\"Image Files\" {*.gif *.jpg *.jpeg *.bmp *.png} }}]
     
 	 if { $file != "" } {
-	 	convert_display_picture $file
+	 	if { ![catch {convert_display_picture $file}]} {
+			set image_name [image create photo -file [GetSkinFile displaypic "[filenoext [file tail $file]].gif"]]
+			.picbrowser.mypic configure -image $image_name
+			set selected_image [file tail $file]
+			lappend image_names $image_name
+			status_log "Created $image_name\n"
+		}
     }    
 	 
 	 return [file tail $file]
