@@ -375,8 +375,7 @@ name Nombre
 natip Detección de IP por Web
 natkeepalive Si sufres desconexiones continuamente, activa esta opción
 needonline Todavía estás/apareces desconectado
-needwinico2 Need winico05.dll in the utils/windows directory for windows traydocking to work
-needwinico Se necesita el archivo winico03.dll en el directorio plugins para que el icono de la bandeja funcione
+needwinico2 Se requiere el archivo winico05.dll en la carpeta utils/windows para que funcione el icono en la bandeja del sistema
 never Nunca
 new_ft_protocol Usar el nuevo protocolo de transferencias de ficheros (INESTABLE)
 newmail $1 mensajes nuevos en bandeja de entrada
