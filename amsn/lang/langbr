@@ -67,6 +67,7 @@ cancel Cancelar
 cannotdeleteprofile - Impossível apagar as configurações, pois estão em uso por uma outra sessão do aMSN.
 cantexec Não consegue executar a Aplicação: $1. Ver Preferências
 casesensitive Use as dicas do case-sensitive
+cfgalarmall Configurar/Adicionar/Remover Alarme Global
 cfgalarm Configurar/desativar avisos
 changedisplaypic Mudar figura da tela
 changefont Mudar a fonte
@@ -97,6 +98,7 @@ closed Conversa com $1 fechada por inatividade
 close Fechar
 closingdocks Botão fechar envia para a barra de tarefas
 command Comando
+commandstatus Executar comando
 confirmdelete Você tem certeza que quer apagar $1?
 confirm Você tem certeza?
 connected Você está conectado
@@ -140,6 +142,7 @@ editnewstate Novo estado pessoal de Automensagem
 editprofile Editar Perfil
 editstate Editar o estado de Automensagem existente
 emotisounds Reproduzir sons com certos emoticons
+enablebanner Mostrar banner aMSN (É preciso reiniciar o aMSN)
 enableproxy Habilitar proxy
 enableremote Ativar controle remoto
 enablesound Toca sons
@@ -255,6 +258,7 @@ msn AMSN
 mustrestart Você precisa reiniciar o programa para efetuar as mudanças
 myhomephone Meu telefone residencial
 mymobilephone Meu telefone celular
+mypic Minha foto:
 mystatus Meu estado
 myworkphone Meu telefone comercial
 natip Detectar IP real pela web
@@ -301,6 +305,7 @@ pass Senha
 paste Colar
 personal Pessoal
 phone Telefone
+picbrowser Procura foto
 picfile Imagem a ser exibida em avisos (GIF < 500 x 500)
 picstatus Ativar/Desativar imagem nos avisos
 playing Em execução: $1
@@ -347,6 +352,7 @@ proxyconfhttp Suporte a configuração de proxy HTTP
 proxyconnection Eu conecto à internet usando um servidor proxy
 proxy Eu estou atrás de um servidor de proxy (HTTP ou SOCKS5)
 publishphones Exibir meus números de telefone
+purge Remover
 raised Maximizado/Minimizado
 readonlymsgbox Diretório sem permissão de escrita. Por Favor ajuste as permissões neste diretório.
 readonlywarn  AVISO: O arquivo provavelmente não será salvo corretamente pois o diretório "Received files" está protegido contra gravação. Por favor verifique se as permissões do diretório ($1) estão corretas antes de transferir o arquivo.
