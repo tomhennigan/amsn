@@ -1,0 +1,34 @@
+amsn_lang_version 2
+allowcommands Do you want to allow commands in the chat window?
+allowcolours Do you want to allow multiple colours in the chat window?
+allowquicktext Do you want to use quick text feature?
+bold Bold
+ccolor \nYour text color is $1
+cfont \nYour text font is $1
+choosecolor Choose a color
+cinfo \nContact information:\n$1 \nNick: $2 \nGroup: $3
+cleave \nYou have left this conversation
+cnewnick \nYour new nick is: $1
+cnewstate \nYour new state is: $1
+cnewstatenotvalid \n$1 is not valid
+cnick \nYour nick is $1
+cnotvalid \nYour command is not valid
+colournicks Would you like to colour nicks? (not fully feature)
+cresult \nResult of the command:\n$1
+cshell \nExecuting in the shell: $1
+cspecify \nYou must specify a contact
+cstatus \nYour status is $1
+cstyle \nYour font style is $1
+deleted \nYou've removed $1 from the list\nTo add this contact again do: /add $1
+groupadded \nAdded group $1.
+groupdeleted \nYou've deleted group $1 \nTo add this group again do: /addgroup $1
+italic Italic
+keyword Keyword
+multiplecolorsbutton Add a new color
+overstrike Overstrike
+parsenicks Do you want to parse the msn plus color codification in nicks?
+qthelp Here you should configure your quick text, the keywork and the text.\nThen in the chat window, if you do /keywork, you'll see the text
+quicktext Quick texts
+reset Reset styles
+text Text to write
+underline Underline
