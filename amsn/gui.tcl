@@ -2601,7 +2601,7 @@ proc cmsn_draw_login {} {
    .login.c.password insert 0 $password	
 
    button .login.c.ok -text [trans ok] -command login_ok  -font sboldf
-   button .login.c.cancel -text [trans cancel] -command "grab release .login; ConfigChange .login $oldlogin; destroy .login" -font sboldf
+   button .login.c.cancel -text [trans cancel] -command "ButtonCancelLogin .login $oldlogin"
 
    
    grid .login.c.ok -row 5 -column 3 -sticky e -padx 5
@@ -2618,15 +2618,25 @@ proc cmsn_draw_login {} {
    }
 
    bind .login.c.password <Return> "login_ok; break"
-   bind .login <Escape> "grab release .login;ConfigChange .login $oldlogin; destroy .login"
+   bind .login <Escape> "ButtonCancelLogin .login $oldlogin"
    bind .login <Return> "login_ok; break"
-   bind .login <Destroy> "if \{ \[grab status .login\] == \"local\" \} \{ConfigChange .login $oldlogin\}"
+   bind .login <Destroy> "if \{ \[grab status .login\] == \"local\" \} \{ButtonCancelLogin .login $oldlogin \}"
 
    tkwait visibility .login
    grab set .login
 }
 #///////////////////////////////////////////////////////////////////////
 
+#///////////////////////////////////////////////////////////////////////////////
+# ButtonCancelLogin ()
+# Function thats releases grab on .login and destroys it, calling ConfigChange if necessary
+proc ButtonCancelLogin { window {email ""} } {
+	grab release $window
+	if { $email != "" } {
+		ConfigChange $window $login 
+	} 
+	destroy $window -font sboldf
+}
 
 #///////////////////////////////////////////////////////////////////////////////
 # NewProfileAsk ()

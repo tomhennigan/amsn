@@ -150,7 +150,7 @@ proc load_config {} {
 proc LoadLoginList {{trigger 0}} {
 	global HOME HOME2 config
 
-	puts stdout "called loadloginlist\n"
+	#puts stdout "called loadloginlist\n"
 	
 	if { $trigger != 0 } {
 		status_log "getting profiles"
@@ -184,7 +184,6 @@ proc LoadLoginList {{trigger 0}} {
 	while {[gets $file_id tmp_data] != "-1"} {
 		set temp_data [split $tmp_data]
 		set locknum [lindex $tmp_data 1]
-		puts stdout "locknum is : \n"
 		if { $locknum == "" } {
 		   #Profile without lock, give it 0
 		   set locknum 0
@@ -192,7 +191,6 @@ proc LoadLoginList {{trigger 0}} {
 		LoginList add 0 [lindex $tmp_data 0] $locknum
 	}
 	close $file_id
-	LoginList show 0
 	
 	# Modify HOME dir to current profile, chose a non locked profile, if none available go to default
 	if { $trigger == 0 } {
@@ -209,23 +207,13 @@ proc LoadLoginList {{trigger 0}} {
 		# if flag is 1 means we found a profile and we use it, if not defaults
 		if { $flag == 1 } {
 			set temp [LoginList get $idx]
-			puts stdout "$temp\n"
 			set dirname [split $temp "@ ."]
 			set dirname [join $dirname "_"]
-			puts stdout "$dirname\n"
 			set HOME "[file join $HOME2 $dirname]"
 		} else {
 			set config(login) ""
 		}
 
-		LoginList show 0
-		#if { [LoginList get 0] != 0 } {
-		#	set temp [LoginList get 0]
-		#	set dirname [split $temp "@ ."]
-		#	set dirname [join $dirname "_"]
-		#	set HOME "[file join $HOME2 $dirname]"
-		#	set file_id [open "${HOME}/lock" w]
-		#}
 		SaveLoginList
 	}
 }
@@ -330,11 +318,8 @@ proc LoginList { action age {email ""} {lock ""} } {
 		}
 		
 		getlock {
-			LoginList show 0
 			set tmp_list [array get ProfileList]
-			puts stdout $tmp_list
 			set idx [lsearch $tmp_list "$email"]
-			puts stdout "called getlock, looking for $email found it in $idx\n"
 			if { $idx == -1 } {
 				return -1
 			} else {
@@ -368,7 +353,6 @@ proc LoginList { action age {email ""} {lock ""} } {
 		}
 
 		show {
-			puts stdout "List is\n"
 			for {set idx 0} {$idx < [array size ProfileList]} {incr idx} {
 				#status_log "$idx : $ProfileList($idx)\n"
 				puts stdout "$idx : $ProfileList($idx) loclist is : $LockList($idx)\n"
@@ -409,7 +393,6 @@ proc ConfigChange { window email } {
 		set HOME "[file join $HOME2 $dirname]"
 				
 		if { [CheckLock $email] == -1 } { 
-			status_log "lock exists\n"
 			msg_box [trans profileinuse]
 			set HOME $OLDHOME
 			
@@ -418,8 +401,6 @@ proc ConfigChange { window email } {
 			set index [lsearch $cb $config(login)]
 			$window select $index
 		} else {
-			status_log "lock dosent exist\n"
-			
 			# Make sure we delete old lock
 			if { [info exists lockSock] } {
 				if { $lockSock != 0 } {
@@ -511,13 +492,10 @@ proc CreateProfile { email value } {
 		set config(startoffline) $oldoffline
 		LoginList add 0 $email 0
 
-		LoginList show 0
-		
 		# Lock profile
 		LockProfile $email
 		
 	} else {
-		status_log "not creating new profile"
 		# Dosent want to save profile, use/load default config in this case
 		set HOME $HOME2
 		load_config
@@ -564,8 +542,7 @@ proc DeleteProfile { email entrypath } {
 		$entrypath list delete [$entrypath curselection]
 		$entrypath select 0
 		LoginList unset 0 $email
-		LoginList show 0
-
+		
 		# Lets save it into the file
 		SaveLoginList
 	}
@@ -636,7 +613,6 @@ proc GetRandomProfilePort { } {
 proc LockProfile { email } {
 	global lockSock
 	set trigger 0
-	puts stdout "called lock profile\n"
 	while { $trigger == 0 } {
 		set Port [GetRandomProfilePort]
 		if { [catch {socket -server lockSvrNew $Port} newlockSock] == 0  } {
@@ -660,7 +636,6 @@ proc lockSvrNew { sock addr port} {
 }
 
 proc lockSvrHdl { sock } {
-	puts stdout "Called the svr handler\n"
 	set ping [gets $sock]
 	if {[eof $sock]} {
         	catch {close $sock}
