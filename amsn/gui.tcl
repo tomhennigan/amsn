@@ -2362,14 +2362,15 @@ proc cmsn_draw_main {} {
 
    status_log "Proxy is : $config(proxy)\n"
 
-   image create photo amsnicon -file [file join ${images_folder} amsnicon.gif]
-   toplevel .caca
-   label .caca.winicon -image amsnicon
-   pack .caca.winicon
+   #image create photo amsnicon -file [file join ${images_folder} amsnicon.gif]
+   #toplevel .caca
+   #label .caca.winicon -image amsnicon
+   #pack .caca.winicon
+   #wm iconwindow . .caca
+
    #wm iconname . "[trans title]"
    wm iconbitmap . @[file join ${images_folder} amsn.xbm]
    wm iconmask . @[file join ${images_folder} amsnmask.xbm]
-   wm iconwindow . .caca
    . conf -menu .main_menu
    
 
