@@ -515,9 +515,12 @@ ConfigDefaults
 set config(language) en  ;#Load english as default language to fill trans array
 load_lang
 
-LoadLoginList		;# Load of logins/profiles in combobox
-			;# Also sets the newest login as config(login)
-			;# and modifies HOME with the newest user
+;# Load of logins/profiles in combobox
+;# Also sets the newest login as config(login)
+;# and modifies HOME with the newest user
+if { [LoadLoginList]==-1 } {
+   exit
+}
 
 #create_dir $HOME
 set log_dir "[file join ${HOME} logs]"

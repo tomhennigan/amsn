@@ -165,12 +165,12 @@ proc LoadLoginList {{trigger 0}} {
 	
 	set file_id [open "${HOMEE}/profiles" r]
 	gets $file_id tmp_data
-	if {$tmp_data != "amsn_profiles_version 2"} {	;# config version not supported!
-      		msg_box [trans wrongprofileversion]
+	if {$tmp_data != "amsn_profiles_version 1"} {	;# config version not supported!
+      		msg_box [trans wrongprofileversion $HOME]
 		close $file_id
-		return 1
+		return -1
    	}
-	
+
 	# Clear all list, only seems to work this way
 	set idx 0
 	while { [LoginList get $idx] != 0 } {
@@ -181,7 +181,12 @@ proc LoadLoginList {{trigger 0}} {
 	# Now add profiles from file to list
 	while {[gets $file_id tmp_data] != "-1"} {
 		set temp_data [split $tmp_data]
-		LoginList add 0 [lindex $tmp_data 0] [lindex $tmp_data 1]
+		set locknum [lindex $tmp_data 1]
+		if { $locknum == "" } {
+		   #Profile without lock, get a random one
+		   set $locknum GetRandomPortNumber
+		}
+		LoginList add 0 [lindex $tmp_data 0] $locknum
 	}
 	close $file_id
 	LoginList show 0
@@ -232,7 +237,7 @@ proc SaveLoginList {} {
 	} else {
       		set file_id [open "[file join ${HOME2} profiles]" w]
 	}
-	puts $file_id "amsn_profiles_version 2"
+	puts $file_id "amsn_profiles_version 1"
 	
 	set idx [LoginList size 0]
 	while { $idx >= 0 } {
@@ -589,6 +594,19 @@ proc lockcltHdl { sock } {
 }
 
 #///////////////////////////////////////////////////////////////////////////////
+# GetRandomProfilePort ()
+# Returns a random port in range 60535-65335
+proc GetRandomProfilePort { } {
+
+	# Generate random port between 60535 and 65535
+	set Port [expr rand()]
+	set Port [expr $Port * 10000]
+	set Port [expr int($Port)]
+	set Port [expr $Port + 60535]
+
+	return $Port
+}
+#///////////////////////////////////////////////////////////////////////////////
 # LockProfile ( email )
 # Creates a new lock for given profile, tries random ports until one works
 proc LockProfile { email } {
@@ -596,11 +614,7 @@ proc LockProfile { email } {
 	set trigger 0
 	puts stdout "called lock profile\n"
 	while { $trigger == 0 } {
-		# Generate random port between 5000 and 65535
-		set Port [expr rand()]
-		set Port [expr $Port * 60535]
-		set Port [expr int($Port)]
-		set Port [expr $Port + 5000]
+		set Port [GetRandomProfilePort]
 		if { [catch {socket -server lockSvrNew $Port} newlockSock] == 0  } {
 			# Got one
 			LoginList changelock 0 $email $Port
