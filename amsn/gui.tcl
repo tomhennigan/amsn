@@ -3687,7 +3687,7 @@ namespace eval ::amsn {
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_main {} {
 	global emotion_files date weburl lang_list \
-	password config HOME files_dir pgBuddy pgNews bgcolor bgcolor2 argv0 argv langlong tcl_platform
+	password HOME files_dir pgBuddy pgNews bgcolor bgcolor2 argv0 argv langlong tcl_platform
 
 	#User status menu
 	menu .my_menu -tearoff 0 -type normal
@@ -4122,8 +4122,10 @@ proc cmsn_draw_main {} {
 		catch {wm iconmask . @[GetSkinFile pixmaps amsnmask.xbm]}
 	}
 
-		#Set the position on the screen and the size for the contact list, from config
+		#Unhide main window now that it has finished being created
 		update
+		wm state . normal
+		#Set the position on the screen and the size for the contact list, from config
 		catch {wm geometry . [::config::getKey wingeometry]}
 		moveinscreen . 30
 	
