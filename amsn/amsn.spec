@@ -44,6 +44,7 @@ ln -sf %{prefix}/share/amsn/amsn ${RPM_BUILD_ROOT}%{prefix}/bin/amsn
 
 # Post Install
 %post
+if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 
 # Before Uninstall (Triggers get executed at this stage too)
 %preun
@@ -51,10 +52,12 @@ ln -sf %{prefix}/share/amsn/amsn ${RPM_BUILD_ROOT}%{prefix}/bin/amsn
 # Tasks after Uninstall
 %postun
 rm -f %{prefix}/bin/amsn
+if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 
 %files
 %doc README TODO changelog GNUGPL
 /usr/bin/amsn
+/usr/share/amsn/amsn
 /usr/share/amsn/uninstall.sh
 /usr/share/amsn/abook.tcl
 /usr/share/amsn/checkver.tcl
@@ -62,6 +65,8 @@ rm -f %{prefix}/bin/amsn
 /usr/share/amsn/ctadverts.tcl
 /usr/share/amsn/ctdegt.tcl
 /usr/share/amsn/emoticons.htm
+/usr/share/amsn/groups.tcl
+/usr/share/amsn/gui.tcl
 /usr/share/amsn/hotmail.tcl
 /usr/share/amsn/hotmlog.htm
 /usr/share/amsn/langlist
@@ -137,6 +142,7 @@ rm -f %{prefix}/bin/amsn
 /usr/share/amsn/i/sun.gif
 /usr/share/amsn/i/thumbd.gif
 /usr/share/amsn/i/thumbu.gif
+/usr/share/amsn/i/typing.gif
 /usr/share/amsn/i/unlove.gif
 /usr/share/amsn/i/unread.gif
 /usr/share/amsn/i/vampire.gif
@@ -153,6 +159,7 @@ rm -f %{prefix}/bin/amsn
 /usr/share/amsn/lang/langga
 /usr/share/amsn/lang/langit
 /usr/share/amsn/lang/langnl
+/usr/share/amsn/lang/langno
 /usr/share/amsn/lang/langpt
 /usr/share/amsn/lang/langsw
 /usr/share/amsn/lang/langtr
@@ -160,6 +167,9 @@ rm -f %{prefix}/bin/amsn
 /etc/X11/applnk/Internet/amsn.desktop
 
 %changelog
+* Thu Jun 27 2002  D.E. Grimaldo <lordofscripts AT users.sourceforge.net>
+- Added update-menus to post/postun scripts (Manuel Amador)
+- Updated file section
 * Thu Jun 06 2002 D.E. Grimaldo <lordofscripts AT users.sourceforge.net>
 - Created RPM spec file
 
