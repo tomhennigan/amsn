@@ -499,6 +499,24 @@ proc cmsn_draw_main {} {
    image create photo fticon -file [file join ${images_folder} fticon.gif]
    image create photo ftreject -file [file join ${images_folder} ftreject.gif]
 
+image create photo notifico -file [file join ${images_folder} notifico.gif]
+
+   image create photo blocked -file [file join ${images_folder} blocked.gif]
+
+   image create photo colorbar -file [file join ${images_folder} colorbar.gif]
+   image create photo mainbar -width 1280 -height 4
+   image create photo notifybar -width 140 -height 4
+   notifybar copy colorbar -from 0 0 5 4 
+   notifybar copy colorbar -from 5 0 15 4 -to 5 0 64 4
+   notifybar copy colorbar -from 160 0 235 4 -to 64 0 139 4      
+
+   image create photo mailbox -file [file join ${images_folder} unread.gif]
+
+   image create photo contract -file [file join ${images_folder} contract.gif]
+   image create photo expand -file [file join ${images_folder} expand.gif]
+
+   image create photo bell -file [file join ${images_folder} bell.gif]
+   image create photo belloff -file [file join ${images_folder} belloff.gif]
 
 
    text $pgBuddy.text -background white -width 30 -height 30 -wrap none \
@@ -793,7 +811,6 @@ proc cmsn_draw_signin {} {
    $pgBuddy.text insert end "[trans loggingin]..." signin
    $pgBuddy.text insert end "\n"
    $pgBuddy.text configure -state disabled
-
 }
 
 proc cmsn_draw_login {} {
@@ -1068,7 +1085,7 @@ proc cmsn_draw_online {} {
 }
 
 proc ShowUser {user_name user_login state state_code colour section} {
-    global list_bl list_rl pgBuddy
+    global list_bl list_rl pgBuddy alarms
 
          if {($state_code != "NLN") && ($state_code !="FLN")} {
             set state_desc " ([trans [lindex $state 1]])"
@@ -1095,14 +1112,34 @@ proc ShowUser {user_name user_login state state_code colour section} {
 
          $pgBuddy.text mark set new_text_start end
          $pgBuddy.text insert $section.last " $user_name$state_desc \n" $user_login
-	
+
 	 set imgname "img[expr {$::groups::uMemberCnt(online)+$::groups::uMemberCnt(offline)}]"
          label $pgBuddy.text.$imgname -image $image_type
          $pgBuddy.text.$imgname configure -cursor hand2 -borderwidth 0 
          $pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname -padx 3 -pady 1
 
+#	Draw alarm icon if alarm is set
+	if { [info exists alarms(${user_login})] } {
+	    set imagee [string range [string tolower $user_login] 0 end-8] ;#trying to make it non repetitive without the . in it
+	    
+	    if { $alarms(${user_login}) == 1 } {
+  	 	label $pgBuddy.text.$imagee -image bell
+ 	    } else {
+		label $pgBuddy.text.$imagee -image belloff
+            }
+	    
+	    $pgBuddy.text.$imagee configure -cursor hand2 -borderwidth 0 
+            $pgBuddy.text window create $section.last -window $pgBuddy.text.$imagee  -padx 1 -pady 1
+	    bind $pgBuddy.text.$imagee <Button1-ButtonRelease> "switch_alarm $user_login $pgBuddy.text.$imagee"
+	    bind $pgBuddy.text.$imagee <Button3-ButtonRelease> "alarm_cfg $user_login"
+	
+	} else {
+	    $pgBuddy.text insert $section.last "      "
+	}
+		
+
+
 #         $pgBuddy.text image create $section.last -image $image_type -pady 1 -padx 3
-         $pgBuddy.text insert $section.last "      "
 
          $pgBuddy.text tag bind $user_login <Enter> \
              "$pgBuddy.text tag conf $user_login -under true;$pgBuddy.text conf -cursor hand2"
@@ -1263,17 +1300,9 @@ proc show_umenu {user_login x y} {
    .user_menu add command -label "[trans properties]" \
       -command "::abookGui::showEntry $user_login"
 
-########## Added by Burger
+# Display Alarm Config settings
    .user_menu add separator
    .user_menu add command -label "[trans cfgalarm]" -command "alarm_cfg ${user_login}"
-   if { [info exists alarms(${user_login})] } {
-      if { $alarms(${user_login}) } {
-          .user_menu add command -label "[trans offalarm]" -command "set alarms(${user_login}) 0"
-      } else {
-          .user_menu add command -label "[trans onalarm]" -command "set alarms(${user_login}) 1"
-      }
-   }
-######### End Added
 
    tk_popup .user_menu $x $y
 }

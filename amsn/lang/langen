@@ -22,6 +22,7 @@ baduserpass Wrong user name or password
 blankdirect Leave blank for direct connection
 block Block
 blocked Blocked
+browse Browse
 browser Browser
 broughtby  Brought to you by the following developers
 busy Busy
@@ -115,9 +116,7 @@ nonewver There are no new versions available to download
 notify notify
 nousersinsession No users in session
 ok Ok
-offalarm Turn Off Alarm
 offline Offline
-onalarm Turn On Alarm
 onenewmail 1 new message in In-Box
 online Online
 onphone On phone
@@ -128,7 +127,7 @@ other Other
 pager Pager
 pass Password
 phone Phone
-picfile Alarm Picture File (GIF < 300 x 400)
+picfile Alarm Picture File (GIF < 500 x 500)
 picstatus Turn ON/OFF Picture Alarm
 port Port
 prefapps Applications

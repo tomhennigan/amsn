@@ -89,15 +89,17 @@ proc alarm_cfg { user } {
 
    frame .alarm_cfg.sound
    LabelEntry .alarm_cfg.sound.entry "[trans soundfile]" my_alarms(${user}_sound) 30
+   button .alarm_cfg.sound.browse -text [trans browse] -command {fileDialog2 .alarm_cfg .alarm_cfg.sound.entry.ent open "" }
    checkbutton .alarm_cfg.sound.button -text "[trans soundstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_sound_st)
    checkbutton .alarm_cfg.sound.button2 -text "[trans soundloop]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_loop)
-   pack .alarm_cfg.sound.entry .alarm_cfg.sound.button .alarm_cfg.sound.button2 -side left 
+   pack .alarm_cfg.sound.entry .alarm_cfg.sound.browse .alarm_cfg.sound.button .alarm_cfg.sound.button2 -side left 
    pack .alarm_cfg.sound -side top -padx 4 -pady 4
 
    frame .alarm_cfg.pic
    LabelEntry .alarm_cfg.pic.entry "[trans picfile]" my_alarms(${user}_pic) 30
+   button .alarm_cfg.pic.browse -text [trans browse] -command {fileDialog2 .alarm_cfg .alarm_cfg.pic.entry.ent open "" }
    checkbutton .alarm_cfg.pic.button -text "[trans picstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_pic_st)
-   pack .alarm_cfg.pic.entry .alarm_cfg.pic.button -side left
+   pack .alarm_cfg.pic.entry .alarm_cfg.pic.browse .alarm_cfg.pic.button -side left
    pack .alarm_cfg.pic -side top -padx 4 -pady 4
 
    checkbutton .alarm_cfg.alarm -text "[trans alarmstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user})
@@ -118,6 +120,7 @@ proc delete_alarm { user} {
 	unset alarms(${user}) alarms(${user}_sound) alarms(${user}_sound_st) alarms(${user}_pic) alarms(${user}_pic_st) alarms(${user}_loop)
    }
    unset my_alarms(${user}) my_alarms(${user}_sound) my_alarms(${user}_sound_st) my_alarms(${user}_pic) my_alarms(${user}_pic_st) my_alarms(${user}_loop)
+   cmsn_draw_online 
 }
 
 #Saves alarm settings for current user on OK press.
@@ -159,6 +162,8 @@ proc save_alarm_pref { user } {
 	set alarms(${user}_pic) $my_alarms(${user}_pic)
    }
 
+   cmsn_draw_online
+
    unset my_alarms
 }
 
@@ -172,7 +177,7 @@ proc run_alarm {user name} {
    pack .mainer.txt
    if { ($alarms(${user}_pic_st) == 1) } {
 	image create photo joanna -file $alarms(${user}_pic)
-	if { ([image width joanna] < 300) && ([image height joanna] < 400) } {
+	if { ([image width joanna] < 500) && ([image height joanna] < 500) } {
 	label .mainer.jojo -image joanna
 	pack .mainer.jojo
 	}
@@ -192,4 +197,26 @@ proc run_alarm {user name} {
         button .mainer.stopmusic -text [trans stopalarm] -command "destroy .mainer"
         pack .mainer.stopmusic -padx 2
       }
- }
+}
+
+# Switches alarm setting from ON/OFF
+proc switch_alarm { user icon} {
+   global alarms
+   if { $alarms($user) == 1 } {
+        set alarms($user) 0
+   } else {
+        set alarms($user) 1
+   }
+   redraw_alarm_icon $user $icon
+}
+
+# Redraws the alarm icon for current user ONLY without redrawing full list of contacts
+proc redraw_alarm_icon { user icon} {
+   global pgBuddy alarms
+
+   if { $alarms($user) == 1 } {
+       $icon configure  -image bell
+   } else {
+       $icon configure  -image belloff
+   }
+}
