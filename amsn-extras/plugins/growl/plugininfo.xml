@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <plugin>
-	<name>Growl</name>
+	<name>growl</name>
 	<author>Jerome Gagnon-Voyer</author>
 	<description>Support Growl notification on Mac OS X http://growl.info/</description>
 	<amsn_version>0.94</amsn_version>
