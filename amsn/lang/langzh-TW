@@ -114,6 +114,7 @@ clearlog2 清除所有連絡人的歷史紀錄
 clearlog3 清除所有記錄
 clearlog 清除紀錄
 clicktologin 請按這裡登入
+clientcaps 傳送x-clientcaps封包給其他客服端
 clientname 客服端名稱
 close 關閉
 closed 因為發呆所以與 $1 的對話已經被關閉
@@ -122,6 +123,9 @@ commandstatus 執行命令
 command 指令
 confirm 你確定要？
 confirmdelete 您確定要刪除 $1?
+confirmdg 您確定要刪除這個群組嗎?
+confirmdu 您確定要刪除這個使用者嗎?
+confirmeg 您確定要清空這個群組嗎?
 confirmpurge 所有連絡人的圖片將會被刪除？ 你確定嗎？
 connected 您現在已經連接成功
 connectedwith 與$1已經連線
@@ -198,6 +202,7 @@ editvalue 設定值
 email 電子郵件信箱
 emailsinlist 在連絡人清單中顯示email而不顯示暱稱
 emotisounds 於特定表情符號播放音效
+emptygroup 空白群組
 enablebanner 顯示 aMSN's 廣告列 (需要重新啟動 aMSN) 
 enabled 開啟
 enableproxy 啟動 proxy
