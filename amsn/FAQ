@@ -94,6 +94,16 @@ Please note that this could be a work around in case
 you can't type your language directly in to AMSN, for 
 example Traditional Chinese using xcin. 
 
+Q: Can I use AMSN behind a proxy server?
+A: As of the developpement version right after 0.61, HTTP proxy support is 
+available. This means that you can only connect behind an HTTP proxy (such as
+squid for example). If your proxy server is socks5 then you will not be able
+to connect yet, but socks5 support is on the way.
+
+Q: I am behind an HTTP proxy but I still can't connect!
+A: AMSN uses the CONNECT flag through the HTTP proxy. You have to make sure 
+your proxy allows this type of connection (SSL). Ask your administrator to
+allow SSL connections through the CONNECT request.
 
 Q: I have another question, can you help me?
 A: Yes, we can. But first, take a look at the sourceforge project page, located

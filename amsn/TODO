@@ -10,8 +10,8 @@ Burger * burger@mwvision.com
 
 Bug Fixes(priority 1):
 
-Check Makefile and amsn.spec now that HELP and FAQ files are added. Make sure everything is installed correctly and FAQ and HELP are in the amsn directory.
-# ** FIXED ONE WAY ONLY ** Try and find a quickfix until protocol rewrite for -> Just one chat per user, not open many windows for the same user
+# Check Makefile and amsn.spec now that HELP and FAQ files are added. Make sure everything is installed correctly and FAQ and HELP are in the amsn directory.
+# ** FIXED ** Try and find a quickfix until protocol rewrite for -> Just one chat per user, not open many windows for the same user
 # ** FIXED ** If login from other location, have to restart amsn before being able to reconnect
 # ** SKIPPED ** Sometimes can't rejoin a conversation after other person leaves conversation (closes chat window)
 # ** FIXED ** Add FAQ to Help Menu
@@ -19,7 +19,7 @@ Check Makefile and amsn.spec now that HELP and FAQ files are added. Make sure ev
 
 Existing Feature Improvements (priority 2):
 
-# Send file behind NAT (get correct IP with http, add option to force http for wierd local ips)
+# ** FIXED ** Send file behind NAT (get correct IP with http, add option to force http for wierd local ips)
 # File Transfer AUTH protocol fix (and add the nick of person sending file to transfer window)
 # Improve file transfers: non blocking negotiation
 # Display link to received file and click to open
@@ -48,7 +48,7 @@ Extra Features (priority 3):
 # New unified preferences dialog with tabs
 # Encrypt password? (do we really need to?)
 # Resume File Transfers
-# Proxy Support (dunno how big or hard this can be, but needs to be checked out)
+# ** FIXED HTTP PROXY ** Proxy Support (http and socks5)
 
 
 Graphical Interface (priority 4):
@@ -62,7 +62,7 @@ Graphical Interface (priority 4):
 
 Alarm system improvements and bugs (priority 5):
 
-# Multiple alarm windows can't open at once (need unique window names .mainer)
+# ** FIXED ** Multiple alarm windows can't open at once (need unique window names .mainer)
 # URL Decode names when displaying alarm
 # Config seems to automagically disapear sometimes
 # On Connect/ On Msg / On status / On disconnect change alarms

@@ -220,6 +220,7 @@ namespace eval ::MSN {
    }
 
    proc getMyIP {} {
+      global config
       set sock [sb get ns sock]
 
       status_log "Called getmyip"
@@ -230,7 +231,8 @@ namespace eval ::MSN {
       
       if { [string compare -length 3 $ip "10."] == 0 \
       || [string compare -length 4 $ip "127."] == 0 \
-      || [string compare -length 8 $ip "192.168."] == 0 } {
+      || [string compare -length 8 $ip "192.168."] == 0 \
+      || $config(natip) == 1 } {
       	status_log "called get http ip"
 	set token [::http::geturl "http://www2.simflex.com/ip.shtml" -timeout 10000]
 	

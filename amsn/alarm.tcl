@@ -7,8 +7,9 @@
 # Function that loads all alarm settings (usernames, paths and status) from a
 # config file called alarms
 proc load_alarms {} {
-   global alarms HOME config
-
+   global alarms HOME config alarm_win_number
+ 
+   set alarm_win_number 0
 
    if {([file readable "[file join ${HOME} alarms_${config(login)}]"] == 0) ||
        ([file isfile "[file join ${HOME}/alarms_${config(login)}]"] == 0)} {
@@ -169,34 +170,38 @@ proc save_alarm_pref { user } {
 
 #Runs the alarm (sound and pic)
 proc run_alarm {user name} {
-   global alarms program_dir config
+   global alarms program_dir config alarm_win_number
+
+   incr alarm_win_number
+   set wind_name alarm_${alarm_win_number}
    
-   toplevel .mainer
-   wm title .mainer "[trans alarm] $user"
-   label .mainer.txt -text "${name} [trans logsin]"
-   pack .mainer.txt
+   toplevel .${wind_name}
+   wm title .${wind_name} "[trans alarm] $user"
+   label .${wind_name}.txt -text "${name} [trans logsin]"
+   pack .${wind_name}.txt
    if { ($alarms(${user}_pic_st) == 1) } {
 	image create photo joanna -file $alarms(${user}_pic)
 	if { ([image width joanna] < 500) && ([image height joanna] < 500) } {
-	label .mainer.jojo -image joanna
-	pack .mainer.jojo
+	label .${wind_name}.jojo -image joanna
+	pack .${wind_name}.jojo
 	}
    }
 
+	status_log "${wind_name}"
    if { $alarms(${user}_sound_st) == 1 } {
 	if { $alarms(${user}_loop) == 1 } {
-   	    button .mainer.stopmusic -text [trans stopalarm] -command { catch { eval exec killall jwakeup} res ; catch { eval exec killall $config(soundcommand) } res  ; destroy .mainer }
-            pack .mainer.stopmusic -padx 2
+	    button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; catch { eval exec killall jwakeup } ; catch { eval exec killall $config(soundcommand) }"
+            pack .${wind_name}.stopmusic -padx 2
 	    catch { eval exec ${program_dir}/jwakeup $config(soundcommand) $alarms(${user}_sound) & } res
         } else {
 	    catch { eval exec $config(soundcommand) $alarms(${user}_sound) & } res 
-	    button .mainer.stopmusic -text [trans stopalarm] -command "catch { eval exec killall $config(soundcommand) } res ; destroy .mainer"
-            pack .mainer.stopmusic -padx 2
+	    button .${wind_name}.stopmusic -text [trans stopalarm] -command "catch { eval exec killall $config(soundcommand) } res ; destroy .${wind_name}"
+            pack .${wind_name}.stopmusic -padx 2
   	}
-      } else {
-        button .mainer.stopmusic -text [trans stopalarm] -command "destroy .mainer"
-        pack .mainer.stopmusic -padx 2
-      }
+   } else {
+      button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}"
+      pack .${wind_name}.stopmusic -padx 2
+   }
 }
 
 # Switches alarm setting from ON/OFF
