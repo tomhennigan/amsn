@@ -5698,6 +5698,12 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		set image_type "blocked"
 		if {$state_desc == ""} {set state_desc " ([trans blocked])"}
 	}
+	
+	set epvar(pgBuddy) pgBuddy
+	set epvar(colour) colour
+	set epvar(user_unique_name) user_unique_name
+	::plugins::PostEvent UserNameWritten epvar
+	
 	$pgBuddy.text tag conf $user_unique_name -fore $colour
 
 
