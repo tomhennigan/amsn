@@ -137,6 +137,22 @@ namespace eval ::groups {
        # The Unique Group ID (MSN) is sent with the RemoveGroup message.
        # The first group's ID is zero (0) (MSN)
        set glist [::groups::GetList]
+       
+       #Let's sort the groups by name
+       set thelistnames [list]
+       
+       foreach gid $glist {
+	  set thename [::groups::GetName $gid]
+	  lappend thelistnames [list "$thename" $gid]
+       }
+
+       set sortlist [lsort -dictionary -index 0 $thelistnames ]
+       set glist [list]
+
+       foreach gdata $sortlist {
+          lappend glist [lindex $gdata 1]
+       }              
+       
        set gcnt [llength $glist]
 
        for {set i 0} {$i < $gcnt} {incr i} {
