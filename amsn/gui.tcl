@@ -2859,9 +2859,13 @@ proc login_ok {} {
 
    #set config(login) [string tolower [.login.c.signin get]]
    
-   set password [.login.c.password get]
-      
+   set newpassword [.login.c.password get]
+   
    ConfigChange ".login.c.signin" [.login.c.signin get]
+
+   if { $proftrig != 3 } {
+   	set password $newpassword
+   }
    
    grab release .login
    destroy .login
