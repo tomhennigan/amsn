@@ -69,6 +69,7 @@ cannotdeleteprofile そのプロフィールはAMSNで利用中のようなので消去できません
 cantexec 以下のアプリケーションが実行できません: $1. 設定を確認してください
 casesensitive ケースごとに異なるトリガを使用する
 cfgalarm アラーム 設定/追加/削除
+cfgalarmall 全体のアラームの 設定/追加/削除
 changedisplaypic 表示画像の変更
 changefont フォント変更
 changenick 名前変更
@@ -98,6 +99,7 @@ close 閉じる
 closed アクティブでなくなったので $1 との会話を終了しました
 closingdocks 閉じるボタンを押したときも最小化する
 command コマンド
+commandstatus コマンドを実行
 confirm 本当によろしいですか？
 confirmdelete 本当に $1 を削除してよろしいですか？
 connected 既に接続済みです。
