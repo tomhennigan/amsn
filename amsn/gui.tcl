@@ -1545,6 +1545,7 @@ namespace eval ::amsn {
 		variable winid 0
 		#///////////////////////////////////////////////////////////////////////////////
 		variable clipboard ""
+		variable chat_windows [list]
 	}
 
 
@@ -1645,14 +1646,14 @@ namespace eval ::amsn {
 			}
 
 		menu .${win_name}.menutextsize -tearoff 0 -type normal
-		.${win_name}.menutextsize add command -label "+8" -command "change_myfontsize 8 ${win_name}"
-		.${win_name}.menutextsize add command -label "+6" -command "change_myfontsize 6 ${win_name}"
-		.${win_name}.menutextsize add command -label "+4" -command "change_myfontsize 4 ${win_name}"
-		.${win_name}.menutextsize add command -label "+2" -command "change_myfontsize 2 ${win_name}"
-		.${win_name}.menutextsize add command -label "+1" -command "change_myfontsize 1 ${win_name}"
-		.${win_name}.menutextsize add command -label "+0" -command "change_myfontsize 0 ${win_name}"
-		.${win_name}.menutextsize add command -label "-1" -command "change_myfontsize -1 ${win_name}"
-		.${win_name}.menutextsize add command -label "-2" -command "change_myfontsize -2 ${win_name}"
+		.${win_name}.menutextsize add command -label "+8" -command "change_myfontsize 8"
+		.${win_name}.menutextsize add command -label "+6" -command "change_myfontsize 6"
+		.${win_name}.menutextsize add command -label "+4" -command "change_myfontsize 4"
+		.${win_name}.menutextsize add command -label "+2" -command "change_myfontsize 2"
+		.${win_name}.menutextsize add command -label "+1" -command "change_myfontsize 1"
+		.${win_name}.menutextsize add command -label "+0" -command "change_myfontsize 0"
+		.${win_name}.menutextsize add command -label "-1" -command "change_myfontsize -1"
+		.${win_name}.menutextsize add command -label "-2" -command "change_myfontsize -2"
 
 		menu .${win_name}.menu.view -tearoff 0 -type normal
 		.${win_name}.menu.view add cascade -label "[trans textsize]" \
@@ -1906,7 +1907,7 @@ namespace eval ::amsn {
 
 		focus $bottom.in.input
 
-		change_myfontsize $config(textsize) ${win_name}
+		change_myfontsize $config(textsize) .${win_name}
 
 
 
@@ -1968,6 +1969,9 @@ namespace eval ::amsn {
 		wm protocol .${win_name} WM_DELETE_WINDOW "::amsn::closeWindow .${win_name}"
 
 		wm state .${win_name} withdraw
+		
+		variable chat_windows 
+		lappend chat_windows ".${win_name}"
 
 		return ".${win_name}"
 	}
@@ -2538,7 +2542,11 @@ namespace eval ::amsn {
 			status_log "Recent message exists\n" white
 			set recent_message($win_name) 0
 		} else {
-			status_log "Closing\n" white
+			variable chat_windows
+			set idx [lsearch $chat_windows $win_name]
+			if { $idx != -1 } {
+				set chat_windows [lreplace $chat_windows $idx $idx]
+			}
 			destroy $win_name
 		}
 		
@@ -3747,12 +3755,12 @@ proc change_myfont {win_name} {
 	
 	::config::setKey mychatfont [list $sel_fontfamily $sel_fontstyle $selcolor]
 	
-	change_myfontsize [::config::getKey textsize] $win_name
+	change_myfontsize [::config::getKey textsize]
 	
 }
 #///////////////////////////////////////////////////////////////////////
 
-proc change_myfontsize { size name } {
+proc change_myfontsize { size {windows ""}} {
 	
 	set basesize [lindex [::config::getGlobalKey basefont] 1]	
 	
@@ -3762,16 +3770,23 @@ proc change_myfontsize { size name } {
 	set fontstyle [lindex [::config::getKey mychatfont] 1]	
 	set fontcolor [lindex [::config::getKey mychatfont] 2]
 	if { $fontcolor == "" } { set fontcolor "000000" }
+	
+	if { $windows == "" } {
+		set windows $::amsn::chat_windows
+	}
+	
+	foreach w  $windows {
 
-	.${name}.f.out.text tag configure yours -font [list $fontfamily $fontsize $fontstyle]
-	.${name}.f.bottom.in.input configure -font [list $fontfamily $fontsize $fontstyle]
-	.${name}.f.bottom.in.input configure -foreground "#$fontcolor"
-
-	#Get old user font and replace its size
-	catch {
-		set font [lreplace [.${name}.f.out.text tag cget user -font] 1 1 $fontsize]
-		.${name}.f.out.text tag configure user -font $font
-	} res	
+		$w.f.out.text tag configure yours -font [list $fontfamily $fontsize $fontstyle]
+		$w.f.bottom.in.input configure -font [list $fontfamily $fontsize $fontstyle]
+		$w.f.bottom.in.input configure -foreground "#$fontcolor"
+	
+		#Get old user font and replace its size
+		catch {
+			set font [lreplace [$w.f.out.text tag cget user -font] 1 1 $fontsize]
+			$w.f.out.text tag configure user -font $font
+		} res
+	}
 	
 	::config::setKey textsize $size
 	
