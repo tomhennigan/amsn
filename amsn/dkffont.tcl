@@ -475,7 +475,11 @@ namespace eval ::dkfFontSel {
 	wm geometry $w +$x+$y	
 	update idletasks
 	wm deiconify $w
-	tkwait visibility $w
+	
+	
+	if { [catch {tkwait visibility $w}]} {
+		return ""
+	}
 	vwait [namespace current]::Done
 	if {$Done} {
 	    destroy $w
