@@ -1,6 +1,6 @@
 #!/bin/bash
 # \
-exec wish $0
+export LD_ASSUME_KERNEL=2.2.5 && exec wish $0
 
 ###
 ###
