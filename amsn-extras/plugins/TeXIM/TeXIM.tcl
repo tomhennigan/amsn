@@ -46,6 +46,12 @@ namespace eval ::TeXIM {
 
 		upvar 2 txt txt
 		upvar 2 win_name win_name
+		
+		if {[string equal $::version "0.94"]} {
+			set outtext ${win_name}.f.out.text
+		} else {
+			set outtext [::ChatWindow::GetOutText $win_name]
+		}
 
 		if { [string first "\\tex " $txt] == 0 } { 
 			
@@ -84,14 +90,14 @@ namespace eval ::TeXIM {
 
 						set imagename [image create photo -file ${::TeXIM::dir}/temp.gif -format gif]
 						
-						[::ChatWindow::GetOutText ${win_name}] configure -state normal -font bplainf -foreground black
-						[::ChatWindow::GetOutText ${win_name}] image create end -name ${localtime} -image $imagename -padx 0 -pady 0 
+						$outtext configure -state normal -font bplainf -foreground black
+						$outtext image create end -name ${localtime} -image $imagename -padx 0 -pady 0 
 						
 						if { $::TeXIM::config(showtex) == 0 } { 
 							set txt "" 
 						} else {
-							[::ChatWindow::GetOutText ${win_name}] configure -state normal -font bplainf -foreground black
-							[::ChatWindow::GetOutText ${win_name}] insert end "\n"
+							$outtext configure -state normal -font bplainf -foreground black
+							$outtext insert end "\n"
 						}		    
 						
 						cd $olddir
@@ -104,8 +110,8 @@ namespace eval ::TeXIM {
 			catch {file delete ${::TeXIM::dir}/temp.dvi}
 
 			if { $::TeXIM::config(showerror) == 1 } {
-				[::ChatWindow::GetOutText ${win_name}] insert end $msg
-				[::ChatWindow::GetOutText ${win_name}] insert end "\n"
+				$outtext insert end $msg
+				$outtext insert end "\n"
 			} else { plugins_log "TeXIM" $msg }  
 		
 		
