@@ -1133,6 +1133,7 @@ namespace eval ::amsn {
 			set percent [expr {int(($bytes2*100)/$filesize2)}]
 			::dkfprogress::SetProgress $w.prbar $percent
 		}
+		moveinscreen $w 30
 
 	}
 

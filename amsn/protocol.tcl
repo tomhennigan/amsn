@@ -5377,7 +5377,7 @@ namespace eval ::MSNP2P {
 	# sid		: the session id
 	# nullsid 	: 0 to add sid to header, 1 to put 0 instead of sid in header (usefull for negot + bye)
 	# Returns the MSNP2P packet (half text half binary)
-	proc MakePacket { sid slpdata {nullsid "0"} {MsgId "0"} {TotalSize "0"} {Offset "0"} {Destination "0"} {AfterAck "0"} } {
+	proc MakePacket { sid slpdata {nullsid "0"} {MsgId "0"} {TotalSize "0"} {Offset "0"} {Destination "0"} {AfterAck "0"} {flags "0"}} {
 
 		# Let's get our session id variables and put them in a list
 		# If sessionid is 0, means we want to initiate a new session
@@ -5429,7 +5429,7 @@ namespace eval ::MSNP2P {
 		}
 		
 		# Set flags to 0
-		append bheader [binary format i 0]
+		append bheader [binary format i $flags]
 		
 		# Just give the Ack Session ID some dumbo random number
 		append bheader [binary format i [myRand 4369 6545000]]
@@ -5611,7 +5611,7 @@ namespace eval ::MSNP2P {
 			return
 		}
 		set chunk [read $fd 1200]
-		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $chunk]
+		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $chunk 0 0 0 0 0 0 32]
 		unset chunk
 
 		#status_log "[SessionList get $sid]\n"
