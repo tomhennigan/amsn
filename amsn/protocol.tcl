@@ -1853,9 +1853,10 @@ proc cmsn_sb_handler {sb_name item} {
           #TODO: Check what we do with sb stat "?", disable chat window?
 	   # this should be related to user state changes
 	  #sb get $sb_name stat
-	  ::MSN::ClearQueue [::MSN::ChatFor $sb_name]
-	  #::MSN::CleanChat [::MSN::ChatFor $sb_name]
-          ::amsn::chatStatus [::MSN::ChatFor $sb_name] "[trans usernotonline]\n" miniwarning
+	  set chatid [::MSN::ChatFor $sb_name]
+	  ::MSN::ClearQueue $chatid
+	  #::MSN::CleanChat $chatid
+          ::amsn::chatStatus $chatid "[trans usernotonline]\n" miniwarning
 	  #msg_box "[trans usernotonline]"
           return 0
       }
@@ -1932,9 +1933,10 @@ proc cmsn_open_sb {sbn recv} {
 
    if {[lindex $recv 0] == "913"} {
           status_log "Error: Not allowed when offline\n" red
-          ::MSN::ClearQueue [::MSN::ChatFor $sbn]
-          ::MSN::CleanChat [::MSN::ChatFor $sbn]
-          ::amsn::chatStatus [::MSN::ChatFor $sbn] "[trans needonline]\n" miniwarning
+	  set chatid [::MSN::ChatFor $sbn]
+          ::MSN::ClearQueue $chatid
+          ::MSN::CleanChat $chatid
+          ::amsn::chatStatus $chatid "[trans needonline]\n" miniwarning
           #msg_box "[trans needonline]"
           return 1
    }
