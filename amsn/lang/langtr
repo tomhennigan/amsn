@@ -4,6 +4,7 @@ accept Kabul et
 acceptfile $1 dosyasý aktarýlýyor; boyut $2 bayt; kaydedilen konum $3  
 actions Eylemler
 activeautoupdate Etkin kendiliðinden güncelleme
+add Ekle
 addacontact Yeni baðlantý ekle
 addedyou $1 ($2) sizi baðlantý listesine ekledi
 addprofile Yeni profil ekle
@@ -121,6 +122,7 @@ clear Temizle
 clearlog Sohbet kaydýný sil
 clearlog2 Tüm baðlantýlarýn Geçmiþini sil
 clearlog3 Tüm sohbet kayýtlarýný sil
+clicktoadd Yeni not için Ekle düðmesine týklayýnýz
 clicktologin Baðlanmak için týklayýn
 clientcaps Diðer istemcilere x-clientcaps paketlerini gönder
 clientname Ýstemci Ýsmi
@@ -144,6 +146,7 @@ connecterror Sunucuya baðlanýrken hata oluþtu
 connecting Baðlanýyor
 connection Baðlantý
 connectionlost Baðlantý koptu: Sunucuyla baðlantý kesildi
+contact Baðlantý
 contactadded Baðlantý eklendi
 contactdoesnotexist Böyle bir baðlantý yok!
 contactlist Baðlantý listesi:
@@ -156,9 +159,11 @@ corruptconfig Ayarlar dosyasý bozulmuþ. Yenisi oluþturulacak. Eski dosya $1 konu
 corruptstates Kiþisel durumlar ayar dosyasý bozulmuþ. Yenisi oluþturulacak. Eski dosya $1 konumuna kaydedilecek. Sorunu bulmamýz için lütfen bize gönderin.
 countrycode Ülke/Bölge kodum
 cprofile Profil oluþtur
+created Oluþturuldu
 credits Emeði Geçenler
 currentdate Bugün
 currentlanguage Þu an kullandýðýnýz dil
+currentnotes Güncel notlar
 custnotifymsg Bu kiþiden yeni ileti gelince uyarý penceresi göster
 custnotifyoffline Bu kullanýcý baðlantýsýný kesince uyarý penceresi göster
 custnotifyonline Bu kullanýcý baðlanýnca uyarý penceresi göster
@@ -215,7 +220,7 @@ editstate Var olan otomatik mesaj durumunu düzenle
 editvalue Deðeri deðiþtir
 email E-posta
 emailsinlist Baðlantý listesinde kullanýcý isimleri yerine e-posta adreslerini göster
-emotisounds Bazý gülen adamlarda ses çýkar
+emotisounds Belli gülen adamlarda ses çýkar
 emptygroup Grubu boþalt
 enabled Etkin
 enableproxy proxy ayarlarýný etkinleþtir
@@ -295,6 +300,7 @@ ignoreerrors Oturum sonuna kadar diðer aMSN hatalarýný sessizce gözardý et.
 imagefiles Resim Dosyalarý
 inbox Gelen kutusu
 insertsmiley Gülen adam koy
+inserttextnote Konu ve not alanlarýna metin girip Kaydet'e týklayýnýz
 installconvert Kullanýcý resimlerini ve özel gülen adamlarý kullanabilmek için ImageMagick ('convert' programý) kurulmuþ olmalýdýr. Sisteminiz için gereken çaýlýþtýrýlabilir dosyalarý ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ adresinden indirebilirsiniz. Eðer program zaten kuruluysa bu bir hatadýr, lütfen bize bildirin. Bu özellikler þimdilik devredýþýdýr, daha sonra Image Magick'i kurduðunuzda bunlarý Seçenekler'den etkinleþtirebilirsiniz.
 internalerror Ýç sunucu hatasý
 invalidfile "$1" alanýna girilen $2 dosyasý yok ya da okunamýyor
@@ -366,6 +372,7 @@ maximised Büyütülmüþ
 minimised Küçültülmüþ
 mins dakika
 mobile Cep
+modified Deðiþtirildi
 month Ay
 morepersonal Diðer Durumlar ->
 move Taþý
@@ -399,7 +406,7 @@ newmsg Yeni ileti
 newstate Yeni özel durum ekle
 newtabbedfeature aMSN'de sohbet pencereleri düzeniyle ilgili bir yenilik var:\n Artýk ayný gruptan ya da tüm listeden baðlantýlarýn sohbetleri ayný pencerenin sekmelerinde gösterilebiliyor. \nLütfen aMSN'nin pencere yönetim þeklini seçiniz.
 newveravailable Yeni $1 sürümü indirilmeye hazýr
-next sonraki
+next Sonraki
 nick Rumuz
 no Hayýr
 noactivity Etkinlik yok
@@ -415,6 +422,7 @@ noprofileexists Henüz hiçbir profil yok. Eðer profille baðlanmak \nisterseniz bi
 normal normal
 noskins Varsayýlan kabuk skins/ dizininde bulunamadý. AMSN baþlatýlamadý.
 nosystemtray Görev çubuðu yok
+note Not
 notificationserver Ýlk MSN Uyarý Sunucusu (MSN Messenger Sunucusu)
 notify uyar
 notify1 Baðlantýlar girince uyarý penceresi göster
@@ -547,7 +555,7 @@ showcachedpics Saklanmýþ kullanýcý resimlerini göster/gizle
 showdisplaypic Kullanýcý resmini göster
 showdisplaypic2 Bir sohbet penceresi açýldýðýnda kullanýcý resmini kendiliðinden göster
 showmypic Kullanýcý Resmim
-shownotify Bazý olaylarda uyarý penceresi göster
+shownotify Belli olaylarda uyarý penceresi göster
 showuserpic $1'in kullanýcý resmi
 skin Kabuk
 skinselector Kabuk Seç
@@ -589,6 +597,8 @@ style Tarz
 stylechat Sohbetler ile ayný görünüþ
 stylehist aMSN Geçmiþ görünüþü
 stylelog Geçmiþinizin görünüþ þeklini seçin
+subject Konu
+subjectrequired Lütfen konuyu giriniz
 syntaxerror Yazým hatasý
 tabbed Sekmeli pencereler
 tabbedglobal Tüm baðlantýlar için tek bir sekmeli pencere
