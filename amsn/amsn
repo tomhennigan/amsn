@@ -1365,30 +1365,6 @@ proc login_ok {} {
    ::MSN::connect $config(login) $password
 }
 
-proc copypaste_menu {text x y delete} {
-
-   $text.copypaste delete 0 end
-   $text.copypaste add command -label "Copy" \
-      -command "clipboard clear; catch { \"\[$text get \[lindex \[$text tag ranges sel\] 0\] \[lindex \[$text tag ranges sel\] 1\]\]\" } res"
-
-    if {!$delete} {
-     $text.copypaste add command -label "Cut" \
-        -command "msg_box cy" -state disabled
-     $text.copypaste add command -label "Delete" \
-        -command "msg_box delete" -state disabled
-    } else {
-     $text.copypaste add command -label "Cut" \
-        -command "msg_box cy"
-     $text.copypaste add command -label "Delete" \
-        -command "msg_box delete"
-    }
-   $text.copypaste add separator
-   $text.copypaste add command -label "Paste" \
-      -command "msg_box paste"
-
-   tk_popup $text.copypaste $x $y
-}
-
 proc cmsn_draw_msgwin {email} {
    global images_folder sb_num sb_list config HOME files_dir msg_windows
 
@@ -1419,6 +1395,7 @@ proc cmsn_draw_msgwin {email} {
    menu .${win_name}.menu -tearoff 0 -type menubar  \
       -borderwidth 0 -activeborderwidth -0 
    .${win_name}.menu add cascade -label "[trans msn]" -menu .${win_name}.menu.msn
+   .${win_name}.menu add cascade -label "[trans edit]" -menu .${win_name}.menu.edit
    .${win_name}.menu add cascade -label "[trans view]" -menu .${win_name}.menu.view
    .${win_name}.menu add cascade -label "[trans actions]" -menu .${win_name}.menu.actions
 
@@ -1435,6 +1412,12 @@ proc cmsn_draw_msgwin {email} {
    .${win_name}.menu.msn add separator
    .${win_name}.menu.msn add command -label "[trans close]" \
       -command "destroy .${win_name}" 
+
+   menu .${win_name}.menu.edit -tearoff 0 -type normal
+   .${win_name}.menu.edit add command -label "[trans cut]" -command "copy 1 ${win_name}" -accelerator "CTRL+X"
+   .${win_name}.menu.edit add command -label "[trans copy]" -command "copy 0 ${win_name}" -accelerator "CTRL+C"
+   .${win_name}.menu.edit add command -label "[trans paste]" -command "paste ${win_name}" -accelerator "CTRL+V"
+
 
    menu .${win_name}.menutextsize -tearoff 0 -type normal
    .${win_name}.menutextsize add command -label "+8" -command "change_myfontsize 8 ${win_name}"
@@ -1467,6 +1450,11 @@ proc cmsn_draw_msgwin {email} {
    .${win_name}.menu.actions add separator
    .${win_name}.menu.actions add command -label [trans sendmail] -command "cmsn_msgwin_sendmail $name"
    .${win_name} conf -menu .${win_name}.menu
+
+   menu .${win_name}.copypaste -tearoff 0 -type normal
+   .${win_name}.copypaste add command -label [trans cut] -command "copy 1 ${win_name}"
+   .${win_name}.copypaste add command -label [trans copy] -command "copy 0 ${win_name}"
+   .${win_name}.copypaste add command -label [trans paste] -command "paste ${win_name}"
 
    frame .${win_name}.top -class Amsn
    text .${win_name}.top.text  -borderwidth 0 -width 45 \
@@ -1530,7 +1518,16 @@ proc cmsn_draw_msgwin {email} {
    bind .${win_name}.in.send <Return> \
       "sb_enter $name .${win_name}.in.input; break"
    bind .${win_name}.in.input <Control-Return> {%W insert end "\n"; break}
-   status_log "$msg_windows([string tolower ${email}])\n" red
+   
+   bind .${win_name}.in.input <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
+   bind .${win_name}.text <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
+   bind .${win_name} <Control-x> "copy 1 ${win_name}"
+   bind .${win_name} <Control-c> "copy 0 ${win_name}"
+   bind .${win_name} <Control-v> "paste ${win_name}"
+
+
+
+   
    bind .${win_name} <Destroy> "cmsn_destroyed_msgwin $name %W $email"
    
    focus .${win_name}.in.input
@@ -1539,6 +1536,19 @@ proc cmsn_draw_msgwin {email} {
    return ${name}
 
 }
+
+proc copy { cut window } {
+	clipboard clear
+	catch { clipboard append [selection get] }
+	if { $cut == "1" } { catch { .$window.in.input delete sel.first sel.last } }
+}
+
+proc paste { window } {
+	catch { set contents [ selection get -selection CLIPBOARD ] }
+    	catch { set point [ .$window.in.input index insert ] }
+    	catch { .$window.in.input insert $point $contents } 
+}
+
 
 
 proc change_myfont {win_name} {
@@ -2115,11 +2125,9 @@ proc show_useraddlist {title name command} {
    foreach user_info $users_list {
       set user_login [lindex $user_info 0]
       set user_state_no [lindex $user_info 2]
-      status_log "first is $user_login \n second is $user_state_no"      
       if {($user_state_no < 7) && 
           ([lsearch $list_users "$user_login *"] == -1)} {
-	  status_log "adding $user_login to userlist"
-          set user_name [lindex $user_info 1]
+	  set user_name [lindex $user_info 1]
 	  lappend userlist [list $user_login $user_name $user_state_no]
       }
    }

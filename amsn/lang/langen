@@ -48,13 +48,16 @@ confirmdelete Are you sure you want to delete $1?
 connecterror Error connecting to server
 contactadded Contact added
 contactdoesnotexist Contact does not exist!
+copy Copy
 copytogroup Copy to group
+cut Cut
 date Date
 delete Delete
 docking Docking
 dockingoff Docking Off
 dockgtk Gnome Dock
 dockkde KDE Dock
+edit Edit
 enableproxy Enable proxy
 encoding Choose encoding
 entercontactemail Enter contact e-mail
@@ -138,6 +141,7 @@ ordercontactsby Order contacts by
 other Other
 pager Pager
 pass Password
+paste Paste
 phone Phone
 picfile Alarm Picture File (GIF < 500 x 500)
 picstatus Turn ON/OFF Picture Alarm

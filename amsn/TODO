@@ -26,9 +26,9 @@ Existing Feature Improvements (priority 2):
 # ** FIXED ** Unblock dosen't work from chat window
 # Fix display issue when copying a user in more than 1 group (displays the user twice in the same group)
 # Reenable copy option for contact list (currently commented out)
-# Copy/Paste in message windows + Right click popup menu for copy/paste
+# ** FIXED ** Copy/Paste in message windows + Right click popup menu for copy/paste
 # Improve font selection (unify with color selection)
-# Fix conference messaging issues (mass file send + add contact not on ur list)
+# Fix conference messaging issues (mass file send)
 # Add status of person chatting with in msg window
 # Improve Logging (maybe even add a msg history option?)
 # Fix Makefile for gnome1 dock (dock dosent work on gnome2 yet)
