@@ -220,13 +220,23 @@ proc check_imagemagick {} {
 
 }
 
-#if {[package vcompare [package provide Tcl] 8.4] < 0} {
-#	proc K {a b} {return $a}
-#	proc lset {listName index val} {
-#		upvar $listName list
-#		set list [lreplace [K $list [set list {}]] $index $index $val]
-#	}
-#}
+if {[package vcompare [package provide Tcl] 8.4] < 0} {
+	proc lset {listName args} {
+		if { [llength $args] == "0" } {
+			error "wrong # args: should be \"lset2 listVar index ?index...? value\""
+		}
+		upvar $listName list
+		if { [llength $args] == "1" || ([llength $args] == "2" && [llength [lindex $args 0]] == "0") } {
+			set list [lindex $args [expr {[llength $args]=="1"?0:1}]]
+			return $list;
+		}
+		set val [lindex $args end]
+		foreach x [lrange $args 0 end-2] {
+			set list [lreplace $list $x $x $val]
+		}
+		return $list;
+	}
+}
 
 reload_files
 

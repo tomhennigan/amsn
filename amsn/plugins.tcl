@@ -12,14 +12,6 @@ proc plugins_log {plugin msg} {
 	}
 }
 
-if {[package vcompare [package provide Tcl] 8.4] < 0} {
-	proc tcl::K {a b} {return $a}
-	proc lset {listName index val} {
-		upvar $listName list
-		set list [lreplace [tcl::K $list [set list {}]] $index $index $val]
-	}
-}
-
 namespace eval ::plugins {
 	# Variable to list all plugins and their properties.
 	# Do NOT access this variable directly, use ::plugins::findplugins
