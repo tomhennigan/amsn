@@ -21,6 +21,7 @@ blankdirect Leave blank for direct connection
 block Block
 blocked Blocked
 browser Browser
+broughtby  Brought to you by the following developers
 busy Busy
 cancel Cancel
 changenick Change nick
@@ -31,6 +32,7 @@ chatack Accepting chat from
 checkver Check for new version
 checkingver Checking for new versions
 choosebasefont Choose font type
+choosebgcolor Choose background color
 clicktologin Click here to log in
 close Close
 closingdocks Close button docks window
