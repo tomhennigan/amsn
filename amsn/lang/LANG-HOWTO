@@ -1,44 +1,241 @@
-LANG-HOWTO - 06/01/04, Alberto Diaz
+LANG-HOWTO
+Created 06.Jan.2004, Alberto Diaz
+Updated 03.May.2004, Henrique Cesar Ulbrich (Hatredman)
 
-This little document is a guide to translator and translators' manager that works or wants to work in AMSN.
+
+This little document is a guide to translator and translation
+managers that works or wants to work in aMSN.
+
+This document deals only with the langXX files (that is, the
+language files that translates aMSN's messages, menus and dialog
+boxes). We are preparing another document for the docs/ folder,
+dealing with the translation of the HELP, FAQ and README files. In
+the mean time, read the present file completely and ask what to do
+(at amsn-lang@lists.sourceforge.net) when in doubt.
+
+0. The most important thing
+---------------------------
+
+You MUST subscribe to the amsn-lang@lists.sourceforge.net mailing
+list. There you can discuss various issues with the members of the
+translation team, including:
+- The best way to translate a word or phrase;
+- What character code you should use or not use;
+- Best translation practices;
+- Issues and questions about this HOWTO;
+- Coordination of local efforts;
+- Stabilishment of local language translation managers.
+
+One important thing you MUST ask at the amsn-lang list is if there
+is somebody already doing what you intend to. 
+
+For instance, if you want to translate the HELP file in greek
+(HELPgr) you shoud ask first. This way, if there is another person
+already translating the same HELPgr you won't waste your time.
+
+You can join the list by visiting this page:
+
+   http://lists.sourceforge.net/lists/listinfo/amsn-lang
+
+Remember, joining or not is not a choice. You MUST joint.
+
 
 1. For Translators
 ------------------
 
-When you add new keys, you should do a diff file or send the entire updated langXX file to the translators' manager. If not possible, or you're just translation a few keys, you can just send a text file attached to the mail, in the form:
+When you add new keys, you should send the entire updated langXX
+file to the translator managers, who can be reached at
+
+    amsn-translations@lists.sourceforge.net
+
+Diff files are also accepted, and can be used in certain cases where
+you update more than one file with a single diff or you merge
+different files into one, but the best and easyest way (for both
+translators and managers) is to send the whole translated file. If
+in doubt, send the entire file.
+
+Keys sent in the body of the email will be ignored, due to character
+coding and line break issues.
+
+RULES THAT MUST BE FOLLOWED:
+1. Download the langfile you want to work on from the website or via
+CVS. ( you will find the link at the translation page )
+
+2. Add the missing keywords from the list at the bottom of the page
+to the language file.
+
+3. Translate the english explanations
+
+4. Send the updated file to amsn-translations@lists.sourceforge.net
+
+5. We will ONLY accept langfiles. We will NOT accept, in ANY way,
+individual keys received in the body of the email. You MUST send
+the COMPLETE langfile (for instance, langit if you are italian)
+ATTACHED to de email message. Only in special cases we will accept
+diff files or incumplete translation files with a few keys.
+
+6. As stated above, keys sent in the body of the email will be
+IGNORED and DISCARDED.
+
+7. Langfiles sent to other email addresses than
+amsn-translations@lists.sourceforge.net will also be IGNORED and
+DISCARDED.
+
+8. You can help us by translating some sentences to your language,
+or modifying wrongly translated sentences (proofreading).
+
+9. Be careful with $1, $2... parameters that appear in some
+sentences. You can change their position, but they must appear on
+the sentence, they 'll be substituted during execution with some
+values.
+
+If not possible, or you're just translation a few keys, you can just
+send (although it is not the ideal) a text file attached to the
+mail, in the form:
 
 keyname1 translation1
 keyname2 translation2
 
-that is, the keyname, followed by ONE BLANK SPACE (no tabs or similar), and followed by the translated string, no need to include the original english string, or similar. One key per line, no extra blank lines in the middle. Including the keys directly in the email text is a bad idea, as mail clients usually split long lines, which leads to mistakes.
+that is, the keyname, followed by ONE BLANK SPACE (no tabs or
+similar), and followed by the translated string, no need to include
+the original english string, or similar. One key per line, no extra
+blank lines in the middle. Including the keys directly in the email
+text is a bad idea, as mail clients usually split long lines and
+change the character encodings, which leads to mistakes.
 
-Other kinds of contribution will be rejected, in order to make the job easier to the manager. 
+Other kinds of contribution will be rejected, in order to make the
+job easier to the manager. 
 
-I hope you understand, there's usually one person in charge of updating the translations, and there are more than 40 languages, so there are many translations and submission. Don't make it more difficult :)
+I hope you understand, there's usually one person in charge of
+updating the translations, and there are more than 40 languages, so
+there are many translations and submission. Don't make it more
+difficult :)
 
-2. For Translations' Managers
+HOW TO ADD A NEW LANGUAGE
+
+1. Choose a short identifier for your language (for example english
+- en). It is better that you use the correct ISO code for your
+language. ISO codes for languages can be found at
+
+    http://www.w3.org/WAI/ER/IG/ert/iso639.htm
+
+Always use the 2-letter code for your language if it exists (for
+instance, fr for french, pt for portuguese). If your language has
+only a 3-letter code (for instance, ale for aleut, pap for
+papiamento) you must use it, though. 
+
+For languages spoken on colonial lands, you shoud use the language
+ISO code followed by an underline and the country ISO code in CAPS
+(fr_CA for canadian french, pt_BR for brazilian portuguese). 
+
+Language ISO codes:
+    http://www.w3.org/WAI/ER/IG/ert/iso639.htm
+
+Country ISO codes:
+    http://www.bcpl.net/~jspath/isocodes.html
+
+Some codes have been mistakenly taken (for example, langbr currently
+refers to brazilian portuguese, but the correct code would be
+pt_BR, br alone refers to the breton language). If you find that
+the ISO code for your language has been taken by mistake for
+another language, scream your lungs out at the amsn-lang list and
+we will fix things up ;-)
+
+2. Download the english language (langen) file from
+
+    http://amsn.sourceforge.net
+
+3. Rename the file to langXX, where XX the ISO language code you've
+chosen. Remember that, for some languages, the ISO code has three
+(3) letters.
+
+4. Translate the whole file, except for the first word of each line
+(that is the key). Do not use <TAB> characters in the translated
+files, only spaces are allowed. Tabs break aMSN.
+
+5. TEST THE FILE. Use the new file in your local aMSN before
+sending. Go through every menu and every dialog box. Assure that
+all messages have the proper size. If you don't know how to do it,
+ask on the amsn-lang list.
+
+6. Only after testing for one or two days, send the new file to
+
+    amsn-translations@lists.sourceforge.net
+
+Send to this email only! Submissions to other emails will be ignored
+and discarded.
+
+2. For Translation Managers
 ----------------------------
 
-When a new translation arrives to you, you should only accept it if is a diff file or a complete langXX file, or our users can send always translations as mail, and it's a big job :)
-Be sure of using a multilanguage editor and use de correct codepage for each language or you can corrup them. Encodings are in langlist file.
-If you reaches a translation by any reason, do it with politeness, explain arguments of why do you reject it and always: 'Thanks anyway' ;)
+When a new translation arrives to you, you should only accept it if
+is a diff file or a complete langXX file. Do not accept other kinds
+of submissions, 'cause our users can always send sparse translated
+keys by mail, and it's a big job :)
+
+Be sure of using a multilanguage editor and use de correct codepage
+for each language or you can corrup them. Encodings are in langlist
+file.
+
+If you reject a translation by any reason, do it politely. 
+Explain the reasons of why you're rejecting it and always: 
+'Thanks anyway' ;)
 
 What should I do if...
--...I receive two lang files of the same language? Reject one, the oldest, or the less complete.
+-...I receive two lang files of the same language? Reject one, the
+oldest, or the less complete.
 
-When you get big contributions (not just 1 or 2 keys), or when you see a person usually send translation updates for a language, you should add him to the credits in the README file. You should tell him about this, and ask him if he wants to be removed (nobody wanted to be removed until now, but it's polite to ask :))
+When you get big contributions (not just 1 or 2 keys), or when you
+notice a person is very active (sending frequent translation
+updates for a language), you should add him to the credits in the
+README file. You should tell him about this, and ask him if he
+wants to be removed (nobody wanted to be removed until now, but
+it's polite to ask :))
 
-3. For both - Useful toold
+3. For both - Useful tools
 --------------------------
 
 In the lang/ folder you have some useful scripts.
 
-missing.py langXX: will list the missing keys in langXX file. That is, the keys that exist in langen (the master language), but not in langXX file.
+missing.py langXX: will list the missing keys in langXX file. That
+is, the keys that exist in langen (the master language), but not in
+langXX file.
 
-errors.py langXX: will list the possible errors in langXX. That is, the apparent keys that are in langXX but not in langen. This usually happens when a key name is mistyped, or when there are spplited lines (a translation is spplited into multiple lines instead of being just one line), or when a key was removed from the langen file because it's no longer used.
+Usage in Linux:
+./missing.py langXX
 
-dups.sh langXX: will tell you the keys that are duplicated inside the file.
+Usage in Windows (must have the Python interpreter installed):
+python missing.py langXX
 
-sotlang langXX: will sort the language file. BE CAREFUL. Don't apply sortlang if there are spplited translations, as sorting it will sort these spplited lines, and it will be quite difficult to join them again. So please fix any spplited lines before sorting. Sorting is not mandatory, but it's recommended to sort before commiting to the CVS.
+errors.py langXX: will list the possible errors in langXX. That is,
+the apparent keys that are in langXX but not in langen. This
+usually happens when a key name is mistyped, or when there are
+spplited lines (a translation is spplited into multiple lines
+instead of being just one line), or when a key was removed from the
+langen file because it's no longer used.
 
-convert.tcl source_file source_encoding dest_file dest_encoding: Converts the given source, in the source encoding, to the given destination file using the given encoding.
+Usage in Linux:
+./errors.py langXX
+
+Usage in Windows (must have the Python interpreter installed):
+python errors.py langXX
+
+dups.sh langXX: will tell you the keys that are duplicated inside
+the file.
+
+Usage in Linux:
+./dups.sh langXX
+
+To use it in Windows you will have Cygwin installed. The syntax is
+the same.
+
+sotlang langXX: will sort the language file. BE CAREFUL. Don't apply
+sortlang if there are spplited translations, as sorting it will
+sort these spplited lines, and it will be quite difficult to join
+them again. So please fix any spplited lines before sorting.
+Sorting is not mandatory, but it's recommended to sort before
+commiting to the CVS.
+
+convert.tcl source_file source_encoding dest_file dest_encoding:
+Converts the given source, in the source encoding, to the given
+destination file using the given encoding.
