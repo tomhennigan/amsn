@@ -5171,6 +5171,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 	}
 
 	set user_unique_name "$user_login[getUniqueValue]"
+	set user_ident "    "
 
 	# If user is not in the Reverse List it means (s)he has not
 	# yet added/approved us. Show their name in pink. A way
@@ -5195,7 +5196,6 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 
 
 	$pgBuddy.text mark set new_text_start end
-	#set user_name [string map {"\n" "\n           "} $user_name]
 
 	if { [::config::getKey emailsincontactlist] } {
 		set user_lines "$user_login"
@@ -5211,7 +5211,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 	incr maxw -20
 	#Decrement status text out of max line width
 	set statew [font measure splainf -displayof $pgBuddy.text " $state_desc "]
-	set blanksw [font measure splainf -displayof $pgBuddy.text "      "]
+	set blanksw [font measure splainf -displayof $pgBuddy.text $user_ident]
 	incr maxw [expr {-25-$statew-$blanksw}]
 	if { [::alarms::isEnabled $user_login] != "" } {
 		incr maxw -25
@@ -5243,7 +5243,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 
 		$pgBuddy.text insert $section.last "$current_line" $user_unique_name
 		if { $i != 0} {
-			$pgBuddy.text insert $section.last "      "
+			$pgBuddy.text insert $section.last $user_ident
 		}
 	}
 	#$pgBuddy.text insert $section.last " $user_name$state_desc \n" $user_login
@@ -5252,13 +5252,13 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 	set not_in_reverse [expr {[lsearch [::abook::getLists $user_login] RL] == -1}]
 	if {$not_in_reverse} {
 		set imgname2 "img2_[getUniqueValue]"
-        	label $pgBuddy.text.$imgname2 -image notinlist 
-        	$pgBuddy.text.$imgname2 configure -cursor hand2 -borderwidth 0
+		label $pgBuddy.text.$imgname2 -image notinlist 
+		$pgBuddy.text.$imgname2 configure -cursor hand2 -borderwidth 0
 		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname2 -padx 1 -pady 1
 		bind $pgBuddy.text.$imgname2 <Enter> \
-        	        "$pgBuddy.text tag conf $user_unique_name -under true; $pgBuddy.text conf -cursor hand2"
-      		bind $pgBuddy.text.$imgname2 <Leave> \
-       	        	"$pgBuddy.text tag conf $user_unique_name -under false; $pgBuddy.text conf -cursor left_ptr"
+		"$pgBuddy.text tag conf $user_unique_name -under true; $pgBuddy.text conf -cursor hand2"
+		bind $pgBuddy.text.$imgname2 <Leave> \
+			"$pgBuddy.text tag conf $user_unique_name -under false; $pgBuddy.text conf -cursor left_ptr"
 
 	}
 	
@@ -5294,7 +5294,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname -padx 3 -pady 1 -align center
 	}
 
-	$pgBuddy.text insert $section.last "      "
+	$pgBuddy.text insert $section.last $user_ident
 
 
 	$pgBuddy.text tag bind $user_unique_name <Enter> \
@@ -5312,11 +5312,11 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 
 
 	if { $config(tooltips) == 1 } {
-                if {$not_in_reverse} {
-                	set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n $user_login\n [trans status] : [trans [::MSN::stateToDescription $state_code]]\n [trans notinlist] "
-                } else {
+		if {$not_in_reverse} {
+			set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n $user_login\n [trans status] : [trans [::MSN::stateToDescription $state_code]]\n [trans notinlist] "
+		} else {
 			set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n $user_login\n [trans status] : [trans [::MSN::stateToDescription $state_code]] "
-                }
+		}
 		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 
 		$pgBuddy.text tag bind $user_unique_name <Leave> \
@@ -5331,11 +5331,11 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		bind $pgBuddy.text.$imgname <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
 		if {$not_in_reverse} {
-                	bind $pgBuddy.text.$imgname2 <Enter> +[list balloon_enter %W %X %Y $balloon_message]
-                	bind $pgBuddy.text.$imgname2 <Leave> \
-        	                "+set Bulle(first) 0; kill_balloon"
+			bind $pgBuddy.text.$imgname2 <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+			bind $pgBuddy.text.$imgname2 <Leave> \
+				"+set Bulle(first) 0; kill_balloon"
 		
-                	bind $pgBuddy.text.$imgname2 <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+			bind $pgBuddy.text.$imgname2 <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 		}
 	}
 	#Change mouse button and add control-click on Mac OS X
@@ -5346,19 +5346,19 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		$pgBuddy.text tag bind $user_unique_name <Button3-ButtonRelease> "show_umenu $user_login $grId %X %Y"
 	}
 	bind $pgBuddy.text.$imgname <<Button3>> "show_umenu $user_login $grId %X %Y"
-        if {$not_in_reverse} {
+	if {$not_in_reverse} {
 		bind $pgBuddy.text.$imgname2 <<Button3>> "show_umenu $user_login $grId %X %Y"
 	}
 	if { $state_code != "FLN" } {
 		bind $pgBuddy.text.$imgname <Double-Button-1> "::amsn::chatUser $user_login"
-                if {$not_in_reverse} {
+		if {$not_in_reverse} {
 			bind $pgBuddy.text.$imgname2 <Double-Button-1> "::amsn::chatUser $user_login"
 		}
 		$pgBuddy.text tag bind $user_unique_name <Double-Button-1> \
 			"::amsn::chatUser $user_login"
 	} else {
 		bind $pgBuddy.text.$imgname <Double-Button-1> ""
-                if {$not_in_reverse} {
+		if {$not_in_reverse} {
 			bind $pgBuddy.text.$imgname2 <Double-Button-1> ""
 		}
 		$pgBuddy.text tag bind $user_unique_name <Double-Button-1> ""
