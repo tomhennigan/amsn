@@ -25,7 +25,7 @@ set adv_paused 1	; # Paused until connection established
 set adv_fetched 0	; # Count how many adverts we fetched
 set adv_after_id -1
 
-package require http
+package require http 2.3
 
 #
 # Initialize the Advertisement module (hey! need bread on the table!)
@@ -50,7 +50,7 @@ proc adv_initialize { win proxy } {
         set lproxy [split $proxy ":"]
 	set proxy_host [lindex $lproxy 0]
 	set proxy_port [lindex $lproxy 1]
-        ::http::configure -proxyhost $proxy_host -proxyport $proxy_port
+        ::http::config -proxyhost $proxy_host -proxyport $proxy_port
     }
     
     # Keybinding to enable/disable BanneR cycling on main window
