@@ -112,6 +112,7 @@ proc ConfigDefaults {} {
 	set config(notifyoffline) 0			;#Show notify window when a user goes offline
 	set config(notifystate) 0			;#Show notify window when a user changes status
 	set config(notifyemail) 1			;#Show notify window when a new mail arrives
+	set config(notifyemailother) 0			;#Show notify window when a new mail arrives in other folders
 
 	set config(dock) 0				;#Docking type
 
@@ -203,6 +204,7 @@ proc ConfigDefaults {} {
 		[list local notifystate bool notify1_75] \
 		[list local notifymsg bool notify2] \
 		[list local notifyemail bool notify3] \
+		[list local notifyemailother bool notify4] \
 		[list local notifytimeout int notifytimeout] \
                 [list local soundactive bool soundactive] \
 		[list local recentmsg bool recentmsg] \

@@ -276,18 +276,23 @@ proc hotmail_procmsg {msg} {
 			set msgurl [::MSN::GetHeaderValue $msg Message-URL]
 			status_log "Hotmail: New mail from $from - $fromaddr\n"
 
-			::hotmail::setUnreadMessages [expr { [::hotmail::unreadMessages] + 1}]
-	
-			if { $config(notifyemail) == 1 } {
-				::amsn::notifyAdd "[trans newmailfrom $from $fromaddr]" \
-				"hotmail_viewmsg $msgurl $config(login) $password" newemail
+			set dest [::MSN::GetHeaderValue $msg Dest-Folder]
+			if {$dest == "ACTIVE"} {
+				::hotmail::setUnreadMessages [expr { [::hotmail::unreadMessages] + 1}]
+				cmsn_draw_online
+				if { $config(notifyemail) == 1 } {
+					::amsn::notifyAdd "[trans newmailfrom $from $fromaddr]" \
+						"hotmail_viewmsg $msgurl $config(login) $password" newemail
+				}
+			} else {
+				if { $config(notifyemailother) == 1 } {
+					::amsn::notifyAdd "[trans newmailfromother $from $fromaddr]" \
+						"hotmail_viewmsg $msgurl $config(login) $password" newemail
+				}
 			}
-
-			cmsn_draw_online
-
 		} 
 	}
-	#Get the number of unread message in Inbox
+	#Get the number of unread messages
 	if {[string range $content 0 36]  == "text/x-msmsgsinitialemailnotification"} {
 		#Number of unread messages in inbox
 		set noleidos [::MSN::GetHeaderValue $msg Inbox-Unread]
@@ -295,27 +300,25 @@ proc hotmail_procmsg {msg} {
 		set msgurl [::MSN::GetHeaderValue $msg Inbox-URL]
 		status_log "Hotmail: $noleidos unread emails\n"
 		#Remember the number of unread mails in inbox and create a notify window if necessary
-		if { [string length $noleidos] > 0 } {
+		if { [string length $noleidos] > 0 && $noleidos != 0} {
 			::hotmail::setUnreadMessages $noleidos
 			cmsn_draw_online
 			if { $config(notifyemail) == 1} {
 				::amsn::notifyAdd "[trans newmail $noleidos]" \
-				"hotmail_login $config(login) $password" newemail
+					"hotmail_login $config(login) $password" newemail
 			}
 		}
-	}
-	
-	#Get the number of unread message in others folders of Hotmail
-	if {[string range $content 0 36]  == "text/x-msmsgsinitialemailnotification"} {
-		#Number of unread messages in folders
+
+
+		#Number of unread messages in other folders
 		set folderunread [::MSN::GetHeaderValue $msg Folders-Unread]
 		#URL of folder directory in Hotmail
 		set msgurl [::MSN::GetHeaderValue $msg Folders-URL]
 		status_log "Hotmail: $folderunread unread emails in others folders \n"
 		#If the pref notifyemail is active and more than 0 email unread, show a notify on connect
-		if { $config(notifyemail) == 1 && [string length $folderunread] > 0} {
+		if { $config(notifyemailother) == 1 && [string length $folderunread] > 0} {
 			::amsn::notifyAdd "[trans newmailfolder $folderunread]" \
-			"hotmail_viewmsg $msgurl $config(login) $password" newemail
+				"hotmail_viewmsg $msgurl $config(login) $password" newemail
 		}
 	}
 	
