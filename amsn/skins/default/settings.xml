@@ -39,7 +39,7 @@
 
    <Colors>
      <mainwindowbg>#aaaaaa</mainwindowbg>
-     <chatwindowbg>#EAEAEA</chatwindowbg>
+     <chatwindowbg>#cccccc</chatwindowbg>
      <buttonbarbg>#fefefe</buttonbarbg>
      <topbarbg>#fcfcee</topbarbg>
      <topbartext>#000000</topbartext>

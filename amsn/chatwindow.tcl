@@ -537,7 +537,7 @@ namespace eval ::ChatWindow {
 		set w ".msg_$::ChatWindow::winid"
 		incr ::ChatWindow::winid
 
-		toplevel $w -class Amsn
+		toplevel $w -class Amsn -background [::skin::getColor chatwindowbg]
 
 		# If there isn't a configured size for Chat Windows, use the default one and store it.
 		if {[catch { wm geometry $w [::config::getKey winchatsize] } res]} {
