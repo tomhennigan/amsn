@@ -1,10 +1,11 @@
 amsn_lang_version 2
-about AMSNについて
+about about
 accept 承認
 acceptfile $3 に $2 のファイル $1 を受信しますか？
 actions 操作
 addacontact メンバの追加
 addedyou $1 ($2) あなたは次の人のメンバリストに追加されました。
+addstate 追加
 addtocontacts メンバリストに追加する
 addtoo この人を自分のメンバリストにも追加する
 admincontacts メンバ管理
@@ -12,6 +13,9 @@ admingroups グループ管理
 adverts 広告
 alarmpref この人にアラームを設定
 alarmstatus アラームのオン/オフ
+allowallbutbl ブロックリストに入っていないメンバからのメッセージを全て受け取る
+allowlist 許可リスト :
+allowonlyinal 許可リストに入っているメンバからのメッセージのみ受け取る
 allowseen この人にオンライン状況を伝え、IMを受信する
 appearance 外観
 appearoff オフラインに見せる
@@ -25,7 +29,7 @@ autohotmaillog 自動でHotmailにログインする
 autoidle 自動で『非使用中』にする
 autoip 自動IP設定
 autonoact 次の間アクティブではなかった場合『非使用中』にする
-avoidseen この人にオンラインであることを伝えず、IMを拒否する
+avoidseen このメンバにオンラインであることを伝えず、IMを拒否する
 away 退席中
 awaymsg1 退席中/一時退席中/取り込み中 に変更する度に不在メッセージを決める
 awaymsg2 毎回不在メッセージを決めず、常に次のメッセージを使用する
@@ -34,24 +38,30 @@ bgcolor 背景色
 blankdirect 直接接続するにはここを空白にしてください
 block 禁止
 blocked 禁止済み
+blocklist ブロックリスト :
+blockmessage メンバはオンラインですが、あなたをブロックしています
 broughtby AMSNは次の開発者によって提供されています。
 browse ブラウズ
 browser ブラウザ
 busy 取り込み中
 cancel キャンセル
+cannotdeleteprofile そのプロフィールはAMSNで利用中のようなので消去できません
 cfgalarm アラーム 設定/追加/削除
 changefont フォント変更
 changenick 名前変更
 chat 会話
+chatack 次のメンバからのチャットを開いています
 chatack 次の人からの会話を承諾する
+chatmaxmin 新しい会話が始まったとき:
 chatreq 会話に招待しています
 chatsmileys 絵文字
 chatsmileys2 会話に絵文字を表示する
-checkfilman 受信したファイルは $1 に保存されます。ファイルマネージャを確認してください。
+checkfilman 受信したファイルは $1 に保存されます。ファイルマネージャを確認してください
 checkingver 新バージョンを確認しています
 checkver 新バージョンを確認
 choosebasefont フォント選択
 choosebgcolor 背景色選択
+choosecontact リストからメンバを選んでください
 choosefontcolor 文字色選択
 clearlog ログ削除
 clearlog2 全メンバの履歴を削除
@@ -62,10 +72,14 @@ closingdocks 閉じるボタンを押したときも最小化する
 command コマンド
 confirm 本当によろしいですか？
 confirmdelete 本当に $1 を削除してよろしいですか？
+connected 既に接続済みです。
 connecterror サーバに接続できませんでした
+connecting 接続しています
 connection 接続
+connectionlost サーバが終了したため切断されました。
 contactadded メンバリストに追加しました
 contactdoesnotexist メンバが存在しません！
+contactlist メンバ リスト :
 copy コピー
 copytogroup グループにコピー
 countrycode 自分の国/地域番号
@@ -78,18 +92,23 @@ default 標準設定
 delete 削除
 deliverfail 次のメッセージを配信する際、問題が発生しました
 delprofile プロフィール削除
-delprofile2 削除したいプロフィールを選択してください 
-dockgtk Gnome Dock
+delprofile2 削除したいプロフィールを選択してください
+directconnection インターネットに直接接続しています(ポート1863を使用)
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
+dockgtk Gnomeドック
 docking ドッキング
 dockingoff ドッキングしない
-dockkde KDE Dock
+dockkde KDEドック
 edit 編集
+editnewstate 新しい自動返信メッセージ
 editprofile プロフィール編集
+editstate 自動返信メッセージの編集
 enableproxy プロキシを有効に
+enableremote リモートからの操作を有効にする
 encoding 文字コード選択
 encoding2 あなたの文字コードを変換する方法
 entercontactemail 連絡メールアドレスを入力
-enterfilename ファイル名を入力してください
+enterfilename ファイル名を入力You have been blockedしてください
 enternick 名前を入力してください
 examples 例
 exitamsn 本当に終了してよろしいですか？
@@ -100,8 +119,18 @@ fileman ファイルマネージャ
 filename ファイル名
 filetransfercancelled ファイル転送を中止しました
 filetransfercomplete ファイル転送が完了しました
+followtext 文字が入力された時スクロールする
 ftaccepted ファイル転送を承諾しました
+ftacceptedby $1 がファイル $2 の転送を承諾しました
+ftaccepting ファイル転送の要求を承諾しています
+ftconnecterror リモートピアーとの接続に失敗しました
+ftconnecting $1 のポート $2 に接続しています
+ftconnectionlost リモートピアーとの接続が切断されました
+ftgotinvitation $1 はあなたにファイル $2 ($3 バイト)を送信しようとしています。受信したファイルは $4 に保存されます。ファイルを受信しますか？
+ftportpref ファイル転送のポートを開いています
 ftrejected ファイル転送を拒否しました
+ftrejectedby $1 はファイル $2 の転送を拒否しました
+ftsendinvitation ファイル $2 ($3 バイト)の転送が完了しました
 gonelunch 昼休み
 group グループ
 groupadd グループ追加
@@ -113,15 +142,18 @@ groupnotempty グループが空ではありません
 groupoldname 変更するグループ名
 grouprename グループ名変更
 groupunknown 不明なグループ
-handle 扱い
+handle 名前
 help ヘルプ
 helpcontents ヘルプの内容
 history 履歴を参照
 home 家
+httpconnection HTTP(ポート80)を使用して接続する
 ident 個人情報を読み込んでいます
 identity 個人情報
 inbox 受信箱
+internalerror サーバエラー(Interal Server Error)
 invalidusername その名前は無効です
+invitationcancelled 要求はキャンセルされました。
 invite 招待
 ipaddress IPアドレス
 ipdetect HTTPを使用して正確なIPを検出する
@@ -133,7 +165,7 @@ keeplog2 全会話をAMSN履歴に保存する
 language 言語
 lastmsgtime 最後のメッセージは $1 に受信しました
 lclosedwin $1 は $2 との会話を閉じました
-lconftopriv 会議が $1 との会話に変更されました。
+lconftopriv 会議が $1 とYou have been blockedの会話に変更されました。
 lconvstarted $1 で会話が始まりました
 leaveblankforhotmail HotmailをWebで使うにはここを空白にしてください
 leaves $1 は会話から抜けました
@@ -163,9 +195,11 @@ maximised 最大化
 minimised 最小化/アイコン化
 mins 分
 mobile 携帯
+morepersonal 詳細 →
+move Move
 movetogroup グループに移動
 msg メッセージ
-msgmaxmin 新しいメッセージが開いたとき次のことを望みます
+msgmaxmin 新しいメッセージが届いたとき:
 msgmode どのように次のウィンドウを扱うか選択してください
 msn AMSN
 mustrestart 設定の変更を反映するにはAMSNを再起動する必要があります
@@ -175,17 +209,20 @@ mystatus 状態
 myworkphone 勤務先電話番号
 natip WebページでのIP検出
 natkeepalive よく切断されるのでKeepAliveを有効にする
-needonline 穴阿多は今オフラインになっています！
+needonline あなたは今オフラインになっています！
 newmail 受信箱に $1 通のメッセージがあります
 newmailfrom 次の人からメールが来ました $1 ($2)
 newmsg 新メッセージ
 newveravailable 新しいバージョン $1 がダウンロード可能です
 next 次へ
+no No
 noactivity 非使用中
+nodataavailable $1 のデータはありません。
 nologfile $1 とのログファイルはありません
 nonewmail 未読メールはありません
 nonewver 新しいバージョンはありませんでした
 normal 通常
+nosystemtray システムトレイはありません。
 notify 通知
 notify1 メンバがオンラインになったら通知するウィンドウを表示する
 notify2 メッセージを受信したら通知ウィンドウを表示する
@@ -214,6 +251,7 @@ port ポート
 prefalerts 効果音設定
 prefapps アプリケーション
 prefawaymsg 不在メッセージ
+prefconnection 接続設定
 prefemotic 顔文字
 preferences 詳細設定
 preffont 自分の文字
@@ -225,27 +263,36 @@ prefmsging メッセージング インターフェース
 prefname MSN メッセンジャーの名前
 prefphone 電話番号
 prefphone2 許可するメンバに公開する電話番号を入力してください
+prefprivacy 許可/ブロックリスト
+prefprivacy2 自分の連絡先/相手の連絡先リスト
 prefprofile 公開プロフィール
 prefprofile2 公開プロフィールを作成/編集
 prefprofile3 AMSNのユーザプロフィール
 prefproxy プロキシ設定
+prefremote リモート接続設定
 prefsession サインイン状況
 prefshared 接続共有
 prefsound 効果音
+privacy プライバシー
 profiledconfig プロファイル済みの設定
+profileinuse そのプロフィールは別に起動しているAMSNが使用しています。 \n 他のものを選択してください。
 profiles プロファイル
 properties 詳細
 proxy HTTPかSocks5のプロキシ内部で使用する
 proxyconf プロキシ設定
 proxyconfhttp HTTPプロキシを自動設定する
+proxyconnection 次のProxyサーバを使用してインターネットに接続:
 publishphones 電話番号を公開
+raised 開く/アイコン化解除
 receivedbytes $1 / $2 バイトを受信しました
 receivefile ファイル受信
 reconnect $1 が再接続するのを待っています
 reconnecting 再接続しています
 reject 拒否
 rememberpass パスワードを保存
+removefromlist リストから消去する
 reversed 逆順
+reverselist 相手の連絡先リスト
 rightback 一時退席中
 save 保存
 saveas 別名で保存
@@ -261,6 +308,7 @@ sentbytes $1 / $2 バイトを送信しました
 server サーバ
 servergoingdown サーバがダウンしたためサービスから切断されました
 session セッション
+showblockedlist あなたをブロックしている人のリストを表示する
 sound 効果音
 sound2 メンバがサインインやメッセージを送信した場合効果音を鳴らす
 soundcommand 再生コマンド
@@ -270,6 +318,12 @@ soundserver サウンドサーバ
 soundstatus 効果音
 startoffline オフラインで起動する
 startoffline2 サインイン時オフラインする
+state 次の状態にする
+stateautomsg 自動返信メッセージ
+stateedittext テキストフィールドを編集し、保存をクリックしてください。
+stateinfo 自動返信の設定
+statename 自動返信の名前
+statenewtext 必要な項目を記入し保存をクリックしてください。
 status 状態
 stopalarm アラーム停止
 stylechat 会話のスタイル
@@ -282,19 +336,26 @@ title Al's Messenger
 to To
 tools ツール
 transnotexists そのファイルはまだ日本語訳されていません
+traynotcompiled トレイアイコンプラグインはコンパイルされていません。Plugins/Traydockを確認してください。
+twonewmail 受信箱に $1 通のメッセージがあります
 unblock 禁止解除
 uoffline オフライン
 uonline オンライン
 user メンバ
 useralreadyonlist 既にリストに追加されています
+userblocked ユーザはオンラインですがあなたをブロックしています。
 usernotonline メンバがオンラインではありません
+useryourself 自分自身とは会話できません
+verifyblocked ブロックしている人を確認する
 version バージョン
 view 表示
 viewprofile プロフィール閲覧
 willjoin $1 が会話に参加するのを待っています
 work 仕事
+wrongprofileversion プロフィール設定ファイルのバージョンが違います。修復するには $1 ディレクトリを消去するかAMSNをアップデートしてください
 xoffset X 位置
+yes Yes
 yoffset Y 位置
+youblocked あなたはブロックされました。
 yousay あなたの発言
 youwant あなたは次のことを望みますか？
-twonewmail 受信箱に $1 通のメッセージがあります
