@@ -221,7 +221,9 @@ namespace eval ::amsnplus {
 			if {[string equal $char "/help"]} {
 				set msg [string replace $msg $i [expr $i + 5] ""]
 				set strlen [string length $msg]
-				::amsn::WinWrite $chatid "\nThis is the command help (text not implemented)" green
+				::amsn::WinWrite $chatid "\nHELP: type /help to view this" green
+				set help [::amsnplus::help]
+				::amsn::WinWrite $chatid "\n$help" green
 				set incr 0
 			}
 			if {[string equal $char "/info"]} {
@@ -412,6 +414,13 @@ namespace eval ::amsnplus {
 		if {[string equal $state "onphone"]} { return 1 }
 		if {[string equal $state "gonelunch"]} { return 1 }
 		return 0	
+	}
+
+	###################################################################
+	# this returns the readme content in a variable
+	proc help {} {
+		set channel [open "plugins/amsnplus/readme" "RDONLY"]
+		return "$channel"
 	}
 
 }
