@@ -66,8 +66,7 @@
 			<chat_sendbutton_pady>3</chat_sendbutton_pady>
 			<chat_status_padx>1</chat_status_padx>
 			<chat_status_pady>1</chat_status_pady>
-			<chatpadx>3</chatpadx>
-			<chatpady>5</chatpady>
+			<chat_sash_pady>0</chat_sash_pady>
 		</Geometry>
 		
 		<Options>
@@ -76,6 +75,7 @@
 			<chat_buttons_border>1</chat_buttons_border>
 			<chat_input_border>1</chat_input_border>
 			<chat_status_border>1</chat_status_border>
+			<chat_sash_showhandle>0</chat_sash_showhandle>
 		</Options>
 	</ChatWindow>
 

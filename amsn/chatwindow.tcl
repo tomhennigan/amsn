@@ -971,6 +971,7 @@ namespace eval ::ChatWindow {
 			$paned add $output $input
 			$paned paneconfigure $output -minsize 50 -height 200
 			$paned paneconfigure $input -minsize 100 -height 120
+			$paned configure -showhandle [::skin::getKey chat_sash_showhandle] -sashpad [::skin::getKey chat_sash_pady]
 		} else {
 			pack $output -expand true -fill both -padx 0 -pady 0
 			pack $input -side top -expand false -fill both -padx [::skin::getKey chat_input_padx]\
