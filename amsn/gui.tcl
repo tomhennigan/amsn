@@ -881,7 +881,13 @@ namespace eval ::amsn {
       .${win_name}.menu.msn entryconfigure 3 -state normal
       .${win_name}.menu.actions entryconfigure 5 -state normal
 
-      bind .${win_name}.f.in.input <Key> "::amsn::TypingNotification .${win_name}"
+      bind .${win_name}.f.in.input <KeyRelease> "::amsn::TypingNotification .${win_name}"
+      bind .${win_name}.f.in.input <KeyRelease-Meta_L> "break;"
+      bind .${win_name}.f.in.input <KeyRelease-Meta_R> "break;"
+      bind .${win_name}.f.in.input <KeyRelease-Alt_L> "break;"
+      bind .${win_name}.f.in.input <KeyRelease-Alt_R> "break;"     
+      bind .${win_name}.f.in.input <KeyRelease-Control_L> "break;"
+      bind .${win_name}.f.in.input <KeyRelease-Control_R> "break;"
       bind .${win_name}.f.in.input <Return> "::amsn::MessageSend .${win_name} %W; break"
       bind .${win_name}.f.in.input <Key-KP_Enter> "::amsn::MessageSend .${win_name} %W; break"
       bind .${win_name}.f.in.input <Alt-s> "::amsn::MessageSend .${win_name} %W; break"
@@ -1099,6 +1105,8 @@ namespace eval ::amsn {
       } else {
          ::MSN::chatTo $chatid
       }
+      
+      status_log "Typing notification\n" blue
 
    }
    #///////////////////////////////////////////////////////////////////////////////
