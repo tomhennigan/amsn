@@ -1754,7 +1754,7 @@ catch {exec killall -c sndplay}
 			-font bplainf -borderwidth 1
 		text .${win_name}.statusbar.charstyped  -width 4 -height 1 -wrap none\
 			-font splainf -borderwidth 1
-		.${win_name}.statusbar.charstyped tag configure center -justify center
+		.${win_name}.statusbar.charstyped tag configure center -justify left
 
 
 
