@@ -29,6 +29,12 @@ namespace eval ::amsnplus {
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_send parseCommand
 	}
 
+	################################################
+	# this proc add external commands to amsnplus
+	# (useful for other plugins)
+	proc add_command { keyword action } {
+		array set ::amsnplus::external_commands [list "/$keyword" $action]
+	}
 
 	################################################
 	# this proc deletes ·$<num> codification
@@ -130,6 +136,11 @@ namespace eval ::amsnplus {
 		set incr 1
 		while {$i<$strlen} {
 			set char [::amsnplus::readWord $i $msg $strlen]
+			#check for the external_commands
+			if {[info exists ::amsnplus::external_commands($char)]} {
+				[set ::amsnplus::external_commands($char)]
+			}
+			#amsnplus commands
 			if {[string equal $char "/all"]} {
 				set msg [string replace $msg $i [expr $i + 4] ""]
 				set strlen [string length $msg]
