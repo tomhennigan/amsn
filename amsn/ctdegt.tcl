@@ -61,8 +61,8 @@ proc degt_protocol_win { } {
     wm state .degt withdraw
 
     frame .degt.top -class Degt
-        label .degt.top.name -text "Protocol" -justify left
-	pack .degt.top.name -side left -anchor w
+        label .degt.top.name -text "Protocol" -justify left -font sboldf
+	pack .degt.top.name -side left -anchor w 
 
     #font create debug -family Verdana -size 24 -weight bold
     frame .degt.mid -class Degt
@@ -90,10 +90,10 @@ proc degt_protocol_win { } {
 
     pack .degt.mid -expand true -fill both
 
-    checkbutton .degt.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable followtext_degt
+    checkbutton .degt.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable followtext_degt -font sboldf
 
     frame .degt.bot -relief sunken -borderwidth 1 -class Degt
-    button .degt.bot.save -text "[trans savetofile]" -command degt_protocol_save
+    button .degt.bot.save -text "[trans savetofile]" -command degt_protocol_save -font sboldf
     	button .degt.bot.clear  -text "Clear" -font sboldf \
 		-command ".degt.mid.txt delete 0.0 end"
     	button .degt.bot.close -text [trans close] -command degt_protocol_win_toggle -font sboldf

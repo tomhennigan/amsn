@@ -1848,14 +1848,13 @@ namespace eval ::amsn {
 		bind .${win_name}.f.out.text <<Button3>> "tk_popup .${win_name}.copy %X %Y"
 		
 		#Do not bind copy command on button 1 on Mac OS X (Tk Aqua)
-		if {![catch {tk windowingsystem} wsystem] && $wsystem != "aqua"} {
-		bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
-		}
+		if {![catch {tk windowingsystem} wsystem] || $wsystem == "aqua"} {
+			bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
+		} 
 		
 		#When someone type something in out.text, regive the focus to in.input and insert that key
 		#On Mac OS X (Aqua) only	
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-
 
 			bind .${win_name}.f.out.text <KeyPress> "lastKeytyped %A $bottom"
 
@@ -3187,11 +3186,11 @@ namespace eval ::amsn {
 		}
 
 		#Disable Grownotify for Mac OS X Aqua/tk users
-		if {![catch {tk windowingsystem} wsystem] && $wsystem != "aqua" && $config(animatenotify) } {
+		if {![::config::getKey animatenotify] || (![catch {tk windowingsystem} wsystem] && $wsystem == "aqua") } {
+			wm geometry $w -$xpos-$ypos		
+		} else {
 			wm geometry $w -$xpos-[expr {$ypos-100}]
 			after 50 "::amsn::growNotify $w $xpos [expr {$ypos-100}] $ypos"
-		} else {
-			wm geometry $w -$xpos-$ypos
 		}
 
 		#Focus last windows , in AquaTK (Mac OS X)
@@ -3933,10 +3932,10 @@ proc cmsn_draw_status {} {
 		-yscrollcommand ".status.ys set" -font splainf
 	scrollbar .status.ys -command ".status.info yview"
 	entry .status.enter -background white
-	checkbutton .status.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable followtext_status
+	checkbutton .status.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable followtext_status -font sboldf
 
 	frame .status.bot -relief sunken -borderwidth 1
-	button .status.bot.save -text "[trans savetofile]" -command status_save
+	button .status.bot.save -text "[trans savetofile]" -command status_save -font sboldf
 	button .status.bot.clear  -text "Clear" -font sboldf \
 		-command ".status.info delete 0.0 end"
 	button .status.bot.close -text [trans close] -command toggle_status -font sboldf
