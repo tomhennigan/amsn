@@ -43,6 +43,7 @@ cfgalarm Panga/Ongeza/Ondoa Sauti
 changefont Badilisha Maandishi
 changenick Badilisha jina
 chatack Inakubali maongezi kutoka
+chatmaxmin Muongeaji anapoanzisha maongezi na mimi nataka dirisha liwe:
 chat Ongea
 chatreq Inaomba maongezi
 chatsmileys2 Onyesha aikoni za Hisia na Visura kwenye Madirisha ya maongezi
@@ -63,6 +64,7 @@ command Amri
 confirmdelete Ni kweli unataka kufuta $1?
 confirm Unauhakika?
 connecterror Tatizo katika kuunganisha na pragramu-tumishi
+connectionlost Disconnected: Mawasiliano na progrom-tumishi yamesitishwa
 connection Muunganisho
 contactadded Muongeaji ameongezwa
 contactdoesnotexist Muongeaji hayupo!
@@ -79,6 +81,7 @@ delete Futa
 deliverfail kulikuwa na tatizo katika kupeleka ujumbe ufuatao
 delprofile2 Chagua Utashi unaotaka uondelewe
 delprofile Futa Utashi
+directconnection Naunganishwa kwenye mtandao moja kwa moja ( tumia poti 1863)
 dockgtk Gnome Doki
 docking Inadoki
 dockingoff Doki Imezimwa
@@ -118,6 +121,7 @@ helpcontents Yaliyomo kwenye msaada
 help Msaada
 history Ongalia Historia
 home Nyumbani
+httpconnection Unganisha kwa kutumia njia za HTTP ( tumia protokali za HTTP katika poti 80)
 ident Inatambulisha
 identity Utambulisho
 inbox Sanduku-Kuingia
@@ -214,6 +218,7 @@ port Poti
 prefalerts Ving'ora Tukio vyangu na Sauti
 prefapps Programu za matumizi
 prefawaymsg Ujumbe Wangu wa kuwa Mbali
+prefconnection Mipangilio ya muunganisho
 prefemotic Aikoni za hisia na visura
 preferences Mapendeleo
 preffont2 Badilisha jinsi wengine wanavyoona maandishi yangu katika maongezi
@@ -237,6 +242,7 @@ profiles Utashi
 properties Tabia
 proxyconfhttp Mpangilio wa msaada wa HTTP proksi
 proxyconf Mpangilia wa Proksi
+proxyconnection Naunganishwa kwenye mtandao kwa kutumia proksi-tumishi:
 proxy Nipo nyuma ya Programu Tumishi ya Proksi (HTTP au SOCKS5)
 publishphones Tawanya namba zangu za simu
 receivedbytes $1 ya $2 baiti zimepokelewa

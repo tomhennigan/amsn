@@ -45,6 +45,7 @@ cfgalarm Configurar l'alarma per aquest usuari
 changefont Canviar font
 changenick Canviar el meu sobrenom
 chatack Acceptant xat de
+chatmaxmin Quan un contacte obri una conversa, vull que sigui:
 chatreq Demanant xat
 chatsmileys2 Mostrar emoticones a la finestra del xat
 chatsmileys Emoticones al xat
@@ -68,6 +69,7 @@ connected Ara estàs connectat
 connecterror Error connectant-se amb el servidor
 connecting Connectant
 connection Connexió
+connectionlost Desconnectat: connexió amb el servidor tancada
 contactadded Contacte inclòs
 contactdoesnotexist ¡El contacte que intentes afegir no existeix!
 copy Copia
@@ -83,6 +85,7 @@ delete Esborrar
 deliverfail Hi ha hagut un problema al enviar el missatge
 delprofile2 Selecciona el perfil que t'agradaria eliminar
 delprofile Esborrar perfil
+directconnection Tinc una connexió directa a Internet (utilitza el port 1863)
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Acoplament amb el Gnome
 docking Acoplament
@@ -124,6 +127,7 @@ help Ajuda
 helpcontents Contiguts
 history Mostrar historial
 home Casa
+httpconnection Connectar-se amb el mètode HTTP (utilitza el protocol HTTP pel port 80)
 ident Identifica
 identity Identitat
 inbox Bústia
@@ -166,7 +170,7 @@ lprivtoconf La conversa privada canvia a conversa múltiple amb $1
 luclosedwin Has tancat la finestra a les $1
 mailer Gestor de correu
 maximised Maximitzada
-minimised Minimitzada o iconificada
+minimised Minimitzada/iconificada
 mins minuts
 mobile Mòbil
 movetogroup Moure al grup
@@ -221,6 +225,7 @@ port Port
 prefalerts Alertes i sons d'events
 prefapps Aplicacions
 prefawaymsg Missatges d'absent
+prefconnection Configuració de la connexió
 prefemotic Emoticones
 preferences Preferències
 preffont2 Canvia la manera com els altres veuen el meu text en una conversa
@@ -235,7 +240,7 @@ prefphone Números de telèfon
 prefprofile2 Crea o modifica el teu perfil públic\n(la teva descripció que poden veure els altres)
 prefprofile3 Configuració dels perfils d'usuari de l'aMSN
 prefprofile Perfil públic
-prefproxy Paràmetres del servidor intermedi (proxy)
+prefproxy Paràmetres del servidor intermediari (proxy)
 prefremote Preferències de connexió remota
 prefsession Inici de sessió
 prefshared Connexions compartides (només per NAT)
@@ -246,8 +251,10 @@ profiles Perfils
 properties Propietats
 proxyconf Configuració del servidor intermediari (proxy)
 proxyconfhttp Configuració del suport per al servidor intermediari HTTP
-proxy Estic darrera un servidor intermedi (HTTP o SOCKS5)
+proxy Estic darrera un servidor intermediari (HTTP o SOCKS5)
+proxyconnection Em connecto a Internet a través d'un servidor intermediari (proxy):
 publishphones Publicar els meus números de telèfon
+raised Elevada/desiconificada
 receivedbytes Rebuts $1 de $2 bytes
 receivefile Rebent fitxer
 reconnect Esperant a que $1 es reconnecti

@@ -46,10 +46,11 @@ changefont Changer la police
 changenick Changer de pseudonyme
 chatack Accepter de discuter avec
 chat Discuter
+chatmaxmin Quand une fenêtre d'invitation de dialogue s'ouvre, je veux qu'elle soit :
 chatreq Inviter à discuter
 chatsmileys2 Afficher les Emoticons et les Smileys dans la fenêtre de chat
 chatsmileys Utiliser les "smileys"
-checkfilman Les fichiers reçus seront sauvegardés dans $1. Veuillez vérifier les propriétés du gestionnaire de fichier dans la fenêtre de préférences. 
+checkfilman Les fichiers reçus seront sauvegardés dans $1. Veuillez vérifier les propriétés du gestionnaire de fichier dans la fenêtre de préférences.
 checkingver Recherche d'une nouvelle version
 checkver Nouvelle version
 choosebasefont Choisir la police de caractère
@@ -66,6 +67,7 @@ confirmdelete Confirmer suppression
 confirm Êtes vous sûr?
 connecterror Erreur de connexion
 connection Connexion
+connectionlost Déconnecté(e) : la connexion avec le serveur s'est arrêté
 connected Vous êtes maintenant connecté(e)
 connecting Se connecter
 contactadded Contact ajouté
@@ -83,6 +85,7 @@ delete Effacer
 deliverfail Une erreur est survenue lors de l'envoi du message suivant
 delprofile2 Sélectionner le profil que vous voulez supprimer
 delprofile Supprimer un profil
+directconnection J'ai une connexion directe à Internet (utilisation du port 1863)
 dockfreedesktop Bureau de travail libre (KDE3/Gnome2)
 dockgtk Ancrer dans GTK
 docking Ancrage actif
@@ -124,6 +127,7 @@ help Aide
 helpcontents Contenu de l'aide
 history Voir l'historique
 home Domicile
+httpconnection Connexion par la méthode HTTP (utilisation du protocole HTTP par le port 80)
 ident Identification
 identity Identité
 inbox Boîte aux lettres
@@ -222,6 +226,7 @@ port Port
 prefalerts Mes Alertes d'évènements et sons
 prefapps Applications
 prefawaymsg Mon message d'absence
+prefconnection Préférences de connexion
 prefemotic Emoticons, Icônes et Smileys
 preferences Préférences
 preffont2 Changer la façon dont les autres voient mon texte lors des conversations
@@ -245,9 +250,10 @@ profiledconfig Configuration profilée
 profileinuse Profil actuellement utilisé par une autre session Amsn. Veuillez choisir un autre profil.
 profiles Profils
 properties Propriétés
+proxy Je suis derrière un serveur proxy (HTTP ou SOCKS5)
 proxyconf Configuration du proxy
 proxyconfhttp Configuration du support proxy HTTP
-proxy Je suis derrière un serveur proxy (HTTP ou SOCKS5)
+proxyconnection Je me connecte à Internet par un serveur proxy :
 publishphones Publier mes numéros de téléphone
 receivedbytes $1 de $2 octets reçus
 receivefile Fichier reçu
