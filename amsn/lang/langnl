@@ -1,7 +1,7 @@
 amsn_lang_version 2
 about About
 acceptfile Accepteer bestand $1, omvang $2? opgeslaan in $3
-actions Akties
+actions Acties
 addacontact Voeg een contact toe
 addedyou Heeft jou toegevoegd aan zijn/haar contactenlijst
 addtocontacts Toevoegen aan contacten
@@ -9,14 +9,14 @@ addtoo Voeg deze persoon toe aan mijn contactenlijst
 admincontacts Beheer contacten
 admingroups Beheer groepen
 adverts Advertenties
-allowseen Laat deze persoon toe om te zien wanneer ik online ben en om mij te contacteren
+allowseen Sta deze persoon toe om te zien wanneer ik online ben en om mij te contacteren
 appearoff Doe alsof je offline bent
-aretyping $1 ben geeft een bericht in
-autohotmaillog Automatisch inloggen in hotmail
+aretyping $1 zijn bezig met typen
+autohotmaillog Automatisch inloggen bij Hotmail
 autoip Automatisch IP
 avoidseen Vermijd dat deze persoon kan zien wanneer ik online ben en dat hij mij kan contacteren
 away Afwezig
-baduserpass Foutieve gebruikersnaam of paswoord
+baduserpass Foutieve gebruikersnaam of wachtwoord
 blankdirect Laat leeg voor directe connectie
 block Blokkeer
 blocked Geblokeerd
@@ -24,12 +24,12 @@ broughtby Aangeboden door de volgende ontwikkelaars
 browser Browser
 busy Bezig
 cancel Annuleren
-changenick Verander nickname
+changenick Verander Schermnaam
 chatack Aanvaard chat van
 chat Chat
 chatreq Verzoek om te chatten
-chatsmileys Toon smileys
-checkingver Aan het controleren op een nieuwe versie
+chatsmileys Toon emoticons
+checkingver Bezig met controleren op een nieuwere versie
 checkver Controleer of er een nieuwe versie is
 choosebasefont Lettertype
 choosebgcolor Achtergrondkleur
@@ -38,18 +38,18 @@ close Sluiten
 closingdocks Sluit venster
 command Programma
 confirmdelete Wilt u echt $1 verwijderen?
-connecterror Verbindings fout
-contactadded Contact toegevoegd
-contactdoesnotexist Contact bestaat niet
+connecterror Verbindingsfout
+contactadded Contactpersoon toegevoegd
+contactdoesnotexist Contactpersoon bestaat niet
 contacterror Fout tijdens het verbinden met de server
-copytogroup Kopiëren naar groep
+copytogroup copiëren naar groep
 date Datum
 delete Wis
 enableproxy Gebruik proxy
 encoding Encoding
 entercontactemail Geef contact-email in
 enterfilename Gelieve een bestandsnaam in te geven
-enternick Geef uw nickname in
+enternick Geef uw schermnaam in
 examples Voorbeelden
 exitamsn Sluit amsn
 extras Extra's
@@ -57,7 +57,7 @@ filedoesnotexist Bestand bestaat niet
 filename Bestandsnaam
 filetransfercancelled Bestandsverzending geanuleerd
 filetransfercomplete Bestandsverzending compleet
-gonelunch Gaan eten
+gonelunch Uit eten
 groupadd Voeg een groep toe
 groupdelete Verwijder een groep
 groupexists Groep bestaat al
@@ -67,48 +67,48 @@ groupnewname Nieuwe naam
 groupnotempty Deze groep is niet leeg!
 groupoldname Oude naam
 grouprename Verander een groepsnaam
-groupunknown Ongekende groep
+groupunknown Onbekende groep
 handle Nick
 helpcontents Help inhoud
 help Help
 home Thuis
-ident Aan het identificeren
+ident Bezig met identificeren
 identity Identiteit
 inbox Inbox
 invalidusername Uw gebruikersnaam is fout.
 invite Nodig uit
 ipaddress IP adres
 ipadress IP adres
-istyping $1 is geeft een bericht in
+istyping $1 is bezig met typen
 joins $1 $2 neemt deel aan conversatie
 language Taal
 lastmsgtime Laatste bericht ontvangen om $1
-leaveblankforhotmail Laat leeg voor gebruiken van hotmail web
+leaveblankforhotmail Laat leeg voor gebruiken van Hotmail web
 leaves $1 verlaat conversatie
-listeningon Aan het luisteren op poort $1
+listeningon Bezig met luisteren op poort $1
 listsmileys Toon smileys in lijst
-loadcontacts Laad contactenlijst
+loadcontacts Bezig met laden van de contactenlijst
 loggedotherlocation U bent reeds aangemeld
-loggingin Aan het inloggen
+loggingin Bezig met inloggen
 loginas Inloggen als
 login Log In
 logout Log Uit
-logsin is zonet ingelogd
+logsin heeft zojuist ingelogd
 mailer Mail client
 mobile GSM
 movetogroup Verplaats naar groep
 msg Bericht
 msn AMSN
-mustrestart Je moet het programma herstarten omdat deze veranderingen effect zouden hebben
+mustrestart Je moet het programma herstarten voordat de veranderingen effect hebben
 mystatus Mijn status
 needonline Je bent offline (of doet alsof)  
-newmail $1 nieuw bericht in In-Box
-newmailfrom Nieuwe mail van
+newmail $1 nieuwe berichten in In-Box
+newmailfrom Nieuwe email van
 newmsg Nieuw bericht
 newveravailable Nieuwere versie $1 beschikbaar
 next Volgende
 noactivity Geen activiteit
-nonewmail 0 nieuw bericht in In-Box
+nonewmail 0 nieuwe berichten in In-Box
 nonewver Er zijn geen nieuwere versies beschikbaar
 notify Licht in
 nousersinsession Geen gebruiker in sessie
@@ -116,7 +116,7 @@ offline Offline
 ok Ok
 onenewmail 1 nieuw bericht in In-Box
 online Online
-onphone Aan het telefoneren
+onphone Aan de telefoon
 openreceived Open ontvangen bestanden
 options Opties
 ordercontactsby Sorteer contacten op
@@ -134,15 +134,15 @@ proxyconf Proxy configuratie
 publishphones Publiceer mijn telefoonnummers
 receivedbytes $1 van $2 bytes ontvangen
 receivefile Ontvang bestand
-reconnecting Opnieuw aan het verbinden met de server
-reconnect Wachten opdat $1 opnieuw zou verbinden
-rememberpass Onthoud paswoord
+reconnecting Bezig met opnieuw verbinden met de server
+reconnect Wachten tot $1 opnieuw verbindt
+rememberpass Bewaar wachtwoord
 rightback Onmiddelijk terug
 saveas Opslaan als
 savecontacts Contactenlijst opslaan
 save Opslaan
 says $1 zegt
-sbcon Aan het verbinden met Switch Board
+sbcon Bezig met verbinden met Switch Board
 sendfile Verzend een bestand
 sendmail Zend een email
 sendmsg Zend een bericht
@@ -165,7 +165,7 @@ useralreadyonlist Gebruiker staat al in uw lijst
 user Gebruiker
 version Versie
 view Beeld
-willjoin Wachten opdat $1 de conversatie zou bijwonen
+willjoin Wachten tot $1 de conversatie zal bijwonen
 work werk
 yousay Jij zegt
 youwant Jij wil
