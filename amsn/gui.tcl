@@ -3663,10 +3663,11 @@ proc cmsn_draw_main {} {
 		catch {wm iconmask . @[GetSkinFile pixmaps amsnmask.xbm]}
 	}
 
+	. conf -menu .main_menu
+
 	#allow for display updates so window size is correct
 	update idletasks
 
-	. conf -menu .main_menu
 }
 #///////////////////////////////////////////////////////////////////////
 
