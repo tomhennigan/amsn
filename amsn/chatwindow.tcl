@@ -488,8 +488,9 @@ namespace eval ::ChatWindow {
 			pack $top -side top -expand false -fill x -padx [::skin::getColor chatpadx] -pady [::skin::getColor chatpady]
 		}
 		
+		pack $statusbar -side bottom -expand false -fill x
 		pack $paned -side top -expand true -fill both -padx [::skin::getColor chatpadx] -pady 0
-		pack $statusbar -side top -expand false -fill x
+
 
 
 		focus $paned
@@ -970,7 +971,7 @@ namespace eval ::ChatWindow {
 	proc CreatePanedWindow { w } {
 		
 		set paned $w.f
-		panedwindow $paned -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat -orient vertical
+		panedwindow $paned -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat -orient vertical ;#-opaqueresize true -showhandle false
 		set output [CreateOutputWindow $w $paned]
 		set input [CreateInputWindow $w $paned]
 
@@ -990,10 +991,14 @@ namespace eval ::ChatWindow {
 
 		# Bind on focus, so we always put the focus on the input window
 		bind $paned <FocusIn> "focus $input"
-
+		#bind $paned <Configure> "::ChatWindow::PanedWindowConfigured $paned %w %h"
 
 		return $paned
 
+	}
+
+	proc PanedWindowConfigured { paned neww newh } {
+		
 	}
 
 	proc CreateOutputWindow { w paned } {
@@ -1059,14 +1064,14 @@ namespace eval ::ChatWindow {
 		}
 
 		# Create The left frame
-		frame $leftframe -class Amsn -background blue -relief solid -borderwidth 0
+		frame $leftframe -class Amsn -background [::skin::getColor chatwindowbg] -relief solid -borderwidth 0
 
 		# Create the other widgets for the bottom frame
 		set buttons [CreateButtonBar $w $leftframe]
 		set input [CreateInputFrame $w $leftframe]
 		set picture [CreatePictureFrame $w $bottom]
 
-		pack $buttons -side top -expand true -fill x -padx [::skin::getColor chatpadx] -pady 0 -anchor n
+		pack $buttons -side top -expand false -fill x -padx [::skin::getColor chatpadx] -pady 0 -anchor n
 		pack $input -side top -expand true -fill both -padx [::skin::getColor chatpadx] -pady [::skin::getColor chatpady] -anchor n
 		pack $leftframe -side left -expand true -fill both -padx [::skin::getColor chatpadx] -pady [::skin::getColor chatpady]
 		pack $picture -side right -expand false -padx [::skin::getColor chatpadx] -pady 0 -anchor ne
