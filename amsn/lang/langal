@@ -1,0 +1,160 @@
+amsn_lang_version 2
+about Lidhje me
+acceptfile Pranoje skedën $1, madhësia $2? E ruajtur në $3
+actions Akcionet
+addacontact Shto një kontakt
+addedyou Të ka shtuar listën e kontakteve të tij/a
+addtoo Shtoje këtë person në listën e kontakteve të mija
+admincontacts Rregullo kontaktet
+admingroups Rregullo grupet
+adverts Reklamat
+allowseen Lejoje këtë person të më shohë dhe të më kontaktojë kur unë jam në linjë
+appearoff Paraqitu si jasht linjës
+are janë
+autohotmaillog Automatikisht kyçu në Hotmail
+autoip IP Automatike
+avoidseen Mos e lejoje këtë person të më shohë dhe të më kontaktojë kur unë jam në linjë
+away Jasht
+baduserpass Useri apo fjalëkalimi i gabuar
+blankdirect Lëre të zbrazët për lidhje direkte
+block Bllokoje
+blocked I/e Bllokuar
+browser Shfletues
+busy I zënë
+cancel Anulo
+changenick Ndërro nikun
+chat Bisedo
+chatreq Requesting chat
+chatsmileys :) e bisedave
+chatack Duke pranuar bisedën
+checkver Shiko për version të ri
+checkingver Duke shikuar për version të ri
+clicktologin Kliko këtu për të hyrë
+close Mbylle
+closingdocks Close button docks window
+command Komandë
+confirmdelete A jeni i sigurtë që do ta fshini $1?
+contactadded Kontakti u shtua
+contactdoesnotexist Kontakti nuk ekziston!
+connecterror Nuk mund të lidhet me serverin
+date Data
+delete Fshije
+enableproxy Mundëso proxin
+entercontactemail Shkruaje e-mail-ine kontaktit
+enterfilename Ju lutem shkruane emrin e skedës
+enternick Shkruaje nikun tuaj
+examples Shembuj
+exitamsn a jeni të sigurtë që doni të dilni?
+extras Servise ekstra
+filedoesnotexist Skeda nuk ekziston
+filename Emri i skedës
+filetransfercancelled Transferi i skedës u anulua
+filetransfercomplete Transferi i skedës përfundoi
+gonelunch Gone to lunch
+group Grupi
+groupadd Shto një grup
+groupdelete Fshije një grup
+grouprename Riemërtoje grupin
+groupoldname Emri i vjetër
+groupnewname emri i ri
+groupunknown Group i panjohur
+groupexists Grupi ekziston
+groupmissing Nuk mund ta gjej grupin
+groupnotempty Grupi nuk është i zbrazët!
+handle Handle
+help Ndihmë
+helpcontents Përmbajtja e ndihmës
+home Shtëpi
+ident Identifying
+identity Identiteti
+inbox In-Box
+invalidusername Emër i gabuar i shfrytëzuesit
+invite Ftoje
+ipaddress IP Adresa
+is është
+joins $1 $2 i bashkangjitet bisedës
+language Gjuha
+leaves $1 e la bisedën
+listeningon Duke dëgjuar në portin $1
+listsmileys List smileys
+loadcontacts Ngarkoje listën e kontakteve
+loggedotherlocation U ç'kyç. Kyçja është bërë nga ndonjë lokacion tjetër
+loggingin Duke u kyçur
+login Kyçu
+loginas Kyçu
+logout Ç'kyçu
+logsin Vetëm sa u kyç
+mailer Mail
+mobile Mobil
+movetogroup Lëviz grupin
+mustrestart Duhet ta startoni përsëri programin që t'i merr parasysh ndryshimet
+mystatus Statusi im
+msg Porosi
+msn Albanian-MSN
+needonline Ju ende jeni i paraqitur si jashtë linjës!
+newmail $1 Mesazhe të reja në In-Box
+newmailfrom Masazh të ri nga
+newmsg Mesazh i ri
+newveravailable Është e mundshme ta merrni versionin e ri $1
+next Tjetra
+noactivity Nuk ka aktivitet
+nonewver Nuk ka version të ri për ta marrë
+notify Lajmëro
+nousersinsession Nuk ka shfrytëzues në sesion
+ok Ok
+offline Jashtë linjës
+online Në Linjë
+onphone Në telefon
+openreceived Hapi Skedat e marrura
+options Opcionet
+ordercontactsby Rradhit kontaktet nga
+other Tjëter
+pager Pejgjer
+pass Fjalëkalim
+phone Telefon
+port Port
+prefapps Aplikacion
+preferences Preferencat
+prefsound Zërat
+properties Karakteristikat
+proxyconf Knfigurimi i proksit
+proxyconfhttp HTTP proxy support configuration
+publishphones Publiko numrat e telefonit
+receivedbytes U pranua $1 nga $2 bajt
+receivefile Prano skedën
+reconnect Duke pritur $1 që të lidhet prap
+reconnecting Duke u lidhur prap me serverin
+rememberpass Mbaje në mend fjalëkalimin
+rightback Kthehm së shpejti
+save Ruaje
+saveas Ruaje si
+savecontacts Ruaje listën e kontakteve
+says $1 thot
+sbcon Duke u lidhur në Switch Board
+send Dërgo
+sendfile Dërgo skedën
+sendmail Dërgo postën
+sendmsg Dërgo mesazhin
+sentbytes $1 u dërgua $2 bajt
+server Serveri
+servergoingdown U ç'kyç: Serveri u ndal
+sound Event Sound
+startoffline Lëshoje jasht linjës
+status Statusi
+syntaxerror  Error sintaksor
+textsize Madhësia e tekstit
+title Al's Messenger
+to Te
+tools Veglat
+typing $1 po shkruan mesazh
+yousay Ju thuani
+youwant Ju doni
+unblock Ç'bllokoje
+uoffline Jashtë linjës
+uonline Në linjë
+user Shfrytëzuesi
+useralreadyonlist Shfrytëzuesi është në listën e kontakteve
+version Versioni
+view Shiko
+willjoin Duke pritur $1 t'i bashkangjitet bisedës
+work Punë
