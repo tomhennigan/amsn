@@ -542,3 +542,10 @@ nogroup Nenhum grupo
 phones Números de telefone
 userdata Dados do Usuário
 userproperties Propriedades do Usuário $1
+displayp4context Exibir campo de contexto-P4 como remetente da mensagem
+leavejoinsinchat Mostrar notificações de de entrada e saída dentro da janela de conversação
+logsbydate Ordenar logs por data (Histórico carrega bem mais rápido)
+p4contextprefix Adicionar este prefixo ao campo de contexto-P4 de remetente
+recentmsg Evitar fechar uma janela de consersação quando uma mensagem acaba de chegar
+showcachedpics Mostrar figuras de tela armazenadas
+soundactive Reproduzir sons quando receber mensagens também nas janelas ativas
