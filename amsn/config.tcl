@@ -80,6 +80,7 @@ proc ConfigDefaults {} {
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		set config(wingeometry) 275x400-200+200		;#Main window geometry on Mac OS X
 		set config(backgroundcolor)  #ECECEC		;#AMSN Mac OS X background color
+		set config(dockbounce) once					;#Dock bouncing on Mac OS X
 	} else {
 		set config(wingeometry) 275x400-0+0			;#Main window geometry
 		set config(backgroundcolor)  #D8D8E0		;#AMSN background color
