@@ -326,6 +326,15 @@ proc statusicon_proc {status} {
 
 proc taskbar_mail_icon_handler { msg x y } {
 	global config password
+
+	if { [winfo exists .bossmode] } {
+		if { $msg=="WM_LBUTTONDBLCLK" } {
+			wm state .bossmode normal
+			focus -force .bossmode
+		}
+		return
+	}
+
 	if { $msg=="WM_LBUTTONUP" } {
 		hotmail_login $config(login) $password
 	}
