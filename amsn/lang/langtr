@@ -25,7 +25,7 @@ alarmstatus Bu kullanýcý için alarmý aç/kapa
 allfiles Tüm Dosyalar
 allowallbutbl Engellenenler dýþýnda herkesin bana ulaþmasýna izin ver
 allowbadwords Kullanýcý isimlerinde sansürü kaldýr
-allowlist Ýzin verilenler
+allowlist ýzin verilenler
 allowonlyinal Yalnýzca izin verilenler listesindekiler bana ulaþabilsin
 allowseen Bu kiþi ben çevrim içiyken beni görebilsin ve bana yazabilsin
 allprofilesinuse Var olan tüm profiller kullanýmda
@@ -63,7 +63,7 @@ blockinter2 saniyede bir, yoksa her:
 blockinter3 her
 blockinter4 saniye
 blocklist Engellenenler listesi
-blockmessage Þu kiþiler baðlý ve sizi engellemiþ durumdalar
+blockmessage þu kiþiler baðlý ve sizi engellemiþ durumdalar
 blockusers Bir seferde denetlenecek kullanýcý sayýsý 
 broughtby Yazýlýmý geliþtirenler
 browse Gözat
@@ -115,7 +115,7 @@ commandstatus Komutu çalýþtýr
 confirmdelete $1 i silmek istediðinizden emin misiniz?
 confirm Emin misiniz?
 confirmpurge Diðer kullanýcýlardan alýnan kullanýcý resimleri (sizinkiler deðil) silinecek. Emin misiniz?
-connected Þu an baglýsýnýz
+connected þu an baglýsýnýz
 connecterror Sunucuya baðlanýrken hata oluþtu
 connecting Baðlanýyor
 connection Baðlantý
@@ -150,7 +150,7 @@ delprofile Profili sil
 description Tarif
 directconnection Ýnternete doðrudan baðlantým var (1863. portu kullanýr)
 disabled Devredýþý
-disableprofiles Profilleri devredýþý býrak (Ýnternet cafe ve paylaþýlan ortamlar için uygun)
+disableprofiles Profilleri devredýþý býrak (ýnternet cafe ve paylaþýlan ortamlar için uygun)
 disablessl SSL kullanma
 disconnect $1 ayrýldý
 displaychat Metin seçeneklerini göster
@@ -236,7 +236,7 @@ imagefiles Resim Dosyalarý
 inbox Gelen kutusu
 insertsmiley Gülen adam koy
 installconvert Kullanýcý resimlerini ve özel gülen adamlarý kullanabilmek için ImageMagick ('convert' programý) kurulmuþ olmalýdýr. Sisteminiz için gereken çaýlýþtýrýlabilir dosyalarý ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ adresinden indirebilirsiniz. Eðer program zaten kuruluysa bu bir hatadýr, lütfen bize bildirin. Bu özellikler þimdilik devredýþýdýr, daha sonra Image Magick'i kurduðunuzda bunlarý Seçenekler'den etkinleþtirebilirsiniz.
-internalerror Ýç sunucu hatasý
+internalerror ýç sunucu hatasý
 invalidfile "$1" alanýna girilen $2 dosyasý yok ya da okunamýyor
 invalidfile2 $1 dosyasý oluþturulamadý, yazma izniniz olduðundan emin olun.
 invalidpic Belirttiðiniz resim dosyasý yok
@@ -304,7 +304,7 @@ mymobilephone Cep telefonum
 mypic Kullanýcý resmim:
 mystatus Durumum
 myworkphone Ev telefonum
-natip Ýnternet sayfasýndan IP belirlenmesi
+natip ýnternet sayfasýndan IP belirlenmesi
 natkeepalive Eðer baðlantýnýz sürekli kopuyorsa, bu seçeneði (canlý tut - Keepalive) iþaretleyiniz
 needonline Hala çevrim dýþý görünüyorsunuz!
 newmailfrom Yeni ileti gönderen: $1 ($2)
@@ -325,7 +325,7 @@ noprofileexists Henüz hiçbir profil yok. Eðer profille baðlanmak \nisterseniz bi
 normal normal
 noskins Varsayýlan kabuk skins/ dizininde bulunamadý. AMSN baþlatýlamadý.
 nosystemtray Görev çubuðu yok
-notificationserver Ýlk MSN Uyarý Sunucusu (MSN Messenger Sunucusu)
+notificationserver ýlk MSN Uyarý Sunucusu (MSN Messenger Sunucusu)
 notify1_5 Baðlantýlar çýkýnca uyarý penceresi göster
 notify1_75 Baðlantýlar durum deðiþtirince uyarý penceresi göster
 notify1 Baðlantýlar girince uyarý penceresi göster
@@ -350,7 +350,7 @@ ordergroupsby Gruplarýn sýralanýþý
 other Diðer
 others Diðerleri
 pager Çaðrý cihazý
-pass Þifre
+pass þifre
 paste Yapýþtýr
 personal Kiþisel
 phone Telefon
@@ -376,12 +376,12 @@ prefft Dosya aktarýmý, p2p ve NAT ayarlarý
 preflibs Kütüphane dizinleri
 preflog1 Geçmiþ ve sohbet kayýt seçeneklerim
 preflook aMSN'imin görünüþü
-prefmsging Ýleti arayüzüm
+prefmsging ýleti arayüzüm
 prefname MSN Messenger kullanýcý ismim (rumuzum)
 prefphone2 Ýzin verdiðiniz kiþilerin görmesini \n istediðiniz telefon numaralarýný girin
 prefphone Telefon numaralarým
 prefprivacy2 Kullanýcýnýn Baðlantý/Karþý listeleri
-prefprivacy Kullanýcýnýn Ýzin Verilenler/Engellenenler listeleri
+prefprivacy Kullanýcýnýn ýzin Verilenler/Engellenenler listeleri
 prefprofile2 Açýk profilinizi (diðerlerinin \n göreceði bilgiler) yaratýn/deðiþtirin
 prefprofile3 aMSN kullanýcý ayar profili
 prefprofile Açýk profilim 
@@ -412,7 +412,7 @@ receivefile Dosyayý al
 reconnect $1 in yeniden baðlanmasý bekleniyor
 reconnecting Sunucuya yeniden baðlanýlýyor
 reject Geri çevir
-rememberpass Þifreyi hatýrla
+rememberpass þifreyi hatýrla
 removefromlist Bu listeden çýkar
 rename Yeniden adlandýr
 reversed ters
@@ -480,7 +480,7 @@ stylechat Sohbetler ile ayný görünüþ
 stylehist aMSN Geçmiþ görünüþü
 stylelog Geçmiþinizin görünüþ þeklini seçin
 syntaxerror Yazým hatasý
-tabbed Ýçiçe pencereler
+tabbed ýçiçe pencereler
 temp_state Kaydetme (Geçici durum, AMSN kapatýlýnca silinecek)
 textsize Metin boyutu
 timeremaining Kalan zaman
