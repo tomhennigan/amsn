@@ -6,6 +6,7 @@ actions Actions
 addacontact Ajouter un contact
 addedyou $1 ($2) vous a ajouté dans sa liste de contacts
 addstate Ajouter un nouveau statut
+addto Ajouter à $1
 addtocontacts Ajouter aux contacts
 addtoo Ajouter cette personne à ma liste de contacts
 admincontacts Gérer les contacts
@@ -14,6 +15,7 @@ adverts Publicité
 alarmpref Configuration de l'alarme utilisateur
 alarmstatus Activer/désactiver l'alarme pour cet utilisateur
 allowallbutbl Autoriser tout le monde à me contacter sauf les personnes que j'ai bloquées
+allowbadwords Désactiver la censure des pseudos
 allowlist Liste des personnes autorisées
 allowonlyinal Seulement autoriser les utilisateurs de ma Liste d'acception à me contacter
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
@@ -52,6 +54,7 @@ browser Navigateur web
 busy Occupé
 cancel Annuler
 cannotdeleteprofile le profil ne peut être supprimé car il semble utilisé par une session Amsn
+cantexec Impossible d'éxecuter l'application: $1. Vérifiez vos préférences
 cfgalarm Configurer/Ajouter/Supprimer alarme
 changefont Changer la police
 changenick Changer de pseudonyme
@@ -75,6 +78,7 @@ clearlog3 Effacer tous les logs
 clearlog Effacer les logs
 clicktologin Cliquez pour vous connecter
 close Fermer
+closed Conversation avec $1 fermée pour inactivité
 closingdocks Le bouton fermer ancre l'application
 command Commande
 confirmdelete Confirmer la suppression
@@ -154,6 +158,7 @@ handle Pseudonyme
 help Aide
 helpcontents Contenu de l'aide
 history Voir l'historique
+hybrid Mode hybride
 home Domicile
 httpconnection Connexion par la méthode HTTP (utilisation du protocole HTTP par le port 80)
 ident Identification
@@ -195,6 +200,7 @@ login Se connecter
 logolder Seulement conserver les conversation qui ont eu lieu dans les
 logout Se déconnecter
 logsin vient de se connecter
+logsout vient de se déconnecter
 logsmileys Afficher les émoticons dans la fenêtre d'historique de aMSN
 lprivtoconf  Conversation privée changée en conférence avec $1
 luclosedwin Vous avez fermé la fenêtre sous $1
@@ -233,6 +239,8 @@ no Non
 normal Normal
 nosystemtray La poubelle n'est pas accessible
 notify1 Afficher un avertissement quand un contact est en ligne
+notify1_5 Afficher un avertissement quand un contact se déconnecte
+notify1_75 Afficher un avertissement quand un contact change d'état
 notify2 Afficher un avertissement quand de nouveaux messages sont reçus
 notify3 Afficher un avertissement quand des courriels arrivent dans votre boîte de réception
 notifyoffset Sélectionner la position de la fenêtre d'avertissement en précisant ses coordonnées
@@ -333,6 +341,7 @@ stateautomsg Message a envoyer automatiquement
 stateedittext Veuillez éditer les champs que vous \n voulez modifier et cliquez sur Enregistrer
 stateinfo Configuration de mon statut
 state Je veux apparaître
+statechange état changé pour :
 statename Nom du statut
 statenewtext Veuillez entrer les informations nécessaires \n a la création de votre nouveau statut et cliquez sur Enregistrer
 status Statut
@@ -344,6 +353,7 @@ syntaxerror Erreur de syntaxe
 tabbed Onglets
 textsize Taille du texte
 title Al's Messenger
+tooltips Activer les astuces
 to À
 tools Outils
 transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue
