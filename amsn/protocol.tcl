@@ -3059,7 +3059,8 @@ proc cmsn_update_users {sb recv} {
 		BYE {
 
 			set chatid [::MSN::ChatFor $sb]
-
+			
+			
 			set leaves [$sb search -users "[lindex $recv 1]"]
 			$sb configure -last_user [lindex [$sb cget -users] $leaves]
 			$sb delUser $leaves
@@ -3068,7 +3069,7 @@ proc cmsn_update_users {sb recv} {
 
 			if { [llength [$sb cget -users]] == 1 } {
 				#We were a conference! try to become a private
-
+				
 				set desiredchatid $usr_login
 
 				set newchatid [::ChatWindow::Change $chatid $desiredchatid]
@@ -3080,9 +3081,15 @@ proc cmsn_update_users {sb recv} {
 				} else {
 					#The GUI accepts the change, so let's change
 					status_log "cmsn_update_users: change accepted from $chatid to $desiredchatid\n"
+
 					::MSN::DelSBFor $chatid $sb
-					::MSN::AddSBFor $newchatid $sb                  
+					::MSN::AddSBFor $newchatid $sb   
+					
+
+					               
 					set chatid $newchatid
+					
+					
 				}
 
 			} elseif { [llength [$sb cget -users]] == 0 && [$sb cget -stat] != "d" } {
@@ -3152,6 +3159,7 @@ proc cmsn_update_users {sb recv} {
 				::MSN::AddSBFor $chatid $sb
 		
 				status_log "cmsn_update_users: JOI - Another user joins, Now I'm chatid $chatid (I was $oldchatid)\n"
+				
 				::ChatWindow::Change $oldchatid $chatid
 
 			}
@@ -3976,9 +3984,29 @@ proc initial_syn_handler {recv} {
 		ChCustomState $::oldstatus
 		send_dock "STATUS" $::oldstatus
 		unset ::oldstatus
-	} elseif {[::config::getKey startoffline]} {
-		ChCustomState "HDN"
-		send_dock "STATUS" "HDN"
+	} elseif {[::config::getKey connectas] != ""} {
+		#Protocol code to choose our state on connect
+		set goodstatecode ""
+		set i 0
+		while {$i < "9"} {
+			set statecode "[::MSN::numberToState $i]"
+			set description "[trans [::MSN::stateToDescription $statecode]]"
+			
+			if {$description == [::config::getKey connectas]} {
+				set goodstatecode $statecode
+				break
+			}	
+			incr i
+		}
+		if {$goodstatecode != ""} {
+			ChCustomState "$goodstatecode"
+			send_dock "STATUS" "$goodstatecode"
+		} else {
+			status_log "Not able to get choosen key: [::config::getKey connectas]"
+			ChCustomState "NLN"
+			send_dock "STATUS" "NLN"
+		}
+		
 	} else {
 		ChCustomState "NLN"
 		send_dock "STATUS" "NLN"

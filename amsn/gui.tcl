@@ -505,7 +505,6 @@ namespace eval ::amsn {
 		button $w.buttons.yes -text "[trans yes]" -command \
 			"::amsn::deleteUserAction $w $user_login yes $grId" -default active -width 6
 		button $w.buttons.no -text "[trans no]" -command "destroy $w" -width 6
-		puts $block
 		if {$block == 1} {
 			$w.buttons.yes configure -command "::amsn::deleteUserAction $w $user_login yes_block $grId"
 		}
@@ -2373,9 +2372,13 @@ namespace eval ::amsn {
 
 			set creating_window 1
 			if { [::ChatWindow::UseContainer] == 0 } {
+			
 				set win_name [::ChatWindow::Open]
+			
 				::ChatWindow::SetFor $lowuser $win_name
+				
 			} else {
+
 				set container [::ChatWindow::GetContainerFor $user]
 				set win_name [::ChatWindow::Open $container]
 				::ChatWindow::SetFor $lowuser $win_name
@@ -2409,14 +2412,16 @@ namespace eval ::amsn {
 		} else {
 			wm state ${top_win} normal
 		}
-		
+	
 		wm deiconify ${top_win}
 		
 
 		update idletasks
+
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			::ChatWindow::MacPosition ${top_win}
 		}
+
 		::ChatWindow::TopUpdate $chatid
 
 		#We have a window for that chatid, raise it
@@ -4082,8 +4087,25 @@ proc cmsn_draw_login {} {
 	entry $mainframe.passentry2 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 25 -show "*"
 	checkbutton $mainframe.remember -variable [::config::getVar save_password] \
 		-text "[trans rememberpass]" -font splainf -highlightthickness 0 -pady 5 -padx 10
-	checkbutton $mainframe.offline -variable [::config::getVar startoffline] \
-		-text "[trans startoffline]" -font splainf -highlightthickness 0 -pady 5 -padx 10
+	#checkbutton $mainframe.offline -variable [::config::getVar startoffline] \
+	#	-text "[trans startoffline]" -font splainf -highlightthickness 0 -pady 5 -padx 10
+	
+	#Combobox to choose our state on connect
+	label $mainframe.statetext -text "Sign-in status" -font splainf
+	combobox::combobox $mainframe.statelist -editable false -highlightthickness 0 -width 15 -bg #FFFFFF -font splainf -textvariable [::config::getVar connectas]
+	$mainframe.statelist list delete 0 end
+	set i 0
+	while {$i < "9"} {
+		set statecode "[::MSN::numberToState $i]"
+		set description "[trans [::MSN::stateToDescription $statecode]]"
+		$mainframe.statelist list insert end $description
+		incr i
+	}
+	if {[::config::getKey connectas] != ""} {
+		$mainframe.statelist select "[::config::getKey connectas]"
+	} else {
+		$mainframe.statelist select "0"
+	}
 
 	#Set it, in case someone changes preferences...
 	::config::setKey protocol 9
@@ -4108,7 +4130,8 @@ proc cmsn_draw_login {} {
 		grid $mainframe.passentry2 -row 3 -column 3 -sticky w
 	}
 	grid $mainframe.remember -row 5 -column 2 -sticky wn
-	grid $mainframe.offline -row 6 -column 2 -sticky wn
+	grid $mainframe.statetext -row 6 -column 1 -sticky wn
+	grid $mainframe.statelist -row 6 -column 2 -sticky wn
 	grid $mainframe.example -row 1 -column 4 -rowspan 4
 
 	#if { [::config::getGlobalKey disableprofiles] != 1 } {
@@ -4147,6 +4170,8 @@ proc cmsn_draw_login {} {
 
 	#tkwait visibility .login
 	catch {grab .login}
+	
+	moveinscreen .login 30
 }
 
 #///////////////////////////////////////////////////////////////////////
