@@ -23,6 +23,12 @@ namespace eval ::amsn {
       option add *Menu.font menufont
       option add *background $bgcolor
       option add *selectColor #DD0000
+
+      set Entry {-bg #FFFFFF -foreground #0000FF}
+      set Label {-bg #FFFFFF -foreground #000000}
+      ::themes::AddClass Amsn Entry $Entry 90
+      ::themes::AddClass Amsn Label $Label 90
+      ::abookGui::Init
    }
    
    #Shows an error message
