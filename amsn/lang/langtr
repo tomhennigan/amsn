@@ -3,6 +3,7 @@ about Hakkýnda
 accept Kabul et
 acceptfile $1 dosyasý aktarýlýyor; boyut $2 bayt; kaydedilen konum $3  
 actions Eylemler
+activeautoupdate Etkin kendiliðinden güncelleme
 addacontact Yeni baðlantý ekle
 addedyou $1 ($2) sizi baðlantý listesine ekledi
 addprofile Yeni profil ekle
@@ -16,6 +17,7 @@ admingroups Gruplarý düzenle
 advanced Geliþmiþ
 advancedprefs Geliþmiþ seçenek ayarlarý
 adverts reklamlar
+agotinvitation $1 size sesli konuþma daveti gönderdi
 alarmonconnect Kullanýcý baðlanýnca alarm çalsýn
 alarmondisconnect Kullanýcý çýkýnca alarm çalsýn
 alarmonmsg Kullanýcý ileti gönderince alarm çalsýn
@@ -29,6 +31,7 @@ allowbadwords Kullanýcý isimlerinde sansürü kaldýr
 allowlist ýzin verilenler
 allowonlyinal Yalnýzca izin verilenler listesindekiler bana ulaþabilsin
 allowseen Bu kiþi ben çevrim içiyken beni görebilsin ve bana yazabilsin
+allow_sms Kullanýcýlar benimle MSN taþýnabilir aygýtým üzerinden baðlantý kurabilsin
 allprofilesinuse Var olan tüm profiller kullanýmda
 animatedemoticon Bu gülen adam hareketlidir
 animatedsmileys Hareketli gülen adamlarý etkinleþtir
@@ -50,6 +53,10 @@ autoidle Otomatik EtkinlikYok özelliði
 autoip Otomatik IP
 automessage OtoÝleti
 autonoact Bu süre kadar eylemsiz kalýrsam "Etkinlik yok" göster:
+avaccepted Görüntülü konuþma istemi kabul edildi
+avcanceled Görüntülü konuþma iptal edildi
+avgotinvitation $1 size görüntülü konuþma daveti gönderdi
+avinitfailed Ses/Görüntü eklentisi baþlatýlamadý. Görüþme iptal edildi
 avoidseen Bu kiþi ben çevrim içiyken beni göremesin ve bana yazamasýn
 away Dýþarýda
 awaymsg1 Durumumu Dýþarýda/Hemen Dönecek/Meþgul'e her çevirdiðimde býrakacaðým notu sor
@@ -141,6 +148,7 @@ contactadded Baðlantý eklendi
 contactdoesnotexist Böyle bir baðlantý yok!
 contactlist Baðlantý listesi:
 continuously Sürekli
+conversationwith Sohbette $1 kiþi var
 convertexplain ImageMagick'in CONVERT uygulamasýnýn konumu (Kullanýcý resimleri için gerekli). \nEðer CONVERT zaten varsayýlan konumlardan birindeyse (PATH deðiþkeni) boþ býrakýlabilir.
 copy Kopyala
 copytogroup Gruba kopyala
@@ -150,6 +158,7 @@ countrycode Ülke/Bölge kodum
 cprofile Profil oluþtur
 credits Emeði Geçenler
 currentdate Bugün
+currentlanguage Þu an kullandýðýnýz dil
 custnotifymsg Bu kiþiden yeni ileti gelince uyarý penceresi göster
 custnotifyoffline Bu kullanýcý baðlantýsýný kesince uyarý penceresi göster
 custnotifyonline Bu kullanýcý baðlanýnca uyarý penceresi göster
@@ -196,6 +205,7 @@ dockingoff Küçültme olsun
 dockkde KDE'de küçültme
 dontdownload TLS'i indirme, kendim kuracaðým
 dontshow Gösterme
+download Ýndir
 downloadingtls TLS $1 \n adresinden alýnýyor
 edit Düzenle
 editcustomstate Düzenle
@@ -230,6 +240,7 @@ filedoesnotexist Dosya bulunamadý
 fileman Dosya yöneticisi
 filemanexample (\$location dizin ile deðiþtirilecek) Örn: nautilus \$location
 filename Dosya adý
+filenotwritable Bu dosya silinemiyor
 filetransfer Dosya aktarýmý
 filetransfercancelled Dosya aktarýmý iptal edildi
 filetransfercomplete Dosya aktarýmý tamamlandý
@@ -252,6 +263,7 @@ ftrejectedby $1, '$2' dosyasý için yapýlan aktarým davetini geri çevirdi
 ftsendinvitation '$2' dosyasý ($3 bayt) için aktarým daveti $1'e gönderildi
 fullcontactlist Baðlantý listeniz dolu. Yeni baðlantý eklemek için bazýlarýný silmeniz gerek
 getdisppic Diðer kullanýcýlardan kullanýcý resmi alýnabilsin
+globalcontainer Genel pencere
 globalnick Baðlantýlarýnýzý isimlendirmek için bir þablon yaratýn. Þu deðiþkenleri kullanabilirsiniz: Baðlantýlarýn adresleri için \$user_login, kullanýcý adlarý için \$nick ve özel kullanýcý adý için \$customnick. Örneðin: "\$nick, adresi \$user_login" þablonu "baðlantý, adresi baðlantý@msn.com" þekline dönüþür.
 globalnicktitle Ýsimlendirme Þablonu
 globaloverride Ýsimlendirme þablonu özel kullanýcý isimleri yerine de kullanýlsýn
@@ -304,6 +316,7 @@ keepalive Canlý tut (NAT Keepalive)
 keeplog Sohbetlerin kaydýný tut
 keeplog2 Daha sonra bakmak için tüm sohbetleri Geçmiþ'e kaydet
 language Dil
+language_manager Dil yöneticisi
 lastlogin En Son Baðlanma
 lastlogout En Son Çýkýþ
 lastmsgedme Son Ýleti
@@ -384,6 +397,7 @@ newmailfrom Yeni ileti gönderen: $1 ($2)
 newmailfromother Diðer dizinlerde $1'den yeni ileti var ($2)
 newmsg Yeni ileti
 newstate Yeni özel durum ekle
+newtabbedfeature aMSN'de sohbet pencereleri düzeniyle ilgili bir yenilik var:\n Artýk ayný gruptan ya da tüm listeden baðlantýlarýn sohbetleri ayný pencerenin sekmelerinde gösterilebiliyor. \nLütfen aMSN'nin pencere yönetim þeklini seçiniz.
 newveravailable Yeni $1 sürümü indirilmeye hazýr
 next sonraki
 nick Rumuz
@@ -415,6 +429,7 @@ notifytyping Klavyeyi kullandýðým karþý tarafa gözüksün
 notifywin Uyarý Penceresi
 notinlist Siz onun baðlantý listesinde deðilsiniz
 notls MSN 9 protokolü tls paketini gerektirir. Bu bilgisayarda tls kurulu görünmüyor. Eðer kuruluysa, tls kütüphanesi dizini Seçenekler bölümünde belirtilmelidir (örn: /opt/tls/lib). \n\n tls'yi http://tls.sf.net'ten indirebilirsiniz.
+nottabbed Sekmesiz normal pencereler
 nousersinsession Ortamda kullanýcý yok
 nudge $1 sizinle görüþmek istiyor
 offline Çevrim dýþý
@@ -518,6 +533,7 @@ selectskin Lütfen listeden bir kabuk seçiniz
 send Gönder
 sendfile Dosya gönder
 sendmail E-posta iletisi gönder
+sendmobmsg $1 taþýnabilir aygýta gönder
 sendmsg Ýleti günder
 sentbytes $2 baytýn $1 (s)i gönderildi
 server Sunucu
@@ -574,7 +590,10 @@ stylechat Sohbetler ile ayný görünüþ
 stylehist aMSN Geçmiþ görünüþü
 stylelog Geçmiþinizin görünüþ þeklini seçin
 syntaxerror Yazým hatasý
-tabbed ýçiçe pencereler
+tabbed Sekmeli pencereler
+tabbedglobal Tüm baðlantýlar için tek bir sekmeli pencere
+tabbedgroups Ayný gruptan baðlantýlar için tek bir seçmeli pencere
+tabtitlenick Sekmelerde e-posta adresleri yerine rumuzlarý göster
 temp_state Kaydetme (Geçici durum, AMSN kapatýlýnca silinecek)
 textsize Metin boyutu
 timeremaining Kalan zaman
@@ -620,6 +639,7 @@ viewprofile Profili gör
 webcaminvite $1 sizi kamera kullanmaya davet etti; ancak aMSN'de bu iþlev yok.
 willjoin $1 in sohbete katýlmasý bekleniyor
 winkreceived $1 size bir Wink gönderdi. aMSN þu an bu özelliði desteklemiyor.
+wintitlenick Sekmeli pencerelerde e-posta adresleri yerine rumuzlarý göster
 work Ýþ
 wrongfields "$1", "$2" ve/veya "$3" alanlarý geçersiz 
 wrongprofileversion Yanlýþ profil ayar dosyasý sürümü. Düzeltmek için $1 dizinini siliniz ya da aMSN'yi güncelleyiniz
@@ -629,6 +649,7 @@ xmmssend Çalýnan parçayý gönder
 xoffset X koordinatý
 year Yýl
 yes Evet
+yesblock Evet ve engelle
 yesterday Dün
 yoffset Y koordinatý
 youblocked Engellendiniz
