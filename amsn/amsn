@@ -525,17 +525,6 @@ proc cmsn_draw_main {} {
    image create photo baway -file [file join ${images_folder} baway.gif]
    image create photo bbusy -file [file join ${images_folder} bbusy.gif]
 
-   image create photo notifico -file [file join ${images_folder} notifico.gif]
-
-   image create photo blocked -file [file join ${images_folder} blocked.gif]
-
-   image create photo colorbar -file [file join ${images_folder} colorbar.gif]
-   image create photo mainbar -width 1280 -height 4
-   image create photo notifybar -width 140 -height 4
-   notifybar copy colorbar -from 0 0 5 4 
-   notifybar copy colorbar -from 5 0 15 4 -to 5 0 64 4
-   notifybar copy colorbar -from 160 0 235 4 -to 64 0 139 4      
-
    image create photo mailbox -file [file join ${images_folder} unread.gif]
 
    image create photo contract -file [file join ${images_folder} contract.gif]
@@ -553,16 +542,21 @@ proc cmsn_draw_main {} {
    image create photo fticon -file [file join ${images_folder} fticon.gif]
    image create photo ftreject -file [file join ${images_folder} ftreject.gif]
 
-image create photo notifico -file [file join ${images_folder} notifico.gif]
+   image create photo notifico -file [file join ${images_folder} notifico.gif]
 
    image create photo blocked -file [file join ${images_folder} blocked.gif]
 
    image create photo colorbar -file [file join ${images_folder} colorbar.gif]
-   image create photo mainbar -width 1280 -height 4
-   image create photo notifybar -width 140 -height 4
-   notifybar copy colorbar -from 0 0 5 4 
-   notifybar copy colorbar -from 5 0 15 4 -to 5 0 64 4
-   notifybar copy colorbar -from 160 0 235 4 -to 64 0 139 4      
+
+   set barwidth [image width colorbar]
+   set barheight [image height colorbar]
+
+   image create photo mainbar -width 1280 -height $barheight
+   image create photo notifybar -width 140 -height $barheight
+
+   notifybar copy colorbar -from 0 0 5 $barheight
+   notifybar copy colorbar -from 5 0 15 $barheight -to 5 0 64 $barheight
+   notifybar copy colorbar -from [expr {$barwidth-125}] 0 $barwidth $barheight -to 64 0 139 $barheight
 
    image create photo mailbox -file [file join ${images_folder} unread.gif]
 
@@ -1011,14 +1005,16 @@ proc cmsn_draw_online {} {
 
    set width [expr {[winfo width $pgBuddy.text] - 10} ]
    
-   if { $width < 75 } {
-       set width 75
+   if { $width < 160 } {
+       set width 160
    }
 
    mainbar blank
-   mainbar copy colorbar -from 0 0 5 4 
-   mainbar copy colorbar -from 5 0 15 4 -to 5 0 [expr {$width - 75}] 4
-   mainbar copy colorbar -from 160 0 235 4 -to [expr {$width - 75}] 0 $width 4      
+   set barheight [image height colorbar]
+   set barwidth [image width colorbar]
+   mainbar copy colorbar -from 0 0 5 $barheight
+   mainbar copy colorbar -from 5 0 15 $barheight -to 5 0 [expr {$width - 150}] $barheight
+   mainbar copy colorbar -from [expr {$barwidth - 150}] 0 $barwidth $barheight -to [expr {$width - 150}] 0 $width $barheight      
 
    $pgBuddy.text image create end -image mainbar 
    $pgBuddy.text insert end "\n"
