@@ -1240,13 +1240,14 @@ namespace eval ::MSN {
       variable chatid_sb
 
       status_log "DelSBFor: Deleting SB $sb_name from chat $chatid\n" blue      
-      status_log "DelSBFor: sb_chatid ($chatid) was $sb_chatid($chatid)\n" blue
             
       if {![info exists sb_chatid($chatid)]} {
          status_log "DelSBFor: sb_chatid($chatid) doesn't exist\n" red
 	 return 0
       }
+      status_log "DelSBFor: sb_chatid ($chatid) was $sb_chatid($chatid)\n" blue
 
+      
       set index [lsearch $sb_chatid($chatid) $sb_name]
 
       if { $index == -1 } {        
