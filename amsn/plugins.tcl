@@ -242,7 +242,7 @@ namespace eval ::plugins {
 		lappend search_path [file join [set ::program_dir] plugins]
 		lappend search_path [file join $HOME plugins]
 		lappend search_path [file join $HOME2 plugins]
-	    lappend search_path [file join $HOME2 amsn-extras]
+		lappend search_path [file join $HOME2 amsn-extras]
 	    
 		# decrare the list to return
 		set ::plugins::found [list]
@@ -912,7 +912,7 @@ namespace eval ::plugins {
 	proc LoadPlugin { plugin required_version file namespace init_proc } {
 		variable loadedplugins
 
-		if { ![CheckRequeriments $required_version] } {
+		if { ![CheckRequirements $required_version] } {
 			msg_box "$plugin: [trans required_version $required_version]"
 			return 0
 		}
@@ -940,7 +940,7 @@ namespace eval ::plugins {
 
 
 	###############################################################
-	# CheckRequeriments (required_version)
+	# CheckRequirements (required_version)
 	#
 	# Checks if we satisfy requirements of the plugin (only version now)
 	#
@@ -951,7 +951,7 @@ namespace eval ::plugins {
 	# 0 - We don't satisfy them
 	# 1 - We satisfy them, we can load the plugin.
 	#
-	proc CheckRequeriments { required_version } {
+	proc CheckRequirements { required_version } {
 		global version
 
 		scan $required_version "%d.%d" r1 r2;
@@ -1139,4 +1139,410 @@ namespace eval ::plugins {
 		set ::${cur_plugin}_cfg($sdata(${cstack}:key)) $sdata(${cstack}:value);
 		return 0
 	}
+
+
+#/////////////////////////////////////////////////////
+# Load the XML information of a plugin
+
+	proc get_Version { path plugin } {
+
+		set ::plugins::plgversion ""
+		set ::plugins::plglang ""
+		set ::plugins::plgfile ""
+
+		set id [::sxml::init $path]
+		sxml::register_routine $id "plugin" "::plugins::XML_Plugin_CVS"
+		sxml::register_routine $id "plugin:lang" "::plugins::XML_Plugin_Lang"
+		sxml::register_routine $id "plugin:file" "::plugins::XML_Plugin_File"
+		sxml::parse $id
+		sxml::end $id
+
+	}
+
+
+	proc XML_Plugin_CVS { cstack cdata saved_data cattr saved_attr args } {
+		upvar $saved_data sdata
+
+		catch {set ::plugins::plgversion $sdata(${cstack}:cvs_version)}
+
+		return 0
+
+	}
+
+
+	proc XML_Plugin_Lang { cstack cdata saved_data cattr saved_attr args } {
+		upvar $saved_data sdata
+
+		catch {lappend ::plugins::plglang "$sdata(${cstack}:langcode)" "$sdata(${cstack}:version)"}
+
+		return 0
+
+	}
+
+
+	proc XML_Plugin_File { cstack cdata saved_data cattr saved_attr args } {
+		upvar $saved_data sdata
+
+		catch {lappend ::plugins::plgfile "$sdata(${cstack}:path)" "$sdata(${cstack}:version)"}
+
+		return 0
+
+	}
+
+#/////////////////////////////////////////////////////
+# Get the plugininfo.xml on the CVS, and load it
+
+	proc get_OnlineVersion { path plugin } {
+
+		global HOME HOME2
+
+		set ::plugins::plgonlineversion2 ""
+		set ::plugins::plgonlineversion ""
+		set ::plugins::plgonlinelang ""
+		set ::plugins::plgonlinefile ""
+
+		set program_dir [set ::program_dir]
+
+		if { [string first $HOME $path] != -1 | [string first $HOME2 $path] != -1 } {
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text" -timeout 10000]
+		} elseif { [string first $program_dir $path] != -1} {
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text" -timeout 10000]
+		} else {
+			return
+		}
+
+		set content [::http::data $token]
+
+		set filename "plugininfo.xml"
+
+		set fid [open $filename w]
+		puts -nonewline $fid "$content"
+		close $fid
+
+		set id [::sxml::init $filename]
+		sxml::register_routine $id "plugin" "::plugins::XML_OnlinePlugin_CVS"
+		sxml::register_routine $id "plugin:lang" "::plugins::XML_OnlinePlugin_Lang"
+		sxml::register_routine $id "plugin:file" "::plugins::XML_OnlinePlugin_File"
+		sxml::parse $id
+		sxml::end $id
+
+		file delete "plugininfo.xml"
+
+	}
+
+
+	proc XML_OnlinePlugin_CVS { cstack cdata saved_data cattr saved_attr args } {
+		upvar $saved_data sdata
+
+		catch {set ::plugins::plgonlineversion $sdata(${cstack}:cvs_version)}
+		catch {set ::plugins::plgonlinerequire $sdata(${cstack}:amsn_version)}
+
+		return 0
+
+	}
+
+
+	proc XML_OnlinePlugin_Lang { cstack cdata saved_data cattr saved_attr args } {
+		upvar $saved_data sdata
+
+		catch {lappend ::plugins::plgonlinelang [list $sdata(${cstack}:langcode) $sdata(${cstack}:version)]}
+
+		return 0
+
+	}
+
+
+	proc XML_OnlinePlugin_File { cstack cdata saved_data cattr saved_attr args } {
+		upvar $saved_data sdata
+
+		catch {lappend ::plugins::plgonlinefile [list $sdata(${cstack}:path) $sdata(${cstack}:version)]}
+
+		return 0
+
+	}
+
+#/////////////////////////////////////////////////////
+# Update the plugin (.tcl file)
+
+	proc UpdateCVS { plugin path version} {
+
+		global HOME HOME2
+
+		set program_dir [set ::program_dir]
+
+		if { [string first $HOME $path] != -1 | [string first $HOME2 $path] != -1 } {
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/$plugin.tcl?rev=$version&content-type=text" -timeout 10000]
+		} elseif { [string first $program_dir $path] != -1} {
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/$plugin.tcl?rev=$version&content-type=text" -timeout 10000]
+		} else {
+			return
+		}
+
+		set content [::http::data $token]
+
+		set filename [file join $path $plugin.tcl]
+
+		set fid [open $filename w]
+		fconfigure $fid -encoding binary
+		puts -nonewline $fid "$content"
+		close $fid
+
+		::amsn::notifyAdd "$plugin updated" "" "" plugins
+
+	}
+
+#/////////////////////////////////////////////////////
+# Update the language files
+
+	proc UpdateLang { plugin langcode path version} {
+
+		global HOME HOME2
+
+		set program_dir [set ::program_dir]
+
+		if { [string first $HOME $path] != -1 | [string first $HOME2 $path] != -1 } {
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text" -timeout 10000]
+		} elseif { [string first $program_dir $path] != -1} {
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text" -timeout 10000]
+		} else {
+			return
+		}
+
+		set content [::http::data $token]
+
+		set filename [file join $path "lang" lang$langcode]
+
+		set fid [open $filename w]
+		fconfigure $fid -encoding binary
+		puts -nonewline $fid "$content"
+		close $fid
+
+		::amsn::notifyAdd "$plugin : Lang$langcode updated" "" "" plugins
+
+	}
+
+#/////////////////////////////////////////////////////
+# Delete a language file of a plugin
+
+	proc DeleteLang { plugin langcode path} {
+
+		set id [lsearch $::plugins::plglang $langcode]
+
+		if { $id != -1 } {
+			set file "[file join $path "lang" "lang$langcode"]"
+			file delete $file
+			set id2 [expr $id + 1]
+			set ::plugins::plglang [lreplace $::plugins::plglang $id $id2]
+			status_log "Plugin autoupdate : delete $file\n" blue
+		}
+
+	}
+
+#/////////////////////////////////////////////////////
+# Update all the others files (pictures, sounds...)
+
+	proc UpdateFile { plugin file path version} {
+
+		global HOME HOME2
+
+		set program_dir [set ::program_dir]
+
+		if { [string first $HOME $path] != -1 | [string first $HOME2 $path] != -1 } {
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/$file?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
+		} elseif { [string first $program_dir $path] != -1} {
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/$file?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
+		} else {
+			return
+		}
+
+		set content [::http::data $token]
+
+		set filename [file join $path $file]
+
+		set dir [file join $path [file dirname $file]]
+		if { ![file isdirectory $dir] } {
+			file mkdir $dir
+			status_log "Auto-update ($plugin) : create dir $dir\n" red
+		}	
+
+		set fid [open $filename w]
+		fconfigure $fid -encoding binary
+		puts -nonewline $fid "$content"
+		close $fid
+
+		::amsn::notifyAdd "$plugin : $file updated" "" "" plugins
+
+	}
+
+#/////////////////////////////////////////////////////
+# Update all the plugins
+
+	proc UpdatePlugins { } {
+
+		foreach plugin [findplugins] {
+			set path [lindex $plugin 5]
+			set name [lindex $plugin 6]
+			set path "[string range $path 0 end-[expr [string length $name] + 5]]"
+			set pathinfo "$path/plugininfo.xml"
+			if { ![catch {
+				get_Version "$pathinfo" "$name"
+				get_OnlineVersion "$pathinfo" "$name"
+				if { [::plugins::CheckRequirements $::plugins::plgonlinerequire] } {
+					set version [DetectNewCVS "$::plugins::plgversion" "$::plugins::plgonlineversion" "$name" "$path"]
+					set lang [DetectNewLang "$name" "$path"]
+					set file [DetectNewFile "$name" "$path"]
+				} else {
+					status_log "Can't update $name : required version $::plugins::plgonlinerequire\n" red
+				}
+			}] } {
+				SavePlugininfo "$plugin" "$pathinfo" "$version" "$lang" "$file"
+			} else {
+				status_log "Error while updating $name : don't save Plugininfo.xml\n" red
+			}
+
+		}
+
+	}
+
+#/////////////////////////////////////////////////////
+# Detect if the onlineversion if upper the version
+
+	proc DetectNew { version onlineversion } {
+
+		set current [split $version "."]
+		set new [split $onlineversion "."]
+		if { [lindex $new 0] > [lindex $current 0] } {
+			return 1
+		} elseif { [lindex $new 1] > [lindex $current 1] } {
+			return 1
+		} else {
+			return 0
+		}
+
+	}
+
+
+#/////////////////////////////////////////////////////
+# Detect if the .tcl file has been updated
+
+	proc DetectNewCVS { version onlineversion plugin path } {
+
+		if { [::plugins::DetectNew $version $onlineversion] } {
+			::plugins::UpdateCVS $plugin $path $onlineversion
+		}
+
+		return $onlineversion
+
+	}
+
+
+#/////////////////////////////////////////////////////
+# Detect if the languages file have been updated
+
+	proc DetectNewLang { plugin path } {
+
+		foreach onlinelang $::plugins::plgonlinelang {
+			set langcode [lindex $onlinelang 0]
+			set onlineversion [lindex $onlinelang 1]
+			if { [::lang::LangExists $langcode] } {
+				set id [expr [lsearch $::plugins::plglang $langcode] + 1]
+				if { $id == 0 } {
+					set version "0.0"
+				} else {
+					set version [lindex $::plugins::plglang $id]
+				}
+				if { [::plugins::DetectNew $version $onlineversion] } {
+					::plugins::UpdateLang $plugin $langcode $path $onlineversion
+					if { $id == 0 } {
+						lappend ::plugins::plglang $langcode $onlineversion
+					} else {
+						lset ::plugins::plglang $id $onlineversion
+					}
+				}
+			} else {
+				::plugins::DeleteLang $plugin $langcode $path
+			}
+		}
+
+		return $::plugins::plglang
+
+	}
+
+
+#/////////////////////////////////////////////////////
+# Detect if the others files have been updated
+
+	proc DetectNewFile { plugin path } {
+
+		foreach onlinefile $::plugins::plgonlinefile {
+			set file [lindex $onlinefile 0]
+			set onlineversion [lindex $onlinefile 1]
+			set id [expr [lsearch $::plugins::plgfile $file] + 1]
+			if { $id == 0 } {
+				set version "0.0"
+			} else {
+				set version [lindex $::plugins::plgfile $id]
+			}
+			if { [::plugins::DetectNew $version $onlineversion] } {
+				::plugins::UpdateFile $plugin $file $path $onlineversion
+				if { $id == 0 } {
+					lappend ::plugins::plgfile $file $onlineversion
+				} else {
+					lset ::plugins::plgfile $id $onlineversion
+				}
+			}
+		}
+
+		return $::plugins::plgfile
+
+	}
+
+
+#/////////////////////////////////////////////////////
+# Save plugininfo.xml
+
+	proc SavePlugininfo { plugin path version lang file } {
+
+		set name [lindex $plugin 0]
+		set author [lindex $plugin 1]
+		set description [lindex $plugin 2]
+		set amsn_version [lindex $plugin 3]
+		set plugin_version [lindex $plugin 4]
+		set plugin_file [lindex $plugin 5]
+		set id [expr [string last "/" $plugin_file] + 1]
+		set plugin_file [string range $plugin_file $id end]
+		set plugin_namespace [lindex $plugin 6]
+		set init_procedure [lindex $plugin 7]
+		set deinit_procedure [lindex $plugin 8]
+
+		set file_id [open $path w]
+
+		puts $file_id  "<?xml version=\"1.0\"?>\n<plugin>"
+
+		puts $file_id "\t<name>$name</name>\n\t<author>$author</author>\n\t<description>$description</description>\n\t<amsn_version>$amsn_version</amsn_version>\n\t<plugin_version>$plugin_version</plugin_version>\n\t<plugin_file>$plugin_file</plugin_file>\n\t<plugin_namespace>$plugin_namespace</plugin_namespace>\n\t<init_procedure>$init_procedure</init_procedure>"
+
+		if { $deinit_procedure != "none" } {
+			puts $file_id "\t<deinit_procedure>$deinit_procedure</deinit_procedure>"
+		}
+
+		if { $version != ""} {
+			puts $file_id "\n\t<cvs_version>$version</cvs_version>"
+		}
+
+		foreach {langcode version} $lang {
+			puts $file_id "\n\t<lang>\n\t\t<langcode>$langcode</langcode>\n\t\t<version>$version</version>\n\t</lang>"
+		}
+
+		foreach {path version} $file {
+			puts $file_id "\n\t<file>\n\t\t<path>$path</path>\n\t\t<version>$version</version>\n\t</file>"
+		}
+
+
+		puts $file_id </plugin>
+
+		close $file_id
+
+	}
+
+
 }
