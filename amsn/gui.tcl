@@ -1221,9 +1221,10 @@ namespace eval ::amsn {
 
 	global config
 
-      if {[WindowFor $chatid] == 0} {
+		set win_name [WindowFor $chatid]
+      if { $win_name == 0} {
           set win_name [OpenChatWindow]
-	  SetWindowFor $chatid $win_name
+	  		SetWindowFor $chatid $win_name
 
       }
 
@@ -1234,6 +1235,8 @@ namespace eval ::amsn {
       set statusmsg "[timestamp] [trans joins [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
       WinStatus [ WindowFor $chatid ] $statusmsg minijoins
       WinTopUpdate $chatid
+
+		::amsn::ChangePicture $win_name user_pic_$usr_name
 
 	if { $config(keep_logs) } {
 		::log::JoinsConf $chatid $usr_name
