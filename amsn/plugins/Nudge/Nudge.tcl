@@ -52,7 +52,7 @@ namespace eval ::Nudge {
 	#                                             #
 	###############################################
 	proc notify { nickname email } {
-		::amsn::notifyAdd "Nudge\n[trans nudge $nickname]." "::amsn::chatUser $email" "" offline
+		::amsn::notifyAdd "Nudge\n[trans nudge $nickname]." "::amsn::chatUser $email" "" plugins
 	}
 
 

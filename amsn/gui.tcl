@@ -2686,6 +2686,9 @@ namespace eval ::amsn {
 			state {
 				$w.c create image 75 50 -image [::skin::loadPixmap notifystate]
 			}
+			plugins {
+				$w.c create image 75 50 -image [::skin::loadPixmap notifyplugins]
+			}
 			default {
 				$w.c create image 75 50 -image [::skin::loadPixmap notifyonline]
 			}
@@ -3114,6 +3117,7 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap notifclose notifclose.gif
 	::skin::setPixmap notifyonline notifyonline.gif
 	::skin::setPixmap notifyoffline notifyoffline.gif
+	::skin::setPixmap notifyplugins notifyplugins.gif
 	::skin::setPixmap notifystate notifystate.gif
 	
 	::skin::setPixmap blocked blocked.gif
