@@ -122,6 +122,7 @@ command Commande
 commandstatus Exécuter la commande
 confirmdelete Confirmer suppression
 confirm Êtes-vous sûr ?
+confirmbl  Êtes-vous sûr de vouloir bloquer ce contact ?
 confirmdg Êtes-vous sûr de vouloir effacer ce groupe ?
 confirmdu Êtes-vous sûr de vouloir effacer ce contact ?
 confirmeg Êtes-vous sûr de vouloir vider ce groupe ?

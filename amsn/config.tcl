@@ -1174,11 +1174,7 @@ proc DeleteProfile { email entrypath } {
 		return
 	}
 	
-	set focus [focus]
-	if { $focus == "" } {
-		set focus ".cfg"
-	}
-	set answer [tk_messageBox -message "[trans confirmdelete ${email}]" -type yesno -icon question -parent $focus]
+	set answer [::amsn::messageBox "[trans confirmdelete ${email}]" yesno question]
 
 	if {$answer == "no"} {
 	return

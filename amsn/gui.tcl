@@ -544,20 +544,35 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 
 	#///////////////////////////////////////////////////////////////////////////////
+
+	proc messageBox { message type icon {title ""} {parent ""}} {
+
+		#If we are on MacOS X, don't put the box in the parent because there are some problems
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			set answer [tk_messageBox -message "$message" -type $type -icon $icon]
+		} else {
+			if { $parent == ""} {
+				set parent [focus]
+				if { $parent == ""} { set parent "."}
+			}
+				set answer [tk_messageBox -message "$message" -type $type -icon $icon -title $title -parent $parent]
+		}
+		return $answer
+	}
+
+	#///////////////////////////////////////////////////////////////////////////////
+
+	#///////////////////////////////////////////////////////////////////////////////
 	# Shows the error message specified by "msg"
 	proc errorMsg { msg } {
-		set parent [focus]
-		if { $parent == ""} { set parent "."}
-			tk_messageBox -type ok -icon error -message $msg -title "[trans title] Error" -parent $parent
+		::amsn::messageBox $msg ok error "[trans title] Error"
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# Shows the error message specified by "msg"
 	proc infoMsg { msg {icon "info"} } {
-		set parent [focus]
-		if { $parent == ""} { set parent "."}      
-			tk_messageBox -type ok -icon $icon -message $msg -title "[trans title]" -parent $parent
+		::amsn::messageBox $msg ok $icon [trans title]
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -575,11 +590,8 @@ namespace eval ::amsn {
 
 	#///////////////////////////////////////////////////////////////////////////////
 	proc blockUser {user_login} {
-		set parent [focus]
-		if { $parent == ""} { set parent "."}
-
-		set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans block] -parent $parent]
-		if {$answer == "yes"} {
+		set answer [::amsn::messageBox [trans confirmbl] yesno question [trans block]]
+		if { $answer == "yes"} {
 			set name [::abook::getNick ${user_login}]
 			::MSN::blockUser ${user_login} [urlencode $name]
 		}
@@ -597,12 +609,8 @@ namespace eval ::amsn {
 
 	#///////////////////////////////////////////////////////////////////////////////
 	proc deleteUser { user_login { grId ""} } {
-		set parent [focus]
-		if { $parent == ""} { set parent "."}
-
-		set answer [tk_messageBox -message "[trans confirmdelete ${user_login}]" -type yesno -icon question -parent $parent]
-
-		if {$answer == "yes"} {
+		set answer [::amsn::messageBox [trans confirmdelete] yesno question]
+		if { $answer == "yes"} {
 			::MSN::deleteUser ${user_login} $grId
 			::abook::setContactData $user_login alarms ""
 		}
@@ -3606,11 +3614,9 @@ namespace eval ::amsn {
 	}
 
 	proc closeAmsn {} {
-		set parent [focus]
-		if { $parent == ""} { set parent "."}
 
-		set answer [tk_messageBox -message "[trans exitamsn]" -type yesno -icon question -title [trans title] -parent $parent]
-		if {$answer == "yes"} {
+		set answer [::amsn::messageBox [trans exitamsn] yesno question [trans title]]
+		if { $answer == "yes"} {
 			close_cleanup
 			exit
 		}
@@ -6256,9 +6262,8 @@ proc change_name_ok {} {
 	set new_name [.change_name.fn.name get]
 	if {$new_name != ""} {
 		if { [string length $new_name] > 130} {
-			set parent .change_name
-			set answer [tk_messageBox -message [trans longnick] -type yesno -icon question -title [trans confirm] -parent $parent]
-			if { $answer != "yes" } {
+			set answer [::amsn::messageBox [trans longnick] yesno question [trans confirm]]
+			if { $answer == "no" } {
 				return
 			}
 		}
@@ -6268,9 +6273,8 @@ proc change_name_ok {} {
 	set friendly [.change_name.p4c.name get]
 
 	if { [string length $friendly] > 130} {
-		set parent .change_name
-		set answer [tk_messageBox -message [trans longp4c [string range $friendly 0 129]] -type yesno -icon question -title [trans confirm] -parent $parent]
-		if { $answer != "yes" } {
+		set answer [::amsn::messageBox [trans longp4c [string range $friendly 0 129]] yesno question [trans confirm]]
+		if { $answer == "no" } {
 			return
 		}
 	}
@@ -7467,8 +7471,8 @@ proc pictureBrowser {} {
 proc purgePictures {} {
 	global HOME
 
-	set answer [tk_messageBox -message "[trans confirmpurge]" -type yesno -icon question -title [trans purge] -parent .picbrowser]
-	if {$answer == "yes"} {
+	set answer [::amsn::messageBox [trans confirmpurge] yesno question [trans purge] .picbrowser]
+	if { $answer == "yes"} {
 		foreach filename [glob -nocomplain -directory [file join $HOME displaypic cache] *.png] {
 			catch { file delete $filename }
 			catch { file delete "[filenoext $filename].gif" }
@@ -7644,12 +7648,9 @@ proc chooseFileDialog { {initialfile ""} {title ""} {parent ""} {entry ""} {oper
 proc pictureDeleteFile {} {
 	global selected_image HOME
 
-	set parent "."
-	catch {set parent [focus]}
-
 	if { $selected_image!="" && [file exists [file join $HOME displaypic $selected_image]]} {
-		set answer [tk_messageBox -message [trans confirm] -type yesno -icon question -title [trans delete] -parent $parent]
-		if {$answer == "yes"} {
+		set answer [::amsn::messageBox [trans confirm] yesno question [trans delete]]
+		if { $answer == "yes"} {
 			set filename [file join $HOME displaypic $selected_image]
 			catch {file delete $filename}
 			catch {file delete [filenoext $filename].gif}
@@ -7657,13 +7658,13 @@ proc pictureDeleteFile {} {
 			set selected_image ""
 			.picbrowser.mypic configure -image [::skin::getNoDisplayPicture]
 			if { [file exists $filename] == 1 } {
-				tk_messageBox -message [trans faileddelete] -type ok -icon error -title [trans failed] -parent $parent
+				messageBox [trans faileddelete] ok error [trans failed]
 				status_log "Failed: file $filename could not be deleted.\n";
 			}
 		}
 
 	} else {
-		tk_messageBox -message [trans faileddeleteperso] -type ok -icon error -title [trans failed] -parent $parent
+		messageBox [trans faileddeleteperso] ok error [trans failed]
 		status_log "Failed: file [file join $HOME displaypic $selected_image] does not exists.\n";
 	}
 }
@@ -8153,3 +8154,5 @@ proc my_TextKeySelect {w new} {
  	wm geometry $win +${info1}+${info2}
 
  }
+
+

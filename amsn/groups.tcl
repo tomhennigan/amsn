@@ -58,7 +58,7 @@ namespace eval ::groups {
 
 	#<dlgMsg>
 	proc dlgMsg {msg} {
-		tk_messageBox -icon error -message $msg -type ok
+		::amsn::errorMsg $msg
 	}
    
 	#<dlgAddGroup> Dialog to add a group
@@ -162,12 +162,13 @@ namespace eval ::groups {
 		tk_popup .group_handler $cx $cy
 	}
 
+
 	#Block all the contacts into a group	
 	proc blockgroup {gid} {
 		#Ask confirmation for block all the users in the group
-		set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans block]]
+		set answer [::amsn::messageBox "[trans confirm]" yesno question [trans block]]
 		#If yes
-		if {$answer == "yes"} {
+		if { $answer == "yes"} {
 			#Get all the contacts
 			set timer 0
 			foreach user_login [::abook::getAllContacts] {

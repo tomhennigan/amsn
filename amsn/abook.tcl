@@ -980,7 +980,7 @@ namespace eval ::abookGui {
 	#Ask the user if he wants to save or not the user properties window
 	proc closeProperties {email w} {
 		#Ask the user yes/no if he wants to save, parent=window to attach the question, title= totally useless on Mac
-		set answer [tk_messageBox -message "[trans save] ?" -type yesno -icon question -title "[trans save] ?"]
+		set answer [::amsn::messageBox "[trans save] ?" yesno question "[trans save] ?"]
 		#When the user answer yes, save preferences and close the window
 		if {$answer == "yes"} {
 			::abookGui::PropOk $email $w
