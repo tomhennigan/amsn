@@ -1916,7 +1916,7 @@ namespace eval ::MSN {
 		} elseif { [::config::getKey p4c_name] != "" } {
 			set msg "${msg}P4-Context: [::config::getKey p4c_name]\r\n"
 		}
-		set msg "${msg}x-clientcaps : aMSN/[set ::version]\r\n"
+		#set msg "${msg}x-clientcaps : aMSN/[set ::version]\r\n"
 		set msg "${msg}X-MMS-IM-Format: FN=[urlencode $fontfamily]; EF=$style; CO=$color; CS=0; PF=22\r\n\r\n"
 		set msg "$msg$txt_send"
 		#set msg_len [string length $msg]
@@ -5457,7 +5457,7 @@ namespace eval ::MSNP2P {
 
 		# Save new Session Variables into SessionList
 		SessionList set $sid [list $MsgId $TotalSize $Offset -1 -1 -1 -1 -1 -1 -1]
-
+		status_log "ASSHOLE: $packet"
 		return $packet
 	}
 
