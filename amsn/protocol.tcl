@@ -4270,6 +4270,10 @@ proc load_contact_list { } {
     gets $file_id version
     close $file_id
 
+	 if {$version == ""} {
+	 	set list_version "0"
+		return 0
+	 }
 
     status_log "load_contact_list: setting contact list version to $version\n"
 
