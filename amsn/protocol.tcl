@@ -3628,7 +3628,7 @@ proc initial_syn_handler {recv} {
 
 		close $nickcache
 
-		if { ($custom_nick == [::abook::GetPersonal nick]) && ($stored_login == [::abook::getPersonal login]) && ($storednick != "") } {
+		if { ($custom_nick == [::abook::getPersonal nick]) && ($stored_login == [::abook::getPersonal login]) && ($storednick != "") } {
 			::MSN::changeName [::abook::getPersonal login] $storednick 0
 		}
 
