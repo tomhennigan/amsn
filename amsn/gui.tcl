@@ -71,6 +71,8 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey menuactivebackground #565672
 	::skin::setKey menuactiveforeground #ffffff
 	::skin::setKey showdisplaycontactlist 0
+	::skin::setKey x_dp_top 7
+	::skin::setKey y_dp_top 7
 	::skin::setKey balloontext #000000 
 
 	::skin::setKey notifwidth 150
@@ -4160,7 +4162,7 @@ proc clickableImage {tw name image command {padx 0} {pady 0}} {
 }
 
 #Clickable display picture in the contact list
-proc clickableDisplayPicture {tw name command {padx 0} {pady 0}} {
+proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 	global HOME;
 	#Get actual display pic name
 	set filename [::config::getKey displaypic];
@@ -4171,7 +4173,16 @@ proc clickableDisplayPicture {tw name command {padx 0} {pady 0}} {
 	#Load the smaller display picture
 	if {[load_my_smaller_pic]} {
 		#Create the clickable display picture
-		label $tw.$name -image my_pic_small -background white
+		#If we are drawing this display picture at the top of the contact list, ie for the logged in user, use a canvas to give it a bg image.
+		#If not (ie for contacts _on_ list), then just draw as label.
+		if {$type == "mystatus"} {
+		canvas $tw.$name -width [image width [::skin::loadPixmap mystatus_bg]] -height [image height [::skin::loadPixmap mystatus_bg]] -bg white
+		$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg]
+		$tw.$name create image [::skin::getKey x_dp_top] [::skin::getKey y_dp_top] -anchor nw -image my_pic_small
+		} 
+		#else {
+		#label $tw.$name -image my_pic_small -background white -bd 1 -relief solid
+		#}
 		$tw.$name configure -cursor hand2 -borderwidth 0
 		bind $tw.$name <Button1-ButtonRelease> $command
 		$tw window create end -window $tw.$name -padx $padx -pady $pady -align center -stretch true
@@ -4357,7 +4368,7 @@ proc cmsn_draw_online_wrapped {} {
 	if { ![::skin::getKey showdisplaycontactlist] } {
 		clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]
 	} else {
-		clickableDisplayPicture $pgBuddy.text bigstate {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]
+		clickableDisplayPicture $pgBuddy.text mystatus bigstate {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]
 	}
 	bind $pgBuddy.text.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
 
