@@ -27,6 +27,9 @@ namespace eval ::plugins {
 	variable w                      
 	# List of currently loaded plugins
 	variable loadedplugins [list]   
+
+	# Plugins that have a configuration
+	variable plugins_config [list]
     }
 
     proc PostEvent { event var level} {
@@ -317,6 +320,7 @@ namespace eval ::plugins {
     # TODO: Clean it of unwanted stuff.
     proc getKey {plugin key} {
 	global ${plugin}_cfg
+	variable plugins_config
 	return [set ${plugin}_cfg($key)]
     }
     
@@ -333,7 +337,8 @@ namespace eval ::plugins {
     }
     
     proc save_config {} {
-	global tcl_platform HOME HOME2 version password emotions
+	global tcl_platform HOME HOME2 version password emotions config
+	variable plugins_config
 	
 	status_log "save_config: saving plugin config for user [::config::getKey login] in $HOME]\n" black
 	
@@ -360,10 +365,17 @@ namespace eval ::plugins {
 	
 	puts $file_id  "<?xml version=\"1.0\"?>\n\n<config>"
 	
-	foreach plugin plugins_config {
+	foreach plugin $plugins_config {
 	    puts $file_id "<plugin name=\"$plugin\">"
-	    foreach var_attribute [array names ${plugin}_cfg] {
-		set var_value ${plugin}_cfg($var_attribute)
+	    if {[array exists ::${plugin}::config]==1} {
+		status_log "Plugin System: save_config: Saving from plugin's namespace\n" black
+		set aval ::${plugin}::$config;
+	    } else {
+		status_log "Plugin System: save_config: Saving from global place\n" black
+		set aval ::$${plugin}_cfg;
+	    }
+	    foreach var_attribute [array names aval] {
+		set var_value $aval($var_attribute)
 		set var_value [::sxml::xmlreplace $var_value]
 		puts $file_id "   <entry>\n      <attribute>$var_attribute</attribute>\n      <value>$var_value</value>\n   </entry>"
 	    }
