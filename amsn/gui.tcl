@@ -119,7 +119,7 @@ namespace eval ::amsn {
 					set downloadurl "$baseurl-solaris26-sparc.tar.gz"
 				}
 				"win32" {
-					set downloadurl "$baseurl-win32.exe"
+					set downloadurl "$baseurl.exe"
 				}
 				"src" {
 					set downloadurl "$baseurl-src.tar.gz"
