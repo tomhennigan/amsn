@@ -79,9 +79,24 @@ proc load_lang { {langcode "en"} } {
    }
 
    while {[gets $file_id tmp_data] != "-1"} {
+      #If line is a comment, skip
+      if {[string range $tmp_data 0 0] == "#"} {
+          continue
+      }
       set pos [string first " " $tmp_data]
+      
+      #Remove comments at end of line
+      set posend [string first "#" $tmp_data]
+      if { $posend == -1 } {
+          set posend [expr {[string length $tmp_data]-1}]
+      } else {
+         incr posend -1
+	  while {[string range $tmp_data $posend $posend] == " "} {
+	  	incr posend -1
+	  }
+      }
       set l_msg [string range $tmp_data 0 [expr {$pos -1}]]
-      set l_trans [string range $tmp_data [expr {$pos +1}] [string length $tmp_data]]
+      set l_trans [string range $tmp_data [expr {$pos +1}] $posend]
       set lang($l_msg) $l_trans
    }
    close $file_id
