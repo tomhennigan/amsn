@@ -148,6 +148,9 @@ proc SelectSkinGui { } {
 	if { $select != -1 } {
 		$w.main.right.box selection set $select
 		$w.main.right.box itemconfigure $select -background #AAAAAA
+	} else {
+		$w.main.right.box selection set 0
+		$w.main.right.box itemconfigure $select -background #AAAAAA	
 	}
 	applychanges
 	bind $w <Destroy> "grab release $w"
