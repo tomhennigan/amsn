@@ -2782,7 +2782,7 @@ proc cmsn_sb_msg {sb_name recv} {
 
 		::amsn::messageFrom $chatid $typer $nick "$body" user [list $fontfamily $style $fontcolor] $p4c_enabled
 		sb set $sb_name lastmsgtime [clock format [clock seconds] -format %H:%M:%S]
-		::abook::setContactData $chatid last_msgedme [clock format [clock seconds] -format "%D - %H:%M:%S"]
+		::abook::setContactData $typer last_msgedme [clock format [clock seconds] -format "%D - %H:%M:%S"]
 
 		#if alarm_onmsg is on run it
 		if { ( [::alarms::isEnabled $chatid] == 1 )&& ( [::alarms::getAlarmItem $chatid onmsg] == 1) } {
