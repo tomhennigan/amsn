@@ -4,12 +4,14 @@
 #=======================================================================
 namespace eval ::abook {
    namespace export setContact getContact getGroup\
-   		    setPhone setDemographics getDemographics
+   		    setPhone setDemographics getDemographics \
+		    setPersonal getPersonal
 
    #
    # P R I V A T E
    #
-   variable contacts;	# Array for contacts
+   variable myself "unknown";
+   variable contacts;	# Array for contacts. Same struct for myself
    			# contacts(email) {		   BPR*
 			#	handle			   LST
 			#       groupId			   LST
@@ -21,20 +23,82 @@ namespace eval ::abook {
    #
    # P R O T E C T E D
    #
+   proc adjustGroup {g} {
+       set i [string first , $g]
+       if {$i == -1} {
+           return $g
+       }
+       # If we get here this one had multiple groups (g1,g2...) so
+       # we only use the first (TODO this is temporary workaround!)
+       incr i -1
+       set ag [string range $g 0 $i]
+       return $ag
+   }
 
    #
    # P U B L I C
    #
+   proc setPersonal { field value} {
+   	variable myself 
+
+        if {$myself == "unknown"} {
+	    set myself [list Dummy Dummy Dummy Dummy Dummy]
+	}
+	
+	# Phone numbers are countryCode%20areaCode%20subscriberNumber
+        switch $field {
+	    PHH {	;# From PRP.PHH (Home Phone Number)
+		set myself [lreplace $myself 0 0 $value]
+	    }
+	    PHW {	;# From PRP.PHW (Work Phone Number)
+		set myself [lreplace $myself 1 1 $value]
+	    }
+	    PHM {	;# From PRP.PHM (Mobile Phone Number)
+		set myself [lreplace $myself 2 2 $value]
+	    }
+	    MOB {	;# From PRP.MOB (Mobile pager) Y|N
+		set myself [lreplace $myself 3 3 $value]
+	    }
+	    MBE {	;# From PRP.MBE (?) Y|N
+		set myself [lreplace $myself 4 4 $value]
+	    }
+	    default {
+	        puts "setPersonal unknown field $field -> $value"
+	    }
+	}
+   }
    
+   proc getPersonal { cdata } {
+   	variable myself 
+	upvar $cdata data
+
+	if { ![info exists myself] } {
+	    puts "ERROR: what happened to me?"
+	    return
+	}
+	
+	set data(group)  "n.a."
+	set data(handle) "You know that";#  FIXME
+	set data(phh)    [urldecode [lindex $myself 0]]
+	set data(phw)    [urldecode [lindex $myself 1]]
+	set data(phm)    [urldecode [lindex $myself 2]]
+	set data(mob)    [urldecode [lindex $myself 3]]
+	set data(mbe)    [urldecode [lindex $myself 4]]
+	set data(available) Y
+   }
+
    proc setContact { email field value } {
    	variable contacts 
 
-	# Phone numbers are countryCode%20areaCode%20subscriberNumber
 	if { ![info exists contacts($email)] } {
+	  #                          group nick  PHH   PHW   PHM   MOB
 	  set contacts($email) [list Dummy Dummy Dummy Dummy Dummy Dummy]
 	}
+
+	# Phone numbers are countryCode%20areaCode%20subscriberNumber
         switch $field {
 	    FL {	;# From LST.FL command, contains email, groupId
+		set value [adjustGroup $value]
 		set contacts($email) [list  $value "" "" "" "" "" ]
 #		puts "ABOOK: creating $email GroupId $value"
 #		puts "size [llength $contacts($email)]"
@@ -71,7 +135,7 @@ namespace eval ::abook {
 	upvar $cdata data
 
 	if { ![info exists contacts($email)] } {
-	    puts "ERROR: unknown contact!"
+	    puts "getContact ERROR: unknown contact $email!"
 	    return
 	}
 	
@@ -94,15 +158,17 @@ namespace eval ::abook {
    	variable contacts 
 
 	if { ![info exists contacts($passport)] } {
-	    puts "ERROR: unknown contact!"
+	    status_log "E: Group: unknown contact $passport!\n" red
 	    return -1
 	}
 	
 	set groupId [lindex $contacts($passport) 0]
 	if {$how == "-id"} {
+#puts "ID $groupId"
 	    return $groupId
         }
 	set groupName [::groups::GetName $groupId]
+#puts "Name $groupId $groupName"
 	return $groupName
    }
    
@@ -296,6 +362,9 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.10  2002/06/25 23:17:56  lordofscripts
+# -Added handling and keeping info of PRP messages (get/setPersonal)
+#
 # Revision 1.9  2002/06/24 15:15:48  lordofscripts
 # Added getGroup function needed for ordering by groups
 #
