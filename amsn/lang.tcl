@@ -31,19 +31,24 @@ proc scan_languages {} {
 proc detect_language { {default "en"} } {
 	global env
 	if { ![info exists env(LANG)] } {
+		status_log "No LANG environment variable. Using $default\n"
 		return $default
 	}
 	
 	set system_language [string tolower $env(LANG)]
 	set idx [string first "@" $system_language]
+	status_log "System language is $system_language\n"
 	#Remove @euro thing or similar
 	if { $idx != -1 } {
 		incr idx -1
 		set system_language [string range $system_language 0 $idx]
+		status_log "Removed @ thing. Now system language is $system_language\n"
 	}
 	
-	if { [language_in_list $system_language] } {
-		return $system_language
+	set language [language_in_list $system_language]
+	if { $language != 0 } {
+		status_log "Matching language $language!\n"
+		return $language
 	}
 	
 	set idx [string first "_" $system_language]
@@ -51,11 +56,15 @@ proc detect_language { {default "en"} } {
 	if { $idx != -1 } {
 		incr idx -1
 		set system_language [string range $system_language 0 $idx]
-	}
-	if { [language_in_list $system_language] } {
-		return $system_language
+		status_log "Removed _ variant. Now system language is $system_language\n"
 	}
 	
+	set language [language_in_list $system_language]
+	if { $language != 0 } {
+		status_log "Matching language $language!\n"
+		return $language
+	}
+	status_log "NO matching language. Defaulting to $default\n"	
 	return $default
 }
 
@@ -70,7 +79,7 @@ proc language_in_list { lang_name } {
 		set lang_short [string tolower [lindex $lang_desc 0]]
 		if {[string compare $lang_short $lang_name] == 0 } {
 			status_log "Language \"$lang_name\" is in available languages, using it\n" blue
-			return 1
+			return [lindex $lang_desc 0]
 		}
 		
 	}
