@@ -1,0 +1,1 @@
+Default AMSN skin. Check msn/skins/default/
