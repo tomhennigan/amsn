@@ -3292,10 +3292,10 @@ proc cmsn_ns_handler {item} {
 			BPR {
 				if { [llength $item] == 3} {
 					global loading_list_info
-					::abook::setContactData $loading_list_info(last) [lindex $item 1] [lindex $item 2]
+					::abook::setContactData $loading_list_info(last) [lindex $item 1] [urldecode [lindex $item 2]]
 				} else {
 					# Update entry in address book setContact(email,PH*/M*,phone/setting)
-					::abook::setContactData [lindex $item 2] [lindex $item 3] [lindex $item 4]
+					::abook::setContactData [lindex $item 2] [lindex $item 3] [urldecode [lindex $item 4]]
 				}
 				return 0
 			}

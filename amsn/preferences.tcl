@@ -1102,7 +1102,7 @@ proc setCfgFonts {path value} {
 proc SavePreferences {} {
     global config myconfig proxy_server proxy_port list_BLP temp_BLP Preftabs libtls libtls_temp proxy_user proxy_pass
 
-    set nb .cfg.notebook.nn
+    set nb .cfg.notebook
 
     # I. Data Validation & Metavariable substitution
     # Proxy settings
