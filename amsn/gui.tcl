@@ -5828,7 +5828,7 @@ proc status_log {txt {colour ""}} {
 		.status.info insert end "[timestamp] $txt" $colour
 		#puts "[timestamp] $txt"
 		if { $followtext_status == 1 } {
-			.status.info yview moveto 1.0
+			catch {.status.info yview moveto 1.0}
 		}
 	}
 }
