@@ -38,7 +38,7 @@ proc hotmail_login {userlogin {pass ""}} {
 
 
     #Now let's substitute the $vars in hotmlog.htm
-    
+
     set page_data [subst -nocommands -nobackslashes $page_data]
 
     if {$tcl_platform(platform) == "unix"} {

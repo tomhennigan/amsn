@@ -72,13 +72,13 @@ if {$tcl_platform(platform) == "unix"} {
      set HOME "[file join $env(USERPROFILE) amsn]"
      set files_dir "[file join $env(USERPROFILE) amsn_received]"
   } else {
-   set HOME "amsn_config"
-   set files_dir "amsn_received"
+   set HOME "[file join ${program_dir} amsn_config]"
+   set files_dir "[file join ${program_dir} amsn_received]"
   }
 
 } else {
-   set HOME "amsn_config"
-   set files_dir "amsn_received"
+   set HOME "[file join ${program_dir} amsn_config]"
+   set files_dir "[file join ${program_dir} amsn_received]"
 }
 
 set log_dir "[file join ${HOME} logs]"
