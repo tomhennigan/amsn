@@ -2534,7 +2534,7 @@ namespace eval ::amsn {
 		variable recent_message
 		
 		status_log "Going to close window $win_name\n" white
-		if { $recent_message($win_name) == 1 } {
+		if { $recent_message($win_name) == 1  && [::config::getKey recentmsg] == 1} {
 			status_log "Recent message exists\n" white
 			set recent_message($win_name) 0
 		} else {
@@ -3000,7 +3000,7 @@ namespace eval ::amsn {
 		
 		after cancel [list ::amsn::cancelRecent ${win_name}]
 		set recent_message(${win_name}) 1
-		after 5000 [list ::amsn::cancelRecent ${win_name}]
+		after 2000 [list ::amsn::cancelRecent ${win_name}]
 
 
 	}

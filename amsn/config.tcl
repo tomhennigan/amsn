@@ -180,6 +180,7 @@ proc ConfigDefaults {} {
 		[list local notifystate bool notify1_75] \
 		[list local notifymsg bool notify2] \
 		[list local notifyemail bool notify3] \
+		[list local recentmsg bool recentmsg] \
 		[list title connection] \
 		[list local getdisppic bool getdisppic] \
 		[list local checkemail bool checkemail] \
@@ -218,6 +219,7 @@ proc ConfigDefaults {} {
 	set config(leavejoinsinchat)	1	;#Display leave/join notifications in chat text area
 	set config(charscounter)	1	;#Display typed characters counter
 	set config(checkemail)	1	;#Show inbox email notification line
+	set config(recentmsg) 1		;#Recent message window closing protection
 
 
 	#System options, not intended to be edited (unless you know what you're doing)

@@ -883,6 +883,11 @@ proc reload_advanced_options {path} {
 				}
 			}
 			
+			if { [lindex $opt 4] != "" } {
+				label $path.exp$i -text "[trans [lindex $opt 4]]\n" -font examplef
+				pack $path.exp$i -side top -anchor w -padx 15
+			}
+			
 		}
 
 	}
