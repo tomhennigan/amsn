@@ -51,27 +51,29 @@ proc degt_protocol_win { } {
 	pack .degt.top.name -side left -anchor w
 
     frame .degt.mid -class Degt
-	scrollbar .degt.mid.sy -orient vertical -command ".degt.mid.txt yview"
-	scrollbar .degt.mid.sx -orient horizontal -command ".degt.mid.txt xview"
-	text   .degt.mid.txt -relief sunken -height 20 -width 85 -font fixed \
-		-wrap none \
+	text   .degt.mid.txt -height 20 -width 85 -font splainf \
+		-wrap none -background white -foreground black \
 	 	-yscrollcommand ".degt.mid.sy set" \
 		-xscrollcommand ".degt.mid.sx set"
+	scrollbar .degt.mid.sy -command ".degt.mid.txt yview"
+	scrollbar .degt.mid.sx -orient horizontal -command ".degt.mid.txt xview"
+
+
 	pack .degt.mid.sy -side right -fill y
 	pack .degt.mid.sx -side bottom -fill x
 	pack .degt.mid.txt -anchor nw
 
     frame .degt.bot -relief sunken -borderwidth 1 -class Degt
-    	button .degt.bot.clear  -text "Clear" \
+    	button .degt.bot.clear  -text "Clear" -font sboldf \
 		-command ".degt.mid.txt delete 0.0 end"
-    	button .degt.bot.close -text [trans close] -command degt_protocol_win_toggle 
+    	button .degt.bot.close -text [trans close] -command degt_protocol_win_toggle -font sboldf
 	pack .degt.bot.close .degt.bot.clear -side left
 
     pack .degt.top .degt.mid .degt.bot -side top
 
     bind . <Control-d> { degt_protocol_win_toggle }
     wm protocol .degt WM_DELETE_WINDOW { degt_protocol_win_toggle }
-}    
+}
 
 proc degt_ns_command_win_toggle {} {
     global degt_command_window_visible
@@ -429,6 +431,9 @@ proc LabelEntryGet { path } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.15  2002/11/16 16:14:06  airadier
+# Fixed colors (not visible under windows) in protocol debug window
+#
 # Revision 1.14  2002/09/30 12:45:36  lordofscripts
 # - Now the contact list is saved in two formats:
 #   contactlist.txt is our (AMSN) enhanced format with all the group info
