@@ -302,7 +302,11 @@ namespace eval ::config {
 	}
 
 	proc getKey {key} {
-		return [set ::config($key)]
+		if { [info exists ::config($key)] } {
+			return [set ::config($key)]
+		} else {
+			return ""
+		}
 	}
 	
 	proc getVar {key} {
@@ -331,7 +335,11 @@ namespace eval ::config {
 	}	
 
 	proc getGlobalKey {key} {
-		return [set ::gconfig($key)]
+		if { [info exists ::gconfig($key)] } {
+			return [set ::gconfig($key)]
+		} else {
+			return ""
+		}
 	}
 	
 	proc getGlobalVar {key} {
