@@ -77,7 +77,11 @@ namespace eval ::TeXIM {
 					catch {file delete ${::TeXIM::dir}/temp.dvi}
 					if { [ catch { exec $::TeXIM::config(path_convert) \
 							   ${::TeXIM::dir}/temp.ps ${::TeXIM::dir}/temp.gif } msg ] == 0 } {
-						
+
+						set chatid [::ChatWindow::Name $win_name]
+						set sb [::MSN::SBFor $chatid]
+						SendInk $sb ${::TeXIM::dir}/temp.gif
+
 						set imagename [image create photo -file ${::TeXIM::dir}/temp.gif -format gif]
 						
 						${win_name}.f.out.text configure -state normal -font bplainf -foreground black
@@ -97,6 +101,8 @@ namespace eval ::TeXIM {
 				
 			}
 
+			catch {file delete ${::TeXIM::dir}/temp.dvi}
+
 			if { $::TeXIM::config(showerror) == 1 } {
 				${win_name}.f.out.text insert end $msg
 				${win_name}.f.out.text insert end "\n"
@@ -109,4 +115,44 @@ namespace eval ::TeXIM {
 		
 		return ""
 	}
+
+
+	proc SendInk { sb  file } {
+
+		set maxchars 800
+		set fd [open $file r]
+		fconfigure $fd -translation {binary binary}
+		set data [read $fd]
+
+		set data [::base64::encode $data]
+		set data [string map { "\n" ""} $data]
+
+		set chunks [expr int( [string length $data] / $maxchars) + 1]
+
+
+		plugins_log "TeXIM" "data : $data\nchunks : $chunks\n"
+
+		for {set i 0 } { $i < $chunks } { incr i } {
+			set chunk [string range $data [expr $i * $maxchars] [expr ($i * $maxchars) + $maxchars - 1]]
+			set msg "MIME-Version: 1.0\r\nContent-Type: application/x-ms-ink"
+			if { $i == 0 } {
+				set chunk "base64:$chunk"
+				if { $chunks == 1 } {
+					set msg "$msg\r\n\r\n$chunk"
+				} else { 
+					set msgid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+					set msg "$msg\r\nMessage-ID: \{$msgid\}\r\nChunks: $chunks\r\n\r\n$chunk"
+				}
+			} else {
+				set msg "$msg\r\nMessage-ID: \{$msgid\}\r\nChunk: $i\r\n\r\n$chunk"
+			}
+			set msglen [string length $msg]
+
+			::MSN::WriteSBNoNL $sb "MSG" "U $msglen\r\n$msg"
+			
+		}
+		
+
+	}
+
 }
