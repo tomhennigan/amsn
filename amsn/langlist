@@ -64,7 +64,7 @@
 	<lang>
 		<langcode>ee</langcode>
 		<name>Estonian</name>
-		<version>1.32</version>
+		<version>1.33</version>
 		<encoding>iso8859-4</encoding>
 	</lang>
 	<lang>
@@ -94,7 +94,7 @@
 	<lang>
 		<langcode>eu</langcode>
 		<name>Basque (Euskera)</name>
-		<version>1.28</version>
+		<version>1.29</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -244,7 +244,7 @@
 	<lang>
 		<langcode>sl</langcode>
 		<name>Slovenian (Slovenscina)</name>
-		<version>1.28</version>
+		<version>1.29</version>
 		<encoding>iso8859-2</encoding>
 	</lang>
 	<lang>
