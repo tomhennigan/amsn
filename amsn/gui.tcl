@@ -2912,10 +2912,11 @@ proc cmsn_draw_main {} {
 	.main_menu.file add command -label "[trans inbox]" -command \
 	[list hotmail_login [::config::getKey login] $password]
 	.main_menu.file add separator
-	.main_menu.file add command -label "[trans savecontacts]..." \
+	#Theses 2 features are not yet in aMSN that's why I remove them from the menu
+	#.main_menu.file add command -label "[trans savecontacts]..." \
 		-command "debug_cmd_lists -export" -state disabled
-	.main_menu.file add command -label "[trans loadcontacts]..." -state disabled
-	.main_menu.file add separator
+	#.main_menu.file add command -label "[trans loadcontacts]..." -state disabled
+	#.main_menu.file add separator
 	.main_menu.file add command -label "[trans sendfile]..." -state disabled
 	.main_menu.file add command -label "[trans openreceived]" \
 		-command "launch_filemanager \"$files_dir\""
