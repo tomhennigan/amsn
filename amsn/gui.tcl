@@ -2348,17 +2348,19 @@ namespace eval ::amsn {
 
 		#Return the custom nick, replacing backslashses and variables
 		set customchat [subst -nocommands $customchat]
+		WinWrite $chatid "\n$customchat" "says" $customfont
 		#Postevent for chat_msg_receive	
 		set evPar(user) user
 		set evPar(msg) msg
 		set evPar(chatid) chatid
+		set evPar(fontformat) fontformat
 		::plugins::PostEvent chat_msg_receive evPar
-				
-		WinWrite $chatid "\n$customchat" "says" $customfont
-		WinWrite $chatid "$msg" $type $fontformat 1 $user
-
-		if {[::config::getKey keep_logs]} {
-			::log::PutLog $chatid $nick $msg $fontformat
+		
+		if {![string equal $msg ""]} {
+			WinWrite $chatid "$msg" $type $fontformat 1 $user
+			if {[::config::getKey keep_logs]} {
+				::log::PutLog $chatid $nick $msg $fontformat
+			}
 		}
 		
 		::plugins::PostEvent chat_msg_received evPar
