@@ -2124,7 +2124,11 @@ proc show_useraddlist {title name command} {
       }
    }
    
-   user_choose $title both $command $userlist
+   if { [llength $userlist] > 0 } {
+   	user_choose $title both $command $userlist
+   } else {
+   	msg_box "[trans useralreadyonlist]"
+   }
 }
 
 
