@@ -13,13 +13,19 @@ set emotions {{":-)" smile} {":)" smile} {":-D" smiled} {":D" smiled}
 	{":-[" vampire} {":[" vampire} {"(\})" girlhug} {"(\{)" boyhug}
 	{"(A)" angel} {"(6)" devil} {"(^)" cake} {"(O)" clk} {":-@" angry}
 	{":@" angry} {"(&)" dog} {"(W)" rosew} {":`(" smilec} {":'(" smilec}
-	{":$" smilemb} {":-$" smilemb} {"(#)" sun} {"(R)" rainbow}}
+	{":$" smilemb} {":-$" smilemb} {"(#)" sun} {"(R)" rainbow}
+	{"(%)" handcuffs}}
 
 set emotion_files {smile smiled smileo smilep wink sad crooked disgust thumbu
 	thumbd love unlove lips gift rose emgirl emboy photo beer coctail
 	emphone emcat emcup embulb emhottie emsleep emstar emnote email
 	messenger vampire girlhug boyhug angel devil cake clk angry dog rosew
-	smilec smilemb smilemb sun rainbow}
+	smilec smilemb smilemb sun rainbow handcuffs}
+
+
+foreach img_name $emotion_files {
+   image create photo $img_name -file ${images_folder}/${img_name}.gif
+}
 
 
 proc smile_subst {tw {start "0.0"}} {
@@ -46,3 +52,4 @@ proc smile_subst {tw {start "0.0"}} {
    }
 
 }
+
