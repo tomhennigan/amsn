@@ -40,8 +40,12 @@
    </Description>
 
    <Colors>
-   <Background1>#65090D</Background1>
-   <Background2>#E6E6E6</Background2>
+   <mainwindowbg>#65090D</mainwindowbg>
+   <chatwindowbg>#65090D</chatwindowbg>
+   <topbarbg>#65090D</topbarbg>
+   <topbartext>#FFFFFF</topbartext>
+   <buttonbarbg>#E6E6E6</buttonbarbg>
+   
    </Colors>
 
    <smileys>

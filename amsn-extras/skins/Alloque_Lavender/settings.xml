@@ -38,8 +38,14 @@
 
 
    <Colors>
-     <Background1>#e0baff</Background1>
-     <Background2>#f2f2f2</Background2>
+     <mainwindowbg>#e0baee</mainwindowbg>
+     <chatwindowbg>#e0baff</chatwindowbg>
+     <topbarbg>#933edd</topbarbg>
+     <topbartext>#ffffff</topbartext>
+     <buttonbarbg>#9e48f9</buttonbarbg>
+     <chatpadx>0</chatpadx>
+     <chatpady>0</chatpady>
+     <chatborders>0</chatborders>
    </Colors>
 
 
