@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Over
+acceptfile Accepteer bestand $1, omvang $2? opgeslaan in $3
 actions Taken
 addacontact Voeg een contact toe
 addedyou Heeft jou toegevoegd aan zijn/haar contactenlijst
@@ -11,13 +12,16 @@ allowseen Laat deze persoon toe om te zien wanneer ik online ben en om mij te co
 appearoff Doe alsof je offline bent
 are ben
 autohotmaillog Automatisch inloggen in hotmail
+autoip Automatisch IP
 avoidseen Vermijd dat deze persoon kan zien wanneer ik online ben en dat hij mij kan contacteren
 away Afwezig
+baduserpass Foutieve gebruikersnaam of paswoord
 blankdirect Laat leeg voor directe connectie
 block Blokkeer
 blocked Geblokeerd
+browser Browser
 busy Bezig
-cancel Annuleer
+cancel Annuleren
 changenick Verander nickname
 chat Chat
 chatreq Verzoek om te chatten
@@ -26,7 +30,7 @@ chatack Aanvaard chat van
 checkver Controleer of er een nieuwe versie is
 checkingver Aan het controleren op een nieuwe versie
 clicktologin Klik hier om in te loggen
-close Afsluiten 
+close Sluiten 
 command Programma
 contactadded Contact toegevoegd
 contacterror Fout tijdens het verbinden met de server
@@ -34,25 +38,46 @@ date Datum
 delete Wis
 enableproxy Gebruik proxy
 entercontactemail Geef contact-email in
+enterfilename Gelieve een bestandsnaam in te geven
 enternick Geef uw nickname in
 examples Voorbeelden
+filedoesnotexist Bestand bestaat niet
+filename Bestandsnaam
+filetransfercancelled Bestandsverzending geanuleerd
+filetransfercomplete Bestandsverzending compleet
 gonelunch Gaan eten
+group Groep
+groupadd Voeg een groep toe
+groupdelete Verwijder een groep
+grouprename Verander een groepsnaam
+groupoldname Oude naam
+groupnewname Nieuwe naam
+groupunknown Ongekende groep
+groupexists Groep bestaat al
+groupmissing Kan de groep niet vinden
+handle Nick
 help Help
 helpcontents Help inhoud
+home Thuis
 ident Aan het identificeren
-invite Nodig uit
+identity Identiteit
 inbox Inbox
+invite Nodig uit
+ipadress IP adres
 is is
 joins $1 $2 neemt deel aan conversatie
 language Taal
 leaves $1 verlaat conversatie
-listsmileys Lijst smileys
+listeningon Aan het luisteren op poort $1
+listsmileys Toon smileys in lijst
 loadcontacts Laad contactenlijst
 loggingin Aan het inloggen
 login Log In
 loginas Inloggen als
 logout Log Uit
 logsin is zonet ingelogd
+mailer Mail client
+mobile GSM
 mustrestart Je moet het programma herstarten omdat deze veranderingen effect zouden hebben
 mystatus Mijn status
 msg Bericht
@@ -75,13 +100,19 @@ openreceived Open ontvangen bestanden
 options Opties
 ordercontactsby Sorteer contacten op
 other Andere
+pager Beeper
 pass Paswoord
+phone Telefoon
 port Poort
 prefapps Programma's
 preferences Instellingen
-prefsound Geluiden
+prefsound Geluid
+properties Eigenschappen
 proxyconf Proxy configuratie
 proxyconfhttp HTTP proxy configuratie ondersteuning
+publishphones Publiceer mijn telefoonnummers
+receivedbytes $1 van $2 bytes ontvangen
+receivefile Ontvang bestand
 reconnect Wachten opdat $1 opnieuw zou verbinden
 reconnecting Opnieuw aan het verbinden met de server
 rememberpass Onthoud paswoord
@@ -93,10 +124,12 @@ says $1 zegt
 sbcon Aan het verbinden met Switch Board
 send Verzend
 sendfile Verzend een bestand
-sendmail Zend email
-sendmsg Zend bericht
+sendmail Zend een email
+sendmsg Zend een bericht
+sentbytes $1 van $2 bytes verzonden
 server Server
 sound Geluid 
+startoffline Begin offline
 textsize Tekstgrootte
 title Al's Messenger
 to Aan
@@ -111,3 +144,4 @@ user Gebruiker
 version Versie
 view Beeld
 willjoin Wachten opdat $1 de conversatie zou bijwonen
+work werk
