@@ -272,33 +272,46 @@ proc LoginList { action age {email ""} } {
 # Called when the user selects a combobox item or enters new signin
 # email : email of the new profile/login
 proc ConfigChange { window email } {
-	global HOME HOME2 password config log_dir
+	global HOME HOME2 password config log_dir proftrig
+	set proftrig 0
 	if { $email != "" } {
-		save_config
-	
-	set oldlang $config(language)
+		if { [LoginList exists 0 $config(login)] == 1 } {
+			save_config
+		}
+
 	if { [info exists password] } {
 		set password ""
 	}
-	set dirname [split $email "@ ."]
-	set dirname [join $dirname "_"]
-	set HOME "[file join $HOME2 $dirname]"
-	
+
+	status_log "Called ChangeConfig with $email, old is $config(login)\n"
+		
 	if { [LoginList exists 0 $email] == 1 } {
+		set proftrig 0
+		set oldlang $config(language)
+
+		set dirname [split $email "@ ."]
+		set dirname [join $dirname "_"]
+		set HOME "[file join $HOME2 $dirname]"
 		load_config
+
 		LoginList add 0 $email
 		set log_dir "[file join ${HOME} logs]"
-		.login.c.remember configure -state normal
+		
+		status_log "Profile exists, password is $password\n"
+	
+		load_lang
+		### REPLACE THIS BY MAIN WINDOW REDRAW
+		if { $config(language) != $oldlang } {
+			msg_box [trans mustrestart]		
+		}
 	} else {
-		NewProfileAsk $email
+		set proftrig 1
+		set config(login) $email
+		set config(save_password) 0
+		set config(startoffline) 0
+		#NewProfileAsk $email
 	}
-
-	load_lang
-	### REPLACE THIS BY MAIN WINDOW REDRAW
-	if { $config(language) != $oldlang } {
-		msg_box [trans mustrestart]		
-	}
- 
+	 
 	.login.c.password delete 0 end
 	.login.c.password insert 0 $password
 	}
@@ -312,19 +325,32 @@ proc ConfigChange { window email } {
 # email : email of new profile
 # value : If 1 create new profile, if 0 use default profile
 proc CreateProfile { email value } {
-	global HOME HOME2 config log_dir password
+	global HOME HOME2 config log_dir password proftrig
+	set oldpass $password
+	set oldoffline $config(startoffline)
+	set oldlang $config(language)
+
 	if { $value == 1 } {
 		status_log "Creating new profile"
 		# Create a new profile with $email
+		# Set HOME dir and create it
+		set dirname [split $email "@ ."]
+		set dirname [join $dirname "_"]
+		set HOME "[file join $HOME2 $dirname]"
 		create_dir $HOME
 		set log_dir "[file join ${HOME} logs]"
 		create_dir $log_dir
+		
+		# Load default config initially
 		set temphome $HOME
 		set HOME $HOME2
 		load_config
-		set config(login) ""
-		set password ""
 		set HOME $temphome
+		
+		# Set current variables and add the profiles list
+		set config(login) $email
+		set password $oldpass
+		set config(startoffline) $oldoffline
 		LoginList add 0 $email
 	} else {
 		status_log "not creating new profile"
@@ -332,12 +358,23 @@ proc CreateProfile { email value } {
 		set HOME $HOME2
 		load_config
 		set log_dir ""
+		
+		# Set variables for default profile
+		set config(login) $email
+		set password $oldpass
+		set config(startoffline) $oldoffline
 		set config(save_password) 0
 		set config(keep_logs) 0
-		.login.c.remember configure -state disabled
+	}
+	
+	set proftrig 0
+
+	load_lang
+	### REPLACE THIS BY MAIN WINDOW REDRAW
+	if { $config(language) != $oldlang } {
+		msg_box [trans mustrestart]		
 	}
 
-	### ADD WINDOW REDRAW HERE
 }
 
 #///////////////////////////////////////////////////////////////////////////////

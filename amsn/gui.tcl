@@ -2264,13 +2264,18 @@ proc cmsn_draw_signin {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc login_ok {} {
-   global config password
+   global config password proftrig
 
    set config(login) [.login.c.signin get]
    set password [.login.c.password get]
    grab release .login
    destroy .login
 
+   if { $proftrig == 1 } {
+   	NewProfileAsk $config(login)
+	vwait proftrig
+   }
+   
    if { $password != "" && $config(login) != "" } {
 	::MSN::connect [list $config(login)] [list $password]
   } else {
@@ -2283,7 +2288,9 @@ proc login_ok {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_login {} {
-   global config password login_request
+   global config password login_request proftrig
+
+   set proftrig 0
 
    if {[info exists login_request]} {
       raise .login
@@ -2291,6 +2298,7 @@ proc cmsn_draw_login {} {
    }
 
    set login_request true
+   set oldlogin $config(login)
    toplevel .login
    wm group .login .
    bind .login <Destroy> {if {"%W" == ".login"} { unset login_request } }
@@ -2340,7 +2348,7 @@ proc cmsn_draw_login {} {
    .login.c.password insert 0 $password	
 
    button .login.c.ok -text [trans ok] -command login_ok  -font sboldf
-   button .login.c.cancel -text [trans cancel] -command "grab release .login;destroy .login" -font sboldf
+   button .login.c.cancel -text [trans cancel] -command "grab release .login; ConfigChange .login $oldlogin; destroy .login" -font sboldf
 
    
    grid .login.c.ok -row 5 -column 3 -sticky e -padx 5
@@ -2357,7 +2365,7 @@ proc cmsn_draw_login {} {
    }
 
    bind .login.c.password <Return> "login_ok; break"
-   bind .login <Escape> "grab release .login;destroy .login"
+   bind .login <Escape> "grab release .login;ConfigChange .login $oldlogin; destroy .login"
    bind .login <Return> "login_ok; break"
 
    tkwait visibility .login
@@ -2386,7 +2394,7 @@ proc NewProfileAsk { email } {
    	grid .loginask.c.ok -row 2 -column 1 -pady 10
   	grid .loginask.c.cancel -row 2 -column 1 -pady 5 -sticky e
 
-	bind .loginask <Destroy> "CreateProfile $email 0"
+	bind .loginask <Destroy> "if \{ \[grab status .loginask\] == \"local\" \} \{ CreateProfile $email 0\}"
 	tkwait visibility .loginask
 	grab set .loginask
 }
