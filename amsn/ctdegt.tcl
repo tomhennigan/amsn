@@ -391,17 +391,13 @@ proc Preferences { { settings "personal"} } {
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefname] -font splainf]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	frame $lfname.1 -class Degt
-	frame $lfname.2 -class Degt
 	label $lfname.pname -image prefpers
 	label $lfname.1.lname -text "[trans enternick] :" -font sboldf -padx 10
 	entry $lfname.1.name -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 45
-	checkbutton $lfname.2.badwords -text "[trans allowbadwords]" -onvalue 1 -offvalue 0 -variable config(allowbadwords)
 	pack $lfname.pname -anchor nw -side left
 	pack $lfname.1 -side top -padx 0 -pady 3 -expand 1 -fill both
-	pack $lfname.2 -side top -padx 0 -pady 3 -expand 1 -fill both
 	pack $lfname.1.lname $lfname.1.name -side left
-	pack $lfname.2.badwords -side left -padx 15
-	
+
 	## Public Profile Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefprofile]]
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
@@ -471,12 +467,11 @@ proc Preferences { { settings "personal"} } {
 	
 	## General aMSN Look Options (Encoding, BGcolor, General Font)
 	set lfname [LabelFrame:create $frm.lfname -text [trans preflook]]
-	pack $frm.lfname -anchor n -side top -expand 1 -fill x
+	pack $frm.lfname -anchor n -side top -expand 0 -fill x
 	label $lfname.plook -image preflook
 	frame $lfname.1 -class Degt
 	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
-	frame $lfname.4 -class Degt
 	label $lfname.1.llook -text "[trans encoding2]" -padx 10
 	button $lfname.1.bencoding -text [trans encoding] -font sboldf -command "show_encodingchoose"
 	pack $lfname.plook -anchor nw -side left
@@ -493,18 +488,15 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.3 -side top -padx 0 -pady 0 -expand 1 -fill both
 	pack $lfname.3.llook -side left
 	pack $lfname.3.bfont -side right -padx 15
-	checkbutton $lfname.4.banner -text "[trans enablebanner]" -onvalue 1 -offvalue 0 -variable config(enablebanner)
-	pack $lfname.4 -side top -padx 0 -pady 0 -expand 1  -fill both
-	pack $lfname.4.banner -anchor w -side left -padx 10 -pady 0
 
-	
+
 	## Emoticons Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefemotic]]
-	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
+	pack $frm.lfname2 -anchor n -side top -expand 0 -fill x
 	label $lfname.pemotic -image prefemotic
 	pack $lfname.pemotic -side left -anchor nw
 	frame $lfname.1 -class Degt
-	pack $lfname.1 -side left -padx 0 -pady 0 -expand 1 -fill both
+	pack $lfname.1 -side left -padx 0 -pady 0 -expand 1 -fill x
 	checkbutton $lfname.1.chat -text "[trans chatsmileys2]" -onvalue 1 -offvalue 0 -variable config(chatsmileys)
 	checkbutton $lfname.1.list -text "[trans listsmileys2]" -onvalue 1 -offvalue 0 -variable config(listsmileys)
         checkbutton $lfname.1.sound -text "[trans emotisounds]" -onvalue 1 -offvalue 0 -variable config(emotisounds)
@@ -515,30 +507,17 @@ proc Preferences { { settings "personal"} } {
 
 	## Alerts and Sounds Frame ##
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefalerts]]
-	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
+	pack $frm.lfname3 -anchor n -side top -expand 0 -fill x
 	label $lfname.palerts -image prefalerts
 	pack $lfname.palerts -side left -anchor nw
 	frame $lfname.1 -class Degt
-	frame $lfname.2 -class Degt
-	label $lfname.2.loffset -text "[trans notifyoffset]" -padx 10
-	label $lfname.2.lxoffset -text "[trans xoffset] :" -font sboldf -padx 10
-	entry $lfname.2.xoffset -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 5 -textvariable config(notifyXoffset)
-	label $lfname.2.lyoffset -text "[trans yoffset] :" -font sboldf -padx 10
-	entry $lfname.2.yoffset -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 5 -textvariable config(notifyYoffset)
-	pack $lfname.2.loffset -side top -anchor w
-	pack $lfname.2.lxoffset $lfname.2.xoffset $lfname.2.lyoffset $lfname.2.yoffset -side left -anchor w
-	checkbutton $lfname.1.alert1 -text "[trans notify1]" -onvalue 1 -offvalue 0 -variable config(notifyonline)
-	checkbutton $lfname.1.alert1_5 -text "[trans notify1_5]" -onvalue 1 -offvalue 0 -variable config(notifyoffline)
-	checkbutton $lfname.1.alert1_75 -text "[trans notify1_75]" -onvalue 1 -offvalue 0 -variable config(notifystate)
-	checkbutton $lfname.1.alert2 -text "[trans notify2]" -onvalue 1 -offvalue 0 -variable config(notifymsg)
-	checkbutton $lfname.1.alert3 -text "[trans notify3]" -onvalue 1 -offvalue 0 -variable config(notifyemail)
+	checkbutton $lfname.1.alert1 -text "[trans shownotify]" -onvalue 1 -offvalue 0 -variable config(shownotify)
 	checkbutton $lfname.1.sound -text "[trans sound2]" -onvalue 1 -offvalue 0 -variable config(sound)
-	pack $lfname.2 -anchor w -side top -padx 10 -expand 1 -fill both
 	pack $lfname.1 -anchor w -side top -padx 0 -pady 5 -expand 1 -fill both
-	pack $lfname.1.alert1 $lfname.1.alert1_5 $lfname.1.alert1_75 $lfname.1.alert2 $lfname.1.alert3 $lfname.1.sound -anchor w -side top -padx 10 -pady 0
-	frame $frm.dummy -class Degt
-	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 0
-	
+	pack $lfname.1.alert1 $lfname.1.sound -anchor w -side top -padx 10 -pady 0
+	#frame $frm.dummy -class Degt
+	#pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 0
+
 	#  .---------.
 	# _| Session |________________________________________________
 	image create photo prefstatus -file [GetSkinFile pixmaps prefstatus.gif]
@@ -1770,6 +1749,9 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.99  2003/12/12 12:42:17  airadier
+# Some options moved into advanced preferences
+#
 # Revision 1.98  2003/12/12 02:33:45  airadier
 # Advanced preferences done.
 #

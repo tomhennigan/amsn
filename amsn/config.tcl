@@ -21,7 +21,6 @@ proc ConfigDefaults {} {
 
 	set config(sound) 1				;#Sound enabled: 0|1
 	set config(mailcommand) ""		;#Command for checking mail. Blank for hotmail
-	set config(enablebanner) 1		;#Show or Hide AMSN Banner (By default Show)
 
 	#Some Autodetected options
 	if {[tk windowingsystem] == "aqua"} {
@@ -88,8 +87,6 @@ proc ConfigDefaults {} {
 
 	set config(dock) 0					;#Docking type
 
-	set config(allowbadwords) 1		;#Disable censure on nicks
-
 	set config(newmsgwinstate) 1		;#Iconify or restore chat window on new message
 	set config(newchatwinstate) 1		;#Iconify or restore chat window on new chat
 	set config(flicker) 1				;#Flicker window on new message
@@ -100,6 +97,8 @@ proc ConfigDefaults {} {
 
 	set config(initialftport) 6891	;#Initial for to be used when sending file transfers
 	set config(ftautoaccept) 0
+
+	set config(shownotify) 1 			;#Show notify window (in general, see advanced options)
 
 	#Remote control options
 	set config(enableremote) 0
@@ -135,14 +134,25 @@ proc ConfigDefaults {} {
 		[list "" appearance] \
 		[list tooltips bool tooltips] \
 		[list animatenotify bool animatenotify] \
+		[list enablebanner bool enablebanner] \
 		[list truncatenames bool truncatenames1] \
 		[list truncatenicks bool truncatenames2] \
 		[list showtimestamps bool timestamps]\
+		[list "" notifyoffset] \
+		[list notifyXoffset int xoffset] \
+		[list notifyYoffset int yoffset] \
+		[list "" prefalerts] \
+		[list notifyonline bool notify1] \
+		[list notifyoffline bool notify1_5] \
+		[list notifystate bool notify1_75] \
+		[list notifymsg bool notify2] \
+		[list notifyemail bool notify3] \
 		[list "" connection] \
 		[list autoconnect bool autoconnect autoconnect2] \
 		[list keepalive bool keepalive natkeepalive]\
 		[list start_ns_server str notificationserver]\
 		[list "" others] \
+		[list allowbadwords bool allowbadwords] \
 		[list disableprofiles bool disableprofiles] \
 		[list receiveddir str receiveddir] \
 		[list lineflushlog bool lineflushlog] \
@@ -164,6 +174,9 @@ proc ConfigDefaults {} {
 	set config(leftdelimiter) \[		;#Left Timestamps' delimiter  '[' by default
 	set config(rightdelimiter) \]		;#Right Timestamps' delimiter ']' by default
 	set config(start_ns_server) "messenger.hotmail.com:1863"
+	set config(allowbadwords) 1		;#Disable censure on nicks
+	set config(enablebanner) 1		;#Show or Hide AMSN Banner (By default Show)
+
 
 
 	#System options, not intended to be edited (unless you know what you're doing)

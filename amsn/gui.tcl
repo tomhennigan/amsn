@@ -2636,9 +2636,9 @@ namespace eval ::amsn {
 
       global config
 
-      #if { $config(notifywin) == 0 } {
-      #  return;
-      #}
+      if { $config(shownotify) == 0 } {
+        return;
+      }
       variable NotifID
       variable NotifPos
       variable notifyonline
