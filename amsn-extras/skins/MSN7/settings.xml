@@ -10,19 +10,27 @@
 	<General>
 		<Colors>
 			<balloonbackground>#ffffe1</balloonbackground>
-			<balloonborder>#dad8c8</balloonborder>
+			<balloonborder>black</balloonborder>
 			<balloontext>#000000</balloontext>
 			<menubackground>#f7f9fd</menubackground>
 			<menuforeground>#3c4d81</menuforeground>
 			<menuactivebackground>#7b96ac</menuactivebackground>
 			<menuactiveforeground>#eef1f4</menuactiveforeground>
-			<balloonfont>splainf</balloonfont>
 		</Colors>
+		<Options>
+			<balloonfont>splainf</balloonfont>
+			<balloonborderwidth>0</balloonborderwidth>
+		</Options>
 		<Geometry>
 			<notifwidth>181</notifwidth>
 			<notifheight>116</notifheight>
 			<x_notifyclose>160</x_notifyclose>
 			<y_notifyclose>3</y_notifyclose>
+			<x_notifydp>4</x_notifydp>
+			<y_notifydp>26</y_notifydp>
+			<x_notifytext>57</x_notifytext>
+			<y_notifytext>26</y_notifytext>
+			<width_notifytext>120</width_notifytext>
 		</Geometry>
 	</General>
 
@@ -39,7 +47,6 @@
 			<contact_offline>#505050</contact_offline>
 			<groupcolorextend>#2a2a8a</groupcolorextend>
 			<groupcolorcontract>#5757ba</groupcolorcontract>
-
    		 </Colors>
 		 <Options>
 			<emailabovecolorbar>0</emailabovecolorbar>
@@ -59,6 +66,8 @@
 			<expand_ypad>6</expand_ypad>
 			<x_dp_top>12</x_dp_top>
 			<y_dp_top>18</y_dp_top>
+			<buddy_ypad>1</buddy_ypad>
+
 		</Geometry>
 	</ContactList>
 
