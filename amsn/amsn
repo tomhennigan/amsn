@@ -106,8 +106,8 @@ set pgNews  ""
 #///////////////////////////////////////////////////////////////////////
 # Load program modules
 source [file join $program_dir ctthemes.tcl]
-#source [file join $program_dir notebook.tcl]	;# Notebook Megawidget
-#source [file join $program_dir notebook1.tcl]	;# Notebook Megawidget
+source [file join $program_dir notebook.tcl]	;# Notebook Megawidget
+source [file join $program_dir notebook1.tcl]	;# Notebook Megawidget
 source [file join $program_dir rnotebook.tcl]	;# Notebook Megawidget
 source [file join $program_dir progressbar.tcl]	;# Progressbar Megawidget
 source [file join $program_dir dkffont.tcl]	;# Font selection megawidget
@@ -774,3 +774,4 @@ if { $config(autoconnect) == 1 } {
   ::MSN::connect $config(login) password
 }
 
+#Preferences 0

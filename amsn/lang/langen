@@ -32,6 +32,7 @@ browser Browser
 busy Busy
 cancel Cancel
 cfgalarm Configure/Add/Remove Alarm
+changefont Change Font
 changenick Change nick
 chatack Accepting chat from
 chat Chat
@@ -65,6 +66,7 @@ dockingoff Docking Off
 dockgtk Gnome Dock
 dockkde KDE Dock
 edit Edit
+editprofile Edit Profile
 enableproxy Enable proxy
 encoding Choose encoding
 entercontactemail Enter contact e-mail
@@ -169,6 +171,11 @@ picstatus Picture Alarm
 port Port
 prefapps Applications
 preferences Preferences
+preffont My Message Text
+preffont2 Change the way others see my text in chats
+prefname My MSN Messenger Name/NickName
+prefprofile My Public Profile
+prefprofile2 Create or Modify your public profile (the $1 description of yourself that others can see)
 prefsound Sounds
 properties Properties
 proxyconfhttp HTTP proxy support configuration

@@ -16,12 +16,12 @@ proc degt_Init {} {
     set Label {bg #AABBCC foreground #000000}
     set Text {bg #2200FF foreground #111111}
     set Button {foreground #111111}
-    set Frame {background #111111}
+#    set Frame {background #111111}
     ::themes::AddClass Degt Entry $Entry 90
     ::themes::AddClass Degt Label $Label 90
     ::themes::AddClass Degt Text $Text 90
     ::themes::AddClass Degt Button $Button 90
-    ::themes::AddClass Degt Frame $Frame 90
+#    ::themes::AddClass Degt Frame $Frame 90
 }
 
 proc degt_protocol { str } {
@@ -246,6 +246,7 @@ proc PreferencesMenu {m} {
     bind . <Control-p> { Preferences sound }
 
     $m add command -label [trans personal] -command "Preferences personal"
+    $m add command -label [trans general] -command "Preferences general"
     $m add command -label [trans options] -command "Preferences options"
     $m add command -label [trans loging] -command "Preferences loging"
     $m add command -label [trans connection] -command "Preferences connection"
@@ -254,7 +255,7 @@ proc PreferencesMenu {m} {
 }
 
 proc Preferences { settings } {
-    global config myconfig proxy_server proxy_port
+    global config myconfig proxy_server proxy_port images_folder
 
     if {[ winfo exists .cfg ]} {
         return
@@ -265,11 +266,11 @@ proc Preferences { settings } {
     toplevel .cfg
     wm title .cfg [trans preferences]
     wm iconname .cfg [trans preferences]
-    wm geometry .cfg 400x220
+    wm geometry .cfg 440x400
 
     # Frame to hold the preferences tabs/notebook
     frame .cfg.notebook -class Degt
-    pack .cfg.notebook -side top -fill both -expand 1
+    pack .cfg.notebook -side top -fill both -expand 1 -padx 5 -pady 5
 
     # Frame for common buttons (all preferences)
     frame .cfg.buttons -class Degt
@@ -281,59 +282,85 @@ proc Preferences { settings } {
     set nb .cfg.notebook.nn
 	# Preferences Notebook
 	# Modified Rnotebook to translate automaticly those keys in -tabs {}
-	Rnotebook:create $nb -tabs {personal options loging connection prefapps profiles} -borderwidth 2
+	Rnotebook:create $nb -tabs {personal general options loging connection prefapps profiles} -borderwidth 2
 	pack $nb -fill both -expand 1 -padx 10 -pady 10
 
 	#  .----------.
 	# _| Personal |________________________________________________
+	image create photo prefpers -file [file join ${images_folder} prefpers.gif]
+	image create photo prefprofile -file [file join ${images_folder} prefprofile.gif]
+	image create photo preffont -file [file join ${images_folder} preffont.gif]
 	set frm [Rnotebook:frame $nb 1]
-	label $frm.lname -text [trans enternick]
-	entry $frm.name -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 
-	label $frm.lpprofile -text [trans pprofile]
-	grid $frm.lname -row 1 -column 1
-	grid $frm.name -row 1 -column 2
-	grid $frm.lpprofile -row 2 -column 1
+
+	set lfname [LabelFrame:create $frm.lfname -text [trans prefname]]
+	pack $frm.lfname -side top -expand 1 -fill x
+	label $lfname.pname -image prefpers
+	label $lfname.lname -text "[trans enternick] :" -font sboldf
+	entry $lfname.name -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 35
+	pack $lfname.pname -side left
+	pack $lfname.lname $lfname.name -side top	
+
+	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefprofile]]
+	pack $frm.lfname2 -side top -expand 1 -fill x
+	label $lfname.pprofile -image prefprofile
+	label $lfname.lprofile -text [trans prefprofile2 \n] -padx 10
+	button $lfname.bprofile -text [trans editprofile] -command "" -state disabled
+	pack $lfname.pprofile $lfname.lprofile $lfname.bprofile -side left
+	
+	set lfname [LabelFrame:create $frm.lfname3 -text [trans preffont]]
+	pack $frm.lfname3 -side top -expand 1 -fill x
+	label $lfname.pfont -image preffont
+	label $lfname.lfont -text [trans preffont2 \n] -padx 10
+	button $lfname.bfont -text [trans changefont] -command "change_myfont .cfg"
+	pack $lfname.pfont $lfname.lfont $lfname.bfont -side left
 	
 	#  .---------.
-	# _| Options |________________________________________________
+	# _| General |________________________________________________
 	set frm [Rnotebook:frame $nb 2]
 	label $frm.l2 -text "Welcome frame 1 !" 
 	pack $frm.l2 -fill both -expand 1
 
-	#  .--------.
-	# _| Loging |________________________________________________
+	#  .---------.
+	# _| Options |________________________________________________
 	set frm [Rnotebook:frame $nb 3]
 	label $frm.l3 -text "Welcome frame 1 !" 
 	pack $frm.l3 -fill both -expand 1
 
-	#  .------------.
-	# _| Connection |________________________________________________
+	#  .--------.
+	# _| Loging |________________________________________________
 	set frm [Rnotebook:frame $nb 4]
 	label $frm.l4 -text "Welcome frame 1 !" 
 	pack $frm.l4 -fill both -expand 1
 
-	#  .--------------.
-	# _| Applications |________________________________________________
+	#  .------------.
+	# _| Connection |________________________________________________
 	set frm [Rnotebook:frame $nb 5]
 	label $frm.l5 -text "Welcome frame 1 !" 
 	pack $frm.l5 -fill both -expand 1
 
-	#  .----------.
-	# _| Profiles |________________________________________________
+	#  .--------------.
+	# _| Applications |________________________________________________
 	set frm [Rnotebook:frame $nb 6]
 	label $frm.l6 -text "Welcome frame 1 !" 
 	pack $frm.l6 -fill both -expand 1
+
+	#  .----------.
+	# _| Profiles |________________________________________________
+	set frm [Rnotebook:frame $nb 7]
+	label $frm.l7 -text "Welcome frame 1 !" 
+	pack $frm.l7 -fill both -expand 1
 
     
 
 
     switch $settings {
         personal { Rnotebook:raise $nb 1 }
-        options { Rnotebook:raise $nb 2 }
-        loging { Rnotebook:raise $nb 3 }
-	connection { Rnotebook:raise $nb 4 }
-        apps { Rnotebook:raise $nb 5 }
-        profiles { Rnotebook:raise $nb 6 }
+	general { Rnotebook:raise $nb 2 }
+        options { Rnotebook:raise $nb 3 }
+        loging { Rnotebook:raise $nb 4 }
+	connection { Rnotebook:raise $nb 5 }
+        apps { Rnotebook:raise $nb 6 }
+        profiles { Rnotebook:raise $nb 7 }
 	default { return }
     }
 }
@@ -452,10 +479,82 @@ proc LabelEntryGet { path } {
     return [$path.ent get]
 }
 
+# A Labeled Frame widget for Tcl/Tk
+# $Revision$
+#
+# Copyright (C) 1998 D. Richard Hipp
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Library General Public
+# License as published by the Free Software Foundation; either
+# version 2 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Library General Public License for more details.
+# 
+# You should have received a copy of the GNU Library General Public
+# License along with this library; if not, write to the
+# Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+# Boston, MA  02111-1307, USA.
+#
+# Author contact information:
+#   drh@acm.org
+#   http://www.hwaci.com/drh/
+
+#
+# Usage Example:
+#
+#     set f [LabelFrame:create .name -text "Frame Label"]
+#     pack .name
+#     button $f.content -text "Content of the Frame"
+#     pack $f.content
+#
+# The first argument is the name of the label frame.  The
+# return value is the name of a subframe within the frame
+# into which the contents of the frame should be packed.
+# Arguments after the first are options.
+#
+proc LabelFrame:create {w args} {
+  frame $w -bd 0
+  label $w.l
+  frame $w.f -bd 2 -relief groove
+  frame $w.f.f
+  pack $w.f.f
+  set text {}
+  set font {}
+  set padx 3
+  set pady 7
+  set ipadx 2
+  set ipady 9
+  foreach {tag value} $args {
+    switch -- $tag {
+      -font  {set font $value}
+      -text  {set text $value}
+      -padx  {set padx $value}
+      -pady  {set pady $value}
+      -ipadx {set ipadx $value}
+      -ipady {set ipady $value}
+      -bd     {$w.f config -bd $value}
+      -relief {$w.f config -relief $value}
+    }
+  }
+  if {"$font"!=""} {
+    $w.l config -font $font
+  }
+  $w.l config -text $text
+  pack $w.f -padx $padx -pady $pady -fill both -expand 1
+  place $w.l -x [expr $padx+10] -y $pady -anchor w
+  pack $w.f.f -padx $ipadx -pady $ipady -fill both -expand 1
+  raise $w.l
+  return $w.f.f
+}
+
 ###################### ****************** ###########################
 # $Log$
-# Revision 1.19  2003/01/10 18:35:13  burgerman
-# Fixed issues with new multiple config and Alarms and Logs
+# Revision 1.20  2003/01/11 00:26:18  burgerman
+# some work on preferences + removed comments from old notebook and notebook1.tcl
 #
 # Revision 1.17  2003/01/05 22:37:56  burgerman
 # Save to File in loging implemented
