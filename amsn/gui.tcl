@@ -628,15 +628,64 @@ namespace eval ::amsn {
 
 
 	#///////////////////////////////////////////////////////////////////////////////
-	proc deleteUser { user_login { grId ""} } {
-		set answer [::amsn::messageBox [trans confirmdu $user_login] yesno question]
-		if { $answer == "yes"} {
+	#Delete user window, user can choose to delete user, cancel the action or block and delete the user
+	proc deleteUser {user_login { grId ""} } {
+		set w .deleteUserWindow
+		
+		#If the window was there before, destroy it and create the new one
+		if {[winfo exists $w]} {
+			destroy $w
+		}
+		
+		#Create the window
+		toplevel $w
+		wm title $w "[trans delete]"
+		$w configure -background #ECECEC
+		#Create the three frames
+		frame $w.top -background #ECECEC
+		frame $w.buttons -background #ECECEC
+		frame $w.block -background #ECECEC
+		#Create the picture of warning (at left)
+		label $w.top.bitmap -image [::skin::loadPixmap warning] -background #ECECEC
+		pack $w.top.bitmap -side left -pady 5 -padx 15
+		#Text to show to delete the user
+		label $w.top.question -text "[trans confirmdu]" -font bigfont -background #ECECEC
+		pack $w.top.question -pady 5 -padx 25
+		#Create the three buttons, Yes and block / Yes / No
+		button $w.block.yesblock -text "[trans yesblock]" -command "::amsn::deleteUserAction $w $user_login yes_block $grId" -background #ECECEC -highlightbackground #ECECEC
+		button $w.buttons.yes -text "[trans yes]" -command "::amsn::deleteUserAction $w $user_login yes $grId" -default active -background #ECECEC -highlightbackground #ECECEC -width 6
+		button $w.buttons.no -text "[trans no]" -command "destroy $w" -background #ECECEC -highlightbackground #ECECEC -width 6
+		#Pack buttons
+		pack $w.buttons.yes -pady 5 -padx 5 -side right
+		pack $w.buttons.no -pady 5 -padx 5 -side left
+		pack $w.block.yesblock -pady 5 -padx 5
+		#Pack frames
+		pack $w.top -pady 5 -padx 5 -side top
+		pack $w.block -pady 5 -padx 5 -side left
+		pack $w.buttons -pady 5 -padx 5 -side right
+	
+		moveinscreen $w 30
+		bind $w <<Escape>> "destroy $w"
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+	# deleteUserAction {w user_login answer grId}
+	# Action to do when someone click delete a user
+	proc deleteUserAction {w user_login answer grId} {
+		#If he wants to delete AND block a user
+		if { $answer == "yes_block"} {
+			set name [::abook::getNick ${user_login}]
+			::MSN::blockUser ${user_login} [urlencode $name]
+			::MSN::deleteUser ${user_login} $grId
+			::abook::setContactData $user_login alarms ""
+		#Just delete the user
+		} elseif { $answer == "yes"} {
 			::MSN::deleteUser ${user_login} $grId
 			::abook::setContactData $user_login alarms ""
 		}
+		#Remove .deleteUserWindow window
+		destroy $w
+		return
 	}
-	#///////////////////////////////////////////////////////////////////////////////
-
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# FileTransferSend (chatid (filename))
