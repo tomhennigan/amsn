@@ -933,9 +933,10 @@ namespace eval ::amsn {
 	set userlist [list]
 	set chatusers [::MSN::usersInChat [ChatFor $win_name]]
 
-	foreach user_login $list_users {
-      		set user_state_no [lindex [::MSN::getUserInfo $user_login] 2]
-      		if {($user_state_no < 7) && ([lsearch $chatusers "$user_login *"] == -1)} {
+	foreach user_info $list_users {
+	        set user_login [lindex $user_info 0]
+		set user_state_no [lindex [::MSN::getUserInfo $user_login] 2]
+      		if {($user_state_no < 7) && ([lsearch $chatusers "$user_login"] == -1)} {
           		set user_name [lindex [::MSN::getUserInfo $user_login] 1]
 	  		lappend userlist [list $user_login $user_name $user_state_no]
       		}
@@ -954,7 +955,6 @@ namespace eval ::amsn {
       global list_users
 
       set userlist [list]
-      set userlist2 [list]
       set chatusers [::MSN::usersInChat [ChatFor $win_name]]
 
       foreach user_login $chatusers {
