@@ -150,6 +150,8 @@ customnick Prikazni nick
 customstyle Uporabniski nacin pogovora
 cut Izrezi
 date Datum
+dateformat Spremeni obliko datuma
+day Dan
 days Dni
 dcprofile Ne ustvari profila
 defaultloginradio Prijavi se s privzetimi nastavitvami
@@ -322,6 +324,7 @@ maximised Maksimiran
 minimised Minimiran
 mins minut
 mobile Mobilni
+month Mesec
 morepersonal Vec stanj ->
 move Premakni
 movetogroup Premakni v skupino
@@ -543,6 +546,7 @@ tlsexplain Mapa, kjer je tcl TLS modul. Ce ga AMSN ne najde, nastavi pot.\n(Potr
 tlsinstall Carovnik za namestitev modula TLS
 tlsinstallexp AMSN uporablja MSNP9, ki potrebuje varno\npovezavo s SSL-jem. Da bi uporabljal SSL, mora AMSN namestiti modul TLS,\nki ga ni na tvojem racunalniku. Ta carovnik ti bo pomagal pobrati in\nnamestiti TLS. Prosim izberi tvoj sistem, da lahko poberem\npotrebne TLS datoteke.
 tlsinstcompleted Namestitev modula TLS je bila uspesna; zdaj naj bi bilo mogoce uporabljati MSNP9. Ce ne deluje, verjetno nisi izbral pravega modula ali pa prevedenega ni na voljo za tvoj sistem.
+today Danes
 tools Orodja
 tooltips Omogoci tooltipe
 to Za
@@ -579,7 +583,9 @@ xmmscurrent Pokazi trenutno pesem
 xmmserr Nic se ne igra ali nimas namescenega xmms-infopipe.
 xmmssend Poslji trenutno pesem
 xoffset X odstopanje
+year Leto
 yes Ja
+yesterday Vceraj
 yoffset Y odstopanje
 youblocked Blokirajo te
 yousay Pravis
