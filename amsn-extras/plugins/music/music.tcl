@@ -4,6 +4,7 @@ namespace eval ::music {
 	variable name ""
 	variable activated 0
 	variable songfunc [list "" ""]
+	variable musicpluginpath
 
 	#############################################
 	# ::music::InitPlugin dir                   #
@@ -12,6 +13,9 @@ namespace eval ::music {
 	#############################################
 	proc InitPlugin { dir } {
 		global tcl_platform
+		variable musicpluginpath
+
+		set musicpluginpath $dir
 
 		array set OSes [list "darwin" [list GetSongITunes exec_applescript] "linux" [list GetSongXMMS TreatSongXMMS]]
 
@@ -27,7 +31,7 @@ namespace eval ::music {
 			if { [::music::version_094] } {
 				msg_box "Your Operating System ($os) isn't yet supported by the Music plugin"
 			} else {
-				msg_box [trans oserr $os]
+				msg_box [trans musicoserr $os]
 			}
 			::plugins::UnLoadPlugin music
 			return
@@ -37,8 +41,6 @@ namespace eval ::music {
 
 		#RegisterPlugin
 		::plugins::RegisterPlugin music
-
-		::config::setKey musicpluginpath $dir
 
 		#Register event
 		::plugins::RegisterEvent music OnConnect newname
@@ -71,11 +73,11 @@ namespace eval ::music {
 				active {0} \
 			]
 			set ::music::configlist [list \
-						[list bool "[trans addsongtonick]"  active] \
-						[list str "[trans timeverify]" second] \
-						[list str "[trans nickname]"  nickname] \
-						[list str "[trans separator]"  symbol] \
-						[list str "[trans stopmsg]"  stop] \
+						[list bool "[trans musicaddsongtonick]"  active] \
+						[list str "[trans musictimeverify]" second] \
+						[list str "[trans musicnickname]"  nickname] \
+						[list str "[trans musicseparator]"  symbol] \
+						[list str "[trans musicstopmsg]"  stop] \
 					]
 		}
 
@@ -229,8 +231,8 @@ namespace eval ::music {
 	# Find where's the plugin directory(by getKey) #
 	################################################
 	proc exec_applescript {} {
-		set dir [::config::getKey itunespluginpath]
-		catch {exec osascript $dir/display_and_send.scpt &}
+		variable musicpluginpath
+		catch {exec osascript $musicpluginpath/display_and_send.scpt &}
 	}
 
 	###############################################
