@@ -4582,25 +4582,33 @@ proc trunc {str {window ""} {maxw 0 } {font ""}} {
 #///////////////////////////////////////////////////////////////////////
 proc copy { cut w } {
 
-    set window $w.f.bottom.in.input
-    set index [$window tag ranges sel]
+	#Try this (for chat windows)
+	set window $w.f.bottom.in.input
 
-    if { $index == "" } {
-	set window $w.f.out.text 
+	if { [ catch {$window tag ranges sel}]} {
+	   set window $w
+	}
+
 	set index [$window tag ranges sel]
-	if { $index == "" } {  return }
-    }
 
-    clipboard clear
+	if { $index == "" } {
+		set window $w.f.out.text
+		catch {set index [$window tag ranges sel]}
+		if { $index == "" } {  return }
+	}
 
-    set dump [$window  dump  -text [lindex $index 0] [lindex $index 1]]
+	status_log "Copy: focus is [focus], window is $window\n" return
 
-    foreach { text output index } $dump {
-	clipboard append "$output"
-    }
+	clipboard clear
+
+	set dump [$window dump -text [lindex $index 0] [lindex $index 1]]
+
+	foreach { text output index } $dump {
+		clipboard append "$output"
+	}
 
 #    selection clear
-    if { $cut == "1" } { catch { $window delete sel.first sel.last } }
+	if { $cut == "1" } { catch { $window delete sel.first sel.last } }
 }
 #///////////////////////////////////////////////////////////////////////
 
