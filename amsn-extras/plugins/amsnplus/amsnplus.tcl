@@ -271,7 +271,7 @@ namespace eval ::amsnplus {
 					::amsn::WinWrite $chatid "\nThis doesn't work on mac os x, take a look at tcl documentation of exec" green
 				} else {
 					exec $command
-					::amsn::WinWrite $chatid "\nExecuting in the shell: $command"
+					::amsn::WinWrite $chatid "\nExecuting in the shell: $command" green
 				}
 				set incr 0
 			}
