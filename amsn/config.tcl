@@ -23,7 +23,7 @@ proc ConfigDefaults {} {
 	set config(mailcommand) ""		;#Command for checking mail. Blank for hotmail
 
 	#Some Autodetected options
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	if {$tcl_platform(os) == "Darwin"} {
 	   set config(soundcommand) "/sw/bin/esdplay \$sound"
 	   set config(browser) "open \$url"
 	   set config(notifyXoffset) 0
@@ -69,8 +69,12 @@ proc ConfigDefaults {} {
 
 	set config(autoftip) 1				;#Detect IP for file transfers automatically
 	set config(myip) "127.0.0.1"		;#Your IP
-
+	#Specific for Mac OS X, to not have the main window squeezing in top corner
+if {$tcl_platform(os) == "Darwin"} {
+	set config(wingeometry) 275x400-200+200			;#Main window geometry
+	} else {
 	set config(wingeometry) 275x400-0+0			;#Main window geometry
+	}
 	set config(closingdocks) 0						;#Close button minimizes (or docks) main window
 	set config(backgroundcolor)  #D8D8E0		;#AMSN background color
 	set config(basefont) "Helvetica 11 normal"	;#AMSN base font
@@ -88,7 +92,12 @@ proc ConfigDefaults {} {
 	set config(dock) 0					;#Docking type
 
 	set config(newmsgwinstate) 1		;#Iconify or restore chat window on new message
+	#Specific for Mac OS X, if newchatwinstate=1, new windows of message never appear
+if {$tcl_platform(os) == "Darwin"} {
+	set config(newchatwinstate) 0		;#Iconify or restore chat window on new chat
+	} else {
 	set config(newchatwinstate) 1		;#Iconify or restore chat window on new chat
+	}
 	set config(flicker) 1				;#Flicker window on new message
 	set config(showdisplaypic) 1		;#Show display picture as default
 
