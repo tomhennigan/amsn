@@ -265,14 +265,21 @@ namespace eval ::lang {
 			set name [::lang::ReadOnlineLang $langcode name]
 			lappend languages2 [list "$name" "$langcode"]
 		}
-		set languages2 [lsort -index 0 -dictionary $languages2] 
+		set languages2 [lsort -index 0 -dictionary $languages2]
 		
+		set ::lang::OnlineLang [list]
+		
+		foreach lang $languages2 {
+			set langcode [lindex $lang 1]
+			set ::lang::OnlineLang [lappend ::lang::OnlineLang $langcode]
+		}		
 		
 		foreach item $languages2 {
 			set langname [lindex $item 0]
+			set langcode [lindex $item 1]
 			$frm.selection.box insert end "$langname"
 			# Choose the background according to the fact lang is available or not
-			if { [lsearch $::lang::Lang [lindex $item 0]] != -1 } {
+			if { [lsearch $::lang::Lang $langcode] != -1 } {
 				$frm.selection.box itemconfigure end -background #DDF3FE
 			} else {
 				$frm.selection.box itemconfigure end -background #FFFFFF
