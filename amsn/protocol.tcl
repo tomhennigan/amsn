@@ -42,14 +42,14 @@ namespace eval ::MSNFT {
       }
    }
 
-   proc acceptReceived {cookie chatid fromlogin body} {
+   proc acceptReceived {cookie chatid fromlogin message} {
 
       variable filedata
 
       if {![info exists filedata($cookie)]} {
          return
       }
-   
+
       set requestdata [$message getHeader Request-Data]
       set requestdata [string range $requestdata 0 [expr {[string length requestdata] -2}]]
 
@@ -79,7 +79,7 @@ namespace eval ::MSNFT {
          after cancel "::MSNFT::timeoutedFT $cookie"
          set port [$message getHeader Port]
          set authcookie [$message getHeader AuthCookie]
-         status_log "Body: $body\n"
+         #status_log "Body: $body\n"
          ConnectMSNFTP $ipaddr $port $authcookie $cookie
 
       }
@@ -2664,7 +2664,7 @@ proc cmsn_sb_msg {sb recv message} {
 			} else {
 			
 				#Generate "accept" event
-				::MSNFT::acceptReceived $cookie $chatid $fromlogin $body
+				::MSNFT::acceptReceived $cookie $chatid $fromlogin $message
 			}
 		
 		} elseif { $invcommand =="CANCEL" } {
