@@ -1117,7 +1117,7 @@ namespace eval ::MSN {
    
       if { [sb get $sbn stat] != "d" } {
          #The SB is connected again, forget about killing
-         return
+	return
       } else {
          #Get the chatid
          set chatid [::MSN::ChatFor $sbn]
@@ -1179,7 +1179,9 @@ namespace eval ::MSN {
       sb set $sbn stat "d"
       sb set $sbn sock ""
 
-      catch {close $oldsock} res
+      if {$oldsock != ""} {
+      	catch {close $oldsock} res
+      }
 
       if { $sbn == "ns" } {
 
@@ -1475,22 +1477,21 @@ namespace eval ::MSN {
    proc chatReady { chatid } {
 
          set sbn [SBFor $chatid]
+	  set sb_sock [sb get $sbn sock]
 
 	  if { "$sbn" == "0" } {
 	     return 0
 	  }
 
+	  if { "$sb_sock" == "" } {
+	     return 0
+	  }
 	  # This next two are necessary because SBFor doesn't
 	  # always return a ready SB
 	  if { "[sb get $sbn stat]" != "o" } {
 	     return 0
 	  }
 
-	  set sb_sock [sb get $sbn sock]
-
-	  if { "$sb_sock" == "" } {
-	     return 0
-	  }
 
 	  if {[catch {eof $sb_sock} res]} {
 	     status_log "::MSN::chatReady: Error in the EOF command for $sbn socket($sb_sock): $res\n" red
@@ -1873,6 +1874,7 @@ proc read_sb_sock {sbn} {
 
 		} elseif  { "$tmp_data" == "" } {
 
+			status_log "Blank read!! Why does this happen??\n" red
 			update idletasks
 
 		} else {
@@ -1922,7 +1924,6 @@ proc read_non_blocking { sock amount finish_proc {read 0}} {
 
 	set read_bytes [string length ${data}]
 	set read_until_now [expr {$read + $read_bytes}]
-	status_log "read_non_blocking: had to read $amount bytes, there were $read_bytes\n" blue
 
 	if { $read_until_now < $amount } {
 		fileevent $sock readable [list read_non_blocking $sock $amount $finish_proc $read_until_now]
@@ -2036,9 +2037,14 @@ proc proc_sb {} {
    return 1
 }
 
+proc proc_ns_watchdog {} {
+	status_log "ALERT: PROC_NS STOPPED WORKING!!!!!!!" red
+}
+
 proc proc_ns {} {
 
    after cancel proc_ns
+	after 250 proc_ns_watchdog
 
 	#status_log "Processing NS\n"	
    while {[sb length ns data]} {
@@ -2054,6 +2060,8 @@ proc proc_ns {} {
       }
 
    }
+
+	after cancel proc_ns_watchdog
 
    after 100 proc_ns
    return 1
