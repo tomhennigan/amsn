@@ -1486,7 +1486,14 @@ namespace eval ::amsn {
       button .${win_name}.f.in.f.send  -text [trans send] -width 5 -borderwidth 1 -relief solid \
          -command "::amsn::MessageSend .${win_name} .${win_name}.f.in.input" -font bplainf -highlightthickness 0
 
-      #scrollbar .${win_name}.f.top.ys -command ".${win_name}.f.top.text yview"
+		catch {
+			image create photo my_pic -file "[filenoext [GetSkinFile displaypic $config(displaypic)]].gif"
+
+      	label .${win_name}.f.in.pic  -borderwidth 2 -relief solid \
+         	-image my_pic
+		}
+
+		#scrollbar .${win_name}.f.top.ys -command ".${win_name}.f.top.text yview"
 
       scrollbar .${win_name}.f.out.ys -command ".${win_name}.f.out.text yview" \
          -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
@@ -1512,9 +1519,10 @@ namespace eval ::amsn {
       pack .${win_name}.f.top.textto -side left -fill y -anchor nw -padx 0 -pady 3
       pack .${win_name}.f.top.text -side left -expand true -fill x -padx 4 -pady 3
 
-      pack .${win_name}.f.in.f -side right -fill y -padx 3 -pady 4
       pack .${win_name}.f.in.f.send -fill both -expand true
       pack .${win_name}.f.in.input -side left -expand true -fill x -padx 1
+      pack .${win_name}.f.in.f -side left -fill y -padx 3 -pady 4
+		catch {pack .${win_name}.f.in.pic -side left -padx 5 -pady 5}
 
       pack .${win_name}.f -expand true -fill both -padx 0 -pady 0
 
@@ -1624,6 +1632,7 @@ namespace eval ::amsn {
 			after 200 "::amsn::WinTopUpdate $chatid"
 		}
 	}
+
 
 
    proc ChangeWinSize { win } {
