@@ -17,7 +17,7 @@ alarmpref Configuración de alarma para el usuario
 alarmstatus Activar/Desactivar alarma para este usuario
 allowallbutbl Permitir que todos los usuarios excepto los bloqueados me puedan contactar
 allowbadwords Saltarse la censura en los apodos
-allowlist Lista de Aceptados:
+allowlist Lista de Aceptados(AL):
 allowonlyinal Permitir sólo a los usuarios Aceptados contactar conmigo
 allowseen Permitir a esta persona ver cuándo estás conectado y contactar
 animatedsmileys Activar emoticonos animados
@@ -45,7 +45,7 @@ blocking Bloqueo
 blockinter1 Cuando estás en estado Conectado, comprobar cada:
 blockinter2 segundos, si no comprobar cada :
 blockinter3 cada
-blocklist Lista de Bloqueados:
+blocklist Lista de Bloqueados(BL):
 blockmessage Los siguientes contactos están conectados y bloqueandote
 block No admitir
 blockusers Numero de contactos a comprobar cada vez
@@ -91,7 +91,7 @@ connection Conexión
 connectionlost Desconectado: Conexión con el servidor cerrada
 contactadded Contacto añadido
 contactdoesnotexist El contacto que intentas añadir no existe
-contactlist Lista de Contactos:
+contactlist Lista de Contactos(FL):
 copy Copiar
 copytogroup Copiar al grupo
 countrycode Código de país/región
@@ -161,6 +161,7 @@ helpcontents Temas de ayuda
 history Ver historial
 home Casa
 httpconnection Conectar usando el método HTTP (usa protocolo HTTP por el puerto 80)
+hybrid Modo híbrido
 ident Identificándose
 identity Identificación
 inbox Bandeja de entrada
@@ -201,6 +202,7 @@ logolder Registrar sólamente conversaciones ocurridas en el último
 logout Cerrar sesión
 logsin acaba de iniciar sesión
 logsmileys Mostrar emoticonos y smileys en la ventana de historial de aMSN
+logsout acaba de terminar la sesión
 lprivtoconf El privado se convierte en conversación múltiple con $1
 luclosedwin Tú cierras la ventana a las $1
 mailer Comando de email
@@ -236,6 +238,8 @@ nonewver No hay versiones más actuales disponibles
 no No
 normal Normal
 nosystemtray Bandeja del sistema no disponible
+notify1_5 Mostrar ventana de aviso cuando un contacto se desconecte
+notify1_75 Mostrar ventana de aviso cuando un contacto cambia de estado
 notify1 Mostrar ventana de aviso cuando un contacto se conecte
 notify2 Mostrar ventana de aviso cuando llegan nuevos mensajes
 notify3 Mostrar ventana de aviso al recibir un nuevo correo electrónico
@@ -307,7 +311,7 @@ reject Rechazar
 rememberpass Recordar contraseña
 removefromlist Borrar de esta lista
 reversed Invertido
-reverselist Lista Inversa:
+reverselist Lista Inversa(RL):
 rightback Vuelvo enseguida
 saveas Guardar como
 savecontacts Guardar lista de contactos
@@ -334,6 +338,7 @@ soundstatus Sonido para la alarma
 startoffline2 Conectarse sigilosamente pareciendo "Desconectado"
 startoffline Comenzar Desconectado
 stateautomsg Mensaje automático a enviar
+statechange cambia su estado a :
 stateedittext Edita los campos que desees modificar\ny después pulsa Guardar
 stateinfo Configuración de estados personalizados
 statename Nombre del estado personalizado
@@ -375,4 +380,3 @@ yoffset Desplazamiento Y
 youblocked Has sido bloqueado
 yousay Tú dices
 youwant Quieres
-hybrid Modo híbrido

@@ -16,7 +16,7 @@ alarmpref Alarm Settings for user
 alarmstatus Turn ON/OFF Alarm for this user
 allowallbutbl Allow all users but those in Block List to contact me
 allowbadwords Disable censorship on nicknames
-allowlist Allow list :
+allowlist Allow list (AL):
 allowonlyinal Only allow users in my Accept List to contact me
 allowseen Allow this person to see when I'm online and contact me
 animatedsmileys Enable animated smileys
@@ -45,7 +45,7 @@ blocking Blocking
 blockinter1 When your status is online check every 
 blockinter2 seconds, else check every :
 blockinter3 every 
-blocklist Block list :
+blocklist Block list (BL):
 blockmessage These people are online and blocked you
 blockusers Number of users to check at once 
 broughtby  Brought to you by the following developers
@@ -90,7 +90,7 @@ connection Connection
 connectionlost Disconnected: Connection with server closed
 contactadded Contact added
 contactdoesnotexist Contact does not exist!
-contactlist Contact list :
+contactlist Contact list (FL):
 copy Copy
 copytogroup Copy to group
 countrycode My Country/Region code
@@ -310,7 +310,7 @@ reject Reject
 rememberpass Remember password
 removefromlist Remove from this list
 reversed Reversed
-reverselist Reverse list :
+reverselist Reverse list (RL):
 rightback Be right back
 saveas Save as
 savecontacts Save contact list

@@ -160,6 +160,7 @@ helpcontents Contiguts
 history Mostrar historial
 home Casa
 httpconnection Connectar-se amb el mètode HTTP (utilitza el protocol HTTP pel port 80)
+hybrid Mode híbrid
 ident Identifica
 identity Identitat
 inbox Bústia
@@ -200,6 +201,7 @@ logolder Registrar només les converses que s'han realitzat en els últims
 logout Desconnectar-se
 logsin s'acaba de connectar
 logsmileys Mostrar emoticones a la finestra d'historial de l'aMSN
+logsout s'acaba de desconnectar
 lprivtoconf La conversa privada canvia a conversa múltiple amb $1
 luclosedwin Has tancat la finestra a les $1
 mailer Gestor de correu
@@ -236,6 +238,8 @@ no No
 normal Normal
 nosystemtray Safata del sistema no disponible
 notify1 Mostrar una finestra d'avís quan un contacte es connecti
+notify1_5 Mostrar una finestra d'avís quan un contacte es desconnecti
+notify1_75 Mostrar una finestra d'avís quan un contacte canviï d'estat
 notify2 Mostrar una finestra d'avís quan arribin nous missatges
 notify3 Mostrar una finestra d'avís quan arribi un nou correu electrònic
 notify notificar
@@ -338,6 +342,7 @@ stateinfo Configuració dels estats personalitzats
 statename Nom de l'estat personalitzat
 statenewtext Emplena la informació necessària per crear\nel nou estat personalitzat i prem "Desar"
 state Vull aparèixer com
+statechange estat canviat a:
 status Estat
 stopalarm Parar l'alarma
 stylechat La mateixa aparença que als xats
