@@ -612,7 +612,7 @@ proc Preferences { { settings "personal"} } {
 	# _| Loging |________________________________________________
 	image create photo prefhist -file [GetSkinFile pixmaps prefhist.gif]
 	image create photo prefhist2 -file [GetSkinFile pixmaps prefhist2.gif]
-	image create photo prefhist3 -file [GetSkinFile pixmaps prefhist3.gif]
+#	image create photo prefhist3 -file [GetSkinFile pixmaps prefhist3.gif]
 
 	set frm [Rnotebook:frame $nb $Preftabs(loging)]
 
@@ -622,14 +622,15 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.plog1 -image prefhist
 	pack $lfname.plog1 -anchor nw -side left
 	checkbutton $lfname.log -text "[trans keeplog2]" -onvalue 1 -offvalue 0 -variable config(keep_logs)
-	pack $lfname.log -anchor w -side top
-	frame $lfname.2 -class Degt
-	label $lfname.2.lstyle -text "[trans stylelog]" -padx 10
-	radiobutton $lfname.2.hist -text [trans stylechat] -value 1 -variable config(logstyle) -state disabled
-	radiobutton $lfname.2.chat -text [trans stylehist] -value 2 -variable config(logstyle) -state disabled
-	pack $lfname.2.lstyle -anchor w -side top -padx 10
-	pack $lfname.2.hist $lfname.2.chat -side left -padx 10
-	pack $lfname.2 -anchor w -side top -expand 1 -fill x
+	pack $lfname.log -anchor w
+#/////////TODO Add style log feature
+#	frame $lfname.2 -class Degt
+#	label $lfname.2.lstyle -text "[trans stylelog]" -padx 10
+#	radiobutton $lfname.2.hist -text [trans stylechat] -value 1 -variable config(logstyle) -state disabled
+#	radiobutton $lfname.2.chat -text [trans stylehist] -value 2 -variable config(logstyle) -state disabled
+#	pack $lfname.2.lstyle -anchor w -side top -padx 10
+#	pack $lfname.2.hist $lfname.2.chat -side left -padx 10
+#	pack $lfname.2 -anchor w -side top -expand 1 -fill x
 	
 	## Clear All Logs Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans clearlog]]
@@ -642,24 +643,24 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.1.lclear -side left	
 	pack $lfname.1.bclear -side right -padx 15
 	pack $lfname.1 -anchor w -side top -expand 1 -fill x
-
+#////////TODO: Add logs expiry feature
 	## Logs Expiry Frame ##
-	set lfname [LabelFrame:create $frm.lfname3 -text [trans logfandexp]]
-	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
-	label $lfname.plog1 -image prefhist3
-	pack $lfname.plog1 -anchor nw -side left
-	frame $lfname.1 -class Degt
-	checkbutton $lfname.1.lolder -text "[trans logolder]" -onvalue 1 -offvalue 0 -variable config(logexpiry) -state disabled
-	entry $lfname.1.eolder -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -state disabled
-	label $lfname.1.ldays -text "[trans days]" -padx 5
-	pack $lfname.1 -side top -padx 0 -expand 1 -fill both
-	pack $lfname.1.lolder $lfname.1.eolder $lfname.1.ldays -side left
-	frame $lfname.2 -class Degt
-	checkbutton $lfname.2.lbigger -text "[trans logbigger]" -onvalue 1 -offvalue 0 -variable config(logmaxsize) -state disabled
-	entry $lfname.2.ebigger -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -state disabled
-	label $lfname.2.lmbs -text "MBs" -padx 5
-	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
-	pack $lfname.2.lbigger $lfname.2.ebigger $lfname.2.lmbs -side left
+#	set lfname [LabelFrame:create $frm.lfname3 -text [trans logfandexp]]
+#	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
+#	label $lfname.plog1 -image prefhist3
+#	pack $lfname.plog1 -anchor nw -side left
+#	frame $lfname.1 -class Degt
+#	checkbutton $lfname.1.lolder -text "[trans logolder]" -onvalue 1 -offvalue 0 -variable config(logexpiry) -state disabled
+#	entry $lfname.1.eolder -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -state disabled
+#	label $lfname.1.ldays -text "[trans days]" -padx 5
+#	pack $lfname.1 -side top -padx 0 -expand 1 -fill both
+#	pack $lfname.1.lolder $lfname.1.eolder $lfname.1.ldays -side left
+#	frame $lfname.2 -class Degt
+#	checkbutton $lfname.2.lbigger -text "[trans logbigger]" -onvalue 1 -offvalue 0 -variable config(logmaxsize) -state disabled
+#	entry $lfname.2.ebigger -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -state disabled
+#	label $lfname.2.lmbs -text "MBs" -padx 5
+#	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
+#	pack $lfname.2.lbigger $lfname.2.ebigger $lfname.2.lmbs -side left
 	frame $frm.dummy -class Degt
 	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 	
@@ -1750,6 +1751,9 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.101  2004/01/04 07:23:50  germinator2000
+# Remove disabled items in Loging panel (#)
+#
 # Revision 1.100  2003/12/24 11:39:13  airadier
 # Added option to don't show the chat window when a user opens a chat, but wait until first message.
 #
