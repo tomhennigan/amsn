@@ -1681,8 +1681,9 @@ namespace eval ::amsn {
 		.${win_name}.menutextsize add command -label "+2" -command "change_myfontsize 2"
 		.${win_name}.menutextsize add command -label "+1" -command "change_myfontsize 1"
 		.${win_name}.menutextsize add command -label "+0" -command "change_myfontsize 0"
-		.${win_name}.menutextsize add command -label "-1" -command "change_myfontsize -1"
-		.${win_name}.menutextsize add command -label "-2" -command "change_myfontsize -2"
+		.${win_name}.menutextsize add command -label " -1" -command "change_myfontsize -1"
+		.${win_name}.menutextsize add command -label " -2" -command "change_myfontsize -2"
+		
 
 		menu .${win_name}.menu.view -tearoff 0 -type normal
 		.${win_name}.menu.view add cascade -label "[trans textsize]" \
