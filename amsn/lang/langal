@@ -1,74 +1,214 @@
 amsn_lang_version 2
 about Lidhje me
-acceptfile Pranoje skedën $1, madhësia $2? E ruajtur në $3
 accept pranoj
+acceptfile Pranoje skedën $1, madhësia $2? E ruajtur në $3
 actions Akcionet
 addacontact Shto një kontakt
 addedyou $1 ($2) Të ka shtuar listën e kontakteve të tij/a
+addprofile Shto profil të ri
+addprofiledesc Shto login-in të cilit dëshironi t'ia krijoni profilin.\nlogin-et e profilizuara mundesojne të kanë konfigurime të ndryshme për cdo login.\nPa profile, ju nuk mund të përdorni Historinë, Zilet apo funksionin për "mbajtjen në mend të fjalëkalimit".
+addstate Shto gjendje të re
+addto Shtoje tek $1
 addtocontacts Shto kontakte
 addtoo Shtoje këtë person në listën e kontakteve të mija
 admincontacts Rregullo kontaktet
 admingroups Rregullo grupet
+advanced Avacnim
+advancedprefs Konfigurimi i opcioneve te avancuara
 adverts Reklamat
+alarmonconnect Aktivo zilën kur shfrytëzuesi futet online
+alarmondisconnect Aktivo zilën kur shfrytëzuesi del jashtë/i padukshëm
+alarmonmsg Aktivo zilën kur shfrytëzuesi ju dërgon mesazh
+alarmonstatus Aktivo zilën kur shfrytëzuesi e ndërron gjendjen
 alarmpref Alarmoj Mjedis për përdorues
 alarmstatus ndez/fik Alarmoj për kjo përdorues
+allfiles Të gjithë skedat
+allowallbutbl Lejo të gjithë shfrytëzuesit të më kontaktojnë përveq ata që i kam ne bllok listë
+allowbadwords Ndalo cenzurën tek nofkat
+allowlist Lista e të lejuarve (AL):
+allowonlyinal Lejo vetëm shfrytëzuesit e listë se lejuarve të më kontaktojnë
 allowseen Lejoje këtë person të më shohë dhe të më kontaktojë kur unë jam në linjë
+allprofilesinuse Te gjitha profilet momentalisht janë në perdorim
+animatedemoticon Ky simbol është i animuar
+animatedsmileys Lejo simbolet e animuara
+animatenotify Dritarja e animuar për njoftim
+appearance Paraqitja
 appearoff Paraqitu si jasht linjës
+areacode Area Code
 aretyping $1 janë duke shtypur porosi
+autoaccepted Transferi i skedës pranohet automatikisht
+autoacceptft Automatikisht prano kërkesat per transferimin e skedës
+autoaway Më paraqit si "Jashtë" kur joaktiv për
+autocheckver Ne fillim, automatikisht shiko për verzione të reja
+autoconnect Kyçu automatikisht kur aMSN startohet
+autoconnect2 Kyçu automatikisht kur aMSN lëshohet
 autohotmaillog Automatikisht kyçu në Hotmail
+autoidle Auto-Joaktiv
 autoip IP Automatike
+autonoact Më paraqit si "Joaktiv" kur joaktiv për
 avoidseen Mos e lejoje këtë person të më shohë dhe të më kontaktojë kur unë jam në linjë
 away Jasht
-baduserpass Useri apo fjalëkalimi i gabuar
+awaymsg1 Ask for away message each time I change my status to Away/BRB/Busy
+awaymsg2 Kurrë mos pyet dhe gjithmonë përdore mesazhin e largimit të mëposhtëm
+baduserpass Shfrytëzuesi apo fjalëkalimi i gabuar
+bgcolor Ndërro ngjyrën e prapavisë së aMSN-it
 blankdirect Lëre të zbrazët për lidhje direkte
 block Bllokoje
 blocked I/e Bllokuar
+blockedyougroup Paraqit grup të veçantë për njerëzit të cilët të kanë bllokuar
+blocking Duke bllokuar
+blockinter1 Kur gjenda juaj është i/e  kyçur, shiko çdo
+blockinter2 sekonda, përndryshe shiko çdo:
+blockinter3 çdo
+blockinter4 sekonda.
+blocklist Bllok lista (BL):
+blockmessage Këta njerëz janë të kyçur dhe ju kanë bllokuar
+blockusers Numri i shfrytëzuesve për t'i shikuar përnjëherë
 broughtby Sjellur tek ju nga
 browse hedh një sy
 browser Shfletues
+browserexample ( \$url do të zëvendësohet me URL). P.sh: mozilla \$url
 busy I zënë
 cancel Anulo
+cannotdeleteprofile Nuk mund të fshij profilin sepse duket që është i zanun nga sesioni i aMSN-it
+cantexec Nuk mund të ekzekuton aplikacionin: $1. Shiko preferencat
+cantremoveothers Nuk mund të fshin grupin "Të tjerët" 
+casesensitive Përdor shkronjat "case-sensitive"
 cfgalarm Configure/Shtoj/Heq Alarmoj
+cfgalarmall Konfiguro/Shto/Fshij zilen globale
+ch_to_state Kalo në gjendjen e re
+changecustomstate Kalo tek
+changedisplaypic Ndërro fotografinë e paraqitjes
+changefont Ndërro fontin
 changenick Ndërro nikun
-chatack Duke pranuar bisedën
+changestate $1 ndërron gjendjen në $2
+charscounter Numëratori i shkronjave(simboleve) të shtypura në dritaren e bisedimeve
 chat Bisedo
+chatack Duke pranuar bisedën
+chatmaxmin Kur kontakti e hap dritaren per të biseduar, dua që ajo të jetë:
 chatreq Requesting chat
 chatsmileys :) e bisedave
+chatsmileys2 Paraqit simbolet dhe "smileys" ne dritaret për bisedime.
+checkblocking Vazhdimisht shiko nëse shfrytëzuesit janë duke të bllokuar
+checkfilman Skedat e pranuara do të ruhen në $1. Ju lutem shiko opcionet e 'file manager-it' tek dritarja e preferencave.
 checkingver Duke shikuar për version të ri
+checkonfln Shiko nëse shfrytëzuesi ju ka bllokuar kur ai del jashtë linjës
 checkver Shiko për version të ri
+choosearq Zgjidh arkitekturën e sistemit
 choosebasefont Zgjedh llojin e shkronjave
 choosebgcolor Zgjedh ngjyren e prapavise
+choosecontact Ju lutem zgjidh kontaktin në listë
 choosefontcolor Zgjedh font e ngjyrë
+chooseskin Ju lutem zgjidh mbulesën që do t'a përdorni
+clearlog Fshij llogat
+clearlog2 Fshij historinë për të gjithë kontaktet
+clearlog3 Fshij të gjitha 'llogat'
 clicktologin Kliko këtu për të hyrë
 close Mbylle
+closed Biseda me $1 u mbyll per shkak të joaktivitetit
 closingdocks Close button docks window
 command Komandë
+commandstatus Ekzekuto komandën
+confirm A jeni të sigurtë?
 confirmdelete A jeni i sigurtë që do ta fshini $1?
+confirmpurge Të gjitha fotografitë e kontakteve të tjerë (Jo fotografitë tuaja të paraqitjes) do të fshihen. A jeni të sigurtë?
+connected Ju jeni tashmë i kyçur
 connecterror Nuk mund të lidhet me serverin
+connecting Duke u kyçur
+connection Lidhja
+connectionlost U Ç'kyçët: Lidhja me server u mbyll
 contactadded Kontakti u shtua
 contactdoesnotexist Kontakti nuk ekziston!
+contactlist Lista e kontakteve (FL):
+convertexplain Lokacioni për të konvertuar skedën ekzekutabile, prej ImageMagick (kërkohet për paraqitjen e fotografive).\n Lëre të zbrazët nëse CONVERT veç është në lokacion
+copy Kopjo
 copytogroup Krypto Grupi
+corruptconfig Skedari i konfigurimit ështe korruputar. Krijohet një të re. Skedari i vjetër do të ruhet në $1. Ju lutem dërgoni tek ne, të shohim se ç'ka ndodhur.
+corruptstates Konfiguruesi i gjendjes së kostumizuar ështe korruptuar. Skedari i vjetër do të ruhet në $1. Ju lutem dërgoni tek ne, të shohim se ç'ka ndodhur.
+countrycode Vendi im/Kodi i regjionit
+cprofile Krijo Profil
+custom_edit Edito 'smiley-in' e kostumizuar
+custom_new Edito 'smiley' të kostumizuar
+cut Cut
 date Data
+days Ditë
+dcprofile Mos Krijo Profil
+default Konfigurimi i parazgjedhur
+defaultloginradio Kyçu me konfigurimin e parazgjedhur
+defchatwinsize Madhësia e parazgjedhur për dritaret për bisedime (XSIZExYSIZE)
 delete Fshije
+deletecustomstate Fshij gjendjen e kostumizuar
+delimiters Ndarësit e 'Timestamps':
+deliverfail Pati problem në dërgimin e mesazhit
+delprofile Fshij profilin
+delprofile2 Zgjidh profilin të cilin dëshiron ta fshin
+description Përshkrimi
+directconnection Unë kam lidhje direkte nëinternet (përdor portin 1863)
+disabled Ndalohet
+disableprofiles Ndalo profilet (I përdorshëm për cyber-kafet ose në zonat publike)
+disablessl Ndalo SSL
+disconnect $1 u çkyç.
+displaychat Paraqit opcionet e tekstit
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
+dockgtk Gnome Dock
+docking Docking
+dockingoff Docking Off
+dockkde KDE Dock
+dontdownload Mos shkarko TLS, Do t'a instaloj vetë
+dontshow Mos paraqit
+downloadingtls Shkarko TLS modulin prej:\n $1
+edit Edito
+editcustomstate Edito gjendjen e kostumizuar
+editnewstate Gjendje e re e auto-mesazhit personal
+editprofile Edito Profilin
+editstate Edito gjendjen ekzistuese të auto-mesazhit personal
+editvalue Edito vlerën
+emailsinlist Paraqit e-mailat në vend të nofkave në listën e kontakteve
+emotisounds Lësho tinguj për simbolet(emoticons) e caktuara
+enablebanner Paraqit banerin e aMSN-it  (Kërkon  re-startimin e aMSN-it)
+enabled Lejohet
 enableproxy Mundëso proxin
+enableremote Lejo kontrollen prej së largu
+enablesound Lesho tingujt
 encoding Enkodimi
+encoding2 Ndërro mënyrën se si karakterat jane enkoduar
 entercontactemail Shkruaje e-mail-ine kontaktit
 enterfilename Ju lutem shkruane emrin e skedës
 enternick Shkruaje nikun tuaj
+errortls Error gjatë instalimit të TLS modulit:
 examples Shembuj
 exitamsn a jeni të sigurtë që doni të dilni?
 extras Servise ekstra
-filedoesnotexist Skeda nuk ekziston
-filename Emri i skedës
+failed Dështoi
+faileddelete Dështoi të fshin
+faileddeleteperso Kjo fotografi nuk mund të fshihet sepse nuk është skedë e fotografive personale. Vetëm fotografitë që i përkasin profilit tuaj personal mund të fshihen në këtë mënyrë.
+faq FAQ (Frequently Answered Questions)
+file File
+filedoesnotexist skedari nuk ekziston
+fileman File Manager
+filemanexample ( \$location do të zëvendësohet me lokacionin ) Ex: nautilus \$location
+filename Emri i skedarit
 filetransfercancelled Transferi i skedës u anulua
 filetransfercomplete Transferi i skedës përfundoi
+followtext Lëviz te poshtë kur një tekst i ri është shtypur
 ftaccepted Transferi i skedës pranuar
+ftacceptedby $1 pranoi thirrjen për transferin e skedës '$2'.
+ftaccepting Duke pranuar thirrjen për pranimin e skedës
+ftconnecterror Error gjatë lidhjes me anën tjetër
+ftconnecting Duke u lidhur tek $1 porti $2
+ftconnectionlost Lidhja me anën tjetër u ndërpre
+ftgotinvitation $1 dëshiron t'ju dërgon skedën '$2' ($3 bajta). Skedari do të ruhet në lokacionin $4. A dëshironi t'a pranoni këtë skedar?
+ftportpref Duke startuar portin për transferin e skedës
 ftrejected Transferi i skedës refuzoj
+ftrejectedby $1 rrefuzoi ftesën për transferin e skedës '$2'.
+ftsendinvitation Ftesa për transferin e skedës '$2' ($3 bytes) u dërgua tek $1.
+fullcontactlist Keqardhje, kontakt lista juaj është e mbushur. Ju duheni të fshini disa kontakte në mënyrë që të shtoni të reja.
+getdisppic Lejo pranimin e fotografive që paraqiten prej shfrytëzuesve tjerë
 gonelunch Gone to lunch
+group Grupi
 groupadd Shto një grup
 groupdelete Fshije një grup
 groupexists Grupi ekziston
-group Grupi
 groupmissing Nuk mund ta gjej grupin
 groupnewname emri i ri
 groupnotempty Grupi nuk është i zbrazët!
@@ -76,47 +216,120 @@ groupoldname Emri i vjetër
 grouprename Riemërtoje grupin
 groupunknown Group i panjohur
 handle Handle
-helpcontents Përmbajtja e ndihmës
 help Ndihmë
+helpcontents Përmbajtja e ndihmës
+hidedisplaypic Fshih paraqitjen e fotografisë
+hiden Fshih simbolin (emoticon) prej listës së 'smiley-ve'
+hidewindow Fshih dritaren
+history Shiko Historinë
 home Shtëpi
+httpconnection Kyçu duke përdorur HTTP metodën (perdor HTTP protocollin përmes portit 80)
+hybrid Hybrid mode
 ident Identifying
 identity Identiteti
+imagefiles Skeda të fotove
 inbox In-Box
+insertsmiley Shto simbolin(emoticon)
+installconvert Ju duhet të instaloni ImageMagick (program konvertues) ne mënyrë të përdorni 'Buddy' ikona dhe simbole(emoticons) të kostumizuara. Ju mund t'i shkarkoni skedat binare për sistemin e juaj operativ në ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Nëse veç e keni atëherë është 'bug'. Ju lutemi raportoni. Këto elemente tani do të ndalen. Nëse instaloni ImageMagik më vonë, ri-lëshoni këto opcione prej preferencave.
+internalerror Error i brendshëm i serverit
+invalidfile Skedari $2 i futur në fushën "$1" nuk ekziston ose nuk mund të lexohet
+invalidfile2 Skedari $1 could not be created, make sure you have the correct permissions for that target.
+invalidpic Skedari i dhënë i fotografisë nuk ekziton
+invalidpicsize Fotografia e dhënë është shume e madhe, Ju lutemi zgjdhni një më të vogël
+invalidsound Skedari i dhene i zërit nuk ekziston
 invalidusername Emër i gabuar i shfrytëzuesit
+invitationcancelled Ftesa u anulua
 invite Ftoje
 ipaddress IP Adresa
+ipdetect Detekto IP valide për transferin e skedave përmes HTTP-së
 istyping $1 është duke shtypur porosi
 joins $1 i bashkangjitet bisedës
+keepalive Keepalive (NAT)
+keeplog Keep Logs of Chats
+keeplog2 Log all conversations to aMSN's History for future viewing
 language Gjuha
 lastmsgtime i/e Fundit mesazh marrura në $1
+lclosedwin $1 ka mbyllur dritaren me $2
+lconftopriv Konferenca u kthye ne bisedë private me $1
+lconvstarted Biseda filloi me $1
 leaveblankforhotmail Lëre zbrazët për hotmail web
 leaves $1 e la bisedën
+lenteredconf $1 është futur në konferencë me $2
+lineflushlog Flush log files after each line
+linprivate IN PRIVATE
 listeningon Duke dëgjuar në portin $1
 listsmileys List smileys
+listsmileys2 Display Emoticons and Smileys in aMSN's main contact list
+ljoinedconf $1 has joined conference
+lleftconf $1 has left conference
 loadcontacts Ngarkoje listën e kontakteve
+logbigger Log file sizes for each contact never exceeds
+logfandexp Log File Sizes and History Expiry
 loggedotherlocation U ç'kyç. Kyçja është bërë nga ndonjë lokacion tjetër
 loggingin Duke u kyçur
-loginas Kyçu
 login Kyçu
+loginas Kyçu
+loging Logging
+logolder Only log chats that have taken place in the last
 logout Ç'kyçu
 logsin Vetëm sa u kyç
+logsmileys Displays Emoticons and Smileys in aMSN's history windows
+logsout has just logged out
+longnick Your nickname is longer than 130 characters. This is not officially supported by the MSN protocol. Are you sure you want to set it?
+lprivtoconf Private chat turned into Conference with $1
+luclosedwin You have closed the window on $1
 mailer Mail
+mailerexample ( \$recipient = Recipient ) Leave blank to use Hotmail
+maximised Maximised
+minimised Minimised/Iconified
+mins minutes
 mobile Mobil
+morepersonal More States ->
+move Move
 movetogroup Lëviz grupin
 msg Porosi
+msgflicker Flicker chat window title when new message is received on unfocused window.
+msgmaxmin When a new message arrives I want it to be:
+msgmode Select how to handle multiple message windows:
 msn AMSN-Shqip
 mustrestart Duhet ta startoni përsëri programin që t'i merr parasysh ndryshimet
+myhomephone My Home Phone
+mymobilephone My Mobile Phone
+mypic My Display Picture:
 mystatus Statusi im
+myworkphone My Work Phone
+natip IP detection by web page
+natkeepalive If you are getting disconnected regularly, enable this KeepAlive
 needonline Ju ende jeni i paraqitur si jashtë linjës!
 newmail $1 Mesazhe të reja në In-Box
 newmailfrom Masazh të ri nga $1 ($2)
 newmsg Mesazh i ri
+newstate Add custom state
 newveravailable Është e mundshme ta merrni versionin e ri $1
 next Tjetra
+no Jo
 noactivity Nuk ka aktivitet
+nodataavailable No data available for $1
+nologfile No Log file for $1
+noneavailable None Available
 nonewmail Nuk ka Mail te ri
 nonewver Nuk ka version të ri për ta marrë
+nopic No picture
+noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
+normal Normal
+noskins Couldn't found default skin in skins/ folder. Can't start AMSN
+nosystemtray System tray not available
+notificationserver Initial MSN Notification Server (MSN Messenger Server)
 notify Lajmëro
+notify1 Display notify window when contacts come online
+notify1_5 Display notify window when contacts goes offline
+notify1_75 Display notify window when contacts changes status
+notify2 Display notify window when new messages are received
+notify3 Display notify window when new emails arrive
+notifyoffset Offset the position of the notification pop-up
+notifytyping Send other users notifications when typing
+notifywin Notify Window
+notls The MSN Protocol 9 requires the TLS package. This package does not seem to be installed on this machine. If it's installed, the path to the library directory should be specified in the Preferences window (ex: /opt/tls/lib). \n \n It's possible to download TLS from http://tls.sf.net.
 nousersinsession Nuk ka shfrytëzues në sesion
 offline Jashtë linjës
 ok Ok
@@ -126,60 +339,181 @@ onphone Në telefon
 openreceived Hapi Skedat e marrura
 options Opcionet
 ordercontactsby Rradhit kontaktet nga
+ordergroupsby Order groups by
 other Tjëter
+others Others
 pager Pejgjer
 pass Fjalëkalim
+paste Paste
+personal Personal
 phone Telefon
+picbrowser Display Pictures browser
 picfile Alarmoj Pikturë Dosje (GIF < 500 x 500)
 picstatus ndez/fik Alarmoj Pikturë
+playing Playing: $1
+pluginselector Select Plugins
 port Port
+prefalerts My Event Alerts and Sounds
 prefapps Aplikacion
+prefawaymsg My Away Message
+prefblock1 Check on disconnect
+prefblock2 Continuously check
+prefblock3 "You have been blocked by" group
+prefconnection Connection settings
+prefemotic Emotions Icons and Smileys
 preferences Preferencat
+preffont My Message Text
+preffont2 Change the way others see my text in chat sessions
+preffont3 Change aMSN's interface font and size
+preflibs Libraries directories
+preflog1 My History and Logging Options
+preflook My aMSN Messenger Look
+prefmsging My Messaging Interface
+prefname My MSN Messenger Name/NickName
+prefphone My Phone Numbers
+prefphone2 Type the phone numbers that you would like people \n on your Allow List to see \n
+prefprivacy User's Allow/Block lists
+prefprivacy2 User's Contact/Reverse lists
+prefprofile My Public Profile
+prefprofile2 Create or modify your public profile (the \n description of yourself that others can see)
+prefprofile3 aMSN's User Configuration Profiles
+prefproxy My Proxy Settings
+prefremote Remote Connection Preferences
+prefsession My Sign In and Status
+prefshared Shared Connections (only for NAT)
 prefsound Zërat
+privacy Privacy
+profiledconfig Profiled Config
+profileexists You cannot create a profile with this login \n because one already exists. Please chose another login.
+profileinuse This Profile is being used by another aMSN session, please choose another one
+profileloginradio Login using an existing Profile
+profiles Profiles
 properties Karakteristikat
-proxyconfhttp HTTP proxy support configuration
+proxy I am behind a proxy server (HTTP or SOCKS5)
 proxyconf Knfigurimi i proksit
+proxyconfhttp HTTP proxy support configuration
+proxyconnection I connect to the internet using a proxy server:
 publishphones Publiko numrat e telefonit
+purge Purge
+raised Raised/Deiconified
+readonlymsgbox The file transfer has been canceled due to the received directory being read-only. Please fix the permissions on this directory.
+readonlywarn WARNING: The file will probably NOT be saved correctly as the "Received files" directory seems to be write-protected. Please ensure that the permissions on the target directory ($1) are set correctly before transfering the file.
 receivedbytes U pranua $1 nga $2 bajt
+receiveddir Received Files folder
 receivefile Prano skedën
 reconnect Duke pritur $1 që të lidhet prap
 reconnecting Duke u lidhur prap me serverin
 reject Refuzoj
 rememberpass Mbaje në mend fjalëkalimin
+removefromlist Remove from this list
+reversed Reversed
+reverselist Reverse list (RL):
 rightback Kthehm së shpejti
-saveas Ruaje si
-savecontacts Ruaje listën e kontakteve
 save Ruaje
-says $1 thot
+saveas Ruaje si
+savechatwinsize Save chat window size as default when resizing it
+savecontacts Ruaje listën e kontakteve
+savetofile Save to File
+says $1 thotë
 sbcon Duke u lidhur në Switch Board
+selectplugins Please select the plugins you want enabled
+selectskin Please choose a skin from the list
 send Dërgo
 sendfile Dërgo skedën
 sendmail Dërgo postën
 sendmsg Dërgo mesazhin
 sentbytes $1 u dërgua $2 bajt
-servergoingdown U ç'kyç: Serveri u ndal
 server Serveri
+serverbusy Server is busy
+servergoingdown U ç'kyç: Serveri u ndal
+serverunavailable Server is unavailable
+session Session
+showblockedlist Show list of people who blocked you
+showdisplaypic Show Display Picture
+showdisplaypic2 Show Display Picture by default when a chat window is opened
+showmypic My Display Picture
+shownotify Show notify window when some events happen
+showuserpic $1's Display Picture
+skin Skin
+skinselector Select Skin
+smileconfig Custom emoticon configuration
+smilefile Smiley filename
+smileintro Please complete the required fields to create a new custom smiley (see the FAQ for help)
+smileintro2 Please edit the required fields to customize this smiley (see the FAQ for help)
 sound Event Sound
+sound2 Play sounds when contacts sign in or send a message
+soundcommand This has to be the play command (ex: esdplay)
+soundexample ( \$sound = Sound file to be played) Ex: esdplay \$sound
 soundfile Alarmoj Tingull Dosje
+soundfiles Sound Files
 soundloop Unazë Tingull
+soundserver Sound Server
 soundstatus ndez/fik Alarmoj Tingull
+sourcecode Source Code (needs compiling and installing)
+sslwarning WARNING!! Disabling SSL will disable encryption, so your password will be sent as plain text over the network. Use only for really tricky proxies or network configurations.
 startoffline Lëshoje jasht linjës
+startoffline2 Sign in silently as "Appear Offline"
+startontray Start AMSN on tray icon only
+state I want to appear as
+stateautomsg AutoMessage to Send
+statechange status changed to:
+stateedittext Please edit the fields you would like \n to modify and press Save
+stateinfo Personal State Configuration
+statename Name of Personal State
+statenewtext Please fill the required information to create \n your new Personal State and press Save
+statenick Custom nick (leave blank for no change)
 status Statusi
 stopalarm Pushoj Alarmoj
+storenickname Return to original nickname after a custom state with custom nickname
+strictfonts Restrict all fonts' size to the one I selected (Status bar and others)
+stylechat Same look as chats
+stylehist aMSN's history look
+stylelog Select the format in which you would like to view your History
 syntaxerror  Error sintaksor
+tabbed Tabbed Windows
+temp_state Don't save (Temporary state, will be missed when close AMSN)
 textsize Madhësia e tekstit
+timeremaining Time remaining
+timestamps Enable timestamps on chat windows
 title Al's Messenger
-tools Veglat
+tkerror TK has brought an error, there is a bug in amsn, please report it. Send the file $1 to amsn-bugs@lists.sf.net
+tlsdowncompleted File $1 was downloaded to directory $2. You must extract it, build it (if you downloaded source code) and install it inside $3.
+tlsexplain Folder where the tcl TLS module is located. If AMSN can't locate it, please specify.\n(Required for SSL authentication).
+tlsinstall TLS Module installation wizard
+tlsinstallexp aMSN now uses MSNP9, which requires the use of a secure\nconnection using SSL. In order to use SSL, aMSN needs to install a module called TLS,\nwhich is missing from your system. This wizard will help you to download and\ninstall TLS. Please choose your system type so we can automatically download\nthe required TLS files.
+tlsinstcompleted TLS module installation was sucessful - you should now be able to use MSNP9. If this doesn't work, then you probably didn't select the right module, or a compiled module is not available for your system.
 to Te
+tools Veglat
+tooltips Enable tooltips
+transnotexists The requested file has not been translated into the current language yet.
+traynotcompiled Tray icon plugin is not compiled. Check plugins/traydock
+triggers Text triggers
+truncatenames1 Truncate nicknames longer than window width in window titles and contact list
+truncatenames2 Truncate nicknames longer than window width inside conversations
+truncatenicks Truncate nicknames longer than window width
+twonewmail $1 Mesazhe të reja në In-Box
 unblock Ç'bllokoje
 uoffline Jashtë linjës
 uonline Në linjë
-useralreadyonlist Shfrytëzuesi është në listën e kontakteve
 user Shfrytëzuesi
+useralreadyonlist Shfrytëzuesi është në listën e kontakteve
+userblocked The user is online but blocked you
+usernotonline The user is not online
+useryourself You can't chat with yourself
+verifyblocked Check for people blocking you
 version Versioni
 view Shiko
+viewprofile View Profile
 willjoin Duke pritur $1 t'i bashkangjitet bisedës
 work Punë
+wrongfields The "$1", "$2" and/or "$3" fields were not valid
+wrongprofileversion Wrong profile configuration file version. In order to fix it, please remove directory $1, or update aMSN
+xmmscurrent Display current song
+xmmserr Nothing is playing, or you dont have xmms-infopipe installed.
+xmmssend Send current song
+xoffset X Offset
+yes Po
+yoffset Y Offset
+youblocked You have been blocked by
 yousay Ju thuani
 youwant Ju doni
-twonewmail $1 Mesazhe të reja në In-Box
