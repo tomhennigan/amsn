@@ -303,6 +303,7 @@ no No
 nopic Sin imagen
 noprofileexists Actualmente no existe ningún perfil. \n Debes crear uno si quieres usar los perfiles de usuario. \nUsa el botón "Añadir un perfil" en esta ventana para crearlo.
 normal Normal
+noskins No se ha podido encontrar el perfil por defecto (default) en la carpeta skins/. No se puede iniciar AMSN
 nosystemtray Bandeja del sistema no disponible
 notificationserver Servidor inicial de notificaciones MSN (Servidor MSN Messenger)
 notify1_5 Mostrar ventana de aviso cuando un contacto se desconecte

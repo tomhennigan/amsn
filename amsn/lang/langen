@@ -303,6 +303,7 @@ no No
 nopic No picture
 noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
 normal Normal
+noskins Couldn't found default skin in skins/ folder. Can't start AMSN
 nosystemtray System tray not available
 notificationserver Initial MSN Notification Server (MSN Messenger Server)
 notify1_5 Display notify window when contacts goes offline
