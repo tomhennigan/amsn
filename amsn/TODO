@@ -34,6 +34,7 @@ DONE	Fix use of default config for non profile logins (currently uses hard coded
 DONE	When notify window is for a file transfer, clicking on it triggers a bug! 
 -	Add "Make this config default profile" button in Preferences
 DONE	Bug fixes in urlencode/decode procedure that didn't allow some characters in nicks and would cause bogus "Invalid nick" messages.
+DONE	Fixed bug when adding a user from a chat window.
 -	Write/Read profiles file on opening/closing login window, not start/stop amsn.
 	
 	***Existing Feature Improvements (priority 2)***
