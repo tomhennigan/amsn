@@ -5943,7 +5943,16 @@ proc pictureBrowser {} {
 	
 	reloadAvailablePics
 		
-	#Liberar memoria!!!! (imagenes)
+	#Free images:
+	bind .picbrowser <Destroy> {
+		if {"%W" == ".picbrowser"} {
+			global image_names
+			foreach img $image_names {
+				image delete $img
+			}
+			unset image_names
+	} }
+
 	
 	.picbrowser.pics.text configure -state disabled
 		
@@ -5952,13 +5961,23 @@ proc pictureBrowser {} {
 }
 
 proc reloadAvailablePics { } {
-	global HOME program_dir	
+	global HOME program_dir image_names
 
+	#Destroy old embedded windows
 	set windows [.picbrowser.pics.text window names]
 	foreach window $windows {
 		destroy $window
 	}
+
+	#Delete all picture	
+	if { [info exists image_names] } {
+		foreach img $image_names {
+			image delete $img
+		}
+		unset image_names
+	}
 	
+		
 	if { [catch { set skin "[::config::get skin]" } ] != 0 } {
 		set skin "default"
 	}
@@ -6005,6 +6024,7 @@ proc reloadAvailablePics { } {
 			lappend image_names $the_image
 		}
 	}
+	
 }
 
 proc chooseFileDialog {basename {initialfile ""} {types {{"All files"         *}} }} {
