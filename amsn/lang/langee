@@ -331,6 +331,7 @@ msnstyle MSNi stiilis vestlus
 mustrestart Muudatuste rakendamiseks pead programmi uuesti käivitama.
 myhomephone Minu kodune telefon
 mymobilephone Minu mobiiltelefon
+mynick Minu hüüdnimi
 mypic Minu kuvapilt:
 mystatus Minu olek
 myworkphone Minu töötelefon
@@ -367,6 +368,7 @@ notify2 Näita teateakent, kui saabuvad uued sõnumid
 notify3 Näita teateakent, kui postkasti saabuvad uued kirjad
 notifyoffset Määra teateakna asukoht, andes ette asukoha nihked
 notify Teata
+notifytimeout Mitu millisekundit teate akent kuvatakse
 notifytyping Näita teisele kasutajale, et ma trükin teadet
 notifywin Teateaken
 notinlist Sa ei ole tema kontaktide nimekirjas

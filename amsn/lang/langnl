@@ -366,6 +366,7 @@ notify2 Melding weergeven wanneer er een bericht wordt ontvangen
 notify3 Melding weergeven wanneer er een e-mail wordt ontvangen
 notify Licht in
 notifyoffset Afstand meldingsvenster vanaf de hoek van het scherm
+notifytimeout Aantal milliseconden tot het venster verdwijnt
 notifytyping Laat anderen in een gesprek zien of je aan het typen bent
 notifywin Meldingsvenster
 notinlist Je staat niet in zijn/haar contactenlijst
@@ -570,3 +571,4 @@ yoffset verticaal
 youblocked U bent geblokkeerd
 yousay U zegt
 youwant U wilt
+
