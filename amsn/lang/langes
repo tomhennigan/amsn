@@ -417,6 +417,7 @@ readonlywarn AVISO: El archivo puede NO ser guardado correctamente porque el dir
 receivedbytes Recibidos $1 de $2 bytes totales
 receiveddir Carpeta de Archivos Recibidos
 receivefile Recibir archivo
+recentmsg Prevenir el cierre de la ventana de chat cuando un mensaje acaba de llegar
 reconnect Esperando que $1 se reconecte
 reconnecting Reconectando al servidor
 reject Rechazar

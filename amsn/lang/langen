@@ -417,6 +417,7 @@ readonlywarn WARNING: The file will probably NOT be saved correctly as the "Rece
 receivedbytes Received $1 of $2 bytes
 receiveddir Received Files folder
 receivefile Receive file
+recentmsg Prevent closing a chat window when a message has just arrived
 reconnect Waiting for $1 to reconnect
 reconnecting Reconnecting to server
 reject Reject
