@@ -1745,7 +1745,7 @@ catch {exec killall -c sndplay}
 		pack .${win_name}.f.top -side top -fill x -padx 3 -pady 0
 		pack .${win_name}.statusbar -side bottom -fill x
 		grid .${win_name}.statusbar.status -row 0 -column 0 -padx 0 -pady 0 -sticky we
-		grid .${win_name}.statusbar.charstyped -row 0 -column 1 -padx 0 -pady 0 -sticky e
+		grid .${win_name}.statusbar.charstyped -row 0 -column 0 -padx 0 -pady 0 -sticky e
 		grid columnconfigure .${win_name}.statusbar 0 -weight 1
 		grid columnconfigure .${win_name}.statusbar 1 -minsize 5
 
