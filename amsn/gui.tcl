@@ -1821,9 +1821,9 @@ catch {exec killall -c sndplay}
       bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
       
       if {$tcl_platform(platform) == "unix" } {
-	  bind .${win_name} <Control-x> "status_log cut\n;copy 1 .${win_name}"
-	  bind .${win_name} <Control-c> "status_log copy\n;copy 0 .${win_name}"
-	  bind .${win_name} <Control-v> "status_log paste\n;paste .${win_name}"
+	  bind .${win_name} <<Cut>> "status_log cut\n;copy 1 .${win_name}"
+	  bind .${win_name} <<Copy>> "status_log copy\n;copy 0 .${win_name}"
+	  bind .${win_name} <<Paste>> "status_log paste\n;paste .${win_name}"
       }
       
       #Change shorcut for history on Mac OS X
