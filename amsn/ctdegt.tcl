@@ -405,7 +405,7 @@ proc fileDialog {w ent operation basename} {
 	set file [tk_getSaveFile -filetypes $types -parent $w \
 	    -initialfile $basename -defaultextension .txt]
     }
-    if { "$file" == "" } {
+    if { "$file" != "" } {
 	$ent delete 0 end
 	$ent insert 0 $file
 	$ent xview end
@@ -431,6 +431,9 @@ proc LabelEntryGet { path } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.17  2003/01/05 22:37:56  burgerman
+# Save to File in loging implemented
+#
 # Revision 1.16  2002/12/16 02:42:52  airadier
 # Some fixes.
 # Syntax checking passed.

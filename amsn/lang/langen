@@ -105,10 +105,17 @@ keepalive Keepalive (NAT)
 keeplog Keep Logs of Chats
 language Language
 lastmsgtime Last message received at $1
+lclosedwin has closed the window on
+lconftopriv Conference turned into Private chat with
+lconvstarted Conversation started on
 leaveblankforhotmail Leave blank for using hotmail web
 leaves $1 leaves conversation
+lenteredconf has entered into a conference on
+linprivate IN PRIVATE
 listeningon Listening on port $1
 listsmileys List smileys
+ljoinedconf has joined conference
+lleftconf has left conference
 loadcontacts Load contact list
 loggedotherlocation Disconnected. Logged in other location
 loggingin Logging In
@@ -116,6 +123,8 @@ loginas Login as
 login Log In
 logout Log Out
 logsin has just logged in
+lprivtoconf Private chat turned into Conference with
+luclosedwin You have closed the window on
 mailer Mailer
 mobile Mobile
 movetogroup Move to Group
@@ -173,6 +182,7 @@ rightback Be right back
 saveas Save as
 savecontacts Save contact list
 save Save
+savetofile Save to File
 says $1 says
 sbcon Connecting to Switch Board
 sendfile Send file

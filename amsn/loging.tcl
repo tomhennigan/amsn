@@ -131,9 +131,9 @@ proc StopLog {email {who 0} } {
 	status_log "DEBUG: Closing log file for $email\n"
 	if { [LogArray $email get] != 0 } {
 		if { $who == 1 } {
-			puts -nonewline [LogArray $email get] "\|\"LRED\[$email has closed the window on [clock format [clock seconds] -format "%d %b %T"]\]\n\n"
+			puts -nonewline [LogArray $email get] "\|\"LRED\[$email [trans lclosedwin] [clock format [clock seconds] -format "%d %b %T"]\]\n\n"
 		} else {
-			puts -nonewline [LogArray $email get] "\|\"LRED\[You have closed the window on [clock format [clock seconds] -format "%d %b %T"]\]\n\n"
+			puts -nonewline [LogArray $email get] "\|\"LRED\[[trans luclosedwin] [clock format [clock seconds] -format "%d %b %T"]\]\n\n"
 		}
 		close [LogArray $email get]
 	}
@@ -161,7 +161,7 @@ proc PutLog { chatid user msg } {
 				# for 2 windows (1 priv 1 conf)
 				# if conf exists for current user & current chatid is not a conf
 				if { [ConfArray $user_login get] == 1 && $chatid == $user_login} {
-					::log::WriteLog $user_login "\|\"LITA\[IN PRIVATE\] $user \|\"LNOR: $msg\n" 2 $user_list
+					::log::WriteLog $user_login "\|\"LITA\[[trans linprivate]\] $user \|\"LNOR: $msg\n" 2 $user_list
 				} else {
 					::log::WriteLog $user_login "\|\"LITA$user \|\"LNOR: $msg\n" 0 $user_list
 				}
@@ -194,10 +194,10 @@ proc WriteLog { email txt {conf 0} {user_list ""}} {
 	if { $fileid != 0 } {
 		if { $last_conf != $conf && $conf != 2} {
 			if { $conf == 1 } {
-				puts -nonewline $fileid "\|\"LRED\[Private chat turned into Conference with ${users}\]\n"
+				puts -nonewline $fileid "\|\"LRED\[[trans lprivtoconf] ${users}\]\n"
 				ConfArray $email set $conf
 			} elseif { [llength $user_list] == 1 } {
-				puts -nonewline $fileid "\|\"LRED\[Conference turned into Private chat with ${users}\]\n"
+				puts -nonewline $fileid "\|\"LRED\[[trans lconftopriv] ${users}\]\n"
 				ConfArray $email set $conf
 			}
 		}
@@ -205,12 +205,14 @@ proc WriteLog { email txt {conf 0} {user_list ""}} {
 	} else {
 		StartLog $email
 		set fileid [LogArray $email get]
+		if { $fileid != 0 } {
 		if { $conf == 0 } {
-			puts -nonewline $fileid "\|\"LRED\[Conversation started on [clock format [clock seconds] -format "%d %b %T"]\]\n"
+			puts -nonewline $fileid "\|\"LRED\[[trans lconvstarted] [clock format [clock seconds] -format "%d %b %T"]\]\n"
 		} else {
-			puts -nonewline $fileid "\|\"LRED\[$email has entered into a conference on [clock format [clock seconds] -format "%d %b %T"] \(${users}\) \]\n"
+			puts -nonewline $fileid "\|\"LRED\[$email [trans lenteredconf] [clock format [clock seconds] -format "%d %b %T"] \(${users}\) \]\n"
 		}
 		puts -nonewline $fileid "\|\"LGRA[timestamp] $txt"
+		}
 	}
 }
 
@@ -228,7 +230,7 @@ proc LeavesConf { chatid usr_name } {
 		foreach user_info $user_list {
 			set fileid [LogArray [lindex $user_info 0] get]
 			if { $fileid != 0 } {
-				puts -nonewline $fileid "\|\"LRED\[$usr_name has left conference\]\n"
+				puts -nonewline $fileid "\|\"LRED\[$usr_name [trans lleftconf]\]\n"
 			}
 			if { [llength $user_list] == 1 } {
 				ConfArray [lindex $user_info 0] set 3
@@ -253,7 +255,7 @@ proc JoinsConf { chatid usr_name } {
 			set login [lindex $user_info 0]
 			set fileid [LogArray $login get]
 			if { $login != $usr_name && $fileid != 0} {
-				puts -nonewline $fileid "\|\"LRED\[$usr_name has joined conference\]\n"
+				puts -nonewline $fileid "\|\"LRED\[$usr_name [trans ljoinedconf]\]\n"
 			}
 		}
 	}
@@ -320,6 +322,7 @@ proc OpenLogWin { email } {
 	ParseLog $wname $logvar
 	
 	button $wname.buttons.close -text "[trans close]" -command "destroy $wname" -font sboldf
+	button $wname.buttons.save -text "[trans savetofile]" -command "::log::SaveToFile ${wname} ${email} {${logvar}}" -font sboldf
   	button $wname.buttons.clear -text "[trans clearlog]" -command "destroy $wname; ::log::ClearLog $email" -font sboldf
 
 	menu ${wname}.copypaste -tearoff 0 -type normal
@@ -330,6 +333,7 @@ proc OpenLogWin { email } {
  	pack $wname.blueframe.log -side top -expand true -fill both -padx 4 -pady 4
 	pack $wname.blueframe -side top -expand true -fill both
 	pack $wname.buttons.close -padx 0 -side left
+	pack $wname.buttons.save -padx 0 -side right
 	pack $wname.buttons.clear -padx 0 -side right
 	pack $wname.buttons -side bottom -fill x -pady 3
 	bind $wname <Escape> "destroy $wname"
@@ -357,11 +361,11 @@ proc ParseLog { wname logvar } {
 		set bidx [string first "\|\"L" $logvar $aidx]
 		if { $bidx != -1 } {
 			set string [string range $logvar [expr $aidx] [expr $bidx - 1]]
-			LogWrite $wname $string $color
+			LogWriteWin $wname $string $color
 			set aidx $bidx
 		} else {
 			set string [string range $logvar [expr $aidx] end]
-			LogWrite $wname $string $color
+			LogWriteWin $wname $string $color
 			break
 		}
 	}
@@ -372,14 +376,14 @@ proc ParseLog { wname logvar } {
 
 
 #///////////////////////////////////////////////////////////////////////////////
-# LogWrite (wname string color)
+# LogWriteWin (wname string color)
 # Writes each string to log window with given color/style and subs the smileys
 #
 # wname : Log window
 # string : variable containing the string to output
 # color : varibale containing color/style information (RED, GRA, ITA, NOR)
 
-proc LogWrite { wname string color } {
+proc LogWriteWin { wname string color } {
 	
 	${wname}.blueframe.log.txt tag configure red -foreground red
 	${wname}.blueframe.log.txt tag configure gray -foreground gray
@@ -403,6 +407,67 @@ proc LogWrite { wname string color } {
 
 	# This makes rendering long log files slow, maybe should make it optional?
 	#smile_subst ${wname}.blueframe.log.txt
+}
+
+
+#///////////////////////////////////////////////////////////////////////////////
+# SaveToFile (wname email logvar)
+# File name selection menu and calls ParseToFile
+#
+# wname : Log window
+# logvar : variable containing the whole log file (sure need to setup log file limits)
+
+proc SaveToFile { wname email logvar } {
+	set wname [string range $wname 1 end]
+	set w .form${wname}
+	toplevel $w
+	wm title $w \"[trans savetofile]\"
+	label $w.msg -justify center -text "Please give a filename"
+	pack $w.msg -side top
+
+	frame $w.buttons -class Degt
+	pack $w.buttons -side bottom -fill x -pady 2m
+	button $w.buttons.dismiss -text Cancel -command "destroy $w"
+	button $w.buttons.save -text Save -command "::log::ParseToFile {${logvar}} $w.filename.entry; destroy $w"
+	pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
+
+	frame $w.filename -bd 2 -class Degt
+	entry $w.filename.entry -relief sunken -width 40
+	label $w.filename.label -text "Filename:"
+	pack $w.filename.entry -side right 
+	pack $w.filename.label -side left
+	pack $w.msg $w.filename -side top -fill x
+	focus $w.filename.entry
+
+	fileDialog $w $w.filename.entry save $wname
+}
+
+
+#///////////////////////////////////////////////////////////////////////////////
+# ParseToFile (logvar filepath)
+# Decodes the log file and writes to file
+#
+# wname : Log window
+# logvar : variable containing the whole log file (sure need to setup log file limits)
+
+proc ParseToFile { logvar filepath } {
+
+	set fileid [open [${filepath} get] a+]
+	if { $fileid != 0 } {
+		set aidx 0
+		while {1} {
+			set aidx [expr $aidx + 6]
+			set bidx [string first "\|\"L" $logvar $aidx]
+			if { $bidx != -1 } {
+				puts -nonewline $fileid [string range $logvar [expr $aidx] [expr $bidx - 1]]
+				set aidx $bidx
+			} else {
+				puts -nonewline $fileid [string range $logvar [expr $aidx] end]
+				break
+			}
+		}
+	close $fileid
+	}
 }
 
 

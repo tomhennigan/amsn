@@ -540,7 +540,7 @@ namespace eval ::amsn {
       .${win_name}.menu.msn add command -label "[trans save]" \
          -command " ChooseFilename .${win_name}.f.out.text ${win_name} "
       .${win_name}.menu.msn add command -label "[trans saveas]..." \
-      -command " ChooseFilename .${win_name}.f.out.text ${win_name} "
+         -command " ChooseFilename .${win_name}.f.out.text ${win_name} "
       .${win_name}.menu.msn add separator
       .${win_name}.menu.msn add command -label "[trans sendfile]..." \
          -command "::amsn::FileTransferSend .${win_name}" -state disabled
@@ -596,6 +596,9 @@ namespace eval ::amsn {
       .${win_name}.copypaste add command -label [trans copy] -command "status_log copy\n;copy 0 ${win_name}"
       .${win_name}.copypaste add command -label [trans paste] -command "status_log paste\n;paste ${win_name}"
 
+      menu .${win_name}.copy -tearoff 0 -type normal
+      .${win_name}.copy add command -label [trans copy] -command "status_log copy\n;copy 0 ${win_name}"
+ 
       frame .${win_name}.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -relief flat
 
       frame .${win_name}.f.out -class Amsn -background white -borderwidth 0 -relief flat
@@ -695,7 +698,7 @@ namespace eval ::amsn {
       bind .${win_name}.f.in.input <Shift-Return> {%W insert end "\n"; break}
 
       bind .${win_name}.f.in.input <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
-      bind .${win_name}.f.out.text <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
+      bind .${win_name}.f.out.text <Button3-ButtonRelease> "tk_popup .${win_name}.copy %X %Y"
       
       bind .${win_name} <Control-x> "status_log cut\n;copy 1 ${win_name}"
       bind .${win_name} <Control-c> "status_log copy\n;copy 0 ${win_name}"
