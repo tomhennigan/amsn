@@ -159,6 +159,7 @@ namespace eval ::notes {
 
 
 		# If the E-Mail is given, display its notes
+		set ::notes::email $email
 		if { $email != "" } {
 			::notes::get_Note $email
 
@@ -284,7 +285,7 @@ namespace eval ::notes {
 
 		set ::notes::notes [lreplace $::notes::notes $selection $selection]
 
-		::notes::Note_Save
+		::notes::Notes_Save
 		::notes::Update_Notes
 
 		.notemanager.right.notes.box selection set $selection
