@@ -1067,7 +1067,12 @@ namespace eval ::amsn {
 		set w .ft$cookie
 
 		if { ([winfo exists $w] == 0) && ($mode != "ca")} {
-			FTWin $cookie [::MSNFT::getFilename $cookie] [::MSNFT::getUsername $cookie] $chatid
+			set filename2 [::MSNFT::getFilename $cookie]
+			if { $filename2 != "" } {
+				FTWin $cookie [::MSNFT::getFilename $cookie] [::MSNFT::getUsername $cookie] $chatid
+			} else {
+				FTWin $cookie $filename $bytes $chatid
+			}
 		}
 
 		if {[winfo exists $w] == 0} {
