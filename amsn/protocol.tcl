@@ -6024,6 +6024,21 @@ proc binword { word } {
 
 }
 
+proc ToLittleEndian { bin length } {
+	if { $::tcl_platform(byteOrder) == "littleEndian" } { return }
+	
+	if { $length == 2 } { set type s } elseif {$length == 4} { set type i } else { return }
+	
+	set binout ""
+	while { $bin != "" } {
+		set in [string range $bin 0 $length]
+		binary scan $in [string toupper $type] out
+		set out [binary format $out $type]
+		set binout "${binout}${out}"
+		set bin [string replace $bin 0 $length]
+	}
+	return $binout
+}
 
 proc int2word { int1 int2 } {
 	if { $int2>0} {
@@ -6059,7 +6074,15 @@ namespace eval ::MSN6FT {
 		
 		
 		set file [getfilename $filename]
-		set context "$context[encoding convertto unicode $file]"
+		status_log "$file\n" red
+		set file [encoding convertfrom $file]
+		status_log "$file\n" red
+		set file [encoding convertto unicode $file]
+		status_log "$file\n" red
+		set bfile [binary format a* $file]
+		status_log "$bfile\n" red
+		set bfile [ToLittleEndian $bfile 2]
+		set context "${context}${bfile}"
 		set remaining_length [expr 574 - [string length $context] - 4]
 		set context "$context[string repeat "\x00" $remaining_length]"
 		set context "$context\xFF\xFF\xFF\xFF"
@@ -6641,13 +6664,16 @@ namespace eval ::MSN6FT {
 		binary scan [string range $context 16 19] i nopreview
 		
 		#Another way to have the filename on Mac OS X because we're having problem with Unicode
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			set filename [encoding convertfrom utf-8 [string range $context 20 [expr $size - 20]]]
-			set filename [string map { "\x00" "" } $filename]
-		} else {
-			set filename [encoding convertfrom unicode [string range $context 20 [expr $size - 20]]]
-			set filename [string range $filename 0 [expr [string first "\x00" $filename] -1]]
-		}
+	#	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		#	set filename [encoding convertfrom utf-8 [string range $context 20 [expr $size - 20]]]
+			#set filename [string map { "\x00" "" } $filename]
+		#} else {
+		binary scan $context x20A[expr $size - 24] filename
+		set filename [encoding convertfrom unicode "$filename\x00"]
+
+
+#			set filename [string range $filename 0 [expr [string first "\x00" $filename] -1]]
+		#}
 
 		if { $nopreview == 0 } {
 			set previewdata [string range $context $size end]
