@@ -98,6 +98,8 @@ if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 /usr/share/amsn/i/baway.gif
 /usr/share/amsn/i/bbusy.gif
 /usr/share/amsn/i/beer.gif
+/usr/share/amsn/i/bell.gif
+/usr/share/amsn/i/belloff.gif
 /usr/share/amsn/i/blocked.gif
 /usr/share/amsn/i/boffline.gif
 /usr/share/amsn/i/bonline.gif
