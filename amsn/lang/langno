@@ -1,0 +1,83 @@
+amsn_lang_version 2
+about Om
+addacontact Legg til en kontakt
+addedyou har lagt deg til sin kontaktliste
+addtoo Legg denne person til min kontaktliste
+allowseen La denne person se når jeg er online og kontakte meg
+appearoff Se ut som jeg er offline
+are er
+avoidseen Hindre denne person fra å se når jeg er online og kontakte meg
+away Borte
+blankdirect La stå tom for direkte tilkobling
+block Blokkér
+busy Opptatt
+cancel Avbryt
+changenick Endre nick
+chat Chat
+chatreq Forespørsel om chat
+chatack Akseptér chat fra
+checkver Se etter nyere versjon
+checkingver Ser etter nyere versjoner
+clicktologin Klikk her for å logge inn
+close Lukk
+contactadded Kontakt lagt til
+set lang(connecterror) "Feil ved tilkobling til server"
+date Dato
+delete Slett
+entercontactemail Oppgi kontakt e-post
+enternick Oppgi nick
+examples Eksempler
+gonelunch Ute til lunsj
+help Hjelp
+ident Identifiserer
+invite Invitér
+is er
+joins $1 $2 blir med i konversasjonen
+language Språk
+leaves $1 forlater konversasjonen
+loggingin Logger inn
+login Logg inn
+logout Logg ut
+logsin har nettopp logget inn
+mustrestart Du må starte programmet på nytt for å aktivisere endringer
+mystatus Min status
+msg Melding
+msn AMSN
+newmail $1 nye meldinger i innboksen
+newmailfrom Ny e-post fra
+newmsg Ny melding
+newveravailable Nyere versjon $1 tilgjengelig for nedlasting
+next Neste
+noactivity Ingen aktivitet
+nonewver Det er ingen nye versjoner klare til nedlasting
+notify gi beskjed
+nousersinsession Ingen brukere i sesjonen
+ok OK
+offline Offline
+online Online
+onphone I telefonen
+other Abdre
+pass Passord
+port Port
+proxyconf Proxy konfigurasjon
+proxyconfhttp HTTP proxy support konfigurasjon
+reconnect Venter på at $1 skal koble til på nytt
+reconnecting Kobler til server på nytt
+rememberpass Husk passord
+rightback Straks tilbake
+says $1 sier
+sbcon Kobler til koblingstavle
+send Send
+server Server
+sound Hendelseslyd
+title Al's Messenger
+to Til
+typing $1 skriver en beskjed
+yousay Du sier
+youwant Du vil ha
+unblock Deblokkér
+uoffline Offline
+uonline Online
+user Bruker
+version Versjon
+willjoin Venter $1 blir med i konversasjonen
