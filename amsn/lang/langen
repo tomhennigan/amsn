@@ -16,6 +16,7 @@ admingroups Admin groups
 advanced Advanced
 advancedprefs Advanced options configuration
 adverts Advertisements
+agotinvitation Received Audio invitation from $1
 alarmonconnect Activate alarm when user comes online
 alarmondisconnect Activate alarm when user goes offline/invisible 
 alarmonmsg Activate alarm when user sends you a message
@@ -50,6 +51,10 @@ autoidle Auto NoActivity
 autoip Automatic IP
 automessage AutoMessage
 autonoact Show me as "Not Active" when inactive for
+avaccepted Video Conference call Accepted
+avcanceled Video Conference call Canceled
+avgotinvitation Received Video Conference invitation from $1
+avinitfailed Initialization of the Audio/Video Plugin failed. Call Canceled
 avoidseen Prevent this person from seeing when I'm online and contacting me
 away Away
 awaymsg1 Ask for away message each time I change my status to Away/BRB/Busy
