@@ -32,7 +32,7 @@
 
 namespace eval ::groups {
    namespace export Init Enable Disable Set Rename Delete Add \
-   		    RenameCB DeleteCB AddCB
+   		    RenameCB DeleteCB AddCB GetList
 
    #
    # P R I V A T E
@@ -201,7 +201,7 @@ namespace eval ::groups {
    #<Init> Initialize the non-mutable part of the menus and the
    #	   core of the group administration. At this point we do not
    #	   have any information about the groups (we are not connected)
-   proc Init {p entrynr} {
+   proc Init {p} {
    	variable parent 
 	variable entryid
 
@@ -222,7 +222,8 @@ namespace eval ::groups {
 		-menu .group_menu 
 
 	set parent $p		;# parent menu where we attach
-	set entryid $entrynr	;# needed to enable/disable widget
+	# We need the next to dynamically enable/disable the menu widget
+	set entryid [$p index "[trans admingroups]"]
    }
 
    # Must only Enable it when the list of groups is already available!
@@ -370,6 +371,21 @@ namespace eval ::groups {
 	# DeleteCB() should be called when we receive the RMG
 	# packet from the server
         return 1
+    }
+
+    proc GetList {} {
+        variable groups
+
+	set g_list [list]
+	set g_entries [array get groups]
+	set items [llength $g_entries]
+	for {set idx 0} {$idx < $items} {incr idx 1} {
+	    set var_pk [lindex $g_entries $idx]
+	    incr idx 1
+	    set var_value [lindex $g_entries $idx]
+	    lappend g_list $var_pk	;# Return the key only
+	}
+	return $g_list
     }
 }
 
