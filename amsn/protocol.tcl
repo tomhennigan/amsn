@@ -1998,56 +1998,65 @@ proc finished_reading_msg {sbn old_handler msg_data} {
 #$do parameter is the action to perform over $sbn
 proc sb {do sbn var {value ""}} {
 
-   global ${sbn}_info
-   set sb_tmp "${sbn}_info(${var})"
-   upvar #0 $sb_tmp sb_data
+	global ${sbn}_info
+	set sb_tmp "${sbn}_info(${var})"
+	upvar #0 $sb_tmp sb_data
 
-   switch $do {
-      name {
-	 		return $sb_tmp
-      }
-      set {
-         set sb_data $value
-			 return 0
-      }
-      get {
+	switch $do {
+		name {
+			return $sb_tmp
+		}
+		set {
+			set sb_data $value
+			return 0
+		}
+		get {
 			if {![info exists sb_data]} {
 				return ""
 			}
 			return $sb_data
-      }
-      append {
-         lappend sb_data $value
-      }
-      index {
-         return [lindex $sb_data $value]
-      }
-      ldel {
-         set sb_data [lreplace $sb_data $value $value]
-      }
-      length {
-	if {![info exists sb_data]} {
-		status_log "BIG ERROR???? TRYING TO GET LENGTH FROM AN UNEXISTING SB: $sbn $var\n" red
-		return 0
-	}
+		}
+		append {
+			if {![info exists sb_data]} {
+				return ""
+			}
+			lappend sb_data $value
+		}
+		index {
+			if {![info exists sb_data]} {
+				return ""
+			}
+			return [lindex $sb_data $value]
+		}
+		ldel {
+			if {![info exists sb_data]} {
+				return
+			}
+			set sb_data [lreplace $sb_data $value $value]
+		}
+		length {
+			if {![info exists sb_data]} {
+				status_log "BIG ERROR???? TRYING TO GET LENGTH FROM AN UNEXISTING SB: $sbn $var\n" red
+				return 0
+			}
 
-	 return [llength $sb_data]
-      }
-      search {
-	if {![info exists sb_data]} {
-		return ""
-	}
+			return [llength $sb_data]
+		}
+		search {
+			if {![info exists sb_data]} {
+				return ""
+			}
 
-         return [lsearch $sb_data $value]
-      }
-      exists {
-         return [info exists $sb_tmp]
-      }
-      unset {
-         unset $sb_tmp
-      }
-   }
-   return 0
+			return [lsearch $sb_data $value]
+		}
+		exists {
+			return [info exists $sb_tmp]
+		}
+		unset {
+			unset $sb_tmp
+		}
+	}
+	return 0
 }
 
 
