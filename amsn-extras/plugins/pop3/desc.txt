@@ -1,0 +1,2 @@
+Plugin for checking POP3 accounts insted of hotmail ones.
+By Alberto Díaz and Arieh Schneier
