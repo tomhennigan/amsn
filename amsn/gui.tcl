@@ -2232,6 +2232,10 @@ namespace eval ::amsn {
 			bind $bottom.in.input <Control-Down> "window_history next %W; break"
 		}
 
+		#Added to stop amsn freezing when control-up pressed in the output window
+		#If you can find why it is freezing and can stop it remove this line
+		bind .${win_name}.f.out.text <Control-Up> "break"
+
 		set window_titles(.${win_name}) ""
 		set first_message(.${win_name}) 1
 		set recent_message(.${win_name}) 0
