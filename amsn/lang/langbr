@@ -24,7 +24,7 @@ autoconnect2 Logar-me automaticamente quando o aMSN for iniciado.
 autohotmaillog Logar-se automaticamente no Hotmail
 autoidle Detectar quando eu ficar inativo
 autoip Endereço IP automático
-autonoact Mostre-me como "Inativo" quando não interagir com o aMSN por 
+autonoact Mostre-me como "Inativo" quando não interagir com o aMSN por
 avoidseen Evitar que esta pessoa veja quando eu estou on-line e não permitir que ela me contacte
 away Ausente
 awaymsg1 Solicitar mensagem quando eu mudar estado para Ausente/Volto Logo/Ocupado
@@ -281,6 +281,7 @@ textsize Tamanho do texto
 title Al's Messenger
 to Para
 tools Ferramentas
+transnotexists O arquivo solicitado ainda não foi traduzido para a linguagem atual.
 unblock Desbloquear
 uoffline Desconectado
 uonline Conectado
