@@ -5812,7 +5812,7 @@ proc toggle_status {} {
 proc timestamp {} {
 	global config
 	set stamp [clock format [clock seconds] -format %H:%M:%S]
-	return $config(leftdelimiter)$stamp$config(rightdelimiter)
+	return "[::config::getKey leftdelimiter]$stamp[::config::getKey rightdelimiter]"
 }
 #///////////////////////////////////////////////////////////////////////
 
