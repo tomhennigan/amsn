@@ -885,6 +885,8 @@ proc SwitchProfileMode { value } {
 
 		# Load default config 
 		set HOME $HOME2
+		
+		config::setKey login ""
 		load_config
 		set log_dir ""
 				
