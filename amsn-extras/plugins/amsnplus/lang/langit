@@ -1,0 +1,20 @@
+amsn_lang_version 2
+allowcommands Abilitare i comandi nella finestra della chat?
+ccolor \nColore successivo: $1
+cfont \nFont successivo: $1
+cinfo \nInformazioni Contatto:\n$1 \nNick: $2 \nGruppo: $3
+cleave \nHai abbandonato questa conversazione
+cnewnick \nNick successivo: $1
+cnewstate \nNuovo stato: $1
+cnewstatenotvalid \n$1 non è valido
+cnick \nIl tuo nick è: $1
+cnotvalid \nComando non valido
+cresult \nRisultato del comando:\n$1
+cshell \nSto eseguendo nella shell: $1
+cspecify \nDevi specificare un contatto
+cstatus \nIl tuo stato è: $1
+cstyle \nFont Style selezionato: $1
+deleted \nHai rimosso $1 dalla lista dei contatti\nPer aggiungere nuovamente questo contatto digita: /add $1
+groupadded \nAggiunto gruppo $1.
+groupdeleted \nHai rimosso il gruppo $1.\nPer aggiungere nuovamente questo gruppo digita: /addgroup $1
+parsenicks Vuoi attivare la codifica colori di Msn Plus sui nick?
