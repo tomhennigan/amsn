@@ -565,13 +565,13 @@ namespace eval ::amsn {
          set txt "[trans ftsendinvitation [lindex [::MSN::getUserInfo $chatid] 1] $filename $filesize]"
 
          status_log "Random generated cookie: $cookie\n"
-         WinWrite $chatid "----------\n" gray
+         WinWrite $chatid "----------\n" green
          WinWriteIcon $chatid fticon 3 2
-         WinWrite $chatid "$txt " gray
+         WinWrite $chatid "$txt " green
          WinWriteClickable $chatid "[trans cancel]" \
          "::amsn::CancelFTInvitation $chatid $cookie" ftno$cookie
-         WinWrite $chatid "\n" gray
-         WinWrite $chatid "----------\n" gray
+         WinWrite $chatid "\n" green
+         WinWrite $chatid "----------\n" green
 
          ::MSN::ChatQueue $chatid "::MSNFT::sendFTInvitation $chatid [list $filename] $filesize $ipaddr $cookie"
          #::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie
@@ -601,10 +601,10 @@ namespace eval ::amsn {
 
      set txt [trans invitationcancelled]
 
-     WinWrite $chatid "----------\n" gray
+     WinWrite $chatid "----------\n" green
      WinWriteIcon $chatid ftreject 3 2
-     WinWrite $chatid " $txt\n" gray
-     WinWrite $chatid "----------\n" gray
+     WinWrite $chatid " $txt\n" green
+     WinWrite $chatid "----------\n" green
      
      
 
@@ -616,10 +616,10 @@ namespace eval ::amsn {
          return 0
       }   
      set txt [trans ftacceptedby $who $filename]
-     WinWrite $chatid "----------\n" gray
+     WinWrite $chatid "----------\n" green
      WinWriteIcon $chatid fticon 3 2
-     WinWrite $chatid " $txt\n" gray
-     WinWrite $chatid "----------\n" gray
+     WinWrite $chatid " $txt\n" green
+     WinWrite $chatid "----------\n" green
      
    }   
    
@@ -629,10 +629,10 @@ namespace eval ::amsn {
          return 0
       }   
      set txt [trans ftrejectedby $who $filename]
-     WinWrite $chatid "----------\n" gray
+     WinWrite $chatid "----------\n" green
      WinWriteIcon $chatid ftreject 3 2
-     WinWrite $chatid " $txt\n" gray
-     WinWrite $chatid "----------\n" gray
+     WinWrite $chatid " $txt\n" green
+     WinWrite $chatid "----------\n" green
 
    }
 
@@ -651,22 +651,22 @@ namespace eval ::amsn {
 	set fromname [lindex [::MSN::getUserInfo $dest] 1]
   	set txt [trans ftgotinvitation $fromname '$filename' $filesize $files_dir]
   	set win_name [MakeWindowFor $chatid $txt $dest]
-  	WinWrite $chatid "----------\n" gray
+  	WinWrite $chatid "----------\n" green
   	WinWriteIcon $chatid fticon 3 2
-  	WinWrite $chatid $txt gray
-  	WinWrite $chatid " - (" gray
+  	WinWrite $chatid $txt green
+  	WinWrite $chatid " - (" green
   	WinWriteClickable $chatid "[trans accept]" [list ::amsn::AcceptFT $chatid -1 [list $dest $branchuid $cseq $uid $sid $filename]] ftyes$sid
-  	WinWrite $chatid " / " gray
+  	WinWrite $chatid " / " green
   	WinWriteClickable $chatid "[trans reject]" [list ::amsn::RejectFT $chatid -1 [list $sid $branchuid $uid]] ftno$sid
-  	WinWrite $chatid ")\n" gray
-  	WinWrite $chatid "----------\n" gray
+  	WinWrite $chatid ")\n" green
+  	WinWrite $chatid "----------\n" green
   	if { ![file writable $files_dir]} {
   		WinWrite $chatid "[trans readonlywarn $files_dir]\n" red
-  	        WinWrite "----------\n" gray
+  	        WinWrite "----------\n" green
   	}
   	 
   	if { $config(ftautoaccept) == 1 } {
-  		WinWrite $chatid "[trans autoaccepted]\n" gray
+  		WinWrite $chatid "[trans autoaccepted]\n" green
   	        ::amsn::AcceptFT $chatid -1 [list $dest $branchuid $cseq $uid $sid $filename]
   	}
    }
@@ -686,24 +686,24 @@ namespace eval ::amsn {
       set win_name [MakeWindowFor $chatid $txt $fromlogin]
       
       
-     WinWrite $chatid "----------\n" gray
+     WinWrite $chatid "----------\n" green
      WinWriteIcon $chatid fticon 3 2
-     WinWrite $chatid $txt gray
-     WinWrite $chatid " - (" gray
+     WinWrite $chatid $txt green
+     WinWrite $chatid " - (" green
      WinWriteClickable $chatid "[trans accept]" \
        "::amsn::AcceptFT $chatid $cookie" ftyes$cookie
-     WinWrite $chatid " / " gray
+     WinWrite $chatid " / " green
      WinWriteClickable $chatid "[trans reject]" \
        "::amsn::RejectFT $chatid $cookie" ftno$cookie
-     WinWrite $chatid ")\n" gray
-     WinWrite $chatid "----------\n" gray
+     WinWrite $chatid ")\n" green
+     WinWrite $chatid "----------\n" green
      if { ![file writable $files_dir]} {
         WinWrite $chatid "[trans readonlywarn $files_dir]\n" red
-        WinWrite $chatid "----------\n" gray
+        WinWrite $chatid "----------\n" green
      }
 
        if { $config(ftautoaccept) == 1 } {
-	   WinWrite $chatid "[trans autoaccepted]\n" gray
+	   WinWrite $chatid "[trans autoaccepted]\n" green
 	   ::amsn::AcceptFT $chatid $cookie
        }
 
@@ -746,10 +746,10 @@ namespace eval ::amsn {
 
      set txt [trans ftaccepted]
 
-     WinWrite $chatid "----------\n" gray
+     WinWrite $chatid "----------\n" green
      WinWriteIcon $chatid fticon 3 2
-     WinWrite $chatid " $txt\n" gray
-     WinWrite $chatid "----------\n" gray
+     WinWrite $chatid " $txt\n" green
+     WinWrite $chatid "----------\n" green
      
 
    }
@@ -784,10 +784,10 @@ namespace eval ::amsn {
 
      set txt [trans ftrejected]
      
-     WinWrite $chatid  "----------\n" gray
+     WinWrite $chatid  "----------\n" green
      WinWriteIcon $chatid ftreject 3 2
-     WinWrite $chatid "$txt\n" gray
-     WinWrite $chatid "----------\n" gray
+     WinWrite $chatid "$txt\n" green
+     WinWrite $chatid "----------\n" green
 
    }
 
@@ -1373,7 +1373,10 @@ namespace eval ::amsn {
 				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name] nopack
 			}
 
- 			::amsn::WinWrite $chatid "$statusmsg" gray
+			::amsn::WinWriteIcon $chatid minijoins 5 0
+ 			::amsn::WinWrite $chatid " [trans joins [lindex [::MSN::getUserInfo $usr_name] 1]]\n" green "" 0
+#			set statusmsg2 "[timestamp] [trans joins $usr_name]\n"
+#			${win_name}.f.out.text insert end "$statusmsg2" red
 
 		}
 
@@ -1396,7 +1399,8 @@ namespace eval ::amsn {
 
       global config automsgsent
 
-      if {[WindowFor $chatid] == 0} {
+		set win_name [WindowFor $chatid]
+      if { $win_name == 0} {
          return 0
       }
 
@@ -1405,7 +1409,9 @@ namespace eval ::amsn {
       if { $closed } {
 	  set statusmsg "[timestamp] [trans leaves $username]\n"
 	  set icon minileaves
-		::amsn::WinWrite $chatid "$statusmsg" gray
+			::amsn::WinWriteIcon $chatid minileaves 5 0
+		::amsn::WinWrite $chatid " [trans leaves $username]" green "" 0
+
 
       } else {
 	  set statusmsg "[timestamp] [trans closed $username]\n"
@@ -1754,11 +1760,11 @@ if { $config(getdisppic) != 0 } {
       $bottom.in.input configure -state normal
 
 
-      .${win_name}.f.out.text tag configure green -foreground darkgreen -background white -font bboldf
-      .${win_name}.f.out.text tag configure red -foreground red -background white -font bboldf
-      .${win_name}.f.out.text tag configure blue -foreground blue -background white -font bboldf
+      .${win_name}.f.out.text tag configure green -foreground darkgreen -background white -font sboldf
+      .${win_name}.f.out.text tag configure red -foreground red -background white -font sboldff
+      .${win_name}.f.out.text tag configure blue -foreground blue -background white -font sboldff
       .${win_name}.f.out.text tag configure gray -foreground #404040 -background white -font splainf
-      .${win_name}.f.out.text tag configure white -foreground white -background black
+      .${win_name}.f.out.text tag configure white -foreground white -background black -font sboldf
       .${win_name}.f.out.text tag configure url -foreground #000080 -background white -font splainf -underline true
 
 
@@ -2617,7 +2623,7 @@ if { $config(getdisppic) != 0 } {
    # Writes 'txt' into the window related to 'chatid'
    # It will use 'tagname' as style tag, unles 'tagname'=="user", where it will use
    # 'fontname', 'fontstyle' and 'fontcolor' as from fontformat
-   proc WinWrite {chatid txt tagname {fontformat ""} } {
+   proc WinWrite {chatid txt tagname {fontformat ""} {flicker 1}} {
    
        global emotions config ;#smileys_end_subst
 
@@ -2730,8 +2736,10 @@ if { $config(getdisppic) != 0 } {
          $ys set [lindex [$ys get] 0] 1.0
       }
       ${win_name}.f.out.text configure -state disabled
-      
-      WinFlicker $chatid
+
+		if { $flicker } {
+      	WinFlicker $chatid
+		}
 		
 
    }
