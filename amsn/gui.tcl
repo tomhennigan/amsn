@@ -5772,13 +5772,14 @@ proc convert_image { filename size } {
 	#Depending on ratio, resize to keep smaller dimension to XX pixels
 	if { $origratio > $ratio} {
 		set resizeh [lindex $sizexy 1]
-		set resizew [expr {int($resizeh*$origratio)}]
+		set resizew [expr {round($resizeh*$origratio)}]
 	} else {
 		set resizew [lindex $sizexy 0]
-		set resizeh [expr {int($resizew/$origratio)}]
+		set resizeh [expr {round($resizew/$origratio)}]
+
 		
 	}
-	
+
 	
 	if { $origw != [lindex $sizexy 0] || $origh != [lindex $sizexy 1] } {
 		status_log "Will resize to $resizew x $resizeh \n" blue		
@@ -6119,12 +6120,14 @@ proc pictureChooseFile { } {
 	set file [chooseFileDialog {{\"Image Files\" {*.gif *.jpg *.jpeg *.bmp *.png} }}]
     
 	 if { $file != "" } {
-	 	if { ![catch {convert_display_picture $file}]} {
+	 	if { ![catch {convert_display_picture $file} res]} {
 			set image_name [image create photo -file [GetSkinFile displaypic "[filenoext [file tail $file]].gif"]]
 			.picbrowser.mypic configure -image $image_name
 			set selected_image [file tail $file]
 			lappend image_names $image_name
 			status_log "Created $image_name\n"
+		} else {
+			status_log "Error converting $file: $res\n"
 		}
     }    
 	 
