@@ -315,7 +315,7 @@ proc cmsn_draw_main {} {
    .main_menu.file add command -label "[trans openreceived]" \
       -command "msg_box \"$files_dir\""
    .main_menu.file add separator
-   .main_menu.file add command -label "[trans close]" -command "close_cleanup;exit"
+   .main_menu.file add command -label "[trans close]" -command "::amsn::close"
 
    #Actions menu
    set dummy_user "recipient@somewhere.com"
@@ -365,6 +365,8 @@ proc cmsn_draw_main {} {
      -variable config(chatsmileys)
    .options add checkbutton -label "[trans listsmileys]" -onvalue 1 -offvalue 0 \
      -variable config(listsmileys) 
+   .options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 \
+     -variable config(closingdocks) 
 
 
    #Help menu
@@ -433,9 +435,9 @@ proc cmsn_draw_main {} {
 #   .main.status configure -state disabled
 #   bind .main.status <Double-Button-3> toggle_status
    bind . <Control-s> toggle_status
-   bind .main <Destroy> "close_cleanup "
+   bind .main <Destroy> "::amsn::close "
 
-   wm protocol . WM_DELETE_WINDOW { wm iconify . }
+   wm protocol . WM_DELETE_WINDOW {::amsn::closeOrDock $config(closingdocks)}
 
    cmsn_draw_status
    cmsn_draw_offline

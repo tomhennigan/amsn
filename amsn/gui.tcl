@@ -184,6 +184,22 @@ namespace eval ::amsn {
       $im put "#$col" -to 0 $i 180 [expr {$i + 1}]
    }
 
+   proc close {} {
+      set answer [tk_messageBox -message "[trans exitamsn]" -type yesno -icon question -title [trans title]]
+      if {$answer == "yes"} {
+         close_cleanup      
+         exit
+      }
+   }
+
+   proc closeOrDock { closingdocks } {
+     if {$closingdocks} {
+        wm iconify .
+     } else {
+        ::amsn::close
+     }
+   }
+
    
    proc notifyAdd { msg command {sound ""}} {
       variable NotifID
