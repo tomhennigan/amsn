@@ -1203,7 +1203,7 @@ proc lockSvrHdl { sock } {
 		if { $command == "AMSN_LOCK_PING" } {
 			status_log "lockSvrHdl: PING - PONG\n" blue
 			
-			puts $sock "AMSN_LOCK_PONG"
+			catch {puts $sock "AMSN_LOCK_PONG"}
 		} else {
 		    read_remote $command $sock
 		}

@@ -236,7 +236,7 @@ proc write_remote { dataout {colour "normal"} } {
 
     set dataout [string map [list "\n" " $colour\n"]  $dataout]
   
-    puts $remote_sock "$dataout $colour"
+    catch {puts $remote_sock "$dataout $colour"}
 
 }
 
@@ -294,6 +294,8 @@ proc authenticate { command sock } {
 		write_remote "User disabled remote control"
 	    }	
 	}	
+    } else {
+          write_remote "[trans syntaxerror] : $command" error
     }
 }
 
