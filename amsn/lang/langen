@@ -461,6 +461,7 @@ stateinfo Personal State Configuration
 state I want to appear as	
 statename Name of Personal State
 statenewtext Please fill the required information to create \n your new Personal State and press Save
+statenick Custom nick (leave blank for no change)
 status Status
 stopalarm Stop Alarm
 storenickname Return to original nickname after a custom state with custom nickname
