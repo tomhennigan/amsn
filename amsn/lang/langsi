@@ -253,6 +253,8 @@ keepalive Drzi zivo (NAT)
 keeplog2 Belezi vse pogovore v aMSN dnevnik za kasnejsi pregled
 keeplog Hrani dnevnik pogovorov
 language Jezik
+lastlogin Zadnja prijava
+lastlogout Zadnja odjava
 lastmsgtime Zadnje sporocilo prejeto ob $1
 lclosedwin $1 je zaprl/a okno $2
 lconftopriv Konferenca spremenjena v zasebni pogovor z $1
@@ -438,7 +440,7 @@ server Streznik
 serverunavailable Streznik ni dosegljiv
 session Seja
 showblockedlist Pokazi seznam ljudi, ki so te blokirali
-showcachedpics Pokazi/skrij shranjene osebne slike
+showcachedpics Pokazi shranjene osebne slike
 showdisplaypic2 Prikazi osebno sliko, ko se odpre pogovor
 showdisplaypic Prikazi osebno sliko
 showmypic Moja osebna slika
