@@ -740,7 +740,7 @@ namespace eval ::MSNFT {
       variable filedata
       
       if {![info exists filedata($cookie)]} {
-        status_log "MonitorTransfer: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
+        status_log "::MSNFT::MonitorTransfer:  Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
         return
       }     
                   
@@ -753,18 +753,22 @@ namespace eval ::MSNFT {
       fileevent $sockid readable ""
       
       #Monitor messages from the receiving host in a file transfer
-      fconfigure $sockid -blocking 1
-      gets $sockid datos
+      catch {fconfigure $sockid -blocking 1}
+      if {[catch{gets $sockid datos} res]} {
+         status_log "::MSNFT::MonitorTransfer: Transfer failed: $res\n"
+	 cancelFT $cookie
+         return
+      }
       
       status_log "Got from remote side: $datos\n"
       if {[string range $datos 0 2] == "CCL"} {
-         status_log "Connection cancelled\n"
+         status_log "::MSNFT::MonitorTransfer: Connection cancelled\n"
 	 cancelFT $cookie
          return
       }
   
       if {[string range $datos 0 2] == "BYE"} {
-         status_log "Connection finished\n"
+         status_log "::MSNFT::MonitorTransfer: Connection finished\n"
          ::amsn::FTProgress fs $cookie [lindex $filedata($cookie) 0]	 
 	 FinishedFT $cookie
          return
