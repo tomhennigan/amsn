@@ -193,6 +193,7 @@ hybrid Hybridläge
 ident Identifiering
 identity Identitet
 inbox Inkorg
+installconvert Du måste installera ImageMagick (konverteringsprogram) för att konvertera bilderna till det format som krävs av MSNs servrar. Du kan ladda ner dom binära filerna för ditt operativsystem från ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Om du redan har ImageMagick så har du hittat en bug. Rapportera det till skaparna av aMSN.
 internalerror Internt serverfel
 invalidfile $2 som du skrev i "$1" finns inte eller är inte läsbar.
 invalidusername Ogiltigt användarnamn
