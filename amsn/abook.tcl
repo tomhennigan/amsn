@@ -655,7 +655,7 @@ namespace eval ::abookGui {
 		
 		label $nbIdent.title1 -text [trans identity] -font bboldunderf
 		
-		label $nbIdent.e -text "Email:" -wraplength 300 
+		label $nbIdent.e -text "[trans email]:" -wraplength 300 
 		label $nbIdent.e1 -text $email -font splainf -fg blue 
 		
 		label $nbIdent.h -text "[trans nick]:"
@@ -667,7 +667,7 @@ namespace eval ::abookGui {
 		menubutton $nbIdent.customnick.help -font sboldf -text "<-" -menu $nbIdent.customnick.help.menu
 		menu $nbIdent.customnick.help.menu -tearoff 0
 		$nbIdent.customnick.help.menu add command -label [trans nick] -command "$nbIdent.customnick.ent insert insert \\\$nick"
-		$nbIdent.customnick.help.menu add command -label "Email" -command "$nbIdent.customnick.ent insert insert \\\$user_login"
+		$nbIdent.customnick.help.menu add command -label [trans email] -command "$nbIdent.customnick.ent insert insert \\\$user_login"
 		$nbIdent.customnick.help.menu add separator
 		$nbIdent.customnick.help.menu add command -label [trans delete] -command "$nbIdent.customnick.ent delete 0 end"
 		$nbIdent.customnick.ent insert end [::abook::getContactData $email customnick]
@@ -680,7 +680,7 @@ namespace eval ::abookGui {
 		menubutton $nbIdent.customfnick.help -font sboldf -text "<-" -menu $nbIdent.customfnick.help.menu
 		menu $nbIdent.customfnick.help.menu -tearoff 0
 		$nbIdent.customfnick.help.menu add command -label [trans nick] -command "$nbIdent.customfnick.ent insert insert \\\$nick"
-		$nbIdent.customfnick.help.menu add command -label "Email" -command "$nbIdent.customfnick.ent insert insert \\\$user_login"
+		$nbIdent.customfnick.help.menu add command -label [trans email] -command "$nbIdent.customfnick.ent insert insert \\\$user_login"
 		$nbIdent.customfnick.help.menu add separator
 		$nbIdent.customfnick.help.menu add command -label [trans delete] -command "$nbIdent.customfnick.ent delete 0 end"
 		$nbIdent.customfnick.ent insert end [::abook::getContactData $email customfnick]
@@ -690,8 +690,12 @@ namespace eval ::abookGui {
 		label $nbIdent.ycustomfnickl -text "[trans mynick]:"
 		frame $nbIdent.ycustomfnick
 		entry $nbIdent.ycustomfnick.ent -font splainf -bg white
+		menubutton $nbIdent.ycustomfnick.help -font sboldf -text "<-" -menu $nbIdent.ycustomfnick.help.menu
+		menu $nbIdent.ycustomfnick.help.menu -tearoff 0
+		$nbIdent.ycustomfnick.help.menu add command -label [trans delete] -command "$nbIdent.ycustomfnick.ent delete 0 end"
 		$nbIdent.ycustomfnick.ent insert end [::abook::getContactData $email cust_p4c_name]
 		pack $nbIdent.ycustomfnick.ent -side left -expand true -fill x
+		pack $nbIdent.ycustomfnick.help -side left
 	
 		# The custom color frame
 		label $nbIdent.customcolor -text "[trans customcolor]:"
