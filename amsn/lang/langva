@@ -4,6 +4,7 @@ accept Acceptar
 acceptfile Acceptar arxiu $1, tamany $2 bytes? Es guardarà en $3
 actions Accions
 activeautoupdate Activar auto-actualitzar
+add Afegir
 addacontact Afegir un contacte
 addedyou $1 ($2) t'ha afegit a la seua llista de contactes
 addprofile Afegir un nou Perfil
@@ -121,6 +122,7 @@ clear Netejar
 clearlog2 Netejar l'historial per a tots els contactes
 clearlog3 Netejar tots els registres
 clearlog Netejar historial
+clicktoadd Fes clic en Afegir per a crear una nova nota
 clicktologin Fes click ací per a iniciar la sessió
 clientcaps Enviar paquets x-clientcaps a altres clients
 clientname Nom del client
@@ -144,6 +146,7 @@ connecterror Error connectant-se al servidor
 connecting Connectant
 connection Connexió
 connectionlost Desconnectat: Tancada la connexió amb el servidor
+contact Contacte
 contactadded Contacte afegit
 contactdoesnotexist El contacte no existix!
 contactlist Llista de contactes (LC):
@@ -156,9 +159,11 @@ corruptconfig L'Arxiu de configuració està corrupte. Creant un de nou. L'antic s
 corruptstates L'arxiu de la configuracio d'autoestats està corrupte. Creant un de nou. L'antic serà guardat com $1. Per favor, envia'ns l'arxiu per vore que ha passat.
 countrycode Codi de país/regió
 cprofile Crear Perfil
+created Creat
 credits Crèdits
 currentdate Data actual
 currentlanguage Este és l'idioma en ús actualment
+currentnotes Notes actuals
 custnotifymsg Mostra una finestra de notificació quan es reba un missatge d'usuari nou
 custnotifyoffline Mostra una finestra de notificació quan este contacte es desconnecte
 custnotifyonline Mostra una finestra de notificació quan este contacte es connecte
@@ -217,7 +222,6 @@ email Correu electrònic
 emailsinlist Mostrar correus-e enlloc de mots en la llista de contactes
 emotisounds Reproduir sons per a certs emoticons
 emptygroup Buidar el grup
-enablebanner Mostrar anunci d'aMSN (Requerix Reiniciar)
 enabled Activat
 enableproxy Activar proxy
 enableremote Permetre control a distància
@@ -296,6 +300,7 @@ ignoreerrors Ignora els errors fins que tanque la sessió
 imagefiles Arxius d'imatge
 inbox Safata d'entrada
 insertsmiley Insertar emoticon
+inserttextnote Escriu en el camp Assumpte i en el camp Nota, llavors fes clic en Guardar
 installconvert Has d'instal·lar ImageMagick (comand 'convert') per a poder convertir les imatges al format dels servidors de MSN. Pots descarregar els binaris per al teu sistema operatiu des de ftp://ftp.imagemagick.net/pub/ImageMagick/binaris/. Si ja el tens, es un error de AMSN, per favor, comunica'ns-ho.
 internalerror Error Intern del Servidor
 invalidfile El fitxer $2 introduït al camp "$1" no existix o no es llegible
@@ -367,6 +372,7 @@ maximised Maximitzada
 minimised Minimitzada/Iconificada
 mins minuts
 mobile Mòbil
+modified Modificat
 month Mes
 morepersonal Més estats ->
 move Moure
@@ -389,7 +395,6 @@ name Nom
 natip Detectar IP des d'una web
 natkeepalive Si patixes desconnexions contínuament, activa esta opció
 needonline Encara estàs/aparentes desconnectat
-needwinico Es necessita el fitxer winico03.dll al directori de connectors perquè funcione l'acoblament per Windows
 needwinico2 Necessites winico05.dll en el directori utils/windows per a que funcione la minimització a la safata del sistema
 never Mai
 new_ft_protocol Utilizar el nou protocol de Transferència de Fitxers (encara té alguns errors menors)
@@ -417,6 +422,7 @@ noprofileexists No hi han perfils actualment, \n has de crear un de nou si vols 
 normal Normal
 noskins No s'ha pogut trobar el perfil per defecte (default) en la carpeta skins/. No es pot iniciar AMSN
 nosystemtray Safata del sistema no disponible
+note Nota
 notificationserver Servidor inicial de notificacions MSN (Servidor MSN Messenger)
 notify1_5 Mostrar finestra de notificació quan els contactes es desconnecten
 notify1_75 Mostrar finestra de notificació quan els contactes canvien d'estat
@@ -591,6 +597,8 @@ style Estil
 stylechat La mateixa aparença que a les converses
 stylehist apariència de l'historial de aMSN
 stylelog Tria l'estil en el que vols vore l'historial
+subject Assumpte
+subjectrequired Assumpte requerit
 syntaxerror Error de sintaxi
 tabbed Finestres en pestanyes
 tabbedglobal Una finestra amb pestanyes per a tots els contactes
