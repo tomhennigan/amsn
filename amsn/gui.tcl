@@ -3031,7 +3031,7 @@ proc cmsn_draw_main {} {
      }
    } else {
      .main_menu.file add command -label "[trans loginas]..." \
-       -command "::MSN::connect $config(login) $password" -state disabled
+       -command cmsn_draw_login -state normal
    }
    .main_menu.file add command -label "[trans login]..." -command \
      cmsn_draw_login
