@@ -5885,6 +5885,81 @@ proc convert_display_picture { filename } {
 
 
 
+proc pictureBrowser {} {
+	global HOME program_dir
+		
+    if { [catch { set skin "[::config::get skin]" } ] != 0 } {
+        set skin "default"
+    }
+
+	set files [glob -directory [file join $HOME displaypic] *.png]
+	lappend files [glob -directory [file join $program_dir skins $skin displaypic] *.png]
+	
+	toplevel .picbrowser
+	
+	frame .picbrowser.pics	
+	text .picbrowser.pics.text -width 5 -font sboldf -background white -yscrollcommand ".picbrowser.pics.ys set" \
+		-cursor left_ptr -font splainf -selectbackground white -selectborderwidth 0 -exportselection 0 \
+		-relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
+	scrollbar .picbrowser.pics.ys -command ".picbrowser.pics.text yview"
+		
+	pack .picbrowser.pics.text -side left -expand true -fill both -padx 0 -pady 0
+	pack .picbrowser.pics.ys -side left -fill y -padx 0 -pady 0
+
+	#if { [catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}] } {
+#		image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
+#	}
+	if { [ catch {image inuse my_pic}]} {
+			image create photo my_pic -file [GetSkinFile displaypic nopic.gif]
+	}
+	label .picbrowser.mypic -image my_pic -background white -borderwidth 2 -relief solid
+	label .picbrowser.mypic_label -text "[trans mypic]" -font splainf
+	
+	button .picbrowser.browse -command "destroy .picbrowser" -text "[trans browse]..." -font sboldf
+	button .picbrowser.delete -command "destroy .picbrowser" -text "[trans delete]" -font sboldf -state disabled
+	button .picbrowser.purge -command "destroy .picbrowser" -state disabled -text "[trans purge]..." -font sboldf
+	button .picbrowser.ok -command "status_log \$caca\n;destroy .picbrowser" -text "[trans ok]" -font sboldf
+	button .picbrowser.cancel -command "destroy .picbrowser" -text "[trans cancel]" -font sboldf
+	
+	grid .picbrowser.pics -row 0 -column 0 -rowspan 4 -columnspan 3 -padx 3 -pady 3 -sticky nsew
+	
+	grid .picbrowser.browse -row 4 -column 0 -padx 3 -pady 3 -sticky ewn
+	grid .picbrowser.delete -row 4 -column 1 -padx 3 -pady 3 -sticky ewn
+	grid .picbrowser.purge -row 4 -column 2 -padx 5 -pady 3 -sticky ewn
+	
+	grid .picbrowser.mypic_label -row 0 -column 3 -padx 3 -pady 3 -sticky s
+	grid .picbrowser.mypic -row 1 -column 3 -padx 3 -pady 3 -sticky n
+	grid .picbrowser.ok -row 2 -column 3 -padx 3 -pady 3 -sticky sew
+	grid .picbrowser.cancel -row 3 -column 3 -padx 3 -pady 3 -sticky new
+	
+	grid column .picbrowser 0 -weight 1	
+	grid column .picbrowser 1 -weight 1	
+	grid column .picbrowser 2 -weight 1	
+	grid row .picbrowser 3 -weight 1		
+
+	
+	set image_names [list]
+	foreach filename $files {
+		if { [file exists [filenoext $filename].gif] } {
+			set the_image [image create photo -file "[filenoext $filename].gif"]
+			label .picbrowser.pics.text.$the_image -image $the_image -relief flat -borderwidth 0 -highlightthickness 2 \
+				-background white -highlightbackground black
+			bind .picbrowser.pics.text.$the_image <Enter> ".picbrowser.pics.text.$the_image configure -highlightbackground red"
+			bind .picbrowser.pics.text.$the_image <Leave> ".picbrowser.pics.text.$the_image configure -highlightbackground black"
+			bind .picbrowser.pics.text.$the_image <Button1-ButtonRelease> ".picbrowser.mypic configure -image $the_image; set selected_image [list $filename]"
+			status_log "File: $filename\n" blue
+			
+			.picbrowser.pics.text window create end -window .picbrowser.pics.text.$the_image -padx 3 -pady 3
+			lappend image_names $the_image
+		}
+	}
+	
+	.picbrowser.pics.text configure -state disabled
+		
+	wm title .picbrowser "[trans picbrowser]"
+	grab .picbrowser
+}
+
 proc change_displaypic { } {
     global config
 
