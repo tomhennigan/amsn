@@ -65,7 +65,7 @@ proc ConfigDefaults {} {
 	#Defaults group order to normal
 	set config(ordergroupsbynormal) 1
 	set config(withnotebook) 0
-	set config(keepalive) 0
+	set config(keepalive) 1
 	#set config(notifywin) 1
 	set config(notifymsg) 1
 	set config(notifyonline) 1
