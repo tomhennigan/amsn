@@ -32,7 +32,6 @@ and more... by AIM
           resuming
           not blocking negotiation
 	  auths / nick verification
-	  notify of file invitation in chat window instead of separate window
 # TODO ... at the end of nicks that don't fit in the contact list	  	  
 # TODO Encrypt password in config file (is possible)
 # TODO Non-blocking sockets

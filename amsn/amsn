@@ -183,7 +183,7 @@ proc msg_box {msg} {
 
 proc launch_browser { url } { 
 	global config
-	exec $config(browser) $url &
+	eval exec $config(browser) $url &
 }
 
 proc create_dir {path} {
@@ -338,7 +338,7 @@ proc cmsn_draw_main {} {
    .main_menu.file add separator
    .main_menu.file add command -label "[trans sendfile]..." -state disabled
    .main_menu.file add command -label "[trans openreceived]" \
-      -command "cmsn_open_received  \"$config(filemanager)\" \"$files_dir\""
+      -command "cmsn_open_received \"$files_dir\""
    .main_menu.file add separator
    .main_menu.file add command -label "[trans close]" -command "close_cleanup;exit"
 
@@ -525,11 +525,15 @@ proc cmsn_draw_main {} {
    cmsn_draw_offline
 }
 
-proc cmsn_open_received {fileman location} {
+proc cmsn_open_received {location} {
+  global config
+
+  set fileman $config(filemanager) 
   if { [string length $fileman] < 1 } {
-    msg_box $location
+    msg_box "$location. Check file manager setting in preferences"
   } else {
-    exec $fileman $location &
+    lappend fileman $location
+    eval exec [lindex $fileman 0] [lrange $fileman 1 end] &
   }
 }
 
@@ -1132,7 +1136,7 @@ proc send_mail {user_login} {
      return 0
   }
 
-  exec $config(mailcommand) $mail_param &
+  eval exec $config(mailcommand) $mail_param &
   return 0
 }
 
@@ -1314,7 +1318,7 @@ proc cmsn_draw_msgwin {} {
    .${win_name}.menu.msn add command -label "[trans sendfile]..." \
       -command "::amsn::fileTransferSend ${name} ${name} " -state disabled
    .${win_name}.menu.msn add command -label "[trans openreceived]..." \
-      -command "msg_box \"Files saved in\n$files_dir\"" 
+      -command "cmsn_open_received \"$files_dir\"" 
    .${win_name}.menu.msn add separator
    .${win_name}.menu.msn add command -label "[trans close]" \
       -command "destroy .${win_name}" 
@@ -1620,7 +1624,7 @@ proc sonido {sound} {
   global config sounds_folder config
   if { $config(sound) == 1 } {
     set archivo [file join $sounds_folder $sound.wav]
-    catch {exec $config(soundcommand) $archivo} res
+    catch {eval exec $config(soundcommand) $archivo &} res
   }
 }
 
