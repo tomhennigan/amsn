@@ -364,7 +364,9 @@ namespace eval ::amsn {
    # chatChange (chatid, newchatid)
    # this is called from the protocol layer when a private chat changes into a
    # conference, right after a JOI command comes from the SB. It mean that the window
-   # assigned to $chatid should now be related to $newchatid
+   # assigned to $chatid should now be related to $newchatid. chatChange will return
+   # the new chatid if the change is OK (no other window for that name exists), or the
+   # old chatid if the change is not right
    # - 'chatid' is the name of the chat that was a single private before
    # - 'newchatid' is the new id of the chat for the conference
    proc chatChange { chatid newchatid } {
@@ -374,14 +376,21 @@ namespace eval ::amsn {
       if { $win_name == 0 } {
 
 	  status_log "chatChange: Window doesn't exist (probably invited to a conference)\n"
-	  return 0
+	  return $newchatid
 
+      }
+
+      if { [WindowFor $newchatid] != 0} {
+         status_log "conference wants to become private, but there's already a window\n"
+	 return $chatid
       }
 
       UnsetWindowFor $chatid $win_name
       SetWindowFor $newchatid $win_name
 
       status_log "chatChange: changing $chatid into $newchatid\n"
+      
+      return $newchatid
 
    }
    #///////////////////////////////////////////////////////////////////////////////

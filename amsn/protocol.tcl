@@ -1355,15 +1355,37 @@ proc cmsn_sb_msg {sb_name recv} {
    set typer [string tolower [lindex $recv 1]]
    upvar #0 [sb name $sb_name users] users_list
    if { [llength $users_list] == 1 } {
-      set chatid $typer
+      set desiredchatid $typer
    } else {
-      set chatid $sb_name ;#For conferences, use sb_name as chatid
+      set desiredchatid $sb_name ;#For conferences, use sb_name as chatid
    }
 
+   if {[::MSN::SBFor $desiredchatid] != $sb_name} {
 
-   if {[::MSN::SBFor $chatid] != $sb_name} {
+      #This means the conference has become a private window
+      status_log "sb_msg: this SB is not the preferred for $desiredchatid, changing\n"
+      set newchatid [::amsn::chatChange [::MSN::ChatFor $sb_name] $desiredchatid]
+
+      if { "$newchatid" != "$desiredchatid" } {
+         #The GUI doesn't accept the change, as there's another window for that chatid
+         status_log "sb_msg: change NOT accepted\n"
+	 set chatid $newchatid
+
+      } else {
+         #The GUI accepts the change, so let's change
+         status_log "sb_msg: change accepted\n"
+	 set chatid $desiredchatid
+      }
+
       ::MSN::DelSBFor [::MSN::ChatFor $sb_name] $sb_name
       ::MSN::AddSBFor $chatid $sb_name
+
+   } else {
+
+      #The SB has no need to change its name
+      status_log "sb_msg: no need to change the chatid\n"
+      set chatid $desiredchatid
+
    }
 
    #after cancel "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name\} res"
