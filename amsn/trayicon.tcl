@@ -5,14 +5,14 @@ set iconmenu 0
 
 proc iconify_proc {} {
 	global statusicon
-	wm iconify .
-	bind $statusicon <Button-1> deiconify_proc
-}
-
-proc deiconify_proc {} {
-	global statusicon
-	wm deiconify .
-	bind $statusicon <Button-1> iconify_proc
+		if { [focus] == "."} {
+		wm iconify .
+	} else {
+		wm deiconify .
+		raise .
+		focus -force .
+	}
+	#bind $statusicon <Button-1> deiconify_proc
 }
 
 proc trayicon_init {} {
