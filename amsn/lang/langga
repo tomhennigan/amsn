@@ -5,23 +5,32 @@ acceptfile ¿Aceptar arquivo $1, tamaño $2 bytes? gardarase en $3
 actions Accións
 addacontact Engadir un contacto
 addedyou engadiute á súa lista de contactos
-addtocontacts Engadir a contactos
+addtocontacts Engadir ós contactos
 addtoo Engadir esta persoa á miña lista de contactos
 admincontacts Administrar contactos
 admingroups Administrar grupos
 adverts Anuncios
-alarmpref Opcións de aviso para o usuario
-alarmstatus Activar/Desactivar aviso para este usuario
+alarmpref Opcións de alarma para o usuario
+alarmstatus Activar/Desactivar alarma para este usuario
 allowseen Permitir a esta persoa ver cando estás conectado e contactar
+appearance Apariencia
 appearoff Sen conexión
-aretyping $1 están escribindo unha mensaxe
-autoconnect Conectar ó inicio do amsn
+areacode Código de area
+aretyping $1 está escribindo unha mensaxe
+askprofile Este usuario non posúe todavía un perfil. ¿Desexa crear un novo? \nEn caso contrario no se poderá usa-lo Historial, ou guarda-lo contrasinal e alarmas. \n Ó crealo, terás unha configuración personalizada para esteperfil. \n \n Fai click en "Crear Perfil" para crear un novo perfil para$1.
+autoaway Mostrarme "Ausente" cando non hai actividade en
+autoconnect2 Conectarse automáticamente cando se inicia aMSN
+autoconnect Conectar ó arrancar aMSN
 autohotmaillog Login hotmail automático
-autoidle auto inactividade
+autoidle Detección de inactividad
 autoip IP automática
+autonoact Mostrarme como "Sen actividade" cando no haxa actividade en
 avoidseen Evitar que esta persoa vexa a túa conexión e entre en contacto contigo
 away Ausente
+awaymsg1 Preguntar cando cambie o estado a Ausente/Volvo nun Intre/Ocupado
+awaymsg2 Non preguntar nunca e usa-la mensaxe a continuación
 baduserpass Nome de usuario ou contrasinal incorrectos
+bgcolor Cambia-la cor de fondo de aMSN
 blankdirect Deixar en branco para conexión directa
 blocked Bloqueado
 block Non admitir
@@ -30,38 +39,54 @@ browse Examinar
 browser Navegador
 busy Non dispoñible
 cancel Cancelar
-cfgalarm Configurar/Engadir/Quitar alarma
+cfgalarm Configurar/Quitar alarma
+changefont Cambiar fonte
 changenick Cambiar alcume
 chatack Aceptando conversa de
 chat Conversa
 chatreq Solicitando unha conversa
+chatsmileys2 Mostrar emoticonos e smileys nas fiestras do chat
 chatsmileys Smileys no chat
+checkfilman Os arquivos recibidos guardaranse en $1. Comproba a opción de administrador de arquivos na fiestra de preferencias.
 checkingver Buscando se hai dispoñible unha nova versión
 checkver Buscar novas versións
 choosebasefont Elixir tipo de letra
 choosebgcolor Elixir cor de fondo
 choosefontcolor Elixir cor da letra
+clearlog2 Limpar historial para todo-los contactos
+clearlog3 Limpar todo-los rexistros
+clearlog Limpar historial
 clicktologin Fai click aquí para inicia-la sesión
 close Pechar
 closingdocks O botón de pechar minimiza
 command Comando
-confirm confirmar
 confirmdelete ¿Seguro de desexa borrar a $1?
+confirm ¿ Estás seguro ?
 connecterror Error ó conectar co servidor
+connection Conexión
 contactadded Contacto engadido
 contactdoesnotexist O contacto que tentas engadir non existe
-copy copiar
+copy Copiar
 copytogroup Copiar ó grupo
-cut cortar
+countrycode Código de país/rexión
+cprofile Crear Perfil
+cut Cortar
 date Data
+days Días
+dcprofile Non Crear Perfil
+default Configuración por defecto
 delete Eliminar
 deliverfail Houbo un problema mandando a seguinte mensaxe
-dockgtk icono Gtk
-docking icono do sistema
-dockingoff desactivar Icono do sistema
-dockkde icono KDE
-edit editar
+delprofile2 Elixe o perfil que che gustaría borrar
+delprofile Borrar Perfil
+dockgtk Icono Gtk
+docking icono na bandexa do sistema
+dockingoff Desactivado
+dockkde Icono KDE
+edit Edición
+editprofile Editar Perfil
 enableproxy Activa-lo proxy
+encoding2 Cambia a forma na que se codifican os caracteres
 encoding Codificación de caracteres
 entercontactemail Introduce o email do contacto
 enterfilename Introduce o nombre do arquivo
@@ -69,14 +94,16 @@ enternick Introduce o teu nick
 examples Exemplos
 exitamsn ¿Seguro que desexa saír?
 extras Servicios adicionais
-faq qmf (questións mais frecuentes)
+faq FAQ (Preguntas frecuentes)
+faq qmf (questións máis frecuentes)
 filedoesnotexist O arquivo non existe
+fileman Administrador de Arquivos
 filename Nome do Arquivo
 filetransfercancelled Transferencia do arquivo cancelada
 filetransfercomplete Transferencia do arquivo completada
 ftaccepted Transferencia de arquivo aceptada
 ftrejected Transferencia de arquivo rexeitada
-gonelunch Saín a comer
+gonelunch Fun comer
 groupadd Engadir un grupo
 groupdelete Borrar un grupo
 groupexists O grupo xa existe
@@ -90,6 +117,7 @@ groupunknown Grupo descoñecido
 handle Nick
 help Axuda
 helpcontents Temas de axuda
+history Ver historial
 home Casa
 ident Identificándose
 identity Identificación
@@ -97,64 +125,121 @@ inbox Bandexa de entrada
 invalidusername Nome de usuario inválido
 invite Invitar
 ipaddress Dirección IP
+ipdetect Detecta-la IP correcta para transferencias usando HTTP
 istyping $1 está escribindo unha mensaxe
 joins $1 únese á conversa
-keepalive manter activa a conexión
+keepalive Manter activa a conexión (NAT)
+keeplog2 Rexistra-las conversas no historial para velas máis tarde
+keeplog Gardar historial das conversas
 language Linguaxe
 lastmsgtime Última mensaxe recibida ás $1
+lclosedwin $1 pechou a fiestra ás $2
+lconftopriv A conversa a ser un privado con $1
+lconvstarted Comeza a conversa ás $1
 leaveblankforhotmail Deixar en branco para usar hotmail
 leaves $1 deixa a conversa
+lenteredconf $1 únese á conversa ás $2
+linprivate EN PRIVADO
 listeningon Escoitando no porto $1
+listsmileys2 Mostrar emoticonos e smileys na lista de contactos de aMSN
 listsmileys Smileys nos contactos
+ljoinedconf $1 únese á conversa
+lleftconf $1 deixa a conversa
 loadcontacts Cargar lista de contactos
+logbigger Arquivos de rexistro dun contacto non superan os
+logfandexp Tamaño de arquivos do rexistro e expiración do historial
 loggedotherlocation Desconectado: iniciouse sesión noutra ubicación
 loggingin Iniciando sesión
 loginas Iniciar sesión como
+loging Historial
 login Iniciar sesión
+logolder Só rexistrar conversas ocorridas no último
 logout Pechar sesión
 logsin acaba de iniciar sesión
+logsmileys Mostrar emoticonos e smileys na fiestra do historial de aMSN
+lprivtoconf O privado convírtese en conversa múltiple con $1
+luclosedwin Ti pecha-la fiestra ás $1
 mailer Comando de email
+maximised Maximizada
+minimised Minimizada/Iconoficada
+mins minutos
+mobile Celular
 mobile Móbil
 movetogroup Mover ó grupo
+msgmaxmin Cando unha nova mensaxe chega quero que sexa :
 msg Mensaxe
+msgmode Elixe como manexar fiestras de múltiples mensaxes :
 msn AMSN
 mustrestart Debes reinicia-lo programa para aplica-los cambios
+myhomephone O meu teléfono de casa
+mymobilephone O meu teléfono móbil
 mystatus Meu estado
-natip Deteción do IP por Web
-needonline Vostede aínda está/aparece desconectado!
+myworkphone O meu teléfono do trabajo
+natip Deteción da IP por Web
+natkeepalive Se sofres desconexións continuamente, activa esta opción
+needonline Aínda estás/apareces desconectado
 newmail $1 mensaxes novas na bandexa de entrada
 newmailfrom Novo correo de $1
 newmsg Nova mensaxe
 newveravailable Nova versión $1 dispoñible para descarga
 next Seguinte
 noactivity Sen actividade
-nonewmail Sen mensaxes novas na bandexa de entrada
+nologfile Non existe arquivo de historial para $1
+nonewmail Non hai mensaxes novas na bandexa de entrada
 nonewver Non hai versións máis actuais dispoñibles
+normal Normal
+notify1 Mostrar ventá de aviso cando un contacto se conecte
+notify2 Mostrar ventá de aviso cando chegan novas mensaxes
+notify3 Mostrar ventá de aviso ó recibir un novo correo electrónico
 notify aviso
-notifywin ventá de avisos
+notifyoffset Axusta a posición da ventá de aviso cun desprazamento
+notifywin Ventá de avisos
 nousersinsession Non hai usuarios na sesión
 offline Desconectado
 ok Aceptar
-onenewmail mensaxe nova na bandexa de entrada
+onenewmail 1 mensaxe nova na bandexa de entrada
 online Conectado
 onphone Ó teléfono
 openreceived Abrir arquivos recibidos
 options Opcións
 ordercontactsby Ordenar contactos por
+ordergroupsby Ordenar grupos por
 other Outro
 pager Paxinador
 pass Contrasinal
-paste pegar
+paste Pegar
+personal Personal
 phone Teléfono
-picfile Imaxen de aviso (GIF < 500 x 500)
-picstatus Activar/Desactivar imaxen de aviso
+picfile Arquivo de imaxen (GIF < 500 x 500)
+picstatus Imaxen para a alarma
 port Porto
+prefalerts A miñas alertas e sons de eventos
 prefapps Aplicacións
+prefawaymsg Miñas mensaxes de ausente
+prefemotic Emoticonos e smileys.
 preferences Preferencias
+preffont2 Cambia-la forma na que outros ven o meu texto na conversa
+preffont3 Cambiar-lo tipo de letra e tamano do interfaz de aMSN
+preffont Texto das miñas mensaxes
+preflog1 Miñas opción do historial e rexistros
+preflook Apariencia do aMSN Messenger
+prefmsging Interfaz das miñas mensaxes
+prefname Meu nome/alcume no MSN Messenger
+prefphone2 Escribe os números que queras permitir ver ós contactos \n na tua lista de Permitidos \n
+prefphone Meus números de teléfono
+prefprofile2 Crea ou modifica o teu perfil público (a \n descripción de ti mesmo que outros poden ver)
+prefprofile3 Perfiles de configuración dos usuarios
+prefprofile Meu perfil público
+prefproxy Configuración do proxy
+prefsession Meu inicio de sesión e estado
+prefshared Conexións compartidas (sólo para NAT)
 prefsound Sons
+profiledconfig Información do perfil
+profiles Perfiles
 properties Propiedades
 proxyconf Configuración proxy
 proxyconfhttp Configurar soporte de proxy http
+proxy Estou detrás dun servidor proxy (HTTP ou SOCKS5)
 publishphones Publica-los meus números telefónicos
 receivedbytes Recibidos $1 de $2 bytes totais
 receivefile Recibir arquivo
@@ -162,10 +247,12 @@ reconnect Agardando que $1 reconecte
 reconnecting Reconectando ó servidor
 reject Rexeitar
 rememberpass Lembrar contrasinal
+reversed Invertido
 rightback Volvo nun intre
 saveas Gardar como
 savecontacts Gardar lista de contactos
 save Gardar
+savetofile Gardar en arquivo
 says $1 dí
 sbcon Conectando a Switch Board
 send Enviar
@@ -173,16 +260,26 @@ sendfile Enviar arquivo
 sendmail Enviar email
 sendmsg Enviar mensaxe
 sentbytes Enviados $1 de $2 bytes totais
-servergoingdown Desconectado: O servidor apagarase por mantemento
+servergoingdown Desconectado: O servidor apagarase por cuestión de mantemento
 server Servidor
-soundfile Son de aviso
+session Sesión
+sound2 Reproducir sons cando os contactos se conectan ou envían mensaxes
+soundcommand Comando para reproducir sons (por ex: esdplay)
+soundfile Arquivo de son
+soundfile Son da alarma
 soundloop Repetir son
-sound Son eventos
+soundserver Servidor de Son
+sound Son nos eventos
 soundstatus Activar/Desactivar son de aviso
+startoffline2 Conectarse sixilosamente semellando "Desconectado"
 startoffline Comezar Desconectado
 status Estado
-stopalarm Para-lo aviso
+stopalarm Para-la alarma
+stylechat O mesmo que nos chats
+stylehist apariencia de historial de aMSN
+stylelog Elixe o estilo no que desexas ve-lo historial
 syntaxerror Error de sintaxe
+tabbed Ventás con solapas
 textsize Tamaño do texto
 title Al's Messenger
 tools Ferramentas
@@ -194,9 +291,11 @@ useralreadyonlist O usuario xa se atopa na lista de contactos
 usernotonline O usuario non se atopa conectado.
 user Usuario
 version Versión
-view Ver
 viewprofile Ver perfil
+view Ver
 willjoin Agardando que $1 se una á conversa
 work Traballo
+xoffset Desprazamento X
+yoffset Desprazamento Y
 yousay Ti dis
 youwant Queres
