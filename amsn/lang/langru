@@ -4,7 +4,8 @@ acceptfile Accept file $1, size $2? Saved in $3
 accept Принять 
 actions Действия
 addacontact Добавить пользователя
-addedyou $1 ($2) добавил(а) вас в свой контакт-лист
+addedyou добавил(а) вас в свой контакт-лист
+addstate Добавить новый статус
 addtocontacts Добавить в контакт-лист
 addtoo Добавить этого пользователя в мой контакт-лист
 admincontacts Редактировать пользователей
@@ -35,6 +36,7 @@ bgcolor Изменить цвет фона aMSN
 blankdirect Оставить пустым для прямого соединения
 block Блокировать
 blocked Заблокировано
+blockmessage Эти люди сейчас в сети и заблокированы Вами
 broughtby Подготовлено для Вас следующими разработчиками
 browse Найти
 browser Браузер
@@ -49,7 +51,7 @@ chatreq Запрос чата
 chatsmileys2 Отображать иконки чата и смайлики в окнах чата
 chatsmileys Смайлики
 chat Чат
-chat Чат
+chatmaxmin Когда контакт открывает окно чата, я хочу, чтобы оно было:
 checkfilman Полученные файлы будут сохранены в $1. Проверьте настройки файлового менеджера в окне настроек
 checkingver Проверка новой версии
 checkver Новая версия
@@ -64,9 +66,12 @@ close Закрыть
 closingdocks Закрыть док
 command Команда
 confirmdelete Вы уверены что хотите удалить $1?
+connected Соединение установлено.
 confirm Вы  уверены?
 connecterror Ошибка соединения с сервером
+connecting Соединение...
 connection Соединение
+connectionlost Отключен. Соединение с сервером разорвано.
 contactadded Пользователь добавлен
 contactdoesnotexist Пользователь не существует
 copy Копировать
@@ -82,13 +87,18 @@ delete Удалить
 deliverfail Произошла ошибка при попытке доставить следующее сообщение
 delprofile2 Выберите профайл, который подлежит удалению
 delprofile Удалить профайл
+directconnection Прямой выход в Интернет (порт 1863)
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk GNOME-Докинг
 docking Докинг
 dockingoff Выключить Докинг
 dockkde KDE-Докинг
 edit Редактировать
+editnewstate Новое персональное сообщение для автостатуса
 editprofile Редактировать профайл
+editstate Редактировать существующее сообщение для автостатуса
 enableproxy Включить прокси
+enableremote Включить удаленный контроль
 encoding2 Выберите кодировку, в которой Вы желаете отправлять сообщения
 encoding Выберите кодировку
 entercontactemail Введите контактный e-mail
@@ -103,8 +113,17 @@ fileman Менеджер файлов
 filename Имя файла
 filetransfercancelled Передача файла отменена
 filetransfercomplete Передача файла завершена
-ftaccepted Передача Файла принята
-ftrejected Передача Файла не принята
+ftacceptedby $1 согласился принять файл '$2'
+ftaccepted Передача Файла разрешена
+ftaccepting Разрешаем передачу файла
+ftconnecterror Ошибка соединения с удаленным хостом
+ftconnecting Соединяемся с $1 порт $2
+ftconnectionlost Соединение с удаленным хостом потеряно
+ftgotinvitation $1 хочет постать вам файл $2 ($3 байт(а)). Он будет сохранен в каталоге $4. Хотите ли вы принять этот файл?
+ftportpref Использовать этот и последующие порты для передачи файлов
+ftrejectedby $1 отказался принять файл '$2'.
+ftrejected Передача Файла не разрешена
+ftsendinvitation Запрос на передачу файла '$2' ($3 байт(а)) был отправлен $1. 
 gonelunch Ушел поесть
 groupadd Добавить группу
 group Группа
@@ -121,10 +140,12 @@ helpcontents Помощь
 help Помощь
 history История
 home Домой
+httpconnection Соединятся по HTTP протоколу (порт 80)
 ident Идентификация
 identity Идентичность
 inbox Входящие
 invalidusername Неправильное имя пользователя
+invitationcancelled Приглашение было отозвано
 invite Пригласить
 ipaddress IP адрес
 ipdetect Определять IP-адрес для передачи файлов по HTTP
@@ -166,6 +187,7 @@ maximised Развернуто на весь экран
 minimised Свернуто
 mins минут
 mobile Мобильный
+morepersonal Еще статус ->
 movetogroup Переместить в группу
 msgmaxmin Когда приходит новое сообщение я хочу чтобы оно было:
 msgmode Выберите поведение нескольких окон с сообщениями:
@@ -180,7 +202,7 @@ natip Определение IP по веб странице
 natkeepalive Если связь с сервером часто рвется включите этот keep-alive
 needonline Вы до сих пор отключены
 newmail $1 новых сообщение во Входящих
-newmailfrom Новая почта от $1 ($2)
+newmailfrom Новая почта от
 newmsg Новое сообщение
 newveravailable Новая версия $1 доступна для скачивания
 next Следующая
@@ -188,7 +210,9 @@ noactivity Нет активности
 nologfile Не вести лог-файл для $1
 nonewmail Нет новых сообщений во Входящих
 nonewver Нет новых версий для скачивания
+no Нет
 normal Нормальный
+nosystemtray Системная панель недоступна
 notify1 Оповещать когда контакты входят в сеть
 notify2 Оповещать когда получено новое сообщение
 notify3 Оповещать когда получен новый e-mail
@@ -218,6 +242,7 @@ port Порт
 prefalerts Звуки и оповещения о событиях 
 prefapps Приложения
 prefawaymsg Сообщения для статуса "Ушел" 
+prefconnection Настройка соединения
 prefemotic Иконки и смайлики
 preferences Настройки
 preffont2 Поменять вид отображения моих сообщений
@@ -233,6 +258,7 @@ prefprofile2 Создать/Изменить Ваш профайл (Ваше \n описание, доступное другим по
 prefprofile3 Профайл конфигурации пользователя aMSN
 prefprofile Мой публичный профайл
 prefproxy Настройки прокси-сервера
+prefremote Настройка удаленного соединения
 prefsession Вход в сеть и статус
 prefshared Разделение соединения (только для NAT)
 prefsound Звуки
@@ -243,8 +269,10 @@ profiles Профайлы
 properties Свойства
 proxyconfhttp настройка поддержки http прокси
 proxyconf настройка прокси
+proxyconnection Использовать прокси-сервер
 proxy Использовать прокси-сервер (HTTP или SOCKS5)
 publishphones Публиковать номера моих телефонов
+raised Восстановленный
 receivedbytes Получено $1 из $2 байт
 receivefile Получить файл
 reconnecting Повторное подключение 
@@ -267,6 +295,7 @@ sentbytes Отправлено $1 из $2 байт
 servergoingdown Отключено: сервер в дауне
 server Сервер
 session Сессия
+showblockedlist Показывать список людей, которые вас блокируют
 sound2 Издавать звук когда контакт входит в сеть или шлет сообщение
 soundcommand Команда для проигрывания звуков (напр.: esdplay)
 soundfile Звуковой Файл
@@ -276,6 +305,12 @@ soundstatus Звуковое Оповещение
 sound Звук событий
 startoffline2 Входить в сеть со статусом "Псевдо-Отключен"
 startoffline Запуск в отключенном состоянии
+stateautomsg Сообщение автоответчика
+stateedittext Измените поля, ктоторы вы хотите \n изменить, и нажмите Сохранить
+stateinfo Настройка персоняльного статуса
+state Я хочу быть виден как
+statename Название персонального статуса
+statenewtext Веедите необходимую информацию для создания \n нового персонального статуса и нажмите Сохранить
 status Статус
 stopalarm Остановить Оповещение
 stylechat Принять вид чата
@@ -288,18 +323,25 @@ title Al's Messenger
 to Кому
 tools инструменты
 transnotexists Запрошенный файл еще не был переведен на выбранный Вами язык
+traynotcompiled Плагин системной панели не скомпилирован.
 unblock Разблокировать
 uoffline Отключиться
 uonline Подключиться
 useralreadyonlist Пользователь уже добавлен в контакт-лист
+userblocked Пользователь в сети, но заблокирован вами
 user Пользователь
 usernotonline Пользователь не в сети
+useryourself Хотите поговорить сами с собой? Нельзя :)
+verifyblocked Проверить наличие людей, которые вас блокируют
 version Версия
 view Вид
 viewprofile Просмотреть профайл
 willjoin Ожидание пока $1 вступит в разговор 
 work Работа
+wrongprofileversion Версия конфигурации профайла некорректна. Чтобы исправить, удалите каталог $1 или обновите aMSN
 xoffset Сдвиг по оси X
+yes Да
 yoffset Сдвиг по оси Y
+youblocked Вы были заблокированы
 yousay Вы говорите
 youwant Вы хотите
