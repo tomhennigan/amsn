@@ -25,3 +25,5 @@ If you reaches a translation by any reason, do it with politeness, explain argum
 
 What should I do if...
 -...I receive two lang files of the same language? Reject one, the oldest, or the less complete.
+
+When you get big contributions (not just 1 or 2 keys), or when you see a person usually send translation updates for a language, you should add him to the credits in the README file. You should tell him about this, and ask him if he wants to be removed (nobody wanted to be removed until now, but it's polite to ask :))
