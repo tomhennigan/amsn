@@ -754,7 +754,7 @@ namespace eval ::MSNFT {
       
       #Monitor messages from the receiving host in a file transfer
       catch {fconfigure $sockid -blocking 1}
-      if {[catch{gets $sockid datos} res]} {
+      if {[catch {gets $sockid datos} res]} {
          status_log "::MSNFT::MonitorTransfer: Transfer failed: $res\n"
 	 cancelFT $cookie
          return
