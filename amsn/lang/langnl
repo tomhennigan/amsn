@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Over...
+accept Aanvaard
 acceptfile Accepteer bestand $1, omvang $2? opgeslagen in $3
 actions Acties
 addacontact Voeg een contact toe
@@ -9,6 +10,8 @@ addtoo Voeg deze persoon toe aan mijn contactenlijst
 admincontacts Beheer contacten
 admingroups Beheer groepen
 adverts Advertenties
+alarmpref Alarm instellingen voor de huidige gebruiker
+alarmstatus Schakel alarm aan/uit voor de huidige gebruiker
 allowseen Sta deze persoon toe om te zien wanneer ik online ben en om mij 
 appearoff Doe alsof je offline bent
 aretyping $1 zijn bezig met typen
@@ -22,8 +25,10 @@ block Blokkeer
 blocked Geblokkeerd
 broughtby Aangeboden door de volgende ontwikkelaars
 browser Browser
+browse Verkennen
 busy Bezig
 cancel Annuleren
+cfgalarm Alarm configureren/toevoegen/verwijderen
 changenick Verander Schermnaam
 chatack Aanvaard chat van
 chat Chat
@@ -58,6 +63,8 @@ filedoesnotexist Bestand bestaat niet
 filename Bestandsnaam
 filetransfercancelled Bestandsverzending geannuleerd
 filetransfercomplete Bestandsverzending klaar
+ftaccepted Bestand transfer geaccepteerd
+ftrejected Bestand transfer afgewezen
 gonelunch Uit eten
 groupadd Voeg een groep toe
 groupdelete Verwijder een groep
@@ -128,6 +135,8 @@ other Andere
 pager Beeper
 pass Paswoord
 phone Telefoon
+picfile Alarm beeldbestand (GIF < 500 x 500 pixels)
+picstatus Schakel alarm beeldbestand aan/uit
 port Poort
 prefapps Programma's
 preferences Instellingen
@@ -140,6 +149,7 @@ receivedbytes $1 van $2 bytes ontvangen
 receivefile Ontvang bestand
 reconnecting Bezig met opnieuw verbinden met de server
 reconnect Wachten tot $1 opnieuw verbindt
+reject Afwijzen
 rememberpass Bewaar wachtwoord
 rightback Onmiddellijk terug
 saveas Opslaan als
@@ -154,9 +164,13 @@ send Verzend
 sentbytes $1 van $2 bytes verzonden
 servergoingdown De server gaat offline
 server Server
+soundfile Alarm geluidsbestand
 sound Geluid 
+soundloop Geluid blijven herhalen
+soundstatus Schakel alarm geluid aan/uit
 startoffline Begin offline
 status Status
+stopalarm Stop het alarm
 syntaxerror Syntaxfout
 te contacteren
 textsize Tekstgrootte

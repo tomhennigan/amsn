@@ -1,6 +1,7 @@
 amsn_lang_version 2
 about Lidhje me
 acceptfile Pranoje skedën $1, madhësia $2? E ruajtur në $3
+accept pranoj
 actions Akcionet
 addacontact Shto një kontakt
 addedyou Të ka shtuar listën e kontakteve të tij/a
@@ -9,6 +10,8 @@ addtoo Shtoje këtë person në listën e kontakteve të mija
 admincontacts Rregullo kontaktet
 admingroups Rregullo grupet
 adverts Reklamat
+alarmpref Alarmoj Mjedis për përdorues
+alarmstatus ndez/fik Alarmoj për kjo përdorues
 allowseen Lejoje këtë person të më shohë dhe të më kontaktojë kur unë jam në linjë
 appearoff Paraqitu si jasht linjës
 aretyping $1 janë duke shtypur porosi
@@ -21,9 +24,11 @@ blankdirect Lëre të zbrazët për lidhje direkte
 block Bllokoje
 blocked I/e Bllokuar
 broughtby Sjellur tek ju nga
+browse hedh një sy
 browser Shfletues
 busy I zënë
 cancel Anulo
+cfgalarm Configure/Shtoj/Heq Alarmoj
 changenick Ndërro nikun
 chatack Duke pranuar bisedën
 chat Bisedo
@@ -33,6 +38,7 @@ checkingver Duke shikuar për version të ri
 checkver Shiko për version të ri
 choosebasefont Zgjedh llojin e shkronjave
 choosebgcolor Zgjedh ngjyren e prapavise
+choosefontcolor Zgjedh font e ngjyrë
 clicktologin Kliko këtu për të hyrë
 close Mbylle
 closingdocks Close button docks window
@@ -56,6 +62,8 @@ filedoesnotexist Skeda nuk ekziston
 filename Emri i skedës
 filetransfercancelled Transferi i skedës u anulua
 filetransfercomplete Transferi i skedës përfundoi
+ftaccepted Transferi i skedës pranuar
+ftrejected Transferi i skedës refuzoj
 gonelunch Gone to lunch
 groupadd Shto një grup
 groupdelete Fshije një grup
@@ -80,6 +88,7 @@ ipaddress IP Adresa
 istyping $1 është duke shtypur porosi
 joins $1 $2 i bashkangjitet bisedës
 language Gjuha
+lastmsgtime i/e Fundit mesazh marrura në $1
 leaveblankforhotmail Lëre zbrazët për hotmail web
 leaves $1 e la bisedën
 listeningon Duke dëgjuar në portin $1
@@ -121,6 +130,8 @@ other Tjëter
 pager Pejgjer
 pass Fjalëkalim
 phone Telefon
+picfile Alarmoj Pikturë Dosje (GIF < 500 x 500)
+picstatus ndez/fik Alarmoj Pikturë
 port Port
 prefapps Aplikacion
 preferences Preferencat
@@ -133,6 +144,7 @@ receivedbytes U pranua $1 nga $2 bajt
 receivefile Prano skedën
 reconnect Duke pritur $1 që të lidhet prap
 reconnecting Duke u lidhur prap me serverin
+reject Refuzoj
 rememberpass Mbaje në mend fjalëkalimin
 rightback Kthehm së shpejti
 saveas Ruaje si
@@ -148,8 +160,12 @@ sentbytes $1 u dërgua $2 bajt
 servergoingdown U ç'kyç: Serveri u ndal
 server Serveri
 sound Event Sound
+soundfile Alarmoj Tingull Dosje
+soundloop Unazë Tingull
+soundstatus ndez/fik Alarmoj Tingull
 startoffline Lëshoje jasht linjës
 status Statusi
+stopalarm Pushoj Alarmoj
 syntaxerror  Error sintaksor
 textsize Madhësia e tekstit
 title Al's Messenger
