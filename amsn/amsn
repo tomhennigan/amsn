@@ -325,7 +325,6 @@ proc cmsn_draw_main {} {
    menu .options -tearoff 0 -type normal -background #D0D0E0
    .options add command -label "[trans changenick]..." -state disabled \
       -command cmsn_change_name -state disabled
-   .options add command -label "[trans proxyconf]..." -command cmsn_proxy
    .options add cascade -label "[trans preferences]..." -menu .pref_menu
    .options add separator
    .options add cascade -label "[trans language]" -menu .lang_menu
@@ -372,6 +371,8 @@ proc cmsn_draw_main {} {
    image create photo boffline -file ${images_folder}/boffline.gif
    image create photo baway -file ${images_folder}/baway.gif
    image create photo bbusy -file ${images_folder}/bbusy.gif
+
+   image create photo notifico -file ${images_folder}/notifico.gif
 
    image create photo blocked -file ${images_folder}/blocked.gif
    
@@ -709,14 +710,7 @@ proc cmsn_draw_online {} {
       set user_state_no [lindex $user 2]
       set state [lindex $list_states $user_state_no]
       set state_code [lindex $state 0]
-      if { ($state_code == "FLN" || $config(showonline) != 0) \
-        && ($state_code != "FLN" || $config(showoffline) != 0) } {
 
-      if {($state_code != "NLN") && ($state_code !="FLN")} {
-         set state_desc " ([trans [lindex $state 1]])"
-      } else {
-         set state_desc ""
-      }
       set colour [lindex $state 2]
       set section [lindex $state 3]
       
@@ -725,41 +719,52 @@ proc cmsn_draw_online {} {
       } else {
         incr offlinenum
       }
-      
-      
-      set image_type [lindex $state 4]
-      if {[lsearch $list_bl "$user_login *"] != -1} {
-         set image_type "blocked"
-	 if {$state_desc == ""} {set state_desc " ([trans blocked])"}
-      }
-        .main.text tag conf $user_login -fore $colour
 
 
-      .main.text mark set new_text_start end
-      .main.text insert $section.last "$user_name$state_desc\n" $user_login
+      if { ($state_code == "FLN" || $config(showonline) != 0) \
+        && ($state_code != "FLN" || $config(showoffline) != 0) } {
 
-        .main.text image create $section.last -image $image_type -pady 1 -padx 3
-        .main.text insert $section.last "      "
-        .main.text tag bind $user_login <Enter> \
-            ".main.text tag conf $user_login -under true;.main.text conf -cursor hand2"
-        .main.text tag bind $user_login <Leave> \
-            ".main.text tag conf $user_login -under false;.main.text conf -cursor left_ptr"
-        .main.text tag bind $user_login <Button-3> "show_umenu $user_login %X %Y"
-         if { $state_code !="FLN" } {
-           .main.text tag bind $user_login <Double-Button-1> \
-	     "cmsn_chat_user $user_login"
+         if {($state_code != "NLN") && ($state_code !="FLN")} {
+            set state_desc " ([trans [lindex $state 1]])"
+            } else {
+            set state_desc ""
          }
+      
+         
+         set image_type [lindex $state 4]
+         if {[lsearch $list_bl "$user_login *"] != -1} {
+            set image_type "blocked"
+      	    if {$state_desc == ""} {set state_desc " ([trans blocked])"}
+         }
+           .main.text tag conf $user_login -fore $colour
 
 
-     }
+         .main.text mark set new_text_start end
+         .main.text insert $section.last "$user_name$state_desc\n" $user_login
+
+         .main.text image create $section.last -image $image_type -pady 1 -padx 3
+         .main.text insert $section.last "      "
+         .main.text tag bind $user_login <Enter> \
+             ".main.text tag conf $user_login -under true;.main.text conf -cursor hand2"
+         .main.text tag bind $user_login <Leave> \
+            ".main.text tag conf $user_login -under false;.main.text conf -cursor left_ptr"
+         .main.text tag bind $user_login <Button-3> "show_umenu $user_login %X %Y"
+          if { $state_code !="FLN" } {
+            .main.text tag bind $user_login <Double-Button-1> \
+	        "cmsn_chat_user $user_login"
+         }
+   
+
+      }
    }
-
-   .main.text insert online.last " ($onlinenum)\n" online
-   .main.text insert offline.last " ($offlinenum)\n" offline
 
    if $config(listsmileys) {
      smile_subst .main.text
    }  
+
+   .main.text insert online.last " ($onlinenum)\n" online
+   .main.text insert offline.last " ($offlinenum)\n" offline
+
    .main.text configure -state disabled
 }
 
@@ -1427,7 +1432,7 @@ proc cmsn_draw_notify {} {
    pack .notify.c
 
    .notify.c create image 75 50 -image $im 
-   .notify.c create image 20 25 -image bonline
+   .notify.c create image 20 25 -image notifico
    
    set notify_id [.notify.c create text 75 50 -font splainf \
       -justify center -width 145]
