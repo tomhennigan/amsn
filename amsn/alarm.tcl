@@ -125,15 +125,15 @@ proc alarm_cfg { user } {
    pack .alarm_cfg.sound1 -side top -padx 10 -pady 2 -anchor w -fill x
    checkbutton .alarm_cfg.button -text "[trans soundstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_sound_st) -font splainf
    checkbutton .alarm_cfg.button2 -text "[trans soundloop]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_loop) -font splainf
-   pack .alarm_cfg.button -side top -anchor w -expand true
-   pack .alarm_cfg.button2 -side top -anchor w -expand true
+   pack .alarm_cfg.button -side top -anchor w -expand true -padx 30
+   pack .alarm_cfg.button2 -side top -anchor w -expand true -padx 30
 
    frame .alarm_cfg.command1
    LabelEntry .alarm_cfg.command1.entry "[trans command]" my_alarms(${user}_command) 30
    pack .alarm_cfg.command1.entry -side left -expand true -fill x
    pack .alarm_cfg.command1 -side top -padx 10 -pady 2 -anchor w -fill x
    checkbutton .alarm_cfg.buttoncomm -text "[trans commandstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_oncommand) -font splainf
-   pack .alarm_cfg.buttoncomm -side top -anchor w -expand true
+   pack .alarm_cfg.buttoncomm -side top -anchor w -expand true -padx 30
 
    frame .alarm_cfg.pic1
    LabelEntry .alarm_cfg.pic1.entry "[trans picfile]" my_alarms(${user}_pic) 30
@@ -142,7 +142,7 @@ proc alarm_cfg { user } {
    pack .alarm_cfg.pic1.browse -side left
    pack .alarm_cfg.pic1 -side top -padx 10 -pady 2 -anchor w -fill x
    checkbutton .alarm_cfg.buttonpic -text "[trans picstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_pic_st) -font splainf
-   pack .alarm_cfg.button -side top -anchor w -expand true
+   pack .alarm_cfg.button -side top -anchor w -expand true -padx 30
 
    checkbutton .alarm_cfg.alarm -text "[trans alarmstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}) -font splainf
    checkbutton .alarm_cfg.alarmonconnect -text "[trans alarmonconnect]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onconnect) -font splainf
@@ -150,11 +150,11 @@ proc alarm_cfg { user } {
    checkbutton .alarm_cfg.alarmonstatus -text "[trans alarmonstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onstatus) -font splainf
    checkbutton .alarm_cfg.alarmondisconnect -text "[trans alarmondisconnect]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_ondisconnect) -font splainf
 
-   pack .alarm_cfg.alarm -side top -anchor w -expand true
-   pack .alarm_cfg.alarmonconnect -side top -anchor w -expand true
-   pack .alarm_cfg.alarmonmsg -side top -anchor w -expand true
-   pack .alarm_cfg.alarmonstatus -side top -anchor w -expand true
-   pack .alarm_cfg.alarmondisconnect -side top -anchor w -expand true 
+   pack .alarm_cfg.alarm -side top -anchor w -expand true -padx 30
+   pack .alarm_cfg.alarmonconnect -side top -anchor w -expand true -padx 30
+   pack .alarm_cfg.alarmonmsg -side top -anchor w -expand true -padx 30
+   pack .alarm_cfg.alarmonstatus -side top -anchor w -expand true -padx 30
+   pack .alarm_cfg.alarmondisconnect -side top -anchor w -expand true  -padx 30
 
    frame .alarm_cfg.b -class Degt
    button .alarm_cfg.b.save -text [trans ok] -command "save_alarm_pref $user; destroy .alarm_cfg" -font sboldf
