@@ -4615,13 +4615,13 @@ namespace eval ::MSNP2P {
 		# Get values from the header
 		set idx [expr [string first "\r\n\r\n" $data] + 4]
 		set headend [expr $idx + 48]
-		#binary scan [string range $data $idx $headend] iiwwiiiiw cSid cId cOffset cTotalDataSize cMsgSize cFlags cAckId cAckUID cAckSize
-		binary scan [string range $data $idx $headend] iiiiiiiiiiii cSid cId cOffsetL cOffsetH cTotalDataSizeL cTotalDataSizeH cMsgSize cFlags cAckId cAckUID cAckSizeL cAckSizeH
+	    
+	        binary scan [string range $data $idx $headend] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2
 
-		#WARNING!!! Ignoring high bytes of 64bits integer, bad???
-		set cOffset $cOffsetL
-		set cTotalDataSize $cTotalDataSizeL
-		set cAckSize $cAckSizeL
+	        set cOffset [int2word $cOffset1 $cOffset2]
+	        set cTotalDataSize [int2word $cTotalDataSize1 $cTotalDataSize2]
+   	        set cAckSize [int2word $cAckSize1 $cAckSize2]
+
 
 		status_log "Read header : $cSid $cId $cOffset $cTotalDataSize $cMsgSize $cFlags $cAckId $cAckUID $cAckSize\n" red
 
@@ -5066,4 +5066,10 @@ namespace eval ::MSNP2P {
 proc binword { word } {
 
     return [binary format ii [expr $word % 4294967296] [expr ( $word - ( $word % 4294967296)) / 4294967296 ]]
+
+}
+
+
+proc int2word { int1 int2 } {
+    return [expr $int2 * 4294967296 + $int1]
 }

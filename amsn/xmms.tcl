@@ -37,6 +37,6 @@ if {[info exist found]} {
 
   if {$playing == "0"} { msg_box [trans xmmserr]; return 0 }
 
-  ::amsn::MessageSend .${win_name} 0 "Playing: $playing"
+  ::amsn::MessageSend .${win_name} 0 "[trans playing $playing]"
  }
 }
