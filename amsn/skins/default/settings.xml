@@ -38,12 +38,14 @@
 
 
    <Colors>
-     <Mainwindowbg>#aaaaaa</Mainwindowbg>
-     <Chatwindowbg>#cccccc</Chatwindowbg>
-     <Buttonbarbg>#fefefe</Buttonbarbg>
-     <Topbarbg>#ffffff</Topbarbg>
-     <Topbartext>#000000</Topbartext>
-   </Colors>
+     <mainwindowbg>#aaaaaa</mainwindowbg>
+     <chatwindowbg>#cccccc</chatwindowbg>
+     <buttonbarbg>#fefefe</buttonbarbg>
+     <topbarbg>#ffffff</topbarbg>
+     <topbartext>#000000</topbartext>
+     <chatborders>1</chatborders>
+     <chatpady>3</chatpady>
+    </Colors>
 
 
    <smileys>
