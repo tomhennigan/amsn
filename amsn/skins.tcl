@@ -236,11 +236,15 @@ proc selectskinok { w } {
 
 
 proc SetBackgroundColors {cstack cdata saved_data cattr saved_attr args} {
-    global bgcolor bgcolor2
+    global bgcolor bgcolor2 menubgcolor menufgcolor menuactivebgcolor menuactivefgcolor
     upvar $saved_data sdata
     
     if { [info exists sdata(${cstack}:background1)] } { set bgcolor [string trim $sdata(${cstack}:background1)] }
     if { [info exists sdata(${cstack}:background2)] } { set bgcolor2 [string trim $sdata(${cstack}:background2)] }
+    if { [info exists sdata(${cstack}:menubgcolor)] } { set menubgcolor [string trim $sdata(${cstack}:menubgcolor)] }
+    if { [info exists sdata(${cstack}:menufgcolor)] } { set menufgcolor [string trim $sdata(${cstack}:menufgcolor)] }
+    if { [info exists sdata(${cstack}:menuactivebgcolor)] } { set menuactivebgcolor [string trim $sdata(${cstack}:menuactivebgcolor)] }
+    if { [info exists sdata(${cstack}:menuactivefgcolor)] } { set menuactivefgcolor [string trim $sdata(${cstack}:menuactivefgcolor)] }
 
     return 0
 }

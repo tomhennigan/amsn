@@ -78,7 +78,7 @@ namespace eval ::themes {
 	    if {[string index $key 0] == "-"} {
 	        set key [string range $key 1 end]
 	    }
-	    if {($type != "") && ($type != "*")} {
+	    if {($type != "") && ($type != "*") && [string index $type 0] != "."} {
 	    	# i.e. class.Label.background #AABBCC,(widget specific)
 	    	# otherwise  class.background #AABBCC (global)
 		set type ".$type"

@@ -1,7 +1,7 @@
 package require AMSN_BWidget
 
 if { $initialize_amsn == 1 } {
-	global bgcolor bgcolor2
+	global bgcolor bgcolor2 menubgcolor menufgcolor menuactivebgcolor menuactivefgcolor
 	
 	init_ticket putmessage
 
@@ -11,6 +11,19 @@ if { $initialize_amsn == 1 } {
 	if { ![info exists bgcolor2] } {
 		set bgcolor2 #D0D0F0
 	}
+	if { ![info exists menubgcolor] } {
+		set menubgcolor #eae7e4 
+	}
+	if { ![info exists menufgcolor] } {
+		set menufgcolor #000000 
+	}
+	if { ![info exists menuactivebgcolor] } {
+		set menuactivebgcolor #565672
+	}
+	if { ![info exists menuactivefgcolor] } {
+		set menuactivefgcolor #ffffff
+	}
+
 
 	#Virtual events used by Button-click
 	#On Mac OS X, Control emulate the "right click button"
@@ -41,7 +54,7 @@ namespace eval ::amsn {
 	##PUBLIC
 
 	proc initLook { family size bgcolor} {
-		global config tcl_platform
+		global config tcl_platform menubgcolor menufgcolor menuactivebgcolor menuactivefgcolor
 
 		font create menufont -family $family -size $size -weight normal
 		font create sboldf -family $family -size $size -weight bold
@@ -66,6 +79,16 @@ namespace eval ::amsn {
 		option add *Menu.font menufont
 		option add *background $bgcolor
 		option add *selectColor #DD0000
+
+		# some menu options to make em look nicer
+		option add *Menu.background $menubgcolor 
+		option add *Menu.foreground $menufgcolor
+		option add *Menu.relief raised
+		option add *Menu.borderWidth 1
+		option add *Menu.activeBorderWidth 1
+		option add *Menu.activeBackground $menuactivebgcolor
+		option add *Menu.activeForeground $menuactivefgcolor
+		
 		#Use different width for scrollbar on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			option add *Scrollbar.width 15 userDefault
@@ -3401,7 +3424,7 @@ proc cmsn_draw_main {} {
 	menu .copy_group_menu -tearoff 0 -type normal
 
 	#Main menu
-	menu .main_menu -tearoff 0 -type menubar  -borderwidth 0 -activeborderwidth -0
+	menu .main_menu -tearoff 0 -type menubar -borderwidth 0 -activeborderwidth -0
 
 	#Change the name of the main menu on Mac OS X(TK Aqua) for "File"
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
