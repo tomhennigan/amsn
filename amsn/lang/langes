@@ -28,6 +28,8 @@ appearance Apariencia
 appearoff Sin conexión
 areacode Código de area
 aretyping $1 están escribiendo un mensaje
+autoaccepted Transferencia de archivo aceptada automáticamente
+autoacceptft Aceptar archivos automáticamente en transferencias
 autoaway Mostrarme "Ausente" cuando no hay actividad en
 autoconnect2 Conectarse automáticamente cuando se inicia aMSN
 autoconnect Conectar al arrancar amsn
@@ -43,6 +45,7 @@ baduserpass Nombre de usuario o contraseña incorrectos
 bgcolor Cambia el color de fondo de aMSN
 blankdirect Dejar en blanco para conexión directa
 blocked Bloqueado
+blockedyougroup Mostrar un grupo aparte con los contactos que te bloquean
 blocking Bloqueo
 blockinter1 Cuando estás en estado Conectado, comprobar cada:
 blockinter2 segundos, si no comprobar cada :
@@ -247,6 +250,7 @@ nologfile No existe archivo de historial para $1
 nonewmail No hay mensajes nuevos en bandeja de entrada
 nonewver No hay versiones más actuales disponibles
 no No
+noprofileexists Actualmente no existe ningún perfil. \n Debes crear uno si quieres usar los perfiles de usuario. \nUsa el botón "Añadir un perfil" en esta ventana para crearlo.
 normal Normal
 nosystemtray Bandeja del sistema no disponible
 notify1_5 Mostrar ventana de aviso cuando un contacto se desconecte
@@ -281,6 +285,7 @@ prefapps Aplicaciones
 prefawaymsg Mi mensajes de ausente
 prefblock1 Comprobar cuando se desconecta
 prefblock2 Comprobar continuamente
+prefblock3 Grupo "Has sido bloqueado por..."
 prefconnection Configuración de la conexión
 prefemotic Emoticonos y smileys.
 preferences Preferencias
@@ -305,6 +310,7 @@ prefshared Conexiones compartidas (sólo para NAT)
 prefsound Sonidos
 privacy Privacidad
 profiledconfig Información de perfil
+profileexists No se puede crear un perfil con este nombre de usuario,\n ya existe uno con el mismo nombre. Por favor elige otro.
 profileinuse Este perfil está siendo usado por otra sesión de amsn, por favor elige otro.
 profileloginradio Usar un Perfil existente
 profiles Perfiles
