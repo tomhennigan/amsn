@@ -110,7 +110,15 @@ filename Bestandsnaam
 filetransfercancelled Bestandsverzending geannuleerd
 filetransfercomplete Bestandsverzending klaar
 ftaccepted Bestand transfer geaccepteerd
+ftacceptedby $1 accepteert het versturen van het bestand '$2'
+ftaccepting accepteer de bestandsoverdracht
+ftconnecterror Fout in de verbinding met de contactpersoon
+ftconnecting  Verbind met $1 via poort $2
+ftconnectionlost De verbinding met de andere gebruiker is verbroken
+ftgotinvitation $1 wil je '$2' ($3 bytes) overdragen. Het wordt opgeslagen in de map:  $4. Wil je dit bestand aannemen?
 ftrejected Bestand transfer afgewezen
+ftrejectedby $1 weigerde de overdracht van '$2'.
+ftsendinvitation De uitnodiging om het bestand '$2' ($3 bytes) te versturen, is verstuurd naar $1
 gonelunch Lunchpauze
 groupadd Voeg een groep toe
 groupdelete Verwijder een groep
@@ -132,6 +140,7 @@ ident Bezig met identificeren
 identity Identiteit
 inbox Inbox
 invalidusername Uw gebruikersnaam is fout.
+invitationcancelled De bestandsoverdracht is geweigerd
 invite Nodig uit
 ipaddress IP adres
 ipdetect Detecteer correcte IP-adres voor Bestandsoverdracht via HTTP
@@ -193,6 +202,7 @@ newveravailable Nieuwere versie $1 beschikbaar
 next Volgende
 noactivity Geen activiteit
 nologfile Geen logboek voor $1
+no nee
 nonewmail 0 nieuwe berichten in In-Box
 nonewver Er zijn geen nieuwere versies beschikbaar
 normal Normaal
@@ -318,6 +328,7 @@ willjoin Wachten tot $1 de conversatie zal bijwonen
 work werk
 wrongprofileversion Verkeerde profiel configuratiebestand versie. Om te repareren, gelieve directorie $1 te verwijderen, of Amsn te updaten.
 xoffset X-positie
+yes ja
 yoffset Y-positie
 youblocked Je bent geblokkeerd geworden
 yousay Jij zegt

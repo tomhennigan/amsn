@@ -110,7 +110,15 @@ filename Bestânsnamme
 filetransfercancelled Bestânsferstjoering annuleard
 filetransfercomplete Bestânsferstjoering klear
 ftaccepted Bestânsferstjoering oannôm
+ftacceptedby $1 akseptearet de bestansferstjoer-utnoeching foar het bestan: '$2'
+ftaccepting Akseptear de bestansferstjoering
+ftconnecterror Ferbyningsflater mei de oare kompjoeter
+ftconnecting Ferbynt nei $1 mei poarte $2
+ftconnectionlost Ferbyning mei de oare kompjoer bist kwyt
+ftgotinvitation $1 wol dy '$2' ($3 bytes) stjoere. kinst t werom fyne yn dizze map:  $4. Wolst dit bestan echt oannimme?
 ftrejected Bestânsferstjoering âfwesen
+ftrejectedby $1 kitste de bestansferstjoering fan het bestan '$2' of.
+ftsendinvitation Bestansferstjoering-utnoeching foar het bestan '$2' ($3 bytes) is fertsjoerd nei $1
 gonelunch Itenspauze
 groupadd Foeg in groep ta
 groupdelete Smit in groep foart
@@ -132,6 +140,7 @@ identity Identiteit
 ident Oan't identificearje
 inbox Inbox
 invalidusername Dyn gebrûkersnamme is net júst.
+invitationcancelled bestansferstjoering is ofkitst
 invite Noegje út
 ipaddress IP-adres
 ipdetect Detektear júste IP-adres foar bestânsoerdracht troch HTTP
@@ -194,6 +203,7 @@ next Folgende
 ng
 noactivity Gjin aksje
 nologfile Gjin logboek foar $1
+no nee
 nonewmail Gjin berjochten yn In-Box
 nonewver D'r binne gjin neiere fersys beskikber
 normal Normaal
@@ -317,6 +327,7 @@ willjoin Wachtsje tot $1 de konfersaasje bywenjen sil
 work wurk
 wrongprofileversion Ferkearde profylkonfiguraasje-fersie. Om het te reparearjen, moast het bestan $1 fuortsmite, of amsn efkes update
 xoffset X-posysje
+yes ja
 yoffset Y-posysje
 youblocked Do bist blokkeart
 yousay Do seist

@@ -110,7 +110,15 @@ filename Fichier
 filetransfercancelled Transfert de fichier annulé
 filetransfercomplete Transfert de fichier terminé
 ftaccepted Transfert de fichier accepté
+ftacceptedby $1 accepte l'invitation de transfert de fichier pour le fichier '$2'.
+ftaccepting Acceptez l'invitation de transfert de fichier
+ftconnecterror Erreur de connexion à l'hôte distant
+ftconnecting Connexion à $1 port $2
+ftconnectionlost Connexion avec l'hôte distant perdu
+ftgotinvitation $1 veut vous envoyer le fichier '$2' ($3 bytes). Il sera sauvegardé dans le répertoire $4. Voulez-vous recevoir ce fichier ?
 ftrejected Transfert de fichier refusé
+ftrejectedby $1 a refusé l'invitation de transfert de fichier pour le fichier '$2'.
+ftsendinvitation L'invitation de transfert du fichier '$2' ($3 bytes) a été envoyé à $1.
 gonelunch Parti[e] manger
 groupadd Ajouter un groupe
 groupdelete Supprimer un groupe
@@ -132,6 +140,7 @@ ident Identification
 identity Identité
 inbox Boîte aux lettres
 invalidusername Utilisateur incorrect
+invitationcancelled L'invitation a été annulée
 invite Invitation
 ipaddress Adresse IP
 ipdetect Détection de l'IP exacte pour les transferts de fichier utilisant HTTP
@@ -192,6 +201,7 @@ newmailfrom Nouveau message de $1 ($2)
 newmsg Nouveau message
 newveravailable Nouvelle version disponible
 next Suivant
+no Non
 noactivity Inactif
 nologfile Pas de fichier journal pour $1
 nonewmail Pas de nouveau message
@@ -317,6 +327,7 @@ willjoin Dans l'attente que $1 rejoigne la conversation
 work Travail
 wrongprofileversion Mauvaise version du fichier de profil. Afin de la fixer, enlevez svp le répertoire $1, ou mettez à jour amsn
 xoffset Position en X
+yes Oui
 yoffset Position en Y
 youblocked Vous avez été bloqué
 yousay Vous avez dit

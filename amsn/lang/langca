@@ -110,7 +110,15 @@ filename Nom del fitxer
 filetransfercancelled S'ha cancel·lat la transferència
 filetransfercomplete La transferència del fitxer ha finalitzat
 ftaccepted Transferència de fitxers acceptada
+ftacceptedby $1 ha acceptat la invitació per la transferència del fitxer '$2'.
+ftaccepting Acceptant la invitació per la transferència de fitxers
+ftconnecterror Error connectant amb l'usuari remot
+ftconnecting Connectant amb $1 pel port $2
+ftconnectionlost S'ha perdut la connexió amb l'usuari remot
+ftgotinvitation $1 et vol enviar el fitxer '$2' ($3 bytes). Serà desat al directori $4. Vols rebre el fitxer?
 ftrejected Transferència de fitxers rebutjada
+ftrejectedby $1 ha rebutjat la invitació per la transferència del fitxer '$2'.
+ftsendinvitation La invitació per la transferència del fitxer '$2' ($3 bytes) ha sigut enviada a $1.
 gonelunch Estic menjant
 groupadd Afegir un grup
 groupdelete Esborrar un grup
@@ -132,6 +140,7 @@ ident Identifica
 identity Identitat
 inbox Bústia
 invalidusername Nom d'usuari invàlid
+invitationcancelled La invitació ha sigut cancel·lada
 invite Convida
 ipaddress Adreça IP
 ipdetect Detectar l'adreça IP correcta per transferències de fitxers utilitzant HTTP
@@ -191,6 +200,7 @@ newmailfrom Nou missatge de correu de $1 ($2)
 newmsg Nou missatge
 newveravailable La versió $1 està disponible per a baixar-se
 next Següent
+no No
 noactivity Sense activitat
 nologfile No existeix fitxer d'historial per $1
 nonewmail No hi ha missatges nous a la bústia
@@ -316,6 +326,7 @@ willjoin Esperant que $1 s'uneixi a la conversa
 work Treball
 wrongprofileversion Versió incorrecta del fitxer de configuració del perfil. Per arreglar-ho, esborra el directori $1 o actualitza l'aMSN
 xoffset Desplaçament X
+yes Sí
 yoffset Desplaçament Y
 youblocked Has estat bloquejat
 yousay Dius
