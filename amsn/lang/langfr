@@ -1,5 +1,5 @@
 amsn_lang_version 2
-about À Propos...
+about À propos de...
 accept Accepter
 acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
 actions Actions
@@ -11,10 +11,11 @@ admincontacts Gérer les contacts
 admingroups Gérer les groupes
 adverts Publicité
 alarmpref configuration alarme utilisateur
-alarmstatus Activer/Désactiver l'alarme pour cet utilisateur
+alarmstatus Activer/désactiver l'alarme pour cet utilisateur
 allowseen Autoriser cette personne à me voir et à me contacter quand je
 appearoff Apparaître déconnecté
 aretyping $1 est en train de taper un message
+autoconnect Connection automatique au lancement
 autohotmaillog Identification automatique à Hotmail
 autoidle diminution automatique de la consommation processeur lors d'inactivité
 autoip IP automatique
@@ -42,7 +43,7 @@ choosebgcolor Choisir la couleur de fond
 choosefontcolor Choisir la couleur de police
 clicktologin Cliquez pour vous connecter
 close Fermer
-closingdocks Bouton fermer dock l'application
+closingdocks Le bouton fermer ancre l'application
 command Commande
 confirmdelete Confirmer suppression
 confirm êtes vous sûr?
@@ -72,8 +73,8 @@ filedoesnotexist Le fichier n'existe pas
 filename Fichier
 filetransfercancelled Transfert de fichier annulé
 filetransfercomplete Transfert de fichier terminé
-ftaccepted Transfère de fichier accepté
-ftrejected Transfère de fichier refusé
+ftaccepted Transfert de fichier accepté
+ftrejected Transfert de fichier refusé
 gonelunch Parti[e] déjeuner
 groupadd Ajouter un groupe
 groupdelete Supprimer un groupe
@@ -100,12 +101,12 @@ joins $1 a rejoint la conversation
 keepalive Garder la connection ouverte
 language Langage
 lastmsgtime Dernier message reçu à $1
-leaveblankforhotmail Laisse vide pour un compte hotmail
+leaveblankforhotmail Laisser vide pour un compte Hotmail
 leaves $1 a quitté la conversation
 listeningon A l'écoute sur le port $1
-listsmileys Lister les "smileys"
+listsmileys Liste des "smileys"
 loadcontacts Charger la liste de contacts
-loggedotherlocation Deconnecte. Connecte depuis un autre endroit.
+loggedotherlocation Deconnecté. Connecté depuis un autre endroit.
 loggingin est en cours de connexion
 loginas Se connecter en tant que
 login Se connecter
@@ -118,7 +119,7 @@ msg Message
 msn AMSN
 mustrestart Vous devez redémarrer l'application pour que les changements 
 mystatus Mon état
-natip détection du IP par page web
+natip détection de l'adresse IP par page web
 needonline Vous êtes toujours déconnecté!
 neweravailable nouvelle version disponible ($1)
 newmail $1 nouveaux messages
@@ -130,7 +131,7 @@ noactivity Inactif
 nonewmail 0 nouveau[x] message[s]
 nonewver Il n'y a pas de nouvelle version disponible
 notify prévenir
-notifywin fenetre de notification
+notifywin fenêtre de notification
 nousersinsession Pas d'utilisateurs dans cette session
 offline Déconnecté
 ok Accepter
@@ -178,7 +179,7 @@ server Serveur
 sound Événements Sonores
 soundfile Fichier son associé à l'alarme
 soundloop Jouer le son en boucle
-soundstatus Activer/Désariver l'alarme sonore
+soundstatus Activer/Désactiver l'alarme sonore
 startoffline Démarrer déconnecté
 status Statut
 stopalarm Stopper l'alarme
@@ -191,7 +192,7 @@ tools Outils
 unblock Débloquer
 uoffline Déconnectés
 uonline Connectés
-useralreadyonlist Utilisateur présent dans la liste
+useralreadyonlist Utilisateur déjà présent dans la liste
 user Utilisateur
 version Version
 view Vue

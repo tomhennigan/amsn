@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Über
+accept Annehmen
 acceptfile Datei $1 (Größe: $2) annehmen? In $3 gespeichert
 actions Aktionen
 addacontact Kontakt hinzufügen
@@ -9,10 +10,14 @@ addtoo Diese Person meiner Kontaktliste hinzufügen
 admincontacts Verwaltung - Kontakte
 admingroups Verwaltung - Gruppen
 adverts Werbung
+alarmpref Benachrichtigung für diesen Benutzer konfigurieren
+alarmstatus Benachrichtigung für diesen Benutzer an/ausschalten
 allowseen Dieser Person ermöglichen, zu sehen, wenn ich online bin, und Kontakt mit mir aufzunehmen
 appearoff Als offline anzeigen
 aretyping $1 geben Nachrichten ein
+autoconnect Automatische Anmeldung beim Starten
 autohotmaillog Automatische Anmeldung bei Hotmail
+autoidle Automatische Senkung des Prozessorverbrauchs wenn inaktiv
 autoip Automatische IP
 avoidseen Dieser Person nicht ermöglichen, zu sehen, wenn ich online bin, und Kontakt mit mir aufzunehmen
 away Abwesend
@@ -21,9 +26,11 @@ blankdirect Bei direkter Verbindung leer lassen
 block Blockieren
 blocked Blockiert
 broughtby Von diesen Entwickler für dich gebracht
+browse Navigieren
 browser Browser
 busy Beschäftigt
 cancel Abbrechen
+cfgalarm Benachrichtigung konfigurieren/hinzufügen/löschen
 changenick Namen ändern
 chatack Chat annehmen von
 chat Chat
@@ -39,12 +46,20 @@ close Schließen
 closingdocks Schaltfläche "Schließen" koppelt Fenster
 command Befehl
 confirmdelete $1 wirklich löschen?
+confirm Sind Sie sicher?
 connecterror Verbindungsaufbau zum Server fehlgeschlagen!
 contactadded Kontakt hinzugefügt
 contactdoesnotexist Kontakt nicht vorhanden!
+copy Kopieren
 copytogroup Kopieren zur Gruppe
+cut Ausschneiden
 date Datum
 delete Löschen
+dockgtk In GTK festankern
+docking Festankern eingeschaltet
+dockingoff Festankern ausgeschaltet
+dockkde In KDE festankern
+edit Ändern
 enableproxy Proxy aktivieren
 encoding Encoding auswählen
 entercontactemail Gib eine E-Mail-Adresse ein
@@ -53,10 +68,13 @@ enternick Gib deinen Namen ein
 examples Beispiele
 exitamsn Wirklich beenden?
 extras Extras
+faq Am häufigsten gestellte Fragen
 filedoesnotexist Datei nicht vorhanden
 filename Dateiname
 filetransfercancelled Übertragung abgebrochen
 filetransfercomplete Übertragung abgeschlossen
+ftaccepted Übertragung angenommen
+ftrejected Übertragung abgewiesen
 gonelunch Mittagspause
 groupadd Gruppe hinzufügen
 groupdelete Gruppe löschen
@@ -80,6 +98,7 @@ invite Einladen
 ipaddress IP-Adresse
 istyping $1 gibt eine Nachricht ein
 joins $1 wurde dem Chat hinzugefügt
+keepalive Die Verbindung offen halten
 language Sprache
 lastmsgtime Letzte Nachricht angekommen am $1
 leaveblankforhotmail Leer lassen, um Hotmail zu benutzen
@@ -100,6 +119,7 @@ msg Nachricht
 msn AMSN
 mustrestart Änderungen werden erst nach einem Neustart übernommen
 mystatus Mein Status
+natip Die IP-Adresse über Webseite ausfindig machen
 needonline Du bist noch immer offline bzw. wirst als offline angezeigt!
 newmail $1 neue Nachrichten im Posteingang
 newmailfrom Neue E-Mail von
@@ -110,6 +130,7 @@ noactivity inaktiv
 nonewmail 0 neue Nachrichten im Posteingang
 nonewver Zurzeit keine neue Version verfügbar
 notify Benachrichtigen
+notifywin Benachrichtigungsfenster
 nousersinsession Keine Benutzer in Sitzung
 offline Offline
 ok OK
@@ -122,7 +143,10 @@ ordercontactsby Kontakte sortieren nach
 other Andere
 pager Pager
 pass Passwort
+paste Einfügen
 phone Telefon
+picfile Mit der Benachrichtigung verbundenes Bild (GIF < 500 x 500)
+picstatus Mit der Benachrichtigung verbundenes Bild ein/ausschalten
 port Port
 prefapps Anwendungen
 preferences Einstellungen
@@ -135,6 +159,7 @@ receivedbytes $1 von $2 Bytes empfangen
 receivefile Datei empfangen
 reconnecting Erneute Anmeldung beim Server
 reconnect Warte, bis $1 wieder angemeldet ist
+reject Abweisen
 rememberpass Passwort speichern
 rightback Bin gleich zurück
 saveas Speichern unter
@@ -150,8 +175,12 @@ sentbytes $1 von $2 Bytes gesendet
 servergoingdown Verbindungsabbruch: Serverfehler
 server Server
 sound Akustische Signale
+soundfile Mit der Benachrichtigung verbundene Klang-Datei
+soundloop Den Klang unendlisch abspielen
+soundstatus Akustisches Signal ein/ausschalten
 startoffline Offline-Modus beim Start
 status Status
+stopalarm Benachrichtigung stoppen
 syntaxerror  Syntaxfehler
 textsize Textgröße
 title Al's Messenger

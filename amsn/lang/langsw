@@ -15,6 +15,7 @@ alarmstatus Stäng av /sätt på signal för den här kontakten.
 allowseen Tillåt denna person att se när jag är uppkopplad och kontakta mig.
 appearoff Visa som offline
 aretyping $1 skriver ett meddelande
+autoconnect Automatisk anslutning
 autohotmaillog Automatisk inloggning
 autoidle Sätt min status till Inte vid datorn automatiskt.
 autoip Automatisk IP
