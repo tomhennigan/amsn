@@ -1232,7 +1232,6 @@ namespace eval ::plugins {
 		puts -nonewline $fid "$content"
 		close $fid
 
-
 		set id [::sxml::init $filename]
 		sxml::register_routine $id "plugin" "::plugins::XML_OnlinePlugin_CVS"
 		sxml::register_routine $id "plugin:lang" "::plugins::XML_OnlinePlugin_Lang"
@@ -1247,7 +1246,6 @@ namespace eval ::plugins {
 	proc XML_OnlinePlugin_CVS { cstack cdata saved_data cattr saved_attr args } {
 
 		upvar $saved_data sdata
-
 
 		catch {set ::plugins::plgonlineversion $sdata(${cstack}:cvs_version)}
 		catch {set ::plugins::plgonlinerequire $sdata(${cstack}:amsn_version)}

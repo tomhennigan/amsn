@@ -799,9 +799,9 @@ namespace eval ::lang {
 		set w ".updatelangplugin"
 	
 		foreach langcode $langcodes {
-		
+			set langname [::lang::ReadLang $langcode name]
 			if { [winfo exists $w] } {
-				$w.update.txt configure -text "Updating $langcode..."
+				$w.update.txt configure -text "Updating $langname..."
 			}
 
 			set onlineversion [::lang::ReadOnlineLang $langcode version]

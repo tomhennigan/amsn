@@ -566,8 +566,8 @@ namespace eval ::ChatWindow {
 
 		# PostEvent 'new_conversation' to notify plugins that the window was created
 		if { $::ChatWindow::first_message($win_name) == 1 } {
-			set evPar(chatid) $chatid
-			set evPar(usr_name) $usr_name
+			set evPar(chatid) chatid
+			set evPar(usr_name) usr_name
 			::plugins::PostEvent new_conversation evPar
 		}
 
@@ -1169,11 +1169,12 @@ namespace eval ::ChatWindow {
 		$viewmenu add checkbutton -label "[trans showdisplaypic]" \
 			-command "::amsn::ShowOrHidePicture \[::ChatWindow::getCurrentTab $w\]" -onvalue 1 \
 		    -offvalue 0 -variable "${w}_show_picture"
-		$viewmenu add separator
+		
 
 		# Remove this menu item on Mac OS X because we "lost" the window instead
 		# of just hide it
 		if {[catch {tk windowingsystem} wsystem] || $wsystem != "aqua"} {
+			$viewmenu add separator
 			$viewmenu add command -label "[trans hidewindow]" \
 				-command "wm state \[::ChatWindow::getCurrentTab $w\] withdraw"
 		}

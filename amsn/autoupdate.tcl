@@ -662,16 +662,27 @@ namespace eval ::autoupdate {
 		$w.list setwidget $w.list.sf
 		pack $w.list -anchor n -side top -fill both
 		set frame [$w.list.sf getframe]
-
+		
+		#Language label
+		if {$::lang::UpdatedLang != ""} {
+			label $frame.langtext -text "[trans language]" -font sboldf
+			pack $frame.langtext -side top -fill x -expand true
+		}
+		#Checkbox for each language
 		foreach langcode $::lang::UpdatedLang {
 			set langname [::lang::ReadLang $langcode name]
-			checkbutton $frame.lang$langcode -onvalue 1 -offvalue 0 -text "$langname" -variable ::autoupdate::lang($langcode) -anchor w
+			checkbutton $frame.lang$langcode -onvalue 1 -offvalue 0 -text " $langname" -variable ::autoupdate::lang($langcode) -anchor w
 			pack configure $frame.lang$langcode -side top -fill x -expand true
 		}
-
+		#Plugin label
+		if {$::plugins::UpdatedPlugins != ""} {
+			label $frame.plugintext -text "[trans pluginselector]" -font sboldf
+			pack $frame.plugintext -side top -fill x -expand true
+		}
+		#Checkbox for each plugin
 		foreach plugin $::plugins::UpdatedPlugins {
 			set name [lindex $plugin 6]
-			checkbutton $frame.plugin$name -onvalue 1 -offvalue 0 -text "$name" -variable ::autoupdate::plugin($name) -anchor w
+			checkbutton $frame.plugin$name -onvalue 1 -offvalue 0 -text " $name" -variable ::autoupdate::plugin($name) -anchor w
 			pack configure $frame.plugin$name -side top -fill x -expand true
 		}
 		
