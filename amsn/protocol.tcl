@@ -1463,13 +1463,13 @@ namespace eval ::MSN {
 	  }
 
 	  if {[catch {eof $sb_sock} res]} {
-	     status_log "::MSN::chatReady: Error in the EOF command for $sbn socket($sb_sock): $res\n" red
+	     status_log "::MSN::chatReady: Error in the EOF command for $name socket($sb_sock): $res\n" red
 	     ::MSN::CloseSB $sbn
 	     return 0
 	  }
 
 	  if {[eof $sb_sock]} {
-	    status_log "::MSN::chatReady: EOF in $sbn socket($sb_sock)\n"
+	    status_log "::MSN::chatReady: EOF in $name socket($sb_sock)\n"
             ::MSN::CloseSB $sbn
 	    return 0
 	  }
