@@ -318,10 +318,11 @@ proc OpenLogWin { email } {
 		set logvar "\|\"LRED[trans nologfile $email]"
 	}
 
+
 	ParseLog $wname $logvar
-	
+
 	button $wname.buttons.close -text "[trans close]" -command "destroy $wname" -font sboldf
-	button $wname.buttons.save -text "[trans savetofile]" -command "::log::SaveToFile ${wname} ${email} {${logvar}}" -font sboldf
+	button $wname.buttons.save -text "[trans savetofile]" -command "::log::SaveToFile ${wname} ${email} [list ${logvar}]" -font sboldf
   	button $wname.buttons.clear -text "[trans clearlog]" -command "destroy $wname; ::log::ClearLog $email" -font sboldf
 
 	menu ${wname}.copypaste -tearoff 0 -type normal
@@ -427,7 +428,7 @@ proc SaveToFile { wname email logvar } {
 	frame $w.buttons -class Degt
 	pack $w.buttons -side bottom -fill x -pady 2m
 	button $w.buttons.dismiss -text Cancel -command "destroy $w"
-	button $w.buttons.save -text Save -command "::log::ParseToFile {${logvar}} $w.filename.entry; destroy $w"
+	button $w.buttons.save -text Save -command "::log::ParseToFile [list ${logvar}] $w.filename.entry; destroy $w"
 	pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
 
 	frame $w.filename -bd 2 -class Degt
