@@ -87,6 +87,7 @@ changedisplaypic 變更顯示圖片
 changefont 變更字型
 changeglobnick 更改全域暱稱
 changenick 更改暱稱
+changesize 變更尺寸
 changestate $1 切換狀態至 $2 
 charscounter 對話視窗中字數
 chatack 正在接受聊天從
@@ -108,10 +109,12 @@ choosecontact 請於清單中選擇一衛連絡人
 choosefontcolor :  選擇字型顏色
 chooseskin 請選擇您想使用的面板
 ch_to_state 切換到新的狀態
+clear 清除
 clearlog2 清除所有連絡人的歷史紀錄
 clearlog3 清除所有記錄
 clearlog 清除紀錄
 clicktologin 請按這裡登入
+clientname 客服端名稱
 close 關閉
 closed 因為發呆所以與 $1 的對話已經被關閉
 closingdocks 關閉docks視窗
@@ -121,6 +124,7 @@ confirm 你確定要？
 confirmdelete 您確定要刪除 $1?
 confirmpurge 所有連絡人的圖片將會被刪除？ 你確定嗎？
 connected 您現在已經連接成功
+connectedwith 與$1已經連線
 connecterror 連結到伺服器時發生錯誤
 connecting 連線中
 connectionlost 斷線: 與伺服器關閉連線
@@ -149,6 +153,8 @@ customnick 自訂暱稱
 customstyle 自訂風格
 cut 剪下
 date 日期
+dateformat 更改日期格式
+day 日
 days 天
 dcprofile 不要建立個人設定檔
 defaultloginradio 使用預設值登入
@@ -167,7 +173,12 @@ disableprofiles 關閉個人設定檔 (在網咖或是公用電腦特別有用)
 disablessl 關閉SSL連線
 disableuserfonts 交談時不使用對方的字型,使用自己設定的字體
 disconnect $1 已經斷線.
+disconnectedfrom 與$1終止連線
 displaychat 顯示文字選項
+displayeventconnect 聯絡人上線時顯示
+displayeventdisconnect 聯絡人下線時顯示
+displayeventemail 接收到信件時顯示
+displayeventstate 聯絡人改變狀態時顯示
 displayp4context 顯示P4-Context欄位內容為訊息發送者
 displaypic 顯示圖片
 dockfreedesktop FreeDesktop (KDE3/Gnome2) 
@@ -198,6 +209,7 @@ entercontactemail 輸入連絡人的 e-mail
 enterfilename 請輸入一個檔案名稱
 enternick 輸入您的匿名
 errortls 安裝TLS 模組錯誤: 
+eventhistory 事件歷史紀錄
 examples 範例
 exitamsn 您確定要關閉?
 extras 增益集
@@ -283,6 +295,7 @@ lastlogin 最近一次登入
 lastlogout 最近一次登出
 lastmsgedme 最近一次訊息
 lastmsgtime 最後訊息時間 $1
+lastseen 上次上線時間
 lclosedwin $1 已經於 $2 關閉視窗
 lconftopriv 公開會議已經由$1更改為私人的聊天
 lconvstarted 對話開始於 $1 
@@ -299,6 +312,10 @@ ljoinedconf $1 已經加入會議
 lleftconf $1 已經離開會議
 loadcontacts 匯入連絡人清單
 logbigger 每位連絡人的紀錄檔案大小沒有上限
+logeventconnect 紀錄連線
+logeventdisconnect 紀錄離線
+logeventemail 郵件接收時紀錄
+logeventstate 使用者狀態變更時記錄
 logfandexp 紀錄檔過大或是歷史紀錄過期
 loggedotherlocation 離線. 已於其他電腦登入
 loggingin 正在登入
@@ -321,6 +338,7 @@ maximised 最大化
 minimised 最小化/圖示化
 mins 分鐘
 mobile 大哥大
+month 月
 morepersonal 更多狀態 -> 
 move 搬移
 movetogroup 移至群組
@@ -344,6 +362,8 @@ needonline 您還是在離線中!
 needwinico 需要winico03.dll於plugin資料夾中才能縮小於工具列
 never 從不
 newmail $1 封新郵件在收件匣中
+newmailfolder 您在hotmail其他的信件夾中有$1封新的郵件
+newmailfromother 信件夾中有由$1 ($2)寄來的新郵件
 newmailfrom 新郵件從 $1 ($2)
 newmsg 新訊息
 newstate 新增個人狀態
@@ -370,6 +390,7 @@ notify1_75 連絡人變更狀態時顯示通知視窗
 notify1 連絡人上線時顯示通知視窗
 notify2 當收到新訊息時顯示通知視窗
 notify3 收到新的email時顯示通知視窗
+notify4 收到新郵件時顯示通知視窗
 notifyoffset 跳出型通知視窗位置
 notify 通知
 notifytimeout 通知視窗顯示時間,以千分之一秒為單位
@@ -387,6 +408,7 @@ openreceived 開啟已接收的檔案
 options 選項
 ordercontactsby 連絡人的排序依據
 ordergroupsby 由群組排序
+original 原始
 other 其他
 others 其他
 p4contextprefix 用此字串為P4-Context字首發送者
@@ -417,6 +439,7 @@ preffont 我的訊息文字
 prefft 檔案傳送, 點對點與 NAT 設定
 preflibs 程式庫目錄
 preflog1 我的歷史紀錄及登入選項
+preflogevent 我的事件記錄
 preflook 我的 aMSN Messenger 畫面
 prefmsging 我的訊息介面 
 prefname 我的 MSN Messenger 姓名/暱稱
@@ -496,6 +519,7 @@ smileconfig 自訂表情符號設定
 smilefile 表情符號檔名
 smileintro2 請編輯所需的欄位來自訂此表情符號 (請參考常見問答集)
 smileintro 請完成所需的欄位來建立新的自訂表情符號 (請參考常見問答集)
+snackfailed 載入Snack失敗, 恢復成預設值
 sngdblclick 單擊滑鼠開啟訊息視窗
 sound2 當連絡人登入或傳送訊息時播放聲音
 sound 事件音效
@@ -542,6 +566,7 @@ tlsinstallexp aMSN現在使用MSN通訊協定第九版, 該協定需要使用SSL安全連線.\n 為了能
 tlsinstall TLS模組安裝精靈
 tlsinstcompleted TLS 模組安裝成功 - 您現在應該可以順利使用MSN通訊協定第九版. 如果還是不行, 那您大概是沒有安裝正確的模組, 或是該模組不適合您的系統.
 to 給
+today 今日
 tools 工具
 tooltips 開啟工具提示
 transnotexists 所要求的檔案尚未被翻譯成現在使用的語言
@@ -577,7 +602,9 @@ xmmscurrent 顯示現在正在播放的歌曲
 xmmserr 沒有在播放, 或是您沒有安裝xmms-infopipe.
 xmmssend 傳送現正播放的歌曲
 xoffset X軸位置
+year 年
 yes 同意
+yesterday 昨日
 yoffset Y軸位置
 youblocked 你已經被他封鎖
 yousay 您說
