@@ -2951,7 +2951,7 @@ namespace eval ::amsn {
 
 		#We have a window for that chatid, raise it
 		raise ${win_name}
-		catch [list focus -force ${win_name}.f.bottom.in.input]
+		focus ${win_name}.f.bottom.in.input
 
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -5972,6 +5972,7 @@ proc toggle_status {} {
 	} else {
 		wm state .status normal
 		set status_show 1
+		raise .status
 		focus .status.enter
 	}
 }
