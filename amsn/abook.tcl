@@ -341,11 +341,17 @@ namespace eval ::abook {
 		if { [::config::getKey emailsincontactlist] } {
 			return $user_login
 		} else {
+			set nick [::abook::getNick $user_login]
 			set customnick [::abook::getContactData $user_login customnick]
 			if { $customnick != ""} {
-				return $customnick
+				#By default, quote backslashes and variables
+				set customnick [string map {"\\" "\\\\" "\$" "\\\$"} $customnick]
+				#Now, let's unquote the variables we want to replace
+				set customnick [string map {"\\\$nick" "\$nick" "\\\$user_login" "\$user_login"} $customnick]
+				#Return the custom nick, replacing backslashses and variables
+				return [subst -nocommands $customnick]
 			}  else {
-				return [::abook::getNick $user_login]
+				return $nick
 			}
 		}
 	}
@@ -575,8 +581,18 @@ namespace eval ::abookGui {
 		label $nbIdent.h1 -text [::abook::getNick $email] -font splainf -fg blue 
 		
 		label $nbIdent.customnickl -text "[trans customnick]:"
-		entry $nbIdent.customnickent -font splainf -bg white
-		$nbIdent.customnickent insert end [::abook::getContactData $email customnick]
+		frame $nbIdent.customnick
+		entry $nbIdent.customnick.ent -font splainf -bg white
+		menubutton $nbIdent.customnick.help -font sboldf -text "<-" -menu $nbIdent.customnick.help.menu
+		menu $nbIdent.customnick.help.menu
+		$nbIdent.customnick.help.menu add command -label [trans nick] -command "$nbIdent.customnick.ent insert insert \\\$nick"
+		$nbIdent.customnick.help.menu add command -label "Email" -command "$nbIdent.customnick.ent insert insert \\\$user_login"
+		$nbIdent.customnick.help.menu add separator
+		$nbIdent.customnick.help.menu add command -label [trans delete] -command "$nbIdent.customnick.ent delete 0 end"
+		
+		$nbIdent.customnick.ent insert end [::abook::getContactData $email customnick]
+		pack $nbIdent.customnick.ent -side left -expand true -fill x
+		pack $nbIdent.customnick.help -side left
 	
 		# The custom color frame
 		label $nbIdent.customcolor -text "[trans customcolor]:"
@@ -641,7 +657,7 @@ namespace eval ::abookGui {
 		grid $nbIdent.h -row 2 -column 0 -sticky e
 		grid $nbIdent.h1 -row 2 -column 1 -sticky w
 		grid $nbIdent.customnickl -row 3 -column 0 -sticky en
-		grid $nbIdent.customnickent -row 3 -column 1 -sticky wne
+		grid $nbIdent.customnick -row 3 -column 1 -sticky wne
 		grid $nbIdent.customcolor -row 4 -column 0 -sticky e
 		grid $nbIdent.customcolorf -row 4 -column 1 -sticky w
 	
@@ -697,6 +713,10 @@ namespace eval ::abookGui {
 		
 	}
 
+	proc CustomNickMenu { path x y } {
+
+	}
+	
 	proc ChangeColor { email w } {
 		global colorval_$email
 		set color  [SelectColor $w.customcolor.dialog  -type dialog  -title "[trans customcolor]" -parent $w]
@@ -723,7 +743,7 @@ namespace eval ::abookGui {
 	   global colorval_$email
 	set nbIdent [$w.nb getframe userdata]
 	set nbIdent [$nbIdent.sw.sf getframe]
-   	::abook::setContactData $email customnick [$nbIdent.customnickent get]
+   	::abook::setContactData $email customnick [$nbIdent.customnick.ent get]
         ::abook::setContactData $email customcolor [set colorval_$email]
    	destroy $w
 	unset colorval_$email
