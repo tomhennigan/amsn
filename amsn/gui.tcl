@@ -2431,7 +2431,7 @@ namespace eval ::amsn {
 		set itemcount [llength $itemlist]
 
 		#If just 1 user, and $skip flag set to one, just run command on that user
-		if { $itemcount == 1 && $skip == 1} {
+		if { $itemcount == 1 && $skip == 1 && $other == 0} {
 			eval $command [lindex [lindex $itemlist 0] 1]
 			return 0
 		}
