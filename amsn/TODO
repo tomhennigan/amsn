@@ -74,8 +74,9 @@ DONE	Make timer event configurable (functions already support this)
 
 	**Dock Issues :
 -	New message alert 
--	Bug if dock started while online
+DONE	Bug if dock started while online
 DONE	Refresh notification area when dock is removed (use destroy .immain??)
+-	Dock is "detaching" from notification area whenever any other icon is removed from notification area
 
 	**File Transfer issues :
 -	File Transfer AUTH protocol fix
@@ -95,11 +96,11 @@ DONE	Files with [] don't work? Check that and make sure.
 
 	**Alarm system improvements and bugs :
 DONE	URL Decode names when displaying alarm
--	Config seems to automagically disapear sometimes
--	On Connect/ On Msg / On status / On disconnect change alarms
+DONE	Config seems to automagically disapear sometimes
+DONE	On Connect/ On Msg / On status / On disconnect change alarms
 -	Allow alarms to run a command
 -	JPG Support
--	Alarms must be saved in a file.
+DONE	Alarms must be saved in a file.
 
 	**Loging system improvements and bugs :
 -	Add date limit or file size limit for log files
@@ -130,7 +131,9 @@ DONE	Reenable copy option for contact list (currently commented out)
 
 	***Extra Features (priority 3)***
 
--	New protocol version (MSNP8)
+DONE	Login with protocol version (MSNP9)
+-	Fix bug with MSNP9 if logging in with other domains in emails (passport.com, or other)
+-	Implement objet sending in MSNP9 (custom emoticons, shared backgground, buddy icons)
 -	Menu accelerators
 -	Be able to change thers font in chat (same as you, or different)
 DONE	Gnome2 Docking + KDE Docking
@@ -139,7 +142,7 @@ DONE	Gnome2 Docking + KDE Docking
 DONE	AutoAway Messages
 DONE	Encrypt password? (do we really need to? I think not)
 -	Resume File Transfers
--	Socks5 Proxy Support
+-	Socks5 Proxy Support with UserName/Password
 DONE	Option to popup/raise/unminimize message window on message receive
 -	Direct connection between amsn clients, without sb, real time chat.
 -	Better management of special characters and \n in nicks
