@@ -1048,7 +1048,7 @@ namespace eval ::amsn {
    # Called by the protocol layer when a message 'msg' arrives from the chat
    # 'chatid'.'user' is the login of the message sender, and 'user' can be "msg" to
    # send special messages not prefixed by "XXX says:". 'type' can be a style tag as
-   # defined in the OpenChatWindow proc, or just "user". If the tpye is "user",
+   # defined in the OpenChatWindow proc, or just "user". If the type is "user",
    # the 'fontformat' parameter will be used as font format.
    # The procedure will open a window if it does not exists, add a notifyWindow and
    # play a sound if it's necessary
@@ -4542,7 +4542,7 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	 set user_unique_name "$user_login[getUniqueValue]"
 
 	 # If user is not in the Reverse List it means (s)he has not
-	 # yet added/approved us. Show their name in yellow. A way
+	 # yet added/approved us. Show their name in pink. A way
 	 # of knowing how has a) not approved you yet, or b) has
 	 # removed you from their contact list even if you still
 	 # have them...
@@ -6492,4 +6492,3 @@ proc bgerror { args } {
 	wm transient $wintransient .
 	}
 	}
-	
