@@ -221,7 +221,7 @@ proc status_log {txt {colour ""}} {
    set timestamp [clock format [clock seconds] -format %H:%M:%S]
    .status.info insert end "\[$timestamp\] $txt" $colour
    .status.info yview moveto 1.0
-   puts -nonewline $txt
+#   puts -nonewline $txt
 
 }
 
@@ -800,7 +800,7 @@ proc delete_user {user_login} {
 proc send_mail {user_login} {
   global config
 
-  set mail_param $user_login #By default, just the address
+  set mail_param $user_login ;#By default, just the address
   if {[string first "balsa" $config(mailcommand)] != -1} {
       set mail_param "--compose=$user_login"
   } elseif {[string first "mozilla" $config(mailcommand)] != -1} {
