@@ -516,7 +516,7 @@ proc cmsn_draw_main {} {
 
 proc anti_idle {} {
   global idletime
-  status_log "Anti_idle\n"
+#  status_log "Anti_idle\n"
   set idletime 0
 }
 
