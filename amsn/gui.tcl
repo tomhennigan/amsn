@@ -2900,9 +2900,9 @@ namespace eval ::amsn {
 			set p4c 0	
 		}
 		
-		set evPar(0) $nick
-		set evPar(1) $msg
-		set evPar(2) $chatid
+		set evPar(nick) $nick
+		set evPar(msg) $msg
+		set evPar(chatid) $chatid
 		
 		::plugins::PostEvent chat_msg_send evPar
 		
@@ -3130,9 +3130,9 @@ namespace eval ::amsn {
 		#Return the custom nick, replacing backslashses and variables
 		set customchat [subst -nocommands $customchat]
 				
-		set evPar(0) $user
-		set evPar(1) [::abook::getDisplayNick $user]
-		set evPar(2) $msg
+		set evPar(user) $user
+		set evPar(nick) [::abook::getDisplayNick $user]
+		set evPar(msg) $msg
 		::plugins::PostEvent chat_msg_receive evPar
 				
 		WinWrite $chatid "$customchat" "says" $customfont
@@ -3422,9 +3422,9 @@ namespace eval ::amsn {
 			}
 		}
 
-		set evPar(0) $tagname
-		set evPar(1) ${win_name}
-		set evPar(2) $txt
+		set evPar(tagname) $tagname
+		set evPar(winname) ${win_name}
+		set evPar(msg) $txt
 		::plugins::PostEvent WinWrite evPar
 
 		${win_name}.f.out.text insert end "$txt" $tagid

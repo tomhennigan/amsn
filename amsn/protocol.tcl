@@ -3375,7 +3375,9 @@ proc cmsn_update_users {sb_name recv} {
 proc cmsn_change_state {recv} {
 
     #TODO: Enable feedback
-    set epvar(recv) $recv
+    set epvar(state) [lindex $recv 1]
+    set epvar(substate) [lindex $recv 2]
+    set epvar(user) [lindex $recv 3]
     ::plugins::PostEvent ChangeState epvar
 
 	if {[lindex $recv 0] == "FLN"} {
@@ -3527,9 +3529,9 @@ proc cmsn_change_state {recv} {
 		#Register last login and notify it in the events
 		::abook::setContactData $user last_login [clock format [clock seconds] -format "%D - %H:%M:%S"]
 		::log::eventconnect $custom_user_name
-		#Register PostEvent "UserConnect" for Plugins, 0 = email 1=custom nick
-		set evPar(0) $user
-		set evPar(1) $custom_user_name
+		#Register PostEvent "UserConnect" for Plugins, email = email user_name=custom nick
+		set evPar(email) $user
+		set evPar(user_name) $custom_user_name
 		::plugins::PostEvent UserConnect evPar
 		
 		if { ([::config::getKey notifyonline] == 1 && [::abook::getContactData $user notifyonline -1] != 0) ||
