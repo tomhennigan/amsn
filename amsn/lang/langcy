@@ -1,4 +1,3 @@
-amsn_lang_version 2
 about Ynghylch
 accept Derbyn
 acceptfile Derbyn ffeil $1, maint $2? Cadwyd yn $3
@@ -6,7 +5,7 @@ actions Gweithredu
 addacontact Ychwanegu cyswllt
 addedyou Mae $1 ($2) wedi eich ychwanegu i'w r/hestr cyswllt
 addprofile Ychwanegu Proffil Newydd
-addprofiledesc Rhowch fewngofnod yr hoffech greu proffil newydd ar ei gyfer. \nMae proffil mewngofnodi'n caniat u i chi gael ffurfweddiad gwahanol i bob mewngofnod.\nHeb broffiliau nid oes modd defnyddio Hanes, Larymau na chofio cyfrineiriau."
+addprofiledesc Rhowch fewngofnod yr hoffech greu proffil newydd ar ei gyfer. \nMae proffil mewngofnodi'n caniat u i chi gael ffurfweddiad gwahanol i bob mewngofnod.\nHeb broffiliau nid oes modd defnyddio Hanes, Larymau na chofio cyfrineiriau.
 addstate Cyflwr Newydd
 addto Ychwanegu at $1
 addtocontacts Ychwanegu i'r cyswllt
@@ -29,6 +28,7 @@ allowlist Rhestr Caniatáu (AL):
 allowonlyinal Caniatáu dim ond defnyddwyr ar fy Rhestr Caniatu i gysylltu â mi
 allowseen Caniat u i'r person yma i weld pryd rwyf ar-lein a chysylltu â mi
 allprofilesinuse Mae'r holl broffiliau presennol yn cael eu defnyddio
+amsn_lang_version 2
 animatedemoticon Mae'r emoticon wedi ei animeiddio
 animatedsmileys Galluogi gwenogluniau byw
 animatenotify Ffenestr Hysbysu Byw
@@ -42,6 +42,7 @@ autoaway Dangos fi fel "Allan" pan yn dawel am
 autocheckver Gwirio'n awtomatig am fersiwn newydd wrth gychwyn
 autoconnect Cysylltu wrth i aMSN gychwyn
 autoconnect2 Mewngofnodi'n awtomatig pan fo aMSN yn cychwyn
+autodetectip Canfod cyfeiriad IP yn awtomatig
 autohotmaillog Mewngofnodi Hotmail yn Awtomatig
 autoidle Dim Gweithgaredd Awtomatig
 autoip IP Awtomatig
@@ -64,11 +65,12 @@ blockinter4 eiliad.
 blocklist Rhestr Rhwystro (BL):
 blockmessage Mae'r rhain ar-lein ac yn eich rhwystro
 blockusers Nifer o ddefnyddwyr i'w gwirio ar unwaith 
-broughtby Cr‰wyd gan y datblygwyr canlynol
+broughtby Crëwyd gan y datblygwyr canlynol
 browse Pori
 browser Porwr
 browserexample (Bydd \$url yn cael ei amnewid gan URL), ee: mozilla \$url
 busy Prysur
+cachedpics $1 o luniau'n y storfa
 cancel Diddymu
 cannotdeleteprofile Methu dileu proffil am ei fod yn cael ei ddefnyddio mewn sesiwn aMSN
 cantexec Methu cychwyn rhaglen: $1. Gwiriwch y dewisiadau
@@ -82,13 +84,15 @@ changedisplaypic Newid darlun arddangos
 changefont Newid ffont
 changenick Newid llysenw
 changestate $1 yn newid cyflwr i $2
+charscounter Cyfri'r nodau yn ffenestr sgwrsio
 chat Sgwrs
 chatack Derbyn sgwrs gan
 chatmaxmin Pan fo cyswllt yn cychwyn sgwrsio dwi eisiau bod yn:
 chatreq Gofyn am sgwrs
 chatsmileys Gwenogluniau sgwrs
 chatsmileys2 Dangos Emoticons a Gwenogluniau mewn ffenestr sgwrs
-checkblocking Continuously check if users are blocking you
+checkblocking Gwirio'n barhaus os yw defnyddwyr yn eich rhwystro
+checkemail Dangos llinell hysbysu e-bost (blwch derbyn) yn rhestr cyswllt
 checkfilman Bydd ffeiliau sydd wedi eu derbyn yn cael eu cadw yn $1. Gwiriwch osodiadau'r rheolwr ffeiliau yn ffenestr eich dewisiadau.
 checkingver Gwirio am fersiynau newydd
 checkonfln Gwirio os yw defnyddiwr yn eich rhwystro pan fydd yn mynd all-lein
@@ -121,11 +125,13 @@ contactdoesnotexist Nid yw'r cysylltiad yn bod!
 contactlist Rhestr Gyswllt (FL):
 convertexplain Llwybr CONVERT y ffeil weithredol, gan ImageMagick (angenrheidiol ar gyfer Arddangos Darluniau).\n Gadael yn wag os yw CONVERT yn y llwybr
 copy Cop‹o
-copytogroup Cop‹o i'r grwp
+copytogroup Copïo i'r grwp
 corruptconfig Mae'r ffeil ffurfweddiad yn llwgr. Creu un newydd. Bydd yr hen ffeil yn cael ei gadw yn $1. Anfonwch gopi atom ni i ni gael gweld beth ddigwyddodd.
 corruptstates Mae ffurfweddiad y cyflwr arddull yn llwgr. Creu un newydd. Bydd yr hen ffeil yn cael ei gadw yn $1. Anfonwch gopi atom ni i ni gael gweld beth ddigwyddodd.
 countrycode Cod Gwlad/Ardal
 cprofile Creu Proffil
+credits Diolchiadau
+currentdate Dyddiad Heddiw
 custom_edit Golygu gwenoglun
 custom_new Ychwanegu gwenogluniau newydd
 cut Torri
@@ -157,6 +163,7 @@ dontdownload Peidio llwytho TLS, mi wna i ei osod fy hun
 dontshow Peidio dangos
 downloadingtls Llwytho modiwl TLS i lawr o:\n $1
 edit Golygu
+editcurrentstate Golygu'r presennol
 editcustomstate Golygu statws addasu
 editnewstate Cyflwr AwtoNeges Personol Newydd
 editprofile Golygu Proffil
@@ -202,6 +209,7 @@ ftrejected Gwrthodwyd trosglwyddo ffeil
 ftrejectedby Mae $1 wedi gwrthod y gwahoddiad i drosglwyddo ffeil '$2'.
 ftsendinvitation Mae gwahoddiad i drosglwyddo ffeil '$2' ($3 beit) wedi ei anfon at $1.
 fullcontactlist Yn anffodus mae eich rhestr cyswllt yn llawn. Bydd angen tynnu rhywfaint er mwyn ychwanegu rhai newydd. Ni fydd modd derbyn Lluniau Arddangos gan eraill
+getdisppic Galluogi derbyn Lluniau Dangos gan ddefnyddwyr eraill
 gonelunch Wedi mynd am ginio
 group Grwp
 groupadd Ychwanegu i grwp
@@ -209,7 +217,7 @@ groupdelete Dileu grwp
 groupexists Grwp yn bod yn barod
 groupmissing Methu canfod grwp
 groupnewname Enw newydd
-groupnotempty Nid yw'r grwp yn wâg!
+groupnotempty Nid yw'r grwp yn wag!
 groupoldname Hen enw
 grouprename Ailenwi grwp
 groupunknown Grwp anhysbys
@@ -231,6 +239,10 @@ insertsmiley Mewnosod Gwenoglun
 installconvert Rhaid gosod ImageMagick (rhaglen trosi) er mwyn defnyddio Eicon Ffrind a Gwenogluniau Addasu. Mae modd llwytho'r ffeilliau ar gyfer eich system weithredu o ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Os ydyw gennych eisioes mae hwn yn walI, anfonwch neges at yr awdur. Bydd y nodweddion hyn yn cael eu hanablu os fyddwch yn gosod ImageMagik yn nes ymlaen. Mae modd eu hail-osod drwy Dewisiadau.
 internalerror Gwall Gweinydd Mewnol
 invalidfile Nid yw ffeil $2 roddwyd ym maes "$1" yn bod neu nid yw'n ddarllenadwy
+invalidfile2 Methu creu enw ffeil $1, gwnewch yn siwr fod gennych y caniatâd angenrheidiol.
+invalidpic Nid yw'r llun yn bod
+invalidpicsize Mae'r llun yn rhy fawr, dewiswch un llai.
+invalidsound Nid yw'r ffeil sain yn bod
 invalidusername Enw defnyddiwr annilys
 invitationcancelled Mae'r gwahoddiad wedi ei ddiddymu
 invite Gwahoddiad
@@ -266,6 +278,7 @@ loginas Mewngofnodi fel
 loging Cofnodi
 logolder Dim ond cofnodi sgyrsiau digwyddodd yn ystod y
 logout Allgofnodi
+logsbydate Trefnu cofnod yn ôl dyddiad (Mae darllen hanes yn llwytho'n gynt)
 logsin newydd fewngofnodi
 logsmileys Dangos Emoticons a Gwenogluniau yn ffenestri hanes aMSN
 logsout newydd allgofnodi
@@ -323,6 +336,7 @@ notify3 Dangos ffenestr hysbysu pan fydd negeseuon yn cyrraedd eich Blwch Derbyn
 notifyoffset Gosod safle'r ffenestr hysbysu wrth osod atred ei safle
 notifytyping Anfon hysbysiad i ddefnyddwyr eraill pan yn teipio
 notifywin Ffenestr Hysbysu
+notinlist Nid ydych ar ei r/hestr cyswllt
 notls Mae Protocol MSN 9 angen pecyn tls. Nid yw'r pecyn i'w weld wedi ei osod ar eich peiriant Os yw wedi ei osod, dylai'r llwybr i'r cyfeiriadur llyfrgell gael ei enwi yn ffenestr Dewisiadau (ee: /opt/tls/lib). \n \n Mae'n bosib llwytho tls o http://tls.sf.net.
 nousersinsession Dim defnyddwyr ar gael
 offline All-lein
@@ -359,6 +373,7 @@ preferences Dewisiadau
 preffont Testun fy Neges
 preffont2 Newid y ffordd mae eraill yn gweld fy nhestun mewn sgyrsiau
 preffont3 Newid ffont a maint rhyngwyneb aMSN
+prefft Gosodiadau trosglwyddo ffeiliau, cyfoed i gyfoed a NAT
 preflibs Cyfeiriadur llyfrgelloedd
 preflog1 Dewisiadau Hanes a Mewngofnodi
 preflook Gwedd Negesydd aMSN
@@ -400,6 +415,7 @@ reconnecting Ailgysylltu â'r gweinydd
 reject Gwrthod
 rememberpass Cofio cyfrinair
 removefromlist Tynnu o'r rhestr
+rename Ailenwi
 reversed Gwrthdroi
 reverselist Rhestr Gwrthdroi (RL):
 rightback Nôl mewn eiliad
@@ -423,6 +439,7 @@ servergoingdown Datgysylltwyd: Mae'r gweinydd yn torri
 serverunavailable Nid yw'r gweinydd ar gael
 session Sesiwn
 showblockedlist Dangos rhestr o'r rhai sydd wedi eich rhwystro
+showcachedpics Dangos lluniau yn y storfa
 showdisplaypic Dangos Darlun Arddangos
 showdisplaypic2 Dangos Darlun Arddangos trwy rhagosodiad pan mae'r ffenestr sgwrsio yn agor
 showmypic Darlun Arddangos
@@ -455,6 +472,7 @@ stateedittext Golygwch y meysydd rydych \nam eu newid a phwyso Cadw
 stateinfo Ffurfweddiad Cyflwr Personol
 statename Enw'r Cyflwr Personol
 statenewtext Llanwch y wybodaeth angenrheidiol i greu\n eich Cyflwr Personol a phwyso Cadw
+statenick Addasu llys enw  (gadael yn wag am ddim newid)
 status Statws
 stopalarm Larwm Atal
 storenickname Dychwelyd i'r llysenw gwreiddiol ar ôl cyflwr a llysenw dros dro
@@ -501,7 +519,7 @@ willjoin Disgwyl i $1 ymuno â'r sgwrs
 work Gwaith
 wrongfields Nid yw meysydd "$1", "$2" a/neu "$3" yn ddilys
 wrongprofileversion Fersiwn ffeil ffurfweddu anghywir. Er mwyn cywiro, tynnwch gyfeiriadur $1, neu ddiweddaru aMSN
-xmmscurrent Dangos y gƒn bresennol
+xmmscurrent Dangos y gân bresennol
 xmmserr Does dim yn chwarae, neu nid yw xmms-infopipe wedi ei osod.
 xmmssend Anfon y gân bresennol
 xoffset Atred X
