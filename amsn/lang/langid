@@ -97,6 +97,7 @@ closed Percakapan dengan $1 ditutup karena tidak aktif
 close Tutup
 closingdocks Tombol Tutup mengecilkan window
 command Perintah
+commandstatus Jalankan Perintah
 confirm Apakah anda yakin?
 confirmdelete Apakah anda yakin untuk menghapus $1?
 connected Sekarang anda tersambung

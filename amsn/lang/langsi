@@ -97,6 +97,7 @@ clicktologin Pritisni tukaj za prijavo
 closed Povezava z $1 zaprta zaradi neaktivnosti
 close Zapri
 closingdocks Gumb za zaprtje minimira okno
+commandstatus Izvedi ukaz
 command Ukaz
 confirm Ali si preprican ?
 confirmdelete Ali si preprican, da bos zbrisal $1?
