@@ -131,8 +131,8 @@ namespace eval ::plugins {
 			plugins_log core "Registering an event for an unknown plugin...\n"
 			return; # Bye Bye
 		}
-		set pluginidx [lindex [lsearch -glob $::plugins::found "*$plugin*"] 0]
-		if { $pluginidx == "" } {
+		set pluginidx [lsearch -glob $::plugins::found "*$plugin*"]
+		if { $pluginidx == -1 } {
 			return
 		}
 		set namespace [lindex [lindex $::plugins::found $pluginidx] 6]
@@ -166,8 +166,8 @@ namespace eval ::plugins {
 		# get the event list
 		variable pluginsevents
 
-		set pluginidx [lindex [lsearch -glob $::plugins::found "*$plugin*"] 0]
-		if { $pluginidx == "" } {
+		set pluginidx [lsearch -glob $::plugins::found "*$plugin*"]
+		if { $pluginidx == -1 } {
 			return
 		}
 		set namespace [lindex [lindex $::plugins::found $pluginidx] 6]
@@ -199,8 +199,8 @@ namespace eval ::plugins {
 	proc UnRegisterEvents { plugin } {
 		# event list
 		variable pluginsevents
-		set pluginidx [lindex [lsearch $::plugins::found *$plugin*] 0]
-		if { $pluginidx == "" } {
+		set pluginidx [lsearch $::plugins::found *$plugin*]
+		if { $pluginidx == -1 } {
 			return
 		}
 		set namespace [lindex [lindex $::plugins::found $pluginidx] 6]
@@ -849,8 +849,8 @@ namespace eval ::plugins {
 		plugins_log core "Unloading plugin $plugin\n"
 		set loadedplugins [lreplace $loadedplugins [lsearch $loadedplugins "$plugin"] [lsearch $loadedplugins "$plugin"]]
 		UnRegisterEvents $plugin
-		set pluginidx [lindex [lsearch -glob $::plugins::found "*$plugin*"] 0]
-		if { $pluginidx == "" } {
+		set pluginidx [lsearch -glob $::plugins::found "*$plugin*"]
+		if { $pluginidx == -1 } {
 			return
 		}
 		set namespace [lindex [lindex $::plugins::found $pluginidx] 6]
@@ -999,8 +999,8 @@ namespace eval ::plugins {
 		puts $file_id  "<?xml version=\"1.0\"?>\n\n<config>"
 		plugins_log core "I will save the folowing: $knownplugins\n"
 		foreach {plugin} $knownplugins {
-			set pluginidx [lindex [lsearch -glob $::plugins::found "*$plugin*"] 0]
-			if { $pluginidx != "" } {
+			set pluginidx [lsearch -glob $::plugins::found "*$plugin*"]
+			if { $pluginidx != -1 } {
 				set namespace [lindex [lindex $::plugins::found $pluginidx] 6]
 				status_log "NAMESPACE: $namespace\n"
 				puts $file_id "<plugin>\n<name>${plugin}</name>"
