@@ -91,6 +91,89 @@ namespace eval ::MSN {
    #   ::MSN::WriteNS REM "AL $userlogin"
    }   
 
+   proc inviteFT { sbn filename } {
+      #Invitation to filetransfer, initial message
+      variable trid 
+      variable atransfer
+
+      if { [catch {set filesize [file size $filename]} res]} {
+	::amsn::errorMsg "File does not exist"
+      }
+
+      set sock [sb get $sbn sock]
+
+      #Calculate a random cookie
+      set cookie [expr {$trid * $filesize % (65536 * 4)}]
+
+      set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+      set msg "${msg}Application-Name: File Transfer\r\n"
+      set msg "${msg}Application-GUID: {5D3E02AB-6190-11d3-BBBB-00C04F795683}\r\n"
+      set msg "${msg}Invitation-Command: INVITE\r\n"
+      set msg "${msg}Invitation-Cookie: $cookie\r\n"
+      set msg "${msg}Application-File: [file tail $filename]\r\n"
+      set msg "${msg}Application-FileSize: $filesize\r\n\r\n"
+      set msg_len [string length $msg]
+
+      incr trid
+      puts $sock "MSG $trid N $msg_len"
+      puts -nonewline $sock $msg
+
+      status_log "Invitation to $filename sent\n" red
+
+      #Change to allow multiple filetransfer
+      set atransfer [list $cookie $filename $filesize $sbn ]
+
+   }
+
+   proc acceptFT {cookie sbn} {
+      #Send the acceptation for a file transfer, request IP
+      set sock [sb get $sbn sock]
+
+      set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+      set msg "${msg}Invitation-Command: ACCEPT\r\n"
+      set msg "${msg}Invitation-Cookie: $cookie\r\n"
+      set msg "${msg}Launch-Application: FALSE\r\n"
+      set msg "${msg}Request-Data: IP-Address:\r\n\r\n"
+
+      set msg_len [string length $msg]
+      incr ::MSN::trid
+      puts $sock "MSG $::MSN::trid N $msg_len"
+      puts -nonewline $sock $msg
+
+      status_log "Accepting filetransfer sent\n" red
+
+   }
+
+
+   proc rejectFT {sbn cookie} {
+      #Send the cancelation for a file transfer, request IP
+      set sock [sb get $sbn sock]
+
+      set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+      set msg "${msg}Invitation-Command: CANCEL\r\n"
+      set msg "${msg}Invitation-Cookie: $cookie\r\n"
+      set msg "${msg}Cancel-Code: REJECT\r\n\r\n"
+
+      set msg_len [string length $msg]
+      incr ::MSN::trid
+      puts $sock "MSG $::MSN::trid N $msg_len"
+      puts -nonewline $sock $msg      
+
+      status_log "Rejecting filetransfer sent\n" red
+
+   }
+
+
+   proc cancelReceiving {} {
+      status_log "Canceling receiving (TO-DO)\n"
+   }
+
+
+   proc cancelSending {} {
+      status_log "Canceling sending (TO-DO)\n"
+   }
+
+
    #Internal procedures
 
    variable trid 0
@@ -141,43 +224,6 @@ namespace eval ::MSN {
 
    #All about sending files
    
-   proc inviteFT { sbn file } {
-      #Invitation to filetransfer, initial message
-      variable trid 
-      variable atransfer
-
-      #Change this $file get, pass the name of the file as parameter
-      set file [ $file get ]
-
-      if { [catch {set filesize [file size $file]} res]} {
-	::amsn::errorMsg "File does not exist"
-      }
-
-      set sock [sb get $sbn sock]
-
-      #Calculate a random cookie
-      set cookie [expr {$trid * $filesize % (65536 * 4)}]
-
-      set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
-      set msg "${msg}Application-Name: File Transfer\r\n"
-      set msg "${msg}Application-GUID: {5D3E02AB-6190-11d3-BBBB-00C04F795683}\r\n"
-      set msg "${msg}Invitation-Command: INVITE\r\n"
-      set msg "${msg}Invitation-Cookie: $cookie\r\n"
-      set msg "${msg}Application-File: [file tail $file]\r\n"
-      set msg "${msg}Application-FileSize: $filesize\r\n\r\n"
-      set msg_len [string length $msg]
-
-      incr trid
-      puts $sock "MSG $trid N $msg_len"
-      puts -nonewline $sock $msg
-
-      status_log "Invitation to $file sent\n" red
-
-      #Change to allow multiple filetransfer
-      set atransfer [list "Cookie:$cookie" "$file" $filesize $sbn ]
-
-   }
-
    proc SendFile {cookie sbn} {
       #File transfer accepted by remote, send final ACK
       variable atransfer
@@ -324,48 +370,10 @@ namespace eval ::MSN {
          return
       }
    }
-
+   
    
 
    #All about receiving files
-
-   proc acceptFT {cookie sbn} {
-      #Send the acceptation for a file transfer, request IP
-      set sock [sb get $sbn sock]
-
-      set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
-      set msg "${msg}Invitation-Command: ACCEPT\r\n"
-      set msg "${msg}Invitation-Cookie: $cookie\r\n"
-      set msg "${msg}Launch-Application: FALSE\r\n"
-      set msg "${msg}Request-Data: IP-Address:\r\n\r\n"
-
-      set msg_len [string length $msg]
-      incr ::MSN::trid
-      puts $sock "MSG $::MSN::trid N $msg_len"
-      puts -nonewline $sock $msg
-
-      status_log "Accepting filetransfer sent\n" red
-
-   }
-
-
-   proc rejectFT {sbn cookie} {
-      #Send the cancelation for a file transfer, request IP
-      set sock [sb get $sbn sock]
-
-      set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
-      set msg "${msg}Invitation-Command: CANCEL\r\n"
-      set msg "${msg}Invitation-Cookie: $cookie\r\n"
-      set msg "${msg}Cancel-Code: REJECT\r\n\r\n"
-
-      set msg_len [string length $msg]
-      incr ::MSN::trid
-      puts $sock "MSG $::MSN::trid N $msg_len"
-      puts -nonewline $sock $msg      
-
-      status_log "Rejecting filetransfer sent\n" red
-
-   }
 
 
    proc ConnectMSNFTP {ipaddr port authcookie filename sbn} {
@@ -468,7 +476,6 @@ namespace eval ::MSN {
          close $sockid
       }
    }
-
 
 
 }
@@ -731,7 +738,7 @@ proc cmsn_sb_msg {sb_name recv} {
 	 status_log "Invited to $app\n" white
 	 status_log "$body\n" black
 	 
-	 ::amsn::fileTransfer $filename $filesize $cookie $sb_name
+	 ::amsn::fileTransferRecv $filename $filesize $cookie $sb_name
 	 
 
 	
@@ -1194,31 +1201,6 @@ proc sb_enter { sbn name } {
 
 
 ###################### Other Features     ###########################
-proc SelectFileToTransfer { twn title } {
-    # TODO File selection box, use nickname as filename (caller)
-    set w .form$title
-    toplevel $w
-    wm title $w "Send session"
-     label $w.msg -justify center -text "Please give a filename"
-     pack $w.msg -side top
-
-     frame $w.buttons
-     pack $w.buttons -side bottom -fill x -pady 2m
-      button $w.buttons.dismiss -text Cancel -command "destroy $w"
-      button $w.buttons.save -text Send \
-        -command "::MSN::inviteFT $twn $w.filename.entry; destroy $w"
-      pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
-
-    frame $w.filename -bd 2
-     entry $w.filename.entry -relief sunken -width 40 
-     label $w.filename.label -text "Filename:"
-     pack $w.filename.entry -side right
-     pack $w.filename.label -side left
-    pack $w.msg $w.filename -side top -fill x
-    focus $w.filename.entry
-
-    fileDialog2 $w $w.filename.entry open Untitled
-}
 
 
 proc fileDialog2 {w ent operation basename} {

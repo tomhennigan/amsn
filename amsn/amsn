@@ -913,7 +913,7 @@ proc cmsn_draw_msgwin {} {
       -command " ChooseFilename .${win_name}.text ${name} " 
    .${win_name}.menu.msn add separator
    .${win_name}.menu.msn add command -label "[trans sendfile]..." \
-      -command " SelectFileToTransfer ${name} ${name} " 
+      -command "::amsn::fileTransferSend ${name} ${name} " 
    .${win_name}.menu.msn add command -label "[trans openreceived]..." \
       -command "msg_box \"Files saved in\n$files_dir\"" 
    .${win_name}.menu.msn add separator
