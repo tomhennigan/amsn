@@ -849,6 +849,30 @@ namespace eval ::MSN {
 
    }
 
+
+   proc KillSB { name } {
+      global sb_list
+      global ${name}_info
+
+      status_log "Killing SB $name, after 1 minute of leaving the chat\n"
+
+      set idx [lsearch -exact $sb_list $name]
+
+      if {$idx == -1} {
+         status_log "tried to destroy unknown SB $name\n" white
+         return 0
+      }
+
+      set sb_list [lreplace $sb_list $idx $idx]
+
+      catch {
+         close [sb get $name sock]
+      } res
+
+
+      unset ${name}_info
+   }
+
    proc leaveChat { chatid } {
       global config sb_list
 
@@ -859,19 +883,20 @@ namespace eval ::MSN {
          status_log "Entering leavechat\n"
 
          set idx [lsearch -exact $sb_list $name]
+
          if {$idx == -1} {
             status_log "tried to destroy unknown SB $name\n" white
             return 0
          }
 
-         #We leave the switchboard if it exists
-         set sb_list [lreplace $sb_list $idx $idx]
+	  after 60000 "::MSN::KillSB $name"
 
+	  #We leave the switchboard if it exists
          if {[sb get $name stat] != "d"} {
             catch {
             puts [sb get $name sock] "OUT"
-            close [sb get $name sock]
             } res
+
          }
 
          if {$config(keep_logs) && [sb exists $name log_fcid]} {		;# LOGS!
@@ -879,7 +904,6 @@ namespace eval ::MSN {
          }
 
          DelSBFor $chatid ${name}
-         unset ${name}_info
 
       }
 
@@ -1011,23 +1035,63 @@ namespace eval ::MSN {
    }
 
 
-   proc chatQueue { chatid command } {
+   proc ProcessQueue { chatid {count 0} } {
+
+      variable chat_queues
+
+      if {![info exists chat_queues($chatid)]} {
+         return 0
+      }
+
+      if {[llength $chat_queues($chatid)] == 0} {
+         unset chat_queues($chatid)
+	  #status_log "unsetting chat_queues($chatid)\n"
+         return 0
+      }
+
+      if { $count >= 10 } {
+         return 0
+      }
+
 
       if {[chatReady $chatid]} {
-	   eval "$command"
+         set command [lindex $chat_queues($chatid) 0]
+         set chat_queues($chatid) [lreplace $chat_queues($chatid) 0 0]
+	  eval $command
+	  ProcessQueue $chatid
       } else {
-      
+
          set sbn [SBFor $chatid]
 
          if { $sbn == 0 } {
 	     #TODO: Probably this will never happen? Check where SBs leave a chatid
-	     status_log "chatQueue: No SB for chat, creating chat\n"
+	     status_log "processQueue: No SB for chat, creating chat\n"
 	     chatTo $chatid
 	  } else {
-	     status_log "chatQueue: chat is NOT ready, reconnecting\n"
+	     status_log "processQueue: chat is NOT ready, trying to reconnect\n"
 	     cmsn_reconnect $sbn
 	  }
+
+         after 2000 "::MSN::ProcessQueue $chatid [expr {$count + 1}]"
       }
+   }
+
+
+
+   proc chatQueue { chatid command } {
+
+      variable chat_queues
+
+      if {![info exists chat_queues($chatid)]} {
+         set chat_queues($chatid) [list]
+	  #status_log "Creating queue for $chatid\n"
+      }
+
+
+      lappend chat_queues($chatid) $command
+      #status_log "Appending '$command' to $chatid queue. Now it is: $chat_queues($chatid)\n"
+      ProcessQueue $chatid
+
 
    }
 
@@ -1089,7 +1153,8 @@ namespace eval ::MSN {
 	  #Setting trid - ackid correspondence
 	  set msgacks($::MSN::trid) $ackid
 
-	  ::amsn::messageFrom $chatid [lindex $user_info 3] "$txt" user [list $fontfamily $fontstyle $fontcolor]
+	  #We will draw our own message in the GUI
+	  #::amsn::messageFrom $chatid [lindex $user_info 3] "$txt" user [list $fontfamily $fontstyle $fontcolor]
 
       } else {
          status_log "$sbn: trying to send, but no users in this session\n" white

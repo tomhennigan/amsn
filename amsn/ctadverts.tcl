@@ -36,14 +36,14 @@ proc adv_initialize { win } {
     image create photo banner
 #    banner blank
 
-    label ${win}.banner -bd 1 -relief sunken -background #FFFFFF
+    label ${win}.banner -bd 0 -relief flat -background #FFFFFF
     pack ${win}.banner -side bottom -fill x
     ${win}.banner configure -image banner
 
     # Banner is clickable, but so far no way to get the URL
     # that corresponds to that banner
 #    bind ${win}.banner <Button-3> { puts "browse" }
-    
+
     # Keybinding to enable/disable BanneR cycling on main window
     bind . <Control-b> { set adv_enable 0 }
     bind . <Control-r> { set adv_enable 1 }

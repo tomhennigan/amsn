@@ -918,13 +918,15 @@ namespace eval ::amsn {
       #TODO: Check if the chat is available before actually sending the message / enqueue
       #Replaces obsolete proc sb_enter (delete it)
 
+      global user_info config
+
       set chatid [ChatFor $win_name]
 
       #TODO: Remove this when queueing works
-      if {![ ::MSN::chatReady $chatid]} {
-         status_log "Can't send message, chat not ready\n"
-         return 0
-      }
+      #if {![ ::MSN::chatReady $chatid]} {
+      #   status_log "Can't send message, chat not ready\n"
+      #   return 0
+      #}
 
       set msg [$input get 0.0 end-1c]
 
@@ -936,6 +938,12 @@ namespace eval ::amsn {
 
       set ackid [after 30000 ::amsn::DeliveryFailed $chatid [list $msg]]
       ::MSN::chatQueue $chatid [list ::MSN::messageTo $chatid "$msg" $ackid]
+      
+      set fontfamily [lindex $config(mychatfont) 0]
+      set fontstyle [lindex $config(mychatfont) 1]
+      set fontcolor [lindex $config(mychatfont) 2]
+
+      messageFrom $chatid [lindex $user_info 3] "$msg" user [list $fontfamily $fontstyle $fontcolor]
    }
    #///////////////////////////////////////////////////////////////////////////////
 
@@ -991,10 +999,12 @@ namespace eval ::amsn {
         return 0
       }
 
-      ::MSN::leaveChat [ChatFor $win_name]
-
-      UnsetWindowFor [ChatFor $win_name] $win_name
+      set chatid [ChatFor $win_name]
+      UnsetWindowFor $chatid $win_name
       unset window_titles(${win_name})
+
+      ::MSN::chatQueue $chatid [list ::MSN::leaveChat $chatid]
+
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -1036,10 +1046,10 @@ namespace eval ::amsn {
       if { [WindowFor $chatid] == 0} {
          return 0
       } else {
-         #TODO: Only show messages is a chat is not active
-         if {![::MSN::chatReady $chatid]} {
+         #TODO: To show, or not to show?
+         #if {![::MSN::chatReady $chatid]} {
            WinStatus [ WindowFor $chatid ] $msg
-	  }
+	  #}
       }
 
    }
@@ -1703,8 +1713,8 @@ proc cmsn_draw_main {} {
 
    frame .main -class Amsn -relief flat -background $bgcolor
    frame .main.f -class Amsn -relief flat -background white
-   pack .main -expand true -fill both
-   pack .main.f -expand true -fill both -padx 4 -pady 4
+   #pack .main -expand true -fill both
+   #pack .main.f -expand true  -fill both  -padx 4 -pady 4 -side top
 
    # Create the Notebook and initialize the page paths. These
    # page paths must be used for adding new widgets to the
@@ -1718,8 +1728,8 @@ proc cmsn_draw_main {} {
    } else {
        set pgBuddy .main.f
        set pgNews  ""
-       pack .main -fill both -expand 1
-   	pack .main.f -expand true -fill both -padx 4 -pady 4
+       pack .main -fill both -expand true
+   	pack .main.f -expand true -fill both -padx 4 -pady 4 -side top
    }
    # End of Notebook Creation/Initialization
 
@@ -1776,7 +1786,7 @@ proc cmsn_draw_main {} {
    image create photo belloff -file [file join ${images_folder} belloff.gif]
 
 
-   text $pgBuddy.text -background white -width 30 -height 30 -wrap none \
+   text $pgBuddy.text -background white -width 30 -height 0 -wrap none \
       -yscrollcommand "$pgBuddy.ys set" -cursor left_ptr -font splainf \
       -selectbackground white -selectborderwidth 0 -exportselection 0 \
       -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
@@ -1785,14 +1795,14 @@ proc cmsn_draw_main {} {
 
    #This shouldn't go here
    if ($config(withproxy)) {
-     
+
      ::Proxy::Init $config(proxy) "http"
      #::Proxy::Init $config(proxy) $config(proxytype)
      ::Proxy::LoginData $config(proxyauthenticate) $config(proxyuser) $config(proxypass)
    }
 
    adv_initialize .main
-   
+
    # This one is not a banner but a branding. When adverts are enabled
    # they share this space with the branding image. The branding image
    # is cycled in between adverts.
@@ -2271,13 +2281,13 @@ proc cmsn_draw_online {} {
    bind $pgBuddy.text.bigstate <Button3-ButtonRelease> {tk_popup .my_menu %X %Y}
 
    #HERE
-   
-   
 
 
-   text $pgBuddy.text.mystatus -height 2 -width 75 -background white -borderwidth 0 \
-      -relief flat -highlightthickness 0
-   
+   text $pgBuddy.text.mystatus -height 1 -width 75 -background white -borderwidth 0 \
+      -relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
+       -exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
+
+
    $pgBuddy.text.mystatus tag conf mystatuslabel -fore gray -underline false \
      -font splainf
 
@@ -2296,11 +2306,11 @@ proc cmsn_draw_online {} {
 
    $pgBuddy.text.mystatus insert end "[trans mystatus]:\n" mystatuslabel
    $pgBuddy.text.mystatus insert end "$my_name " mystatus
-   $pgBuddy.text.mystatus insert end "($my_state_desc) \n" mystatus
+   $pgBuddy.text.mystatus insert end "($my_state_desc)" mystatus
 
 
    $pgBuddy.text.mystatus configure -state disabled
-   $pgBuddy.text window create end -window $pgBuddy.text.mystatus -padx 5 -pady 0
+   $pgBuddy.text window create end -window $pgBuddy.text.mystatus -padx 5 -pady 0 -stretch true -align bottom
 
    $pgBuddy.text insert end \n
 
@@ -2319,7 +2329,7 @@ proc cmsn_draw_online {} {
    set barwidth [image width colorbar]
    mainbar copy colorbar -from 0 0 5 $barheight
    mainbar copy colorbar -from 5 0 15 $barheight -to 5 0 [expr {$width - 150}] $barheight
-   mainbar copy colorbar -from [expr {$barwidth - 150}] 0 $barwidth $barheight -to [expr {$width - 150}] 0 $width $barheight      
+   mainbar copy colorbar -from [expr {$barwidth - 150}] 0 $barwidth $barheight -to [expr {$width - 150}] 0 $width $barheight
 
    $pgBuddy.text image create end -image mainbar
    $pgBuddy.text insert end "\n"
