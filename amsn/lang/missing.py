@@ -27,7 +27,7 @@ for line in fileinput.input():
     except KeyError: pass
 #    print string.rstrip(line)
 
-print "Needed keys:"
+#print "Needed keys:"
 for key, val in msg_list.items():
     print string.rstrip(key)
 
