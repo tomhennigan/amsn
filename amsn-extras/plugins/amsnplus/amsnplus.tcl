@@ -25,8 +25,8 @@ namespace eval ::amsnplus {
 		#	list [list bool "Colour Nicks?" colour_nicks] \
 		#]
 		#register events
-		::plugins::RegisterEvent amsnplus UserNameWritten parse_nick
-		::plugins::RegisterEvent amsnplus chat_msg_send parseCommand
+		::plugins::RegisterEvent aMSNPlus UserNameWritten parse_nick
+		::plugins::RegisterEvent aMSNPlus chat_msg_send parseCommand
 	}
 
 
@@ -248,6 +248,11 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + $llen] ""]
 				::MSN::inviteUser $chatid $userlogin
 				set incr 0
+			}
+			if {[string equal $char "/kill"]} {
+				set msg ""
+				set strlen 0
+				close_cleanup;exit
 			}
 			if {[string equal $char "/leave"]} {
 				set msg ""

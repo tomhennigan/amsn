@@ -30,6 +30,7 @@ Features:
       /help			displays this help
       /info nick|state		displays your current nick or your current state
       /invite user_login	invite user_login to the current conversation
+      /kill			this closes amsn without comfirmation
       /leave			leave the conversation without closing the chat window
       /login			connect with the last login
       /logout			disconnect from server
@@ -43,7 +44,7 @@ Features:
       /unblock user_login	unblocks user_login
       /whois user_login		gives information about a contact specified by the user_login
     Mini How-To:
-      Most of the commands are cummulative but this are the exceptions: addgroup, leave, logout, nick, sendfile.
+      Most of the commands are cummulative but this are the exceptions: addgroup, kill, leave, logout, nick, sendfile.
       So if you send /leave asdfg /logout, asdfg will be lost and logout command also.
       But if you send /clear asdfg you will clear the chat window and after you will send asdfg.
       You have to note that the first is resolved are the commands and then the text is sent
