@@ -1,40 +1,56 @@
 amsn_lang_version 2
 about Acerca de
+actions Accións
 addacontact Engadir un contacto
 addedyou engadiute á súa lista de contactos
 addtoo Engadir esta persoa á miña lista de contactos
+admincontacts Administrar contactos
+admingroups Administrar grupos
+adverts Anuncios
 allowseen Permitir a esta persoa ver cando estás conectado e contactar
 appearoff Sen conexión
 are están
+autohotmaillog Login hotmail automático
 avoidseen Evitar que esta persoa vexa a túa conexión e contacte contigo
 away Ausente
 blankdirect Deixar en branco para conexión directa
+blocked Bloqueado
 block Non admitir
-busy Non disponible
+browser Navegador
+busy Non dispoñible
 cancel Cancelar
 changenick Cambiar alcume
+chatack Aceptando conversa de
 chat Conversa
 chatreq Solicitando unha conversa
+chatsmileys Smileys no chat
 chatack Aceptando conversa de
 checkingver Buscando se hai dispoñible unha nova versión
 checkver Buscar novas versións
 clicktologin Fai click aquí para inicia-la sesión
 close Cerrar
+command Comando
 contactadded Contacto engadido
 date Data
 delete Eliminar
+enableproxy Activa-lo proxy
 entercontactemail Introduce o email do contacto
 enternick Introduce o teu nick
 examples Exemplos
 gonelunch Saín comer
 help Axuda
+helpcontents Temas de axuda
 ident Identificándose
+inbox Bandexa de entrada
 invite Invitar
 is está
 joins $1 $2 únese á conversa
 language Linguaxe
 leaves $1 deixa a conversa
+listsmileys Smileys nos contactos
+loadcontacts Cargar lista de contactos
 loggingin Iniciando sesión
+loginas Iniciar sesión como
 login Iniciar sesión
 logout Cerrar sesión
 logsin acaba de iniciar sesión
@@ -55,21 +71,36 @@ ok Aceptar
 offline Desconectado
 online Conectado
 onphone Ó teléfono
+openreceived Abrir arquivos recibidos
+options Opcións
+ordercontactsby Ordenar contactos por
 other Outro
 pass Contrasinal
 port Porto
+prefapps Aplicacións
+preferences Preferencias
+prefsound Sons
 proxyconf Configuración proxy
 proxyconfhttp Configurar soporte de proxy http
 reconnect Agardando que $1 reconecte
 reconnecting Reconectando ó servidor
 rememberpass Lembrar contrasinal
 rightback Volvo nun intre
+savecontacts Gardar lista de contactos
+save Gardar
+saveas Gardar como
 says $1 dí
 sbcon Conectando a Switch Board
 send Enviar
+sendfile Enviar arquivo
+sendmail Enviar email
+sendmsg Enviar mensaxe
 server Servidor
 sound Son eventos
+startoffline Comezar Desconectado
+textsize Tamaño do texto
 title Al's Messenger
+tools Ferramentas
 to Para
 typing $1 escribindo unha mensaxe
 yousay Ti dis
@@ -79,4 +110,5 @@ uoffline Desconectados
 uonline Conectados
 user Usuario
 version Versión
+View Ver
 willjoin Agardando que $1 se una á conversa
