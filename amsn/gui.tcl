@@ -1684,7 +1684,7 @@ if { $config(getdisppic) != 0 } {
 
 		label $bottom.pic  -borderwidth 1 -relief solid -image no_pic -background #FFFFFF
 		set_balloon $bottom.pic [trans nopic]
-		button $bottom.showpic -bd 0 -padx 0 -pady 0 -image imgshow -bg $bgcolor2 -highlightthickness 0\
+		button $bottom.showpic -bd 0 -padx 0 -pady 0 -image imgshow -bg $bgcolor -highlightthickness 0 \
 			-command "::amsn::ToggleShowPicture ${win_name}; ::amsn::ShowOrHidePicture .${win_name}" -font splainf
 		set_balloon $bottom.showpic [trans showdisplaypic]
 		grid $bottom.showpic -row 0 -column 2 -padx 0 -pady 3 -rowspan 2 -sticky ns
