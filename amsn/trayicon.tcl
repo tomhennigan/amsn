@@ -277,7 +277,7 @@ proc statusicon_proc {status} {
 				}
 			  }
 			  "BRB" {
-				set pixmap "[::skin::::skin::GetSkinFile pixmaps dbrb.xpm]"
+				set pixmap "[::skin::GetSkinFile pixmaps dbrb.xpm]"
 				set tooltip "$my_name ([::config::getKey login]): [trans rightback]"
 				if { [::config::getKey dock] == 4 } {
 					set trayicon [winico create [::skin::GetSkinFile winicons brb.ico]]
