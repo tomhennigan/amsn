@@ -873,14 +873,10 @@ proc xml2list xml {
 	regsub -all {>\s*<} [string trim $xml " \n\t<>"] "\} \{" xml
 	set xml [string map {> "\} \{#text \{" < "\}\} \{"}  $xml]
 	
-	status_log "$xml\n" red
 	set res ""   ;# string to collect the result
 	set stack {} ;# track open tags
 	set rest {}
 	foreach item "{$xml}" {
-		status_log "$stack\n" blue
-		status_log "$rest\n" green
-		status_log "$res\n" red
 		switch -regexp -- $item {
 			^# {append res "{[lrange $item 0 end]} " ; #text item}
 			^/ {

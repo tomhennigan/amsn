@@ -218,24 +218,38 @@ namespace eval ::ChatWindow {
 	}
 
 	proc DetachAll { w } {
-		CloseAll $w
-		return
+		variable containerwindows
+		variable containers
+		variable containercurrent
 
-		foreach window [winfo children $w] {
-			set chatid [::ChatWindow::Name $window]
-			::ChatWindow::UnsetFor $chatid $window
+		if {![info exists containerwindows($w)] || [winfo toplevel $w] != $w} {
+			return
 		}
+
+		status_log "detaching containerwindows $w\n" red
+		foreach window [set containerwindows($w)] {
+			status_log "destroy $window\n" red
+			DetachTab [set ::ChatWindow::win2tab($window)]
+		}
+
+		status_log "unsetting containerwindow and containercurrent\n" red
+		unset containerwindows($w)
+		unset containercurrent($w)
+
+		status_log "unsetting containers array...\n" red
+		foreach { key value } [array get containers] {
+			if { $value == $w } {
+				status_log "found containers $key $value\n" red
+				unset containers($key)
+			}
+		}
+
+		destroy $w
+		
 	}
 
 	proc CountTabs { w } {
-		variable containerwindows
-		
-		set num 0
-		foreach window [set containerwindows($w)] {
-			incr num
-		}
-
-		return $num
+		return [llength [set ::ChatWindow::containerwindows($w)]]
 	}
 
 	proc CloseAll { w } {
@@ -2318,7 +2332,7 @@ namespace eval ::ChatWindow {
 		}
 
 		set  containercurrent($container) $win
-		pack $win -side top -expand true -fill both
+		pack $win -side bottom -expand true -fill both
 
 		if { ![info exists containerprevious($container)] } {
 			set containerprevious($container) $win
@@ -2428,6 +2442,12 @@ namespace eval ::ChatWindow {
 		destroy $more
 
 		status_log "Got $number_tabs tabs in $container that has a max of $max_tabs\n" red
+
+		if { $number_tabs < 2 } {
+			pack forget ${container}.bar
+		} else {
+			pack  ${container}.bar -side top -fill both -expand false
+		}
 
 		if { $max_tabs > 0 && $number_tabs > $max_tabs } {
 			#-image [::skin::loadPixmap lesstabs] 
@@ -2602,8 +2622,145 @@ namespace eval ::ChatWindow {
 		if { [winfo exists .tabmenu] } { destroy .tabmenu }
 		menu .tabmenu -tearoff 0 -type normal
 		.tabmenu insert end command -command "::ChatWindow::CloseTab $tab; destroy .tabmenu" -label "[trans close]"
+		.tabmenu insert end command -command "::ChatWindow::DetachTab $tab; destroy .tabmenu" -label "[trans detach]"
 		tk_popup .tabmenu $x $y
 		#return .tabmenu
+	}
+
+	proc DetachTab { tab } {
+		set win [set ::ChatWindow::tab2win($tab)]
+		set out [GetOutText $win]
+		set in [GetInputText $win]
+		set dump_out [$out dump 0.0 end]
+		set dump_in [$in dump 0.0 end]
+
+		foreach tag [$out tag names] {
+			foreach option {-elide -foreground -font -background -underline} {
+				lappend tags_out($tag) $option
+				lappend tags_out($tag) [$out tag cget $tag $option]
+			}
+		}
+
+
+		status_log "Got dumps : \n$dump_out\n\n$dump_in\n" red
+
+		set chatid [Name $win]
+		
+		UnsetFor $chatid $win
+		set new [RecreateWindow $chatid]
+
+		set ::ChatWindow::titles(${new}) [set ::ChatWindow::titles(${win})]
+		set ::ChatWindow::first_message(${new}) [set ::ChatWindow::first_message(${win})]
+		set ::ChatWindow::recent_message(${new}) [set ::ChatWindow::recent_message(${win})]
+
+		
+		unset ::ChatWindow::titles(${win})
+		unset ::ChatWindow::first_message(${win})
+		unset ::ChatWindow::recent_message(${win})
+
+		#Delete images if not in use
+		catch {destroy $win.bottom.pic}
+
+		CloseTab $tab
+
+		set out [GetOutText $new]
+		set in [GetInputText $new]
+
+		$out configure -state normal -font bplainf -foreground black
+
+		undump $out $dump_out [array get tags_out]
+		undump $in $dump_in
+		
+		$out configure -state disabled
+	}
+
+	proc undump { w dump {tags_config ""}} {
+		status_log "tags : $tags_config\n" red
+		foreach {tag options} $tags_config {
+			status_log "tag $tag has options $options" red
+			foreach {option value} $options { 
+				status_log "option $option of tag $tag is $value\n" red
+				if {$value != "" } {
+					status_log "setting tag option to $value\n" red
+					$w tag configure $tag $option $value
+				}
+			}
+		}
+
+		foreach { key value index } $dump {
+			#status_log "Undumping into $w, the key $key with value $value at index $index\n" red
+			switch -- $key {
+				text { 
+					$w insert $index $value
+				} 
+				mark {
+					$w mark set $value $index
+				} 
+				image {
+					if { [string first "#" $value] != -1 } {
+						set value [string range $value 0 [expr [string first "#" $value] -1]]
+					}
+					$w image create $index -image $value
+				}
+				window {
+					if {[winfo exists $value] } {
+						$w window create $index -window $value
+					} else {
+						status_log "undumping a window that doesn't exist\n" error
+					}
+				}
+				tagon {
+					set tags($value) $index
+				}
+				tagoff {
+					$w tag add $value [set tags($value)] $index
+				}
+				default {
+					status_log "Undumping to window $w an unknown key $key with value $value at index $index\n" red
+				}
+			}
+		}
+		
+	}
+
+	proc RecreateWindow { chatid } {
+	
+		set win_name [::ChatWindow::Open]
+		::ChatWindow::SetFor $chatid $win_name
+	
+		set ::ChatWindow::first_message($win_name) 0
+	
+		# PostEvent 'new_conversation' to notify plugins that the window was created
+		set evPar(chatid) $chatid
+		set evPar(usr_name) [lindex [::MSN::usersInChat $chatid] 0]
+		::plugins::PostEvent new_conversation evPar
+		
+
+		set top_win [winfo toplevel $win_name]
+
+		if { [winfo exists .bossmode] } {
+			set ::BossMode(${top_win}) "normal"
+			wm state ${top_win} withdraw
+		} else {
+			wm state ${top_win} normal
+		}
+		
+		wm deiconify ${top_win}
+		
+
+		update idletasks
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			::ChatWindow::MacPosition ${top_win}
+		}
+		::ChatWindow::TopUpdate $chatid
+
+		#We have a window for that chatid, raise it
+		raise ${top_win}
+
+		focus [::ChatWindow::GetInputText ${win_name}]
+
+		return $win_name
+
 	}
 
 }
