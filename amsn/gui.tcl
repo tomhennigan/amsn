@@ -599,7 +599,7 @@ namespace eval ::amsn {
          -font bboldf -borderwidth 0 -relief solid -highlightthickness 0
 
       frame .${win_name}.f.in.f -class Amsn -borderwidth 0 -relief solid -background white -padx 3 -pady 4
-      button .${win_name}.f.in.f.send  -text [trans send] -width 5 -borderwidth 1 -relief solid\
+      button .${win_name}.f.in.f.send  -text [trans send] -width 5 -borderwidth 1 -relief solid \
          -command "::amsn::MessageSend .${win_name} .${win_name}.f.in.input" -font bplainf -highlightthickness 0
 
 
@@ -612,9 +612,9 @@ namespace eval ::amsn {
 
 
 
-      button .${win_name}.f.buttons.smileys  -image butsmile -relief flat -padx 5
-      button .${win_name}.f.buttons.fontsel -image butfont -relief flat -padx 5
-      button .${win_name}.f.buttons.block -image butblock -relief flat -padx 5
+      button .${win_name}.f.buttons.smileys  -image butsmile -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
+      button .${win_name}.f.buttons.fontsel -image butfont -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
+      button .${win_name}.f.buttons.block -image butblock -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
       pack .${win_name}.f.buttons.block .${win_name}.f.buttons.fontsel .${win_name}.f.buttons.smileys -side left
 
       pack .${win_name}.f.top -side top -fill x
