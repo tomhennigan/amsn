@@ -2914,7 +2914,7 @@ proc cmsn_draw_main {} {
 	.main_menu.file add separator
 	#Theses 2 features are not yet in aMSN that's why I remove them from the menu
 	#.main_menu.file add command -label "[trans savecontacts]..." \
-		-command "debug_cmd_lists -export" -state disabled
+	#	-command "debug_cmd_lists -export" -state disabled
 	#.main_menu.file add command -label "[trans loadcontacts]..." -state disabled
 	#.main_menu.file add separator
 	.main_menu.file add command -label "[trans sendfile]..." -state disabled
@@ -3844,7 +3844,7 @@ proc cmsn_draw_offline {} {
 	#configureMenuEntry .main_menu.actions "[trans showblockedlist]..." disabled
 
 
-	configureMenuEntry .main_menu.file "[trans savecontacts]..." disabled
+	#configureMenuEntry .main_menu.file "[trans savecontacts]..." disabled
 
 	#Publish Phone Numbers
 	#   configureMenuEntry .options "[trans publishphones]..." disabled
