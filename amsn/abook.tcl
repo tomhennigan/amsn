@@ -34,73 +34,45 @@ namespace eval ::abook {
 	# P U B L I C
 	#
 	proc setPersonal { field value} {
-		setUserData myself $field $value
+		setContactData myself $field $value
 		return
    }
    
    proc getPersonal { cdata } {
 		upvar $cdata data	
 		set data(group)  "n.a."
-		set data(handle) getUserData myself nick
-		set data(phh)    getUserData myself PHH
-		set data(phw)    getUserData myself PHW
-		set data(phm)    getUserData myself PHM
-		set data(mob)    getUserData myself MOB
-		set data(mbe)    getUserData myself MBE
+		set data(handle) [getContactData myself nick]
+		set data(phh)    [getContactData myself PHH]
+		set data(phw)    [getContactData myself PHW]
+		set data(phm)    [getContactData myself PHM]
+		set data(mob)    [getContactData myself MOB]
+		set data(mbe)    [getContactData myself MBE]
 		set data(available) Y
 	}
 
    proc setContact { email field value } {
-		setUserData $email $field $value
+		setContactData $email $field $value
 		return
    }
 
    proc getContact { email cdata } {
 		upvar $cdata data
 
-		set groupName    [::groups::GetName [getUserData $email group]]
+		set groupName    [::groups::GetName [getContactData $email group]]
 		set data(group)  [urldecode $groupName]
-		set data(handle) [urldecode [getUserData $email nick]]
-		set data(phh) [urldecode [getUserData $email PHH]]
-		set data(phw) [urldecode [getUserData $email PHW]]
-		set data(phm) [urldecode [getUserData $email PHM]]
-		set data(mob) [urldecode [getUserData $email MOB]]
+		set data(handle) [urldecode [getContactData $email nick]]
+		set data(phh) [urldecode [getContactData $email PHH]]
+		set data(phw) [urldecode [getContactData $email PHW]]
+		set data(phm) [urldecode [getContactData $email PHM]]
+		set data(mob) [urldecode [getContactData $email MOB]]
 		set data(available) "Y"
    }
 
    proc getName {passport} {
-		return [urldecode [getUserData $passport nick]]
+		return [urldecode [getContactData $passport nick]]
    }
    
-	# Used to fetch the group ID so that the caller can order by
-	# group if needed. Returns -1 on error.
-	# ::abook::getGroup my@passport.com -id    : returns group id
-	# ::abook::getGroup my@passport.com -name  : return group name
-	proc getGroup {passport how} {
-		set groupId [getUserData $passport group]
-		if {$how == "-id"} {
-			return $groupId
-		}
-		set groupName [::groups::GetName $groupId]
-		return $groupName
-	}
-   
-	proc addContactToGroup { email grId } {
-		set groups [getUserData $email group]
-		set idx [lsearch $groups $grId]
-		if { $idx == -1 } {
-			setUserData $email group [linsert $groups 0 $grId]
-		}
-	}
 
-	proc removeContactFromGroup { email grId } {
-		set groups [getUserData $email group]
-		set idx [lsearch $groups $grId]
-		
-		if { $idx != -1 } {
-			setUserData $email group [lreplace $groups $idx $idx]
-		}
-	}
    
       
 	# Sends a message to the notification server with the
@@ -181,7 +153,7 @@ namespace eval ::abook {
 	#user_login: the user_login you want to set data to
 	#field: the field you want to set
 	#data: the data that will be contained in the given field
-	proc setUserData { user_login field data } {
+	proc setContactData { user_login field data } {
 		variable users_data
 		
 		status_log "::abook::setUserInfo: Setting user ${user_login}($field) to $data\n" blue
@@ -201,7 +173,7 @@ namespace eval ::abook {
 		set users_data($user_login) [array get user_data]
 	}
 	
-	proc getUserData { user_login field } {
+	proc getContactData { user_login field } {
 		variable users_data
 		
 		if { ![info exists users_data($user_login)] } {
@@ -234,6 +206,58 @@ namespace eval ::abook {
 			return [getUserNickname $user_login]
 		}
 	}
+	
+	# Used to fetch the group ID so that the caller can order by
+	# group if needed. Returns -1 on error.
+	# ::abook::getGroup my@passport.com -id    : returns group id
+	# ::abook::getGroup my@passport.com -name  : return group name
+	proc getGroup {passport how} {
+		set groupId [getContactData $passport group]
+		if {$how == "-id"} {
+			return $groupId
+		}
+		set groupName [::groups::GetName $groupId]
+		return $groupName
+	}
+   
+	proc addContactToGroup { email grId } {
+		set groups [getContactData $email group]
+		set idx [lsearch $groups $grId]
+		if { $idx == -1 } {
+			setContactData $email group [linsert $groups 0 $grId]
+		}
+	}
+
+	proc removeContactFromGroup { email grId } {
+		set groups [getContactData $email group]
+		set idx [lsearch $groups $grId]
+		
+		if { $idx != -1 } {
+			setContactData $email group [lreplace $groups $idx $idx]
+		}
+	}	
+
+	proc getLists {passport how} {
+		return [getContactData $passport lists]
+	}
+   
+	proc addContactToList { email listId } {
+		set lists [getContactData $email lists]
+		set idx [lsearch $lists $listId]
+		if { $idx == -1 } {
+			setContactData $email lists [linsert $lists 0 $listId]
+		}
+	}
+
+	proc removeContactFromList { email listId } {
+		set lists [getContactData $email lists]
+		set idx [lsearch $lists $listId]
+		
+		if { $idx != -1 } {
+			setContactData $email lists [lreplace $lists $idx $idx]
+		}
+	}	
+
 }
 
 namespace eval ::abookGui {
