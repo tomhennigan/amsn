@@ -1677,9 +1677,10 @@ namespace eval ::amsn {
 		catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}
 		image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
 		label $bottom.pic  -borderwidth 1 -relief solid -image no_pic -background #FFFFFF
-		#set_balloon $bottom.pic [trans nopic]
+		set_balloon $bottom.pic [trans nopic]
 		button $bottom.showpic -bd 0 -padx 0 -pady 0 -image imgshow -bg $bgcolor2 -highlightthickness 0\
 			-command "::amsn::ToggleShowPicture ${win_name}; ::amsn::ShowOrHidePicture .${win_name}" -font splainf
+		set_balloon $bottom.showpic [trans showdisplaypic]
 		grid $bottom.showpic -row 0 -column 2 -padx 0 -pady 3 -rowspan 2 -sticky ns
 		grid columnconfigure $bottom 3 -minsize 3
 
@@ -1917,17 +1918,21 @@ set y [expr $y - 115]
 		upvar #0 ${win}_show_picture show_pic
 
 		if { $balloontext != "" } {
-			#set_balloon $win.f.bottom.pic $balloontext
+			unset_balloon $win.f.bottom.pic
+			set_balloon $win.f.bottom.pic $balloontext
 		}
 		if { [catch {$win.f.bottom.pic configure -image $picture}] } {
 			status_log "Failed to set picture, using no_pic\n" red
 			image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
 			$win.f.bottom.pic configure -image no_pic
-			#set_balloon $win.f.bottom.pic [trans nopic]
+			unset_balloon $win.f.bottom.pic
+			set_balloon $win.f.bottom.pic [trans nopic]
 		} elseif { $nopack == "" } {
 			grid $win.f.bottom.pic -row 0 -column 1 -padx 0 -pady 3 -rowspan 2
 			#grid forget $win.f.bottom.showpic
-			$win.f.bottom.showpic configure -image imghide			
+			$win.f.bottom.showpic configure -image imghide
+			unset_balloon $win.f.bottom.showpic
+			set_balloon $win.f.bottom.showpic [trans hidedisplaypic]	
 			set show_pic 1
 		}
 	}
@@ -1939,6 +1944,8 @@ set y [expr $y - 115]
 		#grid $win.f.bottom.showpic -row 0 -column 1 -padx 0 -pady 0 -rowspan 2
 		#Change here to change the icon, instead of text
 		$win.f.bottom.showpic configure -image imgshow
+		unset_balloon $win.f.bottom.showpic
+		set_balloon $win.f.bottom.showpic [trans showdisplaypic]
 
 		set ${win}_show_picture 0
 
