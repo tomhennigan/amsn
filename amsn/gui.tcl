@@ -3777,36 +3777,37 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap offline offline.gif
 	::skin::setPixmap away away.gif
 	::skin::setPixmap busy busy.gif
-	
+
 	::skin::setPixmap bonline bonline.gif
 	::skin::setPixmap boffline boffline.gif
 	::skin::setPixmap baway baway.gif
 	::skin::setPixmap bbusy bbusy.gif
-	
+
 	::skin::setPixmap mailbox unread.gif
-	
+
 	::skin::setPixmap contract contract.gif
 	::skin::setPixmap expand expand.gif
-	
+
 	::skin::setPixmap globe globe.gif
 	::skin::setPixmap download download.gif
 	::skin::setPixmap warning warning.gif
-	
+
 	::skin::setPixmap typingimg typing.gif
 	::skin::setPixmap miniinfo miniinfo.gif
 	::skin::setPixmap miniwarning miniwarn.gif
 	::skin::setPixmap minijoins minijoins.gif
 	::skin::setPixmap minileaves minileaves.gif
-	
+
 	::skin::setPixmap butsmile butsmile.gif
 	::skin::setPixmap butfont butfont.gif
 	::skin::setPixmap butblock butblock.gif
 	::skin::setPixmap butsend butsend.gif
 	::skin::setPixmap butinvite butinvite.gif
+	::skin::setPixmap butnewline newline.gif
 	::skin::setPixmap sendbutton sendbut.gif
-	::skin::setPixmap imgshow imgshow.gif
+ 	::skin::setPixmap imgshow imgshow.gif
 	::skin::setPixmap imghide imghide.gif
-	
+
 	::skin::setPixmap fticon fticon.gif
 	::skin::setPixmap ftreject ftreject.gif
 	
@@ -5678,19 +5679,21 @@ proc cmsn_change_name {} {
 	label $w.fn.label -font sboldf -text "[trans enternick]:"
 	entry $w.fn.name -width 40 -bg #FFFFFF -bd 1 -font splainf
 	button $w.fn.smiley -image butsmile -relief flat -padx 3 -highlightthickness 0
+	button $w.fn.newline -image butnewline -relief flat -padx 3 -command "$w.fn.name insert end \"\n\""
 
 	frame $w.p4c
 	label $w.p4c.label -font sboldf -text "[trans friendlyname]:"
 	entry $w.p4c.name -width 40 -bg #FFFFFF -bd 1 -font splainf
 	button $w.p4c.smiley -image butsmile -relief flat -padx 3 -highlightthickness 0
+	button $w.p4c.newline -image butnewline -relief flat -padx 3 -command "$w.p4c.name insert end \"\n\""
 
 	frame $w.fb
 	button $w.fb.ok -text [trans ok] -command change_name_ok -font sboldf
 	button $w.fb.cancel -text [trans cancel] -command "destroy $w" -font sboldf
 
 
-	pack $w.fn.label $w.fn.name $w.fn.smiley -side left -fill x -expand true
-	pack $w.p4c.label $w.p4c.name $w.p4c.smiley -side left -fill x -expand true
+	pack $w.fn.label $w.fn.name $w.fn.newline $w.fn.smiley -side left -fill x -expand true
+	pack $w.p4c.label $w.p4c.name $w.p4c.newline $w.p4c.smiley -side left -fill x -expand true
 	pack $w.fb.ok $w.fb.cancel -side right -padx 5
 
 	pack $w.fn $w.p4c $w.fb -side top -fill x -expand true -padx 5
@@ -7471,7 +7474,7 @@ proc show_bug_dialog {} {
 }
 
 
-#ShowTransient Ê{wintransient}
+#ShowTransient ?{wintransient}
 #The function try to know if the operating system is Mac OS X or not. If no, enable window in transient. Else,
 #don't change nothing.
 proc ShowTransient {win {parent "."}} {
