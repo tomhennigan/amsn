@@ -1,0 +1,201 @@
+amsn_lang_version 2
+about Um aMSN
+accept Samþykkja
+acceptfile Móttaka skrána $1, stærð $2? Vista í $3
+actions Gjörðir
+addacontact Bæta við tengilið
+addedyou hefur bætt þér í tengiliðalistann sinn
+addtocontacts Bæta við tengilið í lista
+addtoo Setja þessa manneskju sem tengilið
+admincontacts Tengiliðir kerfisstjóra
+admingroups Grúppur kerfisstjóra
+adverts Auglýsingar
+alarmpref Stillingar fyrir vakningu/viðvörun
+alarmstatus Slökkva/Kveikja á vakning/viðvörun fyrir þennan notanda
+allowseen Leyfa þessari manneskju að sjá mig og hafa samband við mig
+appearoff Sýnast aftengdur
+aretyping $1 er að skrifa skilaboð
+autoconnect Tengjast við ræsingu
+autohotmaillog Tengjast Hotmail sjálfkrafa
+autoidle Setja Ekkert lífsmark á sjálfkrafa
+autoip Sjálfvirk IPtala
+avoidseen Loka á þessi manneskju geti séð mig og haft samband við mig
+away Í burtu
+baduserpass Rangt notendanafn eða lykilorð
+blankdirect Leave blank for direct connection
+block Hafna
+blocked Hafnað
+broughtby  Eftirfarandi hönnuðir lögðu hönd á plóg
+browse Vafra
+browser Vafri
+busy Upptekinn
+cancel Hætta við
+cfgalarm Stilla/Bæta við/Eyða vakningu/viðvörun
+changenick Breyta heiti mínu
+chatack Samþykki spjall frá
+chat Spjall
+chatreq Fer fram á spjall
+chatsmileys Broskallar
+checkingver Leita eftir nýrri útgáfu
+checkver Leita eftir nýrri útgáfu
+choosebasefont Veldu stafasett
+choosebgcolor Veldu bakgrunn
+choosefontcolor Veldu stafalit
+clicktologin Smelltu hér til að tengjast
+close Loka
+closingdocks Loka-hnappur minnkar glugga
+command Skipun
+confirm Ertu viss?
+confirmdelete Ertu viss um að eyða $1?
+connecterror Villa við tengingu við netþjón
+contactadded Bætti við tengilið
+contactdoesnotexist Tengiliður finnst ekki!
+copy Afrita
+copytogroup Afrita í grúppu
+cut Klippa
+date Dagsetning
+delete Eyða
+deliverfail Upp kom vandamál við sendingu skilaboðanna
+docking Staðsetning
+dockingoff Staðsetning óvirk
+dockgtk Gnome-staðsetning
+dockkde KDE-staðsetning
+edit Breyta
+enableproxy Virkja proxy
+encoding Veldu kóðun
+entercontactemail Sláðu inn netfang tengiliðs
+enterfilename Skráðu skráarnafn
+enternick Sláðu inn heitið þitt
+examples Sýnidæmi
+exitamsn Viltu örugglega hætta?
+extras Viðbótarþjónustur
+faq FAQ (Spurningar)
+filedoesnotexist Skrá finnst ekki
+filename Skráarnafn
+filetransfercancelled Skráarflutningi slitið
+filetransfercomplete Skráarflutningi lokið
+ftaccepted Skráarflutningur samþykktur
+ftrejected Skráarflutningi hafnað
+gonelunch Úti í mat
+groupadd Bæta við grúppu
+groupdelete Eyða grúppu
+groupexists Grúppa nú þegar til
+group Grúppa
+groupmissing Finn ekki grúppu
+groupnewname Nýtt nafn
+groupnotempty Grúppa er ekki tóm!
+groupoldname Fyrra heiti
+grouprename Endurskýra grúppu
+groupunknown Óþekkt grúppa
+handle Tak
+helpcontents Yfirlit yfir hjálp
+help Hjálp
+home Heima
+ident Auðkenni
+identity Identity
+inbox Innhólf
+invalidusername Rangt notendanafn
+invite Bjóða
+ipaddress IP Address
+istyping $1 er að skrifa skilaboð
+joins $1 sett(ur) í samræðurnar
+keepalive Keepalive (NAT)
+language Tungumál
+lastmsgtime Síðustu skilaboð bárust $1
+leaveblankforhotmail Skildu eftir autt til að nota Hotmail vefinn
+leaves $1 yfirgefur samræðurnar
+listeningon Hlusta á porti $1
+listsmileys Sýna broskalla
+loadcontacts Hlaða inn lista yfir tengiliði
+loggedotherlocation Aftengdur. Tengdur inn á öðrum stað
+loggingin Tengist
+loginas Tengjast sem
+login Tengjast
+logout Aftengjast
+logsin var að tengjast
+mailer Póstforrit
+mobile Farsími
+movetogroup Færa í grúppu
+msg Skilaboð
+msn AMSN
+mustrestart Þú verður að endurræsa forritið til að virkja breytingarnar
+mystatus Staðan mín
+natip Skynja iptölu gegnum vefsíðu 
+needonline Þú ert/sýnist ennþá útskráður!
+newmail $1 ný skeyti í innhólfinu
+newmailfrom Nýr póstur frá
+newmsg Ný skilaboð
+newveravailable Til er nýrri útgáfa $1 
+next Áfram
+noactivity Ekkert lífsmark
+nonewmail Engin nýr póstur í innhólfinu
+nonewver Engar uppfærslur fáanlegar
+notify láta vita
+notifywin Láta vita
+nousersinsession Engir tengiliðir í samræðum
+offline Útskráður
+ok Í lagi
+onenewmail 1 nýr póstur í innhólfinu
+online Innskráður
+onphone Í símanum
+openreceived Opna móteknar skrár
+options Valmöguleikar
+ordercontactsby Raða tengiliðum eftir
+other Annað
+pager Símboði
+pass Lykilorð
+paste Líma
+phone Sími
+picfile Myndaskrá (GIF < 500 x 500)
+picstatus Myndaviðvörun
+port Port
+prefapps Forrit
+preferences Stillingar
+prefsound Hljóð
+properties Stillingar
+proxyconfhttp HTTP proxy stillingar
+proxyconf Proxy stillingar
+publishphones Sýna símanúmerin mín
+receivedbytes Hef móttekið $1 af $2 bætum
+receivefile Móttek skrá
+reconnecting Endurtengist netþjóni
+reconnect Bíð eftir að $1 endurtengist
+reject Hafna
+rememberpass Muna lykilorð
+rightback Kem eftir augnablik
+saveas Vista sem
+savecontacts Vista lista yfir tengiliði
+save Vista
+says $1 segir
+sbcon Tengist skiptiborði
+sendfile Senda skrá
+sendmail Senda póst
+sendmsg Senda skilaboð
+send Senda
+sentbytes Hef sent $1 af $2 bætum
+servergoingdown Aftengdur: Netþjónn verður keyrður niður
+server Netþjónn
+sound Hljóð og atburðir
+soundfile Hljóðskrá
+soundloop Endurtaka hljóð
+soundstatus Hljóða vakning/viðvörun
+startoffline Byrja útskráður
+status Staða
+stopalarm Stöðva vakning/viðvörun
+syntaxerror  Villa í forriti
+textsize Stærð texta
+title Skilaboði Als
+tools Tól
+to Til
+unblock afhafna
+uoffline Útskráður
+uonline Innskráður
+useralreadyonlist Tengiliður er nú þegar í listanum
+user Notandi
+usernotonline Tengiliður ekki tengdur
+version Útgáfa
+view Sýn
+willjoin Bíð eftir að $1 komi inn í samræðurnar
+work Vinna
+yousay Þú segir
+youwant Þú vilt
