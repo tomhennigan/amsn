@@ -5492,7 +5492,8 @@ namespace eval ::MSNP2P {
 		    
 		    #If it's a file transfer, display Progress bar
 		    if { [lindex [SessionList get $cSid] 7] == "filetransfer" } {
-		    	::amsn::FTProgress r $cSid [lindex [SessionList get $cSid] 6] $cOffset $cTotalDataSize
+			    ::amsn::FTProgress w $cSid "" [trans sbcon]
+			    ::amsn::FTProgress r $cSid [lindex [SessionList get $cSid] 6] $cOffset $cTotalDataSize
 		    }
 		    if { $fd != "" && $fd != 0 && $fd != -1 } {
 			# File already open and being written to (fd exists)
@@ -5872,13 +5873,16 @@ namespace eval ::MSNP2P {
 
 	proc SendDataFile { sid chatid filename match } {
 
-		status_log "state is [lindex [::MSNP2P::SessionList get $sid] 4] => sending through SB\n\n" red; 
+
 
 		if { [lindex [::MSNP2P::SessionList get $sid] 4] != "$match"} {
 			return
 		}
-		
+			
+		status_log "state is [lindex [::MSNP2P::SessionList get $sid] 4] => sending through SB\n\n" red; 
+			
 		#return
+
 		SessionList set $sid [list -1 [file size "${filename}"] -1 -1 -1 -1 -1 -1 -1 -1]
 		set fd [lindex [SessionList get $sid] 6]
 		if { $fd == 0 || $fd == "" } {
@@ -5889,7 +5893,8 @@ namespace eval ::MSNP2P {
 		if { $fd == "" } {
 			return
 		}
-	
+		::amsn::FTProgress w $sid "" [trans sbcon]
+
 # 		SendPacketExt [::MSN::SBFor $chatid] $sid [read $fd] 0 0 0 0 0 0 16777264
 # 		close $fd
 
@@ -5932,13 +5937,13 @@ namespace eval ::MSNP2P {
 			puts -nonewline $sock "MSG [incr ::MSN::trid] D $msg_len\r\n$msg"
 			set offset [expr $offset + 1202]
 			SessionList set $sid [list -1 -1 $offset -1 -1 -1 -1 -1 -1 -1]
-			::FTProgress s $sid "" $offset $filesize
+			::amsn::FTProgress s $sid "" $offset $filesize
 			catch {after 200 [list fileevent $sock writable "::MSNP2P::SendDataEvent $sbn $sid $fd"]}
 		} else {
 
 			set msg [MakePacket $sid $data 0 0 0 0 0 0 16777264]
 			set msg_len [string length $msg]
-			puts -nonewline $sock "MSG [inr ::MSN::trid] D $msg_len\r\n$msg"
+			puts -nonewline $sock "MSG [incr ::MSN::trid] D $msg_len\r\n$msg"
 			set offset [expr $offset + 1202]	
 			SessionList set $sid [list -1 -1 0 -1 -1 -1 -1 -1 -1 -1 ]
 	
@@ -5947,7 +5952,7 @@ namespace eval ::MSNP2P {
 			close $fd
 			unset fd
 
-			::FTProgress fs $sid ""
+			::amsn::FTProgress fs $sid ""
 		}
 	}
 		      
@@ -6621,6 +6626,7 @@ namespace eval ::MSN6FT {
 #		status_log "Sending : $out"
 
 		if { [expr $DataSize - $Offset] == "0"} {
+			catch { close $fd }
 			::amsn::FTProgress fs $sid ""
 		}
 
