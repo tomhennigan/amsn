@@ -1,0 +1,14 @@
+FAQ 1.3
+-------
+
+Ha a képernyõn csúnya karakterek (olvashatatlanok) jelennek meg
+az ékezetes betûk helyett, akkor az eszközök / beállítások  / megjelenés / kódolás
+menü alatt állitsd át az értéket iso 8859-2 -kódolásra.
+
+Ha a chat ablakban nincs ékezet, nézd meg hogy az X beállításai rendben vannak-e és 
+írd be egy virtuális terminálba:
+
+setxkbmap hu
+
+Az "õ" probléma csak bizonyos betûtípusoknál jelentkezik. Próbáld meg azokat átállítani.
+
