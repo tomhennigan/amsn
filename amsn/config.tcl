@@ -105,16 +105,6 @@ proc ConfigDefaults {} {
 	set config(flicker) 1
 	set config(autocheckver) 1
 	set password ""
-
-    # Try to guess where the tls package is installed. Default to no value
-    # if we can't find anything relevant.
-    set config(libtls) ""
-    foreach dir $auto_path {
-        if { ![catch {glob [file join $dir "tls*"]} files] } {
-            set config(libtls) [lindex $files 0]
-            break
-        }
-    }
 }
 
 namespace eval ::config {
