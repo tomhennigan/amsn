@@ -2780,20 +2780,25 @@ namespace eval ::amsn {
 
 		if { [string first $win_name [focus]] != 0 } {
 
+			# If user uses Windows, call winflash to flash the window, this is done by calling the winflash proc
+			# that should be created by the flash.dll extension. so we do it in a catch statement, if it fails
+			# Then load the extension before calling winflash. If this one or the first one were successful,
+			# we add a bind on FocusIn to call the winflash with the -state 0 option to disable it and we return.
 			if { [set ::tcl_platform(platform)] == "windows" } {
-				if { [catch {winflash $win_name } ] } {
-					if { ![catch { 
-						load [file join [set ::program_dir] plugins flash.dll]
-						winflash $win_name
-					} ] } {
-
-						after 1000 ::amsn::WinFlicker $chatid 0
+				if { [set ::tcl_platform(platform)] == "windows" } {
+					if { [catch {winflash $win_name -count -1} ] } {
+						if { ![catch { 
+							load [file join [set ::program_dir] plugins winflash flash.dll]
+							winflash $win_name -count -1
+						} ] } {
+							bind $win_name <FocusIn> "catch \" winflash $win_name -state 0\""
+							return
+						}
+						
+					} else {
+						bind $win_name <FocusIn> "catch\"winflash $win_name -state 0\""
 						return
 					}
-					
-				} else {
-					after 1000 ::amsn::WinFlicker $chatid 0
-					return
 				}
 			}
 
