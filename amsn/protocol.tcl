@@ -28,7 +28,8 @@ for {set i 256} {$i < 65536} {incr i} {
 
 namespace eval ::MSN {
    namespace export changeName logout changeStatus connect blockUser \
-   unblockUser addUser deleteUser login myStateIs
+   unblockUser addUser deleteUser login myStateIs inviteFT acceptFT rejectFT \
+   cancelReceiving cancelSending getMyIP
 
    proc connect { username password } {
       if {[catch { cmsn_ns_connect $username $password } res]} {
@@ -92,13 +93,14 @@ namespace eval ::MSN {
    #   ::MSN::WriteNS REM "AL $userlogin"
    }   
 
-   proc inviteFT { sbn filename cookie } {
+   proc inviteFT { sbn filename cookie ipaddr} {
       #Invitation to filetransfer, initial message
       variable trid 
       variable atransfer
 
       if { [catch {set filesize [file size $filename]} res]} {
-	::amsn::errorMsg "File does not exist"
+	::amsn::errorMsg "[trans filedoesnotexist]"
+	::amsn::fileTransferProgress c $cookie -1 -1
 	return 1
       }
       set sock [sb get $sbn sock]
@@ -119,7 +121,7 @@ namespace eval ::MSN {
       status_log "Invitation to $filename sent\n" red
 
       #Change to allow multiple filetransfer
-      set atransfer($cookie) [list $sbn $filename $filesize $cookie]      
+      set atransfer($cookie) [list $sbn $filename $filesize $cookie $ipaddr]      
 
    }
 
@@ -167,7 +169,7 @@ namespace eval ::MSN {
       variable atransfer
       status_log "Canceling receiving (TO-DO)\n"
       set sockid [lindex $atransfer($cookie) 4]
-      set sbn [lindex $atransfer($cookie) 4]
+      set sbn [lindex $atransfer($cookie) 0]
       
       if { $sockid != ""} {
          puts $sockid "CCL\r"
@@ -185,7 +187,7 @@ namespace eval ::MSN {
    proc cancelSending {cookie} {
       variable atransfer
       status_log "Canceling sending\n"
-      set sockid [lindex $atransfer($cookie) 4]
+      set sockid [lindex $atransfer($cookie) 5]
       set sbn [lindex $atransfer($cookie) 0]
       
       #Avoid sending the file
@@ -198,6 +200,11 @@ namespace eval ::MSN {
          array unset atransfer $cookie
 	 ::amsn::fileTransferProgress c $cookie -1 -1
       }
+   }
+
+   proc getMyIP {} {
+      set sock [sb get ns sock]
+      return [lindex [fconfigure $sock -sockname] 0]
    }
 
 
@@ -269,7 +276,7 @@ namespace eval ::MSN {
 
       #Invitation accepted, send IP and Port to connect to
       #option: posibility to enter IP address (firewalled connections)
-      set ipaddr [lindex [fconfigure $sock -sockname] 0]
+      set ipaddr [lindex $atransfer($cookie) 4]
       #if error ::AMSN::Error ...
 
       #A configurable port needed for firewalled connections
@@ -280,7 +287,7 @@ namespace eval ::MSN {
 	
       while {[catch {set sockid [socket -server "::MSN::AcceptConnection $cookie $authcookie" $port]} res]} {
          incr port
-      }
+      }     
 
       after 120000 "status_log \"Closing $sockid\n\";close $sockid"
 
@@ -298,6 +305,8 @@ namespace eval ::MSN {
       incr trid
       puts $sock "MSG $trid N $msg_len"
       puts -nonewline $sock $msg
+
+      ::amsn::fileTransferProgress p $cookie $port 0
 
       status_log "Listening on port $port for incoming connections...\n" red
 

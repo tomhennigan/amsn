@@ -7,53 +7,75 @@ namespace eval ::amsn {
    }
    
    proc fileTransferSend { twn title } {
+      global config
 
-      set w .senfile$title
+      set ipaddr "[::MSN::getMyIP]"
+
+      set w .sendfile$title
       toplevel $w
       wm title $w "[trans sendfile]"
       label $w.msg -justify center -text "[trans enterfilename]"
-      pack $w.msg -side top
-
+      pack $w.msg -side top -pady 5
 
       frame $w.buttons
       pack $w.buttons -side bottom -fill x -pady 2m
       button $w.buttons.dismiss -text [trans cancel] -command "destroy $w"
       button $w.buttons.save -text "[trans ok]" \
-        -command "::amsn::FileTransferSendOk $w $twn $w.filename.entry"
-      pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
+        -command "::amsn::FileTransferSendOk $w $twn"
+      pack $w.buttons.save $w.buttons.dismiss -side left -expand 1     
 
-      frame $w.options
-      entry $w.options.ipentry -relief sunken -width 20 
-      label $w.options.iplabel -text "[trans ipaddress]"
-      pack $w.options.ipentry -side right
-      pack $w.options.iplabel -side right
-      pack $w.options -side bottom -fill x 
+      frame $w.top
 
+      frame $w.top.labels
+      label $w.top.labels.file -text "[trans filename]:"
+      label $w.top.labels.ip -text "[trans ipaddress]:"
 
-      frame $w.filename -bd 2
-      entry $w.filename.entry -relief sunken -width 40 
-      label $w.filename.label -text "[trans filename]"
-      pack $w.filename.entry -side right
-      pack $w.filename.label -side left
-      pack $w.msg $w.filename -side top -fill x
+      frame $w.top.fields
+      entry $w.top.fields.file -width 40
+      entry $w.top.fields.ip -width 15 
+      checkbutton $w.top.fields.autoip -text "[trans autoip]" -variable config(autoftip)
+      
+      pack $w.top.fields.file -side top -anchor w
+      pack $w.top.fields.ip $w.top.fields.autoip -side left -anchor w -pady 5      
+      pack $w.top.labels.file $w.top.labels.ip -side top -anchor e     
+      pack $w.top.fields -side right -padx 5
+      pack $w.top.labels -side left -padx 5      
+      pack $w.top -side top
 
+      if {$config(autoftip)} {
+        $w.top.fields.ip insert 0 "$ipaddr"
+      } else {
+        $w.top.fields.ip insert 0 "$config(myip)"
+      }
 
-      focus $w.filename.entry
+      focus $w.top.fields.file
 
-      fileDialog2 $w $w.filename.entry open Untitled
+      fileDialog2 $w $w.top.fields.file open ""
    }
   
-   proc FileTransferSendOk { w sbn entry } {
-      set filename [ $entry get ]  
+   proc FileTransferSendOk { w sbn } {
+      global config
+      set filename [ $w.top.fields.file get ]  
+
+      if {$config(autoftip) == 0 } {
+        set config(myip) [ $w.top.fields.ip get ]  
+        set ipaddr [ $w.top.fields.ip get ]  
+      } else {
+        set ipaddr [ ::MSN::getMyIP ]  
+      }
+      
+
       destroy $w 
 
       #Calculate a random cookie
-      set cookie [expr {[clock clicks]  % (65536 * 4)}]     
+      set cookie [expr {[clock clicks]  % (65536 * 8)}]     
       
       status_log "Random generated cookie: $cookie\n"
       
       ::amsn::SendWin [file tail $filename] $cookie
-      ::MSN::inviteFT $sbn $filename $cookie
+      ::MSN::inviteFT $sbn $filename $cookie $ipaddr
+      
+      
       return 0
    }
      
@@ -116,8 +138,14 @@ namespace eval ::amsn {
       set w .ft$cookie
       
       if { [winfo exists $w] == 0} {
-        return 1
+        return
       }
+
+      if { $mode == "p" } {
+	 $w.progress configure -text "[trans listeningon $bytes]"
+	 return
+      } 
+
       
       if { $bytes <0 } {
 	 $w.progress configure -text "[trans filetransfercancelled]"

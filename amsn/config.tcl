@@ -20,6 +20,8 @@ set config(showoffline) 1
 set config(listsmileys) 1
 set config(chatsmileys) 1
 set config(startoffline) 0
+set config(autoftip) 1
+set config(myip) "127.0.0.1"
 #end AIM
 
 set password ""
