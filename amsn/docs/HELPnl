@@ -1,0 +1,19 @@
+Helpbestand voor aMSN:
+
+Benodigdheden:
+aMSN isgeschreven in tcl/tk, dus heb je een werkende tcl/tk-interpreter nodig (tcl/tk is een scripting-taal en moet niet gecompileerd worden in machinetaal maar wordt door een 'interpreter' (een soort tolk tolk) 'on the fly' vertaald naar machinetaal) - versie 8.3 of later. Je kan deze vinden op http://tcl.sourceforge.net. De 'interpreter' is beschikbaaroor linux-systemen, Windows en Macintosh-systemen.  Sommige bijkomende mogelijkheden vereisen enkele extra programmas en bibliotheken, zoals het mededelingengebied-icoontje ('systray' genoemd in Windows), de MSN-avatars (ook 'Display Pictures' genoemd) of de SSL connectie voor het MSN Protocol versie 9.
+
+
+
+Hoe installeer en gebruik ik aMSN op unix/linux-systemen? 
+Download het bestand amsn-x_xx.tar.gz.  Extract het met volgende commandos:
+
+	-  gzip -d amsn-x_xx.tar.gz  
+	   tar xvf amsn-x_xx.tar
+PS: In de bekendste desktop-omgevingen kan je dit ook uitpakken door op het bestand te (dubbel)klikken
+
+Dit zal een map 'msn/' aanmaken, en aMSN is geinstalleerd en klaar voor gebruik.
+Om het programma te starten ga je in de map ( typ "cd msn" ) en start het met "./amsn" als dit niet lukt,porbeer dan eens "wish amsn".
+Als het 'wish'-commando nietg bestaat, heb je tcl/tk niet goed geinstalleerd. Als "wish amsn" werkt maar "./amsn" niet, pas dan ht bestand aan met een tekst-editor en pas het 'path' van wish aan in de eerste lijn zodat het correct is (standaard staat dit op /usr/bin/wish).
+
+PS: je kan een icoontje creeen op je desktop met als snelkoppeling een verwijzing naar /plaats/waar/je/de/map/hebt/uitgepakt/msn/amsn
