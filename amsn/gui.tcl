@@ -4732,6 +4732,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		if {$state_desc == ""} {set state_desc " ([trans blocked])"}
 	}
 	
+
 	$pgBuddy.text tag conf $user_unique_name -fore $colour
 
 
@@ -6722,13 +6723,13 @@ proc pictureDeleteFile {} {
 			set selected_image ""
 			.picbrowser.mypic configure -image [::skin::getNoDisplayPicture]
 			if { [file exists $filename] == 1 } {
-				messageBox [trans faileddelete] ok error [trans failed]
+				::amsn::messageBox [trans faileddelete] ok error [trans failed]
 				status_log "Failed: file $filename could not be deleted.\n";
 			}
 		}
 
 	} else {
-		messageBox [trans faileddeleteperso] ok error [trans failed]
+		::amsn::messageBox [trans faileddeleteperso] ok error [trans failed]
 		status_log "Failed: file [file join $HOME displaypic $selected_image] does not exists.\n";
 	}
 }
