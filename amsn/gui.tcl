@@ -4551,7 +4551,7 @@ proc cmsn_draw_online { {delay 0} } {
 	$pgBuddy.text.mystatus insert end "$my_short_name " mystatus
 	$pgBuddy.text.mystatus insert end "($my_state_desc)" mystatus
 
-	set balloon_message "[string map {"%" "%%"} "$my_name \n $config(login) \n [trans status] : $my_state_desc"]"
+	set balloon_message "[string map {"%" "%%"} "$my_name\n $config(login)\n [trans status] : $my_state_desc"]"
 
 	$pgBuddy.text.mystatus tag bind mystatus <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 
@@ -4963,7 +4963,7 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 
     if { $config(tooltips) == 1 } {
 
-	set balloon_message "[string map {"%" "%%"} $user_name] \n $user_login \n [trans status] : [trans [lindex $state 1]] "
+	set balloon_message "[string map {"%" "%%"} $user_name]\n $user_login\n [trans status] : [trans [lindex $state 1]] "
 
 	$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 
