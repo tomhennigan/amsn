@@ -5904,10 +5904,6 @@ proc pictureBrowser {} {
 	pack .picbrowser.pics.text -side left -expand true -fill both -padx 0 -pady 0
 	pack .picbrowser.pics.ys -side left -fill y -padx 0 -pady 0
 
-	#if { [catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}] } {
-#		image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
-#	}
-
 	catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}
 	if { [ catch {image inuse my_pic}]} {
 			image create photo my_pic -file [GetSkinFile displaypic nopic.gif]
@@ -5943,7 +5939,7 @@ proc pictureBrowser {} {
 	
 	reloadAvailablePics
 		
-	#Free images:
+	#Free ifmages:
 	bind .picbrowser <Destroy> {
 		if {"%W" == ".picbrowser"} {
 			global image_names
@@ -5988,6 +5984,7 @@ proc reloadAvailablePics { } {
 		catch {set files [concat $files [glob -directory [file join $program_dir skins default displaypic] *.png]]}
 	}
 	catch {set files [concat $files [glob -directory [file join $HOME displaypic] *.png]]}
+	catch {set files [concat $files [glob -directory [file join $HOME displaypic cache] *.png]]}
 
 	#Reload images		
 	frame .picbrowser.pics.text.nopic -borderwidth 0 -highlightthickness 1 -background white -highlightbackground black

@@ -4519,14 +4519,14 @@ namespace eval ::MSNP2P {
 			}
 
 			global HOME
-			if { ![file readable "[file join $HOME displaypic ${filename}].gif"] } {
-				status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic ${filename}] doesn't exist!!\n" white
+			if { ![file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
+				status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic cache ${filename}] doesn't exist!!\n" white
 				image create photo user_pic_$user -file [GetSkinFile displaypic "loading.gif"]
 
-				create_dir [file join $HOME displaypic]
+				create_dir [file join $HOME displaypic cache]
 				::MSNP2P::RequestObject $chatid $user $msnobj
 			} else {
-			    catch {image create photo user_pic_$user -file "[file join $HOME displaypic ${filename}].gif"}
+			    catch {image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].gif"}
 
 			}
 	}
@@ -4831,9 +4831,9 @@ namespace eval ::MSNP2P {
 			    SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" $user_login $config(login) "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex $session_data 5] 0 0] 1]
 			    
 			    #file rename -force [file join $HOME displaypic cache.png] "${temporal_filename}.png"
-			    set file [filenoext [convert_image [file join $HOME displaypic $filename].png 96x96]].gif
+			    set file [filenoext [convert_image [file join $HOME displaypic cache $filename].png 96x96]].gif
 
-			    image create photo user_pic_${user_login} -file "[file join $HOME displaypic $filename].gif"
+			    image create photo user_pic_${user_login} -file "[file join $HOME displaypic cache $filename].gif"
 
 			    # Delete Session Vars
 			    # SessionList unset $sid
@@ -4846,7 +4846,7 @@ namespace eval ::MSNP2P {
 			set userinfo [::MSN::getUserInfo $user_login]
 			set filename [::MSNP2P::GetFilenameFromMSNOBJ [lindex $userinfo 3]]
 
-			set fd [open "[file join $HOME displaypic ${filename}.png]" "w"]
+			set fd [open "[file join $HOME displaypic cache ${filename}.png]" "w"]
 			fconfigure $fd -translation binary
 			SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
 			status_log "Sent an ACK for DATA PREP Message\n" red
