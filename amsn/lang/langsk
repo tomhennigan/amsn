@@ -1,12 +1,12 @@
 amsn_lang_version 2
 about O aMSN
 accept Prijat
-acceptfile Prijat subor $1, s dlzkou $2? umiestnene v $3
+acceptfile Prijat subor $1, s dlzkou $2? Bude umiestneny v $3
 actions Moznosti
 addacontact Pridat kontakt
 addedyou $1 ($2) ta pridal do kontaktnej knizky
-addprofile Pridat novy profil
-addprofiledesc Zadajte login pre ktory by si chcel vytvorit novy profil. \nLoginy s profilom ti poskytnu ine nastavenia pre kazdy login.\nBez profilu, nemozes nastavit Historiu, Alarmy alebo zapamatat hesla!
+addprofile Nastavit novy profil
+addprofiledesc Zadaj login pre ktory by si chcel vytvorit novy profil. \nLoginy s profilom ti poskytnu ine nastavenia pre kazdy login.\nBez profilu, nemozes nastavit Historiu, Alarmy alebo zapamatat hesla!
 addstate Pridat novy stav
 addto Pridat do $1
 addtocontacts Pridat do kontaktnej knizky
@@ -15,7 +15,7 @@ admincontacts Zmenit kontakty
 admingroups Zmenit triedy
 adverts Reklamy
 alarmonconnect Nastavit alarm ked uzivatel sa napoji
-alarmondisconnect Nastavit alarm ked uzivatel sa odpoji alebo sa stane neviditelnym
+alarmondisconnect Nastavit alarm ked uzivatel sa odpoji alebo zmeni status na offline
 alarmonmsg Nastavit alarm ked vam tento kontakt napise odkaz
 alarmonstatus Nastavit alarm ked kontakt zmeni status
 alarmpref Nastavenie alarmu pre tento kontakt
@@ -25,10 +25,10 @@ allowbadwords Vypnut cenzuru pre nickname-y
 allowlist Listina Povolenych (PK):
 allowonlyinal Povolit jedine kontaktom v Listine Povolenych pisat si so mnou
 allowseen Povolit tejto adrese vidiet ked budem online a kontaktovat sa so mnou
-animatedemoticon Tento emotikon je pohiblivy
-animatedsmileys Povolit pohiblive smajliky
+animatedemoticon Tento emotikon je pohyblivy
+animatedsmileys Povolit pohyblive smajliky
 appearance Imidz
-appearoff Neviditelnym (Status offline a naraz si online)
+appearoff Neviditelny (Status offline a naraz si online)
 areacode PSC
 aretyping $1 ti prave pise odkaz
 autoaccepted Automaticky prijaty subor
@@ -42,14 +42,14 @@ autoip Automaticka IP
 autonoact Zmen moj status na Neaktivny ked budem neaktivny viac nez
 avoidseen Zakazat tomuto kontaktu vidiet ma ked budem online a kontaktovat so mnou
 away Nepritomny
-awaymsg1 Zmenit dovod nepritomnosti kazdy krat ked budem mat status Nepritomny\HSV\Zaneprazdneny
-awaymsg2 Dovod nikdy nezmenit a vzdy pouzit tento dovod
+awaymsg1 Zmenit dovod nepritomnosti vzdy ked nastavim status Nepritomny\HSV\Zaneprazdneny
+awaymsg2 Dovod nikdy nezmenit a vzdy pouzit tento
 baduserpass Nespravny login alebo heslo
 bgcolor Zmenit farbu pozadia aMSN
 blankdirect Vynechaj pre pripojenie na internet bez proxy, atd.
 block Zablokovat
 blocked Zablokovany kontakt
-blockedyougroup Ukazat osobitny triedu pre ludi ktori ta zablokovali
+blockedyougroup Ukazat osobitnu triedu pre ludi ktori ta zablokovali
 blocking Blokovanie
 blockinter1 Ked budes online, prezriet kazdych
 blockinter2 sekund, inac prezriet kazdych :
@@ -79,7 +79,7 @@ chatsmileys2 Povolit emotikony a smajliky v okienkach
 chatsmileys Smajliky pre chat
 checkblocking Nepretrzito prezerat ci ta niekto nezablokoval
 checkfilman Prijate subory budu ulozene v $1. Prosim prezri nastavenie Suboroveho Manazera v Nastaveni
-checkingver Zistujem ci nie su nove verzie
+checkingver Prezeram ci existuju nove verzie
 checkonfln Zistit ci jeden kontakt ta nezablokoval ked zmeni status na offline
 checkver Zistit nove verzie
 choosearq Zmenit architekturu tvojho systemu
@@ -93,8 +93,8 @@ clearlog3 Vymazat vsetky logy
 clearlog Vymazat log
 clicktologin Klikni sem na pripojenie
 close Zavriet
-closed Konverzacia s $1 uzavreta kvoli inaktivite
-closingdocks Gombik "Close" zmensi
+closed Konverzacia s $1 uzavreta kvoli neaktivite
+closingdocks Gombik "Close" (x) zmensi okienko
 command Prikaz
 confirm Urcite to chces spravit?
 confirmdelete Urcite chces vymazat $1?
@@ -102,7 +102,7 @@ connected Teraz si online
 connecterror Chyba pri pripojeni na server
 connecting Pripajam sa
 connection Pripojenie
-connectionlost Bol si odpojeny! Pripojenie so serverom bolo uzavrete
+connectionlost Bol si odpojeny! Kontakt so serverom sa stratil
 contactadded Kontakt bol pridany
 contactdoesnotexist Kontakt neexistuje!
 contactlist Kontaktna knizka (FL):
@@ -115,7 +115,7 @@ custom_new Pridat vlastny smajlik
 cut Odstrihnut
 date Datum
 days Dni
-dcprofile Nenytvorit Profil
+dcprofile Nevytvorit Profil
 default Povodna Konfiguracia
 defaultloginradio Login s povodnou konfiguraciou
 delete Vymazat
@@ -133,7 +133,6 @@ dockingoff Docking vypnuty
 dockkde KDE Dock
 dontdownload Nestiahnut TLS, ja sam si ho nainstalujem
 downloadingtls Stahujem modul TLS module z:\n $1
-editcurrentstate Zmenit aktualny
 edit Zmenit
 editnewstate Novy osobny autoodkazovy status
 editprofile Zmenit profil
@@ -147,7 +146,7 @@ encoding Zvolit kodovanie
 entercontactemail Zadaj kontaktov e-mail
 enterfilename Prosim, zvol subor
 enternick Zadaj nickname
-errortls Chyba pri instalovani modul TSL:
+errortls Chyba pri instalovani modulu TSL:
 examples Priklady
 exitamsn Urcite chces vypnut aMSN?
 extras Extra sluzby
@@ -158,7 +157,7 @@ fileman Nastavenia
 filename Meno suboru
 filetransfercancelled Uzivatel zrusil odosielanie
 filetransfercomplete Odosielanie ukoncene spravne
-followtext Ist na spodok okienka ked dostanem novy odkaz
+followtext Zapnut scrolling ked dostanem novy odkaz
 ftacceptedby $1 prijal odosielanie suboru '$2'.
 ftaccepted Odosielanie suboru prijate
 ftaccepting Prijmam odosielanie suboru
@@ -194,7 +193,7 @@ ident Identifikujem
 identity Identita
 inbox Inbox
 installconvert Musis instalovat ImageMagick na prerobenie obrazov do formatu co pouzivaju servery MSN. Mozes si ho stiahnut pre tvoj system z ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Ak ho uz mas, je to bug, prosim napis nam o nom.
-internalerror Vnotorna Chyba Servera
+internalerror Vnutorna Chyba Servera
 invalidfile Subor $2 v policku "$1" neexistuje alebo je necitatelny
 invalidusername Nespravny login
 invitationcancelled Odosielanie bolo zrusene
@@ -208,10 +207,10 @@ keeplog2 Logovat vsetky konverzacie do Historie aMSN
 keeplog Zachovat logy z chatov
 language Jazyk
 lastmsgtime Posledny odkaz prijaty o $1
-lclosedwin $1 uzavrel toto okienko o $2
-lconftopriv Konverzacia premenena na privatny chat s $1
+lclosedwin $1 uzavrel jeho okienko pre tuto konverzaciu o $2
+lconftopriv Jedine ostava s tebou v konverzacii $1
 lconvstarted Konverzacia zacala o $1
-leaveblankforhotmail Vynbechaj policko na pouzitie web stranky Hotmailu
+leaveblankforhotmail Vynechaj policko na pouzitie web stranky Hotmailu
 leaves $1 uzavrel konverzaciu
 lenteredconf $1 sa zapojil do konverzacie o $2
 linprivate PRIVATNE
@@ -223,7 +222,7 @@ lleftconf $1 odisiel z konverzacie
 loadcontacts Pridat zoznam zo suboru
 logbigger Dlzka logu pre kazdu adresu nema limit
 logfandexp Dlzka logu a platnost Historie
-loggedotherlocation Bol si odpojeny. Niekto sa pripojil cez tvoju adresu z ineho miesta.
+loggedotherlocation Bol si odpojeny. Niekto sa pripojil s tvojou adresou z ineho miesta.
 loginas Pripojit sa inym loginom
 loging Logging
 login LogIn
@@ -232,7 +231,7 @@ logout LogOut
 logsin je online
 logsmileys Povolit emotikony a smajliky v okienkach Historie aMSN
 logsout je offline
-lprivtoconf Privatny chat sa zmenilo na diskusiu s viacerymi ludmi s $1
+lprivtoconf Privatny chat sa zmenil na diskusiu s viacerymi ludmi s $1
 luclosedwin Uzavrel si okienko o $1
 mailerexample ( \$recipient = Recipient ) Vynechaj pre pouzitie Hotmailu
 mailer Mailer
@@ -246,9 +245,9 @@ movetogroup Premiestnit do triedy
 msgflicker Blikajuce okienko ked dostanem odkaz v neaktivnom okienku.
 msgmaxmin Ked dostanem odkaz chcem aby to bolo :
 msg Odkaz
-msgmode Zvol ako zaobchadzat s viacerymi konverzaciami :
+msgmode Zvol ako kontrolovat viacere konverzacie :
 msn AMSN
-mustrestart Teraz program vypni a znovu zapni aby si ho mohol mat po Slovensky :)
+mustrestart Teraz restartuj program
 myhomephone Moje cislo domov
 mymobilephone Moj Mobil
 mystatus Moj status
@@ -266,7 +265,7 @@ nodataavailable Nie su disponibilne data pre $1
 nologfile Neexistuje log pre $1
 noneavailable Ziaden disponibilny
 nonewmail Nemas nove maily
-nonewver Nie je ziadna nova verzia na stiahnutie
+nonewver Nenasiel som ziadnu novu verziu na stiahnutie
 no Nie
 noprofileexists Momentalne neexistuju profily, \n musis si jeden vytvorit ak chces pouzit loginy s profilom. \nPouzi moznost Vytvorit novy profil v tomto okienku na vytvorenie jedneho profilu.
 normal Normal
@@ -278,7 +277,7 @@ notify upozornenie
 notifyoffset Nastavit poziciu notifikacneho okienka pomocou valut
 notifywin Notifikacne okienko
 notls Protokol MSN 9 potrebuje modul TSL. Zda sa, ze nemas tento modul instalovany v tvojom systeme. Ak ho mas, cesta k nemu by mala byt vypisana v okienku Moznosti. (napr: /opt/tls/lib). \n \n Mozes si stiahnut TLS z http://tls.sf.net.
-nousersinsession Nie su dostupni uzivatelia
+nousersinsession Nie su pristupni uzivatelia
 offline Offline
 ok Ok
 onenewmail Mas 1 novy mail
@@ -315,14 +314,11 @@ preflog1 Moje nastavenia pre Historiu a Logovanie
 preflook Moj imidz pre aMSN Messenger
 prefmsging Imidz mojich odkazov
 prefname Moj nickname pre MSN Messenger
-prefphone2 Napis telefonne cisla ktore chces aby bolo vidno \n pre ludi v tvojej Kontaktnej knizne \n
+prefphone2 Napis telefonne cisla ktore chces aby boli pristupne \n pre ludi v tvojej Kontaktnej knizne \n
 prefphone Moje telefonne cisla
-prefprofile2 Vytvorit alebo zmenit moj profil (\n Informacia o tebe, ktoru ostatni budu moct vidiet)
+prefprofile2 Vytvorit alebo zmenit moj profil (\n Informacia o tebe, ktora bude pristupna pre ostatnych)
 prefprivacy2 Kontaktne knizky uzivatela
 prefprivacy Listiny povolenych a zablokovanych
-prefphone2 Napis telefonne cisla ktore chces aby bolo vidno \n pre ludi v tvojej Kontaktnej knizne \n
-prefphone Moje telefonne cisla
-prefprofile2 Vytvorit alebo zmenit moj profil (\n Informacia o tebe, ktoru ostatni budu moct vidiet)
 prefprofile3 Nastavenie Profilov aMSN
 prefprofile Moj verejny profil
 prefproxy Moje proxy nastavenia
@@ -333,8 +329,7 @@ prefsound Zvuky
 privacy Privatnost
 profiledconfig Konfiguracia
 profileinuse Tento profil sa momentalne pouziva pri inom pripojeni na aMSN, prosim, zvol iny
-chose another login.
-profileloginradio Login using an existing Profile
+profileloginradio Login pouziva jeden Profil co uz existuje
 profiles Profily
 properties Vlastnosti
 proxyconfhttp Nastavenie HTTP proxy
@@ -350,7 +345,7 @@ receivefile Stiahnut subor
 reconnecting Znova pripojit na server
 reconnect Cakam na nove pripojenie od $1
 reject Neprijat
-rememberpass Zapametat si heslo
+rememberpass Zapamatat si heslo
 removefromlist Vymazat z listiny
 reversed Naopak
 reverselist Listina Reverse (RL):
@@ -361,7 +356,7 @@ save Ulozit
 savetofile Ulozit do suboru
 says $1 povedal
 sbcon Pripajam sa na Switch Board
-selectplugins Prosim, nastav plug-iny ktore chces nastavit
+selectplugins Prosim, nastav plug-iny ktore chces mat nastavene
 selectskin Prosim, vyber jeden tvar zo zoznamu
 sendfile Poslat subor
 sendmail Poslat mail
@@ -378,7 +373,7 @@ smileconfig Nastavenie vlastnych emotikonov
 smilefile Meno suboru smajlika
 smileintro2 Prosim, vypln povinne policka na zmenu tohto smajlika (Pozri FAQ ak tomu nerozumies)
 smileintro Prosim, vypln povinne policka na vytvorenie noveho vlastneho smajlika (see the FAQ for help)
-sound2 Spustit zvuk ked kontakt sa napoji alebo ked mi napise odkaz
+sound2 Spustit zvuk ked kontakt sa pripoji alebo ked mi napise odkaz
 soundcommand Toto je prikaz na "play" (napr: esdplay)
 sound Zvuky
 soundexample ( \$sound = zvukovy subor) Napr: esdplay \$sound
@@ -387,16 +382,16 @@ soundloop Opakovat zvuk
 soundserver Serverovy svuk
 soundstatus Zvuk pre alarm
 sourcecode Originalny Kod (potrebuje kompilovanie a instalaciu)
-sslwarning UPOZORNENIE!! Vypnutim SSL sa tiez vypne enkriptacia, cize tvoje heslo bude odoslane ako normalny text cez internet. Pouzi tuto moznost jedine pri velmi dobrych proxy serverov.
+sslwarning UPOZORNENIE!! Vypnutim SSL sa tiez vypne kodovanie, cize tvoje heslo bude odoslane ako normalny text cez internet. Pouzi tuto moznost jedine pri velmi dobrych proxy serveroch.
 startoffline2 Pripojit sa tichym sposobom, budes pripojeny ale ostatni ta nebudu vidiet.
 startoffline Pripojit sa tichym sposobom
 stateautomsg Autoodkaz
 statechange Status zmeneny na :
 stateedittext Prosim, nastav policka ktore chces zmenit a klikni na Ulozit
-stateinfo Nastavenie osobneho statusu
+stateinfo Nastavenie vlastneho statusu
 state Chcem mat tento status
-statename Meno osobneho statusu
-statenewtext Prosim, vypln povinnu informaciu na vytvorenie \n tvojho osobneho statusu a klikni na Ulozit
+statename Meno vlastneho statusu
+statenewtext Prosim, vypln povinnu informaciu na vytvorenie \n tvojho vlastneho statusu a klikni na Ulozit
 status Status
 stopalarm Zastavit Alarm
 stylechat Ten isty imidz pre chaty
@@ -433,7 +428,7 @@ view Vidiet
 willjoin Cakam kym $1 sa pripoji do konverzacie
 work Robota
 wrongfields Policko "$1", "$2" a/alebo "$3" neboli spravne
-wrongprofileversion Nespravna verzia konfiguracneho profilu. Na upravenie, vymaz priecinok $1, alebo siahni najnovsiu verziu amsn
+wrongprofileversion Nespravna verzia konfiguracneho profilu. Na upravenie, vymaz priecinok $1, alebo stiahni najnovsiu verziu amsn
 xoffset Valuta X
 yes Ano
 yoffset Valuta Y
@@ -451,55 +446,55 @@ cantremoveothers Nemozem vymazat skupinu "Others"
 cfgalarmall Nastavit/pridat/zrusit globalny alarm
 changecustomstate Nastavit na
 changedisplaypic Zmenit obrazok (fotku)
-charscounter Ratat dlzku napisaneho textu 
+charscounter Ratat dlzku textu 
 checkemail Ukazat mailovu notifikaciu v kontaktnej knizke 
 ch_to_state Nastavit novy status
 commandstatus Spustit prikaz
-confirmpurge Vsetky fotky inych uzivatelov ulozene (nie vase fotky) budu vymazane. Ste si isty?
-convertexplain Cesta k CONVERT exe suboru, od ImageMagick (potrebne na fotky).\n Vynechat ak CONVERT je v ceste. 
-corruptconfig Subor nastaveni nejde najst/spustit. Vytvaram novy. Stary bol ulozeny ako $1. Prosim, poslite nam ho aby sme sa pozreli co sa stalo. 
+confirmpurge Vsetky fotky inych uzivatelov ulozene (nie tvoje fotky) budu vymazane. Si si isty?
+convertexplain Cesta k CONVERT exe suboru, od ImageMagick (potrebne na fotky).\n Vynechat ak CONVERT je v ceste.
+corruptconfig Subor nastaveni nejde najst/spustit. Vytvaram novy. Stary bol ulozeny ako $1. Prosim, posli nam ho aby sme sa pozreli co sa stalo. 
 credits Programatori
 defchatwinsize Velkost pre chat-okienka (XSIZExYSIZE) 
 deletecustomstate Vymazat vlastny status
 delimiters Timestamps' delimiters: 
 disabled Vypnute 
-disableprofiles Vypnut profily (Ak ste v internet-kafe alebo pod.) 
+disableprofiles Vypnut profily (Ak si v internet-kafe alebo pod.) 
 displaychat Ukazat nastavenia textu 
 dontshow Neukazat
-editcustomstate Editovat vlastny status 
+editcustomstate Zmenit vlastny status 
 editvalue Zmenit valutu
 emailsinlist Ukazat aj maily okrem nicknameov v kontaktnej knizke 
 enablebanner Ukazat banner od AMSN (Treba restartovat aMSN) 
 enabled Zapnute
 faileddelete Nedalo sa vymazat 
-faileddeleteperso Tento obrazok sa nemoze vymazat pretoze to neni osobny obrazkovy subor. Mozte vymazat tymto sposobom jedine tie obrazky ktore patria vasmu profilu. 
+faileddeleteperso Tento obrazok sa nemoze vymazat pretoze to neni osobny obrazkovy subor. Mozes vymazat tymto sposobom jedine tie obrazky ktore patria tvojmu profilu. 
 failed Chyba
 file Subor
-fullcontactlist Lutujem, zle vasa kontaktna knizka je plna. Budete musiet vymazat nejaky kontakt aby ste mohli pridat dalsi. 
+fullcontactlist Lutujem, ale tvoja kontaktna knizka je plna. Budes musiet vymazat nejaky kontakt aby si mohol pridat dalsi. 
 getdisppic Ukladat do pamati obrazky inych uzivatelov. 
 hidedisplaypic Schovat obrazok 
 imagefiles Obrazkove subory.
 insertsmiley Pridat emotikon. 
-invalidfile2 Chyba pri vytvarani suboru $1, zaistite sa ci mate tie spravne povolenia. 
-invalidpicsize Obrazok je prilis velky, prosim, vyberte si jeden mensi. 
+invalidfile2 Chyba pri vytvarani suboru $1, zaisti sa ci mas spravne povolenia. 
+invalidpicsize Obrazok je prilis velky, prosim, vyber si jeden mensi. 
 invalidpic Tento subor neexistuje. 
 invalidsound Tento subor neexistuje. 
 lineflushlog Zapisovat do logu kazdy riadok. 
 loggingin Startujem
-longnick Tvoj nick ma viac nez 130 pismen. MSN Protocol oficialne nepovoluje taketo nicky. Ste si isty? 
+longnick Tvoj nick ma viac nez 130 pismen. MSN Protocol oficialne nepovoluje taketo nicky. Si si isty? 
 mypic Moj obrazok: 
 newstate Pridat vlastny status 
 nopic Ziaden obrazok
-noskins Nemozem najst tvar v priecinku. Nemozem spustit AMSN. 
+noskins Nemozem najst originalny tvar v priecinku. Nemozem spustit AMSN. 
 notificationserver MSN Messenger Server
 notify1 Ukazat notifikacne okienko ked kontakt sa pripoji. 
-notify2 Ukazat notifikacne okienko ked vam niekto napise.
-notifytyping Odoslat inym uzivatelom notifikaciu ked pisete. 
+notify2 Ukazat notifikacne okienko ked ti niekto napise.
+notifytyping Odoslat inym uzivatelom notifikaciu ked pises. 
 others Ine
 picbrowser Prehliadac Obrazkov 
 playing Hram: $1 
 prefft Odosielanie/prijmanie suborov, nastavenia P2P a NAT 
-profileexists Nemozte vytvorit profil s tymto loginom \n, pretoze jeden uz existuje. Prosim, zvolte iny. 
+profileexists Nemozes vytvorit profil s tymto loginom \n, pretoze jeden uz existuje. Prosim, zvol iny. 
 purge Vycistit 
 receiveddir Priecinok prijatych suborov 
 rename Premenovat
@@ -513,16 +508,18 @@ shownotify Ukazat notifikacne okienko ked sa udeje nejaka akcia
 showuserpic Fotka $1
 soundfiles Zvukove subory 
 startontray Nastartovat AMSN len v Tray 
-statenick Vlastny nick (vynechat aby sa to nezmenilo) 
+statenick Vlastny nick (vynechaj ak nechces aby sa to nezmenilo) 
 storenickname Vratit povodny nickname ak sa nastavy vlastny status s vlastnym nickname-om 
-strictfonts Prisposobit vsetky pisma a velkosti na to co ste si zvolili 
+strictfonts Prisposobit vsetky pisma a velkosti na to co si si zvolil
 temp_state Neulozit 
 timestamps Zapnut cas v okienkach 
-tkerror TK nasiel jeden error, aMSN ma chybu, prosim, odoslite nam ju. Odoslite subor $1 na adresu amsn-bugs@lists.sf.net 
-tlsexplain Priecinok kde je ulozeny modul TLS. Ak AMSN ho nemoze najst, prosim specifikujte.\n(Potrebne na SSL). 
+tkerror TK nasiel jeden error, aMSN ma chybu, prosim, odosli nam ju. Odosli subor $1 na adresu amsn-bugs@lists.sf.net 
+tlsexplain Priecinok kde je ulozeny modul TLS. Ak ho AMSN nemoze najst, prosim specifikuj.\n(Potrebne na SSL). 
 truncatenames1 Prisposobit dlzku nickname-ov dlhsich nez okienka v hornej casti a kontaktnej knizke 
 truncatenames2 Prisposobit dlzku nickname-ov dlhsich nez okienka v konverzaciach
 truncatenicks Prisposobit dlzku nickname-ov dlhsich nez okienka 
 xmmscurrent Ukazat pesnicku ktora sa v tomto momente hra
-xmmserr Nic sa nehra, alebo nemate nainstalovany xmms-infopipe.
+xmmserr Nic sa nehra, alebo nemas nainstalovany xmms-infopipe.
 xmmssend Odoslat terajsiu pesnicku.
+corruptstates Subor kde su ulozene vlastne statusy nie je pristupny. Vytvaram novy. Stary bol ulozeny ako $1. Prosim, posli nam ho aby sme sa pozreli co sa stalo.
+notinlist Nie si v jej/jeho kontaktnej knizke
