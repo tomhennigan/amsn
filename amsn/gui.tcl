@@ -2685,15 +2685,17 @@ proc cmsn_draw_online {} {
 
    $pgBuddy.text insert end "\n"
 
-   set width [expr {[winfo width $pgBuddy.text] - 10} ]
+   #set width [expr {[winfo width $pgBuddy.text] - 10} ]
+   set width [expr {[winfo width $pgBuddy.text]} -1 ]
 
    if { $width < 160 } {
        set width 160
    }
 
-   mainbar blank
    set barheight [image height colorbar]
    set barwidth [image width colorbar]
+
+   mainbar blank
    mainbar copy colorbar -from 0 0 5 $barheight
    mainbar copy colorbar -from 5 0 15 $barheight -to 5 0 [expr {$width - 150}] $barheight
    mainbar copy colorbar -from [expr {$barwidth - 150}] 0 $barwidth $barheight -to [expr {$width - 150}] 0 $width $barheight
