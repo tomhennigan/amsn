@@ -21,6 +21,7 @@ alarmondisconnect Activa l'alarma quan l'usuari canviï a l'estat "Desconnectat"
 alarmonmsg Activa l'alarma quan l'usuari t'enviï un missatge
 alarmonstatus Activa l'alarma quan l'usuari canviï d'estat
 alarmpref Preferències de l'alarma per l'usuari
+alarms Avisos
 alarmstatus Activar l'alarma per aquest usuari
 allfiles Tots els fitxers
 allowallbutbl Permet que tots els usuaris, llevat dels bloquejats, contactin amb mi
@@ -123,7 +124,7 @@ connectionlost Desconnectat: connexió amb el servidor tancada
 contactadded Contacte inclòs
 contactdoesnotexist ¡El contacte que intentes afegir no existeix!
 contactlist Llista de contactes (FL):
-convertexplain Camí al fitxer executable CONVERT, d'ImageMagick (es necessita per veure les imatges).\nDeixa-ho en blanc si CONVERT està al path.
+convertexplain Camí al fitxer executable CONVERT, d'ImageMagick (es necessita per veure les imatges).\nDeixa-ho en blanc si CONVERT és al PATH.
 copy Copia
 copytogroup Copia al grup
 corruptconfig El fitxer de configuració conté errors. Ara en crearé un de nou i desaré l'antic a $1. Si vols ajudar-nos, envia'ns el fitxer erroni.
@@ -134,6 +135,7 @@ credits Crèdits
 currentdate Data actual
 custom_edit Editar emoticona personalitzada
 custom_new Afegir emoticona personalitzada
+customnick Sobrenom personalitzat
 cut Talla
 date Data
 days dies
@@ -145,7 +147,7 @@ deletecustomstate Esborrar estat personalitzat
 delete Esborrar
 delimiters Delimitadors de temps:
 deliverfail Hi ha hagut un problema al enviar el missatge
-delprofile2 Selecciona el perfil que t'agradaria eliminar
+delprofile2 Selecciona el perfil a eliminar
 delprofile Esborrar perfil
 description Descripció
 directconnection Tinc una connexió directa a Internet (utilitza el port 1863)
@@ -240,6 +242,7 @@ installconvert Instal·lar conversor: Has d'instal·lar ImageMagick (un programa d
 internalerror Error intern del servidor
 invalidfile El fitxer $2 introduït al camp "$1" no existeix o no es pot llegir
 invalidfile2 No es pot crear el fitxer $1. Comprova que tinguis els permisos necessaris.
+invalidgroup Grup no vàlid
 invalidpic El fitxer d'imatge no existeix.
 invalidpicsize La imatge és massa gran. Escull-ne una de més petita.
 invalidsound El fitxer de so no existeix.
@@ -254,11 +257,15 @@ keepalive Mantenir connexió activa (NAT)
 keeplog2 Registrar totes les converses a l'historial de l'aMSN per futures visualitzacions
 keeplog Conservar l'historial de les converses
 language Idioma
+lastlogin Últim inici de sessió
+lastlogout Últim tancament de sessió
+lastmsgedme Últim missatge
 lastmsgtime Últim missatge rebut a les $1
 lclosedwin $1 ha tancat la finestra a les $2
 lconftopriv La conversa múltiple canvia a conversa privada amb $1
 lconvstarted Conversa iniciada a les $1
 leaveblankforhotmail Deixa-ho buit per utilitzar hotmail
+leavejoinsinchat Mostra, a dins la finestra, quan un usuari s'uneixi o deixi la conversa
 leaves $1 deixa la conversa
 lenteredconf $1 s'uneix a la canversa a les $2
 lineflushlog Escriure els històrics a disc sense buffer (línia a línia)
@@ -285,7 +292,7 @@ logsout s'acaba de desconnectar
 longnick El teu sobrenom conté més de 130 caràcters i el protocol MSN no els accepta. Estàs segur de voler tenir aquest sobrenom?
 lprivtoconf La conversa privada canvia a conversa múltiple amb $1
 luclosedwin Has tancat la finestra a les $1
-mailerexample (\$recipient serà substituït per l'adreça del contacte) Deixa-ho buit per utilitzar hotmail.
+mailerexample (\$recipient indica l'adreça del contacte) Deixa-ho buit per utilitzar hotmail.
 mailer Gestor de correu
 maximised Maximitzada
 minimised Minimitzada/iconificada
@@ -299,7 +306,7 @@ msgmaxmin Quan arribi un nou missatge, vull que la finestra sigui:
 msg Missatge
 msgmode Escull com gestionar finestres de missatges múltiples:
 msn aMSN
-mustrestart Has de reiniciar el programa per a que els canvis tinguin efecte
+mustrestart Has de reiniciar l'aMSN si vols que els canvis tinguin efecte
 myhomephone El meu telèfon a casa
 mymobilephone El meu telèfon mòbil
 mypic La meva Imatge Mostrada:
@@ -314,8 +321,10 @@ newmsg Nou missatge
 newstate Afegeix un estat personalitzat
 newveravailable La versió $1 està disponible per a baixar-se
 next Següent
+nick Sobrenom
 noactivity Sense activitat
 nodataavailable No hi ha dades disponibles per a $1
+nogroup Sense grup
 nologfile No existeix fitxer d'historial per $1
 noneavailable No disponible
 nonewmail No hi ha missatges nous a la bústia
@@ -370,7 +379,7 @@ prefblock3 Grup "Has estat bloquejat per"
 prefconnection Configuració de la connexió
 prefemotic Emoticones
 preferences Preferències
-preffont2 Canvia la manera com els altres veuen el meu text en una conversa
+preffont2 Canvia com els altres veuen el meu text en una conversa
 preffont3 Canvia el tipus de lletra i la mida de l'interfície de l'aMSN
 preffont Text dels meus missatges
 prefft Ajustaments de la transmició de fitxers, P2P i NAT
@@ -406,10 +415,11 @@ publishphones Publicar els meus números de telèfon
 purge Purgar
 raised Elevada/desiconificada
 readonlymsgbox La transferència ha estat cancel·lada perquè no tens permís d'escriptura al directori destí.
-readonlywarn ATENCIÓ: Probablement, el fitxer no serà desat correctament. Comprova els permisos que tens al directori destí ($1).
+readonlywarn ATENCIÓ: Probablement, el fitxer no serà desat correctament. Comprova els permisos que tens al directori destí ($1);
 receivedbytes Rebuts $1 de $2 bytes
 receiveddir Directori de fitxers rebuts
 receivefile Rebent fitxer
+recentmsg Prevenir el tancament de la finestra de conversa quan acabi d'arribar un missatge
 reconnect Esperant a que $1 es reconnecti
 reconnecting Reconnectant amb el servidor
 reject Rebutjar
@@ -439,7 +449,7 @@ server Servidor
 serverunavailable El servidor no contesta
 session Sessió
 showblockedlist Mostra'm la llista de la gent que em té bloquejat a la seva llista de contactes
-showcachedpics Mostra/Oculta les imatges mostrades agafades
+showcachedpics Mostra les imatges mostrades agafades
 showdisplaypic2 Mostra la Imatge Mostrada quan s'obri una nova conversa
 showdisplaypic Mostra la Imatge Mostrada
 showmypic La meva Imatge Mostrada
@@ -475,7 +485,7 @@ statenick Sobrenom personalitzat (deixa'l en blanc per no canviar res)
 state Vull aparèixer com
 status Estat
 stopalarm Parar l'alarma
-storenickname Retorna al sobrenom original després de sortir d'un estat personalitzat amb un sobrenom també personalitzat
+storenickname Retorna al sobrenom original al sortir d'un estat personalitzat
 strictfonts Restringeix la mida de les fonts a la seleccionada
 stylechat La mateixa aparença que a les converses
 stylehist Aparença de l'historial de l'aMSN
@@ -499,7 +509,7 @@ tooltips Activa el rètol indicador de funcions
 transnotexists Aquest fitxer encara no ha estat traduït
 traynotcompiled La icona de la safata de connexió no s'ha compilat. Comprova el directori plugins/traydock
 triggers Text disparador
-truncatenames1 Escurça els sobrenoms més llargs que l'amplada de la finestra en els títols de finestra i la llista de contactes
+truncatenames1 Escurça els sobrenoms més llargs que l'amplada de la finestra en el títol i els contactes
 truncatenames2 Escurça els sobrenoms més llargs que l'amplada de la finestra a les converses
 truncatenicks Escurça els sobrenoms més llargs que l'amplada de la finestra
 twonewmail $1 missatges nous a la bústia
@@ -510,6 +520,8 @@ useralreadyonlist L'usuari ja és a la llista de contactes
 userblocked Aquest usuari està connectat però t'ha bloquejat a la seva llista
 usernotonline L'usuari no està connectat
 user Usuari
+userdata Dades d'usuari
+userproperties Propietats de l'usuari $1
 useryourself No pots conversar amb tu mateix
 verifyblocked Comprova la gent que em té bloquejat a la seva llista
 version Versió
