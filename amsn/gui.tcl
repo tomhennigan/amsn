@@ -6349,6 +6349,11 @@ proc load_my_pic {} {
 proc pictureBrowser {} {
 	global config selected_image
 
+	if { [winfo exists .picbrowser] } {
+		raise .picbrowser
+		return
+	}
+
 	toplevel .picbrowser
 
 	set selected_image $config(displaypic)
@@ -6409,7 +6414,6 @@ proc pictureBrowser {} {
 	.picbrowser.pics.text configure -state disabled
 		
 	wm title .picbrowser "[trans picbrowser]"
-	grab .picbrowser
 }
 
 proc getPictureDesc {filename} {
@@ -6450,6 +6454,8 @@ proc addPicture {the_image pic_text filename} {
 
 proc reloadAvailablePics { } {
 	global HOME program_dir image_names
+
+	set scrollidx [.picbrowser.pics.text yview]
 
 	#Destroy old embedded windows
 	set windows [.picbrowser.pics.text window names]
@@ -6532,7 +6538,11 @@ proc reloadAvailablePics { } {
 		}
 	}
 
-	.picbrowser.pics.text configure  -state disabled	
+	update idletasks
+
+	.picbrowser.pics.text yview moveto [lindex $scrollidx 0]
+
+	.picbrowser.pics.text configure  -state disabled
 
 
 
