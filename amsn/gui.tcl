@@ -5748,7 +5748,7 @@ proc convert_image { filename size } {
 		set sizexy [list [lindex $sizexy 0] [lindex $sizexy 0]]
 		set ratio 1.0
 	} else {
-			set ratio [expr { 1.0*[lindex $sizexy 1] / [lindex $sizexy 0] } ]
+		set ratio [expr { 1.0*[lindex $sizexy 1] / [lindex $sizexy 0] } ]
 	}
 	set origratio [expr { 1.0*$origw / $origh } ]
 	status_log "Original ratio is $origratio, desired ratio is $ratio\n" blue
@@ -5786,25 +5786,27 @@ proc convert_image { filename size } {
 
  
 	#Now let's crop image, from the center
-   #set img [image create photo -file "$filename.gif"]
-	#set centerx [expr { [image width $img] /2 } ]
-	#set centery [expr { [image height $img] /2 } ]
-	#set halfw [expr [lindex $sizexy 0] / 2]
-	#set halfh [expr [lindex $sizexy 1] / 2]
-	#set x1 [expr {$centerx-halfw}]
-	#set y1 [expr {$centery-halfh}]
-	#set x2 [expr {$centerx+halfw}]
-	#set y2 [expr {$centery+halfh}]
+   set img [image create photo -file "$filename.gif"]
+	set centerx [expr { [image width $img] /2 } ]
+	set centery [expr { [image height $img] /2 } ]
+	set halfw [expr [lindex $sizexy 0] / 2]
+	set halfh [expr [lindex $sizexy 1] / 2]
+	set x1 [expr {$centerx-$halfw}]
+	set y1 [expr {$centery-$halfh}]
+	set x2 [expr {$x1+[lindex $sizexy 0]}]
+	set y2 [expr {$y1+[lindex $sizexy 1]}]
 	 
-	if { [catch { exec convert "${filename}.gif" -gravity Center -crop "[lindex $sizexy 0]x[lindex $sizexy 1]" "${filename2}.gif" } res] } {
-		msg_box "[trans installconvert]"
-		status_log "converting returned error : $res\n"
-		return 0
-	}
+	#Won't use convert to avoid the .png.0 .png.1... problem
+	#if { [catch { exec convert "${filename}.gif" -gravity Center -crop "[lindex $sizexy 0]x[lindex $sizexy 1]" "${filename2}.gif" } res] } {
+	#	msg_box "[trans installconvert]"
+	#	status_log "converting returned error : $res\n"
+	#	return 0
+	#}
 
-	#status_log "Center of image is $centerx,$centery, will crop from $x1,$y1 to $x2,$y2 \n" blue
-	#$img write "$filename2.gif" -from $x1 $y1 $x2 $y2
-	#image delete $img
+	status_log "Center of image is $centerx,$centery, will crop from $x1,$y1 to $x2,$y2 \n" blue
+	$img write "$filename2.gif" -from $x1 $y1 $x2 $y2
+	image delete $img
+	
 	file delete $filename.gif
 
 	catch { exec convert "${filename2}.gif"  "${filename2}.png"}
