@@ -143,6 +143,7 @@ editprofile Uredi profil
 editstate Uredi obstojece stanje za avtomatsko sporocilo
 edit Uredi
 emotisounds Igraj zvok na dolocene emotikone
+enablebanner Prikazi aMSNjevo pasico (Potreben je ponoven zagon aMSN)
 enableproxy Omogoci proxy
 enableremote Omogoci nadzor na daljavo
 enablesound Igraj zvok

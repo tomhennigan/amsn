@@ -67,6 +67,7 @@ cancel Batalkan
 cannotdeleteprofile Tidak bisa menghapus profil karena tampaknya masih digunakan
 cantexec Aplikasi tidak bisa dijalankan: $1. Periksa pilihan
 casesensitive Gunakan pemicu yang sensitif terhadap bentuk huruf (besar/kecil)
+cfgalarmall Atur/Tambahkan/Hilangkan Alarm Global
 cfgalarm Rubah Pengaturan/Tambah/Hapus alarm
 changedisplaypic Rubah Gambar Tampilan
 changefont Rubah Huruf
@@ -141,6 +142,7 @@ editprofile Ubah Profil
 editstate Rubah Keadaan Pesan-otomatis yang sudah ada
 edit Ubah
 emotisounds Mainkan suara pada emoticon tertentu
+enablebanner Tampilkan spanduk aMSN (aMSN perlu di-restart)
 enableproxy Nyalakan proxy
 enableremote Mungkinkan pengedalian jarak jauh
 enablesound Mainkan suara
