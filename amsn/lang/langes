@@ -87,6 +87,7 @@ changedisplaypic Cambiar imagen mostrada
 changefont Cambiar fuente
 changeglobnick Cambiar nick personalizado globalmente
 changenick Cambiar apodo
+changesize Cambiar tamaño
 changestate $1 cambia su estado a $2
 charscounter Contador de caracteres tecleados en ventana de chat
 chatack Aceptando conversación de
@@ -108,6 +109,7 @@ choosecontact Por favor selecciona un contacto de la lista
 choosefontcolor Elegir color de la letra
 chooseskin Por favor, elige el Tema que deseas usar
 ch_to_state Cambiar al nuevo estado
+clear Limpiar
 clearlog2 Limpiar historial para todos los contactos
 clearlog3 Limpiar todos los registros
 clearlog Limpiar historial
@@ -122,6 +124,7 @@ confirmdelete ¿Seguro que deseas borrar a $1?
 confirm ¿ Estás seguro ?
 confirmpurge Todas las Imágenes para Mostrar del resto de los contactos (no las tuyas) serán eliminadas. ¿ Estás seguro ?
 connected Ahora estás conectado
+connectedwith Conectado como $1
 connecterror Error conectándose al servidor
 connecting Conectando
 connection Conexión
@@ -170,7 +173,12 @@ disableprofiles Desactivar perfiles (Útil para cibercafés o entornos compartidos
 disablessl Desactivar SSL
 disableuserfonts Ignorar el tipo de letra del otro usuario en el chat, y usar siempre tu tipo de letra
 disconnect $1 se ha desconectado
+disconnectedfrom Desconectado de $1
 displaychat Configuración de mensajes
+displayeventconnect Mostrar cuándo se conectan los contactos
+displayeventdisconnect Mostrar cuándo se desconectan los contactos
+displayeventemail Mostrar cuándo se recibe un email
+displayeventstate Mostrar cuándo los contactos cambian de estado
 displayp4context Mostrar contenido del campo P4-Context como remitente del mensaje
 displaypic Imagen para Mostrar
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
@@ -201,6 +209,7 @@ entercontactemail Introduce el email del contacto
 enterfilename Introduce el nombre del archivo
 enternick Introduce tu apodo
 errortls Error instalando el módulo TLS:
+eventhistory Ver hostorial de eventos
 examples Ejemplos
 exitamsn ¿Está seguro de que desea salir?
 extras Servicios Adicionales
@@ -303,6 +312,10 @@ ljoinedconf $1 se une a la conversación
 lleftconf $1 deja la conversación
 loadcontacts Cargar lista de contactos
 logbigger Archivos de registro de un contacto no superan los
+logeventconnect Registrar las conexiones
+logeventdisconnect Registrar las desconexiones
+logeventemail Registrar cuándo se recibe un email
+logeventstate Registrar los cambios de estado
 logfandexp Tamaño de archivos de registro y expiración de historial
 loggedotherlocation Desconectado: Se inició la sesión en otra ubicación
 loggingin Iniciando sesión
@@ -395,6 +408,7 @@ openreceived Abrir archivos recibidos
 options Opciones
 ordercontactsby Ordenar contactos por
 ordergroupsby Ordenar grupos por
+original Original
 other Otro
 others Otras
 p4contextprefix Prefijar remitentes en P4-Context con esta cadena de caracteres
@@ -425,6 +439,7 @@ preffont Texto de mis mensajes
 prefft Transferencias de archivos, igual-a-igual y configuración de NAT
 preflibs Directorio para bibliotecas
 preflog1 Mis opciones de historial y registros
+preflogevent Historial de mis eventos
 preflook Apariencia de mi aMSN Messenger
 prefmsging Interfaz de mis mensajes
 prefname Mi nombre/apodo en MSN Messenger

@@ -1884,7 +1884,10 @@ namespace eval ::amsn {
 				.${win_name}.menu.edit add command -label "[trans copy]" -command "tk_textCopy .${win_name}" -accelerator "Ctrl+C"
 				.${win_name}.menu.edit add command -label "[trans paste]" -command "tk_textPaste .${win_name}" -accelerator "Ctrl+V"
 			}
-
+		
+		.${win_name}.menu.edit add separator
+		.${win_name}.menu.edit add command -label "[trans clear]" -command [list ::amsn::ClearChatWindow .${win_name}]
+		
 		menu .${win_name}.menutextsize -tearoff 0 -type normal
 		.${win_name}.menutextsize add command -label "+8" -command "change_myfontsize 8"
 		.${win_name}.menutextsize add command -label "+6" -command "change_myfontsize 6"
@@ -2241,6 +2244,12 @@ namespace eval ::amsn {
 		lappend chat_windows ".${win_name}"
 
 		return ".${win_name}"
+	}
+	
+	proc ClearChatWindow {win} {
+		${win}.f.out.text configure -state normal
+		${win}.f.out.text delete 0.0 end
+		${win}.f.out.text configure -state disabled
 	}
 
 	proc ConfiguredChatWin {win} {

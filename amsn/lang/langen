@@ -109,6 +109,7 @@ choosecontact Please choose a contact from the list
 choosefontcolor Choose font color
 chooseskin Please select the skin you would like to use
 ch_to_state Switch to new state
+clear Clear
 clearlog2 Clear the history for all your contacts
 clearlog3 Clear All Logs
 clearlog Clear Log
@@ -122,8 +123,8 @@ commandstatus Execute command
 confirm Are you sure?
 confirmdelete Are you sure you want to delete $1?
 confirmpurge All stored display pictures from other contacts (not your display pictures) will be erased. Are you sure?
-connected You are now connected
 connectedwith Connected with $1
+connected You are now connected
 connecterror Error connecting to server
 connecting Connecting
 connection Connection
@@ -563,10 +564,10 @@ tlsexplain Folder where the tcl TLS module is located. If AMSN can't locate it, 
 tlsinstallexp aMSN now uses MSNP9, which requires the use of a secure\nconnection using SSL. In order to use SSL, aMSN needs to install a module called TLS,\nwhich is missing from your system. This wizard will help you to download and\ninstall TLS. Please choose your system type so we can automatically download\nthe required TLS files.
 tlsinstall TLS Module installation wizard
 tlsinstcompleted TLS module installation was sucessful - you should now be able to use MSNP9. If this doesn't work, then you probably didn't select the right module, or a compiled module is not available for your system.
+today Today
 tools Tools
 tooltips Enable tooltips
 to To
-today Today
 transnotexists The requested file has not been translated into the current language yet.
 traynotcompiled Tray icon plugin is not compiled. Check plugins/traydock
 triggers Text triggers
@@ -601,8 +602,8 @@ xmmserr Nothing is playing, or you dont have xmms-infopipe installed.
 xmmssend Send current song
 xoffset X Offset
 year Year
-yes Yes
 yesterday Yesterday
+yes Yes
 yoffset Y Offset
 youblocked You have been blocked by
 yousay You say

@@ -1,8 +1,8 @@
 al iso8859-1 Albanian
 bn utf-8 Bengali
 bs iso8859-1 Bosanski
-bg iso8859-5 Bulgarian
 br iso8859-1 Breton
+bg iso8859-5 Bulgarian
 ca iso8859-1 Catalan
 cs iso8859-2 Cesky
 cy utf-8 Cymraeg\Welsh
@@ -10,7 +10,6 @@ da iso8859-1 Danish
 de utf-8 Deutsch
 ei iso8859-1 Eivissenc
 en iso8859-1 English
-es iso8859-1 Spanish
 eo utf-8 Esperanto
 ee iso8859-4 Estonian
 eu iso8859-1 Euskera
@@ -33,18 +32,19 @@ mn utf-8 Mongolian
 nl iso8859-1 Nederlands
 no iso8859-1 Norwegian
 pl iso8859-2 Polish
-pt iso8859-1 Portuguese
-pt_BR iso8859-1 Brazilian Portuguese
+pt iso8859-1 Portuguese (Portual)
+pt_BR iso8859-1 Portuguese (Brazil)
 ro iso8859-2 Romanian
 ru koi8-r Russian
+zh-CN iso8859-1 Simplified Chinese
 sk iso8859-1 Slovak
 sl iso8859-2 Slovenscina
 af iso8859-1 South African
+es iso8859-1 Spanish
 sr iso8859-5 Srpski
 swa iso8859-1 Swahili
 sv iso8859-1 Swedish
 ta iso8859-1 Tamil
+zh-TW big5 Traditional Chinese(Taiwan)
 tr iso8859-9 Turkish
 va iso8859-1 Valencian
-zh-CN iso8859-1 Simplified Chinese
-zh-TW big5 Traditional Chinese(Taiwan)
