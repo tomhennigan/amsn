@@ -1,0 +1,25 @@
+Help file par amsn
+
+Richiestis:
+Amsn al è scrit in tcl/tk, cuindi tu às bisugne di un interprit tcl/tk cal funsionedi, version 8.3 o miòr.
+Tu puedis velu al recapit http://tcl.sourceforge.net.
+El interprit is dispunibil par linux,windows e macintosh.
+Cualchi funsionament di plui al podares ve bisugne di cualchi altri program, o librarìs, come le docking icon, le Display Picture, o le conesion SSL par el protocol MSN 9.
+
+Guide di stafariment:
+Sçiarie el file amsn-x_xx.tar.gz.
+Scompatilu cun el comand:
+ gzip -d amsn-x_xx.tar.gz
+ tar xvf amsn-x_xx.tar
+Al crearà une directory msn/ e amsn al è stafarìt e pront par là.
+Par falu là, scrìf:
+ cd msn
+ ./amsn
+o se nol và, prove
+ wish amsn
+Se el comand wish nol esist, alore no tu às tcl/tk stafarìt coretamentri.
+Se "wish amsn" al funsione, ma "./amsn" no, configure el file 'amsn' e met le trate juste a 'wish' te prime linie.
+Normalmentri, cheste le trate e je:
+/usr/bin/wish
+
+Se tu às ançimo berdeis, prove a dopra le FAQ
