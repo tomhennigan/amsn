@@ -784,7 +784,7 @@ namespace eval ::ChatWindow {
 		::skin::setPixmap moretabs moretabs.gif
 		::skin::setPixmap lesstabs lesstabs.gif
 
-		frame $bar -class Amsn -relief solid -bg white -bd 0
+		frame $bar -class Amsn -relief solid -bg [::skin::getKey chatwindowbg] -bd 0
 
 		return $bar
 	}
@@ -2134,7 +2134,7 @@ namespace eval ::ChatWindow {
 		button $tab -image [::skin::loadPixmap tab] \
 		    -width [image width [::skin::loadPixmap tab]] \
 		    -command "::ChatWindow::SwitchToTab $container $win" \
-		    -fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
+		    -fg black -bg [::skin::getKey chatwindowbg] -bd 0 -relief flat \
 		    -activebackground [::skin::getKey sendbuttonbg] -activeforeground black -text "$win" \
 		    -font sboldf -highlightthickness 0 -pady 0 -padx 0
 		if { $::tcl_version >= 8.4 } {
