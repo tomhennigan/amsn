@@ -996,6 +996,11 @@ proc cmsn_ns_handler {item} {
 	  msg_box "[trans sintaxerror]"
           return 0
       }
+      201 {
+          status_log "Error: Sintax error\n" error
+	  msg_box "[trans invalidparameter]"
+          return 0
+      }
       911 {
           status_log "Error: User/Password\n" red
 	  set password ""
@@ -1327,7 +1332,7 @@ proc cmsn_sb_connected {name} {
    cmsn_msgwin_top $name "[trans indent]..."
 }
 
-proc cmsn_ns_connect { username password} {
+proc cmsn_ns_connect { username {password ""}} {
    global unread list_al list_bl list_fl list_rl config
 
    if { ($username == "") || ($password == "")} {
