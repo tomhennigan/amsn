@@ -3089,7 +3089,7 @@ proc cmsn_draw_main {} {
 		.main_menu.helping add command -label "[trans about]..." -command ::amsn::aboutWindow
 	}
 	.main_menu.helping add command -label "[trans version]..." -command \
-	"msg_box \"[trans version]: $::version\n[trans date]: $date\n$weburl\""
+	"msg_box \"[trans version]: $::version\n[trans date]: [::abook::dateconvert $date]\n$weburl\""
 
 
 	. conf -menu .main_menu
