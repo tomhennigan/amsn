@@ -30,7 +30,7 @@
 namespace eval ::MSN {
    namespace export changeName logout changeStatus connect blockUser \
    unblockUser addUser deleteUser login myStateIs inviteFT acceptFT rejectFT \
-   cancelReceiving cancelSending getMyIP
+   cancelReceiving cancelSending getMyIP moveUser
 
    proc connect { username password } {
       if {[catch { cmsn_ns_connect $username $password } res]} {
@@ -80,6 +80,15 @@ namespace eval ::MSN {
    proc unblockUser { userlogin } {
       ::MSN::WriteNS REM "BL $userlogin"
       ::MSN::WriteNS LST "RL"
+   }
+   
+   # Move user from one group to another group
+   proc moveUser { passport oldGid newGid {userName ""}} {
+      if { $userName == "" } {
+        set userName $passport
+      }
+      set atrid [::MSN::WriteNS "ADD" "FL $passport $userName $newGid"]
+      set rtrid [::MSN::WriteNS "REM" "FL $passport $oldGid"]
    }
    
    proc addUser { userlogin {username ""}} {
@@ -231,16 +240,16 @@ namespace eval ::MSN {
 
    proc WriteNS {cmd param {handler ""}} {
       variable trid
-      incr trid
+      set thistrid [incr trid]
 
-      puts -nonewline [sb get ns sock] "$cmd $trid $param\r\n"
-      degt_protocol "->NS $cmd $trid $param"
+      puts -nonewline [sb get ns sock] "$cmd $thistrid $param\r\n"
+      degt_protocol "->NS $cmd $thistrid $param"
 
       if {$handler != ""} {
          global list_cmdhnd
-         lappend list_cmdhnd [list $trid $handler]
+         lappend list_cmdhnd [list $thistrid $handler]
       }
-
+      return $thistrid
    }
 
 
@@ -1148,11 +1157,13 @@ proc cmsn_ns_handler {item} {
       ADG {	# Add Group
       	status_log "$item\n" blue
 	::groups::AddCB [lrange $item 0 5]
+   	cmsn_draw_online
 	return 0
       }
       RMG {	# Remove Group
       	status_log "$item\n" blue
 	::groups::DeleteCB [lrange $item 0 5]
+   	cmsn_draw_online
 	return 0
       }
       OUT {	# Remove Group
