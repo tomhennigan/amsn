@@ -69,6 +69,7 @@ namespace eval ::amsnplus {
 		::plugins::RegisterEvent "aMSN Plus" chatwindowbutton chat_color_button
 		::plugins::RegisterEvent "aMSN Plus" chatmenu edit_menu
 		::plugins::RegisterEvent "aMSN Plus" OnConnect on_connect
+		::plugins::RegisterEvent "aMSN Plus" mainmenu add_plus_menu
 		
 		if {![::amsnplus::version_094]} {
 			::amsnplus::setPixmap
@@ -80,7 +81,18 @@ namespace eval ::amsnplus {
 	#//////////////////////////////////////////////////////////////////////////
 	#                      GENERAL PURPOSE PROCEDURES
 	#//////////////////////////////////////////////////////////////////////////
-		
+
+	####################################################
+	# creates the plus sub menu in the main gui menu
+	proc add_plus_menu { event evpar } {
+		upvar 2 evPar newvar
+		set menu_name $newvar(menu)
+		menu ${menu_name}.plusmenu -tearoff 0
+		$menu_name add cascade -label "aMSN Plus!" -menu ${menu_name}.plusmenu
+		set plusmenu ${menu_name}.plusmenu
+		#entries for the plus menu
+	}	
+
 	####################################################
 	# returns 1 if the char is a numbar, otherwise 0
 	proc is_a_number { char } {
