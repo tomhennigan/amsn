@@ -1973,7 +1973,7 @@ catch {exec killall -c sndplay}
 		#grid $win.f.bottom.showpic -row 0 -column 1 -padx 0 -pady 0 -rowspan 2
 		#Change here to change the icon, instead of text
 		$win.f.bottom.showpic configure -image imgshow
-		set_balloon $win.f.bottom.showpic [trans showdisplaypic]
+		change_balloon $win.f.bottom.showpic [trans showdisplaypic]
 
 		set ${win}_show_picture 0
 
