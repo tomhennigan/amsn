@@ -6,11 +6,19 @@
 #          POP3 Code from Tclib project               #
 #######################################################
 
+#TODO:
+#  * add translation
+#  * allow for multiple emails
+#  * create a right click menu to delete mails
+#  * make getfroms non blocking
+
+
 namespace eval ::pop3 {
 	variable config
 	variable configlist
 	variable emails -1
 	variable newMails -1
+	variable balloontext ""
 
 	#######################################################################################
 	#######################################################################################
@@ -336,6 +344,61 @@ namespace eval ::pop3 {
 	}
 
 
+	# ::pop3::from
+	# Description:
+	#	Get the name of the person that the email is from.
+	# Arguments:
+	#	chan ->  The channel, returned by ::pop3::open
+	#	id   ->  The id number of the message
+	# Results:
+	#	The name in the "From:" section.
+	proc ::pop3::from {chan id} {
+		set from "unknown"
+
+		if {![catch {
+			set data [::pop3::send $chan "TOP $id"]
+		} errorStr]} {
+			while {1} {
+				set line [string trimright [gets $chan] \r]
+
+				# End of the message is a line with just "."
+				if {$line == "."} {
+					break
+				} elseif {[string index $line 0] == "."} {
+					set line [string range $line 1 end]
+				}
+
+				if {[string equal -length 5 $line "From: "]} {
+					set from [string range $line 6 end]
+				}
+			}
+		}
+
+		return $from
+	}
+
+
+	# ::pop3::getfroms
+	# Description:
+	#	Create a list of froms for the balloon message.
+	# Arguments:
+	#	chan   ->  The channel, returned by ::pop3::open
+	#	first  ->  The id of the first email to check
+	#	last   ->  The id of the last email to check
+	# Results:
+	#	A message for the balloon containing the names of who the mails are from is set
+	#	in ::pop3::balloontext
+	proc ::pop3::getfroms {chan first last} {
+		set ::pop3::balloontext ""
+		if {$first <= $last} {
+			set ::pop3::balloontext "\n"
+			for {set x $first} {$x <= $last} {incr x} {
+				set ::pop3::balloontext "$::pop3::balloontext\nNew mail from [::pop3::from $chan $x]"
+			}
+		}
+	}
+
+
 	# ::pop3::status
 	# Description:
 	#	Get the status of the mail spool on the POP3 server.
@@ -352,12 +415,29 @@ namespace eval ::pop3 {
 	}
 
 
+	# ::pop3::notify
+	# Description:
+	#	Posts a notification of new emails.
+	# Arguments: None
+	# Results:
+	#	A notify window pops up when required.
+	proc ::pop3::notify { } {
+		if { $::pop3::config(notify) == 1 && $::pop3::newMails != 0 } {
+			::amsn::notifyAdd "POP3\n[trans newmail $::pop3::newMails]" "" "" plugins
+
+			#If Growl plugin is loaded, show the notification
+			set pluginidx [lindex [lsearch -all $::plugins::found "*growl*"] 0]
+			if { $pluginidx != "" } {
+				catch {growl post Pop POP3 [trans newmail $::pop3::newMails]}
+			}
+		}
+	}
+
+
 	# ::pop3::check
 	# Description:
 	#	Use the 3 above methods to get the number of mails continuously
-	# Arguments:
-	#	event   -> The event wich runs the proc (Supplied by Plugins System)
-	#       evPar   -> The array of parameters (Supplied by Plugins System)
+	# Arguments: None
 	# Results:
 	#	An integer variable wich contains the number of mails in the mbox
 	proc ::pop3::check { } {
@@ -367,9 +447,9 @@ namespace eval ::pop3 {
 			#check that it opened properly
 			if { [set ::pop3::chanopen_$chan] == 1 } {
 				set mails [::pop3::status $chan]
-				::pop3::close $chan
 
 				plugins_log pop3 "POP3 messages: $mails\n"
+				set dontnotifythis 1
 				if { $::pop3::emails != $mails } {
 					set dontnotifythis 0
 					if { $::pop3::config(leavemails) == 1 } {
@@ -382,17 +462,14 @@ namespace eval ::pop3 {
 						set ::pop3::newMails $mails
 					}
 					set ::pop3::emails $mails
+
+					::pop3::getfroms $chan [expr $mails-$::pop3::newMails+1] $mails
+				}
+				::pop3::close $chan
+
+				if { $dontnotifythis == 0 } {
 					cmsn_draw_online
-
-					if { $::pop3::config(notify) == 1 && $::pop3::newMails != 0 && $dontnotifythis == 0 } {
-						::amsn::notifyAdd "POP3\n[trans newmail $::pop3::newMails]" "" "" plugins
-
-						#If Growl plugin is loaded, show the notification
-						set pluginidx [lindex [lsearch -all $::plugins::found "*growl*"] 0]
-						if { $pluginidx != "" } {
-							catch {growl post Pop POP3 [trans newmail $mails]}
-						}
-					}
+					::pop3::notify
 				}
 			} else {
 				plugins_log pop3 "POP3 failed to open\n"
@@ -511,7 +588,6 @@ namespace eval ::pop3 {
 			$textb configure -font "{} -$mailheight"
 		}
 
-		#TODO: needs translation
 		set balloon_message "Click here to check the number of messages now."
 		bind $textb.popmailpic <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 		bind $textb.popmailpic <Leave> "+set ::Bulle(first) 0; kill_balloon;"
@@ -544,6 +620,11 @@ namespace eval ::pop3 {
 			$textb tag bind pop3mail <Enter> "$textb tag conf pop3mail -under false;$textb conf -cursor hand2"
 			$textb tag bind pop3mail <Leave> "$textb tag conf pop3mail -under true;$textb conf -cursor left_ptr"
 		}
+		set balloon_message "$mailmsg$::pop3::balloontext"
+		$textb tag bind pop3mail <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+		$textb tag bind pop3mail <Leave> "+set ::Bulle(first) 0; kill_balloon;"
+		$textb tag bind pop3mail <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+
 		$textb insert end "$short_mailmsg" {pop3mail dont_replace_smileys}
 		
 		$textb configure -state disabled
