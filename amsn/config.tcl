@@ -841,6 +841,7 @@ proc ConfigChange { window email } {
 					# let's setup the new lock
 					LockProfile $email
 					SaveLoginList
+					cmsn_draw_offline
 					
 				}
 			}
