@@ -1050,11 +1050,13 @@ proc ShowUser {user_name user_login state state_code colour section} {
 }
 
 proc block_user {user_login} {
-   ::MSN::blockUser ${user_login}
+    set name [::abook::getName ${user_login}]
+   ::MSN::blockUser ${user_login} [urlencode $name]
 }
 
 proc unblock_user {user_login} {
-   ::MSN::unblockUser ${user_login}
+    set name [::abook::getName ${user_login}]
+   ::MSN::unblockUser ${user_login} [urlencode $name]
 }
 
 proc delete_user {user_login} {
@@ -2110,7 +2112,7 @@ proc lists_compare {} {
 	       ::MSN::WriteNS "ADD" "FL [lindex $x 0] [urlencode [lindex $x 1]]"
 	    }
 	 } else {;# if clicked on OK, by default Accept List	  
-	       ::MSN::WriteNS "ADD" "AL [lindex $x 0] [urlencode [lindex $x 1]]"
+#	       ::MSN::WriteNS "ADD" "AL [lindex $x 0] [urlencode [lindex $x 1]]"
 	 }
 
       } ;# NOT in AL/BL

@@ -72,14 +72,17 @@ namespace eval ::MSN {
        return $myState
    }
 
-   proc blockUser { userlogin } {
+   proc blockUser { userlogin username} {
      ::MSN::WriteNS REM "AL $userlogin"
      ::MSN::WriteNS ADD "BL $userlogin $userlogin"
    }
 
-   proc unblockUser { userlogin } {
+   proc unblockUser { userlogin username} {
+      global list_al $user_login
+      lappend 
       ::MSN::WriteNS REM "BL $userlogin"
-      ::MSN::WriteNS LST "RL"
+      ::MSN::WriteNS ADD "AL $userlogin $username"
+#      ::MSN::WriteNS LST "RL"
    }
    
    # Move user from one group to another group

@@ -18,18 +18,36 @@ dave a.k.a. Compu
 and more... by AIM
 
 # TODO Auto change state to "No activity" when idle
+# TODO Font selection for chat window
+# TODO Just one chat per user, not open many windows for the same user
+# TODO Auto connect when connection deteced
+# TODO Improve proxy support
+# TODO Add contact to AL (Accept list) when adding to FL (necessary?)
+# TODO Check high cpu usage when flickering chat window
+# TODO Check possible memory leak
+# TODO A contact can be in more than one group at once / Copy to group
+# TODO Notebook like chat windows (as an option)
+# TODO Show "mustrestart" when changing proxy settings
+# TODO Block / unblock fully working in chat windows
+# TODO Improve block / unblock mechanism
+# TODO Improve file transfers:
+          resuming
+          not blocking negotiation
+	  auths / nick verification
+	  notify of file invitation in chat window instead of separate window
+# TODO ... at the end of nicks that don't fit in the contact list	  	  
+# TODO Encrypt password in config file (is possible)
+# TODO Non-blocking sockets
+# TODO Multiple user accounts combo box
 # TODO Menu accelerators
 # TODO Skin selection
-# TODO Font selection for chat window
-# TODO Improve proxy support
 # TODO Docking?
 # TODO Copy to group / a contact can be in more than one groups at once
 # TODO Avoid blocking the messenger when reading from the socket
 # TODO Windows-like copy-paste
 # TODO Option for autoconnect (when connection detected)
-# TODo Background image, animation when logging in
 # TODO Unified option window (browser, fonts, use smileys, AL/BL/RL lists...)
-# TODO Just one chat per user, not open many windows for the same user
+# TODo Background image, animation when logging in
 # TODO Improve logging
 
 
