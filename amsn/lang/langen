@@ -428,3 +428,8 @@ yoffset Y Offset
 youblocked You have been blocked by
 yousay You say
 youwant You want
+sourcecode Source Code (needs compiling and installing)
+dontdownload Don't download TLS, I'll install it myself
+tlsinstall TLS Module installation wizard
+tlsinstallexp AMSN now uses MSNP9, which requires the use of a secure\nconnection using SSL. In order to use SSL, AMSN needs to install a module called TLS,\nwhich is missing in your system. This wizard will help you in downloading and\ninstalling TLS. Please choose your system type so we can automatically download\nthe required TLS files.
+choosearq Choose your system architecture

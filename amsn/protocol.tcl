@@ -796,10 +796,11 @@ namespace eval ::MSN {
       global config tlsinstalled
       
       if { $config(protocol) == 9 && $tlsinstalled == 0 && [checking_package_tls] == 0} {
-          ::amsn::infoMsg [trans notls]
-          set config(protocol) 7
-	  global protocol
-	  set protocol 7
+         ::amsn::installTLS
+          #::amsn::infoMsg [trans notls]
+          #set config(protocol) 7
+	  #global protocol
+	  #set protocol 7
           return
       }
 

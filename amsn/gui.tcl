@@ -40,6 +40,122 @@ namespace eval ::amsn {
       ::abookGui::Init
    }
 
+	proc installTLS {} {
+		global tcl_platform
+		global tlsplatform
+
+		if { $tcl_platform(os) == "Linux" } {
+			set tlsplatform "linuxx86"
+		} elseif { [string compare $tcl_platform(platform) "windows"]} {
+			set tlsplatform "win32"
+		} else {
+			set tlsplatform "src"
+		}
+
+		toplevel .tlsdown
+		wm title .tlsdown "[trans tlsinstall]"
+
+		label .tlsdown.caption -text "[trans tlsinstallexp]" -anchor w -font splainf
+
+		label .tlsdown.choose -text "[trans choosearq]:" -anchor w -font sboldf
+
+		pack .tlsdown.caption -side top -expand true -fill x -padx 10 -pady 10
+		pack .tlsdown.choose -side top -anchor w -padx 10 -pady 10
+
+		radiobutton .tlsdown.linuxx86 -text "Linux-x86" -variable tlsplatform -value "linuxx86" -font splainf
+		radiobutton .tlsdown.solaris26 -text "Solaris 2.6 SPARC" -variable tlsplatform -value "solaris26" -font splainf
+		radiobutton .tlsdown.win32 -text "Windows" -variable tlsplatform -value "win32" -font splainf
+		radiobutton .tlsdown.src -text "[trans sourcecode]" -variable tlsplatform -value "src" -font splainf
+		radiobutton .tlsdown.nodown -text "[trans dontdownload]" -variable tlsplatform -value "nodown" -font splainf
+
+
+		frame .tlsdown.f
+
+		button .tlsdown.f.ok -text "[trans ok]" -command "::amsn::downloadTLS; bind .tlsdown <Destroy> {}; destroy .tlsdown" -font sboldf
+		button .tlsdown.f.cancel -text "[trans cancel]" -command "destroy .tlsdown" -font sboldf
+
+		pack .tlsdown.f.cancel -side right -padx 10 -pady 10
+		pack .tlsdown.f.ok -side right -padx 10 -pady 10
+
+		pack .tlsdown.linuxx86 -side top -anchor w -padx 15
+		pack .tlsdown.solaris26 -side top -anchor w -padx 15
+		pack .tlsdown.win32 -side top -anchor w -padx 15
+		pack .tlsdown.src -side top -anchor w -padx 15
+		pack .tlsdown.nodown -side top -anchor w -padx 15
+
+		pack .tlsdown.f -side top
+
+		bind .tlsdown <Destroy> {
+			if {"%W" == ".tlsdown"} {
+				::amsn::infoMsg "[trans notls]"
+      	} }
+
+		grab .tlsdown
+	}
+
+	proc downloadTLS {} {
+		global tlsplatform
+
+		status_log "tlsplatform is $tlsplatform\n"
+		if { $tlsplatform == "nodown" } {
+			::amsn::infoMsg [trans notls]
+			return
+		} else {
+			status_log "Here\n"
+			switch $tlsplatform {
+				"linuxx86" {
+					set downloadurl "http://belnet.dl.sourceforge.net/sourceforge/tls/tls1.4.1-linux-x86.tar.gz"
+				}
+				"solaris26" {
+					set downloadurl "http://belnet.dl.sourceforge.net/sourceforge/tls/tls1.4.1-solaris26-sparc.tar.gz"
+				}
+				"win32" {
+					set downloadurl "http://belnet.dl.sourceforge.net/sourceforge/tls/tls1.4.1-win32.zip"
+				}
+				"src" {
+					set downloadurl "http://belnet.dl.sourceforge.net/sourceforge/tls/tls1.4.1-src.tar.gz"
+				}
+				- {
+					set downloadurl "none"
+				}
+			}
+
+			set w .tlsprogress
+			toplevel $w
+			wm group $w .
+			#wm geometry $w 350x160
+
+			label $w.l -text "[trans downloadingtls]" -font splainf
+			pack $w.l -side top -anchor w -padx 10 -pady 10
+			pack [::dkfprogress::Progress $w.prbar] -fill x -expand 0 -padx 5 -pady 5 -side top
+			label $w.progress -text "[trans receivedbytes 0 ?]" -font splainf
+
+			pack $w.progress -side top -padx 10 -pady 3
+
+			button $w.close -text "[trans cancel]" -command "" -font sboldf
+			pack $w.close -side bottom -pady 5 -padx 10
+
+			wm title $w "[trans tlsinstall]"
+			wm protocol $w WM_DELETE_WINDOW ""
+
+			::dkfprogress::SetProgress $w.prbar 0
+
+			set tok [::http::geturl $downloadurl -progress "::amsn::downloadTLSProgress" -command "::amsn::downloadTLSProgres"]
+			status_log "Tokten: $tok\n"
+		}
+	}
+
+	proc downloadTLSProgress {token {total 0} {current 0} } {
+		status_log "downloadTLSProgress: $token $total $current\n"
+
+		if { $total == $current } {
+			::http::cleanup $token
+			destroy .tlsprogress
+		} else {
+			::dkfprogress::SetProgress .tlsprogress.prbar [expr {$current*100/$total}]
+			.tlsprogress.progress configure -text "[trans receivedbytes $current $total]"
+		}
+	}
 
    #///////////////////////////////////////////////////////////////////////////////
    # Draws the about window
@@ -475,27 +591,27 @@ namespace eval ::amsn {
      status_log "Creating receive progress window\n"
       set w .ft$cookie
       toplevel $w
-      wm group $w .      
+      wm group $w .
       wm geometry $w 350x160
 
-      #frame $w.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -relief flat      
+      #frame $w.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -relief flat
       #set w $ww.f
-      
+
       label $w.user -text "[trans user]: $user" -font splainf
       pack $w.user -side top -anchor w
       label $w.file -text "[trans filename]: $filename" -font splainf
       pack $w.file -side top -anchor w
-      
+
       pack [::dkfprogress::Progress $w.prbar] -fill x -expand 0 -padx 5 -pady 5 -side top
-      
+
       label $w.progress -text "" -font splainf
       label $w.time -text "" -font splainf
       pack $w.progress $w.time -side top
 
-                
+
       button $w.close -text "[trans cancel]" -command "::MSNFT::cancelFT $cookie" -font sboldf
       pack $w.close -side bottom -pady 5
-                        
+
       if { [::MSNFT::getTransferType $cookie] == "received" } {
          wm title $w "$filename - [trans receivefile]"
       } else {
@@ -507,7 +623,7 @@ namespace eval ::amsn {
    }
 
 
-  
+
    #Updates filetransfer progress window/baar
    #fileTransferProgress mode cookie filename bytes filesize
    # mode: a=Accepting invitation
@@ -572,12 +688,12 @@ namespace eval ::amsn {
 	 }
          i {
             #$w.progress configure -text "[trans ftconnecting]"
-	 }	 
+	 }
          l {
             $w.progress configure -text "[trans ftconnectionlost]"
 	    $w.close configure -text "[trans close]" -command "destroy $w"
             wm protocol $w WM_DELETE_WINDOW "destroy $w"
-	 }	
+	 }
          r -
          s {
             # Keep the last values in three arrays: one for the bytes, one for
@@ -3231,16 +3347,16 @@ proc cmsn_draw_login {} {
 	wm geometry .login 800x220
 	wm title .login "[trans login] - [trans title]"
 	wm transient .login .
-	
+
 	set mainframe [LabelFrame:create .login.main -text [trans login] -font splainf]
-		
+
 	radiobutton $mainframe.button -text [trans defaultloginradio] -value 0 -variable loginmode -command "RefreshLogin $mainframe"
 	label $mainframe.loginlabel -text "[trans user]: " -font sboldf
 	entry $mainframe.loginentry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 25
-	grid $mainframe.button -row 1 -column 2 -sticky w
+	if { $config(disableprofiles)!=1} { grid $mainframe.button -row 1 -column 2 -sticky w }
 	grid $mainframe.loginlabel -row 2 -column 1 -sticky w
 	grid $mainframe.loginentry -row 2 -column 2 -sticky w
-			
+
 	radiobutton $mainframe.button2 -text [trans profileloginradio] -value 1 -variable loginmode -command "RefreshLogin $mainframe"
 	combobox::combobox $mainframe.box \
 	    -editable false \
@@ -3249,8 +3365,10 @@ proc cmsn_draw_login {} {
 	    -bg #FFFFFF \
 	    -font splainf \
 	    -command ConfigChange
-	grid $mainframe.button2 -row 1 -column 3 -sticky w
-	grid $mainframe.box -row 2 -column 3 -sticky w
+	if { $config(disableprofiles)!=1} {
+		grid $mainframe.button2 -row 1 -column 3 -sticky w
+		grid $mainframe.box -row 2 -column 3 -sticky w
+	}
 
 	label $mainframe.passlabel -text "[trans pass]: " -font sboldf
 	entry $mainframe.passentry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 25 -show "*"
@@ -3267,11 +3385,17 @@ proc cmsn_draw_login {} {
 	button $buttonframe.cancel -text [trans cancel] -command "ButtonCancelLogin .login" -font sboldf
 	button $buttonframe.ok -text [trans ok] -command login_ok  -font sboldf
 	button $buttonframe.addprofile -text [trans addprofile] -command AddProfileWin -font sboldf
-	pack $buttonframe.ok $buttonframe.cancel $buttonframe.addprofile -side right -padx 10
+	if { $config(disableprofiles)!=1} {
+		pack $buttonframe.ok $buttonframe.cancel $buttonframe.addprofile -side right -padx 10
+	} else {
+		pack $buttonframe.ok $buttonframe.cancel -side right -padx 10
+	}
 
 	grid $mainframe.passlabel -row 3 -column 1 -sticky w
 	grid $mainframe.passentry -row 3 -column 2 -sticky w
-	grid $mainframe.passentry2 -row 3 -column 3 -sticky w
+	if { $config(disableprofiles)!=1} {
+		grid $mainframe.passentry2 -row 3 -column 3 -sticky w
+	}
 	grid $mainframe.remember -row 4 -column 2 -sticky ws
 	grid $mainframe.offline -row 4 -column 1 -sticky wn
 	grid $mainframe.example -row 1 -column 4 -rowspan 4
@@ -3294,15 +3418,20 @@ proc cmsn_draw_login {} {
 
 	# Select appropriate radio button
 	if { $HOME == $HOME2 } {
-		set loginmode 0 
+		set loginmode 0
 	} else {
 		set loginmode 1
 	}
+
+	if { $config(disableprofiles)==1} {
+		set loginmode 0
+	}
+
 	RefreshLogin $mainframe
 
 	bind .login <Return> "login_ok"
 	bind .login <Escape> "ButtonCancelLogin .login"
-    bind .login <Destroy> { 
+    bind .login <Destroy> {
 	global config protocol
 	set protocol $config(protocol)
     }
@@ -4305,7 +4434,7 @@ proc cmsn_change_name {} {
       return 0
    }
  
-   toplevel .change_name 
+   toplevel .change_name
    wm group .change_name .
 
    wm geometry .change_name -0+100
@@ -5027,15 +5156,15 @@ proc check_version_silent {} {
     catch {
 	set token [::http::geturl {amsn.sourceforge.net/amsn_latest} -timeout 10000]
 	set tmp_data [ ::http::data $token ]
-	
+
 	::http::cleanup $token
-	
+
 	set lastver [split $tmp_data "."]
 	set yourver [split $version "."]
 
          if { [lindex $lastver 0] > [lindex $yourver 0] } {
             set newer 1
-         } else {	
+         } else {
             # Major version is at least the same
 	    if { [lindex $lastver 1] > [lindex $yourver 1] } {
 	       set newer 1
@@ -5043,7 +5172,7 @@ proc check_version_silent {} {
 	       set newer 0
 	    }
          }
-     
+
     }
 
     return "$newer $tmp_data"
