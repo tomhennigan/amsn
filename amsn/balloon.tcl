@@ -116,7 +116,12 @@ proc balloon {target message {cx 0} {cy 0} } {
         label .balloon.l \
 	    -text ${message} -relief flat \
 	    -bg [::skin::getKey balloonbackground] -fg [::skin::getKey balloontext] -padx 2 -pady 0 -anchor w -font [::skin::getKey balloonfont] -justify left -wraplength $wlength
-	set bw [expr [::skin::getKey balloonborderwidth] - 1]
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "windows" } {
+		set bw [expr [::skin::getKey balloonborderwidth]]
+	} else {
+		set bw [expr [::skin::getKey balloonborderwidth] - 1 ]
+	}
+	
 	pack .balloon.l -side left -padx $bw -pady $bw
         wm geometry .balloon +${x}+${y}
         
