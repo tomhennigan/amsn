@@ -2558,6 +2558,8 @@ proc get_password {method data} {
 proc urldecode {str} {
 
 #New version, no need of url_unmap
+    set str [encoding convertto utf-8 $str]
+
     set begin 0
     set end [string first "%" $str $begin]
     set decode ""
