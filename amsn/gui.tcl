@@ -439,12 +439,12 @@ namespace eval ::amsn {
 	#Delete user window, user can choose to delete user, cancel the action or block and delete the user
 	proc deleteUser {user_login { grId ""} } {
 		set w .deleteUserWindow
-		
-		#If the window was there before, destroy it and create the new one
+
+		#If the window was there before, destroy it and create the newone
 		if {[winfo exists $w]} {
 			destroy $w
 		}
-		
+
 		#Create the window
 		toplevel $w
 		wm title $w "[trans delete]"
@@ -452,26 +452,34 @@ namespace eval ::amsn {
 		#Create the three frames
 		frame $w.top
 		frame $w.buttons
-		frame $w.block
+
 		#Create the picture of warning (at left)
 		label $w.top.bitmap -image [::skin::loadPixmap warning]
 		pack $w.top.bitmap -side left -pady 5 -padx 15
 		#Text to show to delete the user
 		label $w.top.question -text "[trans confirmdu]" -font bigfont
 		pack $w.top.question -pady 5 -padx 25
-		#Create the three buttons, Yes and block / Yes / No
-		button $w.block.yesblock -text "[trans yesblock]" -command "::amsn::deleteUserAction $w $user_login yes_block $grId" 
-		button $w.buttons.yes -text "[trans yes]" -command "::amsn::deleteUserAction $w $user_login yes $grId" -default active -width 6
+
+		#Create the three buttons, Yes and block / Yes / No 
+		button $w.buttons.yesblock -text "[trans yesblock]" \
+			-command "::amsn::deleteUserAction $w $user_login yes_block $grId"
+
+		button $w.buttons.yes -text "[trans yes]" -command \
+			"::amsn::deleteUserAction $w $user_login yes $grId" -default active -width 6
 		button $w.buttons.no -text "[trans no]" -command "destroy $w" -width 6
 		#Pack buttons
 		pack $w.buttons.yes -pady 5 -padx 5 -side right
 		pack $w.buttons.no -pady 5 -padx 5 -side left
-		pack $w.block.yesblock -pady 5 -padx 5
+
+		# if already blocked don't show 'Yes and Block' button
+		if {[lsearch [::abook::getLists $user_login] BL] == -1} {
+			pack $w.buttons.yesblock -pady 5 -padx 5 -side left
+		}
+
 		#Pack frames
 		pack $w.top -pady 5 -padx 5 -side top
-		pack $w.block -pady 5 -padx 5 -side left
 		pack $w.buttons -pady 5 -padx 5 -side right
-	
+
 		moveinscreen $w 30
 		bind $w <<Escape>> "destroy $w"
 	}
