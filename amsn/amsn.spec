@@ -71,6 +71,7 @@ make  proot=%{prefix} prefix=${RPM_BUILD_ROOT}%{prefix} version=%{version} wmapp
 /usr/share/amsn/i/amsn.xbm
 /usr/share/amsn/i/angel.gif
 /usr/share/amsn/i/angry.gif
+/usr/share/amsn/i/asl.gif
 /usr/share/amsn/i/away.gif
 /usr/share/amsn/i/back.gif
 /usr/share/amsn/i/baway.gif
@@ -112,6 +113,7 @@ make  proot=%{prefix} prefix=${RPM_BUILD_ROOT}%{prefix} version=%{version} wmapp
 /usr/share/amsn/i/love.gif
 /usr/share/amsn/i/messenger.gif
 /usr/share/amsn/i/messenger.png
+/usr/share/amsn/i/notifico.gif
 /usr/share/amsn/i/notify.gif
 /usr/share/amsn/i/offline.gif
 /usr/share/amsn/i/online.gif
@@ -142,6 +144,7 @@ make  proot=%{prefix} prefix=${RPM_BUILD_ROOT}%{prefix} version=%{version} wmapp
 /usr/share/amsn/lang/langen
 /usr/share/amsn/lang/langes
 /usr/share/amsn/lang/langfr
+/usr/share/amsn/lang/langga
 /usr/share/amsn/lang/langit
 /usr/share/amsn/lang/langnl
 /usr/share/amsn/lang/langpt
