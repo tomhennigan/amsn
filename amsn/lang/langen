@@ -33,6 +33,7 @@ clicktologin Click here to log in
 close Close
 closingdocks Close button docks window
 command Command
+confirmdelete Are you sure you want to delete $1?
 contactadded Contact added
 contactdoesnotexist Contact does not exist!
 connecterror Error connecting to server

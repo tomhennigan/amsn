@@ -34,6 +34,7 @@ clicktologin Haga click aquí para iniciar la sesión
 close Cerrar
 closingdocks Botón de cerrar minimiza
 command Comando
+confirmdelete ¿Seguro que deseas borrar a $1?
 connecterror Error conectandose al servidor
 contactadded Contacto añadido
 contactdoesnotexist El contacto que intentas añadir no existe
