@@ -653,12 +653,12 @@ namespace eval ::ChatWindow {
 
 		frame .${win_name}.f -class amsnChatFrame -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat
 		ScrolledWindow .${win_name}.f.out -auto vertical -scrollbar vertical
-		text .${win_name}.f.out.text -borderwidth 1 -foreground white -background white -width 45 -height 5 -wrap word \
+		text .${win_name}.f.out.text -borderwidth [::skin::getColor chatborders] -foreground white -background white -width 45 -height 5 -wrap word \
 			-exportselection 1  -relief solid -highlightthickness 0 -selectborderwidth 1
 
 		.${win_name}.f.out setwidget .${win_name}.f.out.text
 
-		frame .${win_name}.f.top -class Amsn -relief solid -borderwidth 1 -background [::skin::getColor topbarbg]
+		frame .${win_name}.f.top -class Amsn -relief solid -borderwidth [::skin::getColor chatborders] -background [::skin::getColor topbarbg]
 		text .${win_name}.f.top.textto  -borderwidth 0 -width [string length "[trans to]:"] \
 			-relief solid -height 1 -wrap none -background [::skin::getColor topbarbg] \
 			-foreground [::skin::getColor topbartext] -highlightthickness 0 \
@@ -685,8 +685,8 @@ namespace eval ::ChatWindow {
 
 		set bottom .${win_name}.f.bottom
 
-		frame $bottom.buttons -class Amsn -borderwidth 1 -relief solid -background [::skin::getColor buttonbarbg]
-		frame $bottom.in -class Amsn -background white -relief solid -borderwidth 1
+		frame $bottom.buttons -class Amsn -borderwidth [::skin::getColor chatborders] -relief solid -background [::skin::getColor buttonbarbg]
+		frame $bottom.in -class Amsn -background white -relief solid -borderwidth [::skin::getColor chatborders]
 		text $bottom.in.input -background white -width 15 -height 3 -wrap word -font bboldf \
 			-borderwidth 0 -relief solid -highlightthickness 0 -exportselection 1
 		frame $bottom.in.f -class Amsn -borderwidth 0 -relief solid -background white
@@ -717,12 +717,12 @@ namespace eval ::ChatWindow {
 			-command "::amsn::ToggleShowPicture ${win_name}; ::amsn::ShowOrHidePicture .${win_name}"
 		set_balloon $bottom.showpic [trans showdisplaypic]
 
-		grid $bottom.showpic -row 0 -column 2 -padx 0 -pady 3 -rowspan 2 -sticky ns
+		grid $bottom.showpic -row 0 -column 2 -padx 0 -pady [::skin::getColor chatpady] -rowspan 2 -sticky ns
 		grid columnconfigure $bottom 3 -minsize 3
 		bind $bottom.pic <Button1-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
 		bind $bottom.pic <<Button3>> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
 
-		frame .${win_name}.statusbar -class Amsn -borderwidth 1 -relief solid
+		frame .${win_name}.statusbar -class Amsn -borderwidth [::skin::getColor chatborders] -relief solid
 		text .${win_name}.statusbar.status  -width 5 -height 1 -wrap none \
 			-font bplainf -borderwidth 0
 		text .${win_name}.statusbar.charstyped  -width 4 -height 1 -wrap none \
@@ -758,7 +758,7 @@ namespace eval ::ChatWindow {
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			pack .${win_name}.f.top -side top -fill x -padx 0 -pady 0
 		} else {
-			pack .${win_name}.f.top -side top -fill x -padx 3 -pady 3
+			pack .${win_name}.f.top -side top -fill x -padx 3 -pady [::skin::getColor chatpady]
 		}
 			
 		pack .${win_name}.statusbar -side bottom -fill x
@@ -770,7 +770,7 @@ namespace eval ::ChatWindow {
 
 		grid columnconfigure .${win_name}.statusbar 0 -weight 1
 		grid columnconfigure .${win_name}.statusbar 1
-		grid $bottom.in -row 1 -column 0 -padx 3 -pady 3 -sticky nsew
+		grid $bottom.in -row 1 -column 0 -padx 3 -pady [::skin::getColor chatpady]  -sticky nsew
 		grid $bottom.buttons -row 0 -column 0 -padx 3 -pady 0 -sticky ewns
 		grid column $bottom 0 -weight 1
 
@@ -784,7 +784,7 @@ namespace eval ::ChatWindow {
 		pack .${win_name}.f.top.textto -side left -fill y -anchor nw -padx 0 -pady 3
 		pack .${win_name}.f.top.text -side left -expand true -fill x -padx 4 -pady 3
 
-		pack .${win_name}.f.bottom -side top -expand false -fill x -padx 0 -pady 3
+		pack .${win_name}.f.bottom -side top -expand false -fill x -padx 0 -pady [::skin::getColor chatpady]
 
 		pack $bottom.in.f.send -fill both -expand true
 		pack $bottom.in.input -side left -expand true -fill both -padx 1 -pady 1
