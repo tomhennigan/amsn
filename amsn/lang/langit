@@ -24,7 +24,7 @@ appearance Apparenza
 appearoff Invisibile
 areacode Codice dell'area
 aretyping $1 stanno scrivendo un messaggio
-askprofile Questo login attualmente non possiede un profilo. Vuoi crearne uno nuovo per esso? \n Se non lo farai non ti sar√† possibile utilizzare l'History, o salvare i tuoi suoni personalizzati e Password. \n Se lo farai avrai una nuova configurazione separata per questo profilo. \n \n Clicca su "Crea Profilo" per creare un nuovo profilo per $1.
+askprofile Questo login attualmente non possiede un profilo. Vuoi crearne uno nuovo per esso? \n Se non lo farai non ti sar‡ possibile utilizzare l'History, o salvare i tuoi suoni personalizzati e Password. \n Se lo farai avrai una nuova configurazione separata per questo profilo. \n \n Clicca su "Crea Profilo" per creare un nuovo profilo per $1.
 autoaway Mostrami come "Assente" quando sono inattivo per
 autoconnect2 Accedi automaticamente quando aMSN viene lanciato
 autoconnect Connetti immediatamente all'esecuzione di asmn 
@@ -42,7 +42,7 @@ blankdirect Lascia vuoto per connessioni dirette
 block Blocca
 blocked Bloccato
 blocking in blocco
-blockinter1 Quando il tuo stato √® "In linea" controlla ogni
+blockinter1 Quando il tuo stato Ë "In linea" controlla ogni
 blockinter2 secondi, altrimenti controlla ogni :
 blockinter3 ogni
 blocklist Lista di utenti bloccati:
@@ -53,7 +53,7 @@ browser Browser
 browse Visualizza
 busy Ho da fare
 cancel Cancella
-cannotdeleteprofile Non posso concellare il profilo perch√© sembra essere usato da una sessione di aMSN
+cannotdeleteprofile Non posso concellare il profilo perchÈ sembra essere usato da una sessione di aMSN
 cantexec Non posso eseguire l'applicazione: $1. Controlla nelle preferenze
 cfgalarm Configure/Aggiungi/Rimuovi l'allarme
 changefont Cambia font
@@ -78,7 +78,7 @@ clearlog3 Cancella tutti i Log
 clearlog Cancella il Log
 clicktologin Clicca qui per accedere
 close Chiudi
-closed La conversazione con $1 √® chiusa per inattivit√†.
+closed La conversazione con $1 Ë chiusa per inattivit‡.
 closingdocks Pulsante per chiudere
 command Comando
 confirmdelete Sei sicuro di voler cancellare $1?
@@ -137,11 +137,11 @@ ftaccepting In attesa di accettare l'invito al trasferimento file
 ftconnecterror Errore connettendosi all'utente remoto
 ftconnecting Connessione a $1 porta $2
 ftconnectionlost La connessione con l'utente remoto e caduta.
-ftgotinvitation $1 vuole mandarti il file '$2' ($3 bytes). Sar√† salvato nella directory $4. Vuoi ricevere questo file?
+ftgotinvitation $1 vuole mandarti il file '$2' ($3 bytes). Sar‡ salvato nella directory $4. Vuoi ricevere questo file?
 ftportpref Porta iniziale per il trasferimento file
 ftrejectedby $1 ha rifiutato l'invito al trasferimento del file '$2'.
 ftrejected Trasferimento del file respinto
-ftsendinvitation L'invito al trasferimento del file '$2' ($3 bytes) √® stato mandato a $1.
+ftsendinvitation L'invito al trasferimento del file '$2' ($3 bytes) Ë stato mandato a $1.
 gonelunch A pranzo
 groupadd Aggiungi un gruppo
 groupdelete Cancella un gruppo
@@ -164,7 +164,7 @@ identity Identit‡
 inbox In Arrivo
 internalerror Errore interno del server
 invalidusername Username non valido
-invitationcancelled L'invito √® stato cancellato
+invitationcancelled L'invito Ë stato cancellato
 invite Invita
 ipaddress Indirizzo IP
 ipdetect Determina l'IP corretto per il trasferimento file usando l'HTTP
@@ -176,16 +176,16 @@ keeplog Mantiene un registro delle chat
 language Linguaggio
 lastmsgtime Ultimo messaggio ricevuto alle $1
 lclosedwin $1 ha chiuso la finestra su $2
-lconftopriv La conversazione √® divenuta una chat privata con $1
-lconvstarted La conversazione √® cominciata su $1
+lconftopriv La conversazione Ë divenuta una chat privata con $1
+lconvstarted La conversazione Ë cominciata su $1
 leaveblankforhotmail Lascia in bianco per l'uso di hotmail
 leaves $1 abbandona la conversazione
-lenteredconf $1 √® entrato in conversazione su $2
+lenteredconf $1 Ë entrato in conversazione su $2
 linprivate IN PRIVATO
 listeningon In attesa sulla porta $1
 listsmileys2 Mostra Emoticons e faccine nella lista contatti principale di aMSN
 listsmileys Elenco faccine
-ljoinedconf $1 √® entrato a far parte della conversazione
+ljoinedconf $1 Ë entrato a far parte della conversazione
 lleftconf $1 ha lasciato la conversazione
 loadcontacts Carica la lista contatti
 logbigger I file delle registrazioni per ogni contatto non hanno alcun limite dimensionale
@@ -206,7 +206,7 @@ maximised Massimizza
 minimised Minimizza/Riduci ad icona
 mins Minuti
 mobile Mobile
-morepersonal Pi√π stati personali ->
+morepersonal Pi˘ stati personali ->
 move Muovi
 movetogroup Sposta al gruppo
 msgmaxmin Quando arriva un nuovo messaggio io voglio che sia:
@@ -228,7 +228,7 @@ newveravailable La nuova versione $1 Ë disponibile per il download
 next Prossimo
 noactivity Nessuna attivit‡
 nodataavailable Non ci sono dati disponibili per $1
-nologfile Non c'√© un file di registro per $1
+nologfile Non c'È un file di registro per $1
 nonewmail Nessun nuovo messaggio di posta
 nonewver Non ci sono nuove versioni da scaricare
 no No
@@ -288,7 +288,7 @@ prefshared Connessioni condivise (solo per NAT)
 prefsound Suono
 privacy Privacy
 profiledconfig Configurazione del Profilo
-profileinuse Questo profilo √® gi√† in uso da un'altra sessione di aMSN, per favore sceglierne un altro
+profileinuse Questo profilo Ë gi‡ in uso da un'altra sessione di aMSN, per favore sceglierne un altro
 profiles Profili
 properties Propriet‡
 proxyconf Configurazione proxy
@@ -349,14 +349,14 @@ title Al's Messenger
 to A
 tools Strumenti
 tooltips Abilita i tooltips
-transnotexists Il file richiesto non √® ancora stato tradotto nel linguaggio corrente.
-traynotcompiled Il plugin per la tray icon non √® compilato. Controllare plungins/traydock 
+transnotexists Il file richiesto non Ë ancora stato tradotto nel linguaggio corrente.
+traynotcompiled Il plugin per la tray icon non Ë compilato. Controllare plungins/traydock 
 twonewmail $1 nuovi messaggi di posta
 unblock Sblocca
 uoffline Offline
 uonline Online
 useralreadyonlist L'utente Ë gi‡ nella lista contatti
-userblocked L'utente √® online ma ti ha bloccato
+userblocked L'utente Ë online ma ti ha bloccato
 usernotonline Questo Utente non Ë online
 user Utente
 useryourself Non puoi chattare con te stesso
@@ -368,7 +368,7 @@ willjoin Sto aspettando che $1 si unisca alla conversazione
 work Lavoro
 wrongprofileversion Risolvere il problema, per favore rimuovere la directory $1, o aggiornare aMSN
 xoffset spostamento sull'asse delle X
-yes S√¨
+yes SÏ
 yoffset Spostamento sull'asse delle Y
 youblocked Sei stato bloccato
 yousay Tu dici
