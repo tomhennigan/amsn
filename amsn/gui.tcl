@@ -12,18 +12,23 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey buttonbarbg #eeeeff
 	::skin::setKey sendbuttonbg #c3c2d2
 	::skin::setKey topbarbg #5050e5
+	::skin::setKey topbarbg_sel #d3d0ce
 	::skin::setKey topbartext #ffffff
 	::skin::setKey topbarborder #000000
 	::skin::setKey topbarawaybg #00AB00
+	::skin::setKey topbarawaybg_sel #d3d0ce
 	::skin::setKey topbarawaytext #000000
 	::skin::setKey topbarawayborder #000000
 	::skin::setKey topbarbusybg #CF0000
+	::skin::setKey topbarbusybg_sel #d3d0ce
 	::skin::setKey topbarbusytext #000000
 	::skin::setKey topbarbusyborder #000000
 	::skin::setKey topbarofflinebg #404040
+	::skin::setKey topbarofflinebg_sel #d3d0ce
 	::skin::setKey topbarofflinetext #ffffff
 	::skin::setKey topbarofflineborder #000000
 	::skin::setKey statusbarbg #eeeeee
+	::skin::setKey statusbarbg_sel #d3d0ce
 	::skin::setKey statusbartext #000000
 	
 	::skin::setKey chat_top_padx 0

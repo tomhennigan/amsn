@@ -964,7 +964,7 @@ namespace eval ::ChatWindow {
 		text $to  -borderwidth 0 -width [string length "[trans to]:"] \
 		    -relief solid -height 1 -wrap none -background [::skin::getKey topbarbg] \
 		    -foreground [::skin::getKey topbartext] -highlightthickness 0 \
-		    -selectbackground [::skin::getKey topbarbg] -selectforeground [::skin::getKey topbartext] \
+		    -selectbackground [::skin::getKey topbarbg_sel] -selectforeground [::skin::getKey topbartext] \
 		    -selectborderwidth 0 -exportselection 0 -padx 5 -pady 3
 		
 		# Configure it
@@ -975,7 +975,7 @@ namespace eval ::ChatWindow {
 		# Create the text widget
 		text $text  -borderwidth 0 -width 45 -relief flat -height 1 -wrap none \
 			-background [::skin::getKey topbarbg] -foreground [::skin::getKey topbartext] \
-			-highlightthickness 0 -selectbackground [::skin::getKey topbarbg] -selectborderwidth 0 \
+			-highlightthickness 0 -selectbackground [::skin::getKey topbarbg_sel] -selectborderwidth 0 \
 			-selectforeground [::skin::getKey topbartext] -exportselection 1
 		
 		# Configure it
@@ -1010,11 +1010,11 @@ namespace eval ::ChatWindow {
 		#Create text insert frame
 		text $status  -width 5 -height 1 -wrap none \
 			-font bplainf -borderwidth 0 -background [::skin::getKey statusbarbg] -foreground [::skin::getKey statusbartext]\
-			-highlightthickness 0 -selectbackground [::skin::getKey statusbarbg] -selectborderwidth 0 \
+			-highlightthickness 0 -selectbackground [::skin::getKey statusbarbg_sel] -selectborderwidth 0 \
 			-selectforeground [::skin::getKey statusbartext] -exportselection 1 -pady 4
 		text $charstyped  -width 4 -height 1 -wrap none \
 			-font splainf -borderwidth 0 -background [::skin::getKey statusbarbg] -foreground [::skin::getKey statusbartext]\
-			-highlightthickness 0 -selectbackground [::skin::getKey statusbarbg] -selectborderwidth 0 \
+			-highlightthickness 0 -selectbackground [::skin::getKey statusbarbg_sel] -selectborderwidth 0 \
 			-selectforeground [::skin::getKey statusbartext] -exportselection 1 -pady 4
 
 
@@ -1654,19 +1654,23 @@ namespace eval ::ChatWindow {
 	proc ChangeColorState {user_list user_state state_code win_name} {
 		#get the colour for the state
 		set colour [::skin::getKey topbarbg]
+		set scolour [::skin::getKey topbarbg_sel]
 		set tcolour [::skin::getKey topbartext]
 		set bcolour [::skin::getKey topbarborder]
 		if { ([llength $user_list] == 1) && ("$user_state" != "" ) } {
 			if { ($state_code == "IDL") || ($state_code == "BRB") || ($state_code == "AWY") || ($state_code == "LUN") } {
 				set colour [::skin::getKey topbarawaybg]
+				set scolour [::skin::getKey topbarawaybg_sel]
 				set tcolour [::skin::getKey topbarawaytext]
 				set bcolour [::skin::getKey topbarawayborder]
 			} elseif { ($state_code == "PHN") || ($state_code == "BSY") } {
 				set colour [::skin::getKey topbarbusybg]
+				set scolour [::skin::getKey topbarbusybg_sel]
 				set tcolour [::skin::getKey topbarbusytext]
 				set bcolour [::skin::getKey topbarbusyborder]
 			} elseif { ($state_code == "FLN") } {
 				set colour [::skin::getKey topbarofflinebg]
+				set scolour [::skin::getKey topbarofflinebg_sel]
 				set tcolour [::skin::getKey topbarofflinetext]
 				set bcolour [::skin::getKey topbarofflineborder]
 			}
@@ -1674,9 +1678,9 @@ namespace eval ::ChatWindow {
 		#set the areas to the colour
 		[::ChatWindow::GetTopFrame ${win_name}] configure -background $colour -bordercolor $bcolour
 		[::ChatWindow::GetTopToText ${win_name}] configure -background $colour -foreground $tcolour \
-						-selectbackground $colour -selectforeground $tcolour
+						-selectbackground $scolour -selectforeground $tcolour
 		[::ChatWindow::GetTopText ${win_name}] configure -background $colour -foreground $tcolour \
-						-selectbackground $colour -selectforeground $tcolour
+						-selectbackground $scolour -selectforeground $tcolour
 	}
 
 	#///////////////////////////////////////////////////////////////////////////////
