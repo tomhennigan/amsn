@@ -1424,30 +1424,9 @@ namespace eval ::ChatWindow {
 			}
 			${win_name}.top.text insert end "\n"
 		}
-
-
-		#get the colour for the state
-		set colour [::skin::getColor topbarbg]
-		set tcolour [::skin::getColor topbartext]
-		if { ([llength $user_list] == 1) && ("$user_state" != "" ) } {
-			if { ($state_code == "IDL") || ($state_code == "BRB") || ($state_code == "AWY") || ($state_code == "LUN") } {
-				set colour [::skin::getColor topbarawaybg]
-				set tcolour [::skin::getColor topbarawaytext]
-			} elseif { ($state_code == "PHN") || ($state_code == "BSY") } {
-				set colour [::skin::getColor topbarbusybg]
-				set tcolour [::skin::getColor topbarbusytext]
-			} elseif { ($state_code == "FLN") } {
-				set colour [::skin::getColor topbarofflinebg]
-				set tcolour [::skin::getColor topbarofflinetext]
-			}
-		}
-		#set the areas to the colour
-		${win_name}.top configure -background $colour
-		${win_name}.top.to configure -background $colour -foreground $tcolour \
-						-selectbackground $colour -selectforeground $tcolour
-		${win_name}.top.text configure -background $colour -foreground $tcolour \
-						-selectbackground $colour -selectforeground $tcolour
-
+		
+		#Change color of top background by the status of the contact
+		ChangeColorState $user_list $user_state $state_code ${win_name}
 
 		set title [string replace $title end-1 end " - [trans chat]"]
 
@@ -1482,7 +1461,31 @@ namespace eval ::ChatWindow {
 
 	}
 	#///////////////////////////////////////////////////////////////////////////////
-
+	# ::ChatWindow::ChangeColorState {user_list user_state state_code win_name}
+	# Change the color of the top window when the other contact is in another status
+	proc ChangeColorState {user_list user_state state_code win_name} {
+		#get the colour for the state
+		set colour [::skin::getColor topbarbg]
+		set tcolour [::skin::getColor topbartext]
+		if { ([llength $user_list] == 1) && ("$user_state" != "" ) } {
+			if { ($state_code == "IDL") || ($state_code == "BRB") || ($state_code == "AWY") || ($state_code == "LUN") } {
+				set colour [::skin::getColor topbarawaybg]
+				set tcolour [::skin::getColor topbarawaytext]
+			} elseif { ($state_code == "PHN") || ($state_code == "BSY") } {
+				set colour [::skin::getColor topbarbusybg]
+				set tcolour [::skin::getColor topbarbusytext]
+			} elseif { ($state_code == "FLN") } {
+				set colour [::skin::getColor topbarofflinebg]
+				set tcolour [::skin::getColor topbarofflinetext]
+			}
+		}
+		#set the areas to the colour
+		${win_name}.top configure -background $colour
+		${win_name}.top.to configure -background $colour -foreground $tcolour \
+						-selectbackground $colour -selectforeground $tcolour
+		${win_name}.top.text configure -background $colour -foreground $tcolour \
+						-selectbackground $colour -selectforeground $tcolour
+	}
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::UnsetFor (chatid, window)
