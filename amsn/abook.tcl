@@ -3,7 +3,7 @@
 # $Id$
 #=======================================================================
 namespace eval ::abook {
-   namespace export setGroup getGroup setContact getContact \
+   namespace export setContact getContact \
    		    setPhone setDemographics getDemographics
 
    #
@@ -16,9 +16,6 @@ namespace eval ::abook {
 			#	phone { home work mobile } BPR.PHH/PHW/PHM
 			#	pager			   BPR.MOB
 			# }
-   variable groups;	# Array for groups
-   			# groups(id) { name }		   LSG
-   variable groupCnt 0
    variable demographics;	# Demographic Information about user
 
    #
@@ -28,26 +25,7 @@ namespace eval ::abook {
    #
    # P U B L I C
    #
-   proc setGroup { nr name } {	# LSG <x> <trid> <cnt> <total> <nr> <name> 0
-       variable groups
-       variable groupCnt
-
-       set groups($nr) $name
-       incr groupCnt
-#       puts "ABOOK: added group $nr ($name)"
-   }
    
-   proc getGroup {nr} {
-       variable groupCnt
-       variable groups
-
-       if { $nr > $groupCnt } { 
-       	   return "" 
-       } else { 
-           return $groups($nr) 
-       }
-   }
-
    proc setContact { email field value } {
    	variable contacts 
 
@@ -98,7 +76,7 @@ namespace eval ::abook {
 	}
 	
 #puts $contacts($email)
-	set groupName    [::abook::getGroup [lindex $contacts($email) 0]]
+	set groupName    [::groups::GetName [lindex $contacts($email) 0]]
 	set data(group)  [urldecode $groupName]
 	set data(handle) [urldecode [lindex $contacts($email) 1]]
 	set data(phh)    [urldecode [lindex $contacts($email) 2]]
@@ -292,6 +270,9 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.7  2002/06/20 17:46:14  lordofscripts
+# Moved group-related handling to the "groups" namespace (new)
+#
 # Revision 1.6  2002/06/19 17:49:22  lordofscripts
 # Added setDemographics and getDemographics as handled by text/x-msmsgsprofile
 #
