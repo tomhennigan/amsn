@@ -51,7 +51,7 @@ namespace eval ::amsnplus {
 				[list bool "Do you want to parse nicks?" parse_nicks] \
 				[list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \
 				[list bool "Do you want to allow commands in the chat window?" allow_commands] \
-				[list bool "Do you want to allow multiple colours in the chat window?" allow_colours] \ 
+				[list bool "Do you want to allow multiple colours in the chat window?" allow_colours] \
 				[list bool "Do you want to use the quick text feature?" allow_quicktext] \
 			]
 		} else {
