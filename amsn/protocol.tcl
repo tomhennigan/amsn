@@ -3557,6 +3557,9 @@ proc cmsn_auth {{recv ""}} {
 			.main_menu.file entryconfigure 2 -state normal
 			#My status
 			.main_menu.file entryconfigure 3 -state normal
+			#Inbox
+			.main_menu.file entryconfigure 5 -state normal
+
 			#Add a contact
 			.main_menu.tools entryconfigure 0 -state normal
 			.main_menu.tools entryconfigure 1 -state normal

@@ -4005,7 +4005,10 @@ proc cmsn_draw_offline {} {
    .main_menu.file entryconfigure 2 -state disabled
    #My status
    .main_menu.file entryconfigure 3 -state disabled
-   #Add a contact
+   #Inbox
+   .main_menu.file entryconfigure 5 -state disabled
+
+	#Add a contact
    .main_menu.tools entryconfigure 0 -state disabled
    .main_menu.tools entryconfigure 1 -state disabled
    .main_menu.tools entryconfigure 4 -state disabled
