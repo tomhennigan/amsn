@@ -169,7 +169,19 @@ proc load_lang { {langcode "en"} {plugindir ""} } {
    return 0
 }
 
+proc get_language_encodage { lang } {
 
+	global lang_list
+
+	foreach langdata $lang_list {
+		if { "lang[lindex $langdata 0]" == $lang } {
+			set langenc [lindex $langdata 2]
+		}
+	}
+
+	return $langenc
+
+}
 
 proc get_available_language {} {
 
@@ -192,13 +204,15 @@ proc get_available_language {} {
 
 proc getlanguage { lang selection } {
 
-	global weburl
+	global lang_list weburl
 
 	set dir "[pwd]/lang"
 
 	set fid [open "[file join ${dir} $lang]" w]
 
-	set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/lang/$lang?rev=HEAD&content-type=text/plain" -timeout 10000]
+	fconfigure $fid -encoding "[get_language_encodage $lang]"
+
+	set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/lang/$lang?rev=HEAD&content-type=text" -timeout 10000]
 	set content [::http::data $token]
 
 	puts -nonewline $fid "$content"
