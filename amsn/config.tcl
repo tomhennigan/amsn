@@ -645,7 +645,9 @@ proc ConfigChange { window email } {
 			}
 
 			load_config
-			
+
+			set config(protocol) 9
+
 			LoginList add 0 $email
 			set log_dir "[file join ${HOME} logs]"
 		
