@@ -67,14 +67,25 @@ namespace eval ::ChatWindow {
 
 
 	#///////////////////////////////////////////////////////////////////////////////
+	# ::ChatWindow::GetTopText (window)
+	# Returns the path to the output text widget in a given window 
+	# Arguments:
+	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
+	proc GetTopText { window } {
+		return $window.f.out.scroll.text
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+
+
+	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::Clear (window)
 	# Deletes all the text in the chat window's input widget
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc Clear { window } {
-		${window}.f.out.text configure -state normal
-		${window}.f.out.text delete 0.0 end
-		${window}.f.out.text configure -state disabled
+		[::ChatWindow::GetTopText $window] configure -state normal
+		[::ChatWindow::GetTopText $window] delete 0.0 end
+		[::ChatWindow::GetTopText $window] configure -state disabled
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -170,11 +181,7 @@ namespace eval ::ChatWindow {
 			::config::setKey winchatsize  [string range $geometry 0 [expr {$pos_start-1}]]
 
 			if { $::tcl_version >= 8.4 } {
-				set w $window.f.out.text
-				set border [expr {[$w cget -bd] + [$w cget -highlightthickness] + [$w cget -pady]}]
-				set winHeight [expr {[winfo height $w] - 2 * $border}]
-				set lines [expr {1.0 * $winHeight / [font metrics [$w cget -font] -displayof $w -linespace]}]
-				::config::setKey winchatoutlines $lines
+				::config::setKey winchatoutheight [winfo height $window.f.out]
 			}
 		}
 	}
@@ -665,7 +672,7 @@ namespace eval ::ChatWindow {
 		menu $msnmenu -tearoff 0 -type normal
 
 		$msnmenu add command -label "[trans savetofile]..." \
-		    -command " ChooseFilename $w.f.out.text $w"
+		    -command " ChooseFilename [::ChatWindow::GetTopText $w] $w"
 		$msnmenu add separator
 		$msnmenu add command -label "[trans sendfile]..." \
 		    -command "::amsn::FileTransferSend $w"
@@ -979,7 +986,6 @@ namespace eval ::ChatWindow {
 	proc CreatePanedWindow { w } {
 		
 		set paned $w.f
-		#panedwindow $paned -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat -orient vertical ;#-opaqueresize true -showhandle false
 		if { $::tcl_version >= 8.4 } {
 			panedwindow $paned -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat -orient vertical ;#-opaqueresize true -showhandle false
 		} else {
@@ -988,20 +994,19 @@ namespace eval ::ChatWindow {
 		set output [CreateOutputWindow $w $paned]
 		set input [CreateInputWindow $w $paned]
 
-
-		#Remove thin border on Mac OS X (padx)
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			pack $output -expand true -fill both -padx 0 -pady 0
-		} else {
-			pack $output -expand true -fill both -padx 3 -pady 0
-		}
-
-		pack $input -side top -expand true -fill both -padx 0 -pady [::skin::getColor chatpady]
-
 		if { $::tcl_version >= 8.4 } {
 			$paned add $output $input
-			$paned paneconfigure $output -minsize 50
+			$paned paneconfigure $output -minsize 50 -height 200
 			$paned paneconfigure $input -minsize 100 -height 120
+		} else {
+			#Remove thin border on Mac OS X (padx)
+			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+				pack $output -expand true -fill both -padx 0 -pady 0
+			} else {
+				pack $output -expand true -fill both -padx 3 -pady 0
+			}
+
+			pack $input -side top -expand true -fill both -padx 0 -pady [::skin::getColor chatpady]
 		}
 
 		# Bind on focus, so we always put the focus on the input window
@@ -1019,18 +1024,22 @@ namespace eval ::ChatWindow {
 	proc CreateOutputWindow { w paned } {
 		
 		# Name our widgets
-		set out $paned.out
+		set fr $paned.out
+		set out $fr.scroll
 		set text $out.text
 		
 		# Widget name from another proc
 		set bottom $paned.bottom
 
 		# Create the widgets
+		frame $fr -class Amsn -padx 0 -pady 0 -borderwidth 0 -relief solid \
+			-background [::skin::getColor chatwindowbg] -height [::config::getKey winchatoutheight]
 		ScrolledWindow $out -auto vertical -scrollbar vertical
-		text $text -borderwidth [::skin::getColor chatborders] -foreground white -background white -width 45 -height [::config::getKey winchatoutlines] -wrap word \
-			-exportselection 1  -relief solid -highlightthickness 0 -selectborderwidth 1
+		text $text -borderwidth [::skin::getColor chatborders] -foreground white -background white -width 45 -height 3 \
+			-setgrid 0 -wrap word -exportselection 1  -relief solid -highlightthickness 0 -selectborderwidth 1
 
-		$out setwidget $text	
+		$out setwidget $text
+		pack $out -expand true -fill both -padx 0 -pady 0
 
 		# Configure our widgets
 		$text configure -state disabled
@@ -1058,7 +1067,7 @@ namespace eval ::ChatWindow {
 		#If you can find why it is freezing and can stop it remove this line
 		bind $text <Control-Up> "break"
 
-		return $out
+		return $fr
 	}
 
 	proc CreateInputWindow { w paned } {
@@ -1388,7 +1397,7 @@ namespace eval ::ChatWindow {
 
 		set win_name [::ChatWindow::For $chatid]
 
-		if { [lindex [${win_name}.f.out.text yview] 1] > 0.95 } {
+		if { [lindex [[::ChatWindow::GetTopText ${win_name}] yview] 1] > 0.95 } {
 		   set scrolling 1
 		} else {
 		   set scrolling 0
@@ -1456,7 +1465,7 @@ namespace eval ::ChatWindow {
 			wm title ${win_name} ${title}
 		}
 
-		if { $scrolling } { ${win_name}.f.out.text yview end }
+		if { $scrolling } { [::ChatWindow::GetTopText ${win_name}] yview end }
 
 		#PostEvent 'TopUpdate'
 		set evPar(chatid) "chatid"

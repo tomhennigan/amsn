@@ -783,13 +783,13 @@ namespace eval ::amsn {
 
 		::MSNFT::cancelFTInvitation $chatid $cookie
 
-		${win_name}.f.out.text tag configure ftno$cookie \
+		[::ChatWindow::GetTopText ${win_name}] tag configure ftno$cookie \
 			-foreground #808080 -background white -font bplainf -underline false
-		${win_name}.f.out.text tag bind ftno$cookie <Enter> ""
-		${win_name}.f.out.text tag bind ftno$cookie <Leave> ""
-		${win_name}.f.out.text tag bind ftno$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftno$cookie <Enter> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftno$cookie <Leave> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftno$cookie <Button1-ButtonRelease> ""
 
-		${win_name}.f.out.text conf -cursor left_ptr
+		[::ChatWindow::GetTopText ${win_name}] conf -cursor left_ptr
 
 		set txt [trans invitationcancelled]
 
@@ -953,25 +953,25 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		${win_name}.f.out.text tag configure ftyes$cookie \
+		[::ChatWindow::GetTopText ${win_name}] tag configure ftyes$cookie \
 			-foreground #808080 -background white -font bplainf -underline false
-		${win_name}.f.out.text tag bind ftyes$cookie <Enter> ""
-		${win_name}.f.out.text tag bind ftyes$cookie <Leave> ""
-		${win_name}.f.out.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftyes$cookie <Enter> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftyes$cookie <Leave> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftyes$cookie <Button1-ButtonRelease> ""
 
-		${win_name}.f.out.text tag configure ftsaveas$cookie \
+		[::ChatWindow::GetTopText ${win_name}] tag configure ftsaveas$cookie \
 			-foreground #808080 -background white -font bplainf -underline false
-		${win_name}.f.out.text tag bind ftsaveas$cookie <Enter> ""
-		${win_name}.f.out.text tag bind ftsaveas$cookie <Leave> ""
-		${win_name}.f.out.text tag bind ftsaveas$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftsaveas$cookie <Enter> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftsaveas$cookie <Leave> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftsaveas$cookie <Button1-ButtonRelease> ""
 
-		${win_name}.f.out.text tag configure ftno$cookie \
+		[::ChatWindow::GetTopText ${win_name}] tag configure ftno$cookie \
 			-foreground #808080 -background white -font bplainf -underline false
-		${win_name}.f.out.text tag bind ftno$cookie <Enter> ""
-		${win_name}.f.out.text tag bind ftno$cookie <Leave> ""
-		${win_name}.f.out.text tag bind ftno$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftno$cookie <Enter> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftno$cookie <Leave> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftno$cookie <Button1-ButtonRelease> ""
 
-		${win_name}.f.out.text conf -cursor left_ptr
+		[::ChatWindow::GetTopText ${win_name}] conf -cursor left_ptr
 
 		set txt [trans ftaccepted]
 
@@ -1018,25 +1018,25 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		${win_name}.f.out.text tag configure ftyes$cookie \
+		[::ChatWindow::GetTopText ${win_name}] tag configure ftyes$cookie \
 		-foreground #808080 -background white -font bplainf -underline false
-		${win_name}.f.out.text tag bind ftyes$cookie <Enter> ""
-		${win_name}.f.out.text tag bind ftyes$cookie <Leave> ""
-		${win_name}.f.out.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftyes$cookie <Enter> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftyes$cookie <Leave> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftyes$cookie <Button1-ButtonRelease> ""
 
-		${win_name}.f.out.text tag configure ftsaveas$cookie \
+		[::ChatWindow::GetTopText ${win_name}] tag configure ftsaveas$cookie \
 		-foreground #808080 -background white -font bplainf -underline false
-		${win_name}.f.out.text tag bind ftsaveas$cookie <Enter> ""
-		${win_name}.f.out.text tag bind ftsaveas$cookie <Leave> ""
-		${win_name}.f.out.text tag bind ftsaveas$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftsaveas$cookie <Enter> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftsaveas$cookie <Leave> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftsaveas$cookie <Button1-ButtonRelease> ""
 
-		${win_name}.f.out.text tag configure ftno$cookie \
+		[::ChatWindow::GetTopText ${win_name}] tag configure ftno$cookie \
 		-foreground #808080 -background white -font bplainf -underline false
-		${win_name}.f.out.text tag bind ftno$cookie <Enter> ""
-		${win_name}.f.out.text tag bind ftno$cookie <Leave> ""
-		${win_name}.f.out.text tag bind ftno$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftno$cookie <Enter> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftno$cookie <Leave> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind ftno$cookie <Button1-ButtonRelease> ""
 
-		${win_name}.f.out.text conf -cursor left_ptr
+		[::ChatWindow::GetTopText ${win_name}] conf -cursor left_ptr
 
 		if { [info exists txt] == 0 } {
 			set txt [trans ftrejected]
@@ -1643,7 +1643,7 @@ namespace eval ::amsn {
 		#pack $win.bottom.pic.image -side left -padx 2 -pady 2
 		upvar #0 ${win}_show_picture show_pic
 
-		set yview [lindex [${win}.f.out.text yview] 1]
+		set yview [lindex [[::ChatWindow::GetTopText $win] yview] 1]
 
 
 		if { $balloontext != "" } {
@@ -1675,7 +1675,7 @@ namespace eval ::amsn {
 		
 		if {$yview == 1} {
 			update idletasks
-			${win}.f.out.text see end 
+			[::ChatWindow::GetTopText $win] see end 
 		}
 
 
@@ -2345,7 +2345,7 @@ namespace eval ::amsn {
 			set measurefont [list $font [lindex [::config::getGlobalKey basefont] 1] $style]
 			
 			set win_name [::ChatWindow::For $chatid]
-			set maxw [winfo width $win_name.f.out.text]
+			set maxw [winfo width [::ChatWindow::GetTopText $win_name]]
 			status_log "Custom font is $customfont\n" red
 			incr maxw [expr -10-[font measure $measurefont -displayof $win_name "$says"]]
 			set nick [trunc $oldnick $win_name $maxw splainf]
@@ -2507,7 +2507,7 @@ namespace eval ::amsn {
 			return
 		}
 
-		if { [lindex [${win_name}.f.out.text yview] 1] == 1.0 } {
+		if { [lindex [[::ChatWindow::GetTopText ${win_name}] yview] 1] == 1.0 } {
 			set scrolling 1
 		} else {
 			set scrolling 0
@@ -2517,16 +2517,16 @@ namespace eval ::amsn {
 		set fontstyle [lindex $fontformat 1]      
 		set fontcolor [lindex $fontformat 2]
 
-		${win_name}.f.out.text configure -state normal -font bplainf -foreground black
+		[::ChatWindow::GetTopText ${win_name}] configure -state normal -font bplainf -foreground black
 
 		#Store position for later smiley and URL replacement
-		set text_start [${win_name}.f.out.text index end]
+		set text_start [[::ChatWindow::GetTopText ${win_name}] index end]
 		set posyx [split $text_start "."]
 		set text_start "[expr {[lindex $posyx 0]-1}].[lindex $posyx 1]"
 		
 		#Check if this is first line in the text, then ignore the \n
 		#at the beginning of the line
-		if { [${win_name}.f.out.text get 1.0 end] == "\n" } {
+		if { [[::ChatWindow::GetTopText ${win_name}] get 1.0 end] == "\n" } {
 			if {[string range $txt 0 0] == "\n"} {
 				set txt [string range $txt 1 end]
 			}
@@ -2548,9 +2548,9 @@ namespace eval ::amsn {
 			set tagid [::md5::md5 "$font$fontcolor"]
 
 			if { ([string length $fontname] < 3 )
-					|| ([catch {${win_name}.f.out.text tag configure $tagid -foreground #$fontcolor -font $font} res])} {
+					|| ([catch {[::ChatWindow::GetTopText ${win_name}] tag configure $tagid -foreground #$fontcolor -font $font} res])} {
 				status_log "Font $font or color $fontcolor wrong. Using default\n" red
-				${win_name}.f.out.text tag configure $tagid -foreground black -font bplainf
+				[::ChatWindow::GetTopText ${win_name}] tag configure $tagid -foreground black -font bplainf
 			}
 		}
 
@@ -2559,7 +2559,7 @@ namespace eval ::amsn {
 		set evPar(msg) txt
 		::plugins::PostEvent WinWrite evPar
 
-		${win_name}.f.out.text insert end "$txt" $tagid
+		[::ChatWindow::GetTopText ${win_name}] insert end "$txt" $tagid
 
 		#TODO: Make an url_subst procedure, and improve this using regular expressions
 		variable urlcount
@@ -2569,11 +2569,11 @@ namespace eval ::amsn {
 
 		foreach url $urlstarts {
 
-			while { $endpos != [${win_name}.f.out.text index end] && [set pos [${win_name}.f.out.text search -forward -exact -nocase \
+			while { $endpos != [[::ChatWindow::GetTopText ${win_name}] index end] && [set pos [[::ChatWindow::GetTopText ${win_name}] search -forward -exact -nocase \
 				$url $endpos end]] != "" } {
 
 
-				set urltext [${win_name}.f.out.text get $pos end]
+				set urltext [[::ChatWindow::GetTopText ${win_name}] get $pos end]
 
 				set final 0
 				set caracter [string range $urltext $final $final]
@@ -2591,19 +2591,19 @@ namespace eval ::amsn {
 				set urlcount "[expr {$urlcount+1}]"
 				set urlname "url_$urlcount"
 
-				${win_name}.f.out.text tag configure $urlname \
+				[::ChatWindow::GetTopText ${win_name}] tag configure $urlname \
 				-foreground #000080 -background white -font splainf -underline true
-				${win_name}.f.out.text tag bind $urlname <Enter> \
-				"${win_name}.f.out.text tag conf $urlname -underline false;\
-				${win_name}.f.out.text conf -cursor hand2"
-				${win_name}.f.out.text tag bind $urlname <Leave> \
-				"${win_name}.f.out.text tag conf $urlname -underline true;\
-				${win_name}.f.out.text conf -cursor left_ptr"
-				${win_name}.f.out.text tag bind $urlname <Button1-ButtonRelease> \
-				"${win_name}.f.out.text conf -cursor watch; launch_browser [string map {% %%} [list $urltext]]"
+				[::ChatWindow::GetTopText ${win_name}] tag bind $urlname <Enter> \
+				"[::ChatWindow::GetTopText ${win_name}] tag conf $urlname -underline false;\
+				[::ChatWindow::GetTopText ${win_name}] conf -cursor hand2"
+				[::ChatWindow::GetTopText ${win_name}] tag bind $urlname <Leave> \
+				"[::ChatWindow::GetTopText ${win_name}] tag conf $urlname -underline true;\
+				[::ChatWindow::GetTopText ${win_name}] conf -cursor left_ptr"
+				[::ChatWindow::GetTopText ${win_name}] tag bind $urlname <Button1-ButtonRelease> \
+				"[::ChatWindow::GetTopText ${win_name}] conf -cursor watch; launch_browser [string map {% %%} [list $urltext]]"
 
-				${win_name}.f.out.text delete $pos $endpos
-				${win_name}.f.out.text insert $pos "$urltext" $urlname
+				[::ChatWindow::GetTopText ${win_name}] delete $pos $endpos
+				[::ChatWindow::GetTopText ${win_name}] insert $pos "$urltext" $urlname
 
 			}
 		}
@@ -2616,10 +2616,10 @@ namespace eval ::amsn {
 		}
 
 		if {[::config::getKey chatsmileys]} {
-			custom_smile_subst $chatid ${win_name}.f.out.text $text_start end
-			::smiley::substSmileys  ${win_name}.f.out.text $text_start end 0
+			custom_smile_subst $chatid [::ChatWindow::GetTopText ${win_name}] $text_start end
+			::smiley::substSmileys  [::ChatWindow::GetTopText ${win_name}] $text_start end 0
 			if { $user == [::config::getKey login] } {
-				::smiley::substYourSmileys ${win_name}.f.out.text $text_start end 0
+				::smiley::substYourSmileys [::ChatWindow::GetTopText ${win_name}] $text_start end 0
 			}
 		}
 
@@ -2627,9 +2627,9 @@ namespace eval ::amsn {
 		#      vwait smileys_end_subst
 
 		if { $scrolling } {
-			${win_name}.f.out.text yview end
+			[::ChatWindow::GetTopText ${win_name}] yview end
 		}
-		${win_name}.f.out.text configure -state disabled
+		[::ChatWindow::GetTopText ${win_name}] configure -state disabled
 
 		if { $flicker } {
 			::ChatWindow::Flicker $chatid
@@ -2652,20 +2652,20 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		if { [lindex [${win_name}.f.out.text yview] 1] == 1.0 } {
+		if { [lindex [[::ChatWindow::GetTopText ${win_name}] yview] 1] == 1.0 } {
 			set scrolling 1
 		} else {
 			set scrolling 0
 		}
 
 
-		${win_name}.f.out.text configure -state normal
-		${win_name}.f.out.text image create end -image [::skin::loadPixmap $imagename] -pady $pady -padx $pady
+		[::ChatWindow::GetTopText ${win_name}] configure -state normal
+		[::ChatWindow::GetTopText ${win_name}] image create end -image [::skin::loadPixmap $imagename] -pady $pady -padx $pady
 
-		if { $scrolling } { ${win_name}.f.out.text yview end }
+		if { $scrolling } { [::ChatWindow::GetTopText ${win_name}] yview end }
 
 
-		${win_name}.f.out.text configure -state disabled
+		[::ChatWindow::GetTopText ${win_name}] configure -state disabled
 	}
 
 	proc WinWriteClickable { chatid txt command {tagid ""}} {
@@ -2676,7 +2676,7 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		if { [lindex [${win_name}.f.out.text yview] 1] == 1.0 } {
+		if { [lindex [[::ChatWindow::GetTopText ${win_name}] yview] 1] == 1.0 } {
 			set scrolling 1
 		} else {
 			set scrolling 0
@@ -2687,25 +2687,25 @@ namespace eval ::amsn {
 			set tagid [getUniqueValue]
 		}
 
-		${win_name}.f.out.text configure -state normal
+		[::ChatWindow::GetTopText ${win_name}] configure -state normal
 
-		${win_name}.f.out.text tag configure $tagid \
+		[::ChatWindow::GetTopText ${win_name}] tag configure $tagid \
 		-foreground #000080 -background white -font bboldf -underline false
 
-		${win_name}.f.out.text tag bind $tagid <Enter> \
-		"${win_name}.f.out.text tag conf $tagid -underline true;\
-		${win_name}.f.out.text conf -cursor hand2"
-		${win_name}.f.out.text tag bind $tagid <Leave> \
-		"${win_name}.f.out.text tag conf $tagid -underline false;\
-		${win_name}.f.out.text conf -cursor left_ptr"
-		${win_name}.f.out.text tag bind $tagid <Button1-ButtonRelease> "$command"
+		[::ChatWindow::GetTopText ${win_name}] tag bind $tagid <Enter> \
+		"[::ChatWindow::GetTopText ${win_name}] tag conf $tagid -underline true;\
+		[::ChatWindow::GetTopText ${win_name}] conf -cursor hand2"
+		[::ChatWindow::GetTopText ${win_name}] tag bind $tagid <Leave> \
+		"[::ChatWindow::GetTopText ${win_name}] tag conf $tagid -underline false;\
+		[::ChatWindow::GetTopText ${win_name}] conf -cursor left_ptr"
+		[::ChatWindow::GetTopText ${win_name}] tag bind $tagid <Button1-ButtonRelease> "$command"
 
-		${win_name}.f.out.text configure -state normal
-		${win_name}.f.out.text insert end "$txt" $tagid
+		[::ChatWindow::GetTopText ${win_name}] configure -state normal
+		[::ChatWindow::GetTopText ${win_name}] insert end "$txt" $tagid
 
-		if { $scrolling } { ${win_name}.f.out.text yview end }
+		if { $scrolling } { [::ChatWindow::GetTopText ${win_name}] yview end }
 
-		${win_name}.f.out.text configure -state disabled
+		[::ChatWindow::GetTopText ${win_name}] configure -state disabled
 	}   
 
 	if { $initialize_amsn == 1 } {
@@ -3431,14 +3431,14 @@ proc change_myfontsize { size {windows ""}} {
 	
 	foreach w  $windows {
 
-		$w.f.out.text tag configure yours -font [list $fontfamily $fontsize $fontstyle]
+		[::ChatWindow::GetTopText $w] tag configure yours -font [list $fontfamily $fontsize $fontstyle]
 		$w.f.bottom.left.in.text configure -font [list $fontfamily $fontsize $fontstyle]
 		$w.f.bottom.left.in.text configure -foreground "#$fontcolor"
 	
 		#Get old user font and replace its size
 		catch {
-			set font [lreplace [$w.f.out.text tag cget user -font] 1 1 $fontsize]
-			$w.f.out.text tag configure user -font $font
+			set font [lreplace [[::ChatWindow::GetTopText $w] tag cget user -font] 1 1 $fontsize]
+			[::ChatWindow::GetTopText $w] tag configure user -font $font
 		} res
 	}
 	
@@ -5063,7 +5063,7 @@ proc copy { cut w } {
 	set index [$window tag ranges sel]
 
 	if { $index == "" } {
-		set window $w.f.out.text
+		set window [::ChatWindow::GetTopText $w]
 		catch {set index [$window tag ranges sel]}
 		if { $index == "" } {  return }
 	}

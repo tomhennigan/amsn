@@ -5698,20 +5698,20 @@ namespace eval ::MSNAV {
 			return 0
 		}
 
-		${win_name}.f.out.text tag configure avyes$cookie \
+		[::ChatWindow::GetTopText ${win_name}] tag configure avyes$cookie \
 			-foreground #808080 -background white -font bplainf -underline false
-		${win_name}.f.out.text tag bind avyes$cookie <Enter> ""
-		${win_name}.f.out.text tag bind avyes$cookie <Leave> ""
-		${win_name}.f.out.text tag bind avyes$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind avyes$cookie <Enter> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind avyes$cookie <Leave> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind avyes$cookie <Button1-ButtonRelease> ""
 
 
-		${win_name}.f.out.text tag configure avno$cookie \
+		[::ChatWindow::GetTopText ${win_name}] tag configure avno$cookie \
 			-foreground #808080 -background white -font bplainf -underline false
-		${win_name}.f.out.text tag bind avno$cookie <Enter> ""
-		${win_name}.f.out.text tag bind avno$cookie <Leave> ""
-		${win_name}.f.out.text tag bind avno$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind avno$cookie <Enter> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind avno$cookie <Leave> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind avno$cookie <Button1-ButtonRelease> ""
 
-		${win_name}.f.out.text conf -cursor left_ptr
+		[::ChatWindow::GetTopText ${win_name}] conf -cursor left_ptr
 
 		set txt [trans avaccepted]
 
@@ -5782,20 +5782,20 @@ namespace eval ::MSNAV {
 		}   
 
 		# Disable accept/Cancel
-		${win_name}.f.out.text tag configure avyes$cookie \
+		[::ChatWindow::GetTopText ${win_name}] tag configure avyes$cookie \
 			-foreground #808080 -background white -font bplainf -underline false
-		${win_name}.f.out.text tag bind avyes$cookie <Enter> ""
-		${win_name}.f.out.text tag bind avyes$cookie <Leave> ""
-		${win_name}.f.out.text tag bind avyes$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind avyes$cookie <Enter> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind avyes$cookie <Leave> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind avyes$cookie <Button1-ButtonRelease> ""
 
 
-		${win_name}.f.out.text tag configure avno$cookie \
+		[::ChatWindow::GetTopText ${win_name}] tag configure avno$cookie \
 			-foreground #808080 -background white -font bplainf -underline false
-		${win_name}.f.out.text tag bind avno$cookie <Enter> ""
-		${win_name}.f.out.text tag bind avno$cookie <Leave> ""
-		${win_name}.f.out.text tag bind avno$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind avno$cookie <Enter> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind avno$cookie <Leave> ""
+		[::ChatWindow::GetTopText ${win_name}] tag bind avno$cookie <Button1-ButtonRelease> ""
 
-		${win_name}.f.out.text conf -cursor left_ptr
+		[::ChatWindow::GetTopText ${win_name}] conf -cursor left_ptr
 
 
 		# Show on screen
