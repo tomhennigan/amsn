@@ -900,8 +900,10 @@ proc cmsn_sb_msg {sb_name recv} {
 	 set filesize [aim_get_str $body Application-FileSize]
 	 status_log "Invited to $app\n" white
 	 status_log "$body\n" black
-	 
-	 ::amsn::fileTransferRecv $filename $filesize $cookie $sb_name	 
+
+         set fromlogin [lindex $recv 1]	 
+         set fromnick "[urldecode [lindex $recv 2]]"
+	 ::amsn::fileTransferRecv $filename $filesize $cookie $sb_name $fromlogin $fromnick
 	
 	set filetoreceive [list $filename $filesize]
       } else {

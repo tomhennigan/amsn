@@ -107,9 +107,9 @@ namespace eval ::amsn {
    }
      
    #Dialog shown when receiving a file
-   proc fileTransferRecv {filename filesize cookie sb_name} {
+   proc fileTransferRecv {filename filesize cookie sb_name fromlogin fromname} {
       global files_dir
-      set answer [tk_messageBox -message "[trans acceptfile $filename $filesize $files_dir]" -type yesno -icon question -title [trans receivefile]]
+      set answer [tk_messageBox -message "$fromname <$fromlogin> - [trans acceptfile $filename $filesize $files_dir]" -type yesno -icon question -title [trans receivefile]]
       if {$answer == "yes"} {
          ::amsn::RecvWin $filename $cookie 
          ::MSN::acceptFT $sb_name $filename $filesize $cookie
