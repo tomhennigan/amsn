@@ -411,7 +411,7 @@ proc cmsn_draw_main {} {
    .main_menu.actions add command -label "[trans sendmsg]..." -command \
      "user_choose \"[trans sendmsg]\" online cmsn_chat_user 1 0"
    .main_menu.actions add command -label "[trans sendmail]..." -command \
-     "user_choose \"[trans sendmail]\" both send_mail 1 0"
+     "user_choose \"[trans sendmail]\" both \"send_mail\" 1 0"
    .main_menu.actions add command -label "[trans changenick]..." -command cmsn_change_name
    .main_menu.actions add separator
    .main_menu.actions add command -label "[trans checkver]..." -command "check_version"
@@ -1477,11 +1477,11 @@ proc cmsn_draw_msgwin {email} {
    .${win_name}.menu.actions add command -label "[trans properties]" \
       -command "show_chatuserlist \"[trans properties]\" $name ::abookGui::showEntry"
    .${win_name}.menu.actions add separator
-   .${win_name}.menu.actions add command -label "[trans invite]..." -command "show_invitelist \"[trans invite]\" $name \"cmsn_invite_user $name\""
+   .${win_name}.menu.actions add command -label "[trans invite]..." -command "show_invitelist [trans invite] $name"
    .${win_name}.menu.actions add command -label "[trans sendfile]..." \
       -command "::amsn::fileTransferSend ${name} ${name} "  -state disabled
    .${win_name}.menu.actions add separator
-   .${win_name}.menu.actions add command -label [trans sendmail] -command "cmsn_msgwin_sendmail $name"
+   .${win_name}.menu.actions add command -label [trans sendmail] -command "show_chatuserlist \"[trans sendmail]\" $name send_mail"
    .${win_name} conf -menu .${win_name}.menu
 
    menu .${win_name}.copypaste -tearoff 0 -type normal
@@ -2208,7 +2208,7 @@ proc show_chatuserlist {title name command} {
    }
 }
 
-proc show_invitelist { title name command } {
+proc show_invitelist { title name } {
 	global list_users
 
 	set userlist [list]
@@ -2224,9 +2224,9 @@ proc show_invitelist { title name command } {
    	}
 
 	if { [llength $userlist] > 0 } {
-   		user_choose $title both $command 1 0 $userlist
+   		user_choose $title both "cmsn_invite_user $name" 1 0 $userlist
   	} else {
-		cmsn_draw_otherwindow \"$title\" \"$command\"
+		cmsn_draw_otherwindow $title "cmsn_invite_user $name"
 	}
 }
 
