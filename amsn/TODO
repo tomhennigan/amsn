@@ -75,7 +75,7 @@ DONE	make the shell window resizable (and apply the same for the protocol window
 	**Dock Issues :
 -	New message alert 
 -	Bug if dock started while online
--	Refresh notification area when dock is removed
+-	Refresh notification area when dock is removed (use destroy .immain??)
 
 	**File Transfer issues :
 -	File Transfer AUTH protocol fix
@@ -123,8 +123,8 @@ DONE	Chinese dosen't work (GB2312)
 -	Dosen't connect if msn installed in path with spaces (ex. Documents and Settings), add quotes
 
 	**Others
--	Fix display issue when copying a user in more than 1 group (displays the user twice in the same group)
--	Reenable copy option for contact list (currently commented out)
+DONE	Fix display issue when copying a user in more than 1 group (displays the user twice in the same group)
+DONE	Reenable copy option for contact list (currently commented out)
 -	In the Privacy tab, if 2 users have exactly the same nickname in a listbox, we can control only the first user (we can't delete the second user with that nick from the list ...)
 
 
@@ -135,7 +135,7 @@ DONE	Chinese dosen't work (GB2312)
 DONE	Gnome2 Docking + KDE Docking
 -	Autoconnect (when connection detected)
 -	Notebook like chat windows (as an option)
--	AutoAway Messages
+DONE	AutoAway Messages
 DONE	Encrypt password? (do we really need to? I think not)
 -	Resume File Transfers
 -	Socks5 Proxy Support
