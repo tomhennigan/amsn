@@ -1528,6 +1528,12 @@ proc InitPref { {fullinit 0} } {
 		set lfname [$nb.nn getframe loging]
 		set lfname "$lfname.lfname.f.f"
 		$lfname.log configure -state disabled
+		set lfname [$nb.nn getframe loging]
+		set lfname "$lfname.lfname3.f.f"
+		$lfname.logconnect configure -state disabled
+		$lfname.logdisconnect configure -state disabled
+		$lfname.logemail configure -state disabled
+		$lfname.logstate configure -state disabled
 	}
 
 	# Let's fill our list of States
