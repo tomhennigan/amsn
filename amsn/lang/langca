@@ -180,6 +180,7 @@ handle Sobrenom
 help Ajuda
 helpcontents Contiguts
 hiden No mostris aquesta emoticona al menú d'emoticones
+hidewindow Amaga la finestra
 history Mostrar historial
 home Casa
 httpconnection Connectar-se amb el mètode HTTP (utilitza el protocol HTTP pel port 80)

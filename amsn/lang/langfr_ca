@@ -180,6 +180,7 @@ handle Pseudonyme
 help Aide
 helpcontents Contenu de l'aide
 hiden Cacher cet émoticon du menu
+hidewindow Masquer la fenêtre
 history Voir l'historique
 home Domicile
 httpconnection Connexion par la méthode HTTP (utilisation du protocole HTTP par le port 80)
