@@ -42,7 +42,7 @@
 ### Some global variables
 ############################################################
 set version "0.92CVS"
-set date "05/05/2004"
+set date "05/26/2004"
 set weburl "http://amsn.sourceforge.net"
 set program_dir "."
 set HOME ""
@@ -281,6 +281,7 @@ if {$tcl_platform(os) != "Darwin"} {
 
 if {$version != [::config::getGlobalKey last_client_version]} {
    ::amsn::aboutWindow
+   catch {file delete [file join $HOME2 bugreport.amsn]}
 }
 
 update idletasks

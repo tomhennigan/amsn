@@ -3455,7 +3455,7 @@ namespace eval ::amsn {
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_main {} {
-	global emotion_files version date weburl lang_list \
+	global emotion_files date weburl lang_list \
 	password config HOME files_dir pgBuddy pgNews bgcolor bgcolor2 argv0 argv langlong tcl_platform
 
 	#User status menu
@@ -3693,7 +3693,7 @@ proc cmsn_draw_main {} {
 		.main_menu.helping add command -label "[trans about]..." -command ::amsn::aboutWindow
 	}
 	.main_menu.helping add command -label "[trans version]..." -command \
-	"msg_box \"[trans version]: $version\n[trans date]: $date\n$weburl\""
+	"msg_box \"[trans version]: $::version\n[trans date]: $date\n$weburl\""
 
 
 	. conf -menu .main_menu
@@ -7303,7 +7303,7 @@ proc degt_ns_command_win {} {
 
 
 proc bgerror { args } {
-	global errorInfo errorCode HOME tcl_platform tk_version tcl_version
+	global errorInfo errorCode HOME2 tcl_platform tk_version tcl_version
 
 	set posend [split [.status.info index end] "."]
 	set pos "[expr {[lindex $posend 0]-25}].[lindex $posend 1]"
@@ -7316,14 +7316,14 @@ proc bgerror { args } {
 		
 	status_log "\n\n\n\n\n" error
 	status_log "GOT TCL/TK ERROR : $args\n$errorInfo\n$errorCode\n" error
-	catch { status_log    "\ntcl version : $tcl_version ||| tk version : $tk_version\n\ntcl_platform array content : [array get tcl_platform]\n" }
+	catch { status_log    "\nAMSN version: $::version ||| AMSN date: $::date ||| tcl version : $tcl_version ||| tk version : $tk_version\n\ntcl_platform array content : [array get tcl_platform]\n" }
 	status_log "\n\n\n\n\n" error
 
-	set fd [open [file join $HOME bugreport.amsn] a]
+	set fd [open [file join $HOME2 bugreport.amsn] a]
 
 	puts $fd "Bug generated at [clock format [clock seconds] -format "%D - %T"]\n"
 	puts $fd "Error : $args\nStack : $errorInfo\n\nCode : $errorCode\n\n"
-	catch {    puts $fd "tcl version : $tcl_version ||| tk version : $tk_version\n\ntcl_platform array content : [array get tcl_platform]\n\n" }
+	catch {    puts $fd "\nAMSN version: $::version ||| AMSN date: $::date ||| tcl version : $tcl_version ||| tk version : $tk_version\n\ntcl_platform array content : [array get tcl_platform]\n\n" }
 
 	set tclfiles [glob -nocomplain *.tcl]
 	set latestmtime 0
@@ -7346,7 +7346,7 @@ proc bgerror { args } {
 
 	close $fd
 
-	msg_box "[trans tkerror [file join $HOME bugreport.amsn]]"
+	msg_box "[trans tkerror [file join $HOME2 bugreport.amsn]]"
 }
 
 
