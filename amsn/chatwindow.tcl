@@ -1060,7 +1060,7 @@ namespace eval ::ChatWindow {
 		set bottom $paned.bottom
 
 		# Create the widgets
-		frame $fr -class Amsn -padx 0 -pady 0 -borderwidth 0 -relief solid \
+		frame $fr -class Amsn -borderwidth 0 -relief solid \
 			-background [::skin::getColor chatwindowbg] -height [::config::getKey winchatoutheight]
 		ScrolledWindow $out -auto vertical -scrollbar vertical
 		text $text -borderwidth [::skin::getColor chatborders] -foreground white -background white -width 45 -height 3 \
