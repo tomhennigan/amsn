@@ -1,0 +1,33 @@
+amsn_lang_version 2
+allowcommands Vil du ha komandoer i chat vinduet?
+allowcolours Vil du ha flere farger i chat vinduet?
+allowquicktext Vil du bruke rask tekst funksjonen?
+bold Bold
+ccolor \nDin tekst farge er $1
+cfont \nDin tekst font er $1
+cinfo \nKontakt informasjon:\n$1 \nNick: $2 \nGruppe: $3
+cleave \nDu har forlatet samtalen
+cnewnick \nDitt nye nick er: $1
+cnewstate \nDin nye stat er: $1
+cnewstatenotvalid \n$1 går ikke
+cnick \nDitt nick er $1
+cnotvalid \nDin kommando går ikke
+colournicks Vil du ha farget nick? (ikke fullt utviklet)
+cresult \nREsultatet av kommandoen:\n$1
+cshell \nExecuting in the shell: $1
+cspecify \nDu må velge en kontakt
+cstatus \nDin status er $1
+cstyle \nDin font er $1
+deleted \nDu fjernet $1 fra listen\nFor og legge den til igjen gjør: /add $1
+groupadded \nAdded group $1.
+groupdeleted \nDu fjernet gruppen $1 \nFor og legge den til igjen gjør: /addgroup $1
+italic Italic
+keyword Nøkkelord
+multiplecolorsbutton Lag en ny farge
+overstrike Gjennomstreking
+parsenicks Vil du bruke msn plus color koden i nick?
+qthelp Her kan du konfiguere rask svar, nøkkel ord og tekst.\ni chat vinduet, Vis du gjør /keywork, Du vil se teksten
+quicktext Rask tekst
+reset Reset styles
+text Tekst å skrive
+underline Understreking
