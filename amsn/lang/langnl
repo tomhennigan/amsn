@@ -14,7 +14,7 @@ addto Toevoegen aan $1
 admincontacts Contactpersonen beheren
 admingroups Groepen beheren
 advanced Geavanceerd
-advancedprefs Geavanceerde opties instellen
+advancedprefs Geavanceerde instellingen
 adverts Advertenties
 alarmonconnect Alarm laten afgaan als deze contactpersoon online komt
 alarmondisconnect Alarm laten afgaan als deze contactpersoon offline gaat
@@ -274,7 +274,7 @@ identity Identiteit
 ignoreerrors Negeer de overige AMSN-foutberichten tot het einde van de sessie
 imagefiles Beeldbestanden
 inbox Postvak IN
-insertsmiley Voeg smiley in
+insertsmiley Voeg emoticon in
 installconvert Je moet het conversie-programma "ImageMagick" installeren om afbeeldingen te converteren naar de opmaak dat door de MSN-servers wordt gebruikt. Je kunt een versie van ImageMagick voor jouw besturingssysteem downloaden van ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Als deze melding verschijnt terwijl je het al hebt geïnstalleerd, dan is er mogelijk sprake van een bug. Meld dit dan alstublieft.
 internalerror Interne Serverfout
 invalidfile2 Het bestand $1 kan niet aangemaakt worden. Heb je wel de juiste toegangsrechten?
@@ -392,13 +392,13 @@ nosystemtray Systeemvak niet beschikbaar
 notificationserver Initiële MSN Notificatie Server (MSN Messenger server)
 notify1_5 Melding weergeven wanneer een contactpersoon offline gaat
 notify1_75 Melding weergeven wanneer de status van een contactpersoon wijzigt
-notify1 Melding weergeven wanneer een contactpersoonen online komt
+notify1 Melding weergeven wanneer een contactpersoon online komt
 notify2 Melding weergeven wanneer er een bericht wordt ontvangen
 notify3 Melding weergeven wanneer er een e-mail wordt ontvangen in Postvak IN
 notify4 Melding weergeven wanneer nieuwe e-mail wordt ontvangen in andere mappen
 notify Licht in
 notifyoffset Afstand meldingsvenster vanaf de hoek van het scherm
-notifytimeout Het aantal miliseconden voordat het meldingsvenster verdwijnt
+notifytimeout Het aantal milliseconden voordat het meldingsvenster verdwijnt
 notifytyping Laat anderen in een gesprek zien of je aan het typen bent
 notifywin Meldingsvenster
 notinlist Je staat niet in zijn/haar contactenlijst
@@ -523,7 +523,7 @@ skin Skin
 smileconfig Configuratie voor zelfgemaakte emoticons
 smilefile Bestandsnaam van de emoticon
 smileintro2 Pas de nodige velden aan om deze emoticon te bewerken
-smileintro Vul de nodige velden in om een nieuwe emoticon te creëren
+smileintro Vul de nodige velden in om een nieuwe emoticon te maken
 snackfailed Het is niet gelukt om Snack te laden. Teruggevallen op de standaard-functies.
 sngdblclick Slechts eenmaal klikken om een nieuw gespreksvenster te openen
 sound2 Geluid afspelen wanneer contactpersonen zich aanmelden of een bericht verzenden
@@ -532,7 +532,7 @@ soundcommand Dit moet het afspeelcommando zijn (vb: esdplay)
 soundexample  ( \$sound = te spelen geluidsbestand) Vb: esdplay \$sound
 soundfile Alarmgeluid
 soundfiles Geluidsbestanden
-sound Geluiden gebuiken
+sound Geluid inschakelen
 soundloop Geluid in een lus herhalen
 soundserver Geluidsserver
 soundstatus Alarmgeluid gebruiken
@@ -554,6 +554,7 @@ status Status
 stopalarm Stop het alarm
 storenickname Herstel de oorspronkelijke schermnaam na een aangepaste status met aangepaste schermnaam.
 strictfonts Beperk de lettergrootte overal tot wat ik heb ingesteld, ook in de statusbalk e.d.
+style Stijl
 stylechat Dezelfde stijl als gesprekken
 stylehist aMSN geschiedenis stijl
 stylelog Kies de opmaak van de geschiedenislogboeken
@@ -575,11 +576,11 @@ today Vandaag
 tools Extra
 tooltips Tooltips weergeven
 transnotexists Het opgevraagde bestand is nog niet vertaald in de gebruikte taal.
-traynotcompiled Taakbalk icoon plugin is niet gecompileerd. Bekijk plugins/traydock
+traynotcompiled Systeemvak-plugin is niet gecompileerd. Bekijk plugins/traydock
 triggers Tekst triggers
-truncatenames1 Verkort nicks in de contactpersonenlijst en in venstertitels die langer zijn dan het venster breed is
-truncatenames2 Verkort nicks tijdens gesprekken als ze langer zijn dan het venster breed is
-truncatenicks Schermnamen die langer zijn dan de vensterbreedte afbreken
+truncatenames1 Schermnamen in de contactpersonenlijst en in venstertitels afbreken als ze langer zijn dan het venster breed is
+truncatenames2 Schermnamen tijdens gesprekken afbreken als ze langer zijn dan het venster breed is
+truncatenicks Schermnamen afbreken als ze langer zijn dan het venster breed is
 twonewmail Je hebt $1 nieuwe berichten in Postvak IN
 unblock Deblokkeer
 uoffline Offline
