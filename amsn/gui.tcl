@@ -4595,7 +4595,7 @@ proc cmsn_draw_online_wrapped {} {
 		clickableImage $pgBuddyTop.mail mailbox mailbox [list hotmail_login [::config::getKey login] $password] [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
 		set mailheight [expr [$pgBuddyTop.mail.mailbox cget -height]+(2*[::skin::getKey mailbox_ypad])]
 		#in windows need an extra -2 is to include the extra 1 pixel above and below in a font
-		if {$tcl_platform(platform) == "windows"} {
+		if {$tcl_platform(platform) == "windows" || ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			set mailheight [expr $mailheight - 2]
 		}
 		set textheight [font metrics splainf -linespace]
