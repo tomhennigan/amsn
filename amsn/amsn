@@ -379,6 +379,7 @@ proc cmsn_draw_main {} {
    .options add cascade -label "[trans preferences]..." -menu .pref_menu
    .options add cascade -label "[trans language]" -menu .lang_menu
    .options add command -label "[trans encoding]..." -command "show_encodingchoose"
+   .options add command -label "[trans choosebasefont]..." -command "choose_basefont"
    .options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
    .options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
      -command "msg_box \"[trans mustrestart]\""
@@ -493,6 +494,27 @@ proc cmsn_draw_main {} {
    cmsn_draw_status
    cmsn_draw_offline
 }
+
+proc choose_basefont { } {
+   global config  
+   set font "[tk_chooseFont -title [trans choosefont] -initialfont $config(basefont)]" 
+
+   if { [llength $font] < 2 } {
+     return 0
+   }
+
+   set family [lindex $font 0]
+   set size [lindex $font 1]
+   
+   set newfont "$family $size normal"
+   
+   if { $newfont != $config(basefont)} {
+      set config(basefont) $newfont
+      msg_box [trans mustrestart]
+   }
+
+}
+
 
 proc show_encodingchoose {} {
   set encodings [encoding names]
@@ -2099,6 +2121,9 @@ sb set ns stat "d"
 load_config						;# CONFIG
 scan_languages
 load_lang
+
+::amsn::initLook [lindex $config(basefont) 0] [lindex $config(basefont) 1] #D8D8E0
+
 
 if { $config(encoding) != "auto" } {
   set_encoding $config(encoding)
