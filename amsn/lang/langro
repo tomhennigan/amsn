@@ -13,6 +13,8 @@ addtocontacts Adauga in lista de contact
 addtoo Adauga persoana in lista  
 admincontacts Administrare nume
 admingroups Administrare grup
+advancedprefs Configurarea optiunilor
+advanced Setari amanuntite
 adverts Avertismente
 alarmonconnect Activeaza sunetele de avertizare cind cineva se autentifica
 alarmondisconnect Activeaza sunetele de avertizare cind cineva se deautentifica sau devine invizibil
@@ -25,8 +27,10 @@ allowbadwords Dezactiveaza cenzura de pe porecle
 allowlist Lista cu cei acceptati:
 allowonlyinal Numai cei din lista celor acceptati sa ma contacteze
 allowseen Permite persoanei sa ma vada autentificat si sa ma contacteze.
+allprofilesinuse Toate profilele existente sunt utilizate momentan
 animatedemoticon Acest semn este animat
 animatedsmileys Activeaza semnele de conversatie animate
+animatenotify Fereastra de atentionare animata
 appearance Aparente
 appearoff Neautentificat
 areacode Codul postal
@@ -34,6 +38,7 @@ aretyping $1 scrie un mesaj
 autoaccepted Transferul de fisier a fost acceptat automat
 autoacceptft Accepta automat transferul de fisiere
 autoaway Arata "Plecat" cind sunt inactiv de
+autocheckver Verifica automat daca este versiune noua
 autoconnect2 Autentificare automata la pornirea aMSN-ului
 autoconnect Conectare automata la pornirea aMSN-ului
 autohotmaillog Autentificare automata la Hotmail
@@ -67,6 +72,7 @@ cancel Renunta
 cannotdeleteprofile Nu se poate sterge profilul deoarece este folosit de o sesiune aMSN
 cantexec Nu pot executa aplicatia: $1. Verifica preferintele
 casesensitive Foloseste declansatoarele cu majuscule semnificative
+cfgalarmall Configureaza/Adauga/Sterge sunetul general
 cfgalarm Configureaza/Adauga/Sterge sunete
 changedisplaypic Schimba poza afisata
 changefont Schimba caracterul
@@ -97,6 +103,7 @@ closed Incheiat conversatia cu $1 pentru inactivitate
 close Inchide
 closingdocks Minimizare in loc de inchidere
 command Commanda
+commandstatus Executa comanda
 confirmdelete Sigur vrei sa stergi persoana $1?
 confirm Sunteti sigur?
 connected Conectat
@@ -120,13 +127,17 @@ dcprofile Nu crea profil
 default Configurarea implicita
 defaultloginradio Autentificare cu configuratia implicita
 delete Sterge
+delimiters Separatoarele de timp:
 deliverfail Eroare la trimiterea mesajului
 delprofile2 Selecteaza profilul pe care vrei sa il stergi
 delprofile Sterge profilul
 description Descriere
 directconnection Legatura directa cu internetul (foloseste portul 1863)
+disabled Dezactivat
+disableprofiles Dezactiveaza profilele
 disablessl Dezactiveaza SSL
-disconnect $1 sa deconectat.
+disconnect $1 s-a deconectat.
+displaychat Afiseaza optiunile de text
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Ataseaza in Gnome
 docking Ataseaza
@@ -139,7 +150,10 @@ edit Editare
 editnewstate Creeaza o noua stare pentru mesajului automat
 editprofile Editeaza profilul
 editstate Editeaza starea mesajului automat existent
+editvalue Seteaza valoarea
 emotisounds Semne in conversatie cu sunet
+enablebanner Afiseaza banerul aMSN (necesita restart la aMSN)
+enabled Activat
 enableproxy Activeaza proxy
 enableremote Activeaza posibilitatea de control de la distanta
 enablesound Reda sunet
@@ -196,7 +210,7 @@ hybrid Modul Hybrid
 ident In curs de identificare
 identity Identitate
 inbox Casuta postala
-internalerror Eroare de server
+installconvert Trebuie instalat ImageMagick ( program de conversie ) pentru a folosi icoanele Buddy si semnele de conversatie create. Se poate descarca de la ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . 
 invalidfile Fisierul $2 introdus in campul "$1" nu exista sau nu poate fi citit
 invalidusername Nume gresit
 invitationcancelled Invitattia a fost intrerupta
@@ -216,7 +230,8 @@ lconvstarted Conversatia a inceput la $1
 leaveblankforhotmail Nu complecta cimpul pentru Hotmail!
 leaves $1 a parasit conversatia
 lenteredconf $1 a intrat in conferinta la $2
-linprivate IN PRIVATA
+lineflushlog Sterge jurnalul dupa fiecare linie
+linprivate In privata
 listeningon Ascult pe portul $1
 listsmileys2 Afiseaza semnele de conversatie in lista principala de contacte
 listsmileys Afiseaza semnele de conversatie
@@ -276,6 +291,7 @@ nopic Fara poza
 noprofileexists Nu exista profile, \n trebuie sa creati unul daca vreti sa folositi autentificare cu profil. \nFolositi butonul "Adauga un profil nou" pentru a crea un profil nou.
 normal Normal
 nosystemtray System tray-ul nu este disponibil
+notificationserver Server MSN de informare (MSN Messenger Server)
 notify1_5 Afiseaza fereastra de atentionare cind cineva se deautentifica
 notify1_75 Afiseaza fereastra de atentionare cind persoana isi schimba starea
 notify1 Afiseaza fereastra de atentionare cind cineva se autentifica
@@ -296,6 +312,7 @@ options Optiuni
 ordercontactsby Sorteaza persoanele dupa
 ordergroupsby Sorteaza grupurle dupa
 other Altul
+others Altele
 pager Pager
 pass Parola
 paste Adauga elementul(le) copiat in memorie
@@ -304,7 +321,7 @@ phone Telefon
 picbrowser Poze disponibile
 picfile Fisier imagine (poza) (GIF < 500 x 500)
 picstatus Inchide/Deschide avertizarea cu imagine
-playing Redare: $1 
+playing Redare: $1
 pluginselector Selecteaza Plugin-ul
 port Port
 prefalerts Evenimente si sunete
@@ -353,6 +370,7 @@ raised Stearsa
 readonlymsgbox Transferul de fisier sa intrerupt datorita directorului ~/amsn_received care este protejat la scriere sau nu exista. Verificati permisiunile sau creati directorul ~/amsn_received
 readonlywarn ATENTIE: Probabil ca fisierul NU va fi salvat corect ca si "Fisiere Receptionate". Se pare ca directorul este protejat la scriere. Verificati daca permisiunile pe directorul ($1) sunt setate corect inainte de a transfera fisiere.
 receivedbytes Receptionat $1 din $2 bytes
+receiveddir Directorul fisierelor reteptionate
 receivefile Fisier receptionat
 reconnect Asteapta ca $1 sa se reconecteze
 reconnecting In curs de reconectare la server
@@ -375,13 +393,16 @@ sendmail Trimite e-mail
 sendmsg Trimite mesaj
 send Trimite
 sentbytes Trimis $1 of $2 bytes
+serverbusy Serverul este ocupat
 servergoingdown Deconectat: se inchide serverul
 server Server
+serverunavailable Serverul nu este disponibil
 session Sesiune
 showblockedlist Arata pesoanele care te-au blocat
 showdisplaypic2 La deschiderea ferestrei de chat arata poza implicit
 showdisplaypic Arata poza
 showmypic Poza mea
+shownotify Afiseaza fereastra de atentionare cand are loc ceva eveniment
 showuserpic Poza lui $1
 skinselector Selecteaza Skin-ul
 skin Skin
@@ -401,9 +422,10 @@ sourcecode Codul Sursa (Necesita compilare si instalare)
 sslwarning ATENTIE!! Nefolosirea SSL va dezactiva criptarea parolei, deci parolele vor fi trimise sub forma de text.
 startoffline2 Autentificare invizibila "Apar neautentificat"
 startoffline Incepe neautentificat
+startontray Porneste aMSN in mod minimizat
 stateautomsg de trimis Mejas_Automat
 statechange starea schimbata in:
-stateedittext Editeaza cimpurile pe care vrei sa le salvezi \n apoi apasa Salveaza
+stateedittext Editeaza campurile pe care vrei sa le salvezi \n apoi apasa Salveaza
 stateinfo Configurea starii persolanale
 statename Numele starii personale
 statenewtext Introdu informatia pentru a crea \n starea personala si apasa Salveaza
@@ -417,6 +439,7 @@ syntaxerror Eroare de sintaxa
 tabbed In fereastra ingrosata
 textsize Marime text
 timeremaining Timp ramas
+timestamps Activeaza delimitarile de timp in fereastra de conversatie
 title aMSN Messanger
 tlsdowncompleted Fisierul $1 a fost salvat in directorul $2. Trebuie dezarhivat, compilat (daca e codul sursa) si instalat in $3.
 tlsinstallexp aMSN necesita MSNP9, care necesita conexie \nsecurizata folosind SSL. Pentru a folosi SSL, aMSN trebuie sa instaleze un modul numit TLS,\ncare lipseste din sistem. Acest utilitar va ajuta sa descarcati si \nsa instalati TLS. Selectati tipul sistemului pentru a putea descarca automat \nfisierele TLS.
@@ -428,7 +451,10 @@ tooltips Porneste descrierile elementelor de control
 transnotexists Fisierul cerut nu a fost inca tradus.
 traynotcompiled Acest plugin nu este instalat. Verifica plugins/traydoc
 triggers Declansatoare de text
-twonewmail $1 Mesaje noi in casuta postala
+truncatenames1 Truncheaza nick-urile mai lungi decat latimea feresterei in titlul ferestrei si in lista de contacte
+truncatenames2 Truncheaza nick-urile mai lungi decat latimea ferestrei in fereastra de conversatie
+truncatenicks truncheaza nick-urile mai lungi decat latimea ferestrei
+twonewmail $1 mesaje noi in casuta postala
 unblock Deblocheaza
 uoffline Neautentificat
 uonline Autentificat

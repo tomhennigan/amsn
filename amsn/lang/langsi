@@ -426,6 +426,7 @@ sourcecode Izvorna koda (potrebno jo je prevesti in namestiti)
 sslwarning POZOR!! Onemogocenje SSL-ja bo onemogocilo enkripcijo, tako da bo tvoje geslo poslano kot navadno besedilo. Uporabi le pri kompliciranih nastavitvah proxyja in omrezja.
 startoffline2 Prijavi se kot "Na videz neprijavljen"
 startoffline Zacni neprijavljen
+startontray Zazeni AMSN kot ikono v trayu
 stateautomsg Avtomatsko sporocilo
 statechange je status spremenil/a na:
 stateedittext Prosim uredi polja, ki bi \n jih rad spremenil in pritisni Shrani.
