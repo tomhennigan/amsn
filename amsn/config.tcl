@@ -907,6 +907,7 @@ if { $initialize_amsn == 1 } {
     ###############################################################
     create_dir $HOME
     create_dir $HOME/plugins
+    create_dir $HOME/skins
     #create_dir $log_dir
     #create_dir $files_dir
     ConfigDefaults

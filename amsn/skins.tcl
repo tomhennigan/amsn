@@ -5,7 +5,7 @@
 
 
 proc GetSkinFile { type filename } {
-    global program_dir env HOME
+    global program_dir HOME2
 
     if { [catch { set skin "[::config::get skin]" } ] != 0 } {
 	set skin "default"
@@ -15,8 +15,8 @@ proc GetSkinFile { type filename } {
 
     if { [file readable [file join $program_dir skins $skin $type $filename]] } {
 	return "[file join $program_dir skins $skin $type $filename]"
-    } elseif { [file readable [file join $HOME skins $skin $type $filename]] } {
-	return "[file join $HOME $type $filename]"
+    } elseif { [file readable [file join $HOME2 skins $skin $type $filename]] } {
+	return "[file join $HOME2 skins $skin $type $filename]"
     } elseif { [file readable [file join $program_dir skins $defaultskin $type $filename]] } {
 	return "[file join $program_dir skins $defaultskin $type $filename]"
     } else {
@@ -52,14 +52,17 @@ proc skin_description {cstack cdata saved_data cattr saved_attr args} {
 
 proc findskins { } {
     variable program_dir
+	 global HOME2
 
     set skins [glob -directory [file join $program_dir skins] */settings.xml]
+	 lappend skins [glob -directory [file join $HOME2 skins] */settings.xml]
     status_log "Found skin files in $skins\n"
 
     set skinlist [list]
 
     foreach skin $skins {
 	set dir [file dirname $skin]
+	status_log "Skin: $dir\n"
 
 	set desc ""
 
@@ -70,7 +73,9 @@ proc findskins { } {
 	    close $fd
 	}
 
-	set skinname [string map [list  "[file join $program_dir skins]/" "" ] $dir]
+	#set skinname [string map [list  "[file join $program_dir skins]/" "" ] $dir]
+	set lastslash [expr {[string last "/" $dir]+1}]
+	set skinname [string range $dir $lastslash end]
 	lappend skinname $desc
 	lappend skinlist $skinname
     }

@@ -96,12 +96,10 @@ namespace eval ::amsn {
 	proc downloadTLS {} {
 		global tlsplatform
 
-		status_log "tlsplatform is $tlsplatform\n"
 		if { $tlsplatform == "nodown" } {
 			::amsn::infoMsg [trans notls]
 			return
 		} else {
-			status_log "Here\n"
 			switch $tlsplatform {
 				"linuxx86" {
 					set downloadurl "http://belnet.dl.sourceforge.net/sourceforge/tls/tls1.4.1-linux-x86.tar.gz"
@@ -136,25 +134,84 @@ namespace eval ::amsn {
 			pack $w.close -side bottom -pady 5 -padx 10
 
 			wm title $w "[trans tlsinstall]"
-			wm protocol $w WM_DELETE_WINDOW ""
 
 			::dkfprogress::SetProgress $w.prbar 0
 
-			set tok [::http::geturl $downloadurl -progress "::amsn::downloadTLSProgress" -command "::amsn::downloadTLSProgres"]
-			status_log "Tokten: $tok\n"
+
+			set downloadurl "http://192.168.1.2/~darkelf/amsn_tls_dsamodule.tar.gz"
+			if {[ catch {set tok [::http::geturl $downloadurl -progress "::amsn::downloadTLSProgress $downloadurl" -command "::amsn::downloadTLSCompleted $downloadurl"]} res ]} {
+				errorDownloadingTLS $res $tok
+			}
+
+			$w.close configure -command "::http::reset $tok"
+			wm protocol $w WM_DELETE_WINDOW "::http::reset $tok"
 		}
 	}
 
-	proc downloadTLSProgress {token {total 0} {current 0} } {
-		status_log "downloadTLSProgress: $token $total $current\n"
+	proc downloadTLSCompleted { downloadurl token } {
+		global files_dir HOME2 tlsplatform
 
-		if { $total == $current } {
+		status_log "status: [http::status $token]\n"
+		if { [::http::status $token] == "reset" } {
 			::http::cleanup $token
+
 			destroy .tlsprogress
-		} else {
-			::dkfprogress::SetProgress .tlsprogress.prbar [expr {$current*100/$total}]
-			.tlsprogress.progress configure -text "[trans receivedbytes $current $total]"
+			return
+
 		}
+
+		if { [::http::status $token] != "ok" || [::http::ncode $token] != 200} {
+			errorDownloadingTLS "Couldn't get $url"
+			return
+		}
+
+		switch $tlsplatform {
+			"solaris26" -
+			"linuxx86" {
+				status_log "Here on linux/solaris\n"
+				if { [catch {
+					set file_id [open [file join $files_dir "amsn_tls_module.tar.gz"] w]
+					fconfigure $file_id -translation {binary binary} -encoding binary
+					puts -nonewline $file_id [::http::data $token]
+					close $file_id
+
+					set olddir [pwd]
+					cd [file join $HOME2 plugins]
+
+					exec tar xvzf [file join $files_dir "amsn_tls_module.tar.gz"]
+
+					cd $olddir
+					::amsn::infoMsg "[trans tlsinstcompleted]"
+					} res ] } {
+
+					errorDownloadingTLS $res $token
+				}
+			}
+			- {
+			}
+		}
+
+		destroy .tlsprogress
+		::http::cleanup $token
+
+	}
+
+	proc downloadTLSProgress {url token {total 0} {current 0} } {
+
+		if { $total == 0 } {
+			errorDownloadingTLS "Couldn't get $url" $token
+			return
+		}
+		::dkfprogress::SetProgress .tlsprogress.prbar [expr {$current*100/$total}]
+		.tlsprogress.progress configure -text "[trans receivedbytes $current $total]"
+
+
+	}
+
+	proc errorDownloadingTLS { errormsg token} {
+		errorMsg "[trans errortls]: $errormsg"
+		catch { destroy .tlsprogress }
+		catch {::http::cleanup $token}
 	}
 
    #///////////////////////////////////////////////////////////////////////////////
