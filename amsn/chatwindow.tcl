@@ -866,7 +866,6 @@ namespace eval ::ChatWindow {
 	# on the output of the chat window
 	#
 	proc CreateCopyMenu { w } {
-		global xmms
 
 		set menu $w.copy
 
@@ -874,28 +873,8 @@ namespace eval ::ChatWindow {
 
 		$menu add command -label [trans copy] \
 			-command "status_log copy\n;copy 0 $w"
-
-		# Creates de XMMS extension's menu if the plugin is loaded
-		if { [info exist xmms(loaded)] } {
-			$menu add cascade -label "XMMS" -menu [CreateXmmsMenu $w $menu]
-
-		}
-
+			
 		return $menu
-	}
-
-	################################################
-	# CreateCopyMenu
-	# This proc creates the Xmms submenu shown when a user right clicks 
-	# on the output of the chat window if the plugin is loaded
-	#
-	proc CreateXmmsMenu { w menu } {
-		set xmmsmenu $menu.xmms
-
-		menu $xmmsmenu -tearoff 0 -type normal
-		$xmmsmenu add command -label [trans xmmscurrent] -command "xmms $w 1"
-		$xmmsmenu add command -label [trans xmmssend] -command "xmms $w 2"	
-		return $xmmsmenu
 	}
 
 	###################################################
