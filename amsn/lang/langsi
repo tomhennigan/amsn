@@ -6,6 +6,7 @@ actions Akcije
 addacontact Dodaj stik
 addedyou $1 ($2) vas je dodal/dodala na svoj seznam stikov
 addstate Dodaj novo stanje
+addto Dodaj na $1
 addtocontacts Dodaj na seznam stikov
 addtoo Dodaj to osebo na moj seznam stikov
 admincontacts Uredi stike

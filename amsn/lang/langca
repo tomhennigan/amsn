@@ -6,6 +6,7 @@ actions Accions
 addacontact Afegeix un contacte
 addedyou $1 ($2) t'ha inclòs a la seva llista de contactes
 addstate Afegir un nou estat
+addto Afegeix a $1
 addtocontacts Afegir als contactes
 addtoo Afegeix aquesta persona a la meva llista de contactes
 admincontacts Administrar la llista de contactes
@@ -345,6 +346,7 @@ textsize Mida del text
 title aMSN
 to A
 tools Eines
+tooltips Activa el rètol indicador de funcions
 transnotexists Aquest fitxer encara no ha estat traduït
 traynotcompiled La icona de la safata de connexió no s'ha compilat. Comprova el directori plugins/traydock
 unblock Desbloquejar

@@ -6,6 +6,7 @@ actions Perintah
 addacontact Tambahkan nama baru
 addedyou $1 ($2) telah menambahkan anda dalam daftar namanya
 addstate Tambahkan Kondisi Baru
+addto Tambahkan kepada $1
 addtocontacts Masukkan dalam daftar nama
 addtoo Masukkan orang ini dalam daftar nama saya
 admincontacts Atur daftar nama

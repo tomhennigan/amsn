@@ -3,10 +3,10 @@ about Over aMSN
 accept Accepteren
 acceptfile Accepteer bestand $1, grootte $2? opgeslagen in $3
 actions Acties
-addacontact Voeg een contact toe
+addacontact Voeg een contactpersoon toe
 addedyou $1 ($2) Heeft jou toegevoegd aan zijn/haar lijst van contactpersonen
 addstate Voeg nieuwe status toe
-addtocontacts Toevoegen aan lijst van contactpersonen
+addto Toevoegen aan $1
 addtoo Voeg deze persoon toe als nieuwe contactpersoon
 admincontacts Beheer contactpersonen
 admingroups Beheer groepen
@@ -17,6 +17,7 @@ allowallbutbl Sta alle gebruikers toe om contact met mij op te nemen, behalve ge
 allowlist Lijst met toegestane gebruikers :
 allowonlyinal Sta alleen toegestane gebruikers toe om contact met mij op te nemen
 allowseen Deze persoon toestaan om mijn online-status te zien, en contact met mij op te nemen
+animatedsmileys Gebruik bewegende smileys
 appearance Status
 appearoff Offline verschijnen
 areacode Regiocode
@@ -109,6 +110,7 @@ edit    Bewerken
 editnewstate Nieuwe Persoonlijke Automatische Berichten Status
 editprofile Bewerk profiel
 editstate Verander Bestaande Automatische Berichten Status
+emotisounds Speel geluid voor bepaalde emoticons
 enableproxy Gebruik proxy
 enableremote Controle op afstand aanzetten
 encoding2 Verander je tekencodering
@@ -192,7 +194,7 @@ loginas Aanmelden als
 loging Aanmelden
 logolder Bewaar alleen de gesprekken de plaatsvonden in de laatste
 logout Afmelden
-logsin heeft zich aangemeld.
+logsin heeft zich aangemeld
 logsmileys Toont emoticons en smileys in aMSN's geschiedenisvensters
 lprivtoconf Privegesprek veranderde in vergadering met $1
 luclosedwin Je hebt het venster gesloten op $1
@@ -216,8 +218,8 @@ myworkphone Mijn telefoonnummer (werk)
 natip   IP detectie via website
 natkeepalive Als de verbinding regelmatig wegvalt, activeer dan deze optie "Verbinding in stand houden"
 needonline Je bent/verschijnt nog steeds offline!
-newmailfrom Je hebt een e-mail ontvangen van $1 ($2)
-newmail Je hebt $1 nieuwe berichten in je Postvak IN
+newmailfrom Nieuwe e-mail van $1 ($2)
+newmail Je hebt $1 nieuwe berichten in Postvak IN
 newmsg Nieuw bericht
 newveravailable Versie $1 is beschikbaar voor downloaden.
 next Volgende
@@ -343,9 +345,10 @@ textsize Tekstgrootte
 title Al's Messenger
 to Aan
 tools Extra
+tooltips Tooltips weergevenaddtocontacts Toevoegen aan lijst van contactpersonen
 transnotexists Het opgevraagde bestand is nog niet vertaald in de gebruikte taal.
 traynotcompiled Taakbalk icoon plugin is niet gecompileerd. Bekijk plugins/traydock
-twonewmail Je hebt $1 nieuwe berichten in je Postvak IN
+twonewmail Je hebt $1 nieuwe berichten in Postvak IN
 unblock Deblokkeer
 uoffline Offline
 uonline Online
@@ -367,4 +370,3 @@ yoffset Y-positie
 youblocked Je bent geblokkeerd
 yousay Jij zegt
 youwant Jij wilt
-emotisounds Speel geluid voor bepaalde emoticons
