@@ -3318,7 +3318,7 @@ proc proxy_callback {event socket_name} {
     switch $event {
         dropped {   # Proxy connection dropped/closed during read
 	    if {$socket_name == "ns"} {
-	        ::MSN::CloseSB ns
+	    	::MSN::CloseSB ns
 	    }
 	}
     }

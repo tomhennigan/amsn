@@ -131,7 +131,7 @@ namespace eval ::Proxy {
 		}
 	    }
 	    ssl {
-		set tmp_data "CONNECT [join $remote_server ":"] HTTP/1.0"
+		set tmp_data "CONNECT [join [list $remote_server $remote_port] ":"] HTTP/1.0"
 		status_log "PROXY SEND: $tmp_data\n"
 		puts -nonewline [sb get $name sock] "$tmp_data\r\n\r\n"
 	    }
@@ -171,7 +171,7 @@ namespace eval ::Proxy {
 	if {[info exists proxy_queued_data($name)]} {
 	    unset proxy_queued_data($name)
 	}
-	
+
 	::MSN::CloseSB $name
     }
 
@@ -329,7 +329,11 @@ namespace eval ::Proxy {
 	    
 	    set tmp_data "ERROR READING POST PROXY !!\n"
 	    
-	    catch {gets $sock tmp_data} res        
+	    catch {gets $sock tmp_data} res
+	    
+	    if { $tmp_data == "" } {
+	    	return
+	    }
 	    
 	    if { ([string range $tmp_data 9 11] != "200") && ([string range $tmp_data 9 11] != "100")} {
 		#if { ($tmp_data != "HTTP/1.0 200 OK") && ($tmp_data != "HTTP/1.1 100 Continue") } {}
@@ -434,6 +438,9 @@ namespace eval ::Proxy {
 }
 ###################################################################
 # $Log$
+# Revision 1.15  2003/09/02 22:48:26  burgerman
+# Fixed bug with SSL Proxy method
+#
 # Revision 1.14  2003/08/09 04:42:39  kakaroto
 # oufff, at last, the "reload_files" proc is working...
 #
