@@ -1339,7 +1339,7 @@ proc cmsn_win_write {name txt {colour ""}} {
 
    set win_name "msg_[string tolower ${name}]"
 
-  .${win_name}.text configure -state normal 
+  .${win_name}.text configure -state normal -font splainf
 
 
    set text_start [.${win_name}.text index end]
