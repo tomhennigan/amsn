@@ -131,11 +131,11 @@ namespace eval ::plugins {
 			plugins_log core "Registering an event for an unknown plugin...\n"
 			return; # Bye Bye
 		}
-		set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin*"] 0]
+		set pluginidx [lindex [lsearch -glob $::plugins::found "*$plugin*"] 0]
 		if { $pluginidx == "" } {
 			return
 		}
-		set namespace [lindex $::plugins::found $pluginidx 6]
+		set namespace [lindex [lindex $::plugins::found $pluginidx] 6]
 
 		if {[lsearch -exact [array names pluginsevents $event] $event]!=-1} { # Will error if I search with empty key
 			if {[lsearch $pluginsevents(${event}) "\:\:$namespace\:\:$cmd"] != -1 } { # Event already registered?
@@ -166,11 +166,11 @@ namespace eval ::plugins {
 		# get the event list
 		variable pluginsevents
 
-		set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin*"] 0]
+		set pluginidx [lindex [lsearch -glob $::plugins::found "*$plugin*"] 0]
 		if { $pluginidx == "" } {
 			return
 		}
-		set namespace [lindex $::plugins::found $pluginidx 6]
+		set namespace [lindex [lindex $::plugins::found $pluginidx] 6]
 
 		# do stuff only if there is a such a command for the event
 		#TODO: do we need to check if such a event exists?
@@ -199,11 +199,11 @@ namespace eval ::plugins {
 	proc UnRegisterEvents { plugin } {
 		# event list
 		variable pluginsevents
-		set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin*"] 0]
+		set pluginidx [lindex [lsearch $::plugins::found *$plugin*] 0]
 		if { $pluginidx == "" } {
 			return
 		}
-		set namespace [lindex $::plugins::found $pluginidx 6]
+		set namespace [lindex [lindex $::plugins::found $pluginidx] 6]
 
 		# go through each event
 		foreach {event} [array names pluginsevents] {
@@ -317,9 +317,17 @@ namespace eval ::plugins {
 			set deinit $sdata(${cstack}:deinit_procedure)
 		}
 
-		lappend ::plugins::found [list $sdata(${cstack}:name) $sdata(${cstack}:author) $sdata(${cstack}:description) \
-			$sdata(${cstack}:amsn_version) $sdata(${cstack}:plugin_version) $sdata(${cstack}:plugin_file) \
-			$sdata(${cstack}:plugin_namespace) $sdata(${cstack}:init_procedure) $deinit]
+		lappend ::plugins::found [list \
+																	$sdata(${cstack}:name) \
+																	$sdata(${cstack}:author) \
+																	$sdata(${cstack}:description) \
+																	$sdata(${cstack}:amsn_version) \
+																	$sdata(${cstack}:plugin_version) \
+																	$sdata(${cstack}:plugin_file) \
+																	$sdata(${cstack}:plugin_namespace) \
+																	$sdata(${cstack}:init_procedure) \
+																	$deinit \
+																 ]
 
 		return 0
 	}
@@ -358,7 +366,7 @@ namespace eval ::plugins {
 		set w .plugin_selector
 		# if the window already exists, focus it, otherwise create it
 		if {[winfo exists $w]==1} {
-			raise $w
+			focus $w
 		} else {
 			# create window and give it it's title
 			toplevel $w
@@ -367,7 +375,7 @@ namespace eval ::plugins {
 			# frame that holds the selection dialog
 			frame $w.select
 			# listbox with all the plugins
-			listbox $w.select.plugin_list -background "white" -height 17
+			listbox $w.select.plugin_list -background "white" -height 15
 			# frame that holds the plugins info like name and description
 			frame $w.desc
 			label $w.desc.name_title -text [trans name] -font sboldf
@@ -497,10 +505,14 @@ namespace eval ::plugins {
 		$w.desc.version configure -text $selection(plugin_version)
 		
 		# update the buttons
+
+			$w.command.config configure -state normal
+
 		if {[lsearch "$loadedplugins" $selection(name)] != -1 } {
 			# if the plugin is loaded, enable the Unload button
 			$w.command.load configure -state normal -text [trans unload] -command "::plugins::GUI_Unload"
-			# if the plugin has a configlist, then enable configuration. Otherwise disable it
+			# if the plugin has a configlist, then enable configuration.
+			# Otherwise disable it
 			if {[info exists ::${selection(namespace)}::configlist] == 1} {
 				$w.command.config configure -state normal
 			} else {
@@ -533,9 +545,14 @@ namespace eval ::plugins {
 		# don't do anything is there is no selection
 		if { $selection(file) != "" } {
 			# Do the actual loading and check if it loads properly
-			set loaded [LoadPlugin $selection(name) $selection(required_version) $selection(file) \
-				$selection(namespace) $selection(init_proc)]
+			set loaded [LoadPlugin $selection(name) $selection(required_version) \
+											$selection(file) \
+											$selection(namespace) \
+											$selection(init_proc) \
+										 ]
+
 			if { !$loaded } {
+				msg_box "Failed to load $selection(name) plug-in"
 				return
 			}
 			# change the color in the listbox
@@ -832,12 +849,12 @@ namespace eval ::plugins {
 		plugins_log core "Unloading plugin $plugin\n"
 		set loadedplugins [lreplace $loadedplugins [lsearch $loadedplugins "$plugin"] [lsearch $loadedplugins "$plugin"]]
 		UnRegisterEvents $plugin
-		set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin*"] 0]
+		set pluginidx [lindex [lsearch -glob $::plugins::found "*$plugin*"] 0]
 		if { $pluginidx == "" } {
 			return
 		}
-		set namespace [lindex $::plugins::found $pluginidx 6]
-		set deinit [lindex $::plugins::found $pluginidx 8]
+		set namespace [lindex [lindex $::plugins::found $pluginidx] 6]
+		set deinit [lindex [lindex $::plugins::found $pluginidx] 8]
 		if {[info procs "::${namespace}::${deinit}"] == "::${namespace}::${deinit}"} {
 			::${namespace}::${deinit}
 		}
@@ -910,9 +927,13 @@ namespace eval ::plugins {
 			plugins_log core "Initializing plugin $plugin with ${namespace}::${init_proc}\n"
 			::${namespace}::${init_proc} [file dirname $file]
 			eval {proc ::${namespace}::${init_proc} {file} { return } }
+		} else {
+			msg_box "Plugins System: Can't initialize plugin:init procedure not found"
 		}
 		if {[array exists ::${plugin}_cfg] == 1} {
 			array set ::${namespace}::config [array get ::${plugin}_cfg]
+		} else {
+			status_log "Plugins System: no config for plug-in $plugin\n" red
 		}
 		return 1
 	}
@@ -978,9 +999,9 @@ namespace eval ::plugins {
 		puts $file_id  "<?xml version=\"1.0\"?>\n\n<config>"
 		plugins_log core "I will save the folowing: $knownplugins\n"
 		foreach {plugin} $knownplugins {
-			set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin*"] 0]
+			set pluginidx [lindex [lsearch -glob $::plugins::found "*$plugin*"] 0]
 			if { $pluginidx != "" } {
-				set namespace [lindex $::plugins::found $pluginidx 6]
+				set namespace [lindex [lindex $::plugins::found $pluginidx] 6]
 				status_log "NAMESPACE: $namespace\n"
 				puts $file_id "<plugin>\n<name>${plugin}</name>"
 				if {[lsearch $loadedplugins $plugin]!=-1} {
@@ -1044,6 +1065,8 @@ namespace eval ::plugins {
 				::amsn::errorMsg "[trans corruptconfig [file join ${HOME} "plugins.xml.old"]]"
 				file copy [file join ${HOME} "plugins.xml"] [file join ${HOME} "plugins.xml.old"]
 			}
+		} else {
+			status_log "Plugins System: load_config: No plugins.xml]\n" red
 		}
 	}
 
