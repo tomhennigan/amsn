@@ -1059,7 +1059,7 @@ namespace eval ::ChatWindow {
 		}
 
 		# Create The left frame
-		frame $leftframe -class Amsn -background [::skin::getColor chatwindowbg] -relief solid -borderwidth 0
+		frame $leftframe -class Amsn -background blue -relief solid -borderwidth 0
 
 		# Create the other widgets for the bottom frame
 		set buttons [CreateButtonBar $w $leftframe]
