@@ -897,22 +897,21 @@ proc process_custom_smileys_SB { txt } {
 	foreach name [::config::getKey customsmileys] {
 		
 		array set emotion $custom_emotions($name)
-		#foreach symbol $emotion(text) {
-		set symbol $emotion(text)
-		set symbol2 [string toupper $symbol]
-	
-		set file $emotion(file)
-	
-		if { [info exists emotion(casesensitive] && [is_true $emotion(casesensitive)]} {
-			if {  [string first $symbol $txt] != -1 } {
-				set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [GetSkinFile smileys [filenoext $file].png]]	"
-			}
-		} else {
-			if {  [string first $symbol2 $txt2] != -1 } {
-				set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [GetSkinFile smileys [filenoext $file].png]]	"
+		foreach symbol $emotion(text) {
+			set symbol2 [string toupper $symbol]
+		
+			set file $emotion(file)
+		
+			if { [info exists emotion(casesensitive] && [is_true $emotion(casesensitive)]} {
+				if {  [string first $symbol $txt] != -1 } {
+					set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [GetSkinFile smileys [filenoext $file].png]]	"
+				}
+			} else {
+				if {  [string first $symbol2 $txt2] != -1 } {
+					set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [GetSkinFile smileys [filenoext $file].png]]	"
+				}
 			}
 		}
-		#}
 	}
 	
 	return $msg
