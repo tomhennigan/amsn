@@ -4950,7 +4950,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		$pgBuddy.text.$imgname2 configure -cursor hand2 -borderwidth 0
 		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname2 -padx 1 -pady 1
 		bind $pgBuddy.text.$imgname2 <Enter> \
-		"$pgBuddy.text tag conf $user_unique_name -under true; $pgBuddy.text conf -cursor hand2"
+		"$pgBuddy.text tag conf $user_unique_name -under [::skin::getColor underline_contact]; $pgBuddy.text conf -cursor hand2"
 		bind $pgBuddy.text.$imgname2 <Leave> \
 			"$pgBuddy.text tag conf $user_unique_name -under false; $pgBuddy.text conf -cursor left_ptr"
 
