@@ -616,65 +616,30 @@ proc selectskincancel { w } {
 proc SetColors {cstack cdata saved_data cattr saved_attr args} {
 	upvar $saved_data sdata
 		
-	if { [info exists sdata(${cstack}:mainwindowbg)] } { ::skin::setColor mainwindowbg [string trim $sdata(${cstack}:mainwindowbg)] }
-	if { [info exists sdata(${cstack}:chatwindowbg)] } { ::skin::setColor chatwindowbg [string trim $sdata(${cstack}:chatwindowbg)] }
+	foreach key [list \
+			mainwindowbg chatwindowbg buttonbarbg chatborders chat_top_border chat_output_border \
+			chat_buttons_border chat_input_border chat_status_border topbarbg topbartext topbarawaybg \
+			topbarawaytext topbarbusybg topbarbusytext topbarofflinebg topbarofflinetext menubgcolor \
+			menufgcolor menuactivebgcolor menuactivefgcolor balloontextcolor balloonbgcolor balloonbordercolor \
+			chat_top_padx chat_top_pady chat_paned_padx chat_paned_pady chat_output_padx chat_output_pady \
+			chat_buttons_padx chat_buttons_pady chat_status_padx chat_status_pady chat_input_padx chat_input_pady \
+			chat_dp_padx chat_dp_pady chat_leftframe_padx chat_leftframe_pady chat_sendbutton_padx \
+			chat_sendbutton_pady statusbarbg statusbartext \
+			] {
+		if { [info exists sdata(${cstack}:$key)] } { ::skin::setColor $key [string trim $sdata(${cstack}:$key)] }
+	}
+
 	#Don't use buttonbarbg on Mac OS X and put 0 value to chatborders
 	if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
 		if { [info exists sdata(${cstack}:chatwindowbg)] } { ::skin::setColor buttonbarbg [string trim $sdata(${cstack}:chatwindowbg)] }
 
-		if { [info exists sdata(${cstack}:chat_top_border)] } { ::skin::setColor chat_top_border 0 }
-		if { [info exists sdata(${cstack}:chat_output_border)] } { ::skin::setColor chat_output_border 0 }
-		if { [info exists sdata(${cstack}:chat_buttons_border)] } { ::skin::setColor chat_buttons_border 0 }
-		if { [info exists sdata(${cstack}:chat_input_border)] } { ::skin::setColor chat_input_border 0 }
-		if { [info exists sdata(${cstack}:chat_status_border)] } { ::skin::setColor chat_status_border 0 }
-	} else {
-		if { [info exists sdata(${cstack}:buttonbarbg)] } { ::skin::setColor buttonbarbg [string trim $sdata(${cstack}:buttonbarbg)] }
-		if { [info exists sdata(${cstack}:chatborders)] } { ::skin::setColor chatborders [string trim $sdata(${cstack}:chatborders)] }
-
-		if { [info exists sdata(${cstack}:chat_top_border)] } { ::skin::setColor chat_top_border [string trim $sdata(${cstack}:chat_top_border)] }
-		if { [info exists sdata(${cstack}:chat_output_border)] } { ::skin::setColor chat_output_border [string trim $sdata(${cstack}:chat_output_border)] }
-		if { [info exists sdata(${cstack}:chat_buttons_border)] } { ::skin::setColor chat_buttons_border [string trim $sdata(${cstack}:chat_buttons_border)] }
-		if { [info exists sdata(${cstack}:chat_input_border)] } { ::skin::setColor chat_input_border [string trim $sdata(${cstack}:chat_input_border)] }
-		if { [info exists sdata(${cstack}:chat_status_border)] } { ::skin::setColor chat_status_border [string trim $sdata(${cstack}:chat_status_border)] }
+		::skin::setColor chat_top_border 0
+		::skin::setColor chat_output_border 0
+		::skin::setColor chat_buttons_border 0
+		::skin::setColor chat_input_border 0
+		::skin::setColor chat_status_border 0
 	}
-	if { [info exists sdata(${cstack}:topbarbg)] } { ::skin::setColor topbarbg [string trim $sdata(${cstack}:topbarbg)] }
-	if { [info exists sdata(${cstack}:topbartext)] } { ::skin::setColor topbartext [string trim $sdata(${cstack}:topbartext)] }
-	if { [info exists sdata(${cstack}:topbarawaybg)] } { ::skin::setColor topbarawaybg [string trim $sdata(${cstack}:topbarawaybg)] }
-	if { [info exists sdata(${cstack}:topbarawaytext)] } { ::skin::setColor topbarawaytext [string trim $sdata(${cstack}:topbarawaytext)] }
-	if { [info exists sdata(${cstack}:topbarbusybg)] } { ::skin::setColor topbarbusybg [string trim $sdata(${cstack}:topbarbusybg)] }
-	if { [info exists sdata(${cstack}:topbarbusytext)] } { ::skin::setColor topbarbusytext [string trim $sdata(${cstack}:topbarbusytext)] }
-	if { [info exists sdata(${cstack}:topbarofflinebg)] } { ::skin::setColor topbarofflinebg [string trim $sdata(${cstack}:topbarofflinebg)] }
-	if { [info exists sdata(${cstack}:topbarofflinetext)] } { ::skin::setColor topbarofflinetext [string trim $sdata(${cstack}:topbarofflinetext)] }
-	if { [info exists sdata(${cstack}:menubgcolor)] } { ::skin::setColor menubackground [string trim $sdata(${cstack}:menubgcolor)] }
-	if { [info exists sdata(${cstack}:menufgcolor)] } { ::skin::setColor menuforeground [string trim $sdata(${cstack}:menufgcolor)] }
-	if { [info exists sdata(${cstack}:menuactivebgcolor)] } { ::skin::setColor menuactivebackground [string trim $sdata(${cstack}:menuactivebgcolor)] }
-	if { [info exists sdata(${cstack}:menuactivefgcolor)] } { ::skin::setColor menuactiveforeground [string trim $sdata(${cstack}:menuactivefgcolor)] }
-	if { [info exists sdata(${cstack}:balloontextcolor)] } { ::skin::setColor balloontext [string trim $sdata(${cstack}:balloontextcolor)] }
-	if { [info exists sdata(${cstack}:balloonbgcolor)] } { ::skin::setColor balloonbackground [string trim $sdata(${cstack}:balloonbgcolor)] }
-	if { [info exists sdata(${cstack}:balloonbordercolor)] } { ::skin::setColor balloonborder [string trim $sdata(${cstack}:balloonbordercolor)] }
 	
-	if { [info exists sdata(${cstack}:chat_top_padx)] } { ::skin::setColor chat_top_padx [string trim $sdata(${cstack}:chat_top_padx)] }
-	if { [info exists sdata(${cstack}:chat_top_pady)] } { ::skin::setColor chat_top_pady [string trim $sdata(${cstack}:chat_top_pady)] }
-	if { [info exists sdata(${cstack}:chat_paned_padx)] } { ::skin::setColor chat_paned_padx [string trim $sdata(${cstack}:chat_paned_padx)] }
-	if { [info exists sdata(${cstack}:chat_paned_pady)] } { ::skin::setColor chat_paned_pady [string trim $sdata(${cstack}:chat_paned_pady)] }
-	if { [info exists sdata(${cstack}:chat_output_padx)] } { ::skin::setColor chat_output_padx [string trim $sdata(${cstack}:chat_output_padx)] }
-	if { [info exists sdata(${cstack}:chat_output_pady)] } { ::skin::setColor chat_output_pady [string trim $sdata(${cstack}:chat_output_pady)] }
-	if { [info exists sdata(${cstack}:chat_buttons_padx)] } { ::skin::setColor chat_buttons_padx [string trim $sdata(${cstack}:chat_buttons_padx)] }
-	if { [info exists sdata(${cstack}:chat_buttons_pady)] } { ::skin::setColor chat_buttons_pady [string trim $sdata(${cstack}:chat_buttons_pady)] }
-	if { [info exists sdata(${cstack}:chat_status_padx)] } { ::skin::setColor chat_status_padx [string trim $sdata(${cstack}:chat_status_padx)] }
-	if { [info exists sdata(${cstack}:chat_status_pady)] } { ::skin::setColor chat_status_pady [string trim $sdata(${cstack}:chat_status_pady)] }
-	if { [info exists sdata(${cstack}:chat_input_padx)] } { ::skin::setColor chat_input_padx [string trim $sdata(${cstack}:chat_input_padx)] }
-	if { [info exists sdata(${cstack}:chat_input_pady)] } { ::skin::setColor chat_input_pady [string trim $sdata(${cstack}:chat_input_pady)] }
-	if { [info exists sdata(${cstack}:chat_dp_padx)] } { ::skin::setColor chat_dp_padx [string trim $sdata(${cstack}:chat_dp_padx)] }
-	if { [info exists sdata(${cstack}:chat_dp_pady)] } { ::skin::setColor chat_dp_pady [string trim $sdata(${cstack}:chat_dp_pady)] }
-	if { [info exists sdata(${cstack}:chat_leftframe_padx)] } { ::skin::setColor chat_leftframe_padx [string trim $sdata(${cstack}:chat_leftframe_padx)] }
-	if { [info exists sdata(${cstack}:chat_leftframe_pady)] } { ::skin::setColor chat_leftframe_pady [string trim $sdata(${cstack}:chat_leftframe_pady)] }
-	if { [info exists sdata(${cstack}:chat_sendbutton_padx)] } { ::skin::setColor chat_sendbutton_padx [string trim $sdata(${cstack}:chat_sendbutton_padx)] }
-	if { [info exists sdata(${cstack}:chat_sendbutton_pady)] } { ::skin::setColor chat_sendbutton_pady [string trim $sdata(${cstack}:chat_sendbutton_pady)] }
-	
-	if { [info exists sdata(${cstack}:statusbarbg)] } { ::skin::setColor statusbarbg [string trim $sdata(${cstack}:statusbarbg)] }
-	if { [info exists sdata(${cstack}:statusbartext)] } { ::skin::setColor statusbartext [string trim $sdata(${cstack}:statusbartext)] }
-
 	return 0
 }
 
