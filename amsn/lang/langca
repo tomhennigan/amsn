@@ -27,7 +27,7 @@ autoip IP Automàtica
 autonoact Mostra'm en l'estat "Sense activitat" quan no hi hagi activitat en
 avoidseen No deixis que aquesta persona vegi si estic connectat i que contacti amb mi
 away Absent
-awaymsg1 Pregunta'm el missatge d'absent cada vegada que canviï a l'estat "Absent", "Un moment" o "Ocupat"
+awaymsg1 Pregunta'm el missatge d'absent quan canviï a l'estat "Absent", "Ara torno" o "Ocupat"
 awaymsg2 No m'ho preguntis mai i utilitza el següent missatge
 baduserpass Nom d'usuari o contrasenya incorrecte
 bgcolor Canvia el color del fons de l'aMSN
@@ -40,23 +40,23 @@ browser Navegador
 busy Ocupat
 cancel Cancel·la
 cfgalarm Configurar l'alarma per aquest usuari
-changefont Canvia el tipus de lletra
-changenick Canvia de sobrenom
+changefont Canviar font
+changenick Canviar el meu sobrenom
 chatack Acceptant xat de
 chat Xat
 chatreq Demanant xat
-chatsmileys2 Mostra emoticons a la finestra de xat
-chatsmileys Emoticons al xat
+chatsmileys2 Mostrar emoticones a la finestra del xat
+chatsmileys Emoticones al xat
 checkingver Buscant versions noves
 checkver Busca una versió nova
-choosebasefont Escull el tipus de lletra
-choosebgcolor Escull el color de fons
+choosebasefont Canviar la font
+choosebgcolor Canviar el color de fons
 choosefontcolor Escull el color del tipus de lletra
-clearlog2 Netejar l'historial per tots els contactes
+clearlog2 Neteja l'historial per tots els contactes
 clearlog3 Netejar tots els registres
-clearlog Netejar historial
+clearlog Neteja de l'historial
 clicktologin Apreta aquí per iniciar la sessió
-close Tanca
+close Tancar
 closingdocks El botó tancar minimitza la finestra
 command Reproductor
 confirm Estàs segur?
@@ -71,11 +71,13 @@ countrycode Codi de país o regió
 cprofile Crear perfil
 cut Talla
 date Data
-days Dies
+days dies
 dcprofile No crear perfil
 default Configuració predeterminada
 delete Esborrar
 deliverfail Hi ha hagut un problema al enviar el missatge
+delprofile Esborrar perfil
+delprofile2 Selecciona el perfil que t'agradaria eliminar
 dockgtk Acoplament amb el Gnome
 docking Acoplament
 dockingoff Desactivat
@@ -83,8 +85,8 @@ dockkde Acoplament amb el KDE
 edit Edita
 editprofile Editar perfil
 enableproxy Habilitar el servidor intermediari (proxy)
-encoding2 Change the way your characters are encoded
-encoding Escull la codificació dels caràcters
+encoding2 Canvia la codificació utilitzada pels teus caràcters
+encoding Canviar la codificació
 entercontactemail Escriu l'adreça de correu del contacte
 enterfilename Introdueix el nom del fitxer
 enternick Escriu el teu sobrenom
@@ -93,6 +95,7 @@ exitamsn ¿Estàs segur de voler sortir?
 extras Serveis extra
 faq Preguntes freqüents (FAQ)
 filedoesnotexist El fitxer no existeix
+fileman Gestor de fitxers
 filename Nom del fitxer
 filetransfercancelled S'ha cancel·lat la transferència
 filetransfercomplete La transferència del fitxer ha finalitzat
@@ -124,14 +127,14 @@ ipdetect Detectar l'adreça IP correcta per transferències de fitxers utilitzant 
 istyping $1 està escrivint un missatge
 joins $1 s'uneix a la conversa
 keepalive Mantenir connexió activa (NAT)
-keeplog2 Log all Conversations to aMSN's History for future viewing
+keeplog2 Registrar totes les converses a l'historial de l'aMSN per futures visualitzacions
 keeplog Conservar l'historial de les converses
 language Idioma
 lastmsgtime Últim missatge rebut a les $1
 lclosedwin $1 ha tancat la finestra a les $2
 lconftopriv La conversa múltiple canvia a conversa privada amb $1
 lconvstarted Conversa iniciada a les $1
-leaveblankforhotmail Deixa en blanc per usar hotmail
+leaveblankforhotmail (deixa-ho en blanc per utilitzar hotmail)
 leaves $1 deixa la conversa
 lenteredconf $1 s'uneix a la canversa a les $2
 linprivate EN PRIVAT
@@ -141,31 +144,31 @@ listsmileys Llista d'emoticones
 ljoinedconf $1 s'uneix a la conversa
 lleftconf $1 deixa la conversa
 loadcontacts Obrir una llista de contactes
-logbigger Els fitxers de registre d'un contacte, mai superen els
+logbigger No vull que els fitxers de registre d'un contacte superin les
 logfandexp Mida dels fitxers de registre i expiració de l'historial
 loggedotherlocation Desconnectat. S'ha iniciat la sessió en un altre lloc
 loggingin Connectant-se
 loginas Connectar-se com
 loging Connectant-se
 login Connectar-se
-logolder Registrar només les converses que s'han realitzat en l'últim
+logolder Registrar només les converses que s'han realitzat en els últims
 logout Desconnectar-se
 logsin s'acaba de connectar
-logsmileys Mostrar emoticons a la finestra d'historial de l'aMSN
+logsmileys Mostrar emoticones a la finestra d'historial de l'aMSN
 lprivtoconf La conversa privada canvia a conversa múltiple amb $1
 luclosedwin Has tancat la finestra a les $1
 mailer Gestor de correu
 maximised Maximitzada
-minimised Minimitzada/Iconificada
+minimised Minimitzada o iconificada
 mins minuts
 mobile Mòbil
 movetogroup Moure al grup
-msgmaxmin Quan arribi un nou missatge, vull ser:
+msgmaxmin Quan arribi un nou missatge, vull que la finestra sigui:
 msg Missatge
 msgmode Escull com gestionar finestres de missatges múltiples:
 msn aMSN
 mustrestart Has de reiniciar el programa per a que els canvis tinguin efecte
-myhomephone El meu telèfon de casa
+myhomephone El meu telèfon a casa
 mymobilephone El meu telèfon mòbil
 mystatus El meu estat
 myworkphone El meu telèfon a la feina
@@ -207,24 +210,25 @@ phone Telèfon
 picfile Fitxer d'imatge per a l'alarma (GIF < 500 x 500)
 picstatus Imatge per a l'alarma
 port Port
-prefalerts Les meves alertes i sons d'events
+prefalerts Alertes i sons d'events
 prefapps Aplicacions
-prefawaymsg Els meus missatges d'absent
+prefawaymsg Missatges d'absent
 prefemotic Emoticones
 preferences Preferències
-preffont2 Canviar la manera com altres veuen el meu text en una conversa
-preffont3 Canviar el tipus de lletra i la mida de la interfície de l'aMSN
-preffont Texte dels meus missatges
-preflog1 Les meves opcions d'historial i registres
-preflook Aparença del meu aMSN
-prefmsging Interfície dels meus missatges
-prefname El meu nom o sobrenom de l'aMSN
+preffont2 Canvia la manera com els altres veuen el meu text en una conversa
+preffont3 Canvia el tipus de lletra i la mida de l'interfície de l'aMSN
+preffont Text dels meus missatges
+preflog1 Opcions a l'historial i als registres
+preflook Aparença de l'aMSN
+prefmsging Interfície dels missatges
+prefname Sobrenom a l'aMSN
 prefphone2 Escriu els números de telèfon que vols permetre veure als contactes \n de la teva llista de contactes amb permís \n
-prefphone Els meus números de telèfon
-prefprofile2 Crea o modifica el teu perfil públic (la\n descripció de tu mateix que poden veure els altres)
-prefprofile El meu perfil públic
-prefproxy Els paràmetres del meu servidor intermedi (proxy)
-prefsession El meu inici de sessió i estat
+prefphone Números de telèfon
+prefprofile Perfil públic
+prefprofile2 Crea o modifica el teu perfil públic\n(la teva descripció que poden veure els altres)
+prefprofile3 Configuració dels perfils d'usuari de l'aMSN
+prefproxy Paràmetres del servidor intermedi (proxy)
+prefsession Inici de sessió
 prefshared Connexions compartides (només per NAT)
 prefsound So
 profiledconfig Configuració de perfil
@@ -241,7 +245,7 @@ reconnect Esperant a que $1 es reconnecti
 reject Rebutjar
 rememberpass Recordar contrasenya
 reversed Invertit
-rightback Un moment
+rightback Ara torno
 saveas Desar com
 savecontacts Desar la llista de contactes
 save Desar
@@ -260,6 +264,7 @@ sound2 Reprodueix sons quan els contactes es connectin o enviïn missatges
 sound So en un event
 soundfile Fitxer de so de l'alarma
 soundloop Reproducció contínua del so
+soundserver Servidor de so
 soundstatus So a l'alarma
 startoffline2 Connectar-se silenciosament apareixent en l'estat "Desconnectat"
 startoffline Iniciar la connexió en l'estat "Simula desconnexió"
