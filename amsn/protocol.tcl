@@ -1875,7 +1875,7 @@ proc read_sb_sock {sbn} {
 				
 				#read_non_blocking $sb_sock [lindex $recv 3] "finished_reading_msg $sbn"
 		set old_handler "[fileevent $sb_sock readable]"
-		fileevent $sb_sock readable "read_non_blocking $sb_sock [lindex $recv 3] \"finished_reading_msg $sbn [list $old_handler] [list $tmp_data]\""
+		fileevent $sb_sock readable [list read_non_blocking $sb_sock [lindex $recv 3] [list finished_reading_msg $sbn $old_handler $tmp_data]]
 	    #TODO: Do this non-blocking
 	    #fconfigure $sb_sock -blocking 1
 	    #set msg_data [read $sb_sock [lindex $recv 3]]
@@ -1913,7 +1913,7 @@ proc read_non_blocking { sock amount finish_proc {read 0}} {
 	if { $read_until_now == $amount } {
 		eval $finish_proc
 	} else {
-		fileevent $sock readable "read_non_blocking $sock $amount [list $finish_proc] $read_until_now"
+		fileevent $sock readable [list read_non_blocking $sock $amount $finish_proc $read_until_now]
 	}
 }
 
