@@ -5672,11 +5672,13 @@ proc timestamp {} {
 proc status_log {txt {colour ""}} {
     global followtext_status
 
-   .status.info insert end "[timestamp] $txt" $colour
-   #puts "[timestamp] $txt"
-   if { $followtext_status == 1 } {
-       .status.info yview moveto 1.0
-   }
+    catch { 
+	.status.info insert end "[timestamp] $txt" $colour
+	#puts "[timestamp] $txt"
+	if { $followtext_status == 1 } {
+	    .status.info yview moveto 1.0
+	}
+    }
 }
 #///////////////////////////////////////////////////////////////////////////////
 
@@ -6352,7 +6354,7 @@ global tcl_platform
 
 proc convert_image_plus { filename type size } {
 
-    global HOME
+    global HOME config
 
 
     catch {
@@ -6363,7 +6365,11 @@ proc convert_image_plus { filename type size } {
 
     set endfile [getfilename $filename]
 
-    set file [convert_image [GetSkinFile $type $endfile] $size]
+    if { $config(getdisppic) != -1 } {
+	set file [convert_image [GetSkinFile $type $endfile] $size]
+    } else { 
+	set file [GetSkinFile $type $endfile]
+    }
 
     if { $file == "" } { return ""}
 

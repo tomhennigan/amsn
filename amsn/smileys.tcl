@@ -58,10 +58,12 @@ proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
     global emotions emotions_names emoticon_number
     upvar $saved_data sdata
     
+    if { [info exists sdata(${cstack}:custom)] && [is_true $sdata(${cstack}:custom)] } { return [new_custom_emoticon $cstack $cdata $saved_data $cattr $saved_attr $args] }
     if { ! [info exists sdata(${cstack}:name)] } { return 0 }
     if { ! [info exists sdata(${cstack}:text)] } { return 0 }
     if { ! [info exists sdata(${cstack}:file)] } { return 0 }
     if { [info exists sdata(${cstack}:disabled)] && [is_true $sdata(${cstack}:disabled)] } { return 0 }
+
 
     set name [string trim $sdata(${cstack}:name)]
     
@@ -393,12 +395,9 @@ proc load_smileys { } {
     set emotion_files [list]
 
     foreach x $emotions_names {
-	lappend emotion_files "$emotions(${x}_file)"
-    }
-
-
-    foreach img_name $emotion_files {
+	set img_name "$emotions(${x}_file)"
 	image create photo $img_name -file [GetSkinFile smileys ${img_name}]
+
     }
 
     if { [winfo exists .smile_selector]} {destroy .smile_selector} 
@@ -522,7 +521,7 @@ proc smile_subst {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
 
 		    set filename [string map { " " "_" "/" "_" "." "_"} $file]
 		    set emoticon "$tw.${smileys_drawn}"
-		    set smileys_drawn [expr $smileys_drawn + 1]
+		    incr smileys_drawn 
 
 		    label $emoticon -bd 0 -background white
 		    ::anigif::anigif [GetSkinFile smileys ${file}] $emoticon
@@ -606,6 +605,10 @@ proc custom_smile_subst2 { chatid tw textbegin end } {
 
 proc parse_x_mms_emoticon { data chatid } {
     upvar #0 ${chatid}_smileys smile
+    global config
+
+
+    if { $config(getdisppic) != 1 } { return }
 
     set start 0
     while { $start < [string length $data]} {
@@ -696,7 +699,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
     foreach emotion [lsort $emotions_names] {
 	set symbol [lindex $emotions(${emotion}_text) 0]
 	set file $emotions(${emotion}_file)
-	set filename [string map { " " "_" "/" "_" "." "_"} $file]
+	set filename [string tolower [string map { " " "_" "/" "_" "." "_"} $file]]
 	set temp 0
 	
 	while { [info exists emoticonbinding($filename) ] } {
@@ -774,7 +777,7 @@ proc create_smile_menu { {x 0} {y 0} } {
 	set name $emotions(${emotion}_name)
 	set symbol [lindex $emotions(${emotion}_text) 0]
 	set file $emotions(${emotion}_file)
-	set filename [string map { " " "_" "/" "_" "." "_"} $file]
+	set filename [string tolower [string map { " " "_" "/" "_" "." "_"} $file]]
 	set temp 0
 	
 	while { [winfo exists $w.text.$filename ] } {
