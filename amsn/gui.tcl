@@ -3188,7 +3188,9 @@ namespace eval ::amsn {
 	}
 
 	proc growNotify { w xpos currenty finaly } {
-	    if { [winfo exists $w] == 0 } { return 0}
+
+		if { [winfo exists $w] == 0 } { return 0}
+
 		if { $currenty>$finaly} {
 			wm geometry $w -$xpos-$finaly
 			raise $w
