@@ -565,7 +565,10 @@ namespace eval ::autoupdate {
 			set langpluginupdated [::autoupdate::UpdateLangPlugin]
 		}
 
-		if {$newer == 0 && $langpluginupdated == 1} {
+		# Even if langpluginupdated is supposed to exists, prevents a "race" problem
+		if { ![info exists langpluginupdated] } {
+			return $newer
+		} elseif {$newer == 0 && $langpluginupdated == 1} {
 			return 1
 		} else {
 			return $newer
@@ -637,7 +640,7 @@ namespace eval ::autoupdate {
 
 		if { [winfo exists $w] } {
 			raise $w
-			return
+			return 1
 		}
 
 		toplevel $w
