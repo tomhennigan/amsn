@@ -4345,9 +4345,8 @@ proc save_contact_list { } {
 
 	puts $file_id "<?xml version=\"1.0\"?>"
 
-	::abook::getPersonal perso
-	puts $file_id "<contactlist_${list_version}>\n   <BLP>${list_BLP}</BLP>\n   <PHH>[::sxml::xmlreplace [set perso(phh)]]</PHH>\n   <PHW>[::sxml::xmlreplace [set perso(phw)]]</PHW>"
-	puts $file_id "   <PHM>[::sxml::xmlreplace [set perso(phm)]]</PHM>\n   <MOB>[::sxml::xmlreplace [set perso(mob)]]</MOB>\n   <MBE>[::sxml::xmlreplace [set perso(mbe)]]</MBE>"
+	puts $file_id "<contactlist_${list_version}>\n   <BLP>${list_BLP}</BLP>\n   <PHH>[::sxml::xmlreplace [::abook::getPersonal PHH]]</PHH>\n   <PHW>[::sxml::xmlreplace [::abook::getPersonal PHW]]</PHW>"
+	puts $file_id "   <PHM>[::sxml::xmlreplace [::abook::getPersonal PHM]]</PHM>\n   <MOB>[::sxml::xmlreplace [::abook::getPersonal MOB]]</MOB>\n   <MBE>[::sxml::xmlreplace [::abook::getPersonal MBE]]</MBE>"
 
 	foreach group [::groups::GetList] {
 		puts $file_id "   <Group>\n      <gid>${group}</gid>\n      <name>[::sxml::xmlreplace [::groups::GetName $group]]</name>\n   </Group>"
@@ -4382,8 +4381,8 @@ proc save_contact_list { } {
 		set user [::sxml::xmlreplace $user]
 
 		puts $file_id "      <user>\n         <email>$user</email>\n         <nickname>[::abook::getNick $user]</nickname>"
-		puts $file_id "         <gid>[join [::abook::getGroups $user] ,]</gid>\n         <PHH>[::sxml::xmlreplace [set userd(phh)]]</PHH>"
-		puts $file_id "         <PHW>[::sxml::xmlreplace [set userd(phw)]]</PHW>\n         <PHM>[::sxml::xmlreplace [set userd(phm)]]</PHM>\n         <MOB>[::sxml::xmlreplace [set userd(mob)]]</MOB>"
+		puts $file_id "         <gid>[join [::abook::getGroups $user] ,]</gid>\n         <PHH>[::sxml::xmlreplace [set userd(PHH)]]</PHH>"
+		puts $file_id "         <PHW>[::sxml::xmlreplace [set userd(PHW)]]</PHW>\n         <PHM>[::sxml::xmlreplace [set userd(PHM)]]</PHM>\n         <MOB>[::sxml::xmlreplace [set userd(MOD)]]</MOB>"
 		puts $file_id "\n      </user>"
 	}
 

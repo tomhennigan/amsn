@@ -6,7 +6,7 @@
 
 
 proc GetSkinFile { type filename {skin_override ""} } {
-    global program_dir HOME2 HOME
+    global HOME2 HOME
 
     if { [catch { set skin "[::config::getGlobalKey skin]" } ] != 0 } {
 	set skin "default"
@@ -20,17 +20,17 @@ proc GetSkinFile { type filename {skin_override ""} } {
 
     if { "[string range $filename 0 1]" == "/" && [file readable  $filename] } {
 	return "$filename"
-    } elseif { [file readable [file join $program_dir skins $skin $type $filename]] } {
-	return "[file join $program_dir skins $skin $type $filename]"
+    } elseif { [file readable [file join skins $skin $type $filename]] } {
+	return "[file join skins $skin $type $filename]"
     } elseif { [file readable [file join $HOME2 skins $skin $type $filename]] } {
 	return "[file join $HOME2 skins $skin $type $filename]"
     } elseif { [file readable [file join $HOME $type $filename]] } {
 	return "[file join $HOME $type $filename]"
-    } elseif { [file readable [file join $program_dir skins $defaultskin $type $filename]] } {
-	return "[file join $program_dir skins $defaultskin $type $filename]"
+    } elseif { [file readable [file join skins $defaultskin $type $filename]] } {
+	return "[file join skins $defaultskin $type $filename]"
     } else {
-#	status_log "File [file join $program_dir skins $skin $type $filename] not found!!!\n"
-	return "[file join $program_dir skins $defaultskin $type null]"
+#	status_log "File [file join skins $skin $type $filename] not found!!!\n"
+	return "[file join skins $defaultskin $type null]"
     }
 
 }
@@ -44,10 +44,9 @@ proc skin_description {cstack cdata saved_data cattr saved_attr args} {
 }
 
 proc findskins { } {
-	variable program_dir
 	global HOME2
 
-	set skins [glob -directory [file join $program_dir skins] */settings.xml]
+	set skins [glob -directory skins */settings.xml]
 	set skins_in_home [glob -nocomplain -directory [file join $HOME2 skins] */settings.xml]
 
 	set skins [concat $skins $skins_in_home]
@@ -149,7 +148,6 @@ proc SelectSkinGui { } {
 }
 
 proc applychanges { } {
-	variable program_dir
 	set w .skin_selector
 	
 	set the_skins [findskins]

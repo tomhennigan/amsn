@@ -56,10 +56,10 @@ proc taskbar_icon_handler { msg x y } {
 }
 
 proc trayicon_init {} {
-	global program_dir config systemtray_exist password iconmenu wintrayicon statusicon
+	global config systemtray_exist password iconmenu wintrayicon statusicon
 
   if { $config(dock) == 4 } {
-	set ext "[file join $program_dir plugins winico03.dll]"
+	set ext "[file join plugins winico03.dll]"
 	if { [file exists $ext] != 1 } {
 ###need to put in translations
 		msg_box "need winico03.dll in plugins directory"
@@ -73,11 +73,11 @@ proc trayicon_init {} {
 		return
 	}
 	set systemtray_exist 1
-	set wintrayicon [winico create [file join $program_dir icons winicons msn.ico]]
+	set wintrayicon [winico create [file join icons winicons msn.ico]]
 	winico taskbar add $wintrayicon -text "[trans offline]" -callback "taskbar_icon_handler %m %x %y"
 	set statusicon 1
   } else {
-	set ext "[file join $program_dir plugins traydock libtray.so]"
+	set ext "[file join plugins traydock libtray.so]"
 	if { ![file exists $ext] } {
 		set config(dock) 0
 		msg_box "[trans traynotcompiled]"
@@ -145,7 +145,7 @@ proc trayicon_init {} {
 }
 
 proc statusicon_proc {status} {
-	global systemtray_exist config statusicon user_info list_states user_stat iconmenu wintrayicon tcl_platform program_dir
+	global systemtray_exist config statusicon user_info list_states user_stat iconmenu wintrayicon tcl_platform
 	set cmdline ""
 
 	if { $config(dock) != 4 } {
@@ -217,7 +217,7 @@ proc statusicon_proc {status} {
 				set pixmap "[GetSkinFile pixmaps doffline.xpm]"
 				set tooltip "[trans offline]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join $program_dir icons winicons offline.ico]]
+					set trayicon [winico create [file join icons winicons offline.ico]]
 				}
 			  }
 			
@@ -225,7 +225,7 @@ proc statusicon_proc {status} {
 				set pixmap "[GetSkinFile pixmaps donline.xpm]"
 				set tooltip "$my_name ($config(login)): [trans online]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join $program_dir icons winicons online.ico]]
+					set trayicon [winico create [file join icons winicons online.ico]]
 				}
 			  }
 			  
@@ -233,55 +233,55 @@ proc statusicon_proc {status} {
 				set pixmap "[GetSkinFile pixmaps dinactive.xpm]"
 				set tooltip "$my_name ($config(login)): [trans noactivity]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join $program_dir icons winicons inactive.ico]]
+					set trayicon [winico create [file join icons winicons inactive.ico]]
 				}
 			  }
 			  "BSY" {
 				set pixmap "[GetSkinFile pixmaps dbusy.xpm]"
 				set tooltip "$my_name ($config(login)): [trans busy]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join $program_dir icons winicons busy.ico]]
+					set trayicon [winico create [file join icons winicons busy.ico]]
 				}
 			  }
 			  "BRB" {
 				set pixmap "[GetSkinFile pixmaps dbrb.xpm]"
 				set tooltip "$my_name ($config(login)): [trans rightback]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join $program_dir icons winicons brb.ico]]
+					set trayicon [winico create [file join icons winicons brb.ico]]
 				}
 			  }
 			  "AWY" {
 				set pixmap "[GetSkinFile pixmaps daway.xpm]"
 				set tooltip "$my_name ($config(login)): [trans away]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join $program_dir icons winicons away.ico]]
+					set trayicon [winico create [file join icons winicons away.ico]]
 				}
 			  }
 			  "PHN" {
 				set pixmap "[GetSkinFile pixmaps dphone.xpm]"
 				set tooltip "$my_name ($config(login)): [trans onphone]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join $program_dir icons winicons phone.ico]]
+					set trayicon [winico create [file join icons winicons phone.ico]]
 				}
 			  }
 			  "LUN" {
 				set pixmap "[GetSkinFile pixmaps dlunch.xpm]"
 				set tooltip "$my_name ($config(login)): [trans gonelunch]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join $program_dir icons winicons lunch.ico]]
+					set trayicon [winico create [file join icons winicons lunch.ico]]
 				}
 			  }
 			  "HDN" {
 				set pixmap "[GetSkinFile pixmaps dhidden.xpm]"
 				set tooltip "$my_name ($config(login)): [trans appearoff]"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join $program_dir icons winicons hidden.ico]]
+					set trayicon [winico create [file join icons winicons hidden.ico]]
 				}
 			  }
 			  default {
 				set pixmap "null"
 				if { $config(dock) == 4 } {
-					set trayicon [winico create [file join $program_dir icons winicons msn.ico]]
+					set trayicon [winico create [file join icons winicons msn.ico]]
 				}
 			  }
 			}
@@ -311,7 +311,7 @@ proc taskbar_mail_icon_handler { msg x y } {
 
 proc mailicon_proc {num} {
 	# Workaround for bug in the traydock-plugin - statusicon added - BEGIN
-	global systemtray_exist mailicon statusicon config password winmailicon program_dir
+	global systemtray_exist mailicon statusicon config password winmailicon
 	# Workaround for bug in the traydock-plugin - statusicon added - END
 	set icon .mi
 	if {$systemtray_exist == 1 && $mailicon == 0 && ($config(dock) == 3 || $config(dock) == 4)  && $num >0} {
@@ -328,7 +328,7 @@ proc mailicon_proc {num} {
 			set mailicon [newti $icon -pixmap $pixmap -tooltip $msg]
 			bind $icon <Button-1> "hotmail_login $config(login) $password"
 		} else {
-			set winmailicon [winico create [file join $program_dir icons winicons unread.ico]]
+			set winmailicon [winico create [file join icons winicons unread.ico]]
 			winico taskbar add $winmailicon -text $msg -callback "taskbar_mail_icon_handler %m %x %y"
 			set mailicon 1
 		}
@@ -360,7 +360,7 @@ proc mailicon_proc {num} {
 proc remove_icon {icon} {
 	global systemtray_exist config
 	if {$systemtray_exist == 1 && $icon != 0} {
-		removeti $icon
+		catch {removeti $icon}
 #                destroy $icon
 	}
 }

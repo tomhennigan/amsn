@@ -32,6 +32,7 @@ proc degt_protocol { str {colour ""}} {
 	global followtext_degt
 	
 	.degt.mid.txt insert end "[timestamp] $str\n" $colour
+	puts "$str"
 	if { $followtext_degt == 1} {
 		.degt.mid.txt yview moveto 1.0
 	}    
@@ -1105,14 +1106,14 @@ proc InitPref {} {
 		$lfname.2.ephone42 delete 0 end
 		$lfname.2.ephone51 delete 0 end
 		$lfname.2.ephone52 delete 0 end
-		::abook::getPersonal phones
-		$lfname.2.ephone1 insert 0 [lindex [split $phones(phh) " "] 0]
-		$lfname.2.ephone31 insert 0 [lindex [split $phones(phh) " "] 1]
-		$lfname.2.ephone32 insert 0 [join [lrange [split $phones(phh) " "] 2 end]]
-		$lfname.2.ephone41 insert 0 [lindex [split $phones(phw) " "] 1]
-		$lfname.2.ephone42 insert 0 [join [lrange [split $phones(phw) " "] 2 end]]
-		$lfname.2.ephone51 insert 0 [lindex [split $phones(phm) " "] 1]
-		$lfname.2.ephone52 insert 0 [join [lrange [split $phones(phm) " "] 2 end]]
+		
+		$lfname.2.ephone1 insert 0 [lindex [split [::abook::getPersonal PHH] " "] 0]
+		$lfname.2.ephone31 insert 0 [lindex [split [::abook::getPersonal PHH] " "] 1]
+		$lfname.2.ephone32 insert 0 [join [lrange [split [::abook::getPersonal PHH] " "] 2 end]]
+		$lfname.2.ephone41 insert 0 [lindex [split [::abook::getPersonal PHW] " "] 1]
+		$lfname.2.ephone42 insert 0 [join [lrange [split [::abook::getPersonal PHW] " "] 2 end]]
+		$lfname.2.ephone51 insert 0 [lindex [split [::abook::getPersonal PHM] " "] 1]
+		$lfname.2.ephone52 insert 0 [join [lrange [split [::abook::getPersonal PHM] " "] 2 end]]
 	}
 
 	# Lets fill our profile combobox
@@ -1355,39 +1356,38 @@ proc SavePreferences {} {
     if { $user_stat != "FLN" } {
 	    set lfname [Rnotebook:frame $nb $Preftabs(personal)]
 	    set lfname "$lfname.lfname4.f.f"
- 	   ::abook::getPersonal phones
 
 	    set cntrycode [$lfname.2.ephone1 get]
 	    if { [string is digit $cntrycode] == 0 } {
-	    	set cntrycode [lindex [split $phones(phh) " "] 0]
+	    	set cntrycode [lindex [split [::abook::getPersonal PHH] " "] 0]
 	    }
 
 	    append home [$lfname.2.ephone31 get] " " [$lfname.2.ephone32 get]
 	    if { [string is digit [$lfname.2.ephone31 get]] == 0 } {
-	    	set home [join [lrange [split $phones(phh) " "] 1 end]]
+	    	set home [join [lrange [split [::abook::getPersonal PHH] " "] 1 end]]
 	    }
 	    append work [$lfname.2.ephone41 get] " " [$lfname.2.ephone42 get]
 	    if { [string is digit [$lfname.2.ephone41 get]] == 0 } {
-	 	set work [join [lrange [split $phones(phw) " "] 1 end]]
+	 	set work [join [lrange [split [::abook::getPersonal PHW] " "] 1 end]]
 	    }
 	    append mobile [$lfname.2.ephone51 get] " " [$lfname.2.ephone52 get]
 	    if { [string is digit [$lfname.2.ephone51 get]] == 0 } {
-	  	set mobile [join [lrange [split $phones(phm) " "] 1 end]]
+	  	set mobile [join [lrange [split [::abook::getPersonal PHM] " "] 1 end]]
 	    }
 
 	    set home [urlencode [set home "$cntrycode $home"]]
 	    set work [urlencode [set work "$cntrycode $work"]]
 	    set mobile [urlencode [set mobile "$cntrycode $mobile"]]
-	    if { $home != $phones(phh) } {
+	    if { $home != [::abook::getPersonal PHH] } {
 		::abook::setPhone home $home
 	    }
-	    if { $work != $phones(phw) } {
+	    if { $work != [::abook::getPersonal PHW] } {
 		::abook::setPhone work $work
 	    }
-	    if { $work != $phones(phm) } {
+	    if { $work != [::abook::getPersonal PHM] } {
 		::abook::setPhone mobile $mobile
 	    }
-	    if { $home != $phones(phh) || $work != $phones(phw) || $work != $phones(phm) } {
+	    if { $home != [::abook::getPersonal PHH] || $work != [::abook::getPersonal PHW] || $work != [::abook::getPersonal PHM] } {
 		::abook::setPhone pager N
 	    }
     }

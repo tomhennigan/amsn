@@ -26,7 +26,7 @@ proc ConfigDefaults {} {
 
 	#Some Autodetected options
 	if {$tcl_platform(os) == "Darwin"} {
-	   set config(soundcommand) "\$program_dir/sndplay \$sound"
+	   set config(soundcommand) "sndplay \$sound"
 	   set config(browser) "open \$url"
 	   set config(notifyXoffset) 100
 	   set config(notifyYoffset) 75
@@ -38,7 +38,7 @@ proc ConfigDefaults {} {
 	   set config(notifyYoffset) 0
 	   set config(filemanager) "my_filemanager open \$location"
 	} elseif {$tcl_platform(platform) == "windows"} {
-	   set config(soundcommand) "utils\\plwav.exe \$sound"
+	   set config(soundcommand) "utils/plwav.exe \$sound"
 	   set config(browser) "explorer \$url"
 	   set config(notifyXoffset) 0
 	   set config(notifyYoffset) 28

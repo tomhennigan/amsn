@@ -118,7 +118,6 @@ proc accept_dock { sock addr cport } {
 }
 
 proc init_dock {} {
-#	global config program_dir srvSock docksock
 	global config systemtray_exist srvSock docksock
 
 	if { $config(dock) != 0} {
@@ -135,7 +134,7 @@ proc init_dock {} {
 				close_dock
 				set config(dock) 1
 			}
-			catch {exec [file join ${program_dir} plugins/gnomedock] ${program_dir}/plugins/icons/ &} res
+			catch {exec [file join plugins gnomedock] [file join plugins icons]/ &} res
 		} elseif { $config(dock) == 2} {
 		} elseif { $config(dock) == 3} {
 			if { $systemtray_exist == 0 } {

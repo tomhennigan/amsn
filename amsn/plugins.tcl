@@ -58,10 +58,10 @@ namespace eval ::plugins {
    }
 
    proc findplugins { } {
-       global program_dir HOME
+       global HOME
 
        set search_path [list] 
-       lappend search_path [file join $program_dir plugins]
+       lappend search_path plugins
        lappend search_path [file join $HOME plugins]
        
        set ret [list]

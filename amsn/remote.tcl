@@ -48,9 +48,8 @@ namespace eval ::remote {
     # prints the help message from the remote.help file
     #
     proc help { } {
-	global program_dir
 
-	set fd [open "[file join $program_dir remote.help]" r]
+	set fd [open "remote.help" r]
 	set printhelp "[read $fd]"
 
 	write_remote "$printhelp"

@@ -1,51 +1,51 @@
 #	User Administration (Address Book data)
-#	by: Dídimo Emilio Grimaldo Tuñón
+#	by: Alvaro Jose Iradier Muro
+#	Dídimo Emilio Grimaldo Tuñón
 # $Id$
 #=======================================================================
+
+
 namespace eval ::abook {
-	namespace export getContact getGroups \
-		setPhone setDemographics getDemographics \
-		setPersonal getPersonal
+#::abook namespace is used to store all information related to users
+#and contact lists.
 
 	if { $initialize_amsn == 1 } {
 		#
 		# P R I V A T E
 		#
-		variable myself "unknown";
 		variable demographics;	# Demographic Information about user
-		variable consistent 0
+		
+		#When set to 1, the information is in safe state an can be
+		#saven to disk without breaking anything
+		
+		variable consistent 0; 
 	}
 	
-	#
+	#########################
 	# P U B L I C
-	#
+	#########################
+	
+	#An alias for "setContactData myself". Sets data for the "myself" user
 	proc setPersonal { field value} {
 		setContactData myself $field $value
-		return
 	}
    
-	proc getPersonal { cdata } {
-		upvar $cdata data	
-		set data(group)  "n.a."
-		set data(handle) [getContactData myself nick]
-		set data(phh)    [getContactData myself PHH]
-		set data(phw)    [getContactData myself PHW]
-		set data(phm)    [getContactData myself PHM]
-		set data(mob)    [getContactData myself MOB]
-		set data(mbe)    [getContactData myself MBE]
-		set data(available) Y
+	#An alias for "getContactData myself". Gets data for the "myself" user	
+	proc getPersonal { field } {
+		return [getContactData myself $field]
 	}
-
+	
+	#TODO: Remove this
 	proc getContact { email cdata } {
 		upvar $cdata data
 
 		set groupName    [::groups::GetName [getContactData $email group]]
 		set data(group)  [urldecode $groupName]
 		set data(handle) [urldecode [getContactData $email nick]]
-		set data(phh) [urldecode [getContactData $email PHH]]
-		set data(phw) [urldecode [getContactData $email PHW]]
-		set data(phm) [urldecode [getContactData $email PHM]]
-		set data(mob) [urldecode [getContactData $email MOB]]
+		set data(PHH) [urldecode [getContactData $email PHH]]
+		set data(PHW) [urldecode [getContactData $email PHW]]
+		set data(PHM) [urldecode [getContactData $email PHM]]
+		set data(MOB) [urldecode [getContactData $email MOB]]
 		set data(available) "Y"
 	}
 
@@ -66,11 +66,12 @@ namespace eval ::abook {
 
 	# This information is sent to us during the initial connection
 	# with the server. It comes in a MSG content "text/x-msmsgsprofile"
+	# TODO: Change this to use setVolatileData to user myself
 	proc setDemographics { cdata } {
 		variable demographics 
 		upvar $cdata data
 
-    	set demographics(langpreference) $data(langpreference);# 1033 = English
+    		set demographics(langpreference) $data(langpreference);# 1033 = English
 		set demographics(preferredemail) $data(preferredemail)
 		set demographics(country) [string toupper $data(country)];# NL
 		set demographics(gender) [string toupper $data(gender)]
@@ -115,10 +116,8 @@ namespace eval ::abook {
 		}
 	}
 
-	############################################################
-	#New procedures for contact list managing
-	############################################################
 
+	#Clears all ::abook stored information
 	proc clearData {} {
 		variable users_data
 		array unset users_data *
@@ -164,8 +163,6 @@ namespace eval ::abook {
 	proc setVolatileData { user_login field data } {
 		variable users_volatile_data
 		
-		#status_log "setVolatileData: setting $user_login ($field) to $data\n" green
-		
 		if { [info exists users_volatile_data($user_login)] } {
 			array set volatile_data $users_volatile_data($user_login)
 		} else {
@@ -180,16 +177,15 @@ namespace eval ::abook {
 			set volatile_data($field) $data
 		}
 		
-		#We store the array as a plain list, as we can't have an array of arrays
 		set users_volatile_data($user_login) [array get volatile_data]
 	}
 	
 		
+	#Returns some previously stored data from a user
 	proc getContactData { user_login field {defaultval ""}} {
 		variable users_data
 		
 		if { ![info exists users_data($user_login)] } {
-			#status_log "::abook::getContactData: ERROR! User $user_login doesn't exist in abook for field $field!\n" red
 			return $defaultval
 		}
 
@@ -202,12 +198,12 @@ namespace eval ::abook {
 		return $user_data($field)
 		
 	}
-	
+
+	#Returns some previously stored volatile data from a user		
 	proc getVolatileData { user_login field {defaultval ""}} {
 		variable users_volatile_data
 		
 		if { ![info exists users_volatile_data($user_login)] } {
-			#status_log "::abook::getVolatileData: ERROR! User $user_login doesn't exist in abook for field $field!\n" red
 			return $defaultval
 		}
 
@@ -221,6 +217,7 @@ namespace eval ::abook {
 		
 	}	
 	
+	#Return a list of all stored contacts
 	proc getAllContacts { } {
 		variable users_data
 		return [array names users_data]
@@ -236,7 +233,8 @@ namespace eval ::abook {
 		return [::abook::getContactData $user_login nick]
 	}
 	
-	#Returns the user nickname, or just email, depending on configuration
+	#Returns the user nickname, or just email, or custom nick,
+	#depending on configuration
 	proc getDisplayNick { user_login } {
 		if { [::config::getKey emailsincontactlist] } {
 			return $user_login
@@ -505,16 +503,16 @@ namespace eval ::abookGui {
 	$nbPhone configure 
 	if { $edit == "" } {
 	label $nbPhone.h -font bboldf -text "[trans home]:" 
-	label $nbPhone.h1 -font splainf -text $cd(phh) -fg blue \
+	label $nbPhone.h1 -font splainf -text $cd(PHH) -fg blue \
 		-justify left
 	label $nbPhone.w -font bboldf -text "[trans work]:"
-	label $nbPhone.w1 -font splainf -text $cd(phw) -fg blue \
+	label $nbPhone.w1 -font splainf -text $cd(PHW) -fg blue \
 		-justify left
 	label $nbPhone.m -font bboldf -text "[trans mobile]:" 
-	label $nbPhone.m1 -font splainf -text $cd(phm) -fg blue \
+	label $nbPhone.m1 -font splainf -text $cd(PHM) -fg blue \
 		-justify left
 	label $nbPhone.p -font bboldf -text "[trans pager]:" 
-	label $nbPhone.p1 -font splainf -text $cd(mob) -fg blue \
+	label $nbPhone.p1 -font splainf -text $cd(MOB) -fg blue \
 		-justify left
 	grid $nbPhone.h -row 0 -column 0 -sticky e
 	grid $nbPhone.h1 -row 0 -column 1 -sticky w
@@ -526,16 +524,16 @@ namespace eval ::abookGui {
 	grid $nbPhone.p1 -row 3 -column 1 -sticky w
 	} else {
 	label $nbPhone.h -font bboldf -text "[trans home]:"
-	entry $nbPhone.h1 -font splainf -text cd(phh) -fg blue
-	$nbPhone.h1 insert 1 $cd(phh)
+	entry $nbPhone.h1 -font splainf -text cd(PHH) -fg blue
+	$nbPhone.h1 insert 1 $cd(PHH)
 	label $nbPhone.w -font bboldf -text "[trans work]:"
-	entry $nbPhone.w1 -font splainf -text cd(phw) -fg blue 
-	$nbPhone.w1 insert 1 $cd(phw)
+	entry $nbPhone.w1 -font splainf -text cd(PHW) -fg blue 
+	$nbPhone.w1 insert 1 $cd(PHW)
 	label $nbPhone.m -font bboldf -text "[trans mobile]:" 
-	entry $nbPhone.m1 -font splainf -text cd(phm) -fg blue 
-	$nbPhone.m1 insert 1 $cd(phm)
+	entry $nbPhone.m1 -font splainf -text cd(PHM) -fg blue 
+	$nbPhone.m1 insert 1 $cd(PHM)
 	label $nbPhone.p -font bboldf -text "[trans pager]:" 
-	label $nbPhone.p1 -font splainf -text $cd(mob) -fg blue \
+	label $nbPhone.p1 -font splainf -text $cd(MOB) -fg blue \
 		-justify left
 	grid $nbPhone.h -row 0 -column 0 -sticky e
 	grid $nbPhone.h1 -row 0 -column 1 -sticky w

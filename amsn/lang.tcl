@@ -8,10 +8,10 @@ if { $initialize_amsn == 1 } {
 }
 
 proc scan_languages {} {
-   global lang_list program_dir
+   global lang_list
    set lang_list [list]
 
-   set file_id [open "[file join $program_dir langlist]" r]
+   set file_id [open "langlist" r]
    fconfigure $file_id -encoding utf-8
 
 
@@ -58,9 +58,9 @@ proc trans {msg args} {
 
 #Lectura del idioma
 proc load_lang {} {
-   global lang program_dir lang_list langenc langlong
+   global lang lang_list langenc langlong
 
-   set file_id [open "[file join $program_dir lang/lang[::config::getGlobalKey language]]" r]
+   set file_id [open "[file join lang lang[::config::getGlobalKey language]]" r]
 
    set langenc ""
 

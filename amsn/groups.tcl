@@ -4,8 +4,6 @@
 #=======================================================================
 # TODO LIST
 #  - Keep track of transactions pending completion
-#  - Investigate what happens when a group is deleted, which
-#    group inherits the orphans? -> must not delete if not empty!
 #  - Investigate what happens when a group is deleted, does the
 #    server send a new list? obviously the upper groups get
 #    a reasigned number (???). Remember that the entries in
@@ -371,7 +369,8 @@ namespace eval ::groups {
 		set bShowing(offline)	1
 		set bShowing(blocked)   1
 	
-		abook::setContactData contactlist groups ""
+		::abook::setContactData contactlist groups ""
+		::abook::unsetConsistent
 		#Clear list of groups
 		#set g_entries [array names groups]
 		#foreach gr $g_entries {

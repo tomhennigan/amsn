@@ -11,7 +11,7 @@ package provide Proxy 0.1
 package require http
 
 # This should be converted to a proper package, to use with package require
-source [file join $program_dir socks.tcl]	;# SOCKS5 proxy support
+source socks.tcl	;# SOCKS5 proxy support
 
 namespace eval ::Proxy {
 	namespace export Init LoginData Setup Connect Read OnCallback

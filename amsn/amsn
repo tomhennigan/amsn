@@ -42,9 +42,9 @@
 ### Some global variables
 ############################################################
 set version "0.91CVS"
-set date "02/24/2004"
+set date "03/12/2004"
 set weburl "http://amsn.sourceforge.net"
-set program_dir ""
+set program_dir "."
 set HOME ""
 set files_dir ""
 
@@ -70,8 +70,9 @@ while {[catch {file readlink [file join $program_dir $program]} program]== 0} {
 	set program [file tail $program]
 }
 
+cd $program_dir
 unset program
-
+unset program_dir
 
 ############################################################
 ### Setup other important directory paths
@@ -101,7 +102,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 ### And setup where to find optional packages
 ############################################################
 
-lappend auto_path [file join $program_dir plugins]
+lappend auto_path [file join plugins]
 lappend auto_path [file join ${HOME} plugins]
 
 set libtls ""
@@ -132,43 +133,43 @@ proc reload_files { } {
 	global $glob
     }
 
-    source [file join $program_dir ctthemes.tcl]
-    source [file join $program_dir notebook.tcl]	;# Notebook Megawidget
-    #source [file join $program_dir notebook1.tcl]	;# Notebook Megawidget
-    source [file join $program_dir rnotebook.tcl]	;# Notebook Megawidget
-    source [file join $program_dir progressbar.tcl]	;# Progressbar Megawidget
-    source [file join $program_dir migmd5.tcl]
-    source [file join $program_dir des.tcl]		;# DES encryption
-    source [file join $program_dir sxml.tcl]   	;# Simple XML parser
+    source [file join ctthemes.tcl]
+    source [file join notebook.tcl]	;# Notebook Megawidget
+    #source [file join notebook1.tcl]	;# Notebook Megawidget
+    source [file join rnotebook.tcl]	;# Notebook Megawidget
+    source [file join progressbar.tcl]	;# Progressbar Megawidget
+    source [file join migmd5.tcl]
+    source [file join des.tcl]		;# DES encryption
+    source [file join sxml.tcl]   	;# Simple XML parser
 
-    source [file join $program_dir mutex.tcl]
-    source [file join $program_dir lang.tcl]
-    source [file join $program_dir automsg.tcl]
-    source [file join $program_dir smileys.tcl]
-    source [file join $program_dir skins.tcl]       ;# Used for skinning purposes
-	source [file join $program_dir gui.tcl] ;#gui.tcl must be at the beggining to make msg_box procedure available for errorss
-	source [file join $program_dir config.tcl]
-    source [file join $program_dir proxy.tcl]
-    source [file join $program_dir abook.tcl]	;# Handle buddy address book    
-	 source [file join $program_dir protocol.tcl]
-    source [file join $program_dir ctadverts.tcl]
-    source [file join $program_dir ctdegt.tcl]
-    source [file join $program_dir hotmail.tcl]
-    source [file join $program_dir groups.tcl]	;# Handle buddy groups
-    source [file join $program_dir anigif.tcl]	;# Animated GIFS
+    source [file join mutex.tcl]
+    source [file join lang.tcl]
+    source [file join automsg.tcl]
+    source [file join smileys.tcl]
+    source [file join skins.tcl]       ;# Used for skinning purposes
+	source [file join gui.tcl] ;#gui.tcl must be at the beggining to make msg_box procedure available for errorss
+	source [file join config.tcl]
+    source [file join proxy.tcl]
+    source [file join abook.tcl]	;# Handle buddy address book    
+	 source [file join protocol.tcl]
+    source [file join ctadverts.tcl]
+    source [file join ctdegt.tcl]
+    source [file join hotmail.tcl]
+    source [file join groups.tcl]	;# Handle buddy groups
+    source [file join anigif.tcl]	;# Animated GIFS
     if {$tcl_platform(platform) == "unix"} {
-     source [file join $program_dir xmms.tcl]
+     source [file join xmms.tcl]
     }
-	source [file join $program_dir alarm.tcl]	;# Alarms code (Burger)
-    source [file join $program_dir dock.tcl]	;# Docking routines
-    source [file join $program_dir trayicon.tcl]	;# Docking routines for freedesktop system tray compliant docks
-    source [file join $program_dir loging.tcl]	;# Euh yeh it's for loging :P
-    source [file join $program_dir combobox.tcl]	;# The all mighty combobox is here! (B. Oakley)
-    source [file join $program_dir blocking.tcl]    ;# The blocking users feature
-    source [file join $program_dir remote.tcl  ]    ;# The remote control procedures
-    source [file join $program_dir plugins.tcl]	;# Plugins system
-    source [file join $program_dir balloon.tcl]       ;# For the balloons tooltip
-    source [file join $program_dir png.tcl]       ;# PNG Parser and zlib deflate in pure TCL (KaKaRoTo)
+	source [file join alarm.tcl]	;# Alarms code (Burger)
+    source [file join dock.tcl]	;# Docking routines
+    source [file join trayicon.tcl]	;# Docking routines for freedesktop system tray compliant docks
+    source [file join loging.tcl]	;# Euh yeh it's for loging :P
+    source [file join combobox.tcl]	;# The all mighty combobox is here! (B. Oakley)
+    source [file join blocking.tcl]    ;# The blocking users feature
+    source [file join remote.tcl  ]    ;# The remote control procedures
+    source [file join plugins.tcl]	;# Plugins system
+    source [file join balloon.tcl]       ;# For the balloons tooltip
+    source [file join png.tcl]       ;# PNG Parser and zlib deflate in pure TCL (KaKaRoTo)
 
 }
 

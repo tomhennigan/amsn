@@ -20,11 +20,11 @@ namespace eval ::hotmail {
    #
    # $Id$
    #
-      global tcl_platform HOME program_dir config
+      global tcl_platform HOME config
 
       if {$pass != ""} {
 
-         set read_id [open "${program_dir}/hotmlog.htm" r]
+         set read_id [open "hotmlog.htm" r]
 
          set page_data ""
          while {[gets $read_id tmp_data] != "-1"} {
@@ -90,11 +90,11 @@ proc hotmail_login {userlogin {pass ""}} {
 #
 # $Id$
 #
-  global tcl_platform HOME program_dir config d
+  global tcl_platform HOME config d
 
   if {$pass != ""} {
 
-    set read_id [open "${program_dir}/hotmlog.htm" r]
+    set read_id [open "hotmlog.htm" r]
 
     set page_data ""
     while {[gets $read_id tmp_data] != "-1"} {
@@ -155,11 +155,11 @@ proc hotmail_viewmsg {msgurl userlogin {pass ""}} {
 #
 # $Id$
 #
-  global tcl_platform HOME program_dir config
+  global tcl_platform HOME config
 
   if {$pass != ""} {
 
-    set read_id [open "${program_dir}/hotmlog.htm" r]
+    set read_id [open "hotmlog.htm" r]
 
     set page_data ""
     while {[gets $read_id tmp_data] != "-1"} {

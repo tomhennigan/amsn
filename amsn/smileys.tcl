@@ -388,7 +388,7 @@ proc edit_custom_emotion { emotion } {
 # it will be refreshed
 
 proc load_smileys { } {
-    global custom_emotions emoticon_number sortedemotions program_dir smileys_drawn emotions emotions_names 
+    global custom_emotions emoticon_number sortedemotions smileys_drawn emotions emotions_names 
 
     set emoticon_number 0
 

@@ -295,7 +295,7 @@ namespace eval ::amsn {
 	# Draws the about window
 	proc aboutWindow {{localized 0}} {
 
-		global program_dir tcl_platform
+		global tcl_platform
 
 		if { [winfo exists .about] } {
 			raise .about
@@ -304,9 +304,9 @@ namespace eval ::amsn {
 
 
 		if { $localized } {
-			set filename "[file join $program_dir docs README[::config::getGlobalKey language]]"
+			set filename "[file join docs README[::config::getGlobalKey language]]"
 		} else {
-			set filename [file join $program_dir README]
+			set filename README
 		}
 		if {![file exists $filename] } {
 			status_log "File $filename NOT exists!!\n" red
@@ -372,12 +372,11 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 	# showHelpFile(filename,windowsTitle)
 	proc showTranslatedHelpFile {file title} {
-		global program_dir config
+		global config
 
 		set filename [file join "docs" "${file}[::config::getGlobalKey language]"]
-		set fullfilename [file join $program_dir $filename]
 
-		if {[file exists $fullfilename]} {
+		if {[file exists $filename]} {
 			status_log "File $filename exists!!\n" blue
 			showHelpFile $filename "$title"
 		} else {
@@ -389,7 +388,6 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 	# showHelpFile(filename,windowsTitle)
 	proc showHelpFile {file title} {
-		global program_dir
 
 		if { [winfo exists .show] } {
 			raise .show
@@ -420,7 +418,7 @@ namespace eval ::amsn {
 		pack .show.bottom -expand 1
 
 		#Insert FAQ text 
-		set id [open "[file join $program_dir $file]" r]
+		set id [open $file r]
 		.show.info.list.text insert 1.0 [read $id]
 		close $id
 
@@ -3229,7 +3227,7 @@ proc adjust_yscroll {text bar begin end } {
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_main {} {
-	global program_dir emotion_files version date weburl lang_list \
+	global emotion_files version date weburl lang_list \
 	password config HOME files_dir pgBuddy pgNews bgcolor bgcolor2 argv0 argv langlong tcl_platform
 
 	#User status menu
@@ -3649,8 +3647,8 @@ proc cmsn_draw_main {} {
 
 	#wm iconname . "[trans title]"
 	if {$tcl_platform(platform) == "windows"} {
-		wm iconbitmap . [file join $program_dir icons winicons msn.ico]
-		wm iconbitmap . -default [file join $program_dir icons winicons msn.ico]
+		wm iconbitmap . [file join icons winicons msn.ico]
+		wm iconbitmap . -default [file join icons winicons msn.ico]
 	} else {
 		wm iconbitmap . @[GetSkinFile pixmaps amsn.xbm]
 		wm iconmask . @[GetSkinFile pixmaps amsnmask.xbm]
@@ -3769,7 +3767,7 @@ proc cmsn_msgwin_sendmail {name} {
 
 #///////////////////////////////////////////////////////////////////////
 proc play_sound {sound_name} {
-	global config program_dir tcl_platform
+	global config tcl_platform
 
 	if { [string first "\$sound" $config(soundcommand)] == -1 } {
 		set config(soundcommand) "$config(soundcommand) \$sound"
@@ -6649,7 +6647,7 @@ proc addPicture {the_image pic_text filename} {
 }
 
 proc reloadAvailablePics { } {
-	global HOME program_dir image_names show_cached_pics
+	global HOME image_names show_cached_pics
 
 	set scrollidx [.picbrowser.pics.text yview]
 
@@ -6678,7 +6676,7 @@ proc reloadAvailablePics { } {
 		set files [list]
 	#catch {set files [glob -directory [file join $program_dir skins $skin displaypic] *.png] }
 	#if { $skin != "default" } {
-	catch {set files [concat $files [glob -directory [file join $program_dir skins default displaypic] *.png]]}
+	catch {set files [concat $files [glob -directory [file join skins default displaypic] *.png]]}
 	#}
 	catch {set myfiles [glob -directory [file join $HOME displaypic] *.png]}
 	catch {set cachefiles [glob -directory [file join $HOME displaypic cache] *.png]}
