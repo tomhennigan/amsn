@@ -243,6 +243,9 @@ proc ChCustomState { idx } {
 						puts $nickcache [::abook::getPersonal login]
 						close $nickcache
 					}
+				set newname [string map { "\\" "\\\\" "\$" "\\\$" } $newname]
+				set newname [string map { "\\\$nick" "\${original_nick}" } $newname]
+				set newname [subst -nocommands $newname]
 				::MSN::changeName [::config::getKey login] $newname
 				StateList promote $idx
 			}
@@ -325,6 +328,12 @@ proc EditNewState { mode { idx "" } } {
 	entry $lfname.edesc -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 40
 	label $lfname.lnick -text "[trans statenick] :" -font splainf
 	entry $lfname.enick -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 40
+	menubutton $lfname.nickhelp -font sboldf -text "<-" -menu $lfname.nickhelp.menu
+	menu $lfname.nickhelp.menu -tearoff 0
+	$lfname.nickhelp.menu add command -label [trans nick] -command "$lfname.enick insert insert \\\$nick"
+	$lfname.nickhelp.menu add separator
+	$lfname.nickhelp.menu add command -label [trans delete] -command "$lfname.enick delete 0 end"
+	
 	label $lfname.lstate -text "[trans state] :" -font splainf
 	combobox::combobox $lfname.statebox -editable false -highlightthickness 0 -width 37 -bg #FFFFFF -font splainf -command ""
 	label $lfname.lmsg -text "[trans stateautomsg] :" -font splainf
@@ -335,6 +344,7 @@ proc EditNewState { mode { idx "" } } {
 	grid $lfname.edesc -row 1 -column 2 -sticky w -pady 5 -padx 5
 	grid $lfname.lnick -row 2 -column 1 -sticky w -pady 5 -padx 5
 	grid $lfname.enick -row 2 -column 2 -sticky w -pady 5 -padx 5
+	grid $lfname.nickhelp -row 2 -column 3 -sticky w -pady 5 -padx 5
 	grid $lfname.lstate -row 3 -column 1 -sticky w -pady 5 -padx 5
 	grid $lfname.statebox -row 3 -column 2 -sticky w -pady 5 -padx 5
 	grid $lfname.lmsg -row 4 -column 1 -sticky nw -pady 10 -padx 5
