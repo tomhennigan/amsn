@@ -1262,7 +1262,7 @@ namespace eval ::amsn {
 		}
 
 		#If no focus, and it's a message event, do something to the window
-		if { ($config(soundactive) == "1" || [string first ${win_name} [focus]] != 0) && $msg != "" } {
+		if { (($config(soundactive) == "1" && $usr_name != $config(login)) || [string first ${win_name} [focus]] != 0) && $msg != "" } {
 			play_sound type.wav
 		}
 		return $win_name
