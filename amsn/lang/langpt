@@ -127,6 +127,7 @@ corruptconfig O ficheiro de configuração está danificado. Crie um novo. O fichei
 corruptstates A configuração dos estados criados por si está danificada. Crie um novo. O ficheiro antigo será guardado em $1. Por favor envie-o para nós para verificar o que aconteceu.
 countrycode Código do meu País/Região
 cprofile Criar Perfil
+credits Créditos
 custom_edit Criar "smiley"
 custom_new Adicionar novos "smileys" criados
 cut Cortar
@@ -157,7 +158,6 @@ dockkde KDE Dock
 dontdownload Não descarregar TLS, eu instalo-o
 dontshow Não mostrar
 downloadingtls Descarregando o módulo TLS a partir de:\n $1
-editcurrentstate Editar presente
 editcustomstate Editar
 edit Editar
 editnewstate Novo Estado Pessoal de Automensagem
