@@ -10,6 +10,9 @@ Version 0.62
 20020???
 		o Experimental SOCKS5 proxy support using code from
 		  waster.8m.com integrated into our generic proxy code
+		o Supports saving contact lists (~/.amsn/contactlist.txt)
+		  preserving group id's (MSN4Win ignores groups on save!)
+		o Color themes (alpha)
 
 Version 0.61
 20020706
