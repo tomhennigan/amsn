@@ -2359,6 +2359,7 @@ namespace eval ::amsn {
 		set evPar(user) user
 		set evPar(msg) msg
 		set evPar(chatid) chatid
+		set evPar(fontformat) $fontformat
 		::plugins::PostEvent chat_msg_receive evPar
 		
 		if {![string equal $msg ""]} {
