@@ -1177,10 +1177,9 @@ proc Preferences { { settings "personal"} } {
     
     bind .cfg <Destroy> "RestorePreferences %W"
 
-    moveinscreen .cfg 30
-    
     wm state .cfg normal
-    
+
+    moveinscreen .cfg 30
     
 }
 
