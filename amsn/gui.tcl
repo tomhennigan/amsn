@@ -2951,7 +2951,7 @@ namespace eval ::amsn {
 
 		#We have a window for that chatid, raise it
 		raise ${win_name}
-		catch {focus -force ${win_name}.f.bottom.in.input}
+		catch [list focus -force ${win_name}.f.bottom.in.input]
 
 	}
 	#///////////////////////////////////////////////////////////////////////////////
