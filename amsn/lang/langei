@@ -1,0 +1,511 @@
+amsn_lang_version 2
+about Sobre 
+accept Mel!
+acceptfile ¿Agafar s'arxiu $1, que ocupa $2 bytes? Es guardarà a $3
+actions Accions
+addacontact Afeguir un contacte
+addedyou $1 ($2) t'ha afeguit a sa seua llista de contactes
+addprofile Afeguir un perfil
+addprofiledesc Introdueix es nom d'usuari pe's que vols fer un perfil. \nEs perfils et deixen tenir configuracions diferents per cada usuari.\nSense un perfil no es pot utilitzar s'Historial, Alarmes o recordar passwords.
+addstate Afeguir un nou estat
+addto Afeguir a $1
+addtocontacts Afeguir a contactes
+addtoo Afeguir a aquesta persona a sa meua llista de contactes
+admincontacts Administrar contactes
+admingroups Administrar colles 
+advanced Avançades
+advancedprefs Configuració d'opcions avançades
+adverts Anuncis
+alarmonconnect Activar/Desactivar alarma per aquet usuari quan es connecti
+alarmondisconnect Activar/Desactivar alarma per aquet usuari quan es desconecti
+alarmonmsg Activar/Desactivar alarma per aquet usuari quan m'envii un missatge
+alarmonstatus Activar/Desactivar alarma per aquet usuari quan canvii es seu estat
+alarmpref Configuració de s'alarma per s'usuari
+alarmstatus Activar/Desactivar s'alarma per aquet usuari
+allowallbutbl Deixar que tots es usuaris menus es bloquetjats puguin xerrar amb jo
+allowbadwords Deixar que pugui utilitzar qualsevol malnom (censurats també)
+allowlist Llista d'acceptats(AL):
+allowonlyinal Només deixar a es usuaris acceptats xerrar amb jo
+allowseen Deixar a aquesta persona vore quan estigui connectat i xerrar amb jo
+allprofilesinuse Tots es perfils que hi ha fets ja estàn utilitzats ara mateix 
+animatedemoticon Emoticono amb animació
+animatedsmileys Activar emoticonos que es mouen
+animatenotify Finestra de Notificacions amb moviment
+appearance Aparença
+appearoff Desenxufat
+areacode Códic de zona
+aretyping $1 escriuen un missatge
+autoaccepted Es programa ha agafat s'arxiu automàticament
+autoacceptft Guardar archius automàticament quan algu n'enivii cap
+autoaway Fer vore que stic "Ausent" quan no faci res en
+autocheckver Buscar versions noves automàticament en encendre s'AMSN
+autoconnect2 Connectar-se automàticament quan s'encen s'aMSN
+autoconnect Connectar en encendre s'amsn
+autohotmaillog Entrada a hotmail automàtica
+autoidle Mirar si no es fa res automàticament
+autoip IP Automàtica
+autonoact Fer vore que estic  "Sense fer res" quan no faci res en
+avoidseen No deixar que aquet pugui vore si estic connectat i que xerri amb jo
+away Ausent
+awaymsg1 Preguntar quan canvii s'estat a Ausent/Ara tornc/Ocupat
+awaymsg2 No preguntar mai y utilitzar es missatge seguit 
+baduserpass Es nom de's usuari o es password estàn malament
+bgcolor Canvia es color de fondu de's aMSN
+blankdirect Deixar en blanc per connexió directa
+blocked Bloquetjat
+blockedyougroup Fer vore de banda una colla amb es contactes que t'han bloquetjat
+blocking Bloqueig
+blockinter1 Quan estàs en s'estat Connectat, comprovar cada:
+blockinter2 segons, si no comprovar res :
+blockinter3 contactes cada
+blockinter4 segons
+blocklist Llista de Bloquetjats(BL):
+blockmessage Aquestus contactes estàn connectats i bloquetjan-te
+block No Admitir
+blockusers Comprovar seguit 
+broughtby Dut a vós per aquestus programadors
+browse Vore
+browserexample ( \$url es canviarà per sa direcció de sa web). Ej: mozilla \$url
+browser Navegador
+busy No disponible
+cancel Això no va
+cannotdeleteprofile No es pot borrar aquet perfil perque pareix que que un altre amsn obert l'està utilitzant
+cantexec No es pot obrir es programa: $1. Mira bé ses preferències
+cantremoveothers Es pot borrar sa colla "Altre gent"
+casesensitive Distingir maj/minusculas a es disparador
+cfgalarmall Canviar/Afeguir/Llevar s'alarma global
+cfgalarm Canviar/Llevar alarma
+changecustomstate Canviar a
+changedisplaypic Canviar es dibuix que s'ensenya
+changefont Canviar sa lletra
+changenick Canviar es malnom
+changestate $1 canvia es teu estat a $2
+chatack Acceptant xerrada de
+chat Xerrada
+chatmaxmin Quan un contacte m'obri una xerrada, vull que sigui:
+chatreq Demanant per fer una xerrada 
+chatsmileys2 Fer vore emoticonos i smileys a ses finestres de sa xerrada
+chatsmileys Smileys a sa xerrada
+checkblocking Comprovar seguit si m'estàn bloquetjant
+checkfilman Es arxius que m'arribin els posaré a $1. Mira sa opció de s'administrador d'arxius a sa Finestra de preferències.
+checkingver Mirant si hi ha cap aMSN nou
+checkonfln Mirar si ningú em bloquetja quan pareix que se'n va
+checkver Buscar nous aMSN
+choosearq Tria quina classe d'ordenador tens
+choosebasefont Triar com vols sa lletra
+choosebgcolor Triar color de fondo
+choosecontact Per favor tria un contacte de sa llista
+choosefontcolor Triar color de sa lletra
+chooseskin Per favor, tria es Tema que vols fer servir
+ch_to_state Canvia a es nou estat
+clearlog2 Fer net historial per tots es contactes
+clearlog3 Fer net tots es registres
+clearlog Fer net s'historial
+clicktologin Fes click aqui per començar sa sessió
+close Tancar
+closed Xerrada amb en/na $1 tancada per no escriure res
+closingdocks Botó de tancar iconifica sa finestra
+command Comando
+commandstatus Executar comando
+confirmdelete ¿Segur que vols borrar a en/na $1?
+confirm ¿ Estàs segur ?
+confirmpurge Tots es dibuixets guardats de's teus contactes (no es teus) seràn borrats. ¿ Segur ?
+connected Ara estàs connectat
+connecterror Error connectànt-se a es servidor
+connecting Connectant
+connection Connexió
+connectionlost Desconectat: Connexió amb es servidor tancada
+contactadded Contacte afeguit
+contactdoesnotexist Es contacte que vols afeguir no existeix
+contactlist Llista de Contactes(FL):
+convertexplain On està s'arxiu executable CONVERT, de's programa ImageMagick (necessari per ses\nImatges per Fer-les vore). Deixa en blanc si CONVERT es pot trobar a es PATH.
+copy Copiar
+copytogroup Copiar a sa colla
+corruptconfig S'arxiu de configuració està futut. En faig un nou. S'antic el guardaré com $1. Per favor, envia'l per vore que ha passat.
+corruptstates S'arxiu de sa configuració de's autoestats està futut. En faig un nou. S'antic el guardaré com $1. Per favor, envia'l per vore que ha passat.
+countrycode Códic de país/regió
+cprofile Fer Perfil
+custom_edit Editar emoticono fet a mida
+custom_new Afeguir emoticono fet a mida
+cut Tallar
+date Fetxa
+days Dies
+dcprofile No fer Perfil
+default Configuració per defecte
+defaultloginradio Utilitzar configuració per defecte
+defchatwinsize Mida per defecte per ses finestres de xerrada (AMPLExDRET)
+deletecustomstate Eliminar estat fet a mida
+delete Eliminar
+delimiters Separadors de s'hora:
+deliverfail Hem tengut pegues per enviar aquet missatge
+delprofile2 Tria es perfil que t'agradaria borrar
+delprofile Borrar Perfil
+description Descripció
+directconnection Tenc una connexió directa a internet (fa servir es port 1863)
+disabled Desactivat
+disableprofiles Desactivar perfils (Va bé per cybercafes o a sa feina)
+disablessl Desactivar SSL
+disconnect $1 s'ha desconectat
+displaychat Configuració de missatges
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
+dockgtk Icono Gtk
+docking Icono a sa barra de's sistema
+dockingoff Desactivat
+dockkde Icono KDE
+dontdownload No baixar TLS, provaré de fer-ho jo tot solet
+dontshow No mostrar
+downloadingtls Baixant es TLS de:\n $1
+editcustomstate Editar s'estat fet a mida
+edit Edició
+editnewstate Nou missatge automàtic per s'estat fet a mida
+editprofile Editar Perfil
+editstate Editar missatge automàtic per s'estat fet a mida 
+editvalue Editar valor
+emailsinlist Fer vore e-mails en comptes de malnoms a sa llista de contactes
+emotisounds Sentir ses remors associades a alguns emoticonos
+enablebanner Vore es banner de's aMSN (S'ha de reiniciar s'aMSN)
+enabled Activat
+enableproxy Activar proxy
+enableremote Activar servidor de control a distancia
+enablesound Sentir remor
+encoding2 Canvia sa forma com estàn codificades ses lletres
+encoding Codificació de's caràcters
+entercontactemail Posa s'e-mail de's contacte
+enterfilename Posa es nom de s'arxiu
+enternick Posa es teu malnom
+errortls Pegues instalant es mòdul TLS:
+examples Exemples
+exitamsn ¿Segur que vols sortir?
+extras Serveis Adicionals
+faileddelete No es pot borrar
+faileddeleteperso Aquet dibuixet no es pot borrar perque no és una imatge personal per ensenyar. Només pots borrar així ses que són de's teu perfil fet a mida.
+failed Fallo
+faq FAQ (Preguntes que es fan més sovent)
+file Arxiu
+filedoesnotexist S'arxiu no existeix
+fileman Administrador d'Archius
+filemanexample ( \$location es canviarà per es directori ) Ex: nautilus \$location
+filename Nom de's Arxiu
+filetransfercancelled Transferència de's arxiu aturada completament
+filetransfercomplete Transferència de's arxiu acabada
+followtext Moure cap avall quan surti un escrit nou
+ftacceptedby $1 ha agafat s'arxiu '$2'.
+ftaccepted Transferència d'arxiu acceptada
+ftaccepting Acceptant invitació per transferència d'arxius
+ftconnecterror Hem trobat pegues per connectar amb s'usuari remot
+ftconnecting Connectant a $1 pe's port $2
+ftconnectionlost Connexió perduda amb s'usuario remot
+ftgotinvitation $1 vol enviar-li s'arxiu '$2' ($3 bytes). I el guardarem a es directori $4. ¿Vol agafar s'arxiu?
+ftportpref Fer servir aquet port i es que li segueixen per enviar arxius
+ftrejectedby $1 ha passat d'agafar s'arxiu '$2'.
+ftrejected Transferència de's arxiu completament aturada
+ftsendinvitation Una carta de convit per rebre s'arxiu '$2' ($3 bytes) ha set enviada a $1.
+fullcontactlist Tens sa llista de contactes plena. Hauràs d'eliminar qualsevol contacte que puguis per poder afeguir-ne de nous.
+getdisppic Posar a funcionar es sistema per rebre imatges per vore'n d'altres usuaris
+gonelunch Estic menjant
+groupadd Afeguir una colla
+groupdelete Borrar una colla
+groupexists Sa colla ja existeix
+group Colla
+groupmissing No es pot trobar sa colla
+groupnewname Nom nou
+groupnotempty Sa colla no està buida
+groupoldname Nom antic
+grouprename Canviar es nom a sa colla
+groupunknown Colla desconeguda
+handle Malnom
+help Ajut
+helpcontents Ajut classificat
+hidedisplaypic Amagar sa Imatge per fer vore a sa gent
+hiden No fer-la vore a es llistat de emoticonos
+hidewindow Amagar finestra
+history Vore s'historial
+home Ca meua
+httpconnection Connectar fent servir es sistema HTTP (utilitza protocol HTTP per es port 80)
+hybrid Sistema mesclat
+ident Identificant-se
+identity Identificació
+inbox Safata d'entrada
+insertsmiley Posar emoticono
+installconvert Has d'instalar ImageMagick ('convert') per poder convertir ses imatges a es format que fan servir es servidors MSN. Pots baixar-te es binaris per es teu S.O. desde ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Si ja els tens, això és un fallo de's AMSN, per favor avisan's.
+internalerror Es servidor té una pega interna
+invalidfile S'arxiu $2 posat a es camp "$1" no existeix o no s'ha pogut lleguir
+invalidusername Nom d'usuari equivocat
+invitationcancelled Sa convidada s'ha aturat completament
+invite Convidar
+ipaddress Direcció IP
+ipdetect Trobar sa IP bona per enviar i rebre utilitzant HTTP
+istyping $1 ara mateix escriu un missatge
+joins $1 es junta a sa xerrada
+keepalive Fer que sa connexió estigui activa (NAT)
+keeplog2 Guardar ses nostres xerrades a s'historial per poder-les vore més tard
+keeplog Guardar s'historial de ses xerrades
+language Llengua
+lastmsgtime Últim missatge arribat a les $1
+lclosedwin $1 ha tancat sa finestra a les $2
+lconftopriv Sa xerrada ara és un privat amb en/na $1
+lconvstarted Comença sa xerrada a les $1
+leaveblankforhotmail Deixar en blanc per fer servir hotmail
+leaves $1 deixar sa xerrada
+lenteredconf $1 es junta a xerrar a les $2
+lineflushlog Escriure històrics a es disc linia a linia (sense buffer)
+linprivate EN PRIVAT
+listeningon Escoltant a es port $1
+listsmileys2 Deixar vore emoticonos i smileys a es llistat de contactes de's aMSN
+listsmileys Smileys a es contactes
+ljoinedconf $1 es junta a sa xerrada
+lleftconf $1 se'n va de sa xerrada
+loadcontacts Carregar llistat de contactes
+logbigger Arxius de registre d'un contacte no passen de
+logfandexp Mida de's arxius de's registre i expiració de's historial
+loggedotherlocation Sense connexió: S'ha obert un altre aMSN a alguna altra banda
+loggingin Iniciant sa sessió
+loginas Iniciar sessió com
+loging Historial
+login Iniciar sessió
+logolder Registrar només ses xerrades de's darrer
+logout Tancar sessió
+logsin acaba d'iniciar sessió
+logsmileys Deixar vore emoticonos i smileys a sa finestra de's historial de's aMSN
+logsout ha acabat sa sessió ara mateix
+longnick Sa mida de's teu malnom es més grossa de 130 lletres. Això no ho aguanta oficialment es protocol de MSN. ¿Estàs segur que vols fer es canvi?
+lprivtoconf Es privado passa a ser una xerrada amb més d'una persona amb en/na $1
+luclosedwin Tanques sa finestra a les $1
+mailer Per obrir un e-mail
+mailerexample ( \$recipient = Destinatari) Deixar en blanc per fer servir Hotmail
+maximised Oberta a es màxim
+minimised Iconificada
+mins minuts
+mobile mòbil
+morepersonal Més estats ->
+move Moure
+movetogroup Moure a sa colla
+msgflicker Pampallugues de sa barra de's títol quan arribi un missatge nou a sa xerrada
+msgmaxmin Quan arriba un nou missatge vull que sigui :
+msg Misatge
+msgmode Tria com manetjar finestres de múltiples missatges :
+msn AMSN
+mustrestart Has de reiniciar es programa per vore es canvis
+myhomephone Es telèfon de ca meua
+mymobilephone Es teléfono mòbil
+mypic Sa meua imatge per ensenyar:
+mystatus Es meu estat
+myworkphone Es telèfon de sa feina
+natip Tobada de sa IP per Web
+natkeepalive Si es tanca sa connexió amb es servidor sovent, activa aquesta opció
+needonline Encara estàs/pareixes desconectat
+newmail $1 missatges nous a sa safata d'entrada
+newmailfrom E-mail nou de $1 ($2)
+newmsg Misatge nou
+newstate Afeguir estat fet a mida
+newveravailable Nova versió $1 a punt per baixar-se
+next Es que li segueix
+noactivity Sense fer res
+nodataavailable No hi ha informació per $1
+nologfile No existeix s'arxiu de s'historial per $1
+noneavailable No n'hi ha cap disponible
+nonewmail No hi ha missatges nous a sa safata d'entrada
+nonewver No hi ha versions més noves llestes
+no No
+nopic Sense imatge
+noprofileexists Ara mateix no hi ha cap perfil. \n N'has de fer un si vols fer servir es perfils d'usuari. \nApreta "Afeguir un perfil" a aquesta finestra per fer-lo.
+normal Normal
+noskins No he trobat es perfil per defecte (default) a es directori skins/. No es pot iniciar AMSN
+nosystemtray No està llesta sa Safata de's sistema
+notificationserver Servidor inicial de notificacions MSN (Servidor MSN Messenger)
+notify1_5 Deixar vore finestra d'avís quan un contacte es desconecti
+notify1_75 Deixar vore finestra d'avís quan un contacte canvia d'estado
+notify1 Deixar vore finestra d'avís quan un contacte es connecti
+notify2 Deixar vore finestra d'avís quan arriben missatges nous
+notify3 Deixar vore finestra d'avís quan en rebre un nou mail
+notify avís
+notifyoffset Ajusta sa posició de sa finestra d'avís per mitjà d'un canvi de puesto
+notifytyping Enviar a s'altre gent notificacions quan s'está tecletjant
+notifywin Finestra d'avisos
+notls Sa versió 9 de's protocol MSN necessita es paquet "tls". Aquet paquet no pareix estar a es sistema. Si hi és, sa ruta a es directori hauria de ser especificada a sa finestra de Preferències (ex: /opt/tls/lib). \n \n Es pot baixar es "tls" a http://tls.sf.net.
+nousersinsession No hi ha usuaris a sa sessió
+offline Desconnectat
+ok Mel!
+onenewmail 1 missatge nou a es teu mail
+online Connectat
+onphone A es telèfon
+openreceived Obrir archius rebuts
+options Opcions
+ordercontactsby Ordenar contactes per
+ordergroupsby Ordenar colles per
+other Altra gent 
+others Altres
+pager Paginador
+pass Password
+paste Aferrar
+personal Personal
+phone Telèfon
+picbrowser Navegador d'imatges per fer-les vore
+picfile Arxiu d'imatge (GIF < 500 x 500)
+picstatus Imatge pera sa alarma
+playing Fent sonar: $1
+pluginselector Selector de plug-ins
+port Port
+prefalerts Ses meues alertes i remors de events
+prefapps Aplicacions
+prefawaymsg Es meu missatge d'Ausent
+prefblock1 Comprovar quan es desconnecta
+prefblock2 Comprovar seguit
+prefblock3 Colla "Aquesta gent t'ha bloquetjat..."
+prefconnection Configuració de sa connexió
+prefemotic Emoticonos y smileys.
+preferences Preferèncias
+preffont2 Canvia sa forma en que sa gent veu es meus escrits a sa xerrada
+preffont3 Canviar sa classe de lletra i sa mida de's interface de's aMSN
+preffont Text de's meus missatges
+preflibs Directori per biblioteques
+preflog1 Ses meues opcions d'historial i registres
+preflook Aparença de's meu aMSN Messenger
+prefmsging Interface de's meus missatges
+prefname Es meu nom/malnom a es MSN Messenger
+prefphone2 Escriu es numeros que vulguis deixar\nvore a es contactes a sa teua llista de Permitits
+prefphone Es meus numeros de telèfon
+prefprivacy2 Llistat de Contactes/Inversa de's usuari
+prefprivacy Listat de Acceptats/Bloquetjats de's usuari
+prefprofile2 Fes o canvia es teu perfil públic (sa \n descripció de tu mateix que es altres poden vore)
+prefprofile3 Perfils de configuració de's usuaris
+prefprofile Es meu perfil públic
+prefproxy Configuració de's meu proxy
+prefremote Configuració de sa connexió remota
+prefsession Es meu inici de sessió i estat
+prefshared Connexions a mitges (només per NAT)
+prefsound Remors
+privacy Privacitat
+profiledconfig Informació de's perfil
+profileexists No es pot fer un perfil amb aquet nom d'usuario,\n ja n'hi ha un amb aquet nom. Per favor trien un altre.
+profileinuse Aquet perfil està sent utilitzat per un altra sessió d'amsn, per favor trien un altre.
+profileloginradio Fer servir un Perfil existent
+profiles Perfils
+properties Propietats
+proxyconf Configuració proxy
+proxyconfhttp Configurar soport de proxy http
+proxyconnection En connect a internet fent servir un servidor proxy:
+proxy Estic darrera d'un servidor proxy (HTTP o SOCKS5)
+publishphones Publicar es meus numeros telefònics
+purge Purgar
+raised Elevada/Desiconificada
+readonlymsgbox Sa rebuda d'arxius s'ha aturat completament perque es directori de rebuda és només de lectura. Comprova es permisos d'aquet directori.
+readonlywarn AVIS: S'arxiu pot NO ser guardat correctament perque es directori d'archius rebuts pareix estar protegit perque no s'hi escrigui. Comprova que es permisos en es directori ($1) estàn bé antes de començar sa transferència
+receivedbytes Rebuts $1 de $2 bytes totals
+receiveddir Directori d'Archius Rebuts
+receivefile Rebre arxiu
+reconnect Esperant que $1 es reconecti
+reconnecting Reconectant a es servidor
+reject No acceptar
+rememberpass Recordar password
+removefromlist Borrar d'aquet llistat
+reversed Invertit
+reverselist Llistat Invers(RL):
+rightback Ara tornc
+saveas Guardar com
+savechatwinsize  En canviar sa mida de ses finestres de xerrada, guardarla com mida per defecte
+savecontacts Guardar llistat de contactes
+save Guardar
+savetofile Guardar a un arxiu
+says $1 diu
+sbcon Connectant a Switch Board
+selectplugins Marca es plug-ins que vols activar
+selectskin Tria un tema (skin) de sa llista
+send Enviar
+sendfile Enviar arxiu
+sendmail Enviar e-mail
+sendmsg Enviar missatge
+sentbytes Enviats $1 de $2 bytes totals
+serverbusy Servidor ocupat
+servergoingdown Desconnectat: Es servidor s'aturarà per manteniment
+server Servidor
+serverunavailable Es servidor no està a punt
+session Sessió
+showblockedlist Mostrar contactes que et no t'admeten
+showdisplaypic2 Per defecte, vore sa Imatge per Mostrar en obrir una finestra de xerrada.
+showdisplaypic Vore Imatge per Mostrar
+showmypic Deixar vore sa meua imatge
+shownotify Fer vora sa finestra d'avisos quan passin alguns events
+showuserpic Imatge de $1
+skinselector Triar tema(skin)
+skin Tema (skin)
+smileconfig Configuració de's emoticono a mida
+smilefile Nom de's arxiu
+smileintro2 Edita aquestus camps per fer es emoticono a mida (vore FAQ per més informació)
+smileintro  Ompli es camps per fer un emoticono a mida (vore FAQ per més informació)
+sound2 Fer sonar es sons quan es contactes es connectin o haguin escrit missatges
+soundcommand Es programa per fer sonar un so (per ex: esdplay)
+soundexample ( \$sound = Arxiu de so a fer sonar) Ex: esdplay \$sound
+soundfile Archiu de so
+soundloop So que es repeteix
+soundserver Servidor de So
+sound Sonido events
+soundstatus Remor per sa alarma
+sourcecode Códi font
+sslwarning ¡¡ALERTA!! En desactivar SSL, es desactiva sa encriptació, i es teu password serà enviat a través de internet com text sense encriptar. Utilitzar només si no hi ha altre forma, com en alguns servidors proxy, o configuracions de xarxa molt estrictes.
+startoffline2 Connectar-se fent vore que estàs "Desconnectat"
+startoffline Començar Desconnectat
+startontray Iniciar AMSN només amb es icono de sa safata de's sistema
+stateautomsg Misatge automàtic per enviar
+statechange canvia es seu estat a :
+stateedittext Edita es camps que vuigues modificar\ni despues apreta Guardar
+stateinfo Configuració d'estats fets a mida
+statename Nom de's estat fet a mida
+statenewtext Ompli sa informació que fa falta per fer \nes nou estat fet a mida, i apreta Guardar
+statenick Malnom a mida (en blanc per no posar-ne cap)
+state Vull sortir com
+status Estat
+stopalarm Aturar alarma
+storenickname Tornar a es malnom original en canviar d'un estat a mida amb malnom a mida
+strictfonts Posar tots es escrits de's AMSN a sa mida que jo vaig triar (Barres d'estat, i ses altres)
+stylechat Es mateix que ses xerrades
+stylehist aparença de s'historial de's aMSN
+stylelog Triar s'estil en que vols vore s'historial
+syntaxerror Hi ha una pega de sintaxis
+tabbed Finestres amb pestanyes
+temp_state No guardar (Estat temporal, es perdrà en reiniciar AMSN)
+textsize Mida de's escrits
+timeremaining Temps que falta
+timestamps Activar hora a es missatges
+title Al's Messenger
+tkerror Hi ha una pega a ses TK, hi ha un error a s'amsn, per favor informa'n. Per fer-ho envia s'arxiu $1 a amsn-bugs@lists.sf.net
+tlsdowncompleted Es arxiu $1 s'ha baixat a es directori $2. Ara has de descomprimir-lo, compilar-lo (si has baixat es códic font) i instalar-lo a $3.
+tlsexplain Directori on està es mòdul TLS per tcl. Si AMSN no el troba,\nper favor especifica. (Es necessita per sa autenticació amb SSL).
+tlsinstall Wizard de configuració de's mòdul TLS
+tlsinstallexp AMSN ara fa servir es protocol MSNP9, que ha d'utilitzar una connexió\nsegura fent servir SSL. Per poder fer servir SSL, AMSN necessita un mòdul que es diu TLS,\nque no he trobat as teu sistema. Aquet wizard t'ajudarà a baixar\ni configurar TLS. Per favor, tria es tipo de sistema per poder\nbaixar es arxius que necessita TLS automàticament.
+tlsinstcompleted Es mòdul TLS està llest, ja hauríes de poder utilitzar MSNP9. Si no funciona, pot ser que no haguis triat bé es teu sistema, o que no existeixi una versió compilada per es teu sistema.
+tools Eines
+tooltips Activar globos d'Ajut
+to Per
+transnotexists Es arxiu que vols no està traduit a es teu idioma.
+traynotcompiled Icono de sa barra no compilat. Mira a plugins/traydock
+triggers Escrit disparador
+truncatenames1 Tallar malnoms més llargs que s'ample de sa finestra en títols i llistat de contactos
+truncatenames2 Tallar malnoms més llargs que s'ample de sa finestra a ses xerrades
+truncatenicks Retallar malnoms més llargs que s'ample de sa finestra
+twonewmail $1 missatges nous a es teu correu
+unblock Admitir
+uoffline Desconnectats
+uonline Connectats
+useralreadyonlist Es usuari ja es troba a es llistat de contactes.
+userblocked Es usuario es troba online perè estàs bloquetjat
+usernotonline S'usuari no es troba connectat
+user Usuari
+useryourself No pots parlar amb tu mateix
+verifyblocked Comprovar quins contactes hem tenen bloquetjat
+version Versió
+viewprofile Vore perfil
+view Vore
+willjoin Esperant que $1 entri a sa xerrada
+work Feina
+wrongfields Es camps "$1", "$2" i/o "$3" no és/són bo(ns)
+wrongprofileversion Versió de's arxiu de perfils incorrecta. Per favor borra es directori $1 per solucionar-ho, o posa una versió més nova de amsn.
+xmmscurrent Fer vore sa cançó que sents
+xmmserr No hi ha cap canço sonant, o no tens es xmms-infopipe posat.
+xmmssend Enviar sa cançó que sents
+xoffset Desplaçament X
+yes Si
+yoffset Desplaçament Y
+youblocked Has set bloquetjat
+yousay Tu dius
+youwant Vols
