@@ -64,7 +64,7 @@
 	<lang>
 		<langcode>ee</langcode>
 		<name>Estonian</name>
-		<version>1.28</version>
+		<version>1.29</version>
 		<encoding>iso8859-4</encoding>
 	</lang>
 	<lang>
@@ -76,7 +76,7 @@
 	<lang>
 		<langcode>en</langcode>
 		<name>English</name>
-		<version>1.275</version>
+		<version>1.276</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -88,7 +88,7 @@
 	<lang>
 		<langcode>es</langcode>
 		<name>Spanish</name>
-		<version>1.210</version>
+		<version>1.211</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -280,7 +280,7 @@
 	<lang>
 		<langcode>va</langcode>
 		<name>Valencian</name>
-		<version>1.30</version>
+		<version>1.31</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
