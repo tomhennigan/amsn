@@ -2015,6 +2015,7 @@ proc proc_sb {} {
 
    after cancel proc_sb
 
+	#status_log "Processing SB\n"	
    foreach sbn $sb_list {
       while {[sb length $sbn data]} {
          set item [split [sb index $sbn data 0]]
@@ -2029,6 +2030,7 @@ proc proc_sb {} {
 
       }
    }
+	
 
    after 250 proc_sb
    return 1
@@ -2038,6 +2040,7 @@ proc proc_ns {} {
 
    after cancel proc_ns
 
+	#status_log "Processing NS\n"	
    while {[sb length ns data]} {
 
       set item [split [sb index ns data 0]]
