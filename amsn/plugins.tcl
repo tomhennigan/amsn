@@ -366,7 +366,7 @@ namespace eval ::plugins {
 		set w .plugin_selector
 		# if the window already exists, focus it, otherwise create it
 		if {[winfo exists $w]==1} {
-			focus $w
+			raise $w
 		} else {
 			# create window and give it it's title
 			toplevel $w
