@@ -1,0 +1,83 @@
+amsn_lang_version 2
+about Om
+addacontact lägg till kontakt
+addedyou har lagt till dig på hans/hennes kontakts lista
+addtoo Lägg till denna person på min lista
+allowseen Tilllåt denna person att se om jag är online och skriva till mig
+appearoff Verka så som om jag vore offline
+are är
+avoidseen Undvik att denna person kan se om jag är online och skriva till mig
+away Borta
+blankdirect Lämna tom för dirket kontakt
+block Blockera
+busy Upptagen
+cancel Avbryt
+changenick Ändra nick
+chat Chat
+chatreq Be om chat
+chatack Acceptera chat från
+checkver Kolla efter ny version
+checkingver Kollar efter nya versioner
+clicktologin Klicka för att logga in
+close Stäng	
+contactadded Lagt till kontakt
+set lang(connecterror) "Fel vid kontakt till server"
+date Datum
+delete Tabort
+entercontactemail Skriv in kontaktens e-mail
+enternick Skriv in ditt nick
+examples Exempels
+gonelunch Iväg på lunch
+help Hjälp
+ident Identifiering
+invite Bjud in
+is är
+joins $1 $2 kommer in i konversationen
+language Språk
+leaves $1 lämnar konversationen
+loggingin Loggar in
+login Logga In
+logout Logga Out
+logsin har just loggat in
+mustrestart Du måste starta om programmet för att ändringarna ska gälla
+mystatus Min status
+msg Medelande
+msn AMSN
+newmail $1 nytt medelanden i In-Box
+newmailfrom Nytt mail från
+newmsg Nytt medelande
+newveravailable Ny version $1 finns att ladda ner
+next Nästa
+noactivity Ingen aktivitet
+nonewver Det finns inga nya versioner att ladda ner
+notify anmärk
+nousersinsession Inga användare i konversationen
+ok Ok
+offline Offline
+online Online
+onphone Pratar i telefonen
+other Annat
+pass Lösenord
+port Port
+proxyconf Proxy configuration
+proxyconfhttp HTTP proxy support configuration
+reconnect Väntar på att  $1 ska komma tillbaka
+reconnecting Återkonnektar till server
+rememberpass Kom ihåg lösenordet
+rightback Kommer strax tillbaka
+says $1 säger
+sbcon Switch Board
+send Skicka
+server Server
+sound Händelse ljud
+title Al's Messenger
+to till
+typing $1 skriver ett medelande
+yousay Du säger
+youwant Du vill
+unblock Sluta blockera
+uoffline Offline
+uonline Online
+user Användare
+version Version
+willjoin Väntar på att $1 ska joina konversationen
