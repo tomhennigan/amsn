@@ -6,6 +6,8 @@
 package require tclzlib 
 proc CreatePNG { filename } {
     global pngreader
+    
+    
 
     if { ![info exists pngreader] } {
 	set img 0 
@@ -187,8 +189,8 @@ proc ProcessPLTE { img chunk } {
     }
     
     for {set offset 0} {$offset < $palettes } { incr offset  } {
-	binary scan [string range $chunk [expr $offset * 3] [expr ($offset * 3) + 3]] ccc red green blue
-	set pngreader(${img}_palette_${offset}) [list $red $green $blue]
+	binary scan [string range $chunk [expr $offset * 3] [expr ($offset * 3) + 2]] H* col
+	set pngreader(${img}_palette_${offset}) $col
     }
     
     set pngreader(${img}_status) "IDAT"
@@ -217,7 +219,7 @@ proc ProcessIDAT { img chunk } {
 #
 
 proc ProcessIEND { img chunk } {
-    global pngreader
+    global pngreader HOME
 
     status_log "Found an IEND chunk, ending data parsing\n"
 
@@ -230,20 +232,30 @@ proc ProcessIEND { img chunk } {
 	status_log "Finished parsing PNG file with success\nStarting conversion of data\n" red
 	unset pngreader(${img}_data)
 
-	set pngreader(${img}_zlib) [::tclzlib::deflate $pngreader(${img}_IDAT)]
+	status_log "Opening file  [file join $HOME displaypic zlibtemp.dat] for writing\n"
+	set fd [open [file join $HOME displaypic zlibtemp.dat] "w"]
+	fconfigure $fd -translation binary
 
-
+	puts $fd "$pngreader(${img}_IDAT)"
+	close $fd
+	
 	unset pngreader(${img}_IDAT)
+
+	status_log "Stored data\nOpening for reading\n"
+
+	set fd [open [file join $HOME displaypic zlibtemp.dat] "r"]
+	fconfigure $fd -translation binary
+
+	set pngreader(${img}_zlib) [::tclzlib::deflate $fd]
+	status_log "fd = $fd\n\n\n"
+	close $fd
+
+	set time [clock clicks]
 	if { $pngreader(${img}_status) != "ERROR" } {
 	    FilterIDAT $img
 	}
 	unset pngreader(${img}_zlib)
-
-	set idx 0 
-	while { [info exists pngreader(${img}_palette_$idx)] } {
-	    unset pngreader(${img}_palette_$idx)
-	    incr idx
-	}
+	status_log "Time for filtering : [expr [clock clicks] - $time]\n"
 	
 	if { $pngreader(${img}_status) != "ERROR" } {
 	    set pngreader(${img}_status) "END"
@@ -262,42 +274,48 @@ proc ProcessIEND { img chunk } {
 
 proc FilterIDAT { img } {
     global pngreader
+  
+    set time [clock clicks]
 
-    set data $pngreader(${img}_zlib)
+    binary scan $pngreader(${img}_zlib) c*  data 
     set h $pngreader(${img}_height)
-    set w $pngreader(${img}_width)
+    set w [expr $pngreader(${img}_width) + 1]
     set pngreader(${img}_bitmap) [list]
-    status_log "Filtering data of image $img: size : [string length $data]\n"
+    status_log "Filtering data of image $img\n"
     
-    for { set i 0 } { $i < $h} { incr i } {
-#	status_log "line $i : \n[string range $data [expr $i * 97] [expr ($i + 1) * 97]]\n"
-	set out ""
-	binary scan [string range $data [expr $i * ($w + 1 )] [expr $i * ($w + 1)]] c type
-	
-	switch -- $type {
-	    "0" {
-#		status_log "On line $i, got filter 0\n"
-		for { set j 1 } { $j <= $w } { incr j } {
-		    binary scan [string range $data [expr $i * ($w + 1) + $j] [expr $i * ($w + 1) + $j]] c c
-		    set c [expr $c % 256]
-		    binary scan [binary format ccc [lindex $pngreader(${img}_palette_${c}) 0] [lindex $pngreader(${img}_palette_${c}) 1] [lindex $pngreader(${img}_palette_${c}) 2]] H2H2H2 R G B
-		    set out "${out} #${R}${G}${B}"
-		}
-		lappend pngreader(${img}_bitmap) $out
-	    } 
-	    default {
-		status_log "Got Filter $type on line $i -- Not yet supported SKIPPING\n" red
+    set idx -1
 
+    set out ""
+
+
+    status_log "time for the begining : [expr  [clock clicks] - $time]\n"
+
+    foreach color $data {
+	incr idx
+	if { [expr $idx % $w] == 0 } {
+	    if { $color != 0 } {
+		status_log "Got Filter $color on index $idx -- Not yet supported SKIPPING\n" red
+		set pngreader(${img}_status)  "ERROR" 
+		return
 	    }
+	    if {$idx != 0 } {
+		lappend pngreader(${img}_bitmap) $out
+		set out ""
+	    }
+	    continue
 	}
-    }
+       
+	set color [expr $color % 256]
+	set out "${out} #$pngreader(${img}_palette_${color})"
 
-#    status_log "$pngreader(${img}_bitmap)\n"
+    }
 
 }
 
+
 proc testpng { file } {
     reload_files
+    source plugins/tclzlib/tclzlib.tcl
 #    CreatePNG ~/.amsn/gklzyffe_hotmail_com/displaypic/cache/05934554a62565262714736497c4a466c6d45644a45647342496b6d3.png
 
     set im [CreatePNG [GetSkinFile displaypic ${file}.png]] 
@@ -312,6 +330,7 @@ proc testpng { file } {
 proc testpng2 { file } {
     reload_files
 #    CreatePNG ~/.amsn/gklzyffe_hotmail_com/displaypic/cache/05934554a62565262714736497c4a466c6d45644a45647342496b6d3.png
+    source msn/plugins/tclzlib/tclzlib.tcl
 
     set im [CreatePNG [GetSkinFile displaypic ${file}.png]] 
     if {$im != -1} {

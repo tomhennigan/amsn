@@ -58,6 +58,8 @@ namespace eval ::amsn {
 			set tlsplatform "solaris26"
 		} elseif { $tcl_platform(platform) == "windows"} {
 			set tlsplatform "win32"
+		} elseif { $tcl_platform(os) == "Darwin" } {
+		        set tlsplatform "mac"
 		} else {
 			set tlsplatform "src"
 		}
@@ -79,6 +81,7 @@ namespace eval ::amsn {
 		radiobutton .tlsdown.freebsdx86 -text "FreeBSD-x86" -variable tlsplatform -value "freebsdx86" -font splainf
 		radiobutton .tlsdown.solaris26 -text "Solaris 2.6 SPARC" -variable tlsplatform -value "solaris26" -font splainf
 		radiobutton .tlsdown.win32 -text "Windows" -variable tlsplatform -value "win32" -font splainf
+    	        radiobutton .tlsdown.mac -text "Mac OS X" -variable tlsplatform -value "mac" -font splainf
 		radiobutton .tlsdown.src -text "[trans sourcecode]" -variable tlsplatform -value "src" -font splainf
 		radiobutton .tlsdown.nodown -text "[trans dontdownload]" -variable tlsplatform -value "nodown" -font splainf
 
@@ -97,6 +100,7 @@ namespace eval ::amsn {
 		pack .tlsdown.netbsdsparc64 -side top -anchor w -padx 15
 		pack .tlsdown.freebsdx86 -side top -anchor w -padx 15
 		pack .tlsdown.solaris26 -side top -anchor w -padx 15
+		pack .tlsdown.mac -side top -anchor w -padx 15
 		pack .tlsdown.win32 -side top -anchor w -padx 15
 		pack .tlsdown.src -side top -anchor w -padx 15
 		pack .tlsdown.nodown -side top -anchor w -padx 15
@@ -142,6 +146,9 @@ namespace eval ::amsn {
 				"win32" {
 					set downloadurl "$baseurl.exe"
 				}
+			        "mac" {
+				    set downloadurl "[string range $baseurl 0 end-3]5.0-mac.tar.gz"
+				}				
 				"src" {
 					set downloadurl "$baseurl-src.tar.gz"
 				}
@@ -209,6 +216,7 @@ namespace eval ::amsn {
 			"netbsdx86" -
 			"netbsdsparc64" -
 			"freebsdx86" -
+		        "mac" -
 			"win32" {
 				if { [catch {
 					set file_id [open [file join $files_dir $fname] w]
