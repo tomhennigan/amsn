@@ -1002,8 +1002,6 @@ proc cmsn_draw_msgwin {} {
    .${win_name}.menu add cascade -label "[trans msn]" -menu .${win_name}.menu.msn
    .${win_name}.menu add cascade -label "[trans view]" -menu .${win_name}.menu.view
    .${win_name}.menu add cascade -label "[trans actions]" -menu .${win_name}.menu.actions
-   .${win_name}.menu add cascade -label "[trans invite]" -menu .${win_name}.menu.invite \
-      -state disabled   
 
    menu .${win_name}.menu.msn -tearoff 0 -type normal  
    .${win_name}.menu.msn add command -label "[trans save]" \
@@ -1025,16 +1023,24 @@ proc cmsn_draw_msgwin {} {
    .${win_name}.menu.view add separator
    .${win_name}.menu.view add checkbutton -label "[trans chatsmileys]" \
      -onvalue 1 -offvalue 0 -variable config(chatsmileys)
-
+   
    menu .${win_name}.menu.actions -tearoff 0 -type normal  
+   .${win_name}.menu.actions add command -label [trans addtocontacts] -command "" -state disabled
+   .${win_name}.menu.actions add command -label [trans block] -command "" -state disabled
+   .${win_name}.menu.actions add command -label [trans seeprofile] -command "" -state disabled
+   .${win_name}.menu.actions add command -label [trans propierties] -command "" -state disabled
+   .${win_name}.menu.actions add separator
+   .${win_name}.menu.actions add cascade -label [trans invite] -menu .${win_name}.menu.actions.invite
+   .${win_name}.menu.actions add command -label "[trans sendfile]..." \
+      -command "::amsn::fileTransferSend ${name} ${name} " 
+   .${win_name}.menu.actions add separator
+   .${win_name}.menu.actions add command -label [trans sendmail] -command "" -state disabled
+   menu .${win_name}.menu.actions.invite -tearoff 0 -type normal 
+   .${win_name}.menu.actions.invite add separator
+   .${win_name}.menu.actions.invite add command -label "[trans other]..." -state disabled
 
-
-   menu .${win_name}.menu.invite -tearoff 0 -type normal 
-#by AIM Sirve para algo?
-   .${win_name}.menu.invite add separator
-   .${win_name}.menu.invite add command -label "Otro..." -state disabled
-#end AIM
-   bind .${win_name}.menu <Enter> "cmsn_msgwin_umenu $name"
+   
+   bind .${win_name}.menu.actions <Enter> "cmsn_msgwin_umenu $name"
 
    .${win_name} conf -menu .${win_name}.menu
 
@@ -1594,9 +1600,9 @@ proc cmsn_msgwin_umenu {name} {
    global list_users
    set win_name "msg_[string tolower ${name}]"
 
-   .${win_name}.menu.invite delete 0 end
-   .${win_name}.menu.invite add separator
-   .${win_name}.menu.invite add command -label "[trans other]..." -state disabled
+   .${win_name}.menu.actions.invite delete 0 end
+   .${win_name}.menu.actions.invite add separator
+   .${win_name}.menu.actions.invite add command -label "[trans other]..." -state disabled
 
    foreach user_info $list_users {
       set user_login [lindex $user_info 0]
@@ -1604,7 +1610,7 @@ proc cmsn_msgwin_umenu {name} {
       if {($user_state_no < 7) && 
           ([sb search $name users "$user_login *"] == -1)} {
          set user_name [lindex $user_info 1]
-	 .${win_name}.menu.invite insert 0 command \
+	 .${win_name}.menu.actions.invite insert 0 command \
             -command "cmsn_invite_user $name $user_login;puts $user_login" \
 	    -label "$user_name <$user_login>"
       }
