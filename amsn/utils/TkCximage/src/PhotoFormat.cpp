@@ -1,235 +1,256 @@
 /*
-		File : TkCximage.cpp
+  File : TkCximage.cpp
 
-		Description :	Contains all functions for the Tk extension for the CxImage utility
+  Description :	Contains all functions for the Tk extension for the CxImage utility
 
-		Author : Youness El Alaoui (KaKaRoTo - kakaroto@users.sourceforge.net)
+  Author : Youness El Alaoui (KaKaRoTo - kakaroto@users.sourceforge.net)
 */
 
 
 
 
 static int ChanMatch (Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format,int *widthPtr,
-					  int *heightPtr, Tcl_Interp *interp) 
+		      int *heightPtr, Tcl_Interp *interp) 
 {
-	CxImage image;
+  CxImage image;
 
 
-	if (image.Load(fileName, CXIMAGE_FORMAT_UNKNOWN)) {
-		*widthPtr = image.GetWidth();
-		*heightPtr = image.GetHeight();
-		return true;
-	} 
+  if (image.Load(fileName, CXIMAGE_FORMAT_UNKNOWN)) {
+    *widthPtr = image.GetWidth();
+    *heightPtr = image.GetHeight();
+    return true;
+  } 
 
-	return false;
+  return false;
 }
 					  
 					  
 static int ObjMatch (Tcl_Obj *data, Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl_Interp *interp) {
 
-	BYTE * buffer = NULL;
-	int length = 0;
+  BYTE * buffer = NULL;
+  int length = 0;
 
-	CxImage image;
+  CxImage image;
 
-	buffer = Tcl_GetByteArrayFromObj(data, &length);
+  buffer = Tcl_GetByteArrayFromObj(data, &length);
 
-	if (image.Decode(buffer, length, CXIMAGE_FORMAT_GIF)) {
-		*widthPtr = image.GetWidth();
-		*heightPtr = image.GetHeight();
-		return true;
-	} 	
-	if (image.Decode(buffer, length, CXIMAGE_FORMAT_PNG)) {
-		*widthPtr = image.GetWidth();
-		*heightPtr = image.GetHeight();
-		return true;
-	} 
-	if (image.Decode(buffer, length, CXIMAGE_FORMAT_JPG)) {
-		*widthPtr = image.GetWidth();
-		*heightPtr = image.GetHeight();
-		return true;
-	} 
-	if (image.Decode(buffer, length, CXIMAGE_FORMAT_TGA)) {
-		*widthPtr = image.GetWidth();
-		*heightPtr = image.GetHeight();
-		return true;
-	} 
-	if (image.Decode(buffer, length, CXIMAGE_FORMAT_BMP)) {
-		*widthPtr = image.GetWidth();
-		*heightPtr = image.GetHeight();
-		return true;
-	} 
+  if (image.Decode(buffer, length, CXIMAGE_FORMAT_GIF)) {
+    *widthPtr = image.GetWidth();
+    *heightPtr = image.GetHeight();
+    return true;
+  } 	
+  if (image.Decode(buffer, length, CXIMAGE_FORMAT_PNG)) {
+    *widthPtr = image.GetWidth();
+    *heightPtr = image.GetHeight();
+    return true;
+  } 
+  if (image.Decode(buffer, length, CXIMAGE_FORMAT_JPG)) {
+    *widthPtr = image.GetWidth();
+    *heightPtr = image.GetHeight();
+    return true;
+  } 
+  if (image.Decode(buffer, length, CXIMAGE_FORMAT_TGA)) {
+    *widthPtr = image.GetWidth();
+    *heightPtr = image.GetHeight();
+    return true;
+  } 
+  if (image.Decode(buffer, length, CXIMAGE_FORMAT_BMP)) {
+    *widthPtr = image.GetWidth();
+    *heightPtr = image.GetHeight();
+    return true;
+  } 
 
-	return false;
+  return false;
 }
 
 static int ChanRead (Tcl_Interp *interp, Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
-					 int destX, int destY, int width, int height, int srcX, int srcY) 
+		     int destX, int destY, int width, int height, int srcX, int srcY) 
 {
-	CxImage image;
+  CxImage image;
 
 
-	if (!image.Load(fileName, CXIMAGE_FORMAT_UNKNOWN))
-		return TCL_ERROR;
-	else
-        return ImageRead(interp, image, imageHandle, destX, destY, width, height, srcX, srcY);
+  if (!image.Load(fileName, CXIMAGE_FORMAT_UNKNOWN))
+    return TCL_ERROR;
+  else
+    return ImageRead(interp, image, imageHandle, destX, destY, width, height, srcX, srcY);
 
 }
 
 static int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
-					int destX, int destY, int width, int height, int srcX, int srcY) 
+		    int destX, int destY, int width, int height, int srcX, int srcY) 
 {
-	BYTE * buffer = NULL;
-	int length = 0;
+  BYTE * buffer = NULL;
+  int length = 0;
 
-	CxImage image;
+  CxImage image;
 
-	buffer = Tcl_GetByteArrayFromObj(data, &length);
+  buffer = Tcl_GetByteArrayFromObj(data, &length);
 
-	if (! image.Decode(buffer, length, CXIMAGE_FORMAT_GIF) && 
-		! image.Decode(buffer, length, CXIMAGE_FORMAT_PNG) && 
-		! image.Decode(buffer, length, CXIMAGE_FORMAT_JPG) &&
-	    ! image.Decode(buffer, length, CXIMAGE_FORMAT_TGA) &&
-		! image.Decode(buffer, length, CXIMAGE_FORMAT_BMP)) 
-		return TCL_ERROR;
-	else
-		return ImageRead(interp, image, imageHandle, destX, destY, width, height, srcX, srcY);
+  if (! image.Decode(buffer, length, CXIMAGE_FORMAT_GIF) && 
+      ! image.Decode(buffer, length, CXIMAGE_FORMAT_PNG) && 
+      ! image.Decode(buffer, length, CXIMAGE_FORMAT_JPG) &&
+      ! image.Decode(buffer, length, CXIMAGE_FORMAT_TGA) &&
+      ! image.Decode(buffer, length, CXIMAGE_FORMAT_BMP)) 
+    return TCL_ERROR;
+  else
+    return ImageRead(interp, image, imageHandle, destX, destY, width, height, srcX, srcY);
 }
 
 static int ImageRead(Tcl_Interp *interp, CxImage image, Tk_PhotoHandle imageHandle, int destX, int destY,
-					 int width, int height, int srcX, int srcY) 
+		     int width, int height, int srcX, int srcY) 
 {
 
-	BYTE * buffer = NULL;
-	BYTE * pixelPtr = NULL;
-	long size = 0;
+  BYTE * buffer = NULL;
+  BYTE * pixelPtr = NULL;
+  long size = 0;
 
 
-	if(!image.Crop(srcX, srcY, srcX + width, srcY + height)) {
-		Tcl_AppendResult(interp, image.GetLastError(), NULL);
-		return TCL_ERROR;
-	}
-	if(!image.Flip()) {
-		Tcl_AppendResult(interp, image.GetLastError(), NULL);
-		return TCL_ERROR;
-	}
-	if(!image.Encode2RGBA(buffer, size)) {
-		Tcl_AppendResult(interp, image.GetLastError(), NULL);
-		return TCL_ERROR;
-	}
+  if(!image.Crop(srcX, srcY, srcX + width, srcY + height)) {
+    Tcl_AppendResult(interp, image.GetLastError(), NULL);
+    return TCL_ERROR;
+  }
+  if(!image.Flip()) {
+    Tcl_AppendResult(interp, image.GetLastError(), NULL);
+    return TCL_ERROR;
+  }
+  if(!image.Encode2RGBA(buffer, size)) {
+    Tcl_AppendResult(interp, image.GetLastError(), NULL);
+    return TCL_ERROR;
+  }
 
-	pixelPtr = (BYTE *) malloc(size);
-	memcpy(pixelPtr, buffer, size);
+  pixelPtr = (BYTE *) malloc(size);
+  memcpy(pixelPtr, buffer, size);
 
-	Tk_PhotoImageBlock block = {
-		pixelPtr,		// pixel ptr
-		width,
-		height,
-		width*4,	// pitch : number of bytes separating 2 adjacent pixels vertically
-		4,			// pixel size : size in bytes of one pixel .. 4 = RGBA
-	};
+  Tk_PhotoImageBlock block = {
+    pixelPtr,		// pixel ptr
+    width,
+    height,
+    width*4,	// pitch : number of bytes separating 2 adjacent pixels vertically
+    4,			// pixel size : size in bytes of one pixel .. 4 = RGBA
+  };
 
-	block.offset[0] = 0;
-	block.offset[1] = 1;
-	block.offset[2] = 2;
+  block.offset[0] = 0;
+  block.offset[1] = 1;
+  block.offset[2] = 2;
 
-	if (image.AlphaIsValid()) 
-		block.offset[3] = 3;
+  if (image.AlphaIsValid()) 
+    block.offset[3] = 3;
 
 #if TK_MINOR_VERSION == 4
-	Tk_PhotoPutBlock(imageHandle, &block, destX, destY, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
+  Tk_PhotoPutBlock(imageHandle, &block, destX, destY, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
 #else 
 #if TK_MINOR_VERSION == 5
-	Tk_PhotoPutBlock((Tcl_Interp *) NULL, imageHandle, &block, destX, destY, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
+  Tk_PhotoPutBlock((Tcl_Interp *) NULL, imageHandle, &block, destX, destY, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
 #endif
 #endif
 
-	image.FreeMemory(buffer);
+  image.FreeMemory(buffer);
 
-	return TCL_OK;
+  return TCL_OK;
 }
 
 static int ChanWrite (Tcl_Interp *interp, CONST char *fileName, Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr) {
 
-	CxImage image;
-	int Type = CXIMAGE_FORMAT_UNKNOWN;
-	char * cxFormat = NULL;
+  CxImage image;
+  int Type = CXIMAGE_FORMAT_UNKNOWN;
+  char * cxFormat = NULL;
+  int alpha = 0;
+  BYTE * pixelPtr = NULL;
 
-	if (format) {
-		cxFormat = Tcl_GetStringFromObj(format, NULL);
-		Type = GetFileTypeFromFormat(cxFormat);
-	} 
+  if (format) {
+    cxFormat = Tcl_GetStringFromObj(format, NULL);
+    Type = GetFileTypeFromFormat(cxFormat);
+  } 
 
-	if (Type == CXIMAGE_FORMAT_UNKNOWN) {
-		Type = GetFileTypeFromFileName((char *) fileName);
-	}
+  if (Type == CXIMAGE_FORMAT_UNKNOWN) {
+    Type = GetFileTypeFromFileName((char *) fileName);
+  }
 
-	if (Type == CXIMAGE_FORMAT_UNKNOWN) {
-		Type = CXIMAGE_FORMAT_GIF;
-	}
+  if (Type == CXIMAGE_FORMAT_UNKNOWN) {
+    Type = CXIMAGE_FORMAT_GIF;
+  }
 
-	RGB2BGR(blockPtr);
+  //printf("0 : %d\n1 : %d\n2 : %d\n3 : %d\n", blockPtr->offset[0], blockPtr->offset[1], blockPtr->offset[2], blockPtr->offset[3]);
 
-	if(!image.CreateFromArray(blockPtr->pixelPtr, blockPtr->width, blockPtr->height, 
-		8 * blockPtr->pixelSize, blockPtr->pitch, true))
-	{
-		Tcl_AppendResult(interp, image.GetLastError(), NULL);
-		return TCL_ERROR;
-	}
+  pixelPtr = (BYTE *) malloc(blockPtr->width * blockPtr->height * blockPtr->pixelSize);
 
+  if (RGB2BGR(blockPtr, pixelPtr)) {
+    alpha = 1;
+  }
 
-	if (Type == CXIMAGE_FORMAT_GIF) 
-		image.DecreaseBpp(8, true);
+  if(!image.CreateFromArray(pixelPtr, blockPtr->width, blockPtr->height, 
+			    8 * blockPtr->pixelSize, blockPtr->pitch, true))
+    {
+      free(pixelPtr);
+      Tcl_AppendResult(interp, image.GetLastError(), NULL);
+      return TCL_ERROR;
+    }
 
-	if (!image.Save(fileName, Type)) {
-		Tcl_AppendResult(interp, image.GetLastError(), NULL);
-		return TCL_ERROR;
-	}
+  free(pixelPtr);
+  if (alpha == 0)
+    image.AlphaDelete();
 
-	return TCL_OK;
+  if (Type == CXIMAGE_FORMAT_GIF) 
+    image.DecreaseBpp(8, true);
+
+  if (!image.Save(fileName, Type)) {
+    Tcl_AppendResult(interp, image.GetLastError(), NULL);
+    return TCL_ERROR;
+  }
+
+  return TCL_OK;
 }
 
 static int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr) {
 
-	BYTE * buffer = NULL;
-	long size = 0;
-	int Type = CXIMAGE_FORMAT_UNKNOWN;
-	char * cxFormat = NULL;
-	CxImage image;
+  BYTE * buffer = NULL;
+  long size = 0;
+  int Type = CXIMAGE_FORMAT_UNKNOWN;
+  char * cxFormat = NULL;
+  BYTE * pixelPtr = NULL;
+  int alpha = 0;
+  CxImage image;
 
-	if (format) {
-		cxFormat = Tcl_GetStringFromObj(format, NULL);
-		Type = GetFileTypeFromFormat(cxFormat);
-	} 
+  if (format) {
+    cxFormat = Tcl_GetStringFromObj(format, NULL);
+    Type = GetFileTypeFromFormat(cxFormat);
+  } 
 	
-	if (Type == CXIMAGE_FORMAT_UNKNOWN) {
-		Type = CXIMAGE_FORMAT_GIF;
-	}
+  if (Type == CXIMAGE_FORMAT_UNKNOWN) {
+    Type = CXIMAGE_FORMAT_GIF;
+  }
 
-	RGB2BGR(blockPtr);
+  pixelPtr = (BYTE *) malloc(blockPtr->width * blockPtr->height * blockPtr->pixelSize);
 
-	if(!image.CreateFromArray(blockPtr->pixelPtr, blockPtr->width, blockPtr->height, 
-		8 * blockPtr->pixelSize, blockPtr->pitch, true)) 
-	{
-		Tcl_AppendResult(interp, image.GetLastError(), NULL);
-		return TCL_ERROR;
-	}
+  if (RGB2BGR(blockPtr, pixelPtr)) {
+    alpha = 1;
+  }
 
+  if(!image.CreateFromArray(pixelPtr, blockPtr->width, blockPtr->height, 
+			    8 * blockPtr->pixelSize, blockPtr->pitch, true)) 
+    {
+      free(pixelPtr);
+      Tcl_AppendResult(interp, image.GetLastError(), NULL);
+      return TCL_ERROR;
+    }
+  
+  free(pixelPtr);
+  if (alpha == 0)
+    image.AlphaDelete();
 
-
-	if (Type == CXIMAGE_FORMAT_GIF)
-		image.DecreaseBpp(8, true);
+  if (Type == CXIMAGE_FORMAT_GIF)
+    image.DecreaseBpp(8, true);
 
 		
-	if (!image.Encode(buffer, size, Type) ) {		
-		Tcl_AppendResult(interp, image.GetLastError(), NULL);
-		return TCL_ERROR;
-	}
+  if (!image.Encode(buffer, size, Type) ) {		
+    Tcl_AppendResult(interp, image.GetLastError(), NULL);
+    return TCL_ERROR;
+  }
 
-	Tcl_ResetResult(interp);
-	Tcl_AppendResult(interp, buffer);
+  Tcl_ResetResult(interp);
+  Tcl_AppendResult(interp, buffer);
 
-	image.FreeMemory(buffer);
+  image.FreeMemory(buffer);
 
-	return TCL_OK;
+  return TCL_OK;
 }

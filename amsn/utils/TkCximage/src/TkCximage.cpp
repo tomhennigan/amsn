@@ -13,16 +13,37 @@
 #include "procs.cpp"
 
 
-void RGB2BGR(Tk_PhotoImageBlock *data) {
+int RGB2BGR(Tk_PhotoImageBlock *data, BYTE * pixelPtr) {
 	int i;
-	BYTE temp;
+	BYTE r, g, b, a;
 	int size = data->height * data->width * data->pixelSize;
 
-	for (i = 0; i < size; i+= data->pixelSize) {
-		temp = *(data->pixelPtr + i + data->offset[0]);
-		*(data->pixelPtr + i + data->offset[0]) = *(data->pixelPtr + i + data->offset[2]);
-		*(data->pixelPtr + i + data->offset[2]) = temp;
+	int alpha = data->offset[3];
+
+	if (alpha == data->offset[0] || alpha == data->offset[1] || alpha == data->offset[2]) {
+	  alpha = 0;
+	} else {
+	  alpha = 1;
 	}
+
+	//printf("alpha : %d\n", alpha);
+
+	for (i = 0; i < size; i+= data->pixelSize) {
+		r = *(data->pixelPtr + i + data->offset[0]);
+		g = *(data->pixelPtr + i + data->offset[1]);
+		b = *(data->pixelPtr + i + data->offset[2]);
+		a = *(data->pixelPtr + i + data->offset[3]);
+		*(pixelPtr + i ) = b;
+		*(pixelPtr + i + 1) = g;
+		*(pixelPtr + i + 2) = r;
+		if ( alpha == 1) {
+		  *(pixelPtr + i + 3) = a;
+		} else {
+		  *(pixelPtr + i + 3) = 255;
+		}
+	}
+ 
+	return alpha;
 
 }
 

@@ -10,7 +10,7 @@ TK_LIB_SPEC 	= @TK_LIB_SPEC@
 
 NAME		= @NAME@
 
-SOURCE 		= ${NAME}.cpp
+SOURCES		= TkCximage.cpp procs.cpp PhotoFormat.cpp
 OBJECTS 	= ${NAME}.o
 OUTPUT		= @TKCXIMAGE_FILE@
 
@@ -41,6 +41,7 @@ all : CxImage/libCxImage.a zlib/libzlib.a png/libpng.a jpeg/libjpeg.a ${OUTPUT}
 ${OUTPUT}: ${OBJECTS}
 	${SHLIB_LD} $< $(LIBSN) -o $@
 
+${OBJECTS} : ${SOURCES} 
 
 CxImage/libCxImage.a:
 	cd CxImage && make && cd ..

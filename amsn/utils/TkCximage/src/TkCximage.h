@@ -66,7 +66,7 @@ static int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock 
 
 int GetFileTypeFromFileName(char * Filename);
 int GetFileTypeFromFormat(char * Format);
-void RGB2BGR(Tk_PhotoImageBlock *data);
+int RGB2BGR(Tk_PhotoImageBlock *data, BYTE * pixelPtr);
 
 // External functions
 EXTERN int Tkcximage_Init _ANSI_ARGS_((Tcl_Interp *interp));
