@@ -147,6 +147,8 @@ namespace eval ::abook {
 	proc clearData {} {
 		variable users_data		
 		array unset users_data *
+		variable volatile_users_data		
+		array unset volatile_users_data *
 		unsetConsistent
 	}
 
@@ -177,7 +179,33 @@ namespace eval ::abook {
 		#We store the array as a plain list, as we can't have an array of arrays
 		set users_data($user_login) [array get user_data]
 	}
+
+	#Sets some volatile data to a user. Volatile data won't be written to disk
+	#user_login: the user_login you want to set data to
+	#field: the field you want to set
+	#data: the data that will be contained in the given field
+	proc setVolatileData { user_login field data } {
+		variable users_volatile_data
+		
+		if { [info exists users_volatile_data($user_login)] } {
+			array set volatile_data $users_volatile_data($user_login)
+		} else {
+			array set volatile_data [list]
+		}
+		
+		if { $data == "" } {
+			if { [info exists volatile_data($field)] } {
+				unset volatile_data($field)
+			}
+		} else { 
+			set volatile_data($field) $data
+		}
+		
+		#We store the array as a plain list, as we can't have an array of arrays
+		set users_volatile:data($user_login) [array get volatile_data]
+	}
 	
+		
 	proc getContactData { user_login field } {
 		variable users_data
 		
@@ -195,6 +223,24 @@ namespace eval ::abook {
 		return $user_data($field)
 		
 	}
+	
+	proc getVolatileData { user_login field } {
+		variable volatile_users_data
+		
+		if { ![info exists volatile_users_data($user_login)] } {
+			status_log "::abook::getVolatileData: ERROR! User doesn't exist in abook!\n" red
+			return ""
+		}
+
+		array set user_data $volatile_users_data($user_login)		
+				
+		if { ![info exists user_data($field)] } {
+			return ""
+		}
+		
+		return $user_data($field)
+		
+	}	
 	
 	proc getAllContacts { } {
 		variable users_data
@@ -292,10 +338,10 @@ namespace eval ::abook {
 		variable users_data
 		
 		if { $filename == "" } {
-			set filename [file join $HOME abook]
+			set filename [file join $HOME abook.xml]
 		}
 		
-		set file_id [open ${filename}.xml w]
+		set file_id [open $filename w]
 
 		fconfigure $file_id -encoding utf-8
 
@@ -306,9 +352,9 @@ namespace eval ::abook {
 
 			array set temp_array $users_data($user)
 			foreach field [array names temp_array] {
-				puts -nonewline $file_id "\t<field name=\"[::sxml::xmlreplace $field]\">"
+				puts -nonewline $file_id "\t<$field>"
 				puts -nonewline $file_id "[::sxml::xmlreplace $temp_array($field)]"	
-				puts $file_id "</field>"				
+				puts $file_id "</$field>"				
 			}
 			puts $file_id "</contact>"
 		}
@@ -317,7 +363,65 @@ namespace eval ::abook {
 	}
 	
 	proc loadFromDisk { {filename ""} } {
+	
+		global HOME
+		
+		if { $filename == "" } {
+			set filename [file join $HOME abook.xml]
+		}
+		
+		if {[file readable $filename] == 0} {
+			return -1
+		}
+		
+		status_log "Loading address book data...\n" blue
+		set abook_id [::sxml::init $filename]
+		sxml::register_routine $abook_id "AMSN_AddressBook:contact" "::abook::loadXMLContact"
+				
+		set ret -1
+		
+		clearData
+		
+		catch {
+			set ret [sxml::parse $abook_id]
+		}
+	
+		sxml::end $abook_id			
+		if { $ret < 0 } {
+			clearData
+			status_log "::abook::loadFromDisk Error\n" red
+			return $ret
+		} else {			
+			status_log "Address book data loaded...\n" green
+			setConsistent
+			return 0
+		}
 	}
+	
+	proc loadXMLContact {cstack cdata saved_data cattr saved_attr args } {
+		variable users_data
+		upvar $saved_data sdata 
+		upvar $saved_attr sattr
+		
+		array set attr $cattr
+		
+		set parentlen [string length $cstack]
+		foreach child [array names sattr] {
+			if { $child == "_dummy_" } {
+				continue
+			}
+			set fieldname [string range $child [expr {$parentlen+1}] end]
+			#Remove this. Only leave it for some days to remove old ::abook stored data
+			if { $fieldname == "field" } {
+				continue
+			}
+			setContactData $attr(name) $fieldname $sdata($child)
+		}
+		
+		return 0	
+		
+	}
+	
 
 }
 

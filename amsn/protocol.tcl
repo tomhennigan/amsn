@@ -3042,8 +3042,8 @@ proc cmsn_change_state {recv} {
 		set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj]]
 		
 		::abook::setContactData $user nick $user_name
-		::abook::setContactData $user state $substate
-		::abook::setContactData $user msnobj $msnobj
+		::abook::setVolatileData $user state $substate
+		::abook::setVolatileData $user msnobj $msnobj
 
 		#status_log "old is $oldmsnobj new is $msnobj\n"
 		if { $oldmsnobj != $msnobj} {
@@ -3533,7 +3533,10 @@ proc cmsn_auth {{recv ""}} {
 
 			save_config						;# CONFIG
 			::config::saveGlobal
-			::abook::loadFromDisk
+			if { [::abook::loadFromDisk] < 0 } {
+				::abook::clearData
+				::abook::setConsistent
+			}
 			load_contact_list
 
 			#We need to wait until the SYN reply comes, or we can send the CHG request before
