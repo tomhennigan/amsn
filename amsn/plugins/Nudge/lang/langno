@@ -1,0 +1,13 @@
+amsn_lang_version 2
+shake_receive Rist vinduet når du mottar en nudge
+shake_send Rist vinduet når du sender en nudge
+shake_nudge Rist per nudge
+popup_nudge Varsle om nudges i popup-vinduer
+notify_send Varsle om sente nudges i chattevinduet
+notify_receive Varsle om mottatte nudges i chattevinduet
+sound_send Spill av en lyd når du sender en nudge
+sound_receive Spill av en lyd når du mottar en nudge.
+add_button Legg til en knapp for å sende nudges i chattevinduet
+send_nudge Send nudge
+no_nudge_support Du kan ikke sende en nudge til kontakten, fordi han eller henne ikke bruker en klient som støtter nudges
+nudge_sent Du har akkurat sent en nudge
