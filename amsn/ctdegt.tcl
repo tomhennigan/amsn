@@ -189,7 +189,7 @@ proc degt_ns_command_win {} {
 
 
 if { $initialize_amsn == 1 } {
-	global myconfig proxy_server proxy_port
+	global myconfig proxy_server proxy_port proxy_user proxy_pass
 	
 	###################### Preferences Window ###########################
 	array set myconfig {}   ; # configuration backup
