@@ -1,12 +1,13 @@
-shake_receive Dürtükleme alýnýnca pencereyi titret
-shake_send Dürtükleme gönderirken pencereyi titret
-shake_nudge Dürtüklemedeki pencere titreþim sayýsý
-popup_nudge Dürtüklemelerde uyarý penceresi çýksýn
-notify_send Dürtükleme gönderince sohbet penceresinde belirt
-notify_receive Dürtükleme alýnýnca sohbet penceresinde belirt
-sound_send Dürtükleme gönderirken ses çýkar
-sound_receive Dürtükleme alýnýnca ses çýkar
-add_button Sohbet penceresine dürtükleme gönderme düðmesi ekle
-send_nudge Dürtükle!
-no_nudge_support Baðlantýnýzýn istemcisi desteklemediði için dürtükleme gönderilemedi.
-nudge_sent Dütükleme gönderdiniz.
+shake_receive Titreþim alýnýnca pencereyi titret
+shake_send Titreþim gönderirken pencereyi titret
+shake_nudge Pencere titreþim sayýsý
+popup_nudge Titreþimlerde uyarý penceresi çýksýn
+notify_send Titreþim gönderince sohbet penceresinde belirt
+notify_receive Titreþim alýnýnca sohbet penceresinde belirt
+sound_send Titreþim gönderirken ses çýkar
+sound_receive Titreþim alýnýnca ses çýkar
+add_button Sohbet penceresine titreþim gönderme düðmesi ekle
+send_nudge Titreþim gönder!
+no_nudge_support Baðlantýnýzýn istemcisi desteklemediði için titreþim gönderilemedi.
+nudge_sent Titreþim gönderdiniz.
+
