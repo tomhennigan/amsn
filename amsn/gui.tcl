@@ -6009,9 +6009,9 @@ proc amsn_update { new_version } {
 	.update.q configure -text "Downloading new amsn version. Please Wait..."
 	#code the new amsn version url
 	set new_version [string replace $new_version 1 1 "_"]
-	append amsn_url "http://aleron.dl.sourceforge.net/sourceforge/amsn/amsn-" $new_version
-	if { $::tcl_platform(platform)=="mac" } {
-		append amsn_url ".dgm"
+	append amsn_url "http://aleron.dl.sourceforge.net/sourceforge/amsn/amsn-" 0-94
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		append amsn_url ".dmg"
 	} else {
 		if { $::tcl_platform(platform)=="windows" } {
 			append amsn_url ".exe"
