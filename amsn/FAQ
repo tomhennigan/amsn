@@ -120,6 +120,27 @@ time.
 This option cannot be changed with the Preferences window. This might be added
 at some time in the future.
 
+Q: Blocking detection doesn't work fine, why?
+A:Hi, the blocking detection is not 100% effective. It has two ways of guessing
+who is blocking you. On the first one, tt just tries to check if a user
+really goes offline, or blocks you, when he apparently goes offline. The other
+way "polls" some apparently offline users in your contact list, every certain amount
+of time (for example 5 seconds). It can't be done too fast, or the server will ban you
+because of flooding.
+The detection is based on a protocol failure. If you invite an offline user to a chat,
+and the user is really offline, it will return an error code. If the user is online, but
+blocking you, it will return another code.
+If you want to be sure, the best way is right click on the "apparently" offline contact,
+and choose "send message". Then, it will open a chat window, and on the status bar you
+will see:
+ "User is offline"
+or:
+ "User is online but blocking you"
+Depending on what really happens. Again, you can only detect it if the user is online
+and blocking you. If the user is offline, you won't know.
+
+Greets.
+
 
 TROUBLESHOOTING
 ===============
