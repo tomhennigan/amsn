@@ -796,7 +796,7 @@ namespace eval ::MSN {
 
    proc connect { username password } {
 
-      global config tlsinstalled
+      global config tlsinstalled login_passport_url
 
       if { $config(protocol) == 9 && $tlsinstalled == 0 && [checking_package_tls] == 0 && $config(nossl) == 0} {
          ::amsn::installTLS
@@ -825,8 +825,14 @@ namespace eval ::MSN {
 		}
 
 
-
-      cmsn_ns_connect $username $password
+		set login_passport_url 0
+		if { $config(nossl) == 1 || ($config(connectiontype) != "direct" && $config(connectiontype) != "http") } {
+			set login_passport_url "https://login.passport.com/login2.srf"
+		} else {
+			set login_passport_url 0
+			after 500 "catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command gotNexusReply}"
+		}
+		cmsn_ns_connect $username $password
 
    }
 
@@ -1078,7 +1084,7 @@ namespace eval ::MSN {
 
       if {($config(keepalive) == 1) && ($config(connectiontype) == "direct")} {
         after cancel "::MSN::PollConnection"
-      	after 60000 "::MSN::PollConnection"	
+      	after 60000 "::MSN::PollConnection"
       } else {
       	after cancel "::MSN::PollConnection"
       }
@@ -1216,27 +1222,27 @@ namespace eval ::MSN {
    proc CloseSB { sbn } {
 
       status_log "::MSN::CloseSB $sbn Called\n" green
-            
+
       catch {fileevent [sb get $sbn sock] readable "" } res
       catch {fileevent [sb get $sbn sock] writable "" } res
 
       #If we keep it here we have problems, specially the proc_ns one (can't connect)
       #if { $sbn == "ns" } {
-      #   proc_ns      
+      #   proc_ns
       #} else {
       #   proc_sb
       #}
-      
+
       set oldstat [sb get $sbn stat]
       set oldsock [sb get $sbn sock]
-            
-      sb set $sbn stat "d"         
+
+      sb set $sbn stat "d"
       sb set $sbn sock ""
-        
-      catch {close $oldsock} res      
+
+      catch {close $oldsock} res
 
       if { $sbn == "ns" } {
-	  
+
          status_log "Closing NS socket! (stat= $oldstat)\n" red
          if { ("$oldstat" != "d") && ("$oldstat" != "u") } {
             logout
@@ -1252,19 +1258,19 @@ namespace eval ::MSN {
 	 }
 
 	 if { ("$oldstat"=="o") } {
-	    set error_msg [sb get ns error_msg]	    
+	    set error_msg [sb get ns error_msg]
 	    if { $error_msg != "" } {
 	       msg_box "[trans connectionlost]: [sb get ns error_msg]"
 	    } else {
 	       msg_box "[trans connectionlost]"
 	    }
 	 }
-	 
-	 	 	       
+
+
       } else {
-      
+
          proc_sb
-  
+
          CheckKill $sbn
 	 
       }
@@ -3220,7 +3226,7 @@ proc cmsn_ns_handler {item} {
 	  return 0
       }
       500 {
-	  ::MSN::logout          
+	  ::MSN::logout
 	  status_log "Error: Internal server error\n" red
 	  ::amsn::errorMsg "[trans internalerror]"
           return 0
@@ -3323,7 +3329,7 @@ proc cmsn_listdel {recv} {
 proc cmsn_auth {{recv ""}} {
    global config list_version protocol
 
-   status_log "cmsn_auth starting for protocol $protocol\n" blue
+   status_log "cmsn_auth starting for protocol $protocol, stat=[sb get ns stat]\n" blue
 
     if {($protocol == "9") && ([info exist recv])} { return [cmsn_auth_msnp9 $recv]}
     if {($protocol == "9") && (![info exist recv])} { return [cmsn_auth_msnp9]}
@@ -3448,22 +3454,30 @@ proc msnp9_auth_error {} {
 
 }
 
-proc gotNexusReply {str token {total 0} {current 0}} {
+proc gotNexusReply {token {total 0} {current 0}} {
+	global login_passport_url
 	if { [::http::status $token] != "ok" || [::http::ncode $token ] != 200 } {
-		::http::cleanup $token
+		set loginurl "https://login.passport.com/login2.srf"
 		status_log "gotNexusReply: error in nexus reply, getting url manually\n" red
-		msnp9_do_auth $str "https://login.passport.com/login2.srf"
-		return
-	}
-	upvar #0 $token state
+		#msnp9_do_auth $str "https://login.passport.com/login2.srf"
+	} else {
+		upvar #0 $token state
 
-	set index [expr {[lsearch $state(meta) "PassportURLs"]+1}]
-	set values [split [lindex $state(meta) $index] ","]
-	set index [lsearch $values "DALogin=*"]
-	set loginurl "https://[string range [lindex $values $index] 8 end]"
-	status_log "gotNexusReply: loginurl=$loginurl\n" green
+		set index [expr {[lsearch $state(meta) "PassportURLs"]+1}]
+		set values [split [lindex $state(meta) $index] ","]
+		set index [lsearch $values "DALogin=*"]
+		set loginurl "https://[string range [lindex $values $index] 8 end]"
+		status_log "gotNexusReply: loginurl=$loginurl\n" green
+	}
 	::http::cleanup $token
-	msnp9_do_auth [list $str] $loginurl
+
+	if { $login_passport_url == 0 } {
+		set login_passport_url $loginurl
+		status_log "gotNexusReply: finished before authentication took place\n" green
+	} else {
+		status_log "gotNexusReply: authentication was waiting for me, so I'll do it\n" green
+		msnp9_do_auth $login_passport_url $loginurl
+	}
 
 
 }
@@ -3522,6 +3536,10 @@ proc msnp9_authenticate { ticket } {
 	if {[sb get ns stat] == "u" } {
 		::MSN::WriteSB ns "USR" "TWN S $ticket"
 		sb set ns stat "us"
+	} else {
+		status_log "Connection timeouted\n" white
+		::MSN::logout
+		msg_box "[trans connecterror]: Connection timed out"
 	}
 	return
 
@@ -3576,12 +3594,20 @@ proc cmsn_auth_msnp9 {{recv ""}} {
 			foreach x [split [lrange $recv 4 end] ","] { set info([lindex [split $x "="] 0]) [lindex [split $x "="] 1] }
 			set info(all) [lrange $recv 4 end]
 
-			if {$config(nossl)
-			|| ($config(connectiontype) != "direct" && $config(connectiontype) != "http")
-			||[catch {::http::geturl https://nexus.passport.com/rdr/pprdr.asp -timeout 5000 -command "gotNexusReply [list $info(all)]" } res] } {
-				catch {status_log "Error calling nexus: $res\n"}
-				msnp9_do_auth [list $info(all)] https://login.passport.com/login2.srf
-			}
+			#if {$config(nossl)
+			#|| ($config(connectiontype) != "direct" && $config(connectiontype) != "http") } {
+			#http::geturl "https://nexus.passport.com/rdr/pprdr.asp" -timeout 8000 -command "gotNexusReply [list $info(all)]"
+				global login_passport_url
+				if { $login_passport_url == 0 } {
+					status_log "cmsn_auth_msnp9: Nexus didn't reply yet...\n"
+					set login_passport_url [list $info(all)]
+				} else {
+					#catch {status_log "Error calling nexus: $res\n"}
+					#msnp9_do_auth [list $info(all)] https://login.passport.com/login2.srf
+					status_log "cmsn_auth_msnp9: Nexus has replied so we have login URL...\n"
+					msnp9_do_auth [list $info(all)] $login_passport_url
+				}
+			#}
 
 			return 0
 
@@ -3648,7 +3674,7 @@ proc cmsn_auth_msnp9 {{recv ""}} {
 	}
 
 	return -1
-	
+
 }
 
 proc sb_change { chatid } {
