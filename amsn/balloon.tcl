@@ -92,7 +92,7 @@ proc balloon {target message {cx 0} {cy 0} } {
 
         label .balloon.l \
             -text $message -relief flat \
-            -bg #ffffaa -fg black -padx 2 -pady 0 -anchor w -font splainf -justify left -wraplength $wlength
+            -bg #ffffaa -fg black -padx 2 -pady 0 -anchor w -font sboldf -justify left -wraplength $wlength
 	pack .balloon.l -side left -padx 1 -pady 1
         wm geometry .balloon +${x}+${y}
 	set Bulle(set) 1
