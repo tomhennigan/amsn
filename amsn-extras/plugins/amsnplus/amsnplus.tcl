@@ -104,6 +104,10 @@ namespace eval ::amsnplus {
 		::plugins::RegisterEvent "aMSN Plus" chatwindowbutton chat_color_button
 		::plugins::RegisterEvent "aMSN Plus" chatmenu edit_menu
 		::plugins::RegisterEvent "aMSN Plus" chatmenu add_quicktext
+		
+		if {![::amsnplus::version_094]} {
+			::amsnplus::setPixmap
+		}
 	}
 
 		
@@ -380,43 +384,50 @@ namespace eval ::amsnplus {
 		if { !$::amsnplus::config(allow_colours) } { return }
 		#get the event vars
 		upvar 2 bottom bottom
-		if {[::amsnplus::version_094]} {
-			upvar 2 win_name win_name
-		} else {
-			upvar 2 w w
-		}
-		#set the path to pixmaps
-		set amsnpluspath [::config::getKey "amsnpluspluginpath"]
-		#set the path to each pixmap
-		append pixmap1 $amsnpluspath "/pixmaps/multiple_colors.gif"
-		#create the imgages
-		set img1 [image create photo -file $pixmap1 -format gif]
+		upvar 2 w w
+		
+		upvar 2 evpar newvar
+		set amsnplusbutton $newvar(bottom).amsnplus
 		#create the widgeds
-		if {[::amsnplus::version_094]} {
-			button $bottom.buttons.multiple_colors -image $img1 -relief flat -padx 3 \
-				-highlightthickness 0 -borderwidth 0 \
-				-command "after 1 ::amsnplus::choose_color $win_name"
-			set_balloon $bottom.buttons.multiple_colors "Add a new color"
-		} else {
-			button $bottom.buttons.multiple_colors -image $img1 -relief flat -padx 3 \
-				-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-				-highlightbackground [::skin::getKey buttonbarbg] \
-				-command "after 1 ::amsnplus::choose_color $w"
-			set_balloon $bottom.buttons.multiple_colors "[trans multiplecolorsbutton]"
-		}
-		#pack the widgeds
-		pack $bottom.buttons.multiple_colors -side left
-	}
 
+		button $amsnplusbutton -image [::skin::loadPixmap amsnplusbutton] -relief flat -padx 3 \
+			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
+			-highlightbackground [::skin::getKey buttonbarbg] \
+			-command "after 1 ::amsnplus::choose_color $w" -activebackground [::skin::getKey buttonbarbg]
+		set_balloon $amsnplusbutton "[trans multiplecolorsbutton]"
+		#Configure hover button
+		bind $amsnplusbutton <Enter> "$amsnplusbutton configure -image [::skin::loadPixmap amsnplusbutton_hover]"
+		bind $amsnplusbutton <Leave> "$amsnplusbutton configure -image [::skin::loadPixmap amsnplusbutton]"
+		
+		#pack the widgeds
+		pack $amsnplusbutton -side left
+	}
+	
+	############################################
+	# ::amsnplus::setPixmap                    #
+	# -----------------------------------------#
+	# Define the amsnplus pixmaps from the skin#
+	############################################	
+	proc setPixmap {} {
+			::skin::setPixmap amsnplusbutton amsnplusbutton.gif
+			::skin::setPixmap amsnplusbutton_hover amsnplusbutton_hover.gif
+	}
+	
 	###############################################
 	# this opens a tk_color_palette to choose an
 	# rgb color in (rrr,ggg,bbb) format
+	# and insert the color code inside the input text
 	proc choose_color { win } {
 		set color [tk_chooseColor -parent $win];
 		if {[string equal $color ""]} { return }
 		set color [::amsnplus::hexToRGB [string replace $color 0 0 ""]];
 		set code "[binary format c 3]$color"
-		$win.f.bottom.left.in.text insert end $code
+		if {[::amsnplus::version_094]} {
+			$win.f.bottom.left.in.text insert end $code
+		} else {
+			set input [::ChatWindow::GetInputText $win]
+			$input insert end $code
+		}
 	}
 	
 	###############################################
