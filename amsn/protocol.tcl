@@ -3247,6 +3247,7 @@ proc cmsn_ns_handler {item} {
       }
       QNG {
         #Ping response
+	status_log "Ping response\n" blue
 	return 0
       }
       200 {
