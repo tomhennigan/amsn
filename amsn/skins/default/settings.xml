@@ -70,6 +70,7 @@
 		<Colors>
 			<chatwindowbg>#d3d2e2</chatwindowbg>
 			<buttonbarbg>#fdfdfd</buttonbarbg>
+			<tabbarbg>#d3d2e2</tabbarbg>
 			<chat_buttons_border_color>#a6a5b2</chat_buttons_border_color>
 			<chat_input_border_color>#a6a5b2</chat_input_border_color>
 			<chat_output_border_color>#a6a5b2</chat_output_border_color>
