@@ -1,0 +1,17 @@
+subdirs		= src
+TKCXIMAGE_FILE	= @TKCXIMAGE_FILE@
+
+.PHONY : all clean distclean
+
+all : 
+	for i in ${subdirs}; do cd $$i && make all && cd ../; done
+	cp src/${TKCXIMAGE_FILE} ./
+
+clean : 
+	for i in ${subdirs}; do cd $$i && make clean && cd ../; done
+	rm -f ${TKCXIMAGE_FILE} pkgIndex.tcl
+
+distclean :
+	for i in ${subdirs}; do cd $$i && make distclean && cd ../; done
+	rm -rf Makefile config.* *~ autom4te.cache 2>/dev/null | true
+	rm -f ${TKCXIMAGE_FILE} pkgIndex.tcl
