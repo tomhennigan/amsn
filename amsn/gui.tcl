@@ -4655,7 +4655,7 @@ proc cmsn_draw_online_wrapped {} {
 						set gtag "offline"
 					}
 					if { $gname == "mobile" } {
-						set gtitle "[trans Mobile]"
+						set gtitle "[trans mobile]"
 						set gtag "mobile"
 					}
 				}
@@ -4677,7 +4677,7 @@ proc cmsn_draw_online_wrapped {} {
 			} elseif { [::config::getKey showblockedgroup] == 1 && [llength [array names emailBList] ] != 0 } {
 				$pgBuddy.text insert end "[trans youblocked]" blocked
 			} elseif { $gname == "mobile" && $my_mobilegroup == 1 } {
-				$pgBuddy.text insert end "[trans Mobile]" mobile
+				$pgBuddy.text insert end "[trans mobile]" mobile
 			}
 		}
 		
@@ -4955,7 +4955,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 	
 	if { [::abook::getContactData $user_login MOB] == "Y" && $state_code == "FLN"} {
 	    set image_type mobile
-	    set state_desc " ([trans Mobile])"
+	    set state_desc " ([trans mobile])"
 	}
 
 	$pgBuddy.text tag conf $user_unique_name -fore $colour
