@@ -365,16 +365,17 @@ proc Preferences { { settings "personal"} } {
 
 	# Preferences Notebook
 	# Modified Rnotebook to translate automaticly those keys in -tabs {}
-	Rnotebook:create $nb -tabs {personal appearance session privacy loging blocking connection others advanced} -borderwidth 2
+	Rnotebook:create $nb -tabs {personal appearance session privacy loging connection others advanced} -borderwidth 2
         set Preftabs(personal) 1
         set Preftabs(appearance) 2
         set Preftabs(session) 3
         set Preftabs(privacy) 4
         set Preftabs(loging) 5
-        set Preftabs(blocking) 6
-        set Preftabs(connection) 7
-        set Preftabs(others) 8
-        set Preftabs(advanced) 9
+        ##BLOCKING
+	#set Preftabs(blocking) 6
+        set Preftabs(connection) 6 
+        set Preftabs(others) 7 
+        set Preftabs(advanced) 8 
 
 
 	pack $nb -fill both -expand 1 -padx 10 -pady 10
@@ -989,62 +990,62 @@ proc Preferences { { settings "personal"} } {
 
 	#  .----------.
 	# _| Blocking |________________________________________________
-	set frm [Rnotebook:frame $nb $Preftabs(blocking)]
+	#set frm [Rnotebook:frame $nb $Preftabs(blocking)]
 	
 	## Check on disconnect ##
-	set lfname [LabelFrame:create $frm.lfname -text [trans prefblock1]]
-	pack $frm.lfname -anchor n -side top -expand 1 -fill x
-	label $lfname.ppref1 -image prefapps
-	pack $lfname.ppref1 -side left -padx 5 -pady 5 
-	checkbutton $lfname.enable -text "[trans checkonfln]" -onvalue 1 -offvalue 0 -variable config(checkonfln)
-	pack $lfname.enable  -anchor w -side left -padx 0 -pady 5 
+	#set lfname [LabelFrame:create $frm.lfname -text [trans prefblock1]]
+	#pack $frm.lfname -anchor n -side top -expand 1 -fill x
+	#label $lfname.ppref1 -image prefapps
+	#pack $lfname.ppref1 -side left -padx 5 -pady 5 
+	#checkbutton $lfname.enable -text "[trans checkonfln]" -onvalue 1 -offvalue 0 -variable config(checkonfln)
+	#pack $lfname.enable  -anchor w -side left -padx 0 -pady 5 
 
 	## "You have been blocked" group ##
-	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefblock3]]
-	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
-	label $lfname.ppref3 -image prefapps
-	pack $lfname.ppref3 -side left -padx 5 -pady 5 
-	checkbutton $lfname.group -text "[trans blockedyougroup]" -onvalue 1 -offvalue 0 -variable config(showblockedgroup)
-	pack $lfname.group  -anchor w -side left -padx 0 -pady 5 
+	#set lfname [LabelFrame:create $frm.lfname3 -text [trans prefblock3]]
+	#pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
+	#label $lfname.ppref3 -image prefapps
+	#pack $lfname.ppref3 -side left -padx 5 -pady 5 
+	#checkbutton $lfname.group -text "[trans blockedyougroup]" -onvalue 1 -offvalue 0 -variable config(showblockedgroup)
+	#pack $lfname.group  -anchor w -side left -padx 0 -pady 5 
 
 	## Continuously check ##
-	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefblock2]]
-	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
-	label $lfname.ppref2 -image prefapps
-	pack $lfname.ppref2 -side left -padx 5 -pady 5 
+	#set lfname [LabelFrame:create $frm.lfname2 -text [trans prefblock2]]
+	#pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
+	#label $lfname.ppref2 -image prefapps
+	#pack $lfname.ppref2 -side left -padx 5 -pady 5 
 
-	frame $lfname.enable -class Degt
-	pack $lfname.enable -anchor w -side left 
-	checkbutton $lfname.enable.cb -text "[trans checkblocking]" -onvalue 1 -offvalue 0 -variable config(checkblocking) -command UpdatePreferences
-	grid $lfname.enable.cb -row 1 -column 1 -sticky w
+	#frame $lfname.enable -class Degt
+	#pack $lfname.enable -anchor w -side left 
+	#checkbutton $lfname.enable.cb -text "[trans checkblocking]" -onvalue 1 -offvalue 0 -variable config(checkblocking) -command UpdatePreferences
+	#grid $lfname.enable.cb -row 1 -column 1 -sticky w
 
-	frame $lfname.check -class Degt
-	pack $lfname.check -anchor w -side left -padx 0 -pady 5 
+	#frame $lfname.check -class Degt
+	#pack $lfname.check -anchor w -side left -padx 0 -pady 5 
 
-        label $lfname.check.linter1 -text "[trans blockinter1]"
-        label $lfname.check.linter2 -text "[trans blockinter2]"
-        label $lfname.check.linter3 -text "[trans blockinter3]"
-        label $lfname.check.linter4 -text "[trans blockinter4]"
-        label $lfname.check.lusers -text "[trans blockusers]"
-        entry $lfname.check.inter1 -validate all -vcmd "BlockValidateEntry %W %P 1" -invcmd "BlockValidateEntry %W %P 0 15" -width 4 -textvariable config(blockinter1)
-        entry $lfname.check.inter2 -validate all -vcmd "BlockValidateEntry %W %P 2" -invcmd "BlockValidateEntry %W %P 0 30"  -width 4 -textvariable config(blockinter2)
-        entry $lfname.check.inter3 -validate all -vcmd "BlockValidateEntry %W %P 3" -invcmd "BlockValidateEntry %W %P 0 2" -width 4 -textvariable config(blockinter3)
-        entry $lfname.check.users -validate all -vcmd "BlockValidateEntry %W %P 4" -invcmd "BlockValidateEntry %W %P 0 5" -width 4 -textvariable config(blockusers)
+        #label $lfname.check.linter1 -text "[trans blockinter1]"
+        #label $lfname.check.linter2 -text "[trans blockinter2]"
+        #label $lfname.check.linter3 -text "[trans blockinter3]"
+        #label $lfname.check.linter4 -text "[trans blockinter4]"
+        #label $lfname.check.lusers -text "[trans blockusers]"
+        #entry $lfname.check.inter1 -validate all -vcmd "BlockValidateEntry %W %P 1" -invcmd "BlockValidateEntry %W %P 0 15" -width 4 -textvariable config(blockinter1)
+        #entry $lfname.check.inter2 -validate all -vcmd "BlockValidateEntry %W %P 2" -invcmd "BlockValidateEntry %W %P 0 30"  -width 4 -textvariable config(blockinter2)
+        #entry $lfname.check.inter3 -validate all -vcmd "BlockValidateEntry %W %P 3" -invcmd "BlockValidateEntry %W %P 0 2" -width 4 -textvariable config(blockinter3)
+        #entry $lfname.check.users -validate all -vcmd "BlockValidateEntry %W %P 4" -invcmd "BlockValidateEntry %W %P 0 5" -width 4 -textvariable config(blockusers)
 
-        grid $lfname.check.linter1 -row 1 -column 1 -sticky w
-        grid $lfname.check.linter2 -row 1 -column 3 -sticky w
-        grid $lfname.check.linter3 -row 2 -column 3 -sticky w
-        grid $lfname.check.linter4 -row 2 -column 5 -sticky w
-        grid $lfname.check.lusers -row 2 -column 1 -sticky w
-        grid $lfname.check.inter1 -row 1 -column 2 -sticky w
-        grid $lfname.check.inter2 -row 1 -column 4 -sticky w
-        grid $lfname.check.inter3 -row 2 -column 4 -sticky w
-        grid $lfname.check.users -row 2 -column 2 -sticky w
+        #grid $lfname.check.linter1 -row 1 -column 1 -sticky w
+        #grid $lfname.check.linter2 -row 1 -column 3 -sticky w
+        #grid $lfname.check.linter3 -row 2 -column 3 -sticky w
+        #grid $lfname.check.linter4 -row 2 -column 5 -sticky w
+        #grid $lfname.check.lusers -row 2 -column 1 -sticky w
+        #grid $lfname.check.inter1 -row 1 -column 2 -sticky w
+        #grid $lfname.check.inter2 -row 1 -column 4 -sticky w
+        #grid $lfname.check.inter3 -row 2 -column 4 -sticky w
+        #grid $lfname.check.users -row 2 -column 2 -sticky w
 
-	pack $lfname.enable $lfname.check -anchor w -side top 
+	#pack $lfname.enable $lfname.check -anchor w -side top 
 
-	frame $frm.dummy -class Degt
-	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
+	#frame $frm.dummy -class Degt
+	#pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 
     setCfgFonts $nb splainf
 
@@ -1071,8 +1072,8 @@ proc Preferences { { settings "personal"} } {
     
     bind .cfg <Destroy> "RestorePreferences"
 	
-    #tkwait visibility .cfg
-    #grab set .cfg
+    tkwait visibility .cfg
+    grab set .cfg
 }
 
 proc reload_advanced_options {opt_list} {
@@ -1341,21 +1342,21 @@ proc UpdatePreferences {} {
 
 
 	# blocking
- 	set lfname [Rnotebook:frame $nb $Preftabs(blocking)]
- 	set lfname "${lfname}.lfname2.f.f"
- 	if { $config(checkblocking) == 1 } {
- 		$lfname.check.inter1 configure -state normal
- 		$lfname.check.inter2 configure -state normal
- 		$lfname.check.inter3 configure -state normal
- 		$lfname.check.users configure -state normal
+ 	#set lfname [Rnotebook:frame $nb $Preftabs(blocking)]
+ 	#set lfname "${lfname}.lfname2.f.f"
+ 	#if { $config(checkblocking) == 1 } {
+ 		#$lfname.check.inter1 configure -state normal
+ 		#$lfname.check.inter2 configure -state normal
+ 		#$lfname.check.inter3 configure -state normal
+ 		#$lfname.check.users configure -state normal
 
- 	} else {
- 		$lfname.check.inter1 configure -state disabled
- 		$lfname.check.inter2 configure -state disabled
- 		$lfname.check.inter3 configure -state disabled
- 		$lfname.check.users configure -state disabled
+ 	#} else {
+ 		#$lfname.check.inter1 configure -state disabled
+ 		#$lfname.check.inter2 configure -state disabled
+ 		#$lfname.check.inter3 configure -state disabled
+ 		#$lfname.check.users configure -state disabled
 
- 	}
+ 	#}
 
 	# Advanced preferences - Timestamps' delimiters
  	set lfname [Rnotebook:frame $nb $Preftabs(advanced)]
@@ -1538,12 +1539,12 @@ proc SavePreferences {} {
     
 
     # Blocking
-    if { $config(blockusers) == "" } { set config(blockusers) 1}
-    if { $config(checkblocking) == 1 } {
-	BeginVerifyBlocked $config(blockinter1) $config(blockinter2) $config(blockusers) $config(blockinter3)
-    } else {
-	StopVerifyBlocked
-    }
+    #if { $config(blockusers) == "" } { set config(blockusers) 1}
+    #if { $config(checkblocking) == 1 } {
+	#BeginVerifyBlocked $config(blockinter1) $config(blockinter2) $config(blockusers) $config(blockinter3)
+    #} else {
+	#StopVerifyBlocked
+    #}
 
 
     # Save configuration.
@@ -1781,6 +1782,9 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.105  2004/01/17 13:36:30  elezeta
+# Commented all the blocking-detection code
+#
 # Revision 1.104  2004/01/17 11:54:26  airadier
 # Added option to change convert path, useful for windows users. It's there, but does nothing (yet).
 #
