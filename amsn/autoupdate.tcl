@@ -562,10 +562,15 @@ namespace eval ::autoupdate {
 
 		# Auto-update for language files
 		if { [::config::getKey activeautoupdate] } {
-			::autoupdate::UpdateLangPlugin
+			set langpluginupdated [::autoupdate::UpdateLangPlugin]
 		}
 
-		return $newer
+		if {$newer == 0 && $langpluginupdated == 1} {
+			return 1
+		} else {
+			return $newer
+		}
+		
 	}
 
 	proc check_version {} {
@@ -625,7 +630,7 @@ namespace eval ::autoupdate {
 		::plugins::UpdatedPlugins
 
 		if { ($::lang::UpdatedLang == "") && ($::plugins::UpdatedPlugins == "") } {
-			return
+			return 0
 		}
 
 		set w ".updatelangplugin"
@@ -663,6 +668,10 @@ namespace eval ::autoupdate {
 			checkbutton $frame.plugin$name -onvalue 1 -offvalue 0 -text "$name" -variable ::autoupdate::plugin($name) -anchor w
 			pack configure $frame.plugin$name -side top -fill x -expand true
 		}
+		
+		# Create a frame that will contain the progress of the update
+		frame $w.update
+		pack configure $w.update -side top -fill x
 
 		frame $w.button
 		button $w.button.close -text "[trans close]" -command "destroy $w"
@@ -671,12 +680,23 @@ namespace eval ::autoupdate {
 		pack configure $w.button.close -side right -padx 3 -pady 3
 
 		pack configure $w.button -side top -fill x
+		
+		return 1
 
 	}
 
 
 	#///////////////////////////////////////////////////////////////////////
 	proc UpdateLangPlugin_update { } {
+	
+		set w ".updatelangplugin"
+	
+		pack forget $w.list
+		pack forget $w.button.update
+		pack configure $w.button.close -side right -padx 3 -pady 3
+
+		wm geometry $w 300x150
+
 
 		foreach langcode $::lang::UpdatedLang {
 			if { [::autoupdate::ReadLangSelected $langcode] == 1} {
@@ -695,7 +715,10 @@ namespace eval ::autoupdate {
 
 
 		foreach plugin $::plugins::UpdatedPlugins {
-			::plugins::UpdatePlugin $plugin
+			set name [lindex $plugin 6]
+			if { [::autoupdate::ReadPluginSelected $name] == 1 } {
+				::plugins::UpdatePlugin $plugin
+			}
 		}
 
 		destroy ".updatelangplugin"
