@@ -617,7 +617,7 @@ namespace eval ::amsn {
   	 
   	if { $config(ftautoaccept) == 1 } {
   		WinWrite $chatid "[trans autoaccepted]\n" gray
-  	        ::amsn::AcceptFT $chatid $dest $branchuid $cseq $uid $sid
+  	        ::amsn::AcceptFT $chatid -1 [list $dest $branchuid $cseq $uid $sid $filename]
   	}
    }
 
