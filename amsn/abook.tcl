@@ -490,6 +490,6 @@ namespace eval ::abookGui {
 
 #	::themes::ApplyDeep $w {-background} $bgcol
 	pack $w.n $w.b -side top
-	bind $w <Control-c> { destroy $w }
+	bind $w <Control-c> "destroy $w"
    }
 }
