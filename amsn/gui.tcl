@@ -12,6 +12,12 @@ if { $initialize_amsn == 1 } {
 	::skin::setDefaultColor buttonbarbg #eeeeff
 	::skin::setDefaultColor topbarbg #5050e5
 	::skin::setDefaultColor topbartext #ffffff
+	::skin::setDefaultColor topbarawaybg #00ff00
+	::skin::setDefaultColor topbarawaytext #000000
+	::skin::setDefaultColor topbarbusybg #ff0000
+	::skin::setDefaultColor topbarbusytext #000000
+	::skin::setDefaultColor topbarofflinebg #404040
+	::skin::setDefaultColor topbarofflinetext #ffffff
 	::skin::setDefaultColor statusbarbg #eeeeee
 	::skin::setDefaultColor statusbartext #000000
 	::skin::setDefaultColor chatborders 0

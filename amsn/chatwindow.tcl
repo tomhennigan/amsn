@@ -1425,6 +1425,30 @@ namespace eval ::ChatWindow {
 			${win_name}.top.text insert end "\n"
 		}
 
+
+		#get the colour for the state
+		set colour [::skin::getColor topbarbg]
+		set tcolour [::skin::getColor topbartext]
+		if { ([llength $user_list] == 1) && ("$user_state" != "" ) } {
+			if { ($state_code == "IDL") || ($state_code == "BRB") || ($state_code == "AWY") || ($state_code == "LUN") } {
+				set colour [::skin::getColor topbarawaybg]
+				set tcolour [::skin::getColor topbarawaytext]
+			} elseif { ($state_code == "PHN") || ($state_code == "BSY") } {
+				set colour [::skin::getColor topbarbusybg]
+				set tcolour [::skin::getColor topbarbusytext]
+			} elseif { ($state_code == "FLN") } {
+				set colour [::skin::getColor topbarofflinebg]
+				set tcolour [::skin::getColor topbarofflinetext]
+			}
+		}
+		#set the areas to the colour
+		${win_name}.top configure -background $colour
+		${win_name}.top.to configure -background $colour -foreground $tcolour \
+						-selectbackground $colour -selectforeground $tcolour
+		${win_name}.top.text configure -background $colour -foreground $tcolour \
+						-selectbackground $colour -selectforeground $tcolour
+
+
 		set title [string replace $title end-1 end " - [trans chat]"]
 
 		#Calculate number of lines, and set top text size
