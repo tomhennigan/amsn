@@ -101,9 +101,11 @@ proc hotmail_procmsg {msg} {
 	  set delta [aim_get_str $msg Message-Delta]
 	  if { $source == "ACTIVE" } {
   	    set noleidos [expr $unread - $delta]
-	  } else {if {$dest == "ACTIVE"} {
+	  } elseif {$dest == "ACTIVE"} {
   	    set noleidos [expr $unread + $delta]
-	  }}
+	  } else {
+	    set noleidos $unread
+	  }
 	  status_log "Hotmail cambio mensajes: $noleidos unread emails\n"
 	  if { [string length $noleidos] > 0 } {
 	    set unread $noleidos
