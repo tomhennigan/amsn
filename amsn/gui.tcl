@@ -3625,25 +3625,20 @@ proc newcontact {new_login new_name} {
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_change_name {} {
-   global change_name user_info
+   global user_info
 
-   if {[info exists change_name]} {
+   if {[winfo exists .change_name]} {
       raise .change_name
       return 0
    }
-
-   set change_name true
-   toplevel .change_name -width 400 -height 150
+ 
+   toplevel .change_name 
    wm group .change_name .
-   bind .change_name <Destroy> {
-      if {"%W" == ".change_name"} {
-         unset change_name
-      }
-   }
+
    wm geometry .change_name -0+100
    wm title .change_name "[trans changenick] - [trans title]"
    wm transient .change_name .
-   canvas .change_name.c -width 300 -height 100
+   canvas .change_name.c -width 350 -height 100
    pack .change_name.c -expand true -fill both
 
    entry .change_name.c.name -width 40 -bg #FFFFFF -bd 1 \

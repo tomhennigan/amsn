@@ -409,7 +409,7 @@ proc LoginList { action age {email ""} {lock ""} } {
 			set tmp_list [array get ProfileList]
 			set idx [lsearch $tmp_list "$email"]
 			if { $idx == -1 } {
-				status_log "changelock called on unexisting email : $email, shouldn't happen!\n"
+				status_log "changelock called on unexisting email : $email, shouldn't happen!\n" red
 				return -1
 			} else {
 			    set LockList([lindex $tmp_list [expr $idx-1]]) $lock
