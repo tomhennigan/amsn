@@ -34,7 +34,7 @@
 	<lang>
 		<langcode>ca</langcode>
 		<name>Catalan</name>
-		<version>1.109</version>
+		<version>1.110</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -52,7 +52,7 @@
 	<lang>
 		<langcode>da</langcode>
 		<name>Danish</name>
-		<version>1.31</version>
+		<version>1.32</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -64,7 +64,7 @@
 	<lang>
 		<langcode>ee</langcode>
 		<name>Estonian</name>
-		<version>1.33</version>
+		<version>1.34</version>
 		<encoding>iso8859-4</encoding>
 	</lang>
 	<lang>
@@ -76,7 +76,7 @@
 	<lang>
 		<langcode>en</langcode>
 		<name>English</name>
-		<version>1.286</version>
+		<version>1.287</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -88,13 +88,13 @@
 	<lang>
 		<langcode>es</langcode>
 		<name>Spanish</name>
-		<version>1.220</version>
+		<version>1.221</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
 		<langcode>eu</langcode>
 		<name>Basque (Euskera)</name>
-		<version>1.29</version>
+		<version>1.30</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -106,7 +106,7 @@
 	<lang>
 		<langcode>fr</langcode>
 		<name>French (France)</name>
-		<version>1.123</version>
+		<version>1.124</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -118,7 +118,7 @@
 	<lang>
 		<langcode>fri</langcode>
 		<name>Frisian</name>
-		<version>1.14</version>
+		<version>1.15</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -148,7 +148,7 @@
 	<lang>
 		<langcode>hu</langcode>
 		<name>Hungary</name>
-		<version>1.19</version>
+		<version>1.20</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -166,7 +166,7 @@
 	<lang>
 		<langcode>it</langcode>
 		<name>Italian</name>
-		<version>1.44</version>
+		<version>1.45</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -196,7 +196,7 @@
 	<lang>
 		<langcode>nl</langcode>
 		<name>Dutch</name>
-		<version>1.114</version>
+		<version>1.115</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -220,13 +220,13 @@
 	<lang>
 		<langcode>pt_BR</langcode>
 		<name>Portuguese (Brazil)</name>
-		<version>1.18</version>
+		<version>1.19</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
 		<langcode>ro</langcode>
 		<name>Romanian</name>
-		<version>1.36</version>
+		<version>1.37</version>
 		<encoding>iso8859-2</encoding>
 	</lang>
 	<lang>
@@ -274,13 +274,13 @@
 	<lang>
 		<langcode>tr</langcode>
 		<name>Turkish</name>
-		<version>1.47</version>
+		<version>1.48</version>
 		<encoding>iso8859-9</encoding>
 	</lang>
 	<lang>
 		<langcode>va</langcode>
 		<name>Valencian</name>
-		<version>1.33</version>
+		<version>1.34</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -292,7 +292,7 @@
 	<lang>
 		<langcode>zh-TW</langcode>
 		<name>Traditional Chinese(Taiwan)</name>
-		<version>1.11</version>
+		<version>1.12</version>
 		<encoding>big5</encoding>
 	</lang>
 </version>
