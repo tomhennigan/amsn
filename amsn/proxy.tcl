@@ -302,7 +302,8 @@ proc ReadPOST { name } {
    variable proxy_session_id
    variable proxy_gateway_ip
    variable proxy_data
-
+   
+   after cancel "::Proxy::PollPOST $name"   
    
    set sock [sb get $name sock]
    if {[catch {eof $sock} res]} {      
@@ -321,13 +322,9 @@ proc ReadPOST { name } {
       
       if { ([string range $tmp_data 9 11] != "200") && ([string range $tmp_data 9 11] != "100")} {
       #if { ($tmp_data != "HTTP/1.0 200 OK") && ($tmp_data != "HTTP/1.1 100 Continue") } {}
-         status_log "Proxy POST Error ($name):\n$tmp_data\n" red
+         status_log "Proxy POST connection closed for $name:\n$tmp_data\n" red
 	 ClosePOST $name
-   	 #sb set $name "d"  
-         #fileevent [sb get $name sock] readable [sb get $name readable]        
-	 #catch {close $sock} res
       } else {
-      
       
          set headers $tmp_data
          while { $tmp_data != "\r"  } {
@@ -348,12 +345,10 @@ proc ReadPOST { name } {
 	 
 	 set content_length "[::MSN::GetHeaderValue $headers Content-Length]\n"	 
 	 set content_data ""
-	 if { $content_length > 0 } {
-	    #status_log "Reading, maybe we block here?\n" red
+	 if { $content_length > 0 } {	    
 	    fconfigure $sock -blocking 1
 	    set content_data [read $sock $content_length]
             fconfigure $sock -blocking 0	    
-	    #status_log "Finished reading\n" red	    
 	 }
 
 	 #set log [stringmap {\r ""} $content_data]
@@ -380,8 +375,9 @@ proc ReadPOST { name } {
 	 
 	 }
 	 
-	 after cancel "::Proxy::PollPOST $name"
-         after 5000 "::Proxy::PollPOST $name"
+         if { $session_id != ""} {
+	    after 5000 "::Proxy::PollPOST $name"
+	 }
 	 set proxy_session_id($name) $session_id
 	 set proxy_gateway_ip($name) $gateway_ip
 	 
@@ -426,6 +422,9 @@ proc Read { name } {
 }
 ###################################################################
 # $Log$
+# Revision 1.9  2003/06/04 23:36:01  airadier
+# Fixed the latest proxy POST support bug (don't allow PNG command)
+#
 # Revision 1.8  2003/06/04 22:39:30  airadier
 # Proxy POST and http connection support finished, please test it. Need to add it to preferences.
 #

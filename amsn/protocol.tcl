@@ -378,7 +378,7 @@ namespace eval ::MSN {
    proc StartPolling {} {
       global config
 
-      if {$config(keepalive) == 1 } {
+      if {($config(keepalive) == 1) && ($config(withproxy) == 0)} {
       	after 60000 "::MSN::PollConnection"
       } else {
       	after cancel "::MSN::PollConnection"
