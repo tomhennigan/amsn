@@ -28,6 +28,9 @@ proc LoadStateList {} {
 		lappend new_data $tmp_data
 		incr idx 1
 		if { $idx == 3 } {
+		        if { $tmp_data == 0 } {
+			       set tmp_data 1 
+		        }
 			for { set idx2 0 } { $idx2 < $tmp_data } { incr idx2 1 } {
 				append message [gets $file_id]
 				if { $idx2 < [expr $tmp_data - 1] } {

@@ -89,7 +89,7 @@ namespace eval anigif {
 		return
 	    }
 	    update
-	    if { [info exists ::anigif::$fname(count)] } {
+	    if { [info exists ::anigif::${fname}(count)] } {
 		after [lindex $delay $idx] "::anigif::anigif2 $fname [expr {$idx + 1}]"
 		set ::anigif::${fname}(idx) [incr idx]
 	    }
@@ -104,7 +104,7 @@ namespace eval anigif {
 
 
 	# If the file is already opened 
-	if { [info exists ::anigif::$fname(count)] && [set ::anigif::${fname}(count)] != 0 } {
+	if { [info exists ::anigif::${fname}(count)] && [set ::anigif::${fname}(count)] != 0 } {
 
 	    set ::anigif::${fname}(count) [expr [set ::anigif::${fname}(count)] + 1]
 	    set ::anigif::${w}(fname) $fname
