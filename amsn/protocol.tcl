@@ -2261,6 +2261,10 @@ proc cmsn_auth {{recv ""}} {
          .main_menu.tools entryconfigure 0 -state normal
          .main_menu.tools entryconfigure 1 -state normal
          .main_menu.tools entryconfigure 4 -state normal
+         #Added by Trevor Feeney
+	 #Enables the Group Order Menu
+	 .main_menu.tools entryconfigure 5 -state normal
+ 
          #Change nick
 	 configureMenuEntry .main_menu.actions "[trans changenick]..." normal
 	 configureMenuEntry .options "[trans changenick]..." normal

@@ -60,6 +60,9 @@ set config(textsize) 2
 set config(mychatfont) "{Helvetica} {} 000000"
 #end AIM
 set config(orderbygroup) 0
+#Added by Trevor Feeney
+#Defaults group order to normal
+set config(ordergroupsbynormal) 0
 set config(withnotebook) 0
 set config(keepalive) 0
 set config(notifywin) 1

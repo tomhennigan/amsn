@@ -1674,12 +1674,22 @@ proc cmsn_draw_main {} {
    .order_by add radio -label "[trans group]" -value 1 \
    	-variable config(orderbygroup) -command "cmsn_draw_online"
 
+   #Order Groups By submenu
+   #Added by Trevor Feeney
+   menu .ordergroups_by -tearoff 0 -type normal
+   .ordergroups_by add radio -label "[trans reversed]" -value 0 \
+   	-variable config(ordergroupsbynormal) -command "cmsn_draw_online"
+   .ordergroups_by add radio -label "[trans normal]" -value 1 \
+   	-variable config(ordergroupsbynormal) -command "cmsn_draw_online"
+
+
+
    #Tools menu
-   menu .main_menu.tools -tearoff 0 -type normal 
+   menu .main_menu.tools -tearoff 0 -type normal
    .main_menu.tools add command -label "[trans addacontact]..." -command cmsn_draw_addcontact
    .main_menu.tools add cascade -label "[trans admincontacts]" -menu .admin_contacts_menu
-   
-   menu .admin_contacts_menu -tearoff 0 -type normal   
+
+   menu .admin_contacts_menu -tearoff 0 -type normal
    .admin_contacts_menu add command -label "[trans delete]..." \
       -command  "::amsn::ChooseList \"[trans delete]\" both delete_user 0 0"
    .admin_contacts_menu add command -label "[trans properties]..." \
@@ -1692,11 +1702,17 @@ proc cmsn_draw_main {} {
    .main_menu.tools add separator
    .main_menu.tools add cascade -label "[trans ordercontactsby]" \
      -menu .order_by
+     
+   #Added by Trevor Feeney
+   #User to reverese group lists
+   .main_menu.tools add cascade -label "[trans ordergroupsby]" \
+     -menu .ordergroups_by
+
    .main_menu.tools add separator
    .main_menu.tools add cascade -label "[trans options]" -menu .options
 
    #Options menu
-   menu .options -tearoff 0 -type normal 
+   menu .options -tearoff 0 -type normal
    .options add command -label "[trans changenick]..." -state disabled \
       -command cmsn_change_name -state disabled
    .options add command -label "[trans publishphones]..." -state disabled \
@@ -2171,21 +2187,26 @@ proc cmsn_draw_offline {} {
    $pgBuddy.text configure -state disabled
 
 
-   #Log in   
+   #Log in
    .main_menu.file entryconfigure 0 -state normal
    .main_menu.file entryconfigure 1 -state normal
    #Log out
-   .main_menu.file entryconfigure 2 -state disabled 
+   .main_menu.file entryconfigure 2 -state disabled
    #My status
    .main_menu.file entryconfigure 3 -state disabled
    #Add a contact
    .main_menu.tools entryconfigure 0 -state disabled
    .main_menu.tools entryconfigure 1 -state disabled
-   .main_menu.tools entryconfigure 4 -state disabled   
+   .main_menu.tools entryconfigure 4 -state disabled
+   #Added by Trevor Feeney
+   #Disables Group Order menu
+   .main_menu.tools entryconfigure 5 -state disabled
+   
+
    #Change nick
    configureMenuEntry .main_menu.actions "[trans changenick]..." disabled
    configureMenuEntry .options "[trans changenick]..." disabled
-   
+
    configureMenuEntry .main_menu.actions "[trans sendmail]..." disabled
    configureMenuEntry .main_menu.actions "[trans sendmsg]..." disabled
 
@@ -2319,7 +2340,16 @@ proc cmsn_draw_online {} {
 
    # Decide which grouping we are going to use
    if {$config(orderbygroup)} {
-       set glist [lsort [::groups::GetList]]
+       #Reverse group lists to match true MSN
+       #Added by Trevor Feeney
+       if {$config(ordergroupsbynormal)} {
+           set glist [lsort [::groups::GetList]]
+       } else {
+           set glist [lsort -decreasing [::groups::GetList]]
+       }
+       
+       #set glist [lsort [::groups::GetList]]
+       
        set gcnt [llength $glist]
        # Now setup each of the group's defaults
        for {set i 0} {$i < $gcnt} {incr i} {
