@@ -2603,17 +2603,21 @@ namespace eval ::amsn {
        }
      }
 		  
-#	  update
+	  update
 
-		  if {$config(chatsmileys)} {
-	  custom_smile_subst $chatid ${win_name}.f.out.text $text_start end
-	  smile_subst ${win_name}.f.out.text $text_start end 0
+      if {$config(chatsmileys)} {
+          custom_smile_subst $chatid ${win_name}.f.out.text $text_start end
+          smile_subst ${win_name}.f.out.text $text_start end 0
       }
 
 
 #      vwait smileys_end_subst
 
-      if { $scrolling } { ${win_name}.f.out.text yview moveto 1.0 }
+      if { $scrolling } {
+         ${win_name}.f.out.text yview moveto 1.0
+         set ys $win_name.f.out.ys
+         $ys set [lindex [$ys get] 0] 1.0
+      }
       ${win_name}.f.out.text configure -state disabled
       
       WinFlicker $chatid
