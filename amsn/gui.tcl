@@ -321,7 +321,10 @@ namespace eval ::amsn {
          set user_login [lindex $user_info 0]
          set user_name [lindex $user_info 1]
          set user_state_no [lindex $user_info 2]
-	  set user_state [lindex [lindex $list_states $user_state_no] 1]
+	 #if { "$user_state_no" == "" } {
+	 #   set user_state_no 0
+	 #}
+	  #set user_state [lindex [lindex $list_states $user_state_no] 1]
 
 	  set title "${title}${user_name}, "
 
@@ -713,7 +716,7 @@ namespace eval ::amsn {
 
       foreach user_info $chatusers {
          set user_login [lindex $user_info 0]
-         set user_state_no [lindex $user_info 2]
+         set user_state_no [lindex $user_info 2] 
 	  #TODO: Check state here? Does it mind if the user is offline?
          if {($user_state_no < 7) && ([lsearch $list_users "$user_login *"] == -1)} {
 	     set user_name [lindex $user_info 1]
@@ -820,6 +823,9 @@ namespace eval ::amsn {
       foreach user $userslist {
          set user_login [lindex $user 0]
          set user_state_no [lindex $user 2]
+	 if { "$user_state_no" == "" } {
+	    set user_state_no 0
+	 }
          set state [lindex $list_states $user_state_no]
          set state_code [lindex $state 0]
 
@@ -886,7 +892,10 @@ namespace eval ::amsn {
          set user_login [lindex $user 0]
          set user_name [lindex $user 1]
          set user_state_no [lindex $user 2]
-         set state [lindex $list_states $user_state_no]
+	 if { "$user_state_no" == "" } {
+	    set user_state_no 0
+	 }         
+	 set state [lindex $list_states $user_state_no]
          set state_code [lindex $state 0]
 
          if {($online != "online") || ($state_code != "FLN")} {
