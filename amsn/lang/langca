@@ -67,6 +67,7 @@ blockinter4 segons.
 blocklist Llista de bloquejats (BL):
 blockmessage Aquesta gent estan connectats i t'han bloquejat
 blockusers Número de contactes a comprovar cada vegada:
+bouncedock Animació del icona aMSN, quan es reb un nou missatge
 broughtby Desenvolupat per
 browse Navegar
 browserexample (\$url serà substituïda per l'adreça) Ex: mozilla \$url
@@ -126,6 +127,7 @@ connectionlost Desconnectat: connexió amb el servidor tancada
 contactadded Contacte inclòs
 contactdoesnotexist ¡El contacte que intentes afegir no existeix!
 contactlist Llista de contactes (FL):
+continuously Continuadament
 convertexplain Camí al fitxer executable CONVERT, d'ImageMagick (es necessita per veure les imatges).\nDeixa-ho en blanc si CONVERT és al PATH.
 copy Copia
 copytogroup Copia al grup
@@ -139,9 +141,9 @@ custnotifymsg Mostra una finestra de notificació quan es rebi un missatge d'usua
 custnotifyoffline Mostra una finestra de notificació quan aquest contacte es desconnecti
 custnotifyonline Mostra una finestra de notificació quan aquest contacte es connecti
 custnotifystatus Mostra una finestra de notificació quan aquest contacte canviï d'estat
+customcolor Color personalitzat
 custom_edit Editar emoticona personalitzada
 custom_new Afegir emoticona personalitzada
-customcolor Color personalitzat
 customnick Sobrenom personalitzat
 cut Talla
 date Data
@@ -245,13 +247,14 @@ httpconnection Connectar-se amb el mètode HTTP (utilitza el protocol HTTP pel po
 hybrid Mode híbrid
 ident Identifica
 identity Identitat
+ignoreerrors Ignorar altres errors fins al final de la sessió
 imagefiles Fitxers d'imatges
 inbox Bústia
 insertsmiley Insereix emoticona
 installconvert Instal·lar conversor: Has d'instal·lar ImageMagick (un programa de conversió) per tal de convertir les imatges al format usat pels servidors de MSN. Pots descarregar els binaris per al teu sistema operatiu a ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ Si ja els tens, llavors és un error, sisplau comunica'l.
 internalerror Error intern del servidor
-invalidfile El fitxer $2 introduït al camp "$1" no existeix o no es pot llegir
 invalidfile2 No es pot crear el fitxer $1. Comprova que tinguis els permisos necessaris.
+invalidfile El fitxer $2 introduït al camp "$1" no existeix o no es pot llegir
 invalidgroup Grup no vàlid
 invalidpic El fitxer d'imatge no existeix.
 invalidpicsize La imatge és massa gran. Escull-ne una de més petita.
@@ -261,8 +264,10 @@ invitationcancelled La invitació ha sigut cancel·lada
 invite Convida
 ipaddress Adreça IP
 ipdetect Detectar l'adreça IP correcta per transferències de fitxers utilitzant HTTP
+ircstyle Estil de chat IRC
 istyping $1 està escrivint un missatge
 joins $1 s'uneix a la conversa
+justonce Només un cop
 keepalive Mantenir connexió activa (NAT)
 keeplog2 Registrar totes les converses a l'historial de l'aMSN per futures visualitzacions
 keeplog Conservar l'historial de les converses
@@ -317,6 +322,7 @@ msgmaxmin Quan arribi un nou missatge, vull que la finestra sigui:
 msg Missatge
 msgmode Escull com gestionar finestres de missatges múltiples:
 msn aMSN
+msnstyle Estil de chat MSN
 mustrestart Has de reiniciar l'aMSN si vols que els canvis tinguin efecte
 myhomephone El meu telèfon a casa
 mymobilephone El meu telèfon mòbil
@@ -326,6 +332,7 @@ myworkphone El meu telèfon a la feina
 natip Detecció d'IP a través de pàgina web
 natkeepalive Si et desconnecten contínuament, activa aquesta opció
 needonline En l'estat "Simula desconnexió" no pots enviar missatges!
+never Mai
 newmail $1 missatges nous a la bústia
 newmailfrom Nou missatge de correu de $1 ($2)
 newmsg Nou missatge
@@ -375,8 +382,8 @@ pager Paginador
 pass Contrasenya
 paste Enganxa
 personal Personal
-phone Telèfon
 phones Números de telèfon
+phone Telèfon
 picbrowser Navegador d'Imatge Mostrada
 picfile Fitxer d'imatge per a l'alarma (GIF < 500 x 500)
 picstatus Imatge per a l'alarma
@@ -532,10 +539,10 @@ uoffline Desconnectats
 uonline Connectats
 useralreadyonlist L'usuari ja és a la llista de contactes
 userblocked Aquest usuari està connectat però t'ha bloquejat a la seva llista
-usernotonline L'usuari no està connectat
-user Usuari
 userdata Dades d'usuari
+usernotonline L'usuari no està connectat
 userproperties Propietats de l'usuari $1
+user Usuari
 useryourself No pots conversar amb tu mateix
 verifyblocked Comprova la gent que em té bloquejat a la seva llista
 version Versió

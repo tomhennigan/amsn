@@ -1,5 +1,4 @@
 amsn_lang_version 2
-
 about 關於
 acceptfile 接收檔案 $1, 大小 $2 儲存到 $3
 accept 接受
@@ -68,6 +67,7 @@ blockinter4 秒檢查一次
 blocklist 封鎖清單 (BL): 
 blockmessage 這些連絡人現在在線上而且將您封鎖
 blockusers 每次檢查使用者數目
+bouncedock 收到訊息時, 閃動aMSN的icon於dock中
 broughtby 作者群
 browse 瀏覽
 browser 瀏覽
@@ -127,6 +127,7 @@ connection 連線
 contactadded 連絡人被加入
 contactdoesnotexist 連絡人不存在!
 contactlist 連絡人清單 (FL):
+continuously 重覆地
 convertexplain ImageMagick的CONVERT路徑（用來顯示圖片用）.\n如果已經存在於path中請保持空白.
 copy 複製
 copytogroup 複製到群組
@@ -245,6 +246,7 @@ httpconnection 使用HTTP的方式連接 (使用 HTTP 通訊協定 連接埠:80)
 hybrid 混合模式
 ident 正在確認
 identity 身份
+ignoreerrors 略過所有其他的AMSN錯誤直到session結束
 imagefiles 圖片檔
 inbox 收件匣
 insertsmiley 插入表情符號
@@ -261,8 +263,10 @@ invitationcancelled 邀請已經被取消
 invite 邀請
 ipaddress IP 位址
 ipdetect 使用HTTP偵測檔案傳送時的正確ip
+ircstyle IRC聊天風格
 istyping $1 正在輸入訊息
 joins $1 加入交談
+justonce 僅此一次
 keepalive 保持連線 (NAT) 
 keeplog2 將所有的對話紀錄到aMSN的的歷史紀錄以便以後檢視
 keeplog 紀錄所有聊天紀錄
@@ -317,6 +321,7 @@ msgmaxmin 當收到新的訊息我希望變成:
 msgmode 選擇如何操縱多個訊息視窗: 
 msg 訊息
 msn aMSN
+msnstyle MSN聊天風格
 mustrestart 您必須重新啟動程式
 myhomephone 住家電話號碼
 mymobilephone 行動電話號碼
@@ -326,6 +331,7 @@ myworkphone 公司電話號碼
 natip IP detection by web page  
 natkeepalive 如果您會定時被斷線, 請開啟保持連線
 needonline 您還是在離線中!
+never 從不
 newmail $1 封新郵件在收件匣中
 newmailfrom 新郵件從 $1 ($2)
 newmsg 新訊息

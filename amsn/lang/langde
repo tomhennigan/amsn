@@ -132,8 +132,10 @@ countrycode Meine Landesvorwahl
 cprofile Profil erstellen
 credits Danksagung
 currentdate Aktuelles Datum
+customcolor Benutzerdefinierte Farbe
 custom_edit Bearbeite den eigenen Smiley
 custom_new Neuen Smiley hinzufügen
+customnick Benutzerdefinierter Nick
 cut Ausschneiden
 date Datum
 days Tage
@@ -154,6 +156,7 @@ disableprofiles Profile deaktivieren (Nützlich für Cyber-cafes oder gemeinsam ge
 disablessl SSL deaktivieren
 disconnect $1 hat sich abgemeldet.
 displaychat Textoptionen anzeigen
+displaypic Bild anzeigen
 dockfreedesktop In freiem Desktop festankern (KDE3/Gnome2)
 dockgtk In GTK festankern
 docking Festankern eingeschaltet
@@ -238,8 +241,9 @@ inbox Posteingang
 insertsmiley Smiley einfügen
 installconvert Sie müssen das Konvertierprogramm ImageMagick installieren, um die Grafiken in das von den MSN-Servern benötigte Format konvertieren zu können. Sie können die Binärdateien für Ihr Betriebssystem unter ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ herunterladen. Sollten Sie ImageMagick bereits installiert haben, ist dies ein Fehler, bitte informieren Sie die Entwickler.
 internalerror Interner Server Fehler
-invalidfile Die Datei $2, die im Feld $1 eingegeben wurde, existiert nicht oder ist nicht lesbar.
 invalidfile2 Dateiname $1 kann nicht erstellt werden. Stellen Sie sicher, dass Sie die erforderlichen Berechtigungen besitzen.
+invalidfile Die Datei $2, die im Feld $1 eingegeben wurde, existiert nicht oder ist nicht lesbar.
+invalidgroup Ungültige Gruppe
 invalidpic Die angegebene Bilddatei existiert nicht.
 invalidpicsize Das angegebene Bild ist zu groß. Bitte wählen Sie ein anderes.
 invalidsound Die angegebene Sounddatei existiert nicht.
@@ -254,6 +258,9 @@ keepalive Die Verbindung offen halten
 keeplog2 Alle Konversationen in aMSN's Speicher zum späteren ansehen protokollieren
 keeplog Chat's protokollieren
 language Sprache
+lastlogin Letzte Anmeldung
+lastlogout Letzte Abmeldung
+lastmsgedme Letzte Nachricht
 lastmsgtime Letzte Nachricht angekommen am $1
 lclosedwin $1 hat das Fenster auf $2 geschlossen
 lconftopriv Konferenz wurde zum Privatchat mit $1
@@ -316,6 +323,7 @@ newveravailable Neuere Version $1 steht zur Verfügung
 next Weiter
 noactivity inaktiv
 nodataavailable Keine Daten verfügbar für $1
+nogroup Keine Gruppe
 nologfile Keine Log-Datei für $1
 noneavailable Nicht verfügbar.
 no Nein
@@ -354,6 +362,7 @@ pager Pager
 pass Passwort
 paste Einfügen
 personal persönlich
+phones Telefonnummern
 phone Telefon
 picbrowser Anzeigebild-Browser
 picfile Mit der Benachrichtigung verbundenes Bild (GIF < 500 x 500)
@@ -373,6 +382,7 @@ preferences Einstellungen
 preffont2 Schriftart in der andere meinen Text sehen.
 preffont3 aMSN's Schriftart und Größe
 preffont Schriftart
+prefft Dateiübertragung, p2p und NAT Einstellungen
 preflibs Bibliotheken Verzeichnisse
 preflog1 History und Log-Optionen
 preflook aMSN Messenger Aussehen
@@ -390,7 +400,6 @@ prefremote Fernverbindungseinstellungen
 prefsession Anmeldung und Status
 prefshared Gemeinsame Verbindung (nur NAT)
 prefsound Akustische Signale
-prefft Dateiübertragung, p2p und NAT Einstellungen
 privacy Privatsphäre
 profiledconfig Profilabhängige Einstellungen
 profileexists Das Profil existiert bereits. Bitte wählen Sie ein Anderes
@@ -515,6 +524,7 @@ verifyblocked Überprüfen wer Sie blockiert
 version Version
 view Ansicht
 viewprofile Profil ansehen
+webcaminvite $1 hat dich zu einer Webcam-Session eingeladen, aber aMSN unterstützt dies nicht.
 willjoin Warte... $1 wird dem Chat hinzugefügt
 work Arbeit
 wrongfields Die Felder "$1", "$2" und/oder "$3" sind nicht gültig

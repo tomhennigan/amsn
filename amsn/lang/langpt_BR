@@ -554,3 +554,10 @@ custnotifyoffline Exibir janela de notificação quando este contato ficar offline
 custnotifyonline Exibir janela de notificação quando este contato ficar online 
 custnotifystatus Exibir janela de notificação quandoeste contato mudar o status 
 webcaminvite $1 convidou você à iniciar uma sessão com webcam, mas o aMSN não suporta esta característica 
+bouncedock Balançar o ícone do aMSN quando receber uma mensagem
+continuously Continuamente
+ignoreerrors Ignorar silenciosamente outros erros do aMSN até o fim desta sessão
+ircstyle Chat estilo IRC
+justonce Somente uma vez
+msnstyle Chat estilo MSN
+never Nunca

@@ -67,7 +67,8 @@ blockinter4 sekund
 blocklist Block seznam
 blockmessage Ti ljudje so prijavljeni in so te blokirali
 blockusers Hkrati preveri
-broughtby  Naredili naslednji programerji
+bouncedock aMSNjeva ikona v opravilni vrstici naj utripa ob prejetem sporocilu
+broughtby Naredili naslednji programerji
 browse Prebrskaj
 browser Brskalnik
 browserexample ( \$url bo zamenjan z URL-jem). Npr.: mozilla \$url
@@ -80,12 +81,13 @@ cantremoveothers Ni mogoce izbrisati skupine "Ostali"
 casesensitive Obcutljiv na velikost crk
 cfgalarmall Nastavi globalni alarm
 cfgalarm Nastavi zvocni/slikovni alarm
-change Zamenjaj
 changecustomstate Preklopi v
 changedisplaypic Spremeni osebno sliko
 changefont Zamenjaj pisavo
+changeglobnick Spremeni globalni nick
 changenick Zamenjaj nick
 changestate $1 je spremenil/a stanje na $2
+change Zamenjaj
 charscounter Natipkani znaki v oknu s pogovorom
 chatack Sprejemam pogovor od
 chatmaxmin Ko mi stik zacne pogovor z mano, hocem, da je:
@@ -94,9 +96,9 @@ chatreq Zahtevam pogovor
 chatsmileys2 Prikazi emotikone in smeske v pogovornih oknih
 chatsmileys Smeskoti
 checkblocking Preverjaj, ce te ostali blokirajo
+checkemail Pokazi obvestilo o novi posti v seznamu stikov
 checkfilman Prejete datoteke bodo shranjene v $1. Preveri nastavitve upravljalca datotek v nastavitvah.
 checkingver Preverjam za novo razlicico
-checkemail Pokazi obvestilo o novi posti v seznamu stikov
 checkonfln Preveri, ce te je uporabnik blokiral, ko se odjavi
 checkver Preveri za novo razlicico
 choosearq Izberi arhitekturo sistema
@@ -126,6 +128,7 @@ connection Povezava
 contactadded Stik dodan
 contactdoesnotexist Stik ne obstaja!
 contactlist Seznam stikov
+continuously Neprestano
 convertexplain Pot do programa CONVERT iz ImageMagicka (potreben za osebne slike).\n Pusti prazno, ce je pot ze dolocena.
 copy Kopiraj
 copytogroup Dodaj v skupino
@@ -135,6 +138,10 @@ countrycode Oznaka moje drzave
 cprofile Ustvari profil
 credits Zasluge
 currentdate Trenutni datum
+custnotifymsg Prikazi obvestilo, ko ti ta stik poslje sporocilo
+custnotifyoffline Prikazi obvestilo, ko se ta stik odjavi
+custnotifyonline Prikazi obvestilo, ko se ta stik prijavi
+custnotifystatus Prikazi obvestilo, ko ta stik spremeni stanje
 customcolor Barva
 custom_edit Uredi svoje smeske
 custom_new Dodaj svojega smeska
@@ -175,6 +182,7 @@ editprofile Uredi profil
 editstate Uredi obstojece stanje za avtomatsko sporocilo
 edit Uredi
 editvalue Uredi vrednost
+email E-postni naslov
 emailsinlist Pokazi postne naslove namesto nickov v seznamu stikov
 emotisounds Igraj zvok na dolocene emotikone
 enablebanner Prikazi aMSNjevo pasico (Potreben je ponoven zagon aMSN)
@@ -217,6 +225,9 @@ ftrejected Prenos datoteke je bil zavrnjen.
 ftsendinvitation $1 bo prejel/a povabilo za prenos datoteke '$2' ($3 bajtov).
 fullcontactlist Tvoj seznam stikov je poln. Da bi dodal novega, moras izbrisati katerega od trenutnih stikov.
 getdisppic Omogoci prejemanje osebne slike od drugih uporabnikov
+globalnicktitle Globalni nick
+globalnick Vnesi vzorec za tvorbo nickov vseh tvojih stikov. Lahko uporabljas te spremenljivke: \$user_login za naslov stika, \$nick za njegov nick in \$customnick za njegov prikazni nick. Primer: '\$user_login je \$nick' bo prikazano kot 'stik@msn.com je Stik'
+globaloverride Veljajo naj vzorci za globalne nicke
 gonelunch Na kosilu
 groupadd Dodaj v skupino
 groupdelete Izbrisi skupino
@@ -240,6 +251,7 @@ httpconnection HTTP povezava (vrata 80)
 hybrid Hibridni nacin
 ident Identificiram
 identity Identiteta
+ignoreerrors Ne kazi vec sporocil o napakah do zaprtja programa
 imagefiles Slike
 inbox Inbox
 insertsmiley Vstavi emotikon
@@ -256,8 +268,10 @@ invitationcancelled Povabilo je bilo preklicano
 invite Povabi
 ipaddress IP Naslov
 ipdetect Zaznaj IP za prenose datotek preko HTTP
+ircstyle IRC nacin pogovora
 istyping $1 pise sporocilo
 joins $1 se je pridruzil/a pogovoru
+justonce Samo enkrat
 keepalive Drzi zivo (NAT)
 keeplog2 Belezi vse pogovore v aMSN dnevnik za kasnejsi pregled
 keeplog Hrani dnevnik pogovorov
@@ -312,6 +326,7 @@ msgmaxmin Ko prispe novo sporocilo, hocem da je:
 msgmode Izberi nacin prikazovanja vec pogovornih oken:
 msg Sporocilo
 msn AMSN
+msnstyle MSN nacin pogovora
 mustrestart Da bi spremembe prisle v veljavo, moras program ponovno zagnati
 myhomephone Domaci telefon
 mymobilephone Mobilni telefon
@@ -321,6 +336,7 @@ myworkphone Sluzbeni telefon
 natip IP detekcija od mrezne strani
 natkeepalive Ce te velikokrat odjavi, oznaci to moznost
 needonline Se vedno si/izgledas neprijavljen!
+never Nikoli
 newmail $1 novih sporocil v Inboxu
 newmailfrom Novo sporocilo od $1 ($2)
 newmsg Novo sporocilo
@@ -350,7 +366,7 @@ notify3 Prikazi obvestilo ob novem e-mailu
 notify obvesti
 notifyoffset Nastavitve polozaja obvestilnega okna
 notifytyping Posiljaj sogovornikom obvestilo o tipkanju
-notifywin Prikazi opozorilo ob dogodkih
+notifywin Obvestila
 notinlist Nisi na njegovem/njenem seznamu stikov
 notls MSN protokol 9 potrebuje tls. Izgleda, da ni namescen na tem racunalniku. Ce je, vnesi pot do njegovega imenika v nastavitvah (npr.: /opt/tls/lib). \n \ntls lahko poberes s http://tls.sf.net.
 nousersinsession Ni uporabnikov v seji
@@ -370,8 +386,8 @@ pager Pager
 pass Geslo
 paste Prilepi
 personal Osebno
-phone Telefon
 phones Telefonske stevilke
+phone Telefon
 picbrowser Prikazi brskalnik slik
 picfile Slikovna datoteka
 picstatus Slika omogocena
@@ -527,13 +543,14 @@ uoffline Neprijavljeni
 uonline Prijavljeni
 useralreadyonlist Uporabnik je ze na seznamu stikov
 userblocked Uporabnik je prijavljen, a te je blokiral
-usernotonline Uporabnik ni prijavljen
-user Uporabnik
 userdata Podatki o uporabniku
+usernotonline Uporabnik ni prijavljen
 userproperties Lastnosti uporabnika $1
+user Uporabnik
 useryourself Ne mores govoriti sam s seboj
 verifyblocked Preveri, kdo te blokira
 version Razlicica
+viewcontactsby Prikazi stike po
 view Pogled
 viewprofile Poglej profil
 webcaminvite $1 te je povabil/a na videokanferenco, a aMSN tega ne podpira.

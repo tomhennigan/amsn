@@ -296,7 +296,7 @@ logsmileys Afficher les émoticons et les smileys dans la fenêtre d'historique de
 logsout vient juste de se déconnecter
 longnick Votre pseudo est supérieur à 130 caractères. Ce n'est pas supporté officiellement par le protocol MSN. Etes-vous sûrs de voulloir le mettre ?
 longp4c Votre pseudo de conversation dépasse les 130 caractères. Le client MSN officiel affichera $1. Voulez-vous continuer ?
-lprivtoconf  Conversation privée changée en conférence avec $1
+lprivtoconf  Conversation privée changée en conférence avec $1
 luclosedwin Vous avez fermé la fenêtre sous $1
 mailerexample (\$recipient = destinataire) Laisser vide pour utiliser Hotmail
 mailer Programme de courrier
@@ -549,3 +549,13 @@ yoffset Position en Y
 youblocked Vous avez été bloqué
 yousay Vous avez dit
 youwant Vous voulez
+bouncedock Enregistre en local un icone aMSN quand vous recevez un message.
+continuously continuellement
+custnotifymsg Affiche une notification quand vous recevez un message d'un de vos contacts
+custnotifyoffline Affiche une notification quand un de vos contact se déconnecte.
+custnotifyonline Affiche une notification quand un de vos contact se connecte
+custnotifystatus Affiche une notification quand un de vos contact change de status
+ignoreerrors Ignore silencieusement les autres erreurs de aMsn jusqu'à la fin de la session
+justonce Juste une fois
+never Jamais
+webcaminvite $1 vous invite à démarrer un conversation par Webcam, mais aMSN ne supporte pas cette option.
