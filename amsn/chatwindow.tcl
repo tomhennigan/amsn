@@ -1680,7 +1680,13 @@ namespace eval ::ChatWindow {
 				-fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
 				-activebackground [::skin::getKey sendbuttonbg] -activeforeground black -text [trans send] \
 				-font sboldf -highlightthickness 0 -pady 0 -padx 0 -overrelief flat -compound center
-		} else {
+		} elseif { $tcl_platform(os) == "Darwin" } {
+			label $sendbutton -image [::skin::loadPixmap sendbutton] \
+				-fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
+				-activebackground [::skin::getKey sendbuttonbg] -activeforeground black -text [trans send] \
+				-font sboldf -highlightthickness 0 -pady 0 -padx 0 -relief flat -compound center
+			bind $sendbutton <<Button1>> "::amsn::MessageSend $w $text"
+		} else 	{
 			# Standard grey flat button (For Tcl/Tk < 8.4 and Mac OS X)
 			button $sendbutton  -text [trans send] -width 6 -borderwidth 1 \
 				-relief solid -command "::amsn::MessageSend $w $text" \
@@ -1696,7 +1702,7 @@ namespace eval ::ChatWindow {
 		bind $text <Tab> "focus $sendbutton; break"
 		bind $sendbutton <Return> "::amsn::MessageSend $w $text; break"
 		#Don't insert picture if TCL 8.3 or Mac OS X because it's the old-style button
-		if { $::tcl_version >= 8.4 && $tcl_platform(os) != "Darwin" } {
+		if { $::tcl_version >= 8.4 } {
 			bind $sendbutton <Enter> "$sendbutton configure -image [::skin::loadPixmap sendbutton_hover]"
 			bind $sendbutton <Leave> "$sendbutton configure -image [::skin::loadPixmap sendbutton]"
 		}
@@ -1765,14 +1771,9 @@ namespace eval ::ChatWindow {
 
 		# Pack My input frame widgets
 		pack $text -side left -expand true -fill both -padx 1 -pady 1
-		#Don't fill y on Mac OS X
-		if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
-			pack $sendbutton -side left -padx [::skin::getKey chat_sendbutton_padx]\
+		pack $sendbutton -fill y -side left -padx [::skin::getKey chat_sendbutton_padx]\
 			-pady [::skin::getKey chat_sendbutton_pady]
-		} else {
-			pack $sendbutton -fill y -side left -padx [::skin::getKey chat_sendbutton_padx]\
-			-pady [::skin::getKey chat_sendbutton_pady]
-		}
+		
 		
 		return $input
 	}
@@ -1799,49 +1800,47 @@ namespace eval ::ChatWindow {
 		set input [::ChatWindow::GetInputText $w]
 
 
-		# Create them along with their respective tooltips
-
+		#Buttons are now labels, to get nicer interface on Mac OS X
+		
 		#Smiley button
-		button $smileys  -image [::skin::loadPixmap butsmile] -relief flat -padx 0 \
+		label $smileys  -image [::skin::loadPixmap butsmile] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
 			-highlightbackground [::skin::getKey buttonbarbg]  -activebackground [::skin::getKey buttonbarbg]
 		set_balloon $smileys [trans insertsmiley]
-
-		#Font button
-		button $fontsel -image [::skin::loadPixmap butfont] -relief flat -padx 0 \
+				#Font button
+		label $fontsel -image [::skin::loadPixmap butfont] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
 			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
 		set_balloon $fontsel [trans changefont]
 		
 		#Block button
-		button $block -image [::skin::loadPixmap butblock] -relief flat -padx 0 \
+		label $block -image [::skin::loadPixmap butblock] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
 			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
 		set_balloon $block [trans block]
 		
 		#Send file button
-		button $sendfile -image [::skin::loadPixmap butsend] -relief flat -padx 0 \
+		label $sendfile -image [::skin::loadPixmap butsend] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
 			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
 		set_balloon $sendfile [trans sendfile]
-
+	
 		#Invite another contact button
-		button $invite -image [::skin::loadPixmap butinvite] -relief flat -padx 0 \
+		label $invite -image [::skin::loadPixmap butinvite] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
 			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
 		set_balloon $invite [trans invite]
-
+	
 		# Pack them
 		pack $fontsel $smileys -side left -padx 0 -pady 0
 		pack $block $sendfile $invite -side right -padx 0 -pady 0
-
-		# Configure our commands for onclick
-		$smileys  configure -command "::smiley::smileyMenu \[winfo pointerx $w\] \[winfo pointery $w\] $input"
-		$fontsel  configure -command "after 1 change_myfont [string range $w 1 end]"
-		$block    configure -command "::amsn::ShowChatList \"[trans block]/[trans unblock]\" $w ::amsn::blockUnblockUser"
-		$sendfile configure -command "::amsn::FileTransferSend $w"
-		$invite   configure -command "::amsn::ShowInviteMenu $w \[winfo pointerx $w\] \[winfo pointery $w\]"
-
+	
+		bind $smileys  <<Button1>> "::smiley::smileyMenu \[winfo pointerx $w\] \[winfo pointery $w\] $input"
+		bind $fontsel  <<Button1>> "after 1 change_myfont [string range $w 1 end]"
+		bind $block    <<Button1>> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" $w ::amsn::blockUnblockUser"
+		bind $sendfile <<Button1>> "::amsn::FileTransferSend $w"
+		bind $invite   <<Button1>> "::amsn::ShowInviteMenu $w \[winfo pointerx $w\] \[winfo pointery $w\]"
+		
 		# Create our bindings
 		bind  $smileys  <Enter> "$smileys configure -image [::skin::loadPixmap butsmile_hover]"
 		bind  $smileys  <Leave> "$smileys configure -image [::skin::loadPixmap butsmile]"
@@ -1849,6 +1848,7 @@ namespace eval ::ChatWindow {
 		bind  $fontsel  <Leave> "$fontsel configure -image [::skin::loadPixmap butfont]"
 		bind $block <Enter> "$block configure -image [::skin::loadPixmap butblock_hover]"
 		bind $block <Leave> "$block configure -image [::skin::loadPixmap butblock]"
+		
 		bind $sendfile <Enter> "$sendfile configure -image [::skin::loadPixmap butsend_hover]"
 		bind $sendfile <Leave> "$sendfile configure -image [::skin::loadPixmap butsend]"
 		bind $invite <Enter> "$invite configure -image [::skin::loadPixmap butinvite_hover]"
