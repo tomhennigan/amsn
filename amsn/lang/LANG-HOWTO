@@ -27,9 +27,9 @@ Index:
    Some of the tools you *must* use before sending your files. These
    tools are included with aMSN. 
 
-
+============
 Introduction
--------------
+============
 
 There are many ways you can help the aMSN project. One of them is 
 by translating the software to other languages. This can be easily
@@ -78,9 +78,9 @@ Tip: this LANG-HOWTO file surely contains many errors. If you are a
 native english speaker, please help us by proofreading it.
 
 
-
+===========================
 0. The most important thing
----------------------------
+===========================
 
 You MUST subscribe to the amsn-lang@lists.sourceforge.net mailing
 list. There you can discuss various issues with the members of the
@@ -105,9 +105,9 @@ You can subscribe to the list by visiting this page:
 
 Remember, joining or not is not an option. You MUST subscribe.
 
-
+==================
 1. For Translators
-------------------
+==================
 
 When you add new keys, you should send the entire updated langXX
 file to the translator managers, who can be reached at
@@ -123,38 +123,57 @@ in doubt, send the entire file.
 Keys sent in the body of the email will be ignored, due to character
 coding and line break issues.
 
+You can help us by translating some sentences to your language,
+or modifying wrongly translated sentences (proofreading).
+
 RULES THAT MUST BE FOLLOWED:
-1. Download the langfile you want to work on from the website or via
-CVS. You will find the link at the translation page:
+----------------------------
+1. Download the latest langfile you want to work on from the website
+or via CVS. You will find the link at the translation page:
 http://amsn.sourceforge.net/modules.php?name=Translation
+-NEVER use files from a stable AMSN package, as they are probably out
+of date, and you'll find yourself translating many keys that are
+already translated in the latest language file version.
 
 2. Add the missing keywords from the list at the bottom of the page
 to the language file.
+-Alternatively, you can also download "langen" file (the master file),
+and use the script "missing.py" in the lang/ folder to check what are
+the missing keys.
 
-3. Translate the english explanations
+3. Translate the english sentences.
+-BE CAREFUL with $1, $2... parameters that appear in some
+sentences. You can change their position, but they must appear on
+the sentence, they 'll be substituted during execution with some
+values.
+-Every key must be in a single line. There should be no line breaks.
+The key name (first word on the line), and the translation must be
+separated by a single blank. Don't use Tabs.
 
-4. Send the updated file to amsn-translations@lists.sourceforge.net
+4. Check the translated with one of the scripts provided in the lang/
+folder. For example:
+ $ ./missing.py langXX
+It will tell you if there are any errors or missing keys to translate.
+You'll need the "langen" file in the same folder in order to check the
+missing keys. It can be downloaded from the translations web page too.
+-It's not necessary that the keys in the file are sorted, but it is
+better to have them sorted, in order to find keys more easily. You can
+sort them automatically using the "sortlang" script in the lang/ folder.
+Please MAKE SURE there are no errors in the file before sorting, or the
+file can be messed up.
 
-5. We will ONLY accept langfiles. We will NOT accept, in ANY way,
+5. When all errors are fixed, send the updated file to
+amsn-translations@lists.sourceforge.net
+-We will ONLY accept langfiles. We will NOT accept, in ANY way,
 individual keys received in the body of the email. You MUST send
 the COMPLETE langfile (for instance, langit if you are italian)
 ATTACHED to de email message. Only in special cases we will accept
 diff files or incumplete translation files with a few keys.
-
-6. As stated above, keys sent in the body of the email will be
+-As stated above, keys sent in the body of the email will be
 IGNORED and DISCARDED.
-
-7. Langfiles sent to other email addresses than
+-Langfiles sent to other email addresses than
 amsn-translations@lists.sourceforge.net will also be IGNORED and
 DISCARDED.
-
-8. You can help us by translating some sentences to your language,
-or modifying wrongly translated sentences (proofreading).
-
-9. Be careful with $1, $2... parameters that appear in some
-sentences. You can change their position, but they must appear on
-the sentence, they 'll be substituted during execution with some
-values.
 
 If not possible, or you're just translation a few keys, you can just
 send (although it is not the ideal) a text file attached to the
@@ -170,8 +189,8 @@ blank lines in the middle. Including the keys directly in the email
 text is a bad idea, as mail clients usually split long lines and
 change the character encodings, which leads to mistakes.
 
-Other kinds of contribution will be rejected, in order to make the
-job easier to the manager. 
+OTHER KINDS OF CONTRIBUTION WILL BE REJECTED, IN ORDER TO MAKE THE
+JOB EASIER TO THE MANAGER. 
 
 I hope you understand, there's usually one person in charge of
 updating the translations, and there are more than 40 languages, so
@@ -179,6 +198,7 @@ there are many translations and submission. Don't make it more
 difficult :)
 
 HOW TO ADD A NEW LANGUAGE
+-------------------------
 
 1. Choose a short identifier for your language (for example english
 - en). It is better that you use the correct ISO code for your
@@ -210,7 +230,7 @@ we will fix things up ;-)
 
 2. Download the english language (langen) file from
 
-    http://amsn.sourceforge.net
+    http://amsn.sourceforge.net/modules.php?name=Translation
 
 3. Rename the file to langXX, where XX the ISO language code you've
 chosen. Remember that, for some languages, the ISO code has three
@@ -223,7 +243,8 @@ files, only spaces are allowed. Tabs break aMSN.
 5. TEST THE FILE. Use the new file in your local aMSN before
 sending. Go through every menu and every dialog box. Assure that
 all messages have the proper size. If you don't know how to do it,
-ask on the amsn-lang list.
+ask on the amsn-lang list. Also use the scripts provided in lang/
+folder to check for errors in the translation.
 
 6. Only after testing for one or two days, send the new file to
 
@@ -232,8 +253,10 @@ ask on the amsn-lang list.
 Send to this email only! Submissions to other emails will be ignored
 and discarded.
 
+
+===========================
 2. For Translation Managers
-----------------------------
+===========================
 
 When a new translation arrives to you, you should only accept it if
 is a diff file or a complete langXX file. Do not accept other kinds
@@ -241,7 +264,7 @@ of submissions, 'cause our users can always send sparse translated
 keys by mail, and it's a big job :)
 
 Be sure of using a multilanguage editor and use de correct codepage
-for each language or you can corrup them. Encodings are in langlist
+for each language or you can corrupt them. Encodings are in langlist
 file.
 
 If you reject a translation by any reason, do it politely. 
@@ -259,15 +282,16 @@ README file. You should tell him about this, and ask him if he
 wants to be removed (nobody wanted to be removed until now, but
 it's polite to ask :))
 
+
+==========================
 3. For both - Useful tools
---------------------------
+==========================
 
 In the lang/ folder you have some useful scripts. 
 Remember to replace XX in langXX for the two-letter
 code of your language. Example: Valenciano = langva.
 
 The tools are:
-
 
 - missing.py: will list the missing keys in langXX file, that
 is, the keys that exist in langen (the master language), but not in
@@ -278,7 +302,6 @@ Usage in Linux:
 
 Usage in Windows (must have the Python interpreter installed):
 python missing.py langXX
-
 
 - sortlang: will sort the language file. BE CAREFUL. Don't apply
 sortlang if there are spplited translations, as sorting it will
@@ -292,7 +315,6 @@ Usage in Linux:
 
 To use it in Windows you must have Cygwin installed.
 The syntax is identical. http://www.cygwin.com
-
 
 - convert.tcl: converts the given source, in the source encoding, 
 to the given destination file using the given encoding.
