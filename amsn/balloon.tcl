@@ -94,7 +94,7 @@ proc balloon {target message {cx 0} {cy 0} } {
 	#Standard way to show baloon on Mac OS X (aqua), show balloon in white for Mac OS X and yellow for others platforms
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	destroy .balloon
-	toplevel .balloon -relief flat  \
+	toplevel .balloon -relief flat -bg #C3C3C3 \
     -class Balloonhelp ; ::tk::unsupported::MacWindowStyle\
     style .balloon help none
     set bg_balloon #ffffca
