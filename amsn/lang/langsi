@@ -221,7 +221,7 @@ preflog1 Zgodovina in dnevnik
 preflook Izgled uporabniskega vmesnika
 prefname Moje ime/nickname
 prefphone Moje telefonske stevilke
-prefphone2 Vpisi telefonske stevilke za katere zelis da so vidne $1, ki so na Allow seznamu.
+prefphone2 Vpisi telefonske stevilke za katere zelis da so vidne \n, ki so na Allow seznamu. \n
 prefprofile Moj javni profil
 prefprofile2 Ustvari/spremeni javni profil
 prefproxy Nastavitve proxy streznika

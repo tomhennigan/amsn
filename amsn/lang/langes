@@ -18,7 +18,7 @@ appearance Apariencia
 appearoff Sin conexión
 areacode Código de area
 aretyping $1 están escribiendo un mensaje
-askprofile Este usuario no posee todavía un perfil. Desea crear uno nuevo? $1 En caso contrario no se podrá usar el Historial, o guardar la contraseña y alarmas. $1 Al crearlo, tendrás una configuración personalizada para este perfil. $1 $1 Haz click en "Crear Perfil" para crear un nuevo perfil para $2.
+askprofile Este usuario no posee todavía un perfil. Desea crear uno nuevo? \n En caso contrario no se podrá usar el Historial, o guardar la contraseña y alarmas. \n Al crearlo, tendrás una configuración personalizada para este perfil. \n \n Haz click en "Crear Perfil" para crear un nuevo perfil para $1.
 autoaway Mostrarme "Ausente" cuando no hay actividad en
 autoconnect2 Conectarse automáticamente cuando se inicia aMSN
 autoconnect Conectar al arrancar amsn
@@ -220,9 +220,9 @@ preflog1 Mis opciones de historial y registros
 preflook Apariencia de mi aMSN Messenger
 prefmsging Interfaz de mis mensajes
 prefname Mi nombre/apodo en MSN Messenger
-prefphone2 Escribe los números que quieras permitir ver a los contactos $1 en tu lista de Permitidos $1
+prefphone2 Escribe los números que quieras permitir ver a los contactos \n en tu lista de Permitidos \n
 prefphone Mis números de teléfono
-prefprofile2 Crea o modifica tu perfil público (la $1 descripción de ti mismo que otros puede ver)
+prefprofile2 Crea o modifica tu perfil público (la \n descripción de ti mismo que otros puede ver)
 prefprofile Mi perfil público
 prefproxy Configuración de mi proxy
 prefsession My inicio de sesión y estado

@@ -222,7 +222,7 @@ yousay Vous avez dit
 youwant Vous voulez
 appearance Apparition
 areacode Code de la Zone
-askprofile Cet utilisateur n'a pas encore de profile. Voulez vous en créer un nouveau? $1 Si vous ne les faites pas, vous ne pourrez utiliser l'Historique, ou encore sauvegarder vos Alertes ou mot de passe. $1 Si vous le faites, un nouveau fichier de configuration pour ce profil sera créé. $1 $1 Cliquez sur "Créer Profile" pour créer un nouveau profile pour $2.
+askprofile Cet utilisateur n'a pas encore de profile. Voulez vous en créer un nouveau? \n Si vous ne les faites pas, vous ne pourrez utiliser l'Historique, ou encore sauvegarder vos Alertes ou mot de passe. \n Si vous le faites, un nouveau fichier de configuration pour ce profil sera créé. \n \n Cliquez sur "Créer Profile" pour créer un nouveau profile pour $1.
 autoaway Me marquer "Absent" quand inactif plus de
 autoconnect2 Me connecter automatiquement quand aMSN est lancé
 autonoact Me marquer "Non Actif" quand inactif plus de 
@@ -273,9 +273,9 @@ preflog1 Mon historique et mes options de Log
 preflook Apparence de Amsn
 prefmsging Mon Interface de messagerie
 prefname Mon Nom/Surnom MSN MESSENGER
-prefphone2 Entrer les numéros de téléphone visible de votre liste de personnes $1 autorisées $1
+prefphone2 Entrer les numéros de téléphone visible de votre liste de personnes \n autorisées \n
 prefphone Mes numéros de téléphone
-prefprofile2 Créer ou modifier votre profile publique (votre description $1 visble par les autres)
+prefprofile2 Créer ou modifier votre profile publique (votre description \n visble par les autres)
 prefprofile Mon profile publique
 prefproxy Ma configuration Proxy
 prefsession Ma connection et statut

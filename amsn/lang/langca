@@ -17,7 +17,7 @@ appearance Aparença
 appearoff Simula desconnexió
 areacode Codi d'àrea
 aretyping $1 estan escrivint un missatge
-askprofile Aquest usuari encara no té un perfil. Vols crear-ne un de nou? $1 Si no el crees, no podràs utilitzar l'historial o desar l'alarma i la contrasenya. $1 Si el crees, tindràs una configuració separada per aquest perfil. $1 $1 Apreta sobre "Crear perfil" per crear un nou perfil per l'usuari $2.
+askprofile Aquest usuari encara no té un perfil. Vols crear-ne un de nou? \n Si no el crees, no podràs utilitzar l'historial o desar l'alarma i la contrasenya. \n Si el crees, tindràs una configuració separada per aquest perfil. \n \n Apreta sobre "Crear perfil" per crear un nou perfil per l'usuari $1.
 autoaway Mostra'm en l'estat "Absent" quan no hi hagi activitat en
 autoconnect2 Connectar-se automàticament al iniciar l'aMSN
 autoconnect Connectar-se al iniciar l'aMSN
@@ -219,9 +219,9 @@ preflog1 Les meves opcions d'historial i registres
 preflook Aparença del meu aMSN
 prefmsging Interfície dels meus missatges
 prefname El meu nom o sobrenom de l'aMSN
-prefphone2 Escriu els números de telèfon que vols permetre veure als contactes $1 de la teva llista de contactes amb permís $1
+prefphone2 Escriu els números de telèfon que vols permetre veure als contactes \n de la teva llista de contactes amb permís \n
 prefphone Els meus números de telèfon
-prefprofile2 Crea o modifica el teu perfil públic (la $1 descripció de tu mateix que poden veure els altres)
+prefprofile2 Crea o modifica el teu perfil públic (la\n descripció de tu mateix que poden veure els altres)
 prefprofile El meu perfil públic
 prefproxy Els paràmetres del meu servidor intermedi (proxy)
 prefsession El meu inici de sessió i estat

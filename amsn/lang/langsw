@@ -280,9 +280,9 @@ preflog1 Logg-inställningar
 preflook aMSN Messenger utseende
 prefmsging Meddelandeutseende
 prefname Mitt aMSN Messenger Namn/Smeknamn/Nickname
-prefphone2 Välj vilka nummer personer $1 ska få se $1
+prefphone2 Välj vilka nummer personer \n ska få se \n
 prefphone Mina telefonnummer
-prefprofile2 Skapa eller ändra din profil (Den $1 beskrivning av dejsjälv 
+prefprofile2 Skapa eller ändra din profil (Den \n beskrivning av dejsjälv 
 som andra kan se)
 prefprofile Min Profil
 prefproxy Mina proxyinställningar
