@@ -108,6 +108,7 @@ choosecontact Veuillez choisir un contact dans la liste
 choosefontcolor Choisir la couleur de police
 chooseskin Sélectionnez l'apparence que vous souhaitez utiliser dans la liste
 ch_to_state Changer vers ce nouvel état immédiatement
+clear Effacer
 clearlog2 Effacer l'historique de tous mes contacts
 clearlog3 Effacer tous les historiques
 clearlog Effacer les historiques
@@ -144,6 +145,7 @@ custom_new Créer un émoticon personnalisé
 customnick Pseudo personnalisé
 cut Couper
 date Date
+dateformat Changer le format de la date
 days Jours
 dcprofile Ne pas créer de profil
 default Configuration par défaut
@@ -280,6 +282,7 @@ lastlogin Dernière connexion
 lastlogout Dernière déconnexion
 lastmsgedme Dernier message
 lastmsgtime Dernier message reçu à $1
+lastseen Dernière fois vu
 lclosedwin $1 a fermé la fenêtre sur $2
 lconftopriv Conférence changée en conversation privée avec $1
 lconvstarted Conversation commencée le $1
@@ -322,6 +325,7 @@ maximised Maximisé
 minimised Minimisé/Icônifié
 mins minutes
 mobile Mobile
+month Mois
 morepersonal Autres états ->
 move Déplacer
 movetogroup Déplacer vers groupe
@@ -345,6 +349,7 @@ needonline Vous êtes toujours déconnecté(e)!
 needwinico Winico03.dll doit figurer dans le dossier de Plug-ins afin que l'icône dans la Barre des tâches fonctionne
 newmail $1 nouveaux messages
 newmailfrom Nouveau message de $1 ($2)
+newmailfolder $@ nouveaux messages dans les autres dossiers Hotmail
 newmsg Nouveau message
 newstate Ajouter un état personnel
 newveravailable Nouvelle version disponible ($1)
@@ -368,7 +373,8 @@ notify1_5 Afficher une notification quand les contacts se déconnectent
 notify1_75 Afficher une notification quand les contacts changent de statut
 notify1 Afficher une notification quand un contact est en ligne
 notify2 Afficher une notification quand de nouveaux messages sont reçus
-notify3 Afficher une notification quand des emails arrivent dans votre boîte de réception
+notify3 Afficher une notification quand des E-mails arrivent dans votre boîte de réception
+notify4 Afficher une notification quand des E-mails arrivent dans les autres dossiers
 notifyoffset Sélectionner la position de la fenêtre de notification en précisant ses coordonnées
 notify prévenir
 notifytimeout Nombre de milisecondes écoulées avant que la fenêtre d'annonce ne disparaisse
@@ -541,6 +547,7 @@ tlsinstall Assistant d'installation du module TLS
 tlsinstallexp aMSN utilise maintenant le protocole 9 de MSN, qui requiert l'utilisation d'une connexion\nsécurisée utilisant SSL. Pour utiliser SSL, aMSN a besoin d'installer un module nommé TLS,\nqui est manquant sur votre système. Cet assistant va vous aider à télécharger et à\ninstaller TLS. Veuillez choisir votre type de système pour que nous puissions télécharger automatiquement\nles fichiers TLS requis.
 tlsinstcompleted L'installation du module TLS a été réussie, vous pouvez maintenant utiliser le protocole 9 de MSN. S'il ne fonctionne pas, alors vous n'avez probablement pas sélectionné le bon module, ou un module compilé n'est pas disponible pour votre système.
 to A
+today Aujourd'hui
 tools Outils
 tooltips Activer les info-bulles
 transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue.
@@ -573,7 +580,9 @@ xmmscurrent Affiche la chanson courante
 xmmserr Rien à jouer, ou vous n'avez pas installé xmms-infopipe.
 xmmssend Envoyer la chanson courante
 xoffset Position en X
+year Année
 yes Oui
+yesterday Hier
 yoffset Position en Y
 youblocked Vous avez été bloqué
 yousay Vous avez dit
