@@ -1540,8 +1540,6 @@ namespace eval ::amsn {
       #Remove this menu item on Mac OS X because we "lost" the window instead of just hide it and change accelerator for history on mac os x
       if {$tcl_platform(os) == "Darwin"} {
        .${win_name}.menu.view add command -label "[trans history]" -command "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin" -accelerator "Command-Option-H"
-      #.${win_name}.menu.view add separator
-      #.${win_name}.menu.view add command -label "[trans hidewindow]" -command "wm state .${win_name} withdraw"
 		} else {
       .${win_name}.menu.view add command -label "[trans history]" -command "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin" -accelerator "Ctrl+H"
 	  .${win_name}.menu.view add separator
@@ -3039,9 +3037,7 @@ proc cmsn_draw_main {} {
      -menu .ordergroups_by
      
 #Unecessary separator when you remove the 2 dockings items menu on Mac OS X
-   	if {$tcl_platform(os) == "Darwin"} {
-	#.main_menu.tools add separator
-	} else {
+   	if {$tcl_platform(os) != "Darwin"} {
 	.main_menu.tools add separator
 	}
 	
@@ -3060,9 +3056,7 @@ proc cmsn_draw_main {} {
    #.options add cascade -label "[trans docking]" -menu .dock_menu
 
 #Disable item menu for docking in Mac OS X(incompatible)
-   	if {$tcl_platform(os) == "Darwin"} {
-	#.main_menu.tools add cascade -label "[trans docking]" -menu .dock_menu
-	} else {
+   	if {$tcl_platform(os) != "Darwin"} {
 	.main_menu.tools add cascade -label "[trans docking]" -menu .dock_menu
 	}
 	
@@ -3087,9 +3081,7 @@ proc cmsn_draw_main {} {
 	.main_menu.tools add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
 	
 	#Disable item menu for docking in Mac OS X(incompatible)
-	if {$tcl_platform(os) == "Darwin"} {
-	#.main_menu.tools add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable config(closingdocks)
-	} else {
+	if {$tcl_platform(os) != "Darwin"} {
 	.main_menu.tools add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable config(closingdocks)
 	}
 	
