@@ -2055,7 +2055,7 @@ namespace eval ::ChatWindow {
 		}
 
 		
-		after 1000 "::ChatWindow::FlickerTab $win 0"
+		after 500 "::ChatWindow::FlickerTab $win 0"
 
 	}
 
@@ -2312,7 +2312,11 @@ namespace eval ::ChatWindow {
 
 		set ::ChatWindow::titles($container) $title
 
-		wm title $container $title
+		if { [info exists ::ChatWindow::new_message_on($container)] && [set ::ChatWindow::new_message_on($container)] == 1 } {
+			wm title $container "*$title"
+		} else {
+			wm title $container "$title"
+		}
 		
 	}
 
