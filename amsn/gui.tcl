@@ -365,7 +365,7 @@ namespace eval ::amsn {
       set fromname [lindex [::MSN::getUserInfo $fromlogin] 1]
       set txt [trans ftgotinvitation $fromname '$filename' $filesize $files_dir]      
       
-      set win_name [MakeWindowFor $chatid $fromlogin $txt]
+      set win_name [MakeWindowFor $chatid $txt]
       
       
      WinWrite $chatid "----------\n" gray     
@@ -653,7 +653,8 @@ namespace eval ::amsn {
    proc messageFrom { chatid user msg type {fontformat ""} } {
       global remote_auth config
 
-      set win_name [MakeWindowFor $chatid $user $msg]
+      set notifytext "[trans says [lindex [::MSN::getUserInfo $user] 1]]:\n$msg"
+      MakeWindowFor $chatid $notifytext
        
        if { $remote_auth == 1 } {
 	   if { "$user" == "$config(login)" } {
@@ -680,7 +681,7 @@ namespace eval ::amsn {
 
    #Opens a window if it did not existed, and if it's first message it
    #adds msg to notify, and plays sound if enabled
-   proc MakeWindowFor { chatid user msg } {
+   proc MakeWindowFor { chatid msg } {
    
       global config
       variable first_message 
@@ -703,7 +704,7 @@ namespace eval ::amsn {
 	 #wm state ${win_name} normal
 
          if { ($config(notifymsg) == 1) && ([string first ${win_name} [focus]] != 0)} {
-            notifyAdd "[trans says [lindex [::MSN::getUserInfo $user] 1]]:\n$msg" \
+            notifyAdd "$msg" \
 	    "::amsn::chatUser $chatid"
 	 }
 
@@ -1483,6 +1484,10 @@ namespace eval ::amsn {
 		focus ${input}
 	}
 
+      set fontfamily [lindex $config(mychatfont) 0]
+      set fontstyle [lindex $config(mychatfont) 1]
+      set fontcolor [lindex $config(mychatfont) 2]	
+	
       if { [string length $msg] > 400 } {
       	set first 0
 	while { [expr $first + 400] <= [string length $msg] } {
@@ -1493,19 +1498,22 @@ namespace eval ::amsn {
 	}
 	set msgchunk [string range $msg $first end]
 	set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
+	
+         #Draw our own message
+         messageFrom $chatid [lindex $user_info 3] "$msgchunk" user [list $fontfamily $fontstyle $fontcolor]      	
+	
 	::MSN::messageTo $chatid "$msgchunk" $ackid
       } else {
       	set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msg]]
       	#::MSN::chatQueue $chatid [list ::MSN::messageTo $chatid "$msg" $ackid]
-      	::MSN::messageTo $chatid "$msg" $ackid
+	
+         #Draw our own message
+         messageFrom $chatid [lindex $user_info 3] "$msg" user [list $fontfamily $fontstyle $fontcolor]      	
+      
+	::MSN::messageTo $chatid "$msg" $ackid
       }
 
-      set fontfamily [lindex $config(mychatfont) 0]
-      set fontstyle [lindex $config(mychatfont) 1]
-      set fontcolor [lindex $config(mychatfont) 2]
 
-      #Draw our own message
-      messageFrom $chatid [lindex $user_info 3] "$msg" user [list $fontfamily $fontstyle $fontcolor]
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -1542,6 +1550,8 @@ namespace eval ::amsn {
    # window related to 'chatid'
    proc DeliveryFailed { chatid msg } {
 
+      set txt "[trans deliverfail]:\n $msg"
+      MakeWindowFor $chatid $txt
       WinWrite $chatid "[timestamp] [trans deliverfail]: " red
       WinWrite $chatid "$msg\n" gray
 

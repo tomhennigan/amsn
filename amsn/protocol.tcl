@@ -1699,6 +1699,12 @@ namespace eval ::MSN {
    # messageTo (chatid,txt,ackid)
    # Just queue the message send
    proc messageTo { chatid txt ackid } {
+      if {![chatReady $chatid] && [lindex [::MSN::getUserInfo [lindex [usersInChat $chatid] 0]] 2] == 8 } {
+         status_log "chat NOT ready in ::MSN::SendChatMsg\n"
+         ::amsn::nackMessage $ackid
+	 chatTo $chatid
+	 return 0
+      }
       ChatQueue $chatid [list ::MSN::SendChatMsg $chatid "$txt" $ackid]
    }
    #///////////////////////////////////////////////////////////////////////////////
