@@ -1354,7 +1354,9 @@ for i in $dirs ; do
         if  test "x${TCL_INC_DIR}" != "x" -o "x${TCL_INC_SPEC}" != "x" \
             -o "x${TCL_INCLUDE_DIR}" != "x" -o "x${TCL_INCLUDE_SPEC}" != "x"; then
 	    TCL_LIB_DIR=`cd $i; pwd`
-	    echo "Found it"
+	    break;
+	elif test -f ${TCL_PREFIX}/include/tcl.h; then
+	    TCL_LIB_DIR=`cd $i; pwd`
 	    break;
 	fi
 
@@ -1410,6 +1412,9 @@ if test "x${TCL_INC_DIR}" == "x"; then
    TCL_INC_DIR=$TCL_INCLUDE_DIR
 fi
 
+if test "x${TCL_INC_DIR}" == "x" -a -f ${TCL_PREFIX}/include/tcl.h; then
+   TCL_INC_DIR=${TCL_PREFIX}/include
+fi
 
 if test "x${TCL_INC_DIR}" == "x"; then
    { { echo "$as_me:$LINENO: error: You dot not have a devel package of Tcl" >&5
@@ -1495,6 +1500,9 @@ else
 		   TK_LIB_DIR=`cd $i; pwd`
 		   break;
 		fi
+	   elif test -f ${TK_PREFIX}/include/tk.h; then
+		TK_LIB_DIR=`cd $i; pwd`
+		break;
 	   fi
 	fi
 
@@ -1540,6 +1548,9 @@ if test "x${TK_INC_DIR}" == "x"; then
    TK_INC_DIR=$TK_INCLUDE_DIR
 fi
 
+if test "x${TK_INC_DIR}" == "x" -a -f ${TK_PREFIX}/include/tk.h; then
+   TK_INC_DIR=${TK_PREFIX}/include
+fi
 
 if test "x${TK_INC_DIR}" == "x"; then
    { { echo "$as_me:$LINENO: error: You dot not have a devel package of Tk" >&5

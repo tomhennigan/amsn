@@ -1,12 +1,10 @@
 # Directories in which the Tcl core can be found
 TCL_INC_SPEC 	= @TCL_INC_SPEC@
-TCL_LIB_DIR 	= @TCL_LIB_DIR@
-TCL_LIB_SPEC 	= @TCL_LIB_SPEC@
+TCL_STUB_LIB_SPEC = @TCL_STUB_LIB_SPEC@
 
 # Directories in which the Tk core can be found
 TK_INC_SPEC 	= @TK_INC_SPEC@
-TK_LIB_DIR 	= @TK_LIB_DIR@
-TK_LIB_SPEC 	= @TK_LIB_SPEC@
+TK_STUB_LIB_SPEC = @TK_STUB_LIB_SPEC@
 
 NAME		= @NAME@
 
@@ -29,7 +27,7 @@ CC_SWITCHS 	= ${CFLAGS} ${DEFINES} ${INCLUDES}
 
 SHLIB_LD     	= @SHLIB_LD@
 
-LIBSN     	=  @TCL_LIB_SPEC@ @TK_LIB_SPEC@ -L./zlib/ -L./png/ -L./jpeg/ -L./CxImage/ -lCxImage -ljpeg -lpng -lzlib -lz -lstdc++
+LIBSN     	=  -L./zlib/ -L./png/ -L./jpeg/ -L./CxImage/ -lCxImage -ljpeg -lpng -lzlib -lz -lstdc++ ${TCL_STUB_LIB_SPEC} ${TK_STUB_LIB_SPEC} 
 
 .PHONY : all clean distclean CxImage/libCxImage.a zlib/libzlib.a png/libpng.a jpeg/libjpeg.a 
 
