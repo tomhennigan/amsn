@@ -366,6 +366,7 @@ namespace eval ::ChatWindow {
 	#  - chatid => Is the name of the chat to flicker (a passport login)
 	#  - count => [NOT REQUIRED] Can be any number, it's just used in self calls
 	proc Flicker {chatid {count 0}} {
+	
 		if { [::ChatWindow::For $chatid] != 0 } {
 			set window [::ChatWindow::For $chatid]
 		} else {
@@ -387,7 +388,7 @@ namespace eval ::ChatWindow {
 		if { [::config::getKey flicker] == 0 } {
 			if { [string first $window [focus]] != 0 } {
 				catch {wm title ${window} "*$::ChatWindow::titles($window)"} res
-				set ::ChatWindow::new_message_on(${window}) 1
+				set ::ChatWindow::new_message_on(${window}) "asterisk"
 				bind ${window} <FocusIn> "::ChatWindow::GotFocus ${window}"
 			}
 			return 0
@@ -429,9 +430,13 @@ namespace eval ::ChatWindow {
 			} res]} {
 				after 300 ::ChatWindow::Flicker $chatid $count
 			}
+			set ::ChatWindow::new_message_on(${window}) "flicker"
+			
 		} else {
 
 			catch {wm title ${window} "$::ChatWindow::titles($window)"} res
+			catch {unset ::ChatWindow::new_message_on(${window})}
+			
 		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -459,7 +464,7 @@ namespace eval ::ChatWindow {
 	#  - window => Is the window widget focused (.msg_n - Where n is an integer)
 	proc GotFocus { window } {
 		if { [info exists ::ChatWindow::new_message_on(${window})] && \
-			$::ChatWindow::new_message_on(${window}) == 1 } {
+			$::ChatWindow::new_message_on(${window}) == "asterisk" } {
 			unset ::ChatWindow::new_message_on(${window})
 			catch {wm title ${window} "$::ChatWindow::titles(${window})"} res
 			bind ${window} <FocusIn> ""
@@ -1952,7 +1957,7 @@ namespace eval ::ChatWindow {
 		$toptext configure -state disabled
 
 		if { [GetContainerFromWindow $win_name] == "" } {
-			if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == 1 } {
+			if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == "asterisk" } {
 				wm title ${win_name} "*${title}"
 			} else {
 				wm title ${win_name} ${title}
@@ -2049,13 +2054,22 @@ namespace eval ::ChatWindow {
 
 		incr winflicker($win)
 
-		if { $count > 10 } {
-			$tab configure -image [::skin::loadPixmap tab_flicker]
-			return
-		}
+		#if { $count > 10 } {
+		#	$tab configure -image [::skin::loadPixmap tab_flicker]
+		#	return
+		#}
 
+		#Check if the container window lost focus, then make it flicker:
+		set container [GetContainerFromWindow $win]
+		if { $container != "" } {
+			if { ![info exists ::ChatWindow::new_message_on(${container})] &&
+			     [string first $container [focus]] != 0 } {
+			     Flicker $container
+			}	
+		}
 		
-		after 500 "::ChatWindow::FlickerTab $win 0"
+		
+		after 300 "::ChatWindow::FlickerTab $win 0"
 
 	}
 
@@ -2312,7 +2326,7 @@ namespace eval ::ChatWindow {
 
 		set ::ChatWindow::titles($container) $title
 
-		if { [info exists ::ChatWindow::new_message_on($container)] && [set ::ChatWindow::new_message_on($container)] == 1 } {
+		if { [info exists ::ChatWindow::new_message_on($container)] && [set ::ChatWindow::new_message_on($container)] == "asterisk" } {
 			wm title $container "*$title"
 		} else {
 			wm title $container "$title"
