@@ -470,6 +470,7 @@ prefremote Configuración de conexión remota
 prefsession Mi inicio de sesión y estado
 prefshared Conexiones compartidas (sólo para NAT)
 prefsound Sonidos
+preview Previsualizapreview Previsualizarr
 privacy Privacidad
 profiledconfig Información de perfil
 profileexists No se puede crear un perfil con este nombre de usuario,\n ya existe uno con el mismo nombre. Por favor elige otro.

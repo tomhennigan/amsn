@@ -411,8 +411,10 @@ proc SelectSkinGui { } {
 
 	button $w.ok -text "[trans ok]" -command "selectskinok $w" 
 	button $w.cancel -text "[trans cancel]" -command "selectskincancel $w" 
+	checkbutton $w.preview -text "[trans preview]" -variable preview_skin_change -onvalue 1 -offvalue 0
+	set ::preview_skin_change 1
 
-	pack $w.ok  $w.cancel -side right -pady 5 -padx 5
+	pack $w.ok  $w.cancel $w.preview -side right -pady 5 -padx 5
 
 	set the_skins [findskins]
 
@@ -424,6 +426,7 @@ proc SelectSkinGui { } {
 
 	if { $select == -1 } {
 		set select 0
+		status_log "select is -1\n"
 		status_log "select = $select --- [::config::getGlobalKey skin]\n"
 		
 		$w.main.right.box selection set $select
@@ -486,7 +489,9 @@ proc applychanges { } {
 	$w.main.left.desc insert end "[trans description]\n\n$currentdesc"
 	$w.main.left.desc configure -state disabled
 	
-	::skin::reloadSkin $currentskin
+	if { $::preview_skin_change == 1 } {
+		::skin::reloadSkin $currentskin
+	}
 }
 
 proc clear_exampleimg { } {
@@ -520,7 +525,7 @@ proc selectskinok { w } {
 	config::setGlobalKey skin $skin
 	save_config
 	::config::saveGlobal
-	#::skin::reloadSkin $skin
+	::skin::reloadSkin $skin
 	#msg_box [trans mustrestart]
 
 	destroy $w
