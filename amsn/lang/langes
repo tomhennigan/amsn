@@ -442,6 +442,7 @@ textsize Tamaño del texto
 timeremaining Tiempo restante
 timestamps Activar hora en los mensajes
 title Al's Messenger
+tkerror Se ha producido un error de TK, hay un fallo en amsn, por favor informanos. Para ello envía el archivo $1 a amsn-bugs@lists.sf.net
 tlsdowncompleted El archovo $1 se ha descargado en el directorio $2. Ahora debes descomprimirlo, compilarlo (si has bajado el código fuente) y instalarlo en $3.
 tlsinstall Asistente de instalación del módulo TLS
 tlsinstallexp AMSN ahora usa el protocolo MSNP9, que requiere utilzar una conexión\nsegura usando SSL. Para poder usar SSL, AMSN necesita un módulo llamado TLS,\nque no se pudo encontrar en su sistema. Este asistente le ayudará a descargar\ny instalar TLS. Por favor, elija su tipo de sistema para poder\ndescargar los archivos requeridos para TLS automáticamente.
