@@ -5,19 +5,25 @@
 #####################################################
 
 proc plugins_log {plugin msg} {
-    if {[info procs "::pluginslog::plugins_log"] == "::pluginslog::plugins_log"} {
-	::pluginslog::plugins_log $plugin $msg
-    } else {
-	status_log "Plugins System: $plugin: $msg"
-    }
+	if {[info procs "::pluginslog::plugins_log"] == "::pluginslog::plugins_log"} {
+		::pluginslog::plugins_log $plugin $msg
+	} else {
+		status_log "Plugins System: $plugin: $msg"
+	}
+}
+
+if {[package vcompare [package provide Tcl] 8.4] < 0} {
+	proc lset { list index1 index2 newvalue } {
+		set list [list [lrange $list 0 [expr $index1 -1]] $newvalue [lrange $list [expr $index2 + 1] end] ]
+	}
 }
 
 namespace eval ::plugins {
-    # Variable to list all plugins and their properties.
+	# Variable to list all plugins and their properties.
 	# Do NOT access this variable directly, use ::plugins::findplugins
 	variable found [list]
 	namespace export PostEvent
-    
+
 	if { $initialize_amsn == 1 } {
 		# The id of the currently selected plugin (also it's it in teh listbox)
 		set selection(id) ""            
@@ -45,12 +51,6 @@ namespace eval ::plugins {
 		variable cur_plugin
 		# Current config being edited, for backup purposes (ei: Cancel)
 		variable cur_config
-	}
-
-	if {[package vcompare [package provide Tcl] 8.4] < 0} {
-		proc lset { list index1 index2 newvalue } {
-			return [list [lrange $list 0 [expr $index1 -1]] $newvalue [lrange $list [expr $index2 + 1] end] ]
-		}
 	}
 
 
@@ -318,16 +318,16 @@ namespace eval ::plugins {
 		}
 
 		lappend ::plugins::found [list \
-																	$sdata(${cstack}:name) \
-																	$sdata(${cstack}:author) \
-																	$sdata(${cstack}:description) \
-																	$sdata(${cstack}:amsn_version) \
-																	$sdata(${cstack}:plugin_version) \
-																	$sdata(${cstack}:plugin_file) \
-																	$sdata(${cstack}:plugin_namespace) \
-																	$sdata(${cstack}:init_procedure) \
-																	$deinit \
-																 ]
+				$sdata(${cstack}:name) \
+				$sdata(${cstack}:author) \
+				$sdata(${cstack}:description) \
+				$sdata(${cstack}:amsn_version) \
+				$sdata(${cstack}:plugin_version) \
+				$sdata(${cstack}:plugin_file) \
+				$sdata(${cstack}:plugin_namespace) \
+				$sdata(${cstack}:init_procedure) \
+				$deinit \
+		]
 
 		return 0
 	}
@@ -917,7 +917,10 @@ namespace eval ::plugins {
 			return 0
 		}
 
-		catch { source $file }
+		if { [catch { source $file } res] } {
+			msg_box "$plugin: Failed to load source with result:\n\n$res"
+			return 0
+		}
 
 		if {[lsearch "$loadedplugins" $plugin] == -1} {
 			plugins_log core "appending to loadedplugins\n"
