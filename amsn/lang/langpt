@@ -46,6 +46,7 @@ changefont Mudar Fonte
 changenick Mudar a alcunha/nick
 chatack Aceitando uma conversação de
 chat Conversação
+chatmaxmin converse comigo eu quero que ele seja:
 chatreq Requisitando uma conversação
 chatsmileys2 Mostrar Emoções e Smileys nas janelas de conversação
 chatsmileys Figuras de chat 
@@ -68,6 +69,7 @@ connected Você está ligado agora
 connecterror Erro na ligação
 connecting A ligar
 connection Conexão
+connectionlost Fechada a ligação com o servidor 
 contactadded Contacto adicionado
 contactdoesnotexist O contacto não existe
 copy Copiar
@@ -83,6 +85,7 @@ delete Eliminar
 deliverfail Erro ao entregar a seguinte mensagem
 delprofile2 Seleccione o perfil a remover
 delprofile Apagar perfil
+directconnection Direct connection para internet (usar porta 1863)
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Atracar Gnome
 docking Atracando
@@ -106,8 +109,16 @@ fileman Gestor de ficheiros
 filename Nome ficheiro
 filetransfercancelled Transferência de ficheiro cancelada
 filetransfercomplete Transferência de ficheiro completa
+ftacceptedby $1 aceita o pedido de transferência do ficheiro $2
 ftaccepted Trnsferência de Ficheiro aceite
+ftaccepting Aceitando o pedido de transferência de ficheiro
+ftconnecterror Erro de ligação ao par remoto
+ftconnecting A ligar para $1 porta $2
+ftconnectionlost Perdida a ligação com o par remoto
+ftgotinvitation $1 quer enviar-lhe o ficheiro '$2' ($3 bytes). Ele será guardado na pasta $4. Quer receber este ficheiro?
+ftrejectedby $1 rejeita o pedido de transferência do ficheiro $2
 ftrejected Trnsferência de Ficheiro rejeitada
+ftsendinvitation O ficheiro '$2' ($3 bytes) foi enviado para $1
 gonelunch Saí para comer
 groupadd Adicionar grupo
 groupdelete Apagar grupo
@@ -124,10 +135,12 @@ help Ajuda
 helpcontents Conteúdo da Ajuda
 history Ver Histórico
 home Casa
+httpconnection HTTP connection método (usa o protocolo HTTP na porta 80)
 ident Identificando-se
 identity Identidade
 inbox Caixa de entrada
 invalidusername Utilizador inválido
+invitationcancelled O convite foi cancelado
 invite Convidar
 ipaddress Endereço IP
 ipdetect Detectar IP Certo para tranferências de ficheiros por HTTP
@@ -191,6 +204,7 @@ noactivity Sem actividade
 nologfile Sem registo para $1
 nonewmail 0 novas mensagens na caixa de correio
 nonewver Não há versão nova
+no No
 normal Normal
 nosystemtray Bandeja do sistema não disponível
 notify1 Mostrar aviso quando entra um contacto
@@ -221,6 +235,7 @@ port Porta
 prefalerts Os meus sons de aviso
 prefapps Aplicativos
 prefawaymsg Minha mensagem de Ausente
+prefconnection Definições da ligação
 prefemotic Emoções Icones e Smileys
 preferences Preferências
 preffont2 Mudar a forma como me podem ver
@@ -246,8 +261,10 @@ profiles Perfíes
 properties Propriedades
 proxyconf Configuração de proxy
 proxyconfhttp Configurar suporte de proxy http
+proxyconnection Eu ligo-me à internet através de um servidor proxy
 proxy Estou atrás de um Proxy (HTTP or SOCKS5)
 publishphones Publicar telefones
+raised Maximizado/Minimizado
 receivedbytes Bytes recebidos $1 de $2
 receivefile Ficheiro recebido
 reconnect Esperando que $1 volta a ligar-se
@@ -309,6 +326,7 @@ willjoin Esperando que $1 se junte à conversação
 work Trabalho
 wrongprofileversion Versão errada do ficheiro de configuração do perfil. No sentido de o reparar, por favor remova-o do diretório $1, ou actualize o amsn
 xoffset espaço X
+yes Sim
 yoffset espaço Y
 youblocked Você foi bloqueado
 yousay Você diz

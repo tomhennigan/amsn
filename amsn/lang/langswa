@@ -33,12 +33,14 @@ baduserpass Jina la mtumiaji au neno-siri si la kweli
 bgcolor Badilisha rangi ya  nyuma ya aMSN
 blankdirect Acha wazi kwa muunganisho wa moja kwa moja
 blocked Amezuiwa
+blockmessage Watu hawa wameunganishwa na wamekuzuia kupiga soga nao
 block Zuia
 broughtby  Imeretwa kwako na watengenezaji wafuatao
 browser Kitandaaji
 browse Tandaa
 busy Ninashughuli
 cancel Sitisha
+cannotdeleteprofile Utashi hauwezi kufutwa kwani unaonekana ukitumika kwenye kipindi kingine cha Amsn
 cfgalarm Panga/Ongeza/Ondoa Sauti
 changefont Badilisha Maandishi
 changenick Badilisha jina
@@ -63,7 +65,9 @@ closingdocks Batoni ya kufunga inafupisha
 command Amri
 confirmdelete Ni kweli unataka kufuta $1?
 confirm Unauhakika?
+connected Sasa umeunganishwa
 connecterror Tatizo katika kuunganisha na pragramu-tumishi
+connecting Inaunganisha
 connectionlost Disconnected: Mawasiliano na progrom-tumishi yamesitishwa
 connection Muunganisho
 contactadded Muongeaji ameongezwa
@@ -82,6 +86,7 @@ deliverfail kulikuwa na tatizo katika kupeleka ujumbe ufuatao
 delprofile2 Chagua Utashi unaotaka uondelewe
 delprofile Futa Utashi
 directconnection Naunganishwa kwenye mtandao moja kwa moja ( tumia poti 1863)
+dockfreedesktop MezaHuru (KDE3/Gnome2)
 dockgtk Gnome Doki
 docking Inadoki
 dockingoff Doki Imezimwa
@@ -89,6 +94,7 @@ dockkde KDE Doki
 edit Hariri
 editprofile Hariri Utashi
 enableproxy Ruhusu proksi
+enableremote Ruhusu kuongoza kutoka sehemu nyingine
 encoding2 Badilisha jinsi herufi zako zinavyoumbwa
 encoding Chagua aina ya maandishi
 entercontactemail Weka barua-p ya muongeaji
@@ -103,8 +109,16 @@ fileman Meneja ya Faili
 filename Jina la faili
 filetransfercancelled Muamisho wa faili umesitishwa
 filetransfercomplete Muamisho wa faili umekamilika
+ftacceptedby $1 amekubali mualiko wa kuhamisha faili '$2'.
 ftaccepted Muamisho wa faili umekubalika
+ftaccepting Anakubali mualiko wa kuhamisha faili
+ftconnecterror Tatizo katika kuunganisha kwenye kompyuta ya mbali
+ftconnecting Inaunganisha kwa $1 poti $2
+ftconnectionlost Muunganisho na kompyuta ya mbali umekatika
+ftgotinvitation $1 anataka kukutumia faili '$2' (baiti $3). Litaifadhiwa katika jarada $4. Unataka kupekea faili hili?
+ftrejectedby $1 amekataa mualiko wa kuhamisha faili '$2'.
 ftrejected Muamisho wa faili umekataliwa
+ftsendinvitation Mualiko wa kuhamisha faili '$2' (baiti $3) umepelekwa kwa $1.
 gonelunch Amekwenda kula
 groupadd Ongeza kundi
 groupdelete Futa kundi
@@ -126,6 +140,7 @@ ident Inatambulisha
 identity Utambulisho
 inbox Sanduku-Kuingia
 invalidusername Jina la mtumiaji siyo la kweli
+invitationcancelled Mualiko ulisitishwa
 invite Karibisha
 ipaddress Anuani ya IP
 ipdetect Chunguza IP sahihi kwa ajili ya Kuhamisha Faili kwa kutumia HTTP
@@ -144,7 +159,7 @@ leaves $1 aacha mazungumzo
 lenteredconf $1 ameingia kwenye kusanyiko katika $2
 linprivate PEMBENI
 listeningon Sikiliza katika poti $1
-listsmileys2 Onyeasha Aikoni za Hisia na visura kwenye orodha kuu ya 
+listsmileys2 Onyeasha Aikoni za Hisia na visura kwenye orodha kuu ya waongeaji ya aMSN
 listsmileys Orodhesha visura
 ljoinedconf $1 amejiunga na kusanyiko
 lleftconf  $1 ametoka kwenye kusanyiko
@@ -186,10 +201,12 @@ newmsg Ujumbe mpya
 newveravailable Toleo jipya $1 linapatika kwa kutelemsha
 next Inayofuatia
 noactivity Hajishughulishi
+no Hapana
 nologfile Hakuna Faili ya Hesabu ya $1
 nonewmail Hakuna ujumbe mpya katika sanduku-kuingia
 nonewver Hakuna toleo jipya kwa ajili kutelemsha
 normal Kawaida
+nosystemtray Trei ya mfumo haipatikani
 notify1 Onyesha dirisha la kufahamishia wakati waongeaji wanapojiunga
 notify2 Onyesha dirisha la kufahamishia wakati ujumbe mpya unapofika
 notify3 Onyesha dirisha la kufahamishia wakati barua-p zinapofikia 
@@ -234,10 +251,12 @@ prefprofile2 Tengeneza au rekebisha utashi wako kwa wote kuona (\nmaelezo juu ya
 prefprofile3 Utashi wa Mpangilio wa mtumiaji wa aMSN
 prefprofile Utashi wangu kwa wote
 prefproxy Mipangilio yangu ya Proksi
+prefremote Mapendeleo ya Muunganisho wa Mbali
 prefsession Kusaini kwangu na Hali halisi
 prefshared Miunganisho ya kushirikiana (kwa NAT tu)
 prefsound Sauti
 profiledconfig Mpangilio uliotashiwa
+profileinuse Utashi huu unatumiwa na kipindi kingine cha Amsn, tafadhali chagua mwingine
 profiles Utashi
 properties Tabia
 proxyconfhttp Mpangilio wa msaada wa HTTP proksi
@@ -245,6 +264,7 @@ proxyconf Mpangilia wa Proksi
 proxyconnection Naunganishwa kwenye mtandao kwa kutumia proksi-tumishi:
 proxy Nipo nyuma ya Programu Tumishi ya Proksi (HTTP au SOCKS5)
 publishphones Tawanya namba zangu za simu
+raised Kuzwa
 receivedbytes $1 ya $2 baiti zimepokelewa
 receivefile Pokea faili
 reconnecting Unganisha tena kwenye programu-tumishi
@@ -268,6 +288,7 @@ sentbytes $1 ya $2 baiti zimeshatumwa
 servergoingdown Imekatishwa: Progamu-tumishi inazimwa
 server Progamu-tumishi
 session Kipindi
+showblockedlist Onyesha orodha ya watu waliokuzuia kupiga soga nao
 sound2 Cheza sauti kama waongeaji wanaingia au wanatuma ujumbe
 soundcommand Hii in amri ya cheza (mfn: esdplay)
 soundfile Faili ya sauti
@@ -288,19 +309,26 @@ textsize Ukubwa wa maandishi
 title Mesenja ya AL
 to Kwenda kwa
 tools Vifaa
+transnotexists Faili linaloitajika bado alijatafsiriwa katika lugha inayotumiwa sasa.
+traynotcompiled Plagini ya trei ya aikoni haijakamilishwa. Angalia plugins/traydock
 unblock Ruhusu
 uoffline Wasiounganishwa
 uonline Waliounganishwa
 useralreadyonlist Mtumiaji yupo kwenye orodha ya waongeaji tayari
+userblocked Mtumiaji ameunganishwa lakini amekuzuia usipige soga naye
 user Mtumiaji
 usernotonline Mtumiaji ajaunganishwa
+useryourself Huwezi kujipigisha soga
+verifyblocked Angalia watu wanaokuzuia kupiga soga noa
 version Toleo
 viewprofile Angalia Utashi
 view Tazama
-waongeaji ya aMSN
 willjoin Subiri $1 ajiunge na mazungumzo
 work Kazi
+wrongprofileversion Faili ya mipangilio ya utashi si sahihi. Ili kulirekebisha, tafadhali ondoa jarada $1, au tumia Amsn ya sasa
 xoffset nafasi X
+yes Ndio
 yoffset nafasi Y
+youblocked Umezuiwa kupiga soga
 yousay Unasema
 youwant Unataka
