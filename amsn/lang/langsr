@@ -1,7 +1,7 @@
 amsn_lang_version 2
 about O...
-acceptfile Prihvati fajl $1, velicina $2? Snimljen u $3
 accept Prihvati
+acceptfile Prihvati fajl $1, velicina $2? Snimljen u $3
 actions Akcije
 addacontact Dodaj kontakt
 addedyou vas je dodao u svoju kontakt listu
@@ -13,15 +13,24 @@ adverts Reklame
 alarmpref Podesavanje alarma za korisnika
 alarmstatus Ukluci/Iskljuci alarm za ovog korisnika
 allowseen Dozvoli ovoj osobi da vidi kada sam onlajn i kontaktira me
+appearance Izgled
 appearoff Izigravaj da si oflajn
+areacode Postanski Broj
 aretyping $1 kuca poruku
+askprofile Ovaj login trenutno nema profil. Da li zelite da kreirate novi? \n Ako ne necete moci da koristite History, ili da snimite svije alarme i sifre. \n Ako da, imacete posebnu konfiguraciju za ovaj novi profil. \n \n Klikni na "Kreitaj Profil" da bi kreirao novi profil za $1.
+autoaway Prikazi me kao "Otisao" ako sam neaktivan
 autoconnect Konektuj se kad se amsn startuje
+autoconnect2 Uloguj se automatski kad se aMSN startuje
 autohotmaillog Automatsko logovanje na Hotmail
 autoidle Automatska  NeAktivnost
 autoip Automatski IP
+autonoact Prikazi me kao "Neaktivan" ako sam neaktivan
 avoidseen Zabrani ovoj osobi da vidi kada sam onlajn i kontaktira me
 away Odsutan
+awaymsg1 Pitaj za poruku svaki put kad promenim status na Otisao/Zauzet
+awaymsg2 Nikad ne pitaj i uvek uzimaj sledecu poruku
 baduserpass Pogresno korisnicko ime ili lozinka
+bgcolor Promeni boju pozadine aMSN-a
 blankdirect Ostavi prazno za direktnu vezu
 block Blokiraj
 blocked Blokiran
@@ -31,17 +40,21 @@ browser Browser
 busy Zauzet
 cancel Odustani
 cfgalarm Podesi/Dodaj/Ukloni Alarm
+changefont Promeni Font
 changenick Promeni nadimak
-chatack Prihvata chat od
 chat Chat
+chatack Prihvata chat od
 chatreq Zahteva chat
 chatsmileys Chat smajliji
+chatsmileys2 Prikazi Emotikone i Smajlije u chat prozoru
 checkingver Proveravam novu verziju
 checkver Provera nove verzije
 choosebasefont Izaberi tip fonta
 choosebgcolor Izaberi boju pozadine
 choosefontcolor Izaberi boju fonta
 clearlog Ocisti Log
+clearlog2 Ocisti istoriju za sve svoje kontakte
+clearlog3 Ocisti sve Logove
 clicktologin Klikni ovde da bi se ulogovao
 close Zatvori
 closingdocks Close dugme Minimizuje
@@ -49,21 +62,31 @@ command Komanda
 confirm Da li si siguran?
 confirmdelete Da li si siguran da zelis da obrises $1?
 connecterror Greska prilikom konektovanja na server
+connection Konekcija
 contactadded Kontakt dodat
 contactdoesnotexist Kontakt ne postoji!
 copy Kopiraj
 copytogroup Kopiraj u grupu
+countrycode Moj kod Zemlje/Regiona
+cprofile Kreiraj Profil
 cut Iseci
 date Datum
+days Dni
+dcprofile Ne kreiraj Profil
+default Podrazumevana Podesavanja
 delete Brisi
 deliverfail Problem prilikom isporuke sledece poruke
+delprofile Obrisi Profil
+delprofile2 Izaberi Profil koji bi zeleo da bude obrisan
 dockgtk Gnome Dock
 docking Docking
 dockingoff Docking Isklucen
 dockkde KDE Dock
 edit Edituj
+editprofile Edituj Profil
 enableproxy Dozvoli proksi
 encoding Izaberi kodiranje
+encoding2 Promeni nacin enkodiranja karaktera
 entercontactemail Unesi kontakt e-mail
 enterfilename Unesi ime fajla
 enternick Unesi svoj nadimak
@@ -72,16 +95,17 @@ exitamsn Da li si siguran da zelis da zavrsis?
 extras Posebne Usluge
 faq FAQ (Najcesce Postavljana Pitanja)
 filedoesnotexist Fajl ne postoji
+fileman Fajl Menadzer
 filename Ime fajla
 filetransfercancelled Prenos fajla prekinut
 filetransfercomplete Prenos fajla zavrsen
 ftaccepted Prenos fajla prihvacen
 ftrejected Prenos fajla odbijen
 gonelunch Otisao na klopu
+group Grupa
 groupadd Dodaj u grupu
 groupdelete Obrisi groupu
 groupexists Grupa vec postoji
-group Grupa
 groupmissing Ne mogu da pronadjem grupu
 groupnewname Novo ime
 groupnotempty Grupa nije praznay!
@@ -89,8 +113,8 @@ groupoldname Staro ime
 grouprename Preimenuj grupu
 groupunknown Nepoznata grupa
 handle Handle
-helpcontents Sadrzaj pomoci
 help Pomoc
+helpcontents Sadrzaj pomoci
 history Vidi Istriju
 home Home
 ident Identifikujem
@@ -99,10 +123,12 @@ inbox Inbox
 invalidusername Nepropisno korisnicko ime
 invite Pozovi
 ipaddress IP Adresa
+ipdetect Detektuj ispravan IP za HTTP prenos fajlova
 istyping $1 kuca poruku
 joins $1 se prikljucuje razgovoru
 keepalive Keepalive (NAT)
 keeplog Sacuvaj Logove Chatova
+keeplog2 Loguj sve razgovore u aMSN-ov History za buduci pregled
 language Jezik
 lastmsgtime Poslednja poruka primljena u $1
 lclosedwin $1 je zatvorio prozor u $2
@@ -114,25 +140,40 @@ lenteredconf $1 je usao na konferenciju u $2
 linprivate  PRIVATNO
 listeningon Osluskuje na portu $1
 listsmileys Izlistaj smajlije
+listsmileys2 Prikazi Emotikone i Smajlije u aMSN-ovoj glavnoj kontakt listi
 ljoinedconf $1 se prikljucio konferenciji
 lleftconf $1 je napustion konferenciju
 loadcontacts Ucitaj kontakt listu
+logbigger Velicina log fajla za svaki kontakt nikad nije prekoracena
+logfandexp Velicina log fajlova i isticanje Historyja
 loggedotherlocation Diskonektovan. Logovao se na drugom mestu
 loggingin Logujem se
-loginas Loguj se kao
 login Loguj se
+loginas Loguj se kao
+loging Logovanje
+logolder Loguj samo skorasnje chatove
 logout Izloguj se
 logsin se upravo logovao
+logsmileys Prikazi Emotikone i Smajlije u aMSN-ovim history prozorima
 lprivtoconf Privatni chat presao u Konferenciju sa $1
 luclosedwin Zatvorio si prozor u $1
 mailer Mailer
+maximised Maksimizovan
+minimised Minimizovan/Ikonizovan
+mins minuti
 mobile Mobilni
 movetogroup Pomeri u Grupu
 msg Poruka
+msgmaxmin Kad stigne nova poruka zelim da bude :
+msgmode Izaberi kako zelis da koristis visestruke prozore poruka :
 msn AMSN
 mustrestart Morate da restartujete program da bi se prihvatile promene
+myhomephone Moj Kucni Telefon
+mymobilephone Moj Mobilni Telefon
 mystatus Moj status
+myworkphone Moj Poslovni Telefon
 natip IP detekcijan sa web strane
+natkeepalive Ako se vas redovno diskonektuju, omogucite ovaj KeepAlive
 needonline Jos uvek si/kao oflajn!
 newmail $1 nova poruka u inbox-u
 newmailfrom Novi mejl od
@@ -145,6 +186,10 @@ nonewmail Nema novih porukau inbox-u
 nonewver Nema nove verzije na raspolaganju za daunload
 normal Normalno
 notify Obavesti
+notify1 Prikazi prozor s obavestenjem kad kontakti postanu onlajn
+notify2 Prikazi prozor s obavestenjem kad stigne nova poruka
+notify3 Prikazi prozor s obavestenjem kad emails stigne u tvoj InBox
+notifyoffset Podesi poziciju prozora s obavestenjem postavljajuci ofsete njegove pozicije
 notifywin Notify Window
 nousersinsession Nema korisnika u sesiji
 offline Oflajn
@@ -160,16 +205,38 @@ other Drugo
 pager Pejdzer
 pass Sifra
 paste Pejstuj
+personal Licno
 phone Telefon
 picfile Fajl Slika (GIF < 500 x 500)
 picstatus Alarm Slika
 port Port
+prefalerts Moji Dogadjaji Upozorenja i Zvuci
 prefapps Aplikacije
+prefawaymsg Moja "Otisao" Poruka
+prefemotic Emotikoni Ikone i Smajliji
 preferences Podesavanja
+preffont Moj Tekst Poruke
+preffont2 Promeni nacin na koji drugi vide moj tekst u chatu
+preffont3 Promeni font i velicinu za aMSN-ov interfejs
+preflog1 Moje Opcije za History i Logovanje
+preflook Moj izgled aMSN Messengera
+prefmsging Moj Interfejs Poruka
+prefname Moje MSN Messenger Ime/Nadimak
+prefphone Moji Telefonski Brojevi
+prefphone2 Ukucaj brojeve telefona za koje bi zeleo da ih vide \n ljudi na tvojoj "Dozvoljenoj" Listi \n
+prefprofile Moj Javni Profil
+prefprofile2 Kreiraj ili promeni svoj javni profil (\n svoj opis koji drugi mogu da vide)
+prefprofile3 aMSN-ova Podesavanja Korisnickih Profila
+prefproxy Moja Podesavanja Proksija
+prefsession Moje Logovanje i Status
+prefshared Deljene Konekcije (samo za NAT)
 prefsound Zvuci
+profiledconfig Podesavanja Profila
+profiles Profili
 properties Svojstva
-proxyconfhttp Podesavanje HTTP proksi podrske
+proxy Ja sam iza Proksi Servera (HTTP ili SOCKS5)
 proxyconf Podesavanje Proksija
+proxyconfhttp Podesavanje HTTP proksi podrske
 publishphones Objavi  moje telefonske brojeve
 receivedbytes Primio $1 od $2 bajtova
 receivefile Primi fajl
@@ -179,41 +246,51 @@ reject Odbij
 rememberpass Zapamti sifru
 reversed Obrnuto
 rightback Odmah se vracam
+save Snimi
 saveas Snimi kao
 savecontacts Snimi kontakt listu
-save Snimi
 savetofile Snimi u Fajl
 says $1 kaze
 sbcon Konektujem se na Switch Board
+send Posalji
 sendfile Posalji fajl
 sendmail Posalji mejl
 sendmsg Posalji poruku
-send Posalji
 sentbytes Poslato $1 od $2 bajtova
-servergoingdown Diskonektovan: Server je puko
 server Server
-sound Dogadjaj Zvuk
+servergoingdown Diskonektovan: Server je puko
+session Sesija
+sound Dogadjaj Zvuka
+sound2 Sviraj zvuk kad se kontakt uloguje ili posalje poruku
 soundfile Zvucni Fajl
 soundloop Ponavljaj Zvuk
+soundserver Server Zvuka
 soundstatus Zvucni Alarm
 startoffline Startuj Oflajn
+startoffline2 Uloguj se neprimetno kao "Kao Oflajn"
 status Status
 stopalarm Stopiraj Alarm
+stylechat Isti izgled kao chatovi
+stylehist Izgled aMSN-ovog historyja
+stylelog Izaberi format u kome bi zeleo da vidis svoj History
 syntaxerror  Sintaksna Greska
+tabbed Tabovani Prozori
 textsize Velicina teksta
 title Al-ov Messenger
-tools Alati
 to Za
+tools Alati
 unblock Odblokiraj
 uoffline Oflajn
 uonline Onlajn
-useralreadyonlist Korisnik je vec u kontakt listi
 user Korisnik
+useralreadyonlist Korisnik je vec u kontakt listi
 usernotonline Korisnik nije onlajn
 version Verzija
 view Pogled
 viewprofile Pregledaj Profil
 willjoin Cekamg $1 da se prikljuci razgovoru
 work Posao
+xoffset X Ofset
+yoffset Y Ofset
 yousay Ti kazes
 youwant Ti zelis
