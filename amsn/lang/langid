@@ -1,4 +1,4 @@
-amsn_lang_version 2 
+amsn_lang_version 2
 about Perihal 
 accept Terima 
 acceptfile Terima file $1, sebesar $2? Simpan di $3 
@@ -13,33 +13,49 @@ adverts Iklan
 alarmpref Konfigurasi alarm 
 alarmstatus Matikan/Nyalakan alarm untuk dia 
 allowseen Perbolehkan orang ini untuk melihat status saya dan menghubungi saya 
+appearance Tampilan
 appearoff Sembunyi 
+areacode Kode Area
 aretyping $1 sedang mengetik pesan 
-autoconnect Hubungi server saat amsn dinyalakan 
+askprofile Register masuk berikut saat ini tidak memiliki profil. Apakah anda ingin menciptakan yang baru? Apabila tidak anda tidak bisa menggunakan Sejarah, atau menyimpan Bunyi Alarm dan Kata Sandi. Apabila iya maka anda akan memiliki aturan terpisah untuk profil baru ini. Klik pada ‘Ciptakan Profil’ untuk menciptakan profil baru untuk $1.
+autoaway Tunjukkan saya sebagai “Tidak Ada” apabila tidak aktif selama
+autoconnect Hubungi server saat a'MSN dinyalakan 
+autoconnect2 Register masuk secara automatis pada saat a’MSN dinyalakan
 autohotmaillog Otomatis login ke Hotmail 
 autoidle Otomatis ganti status ke "Tidak ada aktivitas" 
 autoip IP otomatis 
+autonoact Tunjukkan sebagai “Tidak Aktif” setelah tidak aktif selama
 avoidseen Orang ini dilarang melihat status saya maupun menghubungi saya 
 away Tidak ada ditempat 
-baduserpass Salah user name atau salah kata sandi 
-blankdirect Kosongi untuk koneksi langsung 
+awaymsg1 Tanyakan untuk pesan tidak ada setiap kali saya merubah status ke tidak ada/segera kembali/sibuk
+awaymsg2 Jangan pernah menanyakan dan selalu gunakan pesan tidak ada berikut
+baduserpass Nama pengguna atau kata sandi salah
+bgcolor Rubah warna latar belakang a’MSN
+blankdirect Kosongkan untuk koneksi langsung 
 block Blokir 
 blocked Diblokir 
 broughtby Dipersembahkan oleh 
-browse Cari 
+browse Mengamati 
+browser Pengamat
 busy Sibuk 
 cancel Batalkan 
 cfgalarm Rubah konfigurasi/Tambah/Hapus alarm 
+changefont Rubah Huruf
 changenick Ganti alias 
-chatack Terima ajakan ngobrol dari 
-chat Obrolan 
-chatreq Mengajak ngobrol 
-chatsmileys Tamplikan ekspresi saat ngobrol 
+chat Percakapan
+chatack Terima ajakan percakapan dari 
+chatreq Mengajak bercakap-cakap
+chatsmileys Tamplikan ekspresi saat percakapan
+chatsmileys2 Tampilkan Emoticon dan Smiley dalam jendela percakapan
+checkfilman Arsip yang diterima akan disimpan dalam $1. Mohon periksa aturan pengelola arsip dalam jendela anjuran.
 checkingver Sedang memeriksa versi terbaru 
 checkver Cek apakah ada versi baru 
-choosebasefont Pilih jenis font 
+choosebasefont Pilih jenis huruf
 choosebgcolor Pilih warna latar belakang 
-choosefontcolor Pilih warna teks 
+choosefontcolor Pilih warna tekst
+clearlog Bersihkan Register
+clearlog2 Bersihkan sejarah untuk semua kontak
+clearlog3 Bersihkan semua register
 clicktologin Klik disini buat login 
 close Keluar 
 closingdocks Tombol close mengecilkan jendela 
@@ -47,20 +63,31 @@ command Perintah
 confirm Apakah anda yakin? 
 confirmdelete Apakah anda yakin untuk menghapus $1? 
 connecterror Ada masalah saat menghubungi server 
+connection Sambungan
 contactadded Nama baru telah dimasukkan 
 contactdoesnotexist Detail kontak tidak dapat ditemukan! 
 copy Salin 
 copytogroup Salin ke grup 
+countrycode Kode negara/daerah
+cprofile Ciptakan Profil
 cut Potong 
 date Tanggal 
+days Hari
+dcprofile Jangan Ciptakan Profil
+default Pengaturan Dasar
 delete Hapus 
+deliverfail Ada masalah dalam pengiriman pesan berikut
+delprofile Hapus Profil
+delprofile2 Pilih profil yang ingin dihilangkan
+dockgtk Labuhan model Gnome 
 docking Labuhan 
 dockingoff Jangan dilabuhkan 
-dockgtk Labuhan model Gnome 
 dockkde Labuhan model KDE 
 edit Ubah 
+editprofile Ubah Profil
 enableproxy Nyalakan proxy 
 encoding Pilih jenis pengkodean 
+encoding2 Pilih Pengkodean
 entercontactemail Masukkan alamat e-mail teman 
 enterfilename Masukkan nama file 
 enternick Masukkan alias yang anda inginkan 
@@ -69,122 +96,204 @@ exitamsn Apakah anda ingin keluar?
 extras Fungsi tambahan 
 faq PSD (Pertanyaan yang Sering Ditanyakan) 
 filedoesnotexist File tidak ditemukan 
+fileman Pengatur Arsip
 filename Nama file 
 filetransfercancelled Transmisi file dibatalkan 
 filetransfercomplete Transmisi file telah usai 
 ftaccepted Transmisi file diterima 
 ftrejected Transmisi file ditolak 
 gonelunch Sedang makan siang 
+group Grup 
 groupadd Tambah grup 
 groupdelete Hapus grup 
 groupexists Nama grup sudah ada 
-group Grup 
 groupmissing Grup tidak dapat ditemukan 
 groupnewname Nama baru 
 groupnotempty Grupnya tidak kosong 
 groupoldname Nama lama 
 grouprename Ganti nama grup 
 groupunknown Grup lain 
-handle Handle 
+handle Pegangan
+help Bantuan
 helpcontents Isi manual 
-help Bantuan 
+history Lihat Sejarah
 home Home 
 ident Sedang mengidentifikasi 
 identity Identitas 
+inbox Kotak-Masuk
 invalidusername Nama user salah 
 invite Undang 
 ipaddress Alamat IP 
+ipdetect Cari IP yang betul untuk transfer arsip melalui HTTP
 istyping $1 sedang mengetik 
 joins $1 ikut dalam percakapan 
+keepalive Biarkan Menyala (NAT)
+keeplog Simpan register percakapan
+keeplog2 Simpan semua percakapan ke dalam sejarah a’MSN untuk dilihat di masa yang akan datang
 language Bahasa 
 lastmsgtime Last message received at $1 
+lclosedwin $1 telah menutup jendela atas $2
+lconftopriv Konferensi berubah menjadi percakapan pribadi dengan $1
+lconvstarted Percakapan dimulai pada $1
 leaveblankforhotmail Kosongkan untuk menggunakan Hotmail lewat web 
 leaves $1 telah meninggalkan percakapan ini 
+lenteredconf $1 telah memasuki konferensi pada $2
+linprivate SECARA PRIBADI
 listeningon Mengawasi port $1 
+listsmileys Daftar Smiley
 listsmileys Tampilkan ekspresi di daftar nama 
+listsmileys2 Tampilkan Emoticon dan Smiley dalam daftar kontak a’MSN utama
+ljoinedconf $1 bergabung dalam konferensi
+lleftconf $1 meninggalkan konferensi
 loadcontacts Baca daftar nama 
+logbigger Ukuran register arsip untuk setiap kontak tidak pernah melewati batas
+logfandexp Ukuran register arsip dan masa berlaku sejarah
 loggedotherlocation Terputus. Ada yang login dari tempat lain 
-loggingin Logging In 
-loginas Login sebagai 
-logsin baru saja login 
+loggingin Meregister Masuk
+login Register Masuk
+loginas Register sebagai 
+loging Meregister
+logolder Hanya register percakapan yang mengambil tempat dalam terakhir
+logout Register Keluar
+logsin baru saja register
+logsmileys Tampilkan Emoticon dan Smiley dalam sejarah a’MSN
+lprivtoconf Percakapan pribadi berubah menjadi konferensi dengan $1
+luclosedwin Anda telah menutup jendal pada $1
 mailer Aplikasi email 
+maximised Dimaksimalkan
+minimised Diminimalkan/Di-ikon-kan
+mins menit
+mobile Bergerak
 movetogroup Pindah ke grup 
 msg Pesan 
-msn AMSN 
-mustrestart Program ini harus dijalankan ulang supaya perubahannya nampak 
-mystatus Statusku 
+msgmaxmin Saat pesan baru tiba saya menginginkannya untuk:
+msgmode Pilih bagaimana menangani banyak jendela percakapan
+msn a'MSN 
+mustrestart Program ini harus dijalankan ulang supaya perubahannya kelihatan
+myhomephone Telpon rumah saya
+mymobilephone Telpon seluler saya
+mystatus Status Saya
+myworkphone Telpon kerja saya
 natip Deteksi IP melalui halaman web 
-needonline Anda masih offline atau sedang sembunyi! 
-newmail $1 email baru dalam In-Box 
+natkeepalive Apabila sambungan anda sering terputus, mungkinkan ‘Biarkan Menyala’
+needonline Anda masih tidak tersambung atau sedang sembunyi! 
+newmail $1 email baru dalam Kotak-Masuk
 newmailfrom Email baru dari 
 newmsg Pesan baru 
 newveravailable Telah ada versi baru $1 
 next Berikutnya 
 noactivity Tidak ada aktivitas 
-nonewmail Tidak ada email baru di In-Box anda 
+nologfile Tidak ada register untuk $1
+nonewmail Tidak ada email baru di Kotak-Masuk anda 
 nonewver Belum ada versi baru 
+normal Normal
 notify beri tahu 
+notify1 Tampilkan jendel pemberitahuan saat kontak mulai tersambung
+notify2 Tampilkan jendel pemberitahuan saat pesan baru diterima
+notify3 Tampilkan jendel pemberitahuan saat e-mail masuk ke dalam Kotak-Masuk
+notifyoffset Atur jendela pemberitahuan dengan memberikannya aturan keseimbangan posisi
 notifywin Jendela pemberitahuan 
 nousersinsession Tidak ada orang lain 
-offline Offline 
+offline Tidak Tersambung
 ok Ok 
-onenewmail Ada email baru di In-Box 
-online Online 
+onenewmail Ada email baru di Kotak-Masuk
+online Tersambung
 onphone Sedang telepon 
-openreceived Buka file yang telah diterima 
+openreceived Buka arsip yang telah diterima 
 options Pilihan 
 ordercontactsby Urutkan daftar berdasarkan 
+ordergroupsby Atur kelompok berdasarkan
 other Lain-lain 
-pager Pager 
+pager Penyeranta
 pass Kata sandi 
 paste Tempelkan 
+personal Pribadi
 phone Telepon 
-picfile File gambar (GIF < 500 x 500) 
+picfile Arsip gambar (GIF < 500 x 500) 
 picstatus Alarm bergambar 
-port Port 
+port Pintu
+prefalerts Signal dan Bunyi kegiatan saya
 prefapps Aplikasi 
+prefawaymsg Pesan ‘Tidak Ada’ saya
+prefemotic Ikon emosi dan Smiley
 preferences Pilihan 
+preffont Tekst Pesan Saya
+preffont2 Rubah cara orang lain melihat tekst saya dalam percakapan
+preffont3 Rubah huruf dan ukuran tampilan muka a’MSN
+preflog1 Pilihan Registrasi dan Sejarah Saya
+preflook Tampilan Pembawa Pesan a’MSN Saya
+prefmsging Tampilan Muka Pesan Saya
+prefname Nama/Nama Panggilan Pembawa Pesan a’MSN Saya
+prefphone Nomor-nomor Telpon Saya
+prefphone2 Ketik nomor telpon yang anda inginkan dilihat orang-orang pada Daftar Boleh anda
+prefprofile Profil Umum Saya
+prefprofile2 Ciptakan atau Rubah profil umum anda (penjelasan tentang anda yang bisa dilihat orang lain)
+prefprofile3 Aturan Profil Pengguna a’MSN
+prefproxy Aturan Proxy Saya
+prefsession Daftar Masuk dan Status Saya
+prefshared Sambungan yang Dibagi (hanya untuk NAT)
 prefsound Suara 
+profiledconfig Aturan Profil
+profiles Profil-profil
 properties Data diri 
-proxyconfhttp Konfigurasi proxy HTTP 
+proxy Saya berada di belakang Server Proxy (HTTP atau SOCKS5)
 proxyconf Konfigurasi proxy 
+proxyconfhttp Konfigurasi proxy HTTP 
 publishphones Publikasikan telepon saya 
 receivedbytes Telah diterima $1 dari $2 byte 
-receivefile Terima file 
-reconnecting Memulihkan sambungan ke server 
+receivefile Terima arsip
 reconnect Menunggu $1 untuk bergabung kembali 
+reconnecting Memulihkan sambungan ke server 
 reject Tolak 
 rememberpass Simpan kata sandi 
+reversed Dibalik
 rightback Segera kembali 
+save Simpan 
 saveas Simpan dengan nama 
 savecontacts Simpan daftar nama 
-save Simpan 
+savetofile Simpan ke dalam Arsip
 says $1 bilang 
-sbcon Mencoba mengontak Switch Board 
-sendfile Kirim file 
+sbcon Mencoba mengontak Papan Pengendali
+send Kirim 
+sendfile Kirim arsip
 sendmail Kirim e-mail 
 sendmsg Kirim pesan 
-send Kirim 
 sentbytes $1 dari $2 byte telah dikirim 
-servergoingdown Terputus: Server sedang bermasalah 
 server Server 
+servergoingdown Terputus: Server sedang bermasalah 
+session Bagian
 sound Event Sound 
-soundfile File suara 
+sound2 Mainkan Bunyi saat kontak meregister masuk atau mengirim pesan
+soundcommand Ini harus menjadi perintah bermain (contoh: esdplay)
+soundfile Arsip suara 
 soundloop Putar suara berulang-ulang 
+soundserver Server Bunyi
 soundstatus Bunyikan alarm 
 startoffline Login dengan status Offline 
+startoffline2 Register Masuk secara diam-diam sebagai “Tampak Tidak Tersambung”
 status Status 
 stopalarm Stop alarm 
-textsize Besar font 
-title Al's Messenger 
-tools Fungsi 
+stylechat Tampilan sama seperti pada percakapan
+stylehist Sejarah tampilan a’MSN
+stylelog Pilih bentuk di dalam mana anda ingin melihat sejarah anda
+syntaxerror Kesalahan Sintaks
+tabbed Jendela yang ditandai
+textsize Besar huruf
+title Al's Messenger
 to Kepada 
+tools Fungsi 
 unblock Cabut blokiran 
-useralreadyonlist Nama sudah ada dalam daftar nama 
+uoffline Tidak Tersambung
+uonline Tersambung
 user Identifikasi 
+useralreadyonlist Nama sudah ada dalam daftar nama 
+usernotonline Pengguna sedang tidak tersambung
 version Versi 
 view Tampilan 
+viewprofile Lihat Profil Pemakai
 willjoin Menunggu $1 untuk bergabung 
 work Kerja 
+xoffset Keseimbangan Posisi X
+yoffset Keseimbangan Posisi Y
 yousay Anda berkata 
-youwant Anda ingin 
+youwant Anda Inginkan
