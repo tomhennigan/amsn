@@ -6,8 +6,8 @@ actions Moznosti
 addacontact Pridat kontakt
 addedyou $1 ($2) ta pridal do kontaktnej knizky
 addprofile Nastavit novy profil
-addprofiledesc Zadaj login pre ktory by si chcel vytvorit novy profil. \nLoginy s profilom ti poskytnu ine nastavenia pre kazdy login.\nBez profilu, nemozes nastavit Historiu, Alarmy alebo zapamatat hesla!
-addstate Pridat novy stav
+addprofiledesc Zadaj login pre ktory by si chcel vytvorit novy profil. \nLoginy s profilom ti umoznia ine nastavenia pre kazdy login.\nBez profilu, nemozes nastavit Historiu, Alarmy alebo zapamatat hesla!
+addstate Pridat novy status
 addto Pridat do $1
 addtocontacts Pridat do kontaktnej knizky
 addtoo Pridat tuto adresu do kontaktnej knizky
@@ -40,7 +40,7 @@ autohotmaillog Automaticky Hotmail login
 autoidle Auto NeAktivita
 autoip Automaticka IP
 autonoact Zmen moj status na Neaktivny ked budem neaktivny viac nez
-avoidseen Zakazat tomuto kontaktu vidiet ma ked budem online a kontaktovat so mnou
+avoidseen Zakazat tomuto kontaktu vidiet ma ked budem online a tiez kontaktovat so mnou
 away Nepritomny
 awaymsg1 Zmenit dovod nepritomnosti vzdy ked nastavim status Nepritomny\HSV\Zaneprazdneny
 awaymsg2 Dovod nikdy nezmenit a vzdy pouzit tento
@@ -66,7 +66,7 @@ busy Zaneprazdneny
 cancel Zrusit
 cannotdeleteprofile Nemozem vymazat profil lebo prave ho pouziva aMSN
 cantexec Nemozem spustit prikaz: $1. Prezri nastavenia.
-casesensitive Nastavit case-sensitive 
+casesensitive Nastavit case-sensitive
 cfgalarm Nastavit/Pridat/Zmazat Alarm
 changefont Zmenit pismo
 changenick Zmenit nickname
@@ -140,17 +140,17 @@ editstate Zmenit existujuci autoodkazovy status
 emotisounds Spustit zvuk pre niektore emotikony
 enableproxy Zapnut proxy
 enableremote Zapnut kontrolu na dialku
-enablesound Spustit zvuj
+enablesound Spustit zvuk
 encoding2 Zmenit kodovanie tvojho pisma
 encoding Zvolit kodovanie
 entercontactemail Zadaj kontaktov e-mail
-enterfilename Prosim, zvol subor
+enterfilename Zvol subor, prosim
 enternick Zadaj nickname
 errortls Chyba pri instalovani modulu TSL:
 examples Priklady
 exitamsn Urcite chces vypnut aMSN?
 extras Extra sluzby
-faq FAQ (Frequently Answered Questions)
+faq FAQ (Frequently Asked Questions)
 filedoesnotexist Subor neexistuje
 filemanexample ( \$location bude prepisany s priecinkom ) Napr: nautilus \$location
 fileman Nastavenia
@@ -192,7 +192,7 @@ hybrid Hybrid mode
 ident Identifikujem
 identity Identita
 inbox Inbox
-installconvert Musis instalovat ImageMagick na prerobenie obrazov do formatu co pouzivaju servery MSN. Mozes si ho stiahnut pre tvoj system z ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Ak ho uz mas, je to bug, prosim napis nam o nom.
+installconvert Musis instalovat ImageMagick na prerobenie obrazov do formatu co pouzivaju servery MSN. Mozes si ho stiahnut pre tvoj system z ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Ak ho uz mas, je to bug, prosim, napis nam o nom.
 internalerror Vnutorna Chyba Servera
 invalidfile Subor $2 v policku "$1" neexistuje alebo je necitatelny
 invalidusername Nespravny login
@@ -546,5 +546,6 @@ p4contextprefix Zobrazit tento retazec pred odosielatelom P4
 phones Telefonne cisla 
 recentmsg Nezatvarat konverzacie pri prichode noveho odkazu
 automessage Odkazovac
-friendlyname Kamaratske Meno
-longp4c Tvoje Kamaratske Meno ma viac ako 130 pismen. Retazec ktory sa objavi v oficialnom MSN kliente bude $1. Si si isty ze chces aby sa zobrazil?
+friendlyname Priatelske Meno
+longp4c Tvoje Priatelske Meno ma viac ako 130 pismen. Retazec ktory sa objavi v oficialnom MSN kliente bude $1. Si si isty ze chces aby sa zobrazil?
+soundactive Spustit zvuk aj ked dostanes odkaz v otvorenom okienku
