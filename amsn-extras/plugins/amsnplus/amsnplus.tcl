@@ -36,16 +36,6 @@ namespace eval ::amsnplus {
 				allow_commands 1
 				allow_quicktext 1
 				on_connect "online"
-				quick_text_0 ""
-				quick_text_1 ""
-				quick_text_2 ""
-				quick_text_3 ""
-				quick_text_4 ""
-				quick_text_5 ""
-				quick_text_6 ""
-				quick_text_7 ""
-				quick_text_8 ""
-				quick_text_9 ""
 			}
 			set ::amsnplus::configlist [ list \
 				[list bool "Do you want to parse nicks?" parse_nicks] \
@@ -62,16 +52,6 @@ namespace eval ::amsnplus {
 				allow_colours 1
 				allow_quicktext 1
 				on_connect "online"
-				quick_text_0 ""
-				quick_text_1 ""
-				quick_text_2 ""
-				quick_text_3 ""
-				quick_text_4 ""
-				quick_text_5 ""
-				quick_text_6 ""
-				quick_text_7 ""
-				quick_text_8 ""
-				quick_text_9 ""
 			}
 			set ::amsnplus::configlist [ list \
 				[list bool "[trans parsenicks]" parse_nicks] \
@@ -175,10 +155,10 @@ namespace eval ::amsnplus {
 	# this does some operations on connect
 	proc on_connect {event epvar} {
 		#state on connect
-		if {[::amsnplus::stateIsValid ::amsnplus::config(on_connect)]} {
+		set nstate $::amsnplus::config(on_connect)
+		if {[::amsnplus::stateIsValid $nstate]} {
 			set cstate [::amsnplus::descriptionToState $nstate]
-			::MSN::changeStatus $cstate
-			status_log "================= OnConnect -> changing to status $cstate\n ==============="
+			after 1000 ::MSN::changeStatus $cstate
 		}
 	}
 
@@ -293,7 +273,7 @@ namespace eval ::amsnplus {
 		while {$i < 10} {
 			set keyword [$w.middle.left.keyword$i get]
 			set str [$w.middle.right.text$i get]
-			set ::amsnplus::config(quick_text_$i) [list $keyword $str]
+			if {![string equal $keyword ""]} { set ::amsnplus::config(quick_text_$i) [list $keyword $str] }
 			incr i
 		}
 	}
@@ -305,9 +285,9 @@ namespace eval ::amsnplus {
 	#//////////////////////////////////////////////////////////////////////////
 
 	################################################
-	# this proc deletes ·$<num> codification
+	# this proc deletes $<num> codification
 	# and colours nick if enabled
-	# should parse ALSO MULTIPLE COLORS ·$(num,num,num)
+	# should parse ALSO MULTIPLE COLORS $(num,num,num)
 	proc parse_nick {event epvar} {
 		if {!$::amsnplus::config(parse_nicks)} {return}
 		upvar 2 data data
@@ -316,7 +296,7 @@ namespace eval ::amsnplus {
 		set i 0
 		while {$i < $strlen} {
 			set str [string range $data $i [expr $i + 1]]
-			if {[string equal $str "·\$"]} {
+			if {[string equal $str "\$"]} {
 				if {$::amsnplus::config(colour_nicks)} {
 					#know if the number has 1 or 2 digits
 					set last [expr $i + 3]
