@@ -17,17 +17,9 @@ if { $initialize_amsn == 1 } {
 }
 
 proc PreferencesCopyConfig {} {
-	global myconfig proxy_server proxy_port config
+	global myconfig proxy_server proxy_port
 	
-	set config_entries [array get config]
-	set items [llength $config_entries]
-	for {set idx 0} {$idx < $items} {incr idx 1} {
-		set var_attribute [lindex $config_entries $idx]; incr idx 1
-		set var_value [lindex $config_entries $idx]
-		# Copy into the cache for modification. We will
-		# restore it if users chooses "close"
-		set myconfig($var_attribute) $var_value
-	}
+	array set myconfig [::config::getAll]
 	
 	# Now process certain exceptions. Should be reverted
 	# in the RestorePreferences procedure
@@ -1224,7 +1216,7 @@ proc moveinscreen {window {mindist 0}} {
 }
 
 proc reload_advanced_options {path} {
-	global advanced_options gconfig
+	global advanced_options
 
 	set i 0
 	foreach opt $advanced_options {
@@ -1522,27 +1514,27 @@ proc setCfgFonts {path value} {
 
 
 proc SavePreferences {} {
-    global myconfig proxy_server proxy_port list_BLP temp_BLP Preftabs libtls libtls_temp proxy_user proxy_pass config
+	global myconfig proxy_server proxy_port list_BLP temp_BLP Preftabs libtls libtls_temp proxy_user proxy_pass
 
-    set nb .cfg.notebook
+	set nb .cfg.notebook
+	
+	# I. Data Validation & Metavariable substitution
+	# Proxy settings
+	set p_server [string trim $proxy_server]
+	set p_port [string trim $proxy_port]
+	set p_user [string trim $proxy_user]
+	set p_pass [string trim $proxy_pass]
 
-    # I. Data Validation & Metavariable substitution
-    # Proxy settings
-    set p_server [string trim $proxy_server]
-    set p_port [string trim $proxy_port]
-    set p_user [string trim $proxy_user]
-    set p_pass [string trim $proxy_pass]
-
-       ::config::setKey proxy [list $p_server $p_port]
+	::config::setKey proxy [list $p_server $p_port]
 
 	if { ($p_pass != "") && ($p_user != "")} {
-	    ::config::setKey proxypass $p_pass
-	    ::config::setKey proxyuser $p_user
-	    ::config::setKey proxyauthenticate 1
+		::config::setKey proxypass $p_pass
+		::config::setKey proxyuser $p_user
+		::config::setKey proxyauthenticate 1
 	} else {
-	    ::config::setKey proxypass ""
-	    ::config::setKey proxyuser ""
-	    ::config::setKey proxyauthenticate 0
+		::config::setKey proxypass ""
+		::config::setKey proxyuser ""
+		::config::setKey proxyauthenticate 0
 	}
 
 	if {![string is digit [::config::getKey initialftport]] || [string length [::config::getKey initialftport]] == 0 } {
@@ -1554,151 +1546,141 @@ proc SavePreferences {} {
 	}
 
 
-    # Make sure entries x and y offsets and idle time are digits, if not revert to old values
-    if { [string is digit [::config::getKey notifyXoffset]] == 0 } {
-    	::config::setKey notifyXoffset $myconfig(notifyXoffset)
-    }
-    if { [string is digit [::config::getKey notifyYoffset]] == 0 } {
-    	::config::setKey notifyYoffset $myconfig(notifyYoffset)
-    }
-    if { [string is digit [::config::getKey idletime]] == 0 } {
-    	::config::setKey idletime $myconfig(idletime)
-    }
-    if { [string is digit [::config::getKey awaytime]] == 0 } {
-    	::config::setKey awaytime $myconfig(awaytime)
-    }
-    if { [::config::getKey idletime] >= [::config::getKey awaytime] } {
-    	::config::setKey awaytime $myconfig(awaytime)
-    	::config::setKey idletime $myconfig(idletime)
-    }
+	# Make sure entries x and y offsets and idle time are digits, if not revert to old values
+	if { [string is digit [::config::getKey notifyXoffset]] == 0 } {
+		::config::setKey notifyXoffset $myconfig(notifyXoffset)
+	}
+	if { [string is digit [::config::getKey notifyYoffset]] == 0 } {
+		::config::setKey notifyYoffset $myconfig(notifyYoffset)
+	}
+	if { [string is digit [::config::getKey idletime]] == 0 } {
+		::config::setKey idletime $myconfig(idletime)
+	}
+	if { [string is digit [::config::getKey awaytime]] == 0 } {
+		::config::setKey awaytime $myconfig(awaytime)
+	}
+	if { [::config::getKey idletime] >= [::config::getKey awaytime] } {
+		::config::setKey awaytime $myconfig(awaytime)
+		::config::setKey idletime $myconfig(idletime)
+	}
 
-    # Check and save phone numbers
-    if { [::MSN::myStatusIs] != "FLN" } {
-	    #set lfname [Rnotebook:frame $nb $Preftabs(personal)]
-	    set lfname [$nb.nn getframe personal]
-	    set lfname [$lfname.sw.sf getframe]
-	    set lfname "$lfname.lfname4.f.f"
+	# Check and save phone numbers
+	if { [::MSN::myStatusIs] != "FLN" } {
+		#set lfname [Rnotebook:frame $nb $Preftabs(personal)]
+		set lfname [$nb.nn getframe personal]
+		set lfname [$lfname.sw.sf getframe]
+		set lfname "$lfname.lfname4.f.f"
+	
+		set cntrycode [$lfname.2.ephone1 get]
+		if { [string is digit $cntrycode] == 0 } {
+			set cntrycode [lindex [split [::abook::getPersonal PHH] " "] 0]
+		}
+	
+		append home [$lfname.2.ephone31 get] " " [$lfname.2.ephone32 get]
+		if { [string is digit [$lfname.2.ephone31 get]] == 0 } {
+			set home [join [lrange [split [::abook::getPersonal PHH] " "] 1 end]]
+		}
+		append work [$lfname.2.ephone41 get] " " [$lfname.2.ephone42 get]
+		if { [string is digit [$lfname.2.ephone41 get]] == 0 } {
+			set work [join [lrange [split [::abook::getPersonal PHW] " "] 1 end]]
+		}
+		append mobile [$lfname.2.ephone51 get] " " [$lfname.2.ephone52 get]
+		if { [string is digit [$lfname.2.ephone51 get]] == 0 } {
+			set mobile [join [lrange [split [::abook::getPersonal PHM] " "] 1 end]]
+		}
+	
+		set home [urlencode [set home "$cntrycode $home"]]
+		set work [urlencode [set work "$cntrycode $work"]]
+		set mobile [urlencode [set mobile "$cntrycode $mobile"]]
+		if { $home != [::abook::getPersonal PHH] } {
+			::abook::setPhone home $home
+		}
+		if { $work != [::abook::getPersonal PHW] } {
+			::abook::setPhone work $work
+		}
+		if { $work != [::abook::getPersonal PHM] } {
+			::abook::setPhone mobile $mobile
+		}
+		if { $home != [::abook::getPersonal PHH] || $work != [::abook::getPersonal PHW] || $work != [::abook::getPersonal PHM] } {
+			::abook::setPhone pager N
+		}
+	}
 
-	    set cntrycode [$lfname.2.ephone1 get]
-	    if { [string is digit $cntrycode] == 0 } {
-	    	set cntrycode [lindex [split [::abook::getPersonal PHH] " "] 0]
-	    }
-
-	    append home [$lfname.2.ephone31 get] " " [$lfname.2.ephone32 get]
-	    if { [string is digit [$lfname.2.ephone31 get]] == 0 } {
-	    	set home [join [lrange [split [::abook::getPersonal PHH] " "] 1 end]]
-	    }
-	    append work [$lfname.2.ephone41 get] " " [$lfname.2.ephone42 get]
-	    if { [string is digit [$lfname.2.ephone41 get]] == 0 } {
-	 	set work [join [lrange [split [::abook::getPersonal PHW] " "] 1 end]]
-	    }
-	    append mobile [$lfname.2.ephone51 get] " " [$lfname.2.ephone52 get]
-	    if { [string is digit [$lfname.2.ephone51 get]] == 0 } {
-	  	set mobile [join [lrange [split [::abook::getPersonal PHM] " "] 1 end]]
-	    }
-
-	    set home [urlencode [set home "$cntrycode $home"]]
-	    set work [urlencode [set work "$cntrycode $work"]]
-	    set mobile [urlencode [set mobile "$cntrycode $mobile"]]
-	    if { $home != [::abook::getPersonal PHH] } {
-		::abook::setPhone home $home
-	    }
-	    if { $work != [::abook::getPersonal PHW] } {
-		::abook::setPhone work $work
-	    }
-	    if { $work != [::abook::getPersonal PHM] } {
-		::abook::setPhone mobile $mobile
-	    }
-	    if { $home != [::abook::getPersonal PHH] || $work != [::abook::getPersonal PHW] || $work != [::abook::getPersonal PHM] } {
-		::abook::setPhone pager N
-	    }
-    }
-
-    # Change name
-    #set lfname [Rnotebook:frame $nb $Preftabs(personal)]
-    set lfname [$nb.nn getframe personal]
-    set lfname [$lfname.sw.sf getframe]
-    set lfname "$lfname.lfname.f.f.1"
-    set new_name [$lfname.name.entry get]
-    if {$new_name != "" && $new_name != [::abook::getPersonal nick] && [::MSN::myStatusIs] != "FLN"} {
-	::MSN::changeName [::config::getKey login] $new_name
-    }
+	# Change name
+	#set lfname [Rnotebook:frame $nb $Preftabs(personal)]
+	set lfname [$nb.nn getframe personal]
+	set lfname [$lfname.sw.sf getframe]
+	set lfname "$lfname.lfname.f.f.1"
+	set new_name [$lfname.name.entry get]
+	if {$new_name != "" && $new_name != [::abook::getPersonal nick] && [::MSN::myStatusIs] != "FLN"} {
+		::MSN::changeName [::config::getKey login] $new_name
+	}
 	::config::setKey p4c_name [$lfname.p4c.entry get]
 
-	 #Check if convertpath was left blank, set it to "convert"
-	 if { [::config::getKey convertpath] == "" } {
-	 	::config::setKey convertpath "convert"
-	 }
-
-    # Get remote controlling preferences
-    #set lfname [Rnotebook:frame $nb $Preftabs(connection)]
-    set lfname [$nb.nn getframe connection]
-    set lfname [$lfname.sw.sf getframe]
-    set myconfig(remotepassword) "[$lfname.lfname3.f.f.2.pass get]"
-    ::config::setKey remotepassword $myconfig(remotepassword)
-
-	 #Copy to myconfig array, because when the window is closed, these will be restored (RestorePreferences)
-    set config_entries [array get config]
-    set items [llength $config_entries]
-    for {set idx 0} {$idx < $items} {incr idx 1} {
-        set var_attribute [lindex $config_entries $idx]; incr idx 1
-	set var_value [lindex $config_entries $idx]
-	set myconfig($var_attribute) $var_value
-#	puts "myCONFIG $var_attribute $var_value"
-    }
-
-
-
-    # Save configuration of the BLP ( Allow all other users to see me online )
-    if { $list_BLP != $temp_BLP } {
-	AllowAllUsers $temp_BLP
-    }
-
-
-    # Save tls package configuration
-    if { $libtls_temp != $libtls } {
-	set libtls $libtls_temp
-	global auto_path HOME2 tlsinstalled
-	if { $libtls != "" && [lsearch $auto_path $libtls] == -1 } {
-	    lappend auto_path $libtls
+	#Check if convertpath was left blank, set it to "convert"
+	if { [::config::getKey convertpath] == "" } {
+		::config::setKey convertpath "convert"
 	}
 
-	if { $tlsinstalled == 0 && [catch {package require tls}] } {
-	    # Either tls is not installed, or $auto_path does not point to it.
-	    # Should now never happen; the check for the presence of tls is made
-	    # before this point.
-	    status_log "Could not find the package tls on this system.\n"
-	    set tlsinstalled 0
-	} else {
-	    set tlsinstalled 1
+	# Get remote controlling preferences
+	#set lfname [Rnotebook:frame $nb $Preftabs(connection)]
+	set lfname [$nb.nn getframe connection]
+	set lfname [$lfname.sw.sf getframe]
+	set myconfig(remotepassword) "[$lfname.lfname3.f.f.2.pass get]"
+	::config::setKey remotepassword $myconfig(remotepassword)
+
+	#Copy to myconfig array, because when the window is closed, these will be restored (RestorePreferences)
+	array set myconfig [::config::getAll]
+
+	# Save configuration of the BLP ( Allow all other users to see me online )
+	if { $list_BLP != $temp_BLP } {
+		AllowAllUsers $temp_BLP
 	}
 
-	set fd [open [file join $HOME2 tlsconfig.tcl] w]
-	puts $fd "set libtls [list $libtls]"
-	close $fd
-    }
+
+	# Save tls package configuration
+	if { $libtls_temp != $libtls } {
+		set libtls $libtls_temp
+		global auto_path HOME2 tlsinstalled
+		if { $libtls != "" && [lsearch $auto_path $libtls] == -1 } {
+			lappend auto_path $libtls
+		}
+	
+		if { $tlsinstalled == 0 && [catch {package require tls}] } {
+			# Either tls is not installed, or $auto_path does not point to it.
+			# Should now never happen; the check for the presence of tls is made
+			# before this point.
+			status_log "Could not find the package tls on this system.\n"
+			set tlsinstalled 0
+		} else {
+			set tlsinstalled 1
+		}
+	
+		set fd [open [file join $HOME2 tlsconfig.tcl] w]
+		puts $fd "set libtls [list $libtls]"
+		close $fd
+	}
 
 
-    # Blocking
-    #if { [::config::getKey blockusers] == "" } { ::config::setKey blockusers 1}
-    #if { [::config::getKey checkblocking] == 1 } {
-	#BeginVerifyBlocked [::config::getKey blockinter1] [::config::getKey blockinter2] [::config::getKey blockusers] [::config::getKey blockinter3]
-    #} else {
-	#StopVerifyBlocked
-    #}
+	# Blocking
+	#if { [::config::getKey blockusers] == "" } { ::config::setKey blockusers 1}
+	#if { [::config::getKey checkblocking] == 1 } {
+		#BeginVerifyBlocked [::config::getKey blockinter1] [::config::getKey blockinter2] [::config::getKey blockusers] [::config::getKey blockinter3]
+	#} else {
+		#StopVerifyBlocked
+	#}
 
-
-    # Save configuration.
-    save_config
+	# Save configuration.
+	save_config
 	::MSN::contactListChanged
-	 ::config::saveGlobal
+	::config::saveGlobal
 
-    if { [::MSN::myStatusIs] != "FLN" } {
-       cmsn_draw_online
-    }
+	if { [::MSN::myStatusIs] != "FLN" } {
+		cmsn_draw_online
+	}
     
-    #Reset the banner incase the option changed
-    resetBanner
+	#Reset the banner incase the option changed
+	resetBanner
 
 }
 
@@ -1712,25 +1694,18 @@ proc RestorePreferences { {win ".cfg"} } {
 	set nb .cfg.notebook.nn
 
 
-	# Restore old configuration as if nothing happened
-	set config_entries [array get myconfig]
-	set items [llength $config_entries]
-	for {set idx 0} {$idx < $items} {incr idx 1} {
-		set var_attribute [lindex $config_entries $idx]; incr idx 1
-	set var_value [lindex $config_entries $idx]
-	::config::setKey $var_attribute $var_value
-#	puts "myCONFIG $var_attribute $var_value"
-	}
+	::config::setAll [array get myconfig]
 
-    # Save configuration.
-    save_config
+	# Save configuration.
+	save_config
 	::MSN::contactListChanged
-	 ::config::saveGlobal
+	::config::saveGlobal
 
-    if { [::MSN::myStatusIs] != "FLN" } {
-       cmsn_draw_online
-    }	
-#    ::MSN::WriteSB ns "SYN" "0"
+	if { [::MSN::myStatusIs] != "FLN" } {
+		cmsn_draw_online
+	}	
+	
+	#::MSN::WriteSB ns "SYN" "0"
 
 	# Save configuration.
 	#save_config
