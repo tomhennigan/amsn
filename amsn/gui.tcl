@@ -1857,6 +1857,7 @@ proc cmsn_draw_main {} {
    menu .main_menu -tearoff 0 -type menubar  -borderwidth 0 -activeborderwidth -0
    .main_menu add cascade -label "[trans msn]" -menu .main_menu.file
    .main_menu add cascade -label "[trans actions]" -menu .main_menu.actions
+
    .main_menu add cascade -label "[trans tools]" -menu .main_menu.tools
    .main_menu add cascade -label "[trans help]" -menu .main_menu.help
 
@@ -1901,6 +1902,8 @@ proc cmsn_draw_main {} {
      "::amsn::ChooseList \"[trans sendmsg]\" online ::amsn::chatUser 1 0"
    .main_menu.actions add command -label "[trans sendmail]..." -command \
      "::amsn::ChooseList \"[trans sendmail]\" both \"launch_mailer\" 1 0"
+    .main_menu.actions add command -label "[trans verifyblocked]..." -command "VerifyBlocked"
+    .main_menu.actions add command -label "[trans showblockedlist]..." -command "VerifyBlocked ; show_blocked"
    .main_menu.actions add command -label "[trans changenick]..." -command cmsn_change_name
    .main_menu.actions add separator
    .main_menu.actions add command -label "[trans checkver]..." -command "check_version"
@@ -2102,6 +2105,7 @@ proc cmsn_draw_main {} {
    image create photo bell -file [file join ${images_folder} bell.gif]
    image create photo belloff -file [file join ${images_folder} belloff.gif]
 
+   image create photo blockedme -file [file join ${images_folder} blockedme.gif]
 
    text $pgBuddy.text -background white -width 30 -height 0 -wrap none \
       -yscrollcommand "$pgBuddy.ys set" -cursor left_ptr -font splainf \
@@ -2471,6 +2475,11 @@ proc cmsn_draw_offline {} {
 
    configureMenuEntry .main_menu.actions "[trans sendmail]..." disabled
    configureMenuEntry .main_menu.actions "[trans sendmsg]..." disabled
+
+   configureMenuEntry .main_menu.actions "[trans sendmsg]..." disabled
+   configureMenuEntry .main_menu.actions "[trans verifyblocked]..." disabled
+   configureMenuEntry .main_menu.actions "[trans showblockedlist]..." disabled
+
 
    configureMenuEntry .main_menu.file "[trans savecontacts]..." disabled
 
@@ -2952,7 +2961,7 @@ proc cmsn_draw_online {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc ShowUser {user_name user_login state state_code colour section} {
-    global list_bl list_rl pgBuddy alarms
+    global list_bl list_rl pgBuddy alarms emailBlist
 
          if {($state_code != "NLN") && ($state_code !="FLN")} {
             set state_desc " ([trans [lindex $state 1]])"
@@ -2970,6 +2979,15 @@ proc ShowUser {user_name user_login state state_code colour section} {
 	 }
 
          set image_type [lindex $state 4]
+    
+         for {set idx [expr [array size emailBList] - 1]} {$idx >= 0} {incr idx -1} {
+	     if { $emailBList($idx) == "$user_login" } {
+		 set colour #FF0000
+		 set image_type "blockedme"
+	     }
+	 }
+
+
          if {[lsearch $list_bl "$user_login *"] != -1} {
             set image_type "blocked"
       	    if {$state_desc == ""} {set state_desc " ([trans blocked])"}

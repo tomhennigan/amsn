@@ -34,6 +34,7 @@ bgcolor Change aMSN's background color
 blankdirect Leave blank for direct connection
 block Block
 blocked Blocked
+blockmessage These people are online and blocked you
 broughtby  Brought to you by the following developers
 browse Browse
 browser Browser
@@ -264,6 +265,7 @@ sentbytes Sent $1 of $2 bytes
 servergoingdown Disconnected: Server is going down
 server Server
 session Session
+showblockedlist Show list of people who blocked you
 sound2 Play sounds when contacts sign in or send a message
 soundcommand This has to be the play command (ex: esdplay)
 sound Event Sound'
@@ -292,6 +294,9 @@ uonline Online
 useralreadyonlist User is already on contact list
 usernotonline The user is not online
 user User
+userblocked The user is online but blocked you
+useryourself You can't chat with yourself
+verifyblocked Check for people blocking you
 version Version
 viewprofile View Profile
 view View
@@ -300,5 +305,6 @@ work Work
 wrongprofileversion Wrong profile config file version. In order to fix it, please remove directory $1, or update amsn
 xoffset X Offset
 yoffset Y Offset
+youblocked You have been blocked
 yousay You say
 youwant You want

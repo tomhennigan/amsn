@@ -155,6 +155,8 @@ source [file join $program_dir dock.tcl]	;# Docking routines
 source [file join $program_dir trayicon.tcl]	;# Docking routines for freedesktop system tray compliant docks
 source [file join $program_dir loging.tcl]	;# Euh yeh it's for loging :P
 source [file join $program_dir combobox.tcl]	;# The all mighty combobox is here! (B. Oakley)
+source [file join $program_dir blocking.tcl]    ;# The blocking users feature
+
 
 
 ###TODO: Replace all this msg_box calls with ::amsn::infoMsg

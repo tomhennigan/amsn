@@ -70,7 +70,7 @@ namespace eval ::MSN {
       global config user_stat
       variable myStatus
       #catch {puts -nonewline [sb get ns sock] "OUT\r\n"; close [sb get ns sock]} res
-      WriteNSRaw "OUT\r\n";
+      ::MSN::WriteNSRaw "OUT\r\n";
       sb set ns stat "d"
 
       catch {close [sb get ns sock]} res
@@ -395,7 +395,7 @@ namespace eval ::MSN {
 
       if { $myStatus != "FLN" } {
 	#puts -nonewline [sb get ns sock] "PNG\r\n"
-	WriteNSRaw "PNG\r\n"
+	::MSN::WriteNSRaw "PNG\r\n"
       }
 
       after 60000 "::MSN::PollConnection"
@@ -538,7 +538,7 @@ namespace eval ::MSN {
         set str [::md5::md5 $str]
         ::MSN::WriteNS "QRY" "msmsgs@msnmsgr.com 32"
         #puts -nonewline [sb get ns sock] $cadenita
-	WriteNSRaw "$str"
+	::MSN::WriteNSRaw "$str"
       }
    }
 
@@ -1883,7 +1883,23 @@ proc cmsn_sb_handler {sb_name item} {
          status_log "invalid user name for chat\n"
 	  msg_box "[trans invalidusername]"
       }
-      217 {
+       215 {
+	   #if you try to begin a chat session with yourself
+	   set chatid [::MSN::ChatFor $sb_name]
+	   ::MSN::ClearQueue $chatid
+           ::amsn::chatStatus $chatid "[trans useryourself]\n" miniwarning 
+	   return 0
+	   
+       }
+       216 {
+	   # if you try to begin a chat session with someone who blocked you and is online
+	   set chatid [::MSN::ChatFor $sb_name]
+	   ::MSN::ClearQueue $chatid
+           ::amsn::chatStatus $chatid "[trans userblocked]\n" miniwarning
+	   warn_blocked $chatid
+	   return 0
+       }
+       217 {
           #TODO: Check what we do with sb stat "?", disable chat window?
 	   # this should be related to user state changes
 	  #sb get $sb_name stat
@@ -2731,6 +2747,10 @@ proc cmsn_auth {{recv ""}} {
 
 	 configureMenuEntry .main_menu.actions "[trans sendmail]..." normal
 	 configureMenuEntry .main_menu.actions "[trans sendmsg]..." normal
+	 
+	 configureMenuEntry .main_menu.actions "[trans verifyblocked]..." normal
+	 configureMenuEntry .main_menu.actions "[trans showblockedlist]..." normal
+
 
 	 configureMenuEntry .main_menu.file "[trans savecontacts]..." normal
 
@@ -2799,7 +2819,7 @@ proc ns_enter {} {
    .status.enter delete 0 end
    if { [string range $command 0 0] == "/"} {
      #puts -nonewline [sb get ns sock] "[string range $command 1 [string length $command]]\r\n"
-     WriteNSRaw "[string range $command 1 [string length $command]]\r\n"
+     ::MSN::WriteNSRaw "[string range $command 1 [string length $command]]\r\n"
    } elseif {$command != ""} {
      if {[catch {eval $command} res]} {
         msg_box "$res"
