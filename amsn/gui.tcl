@@ -6168,16 +6168,17 @@ proc pictureChooseFile { } {
 	 	if { ![catch {convert_display_picture $file} res]} {
 			set image_name [image create photo -file [GetSkinFile displaypic "[filenoext [file tail $file]].gif"]]
 			.picbrowser.mypic configure -image $image_name
-			set selected_image [file tail $file]
+			set selected_image "[filenoext [file tail $file]].gif"
 			lappend image_names $image_name
 			status_log "Created $image_name\n"
+			return "[filenoext [file tail $file]].gif"
 		} else {
 			status_log "Error converting $file: $res\n"
 		}
-    }    
-	 
-	 return [file tail $file]
-	
+    }
+
+	 return ""
+
 }
 
 proc set_displaypic { file } {
@@ -6193,7 +6194,7 @@ proc set_displaypic { file } {
 		status_log "set_displaypic: File set to $file\n" blue
 		::MSN::changeStatus [set ::MSN::myStatus]
 	} else {
-		status_log "set_displaypic: Setting displaypic to no_pic\n" blue	
+		status_log "set_displaypic: Setting displaypic to no_pic\n" blue
 		clear_disp
 	}
 }
