@@ -476,6 +476,7 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.1 -class Degt
 	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
+	frame $lfname.4 -class Degt
 	label $lfname.1.llook -text "[trans encoding2]" -padx 10
 	button $lfname.1.bencoding -text [trans encoding] -font sboldf -command "show_encodingchoose"
 	pack $lfname.plook -anchor nw -side left
@@ -492,6 +493,9 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.3 -side top -padx 0 -pady 0 -expand 1 -fill both
 	pack $lfname.3.llook -side left
 	pack $lfname.3.bfont -side right -padx 15
+	checkbutton $lfname.4.banner -text "[trans enablebanner]" -onvalue 1 -offvalue 0 -variable config(enablebanner)
+	pack $lfname.4 -side top -padx 0 -pady 0 -expand 1  -fill both
+	pack $lfname.4.banner -anchor w -side left -padx 10 -pady 0
 
 	
 	## Emoticons Frame ##
@@ -1615,6 +1619,9 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.96  2003/12/02 00:15:18  airadier
+# Enable or disable AMSN banner
+#
 # Revision 1.95  2003/11/15 08:52:26  airadier
 # Compress preferences a bit
 #

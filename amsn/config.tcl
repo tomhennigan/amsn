@@ -21,7 +21,7 @@ proc ConfigDefaults {} {
 
 	set config(sound) 1				;#Sound enabled: 0|1
 	set config(mailcommand) ""		;#Command for checking mail. Blank for hotmail
-
+	set config(enablebanner) 1		;#Show or Hide AMSN Banner (By default Show)
 
 	#Some Autodetected options
 	if {$tcl_platform(platform) == "unix"} {

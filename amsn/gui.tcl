@@ -3099,12 +3099,16 @@ proc cmsn_draw_main {} {
      #::Proxy::LoginData $config(proxyauthenticate) $config(proxyuser) $config(proxypass)
    #}
 
-   adv_initialize .main
+   if {$config(enablebanner)} {
 
-   # This one is not a banner but a branding. When adverts are enabled
-   # they share this space with the branding image. The branding image
-   # is cycled in between adverts.
-    adv_show_banner  file [GetSkinFile pixmaps logolinmsn.gif]
+	# If user wants to see aMSN Banner, we add it to main window (By default "Yes")
+	adv_initialize .main
+
+	# This one is not a banner but a branding. When adverts are enabled
+	# they share this space with the branding image. The branding image
+	# is cycled in between adverts.
+	adv_show_banner file [GetSkinFile pixmaps logolinmsn.gif]
+   }
 
    pack $pgBuddy.text -side right -expand true -fill both -padx 0 -pady 0   
    #pack $pgBuddy.ys -side left -fill y -padx 0 -pady 0
@@ -3183,7 +3187,7 @@ proc change_myfontsize {size name} {
   set fontfamily \{[lindex $config(mychatfont) 0]\}
   set fontstyle \{[lindex $config(mychatfont) 1]\}
 
-    if { [llength $config(basefont)] < 3 } { set config(basefont) "Helvetica 11 normal" } 
+    if { [llength $config(basefont)] < 3 } { set config(basefont) "Helvetica 11 normal" }
   set fontsize [expr {[lindex $config(basefont) end-1]+$config(textsize)}]
 
   catch {.${name}.f.out.text tag configure yours -font "$fontfamily $fontsize $fontstyle"} res

@@ -141,6 +141,7 @@ editnewstate Nuevo mensaje automático para estado personalizado
 editprofile Editar Perfil
 editstate Editar mensaje automático para estado personalizado
 emotisounds Reproducir sonidos asociados a ciertos emoticonos
+enablebanner Mostrar banner de aMSN (Requiere reiniciar aMSN)
 enableproxy Activar proxy
 enableremote Activar servidor de control remoto
 enablesound Reproducir sonido

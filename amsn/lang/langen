@@ -142,6 +142,7 @@ editnewstate New Personal Automessage State
 editprofile Edit Profile
 editstate Edit Existing Automessage State
 emotisounds Play sounds for certain emoticons
+enablebanner Show aMSN's banner (Requires restart aMSN)
 enableproxy Enable proxy
 enableremote Enable remote controling
 enablesound Play sound

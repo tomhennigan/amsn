@@ -860,7 +860,7 @@ namespace eval ::MSN {
       set user_stat FLN
       status_log "Loging out\n"
 
-      if {$config(adverts)} {
+      if {$config(enablebanner) && $config(adverts)} {
          adv_pause
       }
 
@@ -3861,7 +3861,7 @@ proc cmsn_ns_connected {} {
    
   
    cmsn_auth
-   if {$config(adverts)} {
+   if {$config(enablebanner) && $config(adverts)} {
      adv_resume
    }
 
