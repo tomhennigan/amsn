@@ -267,6 +267,6 @@ proc SetBackgroundColors {cstack cdata saved_data cattr saved_attr args} {
 proc init_skindefaults { } {
     global skinconfig
 
-    set skinconfig(smilew) 19      ;# Smiley width
-    set skinconfig(smileh) 19      ;# Smiley height
+    set skinconfig(smilew) 22      ;# Smiley width
+    set skinconfig(smileh) 22      ;# Smiley height
 }
