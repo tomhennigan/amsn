@@ -2719,7 +2719,7 @@ proc cmsn_sb_msg {sb recv message} {
 		#Postevent for others kinds of packet (like nudge)
 		set evpar(chatid) chatid
 		set evpar(nick) nick
-		set evpar(msg) msg
+		set evpar(msg) message
 		::plugins::PostEvent PacketReceived evpar
 	}
 
