@@ -1,7 +1,10 @@
 
 if { $initialize_amsn == 1 } {
-    global bgcolor bgcolor2
-    
+    global bgcolor bgcolor2 putmessage_inputs putmessage_outputs
+
+	 set putmessage_inputs 0
+	 set putmessage_outputs 1
+
     if { ![info exists bgcolor] } {
 	set bgcolor #0050C0
     }
@@ -2362,7 +2365,7 @@ set y [expr $y - 115]
    # - 'type' can be red, gray... or any tag defined for the textbox when the windo
    #   was created, or just "user" to use the fontformat parameter
    # - 'fontformat' is a list containing font style and color
-   proc PutMessage { chatid user msg type fontformat } {
+   proc PutMessage { chatid user msg type fontformat {ticket ""}} {
 
 	global config
 	set tstamp [timestamp]
@@ -2380,12 +2383,41 @@ set y [expr $y - 115]
 		set user [lindex [::MSN::getUserInfo $user] 1]
 	}
 
+	#Use kind of mutex here (really a ticket counter)
+	global putmessage_inputs putmessage_outputs
+	#Get my turn
+	if { $ticket == "" } {
+		set my_ticket [incr putmessage_inputs]
+	} else {
+		set my_ticket $ticket
+	}
+	#Wait until it's my turn
+	#while { $my_ticket != $putmessage_outputs } {
+#		incr putmessage_outputs
+#		return 0
+#	}
+	if {$my_ticket != $putmessage_outputs } {
+		after 100 [list ::amsn::PutMessage $chatid $user $msg $type $fontformat $my_ticket]
+		status_log "UPS! Another PutMessage running. Avoid interleaving by waiting 100ms and try again\n" white
+
+		return 0
+	}
+
+
 	if {$config(showtimestamps)} {
 		WinWrite $chatid "$tstamp [trans says $user]:\n" gray
 	} else {
 		WinWrite $chatid "[trans says $user]:\n" gray
 	}
+
+#	global tiempo_out
+#	tkwait variable tiempo_out
+#	set tiempo_out 0
+
 	WinWrite $chatid "$msg\n" $type $fontformat
+
+	#Give next turn
+	incr putmessage_outputs
 
 	if {$config(keep_logs)} {
 		::log::PutLog $chatid $user $msg
@@ -6565,3 +6597,12 @@ if {$tcl_platform(os) != "Darwin"} {
 wm transient $win .
 }
 }
+
+#proc prueba {} {
+#	global tiempo_out
+#	set tiempo_out 1
+#	after 2000 prueba
+#	status_log "Tiempo\n"
+#}
+
+#after 2000 prueba
