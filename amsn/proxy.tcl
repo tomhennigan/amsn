@@ -298,7 +298,7 @@ namespace eval ::HTTPConnection {
 			sb set $name error_msg $res
 			eval [sb get $name error_handler]
 		}
-		unset proxy_writing
+		catch {unset proxy_writing}
 		fileevent [sb get $name sock] readable [list ::HTTPConnection::HTTPRead $name]
 		
 	}
