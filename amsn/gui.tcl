@@ -2637,7 +2637,7 @@ proc cmsn_draw_main {} {
      "hotmail_login $config(login) $password"
    .main_menu.file add separator
    .main_menu.file add command -label "[trans savecontacts]..." \
-   	-command "debug_cmd_lists -export $pgBuddy.ys setcontactlist" -state disabled
+   	-command "debug_cmd_lists -export" -state disabled
    .main_menu.file add command -label "[trans loadcontacts]..." -state disabled
    .main_menu.file add separator
    .main_menu.file add command -label "[trans sendfile]..." -state disabled
