@@ -130,6 +130,7 @@ clicktologin Klikni sem za prijavo
 clientcaps Po¹lji x-clientcaps paketek drugim odjemalcem
 clientname Odjemalec
 close Zapri
+closeall Zaprem vse zavihke v oknu?
 closed Povezava z $1 zaprta zaradi neaktivnosti
 closingdocks Gumb za zaprtje minimira okno
 command Ukaz
@@ -193,6 +194,7 @@ deliverfail Pri dostavljanju sporoèila je pri¹lo do te¾ave
 delprofile Izbri¹i profil
 delprofile2 Izberi profil, ki bi ga rad izbrisal
 description Opis
+detach Odklopi
 directconnection Neposredna povezava (vrata 1863)
 disabled Izkljuèeno
 disableprofiles Izkljuèi profile (Uporabno v kiberkavarnah in skupinskem okolju)
@@ -633,6 +635,7 @@ tlsinstallexp AMSN uporablja MSNP9, ki potrebuje varno\npovezavo s SSL-jem. Da b
 tlsinstcompleted Namestitev modula TLS je bila uspe¹na; zdaj naj bi bilo mogoèe uporabljati MSNP9. èe ne deluje, verjetno nisi izbral pravega modula ali pa prevedenega ni na voljo za tvoj sistem.
 to Za
 today Danes
+tomobile Na prenosno napravo
 tools Orodja
 tooltips Omogoèi tooltipe
 transnotexists Zahtevana datoteka ¹e ni bila prevedena v sloven¹èino.

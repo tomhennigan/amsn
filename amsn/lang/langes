@@ -620,6 +620,7 @@ tabbedglobal Una ventana con pestañas para todos los usuarios
 tabbedgroups Una ventana con pestañas para cada grupo
 tabbed Ventanas con solapas
 tabtitlenick Mostrar apodos en lugar de emails en las pestañas
+takesnapshot Capturar la imagen
 temp_state No almacenar (Estado temporal, se perderá al reiniciar AMSN)
 textsize Tamaño del texto
 thismonth Este mes
@@ -651,6 +652,7 @@ uoffline Desconectados
 uonline Conectados
 update Actualizar
 updating Actualizando
+useasdp Usar como Imagen para Mostrar
 useother Usar un comando o programa distinto
 useralreadyonlist El usuario ya se encuentra en la lista de contactos.
 userblocked El usuario se encuentra online pero estás bloqueado
@@ -666,6 +668,7 @@ viewcontactsby Ver contactos como
 viewprofile Ver perfil
 view Ver
 webcaminvite $1 te ha invitado a una sesión de videoconferencia, pero AMSN todavía no soporta esta característica.
+webcamshot Captura de webcam
 whatsize La imagen seleccionada no es del tamaño predefinido (96x96). ¿A qué tamaño te gustaría que fuera mostrada?
 willjoin Esperando que $1 se una a la conversación
 winkreceived Has recibido un Wink de $1, estas animaciones no estan disponibles en esta versión de aMSN.
@@ -685,3 +688,4 @@ yoffset Desplazamiento Y
 youblocked Has sido bloqueado
 yousay Tú dices
 youwant Quieres
+zoom Ampliación
