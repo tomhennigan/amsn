@@ -2386,8 +2386,8 @@ namespace eval ::amsn {
 		#We have a window for that chatid, raise it
 		raise ${top_win}
 		
-		if { [::ChatWindow::UseContainer] != 0 } {
-			set container [::ChatWindow::GetContainerFromWindow $win_name]
+		set container [::ChatWindow::GetContainerFromWindow $win_name]
+		if { $container != "" } {
 			::ChatWindow::SwitchToTab $container $win_name
 		}
 		focus [::ChatWindow::GetInputText ${win_name}]
