@@ -28,6 +28,8 @@ for line in fileinput.input():
     except KeyError: pass
     # print string.rstrip(line)
 
+print
+print
 print "Keys needing translation:"
 cont=0
 for key, val in msg_list.items():
@@ -37,3 +39,4 @@ for key, val in msg_list.items():
 print
 print "---------------------------------------------------"
 print "Missing (untranslated) keys:",cont
+print

@@ -114,6 +114,7 @@ clearlog2 Neteja l'històric per tots els contactes
 clearlog3 Netejar tots els registres
 clearlog Neteja de l'històric
 clicktologin Apreta aquí per iniciar la sessió
+clientcaps Enviar paquets x-clientcaps a altres clients
 clientname Nom del client
 closed Conversa amb $1 tancada per inactivitat
 close Tancar
@@ -126,7 +127,7 @@ confirmdg Segur que vols eliminar aquest grup?
 confirmdu Segur que vols eliminar aquest usuari?
 confirmeg Segur que vols buidar aquest grup?
 confirmpurge Totes les imatges mostrades dels teus contactes (però no la teva) estan a punt de ser esborrades. Estàs segur?
-confirmrfl Segur que vols eliminar aques usuari d'aquest grup?
+confirmrfl Segur que vols eliminar aquest usuari d'aquest grup?
 connected Ara estàs connectat
 connectedwith Connectat amb $1
 connecterror Error connectant amb el servidor
