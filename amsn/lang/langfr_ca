@@ -144,6 +144,7 @@ docking Ancrage actif
 dockingoff Ancrage inactif
 dockkde Ancrage dans KDE
 dontdownload Ne pas télécharger le module TLS, je l'installerai moi-même
+dontshow Ne pas montrer
 downloadingtls Téléchargement du module TLS à partir de:\n $1
 editcurrentstate Modifier le statut actuel
 edit Édition
