@@ -15,7 +15,7 @@ namespace eval ::growl {
     	if {![catch {package require growl}]} {
 			#Continue..
     	} else {
-   		 	status_log "Plugin system: Growl missing\n"
+   		 	plugins_log growl "Growl missing\n"
    			return 0
     	}
     	

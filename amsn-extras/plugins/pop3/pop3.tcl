@@ -299,7 +299,7 @@ namespace eval ::pop3 {
 				if { $::pop3::config(notify) == 1 && $mails != 0 } {
 					::amsn::notifyAdd "POP3\n[trans newmail $mails]" "" "" plugins
 				}
-				status_log "POP3 messages: $mails\n"
+				plugins_log pop3 "POP3 messages: $mails\n"
 			}
 		}
 
@@ -346,7 +346,7 @@ namespace eval ::pop3 {
 			}
 		} else {
 			if { [catch {exec $::pop3::config(mailProg)} res] } {
-				status_log "POP3: Failed to load $::pop3::config(mailProg) with the error: $res"
+				plugins_log pop3 "Failed to load $::pop3::config(mailProg) with the error: $res"
 			}
 		}
 	}
