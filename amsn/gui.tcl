@@ -5747,7 +5747,7 @@ proc convert_image { filename size } {
     #}
 
 	#First converstion, no size, only .gif
-	if { [catch { exec convert "$filename" "${filename}.gif" } res] } {
+	if { [catch { exec convert "${filename}" "${filename}.gif" } res] } {
 		status_log "CONVERT ERROR IN CONVERSION 1: $res" white
 		catch {[file delete $filename]}
 		return ""
@@ -5758,7 +5758,6 @@ proc convert_image { filename size } {
 	set origh [image height $img]
 	status_log "Image size is $origw $origh\n" blue
 	image delete $img
-	file delete "${filename}.gif"
 		 
 	set sizexy [split $size "x" ]
 	if { [lindex $sizexy 1] == "" } {
@@ -5773,20 +5772,24 @@ proc convert_image { filename size } {
 	#Depending on ratio, resize to keep smaller dimension to XX pixels
 	if { $origratio > $ratio} {
 		set resizeh [lindex $sizexy 1]
-		set resizew ""
+		set resizew [expr {int($resizeh*$origratio)}]
 	} else {
 		set resizew [lindex $sizexy 0]
-		set resizeh ""
+		set resizeh [expr {int($resizew/$origratio)}]
+		
 	}
 	
-	status_log "Will resize to $resizew x $resizeh \n" blue
 	
+	if { $origw != [lindex $sizexy 0] || $origh != [lindex $sizexy 1] } {
+		status_log "Will resize to $resizew x $resizeh \n" blue		
+		catch { file delete ${filename}.gif}
+		if { [catch { exec convert -size "${resizew}x${resizeh}" "${filename}" -resize "${resizew}x${resizeh}" "${filename}.gif" } res] } {
+			status_log "CONVERT ERROR IN CONVERSION 2: $res" white
+			catch {[file delete ${filename}]}
+			return ""
+		}
+	}
 
-	if { [catch { exec convert -size "${resizew}x${resizeh}" "$filename" -resize "${resizew}x${resizeh}" "${filename}.gif" } res] } {
-		status_log "CONVERT ERROR IN CONVERSION 2: $res" white
-		catch {[file delete $filename]}
-		return ""
-	}
 	
 	if { [file exists $filename2.png.0] } {
 		set idx 1
@@ -5799,11 +5802,11 @@ proc convert_image { filename size } {
 		file rename $filename2.png.0 $filename2.png
 	}
 
-	file delete $filename
+	file delete ${filename}
 
  
 	#Now let's crop image, from the center
-   set img [image create photo -file "$filename.gif"]
+   set img [image create photo -file "${filename}.gif"]
 	set centerx [expr { [image width $img] /2 } ]
 	set centery [expr { [image height $img] /2 } ]
 	set halfw [expr [lindex $sizexy 0] / 2]
@@ -5821,10 +5824,10 @@ proc convert_image { filename size } {
 	#}
 
 	status_log "Center of image is $centerx,$centery, will crop from $x1,$y1 to $x2,$y2 \n" blue
-	$img write "$filename2.gif" -from $x1 $y1 $x2 $y2
+	$img write "${filename2}.gif" -from $x1 $y1 $x2 $y2
 	image delete $img
 	
-	file delete $filename.gif
+	catch {file delete ${filename}.gif}
 
 	catch { exec convert "${filename2}.gif"  "${filename2}.png"}
 
