@@ -1524,11 +1524,12 @@ namespace eval ::amsn {
       wm iconmask .${win_name} @[GetSkinFile pixmaps amsnmask.xbm]
  
  
-#Test on Mac OS X(Darwin) if imagemagick is installed      
+#Test on Mac OS X(Darwin) if imagemagick is installed and kill all sndplay processes      
 if {$tcl_platform(os) == "Darwin"} {
 if { $config(getdisppic) != 0 } {
 	check_imagemagick2
 }
+catch {exec killall -c sndplay}
 }
       menu .${win_name}.menu -tearoff 0 -type menubar  \
          -borderwidth 0 -activeborderwidth -0
@@ -5663,6 +5664,11 @@ proc close_cleanup {} {
   }
   SaveLoginList
   SaveStateList
+  
+ #Kill soundplayer when we quit aMSN (sometime he stay open and eat your CPU)
+if {$tcl_platform(os) == "Darwin"} {
+catch {exec killall -c sndplay}
+}
 
   catch {::MSN::logout}
   
