@@ -176,6 +176,22 @@ proc reload_files { } {
     load_lang
 }
 
+proc check_imagemagick {} {
+	global config
+	
+	# Check if ImageMagick is Installed, if so dont do nothing, otherwise disable display pics
+	status_log "Checking ImageMagick...\n"
+	if { [catch { exec convert } res] } {
+		if {$config(getdisppic) == 1 } {
+			msg_box "[trans installconvert]"
+			status_log "ImageMagick not installed got error $res\n Disabling display pictures\n"
+		}
+		#-1 means you want them enabled, but imagemagic is not installed...
+		set config(getdisppic) -1
+	} else {
+		set config(getdisppic) 1
+	}
+}
 
 reload_files
 
@@ -239,19 +255,8 @@ degt_ns_command_win
 after 500 proc_ns
 after 750 proc_sb
 
-# Check if ImageMagick is Installed, if so dont do nothing, otherwise disable display pics
 if { $config(getdisppic) != 0 } {
-	status_log "Checking ImageMagick...\n"
-	if { [catch { exec convert } res] } {
-		if {$config(getdisppic) == 1 } {
-			msg_box "[trans installconvert]"
-			status_log "ImageMagick not installed got error $res\n Disabling display pictures\n"
-		}
-		#-1 means you want them enabled, but imagemagic is not installed...
-		set config(getdisppic) -1
-	} else {
-		set config(getdisppic) 1
-	}
+	check_imagemagick
 }
 
 if {$version != $config(last_client_version)} {
