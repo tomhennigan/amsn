@@ -3,9 +3,22 @@ LANG-HOWTO - 06/01/04, Alberto Diaz
 This little document is a guide to translator and translators' manager that works or wants to work in AMSN.
 
 1. For Translators
-When you add new keys, you should do a diff file or send the entire langXX file to the translators' manager. Other kinds of contribution will be rejected, in order to make the job easier to the manager. He is one, and you are a lot :D
+------------------
+
+When you add new keys, you should do a diff file or send the entire langXX file to the translators' manager. If not possible, or you're just translation a few keys, you can send them directly inside the mail, in the form:
+
+keyname1 translation1
+keyname2 translation2
+
+that is, the keyname, followed by ONE BLANK SPACE (no tabs or similar), and followed by the translated string, no need to include the original english string, or similar. One key per line, no extra blank lines in the middle (if the mail program splits a long translation into multiple lines, it doesn't matter, but it would be nice to advise about it, in order to avoid mistakes because of copy-pasting without noticing the split.
+
+Other kinds of contribution will be rejected, in order to make the job easier to the manager. 
+
+I hope you understand, there's usually one person in charge of updating the translations, and there are more than 40 languages, so there are many translations and submission. Don't make it more difficult :)
 
 2. For Translators' Managers
+----------------------------
+
 When a new translation arrives to you, you should only accept it if is a diff file or a complete langXX file, or our users can send always translations as mail, and it's a big job :)
 Be sure of using a multilanguage editor and use de correct codepage for each language or you can corrup them. Encodings are in langlist file.
 If you reaches a translation by any reason, do it with politeness, explain arguments of why do you reject it and always: 'Thanks anyway' ;)
