@@ -26,6 +26,7 @@ alarmpref Alarminstellingen voor gebruiker
 alarms Alarm
 alarmstatus Alarm inschakelen
 allfiles Alle bestanden
+allow_sms Sta toe dat iemand contact met mij opneemt via MSN mobiel
 allowallbutbl Iedereen die ik niet geblokkeerd heb kan contact met mij opnemen
 allowbadwords Ongecensureerde schermnamen weergeven
 allowlist [AL] Geaccepteerd
@@ -147,6 +148,7 @@ contactadded Aan je contactenlijst is toegevoegd
 contactdoesnotexist Contactpersoon bestaat niet!
 contactlist [FL] Mijn contactpersonen
 continuously Onafgebroken
+conversationwith $1 deelnemers aan het gesprek
 convertexplain Pad naar het programma 'convert' van ImageMagick (dit is nodig voor scherm afbeeldingen). \nLeeglaten indien 'convert' binnen het zoekpad staat.
 copy Kopiëren
 copytogroup Contactpersoon kopiëren naar
@@ -394,6 +396,7 @@ newmailfrom Nieuwe e-mail van $1 ($2)
 newmailfromother Nieuwe e-mail in een andere map van $1 ($2)
 newmsg Nieuw bericht
 newstate Voeg nieuwe aangepaste status toe
+newtabbedfeature aMSN heeft een nieuwe functie, waamee het mogelijk is om m.b.v. tabbladen meerdere gesprekken in een venster weer te geven. Hier kun je instellen hoe je deze functie wilt gebruiken.
 newveravailable Versie $1 is beschikbaar voor downloaden.
 next Volgende
 nick Schermnaam
@@ -425,6 +428,7 @@ notifytyping Laat anderen in een gesprek zien of je aan het typen bent
 notifywin Meldingsvenster
 notinlist Je staat niet in zijn/haar contactenlijst
 notls Versie 9 van het MSN protocol vereist het pakket tls. Dit pakket lijkt niet geïnstalleerd te zijn op deze machine. Als het wel geïnstalleerd is, moet het pad naar de map, waarin de tls-library is geïnstalleerd, worden opgegeven in het instellingen venster. (bijv. /opt/tls/lib). \n \n Tls is te downloaden van http://tls.sf.net
+nottabbed Geen tabbladen gebruiken
 nousersinsession Geen gebruiker in sessie
 nudge $1 vraagt je aandacht
 offline Offline
@@ -529,6 +533,7 @@ sendfile Een bestand of foto verzenden
 sendmail Een e-mail verzenden
 sendmsg Een bericht verzenden
 send Zend
+sendmobmsg $1 verzonden via MSN mobiel
 sentbytes $1 van de $2 bytes verzonden
 serverbusy Server is bezet
 servergoingdown Verbinding verbroken: De server wordt uitgeschakeld
@@ -585,6 +590,9 @@ stylehist aMSN geschiedenis stijl
 stylelog Kies de opmaak van de geschiedenislogboeken
 syntaxerror Syntaxfout
 tabbed Vensters met tabbladen
+tabbedglobal Alle gesprekken met contactpersonen in één venster
+tabbedgroups Gesprekken per groep van contactpersonen in een venster plaatsen
+tabtitlenick Schermnamen weegeven op tabbladen
 temp_state Niet opslaan (Tijdelijke status, gaat verloren als aMSN wordt afgesloten)
 textsize Tekstgrootte
 timeremaining Resterende tijd
@@ -630,6 +638,7 @@ viewprofile Profiel Weergeven
 webcaminvite $1 wil een webcam-sessie beginnen, maar deze functie wordt niet door aMSN ondersteund.
 willjoin Wachten tot $1 de conversatie zal bijwonen
 winkreceived Je hebt een knipoog ontvangen van $1. Deze functie wordt niet ondersteund door aMSN.
+wintitlenick Schermnamen weergeven op vensters met tabbladen
 work Werk
 wrongfields De velden "$1", "$2" en/of "$3" waren ongeldig
 wrongprofileversion Verkeerde profiel configuratiebestand versie. Om te repareren, gelieve de map $1 te verwijderen, of aMSN te updaten.

@@ -3,6 +3,7 @@ about Honi buruz
 acceptfile Onartu $1 fitxategia, tamaina $2? $3 gisa gordeta
 accept Onartu
 actions Ekintzak
+activeautoupdate Egunera automatikoa aktibatu 
 addacontact Kontaktua gehitu
 addedyou $1 ($2) k bere kontaktuen zerrendara gehitu zaitu
 addprofiledesc Hasiera saioa zeinarentzako profil bat sortu nahi duzun idatzi.  \n Profil bakoitzeko konfigurazio desberdinak eduki ditzakezu \n Historia,Alarmak  edota “Gakoa gogoratu” ezin duzu Profilik gabe erabili.
@@ -16,6 +17,7 @@ admingroups Taldeak administratu
 advanced Aurreratua
 advancedprefs Aukera aurreratuen konfigurazioa
 adverts Iragarpen
+agotinvitation $1 ren soinu gonbidapen bat jaso da
 alarmonconnect Erabiltzailea konektatzerakoan alarma aktibatu
 alarmondisconnect Erabiltzailea deskonektatu edo ikusezina gelditzerakoan alarma aktibatu
 alarmonmsg Erabiltzaile batek mezu bat bidaltzen dizunean alarma aktibatu
@@ -142,6 +144,7 @@ contactdoesnotexist Kontaktua ez da existitzen
 contactlist Kontaktuen zerrenda (KZ):
 continuously Jarraiki
 convertexplain ImageMagick-etik (Erakusten diren irudientzako beharrezkoa) exekutableetan bihurtzeko (CONVERT) bidea.\n Zuriz utzi CONVERT bidean badago
+conversationwith $1 erabiltzaile daude hizketan
 copy Kopiatu
 copytogroup Taldera kopiatu
 corruptconfig Konfigurazio fitxategia txarto dago. Berri bat sortzen. Fitxategi zaharra $1 -era gordeko da. Bidaliguzu faborez zer gertatu den egiaztatu dezagun.
