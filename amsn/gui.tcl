@@ -2519,6 +2519,7 @@ namespace eval ::amsn {
 		
 		bind $wname <<Escape>> [list destroy $wname]
 		bind $wname <Return> [list ::amsn::listChooseOk $wname $itemlist $command]
+		moveinscreen $wname 30
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 	
@@ -5761,7 +5762,6 @@ proc newcontact_ok { w x0 x1 } {
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_change_name {} {
-	global tcl_platform
 
 	set w .change_name
 	if {[winfo exists $w]} {
@@ -5811,7 +5811,7 @@ proc cmsn_change_name {} {
 		raise $w
 		focus -force $w.fn.name
 	}
-	
+	moveinscreen $w 30
 }
 
 #///////////////////////////////////////////////////////////////////////
