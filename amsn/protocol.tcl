@@ -815,7 +815,7 @@ proc cmsn_sb_msg {sb_name recv} {
       
       set begin [expr {[string first "FN=" $fonttype]+3}]
       set end   [expr {[string first ";" $fonttype $begin]-1}]      
-      set fontfamily "[urldecode [string range $fonttype $begin $end]]"
+      set fontfamily \{[urldecode [string range $fonttype $begin $end]]\}
 
       set begin [expr {[string first "EF=" $fonttype]+3}]
       set end   [expr {[string first ";" $fonttype $begin]-1}]     
@@ -826,12 +826,31 @@ proc cmsn_sb_msg {sb_name recv} {
       set fontcolor "000000[urldecode [string range $fonttype $begin $end]]"
       set fontcolor "[string range $fontcolor end-1 end][string range $fontcolor end-3 end-2][string range $fontcolor end-5 end-4]"
       
-      status_log "Font: $fontfamily, $fontstyle, $fontcolor\n" blue
+      set style [list]
+      if {[string first "B" $fontstyle] >= 0} {
+        lappend style "bold"
+      }
+      if {[string first "I" $fontstyle] >= 0} {
+        lappend style "italic"
+      }
+      if {[string first "U" $fontstyle] >= 0} {
+        lappend style "underline"
+      }
+      if {[string first "S" $fontstyle] >= 0} {
+        lappend style "overstrike"
+      }
+      
+
+      
+      status_log "Font: $fontfamily, ($fontstyle) $style, $fontcolor\n" blue
 
       cmsn_win_write $sb_name \
         "\[$timestamp\] [trans says [urldecode [lindex $recv 2]]]:\n" gray
 
-      cmsn_win_write $sb_name "$body\n" red    
+
+      cmsn_win_write $sb_name "$body\n" user $fontfamily $style $fontcolor      
+
+
 
       sb set $sb_name lastmsgtime [clock format [clock seconds] -format %H:%M:%S]
       
@@ -1656,7 +1675,7 @@ proc urlencode {str} {
        #Try 8 bits character, then 16 bits unicode
        binary scan $character c charval
        binary scan $character s charval
-       set charval [expr ( $charval + 0x10000 ) % 0x10000]
+       set charval [expr {( $charval + 0x10000 ) % 0x10000}]
        if {$charval <= 0xFF} {
           set encode "${encode}%[format %.2X $charval]"
        } else {

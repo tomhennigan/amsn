@@ -1537,12 +1537,12 @@ proc cmsn_msgwin_top {name txt} {
    .${win_name}.top.text configure -state disabled
 }
 
-proc cmsn_win_write {name txt {colour ""}} {
+proc cmsn_win_write {name txt {colour ""} {fontname ""} {fontstyle ""} {fontcolor ""}} {
    global emotions urlstarts config urlcount
 
    set win_name "msg_[string tolower ${name}]"
 
-  .${win_name}.text configure -state normal -font splainf
+  .${win_name}.text configure -state normal -font bplainf -foreground black
 
 
    set text_start [.${win_name}.text index end]
@@ -1550,6 +1550,15 @@ proc cmsn_win_write {name txt {colour ""}} {
    set text_start "[expr {[lindex $posyx 0]-1}].[lindex $posyx 1]"
    
    #.${win_name}.text mark set new_text_start end
+
+   if { $colour == "user" } {
+      set font "$fontname 12 $fontstyle"
+      status_log "Using font: $font\n" red
+      if {[catch {.${win_name}.text tag configure user -foreground #$fontcolor -font $font} res] || [string length $fontname] <3} {
+         status_log "Por defecto\n" red
+         .${win_name}.text tag configure user -foreground black -font bplainf
+      }
+   }
 
    .${win_name}.text insert end "$txt" $colour
 
