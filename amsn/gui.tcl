@@ -5930,23 +5930,26 @@ proc launch_browser { url {local 0}} {
 	}
 
 }
+
 #///////////////////////////////////////////////////////////////////////
 # open_file(file)
 # open the file with the environnment's default
 proc open_file {file} {
 	global tcl_platform
 
-		if { [string length [::config::getKey openfilecommand]] < 1 } {
+		#use WinLoadFile for windows
+		if { $tcl_platform(platform) == "windows" } {
+			#replace all / with \
+			regsub -all {/} $file {\\} file
+			
+			#run WinLoadFile, if its not loaded yet then load it
+			if { [catch { WinLoadFile $file } ] } {
+				load [file join utils windows winutils winutils.dll]
+				WinLoadFile $file
+			}
+		} elseif { [string length [::config::getKey openfilecommand]] < 1 } {
 			msg_box "[trans checkopenfilecommand $file]"
 		} else {
-			#replace all / with \ for windows
-			if { $tcl_platform(platform) == "windows" } {
-				regsub -all {/} $file {\\} file
-			}
-
-			#if { [string first "\$file" [::config::getKey openfilecommand]] == -1 } {
-			#	::config::setKey showpicture "[::config::getKey openfile] \$file"
-			#}
 			if {[catch {eval exec [::config::getKey openfilecommand] &} res]} {
 				status_log "[::config::getKey openfilecommand]"
 				status_log $res
