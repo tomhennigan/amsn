@@ -3772,59 +3772,59 @@ proc cmsn_draw_main {} {
 	# End of Notebook Creation/Initialization
 
 	#New image proxy system
-	::skin::setImage msndroid msnbot.gif
-	::skin::setImage online online.gif
-	::skin::setImage offline offline.gif
-	::skin::setImage away away.gif
-	::skin::setImage busy busy.gif
+	::skin::setPixmap msndroid msnbot.gif
+	::skin::setPixmap online online.gif
+	::skin::setPixmap offline offline.gif
+	::skin::setPixmap away away.gif
+	::skin::setPixmap busy busy.gif
 	
-	::skin::setImage bonline bonline.gif
-	::skin::setImage boffline boffline.gif
-	::skin::setImage baway baway.gif
-	::skin::setImage bbusy bbusy.gif
+	::skin::setPixmap bonline bonline.gif
+	::skin::setPixmap boffline boffline.gif
+	::skin::setPixmap baway baway.gif
+	::skin::setPixmap bbusy bbusy.gif
 	
-	::skin::setImage mailbox unread.gif
+	::skin::setPixmap mailbox unread.gif
 	
-	::skin::setImage contract contract.gif
-	::skin::setImage expand expand.gif
+	::skin::setPixmap contract contract.gif
+	::skin::setPixmap expand expand.gif
 	
-	::skin::setImage globe globe.gif
-	::skin::setImage download download.gif
-	::skin::setImage warning warning.gif
+	::skin::setPixmap globe globe.gif
+	::skin::setPixmap download download.gif
+	::skin::setPixmap warning warning.gif
 	
-	::skin::setImage typingimg typing.gif
-	::skin::setImage miniinfo miniinfo.gif
-	::skin::setImage miniwarning miniwarn.gif
-	::skin::setImage minijoins minijoins.gif
-	::skin::setImage minileaves minileaves.gif
+	::skin::setPixmap typingimg typing.gif
+	::skin::setPixmap miniinfo miniinfo.gif
+	::skin::setPixmap miniwarning miniwarn.gif
+	::skin::setPixmap minijoins minijoins.gif
+	::skin::setPixmap minileaves minileaves.gif
 	
-	::skin::setImage butsmile butsmile.gif
-	::skin::setImage butfont butfont.gif
-	::skin::setImage butblock butblock.gif
-	::skin::setImage butsend butsend.gif
-	::skin::setImage butinvite butinvite.gif
-	::skin::setImage sendbutton sendbut.gif
-	::skin::setImage imgshow imgshow.gif
-	::skin::setImage imghide imghide.gif
+	::skin::setPixmap butsmile butsmile.gif
+	::skin::setPixmap butfont butfont.gif
+	::skin::setPixmap butblock butblock.gif
+	::skin::setPixmap butsend butsend.gif
+	::skin::setPixmap butinvite butinvite.gif
+	::skin::setPixmap sendbutton sendbut.gif
+	::skin::setPixmap imgshow imgshow.gif
+	::skin::setPixmap imghide imghide.gif
 	
-	::skin::setImage fticon fticon.gif
-	::skin::setImage ftreject ftreject.gif
+	::skin::setPixmap fticon fticon.gif
+	::skin::setPixmap ftreject ftreject.gif
 	
-	::skin::setImage notifico notifico.gi
-	::skin::setImage notifclose notifclose.gif
-	::skin::setImage notifyonline notifyonline.gif
-	::skin::setImage notifyoffline notifyoffline.gif
-	::skin::setImage notifystate notifystate.gif
+	::skin::setPixmap notifico notifico.gi
+	::skin::setPixmap notifclose notifclose.gif
+	::skin::setPixmap notifyonline notifyonline.gif
+	::skin::setPixmap notifyoffline notifyoffline.gif
+	::skin::setPixmap notifystate notifystate.gif
 	
-	::skin::setImage blocked blocked.gif
-	::skin::setImage colorbar colorbar.gif
+	::skin::setPixmap blocked blocked.gif
+	::skin::setPixmap colorbar colorbar.gif
 	
-	::skin::setImage bell bell.gif
-	::skin::setImage belloff belloff.gif
+	::skin::setPixmap bell bell.gif
+	::skin::setPixmap belloff belloff.gif
 
-	::skin::setImage notinlist notinlist.gif
+	::skin::setPixmap notinlist notinlist.gif
 	
-	::skin::loadImage colorbar
+	::skin::loadPixmap colorbar
 	set barwidth [image width colorbar]
 	set barheight [image height colorbar]
 
@@ -3857,10 +3857,10 @@ proc cmsn_draw_main {} {
 		# they share this space with the branding image. The branding image
 		# is cycled in between adverts.
 		if {$tcl_platform(os) == "Darwin"} {
-			::skin::setImage banner logomacmsn.gif
+			::skin::setPixmap banner logomacmsn.gif
 			#adv_show_banner file [GetSkinFile pixmaps logomacmsn.gif]
 		} else {
-			::skin::setImage banner logolinmsn.gif
+			::skin::setPixmap banner logolinmsn.gif
 			#adv_show_banner file [GetSkinFile pixmaps logolinmsn.gif]
 		}
 	}
@@ -4897,7 +4897,7 @@ proc cmsn_draw_online_wrapped {} {
 	set barwidth [image width colorbar]
 
 	image delete mainbar
-	::skin::loadImage colorbar
+	::skin::loadPixmap colorbar
 	image create photo mainbar -width $width -height $barheight
 	mainbar blank
 	mainbar copy colorbar -from 0 0 5 $barheight

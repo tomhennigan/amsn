@@ -5,23 +5,34 @@
 #########################################################
 
 namespace eval ::skin {
-	proc setImage {image_name image_file} {
-		variable loaded_pixmaps
+	proc setPixmap {pixmap_name pixmap_file} {
 		variable pixmap_names
-		image create photo $image_name -file [GetSkinFile pixmaps $image_file] -format gif
-		set loaded_pixmaps($image_name) 1
-		set pixmap_names($image_name) $image_file
+		set pixmap_names($pixmap_name) $pixmap_file
+		
+		#For now, load Images
+		loadPixmap $pixmap_name
 	}
 	
 	# Right now this procedure does nothing, but in the future, we can
 	# delay the actual image loading until it's required, instead of
 	# loading it in setImage
-	proc loadImage {image_name} {
+	proc loadPixmap {image_name} {
+		variable loaded_pixmaps
+		variable pixmap_names
+		
+		if { [info exists loaded_pixmaps($image_name)] } {
+			return $image_name
+		}
+		
+		set image_file $pixmap_names($image_name)
+		
+		image create photo $image_name -file [GetSkinFile pixmaps $image_file] -format gif
+		set loaded_pixmaps($image_name) 1
+	
 		return $image_name
 	}
 	
-	#Some special images!
-	
+	#Some special images!	
 	proc getNoDisplayPicture { {skin_name ""} } {
 		variable loaded_images
 		if { [info exists loaded_images(no_pic)] } {
@@ -36,12 +47,13 @@ namespace eval ::skin {
 		variable loaded_images
 		variable loaded_pixmaps
 		
+		#Reload all pixmaps
 		variable pixmap_names
 		foreach name [array names loaded_pixmaps] {
 			image create photo $name -file [GetSkinFile pixmaps $pixmap_names($name) $skin_name] -format gif
 		}
 		
-		#Now reload special images
+		#Now reload special images that need special treatment
 		if {[info exists loaded_images(no_pic)]} { unset loaded_images(no_pic) }
 		getNoDisplayPicture $skin_name
 		
