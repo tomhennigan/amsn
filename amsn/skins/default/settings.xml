@@ -28,10 +28,16 @@
 			<notifheight>100</notifheight>
 			<x_notifyclose>132</x_notifyclose>
 			<y_notifyclose>2</y_notifyclose>
+			<x_notifydp>1</x_notifydp>
+			<y_notifydp>22</y_notifydp>
+			<x_notifytext>55</x_notifytext>
+			<y_notifytext>22</y_notifytext>
+			<width_notifytext>93</width_notifytext>
 		</Geometry>
+		<!--Note: On linux, balloonborderwidth 0 gives a border of 1px due to tk platform differences. To have no balloon border, set balloonborderwidth to 0 and have the balloonborder the same colour as the balloonbackground-->
 		<Options>
 			<balloonfont>splainf</balloonfont>
-			<balloonborderwidth>1</balloonborderwidth>
+			<balloonborderwidth>0</balloonborderwidth>
 		</Options>
 	</General>
 	<ContactList>
