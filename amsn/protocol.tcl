@@ -95,7 +95,7 @@ namespace eval ::MSN {
       if { $username == "" } {
         set username $userlogin
       }
-      ::MSN::WriteNS "ADD" "FL $userlogin $username"   
+      ::MSN::WriteNS "ADD" "FL $userlogin $username 0"   
    }
    
    proc deleteUser { userlogin } {
@@ -1076,13 +1076,22 @@ proc cmsn_ns_handler {item} {
 	 }
          return 0	 
       }
-      ADD -
-      LST {
-	 if { ([lindex $item 0] == "ADD") && ([lindex $item 2] == "FL") } {
+      ADD {
+	 if { [lindex $item 2] == "FL"} {
 	     set contact [lindex $item 4]	;# Email address
 	     set addtrid [lindex $item 3]	;# Transaction ID
 	     msg_box "[trans contactadded]\n$contact"
 	 }
+	 set curr_list [lindex $item 2]
+	 if { ($curr_list == "FL") } {
+	     status_log "PRUEBA1: $item\n" blue
+	     ::abook::setContact [lindex $item 4] FL [lindex $item 6]
+	     ::abook::setContact [lindex $item 4] nick [lindex $item 5]
+	 }
+         cmsn_listupdate $item
+         return 0
+      }
+      LST {
 	 # New entry in address book setContact(email,FL,groupID)
 	 # NOTE: IF a user belongs to several groups, the group part
 	 #       of this packet will have the group ids separated
@@ -1092,7 +1101,7 @@ proc cmsn_ns_handler {item} {
 	 # Everything that is in AL or BL is in either of the above.
 	 # Only FL contains the group membership though...
 	 if { ($curr_list == "FL") } {
-	      status_log "$item\n" blue
+	     status_log "PRUEBA2: $item\n" blue
 	     ::abook::setContact [lindex $item 6] FL [lindex $item 8]
 	     ::abook::setContact [lindex $item 6] nick [lindex $item 7]
 	 }
@@ -1134,13 +1143,13 @@ proc cmsn_ns_handler {item} {
 	  return 0
       }
       BPR {
-      	status_log "$item\n" white
+#      	status_log "$item\n" white
 	 # Update entry in address book setContact(email,PH*/M*,phone/setting)
 	 ::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4] 
 	 return 0
       }
       PRP {
-      	status_log "$item\n" white
+#      	status_log "$item\n" white
 	 ::abook::setPersonal [lindex $item 3] [lindex $item 4]
 	return 0
       }
