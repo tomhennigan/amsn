@@ -569,6 +569,7 @@ proc load_config {} {
 		snack::audio playLatency 750
 	} else {
 		::config::setKey config 0
+		save_config
 		msg_box [trans snackfailed]
 	}
     } 
