@@ -3,9 +3,31 @@ help
 	Prints this help
 logout
 	Disconnects you from the currents session
-reconnect 
-	reconnects you to your account
+connect 
+	Connects you to your account
 online
 	Shows you all online users and their states
+getstate
+	Shows you our online state
+setstate { state }
+	Sets your state : Online/Away/Busy/NoActivity/BRB/OnPhone/Lunch/AppearOffline
+setnick { nickname }
+	Allows you to change your nickname	
 msg { user message }
 	Sends the message "message" to the user with the email "user" 
+msg { message }
+	Sends the message "message" to the user defined with the command "chatto"
+chatto { user }
+	Let's you chat with the user "user" so you won't need to type it's email adress everytime
+endchat
+	Ends the chat with the user defined by the command "chatto"
+whois { user }
+	Gives you the email adress of the user depending on his nickname
+whatis { user }
+	Gives you the nickname of a user depending on his email adress
+quit
+	Ends the remote controling session
+amsn_close
+	Closes the amsn server
+
+Note : If you use only "testemail" for an email adress, it will work as if you entered "testemail@hotmail.com"

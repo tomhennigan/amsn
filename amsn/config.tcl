@@ -123,8 +123,15 @@ proc save_config {} {
    for {set idx 0} {$idx < $items} {incr idx 1} {
       set var_attribute [lindex $config_entries $idx]; incr idx 1
       set var_value [lindex $config_entries $idx]
-      puts $file_id "$var_attribute $var_value"
+       if { "$var_attribute" != "remotepassword" } {
+	   puts $file_id "$var_attribute $var_value"
+       }
    }
+
+    set key [string range "${loginback}dummykey" 0 7]
+    binary scan [::des::encrypt $key "${config(remotepassword)}\n"] h* encpass
+    puts $file_id "remotepassword $encpass"
+    
    if { ($config(save_password)) && ($password != "")} {
       
       set key [string range "${loginback}dummykey" 0 7]
@@ -138,35 +145,43 @@ proc save_config {} {
 }
 
 proc load_config {} {
-   global config HOME password
+    global config HOME password
 
-   if {([file readable "[file join ${HOME} config]"] == 0) ||
-       ([file isfile "[file join ${HOME}/config]"] == 0)} {
-      return 1
-   }
-   ConfigDefaults
-   set file_id [open "${HOME}/config" r ]
-   gets $file_id tmp_data
-   if {$tmp_data != "amsn_config_version 1"} {	;# config version not supported!
-      return 1
-   }
-   while {[gets $file_id tmp_data] != "-1"} {
-      set var_data [split $tmp_data]
-      set var_attribute [lindex $var_data 0]
-      set var_value [join [lrange $var_data 1 end]]
-      set config($var_attribute) $var_value
-   }
-   if {[info exists config(password)]} {
-      set key [string range "$config(login)dummykey" 0 7]
-      set password $config(password)
-      catch {set encpass [binary format h* $config(password)]}
-      catch {set password [::des::decrypt $key $encpass]}
-      #puts "Password length is: [string first "\n" $password]\n"
-      set password [string range $password 0 [expr { [string first "\n" $password] -1 }]]
-      #puts "Password is: $password\nHi\n"      
-      unset config(password)
-   }
-   close $file_id
+    if {([file readable "[file join ${HOME} config]"] == 0) ||
+	([file isfile "[file join ${HOME}/config]"] == 0)} {
+	return 1
+    }
+    ConfigDefaults
+    set file_id [open "${HOME}/config" r ]
+    gets $file_id tmp_data
+    if {$tmp_data != "amsn_config_version 1"} {	;# config version not supported!
+	return 1
+    }
+    while {[gets $file_id tmp_data] != "-1"} {
+	set var_data [split $tmp_data]
+	set var_attribute [lindex $var_data 0]
+	set var_value [join [lrange $var_data 1 end]]
+	set config($var_attribute) $var_value
+    }
+    if {[info exists config(password)]} {
+	set key [string range "$config(login)dummykey" 0 7]
+	set password $config(password)
+	catch {set encpass [binary format h* $config(password)]}
+	catch {set password [::des::decrypt $key $encpass]}
+	#puts "Password length is: [string first "\n" $password]\n"
+	set password [string range $password 0 [expr { [string first "\n" $password] -1 }]]
+	#puts "Password is: $password\nHi\n"      
+	unset config(password)
+    }
+     if {[info exists config(remotepassword)]} {
+ 	set key [string range "$config(login)dummykey" 0 7]
+ 	catch {set encpass [binary format h* $config(remotepassword)]}
+ 	catch {set config(remotepassword) [::des::decrypt $key $encpass]}
+ 	#puts "Password length is: [string first "\n" $config(remotepassword)]\n"
+ 	set config(remotepassword) [string range $config(remotepassword) 0 [expr { [string first "\n" $config(remotepassword)] -1 }]]
+ 	#puts "Password is: $config(remotepassword)\nHi\n"      
+     }
+    close $file_id
 }
 
 

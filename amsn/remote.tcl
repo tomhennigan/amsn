@@ -9,10 +9,10 @@ set remote_sock 0
 
 namespace eval ::remote {
 
-    # reconnect 
-    # reconnects you to your account
+    # connect 
+    # connects you to your account
     #
-    proc reconnect { } {
+    proc connect { } {
 	
 	set username "null"
 	set password "null"
@@ -73,10 +73,115 @@ namespace eval ::remote {
 
     }
 
-    # msg { user message }
+    proc getstate { } {
+	global list_states user_stat
+
+	set my_state [lindex [lindex $list_states [lsearch $list_states "$user_stat *"]] 1]
+
+	write_remote "Your state is currently on : $my_state"
+
+    }
+
+    proc setstate { state } {
+
+	set state [string tolower $state]
+	if { "$state" == "online" } {
+	    ::MSN::changeStatus NLN
+	} elseif { "$state" == "away" } {
+	    ::MSN::changeStatus AWY
+	} elseif { "$state" == "busy" } {
+	    ::MSN::changeStatus BSY
+	} elseif { "$state" == "noactivity" } {
+	    ::MSN::changeStatus IDL
+	} elseif { "$state" == "brb" } {
+	    ::MSN::changeStatus BRB
+	} elseif { "$state" == "onphone" } {
+	    ::MSN::changeStatus PHN
+	} elseif { "$state" == "lunch" } {
+	    ::MSN::changeStatus LUN
+	} elseif { "$state" == "appearoffline" } {
+	    ::MSN::changeStatus HDN
+	} else {
+	    write_remote "Invalid state" error
+	    return
+	}
+	write_remote "State changed"
+    }
+
+    proc setnick { nickname } {
+	global config
+	
+
+	if {$new_name != ""} {
+	    ::MSN::changeName $config(login) "$nickname"
+	    write_remote "New nick set to : $nickname"
+	} else {
+	    ::MSN::changeName $config(login) "$nickname"
+	    write_remote "New nick set to $config(login)"
+	}
+
+    
+    }
+
+    proc amsn_close { } {
+	close_cleanup
+	exit
+    }
+
+    proc whois { user } {
+	global list_users
+
+	set found 0
+
+	foreach users $list_users {
+	    if { "[lindex $users 1]" == "$user" } {
+		write_remote "$user is : [lindex $users 0]" 
+		set found 1
+		break
+	    }
+	}
+	if { $found == 0 } {
+	    write_remote "$user was not found in your contact list..." error
+	}
+    }
+
+    proc whatis { user } {
+	global list_users
+
+	set found 0
+
+	if { [string match "*@*" $user] == 0 } {
+	    set user [split $user "@"]
+	    set user "[lindex $user 0]@hotmail.com"
+	    set user [string tolower $user]
+	}	
+
+	foreach users $list_users {
+	    if { "[lindex $users 0]" == "$user" } {
+		write_remote "$user is known as : [lindex $users 1]" 
+		set found 1
+		break
+	    }
+	}
+	if { $found == 0 } {
+	    write_remote "$user was not found in your contact list..." error
+	}
+    }
+
+    # msg { args }
     # sends a message to a user
     #
-    proc msg { user message } {
+    proc msg { args } {
+	global userchatto
+
+	if { [info exists userchatto] } {
+	    set user "$userchatto"
+	    set message "$args"
+	} else {
+	    set user [lindex $args 0]
+	    set message "[lrange $args 1 end]"
+	}
+	    
 
 	if { [string match "*@*" $user] == 0 } {
 	    set user [split $user "@"]
@@ -101,12 +206,33 @@ namespace eval ::remote {
 	
     }
 
+    proc chatto { user } { 
+	global userchatto
+	
+	if { [string match "*@*" $user] == 0 } {
+	    set user [split $user "@"]
+	    set user "[lindex $user 0]@hotmail.com"
+	}
+
+	set userchatto "$user"
+
+    }
+
+    proc endchat { } {
+	global userchatto
+	if { [info exists userchatto] } {
+	    unset userchatto
+	}
+    }
+
 }
 
-proc write_remote { dataout } {
+proc write_remote { dataout {colour "normal"} } {
     global remote_sock
 
-    puts $remote_sock $dataout
+    set dataout [string map [list "\n" " $colour\n"]  $dataout]
+  
+    puts $remote_sock "$dataout $colour"
 
 }
 
@@ -128,7 +254,7 @@ proc read_remote { command sock } {
 	if { $remote_auth == 0 } {
 	    authenticate "$command" "$sock"
 	} elseif { [catch {eval "::remote::$command" } res] } {
-	    write_remote "[trans syntaxerror] : $res\n" 
+	    write_remote "[trans syntaxerror] : $res" error
 	}
     }
 }
@@ -215,6 +341,7 @@ proc grep { pattern sock } {
 	set pattern "[lindex $pattern 0]@hotmail.com"
     }
 
+    puts "$dataou $colour"
     if {([file readable "$filename"] != 0) && ([file isfile "$filename"] != 0)} {
 	
 	set file_id [open "$filename" r]

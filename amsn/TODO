@@ -59,6 +59,12 @@ DONE	Implement lock system to make sure you don't delete profile open on another
 
 	***Existing Feature Improvements (priority 2)***
 
+	**Remote Controling issues :
+-	If text sent over socket contains the color word, it disappears from the text (change the string map call)
+-	Remove bug when entering invalid commands with only opening quotes and same mistakes...
+-	make it possible to send more than one space between each words in messages
+-	make the shell window resizable (and apply the same for the protocol window of amsn)
+
 	**Dock Issues :
 -	New message alert 
 -	Bug if dock started while online

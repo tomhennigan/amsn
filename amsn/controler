@@ -8,13 +8,16 @@ proc readsocket { } {
     global sock
 
     if { [gets $sock response] == -1 } {
-	.controler.res insert end "Amsn server closed\n"
-	.controler.res yview moveto 1.0
+	.controler.res.txt insert end "Amsn server closed\n" error
+	.controler.res.txt yview moveto 1.0
 	destroy .controler
 	connect "Amsn server closed"
     } elseif { $response != "" } {
-	.controler.res insert end "$response\n"
-	.controler.res yview moveto 1.0
+#	puts "$response"
+	set colour [lindex "$response" end]
+	set response [string map [list "$colour" ""]  $response]
+	.controler.res.txt insert end "$response \n" $colour
+	.controler.res.txt yview moveto 1.0
     } 
 
     
@@ -25,10 +28,14 @@ proc writesocket { } {
 
     set command [.controler.entry get]
     .controler.entry delete 0 end
-    .controler.res insert end "\n$command\n"
-    .controler.res yview moveto 1.0
-    puts ${sock} "$command"
-    flush $sock
+    .controler.res.txt insert end "\n$command\n" command
+    .controler.res.txt yview moveto 1.0
+    if { "$command" != "quit" } {
+	puts ${sock} "$command"
+	flush $sock
+    } else {
+	destroy .controler
+    }
 
 }
 
@@ -46,9 +53,9 @@ proc authenticate { password } {
 	puts $sock "auth2 $hash"
 	flush $sock
 	gets $sock response	
-	if { "$response" ==  "Authentication successfull" } {
+	if { "$response" ==  "Authentication successfull normal" } {
 	    return "OK"
-	} elseif { "$response" == "Authentication failed" } {
+	} elseif { "$response" == "Authentication failed normal" } {
 	    return "fail"
 	} else {
 	    return "disabled"
@@ -110,8 +117,10 @@ proc connect { status } {
 		grab release .connect
 	    }
 	}
+	bind .connect.acc <Return> "retreive_port $ip"
 	bind .connect.pass <Return> "retreive_port $ip"
 	grab set .connect
+	focus -force .connect.acc
     }
 
 }
@@ -160,7 +169,7 @@ proc retreive_port { ip } {
 	    
 	    fileevent $sock readable "readsocket"
 	    connect "Connected to Account on port : $port"
-	    control
+	    after 500  control
 	    return 1
 	}	
     }
@@ -174,13 +183,24 @@ proc control { } {
     wm group .controler .
     wm title .controler "Remote Controler Shell"
 
-#   frame .controler.res  -class Degt
-    text   .controler.res -height 20 -width 85  \
-	-wrap none -background white -foreground black 
-#	-yscrollcommand ".controler.res.sy set" \
-#	-xscrollcommand ".controler.res.sx set"
-#   scrollbar .controler.res.sy -command ".controler.res.txt yview"
-#   scrollbar .controler.res.sx -orient horizontal -command ".controler.res.txt xview"
+   frame .controler.res  -class Degt
+    text   .controler.res.txt -height 40 -width 120  \
+	-wrap none -background white -foreground black \
+	-yscrollcommand ".controler.res.sy set" \
+	-xscrollcommand ".controler.res.sx set"
+   scrollbar .controler.res.sy -command ".controler.res.txt yview"
+   scrollbar .controler.res.sx -orient horizontal -command ".controler.res.txt xview"
+
+   .controler.res.txt tag configure error -foreground #ff0000 -background white
+   .controler.res.txt tag configure command -foreground #888888 -background white
+   .controler.res.txt tag configure normal -foreground #000000 -background white
+   .controler.res.txt tag configure msgsent -foreground #ff8800 -background white
+   .controler.res.txt tag configure msgrcv -foreground blue -background white
+
+
+    pack .controler.res.sy -side right -fill y
+    pack .controler.res.sx -side bottom -fill x
+    pack .controler.res.txt -anchor nw
 
     entry .controler.entry  -width 50
     button .controler.close -text "Close" -command "destroy .controler"
@@ -197,6 +217,7 @@ proc control { } {
 	    grab release .controler
 	}
     }
+    focus -force .controler.entry
 
 }
 
@@ -217,6 +238,7 @@ proc main { } {
    grid .con -row 0 -column 10 -sticky w
 
    bind .ip <Return> "connect \"Connected to the server\""
+    focus -force .ip
 }
 
 

@@ -439,11 +439,10 @@ namespace eval ::amsn {
 
        if { $remote_auth == 1 } {
 	   if { "$user" == "$config(login)" } {
-	       set message "Sending message to : $chatid"
+	       write_remote "To $chatid : $msg" msgsent
 	   } else { 
-	       set message "Received message from : $user"
+	       write_remote "From $user : $msg" msgrcv
 	   }
-	   write_remote "$message \n$msg"
        } 
        
 

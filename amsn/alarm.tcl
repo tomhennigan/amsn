@@ -39,9 +39,10 @@ proc save_alarms {} {
 	return 1
    }
    
+
    if { ([info exists alarms]) && ([array size alarms] != 0) } {
 
-	puts stdout [array size alarms]
+       #puts "saving alarms [array size alarms]"
 
 	if {$tcl_platform(platform) == "unix"} {
 		set file_id [open "[file join ${HOME} alarms]" w 00600]
@@ -62,6 +63,7 @@ proc save_alarms {} {
 	unset alarms 
    
    } else {
+       #puts "erasing alarms file"
 	catch { exec rm [file join ${HOME} alarms] } res
    }
 }

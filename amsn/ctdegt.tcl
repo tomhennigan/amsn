@@ -26,7 +26,7 @@ proc degt_Init {} {
 
 proc degt_protocol { str {colour ""}} {
    .degt.mid.txt insert end "[timestamp] $str\n" $colour
-   #.degt.mid.txt yview moveto 1.0
+   .degt.mid.txt yview moveto 1.0
     
 }
 
@@ -1104,6 +1104,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.46  2003/06/07 08:14:01  kakaroto
+# added color support for remote shell and added new functions
+#
 # Revision 1.45  2003/06/05 14:24:41  airadier
 # Modified preferences por connections and proxy settings.
 #
