@@ -1,0 +1,198 @@
+amsn_lang_version 2 
+about За Програмот
+accept Прифати
+acceptfile Прифати датотека $1, големина $2? Снимена во $3 
+actions Акции
+addacontact Додади контакт
+addedyou те додаде тебе во неговата/нејзината листа на контакти
+addtocontacts Додади во листа на контакти
+addtoo Додади ја оваа личност во мојата листа на контакти
+admincontacts Администрирај ги контактите
+admingroups Администрирај ги групите
+adverts Реклами
+alarmpref Подесување на аларм за корисникот
+alarmstatus Уклучи/исклучи го алармот за овој корисник
+allowseen Дозволи оваа личност да ме види и да ме контактира додека сум на линија
+appearoff Нека изгледа дека не сум на линија
+aretyping $1 пишуваат порака
+autohotmaillog Автоматско пријавување на Hotmail
+autoidle Автоматско подесување на неактивност
+autoip Автоматска IP адреса
+avoidseen Не дозволувај оваа личност да ме види и да ме контактира додека сум на линија
+away Настрана
+baduserpass Погрешно корисничко име или лозинка
+blankdirect Остави празно за директна врска
+block Блокирај
+blocked Блокирано
+broughtby Овозможено од следните програмери
+browse Пребарувај
+browser Пребарувач
+busy Зафатено
+cancel Поништи
+cfgalarm Конфигурирај/Додади/Одстрани Аларм
+changenick Смени го прекарот
+chatack Прифаќање на разговор од
+chat Разговор
+chatreq Понуда за разговор
+chatsmileys Насмевки за разговор
+checkingver Проверувам дали има нови верзии
+checkver Провери дали има нова верзија
+choosebasefont Одбери тип на букви
+choosebgcolor Одбери боја на позадината
+choosefontcolor Одбери боја на буквите
+clicktologin Кликни овде за да се пријавиш
+close Затвори
+closingdocks Копче за Затварање Смалува
+command Наредба
+confirm Дали си сигурен
+confirmdelete Дали си сигурен дека сакаш да го избришеш $1?
+connecterror Грешка при поврзувањето со серверот
+contactadded Контактот е додаден
+contactdoesnotexist Контактот не постои
+copy Копирај
+copytogroup Копирај во група
+cut Исечи
+date Датум
+delete Избриши
+docking Постави се згодно
+dockingoff Врати се назад
+dockgtk Гноме поставување
+dockkde KDE Поставување
+edit Едитирај
+enableproxy Активирај proxy
+encoding Одбери кодирање
+entercontactemail Внеси ја e-mail адресата на контактот
+enterfilename Внеси име на даттека
+enternick Внеси го твојот прекар
+examples Примери
+exitamsn Дали си сигурен дека сакаш да излезеш?
+extras Додатни Услуги
+faq FAQ (Често Поставувани Прашања)
+filedoesnotexist Датотеката не постои
+filename Датотека
+filetransfercancelled Преносот на датотеката е поништен
+filetransfercomplete Преносот на датетоката е завршен
+ftaccepted Преносот на датетоката е прифатен
+ftrejected Преносот на датетоката е одбиен
+gonelunch Појден на ручек
+groupadd Додади група
+groupdelete Избриши група
+groupexists Групата веќе постои
+group Група
+groupmissing Не можам да ја најдам групата
+groupnewname Ново име
+groupnotempty Групата не е празна
+groupoldname Старо име
+grouprename Преименувај група
+groupunknown Непозната група
+handle Сработи
+helpcontents Содржина на помошта
+help Помош
+home Дома
+ident Идентифицирање
+identity Идентитет
+inbox Поштенско сандаче
+invalidusername Погрешно корисничко име
+invite Покани
+ipaddress IP Адреса
+istyping $1 пишува порака
+joins $1 се придружи на разговорот
+keepalive Одржувај ја жива (NAT)
+language Јазик
+lastmsgtime Последната порака е добиена во $1
+leaveblankforhotmail Остави празно за користење на hotmail web
+leaves $1 го напушти разговорот
+listeningon Чека на порт $1
+listsmileys Излистај ги насмевките
+loadcontacts Вчитај ја листата на контакти
+loggedotherlocation Врската е прекината. Пријавен на друго место.
+loggingin Пријавување
+loginas Пријави се како
+login Пријави го/ја
+logout Одјави се
+logsin тукушто се пријави
+mailer Поштар
+mobile Мобилен
+movetogroup Премести во група
+msg Порака
+msn AMSN
+mustrestart Мораш да го рестартираш програмот за да се применат промените
+mystatus Мојот Статус
+natip детекција на IP преку web страна
+needonline Сеуште не си/изгледаш дека не си на линија
+newmail $1 нова порака во поштенското сандаче
+newmailfrom Ново писмо од
+newmsg Нова порака
+newveravailable Понова верзија $1 е спремна за симнување
+next Следен
+noactivity Без активност
+nonewmail Нема нова порака во поштенското сандаче
+nonewver Нема нови верзии спремни за симнување
+notify опомена
+notifywin Прозорец за Опоменување
+nousersinsession Нема корисници во сесијата
+offline Не на линија
+ok Во Ред
+onenewmail 1 нова порака во поштенското сандаче
+online На линија
+onphone На телефон
+openreceived Отвори ги добиените датотеки
+options Можности
+ordercontactsby Нареди ги контактите по
+other Друго
+pager Пејџер
+pass Лозинка
+paste Залепи
+phone Телефон
+picfile Датотека со слики за аларми (GIF < 500 x 500)
+picstatus Уклучи/исклучи го сликовниот аларм
+port Порт
+prefapps Апликации
+preferences Прилагодувања
+prefsound Звуци
+properties Особини
+proxyconfhttp конфигурација на поддршка за HTTP proxy
+proxyconf Proxy конфигурација
+publishphones Објави ги моите телефонски броеви
+receivedbytes Добиени се $1 од $2 бајта
+receivefile Прими датотека
+reconnecting Повторно поврзување со серверот
+reconnect Чекање $1 да се поврзе повторно
+reject Одбиј
+rememberpass Запамти ја лозинката
+rightback Веднас се враќам
+saveas Сними како 
+savecontacts Сними ја листата на контакти
+save Сними
+says $1 вели
+sbcon Поврзување на картичката за заменување
+sendfile Испрати датотека
+sendmail Испрати писмо
+sendmsg Испрати порака
+send Испати
+sentbytes Испратени се $1 од $2 бајта
+servergoingdown Врската е  прекината: Серверот се исклучува
+server Сервер
+sound Звук на настан
+soundfile Датотека со звуци за аларми
+soundloop Звук на повратна врска
+soundstatus Уклучи/исклучи го звучниот аларм
+startoffline Почни без поврзување
+status Статус
+stopalarm Запри го Алармот
+syntaxerror Печатна грешка
+textsize Големина на текстот
+title Ал-ов Месинџер
+tools Алатки
+to До
+unblock Одблокирај
+uoffline Неповрзан
+uonline На линија
+useralreadyonlist Корисникот е веќе во листата на контакти
+user Корисник
+version Верзија
+view Поглед
+willjoin Чекање $1 да се приклучи на разговорот
+work Работа
+yousay Ти велиш
+youwant Ти сакаш

@@ -1,0 +1,198 @@
+amsn_lang_version 2
+about Za Programot
+accept Prifati
+acceptfile Prifati datoteka $1, golemina $2? Snimena vo $3 
+actions Akcii
+addacontact Dodadi kontakt
+addedyou te dodade tebe vo negovata/nejzinata lista na kontakti
+addtocontacts Dodadi vo listata na kontakti
+addtoo Dodadi ja ovaa licnost vo mojata lista na kontakti
+admincontacts Administriraj gi kontaktite
+admingroups Administriraj gi grupite
+adverts Reklami
+alarmpref Podesuvanje na alarm za korisnikot
+alarmstatus Ukluci/iskluci go alarmot za ovoj korisnik
+allowseen Dozvoli ovaa licnost da me vidi i da me kontaktira dodeka sum na linija
+appearoff Neka izgleda deka ne sum na linija
+aretyping $1 pisuvaat poraka
+autohotmaillog Avtomatsko prijavuvanje na Hotmail
+autoidle Avtomatsko setiranje na neaktivnost
+autoip Avtomatska IP adresa
+avoidseen Ne dozvoli ovaa licnost da me vidi i da me kontaktira dodeka sum na linija
+away Nastrana
+baduserpass Pogresno korisnicko ime ili lozinka
+blankdirect Ostavi prazno za direktna vrska
+block Blokiraj
+blocked Blokirano
+broughtby Ovozmozeno od slednite programeri
+browse Prebaruvaj
+browser Prebaruvac
+busy Zafateno
+cancel Ponisti
+cfgalarm Konfiguriraj/Dodadi/Odstrani Alarm
+changenick Smeni go prekarot
+chatack Prifakanje na razgovor od
+chat Razgovor
+chatreq Baranje na razgovor
+chatsmileys Nasmevki za razgovor
+checkingver Proveruvam dali ima novi verzii
+checkver Proveri dali ima nova verzija
+choosebasefont Odberi tip na bukvi
+choosebgcolor Odberi boja na pozadinata
+choosefontcolor Odberi boja na bukvite
+clicktologin Klikni ovde za da se prijavis
+close Zatvori
+closingdocks Kopce za Zatvaranje Smaluva
+command Naredba
+confirm Dali si siguren?
+confirmdelete Dali si siguren deka sakas da go izbrises $1?
+connecterror Greska pri povrzuvanjeto se serverot
+contactadded Kontaktot e dodaden
+contactdoesnotexist Kontaktot ne postoi!
+copy Kopiraj
+copytogroup Kopiraj vo grupa
+cut Iseci
+date Datum
+delete Izbrisi
+docking Namesti se zgodno
+dockingoff Vrati se nazad
+dockgtk Gnome namestuvanje
+dockkde KDE Namestuvanje
+edit Editiraj
+enableproxy Aktiviraj proxy
+encoding Odberi kodiranje
+entercontactemail Vnesi ja e-mail adresata na kontaktot
+enterfilename Vnesi ime na datoteka
+enternick Vnesi go tvojot prekar
+examples Primeri
+exitamsn Dali si siguren deka sakas da izlezes?
+extras Dodatni Uslugi
+faq FAQ (Cesto Postavuvani Prasanja)
+filedoesnotexist Datotekata ne postoi
+filename Datoteka
+filetransfercancelled Prenosot na datotekata e ponisten
+filetransfercomplete Prenosot na datotekata e zavrsen
+ftaccepted Prenosot na datotekata e prifaten
+ftrejected Prenosot na datotekata e odbien
+gonelunch Pojden na rucek
+groupadd Dodadi grupa
+groupdelete Izbrisi grupa
+groupexists Grupata veke postoi
+group Grupa
+groupmissing Ne mozam da ja najdam grupata
+groupnewname Novo ime
+groupnotempty Grupata ne e prazna
+groupoldname Staro ime
+grouprename Preimenuvaj grupa
+groupunknown Nepoznata grupa
+handle Handle Sraboti
+helpcontents Sodrzina na pomosta
+help Pomos
+home Doma
+ident Identificaranje
+identity Identitet
+inbox Postensko sandace
+invalidusername Pogresno korisnicko ime
+invite Pokani
+ipaddress IP Adresa
+istyping $1 pisuva poraka
+joins $1 se pridruzi na razgovor
+keepalive Odrzuvaj ja ziva (NAT)
+language Jazik
+lastmsgtime Poslednata poraka e dobiena vo $1
+leaveblankforhotmail Ostavi prazno za koristenje na hotmail web
+leaves $1 go napusti razgovorot
+listeningon Ceka na port $1
+listsmileys Izlistaj gi nasmevkite
+loadcontacts Vcitaj ja listata na kontakti
+loggedotherlocation Vrskata e prekinata. Prijaven na drugo mesto.
+loggingin Prijavuvanje
+loginas Prijavi se kako
+login Prijavi go/ja
+logout Odjavi se
+logsin tukusto se prijavi
+mailer Prenesuvac na posta
+mobile Mobilen
+movetogroup Premesti vo grupa
+msg Message Poraka
+msn AMSN
+mustrestart Moras da go restartiras programot za da se primenat promenite
+mystatus Mojot status
+natip detekcija na IP preku web strana
+needonline Seuste si/izgledas deka ne si na linija
+newmail $1 Nova poraka vo postenskoto sandace
+newmailfrom Novo pismo od 
+newmsg Nova poraka
+newveravailable Ponova verzija $1 e spremna za simnuvanje
+next Sleden
+noactivity Bez aktivnost
+nonewmail Nema nova poraka vo postenskoto sandace
+nonewver Nema novi verzii spremni za simnuvanje
+notify opomeni
+notifywin Prozorec za opomenuvanje
+nousersinsession Nema korisnici vo sesijata
+offline Ne na linija
+ok Vo Red
+onenewmail 1 nova poraka vo postenskoto sandace
+online Na linija
+onphone Na telefon
+openreceived Otvori gi primenite datoteki
+options Moznosti
+ordercontactsby Naredi gi kontaktite po
+other Drugo
+pager Pejdzer
+pass Lozinka
+paste Zalepi
+phone Telefon
+picfile Datoteka so sliki za alarmi (GIF < 500 x 500)
+picstatus Ukluci/iskluci go slikovniot alarm
+port Port
+prefapps Aplikacii
+preferences Prilagoduvanja
+prefsound Zvuci
+properties Osobini
+proxyconfhttp konfiguracija na poddrska za HTTP proxy
+proxyconf Proxy konfiguracija
+publishphones Objavi gi moite telefonski broevi
+receivedbytes Dobieni se $1 od $2 bajta
+receivefile Primi datoteka
+reconnecting Povtorno povrzuvanje so serverot
+reconnect Cekanje $1 da se povrze povtorno
+reject Odbij
+rememberpass Zapamti ja lozinkata
+rightback Vednas se vrakam
+saveas Snimi kako 
+savecontacts Snimi ja listata na kontakti
+save Snimi
+says $1 veli
+sbcon Povrzuvanje na kartickata za zamenuvanje
+sendfile Isprati datoteka
+sendmail Isprati pismo
+sendmsg Isprati poraka
+send Isprati
+sentbytes Isprateni se $1 od $2 bajta
+servergoingdown Vrskata e prekinata: Serverot se isklucuva
+server Server
+sound Zvuk na nastan
+soundfile Datoteka so zvuci za alarmi
+soundloop Zvuk na povratna vrska
+soundstatus Ukluci/iskluci go zvucniot alarm
+startoffline Pocni bez povrzuvanje
+status Status
+stopalarm Zapri go alarmot
+syntaxerror Pecatna Greska
+textsize Golemina na tekstot
+title Al-ov Mesinger
+tools Alatki
+to Do
+unblock Odblokiraj
+uoffline Nepovrzan
+uonline Na linija
+useralreadyonlist Korisnikot e veke vo listata na kontakti
+user Korisnik
+version Verzija
+view Pogled
+willjoin Cekanje $1 da se prikluci na razgovorot
+work Rabota
+yousay Ti velis
+youwant Ti sakas
