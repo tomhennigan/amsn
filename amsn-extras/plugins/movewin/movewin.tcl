@@ -16,7 +16,7 @@ namespace eval ::movewin {
 		set ::movewin::configlist [list \
 			[list str "x position" x] \
 			[list str "y position" y] \
-			[list str "only in state (blank for any)" state] \
+			[list str "only in states (blank for any)" state] \
 		]
 	}
 
@@ -28,7 +28,7 @@ namespace eval ::movewin {
 		}
 
 		if { [info exists automessage] && $automessage != -1 \
-			&& [lindex $automessage 0] == $::movewin::config(state) \
+			&& [lsearch $::movewin::config(state) [lindex $automessage 0]] >=0 \
 		   } {
 			return 1
 		} else {
