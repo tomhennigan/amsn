@@ -1,32 +1,36 @@
 amsn_lang_version 2
 about Om
-acceptfile acceptera fil $1? Storlek $2? Sparad i $3
+accept Acceptera
+acceptfile Vill du ta emot filen $1 på $2 bytes? Den kommer då att sparas på din dator i $3
 actions Händelse
 addacontact Lägg till en kontakt
-addedyou har lagt till dig på hans/hennes kontakts lista
-addtocontacts Lägg till din kontakt-lista
-addtoo Lägg till denna person till min lista
-admincontacts Administrera kontakter
-admingroups Administrera grupper
+addedyou har lagt till dig på sin kontaktlista.
+addtocontacts Lägg till på din kontaktlista.
+addtoo Lägg till denna person på min lista.
+admincontacts Administrera kontakter.
+admingroups Administrera grupper.
 adverts Reklam
-allowseen Tillåt denna person att se om jag är online och kontakta mig
-appearoff Verka offline
+alarmpref Inställningar för informationsmeddelanden
+alarmstatus Stäng av /sätt på signal för den här kontakten.
+allowseen Tillåt denna person att se när jag är uppkopplad och kontakta mig.
+appearoff Låtsas vara nedkopplad
 aretyping $1 skriver ett meddelande
 autohotmaillog Automatisk inloggning
-autoidle Automatisk away
-autoip Automatisk ip
-avoidseen Undvik att denna person kan se om jag är online och skriva till 
-away Borta
-baduserpass Ogiltigt användarnamn eller lösenord
-blankdirect Lämna tom för direktanslutning
+autoidle Sätt min status till Inte vid datorn automatiskt.
+autoip Automatisk IP
+avoidseen Tillåt inte att denna person kan se att jag är uppkopplad eller skriva till mig.
+away Inte vid datorn
+baduserpass Ogiltigt användarnamn eller lösenord.
+blankdirect Lämna tom för direktanslutning.
 block Blockera
 blocked Blockerad
 broughtby Skapat av följande utvecklare:
+browse Bläddra
 browser Webbläsare
 busy Upptagen
 cancel Avbryt
 cfgalarm Konfigurera alarm
-changenick Ändra nick
+changenick Ändra smeknamn
 chatack Acceptera chat från
 chat Chat
 chatreq Efterfrågar chat
@@ -34,14 +38,14 @@ chatsmileys Chat smileys
 checkingver Kollar efter nya versioner
 checkver Kolla efter ny version
 choosebasefont Välj teckensnitt
-choosebgcolor Välj bakgrundfärg
-choosefontcolor Välj typsnitts-färg
+choosebgcolor Välj bakgrundsfärg
+choosefontcolor Välj textfärg
 clicktologin Klicka för att logga in
 close Stäng
-closingdocks Stäng-knappen dockar fönster
+closingdocks Minimera fönstret när man trycker på Stäng-knappen
 command Kommando
 confirmdelete Bekräfta radering av $1
-connecterror Fel när servern kontaktades
+connecterror Fel uppstod när servern kontaktades
 connecterror Uppkopplingen misslyckades
 contactadded Lagt till kontakt
 contactdoesnotexist Kontakten finns inte!
@@ -50,17 +54,19 @@ date Datum
 delete Ta bort
 enableproxy Aktivera proxy
 encoding Kodning
-entercontactemail Skriv in kontaktens e-mail
+entercontactemail Skriv in kontaktens e-postadress
 enterfilename Ange filnamn
-enternick Skriv in ditt nick
+enternick Skriv in ditt smeknamn
 examples Exempel
 exitamsn Är du säker på att du vill avsluta?
 extras Extra
 filedoesnotexist Filen finns inte
 filename Filnamn
-filetransfercancelled Filsändelsen avbröts
-filetransfercomplete Filsändningen färdig
-ftaccept Accepterade fil
+filetransfercancelled Filöverföringen avbröts
+filetransfercomplete Filöverföringen klar
+ftaccept Accepterade fil.
+ftaccepted Filöverföring tillåts.
+ftrejected Filöverföring nekades.
 gonelunch Iväg på lunch
 groupadd Lägg till grupp
 groupdelete Ta bort gruppen
@@ -91,30 +97,30 @@ leaves $1 lämnar konversationen
 listeningon lyssnar på $1
 listsmileys Visa smileys
 loadcontacts Ladda kontakter
-loggedotherlocation Urloggad! Du är inloggad på ett annat ställe!
+loggedotherlocation Nedkopplad! Du är inloggad på ett annat ställe!
 loggingin Loggar in
 loginas Logga in som
-login Logga In
-logout Logga Out
+login Logga in
+logout Logga ut
 logsin har just loggat in
 mailer Avsändare
 mobile Mobil
 movetogroup Flytta till grupp
 msg Meddelande
 msn AMSN
-mustrestart Du måste starta om programmet för att ändringarna ska gälla mig
+mustrestart Du måste starta om programmet för att ändringarna ska få effekt.
 mystatus Min status
-needonline Du är fortfarande/verkar vara offline!
-newmail $1 nytt/nya meddelanden i Inkorgen
+needonline Du måste ändra din status till Uppkopplad.
+newmail $1 nya meddelanden i Inkorgen
 newmailfrom Nytt mail från
 newmsg Nytt meddelande
 newveravailable Ny version $1 finns att ladda ner
-next Nästa
+next N=E4sta
 noactivity Ingen aktivitet
 nonewmail Inga nya meddelanden i Inkorgen
 nonewver Det finns inga nya versioner att ladda ner
 notify Meddela
-notifywin Popup när någon loggar in
+notifywin Visa meddelanderuta när någon loggar in
 nousersinsession Inga användare i konversationen
 offline Frånkopplad
 ok Ok
@@ -128,6 +134,8 @@ other Annat
 pager Personsökare
 pass Lösenord
 phone Telefon
+picfile Bild för informationsmeddelanden (GIF-format, mindre än 500x500)
+picstatus Visa /dölj bild vid informationsmeddelanden.
 port Port
 prefapps Programinställningar
 preferences Inställningar
@@ -136,10 +144,11 @@ properties Egenskaper
 proxyconfhttp HTTP proxysupport konfiguration
 proxyconf Proxy-konfiguration
 publishphones Dela ut mina telefonnummer
-receivedbytes Mottaget $1 av $2 bytes
+receivedbytes $1 av $2 bytes mottagna
 receivefile Ta emot fil
 reconnecting Återansluter till server
 reconnect Väntar på att $1 ska komma tillbaka
+reject Avslå
 rememberpass Kom ihåg lösenordet
 rightback Kommer strax tillbaka
 saveas Spara som
@@ -151,25 +160,29 @@ sendfile Skicka fil
 sendmail Skicka brev
 sendmsg Skicka meddelande
 send Skicka
-sentbytes Skickat $1 av $2 bytes
-servergoingdown Nerkopplad: Server-problem
+sentbytes $1 av $2 bytes skickade
+servergoingdown Nedkopplad: Server-problem
 server Server
+soundfile Ljud för informationsmeddelanden.
 sound Ljud
-startoffline Starta i Offline-läge
+soundloop Upprepa ljudet i en slinga.
+soundstatus Stäng av /sätt på signalljud.
+startoffline Starta i läget Nedkopplad
 status Status
+stopalarm Stoppa alla varningar.
 syntaxerror Felaktigt syntax
 textsize Textstorlek
 title Al's Messenger
 tools Verktyg
 to Till
 unblock Ta bort blockering
-uoffline Offline
-uonline Online
+uoffline Nedkopplad
+uonline Uppkopplad
 useralreadyonlist Användaren finns redan i listan
 user Användare
 version Version
 view Alternativ
-willjoin Väntar på att $1 ska komma in i konversationen
+willjoin Väntar på att $1 ska ansluta sig till konversationen
 work Arbete
 yousay Du säger
 youwant Du vill
