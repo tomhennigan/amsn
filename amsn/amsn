@@ -2316,6 +2316,9 @@ sb set ns data [list]
 sb set ns serv [split $config(start_ns_server) ":"]
 sb set ns stat "d"
 
+set config(language) en
+load_lang
+
 load_config						;# CONFIG
 scan_languages
 load_lang
