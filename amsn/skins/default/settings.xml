@@ -22,16 +22,48 @@
 			<balloonbgcolor>#daeafe</balloonbgcolor>
 			<balloonbordercolor>#2e8afe</balloonbordercolor>
 			<balloontextcolor>#000000</balloontextcolor>
+		</Colors>
+		<Geometry>
+			<notifwidth>150</notifwidth>
+			<notifheight>100</notifheight>
+			<x_notifyclose>132</x_notifyclose>
+			<y_notifyclose>2</y_notifyclose>
+		</Geometry>
+	</General>
+	<ContactList>
+		<Colors>
 			<mainwindowbg>#aaaaaa</mainwindowbg>
 			<groupcolorextend>#000000</groupcolorextend>
-			<groupcolorcontract>#cccccc</groupcolorcontract>
+			<groupcolorcontract>#666666</groupcolorcontract>
+			<contact_online>#0000ab</contact_online>
+			<contact_away>#008800</contact_away>
+			<contact_noactivity>#008800</contact_noactivity>
+			<contact_rightback>#008800</contact_rightback>
+			<contact_onphone>#bb0000</contact_onphone>
+			<contact_busy>#bb0000</contact_busy>
+			<contact_gonelunch>#008800</contact_gonelunch>
+			<contact_offline>#666666</contact_offline>
 		</Colors>
+		<Geometry>
+			<bigstate_xpad>0</bigstate_xpad>
+			<bigstate_ypad>0</bigstate_ypad>
+			<mystatus_xpad>3</mystatus_xpad>
+			<mystatus_ypad>0</mystatus_ypad>
+			<mailbox_xpad>0</mailbox_xpad>
+			<mailbox_ypad>0</mailbox_ypad>
+			<contract_xpad>8</contract_xpad>
+			<contract_ypad>6</contract_ypad>
+			<expand_xpad>8</expand_xpad>
+			<expand_ypad>6</expand_ypad>
+			<x_dp_top>2</x_dp_top>
+			<y_dp_top>2</y_dp_top>
+		</Geometry>
 		<Options>
 			<underline_contact>1</underline_contact>
 			<balloonfont>sboldf</balloonfont>
 			<showdisplaycontactlist>1</showdisplaycontactlist>
 		</Options>
-	</General>
+	</ContactList>
 
 	<ChatWindow>
 		<Colors>
@@ -85,22 +117,6 @@
 			<chat_status_padx>1</chat_status_padx>
 			<chat_status_pady>0</chat_status_pady>
 			<chat_sash_pady>2</chat_sash_pady>
-			<bigstate_xpad>0</bigstate_xpad>
-			<bigstate_ypad>0</bigstate_ypad>
-			<mystatus_xpad>3</mystatus_xpad>
-			<mystatus_ypad>0</mystatus_ypad>
-			<mailbox_xpad>0</mailbox_xpad>
-			<mailbox_ypad>0</mailbox_ypad>
-			<contract_xpad>8</contract_xpad>
-			<contract_ypad>6</contract_ypad>
-			<expand_xpad>8</expand_xpad>
-			<expand_ypad>6</expand_ypad>
-			<notifwidth>150</notifwidth>
-			<notifheight>100</notifheight>
-			<x_notifyclose>132</x_notifyclose>
-			<y_notifyclose>2</y_notifyclose>
-			<x_dp_top>2</x_dp_top>
-			<y_dp_top>2</y_dp_top>
 		</Geometry>
 		
 		<Options>
