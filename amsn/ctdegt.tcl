@@ -99,13 +99,83 @@ proc degt_ns_command_win {} {
 	    set nsclst [split $cmd]
 	    set nscmd [lindex $nsclst 0]
 	    set nspar [lreplace $nsclst 0 0]
-	    # Send command to the Notification Server
-	    ::MSN::WriteNS $nscmd $nspar
+	    if {[string range  $nscmd 0 0] == "!"} {
+	    	debug_interpreter $nscmd $nspar
+	    } else {
+	        # Send command to the Notification Server
+	        ::MSN::WriteNS $nscmd $nspar
+	    }
 	}
     }
     bind . <Control-m> { degt_ns_command_win_toggle }
     wm protocol .nscmd WM_DELETE_WINDOW { degt_ns_command_win_toggle }
 }
+
+proc debug_interpreter {cmd params} {
+    switch $cmd {
+	!sl { debug_cmd_lists -save }
+	!Sl { debug_cmd_lists -gui }
+    }
+}
+
+proc debug_cmd_lists {subcmd} {
+    global tcl_platform HOME log_dir list_fl list_rl list_al list_bl
+
+    # Forward Users List (those we have added to our buddy list)
+    foreach user $list_fl {
+        set ulogin [lindex $user 0]
+	set allBuddies($ulogin) [list FL -- -- --]
+    }
+    # Reverse Users List (those who have added us, but we have not added them)
+    foreach user $list_rl {
+        set ulogin [lindex $user 0]
+	if {![info exists allBuddies($ulogin)]} {
+	    set allBuddies($ulogin) [list -- RL -- --]
+	} else {
+	    set allBuddies($ulogin) [lreplace $allBuddies($ulogin) 1 1 "RL"]
+	}
+    }
+    # Allowed Users List (privacy: those allowed to contact us)
+    foreach user $list_al {
+        set ulogin [lindex $user 0]
+	if {![info exists allBuddies($ulogin)]} {
+	    set allBuddies($ulogin) [list -- -- AL --]
+	} else {
+	    set allBuddies($ulogin) [lreplace $allBuddies($ulogin) 2 2 "AL"]
+	}
+    }
+    # Blocked Users List (privacy: those blocked from seeing us)
+    foreach user $list_bl {
+        set ulogin [lindex $user 0]
+	if {![info exists allBuddies($ulogin)]} {
+	    set allBuddies($ulogin) [list -- -- -- BL]
+	} else {
+	    set allBuddies($ulogin) [lreplace $allBuddies($ulogin) 3 3 "BL"]
+	}
+    }
+
+    if {$subcmd == "-save"} {
+        if {$tcl_platform(platform) == "unix"} {
+	    set file_id [open "[file join $log_dir dbg-lists.txt]" w 00600]
+	} else {
+	    set file_id [open "[file join $log_dir dbg-lists.txt]" w]
+	}
+	puts $file_id "AMSN Debug Output : FL(forward) RL(reverse) AL(allow) BL(block)"
+    }
+    set user_entries [array get allBuddies]
+    set items [llength $user_entries]
+    for {set idx 0} {$idx < $items} {incr idx 1} {
+        set vkey [lindex $user_entries $idx]; incr idx 1
+	set gid [::abook::getGroup $vkey -id]
+        if {$subcmd == "-save"} {
+	    puts $file_id "$allBuddies($vkey) $vkey (gid $gid)"
+	}
+    }
+    if {$subcmd == "-save"} {
+        close $file_id
+    }
+}
+
 ###################### Preferences Window ###########################
 array set myconfig {}   ; # Cached configuration 
 set proxy_server ""
@@ -327,6 +397,11 @@ proc LabelEntryGet { path } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.6  2002/06/27 19:17:00  lordofscripts
+# -Added command interpreter for NSCommand Window (ctrl+m). The command
+#  !sl dumps the contents of fl/rl/al/bl lists to a file in ~/.amsn/logs/
+#  dbg-lists.txt. It is useful for testing validating some bugs
+#
 # Revision 1.5  2002/06/19 14:34:58  lordofscripts
 # Added facility window (Ctrl+M) to enter commands to be issued to the
 # Notification Server. Abook now allows to either show (read only)
