@@ -3408,7 +3408,7 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 
 
          $pgBuddy.text tag bind $user_unique_name <Enter> \
-             "$pgBuddy.text tag conf $user_unique_name -under true;$pgBuddy.text conf -cursor hand2"
+	"$pgBuddy.text tag conf $user_unique_name -under true;$pgBuddy.text conf -cursor hand2"
          $pgBuddy.text tag bind $user_unique_name <Leave> \
             "$pgBuddy.text tag conf $user_unique_name -under false;$pgBuddy.text conf -cursor left_ptr"
 

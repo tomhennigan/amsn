@@ -163,7 +163,7 @@ source [file join $directory blocking.tcl]    ;# The blocking users feature
 source [file join $directory remote.tcl  ]    ;# The remote control procedures
 source [file join $directory automsg.tcl]
 source [file join $directory plugins.tcl]	;# Plugins system
-
+source [file join $directory balloon.tcl]       ;# For the balloons tooltip
 
 
 

@@ -87,7 +87,6 @@ proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
 
     foreach x [array names sdata] {
 	set x2 [string trim [string map { "smileys:emoticon:" "" } $x]]
-	if { $x2 == "name" } {continue}
 	if { $x2 == "_dummy_" } {continue}
 
 	set emotions(${name}_${x2}) [string trim $sdata($x)]
@@ -481,6 +480,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 	    }
 	}
     }
+    event generate $w <Enter>
 
 }
 
@@ -523,6 +523,7 @@ proc create_smile_menu { {x 0} {y 0} } {
     
     
     foreach emotion [lsort $emotions_names] {
+	set name $emotions(${emotion}_name)
 	set symbol [lindex $emotions(${emotion}_text) 0]
 	set file $emotions(${emotion}_file)
 	set filename [string map { "." "_"} $file]
@@ -547,6 +548,7 @@ proc create_smile_menu { {x 0} {y 0} } {
 	    
 	    bind $w.text.$filename <Enter> "$w.text.$filename configure -relief raised"
 	    bind $w.text.$filename <Leave> "$w.text.$filename configure -relief flat"
+	    set_balloon $w.text.$filename "$name $symbol"
 	    $w.text window create end -window $w.text.$filename -padx 1 -pady 1
 	}
 	
