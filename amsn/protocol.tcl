@@ -151,8 +151,13 @@ namespace eval ::MSN {
 
    proc changeStatus {new_status} {
       variable myStatus
+      global autostatuschange
+
       ::MSN::WriteNS "CHG" $new_status
       set myStatus $new_status
+
+      #Reset automatic status change to 0
+      set autostatuschange 0
    }
 
    proc myStatusIs {} {
@@ -1326,7 +1331,7 @@ namespace eval ::MSN {
       } else {
       
          chatTo $chatid
-         after 2000 "::MSN::ProcessQueue $chatid [expr {$count + 1}]"
+         after 3000 "::MSN::ProcessQueue $chatid [expr {$count + 1}]"
 
       }
 

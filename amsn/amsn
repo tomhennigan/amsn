@@ -338,15 +338,12 @@ proc close_cleanup {} {
 
 set idletime 0
 set oldmousepos [list]
+set autostatuschange 0
 #///////////////////////////////////////////////////////////////////////
 # idleCheck()
 # Check idle every five seconds and reset idle if the mouse has moved
 proc idleCheck {} {
-   global oldtime idletime config oldmousepos trigger
-
-   if { [info exists trigger] != 1 } {
-   	set trigger 0
-   }
+   global idletime config oldmousepos trigger autostatuschange
 
    set mousepos [winfo pointerxy .]
    if { $mousepos != $oldmousepos } {
@@ -354,6 +351,7 @@ proc idleCheck {} {
       set idletime 0
    }
 
+   # TODO: According to preferences, this is always true
    if { $config(awaytime) >= $config(idletime) } {
    	set first [expr $config(awaytime) * 60]
 	set firstvar "autoaway"
@@ -369,20 +367,20 @@ proc idleCheck {} {
 	set firstvar "autoidle"
 	set firststate "IDL"
    }
-  
-   if { $idletime >= $first && [::MSN::myStatusIs] == "IDL" && $config(autoaway) == 1 } {
-   	::MSN::changeStatus AWY
-	set trigger 1
+
+   if { $idletime >= $first && [::MSN::myStatusIs] == "IDL" && $config(autoaway) == 1 && $autostatuschange == 1} {
+   	#We change to Away if time has passed, and if IDL was set automatically
+	::MSN::changeStatus AWY
    } elseif {$idletime >= $second && [::MSN::myStatusIs] == "NLN" && $config(autoidle) == 1} {
+   	#We change to idle if time has passed and we're online
 	::MSN::changeStatus IDL
-   } elseif { $idletime < $config(awaytime) && [::MSN::myStatusIs] == "AWY" && $trigger == 1} {
+	set autostatuschange 1
+   } elseif { $idletime == 0 && $autostatuschange == 1} {
+   	#We change to only if mouse movement, and status change was automatic
 	::MSN::changeStatus NLN
-	set trigger 0
-   } elseif { $idletime < $config(idletime) && [::MSN::myStatusIs] == "IDL" && $oldtime != 0} {
-   	::MSN::changeStatus NLN
+	#Status change always resets automatic change to 0
    }
 
-   set oldtime $idletime
    set idletime [expr {$idletime + 5}]
    after 5000 idleCheck
 }
