@@ -382,9 +382,10 @@ proc cmsn_draw_main {} {
       -command cmsn_change_name -state disabled
    .options add command -label "[trans publishphones]..." -state disabled \
       -command "::abookGui::showEntry $config(login) -edit"
-   .options add cascade -label "[trans preferences]..." -menu .pref_menu
    .options add separator
+   .options add cascade -label "[trans preferences]..." -menu .pref_menu
    .options add cascade -label "[trans language]" -menu .lang_menu
+   .options add command -label "[trans encoding]..." -command "show_encodingchoose"
    .options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
    .options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
      -command "msg_box \"[trans mustrestart]\""
@@ -498,6 +499,28 @@ proc cmsn_draw_main {} {
 
    cmsn_draw_status
    cmsn_draw_offline
+}
+
+proc show_encodingchoose {} {
+  set encodings [encoding names]
+  set encodings [lsort $encodings]
+  set enclist [list]
+  foreach enc $encodings {
+	 lappend enclist [list $enc "" 0]
+	 status_log "$enc\n" blue
+  }
+  set enclist [linsert $enclist 0 [list auto "Automatic" 0]]
+  user_choose "[trans encoding]" both set_encoding $enclist
+}
+
+proc set_encoding {enc} {
+  global config
+  if {[catch {encoding system $enc} res]} {
+     msg_box "Selected encoding not available, selecting auto"
+     set config(encoding) auto
+  } else {
+     set config(encoding) $enc
+  }
 }
 
 proc cmsn_draw_status {} {
@@ -2083,6 +2106,10 @@ sb set ns stat "d"
 load_config						;# CONFIG
 scan_languages
 load_lang
+
+if { $config(encoding) != "auto" } {
+  set_encoding $config(encoding)
+}
 
 cmsn_draw_main
 #cmsn_draw_notify

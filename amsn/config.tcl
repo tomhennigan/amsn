@@ -27,6 +27,7 @@ set config(wingeometry) 275x400-0+0
 set config(closingdocks) 1
 set config(yourfont) "Helvetiva 12 bold"
 set config(yourcolor) "red"
+set config(encoding) auto
 #end AIM
 set config(orderbygroup) 0
 set config(withnotebook) 0
@@ -38,7 +39,7 @@ proc save_config {} {
    global tcl_platform config HOME version password
 
    if {$tcl_platform(platform) == "unix"} {
-      set file_id [open "[file join ${HOME} config]" w 00600]
+		set file_id [open "[file join ${HOME} config]" w 00600]
    } else {
       set file_id [open "[file join ${HOME} config]" w]
    }
