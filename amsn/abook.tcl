@@ -571,7 +571,11 @@ namespace eval ::abook {
 		return $consistent
 	}
 	
-	proc saveToDisk { {filename ""} } {
+	#Save the contactlist to disk
+	#filename - the filename to save to
+	#type - the type to save as
+	#possible types: csv, amsn
+	proc saveToDisk { {filename ""} {type "amsn"} } {
 		
 		if { ![isConsistent] } {
 			return
@@ -588,23 +592,32 @@ namespace eval ::abook {
 
 		fconfigure $file_id -encoding utf-8
 
-		puts $file_id "<?xml version=\"1.0\" standalone=\"yes\" encoding=\"UTF-8\"?>"
-		puts $file_id "<AMSN_AddressBook time=\"[clock seconds]\">"
-		foreach user [array names users_data] {
-			puts $file_id "<contact name=\"[::sxml::xmlreplace $user]\">"
+		if { [string equal $type "amsn"] } {
+			puts $file_id "<?xml version=\"1.0\" standalone=\"yes\" encoding=\"UTF-8\"?>"
+			puts $file_id "<AMSN_AddressBook time=\"[clock seconds]\">"
+			foreach user [array names users_data] {
+				puts $file_id "<contact name=\"[::sxml::xmlreplace $user]\">"
 
-			array set temp_array $users_data($user)
-			foreach field [array names temp_array] {
-				puts -nonewline $file_id "\t<$field>"
-				puts -nonewline $file_id "[::sxml::xmlreplace $temp_array($field)]"	
-				puts $file_id "</$field>"				
+				array set temp_array $users_data($user)
+				foreach field [array names temp_array] {
+					puts -nonewline $file_id "\t<$field>"
+					puts -nonewline $file_id "[::sxml::xmlreplace $temp_array($field)]"	
+					puts $file_id "</$field>"				
+				}
+				puts $file_id "</contact>"
+				array unset temp_array
 			}
-			puts $file_id "</contact>"
-			array unset temp_array
+			puts $file_id "</AMSN_AddressBook>"
+			close $file_id
+		} elseif { [string equal $type "csv"] } {
+			puts $file_id "email,name"
+			foreach user [array names users_data] {
+				array set temp_array $users_data($user)
+				puts $file_id "$user,$temp_array([array names temp_array "nick"])"
+			}
 		}
-		puts $file_id "</AMSN_AddressBook>"
-		close $file_id
 	}
+
 	
 	proc loadFromDisk { {filename ""} } {
 	

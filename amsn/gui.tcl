@@ -2943,10 +2943,10 @@ proc cmsn_draw_main {} {
 	[list hotmail_login [::config::getKey login] $password]
 	.main_menu.file add separator
 	#Theses 2 features are not yet in aMSN that's why I remove them from the menu
-	#.main_menu.file add command -label "[trans savecontacts]..." \
-	#	-command "debug_cmd_lists -export" -state disabled
+	.main_menu.file add command -label "[trans savecontacts]..." \
+		-command "saveContacts" ;#-state disabled
 	#.main_menu.file add command -label "[trans loadcontacts]..." -state disabled
-	#.main_menu.file add separator
+	.main_menu.file add separator
 	.main_menu.file add command -label "[trans sendfile]..." -state disabled
 	.main_menu.file add command -label "[trans openreceived]" \
 		-command "launch_filemanager \"$files_dir\""
@@ -2954,7 +2954,6 @@ proc cmsn_draw_main {} {
 	.main_menu.file add command -label "[trans close]" -command "close_cleanup;exit"
 
 	#Actions menu
-	set dummy_user "recipient@somewhere.com"
 	menu .main_menu.actions -tearoff 0 -type normal
 	.main_menu.actions add command -label "[trans sendmsg]..." -command [list ::amsn::ShowSendMsgList [trans sendmsg] ::amsn::chatUser]
 		
@@ -5643,6 +5642,16 @@ proc NotInContactList { user } {
 
 }
 
+#saves the contactlist to a file
+proc saveContacts { } {
+	set types {
+		{{Comma Seperated Values}       {.csv}        }
+	}
+	set filename [tk_getSaveFile -filetypes $types]
+	if {$filename != ""} {
+		::abook::saveToDisk $filename "csv"
+	}
+}
 
 ###TODO: Replace all this msg_box calls with ::amsn::infoMsg
 proc msg_box {msg} {
