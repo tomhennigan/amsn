@@ -269,7 +269,7 @@ namespace eval ::abookGui {
 	::abook::getContact $email cd
 
 	if { $cd(available) == "N" } {
-	    msg_box "No data available yet"
+	    msg_box "[nodataavailable $1]"
 	    return
 	}
 
@@ -383,6 +383,9 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.22  2003/06/15 14:35:28  airadier
+# Added a new translation
+#
 # Revision 1.21  2003/06/01 19:49:36  airadier
 # Very alpha support of POST proxy method.
 # Removed WriteNS, WriteNSRaw, and read_ns_sock, it was same code as WriteSB, WriteSBRaw and read_sb_sock, so now they're the same, always use SB procedures.

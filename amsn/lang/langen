@@ -215,6 +215,7 @@ newmsg New message
 newveravailable Newer version $1 available for download
 next Next
 noactivity No activity
+nodataavailable No data available for $1
 nologfile No Log file for $1
 nonewmail No new messages in In-Box
 nonewver There are no new versions available to download

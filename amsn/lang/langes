@@ -14,6 +14,9 @@ admingroups Administrar grupos
 adverts Anuncios
 alarmpref Configuración de alarma para el usuario
 alarmstatus Activar/Desactivar alarma para este usuario
+allowallbutbl Permitir que todos los usuarios excepto los bloqueados me puedan contactar
+allowlist Lista de Aceptados:
+allowonlyinal Permitir sólo a los usuarios Aceptados contactar conmigo
 allowseen Permitir a esta persona ver cuándo estás conectado y contactar
 appearance Apariencia
 appearoff Sin conexión
@@ -35,6 +38,7 @@ baduserpass Nombre de usuario o contraseña incorrectos
 bgcolor Cambia el color de fondo de aMSN
 blankdirect Dejar en blanco para conexión directa
 blocked Bloqueado
+blocklist Lista de Bloqueados:
 blockmessage Los siguientes contactos están conectados y bloqueandote
 block No admitir
 broughtby Traído a Ud. por los siguientes programadores
@@ -57,6 +61,7 @@ checkingver Buscando si hay disponible una nueva versión
 checkver Buscar nuevas versiones
 choosebasefont Elegir tipo de letra
 choosebgcolor Elegir color de fondo
+choosecontact Por favor selecciona un contacto de la lista
 choosefontcolor Elegir color de la letra
 clearlog2 Limpiar historial para todos los contactos
 clearlog3 Limpiar todos los registros
@@ -74,6 +79,7 @@ connection Conexión
 connectionlost Desconectado: Conexión con el servidor cerrada
 contactadded Contacto añadido
 contactdoesnotexist El contacto que intentas añadir no existe
+contactlist Lista de Contactos:
 copy Copiar
 copytogroup Copiar al grupo
 countrycode Código de país/región
@@ -145,6 +151,7 @@ httpconnection Conectar usando el método HTTP (usa protocolo HTTP por el puerto 
 ident Identificándose
 identity Identificación
 inbox Bandeja de entrada
+internalerror Error interno del servidor
 invalidusername Nombre de usuario no válido
 invitationcancelled La invitación ha sido cancelada
 invite Invitar
@@ -189,6 +196,7 @@ minimised Minimizada/Iconificada
 mins minutos
 mobile Celular
 morepersonal Más estados ->
+move Mover
 movetogroup Mover al grupo
 msgmaxmin Cuando un nuevo mensaje llega quiero que sea :
 msg Mensaje
@@ -208,6 +216,7 @@ newmsg Nuevo mensaje
 newveravailable Nueva versión $1 disponible para descarga
 next Siguiente
 noactivity Sin actividad
+nodataavailable No hay datos disponibles para $1
 nologfile No existe archivo de historial para $1
 nonewmail No hay mensajes nuevos en bandeja de entrada
 nonewver No hay versiones más actuales disponibles
@@ -254,6 +263,8 @@ prefmsging Interfaz de mis mensajes
 prefname Mi nombre/apodo en MSN Messenger
 prefphone2 Escribe los números que quieras permitir ver a los contactos \n en tu lista de Permitidos \n
 prefphone Mis números de teléfono
+prefprivacy2 Lista de Contactos/Inversa del usuario
+prefprivacy Lista de Aceptados/Bloqueados del usuario
 prefprofile2 Crea o modifica tu perfil público (la \n descripción de ti mismo que otros puede ver)
 prefprofile3 Perfiles de configuración de los usuarios
 prefprofile Mi perfil público
@@ -262,6 +273,7 @@ prefremote Configuración de conexión remota
 prefsession Mi inicio de sesión y estado
 prefshared Conexiones compartidas (sólo para NAT)
 prefsound Sonidos
+privacy Privacidad
 profiledconfig Información de perfil
 profileinuse Este perfil está siendo usado por otra sesión de amsn, por favor elige otro.
 profiles Perfiles
@@ -278,7 +290,9 @@ reconnect Esperando que $1 se reconecte
 reconnecting Reconectando al servidor
 reject Rechazar
 rememberpass Recordar contraseña
+removefromlist Borrar de esta lista
 reversed Invertido
+reverselist Lista Inversa:
 rightback Vuelvo enseguida
 saveas Guardar como
 savecontacts Guardar lista de contactos
@@ -344,16 +358,3 @@ yoffset Desplazamiento Y
 youblocked Has sido bloqueado
 yousay Tú dices
 youwant Quieres
-move Mover
-internalerror Error interno del servidor
-removefromlist Borrar de esta lista
-choosecontact Por favor selecciona un contacto de la lista
-prefprivacy2 Lista de Contactos/Inversa del usuario
-prefprivacy Lista de Aceptados/Bloqueados del usuario
-allowallbutbl Permitir que todos los usuarios excepto los bloqueados me puedan contactar
-allowonlyinal Permitir sólo a los usuarios Aceptados contactar conmigo
-privacy Privacidad
-allowlist Lista de Aceptados:
-blocklist Lista de Bloqueados:
-contactlist Lista de Contactos:
-reverselist Lista Inversa:
