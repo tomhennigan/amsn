@@ -21,7 +21,7 @@ alarmonstatus Activeer alarm als een gebruiker van status veranderd
 alarmpref Alarm instellingen voor deze gebruiker
 alarmstatus Schakel het alarm voor deze gebruiker aan/uit
 allowallbutbl Sta alle gebruikers toe om contact met mij op te nemen, behalve geblokkeerde
-allowbadwords Toon ongecencureerde schermnamen
+allowbadwords Toon ongecensureerde schermnamen
 allowlist Lijst met toegestane gebruikers :
 allowonlyinal Sta alleen toegestane gebruikers toe om contact met mij op te nemen
 allowseen Deze persoon toestaan om mijn online-status te zien, en contact met mij op te nemen
@@ -51,20 +51,20 @@ block Blokkeer
 blocked Geblokkeerd
 blockedyougroup Toon een apparte groep voor mensen die mij geblokkeerd hebben
 blocking Blokkeren
-blockinter1 Controleer als je online bent elke
-blockinter2 seconden, en controleer anders elke:
+blockinter1 Controleer elke
+blockinter2 seconden als je online bent, en controleer anders elke:
 blockinter3 elke
 blockinter4 seconden.
 blocklist Lijst met geblokkeerde gebruikers
 blockmessage Deze mensen zijn online en hebben jou geblokkeerd
-blockusers Aantal gebruikers om tegelijk te controleren
+blockusers Aantal tegelijk te controleren gebruikers
 broughtby Aangeboden door de volgende ontwikkelaars
 browser Browser
 browse Verkennen
 busy Bezet
 cancel Annuleren
-cannotdeleteprofile Kan het profiel niet verwijderen. Het is mogelijk in gebruik bij een aMSN sessie
-cantexec Kan programma $1 niet starten, kijk uw instellingen na
+cannotdeleteprofile Het profiel kan niet verwijderd worden. Het wordt mogelijk gebruikt door een andere aMSN sessie
+cantexec Kan het programma $1 niet starten, controleer uw instellingen
 casesensitive Gebruik hoofdlettergevoelige triggers
 cfgalarm Alarm configureren/toevoegen/verwijderen
 changefont Verander lettertype
@@ -83,7 +83,7 @@ checkonfln Controleer of een gebruiker je heeft geblokkeerd wanneer hij offline 
 checkver Controleer of een nieuwere versie beschikbaar is
 choosebasefont Lettertype
 choosebgcolor Achtergrondkleur
-choosecontact Kies een contactpersoon van de lijst
+choosecontact Kies een contactpersoon uit de lijst
 choosefontcolor Tekstkleur
 chooseskin Kies de skin die je gebruiken wilt
 clearlog2 Verwijder Geschiedenis voor alle contacten
@@ -211,7 +211,7 @@ listsmileys2 Toon emoticons en smileys in de contactpersonenlijst
 listsmileys Toon smileys in lijst
 ljoinedconf $1 nam deel aan de vergadering
 lleftconf $1 heeft de vergadering verlaten
-loadcontacts Bezig met laden van de contactenlijst
+loadcontacts Laad de lijst van contactpersonen
 logbigger Het logboek voor elke contactpersoon mag niet groter zijn dan
 logfandexp Grootte van logboeken en verloop van de Geschiedenis
 loggedotherlocation Verbinding verbroken. U bent elders aangemeld.
@@ -331,6 +331,8 @@ proxyconnection Ik heb een internetverbinding via een proxyserver:
 proxy Ik maak gebruik van een Proxy Server (HTTP of SOCKS5)
 publishphones Publiceer mijn telefoonnummers
 raised Zichtbaar/Gede-iconificeerd
+readonlymsgbox De bestandsoverdrachtis geannuleerd vanwege alleen-lezen toegang tot de map voor ontvangen bestanden. Pas de toegangsrechten voor deze map aan.
+readonlywarn WAARSCHUWING: Het bestand zal waarschijnlijk NIET correct worden opgeslagen, omdat de map voor ontvangen bestanden beschermd blijkt te zijn tegen schrijven. Zorg ervoor dat de rechten voor de doelmap ($1) correct zijn ingesteld voordat de bestandsoverdracht wordt gestart.
 receivedbytes $1 van de $2 bytes ontvangen
 receivefile Ontvang bestand
 reconnecting Bezig met opnieuw verbinden met de server
