@@ -97,20 +97,35 @@ closed Samtale med $1 ble lukket på grunn av inaktivitet
 close Lukk
 closingdocks Lukke-knappen minimerer vinduet
 command Kommando
+commandstatus Utfør kommando
 confirmdelete Er du sikker på at du vil slette $1?
 confirm Er du sikker?
+connected Du er nå tilkoblet
 connecterror Feil ved tilkobling til server
+connecting Kobler til
+connectionlost Frakoblet: Tilkobling til serveren ble lukket
 connection Tilkobling
 contactadded Kontakten er lagt til
 contactdoesnotexist Kontakten eksisterer ikke!
+contactlist Kontaktliste (KL):
 copy Kopier
 copytogroup Kopier til gruppe
 countrycode Min Lands-/Regionkode
+cprofile Opprett Profil
+custom_edit Rediger et egendefinert uttrykksikon
+custom_new Legg til et ny egendefinert uttrykksikon
 cut Klipp ut
 date Dato
 days Dager
+dcprofile Ikke Opprett Profil
 default Standardkonfigurasjon
+defaultloginradio Logg inn med standardkonfigurasjonen
+default Standardkonfigurasjon
 delete Slett
+deliverfail Det var problemer med å levere følgende melding
+delprofile2 Velg hvilken profil du vil fjerne
+delprofile Slett Profil
+description Beskrivelse
 disablessl Deaktiver SSL
 dontdownload ikke last ned TLS, jeg vil installere det selv
 editprofile Rediger Profil

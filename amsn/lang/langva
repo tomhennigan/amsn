@@ -5,12 +5,11 @@ acceptfile ¿Aceptar archiu $1, tamany $2 bytes? Es guardara en $3
 actions Accions
 addacontact Afegir un contacte
 addedyou $1 ($2) t'ha afegit a la seua llista de contactes
-addprofiledesc Introduix l'usuari per al que vols crear un nou perfil. \nEls usuaris que tenen perfils te permeten tindre diferents configuracions per a cada usuari.\nSense perfils no podras usar l'Historial, Avisos o memorisar la contrasenya.
 addprofile Afegir un nou Perfil
+addprofiledesc Introduix l'usuari per al que vols crear un nou perfil. \nEls usuaris que tenen perfils te permeten tindre diferents configuracions per a cada usuari.\nSense perfils no podras usar l'Historial, Avisos o memorisar la contrasenya.
 addstate Afegir un nou estat
 addto Afegir a $1
 addtocontacts Afegir a contactes
-addtocontacts Afegir a la llista de contactes
 addtoo Afegir ad esta persona a la meua llista de contactes
 admincontacts Administrar contactes
 admingroups Administrar grups
@@ -40,7 +39,6 @@ autoconnect2 Conectar-se automaticament quan s'inicia aMSN
 autohotmaillog Login hotmail automatic
 autoidle Marcar com inactiu automaticament
 autoip IP Automatica
-autonoact Mostar-me com Sense Activitat quan no hi ha activitat en
 autonoact Mostrar-me com "Inactiu" despres d'estar inactiu durant
 avoidseen Evitar que esta persona veja la teua conexio i te contacte
 away Ausent
@@ -70,7 +68,6 @@ cannotdeleteprofile No es pot borrar el perfil perque pareix que esta en us per 
 cantexec No es pot eixecutar l'aplicacio: $1. Comprova les preferencies
 casesensitive Usar disparadors sensibles a maj/min
 cfgalarm Configurar/Afegir/Borrar avis
-cfgalarm Configurar/afegir/borrar avis
 changedisplaypic Canviar l'image a mostrar
 changefont Canviar font
 changenick Canviar mot
@@ -100,10 +97,10 @@ close Tancar
 closed Conversacio en $1 tancada per inactivitat
 closingdocks Boto de tancar/minimisar
 command Ordre
+commandstatus Eixecutar orde
 confirm ¿Estas sergur/a?
 confirmdelete ¿Segur que desiges borrar a $1?
 connected Ara estas conectat
-connecterror Error conectant-se al servidor
 connecterror Error conectant-se al servidor
 connecting Conectant
 connection Conexio
@@ -127,13 +124,11 @@ delete Eliminar
 deliverfail Ha ocorregut un problema al enviar el siguient mensage
 delprofile Borrar Perfil
 delprofile2 Selecciona el perfil que vols borrar
-delprofile2 Tria el perfil que t'agradaria borrar
 description Descripccio
 directconnection Tinc una conexio directa a internet (usa el port 1863)
 disablessl Descativar SSL
 disconnect $1 s'ha desconectat.
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
-dockgtk Gnome Dock
 dockgtk Icono GTK
 docking Icono en la safata del sistema
 dockingoff Desactivar
@@ -142,9 +137,9 @@ dontdownload No descarregar TLS, l'instalare yo mateix
 downloadingtls Descarregant modul TLS des de: \n $1
 edit Editar
 editcurrentstate Editar estat actual
-editstate Editar un mensage automatic d'estat existent
 editnewstate Nou mensage automatic personal d'estat
 editprofile Editar Perfil
+editstate Editar un mensage automatic d'estat existent
 emotisounds Reproduir sons per a certs emoticons
 enableproxy Activar proxy
 enableremote Permetre control a distancia
@@ -159,17 +154,16 @@ examples Eixemples
 exitamsn ¿Estas segur que desiges eixir?
 extras Servicis Adicionals
 faq Questions usualment preguntades
-filedoesnotexist L'archiu no existix
+filedoesnotexist El ficher no existix
 fileman Administrador d'archius
 filemanexample (\$location sera canviat per el directory ) Ex: nautilus \$location
 filename Nom d'Archiu
-filedoesnotexist El ficher no existix
 filetransfercancelled Transferencia de ficher cancelada
 filetransfercomplete Transferencia de ficher completada
 followtext Avançar quan s'introduixca nou text
 ftaccepted Transferencia d'archiu aceptada
-ftaccepting Acceptant l'invitacio de transferencia de ficher
 ftacceptedby $1 ha acceptat l'invitacio de transferencia del ficher '$2'
+ftaccepting Acceptant l'invitacio de transferencia de ficher
 ftconnecterror Error conectant en l'usuari remot
 ftconnecting Conectant a $1 port $2
 ftconnectionlost Conexio tancada remotament
@@ -184,7 +178,6 @@ group Grup
 groupadd Afegir un grup
 groupdelete Borrar un grup
 groupexists El grup ya existix
-groupmissing No es pot trobar el grup
 groupmissing No es pot trobar el grup
 groupnewname Nou nom
 groupnotempty El grup no esta buit
@@ -219,7 +212,6 @@ keeplog Guardar historal de les conversacion
 keeplog2 Registrar les conversacions en l'historial per a vore-les mes tart
 language Idioma
 lastmsgtime Ultim mensage rebut a les $1
-lclosedwin $1 ha tancat la finestra a les $2
 lclosedwin Has tancat la finestra en $1
 lconftopriv La conversacio passa a ser un privat en $1
 lconvstarted Escomença la conversacio en $1
@@ -256,7 +248,6 @@ mobile Mobil
 morepersonal Mes Estats ->
 move Moure
 movetogroup Moure al Grup
-movetogroup Moure al grup
 msg Mensage
 msgflicker Parpalleig en el titul de la finestra quan es reba un mensage en una finestra inactiva.
 msgmaxmin Quan un nou mensage arriva vullc que siga:
@@ -269,7 +260,6 @@ mypic La meua Image de Mostra:
 mystatus El meu estat
 myworkphone El telefon del meu treball
 natip Detectar IP des d'una web
-natkeepalive Se te desconectes regularment, activa este 'Mantindre Viu'
 natkeepalive Si sofrixes desconexions continuament, activa esta opcio
 needonline Encara estas/aparentes desconectat
 newmail $1 mensages nous en safata d'entrada
@@ -279,37 +269,24 @@ newveravailable Nova versio $1 disponible per a descarrega
 next Siguient
 no No
 noactivity Inactivitat
-noactivity Sense activitat
 nodataavailable Informacio no disponible per a $1
-nologfile No existix archiu d'historial per a $1
 nologfile No hi ha ficher de registre per a $1
 noneavailable Cap disponible
 nonewmail No hi han mensages nous en la safata d'entrada
-nonewmail No hi han mensages nous en safata d'entrada
 nonewver No hi ha una nova versio disponible per a descarrega
-nonewver No hi han versions mes actuals disponibles
 nopic No hi ha image
 noprofileexists No hi han perfils actualment, \n deus crear u si vols usar perfils d'entrada. \nUsa el boto Afegir Nou Perfil en esta finestra per a afegir un nou perfil.
 normal Normal
-normal Normal
 nosystemtray Safata del sistema no disponible
-notify avis
 notify notificacio
-notify1 Mostrar finestra d'avis quan un contacte es conecte
 notify1 Mostrar finestra de notificacio quan els contactes es conecten
 notify1_5 Mostrar finestra de notificacio quan els contactes es desconecten
 notify1_75 Mostrar finestra de notificacio quan els contactes canvies d'estat
-notify2 Mostrar finestra d'avis quan arriben nous mensages
 notify2 Mostrar finestra de notificacio quan reba nous mensages
-notify3 Mostrar finestra d'avis al rebre un nou correu electronic
 notify3 Mostrar finestra de notificacio quan reba nous correus
-notifyoffset Ajusta la posicio de la finestra d'avis mijançant un desplaçament
-notifyoffset Desplasament de la posicio del pop-up de notificacio
-notifywin Finestra d'avisos
+notifyoffset Desplaçament de la posicio del pop-up de notificacio
 notifywin Finestra de Notificacio
 notls El Protocol 9 de MSN requerix el paquet TLS. Este paquet no pareix que estiga instalat en el teu ordenador. Si esta instalat, el cami al directori de la llibreria deu ser especificat en la finestra de preferencies (ex: /opt/tls/lib). \n \n Pots descarregar TLS des de http://tls.sf.net.
-nousersinsession No hi han usuaris en la sesio
-nousersinsession No hi han usuaris en la sessio
 nousersinsession No hi han usuaris en la sessio
 offline Desconectat
 ok Aceptar
@@ -355,7 +332,6 @@ prefprivacy Llista de Autorisats/Bloquejats de l'usuari
 prefprivacy2 Llista de Contactes/Inversa de l'usuari
 prefprofile El meu perfil public
 prefprofile2 Crea o modifica el teu perfil public (la \n descripcio de tu mateixa que atres poden vore)
-prefprofile2 Crear o modificar el perfil public (la \n descricio de tu mateix que els atres poden vore)
 prefprofile3 Perfils de configuracio dels usuaris
 prefproxy Configuracio del meu proxy
 prefremote Preferencies de Conexio Remota
@@ -382,7 +358,6 @@ receivedbytes Recibuts $1 de $2 bytes totals
 receivefile Rebre archiu
 reconnect Esperant que $1 es reconecte
 reconnecting Reconectant al servidor
-reconnecting Reconectant al servidor
 reject Denegar
 rememberpass Recordar contrasenya
 removefromlist Borrar d'esta llista
@@ -403,7 +378,6 @@ sendmail Enviar correu-e
 sendmsg Enviar mensage
 sentbytes Enviats $1 de $2 bytes totals
 server Servidor
-servergoingdown Desconectat: El servidor s'apagara per a manteniment
 servergoingdown Desconectat: Els servidor esta caigut
 session Sessio
 showblockedlist Mostrar la llista de persones que t'ha bloquejat
@@ -430,13 +404,13 @@ sslwarning ¡ATENCIO! Desactivar SSL desactivara l'encriptacio, en eixe cas la te
 startoffline Esomençar Desconectat
 startoffline2 Conectarse sigilosament aparentat "Desconectat"
 state Vullc aparentar com
+stateautomsg Mensage Automatic a enviar
 statechange estat canviat a:
 stateedittext Per favor, edita els camps que vols \n canviar y apreta Guardar
 stateinfo Configuracio Personal d'Estat
 statename Name of Personal State
-stateautomsg Mensage Automatic a enviar
-status Estat
 statenewtext Per favor, reompli la informacio requerida per a crear \n el teu nou Estat Personal i pulsa Guardar
+status Estat
 stopalarm Parar el so de l'avis
 stylechat El mateix que els chats
 stylehist apariencia de l'historial de aMSN
@@ -463,7 +437,6 @@ uonline Conectats
 user Usuari
 useralreadyonlist L'usuario ya es troba en la llista de contactes.
 userblocked L'usuari esta en llinea pero t'ha bloquejat
-usernotonline L'usuari no es troba en llinea
 usernotonline L'usuari no esta en llinea
 useryourself No pots chatejar en tu mateixa
 verifyblocked Comprovar la gent que te bloqueja

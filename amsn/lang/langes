@@ -97,6 +97,7 @@ close Cerrar
 closed Conversación con $1 cerrada por inactividad
 closingdocks Botón de cerrar minimiza
 command Comando
+commandstatus Ejecutar comando
 confirmdelete ¿Seguro que deseas borrar a $1?
 confirm ¿ Estás seguro ?
 connected Ahora estás conectado

@@ -97,6 +97,7 @@ closed A conversação com $1 fechada devido à inactividade
 close Fechar
 closingdocks A fechar docks
 command Comando
+commandstatus Executar commando
 confirmdelete Tem a certeza de que quer apagar $1?
 confirm Tem a certeza?
 connected Você está ligado agora

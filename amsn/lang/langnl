@@ -59,8 +59,8 @@ blocklist [BL] Geblokkeerd
 blockmessage Deze mensen zijn online en hebben u geblokkeerd
 blockusers Controleer gelijktijdig
 broughtby Aangeboden door de volgende ontwikkelaars
-browser Webrowser
 browserexample ( \$url wordt vervangen door de URL ). Vb: mozilla \$url
+browser Webrowser
 browse Verkennen
 busy Bezet
 cancel Annuleren
@@ -97,6 +97,7 @@ closed Gesprek met $1 is wegens inactiviteit afgesloten
 close Sluiten
 closingdocks Minimaliseren ipv sluiten
 command Programma
+commandstatus Voer opdracht uit
 confirmdelete Weet u zeker dat u $1 wilt verwijderen?
 confirm Weet u het zeker?
 connected U bent nu verbonden
@@ -129,8 +130,8 @@ disablessl SSL niet gebruiken
 disconnect $1 is offline gegaan
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome systeemvak
-docking Systeemvak
 dockingoff Geen systeemvak gebruiken
+docking Systeemvak
 dockkde KDE Systeemvak
 dontdownload Download TLS niet. Ik installeer het zelf.
 downloadingtls Bezig met downloaden van TLS vanaf:\n $1
@@ -405,10 +406,10 @@ startoffline Stil aanmelden
 stateautomsg Automatisch bericht
 statechange status is veranderd in:
 stateedittext Pas de velden aan die u wilt \n veranderen en druk op Opslaan
-state Weer te geven status
 stateinfo Configuratie persoonlijke status
 statename Personlijke statusnaam
 statenewtext Vul de benodigde informatie in om uw persoonlijke status\nte creëren en klik op Opslaan
+state Weer te geven status
 status Status
 stopalarm Stop het alarm
 stylechat Dezelfde stijl als gesprekken

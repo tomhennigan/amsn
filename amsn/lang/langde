@@ -97,6 +97,7 @@ closed Geschlossen
 close Schließen
 closingdocks Schaltfläche "Schließen" koppelt Fenster
 command Befehl
+commandstatus Befehl ausführen
 confirmdelete $1 wirklich löschen?
 confirm Sind Sie sicher?
 connected Sie sind jetzt Verbunden
@@ -349,6 +350,7 @@ proxyconf Proxy-Konfiguration
 proxyconnection Ich verbinde mit dem Internet über einen Proxy-Server:
 proxy Ich bin hinter einem Proxy Server (HTTP or SOCKS5)
 publishphones Meine Telefonnummern veröffentlichen
+purge Lösche
 raised Wiederhergestellt
 readonlymsgbox Der Dateitransfer wurde gestoppt, weil das Ziel-Verzeichnis read-only ist. Bitte berichtigen Sie die Berechtigungen an diesem Verzeichnis.
 readonlywarn WARNUNG: Die Datei wird möglicherweise NICHT korrekt gespeichert, da das "Received files" Verzeichnis schreibgeschützt zu sein scheint. Bitte stellen Sie sicher, dass die Berechtigungen am Zielverzeichnis ($1) richtig gesetzt sind, bevor Sie eine Datei transferieren.

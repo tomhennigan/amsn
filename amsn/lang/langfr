@@ -97,6 +97,7 @@ closed Conversation fermée pour inactivité ($1)
 close Fermer
 closingdocks Le bouton fermer ancre l'application
 command Commande
+commandstatus Exécuter la commande
 confirmdelete Confirmer suppression
 confirm Êtes vous sûr?
 connected Vous êtes maintenant connecté(e)
@@ -185,8 +186,8 @@ grouprename Renommer un groupe
 groupunknown Groupe inconnu
 handle Pseudonyme
 help Aide
-hidedisplaypic Cacher l'icône
 helpcontents Contenu de l'aide
+hidedisplaypic Cacher l'icône
 hiden Cacher cet émoticon du menu
 hidewindow Masquer la fenêtre
 history Voir l'historique
