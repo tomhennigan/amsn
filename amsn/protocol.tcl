@@ -1390,16 +1390,16 @@ namespace eval ::MSN {
         return $lowuser
       }
 
-      status_log "::MSN::chatTo: Opening chat to user $user\n"
-            
+
       set sbn [SBFor $lowuser]
 
       if { $sbn == 0 } {
 
-           
+
          set sbn [GetNewSB]
 
-         status_log "::MSN::chatTo: No SB available, creating new: $sbn\n"
+	      status_log "::MSN::chatTo: Opening chat to user $user\n"
+			status_log "::MSN::chatTo: No SB available, creating new: $sbn\n"
 	 
          sb set $sbn name $sbn
          sb set $sbn sock ""
@@ -1418,7 +1418,7 @@ namespace eval ::MSN {
       }
           
       cmsn_reconnect $sbn
-      status_log "Opened chjat with $user on sb $sbn\n"
+      #status_log "Opened chjat with $user on sb $sbn\n"
       return $lowuser
 
    }
