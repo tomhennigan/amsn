@@ -16,7 +16,7 @@ namespace eval ::amsnplus {
 		#set the amsnplus dir in config
 		::config::setKey amsnpluspluginpath $dir
 		#loading lang - if version is 0.95b (keep compatibility with 0.94)
-		if {[string equal $::version "0.95b"]} {
+		if {![string equal $::version "0.94"]} {
 			set langdir [append dir "/lang"]
 			set lang [::config::getGlobalKey language]
 			load_lang $lang $langdir
@@ -27,15 +27,15 @@ namespace eval ::amsnplus {
 			colour_nicks {0}
 			allow_commands {1}
 		}
-		if {[string equal $::version "0.95b"]} {
-			set ::amsnplus::configlist [ \
-				list [list bool "[trans parsenicks]" parse_nicks] \
-				list [list bool "[trans allowcommands]" allow_commands] \  
-			]
-		} else {
+		if {[string equal $::version "0.94"]} {
 			set ::amsnplus::configlist [ \
 				list [list bool "Do you want to parse nicks?" parse_nicks] \
 				list [list bool "Do you want to allow commands in the chat window?" allow_commands] \
+			]
+		} else {
+			set ::amsnplus::configlist [ \
+				list [list bool "[trans parsenicks]" parse_nicks] \
+				list [list bool "[trans allowcommands]" allow_commands] \  
 			]
 		}
 		#register events
@@ -169,10 +169,10 @@ namespace eval ::amsnplus {
 				set msg ""
 				set strlen 0
 				::groups::Add $groupname
-				if {[string equal $::version "0.95b"]} {
-					::amsn::WinWrite $chatid "[trans groupadded $groupname]" green
-				} else {
+				if {[string equal $::version "0.94"]} {
 					::amsn::WinWrite $chatid "\nAdded group $groupname" green
+				} else {
+					::amsn::WinWrite $chatid "[trans groupadded $groupname]" green
 				}
 				set incr 0
 			} elseif {[string equal $char "/block"]} {
@@ -213,10 +213,10 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + $ulen] ""]
 				set strlen [string length $msg]
 				::MSN::deleteUser $user_login
-				if {[string equal $::version "0.95b"]} {
-					::amsn::WinWrite $chatid "[trans groupdeleted $user_login]" green
-				} else {
+				if {[string equal $::version "0.94"]} {
 					::amsn::WinWrite $chatid "\nDeleted contact $user_login" green
+				} else {
+					::amsn::WinWrite $chatid "[trans groupdeleted $user_login]" green
 				}
 				set incr 0
 			} elseif {[string equal $char "/deletegroup"]} {
@@ -226,10 +226,10 @@ namespace eval ::amsnplus {
 				set msg ""
 				set strlen 0
 				::groups::Delete [::groups::GetId $groupname]
-				if {[string equal $::version "0.95b"]} {
-					::amsn::WinWrite $chatid "[trans groupdeleted $groupname]" green
-				} else {
+				if {[string equal $::version "0.94"]} {
 					::amsn::WinWrite $chatid "\nDeleted group $groupname" green
+				} else {
+					::amsn::WinWrite $chatid "[trans groupdeleted $groupname]" green
 				}
 				set incr 0
 			} elseif {[string equal $char "/font"]} {
@@ -255,37 +255,37 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + $lfield] ""]
 				set strlen [string length $msg]
 				if {[string equal $field "color"]} {
-					if {[string equal $::version "0.95b"]} {
-						::amsn::WinWrite $chatid "[trans ccolor $fontcolor]" green
-					} else {
+					if {[string equal $::version "0.94"]} {
 						::amsn::WinWrite $chatid "\nYour color is: $fontcolor" green
+					} else {
+						::amsn::WinWrite $chatid "[trans ccolor $fontcolor]" green
 					}
 				} elseif {[string equal $field "font"]} {
-					if {[string equal $::version "0.95b"]} {
-						::amsn::WinWrite $chatid "[trans cfont $fontfamily]" green
-					} else {
+					if {[string equal $::version "0.94"]} {
 						::amsn::WinWrite $chatid "\nYour font is: $fontfamily" green
+					} else {
+						::amsn::WinWrite $chatid "[trans cfont $fontfamily]" green
 					}
 				} elseif {[string equal $field "nick"]} {
 					set nick [::abook::getPersonal nick]
-					if {[string equal $::version "0.95b"]} {
-						::amsn::WinWrite $chatid "[trans cnick $nick]" green
-					} else {
+					if {[string equal $::version "0.94"]} {
 						::amsn::WinWrite $chatid "\nYour nick is: $nick" green
+					} else {
+						::amsn::WinWrite $chatid "[trans cnick $nick]" green
 					}
 				} elseif {[string equal $field "state"]} {
 					set status [::MSN::myStatusIs]
 					set status [::MSN::stateToDescription $status]
-					if {[string equal $::version "0.95b"]} {
-						::amsn::WinWrite $chatid "[trans cstatus $status]" green
-					} else {
+					if {[string equal $::version "0.94"]} {
 						::amsn::WinWrite $chatid "\nYour status is: $status" green
+					} else {
+						::amsn::WinWrite $chatid "[trans cstatus $status]" green
 					}
 				} elseif {[string equal $field "style"]} {
-					if {[string equal $::version "0.95b"]} {
-						::amsn::WinWrite $chatid "[trans cstyle $fontstyle]" green
-					} else {
+					if {[string equal $::version "0.94"]} {
 						::amsn::WinWrite $chatid "\nYour style is: $fontstyle" green
+					} else {
+						::amsn::WinWrite $chatid "[trans cstyle $fontstyle]" green
 					}
 				}
 				set incr 0
@@ -305,10 +305,10 @@ namespace eval ::amsnplus {
 				set msg ""
 				set strlen 0
 				::MSN::leaveChat $chatid
-				if {[string equal $::version "0.95b"]} {
-					::amsn::WinWrite $chatid "[trans cleave]" green
-				} else {
+				if {[string equal $::version "0.94"]} {
 					::amsn::WinWrite $chatid "\nYou've left this conversation" green
+				} else {
+					::amsn::WinWrite $chatid "[trans cleave]" green
 				}
 				set incr 0
 			} elseif {[string equal $char "/login"]} {
@@ -354,24 +354,24 @@ namespace eval ::amsnplus {
 				set msg ""
 				set strlen 0
 				set catch [catch {exec $command}]
-				if {[string equal $::version "0.95b"]} {
-					::amsn::WinWrite $chatid "[trans cshell $command]" green
-				} else {
+				if {[string equal $::version "0.94"]} {
 					::amsn::WinWrite $chatid "\nExecuting: $command" green
+				} else {
+					::amsn::WinWrite $chatid "[trans cshell $command]" green
 				}
 				if {[string equal $catch "1"]} {
-					if {[string equal $::version "0.95b"]} {
-						::amsn::WinWrite $chatid "[trans cnotvalid]" green
-					} else {
+					if {[string equal $::version "0.94"]} {
 						::amsn::WinWrite $chatid "\nYour command is not valid" green
+					} else {
+						::amsn::WinWrite $chatid "[trans cnotvalid]" green
 					}
 				} else {
 					set result [exec $command]
 					if {![string equal $result ""]} {
-						if {[string equal $::version "0.95b"]} {
-							::amsn::WinWrite $chatid "[trans cresult $result]" green
-						} else {
+						if {[string equal $::version "0.94"]} {
 							::amsn::WinWrite $chatid "\nThis is the result of the command:\n$result" green
+						} else {
+							::amsn::WinWrite $chatid "[trans cresult $result]" green
 						}
 					}
 				}
@@ -395,16 +395,16 @@ namespace eval ::amsnplus {
 				if {[::amsnplus::stateIsValid $nstate]} {
 					set cstate [::amsnplus::descriptionToState $nstate]
 					::MSN::changeStatus $cstate
-					if {[string equal $::version "0.95b"]} {
-						::amsn::WinWrite $chatid "[trans cnewstate $nstate]" green
-					} else {
+					if {[string equal $::version "0.94"]} {
 						::amsn::WinWrite $chatid "\nNew state is: $nstate" green
+					} else {
+						::amsn::WinWrite $chatid "[trans cnewstate $nstate]" green
 					}
 				} else {
-					if {[string equal $::version "0.95b"]} {
-						::amsn::WinWrite $chatid "[trans cnewstatenotvalid $nstate]" green
-					} else {
+					if {[string equal $::version "0.94"]} {
 						::amsn::WinWrite $chatid "\n$nstate is not valid" green
+					} else {
+						::amsn::WinWrite $chatid "[trans cnewstatenotvalid $nstate]" green
 					}
 				}
 				set incr 0
@@ -435,10 +435,10 @@ namespace eval ::amsnplus {
 				set strlen [string length $msg]
 				set user_login [::amsnplus::readWord $i $msg $strlen]
 				if {[string equal $user_login ""]} {
-					if {[string equal $::version "0.95b"]} {
-						::amsn::WinWrite $chatid "[trans cspecify]" green
-					} else {
+					if {[string equal $::version "0.94"]} {
 						::amsn::WinWrite $chatid "\mYou must specify a contact" green
+					} else {
+						::amsn::WinWrite $chatid "[trans cspecify]" green
 					}
 				} else {
 					set ulen [string length $user_login]
@@ -446,10 +446,10 @@ namespace eval ::amsnplus {
 					set strlen [string length $msg]
 					set group [::groups::GetName [::abook::getContactData $user_login group]]
 					set nick [::abook::getContactData $user_login nick]
-					if {[string equal $::version "0.95b"]} {
-						::amsn::WinWrite $chatid "[trans cinfo $user_login $nick $group]" green
-					} else {
+					if {[string equal $::version "0.94"]} {
 						::amsn::WinWrite $chatid "\n$user_login info: $nick $group" green
+					} else {
+						::amsn::WinWrite $chatid "[trans cinfo $user_login $nick $group]" green
 					}
 				}
 				set incr 0
