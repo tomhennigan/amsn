@@ -194,7 +194,7 @@ namespace eval ::Nudge {
 				::Nudge::log "Show growl notification"
 			}
 			
-			::Nudge::log "\nReceiving nudge from <[::abook::getDisplayNick $chatid]> is finished\n"		
+			::Nudge::log "Receiving nudge from <[::abook::getDisplayNick $chatid]> is finished"		
 		
 		}
 	
@@ -276,12 +276,12 @@ namespace eval ::Nudge {
 			if {[::Nudge::version_094]} {
 				button $nudgebutton -image [::skin::loadPixmap nudgebutton] -relief flat -padx 3 \
 				-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0 \
-				-highlightbackground [::skin::getColor background2] \
+				-highlightbackground [::skin::getColor background2] -activebackground [::skin::getColor background2]\
 				-command "after 1 ::Nudge::send_via_queue $newvar(window_name)"
 			} else {
 				button $nudgebutton -image [::skin::loadPixmap nudgebutton] -relief flat -padx 3 \
 				-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-				-highlightbackground [::skin::getKey buttonbarbg] \
+				-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
 				-command "after 1 ::Nudge::send_via_queue $newvar(window_name)"
 			}
 			#Configure hover button
