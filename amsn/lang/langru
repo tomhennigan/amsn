@@ -1,11 +1,12 @@
 amsn_lang_version 2
 about О программе
 acceptfile Accept file $1, size $2? Saved in $3
-accept Принять 
+accept Принять
 actions Действия
 addacontact Добавить пользователя
 addedyou добавил(а) вас в свой контакт-лист
 addstate Добавить новый статус
+addto Добавить к $1
 addtocontacts Добавить в контакт-лист
 addtoo Добавить этого пользователя в мой контакт-лист
 admincontacts Редактировать пользователей
@@ -13,8 +14,11 @@ admingroups Редактировать группы
 adverts Реклама
 alarmpref Конфигурация оповещения для этого пользователя
 alarmstatus Вкл./Выкл. оповещение для этого пользователя
-Allow-списке
+allowallbutbl Пропускать всех, кроме указанных в Блок-листе
+allowlist Allow-лист:
+allowonlyinal Пропускать только тех, кто в Allow-листе
 allowseen Разрешить этому пользователю видеть мой статус и добавлять меня в свой контакт-лист
+animatedsmileys Включить анимированые смайлики
 appearance Вид
 appearoff Псевдо-Отключен
 areacode Код региона
@@ -36,7 +40,13 @@ bgcolor Изменить цвет фона aMSN
 blankdirect Оставить пустым для прямого соединения
 block Блокировать
 blocked Заблокировано
+blocking Блокирую
+blockinter1 Когда он-лайн, проверать каждые
+blockinter2 секунд, иначе проверять каждые:
+blockinter3 каждые
+blocklist Блок-лист
 blockmessage Эти люди сейчас в сети и заблокированы Вами
+blockusers Количество пользователей, которых проверять за один раз
 broughtby Подготовлено для Вас следующими разработчиками
 browse Найти
 browser Браузер
@@ -50,13 +60,16 @@ chatack Подтверждение чата от
 chatreq Запрос чата
 chatsmileys2 Отображать иконки чата и смайлики в окнах чата
 chatsmileys Смайлики
+checkblocking Постоянно проверять, блокируют ли Вас пользователи
 chat Чат
 chatmaxmin Когда контакт открывает окно чата, я хочу, чтобы оно было:
 checkfilman Полученные файлы будут сохранены в $1. Проверьте настройки файлового менеджера в окне настроек
 checkingver Проверка новой версии
+checkonfln Проверять, блокирует ли пользователь Вас, когда он заходит в он-лайн
 checkver Новая версия
 choosebasefont Выбрать шрифт
 choosebgcolor Выбрать цвет фона
+choosecontact Выберите контакт из списка
 choosefontcolor Выбрать цвет шрифта
 clearlog2 Очистить историю всех Ваших контактов
 clearlog3 Очистить все лог-файлы
@@ -74,6 +87,7 @@ connection Соединение
 connectionlost Отключен. Соединение с сервером разорвано.
 contactadded Пользователь добавлен
 contactdoesnotexist Пользователь не существует
+contactlist Контакт-лист:
 copy Копировать
 copytogroup Скопировать в группу
 countrycode Код страны/региона
@@ -97,6 +111,7 @@ edit Редактировать
 editnewstate Новое персональное сообщение для автостатуса
 editprofile Редактировать профайл
 editstate Редактировать существующее сообщение для автостатуса
+emotisounds Проигрывать звуки на некоторых смайликах
 enableproxy Включить прокси
 enableremote Включить удаленный контроль
 encoding2 Выберите кодировку, в которой Вы желаете отправлять сообщения
@@ -113,6 +128,7 @@ fileman Менеджер файлов
 filename Имя файла
 filetransfercancelled Передача файла отменена
 filetransfercomplete Передача файла завершена
+followtext Прокручивать вниз, когда введен новый текст
 ftacceptedby $1 согласился принять файл '$2'
 ftaccepted Передача Файла разрешена
 ftaccepting Разрешаем передачу файла
@@ -123,7 +139,7 @@ ftgotinvitation $1 хочет постать вам файл $2 ($3 байт(а)). Он будет сохранен в к
 ftportpref Использовать этот и последующие порты для передачи файлов
 ftrejectedby $1 отказался принять файл '$2'.
 ftrejected Передача Файла не разрешена
-ftsendinvitation Запрос на передачу файла '$2' ($3 байт(а)) был отправлен $1. 
+ftsendinvitation Запрос на передачу файла '$2' ($3 байт(а)) был отправлен $1.
 gonelunch Ушел поесть
 groupadd Добавить группу
 group Группа
@@ -144,6 +160,7 @@ httpconnection Соединяться по HTTP протоколу (порт 80)
 ident Идентификация
 identity Идентичность
 inbox Входящие
+internalerror Internal Server Error
 invalidusername Неправильное имя пользователя
 invitationcancelled Приглашение было отозвано
 invite Пригласить
@@ -188,6 +205,7 @@ minimised Свернуто
 mins минут
 mobile Мобильный
 morepersonal Еще статус ->
+move Переместить
 movetogroup Переместить в группу
 msgmaxmin Когда приходит новое сообщение я хочу чтобы оно было:
 msgmode Выберите поведение нескольких окон с сообщениями:
@@ -207,6 +225,7 @@ newmsg Новое сообщение
 newveravailable Новая версия $1 доступна для скачивания
 next Следующая
 noactivity Нет активности
+nodataavailavle Данные для $1 недоступны
 nologfile Не вести лог-файл для $1
 nonewmail Нет новых сообщений во Входящих
 nonewver Нет новых версий для скачивания
@@ -239,9 +258,11 @@ phone Телефон
 picfile Файл Картинка (GIF < 500 x 500)
 picstatus Оповещение картинкой
 port Порт
-prefalerts Звуки и оповещения о событиях 
+prefalerts Звуки и оповещения о событиях
 prefapps Приложения
-prefawaymsg Сообщения для статуса "Ушел" 
+prefawaymsg Сообщения для статуса "Ушел"
+prefblock1 Проверять при отключении
+prefblock2 Проверять постоянно
 prefconnection Настройка соединения
 prefemotic Иконки и смайлики
 preferences Настройки
@@ -254,6 +275,8 @@ prefmsging Мой интерфейс сообщений
 prefname Мой псевдоним в сети MSN Messenger
 prefphone2 Введите те номера телефонов, которые будут видны \n людям в вашем листе
 prefphone Мои номера телефонов
+prefprivacy2 Контакт/Реверс лист пользователя
+prefprivacy Allow/Блок-листы пользователя
 prefprofile2 Создать/Изменить Ваш профайл (Ваше \n описание, доступное другим пользователям)
 prefprofile3 Профайл конфигурации пользователя aMSN
 prefprofile Мой публичный профайл
@@ -262,7 +285,7 @@ prefremote Настройка удаленного соединения
 prefsession Вход в сеть и статус
 prefshared Разделение соединения (только для NAT)
 prefsound Звуки
-prefsound Звуки
+privacy Приватность
 profiledconfig Разделение конфигурации на профайлы
 profileinuse Этот профайл используется другой сессией aMSN, выберите другой
 profiles Профайлы
@@ -275,11 +298,13 @@ publishphones Публиковать номера моих телефонов
 raised Восстановлено
 receivedbytes Получено $1 из $2 байт
 receivefile Получить файл
-reconnecting Повторное подключение 
+reconnecting Повторное подключение
 reconnect Ожидание $1 до повторного подключения
 reject Отказать
 rememberpass Вспомнить пароль
+removefromlist Удалить из этого списка
 reversed Обратный
+reverselist Обратный список:
 rightback Сейчас вернусь
 saveas Сохранить как
 savecontacts Сохранить контакт-лист
@@ -315,13 +340,14 @@ status Статус
 stopalarm Остановить Оповещение
 stylechat Принять вид чата
 stylehist Вид Истории aMSN
-stylelog Выберите формат в котором вы хотите просматривать Историю 
+stylelog Выберите формат в котором вы хотите просматривать Историю
 syntaxerror  Синтаксическая ошибка
 tabbed Окна с закладками
 textsize Размер шрифта
 title Al's Messenger
 to Кому
 tools Инструменты
+tooltips Включить подсказки
 transnotexists Запрошенный файл еще не был переведен на выбранный Вами язык
 traynotcompiled Плагин системной панели не скомпилирован.
 unblock Разблокировать
@@ -336,7 +362,7 @@ verifyblocked Проверить наличие людей, которые вас блокируют
 version Версия
 view Вид
 viewprofile Просмотреть профайл
-willjoin Ожидание пока $1 вступит в разговор 
+willjoin Ожидание пока $1 вступит в разговор
 work Работа
 wrongprofileversion Версия конфигурации профайла некорректна. Чтобы исправить, удалите каталог $1 или обновите aMSN
 xoffset Сдвиг по оси X
