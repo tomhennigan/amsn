@@ -494,13 +494,7 @@ create_dir $HOME/plugins
 create_dir $files_dir
 ConfigDefaults
 
-sb set ns name ns
-sb set ns sock ""
-sb set ns data [list]
-sb set ns serv [split $config(start_ns_server) ":"]
-sb set ns stat "d"
-
-set config(language) en
+set config(language) en  ;#Load english as default language to fill trans array
 load_lang
 
 LoadLoginList		;# Load of logins/profiles in combobox
@@ -514,6 +508,12 @@ set log_dir "[file join ${HOME} logs]"
 load_config		;# So this loads the config of this newest dude
 scan_languages
 load_lang
+
+sb set ns name ns
+sb set ns sock ""
+sb set ns data [list]
+sb set ns serv [split $config(start_ns_server) ":"]
+sb set ns stat "d"
 
 set family [lindex $config(basefont) 0]
 set size [lindex $config(basefont) 1]
