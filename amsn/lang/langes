@@ -16,9 +16,9 @@ admincontacts Administrar contactos
 admingroups Administrar grupos
 adverts Anuncios
 alarmonconnect Activar/Desactivar alarma para este usuario cuando se conecte
+alarmondisconnect Activar/Desactivar alarma para este usuario cuando se desconecte
 alarmonmsg Activar/Desactivar alarma para este usuario cuando te envie un mensaje
 alarmonstatus Activar/Desactivar alarma para este usuario cuando cambie su estado
-alarmondisconnect Activar/Desactivar alarma para este usuario cuando se desconecte
 alarmpref Configuración de alarma para el usuario
 alarmstatus Activar/Desactivar alarma para este usuario
 allowallbutbl Permitir que todos los usuarios excepto los bloqueados me puedan contactar
@@ -53,11 +53,12 @@ blockedyougroup Mostrar un grupo aparte con los contactos que te bloquean
 blocking Bloqueo
 blockinter1 Cuando estás en estado Conectado, comprobar cada:
 blockinter2 segundos, si no comprobar cada :
-blockinter3 Segundos entre cada comprobación:
+blockinter3 contactos cada
+blockinter4 segundos
 blocklist Lista de Bloqueados(BL):
 blockmessage Los siguientes contactos están conectados y bloqueandote
 block No admitir
-blockusers Numero de contactos a comprobar cada vez:
+blockusers Comprobar continuamente 
 broughtby Traído a Ud. por los siguientes programadores
 browse Examinar
 browser Navegador
@@ -85,6 +86,7 @@ choosebasefont Elegir tipo de letra
 choosebgcolor Elegir color de fondo
 choosecontact Por favor selecciona un contacto de la lista
 choosefontcolor Elegir color de la letra
+chooseskin Por favor, elige el Tema que deseas usar
 clearlog2 Limpiar historial para todos los contactos
 clearlog3 Limpiar todos los registros
 clearlog Limpiar historial
@@ -233,6 +235,7 @@ mobile Celular
 morepersonal Más estados ->
 move Mover
 movetogroup Mover al grupo
+msgflicker Parpadeo en la barra de título cuando llega un nuevo mensaje al chat
 msgmaxmin Cuando un nuevo mensaje llega quiero que sea :
 msg Mensaje
 msgmode Elige como manejar ventanas de múltiples mensajes :
@@ -253,6 +256,7 @@ next Siguiente
 noactivity Sin actividad
 nodataavailable No hay datos disponibles para $1
 nologfile No existe archivo de historial para $1
+noneavailable No hay ninguno disponible
 nonewmail No hay mensajes nuevos en bandeja de entrada
 nonewver No hay versiones más actuales disponibles
 no No
@@ -285,6 +289,7 @@ personal Personal
 phone Teléfono
 picfile Archivo de imagen (GIF < 500 x 500)
 picstatus Imagen para la alarma
+pluginselector Selector de plug-ins
 port Puerto
 prefalerts Mis alertas y sonidos de eventos
 prefapps Aplicaciones
@@ -327,6 +332,8 @@ proxyconnection Me conecto a internet usando un servidor proxy:
 proxy Estoy detrás de un servidor proxy (HTTP o SOCKS5)
 publishphones Publicar mis números telefónicos
 raised Elevada/Desiconificada
+readonlymsgbox La transferencia de archivos se ha cancelado porque el directorio de recepción es sólo lectura. Comprueba los permisos de este directorio.
+readonlywarn AVISO: El archivo puede NO ser guardado correctamente porque el directorio de archivos recibidos parece estar protegido contra escritura. Comprueba que los permisos en el directorio ($1) son correctos antes de la transferencia
 receivedbytes Recibidos $1 de $2 bytes totales
 receivefile Recibir archivo
 reconnect Esperando que $1 se reconecte
@@ -343,6 +350,8 @@ save Guardar
 savetofile Guardar en archivo
 says $1 dice
 sbcon Conectando a Switch Board
+selectplugins Marca los plug-ins que deseas activar
+selectskin Elige un tema (skin) de la lista
 send Enviar
 sendfile Enviar archivo
 sendmail Enviar email
@@ -352,6 +361,8 @@ servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
 server Servidor
 session Sesión
 showblockedlist Mostrar contactos que te bloquean
+skinselector Elegir tema(skin)
+skin Tema (skin)
 smileconfig Configuración de emoticono personalizado
 smilefile Nombre del archivo
 smileintro2 Edita los siguientes campos para personalizar el emoticono (ver FAQ para más información)
