@@ -134,6 +134,8 @@
                         <tab_text_width>80</tab_text_width>
                         <tab_close_x>85</tab_close_x>
                         <tab_close_y>5</tab_close_y>
+            <chat_tabbar_padx>0</chat_tabbar_padx>
+            <chat_tabbar_pady>0</chat_tabbar_pady>
                         
 		</Geometry>
 		
