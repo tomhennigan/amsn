@@ -114,6 +114,7 @@ clearlog3 Effacer tous les historiques
 clearlog Effacer les historiques
 clicktologin Cliquez ici pour vous connecter
 clientname Nom du client
+clientcaps Envoyer les paquets x-clientcaps aux autres clients ?
 closed Conversation fermée pour inactivité ($1)
 close Fermer
 closingdocks Le bouton Fermer ancre l'application
@@ -121,7 +122,11 @@ command Commande
 commandstatus Exécuter la commande
 confirmdelete Confirmer suppression
 confirm Êtes-vous sûr ?
+confirmdg Êtes-vous sûr de vouloir effacer ce groupe ?
+confirmdu Êtes-vous sûr de vouloir effacer ce contact ?
+confirmeg Êtes-vous sûr de vouloir vider ce groupe ?
 confirmpurge Toutes les icônes de vos contacts vont être supprimées. Êtes-vous sur de vouloir le faire ?
+confirmrfl Êtes-vous sûr de vouloir effacer ce contact de ce groupe ?
 connected Vous êtes maintenant connecté(e)
 connectedwith Connecté avec $1
 connecterror Erreur de connexion
@@ -190,6 +195,7 @@ editvalue Éditer la valeur
 email E-Mail
 emailsinlist Afficher les emails au lieu du pseudonyme dans la liste de contact.
 emotisounds Jouer un son pour certains émoticons
+emptygroup Vider le groupe
 enablebanner Visualiser le bandeau aMSN (Nécessite de relancer aMSN)
 enabled Activé
 enableproxy Permettre de passer par un proxy
@@ -504,6 +510,7 @@ smileconfig Configuration des émoticons personnalisés
 smilefile Nom du fichier de l'émoticon
 smileintro2 Veuillez editer les champs obligatoires pour personnaliser cet émoticon (voir la FAQ pour l'aide)
 smileintro Veuillez remplir les champs obligatoires pour créer un nouvel émoticon (voir la FAQ pour l'aide)
+snackfailed Snack n'a pas pu se lancer, retour à la valeur par défaut
 sngdblclick Un click simple ouvre une nouvelle fenêtre de discussion
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 soundactive Jouer un son même lorsque le message arrive dans la fenêtre active
@@ -533,6 +540,7 @@ status Statut
 stopalarm Stopper l'alarme
 storenickname Remettre le pseudo original après un état personnel avec un pseudo différent
 strictfonts Force l'usage de toutes les polices de caractères à celle sélectionnée (barre d'état et autres)
+style Style
 stylechat Même apparence que les conversations
 stylehist Apparence des historiques d'aMSN
 stylelog Sélectionner le format dans lequel vous voulez voir l'historique

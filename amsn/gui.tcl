@@ -1932,9 +1932,12 @@ namespace eval ::amsn {
 		}
 		
 		.${win_name}.menu.view add separator
-		.${win_name}.menu.view add radiobutton -label "[trans msnstyle]" -value "msn" -variable [::config::getVar chatstyle]
-		.${win_name}.menu.view add radiobutton -label "[trans ircstyle]" -value "irc" -variable [::config::getVar chatstyle]
-		.${win_name}.menu.view add radiobutton -label "[trans customstyle]..." -value "custom" -variable [::config::getVar chatstyle] -command "::amsn::enterCustomStyle"
+		.${win_name}.menu.view add cascade -label "[trans style]" -menu .${win_name}.menu.view.style
+
+		menu .${win_name}.menu.view.style -tearoff 0 -type normal	
+		.${win_name}.menu.view.style add radiobutton -label "[trans msnstyle]" -value "msn" -variable [::config::getVar chatstyle]
+		.${win_name}.menu.view.style add radiobutton -label "[trans ircstyle]" -value "irc" -variable [::config::getVar chatstyle]
+		.${win_name}.menu.view.style add radiobutton -label "[trans customstyle]..." -value "custom" -variable [::config::getVar chatstyle] -command "::amsn::enterCustomStyle"
 
 		menu .${win_name}.menu.actions -tearoff 0 -type normal
 		.${win_name}.menu.actions add command -label "[trans addtocontacts]" \
