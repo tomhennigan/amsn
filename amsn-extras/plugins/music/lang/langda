@@ -1,0 +1,17 @@
+amsn_lang_version 2
+musicaddsongtonick Tilføj sang til nick
+musictimeverify Kontroller ny sang hver ? sekund
+musicnickname Nick
+musicseparator Symbol imellem nick og sang
+musicstopmsg Stop besked
+musiccurrent Vis konkret sang
+musicsend Send konkret sang
+musicerr Intet bliver spillet, eller pluginen kan ikke for musiken til at spille.
+playing Spiller : $1
+musicoserr Dit Operativ System ($1) understøtter ikke endnu Music plugin
+musicplayer Vélg din foretrékkene afspiller
+musicstopdefault Afspiller stoppet
+separator Separator
+songartist Sang-Kunstner
+artistsong Kunstner-Sang
+choose_order Vélg orden for sang og kunstner navn (kan ikke anvendes med XMMS)
