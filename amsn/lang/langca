@@ -87,6 +87,7 @@ changedisplaypic Canviar la Imatge Mostrada
 changefont Canviar font
 changeglobnick Canviar el sobrenom global
 changenick Canviar el meu sobrenom
+changesize Canvia la mida
 changestate $1 canvia l'estat a $2
 charscounter Comptador de caràcters teclejats a la finestra de conversa
 chatack Acceptant la conversa de l'usuari
@@ -108,10 +109,12 @@ choosecontact Si us plau, selecciona un contacte de la llista
 choosefontcolor Escull el color del tipus de lletra
 chooseskin Selecciona l'aparença que vols utilitzar
 ch_to_state Canvia al nou estat
-clearlog2 Neteja l'historial per tots els contactes
+clear Netejar
+clearlog2 Neteja l'històric per tots els contactes
 clearlog3 Netejar tots els registres
-clearlog Neteja de l'historial
+clearlog Neteja de l'històric
 clicktologin Apreta aquí per iniciar la sessió
+clientname Nom del client
 closed Conversa amb $1 tancada per inactivitat
 close Tancar
 closingdocks El botó tancar minimitza la finestra
@@ -121,6 +124,7 @@ confirmdelete Estàs segur de voler eliminar a $1?
 confirm Estàs segur?
 confirmpurge Totes les imatges mostrades dels teus contactes (però no la teva) estan a punt de ser esborrades. Estàs segur?
 connected Ara estàs connectat
+connectedwith Connectat amb $1
 connecterror Error connectant amb el servidor
 connecting Connectant
 connection Connexió
@@ -149,6 +153,8 @@ customnick Sobrenom personalitzat
 customstyle Estil personalitzat
 cut Talla
 date Data
+dateformat Canvia el format de la data
+day Dia
 days dies
 dcprofile No crear perfil
 defaultloginradio Configuració per defecte
@@ -167,7 +173,12 @@ disableprofiles Desactiva els perfils (útil en entorn públics i sistemes compart
 disablessl Desactiva l'SSL
 disableuserfonts Ignora et tipus de lletra de l'altre usuari en les converses i utilitza sempre el meu tipus de lletra
 disconnect $1 s'ha desconnectat.
+disconnectedfrom Desconnectat de $1
 displaychat Opcions del text mostrat
+displayeventconnect Mostra'm quan els meus contactes es connectin
+displayeventdisconnect Mostra'm quan els meus contactes es desconnectin
+displayeventemail Mostra'm quan rebi un correu electrònic
+displayeventstate Mostra'm quan un contacte canviï d'estat
 displayp4context Mostra el contingut del camp P4-Context com l'emisor del missatge
 displaypic Mostra l'imatge
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
@@ -199,6 +210,7 @@ entercontactemail Escriu l'adreça de correu del contacte
 enterfilename Introdueix el nom del fitxer
 enternick Escriu el teu sobrenom
 errortls Error instal·lant el mòdul TLS:
+eventhistory Mostra l'històric d'events
 examples Exemples
 exitamsn Estàs segur de voler sortir?
 extras Serveis extra
@@ -249,7 +261,7 @@ helpcontents Contiguts
 hidedisplaypic Oculta la Imatge Mostrada
 hiden No mostris aquesta emoticona al menú d'emoticones
 hidewindow Amaga la finestra
-history Mostrar historial
+history Mostrar històric
 home Casa
 httpconnection Connectar-se amb el mètode HTTP (utilitza el protocol HTTP pel port 80)
 hybrid Mode híbrid
@@ -277,13 +289,14 @@ istyping $1 està escrivint un missatge
 joins $1 s'uneix a la conversa
 justonce Només una vegada
 keepalive Mantenir connexió activa (NAT)
-keeplog2 Registrar totes les converses a l'historial de l'aMSN per futures visualitzacions
-keeplog Conservar l'historial de les converses
+keeplog2 Registrar totes les converses a l'històric de l'aMSN per futures visualitzacions
+keeplog Conservar l'històric de les converses
 language Idioma
 lastlogin Últim inici de sessió
 lastlogout Últim tancament de sessió
 lastmsgedme Últim missatge
 lastmsgtime Últim missatge rebut a les $1
+lastseen Última vegada connectat
 lclosedwin $1 ha tancat la finestra a les $2
 lconftopriv La conversa múltiple canvia a conversa privada amb $1
 lconvstarted Conversa iniciada a les $1
@@ -300,17 +313,21 @@ ljoinedconf $1 s'uneix a la conversa
 lleftconf $1 deixa la conversa
 loadcontacts Obrir una llista de contactes
 logbigger No vull que els fitxers de registre d'un contacte superin les
-logfandexp Mida dels fitxers de registre i expiració de l'historial
+logfandexp Mida dels fitxers de registre i expiració de l'històric
+logeventconnect Registra les connexions
+logeventdisconnect Registra les desconnexions
+logeventemail Registra l'arribada de correu electrònic
+logeventstate Registra els canvis d'estat
 loggedotherlocation Desconnectat. S'ha iniciat la sessió en un altre lloc
-loggingin Connectant
+loggingin Connectat
 loginas Connectar-se com
 login Connectar-se
-loging Connectant
+loging Connectat
 logolder Registrar només les converses que s'han realitzat en els últims
 logout Desconnectar-se
-logsbydate Ordena els registres per data (mostra l'historial molt més ràpidament)
+logsbydate Ordena els registres per data (mostra l'històric molt més ràpidament)
 logsin s'acaba de connectar
-logsmileys Mostrar emoticones a la finestra d'historial de l'aMSN
+logsmileys Mostrar emoticones a la finestra d'històric de l'aMSN
 logsout s'acaba de desconnectar
 longnick El teu sobrenom conté més de 130 caràcters i el protocol MSN no els accepta. Estàs segur de voler tenir aquest sobrenom?
 longp4c El teu sobrenom és més llarg de 130 caràcters. El sobrenom que es veurà des d'un client oficial MSN serà $1. Estàs segur d'utilitzar-lo?
@@ -322,6 +339,7 @@ maximised Maximitzada
 minimised Minimitzada/iconificada
 mins minuts
 mobile Mòbil
+month Mes
 morepersonal Més estats ->
 move Moure
 movetogroup Moure al grup
@@ -345,20 +363,22 @@ needonline En l'estat "Simula desconnexió" no pots enviar missatges!
 needwinico Es necessita el fitxer winico03.dll al directori de connectors perquè funcioni l'acoplament per Windows
 never Mai
 newmail $1 missatges nous a la bústia
+newmailfolder Tens $1 missatges nous a les carpetes de Hotmail
 newmailfrom Nou missatge de correu de $1 ($2)
+newmailfromother Tens un missatge nou en una altra carpeta de $1 ($2)
 newmsg Nou missatge
 newstate Afegeix un estat personalitzat
 newveravailable La versió $1 està disponible per a baixar-se
 next Següent
 nick Sobrenom
+no No
 noactivity Sense activitat
 nodataavailable No hi ha dades disponibles per a $1
 nogroup Sense grup
-nologfile No existeix fitxer d'historial per $1
+nologfile No existeix fitxer d'històric per $1
 noneavailable No disponible
 nonewmail No hi ha missatges nous a la bústia
 nonewver No hi ha cap versió nova per a baixar-se
-no No
 nogap Sense espais entre els grups
 nopic Sense imatge
 noprofileexists No hi ha perfils definits.\nN'has de crear un, si vols utilitzar-los per iniciar la sessió.\nUtilitza el botó "Afegeix un nou perfil" per afegir un nou perfil.
@@ -371,6 +391,7 @@ notify1_75 Mostrar una finestra d'avís quan un contacte canviï d'estat
 notify1 Mostrar una finestra d'avís quan un contacte es connecti
 notify2 Mostrar una finestra d'avís quan arribin nous missatges
 notify3 Mostrar una finestra d'avís quan arribi un nou correu electrònic
+notify4 Avisa'm quan arribin missatges nous en una altra carpeta
 notify notificar
 notifyoffset Ajusta la posició de la finestra d'avís mitjançant un desplaçament
 notifytimeout Nombre de milisegons que la finestra de notifications resterà oberta
@@ -388,6 +409,7 @@ openreceived Obrir fitxers rebuts
 options Opcions
 ordercontactsby Ordenar els contactes per
 ordergroupsby Ordenar grups per
+original Original
 others Altres
 other Un altre
 p4contextprefix Text complementari al P4-Context
@@ -417,7 +439,8 @@ preffont3 Canvia el tipus de lletra i la mida de l'interfície de l'aMSN
 preffont Text dels meus missatges
 prefft Ajustaments de la transmició de fitxers, P2P i NAT
 preflibs Directori de les biblioteques
-preflog1 Opcions a l'historial i als registres
+preflogevent Històric dels meus events
+preflog1 Opcions a l'històric i als registres
 preflook Aparença de l'aMSN
 prefmsging Interfície dels missatges
 prefname Sobrenom a l'aMSN
@@ -497,6 +520,7 @@ smileconfig Configura l'emoticona personalitzada
 smilefile Nom del fitxer de l'emoticona
 smileintro2 Edita els camps per personalitzar aquesta emoticona (a les FAQ tens més ajuda)
 smileintro Emplena els camps per crear una nova emoticona personalitzada (a les FAQ tens més ajuda)
+snackfailed No puc carregar SNACK. Utilitzaré la configuració per defecte.
 sngdblclick Obre una nova finestra de conversa amb un sol clic
 sound2 Reprodueix sons quan els contactes es connectin o enviïn missatges
 soundactive Reprodueix so quan es rebi un missatge si la finestra està activa
@@ -527,8 +551,8 @@ stopalarm Parar l'alarma
 storenickname Retorna al sobrenom original al sortir d'un estat personalitzat
 strictfonts Restringeix la mida de les fonts a la seleccionada
 stylechat La mateixa aparença que a les converses
-stylehist Aparença de l'historial de l'aMSN
-stylelog Escull l'estil en que desitjes veure l'historial
+stylehist Aparença de l'històric de l'aMSN
+stylelog Escull l'estil en que desitjes veure l'històric
 syntaxerror Error de sintaxi
 tabbed Finestres sobreposades
 temp_state Sense desar (estat temporal que serà eliminat quan tanquis l'aMSN)
@@ -543,6 +567,7 @@ tlsinstall Assistent d'instal·lació del mòdul TLS
 tlsinstallexp Ara l'aMSN utilitza MSNP9, que requereix un connexió segura a\ntravés del protocol SSL. Per tal d'utilitzar-lo, necessites tenir instal·lat\nel mòdul TLS i no l'he trobat al sistema. Aquest assistent t'ajudarà a obtenir\ni a instal·lar el mòdul. Escull quin tipus de sistema tens per poder obtenir el\nmòdul TLS de manera automàtica
 tlsinstcompleted La instal·lació del mòdul TLS ha estat satisfactòria, ara hauries de poder utilitzar el protocol MSNP9. Si no et funciona, segurament serà perquè no has escollir el mòdul corresponent al teu sistema.
 to A
+today Avui
 tools Eines
 tooltips Activa el rètol indicador de funcions
 transnotexists Aquest fitxer encara no ha estat traduït
@@ -571,28 +596,17 @@ viewcontactsby Mostra els contactes per
 viewprofile Mostrar perfil
 webcaminvite $1 t'ha convidat a iniciar una conversa amb webcam però l'aMSN encara no ho suporta.
 willjoin Esperant que $1 s'uneixi a la conversa
-wortq!
-Treball
+work Treball
 wrongfields Els camps "$1", "$2" i/o "$3" no són vàlids
 wrongprofileversion Versió incorrecta del fitxer de configuració del perfil. Per arreglar-ho, esborra el directori $1 o actualitza l'aMSN
 xmmscurrent Mostra la cançó actual
 xmmserr No s'està reproduint res o no tens l'xmms-infopipe instal·lat.
 xmmssend Envia la cançó actual
 xoffset Desplaçament X
+year Any
 yes Sí
+yesterday Ahir
 yoffset Desplaçament Y
 youblocked Has estat bloquejat per
 yousay Dius
 youwant Vols
-clientname Client Name
-dateformat Canviar el format de la data
-day Dia
-lastseen Darrera vegada conectat
-month Mes
-newmailfolder Tens $1 nous missatges dins altres directoris Hotmail
-newmailfromother Nou missatge de $1 ($2) en un altre directori
-notify4 Mostrar notificacions quan arribin nous missatges a altre directoris
-snackfailed Snack failed to load, reverting to default
-today Avui
-year Any
-yesterday Ahir

@@ -197,15 +197,16 @@ it's polite to ask :))
 
 In the lang/ folder you have some useful scripts.
 
-missing.py langXX: will list the missing keys in langXX file. That
+untranslated.py langXX: will list the missing keys in langXX file. That
 is, the keys that exist in langen (the master language), but not in
-langXX file.
+langXX file. This is an updated version of the old missing.py file, 
+which is still necessary for the website automation.
 
 Usage in Linux:
-./missing.py langXX
+./untranslated.py langXX
 
 Usage in Windows (must have the Python interpreter installed):
-python missing.py langXX
+python unstranslated.py langXX
 
 errors.py langXX: will list the possible errors in langXX. That is,
 the apparent keys that are in langXX but not in langen. This
@@ -229,7 +230,7 @@ Usage in Linux:
 To use it in Windows you will have Cygwin installed. The syntax is
 the same.
 
-sotlang langXX: will sort the language file. BE CAREFUL. Don't apply
+sortlang langXX: will sort the language file. BE CAREFUL. Don't apply
 sortlang if there are spplited translations, as sorting it will
 sort these spplited lines, and it will be quite difficult to join
 them again. So please fix any spplited lines before sorting.
@@ -239,3 +240,5 @@ commiting to the CVS.
 convert.tcl source_file source_encoding dest_file dest_encoding:
 Converts the given source, in the source encoding, to the given
 destination file using the given encoding.
+
+If you are in Linux using bash, remember that the auto completion is your friend...
