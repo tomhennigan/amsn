@@ -87,6 +87,7 @@ cachedpics $1 gemte billeder
 cancel Annuller
 cannotdeleteprofile Kan ikke slette profilen da det ser ud til, at profilen er i brug af en aMSN session
 cantexec Kan ikke køre applikationen: $1. Tjek præferencer
+cantloadonlineversion Kan ikke genoprette den On-Line opdateret liste af sprog fra Internettet
 cantremoveothers Kan ikke fjerne "Andre"-gruppen
 casesensitive Brug case-følsomme tjek
 cfgalarm Konfigurer/Tilføj/Fjern Alarm
@@ -312,7 +313,6 @@ internalerror Intern Server-Fejl
 invalidfile Filen $2, der er indtastet i feltet "$1", eksisterer ikke eller er ikke læselig
 invalidfile2 Filnavnet $1 kunne ikke oprettes, tjek om du har de rigtige rettigheder til denne destination.
 invalidgroup Forkert gruppe
-invalidparameter Fejl ved forbindelse til serveren: ugyldig parameter
 invalidpic Den givne billedfil eksisterer ikke
 invalidpicsize Det givne billede er for stort, vælg venligst et mindre ét
 invalidsound Den givne lydfil eksisterer ikke
@@ -548,6 +548,7 @@ savecontacts Gem kontaktliste
 savetofile Gem i fil
 says $1 siger
 sbcon Forbinder til Switch Board
+selectall Vælg alt
 selectplugins Vælg venligst de plugins du vil anvende
 selectskin Vælg venligst et skin fra listen
 send Send
@@ -619,6 +620,7 @@ tabbed Faneblad vinduer
 tabbedglobal Faneblad vindue for alle personer i kontakt listen
 tabbedgroups Faneblad vindue for alle personer i samme gruppe
 tabtitlenick Vis nicks i faneblad i stedet for email
+takesnapshot Tag Snapshot
 temp_state Gem ikke (Midlertidig status, vil blive glemt, når du lukker AMSN)
 textsize Tekststørrelse
 thismonth Denne måned
@@ -649,7 +651,9 @@ unload Smid ud af hukommelsen
 uoffline Offline
 uonline Online
 update Opdater
+updating Opdatere
 useother Benyt et andet program
+useasdp Brug som Display Billed
 user Bruger
 useralreadyonlist Brugeren er allerede på din kontaktliste
 userblocked Brugeren er online men har blokeret dig
@@ -660,9 +664,10 @@ useryourself Du kan ikke chatte med dig selv
 usesnack Brug Snack biblioteket (Tcl intern)
 verifyblocked Søg efter personer der har blokeret dig
 version Version
-view Vis
 viewcontactsby Se kontakter efter
 viewprofile Vis profil
+view Vis
+webcamshot Webcam Shot
 webcaminvite $1 har inviteret dig til at starte webcam, men aMSN understøtter ikke dette. 
 whatsize Billedt du har anmodet er ikke det normale fremviste billed\nstørrelse (96x96) VIlken størrelse vil du have billedt vist som?
 willjoin Venter på at $1 slutter sig til samtalen
