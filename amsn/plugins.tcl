@@ -306,7 +306,7 @@ namespace eval ::plugins {
 			set deinit $sdata(${cstack}:deinit_procedure)
 		}
 
-		lappend ::plugins::found [list $sdata(${cstack}:name) $sdata(${cstack}:author) $sdata(${cstack}:description) \
+	    lappend ::plugins::found [list [ string tolower $sdata(${cstack}:name)] $sdata(${cstack}:author) $sdata(${cstack}:description) \
 			$sdata(${cstack}:amsn_version) $sdata(${cstack}:plugin_version) $sdata(${cstack}:plugin_file) \
 			$sdata(${cstack}:plugin_namespace) $sdata(${cstack}:init_procedure) $deinit]
 
