@@ -14,7 +14,7 @@ set emotions {{":-)" smile} {":)" smile} {":-D" smiled} {":D" smiled}
 	{"(A)" angel} {"(6)" devil} {"(^)" cake} {"(O)" clk} {":-@" angry}
 	{":@" angry} {"(&)" dog} {"(W)" rosew} {":`(" smilec} {":'(" smilec}
 	{":$" smilemb} {":-$" smilemb} {"(#)" sun} {"(R)" rainbow}
-	{"(%%)" handcuffs} {"(~)" film} {"(?)" asl}}
+	{"(%)" handcuffs} {"(~)" film} {"(?)" asl}}
 
 set emotion_files {smile smiled smileo smilep wink sad crooked disgust thumbu
 	thumbd love unlove lips gift rose emgirl emboy photo beer coctail
@@ -91,7 +91,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 	 if { [string match {*[\}\{]*} $symbol] != 0 } {
            bind $w.text.$file <Button1-ButtonRelease> "$text insert insert \"$symbol\"; destroy $w"
          } elseif { [string match {(%)} $symbol] != 0 } {
-
+           bind $w.text.$file <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; destroy $w} res"
 	 } else {
            bind $w.text.$file <Button1-ButtonRelease> "catch {$text insert insert \{$symbol\}; destroy $w} res"
 	 }
