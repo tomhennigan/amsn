@@ -115,6 +115,17 @@ A: Try enabling "Keepalive (NAT)" in the tools->options menu. It's a fix for
 shared internet connections that keeps sending a dummy packet to the server
 every 2 minutes, to keep the connection alive.
 
+Q: The sound even is repeating. For example if  XMMS is running and someone
+logged in or you were chatting with someone, after XMMS is closed or the
+file is finished all the sound events that weren`t able to be played
+because of XMMS are now played in an annoying way.
+A: You have many solutions. If you're using KDE, you can configure XMMS
+to play sound thorught arts, and use artsplay as sound play command for amsn.
+This way sounds will be mixed. If you use gnome, you can use esdplay and
+configure xmms for playing through ESD. Or instead of using the play command,
+you could just make a small script that checks if /dev/dsp is busy, or free,
+before calling "play". 
+
 WINDOWS ISSUES
 ==============
 
