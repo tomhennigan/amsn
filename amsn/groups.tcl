@@ -2,6 +2,27 @@
 #	by: Dídimo Emilio Grimaldo Tuñón
 # $Id$
 #=======================================================================
+# BUGS
+#  - When a group from the middle is deleted, that id remains unused.
+#    therefore the menu entry shows "". Currently Exists/GetName check
+#    for this (to prevent error). That ID is reused next time a group
+#    is added.
+#  - Should invoke Enable from some other place, get too many.
+# TODO LIST
+#  - Finalize the message translations
+#  - Keep track of transactions pending completion
+#  - Update GUI menus when a callback is invoked
+#  - Investigate what happens when a group is deleted, which
+#    group inherits the orphans?
+#  - Investigate what happens when a group is deleted, does the
+#    server send a new list? obviously the upper groups get
+#    a reasigned number (???). Remember that the entries in
+#    the address book (::abook) contains the group IDs received
+#    in the Forward List.
+#  - If a user belongs to two groups the gid would be x,y that
+#    causes an error. For now assume only one group.
+#  - Move user from one group to another
+
 # Test
 #set program_dir [file dirname [info script]]
 #source [file join $program_dir lang.tcl]
@@ -11,7 +32,8 @@
 # End Test Stub
 
 namespace eval ::groups {
-   namespace export Init Enable Disable Set Rename Delete Add
+   namespace export Init Enable Disable Set Rename Delete Add \
+   		    RenameCB DeleteCB AddCB
 
    #
    # P R I V A T E
@@ -23,84 +45,6 @@ namespace eval ::groups {
    variable groups;		# Group names (array). Not URLEncoded!
 				# indexed by ID. Message LSG
    
-    proc Exists {gname} {
-        variable groups
-
-        set gname [string trim $gname]
-	for {set i 0} {$i < $::groups::groupCnt} {incr i} {
-	    if {$groups($i) == $gname} {
-	    	return 1
-	    }
-	}
-	return 0
-    }
-
-    proc Rename { old new {ghandler ""}} {
-        set old [string trim $old]
-	set new [string trim $new]
-
-	if {$old == $new} { return 0 }
-
-	if {![::groups::Exists $old]} {
-	   if {$ghandler != ""} {
-	       set retval [eval "$ghandler \"$old : Group does not exist!\""]
-	   }
-	   return 0
-	}
-
-	if {[::groups::Exists $new]} {
-	   if {$ghandler != ""} {
-	       set retval [eval "$ghandler \"$new : Group already exists!\""]
-	   }
-	   return 0
-	}
-
- 	set currentGid [::groups::GetId $old]
-	if {$currentGid == -1} {
-	   if {$ghandler != ""} {
-	       set retval [eval "$ghandler \"Cannot find group: $old\""]
-	   }
-	   return 0
-	}
-
-        puts "MSN-> REG %T $currentGid $new 0";	#TODO ::MSN::WriteNS
-        # MSN sends back "ADG %T %M $gname gid junkdata"
-        #TODO handler of ADG response
-        return 1
-    }
-
-    proc Add { gname {ghandler ""}} {
-	if [::groups::Exists $gname] {
-	   if {$ghandler != ""} {
-	       set retval [eval "$ghandler \"Group already exists!\""]
-	   }
-	    return 0
-	}
-
-        puts "MSN-> ADG %T $gname 0";	#TODO ::MSN::WriteNS
-	# MSN sends back "ADG %T %M $gname gid junkdata"
-	#TODO handler of ADG response
-	return 1
-    }
-        
-    proc Delete { gid {ghandler ""}} {
-	set gname [::groups::GetName $gid]
-	if {![::groups::Exists $gname]} {
-	   if {$ghandler != ""} {
-	       set retval [eval "$ghandler \"Group does not exist!\""]
-	   }
-	    return 0
-	}
-
-        puts "MSN-> RMG %T $gid";	#TODO ::MSN::WriteNS
-	# MSN sends back "RMG %T %M $gid"
-	#TODO handler of RMG
-        return 1
-    }
-
-   #
-   # P R O T E C T E D
-   #
    #<dlgMsg>
    proc dlgMsg {msg} {
        tk_messageBox -icon error -message $msg -type ok
@@ -150,9 +94,9 @@ namespace eval ::groups {
 	frame .dlgrg.d -bd 1 -background $bgcol
 	    label .dlgrg.d.lbl -text "[trans groupoldname]:" \
 	    	-background $bgcol
-	    set oldmenu [tk_optionMenu .dlgrg.d.old ::groups::groupname {}]
+#	    set oldmenu [tk_optionMenu .dlgrg.d.old ::groups::groupname {}]
 #	    $oldmenu add radiobutton -label F -variable ::groups::groupname
-	    ::groups::listGroupMenu option $oldmenu
+	    ::groups::updateMenu option .dlgrg.d.old
 	    .dlgrg.d.old configure -background $bgcol
 	    pack .dlgrg.d.lbl .dlgrg.d.old -side left -padx 10 -pady 5 
 
@@ -176,8 +120,8 @@ namespace eval ::groups {
    }
 
    # Used to display the list of groups that are candidates for
-   # deletion in the Delete Group... menu
-   proc listGroupMenu {type path} {
+   # deletion in the Delete Group... & Rename Group menus
+   proc updateMenu {type path} {
        if {$type == "menu"} {
            $path delete 0 end
        }
@@ -188,9 +132,68 @@ namespace eval ::groups {
 	    if {$type == "menu"} {
 	        $path add command -label $gname -command "::groups::Delete $i"
 	    } else {
-		$path add radiobutton -label $gname -variable ::groups::groupname
+	        if {$i == 0} {
+	    	    set mpath [tk_optionMenu $path ::groups::groupname $gname]
+		} else {
+		    $mpath add radiobutton -label $gname -variable ::groups::groupname
+		}
 	    }
 	}
+   }
+
+   #
+   # P R O T E C T E D
+   #
+   # ----------------- Callbacks -------------------
+   proc RenameCB {pdu} {  # REG 25 12066 15 New%20Name 0
+        variable groups
+
+   	set trid [lindex $pdu 1]
+	set lmod [lindex $pdu 2]
+	set gid  [lindex $pdu 3]
+	set gname [urldecode [lindex $pdu 4]]
+
+	set groups($gid) $gname
+
+	# Update the Delete Group... menu
+	::groups::updateMenu menu .group_list
+   }
+
+   proc DeleteCB {pdu} {	# RMG 24 12065 15
+	variable groupCnt
+	variable groups
+
+   	set trid [lindex $pdu 1]
+	set lmod [lindex $pdu 2]
+	set gid  [lindex $pdu 3]
+
+	# Update our local information
+	unset groups($gid)
+	incr groupCnt -1
+
+	# TODO: We are out of sync, maybe we should request
+	# a new list
+
+	# Update the Delete Group... menu
+	::groups::updateMenu menu .group_list
+   }
+
+   proc AddCB {pdu} {	# ADG 23 12064 New%20Group 15 =?Ñ?-CC
+	variable groupCnt
+	variable groups
+
+   	set trid [lindex $pdu 1]
+	set lmod [lindex $pdu 2]
+	set gname [urldecode [lindex $pdu 3]]
+	set gid  [lindex $pdu 4]
+
+ 	set groups($gid) $gname
+	incr groupCnt
+#	puts "Group $gid ($gname) added.Trans #$trid"
+	# Update the Delete Group... menu
+#	::groups::Disable
+#	::groups::Enable
+	::groups::updateMenu menu .group_list
    }
    
    #
@@ -229,12 +232,13 @@ namespace eval ::groups {
    	variable parent
 	variable entryid
 
-	::groups::listGroupMenu menu .group_list
+	::groups::updateMenu menu .group_list
 	# The entryid of the parent is 0
 	$parent entryconfigure $entryid -state normal
 	puts "groups:enable"
    }
 
+   # Call this one when going offline (disconnecting)
    proc Disable {} {
    	variable parent 
 	variable entryid
@@ -242,6 +246,8 @@ namespace eval ::groups {
 	$parent entryconfigure $entryid -state disabled
    }
 
+   # Gets called whenever we receive a List Group (LSG) packet,
+   # this happens in the early stages of the connection.
    # MSN Packet: LSG <x> <trid> <cnt> <total> <gid> <name> 0
    proc Set { nr name } {	# There is a new group in the list
        variable groups
@@ -258,6 +264,10 @@ namespace eval ::groups {
        variable groupCnt
        variable groups
 
+       if {![info exists groups($nr)]} {
+#           puts "TODO: Empty slot in groups"
+           return ""
+       }
        if { $nr < $groupCnt } { 
            return $groups($nr) 
        } else { 
@@ -278,6 +288,90 @@ namespace eval ::groups {
 	}
 	return -1
    }
+
+   proc Exists {gname} {
+        variable groups
+
+        set gname [string trim $gname]
+	for {set i 0} {$i < $::groups::groupCnt} {incr i} {
+	    if [info exists groups($i)] {
+		if {$groups($i) == $gname} {
+		    return 1
+		}
+	    }
+	}
+	return 0
+    }
+
+    proc Rename { old new {ghandler ""}} {
+        set old [string trim $old]
+	set new [string trim $new]
+
+	if {$old == $new} { return 0 }
+
+	if {![::groups::Exists $old]} {
+	   if {$ghandler != ""} {
+	       set retval [eval "$ghandler \"$old : [trans groupunknown]\""]
+	   }
+	   return 0
+	}
+
+	if {[::groups::Exists $new]} {
+	   if {$ghandler != ""} {
+	       set retval [eval "$ghandler \"$new : [trans groupexists]\""]
+	   }
+	   return 0
+	}
+
+ 	set currentGid [::groups::GetId $old]
+	if {$currentGid == -1} {
+	   if {$ghandler != ""} {
+	       set retval [eval "$ghandler \"[trans groupmissing]: $old\""]
+	   }
+	   return 0
+	}
+
+	#TODO Keep track of transaction number
+#        puts "MSN-> REG %T $currentGid $new 0"; #TODO ::MSN::WriteNS
+	set new [urlencode $new]
+	::MSN::WriteNS "REG" "$currentGid $new 0"
+	# RenameCB() should be called when we receive the REG
+	# packet from the server
+        return 1
+    }
+
+    proc Add { gname {ghandler ""}} {
+	if [::groups::Exists $gname] {
+	   if {$ghandler != ""} {
+	       set retval [eval "$ghandler \"[trans groupexists]!\""]
+	   }
+	    return 0
+	}
+
+	set gname [urlencode $gname]
+	::MSN::WriteNS "ADG" "$gname 0"
+	# MSN sends back "ADG %T %M $gname gid junkdata"
+	# AddCB() should be called when we receive the ADG
+	# packet from the server
+	return 1
+    }
+        
+    proc Delete { gid {ghandler ""}} {
+	set gname [::groups::GetName $gid]
+	if {![::groups::Exists $gname]} {
+	   if {$ghandler != ""} {
+	       set retval [eval "$ghandler \"[trans groupunknown]!\""]
+	   }
+	    return 0
+	}
+
+#        puts "MSN-> RMG %T $gid";	#TODO ::MSN::WriteNS
+	::MSN::WriteNS "RMG" $gid
+	# MSN sends back "RMG %T %M $gid"
+	# DeleteCB() should be called when we receive the RMG
+	# packet from the server
+        return 1
+    }
 }
 
 proc TestInitGroups {} {	# ONLY FOR TESTING
