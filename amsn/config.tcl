@@ -112,6 +112,7 @@ proc ConfigDefaults {} {
 	set config(tooltips) 1
 	set config(animatenotify) 1
 	set config(disableprofiles) 0
+	set config(disableuserfonts) 0
 
 }
 

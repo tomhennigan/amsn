@@ -2077,7 +2077,7 @@ proc parse_exec {text} {
 
 proc cmsn_sb_msg {sb_name recv} {
    #TODO: A little cleaning on all this
-   global filetoreceive files_dir automessage automsgsent
+   global filetoreceive files_dir automessage automsgsent config
 
    set msg [sb index $sb_name data 0]
    sb ldel $sb_name data 0
@@ -2171,9 +2171,15 @@ proc cmsn_sb_msg {sb_name recv} {
       }
 
       #TODO: Remove the font style transformation from here and put it inside messageFrom or gui.tcl
+		if { $config(disableuserfonts) } {
+			set fontfamily [lindex $config(mychatfont) 0]
+			set style [lindex $config(mychatfont) 1]
+			#set fontcolor [lindex $config(mychatfont) 2]
+		}
+
       ::amsn::messageFrom $chatid $typer "$body" user [list $fontfamily $style $fontcolor]
       sb set $sb_name lastmsgtime [clock format [clock seconds] -format %H:%M:%S]
-      
+
       #if alarm_onmsg is on run it
       global alarms list_users
       if { ([info exists alarms(${chatid}_onmsg)]) && ($alarms(${chatid}_onmsg) == 1) && ([info exists alarms(${chatid})]) && ($alarms(${chatid}) == 1)} {
