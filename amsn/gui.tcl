@@ -1814,10 +1814,18 @@ namespace eval ::amsn {
 			-font bboldf -borderwidth 0 -relief solid -highlightthickness 0 -exportselection 1
 		#Send button in conversation window, specifications and command
 		frame $bottom.in.f -class Amsn -borderwidth 0 -relief solid -background white
-		button $bottom.in.f.send  -text [trans send] -width 6 -borderwidth 1 -relief solid \
-			-command "::amsn::MessageSend .${win_name} $bottom.in.input" -font bplainf -highlightthickness 0 \
-			-highlightbackground white
-
+		
+		if { $::tcl_version >= 8.4 } {
+			#New skinnable button
+			button $bottom.in.f.send -image sendbutton -command "::amsn::MessageSend .${win_name} $bottom.in.input" \
+				-fg black -bg white -bd 0 -relief flat -overrelief flat -activebackground white \
+				-text [trans send] -font bplainf -compound center -highlightthickness 0 
+		} else {
+			#Old button
+			button $bottom.in.f.send  -text [trans send] -width 6 -borderwidth 1 -relief solid \
+				-command "::amsn::MessageSend .${win_name} $bottom.in.input" -font bplainf -highlightthickness 0 \
+				-highlightbackground white
+		}
 
 
 		load_my_pic
@@ -3682,8 +3690,9 @@ proc cmsn_draw_main {} {
 	image create photo butblock -file [GetSkinFile pixmaps butblock.gif]
 	image create photo butsend -file [GetSkinFile pixmaps butsend.gif]
 	image create photo butinvite -file [GetSkinFile pixmaps butinvite.gif]
+	image create photo sendbutton -file [GetSkinFile pixmaps sendbut.gif]
 
-
+	
 	image create photo fticon -file [GetSkinFile pixmaps fticon.gif]
 	image create photo ftreject -file [GetSkinFile pixmaps ftreject.gif]
 
