@@ -5749,6 +5749,7 @@ proc convert_image { filename size } {
 	#First converstion, no size, only .gif
 	if { [catch { exec convert "$filename" "${filename}.gif" } res] } {
 		status_log "CONVERT ERROR IN CONVERSION 1: $res" white
+		catch {[file delete $filename]}
 		return 0
 	}
 	
@@ -5783,6 +5784,7 @@ proc convert_image { filename size } {
 
 	if { [catch { exec convert -size "${resizew}x${resizeh}" "$filename" -resize "${resizew}x${resizeh}" "${filename}.gif" } res] } {
 		status_log "CONVERT ERROR IN CONVERSION 2: $res" white
+		catch {[file delete $filename]}
 		return 0
 	}
 	
