@@ -237,7 +237,7 @@ proc ConfigDefaults {} {
 	set config(checkemail)	1	;#Show inbox email notification line
 	set config(recentmsg) 0		;#Recent message window closing protection
 	set config(displayp4context) 1	;#Accept P4-Context fieds
-	set config(p4contextprefix) "P4C: " ; #Prefix for P4-Context messages
+	set config(p4contextprefix) "" ; #Prefix for P4-Context messages
 	set config(globalnick) ""		;#The global custom nickname (pattern), disabled by default
 	set config(globaloverride) 0		;# Sets whether Global nicknames pattern should override custom nicks, disabled by default
 
