@@ -3782,7 +3782,7 @@ proc cmsn_ns_handler {item} {
 			}
 			201 {
 				status_log "Error: Invalid parameter\n" red
-				msg_box "[trans contactdoesnotexist]"
+				msg_box "[trans invalidparameter]"
 				return 0
 			}
 			205 {
@@ -4160,7 +4160,8 @@ proc initial_syn_handler {recv} {
 	}
 
 
-	if {[info exists ::oldstatus]} {
+	#Don't use oldstatus if it was "FLN" (disconnectd) or we will get a 201 error
+	if {[info exists ::oldstatus] && $::oldstatus != "FLN" } {
 		::MSN::changeStatus $::oldstatus
 		send_dock "STATUS" $::oldstatus
 		unset ::oldstatus
