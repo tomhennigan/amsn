@@ -1078,25 +1078,20 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
 				set user_login [::amsnplus::readWord $i $msg $strlen]
-				if {[string equal $user_login ""]} {
-					if {[::amsnplus::version_094]} {
-						::amsnplus::write_window $chatid "\mYou must specify a contact" 0
-					} else {
-						::amsnplus::write_window $chatid "[trans cspecify]" 0
-					}
+				if {[string equal $user_login ""] || [string equal [::abook::getContactData $user_login nick] ""]} {
+					set user_login [::ChatWindow::Name $win_name]
+				}
+				set ulen [string length $user_login]
+				set msg [string replace $msg $i [expr $i + $ulen] ""]
+				set strlen [string length $msg]
+				set group [::groups::GetName [::abook::getContactData $user_login group]]
+				set nick [::abook::getContactData $user_login nick]
+				set client [::abook::getContactData $user_login clientname]
+				set os [::abook::getContactData $user_login operatingsystem]
+				if {[::amsnplus::version_094]} {
+					::amsnplus::write_window $chatid "\n$user_login info: $nick $group $client $os" 0
 				} else {
-					set ulen [string length $user_login]
-					set msg [string replace $msg $i [expr $i + $ulen] ""]
-					set strlen [string length $msg]
-					set group [::groups::GetName [::abook::getContactData $user_login group]]
-					set nick [::abook::getContactData $user_login nick]
-					set client [::abook::getContactData $user_login clientname]
-					set os [::abook::getContactData $user_login operatingsystem]
-					if {[::amsnplus::version_094]} {
-						::amsnplus::write_window $chatid "\n$user_login info: $nick $group $client $os" 0
-					} else {
-						::amsnplus::write_window $chatid "[trans cinfo $user_login $nick $group $client $os]" 0
-					}
+					::amsnplus::write_window $chatid "[trans cinfo $user_login $nick $group $client $os]" 0
 				}
 				set incr 0
 			}

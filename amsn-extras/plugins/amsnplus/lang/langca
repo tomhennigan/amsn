@@ -15,7 +15,7 @@ cnotvalid \nLa teva comanda no és vàlida.
 colournicks Vols colorejar els sobrenoms? (no completat)
 cresult \nResultat de la comanda:\n$1
 cshell \nExecutant a la consola: $1
-cspecify \nHas d'especificar un contacte.
+cspecify \nAquest contacte no és vàlid.
 cstatus \nEl teu estat és $1.
 cstyle \nEl teu estil de font és $1.
 deleted \nHas eliminat $1 de la llista de contactes\nPer afegir-lo de nou, fes: /add $1.
