@@ -34,6 +34,7 @@ bgcolor Ændre aMSN's baggrundsfarve
 blankdirect Efterlad blank for direkte forbindelse
 block Bloker
 blocked Blokeret
+blockmessage Disse personer er online og har blokeret dig
 broughtby Bragt til dig af følgende udviklere
 browse Browse
 browser Browser
@@ -264,6 +265,7 @@ sentbytes Har sendt $1 ud af $2 bytes
 servergoingdown Afbrudt. Server lukker ned.
 server Server
 session Session
+showblockedlist Vis liste over personer som har blokeret dig
 sound2 Afspil lyde, når en kontaktperson logger på eller sender en meddelelse
 soundcommand Dette skal være afspilningskommandoen (eksempel: esdplay)
 soundfile Lydfil
@@ -290,8 +292,11 @@ unblock Fjern blokkering
 uoffline Offline
 uonline Online
 useralreadyonlist Brugeren er allerede på din kontakt liste
+userblocked Brugeren er online men har blokeret dig
 user Bruger
 usernotonline Brugeren er ikke online
+useryourself Du kan ikke chatte med dig selv
+verifyblocked SÃ¸g efter personer der har blokeret dig
 version Version
 viewprofile Vis profil
 view Vis
@@ -300,5 +305,6 @@ work Arbejde
 wrongprofileversion Forkert version på profil-instillingsfilen. For at reparere det, fjern da venligst mappen $1, eller updater amsn
 xoffset X Offset
 yoffset Y Offset
+youblocked Du er blevet blokeret
 yousay Du siger
 youwant Du vil have
