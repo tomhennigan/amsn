@@ -118,6 +118,7 @@ proc trayicon_init {} {
 	#workaround for bug with the popup not unposting
 	destroy .trayiconwin
 	toplevel .trayiconwin -class Amsn
+	wm overrideredirect .trayiconwin 1
 	wm geometry .trayiconwin "+0+[expr 2 * [winfo screenheight .]]"
 	wm state .trayiconwin withdrawn
 	destroy .trayiconwin.immain
