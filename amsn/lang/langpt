@@ -543,5 +543,7 @@ userdata Dados do utilizador
 userproperties Propriedades do utilizador $1
 displayp4context Mostrar o campo P4-Context como remetente da mensagem
 displaypic Mostrar imagem
-p4contextprefix	Adicionar este prefixo aos remetentes P4-Context
+p4contextprefix Adicionar este prefixo aos remetentes P4-Context
 phones Numeros de telefone
+automessage Mensagem automática
+friendlyname Nome amigavél
