@@ -83,6 +83,7 @@ namespace eval ::abook {
 		set demographics(sessionstart) $data(sessionstart)
 		set demographics(clientip) $data(clientip)
 		set demographics(valid) Y
+		abook::getIPConfig
 	}
 
 	proc getDemographicField { field } {
@@ -116,6 +117,95 @@ namespace eval ::abook {
 		}
 	}
 
+	# This proc will configure all ip settings, get private ip, see if firewalled or not, and set netid
+	proc getIPConfig { } {
+		variable demographics
+
+		set demographics(localip) [getLocalIP]
+		set demographics(upnpnat) "false"
+		set demographics(conntype) [getConnectionType [getDemographicField localip] [getDemographicField clientip]]
+		if { $demographics(conntype) == "Direct-Connect" || $demographics(conntype) == "Firewall" } {
+			set demographics(netid) 0
+			set demographics(upnpnat) "false"
+		} else {
+			set demographics(netid) [GetNetID [getDemographicField clientip]]
+			if { [getFirewalled [::config::getKey initialftport]] == "Firewall" } {
+				set demographics(upnpnat) "false"
+			} else {
+				set demographics(upnpnat) "true"	
+			}
+		}
+
+		set demographics(listening) [getListening [getDemographicField conntype]]
+	}
+
+	# This proc will get the localip (private ip, NAT or not)
+	proc getLocalIP { } {
+		set sk [sb get ns sock]
+
+		if { $sk != "" } {
+			return [lindex [fconfigure $sk -sockname] 0]
+		} else {
+			return ""
+		}
+	}
+
+	# This will return the connection type : ip-restrict-nat, direct-connect or firewall
+	proc getConnectionType { localip clientip } {
+ 
+		if { $localip == "" || $clientip == "" } { 
+			return [getFirewalled [::config::getKey initialftport]]
+		} 
+		if { $localip != $clientip } {
+			return "IP-Restrict-NAT"
+		} else { 
+			return [getFirewalled [::config::getKey initialftport]]
+		}
+	}
+
+	# This will create a server, and try to connect to it in order to see if firewalled or not
+	proc getFirewalled { port } {
+		while { [catch {set sock [socket -server "abook::dummysocketserver" $port] } ] } {
+			incr port
+		}
+		if { [catch {set clientsock [socket [getDemographicField clientip] $port]} ] } {
+			close $sock
+			return "Firewall"
+		} else {
+			close $sock
+			close $clientsock
+			return "Direct-Connect"
+		}
+	}
+
+	proc getListening { conntype } {
+		if {$conntype == "Firewall" } {
+			return "false"
+		} elseif { $conntype == "Direct-Connect" } {
+		        return "true"
+		} else { 
+			return [abook::getDemographicField upnpnat]
+		}
+	}
+
+	# This proc is a dummy socket server proc, because we need a command to be called which the client connects to the test server (if not firewalled)
+	proc dummysocketserver { sock ip port } {
+	}
+
+	# This will transform the ip adress into a netID adress (which is the 32 bits unsigned integer represent the ip)
+	proc GetNetID { ip } {
+		set val 0
+		set inverted_ip ""
+		foreach x [split $ip .] { 
+			set inverted_ip "${x} ${inverted_ip}"	
+		}
+		
+		foreach x $inverted_ip { 
+			set val [expr {($val << 8) | ($x & 0xff)}] 
+		}
+		return [format %u $val]
+ 
+	}
 
 	#Clears all ::abook stored information
 	proc clearData {} {

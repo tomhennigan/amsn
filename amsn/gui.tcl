@@ -2738,7 +2738,6 @@ namespace eval ::amsn {
 		variable window_titles
 		variable new_message_on
 
-
 		if { [WindowFor $chatid] != 0} {
 			set win_name [WindowFor $chatid]
 		} else {
@@ -2759,6 +2758,23 @@ namespace eval ::amsn {
 		after cancel ::amsn::WinFlicker $chatid 1
 
 		if { [string first $win_name [focus]] != 0 } {
+
+			if { [set ::tcl_platform(platform)] == "windows" } {
+				if { [catch {winflash $win_name } ] } {
+					if { ![catch { 
+						load [file join [set ::program_dir] plugins flash.dll]
+						winflash $win_name
+					} ] } {
+
+						after 1000 ::amsn::WinFlicker $chatid 0
+						return
+					}
+					
+				} else {
+					after 1000 ::amsn::WinFlicker $chatid 0
+					return
+				}
+			}
 
 			set count  [expr {( $count +1 ) % 2}]
 
@@ -3709,6 +3725,7 @@ proc change_myfontsize { size name } {
 	set fontsize [expr {$basesize + $size} ]
 	set fontstyle [lindex [::config::getKey mychatfont] 1]	
 	set fontcolor [lindex [::config::getKey mychatfont] 2]
+	if { $fontcolor == "" } { set fontcolor "000000" }
 
 	.${name}.f.out.text tag configure yours -font [list $fontfamily $fontsize $fontstyle]
 	.${name}.f.bottom.in.input configure -font [list $fontfamily $fontsize $fontstyle]

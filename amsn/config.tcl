@@ -1048,9 +1048,10 @@ proc DeleteProfile { email entrypath } {
 	$entrypath list delete $entryidx
 	$entrypath select 0
 	LoginList unset 0 $email
-	
+       
 	# Lets save it into the file
 	SaveLoginList
+
 }
 
 #///////////////////////////////////////////////////////////////////////////////
