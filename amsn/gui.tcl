@@ -5801,14 +5801,26 @@ proc convert_image { filename size } {
 		status_log "converting returned error : $res\n"
 		return 0
 	}
-	 
+
 	#status_log "Center of image is $centerx,$centery, will crop from $x1,$y1 to $x2,$y2 \n" blue
 	#$img write "$filename2.gif" -from $x1 $y1 $x2 $y2
 	#image delete $img
-	file delete $filename.gif	 
+	file delete $filename.gif
 
 	catch { exec convert "${filename2}.gif"  "${filename2}.png"}
-    
+
+	if { [file exists $filename2.png.0] } {
+		set idx 1
+		while { 1 } {
+			if { [file exists $filename2.png.$idx] } {
+				file delete $filename2.png.$idx
+				incr idx
+	    	} else { break }
+		}
+		file rename $filename2.png.0 $filename2.png
+	}
+
+
 	return ${filename2}.png
 
 }
