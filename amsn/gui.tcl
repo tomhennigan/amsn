@@ -31,7 +31,11 @@ if { $initialize_amsn == 1 } {
 		set balloontextcolor #000000 
 	}
 	if { ![info exists balloonbgcolor] } {
-		set balloonbgcolor #ffffaa
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			set balloonbgcolor #ffffca
+		} else {
+			set balloonbgcolor #ffffaa
+		}
 	}
 	if { ![info exists balloonbordercolor] } {
 		set balloonbordercolor #000000

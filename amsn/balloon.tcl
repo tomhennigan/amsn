@@ -100,12 +100,11 @@ proc balloon {target message {cx 0} {cy 0} } {
 		toplevel .balloon -relief flat -bg #C3C3C3 \
 		-class Balloonhelp ; ::tk::unsupported::MacWindowStyle\
 		style .balloon help none
-		set bg_balloon #ffffca    
 	} else {
 		wm overrideredirect .balloon 1
-		set bg_balloon ${balloonbgcolor}
 	}
 	
+	set bg_balloon ${balloonbgcolor}
 	set wlength [expr {[winfo screenwidth .] - $x - 5}]
 	#If available width is less than 200 pixels, make the balloon
 	#200 pixels width, and move it to the left so it's inside the screen
@@ -114,16 +113,10 @@ proc balloon {target message {cx 0} {cy 0} } {
 	    incr x $offset
 	    set wlength 200
 	}
-	
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		set balloonfgcolor black
-	} else {
-		set balloonfgcolor $balloontextcolor
-	}
-	
+
         label .balloon.l \
 	    -text ${message} -relief flat \
-	    -bg ${bg_balloon} -fg ${balloonfgcolor} -padx 2 -pady 0 -anchor w -font sboldf -justify left -wraplength $wlength
+	    -bg ${bg_balloon} -fg ${balloontextcolor} -padx 2 -pady 0 -anchor w -font sboldf -justify left -wraplength $wlength
 	pack .balloon.l -side left -padx 1 -pady 1
         wm geometry .balloon +${x}+${y}
         
