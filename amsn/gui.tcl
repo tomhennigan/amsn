@@ -20,10 +20,12 @@ if { $initialize_amsn == 1 } {
 		event add <<Button2>> <Button3-ButtonRelease>
 		event add <<Button3>> <Control-ButtonRelease>
 		event add <<Button3>> <Button2-ButtonRelease>
+		event add <<Escape>> <Command-w>
 	} else {
 		event add <<Button1>> <Button1-ButtonRelease>
 		event add <<Button2>> <Button2-ButtonRelease>
 		event add <<Button3>> <Button3-ButtonRelease>
+		event add <<Escape>> <Escape>
 	}
 }
 
@@ -1976,12 +1978,11 @@ namespace eval ::amsn {
 
 		bind $bottom.in.input <Return> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
 		bind $bottom.in.input <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-
+		bind .${win_name} <<Escape>> "::amsn::closeWindow .${win_name}; break"
 
 		#Differents shorcuts on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			bind $bottom.in.input <Control-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-			bind .${win_name} <Command-w> "::amsn::closeWindow .${win_name}; break"
 			bind .${win_name} <Command-,> "Preferences"
 			bind all <Command-q> {
 				close_cleanup;exit
@@ -1990,7 +1991,6 @@ namespace eval ::amsn {
 			bind $bottom.in.input <Command-Down> "window_history next %W; break"
 		} else {
 			bind $bottom.in.input <Alt-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-			bind $bottom.in.input <Escape> "::amsn::closeWindow .${win_name}; break"
 			bind $bottom.in.input <Control-Up> "window_history previous %W; break"
 			bind $bottom.in.input <Control-Down> "window_history next %W; break"
 		}
@@ -2350,7 +2350,7 @@ namespace eval ::amsn {
 		}
 		
 		
-		bind $wname <Escape> [list destroy $wname]
+		bind $wname <<Escape>> [list destroy $wname]
 		bind $wname <Return> [list ::amsn::listChooseOk $wname $itemlist $command]
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -4366,7 +4366,7 @@ proc cmsn_draw_login {} {
 	RefreshLogin $mainframe
 
 	bind .login <Return> "login_ok"
-	bind .login <Escape> "ButtonCancelLogin .login"
+	bind .login <<Escape>> "ButtonCancelLogin .login"
 
 	#tkwait visibility .login
 	catch {grab .login}
@@ -4446,12 +4446,9 @@ proc AddProfileWin {} {
 
 
 	bind .add_profile <Return> "AddProfileOk $mainframe" 
-	#Change key for destroying the window
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		bind .add_profile <Command-w> "grab release .add_profile; destroy  .add_profile" 
-	} else {
-		bind .add_profile <Escape> "grab release .add_profile; destroy  .add_profile"
-	}
+	#Virtual binding for destroying the window
+	bind .add_profile <<Escape>> "grab release .add_profile; destroy  .add_profile"
+	
 
 	pack .add_profile.main .add_profile.buttons -side top -anchor n -expand  true -fill both -padx 10 -pady 10 
 	#grab $mainframe 
