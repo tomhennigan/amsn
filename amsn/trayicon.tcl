@@ -330,7 +330,7 @@ proc mailicon_proc {num} {
 
 		if { $config(dock) != 4 } {
 			set mailicon [newti $icon -pixmap $pixmap -tooltip $msg]
-			bind $icon <Button-1> "hotmail_login $config(login) $password"
+			bind $icon <Button-1> [list hotmail_login $config(login) $password]
 		} else {
 			set winmailicon [winico create [file join icons winicons unread.ico]]
 			winico taskbar add $winmailicon -text $msg -callback "taskbar_mail_icon_handler %m %x %y"
