@@ -427,16 +427,9 @@ proc load_smileys { } {
 
     foreach x $emotions_names {
 	set img_name "$emotions(${x}_file)"
-	#Use QuickTime to display smileys on MacOSX, fix a crashing problem
+
+	image create photo $img_name -file [GetSkinFile smileys ${img_name}] -format gif
 	
-	
-	#Use Quicktime to show smileys on Mac OS 10.3 (Panther, OS version 7)
-	set osversion [string range "$tcl_platform(osVersion)" 0 0]
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" && $osversion != "6"} {	
-		image create photo $img_name -file [GetSkinFile smileys ${img_name}] -format quicktime
-	} else {
-		image create photo $img_name -file [GetSkinFile smileys ${img_name}] -format gif
-	}
 
     }
 
