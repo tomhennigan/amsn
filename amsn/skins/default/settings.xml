@@ -99,8 +99,8 @@
 			<notifheight>100</notifheight>
 			<x_notifyclose>132</x_notifyclose>
 			<y_notifyclose>2</y_notifyclose>
-			<x_dp_top>2</x_dp_top>
-			<y_dp_top>2</y_dp_top>
+			<x_dp_top>4</x_dp_top>
+			<y_dp_top>4</y_dp_top>
 		</Geometry>
 		
 		<Options>
