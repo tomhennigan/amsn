@@ -283,7 +283,7 @@ namespace eval ::config {
 		global gconfig tcl_platform
 		
 		setGlobalKey last_client_version ""		
-		setGlobalKey language "en"			;#Default language
+		setGlobalKey language [detect_language "en"]	;#Default language
 		setGlobalKey skin "default"			;#AMSN skin
 		setGlobalKey disableprofiles 0 ;#Disable profiles (useful for cybercafes or similar)
 
@@ -1317,6 +1317,7 @@ if { $initialize_amsn == 1 } {
 	create_dir $HOME/skins
 	#create_dir $log_dir
 	#create_dir $files_dir
+	scan_languages
 	::config::configDefaults
 	::config::loadGlobal
 	
@@ -1329,7 +1330,6 @@ if { $initialize_amsn == 1 } {
 	}
 
 	load_lang ;#Load default english language
-	scan_languages
 	load_lang [::config::getGlobalKey language]
 
 	global gui_language
