@@ -1,4 +1,4 @@
-FAQ 1.3
+FAQ 1.4
 --------
 
 Q: What is Amsn?
@@ -11,7 +11,9 @@ INSTALLING AND RUNING
 Q: What do I need to run amsn?
 A: Amsn is written in tcl/tk, so you just need a working tcl/tk interpreter,
 version 8.3 or later. You can get it at http://tcl.sourceforge.net. The
-interpreter is available for linux, windows and macintosh.
+interpreter is available for linux, windows and macintosh.Some additional
+features might require extra programs, or libraries, like the docking icon,
+the Display Pictures, or the SSL connection for MSN Protocol 9.
 
 Q: How do I install and run amsn?
 A: Just donwload the amsn-x_xx.tar.gz file. Untar it with the command:
@@ -24,9 +26,19 @@ To launch it, do:
 or if this doesn't work, try
   wish amsn
 If wish command doesn't exist, then you don't have tcl/tk correctly installed.
-If "wish amsn" works, but "./amsn" doesn't, edit 'amsn' file and set the 
+If "wish amsn" works, but "./amsn" doesn't, edit 'amsn' file and set the
 correct path to 'wish' in the first line. By default it's set to:
 /usr/bin/wish
+
+Q: When I double click "amsn" file from a graphical file browser, like
+konqueror or nautilus, it opens a text editor instead of running AMSN!
+A: AMSN is written in tcl/tk, an interpreted language, so the "amsn"
+file is just a text file with the program code. The file manager might
+think it's a text file, so it will launch the text editor. To run AMSN
+you should choose "Open with...", "Launch with..." or similar, and use
+the program "wish" to open the file "amsn". Again, as seen in the
+question above, if the "wish" command doesn't exist, you need to
+install tcl/tk.
 
 Q: How do I create a shortcut to amsn on my desktop?
 A: 1.- Add an icon to your gnome/kde desktop or menu, that
@@ -224,13 +236,22 @@ the top. You can change this in Tools->Options->Preferences->Appearance.
 
 OTHER
 =====
+Q: I noticed AMSN is opening some ports over port 60000. Is it normal? Is it
+a backdoor? Why does this happen?
+A: It is normal. AMSN uses sockets as a locking system to avoid two AMSN
+instances use the same profile at once (which could cause trouble). This is
+the better platform independent locking system we found. If you find a better
+way of doing this, just tell us :)
+If you check ~/.amsn/profiles, you can see what port is used for each profile.
+
+
 Q: I have another question, can you help me?
 A: Yes, we can. But first, take a look at the sourceforge project page, located
 at http://sourceforge.net/projects/amsn, and check all the bugs, support
 request and general forums to check if your problem is already answered. Don't
 check only the messages marked as "Open". There's a drop down list where you
 can select "Closed", or "Pending" at the top of the messages list. Already answered
-question are usually marked as Closed. 
+question are usually marked as Closed.
 Before submitting a bug or asking for support, get the following information:
 - Amsn version.
 - Tcl and Tk version.

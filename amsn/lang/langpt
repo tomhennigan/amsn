@@ -68,6 +68,7 @@ cannotdeleteprofile Não é possível remover o perfil porque ele está a ser usado 
 cantexec Não consegue executar a Aplicação: $1. Ver Preferências
 casesensitive Use as dicas do case-sensitive
 cfgalarm Configurar/Adicinar/Remover Alarme
+changedisplaypic Mudar a imagem
 changefont Mudar Fonte
 changenick Mudar a alcunha/nick
 changestate $1 Muda o estado para $2
@@ -184,6 +185,7 @@ groupunknown Grupo desconhecido
 handle Manejar
 help Ajuda
 helpcontents Conteúdo da Ajuda
+hidedisplaypic Esconder a imagem
 hiden Esconde as emoções do menu de surrisos
 hidewindow Esconder Janela
 history Ver Histórico
@@ -372,6 +374,10 @@ servergoingdown A desligar servidor
 server Servidor
 session Sessão
 showblockedlist Mostra lista de utilizadores que o bloqueram
+showdisplaypic2 Mostrar imagem sempre que uma janela de conversa for aberta
+showdisplaypic Mostrar a imagem
+showmypic Mostrar a minha imagem
+showuserpic $1's Imagem
 skinselector Escolha a skin
 skin skin (pele)
 smileconfig Configuração normal de emoções
@@ -434,6 +440,7 @@ willjoin Esperando que $1 se junte à conversação
 work Trabalho
 wrongfields Os campos "$1", "$2" e/ou "$3" não são válidos.
 wrongprofileversion Versão errada do ficheiro de configuração do perfil. No sentido de o reparar, por favor remova-o do diretório $1, ou actualize o amsn
+xmmserr Não está nenhum som a tocar, ou entao não tens o xmms-infopipe instalado.
 xoffset espaço X
 yes Sim
 yoffset espaço Y

@@ -90,7 +90,8 @@ dontdownload ikke last ned TLS, jeg vil installere det selv
 editprofile Rediger Profil
 edit Rediger
 enableproxy Bruk proxy
-encoding Velg encoding
+encoding2 Endre tegnkoding
+encoding Velg koding
 entercontactemail Oppgi kontakt e-post
 enterfilename Vennligst oppgi et filnavn
 enternick Oppgi ditt nick
@@ -222,6 +223,10 @@ send Send
 sentbytes Sendt $1 av $2 bytes
 servergoingdown Frakoblet: Serveren går ned
 server Server
+showdisplaypic2 Vis Personlig Bilde som standard når et chattevindu blir åpnet
+showdisplaypic Vis Personlig Bilde
+showmypic Mitt Personlige Bilde
+showuserpic $1's Personlige Bilde
 skinselector Velg Skall
 skin Skall
 soundfile Handlings lyd
@@ -259,8 +264,8 @@ willjoin Venter $1 blir med i samtalen
 work Arbeid
 wrongfields "$1", "$2" og/eller "$3" feltene er ikke gyldig
 wrongprofileversion Feil profil konfigurasjon fil version. For og fikse det, vennligst slett mappen $1, eller oppdater amsn
+xmmserr Ingenting blir spillt, eller så har du ikke installert xmms-infopipe.
 yes Ja
 youblocked Du har blitt blokkert av
 yousay Du sier
 youwant Du vil
-xmmserr Ingenting blir spillt, eller så har du ikke installert xmms-infopipe.
