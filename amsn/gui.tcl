@@ -1410,7 +1410,7 @@ namespace eval ::amsn {
 	  set statusmsg "[timestamp] [trans leaves $username]\n"
 	  set icon minileaves
 			::amsn::WinWriteIcon $chatid minileaves 5 0
-		::amsn::WinWrite $chatid " [trans leaves $username]" green "" 0
+		::amsn::WinWrite $chatid " [trans leaves $username]\n" green "" 0
 
 
       } else {
