@@ -1601,7 +1601,7 @@ namespace eval ::MSN {
 			DelSBFor $chatid ${sb}
 
 			#We leave the switchboard if it exists
-			if {[info procs $sb] == ""} {
+			if {[info procs $sb] != ""} {
 				if {[$sb cget -stat] != "d"} {
 					WriteSBRaw $sb "OUT\r\n"
 				}
