@@ -1,6 +1,7 @@
 #!/usr/bin/wish
 #########################################################
 # skins.tcl v 1.0	2003/07/01   KaKaRoTo
+# New skin selector by Alberto (yozko) on 01/19/2004
 #########################################################
 
 
@@ -56,103 +57,163 @@ proc skin_description {cstack cdata saved_data cattr saved_attr args} {
 }
 
 proc findskins { } {
-    variable program_dir
-    global HOME2
+	variable program_dir
 
-    set skins [glob -directory [file join $program_dir skins] */settings.xml]
-    if {![catch {set local_skins [glob -directory [file join $HOME2 skins] */settings.xml]} res]} {
-        set skins "$skins $local_skins"
-    }
-    status_log "Found skin files in $skins\n"
+	set skins [glob -directory [file join $program_dir skins] */settings.xml]
 
-    set skinlist [list]
+	status_log "Loading skins from [file join $program_dir skins]\n"
 
-    foreach skin $skins {
-        set dir [file dirname $skin]
-        status_log "Skin: $dir\n"
+	set skinlist [list]
 
-        set desc ""
+	foreach skin $skins {
+		set dir [file dirname $skin]
+		status_log "Skin: $dir\n"
+		set desc ""
 
-        if { [file readable [file join $dir desc.txt] ] } {
-            set fd [open [file join $dir desc.txt]]
-            set desc [string trim [read $fd]]
-            status_log "$dir has description : $desc\n"
-            close $fd
-        }
+		if { [file readable [file join $dir desc.txt] ] } {
+			set fd [open [file join $dir desc.txt]]
+			set desc [string trim [read $fd]]
+			status_log "$dir has description : $desc\n"
+			close $fd
+		}
 
-        #set skinname [string map [list  "[file join $program_dir skins]/" "" ] $dir]
-        set lastslash [expr {[string last "/" $dir]+1}]
-        set skinname [string range $dir $lastslash end]
-        lappend skinname $desc
-        lappend skinlist $skinname
-    }
+		set lastslash [expr {[string last "/" $dir]+1}]
+		set skinname [string range $dir $lastslash end]
+		lappend skinname $desc
+		lappend skinlist $skinname
+	}
     
-    return $skinlist
+	return $skinlist
 }
 
 proc SelectSkinGui { } {
-    global config
+	global config bgcolor2
 
-    set w .skin_selector 
-    toplevel $w
-    wm geometry $w 500x300
-    wm title $w "[trans chooseskin]"
+	set w .skin_selector 
+	toplevel $w
+	wm geometry $w 450x250
+	wm resizable $w 0 0
+	wm title $w "[trans chooseskin]"
 
-    label $w.choose -text "[trans chooseskin]"
-    pack $w.choose -side top
+	label $w.choose -text "[trans chooseskin]"
+	pack $w.choose -side top
     
-    frame $w.list -relief sunken -borderwidth 3
-    text $w.list.label -height 1 -bd 0 -relief raised
-    $w.list.label insert end "[trans skin]\t\t\t[trans description]" 
-    $w.list.label configure -state disabled
-    listbox $w.list.box -yscrollcommand "$w.list.ys set" -font splainf -background \
-	white -relief flat -highlightthickness 0  -height 5
-    scrollbar $w.list.ys -command "$w.list.box yview" -highlightthickness 0 \
+	frame $w.main -relief solid -borderwidth 2
+	frame $w.main.left -relief flat
+	frame $w.main.right -relief flat
+	frame $w.main.left.images -relief flat
+	text $w.main.left.desc -height 5 -width 40 -relief flat -background $bgcolor2 -font sboldf
+	listbox $w.main.right.box -yscrollcommand "$w.main.right.ys set" -font splainf -background \
+	white -relief flat -highlightthickness 0  -height 5 -width 30
+	scrollbar $w.main.right.ys -command "$w.main.right.box yview" -highlightthickness 0 \
 	-borderwidth 1 -elementborderwidth 2
-    pack $w.list.label $w.list.box -side top -expand false
-    pack $w.list.ys -side right -fill y
-    pack $w.list.box -side left -expand true -fill both
-    pack $w.list.label -expand 0 -fill x
-    pack $w.list -expand true -fill both
-
-    label $w.status -text ""
-    pack $w.status -side bottom
-
-    set select -1
-    set idx 0
-
-    button $w.ok -text "[trans ok]" -command "selectskinok $w"
-    button $w.cancel -text "[trans cancel]" -command "destroy $w"
-
-    pack $w.ok $w.cancel -side right
-
-    foreach skin [findskins] {
-	if { [lindex $skin 0] == $config(skin) } { set select $idx } 
-	$w.list.box insert end "[lindex $skin 0]            [lindex $skin 1]"
-	incr idx
-    }
-
-    if { $select != -1 } {
-	$w.list.box selection set $select
-	$w.list.box itemconfigure $select -background #AAAAAA
-    }
-
-    bind $w <Destroy> "grab release $w"
-
     
+	pack $w.main.left.images -in $w.main.left -side top -expand 1 -fill both
+	pack $w.main.left.desc -in $w.main.left -side bottom -expand 1 -fill both
+	pack $w.main.left -in $w.main -side left -expand 1 -fill both
+	pack $w.main.right.ys -side right -fill both
+	pack $w.main.right.box -side left -expand 0 -fill both
+	pack $w.main.right -side right -expand 1 -fill both
+	pack $w.main -expand 1 -fill both
+
+	label $w.status -text ""
+	pack $w.status -side bottom
+
+	set select -1
+	set idx 0
+
+	button $w.ok -text "[trans ok]" -command "selectskinok $w"
+	button $w.cancel -text "[trans cancel]" -command "destroy $w"
+
+	pack $w.ok $w.cancel -side right
+
+	foreach skin [findskins] {
+		if { [lindex $skin 0] == $config(skin) } { set select $idx } 
+		$w.main.right.box insert end "[lindex $skin 0]"
+		incr idx
+	}
+
+	if { $select != -1 } {
+		$w.main.right.box selection set $select
+		$w.main.right.box itemconfigure $select -background #AAAAAA
+	}
+	applychanges
+	bind $w <Destroy> "grab release $w"
+	bind $w.main.right.box <Button1-ButtonRelease> "applychanges"
+   
 }
 
+proc applychanges { } {
+	variable program_dir
+	set w .skin_selector
+
+	set currentskin [lindex [lindex [findskins] [$w.main.right.box curselection]] 0]
+	set currentdesc [lindex [lindex [findskins] [$w.main.right.box curselection]] 1]
+
+	clear_exampleimg
+	
+	# If our skin hasn't the example images, take them from the default one
+	if { [file exists [file join $program_dir skins $currentskin "pixmaps/prefpers.gif"]] } {
+		image create photo preview1 -file [file join $program_dir skins $currentskin "pixmaps/prefpers.gif"]
+	} else {
+		image create photo preview1 -file [file join $program_dir skins "default/pixmaps/prefpers.gif"]
+	}
+	if { [file exists [file join $program_dir skins $currentskin "pixmaps/butblock.gif"]] } {
+		image create photo preview2 -file [file join $program_dir skins $currentskin "pixmaps/butblock.gif"]
+	} else {
+		image create photo preview2 -file [file join $program_dir skins "default/pixmaps/butblock.gif"]
+	}
+	if { [file exists [file join $program_dir skins $currentskin "pixmaps/amsnicon.gif"]] } {
+		image create photo preview3 -file [file join $program_dir skins $currentskin "pixmaps/amsnicon.gif"]
+	} else {
+		image create photo preview3 -file [file join $program_dir skins "default/pixmaps/amsnicon.gif"]
+	}
+	if { [file exists [file join $program_dir skins $currentskin "pixmaps/butsmile.gif"]] } {
+		image create photo preview4 -file [file join $program_dir skins $currentskin "pixmaps/butsmile.gif"]
+	} else {
+		image create photo preview4 -file [file join $program_dir skins "default/pixmaps/butsmile.gif"]
+	}
+	if { [file exists [file join $program_dir skins $currentskin "pixmaps/butsend.gif"]] } {
+		image create photo preview5 -file [file join $program_dir skins $currentskin "pixmaps/butsend.gif"]
+	} else {
+		image create photo preview5 -file [file join $program_dir skins "default/pixmaps/butsend.gif"]
+	}
+	
+	label $w.main.left.images.1 -image preview1
+	label $w.main.left.images.2 -image preview2
+	label $w.main.left.images.3 -image preview3
+	label $w.main.left.images.4 -image preview4
+	label $w.main.left.images.5 -image preview5
+	grid $w.main.left.images.1 -in $w.main.left.images -row 1 -column 1
+	grid $w.main.left.images.2 -in $w.main.left.images -row 1 -column 2
+	grid $w.main.left.images.3 -in $w.main.left.images -row 1 -column 3
+	grid $w.main.left.images.4 -in $w.main.left.images -row 1 -column 4
+	grid $w.main.left.images.5 -in $w.main.left.images -row 1 -column 5
+	$w.main.left.desc configure -state normal
+	$w.main.left.desc delete 0.0 end
+	$w.main.left.desc insert end "[trans description]\n\n$currentdesc"
+	$w.main.left.desc configure -state disabled
+
+}
+
+proc clear_exampleimg { } {
+	if {[winfo exists .skin_selector.main.left.images]} {
+		destroy .skin_selector.main.left.images
+		frame .skin_selector.main.left.images -relief flat
+		pack .skin_selector.main.left.images -in .skin_selector.main.left -side top -expand 1 -fill both
+	}
+}
 
 proc selectskinok { w } {
     global config
 
-    if { [$w.list.box curselection] == "" } {
+    if { [$w.main.right.box curselection] == "" } {
 	$w.status configure -text "[trans selectskin]"
     }  else {
 	
 	$w.status configure -text ""
 
-	set skinidx [$w.list.box curselection]
+	set skinidx [$w.main.right.box curselection]
 	
 	set skin [lindex [lindex [findskins] $skinidx] 0]
 	status_log "Chose skin No $skinidx : $skin\n"
