@@ -49,11 +49,11 @@ blockedyougroup Mostrar un grupo aparte con los contactos que te bloquean
 blocking Bloqueo
 blockinter1 Cuando estás en estado Conectado, comprobar cada:
 blockinter2 segundos, si no comprobar cada :
-blockinter3 cada
+blockinter3 Segundos entre cada comprobación:
 blocklist Lista de Bloqueados(BL):
 blockmessage Los siguientes contactos están conectados y bloqueandote
 block No admitir
-blockusers Numero de contactos a comprobar cada vez
+blockusers Numero de contactos a comprobar cada vez:
 broughtby Traído a Ud. por los siguientes programadores
 browse Examinar
 browser Navegador
