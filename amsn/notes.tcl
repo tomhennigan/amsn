@@ -149,7 +149,7 @@ namespace eval ::notes {
 		# Display the note
 		frame $w.right.note -relief sunken -borderwidth 3
 		label $w.right.note.desc -text "[trans note]" -font bold
-		text $w.right.note.txt -yscrollcommand "$w.right.note.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 7 -width 60 -state disabled
+		text $w.right.note.txt -yscrollcommand "$w.right.note.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 7 -width 60 -state disabled -wrap word
   		scrollbar $w.right.note.ys -command "$w.right.note.txt yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
   		pack $w.right.note.desc -expand true -fill both
   		pack $w.right.note.ys -side right -fill y
