@@ -252,20 +252,21 @@ proc hotmail_procmsg {msg} {
 	  set dest [::MSN::GetHeaderValue $msg Dest-Folder]
 	  set delta [::MSN::GetHeaderValue $msg Message-Delta]
 	  if { $source == "ACTIVE" } {
-  	    set noleidos [expr {[::hotmail::unreadMessages] - $delta}]
+  	    set unread [expr {[::hotmail::unreadMessages] - $delta}]
 	  } elseif {$dest == "ACTIVE"} {
-  	    set noleidos [expr {[::hotmail::unreadMessages] + $delta}]
+  	    set unread [expr {[::hotmail::unreadMessages] + $delta}]
 	  } else {
-	    set noleidos [::hotmail::unreadMessages]
+	    set unread [::hotmail::unreadMessages]
 	  }
-	  status_log "Hotmail num of messages changed: $noleidos unread emails\n"
-	  if { [string length $noleidos] > 0 } {
-	    ::hotmail::setUnreadMessages $noleidos
+	  status_log "Hotmail num of messages changed: $unread unread emails\n"
+	  if { [string length $unread] > 0 } {
+	    ::hotmail::setUnreadMessages $unread
 	    cmsn_draw_online
 	  }
 	}
 		#End by AIM
 	# dock mail icon 
 	send_dock "MAIL" [::hotmail::unreadMessages]
+	status_log "hotmail_procmsg: Finishing\n"
 
 }

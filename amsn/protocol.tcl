@@ -3330,6 +3330,7 @@ proc cmsn_ns_msg {recv} {
 
    set msg_data [sb index ns data 0]
    sb ldel ns data 0
+	status_log "cmsn_ns_msg:\n$msg_data\n" red
    
    if { [lindex $recv 1] != "Hotmail" && [lindex $recv 2] != "Hotmail"} {
       status_log "cmsn_ns_msg: NS MSG From Unknown source ([lindex $recv 1] [lindex $recv 2]):\n$msg_data\n" red

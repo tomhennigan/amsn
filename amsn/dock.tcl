@@ -70,11 +70,11 @@ proc send_dock {type status} {
 	global docksock 
 	if { $type == "STATUS" } {
 		if { $docksock != 0 } {
-		   puts $docksock $status
+		   after 100 [list puts $docksock $status]
 		}
-		statusicon_proc $status
+		after 100 [list statusicon_proc $status]
 	} elseif { $type == "MAIL" } {
-		mailicon_proc $status
+		after 100 [list mailicon_proc $status]
 	}
 }
 
