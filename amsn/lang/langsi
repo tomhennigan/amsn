@@ -79,6 +79,7 @@ cantremoveothers Ni mogoce izbrisati skupine "Ostali"
 casesensitive Obcutljiv na velikost crk
 cfgalarmall Nastavi globalni alarm
 cfgalarm Nastavi zvocni/slikovni alarm
+change Zamenjaj
 changecustomstate Preklopi v
 changedisplaypic Spremeni osebno sliko
 changefont Zamenjaj pisavo
@@ -133,9 +134,10 @@ countrycode Oznaka moje drzave
 cprofile Ustvari profil
 credits Zasluge
 currentdate Trenutni datum
+customcolor Barva
 custom_edit Uredi svoje smeske
 custom_new Dodaj svojega smeska
-customnick Tvoj nick
+customnick Prikazni nick
 cut Izrezi
 date Datum
 days Dni
@@ -258,6 +260,7 @@ keeplog Hrani dnevnik pogovorov
 language Jezik
 lastlogin Zadnja prijava
 lastlogout Zadnja odjava
+lastmsgedme Zadnje sporocilo
 lastmsgtime Zadnje sporocilo prejeto ob $1
 lclosedwin $1 je zaprl/a okno $2
 lconftopriv Konferenca spremenjena v zasebni pogovor z $1
@@ -362,6 +365,7 @@ pass Geslo
 paste Prilepi
 personal Osebno
 phone Telefon
+phones Telefonske stevilke
 picbrowser Prikazi brskalnik slik
 picfile Slikovna datoteka
 picstatus Slika omogocena
@@ -417,6 +421,7 @@ readonlywarn OPOZORILO: Datoteka verjetno NE bo shranjena pravilno, ker je mapa 
 receivedbytes Prejeto $1 od $2 bajtov
 receiveddir Mapa s prejetimi datotekami
 receivefile Sprejmi datoteko
+recentmsg Prepreci zapiranje okna s pogovorom takoj po prejemu sporocila
 reconnect Cakam, da se $1 ponovno poveze
 reconnecting Povezujem se s streznikom
 reject zavrni
