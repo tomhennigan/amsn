@@ -1,7 +1,7 @@
 0.90 TODO LIST
-- We must finish MSNP2P (Sending files throught MSNP2P and do transfer 
+DONE We must finish MSNP2P (Sending files throught MSNP2P and do transfer 
 dialogs)
-- We must send to waste all MSNP7 code
+DONE We must send to waste all MSNP7 code
 - We should do a GUI cleanup (alarms...)
 - We must do proxys work...
 -It doesn't update with the new people that enters the chat... it doesn't give you a chance to talk to certain people...
