@@ -392,7 +392,7 @@ namespace eval ::amsn {
 			return
 		}
 		::dkfprogress::SetProgress .tlsprogress.prbar [expr {$current*100/$total}]
-		.tlsprogress.progress configure -text "[trans receivedbytes $current $total]"
+		.tlsprogress.progress configure -text "[trans receivedbytes [sizeconvert $current] [sizeconvert $total]]"
 
 
 	}
@@ -729,9 +729,7 @@ namespace eval ::amsn {
 
 			#Calculate a random cookie
 			set cookie [expr {([clock clicks]) % (65536 * 8)}]
-			#May be we should see the filesize in Kilobytes instead of bytes, disabled for the moment
-			#set filesizek [expr {int($filesize)/int(1024)}]
-			set txt "[trans ftsendinvitation [::abook::getDisplayNick $chatid] $filename $filesize]"
+			set txt "[trans ftsendinvitation [::abook::getDisplayNick $chatid] $filename [sizeconvert $filesize]]"
 
 			status_log "Random generated cookie: $cookie\n"
 			WinWrite $chatid "----------\n" green
@@ -812,7 +810,7 @@ namespace eval ::amsn {
 		}
 
 		set fromname [::abook::getDisplayNick $dest]
-		set txt [trans ftgotinvitation $fromname '$filename' $filesize $files_dir]
+		set txt [trans ftgotinvitation $fromname '$filename' [sizeconvert $filesize] $files_dir]
 		set win_name [MakeWindowFor $chatid $txt $dest]
 		WinWrite $chatid "----------\n" green
 		WinWriteIcon $chatid fticon 3 2
@@ -844,7 +842,7 @@ namespace eval ::amsn {
 		}
 
 		set fromname [::abook::getDisplayNick $fromlogin]
-		set txt [trans ftgotinvitation $fromname '$filename' $filesize $files_dir]
+		set txt [trans ftgotinvitation $fromname '$filename' [sizeconvert $filesize] $files_dir]
 
 		set win_name [MakeWindowFor $chatid $txt $fromlogin]
 
@@ -1100,10 +1098,10 @@ namespace eval ::amsn {
 
 				if {$mode == "r"} {
 					$w.progress configure -text \
-						"[trans receivedbytes $bytes $filesize] ($rate KB/s)"
+						"[trans receivedbytes [sizeconvert $bytes] [sizeconvert $filesize]] ($rate KB/s)"
 				} elseif {$mode == "s"} {
 					$w.progress configure -text \
-						"[trans sentbytes $bytes $filesize] ($rate KB/s)"
+						"[trans sentbytes [sizeconvert $bytes] [sizeconvert $filesize]] ($rate KB/s)"
 				}
 				$w.time configure -text "[trans timeremaining] :  $timeleft"
 
@@ -1146,6 +1144,28 @@ namespace eval ::amsn {
 		}
 
 	}
+
+ 	#Converts filesize in KBytes or MBytes
+ 	proc sizeconvert {filesize} {
+ 		#Converts in KBytes
+ 		set filesizeK [expr {int($filesize/1024)}]
+ 		#Converts in MBytes
+ 		set filesizeM [expr {int($filesize/1048576)}]
+ 		#If the sizefile is bigger than 1Mo
+ 		if {$filesizeM != 0} {
+ 			set filesizeM2 [expr {int((($filesize/1048576.) - $filesizeM)*100)}]
+ 			if {$filesizeM2 < 10} {
+ 				set filesizeM2 "0$filesizeM2"
+ 			}
+ 			set filesizeM "$filesizeM,$filesizeM2"
+ 			return "${filesizeM}M"
+ 		#Elseif the filesize is bigger than 1Ko
+ 		} elseif {$filesizeK != 0} {
+ 			return "${filesizeK}K"
+ 		} else {
+ 			return "$filesize"
+ 		}
+ 	}	
 
 
 	#///////////////////////////////////////////////////////////////////////////////
