@@ -2268,10 +2268,10 @@ proc cmsn_draw_login {} {
         }
    }
 
-   bind .login.c.password <Return> "login_ok"
+   bind .login.c.password <Return> "login_ok; break"
 
    bind .login <Escape> "grab release .login;destroy .login"
-   bind .login <Return> "login_ok"
+   bind .login <Return> "login_ok; break"
 
 
    tkwait visibility .login
