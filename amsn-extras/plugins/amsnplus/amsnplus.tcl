@@ -175,6 +175,7 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
 				set fontcolor [::amsnplus::readWord $i $msg $strlen]
+				::config::setKey mychatfont "$fontfamily $fontstyle $fontcolor"
 				set flen [string length $fontcolor]
 				set msg [string replace $msg $i [expr $i + $flen] ""]
 				set strlen [string length $msg]
@@ -211,6 +212,7 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + 5] ""]
 				set strlen [string length $msg]
 				set fontfamily [::amsnplus::readWord $i $msg $strlen]
+				::config::setKey mychatfont "$fontfamily $fontstyle $fontcolor"
 				set flen [string length $fontfamily]
 				set msg [string replace $msg $i [expr $i + $flen] ""]
 				set strlen [string length $msg]
@@ -345,6 +347,7 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
 				set fontstyle [::amsnplus::readWord $i $msg $strlen]
+				::config::setKey mychatfont "$fontfamily $fontstyle $fontcolor"
 				set flen [string length $fontstyle]
 				set msg [string replace $msg $i [expr $i + $flen] ""]
 				set strlen [string length $msg]
