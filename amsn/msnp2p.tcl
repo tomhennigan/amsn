@@ -1033,7 +1033,7 @@ namespace eval ::MSNP2P {
 
 
 		set sbn [::MSN::SBFor $chatid]
- 		set sock [sb get $sbn sock]
+ 		set sock [$sbn cget -sock]
 
  		set offset 0
  		SessionList set $sid [list -1 -1 $offset -1 -1 -1 -1 -1 -1 -1]
@@ -1050,7 +1050,7 @@ namespace eval ::MSNP2P {
 	proc SendDataEvent { sbn sid fd } {
 
 
-		set sock [sb get $sbn sock]
+		set sock [$sbn cget -sock]
 		fileevent $sock writable ""
 		#return
 
@@ -1103,7 +1103,7 @@ namespace eval ::MSNP2P {
 	proc SendPacketExt { sbn sid slpdata {nullsid "0"} {MsgId "0"} {TotalSize "0"} {Offset "0"} {Destination "0"} {AfterAck "0"} {flags "0"}} {
 		set offset 0
 		SessionList set $sid [list -1 [string length $slpdata] $offset -1 -1 -1 -1 -1 -1 -1]
-		set fd [sb get $sbn sock]
+		set fd [$sbn cget -sock]
 		status_log "Got socket $fd\n"
 		if { [fileevent $fd writable] == "" } {
 			status_log "assining new fileevent proc\n"
@@ -1112,7 +1112,7 @@ namespace eval ::MSNP2P {
 	} 
        
 	proc SendPacketExtEvent { sbn sid slpdata {nullsid "0"} {MsgId "0"} {TotalSize "0"} {Offset "0"} {Destination "0"} {AfterAck "0"} {flags "0"} } {
-		set fd [sb get $sbn sock]
+		set fd [$sbn cget -sock]
 		fileevent $fd writable ""
 
 		#status_log "got sbn : $sbn, $fd\nsid : $sid\nslpdata: $slpdata \n$nullsid $MsgId $TotalSize $Offset $Destination $AfterAck $flags\n\n"  red

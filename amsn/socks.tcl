@@ -45,7 +45,7 @@ global socks_freeid socks_idlist
 
   set ver "\x05"               ;#Socks version
   
-  set sck [sb get $name sock]  ;# Put socket name of socks5 server into sck
+  set sck [$name cget -sock]  ;# Put socket name of socks5 server into sck
   
   status_log "$sck    $addr\n"
   set addr [split $addr " "]   ;# Remove port from address

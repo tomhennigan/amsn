@@ -1576,8 +1576,8 @@ namespace eval ::MSN {
 		}
 
 		catch {
-			#fileevent [sb get $name sock] readable ""
-			#fileevent [sb get $name sock] writable ""
+			#fileevent [$name cget -sock] readable ""
+			#fileevent [$name cget -sock] writable ""
 			set command [list "::[$sb cget -connection_wrapper]::finish" $sb]
 			eval $command
 		} res
@@ -3194,11 +3194,11 @@ proc cmsn_reconnect { sb } {
 		
 			if { [expr {[clock seconds] - [$sb cget -time]}] > 15 } {
 				status_log "cmsn_reconnect: called again while inviting timeouted for sb $sb\n" red
-				#catch { fileevent [sb get $name sock] readable "" } res
-				#catch { fileevent [sb get $name sock] writable "" } res
+				#catch { fileevent [$name cget -sock] readable "" } res
+				#catch { fileevent [$name cget -sock] writable "" } res
 				set command [list "::[$sb cget -connection_wrapper]::finish" $sb]
 				eval $command
-				#catch {close [sb get $name sock]} res
+				#catch {close [$name cget -sock]} res
 				$sb configure -stat "d"
 				cmsn_reconnect $sb
 			}
@@ -3211,7 +3211,7 @@ proc cmsn_reconnect { sb } {
 		
 			if { [expr {[clock seconds] - [$sb cget -time]}] > 10 } {
 				status_log "cmsn_reconnect: called again while reconnect timeouted for sb $sb\n" red
-				#set command [list "::[sb get $name connection_wrapper]::finish" $name]
+				#set command [list "::[$name cget -connection_wrapper]::finish" $name]
 				#eval $command
 				$sb configure -stat "d"
 				cmsn_reconnect $sb
@@ -3223,21 +3223,21 @@ proc cmsn_reconnect { sb } {
 		"pw" -
 		"a" {
 			
-			#status_log "cmsn_reconnect: stat =[sb get $name stat] , SB= $name\n" green         
+			#status_log "cmsn_reconnect: stat =[$name cget -stat] , SB= $name\n" green         
 	
 			if { [expr {[clock seconds] - [$sb cget -time]}] > 10 } {
 				status_log "cmsn_reconnect: called again while authentication timeouted for sb $sb\n" red
-				#catch { fileevent [sb get $name sock] readable "" } res
-				#catch { fileevent [sb get $name sock] writable "" } res
+				#catch { fileevent [$name cget -sock] readable "" } res
+				#catch { fileevent [$name cget -sock] writable "" } res
 				set command [list "::[$sb cget -connection_wrapper]::finish" $sb]
 				eval $command
-				#catch {close [sb get $name sock]} res
+				#catch {close [$name cget -sock]} res
 				$sb configure -stat "d"
 				cmsn_reconnect $sb
 			}
 		} 
 		"" {
-			status_log "cmsn_reconnect: SB $name stat is [sb get $name stat]. This is bad, should delete it and create a new one\n" red
+			status_log "cmsn_reconnect: SB $name stat is [$name cget -stat]. This is bad, should delete it and create a new one\n" red
 			catch {
 				set chatid [::MSN::ChatFor $sb]
 				::MSN::DelSBFor $chatid $sb
@@ -3873,7 +3873,7 @@ proc cmsn_ns_handler {item} {
 			}
 			911 {
 				#set password ""
-				sb set ns stat "closed"
+				ns configure -stat "closed"
 				::MSN::logout
 				status_log "Error: User/Password\n" red
 				::amsn::errorMsg "[trans baduserpass]"
@@ -4196,7 +4196,7 @@ proc initial_syn_handler {recv} {
 
 proc msnp9_userpass_error {} {
 
-	sb set ns stat "closed"
+	ns configure -stat "closed"
 	::MSN::logout
 	status_log "Error: User/Password\n" red
 	::amsn::errorMsg "[trans baduserpass]"

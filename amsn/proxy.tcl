@@ -64,15 +64,15 @@ namespace eval ::HTTPConnection {
 			set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
 			set tmp_data "$tmp_data\r\nContent-Length: $size"
 			
-			if {[sb get $name proxy_authenticate]  == 1 } {
-				set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode [sb get $name proxy_user]:[sb get $name proxy_password]]"
+			if {[$name cget -proxy_authenticate]  == 1 } {
+				set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode [$name cget -proxy_user]:[$name cget -proxy_password]]"
 			}
 			
 						
 			set tmp_data "$tmp_data\r\n\r\n$current_data"
 			status_log "::HTTPConnection::Write: PROXY POST Sending: ($name)\n$tmp_data\n" blue
 			set proxy_writing $tmp_data
-			if { [catch {puts -nonewline [sb get $name sock] "$tmp_data"} res] } {
+			if { [catch {puts -nonewline [$name cget -sock] "$tmp_data"} res] } {
 				connect $name [list ::HTTPConnection::RetryWrite $name]
 				return 0
 			}
@@ -91,8 +91,8 @@ namespace eval ::HTTPConnection {
 	proc authInit {} {
 		catch {http::unregister https}
 		
-		set proxy_host [sb get ns proxy_host]
-		set proxy_port [sb get ns proxy_port]		
+		set proxy_host [ns cget -proxy_host]
+		set proxy_port [ns cget -proxy_port]		
 		if {$proxy_host == "" } {
 			::http::config -proxyhost ""
 		} else {
@@ -122,7 +122,7 @@ namespace eval ::HTTPConnection {
 		set url [string map { https:// http:// } $url]
 		status_log "::HTTPConnection::authenticate: Getting $url\n" blue
 		if {[catch {::http::geturl $url -command "::HTTPConnection::GotAuthReply [list $str]" -headers $head}]} {
-			eval [sb get ns autherror_handler]
+			eval [ns cget -autherror_handler]
 		}
 	}
 
@@ -130,7 +130,7 @@ namespace eval ::HTTPConnection {
 		if { [::http::status $token] != "ok" } {
 			::http::cleanup $token
 			status_log "::HTTPConnection::GotAuthReply error: [::http::error]\n"
-			eval [sb get ns autherror_handler]
+			eval [ns cget -autherror_handler]
 			return
 		}
 	
@@ -144,7 +144,7 @@ namespace eval ::HTTPConnection {
 			set value [string range [lindex $values $index] 9 end-1]
 			status_log "::HTTPConnection::GotAuthReply 200 Ticket= $value\n" green
 			
-			set command [list [sb get ns ticket_handler] $value]
+			set command [list [ns cget -ticket_handler] $value]
 			eval $command
 	
 		} elseif {[::http::ncode $token] == 302} {
@@ -154,9 +154,9 @@ namespace eval ::HTTPConnection {
 			status_log "::HTTPConnection::GotAuthReply 302: Forward to $url\n" green
 			::HTTPConnection::authenticate $str $url
 		} elseif {[::http::ncode $token] == 401} {
-			eval [sb get ns passerror_handler]
+			eval [ns cget -passerror_handler]
 		} else {
-			eval [sb get ns autherror_handler]
+			eval [ns cget -autherror_handler]
 		}
 		::http::cleanup $token
 	
@@ -182,7 +182,7 @@ namespace eval ::HTTPConnection {
 			unset proxy_queued_data($name)
 		}
 		
-		set sock [sb get $name sock]
+		set sock [$name cget -sock]
 		
 		catch {
 			fileevent $sock readable ""
@@ -198,35 +198,35 @@ namespace eval ::HTTPConnection {
 	
 	#Called to stablish the given connection.
 	#The "server" field in the sbn data must be set to server:port
-	proc connect {sbn {connected_handler ""}} {
+	proc connect {sb {connected_handler ""}} {
 		variable http_gateway
 		variable proxy_user
 		variable proxy_password
 		variable proxy_authenticate
 		
 		#On direct http connection, use gateway directly as proxy
-		if { [sb get $sbn proxy_host] == ""} {
+		if { [$sb cget -proxy_host] == ""} {
 			set proxy_host "gateway.messenger.hotmail.com"
 			set proxy_port 80
 		} else {
-			set proxy_host [sb get $sbn proxy_host]
-			set proxy_port [sb get $sbn proxy_port]
+			set proxy_host [$sb cget -proxy_host]
+			set proxy_port [$sb cget -proxy_port]
 		}
 
 		
-		if {[sb get $sbn proxy_authenticate] == 1 } {
+		if {[$sb cget -proxy_authenticate] == 1 } {
 			set proxy_authenticate 1
-			set proxy_user [sb get $sbn proxy_user]
-			set proxy_password [sb get $sbn proxy_password]
+			set proxy_user [$sb cget -proxy_user]
+			set proxy_password [$sb cget -proxy_password]
 		}
 				
 			
 		if { [catch {set sock [socket -async $proxy_host $proxy_port]} res ] } {
-			sb set $sbn error_msg $res
+			$sbn configure -error_msg $res
 			return -1
 		}
 	
-		sb set $sbn sock $sock
+		$sbn configure -sock $sock
 		fconfigure $sock -buffering none -translation {binary binary} -blocking 0
 		
 		fileevent $sock readable ""
@@ -245,14 +245,14 @@ namespace eval ::HTTPConnection {
 		
 		fileevent $sock writable {}
 		
-		sb set $sbn stat "pc"
-		set remote_server [lindex [sb get $sbn server] 0]
+		$sbn configure -stat "pc"
+		set remote_server [lindex [$sb cget -server] 0]
 		set remote_port 1863
 
 		set error_msg [fconfigure $sock -error]   		
 		if { $error_msg != "" } {
-			sb set $sbn error_msg $error_msg
-			eval [sb get $sbn error_handler]
+			$sbn configure -error_msg $error_msg
+			eval [$sb cget -error_handler]
 			return
 		}
 
@@ -266,13 +266,13 @@ namespace eval ::HTTPConnection {
 		set tmp_data "$tmp_data\r\nPragma: no-cache"
 		set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
 		set tmp_data "$tmp_data\r\nContent-Length: 0"
-		if {[sb get $sbn proxy_authenticate] == 1 } {
-			set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode [sb get $sbn proxy_user]:[sb get $sbn proxy_password]]"
+		if {[$sb cget -proxy_authenticate] == 1 } {
+			set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode [$sb cget -proxy_user]:[$sb cget -proxy_password]]"
 		}
 		set tmp_data "$tmp_data\r\n\r\n"
 		status_log "::HTTPConnection::Connected: PROXY SEND ($sbn)\n$tmp_data\n" blue
 		if { [catch {puts -nonewline $sock "$tmp_data"} res]} {
-			eval [sb get $sbn error_handler]
+			eval [$sb cget -error_handler]
 		}
 		
 		fileevent $sock readable [list ::HTTPConnection::ConnectReply $sbn $sock]
@@ -284,7 +284,7 @@ namespace eval ::HTTPConnection {
 		HTTPRead $sbn
 		catch {
 			fileevent $sock readable [list ::HTTPConnection::HTTPRead $sbn]
-			set connected_command [sb get $sbn connected]
+			set connected_command [$sb cget -connected]
 			lappend connected_command $sock
 			fileevent $sock writable $connected_command			
 		}
@@ -293,15 +293,15 @@ namespace eval ::HTTPConnection {
 	proc RetryWrite { name } {
 		variable proxy_writing
 		status_log "Retrying write\n" blue
-		catch {fileevent [sb get $name sock] writable ""}
-		if { [catch {puts -nonewline [sb get $name sock] $proxy_writing} res] } {
-			sb set $name error_msg $res
-			eval [sb get $name error_handler]
+		catch {fileevent [$name cget -sock] writable ""}
+		if { [catch {puts -nonewline [$name cget -sock] $proxy_writing} res] } {
+			$name configure -error_msg $res
+			eval [$name cget -error_handler]
 		}
 		catch {unset proxy_writing}
-		if { [catch {fileevent [sb get $name sock] readable [list ::HTTPConnection::HTTPRead $name]} res] } {
-			sb set $name error_msg $res
-			eval [sb get $name error_handler]
+		if { [catch {fileevent [$name cget -sock] readable [list ::HTTPConnection::HTTPRead $name]} res] } {
+			$name configure -error_msg $res
+			eval [$name cget -error_handler]
 		}
 		
 		
@@ -316,10 +316,10 @@ namespace eval ::HTTPConnection {
 
 		after cancel "::HTTPConnection::HTTPPoll $name"   
 
-		set sock [sb get $name sock]
+		set sock [$name cget -sock]
 		if {[catch {eof $sock} res]} {      
 			status_log "::HTTPConnection::HTTPRead: Error, closing\n" red
-			eval [sb get $name error_handler]
+			eval [$name cget -error_handler]
 		} elseif {[eof $sock]} {
 			fileevent $sock readable ""	
 			fileevent $sock writable ""	
@@ -344,7 +344,7 @@ namespace eval ::HTTPConnection {
 
 			if { ([string range $tmp_data 9 11] != "200") && ([string range $tmp_data 9 11] != "100")} {
 				status_log "::HTTPConnection::HTTPRead: Proxy POST connection closed for $name:\n$tmp_data\n" red
-				eval [sb get $name error_handler]
+				eval [$name cget -error_handler]
 			} else {
 
 				set headers $tmp_data
@@ -391,7 +391,7 @@ namespace eval ::HTTPConnection {
 						set msg_data [string range $log 0 [expr {[lindex $recv 3]-1}]]
 						set log [string range $log [expr {[lindex $recv 3]}] end]
 
-						set evcommand [sb get $name payload_handler]
+						set evcommand [$name cget -payload_handler]
 						lappend evcommand $command
 						lappend evcommand $msg_data
 						eval $evcommand
@@ -399,7 +399,7 @@ namespace eval ::HTTPConnection {
 
 						#sb append $name data $msg_data
 					} else {
-						set evalcomm [sb get $name command_handler]
+						set evalcomm [$name cget -command_handler]
 						lappend evalcomm $command
 						eval $evalcomm
 					}
@@ -447,14 +447,14 @@ namespace eval ::HTTPConnection {
 				set tmp_data "$tmp_data\r\nPragma: no-cache"
 				set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
 				set tmp_data "$tmp_data\r\nContent-Length: 0"
-				if {[sb get $name proxy_authenticate] == 1 } {
-					set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode [sb get $name proxy_user]:[sb get $name proxy_password]]"
+				if {[$name cget -proxy_authenticate] == 1 } {
+					set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode [$name cget -proxy_user]:[$name cget -proxy_password]]"
 				}
 				set tmp_data "$tmp_data\r\n\r\n"
 
 				#status_log "PROXY POST polling connection ($name):\n$tmp_data\n" blue      
 				set proxy_writing $tmp_data
-				if { [catch {puts -nonewline [sb get $name sock] "$tmp_data" } res]} {
+				if { [catch {puts -nonewline [$name cget -sock] "$tmp_data" } res]} {
 					connect $name [list ::HTTPConnection::RetryWrite $name]
 					return 0
 				}
@@ -557,19 +557,19 @@ namespace eval ::Proxy {
 		
 		status_log "Calliinnnggggg Connect !!\n" white
 
-		fileevent [sb get $name sock] writable {}
+		fileevent [$name cget -sock] writable {}
 		
-		sb set $name stat "pc"
-		set remote_server [lindex [sb get $name server] 0]
+		$name configure -stat "pc"
+		set remote_server [lindex [$name cget -server] 0]
 		set remote_port 1863
 
 		switch $proxy_type {
 			http {
 
-				set error_msg [fconfigure [sb get $name sock] -error]   
+				set error_msg [fconfigure [$name cget -sock] -error]   
 				
 				if { $error_msg != "" } {
-					sb set $name error_msg $error_msg
+					$name configure -error_msg $error_msg
 					ClosePOST $name
 					return
 				}
@@ -589,16 +589,16 @@ namespace eval ::Proxy {
 				}
 				set tmp_data "$tmp_data\r\n\r\n"
 				status_log "PROXY SEND ($name)\n$tmp_data\n" blue
-				if { [catch {puts -nonewline [sb get $name sock] "$tmp_data"} res]} {
+				if { [catch {puts -nonewline [$name cget -sock] "$tmp_data"} res]} {
 					#TODO: Error connecting, logout and show error message
-					#sb set $name error_msg "[fconfigure [sb get $name sock] -error]"
+					#$name configure -error_msg "[fconfigure [$name cget -sock] -error]"
 					ClosePOST $name
 				}
 			}
 			ssl {
 				set tmp_data "CONNECT [join [list $remote_server $remote_port] ":"] HTTP/1.0"
 				status_log "PROXY SEND: $tmp_data\n"
-				puts -nonewline [sb get $name sock] "$tmp_data\r\n\r\n"
+				puts -nonewline [$name cget -sock] "$tmp_data\r\n\r\n"
 			}
 			socks5 {
 				set remote_server $proxy_host
@@ -641,8 +641,8 @@ namespace eval ::Proxy {
 		}
 
 		catch {
-			fileevent [sb get $name sock] readable ""
-			fileevent [sb get $name sock] writable ""
+			fileevent [$name cget -sock] readable ""
+			fileevent [$name cget -sock] writable ""
 		}
 		::MSN::CloseSB $name
 	}
@@ -651,13 +651,13 @@ namespace eval ::Proxy {
 	
 	proc ConnectedPOST { name } {
 		ReadPOST $name   
-		#sb set $name write_proc [list ::Proxy::WritePOST $name]
-		#sb set $name read_proc [list ::Proxy::ReadPOST $name"]
-		sb set $name connection_wrapper "ProxyPOST"
-		#catch { fileevent [sb get $name sock] readable [sb get $name readable] } res      
-		catch { fileevent [sb get $name sock] readable "::Proxy::ReadPOST $name" } res   
-		status_log "Evaluating: [sb get $name connected]\n" white
-		eval [sb get $name connected]    
+		#$name configure -write_proc [list ::Proxy::WritePOST $name]
+		#$name configure -read_proc [list ::Proxy::ReadPOST $name"]
+		$name configure -connection_wrapper "ProxyPOST"
+		#catch { fileevent [$name cget -sock] readable [$name cget -readable] } res      
+		catch { fileevent [$name cget -sock] readable "::Proxy::ReadPOST $name" } res   
+		status_log "Evaluating: [$name cget -connected]\n" white
+		eval [$name cget -connected]    
 	}
 
 	proc PollPOST { name } {
@@ -698,8 +698,8 @@ namespace eval ::Proxy {
 				set tmp_data "$tmp_data\r\n\r\n"
 
 				#status_log "PROXY POST polling connection ($name):\n$tmp_data\n" blue      
-				if { [catch {puts -nonewline [sb get $name sock] "$tmp_data" } res]} {
-					sb set $name error_msg $res
+				if { [catch {puts -nonewline [$name cget -sock] "$tmp_data" } res]} {
+					$name configure -error_msg $res
 					ClosePOST $name
 				}
 
@@ -769,8 +769,8 @@ namespace eval ::Proxy {
 
 			status_log "PROXY POST Sending: ($name)\n$tmp_data\n" blue
 			set proxy_queued_data($name) [string replace $proxy_queued_data($name) 0 $strend]         
-			if { [catch {puts -nonewline [sb get $name sock] "$tmp_data"} res] } {
-				sb set $name error_msg $res
+			if { [catch {puts -nonewline [$name cget -sock] "$tmp_data"} res] } {
+				$name configure -error_msg $res
 				ClosePOST $name
 			}
 
@@ -792,7 +792,7 @@ namespace eval ::Proxy {
 
 		after cancel "::Proxy::PollPOST $name"   
 
-		set sock [sb get $name sock]
+		set sock [$name cget -sock]
 		if {[catch {eof $sock} res]} {      
 			status_log "Proxy::ReadPOST: Error, closing\n" red
 			ClosePOST $name
@@ -878,12 +878,12 @@ namespace eval ::Proxy {
 		variable proxy_header
 		variable proxy_dropped_cb
 
-		set sock [sb get $name sock]
+		set sock [$name cget -sock]
 		
 		if {[eof $sock]} {
 		
 			close $sock
-			sb set $name stat "d"
+			$name configure -stat "d"
 			status_log "PROXY: $name CLOSED\n" red
 		} elseif {[gets $sock tmp_data] != -1} {
 		
@@ -896,7 +896,7 @@ namespace eval ::Proxy {
 
 				if {[lindex $proxy_status 1] != "200"} {
 					#close $sock
-					#sb set $name stat "d"
+					#$name configure -stat "d"
 					status_log "CLOSING PROXY: [lindex $proxy_header 0]\n"
 
 					# DEGT Use a callback mechanism to keep code pure
@@ -905,9 +905,9 @@ namespace eval ::Proxy {
 					}
 					return 1
 				}
-				status_log "PROXY ESTABLISHED: running [sb get $name connected]\n"
-				fileevent [sb get $name sock] readable [sb get $name readable]
-				eval [sb get $name connected]
+				status_log "PROXY ESTABLISHED: running [$name cget -connected]\n"
+				fileevent [$name cget -sock] readable [$name cget -readable]
+				eval [$name cget -connected]
 			}
 		}
 		return 0
