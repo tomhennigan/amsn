@@ -151,8 +151,7 @@ namespace eval ::amsnplus {
 				set msg ""
 				set strlen 0
 				set incr 0
-			}
-			if {[string equal $char "/add"]} {
+			} elseif {[string equal $char "/add"]} {
 				set msg [string replace $msg $i [expr $i + 4] ""]
 				set strlen [string length $msg]
 				set userlogin [::amsnplus::readWord $i $msg $strlen]
@@ -160,8 +159,7 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + $llen] ""]
 				::MSN::addUser $userlogin
 				set incr 0
-			}
-			if {[string equal $char "/addgroup"]} {
+			} elseif {[string equal $char "/addgroup"]} {
 				set msg [string replace $msg $i [expr $i + 9] ""]
 				set strlen [string length $msg]
 				set groupname $msg
@@ -170,8 +168,7 @@ namespace eval ::amsnplus {
 				::groups::Add $groupname
 				::amsn::WinWrite $chatid "\nAdded group $groupname" green
 				set incr 0
-			}
-			if {[string equal $char "/block"]} {
+			} elseif {[string equal $char "/block"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
 				set user_login [::amsnplus::readWord $i $msg $strlen]
@@ -181,15 +178,13 @@ namespace eval ::amsnplus {
 				set nick [::abook::getNick $user_login]
 				::MSN::blockUser $user_login [urlencode $nick]
 				set incr 0
-			}
-			if {[string equal $char "/clear"]} {
+			} elseif {[string equal $char "/clear"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
 				set chat_win $::ChatWindow::msg_windows($chatid)
 				::ChatWindow::Clear $chat_win
 				set incr 0
-			}
-			if {[string equal $char "/color"]} {
+			} elseif {[string equal $char "/color"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
 				set fontcolor [::amsnplus::readWord $i $msg $strlen]
@@ -198,14 +193,12 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + $flen] ""]
 				set strlen [string length $msg]
 				set incr 0
-			}
-			if {[string equal $char "/config"]} {
+			} elseif {[string equal $char "/config"]} {
 				set msg [string replace $msg $i [expr $i + 7] ""]
 				set strlen [string length $msg]
 				Preferences
 				set incr 0
-			}
-			if {[string equal $char "/delete"]} {
+			} elseif {[string equal $char "/delete"]} {
 				set msg [string replace $msg $i [expr $i + 7] ""]
 				set strlen [string length $msg]
 				set user_login [::amsnplus::readWord $i $msg $strlen]
@@ -215,8 +208,7 @@ namespace eval ::amsnplus {
 				::MSN::deleteUser $user_login
 				::amsn::WinWrite $chatid "\nYou've removed $user_login from the list\nTo add this contact again do: /add $user_login" green
 				set incr 0
-			}
-			if {[string equal $char "/deletegroup"]} {
+			} elseif {[string equal $char "/deletegroup"]} {
 				set msg [string replace $msg $i [expr $i + 12] ""]
 				set strlen [string length $msg]
 				set groupname $msg
@@ -225,8 +217,7 @@ namespace eval ::amsnplus {
 				::groups::Delete [::groups::GetId $groupname]
 				::amsn::WinWrite $chatid "\nYou've deleted group $groupname\nTo add this group again do: /addgroup $groupname" green
 				set incr 0
-			}
-			if {[string equal $char "/font"]} {
+			} elseif {[string equal $char "/font"]} {
 				set msg [string replace $msg $i [expr $i + 5] ""]
 				set strlen [string length $msg]
 				set fontfamily [::amsnplus::readWord $i $msg $strlen]
@@ -235,15 +226,13 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + $flen] ""]
 				set strlen [string length $msg]
 				set incr 0
-			}
-			if {[string equal $char "/help"]} {
+			} elseif {[string equal $char "/help"]} {
 				set msg [string replace $msg $i [expr $i + 5] ""]
 				set strlen [string length $msg]
 				set help [::amsnplus::help]
 				::amsn::WinWrite $chatid "\n$help" green
 				set incr 0
-			}
-			if {[string equal $char "/info"]} {
+			} elseif {[string equal $char "/info"]} {
 				set msg [string replace $msg $i [expr $i + 5] ""]
 				set strlen [string length $msg]
 				set field [::amsnplus::readWord $i $msg $strlen]
@@ -252,25 +241,20 @@ namespace eval ::amsnplus {
 				set strlen [string length $msg]
 				if {[string equal $field "color"]} {
 					::amsn::WinWrite $chatid "\nYour text color is $fontcolor" green
-				}
-				if {[string equal $field "font"]} {
+				} elseif {[string equal $field "font"]} {
 					::amsn::WinWrite $chatid "\nYour text font is $fontfamily" green
-				}
-				if {[string equal $field "nick"]} {
+				} elseif {[string equal $field "nick"]} {
 					set nick [::abook::getPersonal nick]
 					::amsn::WinWrite $chatid "\nYour nick is $nick" green
-				}
-				if {[string equal $field "state"]} {
+				} elseif {[string equal $field "state"]} {
 					set status [::MSN::myStatusIs]
 					set status [::MSN::stateToDescription $status]
 					::amsn::WinWrite $chatid "\nYour status is $status" green
-				}
-				if {[string equal $field "style"]} {
+				} elseif {[string equal $field "style"]} {
 					::amsn::WinWrite $chatid "\nYour font style is $fontstyle" green
 				}
 				set incr 0
-			}
-			if {[string equal $char "/invite"]} {
+			} elseif {[string equal $char "/invite"]} {
 				set msg [string replace $msg $i [expr $i + 7] ""]
 				set strlen [string length $msg]
 				set userlogin [::amsnplus::readWord $i $msg $strlen]
@@ -278,32 +262,27 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + $llen] ""]
 				::MSN::inviteUser $chatid $userlogin
 				set incr 0
-			}
-			if {[string equal $char "/kill"]} {
+			} elseif {[string equal $char "/kill"]} {
 				set msg ""
 				set strlen 0
 				close_cleanup;exit
-			}
-			if {[string equal $char "/leave"]} {
+			} elseif {[string equal $char "/leave"]} {
 				set msg ""
 				set strlen 0
 				::MSN::leaveChat $chatid
 				::amsn::WinWrite $chatid "\nYou have left this conversation" green
 				set incr 0
-			}
-			if {[string equal $char "/login"]} {
+			} elseif {[string equal $char "/login"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
 				::MSN::connect
 				set incr 0
-			}
-			if {[string equal $char "/logout"]} {
+			} elseif {[string equal $char "/logout"]} {
 				set msg ""
 				set strlen 0
 				::MSN::logout
 				set incr 0
-			}
-			if {[string equal $char "/nick"]} {
+			} elseif {[string equal $char "/nick"]} {
 				set msg [string replace $msg $i [expr $i + 5] ""]
 				set strlen [string length $msg]
 				set nick $msg
@@ -313,8 +292,7 @@ namespace eval ::amsnplus {
 				::MSN::changeName [::config::getKey login] $nick
 				::amsn::WinWrite $chatid "\nYour new nick is: $nick" green
 				set incr 0
-			}
-			if {[string equal $char "/sendfile"]} {
+			} elseif {[string equal $char "/sendfile"]} {
 				set msg [string replace $msg $i [expr $i + 9] ""]
 				set strlen [string length $msg]
 				set file [::amsnplus::readWord $i $msg $strlen]
@@ -327,8 +305,7 @@ namespace eval ::amsnplus {
 				set msg ""
 				set strlen 0
 				set incr 0
-			}
-			if {[string equal $char "/shell"]} {
+			} elseif {[string equal $char "/shell"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set command $msg
 				set msg ""
@@ -344,8 +321,7 @@ namespace eval ::amsnplus {
 					}
 				}
 				set incr 0
-			}
-			if {[string equal $char "/speak"]} {
+			} elseif {[string equal $char "/speak"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
 				set userlogin [::amsnplus::readWord $i $msg $strlen]
@@ -354,8 +330,7 @@ namespace eval ::amsnplus {
 				set strlen [string length $msg]
 				::amsn::chatUser $userlogin
 				set incr 0
-			}
-			if {[string equal $char "/state"]} {
+			} elseif {[string equal $char "/state"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
 				set nstate [::amsnplus::readWord $i $msg $strlen]
@@ -370,8 +345,7 @@ namespace eval ::amsnplus {
 					::amsn::WinWrite $chatid "\n$nstate is not valid" green
 				}
 				set incr 0
-			}
-			if {[string equal $char "/style"]} {
+			} elseif {[string equal $char "/style"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
 				set fontstyle [::amsnplus::readWord $i $msg $strlen]
@@ -380,12 +354,10 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + $flen] ""]
 				set strlen [string length $msg]
 				set incr 0
-			}
-			if {[string equal $char "/text"]} {
+			} elseif {[string equal $char "/text"]} {
 				set msg [string replace $msg $i [expr $i + 5] ""]
 				return $msg
-			}
-			if {[string equal $char "/unblock"]} {
+			} elseif {[string equal $char "/unblock"]} {
 				set msg [string replace $msg $i [expr $i + 8] ""]
 				set strlen [string length $msg]
 				set user_login [::amsnplus::readWord $i $msg $strlen]
@@ -395,8 +367,7 @@ namespace eval ::amsnplus {
 				set nick [::abook::getNick ${user_login}]
 				::MSN::unblockUser ${user_login} [urlencode $nick]
 				set incr 0
-			}
-			if {[string equal $char "/whois"]} {
+			} elseif {[string equal $char "/whois"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
 				set user_login [::amsnplus::readWord $i $msg $strlen]
