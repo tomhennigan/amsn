@@ -32,19 +32,27 @@
 	<ChatWindow>
 		<Colors>
 			<chatwindowbg>#c3c2d2</chatwindowbg>
-			<buttonbarbg>#fffff5</buttonbarbg>
-			<sendbuttonbg>#c3c2d2</sendbuttonbg>
-			<topbarbg>#fcfcee</topbarbg>
-			<topbartext>#000000</topbartext>
-			<topbarawaybg>#eaffe7</topbarawaybg>
+			<buttonbarbg>#fdfdfd</buttonbarbg>
+			<chat_buttons_border_color>#bbbbbb</chat_buttons_border_color>
+			<chat_input_border_color>#a6a5b2</chat_input_border_color>
+			<chat_output_border_color>#a6a5b2</chat_output_border_color>
+			<chat_dp_border_color>#a6a5b2</chat_dp_border_color>
+			<sendbuttonbg>#ffffff</sendbuttonbg>
+			<topbarbg>#f3f3ff</topbarbg>
+			<topbartext>#0005c3</topbartext>
+			<topbarborder>#5155ff</topbarborder>
+			<topbarawaybg>#f7fff7</topbarawaybg>
 			<topbarawaytext>#00aa00</topbarawaytext>
-			<topbarbusybg>#ffd2ff</topbarbusybg>
-			<topbarbusytext>#ff3232</topbarbusytext>
-			<topbarofflinebg>#f4f4f4</topbarofflinebg>
-			<topbarofflinetext>#a2a2a2</topbarofflinetext>
-			<chatborders>1</chatborders>
+			<topbarawayborder>#009a00</topbarawayborder>
+			<topbarbusybg>#fff3f7</topbarbusybg>
+			<topbarbusytext>#a21010</topbarbusytext>
+			<topbarbusyborder>#9c0000</topbarbusyborder>
+			<topbarofflinebg>#f6f6f6</topbarofflinebg>
+			<topbarofflinetext>#424242</topbarofflinetext>
+			<topbarofflineborder>#5e5e5e</topbarofflineborder>
 			<statusbarbg>#fcfcee</statusbarbg>
 			<statusbartext>#000000</statusbartext>
+			<chat_status_border_color>#6b5600</chat_status_border_color>
 
 		</Colors>
 		
@@ -71,10 +79,11 @@
 		</Geometry>
 		
 		<Options>
-			<chat_top_border>1</chat_top_border>
-			<chat_output_border>1</chat_output_border>
-			<chat_buttons_border>1</chat_buttons_border>
-			<chat_input_border>1</chat_input_border>
+			<chat_top_border>2</chat_top_border>
+			<chat_output_border>2</chat_output_border>
+			<chat_buttons_border>2</chat_buttons_border>
+			<chat_input_border>2</chat_input_border>
+			<chat_dp_border>2</chat_dp_border>
 			<chat_status_border>1</chat_status_border>
 			<chat_sash_showhandle>0</chat_sash_showhandle>
 		</Options>
