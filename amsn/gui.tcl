@@ -1184,7 +1184,7 @@ namespace eval ::amsn {
 		}
 		
 
-		set maxw [expr {[::config::getKey notifwidth]-20}]
+		set maxw [expr {[::skin::getKey notifwidth]-20}]
 		incr maxw [expr 0-[font measure splainf "[trans says [list]]:"]]
 		set nickt [trunc $nick $maxw splainf]
 
@@ -2722,8 +2722,8 @@ namespace eval ::amsn {
 			set msg "[string range $msg 0 100]..."
 		}
 
-		set notify_id [$w.c create text [expr [::config::getKey notifwidth]/2] 45 -font splainf \
-		-justify center -width [expr [::config::getKey notifwidth]-20] -anchor n -text "$msg"]
+		set notify_id [$w.c create text [expr [::skin::getKey notifwidth]/2] 45 -font splainf \
+		-justify center -width [expr [::skin::getKey notifwidth]-20] -anchor n -text "$msg"]
 
 		set after_id [after [::config::getKey notifytimeout] "::amsn::KillNotify $w $ypos"]
 
