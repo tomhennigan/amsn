@@ -147,6 +147,7 @@ customcolor Custom color
 custom_edit Edit custom smiley
 custom_new Add new custom smiley
 customnick Custom Nick
+customstyle Customized style
 cut Cut
 date Date
 days Days
@@ -271,7 +272,6 @@ invite Invite
 ipaddress IP Address
 ipdetect Detect correct IP for File Transfers using HTTP
 ircstyle IRC style chat
-customstyle Customized style
 istyping $1 is typing a message
 joins $1 joins conversation
 justonce Just once
@@ -283,6 +283,7 @@ lastlogin Last Log In
 lastlogout Last Log Out
 lastmsgedme Last Message
 lastmsgtime Last message received at $1
+lastseen Last time online
 lclosedwin $1 has closed the window on $2
 lconftopriv Conference turned into Private chat with $1
 lconvstarted Conversation started on $1
@@ -535,7 +536,7 @@ temp_state Don't save (Temporary state, will be missed when close AMSN)
 textsize Text size
 timeremaining Time remaining
 timestamps Enable timestamps on chat windows
-title Al's Messenger
+title aMSN
 tkerror TK has brought an error, there is a bug in amsn, please report it. Send the file $1 to amsn-bugs@lists.sf.net
 tlsdowncompleted File $1 was downloaded to directory $2. You must extract it, build it (if you downloaded source code) and install it inside $3.
 tlsexplain Folder where the tcl TLS module is located. If AMSN can't locate it, please specify.\n(Required for SSL authentication).

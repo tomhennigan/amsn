@@ -5618,7 +5618,12 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		} else {
 			set balloon_message3 ""
 		}
-		set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n$user_login\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 \n[trans lastlogin] : [::abook::getContactData $user_login last_login]\n[trans lastlogout] : [::abook::getContactData $user_login last_logout]\n[trans lastmsgedme] : [::abook::getContactData $user_login last_msgedme]"
+		if {$state_code == "FLN"} {
+			set balloon_message4 "\n[trans lastseen] : [::abook::getContactData $user_login last_seen]"
+		} else {
+			set balloon_message4 ""
+		}
+		set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n$user_login\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 $balloon_message4\n[trans lastmsgedme] : [::abook::getContactData $user_login last_msgedme]"
 		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 
 		$pgBuddy.text tag bind $user_unique_name <Leave> \

@@ -1,5 +1,4 @@
 amsn_lang_version 2
-customstyle Estilo personalizado
 about Acerca de
 accept Aceptar
 acceptfile ¿Aceptar archivo $1, tamaño $2 bytes? Se guardará en $3
@@ -149,6 +148,7 @@ customcolor Color personal
 custom_edit Editar emoticono personalizado
 custom_new Añadir emoticono personalizado
 customnick Apodo personal
+customstyle Estilo personalizado
 cut Cortar
 date Fecha
 days Días
@@ -285,6 +285,7 @@ lastlogin Última conexión
 lastlogout Última desconexión
 lastmsgedme Último mensaje
 lastmsgtime Último mensaje recibido a las $1
+lastseen Última vez visto en línea
 lclosedwin $1 ha cerrado la ventana a las $2
 lconftopriv La conversación pasa a ser un privado con $1
 lconvstarted Comienza la conversación a las $1
@@ -536,7 +537,7 @@ temp_state No almacenar (Estado temporal, se perderá al reiniciar AMSN)
 textsize Tamaño del texto
 timeremaining Tiempo restante
 timestamps Activar hora en los mensajes
-title Al's Messenger
+title aMSN
 tkerror Se ha producido un error de TK, hay un fallo en amsn, por favor informanos. Para ello envía el archivo $1 a amsn-bugs@lists.sf.net
 tlsdowncompleted El archovo $1 se ha descargado en el directorio $2. Ahora debes descomprimirlo, compilarlo (si has bajado el código fuente) y instalarlo en $3.
 tlsexplain Carpeta donde se encuentra el módulo TLS para tcl. Si AMSN no lo encuentra,\npor favor especifícalo. (Necesario para la autentificación mediante SSL).

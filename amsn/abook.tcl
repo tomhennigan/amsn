@@ -398,7 +398,16 @@ namespace eval ::abook {
 		}
 		return $nick
 	}
-	
+
+	proc lastSeen { } {
+		foreach contact [::abook::getAllContacts] {
+			set user_state_code [::abook::getVolatileData $contact state FLN]
+			if {$user_state_code != "FLN"} {
+				::abook::setContactData $contact last_seen [clock format [clock seconds] -format "%D - %H:%M:%S"]
+			}
+		}
+	}
+
 	#Parser to replace special characters and variables in the right way
 	proc parseCustomNick { input nick user_login customnick } {
 		#By default, quote backslashes and variables
@@ -770,6 +779,9 @@ namespace eval ::abookGui {
 		
 		label $nbIdent.lastlogout -text "[trans lastlogout]:"
 		label $nbIdent.lastlogout1 -text [::abook::getContactData $email last_logout] -font splainf -fg blue 
+
+		label $nbIdent.lastseen -text "[trans lastseen]:"
+		label $nbIdent.lastseen1 -text [::abook::getContactData $email last_seen] -font splainf -fg blue
 		
 		label $nbIdent.lastmsgedme -text "[trans lastmsgedme]:"
 		label $nbIdent.lastmsgedme1 -text [::abook::getContactData $email last_msgedme] -font splainf -fg blue
@@ -828,6 +840,8 @@ namespace eval ::abookGui {
 		grid $nbPhone.lastlogout1 -row 18 -column 3 -sticky w
 		grid $nbPhone.lastmsgedme -row 20 -column 0 -sticky e
 		grid $nbPhone.lastmsgedme1 -row 20 -column 1 -sticky w
+		grid $nbPhone.lastseen -row 20 -column 2 -sticky e
+		grid $nbPhone.lastseen1 -row 20 -column 3 -sticky w
 		grid $nbPhone.clientname -row 21 -column 0 -sticky e
 		grid $nbPhone.clientname1 -row 21 -column 1 -sticky w
 		grid $nbPhone.chatlogging -row 21 -column 2 -sticky e

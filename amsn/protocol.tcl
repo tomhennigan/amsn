@@ -851,6 +851,8 @@ namespace eval ::MSN {
 
 	 
 	proc logout {} {
+
+		::abook::lastSeen
 		
 		::MSN::WriteSBRaw ns "OUT\r\n";
 
@@ -3473,8 +3475,9 @@ proc cmsn_change_state {recv} {
 	#User logsout
 	if {$substate == "FLN"} {
 		
-		#Register last logout
+		#Register last logout and last seen
 		::abook::setContactData $user last_logout [clock format [clock seconds] -format "%D - %H:%M:%S"]
+		::abook::setContactData $user last_seen [clock format [clock seconds] -format "%D - %H:%M:%S"]
 		
 		if { ($config(notifyoffline) == 1 && [::abook::getContactData $user notifyoffline -1] != 0) ||
 		     [::abook::getContactData $user notifyoffline -1] == 1 } {
