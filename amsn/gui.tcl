@@ -1212,11 +1212,11 @@ namespace eval ::amsn {
 
       set win_name [WindowFor $chatid]
 
-      if { [lindex [${win_name}.f.out.ys get] 1] == 1.0 } {
-         set scrolling 1
-      } else {
-         set scrolling 0
-      }
+      #if { [lindex [${win_name}.f.out.ys get] 1] == 1.0 } {
+      #   set scrolling 1
+      #} else {
+      #   set scrolling 0
+      #}
 
 
       ${win_name}.f.top.text configure -state normal -font sboldf -height 1 -wrap none
@@ -1293,8 +1293,10 @@ namespace eval ::amsn {
 			wm title ${win_name} ${title}
 		}
 
+     	#if { $scrolling } { ${win_name}.f.out.text yview moveto 1.0 }
+
       update idletasks
-      if { $scrolling } { ${win_name}.f.out.text yview moveto 1.0 }
+
 
       after cancel "::amsn::WinTopUpdate $chatid"
       after 5000 "::amsn::WinTopUpdate $chatid"
@@ -3909,21 +3911,25 @@ proc cmsn_draw_signin {} {
    #$pgBuddy.text insert end "\n\n\n\n\n\n\n"
    $pgBuddy.text insert end "\n\n\n\n\n"
 
-   label .loginanim -background [$pgBuddy.text cget -background]
-   ::anigif::anigif [GetSkinFile pixmaps loganim.gif] .loginanim
+	catch {
 
-   $pgBuddy.text insert end " " signin
-   $pgBuddy.text window create end -window .loginanim
-   $pgBuddy.text insert end " " signin
+		label .loginanim -background [$pgBuddy.text cget -background]
+		::anigif::anigif [GetSkinFile pixmaps loganim.gif] .loginanim
 
-   bind .loginanim <Destroy> "::anigif::destroy .loginanim"
+		$pgBuddy.text insert end " " signin
+		$pgBuddy.text window create end -window .loginanim
+		$pgBuddy.text insert end " " signin
+
+		bind .loginanim <Destroy> "::anigif::destroy .loginanim"
+		tkwait visibility .loginanim
+
+	}
 
    $pgBuddy.text insert end "\n\n"
    $pgBuddy.text insert end "[trans loggingin]..." signin
    $pgBuddy.text insert end "\n"
    $pgBuddy.text configure -state disabled
 
-   tkwait visibility .loginanim
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -5501,11 +5507,11 @@ proc msg_box {msg} {
 #///////////////////////////////////////////////////////////////////////
 # launch_browser(url)
 # Launches the configured file manager
-proc launch_browser { url } {
+proc launch_browser { url {local 0}} {
 
 	global config tcl_platform
 
-	if { ([string tolower [string range $url 0 6]] != "http://") && ([string tolower [string range $url 0 6]] != "file://") } {
+	if { ([string tolower [string range $url 0 6]] != "http://") && ([string tolower [string range $url 0 6]] != "file://") && $local != 1 } {
 		set url "http://$url"
 	}
 
