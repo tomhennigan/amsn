@@ -13,30 +13,40 @@ if {[info exist found]} {
   if {![file exist $file]} {return 0}
 
   set gets [open $file r]
-  gets $gets; gets $gets; set match [gets $gets]
-  switch -- [lindex $match 1] {
-   "Playing" {
-    gets $gets; gets $gets; gets $gets; gets $gets; gets $gets; gets $gets; 
-    gets $gets; gets $gets; gets $gets; set match [gets $gets]
-    return [lrange $match 1 end]
-   }
-   "Stopped" {
-    return 0
-   }
-   "Paused" {
-    gets $gets; gets $gets; gets $gets; gets $gets; gets $gets; gets $gets;
-    gets $gets; gets $gets; gets $gets; set match [gets $gets]
-    return [lrange $match 1 end] 
-   }
+
+  while {![eof $gets]} {
+
+   set tmp [gets $gets]
+   set info([lindex $tmp 0]) [lrange $tmp 1 end]
+   unset tmp
+
+  }
+
+  close $gets
+
+  switch -- $info(Status:) {
+   "Playing" { lappend return $info(Title:); lappend return $info(File:) }
+   "Paused" { lappend return $info(Title:); lappend return $info(File:) }
+   "Stopped" { set return 0 }
+   default { set return 0 }
+  }
+  return $return
+ }
+
+ proc xmms {win_name action} {
+
+  set info [GetSong]
+  set song [lindex $info 0]
+  set file [lindex $info 1]
+
+  if {$info == "0"} { msg_box [trans xmmserr]; return 0 }
+
+  if {$action == "1"} {
+   ::amsn::MessageSend .${win_name} 0 "[trans playing $song]"
+  } elseif {$action == "2"} {
+#   ::MSNFT::SendFile ${win_name} $file
+   return 0
   }
  }
-
- proc xmms {win_name} {
-
-  set playing [GetSong]
-
-  if {$playing == "0"} { msg_box [trans xmmserr]; return 0 }
-
-  ::amsn::MessageSend .${win_name} 0 "[trans playing $playing]"
- }
+ return 1
 }

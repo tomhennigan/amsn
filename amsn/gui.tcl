@@ -1460,7 +1460,7 @@ namespace eval ::amsn {
       .${win_name}.copy add command -label [trans copy] -command "status_log copy\n;copy 0 .${win_name}"
 
       if {[info exist xmms(loaded)]} {
-       .${win_name}.copy add command -label XMMS -command "xmms ${win_name}"
+       .${win_name}.copy add command -label XMMS -command "xmms ${win_name} 1"
       }
 
       frame .${win_name}.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -relief flat
