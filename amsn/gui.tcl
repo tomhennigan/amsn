@@ -1337,7 +1337,7 @@ namespace eval ::amsn {
 				wm deiconify ${win_name}
 				if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 					lower ${win_name}
-					win_Position_Mac ${win_name}
+					moveinscreen ${win_name} 30
 				} else {
 					raise ${win_name}
 				}
@@ -1367,7 +1367,7 @@ namespace eval ::amsn {
 				#To have the new window "behind" on Mac OS X
 				if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 					lower ${win_name}
-					win_Position_Mac ${win_name}
+					moveinscreen ${win_name} 30
 				} else {
 					raise ${win_name}
 				}
@@ -3237,7 +3237,7 @@ namespace eval ::amsn {
 
 		update idletasks
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		win_Position_Mac ${win_name}
+		moveinscreen ${win_name} 30
 		}
 		WinTopUpdate $chatid
 
@@ -4103,17 +4103,11 @@ proc cmsn_draw_main {} {
 		catch {wm iconmask . @[GetSkinFile pixmaps amsnmask.xbm]}
 	}
 
-	#For All Platforms (except Mac)
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-	#For Mac OS X (AquaTK) only
-		#Always place the contact list at the same position but keep the size from config
-		catch {wm geometry . $config(wingeometry)}
-		wm geometry . +0+30
-	} else {
 		#Set the position on the screen and the size for the contact list, from config
 		update
 		catch {wm geometry . $config(wingeometry)}
-	}
+		moveinscreen . 30
+	
 	
 	
 	#allow for display updates so window size is correct
@@ -7891,25 +7885,6 @@ proc lastKeytyped {typed bottom} {
 			
 			focus -force $bottom.in.input;$bottom.in.input insert insert $typed
 		}
-}
-
-#win_PositionMac
-#To place the openchatwindow at the right place on Mac OS X
-#Because the windowmanager will put all the window in bottom left after some time
-proc win_Position_Mac {win} {
-	#To know where the window manager want to put the window in X and Y
-	set info1 [winfo x $win]
-	set info2 [winfo y $win]
-	#Determine the maximum place in Y to place a window
-	#Size of the screen (in y) - size of the window
-	set max [expr [winfo vrootheight $win] - [winfo height $win]]
-	#If the position of the window in y is superior to the maximum
-	#Then up the window by the size of the window
-	if {$info2 > $max} { set info2 [expr {$info2 - [winfo height $win]}] }
-	#If the result is smaller than 25 (on small screen) then use 25 
-	if { $info2 < 25 } { set info2 25 }
-	#Replace the window to the new position on the screen
-	wm geometry $win +${info1}+${info2}
 }
 
 # taken from ::tk::TextSetCursor
