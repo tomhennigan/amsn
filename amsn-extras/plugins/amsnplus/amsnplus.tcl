@@ -111,7 +111,6 @@ namespace eval ::amsnplus {
 			set char [::amsnplus::readWord $i $msg $strlen]
 			######################################################
 			#                 MORE COMMAND IDEAS
-			# /sendfile (file) (user)
 			# /sound file
 			# /whois contact
 			######################################################
