@@ -651,7 +651,7 @@ namespace eval ::amsn {
    # The procedure will open a window if it does not exists, add a notifyWindow and
    # play a sound if it's necessary
    proc messageFrom { chatid user msg type {fontformat ""} } {
-      global remote_auth
+      global remote_auth config
 
       set win_name [MakeWindowFor $chatid $user $msg]
        
@@ -664,11 +664,15 @@ namespace eval ::amsn {
        } 
 
       PutMessage $chatid $user $msg $type $fontformat
-      
-      set evPar [list $user [lindex [::MSN::getUserInfo $user] 1] $msg]
-      
-      ::plugins::postEvent chat_msg_received $evPar
-      
+
+      set evPar [list $user [lindex [::MSN::getUserInfo $user] 1] $msg]            
+      if { "$user" == "$config(login)" } {
+         ::plugins::postEvent chat_msg_sent $evPar
+      } else { 
+	 ::plugins::postEvent chat_msg_received $evPar
+      }
+
+            
             
    }
    #///////////////////////////////////////////////////////////////////////////////

@@ -39,7 +39,8 @@ namespace eval ::MSNFT {
       variable filedata
       
       ::amsn::fileTransferRecv $filename $filesize $cookie $chatid $fromlogin
-      set filedata($cookie) [list "$filename" $filesize $chatid $fromlogin "receive" "ipaddr"]
+      set filedata($cookie) [list "$filename" $filesize $chatid $fromlogin "receivewait" "ipaddr"]
+      after 300000 "::MSNFT::DeleteFT $cookie"
       #set filetoreceive [list "$filename" $filesize]
       
    }
@@ -72,7 +73,9 @@ namespace eval ::MSNFT {
 	 set newcookie [::md5::md5 "$cookie$fromlogin"]
 	 set filedata($newcookie) $filedata($cookie)
          SendFile $newcookie $cookie
-      
+      #TODO: Show accept or reject messages from other users? (If transferType=="receive")
+      } elseif {($ipaddr == "") && ([getTransferType $cookie]!="send")} { 
+         ::amsn::acceptedFT $chatid $fromlogin [getFilename $cookie]
       #If message comes from sender, and we are receiver, connect
       } elseif { ($fromlogin == [lindex $filedata($cookie) 3]) && ([getTransferType $cookie]=="receive")} {
       
@@ -171,6 +174,8 @@ namespace eval ::MSNFT {
          return 0
       }
 
+      after cancel "::MSNFT::DeleteFT $cookie"
+      set filedata($cookie) [lreplace $filedata($cookie) 4 4 "receive"]
 
       set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
       set msg "${msg}Invitation-Command: ACCEPT\r\n"
@@ -229,7 +234,12 @@ namespace eval ::MSNFT {
       status_log "Connecting to $ipaddr port $port\n"
       ::amsn::FTProgress c $cookie [lindex $filedata($cookie) 0] $ipaddr $port
 
-      set sockid [socket -async $ipaddr $port]
+      if { [catch {set sockid [socket -async $ipaddr $port]} res ]} {
+	set filename [lindex $filedata($cookie) 0]
+        cancelFT $cookie
+        ::amsn::FTProgress e $cookie $filename
+        return
+      }
 
       lappend filedata($cookie) $sockid
       
