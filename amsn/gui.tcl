@@ -89,7 +89,11 @@ namespace eval ::amsn {
 		global tcl_platform
 		global tlsplatform
 
-		if { $tcl_platform(os) == "Linux" } {
+		if { ($tcl_platform(os) == "Linux") && ($tcl_platform(machine) == "ppc")} {
+			set tlsplatform "linuxppc"
+		} elseif { ($tcl_platform(os) == "Linux") && ($tcl_platform(machine) == "sparc")} {
+			set tlsplatform "linuxsparc"
+		} elseif { $tcl_platform(os) == "Linux" } {
 			set tlsplatform "linuxx86"
 		} elseif { $tcl_platform(os) == "NetBSD"} {
 			set tlsplatform "netbsdx86"
@@ -116,6 +120,7 @@ namespace eval ::amsn {
 		pack .tlsdown.choose -side top -anchor w -padx 10 -pady 10
 
 		radiobutton .tlsdown.linuxx86 -text "Linux-x86" -variable tlsplatform -value "linuxx86" -font splainf
+		radiobutton .tlsdown.linuxppc -text "Linux-PowerPC" -variable tlsplatform -value "linuxppc" -font splainf
 		radiobutton .tlsdown.linuxsparc -text "Linux-SPARC" -variable tlsplatform -value "linuxsparc" -font splainf
 		radiobutton .tlsdown.netbsdx86 -text "NetBSD-x86" -variable tlsplatform -value "netbsdx86" -font splainf
 		radiobutton .tlsdown.netbsdsparc64 -text "NetBSD-SPARC64" -variable tlsplatform -value "netbsdsparc64" -font splainf
@@ -136,6 +141,7 @@ namespace eval ::amsn {
 		pack .tlsdown.f.ok -side right -padx 10 -pady 10
 
 		pack .tlsdown.linuxx86 -side top -anchor w -padx 15
+		pack .tlsdown.linuxppc -side top -anchor w -padx 15
 		pack .tlsdown.linuxsparc -side top -anchor w -padx 15
 		pack .tlsdown.netbsdx86 -side top -anchor w -padx 15
 		pack .tlsdown.netbsdsparc64 -side top -anchor w -padx 15
@@ -169,6 +175,9 @@ namespace eval ::amsn {
 			switch $tlsplatform {
 				"linuxx86" {
 					set downloadurl "$baseurl-linux-x86.tar.gz"
+				}
+				"linuxppc" {
+					set downloadurl "$baseurl-linux-ppc.tar.gz"
 				}
 				"linuxsparc" {
 					set downloadurl "$baseurl-linux-sparc.tar.gz"
@@ -229,7 +238,8 @@ namespace eval ::amsn {
 			} else {
 				$w.close configure -command "::http::reset $tok"
 				wm protocol $w WM_DELETE_WINDOW "::http::reset $tok"
-				grab $w
+				tkwait visibility $w
+				catch {grab $w}
 			}
 		}
 	}
