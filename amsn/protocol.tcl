@@ -58,7 +58,7 @@ namespace eval ::MSN {
 
       }
 
-      ::MSN::TogglePolling
+      ::MSN::StartPolling
       ::groups::Reset
 
       #Alert dock of status change
@@ -72,11 +72,12 @@ namespace eval ::MSN {
       if {[sb get ns stat] == "d"} {
          return 0
       }
+      
+      sb set ns stat "d"
       global config user_stat
       variable myStatus
       #catch {puts -nonewline [sb get ns sock] "OUT\r\n"; close [sb get ns sock]} res
       ::MSN::WriteSBRaw ns "OUT\r\n";
-      sb set ns stat "d"
 
       catch {close [sb get ns sock]} res
 
@@ -93,6 +94,8 @@ namespace eval ::MSN {
       }
 
       ::groups::Disable
+      
+      ::MSN::StopPolling
 
       cmsn_draw_offline
       #Alert dock of status change
@@ -386,8 +389,8 @@ namespace eval ::MSN {
 
 
    #Internal procedures
-
-   proc TogglePolling {} {
+  
+   proc StartPolling {} {
       global config
 
       if {$config(keepalive) == 1 } {
@@ -397,6 +400,12 @@ namespace eval ::MSN {
       }
    }
 
+   proc StopPolling {} {
+      global config
+
+      after cancel "::MSN::PollConnection"
+   }   
+   
    proc PollConnection {} {
       variable myStatus
 
@@ -421,6 +430,17 @@ namespace eval ::MSN {
       set msgid [incr trid]
 
       set msgtxt "$cmd $msgid $param\r"
+      
+      global config
+      if { ($config(withproxy) == 1)} {
+         ::Proxy::WritePOST $sbn "$msgtxt\n"
+         if {$handler != ""} {
+            global list_cmdhnd
+            lappend list_cmdhnd [list $trid $handler]
+         }     
+         return 
+      }
+      
       set sb_sock [sb get $sbn sock]
 
       if {[catch {puts $sb_sock "$msgtxt"} res]} {
@@ -448,6 +468,12 @@ namespace eval ::MSN {
 
    proc WriteSBRaw {sbn cmd} {
 
+      global config
+      if { ($config(withproxy) == 1)} {
+         ::Proxy::WritePOST $sbn "$cmd"
+         return
+      }
+      
       set sb_sock [sb get $sbn sock]
 
       #set command "[sb get ns puts] -nonewline [sb get ns sock] \"$cmd\""
@@ -471,24 +497,26 @@ namespace eval ::MSN {
    proc CloseSB { sbn } {
 
       status_log "::MSN::CloseSB: $sbn\n" green
-      catch { fileevent [sb get $sbn sock] readable "" } res
-      catch { fileevent [sb get $sbn sock] writable "" } res
-      catch {close [sb get $sbn sock]} res   
-  
-      set oldstat [sb get $sbn stat]
-      sb set $sbn stat "d"   
-      sb set $sbn sock ""
-   
-      
+       set oldstat [sb get $sbn stat]
+
+         catch { fileevent [sb get $sbn sock] readable "" } res
+         catch { fileevent [sb get $sbn sock] writable "" } res
+       
+              
       if { $sbn == "ns" } {
    
-         status_log "Closing NS socket! (stat= [sb get ns stat])\n" red      
+         status_log "Closing NS socket! (stat= $oldstat)\n" red      
          if { ("$oldstat" != "d") && ("$oldstat" != "u") } {
             logout
          }
       
       } else {
-   
+ 
+         catch {close [sb get $sbn sock]} res   
+
+        
+         sb set $sbn stat "d"   
+         sb set $sbn sock ""
   
          set chatid [::MSN::ChatFor $sbn]
 
@@ -2790,10 +2818,11 @@ proc cmsn_socket {name} {
 
       set proxy_serv [split $config(proxy) ":"]
       set tmp_serv [lindex $proxy_serv 0]
-      set tmp_port [lindex $proxy_serv 1]
+      set tmp_port [lindex $proxy_serv 1]        
       ::Proxy::OnCallback "dropped" "proxy_callback"
 
       status_log "Calling proxy::Setup now\n" white
+      #Sets up next and readable_handler variables
       ::Proxy::Setup next readable_handler $name
 
       #TODO: Add timeout for proxy in cmsn_reconnect
@@ -2813,8 +2842,6 @@ proc cmsn_socket {name} {
    }
      sb set $name time [clock seconds]
      sb set $name stat "cw"
-     sb set $name puts "puts"
-     sb set $name gets "gets"     
    
      set sock [socket -async $tmp_serv $tmp_port]
      sb set $name sock $sock

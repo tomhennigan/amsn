@@ -289,7 +289,8 @@ proc timestamp {} {
 proc status_log {txt {colour ""}} {
 
    .status.info insert end "[timestamp] $txt" $colour
-   .status.info yview moveto 1.0
+   #puts "[timestamp] $txt" 
+   #.status.info yview moveto 1.0
 }
 #///////////////////////////////////////////////////////////////////////////////
 

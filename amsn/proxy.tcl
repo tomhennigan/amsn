@@ -98,12 +98,11 @@ proc Connect {name} {
    
    fileevent [sb get $name sock] writable {}
    sb set $name stat "pc"
-   set remote_server [sb get $name serv]
+   set remote_server [lindex [sb get $name serv] 0]
    set remote_port 1863
    switch $proxy_type {
        post {
-           status_log "Here in ::Proxy::Connect\n" white
-	   set tmp_data "POST http://gateway.messenger.hotmail.com/gateway/gateway.dll?Action=open&Server=NS&IP=$remote_server HTTP/1.1"
+	   set tmp_data "POST http://gateway.messenger.hotmail.com/gateway/gateway.dll?Action=open&Server=[string toupper [string range $name 0 1]]&IP=$remote_server HTTP/1.1"
 	   set tmp_data "$tmp_data\r\nAccept: */*"
 	   set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
 	   set tmp_data "$tmp_data\r\nUser-Agent: MSMSGS"
@@ -114,8 +113,11 @@ proc Connect {name} {
 	   set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
 	   set tmp_data "$tmp_data\r\nContent-Length: 0"
 	   set tmp_data "$tmp_data\r\n\r\n"
-	   status_log "PROXY SEND: $tmp_data\n"
-	   puts -nonewline [sb get $name sock] "$tmp_data\r\n\r\n"
+	   status_log "PROXY SEND ($name)\n $tmp_data\n" red
+	   if { [catch {puts -nonewline [sb get $name sock] "$tmp_data"} res]} {
+	      #TODO: Error connecting, logout and show error message
+	      error "Cannot connect to proxy: $res"
+	   }
        }
        http {
 	   set tmp_data "CONNECT [join $remote_server ":"] HTTP/1.0"
@@ -147,96 +149,29 @@ proc ConnectedPOST { name } {
    variable proxy_gateway_ip
    variable proxy_queued_data
 
-   set sock [sb get $name sock]
-   if {[catch {eof $sock} res]} {      
+   ReadPOST $name
+   set proxy_queued_data($name) ""   
+   fileevent [sb get $name sock] readable "::Proxy::ReadPOST $name"
+   status_log "Evaluating: [sb get $name connected]\n" white
+   eval [sb get $name connected]    
+  
 
-   	sb set $name "d"
-        fileevent [sb get $name sock] readable [sb get $name readable]        	
-	catch {close $sock} res
-	
-   } elseif {[eof $sock]} {
-
-   	sb set $name "d"
-        fileevent [sb get $name sock] readable [sb get $name readable]        	
-	catch {close $sock} res
-      
-   } else {
-   
-      set tmp_data "ERROR READING POST PROXY !!\n"
-      
-      catch {gets $sock tmp_data} res        
-      
-      if { $tmp_data != "HTTP/1.0 200 OK\r" } {
-         status_log "Proxy POST Reply: $tmp_data\n" red
-   	 sb set $name "d"         
-         fileevent [sb get $name sock] readable [sb get $name readable]
-	 catch {close $sock} res
-      } else {
-         set headers ""
-         while { $tmp_data != "" } {
-            catch {gets $sock tmp_data} res        
-	    set headers "$headers\n$tmp_data"
-	 }
-         status_log "Proxy POST Headers: $headers\n" white	 
-	 set info "[::MSN::GetHeaderValue $headers X-MSN-Messenger]\n"
-	 
-	 set start [expr {[string first "SessionID=" $info] + 10}]
-	 set end [expr {[string first ";" $info $start]-1}]
-	 if { $end < 0 } { set end [expr {[string first "\n" $info $start]-1}] }
-	 set proxy_session_id($name) "[string range $info $start $end]"
-	 
-	 set start [expr {[string first "GW-IP=" $info] + 6}]
-	 set end [expr {[string first ";" $info $start]-1}]
-	 if { $end < 0 } { set end [expr {[string first "\n" $info $start]-1}] }
-	 set proxy_gateway_ip($name) "[string range $info $start $end]"
-	 
-	 set proxy_queued_data($name) ""
-	 
-	 sb set $name puts "::Proxy::WritePOST $name"
-         #fileevent [sb get $name sock] readable [sb get $name readable]
-	 fileevent [sb get $name sock] readable "::Proxy::ReadPOST $name"
-	 status_log "Evaluating: [sb get $name connected]\n" white
-	 eval [sb get $name connected]
-	 	 
-	 
-      }
-   }   
 
 }
 
 proc PollPOST { name } {
-
-	variable proxy_queued_data
-
-	status_log "Polling proxy POST connection\n"
-	if { [string length $proxy_queued_data($name)] > 0 } {
-		WritePOST $name -nonewline [sb get $name sock] ""
-	} else {
-		after 5000 "::Proxy::PollPOST $name"	
-	}	
-
-}
-
-proc WritePOST { name nonewline sock { msg 0} } {
    variable proxy_session_id
-   variable proxy_gateway_ip
-   variable proxy_queued_data
-
-   if { $msg == 0} {
-     set msg $sock
-     set sock $nonewline
-     set nonewline ""
-   }
-
-   if { $nonewline != "-nonewline" } {
-     set msg "$msg\n"  
-   }
-   
-   set proxy_queued_data($name) "$proxy_queued_data($name)$msg"
+   variable proxy_gateway_ip 
+   variable proxy_queued_data  
    
    if { $proxy_session_id($name) != "" } {
    
-      set tmp_data "POST http://$proxy_gateway_ip($name)/gateway/gateway.dll?SessionID=$proxy_session_id($name) HTTP/1.1"
+      if { $proxy_queued_data($name) != ""} {
+         set tmp_data "POST http://$proxy_gateway_ip($name)/gateway/gateway.dll?SessionID=$proxy_session_id($name) HTTP/1.1"
+      } else {
+         set tmp_data "POST http://$proxy_gateway_ip($name)/gateway/gateway.dll?Action=poll&SessionID=$proxy_session_id($name) HTTP/1.1"
+      }
+
       set tmp_data "$tmp_data\r\nAccept: */*"
       set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
       set tmp_data "$tmp_data\r\nUser-Agent: MSMSGS"
@@ -247,15 +182,31 @@ proc WritePOST { name nonewline sock { msg 0} } {
       set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
       set tmp_data "$tmp_data\r\nContent-Length: [string length $proxy_queued_data($name)]"
       set tmp_data "$tmp_data\r\n\r\n$proxy_queued_data($name)"
-      status_log "PROXY SEND: $tmp_data\n"
-      puts -nonewline [sb get $name sock] "$tmp_data\r\n"
+      
+      status_log "PROXY SEND ($name)\n $tmp_data\n" red
+      catch {puts -nonewline [sb get $name sock] "$tmp_data\r\n"} res
    
       set proxy_queued_data($name) ""   
       set proxy_session_id($name) ""
    }
    
+
+   after 10000 "::Proxy::PollPOST $name"
+}
+
+
+proc WritePOST { name msg } {
+   variable proxy_queued_data
+  
+   set proxy_queued_data($name) "$proxy_queued_data($name)$msg"
+   if {$name != "ns" } {
+     degt_protocol "->Proxy($name) $msg" sbsend
+   } else {
+     degt_protocol "->Proxy($name) $msg" nssend
+   }
+   
    after cancel "::Proxy::PollPOST $name"	
-   after 5000 "::Proxy::PollPOST $name"	
+   after 500 "::Proxy::PollPOST $name"	
 
 }
 
@@ -285,18 +236,18 @@ proc ReadPOST { name } {
       set tmp_data [stringmap { "\r" "" } $tmp_data]
       
       if { $tmp_data != "HTTP/1.0 200 OK" } {
-         status_log "Proxy POST Headers: $tmp_data\n" red
+         status_log "Proxy POST Headers ($name)\n $tmp_data\n" red
    	 sb set $name "d"  
          fileevent [sb get $name sock] readable [sb get $name readable]        
 	 catch {close $sock} res
       } else {
       
          set headers ""
-         while { $tmp_data != "" } {
+         while { $tmp_data != "\r"  } {
             catch {gets $sock tmp_data} res        
 	    set headers "$headers\n$tmp_data"
 	 }
-         status_log "Proxy POST Headers: $headers\n" white	 
+         status_log "Proxy POST Headers ($name)\n $headers\n" white	 
 	 set info "[::MSN::GetHeaderValue $headers X-MSN-Messenger]\n"
 	 
 	 set start [expr {[string first "SessionID=" $info] + 10}]
@@ -309,40 +260,50 @@ proc ReadPOST { name } {
 	 if { $end < 0 } { set end [expr {[string first "\n" $info $start]-1}] }
 	 set proxy_gateway_ip($name) "[string range $info $start $end]"
 	 
-	 set content_length "[::MSN::GetHeaderValue $headers Content-Length]\n"
-	 status_log "Content_Length: $content_length\n"
-	 fconfigure $sock -blocking 1
-	 set content_data [read $sock $content_length]
-	 fconfigure $sock -blocking 0
-	 status_log "Content_Data: $content_data\n"
+	 set content_length "[::MSN::GetHeaderValue $headers Content-Length]\n"	 
+	 set content_data ""
+	 if { $content_length > 0 } {
+	    #status_log "Reading, maybe we block here?\n" red
+	    fconfigure $sock -blocking 1
+	    set content_data [read $sock $content_length]
+            fconfigure $sock -blocking 0	    
+	    #status_log "Finished reading\n" red	    
+	 }
 
-	 set log [stringmap {\r ""} $content_data]
+	 #set log [stringmap {\r ""} $content_data]
+	 set log $content_data
 	 
 	 while { $log != "" } {
+	        status_log "Here\n"
 	 	set endofline [string first "\n" $log]
-		set command [string range $log 0 $endofline]
+		set command [string range $log 0 [expr {$endofline-1}]]
 		set log [string range $log [expr {$endofline +1}] end]
 		sb append $name data $command
 		
-		degt_protocol "<-Proxy($name) $command\\n" nsrecv      
+		degt_protocol "<-Proxy($name) $command" nsrecv      
 		
       		if {[string range $command 0 2] == "MSG"} {
          		set recv [split $command]
-	 		set msg_data [string range $log 0 [lindex $recv 3]]
-			set log [string range $log [expr {[lindex $recv 3] +1}] end]
+	 		set msg_data [string range $log 0 [expr {[lindex $recv 3]-1}]]
+			set log [string range $log [expr {[lindex $recv 3]}] end]
 
 	 		degt_protocol " Message contents:\n$msg_data" msgcontents
 	 
-         		sb append ns data $msg_data			
+         		sb append $name data $msg_data	
 		}	 
 	 
 	 }
 	 
+	 if { $content_length > 1024 } {
+	    after cancel "::Proxy::PollPOST $name"	
+            after 500 "::Proxy::PollPOST $name"	
+         }
          #fileevent [sb get $name sock] readable [sb get $name readable]
 	 #fileevent [sb get $name sock] readable "::Proxy::ReadPOST $name"
 	 
       }
    }   
+   
 }
 
 proc Read { name } {
@@ -382,6 +343,9 @@ proc Read { name } {
 }
 ###################################################################
 # $Log$
+# Revision 1.6  2003/06/02 01:36:37  airadier
+# Proxy POST support quite finished (still misses catching errors and that things)
+#
 # Revision 1.5  2003/06/01 19:49:36  airadier
 # Very alpha support of POST proxy method.
 # Removed WriteNS, WriteNSRaw, and read_ns_sock, it was same code as WriteSB, WriteSBRaw and read_sb_sock, so now they're the same, always use SB procedures.
