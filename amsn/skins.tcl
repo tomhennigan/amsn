@@ -148,7 +148,7 @@ proc findskins { } {
 }
 
 proc SelectSkinGui { } {
-	global config bgcolor2
+	global bgcolor2
 
 	set w .skin_selector
 
@@ -291,7 +291,6 @@ proc clear_exampleimg { } {
 }
 
 proc selectskinok { w } {
-    global config
 
     if { [$w.main.right.box curselection] == "" } {
 	$w.status configure -text "[trans selectskin]"
