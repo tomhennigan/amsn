@@ -4,6 +4,7 @@ accept Sprejmi
 acceptfile Ali sprejme¹ datoteko $1, njena velikost je $2? Shranjeno v $3
 actions Akcije
 activeautoupdate Avtomatsko posodabljanje
+add Dodaj
 addacontact Dodaj stik
 addedyou $1 ($2) vas je dodal/a na svoj seznam stikov
 addprofile Dodaj profil
@@ -121,6 +122,7 @@ clear Poèisti
 clearlog Poèisti dnevnik
 clearlog2 Poèisti zgodovino za vse stike
 clearlog3 Poèisti vse dnevnike
+clicktoadd Klikni na gumb Dodaj za novo opombo
 clicktologin Klikni sem za prijavo
 clientcaps Po¹lji x-clientcaps paketek drugim odjemalcem
 clientname Odjemalec
@@ -144,6 +146,7 @@ connecterror Napaka pri povezavi na stre¾nik
 connecting Povezujem se
 connection Povezava
 connectionlost Povezava s stre¾nikom prekinjena
+contact Stik
 contactadded Stik dodan
 contactdoesnotexist Stik ne obstaja!
 contactlist Seznam stikov
@@ -156,9 +159,11 @@ corruptconfig Nastavitvena datoteka je pokvarjena. Ustvarjam novo. Stara datotek
 corruptstates Datoteka z osebnimi stanji je pokvarjena. Ustvarjam novo. Stara datoteka bo shranjena v $1. Prosim, po¹lji jo, da preverimo, kaj se je zgodilo.
 countrycode Oznaka moje dr¾ave
 cprofile Ustvari profil
+created Ustvarjeno
 credits Zasluge
 currentdate Trenutni datum
 currentlanguage Jezik, ki ga uporablja¹
+currentnotes Trenutne opombe
 custnotifymsg Prika¾i obvestilo, ko ti ta stik po¹lje sporoèilo
 custnotifyoffline Prika¾i obvestilo, ko se ta stik odjavi
 custnotifyonline Prika¾i obvestilo, ko se ta stik prijavi
@@ -295,6 +300,7 @@ ignoreerrors Ne ka¾i veè sporoèil o napakah do zaprtja programa
 imagefiles Slike
 inbox Inbox
 insertsmiley Vstavi emotikon
+inserttextnote Vpi¹i besedilo v polji za naslov in opombo ter klikni na gumb Shrani
 installconvert Namestiti mora¹ ImageMagick (program za pretvarjanje), da bi pretvarjal slike v format, ki ga potrebujejo MSN-jevi stre¾niki. Binarne datoteke za tvoj operacijski sistem lahko pobere¹ s ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . èe ga ze ima¹, je to hro¹è. Prosim, povej zanj.
 internalerror Notranja napaka stre¾nika
 invalidfile Datoteka $2 iz polja "$1" ne obstaja ali ni berljiva
@@ -366,6 +372,7 @@ maximised Maksimiran
 minimised Minimiran
 mins minut
 mobile Mobilni
+modified Popravljeno
 morepersonal Veè stanj ->
 month Mesec
 move Premakni
@@ -415,6 +422,7 @@ noprofileexists Trenutno ni profilov.\nDa jih uporablja¹, ustvari novega\nz gumb
 normal Normalno
 noskins Privzetega skina ni v imeniku skins/ . AMSNja ni mogoèe zagnati.
 nosystemtray Tray ni na voljo
+note Opomba
 notificationserver Zaèetni MSNjev stre¾nik (MSN Messengerjev stre¾nik)
 notify obvesti
 notify1 Prika¾i obvestilo, ko se kdo prijavi
@@ -528,7 +536,6 @@ savecontacts Shrani seznam stikov
 savetofile Shrani v datoteko
 says $1 pravi
 sbcon Povezujem se na Switch Board
-selectlanguage Izberi jezik
 selectplugins Izberi plugin, ki ga ¾eli¹ omogoèiti
 selectskin Izberi skin s seznama
 send Po¹lji
@@ -590,6 +597,8 @@ style Naèin pogovora
 stylechat Enak izgled kot pogovori
 stylehist Izgled zgodovine
 stylelog Izberi zapis, v katerem ¾eli¹ videti zgodovino
+subject Naslov
+subjectrequired Naslov je potreben
 syntaxerror Napaka v sintaksi
 tabbed Okna z zavihki
 tabbedglobal Okno z zavihki za vse stike

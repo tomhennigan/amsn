@@ -4,12 +4,13 @@ accept Elfogad
 acceptfile Fogadott fájl $1, méret $2? Lementve $3
 actions Mûveletek
 activeautoupdate Auto-frissítés akiválása
+add hozzáad
 addacontact Partner hozzáadása
 addedyou $1 ($2) Téged hozzáadott a partnerlistájához
 addprofile Új Profil hozzáadása
 addprofiledesc Add meg a létrehozandó profil nevét. \nA Profilok használatával különbözõ beállításokat alkalmazhatsz minden profilra.\nA Profilok nélkül nem használhatod az Elõzményeket, a Figyelmeztetõ jelzéseket vagy a ,Jelszó megjegyzése' funkciót.
 addstate Saját állapot hozzáadása
-addto addto addto add a $1 -hez
+addto addto addto addto addto add a $1 -hez
 addtocontacts Hozzáadás a partnerlistához
 addtoo Ennek a személynek hozzáadása a partnerlistához
 admincontacts Partnerek szerkesztése
@@ -121,6 +122,7 @@ clear Törlés
 clearlog Naplófájl törlése
 clearlog2 Az összes beszélgetésem naplójának törlése
 clearlog3 Minden naplófájl törlése
+clicktoadd Kattints a hozzáad gombra egy új jegyzet hozzáadásához
 clicktologin Kattints ide a bejelentkezéshez
 clientcaps küldj x-clientcaps csomagot más partnereknek
 clientname Kliens név
@@ -144,10 +146,12 @@ connecterror Hiba a szerverhez kapcsolódás közben
 connecting Kapcsolódás
 connection Kapcsolódás
 connectionlost Lekapcsolódva: A kapcsolat a szerverrel lezárult
+contact Kapcsolat
 contactadded Kapcsolat hozzáadása
 contactdoesnotexist A kapcsolat nem jött létre!
 contactlist Partnerlista (PL):
 continuously Folyamatosan
+conversationwith $1 felhasználó a beszélgetésben
 convertexplain útvonal a CONVERT futtatható filehoz az ImageMagick-ból (a képmegjelenítéshez szükséges).\n hagyd üresen, ha a PATH be van állítva
 copy Másolás
 copytogroup Másolás a csoportokba
@@ -155,9 +159,11 @@ corruptconfig A beállítási fájl hibás. Új létrehozása. A régi ellesz mentve ide:
 corruptstates A saját állapot beállításai hibásak. Új létrehozása. A régi fájl ellesz mentve ide: $1. Légyszíves küldd el nekünk, hogy megnézhessük mi történt.
 countrycode Ország/Régió kód
 cprofile Profil létrehozása
+created Létrehozva
 credits Stáblista
 currentdate Jelenlegi dátum
 currentlanguage Ezt a nyelvet használod
+currentnotes Jelenlegi jegyzetek
 custnotifymsg Értesítés új üzenetekrõl
 custnotifyoffline Értesítési ablak, ha egy partner lecsatlakozik
 custnotifyonline Értesítési ablak, ha egy partner csatlakozik
@@ -197,6 +203,7 @@ displayeventemail Megjelenítés, ha egy E-Mail érkezett
 displayeventstate Megjelenítés, ha egy partner állapotot vált
 displayp4context Jelenítsd meg a P4-Tartalom mezõt mint üzenet küldõt
 displaypic Kép megjelenítése
+dockfreedesktop FreeDesktop ( KDE3/Gnome2 )
 dockgtk Dokkolás a Gnome-ba
 docking Dokkolás
 dockingoff Dokkolás kikapcsolása
@@ -261,6 +268,7 @@ ftrejectedby $1 nem fogadta el a fájl átviteli kérést a '$2' fájlra.
 ftsendinvitation A kérés a '$2' fájl átvitelére ($3 byte) elküldve ide: $1.
 fullcontactlist A partnerlistád tele van. Törölnöd kell pár partnert hogy újat vehess fel.
 getdisppic Más felhasználók képeinek fogadása
+globalcontainer Általános tároló
 globalnick Írj ide egy mintát a partnereid nevének megformázására. A következõ változókat használhatod: \$user_login A partner címe, \$nick A partner beceneve és \$customnick a partner egyéni beceneve. Pl.: '\$user_login neve \$nick' eredménye 'partner@msn.com neve Partner'
 globalnicktitle Általános Becenév
 globaloverride Az általános becenév minták felülírják az egyedi beceneveket
@@ -292,6 +300,7 @@ ignoreerrors Csendben fojts el minden egyéb AMSN hibát amíg az ülés él
 imagefiles Képfájlok
 inbox Beérkezõ üzenetek
 insertsmiley Mosolyjel beszúrása
+inserttextnote Töltsd ki a tárgy ás a jegyzet mezöket, majd nyomd meg a mentés-t
 installconvert Fel kell telepítened az ImageMagick programot (konvertáló program) hogy saját mosolyjeleket / ikonokat használhass. Az ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ címrõl tudod letölteni. Ha már telepítve van, akkor itt egy hiba van, légyszíves jelentsd. Ezek az opciók most ki lesznek kapcsolva, ha felteszed az ImageMagic -ot késõbb akkor kapcsold be a beállításoknál.
 internalerror Szerver hiba
 invalidfile A $2 fájl amit a "$1" mezõben adtál meg nem létezik vagy nem olvasható
@@ -363,6 +372,7 @@ maximised Teljes méret
 minimised kisméred/Ikonméret
 mins percel
 mobile Mobil
+modified Módosítva
 month Hónap
 morepersonal Több állapot ->
 move Áthelyezés
@@ -394,6 +404,7 @@ newmailfrom Új levél érkezett... $1 ($2)
 newmailfromother Új levél $1 -tõl eltérõ mappában ($2)
 newmsg Új levél
 newstate Saját állapot hozzáadása
+newtabbedfeature Az aMSN-nek van egy új szolgáltatása a beszélgetések lekezelésére, Mostantól az összes beszélgetésed csoportonként vagy akér minden partnerrel egy füles ablakra kerülhet. Kérlek válaszd ki az üzemmódot amivel az aMSN kezelje a beszélgetéseket
 newveravailable Újabb verzió $1 elérhetõ letöltésre.
 next Következõ
 nick Becenév
@@ -411,6 +422,7 @@ noprofileexists Nincsenek profilok, \n létre kell hoznod egyet, hogy profillal j
 normal Normál
 noskins Nem találom az alapértelmezett felületet a skins/ könyvtárban. Az aMSN nem tud elindulni.
 nosystemtray A tray ikon nem elérhetõ
+note Jegyzet
 notificationserver MSN Notification Server elindítása (MSN Messenger Szerver)
 notify értesítés
 notify1 Figyelmeztetõ ablak megjelenítése amikor egy partner bejelentkezik
@@ -425,6 +437,7 @@ notifytyping Figyelmeztetés küldése gépelés közben
 notifywin Értesítõ ablak
 notinlist Nem vagy a partner listáján
 notls Az MSN 9 protokolnak szüksége van a TLS csomagra. Ez a csomag nincs installálva ezen a gépen. Ha installálva van, a TLS csomag helye a beállításokban adható meg (pl: /opt/tls/lib). \n \n A TLS csomag letölthetõ innen : http://tls.sf.net.
+nottabbed Normál ablakok fülek nélkül
 nousersinsession Nincs felhasználó a kapcsolatok között
 nudge $1 A figyelmedet szerené
 offline Kapcsolat nélkül
@@ -584,8 +597,12 @@ style Stílus
 stylechat A beszélgetõ ablakokhoz hasonló
 stylehist Elõzmények kinézete
 stylelog Válaszd ki az elõzmények megtekintési formáját
+subject Tárgy
+subjectrequired A tárgy kitöltése kötelez
 syntaxerror Szintaktikai hiba
 tabbed Füles ablakok
+tabbedglobal Egy füles ablak minden beszélgetésnek a listából minden parnerrel
+tabbedgroups Egy füles ablak minden beszélgetésnek a listából minden parnerrel csoportonként
 tabtitlenick Becenevek jelenjenek meg E-mail címek helyett a fülön?
 temp_state Ne mentsd (Ideiglenes állás, elveszik az aMSN bezárásával)
 textsize Szöveg méret
