@@ -1343,7 +1343,7 @@ namespace eval ::amsn {
       variable winid
       variable window_titles
       variable first_message
-      global  config HOME files_dir bgcolor bgcolor2 tcl_platform
+      global  config HOME files_dir bgcolor bgcolor2 tcl_platform xmms
 
       set win_name "msg_$winid"
       incr winid
@@ -1431,6 +1431,10 @@ namespace eval ::amsn {
       menu .${win_name}.copy -tearoff 0 -type normal
       .${win_name}.copy add command -label [trans copy] -command "status_log copy\n;copy 0 .${win_name}"
 
+      if {[info exist xmms(loaded)]} {
+       .${win_name}.copy add command -label XMMS -command "xmms ${win_name}"
+      }
+
       frame .${win_name}.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -relief flat
 
       frame .${win_name}.f.out -class Amsn -background white -borderwidth 0 -relief flat
@@ -1469,7 +1473,6 @@ namespace eval ::amsn {
       frame .${win_name}.f.in.f -class Amsn -borderwidth 0 -relief solid -background white
       button .${win_name}.f.in.f.send  -text [trans send] -width 5 -borderwidth 1 -relief solid \
          -command "::amsn::MessageSend .${win_name} .${win_name}.f.in.input" -font bplainf -highlightthickness 0
-
 
       #scrollbar .${win_name}.f.top.ys -command ".${win_name}.f.top.text yview"
 

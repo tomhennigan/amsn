@@ -240,7 +240,7 @@ proc new_config_entry  {cstack cdata saved_data cattr saved_attr args} {
 }
 
 proc load_config {} {
-    global config HOME password protocol
+    global config HOME password protocol clientid
 
     set use_xml 1
 
@@ -319,6 +319,9 @@ proc load_config {} {
      
 
     set protocol $config(protocol)
+
+    # WebCam: clientid is 268435508, but since we dont support webcam, this is the default:
+    set clientid "268435500"
 
 	# Load up the personal states
 	LoadStateList

@@ -912,9 +912,9 @@ namespace eval ::MSN {
 
    proc changeStatus {new_status} {
       variable myStatus
-      global autostatuschange
+      global autostatuschange clientid
 
-      ::MSN::WriteSB ns "CHG" $new_status
+      ::MSN::WriteSB ns "CHG" "$new_status $clientid"
       set myStatus $new_status
 
       #Reset automatic status change to 0
@@ -3503,7 +3503,7 @@ proc cmsn_auth_msnp9 {{recv ""}} {
 				status_log "cmsn_auth: was expecting VER reply but got a [lindex $recv 0]\n" red
 				return 1
 			} elseif {[lsearch -exact $recv "CVR0"] != -1} {
-				::MSN::WriteSB ns "CVR" "0x0409 winnt 5.1 i386 MSNMSGR 5.0.0540 MSMSGS $config(login)"
+				::MSN::WriteSB ns "CVR" "0x0409 winnt 6.0 i386 MSNMSGR 6.0.0602 MSMSGS $config(login)"
 				sb set ns stat "i"
 				return 0
 			} else {
