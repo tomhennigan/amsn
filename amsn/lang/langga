@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Acerca de
+accept Aceptar
 acceptfile ¿Aceptar arquivo $1, tamaño $2 bytes? gardarase en $3
 actions Accións
 addacontact Engadir un contacto
@@ -9,6 +10,8 @@ addtoo Engadir esta persoa á miña lista de contactos
 admincontacts Administrar contactos
 admingroups Administrar grupos
 adverts Anuncios
+alarmpref Opcións de aviso para o usuario
+alarmstatus Activar/Desactivar aviso para este usuario
 allowseen Permitir a esta persoa ver cando estás conectado e contactar
 appearoff Sen conexión
 aretyping $1 están escribindo unha mensaxe
@@ -21,11 +24,12 @@ blankdirect Deixar en branco para conexión directa
 blocked Bloqueado
 block Non admitir
 broughtby Traido a Vd. polos seguintes programadores
+browse Examinar
 browser Navegador
 busy Non dispoñible
 cancel Cancelar
+cfgalarm Configurar/Engadir/Quitar alarma
 changenick Cambiar alcume
-chatack Aceptando conversa de
 chatack Aceptando conversa de
 chat Conversa
 chatreq Solicitando unha conversa
@@ -36,8 +40,8 @@ choosebasefont Elixir tipo de letra
 choosebgcolor Elixir cor de fondo
 choosefontcolor Elixir cor da letra
 clicktologin Fai click aquí para inicia-la sesión
-close Cerrar
-closingdocks Botón de cerrar minimiza
+close Pechar
+closingdocks Botón de pechar minimiza
 command Comando
 confirmdelete ¿Seguro de desexa borrar a $1?
 connecterror Error ó conectar co servidor
@@ -58,7 +62,9 @@ filedoesnotexist O arquivo non existe
 filename Nome do Arquivo
 filetransfercancelled Transferencia do arquivo cancelada
 filetransfercomplete Transferencia do arquivo completada
-gonelunch Saín comer
+ftaccepted Transferencia de arquivo aceptada
+ftrejected Transferencia de arquivo rexeitada
+gonelunch Saín a comer
 groupadd Engadir un grupo
 groupdelete Borrar un grupo
 groupexists O grupo xa existe
@@ -92,29 +98,29 @@ loggedotherlocation Desconectado: iniciouse sesión noutra ubicación
 loggingin Iniciando sesión
 loginas Iniciar sesión como
 login Iniciar sesión
-logout Cerrar sesión
+logout Pechar sesión
 logsin acaba de iniciar sesión
 mailer Comando de email
 mobile Celular
 movetogroup Mover ó grupo
 msg Mensaxe
 msn AMSN
-mustrestart Debes reiniciar-lo programa para aplica-los cambios
+mustrestart Debes reinicia-lo programa para aplica-los cambios
 mystatus Meu estado
 needonline Vostede aínda está/aparece desconectado!
 newmail $1 mensaxes novas na bandexa de entrada
-newmailfrom Novo correo de
+newmailfrom Novo correo de $1
 newmsg Nova mensaxe
 newveravailable Nova versión $1 dispoñible para descarga
 next Seguinte
 noactivity Sen actividade
-nonewmail Non mensaxes novas na bandexa de entrada
+nonewmail Sen mensaxes novas na bandexa de entrada
 nonewver Non hai versións máis actuais dispoñibles
 notify aviso
 nousersinsession Non hai usuarios na sesión
 offline Desconectado
 ok Aceptar
-onenewmail 1 mensaxe nova na bandexa de entrada
+onenewmail mensaxe nova na bandexa de entrada
 online Conectado
 onphone Ó teléfono
 openreceived Abrir arquivos recibidos
@@ -124,6 +130,8 @@ other Outro
 pager Paxinador
 pass Contrasinal
 phone Teléfono
+picfile Imaxen de aviso (GIF < 500 x 500)
+picstatus Activar/Desactivar imaxen de aviso
 port Porto
 prefapps Aplicacións
 preferences Preferencias
@@ -136,6 +144,7 @@ receivedbytes Recibidos $1 de $2 bytes totais
 receivefile Recibir arquivo
 reconnect Agardando que $1 reconecte
 reconnecting Reconectando ó servidor
+reject Rexeitar
 rememberpass Lembrar contrasinal
 rightback Volvo nun intre
 saveas Gardar como
@@ -150,9 +159,13 @@ sendmsg Enviar mensaxe
 sentbytes Enviados $1 de $2 bytes totais
 servergoingdown Desconectado: O servidor apagarase por mantemento
 server Servidor
+soundfile Son de aviso
+soundloop Repetir son
 sound Son eventos
+soundstatus Activar/Desactivar son de aviso
 startoffline Comezar Desconectado
 status Estado
+stopalarm Para-lo aviso
 syntaxerror Error de sintaxe
 textsize Tamaño do texto
 title Al's Messenger
