@@ -456,6 +456,8 @@ namespace eval ::amsnplus {
 					set style [linsert $style end "bold"]
 				}
 			}
+			if {[string equal $char [binary format c 4]]} {
+			}
 			if {[string equal $char [binary format c 5]]} {
 				set msg [string replace $msg $i [expr $i - 1] ""]
 				set strlen [string length $msg]
