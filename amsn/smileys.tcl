@@ -3,13 +3,6 @@
 #
 
 
-# Comments on this file were made at an early hour.. I'm tired... and my english is poor.. so sorry 
-# if you don't understand a word.. at least it's better than having nothing at all ...
-# KaKaRoTo ;)
-
-
-
-
 #///////////////////////////////////////////////////////////////////////////////
 # proc compareSmileyLength { a_name b_name } 
 #
@@ -24,9 +17,6 @@ proc compareSmileyLength { a_name b_name } {
 
     set a $emotions(${a_name}_text)
     set b $emotions(${b_name}_text)
-
-#   puts "a : $a -- a_name : $a_name"
-#   puts "b : $b -- b_name : $b_name"
 
     if { [string length [lindex $a 0]] > [string length [lindex $b 0]] } {
 	return -1
@@ -80,9 +70,6 @@ proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
        set emoticon_number [expr $emoticon_number + 1]
    }
     
-#    puts "new emoticon : $name"
-
-
     lappend emotions_names "$name"
 
     foreach x [array names sdata] {
@@ -120,18 +107,11 @@ proc load_smileys { } {
     sxml::parse $skin_id
     sxml::end $skin_id
 
-    #source [file join $program_dir skins $skin smileys.tcl]
-
     if { ! [info exists smileys_drawn] } {
 	set smileys_drawn 0
     }
 
-#    puts "$emotions_names"
-
     set sortedemotions [lsort -command compareSmileyLength $emotions_names]
-    
-#    puts "$sortedemotions"
-
     set emotion_files [list]
     
     foreach x $emotions_names {
@@ -206,13 +186,12 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
 	foreach symbol $emotions(${emotion}_text) {
 	    set chars [string length $symbol]
 
-#	    puts "$symbol"
+
 	    set animated [valueforemot "$emotion" animated]
 	    set sound [valueforemot "$emotion" sound]
 	    if { [valueforemot "$emotion" casesensitive] } {set nocase "-exact"} else {set nocase "-nocase"}
 	    if { $config(animatedsmileys) == 0 } {set animated 0}
 
-#	    puts "$symbol :  $animated -- $sound -- $nocase"
 
 	    while {[set pos [$tw search -exact $nocase \
 				 $symbol $start end]] != ""} {
@@ -227,218 +206,33 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
 
 		if { $animated } {
 		    
-# 		    if { [llength [$tw bbox $pos]] == 0 } {
-# 			$tw image create $pos -name anigif_$file -image $file -pady 1 -padx 1
-# 		    }
 		    set emoticon $tw.${smileys_drawn}_anigif_$filename
 		    set smileys_drawn [expr $smileys_drawn + 1]		      
 		    
 		    label $emoticon -bd 0 -background [$tw cget -background]
-		    ::anigif::anigif  [file join $smileys_folder ${file}] $emoticon
+		    ::anigif::anigif [file join $smileys_folder ${file}] $emoticon
 		    
 		    $tw window create $pos -window $emoticon       
 		    bind $emoticon <Destroy> "::anigif::destroy $emoticon"		    
 #		    bind $emoticon <Visibility> "VisibilityChangeEmot $emoticon 1 %s $tw $pos $file"
 
-		    anigif_info set $emoticon 1
 
-#		    puts "animated gif"
+
 		} else {
-		    	    
 		    $tw image create $pos -image $file -pady 1 -padx 1
-#		    puts "normal gif"
 		}
 
-		#         $tw insert [expr $pos] ":)" 	       
-		# 	  $tw tag add elided_smiley [expr $pos]
-		# 	  $tw tag configure elided_smiley -elide true
 		
 		if { $config(emotisounds) == 1 && $enable_sound == 1 && $sound != "" } {
 		    catch {eval exec $config(soundcommand) [file join $sounds_folder ${sound}] &} res
 		}
 
-#		break
-
 		
 	    }
 	}
     }
 
-
-#    set smileys_end_subst 1
 }
-
-
-
-#///////////////////////////////////////////////////////////////////////////////
-# proc ScrollChange { from w args }
-#
-# This is a new function.. it's called whenever a chat window is scrolled..
-# this means when you scroll or when new text is entered.. it's used to destroy 
-# animated gifs when they aren't displayed and to recreate them when they are displayed
-# First it checks if it's the text widget that called the function or the scrollbar
-# depending on the result, it calls the appropriate function to synchronize text/scrollbar widgets
-# then it verifies every window in the text widget (animated gifs) if it's not displayed,
-# it destroys it and replaces it with a static image with a name begining with anigif_ 
-# then the file it represents (to change it back).
-# Then it scans every image (static smileys) in the text widget and every image
-# whose name contains "anigif_" (animated gif transformed into static gif and that are displayed
-# to the screen are destroyed then replaced with the appropriate animated gif
-
-
-proc ScrollChange { from w args } {
-
-#    puts "from :$from -- $w --  $args"
-
-
-
-    # Update --- Sync the text and scrollbar widgets    
-
-    if { $from == "text" } {
-	.$w.f.out.ys set [lindex $args 0] [lindex $args 1]
-    } elseif { $from == "scrollbar" } {    
-	if { "[lindex $args 2]" != "" } {
-	    .$w.f.out.text yview [lindex $args 0] [lindex $args 1] [lindex $args 2] 
-	} else {
-	    .$w.f.out.text yview [lindex $args 0] [lindex $args 1] 
-	}
-    }
-
-    set tw .$w.f.out.text
-
-
-    # Update gifs
-    catch {
-	
-	# For every animated gif check if it's displayed
-	foreach window [$tw window names] {
-	    #	puts "$window"
-
-#	    set pos [$tw index $window]
-#	    set file [string range $window [expr [string first "anigif_" $window] + 7] end]   
-
-
-	    if { [anigif_info get $window] && [llength [$tw bbox $window]] == 0 } {
-		
-		anigif_info set $window 0
-
-#		puts "animated gif disappears -- pos : $pos --- file : $file "
-		::anigif::stop $window	
-			
-
-# 		$tw image create $pos -name anigif_$file -image $file -pady 1 -padx 1
-
-# 		destroy $window
-# 		::anigif::destroy $window
-
-
-	    } elseif { ![anigif_info get $window] && [llength [$tw bbox $window]] != 0 } {
-
-		anigif_info set $window 1
-
-#		puts "animated gif appears -- pos : $pos --- file : $file "
-
-		::anigif::restart $window
-
-	    }
-	    
-	}
-	
-	# For every static image, check if it was an animated one that is now displayed
-# 	foreach window [$tw image names] {
-# 	    #	puts "$window"
-	    
-	    
-# 	    if { [string match "anigif_*" $window] == 0 } {continue}
-	    
-# 	    if { [llength [$tw bbox $window]] != 0 } {
-# 		global smileys_drawn smileys_folder
-
-# 		$tw configure -state normal
-
-# 		set pos [$tw index $window]
-# 		if { [string last "\#" $window] != -1 } {
-# 		    set file [string range $window [expr [string first "anigif_" $window] + 7] [expr [string last "\#" $window] - 1]]
-# 		} else {
-# 		    set file [string range $window [expr [string first "anigif_" $window] + 7] end]
-# 		}
-
-		
-		
-# 		puts "animated gif appears -- pos : $pos --- file : $file "
-		
-# 		$tw delete $pos 
-# 		set emoticon $tw.${smileys_drawn}_anigif_$file
-# 		set smileys_drawn [expr $smileys_drawn + 1]		      
-		
-# 		label $emoticon -bd 0 -background [$tw cget -background]
-# 		::anigif::anigif  [file join $smileys_folder ${file}] $emoticon
-		
-# 		$tw window create $pos -window $emoticon       
-# 		bind $emoticon <Destroy> "::anigif::destroy $emoticon"
-		
-# 		$tw configure -state disabled
-# 	    }
-	    
-# 	} 
-    }
-    
-}
-
-
-#///////////////////////////////////////////////////////////////////////////////
-# proc anigif_info { w } 
-#
-# simple function to verify if an animated gif is animated or stoped
-# returns 1 if animated and 0 if not
-
-proc anigif_info { command w args} {
-    global anigif_info
-
-    switch  $command {
-	set {
-	    set anigif_info($w) [lindex $args 0]
-	} 
-	get {
-	    if { [info exists anigif_info($w)] } {
-		return $anigif_info($w)
-	    } else { return 0 }
-		 
-	}
-    }
-	    
-
-
-#     if { [catch { after info [set ${window}(loop)] }] != 0 } {
-# 	return 0
-#     } else {return 1}
-
-    
-}
-
-
-
-
-# proc VisibilityChangeEmot { emoticon emstate state tw pos file } {
-
-#     puts "$emoticon -- $emstate -- $state -- $pos --- $file"
-
-#     if { $emstate == 1 } {
-# 	if { $state != "VisibilityFullyObscured" } {return}
-
-# 	$tw delete $pos
-# 	destroy $emoticon
-
-	
-# 	$tw image create $pos -image $file -pady 1 -padx 1
-# 	$tw tag configure aniimages
-# 	$tw tag add aniimages $pos
-# 	$tw tag bind aniimages <Visibility> "VisibilityChangeEmot $emoticon 0 %s $tw $pos $file"
-#     }
-
-# }
-
-
 
 
 #///////////////////////////////////////////////////////////////////////////////
@@ -458,12 +252,11 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 	create_smile_menu $x $y
     }
 
-#     set x [expr $x - 15]
-#     set y [expr $y - 15]
+    set x [expr $x - 15]
+    set y [expr $y - 15]
+    wm geometry $w +$x+$y
+    wm state $w normal
 
-#     wm geometry $w +$x+$y
-    
-#    wm state $w normal
 
     foreach emotion [lsort $emotions_names] {
 	set symbol [lindex $emotions(${emotion}_text) 0]
@@ -472,17 +265,17 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 
 	catch { 
 	    if { [string match {(%)} $symbol] != 0 } {
-#		bind $w.text.$filename <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; wm state $w withdrawn} res"
-		bind $w.text.$filename <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; destroy $w} res"
+		bind $w.text.$filename <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; wm state $w withdrawn} res"
 	    } else {
-#		bind $w.text.$filename <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\;[list wm state $w withdrawn]} res"     
-		bind $w.text.$filename <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\;[list destroy $w]} res"     
+		bind $w.text.$filename <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn} res" 
 	    }
 	}
     }
+
     event generate $w <Enter>
 
 }
+
 
 
 #///////////////////////////////////////////////////////////////////////////////
@@ -558,12 +351,8 @@ proc create_smile_menu { {x 0} {y 0} } {
 		     
     $w.text configure -state disabled
     
- #   bind $w <Leave> "wm state $w withdrawn"
-#    bind $w <Enter> "bind $w <Leave> \"bind $w <Leave> \\\"wm state $w withdrawn\\\"\""
-    bind $w <Enter> "bind $w <Leave> \"bind $w <Leave> \\\"destroy $w\\\"\""
 
-#    wm state $w withdrawn
-
+    bind $w <Enter> "bind $w <Leave> \"bind $w <Leave> \\\"wm state $w withdrawn\\\"\""
 }
 
 
@@ -631,6 +420,13 @@ proc calcul_geometry_smileys {  } {
 
 }
 
+
+proc after_info { } {
+    
+    foreach in [after info] {
+	status_log "$in : [after info $in]\n"
+    }
+}
 
 
 # Init smileys

@@ -143,7 +143,7 @@ DONE	Encrypt password? (do we really need to? I think not)
 DONE	Option to popup/raise/unminimize message window on message receive
 -	Direct connection between amsn clients, without sb, real time chat.
 -	Better management of special characters and \n in nicks
--	Change windows history array into an array of lists and make a limit of saved text
+DONE	Change windows history array into an array of lists and make a limit of saved text
 
 	
 	***Graphical Interface (priority 4)***

@@ -43,17 +43,13 @@
 
 namespace eval anigif {
 
-    proc anigif2 {w {idx 0}} {
-	if { ![winfo exists $w] } {
+    proc anigif2 {fname {idx 0}} {
+	if { ![info exists ::anigif::${fname}] } {
 	    #Cleanup
 	    #???
-	    destroy $w
+	    #destroy $w
 	    return
 	} else {
-	    if { [set ::anigif::${w}(stopped)] == 1 } {
-		return
-	    }
-	    set fname [set ::anigif::${w}(fname)]
 	    set list [set ::anigif::${fname}(images)]
 	    set delay [set ::anigif::${fname}(delay)]
 	    if { $idx >= [llength $list]  } {
@@ -74,23 +70,23 @@ namespace eval anigif {
 		}
 		"100" {
 		    # Restore to background
-		    [set ::anigif::${w}(curimage)] blank
+		    [set ::anigif::${fname}(curimage)] blank
 		}
 		"101" {
 		    # Restore to previous - not supported
 		    # As recommended, since this is not supported, it is set to blank
-		    [set ::anigif::${w}(curimage)] blank
+		    [set ::anigif::${fname}(curimage)] blank
 		}
 		default { puts "no match: $dispflag" }
 	    }
-	    [set ::anigif::${w}(curimage)] copy [lindex $list $idx] -subsample 2 2
+	    [set ::anigif::${fname}(curimage)] copy [lindex $list $idx] -subsample 2 2
 	    if { [lindex $delay $idx] == 0 } {
 		::anigif::stop $w
 		return
 	    }
 	    update
-	    set ::anigif::${w}(loop) [after [lindex $delay $idx] "::anigif::anigif2 $w [expr {$idx + 1}]"]
-	    set ::anigif::${w}(idx) [incr idx]
+	    set ::anigif::${fname}(loop) [after [lindex $delay $idx] "::anigif::anigif2 $fname [expr {$idx + 1}]"]
+	    set ::anigif::${fname}(idx) [incr idx]
 	}
     }
 
@@ -103,20 +99,14 @@ namespace eval anigif {
 
 	# If the file is already opened 
 	if { [info exists ::anigif::$fname] && [set ::anigif::${fname}(count)] != 0 } {
-#	    puts "anigif already exists $fname --- [set ::anigif::${fname}(count)]"
 
 	    # set the number of labels containing that anigif
 	    set ::anigif::${fname}(count) [expr [set ::anigif::${fname}(count)] + 1]
 
 	    # sets the settings for the animated gif
 	    set ::anigif::${w}(fname) $fname
-	    set ::anigif::${w}(stopped) 0
-	    set ::anigif::${w}(curimage) [image create photo]
-	    [set ::anigif::${w}(curimage)] blank
-	    [set ::anigif::${w}(curimage)] copy pic0${fname} -subsample 2 2
-	    $w configure -image [set ::anigif::${w}(curimage)]
 
-	    anigif2 $w $idx
+	    $w configure -image [set ::anigif::${fname}(curimage)]
 
 	    return
 	} else {
@@ -191,62 +181,37 @@ namespace eval anigif {
 	set ::anigif::${fname}(disposal) $disposal
 	set ::anigif::${fname}(images) $images
 
-	set ::anigif::${w}(stopped) 0
-	set ::anigif::${w}(curimage) [image create photo]
-	[set ::anigif::${w}(curimage)] blank
-	[set ::anigif::${w}(curimage)] copy pic0${fname} -subsample 2 2
-	$w configure -image [set ::anigif::${w}(curimage)]
 
-	anigif2 $w $idx
+	set ::anigif::${fname}(curimage) [image create photo]
+	[set ::anigif::${fname}(curimage)] blank
+	[set ::anigif::${fname}(curimage)] copy pic0${fname} -subsample 2 2
+	$w configure -image [set ::anigif::${fname}(curimage)]
 
-    }
 
-    proc stop {w} {
-	catch {
-	    set ::anigif::${w}(stopped) 1
-	    after cancel [set ::anigif::${w}(loop)]
-	}
-    }
+	anigif2 $fname $idx
 
-    proc restart {w {idx -1}} {
-	set fname [set ::anigif::${w}(fname)]
-	if {$idx == -1} {
-	    if { [lindex ::anigif::${fname}(delay) $idx] < 0 } {
-		set idx 0
-	    } else {
-		set idx [set ::anigif::${w}(idx)]
-	    }
-	}
-	catch {
-	    ::anigif::stop $w
-	    set ::anigif::${w}(stopped) 0
-	    eval "::anigif::anigif2 $w $idx"
-	}
     }
 
     proc destroy {w} {
 
 	catch { 
 	    if { ![info exists ::anigif::${w}] } {
-#		puts "ALREADY DESTROYED $w"
 		return
 	    }
 	    set fname [set ::anigif::${w}(fname)]
-#	    puts "destroying $w with file $fname instance no : [set ::anigif::${fname}(count)]"
-	    
+ 
 	    if { [expr [set ::anigif::${fname}(count)] - 1]} {
 		set ::anigif::${fname}(count) [expr [set ::anigif::${fname}(count)] - 1]
 		unset ::anigif::${w}
-#		puts "$fname - 1 "
+		
 	    } else {
-#		puts "destroying $fname"
-		::anigif::stop $w
+		image delete [set ::anigif::${fname}(curimage)]
 		foreach imagename [set  ::anigif::${fname}(images)] {
 		    image delete $imagename
 		}
 		unset ::anigif::${w}
-		set ::anigif::${fname}(count) 0
-		
+		unset ::anigif::${fname}
+	
 	    } 
 	    
 	} 
@@ -255,7 +220,5 @@ namespace eval anigif {
 
 }
 
-if { $initialize_amsn == 1 } {
+package provide anigif 1.3
 
-    package provide anigif 1.3
-}

@@ -56,11 +56,13 @@ proc set_balloon {target message} {
 
 proc kill_balloon {} {
     global Bulle
-    after cancel $Bulle(id)
-    if {[winfo exists .balloon] == 1} {
-        destroy .balloon
+    catch {
+	after cancel $Bulle(id)
+	if {[winfo exists .balloon] == 1} {
+	    destroy .balloon
+	}
+	set Bulle(set) 0
     }
-    set Bulle(set) 0
 }
 
 proc balloon {target message {cx 0} {cy 0} } {
@@ -74,7 +76,11 @@ proc balloon {target message {cx 0} {cy 0} } {
 	    set x [expr $cx + 4]
 	    set y [expr $cy + 4]
 	}
-        toplevel .balloon -bg black
+	if { [catch { toplevel .balloon -bg black}] != 0 } {
+	    destroy .balloon
+	    toplevel .balloon -bg black
+	}
+       
         wm overrideredirect .balloon 1
         label .balloon.l \
             -text $message -relief flat \
@@ -82,6 +88,7 @@ proc balloon {target message {cx 0} {cy 0} } {
         pack .balloon.l -side left -padx 1 -pady 1
         wm geometry .balloon +${x}+${y}
         set Bulle(set) 1
+	after 10000 "kill_balloon"
     }
 }
 

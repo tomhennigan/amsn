@@ -1093,7 +1093,7 @@ namespace eval ::amsn {
       frame .${win_name}.f.out -class Amsn -background white -borderwidth 0 -relief flat
 
       text .${win_name}.f.out.text -borderwidth 0 -background white -width 45 -height 15 -wrap word \
-	  -yscrollcommand "ScrollChange text ${win_name}" -exportselection 1  -relief solid -highlightthickness 0 \
+	  -yscrollcommand ".${win_name}.f.out.ys set" -exportselection 1  -relief solid -highlightthickness 0 \
 	  -selectborderwidth 1
 
 
@@ -1129,7 +1129,7 @@ namespace eval ::amsn {
 
       #scrollbar .${win_name}.f.top.ys -command ".${win_name}.f.top.text yview"
 
-      scrollbar .${win_name}.f.out.ys -command "ScrollChange scrollbar ${win_name}" \
+      scrollbar .${win_name}.f.out.ys -command ".${win_name}.f.out.text yview" \
          -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
       
       text .${win_name}.status  -width 30 -height 1 -wrap none\
@@ -3312,9 +3312,9 @@ proc cmsn_draw_online {} {
       }
    }
 
-   if {$config(listsmileys)} {
-     smile_subst $pgBuddy.text
-   }
+    if {$config(listsmileys)} {
+	smile_subst $pgBuddy.text
+    }
 
    if {$config(orderbygroup)} {
         for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
@@ -4550,6 +4550,8 @@ proc updatebossmodetime { } {
 proc window_history { command w } {
     global win_history
 
+    set HISTMAX 100
+
     set new [info exists win_history(${w}_count)]
     
     catch {
@@ -4575,9 +4577,16 @@ proc window_history { command w } {
 		    set idx 0
 		}
 
+		if { $idx == $HISTMAX } {
+		    set win_history(${w}) [lrange $win_history(${w}) 1 end]
+		    lappend win_history(${w}) "$msg"
+		    return
+		}
+
 		set win_history(${w}_count) [expr $idx + 1]
 		set win_history(${w}_index) [expr $idx + 1]
-		set win_history(${w}_${idx}) "$msg"
+#		set win_history(${w}_${idx}) "$msg"
+		lappend win_history(${w}) "$msg"
 
 	    }	
 	}
@@ -4585,10 +4594,16 @@ proc window_history { command w } {
 
 	    if {! $new } { return -1}
 	    
-	    foreach histories [array names win_history] {
-		if { [string match "${w}*" $histories] } {
-		    unset win_history($histories)
-		}
+# 	    foreach histories [array names win_history] {
+# 		if { [string match "${w}*" $histories] } {
+# 		    unset win_history($histories)
+# 		}
+# 	    }
+	    catch {
+		unset win_history(${w}_count)
+		unset win_history(${w}_index)
+		unset win_history(${w})
+		unset win_history(${w}_temp)
 	    }
 	}
 	previous {
@@ -4610,7 +4625,8 @@ proc window_history { command w } {
 	    set win_history(${w}_index) $idx
 	        
 	    $w delete $zero end
-	    $w insert $zero "$win_history(${w}_${idx})"
+#	    $w insert $zero "$win_history(${w}_${idx})"
+	    $w insert $zero "[lindex $win_history(${w}) $idx]"
 	    
 	}
 	next {
@@ -4621,12 +4637,14 @@ proc window_history { command w } {
 	    set idx [expr $idx +1]
 	    set win_history(${w}_index) $idx
 	    $w delete $zero end
-	    if {! [info exists win_history(${w}_${idx})] } { 
-		$w insert $zero $win_history(${w}_temp) 
+	    #	    if {! [info exists win_history(${w}_${idx})] } { }
+	    if { $idx ==  $win_history(${w}_count) } { 
+		$w insert $zero "$win_history(${w}_temp)"
 	    } else {
-		$w insert $zero $win_history(${w}_${idx}) 
+#		$w insert $zero "$win_history(${w}_${idx})"
+		$w insert $zero "[lindex $win_history(${w}) $idx]"
 	    }
-	
+	    
 	}
     }
 }
