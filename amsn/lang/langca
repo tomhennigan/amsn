@@ -1,0 +1,83 @@
+amsn_lang_version 2
+about Sobre
+addacontact Inclou un contacte
+addedyou t'ha inclòs a la seva llista de contactes
+addtoo Inclou aquesta persona a la meva llista de contactes
+allowseen Deixa que aquesta persona vegi si estic conectat i que contacti amb mi
+appearoff Simula Desconexió
+are són
+avoidseen No deixis que aquesta persona vegi si estic conectat i que contacti amb mi
+away No hi és
+blankdirect Deixa-ho en blanc per a conectar-te directament
+block Bloquejar
+busy Ocupat
+cancel Cancel·la
+changenick Canvia de nick
+chat Xat
+chatreq Demanant xat
+chatack Acceptant xat de
+checkver Busca una versió nova
+checkingver Buscant noves versions
+clicktologin Fes clic aquí per conectar-te
+close Tanca
+contactadded Contacte inclòs
+set lang(connecterror) "Error conectant-se al servidor"
+date Data
+delete Esborrar
+entercontactemail Escriu l'adreça de correu del contacte
+enternick Escriu el teu nick
+examples Exemples
+gonelunch Estic dinant
+help Ajuda
+ident Identifica
+invite Convida
+is és
+joins $1 $2 s'uneix a la conversa
+language Idioma
+leaves $1 deixa la conversa
+loggingin Conectant-se
+login Conectar-se
+logout Desconectar-se
+logsin s'acaba de conectar
+mustrestart Has de reiniciar el programa per a que els canvis tinguin efecte
+mystatus El meu estat
+msg Missatge
+msn AMSN
+newmail $1 missatges nous a la carpeta d'entrada
+newmailfrom Nou missatge de correu de
+newmsg Nou missatge
+newveravailable Nova versió $1 està disponible per a baixar-se
+next Següent
+noactivity Sense activitat
+nonewver No hi ha cap nova versió per a baixar-se
+notify notificar
+nousersinsession No hi ha usuaris a la sessió
+ok Bé
+offline Desconectat
+online Conectat
+onphone Al telèfon
+other Un altre
+pass Password
+port Port
+proxyconf Configuració Proxy
+proxyconfhttp Configuració del suport proxy HTTP
+reconnect Esperant a $1 a que es reconecti
+reconnecting Reconectat-se al servidor
+rememberpass Recordar password
+rightback Un moment
+says $1 diu
+sbcon Conectant-se a la Switch Board
+send Enviar
+server Servidor
+sound So en un event
+title Al's Messenger
+to A
+typing $1 està escribint un missatge
+yousay Dius
+youwant Vols
+unblock Desbloquejar
+uoffline Desconectats
+uonline Conectats
+user Ususari
+version Versió
+willjoin Esperant a $1 a que s'uneixi a la conversa
