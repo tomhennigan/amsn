@@ -156,6 +156,12 @@ namespace eval ::amsnplus {
 				set strlen [string length $msg]
 				set incr 0
 			}
+			if {[string equal $char "/config"]} {
+				set msg [string replace $msg $i [expr $i + 7] ""]
+				set strlen [string length $msg]
+				Preferences
+				set incr 0
+			}
 			if {[string equal $char "/delete"]} {
 				set msg [string replace $msg $i [expr $i + 7] ""]
 				set strlen [string length $msg]
@@ -310,6 +316,10 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + $flen] ""]
 				set strlen [string length $msg]
 				set incr 0
+			}
+			if {[string equal $char "/text"]} {
+				set msg [string replace $msg $i [expr $i + 5] ""]
+				return $msg
 			}
 			if {[string equal $char "/unblock"]} {
 				set msg [string replace $msg $i [expr $i + 8] ""]

@@ -23,6 +23,7 @@ Features:
       /block user_login		block user_login
       /clear			clears the chat window
       /color rgb_color		changes (only) the sending text to a rgb_color
+      /config			opens the preferences window
       /delete user_login	deletes a contact from list (without confirmation)
       /deletegroup groupname	delete a group of contacts
       /font font_face		changes (only) the sending font to a font_face
@@ -38,6 +39,7 @@ Features:
       /speak user_login		opens a conversation with user_login
       /state new_state		sets your state to new_state
       /style new_style		changes (only) the sending style to a new_style
+      /text string		it shows string without parsing it
       /unblock user_login	unblocks user_login
       /whois user_login		gives information about a contact specified by the user_login
     Mini How-To:
