@@ -1,5 +1,5 @@
 #=======================================================================
-for {set i 1} {$i <= 256} {incr i} {
+for {set i 0} {$i <= 65535} {incr i} {
    set c [format %c $i]
    set hex [string tolower %[format %.2X $i]]
       if { $c == ")" } {
@@ -814,7 +814,8 @@ proc amsn_sendfile {cookie sbn} {
 	set msg "${msg}Launch-Application: FALSE\r\n"
 	set msg "${msg}Request-Data: IP-Address:\r\n\r\n"
 
-	socket -server amsn_acceptconnection $port
+	set sockid [socket -server amsn_acceptconnection $port]
+	after 120000 "status_log \"Closing close $sockid\\n\";close $sockid"
 	lappend atransfer $authcookie
 	
 	set msg_len [string length $msg]
@@ -999,7 +1000,27 @@ proc SelectFileToTransfer { twn title } {
     pack $w.msg $w.filename -side top -fill x
     focus $w.filename.entry
 
-#    fileDialog $w $w.filename.entry save Untitled
+    fileDialog2 $w $w.filename.entry open Untitled
+}
+
+
+proc fileDialog2 {w ent operation basename} {
+    #   Type names		Extension(s)	Mac File Type(s)
+    #
+    #---------------------------------------------------------
+    set types {{"All files"		*} }
+
+    if {$operation == "open"} {
+	set file [tk_getOpenFile -filetypes $types -parent $w]
+    } else {
+	set file [tk_getSaveFile -filetypes $types -parent $w \
+	    -initialfile $basename]
+    }
+    if [string compare $file ""] {
+	$ent delete 0 end
+	$ent insert 0 $file
+	$ent xview end
+    }
 }
 
 

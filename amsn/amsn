@@ -1427,17 +1427,19 @@ proc newcontact {new_login new_name} {
 proc cmsn_draw_notify {} {
    global notify_id images_folder
 
+   status_log "Testing bug: Notify2-1\n"
    toplevel .notify -width 150 -height 100
    wm title .notify "[trans msn] [trans notify]"
    wm overrideredirect .notify 1
    wm geometry .notify -10-60
    wm transient .notify .
    wm state .notify withdraw
-
+   status_log "Testing bug: Notify2-2\n"
+   
    canvas .notify.c -bg #EEEEFF -width 150 -height 100 \
       -relief ridge -borderwidth 3
    pack .notify.c
-
+   status_log "Testing bug: Notify2-3\n"
    image create photo notback -file ${images_folder}/notify.gif
    .notify.c create image 75 50 -image notback
    
@@ -1451,14 +1453,17 @@ proc cmsn_draw_notify {} {
      ".notify.c itemconfigure $notify_id -font splainf; \
      .notify.c conf -cursor left_ptr"
    .notify.c bind $notify_id <Button-1> ""   
+   status_log "Testing bug: Notify2-4\n"
 }
 
 proc cmsn_update_notify {} {
    global list_notify notify_id emotions
 
+#   status_log "Testing bug: Notify3-1\n"
    set notify_text ""
    set cursec [clock seconds]
    set items [expr [llength $list_notify] -1]
+#   status_log "Testing bug: Notify3-2\n"
    for {set idx $items} {$idx >= 0} {incr idx -1} {
       set notify_item [lindex $list_notify $idx]
       set msg [lindex $notify_item 0]
@@ -1468,41 +1473,49 @@ proc cmsn_update_notify {} {
       } else {
          set notify_text \n\n$msg${notify_text}
       }
+#      status_log "Testing bug: Notify3-4\n"
    }
-
+#   status_log "Testing bug: Notify3-5\n"
    set notify_text [string range ${notify_text} 2 end]
    .notify.c dchars $notify_id 0 end
 
    .notify.c insert $notify_id 0 $notify_text
-
+#   status_log "Testing bug: Notify3-6\n"
 
    if {[string length $notify_text] > 0} {
       wm state .notify normal
    } else {
       wm state .notify withdraw
    }
-
+#   status_log "Testing bug: Notify3-7\n"
    wm geometry .notify -10-60
+#   status_log "Testing bug: Notify3-8\n"
    raise .notify
+#   status_log "Testing bug: Notify3-9\n"
    after 1000 cmsn_update_notify
+#   status_log "Testing bug: Notify3-10\n"   
 }
 
 proc cmsn_notify_add {msg {command ""}} {
    global list_notify notify_id
 
+   status_log "Testing bug: Notify1\n"
    if {[string length $msg] >100} {
 	    lappend list_notify [list [string range $msg 0 100]... [expr [clock seconds] + 7]]
+   status_log "Testing bug: Notify2\n"
    } else {
 	   lappend list_notify [list $msg [expr [clock seconds] + 7]]   
+   status_log "Testing bug: Notify3\n"
    }
 
 #new by AIM
    .notify.c bind $notify_id <Button-1> $command
 #end AIM
+   status_log "Testing bug: Notify4\n"
 }
 
 proc cmsn_change_name {} {
-   global change_name
+   global change_name user_info
 
    if {[info exists change_name]} {
       raise .change_name
@@ -1535,6 +1548,8 @@ proc cmsn_change_name {} {
    .change_name.c create window 205 65 -window .change_name.c.cancel -anchor nw
 
    bind .change_name.c.name <Return> "change_name_ok"
+
+   .change_name.c.name insert 0 [urldecode [lindex $user_info 4]]
 
    tkwait visibility .change_name
    grab set .change_name
