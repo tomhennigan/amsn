@@ -1,6 +1,6 @@
 amsn_lang_version 2
 about Om
-acceptfile Aksepterer fil $1, størrelse $2? Gem i $3
+acceptfile Accepterer fil $1, størrelse $2? Gem i $3
 actions Handlinger
 addacontact Tilføj
 addedyou har tilføjet dig til hans/hendes kontakt liste
@@ -21,7 +21,7 @@ blankdirect Forbliv tom for direkte forbindelse
 block Blokker
 blocked Blokkeret
 browser Browser
-broughtby Bragt af
+broughtby Følgende udviklere har bidraget
 busy Travlt
 cancel Annuller
 changenick Ændre nick
@@ -31,7 +31,7 @@ chatsmileys Chat smilier
 chatack Accepter chat fra
 checkver Tjek for ny version
 checkingver Tjekker for ny version
-choosebasefont Vælg grund font
+choosebasefont Vælg standart font
 choosebgcolor Vælg baggrundsfarve $1?
 clicktologin Klik her for at logge ind
 close Luk
@@ -45,18 +45,18 @@ copytogroup Kopier til gruppe
 date Dato
 delete Slet
 enableproxy Tilslut proxy
-encoding Kodning
+encoding Vælg kodning
 entercontactemail Skriv kontakt E-mail
 enterfilename Skriv filnavnet
 enternick Skriv dit nick
 examples Eksempler
-exitamsn Afslut amsn
-extras Ekstra
+exitamsn Vil du afslutte ?
+extras Flere services
 filedoesnotexist Filen eksisterer ikke
 filename Filnavn
 filetransfercancelled Fil overførsel annulleret
 filetransfercomplete Fil overførsel komplet
-gonelunch Væk til frokost
+gonelunch Ude til frokost
 group Gruppe
 groupadd Tilføj en gruppe
 groupdelete Slet en gruppe
@@ -73,14 +73,14 @@ helpcontents Hjælp indhold
 home Hjem
 ident Identificerer
 identity Identitet
-inbox In-Box
+inbox Indbakke
 invalidusername Ugyldigt brugernavn
-invite Inviter
+invite Invitér
 ipaddress IP Adresse
-istyping $1 er skriver en besked
+istyping $1 skriver en besked
 joins $1 $2 tilslutter sig samtale
 language Sprog
-leaveblankforhotmail Blank for hotmail
+leaveblankforhotmail Tomt felt hvis du bruger hotmail web
 leaves $1 forlader samtale
 listeningon Lytter på port $1
 listsmileys Liste af smilier
@@ -98,19 +98,19 @@ mystatus Min status
 msg Besked
 msn AMSN
 needonline Du er/forestiller af være offline!
-newmail $1 nye beskeder i In-Box
+newmail $1 nye beskeder i Indbakke
 newmailfrom Nye mail fra
 newmsg Nye besked
 newveravailable Ny verson $1 tilgængelig
 next Næste
 noactivity Ingen aktivitet
-nonewmail 0 nye beskeder i In-Box
+nonewmail 0 nye beskeder i Indbakke
 nonewver Der er ikke nogen ny version at downloade
 notify giv besked
 nousersinsession Ingen brugere i session
 ok Ok
 offline Offline
-onenewmail 1 nye beskeder i In-Box
+onenewmail 1 nye beskeder i Indbakke
 online Online
 onphone I telefon
 openreceived Åben modtaget fil
@@ -145,7 +145,7 @@ sendmail Send mail
 sendmsg Send besked
 sentbytes Har sendt $1 af $2 bytes
 server Server
-servergoingdown Serveren lukkes
+servergoingdown Afbrudt: Serveren lukkes
 sound Event Sound
 startoffline Start Offline
 status Status
