@@ -173,6 +173,7 @@ namespace eval ::config {
 		::config::setKey logsbydate 1
 		::config::setKey p4c_name ""
 		::config::setKey tabbedchat 2
+		::config::setKey showMobileGroup 1
 
 		if {$tcl_platform(os) != "Darwin"} {
 		::config::setKey convertpath "convert"								;#Path for convert (from imagemagick)
