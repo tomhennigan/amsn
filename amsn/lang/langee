@@ -593,6 +593,7 @@ truncatenames2 Lühenda nimed mis on laiemad kui vestlusaken
 truncatenicks Lühenda nimed mis on laiemad kui aken
 twonewmail $1 uut sõnumit postkastis
 unblock Ära blokeeri enam
+unknown Tundmatu
 unload Lae maha
 uoffline Offline
 uonline Online
