@@ -1339,7 +1339,7 @@ namespace eval ::amsn {
 				wm deiconify ${win_name}
 				if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 					lower ${win_name}
-					moveinscreen ${win_name} 30
+					win_Position_Mac ${win_name}
 				} else {
 					raise ${win_name}
 				}
@@ -1369,7 +1369,7 @@ namespace eval ::amsn {
 				#To have the new window "behind" on Mac OS X
 				if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 					lower ${win_name}
-					moveinscreen ${win_name} 30
+					win_Position_Mac ${win_name}
 				} else {
 					raise ${win_name}
 				}
@@ -3260,7 +3260,7 @@ namespace eval ::amsn {
 
 		update idletasks
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		moveinscreen ${win_name} 30
+		win_Position_Mac ${win_name}
 		}
 		WinTopUpdate $chatid
 
@@ -7960,3 +7960,22 @@ proc my_TextKeySelect {w new} {
     $w see insert
     update idletasks
 }
+ #win_PositionMac
+ #To place the openchatwindow at the right place on Mac OS X
+ #Because the windowmanager will put all the window in bottom left after some time
+ proc win_Position_Mac {win} {
+ 	#To know where the window manager want to put the window in X and Y
+ 	set info1 [winfo x $win]
+ 	set info2 [winfo y $win]
+ 	#Determine the maximum place in Y to place a window
+ 	#Size of the screen (in y) - size of the window
+ 	set max [expr [winfo vrootheight $win] - [winfo height $win]]
+ 	#If the position of the window in y is superior to the maximum
+ 	#Then up the window by the size of the window
+ 	if {$info2 > $max} { set info2 [expr {$info2 - [winfo height $win]}] }
+ 	#If the result is smaller than 25 (on small screen) then use 25 
+ 	if { $info2 < 25 } { set info2 25 }
+ 	#Replace the window to the new position on the screen 	
+ 	wm geometry $win +${info1}+${info2}
+
+ }
