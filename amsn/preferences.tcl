@@ -1207,7 +1207,7 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
     
-        checkbutton $lfname.1.autoaccept -text "[trans autoacceptft]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoaccept]
+        checkbutton $lfname.1.autoaccept -text "[trans autoacceptft]" -onvalue 1 -offvalue 0 -variable [::config::getVar ftautoaccept]
 	frame $lfname.1.ftport -class Deft
 	label $lfname.1.ftport.text -text "[trans ftportpref] :" -padx 5 -font splainf
 	entry $lfname.1.ftport.entry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5 -textvariable [::config::getVar initialftport]
