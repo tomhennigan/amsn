@@ -2248,7 +2248,7 @@ proc cmsn_draw_login {} {
    .login.c create text 133 32 -font examplef -anchor ne \
 	-text "[trans examples]: "
    .login.c create text 133 32 -font examplef -anchor nw \
-	-text "elpochero@hotmail.com\nelbarney@msn.com\nexample@passport.com"
+	-text "copypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com"
    .login.c create window 133 10 -window .login.c.signin -anchor nw
    .login.c create window 133 80 -window .login.c.password -anchor nw
    .login.c create window 133 100 -window .login.c.remember -anchor nw
@@ -2345,13 +2345,12 @@ proc cmsn_draw_online {} {
    clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y}
    bind $pgBuddy.text.bigstate <Button3-ButtonRelease> {tk_popup .my_menu %X %Y}
 
-   #HERE
 
-
-   text $pgBuddy.text.mystatus -height 1 -width 75 -background white -borderwidth 0 \
+   text $pgBuddy.text.mystatus -font bboldf -height 2 -width 100 -background white -borderwidth 0 \
       -relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
        -exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
 
+   $pgBuddy.text.mystatus configure -state normal
 
    $pgBuddy.text.mystatus tag conf mystatuslabel -fore gray -underline false \
      -font splainf
@@ -2375,13 +2374,9 @@ proc cmsn_draw_online {} {
 
 
    $pgBuddy.text.mystatus configure -state disabled
-   $pgBuddy.text window create end -window $pgBuddy.text.mystatus -padx 5 -pady 0 -stretch true -align bottom
+   $pgBuddy.text window create end -window $pgBuddy.text.mystatus -padx 6 -pady 0 -align bottom -stretch false
 
-   $pgBuddy.text insert end \n
-
-   #$pgBuddy.text insert end "   "
-   #$pgBuddy.text insert end " $my_name " mystatus
-   #$pgBuddy.text insert end "($my_state_desc) \n" mystatus
+   $pgBuddy.text insert end "\n"
 
    set width [expr {[winfo width $pgBuddy.text] - 10} ]
 
@@ -2634,7 +2629,7 @@ proc cmsn_draw_addcontact {} {
    .addcontact.c create text 80 60 -font examplef -anchor ne \
          -text "[trans examples]: "
    .addcontact.c create text 80 60 -font examplef -anchor nw \
-         -text "gudidu@hotmail.com\nmyname@msn.com\nexample@passport.com"
+         -text "copypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com"
    .addcontact.c create window 5 35 -window .addcontact.c.email -anchor nw
    .addcontact.c create window 195 120 -window .addcontact.c.next -anchor ne
    .addcontact.c create window 205 120 -window .addcontact.c.cancel -anchor nw

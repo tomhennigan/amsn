@@ -407,10 +407,10 @@ proc setColor {w button name options} {
 
 #///////////////////////////////////////////////////////////////////////
 proc clickableImage {tw name image command {padx 0} {pady 0}} {
-   label $tw.$name -image $image
+   label $tw.$name -image $image -background white
    $tw.$name configure -cursor hand2 -borderwidth 0
    bind $tw.$name <Button1-ButtonRelease> $command
-   $tw window create end -window $tw.$name -padx $padx -pady $pady
+   $tw window create end -window $tw.$name -padx $padx -pady $pady -align center -stretch true
 }
 #///////////////////////////////////////////////////////////////////////
 
