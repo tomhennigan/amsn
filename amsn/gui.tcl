@@ -3147,6 +3147,8 @@ proc cmsn_draw_online {} {
       $pgBuddy.text insert end "[trans nonewmail]\n" mail
    } elseif {$unread == 1} {
       $pgBuddy.text insert end "[trans onenewmail]\n" mail
+   } elseif {$unread == 2} {
+      $pgBuddy.text insert end "[trans twonewmail 2]\n" mail
    } else {
       $pgBuddy.text insert end "[trans newmail $unread]\n" mail
    }

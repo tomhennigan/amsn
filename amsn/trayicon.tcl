@@ -175,6 +175,8 @@ proc mailicon_proc {num} {
 		set pixmap "[file join $images_folder unread.gif]"
 		if { $num == 1 } {
 			set msg [trans onenewmail]
+		} elseif { $num == 2 } {
+			set msg [trans twonewmail 2]
 		} else {
 			set msg [trans newmail $num]
 		}			
@@ -186,6 +188,8 @@ proc mailicon_proc {num} {
 	} elseif {$systemtray_exist == 1 && $mailicon != 0 && $config(dock) == 3  && $num >0} {
 		if { $num == 1 } {
 			set msg [trans onenewmail]
+		} elseif { $num == 2 } {
+			set msg [trans twonewmail 2]
 		} else {
 			set msg [trans newmail $num]
 		}
