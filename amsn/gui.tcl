@@ -1923,7 +1923,10 @@ proc cmsn_draw_main {} {
 
    .main_menu.help add command -label "[trans helpcontents]..." \
       -command "::amsn::showHelpFile HELP [list [trans helpcontents]]"
-   .main_menu.help add command -label "FAQ" \
+   .main_menu.help add separator
+   .main_menu.help add command -label "FAQ (Translated)" \
+      -command "::amsn::showHelpFile FAQ [list [trans faq]]"
+   .main_menu.help add command -label "FAQ (English)" \
       -command "::amsn::showHelpFile FAQ [list [trans faq]]"
    .main_menu.help add separator
    .main_menu.help add command -label "[trans about]..." -command ::amsn::aboutWindow
@@ -2872,15 +2875,15 @@ proc ShowUser {user_name user_login state state_code colour section} {
 		label $pgBuddy.text.$imagee -image belloff
             }
 
-	    $pgBuddy.text.$imagee configure -cursor hand2 -borderwidth 0 
+	    $pgBuddy.text.$imagee configure -cursor hand2 -borderwidth 0
             $pgBuddy.text window create $section.last -window $pgBuddy.text.$imagee  -padx 1 -pady 1
 	    bind $pgBuddy.text.$imagee <Button1-ButtonRelease> "switch_alarm $user_login $pgBuddy.text.$imagee"
 	    bind $pgBuddy.text.$imagee <Button3-ButtonRelease> "alarm_cfg $user_login"
-	
+
 	} else {
 	    $pgBuddy.text insert $section.last "      "
 	}
-		
+
 
          $pgBuddy.text tag bind $user_login <Enter> \
              "$pgBuddy.text tag conf $user_login -under true;$pgBuddy.text conf -cursor hand2"
@@ -2894,7 +2897,13 @@ proc ShowUser {user_name user_login state state_code colour section} {
             bind $pgBuddy.text.$imgname <Double-Button-1> "::amsn::chatUser $user_login"
             $pgBuddy.text tag bind $user_login <Double-Button-1> \
 	        "::amsn::chatUser $user_login"
-         }
+         } else {
+            #Delete all binding or we will be able to double click the offline user
+	    #and get a chat window
+            bind $pgBuddy.text.$imgname <Double-Button-1> ""
+            $pgBuddy.text tag bind $user_login <Double-Button-1> \
+	        ""
+	 }
 }
 #///////////////////////////////////////////////////////////////////////
 
