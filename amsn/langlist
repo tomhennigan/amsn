@@ -34,7 +34,7 @@
 	<lang>
 		<langcode>ca</langcode>
 		<name>Catalan</name>
-		<version>1.108</version>
+		<version>1.109</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -88,7 +88,7 @@
 	<lang>
 		<langcode>es</langcode>
 		<name>Spanish</name>
-		<version>1.217</version>
+		<version>1.218</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -220,7 +220,7 @@
 	<lang>
 		<langcode>pt_BR</langcode>
 		<name>Portuguese (Brazil)</name>
-		<version>1.16</version>
+		<version>1.17</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -280,7 +280,7 @@
 	<lang>
 		<langcode>va</langcode>
 		<name>Valencian</name>
-		<version>1.32</version>
+		<version>1.33</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
