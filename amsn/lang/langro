@@ -21,6 +21,7 @@ alarmondisconnect Activeaza sunetele de avertizare cand cineva se deautentifica 
 alarmonmsg Activeaza sunetele de avertizare cand cineva iti trimite un mesaj
 alarmonstatus Activeaza sunetele de avertizare cand cineva isi schimba starea
 alarmpref Setari de sunet pentru utilizator
+alarms Sunete
 alarmstatus Opreste/Porneste sunetele
 allfiles Toate fisierele
 allowallbutbl Permite tuturor sa ma contactaze in afara de cei din lista celor blocati
@@ -46,6 +47,7 @@ autodetectip Detecteaza IP-ul automat
 autohotmaillog Autentificare automata la Hotmail
 autoidle mod pasiv automat
 autoip IP automat
+automessage MesajAutomat
 autonoact Arata "Fara Activitate" cand sunt inactiv de
 avoidseen Nu permite persoanei sa ma vada autentificat si sa ma contacteze.
 away Plecat
@@ -78,6 +80,7 @@ cantremoveothers Nu pot sterge grupul "Others"
 casesensitive Foloseste declansatoarele cu majuscule semnificative
 cfgalarm Configureaza/Adauga/Sterge sunete
 cfgalarmall Configureaza/Adauga/Sterge sunetul general
+change Schimba
 changecustomstate Schimba pe
 changedisplaypic Schimba poza afisata
 changefont Schimba caracterul
@@ -132,8 +135,10 @@ countrycode Tara / Cod postal
 cprofile Creare Profil
 credits Multumiri
 currentdate Data curenta
+customcolor Culoare personalizata
 custom_edit Editeaza semnele de conversatie create
 custom_new Adauga semne de conversatie noi
+customnick Nume personalizat
 cut Sterge
 date Data
 days Zile
@@ -154,6 +159,8 @@ disableprofiles Dezactiveaza profilele
 disablessl Dezactiveaza SSL
 disconnect $1 s-a deconectat.
 displaychat Afiseaza optiunile de text
+displayp4context Arata continutul campului P4-Context ca si mesaj  
+displaypic Afiseaza poza
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Ataseaza in Gnome
 docking Ataseaza
@@ -196,6 +203,7 @@ filename Nume fisier
 filetransfercancelled Transfer de fisier intrerupt
 filetransfercomplete Transfer de fisier complect
 followtext Derulare in jos cand se introduce un text nou
+friendlyname Numele real
 ftaccepted Transfer de fisier acceptat
 ftacceptedby $1 a acceptat trasnferul pentru fisierul '$2'.
 ftaccepting Transfer de fisier acceptat
@@ -239,6 +247,7 @@ installconvert Trebuie instalat ImageMagick ( program de conversie ) pentru a fo
 internalerror Eroare interna a server-ului
 invalidfile Fisierul $2 introdus in campul "$1" nu exista sau nu poate fi citit
 invalidfile2 Fisierul $1 nu a putut fi creat. Verifica daca ai permisiile corecte.
+invalidgroup Grup invalid
 invalidpic Poza aleasa nu exista.
 invalidpicsize Poza aleasa este prea mare, alege altul mai mic.
 invalidsound Fisierul de sunet ales nu exista.
@@ -253,11 +262,15 @@ keepalive Conectiune continua (NAT)
 keeplog Pastreaza jurnalele converatlor
 keeplog2 Jurnalizeaza toate conversatiile aMSN pentru vizualizare ulterioara
 language Alege limba
+lastlogin Ultima autentificare
+lastlogout Ultima deautentificare
+lastmsgedme Ultimul mesaj
 lastmsgtime Ultimul mesaj a sosit la $1
 lclosedwin $1 a inchis fereatra pe $2
 lconftopriv Confeinta a devenit chat cu $1
 lconvstarted Conversatia a inceput la $1
 leaveblankforhotmail Nu complecta cimpul pentru Hotmail!
+leavejoinsinchat Arata mesajele de avertizare in cadrul ferestrei de conversatie
 leaves $1 a parasit conversatia
 lenteredconf $1 a intrat in conferinta la $2
 lineflushlog Sterge jurnalul dupa fiecare linie
@@ -282,6 +295,7 @@ logsin tocmai s-a autentificat
 logsmileys Afiseaza semnele de converatie in fereastra jurnal
 logsout tocmai s-a deautentificat
 longnick Nick-ul tau este mai lung de 130 de caractere. Aceasta nu este suportata oficial de catre protocolul MSN. Sigur vrei sa il modifici?
+longp4c Numele real contine mai mult de 130 de caractere. Numele real care va apare pe clientul oficial MSN este $1. Esti sgur ca vrei sa il folosesti ?
 lprivtoconf Conversatiile private au devenit conferinte cu $1
 luclosedwin Ai inchis fereastra pe (la) $1
 mailer Utilitar de e-mail
@@ -313,9 +327,11 @@ newmsg Mesaj nou
 newstate Adaugare stare personalizata
 newveravailable Versiune noua de $1 este disponibil pentru descarcare.
 next Urmatorul
+nick Nick
 no Nu
 noactivity Fara activitate
 nodataavailable Nu sunt date disponibile pentru $1
+nogroup Nu este grup
 nologfile Nu este jurnal pentru $1
 noneavailable Nimeni disponibil
 nonewmail Nu sint mesaje noi in casuta postala
@@ -349,12 +365,14 @@ ordercontactsby Sorteaza persoanele dupa
 ordergroupsby Sorteaza grupurle dupa
 other Altul
 others Altele
+p4contextprefix Prefixeaza trimitatorii P4-Context cu acest string 
 pager Pager
 pass Parola
 paste Adauga elementul(le) copiat in memorie
 personal Personal
 personalizat
 phone Telefon
+phones Numere de telefon
 picbrowser Poze disponibile
 picfile Fisier imagine (poza) (GIF < 500 x 500)
 picstatus Inchide/Deschide avertizarea cu imagine
@@ -410,6 +428,7 @@ readonlywarn ATENTIE: Probabil ca fisierul NU va fi salvat corect ca si "Fisiere
 receivedbytes Receptionat $1 din $2 bytes
 receiveddir Directorul fisierelor reteptionate
 receivefile Fisier receptionat
+recentmsg Previne inchiderea ferestrei de conversatie cand soseste un mesaj
 reconnect Asteapta ca $1 sa se reconecteze
 reconnecting In curs de reconectare la server
 reject Rejectare
@@ -509,7 +528,9 @@ uonline Autentificat
 user Utilizator
 useralreadyonlist Exista deja pe lista
 userblocked User-ul este autentificat dar te-a blocat
+userdata Datele utilizatorului
 usernotonline Utilzatorul nu este autentificat
+userproperties Proprietatile utilizatorului $1
 useryourself Nu poti conversa cu tine
 verifyblocked Verifica persoanele are te-au blocat
 version Versiune
