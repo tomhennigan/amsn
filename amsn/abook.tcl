@@ -233,11 +233,12 @@ namespace eval ::abook {
 }
 
 namespace eval ::abookGui {
-   namespace export showEntry
+   namespace export Init showEntry
 
    #
    # P R I V A T E
    #
+   variable bgcol #ABC8CE;	# Background color used in MSN Messenger
 
    #
    # P R O T E C T E D
@@ -256,7 +257,16 @@ namespace eval ::abookGui {
    #
    # P U B L I C
    #
+   proc Init {} {
+       variable bgcol
+       ::themes::AddClass ABook * {-background $bgcol} 90
+       ::themes::AddClass ABook Label {-background $bgcol} 90
+       ::themes::AddClass NoteBook * {-background $bgcol} 90
+   }
+   
    proc showEntry { email {edit ""}} {
+        variable bgcol
+
 	set cd(available) N
 	::abook::getContact $email cd
 
@@ -280,12 +290,12 @@ namespace eval ::abookGui {
 	}
 
 
-	toplevel $w 
+	toplevel $w -class ABook
 	wm title $w "[trans about] $email"
 	wm geometry $w 210x140
 	set nbtIdent "[trans identity]"
 	set nbtPhone "[trans phone]"
-	frame $w.n 
+	frame $w.n -class ABook
 	    pack [notebook $w.n.p $nbtIdent $nbtPhone] \
 	    	-expand 1 -fill both -padx 1m -pady 1m
 	#  .----------.
@@ -365,7 +375,7 @@ namespace eval ::abookGui {
 	}
         bind $w <Control-p> "pickNote $w.n.p $nbtPhone"
 
-	frame $w.b 
+	frame $w.b -class ABook
 	    button $w.b.ok -text "[trans close]" -command "destroy $w"
 
 	    button $w.b.submit -text "Update" -state disabled \
@@ -375,11 +385,15 @@ namespace eval ::abookGui {
 		$w.b.submit configure -state normal
 	    }
 
+#	::themes::ApplyDeep $w {-background} $bgcol
 	pack $w.n $w.b -side top
 	bind $w <Control-c> { destroy $w }
    }
 }
 # $Log$
+# Revision 1.14  2002/07/09 23:25:25  lordofscripts
+# - T-THEMES the return of color themes
+#
 # Revision 1.13  2002/07/02 10:32:50  lordofscripts
 # - Added getName in abook. It only returns the screen name, otherwise
 #   use getContact which returns all the info
