@@ -73,7 +73,7 @@ proc ConfigDefaults {} {
 	#Specific for Mac OS X, to not have the main window squeezing in top corner and change the default font for the system default font
 if {$tcl_platform(os) == "Darwin"} {
 	set config(wingeometry) 275x400-200+200			;#Main window geometry
-	set config(basefont) "Lucida Grande 11 normal"	;#AMSN base font
+	set config(basefont) "{Lucida Grande} 11 normal"	;#AMSN base font
 	} else {
 	set config(wingeometry) 275x400-0+0			;#Main window geometry
 	set config(basefont) "Helvetica 11 normal"	;#AMSN base font
