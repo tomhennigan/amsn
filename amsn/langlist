@@ -88,7 +88,7 @@
 	<lang>
 		<langcode>es</langcode>
 		<name>Spanish</name>
-		<version>1.215</version>
+		<version>1.216</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -106,7 +106,7 @@
 	<lang>
 		<langcode>fr</langcode>
 		<name>French (France)</name>
-		<version>1.117</version>
+		<version>1.118</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -196,7 +196,7 @@
 	<lang>
 		<langcode>nl</langcode>
 		<name>Dutch</name>
-		<version>1.109</version>
+		<version>1.110</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
