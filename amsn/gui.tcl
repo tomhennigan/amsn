@@ -5277,6 +5277,8 @@ proc cmsn_change_name {} {
 	bind $w.p4c.name <Return> "change_name_ok"
 	bind $w.fn.smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.fn.name"
 	bind $w.p4c.smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.p4c.name"
+	bind $w.fn.name <Tab> "focus $w.p4c.name; break"
+	bind $w.p4c.name <Tab> "focus $w.fn.name; break"
 
 	$w.fn.name insert 0 [::abook::getPersonal nick]
 	$w.p4c.name insert 0 [::config::getKey p4c_name]
