@@ -804,7 +804,7 @@ proc cmsn_sb_msg {sb_name recv} {
    set content [lindex [array get headers content-type] 1]
    set timestamp [clock format [clock seconds] -format %H:%M]
 
-   set typer [lindex $recv 1]
+   set typer [string tolower [lindex $recv 1]]
    after cancel "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name\} res"      
 
    if {[string range $content 0 9] == "text/plain"} {
@@ -816,7 +816,7 @@ proc cmsn_sb_msg {sb_name recv} {
 
       sb set $sb_name lastmsgtime [clock format [clock seconds] -format %H:%M:%S]
       
-      set idx [sb search $sb_name typers [lindex $recv 1]]
+      set idx [sb search $sb_name typers $typer]
       sb ldel $sb_name typers $idx
       cmsn_show_typers $sb_name
       
@@ -838,8 +838,7 @@ proc cmsn_sb_msg {sb_name recv} {
 #      status_log "llegamsgcontrol: $recv\n"
           
       if {[llength $typer]} {
-#         set typer [lindex $typer 1]
-	 set idx [sb search $sb_name typers "$typer"]
+	 set idx [sb search $sb_name typers $typer]
 	 if {$idx == -1} {
             sb append $sb_name typers $typer
 	 } 

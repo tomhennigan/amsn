@@ -1944,14 +1944,14 @@ proc cmsn_update_users {sb_name recv} {
       } }
       IRO {
          sb set $sb_name stat "o"
-	 set usr_login [lindex $recv 4]
+	 set usr_login [string tolower [lindex $recv 4]]
 	 set usr_name [urldecode [lindex $recv 5]]
 	 sb append $sb_name users [list $usr_login $usr_name]
          cmsn_win_write $sb_name "[trans joins $usr_name ($usr_login)]\n" green
       }
       JOI {
          sb set $sb_name stat "o"
-	 set usr_login [lindex $recv 1]
+	 set usr_login [string tolower [lindex $recv 1]]
 	 set usr_name [urldecode [lindex $recv 2]]
 	 sb append $sb_name users [list $usr_login $usr_name]
          cmsn_win_write $sb_name "[trans joins $usr_name ($usr_login)]\n" green
