@@ -1041,6 +1041,12 @@ namespace eval ::MSN {
 			msg_box "[trans contactadded]\n[urldecode $contact]"
 		}
 		
+		if { [lindex $item 0] == 500 } {
+			#Instead of disconnection, transform into error 201
+			cmsn_ns_handler [lreplace $item 0 0 201]
+			return
+		}
+		
 		cmsn_ns_handler $item
 
 	}
