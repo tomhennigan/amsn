@@ -585,7 +585,7 @@ namespace eval ::abookGui {
 	   } else {
 		   frame $nbIdent.customcolor -background [set colorval_${email}]
 	   }
-	   button $nbIdent.customcolor.b -text "[trans customcolor]:" -command "::abookGui::ChangeColor $email $nbIdent" 
+	   button $nbIdent.customcolor.b -text "[trans customcolor]" -command "::abookGui::ChangeColor $email $nbIdent" 
 	   pack $nbIdent.customcolor.b 
 	   
 	   
