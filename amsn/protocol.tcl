@@ -1325,7 +1325,7 @@ namespace eval ::MSN {
 
 	proc sortContactList { index1 index2 } {
 		global list_users
-		set list_users [lsort -decreasing -index $index1 [lsort -decreasing -index $index2 $list_users]]
+		set list_users [lsort -dictionary -decreasing -index $index1 [lsort -dictionary  -decreasing -index $index2 $list_users]]
 	}
 
 	proc setUserInfo { user_login {user_name ""} {user_state_no ""} } {
