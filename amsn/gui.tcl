@@ -2359,10 +2359,12 @@ namespace eval ::amsn {
 		set evPar(msg) msg
 		set evPar(chatid) chatid
 		set evPar(fontformat) $fontformat
+		set message $msg
+		set evPar(message) message
 		::plugins::PostEvent chat_msg_receive evPar
 		
 		if {![string equal $msg ""]} {
-			WinWrite $chatid "$msg" $type $fontformat 1 $user
+			WinWrite $chatid "$message" $type $fontformat 1 $user
 			if {[::config::getKey keep_logs]} {
 				::log::PutLog $chatid $nick $msg $fontformat
 			}
