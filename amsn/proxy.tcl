@@ -197,7 +197,7 @@ namespace eval ::HTTPConnection {
 		set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
 		set tmp_data "$tmp_data\r\nContent-Length: 0"
 		if {[sb get $sbn proxy_authenticate] == 1 } {
-			set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode [sb get $name proxy_user]:[sb get $name proxy_password]]"
+			set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode [sb get $sbn proxy_user]:[sb get $sbn proxy_password]]"
 		}
 		set tmp_data "$tmp_data\r\n\r\n"
 		status_log "::HTTPConnection::Connected: PROXY SEND ($sbn)\n$tmp_data\n" blue
