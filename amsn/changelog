@@ -1,4 +1,6 @@
-
+#
+# $Id$
+#
 compu		Dave Mifsud <dave at CompuCreations dot com> (<= 0.3p3)
 lordofscripts	D.E. Grimaldo <lordofscripts at users.sourceforge.net) (>0.3p3)
 alvaro       	Alvaro Iradier <airadier at users.sourceforge.net) (>=0.4)
@@ -22,7 +24,8 @@ Version 0.52
 		o Implemented File Transfer (files stored in ~/.amsn/myfiles)
 		o Fixed bug that allowed to start a chat (even though it
 		  never connected) when the user is/appear offline
-		o Preliminary support for address book
+		o Address book displays information about selected
+		  user (phone numbers, email, handle, group, etc.)
 
 Version 0.51
 20020604	o Some fixes and menu reorganizations

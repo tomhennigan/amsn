@@ -41,9 +41,12 @@ enternick Introduce tu nick
 examples Ejemplos
 filetransfercomplete Transferencia de archivo completada
 gonelunch Salí a comer
+group Grupo
 help Ayuda
 helpcontents Temas de ayuda
+home Casa
 ident Identificándose
+identity Identificación
 inbox Bandeja de entrada
 invite Invitar
 is está
@@ -57,6 +60,7 @@ loginas Iniciar sesión como
 login Iniciar sesión
 logout Cerrar sesión
 logsin acaba de iniciar sesión
+mobile Celular
 msg Mensaje
 msn AMSN
 mustrestart Debes reiniciar el programa para aplicar los cambios
@@ -80,10 +84,12 @@ options Opciones
 ordercontactsby Ordenar contactos por
 other Otro
 pass Contraseña
+phone Telefono
 port Puerto
 prefapps Aplicaciones
 preferences Preferencias
 prefsound Sonidos
+properties Propiedades
 proxyconf Configuración proxy
 proxyconfhttp Configurar soporte de proxy http
 receivedbytes Recibidos $1 de $2 bytes totales
@@ -118,5 +124,6 @@ user Usuario
 version Versión
 view Ver
 willjoin Esperando que $1 se una a la conversación
+work Trabajo
 yousay Tú dices
 youwant Quieres

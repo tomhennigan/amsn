@@ -41,9 +41,13 @@ enternick Enter your nick
 examples Examples
 filetransfercomplete File transfer complete
 gonelunch Gone to lunch
+group Group
+handle Handle
 help Help
 helpcontents Help contents
+home Home
 ident Identifying
+identity Identity
 inbox In-Box
 invite Invite
 is is
@@ -58,6 +62,7 @@ loginas Login as
 logout Log Out
 logsin has just logged in
 mailer Mailer
+mobile Mobile
 mustrestart You must restart the program to apply changes
 mystatus My status
 msg Message
@@ -80,11 +85,14 @@ openreceived Open received files
 options Options
 ordercontactsby Order contacts by
 other Other
+pager Pager
 pass Password
+phone Phone
 port Port
 prefapps Applications
 preferences Preferences
 prefsound Sounds
+properties Properties
 proxyconf Proxy configuration
 proxyconfhttp HTTP proxy support configuration
 receivedbyes Received $1 of $2 bytes
@@ -120,3 +128,4 @@ user User
 version Version
 view View
 willjoin Waiting $1 joins conversation
+work Work

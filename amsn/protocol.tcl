@@ -951,6 +951,7 @@ proc cmsn_ns_handler {item} {
 	 # New entry in address book setContact(email,FL,groupID)
 	 if { [lindex $item 2] == "FL" } {
 	     ::abook::setContact [lindex $item 6] FL [lindex $item 8]
+	     ::abook::setContact [lindex $item 6] nick [lindex $item 7]
 	 }
          return 0
       }
