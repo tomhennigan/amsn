@@ -37,6 +37,7 @@ appearance Apariencia
 appearoff Sin conexión
 areacode Código de area
 aretyping $1 están escribiendo un mensaje
+author Autor
 autoaccepted Transferencia de archivo aceptada automáticamente
 autoacceptft Aceptar archivos automáticamente en transferencias
 autoaway Mostrarme "Ausente" cuando no hay actividad en
@@ -365,6 +366,7 @@ mynick Mi apodo
 mypic Mi imagen para mostrar:
 mystatus Mi estado
 myworkphone Mi teléfono de trabajo
+name Nombre
 natip Detección de IP por Web
 natkeepalive Si sufres desconexiones continuamente, activa esta opción
 needonline Todavía estás/apareces desconectado
@@ -494,6 +496,7 @@ rememberpass Recordar contraseña
 removeempty Eliminar grupos vacíos de la lista de contactos
 removefromlist Borrar de esta lista
 rename Cambiar nombre
+required_version Imposible cargar este plugin. Este plugin requiere como mínimo aMSN $1 para funcionar
 reversed Invertido
 reverselist Lista Inversa(RL):
 rightback Vuelvo enseguida
@@ -589,6 +592,7 @@ truncatenames2 Cortar apodos más largos que el ancho de la ventana en las conver
 truncatenicks Truncar apodos más largos que el ancho de la ventana
 twonewmail $1 mensajes nuevos en bandeja de entrada
 unblock Admitir
+unload Descargar
 uoffline Desconectados
 uonline Conectados
 useother Usar un comando o programa distinto

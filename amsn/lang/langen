@@ -37,6 +37,7 @@ appearance Appearance
 appearoff Appear offline
 areacode Area Code
 aretyping $1 are typing a message
+author Author
 autoaccepted File transfer accepted automatically
 autoacceptft Automatically accept File Transfer requests
 autoaway Show me as "Away" when inactive for
@@ -366,6 +367,7 @@ mynick My Nickname
 mypic My Display Picture:
 mystatus My status
 myworkphone My Work Phone
+name Name
 natip IP detection by web page 
 natkeepalive If you are getting disconnected regularly, enable this KeepAlive
 needonline You still are/appear offline!
@@ -495,6 +497,7 @@ rememberpass Remember password
 removeempty Remove empty groups from the contact list
 removefromlist Remove from this list
 rename Rename
+required_version Unable to load this plugin. This plugin requires aMSN version $1
 reversed Reversed
 reverselist Reverse list (RL):
 rightback Be right back
@@ -590,6 +593,7 @@ truncatenames2 Truncate nicknames longer than window width inside conversations
 truncatenicks Truncate nicknames longer than window width
 twonewmail $1 new messages in Inbox
 unblock Unblock
+unload Unload
 uoffline Offline
 uonline Online
 useother Use a different program
