@@ -197,6 +197,7 @@ ftportpref Uporabi ta in visja vrata za prenos datotek
 ftrejectedby $1 je zavrnil/a povabilo za prenos datoteke '$2'.
 ftrejected Prenos datoteke je bil zavrnjen.
 ftsendinvitation $1 bo prejel/a povabilo za prenos datoteke '$2' ($3 bajtov).
+fullcontactlist Tvoj seznam stikov je poln. Da bi dodal novega, moras izbrisati katerega od trenutnih stikov.
 getdisppic Omogoci prejemanje osebne slike od drugih uporabnikov
 gonelunch Na kosilu
 groupadd Dodaj v skupino
@@ -222,6 +223,7 @@ hybrid Hibridni nacin
 ident Identificiram
 identity Identiteta
 inbox Inbox
+insertsmiley Vstavi emotikon
 installconvert Namestiti moras ImageMagick (program za pretvarjanje), da bi pretvarjal slike v format, ki ga potrebujejo MSN-jevi strzniki. Binarne datoteke za tvoj operacijski sistem lahko poberes s ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Ce ga ze imas, je to hrosc. Prosim, povej zanj.
 internalerror Notranja napaka streznika
 invalidfile Datoteka $2 iz polja "$1" ne obstaja ali ni berljiva
@@ -445,6 +447,7 @@ stateedittext Prosim uredi polja, ki bi \n jih rad spremenil in pritisni Shrani.
 stateinfo Nastavitev osebnega stanja
 statename Ime osebnega stanja
 statenewtext Prosim vpisi potrebne podatke za \n tvoje novo osebno stanje in pritisni Shrani.
+statenick Nick v tem stanju
 state Zelim biti viden kot
 status Stanje
 stopalarm Ustavi alarm

@@ -491,3 +491,11 @@ yoffset Margem vertical
 youblocked Você foi bloqueado por
 yousay Você diz
 youwant Você quer
+deletecustomstate Apagar o estado configurado
+emailsinlist Mostrar e-mails ao invés dos nicks na lista de contactos
+file Ficheiro
+fullcontactlist Desculpe: a sua lista de contactos está cheia. Necessita de remover alguns contactos para poder adicionar os novos.
+insertsmiley Inserir emoticon
+newstate Adicionar um estado configurado
+notifytyping Enviar ao outros utilizadores notificações de que está a escrever
+strictfonts Restringir todos os tamanhos da fonte aos que eu seleccionei (Barra de Estados e outros)
