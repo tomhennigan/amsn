@@ -17,6 +17,7 @@ allowallbutbl Autoriser tout le monde à me contacter sauf les personnes que j'ai
 allowlist Liste des personnes autorisées
 allowonlyinal Seulement autoriser les utilisateurs de ma Liste d'acception à me contacter
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
+animatedsmileys Activer les émoticons animés
 appearance Apparition
 appearoff Apparaître déconnecté
 areacode Code de la Zone
@@ -39,8 +40,12 @@ blankdirect Laisser vide pour une connexion sans proxy
 block Bloquer
 blocked Bloqué
 blocking Bloquer
+blockinter1 Lorsque vous êtes en ligne, vérifier à chaque
+blockinter2 seconde(s), sinon vérifier à chaque:
+blockinter3 à chaque
 blocklist Liste de personnes bloquées
 blockmessage Ces personnes sont en ligne mais vous bloquent
+blockusers Nombre d'utilisateurs à cocher à la fois
 broughtby Développé pour vous par
 browse Naviguer
 browser Navigateur web
@@ -56,6 +61,7 @@ chatmaxmin Quand une fenêtre d'invitation de dialogue s'ouvre, je veux qu'elle s
 chatreq Inviter à discuter
 chatsmileys2 Afficher les Emoticons et les Smileys dans la fenêtre de chat
 chatsmileys Utiliser les "smileys"
+checkblocking Vérifier continuellement si des utilisateurs vous ont bloqué
 checkfilman Les fichiers reçus seront sauvegardés dans $1. Veuillez vérifier les propriétés du gestionnaire de fichier dans la fenêtre de préférences.
 checkingver Recherche d'une nouvelle version
 checkonfln Verifier si un utilisateur vous a bloqué lorsqu'il se déconnecte
@@ -73,11 +79,11 @@ closingdocks Le bouton fermer ancre l'application
 command Commande
 confirmdelete Confirmer suppression
 confirm Êtes vous sûr?
+connected Vous êtes maintenant connecté(e)
 connecterror Erreur de connexion
+connecting Se connecter
 connection Connexion
 connectionlost Déconnecté(e) : la connexion avec le serveur s'est arrêté
-connected Vous êtes maintenant connecté(e)
-connecting Se connecter
 contactadded Contact ajouté
 contactdoesnotexist Personne introuvable
 contactlist Liste de contacts
@@ -104,6 +110,7 @@ edit Edition
 editnewstate Nouvel état avec message automatique personnalisé
 editprofile Modifier profil
 editstate Editer un état existant avec message automatique
+emotisounds Jouer un son pour certains émoticons
 enableproxy Permettre de passer par un proxy
 enableremote Permettre le contrôle à distance
 encoding2  Changer la manière dont les caractères sont encodés
@@ -121,16 +128,16 @@ filename Fichier
 filetransfercancelled Transfert de fichier annulé
 filetransfercomplete Transfert de fichier terminé
 followtext Faire défiler lorsque du texte est entré
-ftaccepted Transfert de fichier accepté
 ftacceptedby $1 accepte l'invitation de transfert de fichier pour le fichier '$2'.
+ftaccepted Transfert de fichier accepté
 ftaccepting Acceptez l'invitation de transfert de fichier
 ftconnecterror Erreur de connexion à l'hôte distant
 ftconnecting Connexion à $1 port $2
 ftconnectionlost Connexion avec l'hôte distant perdu
 ftgotinvitation $1 veut vous envoyer le fichier '$2' ($3 bytes). Il sera sauvegardé dans le répertoire $4. Voulez-vous recevoir ce fichier ?
 ftportpref Premier port pour le transfert de fichiers
-ftrejected Transfert de fichier refusé
 ftrejectedby $1 a refusé l'invitation de transfert de fichier pour le fichier '$2'.
+ftrejected Transfert de fichier refusé
 ftsendinvitation L'invitation de transfert du fichier '$2' ($3 bytes) a été envoyé à $1.
 gonelunch Parti[e] déjeuner
 groupadd Ajouter un groupe
@@ -211,18 +218,18 @@ myworkphone Mon numéro professionnel
 natip Détection de l'adresse IP par page web
 natkeepalive Si vous vous déconnectez régulièrement, activez cet option
 needonline Vous êtes toujours déconnecté(e)!
-newveravailable Nouvelle version disponible ($1)
 newmail $1 nouveaux messages
 newmailfrom Nouveau message de $1 ($2)
 newmsg Nouveau message
 newveravailable Nouvelle version disponible
+newveravailable Nouvelle version disponible ($1)
 next Suivant
-no Non
 noactivity Inactif
 nodataavailable Pas de données disponibles pour $1
 nologfile Pas de fichier log pour $1
 nonewmail Pas de nouveau message
 nonewver Il n'y a pas de nouvelle version disponible
+no Non
 normal Normal
 nosystemtray La poubelle n'est pas accessible
 notify1 Afficher une notification quand un contact est en ligne
@@ -254,6 +261,7 @@ prefalerts Mes Alertes d'évènements et sons
 prefapps Applications
 prefawaymsg Mon message d'absence
 prefblock1 Verification lors de déconnection
+prefblock2 Vérifier continuellement
 prefconnection Préférences de connexion
 prefemotic Emoticons, Icônes et Smileys
 preferences Préférences
@@ -281,10 +289,10 @@ profiledconfig Configuration profilée
 profileinuse Profil actuellement utilisé par une autre session Amsn. Veuillez choisir un autre profil.
 profiles Profils
 properties Propriétés
-proxy Je suis derrière un serveur proxy (HTTP ou SOCKS5)
 proxyconf Configuration du proxy
 proxyconfhttp Configuration du support proxy HTTP
 proxyconnection Je me connecte à Internet par un serveur proxy :
+proxy Je suis derrière un serveur proxy (HTTP ou SOCKS5)
 publishphones Publier mes numéros de téléphone
 raised Maximiser/Déiconifier
 receivedbytes $1 de $2 octets reçus
@@ -313,8 +321,8 @@ server Serveur
 session Session
 showblockedlist Voir la liste des personnes que vous avez bloqué
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
-sound Événements Sonores
 soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
+sound Événements Sonores
 soundfile Fichier son associé à l'alarme
 soundloop Jouer le son en boucle
 soundserver Serveur de Sons
@@ -344,10 +352,10 @@ twonewmail $1 nouveaux messages dans votre boîte de réception
 unblock Débloquer
 uoffline Déconnectés
 uonline Connectés
-user Utilisateur
 useralreadyonlist Utilisateur déjà présent dans la liste
 userblocked Cet utilisateur est en ligne mais il vous a bloqué
 usernotonline L'utilisateur n'est pas en ligne
+user Utilisateur
 useryourself Vous ne pouvez pas dialoguer avec vous-même
 verifyblocked Contrôler les personnes qui vous ont bloqué
 version Version
