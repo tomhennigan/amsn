@@ -142,6 +142,7 @@ source [file join $program_dir groups.tcl]	;# Handle buddy groups
 source [file join $program_dir abook.tcl]	;# Handle buddy address book
 source [file join $program_dir gui.tcl]
 source [file join $program_dir alarm.tcl]       ;# Alarms code (Burger)
+source [file join $program_dir dock.tcl]	;# Docking routines
 
 #by AIM
 set unread 0
@@ -271,11 +272,12 @@ proc close_cleanup {} {
   set config(showoffline) [::groups::IsExpanded offline]
   save_config
   save_alarms   ;# Save alarm settings
+  close_dock    ;# Close down the dock socket
   catch {file delete [file join $HOME hotlog.htm]} res
 }
 
 proc cmsn_draw_main {} {
-   global images_folder emotion_files version date weburl lang_list \
+   global images_folder program_dir emotion_files version date weburl lang_list \
      password config HOME files_dir pgBuddy pgNews
 
    #User status menu
@@ -402,6 +404,13 @@ proc cmsn_draw_main {} {
    .options add command -label "[trans encoding]..." -command "show_encodingchoose"
    .options add command -label "[trans choosebasefont]..." -command "choose_basefont"
    .options add command -label "[trans choosebgcolor]..." -command "choose_theme"
+ 
+   .options add cascade -label "Docking" -menu .dock_menu
+   menu .dock_menu -tearoff 0 -type normal
+   .dock_menu add radio -label "Docking off" -value 0 -variable config(dock) -command "init_dock"
+   .dock_menu add radio -label "Gnome Dock" -value 1 -variable config(dock) -command "init_dock"
+   .dock_menu add radio -label "KDE Dock" -value 2 -variable config(dock) -command "init_dock"
+
    .options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
    .options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
      -command "msg_box \"[trans mustrestart]\""
@@ -433,6 +442,7 @@ proc cmsn_draw_main {} {
    wm geometry . $config(wingeometry)
    wm iconname . "[trans title]"
    wm iconbitmap . @[file join ${images_folder} amsn.xbm]
+   wm iconmask . @[file join ${images_folder} amsnmask.xbm]
    . conf -menu .main_menu
 
    frame .main -class Amsn
@@ -1328,6 +1338,7 @@ proc cmsn_draw_msgwin {} {
    wm state .${win_name} withdrawn
    wm group .${win_name} ""
    wm iconbitmap . @${images_folder}/amsn.xbm
+   wm iconmask . @${images_folder}/amsnmask.xbm
    
    menu .${win_name}.menu -tearoff 0 -type menubar  \
       -borderwidth 0 -activeborderwidth -0 
@@ -2138,7 +2149,6 @@ proc cmsn_update_users {sb_name recv} {
 proc cmsn_change_state {recv} {
    global list_fl list_users
 
-
    if {[lindex $recv 0] == "FLN"} {
       set user [lindex $recv 1]
       set user_name ""
@@ -2339,3 +2349,5 @@ if {$version != $config(last_client_version)} {
    cmsn_draw_about
   
 }
+
+init_dock

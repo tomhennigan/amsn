@@ -18,6 +18,9 @@ namespace eval ::MSN {
 
       }
       ::MSN::StartPolling      
+
+      #Alert dock of status change
+      send_dock "NLN"
    }
 
    proc logout {} {
@@ -35,8 +38,8 @@ namespace eval ::MSN {
       ::groups::Disable
 
       cmsn_draw_offline
-
-
+      #Alert dock of status change
+      send_dock "FLN"
    }
 
 
@@ -1092,7 +1095,7 @@ proc cmsn_reconnect {name} {
 
 proc cmsn_ns_handler {item} {
    global list_cmdhnd password config
-
+   
    set item [encoding convertfrom utf-8 $item]
    set item [string map {\r ""} $item]
 
@@ -1182,11 +1185,14 @@ proc cmsn_ns_handler {item} {
       }
       CHG {
 	 global user_stat
-    if { $user_stat != [lindex $item 2] } {
-	    set user_stat [lindex $item 2]
-	    cmsn_draw_online
-    }
-	 return 0
+    	    if { $user_stat != [lindex $item 2] } {
+	       set user_stat [lindex $item 2]
+	       cmsn_draw_online
+	    
+	       #Alert dock of status change
+	       send_dock [lindex $item 2]
+	     }
+         return 0
       }
       GTC -
       BLP -

@@ -41,6 +41,7 @@ set config(mychatfont) "{Helvetica} {} 000000"
 set config(orderbygroup) 0
 set config(withnotebook) 0
 set config(notifywin) 1
+set config(dock) 0
 
 set password ""
 
