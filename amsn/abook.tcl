@@ -395,13 +395,13 @@ namespace eval ::abook {
 	}
 	
 	#Parser to replace special characters and variables in the right way
-	proc parseCustomNick { customnick nick user_login globalnick } {
+	proc parseCustomNick { input nick user_login customnick } {
 		#By default, quote backslashes and variables
-		set customnick [string map {"\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } $customnick]
+		set input [string map {"\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } $input]
 		#Now, let's unquote the variables we want to replace
-		set customnick [string map {"\\\$nick" "\$nick" "\\\$user_login" "\$user_login" "\\\$customnick" "\$customnick"} $customnick]
+		set input [string map {"\\\$nick" "\$nick" "\\\$user_login" "\$user_login" "\\\$customnick" "\$customnick"} $input]
 		#Return the custom nick, replacing backslashses and variables
-		return [subst -nocommands $customnick]
+		return [subst -nocommands $input]
 	}
 	
 	#Returns the user nickname, or just email, or custom nick,
@@ -416,17 +416,17 @@ namespace eval ::abook {
 			
 			if { [::config::getKey globaloverride] == 0 } {
 				if { $customnick != "" } {
-					return [parseCustomNick $customnick $nick $user_login $globalnick]
+					return [parseCustomNick $customnick $nick $user_login $customnick]
 				} elseif { $globalnick != "" && $customnick == "" } {
-					return [parseCustomNick $globalnick $nick $user_login $globalnick]
+					return [parseCustomNick $globalnick $nick $user_login $customnick]
 				} else {
 					return $nick
 				}
 			} elseif { [::config::getKey globaloverride] == 1 } {
 				if { $customnick != "" && $globalnick == "" } {
-					return [parseCustomNick $customnick $nick $user_login $globalnick]
+					return [parseCustomNick $customnick $nick $user_login $customnick]
 				} elseif { $globalnick != "" } {
-					return [parseCustomNick $globalnick $nick $user_login $globalnick]
+					return [parseCustomNick $globalnick $nick $user_login $customnick]
 				} else {
 					return $nick
 				}
@@ -924,6 +924,7 @@ namespace eval ::abookGui {
 		pack .globalnick.frm -side top -pady 3 -padx 5
 		pack .globalnick.btn  -side top -anchor e -pady 3
 
+		.globalnick.frm.nick insert end [::config::getKey globalnick]
 	}
 
 	proc PropOk { email w } {
