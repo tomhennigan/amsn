@@ -106,8 +106,12 @@ proc balloon {target message {cx 0} {cy 0} } {
 	}
 	
 	set wlength [expr {[winfo screenwidth .] - $x - 5}]
-	if { $wlength < 100 } {
-	    set wlength 100
+	#If available width is less than 200 pixels, make the balloon
+	#200 pixels width, and move it to the left so it's inside the screen
+	if { $wlength < 200 } {
+	    set offset [expr {$wlength - 200}]
+	    incr x $offset
+	    set wlength 200
 	}
 	
         label .balloon.l \

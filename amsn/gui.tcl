@@ -1491,6 +1491,15 @@ namespace eval ::amsn {
 			set statusmsg "[timestamp] [trans closed $username]\n"
 			set icon minileaves
 		}
+		
+		#Check if the image that is currently showing is
+		#from the user that left. Then, change it
+		set current_image [$win_name.f.bottom.pic cget -image]
+		if { [string compare $current_image "user_pic_$usr_name"]==0} {
+			set users_in_chat [::MSN::usersInChat $chatid]
+			set new_user [lindex $users_in_chat 0]
+			::amsn::ChangePicture $win_name user_pic_$new_user [trans showuserpic $new_user] nopack
+		}
 
 		WinStatus $win_name $statusmsg $icon
 
