@@ -251,6 +251,7 @@ proc run_alarm {user msg} {
    }
 
     if { $alarms(${user}_oncommand) == 1 } {
+	string map [list "\$msg" "$msg" "\\" "\\\\" "\$" "\\\$" "\[" "\\\[" "\]" "\\\]" "\(" "\\\(" "\)" "\\\)" "\{" "\\\}" "\"" "\\\"" "\'" "\\\'" ] $alarms(${user}_command)
 	catch { eval exec $alarms(${user}_command) & } res 
     }
 
