@@ -331,6 +331,7 @@ namespace eval ::pop3 {
 				set mails [::pop3::status $chan]
 				::pop3::close $chan
 
+				plugins_log pop3 "POP3 messages: $mails\n"
 				if { $::pop3::emails != $mails } {
 					set ::pop3::emails $mails
 					cmsn_draw_online
@@ -346,7 +347,6 @@ namespace eval ::pop3 {
 						}
 					}
 				}
-				plugins_log pop3 "POP3 messages: $mails\n"
 			} else {
 				plugins_log pop3 "POP3 failed to open"
 				unset ::pop3::chanopen_$chan
@@ -400,7 +400,7 @@ namespace eval ::pop3 {
 		if { $::tcl_platform(platform) == "windows" } {
 			if { [catch { WinLoadFile $::pop3::config(mailProg) } ] } {
 				load [file join plugins winutils winutils.dll]
-				WinLoadFile "msimn"
+				WinLoadFile $::pop3::config(mailProg)
 			}
 		} else {
 			if { [catch {eval "exec $::pop3::config(mailProg)"} res] } {
@@ -441,8 +441,6 @@ namespace eval ::pop3 {
 		bind $vars(text).popmailpic <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
 		if { $::pop3::config(loadMailProg) } {
-			#clickableImage $vars(text) popmailpic mailbox "::pop3::loadDefaultEmail" 5 0
-
 			#Set up TAGS for mail notification
 			$vars(text) tag conf pop3mail -fore black -underline true -font splainf
 			$vars(text) tag bind pop3mail <Button1-ButtonRelease> "$vars(text) conf -cursor watch; ::pop3::loadDefaultEmail"
@@ -452,9 +450,6 @@ namespace eval ::pop3 {
 			$vars(text) insert end "$short_mailmsg\n"  pop3mail
 			$vars(text) tag add dont_replace_smileys pop3mail.first pop3mail.last
 		} else {
-			#label $vars(text).popmailpic -image [::skin::loadPixmap mailbox] -background white
-			#$vars(text) window create end -window $vars(text).popmailpic -padx 3 -pady 0 -align center -stretch true
-
 			$vars(text) insert end "$short_mailmsg\n"
 		}
 
