@@ -351,7 +351,7 @@ proc Preferences { { settings ""} } {
 
 	# Preferences Notebook
 	# Modified Rnotebook to translate automaticly those keys in -tabs {}
-	Rnotebook:create $nb -tabs {personal appearance session loging connection prefapps profiles} -borderwidth 2
+	Rnotebook:create $nb -tabs {personal appearance session loging connection prefapps profiles privacy} -borderwidth 2
 	pack $nb -fill both -expand 1 -padx 10 -pady 10
 
 	#  .----------.
@@ -793,6 +793,95 @@ proc Preferences { { settings ""} } {
 	pack $lfname.1.bdel -anchor e -side left -padx 15
 	pack $lfname.1 -anchor w -side top -expand 1 -fill x
 
+	#  .----------.
+	# _| Privacy |________________________________________________
+	set frm [Rnotebook:frame $nb 8]
+
+         # Allow/Block lists
+	set lfname [LabelFrame:create $frm.lfname -text [trans prefprivacy]]
+	pack $frm.lfname -anchor n -side top -expand 1 -fill x
+	label $lfname.pprivacy -image prefapps
+	pack $lfname.pprivacy -anchor nw -side left
+
+	frame $lfname.allowlist -relief sunken -borderwidth 3
+        label $lfname.allowlist.label -text "[trans allowlist]"
+	listbox $lfname.allowlist.box -yscrollcommand "$lfname.allowlist.ys set" -font splainf -background \
+	white -relief flat -highlightthickness 0 -height 5
+	scrollbar $lfname.allowlist.ys -command "$lfname.allowlist.box yview" -highlightthickness 0 \
+         -borderwidth 1 -elementborderwidth 2
+        pack $lfname.allowlist.label $lfname.allowlist.box -side top -expand true
+	pack $lfname.allowlist.ys -side right -fill y
+        pack $lfname.allowlist.box -side left -expand true -fill both
+ 
+
+        frame $lfname.blocklist -relief sunken -borderwidth 3
+        label $lfname.blocklist.label -text "[trans blocklist]"
+	listbox $lfname.blocklist.box -yscrollcommand "$lfname.blocklist.ys set" -font splainf -background \
+	white -relief flat -highlightthickness 0 -height 5
+	scrollbar $lfname.blocklist.ys -command "$lfname.blocklist.box yview" -highlightthickness 0 \
+         -borderwidth 1 -elementborderwidth 2
+        pack $lfname.blocklist.label $lfname.blocklist.box -side top -expand true
+	pack $lfname.blocklist.ys -side right -fill y
+	pack $lfname.blocklist.box -side left -expand true -fill both
+
+
+	frame $lfname.buttons -borderwidth 0
+	button $lfname.buttons.right -text [trans movetoright] -font sboldf -command "Allow_to_Block $lfname" -width 20
+	button $lfname.buttons.left -text [trans movetoleft] -font sboldf -command "Block_to_Allow $lfname" -width 20
+	pack $lfname.buttons.right $lfname.buttons.left -side top
+    
+        label $lfname.status -text ""
+        pack $lfname.status -side bottom  -anchor w -padx 10 -pady 10 -expand 1 -fill both
+	pack $lfname.allowlist $lfname.buttons $lfname.blocklist -anchor w -side left -padx 10 -pady 10 -expand 1 -fill both
+
+        bind $lfname.allowlist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"allow\" %X %Y"
+        bind $lfname.blocklist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"block\" %X %Y"
+    
+
+        # Contact/Reverse lists
+	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefprivacy2]]
+	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
+	label $lfname.pprivacy -image prefapps
+	pack $lfname.pprivacy -anchor nw -side left
+
+	frame $lfname.contactlist -relief sunken -borderwidth 3
+        label $lfname.contactlist.label -text "[trans contactlist]"
+	listbox $lfname.contactlist.box -yscrollcommand "$lfname.contactlist.ys set" -font splainf -background \
+	white -relief flat -highlightthickness 0 -height 5
+	scrollbar $lfname.contactlist.ys -command "$lfname.contactlist.box yview" -highlightthickness 0 \
+         -borderwidth 1 -elementborderwidth 2
+        pack $lfname.contactlist.label $lfname.contactlist.box -side top -expand true
+	pack $lfname.contactlist.ys -side right -fill y
+	pack $lfname.contactlist.box -side left -expand true -fill both
+  
+	frame $lfname.reverselist -relief sunken -borderwidth 3
+        label $lfname.reverselist.label -text "[trans reverselist]"
+	listbox $lfname.reverselist.box -yscrollcommand "$lfname.reverselist.ys set" -font splainf -background \
+	white -relief flat -highlightthickness 0 -height 5
+	scrollbar $lfname.reverselist.ys -command "$lfname.reverselist.box yview" -highlightthickness 0 \
+         -borderwidth 1 -elementborderwidth 2
+        pack $lfname.reverselist.label $lfname.reverselist.box -side top -expand true
+	pack $lfname.reverselist.ys -side right -fill y
+	pack $lfname.reverselist.box -side left -expand true -fill both
+
+
+	frame $lfname.buttons -borderwidth 0
+	button $lfname.buttons.right -text [trans copytoright] -font sboldf -command "" -width 20 -state disabled
+	button $lfname.buttons.left -text [trans copytoleft] -font sboldf -command "Reverse_to_Contact $lfname" -width 20 
+	pack $lfname.buttons.right $lfname.buttons.left -side top
+
+        label $lfname.status -text ""
+
+        pack $lfname.status -side bottom  -anchor w -padx 10 -pady 10 -expand 1 -fill both 
+	pack $lfname.contactlist $lfname.buttons $lfname.reverselist -anchor w -side left -padx 10 -pady 10 -expand 1 -fill both
+
+        bind $lfname.contactlist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"contact\" %X %Y"
+        bind $lfname.reverselist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"reverse\" %X %Y"
+
+  
+
+
+
     setCfgFonts $nb splainf
 
     Rnotebook:totalwidth $nb
@@ -809,6 +898,7 @@ proc Preferences { { settings ""} } {
 	connection { Rnotebook:raise $nb 5 }
         apps { Rnotebook:raise $nb 6 }
         profiles { Rnotebook:raise $nb 7 }
+	privacy { Rnotebook:raise $nb 8 }
 	default { return }
     }
 
@@ -897,6 +987,11 @@ proc InitPref {} {
 	for { set idx 0 } { $idx < [StateList size] } {incr idx } {
 		$lfname.lfname2.f.f.statelist.box insert end [lindex [StateList get $idx] 0]
 	}
+
+        # Fill the user's lists
+        set lfname [Rnotebook:frame $nb 8]
+        Fill_users_list "$lfname.lfname.f.f" "$lfname.lfname2.f.f"
+
 
         # Init remote preferences
         set lfname [Rnotebook:frame $nb 5]
@@ -1179,6 +1274,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.55  2003/06/15 07:31:38  kakaroto
+# The user's list manipulation support (The privacy tab)
+#
 # Revision 1.54  2003/06/15 02:58:31  burgerman
 # small bug in pref
 #

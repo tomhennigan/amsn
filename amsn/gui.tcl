@@ -2348,6 +2348,7 @@ proc cmsn_draw_main {} {
    pack $pgBuddy.text -expand true -fill both -padx 0 -pady 0
 
    bind . <Control-s> toggle_status
+   bind . <Control-p> Preferences
 
    wm protocol . WM_DELETE_WINDOW {::amsn::closeOrDock $config(closingdocks)}
 
@@ -3616,3 +3617,228 @@ proc change_name_ok {} {
 }
 #///////////////////////////////////////////////////////////////////////
 
+
+
+#///////////////////////////////////////////////////////////////////////
+proc Fill_users_list { path path2} {
+    global list_rl list_users list_bl list_al emailBList
+
+ 
+    # clearing the list boxes from there content
+    $path.allowlist.box delete 0 end
+    $path.blocklist.box delete 0 end
+    $path2.contactlist.box delete 0 end
+    $path2.reverselist.box delete 0 end
+
+
+    foreach user $list_al {
+	$path.allowlist.box insert end [lindex $user 1]
+    }
+
+    foreach user $list_bl {
+	$path.blocklist.box insert end [lindex $user 1]
+    }
+
+    foreach user $list_users {
+	$path2.contactlist.box insert end [lindex $user 1]
+	set user [lindex $user 0]
+	
+	if {[lsearch $list_rl "$user *"] == -1} {
+	    set colour #FF00FF
+	} elseif { [info exists emailBList($user)]} {
+	    set colour #FF0000
+	} else {
+	    set colour #FFFFFF
+	}
+
+	$path2.contactlist.box itemconfigure end -background $colour
+    }
+
+
+    foreach user $list_rl {
+	$path2.reverselist.box insert end [lindex $user 1]
+	set user [lindex $user 0]
+	if {[lsearch $list_users "$user *"] == -1} {
+	    set colour #00FF00
+	} else {
+	    set colour #FFFFFF
+	}
+	$path2.reverselist.box itemconfigure end -background $colour
+    }
+
+}
+
+
+proc create_users_list_popup { path list x y} {
+
+    if { [$path.${list}list.box curselection] == "" } {
+	$path.status configure -text "[trans choosecontact]"
+    }  else {
+
+	$path.status configure -text ""
+
+	set user [$path.${list}list.box get active]
+
+	set user [NickToEmail "$user" $list]
+
+	set add "normal"
+	set remove "normal"
+
+	if { "$list" == "contact" } {
+	    set add "disabled"
+	} elseif { "$list" == "reverse" } {
+	    set remove "disabled"
+	} elseif { "$list" == "allow" } {
+	    # Other config to add ???
+	} elseif { "$list" == "block" } {
+	    # Other config to add ???
+	}
+
+	if { [winfo exists $path.${list}popup] } {
+	    destroy $path.${list}popup
+	}
+
+	menu $path.${list}popup -tearoff 0 -type normal
+	$path.${list}popup add command -label "$user" -command "clipboard clear;clipboard append [NickToEmail \"${user}\" $list]"
+        $path.${list}popup add separator
+	$path.${list}popup add command -label "[trans addtocontacts]" -command "AddToContactList \"$user\" $path" -state $add
+        $path.${list}popup add command -label "[trans removefromlist]" -command "Remove_from_list $list $user" -state $remove
+	$path.${list}popup add command -label "[trans properties]" -command "::abookGui::showEntry $user"
+	
+	tk_popup $path.${list}popup $x $y
+	
+
+    }
+}
+
+proc AddToContactList { user path } {
+
+    if { [NotInContactList "$user"] } {
+	::MSN::WriteSB ns "ADD" "FL $user $user 0"
+    } else {
+	$path.status configure -text "[trans useralreadyonlist]"
+    }
+
+}
+
+proc Remove_from_list { list user } {
+
+    	if { "$list" == "contact" } {
+	    ::MSN::WriteSB ns "REM" "FL $user"
+	} elseif { "$list" == "allow" } {
+	    ::MSN::WriteSB ns "REM" "AL $user"
+	} elseif { "$list" == "block" } {
+	    ::MSN::WriteSB ns "REM" "BL $user"
+	}
+
+}
+
+proc Reverse_to_Contact { path } {
+    global list_rl list_users
+
+    if { [VerifySelect $path "reverse"] } {
+
+	$path.status configure -text ""
+
+	set user [$path.reverselist.box get active]
+
+	set user [NickToEmail "$user" "reverse"]
+
+	AddToContactList "$user" "$path"
+
+    }
+
+}
+
+proc Allow_to_Block { path } {
+    global list_rl list_users
+
+    if { [VerifySelect $path "allow"] } {
+
+	$path.status configure -text ""
+
+	set username [$path.allowlist.box get active]
+
+	set user [NickToEmail "$username" "allow"]
+
+	::MSN::blockUser "$user" [urlencode $username]
+
+    }
+
+}
+
+proc Block_to_Allow  { path } {
+    global list_rl list_users
+
+    if { [VerifySelect $path "block"] } {
+
+	$path.status configure -text ""
+
+	set username [$path.blocklist.box get active]
+
+	set user [NickToEmail "$username" "block"]
+
+	::MSN::unblockUser "$user" [urlencode $username]
+
+    }
+
+}
+
+proc VerifySelect { path list } {
+
+   if { [$path.${list}list.box curselection] == "" } {
+	$path.status configure -text "[trans choosecontact]"
+       return 0
+    }  else {
+	return 1
+    }
+
+}
+
+proc NickToEmail { nick list } {
+    global list_users list_rl list_al list_bl
+
+    if { "$list" == "contact" } {
+	foreach  tmp $list_users {
+	    if { "[lindex $tmp 1]" == "$nick" } {
+		set user [lindex $tmp 0]
+		return "$user"
+	    } 
+	}
+    } elseif { "$list" == "reverse" } {
+	foreach  tmp $list_rl {
+	    if { "[lindex $tmp 1]" == "$nick" } {
+		set user [lindex $tmp 0]
+		return "$user"
+	    } 
+	}
+    } elseif { "$list" == "allow" } {
+	foreach  tmp $list_al {
+	    if { "[lindex $tmp 1]" == "$nick" } {
+		set user [lindex $tmp 0]
+		return "$user"
+	    } 
+	}
+    } elseif { "$list" == "block" } {
+	foreach  tmp $list_bl {
+	    if { "[lindex $tmp 1]" == "$nick" } {
+	    set user [lindex $tmp 0]
+		return "$user"
+	    } 
+	}
+    }
+
+    return ""
+
+}
+
+proc NotInContactList { user } {
+    global list_users
+    
+    if {[lsearch $list_users "$user *"] == -1} {
+	return 1
+    } else {
+	return 0
+    }
+    
+}

@@ -1087,7 +1087,7 @@ namespace eval ::MSN {
       sb set $sbn sock ""
         
       catch {close $oldsock} res      
-            
+
       if { $sbn == "ns" } {
 	  
          status_log "Closing NS socket! (stat= $oldstat)\n" red      
