@@ -487,33 +487,41 @@ namespace eval ::amsn {
 
 		#Create the picture of warning (at left)
 		label $w.top.bitmap -image [::skin::loadPixmap warning]
-		pack $w.top.bitmap -side left -pady 5 -padx 15
+		pack $w.top.bitmap -side left -pady 5 -padx 10
 		#Text to show to delete the user
 		label $w.top.question -text "[trans confirmdu]" -font bigfont
-		pack $w.top.question -pady 5 -padx 25
+		pack $w.top.question -pady 5 -padx 10
 
 		#Create the three buttons, Yes and block / Yes / No 
-		button $w.buttons.yesblock -text "[trans yesblock]" \
-			-command "::amsn::deleteUserAction $w $user_login yes_block $grId"
+		global block
+		checkbutton $w.top.yesblock -text "[trans yesblock]" -variable block
 
 		button $w.buttons.yes -text "[trans yes]" -command \
 			"::amsn::deleteUserAction $w $user_login yes $grId" -default active -width 6
 		button $w.buttons.no -text "[trans no]" -command "destroy $w" -width 6
+		puts $block
+		if {$block == 1} {
+			$w.buttons.yes configure -command "::amsn::deleteUserAction $w $user_login yes_block $grId"
+		}
+		
 		#Pack buttons
 		pack $w.buttons.yes -pady 5 -padx 5 -side right
 		pack $w.buttons.no -pady 5 -padx 5 -side left
 
 		# if already blocked don't show 'Yes and Block' button
 		if {[lsearch [::abook::getLists $user_login] BL] == -1} {
-			pack $w.buttons.yesblock -pady 5 -padx 5 -side left
+			pack $w.top.yesblock -pady 5 -padx 10 -side left
 		}
-
+		
+		
 		#Pack frames
 		pack $w.top -pady 5 -padx 5 -side top
 		pack $w.buttons -pady 5 -padx 5 -side right
 
 		moveinscreen $w 30
 		bind $w <<Escape>> "destroy $w"
+		#This function will be executed when the button is pushed
+
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 	# deleteUserAction {w user_login answer grId}
