@@ -3825,7 +3825,12 @@ proc play_sound {sound_name} {
 
 	if { $config(sound) == 1 } {
 		set sound [GetSkinFile sounds $sound_name]
-		catch {eval exec $config(soundcommand) &} res
+		if { $tcl_platform(platform) == "windows" } {
+			#added replace \ for \\ in windows as was needed, may be needed for other platforms aswell
+			catch {eval exec [regsub -all {\\} $config(soundcommand) {\\\\}] &} res
+		} else {
+			catch {eval exec $config(soundcommand) &} res
+		}
 		#Kill soundplayer on Mac OS X (sometimes he stays open and eat your CPU)
 		if { $tcl_platform(os) == "Darwin" } {
 			after 30000 [list catch [list exec killall -c sndplay]]
