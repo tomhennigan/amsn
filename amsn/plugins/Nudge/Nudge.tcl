@@ -1,7 +1,7 @@
 ############################################
 #        ::nudge => Nudges for aMSN        #
 #  ======================================  #
-# Nudges are a kind of notification		   #
+# Nudge is  a kind of notification		   #
 # that was introduced in MSN 7             #
 ############################################
 
@@ -106,10 +106,27 @@ namespace eval ::Nudge {
 	}
 
 	################################################
-	# ::Nudge::sendprocedure window_name               #
+	# ::Nudge::itemmenu event epvar                #
+	# -------------------------------------------  #
+	# "Send nudge" item, in the menu Actions       #
+	# If you click on that menu item, you will send#
+	# a nudge to the other contact                 #
+	################################################	
+	proc itemmenu { event evpar } {
+		upvar 2 evPar newvar
+		#Add a separator to the menu
+		$newvar(menu_name).actions add separator
+		#Add label in the menu (no translation yet)
+		$newvar(menu_name).actions add command -label "Send Nudge" \
+		-command "::Nudge::sendprocedure $newvar(window_name)"
+
+	}
+	
+	################################################
+	# ::Nudge::sendprocedure window_name           #
 	# -------------------------------------------  #
 	# Protocole code to send a nudge to someone    #
-	# via the button we created in sendbutton      #		
+	# via the button or the menu Actions           #		
 	################################################
 	proc sendprocedure {window_name} {
 		#Find the SB
@@ -121,4 +138,8 @@ namespace eval ::Nudge {
     	#Send the packet
     	::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
 	}
+	
+
+	
+	
 }

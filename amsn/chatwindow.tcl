@@ -621,6 +621,11 @@ namespace eval ::ChatWindow {
 		.${win_name}.menu.actions add separator
 		.${win_name}.menu.actions add command -label [trans sendmail] \
 			-command "::amsn::ShowChatList \"[trans sendmail]\" .${win_name} launch_mailer"
+		#Send a postevent for the creation of menu
+		set evPar(window_name) ".${win_name}"
+		set evPar(menu_name) ".${win_name}.menu"
+		::plugins::PostEvent chatmenu evPar
+			
 		.${win_name} conf -menu .${win_name}.menu
 
 		menu .${win_name}.copypaste -tearoff 0 -type normal
