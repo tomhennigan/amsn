@@ -65,6 +65,7 @@ blockinter4 secondes.
 blocklist Liste de personnes bloquées
 blockmessage Ces personnes sont en ligne mais vous bloquent
 blockusers Nombre d'utilisateurs à cocher à la fois
+bouncedock Faire rebondir l'icone de aMSN dans le dock lors de la réception d'un message
 broughtby Développé pour vous par
 browse Naviguer
 browser Navigateur web
@@ -123,6 +124,7 @@ connectionlost Déconnecté(e) : la connexion avec le serveur s'est arrêtée
 contactadded Contact ajouté
 contactdoesnotexist Personne introuvable
 contactlist Liste de contacts:
+continuously Continuellement
 convertexplain Chemin vers l'exécutable CONVERT, d'ImageMagick (requis pour afficher les photos).\n Laissez vide si il est déjà dans le chemin.
 copy Copier
 copytogroup Copier vers groupe
@@ -249,6 +251,7 @@ ipaddress Adresse IP
 ipdetect Détection de l'IP exacte pour les transferts de fichier utilisant HTTP
 istyping Message en cours de frappe ($1)
 joins $1 se joint à la conversation
+justonce Une fois
 keepalive Garder la connexion ouverte (NAT)
 keeplog Conserver les conversations
 keeplog2 Conserver toutes les conversations dans l'historique de aMSN pour une visualisation ultérieure
@@ -307,6 +310,7 @@ myworkphone Mon numéro au travail
 natip Détection de l'adresse IP par page web
 natkeepalive Si vous vous déconnectez régulièrement, activez cette option
 needonline Vous ne pouvez pas écrire un message si vous êtes invisible ou déconnecté!
+never Jamais
 newmail $1 nouveau(x) message(s)
 newmailfrom Nouveau message de $1 ($2)
 newmsg Nouveau message
