@@ -5767,6 +5767,11 @@ proc timestamp {} {
 proc status_log {txt {colour ""}} {
 	global followtext_status queued_status
 
+	#ensure txt ends in a newline
+	if { [string index $txt end] != "\n" } {
+		set txt "$txt\n"
+	}
+
 	if { [catch {
 		.status.info insert end "[timestamp] $txt" $colour
 		.status.info delete 0.0 end-1000lines

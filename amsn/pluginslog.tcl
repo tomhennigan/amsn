@@ -13,6 +13,12 @@ namespace eval ::pluginslog {
     proc plugins_log {plugin msg} {
 	variable idx
 	variable log
+
+	#ensure msg ends in a newline
+	if { [string index $msg end] != "\n" } {
+		set msg "$msg\n"
+	}
+
 	incr idx
 	set log($idx) [list $plugin $msg]
 	::pluginslog::display
