@@ -2203,7 +2203,7 @@ namespace eval ::amsn {
 			
 			set win_name [::ChatWindow::For $chatid]
 			set maxw [winfo width [::ChatWindow::GetOutText $win_name]]
-			status_log "Custom font is $customfont\n" red
+			#status_log "Custom font is $customfont\n" red
 			incr maxw [expr -10-[font measure $measurefont -displayof $win_name "$says"]]
 			set nick [trunc $oldnick $win_name $maxw splainf]
 		}
