@@ -820,7 +820,7 @@ namespace eval ::MSN {
       }
 
       ::groups::Disable
-      
+
       StopPolling
 
       cmsn_draw_offline
@@ -836,7 +836,7 @@ namespace eval ::MSN {
 
          status_log "recv: $recv\n" blue
 
-         if { [lindex $recv 3] == $config(login) } {
+         if { [string tolower [lindex $recv 3]] == [string tolower $config(login)] } {
             set user_info $recv
             cmsn_draw_online
          }
@@ -867,7 +867,7 @@ namespace eval ::MSN {
    proc changeName { userlogin newname } {
 
       global config
-   
+
       set name [urlencode $newname]
       if { [string length $name] > 350} {
         set name [string range $name 0 350]

@@ -2831,7 +2831,7 @@ proc cmsn_draw_signin {} {
 proc login_ok {} {
    global config password proftrig
 
-   set config(login) [.login.c.signin get]
+   set config(login) [string tolower [.login.c.signin get]]
    set password [.login.c.password get]
    grab release .login
    destroy .login
