@@ -19,6 +19,7 @@ allowbadwords Desactiva la censura als sobrenoms
 allowlist Llista d'acceptats:
 allowonlyinal Permet que contactin amb mi només els usuaris acceptats
 allowseen Deixa que aquesta persona vegi si estic connectat i que contacti amb mi
+animatedemoticon Aquesta emoticona és animada
 animatedsmileys Activa les emoticones animades
 appearance Aparença
 appearoff Simula desconnexió
@@ -55,6 +56,7 @@ busy Ocupat
 cancel Cancel·la
 cannotdeleteprofile No es pot eliminar el perfil, sembla que està sent utilitzat per una altra sessió aMSN
 cantexec No puc executar l'aplicació $1. Comprova les preferències.
+casesensitive Diferenciar les majúscules i les minúscules als disparadors
 cfgalarm Configurar l'alarma per aquest usuari
 changefont Canviar font
 changenick Canviar el meu sobrenom
@@ -77,13 +79,12 @@ clearlog2 Neteja l'historial per tots els contactes
 clearlog3 Netejar tots els registres
 clearlog Neteja de l'historial
 clicktologin Apreta aquí per iniciar la sessió
-close Tancar
 closed Conversa amb $1 tancada per inactivitat
+close Tancar
 closingdocks El botó tancar minimitza la finestra
 command Reproductor
 confirmdelete Estàs segur de voler eliminar a $1?
 confirm Estàs segur?
-contactlist Llista de contactes:
 connected Ara estàs connectat
 connecterror Error connectant amb el servidor
 connecting Connectant
@@ -91,10 +92,13 @@ connection Connexió
 connectionlost Desconnectat: connexió amb el servidor tancada
 contactadded Contacte inclòs
 contactdoesnotexist ¡El contacte que intentes afegir no existeix!
+contactlist Llista de contactes:
 copy Copia
 copytogroup Copia al grup
 countrycode Codi de país o regió
 cprofile Crear perfil
+custom_edit Editar emoticona personalitzada
+custom_new Afegir emoticona personalitzada
 cut Talla
 date Data
 days dies
@@ -104,6 +108,7 @@ delete Esborrar
 deliverfail Hi ha hagut un problema al enviar el missatge
 delprofile2 Selecciona el perfil que t'agradaria eliminar
 delprofile Esborrar perfil
+description Descripció
 directconnection Tinc una connexió directa a Internet (utilitza el port 1863)
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Acoplament amb el Gnome
@@ -117,6 +122,7 @@ editstate Editar missatge automàtic per a un estat personalitzat
 emotisounds Reproduir sons associats a certes emoticones
 enableproxy Habilitar el servidor intermediari (proxy)
 enableremote Activar control remot
+enablesound Reproduir sons
 encoding2 Canvia la codificació utilitzada pels teus caràcters
 encoding Canviar la codificació
 entercontactemail Escriu l'adreça de correu del contacte
@@ -157,6 +163,7 @@ groupunknown Grup desconegut
 handle Sobrenom
 help Ajuda
 helpcontents Contiguts
+hiden No mostris aquesta emoticona al menú d'emoticones
 history Mostrar historial
 home Casa
 httpconnection Connectar-se amb el mètode HTTP (utilitza el protocol HTTP pel port 80)
@@ -165,6 +172,7 @@ ident Identifica
 identity Identitat
 inbox Bústia
 internalerror Error intern del servidor
+invalidfile El fitxer $2 introduït al camp "$1" no existeix o no es pot llegir
 invalidusername Nom d'usuari invàlid
 invitationcancelled La invitació ha sigut cancel·lada
 invite Convida
@@ -237,9 +245,9 @@ nonewver No hi ha cap versió nova per a baixar-se
 no No
 normal Normal
 nosystemtray Safata del sistema no disponible
-notify1 Mostrar una finestra d'avís quan un contacte es connecti
 notify1_5 Mostrar una finestra d'avís quan un contacte es desconnecti
 notify1_75 Mostrar una finestra d'avís quan un contacte canviï d'estat
+notify1 Mostrar una finestra d'avís quan un contacte es connecti
 notify2 Mostrar una finestra d'avís quan arribin nous missatges
 notify3 Mostrar una finestra d'avís quan arribi un nou correu electrònic
 notify notificar
@@ -281,8 +289,8 @@ prefmsging Interfície dels missatges
 prefname Sobrenom a l'aMSN
 prefphone2 Escriu els números de telèfon que vols permetre veure als contactes \n de la teva llista de contactes amb permís \n
 prefphone Números de telèfon
-prefprivacy Llista dels contactes que poden veure el meu estat i dels bloquejats
 prefprivacy2 Llista de tots els contactes i dels usuaris que em tenen a la seva llista de contactes
+prefprivacy Llista dels contactes que poden veure el meu estat i dels bloquejats
 prefprofile2 Crea o modifica el teu perfil públic\n(la teva descripció que poden veure els altres)
 prefprofile3 Configuració dels perfils d'usuari de l'aMSN
 prefprofile Perfil públic
@@ -327,6 +335,10 @@ servergoingdown Desconnectat: El servidor s'apagarà per manteniment
 server Servidor
 session Sessió
 showblockedlist Mostra'm la llista de la gent que em té bloquejat a la seva llista de contactes
+smileconfig Configura l'emoticona personalitzada
+smilefile Nom del fitxer de l'emoticona
+smileintro2 Edita els camps per personalitzar aquesta emoticona (a les FAQ tens més ajuda)
+smileintro Emplena els camps per crear una nova emoticona personalitzada (a les FAQ tens més ajuda)
 sound2 Reprodueix sons quan els contactes es connectin o enviïn missatges
 soundcommand La comanda per reproduir el so (ex: esdplay)
 soundfile Fitxer de so de l'alarma
@@ -337,12 +349,12 @@ soundstatus So a l'alarma
 startoffline2 Connectar-se silenciosament apareixent en l'estat "Desconnectat"
 startoffline Iniciar la connexió en l'estat "Simula desconnexió"
 stateautomsg Missatge automàtic a enviar
+statechange estat canviat a:
 stateedittext Edita els camps que vulguis modificar\ni prem "Desar"
 stateinfo Configuració dels estats personalitzats
 statename Nom de l'estat personalitzat
 statenewtext Emplena la informació necessària per crear\nel nou estat personalitzat i prem "Desar"
 state Vull aparèixer com
-statechange estat canviat a:
 status Estat
 stopalarm Parar l'alarma
 stylechat La mateixa aparença que als xats
@@ -357,6 +369,8 @@ tools Eines
 tooltips Activa el rètol indicador de funcions
 transnotexists Aquest fitxer encara no ha estat traduït
 traynotcompiled La icona de la safata de connexió no s'ha compilat. Comprova el directori plugins/traydock
+triggers Text disparador
+twonewmail $1 missatges nous a la bústia
 unblock Desbloquejar
 uoffline Desconnectats
 uonline Connectats
@@ -371,6 +385,7 @@ viewprofile Mostrar perfil
 view Veure
 willjoin Esperant que $1 s'uneixi a la conversa
 work Treball
+wrongfields Els camps "$1", "$2" i/o "$3" no són vàlids
 wrongprofileversion Versió incorrecta del fitxer de configuració del perfil. Per arreglar-ho, esborra el directori $1 o actualitza l'aMSN
 xoffset Desplaçament X
 yes Sí
@@ -378,4 +393,3 @@ yoffset Desplaçament Y
 youblocked Has estat bloquejat
 yousay Dius
 youwant Vols
-twonewmail $1 missatges nous a la bústia

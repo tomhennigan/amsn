@@ -19,6 +19,7 @@ allowbadwords Zuia ukaguzi katika majina-ya-utani.
 allowlist Orodha-ruhusu:
 allowonlyinal Ruhusu watumiaji walio kwenye Orodha-Kubali tu kuwasiliana nami
 allowseen Mruhusu mtu huyu kuniona na kuwasilina nami nipokuwa natumia
+animatedemoticon Kisura-hisia  hichi kinaweza kucheza
 animatedsmileys Ruhusu visura kucheza
 appearance Muonekano
 appearoff Onekana sijaunganishwa
@@ -55,6 +56,7 @@ busy Ninashughuli
 cancel Sitisha
 cannotdeleteprofile Utashi hauwezi kufutwa kwani unaonekana ukitumika kwenye kipindi kingine cha Amsn
 cantexec Siwezi kuendesha programu: $1. Angalia mapendeleo
+casesensitive Tumia case-sensitive triggers
 cfgalarm Panga/Ongeza/Ondoa Sauti
 changefont Badilisha Maandishi
 changenick Badilisha jina
@@ -95,6 +97,8 @@ copy Nakili
 copytogroup Nakili kwenda kwenye kundi
 countrycode Kodi yangu ya Nchi/Mkoa
 cprofile Tengeneza Utashi
+custom_edit Rekibisha visura binafsi
+custom_new Ongeza visura binafsi vipya
 cut Kata
 date Tarehe
 days Siku
@@ -104,6 +108,7 @@ delete Futa
 deliverfail kulikuwa na tatizo katika kupeleka ujumbe ufuatao
 delprofile2 Chagua Utashi unaotaka uondelewe
 delprofile Futa Utashi
+description Maelezo
 directconnection Naunganishwa kwenye mtandao moja kwa moja ( tumia poti 1863)
 dockfreedesktop MezaHuru (KDE3/Gnome2)
 dockgtk Gnome Doki
@@ -117,6 +122,7 @@ editstate Hariri Hali iliyopo ya Kutuma-ujumbe-yenyewe
 emotisounds Cheza sauti wakati wa ikoni-hisia
 enableproxy Ruhusu proksi
 enableremote Ruhusu kuongoza kutoka sehemu nyingine
+enablesound Cheza sauti
 encoding2 Badilisha jinsi herufi zako zinavyoumbwa
 encoding Chagua aina ya maandishi
 entercontactemail Weka barua-p ya muongeaji
@@ -157,6 +163,7 @@ groupunknown Kundi lisilijulikana
 handle Hendo
 helpcontents Yaliyomo kwenye msaada
 help Msaada
+hiden Ficha visura-hisia kutoka orodha ya visura
 history Ongalia Historia
 home Nyumbani
 httpconnection Unganisha kwa kutumia njia za HTTP ( tumia protokali za HTTP katika poti 80)
@@ -165,6 +172,7 @@ ident Inatambulisha
 identity Utambulisho
 inbox Sanduku-Kuingia
 internalerror tatizo la ndani la programu-tumishi
+invalidfile Faili $2 iliyowekwa katika nafasi "$1" halipo au alisomeki
 invalidusername Jina la mtumiaji siyo la kweli
 invitationcancelled Mualiko ulisitishwa
 invite Karibisha
@@ -328,6 +336,10 @@ servergoingdown Imekatishwa: Progamu-tumishi inazimwa
 server Progamu-tumishi
 session Kipindi
 showblockedlist Onyesha orodha ya watu waliokuzuia kupiga soga nao
+smileconfig Mapangilio binafsi ya visura-hisia
+smilefile Jina la faili la visura
+smileintro2 Tafadhali rekebisha nafasi zinazohitahika ili kurekebisha kisura hichi (angalia FAQ kwa msaada)
+smileintro Tafadhali jaza nafasi zinazohijiwa kutengeneza kisura binafsi(angalia FAQ kwa msaada)
 sound2 Cheza sauti kama waongeaji wanaingia au wanatuma ujumbe
 soundcommand Hii in amri ya cheza (mfn: esdplay)
 soundfile Faili ya sauti
@@ -339,6 +351,7 @@ startoffline2 Saini kimya kimya kama "Onekana Ujaunganishwa"
 startoffline Anza ukiwa ujaunganiswa
 state  Nataka nionekane kama
 stateautomsg Ujumbe-wa-kujituma wa kutuma
+statechange hali imebadilika kuwa :
 stateedittext Tafadhali hariri nafasi ambazo ungetaka \n zibadilike na bonyeza Hifadhi
 stateinfo  Mipangilio ya Hali Binafsi
 statename Jina la Hali Binafsi
@@ -358,6 +371,7 @@ tools Vifaa
 tooltips Ruhusu vidokezo
 transnotexists Faili linaloitajika bado alijatafsiriwa katika lugha inayotumiwa sasa.
 traynotcompiled Plagini ya trei ya aikoni haijakamilishwa. Angalia plugins/traydock
+triggers Triga za maandishi
 twonewmail $1 ujumbe mpya katika sanduku-Kuingia
 unblock Ruhusu
 uoffline Wasiounganishwa
@@ -373,6 +387,7 @@ viewprofile Angalia Utashi
 view Tazama
 willjoin Subiri $1 ajiunge na mazungumzo
 work Kazi
+wrongfields nafasi "$1", "$2" na/au "$3" hazikuwa sahihi
 wrongprofileversion Faili ya mipangilio ya utashi si sahihi. Ili kulirekebisha, tafadhali ondoa jarada $1, au tumia Amsn ya sasa
 xoffset nafasi X
 yes Ndio

@@ -19,6 +19,7 @@ allowbadwords Toon ongecencureerde schermnamen
 allowlist Lijst met toegestane gebruikers :
 allowonlyinal Sta alleen toegestane gebruikers toe om contact met mij op te nemen
 allowseen Deze persoon toestaan om mijn online-status te zien, en contact met mij op te nemen
+animatedemoticon Dit is een bewegende emoticon
 animatedsmileys Gebruik bewegende smileys
 appearance Status
 appearoff Offline verschijnen
@@ -55,6 +56,7 @@ busy Bezet
 cancel Annuleren
 cannotdeleteprofile Kan het profiel niet verwijderen. Het is mogelijk in gebruik bij een aMSN sessie
 cantexec Kan programma $1 niet starten, kijk uw instellingen na
+casesensitive Gebruik hoofdlettergevoelige triggers
 cfgalarm Alarm configureren/toevoegen/verwijderen
 changefont Verander lettertype
 changenick Verander schermnaam
@@ -95,6 +97,8 @@ copy    Kopiëren
 copytogroup Kopiëren naar groep
 countrycode Mijn Land/Regiocode
 cprofile Maak profiel
+custom_edit Bewerk zelfgemaakte smiley
+custom_new Maak een nieuwe smiley
 cut     Knippen
 date Datum
 days Dagen
@@ -104,6 +108,7 @@ delete Verwijderen
 deliverfail Er was een probleem bij het bezorgen van de volgende boodschap
 delprofile2 Kies het profiel dat je wilt verwijderen
 delprofile Verwijder profiel
+description Omschrijving
 directconnection Ik heb een directe verbinding met het internet (gebruik poort 1863)
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
@@ -117,6 +122,7 @@ editstate Verander Bestaande Automatische Berichten Status
 emotisounds Speel geluid voor bepaalde emoticons
 enableproxy Gebruik proxy
 enableremote Controle op afstand aanzetten
+enablesound Geluid afspelen
 encoding2 Verander je tekencodering
 encoding Kies codering
 entercontactemail Voer het e-mailadres van de contactpersoon in
@@ -157,6 +163,7 @@ groupunknown Onbekende groep
 handle Nick
 helpcontents Help inhoud
 help Help
+hiden Verberg deze emoticon in het smileys-menu
 history Toon geschiedenis
 home Thuis
 httpconnection Verbinden via het HTTP-protocol via poort 80
@@ -165,6 +172,7 @@ ident Bezig met identificeren
 identity Identiteit
 inbox Postvak IN
 internalerror Interne Server Fout
+invalidfile Het bestand $2, ingevoerd in het veld "$1", bestaat niet of is onleesbaar
 invalidusername Ongeldige gebruikersnaam
 invitationcancelled De uitnodiging is geannuleerd
 invite Nodig uit
@@ -327,6 +335,10 @@ servergoingdown Verbinding verbroken: De server gaat uit
 server Server
 session Sessie
 showblockedlist Toon de lijst van mensen die jou geblokkeerd hebben
+smileconfig Configuratie voor zelfgemaakte smileys
+smilefile Bestandsnaam van de smiley
+smileintro2 Pas de nodige velden aan om deze smiley te bewerken
+smileintro Vul de nodige velden in om een nieuwe smiley te maken
 sound2 Speel geluid als contacten zich aanmelden of een bericht verzenden
 soundcommand Dit moet het afspeelcommando zijn (vb: esdplay)
 soundfile Geluidsbestand
@@ -357,6 +369,7 @@ tools Extra
 tooltips Tooltips weergeven
 transnotexists Het opgevraagde bestand is nog niet vertaald in de gebruikte taal.
 traynotcompiled Taakbalk icoon plugin is niet gecompileerd. Bekijk plugins/traydock
+triggers Tekst triggers
 twonewmail Je hebt $1 nieuwe berichten in Postvak IN
 unblock Deblokkeer
 uoffline Offline
@@ -372,6 +385,7 @@ view Beeld
 viewprofile Profiel Weergeven
 willjoin Wachten tot $1 de conversatie zal bijwonen
 work werk
+wrongfields De velden "$1", "$2" en/of "$3" waren ongeldig
 wrongprofileversion Verkeerde profiel configuratiebestand versie. Om te repareren, gelieve directorie $1 te verwijderen, of aMSN te updaten.
 xoffset X-positie
 yes Ja
