@@ -652,6 +652,7 @@ uonline Online
 update Update
 updating Updating
 useother Use a different program
+useasdp Use as Display Picture
 useralreadyonlist User is already on contact list
 userblocked The user is online but blocked you
 userdata User Data
@@ -665,6 +666,7 @@ version Version
 viewcontactsby View contacts by
 viewprofile View Profile
 view View
+webcamshot Webcam Shot
 webcaminvite $1 invited you to start an webcam session, but aMSN does not support this feature.
 whatsize The image you have requested is not the normal display picture\nsize (96x96) What size would you like the image to be displayed as?
 willjoin Waiting $1 joins conversation
@@ -685,3 +687,4 @@ yoffset Y Offset
 youblocked You have been blocked by
 yousay You say
 youwant You want
+zoom Zoom

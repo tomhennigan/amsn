@@ -1,10 +1,12 @@
 package require AMSN_BWidget
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-	#Use QuickeTimeTcl on Mac OS X to play sounds
-	package require QuickTimeTcl
 	#Use tclCarbonHICommand for window utilities
 	package require tclCarbonHICommand
 }
+catch {package require QuickTimeTcl}
+
+	
+	
 
 if { $initialize_amsn == 1 } {
 	init_ticket putmessage
@@ -1238,7 +1240,7 @@ namespace eval ::amsn {
 		set tmsg "[trans says $nickt]:\n$msg"
 
 		set win_name [::ChatWindow::MakeFor $chatid $tmsg $user]
-
+puts 33
 
 		if { $remote_auth == 1 } {
 			if { "$user" != "$chatid" } {
@@ -1247,9 +1249,9 @@ namespace eval ::amsn {
 				write_remote "From $chatid : $msg" msgrcv
 			}
 		}
-
+puts 34
 		PutMessage $chatid $user $nick $msg $type $fontformat $p4c
-
+puts 35
 #		set evPar [list $user [::abook::getDisplayNick $user] $msg]
 		
 	    
@@ -2220,13 +2222,14 @@ namespace eval ::amsn {
 	#   was created, or just "user" to use the fontformat parameter
 	# - 'fontformat' is a list containing font style and color
 	proc PutMessage { chatid user nick msg type fontformat {p4c ""}} {
-
+puts 36
 		#Run it in mutual exclusion
 		run_exclusive [list ::amsn::PutMessageWrapped $chatid $user $nick $msg $type $fontformat $p4c] putmessage
+	puts 37
 	}
 
 	proc PutMessageWrapped { chatid user nick msg type fontformat {p4c 0 }} {
-
+puts 38
 		
 		if { [::config::getKey showtimestamps] } {
 			set tstamp [timestamp]
@@ -2234,7 +2237,7 @@ namespace eval ::amsn {
 			set tstamp ""
 		}
 
-		
+puts 39		
 		switch [::config::getKey chatstyle] {
 			msn {
 				::config::setKey customchatstyle "\$tstamp [trans says \$nick]:\n"
@@ -2246,30 +2249,30 @@ namespace eval ::amsn {
 			- {
 			}
 		}
-		
+	puts 40	
 		#By default, quote backslashes and variables
 		set customchat [string map {"\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } [::config::getKey customchatstyle]]
 		#Now, let's unquote the variables we want to replace
 		set customchat [string map { "\\\$nick" "\${nick}" "\\\$tstamp" "\${tstamp}" } $customchat]
-		
+	puts 41	
 		if { [::abook::getContactData $user customcolor] != "" } {
 			set color [string trim [::abook::getContactData $user customcolor] "#"]
 		} else {
 			set color 404040
 		}
-		
+	puts 42	
 		if { $p4c == 1 } {
 			if { $color == 404040 } { set color 000000 }
 			set style [list "bold" "italic"]
 		} else {
 			set style {}
 		}
-
+puts 43
 		set font [lindex [::config::getGlobalKey basefont] 0]
 		if { $font == "" } { set font "Helvetica"}		
-
+puts 45
 		set customfont [list $font $style $color]
-		
+puts 46		
 		if {[::config::getKey truncatenicks]} {
 			set oldnick $nick
 			set nick ""
@@ -2283,10 +2286,12 @@ namespace eval ::amsn {
 			incr maxw [expr -10-[font measure $measurefont -displayof $win_name "$says"]]
 			set nick [trunc $oldnick $win_name $maxw splainf]
 		}
-
+puts 47
 		#Return the custom nick, replacing backslashses and variables
 		set customchat [subst -nocommands $customchat]
+puts 48
 		WinWrite $chatid "\n$customchat" "says" $customfont
+puts 49
 		#Postevent for chat_msg_receive	
 		set evPar(user) user
 		set evPar(msg) msg
@@ -2295,14 +2300,17 @@ namespace eval ::amsn {
 		set message $msg
 		set evPar(message) message
 		::plugins::PostEvent chat_msg_receive evPar
-		
+puts 50	
 		if {![string equal $msg ""]} {
+		puts 51
 			WinWrite $chatid "$message" $type $fontformat 1 $user
+			puts 52
 			if {[::config::getKey keep_logs]} {
 				::log::PutLog $chatid $nick $msg $fontformat
+				puts 53
 			}
 		}
-		
+		puts 54
 		::plugins::PostEvent chat_msg_received evPar
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -2455,35 +2463,35 @@ namespace eval ::amsn {
 	# where it will use the same format as "user" but size 11.
 	# The parameter "user" is used for smiley substitution.
 	proc WinWrite {chatid txt tagname {fontformat ""} {flicker 1} {user ""}} {
-
+puts 100
 		set win_name [::ChatWindow::For $chatid]
-
+puts 101
 		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}
-
+puts 102
 		#Avoid problems if the windows was closed
 		if {![winfo exists $win_name]} {
 			return
 		}
-
+puts 103
 		if { [lindex [[::ChatWindow::GetOutText ${win_name}] yview] 1] == 1.0 } {
 			set scrolling 1
 		} else {
 			set scrolling 0
 		}
-
+puts 104
 		set fontname [lindex $fontformat 0]
 		set fontstyle [lindex $fontformat 1]      
 		set fontcolor [lindex $fontformat 2]
-
+puts 105
 		[::ChatWindow::GetOutText ${win_name}] configure -state normal -font bplainf -foreground black
-
+puts 106
 		#Store position for later smiley and URL replacement
 		set text_start [[::ChatWindow::GetOutText ${win_name}] index end]
 		set posyx [split $text_start "."]
 		set text_start "[expr {[lindex $posyx 0]-1}].[lindex $posyx 1]"
-		
+	puts 107	
 		#Check if this is first line in the text, then ignore the \n
 		#at the beginning of the line
 		if { [[::ChatWindow::GetOutText ${win_name}] get 1.0 end] == "\n" } {
@@ -2492,18 +2500,18 @@ namespace eval ::amsn {
 			}
 		}
 		
-
+puts 108
 		#By default tagid=tagname unless we generate a new one
 		set tagid $tagname
 
 		if { $tagid == "user" || $tagid == "yours" || $tagid == "says" } {
-
+puts 109
 			if { $tagid == "says" } {
 				set size [lindex [::config::getGlobalKey basefont] 1]
 			} else {
 				set size [expr {[lindex [::config::getGlobalKey basefont] 1]+[::config::getKey textsize]}]
 			}
-
+puts 110
 			set font "\"$fontname\" $size $fontstyle"
 			set tagid [::md5::md5 "$font$fontcolor"]
 
@@ -2513,12 +2521,12 @@ namespace eval ::amsn {
 				[::ChatWindow::GetOutText ${win_name}] tag configure $tagid -foreground black -font bplainf
 			}
 		}
-
+puts 111
 		set evPar(tagname) tagname
 		set evPar(winname) {win_name}
 		set evPar(msg) txt
 		::plugins::PostEvent WinWrite evPar
-
+puts 112
 		[::ChatWindow::GetOutText ${win_name}] insert end "$txt" $tagid
 
 		#TODO: Make an url_subst procedure, and improve this using regular expressions
@@ -2526,7 +2534,7 @@ namespace eval ::amsn {
 		variable urlstarts
 
 		set endpos $text_start
-
+puts 113
 		foreach url $urlstarts {
 
 			while { $endpos != [[::ChatWindow::GetOutText ${win_name}] index end] && [set pos [[::ChatWindow::GetOutText ${win_name}] search -forward -exact -nocase \
@@ -2534,7 +2542,7 @@ namespace eval ::amsn {
 
 
 				set urltext [[::ChatWindow::GetOutText ${win_name}] get $pos end]
-
+puts 114
 				set final 0
 				set caracter [string range $urltext $final $final]
 				while { $caracter != " " && $caracter != "\n" \
@@ -2542,7 +2550,7 @@ namespace eval ::amsn {
 					set final [expr {$final+1}]
 					set caracter [string range $urltext $final $final]
 				}
-
+puts 115
 				set urltext [string range $urltext 0 [expr {$final-1}]]
 
 				set posyx [split $pos "."]
@@ -2550,7 +2558,7 @@ namespace eval ::amsn {
 
 				set urlcount "[expr {$urlcount+1}]"
 				set urlname "url_$urlcount"
-
+puts 116
 				[::ChatWindow::GetOutText ${win_name}] tag configure $urlname \
 				-foreground #000080 -font splainf -underline true
 				[::ChatWindow::GetOutText ${win_name}] tag bind $urlname <Enter> \
@@ -2561,22 +2569,22 @@ namespace eval ::amsn {
 				[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr"
 				[::ChatWindow::GetOutText ${win_name}] tag bind $urlname <Button1-ButtonRelease> \
 				"[::ChatWindow::GetOutText ${win_name}] conf -cursor watch; launch_browser [string map {% %%} [list $urltext]]"
-
+puts 117
 				[::ChatWindow::GetOutText ${win_name}] delete $pos $endpos
 				[::ChatWindow::GetOutText ${win_name}] insert $pos "$urltext" $urlname
 				#Don't replace smileys in URLs
 				[::ChatWindow::GetOutText ${win_name}] tag add dont_replace_smileys ${urlname}.first ${urlname}.last
-
+puts 118
 			}
 		}
-
+puts 119
 		update
-
+puts 120
 		#Avoid problems if the windows was closed in the middle...
 		if {![winfo exists $win_name]} {
 			return
 		}
-
+puts 121
 		if {[::config::getKey chatsmileys]} {
 			custom_smile_subst $chatid [::ChatWindow::GetOutText ${win_name}] $text_start end
 			#Replace smileys... if you're sending custom ones, replace them too (last parameter)
@@ -2585,10 +2593,10 @@ namespace eval ::amsn {
 				#::smiley::substYourSmileys [::ChatWindow::GetOutText ${win_name}] $text_start end 0
 			} else {
 				::smiley::substSmileys  [::ChatWindow::GetOutText ${win_name}] $text_start end 0 0
-
+puts 122
 			}
 		}
-
+puts 123
 
 		#      vwait smileys_end_subst
 
@@ -2600,7 +2608,7 @@ namespace eval ::amsn {
 		if { $flicker } {
 			::ChatWindow::Flicker $chatid
 		}
-
+puts 124
 		after cancel [list set ::ChatWindow::recent_message($win_name) 0]
 		set ::ChatWindow::recent_message(${win_name}) 1
 		after 2000 [list set ::ChatWindow::recent_message($win_name) 0]
@@ -6859,22 +6867,27 @@ proc pictureBrowser {} {
 	button .picbrowser.purge -command "purgePictures; reloadAvailablePics" -text "[trans purge]..." 
 	button .picbrowser.ok -command "set_displaypic \${selected_image};destroy .picbrowser" -text "[trans ok]" 
 	button .picbrowser.cancel -command "destroy .picbrowser" -text "[trans cancel]" 
+	if { [info exists quicktimetcl::version] } {
+		button .picbrowser.webcam -command "webcampicture" -text "[trans webcamshot]"
+		grid .picbrowser.webcam -row 4 -column 3 -padx 3 -pady 3 -stick new
+	}
 	
 	checkbutton .picbrowser.showcache -command "reloadAvailablePics" -variable show_cached_pics\
 		-font sboldf -text [trans showcachedpics]
 
-	grid .picbrowser.pics -row 0 -column 0 -rowspan 4 -columnspan 3 -padx 3 -pady 3 -sticky nsew
+	grid .picbrowser.pics -row 0 -column 0 -rowspan 5 -columnspan 3 -padx 3 -pady 3 -sticky nsew
 
-	grid .picbrowser.showcache -row 4 -column 0 -columnspan 3 -sticky w
+	grid .picbrowser.showcache -row 5 -column 0 -columnspan 3 -sticky w
 	
-	grid .picbrowser.browse -row 5 -column 0 -padx 3 -pady 3 -sticky ewn
-	grid .picbrowser.delete -row 5 -column 1 -padx 3 -pady 3 -sticky ewn
-	grid .picbrowser.purge -row 5 -column 2 -padx 5 -pady 3 -sticky ewn
+	grid .picbrowser.browse -row 6 -column 0 -padx 3 -pady 3 -sticky ewn
+	grid .picbrowser.delete -row 6 -column 1 -padx 3 -pady 3 -sticky ewn
+	grid .picbrowser.purge -row 6 -column 2 -padx 5 -pady 3 -sticky ewn
 
 	grid .picbrowser.mypic_label -row 0 -column 3 -padx 3 -pady 3 -sticky s
 	grid .picbrowser.mypic -row 1 -column 3 -padx 3 -pady 3 -sticky n
 	grid .picbrowser.ok -row 2 -column 3 -padx 3 -pady 3 -sticky sew
 	grid .picbrowser.cancel -row 3 -column 3 -padx 3 -pady 3 -sticky new
+	
 
 	grid column .picbrowser 0 -weight 1	
 	grid column .picbrowser 1 -weight 1	
@@ -7662,3 +7675,135 @@ proc btimg83 {w {args {}} } {
 	return $w
 }
 
+#Create .webcampicture window
+#With that window we can get a picture from our webcam and use it as a display picture
+#Actually only compatible with QuickTimeTcl, but support for TkVideo could be added
+proc webcampicture {} {
+
+	set w .webcampicture
+	if { [winfo exists $w] } {
+		raise $w
+		return
+	}
+	toplevel $w
+	#Verify if user have QuickTimeTcl
+	if { [info exists quicktimetcl::version] } {
+		#Show webcam picture, if it's not possible destroy close the window
+		if { ![webcamQuickTime $w] } {
+			destroy $w
+			return
+		}
+	}
+	#Action button to take the picture
+	button $w.shot -text "Take a Photo" -command "webcampicture_shot"
+	pack $w.shot
+
+	wm title $w "[trans webcamshot]"
+	moveinscreen $w 30
+}
+
+#Create video frame (seqgrabber) and add zoom option to .webcampicture window
+proc webcamQuickTime {w} {
+	if { ![catch {seqgrabber $w.preview} res] } {
+		pack $w.preview
+		label $w.zoomtext -text "[trans zoom]:" -font sboldf
+		spinbox $w.zoom -from 1 -to 5 -increment 1 -width 1 -command "$w.preview configure -zoom %s"
+		pack $w.zoomtext
+		pack $w.zoom
+		return 1
+	} else {
+		#If it's not possible to create the video frame, show the error
+		::amsn::messageBox "$res" ok error "[trans failed]"
+		return 0
+	}
+}
+#Take a photo on the webcam with QuickTimeTCL
+proc webcampictureQuickTime {} {
+	set preview [image create photo]
+	.webcampicture.preview picture $preview
+	return $preview
+}
+#Create the window to accept or refuse the photo
+proc webcampicture_shot {} {
+	set w .webcampicturedoyoulikeit
+	
+	if { [winfo exists $w] } {
+		destroy $w
+	}
+	toplevel $w
+	#Get the picture if we use QuickTimeTCL
+	if { [info exists quicktimetcl::version] } {
+		set preview [webcampictureQuickTime]
+	}
+	
+	label $w.stillpreview -image $preview
+	
+	button $w.save -text "[trans useasdp]" -command "webcampicture_save $preview"
+	button $w.saveas -text "[trans saveas]" -command "webcampicture_saveas $preview"
+	button $w.cancel -text "[trans cancel]" -command "destroy $w"
+	
+	pack $w.stillpreview
+	pack $w.save -side right -padx 3 -pady 10
+	pack $w.saveas -side right -padx 3 -pady 10
+	pack $w.cancel -side left -padx 3 -pady 10 
+	wm title $w "[trans changedisplaypic]"
+	moveinscreen $w 30
+
+}
+#Use the picture as a display picture
+proc webcampicture_save {preview} {
+	global HOME selected_image
+	
+	set idx 1
+	while { [file exists [file join $HOME displaypic webcam{$idx}.jpg]] } { incr idx }
+	set file "[file join $HOME displaypic webcam{$idx}.jpg]"
+	#We first save it in jpeg
+	if { [info exists quicktimetcl::version] } {
+		$preview write "$file" -format quicktimejpeg
+	}
+	#We verify if imagemagick is there
+	if { [catch { exec [::config::getKey convertpath] } res] } {
+		msg_box "[trans installconvert]"
+		status_log "ImageMagick not installed got error $res\n Disabling display pictures\n"
+		return [::config::getKey displaypic]
+
+	}
+	#Open pictureBrowser is user closed it
+	if {![winfo exists .picbrowser]} {
+		pictureBrowser
+	}
+	#Convert the picture in png and gif to be a display picture
+	if { ![catch {convert_image_plus $file displaypic "96x96"} res]} {
+		set image_name [image create photo -file [::skin::GetSkinFile "displaypic" "[filenoext [file tail $file]].gif"]]
+		.picbrowser.mypic configure -image $image_name
+		set selected_image "[filenoext [file tail $file]].png"
+		set desc_file "[filenoext [file tail $file]].dat"
+		set fd [open [file join $HOME displaypic $desc_file] w]
+		status_log "Writing description to $desc_file\n"
+		puts $fd "[clock format [clock seconds] -format %x]\n[filenoext [file tail $file]].png"
+		close $fd
+		lappend image_names $image_name
+		status_log "Created $image_name\n"
+		destroy .webcampicturedoyoulikeit
+
+	} else {
+		status_log "Error converting $file: $res\n"
+	}
+	
+	reloadAvailablePics
+}
+
+#Save the display picture somewhere on the hard disk
+proc webcampicture_saveas {preview} {
+	set idx 1
+	while { [file exists [file join $::files_dir webcam{$idx}.jpg]] } { incr idx }
+	set file "webcam{$idx}.jpg"
+	set filename [tk_getSaveFile -initialfile $file -initialdir [set ::files_dir]]
+
+	if {$filename != ""} { 
+		if { [info exists quicktimetcl::version] } {
+			$preview write "$filename" -format quicktimejpeg
+		}
+	}
+
+}
