@@ -1550,7 +1550,7 @@ proc cmsn_sb_msg {sb_name recv} {
 
       set begin [expr {[string first "FN=" $fonttype]+3}]
       set end   [expr {[string first ";" $fonttype $begin]-1}]
-      set fontfamily \{[urldecode [string range $fonttype $begin $end]]\}
+      set fontfamily "[urldecode [string range $fonttype $begin $end]]"
 
       set begin [expr {[string first "EF=" $fonttype]+3}]
       set end   [expr {[string first ";" $fonttype $begin]-1}]

@@ -245,8 +245,8 @@ namespace eval ::amsn {
       destroy $w
 
       #Calculate a random cookie
-      set cookie [expr {[clock clicks]  % (65536 * 8)}]     
-      
+      set cookie [expr {[clock clicks]  % (65536 * 8)}]
+
       status_log "Random generated cookie: $cookie\n"
       
       ::amsn::SendWin [file tail $filename] $cookie
@@ -417,7 +417,6 @@ namespace eval ::amsn {
       #the window state
       if { "[wm state $win_name]" == "withdrawn" } {
 
-         status_log "Window is withdrawn, showing notify\n"
 	 wm state ${win_name} normal
 	 wm iconify ${win_name}
 
@@ -1244,6 +1243,7 @@ namespace eval ::amsn {
 	if { "$user" != "msg" } {
 		WinWrite $chatid "[timestamp] [trans says [lindex [::MSN::getUserInfo $user] 1]]:\n" gray
 	}
+
 
 	WinWrite $chatid "$msg\n" $type [lindex $fontformat 0] [lindex $fontformat 1] [lindex $fontformat 2]
 	WinFlicker $chatid
