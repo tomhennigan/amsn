@@ -68,7 +68,7 @@ cannotdeleteprofile No es pot eliminar el perfil, sembla que està sent utilitzat
 cantexec No puc executar l'aplicació $1. Comprova les preferències.
 casesensitive Diferenciar les majúscules i les minúscules als disparadors
 cfgalarm Configurar l'alarma per aquest usuari
-changedisplaypic Canviar la teva imatge
+changedisplaypic Canviar la Imatge Mostrada 
 changefont Canviar font
 changenick Canviar el meu sobrenom
 changestate $1 canvia l'estat a $2
@@ -171,6 +171,7 @@ ftportpref Utilitza aquest port, o els següents, per les transferències de fitxe
 ftrejectedby $1 ha rebutjat la invitació per la transferència del fitxer '$2'.
 ftrejected Transferència de fitxers rebutjada
 ftsendinvitation La invitació per la transferència del fitxer '$2' ($3 bytes) ha sigut enviada a $1.
+getdisppic Activa l'opció de rebre la Imatge Mostrada d'altres usuaris 
 gonelunch Estic menjant
 groupadd Afegir un grup
 groupdelete Esborrar un grup
@@ -185,6 +186,7 @@ groupunknown Grup desconegut
 handle Sobrenom
 help Ajuda
 helpcontents Contiguts
+hidedisplaypic Oculta la Imatge Mostrada
 hiden No mostris aquesta emoticona al menú d'emoticones
 hidewindow Amaga la finestra
 history Mostrar historial
@@ -270,6 +272,7 @@ noneavailable No disponible
 nonewmail No hi ha missatges nous a la bústia
 nonewver No hi ha cap versió nova per a baixar-se
 no No
+nopic Sense imatge
 noprofileexists No hi ha perfils definits.\nN'has de crear un, si vols utilitzar-los per iniciar la sessió.\nUtilitza el botó "Afegeix un nou perfil" per afegir un nou perfil.
 normal Normal
 nosystemtray Safata del sistema no disponible
@@ -300,6 +303,7 @@ personal Personal
 phone Telèfon
 picfile Fitxer d'imatge per a l'alarma (GIF < 500 x 500)
 picstatus Imatge per a l'alarma
+playing Reproduint: $1
 pluginselector Selecciona el connector
 port Port
 prefalerts Alertes i sons d'events
@@ -373,6 +377,10 @@ servergoingdown Desconnectat: El servidor s'apagarà per manteniment
 server Servidor
 session Sessió
 showblockedlist Mostra'm la llista de la gent que em té bloquejat a la seva llista de contactes
+showdisplaypic2 Mostra la Imatge Mostrada quan s'obri una nova conversa
+showdisplaypic Mostra la Imatge Mostrada
+showmypic La meva Imatge Mostrada
+showuserpic Imatge Mostrada del contacte $1
 skin Aparença
 skinselector Selector d'aparences
 smileconfig Configura l'emoticona personalitzada
@@ -435,6 +443,7 @@ willjoin Esperant que $1 s'uneixi a la conversa
 work Treball
 wrongfields Els camps "$1", "$2" i/o "$3" no són vàlids
 wrongprofileversion Versió incorrecta del fitxer de configuració del perfil. Per arreglar-ho, esborra el directori $1 o actualitza l'aMSN
+xmmserr No s'està reproduint res o no tens l'xmms-infopipe instal·lat.
 xoffset Desplaçament X
 yes Sí
 yoffset Desplaçament Y
