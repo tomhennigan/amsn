@@ -4489,7 +4489,8 @@ proc cmsn_draw_online_wrapped {} {
 	$pgBuddy.text insert end "\n"
 
 	$pgBuddy.text image create end -image [::skin::getColorBar]
-	$pgBuddy.text insert end "\n"
+	$pgBuddy.text tag conf colorbar -font "normal 1"
+	$pgBuddy.text insert end "\n" colorbar
 
   	set evpar(text) $pgBuddy.text
   	::plugins::PostEvent ContactListColourBarDrawn evpar
