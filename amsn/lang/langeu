@@ -623,3 +623,9 @@ nudge $1-[e]k zure arreta eskatzen du
 new_ft_protocol Fitxategi Transferentziarako Protokolo berria erabili (Zenbait akats jarraitzen dute)
 configure Konfiguratu
 load Kargatu
+author Egilea
+filetransfer Fitxategien transferentzia
+name Izena
+required_version Plugin hau ezin da kargatu. Gutxienez $1 bertsioa behar du
+unload Deskargatu
+winkreceived $1-tik Wink bat jaso duzu. Ezaugarri hau aMSN-n ez dago momentuz.

@@ -37,6 +37,7 @@ appearance Tampilan
 appearoff Sembunyi
 areacode Kode Area
 aretyping $1 sedang mengetik pesan
+author Pencipta
 autoaccepted Transmisi Berkas diterima secara otomatis
 autoacceptft Terima permintaan Transmisi Berkas secara otomatis
 autoaway Tunjukkan saya sebagai 'Tidak Ada' apabila tidak aktif selama
@@ -367,6 +368,7 @@ mynick Nama Panggilan Saya
 mypic Gambar Tampilan Saya:
 mystatus Status Saya
 myworkphone Telpon kantor saya
+name Nama
 natip Deteksi IP melalui halaman web
 natkeepalive Apabila sambungan anda sering terputus, mungkinkan Biarkan Menyala
 needonline Anda masih tidak tersambung atau sedang sembunyi!
@@ -496,6 +498,7 @@ rememberpass Simpan kata sandi
 removeempty Hilangkan kelompok-kelompok kosong dari daftar kontak
 removefromlist Hilangkan dari daftar ini
 rename Ganti Nama
+required_version Tidak dapat memuat plugin ini. Dibutuhkan aMSN minimal versi $1
 reversed Dibalik
 reverselist Daftar Terbalik:
 rightback Segera kembali
@@ -591,6 +594,7 @@ truncatenames2 Potong nama panggilan yang lebih panjang dari lebar jendela dalam
 truncatenicks Potong nama panggilan (alias) yang lebih panjang dari lebar jendela
 twonewmail $1 email baru dalam Kotak-Masuk
 unblock Cabut blokiran
+unload Melepas/Membongkar
 uoffline Tidak Tersambung
 uonline Tersambung
 useother Gunakan program yang berbeda (lain)

@@ -37,6 +37,7 @@ appearance Aparente
 appearoff Neautentificat
 areacode Codul postal
 aretyping $1 scrie un mesaj
+author Autor
 autoaccepted Transferul de fisier a fost acceptat automat
 autoacceptft Accepta automat transferul de fisiere
 autoaway Arata "Plecat" cand sunt inactiv de
@@ -366,6 +367,7 @@ mynick Porecla mea
 mypic Poza mea:
 mystatus Apar ca
 myworkphone Telefonul de serviciu
+name Nume
 natip detectie de adresa IP prin pagina de web
 natkeepalive Daca esti deconectat frecvent, activeaza MentineConexia
 needonline Esti sau Apari neautentificat !
@@ -496,6 +498,7 @@ rememberpass Retine parola
 removeempty Sterge grupurile goale din lista de contacte
 removefromlist Sterge de pe aceasta lista
 rename Redenumeste
+required_version Nu se poate incarca acest plugin. Este nevoie de aMSN versiunea $1 sau mai mare.
 reversed Ordine inversa
 reverselist Cei opusi:
 rightback Revin imediat
@@ -591,6 +594,8 @@ truncatenames2 Truncheaza nick-urile mai lungi decat latimea ferestrei in fereas
 truncatenicks truncheaza nick-urile mai lungi decat latimea ferestrei
 twonewmail $1 mesaje noi in casuta postala
 unblock Deblocheaza
+unknown Necunoscut
+unload Descarca
 uoffline Neautentificat
 uonline Autentificat
 useother Foloseste alt program

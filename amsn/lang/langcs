@@ -37,6 +37,7 @@ appearance Status
 appearoff Vypadá nepøipojený
 areacode PSÈ
 aretyping $1 ti právì pí¹e zprávu
+author Autor
 autoaccepted Pøenos souborù potvrzen automaticky
 autoacceptft Automaticky potvrzuj po¾adavky na prenos souborù
 autoaway Zmìnit mùj status na "Nepøítomný" kdy¾ budu neaktivní déle ne¾
@@ -78,10 +79,12 @@ cannotdeleteprofile Nemohu smazat profil, zdá se, ¾e ho právì pou¾ívá aMSN
 cantexec Nemohu spustit aplikaci $1. Zkontroluj preference.
 cantremoveothers Nemù¾e¹ odstranit skupinu "Ostatní"
 cfgalarmall Nastavit/Pøidat/Zru¹it alarm
+cfgalarm Nastav/Pøidej/Odstraò alarm
 clearlog Vymazat log
 clearlog2 Vymazat "Historii" pro v¹echny tvoje kontakty
 clearlog3 Vymazat v¹echny logy
 clicktologin Pøipojit se
+clientname Jméno klienta
 closed Konverzace s $1 byla ukonèena z dùvodu neaktivity
 close Zavøít
 closingdocks Zru¹it options "Zmen¹it"
@@ -139,7 +142,12 @@ directconnection Mám pøímé pøipojení k internetu (pou¾ije port 1863)
 disabled Vypnuté
 disableprofiles Vypnout profily (Kdy¾ jsi v internet-kafe nebo pod.) 
 disablessl Zakázat SSL
+disableuserfonts V oknì dialogu nepou¾ívej font partnera, pou¾ij vlastní
 disconnectedfrom Odpojen od: $1
+displayeventconnect Oznam kdy¾ se u¾ivatelé pøipojují
+displayeventdisconnect Oznam kdy¾ se u¾ivatelé odpojují
+displayeventemail Oznam pøíjem e-mailu
+displayeventstate Oznam kdy¾ u¾ivatelé mìní stav
 displaychat Ukázat nastavení textu 
 displaypic Fotka
 displayp4context Zobrazit P4-valutu jako odesílatele odkazu 
@@ -148,7 +156,9 @@ dockgtk Gnome port
 dockingoff Vypnutý port
 docking Port
 dockkde KDE Port
+dontdownload Nestahuj TLS modul, nainstaluji si jej sám
 dontshow Neukázat
+downloadingtls Modul TLS je nahráván z\n $1
 editcustomstate Zmìnit vlastní status 
 edit Editovat
 editprofile Zmìnit profil
@@ -156,6 +166,7 @@ editvalue Zmìnit valutu
 email Email
 emailsinlist Ukázat pøezdívky i maily v kontakt listu
 emotisounds Pøehrát zvuk pro smajlíky
+emptygroup Prázdná skupina
 enabled Zapnuté
 enableproxy Aktivovat proxy
 enableremote Aktivovat kontrolu na dálku
@@ -165,6 +176,7 @@ encoding2 Zmìnit kódování tvého písma
 entercontactemail Napi¹ kontaktní e-mail
 enterfilename Napi¹ jméno souboru
 enternick Napi¹ svoji pøezdívku
+errortls Chyba pøi instalaci modulu TLS:
 eventhistory Uka¾ historii událostí
 examples Pøíklady
 exitamsn Jsi si jistý/á ¾e chce¹ uzavøít program?
@@ -207,6 +219,7 @@ home Domov
 changecustomstate Zmìò stav na
 changedisplaypic Zmìnit obrázek (fotku)
 changefont Zmìnit písmo
+changeglobnick Zmìò globální pøezdívku
 changenick Zmìnit jméno
 changesize Zmìò velikost
 changestate $1 zmìnil svùj stav na $2
@@ -306,6 +319,7 @@ mymobilephone Mùj mobilní telefon
 mypic Mùj obrázek: 
 mystatus Mùj status
 myworkphone Moje èíslo do práce
+name Jméno
 natip Zjistit IP adresu pøes web stránku
 natkeepalive Jestli¾e má¹ slabé pøipojení na internet, aktivuj KeepAlive
 needonline Je¹tì stále nejsi pøipojen/a!
@@ -317,6 +331,7 @@ newveravailable Nová verze $1 je dostupná ke sta¾ení
 next Dal¹í
 nick Nick
 noactivity Bez aktivity
+nogap Nevkládat mezeru mezi skupiny
 nogroup Bez skupiny
 nologfile Neexistuje log soubor pro $1
 no Ne
@@ -405,8 +420,10 @@ reconnect Èekám na pøipojení $1
 reconnecting Znovu se pøipojuji k serveru
 reject Odmítnout
 rememberpass Zapamatat si heslo
+removeempty Vyma¾ prázdné skupiny ze seznamu
 removefromlist Vyma¾ ze seznamu
 rename Pøejmenovat
+required_version Tento plugin vy¾aduje verzi aMSN alespoò $1
 reversed Naopak
 rightback Hned se vrátím
 saveas Ulo¾it jako

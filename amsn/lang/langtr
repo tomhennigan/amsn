@@ -37,6 +37,7 @@ appearance Görünüþ
 appearoff Çevrim dýþý görün
 areacode Alan kodu
 aretyping $1 ileti yazýyor
+author Yazan
 autoaccepted Dosya aktarýmý otomatikman kabul edildi
 autoacceptft Dosya aktarým istemlerini otomatikman kabul et
 autoaway Bu süre kadar eylemsiz kalýrsam beni diþarýda göster:
@@ -366,6 +367,7 @@ mynick Rumuzum
 mypic Kullanýcý resmim:
 mystatus Durumum
 myworkphone Ev telefonum
+name Ýsim
 natip ýnternet sayfasýndan IP belirlenmesi
 natkeepalive Eðer baðlantýnýz sürekli kopuyorsa, bu seçeneði (canlý tut - Keepalive) iþaretleyiniz
 needonline Hala çevrim dýþý görünüyorsunuz!
@@ -495,6 +497,7 @@ rememberpass þifreyi hatýrla
 removeempty Boþ gruplarý baðlantý listesinden çýkar
 removefromlist Bu listeden çýkar
 rename Yeniden adlandýr
+required_version Eklenti yüklenemiyor. Bu eklenti, en az aMSN sürüm $1 gerektirir.
 reversed ters
 reverselist Karþý liste
 rightback Hemen döneceðim
@@ -590,6 +593,8 @@ truncatenames2 Sohbetlerde pencere geniþliðinden uzun isimleri kýsalt
 truncatenicks Pencere geniþliðinden uzun rumuzlarý kýsalt
 twonewmail Gelen kutunuzda $1 yeni ileti var
 unblock Engeli kaldir
+unknown Bilinmiyor
+unload Kaldýr
 uoffline Çevrim dýþý
 uonline Çevrim içi
 useother Baþka bir yazýlým kullan

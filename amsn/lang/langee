@@ -37,6 +37,7 @@ appearance Välimus
 appearoff Ilmu lahtiühendatuna
 areacode Piirkonnakood
 aretyping $1 trükivad mingit sõnumit
+author Autor
 autoaccepted Faili laadimine automaatselt lubatud
 autoacceptft Automaatselt nõustu faili laadimisega
 autoaway Näita mind "Eemal", kui pole tegevust
@@ -366,6 +367,7 @@ mynick Minu hüüdnimi
 mypic Minu kuvapilt:
 mystatus Minu olek
 myworkphone Minu töötelefon
+name Nimi
 natip IP määramine veebilehe kaudu
 natkeepalive Kui su ühendus pidevalt katkeb, võimalda see Ülalhoidmine
 needonline Sa oled/ilmud ikka lahtiühendatuna
@@ -495,6 +497,7 @@ rememberpass Mäleta parooli
 removeempty Eemalda kontaktide nimekirjast tühjad grupid
 removefromlist Eemalda sellest listist
 rename Nimeta ümber
+required_version Plugini mahalaadimine ebaõnnestus. Vajab vähemalt aMSN versiooni $1
 reversed Vastupidine
 reverselist Vastupidine list (RL):
 rightback Kohe tagasi
@@ -590,6 +593,7 @@ truncatenames2 Lühenda nimed mis on laiemad kui vestlusaken
 truncatenicks Lühenda nimed mis on laiemad kui aken
 twonewmail $1 uut sõnumit postkastis
 unblock Ära blokeeri enam
+unload Lae maha
 uoffline Offline
 uonline Online
 useother Kasuta muud programmi

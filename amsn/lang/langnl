@@ -37,7 +37,7 @@ appearance Weergave
 appearoff Offline weergeven
 areacode Netnummer
 aretyping $1 zijn bezig met typen
-author Programmeur
+author Auteur
 autoaccepted Bestandsoverdracht automatisch geaccepteerd
 autoacceptft Automatisch bestandsoverdrachten accepteren
 autoaway Status op "Afwezig" zetten als ik niet actief ben gedurende
@@ -319,7 +319,7 @@ listsmileys2 Emoticons weergeven in de contactpersonenlijst
 listsmileys Toon emoticons in lijst
 ljoinedconf $1 nam deel aan de vergadering
 lleftconf $1 heeft de vergadering verlaten
-load Start
+load Activeren
 loadcontacts Laad de lijst van contactpersonen
 logbigger Het logboek voor elke contactpersoon mag niet groter zijn dan
 logeventconnect In logboek bijhouden wanneer contactpersonen online komen
@@ -373,7 +373,7 @@ natkeepalive Verbinding in stand houden (Selecteren als de verbinding regelmatig
 needonline Je bent niet online
 needwinico Het bestand winico03.dll moet in de map plugins staan om het Windows systeemvak te kunnen gebruiken.
 never Nooit
-new_ft_protocol Gebruik het nieuwe Bestandsoverdracht Protocol (bevat nog enkele fouten)
+new_ft_protocol Gebruik het nieuwe protocol voor bestandsoverdracht (er zijn nog enkele bugs)
 newmail Je hebt $1 nieuwe berichten in Postvak IN
 newmailfolder Je hebt $1 nieuwe berichten in andere Hotmail mappen
 newmailfrom Nieuwe e-mail van $1 ($2)
@@ -497,7 +497,7 @@ rememberpass Wachtwoord onthouden
 removeempty Lege groepen verwijderen uit de contactpersonenlijst
 removefromlist Verwijder uit deze lijst
 rename Hernoemen
-required_version Kan de plugin niet starten. aMSN versie $1 of hoger is vereist.
+required_version Kan de plugin niet laden, omdat die minimaal aMSN $1 nodig heeft om te werken.
 reversed Aflopend
 reverselist [RL] Omgekeerde lijst
 rightback Ben zo terug
@@ -593,7 +593,7 @@ truncatenames2 Schermnamen tijdens gesprekken afbreken als ze langer zijn dan he
 truncatenicks Schermnamen afbreken als ze langer zijn dan het venster breed is
 twonewmail Je hebt $1 nieuwe berichten in Postvak IN
 unblock Deblokkeer
-unload Stop
+unload Deactiveren
 uoffline Offline
 uonline Online
 useother Gebruik een ander programma
@@ -612,7 +612,7 @@ viewcontactsby Contactpersonen weergeven met
 viewprofile Profiel Weergeven
 webcaminvite $1 wil een webcam-sessie beginnen, maar deze functie wordt niet door aMSN ondersteund.
 willjoin Wachten tot $1 de conversatie zal bijwonen
-winkreceived Je hebt een knipoog ontvangen van $1. Dit onderdeel wordt momenteel niet ondersteund door aMSN.
+winkreceived Je hebt een knipoog ontvangen van $1. Deze functie wordt niet ondersteund door aMSN.
 work Werk
 wrongfields De velden "$1", "$2" en/of "$3" waren ongeldig
 wrongprofileversion Verkeerde profiel configuratiebestand versie. Om te repareren, gelieve de map $1 te verwijderen, of aMSN te updaten.

@@ -37,6 +37,7 @@ appearance Izgled
 appearoff Na videz neprijavljen
 areacode Omre¾na ¹tevilka
 aretyping $1 pi¹ejo sporoèilo
+author Avtor
 autoaccepted Prenos datoteke avtomatièno sprejet
 autoacceptft Avtomatièno sprejmi prihajajoèe datoteke
 autoaway Prika¾i me kot "Odsoten", ko sem neaktiven
@@ -366,6 +367,7 @@ mynick Moj nick
 mypic Moja osebna slika:
 mystatus Moje stanje
 myworkphone Slu¾beni telefon
+name Ime
 natip IP poizvedba s spletne strani
 natkeepalive èe te velikokrat odjavi, oznaèi to mo¾nost
 needonline ©e vedno si/izgleda¹ neprijavljen!
@@ -495,6 +497,7 @@ rememberpass Shrani geslo
 removeempty Odstrani prazne skupine iz seznama stikov
 removefromlist Zbri¹i s tega seznama
 rename Preimenuj
+required_version Ne morem nalo¾iti plugina, ker za delovanje potrebuje vsaj aMSN $1.
 reversed Zamenjano
 reverselist Ljudje, ki si jim stik
 rightback Takoj bom nazaj
@@ -590,6 +593,8 @@ truncatenames2 Skraj¹aj nicke, ki ne stojijo v oknu s pogovorom
 truncatenicks Skraj¹aj nicke, ki ne stojijo v oknu
 twonewmail 2 novi sporoèili v Inboxu
 unblock Odblokiraj
+unknown Neznan
+unload Ustavi
 uoffline Neprijavljeni
 uonline Prijavljeni
 useother Uporabi drugi program

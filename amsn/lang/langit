@@ -37,6 +37,7 @@ appearance Interfaccia
 appearoff Invisibile
 areacode Codice dell'area
 aretyping $1 stanno scrivendo un messaggio
+author Autore
 autoaccepted Traferimento file accettato automaticamente
 autoacceptft Accetta automaticamente le richieste di trasferimento file
 autoaway Mostrami come "Assente" quando sono inattivo per
@@ -121,6 +122,8 @@ closed La conversazione con $1 è chiusa per inattività.
 closingdocks Pulsante per chiudere
 command Comando
 commandstatus Esegui comando
+configure Configura
+confirmbl Sei sicuro di voler bloccare questo contatto?
 confirmdelete Sei sicuro di voler cancellare $1?
 confirmdg Sei sicuro di voler cancellare questo gruppo?
 confirmdu Sei sicuro di voler cancellare questo utente?
@@ -148,7 +151,7 @@ cprofile Crea un profilo
 credits credits
 currentdate Data Attuale
 custnotifymsg Visualizza la finestra di notifica alla ricezione di un nuovo messaggio
-custnotifyoffline Visualizza la finestra di notifica alla disconnessione di questo contatto 
+custnotifyoffline Visualizza la finestra di notifica alla disconnessione di questo contatto
 custnotifyonline Visualizza la finestra di notifica alla connessione di questo contatto
 custnotifystatus Visualizza la finestra di notifica al cambio di stato di questo contatto
 customcolor Colore Personalizzato
@@ -227,10 +230,11 @@ filedoesnotexist Il file non esiste
 filemanexample ( \$location sarà rimpiazzato dalla cartella ) Es: nautilus \$location
 fileman File Manager
 filename Filename
+filetransfer Trasferimento file
 filetransfercancelled Trasferimento file cancellato
 filetransfercomplete Trasferimento del file completo
 followtext Segui il nuovo testo quando viene inserito
-friendlyname Soprannome
+friendlyname Nome comune
 ftacceptedby $1 ha accettato l'invito a trasferire il file '$2'.
 ftaccepted Trasferimento del file accettato
 ftaccepting In attesa di accettare l'invito al trasferimento file
@@ -315,6 +319,7 @@ listsmileys2 Mostra Emoticons e faccine nella lista contatti principale di aMSN
 listsmileys Elenco faccine
 ljoinedconf $1 è entrato a far parte della conversazione
 lleftconf $1 ha lasciato la conversazione
+load Carica
 loadcontacts Carica la lista contatti
 logbigger I file delle registrazioni per ogni contatto non hanno alcun limite dimensionale
 logeventconnect Registra le connessioni
@@ -339,6 +344,7 @@ lprivtoconf Chat privata divenuta conversazione con $1
 luclosedwin Hai chiuso la finestra su $1
 mailer Client di posta
 mailerexample ( \$recipient = Destinatario ) Lasciare in bianco se si usa hotmail
+maintenance Il server chiudera' la connessione tra $1 minuti per manutenzione
 maximised Massimizzato
 minimised Ridotto ad icona
 mins Minuti
@@ -354,18 +360,20 @@ msgmode Seleziona come gestire le finestre dei messaggi multipli:
 msn aMSN
 msnstyle Chat in stile MSN
 mustrestart Devi riavviare il programma per attivare le modifiche
-myfriendlyname Il mio nome
+myfriendlyname Il mio nome comune
 myhomephone Il mio telefono di casa
 mymobilephone Il mio numero di cellulare
 mynick Mio nick
 mypic Immagine personale:
 mystatus Il mio stato
 myworkphone Il mio numero d'ufficio
+name Nome
 natip La rilevazione dell'IP dalla pagina web
 natkeepalive Se la connessione cade continuamente abilita questa opzione
 needonline Sembra che tu sia scollegato!
 needwinico Perchè l'icona nella traybar funzioni e' necessario che nella cartella plugins di AMSN ci sia winico03.dll
 never Mai
+new_ft_protocol Usa il nuovo protocollo di trasferimento files (ancora sotto test)
 newmail $1 nuovi messaggi di posta
 newmailfolder Hai $1 nuovi messaggi Hotmail in cartelle varie
 newmailfrom Nuova email da $1 ($2)
@@ -404,6 +412,7 @@ notifywin Finestra di Notifica
 notinlist Non sei presente nella sua lista contatti
 notls Il protocollo MSN 9 richiede il pacchetto tls. Al momento è impossibile trovarlo. Se è installato, è necessario specificare il percorso delle librerie nella finestra Preferenze (es: /opt/tls/lib). \n \n Il pacchetto tls può essere scaricato da http://tls.sf.net.
 nousersinsession Nessun utente nella sessione
+nudge $1 chiede la tua attenzione
 offline Sconnesso
 ok Ok
 onenewmail 1 nuovo messaggio di posta nella casella In Arrivo
@@ -488,6 +497,7 @@ rememberpass Ricorda password
 removeempty Eliminare gruppi vuoti dalla lista contatti
 removefromlist Rimuovi da questa lista
 rename rinomina
+required_version Impossibile caricare il plugin. Richiede almeno la versione $1 di aMSN
 reversed Invertito
 reverselist Invertire la lista (RL)
 rightback Torno subito
@@ -554,6 +564,7 @@ status Stato
 stopalarm Ferma l'allarme
 storenickname Ripristina il nick originale dopo una sessione personalizzata con nick diverso
 strictfonts Imposta tutti i fonts (barra di stato e altri) alla dimensione che ho scelto
+style Stile
 stylechat Stesso aspetto delle chat
 stylehist Aspetto dell'History di aMSN
 stylelog Seleziona il formato nel quale vorresti vedere la tua History
@@ -582,6 +593,8 @@ truncatenames2 Tronca i nick troppo lunghi nelle conversazioni
 truncatenicks Tronca i nick che eccedono la larghezza della finestra
 twonewmail $1 nuovi messaggi di posta
 unblock Sblocca
+unknown Sconosciuto
+unload Interrompi
 uoffline Offline
 uonline Online
 useother Usa un altro programma
@@ -600,6 +613,7 @@ viewprofile Mostra Profilo
 view Vista
 webcaminvite $1 ti ha invitato ad una conferenza via webcam, ma aMSN non supporta questa funzionalità.
 willjoin Sto aspettando che $1 si unisca alla conversazione
+winkreceived Hai ricevuto un Wink da $1. Questa opzione non e' pero' al momento supportata da aMSN
 work Lavoro
 wrongfields I campi "$1", "$2" e/o "$3" non erano validi
 wrongprofileversion Risolvere il problema, per favore rimuovere la directory $1, o aggiornare aMSN

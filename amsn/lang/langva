@@ -37,6 +37,7 @@ appearance Apariència
 appearoff Sense connexió
 areacode Codi d'àrea
 aretyping $1 està escrivint un missatge
+author Autor
 autoaccepted Transferència de fitxers acceptada automàticament
 autoacceptft Acceptar transferències de fitxers automàticament
 autoaway Mostrar-me com Absent quan no hi ha activitat en
@@ -367,6 +368,7 @@ mymobilephone El meu telèfon mòbil
 mypic La meua Imatge de mostra:
 mystatus El meu estat
 myworkphone El telèfon del meu treball
+name Nom
 natip Detectar IP des d'una web
 natkeepalive Si patixes desconnexions contínuament, activa esta opció
 needonline Encara estàs/aparentes desconnectat
@@ -496,6 +498,7 @@ rememberpass Recordar contrasenya
 removeempty Eliminar els grups buits de la Llista de Contactes
 removefromlist Esborrar d'esta llista
 rename Canviar nom
+required_version No és possible carregar este plugin. Necessita, almenys l'aMSN versió $1
 reversed Invertit
 reverselist Llista Inversa (LI):
 rightback Ara torne
@@ -591,6 +594,7 @@ truncatenames2 Tallar mots mes llargs que lampli de la finestra en les converses
 truncatenicks Tallar mots mes llargs que l'ample de la finestra
 twonewmail $1 missatges nous en safata d'entrada
 unblock Desbloquejar
+unload Descarregar
 uoffline Desconnectats
 uonline Connectats
 useother Utiltzar un altre programa
