@@ -72,6 +72,7 @@ busy Zaposlen
 cancel Preklici
 cannotdeleteprofile Ne morem izbrisati profila, ker je v Amsn seji
 cantexec Ne morem izvesti programa $1. Preveri nastavitve.
+cantremoveothers Ni mogoce izbrisati skupine "Ostali"
 casesensitive Obcutljiv na velikost crk
 cfgalarmall Nastavi globalni alarm
 cfgalarm Nastavi zvocni/slikovni alarm
@@ -109,6 +110,7 @@ commandstatus Izvedi ukaz
 command Ukaz
 confirm Ali si preprican ?
 confirmdelete Ali si preprican, da bos zbrisal $1?
+confirmpurge Vse shranjene slike drugih stikov (ne tvoje slike) bodo izbrisane. Si preprican?
 connected Zdaj si povezan
 connecterror Napaka pri povezavi na streznik
 connecting Povezujem se
@@ -117,8 +119,11 @@ connection Povezava
 contactadded Stik dodan
 contactdoesnotexist Stik ne obstaja!
 contactlist Seznam stikov
+convertexplain Pot do programa CONVERT iz ImageMagicka (potreben za osebne slike).\n Pusti prazno, ce je pot ze dolocena.
 copy Kopiraj
 copytogroup Dodaj v skupino
+corruptconfig Nastavitvena datoteka je pokvarjena. Ustvarjam novo. Stara datoteka bo shranjena v $1. Prosim, poslji jo, da preverimo, kaj se je zgodilo.
+corruptstates Datoteka z osebnimi stanji je pokvarjena. Ustvarjam novo. Stara datoteka bo shranjena v $1. Prosim, poslji jo, da preverimo, kaj se je zgodilo.
 countrycode Oznaka moje drzave
 cprofile Ustvari profil
 custom_edit Uredi svoje smeske
@@ -129,6 +134,7 @@ days Dni
 dcprofile Ne ustvari profila
 defaultloginradio Prijavi se s privzetimi nastavitvami
 default Privzete nastavitve
+defchatwinsize Privzeta velikost okna s pogovorom (XxY)
 deletecustomstate Izbrisi osebno stanje
 delete Izbrisi
 delimiters Krajisci prikaza casa
@@ -265,6 +271,7 @@ logout Odjavi se
 logsin se je ravnokar prijavil/a
 logsmileys Prikazi emotikone in smeske v zgodovini
 logsout se je ravnokar odjavil/a
+longnick Tvoj nick je daljsi od 130 zankov. To ni uradno podprto v MSNjevem protokolu. Si preprican, da hoces imeti tak nick?
 lprivtoconf Zasebni pogovor spremenjen v konferenco na $1
 luclosedwin Zaprli ste okno ($1)
 mailerexample ( \$recipient = prejemnik ) Pusti prazno za uporabo Hotmaila
@@ -306,6 +313,7 @@ nonewver Ni novih razlicic na voljo za prenos
 nopic Brez slike
 noprofileexists Trenutno ni profilov.\nDa jih uporabljas, ustvari novega\nz gumbom dodaj profil.
 normal Normalno
+noskins Privzetega skina ni v imeniku skins/ . AMSNja ni mogoce zagnati.
 nosystemtray Tray ni na voljo
 notificationserver Zacetni MSNjev streznik (MSN Messengerjev streznik)
 notify1_5 Prikazi obvestilo, ko se kdo odjavi
@@ -398,6 +406,7 @@ reversed Zamenjano
 reverselist Ljudje, ki si jim stik
 rightback Takoj bom nazaj
 saveas Shrani kot
+savechatwinsize Shrani spremembe velikosti oken s pogovori
 savecontacts Shrani seznam stikov
 save Shrani
 savetofile Shrani v datoteko
@@ -465,6 +474,7 @@ timestamps Omogoci prikaz casa v pogovorih
 title Al's Messenger
 tkerror Napaka v TKju. To je amsnjev hrosc, prosim povej zanj. Poslji datoteko $1 na amsn-bugs@lists.sf.net
 tlsdowncompleted Datoteka $1 se je prenesla v imenik $2. Moras jo izvleci, prevesti (ce si pobral izvorno kodo) in namestiti v $3.
+tlsexplain Mapa, kjer je tcl TLS modul. Ce ga AMSN ne najde, nastavi pot.\n(Potrebno za SSL overjenje).
 tlsinstall Carovnik za namestitev modula TLS
 tlsinstallexp AMSN uporablja MSNP9, ki potrebuje varno\npovezavo s SSL-jem. Da bi uporabljal SSL, mora AMSN namestiti modul TLS,\nki ga ni na tvojem racunalniku. Ta carovnik ti bo pomagal pobrati in\nnamestiti TLS. Prosim izberi tvoj sistem, da lahko poberem\npotrebne TLS datoteke.
 tlsinstcompleted Namestitev modula TLS je bila uspesna; zdaj naj bi bilo mogoce uporabljati MSNP9. Ce ne deluje, verjetno nisi izbral pravega modula ali pa prevedenega ni na voljo za tvoj sistem.
