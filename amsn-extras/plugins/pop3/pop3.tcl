@@ -158,8 +158,9 @@ namespace eval ::pop3 {
 	#	port   -> (optional) The socket port to connect to, defaults
 	#	            to port 110, the POP standard port address.
 	# Results:
-	#	Returns immediately the connection channel (a socket).
-	#	When the channel is ready (open) it sets ::pop3::chanopen_$chan to 1
+	#	Returns connection channel (a socket).
+	#	If the channel is ready (open) it sets ::pop3::chanopen_$chan to 1
+	#	If the there was a problem opening then it sets ::pop3::chanopen_$chan to -1
 	#	May throw errors from the server.
 	proc ::pop3::open {args} {
 		array set cstate {msex 0 retr_mode retr limit {}}
@@ -272,9 +273,12 @@ namespace eval ::pop3 {
 		set ::pop3::chanreturn_$chan "somethingtodelete"
 		fileevent $chan readable [list ::pop3::send2 $chan]
 		vwait ::pop3::chanreturn_$chan
-		if { [set ::pop3::chanreturn_$chan] == "ERROR" } { error }
 
-		return [set ::pop3::chanreturn_$chan]
+		set popRet [set ::pop3::chanreturn_$chan]
+		unset ::pop3::chanreturn_$chan
+		if { $popRet == "ERROR" } { error }
+
+		return $popRet
 	}
 	# continuation of send when data return is received
 	proc ::pop3::send2 {chan} {
