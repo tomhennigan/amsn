@@ -1,0 +1,172 @@
+amsn_lang_version 2
+about Sobre
+acceptfile Acceptes el fitxer $1, de tamany $2? Es guardarà a $3
+actions Accions
+addacontact Afegir un contacte
+addedyou t'ha inclòs a la seua llista de contactes
+addtocontacts Afegir als contactes
+addtoo Afegeix aquesta persona a la meua llista de contactes
+admincontacts Administrar la llista de contactes
+admingroups Administrar grups
+adverts Anuncis
+allowseen Deixa que aquesta persona veja si estic connectat i que contacte amb mi
+appearoff Sense Connexió
+aretyping $1 estàn escrivint un missatge
+autohotmaillog Connectar-se a Hotmail automàticament
+autoip IP Automàtica
+avoidseen No deixes que aquesta persona veja si estic connectat i que contacte amb mi
+away Absent
+baduserpass Nom d'usuari o contrasenya incorrecte
+blankdirect Deixa-ho en blanc per a connectar-te directament
+block No admetre'l
+blocked Bloquejat
+broughtby Programadors d'aquesta versió
+browser Navegador
+busy No disponible
+cancel Cancel·la
+changenick Canvia de nick
+chat Xat
+chatreq Demanant xat
+chatsmileys Emoticons al xat
+chatack Acceptant xat de
+checkver Cercar si existeix una nova versió del programa
+checkingver Cercant versions noves
+choosebasefont Elegir el tipus de lletra
+choosebackgroundcolor Elegir el color de fons
+choosebgcolor Elegir el color de fons
+choosefont Elegir el tipus de lletra
+choosefontcolor Elegir el color del tipus de lletra
+clicktologin Faça clic ací per a connectar-se
+close Eixir
+closingdocks El botó tancar minimitza la finestra
+command Reproductor
+confirmdelete Estàs segur de voler eliminar a $1?
+contactadded Contacte inclòs
+contactdoesnotexist El contacte que intentes afegir no existeix!
+connecterror Error connectant-se amb el servidor
+copytogroup Copia al grup
+date Data
+delete Esborrar
+enableproxy Habilitar el servidor intermediari (Proxy)
+encoding Elegir el tipus de codificació
+entercontactemail Escriu l'adreça de correu del contacte
+enterfilename Introduix el nom del fitxer
+enternick Escriu el teu nick
+examples Exemples
+exitamsn Està segur de que vol eixir?
+extras Servicis extra
+filedoesnotexist El fitxer no existeix
+filename Nom del fitxer
+filetransfercancelled S'ha cancel·lat la transferència
+filetransfercomplete La transferència del fitxer ha finalitzat
+gonelunch Vaig eixir a menjar
+group Grup
+groupadd Afegir un grup
+groupdelete Esborrar un grup
+grouprename Reanomenar un grup
+groupoldname Nom antic
+groupnewname Nom nou
+groupunknown Grup desconegut
+groupexists El grup ja existeix
+groupmissing No es pot trobar el grup
+groupnotempty El grup no està buit!
+handle Nick
+help Ajuda
+helpcontents Continguts
+home Casa
+ident Identifica
+identity Identitat
+inbox Correu entrant
+invalidusername Nom d'usuari invàlid
+invite Convida
+ipaddress Adreça IP
+istyping $1 està escrivint un missatge
+joins $1 $2 s'uneix a la conversa
+language Idioma
+lastmsgtime Últim missatge rebut a les $1
+leaveblankforhotmail Deixa'l en blanc per a usar hotmail
+leaves $1 deixa la conversa
+listeningon Escoltant el port $1
+listsmileys Llistat d'emoticons
+loadcontacts Carregar una llista de contactes
+loggedotherlocation Desconnectat. S'ha iniciat la sessió en un altre lloc
+loggingin Connectant-se
+login Connectar-se com a
+loginas Connectar-se com a
+logout Desconnectar-se
+logsin s'acaba de connectar
+mailer Gestor de correu
+mobile Mòvil
+movetogroup Moure al grup
+mustrestart Has de reiniciar el programa per a que els canvis tinguen efecte
+mystatus El meu estat
+msg Missatge
+msn AMSN
+needonline Encara ets/apareixes desconectat!
+newmail $1 missatges nous al correu entrant
+newmailfrom Nou missatge de correu de
+newmsg Nou missatge
+newveravailable La versió $1 està disponible per a baixar-la
+next Següent
+noactivity Sense activitat
+nonewmail No n'hi ha cap missatge de correu nou
+nonewver No hi ha cap versió nova per a baixar-se
+notify notificar
+nousersinsession No hi ha usuaris a la sessió
+ok Bé
+offline Desconnectat
+onenewmail 1 missatge de correu nou
+online Connectat
+onphone Al telèfon
+openreceived Obrir fitxers rebuts
+options Opcions
+ordercontactsby Ordenar els contactes per
+other Un altre
+pager Paginador
+pass Contrasenya
+phone Telèfon
+port Port
+prefapps Aplicacions
+preferences Preferències
+prefsound Só
+properties Propietats
+proxyconf Configuració del servidor intermediari (Proxy)
+proxyconfhttp Configuració del suport per al servidor intermediari HTTP
+publishphones Publicar els meus números de telèfon
+receivedbytes Rebuts $1 de $2 bytes
+receivefile Rebent fitxer
+reconnect Esperant a que $1 es reconnecte
+reconnecting Reconnectant-se al servidor
+rememberpass Recordar contrasenya
+rightback Un moment
+save Guardar
+saveas Guardar com
+savecontacts Guardar la llista de contactes
+says $1 diu
+sbcon Connectant-se a la Switch Board
+send Enviar
+sendfile Enviar fitxer
+sendmail Enviar correu electrònic
+sendmsg Enviar missatge
+sentbytes Enviats $1 de $2 bytes
+server Servidor
+servergoingdown Desconnectat: El servidor s'apagarà per manteniment
+sound Só en un event
+startoffline Començar desconnectat
+status Estat
+syntaxerror  Error de sintàxi
+textsize Tamany del text
+title Al's Messenger
+to A
+tools Ferramentes
+yousay Dius
+youwant Vols
+unblock Desbloquejar
+uoffline Desconnectats
+uonline Connectats
+user Usuari
+useralreadyonlist L'usuari ja és a la seua llista de contactes
+version Versió
+view Veure
+willjoin Esperant a $1 a que s'unisca a la conversa
+work Treball
