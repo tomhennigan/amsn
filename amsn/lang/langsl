@@ -164,6 +164,7 @@ directconnection Neposredna povezava (vrata 1863)
 disabled Izkljuceno
 disableprofiles Izkljuci profile (Uporabno v kiberkavarnah in skupinskem okolju)
 disablessl Onemogoci SSL
+disableuserfonts Prezri sogovornikove nastavitve pisave
 disconnect $1 se je odjavil/a.
 displaychat Prikazi nastavitve besedila
 displayp4context Prikazi kontekst P4
@@ -346,11 +347,12 @@ newstate Dodaj osebno stanje
 newveravailable Nova razlicica $1 je na voljo za prenos
 next Naslednji
 nick Nick
+no Ne
 noactivity Ni aktiven/a
 nodataavailable Ni podatkov za $1
+nogap Brez praznega prostora med skupinami
 nogroup Brez skupine
 nologfile Brez dnevnika za $1
-no Ne
 noneavailable Noben ni na voljo
 nonewmail Ni novih sporocil v Inboxu
 nonewver Ni novih razlicic na voljo za prenos
@@ -448,9 +450,11 @@ receiveddir Mapa s prejetimi datotekami
 receivefile Sprejmi datoteko
 recentmsg Prepreci zapiranje okna s pogovorom takoj po prejemu sporocila
 reconnect Cakam, da se $1 ponovno poveze
+reconnect2 Ponovna prijava ob prekinitvi povezave
 reconnecting Povezujem se s streznikom
 reject zavrni
 rememberpass Shrani geslo
+removeempty Odstrani prazne skupine iz seznama stikov
 removefromlist Zbrisi s tega seznama
 rename Preimenuj
 reversed Zamenjano
@@ -547,6 +551,7 @@ twonewmail $1 novi sporocili v Inboxu
 unblock Odblokiraj
 uoffline Neprijavljeni
 uonline Prijavljeni
+useother Uporabi drugi program
 useralreadyonlist Uporabnik je ze na seznamu stikov
 userblocked Uporabnik je prijavljen, a te je blokiral
 usernotonline Uporabnik ni prijavljen
@@ -554,6 +559,7 @@ user Uporabnik
 userdata Podatki o uporabniku
 userproperties Lastnosti uporabnika $1
 useryourself Ne mores govoriti sam s seboj
+usesnack Uporabi knjizico Snack (vgrajena v Tcl)
 verifyblocked Preveri, kdo te blokira
 version Razlicica
 view Pogled
