@@ -148,6 +148,9 @@ namespace eval ::guiContactList {
 				set curPos [drawGroup $canvas $element $curPos]
 			}
 		}
+		
+		#set height of canvas
+		$canvas configure -scrollregion [list 0 0 1000 [expr [lindex $curPos 1] + 20]]
 	}
 
 	# Draw the contact on the canvas
