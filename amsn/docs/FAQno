@@ -1,4 +1,4 @@
-FAQno 0.4
+FAQno 0.5
 ---------
 
 denne filen er under utvikling. for mer informasjon, prøv den engelske versjonen.
@@ -73,6 +73,11 @@ Q: Kan jeg kopiere en kontakts e-postadresse til utklippstavlen?
 A: Ja, høyreklikk på kontakten på kontaktlisten og klikk
 på e-postadressen i pop-up-menyen. Kontaktens e-postadresse
 vil bli kopiert til utklippstavlen.
+
+Q: Hvordan kan jeg vise listen over meldinger sendt i chattevinduer?
+A: Hvis du vil vise meldinger du har sendt tidligere kan du trykke
+på Control og pil opp eller ned. Så Ctrl-Opp gir deg den forrige
+meldingen og Ctrl-Ned gir deg den neste.
 
 PROBLEMER
 =========

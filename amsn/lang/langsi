@@ -173,6 +173,7 @@ ftportpref Uporabi ta in visja vrata za prenos datotek
 ftrejectedby $1 je zavrnil/a povabilo za prenos datoteke '$2'.
 ftrejected Prenos datoteke je bil zavrnjen.
 ftsendinvitation $1 bo prejel/a povabilo za prenos datoteke '$2' ($3 bajtov).
+getdisppic Omogoci prejemanje osebne slike od drugih uporabnikov
 gonelunch Na kosilu
 groupadd Dodaj v skupino
 groupdelete Izbrisi skupino
