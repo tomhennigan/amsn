@@ -49,7 +49,8 @@ bgcolor Die Hintergrundfarbe von aMSN ändern
 blankdirect Bei direkter Verbindung leer lassen
 block Blockieren
 blocked Blockiert
-blockedyougroup Seperate Gruppe anzeigen für die Leute, die dich geblockt haben
+blockedyougroup Separate Gruppe anzeigen für die Leute, die Sie blockiert haben
+enternick Geben Sie Ihren Namen ein
 blocking Blockieren
 blockinter1 Wenn Ihr Status online ist, alle 
 blockinter2 Sekunden checken, ansonsten alle :
@@ -146,7 +147,6 @@ encoding2 Encoding Optionen ändern
 encoding Encoding auswählen
 entercontactemail Gib eine E-Mail-Adresse ein
 enterfilename Gib einen Dateinamen ein
-enternick Gib deinen Namen ein
 errortls Fehler bei der Installation des TLS Moduls:
 examples Beispiele
 exitamsn Wirklich beenden?
@@ -256,7 +256,7 @@ mystatus Mein Status
 myworkphone Meine Arbeitsnummer
 natip Die IP-Adresse über Webseite ausfindig machen
 natkeepalive Wenn die Verbindung oft getrennt wird, schalten sie diesen KeepAlive an.
-needonline Du bist noch immer offline bzw. wirst als offline angezeigt!
+needonline Sie sind noch immer offline bzw. werden als offline angezeigt!
 newmail $1 neue Nachrichten im Posteingang
 newmailfrom Neue E-Mail von $1 ($2)
 newmsg Neue Nachricht
@@ -318,11 +318,11 @@ preflog1 History und Log-Optionen
 preflook aMSN Messenger Aussehen
 prefmsging Aussehen des Chat-Fensters
 prefname MSN Name/Spitzname
-prefphone2 Telefonnummern, die Kontakte aus \n deiner Allow Liste sehen dürfen \n
+prefphone2 Telefonnummern, die Kontakte aus \n Ihrer Allow-Liste sehen dürfen\n
 prefphone Telefonnummern
 prefprivacy2 Kontakt/Reverse Listen des Benutzers
 prefprivacy Aktzeptieren/Blockieren Listen des Benutzers
-prefprofile2 Erstelle oder verändere dein MSN-Profil
+prefprofile2 Erstellen oder verändern Sie Ihr MSN-Profil
 prefprofile3 aMSN's Benutzer-Profileinstellungen
 prefprofile Mein öffentliches Profil
 prefproxy Proxyeinstellungen
@@ -438,5 +438,14 @@ xoffset X Offset
 yes Ja
 yoffset Y Offset
 youblocked Sie wurden blockiert
-yousay Du sagst
-youwant Du willst
+yousay Sie sagen
+youwant Sie wollen
+changedisplaypic Anzeigebild ändern
+hidedisplaypic Anzeigebild verstecken
+nopic Kein Bild
+playing Abgespielt wird: $1
+showdisplaypic Anzeigebild anzeigen
+showdisplaypic2 Anzeigebild standardmäßig anzeigen, wenn ein Chatfenster geöffnet wird
+showmypic Mein Anzeigebild
+showuserpic Anzeigebild von $1
+xmmserr Es wird nichts abgespielt, oder xmms-infopipe ist nicht installiert.
