@@ -127,6 +127,7 @@ corruptconfig El archivo configuración está corrupto. Creando uno nuevo. El anti
 corruptstates El archivo de la configuración de los autoestados está corrupto. Creando uno nuevo. El antiguo será salvado como $1. Por favor, envianoslo para ver qué ha ocurrido.
 countrycode Código de país/región
 cprofile Crear Perfil
+credits Creditos
 custom_edit Editar emoticono personalizado
 custom_new Añadir emoticono personalizado
 cut Cortar

@@ -127,6 +127,7 @@ corruptconfig Configuration file is corrupt. Creating new one. Old file will be 
 corruptstates Custom states config is corrupt. Creating new one. Old file will be saved to $1. Please send it to us to check what happened.
 countrycode My Country/Region code
 cprofile Create Profile
+credits Credits
 custom_edit Edit custom smiley
 custom_new Add new custom smiley
 cut Cut
