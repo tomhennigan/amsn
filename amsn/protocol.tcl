@@ -2858,6 +2858,7 @@ proc cmsn_ns_handler {item} {
       }
       VER -
       INF -
+      CVR -
       USR {
 	 return [cmsn_auth $item]
       }
@@ -3154,6 +3155,8 @@ proc cmsn_listdel {recv} {
 proc cmsn_auth {{recv ""}} {
    global config list_version
 
+   if {($config(protocol) == "9") && ([info exist recv])} { cmsn_auth_msnp9 $recv; return 0 }
+   if {($config(protocol) == "9") && (![info exist recv])} { cmsn_auth_msnp9; return 0 }
 
    switch [sb get ns stat] {
       c {
@@ -3258,6 +3261,119 @@ proc cmsn_auth {{recv ""}} {
    return -1
 }
 
+proc cmsn_auth_msnp9 {{recv ""}} {
+   global config list_version
+
+   if {$config(protocol) == "9"} { package require tls }
+
+   switch [sb get ns stat] {
+      c {
+         ::MSN::WriteSB ns "VER" "MSNP9 MSNP8 MSNP7 MSNP6 MSNP5 MSNP4 CVR0"
+	 sb set ns stat "v"
+	 return 0
+      }
+      v {
+         if {[lindex $recv 0] != "VER"} {
+	    status_log "cmsn_auth: was expecting VER reply but got a [lindex $recv 0]\n" red
+	    return 1
+	 } elseif {[lsearch -exact $recv "CVR0"] != -1} {
+            ::MSN::WriteSB ns "CVR" "0x0409 winnt 5.1 i386 MSNMSGR 5.0.0540 MSMSGS $config(login)"
+	    sb set ns stat "i"
+	    return 0
+	 } else {
+	    status_log "cmsn_auth: could not negotiate protocol!\n" red
+	    return 1
+	 }
+      }
+      i {
+         if {[lindex $recv 0] != "CVR"} {
+	    status_log "cmsn_auth: was expecting CVR reply but got a [lindex $recv 0]\n" red
+            return 1
+         } else {
+            global config
+            ::MSN::WriteSB ns "USR" "TWN I $config(login)"
+            sb set ns stat "u"
+            return 0
+         }
+      }
+      u {
+         if {([lindex $recv 0] != "USR") || \
+            ([lindex $recv 2] != "TWN") || \
+            ([lindex $recv 3] != "S")} {
+            status_log "cmsn_auth: was expecting USR x TWN S xxxxx but got something else!\n" red
+            return 1
+         }
+
+	 foreach x [split [lrange $recv 4 end] ","] { set info([lindex [split $x "="] 0]) [lindex [split $x "="] 1] }
+	 set info(all) [lrange $recv 4 end]
+
+         sb set ns stat "ssl"
+         return 0
+      }
+      ssl {
+puts "rott"
+	 # Need some work here to open the SSL connection, using tls::socket host port..
+	 status_log "Not finished, bailing out.. :(" red
+         sb set ns stat "us"
+         return 0
+      }
+      us {
+         if {[lindex $recv 0] != "USR"} {
+            status_log "cmsn_auth: was expecting USR reply but got a [lindex $recv 0]\n" red
+            return 1
+         }
+         if {[lindex $recv 2] != "OK"} {
+            status_log "cmsn_auth: error authenticating with server!\n" red
+            return 1
+         }
+         global user_info
+         set user_info $recv
+         sb set ns stat "o"
+	 save_config						;# CONFIG
+	  load_contact_list
+	 ::MSN::WriteSB ns "SYN" "$list_version"
+
+         if {$config(startoffline)} {
+            ::MSN::changeStatus "HDN"
+ 	    send_dock "STATUS" "HDN"	    
+         } else {
+            ::MSN::changeStatus "NLN"
+	    send_dock "STATUS" "NLN"         
+	 }
+	       #Alert dock of status change
+         #      send_dock "NLN"
+	 send_dock "MAIL" 0
+
+         #Log out
+         .main_menu.file entryconfigure 2 -state normal
+         #My status
+         .main_menu.file entryconfigure 3 -state normal
+         #Add a contact
+         .main_menu.tools entryconfigure 0 -state normal
+         .main_menu.tools entryconfigure 1 -state normal
+         .main_menu.tools entryconfigure 4 -state normal
+         #Added by Trevor Feeney
+	 #Enables the Group Order Menu
+	 .main_menu.tools entryconfigure 5 -state normal
+ 
+         #Change nick
+	 configureMenuEntry .main_menu.actions "[trans changenick]..." normal
+	 configureMenuEntry .options "[trans changenick]..." normal
+
+	 configureMenuEntry .main_menu.actions "[trans sendmail]..." normal
+	 configureMenuEntry .main_menu.actions "[trans sendmsg]..." normal
+	 
+	 #configureMenuEntry .main_menu.actions "[trans verifyblocked]..." normal
+	 #configureMenuEntry .main_menu.actions "[trans showblockedlist]..." normal
+
+
+	 configureMenuEntry .main_menu.file "[trans savecontacts]..." normal
+
+         return 0
+      }
+   }
+   return -1
+}
 
 proc sb_change { chatid } {
 	global typing config

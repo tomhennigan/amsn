@@ -3161,6 +3161,8 @@ proc cmsn_draw_login {} {
 	-text "[trans rememberpass]" -font splainf -highlightthickness 0 -pady 5 -padx 10
 	checkbutton $mainframe.offline -variable config(startoffline) \
 	-text "[trans startoffline]" -font splainf -highlightthickness 0 -pady 5 -padx 10
+	radiobutton $mainframe.msnp7 -text "MSN Protocol 7" -value 7 -variable config(protocol) -padx 10
+	radiobutton $mainframe.msnp9 -text "MSN Protocol 9" -value 9 -variable config(protocol) -padx 10
 	label $mainframe.example -text "[trans examples] :\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com" -font examplef -padx 10
 	
 	set buttonframe [frame .login.buttons -class Degt]
@@ -3175,6 +3177,8 @@ proc cmsn_draw_login {} {
 	grid $mainframe.remember -row 4 -column 2 -sticky ws
 	grid $mainframe.offline -row 4 -column 1 -sticky wn
 	grid $mainframe.example -row 1 -column 4 -rowspan 4
+	grid $mainframe.msnp7 -row 5 -column 1 -sticky wn
+	grid $mainframe.msnp9 -row 5 -column 2 -sticky ws
 
 	pack .login.main .login.buttons -side top -anchor n -expand true -fill both -padx 10 -pady 10
 
