@@ -3316,10 +3316,10 @@ proc cmsn_draw_main {} {
 	menu .main_menu.file -tearoff 0 -type normal 
 	if { [string length $config(login)] > 0 } {
 		if {$password != ""} {
-			.main_menu.file add command -label "[trans loginas] $config(login)" \
+			.main_menu.file add command -label "[trans loginas]..." \
 				-command [list ::MSN::connect $config(login) $password] -state normal
 		} else {
-			.main_menu.file add command -label "[trans loginas] $config(login)" \
+			.main_menu.file add command -label "[trans loginas]..." \
 				-command cmsn_draw_login -state normal
 		}
 	} else {
@@ -4063,6 +4063,7 @@ proc cmsn_draw_offline {} {
 			$pgBuddy.text insert end "$config(login)\n" start_loginas
 			$pgBuddy.text insert end "[trans clicktologin]" start_loginas
 		}
+		.main_menu.file entryconfigure 0 -label "[trans loginas] $config(login)"
 
 		#$pgBuddy.text tag bind start_login <Button1-ButtonRelease> \
 		#"::MSN::connect $config(login) $password"
@@ -4077,6 +4078,7 @@ proc cmsn_draw_offline {} {
 
 		$pgBuddy.text insert end "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
 
+		.main_menu.file entryconfigure 0 -label "[trans loginas]..."
 	}
 
 
