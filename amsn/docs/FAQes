@@ -1,11 +1,11 @@
-FAQ 1.0
+FAQ 1.1
 --------
 
 P: ¿Qué es Amsn?
 R: Amsn es un clon del Microsoft Messenger. Te permito mantenerte en contacto
 con tus amigo e intercambiar mensajes instantáneos y ficheros.
 
-INSTALANDOLO y INICIANDO AMSN
+INSTALANDO E INICIANDO AMSN
 =============================
 
 P: ¿Que necesito para hacer funcionar amsn?
@@ -25,11 +25,12 @@ comando /donde/este/instalado/amsn
 cualquier lugar.
    Luego añada un icono que ejecute el comando 'amsn'.
 
-P: ¿Cómo puedo usar Gnome docking para trabajar?
+P: ¿Cómo puedo usar el icono de bandeja para Gnome/Kde?
 R: Tiene que ejecutar 'make' dentro del directorio de plugins, para construir
-el plugin de gnome. Usted necesitará las librerías de desarrollo gnome. Cuando
-el plugin esté construído, solo ejecuto amsn y seleccione Gnome Docking en el
-menú opciones.
+el plugin de gnome.1 Usted necesitará las librerías de desarrollo gnome. Cuando
+el plugin esté construído, solo ejecute amsn y seleccione Gnome Docking en el
+menú opciones. Para la versión del icono de bandeja de freedesktop (compatible
+con Gnome2 y KDE3), echa un vistazo al archivo README en plugins/traydoc.
 
 USANDO AMSN
 ===========
@@ -38,14 +39,10 @@ P: ¿Qué significa que en mi lista de contactos aparezca un contacto en color
 magenta?
 R: Significa que tu no estás en la lista de contactos de esa persona.
 
-P: Cuando yo dejo la ventana de amsn en segudno plano, y trabajo con otras
-ventanas, después de un cierto tiempo mi estatus cambia a ausente. Es esto un
-bug?
-R: No, está funcionando bien. Amsn detecta las pulsaciones de teclas y los
-clics del ratón dentro de la ventana de amsn o de las ventanas de
-conversación. Si tu estás trabajando con otras ventanas y no usas amsn, y el
-modo de automáticamente ausente está activo, tu estado cambiara después de 5
-minutos.
+P: Por qué no puedo cambiar mi estado a "Sin actividad" ?
+R: Ese estado está pensado para ponerse automáticamente después de algún
+tiempo sin usar el ordenador. Si eliges ese estado, se volverá automáticamente
+a "En línea" tras unos segundos.
 
 SOLUCIONANDO PROBLEMAS
 ======================
@@ -57,11 +54,11 @@ tarjeta de sonido esté bloqueda, y la orden de reproducir se para hasta que la
 tarjeta de sonido esté disponible. Intente desactivar el sonido o cambiar la
 configuración del sonido.
 
-P: Yo intento iniciar amsn pero me devuelve este error:
+P: Cuando intento iniciar amsn me devuelve este error:
 bash: ./amsn: bad interpreter: No such file or directory
 R: Usted necesita instalar los paquetes tcl/tk, porque necesitas el interprete
 de wish. Si piensa que lo tiene instalado, intente ejecutar "wish amsn" en
-lugar de "./amsn". Si esto funciona, edite el fichero amsn y cambien la
+lugar de "./amsn". Si esto funciona, edite el fichero amsn y cambie la
 primera línea:
   #!/usr/bin/wish
   por la dirección donde se encuentra el interprete de wish.
@@ -148,33 +145,21 @@ script que chequee si /dev/dsp está en uso, o libre, antes de "darle a
 reproducir".
 
 
-VENTANAS
+Ejecución en Windows
 ========
 
 P: ¿Puedo hacer que el sonido funcione bajo Windows?
 R: Sí, nosotros tenemos un pequeño programa llamado plwav.exe, que solo
 reproduce un fichero wav en Windows. Usted puede usarlo como programa de
 sonido (amsn usa algunos programas externos para reproducir sonido). Dirijase
-al menu Herramientas - Opciones - Aplicaciones y introdusca "plwav" como
-programa de sonido.
+al menu Herramientas - Opciones - Preferencias - Aplicaciones, e introduzca
+"plwav" como programa de sonido.
 
 P: Cuando aparece una ventana emergente, la barra de tareas de la ventana
 aparece oculata parcialmente, ¿ puedo solucionarlo?
 R: Si, usted puede mover la ventana de notificación, moviendo los píxeles X a
-la izquierda y los píxeles Y arriba. Puede hacerlo de dos formas:
-1) Editando el fichero de configuración de amsn, cambiando las líneas:
-notifyYoffset yy
-notifyXoffset xx
-donde yy y xx son los valores que usted quiere para mover la ventana en los
-ejes x e y. Tiene que reiniciar el amsn después de esta modificación.
-2)Otra manera. Pulse Ctrl+S en la lista de contactos. Aparecerá una ventana
-llamada "status log". Usted puede introducir comandos en la parte baja de la
-ventana. Introduzca el siguiente comando:
-global config; set config(notifyXoffset) xx; set config(notifyYoffset) yy
-donde xx e yy son los ejes x e y como habrá deducido. No tiene que reiniciar
-amsn para probar los cambios. Puede incluso hacer una prueba lanzando una
-ventana de notificación introduciendo el siguiente comando:
-::amsn::notifyAdd Testing {}
+la izquierda y los píxeles Y arriba. Puede cambiar esto en:
+Herramientas->Opciones->Preferencias->Apariencia
 
 OTROS
 =====

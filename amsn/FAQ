@@ -1,4 +1,4 @@
-FAQ 1.0
+FAQ 1.1
 --------
 
 Q: What is Amsn?
@@ -26,11 +26,12 @@ launches the command:
 anywhere.
  Then add an icon that launchs the command 'amsn'.
 
-Q: How do I get the Gnome docking to work?
+Q: How do I get the Gnome/KDE docking to work?
 A: You have to run 'make' inside the plugins directory, to build
-the gnome plugin. You'll need gnome development libraries. When
+the gnome1 plugin. You'll need gnome development libraries. When
 the plugin is built, just run amsn and select Gnome Docking in the
-options menu.
+options menu. To build the freedesktop (Gnome2 and KDE3 compatible)
+docking, read README file in plugins/traydoc.
 
 USING IT
 ========
@@ -38,11 +39,10 @@ USING IT
 Q: What do the magenta contacts in my contact list mean?
 A: It means that you are not in that person's contact list.
 
-Q: When I leave the amsn window in the background, and work in other windows,
-after a certain time my status changes to away. Is this a bug?
-A: No, it is working fine. Amsn detects key presses and mouse clicks INSIDE the
-amsn or chat windows. If you work in other windows but don't use amsn, and the
-auto-idle feature is enabled, your state will be changed after 5 minutes.
+Q: Why I can't change my status to "No activity"?
+A: That status is meant to be automatic after some time without
+using your computer. If you change to "No activity", it will get back
+to "Online" in a few seconds.
 
 TROUBLESHOOTING
 ===============
@@ -148,41 +148,28 @@ from a web page), instead of the internal address, and tell the gateway (the
 computer with direct connection to the internet) to forward incoming
 connections to port 6891 to your computer inside the private network.
 
-WINDOWS ISSUES
+Running on Windows
 ==============
 
 Q: Can I make the sound work under windows?
 A: Yes, we have a small program called plwav.exe that just plays a wav under
 windows. You can use it as sound command (amsn needs some external program
-to play sounds). Go to the options->preferences->sound menu and enter "plwav"
-as sound command.
+to play sounds). Go to the Tools->options->preferences->applications menu and
+enter "plwav" as sound server command.
 
 Q: When notify window pops up, the windows taskbar partially hides it, can I
 fix this?
-A: Yes, you can move the notify window X pixels to the left and Y pixels to 
-the top. To do this you can do one of this two thing:
-1) Edit amsn config file, and change the lines:
-notifyYoffset yy
-notifyXoffset xx
-where yy and xx are the values in pixels you want to move the window in the x
-and y axis. You have to restart amsn after the modification.
-2) Other way. Press Ctrl+S in the contact list window. You'll get a window
-called status log. You can enter commands at the bottom of that window. Enter
-the following command:
-global config; set config(notifyXoffset) xx; set config(notifyYoffset) yy
-where xx and yy are the x and y axis offset. You don't have to restart amsn
-to test the changes. You can even get a test notify window by entering the
-next command:
-::amsn::notifyAdd Testing {}
+A: Yes, you can move the notify window X pixels to the left and Y pixels to
+the top. You can change this in Tools->Options->Preferences->Appearance.
 
 OTHER
 =====
 Q: If you choose to save your password, it's saved unencrypted inside the amsn
 config file. Isn't this unsecure?
-A: It's impossible to save the password in an encrypted form. The password must 
-be used to generate an md5 digital signature that must be sent over the network 
-during login. (The password is not sent in plain text over the network). We 
-can't save it in a non-reversible way like passwords in /etc/passwd, because 
+A: It's impossible to save the password in an encrypted form. The password must
+be used to generate an md5 digital signature that must be sent over the network
+during login. (The password is not sent in plain text over the network). We
+can't save it in a non-reversible way like passwords in /etc/passwd, because
 it's necessary to read the password to generate this sign. If we use some kind 
 of reversible encryption, then anyone could decode it just by looking at the 
 amsn code. On linux the config file is readable only by its owner. The only way 
