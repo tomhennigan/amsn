@@ -3374,18 +3374,17 @@ proc cmsn_update_users {sb_name recv} {
 #TODO: ::abook system
 proc cmsn_change_state {recv} {
 
-    #TODO: Enable feedback
-    set epvar(state) [lindex $recv 1]
-    set epvar(substate) [lindex $recv 2]
-    set epvar(user) [lindex $recv 3]
-    ::plugins::PostEvent ChangeState epvar
-
 	if {[lindex $recv 0] == "FLN"} {
 		#User is going offline
 		set user [lindex $recv 1]
+		set epvar(user) [lindex $recv 1]
 		set user_name ""
+		set epvar(nick) [::abook::getDisplayNick [lindex $recv 1]]
 		set substate "FLN"
+		set epvar(substate) "FLN"
 		set msnobj [::abook::getVolatileData $user msnobj ""]
+		set epvar(state) ""
+		::plugins::PostEvent ChangeState epvar
 	} elseif {[lindex $recv 0] == "ILN"} {
 		#Initial status
 		set user [lindex $recv 3]
@@ -3393,13 +3392,19 @@ proc cmsn_change_state {recv} {
 		set user_name [urldecode [lindex $recv 4]]
 		set substate [lindex $recv 2]
 		set msnobj [urldecode [lindex $recv 6]]
+		#I don't think we should add ChangeState PostEvent here...
 	} else {
 		#Coming online or changing state
 		set user [lindex $recv 2]
+		set epvar(user) [lindex $recv 2]
 		set encoded_user_name [lindex $recv 3]
 		set user_name [urldecode [lindex $recv 3]]
+		set epvar(nick) [urldecode [lindex $recv 3]]
 		set substate [lindex $recv 1]
+		set epvar(substate) [lindex $recv 1]
+		set epvar(prevstate) [lindex $recv 0]
 		set msnobj [urldecode [lindex $recv 5]]
+		::plugins::PostEvent ChangeState epvar
 	}
 	
 	if { $msnobj == "" } {
