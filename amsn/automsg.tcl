@@ -136,10 +136,10 @@ proc StateList { action { argument "" } {argument2 ""} } {
 # Creates the menu that will be added under the default states
 # path points to the path of the menu where to add
 proc CreateStatesMenu { path } {
-	$path add separator
+	#$path add separator
 	# Delete old menu to create new one
-	if { [$path index end] != 10 } {
-		$path delete 11 end
+	if { [$path index end] != 8 } {
+		$path delete 9 end
 	}
 	if { [winfo exists .otherstates] } {
 		.otherstates delete 0 end
@@ -171,10 +171,8 @@ proc CreateStatesMenu { path } {
 	} else {
 		$path add command -label "[trans other]..." -command "EditNewState 1"
 	}
-}
-
-proc menu_otherstates {} {
-	tk_popup .otherstates [winfo pointerx .otherstates] [winfo pointery .otherstates]
+	$path add separator
+	$path add command -label "[trans changenick]..." -command cmsn_change_name
 }
 
 #///////////////////////////////////////////////////////////////////////////////

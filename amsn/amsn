@@ -662,6 +662,6 @@ if { $config(autoconnect) == 1 } {
   ::MSN::connect $config(login) password
 }
 
-BeginVerifyBlocked
+# BeginVerifyBlocked
 init_remote_DS
 init_dock
