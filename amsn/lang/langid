@@ -1,0 +1,190 @@
+amsn_lang_version 2 
+about Perihal 
+accept Terima 
+acceptfile Terima file $1, sebesar $2? Simpan di $3 
+actions Perintah 
+addacontact Tambahkan nama baru 
+addedyou telah menambahkan anda dalam daftar namanya 
+addtocontacts Masukkan dalam daftar nama 
+addtoo Masukkan orang ini dalam daftar nama saya 
+admincontacts Atur daftar nama 
+admingroups Atur grup-grup 
+adverts Iklan 
+alarmpref Konfigurasi alarm 
+alarmstatus Matikan/Nyalakan alarm untuk dia 
+allowseen Perbolehkan orang ini untuk melihat status saya dan menghubungi saya 
+appearoff Sembunyi 
+aretyping $1 sedang mengetik pesan 
+autoconnect Hubungi server saat amsn dinyalakan 
+autohotmaillog Otomatis login ke Hotmail 
+autoidle Otomatis ganti status ke "Tidak ada aktivitas" 
+autoip IP otomatis 
+avoidseen Orang ini dilarang melihat status saya maupun menghubungi saya 
+away Tidak ada ditempat 
+baduserpass Salah user name atau salah kata sandi 
+blankdirect Kosongi untuk koneksi langsung 
+block Blokir 
+blocked Diblokir 
+broughtby Dipersembahkan oleh 
+browse Cari 
+busy Sibuk 
+cancel Batalkan 
+cfgalarm Rubah konfigurasi/Tambah/Hapus alarm 
+changenick Ganti alias 
+chatack Terima ajakan ngobrol dari 
+chat Obrolan 
+chatreq Mengajak ngobrol 
+chatsmileys Tamplikan ekspresi saat ngobrol 
+checkingver Sedang memeriksa versi terbaru 
+checkver Cek apakah ada versi baru 
+choosebasefont Pilih jenis font 
+choosebgcolor Pilih warna latar belakang 
+choosefontcolor Pilih warna teks 
+clicktologin Klik disini buat login 
+close Keluar 
+closingdocks Tombol close mengecilkan jendela 
+command Perintah 
+confirm Apakah anda yakin? 
+confirmdelete Apakah anda yakin untuk menghapus $1? 
+connecterror Ada masalah saat menghubungi server 
+contactadded Nama baru telah dimasukkan 
+contactdoesnotexist Detail kontak tidak dapat ditemukan! 
+copy Salin 
+copytogroup Salin ke grup 
+cut Potong 
+date Tanggal 
+delete Hapus 
+docking Labuhan 
+dockingoff Jangan dilabuhkan 
+dockgtk Labuhan model Gnome 
+dockkde Labuhan model KDE 
+edit Ubah 
+enableproxy Nyalakan proxy 
+encoding Pilih jenis pengkodean 
+entercontactemail Masukkan alamat e-mail teman 
+enterfilename Masukkan nama file 
+enternick Masukkan alias yang anda inginkan 
+examples Contoh 
+exitamsn Apakah anda ingin keluar? 
+extras Fungsi tambahan 
+faq PSD (Pertanyaan yang Sering Ditanyakan) 
+filedoesnotexist File tidak ditemukan 
+filename Nama file 
+filetransfercancelled Transmisi file dibatalkan 
+filetransfercomplete Transmisi file telah usai 
+ftaccepted Transmisi file diterima 
+ftrejected Transmisi file ditolak 
+gonelunch Sedang makan siang 
+groupadd Tambah grup 
+groupdelete Hapus grup 
+groupexists Nama grup sudah ada 
+group Grup 
+groupmissing Grup tidak dapat ditemukan 
+groupnewname Nama baru 
+groupnotempty Grupnya tidak kosong 
+groupoldname Nama lama 
+grouprename Ganti nama grup 
+groupunknown Grup lain 
+handle Handle 
+helpcontents Isi manual 
+help Bantuan 
+home Home 
+ident Sedang mengidentifikasi 
+identity Identitas 
+invalidusername Nama user salah 
+invite Undang 
+ipaddress Alamat IP 
+istyping $1 sedang mengetik 
+joins $1 ikut dalam percakapan 
+language Bahasa 
+lastmsgtime Last message received at $1 
+leaveblankforhotmail Kosongkan untuk menggunakan Hotmail lewat web 
+leaves $1 telah meninggalkan percakapan ini 
+listeningon Mengawasi port $1 
+listsmileys Tampilkan ekspresi di daftar nama 
+loadcontacts Baca daftar nama 
+loggedotherlocation Terputus. Ada yang login dari tempat lain 
+loggingin Logging In 
+loginas Login sebagai 
+logsin baru saja login 
+mailer Aplikasi email 
+movetogroup Pindah ke grup 
+msg Pesan 
+msn AMSN 
+mustrestart Program ini harus dijalankan ulang supaya perubahannya nampak 
+mystatus Statusku 
+natip Deteksi IP melalui halaman web 
+needonline Anda masih offline atau sedang sembunyi! 
+newmail $1 email baru dalam In-Box 
+newmailfrom Email baru dari 
+newmsg Pesan baru 
+newveravailable Telah ada versi baru $1 
+next Berikutnya 
+noactivity Tidak ada aktivitas 
+nonewmail Tidak ada email baru di In-Box anda 
+nonewver Belum ada versi baru 
+notify beri tahu 
+notifywin Jendela pemberitahuan 
+nousersinsession Tidak ada orang lain 
+offline Offline 
+ok Ok 
+onenewmail Ada email baru di In-Box 
+online Online 
+onphone Sedang telepon 
+openreceived Buka file yang telah diterima 
+options Pilihan 
+ordercontactsby Urutkan daftar berdasarkan 
+other Lain-lain 
+pager Pager 
+pass Kata sandi 
+paste Tempelkan 
+phone Telepon 
+picfile File gambar (GIF < 500 x 500) 
+picstatus Alarm bergambar 
+port Port 
+prefapps Aplikasi 
+preferences Pilihan 
+prefsound Suara 
+properties Data diri 
+proxyconfhttp Konfigurasi proxy HTTP 
+proxyconf Konfigurasi proxy 
+publishphones Publikasikan telepon saya 
+receivedbytes Telah diterima $1 dari $2 byte 
+receivefile Terima file 
+reconnecting Memulihkan sambungan ke server 
+reconnect Menunggu $1 untuk bergabung kembali 
+reject Tolak 
+rememberpass Simpan kata sandi 
+rightback Segera kembali 
+saveas Simpan dengan nama 
+savecontacts Simpan daftar nama 
+save Simpan 
+says $1 bilang 
+sbcon Mencoba mengontak Switch Board 
+sendfile Kirim file 
+sendmail Kirim e-mail 
+sendmsg Kirim pesan 
+send Kirim 
+sentbytes $1 dari $2 byte telah dikirim 
+servergoingdown Terputus: Server sedang bermasalah 
+server Server 
+sound Event Sound 
+soundfile File suara 
+soundloop Putar suara berulang-ulang 
+soundstatus Bunyikan alarm 
+startoffline Login dengan status Offline 
+status Status 
+stopalarm Stop alarm 
+textsize Besar font 
+title Al's Messenger 
+tools Fungsi 
+to Kepada 
+unblock Cabut blokiran 
+useralreadyonlist Nama sudah ada dalam daftar nama 
+user Identifikasi 
+version Versi 
+view Tampilan 
+willjoin Menunggu $1 untuk bergabung 
+work Kerja 
+yousay Anda berkata 
+youwant Anda ingin 
