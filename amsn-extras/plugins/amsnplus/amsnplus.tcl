@@ -100,6 +100,7 @@ namespace eval ::amsnplus {
 		upvar 2 nick nick
 		upvar 2 msg msg
 		upvar 2 chatid chatid
+		upvar 2 win_name win_name
 		upvar 2 fontfamily fontfamily
 		upvar 2 fontcolor fontcolor
 		upvar 2 fontstyle fontstyle
@@ -219,6 +220,20 @@ namespace eval ::amsnplus {
 				::amsn::WinWrite $chatid "\nYour new nick is: $nick" green
 				set incr 0
 			}
+			if {[string equal $char "/sendfile"]} {
+				set msg [string replace $msg $i [expr $i + 9] ""]
+				set strlen [string length $msg]
+				set file [::amsnplus::readWord $i $msg $strlen]
+				if {[string equal $file ""]} {
+					::amsn::FileTransferSend ${win_name}
+				}
+				if {![string equal $file ""]} {
+					::amsn::FileTransferSend ${win_name} $file
+				}
+				set msg ""
+				set strlen [string length $msg]
+				set incr 0
+			}
 			if {[string equal $char "/speak"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set strlen [string length $msg]
@@ -234,7 +249,7 @@ namespace eval ::amsnplus {
 				set strlen [string length $msg]
 				set nstate [::amsnplus::readWord $i $msg $strlen]
 				set slen [string length $nstate]
-				set msg ""
+				set msg [string replace $msg $i [expr $i + $slen]
 				set strlen [string length $nick]
 				set cstate [::amsnplus::descriptionToState $nstate]
 				::MSN::changeStatus $cstate
