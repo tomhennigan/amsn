@@ -1035,7 +1035,7 @@ namespace eval ::MSN {
 
       #set command "[sb get ns puts] -nonewline [sb get ns sock] \"$cmd\""
       if {[catch {puts -nonewline $sb_sock "$cmd"} res]} {
-         status_log "::MSN::DirectWrite: problem when writing to the socket: $res...\n" red
+         status_log "::MSN::DirectWrite: SB $sbn problem when writing to the socket: $res...\n" red
          ::MSN::CloseSB $sbn
          degt_protocol "->$sbn FAILED: $cmd" error
       } else {
@@ -2459,7 +2459,7 @@ proc cmsn_connected_sb {name recv} {
 
    } else {
 
-      status_log "cmsn_connected_sb: got sb stat=i but no one to invite!!! CHECK!!\n" white
+      status_log "cmsn_connected_sb: got SB $name stat=i but no one to invite!!! CHECK!!\n" white
 
    }
 
