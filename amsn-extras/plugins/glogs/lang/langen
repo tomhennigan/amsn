@@ -1,0 +1,14 @@
+amsn_lang_version 2
+serverlabel Insert your outgoing mail server information..
+smtpserver SMTP Server (e.g.: localhost, smtp.gmail.com)
+smtpport Server port (default: 25)
+userlabel If your server requires authentication, insert it into the next fields (Gmail requires it)
+smtpuser User (e.g.: my_mail@gmail.com)
+smtppass Password
+sendtolabel Insert in the next field the e-mail account where you want your logs to arrive.
+sendto Send logs to (e.g.: my_mail@gmail.com)
+logslabel Appearance options.
+defaultprefix aMSN Conversation: 
+showfooter Footer
+htmlformat Use html formating (color, emoticons...)
+footer _________________________________________________________________\n aMSN Messenger http://amsn.sf.net/\n Logs sent by GLogs plugin.
