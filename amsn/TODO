@@ -3,7 +3,7 @@ BugList / TODO list
 It's big, it's bad! It's the all mighty bug/todo list! 
 Here are the stuff we wanna implement and bugs we want to fix...
 Feel free to tell us about any options that aren't here that would interest you...
-Feel free to inform us of any bugs that aren't here (we ordered 4 cases of ZAP!)
+Feel free to inform us of any bugs that aren't here (we just ordered 4 boxes of ZAP!)
 
 Burger * burger@mwvision.com
 
@@ -24,7 +24,6 @@ Existing Feature Improvements (priority 2):
 # ** FIXED ** Improve file transfers: non blocking negotiation
 # Display link to received file and click to open
 # ** FIXED ** Unblock dosen't work from chat window
-# Change the block icon to unblock when user is blocked in chat window
 # Fix display issue when copying a user in more than 1 group (displays the user twice in the same group)
 # Reenable copy option for contact list (currently commented out)
 # ** FIXED ** Copy/Paste in message windows + Right click popup menu for copy/paste
@@ -34,6 +33,7 @@ Existing Feature Improvements (priority 2):
 # Improve Logging (maybe even add a msg history option?)
 # Fix Makefile for gnome1 dock (dock dosent work on gnome2 yet)
 # Add option to receive new messages in maximized state instead of iconified
+# Multiple File send at once, either allow but fix saved filename or disallow multiple send at once
 
 Extra Features (priority 3):
 
@@ -52,6 +52,7 @@ Extra Features (priority 3):
 # ** FIXED HTTP PROXY ** Proxy Support (http and socks5)
 # Add View MSN Profile : http://members.msn.com/?pgmarket=en-us&mem=user@hotmail.com or http://svcs.microsoft.com/svcs/mms/profile.asp?Country=AU&BrandID=MSMSGS&passport=user@hotmail.com
 # Option to popup/raise/unminimize message window on message receive
+# Option to have local window appear before remote user sends message (only when remote double clicks your name). Some people asked for this... even begged.. so here it is
 
 Graphical Interface (priority 4):
 
