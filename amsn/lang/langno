@@ -21,6 +21,7 @@ alarmondisconnect Aktiver alarm når en bruker logger av
 alarmonmsg Aktiver alarm når en bruker sender deg en melding
 alarmonstatus Akiver alarm når en bruker endrer status
 alarmpref Alarminnstillinger for bruker
+alarms Alarmer
 alarmstatus Skru alarm av eller på for denne brukeren
 allfiles Alle filer
 allowallbutbl La alle utenom blokkerte brukere kontakte meg
@@ -36,15 +37,18 @@ appearance Tilgjengelighet
 appearoff Se ut som jeg er frakoblet
 areacode Retningsnummer
 aretyping $1 skriver en melding
+author Forfatter
 autoaccepted Filoverføring aksepteres automatisk
 autoacceptft Aksepter filoverføringsforespørsler automatisk
 autoaway Vis meg som "borte" om jeg har vært inaktiv i
 autocheckver Sjekk automatisk etter nyere versjon i oppstarten
 autoconnect Koble til når aMSN startes
 autoconnect2 Log inn automatisk når aMSN startes
+autodetectip Automatisk gjenkjenning av IP-adresse
 autohotmaillog Auto Hotmail-innlogging
 autoidle Automatisk gå "ingen aktivitet"
 autoip Automatisk IP
+automessage Autobeskjeder
 autonoact Vis meg med status "ingen aktivitet" om jeg ikke er aktiv etter
 avoidseen Hindre denne personen i å se når jeg er tilkoblet og kontakte meg
 away Borte
@@ -69,6 +73,7 @@ browse Bla gjennom
 browser Nettleser
 browserexample ( \$url vil bli erstattet med adressen). F.eks: mozilla \$url
 busy Opptatt
+cachedpics $1 lagrede bilder
 cancel Avbryt
 cannotdeleteprofile Kan ikke slette profilen, den ser ut til \nå allerede være i bruk av en annen aMSN-sesjon
 cantexec Kan ikke kjøre program $1, sjekk innstillingene
@@ -76,11 +81,15 @@ cantremoveothers Kan ikke fjerne "andre"-gruppen
 casesensitive Skill mellom store og små bokstaver
 cfgalarm Konfiguer/legg til/fjern alarm
 cfgalarmall Konfigurer/legg til/fjern global alarm
+ch_to_state Skift til ny tilstand
+change Endre
 changecustomstate Bytt til
 changedisplaypic Endre personlig bilde
 changefont Skift skrifttype
+changeglobnick Endre globalt kallenavn
 changenick Endre kallenavn
 changestate $1 har endret status til $2
+charscounter Teller skrevne bokstaver i samtalevinduet
 chat Samtale
 chatack Aksepterer samtale fra
 chatmaxmin Når en kontakt åpner en samtale med meg, vil jeg at den skal være:
@@ -88,6 +97,7 @@ chatreq Forespørsel om samtale
 chatsmileys Samtaleikoner (smilefjes)
 chatsmileys2 Vis uttrykksikoner og smilefjes i samtalevinduer
 checkblocking Sjekk konstant om noen blokkerer meg
+checkemail Vis e-postvarslingslinje (innboks) i kontaktlisten
 checkfilman Sjekk filebehandleren i innstillingene
 checkingver Ser etter nyere versjon
 checkonfln Sjekk om en bruker har blokkert deg når han logger av
@@ -109,6 +119,7 @@ command Kommando
 commandstatus Utfør kommando
 confirm Er du sikker?
 confirmdelete Er du sikker på at du vil slette $1?
+confirmpurge All lagrede bilder av andre kontakter (ikke ditt bilde) vil bli slettet. Er du sikker?
 connected Du er nå tilkoblet
 connecterror Feil ved tilkobling til tjeneren
 connecting Kobler til
@@ -117,28 +128,43 @@ connectionlost Frakoblet: Tilkobling til tjeneren ble lukket
 contactadded Kontakten er lagt til
 contactdoesnotexist Kontakten eksisterer ikke!
 contactlist Kontaktliste (KL):
+convertexplain Filstien til CONVERT-programfilen, fra ImageMagick (kreves for bilder av kontakter).\n La stå tom hvis CONVERT er i filstien.
 copy Kopiér
 copytogroup Kopiér til gruppe
+corruptconfig Konfigurasjonsfilen er ødelagt - lag en ny. Den gamle filen blir lagret til $1. Vær vennlig å send den til oss slik at vi kan sjekke hva som er galt.
+corruptstates Den tilpassede tilstandsinnstillingen er ødelagt - opprett en ny. Den gamle filen vil bli lagret til $1. Vær vennlig å send den til oss, slik at vi kan sjekke hva som gikk galt.
 countrycode Min lands- og regionkode
 cprofile Opprett profil
+credits Bidragsytere
+currentdate Dagens dato
 custom_edit Rediger et egendefinert uttrykksikon
 custom_new Legg til et ny egendefinert uttrykksikon
+customcolor Egendefinert farge
+customnick Egendefinert kallenavn
 cut Klipp ut
 date Dato
+dateformat Endre datoformat
+day Dag
 days Dager
 dcprofile Ikke opprett profil
 default Standardkonfigurasjon
-default Standardkonfigurasjon
 defaultloginradio Logg inn med standardkonfigurasjonen
+defchatwinsize Standard størrelse på pratevinduer (XSTØRRELSExYSTØRRELSE)
 delete Slett
+deletecustomstate Fjern egendefinerte tilstander
+delimiters Tidsstempelavgrensning
 deliverfail Det var problemer med å levere følgende melding
 delprofile Slett profil
 delprofile2 Velg hvilken profil du vil fjerne
 description Beskrivelse
 directconnection Direkte tilkobling til internett (bruker port 1863)
 disabled Deaktivert
+disableprofiles Slå av profiler (Nyttig for nettkafeer eller offentlig steder)
 disablessl Deaktiver SSL
 disconnect $1 har koblet fra.
+displaychat Vis tekstvalg
+displayp4context Vis P4-kontekstfeltsinnhold som avsender
+displaypic Vis bilde
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome-dokk
 docking Dokking
@@ -148,11 +174,15 @@ dontdownload Ikke last ned TLS, jeg vil installere det selv
 dontshow Ikke vis
 downloadingtls Laster ned TLS-modul fra:\n $1
 edit Rediger
+editcustomstate Rediger tilpasset tilstand
 editnewstate Ny personlig autobeskjed-status
 editprofile Rediger profil
 editstate Rediger eksisterende autobeskjed-status
+editvalue Rediger verdi
+email E-post
+emailsinlist Vis e-post i stedet for kallenavn i kontaktlisten
 emotisounds Spill av lyder for visse uttrykksikoner
-enablebanner Vis aMSNs banner (krever omstart av aMSN)
+emptygroup Tøm gruppe
 enabled Aktivert
 enableproxy Bruk proxy
 enableremote Aktiver fjernkontrollering
@@ -167,6 +197,8 @@ examples Eksempler
 exitamsn Er du sikker på at du vil avslutte?
 extras Ekstra tjenester
 failed Feilet
+faileddelete Sletting feilet
+faileddeleteperso Dette bildet kan ikke slettes fordi det ikke er en personlig bilde-fil. Kun bilder som tilhører din personlige profil kan slettes på denne måten.
 faq FAQ (Ofte Stilte Spørsmål)
 file Fil
 filedoesnotexist Filen eksisterer ikke
@@ -176,14 +208,19 @@ filename Filnavn
 filetransfercancelled Filoverføringen ble avbrutt
 filetransfercomplete Filoverføringen er fullført
 followtext Bla nedover når ny tekst blir skrevet inn
+friendlyname Kallenavn
 ftaccepted Sending av fil akseptert
 ftacceptedby $1 aksepterte invitasjonen til filoverføring av '$2'.
 ftaccepting Aksepterer invitasjon til filoverføring
+ftconnecterror Feil under tilkobling til vert
 ftconnecting Kobler til $1 port $2
+ftconnectionlost Forbindelsen med verten ble brutt
 ftgotinvitation $1 vil sende deg '$2' ($3 bytes). Den vil bli lagret i mappen $4. Ønsker du å motta filen?
-ftrejected Sending av fil avslått
+ftportpref Åpner port for filoverføring
 ftrejectedby $1 avviste filoverføring av $2.
+ftrejected Sending av fil avslått
 ftsendinvitation Filoverføring for fil '$2' ($3 bytes) har blitt sendt til $1.
+fullcontactlist Beklager, men kontaktlisten din er full. Du må fjerne noen gamle kontakter for å kunne legge inn nye.
 getdisppic Aktiver mottak av personlige bilder fra andre brukere
 gonelunch Ute til lunsj
 group Gruppe
@@ -195,6 +232,7 @@ groupnewname Nytt navn
 groupnotempty Gruppen er ikke tom!
 groupoldname Gammelt navn
 grouprename Gi nytt navn til en gruppe
+groups Grupper
 groupunknown Ukjent gruppe
 handle Handle
 help Hjelp
@@ -204,18 +242,40 @@ hiden Skjul uttrykksikonet fra smiljefjesmenyen
 hidewindow Skjul vindu
 history Vis historie
 home Hjem
+httpconnection Koble til via HTTP (bruker HTTP via port 80)
+hybrid Hybridmodus
 ident Identifiserer
 identity Identitet
 imagefiles Bildefiler
 inbox Innboks
+insertsmiley Sett inn uttrykksikon eller smilefjes
+installconvert Du må installere ImageMagick (konverteringsprogramvare) for å kunne bruke kameratikoner og egendefinerte uttrykksikoner. Du kan laste ned binærfilene for ditt operativsystem her: ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Har du allerede ImageMagick, så er dette en feil, og vi setter pris på om du kan rapportere den til oss. Denne muligheten vil nå bli deaktivert, men du kan skru dem på fra "innstillinger" senere om du installerer ImageMagick.
+internalerror Feil (Internal Server Error)
+invalidfile2 Filen $1 kunne ikke lagres, sjekk at du har de nødvendige tilganger.
+invalidfile Filen $2 skrevet i feltet "$1" eksisterer ikke, eller er ikke lesbar
+invalidgroup Ugyldig gruppe
+invalidpic Den oppgitte bildefilen eksisterer ikke
+invalidpicsize Dette bildet er for stort - vennligst velg et som er mindre
+invalidsound Den oppgitte lydfilen eksisterer ikke
 invalidusername Ugyldig brukernavn
+invitationcancelled Invitasjonen ble avbrutt
 invite Inviter
 ipaddress IP-addresse
+ipdetect Få korrekt IP for filoverføring over HTTP
 istyping $1 skriver en beskjed
 joins $1 blir med i samtalen
+keepalive Hold forbindelsen (Keepalive (NAT))
+keeplog2 Logg alle samtaler inn i aMSNs historie
+keeplog Behold samtalelogger
 language Språk
+lastlogin Siste innlogging
+lastlogout Siste utlogging
+lastmsgedme Siste melding
 lastmsgtime Siste melding ble mottatt: $1
-leaveblankforhotmail La stå tom for å bruke Hotmail web
+lclosedwin $1 har lukket samtalevinduet med $2
+lconftopriv Konferanse endret til privat samtale med $1
+lconvstarted Samtale startet med $1
+leaveblankforhotmail La stå tom for å bruke Hotmail
 leaves $1 forlater samtalen
 listeningon Lytter til port $1
 listsmileys Vis alle smilefjes
@@ -232,6 +292,7 @@ maximised Maksimert
 minimised Minimert
 mins minutter
 mobile Mobil
+month Måned
 move Flytt
 movetogroup Flytt til gruppe
 msg Beskjed
@@ -322,6 +383,7 @@ sendmsg Send beskjed
 sentbytes Sendt $1 av $2 bytes
 server Tjener
 servergoingdown Frakoblet: Tjeneren går ned
+showbanner Vis aMSN's banner
 showdisplaypic Vis personlig bilde
 showdisplaypic2 Vis personlig bilde som standard når et samtalevindu blir åpnet
 showmypic Mitt personlige bilde
@@ -352,14 +414,17 @@ twonewmail $1 nye meldinger i innboksen
 unblock ta bort blokkering
 uoffline Frakoblet
 uonline Tilkoblet
+useother Bruk et annet program
 user Bruker
 useralreadyonlist Brukeren er allerede i kontaktlisten
 userblocked Brukeren er koblet til, men har blokkert deg
 usernotonline Brukeren er ikke koblet til
 useryourself Du kan ikke snakke med deg selv
+usesnack Bruk Snack-biblioteket (Tcl's innebygde)
 verifyblocked Se etter folk som blokkerer deg
 version Versjon
 view Vis
+viewcontactsby Vis kontakter med
 viewprofile Vis profil
 willjoin Venter $1 blir med i samtalen
 work Arbeid
@@ -367,66 +432,13 @@ wrongfields "$1", "$2" og/eller "$3" feltene er ikke gyldig
 wrongprofileversion Feil profilkonfigurasjon eller filversion. For å fikse dette, vennligst slett mappen $1, eller oppdater aMSN
 xmmserr Ingenting blir spillt, eller så har du ikke installert xmms-infopipe.
 xoffset X-koordinat
+year År
 yes Ja
+yesterday I går
 yoffset Y-koordinat
 youblocked Du har blitt blokkert av
 yousay Du sier
 youwant Du vil
-autodetectip Automatisk gjenkjenning av IP-adresse
-charscounter Teller skrevne bokstaver i samtalevinduet
-checkemail Vis e-postvarslingslinje (innboks) i kontaktlisten
-ch_to_state Skift til ny tilstand
-confirmpurge All lagrede bilder av andre kontakter (ikke ditt bilde) vil bli slettet. Er du sikker?
-convertexplain Filstien til CONVERT-programfilen, fra ImageMagick (kreves for bilder av kontakter).\n La stå tom hvis CONVERT er i filstien.
-corruptconfig Konfigurasjonsfilen er ødelagt - lag en ny. Den gamle filen blir lagret til $1. Vær vennlig å send den til oss slik at vi kan sjekke hva som er galt.
-corruptstates Den tilpassede tilstandsinnstillingen er ødelagt - opprett en ny. Den gamle filen vil bli lagret til $1. Vær vennlig å send den til oss, slik at vi kan sjekke hva som gikk galt.
-credits Bidragsytere
-defchatwinsize Standard størrelse på pratevinduer (XSTØRRELSExYSTØRRELSE)
-deletecustomstate Fjern egendefinerte tilstander
-delimiters Tidsstempel skilletegn:
-disableprofiles Slå av profiler (Nyttig for nettkafeer eller offentlig steder)
-displaychat Vis tekstvalg
-editcustomstate Rediger tilpasset tilstand
-editvalue Rediger verdi
-emailsinlist Vis e-post i stedet for kallenavn i kontaktlisten
-faileddelete Sletting feilet
-alarms Alarmer
-automessage Autobeskjeder
-cachedpics $1 lagrede bilder
-change Endre
-currentdate Dagens dato
-customcolor Egendefinert farge
-customnick Egendefinert kallenavn
-displayp4context Vis P4-kontekstfeltsinnhold som avsender.
-displaypic Vis bilde
-faileddeleteperso Dette bildet kan ikke slettes fordi det ikke er en personlig bilde-fil. Kun bilder som tilhører din personlige profil kan slettes på denne måten.
-friendlyname Kallenavn
-ftconnecterror Feil under tilkobling til vert
-ftconnectionlost Forbindelsen med verten ble brutt
-ftportpref Åpner port for filoverføring.
-fullcontactlist Beklager, men kontaktlisten din er full. Du må fjerne noen gamle kontakter for å kunne legge inn nye.
-httpconnection Koble til via HTTP (bruker HTTP via port 80).
-hybrid Hybridmodus.
-insertsmiley Sett inn uttrykksikon eller smilefjes.
-installconvert Du må installere ImageMagick (konverteringsprogramvare) for å kunne bruke kameratikoner og egendefinerte uttrykksikoner. Du kan laste ned binærfilene for ditt operativsystem her: ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Har du allerede ImageMagick, så er dette en feil, og vi setter pris på om du kan rapportere den til oss. Denne muligheten vil nå bli deaktivert, men du kan skru dem på fra "innstillinger" senere om du installerer ImageMagick.
-internalerror Feil (Internal Server Error)
-invalidfile Filen $2 skrevet i feltet "$1" eksisterer ikke, eller er ikke lesbar.
-invalidfile2 Filen $1 kunne ikke lagres, sjekk at du har de nødvendige tilganger.
-invalidgroup Ugyldig gruppe
-invalidpic Den oppgitte bildefilen eksisterer ikke.
-invalidpicsize Dette bildet er for stort - vennligst velg et som er mindre.
-invalidsound Den oppgitte lydfilen eksisterer ikke.
-invitationcancelled Invitasjonen ble avbrutt.
-ipdetect Få korrekt IP for filoverføring over HTTP.
-keepalive Hold forbindelsen (Keepalive (NAT)).
-keeplog Behold samtalelogger.
-keeplog2 Logg alle samtaler inn i aMSNs historie.
-lastlogin Siste innlogging
-lastlogout Siste utlogging
-lastmsgedme Siste melding
-lclosedwin $1 har lukket samtalevinduet med $2
-lconftopriv Konferanse endret til privat samtale med $1
-lconvstarted Samtale startet med $1
 leavejoinsinchat Vis "blir med i samtalen / forlater samtalen"-meldinger i samtalevinduet
 lenteredconf $1 har blitt med i konferanse med $2
 lineflushlog Fjern loggfiler etter hver linje
@@ -478,7 +490,6 @@ prefalerts Oversikt over mine hendelsesalarmer og -lyder
 prefawaymsg Min borte-melding
 prefblock1 Sjekk ved frakobling
 prefblock3 "Du har blitt blokkert av" gruppe
-prefconnection Tilkoblingsinnstillinger
 prefft Filoverførings- p2p- og NAT-innstillinger
 preflibs Bibliotekkataloger
 preflog1 Historie og Logg-innstillinger

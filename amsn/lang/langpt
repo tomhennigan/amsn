@@ -37,6 +37,7 @@ appearance Aparência
 appearoff Aparecer como desligado
 areacode Código postal
 aretyping $1 estão a escrever uma mensagem
+author Autor
 autoaccepted Transferência de ficheiro aceitada automaticamente
 autoacceptft Aceitar pedido de Transferência de Ficheiros automaticamente
 autoaway Mostrar-me como "Ausente" quando estiver inactivo por
@@ -121,6 +122,8 @@ close Fechar
 closingdocks Botão de terminar minimiza
 command Comando
 commandstatus Executar comando
+configure Configurar
+confirmbl Tem a certeza que pretende bloquear este contacto?
 confirmdelete Tem a certeza que quer apagar $1?
 confirmdg Tem a certeza que deseja apagar este grupo?
 confirmdu Tem a certeza que deseja apagar este utilizador?
@@ -230,6 +233,7 @@ fileman Gestor de ficheiros
 filename Nome de ficheiro
 filetransfercancelled Transferência de ficheiro cancelada
 filetransfercomplete Transferência de ficheiro concluída
+filetransfer Transferência de Ficheiro
 followtext Deslizar para baixo quando novo texto é inserido
 friendlyname Nome amigavél
 ftacceptedby $1 aceitou o pedido de transferência para o ficheiro '$2'.
@@ -316,6 +320,7 @@ listsmileys2 Mostrar Ícones de Emoção e "Smileys" na lista de contactos principa
 listsmileys Listar "smileys"
 ljoinedconf $1 juntou-se à conferência
 lleftconf $1 abandonou a conferência
+load Carregar
 loadcontacts Carregar lista de contactos
 logbigger O tamanho dos ficheiros de registo para cada contacto nunca excedem
 logeventconnect Registar as ligações
@@ -340,6 +345,7 @@ lprivtoconf Conversação privada tornou-se Conferência com $1
 luclosedwin Fechou a janela de $1
 mailerexample (\$recipient = Recipiente ) Deixar em branco para usar Hotmail
 mailer "Mailer" (programa de envio/recepção de correio electrónico)
+maintenance Este servidor vai ser suspenso para manutenção dentro de $1 minuto(s)
 maximised Maximizado
 minimised Minimizado/Iconificado
 mins minutos
@@ -362,11 +368,13 @@ mynick Minha alcunha (nickname)
 mypic A minha Imagem de Exibição:
 mystatus O meu estado
 myworkphone O meu Telefone de Trabalho
+name Nome
 natip Detecção de IP por página Internet
 natkeepalive Se anda a ser desligado(a) com frequência, ligue este "Manter Vivo"
 needonline Você ainda está/aparece como desligado!
 needwinico Necessitas de colocar o ficheiro winico03.dll no directório dos plugins para a funcionalidade de "windows traydocking" funcionar
 never Nunca
+new_ft_protocol Usar o novo Protocolo de Transferência de ficheiros (contém alguns erros)
 newmail $1 novas mensagens na Caixa de Entrada
 newmailfolder Tem $1 novas mensagens noutros directórios Hotmail
 newmailfrom Novo correio de $1 ($2)
@@ -405,6 +413,7 @@ notifywin Janela de notificação
 notinlist Você não está na lista de contactos dele/dela
 notls O Protocolo 9 da MSN requer o pacote TLS. Este pacote não parece estar instalado nesta máquina. Se está instalado, o caminho para a directoria da biblioteca deve ser especificado na janela de Preferências (ex: /opt/tls/lib). \n \n É possível descarregar o TLS em http://tls.sf.net.
 nousersinsession Sem utilizadores na sessão
+nudge $1 solicita a sua atenção
 offline Desligado
 ok Ok
 onenewmail 1 mensagem nova na Caixa de Entrada
@@ -489,6 +498,7 @@ rememberpass Guardar palavra-chave
 removeempty Remover grupos vazios da lista de contactos
 removefromlist Remover desta lista
 rename	Renomear
+required_version Foi impossível carregar este plug-in dado que requer a versão $1 do aMSN (no mínimo)
 reversed Revertido
 reverselist Lista de Reversos (LR):
 rightback Volto já
@@ -556,10 +566,10 @@ stopalarm Alarme para Parar
 storenickname Regressar ao nick original
 strictfonts Restringir todos os tamanhos da fonte aos que eu seleccionei (Barra de Estados e outros)
 stylechat O mesmo aspecto que nas conversações
+style Estilo
 stylehist O aspecto do histórico do aMSN
 stylelog Seleccionar a forma na qual gostaria de ver o Histórico
 syntaxerror Erro de Sintaxe
-style Estilo
 tabbed Janelas com Separadores
 temp_state Não grava (Estado temporário - desaparecerá quando o AMSN for terminado
 textsize Tamanho do Texto
@@ -584,6 +594,8 @@ truncatenames2 Cortar nicks maiors que a largura da janela dentro das janelas de
 truncatenicks Reduzir alcunhas ("nicknames") que não caibam na janela
 twonewmail $1 novas mensagens na Caixa de Entrada
 unblock Desbloquear
+unknown Desconhecido
+unload Descarregar
 uoffline Desligado
 uonline Ligado
 useother Usar um programa diferente
@@ -602,11 +614,12 @@ viewprofile Ver Perfil
 view Ver
 webcaminvite $1 convidou-te para uma sessão de video, mas o aMsn não suporta esta funcionalidade
 willjoin Esperando que $1 se junte à conversação
+winkreceived Recebeu um Wink de $1. Esta funcionalidade nao é suportada, ainda, pelo aMSN 
 work Trabalho
 wrongfields Os campos "$1", "$2" e/ou "$3" não eram válidos.
 wrongprofileversion Versão errada do ficheiro de configuração do perfil. De modo a repará-lo, por favor remova a directoria $1, ou actualize o aMSNtemp_state
 xmmscurrent Mostrar a música currente
-xmmserr Nenhum som está a ser reproduzido, ou então não tem o "xmms-infopipe" instalado.
+xmmserr Nenhum som está a ser reproduzido ou, então, não tem o "xmms-infopipe" instalado.
 xmmssend Enviar música currente
 xoffset Margem horizontal
 year Ano

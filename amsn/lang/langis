@@ -13,28 +13,43 @@ addtocontacts Bæta við tengilið í lista
 addtoo Setja þessa manneskju sem tengilið
 admincontacts Tengiliðir kerfisstjóra
 admingroups Grúppur kerfisstjóra
+advanced Ítarlegt
+advancedprefs Ítarlegir valmöguleikar
 adverts Auglýsingar
 alarmonconnect Setja vakningu í gang þegar notandi tengist.
 alarmondisconnect Setja vakningu í gang þegar notandi aftengist/verður ósýnilegur
 alarmonmsg Setja vakningu í gang þegar notandi sendir þér skilaboð
 alarmonstatus Setja vakningu í gang þegar notandi skiptir um ham.
 alarmpref Stillingar fyrir vakningu/viðvörun
+alarms Aðvaranir
 alarmstatus Slökkva/Kveikja á vakning/viðvörun fyrir þennan notanda
 allfiles Allar skrár
 allowallbutbl Leyfa alla notendur fyrir utan þá sem eru í höfnunarlistanum að hafa samband við mig 
+allowbadwords Afvelja ritskoðun á kenninöfnum
 allowlist Listi yfir þá sem eru leyfðir (AL): 
+allowonlyinal Leyfa bara samþykktum notendum að hafa samband við mig 
 allowseen Leyfa þessari manneskju að sjá mig og hafa samband við mig
+allprofilesinuse Allir stillinghamar eru nú þegar í notkun
+animatedemoticon Þetta skapbrigði er hreyfimynd
+animatedsmileys Virkja hreyfibroskarla
+animatenotify Hreyfimynda tilkynninga gluggi
 appearance Staða
 appearoff Sýnast aftengdur
 areacode Svæðisnúmer
 aretyping $1 er að skrifa skilaboð
 askprofile Þetta notandanafn er ekki með skráðar stillingar. Viltu setja inn stillingar fyrir það? \n Ef þú gerir það ekki þá muntu ekki geta vistað stillingar eða lykilorð \n Ef þú skráir stillingar þá verða þær aðgreindar frá öðrum stillingum. \n \n Smelltu á "Skrá Stillingar" til að skrá nýjar stillinga fyrir $1.
+author Höfundur
+autoaccepted Skrárflutningur samþykktur sjálfkrafa
+autoacceptft Samþykkja sjálfkrafa skráarflutningsbeiðnir
 autoaway Sýna mig sem "Í burtu" ef engar aðgerðir hafa ferið framkvæmdar í
+autocheckver Gá að nýrri útgáfu við hverja ræsingu
 autoconnect2 Tengjast sjálfkrafa þegar aMSN er keyrt
 autoconnect Tengjast við ræsingu
+autodetectip Finn IP vistfang sjálfkrafa 
 autohotmaillog Tengjast Hotmail sjálfkrafa
 autoidle Setja Ekkert lífsmark á sjálfkrafa
 autoip Sjálfvirk IPtala
+automessage Sjálfvirk skilaboð
 autonoact Sýna mig sem "Ekkert Lífsmark" ef engar aðgerðir hafa ferið framkvæmdar í
 avoidseen Loka á þessi manneskju geti séð mig og haft samband við mig
 away Í burtu
@@ -44,18 +59,39 @@ baduserpass Rangt notendanafn eða lykilorð
 bgcolor Breyta lit á aMSN bakgrunni
 blankdirect Leave blank for direct connection
 blocked Hafnað
+blockedyougroup Sýna sér fólk sem hefur hafnað þér í sér grúppu
 block Hafna
+blocking Hafna
+blockinter1 Þegar staða þín er tengdur gá hverja
+blockinter2 Sekúndu, annars gá hverja:
+blockinter3 hverja
+blockinter4 Sekúndur
 blocklist Listi yfir þá sem eru hafnaðir (BL): 
 blockmessage Þetta fólk er tengt en hafa hafnað þér
+blockusers Hversu marga notendur á að athuga í einu
+bouncedock Skoppa aMSN táknmyndinni í höfninni þegar skilaboð eru móttekin
 broughtby  Eftirfarandi hönnuðir lögðu hönd á plóg
+browserexample ( \$url verður skipt út fyrir URL). Ex: mozilla \$url
 browser Vafri
 browse Vafra
 busy Upptekinn
+cachedpics $1 myndir í biðminni
 cancel Hætta við
 cannotdeleteprofile Get ekki eytt stillingum því aMSN er að nota þær
+cantexec Get ekki ræst forrit: $1. Athugaðu stillingar
+cantremoveothers Get ekki fjarlægt "Aðrir" grúppuna
+casesensitive Notið há eða lága stafi í breytur
+cfgalarmall Stilla/Bæta við/fjarlægja áminningar
 cfgalarm Stilla/Bæta við/Eyða vakningu/viðvörun
+change Breyta
+changecustomstate Breyta í
+changedisplaypic Breyta hvaða mynd er birt
 changefont Breyta Leturgerð
+changeglobnick Breyta aðal heiti 
 changenick Breyta heiti mínu
+changesize Breyta stærð
+changestate $1 breytir ham sínum í $2
+charscounter Telur stafi í spjall glugga
 chatack Samþykki spjall frá
 chatmaxmin Þegar tengiliður opnar samtalsglugga þá vill ég vera :
 chatreq Fer fram á spjall
@@ -63,25 +99,40 @@ chatsmileys2 Sýna Skapbrigði og Broskalla í spjall glugga
 chatsmileys Broskallar
 chat Spjall
 checkblocking Athuga stöðugt hvort að notandi sé að hafna mér
+checkemail Sýna póst tilkynningar línu (innhólf) í tengiliða lista
 checkfilman Mótteknar skrár verða vistaðar í $1. Vinsamlega athugið skráarþjóns stillingar í stillingar glugganum.
 checkingver Leita eftir nýrri útgáfu
 checkonfln Athuga hvort að notandi sé að hafna mér þegar hann aftengist
 checkver Leita eftir nýrri útgáfu
+choosearq Velja vélbúnaðar arkitektúr
 choosebasefont Veldu stafasett
 choosebgcolor Veldu bakgrunn
 choosecontact Vinsamlegast veldu tengiliða frá listanum
 choosefontcolor Veldu stafalit
+chooseskin Veldu það útlit sem þú vilt nota
+ch_to_state Breyta í nýjan ham
+clear Hreinsa
 clearlog2 Hreinsa sögu allra tengiliða
 clearlog3 Hreinsa alla annála
 clearlog Hreinsa annál
 clicktologin Smelltu hér til að tengjast
+clientcaps Senda x-clientcaps pakka til annara notanda
+clientname Notandanafn
 closed Samtali við $1 var lokað vegna óvirkni
 close Loka
 closingdocks Loka-hnappur minnkar glugga
 command Skipun
 commandstatus Framkvæma skipun
+configure Stilla
+confirmbl Ertu viss um að þú viljir banna þennann tengilið?
 confirmdelete Ertu viss um að þú viljir eyða $1?
+confirmdg Ertu viss um að þú viljir eyða þessasri grúppu?
+confirmdu Ertu viss um að þú viljir eyða þessum notanda?
+confirmeg Ertu viss um að þú viljir eyða þessari grúppu?
 confirm Ertu viss?
+confirmpurge Allar myndir frá tengiliðum (öðrum en þér sjálfum) verður eytt. Ertu viss?
+confirmrfl Ertu viss um að þú viljir eyða þessum notanda úr þessari grúppu?
+connectedwith Tengdur við $1
 connected Þú ert núna tengdur
 connecterror Villa við tengingu við netþjón
 connecting Er að tengjast...
@@ -89,23 +140,56 @@ connectionlost Aftengdist: Tengingu við þjónin var lokað
 connection Tenging
 contactadded Bætti við tengilið
 contactdoesnotexist Tengiliður er ekki til!
+contactlist Tengiliða listi:
+continuously Áframhaldandi
+convertexplain Slóð að CONVERT ræsiskrá, frá ImageMagick (nauðsynlegt til að sýna myndir). \n Hafið tómt ef CONVERT er í slóðinni
 copy Afrita
 copytogroup Afrita í grúppu
+corruptconfig Stilliskrá er skemmd. Bý til nýja. Gamla skráin verður vistuð sem $1. Vinsamlega sendið okkur hana til skoðunar.
+corruptstates Sér hams stilliskrá er skemmd. Bý til nýja. Gamla skráin verður vistuð sem $1. Vinsamlega sendið okkur hana til skoðunar.
 countrycode Svæðisnúmer
 cprofile Búa til stillingar
+credits Þakkir.
+currentdate Núverandi dagsetning
+custnotifymsg Sýna tilkynninga glugga þegar skilaboð um nýjan notanda eru móttekin
+custnotifyoffline Sýna tilkynninga glugga þegar þessi notandi aftengist
+custnotifyonline Sýna tilkynninga glugga þegar þessi notandi tengist
+custnotifystatus Sýna tilkynninga glugga þegar þessi notandi breytir um ham
+customcolor Sérvalinn litur
 custom_edit Breyta mínum broskörlum 
 custom_new Bæta við nýjum broskarli
+customnick Sérvalið heiti
+customstyle Sérvalinn stíll
 cut Klippa
 date Dagsetning
+dateformat Breyta dagsetningarham
+day Dagur
 days Dagar
 dcprofile Ekki búa til stillingarham
+defaultloginradio Skrá inn með sjálfgefnum stillingum
 default Sjálfgefinn stillingarhamur
+defchatwinsize Sjálfgefin stærð fyrir spjall glugga (XStærðxYStærð)
+deletecustomstate Eyða sérvöldum ham
 delete Eyða
+delimiters Tímastimpla' greinir:
 deliverfail Upp kom vandamál við sendingu skilaboðanna
 delprofile2 Veldu stillingarhaminn sem á að fjarlægja
 delprofile Eyða stillingarham
 description Lýsing 
 directconnection Ég er með beina tengingu við internetið (notar port 1863)
+disabled Afvirkjað
+disableprofiles Afvirkja snið (gagnlegt á heitum-reitum)
+disablessl Afvirkja SSL dulkóðun
+disableuserfonts Hunsa stafasett fjarnotanda í spjalli og nota þitt eigi stafasett
+disconnect $1 hefur aftengst.
+disconnectedfrom Aftengdur frá $1
+displaychat Sýna texta valmöguleika
+displayeventconnect Sýna þegar tengiliðir tengjast
+displayeventdisconnect Sýna þegar tengiliðir aftengjast
+displayeventemail Sýna þegar póstur er móttekinn
+displayeventstate Sýna þegar tengiliðir breyta um ham
+displayp4context Sýna p4-Context svæði sem sendandi
+displaypic Mynd þín
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome-taðsetning
 dockingoff Staðsetning óvirk
@@ -115,11 +199,19 @@ dontdownload Ekki hala niður TLS, ég ætla að setja það upp sjálfur
 dontshow Ekki sýna 
 downloadingtls Er að hala niður TLS frá:\n $1 
 edit Breyta
+editcustomstate Breyta sérvöldum ham
+editnewstate Nýr persónulegur sjálfvirkra skilaboða hamur
 editprofile Breyta stillingarham
+editstate Breyta núverandi sjálfvirkra skilaboða ham
+editvalue Breyta gildi
+email Póstfang
 emailsinlist Sýna netföng í staðin fyrir gælunöfn í tengiliðalista
+emotisounds Spila hljóð við ákveðin skapbrigði
+emptygroup Tóm grúppa
 enablebanner Sýna aMSN auglýsingaborða (krefst þess að endurræsa aMSN)
 enabled Virkt
 enableproxy Virkja proxy
+enableremote Virkja fjarstýringu
 enablesound Spila hljóð 
 encoding2 Breyta hvernig textin er kóðaður
 encoding Veldu kóðun
@@ -127,21 +219,39 @@ entercontactemail Sláðu inn netfang tengiliðs
 enterfilename Skráðu skráarnafn
 enternick Sláðu inn heitið þitt
 errortls Það kom upp villa þegar var verið að setja upp TLS forritseininguna: 
+eventhistory Sjá atburðaskráningu
 examples Sýnidæmi
 exitamsn Viltu örugglega hætta?
 extras Viðbótarþjónustur
+faileddeleteperso Ekki er hægt að eyða þessari mynd því þetta er ekki persónuleg myndaskrá. Aðeins myndir sem tilheyra þínu sniði er hægt að fjarlægja á þennann hátt.
 faileddelete Tókst ekki að eyða
+failed Mistókst
 faq FAQ (Algengar Spurningar)
 filedoesnotexist Skrá finnst ekki
+filemanexample ( \$location verður skipt út fyrir möppuna ) Ex: nautilus \$location
 fileman Skráarþjónn
 filename Skráarnafn
 file Skrá 
 filetransfercancelled Skráarflutningi slitið
 filetransfercomplete Skráarflutningi lokið
+filetransfer Skráarflutningur
+followtext Færa niður þegar nýr texti er innsettur
+ftacceptedby $1 samþykkti skráarflutningsboð fyrir skrána '$2'.
 ftaccepted Skráarflutningur samþykktur
+ftaccepting Samþykki skráarflutningsboð
+ftconnecterror Villa við tengingu við fjarenda
+ftconnecting Tengist við $1 á porti $2
+ftconnectionlost Tenging við fjarenda tapaðist
 ftgotinvitation $1 vill senda þér skránna '$2' ($3 bæti). Skráin verður vistuð í möppuna $4.  Viltu taka á móti þessari skrá?
+ftportpref Ræsir port fyrir skráarflutninga
 ftrejectedby $1 hafnaði skráarflutnings boði fyrir skránna '$2'
 ftrejected Skráarflutningi hafnað
+ftsendinvitation Skráarflutningsboð fyrir skrána '$2' ($3 bæti) hefur verið sent til $1.
+fullcontactlist Því miður þá er tengiliða listinn þinn fullur. Þú þarft að fjarlægja einverja tengiliði til að geta bætt við nýjum.
+getdisppic Virkja viðtöku á Notanda Myndum
+globalnick Settu inn snið til að forma tengiliða gælunöfnin. Þú getur notað þessar breytur:
+globalnicktitle Aðal Gælunafn
+globaloverride Aðal gælunöfn ættu að yfirskrifa sérvalin gælunöfn
 gonelunch Farin(n) í mat
 groupadd Bæta við grúppu
 groupdelete Eyða grúppu
@@ -152,34 +262,58 @@ groupnewname Nýtt nafn
 groupnotempty Grúppa er ekki tóm!
 groupoldname Fyrra heiti
 grouprename Endurskýra grúppu
+groups Grúppur
 groupunknown Óþekkt grúppa
 handle Kenninafn
 helpcontents Yfirlit yfir hjálp
 help Hjálp
+hidedisplaypic Fela Mína Mynd
+hiden Fela skapbrigði í broskarla valmynd
 hidewindow Fela glugga 
 history Sjá sögu
 home Heima
+httpconnection Tengjast með HTTP (notar HTTP staðal yfir port 80)
+hybrid Svefn hamur
 ident Auðkenni
 identity Auðkenni
+ignoreerrors Hunsa aðrar AMSN villur
+imagefiles Myndaskrár
 inbox Innhólf
+insertsmiley Innsetja skapbrigði
+installconvert Þú verður að setja inn ImageMagick til að geta nota "buddy" táknmyndir og sérvalin skapbrigði. Hægt er að sækja það hér fyrir þitt stýrikerfi ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Ef þú ert þegar með það , þá gæti þetta verið villa, vinsamlega tilkynnið hana. Þessir möguleikar verða afvirkjaðir, ef þú innsetur ImageMagik seinna þá geturu virkjað þessa möguleika í Stillingum.
+internalerror Villa í þjóni
+invalidfile2 Ekki var hægt að búa til skrána $1, gakktu úr skugga um að þú hafir skrifheimild á þessum stað.
+invalidfile Skráin $2 sem skráð var í "$1" er ekki til eða ekki læsileg
+invalidgroup Röng grúppa
+invalidpicsize Þessi mynd er of stór, vinsamlega veldu minni mynd
+invalidpic Þessi mynd er ekki til
+invalidsound Þessi hljóðskrá er ekki til
 invalidusername Rangt notendanafn
 invitationcancelled Hætt var við boðið 
 invite Bjóða
 ipaddress IP Tala
 ipdetect Finna rétta IP Tölu fyrir skráarflutning gegnum HTTP
+ircstyle IRC stíll á spjalli
 istyping $1 er að skrifa skilaboð
 joins $1 sett(ur) í samræðurnar
+justonce Bara einu sinni
 keepalive Keepalive (NAT)
 keeplog2 Skrá öll samtöl í aMSN annála
 keeplog Skrá spjall í annála
 language Tungumál
+lastlogin Síðast skráður inn
+lastlogout Síðast skráður út
+lastmsgedme Síðustu skilaboð
 lastmsgtime Síðustu skilaboð bárust $1
+lastseen Síðast tengdur
 lclosedwin $1 hefur lokað glugganum á $2
 lconftopriv Fundur breyttist í einka spjall við $1
 lconvstarted Spjall við $1 hafið
 leaveblankforhotmail Skildu eftir autt til að nota Hotmail vefinn
+leavejoinsinchat Sýna "tengist/aftengist spjalli" tilkynningar inni í spjall glugga
 leaves $1 yfirgefur samræðurnar
 lenteredconf $1 er kominn í fundinn á $2
+lineflushlog Henda annála skrám eftir hverja línu
 linprivate Í EINKASPJALLI
 listeningon Hlusta á porti $1
 listsmileys2 Sýna skapbrigði og Broskalla í aMSN tengiliða lista
@@ -187,7 +321,12 @@ listsmileys Sýna broskalla
 ljoinedconf $1 sett(ur) í fundinn
 lleftconf $1 hefur yfirgefið fundinn
 loadcontacts Hlaða inn lista yfir tengiliði
+load Hlaða
 logbigger Annálaskrá fyrir hvern tengilið af stærð
+logeventconnect Skrá tengingar
+logeventdisconnect Skrá aftengingar
+logeventemail Skrá þegar póstur er móttekinn
+logeventstate Skrá breytingar á ham
 logfandexp Stærð Annálaskráa og hvenar Sögu skrá rennur út
 loggedotherlocation Aftengdur. Tengdur inn á öðrum stað
 loggingin Tengist
@@ -196,52 +335,85 @@ loging Skrái
 login Tengjast
 logolder Vista í annála spjöll sem voru síðustu
 logout Aftengjast
+logsbydate Raða annálum eftir dagsetningu (Sjá sögu hleðst mun hraðar)
 logsin var að tengjast
 logsmileys Sýna Skapbrigði og Broskalla í sögu gluggum aMSN
 logsout er búinn að aftengjast 
+longnick Gælunafn þitt er lengra en 130 stafir. Þetta er ekki stutt í MSN staðlinum. Ertu viss um að þú viljir nota það?
+longp4c Vina Nafn þitt er lengra en 130 stafir. Vina Nafnið sem mun birtast á MSN forrit verður $1. Ertu viss um að þú viljir nota það?
 lprivtoconf Einka spjalli breytt í fund með $1
 luclosedwin Þú hefur lokað glugganum á $1
+mailerexample ( \$recipient = Viðtakandi ) Skiljið eftir tómt til að nota Hotmail
 mailer Póstforrit
+maintenance Þjónninn slekkur á sér vegna viðhalds eftir $1 mínútur
 maximised full stærð
 minimised minnkuð stærð
 mins mínútur
 mobile Farsími
+month Mánuður
+morepersonal Fleiri hamir ->
 move Færa
 movetogroup Færa í grúppu
+msgflicker Blikka spjall glugga titli þegar ný skilaboð eru móttekinn í földum glugga
 msgmaxmin Þegar ný skilaboð berast þá vil ég að þau séu
 msgmode Veldu hvernig á að meðhöndla skilaboðaglugga :
 msg Skilaboð
 msn AMSN
+msnstyle MSN stíll á spjalli
 mustrestart Þú verður að endurræsa forritið til að virkja breytingarnar
+myfriendlyname Mitt Vina Nafn
 myhomephone Heimasíminn minn
 mymobilephone Farsíminn minn
+mynick Mitt Gælunafn
+mypic Mín Mynd:
 mystatus Staðan mín
 myworkphone Vinnusíminn minn
+name Nafn
 natip Skynja IP tölu gegnum vefsíðu 
 natkeepalive Ef þú aftengist reglulega, virkjaðu þá þetta KeepAlive
 needonline Þú ert/sýnist ennþá útskráður!
+needwinico Vantar winico03.dll í plugins möppuna svo "docking" í windows virki
+never Aldrei
+new_ft_protocol Nota Nýjan staðal til skráarflutninga (ennþá gallar hér og þar)
 newmail $1 ný skeyti í innhólfinu
+newmailfolder Þú átt $1 ný skilaboð í öðrum Hotmail möppum
 newmailfrom Nýr póstur frá $1 ($2)
+newmailfromother Nýr póstur í annari möppu frá $1 ($2)
 newmsg Ný skilaboð
+newstate Bæta við sérsniðnum ham
 newveravailable Til er nýrri útgáfa $1 
 next Áfram
+nick Gælunafn
 noactivity Ekkert lífsmark
+nodataavailable Engin gögn fáanleg fyrir $1
+nogap Ekkert bil á milli grúppa
+nogroup Engin grúppa
 nologfile Enginn annálaskrá fyrir $1
+noneavailable Ekkert fáanlegt
 no Nei 
 nonewmail Engin nýr póstur í innhólfinu
 nonewver Engar uppfærslur fáanlegar
 nopic Engin mynd
+noprofileexists Í augnablikinu er ekkert snið, \n þú verður að búa til eitt ef þú vilt nota snið til að skrá inn. \nNotaðu Bæta Við Sniði hnappinn í þessm glugga til að bæta við nýju sniði.
 normal Eðlilegt
+noskins Fann ekki sjálfgefið útlit í skins/ möppu. Get ekki ræst AMSN
+nosystemtray Enginn "System tray" tiltækur
+notificationserver MSN tilkynningaþjónn (MSN Skilaboða Þjónn)
 notify1_5 Sýna tilkynninga glugga þegar tengiliður aftengist
 notify1_75 Sýna tilkynninga glugga þegar tengiliður breytir um ham
 notify1 Láta vita þegar tengiliður tengir sig
 notify2 Láta vita þegar ný skilaboð berast
 notify3 Láta vita þegar póstur berst í innhólfið
+notify4 Sýna skilaboðaglugga þegar nýr póstur berst í aðrar möppur
 notify láta vita
 notifyoffset Breyta hvar "tilkynningargluggar" eru staðsettir
+notifytimeout Fjöldi millisekúndna áður en tilkynningagluggi hverfur
 notifytyping Senda öðrum notendum tilkynningu þegar þú ert að slá á lyklaborðið
 notifywin Láta vita
+notinlist Þú ert ekki á hans/hennar tengiliðs lista
+notls MSN 9 staðall þarf TLS pakkann. þessi pakki virðist ekki vera innsettur á þessa vél. If hann er innsettur þá ætti slóðin í library möppuna að vera skilgreind í stillinga glugganum (ex: /opt/tls/lib). \n \n Það er hægt að sækja TLS frá http://tls.sf.net.
 nousersinsession Engir tengiliðir í samræðum
+nudge $1 biður um athygli þína
 offline Útskráður
 ok Í lagi
 onenewmail 1 nýr póstur í innhólfinu
@@ -251,117 +423,208 @@ openreceived Opna móteknar skrár
 options Valmöguleikar
 ordercontactsby Raða tengiliðum eftir
 ordergroupsby Raða grúppum eftir
+original Upphaflegt
 other Annað
 others Aðrir 
+p4contextprefix Setja þennann streng fyrir framan P4-Context sendingar
 pager Símboði
 pass Lykilorð
 paste Líma
 personal Einka
 phone Sími
+phones Símanúmer
+picbrowser Skoða Mínar Myndir
 picfile Myndaskrá (GIF < 500 x 500)
 picstatus Myndaviðvörun
+playing Spilar: $1
+pluginselector Velja Viðbætur
 port Port
 prefalerts Atburðaviðvaranir og hljóð
 prefapps Forrit
 prefawaymsg Í burtu skilaboð
+prefblock1 Athuga við aftengingu
 prefblock2 Athuga stöðugt 
 prefblock3 "Þér hefur verið hafnað af" group
+prefconnection Tenginga stillingar
 prefemotic Skaprigðatákn og broskallar
 preferences Stillingar
 preffont2 Breyta textanum sem aðrir sjá í spjall glugga
 preffont3 Breyta Font og stærð á texta í aMSN glugga
 preffont Minn skilaboðatexti
+prefft Skráarflutningur, notandi-til-notanda og NAT stillingar
+preflibs Libraries möppur
 preflog1 Mín saga og Annála valmöguleikar
+preflogevent Mínar Atburðaskráningar
 preflook Mitt aMSN útlit
 prefmsging Mitt Skilaboða útlit
 prefname Mitt MSN Messenger Nafn/kenninafn
 prefphone2 Settu hér símanúmar sem tengiliðir \n þínir meiga sjá
 prefphone Mín símanúmar
+prefprivacy2 Notanda Tengiliða listi
+prefprivacy Notanda Leyfa/banna listar
 prefprofile2 Búa til að breyta þínum stillingum (stillingarnar \n lýsing á þér sem aðrir geta skoðað)
 prefprofile3 aMSN notanda stillingar
 prefprofile Mín opinberu stillingar
 prefproxy Mínar proxy stillingar
+prefremote Stillingar fyrir Fjarstýringu
 prefsession Mín innskráða staða
 prefshared sameiginlegar tengingar (aðeins fyrir NAT)
 prefsound Hljóð
+privacy Einkamál
 profiledconfig Auðkenna stilliskrá
+profileexists Þú getur ekki búið til stilliham með þessu nafni \n því einn slíkur er þegar til. Vinsamlega veldu annað nafn.
 profileinuse Þetta Auðkenni er í notkun annarstaðar, vinsamlegast veldu annað
+profileloginradio Skrá inn með sniði sem er nú þegar til
 profiles Auðkennistillingar
 properties Stillingar
 proxyconfhttp HTTP proxy stillingar
 proxyconf Proxy stillingar
+proxyconnection Ég tengist við netið með vefseli (proxy):
 proxy Ég er bakvið Proxy þjón (HTTP eða SOCKS5)
 publishphones Sýna símanúmerin mín
+purge Tæma
+raised Reistur/Stækkaður
 readonlymsgbox Skráarflutningi hefur verið hafnað vegna þess að móttekna mappan er "aðeins-lesa".  Vinsamlegast lagaðu réttindin á þessari möppu.
 readonlywarn VIÐVÖRUN: Skráin verður líklega EKKI vistuð rétt þar sem "Mótteknar skrár" mappan virðist vera óskrifanlega (ekki með skrif réttindi).  Vinsamlegast gangið úr skugga um að réttindin á þeirri möppu sem á að sækja ($1) séu rétt stillt áður en skráin er flutt.
 receivedbytes Hef móttekið $1 af $2 bætum
 receiveddir Mappa fyrir mótteknar skrár
 receivefile Móttek skrá
+recentmsg Ekki loga spjall glugga þegar skilaboð eru nýkomin
+reconnect2 Endurtengja við slit
 reconnect Bíð eftir að $1 endurtengist
 reconnecting Endurtengist netþjóni
 reject Hafna
 rememberpass Muna lykilorð
+removeempty Fjarlægja tómar grúppur frá Tengiliðs lista
 removefromlist Fjarlæga frá þessum lista
+rename Endurskíra
+required_version Gat ekki sett þessa viðbót inn. Hún þarf aMSN útgáfu $1 eða nýrri
 reversed frátekið
+reverselist Öfugur listi (RL):
 rightback Kem eftir augnablik
 saveas Vista sem
+savechatwinsize Vista spjallglugga stærð sem sjálfgefna þegar þegar stærð er breytt
 savecontacts Vista lista yfir tengiliði
 savetofile Vista í skrá
 save Vista
 says $1 segir
 sbcon Tengist skiptiborði
+selectplugins Veldu þær viðbætur sem þú vilt virkja 
+selectskin Veldu útlit af listanum
 sendfile Senda skrá
 sendmail Senda póst
 sendmsg Senda skilaboð
 send Senda
 sentbytes Hef sent $1 af $2 bætum
+serverbusy Þjónn er upptekinn
 servergoingdown Aftengdur: Netþjónn verður keyrður niður
 server Netþjónn
+serverunavailable Þjónn er ófáanlegur
 session lota
+showbanner Sýna aMSN auglýsingu
 showblockedlist Sýna lista yfir fólk sem hefur hafnað þér
+showcachedpics Sýna Myndir í biðminni
+showdisplaypic2 Sýna Mína Mynd sjálfkrafa þegar spjall gluggi er opnaður
+showdisplaypic Sýna Mynd
+showmypic Mín Mynd
+shownotify Sýna tilkynningaglugga þegar atburðir gerast
+showuserpic $1 Mynd
+skinselector Velja útlit
+skin Útlit
+smileconfig Sérvaldar skapbrigðastillingar
+smilefile Broskarla skráarnafn
+smileintro2 Vinsamlega breytið gildum til að sérsníða þennan broskarl (sjá FAQ)
+smileintro Vinsamleg fyllið út gildin til að búa til nýjann sérsniðinn broskarl (sjá FAQ)
+snackfailed Gat ekki hlaðið Snack, breyti aftur í sjálfgefið
+sngdblclick Smellið einu sinni til að opna nýjann spjall glugga
 sound2 Spila hljóð þegar tengiliður tengist eða sendir skilaboð
+soundactive Spila hljóð þegar skilaboð koma í glugga
 soundcommand Þetta verður að vera spilunarskipunin (t.d.: esdplay)
+soundexample ( \$sound = Hljóð skrá til að spila) Ex: esdplay \$sound
 soundfile Hljóðskrá
+soundfiles Hljóð Skrár
 sound Hljóð og atburðir
 soundloop Endurtaka hljóð
 soundserver Hljóð Þjónn
 soundstatus Hljóða vakning/viðvörun
+sourcecode Grunn Kóði (þarf að vistþýða og innsetja)
+splashstart Ræsa
+sslwarning VARÚÐ!! Afvirkjun á SSL mun afvirkja dulkóðun svo að lykilorðin þín verða send sem venjulegur texti yfir netið. Notist aðeins ef ekki er hægt að tengjast öðruvísi.
 startoffline2 Tengja sig inn leynilega sem "ekki tengdur"
 startoffline Byrja útskráður
+startontray ræsa AMSN í smækkaðri mynd
+stateautomsg Sjálfvirk skilaboð til að senda
+statechange hamur breyttist í:
+stateedittext Vinsamlega breytið gildunum sem þið viljið \n breyta og ýtið á Vista
 state Ég vill birtast sem 
+stateinfo Persónusniðs stillingar
+statename Nafn á persónusniðs stillingu
+statenewtext Vinsamlega setjið inn upplýsingar sem þarf \n til að búa til nýtt snið og ýtið á Vista
+statenick Sérvalið gælunafn (skiljið eftir tómt til að breyta ekki)
 status Staða
 stopalarm Stöðva vakning/viðvörun
+storenickname Breyta í upprunalegt gælunafn eftir sérsnið með sérvöldu gælunafni
+strictfonts Festa allar textastærðir á þá sem ég valdi
 stylechat Sama útlit og í spjalli
 stylehist aMSN sögu útlit
 stylelog Velja skrársniðið sem þú vilt skoða sögu þína í
+style Stíll
 syntaxerror  Villa í forriti
 tabbed flibbaðir gluggar
 temp_state Ekki vista (bráðabirgðaástand, glatast þegar aMSN lokast)
 textsize Stærð texta
 timeremaining Tími sem er eftir
+timestamps Virkja tímastimpil í spjall gluggum
 title Skilaboði Als
+tkerror TK varð vart við villu í amsn, vinsamlega tilkynnið hana. Sendið skránna $1 til amsn-bugs@lists.sf.net
+tlsdowncompleted Skráin $1 var sett í möppu $2. Þú verður að afþjappa henni, vistþýða (ef þú sóttir grunnkóða) og innsetja hana í $3.
+tlsexplain Mappa þar sem tcl TLS módúll er staðsettur. Ef AMSN finnur hann ekki þá skilgreinið.\n(Nauðsynlegt fyrir SSL auðkenningu).
+tlsinstallexp aMSN notar núna MSNP9 sem þarfnast \nSSL tengingar. Til að nota SSL þá þarf aMSN að innsetja Módúll sem callast TLS,\nsem vantar í þitt kerfi. Þessi aðstoðarvöndull hjálpar þér að sækja og\ninnsetja TLS. Vinsamlega veldu þína kerfistegund svo við getum sótt sjálfkrafa\nþær TLS skrár sem þarf. 
+tlsinstall TLS Módúls innsetningar aðstoðarvöndull
+tlsinstcompleted TLS módúls innsetning tóks - þú ættir núna að geta notað MSNP9. Ef þetta það virkar ekki þá valdiru sennilega ekki réttan módúl eða vistþýddur módúll er ekki fáanlegur fyrir þitt kerfi.
+today Í dag
 tools Tól
+tooltips Virkja vísbendingar
 to Til
 transnotexists Skráin sem beðið var um hefur enn ekki verið þýdd í þetta tungumál.
 traynotcompiled Bakka merki ekki enn þýtt. Athugaðu viðbætur/bakkastilingar
+triggers Text virkjarar
+truncatenames1 minnka gælunöfn sem eru lengri en gluggabreidd titilsglugga og tengiliðalista
+truncatenames2 Minnka gælunöfn sem eru lengri en gluggabreidd spjall glugga
+truncatenicks Minnka gælunöfn sem eru lengri en gluggabreidd
 twonewmail $1 ný skeyti í innhólfinu
 unblock afhafna
+unknown Óþekkt
+unload Afhlaða
 uoffline Útskráður
 uonline Innskráður
+useother nota annað forrit
 useralreadyonlist Tengiliður er nú þegar í listanum
 userblocked Notandinn er tengdur en hefur hafnað þér
+userdata Notanda Upplýsingar \$user_login fyrir þitt tengiliðs heimilisfang, \$nick fyrir þín tengiliðs gælunöfn og \$customnick fyrir gælunöfn tengiliða þinna. T.d. '\$user_login er \$nick' verður 'tengiliður@msn.com is Tengiliður'
 user Notandi
 usernotonline Tengiliður ekki tengdur
+userproperties Notanda stillingar fyrir $1
 useryourself Þú getur ekki talað við sjálfan þig
+usesnack Nota Snack Libraryið (Tcl internal)
 verifyblocked Leita að fólki sem hefur hafnað þér
 version Útgáfa
+viewcontactsby Sjá tengilið eftir
 viewprofile Sýna stilliham
 view Sýn
+webcaminvite $1 býður þér að ræsa vefmyndavéltengingu, en aMSN styður ekki þennann möguleika.
 willjoin Bíð eftir að $1 komi inn í samræðurnar
+winkreceived Þú hefur móttekið Veif frá $1. Þessi möguleiki er ekki studdur í augnablikinu í aMSN.
 work Vinna
+wrongfields "$1", "$2" og/eða "$3" gildin voru ekki gild
 wrongprofileversion Röng útgáfa af stillihams skrá. Til að lagfæra þetta fjarlægðu þá möppuna $1, eða uppfærðu aMSN
+xmmscurrent Sýna núverandi lag
+xmmserr Ekkert er í spilun, eða þú hefur ekki innsett xmms-infopipe.
+xmmssend Senda núverandi lag
 xoffset X staða
+year Ár
 yes Já 
+yesterday Í gær
 yoffset Y staða
 youblocked Þér hefur verið hafnað af
 yousay Þú segir

@@ -6,7 +6,7 @@ actions Ações
 addacontact Adicionar um contato
 addedyou $1 ($2) adicionou você à sua lista de contatos
 addprofile Adicionar Novo perfil
-addprofiledesc Entre com o login para o qual você gostaria de criar um novo perfil. \n Perfis de logins permite que você tenha diferentes configurações para cada login. \n Sem os Perfis você não poderá usar o histórico, Alarmes ou "Lembrar Senhas".
+addprofiledesc Entre com o login para o qual você gostaria de criar um novo perfil. \n Perfis de logins permitem que você tenha diferentes configurações para cada login. \n Sem os Perfis você não poderá usar o histórico, Alarmes ou "Lembrar Senhas".
 addstate Adicionar Novo Estado
 addto adicionar a $1
 addtocontacts Adicionar à lista de contatos
@@ -104,7 +104,7 @@ checkingver Checando por novas versões
 checkonfln Checar se um usuário bloqueou você quando ele ficar offline
 checkver Checar se existe nova versão do aMSN
 choosearq Escolha a arquitetura do seu sistema
-choosebasefont Escolher tupo de fonte
+choosebasefont Escolher tipo de fonte
 choosebgcolor Escolher cor de fundo
 choosecontact Por favor escolha um contato da lista
 choosefontcolor Escolher cor da fonte
@@ -144,8 +144,8 @@ continuously Continuamente
 convertexplain Diretório do programa CONVERT, do ImageMagick (requerido para as imagens de exibição).\n Deixe em branco caso CONVERT esteja no diretório
 copy Copiar
 copytogroup Copiar para o grupo
-corruptconfig O arquivo de configuração está corrompido. Criando configuração nova. A configuração antiga será salvo em $1. Por favor mande para nós analisarmos o problema.
-corruptstates O arquivo de configuração dos estados está corrompido. Criando configuração nova. A configuração antiga será salvo em $1. Por favor mande para nós analisarmos o problema.
+corruptconfig O arquivo de configuração está corrompido. Criando configuração nova. A configuração antiga será salva em $1. Por favor mande para nós analisarmos o problema.
+corruptstates O arquivo de configuração dos estados está corrompido. Criando configuração nova. A configuração antiga será salva em $1. Por favor mande para nós analisarmos o problema.
 countrycode Código do país/região
 cprofile Criar Perfil
 credits Créditos
@@ -256,7 +256,7 @@ groupadd Adicionar um grupo
 groupdelete Apagar um grupo
 groupexists Grupo já existente
 group Grupo
-groupmissing Náo pude localizar o grupo
+groupmissing Não pude localizar o grupo
 groupnewname Novo Nome
 groupnotempty Grupo não está vazio
 groupoldname Nome antigo
@@ -373,7 +373,7 @@ natkeepalive Estou sendo desconectado com freqüência (manter conexão ativa)
 needonline Você ainda está/aparece desconectado
 needwinico Necessário o arquivo winico03.dll no diretório de plugins Para o traydocking do windows funcionar
 never Nunca
-new_ft_protocol Novo protoclo de transferência de arquivos (ainda possui alguns bugs)
+new_ft_protocol Novo protocolo de transferência de arquivos (ainda possui alguns bugs)
 newmail $1 nova(s) mensagem(ns) na Caixa de Entrada
 newmailfolder Você tem $1 nova(s) mensage(ns) em outras pastas do Hotmail
 newmailfrom Novo e-mail de $1 ($2)
