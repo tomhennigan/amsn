@@ -75,6 +75,10 @@ proc trayicon_init {} {
 	global systemtray_exist password iconmenu wintrayicon statusicon
 
 	if { [::config::getKey dock] == 4 } {
+		#added to stop creation of more than 1 icon
+		if { $statusicon != 0 } {
+			return
+		}
 		set ext "[file join plugins winico03.dll]"
 		if { [file exists $ext] != 1 } {
 			msg_box "[trans needwinico]"
