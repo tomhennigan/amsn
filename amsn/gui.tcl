@@ -4835,9 +4835,14 @@ if {$tcl_platform(os) == "Darwin"} {
      }
 bind $pgBuddy.text.$imgname <<Button3>> "show_umenu $user_login $grId %X %Y"
 
-            bind $pgBuddy.text.$imgname <Double-Button-1> "::amsn::chatUser $user_login"
-            $pgBuddy.text tag bind $user_unique_name <Double-Button-1> \
-	        "::amsn::chatUser $user_login"
+	if { $state_code != "FLN" } {
+		bind $pgBuddy.text.$imgname <Double-Button-1> "::amsn::chatUser $user_login"
+		$pgBuddy.text tag bind $user_unique_name <Double-Button-1> \
+			"::amsn::chatUser $user_login"
+	} else {
+		bind $pgBuddy.text.$imgname <Double-Button-1> ""
+		$pgBuddy.text tag bind $user_unique_name <Double-Button-1> ""
+	}
 
 }
 #///////////////////////////////////////////////////////////////////////
@@ -6584,7 +6589,7 @@ proc reloadAvailablePics { } {
 }
 
 #proc chooseFileDialog {basename {initialfile ""} {types {{"All files"         *}} }} {}
-proc chooseFileDialog {basename {initialfile ""} {types {{"Image Files" {*.gif *.jpg *.jpeg *.bmp *.png} }} }} {
+proc chooseFileDialog {basename {initialfile ""} {types { {"All Files" {*.*}}} }} {
     set parent "."
     catch {set parent [focus]}
 
@@ -6634,7 +6639,7 @@ proc pictureChooseFile { } {
 	}
 
 
-	set file [chooseFileDialog {{\"Image Files\" {*.gif *.jpg *.jpeg *.bmp *.png} }}]
+	set file [chooseFileDialog "" "" [list [list [trans imagefiles] [list *.gif *.jpg *.jpeg *.bmp *.png]] [list [trans allfiles] *.*]]]
 
 	 if { $file != "" } {
 	 	if { ![catch {convert_display_picture $file} res]} {

@@ -240,14 +240,16 @@ proc new_custom_emoticon_gui {{name ""}} {
 
     label $w.ltext -text "[trans triggers]" -font splainf
     entry $w.text -textvariable new_custom_cfg(text)  -background white -font splainf
-    
+
     label $w.lfile -text "[trans smilefile]" -font splainf
     entry $w.file -textvariable new_custom_cfg(file)  -background white -font splainf
-    button $w.browsefile -text "[trans browse]" -command "fileDialog2 .new_custom $w.file open \"\" {{\"Image Files\" {*.gif *.jpg *.jpeg *.bmp *.png} }} " -width 10 -font sboldf
-    
+    button $w.browsefile -text "[trans browse]" -command [list fileDialog2 .new_custom $w.file open "" \
+	 	[list [list [trans imagefiles] [list *.gif *.jpg *.jpeg *.bmp *.png]] [list [trans allfiles] *.*]]] -width 10 -font sboldf
+
     label $w.lsound -text "[trans soundfile]" -font splainf
     entry $w.sound -textvariable new_custom_cfg(sound)  -background white -font splainf
-    button $w.browsesound -text "[trans browse]" -command "fileDialog2 .new_custom $w.sound open \"\" {{\"Image Files\" {*.gif *.jpg *.jpeg *.bmp *.png} }} " -width 10 -font sboldf
+    button $w.browsesound -text "[trans browse]" -command [list fileDialog2 .new_custom $w.sound open "" \
+	  [list [list [trans soundfiles] [list *.wav *.mp3 *.au *.ogg]] [list [trans allfiles] *.*]]] -width 10 -font sboldf
     checkbutton $w.enablesound -text "[trans enablesound]" -onvalue 1 -offvalue 0 -variable new_custom_cfg(enablesound) -command update_enabled_sound_smileys -font sboldf
     checkbutton $w.animated -text "[trans animatedemoticon]" -onvalue 1 -offvalue 0 -variable new_custom_cfg(animated) -font sboldf
     checkbutton $w.hiden -text "[trans hiden]" -onvalue 1 -offvalue 0 -variable new_custom_cfg(hiden) -font sboldf
