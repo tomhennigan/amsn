@@ -371,15 +371,20 @@ namespace eval ::ChatWindow {
 			after cancel "::ChatWindow::TopUpdate $chatid"
 			after 200 "::ChatWindow::TopUpdate $chatid"
 		}
-
-
+		set geometry [wm geometry $window]
+		set pos_start [string first "+" $geometry]
+		#Look if the window changed size with the configure
+		if {[::config::getKey wincontainersize] != "[string range $geometry 0 [expr {$pos_start-1}]]"} {
+			set sizechanged 1
+		} else {
+			set sizechanged 0
+		}
+		#Save size of current container
 		if { [::config::getKey savechatwinsize] } {
-			set geometry [wm geometry $window]
-			set pos_start [string first "+" $geometry]
-
 			::config::setKey wincontainersize  [string range $geometry 0 [expr {$pos_start-1}]]
 		}
-		if { [winfo exists ${window}.bar] } {
+		#If the window changed size use checkfortoomanytabs
+		if { [winfo exists ${window}.bar] && $sizechanged} {
 			CheckForTooManyTabs $window 0
 		}
 	}
@@ -2251,7 +2256,7 @@ namespace eval ::ChatWindow {
 		    -command "::ChatWindow::SwitchToTab $container $win" \
 		    -fg black -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
 		    -activebackground [::skin::getKey tabbarbg] -activeforeground black -text "$win" \
-		    -font sboldf -highlightthickness 0 -pady 0 -padx 0
+		    -font sboldf -highlightthickness 0 -pady 0 -padx 0 
 		if { $::tcl_version >= 8.4 } {
 			$tab configure -overrelief flat -compound center
 		}
