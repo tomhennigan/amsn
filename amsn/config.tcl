@@ -203,7 +203,6 @@ namespace eval ::config {
 			[list local sngdblclick bool sngdblclick] \
 			[list local nogap bool nogap] \
 			[list local removeempty bool removeempty] \
-			[list local invitenumber int invitenumber] \
 			[list title notifyoffset] \
 			[list local notifyXoffset int xoffset] \
 			[list local notifyYoffset int yoffset] \
@@ -259,7 +258,6 @@ namespace eval ::config {
 		::config::setKey sngdblclick 0		;#Use single or double click to open a message window (0 double, 1 single)
 		::config::setKey nogap 0			;#Remove the empty line between groups
 		::config::setKey removeempty 0		;#Remove empty groups from the contact list
-		::config::setKey invitenumber 0		;#Limit before showing the invite window
 		::config::setKey emailsincontactlist 0	;#Display emails instead of nicks in the contact list
 		::config::setKey leavejoinsinchat	1	;#Display leave/join notifications in chat text area
 		::config::setKey charscounter	1	;#Display typed characters counter

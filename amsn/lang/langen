@@ -286,7 +286,6 @@ invalidsound The given sound file doesn't exist
 invalidusername Invalid user name
 invitationcancelled The invitation was cancelled
 invite Invite
-invitenumber Number of online contacts before showing the invite window
 ipaddress IP Address
 ipdetect Detect correct IP for File Transfers using HTTP
 ircstyle IRC style chat

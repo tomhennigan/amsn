@@ -277,7 +277,6 @@ invalidsound Le fichier "son" n'existe pas
 invalidusername Utilisateur incorrect
 invitationcancelled L'invitation a été refusée
 invite Invitation
-invitenumber Nombre de contacts connectés avant ouverture de la fenêtre d'invitation
 ipaddress Adresse IP
 ipdetect Détection de l'IP exacte pour les transferts de fichier utilisant HTTP
 ircstyle Chat de type IRC

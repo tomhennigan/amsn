@@ -2557,7 +2557,7 @@ namespace eval ::amsn {
 			}
 		}
 
-		if { $menulength > [::config::getKey invitenumber] } {
+		if { $menulength > 10 } {
 			::amsn::ShowInviteList "[trans invite]" $win_name
 		} elseif { $menulength == 0 } {
 			cmsn_draw_otherwindow [trans invite] "::amsn::queueinviteUser [ChatFor $win_name]"
@@ -2569,9 +2569,9 @@ namespace eval ::amsn {
 			
 				if {($user_state_no < 7) && ([lsearch $chatusers $user_login] == -1)} {		
 					if { $user_state_code != "NLN" } {
-						.menu_invite add command -label "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" -command "::amsn::queueinviteUser $chatid $user_login"
+						.menu_invite add command -label [trunc "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" "" 50] -command "::amsn::queueinviteUser $chatid $user_login"
 					} else {
-						.menu_invite add command -label "[::abook::getDisplayNick $user_login]" -command "::amsn::queueinviteUser $chatid $user_login"
+						.menu_invite add command -label [trunc "[::abook::getDisplayNick $user_login]" "" 50] -command "::amsn::queueinviteUser $chatid $user_login"
 					}
 				}
 			}
