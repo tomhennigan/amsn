@@ -21,6 +21,9 @@ Burger * burger@mwvision.com
 # Improve font selection (unify with color selection)
 # Make status change dynamic in chat window and disable input window when YOU go offline
 # Don't save password if login fails becoz of wrong username or password
+# Fix profiles, the url seems to be wrong, says wrong page for me...
+# Notify window is only clickable on the text, should make whole window clickable and add X to close (left and right click)
+# Write procedure to redraw main window for language + font changes
 
 File Transfer issues :
 # File Transfer AUTH protocol fix (and add the nick of person sending file to transfer window)
@@ -48,7 +51,6 @@ Loging system improvements and bugs :
 # Loging syntax options (timestamps, email or nics, etc)
 
 WindowsXP issues :
-# Fix profiles (got a fix from gazizi i beleive)
 # Problem with URLs and top user status in main window on mouse over (spacing under mouse cursour)
 # Problem with sound
 # Selections dont appear
