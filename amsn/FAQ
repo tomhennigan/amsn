@@ -5,7 +5,7 @@ Q: What is Amsn?
 A: Amsn is a Microsoft Messenger clone. It allows you to keep in touch with
 your friends and exchange instant messages and files.
 
-INSTALLING AND RUNING
+INSTALLING AND RUNNING
 =====================
 
 Q: What do I need to run amsn?
@@ -61,7 +61,7 @@ launches the command:
  ln -s /wherever/you/have/amsn/installed/amsn amsn
  This way, you can launch amsn by just typing 'amsn' from
 anywhere.
- Then add an icon that launchs the command 'amsn'.
+ Then add an icon that launches the command 'amsn'.
 
 Q: How do I get the Gnome/KDE docking to work?
 A: You have to run 'make' inside the plugins directory, to build
@@ -97,7 +97,7 @@ you get online and they can also chat with you when you aren't offline
 BL : This is the block list, which means it contains the list of people you
 are blocking. So this means they can't see you when you are online, and they
 can't chat with you.
-RL : This is the reverse list, it contains the email adresses of people who
+RL : This is the reverse list, it contains the email addresses of people who
 added you to their list. People appearing in green in this list are people
 who aren't in your contact list but you are still in theirs.
 
@@ -106,7 +106,7 @@ A: There is a new button in the smileys menu that allows you to do this.
 Click on the "Add new custom smiley" button and a window will appear, you must
 fill the required fields. The "description" field should be set to whatever
 you want, it will only be the description shown by the tooltip. The "text
-triggers" feild is what you want typed for the smiley to be shown, for example,
+triggers" field is what you want typed for the smiley to be shown, for example,
 the regular smiley has triggers like :) :-) .. the big smile smiley has
 triggers like :D :-D :> :-> ... to set multiple triggers, you must type them
 one after the other, separated by a space. if you want a trigger that already
@@ -114,16 +114,16 @@ has a space in it for example "hello there", you should put it between quotes..
 for example :
 "hello there" hi "what's up"
 this will be 3 triggers for the same smiley.
-The "smiley file" feild is the filename of the gif file. it must be of size
+The "smiley file" field is the filename of the gif file. it must be of size
 19x19 so the smileys menu won't be corrupted. but it can have any size you
-want, but we some weird things might happen... (smielys menu corrupted, if
+want, but we some weird things might happen... (smileys menu corrupted, if
 you add that smiley to your nickname, the "My status" part of the main amsn
 window might get corrupted too, etc..). You can give a full pathname, use the
 browse button, or just put the name of the file, if it is a file in the
 ~/.amsn/<profile>/smileys or msn/skins/<skin>/smileys directory. The file
 will then be copied in your profile directory in case you move or rename the
 original file.
-The same properties may be considered for the "Sound file" feild... this is
+The same properties may be considered for the "Sound file" field... this is
 used for playing a sound, when the smiley is shown.. for example the LOL
 smiley triggered on LOL make a laughing sound. The sound must be a .wav file
 or any extension supported by your sound player (set in the application
@@ -138,7 +138,7 @@ then the smiley won't appear in the smileys menu, but will still be activated
 on triggers.
 The "case sensitive" option, means that the triggers should be considered
 case sensitive, that means, that a "LOL" trigger would be different from a
-"lol" trigger. if not set, then the lowercases/upercases won't have any
+"lol" trigger. if not set, then the lowercases/uppercases won't have any
 importance.
 When you finished your settings, press the OK button, it will prompt errors
 if you forgot to set one of the 3 first option (description, triggers and
@@ -215,7 +215,7 @@ you can't type your language directly in to AMSN, for
 example Traditional Chinese using xcin.
 
 Q: Can I use AMSN behind a proxy server?
-A: As of the developpement version right after 0.61, HTTP proxy support is
+A: As of the development version right after 0.61, HTTP proxy support is
 available. This means that you can only connect behind an HTTP proxy (such as
 squid for example). If your proxy server is socks5 then you will not be able
 to connect yet, but socks5 support is on the way.
@@ -232,7 +232,7 @@ logged in or you were chatting with someone, after XMMS is closed or the
 file is finished all the sound events that weren`t able to be played
 because of XMMS are now played in an annoying way.
 A: You have many solutions. If you're using KDE, you can configure XMMS
-to play sound thorught arts, and use artsplay as sound play command for amsn.
+to play sound through arts, and use artsplay as sound play command for amsn.
 This way sounds will be mixed. If you use gnome, you can use esdplay and
 configure xmms for playing through ESD. Or instead of using the play command,
 you could just make a small script that checks if /dev/dsp is busy, or free,
@@ -240,7 +240,7 @@ before calling "play".
 
 Q: I'm using amsn behind a firewall, or using IP-Masquerade. Sending files
 won't work, can I fix it?
-A: Maybe the firewall is blocking incoming connections. Filetransfers work
+A: Maybe the firewall is blocking incoming connections. File transfers work
 this way: When you want to send someone a file, you send an invitation with
 your IP address and a port number. Then the remote client must connect to
 your IP:port to start the transfer.
@@ -293,7 +293,7 @@ question are usually marked as Closed.
 Before submitting a bug or asking for support, get the following information:
 - Amsn version.
 - Tcl and Tk version.
-- Stack trace of the submited error (if applicable).
+- Stack trace of the submitted error (if applicable).
 - Last error messages in debug windows (Ctrl+D and Ctrl+S in contact list).
 If you still have a question, you can mail me at
 airadier@users.sourceforge.net.

@@ -242,7 +242,7 @@ proc main { } {
    wm title . "Amsn Remote Controller"
 
    button .con -text "Connect" -command "connect \"Connected to the server\""
-   label .lab -text "Enter the IP adress of the host : "
+   label .lab -text "Enter the IP address of the host : "
    entry .ip
 
    grid .lab -row 0 -column 0
@@ -256,7 +256,7 @@ proc main { } {
 
 ############################################################
 ### Look if we are launched from a link
-### and set the correct working dir
+### and set the correct working directory
 ############################################################
 
 if {[catch {file readlink [info script]} res]!=0} {

@@ -18,16 +18,16 @@ msg { user message }
 msg { message }
 	Sends the message "message" to the user defined with the command "chatto"
 chatto { user }
-	Let's you chat with the user "user" so you won't need to type it's email adress everytime
+	Let's you chat with the user "user" so you won't need to type it's email address everytime
 endchat
 	Ends the chat with the user defined by the command "chatto"
 whois { user }
-	Gives you the email adress of the user depending on his nickname
+	Gives you the email address of the user depending on his nickname
 whatis { user }
-	Gives you the nickname of a user depending on his email adress
+	Gives you the nickname of a user depending on his email address
 quit
-	Ends the remote controling session
+	Ends the remote controlling session
 amsn_close
 	Closes the amsn server
 
-Note : If you use only "testemail" for an email adress, it will work as if you entered "testemail@hotmail.com"
+Note : If you use only "testemail" for an email address, it will work as if you entered "testemail@hotmail.com"

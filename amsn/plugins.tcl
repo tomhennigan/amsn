@@ -1,4 +1,4 @@
-#Plugins system, preliminary verion
+#Plugins system, preliminary version
 
 #List of available event types, and their parameters:
 #

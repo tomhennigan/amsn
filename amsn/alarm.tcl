@@ -12,7 +12,7 @@ namespace eval ::alarms {
 		return [getAlarmItem $user enabled]
 	}
 
-	#Return an alarm cofiguration item for the given user
+	#Return an alarm configuration item for the given user
 	proc getAlarmItem { user item } {
 	
 		#We convert the stored data (a list) into an array

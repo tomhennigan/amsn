@@ -5,11 +5,11 @@ Check our Wiki page TO-DO list:
 
 http://amsn.sourceforge.net/wiki
 
-DONE We must finish MSNP2P (Sending files throught MSNP2P and do transfer 
+DONE We must finish MSNP2P (Sending files through MSNP2P and do transfer 
 dialogs)
 DONE We must send to waste all MSNP7 code
 - We should do a GUI cleanup (alarms...)
-- We must do proxys work...
+- We must do proxy's work...
 -It doesn't update with the new people that enters the chat... it doesn't give you a chance to talk to certain people...
 -In logging/preferences, look at disabled items (add features or remove this items from GUI)
 
@@ -36,7 +36,7 @@ kakaroto * zyffe@hotmail.com
 -	Make good RPMs, for Redhat, Suse, Mandrake, etc.
 DONE	Improve font selection (unify with color selection)
 -	When selecting a new color for the font in a chat, don't change only
-	the color of the text send but the color of the text being writen too (for all window).
+	the color of the text send but the color of the text being written too (for all window).
 -	When queue is cleared, NAK every message in queue
 -	Check for connection state, make sure amsn disconnects if connection goes down. -> add timeouts to changestates and keepalive
 -	When we get a NAK from a message, try to enqueue it again, as probably it will success.
@@ -75,25 +75,25 @@ DONE	Get rid of global variables list_al, list_bl, make use of ::abook:: namespa
 	** Alarm system improvements and bugs **
 -	JPG Support (use same as for MSN6 Pictures)
 
-	** Loging system improvements and bugs **
+	** Logging system improvements and bugs **
 -	Use XML instead of custom syntax to speed up things
 -	Add date limit or file size limit for log files
--	Add option for partial loging of only certain users
--	Save to LOG (if loging disabled, allows to log certain conversations only)
--	Compress log files with optimal algorithm for txt files
--	Loging syntax options (timestamps, email or nics, etc)
+-	Add option for partial logging of only certain users
+-	Save to LOG (if logging disabled, allows to log certain conversations only)
+-	Compress log files with optimal algorithm for text files
+-	Logging syntax options (timestamps, email or nics, etc)
 -	Display by day/month/year
 -	Display last X lines of the log in the window when opening a chat window with someone
 
 	** WindowsXP issues **
 -	Problem with URLs
 -	Problem with sound
--	Selections dont appear
+-	Selections don't appear
 -	Ugly program icons (WISH icon, not ours)
 DONE	Fonts dialog all messed up
 -	Alarms options (paths) aren't saved correctly if they contain spaces
 -	ImageMagick is never detected since there is a convert.exe program in the System32 DIR and exec looks for that one first
--	Browser problems in windows when URL contains wierd characters
+-	Browser problems in windows when URL contains weird characters
 
 	** MSNP2P Stuff **
 -	Do checksum checking, understand error message, send error messages, etc...
@@ -106,13 +106,13 @@ DONE	Fonts dialog all messed up
 -	Have status always on top of contact list
 -	Finish the plugins system
 -	Menu accelerators
--	Be able to change thers font in chat (same as you, or different)
+-	Be able to change their font in chat (same as you, or different)
 -	Autoconnect (when connection detected)
 -	Notebook like chat windows (as an option)
 -	Resume File Transfers
 -	Socks5 Proxy Support with UserName/Password
 -	Better management of special characters and \n in nicks
--	Make video/audio conferencing work with GbnomeMeeting, check for embeding possibilities
+-	Make video/audio conferencing work with GbnomeMeeting, check for embedding possibilities
 
 	
 	****************************************
@@ -120,11 +120,11 @@ DONE	Fonts dialog all messed up
 	****************************************
 
 -	Background image
--	Make games work (should be rather simple, some special parameters passed to the browser i'm guessing)
+-	Make games work (should be rather simple, some special parameters passed to the browser I'm guessing)
 -	Make notify window size configurable
 -	Transparent background message windows (is it possible now with 8.4?)
 -	AutoUpgrade AMSN
 -	Direct connection between amsn clients, without sb, real time chat
--	Baloons in privacy lists (show email)
+-	Balloons in privacy lists (show email)
 -	GUI for translations, automatic updates from amsn GUI (no website)
 -	Have support for multiple sessions (tabs for each session)	

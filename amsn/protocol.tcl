@@ -55,7 +55,7 @@ namespace eval ::MSNFT {
       status_log "Ok, so here we have cookie=$cookie, requestdata=$requestdata\n" red
       
       if { $requestdata != "IP-Address" } {
-         status_log "Requested data is not IP-Adress!!: $requestdata\n" red
+         status_log "Requested data is not IP-Address!!: $requestdata\n" red
 	 return
       }
 
@@ -205,7 +205,7 @@ namespace eval ::MSNFT {
          return 0
       }
 
-      #Send the cancelation for a file transfer
+      #Send the cancellation for a file transfer
       set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
       set msg "${msg}Invitation-Command: CANCEL\r\n"
       set msg "${msg}Invitation-Cookie: $cookie\r\n"
@@ -221,7 +221,7 @@ namespace eval ::MSNFT {
 
 
    proc ConnectMSNFTP {ipaddr port authcookie cookie} {
-      #I connect to a remote host to retrive the file
+      #I connect to a remote host to retrieve the file
       variable filedata
 
       if {![info exists filedata($cookie)]} {
@@ -535,7 +535,7 @@ namespace eval ::MSNFT {
       }
       
       #Invitation accepted, send IP and Port to connect to
-      #option: posibility to enter IP address (firewalled connections)
+      #option: possibility to enter IP address (firewalled connections)
       set ipaddr [lindex $filedata($cookie) 5]
       #if error ::AMSN::Error ...
 
@@ -1413,7 +1413,7 @@ namespace eval ::MSN {
 		}
 			
 		cmsn_reconnect $sbn
-		#status_log "Opened chjat with $user on sb $sbn\n"
+		#status_log "Opened chat with $user on sb $sbn\n"
 		return $lowuser
 
 	}
@@ -1593,10 +1593,10 @@ namespace eval ::MSN {
 		set moved_to_beginning 0
 		
 		if { $index == -1 } {
-			#Should we insert at the beggining? Newer SB's are probably better
+			#Should we insert at the begining? Newer SB's are probably better
 			set sb_chatid($chatid) [linsert $sb_chatid($chatid) 0 $sb_name]
 		} else {
-			#Move SB to the begginning of the list
+			#Move SB to the beginning of the list
 			set moved_to_beginning 1
 			set sb_chatid($chatid) [lreplace $sb_chatid($chatid) $index $index]
 			set sb_chatid($chatid) [linsert $sb_chatid($chatid) 0 $sb_name]
@@ -2787,7 +2787,7 @@ proc cmsn_connected_sb {name recv} {
 #  "cw" - "Connect wait" The SB is trying to connect to the server.
 #  "pw" - "Proxy wait" The SB is trying to connect to the server using a proxy.
 #  "a" - Authenticating. The SB is authenticating to the server
-#  "i" - Inviting first person to the chat. Succesive invitations will be while in "o" status
+#  "i" - Inviting first person to the chat. Successive invitations will be while in "o" status
 #  "o" - Opened. The SB is connected and ready for chat
 #  "n" - Nobody. The SB is connected but there's nobody at the conversation
 
@@ -4524,10 +4524,10 @@ namespace eval ::MSNP2P {
 	# 9 - branchid                  (branchid)
 	#
 	# action can be :
-	#	get : This method returns a list with all the array info, 0 if non existant
+	#	get : This method returns a list with all the array info, 0 if non existent
 	#	set : This method sets the variables for the given sessionid, takes a list as argument.
-	#	unset : This methode removes the given sessionid variables
-	#	findid : This method searchs all Sessions for one that has the given Identifier, returns session ID or -1 if not found
+	#	unset : This method removes the given sessionid variables
+	#	findid : This method searches all Sessions for one that has the given Identifier, returns session ID or -1 if not found
 	#	findcallid : This method searches all Sessions for one that has the given Call-ID, returns session ID or -1 if not found
 	proc SessionList { action sid { varlist "" } } {
 		variable MsgId
@@ -4590,17 +4590,17 @@ namespace eval ::MSNP2P {
 				if { [info exists MsgId($sid)] } {
 					unset MsgId($sid)
 				} else {
-					status_log "Trying to unset MsgID($sid) but dosent exist\n" red
+					status_log "Trying to unset MsgID($sid) but do not exist\n" red
 				}
 				if { [info exists TotalSize($sid)] } {
 					unset TotalSize($sid)
 				} else {
-					status_log "Trying to unset TotalSize($sid) but dosent exist\n" red
+					status_log "Trying to unset TotalSize($sid) but do not exist\n" red
 				}
 				if { [info exists Offset($sid)] } {
 					unset Offset($sid)
 				} else {
-					status_log "Trying to unset Offset($sid) but dosent exist\n" red
+					status_log "Trying to unset Offset($sid) but does not exist\n" red
 				}
 				if { [info exists Destination($sid)] } {
 					unset Destination($sid)
@@ -4933,7 +4933,7 @@ namespace eval ::MSNP2P {
 				SessionList unset $sid
 				
 			} else {
-				status_log "MSNP2P | $sid -> Got a BYE for unexsiting SessionID\n" red
+				status_log "MSNP2P | $sid -> Got a BYE for unexisting SessionID\n" red
 			}
 			return
 		}
@@ -5036,7 +5036,7 @@ namespace eval ::MSNP2P {
 	#//////////////////////////////////////////////////////////////////////////////
 	# RequestObject ( chatid msnobject filename)
 	# This function creates the invitation packet in order to receive an MSNObject (custom emoticon and display buddy for now)
-	# chatid : Chatid from wich we will request the object
+	# chatid : Chatid from which we will request the object
 	# dest : The email of the user that will receive our request
 	# msnobject : The object we want to request (has to be url decoded)
 	# filename: the file where data should be saved to

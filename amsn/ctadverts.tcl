@@ -52,7 +52,7 @@ proc adv_initialize { win } {
     # that corresponds to that banner
 #    bind ${win}.banner <Button-3> { puts "browse" }
 
-    # Keybinding to enable/disable BanneR cycling on main window
+    # Keybinding to enable/disable Banner cycling on main window
     bind . <Control-b> { set adv_enable 0 }
     bind . <Control-r> { set adv_enable 1 }
     if { ($adv_enable == 1) && ($adv_paused == 0) } {

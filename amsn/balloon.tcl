@@ -93,7 +93,7 @@ proc balloon {target message {cx 0} {cy 0} } {
 	    toplevel .balloon -bg black
 	}
 
-	#Standard way to show baloon on Mac OS X (aqua), show balloon in white for Mac OS X and yellow for others platforms
+	#Standard way to show balloon on Mac OS X (aqua), show balloon in white for Mac OS X and yellow for others platforms
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	    destroy .balloon
 	    toplevel .balloon -relief flat -bg #C3C3C3 \

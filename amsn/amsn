@@ -134,44 +134,44 @@ proc reload_files { } {
 	global $glob
     }
 
-    source [file join ctthemes.tcl]
-    source [file join progressbar.tcl]	;# Progressbar Megawidget
-    source [file join migmd5.tcl]
-    source [file join des.tcl]		;# DES encryption
-    source [file join sxml.tcl]   	;# Simple XML parser
+	source ctthemes.tcl
+	source progressbar.tcl	;# Progressbar Megawidget
+	source migmd5.tcl
+	source des.tcl		;# DES encryption
+	source sxml.tcl   	;# Simple XML parser
+	
+	source mutex.tcl
+	source lang.tcl
+	source automsg.tcl
+	source smileys.tcl
+	source skins.tcl	;# Used for skinning purposes
+	source remote.tcl	;# The remote control procedures
+	source gui.tcl		;#gui.tcl must be at the beginning to make msg_box procedure available for errors
+	source config.tcl
+	source proxy.tcl
+	source abook.tcl	;# Handle buddy address book    
+	source protocol.tcl
+	source ctadverts.tcl
+	source preferences.tcl
+	source hotmail.tcl
+	source groups.tcl	;# Handle buddy groups
+	source anigif.tcl	;# Animated GIFS
+	if {$tcl_platform(platform) == "unix"} {
+		source xmms.tcl
+	}
+	if {$tcl_platform(os) == "Darwin"} {
+		source [file join itunes.tcl]; #Plugin to retreive playing song from iTunes (Mac OS X)
+	}
+	source alarm.tcl	;# Alarms code (Burger)
+	source dock.tcl		;# Docking routines
+	source trayicon.tcl	;# Docking routines for freedesktop system tray compliant docks
+	source loging.tcl	;# Euh yeh it's for loging :P
+	source combobox.tcl	;# The all mighty combobox is here! (B. Oakley)
+	source blocking.tcl	;# The blocking users feature
 
-    source [file join mutex.tcl]
-    source [file join lang.tcl]
-    source [file join automsg.tcl]
-    source [file join smileys.tcl]
-    source [file join skins.tcl]       ;# Used for skinning purposes
-    source [file join remote.tcl  ]    ;# The remote control procedures
-	source [file join gui.tcl] ;#gui.tcl must be at the beggining to make msg_box procedure available for errorss
-	source [file join config.tcl]
-    source [file join proxy.tcl]
-    source [file join abook.tcl]	;# Handle buddy address book    
-	 source [file join protocol.tcl]
-    source [file join ctadverts.tcl]
-    source [file join preferences.tcl]
-    source [file join hotmail.tcl]
-    source [file join groups.tcl]	;# Handle buddy groups
-    source [file join anigif.tcl]	;# Animated GIFS
-    if {$tcl_platform(platform) == "unix"} {
-     source [file join xmms.tcl]
-    }
-    if {$tcl_platform(os) == "Darwin"} {
-     source [file join itunes.tcl]; #Plugin to retreive playing song from iTunes (Mac OS X)
-    }
-	source [file join alarm.tcl]	;# Alarms code (Burger)
-    source [file join dock.tcl]	;# Docking routines
-    source [file join trayicon.tcl]	;# Docking routines for freedesktop system tray compliant docks
-    source [file join loging.tcl]	;# Euh yeh it's for loging :P
-    source [file join combobox.tcl]	;# The all mighty combobox is here! (B. Oakley)
-    source [file join blocking.tcl]    ;# The blocking users feature
-
-    source [file join plugins.tcl]	;# Plugins system
-    source [file join balloon.tcl]       ;# For the balloons tooltip
-    source [file join png.tcl]       ;# PNG Parser and zlib deflate in pure TCL (KaKaRoTo)
+	source plugins.tcl	;# Plugins system
+	source balloon.tcl	;# For the balloons tooltip
+	source png.tcl		;# PNG Parser and zlib deflate in pure TCL (KaKaRoTo)
 
 }
 
@@ -185,7 +185,7 @@ proc check_imagemagick {} {
 	set found -1
 
 	foreach path [list "[config::getKey convertpath]" "convert" "[file join utils convert]" ] {
-		# Check if ImageMagick is Installed, if so dont do nothing, otherwise disable display pics
+		# Check if ImageMagick is Installed, if so don't do nothing, otherwise disable display pics
 		status_log "Checking ImageMagick in $path...\n"
 		if { ![catch { exec $path } res] } {
 			set found $path

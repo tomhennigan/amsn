@@ -9,7 +9,7 @@
 %define _applnk_cat	Internet
 
 # Default paths for KDE and GNOME .desktop files,
-# may be overriden by distribution-specific settings
+# may be overridden by distribution-specific settings
 %define _kde_applnk	/usr/share/applnk
 %define _gnome_applnk	/etc/X11/applnk
 

@@ -6,8 +6,8 @@
 #///////////////////////////////////////////////////////////////////////////////
 # proc compareSmileyLength { a_name b_name } 
 #
-# Is used to sort the smileys with the longuest length first
-# this is necessary to avoid replacing smaller smileys that may be included inside longuer one
+# Is used to sort the smileys with the longest length first
+# this is necessary to avoid replacing smaller smileys that may be included inside longer one
 # for example <:o) (party) may be considered as a :o smiley between < and ) ... 
 # Since I can't sort my array.. I'm just sorting the names 
 # I use the emotions_names variable and get the first text element from the real smiley to compare it
@@ -49,10 +49,10 @@ proc is_true { data } {
 # proc new_emoticon {cstack cdata saved_data cattr saved_attr args}
 #
 # This is the main procedure for creating our emoticons, it gets data from the XML
-# parser (don't know what all args are made for) and retreives the data we need and
+# parser (don't know what all args are made for) and retrieves the data we need and
 # creates the arrays we need.
 # For every new emoticon, we add it's name to emotions_names (preceded by a number for
-# having the correct ordrer in the menu) then we add the elements in the array emotions
+# having the correct order in the menu) then we add the elements in the array emotions
 
 proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
     global emotions emotions_names emoticon_number
@@ -355,7 +355,7 @@ proc update_enabled_sound_smileys { } {
 #///////////////////////////////////////////////////////////////////////////////
 # proc new_custom_emoticon_gui {}
 #
-# This is the GUI proc for edditing custom smileys
+# This is the GUI proc for editing custom smileys
 proc edit_custom_emotion { emotion } {
 	global emotions new_custom_cfg
 	new_custom_emoticon_gui "[valueforemot $emotion name]"
@@ -472,7 +472,7 @@ proc add_custom_emoticons { } {
 #///////////////////////////////////////////////////////////////////////////////
 # proc valueforemot { emotion var } 
 #
-# A usefull function that we'll use to get every single variable for an emoticon
+# A useful function that we'll use to get every single variable for an emoticon
 # you call it with the name of the emoticon you want and the variable you want 
 # (for example [valueforemot "000 smile" text] and it returns ":) :-)" something like that..
 # if the variable doesn't exist, it returns an empty string
@@ -507,9 +507,9 @@ proc valueforemot { emotion var } {
 #///////////////////////////////////////////////////////////////////////////////
 # proc smile_subst { tw {start "0.0"} {end "end"} {contact_list 0} }
 #
-# Main function... it substitues smileys patterns into an image in any text widget
+# Main function... it substitutes smileys patterns into an image in any text widget
 # tw variable is the text widget
-# start is the starting point for wich we scan the text for any smiley to change
+# start is the starting point for which we scan the text for any smiley to change
 # contact_list is used to specify if we should play sounds if we find emotisound
 # this is used to avoid playing sounds when contact list is refreshed
 # the function scans the text widget (from the $start variable to the end) and
@@ -579,7 +579,7 @@ proc smile_subst {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
 		    play_sound $sound
 		}
 
-		#status_log "Repaced $symbol from $start to $endpos\n" blue
+		#status_log "Replaced $symbol from $start to $endpos\n" blue
 
 		#set start $endpos
 
@@ -701,7 +701,7 @@ proc process_custom_smileys_SB { txt } {
 #///////////////////////////////////////////////////////////////////////////////
 # proc smile_menu { {x 0} {y 0} {text text}}
 #
-# Displays the smileys menu at the position where the mouse is and refreshs
+# Displays the smileys menu at the position where the mouse is and refreshes
 # all the bindings on the smileys in the menu to the correct widget
 # so that when you click on a smiley, it inserts its symbol into your text 
 # if the smile menu doesn't exist it created it first with [create_smile_menu $x $y]
@@ -775,7 +775,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 #
 # Create the smile menu... it first calls [calcul_geometry_smileys]
 # To get the width and height of the menu, then it creates the menu withdrawn with 
-# the animated smileys and static smielys in the correct order
+# the animated smileys and static smileys in the correct order
 
 
 proc create_smile_menu { {x 0} {y 0} } {
@@ -877,7 +877,7 @@ proc create_smile_menu { {x 0} {y 0} } {
 # proc calcul_geometry_smileys {  }
 #
 # This function is used to calculate the optimal width and height for the
-# smileys menu. it calculs 5 different possibilities for width/height then searchs
+# smileys menu. it calculs 5 different possibilities for width/height then searches
 # for the lowest value and returns the values for width and height that are optimal for 
 # the menu depending on the number of smileys to show
 

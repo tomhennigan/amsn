@@ -5,7 +5,7 @@
 # Paul Tero, July 2001
 # http://www.shopable.co.uk/des.html
 #
-# Optimised for performance with large blocks by Michael Hayworth, November 2001
+# Optimized for performance with large blocks by Michael Hayworth, November 2001
 # http://www.netdealing.com
 #
 # This software is copyrighted (c) 2003 by Mac A. Cody.  All rights

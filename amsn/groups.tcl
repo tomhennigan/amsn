@@ -6,7 +6,7 @@
 #  - Keep track of transactions pending completion
 #  - Investigate what happens when a group is deleted, does the
 #    server send a new list? obviously the upper groups get
-#    a reasigned number (???). Remember that the entries in
+#    a reassigned number (???). Remember that the entries in
 #    the address book (::abook) contains the group IDs received
 #    in the Forward List.
 #	* group id is left unused until a new group is added.
@@ -120,7 +120,7 @@ namespace eval ::groups {
 	
 	}
 
-	# Used to perfom the group renaming without special dialogues
+	# Used to perform the group renaming without special dialogues
 	proc ThisOkPressed { gid } {
 		if [winfo exists .dlgthis] {
 			set gname [GetName $gid]

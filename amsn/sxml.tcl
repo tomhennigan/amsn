@@ -14,7 +14,7 @@
 #		parsing simple XML files.				#
 #									#
 # Credits:	Various sources on the web, such as devshed, where	#
-#		I've learn't a little about XML.			#
+#		I've learnt a little about XML.			#
 #									#
 # Limitations:	This is the initial version - it offers only basic	#
 #		parsing functionality, though is good enough, if slow.	#
@@ -262,7 +262,7 @@ namespace eval sxml {
 	    return -1
 	}
 	#################################################################
-	# We should also make sure that the specifed routine already	#
+	# We should also make sure that the specified routine already	#
 	# exists, and has the correct number of arguments.		#
 	# But only if pedantic has been turned on...			#
 	#################################################################
@@ -345,7 +345,7 @@ namespace eval sxml {
 	#########################################################################
 	#									#
 	# The below function, when called with the current position and the	#
-	# being interpretted will return the character to place on the string	#
+	# being interpreted will return the character to place on the string	#
 	# and the pointer will be updated to the next character position.	#
 	#									#
 	# This routine handles escape characters and & special symbols.		#
@@ -429,10 +429,10 @@ proc do_extended_proc_search {proclist cstack} {
 }
 
 # xml_parse return codes:
-# -1:	Id specified is not recognised.
+# -1:	Id specified is not recognized.
 # -2:	End of line encountered before end of current tag
 # -3:	Current end tag does not match latest start tag
-# -4:	An error occured whilst calling user-procedure
+# -4:	An error occurred whilst calling user-procedure
 # -5:	End of file encountered during comment reading
 # -6:	End of file encountered with non-empty stack
 # -7:	More than one top level entity encountered in file

@@ -108,7 +108,7 @@ proc user_not_blocked { email } {
 
 #///////////////////////////////////////////////////////////////////////////////
 # BeginVerifyBlocked { interval }
-# Starts the VerifyBlocked script every "interval" secondes
+# Starts the VerifyBlocked script every "interval" seconds
 proc BeginVerifyBlocked { {interval 60} {interval2 300} {nbre_users 2} {interval3 5}} {
     global VerifyEnd stop_VerifyBlocked
 

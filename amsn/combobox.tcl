@@ -160,7 +160,7 @@ proc ::combobox::Init {} {
 
     set scanCommands [list mark dragto]
 
-    # why check for the Tk package? This lets us be sourced into 
+    # why check for the Tk package? This lets us be source d into 
     # an interpreter that doesn't have Tk loaded, such as the slave
     # interpreter used by pkg_mkIndex. In theory it should have no
     # side effects when run 
@@ -399,7 +399,7 @@ proc ::combobox::SetBindings {w} {
 # Results:
 #
 #    Creates a new widget with the given name. Also creates a new
-#    namespace patterened after the widget name, as a child namespace
+#    namespace patterned after the widget name, as a child namespace
 #    to ::combobox
 #
 # Returns:
@@ -1086,7 +1086,7 @@ proc ::combobox::ComputeGeometry {w} {
 		# pop it up. Y is zero; that parts easy. The height
 		# is simply the y coordinate of our widget, minus
 		# a pixel for some visual separation. The y coordinate
-		# will be the topof the screen.
+		# will be the top of the screen.
 		set y 1
 		set height [expr {$rooty - 1 - $y}]
 
@@ -1435,7 +1435,7 @@ proc ::combobox::WidgetProc {w command args} {
 #
 # Results:
 #    
-#    Performs typcial "configure" type requests on the widget
+#    Performs typical "configure" type requests on the widget
 
 proc ::combobox::Configure {w args} {
     variable widgetOptions

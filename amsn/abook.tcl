@@ -15,8 +15,8 @@ namespace eval ::abook {
 		#
 		variable demographics;	# Demographic Information about user
 		
-		#When set to 1, the information is in safe state an can be
-		#saven to disk without breaking anything
+		#When set to 1, the information is in safe state and can be
+		#saved to disk without breaking anything
 		
 		variable consistent 0; 
 	}
@@ -373,7 +373,7 @@ namespace eval ::abook {
 	
 	
 	###########################################################################
-	# Auxiliar functions, macros, or shortcuts
+	# Auxiliary functions, macros, or shortcuts
 	###########################################################################
 
 	#Returns the user nickname

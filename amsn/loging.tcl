@@ -1,20 +1,20 @@
 #
-#	Loging procedures
+#	Logging procedures
 #
 ################################################################################
 
 # TODO Implement some sort of log file size limit or date limit (remove any log entries older than date)
-# TODO Save to LOG (if loging disabled, allows to log certain conversations only)
+# TODO Save to LOG (if logging disabled, allows to log certain conversations only)
 # TODO "Clear all logs" button
-# TODO Selective loging (only log or don't log certain users)
-# TODO Compress log files with optimal algorithm for txt files
-# TODO Loging syntax options (timestamps, email or nics, etc)
+# TODO Selective logging (only log or don't log certain users)
+# TODO Compress log files with optimal algorithm for text files
+# TODO Logging syntax options (timestamps, email or nics, etc)
 
 namespace eval ::log {
 
 #///////////////////////////////////////////////////////////////////////////////
 # StartLog (email)
-# Opens the log file by email adress, called from WriteLog
+# Opens the log file by email address, called from WriteLog
 # WriteLog has to check if fileid already exists before calling this proc
 
 proc StartLog { email } {
@@ -38,7 +38,7 @@ proc StartLog { email } {
 
 #///////////////////////////////////////////////////////////////////////////////
 # CheckLogDate (email)
-# Opens the log file by email adress, called from StartLog
+# Opens the log file by email address, called from StartLog
 # Checks if the date the file was created is older than a month, and moves file if necessary
 #
 
@@ -115,7 +115,7 @@ proc LogArray { email action {fileid 0}} {
 	switch $action {
 		set {
 			if { [info exists LogInfo($email)] } {
-				status_log "DEBUG: Closing old Log fileid in set (this shouldnt happen)\n"
+				status_log "DEBUG: Closing old Log fileid in set (this shouldn't happen)\n"
 				StopLog $LogInfo($email)
 				set LogInfo($email) $fileid
 			} else {
@@ -145,7 +145,7 @@ proc LogArray { email action {fileid 0}} {
 # ConfArray (email action [conf])
 # Controls information for array for chosen user for conference/conversation messages
 # action can be :
-#	newset : Sets new conf if dosen't exist already
+#	newset : Sets new conf if doesn't exist already
 #	set : Sets new conf number for certain user only if never set before
 #	get : Returns conf number for certain user, returns 0 if no conf number set yet
 #	unset : Unsets conf number for certain user.
@@ -336,7 +336,7 @@ proc JoinsConf { chatid usr_name } {
 # Opens log window for user given by email, Called when History is chosen
 # Thinking of adding a button to chat window and History to right click in list
 #
-# I dont think I will refresh this window while user is chatting, since he has the
+# I don't think I will refresh this window while user is chatting, since he has the
 # chat window open... So it will be static and contain what has been said before
 # history button was pressed
 
@@ -412,7 +412,7 @@ proc OpenLogWin { email } {
 	    if { $erdate_list != "" } {
 		$wname.date.list list insert end "_ _ _ _ _"
 		foreach date $erdate_list {
-		    status_log "Adding Erronous date $date\n" red
+		    status_log "Adding Erroneous date $date\n" red
 		    $wname.date.list list insert end "$date"
 		}
 	    }
@@ -542,7 +542,7 @@ proc ParseLog { wname logvar } {
 #
 # wname : Log window
 # string : variable containing the string to output
-# color : varibale containing color/style information (RED, GRA, ITA, NOR)
+# color : variable containing color/style information (RED, GRA, ITA, NOR)
 
 proc LogWriteWin { wname string color } {
 	

@@ -5,7 +5,7 @@
 proc ConfigDefaults {} {
 	global config tcl_platform password auto_path advanced_options
 
-	set config(protocol) "9"		;# Which MSN Protocol do you prefeer to use: 9
+	set config(protocol) "9"		;# Which MSN Protocol do you prefer to use: 9
 	set config(nossl) 0				;#Disable the use of SSL, so it doesn't requite TLS package: 0|1
 
 	set config(login) ""				;# These are defaults for users without
@@ -76,7 +76,7 @@ proc ConfigDefaults {} {
 	set config(manualip) "127.0.0.1"		;#Manual IP
 
 	
-	#Specific configs for Mac OS X (Aqua) first, and for others systers after
+	#Specific configs for Mac OS X (Aqua) first, and for others systems after
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		set config(wingeometry) 275x400-200+200			;#Main window geometry on Mac OS X
 		set config(backgroundcolor)  #ECECEC		;#AMSN Mac OS X background color
@@ -213,7 +213,7 @@ proc ConfigDefaults {} {
 	set config(receiveddir) ""			;#Directory where received files are stored
 	set config(lineflushlog) 1			;#Flush log files after each line
 	set config(autocheckver) 1			;#Automatically check for newer versions on startup
-	set config(truncatenames) 1		;#Truncate nicknames longer than window width in winows' title
+	set config(truncatenames) 1		;#Truncate nicknames longer than window width in windows' title
 	set config(truncatenicks) 0		;#Truncate nicknames longer than window width in chat windows
 	set config(keepalive) 1				;#Keep alive connection (ping every minute)
 	set config(showtimestamps) 1		;#Show timestamps on messages ("Yes" by default)
@@ -236,10 +236,10 @@ proc ConfigDefaults {} {
 
 	#System options, not intended to be edited (unless you know what you're doing)
 	set password ""
-	set config(withnotebook) 0			;#Use notebook tabs in contact lsit
+	set config(withnotebook) 0			;#Use notebook tabs in contact list
 
 	set config(adverts) 0				;#Enable banner advertisements
-	set config(displaypic) "amsn.png"                   ;# Diplay picture
+	set config(displaypic) "amsn.png"                   ;# Display picture
 	set config(getdisppic) 1
 	set config(notifwidth) 150			;#Notify window width
 	set config(notifheight) 100		;#Notify window height
@@ -255,7 +255,7 @@ namespace eval ::config {
 		setGlobalKey skin "default"			;#AMSN skin
 		setGlobalKey disableprofiles 0 ;#Disable profiles (useful for cybercafes or similar)
 
-		#Specific configs for Mac OS X (Aqua) first, and for others systers after
+		#Specific configs for Mac OS X (Aqua) first, and for others systems after
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			setGlobalKey basefont [list {Lucida Grande} 11 normal]	;#AMSN Mac OS X base font
 		} elseif {$tcl_platform(platform) == "windows"} {
@@ -696,7 +696,7 @@ proc LoginList { action age {email ""} {lock ""} } {
 			set tmp_list [array get ProfileList]
 			set idx [lsearch $tmp_list "$email"]
 			if { $idx == -1 } {
-				# User dosen't exist, proceed normaly
+				# User dosen't exist, proceed normally
 				for {set idx [expr {[array size ProfileList] - 1}]} {$idx >= 0} {incr idx -1} {
 					set ProfileList([expr {$idx + 1}]) $ProfileList($idx)
 					set LockList([expr {$idx + 1}]) $LockList($idx)

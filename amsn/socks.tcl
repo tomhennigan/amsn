@@ -8,12 +8,12 @@
 #        1- Socket ID : The socket identifier that's connected to the socks5 server.
 #        2- Server hostname : The main (not socks) server you want to connect
 #        3- Server port : The port you want to connect on the main server
-#        4- Authentication : If you want username/password authenticaton enabled, set this to 1, otherwise 0.
-#        5- Username : Username to use on Socks Server if authenticaton is enabled. NULL if authentication is not enabled.
-#        6- Password : Password to use on Socks Server if authenticaton is enabled. NULL if authentication is not enabled.
+#        4- Authentication : If you want username/password authentication enabled, set this to 1, otherwise 0.
+#        5- Username : Username to use on Socks Server if authentication is enabled. NULL if authentication is not enabled.
+#        6- Password : Password to use on Socks Server if authentication is enabled. NULL if authentication is not enabled.
 #   3) It'll return you a string starting with:
 #        a- "OK" if successful, now you can send/receive any data from the socket.
-#        b- "ERROR:$explanation" if unsuccesfull, $explanation is the explanation like "Host not found". The socket will be automatically closed on an error.
+#        b- "ERROR:$explanation" if unsuccessful, $explanation is the explanation like "Host not found". The socket will be automatically closed on an error.
 #
 #
 # Notes:

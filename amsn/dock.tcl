@@ -61,7 +61,7 @@ proc dock_handler { sock } {
 		close_cleanup
 		exit
 	} else {
-		puts stdout "Unknow dock command"
+		puts stdout "Unknown dock command"
 	}
 }
 
@@ -89,7 +89,7 @@ proc close_dock {} {
 		close $docksock
 		set docksock 0
 	}
-	set config(dock) 0		;# Config is saved before so this dosent affect it
+	set config(dock) 0		;# Config is saved before so this don't affect it
 }
 
 
@@ -150,7 +150,7 @@ proc init_dock {} {
 		}
 		
 		# this is not needed for windows and causes problems
-		# Im not sure if it causes problems on other systems
+		# I'm not sure if it causes problems on other systems
 		if { $config(dock) != 4 } {
 			vwait events
 		}

@@ -31,7 +31,7 @@
 #
 #  1.3: Fixed error in disposal flag handling.
 #       Added handling for non-valid comment/graphic blocks.
-#       Searches for actual loop control block.  If it extists, loops.
+#       Searches for actual loop control block.  If it exists, loops.
 #       Added more comments.
 #  1.2: Now handles single playthrough gifs or gifs with partial images
 #       Fixed bug in delay time (unsigned int was being treated as signed)
@@ -188,7 +188,7 @@ namespace eval anigif {
 	    }
 	}
 
-	# Save the filename of the animated gif to be able to check wheter the pics
+	# Save the filename of the animated gif to be able to check whether the pics
 	# must be destroyed along with the widget
 	set ::anigif::${w}(fname) $fname
 

@@ -14,7 +14,7 @@ if { $initialize_amsn == 1 } {
 
 	#Virtual events used by Button-click
 	#On Mac OS X, Control emulate the "right click button"
-	#On Mac OS X, there's a mistake betwen button2 and button3
+	#On Mac OS X, there's a mistake between button2 and button3
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		event add <<Button1>> <Button1-ButtonRelease>
 		event add <<Button2>> <Button3-ButtonRelease>
@@ -909,7 +909,7 @@ namespace eval ::amsn {
 	}
 
 
-	#Updates filetransfer progress window/baar
+	#Updates filetransfer progress window/Bar
 	#fileTransferProgress mode cookie filename bytes filesize
 	# mode: a=Accepting invitation
 	#       c=Connecting
@@ -1912,7 +1912,7 @@ namespace eval ::amsn {
 		bind $bottom.in.input <Shift-Return> {%W insert insert "\n"; %W see insert; break}
 		bind $bottom.in.input <Control-KP_Enter> {%W insert insert "\n"; %W see insert; break}
 		bind $bottom.in.input <Shift-KP_Enter> {%W insert insert "\n"; %W see insert; break}
-		#Change shorcuts on TKAqua(Mac OS X), ALT=Option Control=Command on Mac
+		#Change shortcuts on TKAqua(Mac OS X), ALT=Option Control=Command on Mac
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			bind $bottom.in.input <Command-Return> {%W insert insert "\n"; %W see insert; break}
 			bind $bottom.in.input <Command-Option-space> BossMode
@@ -1953,7 +1953,7 @@ namespace eval ::amsn {
 		bind .${win_name} <<Copy>> "status_log copy\n;tk_textCopy .${win_name}"
 		bind .${win_name} <<Paste>> "status_log paste\n;tk_textPaste .${win_name}"
 
-		#Change shorcut for history on Mac OS X
+		#Change shortcut for history on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			bind .${win_name} <Command-Option-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
 			
@@ -2002,7 +2002,7 @@ namespace eval ::amsn {
 		bind $bottom.in.input <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
 		bind .${win_name} <<Escape>> "::amsn::closeWindow .${win_name}; break"
 
-		#Differents shorcuts on Mac OS X
+		#Different shortcuts on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			bind $bottom.in.input <Control-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
 			bind .${win_name} <Command-,> "Preferences"
@@ -2393,7 +2393,7 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 	# TypingNotification (win_name inputbox)
 	# Called by a window when the user types something into the text box. It tells
-	# the protocol layer to send a typing notificacion to the chat that the window
+	# the protocol layer to send a typing notification to the chat that the window
 	# 'win_name' is connected to
 	proc TypingNotification { win_name inputbox} {
 		global config skipthistime
@@ -2557,7 +2557,7 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 	# ackMessage (ackid)
 	# Called from the protocol layer when ACK for a message is received. It Cancels
-	# the timer for timeouting the message 'ackid'.
+	# the timer for time outing the message 'ackid'.
 	proc ackMessage { ackid } {
 		after cancel $ackid
 	}
@@ -2625,7 +2625,7 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 	# closedWindow (win_name,path)
 	# Called when a window and its children are destroyed. When the main window is
-	# detroyed ('win_name'=='path') then it tells the protocol layer to leave the
+	# destroyed ('win_name'=='path') then it tells the protocol layer to leave the
 	# chat related to 'win_name', and unsets variables used for that window
 	proc closedWindow { win_name path } {
 
@@ -2683,7 +2683,7 @@ namespace eval ::amsn {
 	# Writes a message into the window related to 'chatid'
 	# - 'user' is the user login.
 	# - 'msg' is the message itself to be displayed.
-	# - 'type' can be red, gray... or any tag defined for the textbox when the windo
+	# - 'type' can be red, gray... or any tag defined for the textbox when the window
 	#   was created, or just "user" to use the fontformat parameter
 	# - 'fontformat' is a list containing font style and color
 	proc PutMessage { chatid user nick msg type fontformat {p4c ""}} {
@@ -2835,7 +2835,7 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 	# WinFlicker (chatid,[count])
 	# Called when a window must flicker, and called by itself to produce the flickering
-	# effect. It will flicker the window until it gots the focus.
+	# effect. It will flicker the window until it gets the focus.
 	# - 'chatid' is the name of the chat to flicker.
 	# - 'count' can be any number, it's just used in self calls
 	proc WinFlicker {chatid {count 0}} {
@@ -2961,7 +2961,7 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 	# WinWrite (chatid,txt,tagid,[format])
 	# Writes 'txt' into the window related to 'chatid'
-	# It will use 'tagname' as style tag, unles 'tagname'=="user", where it will use
+	# It will use 'tagname' as style tag, unless 'tagname'=="user", where it will use
 	# 'fontname', 'fontstyle' and 'fontcolor' as from fontformat
 	proc WinWrite {chatid txt tagname {fontformat ""} {flicker 1} } {
 
@@ -3489,11 +3489,11 @@ proc cmsn_draw_main {} {
 	-menu .order_by
 
 	#Added by Trevor Feeney
-	#User to reverese group lists
+	#User to reverse group lists
 	.main_menu.tools add cascade -label "[trans ordergroupsby]" \
 	-menu .ordergroups_by
 
-	#Unecessary separator when you remove the 2 dockings items menu on Mac OS X
+	#Unnecessary separator when you remove the 2 dockings items menu on Mac OS X
 	if {$tcl_platform(os) != "Darwin"} {
 		.main_menu.tools add separator
 	}
@@ -3734,7 +3734,7 @@ proc cmsn_draw_main {} {
 		}
 	}
 
-	#Command-key for "key shorcut" in Mac OS X
+	#Command-key for "key shortcut" in Mac OS X
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		bind . <Command-s> toggle_status
 		bind . <Command-,> Preferences
@@ -3745,7 +3745,7 @@ proc cmsn_draw_main {} {
 		bind . <Control-Alt-space> BossMode   
 	}
 
-	#Shorcut to Quit aMSN on Mac OS X
+	#Shortcut to Quit aMSN on Mac OS X
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		bind all <Command-q> {
 			close_cleanup;exit
@@ -4097,7 +4097,7 @@ proc cmsn_draw_offline {} {
 	$pgBuddy.text configure -state normal
 	$pgBuddy.text delete 0.0 end
 
-#Iniciar sesion
+#Iniciar session
 
 	$pgBuddy.text tag conf check_ver -fore #777777 -underline true \
 		-font splainf -justify left
@@ -4215,7 +4215,7 @@ proc cmsn_draw_offline {} {
 	#Publish Phone Numbers
 	#   configureMenuEntry .options "[trans publishphones]..." disabled
 
-	#Initialise Preferences if window is open
+	#Initialize Preferences if window is open
 	if { [winfo exists .cfg] } {
 		InitPref
 	}
@@ -6389,7 +6389,7 @@ proc BossMode { } {
 proc updatebossmodetime { } {
 
 	.bossmode.time configure -text "[string map { \" "" } [clock format [clock seconds] -format \"%T\"]]"
-	#" Just to fix some editos syntax hilighting
+	#" Just to fix some editors syntax hilighting
 	after 1000 updatebossmodetime
 }
 
@@ -6527,7 +6527,7 @@ proc convert_image { filename destdir size } {
 		::config::setKey convertpath "convert"
 	}
 
-	#First converstion, no size, only .gif
+	#First conversion, no size, only .gif
 	if { [catch { exec [::config::getKey convertpath] "${filename}" "${tempfile}.gif" } res] } {
 		status_log "CONVERT ERROR IN CONVERSION 1: $res" white
 		return ""
