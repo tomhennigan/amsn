@@ -465,8 +465,10 @@ proc cmsn_draw_main {} {
    .dock_menu add radio -label "[trans dockkde]" -value 2 -variable config(dock) -command "init_dock"
 
    .options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
-   .options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
-   -command "msg_box \"[trans mustrestart]\""
+   #Let's disable adverts until it works, it's only problems for know
+   set $config(adverts) 0
+   #.options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
+   #-command "msg_box \"[trans mustrestart]\""
    .options add checkbutton -label "[trans autohotmaillog]" -onvalue 1 -offvalue 0 -variable config(autohotlogin)
    .options add checkbutton -label "[trans autoidle]" -onvalue 1 -offvalue 0 -variable config(autoidle)
    .options add checkbutton -label "[trans notifywin]" -onvalue 1 -offvalue 0 -variable config(notifywin)
