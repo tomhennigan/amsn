@@ -1588,6 +1588,17 @@ namespace eval ::MSN {
           variable sb_chatid
 	  variable chatid_sb
 
+	  if { $chatid == "" } {
+	  	status_log "::MNS::AddSBFor: BIG ERROR!!! chatid is blank. sb_name is $sb_name\n" white
+		return 0
+	  }
+
+	  if { $sb_name == "" } {
+	  	status_log "::MNS::AddSBFor: BIG ERROR!!! sb_name is blank. chatid is $chatid\n" white
+		return 0
+	  }
+
+
 	  if {![info exists sb_chatid($chatid)]} {
 	     set sb_chatid($chatid) [list]
 	     status_log "::MSN::AddSBFor: Creating sb_chatid list for $chatid\n"

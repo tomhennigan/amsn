@@ -1039,17 +1039,19 @@ namespace eval ::amsn {
 
 
 
-   #///////////////////////////////////////////////////////////////////////////////
-   # SetWindowFor (chatid)
-   # Sets the specified window 'win_name' to be the one which will show messages
-   # and information for the chat names 'chatid'
-   proc SetWindowFor { chatid win_name } {
-      variable msg_windows
-      variable chat_ids
-      set msg_windows($chatid) $win_name
-      set chat_ids($win_name) $chatid
-   }
-   #///////////////////////////////////////////////////////////////////////////////
+	#///////////////////////////////////////////////////////////////////////////////
+	# SetWindowFor (chatid)
+	# Sets the specified window 'win_name' to be the one which will show messages
+	# and information for the chat names 'chatid'
+	proc SetWindowFor { chatid win_name } {
+		variable msg_windows
+		variable chat_ids
+		if {$chatid != ""} {
+			set msg_windows($chatid) $win_name
+			set chat_ids($win_name) $chatid
+		}
+	}
+	#///////////////////////////////////////////////////////////////////////////////
 
 
 
