@@ -75,6 +75,7 @@ cantexec Ne morem izvesti programa $1. Preveri nastavitve.
 casesensitive Obcutljiv na velikost crk
 cfgalarmall Nastavi globalni alarm
 cfgalarm Nastavi zvocni/slikovni alarm
+changecustomstate Preklopi v
 changedisplaypic Spremeni osebno sliko
 changefont Zamenjaj pisavo
 changenick Zamenjaj nick
@@ -96,6 +97,7 @@ choosebgcolor Izberi barvo ozadja
 choosecontact Prosim izberi stik s seznama
 choosefontcolor Izberi barvo pisave
 chooseskin Prosim izberi skin, ki bi ga rad uporabil
+ch_to_state Preklopi v novo stanje
 clearlog2 Pocisti zgodovino za vse stike
 clearlog3 Pocisti vse dnevnike
 clearlog Pocisti dnevnik
@@ -149,6 +151,7 @@ dontshow Ne prikazi
 downloadingtls Pobiram modul TLS iz:\n $1
 drugi)
 editcurrentstate Uredi trenutno stanje
+editcustomstate Uredi
 editnewstate Novo osebno stanje za avtomatsko sporocilo
 editprofile Uredi profil
 editstate Uredi obstojece stanje za avtomatsko sporocilo
@@ -442,6 +445,7 @@ stylehist Izgled zgodovine
 stylelog Izberi zapis, v katerem zelis videti zgodovino
 syntaxerror  Napaka v sintaksi
 tabbed Okna z "uhlji"
+temp_state Ne shrani (Trenutno, bo ponastavljeno ob ponovnem zagonu AMSN)
 textsize Velikost besedila
 timeremaining Cas do konca prenosa
 timestamps Omogoci prikaz casa v pogovorih

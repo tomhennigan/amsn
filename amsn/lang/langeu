@@ -74,6 +74,7 @@ cantexec $1 aplikazioa ezin izan da exekutatua izan. Konfigurazioa egiaztatu
 casesensitive Maiuskulu/Minuskula disparadoreak erabili
 cfgalarm Alarma Konfiguratu/Gehitu/Ezabatu
 cfgalarmall Alarma Globala Konfiguratu/Gehitu/Ezabatu
+changecustomstate Egoera honetara aldatu
 changedisplaypic Konfiguratu/Gehitu/Ezabatu Alarma
 changefont Letra-tipoa aldatu
 changenick Ezizena aldatu
@@ -95,6 +96,7 @@ choosebgcolor Atzeko planoko kolorea hautatu
 choosecontact Zerrendatik kontaktu bat hautatu
 choosefontcolor letrako kolorea hautatu
 chooseskin Erabiltzea gustatuko litzaizuken azala hautatu
+ch_to_state Egoera berrira aldatu
 clearlog2 Ezabatu zure kontaktu guztien historia
 clearlog3 Log guztiak ezabatu
 clearlog Log-a ezabatu
@@ -145,7 +147,7 @@ docking Sistemako bandejan ikonoa
 dockkde KDE ikonoa
 dontdownload TLS ez deskargatu, ni neuk nere kasa instalatuko dut
 downloadingtls $1-tik TLS modulua deskargatzen
-editcurrentstate Unekoa editatu
+editcustomstate Editatu
 edit Editatu
 editnewstate Automezu Pertsonalaren Egoera berria
 editprofile Profila editatu
@@ -423,6 +425,7 @@ sourcecode Iturburu-kodea (Konpilazioa eta instalazioa behar du)
 sslwarning KONTUZ: SSL desgaitzen baduzu enkripzioa desgaituko duzu ere, beraz zure gakoa testu arrunta bezalaxe bidalia izango da interneten bidez.
 startoffline2 "Deskonektatuta ematen du" bezala sarrera-sinadura egin
 startoffline Deskonektatuta hasi
+statechange Egoera honako honetara aldatuta:
 stateedittext Mesedez editatu aldatu nahi dituzun \n eremuak eta gero Gorde sakatu
 state Honako egoera honetan agertu nahi dut: 
 stateinfo Egoera pertsonalaren konfigurazioa
@@ -435,6 +438,7 @@ stylehist aMSN-ren kanpo-itxuraren historia
 stylelog Zure historia ikusi nahi duzun formatua aukeratu
 syntaxerror Akats sintaktikoa
 tabbed Tabbed Windows
+temp_state Ez gorde (Behin behineko egoera, AMSN ixterakoan galduko dena)
 textsize Testuaren tamaina
 timeremaining Falta den denpora
 timestamps Data-zigilua gaitu
