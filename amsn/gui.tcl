@@ -4157,16 +4157,28 @@ proc idleCheck {} {
       set idletime 0
    }
 
+
+        # Check for empty fields and use 5min by default
+        if {$config(awaytime) == ""} {
+                set config(awaytime) 10
+        }
+
+        if {$config(idletime) == ""} {
+
+                set config(idletime) 5
+        }
+
+
    # TODO: According to preferences, this is always true
    if { $config(awaytime) >= $config(idletime) } {
-   	set first [expr $config(awaytime) * 60]
+	set first [expr $config(awaytime) * 60]
 	set firstvar "autoaway"
 	set firststate "AWY"
 	set second [expr $config(idletime) * 60]
 	set secondvar "autoidle"
 	set secondstate "IDL"
    } else {
-   	set second [expr $config(awaytime) * 60]
+	set second [expr $config(awaytime) * 60]
 	set secondvar "autoaway"
 	set secondstate "AWY"
 	set first [expr $config(idletime) * 60]
