@@ -819,6 +819,11 @@ namespace eval ::MSN {
 	proc connect { {passwd ""}} {
 
 		global config
+		
+		if { [sb get ns stat] != "d" } {
+			return
+		}
+		
 		set username [::config::getKey login]
 		
 		if { $passwd == "" } {
@@ -4245,6 +4250,8 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 		set command [list "::[sb get ns connection_wrapper]::finish" ns]
 		eval $command
 	}
+	
+	sb set ns stat "c"
 
 	if { $nosignin == "" } {
 		cmsn_draw_signin

@@ -3529,7 +3529,7 @@ proc cmsn_draw_main {} {
 	if { [string length $config(login)] > 0 } {
 		if {$password != ""} {
 			.main_menu.file add command -label "[trans loginas]..." \
-				-command "after 250 ::MSN::connect" -state normal
+				-command ::MSN::connect -state normal
 		} else {
 			.main_menu.file add command -label "[trans loginas]..." \
 				-command cmsn_draw_login -state normal
@@ -4252,7 +4252,7 @@ proc cmsn_draw_offline {} {
 	$pgBuddy.text tag bind start_login <Leave> \
 	"$pgBuddy.text tag conf start_login -fore #000000 -underline true;\
 	$pgBuddy.text conf -cursor left_ptr"
-	$pgBuddy.text tag bind start_login <Button1-ButtonRelease> [list after 250 ::MSN::connect]
+	$pgBuddy.text tag bind start_login <Button1-ButtonRelease> ::MSN::connect
 
 
 	$pgBuddy.text tag conf start_loginas -fore #000000 -underline true \
