@@ -80,6 +80,7 @@ ipaddress Adresse IP
 istyping $1 est en train de taper un message
 joins $1 $2 a rejoint la conversation
 language Langage
+lastmsgtime Dernier message reçu à $1
 leaveblankforhotmail Laisse vide pour un compte hotmail
 leaves $1 a quitté la conversation
 listeningon A l'écoute sur le port $1

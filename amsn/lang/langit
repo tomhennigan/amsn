@@ -1,79 +1,168 @@
 amsn_lang_version 2
 about Informazioni
+acceptfile Accetto il file $1, dimensioni $2? Salvato in $3
+actions Azioni
 addacontact Aggiungi un contatto
 addedyou ti ha aggiunto alla sua lista dei contatti
+addtocontacts Aggiungere un contatto alla lista
 addtoo Aggiungi questa persona alla mia lista dei contatti
+admincontacts Amministrazione contatti
+admingroups Amministrazione gruppi
+adverts Avvertimenti
 allowseen Permetti a questa persona di vedermi e di contattarmi quando sono connesso
 appearoff Invisibile
 aretyping $1 sono scrivendo un messaggio
+autohotmaillog Auto Hotmail login
+autoip IP automatico
 avoidseen Impedisci a questa persona di vedermi e di contattarmi quando sono connesso
 away Non al computer
+baduserpass User name o password sbagliate
 blankdirect Lascia vuoto per connessioni dirette
 block Blocca
+blocked Bloccato
+broughtby  Sviluppato da
+browser Browser
 busy Ho da fare
 cancel Cancella
 changenick Cambia nick
+chatack Sto accentando una chiamata da
 chat Inizia la conversazione
 chatreq Sto chiamando
-chatack Sto accentando una chiamata da
+chatsmileys Smiley per la chat
+checkingver Sto verificando una nuova versione
+checkver Controlla nuova versione
+choosebasefont Seleziona il font
+choosebgcolor Cambia il colore di sfondo
 clicktologin Clicca qui per accedere
 close Chiudi
+closingdocks Close button docks window
+command Comando
+confirmdelete Sei sicuro di voler cancellare $1?
+connecterror Errore durante la connessione al server
 contactadded Contatto aggiunto
+contactdoesnotexist Il contatto non esiste
+copytogroup Copia al gruppo
 date Data
 delete Cancella
+enableproxy Proxy abilitato
+encoding Seleziona la codifica
 entercontactemail Inserisci un contatto per e-mail
+enterfilename Inserisci un nome di file
 enternick Inserisci il tuo nick
 examples Esempi
+exitamsn Sei sicuro di voler uscire ?
+extras Servizi extra
+filedoesnotexist Il file non esiste
+filename Filename
+filetransfercancelled Trasferimento file cancellato
+filetransfercomplete Trasferimento del file completo
 gonelunch A pranzo
+groupadd Aggiungi un gruppo
+groupdelete Cancella un gruppo
+groupexists IL gruppo esiste già
+group Gruppo
+groupmissing Non riesco a trovare il gruppo
+groupnewname Nuovo nome
+groupnotempty Il gruppo non è vuoto!
+groupoldname Vecchio nome
+grouprename Rinomina un gruppo
+groupunknown Gruppo sconosciuto
+handle Nick
 help Aiuto
+helpcontents Contenuti help
+home Casa
 ident Identificazione
+identity Identità
+inbox In-Box
+invalidusername User name invalida.
 invite Invita
+ipaddress Indirizzo IP
 istyping $1 sta scrivendo un messaggio
 joins $1 $2 si unisce alla conversazione
 language Linguaggio
+leaveblankforhotmail Lascia in bianco per l'uso di hotmail
 leaves $1 abbandona la conversazione
+listeningon In attesa sulla porta $1
+listsmileys Elenco smiley
+loadcontacts Carica la lista contatti
+loggedotherlocation Disconnessione. Loggato da un'altro posto
 loggingin Connessione in corso ...
+loginas Login come
 login Connessione
 logout Disconessione
 logsin si e' appena connesso
-mustrestart Devi far ripartire il programma per attivare le modifiche
-mystatus Il mio stato
+mailer Client di posta
+mobile Mobile
+movetogroup Sposta al gruppo
 msg Messaggio
 msn AMSN
+mustrestart Devi far ripartire il programma per attivare le modifiche
+mystatus Il mio stato
+needonline Sembri essere/apparire off-line!
 newmail $1 nuove e-mail nella mailbox
 newmailfrom Nuova email da
 newmsg Nuovo messaggio
+newveravailable La nuova versione $1 è disponibile per il download
 next Prossimo
 noactivity Nessuna attivita'
 nonewmail 0 nuove e-mail nella mailbox
+nonewver Non ci sono nuove versioni da scaricare
 notify notifica
 nousersinsession Nessun utente nella sessione
-ok Ok
 offline Offline
+ok Ok
 onenewmail 1 nuove e-mail nella mailbox
 online Online
 onphone Al telefono
+openreceived Apri un file ricevuto
+options Opzioni
+ordercontactsby Ordina i contatti per
 other Altri
+pager Pager
 pass Password
+phone Telefono
 port Porta
+prefapps Applicazioni
+preferences Preferenze
+prefsound Souno
+properties Propietà
 proxyconf Configurazione proxy
 proxyconfhttp Configurazione supporto proxy HTTP
-reconnect Sto aspettando che $1 si riconnetta
+publishphones Publica il mio numero di telefono
+receivedbytes Recevuti $1 byte su $2
+receivefile Sto ricevendo il file
 reconnecting Riconnessione al server
+reconnect Sto aspettando che $1 si riconnetta
 rememberpass Ricorda password
 rightback Torno subito
+saveas Salva come
+savecontacts Salva la lista contatti
+save Salva
 says $1 dice
 sbcon Connessione a Switch Board
+sendfile Manda file
 send Invia
+sendmail Manda e-mail
+sendmsg Manda un messaggio
+sentbytes Mandati $1 byte su $2
+servergoingdown Disconnesso: il server sta andando giù
 server Server
 sound Attiva suoni
+startoffline Inizio Offline
+status Stato
+syntaxerror    Errore di sintassi
+textsize Dimensione del testo
 title Al's Messenger
 to A
-yousay Tu dici
-youwant Tu vuoi
+tools Tool
 unblock Sblocca
 uoffline Offline
 uonline Online
+useralreadyonlist L'utente è già nella lista contatti
 user Utente
 version Versione
+view Vista
 willjoin Sto aspettando che $1 accetti la conversazione
+work Lavoro
+yousay Tu dici
+youwant Tu vuoi

@@ -1,116 +1,117 @@
 amsn_lang_version 2
 about Om
-acceptfile Accepterer fil $1, størrelse $2? Gem i $3
+acceptfile Accepter fil $1, størrelse $2? Gemt i $3
 actions Handlinger
-addacontact Tilføj
+addacontact Tilføj en kontakt
 addedyou har tilføjet dig til hans/hendes kontakt liste
-addtocontacts Tilføj til kontaktpersoner
+addtocontacts Tilføj til kontakt liste
 addtoo Tilføj denne person til min kontakt liste
 admincontacts Admin kontakter
 admingroups Admin grupper
 adverts Reklamer
 allowseen Tillad denne person at se når jeg er online
-appearoff Forstil at være offline
-aretyping $1 er skriver en besked
+appearoff Vis som offline
+aretyping $1 skriver en besked
 autohotmaillog Hotmail autologin
 autoip Automatisk IP
-avoidseen Undlad denne person at se når jeg er online
-away Væk
+avoidseen Undlad at denne person kan se når jeg er online
+away Ikke til stede
 baduserpass Forkert brugernavn eller password
 blankdirect Forbliv tom for direkte forbindelse
-block Blokker
-blocked Blokkeret
+block Bloker
+blocked Blokeret
+broughtby Bragt til dig af følgende udviklere
 browser Browser
-broughtby Følgende udviklere har bidraget
 busy Travlt
 cancel Annuller
 changenick Ændre nick
+chatack Accepter chat fra
 chat Chat
 chatreq Forespørg chat
 chatsmileys Chat smilier
-chatack Accepter chat fra
-checkver Tjek for ny version
 checkingver Tjekker for ny version
-choosebasefont Vælg standart font
-choosebgcolor Vælg baggrundsfarve $1?
+checkver Tjek for ny version
+choosebasefont Vælg font
+choosebgcolor Vælg baggrundsfarve
 clicktologin Klik her for at logge ind
 close Luk
-closingdocks Lukker dokument
+closingdocks Luk knap minimerer vinduet
 command Program kald
-confirmdelete Bekræft sletning
-contactadded Kontakt tilføjet
-contactdoesnotexist Kontaktperson eksistere ikke
+confirmdelete Er du sikker på at du vil slette $1?
 connecterror Fejl i forbindelse til server
+contactadded Kontakt tilføjet
+contactdoesnotexist Kontakt eksisterer ikke!
 copytogroup Kopier til gruppe
 date Dato
 delete Slet
 enableproxy Tilslut proxy
-encoding Vælg kodning
+encoding Vælg encoding
 entercontactemail Skriv kontakt E-mail
 enterfilename Skriv filnavnet
 enternick Skriv dit nick
 examples Eksempler
-exitamsn Vil du afslutte ?
-extras Flere services
+exitamsn Er du sikker på at du vil afslutte?
+extras Ekstra Services
 filedoesnotexist Filen eksisterer ikke
 filename Filnavn
 filetransfercancelled Fil overførsel annulleret
 filetransfercomplete Fil overførsel komplet
-gonelunch Ude til frokost
-group Gruppe
+gonelunch Til frokost
 groupadd Tilføj en gruppe
 groupdelete Slet en gruppe
-grouprename Omdøb en gruppe
-groupoldname Gammelt navn
-groupnewname Nyt navn
-groupunknown Ukendt gruppe
 groupexists Gruppen eksisterer allerede
+group Gruppe
 groupmissing Kan ikke finde gruppen
-groupnotempty Gruppen er ikke tom
-handle Handle
-help Hjælp
+groupnewname Nyt navn
+groupnotempty Gruppen er ikke tom!
+groupoldname Gammelt navn
+grouprename Omdøb en gruppe
+groupunknown Ukendt gruppe
+handle Håndtere
 helpcontents Hjælp indhold
+help Hjælp
 home Hjem
 ident Identificerer
 identity Identitet
-inbox Indbakke
-invalidusername Ugyldigt brugernavn
-invite Invitér
+inbox In-Box
+invalidusername Ugyldigt bruger navn
+invite Inviter
 ipaddress IP Adresse
 istyping $1 skriver en besked
 joins $1 $2 tilslutter sig samtale
 language Sprog
-leaveblankforhotmail Tomt felt hvis du bruger hotmail web
+leaveblankforhotmail Efterlad blank for at bruge hotmail web
 leaves $1 forlader samtale
 listeningon Lytter på port $1
 listsmileys Liste af smilier
 loadcontacts Hent kontakt liste
+loggedotherlocation Afbrudt. Logget ind fra andet sted
 loggingin Logger Ind
-login Log Ind
 loginas Log ind som
+login Log Ind
 logout Log Ud
 logsin er lige logget ind
 mailer Mailer
 mobile Mobil
 movetogroup Flyt til gruppe
-mustrestart Du skal genstarte dit program for at ændringerne træder i kraft
-mystatus Min status
 msg Besked
 msn AMSN
-needonline Du er/forestiller af være offline!
-newmail $1 nye beskeder i Indbakke
-newmailfrom Nye mail fra
-newmsg Nye besked
+mustrestart Du skal genstarte dit program for at ændringerne træder i kraft
+mystatus Min status
+needonline Du er/forestiller at være offline!
+newmail $1 nye beskeder i In-Box
+newmailfrom Ny mail fra
+newmsg Ny besked
 newveravailable Ny verson $1 tilgængelig
 next Næste
 noactivity Ingen aktivitet
-nonewmail 0 nye beskeder i Indbakke
+nonewmail 0 nye beskeder i In-Box
 nonewver Der er ikke nogen ny version at downloade
 notify giv besked
 nousersinsession Ingen brugere i session
-ok Ok
 offline Offline
-onenewmail 1 nye beskeder i Indbakke
+ok Ok
+onenewmail 1 ny besked i In-Box
 online Online
 onphone I telefon
 openreceived Åben modtaget fil
@@ -119,49 +120,49 @@ ordercontactsby Sorter kontakter efter
 other Andre
 pager Pager
 pass Password
-phone Phone
+phone Telefon
 port Port
-prefapps Aplikationer
+prefapps Applikationer
 preferences Egenskaber
 prefsound Lyd
 properties Indstillinger
-proxyconf Proxy konfiguration
 proxyconfhttp HTTP proxy support konfiguration
+proxyconf Proxy konfiguration
 publishphones Vise mine telefon numre
 receivedbytes Modtaget $1 af $2 bytes
 receivefile Modtager fil
-reconnect Venter på at $1 genforbinder
 reconnecting Genforbinder til server
+reconnect Venter på at $1 genforbinder
 rememberpass Husk password
 rightback Er straks tilbage
-save Gem
 saveas Gem som
 savecontacts Gem kontakt liste
+save Gem
 says $1 siger
 sbcon Forbinder til Switch Board
-send Send
 sendfile Send fil
 sendmail Send mail
 sendmsg Send besked
+send Send
 sentbytes Har sendt $1 af $2 bytes
+servergoingdown Afbrudt. Server lukker ned.
 server Server
-servergoingdown Afbrudt: Serveren lukkes
-sound Event Sound
+sound Lyd
 startoffline Start Offline
 status Status
-syntaxerror Syntaxfejl
+syntaxerror Syntax Error
 textsize Tekst størrelse
 title Al's Messenger
-to Til
 tools Værktøjer
-yousay Du siger
-youwant Du vil
+to Til
 unblock Fjern blokkering
 uoffline Offline
 uonline Online
+useralreadyonlist Bruger er allerede på din kontakt liste
 user Bruger
-useralreadyonlist Kontaktpersonen eksistere
 version Version
 view Vis
-willjoin Venter på  $1 joiner samtale
+willjoin Venter på at $1 joiner samtale
 work Arbejde
+yousay Du siger
+youwant Du vil
