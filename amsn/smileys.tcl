@@ -426,7 +426,12 @@ proc load_smileys { } {
 
     foreach x $emotions_names {
 	set img_name "$emotions(${x}_file)"
-	image create photo $img_name -file [GetSkinFile smileys ${img_name}] -format gif
+	#Use QuickTime to display smileys on MacOSX, fix a crashing problem
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		image create photo $img_name -file [GetSkinFile smileys ${img_name}] -format quicktime
+	} else {
+		image create photo $img_name -file [GetSkinFile smileys ${img_name}] -format gif
+	}
 
     }
 
