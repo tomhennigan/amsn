@@ -799,17 +799,17 @@ proc Preferences { { settings ""} } {
 
          # Allow/Block lists
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefprivacy]]
-	pack $frm.lfname -anchor n -side top -expand 1 -fill x
+	pack $frm.lfname -anchor n -side top -expand 1 -fill both
 	label $lfname.pprivacy -image prefapps
 	pack $lfname.pprivacy -anchor nw -side left
 
 	frame $lfname.allowlist -relief sunken -borderwidth 3
         label $lfname.allowlist.label -text "[trans allowlist]"
 	listbox $lfname.allowlist.box -yscrollcommand "$lfname.allowlist.ys set" -font splainf -background \
-	white -relief flat -highlightthickness 0 -height 6 -width 25
+	white -relief flat -highlightthickness 0  -height 5
 	scrollbar $lfname.allowlist.ys -command "$lfname.allowlist.box yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
-        pack $lfname.allowlist.label $lfname.allowlist.box -side top -expand true
+        pack $lfname.allowlist.label $lfname.allowlist.box -side top -expand false
 	pack $lfname.allowlist.ys -side right -fill y
         pack $lfname.allowlist.box -side left -expand true -fill both
  
@@ -817,10 +817,10 @@ proc Preferences { { settings ""} } {
         frame $lfname.blocklist -relief sunken -borderwidth 3
         label $lfname.blocklist.label -text "[trans blocklist]"
 	listbox $lfname.blocklist.box -yscrollcommand "$lfname.blocklist.ys set" -font splainf -background \
-	white -relief flat -highlightthickness 0 -height 6 -width 25
+	white -relief flat -highlightthickness 0  -height 5
 	scrollbar $lfname.blocklist.ys -command "$lfname.blocklist.box yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
-        pack $lfname.blocklist.label $lfname.blocklist.box -side top -expand true
+        pack $lfname.blocklist.label $lfname.blocklist.box -side top -expand false
 	pack $lfname.blocklist.ys -side right -fill y
 	pack $lfname.blocklist.box -side left -expand true -fill both
 
@@ -841,27 +841,27 @@ proc Preferences { { settings ""} } {
 
         # Contact/Reverse lists
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefprivacy2]]
-	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
+	pack $frm.lfname2 -anchor n -side top -expand 1 -fill both
 	label $lfname.pprivacy -image prefapps
 	pack $lfname.pprivacy -anchor nw -side left
 
 	frame $lfname.contactlist -relief sunken -borderwidth 3
         label $lfname.contactlist.label -text "[trans contactlist]"
 	listbox $lfname.contactlist.box -yscrollcommand "$lfname.contactlist.ys set" -font splainf -background \
-	white -relief flat -highlightthickness 0 -height 6 -width 25
+	white -relief flat -highlightthickness 0 -height 5
 	scrollbar $lfname.contactlist.ys -command "$lfname.contactlist.box yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
-        pack $lfname.contactlist.label $lfname.contactlist.box -side top -expand true
+        pack $lfname.contactlist.label $lfname.contactlist.box -side top -expand false
 	pack $lfname.contactlist.ys -side right -fill y
 	pack $lfname.contactlist.box -side left -expand true -fill both
   
 	frame $lfname.reverselist -relief sunken -borderwidth 3
         label $lfname.reverselist.label -text "[trans reverselist]"
 	listbox $lfname.reverselist.box -yscrollcommand "$lfname.reverselist.ys set" -font splainf -background \
-	white -relief flat -highlightthickness 0 -height 6 -width 25
+	white -relief flat -highlightthickness 0  -height 5
 	scrollbar $lfname.reverselist.ys -command "$lfname.reverselist.box yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
-        pack $lfname.reverselist.label $lfname.reverselist.box -side top -expand true
+        pack $lfname.reverselist.label $lfname.reverselist.box -side top -expand false
 	pack $lfname.reverselist.ys -side right -fill y
 	pack $lfname.reverselist.box -side left -expand true -fill both
 
@@ -1280,6 +1280,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.57  2003/06/15 10:11:40  kakaroto
+# privacy listboxes resizable with the preferences window
+#
 # Revision 1.56  2003/06/15 09:59:34  kakaroto
 # added support for the BLP command ( allow users not in my allow/block list to see me online)
 #
