@@ -456,6 +456,7 @@ proc OpenLogWin { email } {
 	bind $wname <<Escape>> "destroy $wname"
 	bind ${wname}.blueframe.log.txt <Button3-ButtonRelease> "tk_popup ${wname}.copypaste %X %Y"
 	bind ${wname} <Control-c> "tk_textCopy ${wname}.blueframe.log.txt"
+	moveinscreen $wname 30
 }
 
 
