@@ -91,10 +91,10 @@ proc Preferences { { settings "personal"} } {
 
 	#  .----------.
 	# _| Personal |________________________________________________
-	image create photo prefpers -file [GetSkinFile pixmaps prefpers.gif]
-	image create photo prefprofile -file [GetSkinFile pixmaps prefprofile.gif]
-	image create photo preffont -file [GetSkinFile pixmaps preffont.gif]
-	image create photo prefphone -file [GetSkinFile pixmaps prefphone.gif]
+	::skin::setPixmap prefpers prefpers.gif
+	::skin::setPixmap prefprofile prefprofile.gif
+	::skin::setPixmap preffont preffont.gif
+	::skin::setPixmap prefphone prefphone.gif
 	#set frm [Rnotebook:frame $nb $Preftabs(personal)]
 	set frm [$nb.nn getframe personal]
 	#Scrollable frame that will contain options
@@ -183,10 +183,9 @@ proc Preferences { { settings "personal"} } {
 	
 	#  .------------.
 	# _| Appearance |________________________________________________
-	image create photo preflook -file [GetSkinFile pixmaps preflook.gif]
-	image create photo prefemotic -file [GetSkinFile pixmaps prefemotic.gif]
-	image create photo prefalerts -file [GetSkinFile pixmaps prefalerts.gif]
-
+	::skin::setPixmap preflook preflook.gif
+	::skin::setPixmap prefemotic prefemotic.gif
+	::skin::setPixmap prefalerts prefalerts.gif
 	#set frm [Rnotebook:frame $nb $Preftabs(appearance)]
 	set frm [$nb.nn getframe appearance]
 	#Scrollable frame that will contain options
@@ -261,9 +260,9 @@ proc Preferences { { settings "personal"} } {
 
 	#  .---------.
 	# _| Session |________________________________________________
-	image create photo prefstatus -file [GetSkinFile pixmaps prefstatus.gif]
-	image create photo prefaway -file [GetSkinFile pixmaps prefaway.gif]
-	image create photo prefmsg -file [GetSkinFile pixmaps prefmsg.gif]
+	::skin::setPixmap prefstatus prefstatus.gif
+	::skin::setPixmap prefaway prefaway.gif
+	::skin::setPixmap prefmsg prefmsg.gif
 
 	#set frm [Rnotebook:frame $nb $Preftabs(session)]
 	set frm [$nb.nn getframe session]
@@ -375,9 +374,9 @@ proc Preferences { { settings "personal"} } {
 
 	#  .--------.
 	# _| Loging |________________________________________________
-	image create photo prefhist -file [GetSkinFile pixmaps prefhist.gif]
-	image create photo prefhist2 -file [GetSkinFile pixmaps prefhist2.gif]
-#	image create photo prefhist3 -file [GetSkinFile pixmaps prefhist3.gif]
+	::skin::setPixmap prefhist prefhist.gif
+	::skin::setPixmap prefhist2 prefhist2.gif
+#	::skin::setPixmap prefhist3 prefhist3.gif
 
 	#set frm [Rnotebook:frame $nb $Preftabs(loging)]
 	set frm [$nb.nn getframe loging]
@@ -434,9 +433,10 @@ proc Preferences { { settings "personal"} } {
 	
 	#  .------------.
 	# _| Connection |________________________________________________
-	image create photo prefnat -file [GetSkinFile pixmaps prefnat.gif]
-	image create photo prefproxy -file [GetSkinFile pixmaps prefproxy.gif]	
-	image create photo prefremote -file [GetSkinFile pixmaps prefpers.gif]
+	
+	::skin::setPixmap prefnat prefnat.gif
+	::skin::setPixmap prefproxy prefproxy.gif
+	::skin::setPixmap prefremote prefpers.gif
 
 	#set frm [Rnotebook:frame $nb $Preftabs(connection)]
 	set frm [$nb.nn getframe connection]
@@ -546,7 +546,7 @@ proc Preferences { { settings "personal"} } {
 
 	#  .--------------.
 	# _| Others |________________________________________________
-	image create photo prefapps -file [GetSkinFile pixmaps prefpers.gif]
+	::skin::setPixmap prefapps prefpers.gif
 
 	#set frm [Rnotebook:frame $nb $Preftabs(others)]
 	set frm [$nb.nn getframe others]
