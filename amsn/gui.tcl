@@ -510,7 +510,7 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 	# FileTransferSend (chatid (filename))
 	# Shows the file transfer window, for window win_name
-	proc FileTransferSend { win_name {filename ""}} {
+	proc FileTransferSendOLD { win_name {filename ""}} {
 		global config
 
 		set w ${win_name}_sendfile
@@ -567,28 +567,37 @@ namespace eval ::amsn {
 		}
 	}
 
-	#PRIVATE: called by the FileTransferSend Dialog
-	proc FileTransferSendOk { w win_name } {
+	proc FileTransferSend { win_name {filename ""} } {
 		global config
 
-		set filename [ $w.top.fields.file get ]
-
+#		set filename [ $w.top.fields.file get ]
+		if { $filename == "" } {
+			set filename [tk_getOpenFile -filetypes  {{"All Files" {*.*}}} -parent $win_name]
+		}
+		
+		if { $filename == "" } { return }
+		
 		if {![file readable $filename]} {
 			msg_box "[trans invalidfile [trans filename] $filename]"
 			return
 		}
 
 
-		if {$config(autoftip) == 0 } {
-			set config(myip) [ $w.top.fields.ip get ]
-			set ipaddr [ $w.top.fields.ip get ]
-			destroy $w
+		#if {$config(autoftip) == 0 } {
+		#	set config(myip) [ $w.top.fields.ip get ]
+		#	set ipaddr [ $w.top.fields.ip get ]
+		#	destroy $w
+		#} else {
+		#	set ipaddr [ $w.top.fields.ip get ]
+		#	destroy $w
+		#	if { $ipaddr != $config(myip) } {
+		#		set ipaddr [ ::abook::getDemographicField clientip ]
+		#	}
+		#}
+		if { [::config::getKey autoftip] } {
+			set ipaddr $config(myip)
 		} else {
-			set ipaddr [ $w.top.fields.ip get ]
-			destroy $w
-			if { $ipaddr != $config(myip) } {
-				set ipaddr [ ::abook::getDemographicField clientip ]
-			}
+			set ipaddr $config(manualip)
 		}
 
 		if { [catch {set filesize [file size $filename]} res]} {

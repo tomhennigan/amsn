@@ -42,7 +42,7 @@
 ### Some global variables
 ############################################################
 set version "0.91CVS"
-set date "02/19/2004"
+set date "02/24/2004"
 set weburl "http://amsn.sourceforge.net"
 set program_dir ""
 set HOME ""
@@ -272,7 +272,7 @@ if { $config(getdisppic) != 0 } {
 
 
 
-if {$version != $config(last_client_version)} {
+if {$version != [::config::getGlobalKey last_client_version]} {
    ::amsn::aboutWindow
 
 }

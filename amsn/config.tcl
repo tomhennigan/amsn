@@ -67,7 +67,9 @@ proc ConfigDefaults {} {
 
 	set config(autoftip) 1				;#Detect IP for file transfers automatically
 	set config(myip) "127.0.0.1"		;#Your IP
+	set config(manualip) "127.0.0.1"		;#Manual IP
 
+	
 	#Specific for Mac OS X, to not have the main window squeezing in top corner and change the default font for the system default font
 	if {$tcl_platform(os) == "Darwin"} {
 		set config(wingeometry) 275x400-200+200			;#Main window geometry
@@ -221,8 +223,6 @@ proc ConfigDefaults {} {
 
 	#System options, not intended to be edited (unless you know what you're doing)
 	set password ""
-
-	set config(last_client_version) ""
 	set config(withnotebook) 0			;#Use notebook tabs in contact lsit
 
 	set config(adverts) 0				;#Enable banner advertisements
@@ -236,7 +236,9 @@ namespace eval ::config {
 
 	proc GlobalDefaults {} {
 		global gconfig
-		set gconfig(language) "en"			;#Default language
+		setGlobalKey last_client_version ""		
+		setGlobalKey language "en"			;#Default language
+		
 	}
 
 	proc get {key} {
@@ -311,7 +313,7 @@ namespace eval ::config {
 		}
 
 		puts $file_id  "<?xml version=\"1.0\"?>\n\n<config>"
-		set config(last_client_version) $version
+		::config::setGlobalKey last_client_version $version
 
 		foreach var_attribute [array names gconfig] {
 			set var_value $gconfig($var_attribute)
@@ -352,8 +354,6 @@ proc save_config {} {
 
 
     puts $file_id  "<?xml version=\"1.0\"?>\n\n<config>"
-    set config(last_client_version) $version
-
 
     foreach var_attribute [array names config] {
       set var_value $config($var_attribute)

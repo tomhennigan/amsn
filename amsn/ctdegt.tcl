@@ -726,21 +726,28 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.5.pass -row 3 -column 4 -sticky w
 
 	## NAT (or similar) Frame ##
-	set lfname [LabelFrame:create $frm.lfname -text [trans prefshared]]
+	set lfname [LabelFrame:create $frm.lfname -text [trans prefft]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.pshared -image prefnat
 	pack $lfname.pshared -side left -anchor nw
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
     
-        checkbutton $lfname.1.autoaccept -text "[trans autoacceptft]" -onvalue 1 -offvalue 0 -variable config(ftautoaccept)
+        checkbutton $lfname.1.autoaccept -text "[trans autoacceptft]" -onvalue 1 -offvalue 0 -variable config(autoaccept)
 	frame $lfname.1.ftport -class Deft
 	label $lfname.1.ftport.text -text "[trans ftportpref] :" -padx 5 -font splainf
 	entry $lfname.1.ftport.entry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5 -textvariable config(initialftport)
 	grid $lfname.1.ftport.text -row 1 -column 1 -sticky w -pady 5 -padx 0
 	grid $lfname.1.ftport.entry -row 1 -column 2 -sticky w -pady 5 -padx 3
-	
-	pack $lfname.1.autoaccept $lfname.1.ftport -anchor w -side top -padx 10
+
+        checkbutton $lfname.1.autoip -text "[trans autodetectip]" -onvalue 1 -offvalue 0 -variable config(autoftip) -command UpdatePreferences
+	frame $lfname.1.ipaddr -class Deft
+	label $lfname.1.ipaddr.text -text "[trans ipaddress] :" -padx 5 -font splainf
+	entry $lfname.1.ipaddr.entry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 15 -textvariable config(manualip)
+	grid $lfname.1.ipaddr.text -row 1 -column 1 -sticky w -pady 5 -padx 0
+	grid $lfname.1.ipaddr.entry -row 1 -column 2 -sticky w -pady 5 -padx 3	
+		
+	pack $lfname.1.autoaccept $lfname.1.ftport $lfname.1.autoip $lfname.1.ipaddr -anchor w -side top -padx 10
 	
 	    
         ## Remote Control Frame ##
@@ -1330,6 +1337,16 @@ proc UpdatePreferences {} {
 		$lfname.5.user configure -state disabled
 		$lfname.5.pass configure -state disabled
 	}
+	set lfname [Rnotebook:frame $nb $Preftabs(connection)]
+	set lfname "${lfname}.lfname.f.f"
+	if { $config(autoftip) } {
+		$lfname.1.ipaddr.entry configure -textvariable "" -text "Hola"
+		$lfname.1.ipaddr.entry delete 0 end
+		$lfname.1.ipaddr.entry insert end $config(myip)
+		$lfname.1.ipaddr.entry configure -state disabled
+	} else {
+		$lfname.1.ipaddr.entry configure -state normal -textvariable config(manualip)
+	}
 
 	# remote control
 	set lfname [Rnotebook:frame $nb $Preftabs(connection)]
@@ -1337,7 +1354,7 @@ proc UpdatePreferences {} {
 	if { $config(enableremote) == 1 } {
 		$lfname.2.pass configure -state normal
 	} else {
-		$lfname.2.pass configure -state disabled
+		$lfname.2.pass configure -state disabled 
 	}
 
 
@@ -1801,6 +1818,9 @@ set $configitem $browsechoose
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.117  2004/02/24 16:16:11  airadier
+# Fixes for file dialog. Removed IP in file transfers, moved to preferences. Moved last_client_version to global options.
+#
 # Revision 1.116  2004/02/23 19:58:58  airadier
 # Improved imagemagick detection.
 #

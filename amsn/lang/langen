@@ -42,6 +42,7 @@ autoaway Show me as "Away" when inactive for
 autocheckver Automatically check for newer versions on startup
 autoconnect2 Sign In automatically when aMSN is launched
 autoconnect Connect on amsn start
+autodetectip Detect IP address automatically
 autohotmaillog Auto Hotmail login
 autoidle Auto NoActivity
 autoip Automatic IP
@@ -367,6 +368,7 @@ preferences Preferences
 preffont2 Change the way others see my text in chat sessions
 preffont3 Change aMSN's interface font and size
 preffont My Message Text
+prefft File transfer, peer-to-peer and NAT settings
 preflibs Libraries directories
 preflog1 My History and Logging Options
 preflook My aMSN Messenger Look

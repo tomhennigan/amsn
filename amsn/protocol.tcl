@@ -2484,7 +2484,8 @@ proc cmsn_sb_handler {sb_name item} {
 	    return 0
 	 }
          set ackid $msgacks($ret_trid)
-	  ::amsn::nackMessage $ackid
+	  #::amsn::nackMessage $ackid
+	  ::MSN::retryMessage $ackid
 	  unset msgacks($ret_trid)
 	  return 0
       }
