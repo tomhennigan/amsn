@@ -90,6 +90,12 @@ proc SelectSkinGui { } {
 	global config bgcolor2
 
 	set w .skin_selector
+
+	if { [winfo exists $w] } {
+		focus $w
+		raise $w
+		return
+	}
 	toplevel $w
 	wm geometry $w 450x250
 	wm resizable $w 0 0
