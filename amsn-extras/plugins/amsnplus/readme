@@ -17,6 +17,7 @@ Features:
             a look at msg plus commands list for ideas)
     Command list (alphabetical):
       /add user_login		add user_login to a contact list
+      /all string		sends string to all conversations opened
       /addgroup groupname	add a new group of contacts
       /block user_login		block user_login
       /clear			clears the chat window
