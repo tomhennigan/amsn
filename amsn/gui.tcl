@@ -4648,17 +4648,20 @@ proc cmsn_draw_online_wrapped {} {
 
 		if {$unread == 0} {
 			set mailmsg "[trans nonewmail]"
-			set_balloon $pgBuddyTop.mail "[trans nonewmail]"
+			set balloon_message "[trans nonewmail]"
 		} elseif {$unread == 1} {
 			set mailmsg "[trans onenewmail]"
-			set_balloon $pgBuddyTop.mail "[trans onenewmail]\n$fromsText"
+			set balloon_message "[trans onenewmail]\n$fromsText"
 		} elseif {$unread == 2} {
 			set mailmsg "[trans twonewmail 2]"
-			set_balloon $pgBuddyTop.mail "[trans twonewmail 2]\n$fromsText"
+			set balloon_message "[trans twonewmail 2]\n$fromsText"
 		} else {
 			set mailmsg "[trans newmail $unread]"
-			set_balloon $pgBuddyTop.mail "[trans newmail $unread]\n$fromsText"
+			set balloon_message "[trans newmail $unread]\n$fromsText"
 		}
+		$pgBuddyTop.mail tag bind mail <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+		$pgBuddyTop.mail tag bind mail <Leave> "+set ::Bulle(first) 0; kill_balloon;"
+		$pgBuddyTop.mail tag bind mail <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
 		set evpar(text) pgBuddyTop.mail
 		set evpar(msg) mailmsg
