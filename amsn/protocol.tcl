@@ -934,6 +934,14 @@ namespace eval ::MSN {
 	     return 0
 	  }
 
+	  if {[catch {eof $sb_sock} res]} {
+            close $sb_sock
+            #TODO: Check what to do when session is closed, remove sb from candidates,
+            #update chatid_sb and sb_chatid
+            cmsn_sb_sessionclosed $sbn
+	     return 0
+	  }
+
          if {[eof $sb_sock]} {
             close $sb_sock
             #TODO: Check what to do when session is closed, remove sb from candidates,

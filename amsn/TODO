@@ -50,7 +50,7 @@ Extra Features (priority 3):
 # Encrypt password? (do we really need to?)
 # Resume File Transfers
 # ** FIXED HTTP PROXY ** Proxy Support (http and socks5)
-# Add View MSN Profile : http://members.msn.com/?pgmarket=en-us&mem=user@hotmail.com or http://svcs.microsoft.com/svcs/mms/profile.asp?Country=AU&BrandID=MSMSGS&passport=user@hotmail.com
+# Add View MSN Profile : http://members.msn.com/?pgmarket=en-us&mem=user@hotmail.com or http://svcs.microsoft.com/svcs/mms/profile.asp?Country=AU&BrandID=MSMSGS&passport=user@hotmail.com or just http://profiles.msn.com/user@hotmail.com
 # Option to popup/raise/unminimize message window on message receive
 # Option to have local window appear before remote user sends message (only when remote double clicks your name). Some people asked for this... even begged.. so here it is
 

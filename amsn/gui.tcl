@@ -184,7 +184,8 @@ namespace eval ::amsn {
       if { "[wm state ${win_name}]" == "withdrawn" } {
         wm state ${win_name} iconic
 	::amsn::notifyAdd "[trans says $fromname]:\n$txt" \
-	   "wm state ${win_name} normal"
+	   "::amsn::chatTo $chatid"
+	   #"wm state ${win_name} normal"
       }
 
       if { [string first ${win_name} [focus]] != 0 } {
@@ -285,7 +286,8 @@ namespace eval ::amsn {
 	  wm iconify ${win_name}
 
          notifyAdd "[trans says [::MSN::userName $chatid $user]]:\n$msg" \
-            "wm state ${win_name} normal; focus -force ${win_name}.f.in.input"
+           "::amsn::chatUser $chatid"
+            #"wm state ${win_name} normal; focus -force ${win_name}.f.in.input"
 
       }
 
