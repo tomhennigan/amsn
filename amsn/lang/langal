@@ -3,8 +3,8 @@ about Lidhje me
 acceptfile Pranoje skedën $1, madhësia $2? E ruajtur në $3
 actions Akcionet
 addacontact Shto një kontakt
-addtocontacts Shto kontakte
 addedyou Të ka shtuar listën e kontakteve të tij/a
+addtocontacts Shto kontakte
 addtoo Shtoje këtë person në listën e kontakteve të mija
 admincontacts Rregullo kontaktet
 admingroups Rregullo grupet
@@ -25,12 +25,12 @@ browser Shfletues
 busy I zënë
 cancel Anulo
 changenick Ndërro nikun
+chatack Duke pranuar bisedën
 chat Bisedo
 chatreq Requesting chat
 chatsmileys :) e bisedave
-chatack Duke pranuar bisedën
-checkver Shiko për version të ri
 checkingver Duke shikuar për version të ri
+checkver Shiko për version të ri
 choosebasefont Zgjedh llojin e shkronjave
 choosebgcolor Zgjedh ngjyren e prapavise
 clicktologin Kliko këtu për të hyrë
@@ -38,9 +38,9 @@ close Mbylle
 closingdocks Close button docks window
 command Komandë
 confirmdelete A jeni i sigurtë që do ta fshini $1?
+connecterror Nuk mund të lidhet me serverin
 contactadded Kontakti u shtua
 contactdoesnotexist Kontakti nuk ekziston!
-connecterror Nuk mund të lidhet me serverin
 copytogroup Krypto Grupi
 date Data
 delete Fshije
@@ -57,19 +57,19 @@ filename Emri i skedës
 filetransfercancelled Transferi i skedës u anulua
 filetransfercomplete Transferi i skedës përfundoi
 gonelunch Gone to lunch
-group Grupi
 groupadd Shto një grup
 groupdelete Fshije një grup
-grouprename Riemërtoje grupin
-groupoldname Emri i vjetër
-groupnewname emri i ri
-groupunknown Group i panjohur
 groupexists Grupi ekziston
+group Grupi
 groupmissing Nuk mund ta gjej grupin
+groupnewname emri i ri
 groupnotempty Grupi nuk është i zbrazët!
+groupoldname Emri i vjetër
+grouprename Riemërtoje grupin
+groupunknown Group i panjohur
 handle Handle
-help Ndihmë
 helpcontents Përmbajtja e ndihmës
+help Ndihmë
 home Shtëpi
 ident Identifying
 identity Identiteti
@@ -80,24 +80,24 @@ ipaddress IP Adresa
 istyping $1 është duke shtypur porosi
 joins $1 $2 i bashkangjitet bisedës
 language Gjuha
-leaves $1 e la bisedën
 leaveblankforhotmail Lëre zbrazët për hotmail web
+leaves $1 e la bisedën
 listeningon Duke dëgjuar në portin $1
 listsmileys List smileys
 loadcontacts Ngarkoje listën e kontakteve
 loggedotherlocation U ç'kyç. Kyçja është bërë nga ndonjë lokacion tjetër
 loggingin Duke u kyçur
-login Kyçu
 loginas Kyçu
+login Kyçu
 logout Ç'kyçu
 logsin Vetëm sa u kyç
 mailer Mail
 mobile Mobil
 movetogroup Lëviz grupin
-mustrestart Duhet ta startoni përsëri programin që t'i merr parasysh ndryshimet
-mystatus Statusi im
 msg Porosi
 msn AMSN-Shqip
+mustrestart Duhet ta startoni përsëri programin që t'i merr parasysh ndryshimet
+mystatus Statusi im
 needonline Ju ende jeni i paraqitur si jashtë linjës!
 newmail $1 Mesazhe të reja në In-Box
 newmailfrom Masazh të ri nga
@@ -109,8 +109,8 @@ nonewmail Nuk ka Mail te ri
 nonewver Nuk ka version të ri për ta marrë
 notify Lajmëro
 nousersinsession Nuk ka shfrytëzues në sesion
-ok Ok
 offline Jashtë linjës
+ok Ok
 onenewmail 1 Mesazhe të reja në In-Box
 online Në Linjë
 onphone Në telefon
@@ -126,8 +126,8 @@ prefapps Aplikacion
 preferences Preferencat
 prefsound Zërat
 properties Karakteristikat
-proxyconf Knfigurimi i proksit
 proxyconfhttp HTTP proxy support configuration
+proxyconf Knfigurimi i proksit
 publishphones Publiko numrat e telefonit
 receivedbytes U pranua $1 nga $2 bajt
 receivefile Prano skedën
@@ -135,9 +135,9 @@ reconnect Duke pritur $1 që të lidhet prap
 reconnecting Duke u lidhur prap me serverin
 rememberpass Mbaje në mend fjalëkalimin
 rightback Kthehm së shpejti
-save Ruaje
 saveas Ruaje si
 savecontacts Ruaje listën e kontakteve
+save Ruaje
 says $1 thot
 sbcon Duke u lidhur në Switch Board
 send Dërgo
@@ -145,24 +145,24 @@ sendfile Dërgo skedën
 sendmail Dërgo postën
 sendmsg Dërgo mesazhin
 sentbytes $1 u dërgua $2 bajt
-server Serveri
 servergoingdown U ç'kyç: Serveri u ndal
+server Serveri
 sound Event Sound
 startoffline Lëshoje jasht linjës
 status Statusi
 syntaxerror  Error sintaksor
 textsize Madhësia e tekstit
 title Al's Messenger
-to Te
 tools Veglat
-yousay Ju thuani
-youwant Ju doni
+to Te
 unblock Ç'bllokoje
 uoffline Jashtë linjës
 uonline Në linjë
-user Shfrytëzuesi
 useralreadyonlist Shfrytëzuesi është në listën e kontakteve
+user Shfrytëzuesi
 version Versioni
 view Shiko
 willjoin Duke pritur $1 t'i bashkangjitet bisedës
 work Punë
+yousay Ju thuani
+youwant Ju doni

@@ -22,19 +22,19 @@ baduserpass Parola sau user gresit!
 blankdirect Nu complecta pentru autentificare automata
 block Blocheaza
 blocked Blocat
+broughtby Programat de
 browse Rasfoieste
 browser Navigator
-broughtby Programat de
 busy Ocupat 
 cancel Renunta
 cfgalarm  Configureaza/Adauga/Sterge sunete
 changenick Schimba nick-ul 
+chatack In curs de acceptare
 chat Conversatie
 chatreq Cerere de conversatie
 chatsmileys Semne in conversatie
-chatack In curs de acceptare
-checkver Verifica daca este versiune noua
 checkingver In curs de verificare 
+checkver Verifica daca este versiune noua
 choosebasefont Alege caracterul 
 choosebgcolor Alege culoarea  
 choosefontcolor Alege culoarea caracterului
@@ -43,9 +43,9 @@ close Inchide
 closingdocks Minimizare in loc de inchidere
 command Commanda
 confirmdelete Sigur vrei sa stergi persoana $1?
+connecterror Conectarea la server a esuat 
 contactadded Persoana adaugata
 contactdoesnotexist Persona nu exista!
-connecterror Conectarea la server a esuat 
 copytogroup Copieaza in grupul 
 date Data
 delete Sterge
@@ -62,16 +62,16 @@ filename Nume fisier
 filetransfercancelled Transfer de fisier intrerupt 
 filetransfercomplete Transfer de fisier complect
 gonelunch Sunt la masa 
-group Grup 
 groupadd Adauga un grup 
 groupdelete Sterge un grup
-grouprename Redenumeste un grup
-groupoldname Nume vechi 
-groupnewname Nume nou 
-groupunknown Grup necunoscut 
 groupexists Grupul exista  
+group Grup 
 groupmissing Nu pot gasi grupul 
+groupnewname Nume nou 
 groupnotempty Grupul nu este gol!
+groupoldname Nume vechi 
+grouprename Redenumeste un grup
+groupunknown Grup necunoscut 
 handle Manuieste
 help Ajutor
 helpcontents Continut
@@ -93,17 +93,17 @@ listsmileys Listeaza semnele
 loadcontacts Incarca lista de contacte 
 loggedotherlocation Deconectat. Autentificare de la alt calculator.
 loggingin In curs de autentificare
-login Autentificare
 loginas Autentificare cu
+login Autentificare
 logout Deautentificare
 logsin tocmai s-a autentificat 
 mailer Utilitar de e-mail
 mobile Mobil
 movetogroup Muta in grupul
-mustrestart Restarteaza aplicatia  ca schimbarile sa devina active.
-mystatus Apar ca 
 msg Mesaj
 msn AMSN
+mustrestart Restarteaza aplicatia  ca schimbarile sa devina active.
+mystatus Apar ca 
 needonline Esti sau Apari neautentificat !
 newmail $1 Mesaje noi in casuta postala
 newmailfrom Ai primit e-mail nou de la 
@@ -115,8 +115,8 @@ nonewmail Nu sint mesaje noi in casuta postala
 nonewver Nu este versiune noua disponibila pentru descarcare
 notify atentioneaza
 nousersinsession Nu sunt persoane in sesiune
-ok Ok
 offline Neautentificat
+ok Ok
 onenewmail 1 mesaj nou in casuta postala
 online Autentificat
 onphone Vorbesc la telefon
@@ -144,22 +144,22 @@ reconnect Asteapta ca $1 sa se reconecteze
 reconnecting In curs de reconectare la server
 rememberpass Retine parola
 rightback Revin imediat 
-save Salveaza
 saveas Salveaza ca ... 
 savecontacts Salveaza lista 
+save Salveaza
 says $1 a scris 
 sbcon In curs de conectare
-send Trimite 
 sendfile Trimite fisier 
 sendmail Trimite e-mail
 sendmsg Trimite mesaj
+send Trimite 
 sentbytes Trimis $1 of $2 bytes
-server Server
 servergoingdown Deconectat: se inchide serverul
-sound Sunet
+server Server
 soundfile Fisieru de avertizare (sunet)
 soundloop Roteste sunetul 
 soundstatus Inchide/Deschide avertizarile
+sound Sunet
 startoffline Incepe  neautentificat
 status Stare
 stopalarm Opreste avertizarea
@@ -168,14 +168,14 @@ textsize Marime text
 title MSN Messanger
 to La
 tools Utilitare
-yousay Tu zici 
-youwant Tu vrei
 unblock Deblocheaza
 uoffline Neautentificat
 uonline Autentificat
-user Utilizator
 useralreadyonlist Exista deja pe lista 
+user Utilizator
 version Versiune
 view Vizualizare
 willjoin Asteapta ca $1 sa se alature conversatiei  
 work Lucru
+yousay Tu zici 
+youwant Tu vrei

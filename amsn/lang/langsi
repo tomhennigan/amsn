@@ -20,17 +20,17 @@ baduserpass Napacno uporabnisko ime ali geslo
 blankdirect Pustite prazno za neposredno povezavo
 block Blokiraj
 blocked Blokiran
-browser Brskalnik
 broughtby  Naredili naslednji programerji
+browser Brskalnik
 busy Zaposlen
 cancel Preklici
 changenick Zamenjaj nick
+chatack Sprejemam pogovor od
 chat Pogovor
 chatreq Zahtevam pogovor
 chatsmileys Smeskoti
-chatack Sprejemam pogovor od
-checkver Preveri za novo verzijo
 checkingver Preverjam za nove verzije
+checkver Preveri za novo verzijo
 choosebasefont Izberi vrsto pisave
 choosebgcolor Izberi barvo ozadja
 clicktologin Pritisni tukaj za prijavo
@@ -38,9 +38,9 @@ close Zapri
 closingdocks Close button docks window
 command Ukaz
 confirmdelete Ali si preprican, da bos zbrisal $1?
+connecterror Napaka pri povezavi na streznik
 contactadded Stik dodan
 contactdoesnotexist Stik ne obstaja!
-connecterror Napaka pri povezavi na streznik
 copytogroup Dodaj v skupino
 date Datum
 delete Izbrisi
@@ -57,19 +57,19 @@ filename Ime datoteke
 filetransfercancelled Prenos datoteke preklican
 filetransfercomplete Prenos datoteke koncan
 gonelunch Na kosilu
-group Skupina
 groupadd Dodaj v skupino
 groupdelete Izbrisi skupino
-grouprename Preimenuj skupino
-groupoldname Staro ime
-groupnewname Novo ime
-groupunknown Neznana skupina
 groupexists Skupina ze obstaja
 groupmissing Ne morem najti skupine
+groupnewname Novo ime
 groupnotempty Skupina ni prazna!
+groupoldname Staro ime
+grouprename Preimenuj skupino
+group Skupina
+groupunknown Neznana skupina
 handle Handle
-help Pomoc
 helpcontents Vsebina pomoci
+help Pomoc
 home Domov
 ident Identifying
 identity Identiteta
@@ -87,17 +87,17 @@ listsmileys Seznam smeskov
 loadcontacts Nalozi seznam stikov
 loggedotherlocation Disconnected. Logged in other location
 loggingin Prijavljam
-login Prijavi se
 loginas Prijavi se kot
+login Prijavi se
 logout Odjavi se
 logsin se je ravnokar odjavil
 mailer Mailer
 mobile Mobilni
 movetogroup Premakni v skupino
-mustrestart Da bi spremembe prisle v veljavo, moras program ponovno zagnati
-mystatus Moje stane
 msg Sporocilo
 msn AMSN
+mustrestart Da bi spremembe prisle v veljavo, moras program ponovno zagnati
+mystatus Moje stane
 needonline Se zmeraj izgleda/si nepovezan
 newmail $1 novih sporocil v In-Boxu
 newmailfrom Novo sporocilo od
@@ -109,8 +109,8 @@ nonewmail Ni novih sporocil v In-Boxu
 nonewver Ni novih verzij na voljo za prenos
 notify obvesti
 nousersinsession Ni uporabnikov v sessionu
-ok Ok
 offline Neprijavljen
+ok Ok
 onenewmail 1 novo sporocilo v In-Boxu
 online Prijavljen
 onphone Na telefonu
@@ -126,8 +126,8 @@ prefapps Aplikacije
 preferences Nastavitve
 prefsound Zvoki
 properties Lastnosti
-proxyconf Nastavitve proxya
 proxyconfhttp Podpora HTTP proxyu
+proxyconf Nastavitve proxya
 publishphones Objavi moje tel. stevilke
 receivedbytes Prejeto $1 od $2 bajtov
 receivefile Sprejmi datoteko
@@ -135,34 +135,34 @@ reconnect Cakam, da se $1 ponovno poveze
 reconnecting Povezujem se s streznikom
 rememberpass Shrani geslo
 rightback Takoj bom nazaj
-save Shrani
 saveas Shrani kot
 savecontacts Shrani seznam stikov
+save Shrani
 says $1 pravi
 sbcon Connecting to Switch Board
-send Poslji
 sendfile Poslji datoteko
 sendmail Poslji e-mail
 sendmsg Poslji sporocilo
+send Poslji
 sentbytes Poslano $1 od $2 bajtov
-server Streznik
 servergoingdown Povezava prekinjena
+server Streznik
 sound Zvok dogodka
 startoffline Zacni neprijavljen
 status Stanje
 syntaxerror  Napaka v sintaksi
 textsize Velikost besedila
 title Al's Messenger
-to Za
 tools Orodja
-yousay Pravis
-youwant Hoces
+to Za
 unblock Odblokiraj
 uoffline Neprijavljeni
 uonline Prijavljeni
-user Uporabnik
 useralreadyonlist Uporabnik je ze na seznamu stikov
+user Uporabnik
 version Verzija
 view Pogled
 willjoin Cakam da se $1 pridruzi pogovoru
 work Delo
+yousay Pravis
+youwant Hoces

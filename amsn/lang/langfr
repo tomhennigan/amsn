@@ -1,4 +1,5 @@
 amsn_lang_version 2
+
 about À Propos...
 acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
 actions Actions
@@ -10,7 +11,6 @@ admincontacts Gérer les contacts
 admingroups Gérer les groupes
 adverts Publicité
 allowseen Autoriser cette personne à me voir et à me contacter quand je
-suis connecté
 appearoff Apparaître déconnecté
 aretyping $1 est en train de taper un message
 autohotmaillog Identification automatique à Hotmail
@@ -100,8 +100,6 @@ movetogroup Deplacer vers groupe
 msg Message
 msn AMSN
 mustrestart Vous devez redémarrer l'application pour que les changements 
-
-prennent effet
 mystatus Mon état
 needonline Vous êtes toujours déconnecté!
 neweravailable nouvelle version disponible ($1)
@@ -131,6 +129,7 @@ port Port
 prefapps Applications
 preferences Préférences
 prefsound Sons
+prennent effet
 properties Propriété
 proxyconf Configuration du proxy
 proxyconfhttp Configuration pour le support du proxy HTTP
@@ -151,11 +150,12 @@ sendfile Envoyer un fichier
 sendmail Envoyer un couriel
 sendmsg Envoyer un message
 sentbytes $1 de $2 octets reçus
-server Serveur
 servergoingdown Serveur en cours d'arrêt
+server Serveur
 sound Événements Sonores
 startoffline Démarrer déconnecté
 status Statut
+suis connecté
 syntaxerror Erreur de syntaxe
 textsize Taille du texte
 title Al's Messenger
@@ -164,8 +164,8 @@ tools Outils
 unblock Débloquer
 uoffline Déconnectés
 uonline Connectés
-user Utilisateur
 useralreadyonlist Utilisateur présent dans la liste
+user Utilisateur
 version Version
 view Vue
 willjoin Dans l'attente que $1 rejoigne la conversation

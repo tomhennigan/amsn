@@ -4,10 +4,10 @@ acceptfile Aceitar ficheiro
 actions Acções
 addacontact Acrescentar um contacto
 addedyou acrescentou-o à sua lista de contactor
-admincontacts Administrar contactos
-admingroups Grupo de acesso
 addtocontacts Adicionar contacto
 addtoo Acrescentar esta pessoa à minha lista de contactos
+admincontacts Administrar contactos
+admingroups Grupo de acesso
 adverts Avisos
 allowseen Permitir a esta pessoa ver quando você está ligado e contactar
 appearoff Sem ligação
@@ -18,16 +18,16 @@ avoidseen Evitar que esta pessoa veja a sua ligação e o contacte
 away Ausente
 baduserpass Palavra-passe errada 
 blankdirect Deixar em branco para ligação directa
-block Não admitir
 blocked Bloqueado
+block Não admitir
 broughtby Trazido por
 browser Browser
 busy Ocupado
 cancel Cancelar
 changenick Mudar alcunha
+chatack Aceitando uma conversação de
 chat Conversação
 chatreq Requisitando uma conversação
-chatack Aceitando uma conversação de
 chatsmileys Figuras de chat 
 checkingver A verificar versão 
 checkver Verificar versão
@@ -54,14 +54,14 @@ examples Exemplos
 exitamsn Sair de AMSN 
 extras Extras
 filedoesnotexist Ficheiro não existe
-filetransfercancelled Transferência de ficheiro cancelada 
 filename Nome ficheiro
+filetransfercancelled Transferência de ficheiro cancelada 
 filetransfercomplete Transferência ficheiro completa
 gonelunch Saí para comer
-group Grupo
 groupadd Adiccionar grupo
 groupdelete Apagar grupo
 groupexists Grupo existe
+group Grupo
 groupmissing Grupo não encontrado
 groupnewname Novo nome do grupo
 groupnotempty Grupo não está vazio
@@ -81,37 +81,38 @@ ipaddress Endereço IP
 istyping $1 está escrevendo uma mensagem
 joins $1 $2 junta-se à conversação
 language Linguagem
+lastmsgtime Hora da última mensagem $1
 leaveblankforhotmail Deixar vazio para hotmail 
 leaves deixa a conversação
-lastmsgtime Hora da última mensagem $1
 listeningon Som ligado
 listsmileys Lista de figuras
 loadcontacts Carregar contactos
 loggedotherlocation Log guardado noutra localização
 loggingin Iniciando sessão
-login Iniciar sessão
 loginas Entrar como
+login Iniciar sessão
 logout Terminar sessão
 logsin acaba de iniciar sessão
 mailer Carteiro
 mobile Telemovel
 movetogroup Mover para o grupo 
-mustrestart Deve reiniciar o programa para aplicar as modificações
-mystatus O meu estado
 msg Mensagem
 msn AMSN
-newveravailable Nova versão disponivel 
+mustrestart Deve reiniciar o programa para aplicar as modificações
+mystatus O meu estado
+needonline Precisa ligar
 newmail $1 novas mensagens na caixa de correio
 newmailfrom Novo correio de
 newmsg Nova mensagem
+newveravailable Nova versão disponivel 
 next Seguinte
 noactivity Sem actividade
 nonewmail 0 novas mensagens na caixa de correio
 nonewver Não há versão nova
 notify aviso
 nousersinsession Não existem utilizadores na sessão
-ok Aceitar
 offline Desligado
+ok Aceitar
 onenewmail 1 nova mensagen na caixa de correio
 online Ligado
 onphone Ao telefone
@@ -123,7 +124,6 @@ pager Pager
 pass Senha
 phone Telefone 
 port Porto
-needonline Precisa ligar
 preferences Preferências 
 prefsound Som predefinido
 properties Propriedades
@@ -136,9 +136,9 @@ reconnect Esperando que $1 volta a ligar-se
 reconnecting Ligando-se de novo ao servidor
 rememberpass Recordar senha
 rightback Volto já
-save Guardar
 saveas Guardar como 
 savecontacts Salvar ou guardar contactos 
+save Guardar
 says $1 diz
 sbcon Ligando a Switch Board
 send Enviar
@@ -146,24 +146,24 @@ sendfile Enviar ficheiro
 sendmail Enviar correio 
 sendmsg Enviar mensagem
 sentbytes Enviar bytes
-server Servidor
 servergoingdown A desligar servidor 
+server Servidor
 sound Sons para eventos
 startoffline Começar desligado
 status Estado
 syntaxerror Erro de Sintaxe 
 textsize Tamanho de texto 
 title Al's Messenger
-to Para
 tools Ferramentas
-yousay Você diz
-youwant Queres
+to Para
 unblock Admitir
 uoffline Desligados
 uonline Ligados
-user Utilizador
 useralreadyonlist Utilizador já existente na lista
+user Utilizador
 version Versão
 view Ver 
 willjoin Esperando que $1 se junte à conversação
 work Trabalho 
+yousay Você diz
+youwant Queres

@@ -20,17 +20,17 @@ baduserpass Vale kasutajanimi või parool
 blankdirect Jäta tühjaks otseühenduse puhul
 block Blokeeri
 blocked Blokeeritud
-browser Brauser
 broughtby  Toodut teile järgnevate isikute poolt
+browser Brauser
 busy Tal on kiire
 cancel tühista
 changenick Muuda hüüdnime
+chatack Nõustun Chatiga
 chat Chat
 chatreq Requesting chat
 chatsmileys Chat smileys
-chatack Nõustun Chatiga
-checkver Kontrolli uuendusi
 checkingver Kontrollin uuendusi
+checkver Kontrolli uuendusi
 choosebasefont Vali fondi tüüp
 choosebgcolor Vali tausta värv
 clicktologin Vajuta siia et sisse logida
@@ -38,9 +38,9 @@ close Sulge
 closingdocks Close button docks window
 command Käsk
 confirmdelete Oled sa kindel et tahd seda kustutada$1?
+connecterror Viga serveriga ühendamisel
 contactadded Sõber lisatud
 contactdoesnotexist Seda sõpra ei eksisteeri!
-connecterror Viga serveriga ühendamisel
 copytogroup Kopeeri gruppi
 date Kuupäev
 delete Kustuta
@@ -57,22 +57,22 @@ filename Failinimi
 filetransfercancelled Faili edastamine tühistatud
 filetransfercomplete Faili edastamine õnnestunud!
 gonelunch Lõunale läinud
-group Grupp
 groupadd Lisa grupp
 groupdelete Kustuta grupp
-grouprename Nimet grupp üle
-groupoldname Vana nimi
-groupnewname Uus nimi
-groupunknown Tundmatu grupp
 groupexists Grupp juba eksisteerib
+group Grupp
 groupmissing Ei suuda gruppi leida
+groupnewname Uus nimi
 groupnotempty Grupp ei ole tühi!
+groupoldname Vana nimi
+grouprename Nimet grupp üle
+groupunknown Tundmatu grupp
 handle Handle
 help Abi
 helpcontents Abi pealkirjad
 home Kodu
-ident Tuvastamine
 identity Tuvasta
+ident Tuvastamine
 inbox kastis
 invalidusername Halb kasutajanimi
 invite Kutsu
@@ -87,17 +87,17 @@ listsmileys Nimekiri smileys
 loadcontacts Lae sõbranimekiri
 loggedotherlocation Lashtiühendatud.Logitud teise kohta
 loggingin Login sisse
-login Logi sisse
 loginas Logi sisse kui
+login Logi sisse
 logout Logi välja
 logsin on just sisse loginud
 mailer Mailer
 mobile Mobiil
 movetogroup Liiguta gruppi
-mustrestart Sa pead programmi uuesti käivitama et muudatusi rakendada
-mystatus Minu olek
 msg Sõnum
 msn AMSN
+mustrestart Sa pead programmi uuesti käivitama et muudatusi rakendada
+mystatus Minu olek
 needonline Sa oled/ilmud ikka lahtiühendatuna
 newmail $1 kastis üks uus sõnum
 newmailfrom Uus mail.Kust-
@@ -109,8 +109,8 @@ nonewmail Kastis pole ühtegi uut sõnumit
 nonewver Pole ühtegi versiooni allalaadimiseks saadaval.
 notify teata
 nousersinsession Ühtegi kasutajat sessioonis
-ok olgu
 offline Lahtiühendatud
+ok olgu
 onenewmail 1 uus sõnum kastis
 online Ühendatud
 onphone Telefonil
@@ -126,27 +126,27 @@ prefapps Programmid
 preferences Sätted
 prefsound Helid
 properties Properties
-proxyconf Proxy konfigureerimine
 proxyconfhttp HTTP proxy support konfigureerimine
+proxyconf Proxy konfigureerimine
 publishphones Avalda mu telefoni numbrid
 receivedbytes Kätte saanud $1 sellest $2 baitides
 receivefile Tiri fail
-reconnect Ootan  $1 järgi uuesti ühendamiseks
 reconnecting Uuesti ühendan serveriga
+reconnect Ootan  $1 järgi uuesti ühendamiseks
 rememberpass Mäleta parooli
 rightback Olen kohe tagasi
-save Salvesta
 saveas Salvesta kui
 savecontacts Salvesta sõbra nimekiri
+save Salvesta
 says $1 ütleb
 sbcon Ühendan "Switchboardiga"...
-send Saada
 sendfile Saada fail
 sendmail Saada mail
 sendmsg Saada sõnum
+send Saada
 sentbytes saadetud $1 sellest $2 baite
-server Server
 servergoingdown Lahtuühendatud.server sulgub
+server Server
 sound Event Sound
 startoffline Stardi lahtiühendatuna
 status Olek
@@ -155,14 +155,14 @@ textsize Teksti suurus
 title Al-i sõnumisaatja
 to kuhu
 tools Tööriistad
-yousay Sa ütled
-youwant Sa tahad
 unblock Ärablokeeri enam
 uoffline Lahtiühendatud
 uonline Ühendatud
-user Kasutaja
 useralreadyonlist Kasutaja on juba sõbranimekirjas
+user Kasutaja
 version Versioon
 view vaade
 willjoin Ootan et $1 liituks vestlusega
 work Töö
+yousay Sa ütled
+youwant Sa tahad

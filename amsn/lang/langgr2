@@ -1,4 +1,9 @@
 amsn_lang_version 2
+
+
+
+
+
 about Plirofories gia to amsn
 acceptfile Apodoxh arxeio $1, megethos $2? apothikeusi sto $3
 actions Energeies
@@ -10,7 +15,6 @@ admincontacts Diaxeirish epafwn
 admingroups Diaxeirish omadwn
 adverts Diahmiseis
 allowseen Epetrepse se auto to atomo na blepei pote eimai sindedemenos kai na epikoinwnei mazi mou
-
 appearoff Emfanish ektos syndeshs
 aretyping o/h $1 tupwnei ena mhnuma
 autohotmaillog Automath syndesh me Hotmail
@@ -20,18 +24,17 @@ baduserpass Lathos username h password
 blankdirect Afhste keno gia apeutheias syndesh
 block Apokleismos
 blocked Apokleismenos
-
-browser Browser
 broughtby Auto to programma ftiaxthke apo tous
+browser Browser
 busy Apasxolhmenos
 cancel Akyrwsh
 changenick Allagh pseudonymou
-chat Synomilia
+chatack Apodoxh synomilias apo
 chatreq Prospa8w na dhmiourghsw synomilia
 chatsmileys Xamogela synomilias
-chatack Apodoxh synomilias apo
-checkver Anazhthsh kainourias ekdoshs
+chat Synomilia
 checkingver Elegxw gia kainouries ekdoseis
+checkver Anazhthsh kainourias ekdoshs
 choosebasefont Epilogh typou grammatoseiras
 choosebgcolor Epilogh xrwmmatos fontou
 choosefontcolor Epilogh xrwmmatos grammatoseiras
@@ -39,11 +42,10 @@ clicktologin Pathste edw gia syndesh
 close kleisimo
 closingdocks To koumpi kleisimatos mazeuei to para8yro
 command Entolh
-
 confirmdelete Thelete pragmati na svhstei to $1?
+connecterror Apotyxia syndeshs me to server
 contactadded Epafh prostethike
 contactdoesnotexist hepafh den yparxei
-connecterror Apotyxia syndeshs me to server
 copytogroup Antegrapse thn omada
 date Hmeromhnia
 delete Diagrafh
@@ -60,16 +62,16 @@ filename Onoma arxeiou
 filetransfercancelled H metafora tou arxeiou akyrwthike
 filetransfercomplete  H metafora tou arxeiou oloklhrwtyhike
 gonelunch Leipw gia faghto
-group Omada
 groupadd Prosthikh mias omadas
 groupdelete Diagrafh mias omadas
-grouprename Metonomasia mias omadas
-groupoldname Palio onoma
-groupnewname Kainourio onoma
-groupunknown Agnwsth omada
 groupexists H omada yparxei
 groupmissing H omada den yparxei
+groupnewname Kainourio onoma
 groupnotempty H omada den einai adeia
+groupoldname Palio onoma
+group Omada
+grouprename Metonomasia mias omadas
+groupunknown Agnwsth omada
 handle xeirismos
 help Bohtheia
 helpcontents Themeta sth bohtheia
@@ -89,20 +91,19 @@ leaves o/h $1 apoxwrei apo th sizitisi
 listeningon Perimenw sto port $1
 listsmileys Lista xamogelwn
 loadcontacts Eisagwgh epafwn
-
 loggedotherlocation Aposyndesh.  Hdh syndedemenos apo allh topo8esia
 loggingin Syndeomai
-login Syndesh
 loginas Syndesh ws
+login Syndesh
 logout Aposyndesh
 logsin molis syndethike
 mailer Hlektronikos Taxydromos
 mobile Kinhto
 movetogroup Metakinhsh sthn omada
-mustrestart Xreiazetai epanekinish tou programmatos wste na isxysoun oi allages
-mystatus Katastash
 msg Ameso minima
 msn AMSN
+mustrestart Xreiazetai epanekinish tou programmatos wste na isxysoun oi allages
+mystatus Katastash
 needonline Akoma eiste/faineste ektos syndeshs
 newmail $1 kainouria minimata hlektronikou taxydromiou
 newmailfrom kainourio mail apo ton/thn
@@ -114,8 +115,8 @@ nonewmail Den yparxoun nea minimata hlektronikou taxydromiou
 nonewver den yparxei kainouria ekdosh
 notify anakoinwse
 nousersinsession Kanenas xrhsths sth synedriash
-ok Entaksei
 offline Ektos syndeshs
+ok Entaksei
 onenewmail 1 kainourio minima hlektronikou taxydromiou
 online Sindedemenos
 onphone Briskomai sto thlefwno
@@ -131,13 +132,13 @@ prefapps Efarmoges
 preferences Pritimiseis
 prefsound Hxoi
 properties Idiothtes
-proxyconf Idiothtas apomakrusmenou diakomisth
 proxyconfhttp Idiothtes HTTP apomakrysmenou diakomisth
+proxyconf Idiothtas apomakrusmenou diakomisth
 publishphones Gnwstopoihse ta thlefwna mou
 receivedbytes Exw labei $1 apo $2 bytes
 receivefile Lhpsh arxeiou
-reconnect Perimenw ton/thn $1 na epanelthei
 reconnecting Epanasindesh me apomakrismeno ypoloigsth
+reconnect Perimenw ton/thn $1 na epanelthei
 rememberpass Apothikeuse ton kwdiko
 rightback Epistrefw amesws
 save Apothikeush
@@ -150,25 +151,24 @@ sendfile Apostolh arxeiou
 sendmail Apostolh minimatos hlektonikou taxydromiou
 sendmsg Apostolh amesou minimatos
 sentbytes Exw steilei $1 apo $2 bytes
-server Server
 servergoingdown Aposyndethika: o server termatizei th leitourgia tou
+server Server
 sound Hxos gegonotwn
 startoffline Ekkinhsh aposynedemenos
 status katastash
 syntaxerror Lathos syntakshs
 textsize Megethos keimenou
 title Al's Messenger
-to Sto
 tools Ergaleia
-yousay Esy les
-youwant Esy theleis
+to Sto
 unblock Apodoxh
 uoffline Aposynedemenoi
 uonline Syndedemenoi
-user Xrhsths
 useralreadyonlist o xrhsths einai hdh sth lista epafwn
+user Xrhsths
 version Ekdosh
 view Probolh
 willjoin Perimenw ton/thn $1 na eiselthei sth sizitisi
 work Douleia
-
+yousay Esy les
+youwant Esy theleis

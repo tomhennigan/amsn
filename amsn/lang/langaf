@@ -10,13 +10,11 @@ admincontacts Beheer Kontakte
 admingroups Beheer groepe
 adverts Advertensies
 allowseen Laat die persoon toe om te sien wanneer ek online is en om my
-te kontak
 appearoff Maak asof jy offline is
 aretyping $1 is besig om te skryf
 autohotmaillog Log outomaties in by Hotmail
 autoip Outomatiese IP
 avoidseen Vermy dat die persoon kan sien wanneer ek online is en dat
-hy/sy my kan kontak
 away Afwesig
 baduserpass Ongeldige gebruikersnaam of wagwoord
 blankdirect Laat leeg vir direkte verbinding
@@ -74,10 +72,13 @@ groupunknown Onbekende groep
 handle Handle
 helpcontents Help inhoud
 help Help
+het
 home Tuis
+hy/sy my kan kontak
 ident Besig met identifisering
 identity Identiteit
 inbox Inbox
+in In-Box
 invalidusername U Aliasnaam is verkeerd.
 invite Nodig uit
 ipaddress IP adres
@@ -103,11 +104,9 @@ movetogroup Verplaas na groep
 msg Boodskap
 msn AMSN
 mustrestart Jy moet die program oorbegin voordat die veranderinge effek
-het
 mystatus My status
 needonline Jy is offline (of maak asof)
 newmail $1 nuwe e-pos berigte
-in In-Box
 newmailfrom Nuwe e-pos van
 newmsg Nuwe boodskap
 newveravailable Nuwer weergawe $1 beskikbaar
@@ -153,12 +152,13 @@ sendmail Stuur `n e-pos
 sendmsg Stuur `n boodskap
 send Stuur
 sentbytes $1 van $2 grepe(bytes) is verstuur
-servergoingdown Die bediener(server) gaan offline
 server Bediener(Server)
+servergoingdown Die bediener(server) gaan offline
 sound Geluid
 startoffline Begin offline
 status Status
 syntaxerror Sintaksfout
+te kontak
 textsize Teksgrootte
 title Al's Messenger
 to Aan

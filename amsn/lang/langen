@@ -23,19 +23,19 @@ baduserpass Wrong user name or password
 blankdirect Leave blank for direct connection
 block Block
 blocked Blocked
+broughtby  Brought to you by the following developers
 browse Browse
 browser Browser
-broughtby  Brought to you by the following developers
 busy Busy
 cancel Cancel
 cfgalarm Configure/Add/Remove Alarm
 changenick Change nick
+chatack Accepting chat from
 chat Chat
 chatreq Requesting chat
 chatsmileys Chat smileys
-chatack Accepting chat from
-checkver Check for new version
 checkingver Checking for new versions
+checkver Check for new version
 choosebasefont Choose font type
 choosebgcolor Choose background color
 choosefontcolor Choose font color
@@ -44,9 +44,9 @@ close Close
 closingdocks Close button docks window
 command Command
 confirmdelete Are you sure you want to delete $1?
+connecterror Error connecting to server
 contactadded Contact added
 contactdoesnotexist Contact does not exist!
-connecterror Error connecting to server
 copytogroup Copy to group
 date Date
 delete Delete
@@ -65,19 +65,19 @@ filetransfercomplete File transfer complete
 ftaccepted File transfer accepted
 ftrejected File transfer rejected
 gonelunch Gone to lunch
-group Group
 groupadd Add a group
 groupdelete Delete a group
-grouprename Rename a group
-groupoldname Old name
-groupnewname New name
-groupunknown Unknown group
 groupexists Group already exists
+group Group
 groupmissing Cannot find group
+groupnewname New name
 groupnotempty Group is not empty!
+groupoldname Old name
+grouprename Rename a group
+groupunknown Unknown group
 handle Handle
-help Help
 helpcontents Help contents
+help Help
 home Home
 ident Identifying
 identity Identity
@@ -96,17 +96,17 @@ listsmileys List smileys
 loadcontacts Load contact list
 loggedotherlocation Disconnected. Logged in other location
 loggingin Logging In
-login Log In
 loginas Login as
+login Log In
 logout Log Out
 logsin has just logged in
 mailer Mailer
 mobile Mobile
 movetogroup Move to Group
-mustrestart You must restart the program to apply changes
-mystatus My status
 msg Message
 msn AMSN
+mustrestart You must restart the program to apply changes
+mystatus My status
 needonline You still are/appear offline!
 newmail $1 new messages in In-Box
 newmailfrom New mail from
@@ -118,8 +118,8 @@ nonewmail No new messages in In-Box
 nonewver There are no new versions available to download
 notify notify
 nousersinsession No users in session
-ok Ok
 offline Offline
+ok Ok
 onenewmail 1 new message in In-Box
 online Online
 onphone On phone
@@ -137,28 +137,28 @@ prefapps Applications
 preferences Preferences
 prefsound Sounds
 properties Properties
-proxyconf Proxy configuration
 proxyconfhttp HTTP proxy support configuration
+proxyconf Proxy configuration
 publishphones Publish my phone numbers
 receivedbytes Received $1 of $2 bytes
 receivefile Receive file
-reconnect Waiting for $1 to reconnect
 reconnecting Reconnecting to server
-rememberpass Remember password
+reconnect Waiting for $1 to reconnect
 reject Reject
+rememberpass Remember password
 rightback Be right back
-save Save
 saveas Save as
 savecontacts Save contact list
+save Save
 says $1 says
 sbcon Connecting to Switch Board
-send Send
 sendfile Send file
 sendmail Send mail
 sendmsg Send message
+send Send
 sentbytes Sent $1 of $2 bytes
-server Server
 servergoingdown Disconnected: Server is going down
+server Server
 sound Event Sound
 soundfile Alarm Sound File
 soundloop Loop Sound
@@ -169,16 +169,16 @@ stopalarm Stop Alarm
 syntaxerror  Syntax Error
 textsize Text size
 title Al's Messenger
-to To
 tools Tools
-yousay You say
-youwant You want
+to To
 unblock Unblock
 uoffline Offline
 uonline Online
-user User
 useralreadyonlist User is already on contact list
+user User
 version Version
 view View
 willjoin Waiting $1 joins conversation
 work Work
+yousay You say
+youwant You want

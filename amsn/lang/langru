@@ -24,20 +24,20 @@ browser Браузер
 busy Занят
 cancel Отменить
 changenick Изменить ник
-chat Чат
+chatack Подтверждение чата от
 chatreq Запрос чата
 chatsmileys Смайлики
-chatack Подтверждение чата от
-checkver Новая версия
+chat Чат
 checkingver Проверка новой версии
+checkver Новая версия
 clicktologin Кликните для входа
 close Закрыть
 closingdocks Закрыть док
 command Команда
 confirmdelete Вы уверены что хотите удалить $1?
+connecterror Ошибка соединения с сервером
 contactadded Пользователь добавлен
 contactdoesnotexist Пользователь не существует
-connecterror Ошибка соединения с сервером
 copytogroup Скопировать в группу 
 date Дата
 delete Удалить
@@ -53,19 +53,19 @@ filename Имя файла
 filetransfercancelled Передача файла отменена
 filetransfercomplete Передача файла завершена
 gonelunch Ушел поесть
-group Группа
 groupadd Добавить группу
+group Группа
 groupdelete Удалить группу
-grouprename Переименовать группу
-groupoldname Старое имя
-groupnewname Новое имя
-groupunknown Неизвестная группа
 groupexists Группа уже существует
 groupmissing Невозможно найти группу
+groupnewname Новое имя
 groupnotempty Группа не пуста!
+groupoldname Старое имя
+grouprename Переименовать группу
+groupunknown Неизвестная группа
 handle Handle
-help Помощь
 helpcontents Помощь
+help Помощь
 home Домой
 ident Идентификация
 identity Идентичность
@@ -83,17 +83,17 @@ listsmileys Список смайликов
 loadcontacts Загрузить контакт-лист
 loggedotherlocation Отключено. Подключение в другом месте
 loggingin Подключение
-login Подключиться
 loginas Подключиться как
+login Подключиться
 logout Отключиться
 logsin подключиться
 mailer Почтовая программа
 mobile Мобильный
 movetogroup Переместить в группу
-mustrestart Для изменения настроек требуется перезапуск программы
-mystatus Мой статус
 msg Сообщение
 msn AMSN
+mustrestart Для изменения настроек требуется перезапуск программы
+mystatus Мой статус
 needonline Вы до сих пор отключены
 newmail $1 новых сообщение во Входящих
 newmailfrom Новая почта от
@@ -105,8 +105,8 @@ nonewmail Нет новых сообщений во Входящих
 nonewver Нет новых версий для скачивания
 notify удостовериться
 nousersinsession Нет пользователей в сессии
-ok ОК
 offline Отключиться
+ok ОК
 onenewmail 1 новое сообщение во Входящих
 online На связи
 onphone На телефоне
@@ -122,27 +122,27 @@ prefapps Программы
 preferences Настройки
 prefsound Звуки
 properties Настройки
-proxyconf настройка прокси
 proxyconfhttp настройка поддержки http прокси
+proxyconf настройка прокси
 publishphones Публиковать номера моих телефонов
 receivedbytes Получено $1 из $2 байт
 receivefile Получить файл
-reconnect Ожидание $1 до повторного подключения
 reconnecting Повторное подключение 
+reconnect Ожидание $1 до повторного подключения
 rememberpass Вспомнить пароль
 rightback Сейчас вернусь
-save Сохранить
 saveas Сохранить как
 savecontacts Сохранить контакт-лист
+save Сохранить
 says $1 говорит
 sbcon Соединение со  Switch Board
-send Отправить
 sendfile Отправить файл
+send Отправить
 sendmail Отправить почту
 sendmsg Отправить сообщение
 sentbytes Отправлено $1 из $2 байт
-server Сервер
 servergoingdown Отключено: сервер в дауне
+server Сервер
 sound Звук событий
 startoffline Запуск в отключенном состоянии
 status Статус
@@ -151,14 +151,14 @@ textsize Обьем текста
 title Al's Messenger
 to Кому
 tools инструменты
-yousay Вы говорите
-youwant Вы хотите
 unblock Разблокировать
 uoffline Отключиться
 uonline Подключиться
-user Пользователь
 useralreadyonlist Пользователь уже добавлен в контакт-лист
+user Пользователь
 version Версия
 view Вид
 willjoin Ожидание пока $1 вступит в разговор 
 work Работа
+yousay Вы говорите
+youwant Вы хотите

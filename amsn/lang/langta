@@ -18,19 +18,19 @@ avoidseen şÅ÷ ±ı¨É ş¨½Â¦¾¡¼÷Ò ¦¸¡ñÎûÇ§À¡Ğ ¸¡½ «ÛÁ¾¢ì¸¡§¾
 away ¦¾¡¨ÄÅ¢ø
 baduserpass Ä¡¸¢ı («) ¸¼×¦º¡ø ¾ÅÚ
 blankdirect §¿ÃÊ ¦¾¡¼÷Ò ±ıÈ¡ø ¸¡Ä¢Â¡¸ Å¢Î
-block ¾Î
 blocked ¾Îì¸Àğ¼Ğ
-browser ¯Ä¡Å¢
+block ¾Î
 broughtby  şÅ÷¸Ç¡ø şó¾ ¦ºÂÄ¢ ¯ÕÅ¡ÉĞ.
+browser ¯Ä¡Å¢
 busy ÓõÓÃõ
 cancel ¿£ìÌ
 changenick Ò¨É¦ÀÂ÷ Á¡üÚ
+chatack şÅÕ¼ı «Ãğ¨¼ «ÛÁ¾¢ì¸ÀÎ¸¢ÈĞ 
 chat «Ãğ¨¼
 chatreq «Ãğ¨¼ «ÛÁ¾¢ §¸û
 chatsmileys «Ãğ¨¼ smileys
-chatack şÅÕ¼ı «Ãğ¨¼ «ÛÁ¾¢ì¸ÀÎ¸¢ÈĞ 
-checkver Ò¾¢Â À¾¢ôÒ şÕì¸¢È¾¡ ±ıÚ «È¢
 checkingver Ò¾¢Â À¾¢ôÒ şÕì¸¢È¾¡ ±ıÚ «È¢ÂôÀÎ¸¢ÈĞ
+checkver Ò¾¢Â À¾¢ôÒ şÕì¸¢È¾¡ ±ıÚ «È¢
 choosebasefont ±ØòĞÕ¨Å §¾Ã¢× ¦ºö
 choosebgcolor À¢ıÒÈ ¿¢Èõ ¦¾Ã¢× ¦ºö
 clicktologin Ä¡¸¢ı ¦ºöÂ şóĞ ÍğÎ
@@ -38,9 +38,9 @@ close ãÎ
 closingdocks Close button docks window
 command Ó¨ÉÂõ
 confirmdelete $1 ¿£ìÌÅ¨¾ ¯Ú¾¢ ¦ºö¸¢È£÷¸Ç¡?
+connecterror ¦º÷ÅÕ¼ı ¦¾¡¼÷Ò ¦¸¡ûÙõ§À¡Ğ ¾ÅÚ §¿÷ó¾Ğ
 contactadded ¦¾¡¼÷Ò §º÷¸ôÀğ¼Ğ
 contactdoesnotexist şó¾ ¦¾¡¼÷Ò ¯í¸û ¿¢ÃÄ¢ø şÕì¸Å¢ø¨Ä!
-connecterror ¦º÷ÅÕ¼ı ¦¾¡¼÷Ò ¦¸¡ûÙõ§À¡Ğ ¾ÅÚ §¿÷ó¾Ğ
 copytogroup ÌØ×ìÌ ¿¸ø ¦ºö
 date §¾¾¢
 delete ¿£ìÌ
@@ -57,22 +57,22 @@ filename §¸¡ôÒ¦ÀÂ÷
 filetransfercancelled §¸¡ôÒ ÀÃ¢Á¡üÈõ ¨¸Å¢¼ôÀğ¼Ğ
 filetransfercomplete §¸¡ôÒ ÀÃ¢Á¡üÈõ ¦ÅüÈ¢ ¦ÀüÈĞ
 gonelunch º¡ôÀ¢¼ ¦ÅÇ¢§Â ¦ºıÚû§Çı.
-group ÌØ
 groupadd Ò¾¢Â ÌØ §º÷
 groupdelete ÌØ¨Å ¿£ìÌ
-grouprename ÌØ ¦ÀÂ÷Á¡üÈõ ¦ºö
-groupoldname À¨ÆÂ ¦ÀÂ÷
-groupnewname Ò¾¢Â ¦ÀÂ÷
-groupunknown ¦¾Ã¢Â¡¾ ÌØ
 groupexists ÌØ ²ü¸É§Å şÕì¸¢ÈĞ
+group ÌØ
 groupmissing ÌØ¨Å ¸ñÎÀ¢Êì¸ ÓÊÂÅ¢ø¨Ä
+groupnewname Ò¾¢Â ¦ÀÂ÷
 groupnotempty ÌØ ¸¡Ä¢Â¡¸ şø¨Ä!
+groupoldname À¨ÆÂ ¦ÀÂ÷
+grouprename ÌØ ¦ÀÂ÷Á¡üÈõ ¦ºö
+groupunknown ¦¾Ã¢Â¡¾ ÌØ
 handle Handle
-help ¯¾Å¢
 helpcontents ¯¾Å¢ ÀğÊÂø
+help ¯¾Å¢
 home Å£Î
-ident ¸ñÎÀ¢Êì¸ôÀÎ¸¢ÈĞ
 identity Identity
+ident ¸ñÎÀ¢Êì¸ôÀÎ¸¢ÈĞ
 inbox ¯û-¦ÀğÊ
 invalidusername ÀÂÉ¡Ç÷ ¦ÀÂ¨Ã ºÃ¢À¡÷ì¸×õ
 invite «¨ÆôÒ ¦¸¡Î
@@ -87,17 +87,17 @@ listsmileys smileys ÀğÊÂÄ¢Î
 loadcontacts ¦¾¡¼÷Ò ÀğÊÂ¨Ä §º÷
 loggedotherlocation ¦¾¡¼÷Ò ĞñÊì¸ôÀğ¼Ğ: şı¦É¡Õ ş¼ò¾¢ø şÕóĞ Ä¡¸¢ı ¦ºöĞûÇ£÷¸û
 loggingin Ä¡¸¢ı ¦ºöÂÀÎ¸¢ÈĞ
-login Ä¡¸¢ı
 loginas şÅÃ¡¸ Ä¡¸¢ı ¦ºöÂ×õ
+login Ä¡¸¢ı
 logout Log Out
 logsin ºüÚ §¿ÃòĞìÌõ Óó¾¡ı Ä¡¸¢ı ¬¸¢ÂĞ
 mailer Mailer
 mobile Mobile
 movetogroup Move to Group
-mustrestart Á¡üÈí¸¨Ç ÒÆí¸ ¿£í¸û şó¾ ¿¢ÃÄ¢¨Â Á£¦¾¡¼í¸ §ÅñÎõ
-mystatus ±ı ¿¢¨Ä
 msg ¦ºö¾¢
 msn AMSN
+mustrestart Á¡üÈí¸¨Ç ÒÆí¸ ¿£í¸û şó¾ ¿¢ÃÄ¢¨Â Á£¦¾¡¼í¸ §ÅñÎõ
+mystatus ±ı ¿¢¨Ä
 needonline ¿£í¸û şıÛõ Á¨Èó¾ ¿¢¨ÄÂ¢ø şÕì¸¢È£÷¸û!
 newmail $1 Ò¾¢Â «ïºø ¯í¸û ¯û-¦ÀğÊÂ¢ø
 newmailfrom Ò¾¢Â «ïºø «ÛôÀ¢ÂÅ÷
@@ -109,8 +109,8 @@ nonewmail Ò¾¢Â «ïºø ¯í¸û ¯û-¦ÀğÊÂ¢ø ±Ğ×õ şø¨Ä
 nonewver Ò¾¢Â À¾¢ôÒ¸û Å¨ÄÂ¢Èì¸õ ¦ºöÂ ±Ğ×õ şø¨Ä
 notify ¦¾Ã¢ÂÀÎòĞ
 nousersinsession ±ó¾ ÀÂÉ¡ÇÕõ şø¨Ä
-ok ºÃ¢
 offline Offline
+ok ºÃ¢
 onenewmail ´Õ Ò¾¢Â «ïºø ÅóĞûÇĞ
 online Online
 onphone ¦¾¡¨Ä §Àº¢Â¢ø ¯û§Çı
@@ -131,32 +131,30 @@ proxyconfhttp HTTP À¢É¡Á¢ ¸ğ¼¨ÁôÒ
 publishphones ±ı ¦¾¡¨Ä§Àº¢ ±ñ¨É ¦ÅÇ¢ÀÎòĞ
 receivedbytes ¦Á¡ò¾õ ¯ûÇ $2 ¨Àğ¸Ç¢ø $1 ¨Àğ¸û ¦ÀÈô Àğ¼Ğ
 receivefile §¸¡ôÒ ¦ÀÈôÀÎ¸¢ÈĞ
-reconnect Waiting for $1 to reconnect
 reconnecting ¦º÷ÅÕ¼ı ÁÚÀÊÔõ ¦¾¡¼÷Ò ¦¸¡ûÇÀÎ¸¢ÈĞ
+reconnect Waiting for $1 to reconnect
 rememberpass ¸¼×¦º¡ø¨Ä ¿¢¨ÉÅ¢ø ¨Å
 rightback ş§¾¡ ÅóĞÅ¢ğ§¼ı!!
-save À¾¢ì¸
 saveas Á¡üÚô¦ÀÂÃ¢ø À¾¢ì¸
+save À¾¢ì¸
 savecontacts ¦¾¡¼÷Ò ÀğÊÂ¨Ä À¾¢ì¸
 says $1 ¦º¡ø¸¢È¡÷
 sbcon Connecting to Switch Board
-send «ÛôÒ
 sendfile §¸¡ôÒ «ÛôÒ
 sendmail Á¢ıÉïºø «ÛôÒ
 sendmsg ¦ºö¾¢ «ÛôÒ
+send «ÛôÒ
 sentbytes ¦Á¡ò¾õ ¯ûÇ $2 ¨Àğ¸Ç¢ø $1 ¨Àğ¸û «ÛôÀô Àğ¼Ğ
-server ¦º÷Å÷
 servergoingdown ¦¾¡¼÷Ò ĞñÊì¸ôÀğ¼Ğ: ¦º÷Å÷ ¦ºÂø şÆì¸¢ÈĞ.
+server ¦º÷Å÷
 sound ´Ä¢ 
 startoffline Start Offline
 status ¿¢¨Ä
 syntaxerror  Syntax Error
 textsize ÅÃ¢ «Ç×
 title Al's àĞÅı
-to ¦ÀÚ¿÷
 tools ¸ÕÅ¢¸û
-yousay ¿£í¸û ¦º¡ø¸¢È£÷¸û
-youwant ¿£í¸û Å¢ÕõÒõ
+to ¦ÀÚ¿÷
 unblock ¾¨¼ «¸üÚ
 uoffline Offline
 uonline Online
@@ -166,3 +164,5 @@ version À¾¢ôÒ
 view À¡÷
 willjoin ¸¡ò¾¢Õì¸¢ÈĞ $1 «Ãğ¨¼ìÌ §º÷ì¸ôÀÎ¸¢ÈĞ
 work §Å¨Ä
+yousay ¿£í¸û ¦º¡ø¸¢È£÷¸û
+youwant ¿£í¸û Å¢ÕõÒõ

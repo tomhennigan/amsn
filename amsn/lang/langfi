@@ -21,21 +21,21 @@ avoidseen Estä tätä henkilöä näkemästä yhteystilaani ja ottamasta yhteyttä minuu
 away Poissa
 baduserpass Virheellinen käyttäjänimi tai salasana
 blankdirect Jätä tyhjäksi, jos käytät suoraa yhteyttä
-block Estä
 blocked Estetty
-browse Selaa
-browser Selain
+block Estä
 broughtby  Kehitetty seuraavien kehittäjien toimesta
+browser Selain
+browse Selaa
 busy Varattu
 cancel Peruuta
 cfgalarm Aseta/Lisää/Poista hälytys
 changenick Vaihda lempinimi
+chatack Hyväksytään keskustelupyyntöä
 chat Keskustele
 chatreq Pyydä keskusteluun
 chatsmileys Hymiöt
-chatack Hyväksytään keskustelupyyntöä
-checkver Tarkista uusin versio
 checkingver Tarkistaa uusinta versiota
+checkver Tarkista uusin versio
 choosebasefont Valitse fontti
 choosebgcolor Valitse taustaväri
 choosefontcolor Valitse fontin väri
@@ -44,9 +44,9 @@ close Sulje
 closingdocks Sulje-painike pienentää ikkunan
 command Komento
 confirmdelete Haluatko varmasti poistaa $1?
+connecterror Virhe yhdistettäessä palvelimelle
 contactadded Yhteystieto lisätty
 contactdoesnotexist Yhteystietoa ei ole!
-connecterror Virhe yhdistettäessä palvelimelle
 copytogroup Kopio ryhmään
 date Päiväys
 delete Poista
@@ -64,22 +64,22 @@ filename Tiedoston nimi
 filetransfercancelled Tiedoston siirto keskeytetty
 filetransfercomplete Tiedoston siirto valmis
 gonelunch Lounaalla
-group Ryhmä
 groupadd Lisää ryhmä
 groupdelete Poista ryhmä
-grouprename Nimeä ryhmä uudelleen
-groupoldname Vanha nimi
-groupnewname Uusi nimi
-groupunknown Tuntematon ryhmä
 groupexists Ryhmä on jo olemassa!
 groupmissing Ryhmää ei löydy
+groupnewname Uusi nimi
 groupnotempty Ryhmä ei ole tyhjä!
+groupoldname Vanha nimi
+grouprename Nimeä ryhmä uudelleen
+group Ryhmä
+groupunknown Tuntematon ryhmä
 handle Käsittele
 help Apua
 helpcontents Sisältö
 home Koti
-ident Tunnistus käynnissä
 identity Henkilöllisyys
+ident Tunnistus käynnissä
 inbox Saapuneet
 invalidusername Virheellinen käyttäjänimi
 invite Kutsu
@@ -95,17 +95,17 @@ listsmileys Hymiöluettelo
 loadcontacts Lataa yhteystiedot
 loggedotherlocation Yhteys katkesi. Olet kirjautuneena toisesta paikasta.
 loggingin Kirjaudutaan sisälle
-login Kirjaudu sisälle
 loginas Kirjaudu lempinimellä
+login Kirjaudu sisälle
 logout Kirjaudu ulos
 logsin on juuri kirjautunut sisään
 mailer Sähköpostiohjelma
 mobile Matkapuhelin
 movetogroup Siirrä ryhmään
-mustrestart Sinun täytyy käynnistää ohjelma uudestaan, että muutokset tulevat voimaan
-mystatus Oma tila
 msg Viesti
 msn AMSN
+mustrestart Sinun täytyy käynnistää ohjelma uudestaan, että muutokset tulevat voimaan
+mystatus Oma tila
 needonline Sinä olet/näyt vieläkin offline-tilaisena!
 newmail $1 uutta viestiä saapunut Saapuneisiin
 newmailfrom Uusi viesti
@@ -118,8 +118,8 @@ nonewver Uudempaa versiota ei ole saatavilla
 notify muistuta
 notifywin Muistutus-ikkuna
 nousersinsession Ei käyttäjiä
-ok Ok
 offline Offline-tila
+ok Ok
 onenewmail 1 uusi viesti Saapuneissa
 online Online-tila
 onphone Puhelimessa
@@ -137,45 +137,45 @@ prefapps Sovellukset
 preferences Valinnat
 prefsound Äänet
 properties Ominaisuudet
-proxyconf Välityspalvelimen asetukset
 proxyconfhttp HTTP-välityspalvelin asetukset
+proxyconf Välityspalvelimen asetukset
 publishphones Julkaise puhelinnumeroni
 receivedbytes Vastaanotettu $1 / $2 tavusta
 receivefile Vastaanota tiedosto
-reconnect Odottaa $1 uudelleen kirjautumista
 reconnecting Yhdistetään uudelleen palvelimeen
+reconnect Odottaa $1 uudelleen kirjautumista
 rememberpass Muista salasana
 rightback Tulen kohta takaisin
-save Tallenna
 saveas Tallenna nimellä
 savecontacts Tallenna yhteystiedot
+save Tallenna
 says $1 sanoo
 sbcon Otetaan yhteys Kytkintauluun
-send Lähetä
 sendfile Lähetä tiedosto
+send Lähetä
 sendmail Lähetä sähköpostiviesti
 sendmsg Lähetä viesti
 sentbytes Lähetetty $1 / $2 tavusta
-server Palvelin
 servergoingdown Yhteys katkaistu: palvelin sammutetaan
-sound Tapahtumien äänimerkki
+server Palvelin
 soundfile Hälytyksen äänitiedosto
 soundloop Soita ääntä silmukassa
+sound Tapahtumien äänimerkki
 startoffline Aloita offline-tilassa
 status Tila
 syntaxerror Muotoiluvirhe
 textsize Tekstin koko
 title Al's Messenger
-to Vastaanottaja
 tools Työkalut
-yousay Sanot
-youwant Haluat
+to Vastaanottaja
 unblock Päästä
 uoffline Offline-tilassa
 uonline Online-tilassa 
-user Käyttäjä
 useralreadyonlist Käyttäjä on jo yhteystiedoissa
+user Käyttäjä
 version Versio
 view Näkymä
 willjoin Odottaa $1 liittymistä keskusteluun
 work Työ
+yousay Sanot
+youwant Haluat

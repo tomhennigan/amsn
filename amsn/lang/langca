@@ -25,25 +25,25 @@ browser Navegador
 busy Ocupat
 cancel Cancel·la
 changenick Canvia de nick
-chat Xat
+chatack Acceptant xat de
 chatreq Demanant xat
 chatsmileys Emoticons al xat
-chatack Acceptant xat de
-checkver Busca una versió nova
+chat Xat
 checkingver Buscant versions noves
-choosebasefont Escull el tipus de lletra
+checkver Busca una versió nova
 choosebackgroundcolor Escull el color de fons
+choosebasefont Escull el tipus de lletra
 choosebgcolor Escull el color de fons
-choosefont Escull el tipus de lletra
 choosefontcolor Escull el color del tipus de lletra
+choosefont Escull el tipus de lletra
 clicktologin Fes clic aquí per connectar-te
 close Tanca
 closingdocks El botó tancar minimitza la finestra
 command Reproductor
 confirmdelete ¿Estàs segur de voler eliminar a $1?
+connecterror Error connectant-se amb el servidor
 contactadded Contacte inclòs
 contactdoesnotexist ¡El contacte que intentes afegir no existeix!
-connecterror Error connectant-se amb el servidor
 copytogroup Copia al grup
 date Data
 delete Esborrar
@@ -60,16 +60,16 @@ filename Nom de l'arxiu
 filetransfercancelled S'ha cancel·lat la transferència
 filetransfercomplete La transferència del arxiu ha finalitzat
 gonelunch Estic dinant
-group Grup
 groupadd Afegir un grup
 groupdelete Esborrar un grup
-grouprename Reanomenar un grup
-groupoldname Nom antic
-groupnewname Nom nou
-groupunknown Grup desconegut
 groupexists El grup ja existeix
+group Grup
 groupmissing No es pot trobar el grup
+groupnewname Nom nou
 groupnotempty El grup no està buit!
+groupoldname Nom antic
+grouprename Reanomenar un grup
+groupunknown Grup desconegut
 handle Nick
 help Ajuda
 helpcontents Contiguts
@@ -91,17 +91,17 @@ listsmileys Llista d'emoticones
 loadcontacts Carregar una llista de contactes
 loggedotherlocation Desconnectat. S'ha iniciat la sessió en un altre lloc
 loggingin Connectant-se
-login Connectar-se
 loginas Connectar-se com
+login Connectar-se
 logout Desconnectar-se
 logsin s'acaba de connectar
 mailer Gestor de correu
 mobile Mòbil
 movetogroup Moure al grup
-mustrestart Has de reiniciar el programa per a que els canvis tinguin efecte
-mystatus El meu estat
 msg Missatge
 msn AMSN
+mustrestart Has de reiniciar el programa per a que els canvis tinguin efecte
+mystatus El meu estat
 needonline Encara ets/sembles desconectat!
 newmail $1 missatges nous a la bústia
 newmailfrom Nou missatge de correu de
@@ -113,8 +113,8 @@ nonewmail No hi ha missatges nous a la bústia
 nonewver No hi ha cap versió nova per a baixar-se
 notify notificar
 nousersinsession No hi ha usuaris a la sessió
-ok Bé
 offline Desconnectat
+ok Bé
 onenewmail 1 missatge nou a la bústia
 online Connectat
 onphone Al telèfon
@@ -139,9 +139,9 @@ reconnect Esperant a que $1 es reconnecti
 reconnecting Reconnectant-se al servidor
 rememberpass Recordar contrasenya
 rightback Un moment
-save Guardar
 saveas Guardar com
 savecontacts Guardar la llista de contactes
+save Guardar
 says $1 diu
 sbcon Connectant-se a la Switch Board
 send Enviar
@@ -149,8 +149,8 @@ sendfile Enviar arxiu
 sendmail Enviar correu electrònic
 sendmsg Enviar missatge
 sentbytes Enviats $1 de $2 bytes
-server Servidor
 servergoingdown Desconnectat: El servidor s'apagarà per manteniment
+server Servidor
 sound So en un event
 startoffline Començar desconnectat
 status Estat
@@ -159,14 +159,14 @@ textsize Tamany del text
 title Al's Messenger
 to A
 tools Eines
-yousay Dius
-youwant Vols
 unblock Desbloquejar
 uoffline Desconnectats
 uonline Connectats
-user Ususari
 useralreadyonlist L'usuari ja és a la llista de contactes
+user Ususari
 version Versió
 view Veure
 willjoin Esperant que $1  s'uneixi a la conversa
 work Treball
+yousay Dius
+youwant Vols

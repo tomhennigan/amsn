@@ -20,17 +20,17 @@ baduserpass Feil brukernavn eller passord
 blankdirect La stå tom for direkte tilkobling
 block Blokker
 blocked Blokkert
-browser Nettleser
 broughtby Gitt til deg av følgende utviklere
+browser Nettleser
 busy Opptatt
 cancel Avbryt
 changenick Endre kallenavn
+chatack Aksepterer chat fra
 chat Chat
 chatreq Forespørsel om  chat
 chatsmileys Chat smileyer
-chatack Aksepterer chat fra
-checkver Se etter nyere versjon
 checkingver Ser etter nyere versjon
+checkver Se etter nyere versjon
 choosebasefont Velg skrifttype
 choosebgcolor Velg bakgrunnsfarge
 choosefontcolor Velg skrift farge 
@@ -39,9 +39,9 @@ close Lukk
 closingdocks Lukke-knappen minimerer vinduet
 command Kommando
 confirmdelete Er du sikker på at du vil slette $1?
+connecterror Feil ved tilkobling til server
 contactadded Kontakten er lagt til
 contactdoesnotexist Kontakten eksisterer ikke!
-connecterror Feil ved tilkobling til server
 copytogroup Kopier til gruppe
 date Dato
 delete Slett
@@ -58,19 +58,19 @@ filename Filnavn
 filetransfercancelled Filoverføringen ble avbrutt
 filetransfercomplete Filoverføringen er fullført
 gonelunch Ute til lunsj
-group Gruppe
 groupadd Legg til en gruppe
 groupdelete Slett en gruppe
-grouprename Gi nytt navn til en gruppe
-groupoldname Gammelt navn
-groupnewname Nytt navn
-groupunknown Ukjent gruppe
 groupexists Gruppen eksisterer allerede
+group Gruppe
 groupmissing Finner ikke gruppen
+groupnewname Nytt navn
 groupnotempty Gruppen er ikke tom!
+groupoldname Gammelt navn
+grouprename Gi nytt navn til en gruppe
+groupunknown Ukjent gruppe
 handle Handle
-help Hjelp
 helpcontents Hjelp innhold
+help Hjelp
 home Hjem
 ident Identifiserer
 identity Identitet
@@ -89,17 +89,17 @@ listsmileys Vis alle Smileys
 loadcontacts Last inn kontaktliste
 loggedotherlocation Frakoblet, Logget inn et annet sted
 loggingin Logger inn
-login Logg inn
 loginas Logg inn som
+login Logg inn
 logout Logg ut
 logsin har nettopp logget inn
 mailer Mailer
 mobile Mobil
 movetogroup Flytt til gruppe
-mustrestart Du må starte programmet på nytt for å aktivere endringene
-mystatus Min status
 msg Beskjed
 msn AMSN
+mustrestart Du må starte programmet på nytt for å aktivere endringene
+mystatus Min status
 needonline Du er ennå/ser ut til å være offline!
 newmail $1 nye meldinger i Innboksen
 newmailfrom Ny e-post fra
@@ -111,8 +111,8 @@ nonewmail Ingen nye meldinger i Innboksen
 nonewver Det er ingen nye versjoner tilgjengelig for nedlasting
 notify gi beskjed
 nousersinsession Ingen brukere i sesjonen
-ok OK
 offline Offline
+ok OK
 onenewmail 1 ny melding i Innboksen
 online Online
 onphone I telefonen
@@ -128,43 +128,43 @@ prefapps Applikasjoner
 preferences Innstillinger
 prefsound Lyder
 properties Egenskaper
-proxyconf Proxy konfigurasjon
 proxyconfhttp HTTP proxy support konfigurasjon
+proxyconf Proxy konfigurasjon
 publishphones Publiser mine telefonnummer
 receivedbytes Mottatt $1 av $2 bytes
 receivefile Motta fil
-reconnect Venter på at $1 skal koble til på nytt
 reconnecting Kobler til serveren på nytt
+reconnect Venter på at $1 skal koble til på nytt
 rememberpass Husk passord
 rightback Straks tilbake
-save Lagre
 saveas Lagre som
 savecontacts Lagre kontaktliste
+save Lagre
 says $1 sier
 sbcon Kobler til koblingstavle
-send Send
 sendfile Send fil
 sendmail Send e-post
 sendmsg Send beskjed
+send Send
 sentbytes Sendt $1 av $2 bytes
-server Server
 servergoingdown Frakoblet: Serveren går ned
+server Server
 sound Hendelseslyd
 startoffline Start offline
 status Status
 syntaxerror  Syntax Error
 textsize Skriftstørrelse
 title Al's Messenger
-to Til
 tools Verktøy
-yousay Du sier
-youwant Du vil
+to Til
 unblock Deblokker
 uoffline Offline
 uonline Online
-user Bruker
 useralreadyonlist Brukeren er allerede i kontaktlisten
+user Bruker
 version Versjon
 view Vis
 willjoin Venter $1 blir med i samtalen
 work Arbeid
+yousay Du sier
+youwant Du vil

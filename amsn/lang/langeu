@@ -20,15 +20,15 @@ baduserpass Erabiltzaile izena edo pasahitza ez da zuzena
 blankdirect Konexio zuzena erabiltzeko zuriz utzi
 block Blokeatu
 blocked Blokeatuta
-browser Nabigatzailea
 broughtby Honako progamatzaile hauei esker AMSN erabili dezakezu
+browser Nabigatzailea
 busy Okupatuta
 cancel Utzi
 changenick Ezizena aldatu
-chat Txat
 chatack -ren txata onartzen
 chatreq Txat eskakizuna
 chatsmileys Smiley-ak txatean
+chat Txat
 checkingver Bertsio berriagorik dagoen egiaztatzen
 checkver Bertsio berria dagoen egiaztatu
 choosebasefont Letra-mota hautatu
@@ -39,9 +39,9 @@ close Itzi
 closingdocks Ixteko botoiak minimizatzen du
 command Komandoa
 confirmdelete $1 ezabatzearekin ados zaude?
+connecterror Akatsa zerbitzarira konektatzerakoan
 contactadded Kontaktua gehituta
 contactdoesnotexist Kontaktua ez da existitzen
-connecterror Akatsa zerbitzarira konektatzerakoan
 copytogroup Taldera kopiatu
 date Data
 delete Ezabatu
@@ -58,19 +58,19 @@ filename Fitxategi-izena
 filetransfercancelled Fitxategien transferentzia bertan behera utzita
 filetransfercomplete Fitxategien transferentzia osatuta
 gonelunch Jatera joanda
-group Taldea
 groupadd Talde bat gehitu
 groupdelete Talde bat ezabatu
-grouprename Talde bat berizendatu
-groupoldname Izen zaharra
-groupnewname Izen berria
-groupunknown Talde ezezaguna
 groupexists Talde hau badago lehendik
 groupmissing Taldea ez dago
+groupnewname Izen berria
 groupnotempty Taldea ez dago utzik!
+groupoldname Izen zaharra
+grouprename Talde bat berizendatu
+group Taldea
+groupunknown Talde ezezaguna
 handle Heldulekua
-help Laguntza
 helpcontents Laguntzaren edukiak
+help Laguntza
 home Etxea
 ident Identifikatzen
 identity Identitatea
@@ -89,16 +89,16 @@ listsmileys Smiley-ak kontaktuan
 loadcontacts Kontaktuen zerrenda kargatu
 loggedotherlocation Deskonektaturik: Beste lekuren batean saioa hasi da
 loggingin Saioa hasten
-login Saioa hasi
 loginas Beste saio bat hasteko
+login Saioa hasi
 logout Saioa amaitu
 logsin oraintxe bertan saioa hasi du
 mailer Bidalketa-funtzioa
 mobile Mugikorra
 movetogroup Taldera mugitu
-mustrestart Aldaketak aplikatzeko programa berrabiarazi behar duzu
 msg Mezua
 msn AMSN
+mustrestart Aldaketak aplikatzeko programa berrabiarazi behar duzu
 mystatus Nire egoera
 needonline Oraindik deskonektatuta zaude edo deskonektatuta ematen duzu!
 newmail $1 mezu berri zure sarrera-bandejan
@@ -111,8 +111,8 @@ nonewmail 0 mezu berri zure sarrera-bandejan
 nonewver Ez dago bertsio berriagorik deskargatzeko erabilgarri
 notify jakinarazi
 nousersinsession Ez dago erabiltzailerik saioan
-ok Ok
 offline Deskonektatuta
+ok Ok
 onenewmail Mezu berri bat zure sarrera-bandejan
 online Konektatuta
 onphone Telefonoz hitzegiten
@@ -128,8 +128,8 @@ prefapps Aplikazioak
 preferences Hobespenak
 prefsound Soinuak
 properties Propietateak
-proxyconf Proxyaren konfigurazioa
 proxyconfhttp HTTP proxyaren konfigurazioa
+proxyconf Proxyaren konfigurazioa
 publishphones Nire telefono zenbakiak argitara eman
 receivedbytes $2 byteetako $1 jasota
 receivefile Fitxategia jaso
@@ -137,9 +137,9 @@ reconnect $1 birkonektatzera itxaroten
 reconnecting Zerbitzariara birkonektatzen
 rememberpass Pasahitza gogoratu
 rightback Oraintxe bueltan nago
-save Gorde
 saveas Gorde Honela
 savecontacts Kontaktu zerrenda gorde
+save Gorde
 says $1[e]k dio
 sbcon Switch Board-era konektatzen
 send Bidali
@@ -147,9 +147,12 @@ sendfile Fitxategia bidali
 sendmail E-posta bidali
 sendmsg Mezua bidali
 sentbytes $2 bytetako $1 bidaliak
+servergoingdown Deskonektaturik: Zerbitzaria mantentze lanetarako itzaliko da
 server Zerbitzaria
 sound Gertaeren soinuak
 startoffline Deskonektatuta hasi
+status Egoera
+syntaxerror Akats sintaktikoa
 textsize Testuaren tamaina
 title Al's Messenger
 to Nori
@@ -157,6 +160,7 @@ tools Tresnak
 unblock Desblokeatu
 uoffline Deskonektatuta
 uonline Konektatuta
+useralreadyonlist Erabiltzailea kontaktuen zerrendan dago jada
 user Erabiltzaile
 version Bertsioa
 view Ikuspegia
@@ -164,7 +168,3 @@ willjoin $1 berriketan sartzera itxaroten
 work Lana
 yousay Zuk diozu
 youwant Zu itxaroten duzu
-servergoingdown Deskonektaturik: Zerbitzaria mantentze lanetarako itzaliko da
-status Egoera
-syntaxerror Akats sintaktikoa
-useralreadyonlist Erabiltzailea kontaktuen zerrendan dago jada

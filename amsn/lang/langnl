@@ -10,13 +10,11 @@ admincontacts Beheer contacten
 admingroups Beheer groepen
 adverts Advertenties
 allowseen Sta deze persoon toe om te zien wanneer ik online ben en om mij 
-te contacteren
 appearoff Doe alsof je offline bent
 aretyping $1 zijn bezig met typen
 autohotmaillog Automatisch inloggen bij Hotmail
 autoip Automatisch IP
 avoidseen Vermijd dat deze persoon kan zien wanneer ik online ben en dat 
-hij mij kan contacteren
 away Afwezig
 baduserpass Foutieve gebruikersnaam of wachtwoord
 blankdirect Laat leeg voor directe connectie
@@ -72,12 +70,15 @@ groupoldname Oude naam
 grouprename Verander een groepsnaam
 groupunknown Onbekende groep
 handle Nick
+hebben
 helpcontents Help inhoud
 help Help
+hij mij kan contacteren
 home Thuis
 ident Bezig met identificeren
 identity Identiteit
 inbox Inbox
+in In-Box
 invalidusername Uw gebruikersnaam is fout.
 invite Nodig uit
 ipaddress IP adres
@@ -103,11 +104,9 @@ movetogroup Verplaats naar groep
 msg Bericht
 msn AMSN
 mustrestart Je moet het programma herstarten voordat de veranderingen effect 
-hebben
 mystatus Mijn status
 needonline Je bent offline (of doet alsof)  
 newmail $1 nieuwe berichten 
-in In-Box
 newmailfrom Nieuwe email van
 newmsg Nieuw bericht
 newveravailable Nieuwere versie $1 beschikbaar
@@ -159,6 +158,7 @@ sound Geluid
 startoffline Begin offline
 status Status
 syntaxerror Syntaxfout
+te contacteren
 textsize Tekstgrootte
 title Al's Messenger
 to Aan

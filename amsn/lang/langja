@@ -18,19 +18,19 @@ avoidseen このひとからのメッセージをブロックする
 away 退席中
 baduserpass パスワードまたはユーザ名が間違っています
 blankdirect 直接接続するにはここを空白にしてください
-block 禁止
 blocked 禁止済
-browser ブラウザ
+block 禁止
 broughtby  開発者は
+browser ブラウザ
 busy 取り込み中
 cancel キャンセル
 changenick 名前の変更
 chat 会話
+chatack チャットの受信
 chatreq チャットに招待
 chatsmileys 絵文字
-chatack チャットの受信
-checkver 新バージョンを確認
 checkingver 新しいバージョンを検索しています
+checkver 新バージョンを確認
 choosebasefont フォントを選ぶ
 choosebgcolor 背景色を選ぶ
 choosefontcolor 文字色を選ぶ
@@ -39,9 +39,9 @@ close 閉じる
 closingdocks 閉じるを押したとき最小化する
 command コマンド
 confirmdelete 本当に $1 を削除しますか？
+connecterror サーバに接続できませんでした
 contactadded メンバリストに追加されました
 contactdoesnotexist メンバが存在しません！
-connecterror サーバに接続できませんでした
 copytogroup グループにコピー
 date 日付
 delete 削除
@@ -58,22 +58,22 @@ filename ファイル名
 filetransfercancelled ファイルの転送を中止しました
 filetransfercomplete ファイルの転送に成功しました
 gonelunch 昼休み
-group グループ
 groupadd グループの追加
 groupdelete グループの削除
-grouprename グループ名の変更
-groupoldname 変更するグループ名
-groupnewname 変更後のグループ名
-groupunknown グループが見つかりません
+group グループ
 groupexists そのグループ名は既に使われていますx
 groupmissing グループがみつかりません
+groupnewname 変更後のグループ名
 groupnotempty グループが空ではありません
+groupoldname 変更するグループ名
+grouprename グループ名の変更
+groupunknown グループが見つかりません
 handle ハンドル
-help ヘルプ
 helpcontents ヘルプ
+help ヘルプ
 home ホーム
-ident 個人情報を読み込んでいます
 identity 個人情報
+ident 個人情報を読み込んでいます
 inbox 受信箱
 invalidusername そのユーザ名は無効です
 invite 招待
@@ -89,17 +89,17 @@ listsmileys 絵文字リスト
 loadcontacts メンバリストの読み込み
 loggedotherlocation 他の場所からサインインしたため、サインアウトさせられました
 loggingin サインインしています
-login サインイン
 loginas 他のアカウントでサインインする
+login サインイン
 logout ログアウト
 logsin がログインしました
 mailer メーラ
 mobile 携帯
 movetogroup グループに移動
-mustrestart 設定の変更を反映するにはメッセンジャを再起動する必要があります
-mystatus 状態
 msg メッセージ
 msn AMSN
+mustrestart 設定の変更を反映するにはメッセンジャを再起動する必要があります
+mystatus 状態
 needonline あなたは今オフラインになっています
 newmail $1 通のメールが受信箱にあります
 newmailfrom 次の方から新着メールが来ました
@@ -111,8 +111,8 @@ nonewmail 新着メールはありません
 nonewver 新しいバージョンはありませんでした
 notify 通知
 nousersinsession このセッションには誰もいません
-ok Ok
 offline オフライン
+ok Ok
 onenewmail 1通の新着メールがあります
 online オンライン
 onphone 電話中
@@ -128,8 +128,8 @@ prefapps アプリケーション
 preferences 詳細
 prefsound 効果音
 properties 設定
-proxyconf プロキシの設定
 proxyconfhttp HTTPプロキシの設定
+proxyconf プロキシの設定
 publishphones 電話番号を公開
 receivedbytes $2 バイト中の $1 バイトを受信しました
 receivefile ファイルを受信
@@ -137,9 +137,9 @@ reconnect $1 の再接続を待機しています
 reconnecting サーバへ再接続しています	
 rememberpass パスワードを保存
 rightback 一時退席中
-save 保存
 saveas 別名で保存
 savecontacts メンバリストを保存
+save 保存
 says $1 の発言
 sbcon スイッチボードに接続しています
 send 送信
@@ -147,18 +147,16 @@ sendfile ファイルを送信
 sendmail メールを送信
 sendmsg メッセージを送信
 sentbytes $2 バイト中の$1 バイトを送信しました
-server サーバ
 servergoingdown サーバが終了したため、サービスから切断されました
+server サーバ
 sound 効果音
 startoffline サインイン時オフラインにする
 status 状態
 syntaxerror エラー
 textsize 文字数
 title Al's Messenger(日本語版)
-to To
 tools ツール
-yousay あなたの発言
-youwant 次の事を望みますか？
+to To
 unblock 禁止の解除
 uoffline オフライン
 uonline オンライン
@@ -168,3 +166,5 @@ version バージョン情報
 view 表示
 willjoin $1 が会話に参加するのを待っています
 work 仕事
+yousay あなたの発言
+youwant 次の事を望みますか？

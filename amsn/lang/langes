@@ -25,9 +25,9 @@ baduserpass Nombre de usuario o contraseña incorrectos
 blankdirect Dejar en blanco para conexión directa
 blocked Bloqueado
 block No admitir
+broughtby Traido a Ud. por los siguientes programadores
 browse Examinar
 browser Navegador
-broughtby Traido a Ud. por los siguientes programadores
 busy No disponible
 cancel Cancelar
 cfgalarm Configurar/quitar alarma
@@ -67,16 +67,16 @@ filetransfercomplete Transferencia de archivo completada
 ftaccepted Transferencia de archivo aceptada
 ftrejected Transferencia de archivo cancelada
 gonelunch Salí a comer
-group Grupo
 groupadd Añadir un grupo
 groupdelete Borrar un grupo
-grouprename Cambiar nombre a grupo
-groupoldname Nombre antiguo
-groupnewname Nuevo nombre
-groupunknown Grupo desconocido
 groupexists El grupo ya existe
+group Grupo
 groupmissing No se puede encontrar el grupo
+groupnewname Nuevo nombre
 groupnotempty El grupo no esta vacio
+groupoldname Nombre antiguo
+grouprename Cambiar nombre a grupo
+groupunknown Grupo desconocido
 handle Nick
 help Ayuda
 helpcontents Temas de ayuda
@@ -104,9 +104,9 @@ logout Cerrar sesión
 logsin acaba de iniciar sesión
 mailer Comando de email
 mobile Celular
+movetogroup Mover al grupo
 msg Mensaje
 msn AMSN
-movetogroup Mover al grupo
 mustrestart Debes reiniciar el programa para aplicar los cambios
 mystatus Mi estado
 needonline Todavía estas/apareces desconectado 
@@ -147,12 +147,12 @@ receivedbytes Recibidos $1 de $2 bytes totales
 receivefile Recibir archivo
 reconnect Esperando que $1 se reconecte
 reconnecting Reconectando al servidor
-rememberpass Recordar contraseña
 reject Rechazar
+rememberpass Recordar contraseña
 rightback Vuelvo enseguida
+saveas Guardar como
 savecontacts Guardar lista de contactos
 save Guardar
-saveas Guardar como
 says $1 dice
 sbcon Conectando a Switch Board
 send Enviar
@@ -160,11 +160,11 @@ sendfile Enviar archivo
 sendmail Enviar email
 sendmsg Enviar mensaje
 sentbytes Enviados $1 de $2 bytes totales
-server Servidor
 servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
-sound Sonido eventos
+server Servidor
 soundfile Archivo de sonido de la alarma
 soundloop Sonido repetitivo
+sound Sonido eventos
 soundstatus Encender/Apagar el sonido de la alarma
 startoffline Comenzar Desconectado
 status Estado
@@ -178,8 +178,8 @@ to Para
 unblock Admitir
 uoffline Desconectados
 uonline Conectados
-user Usuario
 useralreadyonlist El usuario ya se encuentra en la lista de contactos.
+user Usuario
 version Versión
 view Ver
 willjoin Esperando que $1 se una a la conversación

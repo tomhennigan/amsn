@@ -10,7 +10,6 @@ admincontacts Διαχείριση επαφών
 admingroups Διαχείριση ομάδων
 adverts Διαφημίσεις
 allowseen Επέτρεψε σε αυτό το άτομο να βλέπει πότε είμαι συνδεδεμένος και 
-να επικοινωνεί μαζί μου
 appearoff Εμφάνιση εκτός σύνδεσης
 aretyping ο/η $1 τυπώνει ένα μήνυμα
 autohotmaillog Αυτόματη σύνδεση με Hotmail.
@@ -21,17 +20,17 @@ baduserpass Λάθος user name ή password
 blankdirect Αφήστε κενό για απευθείας σύνδεση
 block Αποκλεισμός
 blocked Αποκλεισμένος
-browser Browser
 broughtby Αυτό το πρόγραμμα φτιάχτηκε από τους
+browser Browser
 busy Απασχολημένος
 cancel Ακύρωση
 changenick Αλλαγή ψευδώνυμου
+chatack Αποδοχή συνομιλίας από
 chat Συνομιλία
 chatreq Προσπαθώ να δημιουργήσω συνομιλία
 chatsmileys Χαμόγελα συνομιλίας
-chatack Αποδοχή συνομιλίας από
-checkver Αναζήτηση καινούριας έκδοσης
 checkingver Ελέγχω για καινούριες εκδόσεις
+checkver Αναζήτηση καινούριας έκδοσης
 choosebasefont Επιλογή τύπου γραμματοσειράς
 choosebgcolor Επιλογή background χρώματος
 choosefontcolor Επιλογή χρώματος γραμματοσειράς
@@ -40,9 +39,9 @@ close Κλείσιμο
 closingdocks Το κουμπί κλεισίματος μαζεύει το παράθυρο
 command Εντολή
 confirmdelete Θέλετε πράγματι να σβηστεί το $1?
+connecterror Αποτυχία σύνδεσης με τον server
 contactadded Επαφή προστέθηκε
 contactdoesnotexist Η επαφή δεν υπάρχει
-connecterror Αποτυχία σύνδεσης με τον server
 copytogroup Αντέγραψε στην ομάδα
 date Ημερομηνία
 delete Διαγραφή
@@ -59,20 +58,21 @@ filename Όνομα αρχείου
 filetransfercancelled Η μεταφορά του αρχείου ακυρώθηκε
 filetransfercomplete Η μεταφορά του αρχείου ολοκληρώθηκε
 gonelunch Λείπω για φαγητό
-group Ομάδα
 groupadd Προσθήκη μίας ομάδας
 groupdelete Διαγραφή μίας ομάδας
-grouprename Μετονομασία μιας ομάδας
-groupoldname Παλιό όνομα
-groupnewname Καινούριο όνομα
-groupunknown Άγνωστη ομάδα
 groupexists Η ομάδα υπάρχει
+group Ομάδα
 groupmissing Η ομάδα δεν υπάρχει
+groupnewname Καινούριο όνομα
 groupnotempty Η ομάδα δεν είναι άδεια
+groupoldname Παλιό όνομα
+grouprename Μετονομασία μιας ομάδας
+groupunknown Άγνωστη ομάδα
 handle Χειρισμός
 help Βοήθεια
 helpcontents Θέματα στην βοήθεια
 home Σπίτι
+να επικοινωνεί μαζί μου
 ident Αναγνωρίζω
 identity Ταυτότητα
 inbox Καλάθι e-mail
@@ -90,17 +90,17 @@ listsmileys Λίστα χαμόγελων
 loadcontacts Εισαγωγή επαφών
 loggedotherlocation Αποσύνδεση. Ήδη συνδεδεμένος από άλλη τοποθεσία
 loggingin Συνδέομαι
-login Σύνδεση
 loginas Σύνδεση ως
+login Σύνδεση
 logout Αποσύνδεση
 logsin μόλις συνδέθηκε
 mailer Ηλεκτρονικός ταχυδρόμος
 mobile Κινητό
 movetogroup Μετακίνηση στην ομάδα
-mustrestart Χρειάζεται επανεκκίνηση ώστε οι αλλαγές να ισχύσουν
-mystatus Κατάσταση
 msg Άμεσο μήνυμα
 msn AMSN
+mustrestart Χρειάζεται επανεκκίνηση ώστε οι αλλαγές να ισχύσουν
+mystatus Κατάσταση
 needonline Ακόμα είστε/φαίνεστε εκτός σύνδεσης!
 newmail $1 καινούρια μηνύματα ηλεκτρονικού ταχυδρομείου
 newmailfrom Καινούριο mail από τον/την
@@ -112,8 +112,8 @@ nonewmail Δεν υπάρχουν νέα μηνύματα ηλεκτρονικού ταχυδρομείου
 nonewver Δεν υπάρχει καινούρια έκδοση
 notify ανακοίνωσε
 nousersinsession Κανένας χρήστης στην συνεδρίαση
-ok Εντάξει
 offline Εκτός σύνδεσης
+ok Εντάξει
 onenewmail 1 καινούριο μήνυμα ηλεκτρονικού ταχυδρομείου
 online Συνδεδεμένος
 onphone Βρίσκομαι στο τηλέφωνο
@@ -148,24 +148,24 @@ sendfile Αποστολή αρχείου
 sendmail Αποστολή μηνύματος ηλεκτρονικού ταχυδρομείου
 sendmsg Αποστολή άμεσου μηνύματος
 sentbytes Έχω στείλει $1 από $2 bytes
-server Server
 servergoingdown Αποσυνδέθηκα: O server τερματίζει την λειτουργία του
+server Server
 sound Ήχος γεγονότων
 startoffline Εκκίνηση αποσυνδεδεμένος
 status Κατάσταση
 syntaxerror Λάθος σύνταξης
 textsize Μέγεθος κειμένου
 title Al's Messenger
-to Στο
 tools Εργαλεία
-yousay Εσύ λες
-youwant Εσύ θέλεις
+to Στο
 unblock Αποδοχή
 uoffline Αποσυνδεδεμένοι
 uonline Συνδεδεμένοι
-user Χρήστης
 useralreadyonlist Ο χρήστης είναι ήδη στην λίστα επαφών
+user Χρήστης
 version Έκδοση
 view Προβολή
 willjoin Περιμένω τον/την $1 να εισέλθει στην συζήτηση
 work Δουλειά
+yousay Εσύ λες
+youwant Εσύ θέλεις

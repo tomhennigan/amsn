@@ -4,6 +4,7 @@ acceptfile Datei $1 (Größe: $2) annehmen? In $3 gespeichert
 actions Aktionen
 addacontact Kontakt hinzufügen
 addedyou hat dich ihrer/seiner Kontaktliste hinzugefügt
+addtocontacts In die Kontaktliste einfügen
 addtoo Diese Person meiner Kontaktliste hinzufügen
 admincontacts Verwaltung - Kontakte
 admingroups Verwaltung - Gruppen
@@ -19,49 +20,57 @@ baduserpass Benutzername oder Passwort ungültig
 blankdirect Bei direkter Verbindung leer lassen
 block Blockieren
 blocked Blockiert
+broughtby Von diesen Entwickler für dich gebracht
 browser Browser
 busy Beschäftigt
 cancel Abbrechen
 changenick Namen ändern
+chatack Chat annehmen von
 chat Chat
 chatreq Einladung zum Chat
 chatsmileys Smileys während Chat
-chatack Chat annehmen von
-checkver Auf neue Version prüfen
 checkingver Auf neue Versionen prüfen
+checkver Auf neue Version prüfen
+choosebasefont Schriftart auswählen
+choosebgcolor Hintergrundfarbe Auswählen
+choosefontcolor Schriftfarbe auswählen
 clicktologin Hier klicken zum anmelden
 close Schließen
 closingdocks Schaltfläche "Schließen" koppelt Fenster
 command Befehl
 confirmdelete $1 wirklich löschen?
+connecterror Verbindungsaufbau zum Server fehlgeschlagen!
 contactadded Kontakt hinzugefügt
 contactdoesnotexist Kontakt nicht vorhanden!
-connecterror Verbindungsaufbau zum Server fehlgeschlagen!
+copytogroup Kopieren zur Gruppe
 date Datum
 delete Löschen
 enableproxy Proxy aktivieren
+encoding Encoding auswählen
 entercontactemail Gib eine E-Mail-Adresse ein
 enterfilename Gib einen Dateinamen ein
 enternick Gib deinen Namen ein
 examples Beispiele
 exitamsn Wirklich beenden?
+extras Extras
 filedoesnotexist Datei nicht vorhanden
 filename Dateiname
 filetransfercancelled Übertragung abgebrochen
 filetransfercomplete Übertragung abgeschlossen
 gonelunch Mittagspause
-group Gruppe
 groupadd Gruppe hinzufügen
 groupdelete Gruppe löschen
-grouprename Gruppe umbenennen
-groupoldname Alter Name
-groupnewname Neuer Name
-groupunknown Unbekannte Gruppe
 groupexists Gruppe bereits vorhanden
+group Gruppe
 groupmissing Gruppe kann nicht gefunden werden
+groupnewname Neuer Name
+groupnotempty Gruppe ist nicht leer
+groupoldname Alter Name
+grouprename Gruppe umbenennen
+groupunknown Unbekannte Gruppe
 handle Handle
-help Hilfe
 helpcontents Hilfe - Inhalt
+help Hilfe
 home Start
 ident Identifiziere
 identity Identität
@@ -72,6 +81,8 @@ ipaddress IP-Adresse
 istyping $1 gibt eine Nachricht ein
 joins $1 $2 wurde dem Chat hinzugefügt
 language Sprache
+lastmsgtime Letzte Nachricht angekommen am $1
+leaveblankforhotmail Leer lassen, um Hotmail zu benutzen
 leaves $1 hat Chat verlassen
 listeningon Port $1
 listsmileys Smiley-Auswahlfenster anzeigen
@@ -84,10 +95,11 @@ logout Abmelden
 logsin hat sich gerade angemeldet
 mailer E-Mail
 mobile Mobil
-mustrestart Änderungen werden erst nach einem Neustart übernommen
-mystatus Mein Status
+movetogroup Zur Gruppe bewegen
 msg Nachricht
 msn AMSN
+mustrestart Änderungen werden erst nach einem Neustart übernommen
+mystatus Mein Status
 needonline Du bist noch immer offline bzw. wirst als offline angezeigt!
 newmail $1 neue Nachrichten im Posteingang
 newmailfrom Neue E-Mail von
@@ -99,8 +111,8 @@ nonewmail 0 neue Nachrichten im Posteingang
 nonewver Zurzeit keine neue Version verfügbar
 notify Benachrichtigen
 nousersinsession Keine Benutzer in Sitzung
-ok OK
 offline Offline
+ok OK
 onenewmail 1 neue Nachrichten im Posteingang
 online Online
 onphone Am Telefon
@@ -116,55 +128,43 @@ prefapps Anwendungen
 preferences Einstellungen
 prefsound Akustische Signale
 properties Eigenschaften
-proxyconf Proxy-Konfiguration
 proxyconfhttp Konfiguration: HTTP-Proxy-Unterstützung
+proxyconf Proxy-Konfiguration
 publishphones Meine Telefonnummern veröffentlichen
 receivedbytes $1 von $2 Bytes empfangen
 receivefile Datei empfangen
-reconnect Warte, bis $1 wieder angemeldet ist
 reconnecting Erneute Anmeldung beim Server
+reconnect Warte, bis $1 wieder angemeldet ist
 rememberpass Passwort speichern
 rightback Bin gleich zurück
-save Speichern
 saveas Speichern unter
 savecontacts Kontaktliste speichern
+save Speichern
 says $1 sagt
 sbcon Verbinde mit Server
-send Senden
 sendfile Datei senden
 sendmail E-Mail senden
 sendmsg Nachricht senden
+send Senden
 sentbytes $1 von $2 Bytes gesendet
-server Server
 servergoingdown Verbindungsabbruch: Serverfehler
+server Server
 sound Akustische Signale
 startoffline Offline-Modus beim Start
+status Status
 syntaxerror  Syntaxfehler
 textsize Textgröße
 title Al's Messenger
 to An
 tools Extras
-yousay Du sagst
-youwant Du willst
 unblock Blockieren entfernen
 uoffline Offline
 uonline Online
-user Benutzer
 useralreadyonlist Benutzer ist bereits in Kontaktliste
+user Benutzer
 version Version
 view Ansicht
 willjoin Warte... $1 wird dem Chat hinzugefügt
 work Arbeit
-lastmsgtime Letzte Nachricht angekommen am $1
-broughtby Von diesen Entwickler für dich gebracht
-choosebgcolor Hintergrundfarbe Auswählen
-extras Extras
-copytogroup Kopieren zur Gruppe
-addtocontacts In die Kontaktliste einfügen
-status Status
-leaveblankforhotmail Leer lassen, um Hotmail zu benutzen
-movetogroup Zur Gruppe bewegen
-groupnotempty Gruppe ist nicht leer
-choosebasefont Schriftart auswählen
-encoding Encoding auswählen
-choosefontcolor Schriftfarbe auswählen
+yousay Du sagst
+youwant Du willst

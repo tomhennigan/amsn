@@ -25,12 +25,12 @@ browser Navegador
 busy Ocupado
 cancel Cancelar
 changenick Mudar o apelido
+chatack Aceitando um bate-papo de
 chat Bate-papo
 chatreq Requisição de bate-papo
 chatsmileys Carinhas
-chatack Aceitando um bate-papo de
-checkver Procurar por uma versão mais nova
 checkingver Procurando por versões mais novas
+checkver Procurar por uma versão mais nova
 choosebasefont Escolha o tipo de letra
 choosebgcolor Escolha a cor do fundo
 clicktologin Clique aqui conectar
@@ -38,9 +38,9 @@ close Fechar
 closingdocks O botão fechar minimiza a janela
 command Comando
 confirmdelete Você tem certeza que deseja apagar $1?
+connecterror Erro ao conectar ao servidor
 contactadded Contato adicionado
 contactdoesnotexist Contato inexistente!
-connecterror Erro ao conectar ao servidor
 copytogroup Copiar para o grupo
 date Data
 delete Apagar
@@ -57,15 +57,15 @@ filename Nome do Arquivo
 filetransfercancelled Transferência de arquivo cancelada
 filetransfercomplete Transferência de arquivo completa
 gonelunch Saí para almoçar
-group Grupo
 groupadd Adicionar um grupo
 groupdelete Apagar um grupo
-grouprename Renomear um grupo
-groupoldname Nome antigo
-groupnewname Nome novo
-groupunknown Grupo desconhecido
 groupexists Grupo já existe
+group Grupo
+groupnewname Nome novo
 groupnotempty O Grupo não está vazio!
+groupoldname Nome antigo
+grouprename Renomear um grupo
+groupunknown Grupo desconhecido
 handle Referência
 help Ajuda
 helpcontents Conteúdo da Ajuda
@@ -87,17 +87,17 @@ listsmileys Listar as carinhas
 loadcontacts Carregar a lista de contatos
 loggedotherlocation Desconectado. Conectado em outro local.
 loggingin Conectando
-login Conectar
 loginas Conectar como
+login Conectar
 logout Desconectar
 logsin acaba de conectar
 mailer Servidor de Mail
 mobile Celular
 movetogroup Mover para o grupo
-mustrestart Deve reiniciar o programa para aplicar as modificações
-mystatus O meu estado
 msg Mensagem
 msn AMSN
+mustrestart Deve reiniciar o programa para aplicar as modificações
+mystatus O meu estado
 needonline Você ainda está/aparece desconectado!
 newmail $1 novas mensagens na Caixa de Entrada
 newmailfrom Novo e-mail de
@@ -108,8 +108,8 @@ nonewmail Nenhuma mensagem nova na Caixa de Entrada
 nonewver Não existem versões mais novas disponíveis para download
 notify avisar
 nousersinsession Não há contatos conectados
-ok Ok
 offline Desconectado
+ok Ok
 onenewmail 1 novo e-mail na Caixa de Entrada
 online Conectado
 onphone No telefone
@@ -134,9 +134,9 @@ reconnect Esperando $1 reconectar
 reconnecting Conectando-se novamente ao servidor
 rememberpass Salvar a senha
 rightback Volto já
-save Salvar
 saveas Salvar como
 savecontacts Salvar a lista de contatos
+save Salvar
 says $1 diz
 sbcon Ligando a Switch Board
 send Enviar
@@ -144,24 +144,24 @@ sendfile Enviar arquivo
 sendmail Enviar e-mail
 sendmsg Enviar mensagem
 sentbytes $1 bytes enviados, $2 total
-server Servidor
 servergoingdown Desconectado: Servidor está sendo desligado
+server Servidor
 sound Sons para eventos
 startoffline Iniciar desconectado
 status Estado
 syntaxerror Esrro de sintaxe
 textsize Tamanho do texto
 title Al's Messenger
-to Para
 tools Ferramentas
-yousay Você diz
-youwant Você quer
+to Para
 unblock Desbloquear
 uoffline Desconectados
 uonline Conectados
-user Usuário
 useralreadyinlist Usuário já está na lista
+user Usuário
 version Versão
 view Exibir
 willjoin Esperando que $1 se junte ao bate-papo
 work Trabalho
+yousay Você diz
+youwant Você quer

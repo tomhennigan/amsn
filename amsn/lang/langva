@@ -18,32 +18,32 @@ avoidseen No deixes que aquesta persona veja si estic connectat i que contacte a
 away Absent
 baduserpass Nom d'usuari o contrasenya incorrecte
 blankdirect Deixa-ho en blanc per a connectar-te directament
-block No admetre'l
 blocked Bloquejat
+block No admetre'l
 broughtby Programadors d'aquesta versió
 browser Navegador
 busy No disponible
 cancel Cancel·la
 changenick Canvia de nick
-chat Xat
+chatack Acceptant xat de
 chatreq Demanant xat
 chatsmileys Emoticons al xat
-chatack Acceptant xat de
-checkver Cercar si existeix una nova versió del programa
+chat Xat
 checkingver Cercant versions noves
-choosebasefont Elegir el tipus de lletra
+checkver Cercar si existeix una nova versió del programa
 choosebackgroundcolor Elegir el color de fons
+choosebasefont Elegir el tipus de lletra
 choosebgcolor Elegir el color de fons
-choosefont Elegir el tipus de lletra
 choosefontcolor Elegir el color del tipus de lletra
+choosefont Elegir el tipus de lletra
 clicktologin Faça clic ací per a connectar-se
 close Eixir
 closingdocks El botó tancar minimitza la finestra
 command Reproductor
 confirmdelete Estàs segur de voler eliminar a $1?
+connecterror Error connectant-se amb el servidor
 contactadded Contacte inclòs
 contactdoesnotexist El contacte que intentes afegir no existeix!
-connecterror Error connectant-se amb el servidor
 copytogroup Copia al grup
 date Data
 delete Esborrar
@@ -60,16 +60,16 @@ filename Nom del fitxer
 filetransfercancelled S'ha cancel·lat la transferència
 filetransfercomplete La transferència del fitxer ha finalitzat
 gonelunch Vaig eixir a menjar
-group Grup
 groupadd Afegir un grup
 groupdelete Esborrar un grup
-grouprename Reanomenar un grup
-groupoldname Nom antic
-groupnewname Nom nou
-groupunknown Grup desconegut
 groupexists El grup ja existeix
+group Grup
 groupmissing No es pot trobar el grup
+groupnewname Nom nou
 groupnotempty El grup no està buit!
+groupoldname Nom antic
+grouprename Reanomenar un grup
+groupunknown Grup desconegut
 handle Nick
 help Ajuda
 helpcontents Continguts
@@ -91,17 +91,17 @@ listsmileys Llistat d'emoticons
 loadcontacts Carregar una llista de contactes
 loggedotherlocation Desconnectat. S'ha iniciat la sessió en un altre lloc
 loggingin Connectant-se
-login Connectar-se com a
 loginas Connectar-se com a
+login Connectar-se com a
 logout Desconnectar-se
 logsin s'acaba de connectar
 mailer Gestor de correu
 mobile Mòvil
 movetogroup Moure al grup
-mustrestart Has de reiniciar el programa per a que els canvis tinguen efecte
-mystatus El meu estat
 msg Missatge
 msn AMSN
+mustrestart Has de reiniciar el programa per a que els canvis tinguen efecte
+mystatus El meu estat
 needonline Encara ets/apareixes desconectat!
 newmail $1 missatges nous al correu entrant
 newmailfrom Nou missatge de correu de
@@ -113,8 +113,8 @@ nonewmail No n'hi ha cap missatge de correu nou
 nonewver No hi ha cap versió nova per a baixar-se
 notify notificar
 nousersinsession No hi ha usuaris a la sessió
-ok Bé
 offline Desconnectat
+ok Bé
 onenewmail 1 missatge de correu nou
 online Connectat
 onphone Al telèfon
@@ -139,9 +139,9 @@ reconnect Esperant a que $1 es reconnecte
 reconnecting Reconnectant-se al servidor
 rememberpass Recordar contrasenya
 rightback Un moment
-save Guardar
 saveas Guardar com
 savecontacts Guardar la llista de contactes
+save Guardar
 says $1 diu
 sbcon Connectant-se a la Switch Board
 send Enviar
@@ -149,8 +149,8 @@ sendfile Enviar fitxer
 sendmail Enviar correu electrònic
 sendmsg Enviar missatge
 sentbytes Enviats $1 de $2 bytes
-server Servidor
 servergoingdown Desconnectat: El servidor s'apagarà per manteniment
+server Servidor
 sound Só en un event
 startoffline Començar desconnectat
 status Estat
@@ -159,14 +159,14 @@ textsize Tamany del text
 title Al's Messenger
 to A
 tools Ferramentes
-yousay Dius
-youwant Vols
 unblock Desbloquejar
 uoffline Desconnectats
 uonline Connectats
-user Usuari
 useralreadyonlist L'usuari ja és a la seua llista de contactes
+user Usuari
 version Versió
 view Veure
 willjoin Esperant a $1 a que s'unisca a la conversa
 work Treball
+yousay Dius
+youwant Vols

@@ -25,12 +25,12 @@ browser 瀏覽
 busy 忙碌
 cancel 取消
 changenick 更改匿名
+chatack 正在接受聊天從
 chat 交談
 chatreq 邀請交談
 chatsmileys 啟用表情符號
-chatack 正在接受聊天從
-checkver 檢查新版本
 checkingver 正在檢查新版本
+checkver 檢查新版本
 choosebasefont 選擇字型
 choosebgcolor 選擇背景顏色
 choosefontcolor :  ??????????? 
@@ -39,9 +39,9 @@ close 關閉
 closingdocks 關閉docks視窗
 command 指令
 confirmdelete 您確定要刪除 $1?
+connecterror 連結到伺服器時發生錯誤
 contactadded 聯絡人被加入
 contactdoesnotexist 聯絡人不存在!
-connecterror 連結到伺服器時發生錯誤
 copytogroup 複製到群組
 date 日期
 delete 刪除
@@ -58,22 +58,22 @@ filename 檔案名稱
 filetransfercancelled 檔案傳送已取消
 filetransfercomplete 檔案傳送完畢
 gonelunch 外出用餐
-group 群組
 groupadd 新增群組
 groupdelete 刪除群組
-grouprename 重新命名群組
-groupoldname 舊名稱
-groupnewname 新名稱
-groupunknown 未知群組
 groupexists 群組已經存在
 groupmissing 不能找到群組
+groupnewname 新名稱
 groupnotempty 群組不是空白!
+groupoldname 舊名稱
+grouprename 重新命名群組
+groupunknown 未知群組
+group 群組
 handle 顯示名稱
-help 說明
 helpcontents 說明主題
+help 說明
 home 住家
-ident 正在確認
 identity 身份
+ident 正在確認
 inbox 收件匣
 invalidusername 使用者名稱無效
 invite 邀請
@@ -89,17 +89,17 @@ listsmileys 表情符號
 loadcontacts 匯入聯絡人清單
 loggedotherlocation 離線. 已於其他電腦登入
 loggingin 正在登入
-login 登入
 loginas 以不同帳號登入
+login 登入
 logout 登出
 logsin 剛登入
 mailer 郵件程式
 mobile 大哥大
 movetogroup 移至群組
-mustrestart 您必須重新啟動程式
-mystatus 我的狀態
 msg 訊息
 msn AMSN
+mustrestart 您必須重新啟動程式
+mystatus 我的狀態
 needonline 您還是在離線中!
 newmail $1 封新郵件在收件匣中
 newmailfrom 新郵件從
@@ -111,8 +111,8 @@ nonewmail 沒有新郵件
 nonewver 這已是最新版本
 notify 通知
 nousersinsession 沒有使用者在開會
-ok 確定
 offline 離線
+ok 確定
 onenewmail 1 封新郵件在收件匣中
 online 線上
 onphone 電話中
@@ -128,17 +128,17 @@ prefapps 程式
 preferences 偏好設定
 prefsound 聲音
 properties 內容
-proxyconf Proxy 設定
 proxyconfhttp HTTP proxy 設定
+proxyconf Proxy 設定
 publishphones 公佈我的電話號碼
 receivedbytes 已收到 $1 of $2 bytes
 receivefile 接收檔案
-reconnect 等待 $1 重新連結
 reconnecting 重新連結伺服器
+reconnect 等待 $1 重新連結
 rememberpass 儲存密碼
 rightback 馬上回來
-save 儲存
 saveas 另存
+save 儲存
 savecontacts 儲存聯絡人清單
 says $1 說
 sbcon 轉接中
@@ -147,8 +147,8 @@ sendfile 傳送檔案
 sendmail 傳送郵件
 sendmsg 傳送訊息
 sentbytes 傳送 $1 of $2 bytes
-server 伺服器
 servergoingdown 離線: 連結伺服器失敗
+server 伺服器
 sound 事件音效
 startoffline 以隱形狀態登入
 status 狀態
@@ -157,14 +157,14 @@ textsize 字型大小
 title Al's Messenger
 to 給
 tools 工具
-yousay 您說
-youwant 您要
 unblock 解除封鎖
 uoffline 離線
 uonline 線上
-user 使用者
 useralreadyonlist 聯絡人已經在清單上
+user 使用者
 version 版本
 view 檢視
 willjoin 等待 $1 加入聊天
 work 工作
+yousay 您說
+youwant 您要

@@ -20,17 +20,17 @@ baduserpass 아이디 또는 비밀번호 틀림
 blankdirect Leave blank for direct connection
 block 차단
 blocked 차단됨
-browser 웹브라우저
 broughtby 이 프로그램의 개발자들
+browser 웹브라우저
 busy 다른 용무 중
 cancel 취소
 changenick 별명 변경
+chatack Accepting chat from
 chat Chat
 chatreq Requesting chat
 chatsmileys 이모티콘 보기
-chatack Accepting chat from
-checkver 새로운 버전 확인
 checkingver 새로운 버전 확인중
+checkver 새로운 버전 확인
 choosebasefont 폰트
 choosebgcolor 바탕색
 clicktologin 위 계정으로 로그인
@@ -38,9 +38,9 @@ close 닫기
 closingdocks 닫기 버튼 윈도우와 연결
 command 명령
 confirmdelete $1를 삭제 하시겠습니까?
+connecterror 서버 연결 중 에러
 contactadded 그룹에 추가
 contactdoesnotexist 친구 목록에 없음!
-connecterror 서버 연결 중 에러
 copytogroup 그룹에 넣기
 date Date
 delete 삭제
@@ -57,22 +57,22 @@ filename 파일명
 filetransfercancelled 파일 전송 취소
 filetransfercomplete 파일 전송 완료
 gonelunch 식사중
-group 그룹
 groupadd 그룹 추가
 groupdelete 그룹 삭제
-grouprename 그룹명 변경
-groupoldname 기존 그룹명
-groupnewname 새 그룹명
-groupunknown 알수 없는 그룹
 groupexists 이미 존재하는 그룹
+group 그룹
 groupmissing 그룹을 찾을 수 없음
+groupnewname 새 그룹명
 groupnotempty 비어있지 않은 그룹임!
+groupoldname 기존 그룹명
+grouprename 그룹명 변경
+groupunknown 알수 없는 그룹
 handle 별명
-help 도움말
 helpcontents 도움말 항목
+help 도움말
 home 집
-ident 신원 확인 중
 identity 신원
+ident 신원 확인 중
 inbox 메일 확인
 invalidusername 허용되지 않는 이름
 invite 초대
@@ -87,17 +87,17 @@ listsmileys 목록에 이모티콘 보임
 loadcontacts 친구목록 불러오기
 loggedotherlocation 연결끊김. 다른곳에서 접속.
 loggingin 로그인중
-login 로그인
 loginas 다른 계정으로 로그인
+login 로그인
 logout 로그아웃
 logsin 님이 로그인 했습니다.
 mailer Mailer
 mobile 핸드폰
 movetogroup 그룹 변경 
-mustrestart 변경된 설정은 다시 시작 후 적용됩니다. 
-mystatus 내 상태 
 msg 메세지
 msn AMSN
+mustrestart 변경된 설정은 다시 시작 후 적용됩니다. 
+mystatus 내 상태 
 needonline 온라인 상태가 아닙니다.
 newmail $1 개의 새로운 메일
 newmailfrom $1에게 메일 받음
@@ -109,8 +109,8 @@ nonewmail 새로운 메일 없음
 nonewver 새로운 버전이 없습니다.
 notify 알림
 nousersinsession 목록에 사용자 없음.
-ok 확인
 offline 오프라인
+ok 확인
 onenewmail 새로운 메일 있음
 online 온라인
 onphone 통화중
@@ -126,43 +126,43 @@ prefapps 응용프로그램
 preferences 설정
 prefsound 소리
 properties 프로필 보기
-proxyconf Proxy 설정
 proxyconfhttp HTTP proxy support configuration
+proxyconf Proxy 설정
 publishphones 나의 프로필
 receivedbytes $1 중에 $2 받음
 receivefile 파일 받기
-reconnect Waiting for $1 to reconnect
 reconnecting 서버 재접속 중
+reconnect Waiting for $1 to reconnect
 rememberpass 비밀번호 기억
 rightback 곧 돌아오겠음
-save 저장
 saveas 다른 이름으로 저장..
+save 저장
 savecontacts 친구목록 저장
 says $1 님의 말
 sbcon Connecting to Switch Board
-send 보내기
 sendfile 파일 보내기
 sendmail 메일 보내기
 sendmsg 메세지 전송
+send 보내기
 sentbytes $1 중에 $2 bytes 보냄
-server Server
 servergoingdown 연결끊김: 서버에서 연결이 종료됨.
+server Server
 sound 효과음
 startoffline 오프라인 시작
 status 상태
 syntaxerror  문법 오류
 textsize 문자 크기
 title Al's 메신저
-to To
 tools 도구
-yousay You say
-youwant You want
+to To
 unblock 차단해제
 uoffline 오프라인
 uonline 온라인
-user 사용자
 useralreadyonlist 이미 등록된 사용자입니다.
+user 사용자
 version 버전
 view 보기
 willjoin $1의 대화창에 접속중
 work 작업
+yousay You say
+youwant You want
