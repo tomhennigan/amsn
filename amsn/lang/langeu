@@ -1,6 +1,7 @@
 amsn_lang_version 2
 about Honi buruz
 acceptfile Onartu $1 fitxategia, tamaina $2? $3 gisa gordeta
+accept Onartu
 actions Ekintzak
 addacontact Kontaktua gehitu
 addedyou k bere kontaktuen zerrendara gehitu zaitu
@@ -9,6 +10,7 @@ addtoo Pertsona hau zure kontaktuen zerrendara gehitu
 admincontacts Kontaktuak administratu
 admingroups Taldeak administratu
 adverts Iragarpen
+alarmpref Erabiltzailearentzat alarma aukerak
 allowseen Pertsona honek konektatuta nagoela ikusi dezan eta nirekin kontaktatzeko baimendu
 appearoff Konektatuta
 aretyping $1 idazten daude
@@ -21,9 +23,11 @@ blankdirect Konexio zuzena erabiltzeko zuriz utzi
 block Blokeatu
 blocked Blokeatuta
 broughtby Honako progamatzaile hauei esker AMSN erabili dezakezu
+browse Nabigatu
 browser Nabigatzailea
 busy Okupatuta
 cancel Utzi
+cfgalarm Alarma Konfiguratu/Gehitu/Ezabatu
 changenick Ezizena aldatu
 chatack -ren txata onartzen
 chatreq Txat eskakizuna
@@ -57,6 +61,8 @@ filedoesnotexist Fitxategia ez da existitzen
 filename Fitxategi-izena
 filetransfercancelled Fitxategien transferentzia bertan behera utzita
 filetransfercomplete Fitxategien transferentzia osatuta
+ftaccepted Fitxategi transferentzia onartuta
+ftrejected Fitxategi transferentzia gaitzetsita
 gonelunch Jatera joanda
 groupadd Talde bat gehitu
 groupdelete Talde bat ezabatu
@@ -123,6 +129,8 @@ other Beste bat
 pager Bilagailu
 pass Pasahitza
 phone Telefonoa
+picfile Alarmaren irudiaren fitxategia (GIF < 500 x 500)
+picstatus Alarmaren irudia ON/OFF
 port Ataka
 prefapps Aplikazioak
 preferences Hobespenak
@@ -135,6 +143,7 @@ receivedbytes $2 byteetako $1 jasota
 receivefile Fitxategia jaso
 reconnect $1 birkonektatzera itxaroten
 reconnecting Zerbitzariara birkonektatzen
+reject Ezeztatu
 rememberpass Pasahitza gogoratu
 rightback Oraintxe bueltan nago
 saveas Gorde Honela
@@ -149,9 +158,13 @@ sendmsg Mezua bidali
 sentbytes $2 bytetako $1 bidaliak
 servergoingdown Deskonektaturik: Zerbitzaria mantentze lanetarako itzaliko da
 server Zerbitzaria
+soundfile Alarmaren Soinuaren Fitxategia
 sound Gertaeren soinuak
+soundloop Etengabeko soinua
+soundstatus Alarmaren soinua jarri edo kendu
 startoffline Deskonektatuta hasi
 status Egoera
+stopalarm Alarma gelditu
 syntaxerror Akats sintaktikoa
 textsize Testuaren tamaina
 title Al's Messenger

@@ -1,6 +1,6 @@
 amsn_lang_version 2
-
 about À Propos...
+accept Accepter
 acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
 actions Actions
 addacontact Ajouter un contact
@@ -10,6 +10,8 @@ addtoo Ajouter cette personne à ma liste de contacts
 admincontacts Gérer les contacts
 admingroups Gérer les groupes
 adverts Publicité
+alarmpref configuration alarme utilisateur
+alarmstatus Activer/Désactiver l'alarme pour cet utilisateur
 allowseen Autoriser cette personne à me voir et à me contacter quand je
 appearoff Apparaître déconnecté
 aretyping $1 est en train de taper un message
@@ -25,6 +27,7 @@ broughtby Développé pour vous par
 browser Navigateur web
 busy Occupé
 cancel Annuler
+cfgalarm Configurer/Ajouter/Supprimer alarme
 changenick Changer de pseudonyme
 chatack Accepter de discuter avec
 chat Discuter
@@ -58,6 +61,8 @@ filedoesnotexist Le fichier n'existe pas
 filename Fichier
 filetransfercancelled Transfert de fichier annulé
 filetransfercomplete Transfert de fichier terminé
+ftaccepted Transfère de fichier accepté
+ftrejected Transfère de fichier refusé
 gonelunch Parti[e] déjeuner
 groupadd Ajouter un groupe
 groupdelete Supprimer un groupe
@@ -125,6 +130,8 @@ other Autre
 pager Pager
 pass Mot de passe
 phone Téléphone
+picfile Image associée à l'alarme (GIF < 500 x 500)
+picstatus Activer/Désactiver image associée à l'alarme
 port Port
 prefapps Applications
 preferences Préférences
@@ -138,6 +145,7 @@ receivedbytes $1 de $2 octets reçus
 receivefile Fichier reçu
 reconnect Dans l'attente de la reconnexion de $1
 reconnecting Reconnexion au serveur
+reject Refuser
 rememberpass Enregistrer le mot de passe
 rightback Bientôt de retour
 saveas Enregistrer sous
@@ -153,8 +161,12 @@ sentbytes $1 de $2 octets reçus
 servergoingdown Serveur en cours d'arrêt
 server Serveur
 sound Événements Sonores
+soundfile Fichier son associé à l'alarme
+soundloop Jouer le son en boucle
+soundstatus Activer/Désariver l'alarme sonore
 startoffline Démarrer déconnecté
 status Statut
+stopalarm Stopper l'alarme
 suis connecté
 syntaxerror Erreur de syntaxe
 textsize Taille du texte
