@@ -624,3 +624,9 @@ maintenance O servidor quedará  fora de servizo en $1 minutos para o seu manteme
 new_ft_protocol	Usar o novo protocolo de transferencia de arquivos (INESTABLE)
 nudge $1 reclama a sua atención
 winkreceived Recibiches un Wink de $1. Estas animacións aínda non están soportadas polo aMSN.
+author Autor
+ftautoclose Pechar fiestra cando remate a transferencia
+name Nome
+required_version Non se pode cargar este plugin. Require, como mínimo, aMSN version $1
+unknown Descoñecido
+unload Descargar

@@ -146,7 +146,7 @@ copy Kopiëren
 copytogroup Contactpersoon kopiëren naar
 corruptconfig Het configuratiebestand is beschadigd. Er wordt een nieuw bestand aangemaakt. Het oude wordt opgeslagen in $1. Wil je het oude bestand alsjeblieft naar ons opsturen zodat wij kunnen nagaan wat er fout is gegaan?
 corruptstates Het aangepaste statussen bestand is beschadigd. Er wordt een nieuw bestand aangemaakt. Het oude wordt opgeslagen in $1. Wil je het oude bestand alsjeblieft naar ons opsturen zodat wij kunnen nagaan wat er fout is gegaan?
-countrycode Landnunummer
+countrycode Landnummer
 cprofile Maak profiel
 credits De makers
 currentdate Huidige datum
@@ -238,6 +238,7 @@ friendlyname Schermnaam tijdens gesprek
 ftaccepted Bestandsoverdracht geaccepteerd
 ftacceptedby $1 accepteert de overdracht van het bestand '$2'
 ftaccepting Bestandsoverdracht accepteren
+ftautoclose Sluit het venster als de bestandsoverdracht voltooid is
 ftconnecterror Fout bij verbinden met de contactpersoon
 ftconnecting Bezig met verbinden met $1 via poort $2
 ftconnectionlost De verbinding met de andere gebruiker is verbroken

@@ -616,3 +616,16 @@ year År
 yesterday igår
 month Månad
 clear	Töm
+author Upphovsman
+configure Konfigurera
+confirmbl Vill du verkligen blockera den här kontakten?
+filetransfer Fil överföring
+ftautoclose Stäng fönstrer när filöverföringen är färdig
+load Load maintenance Servern tas ned för underhåll om $1 minuter
+name Namn
+new_ft_protocol Använd nytt fil överförings protocoll (en del buggar finns kvar)
+nudge $1 söker din uppmärksamhet
+required_version Ej möjligt att ladda plugin. Kräver minst version $1 av aMSN
+unknown Okänd
+unload Ladda ur
+winkreceived Du har fått en ”Wink” från $1. Den här funktionen stödjs för tillfället inte av aMSN.

@@ -1,16 +1,16 @@
 amsn_lang_version 2
-about Ãœber
+about Über
 accept Annehmen
-acceptfile Datei $1 (GrÃ¶ÃŸe: $2) annehmen? In $3 gespeichert
+acceptfile Datei $1 (Größe: $2) annehmen? In $3 gespeichert
 actions Aktionen
-addacontact Kontakt hinzufÃ¼gen
-addedyou $1 ($2) hat Sie ihrer/seiner Kontaktliste hinzugefÃ¼gt
-addprofiledesc Bitte geben Sie das Login ein, fÃ¼r das Sie ein neues Profil erstellen wollen. \nLogins mit einem Profil erlauben Ihnen verschiedene Konfigurationen fÃ¼r jedes Login. \nOhne ein Profil kÃ¶nnen Sie den Verlauf, Benachrichtigungen, oder gespeicherte PasswÃ¶rter nicht benutzen
-addprofile Neues Profil hinzufÃ¼gen
-addstate Neuen Status hinzufÃ¼gen
-addtocontacts In die Kontaktliste einfÃ¼gen
-addto HinzufÃ¼gen zu $1
-addtoo Diese Person meiner Kontaktliste hinzufÃ¼gen
+addacontact Kontakt hinzufügen
+addedyou $1 ($2) hat Sie ihrer/seiner Kontaktliste hinzugefügt
+addprofiledesc Bitte geben Sie das Login ein, für das Sie ein neues Profil erstellen wollen. \nLogins mit einem Profil erlauben Ihnen verschiedene Konfigurationen für jedes Login. \nOhne ein Profil können Sie den Verlauf, Benachrichtigungen, oder gespeicherte Passwörter nicht benutzen
+addprofile Neues Profil hinzufügen
+addstate Neuen Status hinzufügen
+addtocontacts In die Kontaktliste einfügen
+addto Hinzufügen zu $1
+addtoo Diese Person meiner Kontaktliste hinzufügen
 admincontacts Verwaltung - Kontakte
 admingroups Verwaltung - Gruppen
 advanced Erweitert
@@ -19,16 +19,16 @@ adverts Werbung
 alarmonconnect Benachrichtigung, wenn der Benutzer sich anmeldet
 alarmondisconnect Benachrichtigung, wenn der Benutzer sich abmeldet
 alarmonmsg Benachrichtigung, wenn der Benutzer mir eine Nachricht sendet
-alarmonstatus Benachrichtigung, wenn der Benutzer seinen Status Ã¤ndert
-alarmpref Benachrichtigung fÃ¼r diesen Benutzer konfigurieren
+alarmonstatus Benachrichtigung, wenn der Benutzer seinen Status ändert
+alarmpref Benachrichtigung für diesen Benutzer konfigurieren
 alarms Benachrichtigungen
-alarmstatus Benachrichtigung fÃ¼r diesen Benutzer an/ausschalten
+alarmstatus Benachrichtigung für diesen Benutzer an/ausschalten
 allfiles Alle Dateien
-allowallbutbl Erlaube allen, auÃŸer den Benutzern der Blockieren-Liste, mich zu kontaktieren
+allowallbutbl Erlaube allen, außer den Benutzern der Blockieren-Liste, mich zu kontaktieren
 allowbadwords Spitznamen nicht zensieren
-allowlist Akzeptieren-Liste :
+allowlist Akzeptieren-Liste:
 allowonlyinal Erlaube nur Benutzern aus meiner Akzeptieren-Liste mich zu kontaktieren
-allowseen Dieser Person ermÃ¶glichen, zu sehen, wenn ich online bin, und Kontakt mit mir aufzunehmen
+allowseen Dieser Person ermöglichen, zu sehen, wenn ich online bin und Kontakt mit mir aufzunehmen
 allprofilesinuse Alle vorhandenen Profile sind zur Zeit in Benutzung
 animatedemoticon Dieses Emoticon ist animiert
 animatedsmileys Animierte Smileys aktivieren
@@ -39,8 +39,8 @@ areacode Vorwahl
 aretyping $1 geben Nachrichten ein
 autoaccepted Dateitransfers automatisch akzeptieren
 autoacceptft Dateianfragen automatisch akzeptieren
-autoaway Setze mich â€Abwesendâ€ nach InaktivitÃ¤t von
-autocheckver Beim Start automatisch auf neue Versionen prÃ¼fen
+autoaway Setze mich "Abwesend" nach Inaktivität von
+autocheckver Beim Start automatisch auf neue Versionen prüfen
 autoconnect2 Automatisch anmelden, wenn aMSN gestartet wird
 autoconnect Automatische Anmeldung beim Starten
 autodetectip IP-Adresse automatisch ermitteln
@@ -48,20 +48,20 @@ autohotmaillog Automatische Anmeldung bei Hotmail
 autoidle Automatische Senkung des Prozessorverbrauchs wenn inaktiv
 autoip Automatische IP
 automessage Automatische Nachricht
-autonoact Setze mich â€inaktivâ€ nach InaktivitÃ¤t von
-avoidseen Dieser Person nicht ermÃ¶glichen, zu sehen, wenn ich online bin, und Kontakt mit mir aufzunehmen
+autonoact Setze mich "inaktiv" nach Inaktivität von
+avoidseen Dieser Person nicht ermöglichen, zu sehen, wenn ich online bin, und Kontakt mit mir aufzunehmen
 away Abwesend
-awaymsg1 Jedes mal nach der Abwesenheitsnachricht fragen, wenn ich meinen Status zu Abwesend/BGZ/BeschÃ¤ftigt wechsle
+awaymsg1 Jedes mal nach der Abwesenheitsnachricht fragen, wenn ich meinen Status zu Abwesend/BGZ/Beschäftigt wechsle
 awaymsg2 Nie nachfragen und immer den untenstehenden Grund verwenden
-baduserpass Benutzername oder Passwort ungÃ¼ltig
-bgcolor Die Hintergrundfarbe von aMSN Ã¤ndern
+baduserpass Benutzername oder Passwort ungültig
+bgcolor Die Hintergrundfarbe von aMSN ändern
 blankdirect Bei direkter Verbindung leer lassen
 block Blockieren
 blocked Blockiert
-blockedyougroup Separate Gruppe anzeigen fÃ¼r die Leute, die Sie blockiert haben
+blockedyougroup Separate Gruppe anzeigen für die Leute, die Sie blockiert haben
 blocking Blockieren
 blockinter1 Wenn Ihr Status online ist, alle
-blockinter2 Sekunden Ã¼berprÃ¼fen, ansonsten alle:
+blockinter2 Sekunden überprüfen, ansonsten alle:
 blockinter3 alle
 blockinter4 Sekunden
 blocklist Blockieren-Liste:
@@ -71,69 +71,69 @@ bouncedock Popup-Fenster wenn eine MSN-Nachricht eintrifft
 broughtby Entwickelt von:
 browse Navigieren
 browser Browser
-browserexample ( \$url wird ersetzt durch URL). Bsp.: mozilla \$url
-busy BeschÃ¤ftigt
+browserexample (\$url wird ersetzt durch URL). Bsp.: mozilla \$url
+busy Beschäftigt
 cachedpics Gespeicherte Bilder $1
 cancel Abbrechen
-cannotdeleteprofile Kann das Profil nicht lÃ¶schen, da es anscheinend von einer aMSN-Sitzung verwendet wird
-cantexec Kann $1 nicht ausfÃ¼hren. ÃœberprÃ¼fen Sie die Einstellungen
-cantremoveothers Gruppe â€Andereâ€ kann nicht gelÃ¶scht werden
-casesensitive Buchstabenkombinationen verwenden, die auf GroÃŸ- und Kleinschreibung achten
-cfgalarmall Globale Benachrichtigung konfigurieren/hinzufÃ¼gen/lÃ¶schen
-cfgalarm Benachrichtigung konfigurieren/hinzufÃ¼gen/lÃ¶schen
-change Ã¤ndern
+cannotdeleteprofile Kann das Profil nicht löschen, da es anscheinend von einer aMSN-Sitzung verwendet wird
+cantexec Kann $1 nicht ausführen. Überprüfen Sie die Einstellungen
+cantremoveothers Gruppe "Andere" kann nicht gelöscht werden
+casesensitive Buchstabenkombinationen verwenden, die auf Groß- und Kleinschreibung achten
+cfgalarmall Globale Benachrichtigung konfigurieren/hinzufügen/löschen
+cfgalarm Benachrichtigung konfigurieren/hinzufügen/löschen
+change ändern
 changecustomstate Wechseln zu
-changedisplaypic Anzeigebild Ã¤ndern
-changefont Die Schriftart Ã¤ndern
-changeglobnick Globalen Spitznamen Ã¤ndern
-changenick Namen Ã¤ndern
-changestate $1 geÃ¤ndert in $2
+changedisplaypic Anzeigebild ändern
+changefont Die Schriftart ändern
+changeglobnick Globalen Spitznamen ändern
+changenick Namen ändern
+changestate $1 geändert in $2
 charscounter Die eingegebenen Buchstaben erscheinen im Chatfenster
 chatack Unterhaltung annehmen von
-chatmaxmin Wenn ein Kontakt einen Unterhaltung mit mir beginnt, mÃ¶chte ich, daÃŸ dieser:
+chatmaxmin Wenn ein Kontakt einen Unterhaltung mit mir beginnt, möchte ich, daß dieser:
 chatreq Einladung zu einer Unterhakltung
 chatsmileys2 Smileys und Emoticons im Chat-Fenster anzeigen
-chatsmileys Smileys wÃ¤hrend einer Unterhaltung
+chatsmileys Smileys während einer Unterhaltung
 chat Unterhaltung
-checkblocking FortwÃ¤hrend testen, ob Benutzer Sie blockieren
+checkblocking Fortwährend testen, ob Benutzer Sie blockieren
 checkemail Zeige neue Nachrichten in der Kontaktliste
-checkfilman Empfangene Dateien werden in $1 gespeichert. Bitte Ã¼berprÃ¼fen sie die Dateimanager Einstellungen im Einstellungen-Fenster
-checkingver Auf neue Versionen prÃ¼fen
+checkfilman Empfangene Dateien werden in $1 gespeichert. Bitte überprüfen sie die Dateimanager Einstellungen im Einstellungen-Fenster
+checkingver Auf neue Versionen prüfen
 checkonfln Testen ob ein Benutzer Sie blockiert hat wenn er sich abmeldet
-checkver Auf neue Version prÃ¼fen
-choosearq WÃ¤hlen Sie Ihre Systemarchitektur
-choosebasefont Schriftart auswÃ¤hlen
-choosebgcolor Hintergrundfarbe auswÃ¤hlen
-choosecontact Bitte wÃ¤hlen Sie einen Kontakt aus der Liste
-choosefontcolor Schriftfarbe auswÃ¤hlen
-chooseskin Bitte wÃ¤hle einen OberflÃ¤che aus
+checkver Auf neue Version prüfen
+choosearq Wählen Sie Ihre Systemarchitektur
+choosebasefont Schriftart auswählen
+choosebgcolor Hintergrundfarbe auswählen
+choosecontact Bitte wählen Sie einen Kontakt aus der Liste
+choosefontcolor Schriftfarbe auswählen
+chooseskin Bitte wähle einen Oberfläche aus
 ch_to_state Zu neuem Status wechseln
-clearlog2 Alle Logs zurÃ¼cksetzen
+clearlog2 Alle Logs zurücksetzen
 clearlog3 Alle Logs leeren
-clearlog Log lÃ¶schen
+clearlog Log löschen
 clicktologin Klicken Sie hier, um sich anzumelden
 closed Geschlossen
-close SchlieÃŸen
-closingdocks SchaltflÃ¤che â€SchlieÃŸenâ€ koppelt Fenster
+close Schließen
+closingdocks Schaltfläche "Schließen" koppelt Fenster
 command Befehl
-commandstatus Befehl ausfÃ¼hren
-confirmdelete $1 wirklich lÃ¶schen?
+commandstatus Befehl ausführen
+confirmdelete $1 wirklich löschen?
 confirmpurge Alle gespeicherten Bilder von anderen Kontakten (Nicht Ihre) werden eliminiert. Sind Sie sicher?
 confirm Sind Sie sicher?
-connected Sie sind jetzt Verbunden
+connected Sie sind jetzt verbunden
 connecterror Verbindungsaufbau zum Server fehlgeschlagen!
 connecting Verbinde
-connectionlost Getrennt : Verbindung mit Server beendet
+connectionlost Getrennt: Verbindung mit Server beendet
 connection Verbindung
-contactadded Kontakt hinzugefÃ¼gt
+contactadded Kontakt hinzugefügt
 contactdoesnotexist Kontakt nicht vorhanden!
-contactlist Kontakt - Liste :
+contactlist Kontakt-Liste:
 continuously ununterbrochen
-convertexplain Pfad zu der CONVERT lauffÃ¤higen Datei, von ImageMagick (benÃ¶tigt fÃ¼r Bilder).\n Leer lassen wenn CONVERT im $PATH (Pfad) ist
+convertexplain Pfad zu der CONVERT lauffähigen Datei, von ImageMagick (benötigt für Bilder).\n Leer lassen wenn CONVERT im $PATH (Pfad) ist
 copy Kopieren
 copytogroup Kopieren zur Gruppe
-corruptconfig Konfigurationsdatei ist fehlerhaft. Sie wird neu erstellt. Die alte Datei wird nach $1 gespeichert. Bitte senden Sie uns diese Datei damit wir herausfindend kÃ¶nnen was passiert ist
-corruptstates Eigene Teile der Konfigurationsdatei sind fehlerhaft. Sie wird neu erstellt. Die alte Datei wird nach $1 gespeichert. Bitte senden Sie uns diese Datei damit wir herausfindend kÃ¶nnen was passiert ist
+corruptconfig Konfigurationsdatei ist fehlerhaft. Sie wird neu erstellt. Die alte Datei wird nach $1 gespeichert. Bitte senden Sie uns diese Datei damit wir herausfindend können was passiert ist
+corruptstates Eigene Teile der Konfigurationsdatei sind fehlerhaft. Sie wird neu erstellt. Die alte Datei wird nach $1 gespeichert. Bitte senden Sie uns diese Datei damit wir herausfindend können was passiert ist
 countrycode Meine Landesvorwahl
 cprofile Profil erstellen
 credits Danksagung
@@ -141,10 +141,10 @@ currentdate Aktuelles Datum
 custnotifymsg Benachrichtige wenn eine neue Nachricht eintrifft
 custnotifyoffline Benachrichtige wenn dieser Kontakt offline geht
 custnotifyonline Benachrichtige wenn dieser Kontakt online geht
-custnotifystatus Benachrichtige wenn der Status dieses Kontakt sich Ã¤ndert
+custnotifystatus Benachrichtige wenn der Status dieses Kontakt sich ändert
 customcolor Benutzerdefinierte Farben
 custom_edit Bearbeite den eigenen Smiley
-custom_new Neuen Smiley hinzufÃ¼gen
+custom_new Neuen Smiley hinzufügen
 customnick Benutzerdefinierter Spitzname
 cut Ausschneiden
 date Datum
@@ -152,17 +152,17 @@ days Tage
 dcprofile Profil nicht erstellen
 defaultloginradio Anmelden mit Standardkonfiguration
 default Standardeinstellung
-defchatwinsize Standard Unterhaltungs-Fenster GrÃ¶ÃŸe (X-GrÃ¶ÃŸe x Y-GrÃ¶ÃŸe)
-deletecustomstate Benutzerdefinierten Status lÃ¶schen
-delete LÃ¶schen
+defchatwinsize Standard Unterhaltungs-Fenster Größe (X-Größe x Y-Größe)
+deletecustomstate Benutzerdefinierten Status löschen
+delete Löschen
 delimiters Begrenzende Zeichen der Zeitstempel:
 deliverfail Es trat ein Problem beim Zustellen folgender Nachricht auf
-delprofile2 Profil auswÃ¤hlen, das gelÃ¶scht werden soll
-delprofile Profil lÃ¶schen
+delprofile2 Profil auswählen, das gelöscht werden soll
+delprofile Profil löschen
 description Beschreibung
 directconnection Ich habe eine direkte Verbindung mit dem Internet (benutzt Port 1863)
 disabled Deaktiviert
-disableprofiles Profile deaktivieren (FÃ¼r Internet-CafÃ©s oder gemeinsam genutzte Umgebungen)
+disableprofiles Profile deaktivieren (Für Internet-CafÃ©s oder gemeinsam genutzte Umgebungen)
 disablessl SSL deaktivieren
 disconnect $1 hat sich abgemeldet
 displaychat Textoptionen anzeigen
@@ -176,10 +176,10 @@ dockkde In KDE verankern
 dontdownload TLS nicht herunterladen, ich installiere es selbst
 dontshow Nicht anzeigen
 downloadingtls Lade TLS Modul herunter:\n $1
-edit Ã„ndern
-editcustomstate Benutzerdefinierten Status Ã¤ndern
-editnewstate Neuer persÃ¶nlicher Autonachrichten - Status
-editprofile Profil Ã¤ndern
+edit Ändern
+editcustomstate Benutzerdefinierten Status ändern
+editnewstate Neuer persönlicher Autonachrichten - Status
+editprofile Profil ändern
 editstate Vorhandenen Autonachrichten - Status bearbeiten
 editvalue Wert bearbeiten
 email Email
@@ -188,9 +188,9 @@ emotisounds Spielt Klang bei bestimmten Emoticons
 enabled Aktiviert
 enableproxy Proxy aktivieren
 enableremote Aktiviere Fernkontrolle
-enablesound KlÃ¤nge aktivieren
-encoding2 Zeichenkodierung Ã¤ndern
-encoding Zeichenkodierung auswÃ¤hlen
+enablesound Klänge aktivieren
+encoding2 Zeichenkodierung ändern
+encoding Zeichenkodierung auswählen
 entercontactemail Bitte Email-Adresse eingeben
 enterfilename Bitte Dateinamen angeben
 enternick Geben Sie Ihren Namen ein
@@ -198,36 +198,36 @@ errortls Fehler bei der Installation des TLS Moduls:
 examples Beispiele
 exitamsn Wirklich beenden?
 extras Extras
-faileddelete LÃ¶schen schlug fehl
-faileddeleteperso Dieses Bild konnte nicht gelÃ¶scht werden, da es keine persÃ¶nliche Bilddatei ist. Auf diese Weise kÃ¶nnen nur Bilder entfernt werden, die zu Ihrem persÃ¶nlichen Profil gehÃ¶ren
+faileddelete Löschen schlug fehl
+faileddeleteperso Dieses Bild konnte nicht gelöscht werden, da es keine persönliche Bilddatei ist. Auf diese Weise können nur Bilder entfernt werden, die zu Ihrem persönlichen Profil gehören
 failed Fehlgeschlagen
-faq HÃ¤ufig gestellte Fragen
+faq Häufig gestellte Fragen
 file Datei
 filedoesnotexist Datei nicht vorhanden
 fileman Dateimanager
 filemanexample ( \$location wird mit dem Verzeichnis ersetzt ) Bsp.: nautilus \$location
 filename Dateiname
-filetransfercancelled Ãœbertragung abgebrochen
-filetransfercomplete Ãœbertragung abgeschlossen
+filetransfercancelled Übertragung abgebrochen
+filetransfercomplete Übertragung abgeschlossen
 followtext Herunterrollen wenn neuer Text eingegeben wird
 friendlyname Name innerhalb von Unterhaltungen
-ftacceptedby $1 akzeptiert die Einladung zum Transfer der Datei â€$2â€
-ftaccepted Ãœbertragung angenommen
+ftacceptedby $1 akzeptiert die Einladung zum Transfer der Datei "$2"
+ftaccepted Übertragung angenommen
 ftaccepting Akzeptiere Einladung zum Dateitransfer
-ftconnecterror Fehler beim Verbinden mit GegenÃ¼ber
+ftconnecterror Fehler beim Verbinden mit Gegenüber
 ftconnecting Verbinde mit $1 Port $2
-ftconnectionlost Verbindung mit GegenÃ¼ber verloren
-ftgotinvitation $1 mÃ¶chte Ihnen die Datei â€$2â€ ($3 Bytes) schicken. Sie wÃ¼rde im Verzeichnis â€$4â€ gespeichert. MÃ¶chten Sie diese Datei empfangen?
-ftportpref Anfangsport fÃ¼r DateiÃ¼bertragungen
-ftrejectedby $1 lehnt die Einladung zum Transfer der Datei â€$2â€ ab
-ftrejected Ãœbertragung abgewiesen
-ftsendinvitation Einladung zum Transfer der Datei â€$2â€ ($3 Bytes) wurde an $1 gesendet
-fullcontactlist Ihre Kontaktliste ist voll. Sie mÃ¼ssen einige Kontakte lÃ¶schen, um neue hinzufÃ¼gen zu kÃ¶nnen
+ftconnectionlost Verbindung mit Gegenüber verloren
+ftgotinvitation $1 möchte Ihnen die Datei "$2" ($3 Bytes) schicken. Sie würde im Verzeichnis "$4" gespeichert. Möchten Sie diese Datei empfangen?
+ftportpref Anfangsport für Dateiübertragungen
+ftrejectedby $1 lehnt die Einladung zum Transfer der Datei "$2" ab
+ftrejected Übertragung abgewiesen
+ftsendinvitation Einladung zum Transfer der Datei "$2" ($3 Bytes) wurde an $1 gesendet
+fullcontactlist Ihre Kontaktliste ist voll. Sie müssen einige Kontakte löschen, um neue hinzufügen zu können
 getdisppic Aktivieren den Empfang der Anzeigebilder anderer Benutzer
 globalnicktitle Globaler Spitzname
 gonelunch Mittagspause
-groupadd Gruppe hinzufÃ¼gen
-groupdelete Gruppe lÃ¶schen
+groupadd Gruppe hinzufügen
+groupdelete Gruppe löschen
 groupexists Gruppe bereits vorhanden
 group Gruppe
 groupmissing Gruppe kann nicht gefunden werden
@@ -240,37 +240,37 @@ handle Handle
 helpcontents Hilfe - Inhalt
 help Hilfe
 hidedisplaypic Anzeigebild verstecken
-hiden Emoticons aus dem Smiley MenÃ¼ verbergen
+hiden Emoticons aus dem Smiley Menü verbergen
 hidewindow Fenster verbergen
 history Verlauf ansehen
 home Start
 httpconnection Verbinde mit der HTTP-Methode (verwendet das HTTP Protokoll mit Port 80)
 hybrid Hybridmodus
 ident Identifiziere
-identity IdentitÃ¤t
+identity Identität
 ignoreerrors Keine anderen aMSN-Fehler bis zum Ende dieser Sitzung melden
 imagefiles Bilddateien
 inbox Posteingang
-insertsmiley Smiley einfÃ¼gen
-installconvert Sie mÃ¼ssen das Konvertierungsprogramm ImageMagick installieren, um die Grafiken in das von den MSN-Servern benÃ¶tigte Format konvertieren zu kÃ¶nnen. Sie kÃ¶nnen die BinÃ¤rdateien fÃ¼r Ihr Betriebssystem unter ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ herunterladen. Sollten Sie ImageMagick bereits installiert haben, ist dies ein Fehler, bitte informieren Sie die Entwickler
+insertsmiley Smiley einfügen
+installconvert Sie müssen das Konvertierungsprogramm ImageMagick installieren, um die Grafiken in das von den MSN-Servern benötigte Format konvertieren zu können. Sie können die Binärdateien für Ihr Betriebssystem unter ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ herunterladen. Sollten Sie ImageMagick bereits installiert haben, ist dies ein Fehler, bitte informieren Sie die Entwickler
 internalerror Interner Server Fehler
-invalidfile2 Dateiname â€$1â€ kann nicht erstellt werden. Stellen Sie sicher, daÃŸ Sie die erforderlichen Berechtigungen besitzen
-invalidfile Die Datei â€$2â€, die im Feld â€$1â€ eingegeben wurde, existiert nicht oder ist nicht lesbar
-invalidgroup Gruppe ungÃ¼ltig
+invalidfile2 Dateiname "$1" kann nicht erstellt werden. Stellen Sie sicher, daß Sie die erforderlichen Berechtigungen besitzen
+invalidfile Die Datei "$2", die im Feld "$1" eingegeben wurde, existiert nicht oder ist nicht lesbar
+invalidgroup Gruppe ungültig
 invalidpic Die angegebene Bilddatei existiert nicht
-invalidpicsize Das angegebene Bild ist zu groÃŸ. Bitte wÃ¤hlen Sie ein anderes
+invalidpicsize Das angegebene Bild ist zu groß. Bitte wählen Sie ein anderes
 invalidsound Die angegebene Klangdatei existiert nicht
-invalidusername Benutzername ungÃ¼ltig
+invalidusername Benutzername ungültig
 invitationcancelled Die Einladung wurde abgebrochen
 invite Einladen
 ipaddress IP-Adresse
-ipdetect Korrekte IP fÃ¼r DateiÃ¼bertragung durch HTTP feststellen
+ipdetect Korrekte IP für Dateiübertragung durch HTTP feststellen
 ircstyle Chat Ã¡ la IRC
 istyping $1 gibt eine Nachricht ein
-joins $1 wurde der Unterhaltung hinzugefÃ¼gt
+joins $1 wurde der Unterhaltung hinzugefügt
 justonce Nur einmal
 keepalive Die Verbindung offen halten
-keeplog2 Alle Unterhaltungen zum spÃ¤teren Ansehen protokollieren
+keeplog2 Alle Unterhaltungen zum späteren Ansehen protokollieren
 myfriendlyname Mein Name innerhalb von Unterhaltungen
 keeplog Unterhaltungen aufzeichnen
 language Sprache
@@ -280,11 +280,11 @@ lastmsgedme letzte Nachricht
 lastmsgtime Letzte Nachricht angekommen am $1
 lclosedwin $1 hat das Fenster auf $2 geschlossen
 lconftopriv Konferenz wurde zum Privatchat mit $1
-lconvstarted GesprÃ¤ch mit $1 gestartet
+lconvstarted Gespräch mit $1 gestartet
 leaveblankforhotmail Leer lassen, um Hotmail zu benutzen
-leavejoinsinchat Benachrichtige innerhalb des  Chat-Fensters Ã¼ber ein- und austretende Teilnehmer
+leavejoinsinchat Benachrichtige innerhalb des  Chat-Fensters über ein- und austretende Teilnehmer
 leaves $1 hat die Unterhaltung verlassen
-lenteredconf $1 hat das GesprÃ¤ch mit $2 betreten
+lenteredconf $1 hat das Gespräch mit $2 betreten
 lineflushlog Lofiles nach jeder Zeile aktualisieren
 linprivate PRIVAT
 listeningon Port $1
@@ -293,73 +293,73 @@ listsmileys Smiley-Auswahlfenster anzeigen
 ljoinedconf $1 ist der Konferenz beigetreten
 lleftconf $1 hat die Konferenz verlassen
 loadcontacts Kontaktliste laden
-logbigger Maximale GrÃ¶ÃŸe der Log-Datei fÃ¼r einen Kontakt
-logfandexp Begrenzungen fÃ¼r Log-Dateien und Verlauf
+logbigger Maximale Größe der Log-Datei für einen Kontakt
+logfandexp Begrenzungen für Log-Dateien und Verlauf
 loggedotherlocation Verbindung getrennt
-loggingin Anmeldung lÃ¤uft...
+loggingin Anmeldung läuft...
 login Anmeldung
 loginas Anmelden als
 loging Loggen
 logolder Nur Unterhaltungen loggen, der letzten
 logout Abmelden
-logsbydate Sortiere LogeintrÃ¤ge nach Datum (zeigt das Log sehr viel schneller)
+logsbydate Sortiere Logeinträge nach Datum (zeigt das Log sehr viel schneller)
 logsin hat sich gerade angemeldet
 logsmileys Emoticons und Smileys im Log anzeigen
 logsout hat sich so eben abgemeldet
-longnick Ihr Spitzname ist Ã¼ber 130 Zeichen lang. Dies ist nicht offiziell vom MSN Protokoll unterstÃ¼tzt. Sind Sie sicher daÃŸ Sie ihn so setzen wollen?
-longp4c Der Name innerhalb von Unterhaltungen ist lÃ¤nger als 130 Zeichen. Der vom offiziellen MSN Programm engezeigte Name wird â€$1â€ sein. Sind Sie sicher, dass Sie den Namen verwenden wollen?
-lprivtoconf Private Unterhaltung wird zum GesprÃ¤ch mit $1
+longnick Ihr Spitzname ist über 130 Zeichen lang. Dies ist nicht offiziell vom MSN Protokoll unterstützt. Sind Sie sicher daß Sie ihn so setzen wollen?
+longp4c Der Name innerhalb von Unterhaltungen ist länger als 130 Zeichen. Der vom offiziellen MSN Programm engezeigte Name wird "$1" sein. Sind Sie sicher, dass Sie den Namen verwenden wollen?
+lprivtoconf Private Unterhaltung wird zum Gespräch mit $1
 luclosedwin Sie haben das Fenster von $1 geschlossen
 mailer E-Mail
-mailerexample ( \$recipient = EmpfÃ¤nger ) Bei Benutzung von Hotmail leer lassen
+mailerexample ( \$recipient = Empfänger ) Bei Benutzung von Hotmail leer lassen
 maximised Maximiert
 minimised Minimiert
 mins Minuten
 mobile Mobil
-morepersonal Mehr ZustÃ¤nde (Status) ->
+morepersonal Mehr Zustände (Status) ->
 move Bewegen
 movetogroup Zur Gruppe bewegen
 msgflicker Flackernder Chatfenstertitel, wenn eine neue Nachricht eintrifft und das Fenster nicht im Fokus ist
 msgmaxmin Wenn eine neue Nachricht eintrifft wird sie :
-msgmode Wie sollen mehrere Nachrichtenfenster verwaltet werden :
+msgmode Wie sollen mehrere Nachrichtenfenster verwaltet werden:
 msg Nachricht
 msn aMSN
 msnstyle Chat Ã¡ la MSN
-mustrestart Ã„nderungen werden erst nach einem Neustart Ã¼bernommen
+mustrestart Änderungen werden erst nach einem Neustart übernommen
 myhomephone Meine Festnetznummer
 mymobilephone Meine Handynummer
 mynick Mein Spitzname
 mypic Mein Anzeigebild
 mystatus Mein Status
 myworkphone Meine Arbeitsnummer
-natip Die IP-Adresse Ã¼ber Webseite ausfindig machen
+natip Die IP-Adresse über Webseite ausfindig machen
 natkeepalive Schalten Sie KeepAlive ein, wenn die Verbindung oft getrennt wird
 needonline Sie sind noch immer offline bzw. werden als offline angezeigt!
-needwinico BenÃ¶tige die Datei â€winico03.dllâ€ im Plugin-Verzeichnis fÃ¼r das Anzeigen des aMSN-Symbols in der Windowssymbolleiste
+needwinico Benötige die Datei "winico03.dll" im Plugin-Verzeichnis für das Anzeigen des aMSN-Symbols in der Windowssymbolleiste
 never niemals
 newmail $1 neue Nachrichten im Posteingang
 newmailfrom Neue E-Mail von $1 ($2)
 newmsg Neue Nachricht
-newstate Benutzerdefinierten Status hinzufÃ¼gen
-newveravailable Neuere Version $1 steht zur VerfÃ¼gung
+newstate Benutzerdefinierten Status hinzufügen
+newveravailable Neuere Version $1 steht zur Verfügung
 next Weiter
 nick Spitzname
 noactivity inaktiv
-nodataavailable Keine Daten verfÃ¼gbar fÃ¼r $1
+nodataavailable Keine Daten verfügbar für $1
 nogroup Keine Gruppe
-nologfile Keine Log-Datei fÃ¼r $1
-noneavailable Nicht verfÃ¼gbar
+nologfile Keine Log-Datei für $1
+noneavailable Nicht verfügbar
 no Nein
 nonewmail Keine neuen Nachrichten im Posteingang
-nonewver Zurzeit keine neue Version verfÃ¼gbar
+nonewver Zurzeit keine neue Version verfügbar
 nopic Kein Bild
-noprofileexists Im Moment existieren keine Profile. \n Sie mÃ¼ssen eines erstellen, wenn Sie sich mit einem Profil einloggen wollen. \nBenutzen Sie den â€Neues Profil hinzufÃ¼genâ€-Button in diesem Fenster, um ein neues Profil hinzuzufÃ¼gen
+noprofileexists Im Moment existieren keine Profile. \n Sie müssen eines erstellen, wenn Sie sich mit einem Profil einloggen wollen. \nBenutzen Sie den "Neues Profil hinzufügen"-Button in diesem Fenster, um ein neues Profil hinzuzufügen
 normal Normal
-noskins Standard-Verzeichnis der OberflÃ¤chen konnte nicht im â€skins/â€ Verzeichnis gefunden werden. aMSN kann nicht starten
-nosystemtray Systemablage nicht verfÃ¼gbar
-notificationserver AnfÃ¤nglicher MSN Nachrichten-Server (MSN Messenger Server)
+noskins Standard-Verzeichnis der Oberflächen konnte nicht im "skins/" Verzeichnis gefunden werden. aMSN kann nicht starten
+nosystemtray Systemablage nicht verfügbar
+notificationserver Anfänglicher MSN Nachrichten-Server (MSN Messenger Server)
 notify1_5 Zeige Statusfenster an, wenn der Kontakt sich abmeldet
-notify1_75 Zeige Statusfenster an, wenn der Kontakt seinen Zustand Ã¤ndert
+notify1_75 Zeige Statusfenster an, wenn der Kontakt seinen Zustand ändert
 notify1 Fenster anzeigen, wenn ein Kontakt sich anmeldet
 notify2 Fenster anzeigen, wenn eine neue Nachricht empfangen wird
 notify3 Fenster anzeigen, wenn eine Email ankommt
@@ -369,7 +369,7 @@ notifytimeout Einblendungszeit des Benachrichtigungsfensters
 notifytyping Anderen Nutzern Benachrichtigung beim Eingeben einer Nachricht senden
 notifywin Benachrichtigungsfenster
 notinlist Sie sind nicht in ihrer/seinem Adressbuch
-notls Das MSN Protokoll 9 erfordert das TLS-Paket. Dieses Paket scheint auf Ihrem System nicht installiert zu sein. Wenn es installiert ist, dann sollte der Pfad zum Bibliotheken-Verzeichnis im â€Einstellungenâ€ Fenster eingegeben werden (Bsp.: /opt/tls/lib). \n \n Sie kÃ¶nnen TLS von der Seite http://tls.sf.net zu herunterladen
+notls Das MSN Protokoll 9 erfordert das TLS-Paket. Dieses Paket scheint auf Ihrem System nicht installiert zu sein. Wenn es installiert ist, dann sollte der Pfad zum Bibliotheken-Verzeichnis im "Einstellungen" Fenster eingegeben werden (Bsp.: /opt/tls/lib). \n \n Sie können TLS von der Seite http://tls.sf.net zu herunterladen
 nousersinsession Keine Benutzer in einer Sitzung
 offline Offline
 ok OK
@@ -384,66 +384,66 @@ other Andere
 others Andere
 pager Pager
 pass Passwort
-paste EinfÃ¼gen
-personal persÃ¶nlich
+paste Einfügen
+personal persönlich
 phones Telefonnummern
 phone Telefon
 picbrowser Anzeigebild-Browser
 picfile Mit der Benachrichtigung verbundenes Bild (GIF < 500 x 500)
 picstatus Mit der Benachrichtigung verbundenes Bild ein/ausschalten
 playing Abgespielt wird: $1
-pluginselector Plugins auswÃ¤hlen
+pluginselector Plugins auswählen
 port Port
-prefalerts TÃ¶ne und KlÃ¤nge
+prefalerts Töne und Klänge
 prefapps Anwendungen
 prefawaymsg Abwesenheits-Mitteilung
 prefblock1 Testen beim Trennen
-prefblock2 FortwÃ¤hrend testen
-prefblock3 â€Sie sind blockiert worden vonâ€ Gruppe
+prefblock2 Fortwährend testen
+prefblock3 "Sie sind blockiert worden von" Gruppe
 prefconnection Verbindungseinstellungen
 prefemotic Emoticons und Smileys
 preferences Einstellungen
 preffont2 Schriftart in der Andere meinen Text sehen
-preffont3 aMSN's Schriftart und GrÃ¶ÃŸe
+preffont3 aMSN's Schriftart und Größe
 preffont Schriftart
-prefft DateiÃ¼bertragung, p2p und NAT Einstellungen
+prefft Dateiübertragung, p2p und NAT Einstellungen
 preflibs Bibliotheken Verzeichnisse
 preflog1 Verlauf und Log-Optionen
 preflook aMSN Messenger Aussehen
 prefmsging Aussehen des Chat-Fensters
 prefname MSN Name/Spitzname
-prefphone2 Telefonnummern, die Kontakte aus \n Ihrer Erlaubnisliste sehen dÃ¼rfen\n
+prefphone2 Telefonnummern, die Kontakte aus \n Ihrer Erlaubnisliste sehen dürfen\n
 prefphone Telefonnummern
 prefprivacy2 Kontakt/Reverse Listen des Benutzers
 prefprivacy Aktzeptieren/Blockieren Listen des Benutzers
-prefprofile2 Erstellen oder verÃ¤ndern Sie Ihr MSN-Profil
+prefprofile2 Erstellen oder verändern Sie Ihr MSN-Profil
 prefprofile3 aMSN's Benutzer-Profileinstellungen
-prefprofile Mein Ã¶ffentliches Profil
+prefprofile Mein öffentliches Profil
 prefproxy Proxyeinstellungen
 prefremote Fernverbindungseinstellungen
 prefsession Anmeldung und Status
 prefshared Gemeinsame Verbindung (nur NAT)
 prefsound Akustische Signale
-privacy PrivatsphÃ¤re
-profiledconfig ProfilabhÃ¤ngige Einstellungen
-profileexists Das Profil existiert bereits. Bitte wÃ¤hlen Sie ein Anderes
-profileinuse Dieses Profil wird von einer anderer aMSN Sitzung verwendet, bitte wÃ¤hlen Sie ein Anderes
+privacy Privatsphäre
+profiledconfig Profilabhängige Einstellungen
+profileexists Das Profil existiert bereits. Bitte wählen Sie ein Anderes
+profileinuse Dieses Profil wird von einer anderer aMSN Sitzung verwendet, bitte wählen Sie ein Anderes
 profileloginradio Mit einem existierenden Profil anmelden
 profiles Profile
 properties Eigenschaften
-proxyconfhttp Konfiguration: HTTP-Proxy-UnterstÃ¼tzung
+proxyconfhttp Konfiguration: HTTP-Proxy-Unterstützung
 proxyconf Proxy-Konfiguration
-proxyconnection Ich verbinde mit dem Internet Ã¼ber einen Proxy-Server:
+proxyconnection Ich verbinde mit dem Internet über einen Proxy-Server:
 proxy Ich bin hinter einem Proxy Server (HTTP oder SOCKS5)
-publishphones Meine Telefonnummern verÃ¶ffentlichen
-purge LÃ¶sche
+publishphones Meine Telefonnummern veröffentlichen
+purge Lösche
 raised Wiederhergestellt
 readonlymsgbox Der Dateitransfer wurde gestoppt, weil sie keine Schreibrechte im Ziel-Verzeichnis besitzen. Bitte berichtigen Sie die Berechtigungen an diesem Verzeichnis
-readonlywarn WARNUNG: Die Datei wird mÃ¶glicherweise NICHT korrekt gespeichert, da das â€Received filesâ€ Verzeichnis schreibgeschÃ¼tzt zu sein scheint. Bitte stellen Sie sicher, daÃŸ die Berechtigungen am Zielverzeichnis ($1) richtig gesetzt sind, bevor Sie eine Datei transferieren
+readonlywarn WARNUNG: Die Datei wird möglicherweise NICHT korrekt gespeichert, da das "Received files" Verzeichnis schreibgeschützt zu sein scheint. Bitte stellen Sie sicher, daß die Berechtigungen am Zielverzeichnis ($1) richtig gesetzt sind, bevor Sie eine Datei transferieren
 receivedbytes $1 von $2 Bytes empfangen
 receiveddir Verzeichnis empfangener Dateien
 receivefile Datei empfangen
-recentmsg Verhindere das SchlieÃŸen des Chat-Fensters, wenn gerade eine neue Nachricht eingetroffen ist
+recentmsg Verhindere das Schließen des Chat-Fensters, wenn gerade eine neue Nachricht eingetroffen ist
 reconnecting Erneute Anmeldung beim Server
 reconnect Warte, bis $1 wieder angemeldet ist
 reject Abweisen
@@ -451,17 +451,17 @@ rememberpass Passwort speichern
 removefromlist Aus dieser Liste entfernen
 rename Umbenennen
 reversed Umgekehrt
-reverselist Reverse Liste :
-rightback Bin gleich zurÃ¼ck
+reverselist Reverse Liste:
+rightback Bin gleich zurück
 saveas Speichern unter
-savechatwinsize Chat-FenstergrÃ¶ÃŸe speichern wenn die FenstergrÃ¶ÃŸe verÃ¤ndert wird
+savechatwinsize Chat-Fenstergröße speichern wenn die Fenstergröße verändert wird
 savecontacts Kontaktliste speichern
 save Speichern
 savetofile Speichern unter
 says $1 sagt
 sbcon Verbinde mit Server
-selectplugins Bitte wÃ¤hlen Sie die Plugins aus, die aktiviert sein sollen
-selectskin Bitte wÃ¤hlen Sie einen OberflÃ¤che aus
+selectplugins Bitte wählen Sie die Plugins aus, die aktiviert sein sollen
+selectskin Bitte wählen Sie einen Oberfläche aus
 sendfile Datei senden
 sendmail E-Mail senden
 sendmsg Nachricht senden
@@ -475,17 +475,17 @@ session Sitzung
 showbanner aMSN-Banner anzeigen
 showblockedlist Zeigt eine Liste mit Personen von denen Sie geblockt werden
 showcachedpics Zeige zwischengespeicherte Bilder
-showdisplaypic2 Anzeigebild standardmÃ¤ÃŸig anzeigen, wenn ein Chatfenster geÃ¶ffnet wird
+showdisplaypic2 Anzeigebild standardmäßig anzeigen, wenn ein Chatfenster geöffnet wird
 showdisplaypic Anzeigebild anzeigen
 showmypic Mein Anzeigebild
 shownotify Bei Ereignissen Hinweisfenster anzeigen
 showuserpic Anzeigebild von $1
-skin OberflÃ¤che
-skinselector OberflÃ¤che auswÃ¤hlen
+skin Oberfläche
+skinselector Oberfläche auswählen
 smileconfig Benutzerdefinierte Emoticon Konfiguration
 smilefile Smiley Dateiname
-smileintro2 Bitte editieren Sie die erforderlichen Felder, um das Smiley nach Ihren BedÃ¼rfnissen anzupassen (sehen Sie sich bei Bedarf die FAQ an)
-smileintro Bitte fÃ¼llen Sie die erforderlichen Felder aus, um ein neues eigenes Smiley zu erzeugen (sehen Sie sich bei Bedarf die FAQ an)
+smileintro2 Bitte editieren Sie die erforderlichen Felder, um das Smiley nach Ihren Bedürfnissen anzupassen (sehen Sie sich bei Bedarf die FAQ an)
+smileintro Bitte füllen Sie die erforderlichen Felder aus, um ein neues eigenes Smiley zu erzeugen (sehen Sie sich bei Bedarf die FAQ an)
 sound2 Klang wiedergeben, wenn sich ein Kontakt anmeldet oder eine Nachricht schreibt
 soundactive Klang wiedergeben, wenn die neue Nachricht im aktiven Fenster ankommt
 sound Akustische Signale
@@ -498,47 +498,47 @@ soundserver Klangserver
 soundstatus Akustisches Signal ein/ausschalten
 sourcecode Quelltext
 splashstart Start
-sslwarning WARNUNG: Wenn Sie SSL deaktivieren, wird auch die VerschlÃ¼sselung deaktiviert. Deshalb wir Ihr Passwort im Klartext Ã¼ber das Netzwerk gesendet. Tun Sie dies nur bei wirklich guten Proxyservern oder Netzwerkkonfigurationen
-startoffline2 Als â€Als offline anzeigenâ€ anmelden
+sslwarning WARNUNG: Wenn Sie SSL deaktivieren, wird auch die Verschlüsselung deaktiviert. Deshalb wir Ihr Passwort im Klartext über das Netzwerk gesendet. Tun Sie dies nur bei wirklich guten Proxyservern oder Netzwerkkonfigurationen
+startoffline2 Als "Als offline anzeigen" anmelden
 startoffline Offline-Modus beim Start
 startontray aMSN nur als Systemicon starten
-stateautomsg Autonachricht die gesendet werden soll
+stateautomsg Autonachricht, die gesendet werden soll
 statechange Status gewechselt in:
-stateedittext Bitte Ã¤ndern sie die Felder die Sie gerne\n bearbeitet haben mÃ¶chten und drÃ¼cken Sie Speichern
-state Ich mÃ¶chte erscheinen als
-stateinfo PersÃ¶nliche Status Konfiguration
-statename Name des persÃ¶nlichen Status
-statenewtext Bitte fÃ¼llen Sie die benÃ¶tigten Felder aus, um Ihren\n PersÃ¶nlichen Status zu erstellen und drÃ¼cken Sie Speichern
-statenick Benutzerdefinierter Spitzname. (Leer lassen fÃ¼r keine Ã„nderung)
+stateedittext Bitte ändern sie die Felder die Sie gerne\n bearbeitet haben möchten und drücken Sie Speichern
+state Ich möchte erscheinen als
+stateinfo Persönliche Status Konfiguration
+statename Name des persönlichen Status
+statenewtext Bitte füllen Sie die benötigten Felder aus, um Ihren\n Persönlichen Status zu erstellen und drücken Sie Speichern
+statenick Benutzerdefinierter Spitzname. (Leer lassen für keine Änderung)
 status Status
 stopalarm Benachrichtigung stoppen
-storenickname Nach einem benutzerdefinierten Status mit benutzerdefiniertem Spitzname zum ursprÃ¼nglichen Spitzname zurÃ¼ckkehren
-strictfonts Alle SchriftgrÃ¶ÃŸen auf die gewÃ¤hlte beschrÃ¤nken (Statuszeile etc.)
+storenickname Nach einem benutzerdefinierten Status mit benutzerdefiniertem Spitzname zum ursprünglichen Spitzname zurückkehren
+strictfonts Alle Schriftgrößen auf die gewählte beschränken (Statuszeile etc.)
 stylechat Wie in den Chats
 stylehist Aussehen des aMSN Logs
-stylelog Format auswÃ¤hlen in dem das Log angezeigt werden soll
+stylelog Format auswählen in dem das Log angezeigt werden soll
 syntaxerror Syntaxfehler
 tabbed Unterfenster
-temp_state Nicht speichern (temporÃ¤rer Status, wird beim SchlieÃŸen von aMSN verworfen)
-textsize TextgrÃ¶ÃŸe
+temp_state Nicht speichern (temporärer Status, wird beim Schließen von aMSN verworfen)
+textsize Textgröße
 timeremaining Zeit verbleibend
 timestamps Zeitstempel in Chatfenstern aktivieren
 title Al's Messenger
 tkerror TK hat einen Fehler festgestellt, dies ist ein Bug in aMSN, bitte berichten Sie ihn. Senden Sie die Datei $1 an aMSN-bugs@lists.sf.net
-tlsdowncompleted Die Datei $1 wurde in das Verzeichnis $2 heruntergeladen. Sie mÃ¼ssen sie innerhalb von $3 extrahieren, kompilieren und installieren (wenn sie den Quelltext heruntergeladen haben)
-tlsexplain Verzeichnis in dem sich das TCL-TLS_Modul befindet. Bitte spezifizieren im Fall daÃŸ aMSN es nicht finden kann.\n(Notwendig fÃ¼r SSL Authentifizierung)
-tlsinstallexp aMSN nÃ¼tzt nun MSNP9, das die Benutzung einer sicheren\nVerbindung via SSL erfordert. Um SSL zu nÃ¼tzen, muss aMSN ein Modul installieren, das sich TLS nennt\nund auf Ihrem System fehlt. Dieser Wizard wird Ihnen dabei helfen, TLS zu herunterloaden und\nzu installieren. Bitte wÃ¤hlen Sie Ihren Systemtyp, damit wir automatisch die erforderlichen TLS Dateien herunterladen kÃ¶nnen
+tlsdowncompleted Die Datei $1 wurde in das Verzeichnis $2 heruntergeladen. Sie müssen sie innerhalb von $3 extrahieren, kompilieren und installieren (wenn sie den Quelltext heruntergeladen haben)
+tlsexplain Verzeichnis in dem sich das TCL-TLS_Modul befindet. Bitte spezifizieren im Fall daß aMSN es nicht finden kann.\n(Notwendig für SSL Authentifizierung)
+tlsinstallexp aMSN nützt nun MSNP9, das die Benutzung einer sicheren\nVerbindung via SSL erfordert. Um SSL zu nützen, muss aMSN ein Modul installieren, das sich TLS nennt\nund auf Ihrem System fehlt. Dieser Wizard wird Ihnen dabei helfen, TLS zu herunterloaden und\nzu installieren. Bitte wählen Sie Ihren Systemtyp, damit wir automatisch die erforderlichen TLS Dateien herunterladen können
 tlsinstall TLS Modul Installations Wizard
-tlsinstcompleted Die Installation des TLS Moduls war erfolgreich. Nun sollten Sie in der Lage sein, MSNP9 zu nutzen. Wenn es dennoch nicht funktioniert haben Sie vielleicht nicht das richtige Modul ausgewÃ¤hlt, oder ein kompiliertes Modul ist fÃ¼r Ihr System nicht erhÃ¤ltlich
+tlsinstcompleted Die Installation des TLS Moduls war erfolgreich. Nun sollten Sie in der Lage sein, MSNP9 zu nutzen. Wenn es dennoch nicht funktioniert haben Sie vielleicht nicht das richtige Modul ausgewählt, oder ein kompiliertes Modul ist für Ihr System nicht erhältlich
 to An
 tools Extras
 tooltips Tooltips zulassen
-transnotexists Die gewÃ¼nschte Datei wurde noch nicht in die aktuelle Sprache Ã¼bersetzt
-traynotcompiled Ablage Icon Plugin ist nicht compiliert. ÃœberprÃ¼fen Sie Plugins/Ablageanker
+transnotexists Die gewünschte Datei wurde noch nicht in die aktuelle Sprache übersetzt
+traynotcompiled Ablage Icon Plugin ist nicht compiliert. Überprüfen Sie Plugins/Ablageanker
 triggers Buchstabenkombination
-truncatenames1 Spitznamen, die Ã¼ber die Fensterbreite hinausgehen, in Fenstertiteln und in der Kontaktliste kÃ¼rzen
-truncatenames2 Spitznamen, die Ã¼ber die Fensterbreite hinausgehen, innerhalb von Unterhaltungen kÃ¼rzen
-truncatenicks Spitznamen kÃ¼rzen, die Ã¼ber die Fensterbreite hinausgehen
+truncatenames1 Spitznamen, die über die Fensterbreite hinausgehen, in Fenstertiteln und in der Kontaktliste kürzen
+truncatenames2 Spitznamen, die über die Fensterbreite hinausgehen, innerhalb von Unterhaltungen kürzen
+truncatenicks Spitznamen kürzen, die über die Fensterbreite hinausgehen
 twonewmail $1 neue Nachrichten im Posteingang
 unblock Blockieren entfernen
 uoffline Offline
@@ -549,23 +549,82 @@ userblocked Der Benutzer ist Online aber er blockt Sie ab
 userdata Benutzerdaten
 usernotonline Benutzer ist nicht online
 userproperties Eigenschaften des Benutzers $1
-useryourself Sie kÃ¶nnen nicht mit sich selbst chatten
-verifyblocked ÃœberprÃ¼fen wer Sie blockiert
+useryourself Sie können nicht mit sich selbst chatten
+verifyblocked Überprüfen wer Sie blockiert
 version Version
 view Ansicht
 viewcontactsby Kontakte filtern nach
 viewprofile Profil ansehen
-webcaminvite $1 hat Sie eingeladen zu einer Webcam Sitzung eingeladen. Leider unterstÃ¼tzt aMSN diese Funktion nicht
-willjoin Warte... $1 wird der Unterhaltung hinzugefÃ¼gt
+webcaminvite $1 hat Sie eingeladen zu einer Webcam Sitzung eingeladen. Leider unterstützt aMSN diese Funktion nicht
+willjoin Warte... $1 wird der Unterhaltung hinzugefügt
 work Arbeit
-wrongfields Die Felder â€$1â€, â€$2â€ und/oder â€$3â€ sind nicht gÃ¼ltig
-wrongprofileversion Falsche Version der Profil-Konfigurationsdatei. Um das Problem zu beheben entfernen Sie bitte das Verzeichnis $1, oder installieren Sie eine aktuelle Version von aMSN
-xmmscurrent Momentanes MusikstÃ¼ck anzeigen
+wrongfields Die Felder "$1", "$2" und/oder "$3" sind nicht gültig
+wrongprofileversion Falsche Version der Profil-Konfigurationsdatei. Um das Problem zu beheben, entfernen Sie bitte das Verzeichnis $1, oder installieren Sie eine aktuelle Version von aMSN
+xmmscurrent Momentanes Musikstück anzeigen
 xmmserr Es wird nichts abgespielt, oder xmms-infopipe ist nicht installiert
-xmmssend Momentanes MusikstÃ¼ck senden
+xmmssend Momentanes Musikstück senden
 xoffset X-Offset
 yes Ja
 yoffset Y-Offset
 youblocked Sie wurden blockiert
 yousay Sie sagen
 youwant Sie wollen
+author Autor
+changesize Größe verändern
+clear Löschen
+clientcaps Sende das Paket "x-clientcaps" an andere Clients
+clientname Name des Clients
+configure Einstellen
+confirmbl Wollen Sie den Kontakt wirklich blockieren?
+confirmdg Wollen Sie diese Gruppe wirklich löschen?
+confirmdu Wollen Sie diesen Benutzer wirklich löschen?
+confirmeg Wollen Sie diese Gruppe wirklich leeren?
+confirmrfl Wollen Sie diesen Benutzer wirklich aus der Gruppe löschen?
+connectedwith Verbunden mit $1
+customstyle Angepasstes Design
+dateformat Datumsformat ändern
+day Tag
+disableuserfonts Die Schriftart des Gesprächspartners ignorieren und die eigene Schriftart verwenden
+disconnectedfrom Verbindung zu $1 getrennt
+displayeventconnect Anzeige wenn sich Kontakte anmelden
+displayeventdisconnect Anzeige wenn sich Kontakte abmelden
+displayeventemail Anzeige wenn eine E-Mail eingeht
+displayeventstate Aneige wenn Kontakte ihren Status ändern
+emptygroup Gruppe leeren
+eventhistory Ereignisprotokoll anzeigen
+filetransfer Datei-Transfer
+globalnick Ein Muster erstellen, nach dem die Spitznamen Ihrer Kontakte angepsst werden. Diese Variablen stehen zur Verfügung: \$user_login für die Adresse ihrer Kontakte, \$nick für den Spitznamen ihrer Kontakte und \$customnick für den angepassten Spitznamen ihrer Kontakte. Beispiel: '\$user_login ist \$nick' erzeugt 'contact@msn.com ist Contact'
+globaloverride Muster für Spitznamen, statt angepassten Spitznamen verwenden
+groups Gruppen
+lastseen Zuletzt online
+load Lade
+logeventconnect Verbindungen protokollieren
+logeventdisconnect Abmedldungen protokollieren
+logeventemail Eingehende E-Mails protokollieren
+logeventstate Statusänderungen protokollieren
+maintenance Wegen Wartungsarbeiten wird der Server $1 Minute(n) abgeschaltet
+month Monat
+name Name
+new_ft_protocol Neues Datei-Transfer-Protokoll benutzen (teilweise fehlerhaft)
+newmailfolder Sie haben $1 neue Nachrichten in einem anderen Hotmail-Ordner
+newmailfromother Neue E-Mail in einem anderen Ordner von $1 ($2)
+nogap Keine Lücke zwischen Gruppen
+notify Meldung anzeigen, wenn eine neue E-Mail in einem anderen Ordner eingeht
+nudge $1 bittet um Beachtung
+original Original
+p4contextprefix Zeige diese Einleitung, für "P4-Context"-Dender
+preflogevent Protokoll meiner Ereignisse
+reconnect2 Wiederverbinden
+removeempty Leere Gruppen aus der Kontaktliste entfernen
+required_version Kann das Plugin nicht laden. Es benötigt mindestens aMSN-Version $1
+snackfailed Kann Snack nicht laden, benutze die Vorgabe
+sngdblclick Neues Nachrichtenfenster mit einem Klick öffnen
+style Stil
+today Heute
+unknown	Unbekannt
+unload	Entladen
+useother Ein anderes Programm benutzen
+usesnack Die Snack Bibliothek benutzen (Tcl-intern)
+winkreceived $1 hat Ihnen zugezwinkert. Dieses Feature wird momentan nicht von aMSN unterstützt.
+year Jahr
+yesterday Gestern

@@ -238,6 +238,7 @@ friendlyname Prijazno ime
 ftacceptedby $1 je sprejel/a povabilo za prenos datoteke '$2'
 ftaccepted Sprejem datoteke sprejet
 ftaccepting Sprejemam povabilo za prenos datoteke
+ftautoclose Zapri okno, ko konèa prenos datoteke
 ftconnecterror Napaka pri povezovanju z drugo stranjo
 ftconnecting Povezujem se na $1, vrata $2
 ftconnectionlost Povezava z drugo stranjo prekinjena

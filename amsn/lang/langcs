@@ -26,7 +26,7 @@ alarmstatus Zapni/Vypni alarm pro tohoto u¾ivatele
 allfiles V¹echny soubory
 allowallbutbl Povolit kontaktování v¹em u¾ivatelùm kteøí nejsou v seznamu blokovaných
 allowbadwords Zakázat cenzuru pøezdívek
-allowlist Seznam povolených (SP)
+allowlist Seznam povolených (AL)
 allowonlyinal Povolit kontaktování pouze u¾ivatelùm ze seznamu povolených
 allowseen Dovolit tomuto èloveku sledovat kdy budu pøipojen(a) a kontaktovat mì
 allprofilesinuse V¹echny existující profily jsou momentálnì pou¾ívány
@@ -64,7 +64,7 @@ blockinter1 Kdy¾ jsi online kontroluj ka¾dých
 blockinter2 sekund, jinak ka¾dých:
 blockinter3 ka¾dých
 blockinter4 sekund.
-blocklist Seznam zablokovaných:
+blocklist Seznam blokovaných (BL)
 blockmessage Tito lidé jsou pøipojení a zablokovali si vás
 blockusers Poèet u¾ivatelù kontrolovaných najednou
 block Zablokovat
@@ -76,7 +76,7 @@ busy Zaneprázdnìný/á
 cachedpics Poèet fotek v CACHE: $1
 cancel Zru¹it
 cannotdeleteprofile Nemohu smazat profil, zdá se, ¾e ho právì pou¾ívá aMSN
-cantexec Nemohu spustit aplikaci $1. Zkontroluj preference.
+cantexec Nemohu spustit aplikaci $1. Zkontroluj si nastavení aMSN.
 cantremoveothers Nemù¾e¹ odstranit skupinu "Ostatní"
 cfgalarmall Nastavit/Pøidat/Zru¹it alarm
 cfgalarm Nastav/Pøidej/Odstraò alarm
@@ -90,6 +90,7 @@ close Zavøít
 closingdocks Tlaèítko "Zavøít" minimalizuje okno
 command Pøíkaz
 commandstatus Spus» pøíkaz
+configure Nastav
 confirmbl Opravdu chce¹ zablokovat tento kontakt?
 confirmdelete Opravdu chce¹ smazat $1?
 confirmdg Opravdu chce¹ smazat tuto skupinu?
@@ -106,7 +107,7 @@ connectionlost Odpojen: Spojení se serverem bylo ukonèeno
 connection Pøipojení
 contactadded Kontakt je ulo¾en
 contactdoesnotexist Kontakt neexistuje!
-contactlist Seznam kontaktù:
+contactlist Seznam u¾ivatelù:
 convertexplain Cesta k CONVERT exe souboru, od ImageMagick (potøebné na fotky).\n Vynechat kdy¾ CONVERT je v ceste.
 copy Kopírovat
 copytogroup Kopírovat do skupiny
@@ -135,17 +136,18 @@ default Pùvodní profil
 defchatwinsize Velikost pro chat-okna (XSIZExYSIZE) 
 deletecustomstate Vymazat vlastní status
 delete Smazat
-delimiters Timestamps' delimiters: 
+delimiters Oddìlovaèe èasu:
 deliverfail Vyskytl se problém kdy¾ jsem se pokou¹el odeslat následující odkaz
 delprofile Vymazat profil
 delprofile2 Vyberte profil který chcete vymazat
 description Popis
 directconnection Pøímé pøipojení k internetu (pou¾ije port 1863)
 disabled Vypnuté
-disableprofiles Vypnout profily (Kdy¾ jsi v internet-kafe nebo pod.) 
+disableprofiles Vypnout profily (Kdy¾ jsi v internetové kavárnì apod.)
 disablessl Zakázat SSL
 disableuserfonts V oknì dialogu nepou¾ívej font partnera, pou¾ij vlastní
 disconnectedfrom Odpojen od: $1
+disconnect $1 se odpojil.
 displayeventconnect Oznam pøipojení u¾ivatele
 displayeventdisconnect Oznam odpojení u¾ivatele
 displayeventemail Oznam pøíjem e-mailu
@@ -201,6 +203,8 @@ ftportpref Poèáteèní port pro pøenos souborù
 ftrejected Odesílání souboru nepøijaté
 fullcontactlist Lituji, ale tvùj kontakt list je plný. Bude¹ muset vymazat nìjaký kontakt aby jsi mohl pøidat dal¹í. 
 getdisppic Ukládat do pamìti obrázky jiných u¾ivatelù. 
+globalnicktitle Maska na zobrazení kontaktù
+globalnick Vlo¾ masku podle které bude formátováno zobrazení jmen kontaktù. Mù¾e¹ pou¾ít následující promìnné: \$user_login bude nahrazeno pøihla¹ovací adresou, \$nick pøezdívkou a \$customnick pøezdívkou z tvého adresáøe kontaktù. Pøíklad: '\$user_login si øíká $nick' se zobrazí jako 'bgate@msnouma.com si øíká Strejda Bill'
 gonelunch ©el/¹la jsem jíst
 groupadd Pøidat skupinu
 groupdelete Smazat skupinu
@@ -209,8 +213,8 @@ groupmissing Nemohu najít skupinu
 groupnewname Nové jméno
 groupnotempty Skupina není prázdná!
 groupoldname Pøede¹lé jméno
+group podle skupiny
 grouprename Pøemenovat skupinu
-group Skupina
 groups Skupiny
 groupunknown Neznámá skupina
 handle Handle
@@ -221,10 +225,11 @@ hiden Schovej emotikony z menu smajlíkù
 history Ukázat logy
 home Domov
 httpconnection Pøipojení protokolem http (pro pøipojení pou¾ije port 80)
+hybrid ve smí¹eném re¾imu
 changecustomstate Zmìò stav na
 changedisplaypic Zmìnit obrázek (fotku)
 changefont Zmìnit písmo
-changeglobnick Zmìò globální pøezdívku
+changeglobnick Vlastní formát
 changenick Zmìnit jméno
 changesize Zmìò velikost
 changestate $1 zmìnil svùj stav na $2
@@ -244,14 +249,17 @@ checkver Hledat novìj¹í verzi
 choosearq Vyber architekturu svého systému
 choosebasefont Vyber písmo
 choosebgcolor Vyber barvu pro aMSN
+choosecontact Vyber u¾ivatele ze seznamu
 choosefontcolor Vyber barvu písma
 chooseskin Vyber si vzhled, který chce¹ pou¾ít
 ch_to_state Nastavit nový status
 ident Identifikuji
 identity Identifikace
+ignoreerrors Nezobrazuj dal¹í chyby aMSN a¾ do ukonèení relace
 imagefiles Obrázkové soubory.
 inbox E-mailová schránka na Hotmail
 insertsmiley Vlo¾ smajlík
+installconvert Pokud chce¹ pou¾ívat vlastní ikony a emotikony, musí¹ instalovat ImageMagick (program convert). Binární formu pro tvùj operaèní systém najde¹ na ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Pokud ji¾ má¹ program convert nainstalovaný, je toto hlá¹ení chybné a nahla¹ jej jako bug (anglicky!). Jmenované vymo¾enosti budou nyní zakázány, a¾ si ImageMagick nainstaluje¹, mù¾e¹ si je povolit v Nastavení programu.
 internalerror Chyba serveru
 invalidfile2 Chyba pøi vytváøení souboru $1, zjisti jestli má¹ oprávnìní. 
 invalidgroup Nesprávná skupina 
@@ -289,6 +297,7 @@ listsmileys2 Povolit emotikony a smajlíky u¾ v seznamu kontaktù
 ljoinedconf $1 se pøidal do konference
 lleftconf $1 ode¹el z konference
 loadcontacts Pøidat seznam ze souboru
+load Nahraj
 logbigger Délka logu pro ka¾dou adresu má limit
 logeventconnect Zaznamenej pøipojení u¾ivatele
 logeventdisconnect Zaznamenej odpojení u¾ivatele
@@ -353,17 +362,21 @@ nonewmail Nemá¹ nové maily
 nonewver Novìj¹í verze nenalezena
 nopic ®ádný obrázek
 noprofileexists Nemá¹ zalo¾en ¾ádný profil. \n To se nechá napravit tlaèítkem "Pøidat nový profil".
-normal Normálnì
+normal podle abecedy
 noskins Nemohu nalézt pøedvolený vzhled v adresáøi skins/. Nemohu spustit AMSN.
 notificationserver MSN Messenger Server
 notify notifikace
 notifyoffset Nastavit pozici notifikaèního okénka nastavením valut
-notifytyping Odeslat jiným u¾ivatelùm notifikaci kdy¾ pí¹e¹. 
+notifytimeout Doba v milisekundách po kterou bude zobrazeno informaèní okno
+notifytyping Odeslat jiným u¾ivatelùm informaci ¾e jim pí¹e¹. 
 notifywin Notifikaèní okénko
-notify1 Ukázat notifikaci kdy¾ se nìkdo pøipojí
-notify2 Ukázat notifikaci kdy¾ dostanu nový odkaz
-notify3 Ukázat notifikaci kdy¾ dostanu nový e-mail
-notinlist Nejsi v jeho/jejím seznamu kontaktù
+notify1 Oznámit kdy¾ se nìkdo pøipojí
+notify1_5 Oznámit odpojení u¾ivatele
+notify1_75 Oznámit zmìnu stavu u¾ivatele
+notify2 Oznámit pøíjem nového odkazu
+notify3 Oznámit pøíjem e-mailu
+notify4 Oznámit pøíchod e-mailu do jiné slo¾ky
+notinlist Nejsi v jeho/jejím seznamu u¾ivatelù
 nousersinsession Nejsou pøipojeni u¾ivatelé
 nudge $1 vy¾aduje tvoji pozornost
 offline Nepøipojen
@@ -373,8 +386,8 @@ online Pøipojen
 onphone Telefonuji
 openreceived Otevøít pøijaté soubory
 options Nastavení
-ordercontactsby Seøadit kontakty podle:
-ordergroupsby Seøadit skupiny podle:
+ordercontactsby Seøadit kontakty
+ordergroupsby Seøadit skupiny
 other Jiné
 others Ostatní
 pager Pager
@@ -394,7 +407,7 @@ prefapps Aplikace
 prefawaymsg Mùj dùvod nepøítomnosti
 prefconnection Nastavení spojení
 prefemotic Emotikony a smajlíky
-preferences Nastavení
+preferences Nastavení programu
 preffont Mùj text odkazu
 preffont2 Zmìnit styl mého textu pro ostatní lidi
 preffont3 Zmìnit písmo a velikost písma pro aMSN
@@ -406,6 +419,8 @@ prefmsging Interfáze mých odkazù
 prefname Moje jméno/pøezdívka pro MSN messenger
 prefphone Moje telefonní èísla
 prefphone2 Napi¹ telefonní èísla které chce¹ aby byly vidìt \n pro lidi ve tvém kontakt listu \n
+prefprivacy Seznam povolených/blokovaných
+prefprivacy2 Seznam kontaktù / Zpìtný seznam
 prefprofile Mùj veøejný profil
 prefprofile2 Vytvoøit nebo zmìnit profil (\n Informace o vás, kterou ostatní budou moci vidìt)
 prefprofile3 Nastavení profilù aMSN
@@ -441,7 +456,7 @@ removeempty Vyma¾ prázdné skupiny ze seznamu
 removefromlist Vyma¾ ze seznamu
 rename Pøejmenovat
 required_version Tento plugin vy¾aduje verzi aMSN alespoò $1
-reversed Naopak
+reversed opaènì
 rightback Hned se vrátím
 saveas Ulo¾it jako
 savecontacts Ulo¾it kontakt list
@@ -468,7 +483,9 @@ showmypic Mùj obrázek
 shownotify Ukázat notifikaèní okno kdy¾ se nìco stane 
 showuserpic Fotka $1
 skinselector Vyber vzhled
+sngdblclick Otevøít nové dialogové okno jedním kliknutím
 soundcommand Toto je pøíkaz na "play" (napø.: esdplay)
+soundexample (\$sound = Zvukový soubor na pøehrání) Pø.: esdplay \$sound
 soundfiles Zvukové soubory 
 soundfile Zvukový soubor
 soundloop Opakovat zvuk
@@ -476,14 +493,16 @@ soundserver Zvuk pro server
 soundstatus Zvukový alarm
 sound Zvuk
 sound2 Spustit zvuk jakmile se nìkdo pøipojí nebo po¹le vzkaz
+sourcecode Zdrojový kód (potøebuje pøelo¾it a nainstalovat)
+sslwarning POZOR! Zákaz SSL nepovolí ¹ifrování, tak¾e tvé heslo bude odesláno v èitelné formì po síti. Pou¾ij jen v pøípadì zákeønì nastavené proxy brány nebo podivné konfigurace sítì.
 startoffline Pøipojit se tichým zpùsobem
 startoffline2 Pøipojit se tichým zpùsobem, po pøipojení tì ostatní neuvidí.
 startontray Nastartovat AMSN jen v Trayi 
 statechange Stav zmìnìn na:
 state Chci abych byl vidìn jako
 statenick Vlastní pøezdívka (vynechej kdy¾ ji nechce¹ mìnit) 
-status Status
-stopalarm Zastavit Alarm
+status podle stavu
+stopalarm Zastavit alarm
 storenickname Vrátit pùvodní pøezdívku kdy¾ se nastaví vlastní status a vlastním nicname 
 strictfonts Pøizpùsobit v¹echny písma a velikosti tomu co jsi si zvolil
 stylehist Vzhled pro "Historii" aMSN
@@ -498,8 +517,10 @@ timestamps Povol èasové znaèky v konverzaèním oknì
 title Messenger
 tkerror TK na¹el jednu chybu, aMSN má chybu, prosím, ode¹li nám ji. Ode¹li soubor $1 na adresu amsn-bugs@lists.sf.net 
 tlsexplain Hledám adresáø s tcl TLS modulem. Pokud jej AMSN nenajde, prosím zadej jej.\n(Vy¾adován pro SSL autentizaci)
+tlsinstallexp aMSN nyní pou¾ívá MSPN9, který vy¾aduje bezpeèné\nspojení pomocí SSL. AMSN musí mít nainstalován modul TLS ... a ten zde není.\nTento dialog ti pomù¾e nainstalovat TLS.\nVyber operaèní systém a» mohu stáhnout\n po¾adované soubory.
 tlsinstall Prùvodce instalací TLS
 tlsinstcompleted Instalace TLS probìhla úspì¹nì - nyní mù¾e¹ pou¾ívat MSNP9. Pokud to nefunguje, pravdìpodobnì sis nevybral(a) správný modul. Je ov¹em také mo¾né, ¾e modul není zkompilován pro tvùj systém.
+today Dnes
 tools Slu¾by
 tooltips Povol tipy (tooltips)
 to Pro
@@ -512,6 +533,7 @@ twonewmail $1 nové/ých maily/ù
 unblock Odblokovat
 uoffline Nepøipojený
 uonline Pøipojený
+useother Pou¾ij jiný program
 useralreadyonlist U¾ivatel u¾ je v seznamu kontaktù
 userblocked U¾ivatel je pøipojený, ale zablokoval tì
 userdata Data u¾ivatele
@@ -519,9 +541,10 @@ usernotonline U¾ivatel není pøipojený
 userproperties U¾ivatelovy vlastnosti o $1
 user U¾ivatel
 useryourself Nemù¾e¹ konverzovat sám se sebou...
+usesnack knihovna Snack (interní knihovna Tcl)
 verifyblocked Ukázat lidi kteøí tì zablokovali
 version Verze
-viewcontactsby Ukázat kontakty jako
+viewcontactsby Formát zobrazení kontaktù
 viewprofile Zobrazit profil
 view Zobrazit
 willjoin Èekám na konverzaci s $1
