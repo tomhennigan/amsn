@@ -74,6 +74,7 @@ cantexec Aplikasi tidak bisa dijalankan: $1. Periksa pilihan
 casesensitive Gunakan pemicu yang sensitif terhadap bentuk huruf (besar/kecil)
 cfgalarmall Atur/Tambahkan/Hilangkan Alarm Global
 cfgalarm Rubah Pengaturan/Tambah/Hapus alarm
+changecustomstate Alihkan ke
 changedisplaypic Rubah Gambar Tampilan
 changefont Rubah Huruf
 changenick Ganti alias
@@ -95,6 +96,7 @@ choosebgcolor Pilih warna latar belakang
 choosecontact Mohon pilih sebuah kontak dari daftar
 choosefontcolor Pilih warna tekst
 chooseskin Silahkan pilih Kulit yang ingin anda gunakan
+ch_to_state Alihkan ke kondisi baru
 clearlog2 Bersihkan sejarah untuk semua kontak
 clearlog3 Bersihkan semua register
 clearlog Bersihkan Register
@@ -147,6 +149,7 @@ dontdownload Jangan download TLS, saya akan memasangnya sendiri
 dontshow Jangan Ditampilkan
 downloadingtls Sedang mendownload modul TLS dari:\n $1
 editcurrentstate Ubah keadaan saat ini
+editcustomstate Rubah
 editnewstate Kondisi untuk Pesan-otomatis Pribadi Baru
 editprofile Ubah Profil
 editstate Rubah Keadaan Pesan-otomatis yang sudah ada
@@ -439,6 +442,7 @@ stylehist Sejarah tampilan a'MSN
 stylelog Pilih bentuk di dalam mana anda ingin melihat sejarah anda
 syntaxerror Kesalahan Sintaks
 tabbed Window yang ditandai
+temp_state Jangan disimpan (Kondisi sementara, akan terlewatkan saat menutup AMSN)
 textsize Besar huruf
 timeremaining Waktu yang tersisa
 timestamps Mungkinkan penanda waktu pada jendela percakapan

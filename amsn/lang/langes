@@ -74,8 +74,8 @@ cantexec No se puede ejecutar la aplicación: $1. Comprueba las preferencias
 casesensitive Diferenciar may/minusculas en disparador
 cfgalarmall Cambiar/Añadir/Quitar alarma global
 cfgalarm Cambiar/quitar alarma
-changedisplaypic Cambiar imagen mostrada
 changecustomstate Cambiar a
+changedisplaypic Cambiar imagen mostrada
 changefont Cambiar fuente
 changenick Cambiar apodo
 changestate $1 cambia su estado a $2
@@ -169,6 +169,9 @@ errortls Error instalando el módulo TLS:
 examples Ejemplos
 exitamsn ¿Está seguro de que desea salir?
 extras Servicios Adicionales
+faileddelete No se pudo borrar
+faileddeleteperso Esta imagen no se puede borrar porque no es una imagen personal para mostrar. Sólo las imágenes que pertenecen a tu perfil personal pueden ser eliminadas así.
+failed Fallo
 faq FAQ (Preguntas frecuentes)
 filedoesnotexist El archivo no existe
 fileman Administrador de Archivos

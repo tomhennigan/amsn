@@ -172,6 +172,9 @@ errortls Napaka pri namestitvi modula TLS:
 examples Primeri
 exitamsn Ali si preprican, da zelis zapustiti program?
 extras Dodatne storitve
+faileddelete Izbris ni uspel
+faileddeleteperso Te slike ni mogoce izbrisati, ker ni osebna slika. Samo slike, ki pripadajo tvojemu osebnemu profilu, lahko tako izbrises.
+failed Neuspesno
 faq Faq
 filedoesnotexist Datoteka ne obstaja
 filemanexample ( \$location bo zamenjan z mapo ) Npr.: nautilus \$location
