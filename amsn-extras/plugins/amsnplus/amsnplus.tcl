@@ -33,11 +33,13 @@ namespace eval ::amsnplus {
 		if {[string equal $::version "0.94"]} {
 			set ::amsnplus::configlist [ \
 				list [list bool "Do you want to parse nicks?" parse_nicks] \
+				list [list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \ 
 				list [list bool "Do you want to allow commands in the chat window?" allow_commands] \
 			]
 		} else {
 			set ::amsnplus::configlist [ \
 				list [list bool "[trans parsenicks]" parse_nicks] \
+				list [list bool "[trans colournicks]" colour_nicks] \ 
 				list [list bool "[trans allowcommands]" allow_commands] \  
 			]
 		}
@@ -75,7 +77,7 @@ namespace eval ::amsnplus {
 					}
 					#obtain rbg color
 					set num [string range $data [expr $i + 2] $last]
-					#set colour [::amsnplus::getColor $num $colour]
+					set colour [::amsnplus::getColor $num $colour]
 					
 					incr i
 				} else {
