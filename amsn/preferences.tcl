@@ -1302,9 +1302,14 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.1.lbrowser -text "[trans browser] :" -padx 5 -font sboldf
 	entry $lfname.1.browser -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable [::config::getVar browser]
 	label $lfname.1.lbrowserex -text "[trans browserexample]" -font examplef
+	#file manager
 	label $lfname.1.lfileman -text "[trans fileman] :" -padx 5 -font sboldf
 	entry $lfname.1.fileman -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable [::config::getVar filemanager]
 	label $lfname.1.lfilemanex -text "[trans filemanexample]" -font examplef
+	#open file command
+	label $lfname.1.lopenfile -text "[trans openfilecommand] :" -padx 5 -font sboldf
+	entry $lfname.1.openfile -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable [::config::getVar showpicture]
+	label $lfname.1.lopenfileex -text "(gnome : gnome-open \$file)(kde : kfmclient exec \$file)" -font examplef
 	label $lfname.1.lmailer -text "[trans mailer] :" -padx 5 -font sboldf
 	entry $lfname.1.mailer -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable [::config::getVar mailcommand]
 	label $lfname.1.lmailerex -text "[trans mailerexample]" -font examplef
@@ -1332,17 +1337,22 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.1.lfileman -row 3 -column 1 -sticky w
 	grid $lfname.1.fileman -row 3 -column 2 -sticky w
 	grid $lfname.1.lfilemanex -row 4 -column 2 -columnspan 1 -sticky w
-	grid $lfname.1.lmailer -row 5 -column 1 -sticky w
-	grid $lfname.1.mailer -row 5 -column 2 -sticky w
-	grid $lfname.1.lmailerex -row 6 -column 2 -columnspan 1 -sticky w
+
+	grid $lfname.1.lopenfile -row 5 -column 1 -sticky w
+	grid $lfname.1.openfile -row 5 -column 2 -sticky w
+	grid $lfname.1.lopenfileex -row 6 -column 2 -columnspan 1 -sticky w
+		
+	grid $lfname.1.lmailer -row 7 -column 1 -sticky w
+	grid $lfname.1.mailer -row 7 -column 2 -sticky w
+	grid $lfname.1.lmailerex -row 8 -column 2 -columnspan 1 -sticky w
 	
 	#aMSN for Mac OS X always use "QuickTimeTCL" (except in Alarms) so don't let mac user choose sound player
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	#Empty
 	} else {
-		grid $lfname.1.lsound -row 7 -column 1 -sticky nw
-		grid $lfname.1.sound -row 7 -column 2 -sticky w
-		#grid $lfname.1.lsoundex -row 8 -column 2 -columnspan 1 -sticky w
+		grid $lfname.1.lsound -row 9 -column 1 -sticky nw
+		grid $lfname.1.sound -row 9 -column 2 -sticky w
+		#grid $lfname.1.lsoundex -row 10 -column 2 -columnspan 1 -sticky w
 	}
 	
 

@@ -940,6 +940,7 @@ namespace eval ::amsn {
 
 	#PRIVATE: Opens Receiving Window
 	proc FTWin {cookie filename user {chatid 0}} {
+		global files_dir
 		status_log "Creating receive progress window\n"
 
 		# Set appropriate Cancel command
@@ -971,8 +972,11 @@ namespace eval ::amsn {
 		checkbutton $w.ftautoclose -text "[trans ftautoclose]" -onvalue 1 -offvalue 0 -variable [::config::getVar ftautoclose]
 		pack $w.ftautoclose -side top
 
+		#Open directory and Open picture button
 		button $w.close -text "[trans cancel]" -command $cancelcmd
-		pack $w.close -side bottom -pady 5
+		button $w.open -text "[trans opendir]" -state disable -command "launch_filemanager \"$files_dir\""
+		button $w.openfile -text "[trans openfile]" -state disable -command "open_file \"$filename\""
+		pack $w.close $w.open $w.openfile -side right -pady 5 -padx 10
 
 		if { [::MSNFT::getTransferType $cookie] == "received" } {
 			wm title $w "$filename - [trans receivefile]"
@@ -1110,6 +1114,8 @@ namespace eval ::amsn {
 				::dkfprogress::SetProgress $w.prbar 100
 				$w.progress configure -text "[trans filetransfercomplete]"
 				$w.close configure -text "[trans close]" -command "destroy $w"
+				$w.open configure -state normal
+				$w.openfile configure -state normal
 				wm protocol $w WM_DELETE_WINDOW "destroy $w"
 				set bytes 1024
 				set filesize 1024
@@ -5890,6 +5896,31 @@ proc launch_browser { url {local 0}} {
 	if { ![regexp ^\[\[:alnum:\]\]+:// $url] && $local != 1 } {
 		set url "http://$url"
 	}
+#///////////////////////////////////////////////////////////////////////
+# open_file(file)
+# open the file with the environnment's default
+proc open_file {file} {
+	global tcl_platform
+
+		if { [string length [::config::getKey openfilecommand]] < 1 } {
+			msg_box "[trans checkopenfilecommand $file]"
+		} else {
+			#replace all / with \ for windows
+			if { $tcl_platform(platform) == "windows" } {
+				regsub -all {/} $file {\\} file
+			}
+
+			#if { [string first "\$file" [::config::getKey openfilecommand]] == -1 } {
+			#	::config::setKey showpicture "[::config::getKey openfile] \$file"
+			#}
+
+			if {[catch {eval exec [::config::getKey openfilecommand] &} res]} {
+				status_log "[::config::getKey openfilecommand]"
+				status_log $res
+				::amsn::errorMsg "[trans cantexec [::config::getKey openfilecommand]]"
+			}
+		}
+}
 
 	if { $tcl_platform(platform)=="windows" && [string tolower [string range $url 0 6]] == "file://" } {
 		set url [string range $url 7 end]

@@ -111,6 +111,7 @@ checkemail Show mail notification line (inbox) in contact list
 checkfilman Received files will be saved in $1. Please check file manager settings in preferences window.
 checkingver Checking for new versions
 checkonfln Check if a user blocked you when he gets offline
+checkopenfilecommand Please check the open file command in preferences window
 checkver Check for new version
 choosearq Choose your system architecture
 choosebasefont Choose font type
@@ -447,6 +448,9 @@ ok Ok
 onenewmail 1 new message in Inbox
 online Online
 onphone On phone
+opendir Open directory
+openfile Open
+openfilecommand Open file command
 openreceived Open received files
 options Options
 ordercontactsby Order contacts by

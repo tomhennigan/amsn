@@ -53,7 +53,8 @@ namespace eval ::config {
 			::config::setKey browser "open \$url"
 			::config::setKey notifyXoffset 100
 			::config::setKey notifyYoffset 75
-			::config::setKey filemanager "open \$location"   
+			::config::setKey filemanager "open \$location"
+			::config::setKey openfilecommand "open \$file"
 			::config::setKey usesnack 0
 		} elseif {$tcl_platform(platform) == "unix"} {
 			::config::setKey soundcommand "play \$sound"
@@ -61,6 +62,7 @@ namespace eval ::config {
 			::config::setKey notifyXoffset 0
 			::config::setKey notifyYoffset 0
 			::config::setKey filemanager "my_filemanager open \$location"
+			::config::setKey openfilecommand ""
 			::config::setKey usesnack 0
 		} elseif {$tcl_platform(platform) == "windows"} {
 			::config::setKey soundcommand "utils/plwav.exe \$sound"
@@ -68,13 +70,14 @@ namespace eval ::config {
 			::config::setKey notifyXoffset 0
 			::config::setKey notifyYoffset 28
 			::config::setKey filemanager "explorer \$location"
+			::config::setKey openfilecommand "start \$file"
 			::config::setKey usesnack 1
 			::config::setKey dock 4				;#Set docking to type 4 (windows)
 		} else {
 			::config::setKey soundcommand ""			;#Sound player command
 			::config::setKey browser ""			;#Browser command
 			::config::setKey filemanager ""			;#Filemanager command
-		
+			::config::setKey openfilecommand ""
 			::config::setKey notifyXoffset 0			;#Notify window offsets
 			::config::setKey notifyYoffset 0
 			::config::setKey usesnack 0			;#Use the Snack library for sounds
