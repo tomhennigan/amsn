@@ -46,7 +46,7 @@ plugin OLD GNOME1. Potrebujes gnome razvojne knjiznice. Ko
 je plugin zgrajen, pozeni amsn in izberi Gnome pristajo v
 menuju Nastavitve.
 Da zgradis NEWER freedesktop (zdruzljiv z Gnome2 in KDE3)
-pristajo, preberi datoteko README v plugins/traydock.
+pristajo, preberi datoteko README v utils/traydock.
 
 UPORABA
 =======

@@ -48,7 +48,7 @@ V:Hoe krijg ik zo een icoontje in het systeemvak van Gnome/KDE ?
 A:	*Voor Gnome 1.x, typ 'make' in de plugins-map onder de amsn-map
 	 Nadat de plugin gemaakt is selecteer je gewoon "Gnome systeemvak" in het menu
 	 Extra > Systeemvak
-	*Voor de nieuwe freedesktop(GNOME2/KDE3)-plugin, lees het README-bestand in plugins/traydock (in de aMSN-map)
+	*Voor de nieuwe freedesktop(GNOME2/KDE3)-plugin, lees het README-bestand in utils/traydock (in de aMSN-map)
 
 
 GEBRUIK
