@@ -88,28 +88,34 @@ proc alarm_cfg { user } {
    wm title .alarm_cfg "[trans alarmpref] $user"
    wm iconname .alarm_cfg [trans alarmpref]   
 
-   frame .alarm_cfg.sound
-   LabelEntry .alarm_cfg.sound.entry "[trans soundfile]" my_alarms(${user}_sound) 30
-   button .alarm_cfg.sound.browse -text [trans browse] -command {fileDialog2 .alarm_cfg .alarm_cfg.sound.entry.ent open "" }
-   checkbutton .alarm_cfg.sound.button -text "[trans soundstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_sound_st)
-   checkbutton .alarm_cfg.sound.button2 -text "[trans soundloop]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_loop)
-   pack .alarm_cfg.sound.entry .alarm_cfg.sound.browse .alarm_cfg.sound.button .alarm_cfg.sound.button2 -side left 
-   pack .alarm_cfg.sound -side top -padx 4 -pady 4
+   frame .alarm_cfg.sound1
+   frame .alarm_cfg.sound2
+   LabelEntry .alarm_cfg.sound1.entry "[trans soundfile]" my_alarms(${user}_sound) 30
+   button .alarm_cfg.sound1.browse -text [trans browse] -command {fileDialog2 .alarm_cfg .alarm_cfg.sound1.entry.ent open "" } -font sboldf
+   checkbutton .alarm_cfg.sound2.button -text "[trans soundstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_sound_st) -font sboldf
+   checkbutton .alarm_cfg.sound2.button2 -text "[trans soundloop]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_loop) -font sboldf
+   pack .alarm_cfg.sound1.entry .alarm_cfg.sound1.browse -side left
+   pack .alarm_cfg.sound2.button .alarm_cfg.sound2.button2 -side left
+   pack .alarm_cfg.sound1 -side top -padx 2 -pady 2
+   pack .alarm_cfg.sound2 -side top -padx 2 -pady 2
 
-   frame .alarm_cfg.pic
-   LabelEntry .alarm_cfg.pic.entry "[trans picfile]" my_alarms(${user}_pic) 30
-   button .alarm_cfg.pic.browse -text [trans browse] -command {fileDialog2 .alarm_cfg .alarm_cfg.pic.entry.ent open "" }
-   checkbutton .alarm_cfg.pic.button -text "[trans picstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_pic_st)
-   pack .alarm_cfg.pic.entry .alarm_cfg.pic.browse .alarm_cfg.pic.button -side left
-   pack .alarm_cfg.pic -side top -padx 4 -pady 4
+   frame .alarm_cfg.pic1
+   frame .alarm_cfg.pic2
+   LabelEntry .alarm_cfg.pic1.entry "[trans picfile]" my_alarms(${user}_pic) 30
+   button .alarm_cfg.pic1.browse -text [trans browse] -command {fileDialog2 .alarm_cfg .alarm_cfg.pic1.entry.ent open "" } -font sboldf
+   checkbutton .alarm_cfg.pic2.button -text "[trans picstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_pic_st) -font sboldf
+   pack .alarm_cfg.pic1.entry .alarm_cfg.pic1.browse -side left
+   pack .alarm_cfg.pic2.button -side left
+   pack .alarm_cfg.pic1 -side top -padx 2 -pady 2
+   pack .alarm_cfg.pic2 -side top -padx 2 -pady 2
 
-   checkbutton .alarm_cfg.alarm -text "[trans alarmstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user})
-   pack .alarm_cfg.alarm
+   checkbutton .alarm_cfg.alarm -text "[trans alarmstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}) -font sboldf
+   pack .alarm_cfg.alarm -side top
 
    frame .alarm_cfg.b -class Degt
-   button .alarm_cfg.b.save -text [trans ok] -command "save_alarm_pref $user; destroy .alarm_cfg"
-   button .alarm_cfg.b.cancel -text [trans close] -command "unset my_alarms; destroy .alarm_cfg" 
-   button .alarm_cfg.b.delete -text [trans delete] -command "delete_alarm $user; destroy .alarm_cfg"
+   button .alarm_cfg.b.save -text [trans ok] -command "save_alarm_pref $user; destroy .alarm_cfg" -font sboldf
+   button .alarm_cfg.b.cancel -text [trans close] -command "unset my_alarms; destroy .alarm_cfg" -font sboldf
+   button .alarm_cfg.b.delete -text [trans delete] -command "delete_alarm $user; destroy .alarm_cfg" -font sboldf
    pack .alarm_cfg.b.save .alarm_cfg.b.cancel .alarm_cfg.b.delete -side left
    pack .alarm_cfg.b -side top -padx 4 -pady 4
 }
@@ -121,7 +127,7 @@ proc delete_alarm { user} {
 	unset alarms(${user}) alarms(${user}_sound) alarms(${user}_sound_st) alarms(${user}_pic) alarms(${user}_pic_st) alarms(${user}_loop)
    }
    unset my_alarms(${user}) my_alarms(${user}_sound) my_alarms(${user}_sound_st) my_alarms(${user}_pic) my_alarms(${user}_pic_st) my_alarms(${user}_loop)
-   cmsn_draw_online 
+   cmsn_draw_online
 }
 
 #Saves alarm settings for current user on OK press.

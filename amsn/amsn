@@ -1305,17 +1305,17 @@ proc user_choose {title online command {userslist ""}} {
 
    wm title $wname $title
    wm transient $wname .
-   wm geometry $wname 400x300
+   wm geometry $wname 280x300
 
    frame $wname.list -class Amsn
    frame $wname.buttons -class Amsn
 
 
-   listbox $wname.list.userlist -yscrollcommand "$wname.list.ys set"
+   listbox $wname.list.userlist -yscrollcommand "$wname.list.ys set" -font splainf
    scrollbar $wname.list.ys -command "$wname.list.userlist yview"
 
-   button  $wname.buttons.ok -text "[trans ok]" -command "$command \[string range \[lindex \[$wname.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname"
-   button  $wname.buttons.cancel -text "[trans cancel]" -command "destroy $wname"
+   button  $wname.buttons.ok -text "[trans ok]" -command "$command \[string range \[lindex \[$wname.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname" -font sboldf
+   button  $wname.buttons.cancel -text "[trans cancel]" -command "destroy $wname" -font sboldf
 
    pack $wname.list.ys -side right -fill y
    pack $wname.list.userlist -side left -expand true -fill both
