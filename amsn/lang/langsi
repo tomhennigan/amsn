@@ -151,8 +151,8 @@ exitamsn Ali si preprican, da zelis zapustiti program?
 extras Dodatne storitve
 faq Faq
 filedoesnotexist Datoteka ne obstaja
-fileman Upravljalec datotek
 filemanexample ( \$location bo zamenjan z mapo ) Npr.: nautilus \$location
+fileman Upravljalec datotek
 filename Ime datoteke
 filetransfercancelled Prenos datoteke preklican
 filetransfercomplete Prenos datoteke koncan
@@ -231,6 +231,7 @@ logsmileys Prikazi emotikone in smeske v zgodovini
 logsout se je ravnokar odjavil/a
 lprivtoconf Zasebni pogovor spremenjen v konferenco na $1
 luclosedwin Zaprli ste okno ($1)
+mailerexample ( \$recipient = prejemnik ) Pusti prazno za uporabo Hotmaila
 mailer Mailer
 mailerexample ( \$recipient = prejemnik ) Pusti prazno za uporabo Hotmaila
 maximised Maksimiran
