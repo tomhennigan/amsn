@@ -198,6 +198,9 @@ namespace eval ::abook {
 	set demographics(kids) $data(kids);	  # Number of kids
 	set demographics(age) $data(age)
 	set demographics(mspauth) $data(mspauth); # MS Portal Authorization?
+	set demographics(kv) $data(kv)
+        set demographics(sid) $data(sid)
+	set demographics(sessionstart) $data(sessionstart)
 	set demographics(valid) Y
     }
 
@@ -205,17 +208,20 @@ namespace eval ::abook {
         variable demographics 
 	upvar $cdata d
 
-	if [info exists data(valid)] {
-	    set demographics(langpreference) $data(langpreference);# 1033 = English
+	if [info exists d(valid)] {
+	    set d(langpreference) $demographics(langpreference);# 1033 = English
 	    set d(preferredemail) $demographics(preferredemail)
 	    set d(country) $demographics(country)
 	    set d(gender) $demographics(gender)
 	    set d(kids) $demographics(kids)
 	    set d(age) $demographics(age)
 	    set d(mspauth) $demographics(mspauth)
+            set d(kv) $demographics(kv)
+            set d(sid) $demographics(sid)
+	    set d(sessionstart) $demographics(sessionstart)
 	    set d(valid) Y
 	} else {
-	    set demographics(valid) N
+	    set d(valid) N
 	}
     }
 }
@@ -368,6 +374,9 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.16  2002/11/04 03:41:57  airadier
+# Hotmail login should work fine again, please test it!
+#
 # Revision 1.15  2002/09/07 06:05:03  burgerman
 # Cleaned up source files, removed all commented lines that seemed outdated or used for debugging (outputs)...
 #

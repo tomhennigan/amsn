@@ -711,6 +711,7 @@ proc read_ns_sock {} {
 	 # for a variety of things. 
 	 set content [aim_get_str $msg_data Content-Type]
 	 if {[string range $content 0 19] == "text/x-msmsgsprofile"} {
+             status_log "Getting demographic and auth information" black
 	     # 1033 is English. See XXXX for info
 	     set d(langpreference) [aim_get_str $msg_data lang_preference]
 	     set d(preferredemail) [aim_get_str $msg_data preferredEmail]
@@ -718,7 +719,11 @@ proc read_ns_sock {} {
 	     set d(gender) [aim_get_str $msg_data Gender]
 	     set d(kids) [aim_get_str $msg_data Kid]
 	     set d(age) [aim_get_str $msg_data Age]
+	     #Used for authentication
 	     set d(mspauth) [aim_get_str $msg_data MSPAuth]
+	     set d(kv) [aim_get_str $msg_data kv]
+	     set d(sid) [aim_get_str $msg_data sid]
+	     set d(sessionstart) [clock seconds]
 	     ::abook::setDemographics d
 	 }
 
