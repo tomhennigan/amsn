@@ -60,6 +60,12 @@ namespace eval ::pop3 {
 			[list str "Display name" caption] \
 		]
 
+		if {[string equal $::version "0.94"]} {
+			::skin::setPixmap pop3_mailpic [file join $dir pixmaps pop3_mailpic.gif]
+		} else {
+			::skin::setPixmap pop3_mailpic pop3_mailpic.gif pixmaps [file join $dir pixmaps]
+		}
+
 		#only start checking now if already online
 		if { (!$::initialize_amsn) && ([::MSN::myStatusIs] != "FLN") } {
 			::pop3::start 0 0
@@ -636,7 +642,7 @@ namespace eval ::pop3 {
 		if {[string equal $::version "0.94"]} {
 			set textb $vars(text)
 
-			clickableImage $textb popmailpic mailbox {after cancel ::pop3::check; after 1 ::pop3::check} 5 0
+			clickableImage $textb popmailpic pop3_mailpic {after cancel ::pop3::check; after 1 ::pop3::check} 5 0
 		} else {
 			#TODO: add parameter to event and get rid of hardcoded variable
 			set pgtop $::pgBuddyTop
@@ -654,7 +660,7 @@ namespace eval ::pop3 {
 
 			$textb configure -state normal
 
-			clickableImage $textb popmailpic mailbox {after cancel ::pop3::check; after 1 ::pop3::check} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
+			clickableImage $textb popmailpic pop3_mailpic {after cancel ::pop3::check; after 1 ::pop3::check} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
 			
 			set mailheight [expr [$textb.popmailpic cget -height]+(2*[::skin::getKey mailbox_ypad])]
 			#in windows need an extra -2 is to include the extra 1 pixel above and below in a font
@@ -712,7 +718,11 @@ namespace eval ::pop3 {
 
 		$textb insert end "$short_mailmsg" {pop3mail dont_replace_smileys}
 		
-		$textb configure -state disabled
+		if {[string equal $::version "0.94"]} {
+			#empty
+		} else {
+			$textb configure -state disabled
+		}
 	}
 
 
@@ -768,31 +778,31 @@ namespace eval ::pop3 {
 	#	index        -> index of the email to delete
 	#	namesubject  -> the name/subject as displayed in the balloon
 	proc deletemail { index namesubject } {
-		#dont run check during delete
-		after cancel ::pop3::check
-
-		set chan [::pop3::open $::pop3::config(host) $::pop3::config(user) $::pop3::config(pass) $::pop3::config(port)]
-
-		set info [::pop3::getinfo $chan $index]
-		set from [lindex $info 0]
-		set subject [lindex $info 1] 
-		set info "$from : \"$subject\""
-
 		set failed 0
-		if { $info == $namesubject } {
-			set answer [::amsn::messageBox "Are you sure you want to delete the email:\n$info" yesno question "Delete"]
-			if { $answer == "yes" } {
+		set answer [::amsn::messageBox "Are you sure you want to delete the email:\n$namesubject" yesno question "Delete"]
+		if { $answer == "yes" } {
+			#dont run check during delete
+			after cancel ::pop3::check
+
+			set chan [::pop3::open $::pop3::config(host) $::pop3::config(user) $::pop3::config(pass) $::pop3::config(port)]
+
+			set info [::pop3::getinfo $chan $index]
+			set from [lindex $info 0]
+			set subject [lindex $info 1] 
+			set info "$from : \"$subject\""
+
+			if { $info == $namesubject } {
 				if {[catch {
 					set data [::pop3::send $chan "DELE $index"]
 				} errorStr]} {
 					set failed 1
 				}
+			} else {
+				set failed 1
 			}
-		} else {
-			set failed 1
-		}
 
-		::pop3::close $chan
+			::pop3::close $chan
+		}
 		after 1 ::pop3::check
 
 		if { $failed == 1 } {
