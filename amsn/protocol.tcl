@@ -3197,11 +3197,11 @@ proc sb_change { chatid } {
 ###################### Other Features     ###########################
 
 
-proc fileDialog2 {w ent operation basename} {
+proc fileDialog2 {w ent operation basename {types {"All files"         *} }} {
     #   Type names		Extension(s)	Mac File Type(s)
     #
     #---------------------------------------------------------
-    set types {{"All files"		*} }
+    #   set types {{"All files"		*} }
 
     if {$operation == "open"} {
 	set file [tk_getOpenFile -filetypes $types -parent $w]

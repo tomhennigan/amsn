@@ -20,6 +20,7 @@ allowlist Allow list (AL):
 allowonlyinal Only allow users in my Accept List to contact me
 allowseen Allow this person to see when I'm online and contact me
 animatedsmileys Enable animated smileys
+animatedemoticon This emoticon is animated
 appearance Appearance
 appearoff Appear offline
 areacode Area Code
@@ -55,6 +56,7 @@ busy Busy
 cancel Cancel
 cannotdeleteprofile Cannot delete profile because it seems to be in use by an Amsn session
 cantexec Can't execute applicattion: $1. Check preferences
+casesensitive Use case-sensitive triggers
 cfgalarm Configure/Add/Remove Alarm
 changefont Change font
 changenick Change nick
@@ -95,6 +97,7 @@ copy Copy
 copytogroup Copy to group
 countrycode My Country/Region code
 cprofile Create Profile
+custom_edit Edit custom smiley
 custom_new Add new custom smiley
 cut Cut
 date Date
@@ -105,6 +108,7 @@ delete Delete
 deliverfail There was a problem delivering the following message
 delprofile2 Select the Profile that you would like to have removed 
 delprofile Delete Profile
+description Descrition
 directconnection I have direct connection to the internet (uses port 1863)
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
@@ -116,6 +120,7 @@ editnewstate New Personal Automessage State
 editprofile Edit Profile
 editstate Edit Existing Automessage State
 emotisounds Play sounds on certain emoticons
+enablesound Play sound
 enableproxy Enable proxy
 enableremote Enable remote controling
 encoding2 Change the way your characters are encoded
@@ -159,6 +164,7 @@ handle Handle
 helpcontents Help contents
 help Help
 history View History
+hiden Hide the emoticon from the smileys menu
 hybrid Hybrid mode
 home Home
 httpconnection Connect using HTTP method (uses HTTP protocol over port 80)
@@ -328,6 +334,10 @@ servergoingdown Disconnected: Server is going down
 server Server
 session Session
 showblockedlist Show list of people who blocked you
+smileconfig Custom emoticon configuration
+smilefile Smiley filename
+smileintro Please fill the required fields to create a new custom smiley (see the FAQ for help)
+smileintro2 Please edit the required fields to customize this smiley (see the FAQ for help)
 sound2 Play sounds when contacts sign in or send a message
 soundcommand This has to be the play command (ex: esdplay)
 sound Event Sounds
@@ -358,6 +368,7 @@ tooltips Enable tooltips
 to To
 transnotexists The requested file has not been translated into the current language yet.
 traynotcompiled Tray icon plugin is not complied. Check plugins/traydock
+triggers Text triggers
 twonewmail $1 new messages in Inbox
 unblock Unblock
 uoffline Offline
@@ -374,6 +385,7 @@ view View
 willjoin Waiting $1 joins conversation
 work Work
 wrongprofileversion Wrong profile config file version. In order to fix it, please remove directory $1, or update amsn
+wrongfeilds The name, text and/or file feilds were not valid
 xoffset X Offset
 yes Yes
 yoffset Y Offset

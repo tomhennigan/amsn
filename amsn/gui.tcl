@@ -3209,10 +3209,10 @@ proc cmsn_draw_online { {force 0} } {
    	$pgBuddy.text.mystatus insert end "[trans mystatus]:\n" mystatuslabel
    }
    $pgBuddy.text.mystatus insert end "$my_name " mystatus
-   $pgBuddy.text.mystatus insert end "($my_state_desc)\n" mystatus
+   $pgBuddy.text.mystatus insert end "($my_state_desc)" mystatus
    
    if {$config(listsmileys)} {
-	smile_subst $pgBuddy.text.mystatus
+	smile_subst $pgBuddy.text.mystatus 
     }
 
    
@@ -3220,6 +3220,7 @@ proc cmsn_draw_online { {force 0} } {
    set size [$pgBuddy.text.mystatus index end]
    set posyx [split $size "."]
    set lines [expr {[lindex $posyx 0] - 1}]
+   if { [llength [$pgBuddy.text.mystatus image names]] } { incr lines}
 
    $pgBuddy.text.mystatus configure -state normal -height $lines -wrap none
    
