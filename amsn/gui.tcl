@@ -2450,6 +2450,8 @@ namespace eval ::amsn {
 
 				[::ChatWindow::GetOutText ${win_name}] delete $pos $endpos
 				[::ChatWindow::GetOutText ${win_name}] insert $pos "$urltext" $urlname
+				#Don't replace smileys in URLs
+				[::ChatWindow::GetOutText ${win_name}] tag add dont_replace_smileys ${urlname}.first ${urlname}.last
 
 			}
 		}
