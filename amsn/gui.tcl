@@ -2984,7 +2984,8 @@ proc ShowUser {user_name user_login state state_code colour section} {
 	 }
 
          set image_type [lindex $state 4]
-    
+
+
          for {set idx [expr [array size emailBList] - 1]} {$idx >= 0} {incr idx -1} {
 	     if { $emailBList($idx) == "$user_login" } {
 		 set colour #FF0000

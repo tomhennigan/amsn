@@ -78,6 +78,8 @@ proc ConfigDefaults {} {
 	set config(allowbadwords) 1
 	set config(newmsgwinstate) 1
 	set config(receiveddir) ""
+        set config(remotepassword) ""
+        set config(enableremote) 0
 	set password ""
 }
 
@@ -130,6 +132,7 @@ proc load_config {} {
        ([file isfile "[file join ${HOME}/config]"] == 0)} {
       return 1
    }
+   ConfigDefaults
    set file_id [open "${HOME}/config" r]
    gets $file_id tmp_data
    if {$tmp_data != "amsn_config_version 1"} {	;# config version not supported!
@@ -164,9 +167,9 @@ proc LoadLoginList {{trigger 0}} {
 		set HOME2 $HOME
 	}
 
-	if {([file readable "[file join ${HOME} profiles]"] != 0) || ([file isfile "[file join ${HOME}/profiles]"] != 0)} {
+	if {([file readable "[file join ${HOME} profiles]"] != 0) && ([file isfile "[file join ${HOME}/profiles]"] != 0)} {
 		set HOMEE $HOME
-	} elseif {([file readable "[file join ${HOME2} profiles]"] != 0) || ([file isfile "[file join ${HOME2}/profiles]"] != 0)} {
+	} elseif {([file readable "[file join ${HOME2} profiles]"] != 0) && ([file isfile "[file join ${HOME2}/profiles]"] != 0)} {
 		set HOMEE $HOME2
 	} else {
 		return 1
@@ -643,20 +646,24 @@ proc LockProfile { email } {
 
 
 proc lockSvrNew { sock addr port} {
-	if { $addr == "127.0.0.1" } {
+#	if { $addr == "127.0.0.1" } {
 		fileevent $sock readable "lockSvrHdl $sock"
 		fconfigure $sock -buffering line
-	}
+#	}
 }
 
 proc lockSvrHdl { sock } {
-	set ping [gets $sock]
+	set command [gets $sock]
 	if {[eof $sock]} {
-        	catch {close $sock}
+	    catch {close $sock}
+	    close_remote $sock
 	} else {
-		if { $ping == "AMSN_LOCK_PING" } {
+		if { $command == "AMSN_LOCK_PING" } {
 			puts $sock "AMSN_LOCK_PONG"
+		} else {
+		    read_remote $command $sock
 		}
+	   
 	}
 }
 

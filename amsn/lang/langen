@@ -64,7 +64,9 @@ closingdocks Close button Minimizes
 command Command
 confirm Are you sure?
 confirmdelete Are you sure you want to delete $1?
+connected You are now connected
 connecterror Error connecting to server
+connecting Connecting
 connection Connection
 contactadded Contact added
 contactdoesnotexist Contact does not exist!
@@ -89,6 +91,7 @@ dockfreedesktop FreeDesktop (KDE3/Gnome2)
 edit Edit
 editprofile Edit Profile
 enableproxy Enable proxy
+enableremote Enable remote controling
 encoding2 Change the way your characters are encoded
 encoding Choose encoding
 entercontactemail Enter contact e-mail
@@ -232,6 +235,7 @@ prefprofile2 Create or Modify your public profile (the \n description of yoursel
 prefprofile3 aMSN's User Configuration Profiles
 prefprofile My Public Profile
 prefproxy My Proxy Settings
+prefremote Remote Connection Preferences
 prefsession My Sign In and Status
 prefshared Shared Connections (only for NAT)
 prefsound Sounds

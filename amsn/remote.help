@@ -1,0 +1,9 @@
+Commands available :
+connect { username password }
+	Connects you to the account "username" with the password "password"
+logout
+	Disconnects you from the currents session
+help
+	Prints this help
+online
+	Prints the online users and their states

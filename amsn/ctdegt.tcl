@@ -570,6 +570,7 @@ proc Preferences { settings } {
 	# _| Connection |________________________________________________
 	image create photo prefnat -file [file join ${images_folder} prefnat.gif]
 	image create photo prefproxy -file [file join ${images_folder} prefproxy.gif]	
+	image create photo prefremote -file [file join ${images_folder} prefpers.gif]
 
 	set frm [Rnotebook:frame $nb 5]
 	
@@ -614,6 +615,22 @@ proc Preferences { settings } {
 	grid $lfname.3.user -row 2 -column 2 -sticky w
 	grid $lfname.3.lpass -row 2 -column 3 -sticky e
 	grid $lfname.3.pass -row 2 -column 4 -sticky w
+    
+        ## Remote Control Frame ##
+        set lfname [LabelFrame:create $frm.lfname3 -text [trans prefremote]]
+        pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
+	label $lfname.pshared -image prefremote
+	pack $lfname.pshared -side left -anchor nw
+	frame $lfname.1 -class Degt
+        frame $lfname.2 -class Degt
+	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
+	checkbutton $lfname.1.eremote -text "[trans enableremote]" -onvalue 1 -offvalue 0 -variable config(enableremote)
+	pack $lfname.1.eremote  -anchor w -side top -padx 10
+	pack $lfname.1 $lfname.2  -anchor w -side top -padx 0 -pady 0 -expand 1 -fill both
+	label $lfname.2.lpass -text "[trans pass] :" -padx 5 -font sboldf
+	entry $lfname.2.pass -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20 -show "*"
+	grid $lfname.2.lpass -row 2 -column 3 -sticky e
+	grid $lfname.2.pass -row 2 -column 4 -sticky w
 
 	frame $frm.dummy -class Degt
 	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
@@ -772,6 +789,12 @@ proc InitPref {} {
 		set lfname "$lfname.lfname.f.f"
 		$lfname.log configure -state disabled
 	}
+
+        # Init remote preferences
+        set lfname [Rnotebook:frame $nb 5]
+        $lfname.lfname3.f.f.2.pass delete 0 end
+        $lfname.lfname3.f.f.2.pass insert 0 "$config(remotepassword)"
+
 }
 
 
@@ -883,6 +906,12 @@ proc SavePreferences {} {
 	set myconfig($var_attribute) $var_value
 #	puts "myCONFIG $var_attribute $var_value"
     }
+
+    # Get remote controlling preferences
+    set lfname [Rnotebook:frame $nb 5]
+    set myconfig(remotepassword) "[$lfname.lfname3.f.f.2.pass get]"
+    set config(remotepassword) "$myconfig(remotepassword)"
+
 
     # Save configuration.
     save_config
@@ -1040,6 +1069,10 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.41  2003/05/31 07:35:40  kakaroto
+# rcontroler shell and remote controling support
+# added support for remote controlling and added the remote controler shell
+#
 # Revision 1.40  2003/05/24 05:50:04  burgerman
 # fixed issues with autoaway autoidle
 #

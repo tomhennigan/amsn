@@ -156,7 +156,7 @@ source [file join $program_dir trayicon.tcl]	;# Docking routines for freedesktop
 source [file join $program_dir loging.tcl]	;# Euh yeh it's for loging :P
 source [file join $program_dir combobox.tcl]	;# The all mighty combobox is here! (B. Oakley)
 source [file join $program_dir blocking.tcl]    ;# The blocking users feature
-
+source [file join $program_dir remote.tcl  ]    ;# The remote control procedures
 
 
 ###TODO: Replace all this msg_box calls with ::amsn::infoMsg
@@ -604,3 +604,4 @@ if { $config(autoconnect) == 1 } {
 }
 
 init_dock
+init_remote_DS

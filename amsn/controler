@@ -1,0 +1,256 @@
+#!/usr/bin/wish
+###
+### Remote controller program
+###
+
+
+proc readsocket { } {
+    global sock
+
+    if { [gets $sock response] == -1 } {
+	.controler.res insert end "Amsn server closed\n"
+	.controler.res yview moveto 1.0
+	destroy .controler
+	connect "Amsn server closed"
+    } elseif { $response != "" } {
+	.controler.res insert end "$response\n"
+	.controler.res yview moveto 1.0
+    } 
+
+    
+}
+
+proc writesocket { } {
+    global sock
+
+    set command [.controler.entry get]
+    .controler.entry delete 0 end
+    .controler.res insert end "\n$command\n"
+    .controler.res yview moveto 1.0
+    puts ${sock} "$command"
+    flush $sock
+
+}
+
+proc authenticate { password } {
+    global sock
+
+    puts ${sock} "auth"
+    flush $sock
+    gets $sock response
+
+    if { "[lindex $response 0]" != "auth" } { 
+	return "fail"
+    } else {
+	set hash [::md5::hmac "[lindex $response 1]" "$password"]
+	puts $sock "auth2 $hash"
+	flush $sock
+	gets $sock response	
+	if { "$response" ==  "Authentication successfull" } {
+	    return "OK"
+	} elseif { "$response" == "Authentication failed" } {
+	    return "fail"
+	} else {
+	    return "disabled"
+	}
+       
+    }
+
+}
+
+proc connect { status } {
+    global sockDS stat
+
+    set ip [.ip get]
+
+    if { [catch {toplevel .connect}] } {
+	destroy .connect
+	toplevel .connect
+    }
+	 
+    wm group .connect .
+
+
+    if { $sockDS == 0 } {
+	set stat [catch {socket $ip 63251} sockDS]
+	set status "Connected to the server"
+    }
+
+    if { $stat != 0 } {
+
+	label .connect.status -text "Error connecting to server\n$sockDS"
+	button .connect.ok -text "OK" -command "destroy .connect"
+
+	set sockDS 0
+
+	grid .connect.status -row 0 -column 0
+	grid .connect.ok -row 2 -column 1
+
+	bind .connect <Destroy> "grab release .connect"
+	grab set .connect
+    }  else {
+	label .connect.status -text "$status"
+	button .connect.ok -text "Connect to account" -command "retreive_port $ip"
+
+	label .connect.acc_l -text "Account :" 
+	entry .connect.acc
+	label .connect.pass_l -text "Password for remote access :"
+	entry .connect.pass -show "*"
+	button .connect.cancel -text "Cancel" -command "close $sockDS;set sockDS 0; destroy .connect"
+
+	grid .connect.status -row 0 -column 2
+	grid .connect.ok -row 2 -column 3
+	grid .connect.cancel -row 3 -column 3
+	grid .connect.acc_l -row 2 -column 0
+	grid .connect.acc -row 2 -column 2
+	grid .connect.pass_l -row 3 -column 0
+	grid .connect.pass -row 3 -column 2
+	bind .connect <Destroy> {
+	    if {"%W" == ".connect"} {   
+		grab release .connect
+	    }
+	}
+	bind .connect.pass <Return> "retreive_port $ip"
+	grab set .connect
+    }
+
+}
+
+proc retreive_port { ip } {
+    global sockDS sock
+    set account [.connect.acc get]
+    set password [.connect.pass get]
+    
+
+    puts $sockDS "$account"
+
+    if { [catch { flush $sockDS}] } {
+	set sockDS 0
+	connect "Disconnected from the DS server"
+	return 0
+    }
+
+    set port [gets $sockDS]
+
+    if { "$port" == "invalid" } {
+	connect "This Amsn Account is invalid"
+	return 0
+    }
+    if { "$port" == "noexist" } {
+	connect "The Amsn profile file doesn't exist or you don't have permissions to read from it"
+	return 0
+    }
+    if { "$port" == "versionerror" } {
+	connect "The Amsn profile file has an invalid version" 
+	return 0
+    }
+
+    if { [catch {socket $ip $port} sock] != 0 } {
+	connect "This Amsn Account isn't connected"
+	return 0
+    } else {
+	fconfigure $sock -buffering line 
+	if { [set auth_response [authenticate "$password"]] == "fail" } {
+	    connect "Password incorrect or not set"
+	    return 0
+	} elseif { $auth_response == "disabled" } {
+	    connect "This account doesn't have remote controlling enabled"
+	    return 0
+	} else {
+	    
+	    fileevent $sock readable "readsocket"
+	    connect "Connected to Account on port : $port"
+	    control
+	    return 1
+	}	
+    }
+}
+
+
+proc control { } {
+    global sock
+
+    toplevel .controler
+    wm group .controler .
+    wm title .controler "Remote Controler Shell"
+
+#   frame .controler.res  -class Degt
+    text   .controler.res -height 20 -width 85  \
+	-wrap none -background white -foreground black 
+#	-yscrollcommand ".controler.res.sy set" \
+#	-xscrollcommand ".controler.res.sx set"
+#   scrollbar .controler.res.sy -command ".controler.res.txt yview"
+#   scrollbar .controler.res.sx -orient horizontal -command ".controler.res.txt xview"
+
+    entry .controler.entry  -width 50
+    button .controler.close -text "Close" -command "destroy .controler"
+ 
+    grid .controler.res -row 0 -column 0
+    grid .controler.entry -row 15 -column 0
+    bind .controler.entry <Return> "writesocket"
+
+    grab set .controler
+
+    bind .controler <Destroy> {
+	if { "%W" == ".controler" } {
+	    close $sock
+	    grab release .controler
+	}
+    }
+
+}
+
+proc main { } {
+    global sockDS
+
+   wm group . .
+   wm geometry .
+
+   wm title . "Amsn Remote Controller"
+
+   button .con -text "Connect" -command "connect \"Connected to the server\""
+   label .lab -text "Enter the IP adress of the host : "
+   entry .ip
+
+   grid .lab -row 0 -column 0
+   grid .ip -row 0 -column 2
+   grid .con -row 0 -column 10 -sticky w
+
+   bind .ip <Return> "connect \"Connected to the server\""
+}
+
+
+############################################################
+### Look if we are launched from a link
+### and set the correct working dir
+############################################################
+
+if {[catch {file readlink [info script]} res]!=0} {
+
+   #Error in readlink, so it's not a symbolic link
+   set program_dir [file dirname [info script]]
+
+} else {
+
+   #Recursively update $resdir until it's not a link
+   set program_dir [file dirname $res]
+
+   while {[catch {file readlink $res} res2]==0} {
+      set res $res2
+
+      #Update $program_dir, depending on absolute or relative path
+      if { [string range $res2 0 0]=="/" } {
+         set program_dir [file dirname $res2]
+      } else {
+         set program_dir [file join $resdir [file dirname $res2]]
+      }
+
+   }
+}
+
+source [file join $program_dir migmd5.tcl]
+
+set sockDS 0
+
+main
+
