@@ -28,7 +28,7 @@ proc taskbar_icon_handler { msg x y } {
 	global iconmenu ishidden
 	if { $msg=="WM_RBUTTONUP" } {
 		#tk_popup $iconmenu $x $y
-		tk_popup $iconmenu [expr "$x + 150"] [expr "$y - 10"] [$iconmenu index end]
+		tk_popup $iconmenu [expr "$x + 85"] [expr "$y - 11"] [$iconmenu index end]
 	}
 	if { $msg=="WM_LBUTTONDBLCLK" } {
 		if { $ishidden == 0 } {
