@@ -605,9 +605,9 @@ namespace eval ::amsn {
   	WinWriteIcon $chatid fticon 3 2
   	WinWrite $chatid $txt gray
   	WinWrite $chatid " - (" gray
-  	WinWriteClickable $chatid "[trans accept]" "::amsn::AcceptFT $chatid -1 \[list $dest $branchuid $cseq $uid $sid $filename\]" ftyes$sid
+  	WinWriteClickable $chatid "[trans accept]" [list ::amsn::AcceptFT $chatid -1 [list $dest $branchuid $cseq $uid $sid $filename]] ftyes$sid
   	WinWrite $chatid " / " gray
-  	WinWriteClickable $chatid "[trans reject]" "::amsn::RejectFT $chatid -1 \[list $sid $branchuid $uid\]" ftno$sid
+  	WinWriteClickable $chatid "[trans reject]" [list ::amsn::RejectFT $chatid -1 [list $sid $branchuid $uid]] ftno$sid
   	WinWrite $chatid ")\n" gray
   	WinWrite $chatid "----------\n" gray
   	if { ![file writable $files_dir]} {
@@ -662,6 +662,10 @@ namespace eval ::amsn {
 
    proc AcceptFT { chatid cookie {varlist ""} } {
    
+		foreach var $varlist {
+			status_log "Var: $var\n" red
+		}
+	
       #::amsn::RecvWin $cookie
       if { $cookie != -1 } {
 		::MSNFT::acceptFT $chatid $cookie
