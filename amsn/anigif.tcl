@@ -43,156 +43,210 @@
 
 namespace eval anigif {
 
-  proc anigif2 {w list delay {idx 0}} {
-    if { ![winfo exists $w] } {
-#Cleanup
-#???
-      destroy $w
-      return
-    } else {
-      if { $idx >= [llength $list]  } {
-        set idx 0
-        if { [set ::anigif::${w}(repeat)] == 0} {
-          # Non-repeating GIF
-          ::anigif::stop $w
-          return
-        }
-      } 
-      set dispflag [lindex [set ::anigif::${w}(disposal)] $idx]
-      switch "$dispflag" {
-        "000" {
-              # Do nothing
-            }
-        "001" {
-              # Do not dispose
-            }
-        "100" {
-              # Restore to background
-              [set ::anigif::${w}(curimage)] blank
-            }
-        "101" {
-              # Restore to previous - not supported
-              # As recommended, since this is not supported, it is set to blank
-              [set ::anigif::${w}(curimage)] blank
-            }
-        default { puts "no match: $dispflag" }
-      }
-      [set ::anigif::${w}(curimage)] copy [lindex $list $idx] -subsample 2 2
-      if { [lindex $delay $idx] == 0 } {
-        ::anigif::stop $w
-        return
-      }
-      update
-      set ::anigif::${w}(asdf) "::anigif::anigif2 $w [list $list]"
-      set ::anigif::${w}(loop) [after [lindex $delay $idx] "[set ::anigif::${w}(asdf)] [list $delay] [expr {$idx + 1}]"]
-      set ::anigif::${w}(idx) [incr idx]
-    }
-  }
-
-  proc anigif {fnam w {idx 0}} {
-    set n 0
-    set images {}
-    set delay {}
-
-    set fin [open $fnam r]
-    fconfigure $fin -translation binary
-    set data [read $fin [file size $fnam]]
-    close $fin
-
-    # Find Loop Record
-    set start [string first "\x21\xFF\x0B" $data]
-
-    if {$start < 0} {
-      set repeat 0
-    } else {
-      set repeat 1
+    proc anigif2 {w list delay {idx 0}} {
+	if { ![winfo exists $w] } {
+	    #Cleanup
+	    #???
+	    destroy $w
+	    return
+	} else {
+	    if { $idx >= [llength $list]  } {
+		set idx 0
+		if { [set ::anigif::${w}(repeat)] == 0} {
+		    # Non-repeating GIF
+		    ::anigif::stop $w
+		    return
+		}
+	    } 
+	    set dispflag [lindex [set ::anigif::${w}(disposal)] $idx]
+	    switch "$dispflag" {
+		"000" {
+		    # Do nothing
+		}
+		"001" {
+		    # Do not dispose
+		}
+		"100" {
+		    # Restore to background
+		    [set ::anigif::${w}(curimage)] blank
+		}
+		"101" {
+		    # Restore to previous - not supported
+		    # As recommended, since this is not supported, it is set to blank
+		    [set ::anigif::${w}(curimage)] blank
+		}
+		default { puts "no match: $dispflag" }
+	    }
+	    [set ::anigif::${w}(curimage)] copy [lindex $list $idx] -subsample 2 2
+	    if { [lindex $delay $idx] == 0 } {
+		::anigif::stop $w
+		return
+	    }
+	    update
+	    set ::anigif::${w}(asdf) "::anigif::anigif2 $w [list $list]"
+	    set ::anigif::${w}(loop) [after [lindex $delay $idx] "[set ::anigif::${w}(asdf)] [list $delay] [expr {$idx + 1}]"]
+	    set ::anigif::${w}(idx) [incr idx]
+	}
     }
 
-    # Find Control Records
-    set start [string first "\x21\xF9\x04" $data]
-    while {![catch "image create photo xpic$n$w \
+    proc anigif {fnam w {idx 0}} {
+	set n 0
+	set images {}
+	set delay {}
+	set fname [string map { "/" "_" "." "_" } $fnam]
+
+
+	# If the file is already opened 
+	if { [info exists ::anigif::$fname] && [set ::anigif::${fname}(count)] != 0 } {
+#	    puts "anigif already exists $fname --- [set ::anigif::${fname}(count)]"
+
+	    # set the number of labels containing that anigif
+	    set ::anigif::${fname}(count) [expr [set ::anigif::${fname}(count)] + 1]
+
+	    # sets the settings for the animated gif
+	    set ::anigif::${w}(fname) $fname
+	    set ::anigif::${w}(repeat) [set ::anigif::${fname}(repeat)]
+	    set ::anigif::${w}(delay) [set ::anigif::${fname}(delay)]
+	    set ::anigif::${w}(disposal) [set ::anigif::${fname}(disposal)]
+	    set ::anigif::${w}(curimage) [image create photo]
+	    [set ::anigif::${w}(curimage)] blank
+	    [set ::anigif::${w}(curimage)] copy pic0${fname} -subsample 2 2
+	    $w configure -image [set ::anigif::${w}(curimage)]
+
+	    anigif2 $w [set ::anigif::${fname}(images)] [set ::anigif::${fname}(delay)] $idx
+
+	    return
+	} else {
+	    # set the number of labels containing that anigif to 1
+	    set ::anigif::${fname}(count) 1
+	}
+
+	set fin [open $fnam r]
+	fconfigure $fin -translation binary
+	set data [read $fin [file size $fnam]]
+	close $fin
+
+	# Find Loop Record
+	set start [string first "\x21\xFF\x0B" $data]
+
+	if {$start < 0} {
+	    set repeat 0
+	} else {
+	    set repeat 1
+	}
+
+	# Find Control Records
+	set start [string first "\x21\xF9\x04" $data]
+	while {![catch "image create photo xpic$n$fname \
       -file ${fnam} \
       -format \{gif89 -index $n\}"]} {
-        set stop [string first "\x00" $data [expr {$start + 1}]]
-        if {$stop < $start} {
-          break
-        }
-        set record [string range $data $start $stop]
-        binary scan $record @4c1 thisdelay
-        if {[info exists thisdelay]} {
+	    set stop [string first "\x00" $data [expr {$start + 1}]]
+	    if {$stop < $start} {
+		break
+	    }
+	    set record [string range $data $start $stop]
+	    binary scan $record @4c1 thisdelay
+	    if {[info exists thisdelay]} {
 
-          # Change to unsigned integer
-          set thisdelay [expr {$thisdelay & 0xFF}];
+		# Change to unsigned integer
+		set thisdelay [expr {$thisdelay & 0xFF}];
 
-          binary scan $record @2b3b3b1b1 -> disposalval userinput transflag
+		binary scan $record @2b3b3b1b1 -> disposalval userinput transflag
 
-          lappend images pic$n$w
-          image create photo pic$n$w
-          pic$n$w copy xpic$n$w -zoom 2 2
-          image delete xpic$n$w
-          lappend disposal $disposalval
+		lappend images pic$n$fname
+		image create photo pic$n$fname
+		pic$n$fname copy xpic$n$fname -zoom 2 2
+		image delete xpic$n$fname
+		lappend disposal $disposalval
 
-          # Convert hundreths to thousandths for after
-          set thisdelay [expr {$thisdelay * 10}]
+		# Convert hundreths to thousandths for after
+		set thisdelay [expr {$thisdelay * 10}]
 
-          # If 0, set to fastest (25 ms min to seem to match browser default)
-          if {$thisdelay == 0} {set thisdelay 40}
+		# If 0, set to fastest (25 ms min to seem to match browser default)
+		if {$thisdelay == 0} {set thisdelay 40}
 
-          lappend delay $thisdelay
-          unset thisdelay
+		lappend delay $thisdelay
+		unset thisdelay
 
-          incr n
-        }
+		incr n
+	    }
 
-        if {($start >= 0) && ($stop >= 0)} {
-          set start [string first "\x21\xF9\x04" $data [expr {$stop + 1}]]
-        } else {
-          break
-        }
+	    if {($start >= 0) && ($stop >= 0)} {
+		set start [string first "\x21\xF9\x04" $data [expr {$stop + 1}]]
+	    } else {
+		break
+	    }
+	}
+
+	# Save the filename of the animated gif to be able to check wheter the pics
+	# must be destroyed along with the widget
+	set ::anigif::${w}(fname) $fname
+
+	set ::anigif::${w}(repeat) $repeat
+	set ::anigif::${w}(delay) $delay
+	set ::anigif::${w}(disposal) $disposal
+	set ::anigif::${w}(curimage) [image create photo]
+	[set ::anigif::${w}(curimage)] blank
+	[set ::anigif::${w}(curimage)] copy pic0${fname} -subsample 2 2
+	$w configure -image [set ::anigif::${w}(curimage)]
+
+	anigif2 $w $images $delay $idx
+
+	# Saving settings for this file
+	set ::anigif::${fname}(repeat) $repeat
+	set ::anigif::${fname}(delay) $delay
+	set ::anigif::${fname}(disposal) $disposal
+	set ::anigif::${fname}(images) $images
     }
-    set ::anigif::${w}(repeat) $repeat
-    set ::anigif::${w}(delay) $delay
-    set ::anigif::${w}(disposal) $disposal
-    set ::anigif::${w}(curimage) [image create photo]
-    [set ::anigif::${w}(curimage)] blank
-    [set ::anigif::${w}(curimage)] copy pic0${w} -subsample 2 2
-    $w configure -image [set ::anigif::${w}(curimage)]
 
-    anigif2 $w $images $delay $idx
-  }
+    proc stop {w} {
+	catch {
+	    after cancel [set ::anigif::${w}(loop)]
+	}
+    }
 
-  proc stop {w} {
-    catch {
-      after cancel [set ::anigif::${w}(loop)]
+    proc restart {w {idx -1}} {
+	if {$idx == -1} {
+	    if { [lindex ::anigif::${w}(delay) $idx] < 0 } {
+		set idx 0
+	    } else {
+		set idx [set ::anigif::${w}(idx)]
+	    }
+	}
+	catch {
+	    ::anigif::stop $w
+	    eval "[set ::anigif::${w}(asdf)] [list [set ::anigif::${w}(delay)]] $idx"
+	}
     }
-  }
 
-  proc restart {w {idx -1}} {
-    if {$idx == -1} {
-      if { [lindex ::anigif::${w}(delay) $idx] < 0 } {
-        set idx 0
-      } else {
-        set idx [set ::anigif::${w}(idx)]
-      }
-    }
-    catch {
-      ::anigif::stop $w
-      eval "[set ::anigif::${w}(asdf)] [list [set ::anigif::${w}(delay)]] $idx"
-    }
-  }
+    proc destroy {w} {
 
-  proc destroy {w} {
-    catch {
-      ::anigif::stop $w
-      set wlength [string length $w]
-      foreach imagename [image names] {
-        if {[string equal [string range $imagename [string first "." $imagename] end] $w]} {
-          image delete $imagename
-        }
-      }
-     unset ::anigif::${w}
-    }
-  }
+	catch { 
+	    if { ![info exists ::anigif::${w}] } {
+#		puts "ALREADY DESTROYED $w"
+		return
+	    }
+	    set fname [set ::anigif::${w}(fname)]
+#	    puts "destroying $w with file $fname instance no : [set ::anigif::${fname}(count)]"
+	    
+	    if { [expr [set ::anigif::${fname}(count)] - 1]} {
+		set ::anigif::${fname}(count) [expr [set ::anigif::${fname}(count)] - 1]
+		unset ::anigif::${w}
+#		puts "$fname - 1 "
+	    } else {
+#		puts "destroying $fname"
+		::anigif::stop $w
+		foreach imagename [set  ::anigif::${fname}(images)] {
+		    image delete $imagename
+		}
+		unset ::anigif::${w}
+		set ::anigif::${fname}(count) 0
+		
+	    } 
+	    
+	} 
+
+    } 
 
 }
 

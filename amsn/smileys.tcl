@@ -136,7 +136,7 @@ proc load_smileys { } {
     set emotion_files [list]
     
     foreach x $emotions_names {
-	lappend emotion_files $emotions(${x}_file)
+	lappend emotion_files "$emotions(${x}_file)"
     }
 
     
