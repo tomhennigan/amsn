@@ -1,11 +1,11 @@
-SSS 1.6
-----------
+SSS 1.7
+------------
 
 S: Amsn nedir?
 Y: Amsn bir Microsoft Messenger benzeridir. Arkadaþlarýnýzla iletiþim kumanýzý ve anýnda mesaj ve dosya gönderebilmenizi saðlar.
 
 KURULUM VE ÇALIÞTIRMA
-=====================
+====================
 
 S: Amsn'yi çalýþtýrabilmek için neler gerekiyor?
 Y: Amsn Tcl/TK ile yazýlmýþtýr, dolayýsýyla çalýþan bir Tcl/Tk yorumlayýcýsý gereklidir; yorumlayýcýnýn sürüm 8.3 ya da daha yeni olmasi gerekir. Yorumlayýcý http://tcl.sourceforge.net adresinden alýnabilir. Yorumlayýcýnýn Linux, Windows ve Macintosh için sürümleri bulunmaktadýr. Sistem çubuðu ikonu, kullanýcý resimleri, MSN Protokol 9 için SSL baðlantýsý gibi bazý ek özellikler baþka program ya da kütüphaneler gerektirebilir.
@@ -141,8 +141,18 @@ Kullanýlan port genelde 6891, 6892, ve devamý þeklindedir (ilk aktarým 6891 üzer
 Dolayýsýyla, güvenlik duvarýnýz varsa 6891.ci portun eriþilebilir olmasý gerekir (sonrakiler kapalý kalýrsa ayný anda sadece bir dosya gönderebilirsiniz).
 Eðer özel bir aðda özel bir adrese sahipseniz (192.168.0.x gibi) o zaman dosya aktarýmýný saðlamak daha zordur. Bu durumda özel adresiniz yerine gerçek internet adresinizi göndermelisiniz (bunu elle girebilir ya da amsn'nin bir internet sayfasý aracýlýðýyla bunu bulmasýný isteyebilirsiniz), ve aða çýkýþ kapýnýza (gateway - aða doðrudan baðlantýlý bilgisayar), size gelen baðlantýlarý özel aðdaki bilgisayarýnýzýn 6891.ci portuna yönlendirmesini söylemelisiniz.
 
+S: Suse Linux'ta dosya aktarýmý için nasýl port açabilirim?
+Y: Aþaðýdaki kýlavuz John Hillier tarafýndan hazýrlanmýþtýr:
+1. Konqueror'u sistem yöneticisi kipinde açýn (Kmenu/Sistem/Diðerleri/Dosya Yöneticisi - Üst Kullanýcý Modu -- Ýng: Kmenu/System/More Programs/File Manager - Super User Mode).
+2. Konqueror URL adres çubuðuna /etc/sysconfig/SuSEfirewall2 adresini girin.
+3. Sayfadaki metne týklayýn, fareyle sað týklayýn, güvenlik duvarý ayarlarýný deðiþtirmek için "Kwrite ile aç"ý seçin. 
+4. 9. Bölümde (Section #9) FW_SERVICES_EXT_TCP  içeren satýrý FW_SERVICES_EXT_TCP="6891" olacak þekilde deðiþtirin (ya da listede baþka portlar varsa, listeye 6891'i ekleyin).
+5. Deðiþiklikleri kaydedip çýkýn, YaST'tan güvenlik duvarýný yeniden baþlatýn.
+
+Daha kolay bir yol ise "YaST/Güvenlik ve Kullanýcýlar/Firewall/Firewall Ayarlarý"ný (Ýng: YaST/Security and Users/Firewall/Firewall Configuration) açmak. "Diðer Seçenekler"de (Ýng: Additional Services) "Uzman" (Ýng: Expert) üzerine týklayýn ve 6891. portu ekleyin. 
+
 WÝNDOWS'TA ÇALIÞTIRMA
-=====================
+====================
 
 S: Windows altýnda sesleri etkinleþtirebilir miyim?
 Y: Evet, windows altýnda .wav dosyalarýný çalmaya yarayan plwav.exe adlý küçük bir programýmýz var. Onu ses komutu olarak kullanabilirsiniz (sesleri çalabilmek için amsn'nin dýþ programlara gereksinimi vardýr). Araçlar->Seçenekler->Diðerleri sekmesinde Uygulamalar bölümünde ses sunucusu komutu olarak "plwav" girin.

@@ -87,6 +87,7 @@ changedisplaypic Cambia l'immagine personale
 changefont Cambia font
 changeglobnick Cambia nick globale
 changenick Cambia nick
+changesize Cambia dimensione
 changestate $1 cambia stato in $2
 charscounter  Contatore dei caratteri digitati nella finestra di chat
 chatack Sto accentando una chiamata da
@@ -122,6 +123,7 @@ confirmdelete Sei sicuro di voler cancellare $1?
 confirmpurge Tutte le immagini salvate dei contatti eccetto le proprie saranno rimosse. Continuare?
 confirm Sei sicuro?
 connected Adesso sei connesso
+connectedwith Connesso con $1
 connecterror Errore durante la connessione al server
 connecting Errore connettendosi con il server
 connection Connessione
@@ -150,6 +152,8 @@ customnick Soprannome Personalizzato
 customstyle Stile personalizzato
 cut Taglia
 date Data
+dateformat Cambia il formato della data
+day Giorno
 days Giorni
 dcprofile Non creare un profilo
 default Configurazione di default
@@ -168,9 +172,14 @@ disableprofiles Disattiva i profili (utile per Net-cafè o ambienti condivisi)
 disablessl Disattiva SSL
 disableuserfonts Ignora font utilizzati dai client remoti, usa quelli locali predefiniti
 disconnect $1 si è sconnesso.
+disconnectedfrom Disconnesso da $1
 displaychat Mostra le opzioni del testo
+displayeventconnect Mostra quando i contatti sono Online
+displayeventdisconnect Mostra quando i contatti vanno Offline
+displayeventemail Mostra quando si riceve Posta
+displayeventstate Mostra quando i contatti cambiano status
 displayp4context Visualizza il contenuto del campo P4-Context come mittente del messaggio
-displaypic Immagine Utente 
+displaypic Immagine Utente
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Dock GNOME
 docking Abilita dock
@@ -198,6 +207,7 @@ entercontactemail Inserisci un contatto per e-mail
 enterfilename Inserisci un nome di file
 enternick Inserisci il tuo nick
 errortls Errore durante l'installazione del modulo TLS:
+eventhistory Visualizza cronologia Eventi
 examples Esempi
 exitamsn Sei sicuro di voler uscire ?
 extras Servizi extra
@@ -213,7 +223,7 @@ filename Filename
 filetransfercancelled Trasferimento file cancellato
 filetransfercomplete Trasferimento del file completo
 followtext Segui il nuovo testo quando viene inserito
-friendlyname Soprannome 
+friendlyname Soprannome
 ftacceptedby $1 ha accettato l'invito a trasferire il file '$2'.
 ftaccepted Trasferimento del file accettato
 ftaccepting In attesa di accettare l'invito al trasferimento file
@@ -300,6 +310,10 @@ ljoinedconf $1 è entrato a far parte della conversazione
 lleftconf $1 ha lasciato la conversazione
 loadcontacts Carica la lista contatti
 logbigger I file delle registrazioni per ogni contatto non hanno alcun limite dimensionale
+logeventconnect Registra le connessioni
+logeventdisconnect Registra le disconnessioni
+logeventemail Registra quando si riceve posta
+logeventstate Registra i cambi di status
 logfandexp Termine prefissato della History e dimensione dei registri
 loggedotherlocation Disconnesso. Loggato da un'altro posto
 loggingin Connessione in corso...
@@ -322,6 +336,7 @@ maximised Massimizzato
 minimised Ridotto ad icona
 mins Minuti
 mobile Mobile
+month Mese
 morepersonal Più stati personali ->
 move Muovi
 movetogroup Sposta al gruppo
@@ -345,7 +360,9 @@ needonline Sembra che tu sia scollegato!
 needwinico Perchè l'icona nella traybar funzioni e' necessario che nella cartella plugins di AMSN ci sia winico03.dll
 never Mai
 newmail $1 nuovi messaggi di posta
+newmailfolder Hai $1 nuovi messaggi Hotmail in cartelle varie
 newmailfrom Nuova email da $1 ($2)
+newmailfromother Nuova posta in cartelle varie da $1 ($2)
 newmsg Nuovo messaggio
 newstate Aggiungi uno Stato personale
 newveravailable La nuova versione $1 è disponibile per il download
@@ -371,8 +388,9 @@ notify1_75 Mostra una finestra di notifica quando i contatti cambiano stato
 notify1 Mostra una finestra di notifica quando i contatti vengono online
 notify2 Mostra una finestra di notifica quando viene ricevuto un nuovo messaggio
 notify3 Mostra una finestra di notifica quando una email raggiunge la tua casella di posta
-notify notifica
-notifyoffset Selziona la posizione della finestra di notifica dandogli delle coordinate di posizione
+notify4 Mostra una finestra di notifica quando arriva nuova posta in cartelle varie
+notify Notifica
+notifyoffset Seleziona la posizione della finestra di notifica dandogli delle coordinate di posizione
 notifytimeout Tempo in millisecondi prima che la finestra di notifica scompaia
 notifytyping Invia agli altri utenti una notifica mentre digito
 notifywin Finestra di Notifica
@@ -388,6 +406,7 @@ openreceived Apri un file ricevuto
 options Opzioni
 ordercontactsby Ordina i contatti per
 ordergroupsby Ordina i gruppi per
+original Originale
 other Altri
 others Altri
 p4contextprefix Prefissa i mittenti nel P4-Context con questa serie di caratteri
@@ -395,7 +414,7 @@ pager Impaginatore
 pass Password
 paste Incolla
 personal Personale
-phones Numeri di Telefonoalarms Allarmi
+phones Numeri di Telefono
 phone Telefono
 picbrowser Mostra il selettore delle immagini personali
 picfile File dell'immagine dell'allarme (GIF < 500x500)
@@ -418,6 +437,7 @@ preffont Testo del mio messaggio
 prefft Settaggi trasferimento file, peer-to-peer e NAT
 preflibs Cartelle delle librerie
 preflog1 Opzioni di cronologia e utilizzo
+preflogevent Cronologia degli Eventi
 preflook L'aspetto del mio aMSN
 prefmsging L'interfaccia dei miei messaggi
 prefname Il nome/soprannome del mio MSN messenger
@@ -544,6 +564,7 @@ tlsinstallexp AMSN utilizza ora MSNP9. Questo richiede l'uso di una\nconnessione
 tlsinstall Wizard per l'installazione del modulo TLS
 tlsinstcompleted L'installazione del modulo TLS è andata a buon fine. Dovresti essere in grado di utilizzare MSNP9. Se così non fosse, probabilmente hai selezionato un modulo errato oppure non esiste un modulo precompilato per il tuo sistema.
 to A
+today Oggi
 tools Strumenti
 tooltips Abilita i tooltips
 transnotexists Il file richiesto non è ancora stato tradotto nel linguaggio corrente.
@@ -579,8 +600,10 @@ xmmscurrent Mostra il brano in esecuzione
 xmmserr Non ci sono brani in ascolto o non possiedi xmms-infopipe.
 xmmssend Invia il brano in esecuzione
 xoffset spostamento sull'asse delle X
+year Anno
 yes Sì
+yesterday Ieri
 yoffset Spostamento sull'asse delle Y
-youblocked Sei stato bloccato
+youblocked Sei stato bloccato da
 yousay Tu dici
 youwant Tu vuoi

@@ -82,6 +82,7 @@ changecustomstate Mudar para
 changedisplaypic Mudar a imagem de utilizador
 changefont Mudar o tipo de letra
 changenick Mudar a alcunha (nickname)
+changesize Mudar o tamanho
 changestate $1 muda o estado para $2
 charscounter Caracteres escritos na janela de chat
 chatack Aceitando uma conversação de
@@ -116,6 +117,7 @@ confirmdelete Tem a certeza que quer apagar $1?
 confirmpurge Todos os retratos armazenados de outros contactos (não os seus retratos) serão apagados. Tem a certeza?
 confirm Tem a certeza?
 connected Você está ligado
+connectedwith Ligado com $1
 connecterror Erro ao tentar ligação com o servidor
 connecting A ligar
 connection Ligação
@@ -136,6 +138,8 @@ custom_edit Criar "smiley"
 custom_new Adicionar novos "smileys" criados
 cut Cortar
 date Data
+dateformat Mudar o formato da hora
+day Dia
 days Dias
 dcprofile Não Criar Perfil
 default Configuração por defeito
@@ -153,7 +157,12 @@ disabled Desactivado
 disableprofiles Desactivar perfis (Util para cyber-cafés or ambientes partilhados)
 disablessl Desactivar SSL
 disconnect $1 terminou a sessão.
+disconnectedfrom Desligado de $1
 displaychat Mostrar opções de texto
+displayeventconnect Mostrar quando um contacto se liga
+displayeventdisconnect Mostrar quando um contacto se desliga
+displayeventemail Mostrar quando um e-mail é recebido
+displayeventstate Mostrar quando um contacto muda de estado
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
 docking Atracando
@@ -181,6 +190,7 @@ entercontactemail Introduza a morada de correio electrónico do contacto
 enterfilename Por favor introduza um nome de ficheiro
 enternick Introduza a sua alcunha (nickname)
 errortls Erro ao instalar o módulo TLS:
+eventhistory Ver história de eventos
 examples Exemplos
 exitamsn Tem a certeza que deseja sair?
 extras Serviços Extra
@@ -269,6 +279,10 @@ ljoinedconf $1 juntou-se à conferência
 lleftconf $1 abandonou a conferência
 loadcontacts Carregar lista de contactos
 logbigger O tamanho dos ficheiros de registo para cada contacto nunca excedem
+logeventconnect Registar as ligações
+logeventdisconnect Registar as desconecções.
+logeventemail Registar quando um e-mail é recebido
+logeventstate Registar as mudançãs de estado
 logfandexp Registar os Tamanhos dos Ficheiros e a Validade do Histórico
 loggedotherlocation Desligado. Sessão iniciada noutra localização
 loggingin Iniciando sessão
@@ -290,6 +304,7 @@ maximised Maximizado
 minimised Minimizado/Iconificado
 mins minutos
 mobile Telemóvel
+month Mês
 morepersonal Mais Estados ->
 move Mover
 movetogroup Mover para o grupo
@@ -308,7 +323,9 @@ natip Detecção de IP por página Internet
 natkeepalive Se anda a ser desligado(a) com frequência, ligue este "Manter Vivo"
 needonline Você ainda está/aparece como desligado!
 newmail $1 novas mensagens na Caixa de Entrada
+newmailfolder Tem $1 novas mensagens noutros directórios Hotmail
 newmailfrom Novo correio de $1 ($2)
+newmailfromother Novo mail noutro diréctorio de $1 ($2)
 newmsg Nova mensagem
 newstate Adicionar um estado configurado
 newveravailable Nova versão disponível para descarga
@@ -332,6 +349,7 @@ notify1_75 Mostrar uma janela de notificação quando um contacto muda o seu estad
 notify1 Mostrar janela de notificação quando são recebidas novas mensagens
 notify2 Mostrar janela de notificação quando recebe novas mensagens
 notify3 Mostrar janela de notificação quando recebe correio electrónico
+notify4	Mostrar janela de notificação quando recebe novas mensagens de outros directórios
 notify avisar
 notifyoffset Colocar a janela de aviso por forma a ter espaço lateral
 notifytyping Enviar ao outros utilizadores notificações de que está a escrever
@@ -347,6 +365,7 @@ openreceived Abrir ficheiros recebidos
 options Opções
 ordercontactsby Ordenar contactos por
 ordergroupsby Ordenar grupos por
+original Original
 other Outro
 others Outros
 pager Pager
@@ -375,6 +394,7 @@ preffont O Meu Texto de Mensagem
 prefft Transferência de ficheiros, ponto-a-ponto e configurações NAT
 preflibs Directorias das bibliotecas
 preflog1 O Meu Histórico e Opções de Registo
+preflogevent O meu Histórico de eventos
 preflook O Meu Aspecto para o aMSN
 prefmsging A Minha Interface de Mensageiro
 prefname O Meu Nome/Alcunha do MSN Messenger
@@ -492,6 +512,7 @@ tlsexplain Directório onde o modulo tcl de TLS se encontra. SE o AMSN não for ca
 tlsinstall Assistente de Instalação do Módulo TLS
 tlsinstallexp O aMSN usa agora MSNP9, que necessita de uma ligação\nsegura usando SSL. Para usar SSL, o aMSN necessita de instalar um módulo chamado TLS,\nque não se encontra no seu sistema. Este assistente irá ajudá-lo a descarregar e\na instalar o TLS. Por favor escolha o seu tipo de sistema para que possamos fazer a descarga automática\n dos ficheiros TLS necessários.
 tlsinstcompleted A instalação do módulo TLS foi realizada com sucesso - agora deve conseguir utilizar o MSNP9. Caso não consiga, provavelmente não seleccionou o módulo correcto, ou um módulo compilado ainda não está disponível para o seu sistema.
+today Hoje
 tools Ferramentas
 tooltips Activar ajudas de ferramenta
 to Para
@@ -522,7 +543,9 @@ xmmscurrent Mostrar a música currente
 xmmserr Nenhum som está a ser reproduzido, ou então não tem o "xmms-infopipe" instalado.
 xmmssend Enviar música currente
 xoffset Margem horizontal
+year Ano
 yes Sim
+yesterday Ontem
 yoffset Margem vertical
 youblocked Você foi bloqueado por
 yousay Você diz

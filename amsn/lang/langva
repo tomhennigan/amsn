@@ -87,6 +87,7 @@ changedisplaypic Canviar l'imatge a mostrar (avatar)
 changefont Canviar font
 changeglobnick Canviar el mot global
 changenick Canviar mot
+changesize Canviar el tamany
 changestate $1 canvia l'estat a $2
 charscounter Contador de caràcters escrits en la finestra de conversa
 chatack Acceptant conversació de
@@ -121,7 +122,8 @@ commandstatus Executar ordre
 confirmdelete Segur que vols esborrar a $1?
 confirm Estàs segur?
 confirmpurge Totes les imatges de mostra d'altres contactes (no les teues) seran esborrades. Estàs segur?
-connected Ara estas connectat
+connected Ara estàs connectat
+connectedwith Connectat amb $1
 connecterror Error connectant-se al servidor
 connecting Connectant
 connection Connexió
@@ -170,7 +172,12 @@ disableprofiles Desactivar perfils (útil per a cibercafés o entorns compartits)
 disablessl Desactivar SSL
 disableuserfonts Ignorar el tipus de lletra de l'altre usuari en la conversa, i utilizar sempre el teu tipus de lletra
 disconnect $1 s'ha desconnectat.
+disconnectedfrom Desconnectat de $1
 displaychat Configuració de missatges
+displayeventconnect Mostrar els contactes que es connecten
+displayeventdisconnect Mostrar els contactes que es desconnecten
+displayeventemail Mostrar quan es rep un correu-e
+displayeventstate Mostrar els contactes que canvien d'estat
 displaypic Imatge per a Mostar
 displayp4context Mostrar el contingut del camp P4-Context com a remitent del missatge
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
@@ -201,6 +208,7 @@ entercontactemail Introduix el correu-e del contacte
 enterfilename Introduix el nom de l'arxiu
 enternick Introduix el teu mot
 errortls Error instalant el modul TLS:
+eventhistory Consultar l'historial d'events
 examples Exemples
 exitamsn Estàs segur que desitges eixir?
 extras Servicis Adicionals
@@ -303,6 +311,10 @@ ljoinedconf s'unix a la conversa
 lleftconf deixa la conversa
 loadcontacts Carregar llista de contactes
 logbigger Arxius d'un contacte no superen els
+logeventconnect Guardar en diari les connexions
+logeventdisconnect Guardar en diari les desconnexions
+logeventemail Guardar en diari quan es rep un correu-e
+logeventstate Guardar en diari els canvis d'estat dels contactes
 logfandexp Tamany d'arxius de registre i expiració de l'historial
 loggedotherlocation Desconnectat: S'ha iniciat la sessió en un altre lloc
 loggingin Iniciant sessió
@@ -351,6 +363,7 @@ never Mai
 newmail $1 missatges nous en safata d'entrada
 newmailfolder Tens $1 nous missatges en altres carpets de Hotmail
 newmailfrom Nou correu de $1 ($2)
+newmailfromother Nou correu de $1 ($2) en una altra carpeta
 newmsg Nou missatge
 newstate Afegir nou estat personalitzat
 newveravailable Nova versió $1 disponible per a descàrrega
@@ -376,6 +389,7 @@ notify1_75 Mostrar finestra de notificació quan els contactes canvien d'estat
 notify1 Mostrar finestra de notificació quan els contactes es connecten
 notify2 Mostrar finestra de notificació quan reba nous missatges
 notify3 Mostrar finestra de notificació quan reba nous correus
+notify4 Mostrar finestra de notificació quan reba nous correus en altres carpetes
 notify notificació
 notifyoffset Desplaçament de la posició del pop-up de notificació
 notifytimeout Número de mil·lisegons que la finestra de notificacions es mantindrà oberta
@@ -393,6 +407,7 @@ openreceived Obrir arxius rebuts
 options Opcions
 ordercontactsby Ordenar contactes per
 ordergroupsby Ordenar grups per
+original Original
 other Altre
 others Altres
 p4contextprefix Prefixar remitents en P4-Context en esta cadena de caràcters
@@ -423,6 +438,7 @@ preffont Text dels meus missatges
 prefft Transferències de fitxers, P2P i configuració de NAT
 preflibs Directoris de llibreries
 preflog1 Les meues opcions d'Historial i registres
+preflogevent El meu historial d'events
 preflook Apariència del meu aMSN Messenger
 prefmsging Interfície dels meus missatges
 prefname El meu mot (nick) en MSN Messenger

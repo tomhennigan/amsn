@@ -76,7 +76,7 @@ busy Bezig
 cachedpics $1 opgeslagen plaatjes
 cancel Annuleren
 cannotdeleteprofile Het profiel kan niet verwijderd worden. Het wordt mogelijk gebruikt door een andere aMSN sessie
-cantexec Kan het programma $1 niet starten, controleer uw instellingen
+cantexec Kan het programma $1 niet starten, controleer je instellingen
 cantremoveothers De groep "Andere contactpersonen" kan niet verwijderd worden
 casesensitive Gebruik hoofdlettergevoelige triggers
 cfgalarm Alarminstellingen
@@ -86,6 +86,7 @@ changedisplaypic Schermafbeelding wijzigen
 changefont Lettertype instellen
 changeglobnick Algemene schermnaam wijzigen
 changenick Schermnaam wijzigen
+changesize Grootte wijzigen
 changestate $1 heeft de status veranderd in $2
 change Wijzigen
 charscounter Getypte tekens-teller in gespreksvenster
@@ -96,12 +97,12 @@ chatreq Indienen van verzoek voor gesprek
 chatsmileys2 Emoticons in berichten weergeven
 chatsmileys Emoticons weergeven
 checkblocking Blijven controleren of gebruikers je blokkeren
-checkemail Het aantal berichten in uw Postvak IN weergeven in de contactpersonenlijst
+checkemail Het aantal berichten in je Postvak IN weergeven in de contactpersonenlijst
 checkfilman Ontvangen bestanden worden bewaard in de map $1.\nKies Extra > Opties > Geavanceerd om dit te wijzigen.
 checkingver Bezig te zoeken naar een nieuwere versie van aMSN
 checkonfln Controleer of een contactpersoon je heeft geblokkeerd wanneer hij offline gaat
 checkver aMSN Versiecontrole
-choosearq Selecteer uw systeem
+choosearq Selecteer je systeem
 choosebasefont Lettertype
 choosebgcolor Achtergrondkleur instellen
 choosecontact Selecteer een contactpersoon uit de lijst
@@ -122,11 +123,12 @@ confirmdelete Weet je zeker dat je $1 wilt verwijderen?
 confirmpurge Alle opgeslagen schermafbeeldingen van je contactpersonen zullen verwijderd worden. Weet je het zeker?
 confirm Weet je het zeker?
 connected Je bent nu verbonden
+connectedwith Verbonden met $1
 connecterror Fout bij verbinden met server
 connecting Bezig met verbinden
 connectionlost De verbinding met de server is gesloten
 connection Verbinding
-contactadded Aan uw contactenlijst is toegevoegd
+contactadded Aan je contactenlijst is toegevoegd
 contactdoesnotexist Contactpersoon bestaat niet!
 contactlist [FL] Mijn contactpersonen
 continuously Onafgebroken
@@ -170,7 +172,12 @@ disableprofiles Schakel profielen uit (handig voor internet cafés en gedeelde om
 disablessl SSL niet gebruiken
 disableuserfonts Negeer de lettertype-instelling van degene met wie je chat, en gebruik jouw eigen lettertype
 disconnect $1 is offline gegaan
+disconnectedfrom Verbinding met $1 verbroken
 displaychat Discussies
+displayeventconnect Weergeven wanneer contactpersonen online komen
+displayeventdisconnect Weergeven wanneer contactpersonen offline gaan
+displayeventemail Weergeven wanneer een e-mail wordt ontvangen
+displayeventstate Weergeven wanneer contactpersonen van status veranderen
 displayp4context Toon in een gespreksvenster de 'Schermnaam tijdens gesprek' van de verzender van een bericht
 displaypic Schermafbeelding
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
@@ -200,6 +207,7 @@ entercontactemail Voer het e-mailadres van de contactpersoon in
 enterfilename Voer een bestandsnaam in
 enternick Voer je nieuwe schermnaam in
 errortls Er is een fout opgetreden bij het installeren van de module TLS:
+eventhistory Gebeurtenissen geschiedenis weergeven
 examples Voorbeelden
 exitamsn Weet je zeker dat je aMSN wilt afsluiten?
 extras Extra diensten
@@ -302,6 +310,10 @@ ljoinedconf $1 nam deel aan de vergadering
 lleftconf $1 heeft de vergadering verlaten
 loadcontacts Laad de lijst van contactpersonen
 logbigger Het logboek voor elke contactpersoon mag niet groter zijn dan
+logeventconnect In logboek bijhouden wanneer contactpersonen online komen
+logeventdisconnect In logboek bijhouden wanneer contactpersonen offline gaan
+logeventemail In logboek bijhouden wanneer een e-mail wordt ontvangen
+logeventstate In logboek bijhouden wanneer contactpersonen van status veranderen
 logfandexp Houdbaarheid
 loggedotherlocation Verbinding verbroken. Je bent elders aangemeld.
 loggingin Bezig met aanmelden
@@ -350,6 +362,7 @@ never Nooit
 newmail Je hebt $1 nieuwe berichten in Postvak IN
 newmailfolder Je hebt $1 nieuwe berichten in andere Hotmail mappen
 newmailfrom Nieuwe e-mail van $1 ($2)
+newmailfromother Nieuwe e-mail in een andere map van $1 ($2)
 newmsg Nieuw bericht
 newstate Voeg nieuwe aangepaste status toe
 newveravailable Versie $1 is beschikbaar voor downloaden.
@@ -374,7 +387,8 @@ notify1_5 Melding weergeven wanneer een contactpersoon offline gaat
 notify1_75 Melding weergeven wanneer de status van een contactpersoon wijzigt
 notify1 Melding weergeven wanneer een contactpersoonen online komt
 notify2 Melding weergeven wanneer er een bericht wordt ontvangen
-notify3 Melding weergeven wanneer er een e-mail wordt ontvangen
+notify3 Melding weergeven wanneer er een e-mail wordt ontvangen in Postvak IN
+notify4 Melding weergeven wanneer nieuwe e-mail wordt ontvangen in andere mappen
 notify Licht in
 notifyoffset Afstand meldingsvenster vanaf de hoek van het scherm
 notifytimeout Het aantal miliseconden voordat het meldingsvenster verdwijnt
@@ -392,6 +406,7 @@ openreceived Ontvangen bestanden openen
 options Opties
 ordercontactsby Contactpersonen sorteren op
 ordergroupsby Sortering groepen
+original Origineel
 other Andere
 others Overigen
 p4contextprefix Voorvoegsel voor de alternatieve schermnaam
@@ -422,6 +437,7 @@ preffont Berichttekst
 prefft Bestandsoverdracht, peer-to-peer en NAT instellingen
 preflibs Zoekpad voor libraries
 preflog1 Logboeken en geschiedenis
+preflogevent Mijn gebeurtenissen geschiedenis
 preflook Weergave
 prefmsging Inkomende berichten
 prefname Schermnaam
@@ -429,7 +445,7 @@ prefphone2 De telefoonnummers die zichtbaar moeten zijn voor geaccepteerde conta
 prefphone Telefoonnummers
 prefprivacy2 Contactpersonen
 prefprivacy Zichtbaarheid en aanspreekbaarheid
-prefprofile2 Maak of wijzig uw profiel
+prefprofile2 Maak of wijzig je profiel
 prefprofile3 Configuratieprofielen
 prefprofile Openbaar profiel
 prefproxy Mijn Proxy-instellingen
@@ -515,7 +531,7 @@ soundserver Geluidsserver
 soundstatus Alarmgeluid gebruiken
 sourcecode Broncode (moet gecompileerd en geïnstalleerd worden)
 splashstart Start
-sslwarning WAARSCHUWING!! Als SSL wordt uitgeschakeld, wordt uw wachtwoord bij het verzenden niet versleuteld. Schakel SSL dus alleen uit als dit noodzakelijk blijkt te zijn om verbinding te kunnen maken.
+sslwarning WAARSCHUWING!! Als SSL wordt uitgeschakeld, wordt je wachtwoord bij het verzenden niet versleuteld. Schakel SSL dus alleen uit als dit noodzakelijk blijkt te zijn om verbinding te kunnen maken.
 startoffline2 Stil aanmelden met "Offline weergeven"
 startoffline Stil aanmelden
 startontray Start aMSN alleen als icoon in het systeemvak
@@ -524,7 +540,7 @@ statechange status is veranderd in:
 stateedittext Pas de velden aan die je wilt \n veranderen en druk op Opslaan
 stateinfo Configuratie persoonlijke status
 statename Naam voor de persoonlijke status
-statenewtext Vul de benodigde informatie in om uw persoonlijke status\nte creëren en klik op Opslaan
+statenewtext Vul de benodigde informatie in om je persoonlijke status\nte creëren en klik op Opslaan
 statenick Aangepaste schermnaam (laat het leeg voor geen verandering)
 state Weer te geven status
 status Status
@@ -544,9 +560,9 @@ title Al's Messenger
 tkerror TK heeft een error gegeven, er zit een bug in aMSN, reporteer het astublieft. stuur het bestand $1 naar amsn-bugs@lists.sf.net
 tlsdowncompleted Het bestand $1 is opgeslagen in $2. Pak dit bestand uit, maak er een build van (als je broncode hebt gedownload), en installeer het in $3.
 tlsexplain De map waar de tcl TLS module staat. Vul dit in als aMSN het zelf niet kan vinden.\n(Dit is nodig voor beveiligd aanmelden met SSL)
-tlsinstallexp aMSN gebruikt nu versie 9 van het MSN protocol.\nDaarvoor is een met SSL beveiligde verbinding vereist. aMSN heeft hierbij een module\nnodig met de naam TLS, die niet aanwezig is op uw systeem. Deze wizard helpt je bij\nhet downloaden en installeren van TLS. Selecteer het type systeem dat je gebruikt\nzodat de benodigde bestanden automatisch gedownload kunnen worden.
+tlsinstallexp aMSN gebruikt nu versie 9 van het MSN protocol.\nDaarvoor is een met SSL beveiligde verbinding vereist. aMSN heeft hierbij een module\nnodig met de naam TLS, die niet aanwezig is op je systeem. Deze wizard helpt je bij\nhet downloaden en installeren van TLS. Selecteer het type systeem dat je gebruikt\nzodat de benodigde bestanden automatisch gedownload kunnen worden.
 tlsinstall TLS Module installatie wizard
-tlsinstcompleted De TLS module is geïnstalleerd. Je zult versie 9 van het MSN protocol nu moeten kunnen gebruiken. Als dit niet werkt, dan heb je vermoedelijk niet de juiste module gekozen, of er bestaat geen kant-en-klare module voor uw systeem.
+tlsinstcompleted De TLS module is geïnstalleerd. Je zult versie 9 van het MSN protocol nu moeten kunnen gebruiken. Als dit niet werkt, dan heb je vermoedelijk niet de juiste module gekozen, of er bestaat geen kant-en-klare module voor jouw systeem.
 to Aan
 today Vandaag
 tools Extra
@@ -563,7 +579,7 @@ uoffline Offline
 uonline Online
 useother Gebruik een ander programma
 usesnack Gebruik de Snack functie-bibliotheek (ingebouwd in Tcl)
-useralreadyonlist Deze gebruiker staat al in uw lijst
+useralreadyonlist Deze gebruiker staat al in je lijst
 userblocked De gebruiker is online maar heeft je geblokkeerd
 userdata Gebruikersinformatie
 user Gebruiker

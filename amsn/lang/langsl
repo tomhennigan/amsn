@@ -87,6 +87,7 @@ changedisplaypic Spremeni osebno sliko
 changefont Zamenjaj pisavo
 changeglobnick Spremeni globalni nick
 changenick Zamenjaj nick
+changesize Spremeni velikost
 changestate $1 je spremenil/a stanje na $2
 charscounter Natipkani znaki v oknu s pogovorom
 chatack Sprejemam pogovor od
@@ -108,6 +109,7 @@ choosecontact Prosim izberi stik s seznama
 choosefontcolor Izberi barvo pisave
 chooseskin Prosim izberi skin, ki bi ga rad uporabil
 ch_to_state Preklopi v novo stanje
+clear Pocisti
 clearlog2 Pocisti zgodovino za vse stike
 clearlog3 Pocisti vse dnevnike
 clearlog Pocisti dnevnik
@@ -122,6 +124,7 @@ confirm Ali si preprican ?
 confirmdelete Ali si preprican, da bos zbrisal $1?
 confirmpurge Vse shranjene slike drugih stikov (ne tvoje slike) bodo izbrisane. Si preprican?
 connected Zdaj si povezan
+connectedwith Povezan z $1
 connecterror Napaka pri povezavi na streznik
 connecting Povezujem se
 connectionlost Povezava s streznikom prekinjena
@@ -170,7 +173,12 @@ disableprofiles Izkljuci profile (Uporabno v kiberkavarnah in skupinskem okolju)
 disablessl Onemogoci SSL
 disableuserfonts Prezri sogovornikove nastavitve pisave
 disconnect $1 se je odjavil/a.
+disconnectedfrom Povezava z $1 prekinjena
 displaychat Prikazi nastavitve besedila
+displayeventconnect Prikazuj prijave stikov
+displayeventdisconnect Prikazuj odijave stikov
+displayeventemail Prikazuj prejetja e-mailov
+displayeventstate Prikazuj spremembe stanja stikov
 displayp4context Prikazi kontekst P4
 displaypic Prikazna slika
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
@@ -187,7 +195,7 @@ editprofile Uredi profil
 editstate Uredi obstojece stanje za avtomatsko sporocilo
 edit Uredi
 editvalue Uredi vrednost
-email E-postni naslov
+email E-posta
 emailsinlist Pokazi postne naslove namesto nickov v seznamu stikov
 emotisounds Igraj zvok na dolocene emotikone
 enabled Vkljuceno
@@ -200,6 +208,7 @@ entercontactemail Vnesi e-mail osebe
 enterfilename Prosim vnesi ime datoteke
 enternick Vnesi svoj nick
 errortls Napaka pri namestitvi modula TLS:
+eventhistory Prikazi zgodovino dogodkov
 examples Primeri
 exitamsn Ali si preprican, da zelis zapustiti program?
 extras Dodatne storitve
@@ -302,6 +311,10 @@ ljoinedconf $1 se je pridruzil/a konferenci
 lleftconf $1 je zapustil/a konferenco
 loadcontacts Nalozi seznam stikov
 logbigger Dnevniska datoteka za vsak stik je lahko velika najvec
+logeventconnect Belezi prijave
+logeventdisconnect Belezi odjave
+logeventemail Belezi prejetje e-mailov
+logeventstate Belezi spremembe statusov
 logfandexp Velikost dnevniskih datotek in izteka zgodovine
 loggedotherlocation Povezava prekinjena. Povezan drugje.
 loggingin Prijavljam
@@ -350,6 +363,7 @@ never Nikoli
 newmail $1 novih sporocil v Inboxu
 newmailfolder $1 novih sporocil v ostalih imenikih
 newmailfrom Novo sporocilo od $1 ($2)
+newmailfromother Novo sporocilo v drugem imeniku od $1 ($2)
 newmsg Novo sporocilo
 newstate Dodaj osebno stanje
 newveravailable Nova razlicica $1 je na voljo za prenos
@@ -375,6 +389,7 @@ notify1_75 Prikazi obvestilo, ko kdo zamenja stanje
 notify1 Prikazi obvestilo, ko se kdo prijavi
 notify2 Prikazi obvestilo ob novem sporocilu
 notify3 Prikazi obvestilo ob novem e-mailu
+notify4 Prikazi obvestilo ob novem e-mailu v drugem imeniku
 notify obvesti
 notifyoffset Nastavitve polozaja obvestilnega okna
 notifytimeout Cas prikaza obvestila v milisekundah
@@ -392,6 +407,7 @@ openreceived Odpri sprejete datoteke
 options Nastavitve
 ordercontactsby Uredi stike
 ordergroupsby Uredi skupine
+original Izvirnik
 other Ostalo
 others Ostalo
 p4contextprefix Predpona konteksta P4
@@ -422,6 +438,7 @@ preffont Tekst mojih sporocil
 prefft Nastavitve prenosa datotek, P2P in NAT
 preflibs Imenik s knjizicami
 preflog1 Zgodovina in dnevnik
+preflogevent Zgodovina dogodkov
 preflook Izgled uporabniskega vmesnika
 prefmsging Uporabniski vmesnik sporocil
 prefname Moje ime/nickname

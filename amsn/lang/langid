@@ -88,6 +88,7 @@ changedisplaypic Rubah Gambar Tampilan
 changefont Rubah Huruf
 changeglobnick Ganti Nama Panggilan (alias) Global
 changenick Ganti nama panggilan (alias)
+changesize Rubah ukuran
 changestate $1 merubah keadaan menjadi $2
 charscounter Karakter yang diketik beradu dalam jendela percakapan
 chat Percakapan
@@ -112,6 +113,7 @@ clearlog Bersihkan Register
 clearlog2 Bersihkan sejarah untuk semua kontak
 clearlog3 Bersihkan semua register
 clicktologin Klik disini untuk Daftar-Masuk
+clientname Nama Klien
 close Tutup
 closed Percakapan dengan $1 ditutup karena tidak aktif
 closingdocks Tombol Tutup mengecilkan window
@@ -121,6 +123,7 @@ confirm Apakah anda yakin?
 confirmdelete Apakah anda yakin untuk menghapus $1?
 confirmpurge Semua gambar tampilan tersimpan dari kontak lain (bukan gambar tampilan anda) akan dihapus. Apakah anda yakin?
 connected Sekarang anda tersambung
+connectedwith Tersambung dengan $1
 connecterror Ada masalah saat menghubungi server
 connecting Sedang menyambung
 connection Sambungan
@@ -146,8 +149,11 @@ custom_edit Rubah smiley sesuai kehendak
 custom_new Tambahkan smiley baru sesuai kehendak
 customcolor Warna Pilihan
 customnick Nama Panggilan (alias) Pilihan
+customstyle Gaya terkostumisasi
 cut Potong
 date Tanggal
+dateformat Rubah format tanggal
+day Hari
 days Hari
 dcprofile Jangan Ciptakan Profil
 default Pengaturan Dasar
@@ -164,8 +170,14 @@ directconnection Saya memiliki sambugan langsung ke internet (menggunakan port 1
 disabled Dimatikan
 disableprofiles Profil Dimatikan (Berguna untuk Kafe Internet dan lingkungan berbagi-pakai)
 disablessl Matikan SSL
+disableuserfonts Acuhkan jenis huruf pengguna lain dalam percakapan dan gunakan jenis huruf anda sendiri
 disconnect $1 memutuskan sambungan.
+disconnectedfrom Putuskan sambungan dari $1
 displaychat Tampilkan Pilihan untuk Tekst
+displayeventconnect Tampilkan ketika kontak datang online
+displayeventdisconnect Tampilkan ketika kontak pergi offline
+displayeventemail Tampilkan ketika E-mail baru diterima
+displayeventstate Tampilkan ketika kontak merubah status
 displayp4context Tampilkan isi field P4-Context sebagai pengirim pesan
 displaypic Tampilkan Gambar
 dockfreedesktop Desktop gratis (KDE/Gnome2)
@@ -196,6 +208,7 @@ entercontactemail Masukkan alamat e-mail kenalan (kontak)
 enterfilename Masukkan nama berkas
 enternick Masukkan nama panggilan/alias yang anda inginkan
 errortls Masalah dalam menginstal modul TLS:
+eventhistory Lihat sejarah (historis) kejadian
 examples Contoh
 exitamsn Apakah anda ingin keluar?
 extras Fungsi tambahan
@@ -238,6 +251,7 @@ groupnewname Nama baru
 groupnotempty Kelompok tidak kosong
 groupoldname Nama lama
 grouprename Ganti nama kelompok
+groups Kelompok-kelompok (Grup)
 groupunknown Kelompok lain
 handle Pegangan
 help Bantuan
@@ -257,7 +271,7 @@ inbox Kotak-Masuk
 insertsmiley Masukkan emotikon
 installconvert Anda harus menginstalasi ImageMagick (program konversi) untuk dapat merubah gambar ke dalam format yang diperlukan oleh server MSN. Anda bisa men-download binari untuk Sistem Operasi anda di ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Apabila anda sudah memilikinya, maka itu adalah gangguan (bug) dan mohon dilaporkan.
 internalerror Kesalahan Server Internal
-invalidfile Berkas $2 yang dimasukkan dalam bidang “$1” tidak ada atau tidak dapat dibaca
+invalidfile Berkas $2 yang dimasukkan dalam bidang "$1" tidak ada atau tidak dapat dibaca
 invalidfile2 Nama berkas $1 tidak dapat diciptakan, pastikan anda memiliki ijin yang tepat untuk sasaran tersebut.
 invalidgroup Kelompok Invalid
 invalidpic Berkas gambar yang diberikan tidak ada
@@ -280,6 +294,7 @@ lastlogin LogIn Terakhir
 lastlogout LogOut Terakhir
 lastmsgedme Pesan Terakhir
 lastmsgtime Pesan terakhir diterima pada $1
+lastseen Terakhir kali online
 lclosedwin $1 telah menutup window atas $2
 lconftopriv Konferensi berubah menjadi percakapan pribadi dengan $1
 lconvstarted Percakapan dimulai pada $1
@@ -296,6 +311,10 @@ ljoinedconf $1 bergabung dalam konferensi
 lleftconf $1 meninggalkan konferensi
 loadcontacts Baca daftar nama kenalan (kontak)
 logbigger Ukuran register berkas untuk setiap kontak tidak pernah melewati batas
+logeventconnect Arsipkan (Log) semua sambungan
+logeventdisconnect Arsipkan (Log) semua sambungan-putus
+logeventemail Arsipkan (Log) ketika email diterima
+logeventstate Arsipkan (Log) semua perubahan status
 logfandexp Ukuran register berkas dan masa berlaku sejarah
 loggedotherlocation Terputus. Ada yang Daftar-Masuk dari tempat lain
 loggingin Meregister Masuk
@@ -318,6 +337,7 @@ maximised Dimaksimalkan
 minimised Diminimalkan/Di-ikon-kan
 mins menit
 mobile Bergerak
+month Bulan
 morepersonal Lebih banyak kondisi ->
 move Pindah
 movetogroup Pindah ke kelompok
@@ -328,8 +348,10 @@ msgmode Pilih bagaimana menangani banyak window percakapan
 msn a'MSN
 msnstyle Percakapan Bergaya MSN
 mustrestart Program ini harus dijalankan ulang supaya perubahannya kelihatan
+myfriendlyname Nama bersahabat saya
 myhomephone Telpon rumah saya
 mymobilephone Telpon seluler saya
+mynick Nama Panggilan Saya
 mypic Gambar Tampilan Saya:
 mystatus Status Saya
 myworkphone Telpon kantor saya
@@ -339,7 +361,9 @@ needonline Anda masih tidak tersambung atau sedang sembunyi!
 needwinico Memerlukan winico03.dll dalam direktori plugins supaya labuhanbaki (traydoking) jendela dapat bekerja
 never Tidak Pernah
 newmail $1 email baru dalam Kotak-Masuk
+newmailfolder Anda memiliki $1 pesan baru di dalam map (folder) Hotmail yang lain
 newmailfrom Email baru dari $1 ($2)
+newmailfromother Email baru dalam map (folder) lain dari $1 ($2)
 newmsg Pesan baru
 newstate Tambahkan kondisi tertentu
 newveravailable Telah ada versi baru $1
@@ -348,6 +372,7 @@ nick Panggilan (alias)
 no Tidak
 noactivity Tidak ada aktivitas
 nodataavailable Tidak ada data yang tersedia untuk $1
+nogap Tanpa jarak antara kelompok (group)
 nogroup Tidak ada Kelompok (group)
 nologfile Tidak ada register untuk $1
 noneavailable Tidak Tersedia
@@ -365,7 +390,9 @@ notify1_5 Tampilkan window pemberitahuan saat kontak daftar-keluar
 notify1_75 Tampilkan window pemberitahuan saat kontak merubah kondisi
 notify2 Tampilkan jendel pemberitahuan saat pesan baru diterima
 notify3 Tampilkan jendel pemberitahuan saat e-mail masuk ke dalam Kotak-Masuk
+notify4 Tampilkan jendela pemberitahuan ketika email baru masuk dalam map (folder) lain
 notifyoffset Atur window pemberitahuan dengan memberikannya aturan keseimbangan posisi
+notifytimeout Angka jumlah sepersekian detik sebelum jendela pemberitahuan menghilang
 notifytyping Kirimkan pemberitahuan kepapda pengguna lain saat mengetik
 notifywin Window pemberitahuan
 notinlist Anda tidak berada dalam daftar kontak miliknya
@@ -380,6 +407,7 @@ openreceived Buka berkas yang telah diterima
 options Pilihan
 ordercontactsby Urutkan daftar kenalan (kontak) berdasarkan
 ordergroupsby Atur kelompok berdasarkan
+original Asli
 other Lain-lain
 others Lain-lain
 p4contextprefix Awalan (Prefix) P4-Context terkirim dengan string ini
@@ -400,7 +428,7 @@ prefapps Aplikasi
 prefawaymsg Pesan Tidak Ada saya
 prefblock1 Periksa saat pemutusan sambungan
 prefblock2 Periksa secara berkelanjutan
-prefblock3 “Anda telah diblokir oleh” kelompok 
+prefblock3 "Anda telah diblokir oleh" kelompok 
 prefconnection Aturan sambungan
 prefemotic Emoticon dan Smiley
 preferences Pilihan
@@ -410,6 +438,7 @@ preffont3 Rubah huruf dan ukuran tampilan muka a'MSN
 prefft Aturan transfer berkas, peer-to-peer dan NAT
 preflibs Direktori kepustakaan
 preflog1 Pilihan Registrasi dan Sejarah Saya
+preflogevent Sejarah (Historis) Semua Kejadian Saya
 preflook Tampilan Pembawa Pesan a'MSN Saya
 prefmsging Tampilan Muka Pesan Saya
 prefname Nama/Nama Panggilan Pembawa Pesan a'MSN Saya
@@ -440,15 +469,17 @@ publishphones Publikasikan telepon saya
 purge Bersihkan
 raised Diangkat/Ikon dihilangkan
 readonlymsgbox Transmisi berkas dibatalkan karena daftar tujuan berstatus baca-saja. Mohon rubah status di daftar tujuan tersebut.
-readonlywarn PERINGATAN: Berkas kemungkinan TIDAK akan tersimpan dengan benar karena daftar “Berkas yang Diterima” tampaknya dilindungi terhadap penulisan. Mohon pastikan ijin pada daftar sasaran ($1) telah diatur dengan benar sebelum memindahkan berkas.
+readonlywarn PERINGATAN: Berkas kemungkinan TIDAK akan tersimpan dengan benar karena daftar "Berkas yang Diterima" tampaknya dilindungi terhadap penulisan. Mohon pastikan ijin pada daftar sasaran ($1) telah diatur dengan benar sebelum memindahkan berkas.
 receivedbytes Telah diterima $1 dari $2 byte
 receiveddir Map Berkas yang Diterima
 receivefile Terima berkas
 recentmsg Mencegah menutup jendela percakapan saat pesan tiba
 reconnect Menunggu $1 untuk bergabung kembali
+reconnect2 Sambung kembali ketika hilang
 reconnecting Memulihkan sambungan ke server
 reject Tolak
 rememberpass Simpan kata sandi
+removeempty Hilangkan kelompok-kelompok kosong dari daftar kontak
 removefromlist Hilangkan dari daftar ini
 rename Ganti Nama
 reversed Dibalik
@@ -487,6 +518,8 @@ smileconfig Pengaturan emoticon sesuai kehendak
 smilefile Nama berkas smiley
 smileintro Tolong isi bidang yang diperlukan untuk menciptakan smiley baru sesuai kehendak (lihat PSD untuk bantuan)
 smileintro2 Tolong isi bidang yang diperlukan untuk merubah smiley sesuai kehendak (lihat PSD untuk bantuan)
+snackfailed Snack gagal termuat (load), merubah ke standard
+sngdblclick Klik tunggal untuk membuka jendela pesan baru
 sound Suara Perisitwa
 sound2 Mainkan Bunyi saat kontak meregister masuk atau mengirim pesan
 soundactive Mainkan bunyi ketika menerima pesan masuk juga dalam jendela aktif
@@ -532,6 +565,7 @@ tlsinstall Penyulap instalasi Modul TLS
 tlsinstallexp AMSN sekarang menggunakan MSNP9, yang memerlukan penggunaan \nsambungan aman menggunakan SSL. Untuk dapat menggunakan SSL, AMSN memerlukan untuk menginstalasi modul yang dinamakan TLS,\nyang tidak terdapat dalam sistem anda. Penyulap ini akan membantu anda dalam mendownload dan\nmenginstalasi TLS. Mohon pilih jenis sistem anda sehingga kami bisa secara otomatis mendownload\n berkas-berkas TLS yang diperlukan.
 tlsinstcompleted Instalasi modul TLS telah berhasil, sekarang anda seharusnya dapat menggunakan MSNP9. Apabila tidak bekerja dengan baik, maka kemungkinan anda tidak memilih modul yang tepat, atau modul yang terkompilasi tidak tersedia untuk sistem anda.
 to Kepada
+today Hari ini
 tools Peralatan
 tooltips Aktifkan Tips untuk Peralatan
 transnotexists Berkas yang diminta belum diterjemahkan ke dalam bahasa tersebut.
@@ -544,6 +578,7 @@ twonewmail $1 email baru dalam Kotak-Masuk
 unblock Cabut blokiran
 uoffline Tidak Tersambung
 uonline Tersambung
+useother Gunakan program yang berbeda (lain)
 user Pengguna
 useralreadyonlist Nama sudah ada dalam daftar nama
 userblocked Pengguna sedang tersambung tetapi memblokir anda
@@ -551,6 +586,7 @@ userdata Data Pengguna
 usernotonline Pengguna sedang tidak tersambung
 userproperties Anjuran-anjuran pengguna dari $1
 useryourself Anda tidak bisa bercakap-cakap dengan anda sendiri
+usesnack Gunakana pustaka Snack (Tcl internal)
 verifyblocked Periksa untuk orang-orang yang memblokir anda
 version Versi
 view Tampilan
@@ -559,13 +595,15 @@ viewprofile Lihat Profil Pemakai
 webcaminvite $1 mengundang anda untuk memulai sesi webcam, tetapi aMSN tidak mendukung fasilitas ini.
 willjoin Menunggu $1 untuk bergabung
 work Kerja
-wrongfields Bidang “$1”, “$2” dan/atau “$3” tidak dapat diterima
+wrongfields Bidang "$1", "$2" dan/atau "$3" tidak dapat diterima
 wrongprofileversion Versi berkas pengaturan profil yang salah. Untuk memperbaikinya mohon hapus direktori $1 atau perbaharui a'MSN
 xmmscurrent Tampilkan lagu yang sekarang ini
 xmmserr Tidak ada yang dimainkan, atau anda tidak memiliki xmms-infopipe terinstalasi
 xmmssend Kirim lagu yang sekarang inis
 xoffset Keseimbangan Posisi X
+year Tahun
 yes Iya
+yesterday Kemarin
 yoffset Keseimbangan Posisi Y
 youblocked Anda telah diblokir
 yousay Anda Katakan
