@@ -1192,6 +1192,11 @@ namespace eval ::MSN {
 	     #Should we insert at the beggining? Newer SB's are probably better
 	     set sb_chatid($chatid) [linsert $sb_chatid($chatid) 0 $sb_name]
 	     #lappend sb_chatid($chatid) $sb_name
+	  } else {
+	     #Move SB to the begginning of the list
+	     status_log "AddSBFor: sb $sb_name already in $chatid. Moving to preferred SB\n" blue
+	     set sb_chatid($chatid) [lreplace $sb_chatid($chatid) $index $index]
+	     set sb_chatid($chatid) [linsert $sb_chatid($chatid) 0 $sb_name]
 	  }
 
          set chatid_sb($sb_name) $chatid
@@ -1421,12 +1426,8 @@ proc read_sb_sock {sbn} {
 
       set tmp_data "ERROR READING SB !!!"
       if {[catch {gets $sb_sock tmp_data} res] || "$tmp_data" == "" } {
-         degt_protocol "<-SB($sbn) BASURA" error
+         degt_protocol "<-SB($sbn) GARBAGE" error
          return 0
-         catch {close $sb_sock} res
-         degt_protocol "<-SB($sbn) CLOSED" error
-         cmsn_sb_sessionclosed $sbn
-	 return 0
 
       }
       
@@ -2147,6 +2148,8 @@ proc cmsn_update_users {sb_name recv} {
             the close event has been catch before the BYE...\n"
          }
 
+	 #Another option for the condition:
+	 # "$chatid" != "[lindex $recv 1]" || ![MSN::chatReady $chatid]
          if { [::MSN::SBFor $chatid] == $sb_name } {
             ::amsn::userLeaves $chatid [list [lindex $recv 1]]
          }
