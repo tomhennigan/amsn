@@ -66,6 +66,7 @@ confirmdelete $1 wirklich löschen?
 confirm Sind Sie sicher?
 connecterror Verbindungsaufbau zum Server fehlgeschlagen!
 connection Verbindung
+connectionlost Getrennt : Verbindung mit Server beendet
 contactadded Kontakt hinzugefügt
 contactdoesnotexist Kontakt nicht vorhanden!
 copy Kopieren
@@ -81,6 +82,7 @@ delete Löschen
 deliverfail Es trat ein Problem beim Zustellen folgender Nachricht auf
 delprofile2 Profil auswählen, das gelöscht werden soll.
 delprofile Profil löschen
+directconnection Ich habe eine direkte Verbindung mit dem Internet (benutzt port 1863)
 dockgtk In GTK festankern
 docking Festankern eingeschaltet
 dockingoff Festankern ausgeschaltet
@@ -89,6 +91,7 @@ dockfreedesktop In freiem Desktop festankern (KDE3/Gnome2)
 edit Ändern
 editprofile Profil ändern
 enableproxy Proxy aktivieren
+enableremote Aktiviere Fernkontrolle
 encoding2 Encoding Optionen ändern
 encoding Encoding auswählen
 entercontactemail Gib eine E-Mail-Adresse ein
@@ -104,7 +107,15 @@ filename Dateiname
 filetransfercancelled Übertragung abgebrochen
 filetransfercomplete Übertragung abgeschlossen
 ftaccepted Übertragung angenommen
+ftacceptedby $1 akzeptiert die Einladung zum Transfer der Datei '$2'.
+ftaccepting Akzeptiere Einladung zum Dateitransfer
+ftconnecterror Fehler beim Verbinden mit Gegenüber
+ftconnecting Verbinde mit $1 Port $2
+ftconnectionlost Verbindung mit Gegenüber verloren
+ftgotinvitation $1 möchte Ihnen die Datei '$2' ($3 Bytes) schicken. Sie würde im Verzeichnis $4 gespeichert. Möchten Sie diese Datei empfangen?
 ftrejected Übertragung abgewiesen
+ftrejectedby $1 lehnt die Einladung zum Transfer der Datei '$2' ab.
+ftsendinvitation Einladung zum Transfer der Datei '$2' ($3 Bytes) wurde an $1 gesendet.
 gonelunch Mittagspause
 groupadd Gruppe hinzufügen
 groupdelete Gruppe löschen
@@ -121,10 +132,12 @@ helpcontents Hilfe - Inhalt
 help Hilfe
 history Verlauf ansehen
 home Start
+httpconnection Verbinde mit der HTTP Methode (verwendet das HTTP Protokoll mit Port 80)
 ident Identifiziere
 identity Identität
 inbox Posteingang
 invalidusername Benutzername ungültig
+invitationcancelled Die Einladung wurde abgebrochen
 invite Einladen
 ipaddress IP-Adresse
 ipdetect Korekte IP für Dateiübertragung durch HTTP feststellen
@@ -184,11 +197,13 @@ newmailfrom Neue E-Mail von $1 ($2)
 newmsg Neue Nachricht
 newveravailable Neuere Version $1 steht zur Verfügung
 next Weiter
+no Nein
 noactivity inaktiv
 nologfile Keine Log-Datei für $1
 nonewmail 0 neue Nachrichten im Posteingang
 nonewver Zurzeit keine neue Version verfügbar
 normal Normal
+nosystemtray Systemablage nicht verfügbar
 notify1 Fenster anzeigen wenn ein Kontakt online kommt.
 notify2 Fenster anzeigen wenn eine neue Nachricht empfangen wird.
 notify3 Fenster anzeigen wenn eine eMail ankommt.
@@ -217,6 +232,7 @@ port Port
 prefalerts Töne und Klänge
 prefapps Anwendungen
 prefawaymsg Away-Mitteilung
+prefconnection Verbindungseinstellungen
 prefemotic Emoticons und Smileys
 preferences Einstellungen
 preffont2 Schriftart in der andere meinen Text sehen.
@@ -232,6 +248,7 @@ prefprofile2 Erstelle oder verändere dein MSN-Profil
 prefprofile3 aMSN's Benutzer-Profileinstellungen
 prefprofile Mein öffentliches Profil
 prefproxy Proxyeinstellungen
+prefremote Fernverbindungseinstellungen
 prefsession Anmeldung und Status
 prefshared Gemeinsame Verbindung (nur NAT)
 prefsound Akustische Signale
@@ -242,7 +259,9 @@ properties Eigenschaften
 proxy Ich bin hinter einem Proxy Server (HTTP or SOCKS5)
 proxyconfhttp Konfiguration: HTTP-Proxy-Unterstützung
 proxyconf Proxy-Konfiguration
+proxyconnection Ich verbinde mit dem Internet über einen Proxy-Server:
 publishphones Meine Telefonnummern veröffentlichen
+raised Wiederhergestellt
 receivedbytes $1 von $2 Bytes empfangen
 receivefile Datei empfangen
 reconnecting Erneute Anmeldung beim Server
@@ -304,6 +323,7 @@ willjoin Warte... $1 wird dem Chat hinzugefügt
 work Arbeit
 wrongprofileversion Falsche Version der Profil-Konfigurationsdatei. Um das Problem zu beheben entfernen Sie bitte das Verzeichnis $1, oder installieren Sie eine aktuelle Version von aMSN.
 xoffset X Offset
+yes Ja
 yoffset Y Offset
 youblocked Sie wurden blockiert
 yousay Du sagst
