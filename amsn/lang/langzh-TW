@@ -48,6 +48,7 @@ autodetectip 自動偵測 IP 位址
 autohotmaillog 自動登入 Hotmail
 autoidle 自動發呆
 autoip Automatic IP
+automessage 自動回覆訊息
 autonoact 當我閒置時,將我的狀態顯示為「發呆」
 avoidseen 當您在線上時封鎖這個人看到您和聯絡您
 away 離開
@@ -135,6 +136,10 @@ countrycode 我的國家/地區碼
 cprofile 建立個人設定檔
 credits 製作人員
 currentdate 現在日期
+custnotifymsg 接收到新的聯絡人訊息時顯示通知視窗
+custnotifyoffline 聯絡人離線時顯示通知視窗
+custnotifyonline 聯絡人上線時顯示通知視窗
+custnotifystatus 當這名聯絡人更換狀態時顯示通知視窗
 customcolor 自訂顏色
 custom_edit 編輯個人表情符號
 custom_new 新增個人表情符號
@@ -159,6 +164,8 @@ disableprofiles 關閉個人設定檔 (在網咖或是公用電腦特別有用)
 disablessl 關閉SSL連線
 disconnect $1 已經斷線.
 displaychat 顯示文字選項
+displayp4context 顯示P4-Context欄位內容為訊息發送者
+displaypic 顯示圖片
 dockfreedesktop FreeDesktop (KDE3/Gnome2) 
 dockgtk Gnome Dock 
 docking Docking 
@@ -201,6 +208,7 @@ filename 檔案名稱
 filetransfercancelled 檔案傳送已取消
 filetransfercomplete 檔案傳送完畢
 followtext 往下捲,當新的文字被輸入
+friendlyname 友善稱呼
 ftaccepted 檔案傳送被接收
 ftacceptedby $1 接受了檔案'$2'的檔案傳送邀請.
 ftaccepting 正在接收檔案傳送邀請
@@ -292,6 +300,7 @@ logsin 剛登入
 logsmileys 顯示表情符號於aMSN的歷史紀錄視窗
 logsout 剛好登出
 longnick 您的暱稱長度超過130個字元組. 這不被官方的MSN通訊協定所接受. 您確定要設定嗎? 
+longp4c 您的友善稱呼已經超過130個字元. 友善稱呼將會被顯示在正式的MSN中被顯示為 $1. 您確定要設定嗎?
 lprivtoconf 私人的聊天由 $1 更改為公開的會議
 luclosedwin 您已經於 $1 關閉視窗
 mailerexample ( \$recipient = 收件者 ) 請保持空白如果您使用Hotmail
@@ -361,11 +370,13 @@ ordercontactsby 連絡人的排序依據
 ordergroupsby 由群組排序
 other 其他
 others 其他
+p4contextprefix 用此字串為P4-Context字首發送者
 pager 傳呼機
 pass 密碼
 paste 貼上
 personal 個人
 phone 電話
+phones 電話號碼
 picbrowser 顯示圖片瀏覽器
 picfile 圖片檔案 (GIF < 500 x 500) 
 picstatus 圖片警告
@@ -465,6 +476,7 @@ smileintro2 請編輯所需的欄位來自訂此表情符號 (請參考常見問答集)
 smileintro 請完成所需的欄位來建立新的自訂表情符號 (請參考常見問答集)
 sound2 當連絡人登入或傳送訊息時播放聲音
 sound 事件音效
+soundactive 在動作中的視窗收到訊息時播放音效
 soundcommand 這必須是播放的指令 (ex: esdplay) 
 soundexample ( \$sound = 被播放的聲音檔) Ex: esdplay \$sound 
 soundfile 聲音檔
@@ -529,6 +541,7 @@ verifyblocked 檢查封鎖您的人
 version 版本
 view 檢視
 viewprofile 檢視個人資訊
+webcaminvite $1 邀請您啟動檢視網路攝影機影像, 但是aMSN尚未支援這個功能.
 willjoin 等待 $1 加入聊天
 work 工作
 wrongfields "$1", "$2" and/or "$3" 欄位是無效的
