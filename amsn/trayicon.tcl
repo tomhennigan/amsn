@@ -48,25 +48,25 @@ proc trayicon_init {} {
 #	
 
 	menu $iconmenu -tearoff 0 -type normal
-#	$iconmenu add cascade -label "[trans offline]" -menu .imstatus
 	$iconmenu add command -label "[trans offline]"
+	#$iconmenu add command -label "[trans offline]"
 	$iconmenu add separator
 	if { [string length $config(login)] > 0 } {
 	     if {$password != ""} {
-	        $iconmenu add command -label "[trans login] $config(login)" -command "::MSN::connect $config(login) $password" -state normal
+	        #$iconmenu add command -label "[trans login] $config(login)" -command "::MSN::connect $config(login) $password" -state normal
 	     } else {
-	     	$iconmenu add command -label "[trans login] $config(login)" -command cmsn_draw_login -state normal
+	     	#$iconmenu add command -label "[trans login] $config(login)" -command cmsn_draw_login -state normal
 	     }
-	   } else {
-	     $iconmenu add command -label "[trans login]" -command "::MSN::connect $config(login) $password" -state disabled
+	} else {
+	     #$iconmenu add command -label "[trans login]" -command "::MSN::connect $config(login) $password" -state disabled
 	}
-	$iconmenu add command -label "[trans login]..." -command cmsn_draw_login
+	#$iconmenu add command -label "[trans login]..." -command cmsn_draw_login
   	$iconmenu add command -label "[trans logout]" -command "::MSN::logout; save_alarms" -state disabled
 	$iconmenu add command -label "[trans changenick]..." -command cmsn_change_name -state disabled
 	$iconmenu add separator
    	$iconmenu add command -label "[trans sendmsg]..." -command  "::amsn::ChooseList \"[trans sendmsg]\" online ::amsn::chatUser 1 0" -state disabled
    	$iconmenu add command -label "[trans sendmail]..." -command "::amsn::ChooseList \"[trans sendmail]\" both \"launch_mailer\" 1 0" -state disabled
-   	$iconmenu add command -label "[trans checkver]..." -command "check_version"
+   	#$iconmenu add command -label "[trans checkver]..." -command "check_version"
 	$iconmenu add separator
 	$iconmenu add command -label "[trans mystatus]" -state disabled
 	$iconmenu add command -label "   [trans online]" -command "::MSN::changeStatus NLN" -state disabled
@@ -96,73 +96,88 @@ proc statusicon_proc {status} {
 	if {$systemtray_exist == 1 && $statusicon != 0 && $config(dock) == 3 && $status != "REMOVE"} {
 		if { $status != "" } {
 			if { $status == "FLN" } {
-				set pixmap "[file join $images_folder doffline.xpm]"
-				set tooltip "[trans offline]"
-				$iconmenu entryconfigure 0 -label $tooltip -state disabled
-				$iconmenu entryconfigure 2 -state normal
-				$iconmenu entryconfigure 3 -state normal
-				$iconmenu entryconfigure 4 -state disabled
+				$iconmenu entryconfigure 2 -state disabled
+				$iconmenu entryconfigure 3 -state disabled
 				$iconmenu entryconfigure 5 -state disabled
-				$iconmenu entryconfigure 7 -state disabled
+				$iconmenu entryconfigure 6 -state disabled
 				$iconmenu entryconfigure 8 -state disabled
+				$iconmenu entryconfigure 9 -state disabled
+				$iconmenu entryconfigure 10 -state disabled
+				$iconmenu entryconfigure 11 -state disabled
 				$iconmenu entryconfigure 12 -state disabled
 				$iconmenu entryconfigure 13 -state disabled
 				$iconmenu entryconfigure 14 -state disabled
 				$iconmenu entryconfigure 15 -state disabled
 				$iconmenu entryconfigure 16 -state disabled
-				$iconmenu entryconfigure 17 -state disabled
-				$iconmenu entryconfigure 18 -state disabled
-				$iconmenu entryconfigure 19 -state disabled
 
-			} elseif { $status == "NLN" } {
-				set pixmap "[file join $images_folder donline.xpm]"
-				set tooltip "$my_name ($config(login)): [trans online]"
-				$iconmenu entryconfigure 2 -state disabled
-				$iconmenu entryconfigure 3 -state disabled
-				$iconmenu entryconfigure 4 -state normal  
-				$iconmenu entryconfigure 5 -state normal  
-				$iconmenu entryconfigure 7 -state normal
+			} else {
+				$iconmenu entryconfigure 2 -state normal
+				$iconmenu entryconfigure 3 -state normal
+				$iconmenu entryconfigure 5 -state normal
+				$iconmenu entryconfigure 6 -state normal
 				$iconmenu entryconfigure 8 -state normal
+				$iconmenu entryconfigure 9 -state normal
+				$iconmenu entryconfigure 10 -state normal
+				$iconmenu entryconfigure 11 -state normal
 				$iconmenu entryconfigure 12 -state normal
 				$iconmenu entryconfigure 13 -state normal
 				$iconmenu entryconfigure 14 -state normal
 				$iconmenu entryconfigure 15 -state normal
 				$iconmenu entryconfigure 16 -state normal
-				$iconmenu entryconfigure 17 -state normal
-				$iconmenu entryconfigure 18 -state normal
-				$iconmenu entryconfigure 19 -state normal
-			} elseif { $status == "IDL" } {
+			}
+				
+			switch $status {
+			  "FLN" {
+				set pixmap "[file join $images_folder doffline.xpm]"
+				set tooltip "[trans offline]"			  
+			  }
+			
+			  "NLN" {
+				set pixmap "[file join $images_folder donline.xpm]"
+				set tooltip "$my_name ($config(login)): [trans online]"
+			  }
+			  
+			  "IDL" {
 				set pixmap "[file join $images_folder dinactive.xpm]"
 				set tooltip "$my_name ($config(login)): [trans noactivity]"
-				$iconmenu entryconfigure 0 -label $tooltip
-			} elseif { $status == "BSY" } {
+				#$iconmenu entryconfigure 0 -label $tooltip
+			  }
+			  "BSY" {
 				set pixmap "[file join $images_folder dbusy.xpm]"
 				set tooltip "$my_name ($config(login)): [trans busy]"
-				$iconmenu entryconfigure 0 -label $tooltip
-			} elseif { $status == "BRB" } {
+				#$iconmenu entryconfigure 0 -label $tooltip
+			  }
+			  "BRB" {
 				set pixmap "[file join $images_folder dbrb.xpm]"
 				set tooltip "$my_name ($config(login)): [trans rightback]"
-				$iconmenu entryconfigure 0 -label $tooltip
-			} elseif { $status == "AWY" } {
+				#$iconmenu entryconfigure 0 -label $tooltip
+			  }
+			  "AWY" {
 				set pixmap "[file join $images_folder daway.xpm]"
 				set tooltip "$my_name ($config(login)): [trans away]"
-				$iconmenu entryconfigure 0 -label $tooltip
-			} elseif { $status == "PHN" } {
+				#$iconmenu entryconfigure 0 -label $tooltip
+			  }
+			  "PHN" {
 				set pixmap "[file join $images_folder dphone.xpm]"
 				set tooltip "$my_name ($config(login)): [trans onphone]"
-				$iconmenu entryconfigure 0 -label $tooltip
-			} elseif { $status == "LUN" } {
+				#$iconmenu entryconfigure 0 -label $tooltip
+			  }
+			  "LUN" {
 				set pixmap "[file join $images_folder dlunch.xpm]"
 				set tooltip "$my_name ($config(login)): [trans gonelunch]"
-				$iconmenu entryconfigure 0 -label $tooltip
-			} elseif { $status == "HDN" } {
+				#$iconmenu entryconfigure 0 -label $tooltip
+			  }
+			  "HDN" {
 				set pixmap "[file join $images_folder dhidden.xpm]"
 				set tooltip "$my_name ($config(login)): [trans appearoff]"
-				$iconmenu entryconfigure 0 -label $tooltip
-			} else {
+				#$iconmenu entryconfigure 0 -label $tooltip
+			  }
+			  - {
 				set pixmap "null"
+			  }
 			}
 
+			$iconmenu entryconfigure 0 -label "$config(login)"
 			if { $pixmap != "null"} {
 				configureti $statusicon -pixmap $pixmap -tooltip $tooltip
 			}
