@@ -4,7 +4,7 @@ accept Accepta
 acceptfile Accept fisierul $1, marime $2? Salvat in $3
 actions Actiuni
 addacontact Adauga o persoana noua  
-addedyou te-a adaugat in lista lui/ei de contacte
+addedyou Te-a adaugat in lista lui/ei de contacte
 addprofile Adauga un profil nou
 addprofiledesc Defineste o autentificare pentru a crea un profil nou.\nAutentificarile cu profil au configuratii diferite. \nNu se pot folosi jurnalele, sunetele de alarma sau retine parolele daca nu este definit un profil.
 addstate Adauga o stare noua
@@ -13,13 +13,13 @@ addtocontacts Adauga in lista de contact
 addtoo Adauga persoana in lista  
 admincontacts Administrare nume
 admingroups Administrare grup
-advancedprefs Configurarea optiunilor
 advanced Setari amanuntite
+advancedprefs Configurarea optiunilor
 adverts Avertismente
-alarmonconnect Activeaza sunetele de avertizare cind cineva se autentifica
-alarmondisconnect Activeaza sunetele de avertizare cind cineva se deautentifica sau devine invizibil
-alarmonmsg Activeaza sunetele de avertizare cind cineva iti trimite un mesaj
-alarmonstatus Activeaza sunetele de avertizare cind cineva isi schimba starea
+alarmonconnect Activeaza sunetele de avertizare cand cineva se autentifica
+alarmondisconnect Activeaza sunetele de avertizare cand cineva se deautentifica sau devine invizibil
+alarmonmsg Activeaza sunetele de avertizare cand cineva iti trimite un mesaj
+alarmonstatus Activeaza sunetele de avertizare cand cineva isi schimba starea
 alarmpref Setari de sunet pentru utilizator
 alarmstatus Opreste/Porneste sunetele
 allfiles Toate fisierele
@@ -38,18 +38,19 @@ areacode Codul postal
 aretyping $1 scrie un mesaj
 autoaccepted Transferul de fisier a fost acceptat automat
 autoacceptft Accepta automat transferul de fisiere
-autoaway Arata "Plecat" cind sunt inactiv de
+autoaway Arata "Plecat" cand sunt inactiv de
 autocheckver Verifica automat daca este versiune noua
-autoconnect2 Autentificare automata la pornirea aMSN-ului
 autoconnect Conectare automata la pornirea aMSN-ului
+autoconnect2 Autentificare automata la pornirea aMSN-ului
+autodetectip Detecteaza IP-ul automat
 autohotmaillog Autentificare automata la Hotmail
 autoidle mod pasiv automat
 autoip IP automat
-autonoact Arata "Fara Activitate" cind sunt inactiv de
+autonoact Arata "Fara Activitate" cand sunt inactiv de
 avoidseen Nu permite persoanei sa ma vada autentificat si sa ma contacteze.
+away Plecat
 awaymsg1 Confirmare inainte de schimbarea starii Plecat/Revin/Ocupat
 awaymsg2 Nu intreba niciodata si foloseste intotdeuna mesajul urmator:
-away Plecat
 baduserpass Parola sau user gresit!
 bgcolor Schimba culoarea fundalului
 blankdirect Nu complecta pentru autentificare automata
@@ -57,7 +58,7 @@ block Blocheaza
 blocked Blocat
 blockedyougroup Afiseaza un grup separat pentru cei care te-au blocat
 blocking Blocari
-blockinter1 Cind esti online verifica la fiecare
+blockinter1 Cand esti online verifica la fiecare
 blockinter2 secunde, altfel verifica la fiecare:
 blockinter3 la fiecare
 blockinter4 secunde.
@@ -66,32 +67,33 @@ blockmessage Aceste persoane sunt online si te-au blocat
 blockusers Numarul de utilizatori care sa fie verificati odata
 broughtby aMSN Messenger programat de
 browse Rasfoieste
-browserexample ( \$url va fi inlocuit cu URL). Ex: mozilla \$url
 browser Navigator
+browserexample ( \$url va fi inlocuit cu URL). Ex: mozilla \$url
 busy Ocupat
 cancel Renunta
 cannotdeleteprofile Nu se poate sterge profilul deoarece este folosit de o sesiune aMSN
 cantexec Nu pot executa aplicatia: $1. Verifica preferintele
 cantremoveothers Nu pot sterge grupul "Others"
 casesensitive Foloseste declansatoarele cu majuscule semnificative
-cfgalarmall Configureaza/Adauga/Sterge sunetul general
 cfgalarm Configureaza/Adauga/Sterge sunete
+cfgalarmall Configureaza/Adauga/Sterge sunetul general
 changecustomstate Schimba pe
 changedisplaypic Schimba poza afisata
 changefont Schimba caracterul
 changenick Schimba nick-ul
 changestate $1 si-a schimbat starea in $2
-chatack In curs de acceptare
-chat Conversatie
-chatmaxmin Cind o persoana intra in conversatie cu mine vreau ca fereastra sa fie :
-chatreq Cerere de conversatie
-chatsmileys2 Afiseaza semnele de conversatie in fereastra de conversatie
-chatsmileys Semne in conversatie
 charscounter Contorul de caractere tastate in fereastra de chat.
+chat Conversatie
+chatack In curs de acceptare
+chatmaxmin Cand o persoana intra in conversatie cu mine vreau ca fereastra sa fie :
+chatreq Cerere de conversatie
+chatsmileys Semne in conversatie
+chatsmileys2 Afiseaza semnele de conversatie in fereastra de conversatie
 checkblocking Verifica permanent daca utilizatorii te blocheaza
+checkemail Afiseaza notificarile de mail (inbox) in lista de contacte
 checkfilman Fisierele primite vor fi salvate in $1. Verificati setarile in fereastra de preferinte.
 checkingver In curs de verificare
-checkonfln Verifica daca utilizatorul te-a blocat cind sa deautentificat
+checkonfln Verifica daca utilizatorul te-a blocat cand sa deautentificat
 checkver Verifica daca este versiune noua
 choosearq Alege arhitectura sistemului
 choosebasefont Alege caracterul
@@ -100,18 +102,18 @@ choosecontact Alege un contact (persoana) din lista
 choosefontcolor Alege culoarea caracterului
 chooseskin Alege Skin-ul
 ch_to_state Treci intr-o noua stare
+clearlog Sterge jurnalul
 clearlog2 Sterge jurnalul pentru toate contactele
 clearlog3 Sterge toate jurnalele
-clearlog Sterge jurnalul
 clicktologin Autentificare
-closed Incheiat conversatia cu $1 pentru inactivitate
 close Inchide
+closed Incheiat conversatia cu $1 pentru inactivitate
 closingdocks Minimizare in loc de inchidere
 command Commanda
 commandstatus Executa comanda
+confirm Sunteti sigur?
 confirmdelete Sigur vrei sa stergi persoana $1?
 confirmpurge Toate imaginile stocate de la celelalte persoane vor fi sterse (nu si imaginile tale). Esti sigur?
-confirm Sunteti sigur?
 connected Conectat
 connecterror Conectarea la server a esuat
 connecting In curs de conectare
@@ -119,7 +121,7 @@ connection Conexiune
 connectionlost Deconectat: Conexia cu serverul sa inchis
 contactadded Persoana adaugata
 contactdoesnotexist Persona nu exista!
-contactlist Lista contactelor:
+contactlist Lista contactelor (FL):
 convertexplain Calea catre fisierul executabil CONVERT de la ImageMagick (necesar pentru Afisarea Imaginilor).\n Nu completati atunci cand CONVERT este in PATH
 copy Copiaza
 copytogroup Copieaza in grupul
@@ -127,6 +129,7 @@ corruptconfig Fisierul de configurare este corupt. Creez unul nou. Vechiul fisie
 corruptstates Configurarea starilor personalizate este corupta. Creez una noua. Vechiul fisier va fi salvat ca si $1. Te rog sa ni-l trimiti pentru a vedea ce s-a intamplat.
 countrycode Tara / Cod postal
 cprofile Creare Profil
+credits Multumiri
 custom_edit Editeaza semnele de conversatie create
 custom_new Adauga semne de conversatie noi
 cut Sterge
@@ -136,12 +139,12 @@ dcprofile Nu crea profil
 default Configurarea implicita
 defaultloginradio Autentificare cu configuratia implicita
 defchatwinsize Dimensiune implicita pentru fereastra de chat (LATIME x INALTIME)
-deletecustomstate Sterge stare personalizata
 delete Sterge
+deletecustomstate Sterge stare personalizata
 delimiters Separatoarele de timp:
 deliverfail Eroare la trimiterea mesajului
-delprofile2 Selecteaza profilul pe care vrei sa il stergi
 delprofile Sterge profilul
+delprofile2 Selecteaza profilul pe care vrei sa il stergi
 description Descriere
 directconnection Legatura directa cu internetul (foloseste portul 1863)
 disabled Dezactivat
@@ -157,8 +160,8 @@ dockkde Ataseaza in KDE
 dontdownload Nu descarca TLS, O sa il instalez manual
 dontshow Nu arata
 downloadingtls In curs de descarcare modulul TLS de la:\n $1
-editcustomstate Editeaza stare personalizata
 edit Editare
+editcustomstate Editeaza stare personalizata
 editnewstate Creeaza o noua stare pentru mesajului automat
 editprofile Editeaza profilul
 editstate Editeaza starea mesajului automat existent
@@ -170,8 +173,8 @@ enabled Activat
 enableproxy Activeaza proxy
 enableremote Activeaza posibilitatea de control de la distanta
 enablesound Reda sunet
-encoding2 Schimba tipul codului de caracter
 encoding Alege codul caracterului
+encoding2 Schimba tipul codului de caracter
 entercontactemail Introduce email-ul persoanei
 enterfilename Introduce fisier
 enternick Introduce nick-ul
@@ -179,39 +182,39 @@ errortls Eroare la instalarea modulului TLS:
 examples Exemple
 exitamsn Sigur vrei sa inchizi?
 extras Servicii suplimentare
+failed Esuare
 faileddelete Nu am putut sterge
 faileddeleteperso Aceasta imagine nu poate fi stearsa deoarece nu este un fisier personal de imagini. Doar imaginile care apartin profilului tau pot fi sterse astfel.
-failed Esuare
 faq Intrebari puse frecvent(FAQ)
-filedoesnotexist Fisierul nu exista
 file Fisier
-filemanexample ( \$location va fi inlocuit cu directorul ) Ex: nautilus \$location
+filedoesnotexist Fisierul nu exista
 fileman Manager de fisiere
+filemanexample ( \$location va fi inlocuit cu directorul ) Ex: nautilus \$location
 filename Nume fisier
 filetransfercancelled Transfer de fisier intrerupt
 filetransfercomplete Transfer de fisier complect
 followtext Derulare in jos cand se introduce un text nou
-ftacceptedby $1 a acceptat trasnferul pentru fisierul '$2'.
 ftaccepted Transfer de fisier acceptat
+ftacceptedby $1 a acceptat trasnferul pentru fisierul '$2'.
 ftaccepting Transfer de fisier acceptat
 ftconnecterror Eroare de conectare la calculatorul de la distanta
 ftconnecting In curs de conectare la $1 portul $2
 ftconnectionlost Conexie intrerupta
 ftgotinvitation $1 trimite fisierul '$2' ($3 bytes). Va fi salvat in directorul $4. Vrei sa primesti fisierul?
 ftportpref Foloseste acest port pentru transferurile de fisier
-ftrejectedby $1 a refuzat transferul de fisier pentru fisierul '$2'.
 ftrejected Transfer de fisier refuzat
+ftrejectedby $1 a refuzat transferul de fisier pentru fisierul '$2'.
 ftsendinvitation Inviatatia de transfer pentru fisierul '$2' ($3 bytes) a fost trimis la $1.
 fullcontactlist Din pacate lista ta de contacte este plina. Va trebui sa stergi cateva contacte pentru a putea adauga altele noi.
 getdisppic Vizualizare poza afisata de la alti utilizatori
 gonelunch Sunt la masa
+group Numele grupului
 groupadd Adauga un grup
 groupdelete Sterge un grup
 groupexists Grupul exista
 groupmissing Nu pot gasi grupul
 groupnewname Nume nou
 groupnotempty Grupul nu este gol!
-group Numele grupului
 groupoldname Nume vechi
 grouprename Redenumeste un grup
 groupunknown Grup necunoscut
@@ -234,10 +237,10 @@ installconvert Trebuie instalat ImageMagick ( program de conversie ) pentru a fo
 internalerror Eroare interna a server-ului
 invalidfile Fisierul $2 introdus in campul "$1" nu exista sau nu poate fi citit
 invalidfile2 Fisierul $1 nu a putut fi creat. Verifica daca ai permisiile corecte.
-invalidusername Nume gresit
 invalidpic Poza aleasa nu exista.
 invalidpicsize Poza aleasa este prea mare, alege altul mai mic.
 invalidsound Fisierul de sunet ales nu exista.
+invalidusername Nume gresit
 invitationcancelled Invitattia a fost intrerupta
 invite Invita
 ipaddress Adresa IP
@@ -245,8 +248,8 @@ ipdetect Detecteaza IP-ul pentru transferul de fisier folosind HTTP
 istyping $1 scrie un mesaj
 joins $1 incepe conversatia
 keepalive Conectiune continua (NAT)
-keeplog2 Jurnalizeaza toate conversatiile aMSN pentru vizualizare ulterioara
 keeplog Pastreaza jurnalele converatlor
+keeplog2 Jurnalizeaza toate conversatiile aMSN pentru vizualizare ulterioara
 language Alege limba
 lastmsgtime Ultimul mesaj a sosit la $1
 lclosedwin $1 a inchis fereatra pe $2
@@ -258,8 +261,8 @@ lenteredconf $1 a intrat in conferinta la $2
 lineflushlog Sterge jurnalul dupa fiecare linie
 linprivate In privata
 listeningon Ascult pe portul $1
-listsmileys2 Afiseaza semnele de conversatie in lista principala de contacte
 listsmileys Afiseaza semnele de conversatie
+listsmileys2 Afiseaza semnele de conversatie in lista principala de contacte
 ljoinedconf $1 sa alaturat conferintei
 lleftconf $1 a parasit conferinta
 loadcontacts Incarca lista de contacte
@@ -267,8 +270,8 @@ logbigger Marimea junalului pentru fiecare contact sa nu depaseasca
 logfandexp Jurnalizeaza marimile fisierului si expirarea jurnalului
 loggedotherlocation Deconectat. Autentificare de la alt calculator.
 loggingin In curs de autentificare
-loginas Autentificare cu
 login Autentificare
+loginas Autentificare cu
 loging Jurnale
 logolder Jurnalizeaza numai conversatile care au avut loc in urma cu
 logout Deautentificare
@@ -278,8 +281,8 @@ logsout tocmai s-a deautentificat
 longnick Nick-ul tau este mai lung de 130 de caractere. Aceasta nu este suportata oficial de catre protocolul MSN. Sigur vrei sa il modifici?
 lprivtoconf Conversatiile private au devenit conferinte cu $1
 luclosedwin Ai inchis fereastra pe (la) $1
-mailerexample ( \$recipient = Recipient ) Nu completa pentru Hotmail
 mailer Utilitar de e-mail
+mailerexample ( \$recipient = Recipient ) Nu completa pentru Hotmail
 maximised Marit
 minimised Micsorata
 mins Minute
@@ -287,9 +290,9 @@ mobile Mobil
 morepersonal Alte stari ->
 move Muta
 movetogroup Muta in grupul
-msgflicker Scutura titlul fereastrei de conversatie cind soseste un mesaj nou si fereastra nu este maximizata.
-msgmaxmin La receptionarea unui mesaj nou, vreau ca meajul sa sa fie:
 msg Mesaj
+msgflicker Scutura titlul fereastrei de conversatie cand soseste un mesaj nou si fereastra nu este maximizata.
+msgmaxmin La receptionarea unui mesaj nou, vreau ca meajul sa sa fie:
 msgmode Selecteaza aranjarea mai multor ferestre:
 msn aMSN
 mustrestart Restarteaza aplicatia ca schimbarile sa devina active.
@@ -307,28 +310,29 @@ newmsg Mesaj nou
 newstate Adaugare stare personalizata
 newveravailable Versiune noua de $1 este disponibil pentru descarcare.
 next Urmatorul
+no Nu
 noactivity Fara activitate
 nodataavailable Nu sunt date disponibile pentru $1
 nologfile Nu este jurnal pentru $1
 noneavailable Nimeni disponibil
 nonewmail Nu sint mesaje noi in casuta postala
 nonewver Nu este versiune noua disponibila pentru descarcare
-no Nu
 nopic Fara poza
 noprofileexists Nu exista profile, \n trebuie sa creati unul daca vreti sa folositi autentificare cu profil. \nFolositi butonul "Adauga un profil nou" pentru a crea un profil nou.
 normal Normal
 noskins Nu am putut gasi skin in directorul skins/. Nu pot porni AMSN
 nosystemtray System tray-ul nu este disponibil
 notificationserver Server MSN de informare (MSN Messenger Server)
-notify1_5 Afiseaza fereastra de atentionare cind cineva se deautentifica
-notify1_75 Afiseaza fereastra de atentionare cind persoana isi schimba starea
-notify1 Afiseaza fereastra de atentionare cind cineva se autentifica
-notify2 Afiseaza fereastra de atentionare cind primesc mesaje noi
-notify3 Afiseaza fereastra de atentionare cind este e-mail nou in casuta postala
 notify Atentioneaza
+notify1 Afiseaza fereastra de atentionare cand cineva se autentifica
+notify1_5 Afiseaza fereastra de atentionare cand cineva se deautentifica
+notify1_75 Afiseaza fereastra de atentionare cand persoana isi schimba starea
+notify2 Afiseaza fereastra de atentionare cand primesc mesaje noi
+notify3 Afiseaza fereastra de atentionare cand este e-mail nou in casuta postala
 notifyoffset Stabileste unde sa apara fereastra de avertizare folosind coordonatele
 notifytyping Trimite notificare utilizatorilor cand se tasteaza
 notifywin notifica fereatra
+notinlist Nu esti in lista lui/ei de contacte
 notls Protocolul MSN 9 necesita pachetul TLS. Se pare ca acest pachet nu este instalat pe calculator. Daca este instalat, calea catre directorul cu biblioteci trebuie specificat in fereastra de Preferinte (ex: /opt/tls/lib). \n \n Se poate descarca TLS de la http://tls.sf.net.
 nousersinsession Nu sunt persoane in sesiune
 offline Neautentificat
@@ -346,6 +350,7 @@ pager Pager
 pass Parola
 paste Adauga elementul(le) copiat in memorie
 personal Personal
+personalizat
 phone Telefon
 picbrowser Poze disponibile
 picfile Fisier imagine (poza) (GIF < 500 x 500)
@@ -355,28 +360,29 @@ pluginselector Selecteaza Plugin-ul
 port Port
 prefalerts Evenimente si sunete
 prefapps Aplicatii
-prefawaymsg Mesajul meu cind sunt plecat
+prefawaymsg Mesajul meu cand sunt plecat
 prefblock1 Verifica la deconectare
 prefblock2 Verifica permanent
 prefblock3 "Ai fost blocat de" grupul
 prefconnection Setari pentru conexie
 prefemotic Semnele de conversatie
 preferences Preferinte
+preffont Textul mesajului
 preffont2 Schimba modul in care altii vad textul in conversatie
 preffont3 Schimba interfata si marimea fontului in aMSN
-preffont Textul mesajului
+prefft Trasnfer de fisier, p2p si setari de NAT
 preflibs Directorul cu biblioteci
 preflog1 Jurnal si optiuni de jurnalizare
 preflook Setari aMSN
 prefmsging Felul in care arata un mesaj primit
 prefname  Numele sau nick-ul
-prefphone2 Defineste numerele de telefon pe care alti sa le vada din lista celor acceptati.
 prefphone Numere de telefon
-prefprivacy2 Lista contactelor / celor opusi
+prefphone2 Defineste numerele de telefon pe care alti sa le vada din lista celor acceptati.
 prefprivacy Lista cu cei acceptati / blocati
+prefprivacy2 Lista contactelor / celor opusi
+prefprofile Profilul public
 prefprofile2 Creaza sau modifica profilul public \n (descrierea personala pe care o pot vedea altii)
 prefprofile3 Profilul aMSN pentru configurarea utilizatorului
-prefprofile Profilul public
 prefproxy Setari proxy
 prefremote Preferintele conexiunii de la distanta
 prefsession Autentificarea si starea mea
@@ -389,10 +395,10 @@ profileinuse Acest profil este folosit de o alta sesiune aMSN, alege un alt prof
 profileloginradio Autentificare cu un profil existent
 profiles Profil
 properties Proprietati
+proxy Sunt in spatele unui server Proxy (HTTP sau SOCKS5)
 proxyconf Configurare proxy
 proxyconfhttp Configurare pentru suport HTTP proxy
 proxyconnection Ma conectez la internet folosind proxy:
-proxy Sunt in spatele unui server Proxy (HTTP sau SOCKS5)
 publishphones Arata numerele de telefon
 purge Goleste
 raised Stearsa
@@ -406,41 +412,43 @@ reconnecting In curs de reconectare la server
 reject Rejectare
 rememberpass Retine parola
 removefromlist Sterge de pe aceasta lista
+rename Redenumeste
 reversed Ordine inversa
 reverselist Cei opusi:
 rightback Revin imediat
+save Salveaza
 saveas Salveaza ca
 savechatwinsize Salvare dimensiune ferestra de chat ca si dimensiune implicita la redimensionare
 savecontacts Salveaza lista
-save Salveaza
 savetofile Salveaza in fisier
 says $1 a scris
 sbcon In curs de conectare
 selectplugins Selecteaza Plugin-urile pe care vreti sa le activati
 selectskin Alege un Skin din lista
+send Trimite
 sendfile Trimite fisier
 sendmail Trimite e-mail
 sendmsg Trimite mesaj
-send Trimite
 sentbytes Trimis $1 of $2 bytes
+server Server
 serverbusy Serverul este ocupat
 servergoingdown Deconectat: se inchide serverul
-server Server
 serverunavailable Serverul nu este disponibil
 session Sesiune
 showblockedlist Arata pesoanele care te-au blocat
-showdisplaypic2 La deschiderea ferestrei de chat arata poza implicit
 showdisplaypic Arata poza
+showdisplaypic2 La deschiderea ferestrei de chat arata poza implicit
 showmypic Poza mea
 shownotify Afiseaza fereastra de atentionare cand are loc ceva eveniment
 showuserpic Poza lui $1
-skinselector Selecteaza Skin-ul
 skin Skin
+skinselector Selecteaza Skin-ul
 smileconfig Configurarea semnelor de conversatie
 smilefile Numele fisierului
-smileintro2 Editeaza campurile necesare pentru a modifica un semn de conversatie (citeste FAQ)
 smileintro Complecteaza campurile necesare pentru a crea un nou semn de conversatie (citeste FAQ)
-sound2 Avertizare sonora cind peroanele se autentifica sau trimit mesaj
+smileintro2 Editeaza campurile necesare pentru a modifica un semn de conversatie (citeste FAQ)
+sound Sunet
+sound2 Avertizare sonora cand persoanele se autentifica sau trimit mesaj
 soundcommand Ar trebui sa fie comanda pentru redare(ex: esdplay)
 soundexample ( \$sound = Sunet care sa fie redat ) Ex: esdplay \$sound
 soundfile Fisierul de avertizare (sunet)
@@ -448,24 +456,22 @@ soundfiles Fisiere de sunet
 soundloop Roteste sunetul
 soundserver Server de sunet
 soundstatus Inchide/Deschide avertizarile
-sound Sunet
 sourcecode Codul Sursa (Necesita compilare si instalare) 
 sslwarning ATENTIE!! Nefolosirea SSL va dezactiva criptarea parolei, deci parolele vor fi trimise sub forma de text.
-startoffline2 Autentificare invizibila "Apar neautentificat"
 startoffline Incepe neautentificat
+startoffline2 Autentificare invizibila "Apar neautentificat"
 startontray Porneste aMSN in mod minimizat
-stateautomsg de trimis Mejas_Automat
+state Vreau sa apar ca
+stateautomsg de trimis Mesaj_Automat
 statechange starea schimbata in:
 stateedittext Editeaza campurile pe care vrei sa le salvezi \n apoi apasa Salveaza
 stateinfo Configurea starii persolanale
 statename Numele starii personale
 statenewtext Introdu informatia pentru a crea \n starea personala si apasa Salveaza
-state Vreau sa apar ca
 statenick Creaza un nick nou (pentru a nu schimba lasa necomplectat)
 status Stare
 stopalarm Opreste avertizarea
 storenickname Revenire la nick-ul original dupa o stare personalizata cu un nick
-personalizat
 strictfonts Restrictionare a tuturor marimilor fonturilor la dimensiunea selectata de mine (Bara de stare si celelalte)
 stylechat La fel ca si conversatiile
 stylehist Cum arata jurnalele
@@ -477,12 +483,12 @@ textsize Marime text
 timeremaining Timp ramas
 timestamps Activeaza delimitarile de timp in fereastra de conversatie
 title aMSN Messanger
-tkerror TK a lansat o eroare. Este un bug in AMSN - te rog anunta-l. Trimite fisierul $1 la amsn-bugs@lists.sf.net
+tkerror TK a lansat o eroare. Este un bug in aMSN - te rog anunta-l. Trimite fisierul $1 la amsn-bugs@lists.sf.net
 tlsdowncompleted Fisierul $1 a fost salvat in directorul $2. Trebuie dezarhivat, compilat (daca e codul sursa) si instalat in $3.
 tlsexplain Directorul in care se afla modulul tcl TLS. Daca AMSN nu il poate gasi, te rog specifica.\n(Necesar pentru autentificare SSL).
-tlsinstallexp aMSN necesita MSNP9, care necesita conexie \nsecurizata folosind SSL. Pentru a folosi SSL, aMSN trebuie  sa instaleze un modul numit TLS,\ncare lipseste din sistem. Acest utilitar va ajuta sa descarcati si \nsa instalati TLS. Selectati tipul sistemului pentru a putea descarca automat \nfisierele TLS.
 tlsinstall Instalarea Modulului TLS
-tlsinstcompleted Instalarea modulului TLS a reusit, acum ar trebui sa folositi MSNP9. Daca nu functioneaza MSNP9, atunci probabil nu ati selectat modulul corespunzator sistemului, sau nu exista modul compilat pentru sistemul pe care il folositi
+tlsinstallexp aMSN necesita MSNP9, care necesita conexie \nsecurizata folosind SSL. Pentru a folosi SSL, aMSN trebuie  sa instaleze un modul numit TLS,\ncare lipseste din sistem. Acest utilitar va ajuta sa descarcati si \nsa instalati TLS. Selectati tipul sistemului pentru a putea descarca automat \nfisierele TLS.
+tlsinstcompleted Instalarea modulului TLS a reusit, acum ar trebui sa folositi MSNP9. Daca nu functioneaza MSNP9, atunci probabil nu ati selectat modulul corespunzator sistemului, sau nu exista modul compilat pentru sistemul pe care il folositi.
 to La
 tools Utilitare
 tooltips Porneste descrierile elementelor de control
@@ -496,15 +502,15 @@ twonewmail $1 mesaje noi in casuta postala
 unblock Deblocheaza
 uoffline Neautentificat
 uonline Autentificat
+user Utilizator
 useralreadyonlist Exista deja pe lista
 userblocked User-ul este autentificat dar te-a blocat
 usernotonline Utilzatorul nu este autentificat
-user Utilizator
 useryourself Nu poti conversa cu tine
 verifyblocked Verifica persoanele are te-au blocat
 version Versiune
-viewprofile Vizualizare profil
 view Vizualizare
+viewprofile Vizualizare profil
 willjoin Asteapta ca $1 sa se alature conversatiei
 work Lucru
 wrongfields Campurile "$1", "$2" si/sau "$3" nu sunt valide
