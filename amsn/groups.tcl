@@ -255,13 +255,13 @@ namespace eval ::groups {
 	}
 	return $uMemberCnt($gid)
     }
-    
+
     proc IsExpanded {gid} {
 	variable bShowing
-    
+
         return $bShowing($gid)
     }
-    
+
    #
    # P U B L I C
    #
@@ -269,10 +269,8 @@ namespace eval ::groups {
    #	   core of the group administration. At this point we do not
    #	   have any information about the groups (we are not connected)
    proc Init {p} {
-   	variable parent 
+   	variable parent
 	variable entryid
-	variable bShowing
-	variable uMemberCnt
 
 	# The submenu with the list of defined groups (to be filled)
 	menu .group_list -tearoff 0 -type normal
@@ -288,11 +286,21 @@ namespace eval ::groups {
 
 	# Attach the Group Administration entry to the parent menu
 	$p add cascade -label "[trans admingroups]" -state disabled \
-		-menu .group_menu 
+		-menu .group_menu
 
 	set parent $p		;# parent menu where we attach
 	# We need the next to dynamically enable/disable the menu widget
 	set entryid [$p index "[trans admingroups]"]
+
+
+   }
+
+   proc Reset {} {
+
+	variable groups
+	variable bShowing
+	variable uMemberCnt
+
 
 	# These are the default groups. Used when not sorting the
 	# display by user-defined groups
@@ -300,6 +308,14 @@ namespace eval ::groups {
 	set uMemberCnt(offline) 0
 	set bShowing(online)	1
 	set bShowing(offline)	1
+
+
+	#Clear list of groups
+	set g_entries [array names groups]
+	foreach gr $g_entries {
+	   unset groups($gr)
+	}
+
    }
 
    # Must only Enable it when the list of groups is already available!
@@ -349,14 +365,14 @@ namespace eval ::groups {
        if {![info exists groups($nr)]} {
            return ""
        }
-       if { $nr <= $groupCnt } { 
-           return $groups($nr) 
-       } else { 
-       	   return "" 
+       if { $nr <= $groupCnt } {
+           return $groups($nr)
+       } else {
+       	   return ""
        }
    }
 
-   # Does a reverse lookup from group name to find it's id. 
+   # Does a reverse lookup from group name to find it's id.
    # Returns: -1 on error (not found), otherwise 0..n
    proc GetId {gname} {
         variable groups

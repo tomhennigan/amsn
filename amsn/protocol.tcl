@@ -39,10 +39,10 @@ namespace eval ::MSN {
    variable myStatus FLN
 
    proc connect { username password } {
-   
+
       #Log out
       .main_menu.file entryconfigure 2 -state normal
-   
+
 
       if {[catch { cmsn_ns_connect $username $password } res]} {
         msg_box "[trans connecterror]"
@@ -55,6 +55,7 @@ namespace eval ::MSN {
       }
 
       ::MSN::TogglePolling
+      ::groups::Reset
 
       #Alert dock of status change
 #      send_dock "NLN"
