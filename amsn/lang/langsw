@@ -21,7 +21,7 @@ checkingver Kollar efter nya versioner
 clicktologin Klicka för att logga in
 close Stäng	
 contactadded Lagt till kontakt
-set lang(connecterror) "Fel vid kontakt till server"
+connecterror Fel vid kontakt till server
 date Datum
 delete Tabort
 entercontactemail Skriv in kontaktens e-mail

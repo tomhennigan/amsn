@@ -21,7 +21,7 @@ checkingver Suche nach update
 clicktologin Hier klicken zum anmelden
 close Schliessen
 contactadded Kontakt hinzugefügt
-set lang(connecterror) "Fehler beim verbinden zum Server"
+connecterror Fehler beim verbinden zum Server
 date Datum
 delete Löschen
 entercontactemail Geben sie Kontakt E-mail ein

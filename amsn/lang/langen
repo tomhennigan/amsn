@@ -28,7 +28,7 @@ checkingver Checking for new versions
 clicktologin Click here to log in
 close Close
 contactadded Contact added
-set lang(connecterror) "Error connecting to server"
+connecterror Error connecting to server
 date Date
 delete Delete
 enableproxy Enable proxy

@@ -21,7 +21,7 @@ checkingver Buscant noves versions
 clicktologin Fes clic aquí per conectar-te
 close Tanca
 contactadded Contacte inclòs
-set lang(connecterror) "Error conectant-se al servidor"
+connecterror Error conectant-se al servidor
 date Data
 delete Esborrar
 entercontactemail Escriu l'adreça de correu del contacte
