@@ -158,6 +158,9 @@ proc reload_files { } {
     if {$tcl_platform(platform) == "unix"} {
      source [file join xmms.tcl]
     }
+    if {$tcl_platform(os) == "Darwin"} {
+     source [file join itunes.tcl]
+    }
 	source [file join alarm.tcl]	;# Alarms code (Burger)
     source [file join dock.tcl]	;# Docking routines
     source [file join trayicon.tcl]	;# Docking routines for freedesktop system tray compliant docks
