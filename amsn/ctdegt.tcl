@@ -141,10 +141,8 @@ proc degt_protocol_save { } {
 proc degt_protocol_save_file { filename } {
 
     set fd [open [${filename} get] a+]
-    fconfigure $fileid -encoding utf-8
-
+    fconfigure $fd -encoding utf-8
     puts $fd "[.degt.mid.txt get 0.0 end]"
-
     close $fd
 
 
@@ -1178,6 +1176,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.52  2003/06/14 02:17:42  kakaroto
+# fixed bug in the save to file of the protocol window
+#
 # Revision 1.51  2003/06/14 02:16:28  kakaroto
 # save to file option for the protocol window
 #
