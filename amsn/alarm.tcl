@@ -224,38 +224,6 @@ namespace eval ::alarms {
 
 
 
-# Function that loads all alarm settings (usernames, paths and status) from a
-# config file called alarms
-#TODO: REMOVE THIS IN FUTURE VERSIONS. Only kept for compatibility!!!
-proc load_alarms {} {
-	global HOME
-
-
-	if {([file readable "[file join ${HOME} alarms]"] == 0) ||
-	       ([file isfile "[file join ${HOME} alarms]"] == 0)} {
-		return 1
-	}
-	set file_id [open "[file join ${HOME} alarms]" r]
-
-	gets $file_id tmp_data
-	if {$tmp_data != "amsn_alarm_version 1"} {	;# config version not supported!
-		return 1
-	}
-	while {[gets $file_id tmp_data] != "-1"} {
-		set var_data [split $tmp_data]
-		set var_attribute [lindex $var_data 0]
-		set var_value [join [lrange $var_data 1 end]]
-		set alarms($var_attribute) $var_value			
-	}
-	close $file_id
-	
-	#REMOVE OLD VERSION alarms file.Not used anymore
-	#file delete [file join ${HOME} alarms]
-	
-}
-
-
-
 #Runs the alarm (sound and pic)
 proc run_alarm {user msg} {
 	global program_dir config tcl_platform alarm_win_number

@@ -3965,8 +3965,6 @@ proc cmsn_auth {{recv ""}} {
 			::abook::setPersonal nick [urldecode [lindex $recv 4]]	
 			::abook::setPersonal login [lindex $recv 3]
 			recreate_contact_lists
-			#For compatibility only!!
-			load_alarms
 
 			#We need to wait until the SYN reply comes, or we can send the CHG request before
 			#the server sends the list, and then it won't work (all contacts offline)
