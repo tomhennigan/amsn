@@ -37,6 +37,7 @@ appearance Udseende
 appearoff Vis som offline
 areacode Områdenummer
 aretyping $1 skriver en besked
+author Forfatter
 autoaccepted Fil-overførsel automatisk acceptéret
 autoacceptft Acceptér fil-overførsels-forespørgelser automatisk
 autoaway Vis mig som "Ikke til stede" når jeg har været inaktiv i
@@ -67,6 +68,7 @@ blockinter4 sekunder.
 blocklist Blokerings-Liste (BL):
 blockmessage Disse personer er online og har blokeret dig
 blockusers Antal brugere der skal tjekkes af gangen
+bouncedock Afvis aMSN's ikon i bjælen når en besked modtages
 broughtby Bragt til dig af følgende udviklere
 browse Gennemse
 browser Browser
@@ -84,7 +86,9 @@ change Redigér
 changecustomstate Skift til
 changedisplaypic Vælg Display-billede
 changefont Skift skrifttype
+changeglobnick Skift globalt kaldenavn
 changenick Skift kaldenavn
+changesize Skift størrelse
 changestate $1 skifter status til $2
 charscounter Optælling af antal skrevne tegn i chatvinduet
 chat Chat
@@ -106,19 +110,29 @@ choosecontact Vælg venligst en kontakt fra listen
 choosefontcolor Vælg skrifttypefarve
 chooseskin Vælg det skin du vil bruge
 ch_to_state Skift til ny status
+clear Ryd
 clearlog Ryd log
 clearlog2 Tøm historien for alle dine kontaktpersoner
 clearlog3 Tøm alle log-filer
 clicktologin Klik her for at logge ind
+clientcaps Send x-klientcaps pakker til andre klienter
+clientname Klientnavn
 close Luk
 closed Samtalen med $1 er lukket pga. inaktivitet
 closingdocks Luk-knap minimerer vinduet
 command Kommando
 commandstatus Eksekver kommando
+configure Konfigurér
 confirm Er du sikker?
+confirmbl Er du sikker på du ønsker at blokere denne person?
 confirmdelete Er du sikker på at du vil slette $1?
+confirmdg Er du sikker på du ønsker at slette denne gruppe?
+confirmdu Er du sikker på du ønsker at slette denne bruger?
+confirmeg Er du sikker på du ønsker at tømme denne gruppe?
 confirmpurge Alle gemte display-billeder fra andre kontakter (ikke dine egne display-billeder) vil blive slettet. Er du sikker?
+confirmrfl Er du sikker på du ønsker at slette denne bruger fra denne gruppe?
 connected Du er nu tilsluttet
+connectedwith Forbundet med $1
 connecterror Kunne ikke få forbindelse til server
 connecting Tilslutter
 connection Forbindelse
@@ -126,6 +140,7 @@ connectionlost Frakoblet: Forbindelsen med serveren er lukket
 contactadded Kontakt tilføjet
 contactdoesnotexist Kontakt eksisterer ikke!
 contactlist Kontakt-Liste (KL):
+continuously Fortsat
 convertexplain Stien til CONVERT-filen, fra ImageMagick (påkrævet til Display-billeder).\n Lad feltet være blankt hvis CONVERT findes i din alm. sti
 copy Kopier
 copytogroup Kopier til gruppe
@@ -135,12 +150,19 @@ countrycode Min Lande-/Regions-kode
 cprofile Opret profil
 credits Credits
 currentdate Nuværende Dato
+custnotifymsg Vis beskedvindue når en ny brugerbesked modtages
+custnotifyoffline Vis beskedvindue når denne kontakt går offline
+custnotifyonline Vis beskedvindue når denne kontakt går online
+custnotifystatus Vis beskedvindue når denne kontakt ændrer status
 customcolor Brugerdefineret farve
 custom_edit Redigér brugerdefineret smiley
 custom_new Tilføj ny brugerdefineret smiley
 customnick Brugerdefineret kaldenavn
+customstyle Brugervalgt stil
 cut Klip
 date Dato
+dateformat Skift datoformat
+day Dag
 days Dage
 dcprofile Opret ikke profil
 default Oprindelig konfiguration
@@ -157,8 +179,14 @@ directconnection Jeg har en direkte forbindelse til Internettet (anvender port 1
 disabled Deaktiveret
 disableprofiles Deaktivér profiler (Nyttig i netcaféer eller offentlige områder)
 disablessl Anvend ikke SSL
+disableuserfonts Ignorer fjernbrugerens valg af fonte i chatten, og brug din egen font
 disconnect $1 er frakoblet
+disconnectedfrom Afbrudt forbindelse fra $1
 displaychat Visningstekst instillinger
+displayeventconnect Vis når kontakter går online
+displayeventdisconnect Vis når kontakter går offline
+displayeventemail Vis når en e-mail modtages
+displayeventstate Vis når kontakter skifter status
 displayp4context Vis P4-Kontekstfelt-indhold som beskedsender
 displaypic Vis Billede
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
@@ -176,8 +204,10 @@ editnewstate Ny Personlig Auto-besked-Status
 editprofile Rediger profil
 editstate Redigér Eksisterende Auto-besked-Status
 editvalue Redigér værdi
+email E-mail
 emailsinlist Vis emails i stedet for kaldenavn i kontaktlisten
 emotisounds Afspil lyde for bestemte emoticons
+emptygroup Tøm gruppen
 enablebanner Vis aMSN's banner (Kræver at aMSN genstartes)
 enabled Aktiveret
 enableproxy Tilslut proxy
@@ -189,6 +219,7 @@ entercontactemail Skriv kontakt E-mail
 enterfilename Skriv filnavnet
 enternick Skriv dit kaldenavn
 errortls Fejl ved installation af TLS-modul:
+eventhistory Vis historikken over begivenheder
 examples Eksempler
 exitamsn Er du sikker på, at du vil afslutte?
 extras Ekstra Services
@@ -201,13 +232,18 @@ filedoesnotexist Filen eksisterer ikke
 fileman Filhåndtering
 filemanexample ( \$location vil blive erstattet med biblioteket ) Eks: nautilus \$location
 filename Filnavn
+filetransfer Filoverførsel
 filetransfercancelled Filoverførsel annulleret
 filetransfercomplete Filoverførsel fuldført
+filters Filtre
+filtersselect Vælg de filtre du ønsker at se\n(Bemærk hvis ingen valgt, vises alle)
+filtersx Filterudvælgelse
 followtext Rul ned når der er indtastet ny tekst
 friendlyname Vennenavn
 ftaccepted Filoverførsel accepteret
 ftacceptedby $1 acceptérer filoverførsels-tilbud på filen '$2'.
 ftaccepting Acceptérer filoverførsels-tilbud
+ftautoclose Luk vinduet når filoverførslen er færdig
 ftconnecterror Fejl ved tilslutning til fjern-computer
 ftconnecting Tilslutter til $1 port $2
 ftconnectionlost Forbindelsen til fjern-computeren er mistet
@@ -218,6 +254,9 @@ ftrejectedby $1 har afvist filoverførsels-tilbuddet på filen '$2'.
 ftsendinvitation Filoverførsels-tilbud på filen '$2' ($3 bytes) er blevet sendt til $1.
 fullcontactlist Desværre, din kontaktliste er fuld. Du er nødt til at fjerne nogle kontakter for at kunne tilføje nogle nye.
 getdisppic Modtag gerne Display-billeder fra andre brugere
+globalnick Indsæt en skabelon til at danne alle dine kontakters kaldenavne. Du kan bruge disse variabler:\$user_login for dine kontakters addresse, \$nick for dine kontakters kaldenavn og \$customnick for dine kontakters brugervalgte kaldenavn. For eksempel: '\$user_login er \$nick' vil være 'contact@msn.com er kontakt'
+globalnicktitle Globalt kaldenavn
+globaloverride Globale kaldenavnes format bør overskrive brugervalgte kaldenavne
 gonelunch Til frokost
 group Gruppe
 groupadd Tilføj en gruppe
@@ -228,6 +267,7 @@ groupnewname Nyt navn
 groupnotempty Gruppen er ikke tom!
 groupoldname Gammelt navn
 grouprename Omdøb en gruppe
+groups Grupper
 groupunknown Ukendt gruppe
 handle Kaldenavn
 help Hjælp
@@ -241,6 +281,7 @@ httpconnection Tilslut ved hjælp af HTTP-metode (bruger HTTP-protokol over port 
 hybrid Hybrid-modus
 ident Identificerer
 identity Identitet
+ignoreerrors Ignorer andre AMSN fejl indtil slutningen af sessionen
 imagefiles Billedfiler
 inbox Indbakke
 insertsmiley Indsæt emoticon
@@ -257,8 +298,10 @@ invitationcancelled Tilbuddet blev annuléret
 invite Invitér
 ipaddress IP-adresse
 ipdetect Find korrekt IP for fil-overførsler over HTTP
+ircstyle IRC chatstil
 istyping $1 skriver en besked
 joins $1 tilslutter sig samtalen
+justonce Kun én gang
 keepalive Hold-i-live (NAT)
 keeplog Gem logs af chat
 keeplog2 Logger alle samtaler til aMSN's historie til senere visning
@@ -267,6 +310,7 @@ lastlogin Sidste Log-ind
 lastlogout Sidste Log-ud
 lastmsgedme Sidste Besked
 lastmsgtime Sidste besked blev modtaget klokken $1
+lastseen Sidste gang online
 lclosedwin $1 har lukket vinduet på $2
 lconftopriv Mødet er lavet til privat chat med $1
 lconvstarted Samtale startet på $1
@@ -281,8 +325,13 @@ listsmileys Liste af smileys
 listsmileys2 Vis grafik (humørikoner) i aMSN's hovedkontaktliste
 ljoinedconf $1 har tilsluttet sig mødet
 lleftconf $1 har forladt mødet
+load Hent
 loadcontacts Hent kontaktliste
 logbigger Logfilstørrelser for hver kontakt overskrides aldrig
+logeventconnect Log forbindelserne
+logeventdisconnect Log afbrydelserne
+logeventemail Log når en e-mail modtages
+logeventstate Log ændringerne i status
 logfandexp Log Filstørrelser og historie overskridelse
 loggedotherlocation Afbrudt. Logget ind fra andet sted
 loggingin Logger Ind
@@ -301,10 +350,12 @@ lprivtoconf Privat chat er lavet til et møde med $1
 luclosedwin Du har lukket vinduet på $1
 mailer Mailer
 mailerexample ( \$recipient = Modtager ) Efterlad tom for at anvende Hotmail
+maintenance Serveren afbrydes for vedligeholdelse om $1 minuter
 maximised Maksimeret
 minimised Minimeret
 mins minutter
 mobile Mobil
+month Måned
 morepersonal Flere Status ->
 move Flyt
 movetogroup Flyt til gruppe
@@ -313,17 +364,26 @@ msgflicker Blink med chatvinduets titel-linie når nye meddelelser modtages i et 
 msgmaxmin Når en ny meddelelse modtages vil jeg have den til at være :
 msgmode Vælg hvordan flerfoldige meddelelsesvinduer skal håndteres :
 msn aMSN
+msnstyle MSN chatstil
 mustrestart Du skal genstarte programmet for at ændringerne træder i kraft
+myfriendlyname Mit navn blandt venner
 myhomephone Min hjemmetelefon
 mymobilephone Min mobiltelefon
+mynick Mit kaldenavn
 mypic Mit Display-billede
 mystatus Min status
 myworkphone Min arbejdstelefon
+name Navn
 natip Check IP via Internet-side
 natkeepalive Vælg denne KeepAlive, hvis du ofte bliver logget af
 needonline Du er/foregiver stadig at være offline!
+needwinico2 Har brug for winico05.dll i utils/windows biblioteket for at Windows kan opbevare programmet i systembakken
+never Aldrig
+new_ft_protocol Brug ny FTP-protokol (fortsat enkelte bugs)
 newmail $1 nye beskeder i Indbakken
+newmailfolder Du har $1 nye beskeder i andre Hotmail biblioteker
 newmailfrom Ny mail fra $1 ($2)
+newmailfromother Ny post i andre biblioteker fra $1 ($2)
 newmsg Ny besked
 newstate Tilføj brugerdefineret status
 newveravailable Det er nu muligt at download den nye version $1
@@ -332,6 +392,7 @@ nick Kaldenavn
 no Nej
 noactivity Ingen aktivitet
 nodataavailable Ingen ledig data til $1
+nogap Ingen mellemrum mellem grupper
 nogroup Ingen gruppe
 nologfile Der er ingen logfil for $1
 noneavailable Ingen ledige
@@ -349,12 +410,15 @@ notify1_5 Vis en besked, når kontakter går offline
 notify1_75 Vis en besked, når kontakter ændrer status
 notify2 Vis en besked, når der modtages en onlinemeddelelse
 notify3 Vis en besked, når der modtages en email
+notify4 Vis beskedvindue når nye e-mails ankommer i andre biblioteker
 notifyoffset Koordinér positionen på popup-beskeder
+notifytimeout Antal milisekunder før beskedvinduet forsvinder
 notifytyping Send notifikationer til andre brugere, når du skriver
 notifywin Beskedvindue
 notinlist Du er ikke på hans/hendes kontaktliste
 notls MSN Protokol 9 kræver TLS-pakken. Denne pakke ser ikke ud til at være installeret på denne maskine. Hvis den er installeret, så skal stien til dennes bibliotek specificeres i Præferencer-vinduet (f.eks: /opt/tls/lib). \n \n Det er muligt at downloade TLS fra http://tls.sf.net .
 nousersinsession Ingen brugere i session
+nudge $1 anmoder om din opmærksomhed
 offline Offline
 ok Ok
 onenewmail 1 ny besked i Indbakken
@@ -364,6 +428,7 @@ openreceived Åbn modtagne filer
 options Muligheder
 ordercontactsby Sorter kontakter efter
 ordergroupsby Sortér grupper efter
+original Oprindelig
 other Andre
 others Andre
 p4contextprefix Præfiks P4-Kontekst-sendere med denne tekststreng
@@ -394,6 +459,7 @@ preffont3 Ændre aMSN's skrifttyper og størrelser
 prefft Filoverførsel, peer-to-peer og NAT-indstillinger
 preflibs Library-mapper
 preflog1 Mine historie- og logging-indstillinger
+preflogevent Historikken over mine handlinger
 preflook Mit aMSN Messenger udseende
 prefmsging Mit Messenger Interface
 prefname Mit MSN Messenger navn/nick
@@ -409,6 +475,7 @@ prefremote Fjerntilslutnings-Præferencer
 prefsession Min log-ind og status
 prefshared Delte Forbindelser (kun for NAT)
 prefsound Lyd
+preview Vis
 privacy Privat
 profiledconfig Profilerede konfigurationer
 profileexists Du kan ikke lave en profil med dette login, \n fordi der allerede eksisterer et sådant. Vælg venligst et andet login.
@@ -430,11 +497,14 @@ receiveddir "Modtagne Filer"-mappe
 receivefile Modtag fil
 recentmsg Forhindr lukning af chatvindue når en besked lige er ankommet
 reconnect Venter på at $1 genforbinder
+reconnect2 Forbind igen ved tabt forbindelse
 reconnecting Genforbinder til server
 reject Afvis
 rememberpass Husk adgangskode
+removeempty Fjern tomme grupper fra kontaktlisten
 removefromlist Fjern fra listen
 rename Omdøb
+required_version Kan ikke hente denne plugin. Den kræver, mindst, aMSN version $1
 reversed Omvendt
 reverselist Omvendt-liste (OL):
 rightback Er straks tilbage
@@ -457,6 +527,7 @@ serverbusy Serveren er optaget
 servergoingdown Afbrudt. Server lukker ned.
 serverunavailable Serveren kan ikke kontaktes
 session Session
+showbanner Vis aMSN's banner
 showblockedlist Vis liste over personer som har blokeret dig
 showcachedpics Vis gemte display-billeder
 showdisplaypic Vis Display-billede
@@ -470,6 +541,8 @@ smileconfig Brugerdefineret emoticon-konfiguration
 smilefile Smiley-filnavn
 smileintro Udfyld venligst de krævede felter for at lave en ny brugerdefineret smiley (se OSSen for hjælp)
 smileintro2 Redigér venligst de krævede felter for at definere denne smiley (se OSSen for hjælp)
+snackfailed Snack kunne ikke hentes, går tilbage til standard
+sngdblclick Enkeltklik for at åbne nyt beskedvindue
 sound Lyd
 sound2 Afspil lyde, når en kontaktperson logger på eller sender en meddelelse
 soundactive Afspil også lyde når der modtages nye beskeder i aktive vinduer
@@ -481,6 +554,7 @@ soundloop Gentag Lyd
 soundserver Lydserver
 soundstatus Lyd Alarm
 sourcecode Kildekode (kræver kompilering og installering)
+splashstart Start
 sslwarning ADVARSEL: Fravælgelse af SSL vil deaktivere kryptering, så din adgangskode vil blive sendt som ren tekst over netværket. Anvend kun dette til virkelig besværlige proxyer eller netværkskonfigurationer.
 startoffline Start Offline
 startoffline2 Log på som "Vis som offline"
@@ -497,6 +571,7 @@ status Status
 stopalarm Stop Alarm
 storenickname Vend tilbage til originalt kaldenavn efter en brugerdefineret status med brugerdefineret kaldenavn
 strictfonts Begræns alle skriftfontes størrelse til den valgte (ses på Statusbaren bl.a.)
+style Stil
 stylechat Samme udseende som chats
 stylehist aMSN's historie-udseende
 stylelog Vælg formatet du vil have vist din historie i
@@ -514,6 +589,7 @@ tlsinstall TLS-Modul installations-gennemgang
 tlsinstallexp aMSN anvender nu MSNP9, som kræver brugen af en sikker\nforbindelse gennem SSL. For at kunne bruge SSL er aMSN nødt til at installere et modul ved navn TLS,\nsom du mangler på dit system. Denne gennemgang vil hjælpe dig med at downloade og\ninstallere TLS. Vælg venligst din system-type så vi automatisk kan downloade\nde krævede TLS-filer.
 tlsinstcompleted TLS modul-installationen er fuldført - du skulle nu være i stand til at bruge MSNP9. Hvis dette ikke virker, så har du muligvis ikke valgt det rigtige modul, eller også eksisterede der ikke et færdigkompileret modul til din system-type.
 to Til
+today I dag
 tools Værktøjer
 tooltips Anvend værktøjs-tips
 transnotexists Den kaldte fil er ikke blevet oversat til det valgte sprog endnu
@@ -524,8 +600,12 @@ truncatenames2 Afkort kaldenavne der er længere end vinduebredden inde i samtale
 truncatenicks Afkort kaldenavne der er længere end vinduebredden
 twonewmail $1 nye beskeder i Indbakken
 unblock Fjern blokering
+unknown Ukendt
+unload Smid ud af hukommelsen
 uoffline Offline
 uonline Online
+update Opdater
+useother Benyt et andet program
 user Bruger
 useralreadyonlist Brugeren er allerede på din kontaktliste
 userblocked Brugeren er online men har blokeret dig
@@ -533,12 +613,15 @@ userdata Brugerdata
 usernotonline Brugeren er ikke online
 userproperties Brugeregenskaber for $1
 useryourself Du kan ikke chatte med dig selv
+usesnack Brug Snack biblioteket (Tcl intern)
 verifyblocked Søg efter personer der har blokeret dig
 version Version
 view Vis
+viewcontactsby Se kontakter efter
 viewprofile Vis profil
 webcaminvite $1 har inviteret dig til at starte webcam, men aMSN understøtter ikke dette. 
 willjoin Venter på at $1 slutter sig til samtalen
+winkreceived Du har modtaget et vink fra $1. Denne funktion understøttes ikke endnu af aMSN.
 work Arbejde
 wrongfields Felterne "$1", "$2" og/eller "$3" er ikke brugbare
 wrongprofileversion Forkert version på profil-instillingsfilen. For at reparere det, fjern da venligst mappen $1, eller updater aMSN
@@ -546,7 +629,9 @@ xmmscurrent Vis nuværende sang
 xmmserr Der er ingenting, der spiller, eller også har du ikke xmms-infopipe installeret.
 xmmssend Send nuværende sang
 xoffset X-koordinat
+year År
 yes Ja
+yesterday I går
 yoffset Y-koordinat
 youblocked Du er blevet blokeret
 yousay Du siger
