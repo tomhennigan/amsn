@@ -1909,6 +1909,66 @@ proc cmsn_draw_addcontact {} {
    }
 
    set addcontact_request true
+   toplevel .addcontact -width 400 -height 150 
+   bind .addcontact <Destroy> {
+      if {"%W" == ".addcontact"} {
+         unset addcontact_request
+      }
+   }
+
+   wm geometry .addcontact -0+100
+   wm title .addcontact "[trans addacontact] - [trans title]"
+   wm transient .addcontact .
+   canvas .addcontact.c -width 320 -height 150 
+   pack .addcontact.c -expand true -fill both
+
+   entry .addcontact.c.email -width 30 -bg #FFFFFF -bd 1 \
+      -font splainf
+   button .addcontact.c.next -text "[trans next]->" \
+     -command addcontact_next -font sboldf
+   button .addcontact.c.cancel -text [trans cancel]  \
+      -command "grab release .addcontact;destroy .addcontact" -font sboldf
+
+   .addcontact.c create text 5 10 -font sboldf -anchor nw \
+	-text "[trans entercontactemail]:"
+   .addcontact.c create text 70 60 -font examplef -anchor ne \
+         -text "[trans examples]: "
+   .addcontact.c create text 70 60 -font examplef -anchor nw \
+         -text "gudidu@hotmail.com\nmyname@msn.com\nexample@passport.com"
+   .addcontact.c create window 5 35 -window .addcontact.c.email -anchor nw
+   .addcontact.c create window 195 120 -window .addcontact.c.next -anchor ne
+   .addcontact.c create window 205 120 -window .addcontact.c.cancel -anchor nw
+
+   bind .addcontact.c.email <Return> "addcontact_next"
+
+   tkwait visibility .addcontact
+   grab set .addcontact
+}
+
+
+
+
+proc addcontact_next {} {
+   set tmp_email [.addcontact.c.email get]
+   if { $tmp_email != ""} {
+      ::MSN::addUser "$tmp_email"
+      grab release .addcontact
+      destroy .addcontact
+   } 
+}
+
+proc cmsn_draw_otherwindow {} {
+
+##hehe, here it's, nearly done ;)
+
+   global addcontact_request lang
+
+   if {[info exists addcontact_request]} {
+      raise .addcontact
+      return 0
+   }
+
+   set addcontact_request true
    toplevel .addcontact -width 300 -height 100 
    bind .addcontact <Destroy> {
       if {"%W" == ".addcontact"} {
@@ -1941,14 +2001,6 @@ proc cmsn_draw_addcontact {} {
    grab set .addcontact
 }
 
-proc addcontact_next {} {
-   set tmp_email [.addcontact.c.email get]
-   if { $tmp_email != ""} {
-      ::MSN::addUser "$tmp_email"
-      grab release .addcontact
-      destroy .addcontact
-   } 
-}
 
 proc cmsn_proxy {} {
    global configuring_proxy config
