@@ -774,15 +774,14 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.pprofile -image prefapps
 	pack $lfname.pprofile -side left -anchor nw
-	label $lfname.ldelprofile -text "[trans delprofile2]" -padx 5
 	frame $lfname.1 -class Degt
-	combobox::combobox $lfname.1.profile -editable true -highlightthickness 0 -width 25 -bg #FFFFFF -font splainf
-	button $lfname.1.bdel -text [trans delprofile] -font sboldf -command "DeleteProfile \[${lfname}.1.profile get\] $lfname.1.profile"
-	pack $lfname.ldelprofile -anchor w -side top
-	pack $lfname.1.profile -anchor w -side left -padx 10
-	pack $lfname.1.bdel -anchor e -side left -padx 15
-	pack $lfname.1 -anchor w -side top -expand 1 -fill x
-	
+	label $lfname.1.ldelprofile -text "[trans delprofile2]" -font sboldf -padx 5
+	combobox::combobox $lfname.1.profile -editable true -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
+	button $lfname.1.bdel -text [trans delprofile] -command "DeleteProfile \[${lfname}.1.profile get\] $lfname.1.profile"
+	grid $lfname.1.ldelprofile -row 1 -column 1 -sticky w
+	grid $lfname.1.profile -row 1 -column 2 -sticky w
+	grid $lfname.1.bdel -row 1 -column 3 -padx 5 -sticky w
+	pack $lfname.1 -anchor w -side top -expand 0 -fill none
 		
 	## Applications Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefapps]]
@@ -790,31 +789,31 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.pshared -image prefapps
 	pack $lfname.pshared -side left -anchor nw
 	frame $lfname.1 -class Degt
-	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -expand 1 -fill both
+	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -expand 0 -fill both
 	label $lfname.1.lbrowser -text "[trans browser] :" -padx 5 -font sboldf
-	entry $lfname.1.browser -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable config(browser)
+	entry $lfname.1.browser -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable config(browser)
 	label $lfname.1.lbrowserex -text "[trans browserexample]" -font examplef
 	label $lfname.1.lfileman -text "[trans fileman] :" -padx 5 -font sboldf
-	entry $lfname.1.fileman -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable config(filemanager)
+	entry $lfname.1.fileman -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable config(filemanager)
 	label $lfname.1.lfilemanex -text "[trans filemanexample]" -font examplef
 	label $lfname.1.lmailer -text "[trans mailer] :" -padx 5 -font sboldf
-	entry $lfname.1.mailer -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable config(mailcommand)
+	entry $lfname.1.mailer -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable config(mailcommand)
 	label $lfname.1.lmailerex -text "[trans mailerexample]" -font examplef
 	label $lfname.1.lsound -text "[trans soundserver] :" -padx 5 -font sboldf
-	entry $lfname.1.sound -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable config(soundcommand)
+	entry $lfname.1.sound -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable config(soundcommand)
 	label $lfname.1.lsoundex -text "[trans soundexample]" -font examplef
 
-	grid $lfname.1.lbrowser -row 1 -column 1 -sticky e
-	grid $lfname.1.browser -row 1 -column 2 -sticky we
+	grid $lfname.1.lbrowser -row 1 -column 1 -sticky w
+	grid $lfname.1.browser -row 1 -column 2 -sticky w
 	grid $lfname.1.lbrowserex -row 2 -column 2 -columnspan 1 -sticky w
-	grid $lfname.1.lfileman -row 3 -column 1 -sticky e
-	grid $lfname.1.fileman -row 3 -column 2 -sticky we
+	grid $lfname.1.lfileman -row 3 -column 1 -sticky w
+	grid $lfname.1.fileman -row 3 -column 2 -sticky w
 	grid $lfname.1.lfilemanex -row 4 -column 2 -columnspan 1 -sticky w
-	grid $lfname.1.lmailer -row 5 -column 1 -sticky e
-	grid $lfname.1.mailer -row 5 -column 2 -sticky we
+	grid $lfname.1.lmailer -row 5 -column 1 -sticky w
+	grid $lfname.1.mailer -row 5 -column 2 -sticky w
 	grid $lfname.1.lmailerex -row 6 -column 2 -columnspan 1 -sticky w
-	grid $lfname.1.lsound -row 7 -column 1 -sticky e
-	grid $lfname.1.sound -row 7 -column 2 -sticky we
+	grid $lfname.1.lsound -row 7 -column 1 -sticky w
+	grid $lfname.1.sound -row 7 -column 2 -sticky w
 	grid $lfname.1.lsoundex -row 8 -column 2 -columnspan 1 -sticky w
 
 	## Library directories frame ##
@@ -824,25 +823,25 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.pshared -side left -anchor nw
 
 	frame $lfname.1 -class Degt
-	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill both
+	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill none
 	label $lfname.1.llibtls -text "TLS" -padx 5 -font sboldf
-	entry $lfname.1.libtls -bg #FFFFFF -bd 1 -width 40 -highlightthickness 0 -textvariable libtls_temp
+	entry $lfname.1.libtls -bg #FFFFFF -bd 1 -width 45 -highlightthickness 0 -textvariable libtls_temp
 	label $lfname.1.llibtlsexp -text [trans tlsexplain] -justify left -font examplef
 	button $lfname.1.browsetls -text [trans browse] -command "set libtls_temp \[tk_chooseDirectory\]"
 
 	label $lfname.1.lconvertpath -text "CONVERT" -padx 5 -font sboldf
-	entry $lfname.1.convertpath -bg #FFFFFF -bd 1 -width 40 -highlightthickness 0 -textvariable config(convertpath)
+	entry $lfname.1.convertpath -bg #FFFFFF -bd 1 -width 45 -highlightthickness 0 -textvariable config(convertpath)
 	label $lfname.1.lconvertpathexp -text [trans convertexplain] -justify left -font examplef
 	button $lfname.1.browseconv -text [trans browse] -command "set config(convertpath) \[tk_getOpenFile\]"
 
 
-	grid $lfname.1.llibtls -row 1 -column 1 -sticky e
-	grid $lfname.1.libtls  -row 1 -column 2 -sticky we
-	grid $lfname.1.browsetls  -row 1 -column 3 -sticky w
+	grid $lfname.1.llibtls -row 1 -column 1 -sticky w
+	grid $lfname.1.libtls  -row 1 -column 2 -sticky w
+	grid $lfname.1.browsetls  -row 1 -column 3 -padx 5 -sticky w
 	grid $lfname.1.llibtlsexp  -row 2 -column 2 -columnspan 3 -sticky w
-	grid $lfname.1.lconvertpath -row 3 -column 1 -sticky e
-	grid $lfname.1.convertpath  -row 3 -column 2 -sticky we
-	grid $lfname.1.browseconv  -row 3 -column 3 -sticky w
+	grid $lfname.1.lconvertpath -row 3 -column 1 -sticky w
+	grid $lfname.1.convertpath  -row 3 -column 2 -sticky w
+	grid $lfname.1.browseconv  -row 3 -column 3 -padx 5 -sticky w
 	grid $lfname.1.lconvertpathexp  -row 4 -column 2 -columnspan 3 -sticky w
 
 
@@ -1790,6 +1789,9 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.111  2004/01/18 20:25:48  yozko
+# 'Others' tab GUI cleanup. Before was so ugly :D
+#
 # Revision 1.110  2004/01/18 17:25:23  yozko
 # New nick-cache implemented, it fix the restore-nick bug.
 #
