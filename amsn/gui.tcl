@@ -1668,6 +1668,8 @@ namespace eval ::amsn {
 		catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}
 		image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
 		label $bottom.pic  -borderwidth 2 -relief solid -image no_pic -background #FFFFFF
+		button $bottom.showpic -bd 1 -padx 0 -pady 0 -text "" -command "set .${win_name}_show_picture 1; ::amsn::ShowOrHidePicture .${win_name}" -font splainf
+		grid $bottom.showpic -row 0 -column 1 -padx 0 -pady 0 -rowspan 2
 
 		bind $bottom.pic <Button1-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
 		bind $bottom.pic <<Button3>> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
@@ -1897,6 +1899,7 @@ set y [expr $y - 115]
 			$win.f.bottom.pic configure -image no_pic
 		} elseif { $nopack == ""} {
 			grid $win.f.bottom.pic -row 0 -column 1 -padx 2 -pady 2 -rowspan 2
+			grid forget $win.f.bottom.showpic
 			set show_pic 1
 		}
 	}
@@ -1904,6 +1907,9 @@ set y [expr $y - 115]
 	proc HidePicture { win } {
 		global ${win}_show_picture
 		grid forget $win.f.bottom.pic
+
+		grid $win.f.bottom.showpic -row 0 -column 1 -padx 0 -pady 0 -rowspan 2
+
 		set ${win}_show_picture 0
 
 	}
