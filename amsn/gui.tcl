@@ -1899,7 +1899,6 @@ namespace eval ::amsn {
 		status_log "MOBILE CHAT\n" red
 		return 0
 	    }
-	    status_log "KHRAAAAAAAAAAAAAAAAAAA $chatid [::MSNMobile::IsMobile $chatid]\n" red
 
 		if { $skipthistime } {
 			set skipthistime 0
@@ -2332,7 +2331,7 @@ namespace eval ::amsn {
 
 		if { $win_name == 0 } {
 
-			if { [::config::getKey tabbedchat] == 0 } {
+			if { [::ChatWindow::UseContainer] == 0 } {
 				set win_name [::ChatWindow::Open]
 				::ChatWindow::SetFor $lowuser $win_name
 			} else {
@@ -2357,7 +2356,7 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		if { [::config::getKey tabbedchat] == 0 } {
+		if { [::ChatWindow::UseContainer] == 0 } {
 			if { [winfo exists .bossmode] } {
 				set ::BossMode(${win_name}) "normal"
 				wm state ${win_name} withdraw

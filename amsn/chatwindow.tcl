@@ -482,7 +482,7 @@ namespace eval ::ChatWindow {
 		# If there wasn't a window created and assigned to $chatid, let's create one
 		# through ::ChatWindow::Open and assign it to $chatid with ::ChatWindow::SetFor
 		if { $win_name == 0 } {
-			if { [::config::getKey tabbedchat] == 0 } {
+			if { [UseContainer] == 0 } {
 				set win_name [::ChatWindow::Open]
 				::ChatWindow::SetFor $chatid $win_name
 			} else {
@@ -627,10 +627,10 @@ namespace eval ::ChatWindow {
 		label $w.l -text "[trans newtabbedfeature]"
 		set f $w.f
 		frame $f 
-		radiobutton $f.r1 -text "[trans tabbedglobal]" -variable ::config(tabbedchat) -value 1
-		radiobutton $f.r2 -text "[trans tabbedgroups]" -variable ::config(tabbedchat) -value 2
-		radiobutton $f.r3 -text "[trans nottabbed]" -variable ::config(tabbedchat) -value 0
-
+		radiobutton $f.r1 -text "[trans tabbedglobal]" -variable [::config::getVar tabbedchat] -value 1
+		radiobutton $f.r2 -text "[trans tabbedgroups]" -variable [::config::getVar tabbedchat] -value 2
+		radiobutton $f.r3 -text "[trans nottabbed]" -variable [::config::getVar tabbedchat] -value 0
+																							   
 
 		button $w.ok -text "[trans ok]" -command "destroy $w"
 
@@ -651,12 +651,8 @@ namespace eval ::ChatWindow {
 	proc Open { {container ""} } {
 		global  HOME tcl_platform
 
-		#::config::setKey tabbedchat -1
-		if { [::config::getKey tabbedchat] == -1} {
-			TabbedWindowsInfo
-		}
 
-		if { [::config::getKey tabbedchat] == 0 || $container == "" } {
+		if { [UseContainer] == 0 || $container == "" } {
 			set w [CreateTopLevelWindow]
 	
 			set mainmenu [CreateMainMenu $w]
@@ -716,7 +712,7 @@ namespace eval ::ChatWindow {
 		set evPar(win) "$w"
 		::plugins::PostEvent new_chatwindow evPar
 
-		if { !([::config::getKey tabbedchat] == 0 || $container == "" )} {
+		if { !([UseContainer] == 0 || $container == "" )} {
 			AddWindowToContainer $container $w
 		}
 
@@ -1914,7 +1910,7 @@ namespace eval ::ChatWindow {
 		$toptext configure -state normal -font sboldf -height $lines -wrap none
 		$toptext configure -state disabled
 
-		if { [::config::getKey tabbedchat] == 0 } {
+		if { [UseContainer] == 0 } {
 			if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == 1 } {
 				wm title ${win_name} "*${title}"
 			} else {
@@ -1989,9 +1985,7 @@ namespace eval ::ChatWindow {
 	proc GetContainerFor { user } {
 		variable containers
 		 
-		if { [::config::getKey tabbedchat] == 0 } {
-			return ""
-		} elseif { [::config::getKey tabbedchat] == 1 } {
+		if { [::config::getKey tabbedchat] == 1 } {
 			if { [info exists containers(global)] && $containers(global) != ""} {
 				return $containers(global)
 			} else {
@@ -1999,7 +1993,7 @@ namespace eval ::ChatWindow {
 				return $containers(global)
 			}
 
-		} else {
+		} elseif { [::config::getKey tabbedchat] == 2 } {
 			set gid [lindex [::abook::getContactData $user group] 0]
 			if { [info exists containers($gid)] && $containers($gid) != ""} {
 				return $containers($gid)
@@ -2007,6 +2001,8 @@ namespace eval ::ChatWindow {
 				set containers($gid) [CreateNewContainer]
 				return $containers($gid)
 			}
+		} else {
+			return ""
 		}
 		
 
@@ -2071,6 +2067,24 @@ namespace eval ::ChatWindow {
 	}
 
 
+	proc UseContainer { } {
+		set istabbed [::config::getKey tabbedchat]
+		if { $istabbed == -1} {
+			TabbedWindowsInfo
+		} 
 
+		set istabbed [::config::getKey tabbedchat]
+
+		if { !([info exists ::forcetabs] && $::forcetabs == 1) } { 
+			set istabbed 0
+		}
+
+		if { $istabbed == 1 || $istabbed == 2 } {
+			return 1
+		} else {
+			return 0
+		}
+
+	}
 
 }
