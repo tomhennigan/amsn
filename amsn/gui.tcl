@@ -4211,8 +4211,10 @@ proc cmsn_draw_main {} {
 		wm state . normal
 		#Set the position on the screen and the size for the contact list, from config
 		catch {wm geometry . [::config::getKey wingeometry]}
+		#To avoid the bug of window behind the bar menu on Mac OS X
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		moveinscreen . 30
-	
+		}
 	
 	
 	#allow for display updates so window size is correct
