@@ -124,7 +124,8 @@ namespace eval ::guiContactList {
 		$canvas addtag items all
 		$canvas delete items
 
-		set bgimg [image create photo -file "/home/burger/downloads/msnbg.gif" -format gif]
+		#Background image goes here
+		set bgimg [image create photo -file "" -format gif]
 		
 		$canvas create image 0 0 -image $bgimg -anchor nw
 
@@ -177,12 +178,12 @@ namespace eval ::guiContactList {
 		
 		# Let's setup the right image (expanded or contracted)
 		if { [::groups::IsExpanded [lindex $element 0]] } {
-			set xpad [::skin::get contract_xpad]
-			set ypas [::skin::get contract_ypad]
+			set xpad [::skin::getKey contract_xpad]
+			set ypas [::skin::getKey contract_ypad]
 			set img [::skin::loadPixmap contract]
 		} else {
-			set xpad [::skin::get expand_xpad]
-			set ypas [::skin::get expand_ypad]
+			set xpad [::skin::getKey expand_xpad]
+			set ypas [::skin::getKey expand_ypad]
 			set img [::skin::loadPixmap expand]
 		}
 		# First we draw our little group toggle button
