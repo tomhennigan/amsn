@@ -27,6 +27,7 @@ allowbadwords Disable censorship on nicknames
 allowlist Allow list (AL):
 allowonlyinal Only allow users in my Accept List to contact me
 allowseen Allow this person to see when I'm online and contact me
+allprofilesinuse All existing profiles are currently in use
 animatedemoticon This emoticon is animated
 animatedsmileys Enable animated smileys
 animatenotify Animated Notify Window
@@ -402,6 +403,7 @@ showblockedlist Show list of people who blocked you
 showdisplaypic2 Show Display Picture by default when a chat window is opened
 showdisplaypic Show Display Picture
 showmypic My Display Picture
+shownotify Show notify window when some events happen
 showuserpic $1's Display Picture
 skinselector Select Skin
 skin Skin
@@ -476,4 +478,3 @@ yoffset Y Offset
 youblocked You have been blocked by
 yousay You say
 youwant You want
-shownotify Show notify window when some events happen

@@ -1,7 +1,7 @@
 amsn_lang_version 2
 about O programu
 acceptfile Ali sprejmes datoteko $1, njena velikost je $2? Shranjeno v $3
-accept sprejmi
+accept Sprejmi
 actions Akcije
 addacontact Dodaj stik
 addedyou $1 ($2) vas je dodal/a na svoj seznam stikov
@@ -413,7 +413,7 @@ smileconfig Nastavitve tvojih emotikonov
 smilefile Datoteka
 smileintro2 Uredi potrebna polja, ce zelis spremeniti tega smeska (poglej v FAQ za pomoc)
 smileintro Izpolni potrebna polja, ce zelis ustvariti novega lastnega smeska (poglej v FAQ za pomoc)
-sound2 Predvajaj zvoke ob dogodkih:
+sound2 Predvajaj zvoke ob nekaterih dogodkih
 soundcommand To mora biti ukaz play (npr. esdplay)
 soundexample ( \$sound = Zvocna datoteka) Npr.: esdplay \$sound
 soundfile Zvocna datoteka

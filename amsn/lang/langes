@@ -27,6 +27,7 @@ allowbadwords Saltarse la censura en los apodos
 allowlist Lista de Aceptados(AL):
 allowonlyinal Permitir sólo a los usuarios Aceptados contactar conmigo
 allowseen Permitir a esta persona ver cuándo estás conectado y contactar
+allprofilesinuse Todos los perfiles que existen están siendo usados actualmente
 animatedemoticon Emoticono con animación
 animatedsmileys Activar emoticonos animados
 animatenotify Ventana de Notificaciones con animación
@@ -402,6 +403,7 @@ showblockedlist Mostrar contactos que te bloquean
 showdisplaypic2 Por defecto, ver la Imagen para Mostrar al abrir una ventana de conversación.
 showdisplaypic Ver Imagen para Mostrar
 showmypic Mostrar mi imagen
+shownotify Mostrar ventana de avisos al producirse diversos eventos
 showuserpic Imagen de $1
 skinselector Elegir tema(skin)
 skin Tema (skin)
@@ -476,4 +478,3 @@ yoffset Desplazamiento Y
 youblocked Has sido bloqueado
 yousay Tú dices
 youwant Quieres
-shownotify Mostrar ventana de avisos al producirse diversos eventos

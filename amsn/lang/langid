@@ -13,6 +13,8 @@ addtoo Masukkan orang ini dalam daftar nama saya
 addto Tambahkan Kepada $1
 admincontacts Atur daftar nama
 admingroups Atur kelompok-kelompok
+advanced Lanjutan
+advancedprefs Konfigurasi Pilihan Lanjutan
 adverts Iklan
 alarmonconnect Aktifkan alarm saat pengguna muncul tersambung
 alarmondisconnect Aktifkan alarm saat pengguna tidak tersambung lagi atau tidak tampak
@@ -27,6 +29,7 @@ allowonlyinal Ijinkan hanya pengguna dalam Daftar Terima untuk menghubungi saya
 allowseen Perbolehkan orang ini untuk melihat status saya dan menghubungi saya
 animatedemoticon Emotikon ini memiliki animasi
 animatedsmileys Mungkinkan smiley dengan animasi
+animatenotify Jendela Pemberitahuan dengan Animasi
 appearance Tampilan
 appearoff Sembunyi
 areacode Kode Area
@@ -34,6 +37,7 @@ aretyping $1 sedang mengetik pesan
 autoaccepted Transmisi Berkas diterima secara otomatis
 autoacceptft Terima permintaan Transmisi Berkas secara otomatis
 autoaway Tunjukkan saya sebagai 'Tidak Ada' apabila tidak aktif selama
+autocheckver Periksa secara otomatis akan versi baru pada start
 autoconnect2 Register masuk secara otomatis pada saat a'MSN dinyalakan
 autoconnect Hubungi server saat a'MSN dinyalakan
 autohotmaillog Otomatis terhubung ke Hotmail
@@ -122,13 +126,17 @@ dcprofile Jangan Ciptakan Profil
 defaultloginradio Daftar-Masuk aturan pengaturan dasar
 default Pengaturan Dasar
 delete Hapus
+delimiters Pemisah penanda waktu:
 deliverfail Ada masalah dalam pengiriman pesan berikut
 delprofile2 Pilih profil yang ingin dihilangkan
 delprofile Hapus Profil
 description Gambaran
 directconnection Saya memiliki sambugan langsung ke internet (menggunakan port 1863)
+disabled Dimatikan
+disableprofiles Profil Dimatikan (Berguna untuk Kafe Internet dan lingkungan berbagi-pakai)
 disablessl Matikan SSL
 disconnect $1 memutuskan sambungan.
+displaychat Tampilkan Pilihan untuk Tekst
 dockfreedesktop Desktop gratis (KDE/Gnome2)
 dockgtk Labuhan model Gnome
 docking Labuhan
@@ -141,8 +149,10 @@ editnewstate Kondisi untuk Pesan-otomatis Pribadi Baru
 editprofile Ubah Profil
 editstate Rubah Keadaan Pesan-otomatis yang sudah ada
 edit Ubah
+editvalue Rubah Nilai/Makna
 emotisounds Mainkan suara pada emoticon tertentu
 enablebanner Tampilkan spanduk aMSN (aMSN perlu di-restart)
+enabled Memungkinkan
 enableproxy Nyalakan proxy
 enableremote Mungkinkan pengedalian jarak jauh
 enablesound Mainkan suara
@@ -220,6 +230,7 @@ lconvstarted Percakapan dimulai pada $1
 leaveblankforhotmail Kosongkan untuk menggunakan Hotmail lewat web
 leaves $1 telah meninggalkan percakapan ini
 lenteredconf $1 telah memasuki konferensi pada $2
+lineflushlog Ratakan Berkas Catatan setelah tiap baris
 linprivate SECARA PRIBADI
 listeningon Mengawasi port $1
 listsmileys2 Tampilkan Emoticon dan Smiley dalam daftar kontak a'MSN utama
@@ -280,6 +291,7 @@ noprofileexists Tidak ada profil aktif, \n anda harus menciptakan satu apabila a
 normal Normal
 nosystemtray Baki Sistem tidak tersedia
 no Tidak
+notificationserver Server Pemberitahuan MSN Permulaan (Server Pesan MSN)
 notify1_5 Tampilkan window pemberitahuan saat kontak daftar-keluar
 notify1_75 Tampilkan window pemberitahuan saat kontak merubah kondisi
 notify1 Tampilkan jendel pemberitahuan saat kontak mulai tersambung
@@ -300,6 +312,7 @@ options Pilihan
 ordercontactsby Urutkan daftar berdasarkan
 ordergroupsby Atur kelompok berdasarkan
 other Lain-lain
+others Lain-lain
 pager Penyeranta
 pass Kata sandi
 paste Tempelkan
@@ -357,6 +370,7 @@ raised Diangkat/Ikon dihilangkan
 readonlymsgbox Transmisi berkas dibatalkan karena daftar tujuan berstatus baca-saja. Mohon rubah status di daftar tujuan tersebut.
 readonlywarn PERINGATAN: Berkas kemungkinan TIDAK akan tersimpan dengan benar karena daftar “Berkas yang Diterima” tampaknya dilindungi terhadap penulisan. Mohon pastikan ijin pada daftar sasaran ($1) telah diatur dengan benar sebelum memindahkan berkas.
 receivedbytes Telah diterima $1 dari $2 byte
+receiveddir Map Berkas yang Diterima
 receivefile Terima berkas
 reconnecting Memulihkan sambungan ke server
 reconnect Menunggu $1 untuk bergabung kembali
@@ -379,13 +393,16 @@ send Kirim
 sendmail Kirim e-mail
 sendmsg Kirim pesan
 sentbytes $1 dari $2 byte telah dikirim
+serverbusy Server sedang Sibuk
 servergoingdown Terputus: Server sedang bermasalah
 server Server
+serverunavailable Server sedang tidak tersedia
 session Bagian
 showblockedlist Tunjukkan daftar orang-orang yang memblokir anda
 showdisplaypic2 Tunjukkan Gambar Tampilan sebagai default pada saat window chat terbuka
 showdisplaypic Tunjukkan Gambar Tampilan
 showmypic Gambar Tampilan Saya
+shownotify Tampilkan jendela pemberitahuan saat kejadian tersjadi
 showuserpic Gambar Tampilan $1
 skin Kulit
 skinselector Pilih Kulit
@@ -421,6 +438,7 @@ syntaxerror Kesalahan Sintaks
 tabbed Window yang ditandai
 textsize Besar huruf
 timeremaining Waktu yang tersisa
+timestamps Mungkinkan penanda waktu pada jendela percakapan
 title Al's Messenger
 tlsdowncompleted Berkas $1 didownload ke direktori $2. Anda harus mengurainya, membangunnya (apabila anda mendownload kode sumber) dan menginstalasinya dalam $3.
 tlsinstallexp AMSN sekarang menggunakan MSNP9, yang memerlukan penggunaan \nsambungan aman menggunakan SSL. Untuk dapat menggunakan SSL, AMSN memerlukan untuk menginstalasi modul yang dinamakan TLS,\nyang tidak terdapat dalam sistem anda. Penyulap ini akan membantu anda dalam mendownload dan\nmenginstalasi TLS. Mohon pilih jenis sistem anda sehingga kami bisa secara otomatis mendownload\n berkas-berkas TLS yang diperlukan.
@@ -432,6 +450,9 @@ tooltips Aktifkan Tips untuk Peralatan
 transnotexists Berkas yang diminta belum diterjemahkan ke dalam bahasa tersebut.
 traynotcompiled Baki icon tambahan belum dipatuhi. Periksa tambahan/bakilabuhan
 triggers Pemicu-pemicu tekst
+truncatenames1 Potong nama panggilan yang lebih panjang dari lebar jendela dalam jendela judul dan daftar nama
+truncatenames2 Potong nama panggilan yang lebih panjang dari lebar jendela dalam pecakapan
+truncatenicks Potong nama panggilan yang lebih panjang dari lebar jendela
 twonewmail $1 email baru dalam Kotak-Masuk
 unblock Cabut blokiran
 uoffline Tidak Tersambung
