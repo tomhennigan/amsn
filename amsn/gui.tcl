@@ -2696,7 +2696,7 @@ namespace eval ::amsn {
 	      "${win_name}.f.out.text tag conf $urlname -underline true;\
 	      ${win_name}.f.out.text conf -cursor left_ptr"
 	   ${win_name}.f.out.text tag bind $urlname <Button1-ButtonRelease> \
-	      "launch_browser [string map {% %%} [list $urltext]]"
+	      "${win_name}.f.out.text conf -cursor watch; launch_browser [string map {% %%} [list $urltext]]"
 	   
   	   ${win_name}.f.out.text delete $pos $endpos
 	   ${win_name}.f.out.text insert $pos "$urltext" $urlname
@@ -4230,7 +4230,7 @@ proc cmsn_draw_online { {delay 0} } {
 
 	#Set up TAGS for mail notification
 	$pgBuddy.text tag conf mail -fore black -underline true -font splainf
-	$pgBuddy.text tag bind mail <Button1-ButtonRelease> "hotmail_login [list $config(login)] [list $password]"
+	$pgBuddy.text tag bind mail <Button1-ButtonRelease> "$pgBuddy.text conf -cursor watch;hotmail_login [list $config(login)] [list $password]"
 	$pgBuddy.text tag bind mail <Enter> \
 		"$pgBuddy.text tag conf mail -under false;$pgBuddy.text conf -cursor hand2"
 	$pgBuddy.text tag bind mail <Leave> \
@@ -5471,6 +5471,7 @@ proc launch_browser { url } {
 
 	global config tcl_platform
 
+	status_log "Launching browser for url: $url\n"
 	if { $tcl_platform(platform) == "windows" } {
 
 		#regsub -all -nocase {htm} $url {ht%6D} url
@@ -5484,6 +5485,7 @@ proc launch_browser { url } {
 		}
 
 		#if { [catch {eval exec $config(browser) [list $url] &} res ] } {}
+		status_log "Launching $config(browser)\n"		
 		if { [catch {eval exec $config(browser) &} res ] } {
 		   ::amsn::errorMsg "[trans cantexec $config(browser)]"
 		}
