@@ -1,27 +1,39 @@
 amsn_lang_version 2
-about Over...
-accept Aanvaard
-acceptfile Accepteer bestand $1, omvang $2? opgeslagen in $3
+$1.
+about Informatie
+accept Accepteren
+acceptfile Accepteer bestand $1, grootte $2? opgeslagen in $3
 actions Acties
 addacontact Voeg een contact toe
 addedyou Heeft jou toegevoegd aan zijn/haar contactenlijst
-addtocontacts Toevoegen aan contacten
+addtocontacts Toevoegen aan contactenlijst
 addtoo Voeg deze persoon toe aan mijn contactenlijst
 admincontacts Beheer contacten
 admingroups Beheer groepen
 adverts Advertenties
+Afwezig/Ben zo terug/In Bezet
 alarmpref Alarm instellingen voor de huidige gebruiker
 alarmstatus Schakel alarm aan/uit voor de huidige gebruiker
+Alleen met een profiel is het mogelijk gebruik te maken van \n een wachtwoord,
 allowseen Sta deze persoon toe om te zien wanneer ik online ben en om mij
-appearoff Doe alsof je offline bent
+appearance Status
+appearoff Offline verschijnen
+areacode Regiocode
 aretyping $1 zijn bezig met typen
+askprofile Deze login heeft geen profiel. Wil je een profiel aanmaken? \n
+autoaway Automatisch afwezig na inactiviteit van
+autoconnect2 Automatisch inloggen wanneer aMSN wordt gestart
 autoconnect Automatisch inloggen
 autohotmaillog Automatisch inloggen bij Hotmail
 autoidle Automatisch afwezig
 autoip Automatisch IP
+autonoact Automatisch niet-actief na inactiviteit van
 avoidseen Vermijd dat deze persoon kan zien wanneer ik online ben en dat
 away Afwezig
+awaymsg1 Vragen om afwezig-bericht als de status veranderd wordt naar
+awaymsg2 Niet vragen en altijd het onderstaande afwezig-bericht gebruiken
 baduserpass Foutieve gebruikersnaam of wachtwoord
+bgcolor Verander aMSN's achtergrondkleur
 blankdirect Laat leeg voor directe connectie
 block Blokkeer
 blocked Geblokkeerd
@@ -31,40 +43,55 @@ browse Verkennen
 busy Bezet
 cancel Annuleren
 cfgalarm Alarm configureren/toevoegen/verwijderen
+changefont Verander lettertype
 changenick Verander Schermnaam
 chatack Aanvaard chat van
 chat Chat
 chatreq Verzoek om te chatten
+chatsmileys2 Toon emoticons en smileys in chat-vensters
 chatsmileys Toon emoticons
 checkingver Bezig met controleren op een nieuwere versie
-checkver Controleer of er een nieuwe versie is
+checkver Controleer voor een nieuwe versie
 choosebasefont Lettertype
 choosebgcolor Achtergrondkleur
 choosefontcolor Kies tekstkleur
+clearlog2 Verwijder Geschiedenis voor alle contacten
+clearlog3 Verwijder alle logboeken
 clearlog Logboek leegmaken
 clicktologin Klik hier om in te loggen
 close Sluiten
 closingdocks Sluit venster
 command Programma
-confirmdelete Wilt u echt $1 verwijderen?
+configuratie opgeslagen. Klik op "Maak Profiel" om een profiel aan te maken voor
+confirmdelete Wilt je echt $1 verwijderen?
 confirm Weet je het zeker?
 connecterror Verbindingsfout
+connection Verbinding
 contactadded Contactpersoon toegevoegd
 contactdoesnotexist Contactpersoon bestaat niet
 contacterror Fout tijdens het verbinden met de server
-copy    Kopiëren
+copy    Kopiëren
 copytogroup kopiëren naar groep
-cut     Knippen
+countrycode Mijn Land/Regiocode
+cprofile Maak profiel
+cut     Knippen
 date Datum
+days Dagen
+dcprofile Geen profiel aanmaken
+default Standaard configuratie
 delete Wis
 deliverfail Er was een problem bij het bezorgen van de volgende boodschap
+delprofile2 Kies het profiel dat je wilt verwijderen
+delprofile Verwijder profiel
 dockgtk Verbergen voor gnome
 dockingoff Verbergen uit
 docking Verberg
 dockkde Verbergen voor KDE
-edit    Bewerken
+edit    Bewerken
+editprofile Bewerk profiel
 enableproxy Gebruik proxy
-encoding Encoding
+encoding2 Veranderen van encodering bij jouw tekens
+encoding Encoderen
 entercontactemail Geef contact-email in
 enterfilename Gelieve een bestandsnaam in te geven
 enternick Geef uw schermnaam in
@@ -73,11 +100,14 @@ exitamsn Sluit amsn
 extras Extra's
 faq FAQ (Veel gestelde vragen)
 filedoesnotexist Bestand bestaat niet
+fileman Bestandsbeheer
 filename Bestandsnaam
 filetransfercancelled Bestandsverzending geannuleerd
 filetransfercomplete Bestandsverzending klaar
 ftaccepted Bestand transfer geaccepteerd
 ftrejected Bestand transfer afgewezen
+Geschiedenis en Alarm. Als je een profiel aanmaakt word er een \n aparte
+gevonden
 gonelunch Lunchpauze
 groupadd Voeg een groep toe
 groupdelete Verwijder een groep
@@ -104,9 +134,11 @@ invalidusername Uw gebruikersnaam is fout.
 invite Nodig uit
 ipaddress IP adres
 ipadress IP adres
+ipdetect Detecteer correcte IP-adres voor Bestandsoverdracht via HTTP
 istyping $1 is bezig met typen
 joins $1 neemt deel aan conversatie
 keepalive Hou verbinding in stand
+keeplog2 Bewaar alle gesprekken in logboek van aMSN-Geschiedenis voor
 keeplog Bewaar logboek van chatgesprekken
 language Taal
 lastmsgtime Laatste bericht ontvangen om $1
@@ -118,38 +150,58 @@ leaves $1 verlaat conversatie
 lenteredconf $1 betrad de vergadering op $2
 linprivate IN PRIVE
 listeningon Bezig met luisteren op poort $1
+listsmileys2 Toon emoticons en smileys in aMSN's hoofdcontactenlijst
 listsmileys Toon smileys in lijst
 ljoinedconf $1 nam deel aan de vergadering
 lleftconf $1 heeft de vergadering verlaten
 loadcontacts Bezig met laden van de contactenlijst
+logbigger Bewaar permanent de bestandsgrootten van ieder contact in logboek
+logfandexp Bewaar tijdelijk alle bestandsgrootten en Geschiedenis
 loggedotherlocation U bent reeds aangemeld
 loggingin Bezig met inloggen
 loginas Inloggen als
+loging Inloggen
 login Log In
+logolder Alleen bewaarde gesprekken die in het verleden plaats hebben
 logout Log Uit
 logsin heeft zojuist ingelogd
+logsmileys Toont emoticons en smileys in aMSN's geschiedenisvensters
 lprivtoconf Privechat veranderde in vergadering met $1
 luclosedwin Je hebt het venster gesloten op $1
 mailer Mail client
-mobile GSM
+maximised Vergroot
+minimised Verkleind
+mins minuten
+mobile Mobiele telefoon
 movetogroup Verplaats naar groep
 msg Bericht
+msgmaxmin Als een bericht wordt ontvangen wil ik zijn:
+msgmode Selecteer hoe meerdere chat-vensters worden weergegeven:
 msn AMSN
 mustrestart Je moet het programma herstarten voordat de veranderingen effect
+myhomephone Mijn telefoonnummer (thuis)
+mymobilephone Mijn mobiele nummer
 mystatus Mijn status
-natip   IP detectie via website
+myworkphone Mijn telefoonnummer (werk)
+natip   IP detectie via website
+natkeepalive Wanneer optreedt dat je regelmatig uit wordt gelogd, moet dit
 needonline Je bent offline (of doet alsof)
 newmail $1 nieuwe berichten
 newmailfrom Nieuwe email van
 newmsg Nieuw bericht
 newveravailable Nieuwere versie $1 beschikbaar
 next Volgende
+niet-geblokeerde mensen uit je contactenlijst.
 noactivity Geen activiteit
 nologfile Geen logboek voor $1
 nonewmail 0 nieuwe berichten in In-Box
 nonewver Er zijn geen nieuwere versies beschikbaar
 normal Normaal
+notify1 Toon inlichtingenvenster wanneer een contact online komt
+notify2 Toon inlichtingenvenster wanneer nieuwe berichten ontvangen worden
+notify3 Toon inlichtingenvenster wanneer er nieuwe emails worden ontvangen
 notify Licht in
+notifyoffset Wijzig de positie van het inlichtingenvenster door middel van
 notifywin Inlichtingenvenster
 nousersinsession Geen gebruiker in sessie
 offline Offline
@@ -163,18 +215,41 @@ ordercontactsby Sorteer contacten op
 ordergroupsby Sorteer groepen op
 other Andere
 pager Beeper
-pass Paswoord
-paste   Plakken
+pass Wachtwoord
+paste   Plakken
+personal Persoonlijk
 phone Telefoon
 picfile Alarm beeldbestand (GIF < 500 x 500 pixels)
 picstatus Schakel alarm beeldbestand aan/uit
 port Poort
+positie-offsets
+prefalerts Mijn Alarm en Geluiden
 prefapps Programma's
+prefawaymsg Mijn afwezig-bericht
+prefemotic Emoticons en smileys
 preferences Instellingen
+preffont2 Verander mijn tekstweergave voor anderen
+preffont3 Verander aMSN's lettertype en grootte
+preffont Mijn berichtentekst
+preflog1 Mijn Geschiedenis en logboek-opties
+preflook Mijn aMSN Messenger Stijl
+prefmsging Mijn Berichtenweergave
+prefname Mijn MSN Messenger Naam
+prefphone2 De telefoonnummers die jij zichtbaar wilt maken voor \n
+prefphone Mijn telefoonnummers
+prefprofile2 Maak of wijzig jouw profiel
+prefprofile3 aMSN's configuratieprofielen voor gebruikers
+prefprofile Mijn Profiel
+prefproxy Mijn Proxy-instellingen
+prefsession Mijn Aanmelden en Status
+prefshared Gedeelde verbindingen (alleen voor NAT)
 prefsound Geluid
+profiledconfig Profielconfiguratie
+profiles Profielen
 properties Eigenschappen
 proxyconfhttp HTTP proxy configuratie ondersteuning
 proxyconf Proxy configuratie
+proxy Ik maak gebruik van een Proxy Server (HTTP of SOCKS5)
 publishphones Publiceer mijn telefoonnummers
 receivedbytes $1 van $2 bytes ontvangen
 receivefile Ontvang bestand
@@ -197,18 +272,27 @@ send Verzend
 sentbytes $1 van $2 bytes verzonden
 servergoingdown De server gaat offline
 server Server
+session Sessie
+sound2 Speel geluid als contacten zich aanmelden of een bericht verzenden
 soundfile Alarm geluidsbestand
+soundfile Geluidsbestand
 sound Geluid 
 soundloop Geluid blijven herhalen
+soundserver Geluidserver
 soundstatus Schakel alarm geluid aan/uit
+startoffline2 'Stil' Aanmelden met "Offline"-status
 startoffline Begin offline
 status Status
 stopalarm Stop het alarm
+stylechat Dezelfde stijl als chats
+stylehist aMSN's geschiedenis stijl
+stylelog Kies het formaat waarin je jouw Geschiedenis wilt bekijken
 syntaxerror Syntaxfout
-te contacteren
+tabbed 'Tabbed' vensters
 textsize Tekstgrootte
 title Al's Messenger
 to Aan
+toekomstig bekijken
 tools Systeem
 unblock Deblokkeer
 uoffline Offline
@@ -220,6 +304,9 @@ version Versie
 view Beeld
 viewprofile Profiel Weergeven
 willjoin Wachten tot $1 de conversatie zal bijwonen
+worden ingeschakeld
 work werk
+xoffset X-positie
+yoffset Y-positie
 yousay Jij zegt
-youwant Jij wil
+youwant Jij wilt

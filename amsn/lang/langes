@@ -262,6 +262,7 @@ servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
 server Servidor
 session Sesión
 sound2 Reproducir sonidos cuando los contactos se conectan o envían mensajes
+soundcommand El comando para reproducir un sonido (por ej: esdplay)
 soundfile Archivo de sonido
 soundloop Sonido repetitivo
 soundserver Servidor de Sonido
