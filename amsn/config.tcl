@@ -136,6 +136,8 @@ if {$tcl_platform(os) == "Darwin"} {
 	set config(customsmileys) [list]
 	set config(customsmileys2) [list]
 	set config(custom_smileys) 1
+	
+	set config(convertpath) ""
 
 	#Advanced options, not in preferences window
 	# Create the entry in the list and then, set
@@ -147,7 +149,7 @@ if {$tcl_platform(os) == "Darwin"} {
 	#  optionname2 type2 trans_name2 trans_desc2(optional)
 	#  ...
 	#
-	# type can be: bool | int | str
+	# type can be: bool | int | str | folder
 	set advanced_options [list \
 		[list "" appearance] \
 		[list tooltips bool tooltips] \
@@ -175,7 +177,7 @@ if {$tcl_platform(os) == "Darwin"} {
 		[list "" others] \
 		[list allowbadwords bool allowbadwords] \
 		[list disableprofiles bool disableprofiles] \
-		[list receiveddir str receiveddir] \
+		[list receiveddir folder receiveddir] \
 		[list notifytyping bool notifytyping] \
 		[list lineflushlog bool lineflushlog] \
 		[list autocheckver bool autocheckver] \

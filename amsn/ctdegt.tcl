@@ -767,7 +767,22 @@ proc Preferences { { settings "personal"} } {
 	image create photo prefapps -file [GetSkinFile pixmaps prefpers.gif]
 
 	set frm [Rnotebook:frame $nb $Preftabs(others)]
+
+	## Delete Profiles Frame ##
+	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefprofile3]]
+	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
+	label $lfname.pprofile -image prefapps
+	pack $lfname.pprofile -side left -anchor nw
+	label $lfname.ldelprofile -text "[trans delprofile2]" -padx 5
+	frame $lfname.1 -class Degt
+	combobox::combobox $lfname.1.profile -editable true -highlightthickness 0 -width 25 -bg #FFFFFF -font splainf
+	button $lfname.1.bdel -text [trans delprofile] -font sboldf -command "DeleteProfile \[${lfname}.1.profile get\] $lfname.1.profile"
+	pack $lfname.ldelprofile -anchor w -side top
+	pack $lfname.1.profile -anchor w -side left -padx 10
+	pack $lfname.1.bdel -anchor e -side left -padx 15
+	pack $lfname.1 -anchor w -side top -expand 1 -fill x
 	
+		
 	## Applications Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefapps]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
@@ -811,23 +826,24 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill both
 	label $lfname.1.llibtls -text "TLS" -padx 5 -font sboldf
 	entry $lfname.1.libtls -bg #FFFFFF -bd 1 -width 40 -highlightthickness 0 -textvariable libtls_temp
+	label $lfname.1.llibtlsexp -text [trans tlsexplain] -justify left -font examplef
+	button $lfname.1.browsetls -text [trans browse]
 
+	label $lfname.1.lconvertpath -text "CONVERT" -padx 5 -font sboldf
+	entry $lfname.1.convertpath -bg #FFFFFF -bd 1 -width 40 -highlightthickness 0 -textvariable config(convertpath)
+	label $lfname.1.lconvertpathexp -text [trans convertexplain] -justify left -font examplef
+	button $lfname.1.browseconv -text [trans browse]
+	
+	
 	grid $lfname.1.llibtls -row 1 -column 1 -sticky w
 	grid $lfname.1.libtls  -row 1 -column 2 -sticky w
+	grid $lfname.1.browsetls  -row 1 -column 3 -sticky w
+	grid $lfname.1.llibtlsexp  -row 2 -column 2 -columnspan 2 -sticky w
+	grid $lfname.1.lconvertpath -row 3 -column 1 -sticky w
+	grid $lfname.1.convertpath  -row 3 -column 2 -sticky w
+	grid $lfname.1.browseconv  -row 3 -column 3 -sticky w	
+	grid $lfname.1.lconvertpathexp  -row 4 -column 2 -columnspan 2 -sticky w
 
-	## Delete Profiles Frame ##
-	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefprofile3]]
-	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
-	label $lfname.pprofile -image prefapps
-	pack $lfname.pprofile -side left -anchor nw
-	label $lfname.ldelprofile -text "[trans delprofile2]" -padx 5
-	frame $lfname.1 -class Degt
-	combobox::combobox $lfname.1.profile -editable true -highlightthickness 0 -width 25 -bg #FFFFFF -font splainf
-	button $lfname.1.bdel -text [trans delprofile] -font sboldf -command "DeleteProfile \[${lfname}.1.profile get\] $lfname.1.profile"
-	pack $lfname.ldelprofile -anchor w -side top
-	pack $lfname.1.profile -anchor w -side left -padx 10
-	pack $lfname.1.bdel -anchor e -side left -padx 15
-	pack $lfname.1 -anchor w -side top -expand 1 -fill x
 
 	frame $frm.dummy -class Degt
 	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
@@ -1765,8 +1781,8 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
-# Revision 1.103  2004/01/17 11:30:01  airadier
-# Scrolling fix for advanced preferences
+# Revision 1.104  2004/01/17 11:54:26  airadier
+# Added option to change convert path, useful for windows users. It's there, but does nothing (yet).
 #
 # Revision 1.102  2004/01/10 12:57:24  airadier
 # Fixed save_to_file problem when saving a session.
