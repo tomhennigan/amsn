@@ -797,14 +797,14 @@ namespace eval ::MSN {
       #   return 0
       #}
       status_log "::MSN::logout called\n"
-      
-      ::MSN::WriteSBRaw ns "OUT\r\n";      
-      
+
+      ::MSN::WriteSBRaw ns "OUT\r\n";
+
       catch {close [sb get ns sock]} res
       sb set ns stat "d"
-      
+
       CloseSB ns
-      
+
       global config user_stat
       variable myStatus
 
@@ -1108,7 +1108,7 @@ namespace eval ::MSN {
       #}
       
       set oldstat [sb get $sbn stat]
-      set oldsock [sb get $sbn sock]      
+      set oldsock [sb get $sbn sock]
             
       sb set $sbn stat "d"         
       sb set $sbn sock ""
@@ -1117,12 +1117,12 @@ namespace eval ::MSN {
 
       if { $sbn == "ns" } {
 	  
-         status_log "Closing NS socket! (stat= $oldstat)\n" red      
+         status_log "Closing NS socket! (stat= $oldstat)\n" red
          if { ("$oldstat" != "d") && ("$oldstat" != "u") } {
             logout
          }
-	 
-	 if { ("$oldstat"!="d") && ("$oldstat" !="o") && ("$oldstat" !="u")} {
+
+	 if { ("$oldstat"!="d") && ("$oldstat" !="o") && ("$oldstat" !="u") && ("$oldstat" !="us")} {
 	    set error_msg [sb get ns error_msg]
 	    if { $error_msg != "" } {
 	       msg_box "[trans connecterror]: [sb get ns error_msg]"
@@ -2924,11 +2924,11 @@ proc cmsn_ns_handler {item} {
           return 0
       }
       911 {
-	  set password ""      
-	  ::MSN::logout          
+	  #set password ""
+	  ::MSN::logout
 	  status_log "Error: User/Password\n" red
 	  ::amsn::errorMsg "[trans baduserpass]"
-          return 0
+	  return 0
       }
       "" {
          return 0
