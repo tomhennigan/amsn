@@ -1,0 +1,63 @@
+# Directories in which the Tcl core can be found
+TCL_INC_SPEC 	= @TCL_INC_SPEC@
+TCL_LIB_DIR 	= @TCL_LIB_DIR@
+TCL_LIB_SPEC 	= @TCL_LIB_SPEC@
+
+# Directories in which the Tk core can be found
+TK_INC_SPEC 	= @TK_INC_SPEC@
+TK_LIB_DIR 	= @TK_LIB_DIR@
+TK_LIB_SPEC 	= @TK_LIB_SPEC@
+
+NAME		= @NAME@
+
+SOURCE 		= ${NAME}.cpp
+OBJECTS 	= ${NAME}.o
+OUTPUT		= @TKCXIMAGE_FILE@
+
+
+SUBDIRS		= zlib png jpeg CxImage
+
+CC		= @CC@
+
+INCLUDES	= -I./CxImage ${TCL_INC_SPEC} ${TK_INC_SPEC} 
+
+DEFINES		= @TCL_DEFS@
+
+CFLAGS    	= -O2 @CFLAGS@ 
+
+CC_SWITCHS 	= ${CFLAGS} ${DEFINES} ${INCLUDES} 
+
+SHLIB_LD     	= @SHLIB_LD@
+
+LIBSN     	=  @TCL_LIB_SPEC@ @TK_LIB_SPEC@ -L./zlib/ -L./png/ -L./jpeg/ -L./CxImage/ -lCxImage -ljpeg -lpng -lzlib -lz -lstdc++
+
+.PHONY : all clean distclean CxImage/libCxImage.a zlib/libzlib.a png/libpng.a jpeg/libjpeg.a 
+
+all : CxImage/libCxImage.a zlib/libzlib.a png/libpng.a jpeg/libjpeg.a ${OUTPUT} 
+
+%.o: %.cpp
+	$(CC) -c $(CC_SWITCHS) $<
+
+${OUTPUT}: ${OBJECTS}
+	${SHLIB_LD} $< $(LIBSN) -o $@
+
+
+CxImage/libCxImage.a:
+	cd CxImage && make && cd ..
+
+zlib/libzlib.a: 
+	cd zlib && make && cd ..
+
+png/libpng.a:
+	cd png && make && cd ..
+
+jpeg/libjpeg.a:
+	cd jpeg && make && cd ..
+
+clean : 
+	rm ${OBJECTS} ${OUTPUT} 2> /dev/null | true
+	for i in ${SUBDIRS}; do cd $$i && make clean && cd ../; done
+
+distclean :
+	rm -rf *~ ${OBJECTS} ${OUTPUT} Makefile config.* autom4te.cache 2>/dev/null | true
+	for i in ${SUBDIRS}; do cd $$i && make distclean && cd ../; done
