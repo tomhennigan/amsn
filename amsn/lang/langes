@@ -340,6 +340,7 @@ lprivtoconf El privado se convierte en conversación múltiple con $1
 luclosedwin Tú cierras la ventana a las $1
 mailer Comando de email
 mailerexample ( \$recipient = Destinatario ) Dejar en blanco para usar Hotmail
+maintenance El servidor quedará fuera de servicio en $1 minutos para su mantenimiento
 maximised Maximizada
 minimised Minimizada/Iconificada
 mins minutos
@@ -405,6 +406,7 @@ notifywin Ventana de avisos
 notinlist No estás en su lista de contactos
 notls La versión 9 del protocolo MSN requiere usar el paquete "tls". Este paquete no parece estar instalado en el equipo. Si está instalado, la ruta al directorio debería ser especificado en la ventana de Preferencias (ej: /opt/tls/lib). \n \n Es posible descargar "tls" en http://tls.sf.net.
 nousersinsession No hay usuarios en la sesión
+nudge $1 reclama tu atención
 offline Desconectado
 ok Aceptar
 onenewmail 1 mensaje nuevo en bandeja de entrada
