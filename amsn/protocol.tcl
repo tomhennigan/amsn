@@ -361,7 +361,7 @@ namespace eval ::MSNFT {
 
               set num 1
               while { [file exists $filename] } {
-                 set filename "$num.$origfile"
+                 set filename "[file join [file dirname $origfile] $num.[file tail $origfile]]"
                  incr num
               }
 
