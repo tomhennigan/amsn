@@ -4,7 +4,7 @@ accept Aksepter
 acceptfile Aksepter fil $1, størrelse $2? Lagret i $3
 actions Hendelser
 addacontact Legg til en kontakt
-addedyou har lagt deg til sin kontaktliste
+addedyou $1 ($2) har lagt deg til sin kontaktliste
 addtocontacts Legg til kontaktliste
 addtoo Legg denne personen til i min kontaktliste
 admincontacts Administrer kontakter
@@ -109,7 +109,7 @@ mustrestart Du må starte programmet på nytt for å aktivere endringene
 mystatus Min status
 needonline Du er ennå/ser ut til å være offline!
 newmail $1 nye meldinger i Innboksen
-newmailfrom Ny e-post fra
+newmailfrom Ny e-post fra $1 ($2)
 newmsg Ny melding
 newveravailable Nyere versjon $1 tilgjengelig for nedlasting
 next Neste

@@ -5,7 +5,7 @@ acceptfile ¿Aceptar archiu $1, tamany $2 bytes? Es guardara en $3
 actions Accions
 actions Accions
 addacontact Afegir un contacte
-addedyou t'ha afegit a la seua llista de contactes
+addedyou $1 ($2) t'ha afegit a la seua llista de contactes
 addtocontacts Afegir a contactes
 addtoo Afegir ad esta persona a la meua llista de contactes
 admincontacts Administrar contactes
@@ -179,7 +179,7 @@ natip Detectar IP des d'una web
 natkeepalive Si sofrixes desconexions continuament, activa esta opcio
 needonline Encara estas/aparentes desconectat
 newmail $1 mensages nous en safata d'entrada
-newmailfrom Nou correu de
+newmailfrom Nou correu de $1 ($2)
 newmsg Nou mensage
 newveravailable Nova versio $1 disponible per a descarrega
 next Siguient

@@ -4,7 +4,7 @@ accept Aceptar
 acceptfile ¿Aceptar arquivo $1, tamaño $2 bytes? gardarase en $3
 actions Accións
 addacontact Engadir un contacto
-addedyou engadiute á súa lista de contactos
+addedyou $1 ($2) engadiute á súa lista de contactos
 addtocontacts Engadir ós contactos
 addtoo Engadir esta persoa á miña lista de contactos
 admincontacts Administrar contactos
@@ -180,7 +180,7 @@ natip Deteción da IP por Web
 natkeepalive Se sofres desconexións continuamente, activa esta opción
 needonline Aínda estás/apareces desconectado
 newmail $1 mensaxes novas na bandexa de entrada
-newmailfrom Novo correo de $1
+newmailfrom Novo correo de $1 ($2)
 newmsg Nova mensaxe
 newveravailable Nova versión $1 dispoñible para descarga
 next Seguinte

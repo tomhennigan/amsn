@@ -216,7 +216,7 @@ proc hotmail_procmsg {msg} {
             ::hotmail::setUnreadMessages [expr { [::hotmail::unreadMessages] + 1}]
 	
 	    if { $config(notifyemail) == 1 } {
-	    	::amsn::notifyAdd "[trans newmailfrom]\n$from\n($fromaddr)" \
+	    	::amsn::notifyAdd "[trans newmailfrom $from $fromaddr]" \
 	      	"hotmail_viewmsg $msgurl $config(login) $password" newemail
 	    }
 

@@ -4,7 +4,7 @@ accept Acceptar
 acceptfile Acceptes el fitxer $1, de mida $2? Desat a $3
 actions Accions
 addacontact Afegeix un contacte
-addedyou t'ha inclòs a la seva llista de contactes
+addedyou $1 ($2) t'ha inclòs a la seva llista de contactes
 addtocontacts Afegir als contactes
 addtoo Afegeix aquesta persona a la meva llista de contactes
 admincontacts Administrar la llista de contactes
@@ -180,7 +180,7 @@ natip Detecció d'IP a través de pàgina web
 natkeepalive Si et desconnecten contínuament, activa aquesta opció
 needonline En l'estat "Simula desconnexió" no pots enviar missatges!
 newmail $1 missatges nous a la bústia
-newmailfrom Nou missatge de correu de
+newmailfrom Nou missatge de correu de $1 ($2)
 newmsg Nou missatge
 newveravailable La versió $1 està disponible per a baixar-se
 next Següent

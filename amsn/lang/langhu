@@ -4,7 +4,7 @@ accept	Elfogad
 acceptfile Fogadott fájl $1, méret $2? Lementve $3
 actions Mûveletek
 addacontact Partner hozzáadása
-addedyou Téged hozzáadott a partnerlistájához
+addedyou $1 ($2) Téged hozzáadott a partnerlistájához
 addtocontacts Hozzáadás a partnerlistához
 addtoo Ennek a személynek hozzáadása a partnerlistához
 admincontacts Partnerek szerkesztése
@@ -144,7 +144,7 @@ mystatus Állapotom
 natip Ip felderítés weblappal
 needonline Az állapotod offline!
 newmail $1 új üzeneted van
-newmailfrom Új levél érkezett...
+newmailfrom Új levél érkezett... $1 ($2)
 newmsg Új levél
 newveravailable Újabb verzió  $1 elérhetõ letöltésre.
 next Következõ

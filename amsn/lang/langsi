@@ -4,7 +4,7 @@ accept sprejmi
 acceptfile Ali sprejmes datoteko $1, njena velikost je $2? Shranjeno v $3
 actions Akcije
 addacontact Dodaj stik
-addedyou vas je dodal/dodala na svoj seznam stikov
+addedyou $1 ($2) vas je dodal/dodala na svoj seznam stikov
 addtocontacts Dodaj na seznam stikov
 addtoo Dodaj to osebo na moj seznam stikov
 admincontacts Uredi stike
@@ -175,7 +175,7 @@ natip IP detekcija od mre?ne strani
 natkeepalive Ce si velikokrat odjavljen, oznaci to moznost
 needonline Se zmeraj izgleda/si nepovezan
 newmail $1 novih sporocil v In-Boxu
-newmailfrom Novo sporocilo od
+newmailfrom Novo sporocilo od $1 ($2)
 newmsg Novo sporocilo
 newveravailable Nova verzija $1 je na voljo za prenos
 next Naslednji

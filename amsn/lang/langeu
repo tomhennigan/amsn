@@ -4,7 +4,7 @@ acceptfile Onartu $1 fitxategia, tamaina $2? $3 gisa gordeta
 accept Onartu
 actions Ekintzak
 addacontact Kontaktua gehitu
-addedyou k bere kontaktuen zerrendara gehitu zaitu
+addedyou $1 ($2) k bere kontaktuen zerrendara gehitu zaitu
 addtocontacts Kontaktu zerrendara gehitu
 addtoo Pertsona hau zure kontaktuen zerrendara gehitu
 admincontacts Kontaktuak administratu
@@ -177,7 +177,7 @@ natip Webaren bitartez IP-a detektaturik
 natkeepalive Maiz deskonektatua gelditzen bazara "Konektatuta gelditu" gaitu
 needonline Oraindik deskonektatuta zaude edo deskonektatuta ematen duzu!
 newmail $1 mezu berri zure sarrera-bandejan
-newmailfrom -ren mezu berria
+newmailfrom -ren mezu berria $1 ($2)
 newmsg Mezu berria
 newveravailable $1 bertsio berria deskargatzeko erabilgarri
 next Hurrengoa

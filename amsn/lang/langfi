@@ -3,7 +3,7 @@ about Tietoja
 acceptfile Hyväksy tiedosto $1, koko $2? Tallennettu $3
 actions Toiminnot
 addacontact Lisää henkilö
-addedyou on lisännyt sinut yhteystietoihinsa
+addedyou $1 ($2) on lisännyt sinut yhteystietoihinsa
 addtocontacts Lisää yhteystietoihin
 addtoo Lisää henkilö yhteystietoluettelooni
 admincontacts Hallitse yhteystietoja
@@ -108,7 +108,7 @@ mustrestart Sinun täytyy käynnistää ohjelma uudestaan, että muutokset tulevat vo
 mystatus Oma tila
 needonline Sinä olet/näyt vieläkin offline-tilaisena!
 newmail $1 uutta viestiä saapunut Saapuneisiin
-newmailfrom Uusi viesti
+newmailfrom Uusi viesti $1 ($2)
 newmsg Uusi viesti
 newveravailable Uudempi versio $1 ladattavissa
 next Seuraava

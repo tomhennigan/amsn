@@ -4,7 +4,7 @@ accept Samþykkja
 acceptfile Móttaka skrána $1, stærð $2? Vista í $3
 actions Gjörðir
 addacontact Bæta við tengilið
-addedyou hefur bætt þér í tengiliðalistann sinn
+addedyou $1 ($2) hefur bætt þér í tengiliðalistann sinn
 addtocontacts Bæta við tengilið í lista
 addtoo Setja þessa manneskju sem tengilið
 admincontacts Tengiliðir kerfisstjóra
@@ -179,7 +179,7 @@ natip Skynja IP tölu gegnum vefsíðu
 natkeepalive Ef þú aftengist reglulega, virkjaðu þá þetta KeepAlive
 needonline Þú ert/sýnist ennþá útskráður!
 newmail $1 ný skeyti í innhólfinu
-newmailfrom Nýr póstur frá
+newmailfrom Nýr póstur frá $1 ($2)
 newmsg Ný skilaboð
 newveravailable Til er nýrri útgáfa $1 
 next Áfram

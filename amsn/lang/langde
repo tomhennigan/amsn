@@ -4,7 +4,7 @@ accept Annehmen
 acceptfile Datei $1 (Größe: $2) annehmen? In $3 gespeichert
 actions Aktionen
 addacontact Kontakt hinzufügen
-addedyou hat dich ihrer/seiner Kontaktliste hinzugefügt
+addedyou $1 ($2) hat dich ihrer/seiner Kontaktliste hinzugefügt
 addtocontacts In die Kontaktliste einfügen
 addtoo Diese Person meiner Kontaktliste hinzufügen
 admincontacts Verwaltung - Kontakte
@@ -179,7 +179,7 @@ natip Die IP-Adresse über Webseite ausfindig machen
 natkeepalive Wenn die Verbindung oft getrennt wird, schalten sie diesen KeepAlive an.
 needonline Du bist noch immer offline bzw. wirst als offline angezeigt!
 newmail $1 neue Nachrichten im Posteingang
-newmailfrom Neue E-Mail von
+newmailfrom Neue E-Mail von $1 ($2)
 newmsg Neue Nachricht
 newveravailable Neuere Version $1 steht zur Verfügung
 next Weiter

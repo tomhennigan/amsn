@@ -4,7 +4,7 @@ accept Prifati
 acceptfile Prifati datoteka $1, golemina $2? Snimena vo $3 
 actions Akcii
 addacontact Dodadi kontakt
-addedyou te dodade tebe vo negovata/nejzinata lista na kontakti
+addedyou $1 ($2) te dodade tebe vo negovata/nejzinata lista na kontakti
 addtocontacts Dodadi vo listata na kontakti
 addtoo Dodadi ja ovaa licnost vo mojata lista na kontakti
 admincontacts Administriraj gi kontaktite
@@ -177,7 +177,7 @@ natip detekcija na IP preku web strana
 natkeepalive Ako redovno te diskonektiraat ovozmozi go KeepAlive
 needonline Seuste si/izgledas deka ne si na linija
 newmail $1 Nova poraka vo postenskoto sandace
-newmailfrom Novo pismo od 
+newmailfrom Novo pismo od $1 ($2)
 newmsg Nova poraka
 newveravailable Ponova verzija $1 e spremna za simnuvanje
 next Sleden

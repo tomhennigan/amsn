@@ -4,7 +4,7 @@ accept Aceitar
 acceptfile Aceitar arquivo $1, tamanho $2? Salvo em $3
 actions Ações
 addacontact Adicionar um contato
-addedyou adicionou você à sua lista de contatos
+addedyou $1 ($2) adicionou você à sua lista de contatos
 addtocontacts Adicionar à lista de contatos
 addtoo Adicionar esta pessoa à minha lista de contatos
 admincontacts Gerenciar contatos
@@ -178,7 +178,7 @@ natip Detectar IP real pela web
 natkeepalive Estou sendo desconectado com freqüência (manter conexão ativa)
 needonline Você ainda está/aparece desconectado
 newmail $1 nova(s) mensagem(ns) na Caixa de Entrada
-newmailfrom Novo e-mail de 
+newmailfrom Novo e-mail de $1 ($2)
 newmsg Nova mensagem
 newveravailable Nova versão $1 disponível para download
 next Próximo

@@ -3,7 +3,7 @@ about AMSN에 대하여
 acceptfile 파일을 받으시겠습니까? (파일명 : $1, 용량 : $2)
 actions 기능
 addacontact 친구추가
-addedyou 님이 당신을 친구목록에 추가했습니다.
+addedyou $1 ($2) 님이 당신을 친구목록에 추가했습니다.
 addtocontacts 친구목록에 추가
 addtoo 이 사용자를 친구목록에 추가
 admincontacts 친구목록 관리
@@ -100,7 +100,7 @@ mustrestart 변경된 설정은 다시 시작 후 적용됩니다.
 mystatus 내 상태 
 needonline 온라인 상태가 아닙니다.
 newmail $1 개의 새로운 메일
-newmailfrom $1에게 메일 받음
+newmailfrom $1에게 메일 받음 $1 ($2)
 newmsg 새로운 메세지
 newveravailable 새버전($1) 다운로드
 next 다음

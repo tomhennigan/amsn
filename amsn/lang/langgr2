@@ -3,7 +3,7 @@ about Plirofories gia to amsn
 acceptfile Apodoxh arxeio $1, megethos $2? apothikeusi sto $3
 actions Energeies
 addacontact Prosthiki epafhs
-addedyou sas prosthese sth lista epafwn tou/ths
+addedyou $1 ($2) sas prosthese sth lista epafwn tou/ths
 addtocontacts Prosthese sth lista epafwn
 addtoo Prosthese auto to atomo sth lista epafwn mou
 admincontacts Diaxeirish epafwn
@@ -101,7 +101,7 @@ mustrestart Xreiazetai epanekinish tou programmatos wste na isxysoun oi allages
 mystatus Katastash
 needonline Akoma eiste/faineste ektos syndeshs
 newmail $1 kainouria minimata hlektronikou taxydromiou
-newmailfrom kainourio mail apo ton/thn
+newmailfrom kainourio mail apo ton/thn $1 ($2)
 newmsg kainourio minima
 newveravailable kainouria ekdosh $1 dia8esimh gia katebasma
 next Epomeno

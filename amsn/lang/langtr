@@ -4,7 +4,7 @@ acceptfile $1 dosyasi aktariliyor; boyut $2 bayt; kaydedilen konum $3
 accept Kabul et
 actions Eylemler
 addacontact Yeni baglanti ekle
-addedyou sizi baglanti listesine ekledi
+addedyou $1 ($2) sizi baglanti listesine ekledi
 addtocontacts Baglanti listesine ekle
 addtoo Bu kisiyi baglanti listesine ekle
 admincontacts Baglantilari düzenle
@@ -178,7 +178,7 @@ myworkphone Ev telefonum
 natip Internet sayfasindan IP belirlenmesi
 natkeepalive Eger baglantiniz sürekli kopuyorsa, Canli tut seçenegini isaretleyiniz
 needonline Hala çevrimdisi görünüyorsunuz!
-newmailfrom Yeni ileti gönderen:
+newmailfrom Yeni ileti gönderen: $1 ($2)
 newmail Gelen kutunuzda $1 yeni ileti var
 newmsg Yeni ileti
 newveravailable Yeni $1 sürümü indirilmeye hazir

@@ -4,7 +4,7 @@ acceptfile Accept file $1, size $2? Saved in $3
 accept Принять 
 actions Действия
 addacontact Добавить пользователя
-addedyou добавил(а) вас в свой контакт-лист
+addedyou $1 ($2) добавил(а) вас в свой контакт-лист
 addtocontacts Добавить в контакт-лист
 addtoo Добавить этого пользователя в мой контакт-лист
 admincontacts Редактировать пользователей
@@ -180,7 +180,7 @@ natip Определение IP по веб странице
 natkeepalive Если связь с сервером часто рвется включите этот keep-alive
 needonline Вы до сих пор отключены
 newmail $1 новых сообщение во Входящих
-newmailfrom Новая почта от
+newmailfrom Новая почта от $1 ($2)
 newmsg Новое сообщение
 newveravailable Новая версия $1 доступна для скачивания
 next Следующая

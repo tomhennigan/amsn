@@ -4,7 +4,7 @@ acceptfile Pranoje skedën $1, madhësia $2? E ruajtur në $3
 accept pranoj
 actions Akcionet
 addacontact Shto një kontakt
-addedyou Të ka shtuar listën e kontakteve të tij/a
+addedyou $1 ($2) Të ka shtuar listën e kontakteve të tij/a
 addtocontacts Shto kontakte
 addtoo Shtoje këtë person në listën e kontakteve të mija
 admincontacts Rregullo kontaktet
@@ -109,7 +109,7 @@ mustrestart Duhet ta startoni përsëri programin që t'i merr parasysh ndryshimet
 mystatus Statusi im
 needonline Ju ende jeni i paraqitur si jashtë linjës!
 newmail $1 Mesazhe të reja në In-Box
-newmailfrom Masazh të ri nga
+newmailfrom Masazh të ri nga $1 ($2)
 newmsg Mesazh i ri
 newveravailable Është e mundshme ta merrni versionin e ri $1
 next Tjetra

@@ -4,7 +4,7 @@ acceptfile Terima file $1, sebesar $2? Simpan di $3
 accept Terima 
 actions Perintah 
 addacontact Tambahkan nama baru 
-addedyou telah menambahkan anda dalam daftar namanya 
+addedyou $1 ($2) telah menambahkan anda dalam daftar namanya 
 addtocontacts Masukkan dalam daftar nama 
 addtoo Masukkan orang ini dalam daftar nama saya 
 admincontacts Atur daftar nama 
@@ -180,7 +180,7 @@ natip Deteksi IP melalui halaman web
 natkeepalive Apabila sambungan anda sering terputus, mungkinkan ‘Biarkan Menyala’
 needonline Anda masih tidak tersambung atau sedang sembunyi! 
 newmail $1 email baru dalam Kotak-Masuk
-newmailfrom Email baru dari 
+newmailfrom Email baru dari $1 ($2)
 newmsg Pesan baru 
 newveravailable Telah ada versi baru $1
 next Berikutnya 

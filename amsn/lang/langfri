@@ -4,7 +4,7 @@ accept Oannimme
 acceptfile Nim bestân $1 oan, grute $2? Bware yn $3
 actions Aksje
 addacontact Foeg in kontakt ta
-addedyou hat dy tafoegd oan syn/har kontaktenlist
+addedyou $1 ($2) hat dy tafoegd oan syn/har kontaktenlist
 addtocontacts Tafoegje oan kontaktenlist
 addtoo Foeg dizze persoan ta oan myn kontaktenlist
 admincontacts Behear kontakten
@@ -177,7 +177,7 @@ natip IP-deteksje troch website
 natkeepalive Ast faak ôfmeld wurdst, moast dit oanfinke
 needonline Do bist (of bearest) net oanmeld
 newmail $1 neie berjochten
-newmailfrom Neie email fan
+newmailfrom Neie email fan $1 ($2)
 newmsg Nei berjocht
 newveravailable Neiere fersy $1 beskikber
 next Folgende 

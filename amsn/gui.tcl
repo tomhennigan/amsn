@@ -3279,7 +3279,7 @@ proc newcontact {new_login new_name} {
 
 
    .newc.c create text 30 5 -font splainf -anchor nw -justify left \
-        -text "$new_name ($new_login) [trans addedyou]." \
+        -text "[trans addedyou $new_name $new_login]" \
         -width 460
    .newc.c create text 30 40 -font splainf -anchor nw \
         -text "[trans youwant]:"

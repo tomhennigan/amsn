@@ -4,7 +4,7 @@ accept Prihvati
 acceptfile Prihvati fajl $1, velicina $2? Snimljen u $3
 actions Akcije
 addacontact Dodaj kontakt
-addedyou vas je dodao u svoju kontakt listu
+addedyou $1 ($2) vas je dodao u svoju kontakt listu
 addtocontacts dodaj u kontakt listu
 addtoo Dodaj ovu osobu u moju kontakt listu
 admincontacts Uredi kontakte
@@ -177,7 +177,7 @@ natip IP detekcijan sa web strane
 natkeepalive Ako se vas redovno diskonektuju, omogucite ovaj KeepAlive
 needonline Jos uvek si/kao oflajn!
 newmail $1 nova poruka u inbox-u
-newmailfrom Novi mejl od
+newmailfrom Novi mejl od $1 ($2)
 newmsg Nova poruka
 newveravailable Novija verzija $1 na raspolaganju za daunload
 next Sledece

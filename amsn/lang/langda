@@ -4,7 +4,7 @@ accept Accepter
 acceptfile Accepter fil $1, størrelse $2? Gemt i $3
 actions Handlinger
 addacontact Tilføj en kontakt
-addedyou har tilføjet dig til hans/hendes kontaktliste
+addedyou har $1 ($2) tilføjet dig til hans/hendes kontaktliste
 addtocontacts Tilføj til kontaktliste
 addtoo Tilføj denne person til min kontaktliste
 admincontacts Admin kontakter
@@ -179,7 +179,7 @@ natip Check IP via Internet side
 natkeepalive Vælg denne KeepAlive, hvis du ofte bliver logget af
 needonline Du er/forestiller stadig at være offline!
 newmail $1 nye beskeder i Indbakken
-newmailfrom Ny mail fra
+newmailfrom Ny mail fra $1 ($2)
 newmsg Ny besked
 newveravailable Det er nu muligt at download den nye version $1
 next Næste

@@ -3,7 +3,7 @@ about Oor...
 acceptfile Aanvaar lêer $1, grootte $2? gestoor in $3
 actions Aksies
 addacontact Voeg `n kontak toe
-addedyou Het jou toegevoeg aan sy/haar kontaktelys
+addedyou $1 ($2) Het jou toegevoeg aan sy/haar kontaktelys
 addtocontacts Voeg toe aan kontakte
 addtoo Voeg hierdie persoon toe aan my kontaktelys
 admincontacts Beheer Kontakte
@@ -103,7 +103,7 @@ mustrestart Jy moet die program oorbegin voordat die veranderinge effek
 mystatus My status
 needonline Jy is offline (of maak asof)
 newmail $1 nuwe e-pos berigte
-newmailfrom Nuwe e-pos van
+newmailfrom Nuwe e-pos van $1 ($2)
 newmsg Nuwe boodskap
 newveravailable Nuwer weergawe $1 beskikbaar
 next Volgende

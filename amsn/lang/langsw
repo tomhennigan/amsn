@@ -4,7 +4,7 @@ accept Acceptera
 acceptfile Vill du ta emot filen $1 ( $2 bytes ) Den kommer att sparas i $3
 actions Åtgärder
 addacontact Lägg till en kontakt
-addedyou har lagt till dig på sin kontaktlista.
+addedyou $1 ($2) har lagt till dig på sin kontaktlista.
 addtocontacts Lägg till på din kontaktlista.
 addtoo Lägg till denna person på kontaktlistan.
 admincontacts Administrera kontakter.
@@ -190,7 +190,7 @@ natip NAT IP
 natkeepalive Om du blir nedkopplad ofta, välj detta alternativ
 needonline Du är nerkopplad/verkar vara nerkopplad
 newmail $1 nya meddelanden i Inkorgen
-newmailfrom Nytt mail från
+newmailfrom Nytt mail från $1 ($2)
 newmsg Nytt meddelande
 newveravailable Ny version $1 finns att ladda ner
 next Nästa

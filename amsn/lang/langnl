@@ -5,7 +5,7 @@ accept Accepteren
 acceptfile Accepteer bestand $1, grootte $2? opgeslagen in $3
 actions Acties
 addacontact Voeg een contact toe
-addedyou Heeft jou toegevoegd aan zijn/haar contactenlijst
+addedyou $1 ($2) Heeft jou toegevoegd aan zijn/haar contactenlijst
 addtocontacts Toevoegen aan contactenlijst
 addtoo Voeg deze persoon toe aan mijn contactenlijst
 admincontacts Beheer contacten
@@ -179,7 +179,7 @@ natip   IP detectie via website
 natkeepalive Wanneer optreedt dat je regelmatig uit wordt gelogd, moet dit
 needonline Je bent offline (of doet alsof)
 newmail $1 nieuwe berichten
-newmailfrom Nieuwe email van
+newmailfrom Nieuwe email van $1 ($2)
 newmsg Nieuw bericht
 newveravailable Nieuwere versie $1 beschikbaar
 next Volgende

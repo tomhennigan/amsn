@@ -4,7 +4,7 @@ accept Accepta
 acceptfile Accept fisierul $1, marime $2? Salvat in $3
 actions Actiuni
 addacontact Adauga o persoana noua  
-addedyou te-a adaugat in lista lui/ei de contacte
+addedyou $1 ($2) te-a adaugat in lista lui/ei de contacte
 addtocontacts Adauga in lista de contact
 addtoo Adauga persoana in lista  
 admincontacts Administrare nume
@@ -177,7 +177,7 @@ natip detectie de adresa IP prin pagina de web
 natkeepalive Daca esti deconectat frecvent, activeaza MentineConexia
 needonline Esti sau Apari neautentificat !
 newmail $1 Mesaje noi in casuta postala
-newmailfrom Ai primit e-mail nou de la 
+newmailfrom Ai primit e-mail nou de la $1 ($2)
 newmsg Mesaj nou 
 newveravailable Versiune noua de $1 este disponibil pentru descarcare.
 next Urmatorul

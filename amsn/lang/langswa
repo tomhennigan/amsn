@@ -4,7 +4,7 @@ acceptfile Kubali faili $1, ukubwa $2? Imeifadhiwa kwenye $3
 accept Kubali
 actions Vitendo
 addacontact Ongeza muongeaji
-addedyou amekuongeza kwenye orodha yake ya waongeaji
+addedyou $1 ($2) amekuongeza kwenye orodha yake ya waongeaji
 addtocontacts Ongeza kwenya orodha ya waongeaji
 addtoo Muongeze mtu huyu kwenye orodha yangu ya waongeaji
 admincontacts Panga waongeaji
@@ -177,7 +177,7 @@ natip Ugunduzi wa IP kwa kurasa ya tovuti
 natkeepalive Kama unakatwa mara kwa mara, ruhusu hii EndelezaKuishi
 needonline Bado upo/unaonekana ujaunganishwa!
 newmail $1 ujumbe mpya katika sanduku-Kuingia
-newmailfrom Barua-p mpya kutoka
+newmailfrom Barua-p mpya kutoka $1 ($2)
 newmsg Ujumbe mpya
 newveravailable Toleo jipya $1 linapatika kwa kutelemsha
 next Inayofuatia

@@ -4,7 +4,7 @@ accept Accepter
 acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
 actions Actions
 addacontact Ajouter un contact
-addedyou vous a ajouté dans sa liste de contacts
+addedyou $1 ($2) vous a ajouté dans sa liste de contacts
 addtocontacts Ajouter aux contacts
 addtoo Ajouter cette personne à ma liste de contacts
 admincontacts Gérer les contacts
@@ -180,7 +180,7 @@ natkeepalive Si vous vous déconnectez régulièrement, activez cette option
 needonline Vous ne pouvez pas écrire un message si vous êtes invisible ou déconnecté
 newveravailable Nouvelle version disponible ($1)
 newmail $1 nouveau(x) message(s)
-newmailfrom Nouveau message de
+newmailfrom Nouveau message de $1 ($2)
 newmsg Nouveau message
 newveravailable Nouvelle version disponible
 next Suivant

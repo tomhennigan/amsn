@@ -4,7 +4,7 @@ accept 承認
 acceptfile $3 に $2 のファイル $1 を受信しますか？
 actions 操作
 addacontact メンバの追加
-addedyou あなたは次の人のメンバリストに追加されました。
+addedyou $1 ($2) あなたは次の人のメンバリストに追加されました。
 addtocontacts メンバリストに追加する
 addtoo この人を自分のメンバリストにも追加する
 admincontacts メンバ管理
@@ -177,7 +177,7 @@ natip WebページでのIP検出
 natkeepalive よく切断されるのでKeepAliveを有効にする
 needonline 穴阿多は今オフラインになっています！
 newmail 受信箱に $1 通のメッセージがあります
-newmailfrom 次の人からメールが来ました
+newmailfrom 次の人からメールが来ました $1 ($2)
 newmsg 新メッセージ
 newveravailable 新しいバージョン $1 がダウンロード可能です
 next 次へ

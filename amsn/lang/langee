@@ -4,7 +4,7 @@ accept Nõustu
 acceptfile Nõustu failiga $1, suurus $2? Salvestatud $3
 actions Tegevused
 addacontact Lisa sõber
-addedyou on lisanud sind enda sõbralisti
+addedyou $1 ($2) on lisanud sind enda sõbralisti
 addtocontacts Lisa sõbralisti
 addtoo Lisa see inimene oma sõbralisti
 admincontacts Halda sõpru
@@ -177,7 +177,7 @@ natip IP määramine veebilehe kaudu
 natkeepalive Kui su ühendus pidevalt katkeb, võimalda see Ülalhoidmine
 needonline Sa oled/ilmud ikka lahtiühendatuna
 newmail $1 uut sõnumit postkastis
-newmailfrom Uus kiri saatjalt
+newmailfrom Uus kiri saatjalt $1 ($2)
 newmsg Uus sõnum
 newveravailable Uuem versioon $1 allalaadimiseks saadaval
 next Edasi

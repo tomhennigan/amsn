@@ -4,7 +4,7 @@ accept Accetta
 acceptfile Accetto il file $1, dimensioni $2? Salvato in $3
 actions Azioni
 addacontact Aggiungi un contatto
-addedyou ti ha aggiunto alla sua lista dei contatti
+addedyou $1 ($2) ti ha aggiunto alla sua lista dei contatti
 addtocontacts Aggiungere un contatto alla lista
 addtoo Aggiungi questa persona alla mia lista dei contatti
 admincontacts Amministrazione contatti
@@ -123,7 +123,7 @@ mystatus Il mio stato
 natip La rilevazione dell'IP dalla pagina web
 needonline Sembra che tu sia scollegato!
 newmail $1 nuovi messaggi di posta
-newmailfrom Nuova email da
+newmailfrom Nuova email da $1 ($2)
 newmsg Nuovo messaggio
 newveravailable La nuova versione $1 è disponibile per il download
 next Prossimo

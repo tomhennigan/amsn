@@ -4,7 +4,7 @@ accept Akceptu
 acceptfile Akceptu dosieron $1, grando $2? Registrita je $3
 actions Agoj
 addacontact Aldonu kontaktulon
-addedyou estis aldoninta vin al lia/ŝia kontaktulo-listo
+addedyou $1 ($2) estis aldoninta vin al lia/ŝia kontaktulo-listo
 addtocontacts Aldonu al kontaktulo-listo
 addtoo Aldonu tiun homon al mia kontaktulo-listo
 admincontacts Kontrolu kontaktulojn
@@ -177,7 +177,7 @@ natip IP malkovrado far retpaĝo
 natkeepalive Se vi malkonektiĝas ofte, kapibligu tiu ĉi KeepAlive
 needonline Vi ankoraŭ estas/ŝajnas malenreta!
 newmail $1 novaj mesaĝoj en LeterKesto
-newmailfrom Nova retletero de
+newmailfrom Nova retletero de $1 ($2)
 newmsg Nova mesaĝo
 newveravailable Pli nova versio $1 haveblas por elŝutado
 next Venonta
