@@ -770,15 +770,15 @@ namespace eval ::ChatWindow {
 
 		grid columnconfigure .${win_name}.statusbar 0 -weight 1
 		grid columnconfigure .${win_name}.statusbar 1
-		grid $bottom.in -row 1 -column 0 -padx 3 -pady [::skin::getColor chatpady]  -sticky nsew
-		grid $bottom.buttons -row 0 -column 0 -padx 3 -pady 0 -sticky ewns
+		grid $bottom.in -row 1 -column 0 -padx [::skin::getColor chatpadx] -pady [::skin::getColor chatpady]  -sticky nsew
+		grid $bottom.buttons -row 0 -column 0 -padx [::skin::getColor chatpadx] -pady 0 -sticky ewns
 		grid column $bottom 0 -weight 1
 
 		#Remove thin border on Mac OS X (padx)
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 				pack .${win_name}.f.out -expand true -fill both -padx 0 -pady 0
 			} else {
-				pack .${win_name}.f.out -expand true -fill both -padx 3 -pady 0
+				pack .${win_name}.f.out -expand true -fill both -padx [::skin::getColor chatpadx] -pady 0
 			}
 		
 		pack .${win_name}.f.top.textto -side left -fill y -anchor nw -padx 0 -pady 3
@@ -788,7 +788,7 @@ namespace eval ::ChatWindow {
 
 		pack $bottom.in.f.send -fill both -expand true
 		pack $bottom.in.input -side left -expand true -fill both -padx 1 -pady 1
-		pack $bottom.in.f -side left -fill y -padx 3 -pady 4
+		pack $bottom.in.f -side left -fill y -padx [::skin::getColor chatpadx] -pady 4
 
 		pack .${win_name}.f -expand true -fill both -padx 0 -pady 0
 
