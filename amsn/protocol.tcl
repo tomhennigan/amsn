@@ -4212,6 +4212,9 @@ proc setup_connection {name} {
 		#status_log "cmsn_connect: Calling proxy::Setup now\n" green
 		#::Proxy::Setup next readable_handler $name
 	
+	} else {
+		::config::setKey connectiontype "direct"
+ 		sb set $name connection_wrapper DirectConnection
 	}
 }
 
