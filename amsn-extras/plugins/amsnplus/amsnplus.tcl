@@ -234,6 +234,75 @@ namespace eval ::amsnplus {
 		set strlen [string length $msg]
 		set i 0
 		while {$i<$strlen} {
+			set char [string range $msg $i [expr $i + 4]]
+			if {[string equal $char "(!FB)"]} {
+				set msg [string replace $msg $i [expr $i + 3] ""]
+				set strlen [string length $msg]
+				set str [string range $msg 0 [expr $i - 1]]
+				set slen [string length $str]
+				set msg [string replace $msg 0 $slen ""]
+				set i -1
+				set strlen [string length $msg]
+				set customfont [list $font $style $color]
+				::amsn::WinWrite $chatid $str "user" $customfont
+				set index [lsearch $style "bold"]
+				if {![string equal "-1" $index]} {
+					set style [lreplace $style $index $index]
+				} else {
+					set style [linsert $style end "bold"]
+				}
+			}
+			if {[string equal $char "(!FI)"]} {
+				set msg [string replace $msg $i [expr $i + 3] ""]
+				set strlen [string length $msg]
+				set str [string range $msg 0 [expr $i - 1]]
+				set slen [string length $str]
+				set msg [string replace $msg 0 $slen ""]
+				set i -1
+				set strlen [string length $msg]
+				set customfont [list $font $style $color]
+				::amsn::WinWrite $chatid $str "user" $customfont
+				set index [lsearch $style "italic"]
+				if {![string equal "-1" $index]} {
+					set style [lreplace $style $index $index]
+				} else {
+					set style [linsert $style end "italic"]
+				}
+			}
+			if {[string equal $char "(!FU)"]} {
+				set msg [string replace $msg $i [expr $i + 3] ""]
+				set strlen [string length $msg]
+				set str [string range $msg 0 [expr $i - 1]]
+				set slen [string length $str]
+				set msg [string replace $msg 0 $slen ""]
+				set i -1
+				set strlen [string length $msg]
+				set customfont [list $font $style $color]
+				::amsn::WinWrite $chatid $str "user" $customfont
+				set index [lsearch $style "underline"]
+				if {![string equal "-1" $index]} {
+					set style [lreplace $style $index $index]
+				} else {
+					set style [linsert $style end "underline"]
+				}
+			}
+			if {[string equal $char "(!FS)"]} {
+				set msg [string replace $msg $i [expr $i + 3] ""]
+				set strlen [string length $msg]
+				set str [string range $msg 0 [expr $i - 1]]
+				set slen [string length $str]
+				set msg [string replace $msg 0 $slen ""]
+				set i -1
+				set strlen [string length $msg]
+				set customfont [list $font $style $color]
+				::amsn::WinWrite $chatid $str "user" $customfont
+				set index [lsearch $style "overstrike"]
+				if {![string equal "-1" $index]} {
+					set style [lreplace $style $index $index]
+				} else {
+					set style [linsert $style end "overstrike"]
+				}
+			}
 			set char [string range $msg $i [expr $i + 3]]
 			if {[string equal $char "(!FC"]} {
 				if {[::amsnplus::is_a_number [string index $msg [expr $i + 5]]]} {
