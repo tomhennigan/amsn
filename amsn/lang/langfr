@@ -71,6 +71,7 @@ busy Occupé
 cancel Annuler
 cannotdeleteprofile le profil ne peut être supprimé car il semble utilisé par une session aMSN
 cantexec Impossible d'exécuter l'application : $1. Vérifiez les préférences.
+cantremoveothers Impossible de supprimer le groupe "Autres".
 casesensitive Utiliser des déclencheurs sensibles à la casse
 cfgalarmall Configurer/Ajouter/Supprimer toutes les alarmes
 cfgalarm Configurer/Ajouter/Supprimer alarme
@@ -131,6 +132,7 @@ days Jours
 dcprofile Ne pas créer de profil
 default Configuration par défaut
 defaultloginradio Identification avec la configuration par défaut
+defchatwinsize Taille par défaut pour les fenêtres de discussion (LargeurxHauteur)
 deletecustomstate Suppression de l'état personnel 
 delete Effacer
 delimiters Délimiteurs de l'horodateur
@@ -401,9 +403,10 @@ répertoire.
 reversed Inverser
 reverselist Liste inversée :
 rightback Bientôt de retour
+save Enregistrer
 saveas Enregistrer sous
 savecontacts Enregistrer la liste des contacts
-save Enregistrer
+savechatwinsize Sauvegarder en tant que taille par défaut la taille de la fenêtre de discussion quand elle sera changée.
 savetofile Sauvegarder dans un fichier
 says $1 dit
 sbcon Connexion au "Switch Board"
