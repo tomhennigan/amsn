@@ -1,4 +1,4 @@
-FAQ 1.7
+FAQ 1.8
 --------
 
 Q: What is Amsn?
@@ -309,5 +309,6 @@ Before submitting a bug or asking for support, get the following information:
 - Tcl and Tk version.
 - Stack trace of the submitted error (if applicable).
 - Last error messages in debug windows (Ctrl+D and Ctrl+S in contact list).
-If you still have a question, you can mail me at
-airadier@users.sourceforge.net.
+
+If you still have a question, you can mail us at:
+amsn-users@lists.sourceforge.net
