@@ -4747,7 +4747,7 @@ proc show_umenu {user_login grId x y} {
 
 
 #///////////////////////////////////////////////////////////////////////
-package require http 2.3
+package require http
 
 proc checking_ver {} {
     global weburl

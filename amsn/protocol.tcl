@@ -3166,7 +3166,7 @@ proc cmsn_listdel {recv} {
 proc cmsn_auth {{recv ""}} {
    global config list_version protocol
 
-    if {($protocol == "9") && ([info exist recv])} { return [cmsn_auth_msnp9 $recv] }
+    if {($protocol == "9") && ([info exist recv])} { return [cmsn_auth_msnp9 $recv]}
     if {($protocol == "9") && (![info exist recv])} { return [cmsn_auth_msnp9]}
 
    switch [sb get ns stat] {
@@ -3292,7 +3292,7 @@ proc cmsn_auth_msnp9 {{recv ""}} {
 
    switch [sb get ns stat] {
       c {
-         ::MSN::WriteSB ns "VER" "MSNP9 MSNP8 MSNP7 MSNP6 MSNP5 MSNP4 CVR0"
+         ::MSN::WriteSB ns "VER" "MSNP9 MSNP8 CVR0"
 	 sb set ns stat "v"
 	 return 0
       }

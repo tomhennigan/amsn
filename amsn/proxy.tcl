@@ -8,7 +8,7 @@
 # RCS: @(#) $Id$
 
 package provide Proxy 0.1
-package require http  2.3
+package require http
 
 # This should be converted to a proper package, to use with package require
 source [file join $program_dir socks.tcl]	;# SOCKS5 proxy support
@@ -438,6 +438,9 @@ namespace eval ::Proxy {
 }
 ###################################################################
 # $Log$
+# Revision 1.16  2003/09/10 20:33:30  burgerman
+# small bug fix with require http 2.3
+#
 # Revision 1.15  2003/09/02 22:48:26  burgerman
 # Fixed bug with SSL Proxy method
 #

@@ -32,7 +32,7 @@ if { $initialize_amsn == 1 } {
 
 }
  
-package require http 2.3
+package require http
 
 
 #
