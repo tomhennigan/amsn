@@ -255,6 +255,7 @@ proxyconf Configuration du proxy
 proxyconfhttp Configuration du support proxy HTTP
 proxyconnection Je me connecte à Internet par un serveur proxy :
 publishphones Publier mes numéros de téléphone
+raised Maximiser/Déiconifier
 receivedbytes $1 de $2 octets reçus
 receivefile Fichier reçu
 reconnect Dans l'attente de la reconnexion de $1

@@ -1,7 +1,7 @@
 amsn_lang_version 2
 about Ynformaasje
-accept Oannimme
 acceptfile Nim bestân $1 oan, grute $2? Bware yn $3
+accept Oannimme
 actions Aksje
 addacontact Foeg in kontakt ta
 addedyou $1 ($2) hat dy tafoegd oan syn/har kontaktenlist
@@ -26,9 +26,9 @@ autoidle Automatysk "Net oanwêzich"
 autoip Automatysk IP
 autonoact Automatysk "Net oanwêzich" as't ik net warber bin nei
 avoidseen Foarkom dat dizze persoan sjen kin wannear't ik oanmeld bin en dat hy my sprekke kin.
-away Net oanwêzich
 awaymsg1 Freagje om berjocht foar "Net oanwêzich" as de status feroarje wurdt naar "Net oanwêzich".
 awaymsg2 Net freagje en altiid it ondersteande berjocht foar "Net oanwêzich" brûke.
+away Net oanwêzich
 baduserpass Gjin goed gebrûkersnamme of wachtwurd
 bgcolor Feroarje aMSN's eftergrûnkleur
 blankdirect Lit leech foar direkte ferbining
@@ -44,6 +44,7 @@ changefont Feroarje lettertype
 changenick Feroarje skermnamme
 chatack Nim chat oan fan
 chat Chat
+chatmaxmin At ien een gesprek mei my begjint, dan wol ik het finster:
 chatreq Freagje om te chatten
 chatsmileys2 Toan emoticons en smileys yn chat-finsters
 chatsmileys Toan emoticons
@@ -64,6 +65,7 @@ confirmdelete Wolst grif $1 foartsmite?
 confirm Wytst it grif?
 connecterror Ferbiningsflater
 connection Ferbining
+connectionlost De ferbyning mei de server is fuort
 contactadded Kontaktpersoan tafoegd
 contactdoesnotexist Kontaktpersoan bestiet net
 copy Kopiearje
@@ -79,9 +81,10 @@ delete Wis
 deliverfail D'r wie in problem by it beswargje fan de folgende boadskip
 delprofile2 Kies it profyl dast foartsmite wolst
 delprofile Smit profyl foart
+directconnection Ik haw n directe ferbyning mei het internet, troch poarte 1863
 dockgtk Ferbergje foar gnome
-dockingoff Ferbergje út
 docking Ferberg
+dockingoff Ferbergje út
 dockkde Ferbergje foar KDE
 edit Bewurkje
 editprofile Bewurkje profyl
@@ -118,8 +121,9 @@ helpcontents Help inhâld
 help Help
 history Besjoch Skiednis
 home Thús
-ident Oan't identificearje
+httpconnection Ferbyne mei een HTTP-protocol, oer poarte 80
 identity Identiteit
+ident Oan't identificearje
 inbox Inbox
 invalidusername Dyn gebrûkersnamme is net júst.
 invite Noegje út
@@ -181,6 +185,7 @@ newmailfrom Neie email fan $1 ($2)
 newmsg Nei berjocht
 newveravailable Neiere fersy $1 beskikber
 next Folgende 
+ng
 noactivity Gjin aksje
 nologfile Gjin logboek foar $1
 nonewmail Gjin berjochten yn In-Box
@@ -214,6 +219,7 @@ port Poarte
 prefalerts Myn Alarm en Lûd
 prefapps Programma's
 prefawaymsg Myn ôfwezich-berjocht
+prefconnection FerbyningsYnstellings
 prefemotic Emoticons en smileys
 preferences Ynstellings
 preffont2 Feroarje hoe't oaren myn tekst sjoche
@@ -236,8 +242,8 @@ profiledconfig Profylkonfiguraasje
 profiles Profylen
 properties Eigenskippen
 proxyconfhttp HTTP proxy konfiguraasje ûnderst
-ng
 proxyconf Proxy konfiguraasje
+proxyconnection Ik bin mei het internet ferbun troch een proxy server
 proxy Ik meitsje brûk fan in Proxy Server (HTTP of SOCKS5)
 publishphones Publisear myn telefoannûmers
 receivedbytes $1 fan $2 bytes krigen
@@ -249,24 +255,24 @@ rememberpass Bewarje wachtwurd
 reversed Omgekeard
 rightback Sa werom
 saveas Bewarje as
-savecontacts Kontaktenlist bewarje
 save Bewarje
+savecontacts Kontaktenlist bewarje
 savetofile Bestân bewarje
 says $1 seit
 sbcon Mei Switch Board oan't ferbine 
+send Ferstjoer 
 sendfile Ferstjoer in bestân
 sendmail Ferstjoer in email
 sendmsg Ferstjoer in berjocht
-send Ferstjoer 
 sentbytes $1 fan $2 bytes ferstjûrd
 servergoingdown De server giet út
 server Server
 session Sitting
 sound2 Spielje lûd as kontakten sich oanmelde of in berjocht stjoere
 soundcommand Dit moat in ôfspielkommando wêse (bg: esdplay)
-sound Lûd
 soundfile Lûdsbestân
 soundloop Lûd herhelje bliuwe
+sound Lûd
 soundserver Lûdserver
 soundstatus Skakel alarmlûd oan/út
 startoffline2 'Stil' oanmelde mei "Net oanmeld"-status
@@ -285,8 +291,8 @@ tools Ark
 unblock Deblokkear
 uoffline Net oanmeld
 uonline Oanmeld
-user Gebrûker 
 useralreadyonlist Gebrûker stiet al yn dyn list
+user Gebrûker 
 usernotonline De gebrûker is net oanmeld
 version Fersy
 view Byld

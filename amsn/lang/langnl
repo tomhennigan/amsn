@@ -1,5 +1,4 @@
 amsn_lang_version 2
-$1.
 about Informatie
 accept Accepteren
 acceptfile Accepteer bestand $1, grootte $2? opgeslagen in $3
@@ -47,6 +46,7 @@ changefont Verander lettertype
 changenick Verander Schermnaam
 chatack Aanvaard chat van
 chat Chat
+chatmaxmin Als iemand een gesprek met mij begint, dan wil ik dat het is:
 chatreq Verzoek om te chatten
 chatsmileys2 Toon emoticons en smileys in chat-vensters
 chatsmileys Toon emoticons
@@ -65,7 +65,10 @@ closingdocks Sluit venster
 command Programma
 confirmdelete Wilt je echt $1 verwijderen?
 confirm Weet je het zeker?
+connected Je bent nu verbonden
 connecterror Verbindingsfout
+connecting Bezig met verbinden
+connectionlost De verbinding met de server is gesloten
 connection Verbinding
 contactadded Contactpersoon toegevoegd
 contactdoesnotexist Contactpersoon bestaat niet
@@ -82,6 +85,7 @@ delete Wis
 deliverfail Er was een problem bij het bezorgen van de volgende boodschap
 delprofile2 Kies het profiel dat je wilt verwijderen
 delprofile Verwijder profiel
+directconnection Ik heb een directe verbinding met het internet, via poort 1863
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Verbergen voor gnome
 dockingoff Verbergen uit
@@ -90,6 +94,7 @@ dockkde Verbergen voor KDE
 edit    Bewerken
 editprofile Bewerk profiel
 enableproxy Gebruik proxy
+enableremote Controle op afstand aanzetten
 encoding2 Veranderen van encodering bij jouw tekens
 encoding Encoderen
 entercontactemail Geef contact-email in
@@ -122,6 +127,7 @@ helpcontents Help inhoud
 help Help
 history Geschiedenis
 home Thuis
+httpconnection Verbinden via het HTTP-protocol via poort 80
 ident Bezig met identificeren
 identity Identiteit
 inbox Inbox
@@ -190,6 +196,7 @@ nologfile Geen logboek voor $1
 nonewmail 0 nieuwe berichten in In-Box
 nonewver Er zijn geen nieuwere versies beschikbaar
 normal Normaal
+nosystemtray Systeembalk niet beschikbaar
 notify1 Toon inlichtingenvenster wanneer een contact online komt
 notify2 Toon inlichtingenvenster wanneer nieuwe berichten ontvangen worden
 notify3 Toon inlichtingenvenster wanneer er nieuwe emails worden ontvangen
@@ -219,6 +226,7 @@ positie-offsets
 prefalerts Mijn Alarm en Geluiden
 prefapps Programma's
 prefawaymsg Mijn afwezig-bericht
+prefconnection Verbindingsinstellingen
 prefemotic Emoticons en smileys
 preferences Instellingen
 preffont2 Verander mijn tekstweergave voor anderen
@@ -234,6 +242,7 @@ prefprofile2 Maak of wijzig jouw profiel
 prefprofile3 aMSN's configuratieprofielen voor gebruikers
 prefprofile Mijn Profiel
 prefproxy Mijn Proxy-instellingen
+prefremote Voorkeuren voor verbinding op afstand
 prefsession Mijn Aanmelden en Status
 prefshared Gedeelde verbindingen (alleen voor NAT)
 prefsound Geluid
@@ -243,8 +252,10 @@ profiles Profielen
 properties Eigenschappen
 proxyconfhttp HTTP proxy configuratie ondersteuning
 proxyconf Proxy configuratie
+proxyconnection Ik heb een internetverbinding via een proxyserver
 proxy Ik maak gebruik van een Proxy Server (HTTP of SOCKS5)
 publishphones Publiceer mijn telefoonnummers
+raised Zichtbaar/Gede-iconificeerd
 receivedbytes $1 van $2 bytes ontvangen
 receivefile Ontvang bestand
 reconnecting Bezig met opnieuw verbinden met de server
