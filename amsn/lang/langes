@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Acerca de
+acceptfile ¿Aceptar archivo $1, tamaño $2 bytes?\nSe guardará en $3
 actions Acciones
 actions Acciones
 addacontact Añadir un contacto
@@ -37,6 +38,7 @@ enableproxy Activar proxy
 entercontactemail Introduce el email del contacto
 enternick Introduce tu nick
 examples Ejemplos
+filetransfercomplete Transferencia de archivo completada
 gonelunch Salí a comer
 help Ayuda
 helpcontents Temas de ayuda
@@ -83,6 +85,7 @@ preferences Preferencias
 prefsound Sonidos
 proxyconf Configuración proxy
 proxyconfhttp Configurar soporte de proxy http
+receivedbytes Recibidos $1 de $2 bytes totales
 reconnect Esperando que $1 se reconecte
 reconnecting Reconectando al servidor
 rememberpass Recordar contraseña
@@ -96,6 +99,7 @@ send Enviar
 sendfile Enviar archivo
 sendmail Enviar email
 sendmsg Enviar mensaje
+sentbytes Enviados $1 de $2 bytes totales
 server Servidor
 sound Sonido eventos
 startoffline Comenzar Desconectado

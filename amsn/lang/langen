@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about About
+acceptfile Accept file $1, size $2?\nSaved in $3
 actions Actions
 addacontact Add a contact
 addedyou has added you to his/her contact list
@@ -37,6 +38,7 @@ enableproxy Enable proxy
 entercontactemail Enter contact e-mail
 enternick Enter your nick
 examples Examples
+filetransfercomplete File transfer complete
 gonelunch Gone to lunch
 help Help
 helpcontents Help contents
@@ -84,6 +86,7 @@ preferences Preferences
 prefsound Sounds
 proxyconf Proxy configuration
 proxyconfhttp HTTP proxy support configuration
+receivedbyes Received $1 of $2 bytes
 reconnect Waiting for $1 to reconnect
 reconnecting Reconnecting to server
 rememberpass Remember password
@@ -97,6 +100,7 @@ send Send
 sendfile Send file
 sendmail Send mail
 sendmsg Send message
+sentbytes Sent $1 of $2 bytes
 server Server
 sound Event Sound
 startoffline Start Offline
