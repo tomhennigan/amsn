@@ -1010,8 +1010,10 @@ namespace eval ::ChatWindow {
 
 		# Bind on focus, so we always put the focus on the input window
 		bind $paned <FocusIn> "focus $input"
-		bind $input <Configure> "::ChatWindow::InputPaneConfigured $paned $input $output %W %h"
-		bind $paned <Configure> "::ChatWindow::PanedWindowConfigured $paned $input $output %W %h"
+		if { $::tcl_version >= 8.4 } {
+			bind $input <Configure> "::ChatWindow::InputPaneConfigured $paned $input $output %W %h"
+			bind $paned <Configure> "::ChatWindow::PanedWindowConfigured $paned $input $output %W %h"
+		}
 
 		return $paned
 
@@ -1022,9 +1024,7 @@ namespace eval ::ChatWindow {
 		if { ![string equal $input $W]} { return }
 
 		if { [::config::getKey savechatwinsize] } {
-			if { $::tcl_version >= 8.4 } {
-				::config::setKey winchatoutheight [winfo height $output]
-			}
+			::config::setKey winchatoutheight [winfo height $output]
 		}
 	}
 
