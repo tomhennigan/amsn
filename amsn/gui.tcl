@@ -2838,14 +2838,14 @@ proc cmsn_draw_main {} {
    menu .main_menu.file -tearoff 0 -type normal 
    if { [string length $config(login)] > 0 } {
      if {$password != ""} {
-        .main_menu.file add command -label "[trans login] $config(login)" \
+        .main_menu.file add command -label "[trans loginas] $config(login)" \
           -command "::MSN::connect [list $config(login)] [list $password]" -state normal
      } else {
-     	.main_menu.file add command -label "[trans login] $config(login)" \
+     	.main_menu.file add command -label "[trans loginas] $config(login)" \
           -command cmsn_draw_login -state normal
      }
    } else {
-     .main_menu.file add command -label "[trans login]" \
+     .main_menu.file add command -label "[trans loginas]..." \
        -command "::MSN::connect $config(login) $password" -state disabled
    }
    .main_menu.file add command -label "[trans login]..." -command \
