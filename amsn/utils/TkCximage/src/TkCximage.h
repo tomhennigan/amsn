@@ -51,7 +51,7 @@ extern "C"
 
 
 #define ENABLE_LOGS 1
-
+#define ANIMATE_GIFS 1
 
 
 
@@ -119,19 +119,33 @@ logfile = fopen(LOGPATH, "a");
 }
 
 
+#if ANIMATE_GIFS
 
-EXTERN static int ImageRead(Tcl_Interp *interp, CxImage image, Tk_PhotoHandle imageHandle, int destX, int destY,
-					 int width, int height, int srcX, int srcY);
+typedef struct gif_info {
+	CxImage * image;
+	Tk_PhotoHandle Handle;
+	int NumFrames;
+	int CurrentFrame;
+} GifInfo ;
 
-EXTERN static int ChanMatch (Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format,int *widthPtr,
+
+
+EXTERN void AnimateGif(ClientData data);
+EXTERN int g_EnableAnimated;
+#endif // ANIMATE_GIFS
+
+
+
+
+EXTERN int ChanMatch (Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format,int *widthPtr,
 					  int *heightPtr,Tcl_Interp *interp);
-EXTERN static int ObjMatch (Tcl_Obj *data, Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl_Interp *interp);
-EXTERN static int ChanRead (Tcl_Interp *interp, Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
+EXTERN int ObjMatch (Tcl_Obj *data, Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl_Interp *interp);
+EXTERN int ChanRead (Tcl_Interp *interp, Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
 					 int destX, int destY, int width, int height, int srcX, int srcY);
-EXTERN static int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
+EXTERN int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
 					int destX, int destY, int width, int height, int srcX, int srcY);
-EXTERN static int ChanWrite (Tcl_Interp *interp, CONST char *fileName, Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr);
-EXTERN static int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr);
+EXTERN int ChanWrite (Tcl_Interp *interp, CONST char *fileName, Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr);
+EXTERN int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr);
 
 EXTERN int GetFileTypeFromFileName(char * Filename);
 EXTERN int GetFileTypeFromFormat(char * Format);
@@ -142,18 +156,30 @@ EXTERN int Tkcximage_Init _ANSI_ARGS_((Tcl_Interp *interp));
 EXTERN int Tkcximage_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
 
 
-EXTERN static int Tk_Convert _ANSI_ARGS_((ClientData clientData,
+EXTERN int Tk_Convert _ANSI_ARGS_((ClientData clientData,
 								Tcl_Interp *interp,
 								int objc,
 								Tcl_Obj *CONST objv[]));
-EXTERN static int Tk_Resize _ANSI_ARGS_((ClientData clientData,
+EXTERN int Tk_Resize _ANSI_ARGS_((ClientData clientData,
 								Tcl_Interp *interp,
 								int objc,
 								Tcl_Obj *CONST objv[]));
-EXTERN static int Tk_Thumbnail _ANSI_ARGS_((ClientData clientData,
+EXTERN int Tk_Thumbnail _ANSI_ARGS_((ClientData clientData,
 								Tcl_Interp *interp,
 								int objc,
 								Tcl_Obj *CONST objv[]));
+
+EXTERN int Tk_EnableAnimated _ANSI_ARGS_((ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+								Tcl_Obj *CONST objv[]));
+
+EXTERN int Tk_DisableAnimated _ANSI_ARGS_((ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+								Tcl_Obj *CONST objv[]));
+
+EXTERN int CopyImageToTk(Tcl_Interp * inter, CxImage *image, Tk_PhotoHandle Photo, int width, int height, int black = true);
 
 
 # undef TCL_STORAGE_CLASS

@@ -17,6 +17,7 @@
 	#include <assert.h>
 #endif
 
+
 ////////////////////////////////////////////////////////////////////////////////
 bool CxImageGIF::Decode(CxFile *fp)
 {
@@ -30,6 +31,10 @@ bool CxImageGIF::Decode(CxFile *fp)
 	fp->Read(&dscgif,/*sizeof(dscgif)*/13,1);
 	//if (strncmp(dscgif.header,"GIF8",3)!=0) {
 	if (strncmp(dscgif.header,"GIF8",4)!=0) return FALSE;
+
+	// Avoid Byte order problem with Mac
+	dscgif.scrheight = GETWORD(dscgif.scrheight);
+	dscgif.scrwidth = GETWORD(dscgif.scrwidth);
 
 	if (info.nEscape == -1) {
 		// Return output dimensions only
@@ -219,7 +224,22 @@ bool CxImageGIF::Decode(CxFile *fp)
 					fp->Seek(-(ibfmax - ibf - 1), SEEK_CUR);
 				}
 				
+				if (info.bGetAllFrames) {
+					if (iImage == 0) {
+						delete info.GifFrames;
+						info.GifFrames = new CxImage*[info.nNumFrames];
+						for(int frameIdx = 0; frameIdx < info.nNumFrames; frameIdx++){
+							info.GifFrames[frameIdx] = NULL;
+						}
+					}
+					if(imaRGB)
+						info.GifFrames[iImage] = new CxImage(*imaRGB);
+					else 
+						info.GifFrames[iImage] = new CxImage(*this);
+					info.GifFrames[iImage]->RetreiveSingleFrame();
+				}
 				if (info.nFrame==iImage) bContinue=false; else iImage++;
+
 
 				break;
 				}
@@ -240,6 +260,7 @@ bool CxImageGIF::Decode(CxFile *fp)
 		}
 		Transfer(*imaRGB);
 	}
+	
 	delete imaRGB;
 
 	return true;
@@ -260,6 +281,8 @@ bool CxImageGIF::DecodeExtension(CxFile *fp)
 			if (bContinue) {
 				assert(sizeof(gifgce) == 4);
 				bContinue = (count == fp->Read(&gifgce, 1, sizeof(gifgce)));
+				// Avoid Byte order problem with Mac
+				gifgce.delaytime = GETWORD(gifgce.delaytime);
 				if (bContinue) {
 					if (gifgce.transpcolflag) info.nBkgndIndex  = gifgce.transpcolindex;
 					info.dwFrameDelay = gifgce.delaytime;
@@ -487,7 +510,10 @@ void CxImageGIF::EncodeExtension(CxFile *fp)
 	gifgce.delaytime = (WORD)info.dwFrameDelay;
 	gifgce.transpcolindex = (BYTE)info.nBkgndIndex;	   
 	fp->PutC(sizeof(gifgce));
+	//Invert byte order in case we use a byte order arch, then set it back
+	gifgce.delaytime = PUTWORD(gifgce.delaytime);
 	fp->Write(&gifgce, sizeof(gifgce), 1);
+	gifgce.delaytime = GETWORD(gifgce.delaytime);
 	fp->PutC(0);
 	// TRK END
 }

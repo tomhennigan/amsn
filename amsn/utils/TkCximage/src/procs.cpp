@@ -34,7 +34,7 @@
   Comments     : Uses CxImage class
 
 */
-static int Tk_Convert (ClientData clientData,
+int Tk_Convert (ClientData clientData,
 		       Tcl_Interp *interp,
 		       int objc,
 		       Tcl_Obj *CONST objv[]) 
@@ -89,7 +89,7 @@ static int Tk_Convert (ClientData clientData,
 
 }
 
-static int Tk_Resize (ClientData clientData,
+int Tk_Resize (ClientData clientData,
 		      Tcl_Interp *interp,
 		      int objc,
 		      Tcl_Obj *CONST objv[]) 
@@ -101,10 +101,7 @@ static int Tk_Resize (ClientData clientData,
   Tk_PhotoHandle Photo;
   Tk_PhotoImageBlock photoData;
 
-  BYTE * buffer = NULL;
-  BYTE * pixelPtr = NULL;
   BYTE * pixelPtrCopy = NULL;
-  long size = 0;
 
   int alpha = 0;
   int width = 0;
@@ -157,70 +154,16 @@ static int Tk_Resize (ClientData clientData,
     return TCL_ERROR;
   }
 
-  Tk_PhotoBlank(Photo);
+ 	if(!image.Flip()) {
+		Tcl_AppendResult(interp, image.GetLastError(), NULL);
+		return TCL_ERROR;
+	}
 
-#if TK_MINOR_VERSION == 3
-  Tk_PhotoSetSize(Photo, width, height);
-#else 
-#if TK_MINOR_VERSION == 4
-  Tk_PhotoSetSize(Photo, width, height);
-#else 
-#if TK_MINOR_VERSION == 5
-  Tk_PhotoSetSize(interp, Photo, width, height);
-#endif
-#endif
-#endif
-
-
-  if(!image.Flip()) {
-    Tcl_AppendResult(interp, image.GetLastError(), NULL);
-    return TCL_ERROR;
-  }
-
-  if(!image.Encode2RGBA(buffer, size)) {
-    Tcl_AppendResult(interp, image.GetLastError(), NULL);
-    return TCL_ERROR;
-  }
-
-  pixelPtr = (BYTE *) malloc(size);
-  memcpy(pixelPtr, buffer, size);
-
-  Tk_PhotoImageBlock block = {
-    pixelPtr,		// pixel ptr
-    width,
-    height,
-    width*4,	// pitch : number of bytes separating 2 adjacent pixels vertically
-    4,			// pixel size : size in bytes of one pixel .. 4 = RGBA
-  };
-
-  block.offset[0] = 0;
-  block.offset[1] = 1;
-  block.offset[2] = 2;
-
-
-  if (image.AlphaIsValid()) 
-    block.offset[3] = 3;
-
-#if TK_MINOR_VERSION == 3
-	Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height);
-#else 
-#if TK_MINOR_VERSION == 4
-  Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
-#else 
-#if TK_MINOR_VERSION == 5
-  Tk_PhotoPutBlock((Tcl_Interp *) NULL, Photo, &block, 0, 0, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
-#endif
-#endif
-#endif
-
-  image.FreeMemory(buffer);
-
-  return TCL_OK;
-
+  return CopyImageToTk(interp, &image, Photo, image.GetWidth(), image.GetHeight());
 }
 
 
-static int Tk_Thumbnail (ClientData clientData,
+int Tk_Thumbnail (ClientData clientData,
 			 Tcl_Interp *interp,
 			 int objc,
 			 Tcl_Obj *CONST objv[]) 
@@ -233,10 +176,8 @@ static int Tk_Thumbnail (ClientData clientData,
   Tk_PhotoHandle Photo;
   Tk_PhotoImageBlock photoData;
 
-  BYTE * buffer = NULL;
-  BYTE * pixelPtr = NULL;
-  BYTE * pixelPtrCopy = NULL;
-  long size = 0;
+    BYTE * pixelPtrCopy = NULL;
+
   int alpha = 0;
   int alphaopt = 255;
 
@@ -314,65 +255,99 @@ static int Tk_Thumbnail (ClientData clientData,
     return TCL_ERROR;
   }
 
-  Tk_PhotoBlank(Photo);
-
-#if TK_MINOR_VERSION == 3
-  Tk_PhotoSetSize(Photo, width, height);
-#else 
-#if TK_MINOR_VERSION == 4
-  Tk_PhotoSetSize(Photo, width, height);
-#else 
-#if TK_MINOR_VERSION == 5
-  Tk_PhotoSetSize(interp, Photo, width, height);
-#endif
-#endif
-#endif
-
-
   if(!image.Flip()) {
-    Tcl_AppendResult(interp, image.GetLastError(), NULL);
-    return TCL_ERROR;
-  }
-  if(!image.Encode2RGBA(buffer, size)) {
-    Tcl_AppendResult(interp, image.GetLastError(), NULL);
-    return TCL_ERROR;
-  }
+		Tcl_AppendResult(interp, image.GetLastError(), NULL);
+		return TCL_ERROR;
+	}
 
-  pixelPtr = (BYTE *) malloc(size);
-  memcpy(pixelPtr, buffer, size);
+  return CopyImageToTk(interp, &image, Photo, image.GetWidth(), image.GetHeight());
+}
 
-  Tk_PhotoImageBlock block = {
-    pixelPtr,		// pixel ptr
-    width,
-    height,
-    width*4,	// pitch : number of bytes separating 2 adjacent pixels vertically
-    4,			// pixel size : size in bytes of one pixel .. 4 = RGBA
-  };
+int CopyImageToTk(Tcl_Interp * interp, CxImage *image, Tk_PhotoHandle Photo, int width, int height, int blank) {
 
-  block.offset[0] = 0;
-  block.offset[1] = 1;
-  block.offset[2] = 2;
+	try {
+		BYTE * buffer = NULL;
+	BYTE * pixelPtr = NULL;
+	long size = 0;
 
-  if (image.AlphaIsValid()) 
-    block.offset[3] = 3;
 
-#if TK_MINOR_VERSION == 3
-  Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height);
-#else 
-#if TK_MINOR_VERSION == 4
-  Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
-#else 
-#if TK_MINOR_VERSION == 5
-  Tk_PhotoPutBlock((Tcl_Interp *) NULL, Photo, &block, 0, 0, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
-#endif
-#endif
-#endif
+	if(blank)
+		Tk_PhotoBlank(Photo);
 
-  image.FreeMemory(buffer);
-	
-  return TCL_OK;
+	#if TK_MINOR_VERSION == 3
+	Tk_PhotoSetSize(Photo, width, height);
+	#else 
+	#if TK_MINOR_VERSION == 4
+	Tk_PhotoSetSize(Photo, width, height);
+	#else 
+	#if TK_MINOR_VERSION == 5
+	Tk_PhotoSetSize(interp, Photo, width, height);
+	#endif
+	#endif
+	#endif
+
+	if(!image->Encode2RGBA(buffer, size)) {
+		Tcl_AppendResult(interp, image->GetLastError(), NULL);
+		return TCL_ERROR;
+	}
+
+	pixelPtr = (BYTE *) malloc(size);
+	memcpy(pixelPtr, buffer, size);
+
+	Tk_PhotoImageBlock block = {
+		pixelPtr,		// pixel ptr
+		width,
+		height,
+		width*4,	// pitch : number of bytes separating 2 adjacent pixels vertically
+		4,			// pixel size : size in bytes of one pixel .. 4 = RGBA
+	};
+
+	block.offset[0] = 0;
+	block.offset[1] = 1;
+	block.offset[2] = 2;
+
+	if (image->AlphaIsValid()) 
+		block.offset[3] = 3;
+
+	#if TK_MINOR_VERSION == 3
+	Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height);
+	#else 
+	#if TK_MINOR_VERSION == 4
+	Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
+	#else 
+	#if TK_MINOR_VERSION == 5
+	Tk_PhotoPutBlock((Tcl_Interp *) NULL, Photo, &block, 0, 0, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
+	#endif
+	#endif
+	#endif
+
+	image->FreeMemory(buffer);
+		
+	return TCL_OK;
+	} catch(...) {
+		return TCL_ERROR;
+	}
 
 }
 
+
+#if ANIMATE_GIFS 
+int Tk_EnableAnimated (ClientData clientData,
+		       Tcl_Interp *interp,
+		       int objc,
+		       Tcl_Obj *CONST objv[]) 
+{
+	g_EnableAnimated = 1;
+	return TCL_OK;
+}
+int Tk_DisableAnimated (ClientData clientData,
+		       Tcl_Interp *interp,
+		       int objc,
+		       Tcl_Obj *CONST objv[]) 
+{
+	g_EnableAnimated = 0;
+	return TCL_OK;
+}
+#endif
 
 

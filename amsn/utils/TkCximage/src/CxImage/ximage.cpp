@@ -25,6 +25,8 @@ void CxImage::Startup(DWORD imagetype)
 	info.nAlphaMax = 255;
 	info.nBkgndIndex = -1;
 	info.bEnabled = true;
+	info.bGetAllFrames = false;
+	info.GifFrames = NULL;
 	SetXDPI(96);
 	SetYDPI(96);
 }
@@ -55,6 +57,20 @@ bool CxImage::Destroy()
 		if (pSelection) {free(pSelection); pSelection=0;}
 		if (pAlpha) {free(pAlpha); pAlpha=0;}
 		if (pDib) {free(pDib); pDib=0;}
+
+		return true;
+	}
+	return false;
+}
+
+bool CxImage::DestroyGifFrames()
+{
+	if (info.GifFrames && info.bGetAllFrames) {
+		for (int i = 0; i < info.nNumFrames; i++) {
+			delete info.GifFrames[i];
+		}
+		delete info.GifFrames;
+		info.GifFrames = NULL;
 		return true;
 	}
 	return false;

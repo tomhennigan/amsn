@@ -12,7 +12,7 @@
 
 char currenttime[30];
 FILE * logfile;
-
+int g_EnableAnimated = 1;
 
 int RGB2BGR(Tk_PhotoImageBlock *data, BYTE * pixelPtr) {
   int i;
@@ -182,6 +182,13 @@ int Tkcximage_Init (Tcl_Interp *interp ) {
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
   Tcl_CreateObjCommand(interp, "::CxImage::Thumbnail", Tk_Thumbnail,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+
+#if ANIMATE_GIFS
+  Tcl_CreateObjCommand(interp, "::CxImage::DisableAnimated", Tk_DisableAnimated,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::CxImage::EnableAnimated", Tk_EnableAnimated,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+#endif
 
   LOG("Adding format : "); //
   for (i = 0; i < AvailableFromats; i++) {

@@ -23,7 +23,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="./cximage"
+				AdditionalIncludeDirectories="./Cximage"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;TKCXIMAGE_EXPORTS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -86,7 +86,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../cximage"
+				AdditionalIncludeDirectories="./Cximage"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;TKCXIMAGE_EXPORTS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -146,6 +146,12 @@
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
+			<File
+				RelativePath=".\PhotoFormat.cpp">
+			</File>
+			<File
+				RelativePath=".\procs.cpp">
+			</File>
 			<File
 				RelativePath=".\TkCximage.cpp">
 			</File>

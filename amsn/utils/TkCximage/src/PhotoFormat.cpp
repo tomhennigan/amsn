@@ -9,7 +9,7 @@
 #include "TkCximage.h"
 
 
-static int ChanMatch (Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format,int *widthPtr,
+int ChanMatch (Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format,int *widthPtr,
 		      int *heightPtr, Tcl_Interp *interp) 
 {
   CxImage image;
@@ -17,6 +17,9 @@ static int ChanMatch (Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format,in
   LOG("Chanel matching"); //
   LOG("Filename is"); //
   APPENDLOG(fileName); //
+
+  // Set escape to -1 to prevent decoding the image, but just return it's width and height
+  //image.SetEscape(-1);
 
   if (image.Load(fileName, CXIMAGE_FORMAT_UNKNOWN)) {
     *widthPtr = image.GetWidth();
@@ -35,7 +38,7 @@ static int ChanMatch (Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format,in
 }
 					  
 					  
-static int ObjMatch (Tcl_Obj *data, Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl_Interp *interp) {
+int ObjMatch (Tcl_Obj *data, Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl_Interp *interp) {
 
   BYTE * buffer = NULL;
   int length = 0;
@@ -66,48 +69,50 @@ static int ObjMatch (Tcl_Obj *data, Tcl_Obj *format, int *widthPtr, int *heightP
   return false;
 }
 
-static int ChanRead (Tcl_Interp *interp, Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
+int ChanRead (Tcl_Interp *interp, Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
 		     int destX, int destY, int width, int height, int srcX, int srcY) 
 {
-  CxImage image;
+	Tcl_Obj *data = Tcl_NewObj();
 
-  LOG("Reading from file :"); //
-  APPENDLOG(fileName); //
+	Tcl_SetChannelOption(interp, chan, "-encoding", "binary");
+	Tcl_SetChannelOption(interp, chan, "-translation", "binary");
 
-  if (!image.Load(fileName, CXIMAGE_FORMAT_UNKNOWN))
-    return TCL_ERROR;
-  else
-    return ImageRead(interp, image, imageHandle, destX, destY, width, height, srcX, srcY);
+	Tcl_ReadChars(chan, data, -1, 0);
+
+	LOG("Reading from file :"); //
+	APPENDLOG(fileName); //
+
+  return ObjRead(interp, data, format, imageHandle, destX, destY, width, height, srcX, srcY);
 
 }
 
-static int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
+int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
 		    int destX, int destY, int width, int height, int srcX, int srcY) 
 {
-  BYTE * buffer = NULL;
-  int length = 0;
+
+	BYTE * buffer = NULL;
+	long size = 0;
+
+	BYTE * FileData = NULL;
+	int length = 0;
 
   CxImage image;
 
   LOG("Reading data :"); //
 
-  buffer = Tcl_GetByteArrayFromObj(data, &length);
+  FileData = Tcl_GetByteArrayFromObj(data, &length);
 
-  if (! image.Decode(buffer, length, CXIMAGE_FORMAT_GIF) && 
-      ! image.Decode(buffer, length, CXIMAGE_FORMAT_PNG) && 
-      ! image.Decode(buffer, length, CXIMAGE_FORMAT_JPG) &&
-      ! image.Decode(buffer, length, CXIMAGE_FORMAT_TGA) &&
-      ! image.Decode(buffer, length, CXIMAGE_FORMAT_BMP)) 
+
+  if (! image.Decode(FileData, length, CXIMAGE_FORMAT_GIF) && 
+      ! image.Decode(FileData, length, CXIMAGE_FORMAT_PNG) && 
+      ! image.Decode(FileData, length, CXIMAGE_FORMAT_JPG) &&
+      ! image.Decode(FileData, length, CXIMAGE_FORMAT_TGA) &&
+      ! image.Decode(FileData, length, CXIMAGE_FORMAT_BMP)) 
     return TCL_ERROR;
-  else
-    return ImageRead(interp, image, imageHandle, destX, destY, width, height, srcX, srcY);
-}
 
-static int ImageRead(Tcl_Interp *interp, CxImage image, Tk_PhotoHandle imageHandle, int destX, int destY,
-		     int width, int height, int srcX, int srcY) 
-{
-  BYTE * buffer = NULL;
-  long size = 0;
+#if ANIMATE_GIFS
+  int numframes = image.GetNumFrames();
+#endif
 
 
   LOG("Cropping"); //
@@ -163,13 +168,59 @@ static int ImageRead(Tcl_Interp *interp, CxImage image, Tk_PhotoHandle imageHand
 #endif
 #endif
 
+#if  ANIMATE_GIFS
+  // If it's an animated gif, take care of it right here
+  if(g_EnableAnimated && numframes > 1) {
+	GifInfo * AnimatedGifInfo = new GifInfo;
+	CxImage *image = NULL;
+
+	AnimatedGifInfo->CurrentFrame = 1;
+	AnimatedGifInfo->NumFrames = numframes;
+	AnimatedGifInfo->Handle = imageHandle;
+	AnimatedGifInfo->image = new CxImage;
+	AnimatedGifInfo->image->RetreiveAllFrame();
+	AnimatedGifInfo->image->SetFrame(numframes - 1);
+	AnimatedGifInfo->image->Decode(FileData, length, CXIMAGE_FORMAT_GIF);
+
+	for(int i = 0; i < numframes; i++){
+		if(AnimatedGifInfo->image->GetFrameNo(i) != AnimatedGifInfo->image) {
+			AnimatedGifInfo->image->GetFrameNo(i)->Flip();
+		}
+	}
+
+	/*
+	// Store each frame
+	for(int i = 0; i < numframes; i++){
+		currentFrame = new CxImage();
+		currentFrame->SetFrame(i);
+		if(currentFrame->Decode(FileData, length, CXIMAGE_FORMAT_GIF) && currentFrame->Flip()) {
+			AnimatedGifInfo->Frames[i] = currentFrame;
+		} else {
+			delete currentFrame;
+			for(int i = 0; i < numframes; i++){
+				delete AnimatedGifInfo->Frames[i];
+				AnimatedGifInfo->Frames[i] = NULL;
+			}
+			delete AnimatedGifInfo->Frames;
+			AnimatedGifInfo->Frames = NULL;
+			delete AnimatedGifInfo;
+			AnimatedGifInfo = NULL;
+		}
+	}
+*/
+	if (AnimatedGifInfo)
+		Tcl_CreateTimerHandler(AnimatedGifInfo->image->GetFrameNo(0)->GetFrameDelay(), AnimateGif, (ClientData) AnimatedGifInfo);
+  }
+
+#endif // ANIMATE_GIFS
+
   LOG("Freeing memory used by buffer"); //
   image.FreeMemory(buffer);
 
   return TCL_OK;
 }
 
-static int ChanWrite (Tcl_Interp *interp, CONST char *fileName, Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr) {
+int ChanWrite (Tcl_Interp *interp, CONST char *fileName, Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr) {
 
   CxImage image;
   int Type = CXIMAGE_FORMAT_UNKNOWN;
@@ -219,7 +270,7 @@ static int ChanWrite (Tcl_Interp *interp, CONST char *fileName, Tcl_Obj *format,
   return TCL_OK;
 }
 
-static int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr) {
+int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr) {
 
   BYTE * buffer = NULL;
   long size = 0;
@@ -272,3 +323,37 @@ static int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock 
 
   return TCL_OK;
 }
+
+
+#if ANIMATE_GIFS
+void AnimateGif(ClientData data) {
+	GifInfo *Info = (GifInfo *)data;
+	if(g_EnableAnimated && Info) {
+		CxImage *image = Info->image->GetFrameNo(Info->CurrentFrame);
+		if(CopyImageToTk(NULL, image, Info->Handle, image->GetWidth(), image->GetHeight(), false) == TCL_OK) {
+			Info->CurrentFrame++;
+			if(Info->CurrentFrame == Info->NumFrames)
+				Info->CurrentFrame = 0;
+
+			Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
+
+		} else {
+			
+			Info->image->DestroyGifFrames();
+			delete Info->image;
+			delete Info;
+			Info = NULL;
+		}
+	} else if (Info) {
+		int currentFrame = Info->CurrentFrame;
+		if(currentFrame)
+			currentFrame--;
+		else
+			currentFrame = Info->NumFrames;
+		CxImage *image = Info->image->GetFrameNo(currentFrame);
+		Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
+	}
+
+}
+
+#endif // ANIMATE_GIFS

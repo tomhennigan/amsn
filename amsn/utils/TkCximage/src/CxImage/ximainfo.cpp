@@ -359,6 +359,22 @@ long CxImage::GetFrame() const
 void CxImage::SetFrame(long nFrame){
 	info.nFrame=nFrame;
 }
+
+CxImage * CxImage::GetFrameNo(long nFrame) const {
+	if (info.GifFrames && nFrame <= info.nNumFrames && info.GifFrames[nFrame]) {
+		return info.GifFrames[nFrame];
+	}
+	return (CxImage * const)this;
+}
+
+void CxImage::RetreiveAllFrame() {
+	info.bGetAllFrames = true;
+}
+
+void CxImage::RetreiveSingleFrame() {
+	info.bGetAllFrames = false;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 /**
  * Returns the last reported error.

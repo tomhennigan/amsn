@@ -58,6 +58,9 @@ typedef short int       code_int;
 #define HashTabOf(i)    htab[i]
 #define CodeTabOf(i)    codetab[i]
 
+#define BYTEPTR(p)		((BYTE *)(&p))
+#define GETWORD(w)		(*BYTEPTR(w) + (*(BYTEPTR(w)+1) << 8))
+#define PUTWORD(w)		((((w & 0xff) << 8) | ((w >> 8) & 0xff)))
 
 class CImageIterator;
 class DLL_EXP CxImageGIF: public CxImage

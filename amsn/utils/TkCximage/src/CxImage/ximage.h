@@ -157,6 +157,8 @@ typedef struct tagCxImageInfo {
 	bool	last_c_isvalid;
 	long	nNumLayers;
 	DWORD	dwFlags;			///< 0x??00000 = reserved, 0x00??0000 = blend mode, 0x0000???? = layer id - user flags
+	bool	bGetAllFrames;
+	CxImage ** GifFrames;
 
 } CXIMAGEINFO;
 
@@ -192,13 +194,14 @@ public:
 	CxImage(FILE * stream, DWORD imagetype);
 	CxImage(CxFile * stream, DWORD imagetype);
 	CxImage(BYTE * buffer, DWORD size, DWORD imagetype);
-	virtual ~CxImage() { Destroy(); };
+	virtual ~CxImage() { Destroy(); DestroyGifFrames();};
 	CxImage& operator = (const CxImage&);
 //@}
 
 /** \addtogroup Initialization */ //@{
 	void*	Create(DWORD dwWidth, DWORD dwHeight, DWORD wBpp, DWORD imagetype = 0);
 	bool	Destroy();
+	bool	DestroyGifFrames();
 	void	Clear(BYTE bval=0);
 	void	Copy(const CxImage &src, bool copypixels = true, bool copyselection = true, bool copyalpha = true);
 	bool	Transfer(CxImage &from);
@@ -451,6 +454,10 @@ public:
 	long GetNumFrames() const;
 	long GetFrame() const;
 	void SetFrame(long nFrame);
+		
+	CxImage * GetFrameNo(long nFrame) const;
+	void RetreiveAllFrame();
+	void RetreiveSingleFrame();
 //@}
 
 #if CXIMAGE_SUPPORT_BASICTRANSFORMATIONS
