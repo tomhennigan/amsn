@@ -90,7 +90,6 @@ proc ConfigDefaults {} {
         set config(blockinter2) 300
         set config(blockinter3) 5
         set config(blockusers) 2
-        set config(smileys) "default"
         set config(emotisounds) 1
 	set password ""
 }
@@ -109,7 +108,7 @@ namespace eval ::config {
 
 proc save_config {} {
    global tcl_platform config HOME HOME2 version password
-   
+
    if { [catch {
          if {$tcl_platform(platform) == "unix"} {
 	    set file_id [open "[file join ${HOME} config]" w 00600]
@@ -119,7 +118,6 @@ proc save_config {} {
       } res ]} {
       ::amsn::errorMsg "[trans openwriteerror [file join ${HOME} config]]"
    }
-   
 
    set loginback $config(login)
    set passback $password
@@ -129,7 +127,7 @@ proc save_config {} {
    	set config(login) ""
 	set password ""
    }
-   
+
    puts $file_id "amsn_config_version 1"
    set config(last_client_version) $version
 

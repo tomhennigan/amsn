@@ -116,7 +116,7 @@ proc BeginVerifyBlocked { {interval 60} {interval2 300} {nbre_users 2} {interval
 
     set interval3 [expr $interval3 * 1000]
 
-    while { true } {
+    while { 1 } {
 
 	if { $stop_VerifyBlocked == 1 } {
 	    break
