@@ -365,6 +365,7 @@ proc NoteBook::raise { path {page ""} } {
         _test_page $path $page
         _select $path $page
     }
+        
     return $data(select)
 }
 
@@ -375,7 +376,7 @@ proc NoteBook::raise { path {page ""} } {
 proc NoteBook::see { path page } {
     variable $path
     upvar 0  $path data
-
+    
     set pos [_test_page $path $page]
     if { $pos < $data(base) } {
         set data(base) $pos
@@ -700,6 +701,7 @@ proc NoteBook::_select { path page } {
     }
 
     _draw_area $path
+    
 }
 
 
@@ -719,6 +721,7 @@ proc NoteBook::_redraw { path } {
     }
     _draw_area   $path
     _draw_arrows $path
+    
 }
 
 
@@ -728,6 +731,8 @@ proc NoteBook::_redraw { path } {
 proc NoteBook::_draw_page { path page create } {
     variable $path
     upvar 0  $path data
+    
+    focus $path
 
     # --- calcul des coordonnees et des couleurs de l'onglet ------------------
     set pos [lsearch -exact $data(pages) $page]
