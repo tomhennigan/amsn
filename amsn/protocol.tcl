@@ -702,7 +702,7 @@ namespace eval ::MSN {
 	   return [list]
 	}
 
-	status_log "Getting users in chat from $sb_name\n" red
+	status_log "Getting users in chat from $sb_name\n" blue
 
 	set user_list [sb get $sb_name users]
 
@@ -851,10 +851,7 @@ namespace eval ::MSN {
 
       AddSBFor $chatid $sbn
 
-      status_log "MWB:   $sbn: CHAT1 Talking with $lowuser\n" white
       ::MSN::WriteNS "XFR" "SB" "cmsn_open_sb $sbn"
-
-      status_log "MWB: Exiting cmsn_chat_user($lowuser)\n" white
 
       return $chatid
 
@@ -1625,8 +1622,6 @@ proc cmsn_open_sb {sbn recv} {
    sb set $sbn auth_cmd "USR"
    sb set $sbn auth_param "$config(login) [lindex $recv 5]"
 
-   status_log "MWB:   $sbn: CHAT2: connecting to Switch Board [lindex $recv 3]\n"
-
 
    #status_log "[trans sbcon]...\n"
    ::amsn::chatStatus [::MSN::ChatFor $sbn] "[trans sbcon]...\n"
@@ -1685,9 +1680,7 @@ proc cmsn_reconnect { name } {
 
       ::amsn::chatStatus [::MSN::ChatFor $name] "[trans reconnecting]..."
 
-   } else {
-      status_log "cmsn_reconnect: called, but sb stat is not 'n' nor 'd', what should we do??!!!!\n"
-   }
+   } 
 
 }
 
@@ -1741,7 +1734,6 @@ proc cmsn_update_users {sb_name recv} {
 
 	     sb set $sb_name last_user [sb index $sb_name users $leaves]
 	     sb ldel $sb_name users $leaves
-	     status_log "BYE - User [lindex $recv 1] leaves. Setting it as last user\n" white
 
 	     set usr_login [lindex [sb index $sb_name users 0] 0]
 
@@ -2394,8 +2386,6 @@ proc cmsn_socket {name} {
       set next [sb get $name connected]
       sb set $name stat "cw"
    }
-
-     #status_log "MWB:  Readable handler in cmsn_socket: $readable_handler\n" white
 
      set sock [socket -async $tmp_serv $tmp_port]
      sb set $name sock $sock

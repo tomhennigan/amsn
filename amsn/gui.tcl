@@ -271,7 +271,6 @@ namespace eval ::amsn {
 
          set win_name [openChatWindow]
 	  SetWindowFor $chatid $win_name
-         status_log "NEW - Window doesn't exists in messageFrom, created window named [WindowFor $chatid]\n"
 	  WinTopUpdate $chatid
 
       }
@@ -687,7 +686,6 @@ namespace eval ::amsn {
 
       change_myfontsize $config(textsize) ${win_name}
 
-      status_log "NEW - Window created\n" white
 
       #TODO: We always want these menus and bindings enabled? Think it!!
       .${win_name}.f.in.input configure -state normal
