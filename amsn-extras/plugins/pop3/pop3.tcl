@@ -245,7 +245,7 @@ namespace eval ::pop3 {
 			::pop3::send $chan {} 1
 			::pop3::send $chan "user $user" 1
 			::pop3::send $chan "pass $password" 1
-			} errorStr]} {
+		} errorStr]} {
 			::close $chan
 			set ::pop3::chanopen_$chan -1
 			return
@@ -290,19 +290,25 @@ namespace eval ::pop3 {
 	}
 	# continuation of send when data return is received
 	proc ::pop3::send2 {chan} {
-		set popRet [string trim [gets $chan]]
-		if { $popRet == "" && ![eof $chan] } {
-			return
-		}
-		fileevent $chan readable ""
+		if {[catch {
+			set popRet [string trim [gets $chan]]
+			if { $popRet == "" && ![eof $chan] } {
+				return
+			}
+			fileevent $chan readable ""
 
-		if {[string first "+OK" $popRet] == -1} {
-			plugins_log pop3 "ERROR : [string range $popRet 4 end]\n"
+			if {[string first "+OK" $popRet] == -1} {
+				plugins_log pop3 "ERROR : [string range $popRet 4 end]\n"
+				set ::pop3::chanreturn_$chan "ERROR"
+				return
+			}
+	
+			set ::pop3::chanreturn_$chan [string range $popRet 3 end]
+		} errorStr]} {
+			fileevent $chan readable ""
 			set ::pop3::chanreturn_$chan "ERROR"
 			return
 		}
-	
-		set ::pop3::chanreturn_$chan [string range $popRet 3 end]
 	}
 
 
