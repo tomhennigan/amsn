@@ -70,6 +70,7 @@ browse Brausi
 browser Brauser
 browserexample (\$url asendatakse URLiga). Näiteks: mozilla \$url
 busy Kiire
+cachedpics $1 varutud piti
 cancel Tühista
 cannotdeleteprofile Ei saa profiili kustutada, sest see on aMSNi poolt kasutuses
 cantexec Ei saa käivitada programmi: $1. Kontrolli seadeid
@@ -130,6 +131,7 @@ corruptstates Kohandatud oleku konfiguratsioon on rikutud. Loon uut. Vana fail s
 countrycode Minu riigi/regioonikood
 cprofile Loo profiil
 credits Tänud
+currentdate Jooksev kuupäev
 custom_edit Muuda emotikoni
 custom_new Lisa uus emotikon
 cut Lõika
@@ -275,6 +277,7 @@ loginas Logi sisse kui
 loging Logimine
 logolder Logi ainult vestlusi, mis toimunud viimasel
 logout Logi välja
+logsbydate Sorteeri logid kuupäeva järgi (Ajaloo näitamine laeb palju kiiremini)
 logsin on just sisse loginud
 logsmileys Näitab emotsioone aMSN'i Ajaloo akendes
 logsout logis just välja
@@ -435,6 +438,7 @@ servergoingdown Lahtiühendatud: server sulgub
 serverunavailable Server pole saadavalis
 session Sessioon
 showblockedlist Näita listi kasutajatest, kes on sind blokeerinud
+showcachedpics Näita varutud kuvapilte
 showdisplaypic Näita pilti
 showdisplaypic2 Näida pilti vaikimisi kui aken avatakse
 showmypic Minu pilt
