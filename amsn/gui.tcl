@@ -3715,7 +3715,7 @@ proc play_sound {sound_name} {
 	catch {eval exec $config(soundcommand) &} res
  		#Kill soundplayer after 30 second on Mac OS X (sometimes he stays open and eat your CPU)
 	if { $tcl_platform(os) == "Darwin" } {
-		after 30000 catch {exec killall -c sndplay}}
+		after 30000 catch {exec killall -c sndplay}
     }
 }
 #///////////////////////////////////////////////////////////////////////
