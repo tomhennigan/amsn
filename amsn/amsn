@@ -40,8 +40,8 @@
 ### $Id$
 ###
 
-set version "0.62pre2"
-set date "11/12/2002"
+set version "0.70"
+set date "11/26/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -601,7 +601,7 @@ proc cmsn_draw_main {} {
    cmsn_draw_status
    cmsn_draw_offline
 
-   status_log "Proxy is : $config(proxy)"
+   status_log "Proxy is : $config(proxy)\n"
 
 }
 
@@ -1758,7 +1758,7 @@ proc cmsn_msgwin_sendmail {name} {
 proc cmsn_msgwin_title {name} {
    global list_states
    upvar #0 [sb name $name users] users_list
-   set win_name "msg_[string tolower ${name}]"
+   set win_name "msg_[string tolower [sb get ${name} window]]"
 
    if {[llength $users_list]} {
       set title ""
@@ -1788,7 +1788,7 @@ proc cmsn_msgwin_title {name} {
    wm title .${win_name} ${title}
    sb set $name title ${title}
 
-   cmsn_msgwin_top $name $topmsg
+   cmsn_msgwin_top [sb get $name window] $topmsg
 
 }
 
@@ -1801,7 +1801,7 @@ proc sonido {sound} {
 }
 
 proc cmsn_msgwin_flicker {name count} {
-   set win_name "msg_[string tolower ${name}]"
+   set win_name "msg_[string tolower [sb get $name window]]"
 
   after cancel cmsn_msgwin_flicker $name 0
   after cancel cmsn_msgwin_flicker $name 1
@@ -2694,7 +2694,11 @@ if {$version != $config(last_client_version)} {
   
 }
 
+status_log "Before init_dock\n"
+
 init_dock
+
+status_log "After init_dock\n"
 
 if { $config(autoconnect) == 1 } {
   ::MSN::connect $config(login) password

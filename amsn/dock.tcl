@@ -125,7 +125,6 @@ proc init_dock {} {
 			}
 			catch {exec [file join ${program_dir} plugins/gnomedock] ${program_dir}/plugins/icons/ &} res
 		}
-
 		vwait events
 
 	} elseif { $config(dock) == 0 } {

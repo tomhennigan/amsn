@@ -23,6 +23,12 @@ launches the command:
 anywhere.
  Then add an icon that launchs the command 'amsn'.
 
+Q: How do I get the Gnome docking to work?
+A: You have to run 'make' inside the plugins directory, to build
+the gnome plugin. You'll need gnome development libraries. When
+the plugin is built, just run amsn and select Gnome Docking in the
+options menu.
+
 USING IT
 ========
 

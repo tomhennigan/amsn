@@ -906,11 +906,11 @@ proc cmsn_sb_msg {sb_name recv} {
       }
       
 
-      cmsn_win_write $sb_name \
+      cmsn_win_write [sb get $sb_name window]\
         "\[$timestamp\] [trans says [urldecode [lindex $recv 2]]]:\n" gray
 
 
-      cmsn_win_write $sb_name "$body\n" user $fontfamily $style $fontcolor      
+      cmsn_win_write [sb get $sb_name window] "$body\n" user $fontfamily $style $fontcolor      
 
 
 
@@ -920,7 +920,7 @@ proc cmsn_sb_msg {sb_name recv} {
       sb ldel $sb_name typers $idx
       cmsn_show_typers $sb_name
       
-      cmsn_msgwin_flicker $sb_name 20     
+      cmsn_msgwin_flicker [sb get $sb_name window] 20     
       set win_name "msg_[string tolower ${sb_name}]"
 
       if { [string compare [wm state .${win_name}] "withdrawn"] == 0 } {
@@ -1079,14 +1079,15 @@ proc cmsn_chat_user {user} {
    if { $name == 0 } {
    	return
    }
- 
+
+   sb set $name window ${name}
    sb set $name stat "r"
    sb set $name invite $user
 
    status_log "MWB:   $name: CHAT1 Talking with $user\n" white
    ::MSN::WriteNS "XFR" "SB" "cmsn_open_sb $name"
    
-   cmsn_msgwin_top $name "[trans chatreq]..."
+   cmsn_msgwin_top [sb get $name window] "[trans chatreq]..."
 #   if [catch { cmsn_msgwin_top $name "[trans chatreq]..."} res]  {
 #     msg_box "Ventana de chat ya cerrada"
 #      puts [sb get $name sock] "OUT"
@@ -1108,7 +1109,7 @@ proc cmsn_open_sb {sbn recv} {
       return 1
    }teNS "XFR" "SB" "cmsn_open_sb $name"
    
-   cmsn_msgwin_top $name "[trans chatreq]..."
+   cmsn_msgwin_top [sb get $name window] "[trans chatreq]..."
 #   if [catch { cmsn_msgwin_top $name "[trans chatreq]..."} res]  {
 #     msg_box "Ventana de chat ya cerrada"
 #      puts [sb get $name sock] "OUT"
@@ -1166,7 +1167,7 @@ proc cmsn_rng {recv} {
 
 #   }
 
-
+   sb set $sbn window ${sbn}
    sb set $sbn serv [split [lindex $recv 2] ":"]
    sb set $sbn connected "cmsn_conn_ans $sbn"
    sb set $sbn readable "read_sb_sock $sbn"
@@ -1174,7 +1175,7 @@ proc cmsn_rng {recv} {
    sb set $sbn auth_param "$config(login) [lindex $recv 4] [lindex $recv 1]"
 
    status_log "$sbn: ANS1 answering [lindex $recv 5]\n" green
-   cmsn_msgwin_top $sbn "[trans chatack] [lindex $recv 5]..."
+   cmsn_msgwin_top [sb get $sbn window] "[trans chatack] [lindex $recv 5]..."
 
    cmsn_socket $sbn
    return 0
@@ -1198,7 +1199,7 @@ proc cmsn_open_sb {sbn recv} {
    status_log "MWB:   $sbn: CHAT2: connecting to Switch Board [lindex $recv 3]\n"   
 
 
-   if {[catch { cmsn_msgwin_top $sbn "[trans sbcon]..."} res]}  {
+   if {[catch { cmsn_msgwin_top [sb get $sbn window] "[trans sbcon]..."} res]}  {
      status_log "Ignoring: Chat window $sbn has been closed\n"
    } else {
      cmsn_socket $sbn
@@ -1212,7 +1213,7 @@ proc cmsn_conn_sb {name} {
    sb set $name stat "a"
    set cmd [sb get $name auth_cmd]; set param [sb get $name auth_param]
    ::MSN::WriteSB $name $cmd $param "cmsn_connected_sb $name"
-   cmsn_msgwin_top $name "[trans ident]..."
+   cmsn_msgwin_top [sb get $name window] "[trans ident]..."
    status_log "MWB: Exiting cmsn_conn_sb\n" white
 }
 
@@ -1222,7 +1223,7 @@ proc cmsn_conn_ans {name} {
    sb set $name stat "a"
    set cmd [sb get $name auth_cmd]; set param [sb get $name auth_param]
    ::MSN::WriteSB $name $cmd $param
-   cmsn_msgwin_top $name "[trans ident]..."
+   cmsn_msgwin_top [sb get $name window] "[trans ident]..."
    status_log "MWB: Exiting cmsn_conn_ans\n" white
 }
 
@@ -1230,7 +1231,7 @@ proc cmsn_connected_sb {name recv} {
    sb set $name stat "i"
    if {[sb exists $name invite]} {
       cmsn_invite_user $name [sb get $name invite]
-      cmsn_msgwin_top $name \
+      cmsn_msgwin_top [sb get $name window] \
         "[trans willjoin [sb get $name invite]]..."
    }
 }
@@ -1239,7 +1240,7 @@ proc cmsn_reconnect {name} {
    if {[sb get $name stat] == "n"} {
       sb set $name stat "i"
       cmsn_invite_user $name [lindex [sb get $name last_user] 0]
-      cmsn_msgwin_top $name \
+      cmsn_msgwin_top [sb get $name window] \
          "[trans reconnect [sb get $name last_user]]..."
    } elseif {[sb get $name stat] == "d"} {
 
@@ -1248,7 +1249,7 @@ proc cmsn_reconnect {name} {
       sb set $name stat "rc"
       sb set $name invite [lindex [sb get $name last_user] 0]
       ::MSN::WriteNS "XFR" "SB" "cmsn_open_sb $name"
-      cmsn_msgwin_top $name "[trans reconnecting]..."
+      cmsn_msgwin_top [sb get $name window] "[trans reconnecting]..."
    }
 }
 
@@ -1666,8 +1667,8 @@ proc sb_enter { sbn name } {
       puts $sock "MSG $::MSN::trid N $msg_len"
       puts -nonewline $sock $msg
 
-      cmsn_win_write $sbn "\[$timestamp\] [trans says [urldecode [lindex $user_info 4]]]:\n" gray
-      cmsn_win_write $sbn "$txt\n" yours \{$fontfamily\} \{$fontstyle\} $fontcolor      
+      cmsn_win_write [sb get $sbn window] "\[$timestamp\] [trans says [urldecode [lindex $user_info 4]]]:\n" gray
+      cmsn_win_write [sb get $sbn window] "$txt\n" yours \{$fontfamily\} \{$fontstyle\} $fontcolor
    } else {
       status_log "$sbn: trying to send, but no users in this session\n" white
       return 0
@@ -1783,7 +1784,7 @@ proc cmsn_sb_connected {name} {
    fileevent [sb get $name sock] writable {}
    sb set $name stat "c"
    ::MSN::WriteSB $name [sb get $name auth_cmd] [sb get $name auth_param]
-   cmsn_msgwin_top $name "[trans indent]..."
+   cmsn_msgwin_top [sb get $name windows] "[trans indent]..."
 }
 
 proc cmsn_ns_connect { username {password ""}} {
