@@ -21,7 +21,7 @@ Version 0.52
 		o Fixed bug in smileys.tcl, extra parameter removed
 		o Fixed bug that didn't show correct sound/advert/hotlogin
 		  settings in options menu.
-		o Implemented File Transfer (files stored in ~/.amsn/myfiles)
+		o Implemented File Transfer (files stored in ~/amsn_received)
 		o Fixed bug that allowed to start a chat (even though it
 		  never connected) when the user is/appear offline
 		o Address book displays information about selected
@@ -29,6 +29,7 @@ Version 0.52
 		o Added Tools|Options|Publish my phone numbers which allows
 		  the user to publish his/her phone numbers as used in
 		  the address book.
+		o Added smiley selector menu in the chat window
 
 Version 0.51
 20020604	o Some fixes and menu reorganizations
