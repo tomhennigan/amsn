@@ -122,6 +122,7 @@ confirm Are you sure?
 confirmdelete Are you sure you want to delete $1?
 confirmpurge All stored display pictures from other contacts (not your display pictures) will be erased. Are you sure?
 connected You are now connected
+connectedwith Connected with $1
 connecterror Error connecting to server
 connecting Connecting
 connection Connection
@@ -170,7 +171,12 @@ disableprofiles Disable profiles (Useful for cyber-cafes or shared environments)
 disablessl Disable SSL
 disableuserfonts Ignore remote user font in chats, and use your own font type
 disconnect $1 has disconnected.
+disconnectedfrom Disconnected from $1
 displaychat Display text options
+displayeventconnect Display when contacts go online
+displayeventdisconnect Display when contacts go offline
+displayeventemail Display when an E-Mail is received
+displayeventstate Display when contacts change status
 displayp4context Display P4-Context field content as message sender
 displaypic Display Picture
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
@@ -200,6 +206,7 @@ entercontactemail Enter contact e-mail
 enterfilename Please enter a filename
 enternick Enter your nick
 errortls Error installing TLS module:
+eventhistory View events history
 examples Examples
 exitamsn Are you sure you want to quit?
 extras Extra Services
@@ -302,6 +309,10 @@ ljoinedconf $1 has joined conference
 lleftconf $1 has left conference
 loadcontacts Load contact list
 logbigger Log file sizes for each contact never exceeds 
+logeventconnect Log the connections
+logeventdisconnect Log the disconnections
+logeventemail Log when an email is received
+logeventstate Log the changements of status
 logfandexp Log File Sizes and History Expiry
 loggedotherlocation Disconnected. Logged in other location
 loggingin Logging In
@@ -424,6 +435,7 @@ preffont My Message Text
 prefft File transfer, peer-to-peer and NAT settings
 preflibs Libraries directories
 preflog1 My History and Logging Options
+preflogevent My Events History
 preflook My aMSN Messenger Look
 prefmsging My Messaging Interface
 prefname My MSN Messenger Name/NickName

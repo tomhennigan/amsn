@@ -290,7 +290,10 @@ proc hotmail_procmsg {msg} {
 						"hotmail_viewmsg $msgurl $config(login) $password" newemail
 				}
 			}
-		} 
+		}
+
+		::log::eventmail $from
+	
 	}
 	#Get the number of unread messages
 	if {[string range $content 0 36]  == "text/x-msmsgsinitialemailnotification"} {

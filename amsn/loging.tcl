@@ -355,6 +355,9 @@ proc OpenLogWin { {email ""} } {
 	#Sorts contacts
 	set sortedcontact_list [lsort -dictionary $contact_list]
 
+	#Add the eventlog
+	lappend sortedcontact_list eventlog
+
 	#If there is no email defined, we remplace it by the first email in the dictionary order
 	if {$email == ""} {
 		set email [lindex $sortedcontact_list 0]
@@ -801,5 +804,100 @@ proc ClearAllLogs {} {
 	}
 
 }
+
+#///////////////////////////////////////////////////////////////////////////////
+#Events logging
+
+#Log Events
+proc EventLog { txt } {
+
+	StartLog eventlog
+	set fileid [LogArray eventlog get]
+	puts -nonewline $fileid "\|\"LGRA[timestamp] \|\"LNOR: $txt\n"
+}
+
+#When contacts go online
+proc eventconnect {name} {
+	if {[::config::getKey display_event_connect]} {
+		.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : $name [trans online]"
+	}
+	if {[::config::getKey log_event_connect]} {
+		::log::EventLog "$name [trans online]"
+	}
+}
+
+#When contacts go offline
+proc eventdisconnect {name} {
+	if {[::config::getKey display_event_disconnect]} {
+		.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : $name [trans offline]"
+	}
+	if {[::config::getKey log_event_disconnect]} {
+		::log::EventLog "$name [trans offline]"
+	}
+}
+
+#When a mail is received
+proc eventmail { name } {
+	if {[::config::getKey display_event_email]} {
+		.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : [trans email] $name"
+		.main.eventmenu.list select 0
+	}
+	if {[::config::getKey log_event_email]} {
+		::log::EventLog "[trans email] $name"
+	}
+}
+
+#When contacts change status
+proc eventstatus { name state } {
+	if {[::config::getKey display_event_state]} {
+		.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : $name [trans $state]"
+	}
+	if {[::config::getKey log_event_state]} {
+		::log::EventLog "$name [trans $state]"
+	}
+}
+
+#Check if an event display is activated
+proc eventdisplay { } {
+	if { [::config::getKey display_event_connect] || [::config::getKey display_event_disconnect] || [::config::getKey display_event_email] || [::config::getKey display_event_state] } {
+	return 1
+	}
+}
+
+#Check if an event log is activated
+proc eventlog { } {
+	if { [::config::getKey log_event_connect] || [::config::getKey log_event_disconnect] || [::config::getKey log_event_email] || [::config::getKey log_event_state] } {
+	return 1
+	}
+}
+
+#Display/log when we connect if we display/log an event
+proc eventlogin { } {
+	if { [::config::getKey eventdisconnected] } {
+		::config::setKey eventdisconnected 0
+		if { [::log::eventdisplay] } {
+			.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : [trans connectedwith [::config::getKey login]]"
+		}
+		if { [::log::eventlog] } {
+			StartLog eventlog
+			set fileid [LogArray eventlog get]
+			puts -nonewline $fileid "\|\"LRED\[[clock format [clock seconds] -format "%d %b %Y %T"]\] [trans connectedwith [::config::getKey login]]\n"
+		}
+	}
+}
+
+#Display/log when we disconnect if we display/log an event
+proc eventlogout { } {
+	::config::setKey eventdisconnected 1
+	if { [::log::eventdisplay] } {
+		.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : [trans disconnectedfrom [::config::getKey login]]"
+	}
+	if { [::log::eventlog] } {
+		StartLog eventlog
+		set fileid [LogArray eventlog get]
+		puts -nonewline $fileid "\|\"LRED\[[clock format [clock seconds] -format "%d %b %Y %T"]\] [trans disconnectedfrom [::config::getKey login]]\n\n"
+	}
+}
+
 
 }

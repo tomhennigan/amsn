@@ -678,7 +678,7 @@ proc Preferences { { settings "personal"} } {
 	
 	## Clear All Logs Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans clearlog]]
-	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
+	pack $frm.lfname2 -anchor n -side top -expand 0 -fill x
 	label $lfname.plog1 -image prefhist2
 	pack $lfname.plog1 -anchor nw -side left
 	frame $lfname.1 -class Degt
@@ -705,7 +705,31 @@ proc Preferences { { settings "personal"} } {
 #	label $lfname.2.lmbs -text "MBs" -padx 5
 #	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
 #	pack $lfname.2.lbigger $lfname.2.ebigger $lfname.2.lmbs -side left
-	
+
+
+	## Eventlogging frame ## ***
+	set lfname [LabelFrame:create $frm.lfname3 -text [trans preflogevent]]
+	pack $frm.lfname3 -anchor n -side top -expand 0 -fill x
+	label $lfname.plog1
+	grid $lfname.plog1 -columnspan 2
+	checkbutton $lfname.displayconnect -text "[trans displayeventconnect]" -onvalue 1 -offvalue 0 -variable config(display_event_connect)
+	checkbutton $lfname.displaydisconnect -text "[trans displayeventdisconnect]" -onvalue 1 -offvalue 0 -variable config(display_event_disconnect)
+	checkbutton $lfname.displayemail -text "[trans displayeventemail]" -onvalue 1 -offvalue 0 -variable config(display_event_email)
+	checkbutton $lfname.displaystate -text "[trans displayeventstate]" -onvalue 1 -offvalue 0 -variable config(display_event_state)
+	checkbutton $lfname.logconnect -text "[trans logeventconnect]" -onvalue 1 -offvalue 0 -variable config(log_event_connect)
+	checkbutton $lfname.logdisconnect -text "[trans logeventdisconnect]" -onvalue 1 -offvalue 0 -variable config(log_event_disconnect)
+	checkbutton $lfname.logemail -text "[trans logeventemail]" -onvalue 1 -offvalue 0 -variable config(log_event_email)
+	checkbutton $lfname.logstate -text "[trans logeventstate]" -onvalue 1 -offvalue 0 -variable config(log_event_state)
+	grid $lfname.displayconnect -row 0 -column 0 -sticky w
+	grid $lfname.displaydisconnect -row 1 -column 0 -sticky w
+	grid $lfname.displayemail -row 2 -column 0 -sticky w
+	grid $lfname.displaystate -row 3 -column 0 -sticky w
+	grid $lfname.logconnect -row 0 -column 1 -sticky w
+	grid $lfname.logdisconnect -row 1 -column 1 -sticky w
+	grid $lfname.logemail -row 2 -column 1 -sticky w
+	grid $lfname.logstate -row 3 -column 1 -sticky w
+
+
 	#  .------------.
 	# _| Connection |________________________________________________
 	

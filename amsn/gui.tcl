@@ -3803,9 +3803,10 @@ proc cmsn_draw_main {} {
 	#User to reverse group lists
 	.main_menu.tools add cascade -label "[trans viewcontactsby]" -menu .view_by
 
-	#View the history
+	#View the history and the event log
 	.main_menu.tools add separator
 	.main_menu.tools add command -label "[trans history]" -command ::log::OpenLogWin
+	.main_menu.tools add command -label "[trans eventhistory]" -command "::log::OpenLogWin eventlog"
 
 	#Unnecessary separator when you remove the 2 dockings items menu on Mac OS X
 	if {$tcl_platform(os) != "Darwin"} {
@@ -4042,6 +4043,9 @@ proc cmsn_draw_main {} {
 		
 	$pgBuddy setwidget $pgBuddy.text
 
+	# Initialize the event history
+	frame .main.eventmenu
+	combobox::combobox .main.eventmenu.list -editable false -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
 
 	# Initialize the banner for when the user wants to see aMSN Banner
 	adv_initialize .main
@@ -4637,6 +4641,8 @@ proc cmsn_draw_offline {} {
 	.main_menu.tools entryconfigure 6 -state disabled
 	#Disable "View History"
 	.main_menu.tools entryconfigure 8 -state disabled
+	#Disable "View Event Logging"
+	.main_menu.tools entryconfigure 9 -state disabled
 
 	#Change nick
 	configureMenuEntry .main_menu.actions "[trans changenick]..." disabled
@@ -4698,6 +4704,7 @@ proc cmsn_draw_signin {} {
 	$pgBuddy.text insert end "\n"
 	$pgBuddy.text configure -state disabled
 
+
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -4724,6 +4731,7 @@ proc login_ok {} {
 	} else {
 		cmsn_draw_login
 	}
+
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -5444,6 +5452,14 @@ proc cmsn_draw_online_wrapped {} {
 	}
 	update idletasks
 	$pgBuddy.text yview moveto [lindex $scrollidx 0]
+
+	#Pack what is necessary for event menu
+	pack configure .main.eventmenu.list -fill x -ipadx 10
+	pack configure .main.eventmenu -side bottom -fill x
+	::log::eventlogin
+	.main.eventmenu.list select 0
+
+
 }
 #///////////////////////////////////////////////////////////////////////
 

@@ -12,6 +12,15 @@ proc ConfigDefaults {} {
 	set config(save_password) 0		;# a config file: 0|1
 
 	set config(keep_logs) 1			;#Save log files: 0|1
+	set config(display_event_connect) 1	;#Display when someone connect
+	set config(display_event_disconnect) 1	;#Display when someone disconnect
+	set config(display_event_email) 1	;#Display when a new E-Mail is received
+	set config(display_event_status) 0	;#Display changement of status
+	set config(log_event_connect) 0		;#Log when someone connect
+	set config(log_event_disconnect) 0	;#Log when someone disconnect
+	set config(log_event_email) 0		;#Log when a new E-Mail is received
+	set config(log_event_status) 0		;#Log changement of status
+	set config(eventdisconnected) 1		;#Test to know if we must display or/and log the connection or not
 
 	set config(connectiontype) direct	;# Connection type: direct|http|proxy
 	set config(proxy) ""			;# If using proxy, proxy host

@@ -853,6 +853,8 @@ namespace eval ::MSN {
 	proc logout {} {
 
 		::abook::lastSeen
+
+		::log::eventlogout
 		
 		::MSN::WriteSBRaw ns "OUT\r\n";
 
@@ -3475,9 +3477,11 @@ proc cmsn_change_state {recv} {
 	#User logsout
 	if {$substate == "FLN"} {
 		
-		#Register last logout and last seen
+		#Register last logout, last seen and notify it in the events
 		::abook::setContactData $user last_logout [clock format [clock seconds] -format "%D - %H:%M:%S"]
 		::abook::setContactData $user last_seen [clock format [clock seconds] -format "%D - %H:%M:%S"]
+		::log::eventdisconnect $custom_user_name
+
 		
 		if { ($config(notifyoffline) == 1 && [::abook::getContactData $user notifyoffline -1] != 0) ||
 		     [::abook::getContactData $user notifyoffline -1] == 1 } {
@@ -3495,12 +3499,17 @@ proc cmsn_change_state {recv} {
 				"::amsn::chatUser $user" state state
 		}
 
+		#Notify in the events
+		::log::eventstatus $custom_user_name [::MSN::stateToDescription $substate]
+
 	} elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
 
 		user_not_blocked "$user"
 		
-		#Register last login
+		#Register last login and notify it in the events
 		::abook::setContactData $user last_login [clock format [clock seconds] -format "%D - %H:%M:%S"]
+		::log::eventconnect $custom_user_name
+
 		
 		if { ($config(notifyonline) == 1 && [::abook::getContactData $user notifyonline -1] != 0) ||
 		     [::abook::getContactData $user notifyonline -1] == 1 } {
@@ -4050,6 +4059,8 @@ proc cmsn_auth {{recv ""}} {
 			
 			#Enable View History
 			.main_menu.tools entryconfigure 8 -state normal
+			#Enable View Event logging
+			.main_menu.tools entryconfigure 9 -state normal
 			
 			#Change nick
 			configureMenuEntry .main_menu.actions "[trans changenick]..." normal

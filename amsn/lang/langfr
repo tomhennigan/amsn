@@ -120,6 +120,7 @@ confirmdelete Confirmer suppression
 confirm Êtes-vous sûr ?
 confirmpurge Toutes les icônes de vos contacts vont être supprimées. Êtes-vous sur de vouloir le faire ?
 connected Vous êtes maintenant connecté(e)
+connectedwith Connecté avec $1
 connecterror Erreur de connexion
 connecting Se connecter
 connection Connexion
@@ -159,7 +160,12 @@ disabled Désactivé
 disableprofiles Désactiver les profils (utile pour la cyber-cafés ou pour les environements partagés)
 disablessl Désactiver SSL
 disconnect $1 s'est déconnecté.
+disconnectedfrom Déconnecté de $1
 displaychat Options d'affichage du texte
+displayeventconnect Afficher les connexions
+displayeventdisconnect Afficher les déconnexions
+displayeventemail Afficher les E-Mails
+displayeventstate Afficher les changements d'état
 displayp4context Afficher le contenu du champ P4-Context en tant qu'envoyeur du message
 displaypic Icône
 dockfreedesktop Bureau de travail libre (KDE3/Gnome2)
@@ -176,7 +182,7 @@ editnewstate Nouvel état avec message automatique personnalisé
 editprofile Modifier profil
 editstate Editer un état existant avec message automatique
 editvalue Éditer la valeur
-email e-mail
+email E-Mail
 emailsinlist Afficher les emails au lieu du pseudonyme dans la liste de contact.
 emotisounds Jouer un son pour certains émoticons
 enablebanner Visualiser le bandeau aMSN (Nécessite de relancer aMSN)
@@ -190,6 +196,7 @@ entercontactemail Ajouter un contact de messagerie
 enterfilename Entrez le nom du fichier
 enternick Mon pseudo
 errortls Erreur lors de l'installation du module TLS:
+eventhistory Voir l'historique des événements
 examples Exemples
 exitamsn Quitter aMSN ?
 extras Services Additionnels
@@ -288,6 +295,10 @@ ljoinedconf $1 a rejoint la conférence
 lleftconf $1 a quitté la conférence
 loadcontacts Charger la liste de contacts
 logbigger Taille du fichier Log pour chaque contact ne dépasse jamais
+logeventconnect Enregistrer les connexions
+logeventdisconnect Enregistrer les déconnexions
+logeventemail Enregistrer les E-Mails
+logeventstate Enregistrer les changements d'état
 logfandexp Taille fichiers Log et expiration Historique
 loggedotherlocation Déconnecté. Connecté depuis un autre endroit.
 loggingin en cours de connexion
@@ -404,6 +415,7 @@ preffont Texte de mes messages
 prefft Configuration des transferts de fichiers, peer-to-peer et NAT
 preflibs Répertoires des bibliothèques
 preflog1 Mon historique et ses options
+preflogevent Mon historique d'événements
 preflook Apparence de aMSN
 prefmsging Mes fenêtres de discussion
 prefname Mon nom/pseudo MSN Messenger
@@ -564,7 +576,7 @@ yoffset Position en Y
 youblocked Vous avez été bloqué
 yousay Vous avez dit
 youwant Vous voulez
-bouncedock Enregistre en local un icone aMSN quand vous recevez un message.
+bouncedock Faire rebondir l'ic™ne de aMSN dans le dock lorsque vous recevez un message
 continuously continuellement
 custnotifymsg Affiche une notification quand vous recevez un message d'un de vos contacts
 custnotifyoffline Affiche une notification quand un de vos contact se déconnecte.
