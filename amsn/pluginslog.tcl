@@ -21,13 +21,12 @@ namespace eval ::pluginslog {
     proc toggle {} {
 	variable window
 	if {"[wm state $window]" == "normal"} {
-	    wm state $window withdrawn
-	    set status_show 0
+		wm state $window withdrawn
+		set status_show 0
 	} else {
-	    wm state $window normal
-	    set status_show 1
-	    raise $window
-	    #::pluginslog::display
+		wm state $window normal
+		set status_show 1
+		raise $window
 	}
     }
     
@@ -38,13 +37,6 @@ namespace eval ::pluginslog {
 	variable filters
 	variable followtext
 	set plugin [lindex $::pluginslog::log($idx) 0]
-	#	    puts {[llength $filters]}
-	#	    puts [llength $filters]
-	#	    puts {[lsearch $filters $plugin]}
-	#	    puts [lsearch $filters $plugin]
-	#	    puts {$filters}
-	#	    puts $filters
-	#	    puts ""
 	#if no filters, show all
 	#if in filter, show it.
 	if {[llength $filters] == 0 || [lsearch $filters $plugin] != -1} { 
@@ -56,51 +48,67 @@ namespace eval ::pluginslog {
 	}
     }
     
+    proc redisplay {} {
+	variable idx
+	variable log
+	variable window
+	variable filters
+
+	$window.info delete 1.0 end
+	for {set x 0} {$x <= $idx} {incr x} {
+		set plugin [lindex $::pluginslog::log($x) 0]
+		#if no filters, show all
+		#if in filter, show it.
+		if {[llength $filters] == 0 || [lsearch $filters $plugin] != -1} { 
+			$window.info insert end "[timestamp] $plugin: [lindex $pluginslog::log($x) 1]"
+		}
+	}
+	catch {$window.info yview end}
+    }
+    
     proc filter {plugin} {
 	variable filters
 	set idx [lsearch $filters $plugin]
 	if {$idx == -1} {
-	    lappend filters $plugin
+		lappend filters $plugin
 	} else {
-	    set filters [lreplace $filters $idx $idx]
+		set filters [lreplace $filters $idx $idx]
 	}
     }
     
     proc show_filters {} {
 	variable window
 	if {[winfo exists $window.filters] == 1} {
-	    raise $window.filters
-	    return
+		raise $window.filters
+		return
 	}
 	
 	toplevel $window.filters
 	wm title $window.filters "Plugins Log - [trans filtersx]"
 	# yes, I am really lazy...
 	set w $window.filters
-	label $w.msg -text [trans selectfilters]
+	label $w.msg -text [trans filtersselect]
 	grid $w.msg -column 1 -row 1 -columnspan 2
 
-	set tmplist [linsert $::plugins::knownplugins 0 "core"]
-
+	set tmplist [linsert $::plugins::loadedplugins 0 "core"]
 	set s [llength $tmplist]
-	
 
 	set col 1
 	set row 2
 	for {set x 0} {$x<$s} {incr x} {
-	    checkbutton $w.check$x -text [lindex $tmplist $x] -command "::pluginslog::filter \"[lindex $tmplist $x]\""
-	    grid $w.check$x -column $col -row $row -sticky w
-	    if {$col == 2} {
-		set col 1
-		incr row
-	    } else {
-		incr col
-	    }
+		checkbutton $w.check$x -text [lindex $tmplist $x] -command "::pluginslog::filter \"[lindex $tmplist $x]\""
+		grid $w.check$x -column $col -row $row -sticky w
+		if {$col == 2} {
+			set col 1
+			incr row
+		} else {
+			incr col
+		}
 	}
-	    incr row
-	button $w.update -text "[trans update]" ;#-command "::pluginslog::display"
+	incr row
+	button $w.update -text "[trans update]" -command "destroy $w" ;# "::pluginslog::redisplay"
 	grid $w.update -columnspan 2 -row $row -column 1
-	bind $window.filters <Destroy> ;#::pluginslog::display
+	bind $w <Destroy> "::pluginslog::redisplay; bind $w <Destroy> \"\""
 	moveinscreen $w 30
     }
     
@@ -123,9 +131,8 @@ namespace eval ::pluginslog {
 	frame $window.bot -relief sunken -borderwidth 1
 	button $window.bot.filters -text "[trans filters]" -command ::pluginslog::show_filters
 	button $window.bot.save -text "[trans savetofile]" -command ::pluginslog::save
-	button $window.bot.clear  -text "Clear" \
-	    -command "$window.info delete 0.0 end"
-	button $window.bot.close -text [trans close] -command {::pluginslog::toggle}
+	button $window.bot.clear -text "[trans clear]" -command "$window.info delete 0.0 end"
+	button $window.bot.close -text "[trans close]" -command {::pluginslog::toggle}
 	pack $window.bot.filters $window.bot.save $window.bot.close $window.bot.clear -side left
 	pack $window.bot $window.follow -side bottom
 	pack $window.ys -side right -fill y

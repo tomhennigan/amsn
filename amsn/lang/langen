@@ -233,6 +233,9 @@ filename Filename
 filetransfercancelled File transfer cancelled
 filetransfercomplete File transfer complete
 filetransfer File Transfer
+filters Filters
+filtersx Filter Selection
+filtersselect Select the filters you want to see\n(Note none selected means show all)
 followtext Scroll down when new text is entered
 friendlyname Friendly Name
 ftacceptedby $1 accepted file transfer invitation for file '$2'.
@@ -599,6 +602,7 @@ unknown Unknown
 unload Unload
 uoffline Offline
 uonline Online
+update Update
 useother Use a different program
 useralreadyonlist User is already on contact list
 userblocked The user is online but blocked you
