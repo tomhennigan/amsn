@@ -2735,12 +2735,12 @@ proc cmsn_msgwin_sendmail {name} {
 
 
 #///////////////////////////////////////////////////////////////////////
-proc play_sound {sound} {
+proc play_sound {sound_name} {
     global config 
 
     if { $config(sound) == 1 } {
-	set filename [GetSkinFile sounds $sound]
-	catch {eval exec $config(soundcommand) $filename &} res
+	set sound [GetSkinFile sounds $sound_name]
+	catch {eval exec $config(soundcommand) &} res
     }
 }
 #///////////////////////////////////////////////////////////////////////
@@ -4449,7 +4449,8 @@ proc launch_browser { url } {
 
   	} else {
 
-		if { [catch {eval exec $config(browser) [list $url] &} res ] } {
+		#if { [catch {eval exec $config(browser) [list $url] &} res ] } {}
+		if { [catch {eval exec $config(browser) &} res ] } {
 		   ::amsn::errorMsg "[trans cantexec $config(browser)]"
 		}
 
@@ -4465,14 +4466,11 @@ proc launch_browser { url } {
 proc launch_filemanager {location} {
   global config
 
-  set fileman $config(filemanager)
-
-  if { [string length $fileman] < 1 } {
+  if { [string length $config(filemanager)] < 1 } {
     msg_box "[trans checkfilman $location]"
   } else {
-    lappend fileman $location
-    if {[catch {eval exec [lindex $fileman 0] [lrange $fileman 1 end] &} res]} {
-       ::amsn::errorMsg "[trans cantexec $fileman]"
+    if {[catch {eval exec $config(filemanager) &} res]} {
+       ::amsn::errorMsg "[trans cantexec $config(filemanager)]"
     }
   }
 
@@ -4482,24 +4480,15 @@ proc launch_filemanager {location} {
 #///////////////////////////////////////////////////////////////////////
 # launch_mailer(directory)
 # Launches the configured mailer program
-proc launch_mailer {user_login} {
+proc launch_mailer {recipient} {
   global config password
 
-  set mail_param $user_login ;#By default, just the address
-  if {[string first "balsa" $config(mailcommand)] != -1} {
-      set mail_param "--compose=$user_login"
-  } elseif {[string first "mozilla" $config(mailcommand)] != -1} {
-      set mail_param "-compose mailto:$user_login"
-  } elseif {[string first "evolution" $config(mailcommand)] != -1} {
-      set mail_param "mailto:$user_login"
-  } elseif {[string first "sylpheed" $config(mailcommand)] != -1} {
-      set mail_param "--compose $user_login"
-  } elseif {[string length $config(mailcommand)]==0} {
-     ::hotmail::composeMail $user_login $config(login) $password
+  if {[string length $config(mailcommand)]==0} {
+     ::hotmail::composeMail $recipient $config(login) $password
      return 0
   }
 
-  if { [catch {eval exec $config(mailcommand) $mail_param &} res]} {
+  if { [catch {eval exec $config(mailcommand) &} res]} {
      ::amsn::errorMsg "[trans cantexec $config(mailcommand)]"
   }
   return 0

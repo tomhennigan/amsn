@@ -60,6 +60,7 @@ block No admitir
 blockusers Comprobar continuamente 
 broughtby Traído a Ud. por los siguientes programadores
 browse Examinar
+browserexample ( \$url se sustituirá por la dirección). Ej: mozilla \$url
 browser Navegador
 busy No disponible
 cancel Cancelar
@@ -148,6 +149,7 @@ extras Servicios Adicionales
 faq FAQ (Preguntas frecuentes)
 filedoesnotexist El archivo no existe
 fileman Administrador de Archivos
+filemanexample ( \$location será reemplazado por el directorio ) Ej: nautilus \$location
 filename Nombre de Archivo
 filetransfercancelled Transferencia de archivo cancelada
 filetransfercomplete Transferencia de archivo completada
@@ -227,6 +229,7 @@ logsout acaba de terminar la sesión
 lprivtoconf El privado se convierte en conversación múltiple con $1
 luclosedwin Tú cierras la ventana a las $1
 mailer Comando de email
+mailerexample ( \$recipient = Destinatario ) Dejar en blanco para usar Hotmail
 maximised Maximizada
 minimised Minimizada/Iconificada
 mins minutos
@@ -370,6 +373,7 @@ smileintro2 Edita los siguientes campos para personalizar el emoticono (ver FAQ 
 smileintro Rellena los siguientes campos para crear un emoticono personalizado (ver FAQ para más información)
 sound2 Reproducir sonidos cuando los contactos se conectan o envían mensajes
 soundcommand El comando para reproducir un sonido (por ej: esdplay)
+soundexample ( \$sound = Archivo de sonido a reproducir) Ej: esdplay \$sound
 soundfile Archivo de sonido
 soundloop Sonido repetitivo
 soundserver Servidor de Sonido

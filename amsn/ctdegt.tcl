@@ -793,25 +793,29 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -expand 1 -fill both
 	label $lfname.1.lbrowser -text "[trans browser] :" -padx 5 -font sboldf
 	entry $lfname.1.browser -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable config(browser)
+	label $lfname.1.lbrowserex -text "[trans browserexample]" -font examplef -padx 5 
 	label $lfname.1.lfileman -text "[trans fileman] :" -padx 5 -font sboldf
 	entry $lfname.1.fileman -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable config(filemanager)
+	label $lfname.1.lfilemanex -text "[trans filemanexample]" -font examplef -padx 5 	
 	label $lfname.1.lmailer -text "[trans mailer] :" -padx 5 -font sboldf
 	entry $lfname.1.mailer -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable config(mailcommand)
-	label $lfname.1.lhot -text "[trans leaveblankforhotmail]" -font examplef -padx 5 
+	label $lfname.1.lmailerex -text "[trans mailerexample]" -font examplef -padx 5 
 	label $lfname.1.lsound -text "[trans soundserver] :" -padx 5 -font sboldf
 	entry $lfname.1.sound -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable config(soundcommand)
-	label $lfname.1.sound2 -text "[trans soundcommand]" -font examplef -padx 5
+	label $lfname.1.lsoundex -text "[trans soundexample]" -font examplef -padx 5
 
 	grid $lfname.1.lbrowser -row 1 -column 1 -sticky w
 	grid $lfname.1.browser -row 1 -column 2 -sticky w
+	grid $lfname.1.lbrowserex -row 1 -column 3 -sticky w
 	grid $lfname.1.lfileman -row 2 -column 1 -sticky w
 	grid $lfname.1.fileman -row 2 -column 2 -sticky w
+	grid $lfname.1.lfilemanex -row 2 -column 3 -sticky w
 	grid $lfname.1.lmailer -row 3 -column 1 -sticky w
 	grid $lfname.1.mailer -row 3 -column 2 -sticky w
-	grid $lfname.1.lhot -row 3 -column 3 -sticky w
+	grid $lfname.1.lmailerex -row 3 -column 3 -sticky w
 	grid $lfname.1.lsound -row 4 -column 1 -sticky w
 	grid $lfname.1.sound -row 4 -column 2 -sticky w
-	grid $lfname.1.sound2 -row 4 -column 3 -sticky w
+	grid $lfname.1.lsoundex -row 4 -column 3 -sticky w
 
     ## Library directories frame ##
     set lfname [LabelFrame:create $frm.lfname2 -text [trans preflibs]]
@@ -1598,6 +1602,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.81  2003/09/17 14:39:57  airadier
+# Added parameters ($url, $location, $recipient, $sound) to app commands configuration.
+#
 # Revision 1.80  2003/09/17 09:32:41  kakaroto
 # "maybe" fixed the socks5 authentication issue... also corrected the ;-) smiley bug..
 #

@@ -21,17 +21,17 @@ proc ConfigDefaults {} {
 
 
 	if {$tcl_platform(platform) == "unix"} {
-	   set config(soundcommand) "play"
-	   set config(browser) "mozilla"
+	   set config(soundcommand) "play \$sound"
+	   set config(browser) "mozilla \$url"
 	   set config(notifyXoffset) 0
 	   set config(notifyYoffset) 0
-	   set config(filemanager) ""
+	   set config(filemanager) "my_filemanager open \$location"
 	} elseif {$tcl_platform(platform) == "windows"} {
-	   set config(soundcommand) "plwav.exe"
-	   set config(browser) "explorer"
+	   set config(soundcommand) "plwav.exe \$sound"
+	   set config(browser) "explorer \$url"
 	   set config(notifyXoffset) 0
 	   set config(notifyYoffset) 28
-	   set config(filemanager) "start"
+	   set config(filemanager) "start $location"
 	} else {
 	   set config(soundcommand) ""
 	   set config(browser) ""
