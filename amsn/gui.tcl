@@ -6935,9 +6935,9 @@ proc set_displaypic { file } {
 proc clear_disp { } {
 	global config
 
-	set config(displaypic) "amsn.png"
+	set config(displaypic) ""
 
-	catch {image create photo my_pic -file "[GetSkinFile displaypic amsn.gif]"}
+	catch {image create photo my_pic -file "[GetSkinFile displaypic nopic.gif]"}
 	::MSN::changeStatus [set ::MSN::myStatus]
 
 }
