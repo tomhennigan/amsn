@@ -5918,7 +5918,7 @@ proc pictureBrowser {} {
 	button .picbrowser.browse -command "destroy .picbrowser" -text "[trans browse]..." -font sboldf
 	button .picbrowser.delete -command "destroy .picbrowser" -text "[trans delete]" -font sboldf -state disabled
 	button .picbrowser.purge -command "destroy .picbrowser" -state disabled -text "[trans purge]..." -font sboldf
-	button .picbrowser.ok -command "status_log \$caca\n;destroy .picbrowser" -text "[trans ok]" -font sboldf
+	button .picbrowser.ok -command "status_log \$selected_image;destroy .picbrowser" -text "[trans ok]" -font sboldf
 	button .picbrowser.cancel -command "destroy .picbrowser" -text "[trans cancel]" -font sboldf
 	
 	grid .picbrowser.pics -row 0 -column 0 -rowspan 4 -columnspan 3 -padx 3 -pady 3 -sticky nsew
