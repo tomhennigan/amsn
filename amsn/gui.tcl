@@ -3282,7 +3282,8 @@ proc cmsn_draw_main {} {
    if {![catch {tk windowingsystem} wsystem] && $wsystem != "aqua"} {
    catch {wm geometry . $config(wingeometry)}
    } else {
-   wm geometry . 275x400+0+30
+   catch {wm geometry . $config(wingeometry)}
+   wm geometry . +0+30
    }
    
    frame .main -class Amsn -relief flat -background $bgcolor
