@@ -810,7 +810,7 @@ namespace eval ::MSN {
       .main_menu.file entryconfigure 2 -state normal
 
       ::MSN::StartPolling
-      ::groups::Reset      
+      ::groups::Reset
       
       cmsn_ns_connect $username $password
 
@@ -3423,6 +3423,7 @@ proc msnp9_do_auth {str url} {
 	global config password
 
 	set head [list Authorization "Passport1.4 OrgVerb=GET,OrgURL=http%3A%2F%2Fmessenger%2Emsn%2Ecom,sign-in=$config(login),pwd=$password,$str"]
+	#set url [string map { https:// http:// } $url]
 	status_log "msnp9_do_auth: Getting $url\n"
 	::http::geturl $url -command "gotAuthReply [list $str]" -headers $head
 
