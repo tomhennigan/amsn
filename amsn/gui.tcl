@@ -1,6 +1,10 @@
 #Default look
 
 
+set bgcolor #0050C0
+set bgcolor2 #D0D0F0
+
+
 namespace eval ::amsn {
    namespace export fileTransferRecv fileTransferProgress \
    errorMsg notifyAdd initLook 
@@ -491,7 +495,7 @@ namespace eval ::amsn {
    proc openChatWindow {} {
       variable winid
       variable window_titles
-      global images_folder config HOME files_dir
+      global images_folder config HOME files_dir bgcolor bgcolor2
 
       set win_name "msg_$winid"
       incr winid
@@ -568,9 +572,6 @@ namespace eval ::amsn {
       .${win_name}.copypaste add command -label [trans copy] -command "status_log copy\n;copy 0 ${win_name}"
       .${win_name}.copypaste add command -label [trans paste] -command "status_log paste\n;paste ${win_name}"
 
-      set bgcolor #0050C0
-      set bgcolor2 #D0D0F0
-
       frame .${win_name}.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -relief flat
 
       frame .${win_name}.f.out -class Amsn -background white -borderwidth 0 -relief flat
@@ -610,7 +611,8 @@ namespace eval ::amsn {
       #scrollbar .${win_name}.f.top.ys -command ".${win_name}.f.top.text yview"
 
       scrollbar .${win_name}.f.out.ys -command ".${win_name}.f.out.text yview" \
-
+         -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
+      
       text .${win_name}.status  -width 30 -height 1 -wrap none\
          -font bplainf -borderwidth 1
 
@@ -1529,7 +1531,7 @@ namespace eval ::amsn {
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_main {} {
    global images_folder program_dir emotion_files version date weburl lang_list \
-     password config HOME files_dir pgBuddy pgNews
+     password config HOME files_dir pgBuddy pgNews bgcolor bgcolor2
 
    #User status menu
    menu .my_menu -tearoff 0 -type normal
@@ -1690,7 +1692,7 @@ proc cmsn_draw_main {} {
      "msg_box \"[trans version]: $version - [trans date]: $date\n$weburl\""
 
 
-   image create photo mainback -file [file join ${images_folder} back.gif]
+   #image create photo mainback -file [file join ${images_folder} back.gif]
 
    wm title . "[trans title] - [trans offline]"
    wm geometry . $config(wingeometry)
@@ -1699,8 +1701,11 @@ proc cmsn_draw_main {} {
    wm iconmask . @[file join ${images_folder} amsnmask.xbm]
    . conf -menu .main_menu
 
-   frame .main -class Amsn
+   frame .main -class Amsn -relief flat -background $bgcolor
+   frame .main.f -class Amsn -relief flat -background white
    pack .main -expand true -fill both
+   pack .main.f -expand true -fill both -padx 4 -pady 4
+
    # Create the Notebook and initialize the page paths. These
    # page paths must be used for adding new widgets to the
    # notebook tabs.
@@ -1711,9 +1716,10 @@ proc cmsn_draw_main {} {
        set pgNews  [notebook:getpage .main.nb 1]
        pack .main.nb -fill both -expand 1
    } else {
-       set pgBuddy .main
+       set pgBuddy .main.f
        set pgNews  ""
        pack .main -fill both -expand 1
+   	pack .main.f -expand true -fill both -padx 4 -pady 4
    }
    # End of Notebook Creation/Initialization
 
@@ -1772,8 +1778,10 @@ proc cmsn_draw_main {} {
 
    text $pgBuddy.text -background white -width 30 -height 30 -wrap none \
       -yscrollcommand "$pgBuddy.ys set" -cursor left_ptr -font splainf \
-      -selectbackground white -selectborderwidth 0 -exportselection 0
-   scrollbar $pgBuddy.ys -command "$pgBuddy.text yview"
+      -selectbackground white -selectborderwidth 0 -exportselection 0 \
+      -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
+   scrollbar $pgBuddy.ys -command "$pgBuddy.text yview" -highlightthickness 0 \
+      -borderwidth 1 -elementborderwidth 2
 
    #This shouldn't go here
    if ($config(withproxy)) {
@@ -1782,7 +1790,7 @@ proc cmsn_draw_main {} {
      #::Proxy::Init $config(proxy) $config(proxytype)
      ::Proxy::LoginData $config(proxyauthenticate) $config(proxyuser) $config(proxypass)
    }
-   
+
    adv_initialize .main
    
    # This one is not a banner but a branding. When adverts are enabled
@@ -1790,8 +1798,8 @@ proc cmsn_draw_main {} {
    # is cycled in between adverts.
    adv_show_banner  file ${images_folder}/logolinmsn.gif
 
-   pack $pgBuddy.ys -side right -fill y
-   pack $pgBuddy.text -expand true -fill both
+   pack $pgBuddy.ys -side right -fill y -padx 0 -pady 0
+   pack $pgBuddy.text -expand true -fill both -padx 0 -pady 0
 
    bind . <Control-s> toggle_status
 
@@ -2202,7 +2210,7 @@ proc cmsn_draw_login {} {
 # TODO: move into ::amsn namespace, and maybe improve it
 proc cmsn_draw_online {} {
    global emotions user_stat login list_users list_states user_info list_bl\
-    unread config showonline password pgBuddy
+    unread config showonline password pgBuddy bgcolor
 
    set my_name [urldecode [lindex $user_info 4]]
    set my_state_no [lsearch $list_states "$user_stat *"]
@@ -2230,18 +2238,6 @@ proc cmsn_draw_online {} {
    $pgBuddy.text delete 0.0 end
 
 
-   $pgBuddy.text tag conf mystatus -fore $my_colour -underline false \
-     -font bboldf
-
-    $pgBuddy.text tag bind mystatus <Enter> \
-      "$pgBuddy.text tag conf mystatus -under true;$pgBuddy.text conf -cursor hand2"
-    $pgBuddy.text tag bind mystatus <Leave> \
-      "$pgBuddy.text tag conf mystatus -under false;$pgBuddy.text conf -cursor left_ptr"
-
-   $pgBuddy.text tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
-   $pgBuddy.text tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
-
-
    $pgBuddy.text tag conf mail -fore black -underline true -font splainf
    $pgBuddy.text tag bind mail <Button1-ButtonRelease> "hotmail_login $config(login) $password"
    $pgBuddy.text tag bind mail <Enter> \
@@ -2257,7 +2253,7 @@ proc cmsn_draw_online {} {
        } else {
            set gtag $gname
        }
-       $pgBuddy.text tag conf $gtag -fore #000000 -font sboldf
+       $pgBuddy.text tag conf $gtag -fore $bgcolor -font sboldf
        $pgBuddy.text tag bind $gtag <Button1-ButtonRelease> \
 	 "::groups::ToggleStatus $gname;cmsn_draw_online"
        $pgBuddy.text tag bind $gtag <Enter> \
@@ -2274,9 +2270,43 @@ proc cmsn_draw_online {} {
    clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y}
    bind $pgBuddy.text.bigstate <Button3-ButtonRelease> {tk_popup .my_menu %X %Y}
 
-   $pgBuddy.text insert end "   "
-   $pgBuddy.text insert end " $my_name " mystatus
-   $pgBuddy.text insert end "($my_state_desc) \n" mystatus
+   #HERE
+   
+   
+
+
+   text $pgBuddy.text.mystatus -height 2 -width 75 -background white -borderwidth 0 \
+      -relief flat -highlightthickness 0
+   
+   $pgBuddy.text.mystatus tag conf mystatuslabel -fore gray -underline false \
+     -font splainf
+
+   $pgBuddy.text.mystatus tag conf mystatus -fore $my_colour -underline false \
+     -font bboldf
+
+    $pgBuddy.text.mystatus tag bind mystatus <Enter> \
+      "$pgBuddy.text.mystatus tag conf mystatus -under true;$pgBuddy.text.mystatus conf -cursor hand2"
+
+    $pgBuddy.text.mystatus tag bind mystatus <Leave> \
+      "$pgBuddy.text.mystatus tag conf mystatus -under false;$pgBuddy.text.mystatus conf -cursor left_ptr"
+
+   $pgBuddy.text.mystatus tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
+   $pgBuddy.text.mystatus tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
+
+
+   $pgBuddy.text.mystatus insert end "[trans mystatus]:\n" mystatuslabel
+   $pgBuddy.text.mystatus insert end "$my_name " mystatus
+   $pgBuddy.text.mystatus insert end "($my_state_desc) \n" mystatus
+
+
+   $pgBuddy.text.mystatus configure -state disabled
+   $pgBuddy.text window create end -window $pgBuddy.text.mystatus -padx 5 -pady 0
+
+   $pgBuddy.text insert end \n
+
+   #$pgBuddy.text insert end "   "
+   #$pgBuddy.text insert end " $my_name " mystatus
+   #$pgBuddy.text insert end "($my_state_desc) \n" mystatus
 
    set width [expr {[winfo width $pgBuddy.text] - 10} ]
 

@@ -136,7 +136,7 @@ set urlstarts { "http://" "https://" "ftp://" "www." }
 
 set status_show 0
 set list_states {
-	{NLN online #0000FF online online bonline}
+	{NLN online #0000AA online online bonline}
 	{IDL noactivity #0000A0 online away baway}
 	{BRB rightback #0000C0 online away baway}
 	{PHN onphone #0000C0 online busy bbusy}
