@@ -397,8 +397,8 @@ proc Preferences { { settings "personal"} } {
 	entry $lfname.1.name -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 45
 	checkbutton $lfname.2.badwords -text "[trans allowbadwords]" -onvalue 1 -offvalue 0 -variable config(allowbadwords)
 	pack $lfname.pname -anchor nw -side left
-	pack $lfname.1 -side top -padx 0 -pady 5 -expand 1 -fill both
-	pack $lfname.2 -side top -padx 0 -pady 5 -expand 1 -fill both
+	pack $lfname.1 -side top -padx 0 -pady 3 -expand 1 -fill both
+	pack $lfname.2 -side top -padx 0 -pady 3 -expand 1 -fill both
 	pack $lfname.1.lname $lfname.1.name -side left
 	pack $lfname.2.badwords -side left -padx 15
 	
@@ -431,8 +431,8 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.1.lphone -fill both -side left
 	label $lfname.2.lphone1 -text "[trans countrycode] :" -padx 10 -font sboldf
 	entry $lfname.2.ephone1 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5
-	label $lfname.2.lphone21 -text "[trans areacode]" -pady 5
-	label $lfname.2.lphone22 -text "[trans phone]" -pady 5
+	label $lfname.2.lphone21 -text "[trans areacode]" -pady 3
+	label $lfname.2.lphone22 -text "[trans phone]" -pady 3
 	label $lfname.2.lphone3 -text "[trans myhomephone] :" -padx 10 -font sboldf
 	entry $lfname.2.ephone31 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5	
 	entry $lfname.2.ephone32 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20
@@ -479,17 +479,17 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.1.llook -text "[trans encoding2]" -padx 10
 	button $lfname.1.bencoding -text [trans encoding] -font sboldf -command "show_encodingchoose"
 	pack $lfname.plook -anchor nw -side left
-	pack $lfname.1 -side top -padx 0 -pady 1 -expand 1 -fill both
+	pack $lfname.1 -side top -padx 0 -pady 0 -expand 1 -fill both
 	pack $lfname.1.llook -side left
 	pack $lfname.1.bencoding -side right -padx 15
 	label $lfname.2.llook -text "[trans bgcolor]" -padx 10
 	button $lfname.2.bbgcolor -text [trans choosebgcolor] -font sboldf -command "choose_theme"
-	pack $lfname.2 -side top -padx 0 -pady 1 -expand 1 -fill both
+	pack $lfname.2 -side top -padx 0 -pady 0 -expand 1 -fill both
 	pack $lfname.2.llook -side left	
 	pack $lfname.2.bbgcolor -side right -padx 15
 	label $lfname.3.llook -text "[trans preffont3]" -padx 10
 	button $lfname.3.bfont -text [trans changefont] -font sboldf -command "choose_basefont"
-	pack $lfname.3 -side top -padx 0 -pady 1 -expand 1 -fill both
+	pack $lfname.3 -side top -padx 0 -pady 0 -expand 1 -fill both
 	pack $lfname.3.llook -side left
 	pack $lfname.3.bfont -side right -padx 15
 
@@ -500,14 +500,14 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.pemotic -image prefemotic
 	pack $lfname.pemotic -side left -anchor nw
 	frame $lfname.1 -class Degt
-	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
+	pack $lfname.1 -side left -padx 0 -pady 0 -expand 1 -fill both
 	checkbutton $lfname.1.chat -text "[trans chatsmileys2]" -onvalue 1 -offvalue 0 -variable config(chatsmileys)
 	checkbutton $lfname.1.list -text "[trans listsmileys2]" -onvalue 1 -offvalue 0 -variable config(listsmileys)
         checkbutton $lfname.1.sound -text "[trans emotisounds]" -onvalue 1 -offvalue 0 -variable config(emotisounds)
         checkbutton $lfname.1.animated -text "[trans animatedsmileys]" -onvalue 1 -offvalue 0 -variable config(animatedsmileys)
 	#checkbutton $lfname.1.log -text "[trans logsmileys]" -onvalue 1 -offvalue 0 -variable config(logsmileys) -state disabled
 	#pack $lfname.1.chat $lfname.1.list $lfname.1.sound  $lfname.1.animated $lfname.1.log -anchor w -side top -padx 10
-	pack $lfname.1.chat $lfname.1.list $lfname.1.sound  $lfname.1.animated -anchor w -side top -padx 10
+	pack $lfname.1.chat $lfname.1.list $lfname.1.sound  $lfname.1.animated -anchor w -side top -padx 10 -pady 0
 
 	## Alerts and Sounds Frame ##
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefalerts]]
@@ -531,9 +531,9 @@ proc Preferences { { settings "personal"} } {
 	checkbutton $lfname.1.sound -text "[trans sound2]" -onvalue 1 -offvalue 0 -variable config(sound)
 	pack $lfname.2 -anchor w -side top -padx 10 -expand 1 -fill both
 	pack $lfname.1 -anchor w -side top -padx 0 -pady 5 -expand 1 -fill both
-	pack $lfname.1.alert1 $lfname.1.alert1_5 $lfname.1.alert1_75 $lfname.1.alert2 $lfname.1.alert3 $lfname.1.sound -anchor w -side top -padx 10
+	pack $lfname.1.alert1 $lfname.1.alert1_5 $lfname.1.alert1_75 $lfname.1.alert2 $lfname.1.alert3 $lfname.1.sound -anchor w -side top -padx 10 -pady 0
 	frame $frm.dummy -class Degt
-	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
+	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 0
 	
 	#  .---------.
 	# _| Session |________________________________________________
@@ -1615,6 +1615,9 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.95  2003/11/15 08:52:26  airadier
+# Compress preferences a bit
+#
 # Revision 1.94  2003/11/10 08:33:42  airadier
 # Removed "keepalive" from simple preferences, will be in advanced.
 #
