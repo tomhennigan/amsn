@@ -425,7 +425,7 @@ namespace eval ::amsn {
 
 
 		#Top frame (Picture and name of developers)
-		set developers "\nDidimo Grimaldo\nAlvaro J. Iradier\nKhalaf Philippe\nDave Mifsud"
+		set developers "\nDidimo Grimaldo\nAlvaro J. Iradier\nKhalaf Philippe\nAlaoui Youness\nDave Mifsud"
 		frame .about.top -class Amsn
 		label .about.top.i -image [::skin::loadPixmap msndroid]
 		label .about.top.l -font splainf -text "[trans broughtby]:$developers"
