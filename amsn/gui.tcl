@@ -73,9 +73,20 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey menuactiveforeground #ffffff
 	::skin::setKey showdisplaycontactlist 0
 	::skin::setKey emailabovecolorbar 0
+	::skin::setKey bigstate_xpad 0
+	::skin::setKey bigstate_ypad 0
+	::skin::setKey mystatus_xpad 3
+	::skin::setKey mystatus_ypad 0
+	::skin::setKey mailbox_xpad 2
+	::skin::setKey mailbox_ypad 2
+	::skin::setKey contract_xpad 8
+	::skin::setKey contract_xpad 6
+	::skin::setKey expand_xpad 8
+	::skin::setKey expand_ypad 6
 	::skin::setKey x_dp_top 4
 	::skin::setKey y_dp_top 4
 	::skin::setKey balloontext #000000 
+	::skin::setKey buddy_ypad 3
 
 	::skin::setKey notifwidth 150
 	::skin::setKey notifheight 100

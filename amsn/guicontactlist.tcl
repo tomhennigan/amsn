@@ -201,7 +201,7 @@ namespace eval ::guiContactList {
 			$canvas bind $email <Leave> "+set Bulle(first) 0; kill_balloon"
 		}
 		
-		#Add binding for click / right click (remebering to get config key for single/dbl click on contacts to open chat)
+		#Add binding for click / right click (remembering to get config key for single/dbl click on contacts to open chat)
 		if { [::config::getKey sngdblclick] } {
 			set singordblclick <Button-1>
 		} else {
@@ -216,7 +216,7 @@ namespace eval ::guiContactList {
 				$email;$canvas configure -cursor hand2"
 			$canvas bind $email <Leave> "+$canvas delete uline;$canvas configure -cursor left_ptr"
 		}
-		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + 3]]
+		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + [::skin::getKey buddy_ypad]]]
 	}
 	
 	# Draw the group title on the canvas
