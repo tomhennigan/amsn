@@ -3606,6 +3606,7 @@ proc cmsn_draw_main {} {
 	image create photo bell -file [GetSkinFile pixmaps bell.gif]
 	image create photo belloff -file [GetSkinFile pixmaps belloff.gif]
 
+	image create photo notinlist -file [GetSkinFile pixmaps notinlist.gif]
 	image create photo blockedme -file [GetSkinFile pixmaps blockedme.gif]
 
 	image create photo blockedme -file [GetSkinFile pixmaps blockedme.gif]
@@ -4892,10 +4893,10 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	# yet added/approved us. Show their name in pink. A way
 	# of knowing how has a) not approved you yet, or b) has
 	# removed you from their contact list even if you still
-	# have them...
-	if {[lsearch $list_rl "$user_login *"] == -1} {
-		set colour #DD00DD
-	}
+	# have them... MOVED TO THE NEW ICON
+	#if {[lsearch $list_rl "$user_login *"] == -1} {
+	#	set colour #DD00DD
+	#}
 
 	set image_type [lindex $state 4]
 
@@ -4967,6 +4968,13 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	}
 	#$pgBuddy.text insert $section.last " $user_name$state_desc \n" $user_login
 
+	#	Draw the not-in-reverse-list icon
+	if {[lsearch $list_rl "$user_login *"] == -1} {
+       		set imgname2 "img2_[getUniqueValue]"
+        	label $pgBuddy.text.$imgname2 -image notinlist 
+        	$pgBuddy.text.$imgname2 configure -cursor hand2 -borderwidth 0
+		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname2 -padx 1 -pady 1
+	}
 	#	Draw alarm icon if alarm is set
 	if { [info exists alarms(${user_login})] } {
 		#set imagee [string range [string tolower $user_login] 0 end-8]
