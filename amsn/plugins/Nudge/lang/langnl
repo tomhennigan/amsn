@@ -1,0 +1,13 @@
+amsn_lang_version 2
+shake_receive Laat het venster trillen als je een nudge ontvangt
+shake_send Laat het venstet trillen als je een nudge verzendt
+skane_nudge Aantal trilbewegingen per nudge
+popup_nudge Geef een meldingsvenster weer als je een nudge ontvangt
+notify_send Meldt verzonden nudges in het gespreksvenster
+notify_receive Meldt ontvangen nudges in het gespreksvenster
+sound_send Geluidssignaal bij het verzenden van een nudge
+sound_receive Geluidssignaal bij het ontvangen van een nudge
+add_button Voeg een knop om een nudge te verzenden toe aan het gespreksvenster
+send_nudge Verzend een nudge
+no_nudge_support Je kunt naar deze persoon geen nudge sturen omdat zijn of haar MSN-client geen nudges ondersteund
+nudge_sent Je hebt zojuist een nudge verzonden
