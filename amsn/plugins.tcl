@@ -1363,7 +1363,7 @@ namespace eval ::plugins {
 		set w ".updatelangplugin"
 		
 		if { [winfo exists $w] } {
-			$w.update.txt configure -text "Updating $plugin..."
+			$w.update.txt configure -text "[trans updating] $plugin..."
 		}
 		
 		if { $place == 1 } {

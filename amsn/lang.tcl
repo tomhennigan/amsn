@@ -845,7 +845,7 @@ namespace eval ::lang {
 			
 			set langname [::lang::ReadLang $langcode name]
 			if { [winfo exists $w] } {
-				$w.update.txt configure -text "Updating $langname..."
+				$w.update.txt configure -text "[trans updating] $langname..."
 			}
 
 			set onlineversion [::lang::ReadOnlineLang $langcode version]
