@@ -34,7 +34,7 @@
 	<lang>
 		<langcode>ca</langcode>
 		<name>Catalan</name>
-		<version>1.107</version>
+		<version>1.108</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -88,7 +88,7 @@
 	<lang>
 		<langcode>es</langcode>
 		<name>Spanish</name>
-		<version>1.216</version>
+		<version>1.217</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -148,7 +148,7 @@
 	<lang>
 		<langcode>hu</langcode>
 		<name>Hungary</name>
-		<version>1.18</version>
+		<version>1.19</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
