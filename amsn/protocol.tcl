@@ -750,7 +750,7 @@ proc cmsn_sb_handler {sb_name item} {
    set ret_trid [lindex $item 1]
    set idx [lsearch $list_cmdhnd "$ret_trid *"]
    if {$idx != -1} {		;# Command has a handler associated!
-      eval "[lindex [lindex $list_cmdhnd $idx] 1] \"$item\""
+      eval "[lindex [lindex $list_cmdhnd $idx] 1] {$item}"
       status_log "evaluating handler for $ret_trid\n"
       return 0
    } else {
