@@ -605,7 +605,7 @@ namespace eval ::plugins {
 		}
 		# current config, see it's declaration for more info
 		variable cur_config
-		
+
 		# get the name
 		set name $selection(name)
 		set namespace $selection(namespace)
@@ -677,6 +677,9 @@ namespace eval ::plugins {
 					}
 				}
 			}
+			
+			# set the name of the winconf
+			wm title $w.winconf "[trans configure] $selection(name)"
 
 			# Grid the frame
 			grid $confwin -column 1 -row 1
