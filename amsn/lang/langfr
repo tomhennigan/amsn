@@ -513,3 +513,8 @@ yoffset Position en Y
 youblocked Vous avez été bloqué
 yousay Vous avez dit
 youwant Vous voulez
+charscounter Ecrivez à l'intérieur de la fenêtre de dialogue.
+invalidfile2 Le nom de fichier $1 ne peut pas être créé, faites attention d'avoir les bonnes permissions pour ce fichier.
+invalidpicsize L'image choisis est trop grosse, choisissez en une plus petite.
+invalidpic L'image choisis n'existe pas.
+invalidsound Le fichier son choisis n'existe pas.

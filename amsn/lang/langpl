@@ -81,6 +81,7 @@ changedisplaypic Zmien obraz wyswietlany
 changefont Zmien czcionke 
 changenick Zmien nick
 changestate $1 zmienia status na $2 
+charscounter	 Licznik wprowadzonych znaków w oknie rozmowy
 chatack Akceptuje czat od
 chat Czat
 chatmaxmin Kiedy kontakt otwiera czat ze mna chce żeby byl: 
@@ -231,7 +232,11 @@ inbox W Skrzynce
 insertsmiley wstaw emotikon 
 installconvert Musisz zainstalowac ImageMagick (program konwertujacy) w celu uzycia Ikon Kumpli i wlasnych emotikon. Odpowienie pliki dla swojego systemu operacyjnego możesz pobrac z ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Jeśli aktualnie je posiadasz to to jest bug, prosze to zglosic. Ta opcja będzie teraz wylaczona, jesli zainstalujesz ImageMagik pozniej wlacz ponownie ta opcje w oknie preferencji.  
 internalerror Wewnetrzny Blad Serwera 
+invalidfile2	Nazwa pliku dla $1 nie moze byc utworzona, upewnij sie ze masz odpowiednie uprawnienia dla tego celu.
 invalidfile Plik $2 wprowadzony w pole "$1" nie istnieje lub jest nieczytelny 
+invalidpicsize	Wybrany obraz jest za duzy wybierz jakis mniejszy
+invalidpic	Wybrany plik obrazu nie istnieje
+invalidsound	Wybrany plik dzwiekowy nie istnieje
 invalidusername Nieprawidlowa nazwa uzytkownika
 invitationcancelled Zaproszenie zostalo anulowane 
 invite Zapros
