@@ -621,10 +621,6 @@ namespace eval ::ChatWindow {
 		.${win_name}.menu.actions add separator
 		.${win_name}.menu.actions add command -label [trans sendmail] \
 			-command "::amsn::ShowChatList \"[trans sendmail]\" .${win_name} launch_mailer"
-		#Send a postevent for the creation of menu
-		set evPar(window_name) ".${win_name}"
-		set evPar(menu_name) ".${win_name}.menu"
-		::plugins::PostEvent chatmenu evPar
 			
 		.${win_name} conf -menu .${win_name}.menu
 
@@ -649,18 +645,11 @@ namespace eval ::ChatWindow {
 			.${win_name}.copy.xmms add command -label [trans xmmscurrent] -command "xmms ${win_name} 1"
 			.${win_name}.copy.xmms add command -label [trans xmmssend] -command "xmms ${win_name} 2"
 		}
-
-		#Create iTunes menu on Mac OS X, to send message for current playing song
-		if { $tcl_platform(os) == "Darwin" } {
-			.${win_name}.copy add cascade -label "iTunes" -menu .${win_name}.copy.itunes
-			menu .${win_name}.copy.itunes -tearoff 0 -type normal
-			.${win_name}.copy.itunes add command -label [trans xmmscurrent] \
-				-command "catch {exec osascript plugins/applescript/display_and_send.scpt &}; \
-				after 7000 itunes ${win_name} 1"
-			.${win_name}.copy.itunes add command -label [trans xmmssend] \
-				-command "catch {exec osascript plugins/applescript/display_and_send.scpt &}; \
-				after 7000 itunes ${win_name} 2"
-		}
+		
+		#Send a postevent for the creation of menu
+		set evPar(window_name) ".${win_name}"
+		set evPar(menu_name) ".${win_name}.menu"
+		::plugins::PostEvent chatmenu evPar
 
 		frame .${win_name}.f -class amsnChatFrame -background [::skin::getColor background1] -borderwidth 0 -relief flat
 		ScrolledWindow .${win_name}.f.out -auto vertical -scrollbar vertical
