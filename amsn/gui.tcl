@@ -1360,7 +1360,6 @@ namespace eval ::amsn {
       } else {
          wm state .${win_name} iconic
       }
-
       #wm state .${win_name} iconic
       return ".${win_name}"
 
@@ -2262,13 +2261,18 @@ namespace eval ::amsn {
 }
 
 
+proc clean_yscroll_variable { bar } {
+	global scrollbar_packed_$bar
+
+	catch { unset scrollbar_packed_$bar }
+}
 
 proc adjust_yscroll {text bar begin end } {
 
   global scrollbar_packed_$bar
 
-
   set scrolling 0
+
   if { $begin == 0 && $end == 1 } {
 
 	  if { [lindex [$bar get] 1] == 1.0 } {
@@ -2293,13 +2297,20 @@ proc adjust_yscroll {text bar begin end } {
         pack $bar -side right -fill y -padx 0 -pady 0
         pack $text -side right -expand true -fill both
         set scrollbar_packed_$bar 1
+		  #set command [list bind $bar <Destroy> "status_log \"Destroyed\n\"" white]
+		  #status_log "$command\n" white
+        #eval $command
+
+        update idletasks
 
      }
 
   }
 
+
+
   if { $scrolling } { $text yview moveto 1.0 }
-  $bar set $begin $end   
+  $bar set $begin $end
     
 }
 
