@@ -57,6 +57,7 @@ mustrestart Je moet het programma herstarten omdat deze veranderingen effect zou
 mystatus Mijn status
 msg Bericht
 msn AMSN
+needonline Je bent offline (of doet alsof)  
 newmail $1 nieuw bericht in In-Box
 newmailfrom Nieuwe mail van
 newmsg Nieuw bericht

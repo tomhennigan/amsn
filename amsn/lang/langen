@@ -59,6 +59,7 @@ mustrestart You must restart the program to apply changes
 mystatus My status
 msg Message
 msn AMSN
+needonline You still are/appear offline!
 newmail $1 new messages in In-Box
 newmailfrom New mail from
 newmsg New message

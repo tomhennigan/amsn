@@ -58,6 +58,7 @@ msg Mensaje
 msn AMSN
 mustrestart Debes reiniciar el programa para aplicar los cambios
 mystatus Mi estado
+needonline Usted todavia esta/aparece desconectado!
 newmail $1 mensajes nuevos en bandeja de entrada
 newmailfrom Nuevo correo de
 newmsg Nuevo mensaje
