@@ -38,8 +38,13 @@ bgcolor Change aMSN's background color
 blankdirect Leave blank for direct connection
 block Block
 blocked Blocked
+blocking Blocking
+blockinter1 When your status is online check every 
+blockinter2 seconds, else check every :
+blockinter3 every 
 blocklist Block list :
 blockmessage These people are online and blocked you
+blockusers Number of users to check at once 
 broughtby  Brought to you by the following developers
 browse Browse
 browser Browser
@@ -55,8 +60,10 @@ chatmaxmin When a contact opens a chat with me I want it to be:
 chatreq Requesting chat
 chatsmileys2 Display Emoticons and Smileys in chat windows
 chatsmileys Chat smileys
+checkblocking Continuously check if users are blocking you
 checkfilman Received files will be saved in $1. Please check file manager settings in preferences window.
 checkingver Checking for new versions
+checkonfln Check if a user blocked you when he gets offline
 checkver Check for new version
 choosebasefont Choose font type
 choosebgcolor Choose background color
@@ -250,6 +257,8 @@ port Port
 prefalerts My Event Alerts and Sounds
 prefapps Applications
 prefawaymsg My Away Message
+prefblock1 Check on disconnect
+prefblock2 Continuously check
 prefconnection Connection settings
 prefemotic Emotions Icons and Smileys 
 preferences Preferences

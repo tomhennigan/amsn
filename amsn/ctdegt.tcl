@@ -49,7 +49,7 @@ proc degt_protocol_win_toggle {} {
 proc degt_protocol_win { } {
     global followtext_degt
 
-    set followtext_degt 0
+    set followtext_degt 1
 
     toplevel .degt
     wm title .degt "MSN Protocol Debug"
@@ -317,8 +317,8 @@ proc PreferencesMenu {m} {
     $m add command -label [trans profiles] -command "Preferences profiles"
 }
 
-proc Preferences { { settings ""} } {
-    global config myconfig proxy_server proxy_port images_folder temp_BLP list_BLP
+proc Preferences { { settings "personal"} } {
+    global config myconfig proxy_server proxy_port images_folder temp_BLP list_BLP Preftabs
 
     set temp_BLP $list_BLP
 
@@ -353,7 +353,18 @@ proc Preferences { { settings ""} } {
 
 	# Preferences Notebook
 	# Modified Rnotebook to translate automaticly those keys in -tabs {}
-	Rnotebook:create $nb -tabs {personal appearance session loging connection prefapps profiles privacy} -borderwidth 2
+	Rnotebook:create $nb -tabs {personal appearance session privacy loging blocking connection prefapps profiles} -borderwidth 2
+        set Preftabs(personal) 1
+        set Preftabs(appearance) 2
+        set Preftabs(session) 3
+        set Preftabs(privacy) 4
+        set Preftabs(loging) 5
+        set Preftabs(blocking) 6
+        set Preftabs(connection) 7
+        set Preftabs(prefapps) 8
+        set Preftabs(profiles) 9
+
+
 	pack $nb -fill both -expand 1 -padx 10 -pady 10
 
 	#  .----------.
@@ -362,7 +373,7 @@ proc Preferences { { settings ""} } {
 	image create photo prefprofile -file [file join ${images_folder} prefprofile.gif]
 	image create photo preffont -file [file join ${images_folder} preffont.gif]
 	image create photo prefphone -file [file join ${images_folder} prefphone.gif]
-	set frm [Rnotebook:frame $nb 1]
+	set frm [Rnotebook:frame $nb $Preftabs(personal)]
 
 	## Nickname Selection Entry Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefname] -font splainf]
@@ -437,7 +448,7 @@ proc Preferences { { settings ""} } {
 	image create photo prefemotic -file [file join ${images_folder} prefemotic.gif]
 	image create photo prefalerts -file [file join ${images_folder} prefalerts.gif]	
 
-	set frm [Rnotebook:frame $nb 2]
+	set frm [Rnotebook:frame $nb $Preftabs(appearance)]
 	
 	## General aMSN Look Options (Encoding, BGcolor, General Font)
 	set lfname [LabelFrame:create $frm.lfname -text [trans preflook]]
@@ -505,7 +516,7 @@ proc Preferences { { settings ""} } {
 	image create photo prefaway -file [file join ${images_folder} prefaway.gif]
 	image create photo prefmsg -file [file join ${images_folder} prefmsg.gif]	
 
-	set frm [Rnotebook:frame $nb 3]
+	set frm [Rnotebook:frame $nb $Preftabs(session)]
 	
 	## Sign In and AutoStatus Options Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefsession]]
@@ -590,7 +601,7 @@ proc Preferences { { settings ""} } {
 	image create photo prefhist2 -file [file join ${images_folder} prefhist2.gif]
 	image create photo prefhist3 -file [file join ${images_folder} prefhist3.gif]
 
-	set frm [Rnotebook:frame $nb 4]
+	set frm [Rnotebook:frame $nb $Preftabs(loging)]
 
 	## Loging Options Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans preflog1]]
@@ -645,7 +656,7 @@ proc Preferences { { settings ""} } {
 	image create photo prefproxy -file [file join ${images_folder} prefproxy.gif]	
 	image create photo prefremote -file [file join ${images_folder} prefpers.gif]
 
-	set frm [Rnotebook:frame $nb 5]
+	set frm [Rnotebook:frame $nb $Preftabs(connection)]
 	
 	## Connection Frame ##
 	set lfname [LabelFrame:create $frm.lfnameconnection -text [trans prefconnection]]
@@ -742,7 +753,7 @@ proc Preferences { { settings ""} } {
 	# _| Applications |________________________________________________
 	image create photo prefapps -file [file join ${images_folder} prefpers.gif]
 
-	set frm [Rnotebook:frame $nb 6]
+	set frm [Rnotebook:frame $nb $Preftabs(prefapps)]
 	
 	## Applications Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefapps]]
@@ -781,7 +792,7 @@ proc Preferences { { settings ""} } {
 	image create photo prefapps -file [file join ${images_folder} prefpers.gif]
 	
 	## Delete Profiles Frame ##
-	set frm [Rnotebook:frame $nb 7]
+	set frm [Rnotebook:frame $nb $Preftabs(profiles)]
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefprofile3]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.pprofile -image prefapps
@@ -797,7 +808,7 @@ proc Preferences { { settings ""} } {
 
 	#  .----------.
 	# _| Privacy |________________________________________________
-	set frm [Rnotebook:frame $nb 8]
+	set frm [Rnotebook:frame $nb $Preftabs(privacy)]
 
          # Allow/Block lists
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefprivacy]]
@@ -871,11 +882,27 @@ proc Preferences { { settings ""} } {
 	pack $lfname.reverselist.ys -side right -fill y
 	pack $lfname.reverselist.box -side left -expand true -fill both
 
+        frame $lfname.adding
+        entry $lfname.adding.enter
+        button $lfname.adding.addal -text "Add to AL" -command "Add_To_List $lfname AL"
+        button $lfname.adding.addbl -text "Add to BL" -command "Add_To_List $lfname BL"
+        button $lfname.adding.addfl -text "Add to FL" -command "Add_To_List $lfname FL" 
+        pack $lfname.adding.addal $lfname.adding.addbl $lfname.adding.addfl -side left
+        pack $lfname.adding.enter -side top
+
 
 	frame $lfname.buttons -borderwidth 0
-	button $lfname.buttons.right -text "[trans delete] -->" -font sboldf -command "Remove_Contact $lfname" -width 15
-	button $lfname.buttons.left -text "<-- [trans copy]" -font sboldf -command "Reverse_to_Contact $lfname" -width 15
-	pack $lfname.buttons.right $lfname.buttons.left -side top
+	button $lfname.buttons.right -text "[trans delete] -->" -font sboldf -command "Remove_Contact $lfname" -width 10
+	button $lfname.buttons.left -text "<-- [trans copy]" -font sboldf -command "Reverse_to_Contact $lfname" -width 10
+	pack $lfname.adding  $lfname.buttons.right $lfname.buttons.left -side top
+
+
+ #       pack $lfname.addal $lfname.addbl $lfname.addfl -side left
+
+ #    	grid $lfname.enter -row 3 -column 1 -sticky w 
+ #	grid $lfname.addal -row 4 -column 1 -sticky w 
+ #	grid $lfname.addbl -row 4 -column 2 -sticky w 
+ #	grid $lfname.addfl -row 4 -column 3 -sticky w 
 
         label $lfname.status -text ""
 
@@ -887,7 +914,51 @@ proc Preferences { { settings ""} } {
 
   
 
+	#  .----------.
+	# _| Blocking |________________________________________________
+	set frm [Rnotebook:frame $nb $Preftabs(blocking)]
+	
+	## Check on disconnect ##
+	set lfname [LabelFrame:create $frm.lfname -text [trans prefblock1]]
+	pack $frm.lfname -anchor n -side top -expand 1 -fill x
+	label $lfname.ppref1 -image prefapps
+	pack $lfname.ppref1 -side left -padx 5 -pady 5 
+	checkbutton $lfname.enable -text "[trans checkonfln]" -onvalue 1 -offvalue 0 -variable config(checkonfln)
+	pack $lfname.enable  -anchor w -side left -padx 0 -pady 5 
 
+	## Continuously check ##
+	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefblock2]]
+	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
+	label $lfname.ppref2 -image prefapps
+	pack $lfname.ppref2 -side left -padx 5 -pady 5 
+
+	frame $lfname.enable -class Degt
+	pack $lfname.enable -anchor w -side left 
+	checkbutton $lfname.enable.cb -text "[trans checkblocking]" -onvalue 1 -offvalue 0 -variable config(checkblocking) -command UpdatePreferences
+	grid $lfname.enable.cb -row 1 -column 1 -sticky w
+
+	frame $lfname.check -class Degt
+	pack $lfname.check -anchor w -side left -padx 0 -pady 5 
+
+        label $lfname.check.linter1 -text "[trans blockinter1]"
+        label $lfname.check.linter2 -text "[trans blockinter2]"
+        label $lfname.check.linter3 -text "[trans blockinter3]"
+        label $lfname.check.lusers -text "[trans blockusers]"
+        entry $lfname.check.inter1 -validate all -vcmd "BlockValidateEntry %W %P 1" -invcmd "BlockValidateEntry %W %P 0 15" -width 4 -textvariable config(blockinter1)
+        entry $lfname.check.inter2 -validate all -vcmd "BlockValidateEntry %W %P 2" -invcmd "BlockValidateEntry %W %P 0 30"  -width 4 -textvariable config(blockinter2)
+        entry $lfname.check.inter3 -validate all -vcmd "BlockValidateEntry %W %P 3" -invcmd "BlockValidateEntry %W %P 0 2" -width 4 -textvariable config(blockinter3)
+        entry $lfname.check.users -validate all -vcmd "BlockValidateEntry %W %P 4" -invcmd "BlockValidateEntry %W %P 0 5" -width 4 -textvariable config(blockusers)
+
+        grid $lfname.check.linter1 -row 1 -column 1 -sticky w
+        grid $lfname.check.linter2 -row 1 -column 3 -sticky w
+        grid $lfname.check.linter3 -row 2 -column 3 -sticky w
+        grid $lfname.check.lusers -row 2 -column 1 -sticky w
+        grid $lfname.check.inter1 -row 1 -column 2 -sticky w
+        grid $lfname.check.inter2 -row 1 -column 4 -sticky w
+        grid $lfname.check.inter3 -row 2 -column 4 -sticky w
+        grid $lfname.check.users -row 2 -column 2 -sticky w
+
+	pack $lfname.enable $lfname.check -anchor w -side top 
 
     setCfgFonts $nb splainf
 
@@ -898,17 +969,19 @@ proc Preferences { { settings ""} } {
 
     wm geometry .cfg [expr [Rnotebook:totalwidth $nb] + 50]x595
 
-    switch $settings {
-        personal { Rnotebook:raise $nb 1 }
-	appearance { Rnotebook:raise $nb 2 }
-        session { Rnotebook:raise $nb 3 }
-        loging { Rnotebook:raise $nb 4 }
-	connection { Rnotebook:raise $nb 5 }
-        apps { Rnotebook:raise $nb 6 }
-        profiles { Rnotebook:raise $nb 7 }
-	privacy { Rnotebook:raise $nb 8 }
-	default { return }
-    }
+    catch { Rnotebook:raise $nb $Preftabs($settings) }
+
+#    switch $settings {
+#         personal { Rnotebook:raise $nb 1 }
+# 	appearance { Rnotebook:raise $nb 2 }
+#         session { Rnotebook:raise $nb 3 }
+#         loging { Rnotebook:raise $nb 4 }
+# 	connection { Rnotebook:raise $nb 5 }
+#         apps { Rnotebook:raise $nb 6 }
+#         profiles { Rnotebook:raise $nb 7 }
+# 	privacy { Rnotebook:raise $nb 8 }
+# 	default { return }
+#     }
     
     bind .cfg <Destroy> "RestorePreferences"
 
@@ -918,11 +991,11 @@ proc Preferences { { settings ""} } {
 
 # This is where we fill in the Entries of the Preferences
 proc InitPref {} {
-	global user_stat user_info config
+	global user_stat user_info config Preftabs
 	set nb .cfg.notebook.nn
 
 	# Insert nickname if online, disable if offline
-	set lfname [Rnotebook:frame $nb 1]
+	set lfname [Rnotebook:frame $nb $Preftabs(personal)]
 	if { $user_stat == "FLN" } {
 		$lfname.lfname.f.f.name configure -state disabled
 	} else {
@@ -967,7 +1040,7 @@ proc InitPref {} {
 	}
 
 	# Lets fill our profile combobox
-	set lfname [Rnotebook:frame $nb 7]
+	set lfname [Rnotebook:frame $nb $Preftabs(profiles)]
 	set lfname "$lfname.lfname.f.f"
    	set idx 0
    	set tmp_list ""
@@ -984,25 +1057,25 @@ proc InitPref {} {
 
 	# Lets disable loging if on default profile
 	if { [LoginList exists 0 $config(login)] == 0 } {
-		set lfname [Rnotebook:frame $nb 4]
+		set lfname [Rnotebook:frame $nb $Preftabs(loging)]
 		set lfname "$lfname.lfname.f.f"
 		$lfname.log configure -state disabled
 	}
 
 	# Let's fill our list of States
-	set lfname [Rnotebook:frame $nb 3]
+	set lfname [Rnotebook:frame $nb $Preftabs(session)]
 	$lfname.lfname2.f.f.statelist.box delete 0 end
 	for { set idx 0 } { $idx < [StateList size] } {incr idx } {
 		$lfname.lfname2.f.f.statelist.box insert end [lindex [StateList get $idx] 0]
 	}
 
         # Fill the user's lists
-        set lfname [Rnotebook:frame $nb 8]
+        set lfname [Rnotebook:frame $nb $Preftabs(privacy)]
         Fill_users_list "$lfname.lfname.f.f" "$lfname.lfname2.f.f"
 
 
         # Init remote preferences
-        set lfname [Rnotebook:frame $nb 5]
+        set lfname [Rnotebook:frame $nb $Preftabs(connection)]
         $lfname.lfname3.f.f.2.pass delete 0 end
         $lfname.lfname3.f.f.2.pass insert 0 "$config(remotepassword)"
 
@@ -1011,12 +1084,12 @@ proc InitPref {} {
 
 # This is where the preferences entries get enabled disabled
 proc UpdatePreferences {} {
-	global config
+	global config Preftabs
 	
 	set nb .cfg.notebook.nn
 	
 	# autoaway checkbuttons and entries
-	set lfname [Rnotebook:frame $nb 3]
+	set lfname [Rnotebook:frame $nb $Preftabs(session)]
 	set lfname "${lfname}.lfname.f.f"
 	if { $config(autoidle) == 0 } {
 		$lfname.1.eautonoact configure -state disabled
@@ -1030,7 +1103,7 @@ proc UpdatePreferences {} {
 	}
 
 	# proxy connection entries and checkbuttons
-	set lfname [Rnotebook:frame $nb 5]
+	set lfname [Rnotebook:frame $nb $Preftabs(connection)]
 	set lfname "${lfname}.lfnameconnection.f.f"
 	if { $config(connectiontype) == "proxy" } {
 		$lfname.4.post configure -state normal
@@ -1051,13 +1124,32 @@ proc UpdatePreferences {} {
 	}
 
 	# remote control
-	set lfname [Rnotebook:frame $nb 5]
+	set lfname [Rnotebook:frame $nb $Preftabs(connection)]
 	set lfname "${lfname}.lfname3.f.f"
 	if { $config(enableremote) == 1 } {
 		$lfname.2.pass configure -state normal
 	} else {
 		$lfname.2.pass configure -state disabled
 	}
+
+
+	# blocking
+ 	set lfname [Rnotebook:frame $nb $Preftabs(blocking)]
+ 	set lfname "${lfname}.lfname2.f.f"
+ 	if { $config(checkblocking) == 1 } {
+ 		$lfname.check.inter1 configure -state normal
+ 		$lfname.check.inter2 configure -state normal
+ 		$lfname.check.inter3 configure -state normal
+ 		$lfname.check.users configure -state normal
+
+ 	} else {
+ 		$lfname.check.inter1 configure -state disabled
+ 		$lfname.check.inter2 configure -state disabled
+ 		$lfname.check.inter3 configure -state disabled
+ 		$lfname.check.users configure -state disabled
+
+ 	}
+
 }
 	
 
@@ -1078,7 +1170,7 @@ proc setCfgFonts {path value} {
 
 
 proc SavePreferences {} {
-    global config myconfig proxy_server proxy_port user_info user_stat list_BLP temp_BLP
+    global config myconfig proxy_server proxy_port user_info user_stat list_BLP temp_BLP Preftabs
 
     set nb .cfg.notebook.nn
 
@@ -1115,7 +1207,7 @@ proc SavePreferences {} {
 
     # Check and save phone numbers
     if { $user_stat != "FLN" } {
-	    set lfname [Rnotebook:frame $nb 1]
+	    set lfname [Rnotebook:frame $nb $Preftabs(personal)]
 	    set lfname "$lfname.lfname4.f.f"
  	   ::abook::getPersonal phones
 
@@ -1155,7 +1247,7 @@ proc SavePreferences {} {
     }
 
     # Change name
-    set lfname [Rnotebook:frame $nb 1]
+    set lfname [Rnotebook:frame $nb $Preftabs(personal)]
     set lfname "$lfname.lfname.f.f"
     set new_name [$lfname.name get]
     if {$new_name != "" && $new_name != [urldecode [lindex $user_info 4]] && $user_stat != "FLN"} {
@@ -1173,7 +1265,7 @@ proc SavePreferences {} {
     }
 
     # Get remote controlling preferences
-    set lfname [Rnotebook:frame $nb 5]
+    set lfname [Rnotebook:frame $nb $Preftabs(connection)]
     set myconfig(remotepassword) "[$lfname.lfname3.f.f.2.pass get]"
     set config(remotepassword) "$myconfig(remotepassword)"
 
@@ -1182,6 +1274,15 @@ proc SavePreferences {} {
     if { $list_BLP != $temp_BLP } {
 	AllowAllUsers $temp_BLP
     }
+
+    # Blocking
+    if { $config(blockusers) == "" } { set config(blockusers) 1}
+    if { $config(checkblocking) == 1 } {
+	BeginVerifyBlocked $config(blockinter1) $config(blockinter2) $config(blockusers) $config(blockinter3)
+    } else {
+	StopVerifyBlocked
+    }
+
 
     # Save configuration.
     save_config
@@ -1339,8 +1440,67 @@ proc LabelFrame:create {w args} {
   return $w.f.f
 }
 
+
+
+proc BlockValidateEntry { widget data type {correct 0} } {
+
+    switch  $type  {
+	0 {
+	    if { [string is integer  $data] } {
+		global config
+		$widget delete 0 end
+		$widget insert 0 "$correct" 
+		after idle "$widget config -validate all"
+	    }    
+	}
+	1 {
+	    if { [string is integer  $data] } {
+		if { $data < 15 } {
+		    return 0
+		}
+		return 1
+	    } else {return 0}
+	}
+	2 {    
+	    if { [string is integer $data] } {
+		if { $data < 30 } {
+		    return 0
+		}
+		return 1
+	    } else {return 0}
+	}
+	3 {    
+	    if { [string is integer   $data] } {
+		if { $data < 2 } {
+		    return 0
+		}
+		return 1
+	    } else {return 0}
+	}
+	4 {    
+	    if { [string is integer  $data] } {
+		if { $data > 5 } {
+		    return 0
+		} 
+		return 1 
+	    } else {return 0}
+	}
+    }
+	
+}
+
+
+
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.62  2003/06/28 05:38:00  kakaroto
+# added the boss mode
+# added the gui for the blocking thing + using only one SB
+# chnaged the way to access tabs in the preferences window (Preftabs array)
+# added entry to add directly to FL/AL/BL lists
+# "Execute : $command" in the status log when executing a command using it's entry...
+# added a catch for the call of run_alarms .. we needed that..
+#
 # Revision 1.61  2003/06/16 09:21:14  kakaroto
 # disabled the "SYN 0" ns command when the preferences window is closed : no reload of the contact list
 #

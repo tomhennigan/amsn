@@ -1,20 +1,26 @@
 # Doesn't handle focus all that well yet.  Not totally bust though...
 
 namespace eval notebook {
-    # Start by configuring the "compiled-in" default for the label to
-    # look like the compiled-in defaults for the buttons, making them
-    # default to something not entirely daft in the process...
-    foreach {opt val} {
-	highlightThickness 0
-	borderWidth        0
-	relief             raised
-	padX               3
-	padY               3
-    } {
-	option add *NoteBook.Label.$opt $val 30
-    }
+
+    if { $initialize_amsn == 1 } {
+	# Start by configuring the "compiled-in" default for the label to
+	# look like the compiled-in defaults for the buttons, making them
+	# default to something not entirely daft in the process...
+	foreach {opt val} {
+	    highlightThickness 0
+	    borderWidth        0
+	    relief             raised
+	    padX               3
+	    padY               3
+	} {
+	    option add *NoteBook.Label.$opt $val 30
+	}
+    
 
     variable re {([0-9]+)x([0-9]+)\+(-?[0-9]+)\+(-?[0-9]+)}
+
+    }
+
     proc drawPoly {w} {
 	variable buttonList
 	variable paneList
@@ -218,42 +224,45 @@ namespace eval notebook {
     }
 
 
-# -----------------------------------------------------------------------
-# Demo code
-#
-
-#pack [notebook .p Foobar Spong Wibble] \
-#	    -expand 1 -fill both -padx 1m -pady 1m
-#pack [button [getNote .p Foobar].foo -text foo] \
-#	-fill both -expand 1 -padx 3m -pady 1m
-#pack [button [getNote .p Foobar].bar -text bar] \
-#	-fill both           -padx 3m -pady 1m
-#pack [text   [getNote .p Wibble].wibble] \
-#	-fill both -expand 1 -padx 1m -pady 3m
-#pack [canvas [getNote .p Spong].spong -bg white] \
-#	-fill both -expand 1 -padx 2m -pady 2m
-#pickNote .p Wibble
-
-proc tkDarkenn {color percent} {
-     foreach {red green blue} [winfo rgb . $color] {
-         set red [expr {($red/256)*$percent/100}]
-         set green [expr {($green/256)*$percent/100}]
-         set blue [expr {($blue/256)*$percent/100}]
-         break
-     }
-     if {$red > 255} {
-         set red 255
-     }
-     if {$green > 255} {
-         set green 255
-     }
-     if {$blue > 255} {
-         set blue 255
-     }
-     return [format "#%02x%02x%02x" $red $green $blue]
- }
-
-     namespace export getNote notebook pickNote tkDarkenn
+    # -----------------------------------------------------------------------
+    # Demo code
+    #
+    
+    #pack [notebook .p Foobar Spong Wibble] \
+	#	    -expand 1 -fill both -padx 1m -pady 1m
+    #pack [button [getNote .p Foobar].foo -text foo] \
+	#	-fill both -expand 1 -padx 3m -pady 1m
+    #pack [button [getNote .p Foobar].bar -text bar] \
+	#	-fill both           -padx 3m -pady 1m
+    #pack [text   [getNote .p Wibble].wibble] \
+	#	-fill both -expand 1 -padx 1m -pady 3m
+    #pack [canvas [getNote .p Spong].spong -bg white] \
+	#	-fill both -expand 1 -padx 2m -pady 2m
+    #pickNote .p Wibble
+    
+    proc tkDarkenn {color percent} {
+	foreach {red green blue} [winfo rgb . $color] {
+	    set red [expr {($red/256)*$percent/100}]
+	    set green [expr {($green/256)*$percent/100}]
+	    set blue [expr {($blue/256)*$percent/100}]
+	    break
+	}
+	if {$red > 255} {
+	    set red 255
+	}
+	if {$green > 255} {
+	    set green 255
+	}
+	if {$blue > 255} {
+	    set blue 255
+	}
+	return [format "#%02x%02x%02x" $red $green $blue]
+    }
+    
+    namespace export getNote notebook pickNote tkDarkenn
 }
-namespace import notebook::*
+
+if { $initialize_amsn == 1 } {
+    namespace import notebook::*
+}
 

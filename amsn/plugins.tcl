@@ -27,7 +27,7 @@ namespace eval ::plugins {
 	    }
 	 }
          default {
-	    #status_log "::plugins::postEvent: Unknown event type: $evID\n" red
+	   # status_log "::plugins::postEvent: Unknown event type: $evID\n" red
 	 }
       }
    }

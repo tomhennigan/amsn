@@ -196,4 +196,7 @@ namespace eval anigif {
 
 }
 
-package provide anigif 1.3
+if { $initialize_amsn == 1 } {
+
+    package provide anigif 1.3
+}

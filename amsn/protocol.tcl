@@ -1,26 +1,27 @@
 #	Microsoft Messenger Protocol Implementation
 #=======================================================================
 
-
-set user_info ""
-set user_stat "FLN"
-set list_fl [list]
-set list_rl [list]
-set list_al [list]
-set list_bl [list]
-set list_users [list]
-set list_BLP -1
-#A list for temp users, usually that join chats but are not in your list
-set list_otherusers [list]
-set list_cmdhnd [list]
-
-set sb_list [list]
-
-#Double array containing:
-# CODE NAME COLOR ONLINE/OFFLINE  SMALLIMAGE BIGIMAGE
-set list_states {
+if { $initialize_amsn == 1 } {
+    
+    set user_info ""
+    set user_stat "FLN"
+    set list_fl [list]
+    set list_rl [list]
+    set list_al [list]
+    set list_bl [list]
+    set list_users [list]
+    set list_BLP -1
+    #A list for temp users, usually that join chats but are not in your list
+    set list_otherusers [list]
+    set list_cmdhnd [list]
+    
+    set sb_list [list]
+    
+    #Double array containing:
+    # CODE NAME COLOR ONLINE/OFFLINE  SMALLIMAGE BIGIMAGE
+    set list_states {
 	{NLN online #0000A0 online online bonline}
-	{IDL noactivity #008000 online away baway}
+        {IDL noactivity #008000 online away baway}
 	{BRB rightback #008080 online away baway}
 	{PHN onphone #008080 online busy bbusy}
 	{BSY busy #800000 online busy bbusy}
@@ -28,6 +29,7 @@ set list_states {
 	{LUN gonelunch #008000 online away baway}
 	{HDN appearoff #404040 offline offline boffline}
 	{FLN offline #404040 offline offline boffline}
+	}
 }
 
 
@@ -770,8 +772,11 @@ namespace eval ::MSN {
    unblockUser addUser deleteUser login myStatusIs \
    cancelReceiving cancelSending getMyIP moveUser
 
-   variable myStatus FLN
-   
+   if { $initialize_amsn == 1 } {
+
+       variable myStatus FLN
+   }
+
    proc connect { username password } {
 
       #Log out
@@ -1020,8 +1025,11 @@ namespace eval ::MSN {
       after 60000 "::MSN::PollConnection"
    }
 
-   variable trid 0
-   variable atransfer
+   if { $initialize_amsn == 1 } {
+
+       variable trid 0
+       variable atransfer
+   }
 
    proc DirectWrite { sbn cmd } {
    
@@ -1297,8 +1305,10 @@ namespace eval ::MSN {
 
    }
 
+   if { $initialize_amsn == 1 } {
 
-   variable sb_num 0
+       variable sb_num 0
+   }
 
    proc GetNewSB {} {
       variable sb_num
@@ -1876,7 +1886,7 @@ proc proc_sb {} {
    global sb_list
 
    after cancel proc_sb
-   
+
    foreach sbn $sb_list {
       while {[sb length $sbn data]} {
          set item [split [sb index $sbn data 0]]
@@ -2144,7 +2154,11 @@ proc CALReceived {sb_name user item} {
 	  #msg_box "[trans usernotonline]"
 	  user_not_blocked $user
           return 0
-      }   
+      } 
+       713 {
+	   status_log "CALReceived : 713 USER TOO ACTIVE \nStoping the VerifyBlocked procedure" red
+	   StopVerifyBlocked
+       }
    }
    cmsn_sb_handler $sb_name [encoding convertto utf-8 $item]
 }
@@ -2667,7 +2681,7 @@ proc cmsn_change_state {recv} {
 	 }
 	 
          if { ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1) } {
-             run_alarm [lindex $recv 2] [lindex $recv 3]        ;# Run Alarm using EMAIL ADDRESS (Burger)
+             catch { run_alarm [lindex $recv 2] [lindex $recv 3]}        ;# Run Alarm using EMAIL ADDRESS (Burger)
          }
       }
 
@@ -2676,7 +2690,9 @@ proc cmsn_change_state {recv} {
 #         .main_menu.msg insert 0 command -label "$user_name <$user>" \
 #            -command "::amsn::chatUser $user"
       } else {
-	  ::MSN::chatTo "$user"	  
+	  if { $config(checkonfln) == 1 } {
+	      ::MSN::chatTo "$user"	  
+	  }
       }
 
       set state_no [lsearch $list_states "$substate *"]
@@ -3159,6 +3175,7 @@ proc fileDialog2 {w ent operation basename} {
 proc ns_enter {} {
    set command "[.status.enter get]"
    .status.enter delete 0 end
+    status_log "Execute : $command\n"
    if { [string range $command 0 0] == "/"} {
      #puts -nonewline [sb get ns sock] "[string range $command 1 [string length $command]]\r\n"
      ::MSN::WriteSBRaw ns "[string range $command 1 [string length $command]]\r\n"

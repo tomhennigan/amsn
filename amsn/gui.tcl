@@ -1,8 +1,10 @@
 #Default look
+if { $initialize_amsn == 1 } {
 
-set bgcolor #0050C0
-set bgcolor2 #D0D0F0
+    set bgcolor #0050C0
+    set bgcolor2 #D0D0F0
 
+}
 
 namespace eval ::amsn {
 
@@ -985,12 +987,13 @@ namespace eval ::amsn {
    #///////////////////////////////////////////////////////////////////////////////
 
 
+	  if { $initialize_amsn == 1 } {
 
-   #///////////////////////////////////////////////////////////////////////////////
-   # Auto incremented variable to name the windows
-   variable winid 0
-   #///////////////////////////////////////////////////////////////////////////////
-
+	      #///////////////////////////////////////////////////////////////////////////////
+	      # Auto incremented variable to name the windows
+	      variable winid 0
+	      #///////////////////////////////////////////////////////////////////////////////
+	  }
 
 
    #///////////////////////////////////////////////////////////////////////////////
@@ -1763,13 +1766,14 @@ namespace eval ::amsn {
       raise ${win_name}
       focus -force ${win_name}.f.in.input
 
-   }
-   #///////////////////////////////////////////////////////////////////////////////
+  }
+	  #///////////////////////////////////////////////////////////////////////////////
 
-
-   variable urlcount 0
-   set urlstarts { "http://" "https://" "ftp://" "www." }
-
+	  if { $initialize_amsn == 1 } {
+	      
+	      variable urlcount 0
+	      set urlstarts { "http://" "https://" "ftp://" "www." }
+	  }
    #///////////////////////////////////////////////////////////////////////////////
    # WinWrite (chatid,txt,tagid,[format])
    # Writes 'txt' into the window related to 'chatid'
@@ -2354,6 +2358,7 @@ proc cmsn_draw_main {} {
 
    bind . <Control-s> toggle_status
    bind . <Control-p> Preferences
+   bind . <Control-Alt-space> BossMode
 
    wm protocol . WM_DELETE_WINDOW {::amsn::closeOrDock $config(closingdocks)}
 
@@ -2571,6 +2576,8 @@ proc cmsn_draw_status {} {
    wm group .status .
    wm state .status withdrawn
    wm title .status "status log - [trans title]"
+
+    set followtext_status 1
 
    text .status.info -background white -width 60 -height 30 -wrap word \
       -yscrollcommand ".status.ys set" -font splainf
@@ -3773,6 +3780,23 @@ proc Remove_from_list { list user } {
 
 }
 
+proc Add_To_List { path list } {
+    set username [$path.adding.enter get]
+
+    if { [string match "*@*" $username] == 0 } {
+	set username [split $username "@"]
+	set username "[lindex $username 0]@hotmail.com"
+    }
+
+    if { $list == "FL" } {
+	AddToContactList "$username" "$path"
+    } else {
+	::MSN::WriteSB ns "ADD" "$list $username $username"
+    }
+
+
+}
+
 proc Reverse_to_Contact { path } {
     global list_rl list_users
 
@@ -3918,4 +3942,524 @@ proc NotInContactList { user } {
 	return 0
     }
     
+}
+
+
+###TODO: Replace all this msg_box calls with ::amsn::infoMsg
+proc msg_box {msg} {
+   ::amsn::infoMsg "$msg"
+}
+
+
+############################################################
+### Extra procedures that go nowhere else
+############################################################
+
+
+#///////////////////////////////////////////////////////////////////////
+# launch_browser(url)
+# Launches the configured file manager
+proc launch_browser { url } {
+
+	global config tcl_platform
+
+	if { $tcl_platform(platform) == "windows" } {
+
+		regsub -all -nocase {htm} $url {ht%6D} url
+    		exec rundll32 url.dll,FileProtocolHandler $url &
+
+  	} else {
+
+		eval exec $config(browser) $url &
+
+	}
+
+}
+#///////////////////////////////////////////////////////////////////////
+
+
+#///////////////////////////////////////////////////////////////////////
+# launch_filemanager(directory)
+# Launches the configured file manager
+proc launch_filemanager {location} {
+  global config
+
+  set fileman $config(filemanager)
+
+  if { [string length $fileman] < 1 } {
+    msg_box "[trans checkfilman $location]"
+  } else {
+    lappend fileman $location
+    eval exec [lindex $fileman 0] [lrange $fileman 1 end] &
+  }
+
+}
+#///////////////////////////////////////////////////////////////////////
+
+#///////////////////////////////////////////////////////////////////////
+# launch_mailer(directory)
+# Launches the configured mailer program
+proc launch_mailer {user_login} {
+  global config password
+
+  set mail_param $user_login ;#By default, just the address
+  if {[string first "balsa" $config(mailcommand)] != -1} {
+      set mail_param "--compose=$user_login"
+  } elseif {[string first "mozilla" $config(mailcommand)] != -1} {
+      set mail_param "-compose mailto:$user_login"
+  } elseif {[string first "evolution" $config(mailcommand)] != -1} {
+      set mail_param "mailto:$user_login"
+  } elseif {[string first "sylpheed" $config(mailcommand)] != -1} {
+      set mail_param "--compose $user_login"
+  } elseif {[string length $config(mailcommand)]==0} {
+     ::hotmail::composeMail $user_login $config(login) $password
+     return 0
+  }
+
+  eval exec $config(mailcommand) $mail_param &
+  return 0
+}
+#///////////////////////////////////////////////////////////////////////
+
+#///////////////////////////////////////////////////////////////////////
+# create_dir(path)
+# Creates a directory
+proc create_dir {path} {
+   global tcl_platform
+
+   if {[file isdirectory $path] == 0} {
+      if { [catch {file mkdir $path} res]} {
+         return -1
+      }
+      if {$tcl_platform(platform) == "unix"} {
+         file attributes $path -permissions 00700
+      }
+      return 0
+   } else {
+      return 1
+   }
+}
+#///////////////////////////////////////////////////////////////////////
+
+
+#///////////////////////////////////////////////////////////////////////
+# toggle_status()
+# Enabled/disables status window (for debugging purposes)
+proc toggle_status {} {
+
+   if {"[wm state .status]" == "normal"} {
+      wm state .status withdrawn
+      set status_show 0
+   } else {
+      wm state .status normal
+      set status_show 1
+   }
+}
+#///////////////////////////////////////////////////////////////////////
+
+
+#///////////////////////////////////////////////////////////////////////
+# timestamp()
+# Returns a timestamp like [HH:MM:SS]
+proc timestamp {} {
+   set stamp [clock format [clock seconds] -format %H:%M:%S]
+   return "\[$stamp\]"
+}
+#///////////////////////////////////////////////////////////////////////
+
+
+#///////////////////////////////////////////////////////////////////////////////
+# status_log (text,[color])
+# Logs the given text with a timestamp using the given color
+# to the status window
+proc status_log {txt {colour ""}} {
+    global followtext_status
+
+   .status.info insert end "[timestamp] $txt" $colour
+   #puts "[timestamp] $txt" 
+   if { $followtext_status == 1 } {
+       .status.info yview moveto 1.0
+   }
+}
+#///////////////////////////////////////////////////////////////////////////////
+
+
+
+#///////////////////////////////////////////////////////////////////////
+#TODO: Improve menu enabling and disabling using short names, not long
+#      and translated ones
+# configureMenuEntry .main_menu.file "[trans addcontact]" disabled|normal
+proc configureMenuEntry {m e s} {
+    $m entryconfigure $e -state $s
+}
+#///////////////////////////////////////////////////////////////////////
+
+
+
+#///////////////////////////////////////////////////////////////////////
+# close_cleanup()
+# Makes some cleanup and config save before closing
+proc close_cleanup {} {
+  global HOME config lockSock
+  set config(wingeometry) [wm geometry .]
+  set config(showonline)  [::groups::IsExpanded online]
+  set config(showoffline) [::groups::IsExpanded offline]
+
+  save_config
+  save_alarms   ;# Save alarm settings
+
+  LoadLoginList 1
+  # Unlock current profile
+  LoginList changelock 0 $config(login) 0
+  if { [info exists lockSock] } {
+  	if { $lockSock != 0 } {
+		catch {close $lockSock} res
+	}
+  }
+  SaveLoginList
+  SaveStateList
+
+  catch {::MSN::logout}
+  
+  close_dock    ;# Close down the dock socket
+  catch {file delete [file join $HOME hotlog.htm]} res
+}
+#///////////////////////////////////////////////////////////////////////
+
+
+if { $initialize_amsn == 1 } {
+
+    set idletime 0
+    set oldmousepos [list]
+    set autostatuschange 0
+}
+#///////////////////////////////////////////////////////////////////////
+# idleCheck()
+# Check idle every five seconds and reset idle if the mouse has moved
+proc idleCheck {} {
+   global idletime config oldmousepos trigger autostatuschange
+
+   set mousepos [winfo pointerxy .]
+   if { $mousepos != $oldmousepos } {
+      set oldmousepos $mousepos
+      set idletime 0
+   }
+
+   # TODO: According to preferences, this is always true
+   if { $config(awaytime) >= $config(idletime) } {
+   	set first [expr $config(awaytime) * 60]
+	set firstvar "autoaway"
+	set firststate "AWY"
+	set second [expr $config(idletime) * 60]
+	set secondvar "autoidle"
+	set secondstate "IDL"
+   } else {
+   	set second [expr $config(awaytime) * 60]
+	set secondvar "autoaway"
+	set secondstate "AWY"
+	set first [expr $config(idletime) * 60]
+	set firstvar "autoidle"
+	set firststate "IDL"
+   }
+
+   if { $idletime >= $first && $config(autoaway) == 1 && \
+        (([::MSN::myStatusIs] == "IDL" && $autostatuschange == 1) || \
+        ([::MSN::myStatusIs] == "NLN"))} {
+      #We change to Away if time has passed, and if IDL was set automatically
+      ::MSN::changeStatus AWY
+      set autostatuschange 1
+   } elseif {$idletime >= $second && [::MSN::myStatusIs] == "NLN" && $config(autoidle) == 1} {
+   	#We change to idle if time has passed and we're online
+	::MSN::changeStatus IDL
+	set autostatuschange 1
+   } elseif { $idletime == 0 && $autostatuschange == 1} {
+   	#We change to only if mouse movement, and status change was automatic
+	::MSN::changeStatus NLN
+	#Status change always resets automatic change to 0
+   }
+
+   set idletime [expr {$idletime + 5}]
+   after 5000 idleCheck
+}
+#///////////////////////////////////////////////////////////////////////
+
+
+#///////////////////////////////////////////////////////////////////////
+proc choose_theme { } {
+    global config
+    setColor . . background {-background -highlightbackground}
+}
+#///////////////////////////////////////////////////////////////////////
+
+
+
+#///////////////////////////////////////////////////////////////////////
+proc setColor {w button name options} {
+    global config
+
+    grab $w
+    set initialColor [$button cget -$name]
+    set color [tk_chooseColor -title "[trans choosebackgroundcolor]" -parent $w \
+	-initialcolor $initialColor]
+    if { $color != "" } {
+        set config(backgroundcolor) $color
+	::themes::ApplyDeep $w $options $color
+    }
+    grab release $w
+}
+#///////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+#///////////////////////////////////////////////////////////////////////
+proc show_umenu {user_login grId x y} {
+   global list_bl config alarms
+
+   set blocked [::MSN::userIsBlocked $user_login]
+   .user_menu delete 0 end
+   .user_menu add command -label "${user_login}" \
+      -command "clipboard clear;clipboard append \"${user_login}\""
+
+   .user_menu add separator   
+   .user_menu add command -label "[trans sendmsg]" \
+      -command "::amsn::chatUser ${user_login}"
+   .user_menu add command -label "[trans sendmail]" \
+      -command "launch_mailer $user_login"
+   .user_menu add command -label "[trans viewprofile]" \
+      -command "::hotmail::viewProfile ${user_login}"
+   .user_menu add command -label "[trans history]" \
+      -command "::log::OpenLogWin ${user_login}"	
+   .user_menu add separator
+   if {$blocked == 0} {
+      .user_menu add command -label "[trans block]" -command  "::amsn::blockUser ${user_login}"
+   } else {
+      .user_menu add command -label "[trans unblock]" \
+         -command  "::amsn::unblockUser ${user_login}"
+   }
+
+      ::groups::updateMenu menu .move_group_menu ::groups::menuCmdMove [list $grId $user_login]
+      ::groups::updateMenu menu .copy_group_menu ::groups::menuCmdCopy $user_login
+
+
+   if {$config(orderbygroup)} {
+      .user_menu add command -label "[trans movetogroup]..." -command "tk_popup .move_group_menu $x $y"
+      .user_menu add command -label "[trans copytogroup]..." -command "tk_popup .copy_group_menu $x $y"
+      .user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login} $grId" 
+   } else {
+       .user_menu add command -label "[trans movetogroup]..." -command "tk_popup .move_group_menu $x $y" -state disabled
+       .user_menu add command -label "[trans copytogroup]..." -command "tk_popup .copy_group_menu $x $y" -state disabled
+       .user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login}"   
+   }
+
+   .user_menu add command -label "[trans properties]" \
+      -command "::abookGui::showEntry $user_login"
+
+# Display Alarm Config settings
+   .user_menu add separator
+   .user_menu add command -label "[trans cfgalarm]" -command "alarm_cfg ${user_login}"
+
+   tk_popup .user_menu $x $y
+}
+#///////////////////////////////////////////////////////////////////////
+
+
+
+#///////////////////////////////////////////////////////////////////////
+if { $initialize_amsn == 1 } {
+    package require http 2.3
+}
+proc checking_ver {} {
+   global version weburl
+
+
+   if {[catch {
+         set token [::http::geturl {amsn.sourceforge.net/amsn_latest} -timeout 10000]
+         set tmp_data [ ::http::data $token ]
+
+         ::http::cleanup $token
+
+         set lastver [split $tmp_data "."]
+         set yourver [split $version "."]    
+
+         if { [lindex $lastver 0] > [lindex $yourver 0] } {
+            set newer 1
+         } else {	
+            # Major version is at least the same
+	    if { [lindex $lastver 1] > [lindex $yourver 1] } {
+	       set newer 1
+	    } else {
+	       set newer 0
+	    }
+         }
+     
+         if {!$newer} {
+            msg_box "[trans nonewver]"
+         } else {
+            msg_box "[trans newveravailable $tmp_data]\n$weburl"
+         }
+     
+      } res ]} {
+     
+      msg_box "[trans connecterror]"
+   }
+	
+   destroy .checking
+}
+#///////////////////////////////////////////////////////////////////////
+
+#///////////////////////////////////////////////////////////////////////
+proc check_version {} {
+
+
+   toplevel .checking -width 250 -height 50
+
+   wm title .checking "[trans title]"
+   wm transient .checking .
+   canvas .checking.c -width 250 -height 50 
+   pack .checking.c -expand true -fill both
+
+   .checking.c create text 125 25 -font splainf -anchor n \
+	-text "[trans checkingver]..." -justify center -width 250
+
+   tkwait visibility .checking
+   grab set .checking
+   
+   after 1000 checking_ver
+
+	
+}
+#///////////////////////////////////////////////////////////////////////
+
+
+#///////////////////////////////////////////////////////////////////////
+proc run_command_otherwindow { command } {
+	set tmp [.otherwindow.c.email get]
+	if { $tmp != "" } {
+		eval $command $tmp
+		destroy .otherwindow
+	}
+}
+#///////////////////////////////////////////////////////////////////////
+
+
+
+
+#///////////////////////////////////////////////////////////////////////
+# stringmap(substlist,string) returns string
+# A try to replace "string map" function
+proc stringmap { substitution str } {
+
+
+
+	return [string map $substitution $str]
+
+	set newstr $str
+
+	set pos [expr {[string first [lindex $substitution 0] $newstr] -1}]
+
+	while { $pos > -1 } {
+		set end [expr {$pos + [string length [lindex $substitution 0]]}]
+		set newstr "[string range $newstr 0 $pos] [lindex $substitution 1][string range $newstr [expr {$end+1}] end]"
+		set pos [expr {[string first [lindex $substitution 0] $newstr] -1}]
+	}
+
+
+	return $newstr
+}
+
+
+proc BossMode { } {
+    global bossMode BossMode
+
+    if { [info exists bossMode] == 0 } {
+	set bossMode 0
+    }
+
+#    puts "BossMode : $bossMode"
+
+
+    if { $bossMode == 0 } { 
+	set children [winfo children .]
+
+	if { [catch { toplevel .bossmode } ] } {
+	    set bossMode 0
+	    set children ""
+	} else {
+	    
+	    wm title .bossmode "Clock"
+
+	    label .bossmode.time -text "133139"
+	    
+	    updatebossmodetime
+	    
+	    pack .bossmode.time
+	    
+	    bind .bossmode <Destroy> "after cancel updatebossmodetime; BossMode"
+	}
+
+	foreach child $children {
+	    if { "$child" == ".bossmode" } {continue}
+
+	    if { [catch { wm state "$child" } res ] } {
+		status_log "$res\n"
+		continue
+	    }
+	    if { [wm overrideredirect "$child"] == 0 } {
+		set BossMode($child) [wm state "$child"]
+		wm state "$child" normal
+		wm state "$child" withdraw
+	    }
+	}
+	
+	if { "$children" != "" } {
+	    set BossMode(.) [wm state .]
+	    wm state . normal
+	    wm state . withdraw
+
+	    set bossMode 1
+	
+	}
+
+
+    } elseif { $bossMode == 1 } {
+	set children [winfo children .]
+
+	foreach child $children {
+	    if { [catch { wm state "$child" } res ] } {
+		status_log "$res\n"
+		continue
+	    }
+	    
+	    if { "$child" == ".bossmode" } {continue}
+	    
+	    if { [wm overrideredirect "$child"] == 0 } {
+		wm state "$child" normal
+
+		if { [info exists BossMode($child)] } {
+		    wm state "$child" "$BossMode($child)"
+		} 		
+	    }
+	}
+
+	wm state . normal
+
+	if { [info exists BossMode(.)] } {
+	    wm state . $BossMode(.)
+	}
+
+	set bossMode 0
+    }
+
+
+
+}
+
+proc updatebossmodetime { } {
+
+    .bossmode.time configure -text "[string map { \" "" } [clock format [clock seconds] -format \"%T\"]]"
+
+    after 1000 updatebossmodetime
 }

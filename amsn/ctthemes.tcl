@@ -9,7 +9,10 @@
 namespace eval ::themes {
     namespace export Init RegisterWidget Apply ApplyDeep AddClass \
     		LoadXDefaults
-    variable version "0.1"
+
+    if { $initialize_amsn == 1 } {
+	variable version "0.1"
+    }
 
     #
     # P U B L I C

@@ -1,12 +1,15 @@
 #From Donald K. Fellows's Megawidget and Dialog Stuff
 #http://www.cs.man.ac.uk/~fellowsd/tcl/mwidx.html
 
-option add *Progress.undoneForeground black  widgetDefault
-option add *Progress.undoneBackground white  widgetDefault
-option add *Progress.doneForeground   white  widgetDefault
-option add *Progress.doneBackground   green4 widgetDefault
-option add *Progress.borderWidth      1      widgetDefault
-option add *Progress.relief           sunken widgetDefault
+if { $initialize_amsn == 1 } {
+
+    option add *Progress.undoneForeground black  widgetDefault
+    option add *Progress.undoneBackground white  widgetDefault
+    option add *Progress.doneForeground   white  widgetDefault
+    option add *Progress.doneBackground   green4 widgetDefault
+    option add *Progress.borderWidth      1      widgetDefault
+    option add *Progress.relief           sunken widgetDefault
+}
 
 namespace eval dkfprogress {
     namespace export Progress SetProgress
@@ -58,5 +61,6 @@ namespace eval dkfprogress {
     }
 }
 
-namespace import dkfprogress::Progress dkfprogress::SetProgress
-
+if { $initialize_amsn == 1 } {
+    namespace import dkfprogress::Progress dkfprogress::SetProgress
+}

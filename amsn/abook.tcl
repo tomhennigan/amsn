@@ -7,20 +7,22 @@ namespace eval ::abook {
    		    setPhone setDemographics getDemographics \
 		    setPersonal getPersonal showPersonal
 
-   #
-   # P R I V A T E
-   #
-   variable myself "unknown";
-   variable contacts;	# Array for contacts. Same struct for myself
-   			# contacts(email) {		   BPR*
-			#	handle			   LST
-			#       groupId			   LST
-			#	phone { home work mobile } BPR.PHH/PHW/PHM
-			#	pager			   BPR.MOB
-			# }
-   variable demographics;	# Demographic Information about user
+    if { $initialize_amsn == 1 } {
 
-   #
+	#
+	# P R I V A T E
+	#
+	variable myself "unknown";
+	variable contacts;	# Array for contacts. Same struct for myself
+	# contacts(email) {		   BPR*
+	#	handle			   LST
+	#       groupId			   LST
+	#	phone { home work mobile } BPR.PHH/PHW/PHM
+	#	pager			   BPR.MOB
+	# }
+	variable demographics;	# Demographic Information about user
+    }
+    #
    # P R O T E C T E D
    #
    proc adjustGroup {g} {
@@ -257,10 +259,13 @@ namespace eval ::abook {
 namespace eval ::abookGui {
    namespace export Init showEntry
 
-   #
-   # P R I V A T E
-   #
-   variable bgcol #ABC8CE;	# Background color used in MSN Messenger
+    if { $initialize_amsn == 1 } {
+
+	#
+	# P R I V A T E
+	#
+	variable bgcol #ABC8CE;	# Background color used in MSN Messenger
+    }
 
    #
    # P R O T E C T E D
@@ -406,6 +411,14 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.24  2003/06/28 05:38:00  kakaroto
+# added the boss mode
+# added the gui for the blocking thing + using only one SB
+# chnaged the way to access tabs in the preferences window (Preftabs array)
+# added entry to add directly to FL/AL/BL lists
+# "Execute : $command" in the status log when executing a command using it's entry...
+# added a catch for the call of run_alarms .. we needed that..
+#
 # Revision 1.23  2003/06/20 12:33:50  airadier
 # Support for multiple groups.
 # Added copy to group feature.

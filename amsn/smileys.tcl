@@ -5,7 +5,7 @@ set emotions {
 
 	{":-)" smile} {":)" smile}  {";-)" wink} {";)" wink} {":-D" smiled} {":D" smiled} {":>" smiled}
 	{":-P" smilep} {":P" smilep}  {":-(" sad} {":(" sad} {":-<" sad} {":<" sad} {":-|" disgust} {":|" disgust}
-	{":-S" crooked} {":S" crooked} {":-O" smileo} {":O" smileo} {":'(" smilec} {":`(" smilec2} 
+	{":-S" crooked} {":S" crooked} {":-O" smileo} {":O" smileo} {":`(" smilec} {":'(" smilec2} 
 	{":@" angry}  {":-@" angry} {":->" smiled} {"8o|" aggresive} {":$" smilemb} {":-$" smilemb} {":-#" zip} 
 	{":-*" kiss} {":^)" new7} {"8-|" glasses} {"8-)" new5} {"|-)" new4} {"+o(" new3}
 	{"*-)" new2} {"^o)" new1} {"(h)" emhottie} {"(brb)" brb} {"<:o)" party} {"(a)" angel}  {"(6)" devil}

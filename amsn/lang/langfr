@@ -38,6 +38,7 @@ bgcolor Changer la couleur de fond de aMSN
 blankdirect Laisser vide pour une connexion sans proxy
 block Bloquer
 blocked Bloqué
+blocking Bloquer
 blocklist Liste de personnes bloquées
 blockmessage Ces personnes sont en ligne mais vous bloquent
 broughtby Développé pour vous par
@@ -57,6 +58,7 @@ chatsmileys2 Afficher les Emoticons et les Smileys dans la fenêtre de chat
 chatsmileys Utiliser les "smileys"
 checkfilman Les fichiers reçus seront sauvegardés dans $1. Veuillez vérifier les propriétés du gestionnaire de fichier dans la fenêtre de préférences.
 checkingver Recherche d'une nouvelle version
+checkonfln Verifier si un utilisateur vous a bloqué lorsqu'il se déconnecte
 checkver Nouvelle version
 choosebasefont Choisir la police de caractère
 choosebgcolor Choisir la couleur de fond
@@ -251,6 +253,7 @@ port Port
 prefalerts Mes Alertes d'évènements et sons
 prefapps Applications
 prefawaymsg Mon message d'absence
+prefblock1 Verification lors de déconnection
 prefconnection Préférences de connexion
 prefemotic Emoticons, Icônes et Smileys
 preferences Préférences

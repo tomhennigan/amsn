@@ -1,6 +1,9 @@
 #! /bin/sh
 # \
-exec wish8.0 $0 ${1+"$@"} || exec wish $0 ${1+"$@"} || exit 1
+
+#if { $initialize_amsn == 1 } {
+#    exec wish8.0 $0 ${1+"$@"} || exec wish $0 ${1+"$@"} || exit 1
+#}
 
 namespace eval ::dkfFontSel {
 
@@ -56,20 +59,22 @@ namespace eval ::dkfFontSel {
 	return $newlist
     }
 
-    # ----------------------------------------------------------------------
-    # Now we start in earnest
-    namespace export dkf_chooseFont
-
-    variable Family Helvetica
-    variable Size   12
-    variable Done   0
-    variable Win    {}
-
-    array set Style {
-	bold 0
-	italic 0
-	underline 0
-	overstrike 0
+    if { $initialize_amsn == 1 } {
+	# ----------------------------------------------------------------------
+	# Now we start in earnest
+	namespace export dkf_chooseFont
+	
+	variable Family Helvetica
+	variable Size   12
+	variable Done   0
+	variable Win    {}
+	
+	array set Style {
+	    bold 0
+	    italic 0
+	    underline 0
+	    overstrike 0
+	}
     }
 
     # Get the gap spacing for the frameboxes.  Use a user-specified
@@ -590,18 +595,21 @@ namespace eval ::dkfFontSel {
     }
 
 }
-namespace import ::dkfFontSel::dkf_chooseFont
 
-# Is there anything already set up as a standard command?
-if {![info exists tk_chooseFont]} {
-    # If not, set ourselves up using an alias
-    interp alias {} tk_chooseFont {} ::dkfFontSel::dkf_chooseFont
-}
-
-# ----------------------------------------------------------------------
-# Stuff for testing the font selector
-if {![string compare [info script] $argv0]} {
-    wm deiconify .; update
-    # use after idle here to put errors into a dialog for testing...
-    after idle {puts [dkf_chooseFont -apply puts]}
+if { $initialize_amsn == 1 } {
+    namespace import ::dkfFontSel::dkf_chooseFont
+    
+    # Is there anything already set up as a standard command?
+    if {![info exists tk_chooseFont]} {
+	# If not, set ourselves up using an alias
+	interp alias {} tk_chooseFont {} ::dkfFontSel::dkf_chooseFont
+    }
+    
+    # ----------------------------------------------------------------------
+    # Stuff for testing the font selector
+    if {![string compare [info script] $argv0]} {
+	wm deiconify .; update
+	# use after idle here to put errors into a dialog for testing...
+	after idle {puts [dkf_chooseFont -apply puts]}
+    }
 }
