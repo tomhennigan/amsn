@@ -617,7 +617,8 @@ namespace eval ::amsn {
 
 			#Calculate a random cookie
 			set cookie [expr {([clock clicks]) % (65536 * 8)}]
-
+			#May be we should see the filesize in Kilobytes instead of bytes, disabled for the moment
+			#set filesizek [expr {int($filesize)/int(1024)}]
 			set txt "[trans ftsendinvitation [lindex [::MSN::getUserInfo $chatid] 1] $filename $filesize]"
 
 			status_log "Random generated cookie: $cookie\n"
@@ -1845,15 +1846,21 @@ namespace eval ::amsn {
 		bind $bottom.in.input <<Button3>> "tk_popup .${win_name}.copypaste %X %Y"
 		bind $bottom.in.input <<Button2>> "paste .${win_name} 1"
 		bind .${win_name}.f.out.text <<Button3>> "tk_popup .${win_name}.copy %X %Y"
+		
+		#Do not bind copy command on button 1 on Mac OS X (Tk Aqua)
+		if {![catch {tk windowingsystem} wsystem] && $wsystem != "aqua"} {
 		bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
-			
+		}
+		
 		#When someone type something in out.text, regive the focus to in.input and insert that key
 		#On Mac OS X (Aqua) only	
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			bind .${win_name}.f.out.text <Key> "focus -force $bottom.in.input;$bottom.in.input insert insert %A"
+
+
+			bind .${win_name}.f.out.text <KeyPress> "lastKeytyped %A $bottom"
+
 		}
 
-		
 
 		#Define this events, in case they were not defined by Tk
 		event add <<Paste>> <Control-v> <Control-V>
@@ -1867,6 +1874,7 @@ namespace eval ::amsn {
 		#Change shorcut for history on Mac OS X
 		if {$tcl_platform(os) == "Darwin"} {
 			bind .${win_name} <Command-Option-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
+			
 		} else {
 			bind .${win_name} <Control-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
 		}
@@ -6996,12 +7004,12 @@ proc ShowTransient {win {parent "."}} {
 		}
 }
 
-#proc prueba {} {
-#	global tiempo_out
-#	set tiempo_out 1
-#	after 2000 prueba
-#	status_log "Tiempo\n"
-#}
 
-#after 2000 prueba
+		proc lastKeytyped {typed bottom} {
 
+			if { $typed != ""} {
+			
+			focus -force $bottom.in.input;$bottom.in.input insert insert $typed
+			
+			}
+		}
