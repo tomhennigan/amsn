@@ -64,12 +64,12 @@ proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
     if { [info exists sdata(${cstack}:disabled)] && [is_true $sdata(${cstack}:disabled)] } { return 0 }
 
     set name [string trim $sdata(${cstack}:name)]
- 
+    
     if { ! ( [info exists sdata(${cstack}:hiden)] && 
 	     [is_true $sdata(${cstack}:hiden)] ) } {
-       set name [format "%03i %s" "$emoticon_number" "$name"]
-       set emoticon_number [expr $emoticon_number + 1]
-   }
+	set name [format "%03i %s" "$emoticon_number" "$name"]
+	set emoticon_number [expr $emoticon_number + 1]
+    }
     
     lappend emotions_names "$name"
     if { [string match "config:emoticon" $cstack] } {
@@ -84,7 +84,7 @@ proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
 	set emotions(${name}_${x2}) [string trim $sdata($x)]
 	set emotions(${name}_${x2}) [string map { \\ \\\\ } $emotions(${name}_${x2})]
 
-     }
+    }
 
     return 0
 }
@@ -118,7 +118,7 @@ proc new_custom_emoticon {cstack cdata saved_data cattr saved_attr args} {
 	set custom_emotions(${name}_${x2}) [string trim $sdata($x)]
 	set custom_emotions(${name}_${x2}) [string map { \\ \\\\ } $custom_emotions(${name}_${x2})]
 
-     }
+    }
 
     return 0
 }
@@ -240,11 +240,11 @@ proc new_custom_emoticon_gui {{name ""}} {
 
     label $w.ltext -text "[trans triggers]"
     entry $w.text -textvariable new_custom_cfg(text)  -background white
- 
+    
     label $w.lfile -text "[trans smilefile]"
     entry $w.file -textvariable new_custom_cfg(file)  -background white
     button $w.browsefile -text "[trans browse]" -command "fileDialog2 .new_custom $w.file open \"\" {{\"Image Files\" {*.gif *.jpg *.jpeg *.bmp *.png} }} " -width 10
-  
+    
     label $w.lsound -text "[trans soundfile]"
     entry $w.sound -textvariable new_custom_cfg(sound)  -background white
     button $w.browsesound -text "[trans browse]" -command "fileDialog2 .new_custom $w.sound open \"\" {{\"Image Files\" {*.gif *.jpg *.jpeg *.bmp *.png} }} " -width 10
@@ -301,7 +301,7 @@ proc new_custom_emoticon_gui {{name ""}} {
     
     pack .new_custom.1 -expand 1 -fill both -side top -pady 15
     pack .new_custom.lfname -expand 1 -fill both -side top
-  
+    
     update_enabled_sound_smileys
 
     bind .new_custom <Destroy> "grab release .new_custom"
@@ -342,7 +342,7 @@ proc edit_custom_emotion { emotion } {
     if { "$new_custom_cfg(sound)" != "" } {set new_custom_cfg(enablesound) 1 }
     set new_custom_cfg(casesensitive) [valueforemot "$emotion" casesensitive]
     set new_custom_cfg(hiden) [valueforemot "$emotion" hiden]
-     
+    
     update_enabled_sound_smileys 
 
 }
@@ -413,7 +413,7 @@ proc add_custom_emoticons { } {
 	} else {
 	    set name "$x"
 	}
-    
+	
 	#status_log "new custom emoticon $name\n"
 	lappend emotions_names "$name"
 	lappend config(customsmileys2) "$name"
@@ -479,80 +479,145 @@ proc valueforemot { emotion var } {
 # a sound if necessary, etc... It scans the widget for every smiley that exists
 
 proc smile_subst {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
-	global emotions sortedemotions config smileys_drawn ;# smileys_end_subst
+    global emotions sortedemotions config smileys_drawn ;# smileys_end_subst
 
-	foreach emotion $sortedemotions {
+    foreach emotion $sortedemotions {
 
-		foreach symbol $emotions(${emotion}_text) {
-			set chars [string length $symbol]
+	foreach symbol $emotions(${emotion}_text) {
+	    set chars [string length $symbol]
 
 
-			if { [valueforemot "$emotion" casesensitive] } {set nocase "-exact"} else {set nocase "-nocase"}
-			set sound [valueforemot "$emotion" sound]
-			set animated [valueforemot "$emotion" animated]
-			set file [valueforemot "$emotion" file]
+	    if { [valueforemot "$emotion" casesensitive] } {set nocase "-exact"} else {set nocase "-nocase"}
+	    set sound [valueforemot "$emotion" sound]
+	    set animated [valueforemot "$emotion" animated]
+	    set file [valueforemot "$emotion" file]
 
-			set start $textbegin
+	    set start $textbegin
 
-			while {[set pos [$tw search -exact $nocase $symbol $start $end]] != ""} {
+	    while {[set pos [$tw search -exact $nocase $symbol $start $end]] != ""} {
 
-				set posyx [split $pos "."]
-				set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $chars}]"
-				#status_log "Begin=$pos, end=$endpos\n" green
+		set posyx [split $pos "."]
+		set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $chars}]"
+		#status_log "Begin=$pos, end=$endpos\n" green
 
-				if { [lsearch -exact [$tw tag names $pos] "dont_replace_smileys"] != -1 } {
-					set start $endpos
-					#status_log "Skipping in $pos\n"
-					continue
-				}
-
-				$tw tag configure smiley -elide true
-				$tw tag add smiley $pos $endpos
-
-				if { $animated && $config(animatedsmileys) } {
-
-					set filename [string map { " " "_" "/" "_" "." "_"} $file]
-					set emoticon "$tw.${smileys_drawn}"
-					set smileys_drawn [expr $smileys_drawn + 1]
-
-					label $emoticon -bd 0 -background white
-					::anigif::anigif [GetSkinFile smileys ${file}] $emoticon
-
-					$tw window create $endpos -window $emoticon
-					bind $emoticon <Destroy> "::anigif::destroy $emoticon"
-					$tw tag remove smiley $endpos
-
-					set tagname  [$tw tag names $endpos]
-					if { [llength $tagname] == 1 } {
-						bind $emoticon <Button3-ButtonRelease> "[$tw tag bind $tagname <Button3-ButtonRelease>]"
-						bind $emoticon <Enter> "[$tw tag bind $tagname <Enter>]"
-						bind $emoticon <Leave> "[$tw tag bind $tagname <Leave>]"
-					}
-
-				} else {
-					$tw image create $endpos -image $file -pady 1 -padx 1
-					$tw tag remove smiley $endpos
-				}
-
-				if { $config(emotisounds) == 1 && $contact_list == 0 && $sound != "" } {
-					play_sound $sound
-				}
-
-				#status_log "Repaced $symbol from $start to $endpos\n" blue
-
-				#set start $endpos
-
-			}
+		if { [lsearch -exact [$tw tag names $pos] "dont_replace_smileys"] != -1 } {
+		    set start $endpos
+		    #status_log "Skipping in $pos\n"
+		    continue
 		}
+
+		$tw tag configure smiley -elide true
+		$tw tag add smiley $pos $endpos
+
+		if { $animated && $config(animatedsmileys) } {
+
+		    set filename [string map { " " "_" "/" "_" "." "_"} $file]
+		    set emoticon "$tw.${smileys_drawn}"
+		    set smileys_drawn [expr $smileys_drawn + 1]
+
+		    label $emoticon -bd 0 -background white
+		    ::anigif::anigif [GetSkinFile smileys ${file}] $emoticon
+
+		    $tw window create $endpos -window $emoticon
+		    bind $emoticon <Destroy> "::anigif::destroy $emoticon"
+		    $tw tag remove smiley $endpos
+
+		    set tagname  [$tw tag names $endpos]
+		    if { [llength $tagname] == 1 } {
+			bind $emoticon <Button3-ButtonRelease> "[$tw tag bind $tagname <Button3-ButtonRelease>]"
+			bind $emoticon <Enter> "[$tw tag bind $tagname <Enter>]"
+			bind $emoticon <Leave> "[$tw tag bind $tagname <Leave>]"
+		    }
+
+		} else {
+		    $tw image create $endpos -image $file -pady 1 -padx 1
+		    $tw tag remove smiley $endpos
+		}
+
+		if { $config(emotisounds) == 1 && $contact_list == 0 && $sound != "" } {
+		    play_sound $sound
+		}
+
+		#status_log "Repaced $symbol from $start to $endpos\n" blue
+
+		#set start $endpos
+
+	    }
 	}
+    }
 
 }
 
+
+
+proc custom_smile_subst { chatid tw {textbegin "0.0"} {end "end"} } {
+    upvar #0 ${chatid}_smileys emotions
+
+    if { ![info exists emotions] } { return }
+
+    after 5 "custom_smile_subst2 $chatid $tw $textbegin $end"
+
+} 
+
+proc custom_smile_subst2 { chatid tw textbegin end } { 
+    upvar #0 ${chatid}_smileys emotions
+
+    if { ![info exists emotions] } { return }
+
+    status_log "Parsing text for [array names emotions] with tw = $tw, textbegin = $textbegin and end = $end\n"
+
+    foreach symbol [array names emotions] {
+	set chars [string length $symbol]
+	set file [::MSNP2P::GetFilenameFromMSNOBJ $emotions($symbol)]
+	if { $file == "" } { continue }
+
+	status_log "Got file $file for symbol -$symbol-\n" red
+
+	set start $textbegin
+	status_log "result $tw search -exact -nocase bb $start $end : [$tw search -exact -nocase bb $start $end]--- $start -- $textbegin\n"
+
+	while { [set pos [$tw search -exact -nocase $symbol $start $end]] != "" } {
+	    status_log "Found match at pos : $pos\n" red
+
+	    set posyx [split $pos "."]
+	    set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $chars}]"
+
+
+	    $tw tag configure smiley -elide true
+	    $tw tag add smiley $pos $endpos
+
+	    $tw image create $endpos -image custom_smiley_$file -pady 1 -padx 1
+	    $tw tag remove smiley $endpos
+	    
+	}
+    }
+
+    unset emotions
+}
+
+proc parse_x_mms_emoticon { data chatid } {
+    upvar #0 ${chatid}_smileys smile
+
+    set start 0
+    while { $start < [string length $data]} {
+	set end [string first "	" $data $start]
+	set symbol [string range $data $start [expr $end - 1]]
+	set start [expr $end + 1]
+	set end [string first "	" $data $start]
+	set msnobj [string range $data $start [expr $end - 1]]
+	set start [expr $end + 1]
+
+	set smile($symbol) "$msnobj"
+    }
+	
+    status_log "Got smileys : [array names smile]\n" 
+
+}
 proc process_custom_smileys_SB { txt } {
     global emotions config 
     
 
-#    if { $config(custom_smileys) == 0 } { return "" }
+    #    if { $config(custom_smileys) == 0 } { return "" }
 
     set msg ""
 
@@ -678,10 +743,10 @@ proc create_smile_menu { {x 0} {y 0} } {
     wm overrideredirect $w 1
     wm transient $w
     wm state $w normal
-   
+    
     
     text $w.text -background white -borderwidth 2 -relief ridge \
-       -selectbackground white -selectborderwidth 0 -exportselection 0
+	-selectbackground white -selectborderwidth 0 -exportselection 0
     
     pack $w.text
 
@@ -718,7 +783,7 @@ proc create_smile_menu { {x 0} {y 0} } {
 	    }
 
 	    $w.text.$filename configure -cursor hand2 -borderwidth 1 -relief flat
-	   
+	    
 	    
 	    bind $w.text.$filename <Enter> "$w.text.$filename configure -relief raised"
 	    bind $w.text.$filename <Leave> "$w.text.$filename configure -relief flat"
@@ -733,12 +798,12 @@ proc create_smile_menu { {x 0} {y 0} } {
     bind $w.text.custom_new <Enter> "$w.text.custom_new configure -relief raised"
     bind $w.text.custom_new <Leave> "$w.text.custom_new configure -relief flat"
     bind $w.text.custom_new <Button1-ButtonRelease> "new_custom_emoticon_gui; event generate $w <Leave>"
- 
+    
     $w.text insert end "\n"
     $w.text window create end -window $w.text.custom_new -padx 1 -pady 1 
- 
-		     
-		     
+    
+    
+    
     $w.text configure -state disabled
     
 

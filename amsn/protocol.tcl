@@ -2293,6 +2293,18 @@ proc cmsn_sb_msg {sb_name recv} {
 	#status_log "Calling MSNP2P::Read with chatid $chatid msg=\n$msg\n"
 	MSNP2P::ReadData $msg $chatid
       
+   } elseif { [string range $content 0 18] == "text/x-mms-emoticon" } {
+       global ${chatid}_smileys
+       status_log "Got a custom smiley from peer\n" red
+       set ${chatid}_smileys(dummy) ""
+       parse_x_mms_emoticon $body $chatid
+       status_log "got smileys : [array names ${chatid}_smileys]\n" blue
+       foreach smile [array names ${chatid}_smileys] {
+	   if { $smile == "dummy" } { continue } 
+	   MSNP2P::loadUserSmiley $chatid $typer "[set ${chatid}_smileys($smile)]"
+       }
+
+
    } else {
       status_log "cmsn_sb_msg: === UNKNOWN MSG ===\n$msg\n" red
    }
@@ -4543,39 +4555,74 @@ namespace eval ::MSNP2P {
 	#Get picture from $user, if cached, or sets image as "loading", and request it
 	#using MSNP2P
 	proc loadUserPic { chatid user } {
-			global config
-			if { $config(getdisppic) != 1 } {
-				status_log "Display Pics disabled, exiting loadUserPic\n" red
-				return
-			}
-			
-			#status_log "::MSNP2P::GetUser: Checking if picture for user $user exists\n" blue
+	    global config
+	    if { $config(getdisppic) != 1 } {
+		status_log "Display Pics disabled, exiting loadUserPic\n" red
+		return
+	    }
+	    
+	    #status_log "::MSNP2P::GetUser: Checking if picture for user $user exists\n" blue
 
-			set userinfo [::MSN::getUserInfo $user]
-			set msnobj [lindex $userinfo 3]
-
-			#status_log "::MSNP2P::GetUser: MSNOBJ is $msnobj\n" blue
-
-			set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
-			status_log "::MSNP2P::GetUser: filename is $filename\n" white
-
-			if { $filename == "" } {
-				return
-			}
-
-			global HOME
-			if { ![file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
-				status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic cache ${filename}] doesn't exist!!\n" white
-				image create photo user_pic_$user -file [GetSkinFile displaypic "loading.gif"]
-
-				create_dir [file join $HOME displaypic]
-				create_dir [file join $HOME displaypic cache]
-				::MSNP2P::RequestObject $chatid $user $msnobj
-			} else {
-			    catch {image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].gif"}
-
-			}
+	    set userinfo [::MSN::getUserInfo $user]
+	    set msnobj [lindex $userinfo 3]
+	    
+	    #status_log "::MSNP2P::GetUser: MSNOBJ is $msnobj\n" blue
+	    
+	    set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
+	    status_log "::MSNP2P::GetUser: filename is $filename\n" white
+	    
+	    if { $filename == "" } {
+		return
+	    }
+	    
+	    global HOME
+	    if { ![file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
+		status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic cache ${filename}] doesn't exist!!\n" white
+		image create photo user_pic_$user -file [GetSkinFile displaypic "loading.gif"]
+		
+		create_dir [file join $HOME displaypic]
+		create_dir [file join $HOME displaypic cache]
+		::MSNP2P::RequestObject $chatid $user $msnobj
+	    } else {
+		catch {image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].gif"}
+		
+	    }
 	}
+
+     	proc loadUserSmiley { chatid user msnobj } {
+	    global config
+	    if { $config(getdisppic) != 1 } {
+		status_log "Display Pics disabled, exiting loadUserSmiley\n" red
+		return
+	    }
+	    
+	    set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
+
+	    status_log "Got filename $filename for $chatid with $user and $msnobj\n" red
+
+	    if { $filename == "" } {
+		return
+	    }
+
+	    image create photo custom_smiley_$filename -width 19 -height 19
+
+	    status_log "::MSNP2P::GetUserPic: filename is $filename\n" white
+	    
+	    
+	    global HOME
+	    if { ![file readable "[file join $HOME smileys cache ${filename}].gif"] } {
+		status_log "::MSNP2P::GetUser: FILE [file join $HOME smileys cache ${filename}] doesn't exist!!\n" white
+		image create photo custom_smiley_$filename -width 19 -height 19
+		
+		create_dir [file join $HOME smileys]
+		create_dir [file join $HOME smileys cache]
+		::MSNP2P::RequestObject $chatid $user $msnobj
+	    } else {
+		catch {image create photo custom_smiley_$filename -file "[file join $HOME smileys cache ${filename}].gif"}
+		
+	    }
+	}
+
 
 	proc GetFilenameFromMSNOBJ { msnobj } {
 		set sha1d [split $msnobj " "]
@@ -4929,6 +4976,7 @@ namespace eval ::MSNP2P {
 			    
 			    set session_data [SessionList get $cSid]
 			    set user_login [lindex $session_data 3]
+			    set filename [lindex $session_data 8]
 			    set userinfo [::MSN::getUserInfo $user_login]
 				
 			    # Lets send an ACK followed by a BYE if it's a buddy icon or emoticon
@@ -4937,15 +4985,27 @@ namespace eval ::MSNP2P {
 			    			    			
 			    if { [lindex [SessionList get $cSid] 7] == "bicon" } {
 			    	SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" $user_login $config(login) "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex $session_data 5] 0 0] 1]
-				set filename [::MSNP2P::GetFilenameFromMSNOBJ [lindex $userinfo 3]]
-				status_log "Closed file $filename.. finished writing\n" red
-				set file [convert_image [file join $HOME displaypic cache ${filename}.png] 96x96]
-				if { $file != "" } {
+				
+				set filename2 [::MSNP2P::GetFilenameFromMSNOBJ [lindex $userinfo 3]]
+				status_log "Got picture with file : $filename and $filename2\n" blue
+				if {$filename == $filename2 } {
+				
+				    status_log "Closed file $filename.. finished writing\n" red
+				    set file [convert_image [file join $HOME displaypic cache ${filename}.png] 96x96]
+				    if { $file != "" } {
 					set file [filenoext $file].gif
 					image create photo user_pic_${user_login} -file "[file join $HOME displaypic cache ${filename}.gif]"
+				    }
+				} else {
+				    set file [convert_image [file join $HOME smileys cache ${filename}.png] 19x19]
+				    if { $file != "" } {
+					set file [filenoext $file].gif
+					image create photo custom_smiley_${filename} -file "[file join $HOME smileys cache ${filename}.gif]"
+				    }
 				}
-				} elseif { [lindex [SessionList get $cSid] 7] == "filetransfer" } {
-			       	# Display message that file transfer is finished...
+
+			    } elseif { [lindex [SessionList get $cSid] 7] == "filetransfer" } {
+				# Display message that file transfer is finished...
 				status_log "File transfer finished!\n"
 				::amsn::WinWrite $chatid "[trans filetransfercomplete]\n" gray
 			    }
@@ -4956,9 +5016,15 @@ namespace eval ::MSNP2P {
 			set user_login [lindex $session_data 3]
 			status_log "Got data preparation message, opening file for writing\nSID=$sid, user=$user_login" red
 			set userinfo [::MSN::getUserInfo $user_login]
-			set filename [::MSNP2P::GetFilenameFromMSNOBJ [lindex $userinfo 3]]
+			set filename [lindex $session_data 8]
+			set filename2 [::MSNP2P::GetFilenameFromMSNOBJ [lindex $userinfo 3]]
+			status_log "opening file for $filename for writing with $filename2 as user msnobj\n\n" blue
+			if { $filename == $filename2 } {
+			    set fd [open "[file join $HOME displaypic cache ${filename}.png]" "w"]
+			} else {
+			    set fd [open "[file join $HOME smileys cache ${filename}.png]" "w"]   
+			}
 
-			set fd [open "[file join $HOME displaypic cache ${filename}.png]" "w"]
 			fconfigure $fd -translation binary
 			SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
 			status_log "Sent an ACK for DATA PREP Message\n" red
@@ -4985,7 +5051,7 @@ namespace eval ::MSNP2P {
 		set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 		set callid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 
-		SessionList set $sid [list 0 0 0 $dest 0 $callid 0 "bicon" ""]
+	        SessionList set $sid [list 0 0 0 $dest 0 $callid 0 "bicon" [::MSNP2P::GetFilenameFromMSNOBJ $msnobject]]
 
 		# Create and send our packet
 		set slpdata [MakeMSNSLP "INVITE" $dest $config(login) $branchid 0 $callid 0 0 "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" $sid 1 [string map { "\n" "" } [::base64::encode "$msnobject\x00"]]]

@@ -2588,14 +2588,17 @@ namespace eval ::amsn {
 	      ${win_name}.f.out.text conf -cursor left_ptr"
 	   ${win_name}.f.out.text tag bind $urlname <Button1-ButtonRelease> \
 	      "launch_browser [string map {% %%} [list $urltext]]"
-
+	   
   	   ${win_name}.f.out.text delete $pos $endpos
 	   ${win_name}.f.out.text insert $pos "$urltext" $urlname
+	   
+       }
+     }
+		  
+		  update
 
-         }
-      }
-
-      if {$config(chatsmileys)} {
+		  if {$config(chatsmileys)} {
+	  custom_smile_subst $chatid ${win_name}.f.out.text $text_start end 
 	  smile_subst ${win_name}.f.out.text $text_start end 0
       }
 
