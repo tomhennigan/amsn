@@ -41,10 +41,12 @@
 
    <Colors>
    <mainwindowbg>#65090D</mainwindowbg>
-   <chatwindowbg>#65090D</chatwindowbg>
+   <chatwindowbg>#EAEAEA</chatwindowbg>
    <topbarbg>#65090D</topbarbg>
    <topbartext>#FFFFFF</topbartext>
    <buttonbarbg>#E6E6E6</buttonbarbg>
+   <statusbarbg>#EAEAEA</statusbarbg>
+   <statusbartext>#000000</statusbartext>
    
    </Colors>
 
