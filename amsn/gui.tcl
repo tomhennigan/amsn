@@ -77,7 +77,7 @@ if { $initialize_amsn == 1 } {
 		::skin::setKey balloonbackground #ffffaa
 		::skin::setKey menubackground #eae7e4
 	}
-
+	::skin::setKey balloonfont sboldf
 	::skin::setKey balloonborder #000000
 
 	#Virtual events used by Button-click

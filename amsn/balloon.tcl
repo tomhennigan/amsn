@@ -115,7 +115,7 @@ proc balloon {target message {cx 0} {cy 0} } {
 
         label .balloon.l \
 	    -text ${message} -relief flat \
-	    -bg [::skin::getKey balloonbackground] -fg [::skin::getKey balloontext] -padx 2 -pady 0 -anchor w -font sboldf -justify left -wraplength $wlength
+	    -bg [::skin::getKey balloonbackground] -fg [::skin::getKey balloontext] -padx 2 -pady 0 -anchor w -font [::skin::getKey balloonfont] -justify left -wraplength $wlength
 	pack .balloon.l -side left -padx 1 -pady 1
         wm geometry .balloon +${x}+${y}
         

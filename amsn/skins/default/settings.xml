@@ -26,6 +26,7 @@
 		</Colors>
 		<Options>
 			<underline_contact>1</underline_contact>
+			<balloonfont>sboldf</balloonfont>
 		</Options>
 	</General>
 
