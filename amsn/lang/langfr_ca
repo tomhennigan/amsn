@@ -91,7 +91,7 @@ clearlog2 Effacer l'historique de tous les contacts
 clearlog3 Effacer tous les fichiers journaux
 clearlog Effacer les fichiers journaux
 clicktologin Cliquez pour vous connecter
-closed Conversation avec $1 fermée à cause d'inactivité
+closed Conversation fermée pour inactivité ($1)
 close Fermer
 closingdocks Le bouton fermer réduit l'application
 command Commande
@@ -123,7 +123,7 @@ delprofile2 Sélectionner le profil que vous voulez supprimer
 delprofile Supprimer un profil
 description Description
 directconnection J'ai une connexion directe à Internet (utilisation du port 1863)
-disconnect $1 s'est déconnecté.
+disconnect Déconnecté ($1)
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Ancrer dans GTK
 docking Ancrage actif
@@ -194,7 +194,7 @@ invitationcancelled L'invitation a été annulée
 invite Invitation
 ipaddress Adresse IP
 ipdetect Détection de l'IP exacte pour les transferts de fichier utilisant HTTP
-istyping $1 est en train de taper un message
+istyping Message en cours de frappe ($1)
 joins $1 se joint à la conversation
 keepalive Garder la connexion ouverte (NAT)
 keeplog2 Conserver toutes les conversations dans l'historique de aMSN pour une visualisation ultérieure
@@ -205,7 +205,7 @@ lclosedwin $1 a fermé la fenêtre sur $2
 lconftopriv Conférence est maintenant une conversation privée avec $1
 lconvstarted Conversation commencée le $1
 leaveblankforhotmail Laisser vide pour utiliser un compte Hotmail
-leaves $1 a quitté la conversation
+leaves Départ de $1
 lenteredconf $1 s'est joint à la conférence sur $2
 linprivate En privé
 listeningon A l'écoute sur le port $1

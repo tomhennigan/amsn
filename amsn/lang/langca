@@ -53,13 +53,14 @@ blockedyougroup Mostra un nou grup amb la gent que t'ha bloquejat
 blocking Bloqueig
 blockinter1 Quan el meu estat sigui Connectat, comprova-ho cada
 blockinter2 segons, sinó comprova-ho cada
-blockinter3 de cada
+blockinter3 cada
 blockinter4 segons.
 blocklist Llista de bloquejats (BL):
 blockmessage Aquesta gent estan connectats i t'han bloquejat
 blockusers Número de contactes a comprovar cada vegada:
 broughtby Desenvolupat per
 browse Navegar
+browserexample (\$url serà substituïda per l'adreça) Ex: mozilla \$url
 browser Navegador
 busy Ocupat
 cancel Cancel·la
@@ -147,6 +148,7 @@ exitamsn Estàs segur de voler sortir?
 extras Serveis extra
 faq Preguntes més freqüents (FAQ)
 filedoesnotexist El fitxer no existeix
+filemanexample (\$location serà substituïda pel directori o fitxer) Ex: nautilus \$location
 fileman Gestor de fitxers
 filename Nom del fitxer
 filetransfercancelled S'ha cancel·lat la transferència
@@ -202,7 +204,7 @@ lastmsgtime Últim missatge rebut a les $1
 lclosedwin $1 ha tancat la finestra a les $2
 lconftopriv La conversa múltiple canvia a conversa privada amb $1
 lconvstarted Conversa iniciada a les $1
-leaveblankforhotmail Deixa-ho en blanc per utilitzar hotmail
+leaveblankforhotmail Deixa-ho buit per utilitzar hotmail
 leaves $1 deixa la conversa
 lenteredconf $1 s'uneix a la canversa a les $2
 linprivate EN PRIVAT
@@ -226,6 +228,7 @@ logsmileys Mostrar emoticones a la finestra d'historial de l'aMSN
 logsout s'acaba de desconnectar
 lprivtoconf La conversa privada canvia a conversa múltiple amb $1
 luclosedwin Has tancat la finestra a les $1
+mailerexample (\$recipient serà substituït per l'adreça del contacte) Deixa-ho buit per utilitzar hotmail.
 mailer Gestor de correu
 maximised Maximitzada
 minimised Minimitzada/iconificada
@@ -370,6 +373,7 @@ smileintro2 Edita els camps per personalitzar aquesta emoticona (a les FAQ tens 
 smileintro Emplena els camps per crear una nova emoticona personalitzada (a les FAQ tens més ajuda)
 sound2 Reprodueix sons quan els contactes es connectin o enviïn missatges
 soundcommand La comanda per reproduir el so (ex: esdplay)
+soundexample (\$sound = fitxer sonor per ser reproduït) Ex: esdplay \$sound
 soundfile Fitxer de so de l'alarma
 soundloop Reproducció contínua del so
 soundserver Servidor de so
