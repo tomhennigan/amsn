@@ -815,7 +815,6 @@ namespace eval ::MSN {
 		
 	}
 
-  	#TODO: New abstract connection system
 	proc connect { {passwd ""}} {
 
 		
@@ -857,7 +856,6 @@ namespace eval ::MSN {
 		
 		::MSN::WriteSBRaw ns "OUT\r\n";
 
-  		#TODO: New abstract connection system
 		set command [list "::[sb get ns connection_wrapper]::finish" ns]
 		eval $command
 		sb set ns stat "d"
@@ -1027,6 +1025,10 @@ namespace eval ::MSN {
 	#Add user to our Forward (contact) list
 	proc addUser { userlogin {username ""}} {
 		set userlogin [string map {" " ""} $userlogin]
+		if {[string match "*@*" $userlogin] < 1 } {
+			set domain "@hotmail.com"
+			set userlogin $userlogin$domain
+		}		
 		if { $username == "" } {
 			set username $userlogin
 		}
@@ -1907,9 +1909,6 @@ namespace eval ::MSN {
 
 		set smile_send "[process_custom_smileys_SB $txt_send]"
 
-		set smilemsg "MIME-Version: 1.0\r\nContent-Type: text/x-mms-emoticon\r\n\r\n"
-		set smilemsg "$smilemsg$smile_send"
-		set smilemsg_len [string length $smilemsg]
 
 		set msg "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n"
 		if { $friendlyname != "" } {
@@ -1926,6 +1925,9 @@ namespace eval ::MSN {
 		#WriteSB $sbn "MSG" "A $msg_len"
 		#WriteSBRaw $sbn "$msg"
 		if { $smile_send != "" } {
+			set smilemsg "MIME-Version: 1.0\r\nContent-Type: text/x-mms-emoticon\r\n\r\n"
+			set smilemsg "$smilemsg$smile_send"
+			set smilemsg_len [string length $smilemsg]
 			WriteSBNoNL $sbn "MSG" "A $smilemsg_len\r\n$smilemsg"
 			set msgacks($::MSN::trid) $ackid
 		} 
@@ -2570,16 +2572,20 @@ proc cmsn_msg_parse {msg hname bname} {
 	upvar $hname headers
 	upvar $bname body
 
+	#Separate head from body
 	set head_len [string first "\r\n\r\n" $msg]
 	set head [string range $msg 0 [expr {$head_len - 1}]]
 	set body [string range $msg [expr {$head_len + 4}] [string length $msg]]
 
+	#Process body and headers to remove \r
 	set body [encoding convertfrom utf-8 $body]
 	set body [string map {"\r" ""} $body]
-
 	set head [string map {"\r" ""} $head]
+	
+	#Now, parse headers, line by line
 	set head_lines [split $head "\n"]
 	foreach line $head_lines {
+		#Find header name, finished on ":"
 		set colpos [string first ":" $line]
 		set attribute [string tolower [string range $line 0 [expr {$colpos-1}]]]
 		set value [string range $line [expr {$colpos+2}] [string length $line]]
@@ -2614,226 +2620,221 @@ proc parse_exec {text} {
 }
 
 proc cmsn_sb_msg {sb_name recv} {
-   #TODO: A little cleaning on all this
-   global filetoreceive files_dir automessage automsgsent
+	#TODO: A little cleaning on all this
+	global filetoreceive files_dir automessage automsgsent
 
-   set msg [sb index $sb_name data 0]
-   sb ldel $sb_name data 0
+	#Get the msg headers from the SB
+	set msg [sb index $sb_name data 0]
+	sb ldel $sb_name data 0
 
-   array set headers {}
-   set body ""
-   cmsn_msg_parse $msg headers body
+	#Call cmsn_msg_parse to parse headers and get message
+	array set headers [list]
+	set body ""
+	cmsn_msg_parse $msg headers body
 
-   set content [lindex [array get headers content-type] 1]
-   set p4context [lindex [array get headers p4-context] 1]
+	set content [lindex [array get headers content-type] 1]
+	set p4context [lindex [array get headers p4-context] 1]
 
-   set typer [string tolower [lindex $recv 1]]
-   if { [::config::getKey displayp4context] !=1 || $p4context == "" } {
-	set nick [::abook::getDisplayNick $typer]
-	   set p4c_enabled 0
-   } else {
-        set nick "[::config::getKey p4contextprefix]$p4context"
-	   set p4c_enabled 1
-   }
-   #Notice that we're ignoring the nick sent in the own MSG command, and using the one in ::abook
+	set typer [string tolower [lindex $recv 1]]
+	if { [::config::getKey displayp4context] !=1 || $p4context == "" } {
+		set nick [::abook::getDisplayNick $typer]
+		set p4c_enabled 0
+	} else {
+		set nick "[::config::getKey p4contextprefix]$p4context"
+		set p4c_enabled 1
+	}
+	#Notice that we're ignoring the nick sent in the own MSG command, and using the one in ::abook
 
-   #upvar #0 [sb name $sb_name users] users_list
-   set users_list [sb get $sb_name users]
+	set users_list [sb get $sb_name users]
 
-   #Look what is our chatID, depending on the number of users
-   if { [llength $users_list] == 1 } {
-      set desiredchatid $typer
-   } else {
-      set desiredchatid $sb_name ;#For conferences, use sb_name as chatid
-   }
+	#Look what should be our chatID, depending on the number of users
+	if { [llength $users_list] == 1 } {
+		set desiredchatid $typer
+	} else {
+		set desiredchatid $sb_name ;#For conferences, use sb_name as chatid
+	}
 
-   set chatid [::MSN::ChatFor $sb_name]
+	#Get the current chatid
+	set chatid [::MSN::ChatFor $sb_name]
 
-   if { $chatid != 0} {
-      if { "$chatid" != "$desiredchatid" } {
-         #Our chatid is different than the desired one!! try to change
-	  status_log "cmsn_sb_msg: Trying to change chatid from $chatid to $desiredchatid for SB $sb_name\n"
-
-         set newchatid [::amsn::chatChange $chatid $desiredchatid]
-         if { "$newchatid" != "$desiredchatid" } {
-            #The GUI doesn't accept the change, as there's another window for that chatid
-            status_log "cmsn_sb_msg: change NOT accepted\n"
-         } else {
-            #The GUI accepts the change, so let's change
-            status_log "sb_msg: change accepted\n"
-            ::MSN::DelSBFor $chatid $sb_name
-            set chatid $desiredchatid
-            ::MSN::AddSBFor $chatid $sb_name
-         }
-
-      } else {
-          #Add it so it's moved to front
-          ::MSN::AddSBFor $chatid $sb_name
-      }
-
-   } else {
-
-      status_log "cmsn_sb_msg: NO chatid in cmsn_sb_msg, please check this!!\n" white
-      set chatid $desiredchatid
-      ::MSN::AddSBFor $chatid $sb_name
-
-   }
+	if { $chatid != 0} {
+		if { "$chatid" != "$desiredchatid" } {
+			#Our chatid is different than the desired one!! try to change
+			status_log "cmsn_sb_msg: Trying to change chatid from $chatid to $desiredchatid for SB $sb_name\n"
+			set newchatid [::amsn::chatChange $chatid $desiredchatid]
+			if { "$newchatid" != "$desiredchatid" } {
+				#The GUI doesn't accept the change, as there's another window for that chatid
+				status_log "cmsn_sb_msg: change NOT accepted\n"
+			} else {
+				#The GUI accepts the change, so let's change
+				status_log "sb_msg: change accepted\n"
+				::MSN::DelSBFor $chatid $sb_name
+				set chatid $desiredchatid
+				::MSN::AddSBFor $chatid $sb_name
+			}
+		} else {
+			#Add it so it's moved to front
+			::MSN::AddSBFor $chatid $sb_name
+		}
+	} else {
+		status_log "cmsn_sb_msg: NO chatid in cmsn_sb_msg, please check this!!\n" white
+		set chatid $desiredchatid
+		::MSN::AddSBFor $chatid $sb_name
+	}
 
 
+	#A standard message
+	if {[string range $content 0 9] == "text/plain"} {
 
+		#TODO: Process fonts in other place
+		set fonttype [lindex [array get headers x-mms-im-format] 1]
 
-   #A standard message
-   if {[string range $content 0 9] == "text/plain"} {
+		set begin [expr {[string first "FN=" $fonttype]+3}]
+		set end   [expr {[string first ";" $fonttype $begin]-1}]
+		set fontfamily "[urldecode [string range $fonttype $begin $end]]"
 
-      #TODO: Process fonts in other place
-      set fonttype [lindex [array get headers x-mms-im-format] 1]
+		set begin [expr {[string first "EF=" $fonttype]+3}]
+		set end   [expr {[string first ";" $fonttype $begin]-1}]
+		set fontstyle "[urldecode [string range $fonttype $begin $end]]"
 
-      set begin [expr {[string first "FN=" $fonttype]+3}]
-      set end   [expr {[string first ";" $fonttype $begin]-1}]
-      set fontfamily "[urldecode [string range $fonttype $begin $end]]"
+		set begin [expr {[string first "CO=" $fonttype]+3}]
+		set end   [expr {[string first ";" $fonttype $begin]-1}]
+		set fontcolor "000000[urldecode [string range $fonttype $begin $end]]"
+		set fontcolor "[string range $fontcolor end-1 end][string range $fontcolor end-3 end-2][string range $fontcolor end-5 end-4]"
 
-      set begin [expr {[string first "EF=" $fonttype]+3}]
-      set end   [expr {[string first ";" $fonttype $begin]-1}]
-      set fontstyle "[urldecode [string range $fonttype $begin $end]]"
+		set style [list]
+		if {[string first "B" $fontstyle] >= 0} {
+			lappend style "bold"
+		}
+		if {[string first "I" $fontstyle] >= 0} {
+			lappend style "italic"
+		}
+		if {[string first "U" $fontstyle] >= 0} {
+			lappend style "underline"
+		}
+		if {[string first "S" $fontstyle] >= 0} {
+			lappend style "overstrike"
+		}
 
-      set begin [expr {[string first "CO=" $fonttype]+3}]
-      set end   [expr {[string first ";" $fonttype $begin]-1}]
-      set fontcolor "000000[urldecode [string range $fonttype $begin $end]]"
-      set fontcolor "[string range $fontcolor end-1 end][string range $fontcolor end-3 end-2][string range $fontcolor end-5 end-4]"
-
-      set style [list]
-      if {[string first "B" $fontstyle] >= 0} {
-        lappend style "bold"
-      }
-      if {[string first "I" $fontstyle] >= 0} {
-        lappend style "italic"
-      }
-      if {[string first "U" $fontstyle] >= 0} {
-        lappend style "underline"
-      }
-      if {[string first "S" $fontstyle] >= 0} {
-        lappend style "overstrike"
-      }
-
-      #TODO: Remove the font style transformation from here and put it inside messageFrom or gui.tcl
+		#TODO: Remove the font style transformation from here and put it inside messageFrom or gui.tcl
 		if { [::config::getKey disableuserfonts] } {
 			set fontfamily [lindex [::config::getKey mychatfont] 0]
 			set style [lindex [::config::getKey mychatfont] 1]
 			#set fontcolor [lindex [::config::getKey mychatfont] 2]
 		}
 
-      ::amsn::messageFrom $chatid $typer $nick "$body" user [list $fontfamily $style $fontcolor] $p4c_enabled
-      sb set $sb_name lastmsgtime [clock format [clock seconds] -format %H:%M:%S]
-      ::abook::setContactData $chatid last_msgedme [clock format [clock seconds] -format "%D - %H:%M:%S"]
+		::amsn::messageFrom $chatid $typer $nick "$body" user [list $fontfamily $style $fontcolor] $p4c_enabled
+		sb set $sb_name lastmsgtime [clock format [clock seconds] -format %H:%M:%S]
+		::abook::setContactData $chatid last_msgedme [clock format [clock seconds] -format "%D - %H:%M:%S"]
 
-      #if alarm_onmsg is on run it
-      if { ( [::alarms::isEnabled $chatid] == 1 )&& ( [::alarms::getAlarmItem $chatid onmsg] == 1) } {
-	  set username [::abook::getDisplayNick $chatid]
-	  run_alarm $chatid  $username "[trans says $username]: $body"
-      } elseif { ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onmsg] == 1) } {
-	  set username [::abook::getDisplayNick $chatid]	  
-	  run_alarm $chatid  $username "[trans says $username]: $body"
-      }
-
-
-      # Send automessage once to each user
-      	if { [info exists automessage] } {
-	if { $automessage != "-1" && [lindex $automessage 4] != ""} {
-		if { [info exists automsgsent($typer)] } {
-			if { $automsgsent($typer) != 1 } {
-				::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [parse_exec [lindex $automessage 4]] "[trans automessage]"
-				set automsgsent($typer) 1
-			}
-		} else {
-				::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [parse_exec [lindex $automessage 4]] "[trans automessage]"
-				set automsgsent($typer) 1
-			}
-	}
-	}
-
-
-	::MSN::DelSBTyper $sb_name $typer
-
-
-   } elseif {[string range $content 0 19] == "text/x-msmsgscontrol"} {
-
-      ::MSN::addSBTyper $sb_name $typer
-
-   } elseif {[string range $content 0 18] == "text/x-msmsgsinvite"} {
-
-      #File transfers or other invitations
-      set invcommand [::MSN::GetHeaderValue $body Invitation-Command]
-      set cookie [::MSN::GetHeaderValue $body Invitation-Cookie]
-      set fromlogin [lindex $recv 1]
-
-      if {$invcommand == "INVITE" } {
-
-         set guid [::MSN::GetHeaderValue $body Application-GUID]
-
-         #An invitation, generate invitation event
-	 if { $guid == "{5D3E02AB-6190-11d3-BBBB-00C04F795683}" } {
-	    #We have a file transfer here
-
-	    set filename [::MSN::GetHeaderValue $body Application-File]
-	    set filesize [::MSN::GetHeaderValue $body Application-FileSize]
-
-	    ::MSNFT::invitationReceived $filename $filesize $cookie $chatid $fromlogin
-
-	 } elseif { $guid == "{02D3C01F-BF30-4825-A83A-DE7AF41648AA}" } {
-		# We got an audio only invitation or audio/video invitation
-		set context [::MSN::GetHeaderValue $body Context-Data]
-		
-		::MSNAV::invitationReceived $cookie $context $chatid $fromlogin
-	 }
-
-      } elseif { $invcommand == "ACCEPT" } {
-		# let's see if it's an A/V session cancel
-		if { [::MSNAV::CookieList get $cookie] != 0 } {
-			set ip [::MSN::GetHeaderValue $body IP-Address]
-			::MSNAV::readAccept $cookie $ip $chatid
-		
-		} else {
-		
-			#Generate "accept" event
-			::MSNFT::acceptReceived $cookie $chatid $fromlogin $body
+		#if alarm_onmsg is on run it
+		if { ( [::alarms::isEnabled $chatid] == 1 )&& ( [::alarms::getAlarmItem $chatid onmsg] == 1) } {
+			set username [::abook::getDisplayNick $chatid]
+			run_alarm $chatid  $username "[trans says $username]: $body"
+		} elseif { ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onmsg] == 1) } {
+			set username [::abook::getDisplayNick $chatid]	  
+			run_alarm $chatid  $username "[trans says $username]: $body"
 		}
 
-      } elseif { $invcommand =="CANCEL" } {
 
-		# let's see if it's an A/V session cancel
-	      if { [::MSNAV::CookieList get $cookie] != 0 } {
-		      ::MSNAV::cancelSession $cookie $chatid "TIMEOUT"
-	      } else {
-		# prolly an FT
-		      set cancelcode [::MSN::GetHeaderValue $body Cancel-Code]
-		      if { $cancelcode == "FTTIMEOUT" } {
-			      ::MSNFT::timeoutedFT $cookie
-		      } elseif { $cancelcode == "REJECT" } {
-			      ::MSNFT::rejectedFT $chatid $fromlogin $cookie
-		      }
-	      }
+		# Send automessage once to each user
+		if { [info exists automessage] } {
+			if { $automessage != "-1" && [lindex $automessage 4] != ""} {
+				if { [info exists automsgsent($typer)] } {
+					if { $automsgsent($typer) != 1 } {
+						::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [parse_exec [lindex $automessage 4]] "[trans automessage]"
+						set automsgsent($typer) 1
+					}
+				} else {
+						::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [parse_exec [lindex $automessage 4]] "[trans automessage]"
+						set automsgsent($typer) 1
+					}
+			}
+		}
 
-      } else {
 
-	 #... other types of commands
+		::MSN::DelSBTyper $sb_name $typer
 
-      }
 
-   } elseif { [string range $content 0 23] == "application/x-msnmsgrp2p" } {
-   	#status_log "MSNP2P -> " red
-	#status_log "Calling MSNP2P::Read with chatid $chatid msg=\n$msg\n"
-	MSNP2P::ReadData $msg $chatid
+	} elseif {[string range $content 0 19] == "text/x-msmsgscontrol"} {
+
+		::MSN::addSBTyper $sb_name $typer
+
+	} elseif {[string range $content 0 18] == "text/x-msmsgsinvite"} {
+
+		#File transfers or other invitations
+		set invcommand [::MSN::GetHeaderValue $body Invitation-Command]
+		set cookie [::MSN::GetHeaderValue $body Invitation-Cookie]
+		set fromlogin [lindex $recv 1]
+
+		if {$invcommand == "INVITE" } {
+		
+			set guid [::MSN::GetHeaderValue $body Application-GUID]
+		
+			#An invitation, generate invitation event
+			if { $guid == "{5D3E02AB-6190-11d3-BBBB-00C04F795683}" } {
+			#We have a file transfer here
+		
+			set filename [::MSN::GetHeaderValue $body Application-File]
+			set filesize [::MSN::GetHeaderValue $body Application-FileSize]
+		
+			::MSNFT::invitationReceived $filename $filesize $cookie $chatid $fromlogin
+		
+			} elseif { $guid == "{02D3C01F-BF30-4825-A83A-DE7AF41648AA}" } {
+				# We got an audio only invitation or audio/video invitation
+				set context [::MSN::GetHeaderValue $body Context-Data]
+				
+				::MSNAV::invitationReceived $cookie $context $chatid $fromlogin
+			}
+		
+		} elseif { $invcommand == "ACCEPT" } {
+			# let's see if it's an A/V session cancel
+			if { [::MSNAV::CookieList get $cookie] != 0 } {
+				set ip [::MSN::GetHeaderValue $body IP-Address]
+				::MSNAV::readAccept $cookie $ip $chatid
+			
+			} else {
+			
+				#Generate "accept" event
+				::MSNFT::acceptReceived $cookie $chatid $fromlogin $body
+			}
+		
+		} elseif { $invcommand =="CANCEL" } {
+		
+			# let's see if it's an A/V session cancel
+			if { [::MSNAV::CookieList get $cookie] != 0 } {
+				::MSNAV::cancelSession $cookie $chatid "TIMEOUT"
+			} else {
+				# prolly an FT
+				set cancelcode [::MSN::GetHeaderValue $body Cancel-Code]
+				if { $cancelcode == "FTTIMEOUT" } {
+					::MSNFT::timeoutedFT $cookie
+				} elseif { $cancelcode == "REJECT" } {
+					::MSNFT::rejectedFT $chatid $fromlogin $cookie
+				}
+			}
+		
+		} else {
+		
+			#... other types of commands
+		
+		}
+
+	} elseif { [string range $content 0 23] == "application/x-msnmsgrp2p" } {
+		#status_log "MSNP2P -> " red
+		#status_log "Calling MSNP2P::Read with chatid $chatid msg=\n$msg\n"
+		MSNP2P::ReadData $msg $chatid
       
-   } elseif { [string range $content 0 18] == "text/x-mms-emoticon" } {
-       global ${chatid}_smileys
-       status_log "Got a custom smiley from peer\n" red
-       set ${chatid}_smileys(dummy) ""
-       parse_x_mms_emoticon $body $chatid
-       status_log "got smileys : [array names ${chatid}_smileys]\n" blue
-       foreach smile [array names ${chatid}_smileys] {
-	   if { $smile == "dummy" } { continue } 
-	   MSNP2P::loadUserSmiley $chatid $typer "[set ${chatid}_smileys($smile)]"
-       }
+	} elseif { [string range $content 0 18] == "text/x-mms-emoticon" } {
+		global ${chatid}_smileys
+		status_log "Got a custom smiley from peer\n" red
+		set ${chatid}_smileys(dummy) ""
+		parse_x_mms_emoticon $body $chatid
+		status_log "got smileys : [array names ${chatid}_smileys]\n" blue
+		foreach smile [array names ${chatid}_smileys] {
+			if { $smile == "dummy" } { continue } 
+			MSNP2P::loadUserSmiley $chatid $typer "[set ${chatid}_smileys($smile)]"
+		}
 
 	} elseif { [string range $content 0 16] == "text/x-clientcaps" } {
 	
@@ -2841,40 +2842,39 @@ proc cmsn_sb_msg {sb_name recv} {
 		if {[string first "Client-Name:" $msg] != "-1"} {
 			set begin [expr {[string first "Client-Name:" $msg]+13}]
 			set end   [expr {[string first "\n" $msg $begin]-2}]
- 			set clientname "[urldecode [string range $msg $begin $end]]"
- 			#status_log "Client-Name:\n$clientname\n"
- 			#Add this information to abook
- 			::abook::setContactData $chatid clientname $clientname
-   			}
- 	   #Get String for Chat Logging (Gaim and some others)
- 	   if {[string first "Chat-Logging" $msg] != "-1"} {
-		    set begin [expr {[string first "Chat-Logging" $msg]+14}]
-		    set end   [expr {[string first "\n" $msg $begin]-2}]
-		    set chatlogging "[urldecode [string range $msg $begin $end]]"
-		    #status_log "ChatLogging:\n$chatlogging\n"
-		    #Add this information to abook
-		    if {$chatlogging == "Y"} { 
-		    set chatlogging "[trans yes]" 
-		    } else { 
-		    set chatlogging "[trans no]" 
-		    }
-		    ::abook::setContactData $chatid chatlogging $chatlogging
-	 	   }
-	    #Get String for Operating System (dMSN)
-	    #This information is stored but not used anywhere inside aMSN
- 	   if {[string first "Operating-System:" $msg] != "-1"} {
-	    	set begin [expr {[string first "Operating-System:" $msg]+18}]
- 		   	set end   [expr {[string first "\n" $msg $begin]-1}]
- 		   	set operatingsystem "[urldecode [string range $msg $begin $end]]"
- 		   	#status_log "Operating System:\n$operatingsystem\n"
- 		   	#Add this information to abook
- 		   	::abook::setContactData $chatid operatingsystem $operatingsystem
-  		  }
-  		 # status_log $msg
-  		  
-   } else {
-      status_log "cmsn_sb_msg: === UNKNOWN MSG ===\n$msg\n" red
-   }
+			set clientname "[urldecode [string range $msg $begin $end]]"
+			#status_log "Client-Name:\n$clientname\n"
+			#Add this information to abook
+			::abook::setContactData $chatid clientname $clientname
+		}
+		#Get String for Chat Logging (Gaim and some others)
+		if {[string first "Chat-Logging" $msg] != "-1"} {
+			set begin [expr {[string first "Chat-Logging" $msg]+14}]
+			set end   [expr {[string first "\n" $msg $begin]-2}]
+			set chatlogging "[urldecode [string range $msg $begin $end]]"
+			#status_log "ChatLogging:\n$chatlogging\n"
+			#Add this information to abook
+			if {$chatlogging == "Y"} { 
+				set chatlogging "[trans yes]" 
+			} else { 
+				set chatlogging "[trans no]" 
+			}
+			::abook::setContactData $chatid chatlogging $chatlogging
+		}
+		#Get String for Operating System (dMSN)
+		#This information is stored but not used anywhere inside aMSN
+		if {[string first "Operating-System:" $msg] != "-1"} {
+			set begin [expr {[string first "Operating-System:" $msg]+18}]
+			set end   [expr {[string first "\n" $msg $begin]-1}]
+			set operatingsystem "[urldecode [string range $msg $begin $end]]"
+			#status_log "Operating System:\n$operatingsystem\n"
+			#Add this information to abook
+			::abook::setContactData $chatid operatingsystem $operatingsystem
+		}
+		
+	} else {
+		status_log "cmsn_sb_msg: === UNKNOWN MSG ===\n$msg\n" red
+	}
 
 }
 

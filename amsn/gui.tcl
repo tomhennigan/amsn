@@ -1252,19 +1252,15 @@ namespace eval ::amsn {
 			set nick [::abook::parseCustomNick $customfnick $nick $user $customnick]
 		}
 		
-		#If this is the first message, and no focus on window, then show notify
-		#if { $first_message($win_name) == 1 } {
 
-			set maxw [expr {[::config::getKey notifwidth]-20}]
-			incr maxw [expr 0-[font measure splainf "[trans says [list]]:"]]
-			set nickt [trunc $nick $maxw splainf]
+		set maxw [expr {[::config::getKey notifwidth]-20}]
+		incr maxw [expr 0-[font measure splainf "[trans says [list]]:"]]
+		set nickt [trunc $nick $maxw splainf]
 
-			#if { ([::config::getKey notifymsg] == 1) && ([string first ${win_name} [focus]] != 0)} {
-			#	notifyAdd "[trans says $nickt]:\n$msg" "::amsn::chatUser $chatid"
-			#}
-			set tmsg "[trans says $nickt]:\n$msg"
-
+		#if { ([::config::getKey notifymsg] == 1) && ([string first ${win_name} [focus]] != 0)} {
+		#	notifyAdd "[trans says $nickt]:\n$msg" "::amsn::chatUser $chatid"
 		#}
+		set tmsg "[trans says $nickt]:\n$msg"
 
 		set win_name [MakeWindowFor $chatid $tmsg $user]
 
@@ -1280,14 +1276,14 @@ namespace eval ::amsn {
 		PutMessage $chatid $user $nick $msg $type $fontformat $p4c
 
 #		set evPar [list $user [::abook::getDisplayNick $user] $msg]
-	    set evPar(0) $user
-	    set evPar(1) [::abook::getDisplayNick $user]
-	    set evPar(2) $msg
-	    if { "$user" != "$chatid" } {
-		::plugins::PostEvent chat_msg_send evPar
-	    } else {
-		::plugins::PostEvent chat_msg_received evPar
-	    }
+		set evPar(0) $user
+		set evPar(1) [::abook::getDisplayNick $user]
+		set evPar(2) $msg
+		if { "$user" != "$chatid" } {
+			::plugins::PostEvent chat_msg_send evPar
+		} else {
+			::plugins::PostEvent chat_msg_received evPar
+		}
 	    
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -2116,7 +2112,7 @@ namespace eval ::amsn {
 		bind $bottom.in.input <Tab> "focus $bottom.in.f.send; break"
 		
 
-		bind  $bottom.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y $bottom.in.input"
+		bind  $bottom.buttons.smileys  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $bottom.in.input"
 		bind  $bottom.buttons.fontsel  <Button1-ButtonRelease> "change_myfont ${win_name}"
 		bind  $bottom.buttons.block  <Button1-ButtonRelease> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} ::amsn::blockUnblockUser"
 		bind $bottom.buttons.sendfile <Button1-ButtonRelease> "::amsn::FileTransferSend .${win_name}"
@@ -2790,7 +2786,6 @@ namespace eval ::amsn {
 
 		set chatid [ChatFor $win_name]
 
-
 		if { $chatid == 0 } {
 			status_log "VERY BAD ERROR in ::amsn::MessageSend!!!\n" red
 			return 0
@@ -2833,31 +2828,20 @@ namespace eval ::amsn {
 			set p4c 0	
 		}
 		
-		#Removed doubling up of code.
-		#if { [string length $msg] > 400 } {
-			set first 0
-			while { [expr {$first + 400}] <= [string length $msg] } {
-				set msgchunk [string range $msg $first [expr {$first + 399}]]
-				set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
-				::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
-				incr first 400
-			}
-			set msgchunk [string range $msg $first end]
+		set first 0
+		while { [expr {$first + 400}] <= [string length $msg] } {
+			set msgchunk [string range $msg $first [expr {$first + 399}]]
 			set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
-
-			#Draw our own message
-			messageFrom $chatid [::abook::getPersonal login] $nick "$msg" user [list $fontfamily $fontstyle $fontcolor] $p4c
-
 			::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
-		#} else {
-		#	set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msg]]
-		#	#::MSN::chatQueue $chatid [list ::MSN::messageTo $chatid "$msg" $ackid]
-		#
-		#	#Draw our own message
-		#	messageFrom $chatid [::abook::getPersonal login] $nick "$msg" user [list $fontfamily $fontstyle $fontcolor] $p4c
-		#
-		#	::MSN::messageTo $chatid "$msg" $ackid $friendlyname
-		#}
+			incr first 400
+		}
+		set msgchunk [string range $msg $first end]
+		set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
+
+		#Draw our own message
+		messageFrom $chatid [::abook::getPersonal login] $nick "$msg" user [list $fontfamily $fontstyle $fontcolor] $p4c
+
+		::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
 
 
 		CharsTyped $chatid ""
@@ -3066,7 +3050,7 @@ namespace eval ::amsn {
 		set customchat [subst -nocommands $customchat]
 				
 		WinWrite $chatid "$customchat" "says" $customfont
-		WinWrite $chatid "$msg\n" $type $fontformat
+		WinWrite $chatid "$msg\n" $type $fontformat 1 $user
 
 		if {[::config::getKey keep_logs]} {
 			::log::PutLog $chatid $nick $msg
@@ -3299,9 +3283,8 @@ namespace eval ::amsn {
 	# It will use 'tagname' as style tag, unless 'tagname'=="user", where it will use
 	# 'fontname', 'fontstyle' and 'fontcolor' as from fontformat, or 'tagname'=="says"
 	# where it will use the same format as "user" but size 11.
-	proc WinWrite {chatid txt tagname {fontformat ""} {flicker 1} } {
-
-		global emotions ;#smileys_end_subst
+	# The parameter "user" is used for smiley substitution.
+	proc WinWrite {chatid txt tagname {fontformat ""} {flicker 1} {user ""}} {
 
 		set win_name [WindowFor $chatid]
 
@@ -3314,14 +3297,11 @@ namespace eval ::amsn {
 			return
 		}
 
-
-
 		if { [lindex [${win_name}.f.out.text yview] 1] == 1.0 } {
 			set scrolling 1
 		} else {
 			set scrolling 0
 		}
-
 
 		set fontname [lindex $fontformat 0]
 		set fontstyle [lindex $fontformat 1]      
@@ -3338,24 +3318,23 @@ namespace eval ::amsn {
 
 		if { $tagid == "user" || $tagid == "yours" || $tagid == "says" } {
 
-		if { $tagid == "says" } {
-			set size [lindex [::config::getGlobalKey basefont] 1]
-		} else {
-			set size [expr {[lindex [::config::getGlobalKey basefont] 1]+[::config::getKey textsize]}]
-		}
+			if { $tagid == "says" } {
+				set size [lindex [::config::getGlobalKey basefont] 1]
+			} else {
+				set size [expr {[lindex [::config::getGlobalKey basefont] 1]+[::config::getKey textsize]}]
+			}
 
-		set font "\"$fontname\" $size $fontstyle"
-		set tagid [::md5::md5 "$font$fontcolor"]
+			set font "\"$fontname\" $size $fontstyle"
+			set tagid [::md5::md5 "$font$fontcolor"]
 
-		if { ([string length $fontname] < 3 )
-			|| ([catch {${win_name}.f.out.text tag configure $tagid -foreground #$fontcolor -font $font} res])} {
-			status_log "Font $font or color $fontcolor wrong. Using default\n" red
-			${win_name}.f.out.text tag configure $tagid -foreground black -font bplainf
+			if { ([string length $fontname] < 3 )
+					|| ([catch {${win_name}.f.out.text tag configure $tagid -foreground #$fontcolor -font $font} res])} {
+				status_log "Font $font or color $fontcolor wrong. Using default\n" red
+				${win_name}.f.out.text tag configure $tagid -foreground black -font bplainf
 			}
 		}
 
 		${win_name}.f.out.text insert end "$txt" $tagid
-
 
 		#TODO: Make an url_subst procedure, and improve this using regular expressions
 		variable urlcount
@@ -3413,7 +3392,10 @@ namespace eval ::amsn {
 
 		if {[::config::getKey chatsmileys]} {
 			custom_smile_subst $chatid ${win_name}.f.out.text $text_start end
-			smile_subst ${win_name}.f.out.text $text_start end 0
+			::smiley::substSmileys  ${win_name}.f.out.text $text_start end 0
+			if { $user == [::config::getKey login] } {
+				::smiley::substYourSmileys ${win_name}.f.out.text $text_start end 0
+			}
 		}
 
 
@@ -4046,6 +4028,7 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap belloff belloff.gif
 
 	::skin::setPixmap notinlist notinlist.gif
+	::skin::setPixmap smile smile.gif
 	
 	::skin::setPixmap nullimage null
 	#set the nullimage transparent
@@ -5038,7 +5021,7 @@ proc cmsn_draw_online { {delay 0} } {
 
 proc cmsn_draw_online_wrapped {} {
 
-	global emotions login \
+	global login \
 		password pgBuddy bgcolor automessage emailBList tcl_platform
 
 	set scrollidx [$pgBuddy.text yview]
@@ -5223,7 +5206,7 @@ proc cmsn_draw_online_wrapped {} {
 	bind $pgBuddy.text.bigstate <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
 	if {[::config::getKey listsmileys]} {
-		smile_subst $pgBuddy.text.mystatus
+		::smiley::substSmileys $pgBuddy.text.mystatus
 	}
 	#Calculate number of lines, and set my status size (for multiline nicks)
 	set size [$pgBuddy.text.mystatus index end]
@@ -5462,8 +5445,7 @@ proc cmsn_draw_online_wrapped {} {
 
 	#Don't replace smileys in all text, to avoid replacing in mail notification
 	if {[::config::getKey listsmileys]} {
-
-		smile_subst $pgBuddy.text 0.0 end
+		::smiley::substSmileys $pgBuddy.text 0.0 end
 	}
 	update idletasks
 	$pgBuddy.text yview moveto [lindex $scrollidx 0]
@@ -6077,8 +6059,8 @@ proc cmsn_change_name {} {
 
 	bind $w.fn.name <Return> "change_name_ok"
 	bind $w.p4c.name <Return> "change_name_ok"
-	bind $w.fn.smiley  <Button1-ButtonRelease> "smile_menu %X %Y $w.fn.name"
-	bind $w.p4c.smiley  <Button1-ButtonRelease> "smile_menu %X %Y $w.p4c.name"
+	bind $w.fn.smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.fn.name"
+	bind $w.p4c.smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.p4c.name"
 
 	$w.fn.name insert 0 [::abook::getPersonal nick]
 	$w.p4c.name insert 0 [::config::getKey p4c_name]
@@ -7124,7 +7106,10 @@ proc convert_image { filename destdir size } {
 	status_log "Resized image size is $neww $newh\n" blue
 
 	status_log "Center of image is $centerx,$centery, will crop from $x1,$y1 to $x2,$y2 \n" blue
-	$img write "${destfile}.gif" -from $x1 $y1 $x2 $y2 -format gif
+	if {[catch {$img write "${destfile}.gif" -from $x1 $y1 $x2 $y2 -format gif}]} {
+		#To fix an strange bug when the image is badly resized
+		$img write "${destfile}.gif" -format gif
+	}
 	image delete $img
 
 	catch {file delete ${tempfile}.gif}

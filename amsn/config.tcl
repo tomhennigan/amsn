@@ -301,11 +301,11 @@ namespace eval ::config {
 		return [set ::config($key)]
 	}
 
-	proc getKey {key} {
+	proc getKey {key {default ""}} {
 		if { [info exists ::config($key)] } {
 			return [set ::config($key)]
 		} else {
-			return ""
+			return $default
 		}
 	}
 	
@@ -334,11 +334,11 @@ namespace eval ::config {
 		unset ::config($key)
 	}	
 
-	proc getGlobalKey {key} {
+	proc getGlobalKey {key {default ""}} {
 		if { [info exists ::gconfig($key)] } {
 			return [set ::gconfig($key)]
 		} else {
-			return ""
+			return $default
 		}
 	}
 	
@@ -431,72 +431,77 @@ namespace eval ::config {
 }
 
 proc save_config {} {
-   global tcl_platform HOME HOME2 version password emotions
-
-   status_log "save_config: saving config for user [::config::getKey login] in $HOME]\n" black
-   
-   if { [catch {
-         if {$tcl_platform(platform) == "unix"} {
-	    set file_id [open "[file join ${HOME} config.xml]" w 00600]
-         } else {
-            set file_id [open "[file join ${HOME} config.xml]" w]
-         }
-      } res]} {
+	global tcl_platform HOME HOME2 version password custom_emotions
+	
+	status_log "save_config: saving config for user [::config::getKey login] in $HOME]\n" black
+	
+	if { [catch {
+		if {$tcl_platform(platform) == "unix"} {
+			set file_id [open "[file join ${HOME} config.xml]" w 00600]
+		} else {
+			set file_id [open "[file join ${HOME} config.xml]" w]
+		}
+	} res]} {
 		return 0
 	}
 
-    status_log "save_config: saving config_file. Opening of file returned : $res\n"
-   set loginback [::config::getKey login]
-   set passback $password
+	status_log "save_config: saving config_file. Opening of file returned : $res\n"
+	set loginback [::config::getKey login]
+	set passback $password
 
-   # using default, make sure to reset config(login)
-   if { $HOME == $HOME2 } {
-   	::config::setKey login ""
-	set password ""
-   }
-
-
-    puts $file_id  "<?xml version=\"1.0\"?>\n\n<config>"
-
-    foreach var_attribute [::config::getKeys] {
-      set var_value [::config::getKey $var_attribute]
-       if { "$var_attribute" != "remotepassword" && "$var_attribute" != "customsmileys" && "$var_attribute" != "customsmileys2"} {
-		set var_value [::sxml::xmlreplace $var_value]
-	   puts $file_id "   <entry>\n      <attribute>$var_attribute</attribute>\n      <value>$var_value</value>\n   </entry>"
-       }
-    }
-
-    if { ([::config::getKey save_password]) && ($password != "")} {
-
-	set key [string range "${loginback}dummykey" 0 7]
-	binary scan [::des::encrypt $key "${password}\n"] h* encpass
-	puts $file_id "   <entry>\n      <attribute>encpassword</attribute>\n      <value>$encpass</value>\n   </entry>"
-    }
-
-    set key [string range "${loginback}dummykey" 0 7]
-    binary scan [::des::encrypt $key "[::config::getKey remotepassword]\n"] h* encpass
-    puts $file_id "   <entry>\n      <attribute>remotepassword</attribute>\n      <value>$encpass</value>\n   </entry>\n"
-
-    foreach custom [::config::getKey customsmileys2] {
-	puts $file_id "   <emoticon>"
-	foreach attribute [array names emotions] {
-	    if { [string match "${custom}_*" $attribute ] } {
-		set var_attribute [::sxml::xmlreplace [string map [list "${custom}_" ""] $attribute ]]
-		set var_value [::sxml::xmlreplace $emotions($attribute)]
-		puts $file_id "      <$var_attribute>$var_value</$var_attribute>"
-	    }
+	# using default, make sure to reset config(login)
+	if { $HOME == $HOME2 } {
+		::config::setKey login ""
+		set password ""
 	}
-	puts $file_id "   </emoticon>\n"
-    }
 
-    puts $file_id "</config>"
+	#Start of config file
+	puts $file_id  "<?xml version=\"1.0\"?>\n\n<config>"
+	
+	#Save all keys except special ones
+	foreach var_attribute [::config::getKeys] {
+		set var_value [::config::getKey $var_attribute]
+		if { "$var_attribute" != "remotepassword" && "$var_attribute" != "customsmileys" && "$var_attribute" != "customsmileys2"} {
+			set var_value [::sxml::xmlreplace $var_value]
+			puts $file_id "   <entry>\n      <attribute>$var_attribute</attribute>\n      <value>$var_value</value>\n   </entry>"
+		}
+	}
 
-    close $file_id
+	#Save encripted password
+	if { ([::config::getKey save_password]) && ($password != "")} {	
+		set key [string range "${loginback}dummykey" 0 7]
+		binary scan [::des::encrypt $key "${password}\n"] h* encpass
+		puts $file_id "   <entry>\n      <attribute>encpassword</attribute>\n      <value>$encpass</value>\n   </entry>"
+	}
 
-    ::config::setKey login $loginback
-    set password $passback
+	#Save encripted remote password
+	set key [string range "${loginback}dummykey" 0 7]
+	binary scan [::des::encrypt $key "[::config::getKey remotepassword]\n"] h* encpass
+	puts $file_id "   <entry>\n      <attribute>remotepassword</attribute>\n      <value>$encpass</value>\n   </entry>\n"
 
-    status_log "save_config: Config saved\n" black
+	#Save custom emoticons
+	foreach name [::config::getKey customsmileys] {
+		puts $file_id "   <emoticon>"
+		array set emotion $custom_emotions($name)
+		foreach attribute [array names emotion] {
+			set value [::sxml::xmlreplace $emotion($attribute)]
+			set attribute [::sxml::xmlreplace $attribute]
+			#set var_attribute [::sxml::xmlreplace [string map [list "${custom}_" ""] $attribute ]]
+			#set var_value [::sxml::xmlreplace $emotions($attribute)]
+			puts $file_id "      <$attribute>$value</$attribute>"
+		}
+		puts $file_id "   </emoticon>\n"
+	}
+
+	#End of config file	
+	puts $file_id "</config>"
+	
+	close $file_id
+	
+	::config::setKey login $loginback
+	set password $passback
+	
+	status_log "save_config: Config saved\n" black
     
 
 }
@@ -513,36 +518,42 @@ proc new_config_entry  {cstack cdata saved_data cattr saved_attr args} {
 proc load_config {} {
 	global HOME password protocol clientid tcl_platform
 
+	#Create custom smileys folder
 	create_dir "[file join ${HOME} smileys]"
 
 	set user_login [::config::getKey login]
 	status_log "load_config: Started. HOME=$HOME, config(login)=$user_login\n"
+	
+	#Set default values
 	::config::configDefaults
 
 	if { [file exists [file join ${HOME} "config.xml"]] } {
+	
 		status_log "load_config: loading file [file join ${HOME} config.xml]\n" blue
 
 		if { [catch {
 			set file_id [sxml::init [file join ${HOME} "config.xml"]]
 
 			sxml::register_routine $file_id "config:entry" "new_config_entry"
-			sxml::register_routine $file_id "config:emoticon" "new_custom_emoticon"
+			sxml::register_routine $file_id "config:emoticon" "::smiley::newCustomEmoticonXML"
 			set val [sxml::parse $file_id]
 			sxml::end $file_id
 			status_log "load_config: Config loaded\n" green
 			
 		} res] } {
 			::amsn::errorMsg "[trans corruptconfig [file join ${HOME} "config.xml.old"]]"
-			file copy [file join ${HOME} "config.xml"] [file join ${HOME} "config.xml.old"]
+			file copy -force [file join ${HOME} "config.xml"] [file join ${HOME} "config.xml.old"]
+			::sxml::end $file_id
+			::config::configDefaults
+			file delete [file join ${HOME} "config.xml"]
 		}
 		
-		#Force the change of the default background color
-		
+		#Force the change of the default background color and other specific Mac things
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			set bgcolormac [::config::getKey backgroundcolor]
 			if { $bgcolormac=="#D8D8E0" } {
 				::config::setKey backgroundcolor #ECECEC
-				}
+			}
 			#Force the change of new window to be raised, not iconified (not supported on TkAqua)
 			::config::setKey newmsgwinstate 0
 			#Force the change to not start amsn on tray if someone choosed that in advanced preferences
@@ -561,60 +572,61 @@ proc load_config {} {
 			}
 	}
 
-    if {[::config::getKey encpassword]!=""} {
-	set key [string range "[::config::getKey login]dummykey" 0 7]
-	set password [::config::getKey encpassword]
-	catch {set encpass [binary format h* [::config::getKey encpassword]]}
-	catch {set password [::des::decrypt $key $encpass]}
-	#puts "Password length is: [string first "\n" $password]\n"
-	set password [string range $password 0 [expr { [string first "\n" $password] -1 }]]
-	#puts "Password is: $password\nHi\n"
-	::config::unsetKey encpassword
-    }
+	#Get the encripted password
+	if {[::config::getKey encpassword]!=""} {
+		set key [string range "[::config::getKey login]dummykey" 0 7]
+		set password [::config::getKey encpassword]
+		catch {set encpass [binary format h* [::config::getKey encpassword]]}
+		catch {set password [::des::decrypt $key $encpass]}
+		#puts "Password length is: [string first "\n" $password]\n"
+		set password [string range $password 0 [expr { [string first "\n" $password] -1 }]]
+		#puts "Password is: $password\nHi\n"
+		::config::unsetKey encpassword
+	}
 
-    if {[::config::getKey remotepassword]!=""} {
- 	set key [string range "[::config::getKey login]dummykey" 0 7]
- 	catch {set encpass [binary format h* [::config::getKey remotepassword]]}
- 	catch {::config::setKey remotepassword [::des::decrypt $key $encpass]}
- 	#puts "Password length is: [string first "\n" [::config::getKey remotepassword]]\n"
- 	::config::setKey remotepassword [string range [::config::getKey remotepassword] 0 [expr { [string first "\n" [::config::getKey remotepassword]] -1 }]]
- 	#puts "Password is: [::config::getKey remotepassword]\nHi\n"
-    }
+	#Get the encripted remote password
+	if {[::config::getKey remotepassword]!=""} {
+		set key [string range "[::config::getKey login]dummykey" 0 7]
+		catch {set encpass [binary format h* [::config::getKey remotepassword]]}
+		catch {::config::setKey remotepassword [::des::decrypt $key $encpass]}
+		#puts "Password length is: [string first "\n" [::config::getKey remotepassword]]\n"
+		::config::setKey remotepassword [string range [::config::getKey remotepassword] 0 [expr { [string first "\n" [::config::getKey remotepassword]] -1 }]]
+		#puts "Password is: [::config::getKey remotepassword]\nHi\n"
+	}
 
-    # WebCam: clientid is 268435508, but since we dont support webcam, this is the default:
-    set clientid "268435500"
+	# WebCam: clientid is 268435508, but since we dont support webcam, this is the default:
+	set clientid "268435500"
 
 	# Load up the personal states
 	LoadStateList
-    if { [winfo exists .my_menu] } {CreateStatesMenu .my_menu}
-    if { [::config::getKey login] == "" } {
-	status_log "load_config: Empty login !!! FIXING\n" red
-	::config::setKey login $user_login
-    }
-    
-    if { [::config::getKey enableremote] } {
-	init_remote_DS
-    }
-    
-    #set the banner for this user when switching users
-    global initialize_amsn
-    if { $initialize_amsn != 1 } {
-	resetBanner
-    }
-    
-    #load Snack when being used
-    if { [::config::getKey usesnack] } {
-	if {![catch {package require snack}]} {
-		snack::audio playLatency 750
-	} else {
-		::config::setKey config 0
-		save_config
-		#msg_box [trans snackfailed]
+	if { [winfo exists .my_menu] } {CreateStatesMenu .my_menu}
+	if { [::config::getKey login] == "" } {
+		status_log "load_config: Empty login !!! FIXING\n" red
+		::config::setKey login $user_login
 	}
-    } 
-
     
-    ::plugins::LoadPlugins
+	if { [::config::getKey enableremote] } {
+		init_remote_DS
+	}
+    
+	#set the banner for this user when switching users
+	global initialize_amsn
+	if { $initialize_amsn != 1 } {
+		resetBanner
+	}
+    
+	#load Snack when being used
+	if { [::config::getKey usesnack] } {
+		if {![catch {package require snack}]} {
+			snack::audio playLatency 750
+		} else {
+			::config::setKey config 0
+			save_config
+			#msg_box [trans snackfailed]
+		}
+	} 
+    
+	::plugins::LoadPlugins
 }
 
 
@@ -1337,6 +1349,6 @@ if { $initialize_amsn == 1 } {
 
 	load_config		;# So this loads the config of this newest dude
 
-	# Init smileys
-	load_smileys
+	# Init skin and smileys
+	::skin::reloadSkin [::config::getGlobalKey skin]
 }

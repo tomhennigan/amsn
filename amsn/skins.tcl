@@ -25,17 +25,54 @@ namespace eval ::skin {
 		#Check if pixmap is already loaded
 		variable loaded_pixmaps
 		if { [info exists loaded_pixmaps($image_name)] } {
-			return $image_name
+			return $loaded_pixmaps($image_name)
 		}
 		
 		#Not loaded, so let's load it
 		variable pixmap_names
 		set image_file $pixmap_names($image_name)
-		image create photo $image_name -file [GetSkinFile pixmaps $image_file] -format gif
-		set loaded_pixmaps($image_name) 1
+		set img [image create photo -file [GetSkinFile pixmaps $image_file] -format gif]
+		set loaded_pixmaps($image_name) $img
 	
-		return $image_name
+		return $img
 	}
+	
+	###############################
+	# Smileys
+	###############################
+	
+	#Set an association: smiley name - filename
+	proc setSmiley { smiley_name filename } {
+			
+		variable smiley_names
+		set smiley_names($smiley_name) $filename
+		
+	}
+	
+	#Load the given smiley, if not loaded already
+	proc loadSmiley { smiley_name } {
+	
+		global tcl_platform
+		variable loaded_smileys
+		
+		if { [info exists loaded_smileys($smiley_name)] } {
+			return $loaded_smileys($smiley_name)
+		}
+		
+		variable smiley_names
+		set smiley_file $smiley_names($smiley_name)
+		
+		set osversion [string range "$tcl_platform(osVersion)" 0 0]
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" && $osversion != "6"} {	
+			set imagename [image create photo -file [GetSkinFile smileys $smiley_file] -format quicktime]
+		} else {
+			set imagename [image create photo -file [GetSkinFile smileys $smiley_file] -format gif]
+		}
+		
+		set loaded_smileys($smiley_name) $imagename
+		return $imagename
+	}
+	
 	
 	###############################
 	#Some special images!
@@ -64,17 +101,16 @@ namespace eval ::skin {
 	
 		#Delete old mainbar, and load colorbar
 		catch {image delete mainbar}
-		loadPixmap colorbar
 		
-		set barheight [image height colorbar]
-		set barwidth [image width colorbar]
+		set barheight [image height [loadPixmap colorbar]]
+		set barwidth [image width [loadPixmap colorbar]]
 	
 		#Create the color bar copying from the pixmap
 		image create photo mainbar -width $width -height $barheight
 		mainbar blank
-		mainbar copy colorbar -from 0 0 5 $barheight
-		mainbar copy colorbar -from 5 0 15 $barheight -to 5 0 [expr {$width - 150}] $barheight
-		mainbar copy colorbar -from [expr {$barwidth - 150}] 0 $barwidth $barheight -to [expr {$width - 150}] 0 $width $barheight
+		mainbar copy [loadPixmap colorbar] -from 0 0 5 $barheight
+		mainbar copy [loadPixmap colorbar] -from 5 0 15 $barheight -to 5 0 [expr {$width - 150}] $barheight
+		mainbar copy [loadPixmap colorbar] -from [expr {$barwidth - 150}] 0 $barwidth $barheight -to [expr {$width - 150}] 0 $width $barheight
 		
 		return mainbar
 	}
@@ -97,28 +133,121 @@ namespace eval ::skin {
 		return snd_$sound_name
 	}
 	
-	proc reloadSkin { {skin_name ""} } {
-		variable loaded_images
-		variable loaded_pixmaps
+	proc reloadSkin { skin_name } {
+
+		reloadSkinSettings $skin_name
 		
 		#Reload all pixmaps
+		variable loaded_pixmaps
 		variable pixmap_names
 		foreach name [array names loaded_pixmaps] {
-			image create photo $name -file [GetSkinFile pixmaps $pixmap_names($name) $skin_name] -format gif
+			image create photo $loaded_pixmaps($name) -file [GetSkinFile pixmaps $pixmap_names($name) $skin_name] -format gif
+		}
+		
+		#Reload smileys
+		variable loaded_smileys
+		variable smiley_names
+		foreach name [array names loaded_smileys] {
+			image create photo $loaded_smileys($name) -file [GetSkinFile smileys $smiley_names($name) $skin_name] -format gif
 		}
 		
 		#Now reload special images that need special treatment
-		if {[info exists loaded_images(no_pic)]} { unset loaded_images(no_pic) }
-		getNoDisplayPicture $skin_name
-		if {[info exists loaded_images(colorbar)]} { unset loaded_images(colorbar) }
-		getColorBar $skin_name
+		variable loaded_images
+		if {[info exists loaded_images(no_pic)]} {
+			unset loaded_images(no_pic)
+			getNoDisplayPicture $skin_name
+		}
+		if {[info exists loaded_images(colorbar)]} {
+			unset loaded_images(colorbar)
+			getColorBar $skin_name
+		}
 		
 		#Reload sounds
 		variable loaded_sounds
 		foreach name [array names loaded_sounds] {
 			snd_$name configure -file [GetSkinFile sounds $name]
 		}
+		
+		#Change frame color
+		#For All Platforms (except Mac)
+		if {[catch {tk windowingsystem} wsystem] || $wsystem != "aqua"} {
+			global bgcolor
+			catch {.main configure -background $bgcolor}
+		}
+		
 	}
+	
+	proc InitSkinDefaults { } {
+		global skinconfig
+		
+		set skinconfig(smilew) 22      ;# Smiley width
+		set skinconfig(smileh) 22      ;# Smiley height
+		
+		global emoticon_number emotions emotions_names emotions_data
+		set emoticon_number 0
+		set emotions_names [list]
+		if { [info exists emotions] } {unset emotions}
+		if { [info exists emotions_data] } {unset emotions_data}
+		
+	}
+	
+	#######################################################################
+	# Reload the given skin settings file
+	proc reloadSkinSettings { skin_name } {
+	
+		#Set defaults
+		InitSkinDefaults
+
+		
+		#Load smileys info from default skin first
+		set skin_id [sxml::init [GetSkinFile "" settings.xml default]]
+		sxml::register_routine $skin_id "skin:smileys:emoticon" ::smiley::newEmoticon
+		sxml::register_routine $skin_id "skin:smileys:size" ::skin::SetEmoticonSize
+		sxml::parse $skin_id
+		sxml::end $skin_id
+		
+		
+		#Then reload the real skin
+		set skin_id [sxml::init [GetSkinFile "" settings.xml $skin_name]]
+		
+		if { $skin_id == -1 } {
+			::amsn::errorMsg "[trans noskins]"
+			exit
+		}
+		
+		set ::loading_skin $skin_name
+		sxml::register_routine $skin_id "skin:Description" skin_description
+		sxml::register_routine $skin_id "skin:Colors" SetBackgroundColors
+		sxml::register_routine $skin_id "skin:smileys:emoticon" ::smiley::newEmoticon
+		sxml::register_routine $skin_id "skin:smileys:size" ::skin::SetEmoticonSize
+		sxml::parse $skin_id
+		sxml::end $skin_id
+		unset ::loading_skin
+				
+		#Unimplemented yet
+		#sxml::register_routine $skin_id "skin:WidgetOptions" ...
+		#...
+
+		#Destroy smiley selector so it's drawn again
+		if { [winfo exists .smile_selector]} {destroy .smile_selector}
+	
+	}
+	
+	#######################################################################
+	# Set the default emotion size for this skin
+	proc SetEmoticonSize {cstack cdata saved_data cattr saved_attr args} {
+		global skinconfig
+		upvar $saved_data sdata
+		
+		
+		if { [info exists sdata(${cstack}:smilew)] } { set skinconfig(smilew) [string trim $sdata(${cstack}:smilew)] }
+		if { [info exists sdata(${cstack}:smileh)] } { set skinconfig(smileh) [string trim $sdata(${cstack}:smileh)] }
+		
+		return 0
+	
+	
+	}
+	
 }
 
 proc GetSkinFile { type filename {skin_override ""} } {
@@ -348,7 +477,7 @@ proc selectskinok { w } {
 	config::setGlobalKey skin $skin
 	save_config
 	::config::saveGlobal
-	::skin::reloadSkin
+	#::skin::reloadSkin $skin
 	#msg_box [trans mustrestart]
 
 	destroy $w
@@ -356,7 +485,7 @@ proc selectskinok { w } {
 }
 
 proc selectskincancel { w } {
-	::skin::reloadSkin
+	::skin::reloadSkin [::config::getGlobalKey skin]
 	destroy $w
 }
 
@@ -376,9 +505,3 @@ proc SetBackgroundColors {cstack cdata saved_data cattr saved_attr args} {
 }
 
 
-proc init_skindefaults { } {
-    global skinconfig
-
-    set skinconfig(smilew) 22      ;# Smiley width
-    set skinconfig(smileh) 22      ;# Smiley height
-}
