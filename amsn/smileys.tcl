@@ -95,7 +95,7 @@ proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
 #
 # This is the same procedure as new_emoticon
 # the only difference is that it is used for custom emoticons..
-# we need to do it that way since after calling "load_smileys" it erases the 
+# we need to do it that way since after calling "load_smileys" it erases the
 # emotions list...
 
 proc new_custom_emoticon {cstack cdata saved_data cattr saved_attr args} {
@@ -358,22 +358,27 @@ proc edit_custom_emotion { emotion } {
 # it will be refreshed
 
 proc load_smileys { } {
-    global custom_emotions emoticon_number sortedemotions program_dir smileys_drawn emotions emotions_names 
+    global custom_emotions emoticon_number sortedemotions program_dir smileys_drawn emotions emotions_names
 
     set emoticon_number 0
 
     set emotions_names [list]
     if { [info exists emotions] } {unset emotions}
 
+    	set skin_id [sxml::init [GetSkinFile "" settings.xml]]
+
+	 if { $skin_id == -1 } {
+	 	::amsn::errorMsg "[trans noskins]"
+		exit
+	}
     set skin_id [sxml::init [GetSkinFile "" settings.xml]]
 
-    sxml::register_routine $skin_id "skin:smileys:emoticon" new_emoticon
-    sxml::register_routine $skin_id "skin:Description" skin_description
-    sxml::register_routine $skin_id "skin:Colors" SetBackgroundColors
-    sxml::parse $skin_id
-    sxml::end $skin_id
-
-    add_custom_emoticons
+	sxml::register_routine $skin_id "skin:smileys:emoticon" new_emoticon
+	sxml::register_routine $skin_id "skin:Description" skin_description
+	sxml::register_routine $skin_id "skin:Colors" SetBackgroundColors
+	sxml::parse $skin_id
+	sxml::end $skin_id
+	add_custom_emoticons
 
 
     if { ! [info exists smileys_drawn] } {
@@ -382,14 +387,14 @@ proc load_smileys { } {
 
     set sortedemotions [lsort -command compareSmileyLength $emotions_names]
     set emotion_files [list]
-    
+
     foreach x $emotions_names {
 	lappend emotion_files "$emotions(${x}_file)"
     }
 
-    
+
     foreach img_name $emotion_files {
-	image create photo $img_name -file [GetSkinFile smileys ${img_name}] 
+	image create photo $img_name -file [GetSkinFile smileys ${img_name}]
     }
 
     if { [winfo exists .smile_selector]} {destroy .smile_selector} 
