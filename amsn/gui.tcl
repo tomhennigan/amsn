@@ -246,7 +246,7 @@ namespace eval ::amsn {
 		}
 
 		if { [::http::status $token] != "ok" || [::http::ncode $token] != 200} {
-			errorDownloadingTLS "Couldn't get $url"
+			errorDownloadingTLS "Couldn't get $downloadurl"
 			return
 		}
 
