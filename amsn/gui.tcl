@@ -9,7 +9,7 @@ namespace eval ::amsn {
 
    proc initLook { family size bgcolor} {
 
-      puts "family: $family size: $size\n"
+      #puts "family: $family size: $size\n"
 
       font create menufont -family $family -size $size -weight normal
       font create sboldf -family $family -size $size -weight bold

@@ -1,18 +1,18 @@
 #!/usr/bin/wish
 ###############################################################
-### Alvaro's Messenger			        ###############
-###						###############
+### Alvaro's Messenger			 					   ###############
+###															###############
 ### http://aim.homelinux.com/msn.htm            ###############
 ### airadier@users.sourceforge.net              ###############
 ###############################################################
 ### grimaldo@panama.iaehv.nl (LordOfScripts)    ###############
 ### http://www.coralys.com/linux/               ###############
 ###############################################################
-### Original ccmsn				###############
-### http://msn.CompuCreations.com/		###############
+### Original ccmsn										###############
+### http://msn.CompuCreations.com/					###############
 ### Dave Mifsud <dave at CompuCreations dot com>###############
-###						###############
-### Version 0.3p3 20010926			###############
+###															###############
+### Version 0.3p3 20010926								###############
 ### Modified 20020430 by Alvaro Iradier Muro    ###############
 ###                   and D. Emilio Grimaldo T. ###############
 ###############################################################
@@ -545,7 +545,8 @@ proc setColor_helper {w options color} {
 
 proc choose_basefont { } {
    global config  
-   set font "[tk_chooseFont -title [trans choosefont] -initialfont $config(basefont)]" 
+   
+   set font "[tk_chooseFont -title [trans choosefont] -initialfont $config(basefont)]"
 
    if { [llength $font] < 2 } {
      return 0
@@ -554,7 +555,7 @@ proc choose_basefont { } {
    set family [lindex $font 0]
    set size [lindex $font 1]
    
-   set newfont "$family $size normal"
+   set newfont "\"$family\" $size normal"
    
    if { $newfont != $config(basefont)} {
       set config(basefont) $newfont
@@ -2176,7 +2177,8 @@ load_config						;# CONFIG
 scan_languages
 load_lang
 
-set family [lrange $config(basefont) 0 end-2]
+#set family [lrange $config(basefont) 0 end-2]
+set family [lindex $config(basefont) 0]
 set size [lindex $config(basefont) end-1]
 
 ::amsn::initLook $family $size $config(backgroundcolor)
