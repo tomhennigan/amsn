@@ -5748,7 +5748,7 @@ proc convert_image { filename size } {
 
 	#First converstion, no size, only .gif
 	if { [catch { exec convert "$filename" "${filename}.gif" } res] } {
-		msg_box "[trans installconvert]"
+		msg_box "[trans installconvert] --- $res"
 		status_log "converting returned error : $res\n"
 		return 0
 	}

@@ -183,7 +183,7 @@ proc new_custom_emoticon_from_gui { {name ""} } {
 	set file [convert_image_plus [GetSkinFile smileys "$new_custom_cfg(file)"] smileys 19x19]
 	if { $file == 0 } { return }
     }
-    set custom_emotions(${name}_file) "$file.gif"
+    set custom_emotions(${name}_file) "[filenoext $file].gif"
     set custom_emotions(${name}_name) "$name"
     set custom_emotions(${name}_text) "$new_custom_cfg(text)"
 
