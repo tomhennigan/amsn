@@ -2669,7 +2669,7 @@ proc cmsn_reconnect { name } {
           set chatid [::MSN::ChatFor $name]
           ::MSN::DelSBFor $chatid $name
           ::MSN::KillSB $name
-          ::MSN::chatTo $name
+          ::MSN::chatTo $chatid
       }
 
 
@@ -4539,7 +4539,9 @@ namespace eval ::MSNP2P {
 		if { $sha1d == "" } {
 			return ""
 		}
-		return [::md5::md5 $sha1d]
+		#return [::md5::md5 $sha1d]
+		binary scan $sha1d h* filename
+		return $filename
 	}
 
 	#//////////////////////////////////////////////////////////////////////////////
