@@ -402,7 +402,7 @@ namespace eval ::lang {
 	
 	#///////////////////////////////////////////////////////////////////////
 	proc language_manager_deleteall { } {
-	
+		
 		global lang_list
 		
 		set dir [::lang::get_language_dir]
@@ -412,7 +412,7 @@ namespace eval ::lang {
 		foreach lang $lang_list {
 			set langcode [lindex $lang 0]
 			# If the lang selected is the current lang, the file is protected, or it is English, don't delete the lang
-			if { $langcode != [::config::getGlobalKey language] && [file writable "$dir/$lang"] && $langcode != "en" } {
+			if { $langcode != [::config::getGlobalKey language] && [file writable "$dir/lang$langcode"] && $langcode != "en" } {
 				::lang::deletelanguage "$langcode" "$k"
 			}
 			incr k
