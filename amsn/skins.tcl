@@ -102,7 +102,7 @@ proc SelectSkinGui { } {
 	frame $w.main.left -relief flat
 	frame $w.main.right -relief flat
 	frame $w.main.left.images -relief flat
-	text $w.main.left.desc -height 5 -width 40 -relief flat -background $bgcolor2 -font sboldf
+	text $w.main.left.desc -height 5 -width 40 -relief flat -background $bgcolor2 -font sboldf -wrap word
 	listbox $w.main.right.box -yscrollcommand "$w.main.right.ys set" -font splainf -background \
 	white -relief flat -highlightthickness 0  -height 5 -width 30
 	scrollbar $w.main.right.ys -command "$w.main.right.box yview" -highlightthickness 0 \
