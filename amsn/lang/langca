@@ -127,6 +127,7 @@ corruptconfig El fitxer de configuració conté errors. Ara en crearé un de nou i 
 corruptstates El fitxer d'estats personalitzats conté errors. Ara en crearé un de nou i desaré l'antic a $1. Si vols ajudar-nos, envia'ns el fitxer erroni.
 countrycode Codi de país o regió
 cprofile Crear perfil
+credits Crèdits
 custom_edit Editar emoticona personalitzada
 custom_new Afegir emoticona personalitzada
 cut Talla
