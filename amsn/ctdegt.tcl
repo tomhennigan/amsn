@@ -827,12 +827,13 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.1.llibtls -text "TLS" -padx 5 -font sboldf
 	entry $lfname.1.libtls -bg #FFFFFF -bd 1 -width 45 -highlightthickness 0 -textvariable libtls_temp
 	label $lfname.1.llibtlsexp -text [trans tlsexplain] -justify left -font examplef
-	button $lfname.1.browsetls -text [trans browse] -command "set libtls_temp \[tk_chooseDirectory\]"
+	button $lfname.1.browsetls -text [trans browse] -command "Browse_Dialog libtls_temp tk_chooseDirectory"
 
 	label $lfname.1.lconvertpath -text "CONVERT" -padx 5 -font sboldf
 	entry $lfname.1.convertpath -bg #FFFFFF -bd 1 -width 45 -highlightthickness 0 -textvariable config(convertpath)
 	label $lfname.1.lconvertpathexp -text [trans convertexplain] -justify left -font examplef
-	button $lfname.1.browseconv -text [trans browse] -command "set config(convertpath) \[tk_getOpenFile\]"
+	button $lfname.1.browseconv -text [trans browse] -command "Browse_Dialog config(convertpath) tk_getOpenFile"
+
 
 
 	grid $lfname.1.llibtls -row 1 -column 1 -sticky w
@@ -1787,8 +1788,21 @@ proc getdisppic_clicked {} {
 	}
 }
 
+#proc Browse_Dialog {}
+#Browse dialog function (used in TLS directory and convert file), first show the dialog (choose folder or choose file), after check if user choosed something, if yes, set the new variable
+proc Browse_Dialog {configitem dialogitem} {
+global config libtls_temp
+set browsechoose [$dialogitem]
+if { $browsechoose !="" } {
+set $configitem $browsechoose
+}
+}
+
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.112  2004/01/21 03:53:39  germinator2000
+# Correct the bug about convert and TLS browse button. When someone did'nt choose something in the dialog (clicked on cancel), the new path was blank (instead of keeping the original path). Now it's fixed with brand new   proc Browse_Dialog
+#
 # Revision 1.111  2004/01/18 20:25:48  yozko
 # 'Others' tab GUI cleanup. Before was so ugly :D
 #
