@@ -341,7 +341,7 @@ namespace eval ::MSNFT {
 
               set num 1
               while { [file exists $filename] } {
-                 set filename "[file join [file dirname $origfile] $num.[file tail $origfile]]"
+                 set filename "[filenoext $origfile] $num[fileext $origfile]"
                  incr num
               }
 
@@ -4766,7 +4766,19 @@ proc getfilename { filename } {
 }
 
 proc filenoext { filename } {
-	return "[string replace $filename [string last . $filename] end]"
+	if {[string last . $filename] != -1 } {
+		return "[string range $filename 0 [expr [string last . $filename] - 1]]"
+	} else {
+		return $filename
+	}
+}
+
+proc fileext { filename } {
+	if {[string last . $filename] != -1 } {
+		return "[string range $filename [string last . $filename] end]"
+	} else {
+		return ""
+	}
 }
 #############################################################
 # xclientcaps_received msg chatid                           #
@@ -4862,7 +4874,7 @@ proc system_message {msg} {
 }
 
 namespace eval ::MSNP2P {
-	namespace export loadUserPic SessionList ReadData MakePacket MakeACK MakeSLP AcceptFT RejectFT
+	namespace export loadUserPic SessionList ReadData MakePacket MakeACK MakeSLP
 
 	#Get picture from $user, if cached, or sets image as "loading", and request it
 	#using MSNP2P
@@ -5135,7 +5147,7 @@ namespace eval ::MSNP2P {
 	        set cTotalDataSize [int2word $cTotalDataSize1 $cTotalDataSize2]
    	        set cAckSize [int2word $cAckSize1 $cAckSize2]
 
-		#status_log "Read header : $cSid $cId $cOffset $cTotalDataSize $cMsgSize $cFlags $cAckId $cAckUID $cAckSize\n" red
+		status_log "Read header : $cSid $cId $cOffset $cTotalDataSize $cMsgSize $cFlags $cAckId $cAckUID $cAckSize\n" red
 		#status_log "Sid : $cSid -> " red
 
 		if {$cSid == "0" && $cMsgSize != $cTotalDataSize } {
@@ -5145,7 +5157,7 @@ namespace eval ::MSNP2P {
 			} else {
 				set chunkedData($cId) "$chunkedData($cId)[string range $data $headend end-4]"
 			}
-			status_log "Data is now : $chunkedData($cId)\n\n";
+			#status_log "Data is now : $chunkedData($cId)\n\n";
 
 			if { $cTotalDataSize != [string length $chunkedData($cId)] } {
 				return 
@@ -5357,30 +5369,31 @@ namespace eval ::MSNP2P {
 				#status_log "MSNP2P | $sid -> Got 200 OK for File transfer, parsing result\n"
 				#status_log "MSNP2P | $sid -> Found uid = $uid , lestening = $listening\n"
 
-				SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
-
-				if { $listening == "true" } {
-					set idx [expr [string first "Nonce: " $data] + 7]
-					set idx2 [expr [string first "\r\n" $data $idx] -1]
-					set nonce [string range $data $idx $idx2]
-
-					set idx [expr [string first "IPv4External-Addrs: " $data] + 20]
-					set idx2 [expr [string first "\r\n" $data $idx] -1]
-					set addr [string range $data $idx $idx2]
-
-					set idx [expr [string first "IPv4External-Port: " $data] + 19]
-					set idx2 [expr [string first "\r\n" $data $idx] -1]
-					set port [string range $data $idx $idx2]
-					status_log "MSNP2P | $sid -> Receiver is listening with $addr : $port\n" red
-					#after 5500 "::MSNP2P::SendData $sid $chatid [lindex [SessionList get $sid] 8]"
-					connectMsnFTP $sid $nonce $addr $port
-				} elseif { $listening == "false" } {
-					status_log "MSNP2P | $sid -> Receiver is not listening, sending INVITE\n" red
-					SendFTInvite2 $sid $chatid
-				} else {
-					status_log "Error sending file $filename, got answer to invite :\n$data\n\n" red
+				if { $sid != -1 }  {
+					SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
+					
+					if { $listening == "true" } {
+						set idx [expr [string first "Nonce: " $data] + 7]
+						set idx2 [expr [string first "\r\n" $data $idx] -1]
+						set nonce [string range $data $idx $idx2]
+						
+						set idx [expr [string first "IPv4External-Addrs: " $data] + 20]
+						set idx2 [expr [string first "\r\n" $data $idx] -1]
+						set addr [string range $data $idx $idx2]
+						
+						set idx [expr [string first "IPv4External-Port: " $data] + 19]
+						set idx2 [expr [string first "\r\n" $data $idx] -1]
+						set port [string range $data $idx $idx2]
+						status_log "MSNP2P | $sid -> Receiver is listening with $addr : $port\n" red
+						#after 5500 "::MSNP2P::SendData $sid $chatid [lindex [SessionList get $sid] 8]"
+						connectMsnFTP $sid $nonce $addr $port
+					} elseif { $listening == "false" } {
+						status_log "MSNP2P | $sid -> Receiver is not listening, sending INVITE\n" red
+						SendFTInvite2 $sid $chatid
+					} else {
+						status_log "Error sending file $filename, got answer to invite :\n$data\n\n" red
+					}
 				}
-				
 			}
 			
 			
@@ -5748,8 +5761,10 @@ namespace eval ::MSNP2P {
 		} else {
 			if { $contenttype == 0 } {
 				append data "Content-Type: application/x-msnmsgr-sessionreqbody\r\n"
-			} else {
+			} elseif { $contenttype == 1 } {
 				append data "Content-Type: application/x-msnmsgr-transreqbody\r\n"
+			} elseif { $contenttype == 2 } {
+				append data "Content-Type: application/x-msnmsgr-transrespbody\r\n"
 			}
 		}
 		append data "Content-Length: [expr [string length $body]]\r\n\r\n"
@@ -5805,10 +5820,24 @@ namespace eval ::MSNP2P {
 	# SendPacket ( sbn msg )
 	# This function sends the packet given by (msg) into the given (sbn)
 	proc SendPacket { sbn msg } {
+	#	if { [string length $msg] > 1202 } 
 		set msg_len [string length $msg]
 		::MSN::WriteSBNoNL $sbn "MSG" "D $msg_len\r\n$msg"
 	}
 
+	proc SendPacketExt { sbn sid slpdata nullsid } {
+		set offset 0
+		SessionList set $sid [list -1 [string length $slpdata] -1 -1 -1 -1 -1 -1 -1]
+		while { [string length $slpdata] > 1202 } {
+			SessionList set $sid [list -1 -1 $offset -1 -1 -1 -1 -1 -1]
+			set msg [MakePacket $sid [string range $slpdata 0 1201] $nullsid]
+			set msg_len [string length $msg]
+			::MSN::WriteSBNoNL $sbn "MSG" "D $msg_len\r\n$msg"
+			set slpdata [string range $slpdata 1202 end]
+			set offset [expr $offset + 1202]
+		}
+		
+	}
 
 }
 
@@ -5836,9 +5865,13 @@ proc int2word { int1 int2 } {
 	#return [expr $int2 * 4294967296 + $int1]
 }
 
-
+proc handleMsnFT { fd nonce sending sock ip port } {
+	::MSN6FT::handleMsnFT $fd $nonce $sending $sock $ip $port
+	
+}
 
 namespace eval ::MSN6FT {
+	namespace export SendFT AcceptFT RejectFT handleMsnFT
 	proc SendFT { chatid filename filesize} {
 		
 		set sid [expr int([expr rand() * 1000000000])%125000000 + 4]
@@ -5849,26 +5882,42 @@ namespace eval ::MSN6FT {
 		set dest [lindex [::MSN::usersInChat $chatid] 0]
 		
 		::MSNP2P::SessionList set $sid [list 0 0 0 $dest 0 $callid 0 "filetransfer" "$filename" "$branchid"]
-		set previewdata "\x1c\x02\x00\x00\x00\x00\x00\x00[binary format i $filesize]\x00\x00\x00\x00\x00\x00\x00\x00"
+
+		set ext [string tolower [string range [fileext $filename] 1 end]]
+		if { $ext == "jpg" || $ext == "gif" || $ext == "png" || $ext == "bmp" || $ext == "jpeg" || $ext == "tga" } {
+			set nopreview 0
+		} else {
+			set nopreview 1
+		}
+		set context "[binary format i 574][binary format i 2][binary format i $filesize][binary format i 0][binary format i $nopreview]"
 		
-		set idx 0
+		
 		set file [getfilename $filename]
-		for { set i 19 } { $i < 539 } { incr i } {
-			if { [expr $i % 2] == 1 && $idx < [string length "$file"]} {
-				set previewdata "${previewdata}[string range $file $idx $idx]"
-				incr idx
-			} else {
-				set previewdata "${previewdata}\x00"
+		set context "$context[encoding convertto unicode $file]"
+
+		set context "$context[string repeat "\x00" [expr 574 - [string length $context]]]\xFF\xFF\xFF\xFF"
+
+		if { $nopreview == 0 } {
+
+			create_dir [file join [set ::HOME] FT cache]
+
+			set file [convert_file "$filename" "[file join [set ::HOME] FT cache ${callid}.png]" "96x96"]
+
+			if { [catch { open $file} fd] == 0 } { 
+				
+				fconfigure $fd -translation binary
+				set context "$context[read $fd]"
+				close $fd
 			}
 		}
 		
 		
 		# Create and send our packet
 		set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 0 $callid 0 0 "5D3E02AB-6190-11D3-BBBB-00C04F795683" $sid 2 \
-				 [string map { "\n" "" } [::base64::encode "$previewdata"]]]
-		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
+				 [string map { "\n" "" } [::base64::encode "$context"]]]
+		::MSNP2P::SendPacketExt [::MSN::SBFor $chatid] $sid $slpdata 1
 		status_log "Sent an INVITE to [::MSN::usersInChat $chatid]  on chatid $chatid for filetransfer of filename $filename\n" red
-	
+		
 	}
 	
 	
@@ -5913,9 +5962,12 @@ namespace eval ::MSN6FT {
 
 		set listening [abook::getDemographicField listening]
 
+		set fd [open [lindex $session 8] "r"]
+		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 -1 -1 $fd -1 -1 -1]
+
 		if {$listening == "true" } {
 			set nonce "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
-			set port [OpenMsnFTPort [config::getKey initialftport]]
+			set port [OpenMsnFTPort [config::getKey initialftport] [lindex $session 6] $nonce 1]
 			set clientip [::abook::getDemographicField clientip]
 			set localip [::abook::getDemographicField localip]
 		} else {
@@ -5926,29 +5978,96 @@ namespace eval ::MSN6FT {
 		}
 
 
-		set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 1 $callid 0 2 "TCPv1" "true" "$nonce" "$clientip"\
+		set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 1 $callid 0 2 "TCPv1" "$listening" "$nonce" "$clientip"\
 				 "$port" "$localip" "$port"]
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 		
 #		after 5000 "::MSNP2P::SendData $sid $chatid [lindex [::MSNP2P::SessionList get $sid] 8]"
 	}
 
-	proc OpenMsnFTPort { port } {
-		while { [catch {set sock [socket -server "handleMsnFT" $port] } ] } {
+	proc OpenMsnFTPort { port fd nonce sending} {
+		while { [catch {set sock [socket -server "::MSN6FT::handleMsnFT $fd $nonce $sending" $port] } ] } {
 			incr port
 		}
+		status_log "Opening server on port $port\n" red
 		return $port
 	}
        
-	proc handleMsnFT { sock ip port } {
-		status_log "Received connection from $ip on port $port - socket $sock"
+	proc handleMsnFT { fd nonce sending sock ip port } {
+		variable sockState
+		variable sockNonce 
+
+		set sockNonce($sock) $nonce
+
+		if { $sending == 1 } {
+			set sockState($sock) 0
+		} else {
+			set sockState($sock) 10
+		}
+
+		status_log "Received connection from $ip on port $port - socket $sock\n"
+		fconfigure $sock -blocking 0 -buffering none -translation {binary binary} 
+
+		fileevent $sock readable "::MSN6FT::ReadFromSock $sock $fd"
+		fileevent $sock writable "::MSN6FT::WriteToSock $sock $fd"		
+	}
+
+	proc ReadFromSock { sock  fd } { 
+
+		variable sockState
+
+		gets $sock tempdata
+		status_log "Received Data on socket $sock : $tempdata\n" red
+
+		if {[eof $sock] } {
+			status_log "FT Socket $sock closed\n"
+			close $sock
+			return
+		}
+		if { $tempdata == "" } {
+			update idletasks
+			return
+		}
+
+		switch $sockState($sock) {
+			0 {
+				
+			}
+		}
 		
 	}
+	proc WriteToSock { sock  fd } { 
+
+		variable sockState
+
+		status_log "Writing Data on socket $sock : $tempdata\n" red
+
+	
+
+		switch $sockState($sock) {
+			0 {
+				
+			}
+		}
+		
+	}
+
+
 	proc connectMsnFTP { sid nonce ip port {receive 0}} {
 		if { [catch {set sock [ socket $ip $port] } ] } {
 			status_log "ERROR CONNECTING TO THE SERVER\n\n" red 
 		} else {
+			variable sockState
+			variable sockNonce 
+			set sockState($sock) 20
+			set sockNonce($sock) $nonce
+
+			set fd [lindex [::MSNP2P::SessionList get $sid] 6]
+
 			status_log "connected - $sock\n"
+			fconfigure $sock -blocking 0 -buffering none -translation {binary binary} 
+			fileevent $sock readable "::MSN6FT::ReadFromSock $sock $fd"
+			fileevent $sock writable "::MSN6FT::WriteToSock $sock $fd"
 		}
 	}
 
@@ -5965,6 +6084,7 @@ namespace eval ::MSN6FT {
 			set dir [file join [set ::HOME] FT cache]
 			create_dir $dir
 			set fd [open "[file join $dir ${sid}.png ]" "w"]
+			fconfigure $fd -translation binary
 			puts $fd "$previewdata"
 			close $fd
 			set file [png_to_gif [file join $dir ${sid}.png]]
@@ -5986,7 +6106,28 @@ namespace eval ::MSN6FT {
 		set dest [lindex $session 3]
 		set callid [lindex $session 5]
 
-		set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [config::getKey login] $branchid 1 $callid 0 1 "TCPv1" "false" "00000000-0000-0000-0000-000000000000"]
+		set conntype [abook::getDemographicField conntype]
+
+		set listening [abook::getDemographicField listening]
+
+		if {$listening == "true" } {
+			set nonce "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+			set port [OpenMsnFTPort [config::getKey initialftport] [lindex [::MSNP2P::SessionList get $sid] 6] $nonce 0]
+			set clientip [::abook::getDemographicField clientip]
+			set localip [::abook::getDemographicField localip]
+		} else {
+			set nonce "00000000-0000-0000-0000-000000000000"
+			set port ""
+			set clientip ""
+			set localip ""
+		}
+
+		if { $listening == "false" } {
+			set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [config::getKey login] $branchid 1 $callid 0 1 "TCPv1" "false" "00000000-0000-0000-0000-000000000000"]
+		} else {
+			set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [::config::getKey login] $branchid 1 $callid 0 1 "TCPv1" "$listening" "$nonce" "$clientip"\
+				 "$port" "$localip" "$port"]
+		}
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 
 	}
@@ -6005,10 +6146,12 @@ namespace eval ::MSN6FT {
 		
 		set num 1
 		while { [file exists $filename] } {
-	                set filename "[file join [file dirname $origfile] $num.[file tail $origfile]]"
+	                set filename "[filenoext $origfile] $num[fileext $origfile]"
 			#set filename "$origfile.$num"
 			incr num
 		}
+
+		status_log "Saving to file $filename\n" green
 
 		# If we can't create the file notify the user and reject the FT request
 		if {[catch {open $filename w} fileid]} {
@@ -6020,7 +6163,7 @@ namespace eval ::MSN6FT {
 		}
 
 		fconfigure $fileid -translation binary
-		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 -1 -1 $fileid -1 -1 -1]
+		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 -1 -1 $fileid -1 $filename -1]
 
 		# Let's make and send a 200 OK Message
 		set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr $cseq + 1] $uid 0 0 $sid]

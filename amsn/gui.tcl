@@ -907,7 +907,7 @@ namespace eval ::amsn {
 		if { $cookie != -1 } {
 			::MSNFT::acceptFT $chatid $cookie
 		} else {
-			::MSNP2P::AcceptFT $chatid [lindex $varlist 0] [lindex $varlist 1] [lindex $varlist 2] [lindex $varlist 3] [lindex $varlist 4] [lindex $varlist 5]
+			::MSN6FT::AcceptFT $chatid [lindex $varlist 0] [lindex $varlist 1] [lindex $varlist 2] [lindex $varlist 3] [lindex $varlist 4] [lindex $varlist 5]
 			set cookie [lindex $varlist 4]
 		}
 
@@ -948,7 +948,7 @@ namespace eval ::amsn {
 		if { $cookie != -1 && $cookie != -2 } {
 			::MSNFT::rejectFT $chatid $cookie
 		} elseif { $cookie == - 1 } {
-			::MSNP2P::RejectFT $chatid [lindex $varlist 0] [lindex $varlist 1] [lindex $varlist 2]
+			::MSN6FT::RejectFT $chatid [lindex $varlist 0] [lindex $varlist 1] [lindex $varlist 2]
 			set cookie [lindex $varlist 0]
 		} elseif { $cookie == -2 } {
 			set cookie [lindex $varlist 0]
@@ -997,7 +997,7 @@ namespace eval ::amsn {
 		if { [::MSNP2P::SessionList get $cookie] == 0 } {
 			set cancelcmd "::MSNFT::cancelFT $cookie"
 		} else {
-			set cancelcmd "::MSNP2P::CancelFT $chatid $cookie"
+			set cancelcmd "::MSN6FT::CancelFT $chatid $cookie"
 		}
 
 		set w .ft$cookie
@@ -7387,7 +7387,37 @@ proc png_to_gif { pngfile } {
 	return ${file_noext}.gif
 
 }
+proc convert_file { in out {size ""} } {
 
+	global tcl_platform
+	
+	if { ![file exists $in] } {
+		status_log "Tring to convert file $in that does not exist\n" error
+		return ""
+	}
+
+	status_log "convert_file: converting $in to $out with size $size\n"
+
+	#IMPORTANT: If convertpath is blank, set it to "convert"
+	if { [::config::getKey convertpath] == "" } {
+		::config::setKey convertpath "convert"
+	}
+
+	if {$size == "" } {
+		if { [catch { exec [::config::getKey convertpath] "${in}" "${out}" } res] } {
+			status_log "convert_file : CONVERT ERROR IN CONVERSION: $res" white
+			return ""
+		}
+	} else {
+		if { [catch {exec [::config::getKey convertpath] -size $size -resize $size "${in}" "${out}" } res] } {
+			status_log "convert_file CONVERT ERROR IN CONVERSION : $res" white
+			return ""
+		}
+	}
+
+	return $out
+
+}
 
 proc convert_image_plus { filename type size } {
 
