@@ -3266,26 +3266,24 @@ proc cmsn_change_state {recv} {
 		set user [lindex $recv 1]
 		set user_name ""
 		set substate "FLN"
-		set msnobj ""
+		set msnobj [::abook::getVolatileData $user msnobj ""]
 	} elseif {[lindex $recv 0] == "ILN"} {
 		#Initial status
 		set user [lindex $recv 3]
 		set encoded_user_name [lindex $recv 4]
 		set user_name [urldecode [lindex $recv 4]]
 		set substate [lindex $recv 2]
-		set msnobj [lindex $recv 6]
+		set msnobj [urldecode [lindex $recv 6]]
 	} else {
 		#Coming online or changing state
 		set user [lindex $recv 2]
 		set encoded_user_name [lindex $recv 3]
 		set user_name [urldecode [lindex $recv 3]]
 		set substate [lindex $recv 1]
-		set msnobj [lindex $recv 5]
+		set msnobj [urldecode [lindex $recv 5]]
 	}
 	
-	if { $msnobj != "" } {
-		set msnobj [urldecode $msnobj]	
-	} else {
+	if { $msnobj == "" } {
 		set msnobj -1
 	}
 
