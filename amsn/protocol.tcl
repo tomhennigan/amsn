@@ -1790,7 +1790,7 @@ proc cmsn_open_sb {sbn recv} {
           ::MSN::ClearQueue [::MSN::ChatFor $sbn]
           ::MSN::CleanChat [::MSN::ChatFor $sbn]
           ::amsn::chatStatus [::MSN::ChatFor $sbn] "[trans needonline]\n" miniwarning
-          msg_box "[trans needonline]"
+          #msg_box "[trans needonline]"
           return 1
    }
 
