@@ -254,6 +254,8 @@ keepalive Keepalive (NAT)
 keeplog Keep Logs of Chats
 keeplog2 Log all conversations to aMSN's History for future viewing
 language Language
+lastlogin Last Log In
+lastlogout Last Log Out
 lastmsgtime Last message received at $1
 lclosedwin $1 has closed the window on $2
 lconftopriv Conference turned into Private chat with $1
