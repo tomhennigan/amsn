@@ -1494,7 +1494,17 @@ proc SavePreferences {} {
 	::MSN::changeName $config(login) $new_name
     }
 
-    # Restore old configuration as if nothing happened
+	 #Check if convertpath was left blank, set it to "convert"
+	 if { $config(convertpath) == "" } {
+	 	set config(convertpath) "convert"
+	 }
+
+    # Get remote controlling preferences
+    set lfname [Rnotebook:frame $nb $Preftabs(connection)]
+	 set myconfig(remotepassword) "[$lfname.lfname3.f.f.2.pass get]"
+    set config(remotepassword) $myconfig(remotepassword)
+
+	 #Copy to myconfig array, because when the window is closed, these will be restored (RestorePreferences)
     set config_entries [array get config]
     set items [llength $config_entries]
     for {set idx 0} {$idx < $items} {incr idx 1} {
@@ -1504,16 +1514,13 @@ proc SavePreferences {} {
 #	puts "myCONFIG $var_attribute $var_value"
     }
 
-    # Get remote controlling preferences
-    set lfname [Rnotebook:frame $nb $Preftabs(connection)]
-    set myconfig(remotepassword) "[$lfname.lfname3.f.f.2.pass get]"
-    set config(remotepassword) "$myconfig(remotepassword)"
 
 
     # Save configuration of the BLP ( Allow all other users to see me online )
     if { $list_BLP != $temp_BLP } {
 	AllowAllUsers $temp_BLP
     }
+
 
     # Save tls package configuration
     if { $libtls_temp != $libtls } {
@@ -1558,25 +1565,25 @@ proc SavePreferences {} {
 }
 
 proc RestorePreferences {} {
-    global config myconfig proxy_server proxy_port user_info user_stat
+	global config myconfig proxy_server proxy_port user_info user_stat
 
-    set nb .cfg.notebook.nn
+	set nb .cfg.notebook.nn
 
 
-    # Restore old configuration as if nothing happened
-    set config_entries [array get myconfig]
-    set items [llength $config_entries]
-    for {set idx 0} {$idx < $items} {incr idx 1} {
-        set var_attribute [lindex $config_entries $idx]; incr idx 1
+	# Restore old configuration as if nothing happened
+	set config_entries [array get myconfig]
+	set items [llength $config_entries]
+	for {set idx 0} {$idx < $items} {incr idx 1} {
+		set var_attribute [lindex $config_entries $idx]; incr idx 1
 	set var_value [lindex $config_entries $idx]
 	set config($var_attribute) $var_value
 #	puts "myCONFIG $var_attribute $var_value"
-    }
+	}
 
 #    ::MSN::WriteSB ns "SYN" "0"
 
-    # Save configuration.
-    #save_config
+	# Save configuration.
+	#save_config
 
 }
 
@@ -1783,6 +1790,9 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.109  2004/01/18 16:12:36  airadier
+# If convertpath set to "", set it to "convert"
+#
 # Revision 1.108  2004/01/18 13:52:50  airadier
 # Make browse buttons for tls and convert work.
 #
