@@ -201,7 +201,7 @@ proc create_dir {path} {
 proc cmsn_draw_about {} {
    global program_dir
    toplevel .about
-   wm title .about "Acerca de [trans title]"
+   wm title .about "[trans about] [trans title]"
    wm transient .about .
 
    set developers "\nDidimo Grimaldo\nAlvaro I. Munro\nDave Mifsud"
