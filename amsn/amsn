@@ -190,7 +190,7 @@ proc reload_files { } {
 	source autoupdate.tcl   ;# AUTOUPDATE!!!!!!!!!! :@
 	source notes.tcl
 
-
+	source guicontactlist.tcl ;# New contact list (uses canvas)
 }
 
 

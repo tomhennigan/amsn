@@ -4334,6 +4334,7 @@ proc cmsn_draw_online { {delay 0} } {
 
 proc cmsn_draw_online_wrapped {} {
 
+	#::guiContactList::createCLWindow
 	global login \
 		password pgBuddy pgBuddyTop automessage emailBList tcl_platform
 
@@ -4602,7 +4603,6 @@ proc cmsn_draw_online_wrapped {} {
 		set gname [lindex $glist $gidx]
 		set gtag  "tg$gname"
 		
-
 		if { [::groups::IsExpanded $gname] } {
 			toggleGroup $pgBuddy.text contract$gname contract $gname [::skin::getKey contract_xpad] [::skin::getKey contract_ypad]
 		} else {

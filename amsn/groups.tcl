@@ -636,14 +636,14 @@ namespace eval ::groups {
 		set g_entries [array get groups]
 		set items [llength $g_entries]
 		for {set idx 0} {$idx < $items} {incr idx 1} {
-		set var_pk [lindex $g_entries $idx]
-		incr idx 1
-		set var_value [lindex $g_entries $idx]
-		if {$opt != "-names"} {
-			lappend g_list $var_pk	;# Return the key only
-		} else {
-			lappend g_list $var_value;# Return the value only
-		}
+			set var_pk [lindex $g_entries $idx]
+			incr idx 1
+			set var_value [lindex $g_entries $idx]
+			if {$opt != "-names"} {
+				lappend g_list $var_pk	;# Return the key only
+			} else {
+				lappend g_list $var_value;# Return the value only
+			}
 		}
 		set g_list [lsort -increasing $g_list]
 		return $g_list

@@ -47,6 +47,26 @@
 	</lang>
 
 	<file>
+		<path>pixmaps/nudge.gif</path>
+		<version>1.1</version>
+	</file>
+
+	<file>
+		<path>pixmaps/nudgeoff.gif</path>
+		<version>1.1</version>
+	</file>
+
+	<file>
+		<path>pixmaps/default/nudge.gif</path>
+		<version>1.1</version>
+	</file>
+
+	<file>
+		<path>pixmaps/default/nudgeoff.gif</path>
+		<version>1.1</version>
+	</file>
+
+	<file>
 		<path>nudge.wav</path>
 		<version>1.2</version>
 	</file>
