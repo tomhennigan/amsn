@@ -2832,15 +2832,26 @@ proc cmsn_change_state {recv} {
       set user [lindex $recv 1]
       set user_name ""
       set substate "FLN"
+      set msnobj -1
    } else {
       if {[lindex $recv 0] == "ILN"} {
          set user [lindex $recv 3]
          set user_name [urldecode [lindex $recv 4]]
          set substate [lindex $recv 2]
+	 if { [lindex $recv 6] != "" } {
+	 	set msnobj [urldecode [lindex $recv 6]]
+	 } else {
+	 	set msnobj -1
+	}
       } else {
          set user [lindex $recv 2]
          set user_name [urldecode [lindex $recv 3]]
          set substate [lindex $recv 1]
+	 if { [lindex $recv 5] != "" } {
+	 	set msnobj [urldecode [lindex $recv 5]]
+	 } else {
+	 	set msnobj -1
+	}
       }
    }
 
@@ -2888,18 +2899,18 @@ proc cmsn_change_state {recv} {
    set idx [lsearch $list_users "$user *"]
    if {$idx != -1} {
 
-      set user_data [lindex $list_users $idx]
-      if {$user_name == ""} {
-         set user_name [urldecode [lindex $user_data 1]]
-      }
+	set user_data [lindex $list_users $idx]
+	if {$user_name == ""} {
+		set user_name [urldecode [lindex $user_data 1]]
+	}
 
-       set state_no [lsearch $list_states "$substate *"]
+	set state_no [lsearch $list_states "$substate *"]
 
-      if {$user_name != [lindex $user_data 1]} {
-      	#Nick differs from the one on our list, so change it
-	#in the server list too
-	::MSN::changeName $user $user_name
-    }
+	if {$user_name != [lindex $user_data 1]} {
+		#Nick differs from the one on our list, so change it
+		#in the server list too
+		::MSN::changeName $user $user_name
+	}
 
 	set maxw [expr {$config(notifwidth)-20}]
 	set short_name [trunc $user_name . $maxw splainf]
@@ -2915,42 +2926,40 @@ proc cmsn_change_state {recv} {
 
 	} elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
 
-	  user_not_blocked "$user"
+		user_not_blocked "$user"
 
-	 if { $config(notifyonline) == 1 } {
-        ::amsn::notifyAdd "$short_name\n[trans logsin]." "::amsn::chatUser $user" online
-	 }
+		if { $config(notifyonline) == 1 } {
+			::amsn::notifyAdd "$short_name\n[trans logsin]." "::amsn::chatUser $user" online
+		}
 
-	 if { ([info exists alarms([lindex $recv 2]_onconnect)]) && ($alarms([lindex $recv 2]_onconnect) == 1) && ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1)} {
-             #catch { run_alarm [lindex $recv 2] [lindex $recv 3]}        ;# Run Alarm using EMAIL ADDRESS (Burger)
-	     catch { run_alarm [lindex $recv 2] "$user_name [trans logsin]"}
-	 }
-      }
+		if { ([info exists alarms([lindex $recv 2]_onconnect)]) && ($alarms([lindex $recv 2]_onconnect) == 1) && ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1)} {
+			#catch { run_alarm [lindex $recv 2] [lindex $recv 3]}        ;# Run Alarm using EMAIL ADDRESS (Burger)
+			catch { run_alarm [lindex $recv 2] "$user_name [trans logsin]"}
+		}
+	}
 
-      if {$substate != "FLN"} {
+	if {$substate != "FLN"} {
+		#status_log "Inserting <$user_name> in menu\n" white
+		#.main_menu.msg insert 0 command -label "$user_name <$user>" \
+		#-command "::amsn::chatUser $user"
+	} else {
 
-#      	 status_log "Inserting <$user_name> in menu\n" white
-#         .main_menu.msg insert 0 command -label "$user_name <$user>" \
-#            -command "::amsn::chatUser $user"
-      } else {
+		if { $config(notifyoffline) == 1 } {
+			::amsn::notifyAdd "$short_name\n[trans logsout]." "" offline offline
+		}
+		if { $config(checkonfln) == 1 } {
+			::MSN::chatTo "$user"
+		}
+	}
 
-	  if { $config(notifyoffline) == 1 } {
-	      ::amsn::notifyAdd "$short_name\n[trans logsout]." "" offline offline
-	  }
-	  if { $config(checkonfln) == 1 } {
-	      ::MSN::chatTo "$user"
-	  }
-      }
+	#TODO: Change this with ::MSN::setUserInfo
+	set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj]]
+	set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
 
-       #TODO: Change this with ::MSN::setUserInfo
-      set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no]]
-      set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
-
-      cmsn_draw_online 1
+	cmsn_draw_online 1
    } else {
-      status_log "cmsn_change_state: PANIC!\n" red
+	status_log "cmsn_change_state: PANIC!\n" red
    }
-
 }
 
 proc cmsn_ns_handler {item} {
@@ -4740,13 +4749,18 @@ namespace eval ::MSNP2P {
 		SessionList set $sid [list 0 0 0 $dest 0 $callid 0]
 		
 		# Create and send our packet
-		set slpdata [MakeMSNSLP "INVITE" $dest $config(login) $branchid 0 $callid 0 0 "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" $sid 1 [string map { "\n" "" } [::base64::encode [urldecode "${msnobject}%00"]]]]
-		SendPacket $chatid [MakePacket $sid $slpdata 1]
+		set slpdata [MakeMSNSLP "INVITE" $dest $config(login) $branchid 0 $callid 0 0 "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" $sid 1 [string map { "\n" "" } [::base64::encode "${msnobject}%00"]]]
+		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
 		status_log "Sent an INVITE to $dest on chatid $chatid of object $msnobject\n"
 	}
 				
 
-		
+	#//////////////////////////////////////////////////////////////////////////////
+	# GetDisplayPic	(user msnobj)
+	# This is where we check if we already have a display pic, and do what is appropriate
+	# Has to be called : - When new window is opened with a new user or users (call for all users)
+	#		     - When user changes state AND we have a window open with him
+	#		     - When someone is invited into your conversation
 
 					
 	#//////////////////////////////////////////////////////////////////////////////

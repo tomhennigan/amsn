@@ -2259,8 +2259,7 @@ namespace eval ::amsn {
 	  set win_name [OpenChatWindow]
          SetWindowFor $lowuser $win_name
 	 set first_message($win_name) 0
-
-      }
+	 }
 
       set chatid [::MSN::chatTo $lowuser]
 
