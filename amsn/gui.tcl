@@ -3697,6 +3697,10 @@ proc cmsn_draw_main {} {
 		wm iconbitmap . @[GetSkinFile pixmaps amsn.xbm]
 		wm iconmask . @[GetSkinFile pixmaps amsnmask.xbm]
 	}
+
+	#allow for display updates so window size is correct
+	update idletasks
+
 	. conf -menu .main_menu
 }
 #///////////////////////////////////////////////////////////////////////
