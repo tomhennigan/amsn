@@ -1767,7 +1767,7 @@ catch {exec killall -c sndplay}
       .${win_name}.f.out.text tag configure url -foreground #000080 -background white -font splainf -underline true
 
 
-      bind .${win_name}.f.out.text <Configure> "adjust_yscroll .${win_name}.f.out.text .${win_name}.f.out.ys 0 1"
+      #bind .${win_name}.f.out.text <Configure> "adjust_yscroll .${win_name}.f.out.text .${win_name}.f.out.ys 0 1"
 
       bind $bottom.in.input <Tab> "focus $bottom.in.f.send; break"
 
@@ -3005,9 +3005,9 @@ proc adjust_yscroll {text bar begin end } {
 
   if { $begin == 0 && $end == 1 } {
 
-	  if { [lindex [$bar get] 1] == 1.0 } {
-        set scrolling 1
-     }
+	  #if { [lindex [$bar get] 1] == 1.0 } {
+     #   set scrolling 1
+     #}
 
      if {[info exists scrollbar_packed_$bar]} {
      	pack forget $bar
@@ -3017,7 +3017,7 @@ proc adjust_yscroll {text bar begin end } {
 
   } else {
 
-     if { ! [info exists scrollbar_packed_$bar]} {
+     if { ![info exists scrollbar_packed_$bar ]} {
 
         if { [lindex [$bar get] 1] == 1.0 } {
            set scrolling 1
@@ -3033,15 +3033,15 @@ proc adjust_yscroll {text bar begin end } {
 
         update idletasks
 
+
      }
 
   }
 
 
 
-  if { $scrolling } { $text yview moveto 1.0 }
   $bar set $begin $end
-    
+
 }
 
 #///////////////////////////////////////////////////////////////////////
