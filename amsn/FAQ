@@ -1,4 +1,4 @@
-FAQ 1.6
+FAQ 1.7
 --------
 
 Q: What is Amsn?
@@ -256,6 +256,20 @@ real internet address (you can enter it manually or tell amsn to guess it
 from a web page), instead of the internal address, and tell the gateway (the
 computer with direct connection to the internet) to forward incoming
 connections to port 6891 to your computer inside the private network.
+
+Q: How to open filetransfer ports in Suse Linux?
+A: Guide thanks to John Hillier
+1. Open Konqueror in Super User mode (KMenu/System/More Programs/File 
+Manager - Super User Mode).
+2. Enter in Konqueror URL field /etc/sysconfig/SuSEfirewall2.
+3. Click on text, right click with mouse, open KWrite to edit firewall 
+script.
+4. Edit section #9 line FW_SERVICES_EXT_TCP="6891" to include port 6891.
+5. Save prior to closing all windows then restart firewall in YaST.
+An easiest way is to open "YaST/Security and 
+Users/Firewall/Firewall Configuration". Click on "Expert" in "Additional 
+Services" and add port 6891. I posted both steps since I learned a lot of 
+useful information is contain
 
 Running on Windows
 ==============
