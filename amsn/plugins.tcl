@@ -529,7 +529,7 @@ namespace eval ::plugins {
 			$w.select.plugin_list itemconfigure $selection(id) -background #DDF3FE
 			#Call PostEvent Load
 			#Keep in variable if we are online or not
-			if {[sb get ns stat] == "o" } {
+			if {[ns cget -stat] == "o" } {
 				set status online
 			} else {
 				set status offline
@@ -564,7 +564,7 @@ namespace eval ::plugins {
 		$w.select.plugin_list itemconfigure $selection(id) -background #FFFFFF
 		# Call PostEvent Unload
 		# Verify if we are online or offline
-		if {[sb get ns stat] == "o" } {	   
+		if {[ns cget -stat] == "o" } {	   
 			set status online
 		} else {
 			set status offline
