@@ -853,25 +853,40 @@ proc amsn_connectfiletransfer {ipaddr port authcookie} {
 	status_log "Me envian archivo de tamaño $filesize\n"
 
         fconfigure $sockid -blocking 0
-	puts $sockid "TRF\r"
+	puts $sockid "TFR\r"
 	
 	status_log "Recibiendo archivo...\n"
-	set fileid [open "received.txt" w]
+
+	set fileid [open "receivedfile" w]
 	fconfigure $fileid -blocking 0 -translation {binary binary}
 
 	#TODO: Receive the file
 	
-	set packet1 [read $sockid 1]
-	set packet2 [read $sockid 1]
-	set packet3 [read $sockid 1]
+        fconfigure $sockid -blocking 1
+	set recvbytes 0
+		
 	
-	set packetsize [expr 0x$packet2 + (0x$packet3*256)]
+	while {$recvbytes < $filesize } {
+		set cabecera [read $sockid 3]
+
+		status_log "[binary scan $cabecera ccc packet1 packet2 packet3] bytes\n"
 	
-	status_log "packetsize: $packetsize\n"
+		set packet2 [expr ($packet2 + 0x100) % 0x100]
+		set packet3 [expr ($packet3 + 0x100) % 0x100]
 	
-        set packetdata [read $sockid $packsize]
-        puts -nonewline $fileid $packetdata
+		set packetsize [expr $packet2 + ($packet3*256)]
 	
+		status_log "packetsize: $packetsize\n"
+		
+		set thedata [read $sockid $packetsize]
+	        puts -nonewline $fileid $thedata
+		
+		set recvbytes [expr $recvbytes + $packetsize]
+		status_log "Received $recvbytes of $filesize\n"
+	
+	}
+	
+	status_log "File received\n"
 	
 	close $fileid
 	close $sockid
