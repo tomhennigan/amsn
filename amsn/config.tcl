@@ -105,6 +105,8 @@ proc ConfigDefaults {} {
 	set config(flicker) 1
 	set config(autocheckver) 1
 	set config(truncatenames) 1
+	set config(notifwidth) 150
+	set config(notifheight) 100
 	set password ""
 }
 

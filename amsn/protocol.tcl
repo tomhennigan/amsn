@@ -2792,31 +2792,24 @@ proc cmsn_change_state {recv} {
 	::MSN::changeName $user $user_name
     }
 
-    set short_name [trunc $user_name]
+	set maxw [expr {$config(notifwidth)-20}]
+	set short_name [trunc $user_name . $maxw splainf]
 
-      if {[lindex $user_data 2] < 7} {		;# User was online before
+	if {[lindex $user_data 2] < 7} {		;# User was online before
 
-	  if { $config(notifystate) == 1 &&  $substate != "FLN" && [lindex $recv 0] != "ILN" } {
-        if {$config(truncatenames)} {
-	      ::amsn::notifyAdd "[trunc $user_name]\n[trans statechange] [trans [lindex [lindex $list_states $state_no] 1]]." \
-		  "::amsn::chatUser $user" state state
-        } else {
-	      ::amsn::notifyAdd "$user_name\n[trans statechange] [trans [lindex [lindex $list_states $state_no] 1]]." \
-		  "::amsn::chatUser $user" state state
-        }
-	  }
+		if { $config(notifystate) == 1 &&  $substate != "FLN" && [lindex $recv 0] != "ILN" } {
+
+			::amsn::notifyAdd "$short_name\n[trans statechange]\n[trans [lindex [lindex $list_states $state_no] 1]]." \
+				"::amsn::chatUser $user" state state
+		}
 
 
-      } elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
+	} elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
 
 	  user_not_blocked "$user"
 
 	 if { $config(notifyonline) == 1 } {
-        if {$config(truncatenames)} {
-            ::amsn::notifyAdd "$short_name\n[trans logsin]." "::amsn::chatUser $user" online
-        } else {
-            ::amsn::notifyAdd "$user_name\n[trans logsin]." "::amsn::chatUser $user" online
-        }
+        ::amsn::notifyAdd "$short_name\n[trans logsin]." "::amsn::chatUser $user" online
 	 }
 
 	 if { ([info exists alarms([lindex $recv 2]_onconnect)]) && ($alarms([lindex $recv 2]_onconnect) == 1) && ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1)} {
@@ -2833,14 +2826,10 @@ proc cmsn_change_state {recv} {
       } else {
 
 	  if { $config(notifyoffline) == 1 } {
-        if {$config(truncatenames)} {
 	      ::amsn::notifyAdd "$short_name\n[trans logsout]." "" offline offline
-        } else {
-	      ::amsn::notifyAdd "$user_name\n[trans logsout]." "" offline offline
-        }
 	  }
 	  if { $config(checkonfln) == 1 } {
-	      ::MSN::chatTo "$user"	  
+	      ::MSN::chatTo "$user"
 	  }
       }
 

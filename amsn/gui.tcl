@@ -355,12 +355,12 @@ namespace eval ::amsn {
       }   
      set txt [trans ftrejectedby $who $filename]
      WinWrite $chatid "----------\n" gray
-     WinWriteIcon $chatid ftreject 3 2 
+     WinWriteIcon $chatid ftreject 3 2
      WinWrite $chatid " $txt\n" gray
      WinWrite $chatid "----------\n" gray
-     
+
    }
-      
+
    #Message shown when receiving a file
    proc fileTransferRecv {filename filesize cookie chatid fromlogin} {
       global files_dir config
@@ -369,10 +369,10 @@ namespace eval ::amsn {
       if { [WindowFor $chatid] == 0} {
          return 0
       }
-            
+
       set fromname [lindex [::MSN::getUserInfo $fromlogin] 1]
       set txt [trans ftgotinvitation $fromname '$filename' $filesize $files_dir]
-      
+
       set win_name [MakeWindowFor $chatid $txt]
       
       
@@ -751,16 +751,32 @@ namespace eval ::amsn {
    # The procedure will open a window if it does not exists, add a notifyWindow and
    # play a sound if it's necessary
    proc messageFrom { chatid user msg type {fontformat ""} } {
-      global remote_auth 
+      global remote_auth config
+		variable first_message
 
-      set notifytext "[trans says [lindex [::MSN::getUserInfo $user] 1]]:\n$msg"
-      MakeWindowFor $chatid $notifytext
-       
+      set win_name [MakeWindowFor $chatid]
+
+
+		#If this is the first message, and no focus on window, then show notify
+		if { $first_message($win_name) == 1 } {
+
+			set first_message($win_name) 0
+
+			set maxw [expr {$config(notifwidth)-20}]
+			incr maxw [expr 0-[font measure splainf "[trans says [list]]:"]]
+			set nickt [trunc [lindex [::MSN::getUserInfo $user] 1] . $maxw splainf]
+
+			if { ($config(notifymsg) == 1) && ([string first ${win_name} [focus]] != 0)} {
+				notifyAdd "[trans says $nickt]:\n$msg" "::amsn::chatUser $chatid"
+			}
+
+		}
+
        if { $remote_auth == 1 } {
 
 	   if { "$user" != "$chatid" } {
 	       write_remote "To $chatid : $msg" msgsent
-	   } else { 
+	   } else {
 	       write_remote "From $chatid : $msg" msgrcv
 	   }
 
@@ -785,47 +801,45 @@ namespace eval ::amsn {
 
    #Opens a window if it did not existed, and if it's first message it
    #adds msg to notify, and plays sound if enabled
-   proc MakeWindowFor { chatid msg } {
-   
+   proc MakeWindowFor { chatid {msg ""} } {
+
       global config
-      variable first_message 
+      variable first_message
 
       set win_name [WindowFor $chatid]
-   
+
       if { $win_name == 0 } {
 
           set win_name [OpenChatWindow]
-          SetWindowFor $chatid $win_name     
-			 update idletasks     
+          SetWindowFor $chatid $win_name
+			 update idletasks
           WinTopUpdate $chatid
 
-      }       
+      }
 
-      #If window is withdran (Created but not visible) show notify, and change
-      #the window state
-      if { $first_message($win_name) == 1 } {
+
+      #If this is the first message, and no focus on window, then show notify
+      if { $first_message($win_name) == 1  && $msg!="" } {
 
          set first_message($win_name) 0
-	 #wm state ${win_name} normal
 
          if { ($config(notifymsg) == 1) && ([string first ${win_name} [focus]] != 0)} {
-            notifyAdd "$msg" \
-	    "::amsn::chatUser $chatid"
+            notifyAdd "$msg" "::amsn::chatUser $chatid"
 	 }
 
       }
-      
+
       if { [string first ${win_name} [focus]] != 0 } {
 
          if { $config(newmsgwinstate) == 0 } {
 	    wm deiconify ${win_name}
             raise ${win_name}
-         } 
-      
+         }
+
          play_sound type.wav
-	 
+
       }
-      
+
       return $win_name
    }
 
@@ -882,9 +896,9 @@ namespace eval ::amsn {
 	     set maxw [winfo width ${win_name}.f.top.text]
 	     if { "$user_state" != "" && "$user_state" != "online" } {
 	        incr maxw [expr 0-[font measure sboldf -displayof ${win_name}.f.top.text " \([trans $user_state]\)"]]
-	     }		  
+	     }
 		  incr maxw [expr 0-[font measure sboldf -displayof ${win_name}.f.top.text " <${user_login}>"]]
-		  
+
 	     ${win_name}.f.top.text insert end "[trunc ${user_name} ${win_name}.f.top.text $maxw sboldf] <${user_login}>"
       } else {
 	     ${win_name}.f.top.text insert end "${user_name} <${user_login}>"
@@ -2209,10 +2223,10 @@ namespace eval ::amsn {
       if { $xpos < 0 } { set xpos 0 }
       if { $ypos < 0 } { set ypos 0 }
 
-      canvas $w.c -bg #EEEEFF -width 150 -height 100 \
+      canvas $w.c -bg #EEEEFF -width $config(notifwidth) -height $config(notifheight) \
          -relief ridge -borderwidth 2
       pack $w.c
-      
+
       switch $type {
 	  online {
 	      $w.c create image 75 50 -image $notifyonline
@@ -2227,7 +2241,7 @@ namespace eval ::amsn {
 	      $w.c create image 75 50 -image $notifyonline
 	  }
       }
- 
+
       $w.c create image 17 22 -image notifico
       $w.c create image 80 97 -image notifybar
       $w.c create image 142 12 -image notifclose
@@ -2236,8 +2250,8 @@ namespace eval ::amsn {
          set msg "[string range $msg 0 100]..."
       }
 
-      set notify_id [$w.c create text 78 40 -font splainf \
-         -justify center -width 148 -anchor n -text "$msg"]
+      set notify_id [$w.c create text [expr $config(notifwidth)/2] 45 -font splainf \
+         -justify center -width [expr $config(notifwidth)-20] -anchor n -text "$msg"]
 
       set after_id [after 8000 "::amsn::KillNotify $w $ypos"]
 
@@ -2290,7 +2304,7 @@ namespace eval ::amsn {
       set lpos [lsearch -exact $NotifPos $ypos]
       set NotifPos [lreplace $NotifPos $lpos $lpos]
    }
-   
+
 }
 
 
@@ -3388,7 +3402,7 @@ proc cmsn_draw_online { {force 0} } {
    foreach tag [$pgBuddy.text tag names] {
       $pgBuddy.text tag delete $tag
    }
-   
+
    # Decide which grouping we are going to use
    if {$config(orderbygroup)} {
 
@@ -3397,14 +3411,14 @@ proc cmsn_draw_online { {force 0} } {
        #Order alphabetically
        set thelist [::groups::GetList]
        set thelistnames [list]
-       
+
        foreach gid $thelist {
 	  set thename [::groups::GetName $gid]
 	  lappend thelistnames [list "$thename" $gid]
        }
-       
-            
-       if {$config(ordergroupsbynormal)} {     
+
+
+       if {$config(ordergroupsbynormal)} {
           set sortlist [lsort -dictionary -index 0 $thelistnames ]
        } else {
           set sortlist [lsort -decreasing -dictionary -index 0 $thelistnames ]
@@ -3481,9 +3495,12 @@ proc cmsn_draw_online { {force 0} } {
    bind $pgBuddy.text.bigstate <Button3-ButtonRelease> {tk_popup .my_menu %X %Y}
 
 
-   text $pgBuddy.text.mystatus -font bboldf -height 2 -width 100 -background white -borderwidth 0 \
+   text $pgBuddy.text.mystatus -font bboldf -height 2 \
+      -width [expr {([winfo width $pgBuddy.text]-45)/[font measure bboldf -displayof $pgBuddy.text "0"]}] \
+      -background white -borderwidth 0 \
       -relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
        -exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
+	pack $pgBuddy.text.mystatus -expand true -fill x
 
    $pgBuddy.text.mystatus configure -state normal
 
@@ -3515,14 +3532,40 @@ proc cmsn_draw_online { {force 0} } {
    } else {
    	$pgBuddy.text.mystatus insert end "[trans mystatus]:\n" mystatuslabel
    }
-   $pgBuddy.text.mystatus insert end "$my_name " mystatus
+
+	set maxw [expr [winfo width $pgBuddy.text] -45]
+	incr maxw [expr 0-[font measure bboldf -displayof $pgBuddy.text " ($my_state_desc)" ]]
+	set my_short_name [trunc $my_name $pgBuddy.text.mystatus $maxw bboldf]
+   $pgBuddy.text.mystatus insert end "$my_short_name " mystatus
    $pgBuddy.text.mystatus insert end "($my_state_desc)" mystatus
-   
+
    if {$config(listsmileys)} {
-	smile_subst $pgBuddy.text.mystatus 
+	smile_subst $pgBuddy.text.mystatus
    }
 
-   
+
+	set balloon_message "$my_name \n $config(login) \n [trans status] : $my_state_desc"
+
+	$pgBuddy.text.mystatus tag bind mystatus <Enter> \
+	    "+set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]"
+
+	$pgBuddy.text.mystatus tag bind mystatus <Leave> \
+	    "+set Bulle(first) 0; kill_balloon"
+
+	$pgBuddy.text.mystatus tag bind mystatus <Motion> \
+	    "if {\[set Bulle(set)\] == 0} \{after cancel \[set Bulle(id)\]; \
+            set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]\}"
+
+
+	bind $pgBuddy.text.bigstate <Enter> \
+	    "+set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]"
+	bind $pgBuddy.text.bigstate <Leave> \
+		"+set Bulle(first) 0; kill_balloon;"
+	bind $pgBuddy.text.bigstate <Motion> \
+	    "if {\[set Bulle(set)\] == 0} \{after cancel \[set Bulle(id)\]; \
+            set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]\} "
+
+
    #Calculate number of lines, and set my status size (for multiline nicks)
    set size [$pgBuddy.text.mystatus index end]
    set posyx [split $size "."]
@@ -3530,15 +3573,15 @@ proc cmsn_draw_online { {force 0} } {
    if { [llength [$pgBuddy.text.mystatus image names]] } { incr lines}
 
    $pgBuddy.text.mystatus configure -state normal -height $lines -wrap none
-   
+
    $pgBuddy.text.mystatus configure -state disabled
 
-   
-   
+
+
    $pgBuddy.text window create end -window $pgBuddy.text.mystatus -padx 6 -pady 0 -align bottom -stretch false
-   
-   
- 
+
+
+
 
    $pgBuddy.text insert end "\n"
 
@@ -3551,7 +3594,7 @@ proc cmsn_draw_online { {force 0} } {
 
    set barheight [image height colorbar]
    set barwidth [image width colorbar]
-   
+
    image delete mainbar
    image create photo mainbar -width $width -height $barheight
    mainbar blank
@@ -3568,14 +3611,17 @@ proc cmsn_draw_online { {force 0} } {
    set unread [::hotmail::unreadMessages]
 
    if { $unread == 0 } {
-      $pgBuddy.text insert end "[trans nonewmail]\n" mail
+      set mailmsg "[trans nonewmail]\n"
    } elseif {$unread == 1} {
-      $pgBuddy.text insert end "[trans onenewmail]\n" mail
+      set mailmsg "[trans onenewmail]\n"
    } elseif {$unread == 2} {
-      $pgBuddy.text insert end "[trans twonewmail 2]\n" mail
+      set mailmsg "[trans twonewmail 2]\n"
    } else {
-      $pgBuddy.text insert end "[trans newmail $unread]\n" mail
+      set mailmsg "[trans newmail $unread]\n"
    }
+	set maxw [expr [winfo width $pgBuddy.text] -30]
+	set short_mailmsg [trunc $mailmsg $pgBuddy.text $maxw splainf]
+	$pgBuddy.text insert end "$short_mailmsg\n" mail
 
 #end AIM
 
@@ -3619,7 +3665,7 @@ proc cmsn_draw_online { {force 0} } {
 	    } elseif { $config(showblockedgroup) == 1 && [llength [array names emailBList] ] != 0 } {
 		$pgBuddy.text insert end "[trans youblocked]" blocked
 	    }
-	    
+
 
        }
        $pgBuddy.text insert end "\n"
@@ -3824,7 +3870,7 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	       set current_line " [lindex $user_lines $i]"
 	    }
 	    
-        if {$config(truncatenames)} {	
+        if {$config(truncatenames)} {
            if { $i == $last_element && $i == 0} {
               #First and only line
 				  set strw $maxw
@@ -3837,10 +3883,10 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
            } else {
               #Middle line, no status description and no status icon
 				  set strw [expr {$maxw+$statew+25}]
-           } 
+           }
 			  set current_line [trunc $current_line $pgBuddy.text $strw splainf]
         }
-	
+
         $pgBuddy.text insert $section.last "$current_line" $user_unique_name
 	    if { $i != 0} {
 	       $pgBuddy.text insert $section.last "      "
@@ -3948,7 +3994,8 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 # appended to the truncated string.
 #
 proc trunc {str {window ""} {maxw 0 } {font ""}} {
-	if { $window == "" || $font == "" } {
+	global config
+	if { $window == "" || $font == "" || $config(truncatenames)!=1} {
 		return $str
 	}
           
@@ -3982,7 +4029,7 @@ proc copy { cut w } {
 
     set window $w.f.in.input
     set index [$window tag ranges sel]
- 
+
     if { $index == "" } {
 	set window $w.f.out.text 
 	set index [$window tag ranges sel]
@@ -4828,7 +4875,7 @@ proc show_umenu {user_login grId x y} {
    .user_menu add command -label "${user_login}" \
       -command "clipboard clear;clipboard append \"${user_login}\""
 
-   .user_menu add separator   
+   .user_menu add separator
    .user_menu add command -label "[trans sendmsg]" \
       -command "::amsn::chatUser ${user_login}"
    .user_menu add command -label "[trans sendmail]" \
@@ -4836,7 +4883,7 @@ proc show_umenu {user_login grId x y} {
    .user_menu add command -label "[trans viewprofile]" \
       -command "::hotmail::viewProfile ${user_login}"
    .user_menu add command -label "[trans history]" \
-      -command "::log::OpenLogWin ${user_login}"	
+      -command "::log::OpenLogWin ${user_login}"
    .user_menu add separator
    if {$blocked == 0} {
       .user_menu add command -label "[trans block]" -command  "::amsn::blockUser ${user_login}"
@@ -4852,11 +4899,11 @@ proc show_umenu {user_login grId x y} {
    if {$config(orderbygroup)} {
       .user_menu add command -label "[trans movetogroup]..." -command "tk_popup .move_group_menu $x $y"
       .user_menu add command -label "[trans copytogroup]..." -command "tk_popup .copy_group_menu $x $y"
-      .user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login} $grId" 
+      .user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login} $grId"
    } else {
        .user_menu add command -label "[trans movetogroup]..." -command "tk_popup .move_group_menu $x $y" -state disabled
        .user_menu add command -label "[trans copytogroup]..." -command "tk_popup .copy_group_menu $x $y" -state disabled
-       .user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login}"   
+       .user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login}"
    }
 
    .user_menu add command -label "[trans properties]" \
@@ -4877,7 +4924,7 @@ package require http
 
 proc checking_ver {} {
     global weburl
-    
+
     set newer [check_version_silent]
 
     set ver [lindex $newer 1]
