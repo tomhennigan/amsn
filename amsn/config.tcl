@@ -88,6 +88,8 @@ if {$tcl_platform(os) == "Darwin"} {
 
 	set config(textsize) 2									;#User text size
 	set config(mychatfont) "{Helvetica} {} 000000"	;#User chat font
+	set config(winchatsize) "350x320" ;#Default chat window size
+	set config(savechatwinsize) 1 ;#Save chat window sizes when changed?
 
 	set config(notifymsg) 1				;#Show notify window when a message arrives
 	set config(notifyonline) 1			;#Show notify window when a user goes online
@@ -165,6 +167,8 @@ if {$tcl_platform(os) == "Darwin"} {
 		[list truncatenames bool truncatenames1] \
 		[list truncatenicks bool truncatenames2] \
 		[list showtimestamps bool timestamps] \
+		[list savechatwinsize bool savechatwinsize] \
+		[list winchatsize str defchatwinsize] \
 		[list startontray bool startontray] \
                 [list strictfonts bool strictfonts] \
 		[list "" notifyoffset] \

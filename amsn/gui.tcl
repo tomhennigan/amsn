@@ -1510,17 +1510,18 @@ namespace eval ::amsn {
 
       toplevel .${win_name} -class Amsn
 
-      if {[catch { wm geometry .${win_name} $config(winchatsize)} res]} {
-         wm geometry .${win_name} 350x320
+		if {[catch { wm geometry .${win_name} [::config::getKey winchatsize] } res]} {
+			wm geometry .${win_name} 350x390
+			::config::setKey winchatsize 350x390
 			status_log "No config(winchatsize). Setting default size for chat window\n" red
-      }
+		}
       #wm state .${win_name} withdrawn
       wm state .${win_name} iconic
       wm title .${win_name} "[trans chat]"
       wm group .${win_name} .
       wm iconbitmap .${win_name} @[GetSkinFile pixmaps amsn.xbm]
       wm iconmask .${win_name} @[GetSkinFile pixmaps amsnmask.xbm]
- 
+
  
 #Test on Mac OS X(Darwin) if imagemagick is installed and kill all sndplay processes      
 if {$tcl_platform(os) == "Darwin"} {
@@ -1883,10 +1884,12 @@ catch {exec killall -c sndplay}
 			after 200 "::amsn::WinTopUpdate $chatid"
 
 		}
-      global config
       set geom [wm geometry $win]
       set pos_start [string first "+" $geom]
-      set config(winchatsize)  [string range $geom 0 [expr {$pos_start-1}]]
+
+		if { [::config::getKey savechatwinsize] } {
+      	::config::setKey winchatsize  [string range $geom 0 [expr {$pos_start-1}]]
+		}
       #status_log "$config(winchatsize)\n"
 
 	}
@@ -4942,7 +4945,7 @@ proc copy { cut w } {
 		if { $index == "" } {  return }
 	}
 
-	status_log "Copy: focus is [focus], window is $window\n" return
+	#status_log "Copy: focus is [focus], window is $window\n" return
 
 	clipboard clear
 

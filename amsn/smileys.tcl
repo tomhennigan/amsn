@@ -628,7 +628,7 @@ proc process_custom_smileys_SB { txt } {
 
     set msg ""
 
-    status_log "Parsing text for custom smileys : $txt\n\n"
+    #status_log "Parsing text for custom smileys : $txt\n\n"
 
     set txt2 [string toupper $txt]
 

@@ -2537,7 +2537,7 @@ proc cmsn_rng {recv} {
    sb set $sbn auth_cmd "ANS"
    sb set $sbn auth_param "$config(login) [lindex $recv 4] [lindex $recv 1]"
 
-   status_log "[trans chatack] [lindex $recv 5]... (Got ANS1 in SB $sbn\n" green
+   status_log "Accepting conversation from: [lindex $recv 5]... (Got ANS1 in SB $sbn\n" green
 
    cmsn_socket $sbn
    return 0
@@ -3052,7 +3052,7 @@ proc cmsn_change_state {recv} {
 	set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj]]
 	#set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
 
-	status_log "old is $oldmsnobj new is $msnobj\n"
+	#status_log "old is $oldmsnobj new is $msnobj\n"
 	if { $oldmsnobj != $msnobj} {
 		#TODO: Improve this, using usersInChat for every chat... useful if user in conference, but not private
 		#Let's check if image exists (the catch thing), then if it exists, let's check if it is in use
