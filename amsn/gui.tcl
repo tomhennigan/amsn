@@ -1190,32 +1190,56 @@ namespace eval ::amsn {
 
 		#If this is the first message, and no focus on window, then show notify
 		if { $first_message($win_name) == 1  && $msg!="" } {
-
-		set first_message($win_name) 0
-
-		if { ($config(notifymsg) == 1) && ([string first ${win_name} [focus]] != 0)} {
-			notifyAdd "$msg" "::amsn::chatUser $chatid"
-		}
-
-		if { $config(newmsgwinstate) == 0 } {
-			wm state ${win_name} normal
-			wm deiconify ${win_name}
-			raise ${win_name}
-		} else {
-			# Iconify the window unless it was raised by the user already.
-			if {[wm state $win_name] != "normal"} {
-				wm state ${win_name} iconic
+			
+			set first_message($win_name) 0
+			
+			if { ($config(notifymsg) == 1) && ([string first ${win_name} [focus]] != 0)} {
+				notifyAdd "$msg" "::amsn::chatUser $chatid"
 			}
-		}
-
-		#If it's not a message event, then it's a window creation (user joins to chat)
-		} elseif { $msg == "" } {
-			if { $config(newchatwinstate) == 0 } {
-				wm state ${win_name} normal
+			
+			if { $config(newmsgwinstate) == 0 } {
+				if { [winfo exists .bossmode] } {
+					set ::BossMode(${win_name}) "normal"
+					wm state ${win_name} withdraw
+				} else {
+					wm state ${win_name} normal
+				}
+				#wm state ${win_name} normal
 				wm deiconify ${win_name}
 				raise ${win_name}
 			} else {
-				wm state ${win_name} iconic
+				# Iconify the window unless it was raised by the user already.
+				if {[wm state $win_name] != "normal"} {
+					if { [winfo exists .bossmode] } {
+						set ::BossMode(${win_name}) "iconic"
+						wm state ${win_name} withdraw
+					} else {
+						wm state ${win_name} iconic
+					}
+					#wm state ${win_name} iconic
+				}
+			}
+			
+			#If it's not a message event, then it's a window creation (user joins to chat)
+		} elseif { $msg == "" } {
+			if { $config(newchatwinstate) == 0 } {
+				if { [winfo exists .bossmode] } {
+					set ::BossMode(${win_name}) "normal"
+					wm state ${win_name} withdraw
+				} else {
+					wm state ${win_name} normal
+				}
+				#wm state ${win_name} normal
+				wm deiconify ${win_name}
+				raise ${win_name}
+			} else {
+				if { [winfo exists .bossmode] } {
+					set ::BossMode(${win_name}) "iconic"
+					wm state ${win_name} withdraw
+				} else {
+					wm state ${win_name} iconic
+				}
+				#	wm state ${win_name} iconic
 			}
 		}
 
@@ -1575,8 +1599,13 @@ namespace eval ::amsn {
 		}
 	
 		#wm state .${win_name} withdrawn
-		wm state .${win_name} iconic
-			wm title .${win_name} "[trans chat]"
+		if { [winfo exists .bossmode] } {
+			set ::BossMode(.${win_name}) "iconic"
+			wm state .${win_name} withdraw
+		} else {
+			wm state .${win_name} iconic
+		}
+		wm title .${win_name} "[trans chat]"
 		wm group .${win_name} .
 		if {$tcl_platform(platform) != "windows"} {
 			catch {wm iconbitmap .${win_name} "@$bitmap"}
@@ -2856,7 +2885,12 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		wm state $win_name normal
+		if { [winfo exists .bossmode] } {
+			set ::BossMode(${win_name}) "normal"
+			wm state ${win_name} withdraw
+		} else {
+			wm state ${win_name} normal
+		}
 		wm deiconify ${win_name}
 
 		update idletasks
@@ -3135,6 +3169,9 @@ namespace eval ::amsn {
 	proc notifyAdd { msg command {sound ""} {type online}} {
 
 		global config tcl_platform
+		if { [winfo exists .bossmode] } {
+			return 
+		}
 		#Define lastfocus (for Mac OS X focus bug)
 		set lastfocus [focus]
 
@@ -6220,15 +6257,16 @@ proc BossMode { } {
 			set children ""
 		} else {
 
-			wm title .bossmode "Clock"
+			wm title .bossmode "[trans msn]"
 
-			label .bossmode.time -text ""
+			label .bossmode.passl -text "[trans password]"
+			entry .bossmode.pass -show "*"
+			pack .bossmode.passl .bossmode.pass -side left
 
-			updatebossmodetime
+			#updatebossmodetime
+			bind .bossmode.pass <Return> "BossMode"
 
-			pack .bossmode.time
-
-			bind .bossmode <Destroy> "after cancel updatebossmodetime; BossMode"
+			wm protocol .bossmode WM_DELETE_WINDOW "BossMode"
 		}
 
 		foreach child $children {
@@ -6255,7 +6293,11 @@ proc BossMode { } {
 		}
 
 
-	} elseif { $bossMode == 1 } {
+	} elseif { $bossMode == 1 && [winfo exists .bossmode]} {
+		if { [.bossmode.pass get] != [set ::password] } {
+			return
+		}
+	
 		set children [winfo children .]
 
 		foreach child $children {
@@ -6282,6 +6324,7 @@ proc BossMode { } {
 		}
 
 		set bossMode 0
+		destroy .bossmode
 	}
 
 
