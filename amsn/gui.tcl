@@ -1895,10 +1895,10 @@ namespace eval ::amsn {
 
 		set chatid [::ChatWindow::Name $win_name]
 
-	    if { [::MSNMobile::IsMobile $chatid] == 1} {
-		status_log "MOBILE CHAT\n" red
-		return 0
-	    }
+		if { $chatid == 0 } {
+			status_log "VERY BAD ERROR in ::amsn::TypingNotification!!!\n" red
+			return 0
+		}
 
 		if { $skipthistime } {
 			set skipthistime 0
@@ -1917,9 +1917,8 @@ namespace eval ::amsn {
 			bind $inputbox <<Modified>> "::amsn::TypingNotification ${win_name} $inputbox"
 		}
 
-
-		if { $chatid == 0 } {
-			status_log "VERY BAD ERROR in ::amsn::TypingNotification!!!\n" red
+		if { [::MSNMobile::IsMobile $chatid] == 1} {
+			status_log "MOBILE CHAT\n" red
 			return 0
 		}
 
