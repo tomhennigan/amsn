@@ -570,7 +570,7 @@ proc load_config {} {
 	} else {
 		::config::setKey config 0
 		save_config
-		msg_box [trans snackfailed]
+		#msg_box [trans snackfailed]
 	}
     } 
 
