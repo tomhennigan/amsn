@@ -136,7 +136,7 @@ proc ConfigDefaults {} {
 	set config(customsmileys) [list]
 	set config(customsmileys2) [list]
 	set config(custom_smileys) 1
-	set config(logsbydate) 0
+	set config(logsbydate) 1
 	
 	
 	if {$tcl_platform(os) != "Darwin"} {
