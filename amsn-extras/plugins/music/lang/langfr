@@ -1,0 +1,11 @@
+amsn_lang_version 2
+addsongtonick Ajouter la musique jouée au pseudo
+timeverify Vérifier la musique jouée toutes les ? secondes
+nickname Pseudo
+separator Symbole entre le pseudo et la musique
+stopmsg Message quand le lecteur est stoppé
+musiccurrent Afficher la musique courante
+musicsend Envoyer la musique courante
+musicerr Rien n'est joué, ou le plugin ne peut pas récupérer la musique jouée.
+playing Joue : $1
+oserr Votre système d'exploitation ($1) n'est pas encore géré par le plugin Music
