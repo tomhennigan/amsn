@@ -64,9 +64,9 @@
 			<chat_output_padx>0</chat_output_padx>
 			<chat_output_pady>1</chat_output_pady>
 			<chat_buttons_padx>0</chat_buttons_padx>
-			<chat_buttons_pady>0</chat_buttons_pady>
+			<chat_buttons_pady>1</chat_buttons_pady>
 			<chat_input_padx>0</chat_input_padx>
-			<chat_input_pady>1</chat_input_pady>
+			<chat_input_pady>2</chat_input_pady>
 			<chat_dp_padx>2</chat_dp_padx>
 			<chat_dp_pady>0</chat_dp_pady>
 			<chat_leftframe_padx>0</chat_leftframe_padx>
