@@ -1186,7 +1186,11 @@ namespace eval ::ChatWindow {
 
 		# Pack My input frame widgets
 		pack $text -side left -expand true -fill both -padx 1 -pady 1
-		pack $sendbutton -side left -padx [::skin::getColor chatpadx] -pady 4	
+		if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
+			pack $sendbutton -side left -padx [::skin::getColor chatpadx] -pady 4	
+		} else {
+			pack $sendbutton -fill y -side left -padx [::skin::getColor chatpadx] -pady 4	
+		}
 		
 		return $input
 	}
