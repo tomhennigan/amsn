@@ -1528,7 +1528,7 @@ namespace eval ::amsn {
 			wm title ${win_name} ${title}
 		}
 
-		if { $scrolling } { ${win_name}.f.out.text yview moveto 1.0 }
+		if { $scrolling } { ${win_name}.f.out.text yview insert }
 
 		update idletasks
 
@@ -3426,7 +3426,7 @@ namespace eval ::amsn {
 		#      vwait smileys_end_subst
 
 		if { $scrolling } {
-			${win_name}.f.out.text yview moveto 1.0
+			${win_name}.f.out.text yview insert
 		}
 		${win_name}.f.out.text configure -state disabled
 
@@ -3467,7 +3467,7 @@ namespace eval ::amsn {
 		${win_name}.f.out.text configure -state normal
 		${win_name}.f.out.text image create end -image [::skin::loadPixmap $imagename] -pady $pady -padx $pady
 
-		if { $scrolling } { ${win_name}.f.out.text yview moveto 1.0 }
+		if { $scrolling } { ${win_name}.f.out.text yview insert }
 
 
 		${win_name}.f.out.text configure -state disabled
@@ -3508,7 +3508,7 @@ namespace eval ::amsn {
 		${win_name}.f.out.text configure -state normal
 		${win_name}.f.out.text insert end "$txt" $tagid
 
-		if { $scrolling } { ${win_name}.f.out.text yview moveto 1.0 }
+		if { $scrolling } { ${win_name}.f.out.text yview insert }
 
 		${win_name}.f.out.text configure -state disabled
 	}   
@@ -6513,7 +6513,7 @@ proc status_log {txt {colour ""}} {
 		.status.info delete 0.0 end-1000lines
 		#puts "[timestamp] $txt"
 		if { $followtext_status == 1 } {
-			catch {.status.info yview moveto 1.0}
+			catch {.status.info yview insert}
 		}
 	}]} {
 		lappend queued_status [list $txt $colour]
@@ -7588,7 +7588,7 @@ proc degt_protocol { str {colour ""}} {
 #	puts "$str"
 	.degt.mid.txt delete 0.0 end-1000lines
 	if { $followtext_degt == 1} {
-		.degt.mid.txt yview moveto 1.0
+		.degt.mid.txt yview insert
 	}    
 }
 
