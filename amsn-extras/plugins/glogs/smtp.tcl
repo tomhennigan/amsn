@@ -624,7 +624,10 @@ proc ::smtp::initialize {args} {
         }
 
         if {[set code [catch {
-            set state(sd) [socket -async $server $port]
+        	#Avoid TCL/TK Error: {couldn't open socket: host is unreachable}
+            if {[catch {set state(sd) [socket -async $server $port]}]} {
+            	return
+            }
             fconfigure $state(sd) -blocking off -translation binary
             fileevent $state(sd) readable [list ::smtp::readable $token]
         } result]]} {
