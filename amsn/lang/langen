@@ -130,6 +130,7 @@ next Next
 noactivity No activity
 nonewmail No new messages in In-Box
 nonewver There are no new versions available to download
+normal Normal
 notify notify
 notifywin Notify Window
 nousersinsession No users in session
@@ -141,6 +142,7 @@ onphone On phone
 openreceived Open received files
 options Options
 ordercontactsby Order contacts by
+ordergroupsby Order groups by
 other Other
 pager Pager
 pass Password
@@ -162,6 +164,7 @@ reconnecting Reconnecting to server
 reconnect Waiting for $1 to reconnect
 reject Reject
 rememberpass Remember password
+reversed Reversed
 rightback Be right back
 saveas Save as
 savecontacts Save contact list

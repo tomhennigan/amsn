@@ -131,6 +131,7 @@ next Siguiente
 noactivity Sin actividad
 nonewmail No hay mensajes nuevos en bandeja de entrada
 nonewver No hay versiones más actuales disponibles
+normal Normal
 notify aviso
 notifywin Ventana de avisos
 nousersinsession No hay usuarios en la sesión
@@ -142,6 +143,7 @@ onphone Al teléfono
 openreceived Abrir archivos recibidos
 options Opciones
 ordercontactsby Ordenar contactos por
+ordergroupsby Ordenar grupos por
 other Otro
 pager Paginador
 pass Contraseña
@@ -163,6 +165,7 @@ reconnect Esperando que $1 se reconecte
 reconnecting Reconectando al servidor
 reject Rechazar
 rememberpass Recordar contraseña
+reversed Invertido
 rightback Vuelvo enseguida
 saveas Guardar como
 savecontacts Guardar lista de contactos

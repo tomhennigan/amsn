@@ -55,8 +55,9 @@ copytogroup Gruba kopyala
 cut Kes
 date Tarih
 delete Sil
+deliverfail Asagidaki iletinin gönderilmesinde hata olustu
 dockgtk Gnome'da küçültme
-docking Küçültme 
+docking Küçültme
 dockingoff Küçültme olsun
 dockkde KDE'de küçültme
 edit Düzenle
@@ -134,7 +135,7 @@ notifywin Uyari Penceresi
 nousersinsession Ortamda kullanici yok
 offline Çevrimdisi
 ok Tamam
-onenewmail Gelen kutusunda 1 yeni ileti var 
+onenewmail Gelen kutusunda 1 yeni ileti var
 online Çevrimiçi
 onphone Telefonda
 openreceived Alinan dosyalari göster
@@ -194,6 +195,7 @@ user Kullanici
 usernotonline Bu kullanici bagli degil
 version Sürüm
 view Görünüm
+viewprofile Bilgileri gör
 willjoin $1 in sohbete katilmasi bekleniyor
 work Is
 yousay Diyorsunuz ki
