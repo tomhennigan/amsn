@@ -48,6 +48,9 @@
      <statusbartext>#000000</statusbartext>
      <chatpadx>3</chatpadx>
      <chatpady>3</chatpady>
+     <balloonbgcolor>#daeafe</balloonbgcolor>
+     <balloonbordercolor>#2e8afe</balloonbordercolor>
+     <balloontextcolor>#000000</balloontextcolor>
    </Colors>
 
 
