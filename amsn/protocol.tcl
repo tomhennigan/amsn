@@ -1031,8 +1031,8 @@ namespace eval ::MSN {
 		if { $userName == "" } {
 			set userName $passport
 		}
-		set rtrid [::MSN::WriteSB ns "REM" "FL $passport $oldGid"]
 		set atrid [::MSN::WriteSB ns "ADD" "FL $passport [urlencode $userName] $newGid"]
+		set rtrid [::MSN::WriteSB ns "REM" "FL $passport $oldGid"]
 
 	}
 
