@@ -1200,7 +1200,7 @@ namespace eval ::amsn {
 
       bind .${win_name} <Control-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
       
-      bind .${win_name} <Destroy> "::amsn::closeWindow .${win_name} %W"
+      bind .${win_name} <Destroy> "window_history clear %W; ::amsn::closeWindow .${win_name} %W"
 
       focus .${win_name}.f.in.input
 
@@ -1221,12 +1221,14 @@ namespace eval ::amsn {
       bind .${win_name}.f.in.input <Key-Alt_R> "break;"
       bind .${win_name}.f.in.input <Key-Control_L> "break;"
       bind .${win_name}.f.in.input <Key-Control_R> "break;"
-      bind .${win_name}.f.in.input <Return> "::amsn::MessageSend .${win_name} %W; break"
-      bind .${win_name}.f.in.input <Key-KP_Enter> "::amsn::MessageSend .${win_name} %W; break"
-      bind .${win_name}.f.in.input <Alt-s> "::amsn::MessageSend .${win_name} %W; break"
+      bind .${win_name}.f.in.input <Return> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
+      bind .${win_name}.f.in.input <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
+      bind .${win_name}.f.in.input <Alt-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
 
       bind .${win_name}.f.in.input <Escape> "destroy .${win_name} %W; break"
 
+      bind .${win_name}.f.in.input <Control-Up> "window_history previous %W; break"
+      bind .${win_name}.f.in.input <Control-Down> "window_history next %W; break"
       set window_titles(.${win_name}) ""
       set first_message(.${win_name}) 1
 
@@ -2612,7 +2614,9 @@ proc cmsn_draw_status {} {
    .status.info tag configure blue -foreground blue -background white
    .status.info tag configure error -foreground white -background black
 
-   bind .status.enter <Return> ns_enter
+    bind .status.enter <Return> "window_history add %W; ns_enter"
+    bind .status.enter <Key-Up> "window_history previous %W"
+    bind .status.enter <Key-Down> "window_history next %W"
    wm protocol .status WM_DELETE_WINDOW { toggle_status }
 }
 
@@ -4508,4 +4512,89 @@ proc updatebossmodetime { } {
     .bossmode.time configure -text "[string map { \" "" } [clock format [clock seconds] -format \"%T\"]]"
 
     after 1000 updatebossmodetime
+}
+
+
+proc window_history { command w } {
+    global win_history
+
+    set new [info exists win_history(${w}_count)]
+    
+    catch {
+	if { [winfo class $w] == "Text" } {
+	    set zero 0.0
+	} else {
+	    set zero 0
+	}
+    }
+
+    switch $command {
+	add {
+	    if { [winfo class $w] == "Text" } {
+		set msg "[$w get 0.0 end-1c]"
+	    } else  {
+		set msg "[$w get]"
+	    }
+	   
+	    if { $msg != "" } {
+		if { $new } {
+		    set idx $win_history(${w}_count)
+		} else {
+		    set idx 0
+		}
+
+		set win_history(${w}_count) [expr $idx + 1]
+		set win_history(${w}_index) [expr $idx + 1]
+		set win_history(${w}_${idx}) "$msg"
+
+	    }	
+	}
+	clear {
+
+	    if {! $new } { return -1}
+	    
+	    foreach histories [array names win_history] {
+		if { [string match "${w}*" $histories] } {
+		    unset win_history($histories)
+		}
+	    }
+	}
+	previous {
+	    if {! $new } { return -1}
+	    set idx $win_history(${w}_index)
+	    if { $idx ==  0 } { return -1}
+	
+
+	    if { $idx ==  $win_history(${w}_count) } {
+		if { [winfo class $w] == "Text" } {
+		    set msg "[$w get 0.0 end-1c]"
+		} else  {
+		    set msg "[$w get]"
+		}
+		set win_history(${w}_temp) "$msg"
+	    }
+
+	    set idx [expr $idx - 1]
+	    set win_history(${w}_index) $idx
+	        
+	    $w delete $zero end
+	    $w insert $zero "$win_history(${w}_${idx})"
+	    
+	}
+	next {
+	    if {! $new } { return -1}
+	    set idx $win_history(${w}_index)
+	    if { $idx ==  $win_history(${w}_count) } { return -1}
+
+	    set idx [expr $idx +1]
+	    set win_history(${w}_index) $idx
+	    $w delete $zero end
+	    if {! [info exists win_history(${w}_${idx})] } { 
+		$w insert $zero $win_history(${w}_temp) 
+	    } else {
+		$w insert $zero $win_history(${w}_${idx}) 
+	    }
+	
+	}
+    }
 }
