@@ -68,8 +68,8 @@ cancel Cancel
 cannotdeleteprofile Cannot delete profile because it seems to be in use by an aMSN session
 cantexec Can't execute application: $1. Check preferences
 casesensitive Use case-sensitive triggers
-cfgalarm Configure/Add/Remove Alarm
 cfgalarmall Configure/Add/Remove Global Alarm
+cfgalarm Configure/Add/Remove Alarm
 changedisplaypic Change Display picture
 changefont Change font
 changenick Change nick
@@ -383,8 +383,10 @@ sendmail Send mail
 sendmsg Send message
 send Send
 sentbytes Sent $1 of $2 bytes
+serverbusy Server is busy
 servergoingdown Disconnected: Server is going down
 server Server
+serverunavailable Server is unavailable
 session Session
 showblockedlist Show list of people who blocked you
 showdisplaypic2 Show Display Picture by default when a chat window is opened

@@ -383,8 +383,10 @@ sendfile Enviar archivo
 sendmail Enviar email
 sendmsg Enviar mensaje
 sentbytes Enviados $1 de $2 bytes totales
+serverbusy Servidor ocupado
 servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
 server Servidor
+serverunavailable El servidor no está disponible
 session Sesión
 showblockedlist Mostrar contactos que te bloquean
 showdisplaypic2 Por defecto, ver la Imagen para Mostrar al abrir una ventana de conversación.
