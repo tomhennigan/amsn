@@ -42,12 +42,11 @@ if { $initialize_amsn == 1 } {
 
 namespace eval ::amsn {
 
-	namespace export initLook aboutWindow showHelpFile errorMsg infoMsg\
-		blockUnblockUser blockUser unblockUser deleteUser\
-		fileTransferRecv fileTransferProgress\
-		errorMsg notifyAdd initLook messageFrom chatChange userJoins\
-		userLeaves updateTypers ackMessage nackMessage closedWindow \
-		chatStatus chatUser
+	namespace export initLook aboutWindow showHelpFile errorMsg infoMsg \
+		blockUnblockUser blockUser unblockUser deleteUser \
+		fileTransferRecv fileTransferProgress \
+		errorMsg notifyAdd initLook messageFrom userJoins userLeaves \
+		updateTypers ackMessage nackMessage chatUser
 
 	##PUBLIC
 
@@ -720,7 +719,7 @@ namespace eval ::amsn {
 			return 1
 		}
 
-		set chatid [ChatFor $win_name]
+		set chatid [::ChatWindow::Name $win_name]
 
 		set users [::MSN::usersInChat $chatid]
 
@@ -754,8 +753,8 @@ namespace eval ::amsn {
 
 		#::MSNFT::acceptFT $chatid $cookie
 
-		set win_name [WindowFor $chatid]
-		if { [WindowFor $chatid] == 0} {
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}
 
@@ -782,8 +781,8 @@ namespace eval ::amsn {
 	}   
 
 	proc acceptedFT { chatid who filename } {
-		set win_name [WindowFor $chatid]
-		if { [WindowFor $chatid] == 0} {
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}   
 		set txt [trans ftacceptedby [::abook::getDisplayNick $chatid] $filename]
@@ -797,8 +796,8 @@ namespace eval ::amsn {
 	}   
 
 	proc rejectedFT { chatid who filename } {
-		set win_name [WindowFor $chatid]
-		if { [WindowFor $chatid] == 0} {
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}   
 		set txt [trans ftrejectedby [::abook::getDisplayNick $chatid] $filename]
@@ -817,15 +816,15 @@ namespace eval ::amsn {
 	proc GotFileTransferRequest { chatid dest branchuid cseq uid sid filename filesize} {
 		global files_dir
 
-		set win_name [WindowFor $chatid]
+		set win_name [::ChatWindow::For $chatid]
 
-		if { [WindowFor $chatid] == 0} {
+		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}
 
 		set fromname [::abook::getDisplayNick $dest]
 		set txt [trans ftgotinvitation $fromname '$filename' [sizeconvert $filesize] $files_dir]
-		set win_name [MakeWindowFor $chatid $txt $dest]
+		set win_name [::ChatWindow::MakeFor $chatid $txt $dest]
 		WinWrite $chatid "\n----------\n" green
 		WinWriteIcon $chatid fticon 3 2
 		WinWrite $chatid $txt green
@@ -860,15 +859,15 @@ namespace eval ::amsn {
 	proc fileTransferRecv {filename filesize cookie chatid fromlogin} {
 		global files_dir
 
-		set win_name [WindowFor $chatid]
-		if { [WindowFor $chatid] == 0} {
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}
 
 		set fromname [::abook::getDisplayNick $fromlogin]
 		set txt [trans ftgotinvitation $fromname '$filename' [sizeconvert $filesize] $files_dir]
 
-		set win_name [MakeWindowFor $chatid $txt $fromlogin]
+		set win_name [::ChatWindow::MakeFor $chatid $txt $fromlogin]
 
 
 		WinWrite $chatid "\n----------\n" green
@@ -911,8 +910,8 @@ namespace eval ::amsn {
 			set cookie [lindex $varlist 4]
 		}
 
-		set win_name [WindowFor $chatid]
-		if { [WindowFor $chatid] == 0} {
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}
 
@@ -955,8 +954,8 @@ namespace eval ::amsn {
 			set txt [trans filetransfercancelled]
 		}
 
-		set win_name [WindowFor $chatid]
-		if { [WindowFor $chatid] == 0} {
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}
 
@@ -1201,82 +1200,17 @@ namespace eval ::amsn {
  		}
  	}	
 
-
-	#///////////////////////////////////////////////////////////////////////////////
-	# ChatFor (win_name)
-	# Returns the name of the chat assigned to window 'win_name'
-	proc ChatFor { win_name } {
-
-		variable chat_ids
-		if { [info exists chat_ids($win_name)]} {
-			return $chat_ids($win_name)
-		}
-
-		return 0
-	}
-	#///////////////////////////////////////////////////////////////////////////////
-
-
-
-	#///////////////////////////////////////////////////////////////////////////////
-	# WindowFor (chatid)
-	# Returns the name of the window that should show the messages and information
-	# related to the chat 'chatid'
-	proc WindowFor { chatid } {
-		variable msg_windows
-		if { [info exists msg_windows($chatid)]} {
-			return $msg_windows($chatid)
-		}
-		return 0
-	}
-	#///////////////////////////////////////////////////////////////////////////////
-
-
-
-	#///////////////////////////////////////////////////////////////////////////////
-	# SetWindowFor (chatid)
-	# Sets the specified window 'win_name' to be the one which will show messages
-	# and information for the chat names 'chatid'
-	proc SetWindowFor { chatid win_name } {
-		variable msg_windows
-		variable chat_ids
-		if {$chatid != ""} {
-			set msg_windows($chatid) $win_name
-			set chat_ids($win_name) $chatid
-		}
-	}
-	#///////////////////////////////////////////////////////////////////////////////
-
-
-
-	#///////////////////////////////////////////////////////////////////////////////
-	# UnserWindowFor (chatid,win_name)
-	# Tells the GUI system that window 'win_name' is no longer available for 'chatid'
-	proc UnsetWindowFor {chatid win_name} {
-		variable msg_windows
-		variable chat_ids
-		if {[info exists msg_windows($chatid)]} {
-			unset msg_windows($chatid)
-			unset chat_ids($win_name)
-		}
-	}
-	#///////////////////////////////////////////////////////////////////////////////
-
-
-
 	#///////////////////////////////////////////////////////////////////////////////
 	# PUBLIC messageFrom(chatid,user,msg,type,[fontformat])
 	# Called by the protocol layer when a message 'msg' arrives from the chat
 	# 'chatid'.'user' is the login of the message sender, and 'user' can be "msg" to
 	# send special messages not prefixed by "XXX says:". 'type' can be a style tag as
-	# defined in the OpenChatWindow proc, or just "user". If the type is "user",
+	# defined in the ::ChatWindow::Open proc, or just "user". If the type is "user",
 	# the 'fontformat' parameter will be used as font format.
 	# The procedure will open a window if it does not exists, add a notifyWindow and
 	# play a sound if it's necessary
 	proc messageFrom { chatid user nick msg type {fontformat ""} {p4c 0} } {
 		global remote_auth
-		variable first_message
-
 
 		#if customfnick exists replace the nick with customfnick
 		set customfnick [::abook::getContactData $user customfnick]
@@ -1297,7 +1231,7 @@ namespace eval ::amsn {
 		#}
 		set tmsg "[trans says $nickt]:\n$msg"
 
-		set win_name [MakeWindowFor $chatid $tmsg $user]
+		set win_name [::ChatWindow::MakeFor $chatid $tmsg $user]
 
 
 		if { $remote_auth == 1 } {
@@ -1317,281 +1251,6 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 
 
-	#Opens a window if it did not existed, and if it's first message it
-	#adds msg to notify, and plays sound if enabled
-	proc MakeWindowFor { chatid {msg ""} {usr_name ""} } {
-
-		variable first_message
-
-		set win_name [WindowFor $chatid]
-
-		if { $win_name == 0 } {
-
-			set win_name [OpenChatWindow]
-			SetWindowFor $chatid $win_name
-			update idletasks
-			WinTopUpdate $chatid
-
-			if { [::config::getKey showdisplaypic] && $usr_name != ""} {
-				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name]
-			} else {
-				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name] nopack
-			}
-
-		}
-
-
-		#If this is the first message, and no focus on window, then show notify
-		if { $first_message($win_name) == 1  && $msg!="" } {
-			
-			set first_message($win_name) 0
-			
-			
-			if { [string first ${win_name} [focus]] != 0} {
-				if { ([::config::getKey notifymsg] == 1 && [::abook::getContactData $chatid notifymsg -1] != 0) ||
-				     [::abook::getContactData $chatid notifymsg -1] == 1} {
-					notifyAdd "$msg" "::amsn::chatUser $chatid"
-				}
-			}
-			
-			if { [::config::getKey newmsgwinstate] == 0 } {
-				if { [winfo exists .bossmode] } {
-					set ::BossMode(${win_name}) "normal"
-					wm state ${win_name} withdraw
-				} else {
-					wm state ${win_name} normal
-				}
-				#wm state ${win_name} normal
-				wm deiconify ${win_name}
-				if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-					lower ${win_name}
-					win_Position_Mac ${win_name}
-				} else {
-					raise ${win_name}
-				}
-			} else {
-				# Iconify the window unless it was raised by the user already.
-				if {[wm state $win_name] != "normal"} {
-					if { [winfo exists .bossmode] } {
-						set ::BossMode(${win_name}) "iconic"
-						wm state ${win_name} withdraw
-					} else {
-						wm state ${win_name} iconic
-					}
-					#wm state ${win_name} iconic
-				}
-			}
-			
-			#If it's not a message event, then it's a window creation (user joins to chat)
-		} elseif { $msg == "" } {
-			if { [::config::getKey newchatwinstate] == 0 } {
-				if { [winfo exists .bossmode] } {
-					set ::BossMode(${win_name}) "normal"
-					wm state ${win_name} withdraw
-				} else {
-					wm state ${win_name} normal
-				}
-				wm deiconify ${win_name}
-				#To have the new window "behind" on Mac OS X
-				if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-					lower ${win_name}
-					win_Position_Mac ${win_name}
-				} else {
-					raise ${win_name}
-				}
-			} else {
-				if { [winfo exists .bossmode] } {
-					set ::BossMode(${win_name}) "iconic"
-					wm state ${win_name} withdraw
-				} else {
-					wm state ${win_name} iconic
-				}
-				#	wm state ${win_name} iconic
-			}
-		}
-
-		#If no focus, and it's a message event, do something to the window
-		if { (([::config::getKey soundactive] == "1" && $usr_name != [::config::getKey login]) || [string first ${win_name} [focus]] != 0) && $msg != "" } {
-			play_sound type.wav
-		}
-		#Dock Bouncing on Mac OS X
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		#tclCarbonNotification is in plugins
-		package require tclCarbonNotification
-			#Bounce unlimited of time when we are not in aMSN and receive a message, until we re-click on aMSN icon (or get back to aMSN)
-			if { (([::config::getKey dockbounce] == "unlimited" && $usr_name != [::config::getKey login]) && [focus] == "") && $msg != "" } {
-				tclCarbonNotification 1 ""
-			}
-			#Bounce then stop bouncing after 1 second, when we are not in aMSN and receive a message (default)
-			if { (([::config::getKey dockbounce] == "once" && $usr_name != [::config::getKey login]) && [focus] == "") && $msg != "" } {
-				tclCarbonNotification 1 ""
-				after 1000 [list catch [list tclEndCarbonNotification]]
-			}
-		}
-		return $win_name
-	}
-
-	#///////////////////////////////////////////////////////////////////////////////
-	# WinTopUpdate { chatid }
-	# Gets the users in 'chatid' from the protocol layer, and updates the top of the
-	# window with the user names and states.
-	proc WinTopUpdate { chatid } {
-
-		if { [WindowFor $chatid] == 0 } {
-			return 0
-		}
-
-		variable window_titles
-		variable new_message_on
-
-		#set topmsg ""
-		set title ""
-
-		set user_list [::MSN::usersInChat $chatid]
-
-		if {[llength $user_list] == 0} {
-			return 0
-		}
-
-		set win_name [WindowFor $chatid]
-
-		if { [lindex [${win_name}.f.out.text yview] 1] > 0.95 } {
-		   set scrolling 1
-		} else {
-		   set scrolling 0
-		}
-
-
-		${win_name}.f.top.text configure -state normal -font sboldf -height 1 -wrap none
-		${win_name}.f.top.text delete 0.0 end
-
-
-		foreach user_login $user_list {
-
-			set user_name [string map {"\n" " "} [::abook::getDisplayNick $user_login]]
-			set state_code [::abook::getVolatileData $user_login state]
-			
-			if { $state_code == "" } {
-				set user_state ""
-				set state_code FLN
-			} else {
-				set user_state [::MSN::stateToDescription $state_code]
-			}
-
-			set user_image [::MSN::stateToImage $state_code]
-			if {[::config::getKey truncatenames]} {
-				#Calculate maximum string width
-				set maxw [winfo width ${win_name}.f.top.text]
-				if { "$user_state" != "" && "$user_state" != "online" } {
-					incr maxw [expr 0-[font measure sboldf -displayof ${win_name}.f.top.text " \([trans $user_state]\)"]]
-				}
-				incr maxw [expr 0-[font measure sboldf -displayof ${win_name}.f.top.text " <${user_login}>"]]
-
-				${win_name}.f.top.text insert end "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
-			} else {
-				${win_name}.f.top.text insert end "${user_name} <${user_login}>"
-			}
-			set title "${title}${user_name}, "
-
-
-			#TODO: When we have better, smaller and transparent images, uncomment this
-			#${win_name}.f.top.text image create end -image [::skin::loadPixmap $user_image] -pady 0 -padx 2
-
-			#set topmsg "${topmsg}${user_name} <${user_login}> "
-			#${win_name}.f.top.text insert end "${user_name} <${user_login}>"
-
-			if { "$user_state" != "" && "$user_state" != "online" } {
-			#set topmsg "${topmsg} \([trans $user_state]\) "
-				${win_name}.f.top.text insert end "\([trans $user_state]\)"
-			}
-			${win_name}.f.top.text insert end "\n"
-			#set topmsg "${topmsg}\n"
-
-		}
-
-		set title [string replace $title end-1 end " - [trans chat]"]
-		#set topmsg [string replace $topmsg end-1 end]
-
-		#set win_name [WindowFor $chatid]
-
-		#${win_name}.f.top.text configure -state normal -font sboldf -height 1 -wrap none
-		#${win_name}.f.top.text delete 0.0 end
-		#${win_name}.f.top.text insert end $topmsg
-
-		#Calculate number of lines, and set top text size
-		set size [${win_name}.f.top.text index end]
-		set posyx [split $size "."]
-		set lines [expr {[lindex $posyx 0] - 2}]
-
-		${win_name}.f.top.text delete [expr {$size - 1.0}] end
-
-		${win_name}.f.top.text configure -state normal -font sboldf -height $lines -wrap none
-
-		${win_name}.f.top.text configure -state disabled
-
-		set window_titles(${win_name}) ${title}
-		if { [info exists new_message_on(${win_name})] && $new_message_on(${win_name}) == 1 } {
-			wm title ${win_name} "*${title}"
-		} else {
-			wm title ${win_name} ${title}
-		}
-
-		if { $scrolling } { ${win_name}.f.out.text yview end }
-
-		update idletasks
-
-
-		after cancel "::amsn::WinTopUpdate $chatid"
-		after 5000 "::amsn::WinTopUpdate $chatid"
-
-	}
-	#///////////////////////////////////////////////////////////////////////////////
-
-
-
-	#///////////////////////////////////////////////////////////////////////////////
-	# chatChange (chatid, newchatid)
-	# this is called from the protocol layer when a private chat changes into a
-	# conference, right after a JOI command comes from the SB. It mean that the window
-	# assigned to $chatid should now be related to $newchatid. chatChange will return
-	# the new chatid if the change is OK (no other window for that name exists), or the
-	# old chatid if the change is not right
-	# - 'chatid' is the name of the chat that was a single private before
-	# - 'newchatid' is the new id of the chat for the conference
-	proc chatChange { chatid newchatid } {
-
-		set win_name [WindowFor $chatid]
-
-		if { $win_name == 0 } {
-
-			#Old window window does not exists, so just accept the change, no worries
-			status_log "chatChange: Window doesn't exist (probably invited to a conference)\n"
-			return $newchatid
-
-		}
-
-		if { [WindowFor $newchatid] != 0} {
-			#Old window existed, probably a conference, but new one exists too, so we can't
-			#just allow that messages shown in old window now are shown in a different window,
-			#that wouldn't be nice, so don't allow change
-			status_log "conference wants to become private, but there's already a window\n"
-			return $chatid
-		}
-
-		#So, we had an old window for chatid, but no window for newchatid, so the window will
-		#change it's assigned chat
-
-		UnsetWindowFor $chatid $win_name
-		SetWindowFor $newchatid $win_name
-
-		status_log "chatChange: changing $chatid into $newchatid\n"
-
-		return $newchatid
-
-	}
-	#///////////////////////////////////////////////////////////////////////////////
-
-	
 	#///////////////////////////////////////////////////////////////////////////////
 	# enterCustomStyle ()
 	# Dialog window to edit the custom chat style
@@ -1653,16 +1312,16 @@ namespace eval ::amsn {
 	proc userJoins { chatid usr_name } {
 
 
-		set win_name [WindowFor $chatid]
+		set win_name [::ChatWindow::For $chatid]
 		if { $win_name == 0 && [::config::getKey newchatwinstate]!=2 } {
-			set win_name [MakeWindowFor $chatid "" $usr_name]
+			set win_name [::ChatWindow::MakeFor $chatid "" $usr_name]
 		}
 
 		if { $win_name != 0 } {
 
 			set statusmsg "[timestamp] [trans joins [::abook::getDisplayNick $usr_name]]\n"
-			WinStatus [ WindowFor $chatid ] $statusmsg minijoins
-			WinTopUpdate $chatid
+			::ChatWindow::Status [ ::ChatWindow::For $chatid ] $statusmsg minijoins
+			::ChatWindow::TopUpdate $chatid
 
 			if { [::config::getKey showdisplaypic] && $usr_name != ""} {
 				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name]
@@ -1696,7 +1355,7 @@ namespace eval ::amsn {
 
 		global automsgsent
 
-		set win_name [WindowFor $chatid]
+		set win_name [::ChatWindow::For $chatid]
 		if { $win_name == 0} {
 			return 0
 		}
@@ -1729,10 +1388,10 @@ namespace eval ::amsn {
 			::amsn::ChangePicture $win_name user_pic_$new_user [trans showuserpic $new_user] nopack
 		}
 
-		WinStatus $win_name $statusmsg $icon
+		::ChatWindow::Status $win_name $statusmsg $icon
 
 
-		WinTopUpdate $chatid
+		::ChatWindow::TopUpdate $chatid
 
 		if { [::config::getKey keep_logs] } {
 			::log::LeavesConf $chatid $usr_name
@@ -1757,7 +1416,7 @@ namespace eval ::amsn {
 	proc updateTypers { chatid } {
 
 
-		if {[WindowFor $chatid] == 0} {
+		if {[::ChatWindow::For $chatid] == 0} {
 			return 0
 		}
 
@@ -1794,517 +1453,14 @@ namespace eval ::amsn {
 
 		}
 
-		WinStatus [WindowFor $chatid] $statusmsg $icon
+		::ChatWindow::Status [::ChatWindow::For $chatid] $statusmsg $icon
 
 	}
 	#///////////////////////////////////////////////////////////////////////////////
-
 
 	if { $initialize_amsn == 1 } {
-
-		#///////////////////////////////////////////////////////////////////////////////
-		# Auto incremented variable to name the windows
-		variable winid 0
-		#///////////////////////////////////////////////////////////////////////////////
 		variable clipboard ""
-		variable chat_windows [list]
 	}
-
-
-	#///////////////////////////////////////////////////////////////////////////////
-	# OpenChatWindow ()
-	# Opens a new hidden chat window and returns its name.
-	proc OpenChatWindow {} {
-
-		variable winid
-		variable window_titles
-		variable first_message
-		variable recent_message
-		global  HOME files_dir tcl_platform xmms
-
-		set win_name "msg_$winid"
-		incr winid
-
-		toplevel .${win_name} -class Amsn
-		
-		if {[catch { wm geometry .${win_name} [::config::getKey winchatsize] } res]} {
-			wm geometry .${win_name} 350x390
-			::config::setKey winchatsize 350x390
-			status_log "No config(winchatsize). Setting default size for chat window\n" red
-		}
-	
-
-		if {$tcl_platform(platform) == "windows"} {
-		    wm geometry .${win_name} +0+0
-		}
-	
-		#wm state .${win_name} withdrawn
-		if { [winfo exists .bossmode] } {
-			set ::BossMode(.${win_name}) "iconic"
-			wm state .${win_name} withdraw
-		} else {
-			wm state .${win_name} iconic
-		}
-		wm title .${win_name} "[trans chat]"
-		wm group .${win_name} .
-		if {$tcl_platform(platform) != "windows"} {
-			catch {wm iconbitmap .${win_name} @[GetSkinFile pixmaps amsn.xbm]}
-			catch {wm iconmask .${win_name} @[GetSkinFile pixmaps amsnmask.xbm]}
-		}
-
-
-		#Test on Mac OS X(TkAqua) if imagemagick is installed and kill all sndplay processes      
-		if {$tcl_platform(os) == "Darwin"} {
-			if { [::config::getKey getdisppic] != 0 } {
-				check_imagemagick
-			}
-		}
-		menu .${win_name}.menu -tearoff 0 -type menubar  \
-			-borderwidth 0 -activeborderwidth -0
-
-		#Change MSN menu on Mac for "File"
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			.${win_name}.menu add cascade -label "[trans file]" -menu .${win_name}.menu.msn
-		} else {
-			.${win_name}.menu add cascade -label "[trans msn]" -menu .${win_name}.menu.msn
-		}
-
-		.${win_name}.menu add cascade -label "[trans edit]" -menu .${win_name}.menu.edit
-		.${win_name}.menu add cascade -label "[trans view]" -menu .${win_name}.menu.view
-		.${win_name}.menu add cascade -label "[trans actions]" -menu .${win_name}.menu.actions
-
-		#Apple menu, only on Mac OS X
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			.${win_name}.menu add cascade -label "Apple" -menu .${win_name}.menu.apple
-			menu .${win_name}.menu.apple -tearoff 0 -type normal
-			.${win_name}.menu.apple add command -label "[trans about] aMSN" -command ::amsn::aboutWindow
-			.${win_name}.menu.apple add separator
-			.${win_name}.menu.apple add command -label "[trans preferences]..." -command Preferences -accelerator "Command-,"
-			.${win_name}.menu.apple add separator
-		}
-
-		menu .${win_name}.menu.msn -tearoff 0 -type normal
-		.${win_name}.menu.msn add command -label "[trans savetofile]..." \
-			-command " ChooseFilename .${win_name}.f.out.text ${win_name} "
-		.${win_name}.menu.msn add separator
-		.${win_name}.menu.msn add command -label "[trans sendfile]..." \
-			-command "::amsn::FileTransferSend .${win_name}"
-		.${win_name}.menu.msn add command -label "[trans openreceived]..." \
-			-command "launch_filemanager \"$files_dir\""
-		.${win_name}.menu.msn add separator
-		#Add accelerator label to "close" on Mac Version
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			.${win_name}.menu.msn add command -label "[trans close]" \
-				-command "destroy .${win_name}" -accelerator "Command-W"
-		} else {
-			.${win_name}.menu.msn add command -label "[trans close]" \
-				-command "destroy .${win_name}"
-		}
-
-		menu .${win_name}.menu.edit -tearoff 0 -type normal
-		#Change the accelerator on Mac OS X
-			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-				.${win_name}.menu.edit add command -label "[trans cut]" -command "tk_textCut .${win_name}" -accelerator "Command+X"
-				.${win_name}.menu.edit add command -label "[trans copy]" -command "tk_textCopy .${win_name}" -accelerator "Command+C"
-				.${win_name}.menu.edit add command -label "[trans paste]" -command "tk_textPaste .${win_name}" -accelerator "Command+V"
-			} else {
-				.${win_name}.menu.edit add command -label "[trans cut]" -command "tk_textCut .${win_name}" -accelerator "Ctrl+X"
-				.${win_name}.menu.edit add command -label "[trans copy]" -command "tk_textCopy .${win_name}" -accelerator "Ctrl+C"
-				.${win_name}.menu.edit add command -label "[trans paste]" -command "tk_textPaste .${win_name}" -accelerator "Ctrl+V"
-			}
-		
-		.${win_name}.menu.edit add separator
-		.${win_name}.menu.edit add command -label "[trans clear]" -command [list ::amsn::ClearChatWindow .${win_name}]
-		
-		menu .${win_name}.menutextsize -tearoff 0 -type normal
-		.${win_name}.menutextsize add command -label "+8" -command "change_myfontsize 8"
-		.${win_name}.menutextsize add command -label "+6" -command "change_myfontsize 6"
-		.${win_name}.menutextsize add command -label "+4" -command "change_myfontsize 4"
-		.${win_name}.menutextsize add command -label "+2" -command "change_myfontsize 2"
-		.${win_name}.menutextsize add command -label "+1" -command "change_myfontsize 1"
-		.${win_name}.menutextsize add command -label "+0" -command "change_myfontsize 0"
-		.${win_name}.menutextsize add command -label " -1" -command "change_myfontsize -1"
-		.${win_name}.menutextsize add command -label " -2" -command "change_myfontsize -2"
-		
-
-		menu .${win_name}.menu.view -tearoff 0 -type normal
-		.${win_name}.menu.view add cascade -label "[trans textsize]" \
-		-menu .${win_name}.menutextsize
-		.${win_name}.menu.view add separator
-		.${win_name}.menu.view add checkbutton -label "[trans chatsmileys]" \
-		-onvalue 1 -offvalue 0 -variable [::config::getVar chatsmileys]
-
-		global .${win_name}_show_picture
-		set .${win_name}_show_picture 0
-		.${win_name}.menu.view add checkbutton -label "[trans showdisplaypic]" -command "::amsn::ShowOrHidePicture .${win_name}" -onvalue 1 -offvalue 0 -variable ".${win_name}_show_picture"
-		.${win_name}.menu.view add separator
-
-		#Remove this menu item on Mac OS X because we "lost" the window instead of just hide it and change accelerator for history on mac os x
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			.${win_name}.menu.view add command -label "[trans history]" -command "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin" -accelerator "Command-Option-H"
-		} else {
-			.${win_name}.menu.view add command -label "[trans history]" -command "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin" -accelerator "Ctrl+H"
-			.${win_name}.menu.view add separator
-			.${win_name}.menu.view add command -label "[trans hidewindow]" -command "wm state .${win_name} withdraw"
-		}
-		
-		.${win_name}.menu.view add separator
-		.${win_name}.menu.view add cascade -label "[trans style]" -menu .${win_name}.menu.view.style
-
-		menu .${win_name}.menu.view.style -tearoff 0 -type normal	
-		.${win_name}.menu.view.style add radiobutton -label "[trans msnstyle]" -value "msn" -variable [::config::getVar chatstyle]
-		.${win_name}.menu.view.style add radiobutton -label "[trans ircstyle]" -value "irc" -variable [::config::getVar chatstyle]
-		.${win_name}.menu.view.style add radiobutton -label "[trans customstyle]..." -value "custom" -variable [::config::getVar chatstyle] -command "::amsn::enterCustomStyle"
-
-		menu .${win_name}.menu.actions -tearoff 0 -type normal
-		.${win_name}.menu.actions add command -label "[trans addtocontacts]" \
-		-command "::amsn::ShowAddList \"[trans addtocontacts]\" .${win_name} ::MSN::addUser"
-		.${win_name}.menu.actions add command -label "[trans block]/[trans unblock]" \
-		-command "::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} ::amsn::blockUnblockUser"
-		.${win_name}.menu.actions add command -label "[trans viewprofile]" \
-		-command "::amsn::ShowChatList \"[trans viewprofile]\" .${win_name} ::hotmail::viewProfile"
-		.${win_name}.menu.actions add command -label "[trans properties]" \
-		-command "::amsn::ShowChatList \"[trans properties]\" .${win_name} ::abookGui::showUserProperties"
-		.${win_name}.menu.actions add separator
-		.${win_name}.menu.actions add command -label "[trans invite]..." -command "::amsn::ShowInviteList \"[trans invite]\" .${win_name}"
-		.${win_name}.menu.actions add separator
-		.${win_name}.menu.actions add command -label [trans sendmail] \
-		-command "::amsn::ShowChatList \"[trans sendmail]\" .${win_name} launch_mailer"
-		.${win_name} conf -menu .${win_name}.menu
-
-		menu .${win_name}.copypaste -tearoff 0 -type normal
-		.${win_name}.copypaste add command -label [trans cut] -command "status_log cut\n;tk_textCut .${win_name}"
-		.${win_name}.copypaste add command -label [trans copy] -command "status_log copy\n;tk_textCopy .${win_name}"
-		.${win_name}.copypaste add command -label [trans paste] -command "status_log paste\n;tk_textPaste .${win_name}"
-
-		menu .${win_name}.copy -tearoff 0 -type normal
-		.${win_name}.copy add command -label [trans copy] -command "status_log copy\n;copy 0 .${win_name}"
-
-		if {[info exist xmms(loaded)]} {
-			.${win_name}.copy add cascade -label "XMMS" -menu .${win_name}.copy.xmms
-
-			menu .${win_name}.copy.xmms -tearoff 0 -type normal
-			.${win_name}.copy.xmms add command -label [trans xmmscurrent] -command "xmms ${win_name} 1"
-			.${win_name}.copy.xmms add command -label [trans xmmssend] -command "xmms ${win_name} 2"
-		}
-		#Create iTunes menu on Mac OS X, to send message for current playing song
-		if {$tcl_platform(os) == "Darwin"} {
-			.${win_name}.copy add cascade -label "iTunes" -menu .${win_name}.copy.itunes
-			menu .${win_name}.copy.itunes -tearoff 0 -type normal
-			.${win_name}.copy.itunes add command -label [trans xmmscurrent] -command "catch {exec osascript plugins/applescript/display_and_send.scpt &}; after 7000 itunes ${win_name} 1"
-			.${win_name}.copy.itunes add command -label [trans xmmssend] -command "catch {exec osascript plugins/applescript/display_and_send.scpt &}; after 7000 itunes ${win_name} 2"
-		}
-
-		frame .${win_name}.f -class amsnChatFrame -background [::skin::getColor background1] -borderwidth 0 -relief flat
-
-		ScrolledWindow .${win_name}.f.out -auto vertical -scrollbar vertical
-		
-		text .${win_name}.f.out.text -borderwidth 1 -foreground white -background white -width 45 -height 5 -wrap word \
-			-exportselection 1  -relief flat -highlightthickness 0 -selectborderwidth 1
-		
-		.${win_name}.f.out setwidget .${win_name}.f.out.text
-		
-
-		frame .${win_name}.f.top -class Amsn -relief flat -borderwidth 0 -background [::skin::getColor background1]
-
-
-		text .${win_name}.f.top.textto  -borderwidth 0 -width [string length "[trans to]:"] -relief solid \
-		-height 1 -wrap none -background [::skin::getColor background1] -foreground [::skin::getColor background2] -highlightthickness 0 \
-		-selectbackground [::skin::getColor background1] -selectforeground [::skin::getColor background2] -selectborderwidth 0 -exportselection 0 -padx 5
-		.${win_name}.f.top.textto configure -state normal -font bplainf
-		.${win_name}.f.top.textto insert end "[trans to]:"
-		.${win_name}.f.top.textto configure -state disabled
-
-		text .${win_name}.f.top.text  -borderwidth 0 -width 45 -relief flat \
-			-height 1 -wrap none -background [::skin::getColor background1] -foreground [::skin::getColor background2] -highlightthickness 0 \
-			-selectbackground [::skin::getColor background1] -selectborderwidth 0 -selectforeground [::skin::getColor background2] -exportselection 1
-
-		#Change color of border on Mac OS X
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			frame .${win_name}.f.bottom -class Amsn -borderwidth 0 -relief solid -background [::skin::getColor background2]
-		} else {
-			frame .${win_name}.f.bottom -class Amsn -borderwidth 0 -relief solid -background [::skin::getColor background1]
-		}
-			
-		set bottom .${win_name}.f.bottom
-
-		frame $bottom.buttons -class Amsn -borderwidth 0 -relief solid -background [::skin::getColor background2]
-
-
-		frame $bottom.in -class Amsn -background white -relief solid -borderwidth 0
-
-		text $bottom.in.input -background white -width 15 -height 3 -wrap word\
-			-font bboldf -borderwidth 0 -relief solid -highlightthickness 0 -exportselection 1
-		#Send button in conversation window, specifications and command
-		frame $bottom.in.f -class Amsn -borderwidth 0 -relief solid -background white
-		#Only compatible with TCL/TK 8.4, and disable it on Mac OS X(too ugly!)
-		if { $::tcl_version >= 8.4 && $tcl_platform(os) != "Darwin"} {
-			#New skinnable button
-			button $bottom.in.f.send -image [::skin::loadPixmap sendbutton] -command "::amsn::MessageSend .${win_name} $bottom.in.input" \
-				-fg black -bg white -bd 0 -relief flat -overrelief flat -activebackground white \
-				-activeforeground #8c8c8c -text [trans send] -font sboldf -compound center\
-				 -highlightthickness 0
-		} else {
-			#Old button
-			button $bottom.in.f.send  -text [trans send] -width 6 -borderwidth 1 -relief solid \
-				-command "::amsn::MessageSend .${win_name} $bottom.in.input" -font bplainf -highlightthickness 0 \
-				-highlightbackground white
-		}
-
-
-		load_my_pic
-
-		label $bottom.pic  -borderwidth 1 -relief solid -image [::skin::getNoDisplayPicture] -background #FFFFFF
-		set_balloon $bottom.pic [trans nopic]
-		button $bottom.showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] -bg [::skin::getColor background1] -highlightthickness 0 \
-		-command "::amsn::ToggleShowPicture ${win_name}; ::amsn::ShowOrHidePicture .${win_name}" -font splainf
-			set_balloon $bottom.showpic [trans showdisplaypic]
-		grid $bottom.showpic -row 0 -column 2 -padx 0 -pady 3 -rowspan 2 -sticky ns
-		grid columnconfigure $bottom 3 -minsize 3
-
-		bind $bottom.pic <Button1-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
-		bind $bottom.pic <<Button3>> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
-
-
-		frame .${win_name}.statusbar -class Amsn -borderwidth 0 -relief solid
-
-		text .${win_name}.statusbar.status  -width 5 -height 1 -wrap none\
-			-font bplainf -borderwidth 1
-		text .${win_name}.statusbar.charstyped  -width 4 -height 1 -wrap none\
-			-font splainf -borderwidth 1
-		.${win_name}.statusbar.charstyped tag configure center -justify left
-
-
-
-		button $bottom.buttons.smileys  -image [::skin::loadPixmap butsmile] -relief flat -padx 5 -background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0
-		set_balloon $bottom.buttons.smileys [trans insertsmiley]
-		button $bottom.buttons.fontsel -image [::skin::loadPixmap butfont] -relief flat -padx 5 -background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0
-		set_balloon $bottom.buttons.fontsel [trans changefont]
-		button $bottom.buttons.block -image [::skin::loadPixmap butblock] -relief flat -padx 5 -background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0
-		set_balloon $bottom.buttons.block [trans block]
-		button $bottom.buttons.sendfile -image [::skin::loadPixmap butsend] -relief flat -padx 3 -background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0
-		set_balloon $bottom.buttons.sendfile [trans sendfile]
-		button $bottom.buttons.invite -image [::skin::loadPixmap butinvite] -relief flat -padx 3 -background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0
-		set_balloon $bottom.buttons.invite [trans invite]
-		pack $bottom.buttons.fontsel $bottom.buttons.smileys -side left
-		pack $bottom.buttons.block $bottom.buttons.sendfile $bottom.buttons.invite -side right
-		#Remove thin border on Mac OS X (padx)
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			pack .${win_name}.f.top -side top -fill x -padx 0 -pady 0
-		} else {
-			pack .${win_name}.f.top -side top -fill x -padx 3 -pady 0
-		}
-			
-		pack .${win_name}.statusbar -side bottom -fill x
-		grid .${win_name}.statusbar.status -row 0 -column 0 -padx 0 -pady 0 -sticky we
-		if { [::config::getKey charscounter] } {
-			grid .${win_name}.statusbar.charstyped -row 0 -column 0 -padx 0 -pady 0 -sticky e
-		}
-		grid columnconfigure .${win_name}.statusbar 0 -weight 1
-		grid columnconfigure .${win_name}.statusbar 1
-
-		grid $bottom.in -row 1 -column 0 -padx 3 -pady 3 -sticky nsew
-		grid $bottom.buttons -row 0 -column 0 -padx 3 -pady 0 -sticky ewns
-		grid column $bottom 0 -weight 1
-		
-		#Remove thin border on Mac OS X (padx)
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-				pack .${win_name}.f.out -expand true -fill both -padx 0 -pady 0
-			} else {
-				pack .${win_name}.f.out -expand true -fill both -padx 3 -pady 0
-			}
-		
-		pack .${win_name}.f.top.textto -side left -fill y -anchor nw -padx 0 -pady 3
-		pack .${win_name}.f.top.text -side left -expand true -fill x -padx 4 -pady 3
-
-		pack .${win_name}.f.bottom -side top -expand false -fill x -padx 0 -pady 0
-
-		pack $bottom.in.f.send -fill both -expand true
-		pack $bottom.in.input -side left -expand true -fill both -padx 1 -pady 1
-		pack $bottom.in.f -side left -fill y -padx 3 -pady 4
-
-		pack .${win_name}.f -expand true -fill both -padx 0 -pady 0
-
-		.${win_name}.f.top.text configure -state disabled
-		.${win_name}.f.out.text configure -state disabled
-		.${win_name}.statusbar.status configure -state disabled
-		.${win_name}.statusbar.charstyped configure -state disabled
-		$bottom.in.f.send configure -state disabled
-		$bottom.in.input configure -state normal
-
-
-		.${win_name}.f.out.text tag configure green -foreground darkgreen -background white -font sboldf
-		.${win_name}.f.out.text tag configure red -foreground red -background white -font sboldf
-		.${win_name}.f.out.text tag configure blue -foreground blue -background white -font sboldf
-		.${win_name}.f.out.text tag configure gray -foreground #404040 -background white -font splainf
-		.${win_name}.f.out.text tag configure gray_italic -foreground #000000 -background white -font sbolditalf
-		.${win_name}.f.out.text tag configure white -foreground white -background black -font sboldf
-		.${win_name}.f.out.text tag configure url -foreground #000080 -background white -font splainf -underline true
-
-
-		bind $bottom.in.input <Tab> "focus $bottom.in.f.send; break"
-		
-
-		bind  $bottom.buttons.smileys  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $bottom.in.input"
-		bind  $bottom.buttons.fontsel  <Button1-ButtonRelease> "change_myfont ${win_name}"
-		bind  $bottom.buttons.block  <Button1-ButtonRelease> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} ::amsn::blockUnblockUser"
-		bind $bottom.buttons.sendfile <Button1-ButtonRelease> "::amsn::FileTransferSend .${win_name}"
-		bind $bottom.buttons.invite <Button1-ButtonRelease> "::amsn::ShowInviteMenu .${win_name} %X %Y"
-
-
-		bind $bottom.in.f.send <Return> \
-			"::amsn::MessageSend .${win_name} $bottom.in.input; break"
-		bind $bottom.in.input <Shift-Return> {%W insert insert "\n"; %W see insert; break}
-		bind $bottom.in.input <Control-KP_Enter> {%W insert insert "\n"; %W see insert; break}
-		bind $bottom.in.input <Shift-KP_Enter> {%W insert insert "\n"; %W see insert; break}
-		#Change shortcuts on TKAqua(Mac OS X), ALT=Option Control=Command on Mac
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			bind $bottom.in.input <Command-Return> {%W insert insert "\n"; %W see insert; break}
-			bind $bottom.in.input <Command-Option-space> BossMode
-			bind $bottom.in.input <Command-a> {%W tag add sel 1.0 {end - 1 chars};break}
-		} else {
-			bind $bottom.in.input <Control-Return> {%W insert insert "\n"; %W see insert; break}
-			bind $bottom.in.input <Control-Alt-space> BossMode
-			bind $bottom.in.input <Control-a> {%W tag add sel 1.0 {end - 1 chars};break}
-		}
-
-		bind $bottom.in.input <<Button3>> "tk_popup .${win_name}.copypaste %X %Y"
-		bind $bottom.in.input <<Button2>> "paste .${win_name} 1"
-		bind .${win_name}.f.out.text <<Button3>> "tk_popup .${win_name}.copy %X %Y"
-		
-		
-		#Do not bind copy command on button 1 on Mac OS X 
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			#Empty
-		} else {
-			bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
-		}
-		
-		#When someone type something in out.text, regive the focus to in.input and insert that key
-		bind .${win_name}.f.out.text <KeyPress> "lastKeytyped %A $bottom"
-
-
-		#Define this events, in case they were not defined by Tk
-		event add <<Paste>> <Control-v> <Control-V>
-		event add <<Copy>> <Control-c> <Control-C>
-		event add <<Cut>> <Control-x> <Control-X>
-
-		bind .${win_name} <<Cut>> "status_log cut\n;tk_textCut .${win_name}"
-		bind .${win_name} <<Copy>> "status_log copy\n;tk_textCopy .${win_name}"
-		bind .${win_name} <<Paste>> "status_log paste\n;tk_textPaste .${win_name}"
-
-		#Change shortcut for history on Mac OS X
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			bind .${win_name} <Command-Option-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
-			
-		} else {
-			bind .${win_name} <Control-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
-		}
-
-
-		bind .${win_name} <Destroy> "window_history clear %W; ::amsn::closedWindow .${win_name} %W"
-
-		focus $bottom.in.input
-
-		change_myfontsize [::config::getKey textsize] .${win_name}
-
-
-
-		#TODO: We always want these menus and bindings enabled? Think it!!
-		$bottom.in.input configure -state normal
-		$bottom.in.f.send configure -state normal
-
-		.${win_name}.menu.msn entryconfigure 3 -state normal
-		.${win_name}.menu.actions entryconfigure 5 -state normal
-
-		#Better binding, works for tk 8.4 only (see proc  tification too)
-		if { [catch {
-			$bottom.in.input edit modified false
-			bind $bottom.in.input <<Modified>> "::amsn::TypingNotification .${win_name} $bottom.in.input"
-		} res]} {
-			#If fails, fall back to 8.3
-			bind $bottom.in.input <Key> "::amsn::TypingNotification .${win_name} $bottom.in.input"
-			bind $bottom.in.input <Key-Meta_L> "break;"
-			bind $bottom.in.input <Key-Meta_R> "break;"
-			bind $bottom.in.input <Key-Alt_L> "break;"
-			bind $bottom.in.input <Key-Alt_R> "break;"
-			bind $bottom.in.input <Key-Control_L> "break;"
-			bind $bottom.in.input <Key-Control_R> "break;"
-			bind $bottom.in.input <Key-Return> "break;"
-		}
-
-		bind $bottom.in.input <Key-Delete> "::amsn::DeleteKeyPressed .${win_name} $bottom.in.input %K"
-		bind $bottom.in.input <Key-BackSpace> "::amsn::DeleteKeyPressed .${win_name} $bottom.in.input %K"
-		bind $bottom.in.input <Key-Up> {my_TextSetCursor %W [::amsn::UpKeyPressed %W]; break}
-		bind $bottom.in.input <Key-Down> {my_TextSetCursor %W [::amsn::DownKeyPressed %W]; break}
-		bind $bottom.in.input <Shift-Key-Up> {my_TextKeySelect %W [::amsn::UpKeyPressed %W]; break}
-		bind $bottom.in.input <Shift-Key-Down> {my_TextKeySelect %W [::amsn::DownKeyPressed %W]; break}
-		global skipthistime
-		set skipthistime 0
-
-		bind $bottom.in.input <Return> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-		bind $bottom.in.input <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-		bind .${win_name} <<Escape>> "::amsn::closeWindow .${win_name}; break"
-
-		#Different shortcuts on Mac OS X
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			bind $bottom.in.input <Control-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-			bind .${win_name} <Command-,> "Preferences"
-			bind all <Command-q> {
-				close_cleanup;exit
-			}
-			bind $bottom.in.input <Command-Up> "window_history previous %W; break"
-			bind $bottom.in.input <Command-Down> "window_history next %W; break"
-		} else {
-			bind $bottom.in.input <Alt-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-			bind $bottom.in.input <Control-Up> "window_history previous %W; break"
-			bind $bottom.in.input <Control-Down> "window_history next %W; break"
-		}
-
-		#Added to stop amsn freezing when control-up pressed in the output window
-		#If you can find why it is freezing and can stop it remove this line
-		bind .${win_name}.f.out.text <Control-Up> "break"
-
-		set window_titles(.${win_name}) ""
-		set first_message(.${win_name}) 1
-		set recent_message(.${win_name}) 0
-
-		bind .${win_name} <Configure> "::amsn::ConfiguredChatWin .${win_name}"
-
-		wm protocol .${win_name} WM_DELETE_WINDOW "::amsn::closeWindow .${win_name}"
-
-		variable chat_windows 
-		lappend chat_windows ".${win_name}"
-
-		set evPar(win) ".${win_name}"
-		::plugins::PostEvent new_chatwindow evPar
-
-		wm state .${win_name} withdraw
-		
-		return ".${win_name}"
-	}
-	
-	proc ClearChatWindow {win} {
-		${win}.f.out.text configure -state normal
-		${win}.f.out.text delete 0.0 end
-		${win}.f.out.text configure -state disabled
-	}
-
-	proc ConfiguredChatWin {win} {
-		set chatid [ChatFor $win]
-		if { $chatid != 0 } {
-			after cancel "::amsn::WinTopUpdate $chatid"
-			after 200 "::amsn::WinTopUpdate $chatid"
-		}
-		set geom [wm geometry $win]
-		set pos_start [string first "+" $geom]
-
-		if { [::config::getKey savechatwinsize] } {
-			::config::setKey winchatsize  [string range $geom 0 [expr {$pos_start-1}]]
-		}
-		#status_log "[::config::getKey winchatsize]\n"
-	}
-
 
 	proc ToggleShowPicture { win_name } {
 		upvar #0 .${win_name}_show_picture show_pic
@@ -2328,7 +1484,7 @@ namespace eval ::amsn {
 			set y [expr $y - 115]
 		}
 
-		set chatid [::amsn::ChatFor $win]
+		set chatid [::ChatWindow::Name $win]
 		set users [::MSN::usersInChat $chatid]
 		#Switch to "my picture" or "user picture"
 		$win.picmenu add command -label "[trans showmypic]" \
@@ -2513,7 +1669,7 @@ namespace eval ::amsn {
 	proc ShowAddList {title win_name command} {
 
 		set userlist [list]
-		set chatusers [::MSN::usersInChat [ChatFor $win_name]]
+		set chatusers [::MSN::usersInChat [::ChatWindow::Name $win_name]]
 
 		foreach user_login $chatusers {
 			set user_state_code [::abook::getVolatileData $user_login state FLN]
@@ -2538,7 +1694,7 @@ namespace eval ::amsn {
 	proc ShowInviteList { title win_name } {
 
 		set userlist [list]
-		set chatusers [::MSN::usersInChat [ChatFor $win_name]]
+		set chatusers [::MSN::usersInChat [::ChatWindow::Name $win_name]]
 
 		foreach user_login [::MSN::sortedContactList] {			
 			set user_state_code [::abook::getVolatileData $user_login state FLN]
@@ -2553,20 +1709,20 @@ namespace eval ::amsn {
 			}
 		}
 
-		set chatid [ChatFor $win_name]
+		set chatid [::ChatWindow::Name $win_name]
 
 		if { [llength $userlist] > 0 } {
-			::amsn::listChoose $title $userlist "::amsn::queueinviteUser [ChatFor $win_name]" 1 0
+			::amsn::listChoose $title $userlist "::amsn::queueinviteUser [::ChatWindow::Name $win_name]" 1 0
 
 		} else {	        
-			cmsn_draw_otherwindow $title "::amsn::queueinviteUser [ChatFor $win_name]"
+			cmsn_draw_otherwindow $title "::amsn::queueinviteUser [::ChatWindow::Name $win_name]"
 		}
 	}
 
 	proc ShowInviteMenu { win_name x y } {
 
 		set menulength 0
-		set chatid [ChatFor $win_name]
+		set chatid [::ChatWindow::Name $win_name]
 		set chatusers [::MSN::usersInChat $chatid]
 
 		foreach user_login [::MSN::sortedContactList] {			
@@ -2580,7 +1736,7 @@ namespace eval ::amsn {
 		if { $menulength > 10 } {
 			::amsn::ShowInviteList "[trans invite]" $win_name
 		} elseif { $menulength == 0 } {
-			cmsn_draw_otherwindow [trans invite] "::amsn::queueinviteUser [ChatFor $win_name]"
+			cmsn_draw_otherwindow [trans invite] "::amsn::queueinviteUser [::ChatWindow::Name $win_name]"
 		} else {
 			.menu_invite delete 0 end			
 			foreach user_login [::MSN::sortedContactList] {			
@@ -2597,7 +1753,7 @@ namespace eval ::amsn {
 			}
 
 			.menu_invite add separator
-			.menu_invite add command -label "[trans other]..." -command [list cmsn_draw_otherwindow [trans invite] "::amsn::queueinviteUser [ChatFor $win_name]"]
+			.menu_invite add command -label "[trans other]..." -command [list cmsn_draw_otherwindow [trans invite] "::amsn::queueinviteUser [::ChatWindow::Name $win_name]"]
 			tk_popup .menu_invite $x $y
 		}
 
@@ -2611,7 +1767,7 @@ namespace eval ::amsn {
 	proc ShowChatList {title win_name command} {
 
 		set userlist [list]
-		set chatusers [::MSN::usersInChat [ChatFor $win_name]]
+		set chatusers [::MSN::usersInChat [::ChatWindow::Name $win_name]]
 
 		foreach user_login $chatusers {
 			set user_state_code [::abook::getVolatileData $user_login state FLN]
@@ -2738,7 +1894,7 @@ namespace eval ::amsn {
 	proc TypingNotification { win_name inputbox} {
 		global skipthistime
 
-		set chatid [ChatFor $win_name]
+		set chatid [::ChatWindow::Name $win_name]
 
 
 		if { $skipthistime } {
@@ -2799,7 +1955,7 @@ namespace eval ::amsn {
 		}
 		set newlength [expr "$totallength - $y"]
 
-		set chatid [ChatFor $win_name]
+		set chatid [::ChatWindow::Name $win_name]
 		if { [string length [$inputbox get 0.0 end-1c]] == 0 } {
 			CharsTyped $chatid ""
 		} else {
@@ -2876,7 +2032,7 @@ namespace eval ::amsn {
 	proc MessageSend { win_name input {custom_msg ""} {friendlyname ""}} {
 
 
-		set chatid [ChatFor $win_name]
+		set chatid [::ChatWindow::Name $win_name]
 
 		if { $chatid == 0 } {
 			status_log "VERY BAD ERROR in ::amsn::MessageSend!!!\n" red
@@ -2908,8 +2064,8 @@ namespace eval ::amsn {
 		if { $friendlyname != "" } {
 			set nick $friendlyname
 			set p4c 1
-		} elseif { [::abook::getContactData [ChatFor $win_name] cust_p4c_name] != ""} {
-			set friendlyname [::abook::parseCustomNick [::abook::getContactData [ChatFor $win_name] cust_p4c_name] [::abook::getPersonal nick] [::abook::getPersonal login] ""]
+		} elseif { [::abook::getContactData [::ChatWindow::Name $win_name] cust_p4c_name] != ""} {
+			set friendlyname [::abook::parseCustomNick [::abook::getContactData [::ChatWindow::Name $win_name] cust_p4c_name] [::abook::getPersonal nick] [::abook::getPersonal login] ""]
 			set nick $friendlyname
 			set p4c 1
 		} elseif { [::config::getKey p4c_name] != ""} {
@@ -2984,91 +2140,15 @@ namespace eval ::amsn {
 	# window related to 'chatid'
 	proc DeliveryFailed { chatid msg } {
 
-		set win_name [WindowFor $chatid]
+		set win_name [::ChatWindow::For $chatid]
 
-		if { [WindowFor $chatid] == 0} {
+		if { [::ChatWindow::For $chatid] == 0} {
 			chatUser $chatid
 		}
 		update idletasks
 		set txt "[trans deliverfail]:\n $msg"
 		WinWrite $chatid "\n[timestamp] [trans deliverfail]:\n" red
 		WinWrite $chatid "$msg" gray
-
-	}
-	#///////////////////////////////////////////////////////////////////////////////
-
-
-	#///////////////////////////////////////////////////////////////////////////////
-# 	# closeWindow (win_name)
-	# Called when a window is about to be closed
-	proc closeWindow { win_name} {
-		variable recent_message
-		
-		if { $recent_message($win_name) == 1  && [::config::getKey recentmsg] == 1} {
-			status_log "Recent message exists\n" white
-			set recent_message($win_name) 0
-		} else {
-			variable chat_windows
-			set idx [lsearch $chat_windows $win_name]
-			if { $idx != -1 } {
-				set chat_windows [lreplace $chat_windows $idx $idx]
-			}
-			destroy $win_name
-		}
-		
-	}
-
-	
-	#///////////////////////////////////////////////////////////////////////////////
-	# closedWindow (win_name,path)
-	# Called when a window and its children are destroyed. When the main window is
-	# destroyed ('win_name'=='path') then it tells the protocol layer to leave the
-	# chat related to 'win_name', and unsets variables used for that window
-	proc closedWindow { win_name path } {
-
-		#Only run when the parent window close event comes
-		if { "$win_name" != "$path" } {
-			return 0
-		}
-
-
-		variable window_titles
-		variable first_message
-		variable recent_message
-
-
-		set chatid [ChatFor $win_name]
-
-		if { $chatid == 0 } {
-			status_log "VERY BAD ERROR in ::amsn::closedWindow!!!\n" red
-			return 0
-		}
-
-		if {[::config::getKey keep_logs]} {
-			set user_list [::MSN::usersInChat $chatid]
-			foreach user_login $user_list {
-				::log::StopLog $user_login
-			}
-		}
-
-		UnsetWindowFor $chatid $win_name
-		unset window_titles(${win_name})
-		unset first_message(${win_name})
-		unset recent_message(${win_name})
-
-		#Delete images if not in use
-		catch {destroy $win_name.bottom.pic}
-		set user_list [::MSN::usersInChat $chatid]
-		foreach user_login $user_list {
-			if {![catch {image inuse user_pic_$user_login}]} {
-
-				if {![image inuse user_pic_$user_login]} {
-					status_log "Image user_pic_$user_login not in use, deleting it\n"
-					image delete user_pic_$user_login
-				}
-			}
-		}
-		::MSN::leaveChat $chatid
 
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -3140,7 +2220,7 @@ namespace eval ::amsn {
 			
 			set measurefont [list $font [lindex [::config::getGlobalKey basefont] 1] $style]
 			
-			set win_name [WindowFor $chatid]
+			set win_name [::ChatWindow::For $chatid]
 			set maxw [winfo width $win_name.f.out.text]
 			status_log "Custom font is $customfont\n" red
 			incr maxw [expr -10-[font measure $measurefont -displayof $win_name "$says"]]
@@ -3179,45 +2259,20 @@ namespace eval ::amsn {
 
 		if { $chatid == 0} {
 			return 0
-		} elseif { [WindowFor $chatid] == 0} {
+		} elseif { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		} elseif { "$ready" != "" && [::MSN::chatReady $chatid] != 0 } {
 			return 0
 		} else {
-			WinStatus [WindowFor $chatid] $msg $icon
+			::ChatWindow::Status [::ChatWindow::For $chatid] $msg $icon
 		}
 
 	}
 	#///////////////////////////////////////////////////////////////////////////////
-
 
 	proc chatDisabled {chatid} {
 		chatStatus $chatid ""
 	}
-
-	#///////////////////////////////////////////////////////////////////////////////
-	# WinStatus (win_name,msg,[icon])
-	# Writes the message 'msg' in the window 'win_name' status bar. It will add the
-	# icon 'icon' at the beginning of the message, if specified.
-	proc WinStatus { win_name msg {icon ""}} {
-
-		set msg [string map {"\n" " "} $msg]
-
-		if { [winfo exists $win_name] } {
-
-			${win_name}.statusbar.status configure -state normal
-			${win_name}.statusbar.status delete 0.0 end
-
-			if { "$icon"!=""} {
-				${win_name}.statusbar.status image create end -image [::skin::loadPixmap $icon] -pady 0 -padx 1
-			}
-
-			${win_name}.statusbar.status insert end $msg
-			${win_name}.statusbar.status configure -state disabled
-
-		}
-	}
-	#///////////////////////////////////////////////////////////////////////////////
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# CharsTyped (chatid,msg)
@@ -3226,10 +2281,10 @@ namespace eval ::amsn {
 
 		if { $chatid == 0} {
 			return 0
-		} elseif { [WindowFor $chatid] == 0} {
+		} elseif { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		} else {
-			set win_name [WindowFor $chatid]
+			set win_name [::ChatWindow::For $chatid]
 
 			set msg [string map {"\n" " "} $msg]
 
@@ -3243,92 +2298,6 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 
 
-	proc GotFocus { win_name } {
-		variable window_titles
-		variable new_message_on
-
-		if { [info exists new_message_on(${win_name})] && $new_message_on(${win_name}) == 1 } {
-			unset new_message_on(${win_name})
-			catch {wm title ${win_name} "$window_titles(${win_name})"} res
-			bind ${win_name} <FocusIn> ""
-			status_log "Here win_name=$win_name\n"
-		}
-	}
-
-	#///////////////////////////////////////////////////////////////////////////////
-	# WinFlicker (chatid,[count])
-	# Called when a window must flicker, and called by itself to produce the flickering
-	# effect. It will flicker the window until it gets the focus.
-	# - 'chatid' is the name of the chat to flicker.
-	# - 'count' can be any number, it's just used in self calls
-	proc WinFlicker {chatid {count 0}} {
-
-		variable window_titles
-		variable new_message_on
-
-		if { [WindowFor $chatid] != 0} {
-			set win_name [WindowFor $chatid]
-		} else {
-			return 0
-		}
-
-
-		if { [::config::getKey flicker] == 0 } {
-			if { [string first $win_name [focus]] != 0 } {
-				catch {wm title ${win_name} "*$window_titles($win_name)"} res
-				set new_message_on(${win_name}) 1
-				bind ${win_name} <FocusIn> "::amsn::GotFocus ${win_name}"
-			}
-		return 0
-		}
-
-		after cancel ::amsn::WinFlicker $chatid 0
-		after cancel ::amsn::WinFlicker $chatid 1
-
-		if { [string first $win_name [focus]] != 0 } {
-
-			# If user uses Windows, call winflash to flash the window, this is done by calling the winflash proc
-			# that should be created by the flash.dll extension. so we do it in a catch statement, if it fails
-			# Then load the extension before calling winflash. If this one or the first one were successful,
-			# we add a bind on FocusIn to call the winflash with the -state 0 option to disable it and we return.
-			if { [set ::tcl_platform(platform)] == "windows" } {
-				if { [catch {winflash $win_name -count -1} ] } {
-					if { ![catch { 
-						load [file join plugins winflash flash.dll]
-						winflash $win_name -count -1
-					} ] } {
-						bind $win_name <FocusIn> "catch \" winflash $win_name -state 0\"; bind $win_name <FocusIn> \"\""
-						return
-					}
-					
-				} else {
-					bind $win_name <FocusIn> "catch \" winflash $win_name -state 0\"; bind $win_name <FocusIn> \"\""
-					return
-				}
-			}
-
-
-			set count  [expr {( $count +1 ) % 2}]
-
-			if {![catch {
-				if { $count == 1 } {
-					wm title ${win_name} "[trans newmsg]"
-				} else {
-					wm title ${win_name} "$window_titles($win_name)"
-				}
-			} res]} {
-				after 300 ::amsn::WinFlicker $chatid $count
-			}
-		} else {
-
-			catch {wm title ${win_name} "$window_titles($win_name)"} res
-		}
-
-	}
-	#///////////////////////////////////////////////////////////////////////////////
-
-
-
 	#///////////////////////////////////////////////////////////////////////////////
 	# chatUser (user)
 	# Opens a chat for user 'user'. If a window for that user already exists, it will
@@ -3339,14 +2308,13 @@ namespace eval ::amsn {
 
 		set lowuser [string tolower $user]
 
-		set win_name [WindowFor $lowuser]
+		set win_name [::ChatWindow::For $lowuser]
 
 		if { $win_name == 0 } {
 
-			variable first_message
-			set win_name [OpenChatWindow]
-			SetWindowFor $lowuser $win_name
-			set first_message($win_name) 0
+			set win_name [::ChatWindow::Open]
+			::ChatWindow::SetFor $lowuser $win_name
+			set ::ChatWindow::first_message($win_name) 0
 		}
 
 		set chatid [::MSN::chatTo $lowuser]
@@ -3369,7 +2337,7 @@ namespace eval ::amsn {
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		win_Position_Mac ${win_name}
 		}
-		WinTopUpdate $chatid
+		::ChatWindow::TopUpdate $chatid
 
 		#We have a window for that chatid, raise it
 		raise ${win_name}
@@ -3394,9 +2362,9 @@ namespace eval ::amsn {
 	# The parameter "user" is used for smiley substitution.
 	proc WinWrite {chatid txt tagname {fontformat ""} {flicker 1} {user ""}} {
 
-		set win_name [WindowFor $chatid]
+		set win_name [::ChatWindow::For $chatid]
 
-		if { [WindowFor $chatid] == 0} {
+		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}
 
@@ -3530,31 +2498,23 @@ namespace eval ::amsn {
 		${win_name}.f.out.text configure -state disabled
 
 		if { $flicker } {
-			WinFlicker $chatid
+			::ChatWindow::Flicker $chatid
 		}
-		
-		variable recent_message
-		
-		after cancel [list ::amsn::cancelRecent ${win_name}]
-		set recent_message(${win_name}) 1
-		after 2000 [list ::amsn::cancelRecent ${win_name}]
+
+		after cancel [list set ::ChatWindow::recent_message($win_name) 0]
+		set ::ChatWindow::recent_message(${win_name}) 1
+		after 2000 [list set ::ChatWindow::recent_message($win_name) 0]
 		
 		::plugins::PostEvent WinWritten evPar
-
-
 	}
 	#///////////////////////////////////////////////////////////////////////////////
-	
-	proc cancelRecent {win_name} {
-		variable recent_message
-		set recent_message($win_name) 0
-	}
+
 
 	proc WinWriteIcon { chatid imagename {padx 0} {pady 0}} {
 
-		set win_name [WindowFor $chatid]
+		set win_name [::ChatWindow::For $chatid]
 
-		if { [WindowFor $chatid] == 0} {
+		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}
 
@@ -3576,9 +2536,9 @@ namespace eval ::amsn {
 
 	proc WinWriteClickable { chatid txt command {tagid ""}} {
 
-		set win_name [WindowFor $chatid]
+		set win_name [::ChatWindow::For $chatid]
 
-		if { [WindowFor $chatid] == 0} {
+		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}
 
@@ -4317,7 +3277,7 @@ proc change_myfontsize { size {windows ""}} {
 	if { $fontcolor == "" } { set fontcolor "000000" }
 	
 	if { $windows == "" } {
-		set windows $::amsn::chat_windows
+		set windows $::ChatWindow::chat_windows
 	}
 	
 	foreach w  $windows {
@@ -8178,7 +7138,7 @@ proc my_TextKeySelect {w new} {
     update idletasks
 }
  #win_PositionMac
- #To place the openchatwindow at the right place on Mac OS X
+ #To place the ::ChatWindow::Open at the right place on Mac OS X
  #Because the windowmanager will put all the window in bottom left after some time
  proc win_Position_Mac {win} {
  	#To know where the window manager want to put the window in X and Y

@@ -151,6 +151,7 @@ proc reload_files { } {
 	source smileys.tcl
 	source skins.tcl	;# Used for skinning purposes
 	source remote.tcl	;# The remote control procedures
+	source chatwindow.tcl	;# Abstracted Chat Window code (::ChatWindow namespace)
 	source gui.tcl		;#gui.tcl must be at the beginning to make msg_box procedure available for errors
         source plugins.tcl	;# Plugins system must be loaded before config
 	source config.tcl
