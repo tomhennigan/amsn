@@ -254,10 +254,12 @@ proc run_alarm {user nick msg} {
 	
 	#Create picture
 	if { [::alarms::getAlarmItem ${user} pic_st] == 1 } {
-		image create photo joanna_$alarm_win_number -file [::alarms::getAlarmItem ${user} pic]
-		if { ([image width joanna_$alarm_win_number] < 1024) && ([image height joanna_$alarm_win_number] < 768) } {
-			label .${wind_name}.jojo -image joanna_$alarm_win_number
-			pack .${wind_name}.jojo
+		if {[file readable [::alarms::getAlarmItem ${user} pic]]} {
+			image create photo joanna_$alarm_win_number -file [::alarms::getAlarmItem ${user} pic]
+			if { ([image width joanna_$alarm_win_number] < 1024) && ([image height joanna_$alarm_win_number] < 768) } {
+				label .${wind_name}.jojo -image joanna_$alarm_win_number
+				pack .${wind_name}.jojo
+			}
 		}
 	}
 
