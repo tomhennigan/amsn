@@ -490,6 +490,7 @@ namespace eval ::ChatWindow {
 				set win_name [::ChatWindow::Open $container]
 				::ChatWindow::SetFor $chatid $win_name
 				::ChatWindow::NameTabButton $container $win_name $chatid
+				::ChatWindow::NameTabbedWindow $container $chatid
 			}
 			#update idletasks
 			::ChatWindow::TopUpdate $chatid
@@ -2041,6 +2042,7 @@ namespace eval ::ChatWindow {
 			$tab configure -overrelief flat -compound center
 		}
 
+		::ChatWindow::SwitchToTab $container $win
 
 		return $tab
 		
@@ -2057,21 +2059,37 @@ namespace eval ::ChatWindow {
 
 	proc SwitchToTab { container win } {
 		variable containercurrent
+		set w [string map { "." "_"} $win]
+		set tab $container.bar.$w
 
 		if { [info exists containercurrent($container)] && [set containercurrent($container)] != "" } {
 			pack forget [set containercurrent($container)]
+
+			#hightlighting the current tab of the current container
+			$tab configure -fg white -bg black -activebackground black -activeforeground white
+
+			#changing the window name
+			set email [::ChatWindow::Name $win]
+			wm title $container "$email"
 		}
 
 		set  containercurrent($container) $win
 		pack $win -side top -expand true -fill both
+
 	}
 
+<<<<<<< chatwindow.tcl
+	proc NameTabbedWindow { container chatid } {
+		wm title $container "$chatid"
+	}
+=======
 
 	proc UseContainer { } {
 		set istabbed [::config::getKey tabbedchat]
 		if { $istabbed == -1} {
 			TabbedWindowsInfo
 		} 
+>>>>>>> 1.79
 
 		set istabbed [::config::getKey tabbedchat]
 
