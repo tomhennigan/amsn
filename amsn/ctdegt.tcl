@@ -231,6 +231,7 @@ proc Preferences { { settings "personal"} } {
     set libtls_temp $libtls
 
     if {[ winfo exists .cfg ]} {
+    	raise .cfg
         return
     }
 
@@ -283,6 +284,12 @@ proc Preferences { { settings "personal"} } {
 	image create photo preffont -file [GetSkinFile pixmaps preffont.gif]
 	image create photo prefphone -file [GetSkinFile pixmaps prefphone.gif]
 	set frm [Rnotebook:frame $nb $Preftabs(personal)]
+	#Scrollable frame that will contain options
+	ScrolledWindow $frm.sw -borderwidth 1
+	ScrollableFrame $frm.sw.sf -constrainedwidth 1
+	$frm.sw setwidget $frm.sw.sf
+	pack $frm.sw -anchor n -side top -expand true -fill both
+	set frm [$frm.sw.sf getframe]	
 
 	## Nickname Selection Entry Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefname] -font splainf]
@@ -351,8 +358,8 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.2.ephone51 -row 5 -column 2 -sticky w
 	grid $lfname.2.ephone52 -row 5 -column 3 -sticky w
 		
-	frame $frm.dummy -class Degt
-	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
+	#frame $frm.dummy -class Degt
+	#pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 	
 	#  .------------.
 	# _| Appearance |________________________________________________
@@ -361,6 +368,12 @@ proc Preferences { { settings "personal"} } {
 	image create photo prefalerts -file [GetSkinFile pixmaps prefalerts.gif]
 
 	set frm [Rnotebook:frame $nb $Preftabs(appearance)]
+	#Scrollable frame that will contain options
+	ScrolledWindow $frm.sw -borderwidth 1
+	ScrollableFrame $frm.sw.sf -constrainedwidth 1
+	$frm.sw setwidget $frm.sw.sf
+	pack $frm.sw -anchor n -side top -expand true -fill both
+	set frm [$frm.sw.sf getframe]	
 	
 	## General aMSN Look Options (Encoding, BGcolor, General Font)
 	set lfname [LabelFrame:create $frm.lfname -text [trans preflook]]
@@ -422,6 +435,12 @@ proc Preferences { { settings "personal"} } {
 	image create photo prefmsg -file [GetSkinFile pixmaps prefmsg.gif]
 
 	set frm [Rnotebook:frame $nb $Preftabs(session)]
+	#Scrollable frame that will contain options
+	ScrolledWindow $frm.sw -borderwidth 1
+	ScrollableFrame $frm.sw.sf -constrainedwidth 1
+	$frm.sw setwidget $frm.sw.sf
+	pack $frm.sw -anchor n -side top -expand true -fill both
+	set frm [$frm.sw.sf getframe]	
 	
 	## Sign In and AutoStatus Options Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefsession]]
@@ -501,8 +520,8 @@ proc Preferences { { settings "personal"} } {
 
 	pack $lfname.1 $lfname.2 $lfname.3 $lfname.winflicker $lfname.showdisplaypic -anchor w -side top
 
-	frame $frm.dummy -class Degt
-	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
+	#frame $frm.dummy -class Degt
+	#pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 
 	#  .--------.
 	# _| Loging |________________________________________________
@@ -571,6 +590,12 @@ proc Preferences { { settings "personal"} } {
 	image create photo prefremote -file [GetSkinFile pixmaps prefpers.gif]
 
 	set frm [Rnotebook:frame $nb $Preftabs(connection)]
+	#Scrollable frame that will contain options
+	ScrolledWindow $frm.sw -borderwidth 1
+	ScrollableFrame $frm.sw.sf -constrainedwidth 1
+	$frm.sw setwidget $frm.sw.sf
+	pack $frm.sw -anchor n -side top -expand true -fill both
+	set frm [$frm.sw.sf getframe]	
 	
 	## Connection Frame ##
 	set lfname [LabelFrame:create $frm.lfnameconnection -text [trans prefconnection]]
@@ -666,15 +691,22 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.2.lpass -row 2 -column 3 -sticky e
 	grid $lfname.2.pass -row 2 -column 4 -sticky w
 
-	frame $frm.dummy -class Degt
-	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
+	#frame $frm.dummy -class Degt
+	#pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 
 	#  .--------------.
 	# _| Others |________________________________________________
 	image create photo prefapps -file [GetSkinFile pixmaps prefpers.gif]
 
 	set frm [Rnotebook:frame $nb $Preftabs(others)]
-
+	
+	#Scrollable frame that will contain options
+	ScrolledWindow $frm.sw -borderwidth 1
+	ScrollableFrame $frm.sw.sf -constrainedwidth 1
+	$frm.sw setwidget $frm.sw.sf
+	pack $frm.sw -anchor n -side top -expand true -fill both
+	set frm [$frm.sw.sf getframe]	
+	
 	## Delete Profiles Frame ##
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefprofile3]]
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
@@ -752,8 +784,8 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.1.lconvertpathexp  -row 4 -column 2 -columnspan 3 -sticky w
 
 
-	frame $frm.dummy -class Degt
-	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
+	#frame $frm.dummy -class Degt
+	#pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 
 	#  .----------.
 	# _| Advanced |________________________________________________
@@ -761,6 +793,7 @@ proc Preferences { { settings "personal"} } {
 	set frm [Rnotebook:frame $nb $Preftabs(advanced)]
 	
 	set lfname [LabelFrame:create $frm.lfname -text [trans advancedprefs]]
+	pack $frm.lfname -anchor n -side top -expand true -fill both
 	
 	#Scrollable frame that will contain advanced optoins
 	ScrolledWindow $lfname.sw -borderwidth 1
@@ -771,9 +804,6 @@ proc Preferences { { settings "personal"} } {
 	
 	reload_advanced_options $path
 
-	# First Tab
-	#set lfname [LabelFrame:create $frm.lfname -text caca]
-	pack $frm.lfname -anchor n -side top -expand true -fill both
 	frame $path.2 -class Degt
 
 	label $path.2.delimiters -text "[trans delimiters]" -padx 5
@@ -1049,6 +1079,7 @@ proc InitPref {} {
 
 	# Insert nickname if online, disable if offline
 	set lfname [Rnotebook:frame $nb $Preftabs(personal)]
+	set lfname [$lfname.sw.sf getframe]
 	if { [::MSN::myStatusIs] == "FLN" } {
 		$lfname.lfname.f.f.1.name configure -state disabled
 	} else {
@@ -1094,7 +1125,7 @@ proc InitPref {} {
 
 	# Lets fill our profile combobox
 	set lfname [Rnotebook:frame $nb $Preftabs(others)]
-	set lfname "$lfname.lfname3.f.f"
+	set lfname "[$lfname.sw.sf getframe].lfname3.f.f"
    	set idx 0
    	set tmp_list ""
 	$lfname.1.profile list delete 0 end
@@ -1117,6 +1148,7 @@ proc InitPref {} {
 
 	# Let's fill our list of States
 	set lfname [Rnotebook:frame $nb $Preftabs(session)]
+	set lfname [$lfname.sw.sf getframe]
 	$lfname.lfname2.f.f.statelist.box delete 0 end
 	for { set idx 0 } { $idx < [StateList size] } {incr idx } {
 		$lfname.lfname2.f.f.statelist.box insert end [lindex [StateList get $idx] 0]
@@ -1129,6 +1161,7 @@ proc InitPref {} {
 
         # Init remote preferences
         set lfname [Rnotebook:frame $nb $Preftabs(connection)]
+	set lfname [$lfname.sw.sf getframe]
         $lfname.lfname3.f.f.2.pass delete 0 end
         $lfname.lfname3.f.f.2.pass insert 0 "$config(remotepassword)"
 
@@ -1143,6 +1176,7 @@ proc UpdatePreferences {} {
 	
 	# autoaway checkbuttons and entries
 	set lfname [Rnotebook:frame $nb $Preftabs(session)]
+	set lfname [$lfname.sw.sf getframe]
 	set lfname "${lfname}.lfname.f.f"
 	if { $config(autoidle) == 0 } {
 		$lfname.1.eautonoact configure -state disabled
@@ -1157,6 +1191,7 @@ proc UpdatePreferences {} {
 
 	# proxy connection entries and checkbuttons
 	set lfname [Rnotebook:frame $nb $Preftabs(connection)]
+	set lfname [$lfname.sw.sf getframe]
 	set lfname "${lfname}.lfnameconnection.f.f"
 	if { $config(connectiontype) == "proxy" } {
 		$lfname.4.post configure -state normal
@@ -1181,6 +1216,7 @@ proc UpdatePreferences {} {
 		$lfname.5.pass configure -state disabled
 	}
 	set lfname [Rnotebook:frame $nb $Preftabs(connection)]
+	set lfname [$lfname.sw.sf getframe]
 	set lfname "${lfname}.lfname.f.f"
 	if { $config(autoftip) } {
 		$lfname.1.ipaddr.entry configure -textvariable "" -text "Hola"
@@ -1193,6 +1229,7 @@ proc UpdatePreferences {} {
 
 	# remote control
 	set lfname [Rnotebook:frame $nb $Preftabs(connection)]
+	set lfname [$lfname.sw.sf getframe]
 	set lfname "${lfname}.lfname3.f.f"
 	if { $config(enableremote) == 1 } {
 		$lfname.2.pass configure -state normal
@@ -1280,6 +1317,7 @@ proc SavePreferences {} {
     # Check and save phone numbers
     if { [::MSN::myStatusIs] != "FLN" } {
 	    set lfname [Rnotebook:frame $nb $Preftabs(personal)]
+	    set lfname [$lfname.sw.sf getframe]
 	    set lfname "$lfname.lfname4.f.f"
 
 	    set cntrycode [$lfname.2.ephone1 get]
@@ -1319,6 +1357,7 @@ proc SavePreferences {} {
 
     # Change name
     set lfname [Rnotebook:frame $nb $Preftabs(personal)]
+    set lfname [$lfname.sw.sf getframe]
     set lfname "$lfname.lfname.f.f.1"
     set new_name [$lfname.name get]
     if {$new_name != "" && $new_name != [::abook::getPersonal nick] && [::MSN::myStatusIs] != "FLN"} {
@@ -1332,7 +1371,8 @@ proc SavePreferences {} {
 
     # Get remote controlling preferences
     set lfname [Rnotebook:frame $nb $Preftabs(connection)]
-	 set myconfig(remotepassword) "[$lfname.lfname3.f.f.2.pass get]"
+    set lfname [$lfname.sw.sf getframe]
+    set myconfig(remotepassword) "[$lfname.lfname3.f.f.2.pass get]"
     set config(remotepassword) $myconfig(remotepassword)
 
 	 #Copy to myconfig array, because when the window is closed, these will be restored (RestorePreferences)
