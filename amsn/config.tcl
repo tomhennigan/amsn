@@ -321,13 +321,14 @@ proc load_config {} {
 
 	ConfigDefaults
 
-	set file_id [sxml::init [file join ${HOME} "config.xml"]]
+	if { [file exists [file join ${HOME} "config.xml"]] } {
+		set file_id [sxml::init [file join ${HOME} "config.xml"]]
 	    
-	sxml::register_routine $file_id "config:entry" "new_config_entry"
-	sxml::register_routine $file_id "config:emoticon" "new_custom_emoticon"
-	sxml::parse $file_id
-	sxml::end $file_id
-    
+		sxml::register_routine $file_id "config:entry" "new_config_entry"
+		sxml::register_routine $file_id "config:emoticon" "new_custom_emoticon"
+		sxml::parse $file_id
+		sxml::end $file_id
+	}
         
     if {[info exists config(encpassword)]} {
 	set key [string range "$config(login)dummykey" 0 7]
