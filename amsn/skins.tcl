@@ -69,11 +69,7 @@ namespace eval ::skin {
 	
 	proc InitSkinDefaults { } {
 		variable ContactListColors
-		global skinconfig
-		
-		set skinconfig(smilew) 22      ;# Smiley width
-		set skinconfig(smileh) 22      ;# Smiley height
-		
+				
 		global emoticon_number emotions emotions_names emotions_data
 		set emoticon_number 0
 		set emotions_names [list]
@@ -319,12 +315,11 @@ namespace eval ::skin {
 	#######################################################################
 	# Set the default emotion size for this skin
 	proc SetEmoticonSize {cstack cdata saved_data cattr saved_attr args} {
-		global skinconfig
 		upvar $saved_data sdata
 		
 		
-		if { [info exists sdata(${cstack}:smilew)] } { set skinconfig(smilew) [string trim $sdata(${cstack}:smilew)] }
-		if { [info exists sdata(${cstack}:smileh)] } { set skinconfig(smileh) [string trim $sdata(${cstack}:smileh)] }
+		if { [info exists sdata(${cstack}:smilew)] } { ::skin::store smilew [string trim $sdata(${cstack}:smilew)] }
+		if { [info exists sdata(${cstack}:smileh)] } { ::skin::store smileh [string trim $sdata(${cstack}:smileh)] }
 		
 		return 0
 	

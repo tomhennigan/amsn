@@ -426,7 +426,7 @@ namespace eval ::smiley {
 	# To get the width and height of the menu, then it creates the menu withdrawn with 
 	# the animated smileys and static smileys in the correct order
 	proc CreateSmileyMenu { } {
-		global emotions emotions_names skinconfig custom_emotions
+		global emotions emotions_names custom_emotions
 
 		set w .smile_selector
 		if {[catch {[toplevel $w]} res]} {
