@@ -4039,7 +4039,11 @@ proc cmsn_draw_online { {force 0} } {
 
 			set gname [lindex $glist $gidx]
 			set gtag  "tg$gname"
-			catch {smile_subst $pgBuddy.text $gtag.first $gtag.last}
+			if {![catch {set startpos [$pgBuddy.text index $gtag.first]} res]} {
+				set startpos [split $startpos "."]
+				set startpos "[expr {[lindex $startpos 0]+1}].[lindex $startpos 1]"
+				smile_subst $pgBuddy.text $startpos $gtag.last
+			}
 		}
 	}
 
