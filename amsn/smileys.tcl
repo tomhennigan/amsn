@@ -330,7 +330,7 @@ proc new_custom_emoticon_gui {{name ""}} {
     
     update_enabled_sound_smileys
 
-    bind .new_custom <Destroy> "grab release .new_custom"
+    bind .new_custom <Destroy> [list grab release .new_custom]
  
 	
 
@@ -569,15 +569,15 @@ proc smile_subst {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
 			 #TODO: I just added this to avoid a bug I can't find... someday we can fix it
 		    catch {
 			 	$tw window create $endpos -window $emoticon
-		    	bind $emoticon <Destroy> "::anigif::destroy $emoticon"
+		    	bind $emoticon <Destroy> [list ::anigif::destroy $emoticon]
 		    	$tw tag remove smiley $endpos
 			 }
 
 		    set tagname  [$tw tag names $endpos]
 		    if { [llength $tagname] == 1 } {
-			bind $emoticon <Button3-ButtonRelease> "[$tw tag bind $tagname <Button3-ButtonRelease>]"
-			bind $emoticon <Enter> "[$tw tag bind $tagname <Enter>]"
-			bind $emoticon <Leave> "[$tw tag bind $tagname <Leave>]"
+			bind $emoticon <Button3-ButtonRelease> [$tw tag bind $tagname <Button3-ButtonRelease>]
+			bind $emoticon <Enter> [$tw tag bind $tagname <Enter>]
+			bind $emoticon <Leave> [$tw tag bind $tagname <Leave>]
 		    }
 
 		} else {
@@ -764,10 +764,10 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 		#First create binding to edit custom emoticon for all platforms (except Mac)
 		#Next, create specific binding for Mac OS X (AquaTK)
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			bind $w.text.$filename <Button2-ButtonRelease> "edit_custom_emotion \"$emotion\"; event generate $w <Leave>"
-			bind $w.text.$filename <Control-ButtonRelease> "edit_custom_emotion \"$emotion\"; event generate $w <Leave>"
+			bind $w.text.$filename <Button2-ButtonRelease> "catch {[list edit_custom_emotion $emotion]\; event generate $w <Leave>}"
+			bind $w.text.$filename <Control-ButtonRelease> "catch {[list edit_custom_emotion $emotion]\; event generate $w <Leave>}"
 		} else {
-			bind $w.text.$filename <Button3-ButtonRelease> "edit_custom_emotion \"$emotion\"; event generate $w <Leave>"
+			bind $w.text.$filename <Button3-ButtonRelease> "catch {[list edit_custom_emotion $emotion]\; event generate $w <Leave>}"
 	    }
 	    
 	    }
