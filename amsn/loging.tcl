@@ -809,11 +809,22 @@ proc ClearAllLogs {} {
 #///////////////////////////////////////////////////////////////////////////////
 #Events logging
 
+proc OpenLogEvent { } {
+	StartLog eventlog
+}
+
+proc CloseLogEvent { } {
+	close [LogArray eventlog get]
+	LogArray eventlog unset
+}
+	
+
 #Log Events
 proc EventLog { txt } {
-
+	::log::OpenLogEvent
 	set fileid [LogArray eventlog get]
 	puts -nonewline $fileid "\|\"LGRA[timestamp] \|\"LNOR: $txt\n"
+	::log::CloseLogEvent
 }
 
 #When contacts go online
@@ -884,23 +895,27 @@ proc eventlogin { } {
 			.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : [trans connectedwith [::config::getKey login]]"
 		}
 		if { [::log::checkeventlog] } {
-			StartLog eventlog
+			::log::OpenLogEvent
 			set fileid [LogArray eventlog get]
 			puts -nonewline $fileid "\|\"LRED\[[clock format [clock seconds] -format "%d %b %Y %T"]\] [trans connectedwith [::config::getKey login]]\n"
+			::log::CloseLogEvent
 		}
 	}
 }
 
 #Display/log when we disconnect if we display/log an event
 proc eventlogout { } {
+
+	global eventdisconnected
+
 	if { [::log::checkeventdisplay] } {
 		.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : [trans disconnectedfrom [::config::getKey login]]"
 	}
 	if { [::log::checkeventlog] } {
+		::log::OpenLogEvent
 		set fileid [LogArray eventlog get]
 		puts -nonewline $fileid "\|\"LRED\[[clock format [clock seconds] -format "%d %b %Y %T"]\] [trans disconnectedfrom [::config::getKey login]]\n\n"
-		close [LogArray eventlog get]
-		LogArray eventlog unset
+		::CloseLogEvent
 	}
 }
 
