@@ -568,14 +568,22 @@ namespace eval ::Nudge {
 	# -----------------------------------------#
 	# Get the nudge or nudgeoff pixmap from    #
 	# pixmaps folder inside plugin directory   #
+	# If a folder of the name of the current   #
+	# skin exist in /pixmaps, use the picture  #
+	# inside								   #
 	############################################	
 	proc getPixmap {name} {
 		#Set the path to the pixmap
 		set dir [::config::getKey nudgepluginpath]
-		append pixmap $dir "/pixmaps/$name.gif"
-		#Create the image
-		set img [image create photo -file $pixmap -format gif]
-		::Nudge::log "Get $name.gif from $pixmap"
+		#Get the name of the currentskin
+		set actualskin [::config::getGlobalKey skin]
+		#Verify if the picture exist in the folder of the same name of the skin, if yes use that picture
+		#If no, just use the picture inside /pixmaps
+		if {[file readable [file join $dir pixmaps $actualskin $name.gif]]} {
+			set img [image create photo -file [file join $dir pixmaps $actualskin $name.gif] -format gif]
+		} else {
+			set img [image create photo -file [file join $dir pixmaps $name.gif] -format gif]
+		}
 		return $img
 	}
 }
