@@ -478,10 +478,9 @@ namespace eval ::ChatWindow {
 	# To place the ::ChatWindow::Open at the right place on Mac OS X, because the
 	# window manager will put all the windows in bottom left after some time.
 	# Arguments:
-	#  - chatid => Is the name of the chat to flicker (a passport login)
-	#  - count => [NOT REQUIRED] Can be any number, it's just used in self calls
  	proc MacPosition { window } {
  		#To know where the window manager want to put the window in X and Y
+ 		set window [winfo toplevel $window]
  		set info1 [winfo x $window]
  		set info2 [winfo y $window]
  		#Determine the maximum place in Y to place a window
@@ -882,7 +881,7 @@ namespace eval ::ChatWindow {
 
 		status_log "tabbed window is : $w\n" red
 
-		frame $w
+		frame $w -background [::skin::getKey chatwindowbg]
 
 		# If the platform is NOT windows, set the windows' icon to our xbm
 		if {$tcl_platform(platform) != "windows"} {
