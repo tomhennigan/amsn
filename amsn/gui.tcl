@@ -2861,6 +2861,8 @@ if { $config(getdisppic) != 0 } {
    proc notifyAdd { msg command {sound ""} {type online}} {
 
       global config
+	#Define lastfocus (for Mac OS X focus bug)
+	set lastfocus [focus]
 
       if { $config(shownotify) == 0 } {
         return;
@@ -2875,6 +2877,7 @@ if { $config(getdisppic) != 0 } {
       toplevel $w -width 1 -height 1
       wm group $w .
       wm state $w withdrawn
+      
 
       set xpos $config(notifyXoffset)
       set ypos $config(notifyYoffset)
@@ -2934,16 +2937,19 @@ if { $config(getdisppic) != 0 } {
       wm state $w normal
 
       #raise $w
-
-      if { $config(animatenotify) } {
+#Disable Grownotify for Mac OS X Aqua/tk users
+      if {![catch {tk windowingsystem} wsystem] && $wsystem != "aqua" && $config(animatenotify) } {
          wm geometry $w -$xpos-[expr {$ypos-100}]
 	 after 50 "::amsn::growNotify $w $xpos [expr {$ypos-100}] $ypos"
       } else {
          wm geometry $w -$xpos-$ypos
       }
 
-
-
+#Focus last windows , in AquaTK (Mac OS X)
+if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" && $lastfocus!="" } {
+	after 50 "focus -force $lastfocus"  
+	}
+	
       if { $sound != ""} {
 	  play_sound ${sound}.wav
       }
@@ -3260,7 +3266,13 @@ proc cmsn_draw_main {} {
    wm title . "[trans title] - [trans offline]"
    wm command . [concat $argv0 $argv]
    wm group . .
+   
+ #Make mainwindow in AquaTK always start at the same place
+   if {![catch {tk windowingsystem} wsystem] && $wsystem != "aqua"} {
    catch {wm geometry . $config(wingeometry)}
+   } else {
+   wm geometry . 275x400+0+30
+   }
    
    frame .main -class Amsn -relief flat -background $bgcolor
    frame .main.f -class Amsn -relief flat -background white
