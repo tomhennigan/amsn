@@ -2338,7 +2338,7 @@ proc CALReceived {sb_name user item} {
 }
 
 proc cmsn_sb_handler {sb_name item} {
-   global list_cmdhnd msgacks
+   global list_cmdhnd msgacks config
 
 
    set item [encoding convertfrom utf-8 $item]
