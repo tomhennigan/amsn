@@ -3077,7 +3077,7 @@ namespace eval ::amsn {
 	#plays "sound"
 	proc notifyAdd { msg command {sound ""} {type online}} {
 
-		global config
+		global config tcl_platform
 		#Define lastfocus (for Mac OS X focus bug)
 		set lastfocus [focus]
 
@@ -3094,6 +3094,9 @@ namespace eval ::amsn {
 		toplevel $w -width 1 -height 1
 		wm group $w .
 		wm state $w withdrawn
+		if {$tcl_platform(platform) == "windows"} {
+			wm attributes $w -topmost 1
+		}
 
 
 		set xpos $config(notifyXoffset)
