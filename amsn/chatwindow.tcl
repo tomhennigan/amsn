@@ -1563,9 +1563,12 @@ namespace eval ::ChatWindow {
 			# New pixmap-skinnable button (For Windows and Unix > Tcl/Tk 8.3)
 			button $sendbutton -image [::skin::loadPixmap sendbutton] \
 				-command "::amsn::MessageSend $w $text" \
-				-fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat -overrelief flat \
+				-fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
 				-activebackground [::skin::getKey sendbuttonbg] -activeforeground black -text [trans send] \
-				-font sboldf -compound center -highlightthickness 0 -pady 0 -padx 0
+				-font sboldf -highlightthickness 0 -pady 0 -padx 0
+			if { $::tcl_version >= 8.4 } {
+				$sendbutton -overrelief flat -compound center
+			}
 		} else {
 			# Standard grey flat button (For Tcl/Tk < 8.4 and Mac OS X)
 			button $sendbutton  -text [trans send] -width 6 -borderwidth 1 \
@@ -2036,9 +2039,13 @@ namespace eval ::ChatWindow {
 
 		button $tab -image [::skin::loadPixmap tab] \
 		    -command "::ChatWindow::SwitchToTab $container $win" \
-		    -fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat -overrelief flat \
+		    -fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
 		    -activebackground [::skin::getKey sendbuttonbg] -activeforeground black -text $win \
-		    -font sboldf -compound center -highlightthickness 0 -pady 0 -padx 0
+		    -font sboldf -highlightthickness 0 -pady 0 -padx 0
+		if { $::tcl_version >= 8.4 } {
+			$tab -overrelief flat -compound center
+		}
+
 
 		return $tab
 		
