@@ -7,17 +7,45 @@
 		<Description>MSN7 skin by Karel Demeyer</Description>
 		<Version>1.0</Version>
 	</Information>
-<!-- Where the **** should I place the contactlist-colors ? I should have a lookin the code, but I don't have much time right now and -->
 	<General>
 		<Colors>
-			<balloonbgcolor>#daeafe</balloonbgcolor>
-			<balloonbordercolor>#2e8afe</balloonbordercolor>
-			<balloontextcolor>#000000</balloontextcolor>
-			<mainwindowbg>#ced8ef</mainwindowbg>
+			<balloonbackground>#ffffe1</balloonbackground>
+			<balloonborder>#dad8c8</balloonborder>
+			<balloontext>#000000</balloontext>
+			<menubackground>#f6f6f6</menubackground>
+			<menuforeground>#262626</menuforeground>
+			<menuactivebackground>#7b96ac</menuactivebackground>
+			<menuactiveforeground>#eef1f4</menuactiveforeground>
+			<balloonfont>splainf</balloonfont>
 		</Colors>
-		<Options>
-			<underline_contact>0</underline_contact>
+		<Geometry>
+			<notifwidth>181</notifwidth>
+			<notifheight>116</notifheight>
+			<x_notifyclose>160</x_notifyclose>
+			<y_notifyclose>3</y_notifyclose>
+		</Geometry>
+	</General>
 
+	<ContactList>
+    		<Colors>
+			<mainwindowbg>#ced8ef</mainwindowbg>
+			<contact_online>black</contact_online>
+			<contact_away>black</contact_away>
+			<contact_noactivity>black</contact_noactivity>
+			<contact_rightback>black</contact_rightback>
+			<contact_onphone>black</contact_onphone>
+			<contact_busy>black</contact_busy>
+			<contact_gonelunch>black</contact_gonelunch>
+			<contact_offline>#505050</contact_offline>
+			<groupcolorextend>#2a2a8a</groupcolorextend>
+			<groupcolorcontract>#5757ba</groupcolorcontract>
+
+   		 </Colors>
+		 <Options>
+			<underline_contact>0</underline_contact>
+			<showdisplaycontactlist>1</showdisplaycontactlist>
+		 </Options>
+		<Geometry>
 			<bigstate_xpad>0</bigstate_xpad>
 			<bigstate_ypad>0</bigstate_ypad>
 			<mystatus_xpad>3</mystatus_xpad>
@@ -28,8 +56,10 @@
 			<contract_ypad>6</contract_ypad>
 			<expand_xpad>8</expand_xpad>
 			<expand_ypad>6</expand_ypad>
-		</Options>
-	</General>
+			<x_dp_top>12</x_dp_top>
+			<y_dp_top>18</y_dp_top>
+		</Geometry>
+	</ContactList>
 
 	<ChatWindow>
 		<Colors>
@@ -41,21 +71,35 @@
 			<chat_dp_border_color>#4f6ba0</chat_dp_border_color>
 			<sendbuttonbg>#ffffff</sendbuttonbg>
 			<topbarbg>#ebf1fa</topbarbg>
+			<topbarbg_sel>#ebf1fa</topbarbg_sel>
 			<topbartext>#3c4d81</topbartext>
 			<topbarborder>#4f6ba0</topbarborder>
 			<topbarawaybg>#ebf1fa</topbarawaybg>
+			<topbarawaybg_sel>#ebf1fa</topbarawaybg_sel>
 			<topbarawaytext>#3c4d81</topbarawaytext>
 			<topbarawayborder>#4f6ba0</topbarawayborder>
 			<topbarbusybg>#ebf1fa</topbarbusybg>
+			<topbarbusybg_sel>#ebf1fa</topbarbusybg_sel>
 			<topbarbusytext>#3c4d81</topbarbusytext>
 			<topbarbusyborder>#4f6ba0</topbarbusyborder>
 			<topbarofflinebg>#ebf1fa</topbarofflinebg>
+			<topbarofflinebg_sel>#ebf1fa</topbarofflinebg_sel>
 			<topbarofflinetext>#3c4d81</topbarofflinetext>
 			<topbarofflineborder>#4f6ba0</topbarofflineborder>
 			<statusbarbg>#f7f9fd</statusbarbg>
+			<statusbarbg_sel>#f7f9fd</statusbarbg_sel>
 			<statusbartext>#3c4d81</statusbartext>
 			<chat_status_border_color>#6b5600</chat_status_border_color>
 		</Colors>
+		<Options>
+			<chat_top_border>1</chat_top_border>
+			<chat_output_border>1</chat_output_border>
+			<chat_buttons_border>1</chat_buttons_border>
+			<chat_input_border>1</chat_input_border>
+			<chat_dp_border>1</chat_dp_border>
+			<chat_status_border>0</chat_status_border>
+			<chat_sash_showhandle>0</chat_sash_showhandle>
+		</Options>
 		<Geometry>
 			<chat_top_padx>7</chat_top_padx>
 			<chat_top_pady>5</chat_top_pady>
@@ -77,15 +121,6 @@
 			<chat_status_pady>7</chat_status_pady>
 			<chat_sash_pady>3</chat_sash_pady>
 		</Geometry>
-		<Options>
-			<chat_top_border>1</chat_top_border>
-			<chat_output_border>1</chat_output_border>
-			<chat_buttons_border>1</chat_buttons_border>
-			<chat_input_border>1</chat_input_border>
-			<chat_dp_border>1</chat_dp_border>
-			<chat_status_border>0</chat_status_border>
-			<chat_sash_showhandle>0</chat_sash_showhandle>
-		</Options>
 	</ChatWindow>
 
    <smileys>
