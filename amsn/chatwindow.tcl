@@ -502,6 +502,8 @@ namespace eval ::ChatWindow {
 			}
 		}
 
+		set top_win [winfo toplevel $win_name]
+
 		# If this is the first message, and no focus on window, then show notify
 		if { $::ChatWindow::first_message($win_name) == 1  && $msg!="" } {
 			set ::ChatWindow::first_message($win_name) 0
@@ -516,57 +518,57 @@ namespace eval ::ChatWindow {
 			if { [::config::getKey newmsgwinstate] == 0 } {
 				if { [winfo exists .bossmode] } {
 					set ::BossMode(${win_name}) "normal"
-#					wm state ${win_name} withdraw
+					wm state ${top_win} withdraw
 				} else {
-#					wm state ${win_name} normal
+					wm state ${top_win} normal
 				}
 
-#				wm deiconify ${win_name}
+				wm deiconify ${top_win}
 
 				if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
-#					lower ${win_name}
-					::ChatWindow::MacPosition ${win_name}
+					lower ${top_win}
+					::ChatWindow::MacPosition ${top_win}
 				} else {
-#					raise ${win_name}
+					raise ${top_win}
 				}
 
 			} else {
 				# Iconify the window unless it was raised by the user already.
-#				if { [wm state $win_name] != "normal" } {
-#					if { [winfo exists .bossmode] } {
-#						set ::BossMode(${win_name}) "iconic"
-#						wm state ${win_name} withdraw
-#					} else {
-#						wm state ${win_name} iconic
-#					}
-#				}
+				if { [wm state $top_win] != "normal" } {
+					if { [winfo exists .bossmode] } {
+						set ::BossMode(${top_win}) "iconic"
+						wm state ${top_win} withdraw
+					} else {
+						wm state ${top_win} iconic
+					}
+				}
 			}
 		} elseif { $msg == "" } {
 			#If it's not a message event, then it's a window creation (user joins to chat)
 			if { [::config::getKey newchatwinstate] == 0 } {
 				if { [winfo exists .bossmode] } {
-					set ::BossMode(${win_name}) "normal"
-#					wm state ${win_name} withdraw
+					set ::BossMode(${top_win}) "normal"
+					wm state ${top_win} withdraw
 				} else {
-#					wm state ${win_name} normal
+					wm state ${top_win} normal
 				}
 
-#				wm deiconify ${win_name}
+				wm deiconify ${top_win}
 
 				#To have the new window "behind" on Mac OS X
 				if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
-#					lower ${win_name}
-					::ChatWindow::MacPosition ${win_name}
+					lower ${top_win}
+					::ChatWindow::MacPosition ${top_win}
 				} else {
-#					raise ${win_name}
+					raise ${top_win}
 				}
 
 			} else {
 				if { [winfo exists .bossmode] } {
-					set ::BossMode(${win_name}) "iconic"
-#					wm state ${win_name} withdraw
+					set ::BossMode(${top_win}) "iconic"
+					wm state ${top_win} withdraw
 				} else {
-#					wm state ${win_name} iconic
+					wm state ${top_win} iconic
 				}
 			}
 		}
