@@ -31,7 +31,7 @@ allow_sms Autoriser mes contacts à me téléphoner sur mon mobile
 allowallbutbl Autoriser tout le monde à me contacter sauf les personnes que j'ai bloquées
 allowbadwords Désactiver la censure des pseudonymes
 allowlist Liste des personnes autorisées :
-allowonlyinal N'autoriser que les contacts de ma liste d'acception à me contacter
+allowonlyinal N'autoriser que les contacts de ma liste des personnes autorisées à me contacter
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
 allprofilesinuse Tous les profils existants sont présentement utilisés
 animatedemoticon Cet émoticon est animé
@@ -167,7 +167,7 @@ custnotifyoffline Affiche une notification quand un de vos contact se déconnecte
 custnotifyonline Affiche une notification quand un de vos contact se connecte
 custnotifystatus Affiche une notification quand un de vos contact change de status
 currentdate Date actuelle
-currentlanguage Langue actuel
+currentlanguage Langue actuelle
 currentnotes Notes actuelles
 customcolor Couleur personnalisée
 custom_edit Editer un émoticon personnalisé
@@ -183,8 +183,9 @@ dcprofile Ne pas créer de profil
 default Configuration par défaut
 defaultloginradio Connexion avec la configuration par défaut
 defchatwinsize Taille par défaut des fenêtres de discussion (Largeur x Hauteur)
-deletecustomstate Suppression du statut personnel 
 delete Supprimer
+deleteall Tout supprimer
+deletecustomstate Suppression du statut personnel 
 delimiters Délimiteurs de l'horodateur
 deliverfail Une erreur est survenue lors de l'envoi du message suivant
 delprofile2 Sélectionnez le profil que vous voulez supprimer
@@ -608,7 +609,7 @@ subjectrequired Sujet requis
 syntaxerror Erreur de syntaxe
 tabbed Onglets
 tabbedglobal Une fenêtre à onglets pour tous les contacts se trouvant dans votre liste de contacts
-tabbedgroups  Une fenêtre à onglets pour tous les contacts se trouvant dans une même groupe
+tabbedgroups Une fenêtre à onglets pour tous les contacts se trouvant dans une même groupe
 tabtitlenick Afficher le pseudonyme dans les onglets au lieu de l'email
 temp_state Ne pas enregistrer (état temporaire, sera perdu à la fermeture d'aMSN)
 textsize Taille du texte
