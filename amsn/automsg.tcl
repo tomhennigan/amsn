@@ -253,7 +253,7 @@ proc EditNewState { mode { idx "" } } {
 	} else {
 		wm title .editstate "[trans editstate]"
 	}
-	wm transient .editstate .
+	ShowTransient .editstate
 
 	set lfname [LabelFrame:create .editstate.lfname -text [trans stateinfo]]
 	pack $lfname -anchor n -side top -expand 1 -fill x

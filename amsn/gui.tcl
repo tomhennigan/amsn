@@ -299,8 +299,8 @@ namespace eval ::amsn {
       toplevel .about
       wm title .about "[trans about] [trans title]"
       
-    set wintransient .about
-    ShowTransient $wintransient
+
+    ShowTransient .about
     
       wm state .about withdrawn
       grab .about
@@ -363,8 +363,7 @@ namespace eval ::amsn {
       toplevel .show
       wm title .show "$title"
       
-    set wintransient .show
-    ShowTransient $wintransient
+    ShowTransient .show
 
       text .show.info -background white -width 60 -height 30 -wrap word \
          -yscrollcommand ".show.ys set" -font   examplef
@@ -2041,8 +2040,8 @@ set y [expr $y - 115]
 
       wm group $wname .
 
-    set wintransient $wname
-    ShowTransient $wintransient
+
+    ShowTransient $wname
       
       
       
@@ -3846,8 +3845,7 @@ proc cmsn_draw_login {} {
 	wm group .login .
 	#wm geometry .login 600x220
 	wm title .login "[trans login] - [trans title]"
-    set wintransient .login
-    ShowTransient $wintransient
+    ShowTransient .login
 	set mainframe [LabelFrame:create .login.main -text [trans login] -font splainf]
 
 	radiobutton $mainframe.button -text [trans defaultloginradio] -value 0 -variable loginmode -command "RefreshLogin $mainframe"
@@ -3997,8 +3995,7 @@ global tcl_platform
 
     wm title .add_profile "[trans addprofile]" 
 
-    set wintransient .add_profile
-    ShowTransient $wintransient
+    ShowTransient .add_profile
     
     set mainframe [LabelFrame:create .add_profile.main -text [trans  addprofile] -font splainf] 
     label $mainframe.desc -text "[trans addprofiledesc]" -font splainf  -justify left 
@@ -4964,8 +4961,8 @@ proc newcontact {new_login new_name} {
     wm geometry ${wname} -0+100
     wm title ${wname} "$new_name - [trans title]"
     
-    set wintransient ${wname}
-    ShowTransient $wintransient
+
+    ShowTransient ${wname}
     canvas ${wname}.c -width 500 -height 150
     pack ${wname}.c -expand true -fill both
 
@@ -5020,8 +5017,8 @@ proc cmsn_change_name {} {
 	wm group .change_name .
 	wm geometry .change_name -0+100
 	wm title .change_name "[trans changenick] - [trans title]"
-    set wintransient .change_name
-    ShowTransient $wintransient
+
+    ShowTransient .change_name
 
 	label .change_name.label -font sboldf -text "[trans enternick]:"
 
@@ -5736,7 +5733,7 @@ proc check_version {} {
    toplevel .checking
 
    wm title .checking "[trans title]"
-   wm transient .checking .
+   ShowTransient .checking
    canvas .checking.c -width 250 -height 50
    pack .checking.c -expand true -fill both
 
@@ -6518,9 +6515,9 @@ proc bgerror { args } {
 #ShowTransient Ê{wintransient}
 #The function try to know if the operating system is Mac OS X or not. If no, enable window in transient. Else,
 #don't change nothing.
-proc ShowTransient {wintransient} {
+proc ShowTransient {win} {
 global tcl_platform
 if {$tcl_platform(os) != "Darwin"} {
-wm transient $wintransient .
+wm transient $win .
 }
 }
