@@ -5667,7 +5667,7 @@ proc close_cleanup {} {
   
 	#Kill soundplayer when we quit aMSN-Mac (sometime he stay open and eat your CPU)
 	if { $tcl_platform(os) == "Darwin" } {
-		catch [exec killall -c sndplay]
+		catch {exec killall -c sndplay}
 	}
   
   catch {::MSN::logout}
