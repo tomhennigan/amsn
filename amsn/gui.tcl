@@ -1814,8 +1814,8 @@ namespace eval ::amsn {
 			-font bboldf -borderwidth 0 -relief solid -highlightthickness 0 -exportselection 1
 		#Send button in conversation window, specifications and command
 		frame $bottom.in.f -class Amsn -borderwidth 0 -relief solid -background white
-		
-		if { $::tcl_version >= 8.4 } {
+		#Only compatible with TCL/TK 8.4, and disable it on Mac OS X(too ugly!)
+		if { $::tcl_version >= 8.4 && $tcl_platform(os) != "Darwin"} {
 			#New skinnable button
 			button $bottom.in.f.send -image sendbutton -command "::amsn::MessageSend .${win_name} $bottom.in.input" \
 				-fg black -bg white -bd 0 -relief flat -overrelief flat -activebackground white \
