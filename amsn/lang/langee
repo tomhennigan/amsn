@@ -88,6 +88,7 @@ changedisplaypic Vaheta pilt
 changefont Muuda fonti
 changeglobnick Muuda globaalset hüüdnime
 changenick Muuda hüüdnime
+changesize Muuda suurust
 changestate $1 muutis oma saatuse $2
 charscounter Trükitud tähtede loendur jutuaknas
 chat Vestlus
@@ -108,6 +109,7 @@ choosebgcolor Vali tausta värv
 choosecontact Palun vali kontakt listist
 choosefontcolor Vali fondi värv
 chooseskin Palun vali skin
+clear puhasta
 clearlog Tühjenda logi
 clearlog2 Tühjenda kõikide kontaktide Ajalugu
 clearlog3 Tühjenda kõik logid
@@ -122,6 +124,7 @@ confirm Oled kindel?
 confirmdelete Oled sa kindel et tahad seda kustutada $1?
 confirmpurge Kõik teiste ksautajate kuvapildid kustutatakse (sinu enda pildid säilivad). Soovid jätkata ?
 connected Sa oled nüüd ühendatud
+connectedwith Ühendatud $1
 connecterror Viga serveriga ühendamisel
 connecting Ühendan
 connection Ühendus
@@ -170,7 +173,12 @@ disableprofiles Keela profiilid (Kasulik avalikes kohtades)
 disablessl Keela SSL
 disableuserfonts Kasuta ka teise kasutaja fondi asemel enda oma
 disconnect Ühendus katkes kasutajaga $1
+disconnectedfrom Ühendus $1 lõppenud
 displaychat Kuvatava teksti häälestus
+displayeventconnect Näita kui kontakt tuleb online
+displayeventdisconnect Näita kui kontakt läheb offline
+displayeventemail Näita kui uus kiri on saabunud
+displayeventstate Näita kui kontakt muudab olekut
 displayp4context Näita P4-Context välja sisu sõnumi saatjana
 displaypic Kuvapilt
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
@@ -200,6 +208,7 @@ entercontactemail Sisesta sõbra e-maili aadress
 enterfilename Sisesta failinimi
 enternick Sisesta oma hüüdnimi
 errortls Viga TLS mooduli instaleerimisel:
+eventhistory Näita sündmuste ajalugu
 examples Näited
 exitamsn Oled kindel, et tahad väljuda?
 extras Lisateenused
@@ -302,6 +311,10 @@ ljoinedconf $1 liitus konverentsiga
 lleftconf $1 lahkus konverentsist
 loadcontacts Lae sõbranimekiri
 logbigger Logifailide suurus iga sõbraga ei ületa
+logeventconnect Logi ühendamised
+logeventdisconnect Logi lahti ühendamised
+logeventemail Logi kirjade saabumised
+logeventstate Logi olekute muutmised
 logfandexp Logifailide suurus ja Ajaloo kestvus
 loggedotherlocation Lahtiühendatud. Sisse logitud mujal
 loggingin Login sisse
@@ -394,6 +407,7 @@ openreceived Ava saadud failid
 options Seaded
 ordercontactsby Sorteeri sõpru
 ordergroupsby Sorteeri gruppe
+original õige
 other Muu
 others Muud
 p4contextprefix Liida P4-Context sõnumi saatjale see eesliide
@@ -424,6 +438,7 @@ preffont3 Muuda aMSN'i keskkonna fonti ja suurust
 prefft Failiedastus, peer-to-peer ja NAT seaded
 preflibs Library kataloogid
 preflog1 Minu Ajaloo ja logimise seaded
+preflogevent Minu sündmuste ajalugu
 preflook Minu aMSN Messengeri välimus
 prefmsging Minu sõnumikeskkond
 prefname Minu MSN Messengeri nimi/hüüdnimi
