@@ -104,7 +104,7 @@ namespace eval ::MSN {
         set userName $passport
       }
       set rtrid [::MSN::WriteNS "REM" "FL $passport $oldGid"]
-      set atrid [::MSN::WriteNS "ADD" "FL $passport $userName $newGid"]
+      set atrid [::MSN::WriteNS "ADD" "FL $passport [urlencode $userName] $newGid"]
 
    }
 
@@ -112,7 +112,7 @@ namespace eval ::MSN {
       if { $userName == "" } {
         set userName $passport
       }
-      set atrid [::MSN::WriteNS "ADD" "FL $passport $userName $newGid"]
+      set atrid [::MSN::WriteNS "ADD" "FL $passport [urlencode $userName] $newGid"]
    }
    
    
