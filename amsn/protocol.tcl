@@ -1723,7 +1723,9 @@ proc cmsn_update_users {sb_name recv} {
 
       BYE {
 
-         if {[sb get $sb_name stat] != "d"} {
+         set chatid [::MSN::ChatFor $sb_name]
+
+	  if {[sb get $sb_name stat] != "d"} {
 
             set leaves [sb search $sb_name users "[lindex $recv 1] *"]
 
@@ -1731,8 +1733,6 @@ proc cmsn_update_users {sb_name recv} {
 	     sb ldel $sb_name users $leaves
 
 	     set usr_login [lindex [sb index $sb_name users 0] 0]
-
-            set chatid [::MSN::ChatFor $sb_name]
 
             if {[sb length $sb_name users] == 1} {
 	        #We were a conference! try to become a private
