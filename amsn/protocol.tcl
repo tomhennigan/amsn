@@ -62,14 +62,17 @@ namespace eval ::MSN {
 
    proc logout {} {
 
+      if {[sb get ns stat] == "d"} {
+         return 0
+      }
       global config user_stat
       variable myStatus
       #catch {puts -nonewline [sb get ns sock] "OUT\r\n"; close [sb get ns sock]} res
       WriteNSRaw "OUT\r\n";
+      sb set ns stat "d"
+
       catch {close [sb get ns sock]} res
 
-      sb set ns data ""
-      sb set ns stat "d"
       sb set ns sock ""
       sb set ns serv [split $config(start_ns_server) ":"]
 
@@ -410,7 +413,7 @@ namespace eval ::MSN {
 
       }
 
-      degt_protocol "->SB($sbn) $msgtxt" sbsend
+      degt_protocol "->SB($sbn-$sb_sock) $msgtxt" sbsend
 
       if {$handler != ""} {
          global list_cmdhnd
@@ -1053,6 +1056,8 @@ namespace eval ::MSN {
       }
 
       catch {
+      	 fileevent [sb get $name sock] readable ""
+	 fileevent [sb get $name sock] writable ""
          close [sb get $name sock]
       } res
 
@@ -1933,8 +1938,8 @@ proc cmsn_rng {recv} {
 proc cmsn_open_sb {sbn recv} {
    global config
 
-   #TODO: I hope this works. If stat is set to "d" due to timeout, abort
-   if { [sb get $sbn stat] == "d" } {
+   #TODO: I hope this works. If stat is not "c" (trying to connect), ignore
+   if { [sb get $sbn stat] != "c" } {
       return 0
    }
 
@@ -1969,18 +1974,22 @@ proc cmsn_open_sb {sbn recv} {
 
 proc cmsn_conn_sb {name} {
 
-   status_log "cmsn_conn_sb $name\n" green
-   catch { fileevent [sb get $name sock] writable {} } res
-   sb set $name stat "a"
+   status_log "cmsn_conn_sb $name (sock is [sb get $name sock])\n" green
+   catch { fileevent [sb get $name sock] writable "" } res
 
    #Reset timeout timer
    sb set $name time [clock seconds]
 
+   sb set $name stat "a"
+
    set cmd [sb get $name auth_cmd]
    set param [sb get $name auth_param]
 
+   status_log "Here before writeSB\n" green
    ::MSN::WriteSB $name $cmd $param "cmsn_connected_sb $name"
+   status_log "Here AFTER writeSB\n" green
    ::amsn::chatStatus [::MSN::ChatFor $name] "[trans ident]...\n" miniinfo ready
+   status_log "Here exiting cmsn_conn_sb\n" green   
 }
 
 proc cmsn_conn_ans {name} {
@@ -1990,8 +1999,9 @@ proc cmsn_conn_ans {name} {
    status_log "cmsn_conn_ans $name\n" green
    catch {fileevent [sb get $name sock] writable {}} res
 
-   sb set $name stat "a"
    sb set $name time [clock seconds]
+   sb set $name stat "a"
+
 
    set cmd [sb get $name auth_cmd]; set param [sb get $name auth_param]
    ::MSN::WriteSB $name $cmd $param
@@ -2003,11 +2013,11 @@ proc cmsn_conn_ans {name} {
 proc cmsn_connected_sb {name recv} {
 
    status_log "cmsn_connected_sb $name\n" green
+   sb set $name time [clock seconds]
    sb set $name stat "i"
 
    if {[sb exists $name invite]} {
 
-      sb set $name time [clock seconds]
       cmsn_invite_user $name [sb get $name invite]
 
       ::amsn::chatStatus [::MSN::ChatFor $name] \
@@ -2037,9 +2047,9 @@ proc cmsn_reconnect { name } {
 
       
       status_log "cmsn_reconnect: stat = n , SB= $name, user=[sb get $name last_user]\n" green
+      sb set $name time [clock seconds]
       sb set $name stat "i"
 
-      sb set $name time [clock seconds]
       cmsn_invite_user $name [sb get $name last_user]
 
       ::amsn::chatStatus [::MSN::ChatFor $name] \
@@ -2050,10 +2060,19 @@ proc cmsn_reconnect { name } {
       #status_log "--Calling reconnect with d tag\n"
 
       status_log "cmsn_reconnect: stat = d , SB= $name, user=[sb get $name last_user]\n" green
+      sb set $name time [clock seconds]
+
+      sb set $name sock ""
+      sb set $name data [list]
+      sb set $name users [list]
+      sb set $name typers [list]
+      sb set $name title [trans chat]
+      sb set $name lastmsgtime 0
+
       sb set $name stat "c"
       sb set $name invite [sb get $name last_user]
 
-      sb set $name time [clock seconds]
+
 
       ::MSN::WriteNS "XFR" "SB" "cmsn_open_sb $name"
 
@@ -2065,6 +2084,8 @@ proc cmsn_reconnect { name } {
    
       if { [expr {[clock seconds] - [sb get $name time]}] > 10 } {
          status_log "--cmsn_reconnect: called again while inviting timeouted\n" red
+	 catch { fileevent [sb get $name sock] readable "" } res
+	 catch { fileevent [sb get $name sock] writable "" } res
 	 catch {close [sb get $name sock]} res
 	 sb set $name stat "d"
 	 cmsn_reconnect $name
@@ -2076,6 +2097,9 @@ proc cmsn_reconnect { name } {
    
       if { [expr {[clock seconds] - [sb get $name time]}] > 5 } {
          status_log "cmsn_reconnect: called again while reconnect timeouted\n" red
+	 catch { fileevent [sb get $name sock] readable "" } res
+	 catch { fileevent [sb get $name sock] writable "" } res
+	 catch {close [sb get $name sock]} res
 	 sb set $name stat "d"
 	 cmsn_reconnect $name
       }
@@ -2088,6 +2112,8 @@ proc cmsn_reconnect { name } {
 
       if { [expr {[clock seconds] - [sb get $name time]}] > 10 } {
          status_log "cmsn_reconnect: called again while authentication timeouted\n" red
+	 catch { fileevent [sb get $name sock] readable "" } res
+	 catch { fileevent [sb get $name sock] writable "" } res
 	 catch {close [sb get $name sock]} res
 	 sb set $name stat "d"
 	 cmsn_reconnect $name
@@ -2106,6 +2132,8 @@ proc cmsn_reconnect { name } {
 proc cmsn_sb_sessionclosed {sbn} {
 
    status_log "cmsn_sb_sessionclosed: $sbn\n" green
+   catch { fileevent [sb get $sbn sock] readable "" } res
+   catch { fileevent [sb get $sbn sock] writable "" } res
    catch {close [sb get $sbn sock]} res   
    sb set $sbn stat "d"   
    sb set $sbn sock ""
@@ -2494,7 +2522,7 @@ proc cmsn_ns_handler {item} {
    	cmsn_draw_online
 	return 0
       }
-      OUT {	# Remove Group
+      OUT {	
       	if { [lindex $item 1] == "OTH"} {
 	  msg_box "[trans loggedotherlocation]"
 	  return 0
@@ -2792,9 +2820,9 @@ proc cmsn_socket {name} {
       set readable_handler [sb get $name readable]
       set next [sb get $name connected]
 
-      sb set $name stat "cw"
       #Reset timer
       sb set $name time [clock seconds]
+      sb set $name stat "cw"
 
    }
 
