@@ -6704,6 +6704,9 @@ proc chooseFileDialog { {initialfile ""} {title ""} {parent ""} {entry ""} {oper
 	}
 	
 	if { $operation == "open" } {
+		if {![file exists $initialfile]} {
+			set initialfile ""
+		}
 		set selfile [tk_getOpenFile -filetypes $types -parent $parent -initialdir $starting_dir -initialfile $initialfile -title $title]
 	} else {
 		set selfile [tk_getSaveFile -filetypes $types -parent $parent -initialdir $starting_dir -initialfile $initialfile -title $title]
