@@ -158,7 +158,6 @@ dockkde Acoplament amb el KDE
 dontdownload No obtinguis d'Internet el mòdul TLS. L'instal·laré jo.
 dontshow No mostrar
 downloadingtls Obté el mòdul TLS de:\n$1
-editcurrentstate Edita l'estat actual
 editcustomstate Edita l'estat personalitzat
 edit Edita
 editnewstate Nou missatge automàtic per a un estat personalitzat
@@ -519,3 +518,7 @@ yoffset Desplaçament Y
 youblocked Has estat bloquejat per
 yousay Dius
 youwant Vols
+autodetectip Detecta l'adreça IP automàticament
+checkemail Mostra una entrada per la notificació de correu a la llista de contactes
+prefft Ajustaments de la transmició de fitxers, P2P i NAT
+rename Renombrar

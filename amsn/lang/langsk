@@ -204,7 +204,7 @@ ipdetect Zistit spravnu IP adresu na odosielanie/prijmanie suborov pomocou HTTP
 istyping $1 ti prave pise odkaz
 joins $1 sa pridal do konverzacie
 keepalive Keepalive (NAT)
-keeplog2 Logovat vsetky konverzacia do Historie aMSN
+keeplog2 Logovat vsetky konverzacie do Historie aMSN
 keeplog Zachovat logy z chatov
 language Jazyk
 lastmsgtime Posledny odkaz prijaty o $1
@@ -307,8 +307,8 @@ prefblock3 Trieda ta "zablokovala"
 prefconnection Nastavenie pripojenia
 prefemotic Emotikony a smajliky
 preferences Nastavenie
-preffont2 Change the way others see my text in chats
-preffont3 Change aMSN's interface font and size
+preffont2 Zmenit sposob ktory ostatny budu vidiet moj text v konverzaciach
+preffont3 Zmenit pismo a velkost pisma aMSN
 preffont Moj text odkazu:
 preflibs Priecinky kniznic
 preflog1 Moje nastavenia pre Historiu a Logovanie
@@ -440,3 +440,89 @@ yoffset Valuta Y
 youblocked Tento uzivatel ta zablokoval
 yousay Hovoris
 youwant Chces
+advanced Pokrocile
+advancedprefs Pokrocile nastavenia.
+allfiles Vsetky subory 
+allprofilesinuse Vsetky profily sa v tomto momente pouzivaju 
+animatenotify Pohyblive notifikacne okienko
+autocheckver Automaticky hladat nove verzie pri spusteni programu 
+autodetectip Najst IP automaticky 
+cantremoveothers Nemozem vymazat skupinu "Others" 
+cfgalarmall Nastavit/pridat/zrusit globalny alarm
+changecustomstate Nastavit na
+changedisplaypic Zmenit obrazok (fotku)
+charscounter Ratat dlzku napisaneho textu 
+checkemail Ukazat mailovu notifikaciu v kontaktnej knizke 
+ch_to_state Nastavit novy status
+commandstatus Spustit prikaz
+confirmpurge Vsetky fotky inych uzivatelov ulozene (nie vase fotky) budu vymazane. Ste si isty?
+convertexplain Cesta k CONVERT exe suboru, od ImageMagick (potrebne na fotky).\n Vynechat ak CONVERT je v ceste. 
+corruptconfig Subor nastaveni nejde najst/spustit. Vytvaram novy. Stary bol ulozeny ako $1. Prosim, poslite nam ho aby sme sa pozreli co sa stalo. 
+credits Programatori
+defchatwinsize Velkost pre chat-okienka (XSIZExYSIZE) 
+deletecustomstate Vymazat vlastny status
+delimiters Timestamps' delimiters: 
+disabled Vypnute 
+disableprofiles Vypnut profily (Ak ste v internet-kafe alebo pod.) 
+displaychat Ukazat nastavenia textu 
+dontshow Neukazat
+editcustomstate Editovat vlastny status 
+editvalue Zmenit valutu
+emailsinlist Ukazat aj maily okrem nicknameov v kontaktnej knizke 
+enablebanner Ukazat banner od AMSN (Treba restartovat aMSN) 
+enabled Zapnute
+faileddelete Nedalo sa vymazat 
+faileddeleteperso Tento obrazok sa nemoze vymazat pretoze to neni osobny obrazkovy subor. Mozte vymazat tymto sposobom jedine tie obrazky ktore patria vasmu profilu. 
+failed Chyba
+file Subor
+fullcontactlist Lutujem, zle vasa kontaktna knizka je plna. Budete musiet vymazat nejaky kontakt aby ste mohli pridat dalsi. 
+getdisppic Ukladat do pamati obrazky inych uzivatelov. 
+hidedisplaypic Schovat obrazok 
+imagefiles Obrazkove subory.
+insertsmiley Pridat emotikon. 
+invalidfile2 Chyba pri vytvarani suboru $1, zaistite sa ci mate tie spravne povolenia. 
+invalidpicsize Obrazok je prilis velky, prosim, vyberte si jeden mensi. 
+invalidpic Tento subor neexistuje. 
+invalidsound Tento subor neexistuje. 
+lineflushlog Zapisovat do logu kazdy riadok. 
+loggingin Startujem
+longnick Tvoj nick ma viac nez 130 pismen. MSN Protocol oficialne nepovoluje taketo nicky. Ste si isty? 
+mypic Moj obrazok: 
+newstate Pridat vlastny status 
+nopic Ziaden obrazok
+noskins Nemozem najst tvar v priecinku. Nemozem spustit AMSN. 
+notificationserver MSN Messenger Server
+notify1 Ukazat notifikacne okienko ked kontakt sa pripoji. 
+notify2 Ukazat notifikacne okienko ked vam niekto napise.
+notifytyping Odoslat inym uzivatelom notifikaciu ked pisete. 
+others Ine
+picbrowser Prehliadac Obrazkov 
+playing Hram: $1 
+prefft Odosielanie/prijmanie suborov, nastavenia P2P a NAT 
+profileexists Nemozte vytvorit profil s tymto loginom \n, pretoze jeden uz existuje. Prosim, zvolte iny. 
+purge Vycistit 
+receiveddir Priecinok prijatych suborov 
+rename Premenovat
+savechatwinsize Ulozit velkost okienka pri zmeneni velkosti 
+serverbusy Server je obsadeny 
+serverunavailable Server je nepristupny 
+showdisplaypic2 Ukazat obrazok ked sa otvori jedno okienko 
+showdisplaypic Ukazat obrazok 
+showmypic Moj obrazok
+shownotify Ukazat notifikacne okienko ked sa udeje nejaka akcia 
+showuserpic Fotka $1
+soundfiles Zvukove subory 
+startontray Nastartovat AMSN len v Tray 
+statenick Vlastny nick (vynechat aby sa to nezmenilo) 
+storenickname Vratit povodny nickname ak sa nastavy vlastny status s vlastnym nickname-om 
+strictfonts Prisposobit vsetky pisma a velkosti na to co ste si zvolili 
+temp_state Neulozit 
+timestamps Zapnut cas v okienkach 
+tkerror TK nasiel jeden error, aMSN ma chybu, prosim, odoslite nam ju. Odoslite subor $1 na adresu amsn-bugs@lists.sf.net 
+tlsexplain Priecinok kde je ulozeny modul TLS. Ak AMSN ho nemoze najst, prosim specifikujte.\n(Potrebne na SSL). 
+truncatenames1 Prisposobit dlzku nickname-ov dlhsich nez okienka v hornej casti a kontaktnej knizke 
+truncatenames2 Prisposobit dlzku nickname-ov dlhsich nez okienka v konverzaciach
+truncatenicks Prisposobit dlzku nickname-ov dlhsich nez okienka 
+xmmscurrent Ukazat pesnicku ktora sa v tomto momente hra
+xmmserr Nic sa nehra, alebo nemate nainstalovany xmms-infopipe.
+xmmssend Odoslat terajsiu pesnicku.

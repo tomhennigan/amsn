@@ -42,6 +42,7 @@ autoaway Me marquer "Absent" quand inactif plus de
 autocheckver Vérification automatique au démarrage de la verion
 autoconnect2 Me connecter automatiquement quand aMSN est lancé
 autoconnect Connexion automatique au lancement
+autodetectip Détecter l'adresse IP automatiquement
 autohotmaillog Identification automatique à Hotmail
 autoidle Absence automatique après une période d'inactivité
 autoip IP Automatique
@@ -88,6 +89,7 @@ chatreq Inviter à discuter
 chatsmileys2 Afficher les Emoticons et les Smileys dans la fenêtre de chat
 chatsmileys Utiliser les "smileys"
 checkblocking Vérifier continuellement si des utilisateurs vous ont bloqué
+checkemail Montre une ligne de notification d'email (Boîte aux lettres) dans la liste des contacts
 checkfilman Les fichiers reçus seront sauvegardés dans $1. Veuillez vérifier les propriétés du gestionnaire de fichier dans la fenêtre de préférences.
 checkingver Recherche d'une nouvelle version
 checkonfln Verifier si un utilisateur vous a bloqué lorsqu'il se déconnecte
@@ -126,6 +128,7 @@ corruptconfig Fichier de configuration corrompu. Créez-en un nouveau. L'ancien f
 corruptstates  Fichier de configuration des habitudes corrompu. Créez-en un nouveau. L'ancien fichier sera sauvegardé vers $1. Envoyez-nous le afin que nous regardions ce qui s'est passé.
 countrycode Mon pays/code région
 cprofile Créer profil
+credits Crédits
 custom_edit Editer un émoticon personnalisé
 custom_new Créer un nouvel émoticon personnalisé
 cut Couper
@@ -156,7 +159,6 @@ dockkde Ancrage dans KDE
 dontdownload Ne pas télécharger TLS, je l'installerai moi-même
 dontshow Ne pas montrer
 downloadingtls Téléchargement du module TLS à partir de :\n $1
-editcurrentstate Editer l'etat actuel
 editcustomstate Editer l'état personnel
 edit Edition
 editnewstate Nouvel état avec message automatique personnalisé
@@ -361,6 +363,7 @@ preferences Préférences
 preffont2 Changer la façon dont les autres voient mon texte lors des conversations
 preffont3 Changer la police et la taille de l'interface d'aMSN
 preffont Mon texte du message
+prefft Configuration des transferts de fichiers, peer-to-peer et NAT
 preflibs Répertoires des librairies
 preflog1 Mon historique et mes options de Log
 preflook Apparence de aMSN
@@ -402,7 +405,7 @@ reconnecting Reconnexion au serveur
 reject Refuser
 rememberpass Enregistrer le mot de passe
 removefromlist Supprimer de cette liste
-répertoire.
+rename Renommer
 reversed Inverser
 reverselist Liste inversée :
 rightback Bientôt de retour
