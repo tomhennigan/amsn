@@ -2234,10 +2234,10 @@ proc adjust_yscroll {text bar begin end } {
         pack $text -side right -expand true -fill both
 	set scrollbar_packed_$bar 1
      }
-     $bar set $begin $end   
        
   }
-  
+  $bar set $begin $end   
+    
 }
 
 #///////////////////////////////////////////////////////////////////////
