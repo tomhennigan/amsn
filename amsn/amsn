@@ -33,10 +33,12 @@
 ### along with this program; if not, write to the Free Software
 ### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ###
+### $Id$
+###
 
 
-set version "0.51"
-set date "06/04/2002"
+set version "0.52"
+set date "06/05/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -71,7 +73,6 @@ set urlstarts { "http://" "https://" "ftp://" "www." }
 set typing ""
 #end AIM
 
-
 #=======================================================================
 font create menufont -family Helvetica -size 11 -weight normal
 font create sboldf -family Helvetica -size 11 -weight bold
@@ -87,7 +88,6 @@ set trid 0
 
 set user_info ""
 set user_stat "FLN"
-
 set list_fl [list]
 set list_rl [list]
 set list_al [list]
@@ -257,6 +257,10 @@ proc cmsn_draw_main {} {
    .my_menu add command -label [trans gonelunch] -command "change_my_status LUN"
    .my_menu add command -label [trans appearoff] -command "change_my_status HDN"
 
+   #Preferences dialog/menu
+   menu .pref_menu -tearoff 0 -type normal -background #D0D0E0
+	PreferencesMenu .pref_menu
+   
    #Language selection menu
    menu .lang_menu -tearoff 0 -type normal -background #D0D0E0
 
@@ -269,7 +273,6 @@ proc cmsn_draw_main {} {
    }
 
    menu .user_menu -tearoff 0 -type normal -background #D0D0E0 
-
 
    #Main menu
    menu .main_menu -tearoff 0 -type menubar -background #D0D0E0 \
@@ -310,11 +313,12 @@ proc cmsn_draw_main {} {
    .main_menu.file add command -label "[trans close]" -command exit
 
    #Actions menu
+   set dummy_user "recipient@somewhere.com"
    menu .main_menu.actions -tearoff 0 -type normal -background #D0D0E0
    .main_menu.actions add command -label "[trans sendmsg]..." -command \
      send_im_other -state disabled
-   .main_menu.actions add command -label "[trans sendmail]" -command "" \
-      -state disabled
+   .main_menu.actions add command -label "[trans sendmail]" -command \
+      "send_mail $dummy_user" 
    .main_menu.actions add command -label "[trans changenick]..." -command \
      cmsn_change_name
    .main_menu.actions add separator
@@ -341,11 +345,13 @@ proc cmsn_draw_main {} {
    .options add command -label "[trans changenick]..." -state disabled \
       -command cmsn_change_name -state disabled
    .options add command -label "[trans proxyconf]..." -command cmsn_proxy
+   .options add cascade -label "[trans preferences]..." -menu .pref_menu
+   .options add separator
    .options add cascade -label "[trans language]..." -menu .lang_menu
-   .options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable $config(sound)
-   .options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable $config(adverts) \
+   .options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
+   .options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
      -command "msg_box \"[trans mustrestart]\""
-   .options add checkbutton -label "[trans autohotmaillog]" -onvalue 1 -offvalue 0 -variable $config(autohotlogin)
+   .options add checkbutton -label "[trans autohotmaillog]" -onvalue 1 -offvalue 0 -variable config(autohotlogin)
 
 
    #Help menu
@@ -372,6 +378,8 @@ proc cmsn_draw_main {} {
 #      -command cmsn_change_name
 #   .main_menu.msn add separator
 #   .main_menu.msn add command -label "[trans proxyconf]..." -command cmsn_proxy
+#   .main_menu.msn add separator
+#   .main_menu.msn add cascade -label "[trans preferences]..." -menu .pref_menu
 #   .main_menu.msn add separator
 #   .main_menu.msn add cascade -label "[trans language]..." -menu .lang_menu
 #   .main_menu.msn add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable $config(sound)
@@ -429,10 +437,11 @@ proc cmsn_draw_main {} {
    scrollbar .main.ys -command ".main.text yview" -background #D0D0E0
    text .main.status -background #D0D0E0 -width 30 -height 1 -wrap none
 
-   if {$config(adverts)} {
-     adv_initialize .main $config(proxy)
-     adv_show_banner  file ${images_folder}/logolinmsn.gif
-   }
+   adv_initialize .main $config(proxy)
+   # This one is not a banner but a branding. When adverts are enabled
+   # they share this space with the branding image. The branding image
+   # is cycled in between adverts.
+   adv_show_banner  file ${images_folder}/logolinmsn.gif
 
    pack .main.status -side bottom -fill x
    pack .main.ys -side right -fill y
@@ -484,7 +493,6 @@ proc cmsn_draw_offline {} {
    .main.text configure -state normal 
    .main.text delete 0.0 end
 
-
    #Iniciar sesion
 
    .main.text tag conf check_ver -fore #777777 -underline true \
@@ -524,7 +532,7 @@ proc cmsn_draw_offline {} {
 
 
    .main.text insert end "\n\n\n\n\n\n\n"
-
+ 
    if { $config(login) != "" } {
      .main.text insert end "[trans clicktologin]\n$config(login)" start_login
      .main.text tag bind start_login <Button-1> \
@@ -661,7 +669,7 @@ proc cmsn_draw_online {} {
 
    .main.text configure -state normal -font splainf
    .main.text delete 0.0 end
-  
+
 
    .main.text tag conf mystatus -fore $my_colour -underline false \
      -font bboldf
@@ -744,11 +752,10 @@ proc cmsn_draw_online {} {
       set image_type [lindex $state 4]
       if {[lsearch $list_bl "$user_login *"] != -1} {
          set image_type "blocked"
-	 if {$state_desc == ""} {set state_desc " (Bloqueado)"}
+	 if {$state_desc == ""} {set state_desc " ([trans blocked])"}
       }
 
       .main.text tag conf $user_login -fore $colour
-
 
 
       .main.text mark set new_text_start end
@@ -756,13 +763,12 @@ proc cmsn_draw_online {} {
 
 
 #by AIM
-
 #	   foreach emotion $emotions {
 #	      set symbol [lindex $emotion 0]
 #	      set file [lindex $emotion 1]
 #	      set chars [string length $symbol]
 #	      while {[set pos [.main.text search -exact -nocase \
-	                              $symbol new_text_start end]] != ""} {
+#	                              $symbol new_text_start end]] != ""} {
 #	         set posyx [split $pos "."]
 #	         set endpos "[lindex $posyx 0].[expr [lindex $posyx 1] + $chars]"
 #	         .main.text delete $pos $endpos
@@ -789,11 +795,10 @@ proc cmsn_draw_online {} {
 
    }
    }
-   
-   
+
    if $config(listsmileys) {
      smile_subst .main.text
-   }
+   }  
    .main.text configure -state disabled
 }
 
@@ -813,7 +818,16 @@ proc delete_user {user_login} {
 }
 
 proc send_mail {user_login} {
-  msg_box "Email not implemented yet"
+  global config
+
+  set mail_param ""
+  if {[string first "balsa" $config(mailcommand)] != -1} {
+      set mail_param "--compose=$user_login"
+  } elseif {[string first "mozilla" $config(mailcommand)] != -1} {
+      set mail_param "-compose mailto:$user_login"
+  }
+
+  exec $config(mailcommand) $mail_param &
 }
 
 proc show_umenu {user_login x y} {
@@ -840,14 +854,12 @@ proc show_umenu {user_login x y} {
 
 proc login_ok {} {
    global config password
-   
-   
+
    set config(login) [.login.c.signin get]
    set password [.login.c.password get]
    grab release .login
    destroy .login
 
-   
    if [catch { cmsn_ns_connect } res] {
      msg_box "[trans connecterror]"
      sb set ns stat "d"
@@ -911,6 +923,9 @@ proc cmsn_draw_msgwin {} {
       -state disabled
 
    menu .${win_name}.menu.msn -tearoff 0 -type normal -background #D0D0E0 
+   .${win_name}.menu.msn add command -label "[trans save]" \
+      -command " ChooseFilename .${win_name}.text ${name} " 
+   .${win_name}.menu.msn add separator
    .${win_name}.menu.msn add command -label "[trans close]" \
       -command "destroy .${win_name}" 
 
@@ -2248,7 +2263,7 @@ proc cmsn_change_state {recv} {
       if {$substate != "FLN"} {
 #      	 status_log "Inserting <$user_name> in menu\n" white
 #         .main_menu.msg insert 0 command -label "$user_name <$user>" \
-            -command "cmsn_chat_user $user"
+#            -command "cmsn_chat_user $user"
       }
 
       set state_no [lsearch $list_states "$substate *"]
@@ -2441,8 +2456,6 @@ proc cmsn_auth {{recv ""}} {
 	 write_ns_sock "SYN" "0"
 # Me pongo online al comenzar
 	 write_ns_sock "CHG" "NLN" ; #Era NLN
-
-
    #Log out
    .main_menu.file entryconfigure 2 -state normal
    #My status
@@ -2496,8 +2509,8 @@ proc sb_enter { sbn name } {
 #      puts $sock $cmd
 
 
-   }
-
+   } 
+   
    if {[sb length $sbn users]} {
       set txt_send [string map {"\n" "\r\n"} $txt]
       set msg "MIME-Version: 1.0\r\nContent-Type: text/plain\r\n\r\n"
@@ -2589,7 +2602,7 @@ proc cmsn_proxy_connect {name} {
 
 proc cmsn_ns_connected {} {
    global config
-   
+
 
    fileevent [sb get ns sock] writable {}
    sb set ns stat "c"

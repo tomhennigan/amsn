@@ -22,7 +22,6 @@ and more... by AIM
 # TODO Avoid blocking the messenger when reading from the socket
 # TODO Windows-like copy-paste
 # TODO Option for autoconnect (when connection detected)
-# TODO Mail sending from the contact list
 # TODO Ask for confirmation when deleting
 # TODO Clickable images in the contact list
 # TODo Background image, animation when logging in

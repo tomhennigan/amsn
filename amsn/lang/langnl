@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Over
+actions Taken
 addacontact Voeg een contact toe
 addedyou Heeft jou toegevoegd aan zijn/haar contactenlijst
 addtoo Voeg deze persoon toe aan mijn contactenlijst
@@ -10,6 +11,7 @@ avoidseen Vermijd dat deze persoon kan zien wanneer ik online ben en dat hij mij
 away Afwezig
 blankdirect Laat leeg voor directe connectie
 block Blokkeer
+blocked Geblokeerd
 busy Bezig
 cancel Annuleer
 changenick Verander nickname
@@ -36,6 +38,7 @@ language Taal
 leaves $1 verlaat conversatie
 loggingin Aan het inloggen
 login Log In
+loginas Inloggen als
 logout Log Uit
 logsin is zonet ingelogd
 mustrestart Je moet het programma herstarten omdat deze veranderingen effect zouden hebben
@@ -56,12 +59,16 @@ onphone Aan het telefoneren
 other Andere
 pass Paswoord
 port Poort
+prefapps Programma's
+preferences Instellingen
+prefsound Geluiden
 proxyconf Proxy configuratie
 proxyconfhttp HTTP proxy configuratie ondersteuning
 reconnect Wachten opdat $1 opnieuw zou verbinden
 reconnecting Opnieuw aan het verbinden met de server
 rememberpass Onthoud paswoord
 rightback Onmiddelijk terug
+save Bewaren
 says $1 zegt
 sbcon Aan het verbinden met Switch Board
 send Zend

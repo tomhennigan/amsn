@@ -1,4 +1,6 @@
-
+#
+# $Id$
+#
 
 proc hotmail_login {userlogin pass} {
   global tcl_platform HOME program_dir config

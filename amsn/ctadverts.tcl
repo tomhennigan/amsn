@@ -7,6 +7,9 @@
 #
 # Configuration of Advertisement Module (banner 234x46)
 #
+#
+# $Id$
+#
 set adv_url "http://ads.someserver.com/ads/servead.php?s=234x46&afid=1234"
 set adv_timeout 3000	; # Timeout (ms) for HTTP request
 #set adv_cycle 300000	; # Time (ms) between fetch requests

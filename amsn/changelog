@@ -1,6 +1,27 @@
 
-compu		Dave Mifsud <dave at CompuCreations dot com>
+compu		Dave Mifsud <dave at CompuCreations dot com> (<= 0.3p3)
+lordofscripts	D.E. Grimaldo <lordofscripts at users.sourceforge.net) (>0.3p3)
+alvaro       	Alvaro Iradier <airadier at users.sourceforge.net) (>=0.4)
 ###############################################################################
+
+Version 0.52
+20020605	o Added some messages to the main language catalogs 
+  		  (translations needed!)
+		o Fixed some translations and omissions
+		o Branding is always enabled. This space is shared
+		  (time & space) with the banners when advertisement is enabled
+		o Added "Save" option in the chat window to save the
+		  transcript of the chat to a file
+		o Added Preferences dialog to options menu
+		o checklang script to help translators check the integrity
+		  of the language catalogs
+		o Fixed bug in checkver (0.50 reported as newer than 0.52)
+		o Fixed bug in smileys.tcl, extra parameter removed
+		o Fixed bug that didn't show correct sound/advert/hotlogin
+		  settings in options menu.
+
+Version 0.51
+20020604	o Some fixes and menu reorganizations
 
 Version 0.50
 20020604	o Clear lists on connect bug fix

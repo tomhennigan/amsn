@@ -1,3 +1,6 @@
+#
+# $Id$
+#
 proc checking_ver {} {
    global version weburl
 
@@ -23,15 +26,15 @@ proc checking_ver {} {
      set lastver [split $tmp_data "."]
      set yourver [split $version "."]    
 
-     
-     if { [lindex $lastver 0] != [lindex $yourver 0] } {
-       set newer 1
-     } else {
-       if { [lindex $lastver 1] != [lindex $yourver 1] } {
+     if { [lindex $lastver 0] > [lindex $yourver 0] } {
          set newer 1
-       } else {
-       set newer 0
-       }
+     } else {	
+           # Major version is at least the same
+	   if { [lindex $lastver 1] > [lindex $yourver 1] } {
+	     set newer 1
+	   } else {
+	     set newer 0
+	   }
      }
      
      if !$newer {

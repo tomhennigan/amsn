@@ -1,3 +1,6 @@
+#
+# $Id$
+#
 set config(login) ""			;# These are defaults for users without
 set config(save_password) 0		;# a config file
 set config(keep_logs) 0
@@ -13,7 +16,7 @@ set config(adverts) 0
 set config(autohotlogin) 1
 set config(showonline) 1
 set config(showoffline) 1
-set config(listsmileys) 0
+set config(listsmileys) 1
 set config(chatsmileys) 1
 #end AIM
 

@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about About
+actions Actions
 addacontact Add a contact
 addedyou has added you to his/her contact list
 addtoo Add this person to my contact list
@@ -10,6 +11,7 @@ avoidseen Avoid this person can see when I'm online and contact me
 away Away
 blankdirect Leave blank for direct connection
 block Block
+blocked Blocked
 busy Busy
 cancel Cancel
 changenick Change nick
@@ -37,6 +39,7 @@ language Language
 leaves $1 leaves conversation
 loggingin Logging In
 login Log In
+loginas Login as
 logout Log Out
 logsin has just logged in
 mustrestart You must restart the program to apply changes
@@ -59,19 +62,24 @@ onphone On phone
 other Other
 pass Password
 port Port
+prefapps Applications
+preferences Preferences
+prefsound Sounds
 proxyconf Proxy configuration
 proxyconfhttp HTTP proxy support configuration
 reconnect Waiting for $1 to reconnect
 reconnecting Reconnecting to server
 rememberpass Remember password
 rightback Be right back
+save Save
 says $1 says
-sbcon Conecting to Switch Board
+sbcon Connecting to Switch Board
 send Send
 server Server
 sound Event Sound
 title Al's Messenger
 to To
+tools Tools
 typing $1 typing a message
 yousay You say
 youwant You want

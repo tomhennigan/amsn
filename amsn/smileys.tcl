@@ -1,3 +1,6 @@
+#
+# $Id$
+#
 set emotions {{":-)" smile} {":)" smile} {":-D" smiled} {":D" smiled}
 	{":->" smiled} {":>" smiled} {":-O" smileo} {":O" smileo} {":-P" smilep}
 	{":P" smilep} {";-)" wink} {";)" wink} {":-(" sad} {":(" sad}
@@ -19,7 +22,7 @@ set emotion_files {smile smiled smileo smilep wink sad crooked disgust thumbu
 	smilec smilemb smilemb sun rainbow}
 
 
-proc smile_subst {tw mark} {
+proc smile_subst {tw} {
   global emotions
 
 #      tw mark set new_text_start end
