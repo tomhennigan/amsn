@@ -340,6 +340,7 @@ lprivtoconf Private chat turned into Conference with $1
 luclosedwin You have closed the window on $1
 mailerexample ( \$recipient = Recipient ) Leave blank to use Hotmail
 mailer Mailer
+maintenance The server is going down for maintenance in $1 minutes
 maximised Maximised
 minimised Minimised/Iconified
 mins minutes
@@ -405,6 +406,7 @@ notifywin Notify Window
 notinlist You aren't on his/her contact list
 notls The MSN Protocol 9 requires the TLS package. This package does not seem to be installed on this machine. If it's installed, the path to the library directory should be specified in the Preferences window (ex: /opt/tls/lib). \n \n It's possible to download TLS from http://tls.sf.net.
 nousersinsession No users in session
+nudge $1 requests your attention
 offline Offline
 ok Ok
 onenewmail 1 new message in Inbox
