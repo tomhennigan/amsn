@@ -164,6 +164,7 @@ directconnection Directe verbonden met het internet (gebruik poort 1863)
 disabled Uitgeschakeld
 disableprofiles Schakel profielen uit (handig voor internet cafés en gedeelde omgevingen)
 disablessl SSL niet gebruiken
+disableuserfonts Negeer de lettertype-instelling van degene met wie je chat, en gebruik jouw eigen lettertype
 disconnect $1 is offline gegaan
 displaychat Discussies
 displayp4context Toon in een gespreksvenster de 'Schermnaam tijdens gesprek' van de verzender van een bericht
@@ -346,12 +347,13 @@ newstate Voeg nieuwe aangepaste status toe
 newveravailable Versie $1 is beschikbaar voor downloaden.
 next Volgende
 nick Schermnaam
+no Nee
 noactivity Geen activiteit
 nodataavailable Geen gegevens beschikbaar voor $1
+nogap Geen ruimte openlaten tussen groepen
 nogroup Geen groep
 nologfile Geen logboek voor $1
 noneavailable Geen beschikbaar.
-no Nee
 nonewmail Geen nieuwe berichten in Postvak IN
 nonewver Er zijn geen nieuwere versies beschikbaar
 nopic Geen afbeelding
@@ -451,6 +453,7 @@ reconnecting Bezig met opnieuw verbinden met de server
 reconnect Wachten tot $1 opnieuw verbindt
 reject Afwijzen
 rememberpass Wachtwoord onthouden
+removeempty Lege groepen verwijderen uit de contactpersonenlijst
 removefromlist Verwijder uit deze lijst
 rename Hernoemen
 reversed Aflopend
@@ -489,6 +492,7 @@ smileconfig Configuratie voor zelfgemaakte emoticons
 smilefile Bestandsnaam van de emoticon
 smileintro2 Pas de nodige velden aan om deze emoticon te bewerken
 smileintro Vul de nodige velden in om een nieuwe emoticon te creëren
+sngdblclick Slechts eenmaal klikken om een nieuw gespreksvenster te openen
 sound2 Geluid afspelen wanneer contactpersonen zich aanmelden of een bericht verzenden
 soundactive Speel ook geluid af als een bericht aankomt in een aktief venster
 soundcommand Dit moet het afspeelcommando zijn (vb: esdplay)
@@ -546,6 +550,8 @@ twonewmail U hebt $1 nieuwe berichten in Postvak IN
 unblock Deblokkeer
 uoffline Offline
 uonline Online
+useother Gebruik een ander programma
+usesnack Gebruik de Snack functie-bibliotheek (ingebouwd in Tcl)
 useralreadyonlist Deze gebruiker staat al in uw lijst
 userblocked De gebruiker is online maar heeft u geblokkeerd
 userdata Gebruikersinformatie
