@@ -1,3 +1,25 @@
-Not ready yet... 
+Help file for amsn
 
-Try using the FAQ.
+Requirements:
+Amsn is written in tcl/tk, so you just need a working tcl/tk interpreter,
+version 8.3 or later. You can get it at http://tcl.sourceforge.net. The
+interpreter is available for linux, windows and macintosh.Some additional
+features might require extra programs, or libraries, like the docking icon,
+the Display Pictures, or the SSL connection for MSN Protocol 9.
+
+Installation guide:
+Download the amsn-x_xx.tar.gz file. Untar it with the command:
+  gzip -d amsn-x_xx.tar.gz
+  tar xvf amsn-x_xx.tar
+It will create a msn/ directory, and amsn is installed and ready to run.
+To launch it, do:
+  cd msn
+  ./amsn
+or if this doesn't work, try
+  wish amsn
+If wish command doesn't exist, then you don't have tcl/tk correctly installed.
+If "wish amsn" works, but "./amsn" doesn't, edit 'amsn' file and set the
+correct path to 'wish' in the first line. By default it's set to:
+/usr/bin/wish
+
+If you still have a problem, try using the FAQ.

@@ -16,7 +16,7 @@ features might require extra programs, or libraries, like the docking icon,
 the Display Pictures, or the SSL connection for MSN Protocol 9.
 
 Q: How do I install and run amsn?
-A: Just donwload the amsn-x_xx.tar.gz file. Untar it with the command:
+A: Just download the amsn-x_xx.tar.gz file. Untar it with the command:
   gzip -d amsn-x_xx.tar.gz
   tar xvf amsn-x_xx.tar
 It will create a msn/ directory, and amsn is installed and ready to run.
