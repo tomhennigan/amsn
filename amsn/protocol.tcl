@@ -494,6 +494,7 @@ namespace eval ::MSNFT {
    
    proc SendFile { cookie oldcookie} {
       #File transfer accepted by remote, send final ACK
+      global config
       variable filedata
 
       status_log "Here in sendfile\n" red
@@ -516,7 +517,7 @@ namespace eval ::MSNFT {
       #if error ::AMSN::Error ...
 
       #TODO: A configurable port needed for firewalled connections
-      set port 6891
+      set port $config(initialftport)
 
       #Random authcookie
       set authcookie [expr {[clock clicks] % (65536 * 4)}]
