@@ -286,7 +286,7 @@ proc show_languagechoose {} {
 	button $frm.command.load -text "[trans load]" -command "::lang::language_manager_load" -state disabled
 	pack configure $frm.command.load -side right
 
-	button $frm.command.close -text "[trans close]" -command "::lang::language_manager_close"
+	button $frm.command.close -text "[trans close]" -command "destroy .langchoose"
 	pack configure $frm.command.close -side right
 
 	pack configure $frm.selection -side top -expand true -fill both -padx 4 -pady 4
