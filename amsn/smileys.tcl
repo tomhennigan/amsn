@@ -61,7 +61,7 @@ namespace eval ::smiley {
 		#This is only checked if ::loading_skin is set. Otherwise we're
 		#loading the default skin to get the standard smileys
 		if { [info exists ::loading_skin] } {
-			set realfile [GetSkinFile smileys $emotion(file) $::loading_skin]
+			set realfile [::skin::GetSkinFile smileys $emotion(file) $::loading_skin]
 			if { [file tail $realfile] == "null" } {
 				status_log "Missing $emotion(file) from skin $::loading_skin. Using default\n" red
 				return 0
@@ -109,7 +109,7 @@ namespace eval ::smiley {
 			
 			
 			#Associate this symbol to this file for skin reloading
-			::skin::setSmiley $text $emotion(file)
+			::skin::setPixmap $text $emotion(file)
 		}
 		
 		#Store the smiley fields in the emotions_data array
@@ -210,7 +210,7 @@ namespace eval ::smiley {
 					set sound [ValueForSmiley $emotion_name sound]
 				} else { set sound "" }
 				
-				set start [::smiley::SubstSmiley $tw $pos $symbol [::skin::loadSmiley $symbol] [ValueForSmiley $emotion_name file] $animated $sound]
+				set start [::smiley::SubstSmiley $tw $pos $symbol [::skin::loadPixmap $symbol] [ValueForSmiley $emotion_name file] $animated $sound]
 		
 				#If SubstSmiley returns -1, start from beggining.
 				#See why in SubstSmiley. This is a fix
@@ -244,7 +244,7 @@ namespace eval ::smiley {
 			incr smileys_drawn 
 	
 			label $emoticon -bd 0 -background white
-			::anigif::anigif [GetSkinFile smileys $file] $emoticon
+			::anigif::anigif [::skin::GetSkinFile smileys $file] $emoticon
 	
 			#TODO: I just added this to avoid a bug I can't find... someday we can fix it
 			catch {
@@ -480,7 +480,7 @@ namespace eval ::smiley {
 			set animated [expr {[ValueForSmiley $name animated 1] && [::config::getKey animatedsmileys 0]}]
 			
 			CreateSmileyInMenu $w.c $cols $rows $smiw $smih \
-				$emot_num $name $symbol [::skin::loadSmiley $symbol] [GetSkinFile smileys ${file}] $animated
+				$emot_num $name $symbol [::skin::loadPixmap $symbol] [::skin::GetSkinFile smileys ${file}] $animated
 
 			incr emot_num
 		
@@ -706,14 +706,14 @@ namespace eval ::smiley {
 		
 		#Check for sound, and copy it
 		if { $new_custom_cfg(enablesound) && $new_custom_cfg(sound) != "" } {
-			set filename [getfilename [GetSkinFile sounds $new_custom_cfg(sound)]]
+			set filename [getfilename [::skin::GetSkinFile sounds $new_custom_cfg(sound)]]
 			if { $filename == "null" } {
 				#if { [info exists custom_emotions(${name}_sound)] } {unset custom_emotions(${name}_sound)}
 				msg_box "[trans invalidfile [trans soundfile] \"$new_custom_cfg(sound)\"]"
 				return -1
 			} else {
 				create_dir [file join $HOME sounds]
-				catch { file copy [GetSkinFile sounds "$new_custom_cfg(sound)"] [file join $HOME sounds]}
+				catch { file copy [::skin::GetSkinFile sounds "$new_custom_cfg(sound)"] [file join $HOME sounds]}
 			}
 			set emotion(sound) $filename
 			#set custom_emotions(${name}_sound) "$filename"
@@ -723,14 +723,14 @@ namespace eval ::smiley {
 			if { [info exists emotion(sound)] } { unset emotion(sound) }
 		}
 		
-		set filename [getfilename [GetSkinFile smileys $new_custom_cfg(file)]]
+		set filename [getfilename [::skin::GetSkinFile smileys $new_custom_cfg(file)]]
 		if { $filename == "null" } {
 			msg_box "[trans invalidfile [trans smilefile] \"$new_custom_cfg(file)\"]"
 			return -1
 		} 
 		
 		create_dir [file join $HOME smileys]
-		set file [convert_image_plus [GetSkinFile smileys "$new_custom_cfg(file)"] smileys 19x19]
+		set file [convert_image_plus [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] smileys 19x19]
 		if { $file == "" } {
 			msg_box "[trans installconvert]"
 			return -1
@@ -925,11 +925,11 @@ proc process_custom_smileys_SB { txt } {
 		
 			if { [info exists emotion(casesensitive] && [is_true $emotion(casesensitive)]} {
 				if {  [string first $symbol $txt] != -1 } {
-					set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [GetSkinFile smileys [filenoext $file].png]]	"
+					set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]	"
 				}
 			} else {
 				if {  [string first $symbol2 $txt2] != -1 } {
-					set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [GetSkinFile smileys [filenoext $file].png]]	"
+					set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]	"
 				}
 			}
 		}

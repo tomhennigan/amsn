@@ -490,15 +490,15 @@ namespace eval ::ChatWindow {
 
 		# Remove thin border on Mac OS X to improve the appearance (padx)
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			pack $top -side top -expand false -fill x -padx 0 -pady [::skin::getColor chat_top_pady]
-			pack $statusbar -side bottom -expand false -fill x -padx 0 -pady [::skin::getColor chat_status_pady]
-			pack $paned -side top -expand true -fill both -padx 0 -pady [::skin::getColor chat_paned_pady]
+			pack $top -side top -expand false -fill x -padx 0 -pady [::skin::getKey chat_top_pady]
+			pack $statusbar -side bottom -expand false -fill x -padx 0 -pady [::skin::getKey chat_status_pady]
+			pack $paned -side top -expand true -fill both -padx 0 -pady [::skin::getKey chat_paned_pady]
 		} else {
-			pack $top -side top -expand false -fill x -padx [::skin::getColor chat_top_padx]\
-			 -pady [::skin::getColor chat_top_pady]
-			pack $statusbar -side bottom -expand false -fill x -padx [::skin::getColor chat_status_padx] -pady [::skin::getColor chat_status_pady]
-			pack $paned -side top -expand true -fill both -padx [::skin::getColor chat_paned_padx]\
-			 -pady [::skin::getColor chat_paned_pady]
+			pack $top -side top -expand false -fill x -padx [::skin::getKey chat_top_padx]\
+			 -pady [::skin::getKey chat_top_pady]
+			pack $statusbar -side bottom -expand false -fill x -padx [::skin::getKey chat_status_padx] -pady [::skin::getKey chat_status_pady]
+			pack $paned -side top -expand true -fill both -padx [::skin::getKey chat_paned_padx]\
+			 -pady [::skin::getKey chat_paned_pady]
 		}
 
 		focus $paned
@@ -537,7 +537,7 @@ namespace eval ::ChatWindow {
 		set w ".msg_$::ChatWindow::winid"
 		incr ::ChatWindow::winid
 
-		toplevel $w -class Amsn -background [::skin::getColor chatwindowbg]
+		toplevel $w -class Amsn -background [::skin::getKey chatwindowbg]
 
 		# If there isn't a configured size for Chat Windows, use the default one and store it.
 		if {[catch { wm geometry $w [::config::getKey winchatsize] } res]} {
@@ -562,8 +562,8 @@ namespace eval ::ChatWindow {
 
 		# If the platform is NOT windows, set the windows' icon to our xbm
 		if {$tcl_platform(platform) != "windows"} {
-			catch {wm iconbitmap $w @[GetSkinFile pixmaps amsn.xbm]}
-			catch {wm iconmask $w @[GetSkinFile pixmaps amsnmask.xbm]}
+			catch {wm iconbitmap $w @[::skin::GetSkinFile pixmaps amsn.xbm]}
+			catch {wm iconmask $w @[::skin::GetSkinFile pixmaps amsnmask.xbm]}
 		}
 
 
@@ -891,13 +891,13 @@ namespace eval ::ChatWindow {
 		set text $top.text
 
 		# Create our frame
-		frame $top -class amsnChatFrame -relief solid -borderwidth [::skin::getColor chat_top_border] -background [::skin::getColor topbarbg]
+		frame $top -class amsnChatFrame -relief solid -borderwidth [::skin::getKey chat_top_border] -background [::skin::getKey topbarbg]
 		
 		# Create the to widget
 		text $to  -borderwidth 0 -width [string length "[trans to]:"] \
-		    -relief solid -height 1 -wrap none -background [::skin::getColor topbarbg] \
-		    -foreground [::skin::getColor topbartext] -highlightthickness 0 \
-		    -selectbackground [::skin::getColor topbarbg] -selectforeground [::skin::getColor topbartext] \
+		    -relief solid -height 1 -wrap none -background [::skin::getKey topbarbg] \
+		    -foreground [::skin::getKey topbartext] -highlightthickness 0 \
+		    -selectbackground [::skin::getKey topbarbg] -selectforeground [::skin::getKey topbartext] \
 		    -selectborderwidth 0 -exportselection 0 -padx 5 -pady 3
 		
 		# Configure it
@@ -907,9 +907,9 @@ namespace eval ::ChatWindow {
 
 		# Create the text widget
 		text $text  -borderwidth 0 -width 45 -relief flat -height 1 -wrap none \
-			-background [::skin::getColor topbarbg] -foreground [::skin::getColor topbartext] \
-			-highlightthickness 0 -selectbackground [::skin::getColor topbarbg] -selectborderwidth 0 \
-			-selectforeground [::skin::getColor topbartext] -exportselection 1
+			-background [::skin::getKey topbarbg] -foreground [::skin::getKey topbartext] \
+			-highlightthickness 0 -selectbackground [::skin::getKey topbarbg] -selectborderwidth 0 \
+			-selectforeground [::skin::getKey topbartext] -exportselection 1
 		
 		# Configure it
 		$text configure -state disabled
@@ -935,17 +935,17 @@ namespace eval ::ChatWindow {
 		set charstyped $statusbar.charstyped
 
 		#Create the frame
-		frame $statusbar -class Amsn -borderwidth [::skin::getColor chat_status_border] -relief solid -background [::skin::getColor statusbarbg]
+		frame $statusbar -class Amsn -borderwidth [::skin::getKey chat_status_border] -relief solid -background [::skin::getKey statusbarbg]
 
 		#Create text insert frame
 		text $status  -width 5 -height 1 -wrap none \
-			-font bplainf -borderwidth 0 -background [::skin::getColor statusbarbg] -foreground [::skin::getColor statusbartext]\
-			-highlightthickness 0 -selectbackground [::skin::getColor statusbarbg] -selectborderwidth 0 \
-			-selectforeground [::skin::getColor statusbartext] -exportselection 1 -pady 4
+			-font bplainf -borderwidth 0 -background [::skin::getKey statusbarbg] -foreground [::skin::getKey statusbartext]\
+			-highlightthickness 0 -selectbackground [::skin::getKey statusbarbg] -selectborderwidth 0 \
+			-selectforeground [::skin::getKey statusbartext] -exportselection 1 -pady 4
 		text $charstyped  -width 4 -height 1 -wrap none \
-			-font splainf -borderwidth 0 -background [::skin::getColor statusbarbg] -foreground [::skin::getColor statusbartext]\
-			-highlightthickness 0 -selectbackground [::skin::getColor statusbarbg] -selectborderwidth 0 \
-			-selectforeground [::skin::getColor statusbartext] -exportselection 1 -pady 4
+			-font splainf -borderwidth 0 -background [::skin::getKey statusbarbg] -foreground [::skin::getKey statusbartext]\
+			-highlightthickness 0 -selectbackground [::skin::getKey statusbarbg] -selectborderwidth 0 \
+			-selectforeground [::skin::getKey statusbartext] -exportselection 1 -pady 4
 
 
 		# Configure them
@@ -967,9 +967,9 @@ namespace eval ::ChatWindow {
 		
 		set paned $w.f
 		if { $::tcl_version >= 8.4 } {
-			panedwindow $paned -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat -orient vertical ;#-opaqueresize true -showhandle false
+			panedwindow $paned -background [::skin::getKey chatwindowbg] -borderwidth 0 -relief flat -orient vertical ;#-opaqueresize true -showhandle false
 		} else {
-			frame $paned -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat 
+			frame $paned -background [::skin::getKey chatwindowbg] -borderwidth 0 -relief flat 
 		}
 		set output [CreateOutputWindow $w $paned]
 		set input [CreateInputWindow $w $paned]
@@ -980,8 +980,8 @@ namespace eval ::ChatWindow {
 			$paned paneconfigure $input -minsize 100 -height 120
 		} else {
 			pack $output -expand true -fill both -padx 0 -pady 0
-			pack $input -side top -expand false -fill both -padx [::skin::getColor chat_input_padx]\
-			 -pady [::skin::getColor chat_input_pady]
+			pack $input -side top -expand false -fill both -padx [::skin::getKey chat_input_padx]\
+			 -pady [::skin::getKey chat_input_pady]
 		}
 
 		# Bind on focus, so we always put the focus on the input window
@@ -1093,9 +1093,9 @@ namespace eval ::ChatWindow {
 
 		# Create the widgets
 		frame $fr -class Amsn -borderwidth 0 -relief solid \
-			-background [::skin::getColor chatwindowbg] -height [::config::getKey winchatoutheight]
+			-background [::skin::getKey chatwindowbg] -height [::config::getKey winchatoutheight]
 		ScrolledWindow $out -auto vertical -scrollbar vertical
-		text $text -borderwidth [::skin::getColor chat_output_border] -foreground white -background white -width 45 -height 3 \
+		text $text -borderwidth [::skin::getKey chat_output_border] -foreground white -background white -width 45 -height 3 \
 			-setgrid 0 -wrap word -exportselection 1  -relief solid -highlightthickness 0 -selectborderwidth 1
 
 		$out setwidget $text
@@ -1104,11 +1104,11 @@ namespace eval ::ChatWindow {
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			pack $out -expand true -fill both \
 				-padx 0 \
-				-pady [::skin::getColor chat_output_pady]
+				-pady [::skin::getKey chat_output_pady]
 		} else {
 			pack $out -expand true -fill both \
-				-padx [::skin::getColor chat_output_padx] \
-				-pady [::skin::getColor chat_output_pady]
+				-padx [::skin::getKey chat_output_padx] \
+				-pady [::skin::getKey chat_output_pady]
 		}
 
 		# Configure our widgets
@@ -1149,11 +1149,11 @@ namespace eval ::ChatWindow {
 
 		# Create the bottom frame widget
 		frame $bottom -class Amsn -borderwidth 0 -relief solid \
-			-background [::skin::getColor chatwindowbg]
+			-background [::skin::getKey chatwindowbg]
 		
 
 		# Create The left frame
-		frame $leftframe -class Amsn -background [::skin::getColor chatwindowbg] -relief solid -borderwidth 0
+		frame $leftframe -class Amsn -background [::skin::getKey chatwindowbg] -relief solid -borderwidth 0
 
 		# Create the other widgets for the bottom frame
 		set buttons [CreateButtonBar $w $leftframe]
@@ -1161,17 +1161,17 @@ namespace eval ::ChatWindow {
 		set picture [CreatePictureFrame $w $bottom]
 
 		pack $buttons -side top -expand false -fill x -anchor n \
-				-padx [::skin::getColor chat_buttons_padx] \
-				-pady [::skin::getColor chat_buttons_pady]
+				-padx [::skin::getKey chat_buttons_padx] \
+				-pady [::skin::getKey chat_buttons_pady]
 		pack $input -side top -expand true -fill both -anchor n \
-				-padx [::skin::getColor chat_input_padx] \
-				-pady [::skin::getColor chat_input_pady]
+				-padx [::skin::getKey chat_input_padx] \
+				-pady [::skin::getKey chat_input_pady]
 		pack $leftframe -side left -expand true -fill both \
-				-padx [::skin::getColor chat_leftframe_padx] \
-				-pady [::skin::getColor chat_leftframe_pady]
+				-padx [::skin::getKey chat_leftframe_padx] \
+				-pady [::skin::getKey chat_leftframe_pady]
 		pack $picture -side right -expand false -anchor ne \
-				-padx [::skin::getColor chat_dp_padx] \
-				-pady [::skin::getColor chat_dp_pady]
+				-padx [::skin::getKey chat_dp_padx] \
+				-pady [::skin::getKey chat_dp_pady]
 
 		# Bind the focus
 		bind $bottom <FocusIn> "focus $input"
@@ -1190,7 +1190,7 @@ namespace eval ::ChatWindow {
 
 
 		# Create The input frame
-		frame $input -class Amsn -background [::skin::getColor buttonbarbg] -relief solid -borderwidth [::skin::getColor chat_input_border]
+		frame $input -class Amsn -background [::skin::getKey buttonbarbg] -relief solid -borderwidth [::skin::getKey chat_input_border]
 		
 		# Create the text widget and the send button widget
 		text $text -background white -width 15 -height 3 -wrap word -font bboldf \
@@ -1202,14 +1202,14 @@ namespace eval ::ChatWindow {
 			# New pixmap-skinnable button (For Windows and Unix > Tcl/Tk 8.3)
 			button $sendbutton -image [::skin::loadPixmap sendbutton] \
 				-command "::amsn::MessageSend $w $text" \
-				-fg black -bg [::skin::getColor buttonbarbg] -bd 0 -relief flat -overrelief flat \
-				-activebackground [::skin::getColor buttonbarbg] -activeforeground black -text [trans send] \
+				-fg black -bg [::skin::getKey buttonbarbg] -bd 0 -relief flat -overrelief flat \
+				-activebackground [::skin::getKey buttonbarbg] -activeforeground black -text [trans send] \
 				-font sboldf -compound center -highlightthickness 0 -height 2 -pady 0 -padx 0
 		} else {
 			# Standard grey flat button (For Tcl/Tk < 8.4 and Mac OS X)
 			button $sendbutton  -text [trans send] -width 6 -borderwidth 1 \
 				-relief solid -command "::amsn::MessageSend $w $text" \
-				-font bplainf -highlightthickness 0 -highlightbackground [::skin::getColor chatwindowbg] -height 2
+				-font bplainf -highlightthickness 0 -highlightbackground [::skin::getKey chatwindowbg] -height 2
 		}
 
 
@@ -1291,8 +1291,8 @@ namespace eval ::ChatWindow {
 		if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
 			pack $sendbutton -side left -padx 0 -pady 0	
 		} else {
-			pack $sendbutton -fill y -side left -padx [::skin::getColor chat_sendbutton_padx]\
-			 -pady [::skin::getColor chat_sendbutton_pady]
+			pack $sendbutton -fill y -side left -padx [::skin::getKey chat_sendbutton_padx]\
+			 -pady [::skin::getKey chat_sendbutton_pady]
 		}
 		
 		return $input
@@ -1314,36 +1314,36 @@ namespace eval ::ChatWindow {
 
 
 		# Create them along with their respective tooltips
-		frame $buttons -class Amsn -borderwidth [::skin::getColor chat_buttons_border] -relief solid -background [::skin::getColor buttonbarbg]	
+		frame $buttons -class Amsn -borderwidth [::skin::getKey chat_buttons_border] -relief solid -background [::skin::getKey buttonbarbg]	
 
 		#Smiley button
 		button $smileys  -image [::skin::loadPixmap butsmile] -relief flat -padx 0 \
-			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-			-highlightbackground [::skin::getColor buttonbarbg]  -activebackground [::skin::getColor buttonbarbg]
+			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
+			-highlightbackground [::skin::getKey buttonbarbg]  -activebackground [::skin::getKey buttonbarbg]
 		set_balloon $smileys [trans insertsmiley]
 
 		#Font button
 		button $fontsel -image [::skin::loadPixmap butfont] -relief flat -padx 0 \
-			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0\
-			-highlightbackground [::skin::getColor buttonbarbg] -activebackground [::skin::getColor buttonbarbg]
+			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
+			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
 		set_balloon $fontsel [trans changefont]
 		
 		#Block button
 		button $block -image [::skin::loadPixmap butblock] -relief flat -padx 0 \
-			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0\
-			-highlightbackground [::skin::getColor buttonbarbg] -activebackground [::skin::getColor buttonbarbg]
+			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
+			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
 		set_balloon $block [trans block]
 		
 		#Send file button
 		button $sendfile -image [::skin::loadPixmap butsend] -relief flat -padx 0 \
-			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0\
-			-highlightbackground [::skin::getColor buttonbarbg] -activebackground [::skin::getColor buttonbarbg]
+			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
+			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
 		set_balloon $sendfile [trans sendfile]
 
 		#Invite another contact button
 		button $invite -image [::skin::loadPixmap butinvite] -relief flat -padx 0 \
-			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0\
-			-highlightbackground [::skin::getColor buttonbarbg] -activebackground [::skin::getColor buttonbarbg]
+			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
+			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
 		set_balloon $invite [trans invite]
 
 		# Pack them
@@ -1386,18 +1386,18 @@ namespace eval ::ChatWindow {
 		set showpic $frame.showpic
 
 		# Create them
-		frame $frame -class Amsn -borderwidth 0 -relief solid -background [::skin::getColor chatwindowbg]
-		label $picture -borderwidth 1 -relief solid -image [::skin::getNoDisplayPicture] -background [::skin::getColor chatwindowbg]
+		frame $frame -class Amsn -borderwidth 0 -relief solid -background [::skin::getKey chatwindowbg]
+		label $picture -borderwidth 1 -relief solid -image [::skin::getNoDisplayPicture] -background [::skin::getKey chatwindowbg]
 
 		set_balloon $picture [trans nopic]
 		button $showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] \
-			-bg [::skin::getColor chatwindowbg] -highlightthickness 0 -font splainf \
+			-bg [::skin::getKey chatwindowbg] -highlightthickness 0 -font splainf \
 			-command "::amsn::ToggleShowPicture $w; ::amsn::ShowOrHidePicture $w" \
-			-highlightbackground [::skin::getColor chatwindowbg] -activebackground [::skin::getColor chatwindowbg]
+			-highlightbackground [::skin::getKey chatwindowbg] -activebackground [::skin::getKey chatwindowbg]
 		set_balloon $showpic [trans showdisplaypic]
 
 		# Pack them 
-		#pack $picture -side left -padx 0 -pady [::skin::getColor chatpady] -anchor w
+		#pack $picture -side left -padx 0 -pady [::skin::getKey chatpady] -anchor w
 		pack $showpic -side right -expand true -fill y -padx 0 -pady 0 -anchor e
 
 		# Create our bindings
@@ -1563,18 +1563,18 @@ namespace eval ::ChatWindow {
 	# Change the color of the top window when the other contact is in another status
 	proc ChangeColorState {user_list user_state state_code win_name} {
 		#get the colour for the state
-		set colour [::skin::getColor topbarbg]
-		set tcolour [::skin::getColor topbartext]
+		set colour [::skin::getKey topbarbg]
+		set tcolour [::skin::getKey topbartext]
 		if { ([llength $user_list] == 1) && ("$user_state" != "" ) } {
 			if { ($state_code == "IDL") || ($state_code == "BRB") || ($state_code == "AWY") || ($state_code == "LUN") } {
-				set colour [::skin::getColor topbarawaybg]
-				set tcolour [::skin::getColor topbarawaytext]
+				set colour [::skin::getKey topbarawaybg]
+				set tcolour [::skin::getKey topbarawaytext]
 			} elseif { ($state_code == "PHN") || ($state_code == "BSY") } {
-				set colour [::skin::getColor topbarbusybg]
-				set tcolour [::skin::getColor topbarbusytext]
+				set colour [::skin::getKey topbarbusybg]
+				set tcolour [::skin::getKey topbarbusytext]
 			} elseif { ($state_code == "FLN") } {
-				set colour [::skin::getColor topbarofflinebg]
-				set tcolour [::skin::getColor topbarofflinetext]
+				set colour [::skin::getKey topbarofflinebg]
+				set tcolour [::skin::getKey topbarofflinetext]
 			}
 		}
 		#set the areas to the colour

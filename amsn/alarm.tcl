@@ -54,12 +54,12 @@ namespace eval ::alarms {
 		set my_alarms(${user}_enabled) [getAlarmItem $user enabled]
 		set my_alarms(${user}_sound) [getAlarmItem $user sound]
 		if { $my_alarms(${user}_sound) == "" } {
-			set my_alarms(${user}_sound) [GetSkinFile sounds alarm.wav]
+			set my_alarms(${user}_sound) [::skin::GetSkinFile sounds alarm.wav]
 		}
 		set my_alarms(${user}_sound_st) [getAlarmItem $user sound_st]
 		set my_alarms(${user}_pic) [getAlarmItem $user pic]
 		if { $my_alarms(${user}_pic) == "" } {
-			set my_alarms(${user}_pic) [GetSkinFile pixmaps alarm.gif]
+			set my_alarms(${user}_pic) [::skin::GetSkinFile pixmaps alarm.gif]
 		}
 		set my_alarms(${user}_pic_st) [getAlarmItem $user pic_st]
 		set my_alarms(${user}_msg) [getAlarmItem $user msg]

@@ -28,7 +28,7 @@ namespace eval ::MSNP2P {
 		#Reload 1 means that we force aMSN to reload a new display pic 
 		if { ![file readable "[file join $HOME displaypic cache ${filename}].gif"] || $reload == "1" } {
 			status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic cache ${filename}] doesn't exist!!\n" white
-			image create photo user_pic_$user -file [GetDisplayPicture "loading.gif"]
+			image create photo user_pic_$user -file [::skin::GetSkinFile "displaypic" "loading.gif"]
 
 			create_dir [file join $HOME displaypic]
 			create_dir [file join $HOME displaypic cache]
@@ -329,7 +329,7 @@ namespace eval ::MSNP2P {
 					    if { $file != "" } {
 						SendData $sid $chatid "[lindex [SessionList get $sid] 8]"
 					    } else {
-						SendData $sid $chatid "[GetDisplayPicture [::config::getKey displaypic]]"
+						SendData $sid $chatid "[::skin::GetSkinFile displaypic [::config::getKey displaypic]]"
 					    }
 					}
 				    DATASENT {
@@ -658,7 +658,7 @@ namespace eval ::MSNP2P {
 				    if { $file != "" } {
 							set file [filenoext $file].gif
 							if {[catch {image create photo user_pic_${user_login} -file [file join $HOME displaypic cache "${filename}.gif"]}] } {
-								image create photo user_pic_${user_login} -file [GetDisplayPicture nopic.gif]
+								image create photo user_pic_${user_login} -file [::skin::GetSkinFile displaypic nopic.gif]
 							}
 
 							set desc_file "[file join $HOME displaypic cache ${filename}.dat]"

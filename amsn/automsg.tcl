@@ -294,7 +294,7 @@ proc EditNewState { mode { idx "" } } {
 		return 0
 	}
 
-	::skin::setPixmap prefaway [file join [GetSkinFile pixmaps prefaway.gif]]
+	::skin::setPixmap prefaway [file join [::skin::GetSkinFile pixmaps prefaway.gif]]
 
 	toplevel .editstate
 	#wm group .editstate .

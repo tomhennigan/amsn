@@ -318,7 +318,7 @@ proc testpng { file } {
     source plugins/tclzlib/tclzlib.tcl
 
 
-    set im [CreatePNG [GetSkinFile displaypic ${file}.png]] 
+    set im [CreatePNG [::skin::GetSkinFile displaypic ${file}.png]] 
     if {$im != -1} {
 	catch {destroy .test}
 	toplevel .test 
@@ -332,7 +332,7 @@ proc testpng2 { file } {
 
     source msn/plugins/tclzlib/tclzlib.tcl
 
-    set im [CreatePNG [GetSkinFile displaypic ${file}.png]] 
+    set im [CreatePNG [::skin::GetSkinFile displaypic ${file}.png]] 
     if {$im != -1} {
 	catch {destroy .test2}
 	toplevel .test2
@@ -344,7 +344,7 @@ proc testpng2 { file } {
 proc testpng3 { file } {
     reload_files
 
-    set im [CreatePNG [GetSkinFile displaypic ${file}.png]] 
+    set im [CreatePNG [::skin::GetSkinFile displaypic ${file}.png]] 
     if {$im != -1} {
 	catch {destroy .test3}
 	toplevel .test3

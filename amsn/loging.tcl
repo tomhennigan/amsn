@@ -399,7 +399,7 @@ proc OpenLogWin { {email ""} } {
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		frame $wname.blueframe
 	} else {
-		frame $wname.blueframe -background [::skin::getColor background1]
+		frame $wname.blueframe -background [::skin::getKey background1]
 	}
 	frame $wname.blueframe.log -class Amsn -borderwidth 0
       	frame $wname.buttons -class Amsn

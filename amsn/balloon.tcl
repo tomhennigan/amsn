@@ -89,9 +89,9 @@ proc balloon {target message {cx 0} {cy 0} } {
 	    set y [expr $cy + 2]
 	}
 	
-	if { [catch { toplevel .balloon -bg [::skin::getColor balloonborder]}] != 0 } {
+	if { [catch { toplevel .balloon -bg [::skin::getKey balloonborder]}] != 0 } {
 		destroy .balloon
-		toplevel .balloon -bg [::skin::getColor balloonborder]
+		toplevel .balloon -bg [::skin::getKey balloonborder]
 	}
 	
 	#Standard way to show balloon on Mac OS X (aqua), show balloon in white for Mac OS X and skinnable balloons for others platforms
@@ -115,7 +115,7 @@ proc balloon {target message {cx 0} {cy 0} } {
 
         label .balloon.l \
 	    -text ${message} -relief flat \
-	    -bg [::skin::getColor balloonbackground] -fg [::skin::getColor balloontext] -padx 2 -pady 0 -anchor w -font sboldf -justify left -wraplength $wlength
+	    -bg [::skin::getKey balloonbackground] -fg [::skin::getKey balloontext] -padx 2 -pady 0 -anchor w -font sboldf -justify left -wraplength $wlength
 	pack .balloon.l -side left -padx 1 -pady 1
         wm geometry .balloon +${x}+${y}
         

@@ -858,7 +858,10 @@ namespace eval ::abookGui {
 		if { [file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
 			catch {image create photo user_pic_$email -file "[file join $HOME displaypic cache ${filename}].gif"}
 		} else {
-			image create photo user_pic_$email -file [GetDisplayPicture "nopic.gif"]
+			##################################################################################################
+			# TODO: TAKE A LOOK HERE!!!! THIS SHOULD BE USING ::skin::getNoDisplayPicture FOR LOAD ON DEMAND #
+			##################################################################################################
+			image create photo user_pic_$email -file [::skin::GetSkinFile displaypic "nopic.gif"]
 		}
 		label $nbIdent.titlepic -text "[trans displaypic]" -font bboldunderf
 		label $nbIdent.displaypic -image user_pic_$email -highlightthickness 2 -highlightbackground black -borderwidth 0

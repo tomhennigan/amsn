@@ -7,61 +7,59 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 if { $initialize_amsn == 1 } {
 	init_ticket putmessage
 	
-	::skin::setDefaultColor mainwindowbg #7979f2
-	::skin::setDefaultColor chatwindowbg #EAEAEA
-	::skin::setDefaultColor buttonbarbg #eeeeff
-	::skin::setDefaultColor topbarbg #5050e5
-	::skin::setDefaultColor topbartext #ffffff
-	::skin::setDefaultColor topbarawaybg #00AB00
-	::skin::setDefaultColor topbarawaytext #000000
-	::skin::setDefaultColor topbarbusybg #CF0000
-	::skin::setDefaultColor topbarbusytext #000000
-	::skin::setDefaultColor topbarofflinebg #404040
-	::skin::setDefaultColor topbarofflinetext #ffffff
-	::skin::setDefaultColor statusbarbg #eeeeee
-	::skin::setDefaultColor statusbartext #000000
-
-	::skin::setDefaultColor underline_contact 1 ;#Use 1 to underline, 0 to not underline
+	::skin::setKey mainwindowbg #7979f2
+	::skin::setKey chatwindowbg #EAEAEA
+	::skin::setKey buttonbarbg #eeeeff
+	::skin::setKey topbarbg #5050e5
+	::skin::setKey topbartext #ffffff
+	::skin::setKey topbarawaybg #00AB00
+	::skin::setKey topbarawaytext #000000
+	::skin::setKey topbarbusybg #CF0000
+	::skin::setKey topbarbusytext #000000
+	::skin::setKey topbarofflinebg #404040
+	::skin::setKey topbarofflinetext #ffffff
+	::skin::setKey statusbarbg #eeeeee
+	::skin::setKey statusbartext #000000
 	
-	::skin::setDefaultColor chat_top_padx 0
-	::skin::setDefaultColor chat_top_pady 0
-	::skin::setDefaultColor chat_paned_padx 0
-	::skin::setDefaultColor chat_paned_pady 0
-	::skin::setDefaultColor chat_output_padx 0
-	::skin::setDefaultColor chat_output_pady 0
-	::skin::setDefaultColor chat_buttons_padx 0
-	::skin::setDefaultColor chat_buttons_pady 0
-	::skin::setDefaultColor chat_input_padx 0
-	::skin::setDefaultColor chat_input_pady 0
-	::skin::setDefaultColor chat_dp_padx 0
-	::skin::setDefaultColor chat_dp_pady 0
-	::skin::setDefaultColor chat_leftframe_padx 0
-	::skin::setDefaultColor chat_leftframe_pady 0
-	::skin::setDefaultColor chat_sendbutton_padx 0
-	::skin::setDefaultColor chat_sendbutton_pady 0
-	::skin::setDefaultColor chat_status_padx 0
-	::skin::setDefaultColor chat_status_pady 0	
+	::skin::setKey chat_top_padx 0
+	::skin::setKey chat_top_pady 0
+	::skin::setKey chat_paned_padx 0
+	::skin::setKey chat_paned_pady 0
+	::skin::setKey chat_output_padx 0
+	::skin::setKey chat_output_pady 0
+	::skin::setKey chat_buttons_padx 0
+	::skin::setKey chat_buttons_pady 0
+	::skin::setKey chat_input_padx 0
+	::skin::setKey chat_input_pady 0
+	::skin::setKey chat_dp_padx 0
+	::skin::setKey chat_dp_pady 0
+	::skin::setKey chat_leftframe_padx 0
+	::skin::setKey chat_leftframe_pady 0
+	::skin::setKey chat_sendbutton_padx 0
+	::skin::setKey chat_sendbutton_pady 0
+	::skin::setKey chat_status_padx 0
+	::skin::setKey chat_status_pady 0	
 	
-	::skin::setDefaultColor chat_top_border 0
-	::skin::setDefaultColor chat_output_border 0
-	::skin::setDefaultColor chat_buttons_border 0
-	::skin::setDefaultColor chat_input_border 0
-	::skin::setDefaultColor chat_status_border 0
+	::skin::setKey chat_top_border 0
+	::skin::setKey chat_output_border 0
+	::skin::setKey chat_buttons_border 0
+	::skin::setKey chat_input_border 0
+	::skin::setKey chat_status_border 0
 	
-	::skin::setDefaultColor menuforeground #000000 
-	::skin::setDefaultColor menuactivebackground #565672
-	::skin::setDefaultColor menuactiveforeground #ffffff
-	::skin::setDefaultColor balloontext #000000 
+	::skin::setKey menuforeground #000000 
+	::skin::setKey menuactivebackground #565672
+	::skin::setKey menuactiveforeground #ffffff
+	::skin::setKey balloontext #000000 
 
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		::skin::setDefaultColor balloonbackground #ffffca
-		::skin::setDefaultColor menubackground #ECECEC 
+		::skin::setKey balloonbackground #ffffca
+		::skin::setKey menubackground #ECECEC 
 	} else {
-		::skin::setDefaultColor balloonbackground #ffffaa
-		::skin::setDefaultColor menubackground #eae7e4
+		::skin::setKey balloonbackground #ffffaa
+		::skin::setKey menubackground #eae7e4
 	}
 
-	::skin::setDefaultColor balloonborder #000000
+	::skin::setKey balloonborder #000000
 
 	#Virtual events used by Button-click
 	#On Mac OS X, Control emulate the "right click button"
@@ -119,13 +117,13 @@ namespace eval ::amsn {
 			font create examplef -family $family -size [expr {$size-2}] -weight normal
 		}
 
-		catch {tk_setPalette [::skin::getColor menubackground]}
+		catch {tk_setPalette [::skin::getKey menubackground]}
 		option add *Menu.font menufont
 		
 		option add *selectColor #DD0000
 
 		if { ![catch {tk windowingsystem} wsystem] && $wsystem  == "x11" } {
-			option add *background [::skin::getColor menubackground]
+			option add *background [::skin::getKey menubackground]
 			
 			option add *borderWidth 1 widgetDefault
 			option add *activeBorderWidth 1 widgetDefault
@@ -154,10 +152,10 @@ namespace eval ::amsn {
 			option add *Menu.activeBorderWidth 0 widgetDefault
 			option add *Menu.highlightThickness 0 widgetDefault
 			option add *Menu.borderWidth 1 widgetDefault
-			option add *Menu.background [::skin::getColor menubackground]
-			option add *Menu.foreground [::skin::getColor menuforeground] 
-			option add *Menu.activeBackground [::skin::getColor menuactivebackground]
-			option add *Menu.activeForeground [::skin::getColor menuactiveforeground]
+			option add *Menu.background [::skin::getKey menubackground]
+			option add *Menu.foreground [::skin::getKey menuforeground] 
+			option add *Menu.activeBackground [::skin::getKey menuactivebackground]
+			option add *Menu.activeForeground [::skin::getKey menuactiveforeground]
 
 			option add *Menubutton.activeBackground #4a6984 widgetDefault
 			option add *Menubutton.activeForeground white widgetDefault
@@ -189,11 +187,11 @@ namespace eval ::amsn {
 			option add *Scrollbar.width 15 userDefault
 			option add *Button.Font macfont userDefault		
 		} elseif { $tcl_platform(platform) == "windows"} {
-			option add *background [::skin::getColor menubackground]
+			option add *background [::skin::getKey menubackground]
 			option add *Scrollbar.width 14 userDefault
 			option add *Button.Font sboldf userDefault
 		} else {
-			option add *background [::skin::getColor menubackground]
+			option add *background [::skin::getKey menubackground]
 			option add *Scrollbar.width 12 userDefault
 			option add *Button.Font sboldf userDefault
 		}
@@ -1153,7 +1151,7 @@ namespace eval ::amsn {
 		wm group $w .
 		wm geometry $w 360x170
 
-		#frame $w.f -class amsnChatFrame -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat
+		#frame $w.f -class amsnChatFrame -background [::skin::getKey chatwindowbg] -borderwidth 0 -relief flat
 		#set w $ww.f
 
 		label $w.user -text "[trans user]: $user" -font splainf
@@ -1739,7 +1737,7 @@ namespace eval ::amsn {
 			change_balloon $win.f.bottom.pic.image [trans nopic]
 		} elseif { $nopack == "" } {
 			#grid $win.f.bottom.pic.image -row 0 -column 1 -padx 0 -pady 3 -rowspan 2
-			pack $win.f.bottom.pic.image -side left -padx 0 -pady [::skin::getColor chat_dp_pady] -anchor w
+			pack $win.f.bottom.pic.image -side left -padx 0 -pady [::skin::getKey chat_dp_pady] -anchor w
 			set h [image height $picture]
 			if { $h < 100 } {
 				set h 100
@@ -2024,7 +2022,7 @@ namespace eval ::amsn {
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			frame $wname.blueframe
 		} else {
-			frame $wname.blueframe -background [::skin::getColor mainwindowbg]
+			frame $wname.blueframe -background [::skin::getKey mainwindowbg]
 		}
 
 		frame $wname.blueframe.list -class Amsn -borderwidth 0
@@ -3191,7 +3189,7 @@ proc cmsn_draw_main {} {
 	#.options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable [::config::getVar closingdocks]
 	#.options add separator
 	#.options add command -label "[trans language]..." -command "::lang::show_languagechoose"
-	# .options add command -label "[trans skinselector]..." -command SelectSkinGui
+	# .options add command -label "[trans skinselector]..." -command ::skinsGUI::SelectSkin
 
 
 	.main_menu.tools add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable [::config::getVar sound]
@@ -3205,7 +3203,7 @@ proc cmsn_draw_main {} {
 	.main_menu.tools add separator
 	.main_menu.tools add command -label "[trans language]..." -command "::lang::show_languagechoose"
  	.main_menu.tools add command -label "[trans pluginselector]..." -command ::plugins::PluginGui
-	.main_menu.tools add command -label "[trans skinselector]..." -command SelectSkinGui
+	.main_menu.tools add command -label "[trans skinselector]..." -command ::skinsGUI::SelectSkin
 	.main_menu.tools add command -label "[trans preferences]..." -command Preferences
 
 	#Help menu
@@ -3248,7 +3246,7 @@ proc cmsn_draw_main {} {
 	. conf -menu .main_menu
 	
 	
-	#image create photo mainback -file [GetSkinFile pixmaps back.gif]
+	#image create photo mainback -file [::skin::GetSkinFile pixmaps back.gif]
 
 	wm title . "[trans title] - [trans offline]"
 	wm command . [concat $argv0 $argv]
@@ -3261,7 +3259,7 @@ proc cmsn_draw_main {} {
 		frame .fake
 	} else {
 		#Put the color of the border around the contact list (from the skin)	
-		frame .main -class Amsn -relief flat -background [::skin::getColor mainwindowbg]
+		frame .main -class Amsn -relief flat -background [::skin::getKey mainwindowbg]
 	}
 	
 	
@@ -3393,10 +3391,10 @@ proc cmsn_draw_main {} {
 		# is cycled in between adverts.
 	#	if {$tcl_platform(os) == "Darwin"} {
 	#		::skin::setPixmap banner logomacmsn.gif
-			#adv_show_banner file [GetSkinFile pixmaps logomacmsn.gif]
+			#adv_show_banner file [::skin::GetSkinFile pixmaps logomacmsn.gif]
 	#	} else {
 	#		::skin::setPixmap banner logolinmsn.gif
-			#adv_show_banner file [GetSkinFile pixmaps logolinmsn.gif]
+			#adv_show_banner file [::skin::GetSkinFile pixmaps logolinmsn.gif]
 	#	}
 	#}
 
@@ -3435,11 +3433,11 @@ proc cmsn_draw_main {} {
 
 	#wm iconname . "[trans title]"
 	if {$tcl_platform(platform) == "windows"} {
-		catch {wm iconbitmap . [GetSkinFile winicons msn.ico]}
-		catch {wm iconbitmap . -default [GetSkinFile winicons msn.ico]}
+		catch {wm iconbitmap . [::skin::GetSkinFile winicons msn.ico]}
+		catch {wm iconbitmap . -default [::skin::GetSkinFile winicons msn.ico]}
 	} else {
-		catch {wm iconbitmap . @[GetSkinFile pixmaps amsn.xbm]}
-		catch {wm iconmask . @[GetSkinFile pixmaps amsnmask.xbm]}
+		catch {wm iconbitmap . @[::skin::GetSkinFile pixmaps amsn.xbm]}
+		catch {wm iconmask . @[::skin::GetSkinFile pixmaps amsnmask.xbm]}
 	}
 
 		#Unhide main window now that it has finished being created
@@ -3582,7 +3580,7 @@ proc play_sound {sound {absolute_path 0} {force_play 0}} {
 			if { $absolute_path == 1 } {
 			play_Sound_Mac $sound
 			} else {
-			play_Sound_Mac [GetSkinFile sounds $sound]
+			play_Sound_Mac [::skin::GetSkinFile sounds $sound]
 			}
 		} elseif { [::config::getKey usesnack] } {
 			if { $absolute_path == 1 } {
@@ -3594,7 +3592,7 @@ proc play_sound {sound {absolute_path 0} {force_play 0}} {
 			if { $absolute_path == 1 } {
 				play_sound_other $sound
 			} else {	
-				play_sound_other [GetSkinFile sounds $sound]
+				play_sound_other [::skin::GetSkinFile sounds $sound]
 			}
 		}
 	}
@@ -4016,7 +4014,7 @@ proc cmsn_draw_reconnect { error_msg } {
 	catch {
 
 		label .loginanim -background [$pgBuddy.text cget -background]
-		::anigif::anigif [GetSkinFile pixmaps loganim.gif] .loginanim
+		::anigif::anigif [::skin::GetSkinFile pixmaps loganim.gif] .loginanim
 
 		$pgBuddy.text insert end " " signin
 		$pgBuddy.text window create end -window .loginanim
@@ -4063,7 +4061,7 @@ proc cmsn_draw_signin {} {
 	catch {
 
 		label .loginanim -background [$pgBuddy.text cget -background]
-		::anigif::anigif [GetSkinFile pixmaps loganim.gif] .loginanim
+		::anigif::anigif [::skin::GetSkinFile pixmaps loganim.gif] .loginanim
 
 		$pgBuddy.text insert end " " signin
 		$pgBuddy.text window create end -window .loginanim
@@ -4500,7 +4498,7 @@ proc cmsn_draw_online_wrapped {} {
 
 	# Display MSN logo with user's handle. Make it clickable so
 	# that the user can change his/her status that way
-	clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y} [::skin::get bigstate_xpad] [::skin::get bigstate_ypad]
+	clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]
 	bind $pgBuddy.text.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
 
 	text $pgBuddy.text.mystatus -font bboldf -height 2 \
@@ -4575,7 +4573,7 @@ proc cmsn_draw_online_wrapped {} {
 	$pgBuddy.text.mystatus configure -state normal -height $lines -wrap none
 	$pgBuddy.text.mystatus configure -state disabled
 
-	$pgBuddy.text window create end -window $pgBuddy.text.mystatus -padx [::skin::get mystatus_xpad] -pady [::skin::get mystatus_ypad] -align bottom -stretch false
+	$pgBuddy.text window create end -window $pgBuddy.text.mystatus -padx [::skin::getKey mystatus_xpad] -pady [::skin::getKey mystatus_ypad] -align bottom -stretch false
 	$pgBuddy.text insert end "\n"
 
 	$pgBuddy.text image create end -image [::skin::getColorBar]
@@ -4586,7 +4584,7 @@ proc cmsn_draw_online_wrapped {} {
 
 	if { [::config::getKey checkemail] } {
 		# Show Mail Notification status
-		clickableImage $pgBuddy.text mailbox mailbox [list hotmail_login [::config::getKey login] $password] [::skin::get mailbox_xpad] [::skin::get mailbox_ypad]
+		clickableImage $pgBuddy.text mailbox mailbox [list hotmail_login [::config::getKey login] $password] [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
 
 		set unread [::hotmail::unreadMessages]
 
@@ -4624,9 +4622,9 @@ proc cmsn_draw_online_wrapped {} {
 		
 
 		if { [::groups::IsExpanded $gname] } {
-			toggleGroup $pgBuddy.text contract$gname contract $gname [::skin::get contract_xpad] [::skin::get contract_ypad]
+			toggleGroup $pgBuddy.text contract$gname contract $gname [::skin::getKey contract_xpad] [::skin::getKey contract_ypad]
 		} else {
-			toggleGroup $pgBuddy.text expand$gname expand $gname [::skin::get expand_xpad] [::skin::get expand_ypad]
+			toggleGroup $pgBuddy.text expand$gname expand $gname [::skin::getKey expand_xpad] [::skin::getKey expand_ypad]
 		}
 
 		# Show the group's name/title
@@ -6542,7 +6540,7 @@ proc BossMode { } {
 			if { [::config::getKey dock] == 4 } {
 				wm state .bossmode withdraw
 				wm protocol .bossmode WM_DELETE_WINDOW "wm state .bossmode withdraw"
-				catch {wm iconbitmap .bossmode [GetSkinFile winicons bossmode.ico]}
+				catch {wm iconbitmap .bossmode [::skin::GetSkinFile winicons bossmode.ico]}
 				statusicon_proc "BOSS"
 			} else {
 				wm protocol .bossmode WM_DELETE_WINDOW "BossMode"
@@ -6966,8 +6964,8 @@ proc convert_image_plus { filename type size } {
 
 proc load_my_pic {} {
 	status_log "load_my_pic: Trying to set display picture [::config::getKey displaypic]\n" blue
-	if {[file readable [filenoext [GetDisplayPicture [::config::getKey displaypic]]].gif]} {
-		image create photo my_pic -file "[filenoext [GetDisplayPicture [::config::getKey displaypic]]].gif"
+	if {[file readable [filenoext [::skin::GetSkinFile displaypic [::config::getKey displaypic]]].gif]} {
+		image create photo my_pic -file "[filenoext [::skin::GetSkinFile displaypic [::config::getKey displaypic]]].gif"
 	} else {
 		status_log "load_my_pic: Picture not found!!\n" red
 		clear_disp
@@ -7139,7 +7137,7 @@ proc reloadAvailablePics { } {
 
 
 	foreach filename [lsort -dictionary $files] {
-		set skin_file "[GetDisplayPicture [file tail [filenoext $filename].gif]]"
+		set skin_file "[::skin::GetSkinFile displaypic [file tail [filenoext $filename].gif]]"
 		if { [file exists $skin_file] } {
 			set the_image [image create photo -file $skin_file ]	
 			addPicture $the_image "[getPictureDesc $filename]" [file tail $filename]
@@ -7265,7 +7263,7 @@ proc pictureChooseFile { } {
 
 	if { $file != "" } {
 		if { ![catch {convert_image_plus $file displaypic "96x96"} res]} {
-			set image_name [image create photo -file [GetDisplayPicture "[filenoext [file tail $file]].gif"]]
+			set image_name [image create photo -file [::skin::GetSkinFile "displaypic" "[filenoext [file tail $file]].gif"]]
 			.picbrowser.mypic configure -image $image_name
 			set selected_image "[filenoext [file tail $file]].png"
 
@@ -7305,7 +7303,7 @@ proc clear_disp { } {
 
 	::config::setKey displaypic ""
 
-	catch {image create photo my_pic -file "[GetDisplayPicture nopic.gif]"}
+	catch {image create photo my_pic -file "[::skin::GetSkinFile displaypic nopic.gif]"}
 	::MSN::changeStatus [set ::MSN::myStatus]
 
 }
