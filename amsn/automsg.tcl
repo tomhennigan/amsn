@@ -416,18 +416,18 @@ proc ButtonSaveState { lfname { idx "" } } {
 			if { $chstate == 1 } {
 				ChCustomState [expr {[StateList size] - 1}]
 			}
-			}
+		}
 		1 {
 			StateList add $gui_info
 			ChCustomState [expr {[StateList size] - 1}]
-			StateList unset 0
-			}
+			StateList unset [expr {[StateList size] - 1}]
+		}
 		2 {
 			StateList edit $gui_info $idx
 			if { $chstate == 1 } {
 				ChCustomState $idx
 			}
-			}
+		}
 	}    
 
 	# reset menus and listbox
