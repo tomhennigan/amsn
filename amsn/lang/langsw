@@ -449,3 +449,67 @@ yoffset Y position
 youblocked Du har blivit blockerad
 yousay Du säger
 youwant Du vill
+# new
+advanced	 Avancerat
+advancedprefs	Avancerade inställningar
+allfiles	Alla filer
+allprofilesinuse	Alla existerande profiler används för närvarande
+animatenotify	Animerat medelandefönster
+autocheckver	Kontrollera nya versioner automagiskt vid uppstart
+cantremoveothers	Kan inte ta bort "Övriga"-gruppen
+cfgalarmall	Ändra/Lägg till/Ta bort globalt larm
+changecustomstate	Byt till
+ch_to_state	Byt till nytt stadie
+commandstatus	Utför kommando
+confirmpurge	Alla lagrade andras sparade bilder kommer tas bort (inte din displaybild dock). Är du säker ?
+convertexplain	Sökväg till CONVERT körbarfil, från ImageMagick (Behövs för display bilder).\n Lämna blantk om CONVERT är i sökvägen
+corruptconfig	Configurationsfilen är trasig. Skapa en ny fil. Den gamla filen sparas till $1. Skicka den gärna till oss så vi får se vad som hände.
+corruptstates	Eget tillstånds konfigurationsfilen är felaktig. Skapa en ny. Gamla filen sparas till $1. Vänligen skicka till oss och berätta vad som hände.
+defchatwinsize	Standard storlek för chattfönster (XSIZExYSIZE)
+deletecustomstate	Ta bort eget tillstånd
+delimiters	Timestamps' delimiters:
+disabled	Avaktivera
+disableprofiles	Avaktivera profilers (nyttigt för cyber-cafes or delade miljöer)
+displaychat	Visa text preferenser
+dontshow	Visa inte
+editcustomstate	Edit custom state
+editvalue	Ändra värde:
+emailsinlist	Visa e-mail-adresser istället för nicks i kontaktlistan
+enablebanner	Visa aMSN's banner (kräver omstart av aMSN)
+enabled	Enabled
+faileddelete	Misslyckades med att ta bort
+faileddeleteperso	Bilden kan inte tas bort. Endast bilder som hör ihop med dina personliga profiler kan tas bort på detta sätt.
+failed	Misslyckades
+file	Fil
+fullcontactlist	Tyvärr är din kontaktlista full. Du måste ta bort en del för att kunna lägga till fler.
+imagefiles	Bildfiler
+insertsmiley	Lägg till smilie
+lineflushlog	Flusha log-filerna efter varje rad
+longnick	Ditt nick är längre än 130 tecken. Detta är inte stödjs inte officellt av MSN-protokollet. Vill du använda det ändå ?
+mypic	Min visningsbild:
+newstate	Lägg till specificerat tillstånd
+noskins	Kunde inte hitta standard-utseendet i mappen skins/. Kan inte starta AMSN
+notificationserver	Initiera MSN Notification Server (MSN Messenger Server)
+notifytyping	Skicka medelanden till andra vid skrivning
+others	Andra
+picbrowser	Visa bilderbläddrare
+purge	Purge
+receiveddir	Mottagna filer-mappen
+savechatwinsize	Spara chatfönstrets storlek som standard vid ändring
+serverbusy	Servern är upptagen
+serverunavailable	Servern är otillgänglig
+shownotify	Visa medelande när något händer
+soundfiles	Ljudfiler
+startontray	Starta AMSN i tray endast
+storenickname	Återvänd till orginal tillståndet efter det speciella specificerade tillståndet med det specificerade nicket
+strictfonts	Begränsa alla fonters storlek till den jag valt (Statusbar och annat)
+temp_state	Spara inte (Nuvarande tillstånd kommer saknas när du stänger AMSN)
+timestamps	Aktivera tidsstämpel i chattfönster
+tkerror		TK har fått ett fel, det är ingen burk i AMSN, vänligen rapportera buggen. Skicka filen till $1 amsn-bugs@lists.sf.net
+tlsexplain	Mappen där tcl TLS-modulen ligger. Om AMSN inte kan lokalisera den, specificera den.\n(Krävs för SSL authentication).
+truncatenames1	Trunkera nicks längre än fönstrets bred i fönster-titlar samt kontaktlista
+truncatenames2	Trunkera nicks längre än fönstrets bred inuti konversationer
+truncatenicks	Trunkera nicks längre än fönstrets bred
+xmmscurrent	Visa sången som spelas.
+xmmserr		Ingenting spelas eller så har du inte xmms-infopipe installerat.
+xmmssend	Skicka sången som spelas
