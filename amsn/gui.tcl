@@ -218,7 +218,7 @@ namespace eval ::amsn {
 					if { $tlsplatform == "win32" } {
 						exec [file join $files_dir $fname] "x" "-o" "-y"
 					} else {
-						exec tar xvzf [file join $files_dir $fname]
+						exec gzip -cd [file join $files_dir $fname] | tar xv
 					}
 
 					cd $olddir
