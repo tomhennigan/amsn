@@ -1565,10 +1565,7 @@ namespace eval ::ChatWindow {
 				-command "::amsn::MessageSend $w $text" \
 				-fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
 				-activebackground [::skin::getKey sendbuttonbg] -activeforeground black -text [trans send] \
-				-font sboldf -highlightthickness 0 -pady 0 -padx 0
-			if { $::tcl_version >= 8.4 } {
-				$sendbutton -overrelief flat -compound center
-			}
+				-font sboldf -highlightthickness 0 -pady 0 -padx 0 -overrelief flat -compound center
 		} else {
 			# Standard grey flat button (For Tcl/Tk < 8.4 and Mac OS X)
 			button $sendbutton  -text [trans send] -width 6 -borderwidth 1 \
