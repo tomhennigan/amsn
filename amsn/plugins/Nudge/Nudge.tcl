@@ -62,6 +62,12 @@ namespace eval ::Nudge {
 				#Shake that window
 				::Nudge::shake ${win_name} $::Nudge::config(shakes)
 			}
+			#If Growl plugin is loaded, show the notification
+			set pluginidx [lindex [lsearch -all $::plugins::found "*growl*"] 0]
+			if { $pluginidx != "" } {
+				catch {growl post Nudge Nudge [trans nudge $nick]}
+			}
+					
 		
 		}
 	
