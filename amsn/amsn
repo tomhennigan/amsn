@@ -393,7 +393,8 @@ proc show_umenu {user_login x y} {
    set blocked [::MSN::userIsBlocked $user_login]
    .user_menu delete 0 end
    .user_menu add command -label "${user_login}" \
-      -command ""
+      -command "clipboard clear;clipboard append \"${user_login}\""
+
    .user_menu add separator   
    .user_menu add command -label "[trans sendmsg]" \
       -command "::amsn::chatUser ${user_login}"
