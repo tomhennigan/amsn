@@ -1712,7 +1712,7 @@ proc cmsn_sb_handler {sb_name item} {
 	  ::MSN::CleanChat [::MSN::ChatFor $sb_name]
           ::amsn::chatStatus [::MSN::ChatFor $sb_name] "[trans usernotonline]\n" miniwarning
 	  status_log "Error: user is not online [join $item]\n" red
-	   msg_box "[trans usernotonline]"
+	  #msg_box "[trans usernotonline]"
           return 0
       }
       "" {
