@@ -214,6 +214,7 @@ proc load_config {} {
 
 	# Load up the personal states
 	LoadStateList
+    if { [winfo exists .my_menu] } {CreateStatesMenu .my_menu}
 }
 
 
