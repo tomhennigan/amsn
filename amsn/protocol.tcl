@@ -989,7 +989,7 @@ namespace eval ::MSN {
 		if { [::config::getKey displaypic] != "" } {
 			::MSN::WriteSB ns "CHG" "$new_status $clientid [urlencode [create_msnobj [::config::getKey login] 3 [GetSkinFile displaypic [::config::getKey displaypic]]]]"
 		} else {
-			::MSN::WriteSB ns "CHG" "$new_status 0"
+			::MSN::WriteSB ns "CHG" "$new_status $clientid"
 		}
 	
 		#Reset automatic status change to 0
