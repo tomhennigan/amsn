@@ -30,7 +30,7 @@ namespace eval ::plugins {
 	# Current config being edited, for backup purposes (ei: Cancel)
 	variable cur_config
     }
-
+    
     proc PostEvent { event var} {
 	variable pluginsevents 
 	
@@ -62,20 +62,26 @@ namespace eval ::plugins {
 	return 1
 	
     }
-
+    
     proc RegisterEvent { plugin event cmd } {
 	variable knownplugins
 	variable pluginsevents
 	status_log "Plugin Systems: RegisterEvent called with $plugin $event $cmd\n"
 	set x [lsearch $knownplugins $plugin]
-	    if { $x != -1 } {
-		status_log "Plugins System: Binding $event to $cmd\n"
-		lappend pluginsevents(${event}) "\:\:$plugin\:\:$cmd"
-	    } else {
-		status_log "Plugins System: Registering an event for an unknown plugin...\n"
+	if { $x == -1 } {
+	    status_log "Plugins System: Registering an event for an unknown plugin...\n"
+	    return
+	}
+	if {[array names pluginsevents -exact $event] == "$event"} {
+	    if {[lsearch $pluginsevents(${event}) "\:\:$plugin\:\:$cmd"] != -1 } {
+		status_log "Plugins System: Trying to register a event twice"
+		return
 	    }
+	}
+	status_log "Plugins System: Binding $event to $cmd\n"
+	lappend pluginsevents(${event}) "\:\:$plugin\:\:$cmd"
     }
-
+    
     proc UnRegisterEvent {plugin event cmd} {
 	variable pluginsevents
 	if {[lsearch $pluginsevents(${event}) "\:\:$plugin\:\:$cmd"] != -1} {
@@ -234,6 +240,7 @@ namespace eval ::plugins {
 	     $w.select.plugin_list itemconfigure $selection(id) -background "$bgcolor2"
 	     GUI_NewSel
 	 }
+	 ::plugins::save_config
      }
 
      proc GUI_Unload {} {
@@ -243,6 +250,7 @@ namespace eval ::plugins {
 	 $w.select.plugin_list itemconfigure $selection(id) -background "$bgcolor"
 	 UnLoadPlugin $selection(name)
 	 GUI_NewSel
+	 ::plugins::save_config
      }
      proc GUI_Config {} {
 	 variable selection
@@ -297,7 +305,7 @@ namespace eval ::plugins {
 	 ::plugins::save_config
 	 destroy $w;
      }
-     proc GUI_CancelConfig {w plugin} {
+    proc GUI_CancelConfig {w plugin} {
 	 variable cur_config
 	 array set ::${plugin}::config [array get cur_config]
 	 destroy $w;
@@ -306,51 +314,63 @@ namespace eval ::plugins {
 	 variable w
 	 destroy ".plugin_selector"
      }
-
-     proc UnLoadPlugin {plugin} {
-	 variable loadedplugins
-	 status_log "Plugins System: Unloading plugin $plugin\n"
-	 set loadedplugins [lreplace $loadedplugins [lsearch $loadedplugins "$plugin"] [lsearch $loadedplugins "$plugin"]]
-	 UnRegisterEvents $plugin
-	 if {[info procs "::${plugin}::DeInitPlugin"] == "::${plugin}::DeInitPlugin"} {
-	     ::${plugin}::DeInitPlugin
-	 }
-	 if {[array exists ::${plugin}::config] == 1} {
-	     array set ::${plugin}_cfg [array get ::${plugin}::config]
-	 }
-	 ::plugins::save_config
-     }
-
-     proc LoadPlugins {} {
-	 variable loadedplugins
-	 load_config
-	 foreach {plugin} [findplugins] {
-	     set file [lindex $plugin 0]
-	     set name [lindex $plugin 1]
-	     if {[lsearch $loadedplugins $name] != -1} {
-		 LoadPlugin $name $file
-	     }
-	 }
-     }
-     proc LoadPlugin {plugin file} {
-	 variable loadedplugins
-	 status_log "Plugins System: LoadPlugin called with $plugin $file\n"
-	 catch { source $file }
+    
+    proc UnLoadPlugins {} {
+	variable loadedplugins
+	variable knownplugins
+	foreach {plugin} "$loadedplugins" {
+	    ::plugins::UnLoadPlugin $plugin
+	}
+	foreach {plugin} $knownplugins {
+	    if {[array exists ::${plugin}_cfg] == 1 } {
+		array unset ::${plugin}_cfg
+	    }
+	}
+    }
+    
+    proc UnLoadPlugin {plugin} {
+	variable loadedplugins
+	status_log "Plugins System: Unloading plugin $plugin\n"
+	set loadedplugins [lreplace $loadedplugins [lsearch $loadedplugins "$plugin"] [lsearch $loadedplugins "$plugin"]]
+	UnRegisterEvents $plugin
+	if {[info procs "::${plugin}::DeInitPlugin"] == "::${plugin}::DeInitPlugin"} {
+	    ::${plugin}::DeInitPlugin
+	}
+	if {[array exists ::${plugin}::config] == 1} {
+	    array set ::${plugin}_cfg [array get ::${plugin}::config]
+	}
+    }
+    
+    proc LoadPlugins {} {
+	variable loadedplugins
+	::plugins::UnLoadPlugins
+	load_config
+	foreach {plugin} [findplugins] {
+	    set file [lindex $plugin 0]
+	    set name [lindex $plugin 1]
+	    if {[lsearch $loadedplugins $name] != -1} {
+		LoadPlugin $name $file
+	    }
+	}
+    }
+    proc LoadPlugin {plugin file} {
+	variable loadedplugins
+	status_log "Plugins System: LoadPlugin called with $plugin $file\n"
+	catch { source $file }
 	 
-	 if {[lsearch "$loadedplugins" $plugin] == -1} {
+	if {[lsearch "$loadedplugins" $plugin] == -1} {
 	     status_log "Plugins System: appending to loadedplugins\n"
-	     lappend loadedplugins $plugin
-	 }
-	 if {[info procs "InitPlugin"] == "InitPlugin"} {
-	     status_log "Plugins System: Initializing plugin with InitPlugin [file dirname $file]\n"
-	     InitPlugin [file dirname $file]
-	     eval {proc InitPlugin {file} { return } }
+	    lappend loadedplugins $plugin
+	}
+	if {[info procs "InitPlugin"] == "InitPlugin"} {
+	    status_log "Plugins System: Initializing plugin with InitPlugin [file dirname $file]\n"
+	    InitPlugin [file dirname $file]
+	    eval {proc InitPlugin {file} { return } }
 	 }
 	 if {[array exists ::${plugin}_cfg] == 1} {
 	     array set ::${plugin}::config [array get ::${plugin}_cfg]
 	 }
-	 ::plugins::save_config
-     }
+    }
     
     
     # The configuration fun starts bellow
