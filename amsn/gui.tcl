@@ -5581,6 +5581,7 @@ proc window_history { command w } {
 proc convert_image { filename size } {
 
     if { ![file exists $filename] } {
+	status_log "Tring to convert file $filename that does not exist\n" error
 	return 0
     }
 
@@ -5589,9 +5590,10 @@ proc convert_image { filename size } {
 
     status_log "converting $filename to $filename2.png with size $size\n"
 
-    if { [catch { eval exec convert -size $size -resize ${size}! \"$filename\" \"$filename2.png\" } res] } {
+    if { [catch { eval exec convert -size $size -resize ${size} \"$filename\" \"$filename.gif\" } res] } {
 	msg_box "[trans installconvert]"
 	status_log "converting returned error : $res\n"
+	return 0
     }
 
     if { [file exists $filename2.png.0] } {
@@ -5605,8 +5607,18 @@ proc convert_image { filename size } {
 	file rename $filename2.png.0 $filename2.png
     }
 
-    catch { eval exec convert \"$filename2.png\"  \"$filename2.png.gif\"}
+    file delete $filename
 
+    set sizexy [split $size "x" ]
+    set img [image create photo -height [lindex $sizexy 0] -width [lindex $sizexy 1] -file "$filename.gif"]
+    $img write "$filename2.gif"
+    image delete $img
+
+    file delete $filename.gif
+
+
+    catch { eval exec convert \"$filename2.gif\"  \"$filename2.png\"}
+    
     return $filename2.png
 
 }
@@ -5616,32 +5628,21 @@ proc convert_image_plus { filename type size } {
 
     global HOME
 
-    set file [convert_image $filename $size]
+
+    catch {
+	create_dir [file join $HOME $type]
+	file copy $filename [file join $HOME $type] 
+	status_log "Copied $filename to [file join $HOME $type]\n"
+    }
+
+    set endfile [getfilename $filename]
+
+    set file [convert_image [GetSkinFile $type $endfile] $size]
 
     if { $file == 0 } { return 0}
 
-    catch { 
-	create_dir [file join $HOME $type]
-	file copy $file [file join $HOME $type] 
-	status_log "Copied $file to [file join $HOME $type]\n"
-    }
-    catch {
-	file copy $file.gif [file join $HOME $type] 
-	status_log "Copied $file.gif to [file join $HOME $type]\n"
-    }
-    
-    catch {
-	set endfile [getfilename $file]
-	status_log "Created files $file and $file.gif, testing with $endfile\n"
-	
-	if { $file != [GetSkinFile $type $endfile] } {
-	    status_log "Removing $file and $file.gif because we have [GetSkinFile $type $endfile]"
-	    file delete $file
-	    file delete $file.gif
-	}
-    } 
 
-    return $endfile
+    return $file
 }
 
 

@@ -4658,6 +4658,7 @@ namespace eval ::MSNP2P {
 			set idx [expr [string first "SessionID:" $data] + 11]
 			set idx2 [string first "\r\n" $data $idx]
 			set sid [string range $data $idx $idx2]
+			status_log "Got SID = $sid for 200OK message\n"
 			SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
 			return
 		}
@@ -4685,32 +4686,34 @@ namespace eval ::MSNP2P {
 
 		# Let's check for data preparation messages and data messages
 		if { $cSid != 0 } {
-			set sid $cSid
-			if { $fd != -1 } {
-				# File already open and being written to (fd exists)
-				# Lets write data to file
-				puts -nonewline $fd [string range $headend [expr $headend + $cMsgSize]]
-				
-				# Check if this is last part if splitted
-				if { [expr $cOffset + $cMsgSize] >= $cTotalDataSize } {
-					close $fd
-
-					# Lets send an ACK followed by a BYE
-					SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
-					SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" $dest $config(login) "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex [SessionList get $sid] 5] 0 0] 1]
-
-					# Delete Session Vars
-					SessionList unset $sid
-				}
-			} elseif { $cMsgSize == 4 && [string range $headend [expr $headend + $cMsgSize]] == 0 } {
-				# We got ourselves a DATA PREPARATION message, lets open file and send ACK
-				fd = [open "/home/burger/test.png"]
-				fconfigure $fd -translation binary
-				SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
-			} else {
-				# This is a DATA message, lets receive
-				puts -nonewline $fd [string range $headend [expr $headend + $cMsgSize]]
+		    set sid $cSid
+		    if { [info exists fd] && $fd != -1 } {
+			# File already open and being written to (fd exists)
+			# Lets write data to file
+			puts -nonewline $fd [string range $data $headend [expr $headend + $cMsgSize - 1]]
+#			status_log "In the receiving thing... with fd = $fd --- $cOffset + $cMsgSize + $cTotalDataSize\n\nwe have $headend which gives us :[string range $data $headend [expr $headend + $cMsgSize]]\n" error
+			# Check if this is last part if splitted
+			if { [expr $cOffset + $cMsgSize] >= $cTotalDataSize } {
+			    close $fd
+			    
+			    status_log "Closed file.. finished writing\n" red
+			    # Lets send an ACK followed by a BYE
+			    SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
+			    SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" ks_test001@hotmail.com $config(login) "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex [SessionList get $sid] 5] 0 0] 1]
+			    
+			    # Delete Session Vars
+			    SessionList unset $sid
 			}
+		    } elseif { $cMsgSize == 4 } {
+			# We got ourselves a DATA PREPARATION message, lets open file and send ACK
+			status_log "Got data preparation message, opening file for writing\n" red
+			set fd [open "/home/kakaroto/coding/test.png" "w"]
+			fconfigure $fd -translation binary
+			SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
+		    } else {
+			# This is a DATA message, lets receive
+		#	puts -nonewline $fd [string range $data $headend [expr $headend + $cMsgSize]]
+		    }
 		}
 	}
 
@@ -4727,10 +4730,11 @@ namespace eval ::MSNP2P {
 		# Generate BranchID and CallID
 		set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 		set callid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+
 		SessionList set $sid [list 0 0 0 $dest 0 $callid 0]
 		
 		# Create and send our packet
-		set slpdata [MakeMSNSLP "INVITE" $dest $config(login) $branchid 0 $callid 0 0 "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" $sid 1 [string map { "\n" "" "=" "" } [::base64::encode [urldecode "${msnobject}%00"]]]]
+		set slpdata [MakeMSNSLP "INVITE" $dest $config(login) $branchid 0 $callid 0 0 "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" $sid 1 [string map { "\n" "" } [::base64::encode [urldecode "${msnobject}%00"]]]]
 		SendPacket $chatid [MakePacket $sid $slpdata 1]
 		status_log "Sent an INVITE to $dest on chatid $chatid of object $msnobject\n"
 	}
@@ -4783,7 +4787,7 @@ namespace eval ::MSNP2P {
 		append bheader [binary format i $MsgId]
 		append bheader [binword $Offset]
 
-		set CurrentSize [string length $slpdata]
+		set CurrentSize [string length $slpdata] 
 		# We must set TotalSize to the size of data if it is > 1202 bytes otherwise we set to 0
 		if { $TotalSize == 0 } {
 			# This isn't a split message
@@ -4857,7 +4861,7 @@ namespace eval ::MSNP2P {
 		set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $Destination\r\n\r\n"
 
 		# Set the binary header and footer
-	    set b [binary format ii $originalsid $MsgId][binword 0][binword $originalsize][binary format iiii 0 2 $originalid $originaluid][binword $originalsize][binary format I 0]
+       	        set b [binary format ii $originalsid $MsgId][binword 0][binword $originalsize][binary format iiii 0 2 $originalid $originaluid][binword $originalsize][binary format I 0]
 
 		# Save new Session Variables into SessionList
 		if { $new == 1 } {
@@ -4918,7 +4922,7 @@ namespace eval ::MSNP2P {
 		append body "\r\n\x00"
 				
 		# Here comes the message header
-		append data "To: <msnmsgr:${to}>\r\nFrom: <msnmsgr:${from}>\r\nVia: MSNSLP/1.0/TLP ;branch={${branchuid}}\r\nCSeq:${cseq}\r\nCall-ID: {${uid}}\r\nMax-Forwards: ${maxfwds}\r\n"
+		append data "To: <msnmsgr:${to}>\r\nFrom: <msnmsgr:${from}>\r\nVia: MSNSLP/1.0/TLP ;branch={${branchuid}}\r\nCSeq: ${cseq}\r\nCall-ID: {${uid}}\r\nMax-Forwards: ${maxfwds}\r\n"
 		if { $method == "BYE" } {
 			append data "Content-Type: application/x-msnmsgr-sessionclosebody\r\n"
 		} else {
