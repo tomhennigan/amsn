@@ -37,7 +37,7 @@ proc ConfigDefaults {} {
 	   set config(notifyYoffset) 0
 	   set config(filemanager) "my_filemanager open \$location"
 	} elseif {$tcl_platform(platform) == "windows"} {
-	   set config(soundcommand) "plwav.exe \$sound"
+	   set config(soundcommand) "utils\\plwav.exe \$sound"
 	   set config(browser) "explorer \$url"
 	   set config(notifyXoffset) 0
 	   set config(notifyYoffset) 28
