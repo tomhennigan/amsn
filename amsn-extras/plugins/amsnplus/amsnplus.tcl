@@ -186,7 +186,10 @@ namespace eval ::amsnplus {
 		if {!$::amsnplus::config(allow_quicktext)} { return }
 		upvar 2 evPar newvar
 		$newvar(menu_name).actions add separator
+		#Menu item to edit the currents quick texts
+		$newvar(menu_name).actions add command -label "[trans quicktext]" -command "::amsnplus::qtconfig"
 		set i 0
+		#Show all the currents quick texts in the menu
 		while {$i < 10} {
 			set str [lindex $::amsnplus::config(quick_text_$i) 1]
 			set keyword "/[lindex $::amsnplus::config(quick_text_$i) 0]"
@@ -200,42 +203,87 @@ namespace eval ::amsnplus {
 	################################################
 	# this proc lets configure the quick texts
 	proc qtconfig { } {
-		#create the window
-		toplevel .qtconfig -width 600 -height 400
-		wm title .qtconfig "[trans quicktext]"
-		#add an explanation
-		if {[string equal $::version "0.94"]} {
-			label .qtconfig.help -text "Here you should configure your quick text, the keyword and the text.\nThen in the chat window, if you do /keyword, \
-				you'll see the text\n"
-		} else {
-			label .qtconfig.help -text "[trans qthelp]\n"
+		
+		set w .qtconfig
+		#Verify if the window is already opened
+		if {[winfo exists $w]} {
+			raise $w
+			return
 		}
-		pack .qtconfig.help -side top
-		#entries
+		#Create the window
+		toplevel $w -width 600 -height 400
+		wm title $w "[trans quicktext]"
+		
+		#Text explanation, in frame top.help
+		frame $w.top 
+		if {[string equal $::version "0.94"]} {
+			label $w.top.help -text "Here you should configure your quick text, the keyword and the text. \n Then in the chat window, if you do /keyword, \
+				you'll see the text" -height 2
+		} else {
+			label $w.top.help -text "[trans qthelp]\n"
+		}
+		pack $w.top.help -side top -expand true
+		pack $w.top -side top -fill y
+		#Middle frame (left and right)
+		frame $w.middle 
+		frame $w.middle.left 
+		frame $w.middle.right 
+		
+		#Title for each collumn
+		frame $w.middle.left.top
+		frame $w.middle.right.top
+		label $w.middle.left.top.title -text "[trans keyword]"
+		label $w.middle.right.top.title -text "[trans text]"
+		pack $w.middle.left.top.title
+		pack $w.middle.right.top.title
+		pack $w.middle.left.top -side top
+		pack $w.middle.right.top -side top
+		#Create the 10 entry for keyword and text
 		set i 0
 		while {$i < 10} {
-			labelframe .qtconfig.label$i -relief flat
-			entry .qtconfig.label$i.keyword
-			entry .qtconfig.label$i.text
-			pack .qtconfig.label$i -side top
-			pack .qtconfig.label$i.keyword -side left
-			.qtconfig.label$i.keyword insert end [lindex $::amsnplus::config(quick_text_$i) 0]
-			pack .qtconfig.label$i.text -side left
-			.qtconfig.label$i.text insert end [lindex $::amsnplus::config(quick_text_$i) 1]
+			entry $w.middle.left.keyword$i -background #FFFFFF
+			entry $w.middle.right.text$i -background #FFFFFF
+			pack $w.middle.left.keyword$i -fill x -expand true -pady 2
+			$w.middle.left.keyword$i insert end [lindex $::amsnplus::config(quick_text_$i) 0]
+			pack $w.middle.right.text$i -fill x -expand true -pady 2
+			$w.middle.right.text$i insert end [lindex $::amsnplus::config(quick_text_$i) 1]
+			#Add binding for tab for each entry
+			bind $w.middle.left.keyword$i <Tab> "focus $w.middle.right.text$i; break"
+			set i2 [expr $i + 1]
+			if {$i < 9 } {
+				bind $w.middle.right.text$i <Tab> "focus $w.middle.left.keyword$i2; break"
+			}
 			incr i
 		}
-		#save button
-		button .qtconfig.save -text "[trans save]" -command "::amsnplus::save_qtconfig .qtconfig"
-		pack .qtconfig.save -side bottom
+		#Give focus to the first entry
+		focus $w.middle.left.keyword0
+		#Pack middle frame
+		pack $w.middle.left -side left -fill x -padx 5 -expand true
+		pack $w.middle.right -side right -fill x -padx 5 -expand true
+		pack $w.middle -fill x
+		
+		#Bottom frame for save/cancel button
+		frame $w.bottom 
+		button $w.bottom.save -text "[trans save]" -command "::amsnplus::save_qtconfig .qtconfig;destroy .qtconfig"
+		button $w.bottom.cancel -text "[trans cancel]" -command "destroy .qtconfig"
+		pack $w.bottom.save -side left
+		pack $w.bottom.cancel -side right
+		pack $w.bottom -side bottom -pady 5
+		#Save configs if user closes the window
+		bind $w <<Escape>> "::amsnplus::save_qtconfig .qtconfig;destroy .qtconfig"
+		bind $w <<Destroy>> "::amsnplus::save_qtconfig .qtconfig;destroy .qtconfig"
+		wm protocol $w WM_DELETE_WINDOW "::amsnplus::save_qtconfig .qtconfig;destroy .qtconfig"
+		
+		moveinscreen $w
 	}
 	
 	###############################################
 	# this proc saves the quick text configuration
-	proc save_qtconfig { win } {
+	proc save_qtconfig { w } {
 		set i 0
 		while {$i < 10} {
-			set keyword [$win.label$i.keyword get]
-			set str [$win.label$i.text get]
+			set keyword [$w.middle.left.keyword$i get]
+			set str [$w.middle.right.text$i get]
 			set ::amsnplus::config(quick_text_$i) [list $keyword $str]
 			incr i
 		}
