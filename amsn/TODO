@@ -32,7 +32,7 @@ DONE	After user offline error, clean chat queue for that user.
 DONE	Don't save password if login fails becoz of wrong username or password
 -	Fix public profile, use html file for authentication and login to MSN profiles? -> use same system as hotmail login, but no external .htm file
 DONE	Notify window is only clickable on the text, should make whole window clickable
--	Add X in corner of notify window to close, maybe make it nicer too (border, etc)
+DONE	Add X in corner of notify window to close, maybe make it nicer too (border, etc)
 -	Write procedure to redraw main window for language + font changes
 -	Fix new profile issues for existing users, should ask them to add profile even if they dont go to "login as"
 -	Check for connection state, make sure amsn disconnects if connection goes down. -> add timeouts to changestates and keepalive

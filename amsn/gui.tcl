@@ -1961,6 +1961,17 @@ namespace eval ::amsn {
    }
 
 
+   #Test if X was pressed in Notify Window
+   proc testX {x y after_id w ypos command} {
+     if {($x > 135) && ($y < 20)} {
+       after cancel $after_id
+       ::amsn::KillNotify $w $ypos
+     } else {
+       after cancel $after_id; ::amsn::KillNotify $w $ypos; eval $command
+     }
+   }
+
+
    #Adds a message to the notify, that executes "command" when clicked, and
    #plays "sound"
    proc notifyAdd { msg command {sound ""}} {
@@ -1996,7 +2007,7 @@ namespace eval ::amsn {
       if { $xpos < 0 } { set xpos 0 }
       if { $ypos < 0 } { set ypos 0 }
 
-      
+
       canvas $w.c -bg #EEEEFF -width 150 -height 100 \
          -relief ridge -borderwidth 2
       pack $w.c
@@ -2005,6 +2016,7 @@ namespace eval ::amsn {
       $w.c create image 75 50 -image $im
       $w.c create image 17 22 -image notifico
       $w.c create image 80 97 -image notifybar
+      $w.c create image 142 12 -image notifclose
 
       if {[string length $msg] >100} {
          set msg "[string range $msg 0 100]..."
@@ -2017,7 +2029,8 @@ namespace eval ::amsn {
 
       bind $w.c <Enter> "$w.c configure -cursor hand2"
       bind $w.c <Leave> "$w.c configure -cursor left_ptr"
-      bind $w <ButtonRelease-1> "after cancel $after_id; ::amsn::KillNotify $w $ypos; $command"
+      #bind $w <ButtonRelease-1> "after cancel $after_id; ::amsn::KillNotify $w $ypos; $command"
+      bind $w <ButtonRelease-1> "::amsn::testX %x %y $after_id $w $ypos \"$command\""
       bind $w <ButtonRelease-3> "after cancel $after_id; ::amsn::KillNotify $w $ypos"
 
 
@@ -2027,11 +2040,11 @@ namespace eval ::amsn {
       wm state $w normal
 
       #raise $w
-      
+
       if { $config(animatenotify) } {
-         wm geometry $w -$xpos-[expr {$ypos-100}]         
+         wm geometry $w -$xpos-[expr {$ypos-100}]
 	 after 50 "::amsn::growNotify $w $xpos [expr {$ypos-100}] $ypos"
-      } else {      
+      } else {
          wm geometry $w -$xpos-$ypos
       }
 
@@ -2043,7 +2056,7 @@ namespace eval ::amsn {
 
 
    }
-   
+
    proc growNotify { w xpos currenty finaly } {
       if { $currenty>$finaly} {
          wm geometry $w -$xpos-$finaly
@@ -2311,7 +2324,8 @@ proc cmsn_draw_main {} {
    image create photo fticon -file [file join ${images_folder} fticon.gif]
    image create photo ftreject -file [file join ${images_folder} ftreject.gif]
 
-   image create photo notifico -file [file join ${images_folder} notifico.gif]   
+   image create photo notifico -file [file join ${images_folder} notifico.gif]
+   image create photo notifclose -file [file join ${images_folder} notifclose.gif] 
 
    image create photo blocked -file [file join ${images_folder} blocked.gif]
 
