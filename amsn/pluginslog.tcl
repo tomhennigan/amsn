@@ -1,0 +1,184 @@
+if { $initialize_amsn == 1 } {
+    proc plugins_log {plugin msg} {
+	::pluginslog::plugins_log $plugin $msg
+    }
+    namespace eval ::pluginslog {
+	#counter: keeps the count
+	variable idx 0
+	#log: this is what keeps track of the log
+	variable log
+	#filter: this is the filters
+	variable filters [list]
+	#window: the name of window
+	variable window ".plugins_log"
+	#followtext: follow text?
+	variable followtext 1
+	
+	proc plugins_log {plugin msg} {
+	    variable idx
+	    variable log
+	    set log($idx) [list $plugin $msg]
+	    incr idx
+	    ::pluginslog::display
+	}
+	
+	proc toggle {} {
+	    variable window
+	    if {"[wm state $window]" == "normal"} {
+		wm state $window withdrawn
+		set status_show 0
+	    } else {
+		wm state $window normal
+		set status_show 1
+		raise $window
+		::pluginslog::display
+	    }
+	}
+	
+	proc display {} {
+	    variable idx
+	    variable log
+	    variable window
+	    variable filters
+	    $window.info delete 1.0 end
+	    for {set x 0} {$x < $idx} {incr x} {
+		set plugin [lindex $::pluginslog::log($x) 0]
+		#	    puts {[llength $filters]}
+		#	    puts [llength $filters]
+		#	    puts {[lsearch $filters $plugin]}
+		#	    puts [lsearch $filters $plugin]
+		#	    puts {$filters}
+		#	    puts $filters
+		#	    puts ""
+		#if no filters, show all
+		#if in filter, show it.
+		if {[llength $filters] == 0 || [lsearch $filters $plugin] != -1} { 
+		    $window.info insert end "$plugin: [lindex $pluginslog::log($x) 1]\n"
+		}
+	    }
+	}
+	
+	proc filter {plugin} {
+	    variable filters
+	    if {[lsearch $filters $plugin] == -1} {
+		lappend filters $plugin
+	    } else {
+		#know any better method to remove a item from a list?
+		set tmp [list]
+		set s [llength $filters]
+		for {set x 0} {$x<$s} {incr x} {
+		    if {[lindex $filters $x] != $plugin} {
+			lappend tmp [lindex $filters $x]
+		    }
+		}
+		set filters $tmp
+	    }
+	}
+	
+	proc show_filters {} {
+	    variable window
+	    if {[winfo exists $window.filters] == 1} {
+		return
+	    }
+	    puts [info exists $window.filters]
+	    toplevel $window.filters
+	    wm title $window.filters "Plugins Log - [trans filtersx]"
+	    # yes, I am really lazy...
+	    set w $window.filters
+	    label $w.msg -text [trans selectfilters]
+	    grid $w.msg -column 1 -row 1 -columnspan 2
+	    
+	    set s [llength $::plugins::knownplugins]
+	    puts $s;
+	    set col 1
+	    set row 2
+	    for {set x 0} {$x<$s} {incr x} {
+		checkbutton $w.check$x -text [lindex $::plugins::knownplugins $x] -command "::pluginslog::filter \"[lindex $::plugins::knownplugins $x]\""
+		grid $w.check$x -column $col -row $row -sticky w
+		if {$col == 2} {
+		    set col 1
+		    incr row
+		} else {
+		    incr col
+		}
+	    }
+	    incr row
+	    button $w.update -text "[trans update]" -command "::pluginslog::display"
+	    grid $w.update -columnspan 2 -row $row -column 1
+	    bind $window.filters <Destroy> ::pluginslog::display
+	}
+	
+	proc draw {} {
+	    variable window
+	    
+	    if { [winfo exists $window] } {return}
+	    toplevel $window
+	    wm group $window .
+	    wm state $window withdrawn
+	    wm title $window "Plugins Log - [trans title]"
+	    
+	    text $window.info -background white -width 60 -height 30 -wrap word \
+		-yscrollcommand "$window.ys set"
+	    # -font splainf
+	    scrollbar $window.ys -command "$window.info yview"
+	    checkbutton $window.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable {::pluginslog::followtext}
+	    # -font sboldf
+	    
+	    frame $window.bot -relief sunken -borderwidth 1
+	    button $window.bot.filters -text "[trans filters]" -command ::pluginslog::show_filters
+	    button $window.bot.save -text "[trans savetofile]" -command ::pluginslog::save
+	    button $window.bot.clear  -text "Clear" \
+		-command "$window.info delete 0.0 end"
+	    button $window.bot.close -text [trans close] -command {::pluginslog::toggle}
+	    pack $window.bot.filters $window.bot.save $window.bot.close $window.bot.clear -side left
+	    pack $window.bot $window.follow -side bottom
+	    pack $window.ys -side right -fill y
+	    pack $window.info -expand true -fill both
+	    
+	    $window.info tag configure green -foreground darkgreen -background white
+	    $window.info tag configure red -foreground red -background white
+	    $window.info tag configure white -foreground white -background black
+	    $window.info tag configure blue -foreground blue -background white
+	    $window.info tag configure error -foreground white -background black
+	    
+	    wm protocol $window WM_DELETE_WINDOW { ::pluginslog::toggle }
+	}
+	
+	proc save {} {
+	    set w .filters_save
+	    
+	    toplevel $w
+	    wm title $w \"[trans savetofile]\"
+	    label $w.msg -justify center -text "Please give a filename"
+	    pack $w.msg -side top
+	    
+	    frame $w.buttons -class Degt
+	    pack $w.buttons -side bottom -fill x -pady 2m
+	    button $w.buttons.dismiss -text Cancel -command "destroy $w"
+	    button $w.buttons.save -text Save -command "::pluginslog::save_file $w.filename.entry; destroy $w"
+	    pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
+
+	    frame $w.filename -bd 2 -class Degt
+	    entry $w.filename.entry -relief sunken -width 40
+	    label $w.filename.label -text "Filename:"
+	    pack $w.filename.entry -side right 
+	    pack $w.filename.label -side left
+	    pack $w.msg $w.filename -side top -fill x
+	    focus $w.filename.entry
+	    
+	    chooseFileDialog "plugins_log.txt" "" $w $w.filename.entry save
+	    
+	    catch {grab $w}
+	}
+	
+	proc save_file { filename } {
+	    variable window
+	    
+	    set fd [open [${filename} get] a+]
+	    fconfigure $fd -encoding utf-8
+	    puts $fd "[$window.info get 0.0 end]"
+	    close $fd
+	}
+    }
+    ::pluginslog::draw
+}

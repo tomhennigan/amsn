@@ -3235,8 +3235,11 @@ proc cmsn_draw_main {} {
 		bind . <Command-s> toggle_status
 		bind . <Command-,> Preferences
 		bind . <Command-Option-space> BossMode
+	    bind . <Option-p> ::pluginslog::toggle
 	} else {
 		bind . <Control-s> toggle_status
+	    bind . <Alt-p> ::pluginslog::toggle
+	    
 		bind . <Control-p> Preferences
 		bind . <Control-Alt-space> BossMode   
 	}

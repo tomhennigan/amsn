@@ -153,6 +153,7 @@ proc reload_files { } {
 	source chatwindow.tcl	;# Abstracted Chat Window code (::ChatWindow namespace)
 	source gui.tcl		;#gui.tcl must be at the beginning to make msg_box procedure available for errors
         source plugins.tcl	;# Plugins system must be loaded before config
+    source pluginslog.tcl	;# Plugins system must be loaded before config
 	source config.tcl
 	source proxy.tcl
 	source abook.tcl	;# Handle buddy address book    

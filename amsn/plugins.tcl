@@ -4,12 +4,9 @@
 ##                                                 ##
 #####################################################
 
-proc plugins_log {plugin msg} {
-    status_log "Plugins System : $plugin : $msg\n"
-}
 
 namespace eval ::plugins {
-	# Variable to list all plugins and their properties.
+    # Variable to list all plugins and their properties.
 	# Do NOT access this variable directly, use ::plugins::findplugins
 	variable found [list]
 	namespace export PostEvent
@@ -238,7 +235,8 @@ namespace eval ::plugins {
 		lappend search_path [file join [set ::program_dir] plugins]
 		lappend search_path [file join $HOME plugins]
 		lappend search_path [file join $HOME2 plugins]
-
+	    lappend search_path [file join $HOME2 amsn-extras]
+	    
 		# decrare the list to return
 		set ::plugins::found [list]
 		set idx 0
