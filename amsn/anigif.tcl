@@ -87,7 +87,9 @@ namespace eval anigif {
 		}
 		
 		
-		default { status_log "no match: $dispflag\n" }
+		default { 
+			#status_log "no match: $dispflag\n"
+		}
 	    }
 	    [set ::anigif::${fname}(curimage)] blank
 	    [set ::anigif::${fname}(curimage)] copy [lindex $list 0] -subsample 2 2 
