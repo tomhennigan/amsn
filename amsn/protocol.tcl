@@ -806,12 +806,12 @@ namespace eval ::MSN {
 
       set lowuser [string tolower ${user}]
 
-      if { [chatReady $user ] } {
-        return $user
+      if { [chatReady $lowuser] } {
+        return $lowuser
       }
 
-      if { [SBFor $user] != 0 } {
-         cmsn_reconnect [SBFor $user]
+      if { [SBFor $lowuser] != 0 } {
+	  cmsn_reconnect [SBFor $lowuser]
 	  return $user
       }
 
@@ -1038,14 +1038,13 @@ namespace eval ::MSN {
 
       if {[llength $chat_queues($chatid)] == 0} {
          unset chat_queues($chatid)
-	  #status_log "unsetting chat_queues($chatid)\n"
          return 0
       }
 
       if { $count >= 15 } {
          return 0
       }
-
+      
 
       if {[chatReady $chatid]} {
 
@@ -1053,13 +1052,13 @@ namespace eval ::MSN {
          set chat_queues($chatid) [lreplace $chat_queues($chatid) 0 0]
 	  eval $command
 	  ProcessQueue $chatid
-	  
-      } else {
 
+      } else {
          chatTo $chatid
          after 3000 "::MSN::ProcessQueue $chatid [expr {$count + 1}]"
 
       }
+      
    }
 
 
@@ -1070,12 +1069,10 @@ namespace eval ::MSN {
 
       if {![info exists chat_queues($chatid)]} {
          set chat_queues($chatid) [list]
-	  #status_log "Creating queue for $chatid\n"
       }
 
 
       lappend chat_queues($chatid) $command
-      #status_log "Appending '$command' to $chatid queue. Now it is: $chat_queues($chatid)\n"
       ProcessQueue $chatid
 
 
@@ -1734,6 +1731,10 @@ proc cmsn_update_users {sb_name recv} {
 	  }
 
 	  set chatid [::MSN::ChatFor $sb_name]
+
+	  if {[sb length $sb_name users] == 0 } {
+	     sb set $sb_name stat "n"
+	  }
 
 	  if {[::MSN::SBFor $chatid] == $sb_name} {
   	     ::amsn::userLeaves $chatid [list [lindex $recv 1]]
