@@ -2194,7 +2194,12 @@ namespace eval ::amsn {
 
 
 		bind $wname.blueframe.list.items <Double-Button-1> [list ::amsn::listChooseOk $wname $itemlist $command]
-		catch {focus $wname.buttons.ok}
+
+		catch {
+			raise $wname
+			focus $wname.buttons.ok
+		}
+		
 		
 		bind $wname <Escape> [list destroy $wname]
 		bind $wname <Return> [list ::amsn::listChooseOk $wname $itemlist $command]
@@ -2323,7 +2328,11 @@ namespace eval ::amsn {
 
 
 		bind $wname.blueframe.list.userlist <Double-Button-1> "$command \[string range \[lindex \[$wname.blueframe.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname"
-		focus $wname.buttons.ok
+		catch {
+			raise $wname
+			focus $wname.buttons.ok
+		}
+		
 		bind $wname <Escape> "destroy $wname"
 		bind $wname <Return> "$command \[string range \[lindex \[$wname.blueframe.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname"
 	}
@@ -5228,9 +5237,9 @@ proc cmsn_draw_addcontact {} {
 	toplevel .addcontact -width 400 -height 150
 	wm group .addcontact .
 	bind .addcontact <Destroy> {
-	if {"%W" == ".addcontact"} {
-		unset addcontact_request
-	}
+		if {"%W" == ".addcontact"} {
+			unset addcontact_request
+		}
 	}
 
 #   wm geometry .addcontact -0+100
@@ -5257,7 +5266,10 @@ proc cmsn_draw_addcontact {} {
 	.addcontact.c create window 205 120 -window .addcontact.c.cancel -anchor nw
 
 	bind .addcontact.c.email <Return> "addcontact_next"
-	focus .addcontact.c.email
+	catch {
+		raise .addcontact
+		focus .addcontact.c.email
+	}
 
 #   tkwait visibility .addcontact
 #   grab set .addcontact
@@ -5399,7 +5411,6 @@ proc cmsn_change_name {} {
 
 	toplevel .change_name
 	wm group .change_name .
-	wm geometry .change_name -0+100
 	wm title .change_name "[trans changenick] - [trans title]"
 
 	#ShowTransient .change_name
@@ -5431,6 +5442,11 @@ proc cmsn_change_name {} {
 	.change_name.fn.name insert 0 [urldecode [lindex $user_info 4]]
 
 	tkwait visibility .change_name
+	catch {
+		raise .change_name
+		focus -force .change_name.fb.ok
+	}
+	
 }
 
 #///////////////////////////////////////////////////////////////////////
