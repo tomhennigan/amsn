@@ -215,6 +215,7 @@ namespace eval ::skin {
 	}
 	
 	proc InitSkinDefaults { } {
+		variable ContactListColors
 		global skinconfig
 		
 		set skinconfig(smilew) 22      ;# Smiley width
@@ -225,6 +226,7 @@ namespace eval ::skin {
 		set emotions_names [list]
 		if { [info exists emotions] } {unset emotions}
 		if { [info exists emotions_data] } {unset emotions_data}
+		if { [info exists ContactListColors] } {unset ContactListColors }
 		
 	}
 	
