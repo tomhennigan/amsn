@@ -1,7 +1,7 @@
 if { $initialize_amsn == 1 } {
-	global bgcolor bgcolor2 putmessage_inputs putmessage_outputs
-	set putmessage_inputs 0
-	set putmessage_outputs 1
+	global bgcolor bgcolor2
+	
+	init_ticket putmessage
 
 	if { ![info exists bgcolor] } {
 		set bgcolor #0050C0
@@ -2594,8 +2594,6 @@ namespace eval ::amsn {
 	# - 'fontformat' is a list containing font style and color
 	proc PutMessage { chatid user msg type fontformat } {
 
-		global putmessage_inputs putmessage_outputs
-
 		#Run it in mutual exclusion
 		run_exclusive [list ::amsn::PutMessageWrapped $chatid $user $msg $type $fontformat] putmessage
 	}
@@ -4421,6 +4419,10 @@ proc do_hotmail_login {} {
 	hotmail_login $config(login) $password
 }
 
+if { $initialize_amsn == 1 } {
+	init_ticket draw_online
+}
+
 #///////////////////////////////////////////////////////////////////////
 # TODO: move into ::amsn namespace, and maybe improve it
 proc cmsn_draw_online { {delay 0} } {
@@ -4431,6 +4433,13 @@ proc cmsn_draw_online { {delay 0} } {
 		after 500 "cmsn_draw_online"
 		return
 	}
+	
+	#Run this procedure in mutual exclusion, to avoid procedure
+	#calls due to events while still drawing. This fixes some bugs
+	run_exclusive cmsn_draw_online_wrapped draw_online
+}
+
+proc cmsn_draw_online_wrapped {} {
 
 	global emotions user_stat login list_users list_states user_info list_bl\
 	config password pgBuddy bgcolor automessage emailBList tcl_platform
