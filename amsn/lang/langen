@@ -44,6 +44,7 @@ clicktologin Click here to log in
 close Close
 closingdocks Close button Minimizes
 command Command
+confirm Are you sure?
 confirmdelete Are you sure you want to delete $1?
 connecterror Error connecting to server
 contactadded Contact added
