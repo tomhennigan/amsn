@@ -843,6 +843,16 @@ proc cmsn_draw_login {} {
    .login.c.signin insert 0 $config(login)
    .login.c.password insert 0 $password
 
+   if { [info exists config(login)] == 0 } {
+	focus .login.c.signin
+   } else {
+	if { $config(save_password) == 0 } {
+	   focus .login.c.password
+        } else {
+           focus .login.c.ok
+        }
+   } 
+
    bind .login.c.password <Return> "login_ok"
 
    tkwait visibility .login
