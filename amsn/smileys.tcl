@@ -14,13 +14,13 @@ set emotions {{":-)" smile} {":)" smile} {":-D" smiled} {":D" smiled}
 	{"(A)" angel} {"(6)" devil} {"(^)" cake} {"(O)" clk} {":-@" angry}
 	{":@" angry} {"(&)" dog} {"(W)" rosew} {":`(" smilec} {":'(" smilec}
 	{":$" smilemb} {":-$" smilemb} {"(#)" sun} {"(R)" rainbow}
-	{"(%)" handcuffs}}
+	{"(%)" handcuffs} {(~) film} {(?) asl}}
 
 set emotion_files {smile smiled smileo smilep wink sad crooked disgust thumbu
 	thumbd love unlove lips gift rose emgirl emboy photo beer coctail
 	emphone emcat emcup embulb emhottie emsleep emstar emnote email
 	messenger vampire girlhug boyhug angel devil cake clk angry dog rosew
-	smilec smilemb smilemb sun rainbow handcuffs}
+	smilec smilemb smilemb sun rainbow handcuffs film asl}
 
 
 foreach img_name $emotion_files {
