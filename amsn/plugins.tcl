@@ -1430,12 +1430,17 @@ namespace eval ::plugins {
 		set main [::plugins::ReadPluginUpdates $name main]
 		set langs [::plugins::ReadPluginUpdates $name lang]
 		set files [::plugins::ReadPluginUpdates $name file]
-		
-		::plugins::UpdateMain $name $path $main
-		::plugins::UpdateLangs $name $path $langs
-		::plugins::UpdateFiles $name $path $files
-		
-		SavePlugininfo "$plugin" "$pathinfo"
+
+		# if no error occurs while updating the plugin, save the plugininfo.xml file		
+		if { [catch {
+			::plugins::UpdateMain $name $path $main
+			::plugins::UpdateLangs $name $path $langs
+			::plugins::UpdateFiles $name $path $files
+			}] } {
+			SavePlugininfo "$plugin" "$pathinfo"
+		} else {
+			status_log "Error while updating $name\n" red
+		}
 
 	}
 
@@ -1455,7 +1460,11 @@ namespace eval ::plugins {
 			set path "[string range $path 0 end-[expr [string length $name] + 5]]"
 			set pathinfo "$path/plugininfo.xml"
 			get_Version "$pathinfo" "$name"
-			get_OnlineVersion "$pathinfo" "$name"
+			
+			# If the online version could not be downloaded, stop for this plugin
+			if { [catch {get_OnlineVersion "$pathinfo" "$name"}] } {
+				continue
+			}
 
 			# If the online plugin is compatible with the current version of aMSN
 			if { [::plugins::CheckRequirements $::plugins::plgonlinerequire] } {
