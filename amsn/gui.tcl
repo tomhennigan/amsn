@@ -3159,8 +3159,6 @@ proc cmsn_draw_main {} {
    wm iconmask . @[GetSkinFile pixmaps amsnmask.xbm]
    . conf -menu .main_menu
 
-	wm state . withdraw
-
 
 }
 #///////////////////////////////////////////////////////////////////////
