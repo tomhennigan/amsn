@@ -1,0 +1,28 @@
+amsn_lang_version 2
+allowcommands Gebruik commando's in het gespreksvenster
+
+allowcolours Gebruik meerdere kleuren in het gespreksvenster
+ccolor \nJouw tekstkleur is: $1
+cfont \nJouw tekstlettertype is $1
+cinfo \nContact-informatie:\n$1 \nSchuilnaam: $2 \nGroep: $3
+cleave \nJe hebt dit gesprek verlaten
+cnewnick \nJe nieuwe schuilnaam is: $1
+cnewstate \nJe nieuwe status is: $1
+cnewstatenotvalid \n$1 is geen geldige status
+cnick \nJe nickname is $1
+cnotvalid \nDit is geen geldig commando
+colournicks Schuilnamen inkleuren (onvolledige functie)
+cresult \nResultaat van het commando:\n$1
+cshell \nWordt uitgevoerd in een shell: $1
+cspecify \nJe moet een contact meegeven aan het commando
+cstatus \nJe status is $1
+cstyle \nJe lettertype-stijl is $1
+deleted \nJe hebt &1 verwijderd van je contactenlijst.\nOm deze 
+contactpersoon opnieuw toe te voegen, doe: /add &1
+groupadded \nGroep $1 toegevoegd.
+groupdeleted \nJe hebt groep &1 verwijderd van je contactenlijst.\nOm deze 
+groep opnieuw toe te voegen, doe: /addgroup &1
+multiplecolorsbutton Voeg een nieuwe kleur toe
+parsenicks Kleur schuilnamen in volgens de MSN Plus! codes
+parsenicks Do you want to parse the msn plus color codification in nicks?
+
