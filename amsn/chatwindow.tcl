@@ -533,6 +533,7 @@ namespace eval ::ChatWindow {
 				set win_name [::ChatWindow::Open $container]
 				::ChatWindow::SetFor $chatid $win_name
 				::ChatWindow::NameTabButton $win_name $chatid
+				set_balloon $::ChatWindow::win2tab($win_name) "[::abook::getContactData $chatid nick]"
 
 			}
 			#update idletasks
@@ -2048,10 +2049,18 @@ namespace eval ::ChatWindow {
 	proc FlickerTab { win {new 1}} {
 		variable win2tab
 		variable winflicker
+		variable visibletabs
 
 		if { $win == 0 || ![info exists win2tab($win)] } { return }
 
 		if { $win == [GetCurrentWindow [winfo toplevel $win]] } { return }
+
+		#if tab is not visible, then we should change the color of the < or > button
+		#to let know there is an invisible tab flickering (an incoming message)
+		#if { ![info exists visibletabs($win)] } {
+			#${containercurrent}.bar.less
+			#${containercurrent}.bar.more
+		#}
 
 		set tab $win2tab($win)
 
