@@ -3,6 +3,9 @@
 ########################################################
 # Maintainer: markitus (markitus@catmail.homelinux.org)
 # Created: 13/09/2004
+#
+# New features:
+#   - Save nicks: with xml? how-to?
 ########################################################
 
 namespace eval ::amsnplus {
@@ -211,6 +214,7 @@ namespace eval ::amsnplus {
 				}
 				if {[string equal $field "state"]} {
 					set status [::MSN::myStatusIs]
+					set status [::MSN::stateToDescription $status]
 					::amsn::WinWrite $chatid "\nYour status is $status" green
 				}
 				set incr 0
@@ -302,10 +306,13 @@ namespace eval ::amsnplus {
 				set slen [string length $nstate]
 				set msg [string replace $msg $i [expr $i + $slen]]
 				set strlen [string length $nick]
-				set cstate [::amsnplus::descriptionToState $nstate]
-				::MSN::changeStatus $cstate
-				#set nstate [::MSN::stateToDescription $nstate]
-				::amsn::WinWrite $chatid "\nYour new state is: $nstate" green
+				if {[::amsnplus::stateIsValid $nstate]} {
+					set cstate [::amsnplus::descriptionToState $nstate]
+					::MSN::changeStatus $cstate
+					::amsn::WinWrite $chatid "\nYour new state is: $nstate" green
+				} else {
+					::amsn::WinWrite $chatid "\n$nstate is not valid" green
+				}
 				set incr 0
 			}
 			if {[string equal $char "/style"]} {
@@ -364,6 +371,18 @@ namespace eval ::amsnplus {
 		if {[string equal $newstate "onphone"]} { return "PHN" }
 		if {[string equal $newstate "gonelunch"]} { return "LUN" }
 		return $newstate
+	}
+
+	###################################################################
+	# this detects if the state user want to change is valid
+	proc stateIsValid { state } {
+		if {[string equal $state "online"]} { return 1 }
+		if {[string equal $state "away"]} { return 1 }
+		if {[string equal $state "busy"]} { return 1 }
+		if {[string equal $state "rightback"]} { return 1 }
+		if {[string equal $state "onphone"]} { return 1 }
+		if {[string equal $state "gonelunch"]} { return 1 }
+		return 0	
 	}
 
 }
