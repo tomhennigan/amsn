@@ -69,8 +69,8 @@ DONE	make the shell window resizable (and apply the same for the protocol window
 
 	**Blocked users detection issues :
 -	If user blocks you directly after getting connected, doesn't automaticaly detect him
--	If you call the VerifyBlocked procedure manually, what will happen ???
--	Make timer event configurable (functions already support this)
+DONE	If you call the VerifyBlocked procedure manually, what will happen ???
+DONE	Make timer event configurable (functions already support this)
 
 	**Dock Issues :
 -	New message alert 
@@ -142,6 +142,7 @@ DONE	Encrypt password? (do we really need to? I think not)
 DONE	Option to popup/raise/unminimize message window on message receive
 -	Direct connection between amsn clients, without sb, real time chat.
 -	Better management of special characters and \n in nicks
+-	Change windows history array into an array of lists and make a limit of saved text
 
 	
 	***Graphical Interface (priority 4)***

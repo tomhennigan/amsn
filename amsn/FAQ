@@ -60,6 +60,24 @@ A: Yes, right click on that contact name on the contact list, and
 click its address on the pop-up menu. The contact email address
 will be copied to the clipboard.
 
+Q: How can I access the history of the messages I sent in my chat windows?
+A: If you want to access previous messages you sent in your chat windows
+you only need to use the Control key with the arrows. It works the same way
+as in a shell so Ctrl-Up gives you the previous message sent and Ctrl-Down, 
+the next one.
+
+Q: In the preferences' privacy tab, what do those four lists mean?
+A: There are four lists, known as Allow List(AL), Block List(BL), Reverse List(RL)
+and Contact List. The last one is obvious, I'll explain what the other three lists mean :
+AL : This list contains the emails of people who are allowed to see you when you get online
+and they can also chat with you when you aren't offline
+BL : This is the block list, which means it contains the list of people you are blocking.
+So this means they can't see you when you are online, and they can't chat with you.
+RL : This is the reverse list, it contains the email adresses of people who added you to 
+their list. People appearing in green in this list are people who aren't in your contact list
+but you are still in theirs.
+
+
 TROUBLESHOOTING
 ===============
 

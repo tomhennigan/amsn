@@ -43,22 +43,28 @@
 
 namespace eval anigif {
 
-    proc anigif2 {w list delay {idx 0}} {
+    proc anigif2 {w {idx 0}} {
 	if { ![winfo exists $w] } {
 	    #Cleanup
 	    #???
 	    destroy $w
 	    return
 	} else {
+	    if { [set ::anigif::${w}(stopped)] == 1 } {
+		return
+	    }
+	    set fname [set ::anigif::${w}(fname)]
+	    set list [set ::anigif::${fname}(images)]
+	    set delay [set ::anigif::${fname}(delay)]
 	    if { $idx >= [llength $list]  } {
 		set idx 0
-		if { [set ::anigif::${w}(repeat)] == 0} {
+		if { [set ::anigif::${fname}(repeat)] == 0} {
 		    # Non-repeating GIF
 		    ::anigif::stop $w
 		    return
 		}
 	    } 
-	    set dispflag [lindex [set ::anigif::${w}(disposal)] $idx]
+	    set dispflag [lindex [set ::anigif::${fname}(disposal)] $idx]
 	    switch "$dispflag" {
 		"000" {
 		    # Do nothing
@@ -83,8 +89,7 @@ namespace eval anigif {
 		return
 	    }
 	    update
-	    set ::anigif::${w}(asdf) "::anigif::anigif2 $w [list $list]"
-	    set ::anigif::${w}(loop) [after [lindex $delay $idx] "[set ::anigif::${w}(asdf)] [list $delay] [expr {$idx + 1}]"]
+	    set ::anigif::${w}(loop) [after [lindex $delay $idx] "::anigif::anigif2 $w [expr {$idx + 1}]"]
 	    set ::anigif::${w}(idx) [incr idx]
 	}
     }
@@ -105,15 +110,13 @@ namespace eval anigif {
 
 	    # sets the settings for the animated gif
 	    set ::anigif::${w}(fname) $fname
-	    set ::anigif::${w}(repeat) [set ::anigif::${fname}(repeat)]
-	    set ::anigif::${w}(delay) [set ::anigif::${fname}(delay)]
-	    set ::anigif::${w}(disposal) [set ::anigif::${fname}(disposal)]
+	    set ::anigif::${w}(stopped) 0
 	    set ::anigif::${w}(curimage) [image create photo]
 	    [set ::anigif::${w}(curimage)] blank
 	    [set ::anigif::${w}(curimage)] copy pic0${fname} -subsample 2 2
 	    $w configure -image [set ::anigif::${w}(curimage)]
 
-	    anigif2 $w [set ::anigif::${fname}(images)] [set ::anigif::${fname}(delay)] $idx
+	    anigif2 $w $idx
 
 	    return
 	} else {
@@ -182,32 +185,33 @@ namespace eval anigif {
 	# must be destroyed along with the widget
 	set ::anigif::${w}(fname) $fname
 
-	set ::anigif::${w}(repeat) $repeat
-	set ::anigif::${w}(delay) $delay
-	set ::anigif::${w}(disposal) $disposal
-	set ::anigif::${w}(curimage) [image create photo]
-	[set ::anigif::${w}(curimage)] blank
-	[set ::anigif::${w}(curimage)] copy pic0${fname} -subsample 2 2
-	$w configure -image [set ::anigif::${w}(curimage)]
-
-	anigif2 $w $images $delay $idx
-
 	# Saving settings for this file
 	set ::anigif::${fname}(repeat) $repeat
 	set ::anigif::${fname}(delay) $delay
 	set ::anigif::${fname}(disposal) $disposal
 	set ::anigif::${fname}(images) $images
+
+	set ::anigif::${w}(stopped) 0
+	set ::anigif::${w}(curimage) [image create photo]
+	[set ::anigif::${w}(curimage)] blank
+	[set ::anigif::${w}(curimage)] copy pic0${fname} -subsample 2 2
+	$w configure -image [set ::anigif::${w}(curimage)]
+
+	anigif2 $w $idx
+
     }
 
     proc stop {w} {
 	catch {
+	    set ::anigif::${w}(stopped) 1
 	    after cancel [set ::anigif::${w}(loop)]
 	}
     }
 
     proc restart {w {idx -1}} {
+	set fname [set ::anigif::${w}(fname)]
 	if {$idx == -1} {
-	    if { [lindex ::anigif::${w}(delay) $idx] < 0 } {
+	    if { [lindex ::anigif::${fname}(delay) $idx] < 0 } {
 		set idx 0
 	    } else {
 		set idx [set ::anigif::${w}(idx)]
@@ -215,7 +219,8 @@ namespace eval anigif {
 	}
 	catch {
 	    ::anigif::stop $w
-	    eval "[set ::anigif::${w}(asdf)] [list [set ::anigif::${w}(delay)]] $idx"
+	    set ::anigif::${w}(stopped) 0
+	    eval "::anigif::anigif2 $w $idx"
 	}
     }
 

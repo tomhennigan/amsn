@@ -314,8 +314,8 @@ proc ScrollChange { from w args } {
 	foreach window [$tw window names] {
 	    #	puts "$window"
 
-	    set pos [$tw index $window]
-	    set file [string range $window [expr [string first "anigif_" $window] + 7] end]   
+#	    set pos [$tw index $window]
+#	    set file [string range $window [expr [string first "anigif_" $window] + 7] end]   
 
 
 	    if { [anigif_info get $window] && [llength [$tw bbox $window]] == 0 } {
