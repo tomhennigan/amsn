@@ -108,7 +108,16 @@ namespace eval ::alarms {
 	
 		frame $w.command1
 		LabelEntry $w.command1.entry "[trans command]" my_alarms(${user}_command) 30
+		menubutton $w.command1.help -font sboldf -text "<-" -menu $w.command1.help.menu
+		menu $w.command1.help.menu -tearoff 0
+		$w.command1.help.menu add command -label [trans nick] -command "$w.command1.entry.ent insert insert \\\$nick"
+		$w.command1.help.menu add command -label [trans email] -command "$w.command1.entry.ent insert insert \\\$user"
+		$w.command1.help.menu add command -label [trans msg] -command "$w.command1.entry.ent insert insert \\\$msg"
+		$w.command1.help.menu add separator
+		$w.command1.help.menu add command -label [trans delete] -command "$w.command1.entry.ent delete 0 end"
+		
 		pack $w.command1.entry -side left -expand true -fill x
+		pack $w.command1.help -side left
 		pack $w.command1 -side top -padx 10 -pady 2 -anchor w -fill x
 		checkbutton $w.buttoncomm -text "[trans commandstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_oncommand) -font splainf
 		Separator $w.sepcommand -orient horizontal		
@@ -225,8 +234,8 @@ namespace eval ::alarms {
 
 
 #Runs the alarm (sound and pic)
-proc run_alarm {user msg} {
-	global program_dir config tcl_platform alarm_win_number
+proc run_alarm {user nick msg} {
+	global program_dir tcl_platform alarm_win_number
 	
 	if { ![info exists alarm_win_number] } {
 		set alarm_win_number 0
@@ -235,19 +244,15 @@ proc run_alarm {user msg} {
 	incr alarm_win_number
 	set wind_name alarm_${alarm_win_number}
 
-	#set command $config(soundcommand)
-	#set command [string map { "$sound" "" } $command]
-
-	#only creates popup if it is a picture alarm or its a sound alarm
-	if { ([::alarms::getAlarmItem ${user} pic_st] == 1) || ([::alarms::getAlarmItem ${user} sound_st] == 1) } {
-		toplevel .${wind_name}
-		set myDate [ clock format [clock seconds] -format " - %d/%m/%y at %H:%M" ]
-		wm title .${wind_name} "[trans alarm] $user $myDate"	
-		#wm title .${wind_name} "[trans alarm] $user"
-		label .${wind_name}.txt -text "$msg"
-		pack .${wind_name}.txt	
+	if { [::alarms::getAlarmItem ${user} pic_st] == 1 || [::alarms::getAlarmItem ${user} sound_st] == 1 } {
+	toplevel .${wind_name}
+	set myDate [ clock format [clock seconds] -format " - %d/%m/%y at %H:%M" ]
+	wm title .${wind_name} "[trans alarm] $user $myDate"	
+	label .${wind_name}.txt -text "$msg"
+	pack .${wind_name}.txt
 	}
 	
+	#Create picture
 	if { [::alarms::getAlarmItem ${user} pic_st] == 1 } {
 		image create photo joanna_$alarm_win_number -file [::alarms::getAlarmItem ${user} pic]
 		if { ([image width joanna_$alarm_win_number] < 1024) && ([image height joanna_$alarm_win_number] < 768) } {
@@ -256,14 +261,21 @@ proc run_alarm {user msg} {
 		}
 	}
 
+	#Play sound
+	#TODO: Is windows code working? What's that $command thing??
 	if { [::alarms::getAlarmItem ${user} sound_st] == 1 } {
+	
 		if { [::config::getKey usesnack] } {
+		
+			#Ok, we're using Snack, do it the Snack way
 			snack::sound alarmsnd_${alarm_win_number} -load [::alarms::getAlarmItem ${user} sound]
 			snack_play_sound alarmsnd_${alarm_win_number} [::alarms::getAlarmItem ${user} loop]
-			button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; alarmsnd_${alarm_win_number} stop; alarmsnd_${alarm_win_number} destroy "
-			wm protocol .${wind_name} WM_DELETE_WINDOW "destroy .${wind_name}; alarmsnd_${alarm_win_number} stop; alarmsnd_${alarm_win_number} destroy "
+			button .${wind_name}.stopmusic -text [trans stopalarm] -command [list ::alarms::StopSnackAlarm .${wind_name} alarmsnd_${alarm_win_number}]
+			wm protocol .${wind_name} WM_DELETE_WINDOW [list ::alarms::StopSnackAlarm .${wind_name} alarmsnd_${alarm_win_number}]
 			pack .${wind_name}.stopmusic -padx 2
+			
 		} else {
+			#TODO: Is this working???
 			#need different commands for windows as no kill or bash etc
 			if { $tcl_platform(platform) == "windows" } {
 				#Some verions of tk don't support this
@@ -281,12 +293,11 @@ proc run_alarm {user msg} {
 						update
 					}
 				} else {
-					#button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}"
-					#pack .${wind_name}.stopmusic -padx 2
-					#update
 					catch { eval exec "[regsub -all {\\} $command {\\\\}] [regsub -all {/} [::alarms::getAlarmItem ${user} sound] {\\\\}]" & } res 
 				}			
 			} else {
+				
+				#Not using snack, unix version
 				if { [::alarms::getAlarmItem ${user} loop] == 1 } {
 					button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; catch { eval exec killall jwakeup } ; catch { eval exec killall -TERM $command }"
 					pack .${wind_name}.stopmusic -padx 2
@@ -303,10 +314,22 @@ proc run_alarm {user msg} {
 		pack .${wind_name}.stopmusic -padx 2
 	}
 	
+	#Replace variables in command
 	if { [::alarms::getAlarmItem ${user} oncommand] == 1 } {
-		string map [list "\$msg" "$msg" "\\" "\\\\" "\$" "\\\$" "\[" "\\\[" "\]" "\\\]" "\(" "\\\(" "\)" "\\\)" "\{" "\\\}" "\"" "\\\"" "\'" "\\\'" ] [::alarms::getAlarmItem ${user} command]
-		catch { eval exec [::alarms::getAlarmItem ${user} command] & } res 
+		set the_command [::alarms::getAlarmItem ${user} command]
+		#By default, quote backslashes and variables
+		set the_command [string map {"\[" "\\\[" "\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } $the_command]
+		#Now, let's unquote the variables we want to replace
+		set the_command "[string map {"\\\$nick" "\${nick}" "\\\$user" "\${user}" "\\\$msg" "\${msg}"} $the_command] &"
+		catch {eval exec $the_command} res
 	}
+
+	proc StopSnackAlarm {w snd} {	
+		destroy $w
+		$snd stop
+		$snd destroy
+	}
+	
 }
 
 # Switches alarm setting from ON/OFF
