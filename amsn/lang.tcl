@@ -287,7 +287,7 @@ proc language_manager { } {
 	pack configure $w.command.load -side top
 	pack configure $w.command.close -side bottom
 
-	pack configure $w.selection -side left
+	pack configure $w.selection -side left -fill y
 	pack configure $w.command -side right
 }	
 
