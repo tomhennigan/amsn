@@ -860,16 +860,18 @@ proc eventstatus { name state } {
 #Check if an event display is activated
 proc eventdisplay { } {
 	if { [::config::getKey display_event_connect] || [::config::getKey display_event_disconnect] || [::config::getKey display_event_email] || [::config::getKey display_event_state] } {
-	return 1
+		return 1
+	} else {
+		return 0
 	}
 }
 
 #Check if an event log is activated
 proc eventlog { } {
 	if { [::config::getKey log_event_connect] || [::config::getKey log_event_disconnect] || [::config::getKey log_event_email] || [::config::getKey log_event_state] } {
-	return 1
+		return 1
 	} else {
-	return 0
+		return 0
 	}
 }
 
