@@ -7,7 +7,9 @@ set bgcolor2 #D0D0F0
 
 namespace eval ::amsn {
    namespace export fileTransferRecv fileTransferProgress \
-   errorMsg notifyAdd initLook 
+   errorMsg notifyAdd initLook messageFrom chatChange userJoins\
+   userLeaves updateTypers ackMessage nackMessage closeWindow \
+   chatStatus chatUser
    
    ##PUBLIC
 
@@ -132,7 +134,7 @@ namespace eval ::amsn {
 
       if { $win_name == 0 } {
 
-         set win_name [openChatWindow]
+         set win_name [OpenChatWindow]
 	  SetWindowFor $chatid $win_name
          status_log "NEW - Window doesn't exists in fileTransferRecv, created window named [WindowFor $chatid]\n"
 	  WinTopUpdate $chatid
@@ -259,7 +261,7 @@ namespace eval ::amsn {
    # Called by the protocol layer when a message 'msg' arrives from the chat
    # 'chatid'.'user' is the login of the message sender, and 'user' can be "msg" to
    # send special messages not prefixed by "XXX says:". 'type' can be a style tag as
-   # defined in the openChatWindow proc, or just "user". If the tpye is "user",
+   # defined in the OpenChatWindow proc, or just "user". If the tpye is "user",
    # the 'fontformat' parameter will be used as font format.
    # The procedure will open a window if it does not exists, add a notifyWindow and
    # play a sound if it's necessary
@@ -269,7 +271,7 @@ namespace eval ::amsn {
 
       if { $win_name == 0 } {
 
-         set win_name [openChatWindow]
+         set win_name [OpenChatWindow]
 	  SetWindowFor $chatid $win_name
 	  WinTopUpdate $chatid
 
@@ -277,18 +279,20 @@ namespace eval ::amsn {
 
       PutMessage $chatid $user $msg $type $fontformat
 
+      #If window is withdran (Created but not visible) show notify, and change
+      #the window state
       if { "[wm state $win_name]" == "withdrawn" } {
 
-      	  status_log "Window is withdrawn, showing notify\n"
-	  wm state ${win_name} normal
-	  wm iconify ${win_name}
+         status_log "Window is withdrawn, showing notify\n"
+	 wm state ${win_name} normal
+	 wm iconify ${win_name}
 
          notifyAdd "[trans says [::MSN::userName $chatid $user]]:\n$msg" \
            "::amsn::chatUser $chatid"
-            #"wm state ${win_name} normal; focus -force ${win_name}.f.in.input"
 
       }
 
+      #If window not focused, play "type" sound
       if { [string first ${win_name} [focus]] != 0 } {
          sonido type
       }
@@ -326,8 +330,7 @@ namespace eval ::amsn {
 	  set title "${title}${user_name}, "
 
  	  set topmsg "${topmsg}${user_name} <${user_login}> "
-	  #TODO: The state information works, but it doesn't change, only when
-	  #users left/join
+
 	  if { "$user_state" != "" && "$user_state" != "online" } {
             set topmsg "${topmsg} \([trans $user_state]\) "
 	  }
@@ -340,14 +343,16 @@ namespace eval ::amsn {
 
       set win_name [WindowFor $chatid]
 
-      ${win_name}.f.top.text configure -state normal -font sboldf -height 1
+      ${win_name}.f.top.text configure -state normal -font sboldf -height 1 -wrap none
       ${win_name}.f.top.text delete 0.0 end
       ${win_name}.f.top.text insert end $topmsg
+      
+      #Calculate number of lines, and set top text size
       set size [${win_name}.f.top.text index end]
       set posyx [split $size "."]
       set lines [expr {[lindex $posyx 0] - 1}]
-
       ${win_name}.f.top.text configure -state normal -font sboldf -height $lines -wrap none
+
       ${win_name}.f.top.text configure -state disabled
 
       set window_titles(${win_name}) ${title}
@@ -373,15 +378,22 @@ namespace eval ::amsn {
 
       if { $win_name == 0 } {
 
+          #Old window window does not exists, so just accept the change, no worries
 	  status_log "chatChange: Window doesn't exist (probably invited to a conference)\n"
 	  return $newchatid
 
       }
 
       if { [WindowFor $newchatid] != 0} {
+         #Old window existed, probably a conference, but new one exists too, so we can't
+	 #just allow that messages shown in old window now are shown in a different window,
+	 #that wouldn't be nice, so don't allow change
          status_log "conference wants to become private, but there's already a window\n"
 	 return $chatid
       }
+      
+      #So, we had an old window for chatid, but no window for newchatid, so the window will
+      #change it's assigned chat
 
       UnsetWindowFor $chatid $win_name
       SetWindowFor $newchatid $win_name
@@ -397,9 +409,9 @@ namespace eval ::amsn {
 
    #///////////////////////////////////////////////////////////////////////////////
    # userJoins (charid, user_name)
-   # called from the protocol layer when a user JOINS a chat, before userJoinsLeft.
-   # It should be called after a IRO or JOI in the switchboard.
-   # It will open a new window if it doesn't exists, and show the status message.
+   # called from the protocol layer when a user JOINS a chat
+   # It should be called after a JOI in the switchboard.
+   # If a window exists, it will show "user joins conversation" in the status bar
    # - 'chatid' is the chat name
    # - 'usr_name' is the user email to show in the status message
    proc userJoins { chatid usr_name } {
@@ -416,7 +428,7 @@ namespace eval ::amsn {
 
 	if { $config(keep_logs) } {
 		::log::JoinsConf $chatid $usr_name
-	}	
+	}
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -424,7 +436,7 @@ namespace eval ::amsn {
 
    #///////////////////////////////////////////////////////////////////////////////
    # userLeaves (chatid, user_name)
-   # called from the protocol layer when a user LEAVES a chat, before userJoinsLeft.
+   # called from the protocol layer when a user LEAVES a chat.
    # It will show the status message. No need to show it if the window is already
    # closed, right?
    # - 'chatid' is the chat name
@@ -432,7 +444,7 @@ namespace eval ::amsn {
    proc userLeaves { chatid usr_name } {
 
       global config
-      
+
       if {[WindowFor $chatid] == 0} {
          return 0
       }
@@ -443,8 +455,8 @@ namespace eval ::amsn {
 
 	if { $config(keep_logs) } {
 		::log::LeavesConf $chatid $usr_name
-	}		
-     
+	}
+
    }
    #///////////////////////////////////////////////////////////////////////////////
 
@@ -466,10 +478,12 @@ namespace eval ::amsn {
       set typers_list [::MSN::typersInChat $chatid]
 
       set typingusers ""
+
       foreach login $typers_list {
          set user_name [lindex $login 1]
          set typingusers "${typingusers}${user_name}, "
       }
+
       set typingusers [string replace $typingusers end-1 end ""]
 
       set statusmsg ""
@@ -485,17 +499,17 @@ namespace eval ::amsn {
       } elseif {[llength $typers_list] == 1} {
 
          set statusmsg " [trans istyping $typingusers]."
-	  set icon typingimg
+	 set icon typingimg
 
       } else {
 
          set statusmsg " [trans aretyping $typingusers]."
-	  set icon typingimg
+	 set icon typingimg
 
       }
 
-
       WinStatus [WindowFor $chatid] $statusmsg $icon
+
    }
    #///////////////////////////////////////////////////////////////////////////////
 
@@ -509,9 +523,10 @@ namespace eval ::amsn {
 
 
    #///////////////////////////////////////////////////////////////////////////////
-   # openChatWindow ()
+   # OpenChatWindow ()
    # Opens a new hidden chat window and returns its name.
-   proc openChatWindow {} {
+   proc OpenChatWindow {} {
+
       variable winid
       variable window_titles
       global images_folder config HOME files_dir bgcolor bgcolor2
@@ -520,8 +535,7 @@ namespace eval ::amsn {
       incr winid
 
       toplevel .${win_name}
-      #TODO: Here we should decide if start withdrawn or normal, depending on an option
-      # Here or in userJoins? better use userJoins
+      
       wm geometry .${win_name} 350x320
       wm state .${win_name} withdrawn
       wm title .${win_name} "[trans chat]"
@@ -598,7 +612,7 @@ namespace eval ::amsn {
 
       menu .${win_name}.copy -tearoff 0 -type normal
       .${win_name}.copy add command -label [trans copy] -command "status_log copy\n;copy 0 ${win_name}"
- 
+
       frame .${win_name}.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -relief flat
 
       frame .${win_name}.f.out -class Amsn -background white -borderwidth 0 -relief flat
@@ -744,9 +758,9 @@ namespace eval ::amsn {
 
       foreach user_info $chatusers {
          set user_login [lindex $user_info 0]
-         set user_state_no [lindex $user_info 2] 
-	  #TODO: Check state here? Does it mind if the user is offline?
-         if {([lsearch $list_users "$user_login *"] == -1)} {
+         set user_state_no [lindex $user_info 2]
+         
+	 if {([lsearch $list_users "$user_login *"] == -1)} {
 	     set user_name [lindex $user_info 1]
 	     lappend userlist [list $user_login $user_name $user_state_no]
          }
@@ -763,7 +777,7 @@ namespace eval ::amsn {
    proc ShowInviteList { title win_name } {
 	global list_users
 
-	
+
 	if {![::MSN::chatReady [ChatFor $win_name]]} {
 	   return 0
 	}
@@ -796,26 +810,6 @@ namespace eval ::amsn {
       set userlist2 [list]
       set chatusers [::MSN::usersInChat [ChatFor $win_name]]
 
-
-      foreach user_info $list_users {
-         set user_login [lindex $user_info 0]
-         set user_state_no [lindex $user_info 2]
-        if {($user_state_no < 7) && ([lsearch $chatusers "$user_login *"] != -1)} {
-            set user_name [lindex $user_info 1]
-            lappend userlist2 [list $user_login $user_name $user_state_no]
-        }
-      }
-
-      foreach user_info $chatusers {
-         set user_login [lindex $user_info 0]
-         set user_state_no [lindex $user_info 2]
-         if {($user_state_no < 7) && ([lsearch $list_users "$user_login *"] == -1)} {
-      	     set user_name [lindex $user_info 1]
-      	     lappend userlist2 [list $user_login $user_name $user_state_no]
-         }
-      }
-
-      # TODO: Shouldn't just this  be right?
       foreach user_info $chatusers {
          set user_login [lindex $user_info 0]
          set user_state_no [lindex $user_info 2]
@@ -825,9 +819,6 @@ namespace eval ::amsn {
       	     lappend userlist [list $user_login $user_name $user_state_no]
          }
       }
-
-
-      status_log "ShowChatList: Let's see the difference: one is $userlist\ntwo is $userlist2... any?\n"
 
       if { [llength $userlist] > 0 } {
    	   ChooseList $title both $command 0 1 $userlist
@@ -845,9 +836,9 @@ namespace eval ::amsn {
          set userslist $list_users
       }
 
-
       set usercount 0
-
+      
+      #Count users. Ignore offline ones if $online=="online"
       foreach user $userslist {
          set user_login [lindex $user 0]
          set user_state_no [lindex $user 2]
@@ -863,6 +854,7 @@ namespace eval ::amsn {
 
       }
 
+      #If just 1 user, and $skip flag set to one, just run command on that user
       if { $usercount == 1 && $skip == 1} {
          eval $command $user_login
          return 0
@@ -942,6 +934,7 @@ namespace eval ::amsn {
       focus $wname.buttons.ok
       bind $wname <Escape> "destroy $wname"
       bind $wname <Return> "$command \[string range \[lindex \[$wname.blueframe.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname"
+
    }
    #///////////////////////////////////////////////////////////////////////////////
 
@@ -986,7 +979,7 @@ namespace eval ::amsn {
 
       $input delete 0.0 end
       focus ${input}
-      
+
       if { [string length $msg] > 400 } {
       	set first 0
 	while { [expr $first + 400] <= [string length $msg] } {
@@ -1008,7 +1001,9 @@ namespace eval ::amsn {
       set fontstyle [lindex $config(mychatfont) 1]
       set fontcolor [lindex $config(mychatfont) 2]
 
+      #Draw our own message
       messageFrom $chatid [lindex $user_info 3] "$msg" user [list $fontfamily $fontstyle $fontcolor]
+
    }
    #///////////////////////////////////////////////////////////////////////////////
 
@@ -1043,8 +1038,10 @@ namespace eval ::amsn {
    # Writes the delivery error message along with the timeouted 'msg' into the
    # window related to 'chatid'
    proc DeliveryFailed { chatid msg } {
+
       WinWrite $chatid "[timestamp] [trans deliverfail]: " red
       WinWrite $chatid "$msg\n" gray
+
    }
    #///////////////////////////////////////////////////////////////////////////////
 
@@ -1057,12 +1054,15 @@ namespace eval ::amsn {
    # chat related to 'win_name', and unsets variables used for that window
    proc closeWindow { win_name path } {
 
-      global config
-      variable window_titles
-
+      #Only run when the parent window close event comes
       if { "$win_name" != "$path" } {
         return 0
       }
+
+
+      global config
+      variable window_titles
+
 
       set chatid [ChatFor $win_name]
 
@@ -1205,7 +1205,7 @@ namespace eval ::amsn {
 
       if { $win_name == 0 } {
 
-	  set win_name [openChatWindow]
+	  set win_name [OpenChatWindow]
          SetWindowFor $user $win_name
 
       }

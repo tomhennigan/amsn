@@ -305,7 +305,7 @@ namespace eval ::MSN {
       #don't do send or receive something for a long time
 
       if { $myStatus != "FLN" } {
-	::MSN::WriteNS "REA" "dummy@dummy.com"
+	::MSN::WriteNS "REA" "dummy@dummy.com dummy@dummy.com"
       }
 
       after 60000 "::MSN::PollConnection"
@@ -2124,7 +2124,7 @@ proc cmsn_ns_handler {item} {
           return 0
       }
       205 {
-          status_log "Warning: Contact does not exist $item\n" red
+          status_log "Warning: Invalid user $item\n" red
 	  msg_box "[trans contactdoesnotexist]"
           return 0
       }
@@ -2133,14 +2133,26 @@ proc cmsn_ns_handler {item} {
 	  msg_box "[trans contactdoesnotexist]"
           return 0
       }
-      209 {
+      208 {
           status_log "Warning: Invalid username $item\n" red
+          return 0
+      }
+      209 {
+          status_log "Warning: Invalid fusername $item\n" red
 	  msg_box "[trans invalidusername]"
           return 0
       }
-      215 {
-          status_log "Warning: Domain name missing $item\n" red
-	  msg_box "[trans useralreadyonlist]"
+      209 {
+          status_log "Warning: Invalid fusername $item\n" red
+	  msg_box "[trans invalidusername]"
+          return 0
+      }
+      210 {
+          status_log "Warning: User list full $item\n" red
+          return 0
+      }
+      216 {
+          status_log "Keeping connection alive\n" blue
           return 0
       }
       600 {
@@ -2490,18 +2502,20 @@ proc urldecode {str} {
     while { $end >=0 } {
       set decode "${decode}[string range $str $begin [expr {$end-1}]]"
 
-
+      #TODO: Here, why some nicks can have thins like %he ??? why is it allowed if they're encoded
+      # using ulrencode??? We "catch" the error and try another thing.
       if {[catch {set carval [format %d 0x[string range $str [expr {$end+1}] [expr {$end+2}]]]} res]} {
          if {[catch {set carval [format %d 0x[string range $str [expr {$end+1}] [expr {$end+1}]]]} res]} {
             binary scan [string range $str [expr {$end+1}] [expr {$end+1}]] c carval
 	    status_log "proc urldecode: strange thing number 2 with string: $str\n" red
 	 } else {
-	    status_log "proc urldecode: strange thing number 1 with string: $str\n" red	 
+	    status_log "proc urldecode: strange thing number 1 with string: $str\n" red
 	 }
       }
       if {$carval > 128} {
       	set carval [expr { $carval - 0x100 }]
       }
+
       set car [binary format c $carval]
 #      status_log "carval: $carval = $car\n"
 
