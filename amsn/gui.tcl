@@ -7151,6 +7151,33 @@ proc pictureDeleteFile {} {
 	}
 }
 
+# Half of this proc is pinched from the convert procs, so don"t ask me what"s going on!
+proc getPicSize { filename type } {
+	global HOME
+	catch { create_dir [file join $HOME $type] }
+	set filetail [file tail $filename]
+	set tempfile [file join [file join $HOME $type] $filetail]
+	if { ![file exists $filename] } {
+		status_log "Tring to convert file $filename that does not exist\n" error
+		return ""
+	}
+
+	#IMPORTANT: If convertpath is blank, set it to "convert"
+	if { [::config::getKey convertpath] == "" } {
+		::config::setKey convertpath "convert"
+	}
+
+	#First conversion, no size, only .gif
+	if { [catch { exec [::config::getKey convertpath] "${filename}" "${tempfile}.gif" } res]} {
+		status_log "CONVERT ERROR IN CONVERSION 1: $res" white
+		return ""
+	}
+	
+	set img [image create photo -file "${tempfile}.gif"]
+	
+	return "[image width $img]x[image height $img]"
+}
+
 proc pictureChooseFile { } {
 	global selected_image image_names
 
@@ -7165,6 +7192,11 @@ proc pictureChooseFile { } {
 	set file [chooseFileDialog "" "" "" "" open [list [list [trans imagefiles] [list *.gif *.GIF *.jpg *.JPG *.bmp *.BMP *.png *.PNG]] [list [trans allfiles] *]]]
 
 	if { $file != "" } {
+		set convertsize "96x96"
+		set cursize [getPicSize $file displaypic]
+		if { $cursize != "96x96"} {
+			set convertsize [AskDPSize $cursize]
+		}
 		if { ![catch {convert_image_plus $file displaypic "96x96"} res]} {
 			set image_name [image create photo -file [::skin::GetSkinFile "displaypic" "[filenoext [file tail $file]].gif"]]
 			.picbrowser.mypic configure -image $image_name
@@ -7188,6 +7220,44 @@ proc pictureChooseFile { } {
 
 	return ""
 
+}
+
+proc AskDPSize { cursize } {
+	global done dpsize
+	
+	toplevel .askdpsize
+	
+	set dpsize "96x96"
+	set done 0
+	
+	label .askdpsize.lwhatsize -text [trans whatsize] -font splainf
+	frame .askdpsize.rb -class Degt
+	
+	radiobutton .askdpsize.rb.retain -text [trans original] -value $cursize -variable dpsize
+	radiobutton .askdpsize.rb.huge -text "192x192" -value "192x192" -variable dpsize
+	radiobutton .askdpsize.rb.large -text "128x128" -value "128x128" -variable dpsize
+	radiobutton .askdpsize.rb.default -text "96x96 ([trans normal])" -value "96x96" -variable dpsize
+	radiobutton .askdpsize.rb.small -text "64x64" -value "64x64" -variable dpsize
+	
+	button .askdpsize.okb -text [trans ok] -command "set done 1"
+	
+	pack .askdpsize.lwhatsize -side top -anchor w -pady 10 -padx 10
+	pack .askdpsize.rb.retain -side top -anchor w
+	pack .askdpsize.rb.huge -side top -anchor w
+	pack .askdpsize.rb.large -side top -anchor w
+	pack .askdpsize.rb.default -side top -anchor w
+	pack .askdpsize.rb.small -side top -anchor w
+
+	pack .askdpsize.rb -side top -padx 10 -pady 10
+	pack .askdpsize.okb -side bottom
+	
+	wm title .askdpsize [trans whatsize]
+	
+	vwait done
+	
+	destroy .askdpsize
+	status_log "User requested pic size $dpsize\n"
+	return $dpsize
 }
 
 proc set_displaypic { file } {
