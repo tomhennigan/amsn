@@ -356,8 +356,14 @@ namespace eval ::MSNFT {
                  incr num
               }
 
-              #TODO: Can write to that file?
-	      set fileid [open $filename w]
+              if {[catch {open $filename w} fileid]} {
+                 # Cannot create this file. Abort.
+                 status_log "Could not saved the file '$filename' (write-protected target directory?)\n" red
+                 cancelFT $cookie
+                 ::amsn::FTProgress l $cookie $filename
+                 ::amsn::infoMsg [trans readonlymsgbox] warning
+                 return
+              }
 	      lappend filedata($cookie) $fileid
               fconfigure $fileid -blocking 1 -buffering none -translation {binary binary}
 
@@ -1970,6 +1976,13 @@ proc cmsn_msg_parse {msg hname bname} {
 
 }
 
+# parse_exec(text)
+#
+# Split the specified text in lines then replace shell commands by their
+# output. A line will be interpreted as a shell command if its first
+# character is a pipe. When such a line is found, the text up to the end
+# of line is passed to the shell to be executed and its output inserted
+# in place.
 proc parse_exec {text} {
     global tcl_platform
     foreach line [split $text "\n"] {
