@@ -180,6 +180,7 @@ handle Nick
 help Ayuda
 helpcontents Temas de ayuda
 hiden No mostrar en el menú de emoticonos
+hidewindow Ocultar ventana
 history Ver historial
 home Casa
 httpconnection Conectar usando el método HTTP (usa protocolo HTTP por el puerto 80)
