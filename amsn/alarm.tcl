@@ -53,6 +53,7 @@ namespace eval ::alarms {
 	proc configDialog { user {window ""} } {
 		global my_alarms
 	
+		#Create window if not "embedded" mode
 		if { $window == "" } {
 			set w ".alarm_cfg_[::md5::md5 $user]"
 			if { [ winfo exists $w ] } {
@@ -68,12 +69,13 @@ namespace eval ::alarms {
 		}
 		
 		InitMyAlarms $user
-		
 	
+		#If window mode, set a title
 		if { $window == "" } {
 			label $w.title -text "[trans alarmpref]: $user" -font bboldf
 			pack $w.title -side top -padx 15 -pady 15
 		}
+		
 		checkbutton $w.alarm -text "[trans alarmstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_enabled) -font splainf
 		Separator $w.sep1 -orient horizontal
 		checkbutton $w.alarmonconnect -text "[trans alarmonconnect]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onconnect) -font splainf
@@ -123,6 +125,7 @@ namespace eval ::alarms {
 		pack $w.buttonpic -side top -anchor w -expand true -padx 30
 		
 		if { $window == "" } {
+			#Window mode
 			frame $w.b -class Degt
 			button $w.b.save -text [trans ok] -command [list ::alarms::OkPressed $user $w] -font sboldf
 			button $w.b.cancel -text [trans close] -command "destroy $w; unset my_alarms" -font sboldf
@@ -130,6 +133,7 @@ namespace eval ::alarms {
 			pack $w.b.save $w.b.cancel $w.b.delete -side right -padx 10
 			pack $w.b -side top -padx 0 -pady 4 -anchor e -expand true -fill both
 		} else {
+			#Embedded mode
 			Separator $w.sepbutton -orient horizontal		
 			pack $w.sepbutton -side top -anchor w -expand true -fill x -padx 5 -pady 5
 			button $w.delete -text [trans delete] -command "::alarms::DeleteAlarm $user" -font sboldf
@@ -148,11 +152,12 @@ namespace eval ::alarms {
 	proc DeleteAlarm { user } {
 		global my_alarms
 
-		catch {file delete $my_alarms(${user}_pic)}
+		#Delete file
+		catch {file delete [getAlarmItem $user pic]}
+		
 		::abook::setContactData $user alarms ""
 		::abook::saveToDisk
 		InitMyAlarms $user
-		#unset my_alarms
 		
 		cmsn_draw_online
 	}
@@ -165,7 +170,6 @@ namespace eval ::alarms {
 			msg_box [trans invalidsound]
 			return -1
 		}
-		
 		
 		#Check the picture file, and copy to our home directory,
 		#converting it if necessary
