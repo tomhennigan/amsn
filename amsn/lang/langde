@@ -50,7 +50,6 @@ blankdirect Bei direkter Verbindung leer lassen
 block Blockieren
 blocked Blockiert
 blockedyougroup Separate Gruppe anzeigen für die Leute, die Sie blockiert haben
-enternick Geben Sie Ihren Namen ein
 blocking Blockieren
 blockinter1 Wenn Ihr Status online ist, alle 
 blockinter2 Sekunden checken, ansonsten alle :
@@ -69,6 +68,7 @@ cannotdeleteprofile Kann das Profil nicht löschen, da es anscheinend von einer A
 cantexec Kann $1 nicht ausführen. Überprüfe die Einstellungen
 casesensitive Use case-sensitive triggers Buchstabenkombinationen verwenden, die auf Groß -und Kleinschreibung achten
 cfgalarm Benachrichtigung konfigurieren/hinzufügen/löschen
+changedisplaypic Anzeigebild ändern
 changefont Die Schriftart ändern
 changenick Namen ändern
 changestate $1 geändert in $2
@@ -147,6 +147,7 @@ encoding2 Encoding Optionen ändern
 encoding Encoding auswählen
 entercontactemail Gib eine E-Mail-Adresse ein
 enterfilename Gib einen Dateinamen ein
+enternick Geben Sie Ihren Namen ein
 errortls Fehler bei der Installation des TLS Moduls:
 examples Beispiele
 exitamsn Wirklich beenden?
@@ -170,6 +171,7 @@ ftportpref Anfangsport für Dateiübertragungen
 ftrejectedby $1 lehnt die Einladung zum Transfer der Datei '$2' ab.
 ftrejected Übertragung abgewiesen
 ftsendinvitation Einladung zum Transfer der Datei '$2' ($3 Bytes) wurde an $1 gesendet.
+getdisppic Aktivieren des Empfangs von Anzeigebildern anderer Benutzer
 gonelunch Mittagspause
 groupadd Gruppe hinzufügen
 groupdelete Gruppe löschen
@@ -184,6 +186,7 @@ groupunknown Unbekannte Gruppe
 handle Handle
 helpcontents Hilfe - Inhalt
 help Hilfe
+hidedisplaypic Anzeigebild verstecken
 hiden Emoticons aus dem Smiley Menü verbergen
 hidewindow Fenster verbergen
 history Verlauf ansehen
@@ -252,6 +255,7 @@ msn AMSN
 mustrestart Änderungen werden erst nach einem Neustart übernommen
 myhomephone Meine Festnetznummer
 mymobilephone Meine Handynummer
+mypic Mein Anzeigebild
 mystatus Mein Status
 myworkphone Meine Arbeitsnummer
 natip Die IP-Adresse über Webseite ausfindig machen
@@ -269,6 +273,7 @@ noneavailable Nicht verfügbar.
 no Nein
 nonewmail 0 neue Nachrichten im Posteingang
 nonewver Zurzeit keine neue Version verfügbar
+nopic Kein Bild
 noprofileexists Im Moment existieren keine Profile. \n Sie müssen eines erstellen, wenn Sie sich mit einem Profil einloggen wollen. \nBenutzen Sie den "Neues Profil hinzufügen"-Button in diesem Fenster, um ein neues Profil hinzuzufügen.
 normal Normal
 nosystemtray Systemablage nicht verfügbar
@@ -297,8 +302,10 @@ pass Passwort
 paste Einfügen
 personal persönlich
 phone Telefon
+picbrowser Anzeigebild-Browser
 picfile Mit der Benachrichtigung verbundenes Bild (GIF < 500 x 500)
 picstatus Mit der Benachrichtigung verbundenes Bild ein/ausschalten
+playing Abgespielt wird: $1
 pluginselector Plugins auswählen
 port Port
 prefalerts Töne und Klänge
@@ -372,6 +379,10 @@ servergoingdown Verbindungsabbruch: Serverfehler
 server Server
 session Session
 showblockedlist Zeigt eine Liste mit Personen von denen Sie geblockt werden
+showdisplaypic2 Anzeigebild standardmäßig anzeigen, wenn ein Chatfenster geöffnet wird
+showdisplaypic Anzeigebild anzeigen
+showmypic Mein Anzeigebild
+showuserpic Anzeigebild von $1
 skinselector Skin auswählen
 skin Skin
 smileconfig Benutzerdefinierte Emoticon Konfiguration
@@ -434,18 +445,10 @@ willjoin Warte... $1 wird dem Chat hinzugefügt
 work Arbeit
 wrongfields Die Felder "$1", "$2" und/oder "$3" sind nicht gültig
 wrongprofileversion Falsche Version der Profil-Konfigurationsdatei. Um das Problem zu beheben entfernen Sie bitte das Verzeichnis $1, oder installieren Sie eine aktuelle Version von aMSN.
+xmmserr Es wird nichts abgespielt, oder xmms-infopipe ist nicht installiert.
 xoffset X Offset
 yes Ja
 yoffset Y Offset
 youblocked Sie wurden blockiert
 yousay Sie sagen
 youwant Sie wollen
-changedisplaypic Anzeigebild ändern
-hidedisplaypic Anzeigebild verstecken
-nopic Kein Bild
-playing Abgespielt wird: $1
-showdisplaypic Anzeigebild anzeigen
-showdisplaypic2 Anzeigebild standardmäßig anzeigen, wenn ein Chatfenster geöffnet wird
-showmypic Mein Anzeigebild
-showuserpic Anzeigebild von $1
-xmmserr Es wird nichts abgespielt, oder xmms-infopipe ist nicht installiert.
