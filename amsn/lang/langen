@@ -246,6 +246,7 @@ nologfile No Log file for $1
 nonewmail No new messages in Inbox
 nonewver There are no new versions available to download
 no No
+noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
 normal Normal
 nosystemtray System tray not available
 notify1 Display notify window when contacts come online
@@ -304,6 +305,7 @@ prefshared Shared Connections (only for NAT)
 prefsound Sounds
 privacy Privacy
 profiledconfig Profiled Config
+profileexists You cannot create a profile with this login \n because one already exists. Please chose another login.
 profileinuse This Profile is being used by another aMSN session, please chose another one
 profileloginradio Login using an existing Profile
 profiles Profiles

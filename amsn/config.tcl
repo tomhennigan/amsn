@@ -510,8 +510,6 @@ proc ConfigChange { window email } {
 
 	if { $email != "" } {
 		
-	status_log "Called ChangeConfig with $email, old is $config(login)\n"
-		
 	if { $email != $config(login) } {
 	if { [LoginList exists 0 $config(login)] == 1 } {
 		save_config
@@ -579,8 +577,6 @@ proc ConfigChange { window email } {
 		}
 	}
 	}
-	
-	status_log "ConfigChange finished, HOME is now : $HOME and HOME2 is now : $HOME2\n"
 }
 
 
@@ -593,20 +589,23 @@ proc SwitchProfileMode { value } {
 
 	if { $value == 1 } {
 		if { $HOME == $HOME2 } {
-			status_log "Was in default profile, selecting first available\n"
 			for { set idx 0 } { $idx <= [LoginList size 0] } { incr idx } {
 				if { [CheckLock [LoginList get $idx]] != -1 } {
 					set window .login.main.f.f.box
 					set cb [$window list get 0 [LoginList size 0]]
 					set index [lsearch $cb [LoginList get $idx]]
 					$window select $index
-
-					#ConfigChange .login.main.f.f.box [LoginList get $idx]
 					break
 				}
 			}
-			
-			if { $idx > [LoginList size 0] } { 
+
+			if { [LoginList size 0] == -1 } {
+				msg_box [trans noprofileexists]
+				set loginmode 0
+				# Going back to default profile
+				set loginmode 0
+				RefreshLogin .login.main.f.f 1
+			} elseif { $idx > [LoginList size 0] } { 
 				msg_box [trans allprofilesinuse] 
 				# Going back to default profile
 				set loginmode 0
@@ -652,11 +651,16 @@ proc SwitchProfileMode { value } {
 # Creates a new profile
 # email : email of new profile
 proc CreateProfile { email } {
-	global HOME HOME2 config log_dir password lockSock
+	global HOME HOME2 config log_dir password lockSock loginmode
 	
 	if { [LoginList exists 0 $email] == 1 } {
 		msg_box [trans profileexists]
 		return -1
+	}
+
+	# If first time loading from default profile, make sure .amsn/config exists
+	if { ($HOME == $HOME2) && ([file exists [file join $HOME2 config]] == 0) } {
+		save_config
 	}
 	
 	set oldlang $config(language)
@@ -692,6 +696,8 @@ proc CreateProfile { email } {
 
 	# Redraw combobox with new profile
 	if { [winfo exists .login] } {
+		set loginmode 1
+		RefreshLogin .login.main.f.f 1
 		.login.main.f.f.box list delete 0 end
 		set idx 0
 		set tmp_list ""
@@ -710,6 +716,11 @@ proc CreateProfile { email } {
 		$window select $index
 	}
 	return 0
+}
+
+proc gethomes {} {
+	global HOME HOME2 config log_dir
+	status_log "HOME = $HOME \nHOME2 = $HOME2\nlogin = $config(login)\nlog_dir = $log_dir\n"
 }
 
 #///////////////////////////////////////////////////////////////////////////////

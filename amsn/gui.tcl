@@ -3008,14 +3008,12 @@ proc RefreshLogin { mainframe {extra 0} } {
 		$mainframe.loginentry configure -state normal
 		$mainframe.passentry configure -state normal
 		$mainframe.remember configure -state disabled
-		.login.buttons.addprofile configure -state disabled
 	} elseif { $loginmode == 1 } {
 		$mainframe.box configure -state normal
 		$mainframe.passentry2 configure -state normal
 		$mainframe.loginentry configure -state disabled
 		$mainframe.passentry configure -state disabled
 		$mainframe.remember configure -state normal
-		.login.buttons.addprofile configure -state normal
 	}
 }
 	
