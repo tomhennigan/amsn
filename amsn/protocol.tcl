@@ -1115,7 +1115,7 @@ proc cmsn_open_sb {sbn recv} {
 proc cmsn_rng {recv} {
    global config msg_windows sb_list
 
-   set emaill [string lower [lindex $recv 5]]
+   set emaill [string tolower [lindex $recv 5]]
 
    status_log "MWB: entering cmsn_rng($recv)\n" white
 
