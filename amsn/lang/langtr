@@ -5,6 +5,7 @@ accept Kabul et
 actions Eylemler
 addacontact Yeni baglanti ekle
 addedyou $1 ($2) sizi baglanti listesine ekledi
+addstate Yeni durum ekle
 addtocontacts Baglanti listesine ekle
 addtoo Bu kisiyi baglanti listesine ekle
 admincontacts Baglantilari düzenle
@@ -12,20 +13,23 @@ admingroups Gruplari düzenle
 adverts reklamlar
 alarmpref Kullanicinin alarm ayarlari
 alarmstatus Bu kullanici için alarmi aç/kapa
-allowseen Bu kisi ben çevrimiçiyken beni görebilsin ve bana yazabilsin
+allowallbutbl Engellenenler disinda herkesin bana ulasmasina izin ver
+allowlist Izin verilenler
+allowonlyinal Yalnizca izin verilenler listesindekiler bana ulasabilsin
+allowseen Bu kisi ben çevrim içiyken beni görebilsin ve bana yazabilsin
 appearance Görünüs
-appearoff Çevrimdisi görün
+appearoff Çevrim disi görün
 areacode Alan kodu
 aretyping $1 ileti yaziyor
 askprofile Bu kullanici için profil olusturulmamis. Yeni profil olusturmak ister misiniz? \n Eger olusturmazsaniz Geçmis özelligini kullanamaz, alarm ve sifreleri kaydedemezsiniz. Eger olusturursaniz bu yeni profilin ayri ayarlari olacaktir. \n \n $1 için yeni profil olusturmak istiyorsaniz "Profil olustur"a tiklayiniz.
-autoaway Bu sure kadar eylemsiz kalirsam beni disarida goster
+autoaway Bu süre kadar eylemsiz kalirsam beni disarida göster
 autoconnect2 aMSN baslayinca kendiliginden baglan
 autoconnect Açilista kendiliginden baglan
 autohotmaillog Hotmail'e otomatik giris
 autoidle Otomatik EtkinlikYok özelligi 
 autoip Otomatik IP
-autonoact Bu sure kadar eylemsiz kalirsam "Etkinlik yok" goster
-avoidseen Bu kisi ben çevrimiçiyken beni göremesin ve bana yazamasin
+autonoact Bu süre kadar eylemsiz kalirsam "Etkinlik yok" göster
+avoidseen Bu kisi ben çevrim içiyken beni göremesin ve bana yazamasin
 away Disarida
 awaymsg1 Durumumu Disarida/Hemen Dönecek/Mesgul'e her çevirdigimde birakacagim notu sor
 awaymsg2 Hiçbir zaman sorma ve asagidaki notu kullan
@@ -34,6 +38,13 @@ bgcolor aMSN'in arkaplan rengini degistir
 blankdirect Dogrudan baglanti için bos birakin
 blocked Engellenmis
 block Engelle
+blocking Engelleme
+blockinter1 Bagli iken kontrol etme her
+blockinter2 saniyede bir, yoksa her:
+blockinter3 her
+blocklist Engellenenler listesi
+blockmessage Su kisiler bagli ve sizi engellemis durumdalar
+blockusers Bir seferde denetlenecek kullanici sayisi 
 broughtby Yazilimi gelistirenler
 browse gözat
 browser Internet tarayici
@@ -44,15 +55,19 @@ cfgalarm Alarmi Düzenle/Ekle/Kaldir
 changefont Yazitipi degistir
 changenick Kullanici adi degistir
 chatack Sohbet istemi kabul edilen kisi
+chatmaxmin Bir arkadasim benimle sohbet penceresi açtiginda pencerenin söyle olmasini istiyorum:
 chatreq Sohbet istemi
 chatsmileys2 Sohbet penceresinde gülen adamlar görünsün
 chatsmileys Gülen adamlar
 chat Sohbet et
+checkblocking Digerlerinin beni engelleyip engellemedigini sürekli denetle
 checkfilman Alinan dosyalar $1 konumuna kaydedilecek. Lütfen seçenekler penceresinde dosya yöneticisi ayarlarini yapiniz. 
 checkingver Yeni sürüm araniyor
+checkonfln Bir kullanicinin beni engelleyip engellemedigini o çevrim disi olunca denetle
 checkver Yeni sürüm ara
 choosebasefont Yazitipini seç
 choosebgcolor Arkaplan rengini seç
+choosecontact Lütfen listeden bir baglanti seçiniz
 choosefontcolor Yazi rengini seç
 clearlog2 Tüm baglantilarin Geçmisini sil
 clearlog3 Tüm sohbet kayitlarini sil
@@ -63,10 +78,14 @@ closingdocks Kapatma tusu küçültsün
 command komut
 confirmdelete $1 i silmek istediginizden emin misiniz?
 confirm Emin misiniz?
+connected Su an baglisiniz
 connecterror Sunucuya baglanirken hata olustu
+connecting Baglaniyor
 connection Baglanti
+connectionlost Baglanti koptu: Sunucuyla baglanti kesildi
 contactadded Baglanti eklendi
 contactdoesnotexist Böyle bir baglanti yok!
+contactlist Baglanti listesi:
 copy Kopyala
 copytogroup Gruba kopyala
 countrycode Ülke/Bölge kodum
@@ -80,14 +99,19 @@ delete Sil
 deliverfail Asagidaki iletinin gönderilmesinde hata olustu
 delprofile2 Sileceginiz profili seçiniz
 delprofile Profili sil
+directconnection Internete dogrudan baglantim var (1863. portu kullanir)
 dockfreedesktop AcikMasaüstü (KDE3/Gnome2)
 dockgtk Gnome'da küçültme
 docking Küçültme
 dockingoff Küçültme olsun
 dockkde KDE'de küçültme
 edit Düzenle
+editnewstate Yeni Kisisel Otomatik Mesaj Durumu
 editprofile Profili düzenle
+editstate Var olan otomatik mesaj durumunu düzenle
+emotisounds Bazi gülen adamlarda ses cikar
 enableproxy proxy ayarlarini etkinlestir
+enableremote Uzaktan denetimi etkinlestir
 encoding2 Alfabe degistirin
 encoding Alfabe seçimi
 entercontactemail Baglantinin e-posta adresini girin
@@ -102,8 +126,18 @@ fileman Dosya yöneticisi
 filename Dosya adi
 filetransfercancelled Dosya aktarimi iptal edildi
 filetransfercomplete Dosya aktarimi tamamlandi
+followtext Yeni metin girilince asagi kaydir
+ftacceptedby $1, '$2' dosyasi için yapilan aktarim davetini kabul etti
 ftaccepted Dosya aktarimi kabul edildi
-ftrejected Dosya transferi reddedildi
+ftaccepting Dosya aktarim davetini kabul ediyor
+ftconnecterror Karsi tarafa baglanmada hata olustu
+ftconnecting $1 port $2 e baglaniliyor
+ftconnectionlost Karsi tarafla olan baglanti koptu
+ftgotinvitation $1 size '$2' dosyasini göndermek istiyor ($3 bayt). Bu dosya $4 dizinine kaydedilecek. Dosyayi almak istiyor musunuz?
+ftportpref Dosya aktarimlari için baslangiç portu
+ftrejectedby $1, '$2' dosyasi için yapilan aktarim davetini geri çevirdi
+ftrejected Dosya aktarimi reddedildi
+ftsendinvitation '$2' dosyasi ($3 bayt) için aktarim daveti $1'e gönderildi
 gonelunch Yemekte
 groupadd Grup Ekle
 groupdelete Grup Sil
@@ -120,10 +154,13 @@ helpcontents Yardim içerigi
 help Yardim
 history Geçmisi göster
 home Ev
+httpconnection HTTP yöntemiyle baglan (80. porttan HTTP protokolü kullanir)
 identity Kimlik
 ident Kimlik denetleniyor
 inbox Gelen kutusu
+internalerror Iç sunucu hatasi
 invalidusername Geçersiz kullanici ismi
+invitationcancelled Davet iptal edildi
 invite Davet et
 ipaddress IP adresi
 ipdetect HTTP dosya aktarimlari için dogru IP'yi belirle
@@ -165,6 +202,8 @@ maximised Büyütülmüs
 minimised Küçültülmüs
 mins dakika
 mobile Cep
+morepersonal Diger Durumlar ->
+move Tasi
 movetogroup Baska gruba tasi
 msg Ileti
 msgmaxmin Yeni ileti geldiginde söyle olsun:
@@ -177,28 +216,31 @@ mystatus Durumum
 myworkphone Ev telefonum
 natip Internet sayfasindan IP belirlenmesi
 natkeepalive Eger baglantiniz sürekli kopuyorsa, Canli tut seçenegini isaretleyiniz
-needonline Hala çevrimdisi görünüyorsunuz!
+needonline Hala çevrim disi görünüyorsunuz!
 newmailfrom Yeni ileti gönderen: $1 ($2)
 newmail Gelen kutunuzda $1 yeni ileti var
 newmsg Yeni ileti
 newveravailable Yeni $1 sürümü indirilmeye hazir
 next sonraki
 noactivity Etkinlik yok
+nodataavailable $1 hakkinda bilgi yok
+no Hayir 
 nologfile $1 ile sohbet kaydi yok
 nonewmail Gelen kutusunda yeni ileti yok 
 nonewver Daha yeni bir sürüm yok
 normal normal
+nosystemtray Görev çubugu yok 
 notify1 Baglantilar girince uyari penceresi göster
 notify2 Yeni ileti gelince uyari penceresi göster
-notify3 Yeni e-posta iletisi uyari penceresi göster
+notify3 Yeni e-posta iletisi gelince uyari penceresi göster
 notifyoffset Uyari penceresinin konumunu giriniz
 notify uyar
 notifywin Uyari Penceresi
 nousersinsession Ortamda kullanici yok
-offline Çevrimdisi
+offline Çevrim disi
 ok Tamam
 onenewmail Gelen kutusunda 1 yeni ileti var
-online Çevrimiçi
+online Çevrim içi
 onphone Telefonda
 openreceived Alinan dosyalari göster
 options Seçenekler
@@ -216,6 +258,9 @@ port Port
 prefalerts Alarmlarim ve Seslerim
 prefapps Uygulamalar
 prefawaymsg Disaridayken birakacagim not
+prefblock1 Baglantiyi keserken denetle
+prefblock2 Sürekli denetle
+prefconnection Baglanti ayarlari
 prefemotic Gülen adamlar
 preferences Seçenekler
 preffont2 Yazitipim digerlerine daha baska gözüksün
@@ -227,28 +272,36 @@ prefmsging Ileti arayüzüm
 prefname MSN Messenger adim/rumuzum
 prefphone2 Izin verdiginiz kisilerin görmesini \n istediginiz telefon numaralarini girin
 prefphone Telefon numaralarim
+prefprivacy2 Kullanicinin Baglanti/Ters listeleri
+prefprivacy Kullanicinin Izin Verilenler/Engellenenler listeleri
 prefprofile2 Açik profilinizi (digerlerinin \n görecegi bilgiler) yaratin/degistirin
 prefprofile3 aMSN kullanici ayar profili
 prefprofile Açik profilim 
 prefproxy proxy ayarlarim
+prefremote Uzaktan denetim ayarlari
 prefsession Baglanti durumum
 prefshared Paylasilan baglantilar (yalniz NAT için)
 prefsound Sesler
+privacy Gizlilik
 profiledconfig Ayarlarin profili çikarildi
 profileinuse Bu profil baska bir aMSN oturumunda kullaniliyor, lütfen baska birini seçiniz
-profiles profiller
+profiles Profiller
 properties Özellikler
 proxy Bir proxy sunucu arkasindayim (HTTP ya da SOCKS5)
 proxyconfhttp HTTP proxy destegi ayarlari
 proxyconf Proxy ayarlari
+proxyconnection Internete proxy sunucu ile baglaniyorum
 publishphones Telefon numarami göster
+raised Büyütülmüs
 receivedbytes $2 baytin $1 (s)i alindi
 receivefile Dosyayi al
 reconnect $1 in yeniden baglanmasi bekleniyor
 reconnecting Sunucuya yeniden baglaniliyor
 reject Geri çevir
 rememberpass sifreyi hatirla
+removefromlist Bu listeden çikar
 reversed ters
+reverselist Listeyi tersine çevir
 rightback Hemen dönecegim
 saveas Farkli kaydet
 savecontacts Baglanti listesini kaydet
@@ -263,7 +316,8 @@ sendmsg Ileti günder
 sentbytes $2 baytin $1 (s)i gönderildi
 servergoingdown Sunucu kapaniyor: Baglanti kesildi
 server Sunucu
-session oturum
+session Oturum
+showblockedlist Sizi engelleyenlerin listesini göster
 sound2 Baglantilar girince ya da ileti gönderince ses çikar
 soundcommand Ses çalma komutu (örn: esdplay)
 soundfile Alarm ses dosyasi
@@ -271,8 +325,12 @@ soundloop Ses tekrarlasin
 soundserver Ses Sunucusu
 sound Ses
 soundstatus Sesli alarmi aç/kapa
-startoffline2 Çevrimdisi görünerek sessizce baglan
-startoffline Çevrimdisi olarak basla
+startoffline2 Çevrim disi görünerek sessizce baglan
+startoffline Çevrim disi olarak basla
+stateautomsg Gönderilecek Otomatik Mesaj
+state Böyle görünmek istiyorum
+statename Kisisel Durumun adi
+statenewtext Lütfen yeni Kisisel Durumunuzu yaratmak için \n gerekli bilgileri girip Kaydet'e tiklayiniz
 status Durum
 stopalarm Alarmi durdur!
 stylechat Sohbetler ile ayni görünüs
@@ -286,12 +344,16 @@ to Kime
 tools Araçlar
 transnotexists Bu dosyanin seçili dile çevirisi henüz yok
 traynotcompiled Görev çubugu simgesi derlenmemis, plugins/traydock'a bakin 
+twonewmail Gelen kutunuzda $1 yeni ileti var
 unblock Engeli kaldir
-uoffline Çevrimdisi
-uonline Çevrimiçi
+uoffline Çevrim disi
+uonline Çevrim içi
 useralreadyonlist Kullanici zaten baglanti listesinde
+userblocked Bu kullanici bagli ama sizi engellemis
 user Kullanici
 usernotonline Bu kullanici bagli degil
+useryourself Kendi kendinizle sohbet edemezsiniz
+verifyblocked Sizi engellemis kullanicilari belirle
 version Sürüm
 view Görünüm
 viewprofile Profili gör
@@ -299,7 +361,8 @@ willjoin $1 in sohbete katilmasi bekleniyor
 work Is
 wrongprofileversion Yanlis profil ayar dosyasi sürümü. Düzeltmek için $1 dizinini siliniz ya da aMSN'yi güncelleyiniz
 xoffset X koordinati
+yes Evet
 yoffset Y koordinati
+youblocked Engellendiniz
 yousay Diyorsunuz ki
 youwant Istiyorsunuz ki
-twonewmail Gelen kutunuzda $1 yeni ileti var
