@@ -1347,6 +1347,20 @@ namespace eval ::amsn {
 		if { (($config(soundactive) == "1" && $usr_name != $config(login)) || [string first ${win_name} [focus]] != 0) && $msg != "" } {
 			play_sound type.wav
 		}
+		#Dock Bouncing on Mac OS X
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		#tclCarbonNotification is in plugins
+		package require tclCarbonNotification
+			#Bounce unlimited of time when we are not in aMSN and receive a message, until we re-click on aMSN icon (or get back to aMSN)
+			if { (($config(dockbounce) == "unlimited" && $usr_name != $config(login)) && [focus] == "") && $msg != "" } {
+				tclCarbonNotification 1 ""
+			}
+			#Bounce then stop bouncing after 1 second, when we are not in aMSN and receive a message (default)
+			if { (($config(dockbounce) == "once" && $usr_name != $config(login)) && [focus] == "") && $msg != "" } {
+				tclCarbonNotification 1 ""
+				after 1000 [list catch [list tclEndCarbonNotification]]
+			}
+		}
 		return $win_name
 	}
 
