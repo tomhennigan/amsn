@@ -1,5 +1,5 @@
 #=======================================================================
-for {set i 0} {$i <= 65535} {incr i} {
+for {set i 0} {$i < 256} {incr i} {
    set c [format %c $i]
    set hex [string tolower %[format %.2X $i]]
       if { $c == ")" } {
@@ -12,6 +12,15 @@ for {set i 0} {$i <= 65535} {incr i} {
         set url_map($c) $hex
         set url_unmap($hex) "$c"
       }	
+
+}
+
+
+for {set i 256} {$i < 65536} {incr i} {
+   set c [format %c $i]
+   set hex [string tolower %[format %.2X $i]]
+   set url_map($c) $hex
+   set url_unmap($hex) "$c"
 
 }
 
@@ -750,7 +759,7 @@ proc sb_change { sbn } {
 }
 
 proc sb_enter { sbn name } {
-   global trid
+   global trid user_info
 
    set txt [$name get 0.0 end-1c]
    if {[string length $txt] < 1} { return 0 }
@@ -772,7 +781,8 @@ proc sb_enter { sbn name } {
       incr trid
       puts $sock "MSG $trid N $msg_len"
       puts -nonewline $sock $msg
-      cmsn_win_write $sbn "\[$timestamp\] [trans yousay]:\n" gray
+#      cmsn_win_write $sbn "\[$timestamp\] [trans yousay]:\n" gray
+      cmsn_win_write $sbn "\[$timestamp\][lindex $user_info 4] [trans says]:\n" gray
       cmsn_win_write $sbn "$txt\n" blue
    } else {
       status_log "$sbn: trying to send, but no users in this session\n" white
@@ -1093,7 +1103,7 @@ proc ns_enter {} {
    if { [string range $command 0 0] == "/"} {
      puts -nonewline [sb get ns sock] "[string range $command 1 [string length $command]]\r\n"
    } else {
-     if {[catch {[ $command ]} res]} {
+     if {[catch {[ eval $command ]} res]} {
         msg_box "$res"
      }
    }

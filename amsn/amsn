@@ -268,11 +268,10 @@ proc cmsn_draw_main {} {
       -borderwidth 0 -activeborderwidth -0 
 #   .main_menu add cascade -label "[trans msn]" -menu .main_menu.msn
 #   .main_menu add cascade -label "[trans msg]" -menu .main_menu.msg -state disabled
-   .main_menu add cascade -label "[trans help]" -menu .main_menu.help
-
    .main_menu add cascade -label "[trans msn]" -menu .main_menu.file
    .main_menu add cascade -label "[trans actions]" -menu .main_menu.actions
    .main_menu add cascade -label "[trans tools]" -menu .main_menu.tools
+   .main_menu add cascade -label "[trans help]" -menu .main_menu.help
 
 
    #File menu
@@ -829,7 +828,7 @@ proc show_umenu {user_login x y} {
       .user_menu add command -label "[trans unblock]" \
          -command  "unblock_user ${user_login}"
    }
-   .user_menu add command -label "[trans delete]" -command "delete_user ${user_login}"
+   .user_menu add command -label "[trans delete]" -command "set answer \[tk_messageBox -message \"Are you sure?\" -type yesno -icon question\]; if {\$answer == \"yes\"} {delete_user ${user_login}}"
 
    tk_popup .user_menu $x $y
 }
@@ -985,7 +984,7 @@ proc cmsn_draw_msgwin {} {
    
 
    bind .${win_name}.in.input <Return> "sb_enter $name %W; break"
-   bind .${win_name}.in.input <Enter> "sb_enter $name %W; break"
+#   bind .${win_name}.in.input <Enter> "sb_enter $name %W; break"
    bind .${win_name}.in.input <Alt-s> "sb_enter $name %W; break"
    bind .${win_name}.in.input <Tab> "focus .${win_name}.in.send; break"
    bind .${win_name}.in.send <Return> \
