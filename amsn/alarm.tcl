@@ -71,6 +71,16 @@ proc save_alarms {} {
 	}
 }
 
+#Used to avoid raising errors on unset items
+proc getAlarmItem { user item } {
+	global alarms
+	if { [info exists alarms(${user}_${item})] } {
+		return $alarms(${user}_${item})
+	} else {
+		return ""
+	}
+}
+
 #Function that displays the Alarm configuration for the given user
 proc alarm_cfg { user } {
 	global alarms my_alarms
@@ -81,33 +91,20 @@ proc alarm_cfg { user } {
 
 	if { [info exists alarms(${user})] } {
 		set my_alarms(${user}) $alarms(${user})
-		set my_alarms(${user}_sound) $alarms(${user}_sound)
-		set my_alarms(${user}_sound_st) $alarms(${user}_sound_st)
-		set my_alarms(${user}_pic) $alarms(${user}_pic)
-		set my_alarms(${user}_pic_st) $alarms(${user}_pic_st)
-		set my_alarms(${user}_loop) $alarms(${user}_loop)
-		if {![info exists alarms(${user}_onconnect)]} {
-			set alarms(${user}_onconnect) 0
-		}
-		set my_alarms(${user}_onconnect) $alarms(${user}_onconnect)
-		set my_alarms(${user}_onmsg) $alarms(${user}_onmsg)
-		set my_alarms(${user}_onstatus) $alarms(${user}_onstatus)
-		set my_alarms(${user}_ondisconnect) $alarms(${user}_ondisconnect)
-		if { [info exists alarms(${user}_command)] } {
-			set my_alarms(${user}_command) $alarms(${user}_command)
-		} else {
-			set my_alarms(${user}_command) ""
-		}
-
-		if { [info exists alarms(${user}_oncommand)] } {
-			set my_alarms(${user}_oncommand) $alarms(${user}_oncommand)
-		} else {
-			set my_alarms(${user}_oncommand) 0
-		}
+		set my_alarms(${user}_sound) [getAlarmItem $user sound]
+		set my_alarms(${user}_sound_st) [getAlarmItem $user sound_st]
+		set my_alarms(${user}_pic) [getAlarmItem $user pic]
+		set my_alarms(${user}_pic_st) [getAlarmItem $user pic_st]
+		set my_alarms(${user}_loop) [getAlarmItem $user loop]
+		set my_alarms(${user}_onconnect) [getAlarmItem $user onconnect]
+		set my_alarms(${user}_onmsg) [getAlarmItem $user onmsg]
+		set my_alarms(${user}_onstatus) [getAlarmItem $user onstatus]
+		set my_alarms(${user}_ondisconnect) [getAlarmItem $user ondisconnect]
+		set my_alarms(${user}_command) [getAlarmItem $user command]
+		set my_alarms(${user}_oncommand) [getAlarmItem $user oncommand]
 
 	} else {
 		set my_alarms(${user}) 1
-		set my_alarms(${user}_sound) "[GetSkinFile sounds alarm.wav]"
 	}
 
 	toplevel .alarm_cfg
@@ -157,20 +154,33 @@ proc alarm_cfg { user } {
 	pack .alarm_cfg.alarmondisconnect -side top -anchor w -expand true -padx 30
 
 	frame .alarm_cfg.b -class Degt
-	button .alarm_cfg.b.save -text [trans ok] -command "save_alarm_pref $user; destroy .alarm_cfg" -font sboldf
-	button .alarm_cfg.b.cancel -text [trans close] -command "unset my_alarms; destroy .alarm_cfg" -font sboldf
-	button .alarm_cfg.b.delete -text [trans delete] -command "delete_alarm $user; destroy .alarm_cfg" -font sboldf
+	button .alarm_cfg.b.save -text [trans ok] -command "save_alarm_pref $user" -font sboldf
+	button .alarm_cfg.b.cancel -text [trans close] -command "destroy .alarm_cfg; unset my_alarms" -font sboldf
+	button .alarm_cfg.b.delete -text [trans delete] -command "; destroy .alarm_cfg; delete_alarm $user" -font sboldf
 	pack .alarm_cfg.b.save .alarm_cfg.b.cancel .alarm_cfg.b.delete -side right -padx 10
 	pack .alarm_cfg.b -side top -padx 0 -pady 4 -anchor e -expand true -fill both
 }
 
-#Deletes variable settings for current user.
-proc delete_alarm { user} {
-	global alarms my_alarms
-	if { [info exists alarms(${user})] } {
-		unset alarms(${user}) alarms(${user}_sound) alarms(${user}_sound_st) alarms(${user}_pic) alarms(${user}_pic_st) alarms(${user}_loop) alarms(${user}_onconnect) alarms(${user}_onmsg) alarms(${user}_onstatus) alarms(${user}_ondisconnect)
+proc unsetAlarmItem { user item } {
+	global alarms
+	if { [info exists alarms(${user}_${item})] } {
+		unset alarms(${user}_${item})
 	}
-	unset my_alarms(${user}) my_alarms(${user}_sound) my_alarms(${user}_sound_st) my_alarms(${user}_pic) my_alarms(${user}_pic_st) my_alarms(${user}_loop) my_alarms(${user}_onconnect) my_alarms(${user}_onmsg) my_alarms(${user}_onstatus) my_alarms(${user}_ondisconnect)
+}
+
+#Deletes variable settings for current user.
+proc delete_alarm { user } {
+	global alarms my_alarms
+	
+	if { [info exists alarms(${user})] } {
+		unset alarms(${user})
+	}
+	array unset alarms "${user}_*"
+	
+	unset my_alarms(${user}) 
+	array unset my_alarms "${user}_*"
+	
+	
 	cmsn_draw_online
 }
 
@@ -182,8 +192,6 @@ proc save_alarm_pref { user } {
 		msg_box [trans invalidsound]
 		return
 	}
-
-	status_log "Here $my_alarms(${user}_pic_st)\n" white
 
 	if { ($my_alarms(${user}_pic_st) == 1) } {
 		if { ([file exists "$my_alarms(${user}_pic)"] == 0) } {
@@ -204,14 +212,10 @@ proc save_alarm_pref { user } {
 	set alarms(${user}_loop) $my_alarms(${user}_loop)
 	set alarms(${user}_sound_st) $my_alarms(${user}_sound_st)
 	set alarms(${user}_pic_st) $my_alarms(${user}_pic_st)
-	if { $my_alarms(${user}_sound) == "" } {
-		set alarms(${user}_sound) "[GetSkinFile sounds alarm.wav]"
-	} else {
+	if { $my_alarms(${user}_sound) != "" } {
 		set alarms(${user}_sound) $my_alarms(${user}_sound)
 	}
-	if { $my_alarms(${user}_pic) == "" } {
-		set alarms(${user}_pic) "[GetSkinFile sounds alarm.wav]"
-	} else {
+	if { $my_alarms(${user}_pic) != "" } {
 		set alarms(${user}_pic) $my_alarms(${user}_pic)
 	}
 	if {![info exists my_alarms(${user}_onconnect)]} {
@@ -227,6 +231,7 @@ proc save_alarm_pref { user } {
 
 	unset my_alarms
 	save_alarms
+	destroy .alarm_cfg	
 }
 
 #Runs the alarm (sound and pic)

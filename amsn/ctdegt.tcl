@@ -9,100 +9,99 @@
 
 ###################### Protocol Debugging ###########################
 if { $initialize_amsn == 1 } {
-    global degt_protocol_window_visible degt_command_window_visible
-
-    set degt_protocol_window_visible 0
-    set degt_command_window_visible 0
+	global degt_protocol_window_visible degt_command_window_visible
+	
+	set degt_protocol_window_visible 0
+	set degt_command_window_visible 0
 }
 
 proc degt_Init {} {
-    set Entry {bg #FFFFFF foreground #0000FF}
-    set Label {bg #AABBCC foreground #000000}
-    set Text {bg #2200FF foreground #111111 font splainf}
-    set Button {foreground #111111}
-#    set Frame {background #111111}
-    ::themes::AddClass Degt Entry $Entry 90
-    ::themes::AddClass Degt Label $Label 90
-    ::themes::AddClass Degt Text $Text 90
-    ::themes::AddClass Degt Button $Button 90
-#    ::themes::AddClass Degt Frame $Frame 90
+	set Entry {bg #FFFFFF foreground #0000FF}
+	set Label {bg #AABBCC foreground #000000}
+	set Text {bg #2200FF foreground #111111 font splainf}
+	set Button {foreground #111111}
+	#    set Frame {background #111111}
+	::themes::AddClass Degt Entry $Entry 90
+	::themes::AddClass Degt Label $Label 90
+	::themes::AddClass Degt Text $Text 90
+	::themes::AddClass Degt Button $Button 90
+	#    ::themes::AddClass Degt Frame $Frame 90
 }
 
 proc degt_protocol { str {colour ""}} {
-    global followtext_degt
-
-   .degt.mid.txt insert end "[timestamp] $str\n" $colour
-    if { $followtext_degt == 1} {
-	.degt.mid.txt yview moveto 1.0
-    }
-    
+	global followtext_degt
+	
+	.degt.mid.txt insert end "[timestamp] $str\n" $colour
+	if { $followtext_degt == 1} {
+		.degt.mid.txt yview moveto 1.0
+	}    
 }
 
 proc degt_protocol_win_toggle {} {
-    global degt_protocol_window_visible
-
-    if { $degt_protocol_window_visible } {
-	wm state .degt withdraw
-	set degt_protocol_window_visible 0
-    } else {
-	wm state .degt normal
-	set degt_protocol_window_visible 1
-    }
+	global degt_protocol_window_visible
+	
+	if { $degt_protocol_window_visible } {
+		wm state .degt withdraw
+		set degt_protocol_window_visible 0
+	} else {
+		wm state .degt normal
+		set degt_protocol_window_visible 1
+	}
 }
 
 proc degt_protocol_win { } {
-    global followtext_degt
-
-    set followtext_degt 1
-
-    toplevel .degt
-    wm title .degt "MSN Protocol Debug"
-    wm iconname .degt "MSNProt"
-    wm state .degt withdraw
-
-    frame .degt.top -class Degt
-        label .degt.top.name -text "Protocol" -justify left -font sboldf
-	pack .degt.top.name -side left -anchor w 
-
-    #font create debug -family Verdana -size 24 -weight bold
-    frame .degt.mid -class Degt
-	text   .degt.mid.txt -height 20 -width 85 -font splainf \
-		-wrap none -background white -foreground black \
-	 	-yscrollcommand ".degt.mid.sy set" \
-		-xscrollcommand ".degt.mid.sx set"
-	scrollbar .degt.mid.sy -command ".degt.mid.txt yview"
-	scrollbar .degt.mid.sx -orient horizontal -command ".degt.mid.txt xview"
-
-   .degt.mid.txt tag configure error -foreground #ff0000 -background white
-   .degt.mid.txt tag configure nssend -foreground #888888 -background white
-   .degt.mid.txt tag configure nsrecv -foreground #000000 -background white
-   .degt.mid.txt tag configure sbsend -foreground #006666 -background white
-   .degt.mid.txt tag configure sbrecv -foreground #000088 -background white
-   .degt.mid.txt tag configure msgcontents -foreground #004400 -background white
-   .degt.mid.txt tag configure red -foreground red -background white
-   .degt.mid.txt tag configure white -foreground white -background black
-   .degt.mid.txt tag configure blue -foreground blue -background white
-
-
-	pack .degt.mid.sy -side right -fill y
-	pack .degt.mid.sx -side bottom -fill x
-	pack .degt.mid.txt -anchor nw  -expand true -fill both
-
-    pack .degt.mid -expand true -fill both
-
-    checkbutton .degt.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable followtext_degt -font sboldf
-
-    frame .degt.bot -relief sunken -borderwidth 1 -class Degt
-    button .degt.bot.save -text "[trans savetofile]" -command degt_protocol_save -font sboldf
-    	button .degt.bot.clear  -text "Clear" -font sboldf \
-		-command ".degt.mid.txt delete 0.0 end"
-    	button .degt.bot.close -text [trans close] -command degt_protocol_win_toggle -font sboldf
-	pack .degt.bot.save .degt.bot.close .degt.bot.clear -side left
-
-    pack .degt.top .degt.mid .degt.follow .degt.bot -side top
-
-    bind . <Control-d> { degt_protocol_win_toggle }
-    wm protocol .degt WM_DELETE_WINDOW { degt_protocol_win_toggle }
+	global followtext_degt
+	
+	set followtext_degt 1
+	
+	toplevel .degt
+	wm title .degt "MSN Protocol Debug"
+	wm iconname .degt "MSNProt"
+	wm state .degt withdraw
+	
+	frame .degt.top -class Degt
+		label .degt.top.name -text "Protocol" -justify left -font sboldf
+		pack .degt.top.name -side left -anchor w 
+	
+	#font create debug -family Verdana -size 24 -weight bold
+	frame .degt.mid -class Degt
+		text   .degt.mid.txt -height 20 -width 85 -font splainf \
+			-wrap none -background white -foreground black \
+			-yscrollcommand ".degt.mid.sy set" \
+			-xscrollcommand ".degt.mid.sx set"
+		scrollbar .degt.mid.sy -command ".degt.mid.txt yview"
+		scrollbar .degt.mid.sx -orient horizontal -command ".degt.mid.txt xview"
+	
+	.degt.mid.txt tag configure error -foreground #ff0000 -background white
+	.degt.mid.txt tag configure nssend -foreground #888888 -background white
+	.degt.mid.txt tag configure nsrecv -foreground #000000 -background white
+	.degt.mid.txt tag configure sbsend -foreground #006666 -background white
+	.degt.mid.txt tag configure sbrecv -foreground #000088 -background white
+	.degt.mid.txt tag configure msgcontents -foreground #004400 -background white
+	.degt.mid.txt tag configure red -foreground red -background white
+	.degt.mid.txt tag configure white -foreground white -background black
+	.degt.mid.txt tag configure blue -foreground blue -background white
+	
+	
+		pack .degt.mid.sy -side right -fill y
+		pack .degt.mid.sx -side bottom -fill x
+		pack .degt.mid.txt -anchor nw  -expand true -fill both
+	
+	pack .degt.mid -expand true -fill both
+	
+	checkbutton .degt.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable followtext_degt -font sboldf
+	
+	frame .degt.bot -relief sunken -borderwidth 1 -class Degt
+	button .degt.bot.save -text "[trans savetofile]" -command degt_protocol_save -font sboldf
+		button .degt.bot.clear  -text "Clear" -font sboldf \
+			-command ".degt.mid.txt delete 0.0 end"
+		button .degt.bot.close -text [trans close] -command degt_protocol_win_toggle -font sboldf
+		pack .degt.bot.save .degt.bot.close .degt.bot.clear -side left
+	
+	pack .degt.top .degt.mid .degt.follow .degt.bot -side top
+	
+	bind . <Control-d> { degt_protocol_win_toggle }
+	wm protocol .degt WM_DELETE_WINDOW { degt_protocol_win_toggle }
 }
 
 proc degt_ns_command_win_toggle {} {
@@ -118,38 +117,38 @@ proc degt_ns_command_win_toggle {} {
 }
 
 proc degt_protocol_save { } {
-    set w .protocol_save
+	set w .protocol_save
+		
+	toplevel $w
+	wm title $w \"[trans savetofile]\"
+	label $w.msg -justify center -text "Please give a filename"
+	pack $w.msg -side top
 	
-    toplevel $w
-    wm title $w \"[trans savetofile]\"
-    label $w.msg -justify center -text "Please give a filename"
-    pack $w.msg -side top
-    
-    frame $w.buttons -class Degt
-    pack $w.buttons -side bottom -fill x -pady 2m
-    button $w.buttons.dismiss -text Cancel -command "destroy $w"
-    button $w.buttons.save -text Save -command "degt_protocol_save_file $w.filename.entry; destroy $w"
-    pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
-    
-    frame $w.filename -bd 2 -class Degt
-    entry $w.filename.entry -relief sunken -width 40
-    label $w.filename.label -text "Filename:"
-    pack $w.filename.entry -side right 
-    pack $w.filename.label -side left
-    pack $w.msg $w.filename -side top -fill x
-    focus $w.filename.entry
-    
-    fileDialog $w $w.filename.entry save "protocol_log.txt"
-    grab $w
+	frame $w.buttons -class Degt
+	pack $w.buttons -side bottom -fill x -pady 2m
+	button $w.buttons.dismiss -text Cancel -command "destroy $w"
+	button $w.buttons.save -text Save -command "degt_protocol_save_file $w.filename.entry; destroy $w"
+	pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
+	
+	frame $w.filename -bd 2 -class Degt
+	entry $w.filename.entry -relief sunken -width 40
+	label $w.filename.label -text "Filename:"
+	pack $w.filename.entry -side right 
+	pack $w.filename.label -side left
+	pack $w.msg $w.filename -side top -fill x
+	focus $w.filename.entry
+	
+	fileDialog $w $w.filename.entry save "protocol_log.txt"
+	grab $w
 
 }
 
 proc degt_protocol_save_file { filename } {
 
-    set fd [open [${filename} get] a+]
-    fconfigure $fd -encoding utf-8
-    puts $fd "[.degt.mid.txt get 0.0 end]"
-    close $fd
+	set fd [open [${filename} get] a+]
+	fconfigure $fd -encoding utf-8
+	puts $fd "[.degt.mid.txt get 0.0 end]"
+	close $fd
 
 
 }
@@ -157,176 +156,69 @@ proc degt_protocol_save_file { filename } {
 # Ctrl-M to toggle raise/hide. This window is for developers only
 # to issue commands manually to the Notification Server
 proc degt_ns_command_win {} {
-    if {[winfo exists .nscmd]} {
-        return
-    }
-
-    toplevel .nscmd
-    wm title .nscmd "MSN Command"
-    wm iconname .nscmd "MSNCmd"
-    wm state .nscmd withdraw
-    frame .nscmd.f -class Degt
-    label .nscmd.f.l -text "NS Command:" -font bboldf 
-    entry .nscmd.f.e -width 20
-    pack .nscmd.f.l .nscmd.f.e -side left
-    pack .nscmd.f
-
-    bind .nscmd.f.e <Return> {
-    	set cmd [string trim [.nscmd.f.e get]]
-	if { [string length $cmd] > 0 } {
-	    # There is actually a command typed. If %T found in
-	    # the string replace it by a transaction ID
-	    set nsclst [split $cmd]
-	    set nscmd [lindex $nsclst 0]
-	    set nspar [lreplace $nsclst 0 0]
-	    if {[string range  $nscmd 0 0] == "!"} {
-	    	debug_interpreter $nscmd $nspar
-	    } else {
-	        # Send command to the Notification Server
-	        ::MSN::WriteSB ns $nscmd $nspar
-	    }
+	if {[winfo exists .nscmd]} {
+		return
 	}
-    }
-    bind . <Control-m> { degt_ns_command_win_toggle }
-    wm protocol .nscmd WM_DELETE_WINDOW { degt_ns_command_win_toggle }
+	
+	toplevel .nscmd
+	wm title .nscmd "MSN Command"
+	wm iconname .nscmd "MSNCmd"
+	wm state .nscmd withdraw
+	frame .nscmd.f -class Degt
+	label .nscmd.f.l -text "NS Command:" -font bboldf 
+	entry .nscmd.f.e -width 20
+	pack .nscmd.f.l .nscmd.f.e -side left
+	pack .nscmd.f
+	
+	bind .nscmd.f.e <Return> {
+		set cmd [string trim [.nscmd.f.e get]]
+		if { [string length $cmd] > 0 } {
+		# There is actually a command typed. If %T found in
+		# the string replace it by a transaction ID
+		set nsclst [split $cmd]
+		set nscmd [lindex $nsclst 0]
+		set nspar [lreplace $nsclst 0 0]
+		# Send command to the Notification Server
+		::MSN::WriteSB ns $nscmd $nspar
+		}
+	}
+	bind . <Control-m> { degt_ns_command_win_toggle }
+	wm protocol .nscmd WM_DELETE_WINDOW { degt_ns_command_win_toggle }
 }
 
-proc debug_interpreter {cmd params} {
-    switch $cmd {
-	!sl { debug_cmd_lists -save }
-	!Sl { debug_cmd_lists -gui }
-    }
-}
-
-proc debug_cmd_lists {subcmd {basename ""}} {
-    global tcl_platform HOME log_dir list_fl list_rl list_al list_bl
-
-    set cmdVersion "1.0"
-    # Forward Users List (those we have added to our buddy list)
-    foreach user $list_fl {
-        set ulogin [lindex $user 0]
-	set allBuddies($ulogin) [list FL -- -- --]
-    }
-    # Reverse Users List (those who have added us, but we have not added them)
-    foreach user $list_rl {
-        set ulogin [lindex $user 0]
-	if {![info exists allBuddies($ulogin)]} {
-	    set allBuddies($ulogin) [list -- RL -- --]
-	} else {
-	    set allBuddies($ulogin) [lreplace $allBuddies($ulogin) 1 1 "RL"]
-	}
-    }
-    # Allowed Users List (privacy: those allowed to contact us)
-    foreach user $list_al {
-        set ulogin [lindex $user 0]
-	if {![info exists allBuddies($ulogin)]} {
-	    set allBuddies($ulogin) [list -- -- AL --]
-	} else {
-	    set allBuddies($ulogin) [lreplace $allBuddies($ulogin) 2 2 "AL"]
-	}
-    }
-    # Blocked Users List (privacy: those blocked from seeing us)
-    foreach user $list_bl {
-        set ulogin [lindex $user 0]
-	if {![info exists allBuddies($ulogin)]} {
-	    set allBuddies($ulogin) [list -- -- -- BL]
-	} else {
-	    set allBuddies($ulogin) [lreplace $allBuddies($ulogin) 3 3 "BL"]
-	}
-    }
-
-    if {($subcmd == "-save") || ($subcmd == "-export")} {
-	if {$basename == ""} { set basename "dbg-lists.txt"; }
-	set save_dir $log_dir
-	if {$subcmd == "-export"} { set save_dir $HOME; }
-	set filepath [file join $save_dir $basename]
-        if {$tcl_platform(platform) == "unix"} {
-	    set file_id [open "$filepath.txt" w 00600]
-	    set cttfile_id [open "$filepath.ctt" w 00600]
-	} else {
-	    set file_id [open "$filepath.txt" w]
-	    set cttfile_id [open "$filepath.ctt" w]
-	}
-	set Date [clock format [clock seconds] -format %c]
-	# This is for the enhanced (AMSN) contact list export
-	puts $file_id "# AMSN-Contact-List version $cmdVersion"
-	puts $file_id "# AMSN-Contact-List date $Date"
-	puts $file_id "# AMSN-Contact-List info  FL(forward) RL(reverse) AL(allow) BL(block)"
-	# This is for the crippled (MSN) contact list export, it is
-	# compatible with Microsoft's MSN export/import functionality.
-	puts $cttfile_id "<?xml version=\"1.0\"?>"
-	puts $cttfile_id "<messenger>"
-	puts $cttfile_id "  <service name=\".NET Messenger Service\">"
-	puts $cttfile_id "    <contactlist>"
-    }
-    set user_entries [array get allBuddies]
-    set items [llength $user_entries]
-    for {set idx 0} {$idx < $items} {incr idx 1} {
-        set vkey [lindex $user_entries $idx]; incr idx 1
-	set gid [::abook::getGroups $vkey]
-        set unick  [urlencode [::abook::getName $vkey]]
-        if {($subcmd == "-save") || ($subcmd == "-export")} {
-	    # This is for the enhanced (AMSN) contact list export
-	    puts $file_id "$allBuddies($vkey) $vkey (gid $gid) $unick"
-	    # This is for the crippled (MSN) contact list export
-	    puts $cttfile_id "      <contact>$vkey</contact>"
-	}
-    }
-    if {($subcmd == "-save") || ($subcmd == "-export")} {
-        close $file_id
-	# This is for the crippled (MSN) contact list export (XML format)
-	puts $cttfile_id "    </contactlist>"
-	puts $cttfile_id "  </service>"
-	puts $cttfile_id "</messenger>"
-        close $cttfile_id
-
-	msg_box "$filepath\n$basename.ctt & $basename.txt"
-    }
-}
 
 if { $initialize_amsn == 1 } {
-    global myconfig proxy_server proxy_port
-    
-    ###################### Preferences Window ###########################
-    array set myconfig {}   ; # configuration backup
-    set proxy_server ""
-    set proxy_port ""
-    set proxy_pass ""
-    set proxy_user ""
+	global myconfig proxy_server proxy_port
+	
+	###################### Preferences Window ###########################
+	array set myconfig {}   ; # configuration backup
+	set proxy_server ""
+	set proxy_port ""
+	set proxy_pass ""
+	set proxy_user ""
     
 }
 
 proc PreferencesCopyConfig {} {
-    global config myconfig proxy_server proxy_port
-
-    set config_entries [array get config]
-    set items [llength $config_entries]
-    for {set idx 0} {$idx < $items} {incr idx 1} {
-        set var_attribute [lindex $config_entries $idx]; incr idx 1
-	set var_value [lindex $config_entries $idx]
-	# Copy into the cache for modification. We will
-	# restore it if users chooses "close"
-	set myconfig($var_attribute) $var_value
-    }
-
-    # Now process certain exceptions. Should be reverted
-    # in the RestorePreferences procedure
-    set proxy_data [split $myconfig(proxy) ":"]
-    set proxy_server [lindex $proxy_data 0]
-    set proxy_port [lindex $proxy_data 1]
+	global config myconfig proxy_server proxy_port
+	
+	set config_entries [array get config]
+	set items [llength $config_entries]
+	for {set idx 0} {$idx < $items} {incr idx 1} {
+		set var_attribute [lindex $config_entries $idx]; incr idx 1
+		set var_value [lindex $config_entries $idx]
+		# Copy into the cache for modification. We will
+		# restore it if users chooses "close"
+		set myconfig($var_attribute) $var_value
+	}
+	
+	# Now process certain exceptions. Should be reverted
+	# in the RestorePreferences procedure
+	set proxy_data [split $myconfig(proxy) ":"]
+	set proxy_server [lindex $proxy_data 0]
+	set proxy_port [lindex $proxy_data 1]
 }
 
-proc PreferencesMenu {m} {
-    bind . <Control-p> { Preferences sound }
-
-    $m add command -label [trans personal] -command "Preferences personal"
-    $m add command -label [trans appearance] -command "Preferences appearance"
-    $m add command -label [trans session] -command "Preferences session"
-    $m add command -label [trans loging] -command "Preferences loging"
-    $m add command -label [trans connection] -command "Preferences connection"
-    $m add command -label [trans prefapps] -command "Preferences apps"
-    $m add command -label [trans profiles] -command "Preferences profiles"
-}
 
 proc Preferences { { settings "personal"} } {
     global config myconfig proxy_server proxy_port temp_BLP list_BLP Preftabs libtls_temp libtls proxy_user proxy_pass
@@ -1571,6 +1463,7 @@ proc SavePreferences {} {
 
     # Save configuration.
     save_config
+	::MSN::contactListChanged
 	 ::config::saveGlobal
 
     if { $user_stat != "FLN" } {

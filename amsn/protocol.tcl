@@ -2,22 +2,16 @@
 #=======================================================================
 
 if { $initialize_amsn == 1 } {
-	global user_info user_stat list_fl list_rl list_al list_bl list_version
-	global list_users list_BLP list_otherusers list_cmdhnd sb_list list_states contactlist_loaded
+	global user_info user_stat list_version
+	global list_BLP list_cmdhnd sb_list contactlist_loaded
 	
 	set contactlist_loaded 0
 	
 	#To be deprecated and replaced with ::abook thing
 	set user_info ""
 	set user_stat "FLN"
-	set list_fl [list]
-	set list_rl [list]
-	set list_al [list]
-	set list_bl [list]
 	set list_version 0
-	set list_users [list]
 	set list_BLP -1
-	set list_otherusers [list]
 	
 	#Clear all user infomation
 	::abook::clearData
@@ -26,19 +20,6 @@ if { $initialize_amsn == 1 } {
 	
 	set sb_list [list]
 
-	#Double array containing:
-	# CODE NAME COLOR ONLINE/OFFLINE  SMALLIMAGE BIGIMAGE
-	set list_states {
-		{NLN online #0000A0 online online bonline}
-		{IDL noactivity #008000 online away baway}
-		{BRB rightback #008080 online away baway}
-		{PHN onphone #008080 online busy bbusy}
-		{BSY busy #800000 online busy bbusy}
-		{AWY away #008000 online away baway}
-		{LUN gonelunch #008000 online away baway}
-		{HDN appearoff #404040 offline offline boffline}
-		{FLN offline #404040 offline offline boffline}
-	}
 	
 	package require base64
 	package require sha1
@@ -805,8 +786,26 @@ namespace eval ::MSN {
    cancelReceiving cancelSending moveUser
 
 	if { $initialize_amsn == 1 } {
+		variable list_FL [list]
+		variable list_RL [list]
+		variable list_AL [list]
+		variable list_BL [list]
 
 		variable myStatus FLN
+		#Double array containing:
+		# CODE NAME COLOR ONLINE/OFFLINE  SMALLIMAGE BIGIMAGE
+		variable list_states {
+			{NLN online #0000A0 online online bonline}
+			{IDL noactivity #008000 online away baway}
+			{BRB rightback #008080 online away baway}
+			{PHN onphone #008080 online busy bbusy}
+			{BSY busy #800000 online busy bbusy}
+			{AWY away #008000 online away baway}
+			{LUN gonelunch #008000 online away baway}
+			{HDN appearoff #404040 offline offline boffline}
+			{FLN offline #404040 offline offline boffline}
+		}
+		
 	}
 
 	
@@ -932,11 +931,15 @@ namespace eval ::MSN {
 		}
 	}
 
-	proc changeName { userlogin newname { nocache 1 } } {
+	proc changeName { userlogin newname { nourlencode 0 } } {
 
 		global HOME config
 
-		set name [urlencode $newname]
+		if { $nourlencode } {
+			set name $newname
+		} else {
+			set name [urlencode $newname]
+		}
 
 		if { $userlogin == "" } {
 			return
@@ -975,9 +978,8 @@ namespace eval ::MSN {
 
 	proc userIsBlocked {userlogin} {
 		#TODO: Change to use new ::abook system when everything if finished
-		global list_bl
 
-		if {[lsearch $list_bl "$userlogin*"] != -1} {
+		if {[lsearch [::MSN::getList BL] "$userlogin*"] != -1} {
 			return 1
 		} else {
 			return 0
@@ -1752,7 +1754,7 @@ namespace eval ::MSN {
 	# messageTo (chatid,txt,ackid)
 	# Just queue the message send
 	proc messageTo { chatid txt ackid } {
-		if {![chatReady $chatid] && [lindex [::MSN::getUserInfo [lindex [usersInChat $chatid] 0]] 2] == 8 } {
+		if {![chatReady $chatid] && [::abook::getVolatileData [lindex [usersInChat $chatid] 0] state] == "FLN" } {
 			status_log "::MSN::messageTo: chat NOT ready for $chatid\n"
 			::amsn::nackMessage $ackid
 			chatTo $chatid
@@ -1782,85 +1784,128 @@ namespace eval ::MSN {
 	
 	}
 
-	proc getUserInfo { user } {
+	proc sortedContactList { } {
+		variable list_users
+		
+		#Don't sort list again if it's already sorted
+		if { $list_users == "" } {
+			set list_users [lsort -increasing -command ::MSN::CompareState [lsort -increasing -command ::MSN::CompareNick [::MSN::getList FL]]]
+		}
+		return $list_users
+	}
+	
+	proc contactListChanged { } {
+		variable list_users
+		set list_users ""
+	}
+	
+	proc getList { list_type } {
+		variable list_${list_type}
+		return [set list_${list_type}]
+	}
+	
+	proc clearList { list_type } {
+		variable list_${list_type} 
+		set list_${list_type}  [list]
+		
+		#Clean sorted list cache
+		variable list_users
+		set list_users ""
+	}
+	
+	proc addToList {list_type user} {
+		variable list_${list_type}
 
-		global list_users list_states list_otherusers user_info
-
-		set wanted_info [list $user $user 0]
-
-		set idx [lsearch $list_users "${user} *"]
-
-		if { "$user" == "[lindex $user_info 3]" } {
-
-			set wanted_info [list $user "[urldecode [lindex $user_info 4]]"  ""]
-
-		} elseif { $idx != -1} {
-
-			set wanted_info [lindex $list_users $idx]
-
+		if { [lsearch [set list_${list_type}]  $user] == -1 } {
+			lappend list_${list_type} $user
 		} else {
-
-			set idx [lsearch $list_otherusers "${user} *"]
-
-			if { $idx != -1} {
-
-				set wanted_info [lindex $list_otherusers $idx]
-
-			}
-
+			status_log "::MSN::addToList: User $user already on list $list_type\n" red
 		}
 
-		#set user_login [lindex $wanted_info 0]
-		#set user_name [lindex $wanted_info 1]
-		#set state [lindex $wanted_info 2]
-
-		return $wanted_info
-
+		#Clean sorted list cache				
+		variable list_users
+		set list_users ""
+		
 	}
-
-	proc sortContactList { index1 index2 } {
-		global list_users
-		set list_users [lsort -dictionary -increasing -index $index1 [lsort -dictionary  -increasing -index $index2 $list_users]]
-	}
-
-	proc setUserInfo { user_login {user_name ""} {user_state_no ""} } {
-		global list_users list_states list_otherusers
-
-		status_log "Setting user $user_login to name $user_name and state $user_state_no\n" white
-		set idx [lsearch $list_users "${user_login} *"]
-
-		if { $idx != -1} {
-
-			set olduserinfo [lindex $list_users $idx]
-
-			if { "$user_name" == "" } {
-				set user_name [lindex $olduserinfo 1]
-			}
-
-			if { "$user_state_no" == "" } {
-				set user_state_no [lindex $olduserinfo 2]
-			}
-
-			set newuserinfo [lreplace $olduserinfo 1 1 $user_name]
-			set newuserinfo [lreplace $newuserinfo 2 2 $user_state_no]
-			#set list_users [lreplace $list_users $idx $idx [list $user_login $user_name $user_state_no]]
-			set list_users [lreplace $list_users $idx $idx $newuserinfo]
-			#set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
-
+	
+	proc deleteFromList {list_type user} {
+		variable list_${list_type} 
+		
+		set idx [lsearch [set list_${list_type}] $user]
+		if { $idx != -1 } {
+			set list_${list_type} [lreplace [set list_${list_type}] $idx $idx]
 		} else {
-
-			set idx [lsearch $list_otherusers "${user_login} *"]
-
-			if {$idx != -1} {
-				#TODO: If user_name=="", delete the user. Use this from BYE
-				set list_otherusers [lreplace $list_otherusers $idx $idx [list $user_login $user_name $user_state_no]]
-			} else {
-				lappend list_otherusers [list $user_login $user_name $user_state_no]
-			}
-
+			status_log "::MSN::deleteFromList: User $user is not on list $list_type\n" red
 		}
+		
+		#Clean sorted list cache
+		variable list_users
+		set list_users ""
+	}
+	
+	
+	proc CompareState { item1 item2 } {
+		set state1 [::MSN::stateToNumber [::abook::getVolatileData $item1 state FLN]]
+		set state2 [::MSN::stateToNumber [::abook::getVolatileData $item2 state FLN]]
+				
+		if { $state1 < $state2 } {
+			return -1
+		} elseif { $state1 > $state2 } {
+			return 1
+		} else {
+			return 0
+		}
+	}
 
-   }
+	proc CompareNick { item1 item2 } {
+		return [string compare -nocase [::abook::getDisplayNick $item1] [::abook::getDisplayNick $item2]]
+	}	
+	
+	proc stateToNumber { state_code } {
+		variable list_states
+		return [lsearch $list_states "$state_code *"]
+	}
+	
+	proc numberToState { state_number } {
+		variable list_states
+		return [lindex [lindex $list_states $state_number] 0]
+	}
+
+	proc stateToDescription { state_code } {
+		variable list_states
+		set state [lindex $list_states [lsearch $list_states "$state_code *"]]
+		return [lindex $state 1]	
+	}
+	
+	
+	proc stateToColor { state_code } {
+		variable list_states
+		set state [lindex $list_states [lsearch $list_states "$state_code *"]]
+		return [lindex $state 2]
+	}
+
+	proc stateToSection { state_code } {
+		variable list_states
+		set state [lindex $list_states [lsearch $list_states "$state_code *"]]
+		return [lindex $state 3]	
+	}
+		
+	proc stateToImage { state_code } {
+		variable list_states
+		set state [lindex $list_states [lsearch $list_states "$state_code *"]]
+		return [lindex $state 4]	
+	}
+
+	proc stateToBigImage { state_code } {
+		variable list_states
+		set state [lindex $list_states [lsearch $list_states "$state_code *"]]
+		return [lindex $state 5]	
+	}
+	
+				
+
+	
+	
 
 
 }
@@ -2268,14 +2313,12 @@ proc cmsn_sb_msg {sb_name recv} {
       sb set $sb_name lastmsgtime [clock format [clock seconds] -format %H:%M:%S]
 
       #if alarm_onmsg is on run it
-      global alarms list_users
+      global alarms
       if { ([info exists alarms(${chatid}_onmsg)]) && ($alarms(${chatid}_onmsg) == 1) && ([info exists alarms(${chatid})]) && ($alarms(${chatid}) == 1)} {
-	  set idx [lsearch $list_users "${chatid} *"]
-	  set username [lindex [lindex $list_users $idx] 1]
+	  set username [::abook::getNick $chatid]
 	  run_alarm $chatid  "[trans says $username] $body"
       } elseif { ([info exists alarms(all_onmsg)]) && ($alarms(all_onmsg) == 1) && ([info exists alarms(all)]) && ($alarms(all) == 1)} {
-	  set idx [lsearch $list_users "${chatid} *"]
-	  set username [lindex [lindex $list_users $idx] 1]
+	  set username [::abook::getNick $chatid]	  
 	  run_alarm all  "[trans says $username] $body"
       }
 
@@ -2606,6 +2649,7 @@ proc cmsn_conn_sb {name} {
 
 }
 
+
 proc cmsn_conn_ans {name} {
 
 	#status_log "cmsn_conn_ans: Connected to invitation SB $name...\n" green
@@ -2817,10 +2861,9 @@ proc cmsn_update_users {sb_name recv} {
 			set usr_login [string tolower [lindex $recv 4]]
 			set usr_name [urldecode [lindex $recv 5]]
 
-			#sb append $sb_name users [list $usr_login $usr_name [lindex [::MSN::getUserInfo $usr_login] 2]]
 			sb append $sb_name users [list $usr_login]
 
-			::MSN::setUserInfo $usr_login $usr_name
+			::abook::setContactData $usr_login nick $usr_name
 
 			sb set $sb_name last_user $usr_login
 
@@ -2832,10 +2875,9 @@ proc cmsn_update_users {sb_name recv} {
 			set usr_login [string tolower [lindex $recv 1]]
 			set usr_name [urldecode [lindex $recv 2]]
 		
-			#sb append $sb_name users [list $usr_login $usr_name [lindex [::MSN::getUserInfo $usr_login] 2]]
 			sb append $sb_name users [list $usr_login]
 
-			::MSN::setUserInfo $usr_login $usr_name
+			::abook::setContactData $usr_login nick $usr_name
 		
 		
 			if { [sb length $sb_name users] == 1 } {
@@ -2886,9 +2928,9 @@ proc cmsn_update_users {sb_name recv} {
 
 #TODO: ::abook system
 proc cmsn_change_state {recv} {
-	global list_users config list_states alarms
+	global config alarms
 
-	::plugins::PostEvent ChangeState recv list_users list_states
+	#::plugins::PostEvent ChangeState recv list_users list_states
 
 	if {[lindex $recv 0] == "FLN"} {
 		#User is going offline
@@ -2899,12 +2941,14 @@ proc cmsn_change_state {recv} {
 	} elseif {[lindex $recv 0] == "ILN"} {
 		#Initial status
 		set user [lindex $recv 3]
+		set encoded_user_name [lindex $recv 4]
 		set user_name [urldecode [lindex $recv 4]]
 		set substate [lindex $recv 2]
 		set msnobj [lindex $recv 6]
 	} else {
 		#Coming online or changing state
 		set user [lindex $recv 2]
+		set encoded_user_name [lindex $recv 3]
 		set user_name [urldecode [lindex $recv 3]]
 		set substate [lindex $recv 1]
 		set msnobj [lindex $recv 5]
@@ -2916,14 +2960,19 @@ proc cmsn_change_state {recv} {
 		set msnobj -1
 	}
 
+	if {$user_name == ""} {
+		set user_name [::abook::getNick $user]
+	}
+
+	set state_no [::MSN::stateToNumber $substate ]
+	
+	
     #alarm system (that must replace the one that was before) - KNO
 	global alarms
 	if {[lindex $recv 0] !="ILN"} {
 	
 		if {[lindex $recv 0] == "FLN"} {
 			#User disconnected
-			set idx [lsearch $list_users "$user *"]
-			set user_name [lindex [lindex $list_users $idx] 1]
 			
 			if { ([info exists alarms([lindex $recv 1]_ondisconnect)]) && ($alarms([lindex $recv 1]_ondisconnect) == 1) && ([info exists alarms([lindex $recv 1])]) && ($alarms([lindex $recv 1]) == 1)} {
 				run_alarm [lindex $recv 1] [trans disconnect $user_name]
@@ -2985,84 +3034,72 @@ proc cmsn_change_state {recv} {
 	}
 	#end of alarm system
 
-   set idx [lsearch $list_users "$user *"]
-   if {$idx != -1} {
 
-		set user_data [lindex $list_users $idx]
-		if {$user_name == ""} {
-			set user_name [urldecode [lindex $user_data 1]]
+	if {$user_name != [::abook::getNick $user]} {
+		#Nick differs from the one on our list, so change it
+		#in the server list too
+		::MSN::changeName $user $encoded_user_name 1
+	}
+
+	set maxw [expr {$config(notifwidth)-20}]
+	set short_name [trunc $user_name . $maxw splainf]
+		
+	if {$substate == "FLN"} {	#User logsout
+		
+		#Register last logout
+		::abook::setContactData $user last_logout [clock format [clock seconds] -format "%D - %H:%M:%S"]
+		
+		if { $config(notifyoffline) == 1 } {
+			::amsn::notifyAdd "$short_name\n[trans logsout]." "" offline offline
+		}
+	} elseif {[::abook::getVolatileData $user state FLN] != "FLN" } {		;# User was online before
+
+		if { $config(notifystate) == 1 &&  $substate != "FLN" && [lindex $recv 0] != "ILN" } {
+			::amsn::notifyAdd "$short_name\n[trans statechange]\n[trans [::MSN::stateToDescription $substate]]." \
+				"::amsn::chatUser $user" state state
 		}
 
-		set state_no [lsearch $list_states "$substate *"]
+	} elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
 
-		if {$user_name != [lindex $user_data 1]} {
-			#Nick differs from the one on our list, so change it
-			#in the server list too
-			::MSN::changeName $user $user_name 1
+		user_not_blocked "$user"
+		
+		#Register last login
+		::abook::setContactData $user last_login [clock format [clock seconds] -format "%D - %H:%M:%S"]
+		
+		if { $config(notifyonline) == 1 } {
+			::amsn::notifyAdd "$short_name\n[trans logsin]." "::amsn::chatUser $user" online
 		}
 
-		set maxw [expr {$config(notifwidth)-20}]
-		set short_name [trunc $user_name . $maxw splainf]
-		
-		if {$substate == "FLN"} {	#User logsout
-			
-			#Register last logout
-			::abook::setContactData $user last_logout [clock format [clock seconds] -format "%D - %H:%M:%S"]
-		
-			if { $config(notifyoffline) == 1 } {
-				::amsn::notifyAdd "$short_name\n[trans logsout]." "" offline offline
-			}
-		} elseif {[lindex $user_data 2] < 7} {		;# User was online before
+		if { ([info exists alarms([lindex $recv 2]_onconnect)]) && ($alarms([lindex $recv 2]_onconnect) == 1) && ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1)} {
+			run_alarm [lindex $recv 2] "$user_name [trans logsin]"
+		} elseif { ([info exists alarms(all_onconnect)]) && ($alarms(all_onconnect) == 1) && ([info exists alarms(all)]) && ($alarms(all) == 1)} {	
+			run_alarm all "$user_name [trans logsin]"
+		}
+	} 
+	set oldmsnobj [::abook::getVolatileData $user msobj]
+	#set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj]]
+	
+	::abook::setContactData $user nick $user_name
+	::abook::setVolatileData $user state $substate
+	::abook::setVolatileData $user msnobj $msnobj
 
-			if { $config(notifystate) == 1 &&  $substate != "FLN" && [lindex $recv 0] != "ILN" } {
-				::amsn::notifyAdd "$short_name\n[trans statechange]\n[trans [lindex [lindex $list_states $state_no] 1]]." \
-					"::amsn::chatUser $user" state state
-			}
+	#status_log "old is $oldmsnobj new is $msnobj\n"
+	if { $oldmsnobj != $msnobj} {
 
-		} elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
-
-			user_not_blocked "$user"
-			
-			#Register last login
-			::abook::setContactData $user last_login [clock format [clock seconds] -format "%D - %H:%M:%S"]
-			
-			if { $config(notifyonline) == 1 } {
-				::amsn::notifyAdd "$short_name\n[trans logsin]." "::amsn::chatUser $user" online
-			}
-
-			if { ([info exists alarms([lindex $recv 2]_onconnect)]) && ($alarms([lindex $recv 2]_onconnect) == 1) && ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1)} {
-				run_alarm [lindex $recv 2] "$user_name [trans logsin]"
-			} elseif { ([info exists alarms(all_onconnect)]) && ($alarms(all_onconnect) == 1) && ([info exists alarms(all)]) && ($alarms(all) == 1)} {	
-				run_alarm all "$user_name [trans logsin]"
-			}
-		} 
-
-		#TODO: Change this with ::MSN::setUserInfo
-		set oldmsnobj [lindex $user_data 3]
-		set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj]]
-		
-		::abook::setContactData $user nick $user_name
-		::abook::setVolatileData $user state $substate
-		::abook::setVolatileData $user msnobj $msnobj
-
-		#status_log "old is $oldmsnobj new is $msnobj\n"
-		if { $oldmsnobj != $msnobj} {
-
-			global sb_list
-			foreach sb $sb_list {
-				set users_in_chat [sb get $sb users]
-				if { [lsearch $users_in_chat $user] != -1 } {
-					status_log "User changed image while image in use!! Updating!!\n" white
-					::MSNP2P::loadUserPic [::MSN::ChatFor $sb] $user
-				}
+		global sb_list
+		foreach sb $sb_list {
+			set users_in_chat [sb get $sb users]
+			if { [lsearch $users_in_chat $user] != -1 } {
+				status_log "User changed image while image in use!! Updating!!\n" white
+				::MSNP2P::loadUserPic [::MSN::ChatFor $sb] $user
 			}
 		}
-
-		cmsn_draw_online 1
+	}
+	
+	
+	::MSN::contactListChanged
+	cmsn_draw_online 1
 		
-   } else {
-		status_log "cmsn_change_state: PANIC!\n" red
-   }
 }
 
 
@@ -3167,14 +3204,13 @@ proc cmsn_ns_handler {item} {
 
 				if { [llength $item] == 5 } {
 					status_log "Going to receive contact list\n" blue
-					global list_al list_bl list_rl list_fl list_users
 					#First contact in list
-					set list_al [list]
-					set list_bl [list]
-					set list_rl [list]
-					set list_fl [list]
-					set list_users [list]
+					::MSN::clearList FL
+					::MSN::clearList BL
+					::MSN::clearList RL
+					::MSN::clearList AL
 					::groups::Reset
+					
 					set loading_list_info(version) [lindex $item 2]
 					set loading_list_info(total) [lindex $item 3]
 					set loading_list_info(current) 1
@@ -3380,7 +3416,7 @@ proc cmsn_ns_msg {recv} {
 		::abook::setDemographics d
 				
 		global config
-		set config(myip) $d(clientip)
+		::config::setKey myip $d(clientip)
 		status_log "My IP is $config(myip)\n"
 	} else {
 		hotmail_procmsg $msg_data	 
@@ -3394,7 +3430,6 @@ proc cmsn_listdel {recv} {
 	set user [lindex $recv 4]
 	set list_sort [string toupper [lindex $recv 2]]
 
-	set list_name "list_[string tolower [lindex $recv 2]]"   
 	
 		
 	if { [lindex $recv 2] == "FL" } {
@@ -3410,37 +3445,20 @@ proc cmsn_listdel {recv} {
 
 		if { [llength [::abook::getGroups $user]] == 0 } {
 			status_log "cmsn_listdel: Contact [lindex $recv 4] is in no groups, removing!!\n" blue
-			upvar #0 $list_name the_list
-			set idx [lsearch $the_list "$user *"]
-			if { $idx != -1 } {
-				set the_list [lreplace $the_list $idx $idx]
-			} else {
-				status_log "cmsn_listdel: PANIC_1!!!\n" red
-			}
-			
+			::MSN::deleteFromList FL $user
 			::abook::removeContactFromList $user FL
 		}
 # 		
 	} else {
 # 	
-		upvar #0 $list_name the_list
-		set idx [lsearch $the_list "$user *"]
-		if { $idx != -1 } {
-			set the_list [lreplace $the_list $idx $idx]
-		} else {
-			status_log "cmsn_listdel: PANIC_2!!!\n" red
-		}
-		
+		::MSN::deleteFromList $list_sort $user		
 		::abook::removeContactFromList $user $list_sort
 	}
 	
 	
-	#lists_compare		;# FIX: hmm, maybe I should not run it always!
-	list_users_refresh
 	cmsn_draw_online 1
 	global contactlist_loaded
 	set contactlist_loaded 1
-	#::MSN::WriteSB ns "LST" "[lindex $recv 2]"
 }
 
 
@@ -3601,7 +3619,7 @@ proc initial_syn_handler {recv} {
 		close $nickcache
 
 		if { ($custom_nick == [urldecode [lindex $user_info 4]]) && ($stored_login == [lindex $user_info 3]) && ($storednick != "") } {
-			::MSN::changeName [lindex $user_info 3] $storednick 1
+			::MSN::changeName [lindex $user_info 3] $storednick 0
 		}
 
 		catch { file delete [file join ${HOME} "nick.cache"] }
@@ -3901,21 +3919,17 @@ proc cmsn_ns_connected {} {
 
 #TODO: ::abook system
 proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
-	global list_al list_bl list_fl list_rl list_users config
 
 	if { ($username == "") || ($password == "")} {
-	cmsn_draw_login
-	return -1
+		cmsn_draw_login
+		return -1
 	}
 
 
-	set list_al [list]
-	set list_bl [list]
-	set list_fl [list]
-	set list_rl [list]
-	#TODO: I hope this breaks nothing
-	set list_users [list]
-	
+	::MSN::clearList FL
+	::MSN::clearList AL
+	::MSN::clearList BL
+	::MSN::clearList RL
 	::abook::clearData
 
 
@@ -3946,42 +3960,6 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 }
 
 
-#TODO: ::abook system
-proc list_users_refresh {} {
-	global list_fl list_users list_states
-
-	set list_users_new [list]
-	set fln [lsearch $list_states "FLN *"]
-
-	foreach user $list_fl {
-		set user_login [lindex $user 0]
-		set user_name [lindex $user 1]
-		set idx [lsearch $list_users "$user_login *"]
-		if {$idx != -1} {
-			lappend list_users_new [lindex $list_users $idx]
-		} else {
-			lappend list_users_new [list $user_login $user_name $fln]
-		}
-	}
-
-	#set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users_new]]
-	set list_users $list_users_new
-
-}
-
-#TODO: ::abook system
-proc lists_compare {} {
-	global list_fl list_al list_bl list_rl
-	set list_albl [lsort [concat $list_al $list_bl]]
-	set list_rl [lsort $list_rl]
-
-	foreach x $list_rl {
-		if {[lsearch $list_albl "[lindex $x 0] *"] == -1} {
-			status_log "lists_compare: $x in your RL list but not in your AL/BL list!\n" blue
-			newcontact [lindex $x 0] [lindex $x 1]
-		} ;# NOT in AL/BL
-	}
-}
 
 
 proc newcontact_ok { newc_exit newc_add_to_list x0 x1} {
@@ -4032,7 +4010,7 @@ proc process_msnp9_lists { bin } {
 
 #TODO: ::abook system
 proc cmsn_listupdate {recv} {
-	global list_fl list_al list_bl list_rl contactlist_loaded
+	global contactlist_loaded
 
 	set contactlist_loaded 0
 
@@ -4047,7 +4025,6 @@ proc cmsn_listupdate {recv} {
 
 		set username [lindex $recv 4]
 		set nickname [urldecode [lindex $recv 5]]
-		#set groups [lindex $recv 6]
 		set groups [::abook::getGroups $username]
 
 
@@ -4074,43 +4051,32 @@ proc cmsn_listupdate {recv} {
 		#Make list unconsistent while receiving contact lists
 		::abook::unsetConsistent
 
+		#Remove user from all lists while receiving List data
+		::abook::setContactData $username lists ""		
+		
 	}
 
+	::abook::setContactData $username nick $nickname
+	
 	foreach list_sort $list_names {
 	
-		set list_name "list_[string tolower $list_sort]"
-
 		#If list is not empty, get user information
 		if {$current != 0} {
 		
-			
-			::abook::setContactData $username nick $nickname
 			::abook::addContactToList $username $list_sort
 		
-			set contact_info ""
-
 			#Add only if user is not already in list
-			upvar #0 $list_name the_list
-			if { [lsearch $the_list "$username *"] == -1 } {
-				lappend contact_info $username
-				lappend contact_info $nickname
-				lappend $list_name $contact_info
+			#upvar #0 $list_name the_list
+			#if { [lsearch $the_list $username] == -1 } {
+			#	lappend $list_name $username
+			#	#status_log "cmsn_listupdate: adding $username to $list_name\n"
+			#} else {
+			#	status_log "cmsn_listupdate: user $username already in list $list_name\n" white
+			#}
+			::MSN::addToList $list_sort $username
 
-				#status_log "cmsn_listupdate: adding to $list_name $contact_info\n"
-			} else {
-				status_log "cmsn_listupdate: user $username already in list $list_name\n" white
-			}
-
-			# New entry in address book setContact(email,FL,groupID)
-			# NOTE: IF a user belongs to several groups, the group part
-			#       of this packet will have the group ids separated
-			#       by commas:  0,5  (group 0 & 5).
-			# It could be that it is in the FL but not in RL or viceversa.
-			# Everything that is in AL or BL is in either of the above.
-			# Only FL contains the group membership though...
-			if { ($list_name == "list_fl") } {
-				::abook::setContact $username group $groups
-				::abook::setContact $username nick $nickname
+			if { ($list_sort == "FL") } {
+				::abook::setContactData $username group $groups
 				set loading_list_info(last) $username
 			}
 		}
@@ -4121,11 +4087,10 @@ proc cmsn_listupdate {recv} {
 		newcontact $username $nickname
 	}
 	
-
+	::MSN::contactListChanged
+	
 	#Last user in list
 	if {$current == $total} {
-		#lists_compare #Not needed anymore on MSNP9
-		list_users_refresh
 		cmsn_draw_online 1
 
 		set contactlist_loaded 1
@@ -4282,7 +4247,7 @@ proc new_contact_list { version } {
 
 
 proc load_contact_list { } {
-	global list_version HOME list_al list_bl list_rl list_fl list_users contactlist_loaded
+	global list_version HOME contactlist_loaded
 
 	status_log "load_contact_list: checking if contact list files exists\n"
 
@@ -4311,11 +4276,10 @@ proc load_contact_list { } {
 	status_log "load_contact_list loading contact list from file\n"
 
 
-	set list_al [list]
-	set list_bl [list]
-	set list_rl [list]
-	set list_fl [list]
-	set list_users [list]
+	::MSN::clearList FL
+	::MSN::clearList AL
+	::MSN::clearList BL
+	::MSN::clearList RL
 	
 	foreach contact [::abook::getAllContacts] {
 		::abook::setContactData $contact lists ""
@@ -4351,7 +4315,7 @@ proc load_contact_list { } {
 
 #TODO: ::abook system
 proc save_contact_list { } {
-    global HOME list_version list_al list_fl list_rl list_bl list_BLP contactlist_loaded
+    global HOME list_version list_BLP contactlist_loaded
 
 	 status_log "Saving contact list... contactlist_loaded=$contactlist_loaded. list_version=$list_version\n" blue
     if { $contactlist_loaded == 0 || $list_version == 0 } { return }
@@ -4393,33 +4357,33 @@ proc save_contact_list { } {
 	puts $file_id "   <AL>"
 
 
-	foreach user $list_al {
+	foreach user [::MSN::getList AL] {
 		set user [::sxml::xmlreplace $user]
-		puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>\n      </user>"
+		puts $file_id "      <user>\n         <email>$user</email>\n         <nickname>[::abook::getNick $user]</nickname>\n      </user>"
 	}
 
 	puts $file_id "   </AL>\n\n   <BL>"
 
-	foreach user $list_bl {
+	foreach user [::MSN::getList BL] {
 		set user [::sxml::xmlreplace $user]
-		puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>\n      </user>"
+		puts $file_id "      <user>\n         <email>$user</email>\n         <nickname>[::abook::getNick $user]</nickname>\n      </user>"
 	}
 
 	puts $file_id "   </BL>\n\n   <RL>"
 
-	foreach user $list_rl {
+	foreach user [::MSN::getList RL] {
 		set user [::sxml::xmlreplace $user]
-		puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>\n      </user>"
+		puts $file_id "      <user>\n         <email>$user</email>\n         <nickname>[::abook::getNick $user]</nickname>\n      </user>"
 	}
 
 	puts $file_id "   </RL>\n\n   <FL>"
 
-	foreach user $list_fl {
+	foreach user [::MSN::getList FL] {
 		::abook::getContact [lindex $user 0] userd
 		set user [::sxml::xmlreplace $user]
 
-		puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>"
-		puts $file_id "         <gid>[join [::abook::getGroups [lindex $user 0]] ,]</gid>\n         <PHH>[::sxml::xmlreplace [set userd(phh)]]</PHH>"
+		puts $file_id "      <user>\n         <email>$user</email>\n         <nickname>[::abook::getNick $user]</nickname>"
+		puts $file_id "         <gid>[join [::abook::getGroups $user] ,]</gid>\n         <PHH>[::sxml::xmlreplace [set userd(phh)]]</PHH>"
 		puts $file_id "         <PHW>[::sxml::xmlreplace [set userd(phw)]]</PHW>\n         <PHM>[::sxml::xmlreplace [set userd(phm)]]</PHM>\n         <MOB>[::sxml::xmlreplace [set userd(mob)]]</MOB>"
 		puts $file_id "\n      </user>"
 	}
@@ -4434,30 +4398,27 @@ proc save_contact_list { } {
 
 #TODO: ::abook system
 proc create_contact_list {cstack cdata saved_data cattr saved_attr args } {
-	global list_al list_bl list_rl list_fl
 
 	upvar $saved_data sdata
 
-	set list "list_[string range $cstack end-6 end-5]"
-	set list_sort [string toupper [string range $cstack end-6 end-5]]
+	set list [string toupper [string range $cstack end-6 end-5]]
 
-	if { $list == "list_fl" } {
+	if { $list == "FL" } {
 		::abook::setContactData $sdata(${cstack}:email) group [split $sdata(${cstack}:gid) ,]
 		::abook::setContactData $sdata(${cstack}:email) PHH $sdata(${cstack}:phh)
 		::abook::setContactData $sdata(${cstack}:email) PHW $sdata(${cstack}:phw)
 		::abook::setContactData $sdata(${cstack}:email) PHM $sdata(${cstack}:phm)
 		::abook::setContactData $sdata(${cstack}:email) MOB $sdata(${cstack}:mob)
+		::abook::setContactData $sdata(${cstack}:email) nick $sdata(${cstack}:nickname)	
 	}
-	::abook::setContactData $sdata(${cstack}:email) nick $sdata(${cstack}:nickname)	
-	::abook::addContactToList $sdata(${cstack}:email) $list_sort
+	::abook::addContactToList $sdata(${cstack}:email) $list
 	
 
-	set contactinfo ""
+	#set contactinfo ""
+	#lappend contactinfo "$sdata(${cstack}:email)"
+	#lappend contactinfo "$sdata(${cstack}:nickname)"
 
-	lappend contactinfo "$sdata(${cstack}:email)"
-	lappend contactinfo "$sdata(${cstack}:nickname)"
-
-	lappend ${list} "$contactinfo"
+	::MSN::addToList $list $sdata(${cstack}:email)
 
 
 	return 0
@@ -4491,7 +4452,6 @@ proc finished_loading_list { cstack cdata saved_data cattr saved_attr args } {
 	::abook::setPersonal MOB $sdata(${cstack}:mob)
 	::abook::setPersonal MBE $sdata(${cstack}:mbe)
 
-	list_users_refresh
 	
 	return 0
 }
@@ -4499,14 +4459,13 @@ proc finished_loading_list { cstack cdata saved_data cattr saved_attr args } {
 
 #TODO: ::abook sytem
 proc clean_contact_lists {} {
-	global list_version list_al list_fl list_bl list_rl list_users list_BLP emailBList
+	global list_version list_BLP emailBList
 
 	set list_version 0
-	set list_al [list]
-	set list_bl [list]
-	set list_fl [list]
-	set list_rl [list]
-	set list_users [list]
+	::MSN::clearList AL
+	::MSN::clearList BL
+	::MSN::clearList FL
+	::MSN::clearList rL
 	set list_BLP -1
 	if { [info exists emailBList] } {
 		unset emailBList
@@ -4580,8 +4539,7 @@ namespace eval ::MSNP2P {
 
 		#status_log "::MSNP2P::GetUser: Checking if picture for user $user exists\n" blue
 
-		set userinfo [::MSN::getUserInfo $user]
-		set msnobj [lindex $userinfo 3]
+		set msnobj [::abook::getVolatileData $user msnobj]
 
 		#status_log "::MSNP2P::GetUser: MSNOBJ is $msnobj\n" blue
 
@@ -5055,7 +5013,6 @@ namespace eval ::MSNP2P {
 			    set session_data [SessionList get $cSid]
 			    set user_login [lindex $session_data 3]
 			    set filename [lindex $session_data 8]
-			    set userinfo [::MSN::getUserInfo $user_login]
 				
 			    # Lets send an ACK followed by a BYE if it's a buddy icon or emoticon
 			    status_log "MSNP2P | $sid -> Sending an ACK for file received and sending a BYE\n" red
@@ -5064,7 +5021,7 @@ namespace eval ::MSNP2P {
 			    if { [lindex [SessionList get $cSid] 7] == "bicon" } {
 			    	SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" $user_login $config(login) "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex $session_data 5] 0 0] 1]
 				
-				set filename2 [::MSNP2P::GetFilenameFromMSNOBJ [lindex $userinfo 3]]
+				set filename2 [::MSNP2P::GetFilenameFromMSNOBJ [::abook::getVolatileData $user_login msnobj]]
 				status_log "MSNP2P | $sid -> Got picture with file : $filename and $filename2\n" blue
 				if {$filename == $filename2 } {
 				
@@ -5106,9 +5063,8 @@ namespace eval ::MSNP2P {
 			set session_data [SessionList get $sid]
 			set user_login [lindex $session_data 3]
 			status_log "MSNP2P | $sid $user_login -> Got data preparation message, opening file for writing\n" red
-			set userinfo [::MSN::getUserInfo $user_login]
 			set filename [lindex $session_data 8]
-			set filename2 [::MSNP2P::GetFilenameFromMSNOBJ [lindex $userinfo 3]]
+			set filename2 [::MSNP2P::GetFilenameFromMSNOBJ [::abook::getVolatileData $user_login msnobj]]
 			status_log "MSNP2P | $sid $user_login -> opening file $filename for writing with $filename2 as user msnobj\n\n" blue
 			if { $filename == $filename2 } {
 			    create_dir [file join $HOME displaypic cache]

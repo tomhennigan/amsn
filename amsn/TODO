@@ -34,16 +34,16 @@ kakaroto * zyffe@hotmail.com
 
 -	Make sure everything is installed correctly and FAQ and HELP are in the amsn directory.
 -	Make good RPMs, for Redhat, Suse, Mandrake, etc.
--	Improve font selection (unify with color selection)
+DONE	Improve font selection (unify with color selection)
 -	When selecting a new color for the font in a chat, don't change only
 	the color of the text send but the color of the text being writen too (for all window).
 -	When queue is cleared, NAK every message in queue
 -	Check for connection state, make sure amsn disconnects if connection goes down. -> add timeouts to changestates and keepalive
 -	When we get a NAK from a message, try to enqueue it again, as probably it will success.
--	Fix focus and children things with list window. (For example add_user from chat window), and dialogs in general.
+DONE	Fix focus and children things with list window. (For example add_user from chat window), and dialogs in general.
 -	Check functionality of all proxies with new MSNP9 protocol (socks, not keep-alive http proxies)
 DONE	Get rid of all MSNP7 code.. it sure is useless now
--	We sometimes get double pasting, just bind our paste procedure to the <<Paste>> event, instead of to <Ctrl-Key-V>
+DONE	We sometimes get double pasting, just bind our paste procedure to the <<Paste>> event, instead of to <Ctrl-Key-V>
 
 	************************************************
 	***Existing Feature Improvements (priority 2)***
@@ -53,11 +53,11 @@ DONE	Get rid of all MSNP7 code.. it sure is useless now
 -	Option to display or not the chat button bar
 -	Add option to modify keepalive interval (in seconds)
 DONE	Make a Pure PNG Reader (will be used for buddy icons + filetransfer previews, and maybe other stuff)
--	In the Privacy tab, if 2 users have exactly the same nickname in a listbox, we can control only the first user 
+DONE	In the Privacy tab, if 2 users have exactly the same nickname in a listbox, we can control only the first user 
 	(we can't delete the second user with that nick from the list ...)
 -	Improve truncation to check picture widths, instead of using fixed values
 -	Load AMSN faster (load pictures on demand -> GetImage wrapper? Maybe use GetSkinFile?)
--	Get rid of global variables list_al, list_bl, make use of ::abook:: namespace (avatars, custom nicknames, etc)
+DONE	Get rid of global variables list_al, list_bl, make use of ::abook:: namespace (avatars, custom nicknames, etc)
 -	Clean ugly GUI code (long window names xx.xx.xxx.xx, use -Class instead of repeated options all the time)
 
 	** Remote Control issues **
@@ -90,7 +90,7 @@ DONE	Make a Pure PNG Reader (will be used for buddy icons + filetransfer preview
 -	Problem with sound
 -	Selections dont appear
 -	Ugly program icons (WISH icon, not ours)
--	Fonts dialog all messed up
+DONE	Fonts dialog all messed up
 -	Alarms options (paths) aren't saved correctly if they contain spaces
 -	ImageMagick is never detected since there is a convert.exe program in the System32 DIR and exec looks for that one first
 -	Browser problems in windows when URL contains wierd characters

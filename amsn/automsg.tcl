@@ -219,7 +219,7 @@ proc CreateStatesMenu { path } {
 # idx indicates the index of the personal state in the StateList, 
 # otherwise it indicates a normal state change (AWY, BSY, etc)
 proc ChCustomState { idx } {
-	global HOME automessage user_info config automsgsent list_states user_stat original_nick
+	global HOME automessage user_info config automsgsent user_stat original_nick
 	set automessage "-1"
 	set redraw 0
 	if { [string is digit $idx] == 1 } {
@@ -227,7 +227,8 @@ proc ChCustomState { idx } {
 			if {![info exists original_nick] && $config(storename)} {
 				set original_nick [urldecode [lindex $user_info 4]]
 			}
-			set new_state [lindex [lindex $list_states [lindex [StateList get $idx] 2]] 0]
+			#set new_state [lindex [lindex $list_states [lindex [StateList get $idx] 2]] 0]
+			set new_state [::MSN::numberToState [lindex [StateList get $idx] 2]]
 			if { $new_state == $user_stat } {
 				set redraw 1
 			}

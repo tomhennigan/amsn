@@ -175,7 +175,7 @@ proc VerifyBlocked { nbre_users interval } {
 
  
 proc ContinueVerifyBlocked { nbre_users interval } {
-    global list_users list_states counter VerifyEnd sbn_blocking
+    global counter VerifyEnd sbn_blocking
 
     if { ([info exists VerifyEnd] && $VerifyEnd == 0) } {
 	return
@@ -185,7 +185,7 @@ proc ContinueVerifyBlocked { nbre_users interval } {
 
     set counter 0
 
-    foreach user $list_users {
+    foreach username [::MSN::getList FL] {
 	
 
   	if { $counter >= $nbre_users } {
@@ -193,10 +193,7 @@ proc ContinueVerifyBlocked { nbre_users interval } {
 	    vwait counter
    	}
 
-	set username [lindex $user 0]
-	set user_state_no [lindex $user 2]
-	set state [lindex $list_states $user_state_no]
-	set state_code [lindex $state 0]
+	set state_code [::abook::getVolatileData $username state]
 
 	if { $state_code =="FLN" && 
 	     ( [lindex [set ::abook::contacts($username)] 2] == "" && 

@@ -42,7 +42,7 @@ namespace eval ::groups {
 
    proc menuCmdCopy {newgid {paramlist ""}} {
     set passport [lindex $paramlist 0]
-    set name [::abook::getName $passport]
+    set name [::abook::getNick $passport]
     ::MSN::copyUser $passport $newgid $name
    }
 
@@ -50,7 +50,7 @@ namespace eval ::groups {
    proc menuCmdMove {newgid currgid {paramlist ""}} {
     
     set passport [lindex $paramlist 0]
-    set name [::abook::getName $passport]
+    set name [::abook::getNick $passport]
     ::MSN::moveUser $passport $currgid $newgid $name
     #status_log "Moving user $passport from $currgid to $newgid\n" white
    }
@@ -71,20 +71,20 @@ namespace eval ::groups {
 	toplevel .dlgag -highlightcolor $bgcol2
 	wm title .dlgag "[trans groupadd]"
 	frame .dlgag.d -bd 1 
-	    label .dlgag.d.lbl -text "[trans group]" 
-	    entry .dlgag.d.ent -width 20 -bg #FFFFFF
+	    label .dlgag.d.lbl -text "[trans group]" -font sboldf
+	    entry .dlgag.d.ent -width 20 -bg #FFFFFF -font splainf
 	    pack .dlgag.d.lbl .dlgag.d.ent -side left
 	    bind .dlgag.d.ent <Return> { 
 	    	::groups::Add "[.dlgag.d.ent get]" dlgMsg; 
 		destroy .dlgag
 	    }
 	frame .dlgag.b 
-	button .dlgag.b.ok -text "[trans ok]" \
+	button .dlgag.b.ok -text "[trans ok]"  -font sboldf \
 		-command {
 			::groups::Add "[.dlgag.d.ent get]" dlgMsg; 
 			destroy .dlgag
 		}
-	    button .dlgag.b.cancel -text "[trans cancel]" \
+	    button .dlgag.b.cancel -text "[trans cancel]"  -font sboldf \
 	    	-command "destroy .dlgag"
 	    pack .dlgag.b.ok .dlgag.b.cancel -side left
 	pack .dlgag.d .dlgag.b -side top
@@ -100,22 +100,22 @@ namespace eval ::groups {
 	toplevel .dlgrg -highlightcolor $bgcol2
 	wm title .dlgrg "[trans grouprename]"
 	frame .dlgrg.d -bd 1 
-	    label .dlgrg.d.lbl -text "[trans groupoldname]:"
+	    label .dlgrg.d.lbl -text "[trans groupoldname]:" -font sboldf
 	    ::groups::updateMenu option .dlgrg.d.old
 	    .dlgrg.d.old configure 
 	    pack .dlgrg.d.lbl .dlgrg.d.old -side left -padx 10 -pady 5 
 
 	frame .dlgrg.n -bd 1 
-	    label .dlgrg.n.lbl -text "[trans groupnewname]:"
-	    entry .dlgrg.n.ent -width 20 -bg #FFFFFF
+	    label .dlgrg.n.lbl -text "[trans groupnewname]:" -font sboldf
+	    entry .dlgrg.n.ent -width 20 -bg #FFFFFF -font splainf
 	    pack .dlgrg.n.lbl .dlgrg.n.ent -side left
 	    
 	frame .dlgrg.b 
-	    button .dlgrg.b.ok -text "[trans ok]" \
+	    button .dlgrg.b.ok -text "[trans ok]" -font sboldf \
 	    	-command { \
 		::groups::Rename $::groups::groupname "[.dlgrg.n.ent get]" dlgMsg;\
 		destroy .dlgrg }
-	    button .dlgrg.b.cancel -text "[trans cancel]" \
+	    button .dlgrg.b.cancel -text "[trans cancel]" -font sboldf \
 	    	-command "destroy .dlgrg"
 	    pack .dlgrg.b.ok .dlgrg.b.cancel -side left -pady 5
 		
@@ -143,15 +143,15 @@ namespace eval ::groups {
 	toplevel .dlgthis -highlightcolor $bgcol2
 	wm title .dlgthis "[trans grouprename]"
 	frame .dlgthis.data -bd 1 
-	label .dlgthis.data.lbl -text "[trans groupnewname]:"
-	entry .dlgthis.data.ent -width 20 -bg #FFFFFF
+	label .dlgthis.data.lbl -text "[trans groupnewname]:" -font sboldf
+	entry .dlgthis.data.ent -width 20 -bg #FFFFFF -font splainf
 	.dlgthis.data.ent insert end [GetName $gid]
 	bind .dlgthis.data.ent <Return> "::groups::ThisOkPressed $gid"
 	pack .dlgthis.data.lbl .dlgthis.data.ent -side left
 	    
 	frame .dlgthis.buttons 
-	button .dlgthis.buttons.ok -text "[trans ok]" -command "::groups::ThisOkPressed $gid"
-	button .dlgthis.buttons.cancel -text "[trans cancel]" -command "destroy .dlgthis"
+	button .dlgthis.buttons.ok -text "[trans ok]" -command "::groups::ThisOkPressed $gid" -font sboldf
+	button .dlgthis.buttons.cancel -text "[trans cancel]" -command "destroy .dlgthis" -font sboldf
 	pack .dlgthis.buttons.ok .dlgthis.buttons.cancel -side left -pady 5
 		
 	pack .dlgthis.data .dlgthis.buttons -side top

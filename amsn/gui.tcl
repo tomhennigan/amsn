@@ -456,7 +456,6 @@ namespace eval ::amsn {
 
 	#///////////////////////////////////////////////////////////////////////////////
 	proc blockUnblockUser { user_login } {
-		global list_bl
 		if { [::MSN::userIsBlocked $user_login] } {
 			unblockUser $user_login
 		} else {
@@ -474,7 +473,7 @@ namespace eval ::amsn {
 
 		set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans block] -parent $parent]
 		if {$answer == "yes"} {
-		set name [::abook::getName ${user_login}]
+		set name [::abook::getNick ${user_login}]
 			::MSN::blockUser ${user_login} [urlencode $name]
 		}
 	}
@@ -483,7 +482,7 @@ namespace eval ::amsn {
 
 	#///////////////////////////////////////////////////////////////////////////////
 	proc unblockUser {user_login} {
-		set name [::abook::getName ${user_login}]
+		set name [::abook::getNick ${user_login}]
 		::MSN::unblockUser ${user_login} [urlencode $name]
 	}
 	#///////////////////////////////////////////////////////////////////////////////   
@@ -619,7 +618,7 @@ namespace eval ::amsn {
 			set cookie [expr {([clock clicks]) % (65536 * 8)}]
 			#May be we should see the filesize in Kilobytes instead of bytes, disabled for the moment
 			#set filesizek [expr {int($filesize)/int(1024)}]
-			set txt "[trans ftsendinvitation [lindex [::MSN::getUserInfo $chatid] 1] $filename $filesize]"
+			set txt "[trans ftsendinvitation [::abook::getNick $chatid] $filename $filesize]"
 
 			status_log "Random generated cookie: $cookie\n"
 			WinWrite $chatid "----------\n" green
@@ -699,7 +698,7 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		set fromname [lindex [::MSN::getUserInfo $dest] 1]
+		set fromname [::abook::getNick $dest]
 		set txt [trans ftgotinvitation $fromname '$filename' $filesize $files_dir]
 		set win_name [MakeWindowFor $chatid $txt $dest]
 		WinWrite $chatid "----------\n" green
@@ -731,7 +730,7 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		set fromname [lindex [::MSN::getUserInfo $fromlogin] 1]
+		set fromname [::abook::getName $fromlogin]
 		set txt [trans ftgotinvitation $fromname '$filename' $filesize $files_dir]
 
 		set win_name [MakeWindowFor $chatid $txt $fromlogin]
@@ -1117,7 +1116,7 @@ namespace eval ::amsn {
 
 			set maxw [expr {$config(notifwidth)-20}]
 			incr maxw [expr 0-[font measure splainf "[trans says [list]]:"]]
-			set nickt [trunc [lindex [::MSN::getUserInfo $user] 1] . $maxw splainf]
+			set nickt [trunc [::abook::getNick $user] $maxw splainf]
 
 			#if { ($config(notifymsg) == 1) && ([string first ${win_name} [focus]] != 0)} {
 			#	notifyAdd "[trans says $nickt]:\n$msg" "::amsn::chatUser $chatid"
@@ -1139,7 +1138,7 @@ namespace eval ::amsn {
 
 		PutMessage $chatid $user $msg $type $fontformat
 
-		set evPar [list $user [lindex [::MSN::getUserInfo $user] 1] $msg]
+		set evPar [list $user [::abook::getNick $user] $msg]
 		if { "$user" != "$chatid" } {
 			::plugins::PostEvent chat_msg_sent $evPar
 		} else {
@@ -1226,7 +1225,7 @@ namespace eval ::amsn {
 
 		variable window_titles
 		variable new_message_on
-		global list_states config
+		global config
 
 		#set topmsg ""
 		set title ""
@@ -1253,15 +1252,17 @@ namespace eval ::amsn {
 		foreach user_login $user_list {
 
 			#set user_name [lindex $user_info 1]
-			set user_name [string map {"\n" " "} [lindex [::MSN::getUserInfo $user_login] 1]]
-			set user_state_no [lindex [::MSN::getUserInfo $user_login] 2]
-
-			if { "$user_state_no" == "" } {
-				set user_state_no 0
+			set user_name [string map {"\n" " "} [::abook::getNick $user_login]]
+			set state_code [::abook::getVolatileData $user_login state]
+			
+			if { $state_code == "" } {
+				set user_state ""
+				set state_code FLN
+			} else {
+				set user_state [::MSN::stateToDescription $state_code]
 			}
 
-			set user_state [lindex [lindex $list_states $user_state_no] 1]
-			set user_image [lindex [lindex $list_states $user_state_no] 4]
+			set user_image [::MSN::stateToImage $state_code]
 
 			if {$config(truncatenames)} {
 				#Calculate maximum string width
@@ -1395,7 +1396,7 @@ namespace eval ::amsn {
 
 		if { $win_name != 0 } {
 
-			set statusmsg "[timestamp] [trans joins [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
+			set statusmsg "[timestamp] [trans joins [::abook::getNick $usr_name]]\n"
 			WinStatus [ WindowFor $chatid ] $statusmsg minijoins
 			WinTopUpdate $chatid
 
@@ -1406,7 +1407,7 @@ namespace eval ::amsn {
 			}
 
 			::amsn::WinWriteIcon $chatid minijoins 5 0
-			::amsn::WinWrite $chatid " [trans joins [lindex [::MSN::getUserInfo $usr_name] 1]]\n" green "" 0
+			::amsn::WinWrite $chatid " [trans joins [::abook::getNick $usr_name]]\n" green "" 0
 			#			set statusmsg2 "[timestamp] [trans joins $usr_name]\n"
 			#			${win_name}.f.out.text insert end "$statusmsg2" red
 
@@ -1436,7 +1437,7 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		set username [lindex [::MSN::getUserInfo $usr_name] 1]
+		set username [::abook::getNick $usr_name]
 
 		if { $closed } {
 			set statusmsg "[timestamp] [trans leaves $username]\n"
@@ -1487,7 +1488,7 @@ namespace eval ::amsn {
 		set typingusers ""
 
 		foreach login $typers_list {
-			set user_name [lindex [::MSN::getUserInfo $login] 1]
+			set user_name [::abook::getNick $login]
 			set typingusers "${typingusers}${user_name}, "
 		}
 
@@ -2053,23 +2054,99 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 
 
+	proc ShowSendMsgList {title command} {
+		#Replace for"::amsn::ChooseList \"[trans sendmsg]\" online ::amsn::chatUser 1 0"
+		
+		set userlist [list]
+
+		foreach user_login [::MSN::sortedContactList] {
+			set user_state_code [::abook::getVolatileData $user_login state FLN]
+
+			if { $user_state_code == "NLN" } {
+				lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]			
+			} elseif { $user_state_code != "FLN" } {
+				lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
+			}
+		}
+
+		::amsn::listChoose $title $userlist $command 1 1
+	}
+
+		
+	proc ShowSendEmailList {title command} {
+		#Replace for "::amsn::ChooseList \"[trans sendmail]\" both \"launch_mailer\" 1 0"
+		set userlist [list]
+
+		foreach user_login [::MSN::sortedContactList] {
+			set user_state_code [::abook::getVolatileData $user_login state FLN]
+
+			if { $user_state_code == "NLN" } {
+				lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]			
+			} else {
+				lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
+			}
+		}
+
+		::amsn::listChoose $title $userlist $command 1 1
+
+	}
+	
+	proc ShowDeleteList {title command} {
+		#Replace for -command  "::amsn::ChooseList \"[trans delete]\" both ::amsn::deleteUser 0 0"
+		set userlist [list]
+
+		foreach user_login [::MSN::sortedContactList] {
+			set user_state_code [::abook::getVolatileData $user_login state FLN]
+
+			if { $user_state_code == "NLN" } {
+				lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]			
+			} else {
+				lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
+			}
+		}
+
+		::amsn::listChoose $title $userlist $command 0 0
+
+	}
+	
+	proc ShowSeePropertiesList {title command} {
+		#Replace for -command  "::amsn::ChooseList \"[trans delete]\" both ::amsn::deleteUser 0 0"
+		set userlist [list]
+
+		foreach user_login [::MSN::sortedContactList] {
+			set user_state_code [::abook::getVolatileData $user_login state FLN]
+
+			if { $user_state_code == "NLN" } {
+				lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]			
+			} else {
+				lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
+			}
+		}
+
+		::amsn::listChoose $title $userlist $command 1 0
+
+	}
+	
+	
 	proc ShowAddList {title win_name command} {
-		global list_users
 
 		set userlist [list]
 		set chatusers [::MSN::usersInChat [ChatFor $win_name]]
 
 		foreach user_login $chatusers {
-			set user_state_no [lindex [::MSN::getUserInfo $user_login] 2]
+			set user_state_code [::abook::getVolatileData $user_login state FLN]
 
-			if {([lsearch $list_users "$user_login *"] == -1)} {
-				set user_name [lindex [::MSN::getUserInfo $user_login] 1]
-				lappend userlist [list $user_login $user_name $user_state_no]
+			if { [lsearch [::abook::getLists $user_login] FL] == -1 } {
+				if { $user_state_code != "NLN" } {
+					lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
+				} else {
+					lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]
+				}
 			}
 		}
 
 		if { [llength $userlist] > 0 } {
-			ChooseList $title both $command 1 1 $userlist
+			::amsn::listChoose $title $userlist $command 1 1
 		} else {
 			msg_box "[trans useralreadyonlist]"
 		}
@@ -2077,19 +2154,18 @@ namespace eval ::amsn {
 
 
 	proc ShowInviteList { title win_name } {
-		global list_users list_states
-
 		set userlist [list]
 		set chatusers [::MSN::usersInChat [ChatFor $win_name]]
 
-		foreach user_info $list_users {			
-			set user_login [lindex $user_info 0]
-			set user_state_no [lindex [::MSN::getUserInfo $user_login] 2]
-			if {($user_state_no < 7) && ([lsearch $chatusers "$user_login"] == -1)} {
-				if { $user_state_no != 0 } {
-					lappend userlist [list "[::abook::getUserDisplayName $user_login] ([trans [lindex [lindex $list_states $user_state_no] 1]])" $user_login]
+		foreach user_login [::MSN::sortedContactList] {			
+			set user_state_code [::abook::getVolatileData $user_login state FLN]
+			set user_state_no [::MSN::stateToNumber $user_state_code]
+			
+			if {($user_state_no < 7) && ([lsearch $chatusers $user_login] == -1)} {
+				if { $user_state_code != "NLN" } {
+					lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
 				} else {
-					lappend userlist [list "[::abook::getUserDisplayName $user_login]" $user_login]
+					lappend userlist [list "[::abook::getDisplayNick $user_login]" $user_login]
 				}
 			}
 		}
@@ -2109,27 +2185,23 @@ namespace eval ::amsn {
 	}
 
 	proc ShowChatList {title win_name command} {
-		global list_users list_states
 
 		set userlist [list]
 		set chatusers [::MSN::usersInChat [ChatFor $win_name]]
 
 		foreach user_login $chatusers {
-			set user_state_no [lindex [::MSN::getUserInfo $user_login] 2]
+			set user_state_code [::abook::getVolatileData $user_login state FLN]
 
-			set user_name [lindex [::MSN::getUserInfo $user_login] 1]
-#			lappend userlist [list $user_login $user_name $user_state_no]
-			if { $user_state_no != 0 } {
-				lappend userlist [list "[::abook::getUserDisplayName $user_login] ([trans [lindex [lindex $list_states $user_state_no] 1]])" $user_login]
+			if { $user_state_code != "NLN" } {
+				lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
 			} else {
-				lappend userlist [list "[::abook::getUserDisplayName $user_login]" $user_login]
+				lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]
 			}
 			
 		}
 
 		if { [llength $userlist] > 0 } {
 			status_log "Here\n"
-			#ChooseList $title both $command 0 1 $userlist
 			::amsn::listChoose $title $userlist $command 0 1
 		} else {
 			status_log "No users\n"
@@ -2231,127 +2303,6 @@ namespace eval ::amsn {
 		destroy $wname		
 		eval "$command [lindex [lindex $itemlist $sel] 1]"
 	}
-
-	#///////////////////////////////////////////////////////////////////////////////
-	proc ChooseList {title online command other skip {userslist ""}} {
-		global list_users list_bl list_states userchoose_req bgcolor tcl_platform
-
-		if { $userslist == "" } {
-			set userslist $list_users
-		}
-
-		set usercount 0
-
-		#Count users. Ignore offline ones if $online=="online"
-		foreach user $userslist {
-
-			set user_login [lindex $user 0]
-			set user_state_no [lindex $user 2]
-
-			if { "$user_state_no" == "" } {
-				set user_state_no 0
-			}
-
-			set state [lindex $list_states $user_state_no]
-			set state_code [lindex $state 0]
-
-			if {($online != "online") || ($state_code != "FLN")} {
-				set usercount [expr {$usercount + 1}]
-			}
-
-		}
-
-		#If just 1 user, and $skip flag set to one, just run command on that user
-		if { $usercount == 1 && $skip == 1} {
-			eval $command $user_login
-			return 0
-		}
-
-		if { [focus] == ""  || [focus] =="." } {
-			set wname "._userchoose"
-		} else {
-			set wname "[focus]._userchoose"
-		}
-
-		if { [catch {toplevel $wname -borderwidth 0 -highlightthickness 0 } res ] } {
-			raise $wname
-			focus $wname
-			return 0
-		} else {
-			set wname $res
-		}
-
-		wm group $wname .
-		wm title $wname $title
-
-		#ShowTransient $wname
-
-		wm geometry $wname 280x300
-
-		frame $wname.blueframe -background $bgcolor
-
-		frame $wname.blueframe.list -class Amsn -borderwidth 0
-		frame $wname.buttons -class Amsn
-
-
-		listbox $wname.blueframe.list.userlist -yscrollcommand "$wname.blueframe.list.ys set" -font splainf \
-			-background white -relief flat -highlightthickness 0 -height 1
-		scrollbar $wname.blueframe.list.ys -command "$wname.blueframe.list.userlist yview" -highlightthickness 0 \
-			-borderwidth 1 -elementborderwidth 1 
-
-		button  $wname.buttons.ok -text "[trans ok]" -command "$command \[string range \[lindex \[$wname.blueframe.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname" -font sboldf
-		button  $wname.buttons.cancel -text "[trans cancel]" -command [list destroy $wname] -font sboldf
-
-
-		pack $wname.blueframe.list.ys -side right -fill y
-		pack $wname.blueframe.list.userlist -side left -expand true -fill both
-		pack $wname.blueframe.list -side top -expand true -fill both -padx 4 -pady 4
-		pack $wname.blueframe -side top -expand true -fill both
-
-		if { $other == 1 } {
-			button  $wname.buttons.other -text "[trans other]..." -command "cmsn_draw_otherwindow \"$title\" \"$command\"; destroy $wname" -font sboldf
-			pack $wname.buttons.ok -padx 0 -side left
-			pack $wname.buttons.cancel -padx 0 -side right
-			pack $wname.buttons.other -padx 10 -side left
-		} else {
-			pack $wname.buttons.ok -padx 0 -side left
-			pack $wname.buttons.cancel -padx 0 -side right
-		}
-
-		pack $wname.buttons -side bottom -fill x -pady 3
-
-		foreach user $userslist {
-			set user_login [lindex $user 0]
-			set user_name [lindex $user 1]
-			set user_state_no [lindex $user 2]
-			if { "$user_state_no" == "" } {
-				set user_state_no 0
-			}
-			set state [lindex $list_states $user_state_no]
-			set state_code [lindex $state 0]
-
-			if {($online != "online") || ($state_code != "FLN")} {
-				if {[lsearch $list_bl "$user_login *"] != -1} {
-					$wname.blueframe.list.userlist insert end "([trans blocked]) $user_name <$user_login>"
-				} else {
-					$wname.blueframe.list.userlist insert end "$user_name <$user_login>"
-				}
-			}
-
-		}
-
-
-		bind $wname.blueframe.list.userlist <Double-Button-1> "$command \[string range \[lindex \[$wname.blueframe.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname"
-		catch {
-			raise $wname
-			focus $wname.buttons.ok
-		}
-		
-		bind $wname <Escape> "destroy $wname"
-		bind $wname <Return> "$command \[string range \[lindex \[$wname.blueframe.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname"
-	}
-	#///////////////////////////////////////////////////////////////////////////////
-
 
 
 	#///////////////////////////////////////////////////////////////////////////////
@@ -2634,9 +2585,9 @@ namespace eval ::amsn {
 			set win_name [WindowFor $chatid]
 			set maxw [winfo width $win_name.f.out.text]
 			incr maxw [expr -10-[font measure splainf -displayof $win_name "$says"]]
-			set user [trunc [lindex [::MSN::getUserInfo $user] 1] $win_name $maxw splainf]
+			set user [trunc [::abook::getNick $user] $win_name $maxw splainf]
 		} else {
-			set user [lindex [::MSN::getUserInfo $user] 1]
+			set user [::abook::getNick $user]
 		}
 
 		if {$config(showtimestamps)} {
@@ -3301,7 +3252,6 @@ proc cmsn_draw_main {} {
 
 	#Preferences dialog/menu
 	#menu .pref_menu -tearoff 0 -type normal
-	#PreferencesMenu .pref_menu
 
 	menu .user_menu -tearoff 0 -type normal
 	menu .move_group_menu -tearoff 0 -type normal
@@ -3371,10 +3321,9 @@ proc cmsn_draw_main {} {
 	#Actions menu
 	set dummy_user "recipient@somewhere.com"
 	menu .main_menu.actions -tearoff 0 -type normal
-	.main_menu.actions add command -label "[trans sendmsg]..." -command \
-		"::amsn::ChooseList \"[trans sendmsg]\" online ::amsn::chatUser 1 0"
-	.main_menu.actions add command -label "[trans sendmail]..." -command \
-		"::amsn::ChooseList \"[trans sendmail]\" both \"launch_mailer\" 1 0"
+	.main_menu.actions add command -label "[trans sendmsg]..." -command [list ::amsn::ShowSendMsgList [trans sendmsg] ::amsn::chatUser]
+		
+	.main_menu.actions add command -label "[trans sendmail]..." -command [list ::amsn::ShowSendEmailList [trans sendmail] launch_mailer]
 	#.main_menu.actions add command -label "[trans verifyblocked]..." -command "VerifyBlocked"
 	#.main_menu.actions add command -label "[trans showblockedlist]..." -command "VerifyBlocked ; show_blocked"
 	.main_menu.actions add command -label "[trans changenick]..." -command cmsn_change_name
@@ -3407,10 +3356,8 @@ proc cmsn_draw_main {} {
 	.main_menu.tools add cascade -label "[trans admincontacts]" -menu .admin_contacts_menu
 
 	menu .admin_contacts_menu -tearoff 0 -type normal
-	.admin_contacts_menu add command -label "[trans delete]..." \
-		-command  "::amsn::ChooseList \"[trans delete]\" both ::amsn::deleteUser 0 0"
-	.admin_contacts_menu add command -label "[trans properties]..." \
-		-command "::amsn::ChooseList \"[trans properties]\" both ::abookGui::showEntry 0 1"
+	.admin_contacts_menu add command -label "[trans delete]..." -command [list ::amsn::ShowDeleteList [trans delete] ::amsn::deleteUser]
+	.admin_contacts_menu add command -label "[trans properties]..." -command [list ::amsn::ShowSeePropertiesList [trans properties] ::abookGui::showEntry]
 
 	::groups::Init .main_menu.tools
 
@@ -4476,17 +4423,16 @@ proc cmsn_draw_online { {delay 0} } {
 
 proc cmsn_draw_online_wrapped {} {
 
-	global emotions user_stat login list_users list_states user_info list_bl\
+	global emotions user_stat login user_info \
 	config password pgBuddy bgcolor automessage emailBList tcl_platform
 
 	set scrollidx [$pgBuddy.ys get]
 
 	set my_name [urldecode [lindex $user_info 4]]
-	set my_state_no [lsearch $list_states "$user_stat *"]
-	set my_state [lindex $list_states $my_state_no]
-	set my_state_desc [trans [lindex $my_state 1]]
-	set my_colour [lindex $my_state 2]
-	set my_image_type [lindex $my_state 5]
+	set my_state_no [::MSN::stateToNumber $user_stat]
+	set my_state_desc [trans [::MSN::stateToDescription $user_stat]]
+	set my_colour [::MSN::stateToColor $user_stat]
+	set my_image_type [::MSN::stateToBigImage $user_stat]
 
 	#Clear every tag to avoid memory leaks:
 	foreach tag [$pgBuddy.text tag names] {
@@ -4545,11 +4491,7 @@ proc cmsn_draw_online_wrapped {} {
 		incr gcnt
 	}
 
-	if { [::config::getKey emailsincontactlist] } {
-		::MSN::sortContactList 2 0
-	} else {
-		::MSN::sortContactList 2 1
-	}
+	set list_users [::MSN::sortedContactList]
 
 	$pgBuddy.text configure -state normal -font splainf
 	$pgBuddy.text delete 0.0 end
@@ -4766,23 +4708,18 @@ proc cmsn_draw_online_wrapped {} {
 	::groups::UpdateCount blocked clear
 
 	#Draw the users in each group
-	#foreach user $list_users {}
 	#Go thru list in reverse order, as every item is inserted at the beginning, not the end...
 	for {set i [expr {[llength $list_users] - 1}]} {$i >= 0} {incr i -1} {
-		set user [lindex $list_users $i]
+		set user_login [lindex $list_users $i]
+		set user_name [::abook::getDisplayNick $user_login]
+		
+		set state_code [::abook::getVolatileData $user_login state FLN]		
+		set colour [::MSN::stateToColor $state_code]
+		set state_section [::MSN::stateToSection $state_code]; # Used in online/offline grouping
 
-		set user_login [lindex $user 0]
-		set user_name [lindex $user 1]
-		set user_state_no [lindex $user 2]
-		set state [lindex $list_states $user_state_no]
-		set state_code [lindex $state 0]
-
-		set colour [lindex $state 2]
-		set section [lindex $state 3]; # Used in online/offline grouping
-
-		if { $section == "online"} {
+		if { $state_section == "online"} {
 			::groups::UpdateCount online +1
-		} elseif {$section == "offline"} {
+		} elseif {$state_section == "offline"} {
 			::groups::UpdateCount offline +1
 		}
 
@@ -4795,13 +4732,13 @@ proc cmsn_draw_online_wrapped {} {
 
 				if { $section == "tgblocked" } {set section "blocked" }
 
-				::groups::UpdateCount $user_group +1 [lindex $state 3]
+				::groups::UpdateCount $user_group +1 $state_section
 
 				if { $config(orderbygroup) == 2 } {
 					if { $state_code == "FLN" } { set section "offline"}
 					if { $breaking == "$user_login" } { continue }
 				}
-
+				
 				set myGroupExpanded [::groups::IsExpanded $user_group]
 
 				if { $config(orderbygroup) == 2 } {
@@ -4811,21 +4748,21 @@ proc cmsn_draw_online_wrapped {} {
 				}
 
 				if {$myGroupExpanded} {
-					ShowUser $user_name $user_login $state $state_code $colour $section $user_group
+					ShowUser $user_name $user_login $state_code $colour $section $user_group
 				}
 
 				#Why "breaking"? Why not just a break? Or should we "continue" instead of breaking?
 				if { $config(orderbygroup) == 2 && $state_code == "FLN" } { set breaking $user_login}
 
 			}
-		} elseif {[::groups::IsExpanded $section]} {
-				ShowUser $user_name $user_login $state $state_code $colour $section 0
+		} elseif {[::groups::IsExpanded $state_section]} {
+				ShowUser $user_name $user_login $state_code $colour $state_section 0
 		}
 
 		if { $config(showblockedgroup) == 1 && [info exists emailBList($user_login)]} {
 			::groups::UpdateCount blocked +1
 			if {[::groups::IsExpanded blocked]} {
-				ShowUser $user_name $user_login $state $state_code $colour "blocked" [lindex [::abook::getGroups $user_login] 0]
+				ShowUser $user_name $user_login $state_code $colour "blocked" [lindex [::abook::getGroups $user_login] 0]
 			}
 		}
 	}
@@ -4916,11 +4853,11 @@ proc getUniqueValue {} {
 
 
 #///////////////////////////////////////////////////////////////////////
-proc ShowUser {user_name user_login state state_code colour section grId} {
-	global list_bl list_rl pgBuddy alarms emailBList Bulle config tcl_platform
+proc ShowUser {user_name user_login state_code colour section grId} {
+	global pgBuddy alarms emailBList Bulle config tcl_platform
 
 	if {($state_code != "NLN") && ($state_code !="FLN")} {
-		set state_desc " ([trans [lindex $state 1]])"
+		set state_desc " ([trans [::MSN::stateToDescription $state_code]])"
 	} else {
 		set state_desc ""
 	}
@@ -4932,11 +4869,8 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	# of knowing how has a) not approved you yet, or b) has
 	# removed you from their contact list even if you still
 	# have them... MOVED TO THE NEW ICON
-	#if {[lsearch $list_rl "$user_login *"] == -1} {
-	#	set colour #DD00DD
-	#}
 
-	set image_type [lindex $state 4]
+	set image_type [::MSN::stateToImage $state_code]
 
 
 	if { [info exists emailBList($user_login)]} {
@@ -4945,7 +4879,7 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	}
 
 
-	if {[lsearch $list_bl "$user_login *"] != -1} {
+	if {[lsearch [::abook::getLists $user_login] BL] != -1} {
 		set image_type "blocked"
 		if {$state_desc == ""} {set state_desc " ([trans blocked])"}
 	}
@@ -5007,8 +4941,9 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	#$pgBuddy.text insert $section.last " $user_name$state_desc \n" $user_login
 
 	#	Draw the not-in-reverse-list icon
-	if {[lsearch $list_rl "$user_login *"] == -1} {
-       		set imgname2 "img2_[getUniqueValue]"
+	set not_in_reverse [expr {[lsearch [::abook::getLists $user_login] RL] == -1}]
+	if {$not_in_reverse} {
+		set imgname2 "img2_[getUniqueValue]"
         	label $pgBuddy.text.$imgname2 -image notinlist 
         	$pgBuddy.text.$imgname2 configure -cursor hand2 -borderwidth 0
 		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname2 -padx 1 -pady 1
@@ -5068,10 +5003,10 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 
 
 	if { $config(tooltips) == 1 } {
-                if {[lsearch $list_rl "$user_login *"] == -1} {
-                	set balloon_message "[string map {"%" "%%"} $user_name]\n $user_login\n [trans status] : [trans [lindex $state 1]]\n [trans notinlist] "
+                if {$not_in_reverse} {
+                	set balloon_message "[string map {"%" "%%"} $user_name]\n $user_login\n [trans status] : [trans [::MSN::stateToDescription $state_code]]\n [trans notinlist] "
                 } else {
-			set balloon_message "[string map {"%" "%%"} $user_name]\n $user_login\n [trans status] : [trans [lindex $state 1]] "
+			set balloon_message "[string map {"%" "%%"} $user_name]\n $user_login\n [trans status] : [trans [::MSN::stateToDescription $state_code]] "
                 }
 		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 
@@ -5086,7 +5021,7 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 
 		bind $pgBuddy.text.$imgname <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
-		if {[lsearch $list_rl "$user_login *"] == -1} {
+		if {$not_in_reverse} {
                 	bind $pgBuddy.text.$imgname2 <Enter> +[list balloon_enter %W %X %Y $balloon_message]
                 	bind $pgBuddy.text.$imgname2 <Leave> \
         	                "+set Bulle(first) 0; kill_balloon"
@@ -5102,19 +5037,19 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 		$pgBuddy.text tag bind $user_unique_name <Button3-ButtonRelease> "show_umenu $user_login $grId %X %Y"
 	}
 	bind $pgBuddy.text.$imgname <<Button3>> "show_umenu $user_login $grId %X %Y"
-        if {[lsearch $list_rl "$user_login *"] == -1} {
+        if {$not_in_reverse} {
 		bind $pgBuddy.text.$imgname2 <<Button3>> "show_umenu $user_login $grId %X %Y"
 	}
 	if { $state_code != "FLN" } {
 		bind $pgBuddy.text.$imgname <Double-Button-1> "::amsn::chatUser $user_login"
-                if {[lsearch $list_rl "$user_login *"] == -1} {
+                if {$not_in_reverse} {
 			bind $pgBuddy.text.$imgname2 <Double-Button-1> "::amsn::chatUser $user_login"
 		}
 		$pgBuddy.text tag bind $user_unique_name <Double-Button-1> \
 			"::amsn::chatUser $user_login"
 	} else {
 		bind $pgBuddy.text.$imgname <Double-Button-1> ""
-                if {[lsearch $list_rl "$user_login *"] == -1} {
+                if {$not_in_reverse} {
 			bind $pgBuddy.text.$imgname2 <Double-Button-1> ""
 		}
 		$pgBuddy.text tag bind $user_unique_name <Double-Button-1> ""
@@ -5359,11 +5294,11 @@ proc cmsn_draw_otherwindow { title command } {
 
 #///////////////////////////////////////////////////////////////////////
 proc newcontact {new_login new_name} {
-	global list_fl newc_allow_block tcl_platform
+	global newc_allow_block tcl_platform
 
 	set newc_allow_block "1"
 
-	if {[lsearch $list_fl "$new_login *"] != -1} {
+	if {[lsearch [::abook::getLists $new_login] FL] != -1} {
 		set add_stat "disabled"
 		set newc_add_to_list 0
 	} else {
@@ -5501,7 +5436,7 @@ proc change_name_ok {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc Fill_users_list { path path2} {
-	global list_rl list_users list_bl list_al emailBList
+	global emailBList
 
 
 	# clearing the list boxes from there content
@@ -5511,10 +5446,9 @@ proc Fill_users_list { path path2} {
 	$path2.reverselist.box delete 0 end
 
 
-	foreach user $list_al {
-		$path.allowlist.box insert end [lindex $user 1]
-		set user [lindex $user 0]
-		if {[lsearch $list_rl "$user *"] == -1} {
+	foreach user [lsort [::MSN::getList AL]] {
+		$path.allowlist.box insert end $user
+		if {[lsearch [::abook::getLists $user] RL] == -1} {
 			set colour #FF00FF
 		} else {
 			set colour #FFFFFF
@@ -5523,10 +5457,9 @@ proc Fill_users_list { path path2} {
 		$path.allowlist.box itemconfigure end -background $colour
 	}
 
-	foreach user $list_bl {
-		$path.blocklist.box insert end [lindex $user 1] 
-			set user [lindex $user 0]
-			if {[lsearch $list_rl "$user *"] == -1} {
+	foreach user [lsort [::MSN::getList BL]] {
+		$path.blocklist.box insert end $user
+			if {[lsearch [::abook::getLists $user] RL] == -1} {
 				set colour #FF00FF
 			} else {
 				set colour #FFFFFF
@@ -5535,11 +5468,10 @@ proc Fill_users_list { path path2} {
 		$path.blocklist.box itemconfigure end -background $colour
 	}
 
-	foreach user $list_users {
-		$path2.contactlist.box insert end [lindex $user 1]
-		set user [lindex $user 0]
+	foreach user [lsort [::MSN::getList FL]] {
+		$path2.contactlist.box insert end $user
 
-		if {[lsearch $list_rl "$user *"] == -1} {
+		if {[lsearch [::MSN::getList RL] $user] == -1} {
 			set colour #FF00FF
 		} elseif { [info exists emailBList($user)]} {
 			set colour #FF0000
@@ -5551,10 +5483,9 @@ proc Fill_users_list { path path2} {
 	}
 
 
-	foreach user $list_rl {
-		$path2.reverselist.box insert end [lindex $user 1]
-		set user [lindex $user 0]
-		if {[lsearch $list_users "$user *"] == -1} {
+	foreach user [lsort [::MSN::getList RL]] {
+		$path2.reverselist.box insert end $user
+		if {[lsearch [::MSN::getList FL] $user] == -1} {
 			set colour #00FF00
 		} else {
 			set colour #FFFFFF
@@ -5574,8 +5505,6 @@ proc create_users_list_popup { path list x y} {
 		$path.status configure -text ""
 
 		set user [$path.${list}list.box get active]
-
-		set user [NickToEmail "$user" $list]
 
 		set add "normal"
 		set remove "normal"
@@ -5643,7 +5572,6 @@ proc Add_To_List { path list } {
 }
 
 proc Reverse_to_Contact { path } {
-	global list_rl list_users
 
 	if { [VerifySelect $path "reverse"] } {
 
@@ -5676,7 +5604,6 @@ proc Remove_Contact { path } {
 }
 
 proc Allow_to_Block { path } {
-	global list_rl list_users
 
 	if { [VerifySelect $path "allow"] } {
 
@@ -5693,7 +5620,6 @@ proc Allow_to_Block { path } {
 }
 
 proc Block_to_Allow  { path } {
-	global list_rl list_users
 
 	if { [VerifySelect $path "block"] } {
 
@@ -5742,46 +5668,22 @@ proc VerifySelect { path list } {
 }
 
 proc NickToEmail { nick list } {
-	global list_users list_rl list_al list_bl
 
-	if { "$list" == "contact" } {
-		foreach  tmp $list_users {
-			if { "[lindex $tmp 1]" == "$nick" } {
-				set user [lindex $tmp 0]
-				return "$user"
-			} 
-		}
-	} elseif { "$list" == "reverse" } {
-		foreach  tmp $list_rl {
-			if { "[lindex $tmp 1]" == "$nick" } {
-				set user [lindex $tmp 0]
-				return "$user"
-			} 
-		}
-	} elseif { "$list" == "allow" } {
-		foreach  tmp $list_al {
-			if { "[lindex $tmp 1]" == "$nick" } {
-				set user [lindex $tmp 0]
-				return "$user"
-			} 
-		}
-	} elseif { "$list" == "block" } {
-		foreach  tmp $list_bl {
-			if { "[lindex $tmp 1]" == "$nick" } {
-				set user [lindex $tmp 0]
-				return "$user"
-			} 
+	set users ::abook::getAllContacts
+	
+	foreach user $users {
+		if { $nick == [::abook::getNick $user]} {
+			return $nick
 		}
 	}
-
-return ""
+	
+	return ""
 
 }
 
 proc NotInContactList { user } {
-	global list_users
 
-	if {[lsearch $list_users "$user *"] == -1} {
+	if {[lsearch [::MSN::getList FL] $user] == -1} {
 		return 1
 	} else {
 		return 0
@@ -6087,7 +5989,7 @@ proc setColor {w button name options} {
 
 #///////////////////////////////////////////////////////////////////////
 proc show_umenu {user_login grId x y} {
-	global list_bl config alarms
+	global config alarms
 
 	set blocked [::MSN::userIsBlocked $user_login]
 	.user_menu delete 0 end

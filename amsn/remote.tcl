@@ -61,26 +61,22 @@ namespace eval ::remote {
     # Shows list of users connected
     #
     proc online { } {
-	global list_users list_states
 
-	foreach user $list_users {
+	foreach username [::MSN::getList FL] {
 	    
-	    set user_state_no [lindex $user 2]
-	    set state [lindex $list_states $user_state_no]
-	    set state_code [lindex $state 0]
-	    
+	    set state_code [::abook::getVolatileData $username state]	    
 
 	    if { $state_code !="FLN" } {
-		write_remote "[lindex $user 1] --- [trans status] : [trans [lindex $state 1]]"
+		write_remote "[::abook::getNick $username] --- [trans status] : [trans [lindex $state 1]]"
 	    }
 	}
 
     }
 
     proc getstate { } {
-	global list_states user_stat
+	global user_stat
 
-	set my_state [lindex [lindex $list_states [lsearch $list_states "$user_stat *"]] 1]
+	set my_state [::MSN::stateToDescription "$user_stat *"]
 
 	write_remote "Your state is currently on : $my_state"
 
@@ -132,13 +128,12 @@ namespace eval ::remote {
     }
 
     proc whois { user } {
-	global list_users
-
+    
 	set found 0
 
-	foreach users $list_users {
-	    if { "[lindex $users 1]" == "$user" } {
-		write_remote "$user is : [lindex $users 0]" 
+	foreach username [::MSN::getList FL] {
+	    if { "[::abook::getContactData $username nick]" == "$user" } {
+		write_remote "$user is : [::abook::getContactData $username]" 
 		set found 1
 		break
 	    }
@@ -149,8 +144,7 @@ namespace eval ::remote {
     }
 
     proc whatis { user } {
-	global list_users
-
+    
 	set found 0
 
 	if { [string match "*@*" $user] == 0 } {
@@ -159,9 +153,9 @@ namespace eval ::remote {
 	    set user [string tolower $user]
 	}	
 
-	foreach users $list_users {
-	    if { "[lindex $users 0]" == "$user" } {
-		write_remote "$user is known as : [lindex $users 1]" 
+	foreach username [::MSN::getList FL] {
+	    if { "$username" == "$user" } {
+		write_remote "$user is known as : [::abook::getNick $user]" 
 		set found 1
 		break
 	    }

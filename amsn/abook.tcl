@@ -3,7 +3,7 @@
 # $Id$
 #=======================================================================
 namespace eval ::abook {
-	namespace export setContact getContact getGroups getName \
+	namespace export getContact getGroups \
 		setPhone setDemographics getDemographics \
 		setPersonal getPersonal
 
@@ -17,29 +17,14 @@ namespace eval ::abook {
 	}
 	
 	#
-	# P R O T E C T E D
-	#
-	proc adjustGroup {g} {
-		set i [string first , $g]
-		if {$i == -1} {
-			return $g
-		}
-		# If we get here this one had multiple groups (g1,g2...) so
-		# we only use the first (TODO this is temporary workaround!)
-		incr i -1
-		set ag [string range $g 0 $i]
-		return $ag
-	}
-
-	#
 	# P U B L I C
 	#
 	proc setPersonal { field value} {
 		setContactData myself $field $value
 		return
-   }
+	}
    
-   proc getPersonal { cdata } {
+	proc getPersonal { cdata } {
 		upvar $cdata data	
 		set data(group)  "n.a."
 		set data(handle) [getContactData myself nick]
@@ -51,12 +36,7 @@ namespace eval ::abook {
 		set data(available) Y
 	}
 
-   proc setContact { email field value } {
-		setContactData $email $field $value
-		return
-   }
-
-   proc getContact { email cdata } {
+	proc getContact { email cdata } {
 		upvar $cdata data
 
 		set groupName    [::groups::GetName [getContactData $email group]]
@@ -67,12 +47,7 @@ namespace eval ::abook {
 		set data(phm) [urldecode [getContactData $email PHM]]
 		set data(mob) [urldecode [getContactData $email MOB]]
 		set data(available) "Y"
-   }
-
-   proc getName {passport} {
-		return [urldecode [getContactData $passport nick]]
-   }
-
+	}
 
       
 	# Sends a message to the notification server with the
@@ -145,10 +120,12 @@ namespace eval ::abook {
 	############################################################
 
 	proc clearData {} {
-		variable users_data		
+		variable users_data
 		array unset users_data *
-		variable volatile_users_data		
+		
+		variable volatile_users_data	
 		array unset volatile_users_data *
+		
 		unsetConsistent
 	}
 
@@ -187,6 +164,8 @@ namespace eval ::abook {
 	proc setVolatileData { user_login field data } {
 		variable users_volatile_data
 		
+		#status_log "setVolatileData: setting $user_login ($field) to $data\n" green
+		
 		if { [info exists users_volatile_data($user_login)] } {
 			array set volatile_data $users_volatile_data($user_login)
 		} else {
@@ -202,40 +181,40 @@ namespace eval ::abook {
 		}
 		
 		#We store the array as a plain list, as we can't have an array of arrays
-		set users_volatile:data($user_login) [array get volatile_data]
+		set users_volatile_data($user_login) [array get volatile_data]
 	}
 	
 		
-	proc getContactData { user_login field } {
+	proc getContactData { user_login field {defaultval ""}} {
 		variable users_data
 		
 		if { ![info exists users_data($user_login)] } {
-			status_log "::abook::getUserInfo: ERROR! User doesn't exist in abook!\n" red
-			return ""
+			#status_log "::abook::getContactData: ERROR! User $user_login doesn't exist in abook for field $field!\n" red
+			return $defaultval
 		}
 
-		array set user_data $users_data($user_login)		
-				
+		array set user_data $users_data($user_login)
+
 		if { ![info exists user_data($field)] } {
-			return ""
+			return $defaultval
 		}
 		
 		return $user_data($field)
 		
 	}
 	
-	proc getVolatileData { user_login field } {
-		variable volatile_users_data
+	proc getVolatileData { user_login field {defaultval ""}} {
+		variable users_volatile_data
 		
-		if { ![info exists volatile_users_data($user_login)] } {
-			status_log "::abook::getVolatileData: ERROR! User doesn't exist in abook!\n" red
-			return ""
+		if { ![info exists users_volatile_data($user_login)] } {
+			#status_log "::abook::getVolatileData: ERROR! User $user_login doesn't exist in abook for field $field!\n" red
+			return $defaultval
 		}
 
-		array set user_data $volatile_users_data($user_login)		
-				
+		array set user_data $users_volatile_data($user_login)	
+
 		if { ![info exists user_data($field)] } {
-			return ""
+			return $defaultval
 		}
 		
 		return $user_data($field)
@@ -252,18 +231,17 @@ namespace eval ::abook {
 	# Auxiliar functions, macros, or shortcuts
 	###########################################################################
 
-					
 	#Returns the user nickname
-	proc getUserNickname { user_login } {
-		return [lindex [::MSN::getUserInfo $user_login] 1]
+	proc getNick { user_login } {
+		return [::abook::getContactData $user_login nick]
 	}
 	
 	#Returns the user nickname, or just email, depending on configuration
-	proc getUserDisplayName { user_login } {
+	proc getDisplayNick { user_login } {
 		if { [::config::getKey emailsincontactlist] } {
 			return $user_login
 		} else {
-			return [getUserNickname $user_login]
+			return [::abook::getNick $user_login]
 		}
 	}
 	
