@@ -64,7 +64,7 @@ proc resetBanner {} {
 		# is cycled in between adverts.
 		.main.banner configure -background #FFFFFF -image [::skin::loadPixmap logolinmsn]
 	} else {
-		.main.banner configure -background [::skin::getColor background1] -image [::skin::loadPixmap nullimage]
+		.main.banner configure -background [::skin::getColor mainwindowbg] -image [::skin::loadPixmap nullimage]
 	}
 }
 

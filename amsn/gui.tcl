@@ -7,8 +7,12 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 if { $initialize_amsn == 1 } {
 	init_ticket putmessage
 
-	::skin::setDefaultColor background1 #0050C0
-	::skin::setDefaultColor background2 #D0D0F0
+	::skin::setDefaultColor mainwindowbg #AAAAAA
+	::skin::setDefaultColor chatwindowbg #CCCCCC
+	::skin::setDefaultColor buttonbarbg #EEEEFF
+	::skin::setDefaultColor topbarbg #FFFFFF
+	::skin::setDefaultColor topbartext #000000
+	
 	::skin::setDefaultColor menubackground #eae7e4 
 	::skin::setDefaultColor menuforeground #000000 
 	::skin::setDefaultColor menuactivebackground #565672
@@ -1034,7 +1038,7 @@ namespace eval ::amsn {
 		wm group $w .
 		wm geometry $w 360x170
 
-		#frame $w.f -class amsnChatFrame -background [::skin::getColor background1] -borderwidth 0 -relief flat
+		#frame $w.f -class amsnChatFrame -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat
 		#set w $ww.f
 
 		label $w.user -text "[trans user]: $user" -font splainf
@@ -1877,7 +1881,7 @@ namespace eval ::amsn {
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			frame $wname.blueframe
 		} else {
-			frame $wname.blueframe -background [::skin::getColor background1]
+			frame $wname.blueframe -background [::skin::getColor mainwindowbg]
 		}
 
 		frame $wname.blueframe.list -class Amsn -borderwidth 0
@@ -3099,7 +3103,7 @@ proc cmsn_draw_main {} {
 		frame .fake
 	} else {
 		#Put the color of the border around the contact list (from the skin)	
-		frame .main -class Amsn -relief flat -background [::skin::getColor background1]
+		frame .main -class Amsn -relief flat -background [::skin::getColor mainwindowbg]
 	}
 	
 	

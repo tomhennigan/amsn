@@ -534,9 +534,12 @@ proc selectskincancel { w } {
 
 proc SetColors {cstack cdata saved_data cattr saved_attr args} {
     upvar $saved_data sdata
-    
-    if { [info exists sdata(${cstack}:background1)] } { ::skin::setColor background1 [string trim $sdata(${cstack}:background1)] }
-    if { [info exists sdata(${cstack}:background2)] } { ::skin::setColor background2 [string trim $sdata(${cstack}:background2)] }
+        
+    if { [info exists sdata(${cstack}:mainwindowbg)] } { ::skin::setColor mainwindowbg [string trim $sdata(${cstack}:mainwindowbg)] }
+    if { [info exists sdata(${cstack}:chatwindowbg)] } { ::skin::setColor chatwindowbg [string trim $sdata(${cstack}:chatwindowbg)] }
+    if { [info exists sdata(${cstack}:buttonbarbg)] } { ::skin::setColor buttonbarbg [string trim $sdata(${cstack}:buttonbarbg)] }
+    if { [info exists sdata(${cstack}:topbarbg)] } { ::skin::setColor topbarbg [string trim $sdata(${cstack}:topbarbg)] }
+    if { [info exists sdata(${cstack}:topbartext)] } { ::skin::setColor topbartext [string trim $sdata(${cstack}:topbartext)] }
     if { [info exists sdata(${cstack}:menubgcolor)] } { ::skin::setColor menubackground [string trim $sdata(${cstack}:menubgcolor)] }
     if { [info exists sdata(${cstack}:menufgcolor)] } { ::skin::setColor menuforeground [string trim $sdata(${cstack}:menufgcolor)] }
     if { [info exists sdata(${cstack}:menuactivebgcolor)] } { ::skin::setColor menuactivebackground [string trim $sdata(${cstack}:menuactivebgcolor)] }

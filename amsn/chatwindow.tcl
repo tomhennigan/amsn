@@ -651,42 +651,42 @@ namespace eval ::ChatWindow {
 		set evPar(menu_name) ".${win_name}.menu"
 		::plugins::PostEvent chatmenu evPar
 
-		frame .${win_name}.f -class amsnChatFrame -background [::skin::getColor background1] -borderwidth 0 -relief flat
+		frame .${win_name}.f -class amsnChatFrame -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat
 		ScrolledWindow .${win_name}.f.out -auto vertical -scrollbar vertical
 		text .${win_name}.f.out.text -borderwidth 1 -foreground white -background white -width 45 -height 5 -wrap word \
-			-exportselection 1  -relief flat -highlightthickness 0 -selectborderwidth 1
+			-exportselection 1  -relief solid -highlightthickness 0 -selectborderwidth 1
 
 		.${win_name}.f.out setwidget .${win_name}.f.out.text
 
-		frame .${win_name}.f.top -class Amsn -relief flat -borderwidth 0 -background [::skin::getColor background1]
+		frame .${win_name}.f.top -class Amsn -relief solid -borderwidth 1 -background [::skin::getColor topbarbg]
 		text .${win_name}.f.top.textto  -borderwidth 0 -width [string length "[trans to]:"] \
-			-relief solid -height 1 -wrap none -background [::skin::getColor background1] \
-			-foreground [::skin::getColor background2] -highlightthickness 0 \
-			-selectbackground [::skin::getColor background1] -selectforeground [::skin::getColor background2] \
-			-selectborderwidth 0 -exportselection 0 -padx 5
+			-relief solid -height 1 -wrap none -background [::skin::getColor topbarbg] \
+			-foreground [::skin::getColor topbartext] -highlightthickness 0 \
+			-selectbackground [::skin::getColor topbarbg] -selectforeground [::skin::getColor topbartext] \
+			-selectborderwidth 0 -exportselection 0 -padx 5 -pady 3
 
 		.${win_name}.f.top.textto configure -state normal -font bplainf
 		.${win_name}.f.top.textto insert end "[trans to]:"
 		.${win_name}.f.top.textto configure -state disabled
 
 		text .${win_name}.f.top.text  -borderwidth 0 -width 45 -relief flat -height 1 -wrap none \
-			-background [::skin::getColor background1] -foreground [::skin::getColor background2] \
-			-highlightthickness 0 -selectbackground [::skin::getColor background1] -selectborderwidth 0 \
-			-selectforeground [::skin::getColor background2] -exportselection 1
+			-background [::skin::getColor topbarbg] -foreground [::skin::getColor topbartext] \
+			-highlightthickness 0 -selectbackground [::skin::getColor topbarbg] -selectborderwidth 0 \
+			-selectforeground [::skin::getColor topbartext] -exportselection 1
 
 		# Change color of border on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			frame .${win_name}.f.bottom -class Amsn -borderwidth 0 -relief solid \
-				-background [::skin::getColor background2]
+				-background [::skin::getColor buttonbarbg]
 		} else {
 			frame .${win_name}.f.bottom -class Amsn -borderwidth 0 -relief solid \
-				-background [::skin::getColor background1]
+				-background [::skin::getColor chatwindowbg]
 		}
 
 		set bottom .${win_name}.f.bottom
 
-		frame $bottom.buttons -class Amsn -borderwidth 0 -relief solid -background [::skin::getColor background2]
-		frame $bottom.in -class Amsn -background white -relief solid -borderwidth 0
+		frame $bottom.buttons -class Amsn -borderwidth 1 -relief solid -background [::skin::getColor buttonbarbg]
+		frame $bottom.in -class Amsn -background white -relief solid -borderwidth 1
 		text $bottom.in.input -background white -width 15 -height 3 -wrap word -font bboldf \
 			-borderwidth 0 -relief solid -highlightthickness 0 -exportselection 1
 		frame $bottom.in.f -class Amsn -borderwidth 0 -relief solid -background white
@@ -713,7 +713,7 @@ namespace eval ::ChatWindow {
 		label $bottom.pic -borderwidth 1 -relief solid -image [::skin::getNoDisplayPicture] -background #FFFFFF
 		set_balloon $bottom.pic [trans nopic]
 		button $bottom.showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] \
-			-bg [::skin::getColor background1] -highlightthickness 0 -font splainf \
+			-bg [::skin::getColor chatwindowbg] -highlightthickness 0 -font splainf \
 			-command "::amsn::ToggleShowPicture ${win_name}; ::amsn::ShowOrHidePicture .${win_name}"
 		set_balloon $bottom.showpic [trans showdisplaypic]
 
@@ -722,32 +722,32 @@ namespace eval ::ChatWindow {
 		bind $bottom.pic <Button1-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
 		bind $bottom.pic <<Button3>> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
 
-		frame .${win_name}.statusbar -class Amsn -borderwidth 0 -relief solid
+		frame .${win_name}.statusbar -class Amsn -borderwidth 1 -relief solid
 		text .${win_name}.statusbar.status  -width 5 -height 1 -wrap none \
-			-font bplainf -borderwidth 1
+			-font bplainf -borderwidth 0
 		text .${win_name}.statusbar.charstyped  -width 4 -height 1 -wrap none \
-			-font splainf -borderwidth 1
+			-font splainf -borderwidth 0
 
 		.${win_name}.statusbar.charstyped tag configure center -justify left
 
 		button $bottom.buttons.smileys  -image [::skin::loadPixmap butsmile] -relief flat -padx 5 \
-			-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0
+			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.smileys [trans insertsmiley]
 		button $bottom.buttons.fontsel -image [::skin::loadPixmap butfont] -relief flat -padx 5 \
-			-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0
+			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.fontsel [trans changefont]
 		button $bottom.buttons.block -image [::skin::loadPixmap butblock] -relief flat -padx 5 \
-			-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0
+			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.block [trans block]
-		button $bottom.buttons.sendfile -image [::skin::loadPixmap butsend] -relief flat -padx 3 \
-			-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0
+		button $bottom.buttons.sendfile -image [::skin::loadPixmap butsend] -relief flat -padx 5 \
+			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.sendfile [trans sendfile]
-		button $bottom.buttons.invite -image [::skin::loadPixmap butinvite] -relief flat -padx 3 \
-			-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0
+		button $bottom.buttons.invite -image [::skin::loadPixmap butinvite] -relief flat -padx 5 \
+			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.invite [trans invite]
 		
-		pack $bottom.buttons.fontsel $bottom.buttons.smileys -side left
-		pack $bottom.buttons.block $bottom.buttons.sendfile $bottom.buttons.invite -side right
+		pack $bottom.buttons.fontsel $bottom.buttons.smileys -side left -pady 2
+		pack $bottom.buttons.block $bottom.buttons.sendfile $bottom.buttons.invite -side right -pady 2
 		
 		#send chatwindowbutton postevent
 		set evpar(bottom) $bottom.buttons
@@ -758,7 +758,7 @@ namespace eval ::ChatWindow {
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			pack .${win_name}.f.top -side top -fill x -padx 0 -pady 0
 		} else {
-			pack .${win_name}.f.top -side top -fill x -padx 3 -pady 0
+			pack .${win_name}.f.top -side top -fill x -padx 3 -pady 3
 		}
 			
 		pack .${win_name}.statusbar -side bottom -fill x
@@ -784,7 +784,7 @@ namespace eval ::ChatWindow {
 		pack .${win_name}.f.top.textto -side left -fill y -anchor nw -padx 0 -pady 3
 		pack .${win_name}.f.top.text -side left -expand true -fill x -padx 4 -pady 3
 
-		pack .${win_name}.f.bottom -side top -expand false -fill x -padx 0 -pady 0
+		pack .${win_name}.f.bottom -side top -expand false -fill x -padx 0 -pady 3
 
 		pack $bottom.in.f.send -fill both -expand true
 		pack $bottom.in.input -side left -expand true -fill both -padx 1 -pady 1
