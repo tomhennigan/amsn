@@ -61,6 +61,7 @@ proc degt_protocol_win { } {
     pack .degt.top .degt.mid .degt.bot -side top
 
     bind . <Control-d> { degt_protocol_win_toggle }
+    wm protocol .degt WM_DELETE_WINDOW { degt_protocol_win_toggle }
 }    
 ###################### Preferences Window ###########################
 array set myconfig {}   ; # Cached configuration 
@@ -283,6 +284,9 @@ proc LabelEntryGet { path } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.4  2002/06/18 11:57:32  airadier
+# Fixed bug when closing protocol_win not using the close button
+#
 # Revision 1.3  2002/06/15 20:38:13  lordofscripts
 # Reworked preferences dialog using notebook megawidget
 #
