@@ -139,11 +139,14 @@ proc reload_files { } {
     source [file join $program_dir migmd5.tcl]
     source [file join $program_dir des.tcl]		;# DES encryption
     source [file join $program_dir sxml.tcl]   	;# Simple XML parser
+
     source [file join $program_dir lang.tcl]
     source [file join $program_dir automsg.tcl]
     source [file join $program_dir smileys.tcl]
     source [file join $program_dir skins.tcl]       ;# Used for skinning purposes
-    source [file join $program_dir config.tcl]
+
+	 source [file join $program_dir gui.tcl] ;#gui.tcl must be at the beggining to make msg_box procedure available for errors
+	 source [file join $program_dir config.tcl]
     source [file join $program_dir proxy.tcl]
     source [file join $program_dir protocol.tcl]
     source [file join $program_dir ctadverts.tcl]
@@ -155,7 +158,6 @@ proc reload_files { } {
     if {$tcl_platform(platform) == "unix"} {
      source [file join $program_dir xmms.tcl]
     }
-    source [file join $program_dir gui.tcl]
     source [file join $program_dir alarm.tcl]	;# Alarms code (Burger)
     source [file join $program_dir dock.tcl]	;# Docking routines
     source [file join $program_dir trayicon.tcl]	;# Docking routines for freedesktop system tray compliant docks
