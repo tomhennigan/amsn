@@ -881,13 +881,13 @@ namespace eval ::MSN {
 
 		set command [list "::[ns cget -connection_wrapper]::finish" ns]
 		eval $command
-		sb set ns stat "d"
+		ns configure -stat "d"
 		
 		CloseSB ns
 		
 		global automessage
 		
-		sb set ns server [split [::config::getKey start_ns_server] ":"]
+		ns configure -server [split [::config::getKey start_ns_server] ":"]
 		
 		setMyStatus FLN
 		status_log "Loging out\n"
