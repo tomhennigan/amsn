@@ -618,7 +618,7 @@ proc Preferences { { settings "personal"} } {
 	#pack $lfname.3.lmsgmode -anchor w -side top -padx 10
 	#pack $lfname.3.normal $lfname.3.tabbed -side left -padx 10
 
-	pack $lfname.1 $lfname.2 $lfname.3 $lfname.winflicker $lfname.showdisplaypic -anchor w -side top -pady 5
+	pack $lfname.1 $lfname.2 $lfname.3 $lfname.winflicker $lfname.showdisplaypic -anchor w -side top 
 
 	frame $frm.dummy -class Degt
 	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
@@ -1611,6 +1611,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.90  2003/11/06 16:49:26  airadier
+# Less "y panning" to add a new getdisppic option
+#
 # Revision 1.89  2003/11/03 19:14:50  airadier
 # Improve proxy settings
 #
