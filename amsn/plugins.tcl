@@ -141,12 +141,12 @@ namespace eval ::plugins {
         frame $w.desc
         label $w.desc.name_title -text "Name"
         label $w.desc.name -text "No Plugin Selected"
-        label $w.desc.desc_title -text "Description"
+        label $w.desc.desc_title -text [trans description]
         label $w.desc.desc -textvariable ::plugins::selection(desc) -width 40 -wraplength 250
         frame $w.command
         button $w.command.load -text "Load" -command "::plugins::GUI_Load" -state disabled
         button $w.command.config -text "Configure" -command "::plugins::GUI_Config" ;#-state disabled
-        button $w.command.close -text "Close" -command "::plugins::GUI_Close"
+        button $w.command.close -text [trans close] -command "::plugins::GUI_Close"
  
         #add the plugins
         set idx 0
@@ -244,7 +244,7 @@ namespace eval ::plugins {
                 set x [toplevel $w.error]
                 label $x.title -text "Error in Plugin!"
                 label $x.label -text "No Configuration variable for $name.\n"
-                button $x.ok -text "OK" -command "destroy $x"
+                button $x.ok -text [trans ok] -command "destroy $x"
                 grid $x.title -column 1 -row 1
                 grid $x.label -column 1 -row 2
                 grid $x.ok -column 1 -row 3
