@@ -4,11 +4,12 @@ set systemtray_exist 0
 set iconmenu 0
 
 proc iconify_proc {} {
-	global statusicon
+	global statusicon config systemtray_exist
 		if { [focus] == "."} {
 		wm iconify .
 	} else {
 		wm deiconify .
+		wm state . normal
 		raise .
 		focus -force .
 	}
@@ -21,6 +22,7 @@ proc trayicon_init {} {
 	if { [file exists $ext] != 1 } {
 		msg_box "[trans traynotcompiled]"
 		close_dock
+		set config(dock) 0
 		return
 	}
 	

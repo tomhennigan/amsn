@@ -1519,7 +1519,7 @@ namespace eval ::amsn {
 	set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
 
          #Draw our own message
-         messageFrom $chatid [lindex $user_info 3] "$msg" user [list $fontfamily $fontstyle $fontcolor]      	
+         messageFrom $chatid [lindex $user_info 3] "$msgchunk" user [list $fontfamily $fontstyle $fontcolor]      	
 	
 	::MSN::messageTo $chatid "$msgchunk" $ackid
       } else {
@@ -1953,8 +1953,14 @@ namespace eval ::amsn {
    }
 
    proc closeOrDock { closingdocks } {
+     global systemtray_exist statusicon config
      if {$closingdocks} {
         wm iconify .
+	if { $systemtray_exist == 1 && $statusicon != 0 && $config(closingdocks) } {
+		 status_log "Hiding\n" white
+		  wm state . withdrawn
+	}
+
      } else {
         ::amsn::closeAmsn
      }
