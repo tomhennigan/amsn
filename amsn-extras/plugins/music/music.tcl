@@ -361,9 +361,10 @@ namespace eval ::music {
 		#Open in "read" permission the file (SongIngo)
 		set gets [open $file r]
 
-		#Get the 3 first lines
+		#Get the 4 first lines
 		set status [gets $gets]
-		set songart [gets $gets]
+		set song [gets $gets]
+		set art [gets $gets]
 		set path [gets $gets]
 
 		#Close the file
@@ -372,6 +373,13 @@ namespace eval ::music {
 		if {$status == "0"} {
 			return 0
 		} else {
+			#Define in witch order we want to show the song (from the config)
+			#Use the separator(from the cong) betwen song and artist
+			if {$::music::config(songart) == 1} {
+				append songart $song " " $::music::config(separator) " " $art
+			} elseif {$::music::config(songart) == 2} {
+				append songart $art " " $::music::config(separator) " " $song
+			}
 			lappend return $songart
 			lappend return [urldecode [string range $path 5 end]]
 		}

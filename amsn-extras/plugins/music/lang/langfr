@@ -11,3 +11,7 @@ playing Joue : $1
 musicoserr Votre système d'exploitation ($1) n'est pas encore géré par le plugin Music
 musicplayer Choisissez votre lecteur préféré
 musicstopdefault Lecteur arrêté
+separator Séparateur
+songartist Titre - Artiste
+artistsong Artiste - Titre
+choose_order Choisissez l'ordre entre le titre et le nom de l'artiste (pas compatible avec XMMS)

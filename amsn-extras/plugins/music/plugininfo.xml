@@ -9,7 +9,7 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>1.9</cvs_version>
+	<cvs_version>1.10</cvs_version>
 	
 	<lang>
 		<langcode>en</langcode>
@@ -18,7 +18,7 @@
 	
 	<lang>
 		<langcode>fr</langcode>
-		<version>1.3</version>
+		<version>1.4</version>
 	</lang>
 	
 	<lang>
@@ -38,15 +38,6 @@
 	
 	<file>
 		<path>infoamarok</path>
-		<version>1.1</version>
-	</file>
-	
-	<URL>
-		<main>http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/music/music.tcl?rev=$version&content-type=text/plain</main>
-		<plugininfo>http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/music/plugininfo.xml?rev=HEAD&content-type=text/plain</plugininfo>
-		<lang>http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/music/lang/lang$langcode?rev=$version&content-type=text/plain</lang>
-		<file>http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/music/$file?rev=$version&content-type=text/plain</file>
-	</URL>
-	
-	
+		<version>1.2</version>
+	</file>	
 </plugin>

@@ -1,6 +1,16 @@
 #! /bin/sh
 # Shell script to get informations about the current song playing in Amarok
 
-dcop amarok player status>$1
-dcop amarok player nowPlaying>>$1
-dcop amarok player encodedURL>>$1
+#Amarok is launched ?
+if dcop|grep amarok 1>/dev/null ; then
+	#Yes so we get the info
+	dcop amarok player status>$1
+	dcop amarok player title>>$1
+	dcop amarok player artist>>$1
+	dcop amarok player encodedURL>>$1
+else
+	#No so we set to state stopped
+	echo 0 >$1
+fi
+
+exit 0
