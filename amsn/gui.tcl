@@ -2704,6 +2704,8 @@ proc status_save_file { filename } {
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_offline {} {
 
+   after cancel "cmsn_draw_online 1"
+
    global sboldf config password pgBuddy
 
    bind $pgBuddy.text <Configure>  ""
@@ -3102,16 +3104,16 @@ proc cmsn_draw_online { {force 0} } {
        if {$config(ordergroupsbynormal)} {     
           set sortlist [lsort -dictionary -index 0 $thelistnames ]
        } else {
-          set sortlist [lsort -decreasing -dictionary -index 0 $thelistnames ]       
+          set sortlist [lsort -decreasing -dictionary -index 0 $thelistnames ]
        }
        set glist [list]
-       
+
        foreach gdata $sortlist {
           lappend glist [lindex $gdata 1]
        }
-       
+
        set gcnt [llength $glist]
-       
+
        # Now setup each of the group's defaults
        for {set i 0} {$i < $gcnt} {incr i} {
 	   set gid [lindex $glist $i]
@@ -3124,13 +3126,14 @@ proc cmsn_draw_online { {force 0} } {
 	   lappend glist "offline"
 	   incr gcnt
        }
+
    } else {	# Order by Online/Offline
        # Defaults already set in setup_groups
        set glist [list online offline]
        set gcnt 2
        ::groups::Disable
    }
-   
+
 
    $pgBuddy.text configure -state normal -font splainf
    $pgBuddy.text delete 0.0 end
@@ -3284,7 +3287,7 @@ proc cmsn_draw_online { {force 0} } {
            # For user defined groups we don't have/need translations
 	   set gtitle [::groups::GetName $gname]
 	   if { $config(orderbygroup) == 2 } {
-	       if { $gname == "offline" } { 
+	       if { $gname == "offline" } {
 		   set gtitle "[trans uoffline]"
 		   set gtag "offline"
 	       }
@@ -3374,8 +3377,13 @@ proc cmsn_draw_online { {force 0} } {
         for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
 	    set gname [lindex $glist $gidx]
 	    set gtag  "tg$gname"
-	    if {$config(orderbygroup) == 2 && $gname == "offline" } { 
+	    if {$config(orderbygroup) == 2 } {
+	       if { $gname == "offline" } {
 		$pgBuddy.text insert offline.last " ($::groups::uMemberCnt(offline))\n" offline
+	       } else {
+		$pgBuddy.text insert ${gtag}.last \
+		    " ($::groups::uMemberCnt_online(${gname}))\n" $gtag
+	       }
 	    } else {
 	   #$pgBuddy.text insert $gtag.last " ($::groups::uMemberCnt($gname))\n" $gtag
 		$pgBuddy.text insert ${gtag}.last \
