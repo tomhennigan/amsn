@@ -145,6 +145,7 @@ dockingoff Pristaja prekinjena
 docking Pristaja
 dockkde kde pomol
 dontdownload Ne poberi TLS-ja, namestil ga bom sam
+dontshow Ne prikazi
 downloadingtls Pobiram modul TLS iz:\n $1
 drugi)
 editcurrentstate Uredi trenutno stanje
