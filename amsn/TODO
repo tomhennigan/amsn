@@ -15,7 +15,7 @@ Burger * burger@mwvision.com
 -	Check Makefile and amsn.spec now that HELP and FAQ files are added.
 -	Make sure everything is installed correctly and FAQ and HELP are in the amsn directory.
 -	Make good RPMs, for Redhat, Suse, Mandrake, etc.
--	Add an entry in HELP menu that shows translated FAQ and HELP (if available)
+DONE	Add an entry in HELP menu that shows translated FAQ and HELP (if available)
 DONE	Long messages knock out remote user from chat (if > 400, separate into 400 byte long fragments and send)
 DONE	New unified preferences dialog with tabs
 DONE	Multiple user accounts combo box + separate user config files
