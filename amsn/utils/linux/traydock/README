@@ -23,7 +23,7 @@ once thats all nice and done it will create a Makefile, then we do :
 make
 
 If all goes well you will have a nice little libtray.so file :)
-This file has to stay in this directory of course ([amsndir]/utils/traydock/)
+This file has to stay in this directory of course ([amsndir]/utils/linux/traydock/)
 
 You'll need to enable de KDE3, or Gnome2 system tray applet, or the dock icon won't work.
 
