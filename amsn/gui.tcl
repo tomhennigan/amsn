@@ -3382,6 +3382,10 @@ proc cmsn_draw_main {} {
    image create photo blockedme -file [GetSkinFile pixmaps blockedme.gif]
    image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
 
+       text $pgBuddy.text0 -background white -width 0 -height 0 -wrap none \
+      -cursor left_ptr -font splainf \
+      -selectbackground white -selectborderwidth 0 -exportselection 0 \
+      -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
 
 	text $pgBuddy.text -background white -width 30 -height 0 -wrap none \
       -yscrollcommand "adjust_yscroll $pgBuddy.text $pgBuddy.ys" -cursor left_ptr -font splainf \
@@ -3415,8 +3419,8 @@ proc cmsn_draw_main {} {
 	adv_show_banner file [GetSkinFile pixmaps logolinmsn.gif]
 	}
    }
-
-   pack $pgBuddy.text -side right -expand true -fill both -padx 0 -pady 0   
+   pack $pgBuddy.text0 -side top -fill both -padx 0 -pady 0
+   pack $pgBuddy.text -side right -expand true -fill both -padx 0 -pady 0
    #pack $pgBuddy.ys -side left -fill y -padx 0 -pady 0
 #Command-key for "key shorcut" in Mac OS X
 if {$tcl_platform(os) == "Darwin"} {
@@ -3765,6 +3769,8 @@ proc cmsn_draw_offline {} {
 
    $pgBuddy.text configure -state normal
    $pgBuddy.text delete 0.0 end
+   $pgBuddy.text0 delete 0.0 end
+   $pgBuddy.text0 configure -height 0
 
    #Iniciar sesion
 
@@ -4220,10 +4226,16 @@ proc cmsn_draw_online { {delay 0} } {
 	set my_colour [lindex $my_state 2]
 	set my_image_type [lindex $my_state 5]
 
+	#Resize tex0 to contain the robot etc
+	$pgBuddy.text0 configure -height 4
 	#Clear every tag to avoid memory leaks:
 	foreach tag [$pgBuddy.text tag names] {
 		$pgBuddy.text tag delete $tag
 	}
+	foreach tag [$pgBuddy.text0 tag names] {
+		$pgBuddy.text0 tag delete $tag
+	}
+
 
 	# Decide which grouping we are going to use
 	if {$config(orderbygroup)} {
@@ -4285,6 +4297,7 @@ proc cmsn_draw_online { {delay 0} } {
 
 	$pgBuddy.text configure -state normal -font splainf
 	$pgBuddy.text delete 0.0 end
+	$pgBuddy.text0 delete 0.0 end
 
 	#Set up TAGS for mail notification
 	$pgBuddy.text tag conf mail -fore black -underline true -font splainf
@@ -4325,87 +4338,93 @@ proc cmsn_draw_online { {delay 0} } {
 			"$pgBuddy.text tag conf $gtag -under false;$pgBuddy.text conf -cursor left_ptr"
 	}
 
-	$pgBuddy.text insert end "\n"
 
 	# Display MSN logo with user's handle. Make it clickable so
 	# that the user can change his/her status that way
-	clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y}
-	bind $pgBuddy.text.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
+	if {![winfo exists $pgBuddy.text0.bigstate]} {
+		clickableImage $pgBuddy.text0 bigstate $my_image_type {tk_popup .my_menu %X %Y}
+	}
 
-	text $pgBuddy.text.mystatus -font bboldf -height 2 \
+
+	bind $pgBuddy.text0.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
+	if {![winfo exists $pgBuddy.text0.mystatus]} {
+		text $pgBuddy.text0.mystatus -font bboldf -height 2 \
 		-width [expr {([winfo width $pgBuddy.text]-45)/[font measure bboldf -displayof $pgBuddy.text "0"]}] \
 		-background white -borderwidth 0 \
 		-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
 		-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
-	pack $pgBuddy.text.mystatus -expand true -fill x
+	}
 
-	$pgBuddy.text.mystatus configure -state normal
 
-	$pgBuddy.text.mystatus tag conf mystatuslabel -fore gray -underline false \
+	pack $pgBuddy.text0.mystatus -expand true -fill x
+
+	$pgBuddy.text0.mystatus configure -state normal
+
+	$pgBuddy.text0.mystatus tag conf mystatuslabel -fore gray -underline false \
 		-font splainf
 
-	$pgBuddy.text.mystatus tag conf mystatuslabel2 -fore gray -underline false \
+	$pgBuddy.text0.mystatus tag conf mystatuslabel2 -fore gray -underline false \
 		-font bboldf
 
-	$pgBuddy.text.mystatus tag conf mystatus -fore $my_colour -underline false \
+	$pgBuddy.text0.mystatus tag conf mystatus -fore $my_colour -underline false \
 		-font bboldf
 
-	$pgBuddy.text.mystatus tag bind mystatus <Enter> \
-		"$pgBuddy.text.mystatus tag conf mystatus -under true;$pgBuddy.text.mystatus conf -cursor hand2"
+	$pgBuddy.text0.mystatus tag bind mystatus <Enter> \
+		"$pgBuddy.text0.mystatus tag conf mystatus -under true;$pgBuddy.text0.mystatus conf -cursor hand2"
 
-	$pgBuddy.text.mystatus tag bind mystatus <Leave> \
-		"$pgBuddy.text.mystatus tag conf mystatus -under false;$pgBuddy.text.mystatus conf -cursor left_ptr"
+	$pgBuddy.text0.mystatus tag bind mystatus <Leave> \
+		"$pgBuddy.text0.mystatus tag conf mystatus -under false;$pgBuddy.text0.mystatus conf -cursor left_ptr"
 
-	$pgBuddy.text.mystatus tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
+	$pgBuddy.text0.mystatus tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
 	#Change button mouse on Mac OS X
 	if {$tcl_platform(os) == "Darwin"} {
-	$pgBuddy.text.mystatus tag bind mystatus <Button2-ButtonRelease> "tk_popup .my_menu %X %Y"
+	$pgBuddy.text0.mystatus tag bind mystatus <Button2-ButtonRelease> "tk_popup .my_menu %X %Y"
 	} else {
-	$pgBuddy.text.mystatus tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
+	$pgBuddy.text0.mystatus tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
 	}
-	$pgBuddy.text.mystatus insert end "[trans mystatus]: " mystatuslabel
+	$pgBuddy.text0.mystatus insert end "[trans mystatus]: " mystatuslabel
 
 	if { [info exists automessage] && $automessage != -1} {
-		$pgBuddy.text.mystatus insert end "[lindex $automessage 0]\n" mystatuslabel2
+		$pgBuddy.text0.mystatus insert end "[lindex $automessage 0]\n" mystatuslabel2
 	} else {
-		$pgBuddy.text.mystatus insert end "\n" mystatuslabel
+		$pgBuddy.text0.mystatus insert end "\n" mystatuslabel
 	}
 
 	set maxw [expr [winfo width $pgBuddy.text] -45]
 	incr maxw [expr 0-[font measure bboldf -displayof $pgBuddy.text " ($my_state_desc)" ]]
-	set my_short_name [trunc $my_name $pgBuddy.text.mystatus $maxw bboldf]
-	$pgBuddy.text.mystatus insert end "$my_short_name " mystatus
-	$pgBuddy.text.mystatus insert end "($my_state_desc)" mystatus
+	set my_short_name [trunc $my_name $pgBuddy.text0.mystatus $maxw bboldf]
+	$pgBuddy.text0.mystatus insert end "$my_short_name " mystatus
+	$pgBuddy.text0.mystatus insert end "($my_state_desc)" mystatus
 
 	set balloon_message "[string map {"%" "%%"} "$my_name \n $config(login) \n [trans status] : $my_state_desc"]"
 
-	$pgBuddy.text.mystatus tag bind mystatus <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+	$pgBuddy.text0.mystatus tag bind mystatus <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 
-	$pgBuddy.text.mystatus tag bind mystatus <Leave> \
+	$pgBuddy.text0.mystatus tag bind mystatus <Leave> \
 		"+set Bulle(first) 0; kill_balloon"
 
-	$pgBuddy.text.mystatus tag bind mystatus <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+	$pgBuddy.text0.mystatus tag bind mystatus <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
-	bind $pgBuddy.text.bigstate <Enter> +[list balloon_enter %W %X %Y $balloon_message]
-	bind $pgBuddy.text.bigstate <Leave> \
+	bind $pgBuddy.text0.bigstate <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+	bind $pgBuddy.text0.bigstate <Leave> \
 		"+set Bulle(first) 0; kill_balloon;"
-	bind $pgBuddy.text.bigstate <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+	bind $pgBuddy.text0.bigstate <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
 
 	#Calculate number of lines, and set my status size (for multiline nicks)
-	set size [$pgBuddy.text.mystatus index end]
+	set size [$pgBuddy.text0.mystatus index end]
 	set posyx [split $size "."]
 	set lines [expr {[lindex $posyx 0] - 1}]
-	if { [llength [$pgBuddy.text.mystatus image names]] } { incr lines }
+	if { [llength [$pgBuddy.text0.mystatus image names]] } { incr lines }
 
-	$pgBuddy.text.mystatus configure -state normal -height $lines -wrap none
-	$pgBuddy.text.mystatus configure -state disabled
+	$pgBuddy.text0.mystatus configure -state normal -height $lines -wrap none
+	$pgBuddy.text0.mystatus configure -state disabled
 
-	$pgBuddy.text window create end -window $pgBuddy.text.mystatus -padx 6 -pady 0 -align bottom -stretch false
-	$pgBuddy.text insert end "\n"
+	$pgBuddy.text0 window create end -window $pgBuddy.text0.mystatus -padx 6 -pady 0 -align bottom -stretch false
+	$pgBuddy.text0 insert end "\n"
 
 	#set width [expr {[winfo width $pgBuddy.text] - 10} ]
-	set width [expr {[winfo width $pgBuddy.text]} - 1 ]
+	set width [expr {[winfo width $pgBuddy.text0]} - 1 ]
 
 	if { $width < 160 } {
 		set width 160
@@ -4421,8 +4440,8 @@ proc cmsn_draw_online { {delay 0} } {
 	mainbar copy colorbar -from 5 0 15 $barheight -to 5 0 [expr {$width - 150}] $barheight
 	mainbar copy colorbar -from [expr {$barwidth - 150}] 0 $barwidth $barheight -to [expr {$width - 150}] 0 $width $barheight
 
-	$pgBuddy.text image create end -image mainbar
-	$pgBuddy.text insert end "\n"
+	$pgBuddy.text0 image create end -image mainbar
+#	$pgBuddy.text0 insert end "\n"
 
 	# Show Mail Notification status
 	clickableImage $pgBuddy.text mailbox mailbox "hotmail_login [list $config(login)] [list $password]" 5 0
@@ -4613,7 +4632,7 @@ proc cmsn_draw_online { {delay 0} } {
 
 	#Don't replace smileys in all text, to avoid replacing in mail notification
 	if {$config(listsmileys)} {
-		smile_subst $pgBuddy.text.mystatus
+		smile_subst $pgBuddy.text0.mystatus
 		smile_subst $pgBuddy.text 0.0 end
 	}
 	update idletasks
