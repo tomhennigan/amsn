@@ -316,6 +316,7 @@ proc close_cleanup {} {
   save_config
   save_alarms   ;# Save alarm settings
 
+  LoadLoginList 1
   # Unlock current profile
   LoginList changelock 0 $config(login) 0
   if { [info exists lockSock] } {

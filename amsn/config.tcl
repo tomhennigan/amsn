@@ -88,13 +88,19 @@ namespace eval ::config {
 }
 
 proc save_config {} {
-   global tcl_platform config HOME version password
+   global tcl_platform config HOME HOME2 version password
 
    if {$tcl_platform(platform) == "unix"} {
 		set file_id [open "[file join ${HOME} config]" w 00600]
    } else {
       		set file_id [open "[file join ${HOME} config]" w]
    }
+
+   # using default, make sure to reset config(login)
+   if { $HOME == $HOME2 } {
+   	set config(login) ""
+   }
+   
    puts $file_id "amsn_config_version 1"
    set config(last_client_version) $version
 
@@ -142,7 +148,7 @@ proc load_config {} {
 # Loads the list of logins/profiles from the profiles file in the HOME dir
 # sets up the first user in list as config(login)
 proc LoadLoginList {{trigger 0}} {
-	global HOME HOME2 config lockSock
+	global HOME HOME2 config
 
 	puts stdout "called loadloginlist\n"
 	
@@ -152,7 +158,6 @@ proc LoadLoginList {{trigger 0}} {
 		set HOME2 $HOME
 	}
 
-	puts stdout "${HOME}\n"
 	if {([file readable "[file join ${HOME} profiles]"] != 0) || ([file isfile "[file join ${HOME}/profiles]"] != 0)} {
 		set HOMEE $HOME
 	} elseif {([file readable "[file join ${HOME2} profiles]"] != 0) || ([file isfile "[file join ${HOME2}/profiles]"] != 0)} {
@@ -160,8 +165,6 @@ proc LoadLoginList {{trigger 0}} {
 	} else {
 		return 1
 	}
-	
-	puts stdout "ookkkk\n"
 	
 	set file_id [open "${HOMEE}/profiles" r]
 	gets $file_id tmp_data
@@ -171,20 +174,20 @@ proc LoadLoginList {{trigger 0}} {
 		return -1
    	}
 
-	# Clear all list, only seems to work this way
-	set idx 0
-	while { [LoginList get $idx] != 0 } {
-		LoginList unset 0 [LoginList get $idx]
-		incr idx
+	# Clear all list
+	set top [LoginList size 0]
+	for { set idx 0 } { $idx <= $top } {incr idx 1 } {
+		LoginList unset 0 [LoginList get 0]
 	}
-
+	
 	# Now add profiles from file to list
 	while {[gets $file_id tmp_data] != "-1"} {
 		set temp_data [split $tmp_data]
 		set locknum [lindex $tmp_data 1]
+		puts stdout "locknum is : \n"
 		if { $locknum == "" } {
-		   #Profile without lock, get a random one
-		   set $locknum GetRandomPortNumber
+		   #Profile without lock, give it 0
+		   set locknum 0
 		}
 		LoginList add 0 [lindex $tmp_data 0] $locknum
 	}
@@ -211,6 +214,8 @@ proc LoadLoginList {{trigger 0}} {
 			set dirname [join $dirname "_"]
 			puts stdout "$dirname\n"
 			set HOME "[file join $HOME2 $dirname]"
+		} else {
+			set config(login) ""
 		}
 
 		LoginList show 0
@@ -258,6 +263,7 @@ proc SaveLoginList {} {
 #	exists : Checks the email if exists returns 1, 0 if dosent (age is ignored)
 #	getlock : Returns lock code for given email, if non existant returns -1.
 #	changelock : changes lock for user given by email to lock port given by lock
+#	lockexists : checks if lock exists for some profile, returns 1 if true, 0 if false
 #	unset : Removes profile given by email from the list and moves 
 #		all elements up by 1 (age is ignored)
 #       size : Returns [array size ProfileList] - 1
@@ -346,7 +352,17 @@ proc LoginList { action age {email ""} {lock ""} } {
 				set LockList([expr [expr $idx-1] / 2]) $lock
 			}
 		}
-		
+
+		lockexists {
+			set tmp_list [array get LockList]
+			set idx [lsearch $tmp_list "$email"]
+			if { $idx == -1 } {
+				return 0
+			} else {
+				return 1
+			}
+		}
+				
 		size {
 			return [expr [array size ProfileList] - 1]
 		}
@@ -598,11 +614,19 @@ proc lockcltHdl { sock } {
 # Returns a random port in range 60535-65335
 proc GetRandomProfilePort { } {
 
-	# Generate random port between 60535 and 65535
-	set Port [expr rand()]
-	set Port [expr $Port * 10000]
-	set Port [expr int($Port)]
-	set Port [expr $Port + 60535]
+	set trigger 0
+	
+	while { $trigger == 0 } {
+		# Generate random port between 60535 and 65535
+		set Port [expr rand()]
+		set Port [expr $Port * 10000]
+		set Port [expr int($Port)]
+		set Port [expr $Port + 60535]
+		# Check if port isn't on another profile already
+		if { [LoginList lockexists 0 $Port] != 1 } {
+			set trigger 1
+		}
+	}
 
 	return $Port
 }
