@@ -39,6 +39,9 @@ namespace eval ::config {
 	
 		::config::setKey reconnect 1			;#Variable for amsn to reconnect on loss
 	
+		::config::setKey dock 0				;#Docking type
+								;#Changed later for windows to 4
+	
 		#Some Autodetected options
 		if {$tcl_platform(os) == "Darwin"} {
 			set osversion [string range "$tcl_platform(osVersion)" 0 0]
@@ -66,6 +69,7 @@ namespace eval ::config {
 			::config::setKey notifyYoffset 28
 			::config::setKey filemanager "explorer \$location"
 			::config::setKey usesnack 1
+			::config::setKey dock 4				;#Set docking to type 4 (windows)
 		} else {
 			::config::setKey soundcommand ""			;#Sound player command
 			::config::setKey browser ""			;#Browser command
@@ -121,8 +125,6 @@ namespace eval ::config {
 		::config::setKey notifystate 0			;#Show notify window when a user changes status
 		::config::setKey notifyemail 1			;#Show notify window when a new mail arrives
 		::config::setKey notifyemailother 0			;#Show notify window when a new mail arrives in other folders
-	
-		::config::setKey dock 0				;#Docking type
 	
 		#Specific for Mac OS X, if newchatwinstate=1, new windows of message never appear
 		if {$tcl_platform(os) == "Darwin"} {
