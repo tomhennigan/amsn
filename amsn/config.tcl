@@ -184,6 +184,7 @@ proc ConfigDefaults {} {
                 [list local strictfonts bool strictfonts] \
                 [list local sngdblclick bool sngdblclick] \
                 [list local nogap bool nogap] \
+                [list local removeempty bool removeempty] \
 		[list title notifyoffset] \
 		[list local notifyXoffset int xoffset] \
 		[list local notifyYoffset int yoffset] \
@@ -236,6 +237,7 @@ proc ConfigDefaults {} {
 	set config(strictfonts) 0		;#Use strict fonts' size in _ALL_ AMSN's fonts (Disabled by default)
 	set config(sngdblclick) 0		;#Use single or double click to open a message window (0 double, 1 single)
 	set config(nogap) 0			;#Remove the empty line between groups
+	set config(removeempty) 0		;#Remove empty groups from the contact list
 	set config(emailsincontactlist) 0	;#Display emails instead of nicks in the contact list
 	set config(leavejoinsinchat)	1	;#Display leave/join notifications in chat text area
 	set config(charscounter)	1	;#Display typed characters counter

@@ -5120,7 +5120,7 @@ proc cmsn_draw_online_wrapped {} {
 			#If we're managing special group "Individuals" (ID == 0), then remove header if:
 			# 1) we're in hybrid mode and there are no online contacts
 			# 2) or we're in group mode and there're no contacts (online or offline)
-			if { ($gname == 0) &&
+			if { ($gname == 0 || ([::config::getKey removeempty] && $gname != "offline")) &&
 				(($::groups::uMemberCnt_online($gname) == 0 && [::config::getKey orderbygroup] == 2) ||
 				 ($::groups::uMemberCnt($gname) == 0 && [::config::getKey orderbygroup] == 1))} {
 				set endidx [split [$pgBuddy.text index $gtag.last] "."]
