@@ -251,9 +251,6 @@ namespace eval ::lang {
 		# _| Manager |____
 		set frm [$nb.nn getframe manager]
 
-		label $frm.text -text "[trans selectlanguage] :"
-		pack configure $frm.text -side top -fill x
-
 		# Create a list box where we will put the lang
 		frame $frm.selection -class Amsn -borderwidth 0
 		listbox $frm.selection.box -yscrollcommand "$frm.selection.ys set" -font splainf -background white -relief flat -highlightthickness 0
@@ -480,10 +477,11 @@ namespace eval ::lang {
 		set fid [open $file w]
 
 		# Choose the encoding of the file according to the encoding of the lang
-		fconfigure $fid -encoding "$encoding"
+		# fconfigure $fid -encoding "$encoding"
+		fconfigure $fid -encoding binary
 
 		# Download the content of the file from the web
-		set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/lang/$lang?rev=$version&content-type=text" -timeout 10000]
+		set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/lang/$lang?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
 		set content [::http::data $token]
 
 		# Puts the content into the file
