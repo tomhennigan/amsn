@@ -60,7 +60,9 @@ namespace eval ::MSN {
 
       global config user_stat
       variable myStatus
-      catch {puts -nonewline [sb get ns sock] "OUT\r\n"; close [sb get ns sock]} res
+      #catch {puts -nonewline [sb get ns sock] "OUT\r\n"; close [sb get ns sock]} res
+      WriteNSRaw "OUT\r\n";
+      catch {close [sb get ns sock]} res
 
       sb set ns stat "d"
       sb set ns sock ""
@@ -374,8 +376,8 @@ namespace eval ::MSN {
       #don't do send or receive something for a long time
 
       if { $myStatus != "FLN" } {
-	puts -nonewline [sb get ns sock] "PNG\r\n"
-	status_log "Ping query sent\n"
+	#puts -nonewline [sb get ns sock] "PNG\r\n"
+	WriteNSRaw "PNG\r\n"
       }
 
       after 60000 "::MSN::PollConnection"
@@ -385,16 +387,25 @@ namespace eval ::MSN {
    variable atransfer
 
    proc WriteSB {sbn cmd param {handler ""}} {
-      variable trid
-      incr trid
 
-      if {[catch {puts [sb get $sbn sock] "$cmd $trid $param\r"} res]} {
+      variable trid
+
+      set msgid [incr trid]
+
+      set msgtxt "$cmd $msgid $param\r"
+      set sb_sock [sb get $sbn sock]
+
+      if {[catch {puts $sb_sock "$msgtxt"} res]} {
+
          status_log "::MSN::WriteSB: problem when writing to the socket...\n" WHITE
-	  catch {close $sbn} res
-	  cmsn_sb_sessionclosed $sbn
+         catch {close $sb_sock} res
+         cmsn_sb_sessionclosed $sbn
+         degt_protocol "->SB($sbn) FAILED: $msgtxt" error
          return 0
+
       }
-      degt_protocol "->SB $cmd $trid $param"
+
+      degt_protocol "->SB($sbn) $msgtxt" sbsend
 
       if {$handler != ""} {
          global list_cmdhnd
@@ -403,36 +414,96 @@ namespace eval ::MSN {
       }
    }
 
+   proc WriteSBRaw {sbn cmd} {
+
+      set sb_sock [sb get $sbn sock]
+
+      if {[catch {puts -nonewline $sb_sock "$cmd"} res]} {
+
+         status_log "::MSN::WriteSB: problem when writing to the socket...\n" WHITE
+         catch {close $sb_sock} res
+         cmsn_sb_sessionclosed $sbn
+         degt_protocol "->SBRAW($sbn) FAILED: $cmd" error
+         return 0
+      }
+
+      degt_protocol "->SBRAW($sbn) $cmd" sbsend
+
+   }
+
+
+   proc ReadNS {} {
+
+      set ns_sock [sb get ns sock]
+
+      if {[catch {eof $ns_sock} res]} {
+
+         return ""
+
+      } elseif {[eof $ns_sock]} {
+
+         status_log "Closing NS socket! (stat= [sb get ns stat])\n" red
+         close $ns_sock
+
+         set oldstat [sb get ns stat]
+         sb set ns stat "d"
+
+         if { ("$oldstat" != "d") && ("$oldstat" != "u") } {
+            logout
+         }
+
+      } else {
+
+	 gets $ns_sock tmp_data
+         degt_protocol "<-NS $tmp_data" nsrecv
+	 return "$tmp_data"
+
+      }
+   }
+
 
    proc WriteNS {cmd param {handler ""}} {
       variable trid
+
       set thistrid [incr trid]
 
-      puts -nonewline [sb get ns sock] "$cmd $thistrid $param\r\n"
-      degt_protocol "->NS $cmd $thistrid $param"
+      set msgtxt "$cmd $thistrid $param\r"
+
+      if { [catch {puts [sb get ns sock] "$msgtxt"} res]} {
+         degt_protocol "->NS(FAILED) $msgtxt" error
+         return 0
+      }
+      degt_protocol "->NS $msgtxt" nssend
 
       if {$handler != ""} {
          global list_cmdhnd
          lappend list_cmdhnd [list $thistrid $handler]
       }
+
       return $thistrid
+
    }
 
    #Write command to the NS without trid, or new line characters
    proc WriteNSRaw {cmd} {
 
-      puts -nonewline [sb get ns sock] "$cmd"
-      degt_protocol "->NS $cmd"
+      if { [catch {puts -nonewline [sb get ns sock] "$cmd"} res]} {
+         degt_protocol "->NSRAW(FAILED) $cmd" error
+      } else {
+         degt_protocol "->NSRAW $cmd" nssend
+      }
+
    }
 
    proc AnswerChallenge { item } {
       if { [lindex $item 1] != 0 } {
         status_log "Invalid challenge\n" red
       } else {
-        set cadenita [lindex $item 2]Q1P7W2E4J9R8U3S5
-        set cadenita [::md5::md5 $cadenita]
+        set str [lindex $item 2]Q1P7W2E4J9R8U3S5
+        set str [::md5::md5 $str]
         ::MSN::WriteNS "QRY" "msmsgs@msnmsgr.com 32"
-        puts -nonewline [sb get ns sock] $cadenita
+        #puts -nonewline [sb get ns sock] $cadenita
+	WriteNSRaw "$str"
       }
    }
 
@@ -992,10 +1063,7 @@ namespace eval ::MSN {
 
 	  #We leave the switchboard if it exists
          if {[sb get $name stat] != "d"} {
-            catch {
-	        puts [sb get $name sock] "OUT"
-            } res
-
+		WriteSBRaw $name "OUT\r\n"
          }
 
 	  after 60000 "::MSN::KillSB ${name}"
@@ -1226,7 +1294,7 @@ namespace eval ::MSN {
          return 0
       }
 
-      set sock [sb get $sbn sock]
+      #set sock [sb get $sbn sock]
 
       set txt_send [encoding convertto utf-8 [stringmap {"\n" "\r\n"} $txt]]
 
@@ -1258,8 +1326,10 @@ namespace eval ::MSN {
       set msg_len [string length $msg]
 
       incr ::MSN::trid
-      puts $sock "MSG $::MSN::trid A $msg_len"
-      puts -nonewline $sock $msg
+      #puts $sock "MSG $::MSN::trid A $msg_len"
+      WriteSB $sbn "MSG" "A $msg_len"
+      #puts -nonewline $sock $msg
+      WriteSBRaw $sbn "$msg"
 
       #Setting trid - ackid correspondence
       set msgacks($::MSN::trid) $ackid
@@ -1303,10 +1373,15 @@ proc read_sb_sock {sbn} {
 
 
    set sb_sock [sb get $sbn sock]
-   if {[eof $sb_sock]} {
+   if {[catch {eof $sb_sock} res]} {
+
+      catch {close $sb_sock} res
+      cmsn_sb_sessionclosed $sbn
+
+   } elseif {[eof $sb_sock]} {
 
       close $sb_sock
-      degt_protocol "<-SB-${sb_sock} CLOSED" red
+      degt_protocol "<-SB($sbn) CLOSED" sbrecv
       cmsn_sb_sessionclosed $sbn
 
    } else {
@@ -1314,7 +1389,7 @@ proc read_sb_sock {sbn} {
       gets $sb_sock tmp_data
       sb append $sbn data $tmp_data
 
-      degt_protocol "<-SB [stringmap {\r ""} $tmp_data]" green
+      degt_protocol "<-SB($sbn) $tmp_data" sbrecv
 
       if {[string range $tmp_data 0 2] == "MSG"} {
          set recv [split $tmp_data]
@@ -1322,7 +1397,7 @@ proc read_sb_sock {sbn} {
 	 set msg_data [read $sb_sock [lindex $recv 3]]
 	 fconfigure $sb_sock -blocking 0
 
-         degt_protocol "[stringmap {\r ""} $msg_data]" blue
+         degt_protocol "Message Contents:\n$msg_data" msgcontents
 
 	 sb append $sbn data $msg_data
       }
@@ -1377,34 +1452,24 @@ proc sb {do sbn var {value ""}} {
 proc read_ns_sock {} {
    global ns_data ns_stat config password
 
-   set ns_sock [sb get ns sock]
-   if {[eof $ns_sock]} {
-      status_log "Closing NS socket! (stat= [sb get ns stat])\n" red
-      close $ns_sock
 
-      set oldstat [sb get ns stat]
-      sb set ns stat "d"
+   set tmp_data [::MSN::ReadNS]
 
-      if { ("$oldstat" != "d") && ("$oldstat" != "u") } {
-         ::MSN::logout
-      }
-
-   } else {
-      gets $ns_sock tmp_data
+   if { "$tmp_data" != "" } {
 
       set log [stringmap {\r ""} $tmp_data]
-
-      degt_protocol "<-NS $tmp_data"
 
       sb append ns data $tmp_data
 
       if {[string range $tmp_data 0 2] == "MSG"} {
 
+         set ns_sock [sb get ns sock]
+
          set recv [split $tmp_data]
 	 fconfigure $ns_sock -blocking 1
 	 set msg_data [read $ns_sock [lindex $recv 3]]
-	 #status_log "MSGDATA: $msg_data " green
-	 degt_protocol "    $msg_data"
+
+	 degt_protocol " Message contents:\n$msg_data" msgcontents
 
 	 # Demographic Information about subscriber/user. Can be used
 	 # for a variety of things.
@@ -1428,8 +1493,12 @@ proc read_ns_sock {} {
 
 	 fconfigure $ns_sock -blocking 0
          sb append ns data $msg_data
+
       }
    }
+
+   return
+
 
 }
 
@@ -1859,7 +1928,9 @@ proc cmsn_connected_sb {name recv} {
 
    if {[sb exists $name invite]} {
 
+      sb set $name time [clock seconds]
       cmsn_invite_user $name [sb get $name invite]
+
       ::amsn::chatStatus [::MSN::ChatFor $name] "[trans willjoin [sb get $name invite]]...\n" miniinfo
 
    } else {
@@ -1885,9 +1956,9 @@ proc cmsn_reconnect { name } {
    if {[sb get $name stat] == "n"} {
 
       sb set $name stat "i"
-      cmsn_invite_user $name [sb get $name last_user]
 
       sb set $name time [clock seconds]
+      cmsn_invite_user $name [sb get $name last_user]
 
       ::amsn::chatStatus [::MSN::ChatFor $name] "[trans willjoin [sb get $name last_user]]..." miniinfo
 
@@ -1925,7 +1996,7 @@ proc cmsn_reconnect { name } {
       || ([sb get $name stat] == "a")} {
 
       if { [expr {[clock seconds] - [sb get $name time]}] > 10 } {
-         status_log "cmsn_reconnect: called again while reconnect using using timeouted\n" red
+         status_log "cmsn_reconnect: called again while authentication timeouted\n" red
 	 close [sb get $name sock]
 	 sb set $name stat "d"
 	 cmsn_reconnect $name
@@ -1954,7 +2025,7 @@ proc cmsn_sb_sessionclosed {sbn} {
    }
 
    if { [::MSN::SBFor $chatid] == $sbn } {
-      
+
       set items [expr {[sb length $sbn users] -1}]
       #TODO: Check if this works
       #sb set $sbn last_user [sb index $sbn users 0]
@@ -2203,7 +2274,7 @@ proc cmsn_ns_handler {item} {
             sb set ns serv $tmp_ns
             status_log "got a NS transfer!\n"
             status_log "reconnecting to [lindex $tmp_ns 0]\n"
-            cmsn_ns_connect $config(login) $password
+            cmsn_ns_connect $config(login) $password nosigin
             return 0
 	 } else {
             status_log "got an unknown transfer!!\n" red
@@ -2341,7 +2412,7 @@ proc cmsn_ns_handler {item} {
 	}
       }
       QNG {
-      	status_log "Ping response\n"
+        #Ping response
 	return 0
       }
       200 {
@@ -2522,31 +2593,6 @@ proc cmsn_auth {{recv ""}} {
    return -1
 }
 
-proc sb_change_fake { sbn } {
-	global typing config ${sbn}_info
-	
-	if { $typing != $sbn && [info exists ${sbn}_info] } {
-				
-		set typing $sbn	
-
-		after 4000 "set typing \"\""
-		
-		set sock [sb get $sbn sock]
-
-		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgscontrol\r\nTypingUser: $config(login)\r\n\r\n\r\n"
-		set msg_len [string length $msg]
-
-		incr ::MSN::trid
-		set res [catch { puts $sock "MSG $::MSN::trid U $msg_len" }]
-		set res [catch { puts -nonewline $sock $msg }]
-	
-		if { $res == 0 } {
-			after 270000 sb_change_fake $sbn
-		}
-	}
-
-}
-
 
 set typing ""
 
@@ -2554,20 +2600,22 @@ proc sb_change { chatid } {
 	global typing config
 
 	set sbn [::MSN::SBFor $chatid]
-	
+
 	if { $typing != $sbn } {
-		set typing $sbn	
+		set typing $sbn
 
 		after 4000 "set typing \"\""
-		
+
 		set sock [sb get $sbn sock]
 
 		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgscontrol\r\nTypingUser: $config(login)\r\n\r\n\r\n"
 		set msg_len [string length $msg]
 
-		incr ::MSN::trid
-		puts $sock "MSG $::MSN::trid U $msg_len"
-		puts -nonewline $sock $msg
+		#incr ::MSN::trid
+		#puts $sock "MSG $::MSN::trid U $msg_len"
+		::MSN::WriteSB $sbn "MSG" "U $msg_len"
+		#puts -nonewline $sock $msg
+		::MSN::WriteSBRaw $sbn "$msg"
 	}
 }
 
@@ -2600,7 +2648,8 @@ proc ns_enter {} {
    set command "[.status.enter get]"
    .status.enter delete 0 end
    if { [string range $command 0 0] == "/"} {
-     puts -nonewline [sb get ns sock] "[string range $command 1 [string length $command]]\r\n"
+     #puts -nonewline [sb get ns sock] "[string range $command 1 [string length $command]]\r\n"
+     WriteNSRaw "[string range $command 1 [string length $command]]\r\n"
    } elseif {$command != ""} {
      if {[catch {eval $command} res]} {
         msg_box "$res"
@@ -2675,7 +2724,7 @@ proc cmsn_ns_connected {} {
 }
 
 
-proc cmsn_ns_connect { username {password ""}} {
+proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
    global list_al list_bl list_fl list_rl list_users config
 
    if { ($username == "") || ($password == "")} {
@@ -2683,7 +2732,6 @@ proc cmsn_ns_connect { username {password ""}} {
      return -1
    }
 
-   cmsn_draw_signin
 
    set list_al [list]
    set list_bl [list]
@@ -2696,6 +2744,10 @@ proc cmsn_ns_connect { username {password ""}} {
    if {[sb get ns stat] != "d"} {
       fileevent [sb get ns sock] readable {}
       close [sb get ns sock]
+   }
+
+   if { $nosignin == "" } {
+      cmsn_draw_signin
    }
 
    #Log in

@@ -58,7 +58,12 @@ proc degt_protocol_win { } {
 	scrollbar .degt.mid.sy -command ".degt.mid.txt yview"
 	scrollbar .degt.mid.sx -orient horizontal -command ".degt.mid.txt xview"
 
-   .degt.mid.txt tag configure green -foreground darkgreen -background white
+   .degt.mid.txt tag configure error -foreground #ff0000 -background white
+   .degt.mid.txt tag configure nssend -foreground #888888 -background white
+   .degt.mid.txt tag configure nsrecv -foreground #000000 -background white
+   .degt.mid.txt tag configure sbsend -foreground #006666 -background white
+   .degt.mid.txt tag configure sbrecv -foreground #000088 -background white
+   .degt.mid.txt tag configure msgcontents -foreground #004400 -background white
    .degt.mid.txt tag configure red -foreground red -background white
    .degt.mid.txt tag configure white -foreground white -background black
    .degt.mid.txt tag configure blue -foreground blue -background white
@@ -1000,6 +1005,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.33  2003/04/02 00:44:45  airadier
+# Every NS or SB network operation is now done thru WriteNS/WriteSB, so everything is logged to the protocol window.
+#
 # Revision 1.32  2003/03/30 17:47:30  airadier
 # Added timeouts to switchboard reconnections and invitations.
 # Added (online/offline) number to group mode.
