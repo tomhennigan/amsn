@@ -518,4 +518,41 @@ invalidpic L'imgae no existix
 invalidsound El ficher de so no existix
 savechatwinsize Guardar el tamany de la finestra de chat com per defecte al canviar-lo
 soundfiles Archius de so
-statenick Mot personalisat (deixar en blanc per a no canviar-lo) 
+statenick Mot personalisat (deixar en blanc per a no canviar-lo) nick Mot
+nogroup Sense grup
+notinlist No esta en la seua llista de contactes
+p4contextprefix Prefixar remitents en P4-Context en esta cadena de caracters
+phones Numeros de telefon
+prefft Transferecies de fichers, igual-a-igual i configuracio de NAT
+publishphones Publicar els meus numeros de telefon
+recentmsg Previndre el tancament de la finestra de chat quan un mensage acava d'arribar
+rename Canviar nom
+showcachedpics Mostrar Imagens per a Mostrar almacenades
+showdisplaypic Vore Imagen per a Mostar
+showdisplaypic2 Per defecte, vore l'Image per a Mostrar al obrir una finestra de chat
+soundactive Reproduir sons al rebre mensages tambe en finestres actives
+statechange canvia el seu estat a :
+statenick Mot personalisat (en blanc per a cap)
+storenickname Tornar al mot original despres d'un estat en mot personalisat
+truncatenicks Truncar mots mes llarcs que l'ample de la finestra
+userdata Datos 'usuari
+userproperties Propietats de l'usuari
+nick Mot
+alarms Alarmes
+automessage Mensage automatic
+displayp4context Mostrar el contingut del camp P4-Context com a remitent del mensage
+customcolor Color personal
+lastmsgedme Ultim mensage
+customnick Mot personal
+lastlogin Ultima conexio
+cachedpics Imagens per a Mostrar almacenades
+logsbydate Ordenar historics per data (Vore historial molt mes rapit)
+invalidgroup Grup invalit
+lastlogout Ultima desconexio
+longp4c El teu mot es mes llarc de 130 caracters. El mot mostrat en el MS-MSN sera . ¿Desiges continuar?
+leavejoinsinchat Mostrar notifiacions de deixa/s'unix a la conversacio en la finestra de chat
+currentdate Data actual
+displaypic Image per a Mostar
+friendlyname Mot en conversacio
+autodetectip Detectar IP automaticametn
+change Canviar
