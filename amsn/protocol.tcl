@@ -2427,7 +2427,7 @@ proc sb {do sbn var {value ""}} {
 }
 
 proc proc_sb_watchdog {} {
-	status_log "ALERT: PROC_SB STOPPED WORKING!!!!!!!" red
+	status_log "ALERT: PROC_SB STOPPED WORKING!!!!!!!\n" red
 	after cancel proc_sb
 	proc_sb
 }
@@ -2474,7 +2474,7 @@ proc proc_sb {} {
 
 
 proc proc_ns_watchdog {} {
-	status_log "ALERT: PROC_NS STOPPED WORKING!!!!!!!" red
+	status_log "ALERT: PROC_NS STOPPED WORKING!!!!!!!\n" red
 	after cancel proc_ns
 	proc_ns
 }
