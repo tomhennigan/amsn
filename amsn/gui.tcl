@@ -67,7 +67,7 @@ namespace eval ::amsn {
 		pack .tlsdown.choose -side top -anchor w -padx 10 -pady 10
 
 		radiobutton .tlsdown.linuxx86 -text "Linux-x86" -variable tlsplatform -value "linuxx86" -font splainf
-		radiobutton .tlsdown.linuxx86 -text "NetBSD-x86" -variable tlsplatform -value "netbsdx86" -font splainf
+		radiobutton .tlsdown.netbsdx86 -text "NetBSD-x86" -variable tlsplatform -value "netbsdx86" -font splainf
 		radiobutton .tlsdown.solaris26 -text "Solaris 2.6 SPARC" -variable tlsplatform -value "solaris26" -font splainf
 		radiobutton .tlsdown.win32 -text "Windows" -variable tlsplatform -value "win32" -font splainf
 		radiobutton .tlsdown.src -text "[trans sourcecode]" -variable tlsplatform -value "src" -font splainf
@@ -83,6 +83,7 @@ namespace eval ::amsn {
 		pack .tlsdown.f.ok -side right -padx 10 -pady 10
 
 		pack .tlsdown.linuxx86 -side top -anchor w -padx 15
+		pack .tlsdown.netbsdx86 -side top -anchor w -padx 15
 		pack .tlsdown.solaris26 -side top -anchor w -padx 15
 		pack .tlsdown.win32 -side top -anchor w -padx 15
 		pack .tlsdown.src -side top -anchor w -padx 15
