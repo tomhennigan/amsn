@@ -4781,16 +4781,16 @@ namespace eval ::MSNP2P {
 		}
 			
 		append bheader [binary format i $MsgId]
-		append bheader [binary format w $Offset]
+		append bheader [binword $Offset]
 
 		set CurrentSize [string length $slpdata]
 		# We must set TotalSize to the size of data if it is > 1202 bytes otherwise we set to 0
 		if { $TotalSize == 0 } {
 			# This isn't a split message
-			append bheader "[binary format w $CurrentSize][binary format i $CurrentSize]"
+			append bheader "[binword $CurrentSize][binary format i $CurrentSize]"
 		} else {
 			# This is a split message
-			append bheader "[binary format w $TotalSize][binary format i $CurrentSize]"
+			append bheader "[binword $TotalSize][binary format i $CurrentSize]"
 			incr Offset $CurrentSize
 			if { $Offset >= $TotalSize } {
 				# We have finished sending the last part of the message
@@ -4806,7 +4806,7 @@ namespace eval ::MSNP2P {
 		append bheader [binary format i 3415435]
 
 		# Set last 2 ack fields to 0
-		append bheader [binary format iw 0 0]
+		append bheader [binary format i 0][binword 0]
 		
 		# Now the footer
 		if { $nullsid == 1 } {
@@ -4857,7 +4857,7 @@ namespace eval ::MSNP2P {
 		set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $Destination\r\n\r\n"
 
 		# Set the binary header and footer
-		set b [binary format iiwwiiiiwI $originalsid $MsgId 0 $originalsize 0 2 $originalid $originaluid $originalsize 0]
+	    set b [binary format ii $originalsid $MsgId][binword 0][binword $originalsize][binary format iiii 0 2 $originalid $originaluid][binword $originalsize][binary format I 0]
 
 		# Save new Session Variables into SessionList
 		if { $new == 1 } {
@@ -4983,3 +4983,8 @@ namespace eval ::MSNP2P {
 	}
 }
 
+
+proc binword { word } {
+
+    return [binary format ii [expr $word % 4294967296] [expr ( $word - ( $word % 4294967296)) / 4294967296 ]]
+}
