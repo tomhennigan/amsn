@@ -1784,8 +1784,8 @@ namespace eval ::ChatWindow {
 		bind $invite <Leave> "$invite configure -image [::skin::loadPixmap butinvite]"
 		
 		#send chatwindowbutton postevent
-		set evpar(bottom) $buttonsinner
-		set evpar(window_name) "$w"
+		set evPar(bottom) $buttonsinner
+		set evPar(window_name) "$w"
 		::plugins::PostEvent chatwindowbutton evPar
 
 		return $buttons

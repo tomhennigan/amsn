@@ -274,7 +274,7 @@ namespace eval ::Nudge {
 	################################################	
 	proc sendbutton { event evpar } {
 		if { $::Nudge::config(addbutton) == 1 } {
-			upvar 2 evpar newvar
+			upvar 2 $evpar newvar
 			set nudgebutton $newvar(bottom).nudge
 			#Create the button with an actual Pixmal
 			#Use after 1 to avoid a bug on Mac OS X when we close the chatwindow before the end of the nudge
@@ -310,7 +310,7 @@ namespace eval ::Nudge {
 	# a nudge to the other contact                 #
 	################################################	
 	proc itemmenu { event evpar } {
-		upvar 2 evPar newvar
+		upvar 2 $evpar newvar
 		#Add a separator to the menu
 		$newvar(menu_name).actions add separator
 		#Add label in the menu
@@ -346,7 +346,7 @@ namespace eval ::Nudge {
 	# a nudge to the other contact.                #
 	################################################	
 	proc clitemmenu { event evpar } {
-		upvar 2 evPar newvar
+		upvar 2 $evpar newvar
 		#Add a separator to the menu
 		$newvar(menu_name) add separator
 		
