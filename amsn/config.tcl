@@ -737,7 +737,7 @@ proc CreateProfile { email } {
 	}
 
 	# If first time loading from default profile, make sure .amsn/config exists
-	if { ($HOME == $HOME2) && ([file exists [file join $HOME2 config]] == 0) } {
+	if { ($HOME == $HOME2) && ([file exists [file join $HOME2 config.xml]] == 0) } {
 		save_config
 	}
 	
@@ -755,7 +755,7 @@ proc CreateProfile { email } {
 	create_dir $log_dir
 	
 	# Load default config initially while keeping previous language
-	file copy -force [file join $HOME2 config] $newHOMEdir
+	file copy -force [file join $HOME2 config.xml] $newHOMEdir
 	
 	set oldhome $HOME
 	set HOME $newHOMEdir
