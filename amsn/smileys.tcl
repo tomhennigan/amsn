@@ -331,7 +331,7 @@ proc create_smile_menu { {x 0} {y 0} } {
  	    if { $animated } {
  		label $w.text.$filename -background [$w.text cget -background]
   		::anigif::anigif  [file join $smileys_folder ${file}] $w.text.$filename
- 		bind $w.text.$filename <Destroy> "::anigif::destroy $w.text.$file"	
+ 		bind $w.text.$filename <Destroy> "::anigif::destroy $w.text.$filename"	
  	    } else {
 		label $w.text.$filename -image $file -background [$w.text cget -background]
 	    }
