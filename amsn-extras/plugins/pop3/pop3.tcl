@@ -6,7 +6,7 @@
 namespace eval ::pop3 {
 	variable config
 	variable configlist
-	variable emails 0
+	variable emails -1
 
 	#######################################################################################
 	#######################################################################################
@@ -136,10 +136,40 @@ namespace eval ::pop3 {
 	# Results:
 	#	None
 	proc ::pop3::close {chan} {
-		catch {::pop3::send $chan "QUIT"}
+		if {[catch {::pop3::send $chan "QUIT"} errorStr]} {
+			if { ($errorStr == "blocked") || ($errorStr == "notOpenYet") } {
+				after 1000 [list ::pop3::close $chan]
+				return
+			}
+		}
 		::close $chan
+		unset ::pop3::chanopen_$chan
 	}
 
+	proc ::pop3::waitTillOpen {chan user password time} {
+		#don't block untill we know that its available
+		fconfigure $chan -blocking 0
+		if {[catch {::pop3::send $chan {} 1} errorStr]} {
+			if { $errorStr == "blocked" } {
+				plugins_log pop3 "Mail server was blocked, Trying again in $time milliseconds"
+				#exponentially wait longer periods
+				after $time [list ::pop3::waitTillOpen $chan $user $password [expr "$time * 2"]]
+				return
+			}
+			::close $chan
+		}
+		fconfigure $chan -blocking 1
+
+		if {[catch {
+			::pop3::send $chan "user $user" 1
+			::pop3::send $chan "pass $password" 1
+			} errorStr]} {
+			::close $chan
+			return "POP3 LOGIN ERROR: $errorStr\n"
+		}
+
+		set ::pop3::chanopen_$chan 1
+	}
 
 	# pop3::open
 	# Description
@@ -203,7 +233,7 @@ namespace eval ::pop3 {
 	
 		# Argument processing is finally complete, now open the channel
 	
-		set chan [socket $host $port]
+		set chan [socket -async $host $port]
 		fconfigure $chan -buffering none
 	
 		if {$cstate(msex)} {
@@ -212,26 +242,11 @@ namespace eval ::pop3 {
 		} else {
 			fconfigure $chan -translation {binary crlf}
 		}
-	
-		if {[catch {::pop3::send $chan {}} errorStr]} {
-			::close $chan
-		}
 
-		if {0} {
-			# -FUTURE- Identify MS Exchange servers
-			set cstate(msex) 1
-	
-			# We are talking to MS Exchange. Work around its quirks.
-			fconfigure $chan -translation binary
-		}
-	
-		if {[catch {
-			::pop3::send $chan "user $user"
-			::pop3::send $chan "pass $password"
-		} errorStr]} {
-			::close $chan
-			return "POP3 LOGIN ERROR: $errorStr\n"
-		}
+		set ::pop3::chanopen_$chan 0
+
+		#give it a chance to open then call rest
+		after 100 [list ::pop3::waitTillOpen $chan $user $password 100]
 		
 		return $chan
 	}
@@ -243,19 +258,27 @@ namespace eval ::pop3 {
 	#	internal function, but may be used in rare cases.
 	# Arguments:
 	#	chan      -> The channel open to the POP3 server.
-	#       cmdstring -> POP3 command string
+	#	cmdstring -> POP3 command string
+	#	override  -> skip the not open check
 	# Results:
 	#	Result string from the POP3 server, except for the +OK tag.
 	#	Errors from the POP3 server are thrown.
-	proc ::pop3::send {chan cmdstring} {
+	proc ::pop3::send {chan cmdstring {override 0}} {
 		global PopErrorNm PopErrorStr debug
-		set stated 0
-	
+
+		if { ($override == 0) && ([set ::pop3::chanopen_$chan] == 0) } {
+			error "notOpenYet"
+		}
+
 		if {$cmdstring != {}} {
 			puts $chan $cmdstring
 		}
-	   
+
 		set popRet [string trim [gets $chan]]
+
+		if { [fblocked $chan] } {
+			error "blocked"
+		}
 	
 		if {[string first "+OK" $popRet] == -1} {
 			error [string range $popRet 4 end]
@@ -292,6 +315,8 @@ namespace eval ::pop3 {
 	proc ::pop3::check { } {
 		catch {
 			set chan [::pop3::open $::pop3::config(host) $::pop3::config(user) $::pop3::config(pass) $::pop3::config(port)]
+			#wait till chan is open before checking it
+			vwait ::pop3::chanopen_$chan
 			set mails [::pop3::status $chan]
 			::pop3::close $chan
 
@@ -307,6 +332,8 @@ namespace eval ::pop3 {
 		}
 
 		catch {
+			# Make sure there isn't duplicat calls
+			after cancel ::pop3::check
 			# Call itself again after x minutes
 			set time [expr {int($::pop3::config(minute) *60000)}]
 			after $time ::pop3::check
@@ -322,7 +349,7 @@ namespace eval ::pop3 {
 	#     evPar   -> The array of parameters (Supplied by Plugins System)
 	proc start {event evPar} {
 		#cancel any previous starts first
-		::pop3::stop 0 0
+		catch { after cancel ::pop3::check }
 		catch { after 5000 ::pop3::check }
 	}
 
@@ -335,6 +362,11 @@ namespace eval ::pop3 {
 	#     evPar   -> The array of parameters (Supplied by Plugins System)
 	proc stop {event evPar} {
 		catch { after cancel ::pop3::check }
+		#If online redraw main window to remove new line
+		#Doesn't work yet, as events are still triggered after unload (need to fix)
+		if { (!$::initialize_amsn) && ([::MSN::myStatusIs] != "FLN") } {
+			cmsn_draw_online
+		}
 	}
 
 
@@ -365,7 +397,9 @@ namespace eval ::pop3 {
 	proc draw {event evPar} {		
 		upvar 2 $evPar vars
 
-		if { $::pop3::emails == 0 } {
+		if { $::pop3::emails < 0 } {
+			set mailmsg "Not Checked Yet (POP3)"
+		} elseif { $::pop3::emails == 0 } {
 			set mailmsg "[trans nonewmail] (POP3)"
 		} elseif {$::pop3::emails == 1} {
 			set mailmsg "[trans onenewmail] (POP3)"
@@ -377,7 +411,7 @@ namespace eval ::pop3 {
 		set maxw [expr [winfo width $vars(text)] -30]
 		set short_mailmsg [trunc $mailmsg $vars(text) $maxw splainf]
 
-		clickableImage $vars(text) popmailpic mailbox {::pop3::stop 0 0; after 1 ::pop3::check} 5 0
+		clickableImage $vars(text) popmailpic mailbox {after cancel ::pop3::check; after 1 ::pop3::check} 5 0
 		#TODO needs translation
 		set balloon_message "Click here to check the number of messages now."
 		bind $vars(text).popmailpic <Enter> +[list balloon_enter %W %X %Y $balloon_message]
@@ -397,7 +431,7 @@ namespace eval ::pop3 {
 			$vars(text) tag add dont_replace_smileys pop3mail.first pop3mail.last
 		} else {
 			#label $vars(text).popmailpic -image [::skin::loadPixmap mailbox] -background white
-			$vars(text) window create end -window $vars(text).popmailpic -padx 3 -pady 0 -align center -stretch true
+			#$vars(text) window create end -window $vars(text).popmailpic -padx 3 -pady 0 -align center -stretch true
 
 			$vars(text) insert end "$short_mailmsg\n"
 		}
