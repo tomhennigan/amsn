@@ -6502,6 +6502,7 @@ proc status_log {txt {colour ""}} {
 
 	if { [catch {
 		.status.info insert end "[timestamp] $txt" $colour
+		.status.info delete 0.0 end-200lines
 		#puts "[timestamp] $txt"
 		if { $followtext_status == 1 } {
 			catch {.status.info yview moveto 1.0}
@@ -7574,6 +7575,7 @@ proc degt_protocol { str {colour ""}} {
 	
 	.degt.mid.txt insert end "[timestamp] $str\n" $colour
 #	puts "$str"
+	.degt.mid.txt delete 0.0 end-200lines
 	if { $followtext_degt == 1} {
 		.degt.mid.txt yview moveto 1.0
 	}    
@@ -7607,12 +7609,14 @@ proc degt_protocol_win { } {
 	
 	#font create debug -family Verdana -size 24 -weight bold
 	frame .degt.mid -class Degt
-		text   .degt.mid.txt -height 20 -width 85 -font splainf \
-			-wrap none -background white -foreground black \
-			-yscrollcommand ".degt.mid.sy set" \
-			-xscrollcommand ".degt.mid.sx set"
-		scrollbar .degt.mid.sy -command ".degt.mid.txt yview"
-		scrollbar .degt.mid.sx -orient horizontal -command ".degt.mid.txt xview"
+	
+	text   .degt.mid.txt -height 20 -width 85 -font splainf \
+		-wrap none -background white -foreground black \
+		-yscrollcommand ".degt.mid.sy set" \
+		-xscrollcommand ".degt.mid.sx set" \
+		-undo false
+	scrollbar .degt.mid.sy -command ".degt.mid.txt yview"
+	scrollbar .degt.mid.sx -orient horizontal -command ".degt.mid.txt xview"
 	
 	.degt.mid.txt tag configure error -foreground #ff0000 -background white
 	.degt.mid.txt tag configure nssend -foreground #888888 -background white
@@ -7625,9 +7629,9 @@ proc degt_protocol_win { } {
 	.degt.mid.txt tag configure blue -foreground blue -background white
 	
 	
-		pack .degt.mid.sy -side right -fill y
-		pack .degt.mid.sx -side bottom -fill x
-		pack .degt.mid.txt -anchor nw  -expand true -fill both
+	pack .degt.mid.sy -side right -fill y
+	pack .degt.mid.sx -side bottom -fill x
+	pack .degt.mid.txt -anchor nw  -expand true -fill both
 	
 	pack .degt.mid -expand true -fill both
 	
