@@ -948,7 +948,7 @@ namespace eval ::amsn {
 				} else {
 					#Calculate rate and time
 					set rate [format "%.1f" [expr {(1.0*$bytes / $difftime) / 1024.0 } ]]
-					set secleft [expr {(($filesize - $bytes) / $bytes) * $difftime} ]
+					set secleft [expr {int(((1.0*($filesize - $bytes)) / $bytes) * $difftime)} ]
 					set t1 [expr {$secleft % 60 }] ;#Seconds
 					set secleft [expr {int($secleft / 60)}]
 					set t2 [expr {$secleft % 60 }] ;#Minutes
