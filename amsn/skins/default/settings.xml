@@ -31,15 +31,15 @@
 
 	<ChatWindow>
 		<Colors>
-			<chatwindowbg>#cccccc</chatwindowbg>
+			<chatwindowbg>#c3c2d2</chatwindowbg>
 			<buttonbarbg>#ffffff</buttonbarbg>
 			<topbarbg>#fcfcee</topbarbg>
 			<topbartext>#000000</topbartext>
-			<topbarawaybg>#ccffcc</topbarawaybg>
+			<topbarawaybg>#eaffe7</topbarawaybg>
 			<topbarawaytext>#00aa00</topbarawaytext>
-			<topbarbusybg>#c10000</topbarbusybg>
-			<topbarbusytext>#ffefef</topbarbusytext>
-			<topbarofflinebg>#dedede</topbarofflinebg>
+			<topbarbusybg>#ffeeee</topbarbusybg>
+			<topbarbusytext>#ff3232</topbarbusytext>
+			<topbarofflinebg>#fcfcf6</topbarofflinebg>
 			<topbarofflinetext>#a2a2a2</topbarofflinetext>
 			<chatborders>1</chatborders>
 			<statusbarbg>#fcfcee</statusbarbg>
@@ -53,20 +53,20 @@
 			<chat_paned_padx>1</chat_paned_padx>
 			<chat_paned_pady>0</chat_paned_pady>
 			<chat_output_padx>0</chat_output_padx>
-			<chat_output_pady>2</chat_output_pady>
+			<chat_output_pady>1</chat_output_pady>
 			<chat_buttons_padx>0</chat_buttons_padx>
 			<chat_buttons_pady>2</chat_buttons_pady>
 			<chat_input_padx>0</chat_input_padx>
-			<chat_input_pady>1</chat_input_pady>
-			<chat_dp_padx>1</chat_dp_padx>
-			<chat_dp_pady>2</chat_dp_pady>
+			<chat_input_pady>0</chat_input_pady>
+			<chat_dp_padx>2</chat_dp_padx>
+			<chat_dp_pady>1</chat_dp_pady>
 			<chat_leftframe_padx>0</chat_leftframe_padx>
 			<chat_leftframe_pady>0</chat_leftframe_pady>
 			<chat_sendbutton_padx>3</chat_sendbutton_padx>
 			<chat_sendbutton_pady>3</chat_sendbutton_pady>
 			<chat_status_padx>1</chat_status_padx>
 			<chat_status_pady>1</chat_status_pady>
-			<chat_sash_pady>0</chat_sash_pady>
+			<chat_sash_pady>1</chat_sash_pady>
 		</Geometry>
 		
 		<Options>
