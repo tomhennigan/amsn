@@ -2071,12 +2071,13 @@ proc proc_sb {} {
 
 proc proc_ns_watchdog {} {
 	status_log "ALERT: PROC_NS STOPPED WORKING!!!!!!!" red
+	proc_ns
 }
 
 proc proc_ns {} {
 
    after cancel proc_ns
-	after 250 proc_ns_watchdog
+	after 4000 proc_ns_watchdog
 
 	#status_log "Processing NS\n"	
    while {[sb length ns data]} {
