@@ -89,13 +89,13 @@ proc findskins { } {
 proc SelectSkinGui { } {
 	global config bgcolor2
 
-	set w .skin_selector 
+	set w .skin_selector
 	toplevel $w
 	wm geometry $w 450x250
 	wm resizable $w 0 0
 	wm title $w "[trans chooseskin]"
 
-	label $w.choose -text "[trans chooseskin]"
+	label $w.choose -text "[trans chooseskin]" -font bboldf
 	pack $w.choose -side top
     
 	frame $w.main -relief solid -borderwidth 2
@@ -122,8 +122,8 @@ proc SelectSkinGui { } {
 	set select -1
 	set idx 0
 
-	button $w.ok -text "[trans ok]" -command "selectskinok $w"
-	button $w.cancel -text "[trans cancel]" -command "destroy $w"
+	button $w.ok -text "[trans ok]" -command "selectskinok $w" -font sboldf
+	button $w.cancel -text "[trans cancel]" -command "destroy $w" -font sboldf
 
 	pack $w.ok $w.cancel -side right
 
