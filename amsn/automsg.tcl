@@ -345,10 +345,13 @@ proc ButtonSaveState { lfname mode { idx "" } } {
 
 	# reset menus and listbox
 	CreateStatesMenu .my_menu
-	set cfgname [Rnotebook:frame .cfg.notebook.nn 3]
-	$cfgname.lfname2.f.f.statelist.box delete 0 end
-	for { set idx 0 } { $idx < [StateList size] } {incr idx } {
-		$cfgname.lfname2.f.f.statelist.box insert end [lindex [StateList get $idx] 0]
+
+	if { $mode == 0 || $mode == 2 } {
+		set cfgname [Rnotebook:frame .cfg.notebook.nn 3]
+		$cfgname.lfname2.f.f.statelist.box delete 0 end
+		for { set idx 0 } { $idx < [StateList size] } {incr idx } {
+			$cfgname.lfname2.f.f.statelist.box insert end [lindex [StateList get $idx] 0]
+		}
 	}
 
 }
