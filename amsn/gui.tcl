@@ -115,13 +115,128 @@ namespace eval ::amsn {
    #Dialog shown when receiving a file
    proc fileTransferRecv {filename filesize cookie sb_name fromlogin fromname} {
       global files_dir
-      set answer [tk_messageBox -message "$fromname <$fromlogin> - [trans acceptfile $filename $filesize $files_dir]" -type yesno -icon question -title [trans receivefile]]
-      if {$answer == "yes"} {
-         ::amsn::RecvWin $filename $cookie 
-         ::MSN::acceptFT $sb_name $filename $filesize $cookie
-      } else {
-         ::MSN::rejectFT $sb_name $cookie
+
+      #Newer version
+
+      set win_name "msg_[string tolower ${sb_name}]"
+
+     .${win_name}.text configure -state normal -font bplainf -foreground black
+      
+
+     .${win_name}.text tag configure ftyes$cookie \
+       -foreground darkblue -background white -font bboldf -underline false
+     .${win_name}.text tag bind ftyes$cookie <Enter> \
+       ".${win_name}.text tag conf ftyes$cookie -underline true;\
+       .${win_name}.text conf -cursor hand2"
+     .${win_name}.text tag bind ftyes$cookie <Leave> \
+       ".${win_name}.text tag conf ftyes$cookie -underline false;\
+       .${win_name}.text conf -cursor left_ptr"
+     .${win_name}.text tag bind ftyes$cookie <Button1-ButtonRelease> \
+       "::amsn::AcceptedFT $sb_name $cookie; ::amsn::RecvWin $filename $cookie; ::MSN::acceptFT $sb_name $filename $filesize $cookie"
+
+     .${win_name}.text tag configure ftno$cookie \
+       -foreground darkblue -background white -font bboldf -underline false
+     .${win_name}.text tag bind ftno$cookie <Enter> \
+       ".${win_name}.text tag conf ftno$cookie -underline true;\
+       .${win_name}.text conf -cursor hand2"
+     .${win_name}.text tag bind ftno$cookie <Leave> \
+       ".${win_name}.text tag conf ftno$cookie -underline false;\
+       .${win_name}.text conf -cursor left_ptr"
+     .${win_name}.text tag bind ftno$cookie <Button1-ButtonRelease> \
+       "::amsn::RejectedFT $sb_name $cookie; ::MSN::rejectFT $sb_name $cookie"
+
+
+     set timestamp [clock format [clock seconds] -format %H:%M]
+            
+     set txt [trans acceptfile '$filename' $filesize $files_dir]
+
+     .${win_name}.text insert end "\[$timestamp\] $fromname: $txt" darkgreen
+     .${win_name}.text insert end " - (" darkgreen
+     .${win_name}.text insert end "[trans accept]" ftyes$cookie
+     .${win_name}.text insert end " / " darkgreen
+     .${win_name}.text insert end "[trans reject]" ftno$cookie
+     .${win_name}.text insert end " )\n" darkgreen
+
+     .${win_name}.text yview moveto 1.0
+     .${win_name}.text configure -state disabled
+
+      #Trozo repetido en cmsn_sb_msg (protocol.tcl)
+      #Hace falta unificar el sistema de ventanas de chat
+      
+      cmsn_msgwin_flicker $sb_name 20     
+      set win_name "msg_[string tolower ${sb_name}]"
+
+      if { [string compare [wm state .${win_name}] "withdrawn"] == 0 } {
+        wm state .${win_name} iconic
+	::amsn::notifyAdd "[trans says $fromname]:\n$txt" \
+	   "wm state .${win_name} normal"
+      }            
+
+      if { [string first $win_name [focus]] != 1 } {
+        sonido type
       }
+
+
+   }
+
+
+   proc AcceptedFT {sb_name cookie} {
+
+      set win_name "msg_[string tolower ${sb_name}]"
+
+     .${win_name}.text configure -state normal -font bplainf -foreground black
+
+
+     .${win_name}.text tag configure ftyes$cookie \
+       -foreground darkblue -background white -font bboldf -underline true
+     .${win_name}.text tag bind ftyes$cookie <Enter> ""
+     .${win_name}.text tag bind ftyes$cookie <Leave> ""
+     .${win_name}.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
+
+
+     .${win_name}.text tag configure ftno$cookie \
+       -foreground darkblue -background white -font bboldf -underline false
+     .${win_name}.text tag bind ftno$cookie <Enter> ""
+     .${win_name}.text tag bind ftno$cookie <Leave> ""
+     .${win_name}.text tag bind ftno$cookie <Button1-ButtonRelease> ""
+
+     .${win_name}.text conf -cursor left_ptr
+
+     set txt [trans ftaccepted]
+
+     .${win_name}.text insert end " ** $txt\n" darkgreen
+
+     .${win_name}.text yview moveto 1.0
+     .${win_name}.text configure -state disabled
+   }
+
+   proc RejectedFT {sb_name cookie} {
+
+      set win_name "msg_[string tolower ${sb_name}]"
+
+     .${win_name}.text configure -state normal -font bplainf -foreground black
+
+
+     .${win_name}.text tag configure ftyes$cookie \
+       -foreground darkblue -background white -font bboldf -underline false
+     .${win_name}.text tag bind ftyes$cookie <Enter> ""
+     .${win_name}.text tag bind ftyes$cookie <Leave> ""
+     .${win_name}.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
+
+     .${win_name}.text tag configure ftno$cookie \
+       -foreground darkblue -background white -font bboldf -underline true
+     .${win_name}.text tag bind ftno$cookie <Enter> ""
+     .${win_name}.text tag bind ftno$cookie <Leave> ""
+     .${win_name}.text tag bind ftno$cookie <Button1-ButtonRelease> ""
+
+     .${win_name}.text conf -cursor left_ptr
+
+     set txt [trans ftrejected]
+
+     .${win_name}.text insert end " ** $txt\n" darkgreen
+
+     .${win_name}.text yview moveto 1.0
+     .${win_name}.text configure -state disabled
    }
 
    #PRIVATE: Opens Sending Window
