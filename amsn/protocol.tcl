@@ -824,7 +824,6 @@ namespace eval ::MSN {
 
 
 	proc reconnect { error_msg } {
-	
 		cmsn_draw_reconnect $error_msg
 		after 5000 ::MSN::connect
 		
@@ -1255,8 +1254,7 @@ namespace eval ::MSN {
 		$sb configure -sock ""
 		$sb configure -stat "d"
 		
-		if { $sb == "ns" } {
-	
+		if { [string first NS $sb] != -1 } {	
 
 			set mystatus [::MSN::myStatusIs]
 		
