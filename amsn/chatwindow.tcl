@@ -849,7 +849,9 @@ namespace eval ::ChatWindow {
 	proc CreateTabBar { w } {
 		set bar $w.bar
 		::skin::setPixmap tab tab.gif
-		::skin::setPixmap tab_hover tab_hover.gif
+		::skin::setPixmap tab_close tab_close.gif
+                ::skin::setPixmap tab_close_hover tab_close_hover.gif
+                ::skin::setPixmap tab_hover tab_hover.gif
 		::skin::setPixmap tab_current tab_current.gif
 		::skin::setPixmap tab_flicker tab_flicker.gif
 		::skin::setPixmap moretabs moretabs.gif
@@ -2150,9 +2152,9 @@ namespace eval ::ChatWindow {
 		set count [set winflicker($win)]
 
 		if { [expr $count % 2] == 0 } {
-			$tab configure -image [::skin::loadPixmap tab_flicker]
+			$tab itemconfigure tab_bg -image [::skin::loadPixmap tab_flicker]
 		} else {
-			$tab configure -image [::skin::loadPixmap tab]	
+			$tab itemconfigure tab_bg -image [::skin::loadPixmap tab]	
 		}
 
 		incr winflicker($win)
@@ -2251,29 +2253,40 @@ namespace eval ::ChatWindow {
 		set w [string map { "." "_"} $win]
 		set tab $container.bar.$w
 
-		# We have two ways of creating this tab button
-		if { $::tcl_version >= 8.4 } {
-			set btcmd "button"
-		} else {
-			set btcmd "btimg83"
-		}
+		# We have two ways of creating this tab button - not anymore, we don't. New canvas based tab should be Tcl/TK 8.3 compatible
+		#if { $::tcl_version >= 8.4 } {
+		#	set btcmd "button"
+		#} else {
+		#	set btcmd "btimg83"
+		#}
 
-		$btcmd $tab -image [::skin::loadPixmap tab] \
-		    -width [image width [::skin::loadPixmap tab]] \
-		    -command "::ChatWindow::SwitchToTab $container $win" \
-		    -fg black -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
-		    -activebackground [::skin::getKey tabbarbg] \
-		    -activeforeground black -text "$win" \
-		    -font sboldf -highlightthickness 0 -pady 0 -padx 0 
-		if { $::tcl_version >= 8.4 } {
-			$tab configure -overrelief flat -compound center
-		}
+                #New canvas-based tab
+		canvas $tab -bg [::skin::getKey tabbarbg] -bd 0 -relief flat -width [image width [::skin::loadPixmap tab]] \
+                -height [image height [::skin::loadPixmap tab]]
+                
+                $tab create image 0 0 -anchor nw -image [::skin::loadPixmap tab] -tag tab_bg
+                $tab create text [::skin::getKey tab_text_x] [::skin::getKey tab_text_y] -anchor nw -text "$win" -tag tab_text -font sboldf -width [::skin::getKey tab_text_width]
+                $tab create image [::skin::getKey tab_close_x] [::skin::getKey tab_close_y] -anchor nw -image [::skin::loadPixmap tab_close] -activeimage [::skin::loadPixmap tab_close_hover] -tag tab_close
+                
+                #Old button based tab
+                #$btcmd $tab -image [::skin::loadPixmap tab] \
+		 #   -width [image width [::skin::loadPixmap tab]] \
+		 #   -command "::ChatWindow::SwitchToTab $container $win" \
+		 #   -fg black -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
+		 #   -activebackground [::skin::getKey tabbarbg] \
+		 #   -activeforeground black -text "$win" \
+		 #   -font sboldf -highlightthickness 0 -pady 0 -padx 0 
+		#if { $::tcl_version >= 8.4 } {
+		#	$tab configure -overrelief flat -compound center
+		#}
 
 
 		bind $tab <Enter> "::ChatWindow::TabEntered $tab $win"
 		bind $tab <Leave> "::ChatWindow::TabLeft $tab"
 		bind $tab <<Button2>> "::ChatWindow::CloseTab $tab"
-
+		$tab bind tab_close <ButtonRelease-1> "::ChatWindow::CloseTab $tab"
+                $tab bind tab_bg <ButtonRelease-1> "::ChatWindow::SwitchToTab $container $win"
+                $tab bind tab_text <ButtonRelease-1> "::ChatWindow::SwitchToTab $container $win"
 
 		set tab2win($tab) $win
 		set win2tab($win) $tab
@@ -2324,8 +2337,8 @@ namespace eval ::ChatWindow {
 
 	proc TabEntered { tab win } {
 		after cancel "::ChatWindow::FlickerTab $win"; 
-		set ::ChatWindow::oldpixmap($tab) [$tab cget -image] 
-		$tab configure -image [::skin::loadPixmap tab_hover]
+		set ::ChatWindow::oldpixmap($tab) [$tab itemcget tab_bg -image] 
+		$tab itemconfigure tab_bg -image [::skin::loadPixmap tab_hover]
 		
 	}
 	
@@ -2341,7 +2354,7 @@ namespace eval ::ChatWindow {
 			set image [::skin::loadPixmap tab_current]
 		}
 
-		$tab configure -image $image
+		$tab itemconfigure tab_bg -image $image
 	 }
 
 	#///////////////////////////////////////////////////////////////////////////////////
@@ -2359,21 +2372,21 @@ namespace eval ::ChatWindow {
 			set tabvar ${tab}_lbl
 		}
 		#status_log "naming tab $win with chatid info $chatid\n" red
-		set max_w [image width [::skin::loadPixmap tab]]
-		incr max_w -5
+		set max_w [::skin::getKey tab_text_width]
+		
 		if { $users == "" || [llength $users] == 1} {
 			set nick [::abook::getDisplayNick $chatid]
 			if { $nick == "" || [::config::getKey tabtitlenick] == 0 } {
 				#status_log "writing chatid\n" red
-				$tabvar configure -text "[trunc $chatid $tab $max_w sboldf]"
+				$tabvar itemconfigure tab_text -text "[trunc $chatid $tab $max_w sboldf]"
 			} else {
 				#status_log "found nick $nick\n" red
-				$tabvar configure -text "[trunc $nick $tab $max_w sboldf]"
+				$tabvar itemconfigure tab_text -text "[trunc $nick $tab $max_w sboldf]"
 			}
 		} elseif { [llength $users] != 1 } {
 			set number [llength $users]
 			#status_log "Conversation with $number users\n" red
-			$tabvar configure -text "[trunc [trans conversationwith $number] $tab $max_w sboldf]"
+			$tabvar itemconfigure tab_text -text "[trunc [trans conversationwith $number] $tab $max_w sboldf]"
 		}
 
 		::ChatWindow::UpdateContainerTitle [winfo toplevel $win]
@@ -2410,7 +2423,7 @@ namespace eval ::ChatWindow {
 			set containerprevious($container) $w
 			if { [info exists win2tab($w)] } {
 				set tab $win2tab($w)
-				$tab configure -image [::skin::loadPixmap tab]
+				$tab itemconfigure tab_bg -image [::skin::loadPixmap tab]
 			}
 		}
 
@@ -2423,7 +2436,7 @@ namespace eval ::ChatWindow {
 
 		if { [info exists win2tab($win)] } {
 			set tab $win2tab($win)
-			$tab configure -image [::skin::loadPixmap tab_current]
+			$tab itemconfigure tab_bg -image [::skin::loadPixmap tab_current]
 		}
 
 

@@ -129,6 +129,12 @@
 			<chat_status_padx>1</chat_status_padx>
 			<chat_status_pady>4</chat_status_pady>
 			<chat_sash_pady>4</chat_sash_pady>
+                        <tab_text_x>5</tab_text_x>
+                        <tab_text_y>5</tab_text_y>
+                        <tab_text_width>80</tab_text_width>
+                        <tab_close_x>85</tab_close_x>
+                        <tab_close_y>5</tab_close_y>
+                        
 		</Geometry>
 		
 		<Options>

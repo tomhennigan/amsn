@@ -12,6 +12,11 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey mainwindowbg #7979f2
 	::skin::setKey chatwindowbg #EAEAEA
 	::skin::setKey tabbarbg "[::skin::getKey chatwindowbg]"
+        ::skin::setKey tab_text_x 5
+        ::skin::setKey tab_text_y 5
+        ::skin::setKey tab_text_width 80
+        ::skin::setKey tab_close_x 85
+        ::skin::setKey tab_close_y 5
 	::skin::setKey buttonbarbg #eeeeff
 	::skin::setKey sendbuttonbg #c3c2d2
 	::skin::setKey topbarbg #5050e5
