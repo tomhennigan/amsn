@@ -87,12 +87,8 @@ namespace eval ::skin {
 		variable smiley_names
 		set smiley_file $smiley_names($smiley_name)
 		
-		set osversion [string range "$tcl_platform(osVersion)" 0 0]
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" && $osversion != "6"} {	
-			set imagename [image create photo -file [GetSkinFile smileys $smiley_file] -format quicktime]
-		} else {
-			set imagename [image create photo -file [GetSkinFile smileys $smiley_file] -format gif]
-		}
+		set imagename [image create photo -file [GetSkinFile smileys $smiley_file] -format gif]
+		
 		
 		set loaded_smileys($smiley_name) $imagename
 		return $imagename
