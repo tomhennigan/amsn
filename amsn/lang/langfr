@@ -424,11 +424,12 @@ sourcecode Code source (requiert une compilation et une installation)
 sslwarning ATTENTION !! Désactiver SSL désactivera l'encryptage, votre mot de passe sera alors envoyé en texte plein par le réseau. A n'utiliser pour des proxies ou des configurations de réseau très bonnes.
 startoffline2 Se connecter directement en : "Apparaître hors ligne"
 startoffline Démarrer déconnecté
+startontray Démarrer AMSN en arrière plan seulement
 stateautomsg Message a envoyer automatiquement
 statechange status changé en :
 stateedittext Veuillez éditer les champs que vous \n voulez modifier et cliquez sur Enregistrer
 stateinfo Configuration de mon statut
-state Je veux apparaître 
+state Je veux apparaître
 statename Nom du statut
 statenewtext Veuillez entrer les informations nécessaires \n a la création de votre nouveau statut et cliquez sur Enregistrer
 status Statut
@@ -442,6 +443,7 @@ textsize Taille du texte
 timeremaining Temps restant
 timestamps Activation de l'horodateur des fenêtres de chat
 title Al's Messenger ;)
+tkerror TK a rapporté une erreur, il ya un bogue dans AMSN, s'il vous plait rapportez la. Envoyez le fichier $1 à amns-bug@lists.sf.netcd
 tlsdowncompleted Le fichier $1 a été téléchargé dans le répertoire $2. Vous devez l'extraire, le compiler (si vous avez téléchargé le code source) et l'installer dans $3.
 tlsinstall Assistant d'installation du module TLS
 tlsinstallexp aMSN utilise maintenant le protocole 9 de MSN, qui requiert l'utilisation d'une connection\nsécurisée utilisant SSL. Pour utiliser SSL, AMSN a besoin d'installer un module nommé TLS,\nqui manque sur votre système. Cet assistant va vous aider à télécharger et à\ninstaller TLS. Veuillez choisir votre type de système pour que nous puissions télécharger automatiquement\nles fichiers TLS requis.
@@ -472,13 +474,12 @@ willjoin Dans l'attente que $1 rejoigne la conversation
 work Travail
 wrongfields Les champs "$1", "$2" et/ou "$3" sont invalides
 wrongprofileversion Mauvaise version du fichier de profil. Afin de la fixer, enlevez svp le répertoire $1, ou mettez à jour amsn
+xmmscurrent Affiche la chanson courrante
 xmmserr Rien à jouer, ou vous n'avez pas installé xmms-infopipe.
+xmmssend Envoyer la chanson courrante
 xoffset Position en X
 yes Oui
 yoffset Position en Y
 youblocked Vous avez été bloqué
 yousay Vous avez dit
 youwant Vous voulez
-startontray Démarrer MSN en mode icônifié
-xmmscurrent Affiche la chanson actuelle
-xmmssend Envoie la chanson actuelle
