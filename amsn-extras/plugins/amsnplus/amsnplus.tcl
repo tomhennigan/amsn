@@ -29,39 +29,73 @@ namespace eval ::amsnplus {
 			load_lang $lang $langdir
 		}
 		#plugin config
-		array set ::amsnplus::config {
-			parse_nicks 1
-			colour_nicks 0
-			allow_commands 1
-			allow_colours 1
-			allow_quicktext 1
-			quick_text_0 ""
-			quick_text_1 ""
-			quick_text_2 ""
-			quick_text_3 ""
-			quick_text_4 ""
-			quick_text_5 ""
-			quick_text_6 ""
-			quick_text_7 ""
-			quick_text_8 ""
-			quick_text_9 ""
-		}
 		if {[string equal $::version "0.94"]} {
-			set ::amsnplus::configlist [ list \
-				[list bool "Do you want to parse nicks?" parse_nicks] \
-				[list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \
-				[list bool "Do you want to allow commands in the chat window?" allow_commands] \
-				[list bool "Do you want to allow multiple colours in the chat window?" allow_colours] \
-				[list bool "Do you want to use the quick text feature?" allow_quicktext] \
-			]
+			array set ::amsnplus::config {
+				parse_nicks 1
+				colour_nicks 0
+				allow_commands 1
+				allow_quicktext 1
+				quick_text_0 ""
+				quick_text_1 ""
+				quick_text_2 ""
+				quick_text_3 ""
+				quick_text_4 ""
+				quick_text_5 ""
+				quick_text_6 ""
+				quick_text_7 ""
+				quick_text_8 ""
+				quick_text_9 ""
+			}
+			if {[string equal $::version "0.94"]} {
+				set ::amsnplus::configlist [ list \
+					[list bool "Do you want to parse nicks?" parse_nicks] \
+					[list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \
+					[list bool "Do you want to allow commands in the chat window?" allow_commands] \
+					[list bool "Do you want to use the quick text feature?" allow_quicktext] \
+				]
+			} else {
+				set ::amsnplus::configlist [ list \
+					[list bool "[trans parsenicks]" parse_nicks] \
+					[list bool "[trans colournicks]" colour_nicks] \
+					[list bool "[trans allowcommands]" allow_commands] \
+					[list bool "[trans allowquicktext]" allow_quicktext] \
+				]
+			}
 		} else {
-			set ::amsnplus::configlist [ list \
-				[list bool "[trans parsenicks]" parse_nicks] \
-				[list bool "[trans colournicks]" colour_nicks] \
-				[list bool "[trans allowcommands]" allow_commands] \
-				[list bool "[trans allowcolours]" allow_colours] \
-				[list bool "[trans allowquicktext]" allow_quicktext] \
-			]
+			array set ::amsnplus::config {
+				parse_nicks 1
+				colour_nicks 0
+				allow_commands 1
+				allow_colours 1
+				allow_quicktext 1
+				quick_text_0 ""
+				quick_text_1 ""
+				quick_text_2 ""
+				quick_text_3 ""
+				quick_text_4 ""
+				quick_text_5 ""
+				quick_text_6 ""
+				quick_text_7 ""
+				quick_text_8 ""
+				quick_text_9 ""
+			}
+			if {[string equal $::version "0.94"]} {
+				set ::amsnplus::configlist [ list \
+					[list bool "Do you want to parse nicks?" parse_nicks] \
+					[list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \
+					[list bool "Do you want to allow commands in the chat window?" allow_commands] \
+					[list bool "Do you want to allow multiple colours in the chat window?" allow_colours] \
+					[list bool "Do you want to use the quick text feature?" allow_quicktext] \
+				]
+			} else {
+				set ::amsnplus::configlist [ list \
+					[list bool "[trans parsenicks]" parse_nicks] \
+					[list bool "[trans colournicks]" colour_nicks] \
+					[list bool "[trans allowcommands]" allow_commands] \
+					[list bool "[trans allowcolours]" allow_colours] \
+					[list bool "[trans allowquicktext]" allow_quicktext] \
+				]
+			}
 		}
 		#register events
 		::plugins::RegisterEvent "aMSN Plus" parse_nick parse_nick
@@ -296,7 +330,11 @@ namespace eval ::amsnplus {
 		if { !$::amsnplus::config(allow_colours) } { return }
 		#get the event vars
 		upvar 2 bottom bottom
-		upvar 2 w w
+		if {[string equal $::version "0.94"]} {
+			upvar 2 win_name win_name
+		} else {
+			upvar 2 w w
+		}
 		#set the path to pixmaps
 		set amsnpluspath [::config::getKey "amsnpluspluginpath"]
 		#set the path to each pixmap
@@ -304,13 +342,16 @@ namespace eval ::amsnplus {
 		#create the imgages
 		set img1 [image create photo -file $pixmap1 -format gif]
 		#create the widgeds
-		button $bottom.buttons.multiple_colors -image $img1 -relief flat -padx 3 \
-			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-			-highlightbackground [::skin::getColor buttonbarbg] \
-			-command "after 1 ::amsnplus::choose_color $w"
 		if {[string equal $::version "0.94"]} {
+			button $bottom.buttons.multiple_colors -image $img1 -relief flat -padx 3 \
+				-highlightthickness 0 -borderwidth 0 \
+				-command "after 1 ::amsnplus::choose_color $win_name"
 			set_balloon $bottom.buttons.multiple_colors "Add a new color"
 		} else {
+			button $bottom.buttons.multiple_colors -image $img1 -relief flat -padx 3 \
+				-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0 \
+				-highlightbackground [::skin::getColor buttonbarbg] \
+				-command "after 1 ::amsnplus::choose_color $w"
 			set_balloon $bottom.buttons.multiple_colors "[trans multiplecolorsbutton]"
 		}
 		#pack the widgeds
@@ -335,7 +376,7 @@ namespace eval ::amsnplus {
 	#   - any colour -> (r,g,b) or (r,g,b),(r,g,b) to add background -> palette to choose (take a look at tk widgeds)
 	proc parse_colours {event epvar} {
 		if { !$::amsnplus::config(allow_colours) } { return }
-		upvar 2 msg msg
+		upvar 2 message msg
 		upvar 2 chatid chatid
 		if {[string equal $::version "0.94"]} {
 			set fontformat [::config::getKey mychatfont]
