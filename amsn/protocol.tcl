@@ -3391,7 +3391,7 @@ proc msnp9_auth_error {} {
 proc gotNexusReply {str token {total 0} {current 0}} {
 	if { [::http::status $token] != "ok" || [::http::ncode $token ] != 200 } {
 		::http::cleanup $token
-		status_log "gotNexusReply: error in nexus reply, getting url manually\n"
+		status_log "gotNexusReply: error in nexus reply, getting url manually\n" red
 		msnp9_do_auth $str "https://login.passport.com/login2.srf"
 		return
 	}
@@ -3401,7 +3401,7 @@ proc gotNexusReply {str token {total 0} {current 0}} {
 	set values [split [lindex $state(meta) $index] ","]
 	set index [lsearch $values "DALogin=*"]
 	set loginurl "https://[string range [lindex $values $index] 8 end]"
-	status_log "gotNexusReply: loginurl=$loginurl\n"
+	status_log "gotNexusReply: loginurl=$loginurl\n" green
 	::http::cleanup $token
 	msnp9_do_auth [list $str] $loginurl
 
@@ -3423,14 +3423,13 @@ proc gotAuthReply { str token } {
 		set values [split [lindex $state(meta) $index] ","]
 		set index [lsearch $values "from-PP=*"]
 		set value [string range [lindex $values $index] 9 end-1]
-		status_log "gotAuthReply 200 Headers:\n $state(meta)\n"
-		status_log "gotAuthReply 200 Ticket= $value\n"
+		status_log "gotAuthReply 200 Ticket= $value\n" green
 		msnp9_authenticate $value
 
 	} elseif {[::http::ncode $token] == 302} {
 		set index [expr {[lsearch $state(meta) "Location"]+1}]
 		set url [lindex $state(meta) $index]
-		status_log "gotAuthReply 320: Forward to $url\n"		
+		status_log "gotAuthReply 320: Forward to $url\n" green
 		msnp9_do_auth $str $url
 	} elseif {[::http::ncode $token] == 401} {
 		msnp9_userpass_error
@@ -3444,14 +3443,13 @@ proc gotAuthReply { str token } {
 
 
 proc msnp9_do_auth {str url} {
-	status_log "msnp9_do_auth\n"
 	global config password
 
 	set head [list Authorization "Passport1.4 OrgVerb=GET,OrgURL=http%3A%2F%2Fmessenger%2Emsn%2Ecom,sign-in=$config(login),pwd=${password},${str}"]
 	if { $config(nossl) == 1 || ($config(connectiontype) != "direct" && $config(connectiontype) != "http") } {
 		set url [string map { https:// http:// } $url]
 	}
-	status_log "msnp9_do_auth: Getting $url\n"
+	status_log "msnp9_do_auth: Getting $url\n" blue
 	if {[catch {::http::geturl $url -command "gotAuthReply [list $str]" -headers $head}]} {
 		msnp9_auth_error
 	}
@@ -3461,8 +3459,10 @@ proc msnp9_do_auth {str url} {
 
 proc msnp9_authenticate { ticket } {
 
-	::MSN::WriteSB ns "USR" "TWN S $ticket"
-	sb set ns stat "us"
+	if {[sb get ns stat] == "u" } {
+		::MSN::WriteSB ns "USR" "TWN S $ticket"
+		sb set ns stat "us"
+	}
 	return
 
 }
@@ -3518,7 +3518,8 @@ proc cmsn_auth_msnp9 {{recv ""}} {
 
 			if {$config(nossl)
 			|| ($config(connectiontype) != "direct" && $config(connectiontype) != "http")
-			||[catch {::http::geturl https://nexus.passport.com/rdr/pprdr.asp -timeout 5000 -command "gotNexusReply [list $info(all)]" }]} {
+			||[catch {::http::geturl https://nexus.passport.com/rdr/pprdr.asp -timeout 5000 -command "gotNexusReply [list $info(all)]" } res] } {
+				catch {status_log "Error calling nexus: $res\n"}
 				msnp9_do_auth [list $info(all)] https://login.passport.com/login2.srf
 			}
 
