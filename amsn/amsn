@@ -8,11 +8,11 @@
 ### grimaldo@panama.iaehv.nl (LordOfScripts)    ###############
 ### http://www.coralys.com/linux/               ###############
 ###############################################################
-### Original ccmsn										###############
-### http://msn.CompuCreations.com/					###############
+### Original ccmsn				###############
+### http://msn.CompuCreations.com/		###############
 ### Dave Mifsud <dave at CompuCreations dot com>###############
-###															###############
-### Version 0.3p3 20010926								###############
+###						###############
+### Version 0.3p3 20010926			###############
 ### Modified 20020430 by Alvaro Iradier Muro    ###############
 ###                   and D. Emilio Grimaldo T. ###############
 ###############################################################
@@ -41,7 +41,7 @@
 ###
 
 set version "0.62beta"
-set date "07/06/2002"
+set date "07/07/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -123,6 +123,7 @@ source [file join $program_dir progressbar.tcl]	;# Progressbar Megawidget
 source [file join $program_dir dkffont.tcl]	;# Font selection megawidget
 source [file join $program_dir migmd5.tcl]
 source [file join $program_dir config.tcl]
+source [file join $program_dir proxy.tcl]
 source [file join $program_dir protocol.tcl]
 source [file join $program_dir ctadverts.tcl]
 source [file join $program_dir lang.tcl]
@@ -486,7 +487,7 @@ proc cmsn_draw_main {} {
 
    #This shouldn't go here
    if ($config(withproxy)) {
-     ::MSN::initProxy $config(proxy)
+     ::Proxy::Init $config(proxy) $config(proxytype)
    }
    
    adv_initialize .main
