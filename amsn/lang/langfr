@@ -67,6 +67,7 @@ blockinter4 secondes.
 blocklist Liste des personnes bloquées :
 blockmessage Ces personnes sont en ligne mais vous bloquent
 blockusers Nombre d'utilisateurs à cocher à la fois
+bouncedock Faire rebondir l'icone de aMSN dans le dock lorsque vous recevez un message
 broughtby Développé pour vous par
 browse Parcourir...
 browserexample (\$url sera remplacé par l'URL) Ex: mozilla \$url
@@ -138,6 +139,7 @@ connectionlost Déconnecté : la connexion avec le serveur a été perdue
 contactadded Contact ajouté
 contactdoesnotexist Personne introuvable
 contactlist Liste de contacts :
+continuously Continuellement
 convertexplain  Chemin vers l'exécutable CONVERT, de ImageMagick (requis pour afficher des images).\n Laisser le blanc si CONVERT est dans le PATH
 copy Copier
 copytogroup Copier vers groupe
@@ -146,11 +148,16 @@ corruptstates  Fichier de configuration des états corrompu. Créez-en un nouveau.
 countrycode Mon pays/code région
 cprofile Créer profil
 credits Crédits
+custnotifymsg Affiche une notification quand vous recevez un message d'un de vos contacts
+custnotifyoffline Affiche une notification quand un de vos contact se déconnecte.
+custnotifyonline Affiche une notification quand un de vos contact se connecte
+custnotifystatus Affiche une notification quand un de vos contact change de status
 currentdate Date actuelle
 customcolor Couleur personnalisée
 custom_edit Editer un émoticon personnalisé
 custom_new Créer un émoticon personnalisé
 customnick Pseudo personnalisé
+customstyle Style personnalisé
 cut Couper
 date Date
 dateformat Changer le format de la date
@@ -171,6 +178,7 @@ directconnection J'ai une connexion directe à Internet (utilisation du port 1863
 disabled Désactivé
 disableprofiles Désactiver les profils (utile pour la cyber-cafés ou pour les environnements partagés)
 disablessl Désactiver SSL
+disableuserfonts Ignorer la police de l'utilisateur distant dans les discussions, et utiliser sa propre police
 disconnect $1 s'est déconnecté.
 disconnectedfrom Déconnecté de $1
 displaychat Options d'affichage du texte
@@ -198,7 +206,6 @@ email E-Mail
 emailsinlist Afficher les emails au lieu du pseudonyme dans la liste de contact.
 emotisounds Jouer un son pour certains émoticons
 emptygroup Vider le groupe
-enablebanner Visualiser le bandeau aMSN (Nécessite de relancer aMSN)
 enabled Activé
 enableproxy Permettre de passer par un proxy
 enableremote Permettre le contrôle à distance
@@ -248,6 +255,7 @@ groupadd Ajouter un groupe
 groupdelete Supprimer un groupe
 groupexists Le groupe existe déjà
 group Groupe
+groups Groupes
 groupmissing Impossible de trouver le groupe
 groupnewname Nouveau nom
 groupnotempty Groupe non vide
@@ -266,6 +274,7 @@ httpconnection Connexion par la méthode HTTP (utilisation du protocole HTTP par 
 hybrid Mode mixte
 ident Identification
 identity Identité
+ignoreerrors Ignorer silencieusement les autres erreurs de aMsn jusqu'à la fin de la session
 imagefiles Fichiers image
 inbox Boîte aux lettres
 insertsmiley Insérer émoticons
@@ -285,6 +294,7 @@ ipdetect Détection de l'IP exacte pour les transferts de fichier utilisant HTTP
 ircstyle Chat de type IRC
 istyping Message en cours de frappe ($1)
 joins $1 a rejoint la conversation
+justonce Juste une fois
 keepalive Garder la connexion ouverte (NAT)
 keeplog2 Enregistrer toutes les conversations dans l'historique de aMSN pour une visualisation ultérieure
 keeplog Garder l'historique des conversations
@@ -360,7 +370,8 @@ natip Détection de l'adresse IP par page web
 natkeepalive Si vous êtes souvent déconnecté involontairement, activez cet option
 needonline Vous êtes toujours déconnecté(e)!
 needwinico Winico03.dll doit figurer dans le dossier de Plug-ins afin que l'icône dans la Barre des tâches fonctionne
-new_ftp_protocol Utiliser le nouveau protocol de téléchargement de fichiers (certains bogues subsistent)
+never Jamais
+new_ft_protocol Utiliser le nouveau protocol de téléchargement de fichiers (certains bogues subsistent)
 newmail $1 nouveaux messages
 newmailfrom Nouveau message de $1 ($2)
 newmailfromother Nouveau message dans un autre dossier de $1 ($2)
@@ -372,6 +383,7 @@ next Suivant
 nick Pseudo
 noactivity Inactif
 nodataavailable Pas de données disponibles pour $1
+nogap Aucun espace entre les groupes
 nogroup Aucun groupe
 nologfile Pas d'historique pour $1
 noneavailable Pas disponible
@@ -476,9 +488,11 @@ receiveddir Dossier des fichiers reçus
 receivefile Fichier reçu
 recentmsg Empêcher la fermeture d'une fenêtre de discussion lorsqu'un nouveau message est arrivé.
 reconnect Dans l'attente de la reconnexion de $1
+reconnect2 Se reconnecter en cas de déconnexion
 reconnecting Reconnexion au serveur
 reject Refuser
 rememberpass Enregistrer le mot de passe
+removeempty Retirer les groupes vides de la liste des contacts
 removefromlist Supprimer de cette liste
 rename Renommer
 reversed Ordre inversé
@@ -519,10 +533,10 @@ smileintro2 Veuillez editer les champs obligatoires pour personnaliser cet émoti
 smileintro Veuillez remplir les champs obligatoires pour créer un nouvel émoticon (voir la FAQ pour l'aide)
 snackfailed Snack n'a pas pu se lancer, retour à la valeur par défaut
 sngdblclick Un click simple ouvre une nouvelle fenêtre de discussion
+sound Événements sonores
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 soundactive Jouer un son même lorsque le message arrive dans la fenêtre active
 soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
-sound Événements sonores
 soundexample (\$sound = fichier audio qui sera joué) Ex: esdplay \$sound
 soundfile Fichier son associé à l'alarme
 soundfiles Fichiers son
@@ -584,13 +598,17 @@ userdata Données de l'utilisateur
 usernotonline L'utilisateur n'est pas en ligne
 userproperties Propriétés de l'utilisateur $1
 user Utilisateur
+useother Utiliser un programme différent
 useryourself Vous ne pouvez pas dialoguer avec vous-même
+usesnack Utiliser la librairie Snack (interne à Tcl)
 verifyblocked Contrôler les personnes qui vous ont bloqué
 version Version
 viewcontactsby Afficher les contacts par
 viewprofile Afficher le profil
 view Vue
+webcaminvite $1 vous invite à démarrer un conversation par Webcam, mais aMSN ne supporte pas cette option.
 willjoin Dans l'attente que $1 rejoigne la conversation
+winkreceived Vous avez reçu 'clin d'oeil' un provenant de $1. Cette fonctionnalité n'est pas encore supporté par aMSN
 work Travail
 wrongfields Les champs "$1", "$2" et/ou "$3" sont invalides
 wrongprofileversion Mauvaise version du fichier de profil. Afin de la fixer, enlevez le répertoire $1, ou mettez à jour aMSN
@@ -605,22 +623,3 @@ yoffset Position en Y
 youblocked Vous avez été bloqué
 yousay Vous avez dit
 youwant Vous voulez
-bouncedock Faire rebondir l'icone de aMSN dans le dock lorsque vous recevez un message
-continuously Continuellement
-custnotifymsg Affiche une notification quand vous recevez un message d'un de vos contacts
-custnotifyoffline Affiche une notification quand un de vos contact se déconnecte.
-custnotifyonline Affiche une notification quand un de vos contact se connecte
-custnotifystatus Affiche une notification quand un de vos contact change de status
-ignoreerrors Ignorer silencieusement les autres erreurs de aMsn jusqu'à la fin de la session
-justonce Juste une fois
-never Jamais
-webcaminvite $1 vous invite à démarrer un conversation par Webcam, mais aMSN ne supporte pas cette option.
-disableuserfonts Ignorer la police de l'utilisateur distant dans les discussions, et utiliser sa propre police
-groups Groupes
-customstyle Style personnalisé
-nogap Aucun espace entre les groupes
-reconnect2 Se reconnecter en cas de déconnexion
-removeempty Retirer les groupes vides de la liste des contacts
-useother Utiliser un programme différent
-usesnack Utiliser la librairie Snack (interne à Tcl)
-winkreceived Vous avez reçu 'clin d'oeil' un provenant de $1. Cette fonctionnalité n'est pas encore supporté pas aMSN
