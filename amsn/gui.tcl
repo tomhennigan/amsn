@@ -393,8 +393,6 @@ namespace eval ::amsn {
    proc FileTransferSend { win_name } {
       global config
 
-      set ipaddr "[::MSN::getMyIP]"
-
       set w ${win_name}_sendfile
       toplevel $w
       wm group $w .
@@ -427,11 +425,7 @@ namespace eval ::amsn {
       pack $w.top.labels -side left -padx 5
       pack $w.top -side top
 
-      if {$config(autoftip)} {
-        $w.top.fields.ip insert 0 "$ipaddr"
-      } else {
-        $w.top.fields.ip insert 0 "$config(myip)"
-      }
+      $w.top.fields.ip insert 0 "$config(myip)"
 
       focus $w.top.fields.file
 
@@ -451,8 +445,11 @@ namespace eval ::amsn {
         destroy $w
 
       } else {
+        set ipaddr [ $w.top.fields.ip get ]
         destroy $w
-	set ipaddr [ ::MSN::getMyIP ]
+		  if { $ipaddr != $config(myip) } {
+           set ipaddr [ ::MSN::getMyIP ]
+        }
       }
 
       if { [catch {set filesize [file size $filename]} res]} {

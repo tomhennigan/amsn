@@ -73,7 +73,7 @@ proc ConfigDefaults {} {
         set config(notifyoffline) 0
         set config(notifystate) 0
 	set config(notifyemail) 1
-	set config(natip) 0
+	set config(natip) 1
 	set config(dock) 0
 	set config(autoconnect) 0
 	set config(showtimestamps) 1

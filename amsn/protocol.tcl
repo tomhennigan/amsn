@@ -812,6 +812,8 @@ namespace eval ::MSN {
       
       cmsn_ns_connect $username $password
 
+		getMyIPSilent
+
    }
 
    proc logout {} {
@@ -976,33 +978,80 @@ namespace eval ::MSN {
    }
 
 
-   proc getMyIP {} {
+   proc getMyIP { } {
+
       global config
+
       set sock [sb get ns sock]
-     
-      set ip [lindex [fconfigure $sock -sockname] 0]
 
-      status_log "Called getmyIP: $ip\n"
+      set localip [lindex [fconfigure $sock -sockname] 0]
 
-      if { [string compare -length 3 $ip "10."] == 0 \
-      || [string compare -length 4 $ip "127."] == 0 \
-      || [string compare -length 8 $ip "192.168."] == 0 \
+      status_log "Called getmyIP, local: $localip\n"
+
+      if { [string compare -length 3 $localip "10."] == 0 \
+      || [string compare -length 4 $localip "127."] == 0 \
+      || [string compare -length 8 $localip "192.168."] == 0 \
       || $config(natip) == 1 } {
-        set token [::http::geturl "http://www.showmyip.com/simple/" -timeout 10000]
-        set ip [lindex [split [::http::data $token]] 0]
-        ::http::cleanup $token
-        status_log "Called get http ip: $ip, $token\n"	
+        if { [catch {set token [::http::geturl "http://www.showmyip.com/simple/" -timeout 10000]} res]} {
+           return $localip
+        }
 
+        if { [::http::status $token] == "ok" && [::http::ncode $token] == 200 } {
+           set httpip [lindex [split [::http::data $token]] 0]
+        } else {
+           set httpip $localip
+        }
         ::http::cleanup $token
-        unset token
+        status_log "Called get http ip: $httpip, $token\n"
+
+		  return httpip
+      } else {
+         return $localip
       }
 
-      return $ip
    }
 
 
+   proc getMyIPSilent { } {
+
+      global config
+
+		if { $config(autoftip) } {
+			set sock [sb get ns sock]
+
+			set localip [lindex [fconfigure $sock -sockname] 0]
+
+			status_log "Called getmyIPSilent, local: $localip\n"
+
+			if { [string compare -length 3 $localip "10."] == 0 \
+			|| [string compare -length 4 $localip "127."] == 0 \
+			|| [string compare -length 8 $localip "192.168."] == 0 \
+			|| $config(natip) == 1 } {
+				catch {set token [::http::geturl "http://www.showmyip.com/simple/" \
+					-timeout 10000 -command "::MSN::GotMyIPSilent"]}
+			} else {
+				set config(myip) $localip
+				status_log "IP automatically set to: $config(myip)\n" blue
+			}
+
+		} else {
+			status_log "No autoftip - IP manually set to: $config(myip)\n" blue
+		}
+
+   }
+
+	proc GotMyIPSilent { token } {
+		if { [::http::status $token] == "ok" && [::http::ncode $token] == 200 } {
+			set ip [lindex [split [::http::data $token]] 0]
+			::http::cleanup $token
+			status_log "Called GotMyIPSilent, http ip: $ip, $token\n"
+		}
+		::http::cleanup $token
+	}
+
+
    #Internal procedures
-  
+
    proc StartPolling {} {
       global config
 
