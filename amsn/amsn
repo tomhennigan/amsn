@@ -348,7 +348,7 @@ proc cmsn_draw_main {} {
      cmsn_draw_addcontact
    .main_menu.tools add cascade -label "[trans admincontacts]" -command \
      "" -state disabled
-   ::groups::Init .main_menu.tools 2
+   ::groups::Init .main_menu.tools
    .main_menu.tools add separator
    .main_menu.tools add cascade -label "[trans ordercontactsby]" \
      -menu .order_by
