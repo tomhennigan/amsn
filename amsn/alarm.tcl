@@ -125,7 +125,10 @@ namespace eval ::alarms {
 				msg_box [trans invalidpic]
 				return
 			} else {
-				image create photo joanna -file $my_alarms(${user}_pic)
+				if { [catch {image create photo joanna -file $my_alarms(${user}_pic)}] } {
+					msg_box [trans invalidpicsize]
+					return
+				}
 				if { ([image width joanna] > 1024) && ([image height joanna] > 768) } {
 					image delete joanna
 					msg_box [trans invalidpicsize]
