@@ -246,7 +246,7 @@ namespace eval ::MSN {
 	::http::cleanup $token
       	unset token
       }
-      
+
       return $ip
    }
 
@@ -401,7 +401,7 @@ namespace eval ::MSN {
          gets $sockid tmpdata
          status_log "Recibo: $tmpdata\n"      
     
-    
+
          #Comprobar authcookie
          if { [string range $tmpdata 0 2] == "USR" } {
             set filename [lindex $atransfer($cookie) 1]	
@@ -496,59 +496,68 @@ namespace eval ::MSN {
          return
       }
       if {[eof $sockid]} {
-         status_log "EOF in connection\n"      
+         status_log "EOF in connection\n"
          cancelSending $cookie
          return
-      }  
+      }
 
    }
-      
+
 
    #All about receiving files
 
 
    proc ConnectMSNFTP {ipaddr port authcookie filename cookie} {
       #I connect to a remote host to retrive the file
-      global config files_dir
       variable atransfer
-      
+
       if {[info exists atransfer($cookie)] == 0} {
-        status_log "Ignoring file transfer, cancelled\n"
+        status_log "Ignoring file transfer, atransfer(\$cookie) doesn't exists, cancelled\n"
         return 1
       }
 
-      status_log "Conectando a $ipaddr puerto $port\n"
+      status_log "Connecting to $ipaddr port $port\n"
 
-      if { [catch {
-      set sockid [socket $ipaddr $port] } res] } {
-        ::MSN::cancelReceiving $cookie
-        return 0
-      }
-      
-      
+      set sockid [socket -async $ipaddr $port]
+      set cancelid [after 10000  ::MSN::cancelReceiving $cookie]
+
+      fconfigure $sockid -blocking 0
+      fileevent $sockid writable "::MSN::ConnectedMSNFTP $sockid $cancelid $authcookie $filename $cookie"
+
+      return 1
+
+   }
+
+   proc ConnectedMSNFTP {sockid cancelid authcookie filename cookie} {
+      global config files_dir
+      variable atransfer
+
+      fileevent $sockid writable {}
+      after cancel $cancelid
+
       lappend atransfer($cookie) $sockid
 
-      fconfigure $sockid -blocking 1 -buffering none -translation {binary binary}   
+      fconfigure $sockid -blocking 1 -buffering none -translation {binary binary}
 
-      status_log "Conectado, voy a identificarme\n"
+      status_log "Connected, going to give my identity\n"
       puts $sockid "VER MSNFTP\r"
-      status_log "ENVIO: VER MSNFTP\r\n"
+      status_log "I SEND: VER MSNFTP\r\n"
       gets $sockid tmpdata
-      status_log "MEENVIAN: $tmpdata\n"
+      status_log "I RECEIVE: $tmpdata\n"
       if {[string range $tmpdata 0 9] == "VER MSNFTP"} {
          puts $sockid "USR $config(login) $authcookie\r"
-         status_log "ENVIO: USR $config(login) $authcookie\r\n"
-   
+         status_log "I SEND: USR $config(login) $authcookie\r\n"
+
          gets $sockid tmpdata
-         status_log "MEENVIAN: $tmpdata\n"
+         status_log "I RECEIVE: $tmpdata\n"
 
          if {[string range $tmpdata 0 2] == "FIL"} {
             set filesize [string range $tmpdata 3 [string length $tmpdata]]
-            status_log "Me envian archivo $filename de tamaño $filesize\n"
+            status_log "They send me file $filename with size $filesize\n"
 
             puts $sockid "TFR\r"
-	
-            status_log "Recibiendo archivo...\n"
+
+            status_log "Receiving file...\n"
 
             set origfile [file join ${files_dir} $filename]
 	    set filename $origfile
@@ -561,18 +570,18 @@ namespace eval ::MSN {
             set fileid [open $filename w]
             fconfigure $fileid -blocking 1 -buffering none -translation {binary binary}
 
-            #Receive the file	   
-	
-            fconfigure $sockid -blocking 0	
+            #Receive the file
+
+            fconfigure $sockid -blocking 0
             fileevent $sockid readable "::MSN::ReceivePacket $sockid $fileid $filesize $cookie"
-	    	
+
             return 0
          }
 
       }
-   
+
       ::amsn::fileTransferProgress c $cookie -1 -1
-      status_log "Fallo en la transferencia, conexion cerrada\n"
+      status_log "Transfer failed, connection closed\n"
       close $sockid
       return 1
    }
@@ -586,11 +595,11 @@ namespace eval ::MSN {
      set recvbytes [tell $fileid]
      set packetrest [expr {2045 - ($recvbytes % 2045)}]
 
-      if {$packetrest == 2045} { 
+      if {$packetrest == 2045} {
          #Need a full packet, header included
 
-         fconfigure $sockid -blocking 1   
-         set header [read $sockid 3]   
+         fconfigure $sockid -blocking 1
+         set header [read $sockid 3]
 
          set packet1 1
          binary scan $header ccc packet1 packet2 packet3
@@ -598,9 +607,9 @@ namespace eval ::MSN {
          #If packet1 is 1 -- Transfer canceled by the other
          if { ($packet1 != 0) } {
             status_log "File transfer cancelled by remote with packet1=$packet1\n"
-	    
+
 	    ::amsn::fileTransferProgress c $cookie -1 -1
-	
+
             close $fileid
             close $sockid
 	    return
@@ -617,7 +626,7 @@ namespace eval ::MSN {
 
          fconfigure $sockid -blocking 0
 
-         set recvbytes [tell $fileid]	 		
+         set recvbytes [tell $fileid]
          ::amsn::fileTransferProgress r $cookie $recvbytes $filesize
 
 
