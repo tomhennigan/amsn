@@ -732,7 +732,7 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		set fromname [::abook::getName $fromlogin]
+		set fromname [::abook::getNick $fromlogin]
 		set txt [trans ftgotinvitation $fromname '$filename' $filesize $files_dir]
 
 		set win_name [MakeWindowFor $chatid $txt $fromlogin]
