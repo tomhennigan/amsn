@@ -3206,7 +3206,10 @@ proc cmsn_draw_main {} {
 	
 	set pgBuddyTop $pgBuddy.top
 	frame $pgBuddyTop -background white -width 30 -height 30 -cursor left_ptr \
-		-borderwidth 0 -relief flat -padx 0 -pady 0
+		-borderwidth 0 -relief flat
+	if { $::tcl_version >= 8.4 } {
+		$pgBuddyTop configure -padx 0 -pady 0
+	}
 	
 	ScrolledWindow $pgBuddy.sw -auto vertical -scrollbar vertical
 	pack $pgBuddy.sw -expand true -fill both
