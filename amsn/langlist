@@ -196,7 +196,7 @@
 	<lang>
 		<langcode>nl</langcode>
 		<name>Dutch</name>
-		<version>1.108</version>
+		<version>1.109</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -280,7 +280,7 @@
 	<lang>
 		<langcode>va</langcode>
 		<name>Valencian</name>
-		<version>1.31</version>
+		<version>1.32</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
