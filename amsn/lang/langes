@@ -7,6 +7,7 @@ addedyou te ha añadido a su lista de contactos
 addtoo Añadir esta persona a mi lista de contactos
 admincontacts Administrar contactos
 admingroups Administrar grupos
+adverts Anuncios
 allowseen Permitir a esta persona ver cuando estás conectado y contactar
 appearoff Sin conexión
 are están
@@ -84,7 +85,8 @@ reconnecting Reconectando al servidor
 rememberpass Recordar contraseña
 rightback Vuelvo enseguida
 savecontacts Guardar lista de contactos
-save Grabar
+save Guardar
+saveas Guardar como
 says $1 dice
 sbcon Conectando a Switch Board
 send Enviar
@@ -93,6 +95,7 @@ sendmail Enviar email
 sendmsg Enviar mensaje
 server Servidor
 sound Sonido eventos
+textsize Tamaño del texto
 title Al's Messenger
 tools Herramientas
 tools Herramientas
@@ -103,6 +106,7 @@ uoffline Desconectados
 uonline Conectados
 user Usuario
 version Versión
+view Ver
 willjoin Esperando que $1 se una a la conversación
 yousay Tú dices
 youwant Quieres
