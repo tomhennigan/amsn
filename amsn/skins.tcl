@@ -324,6 +324,9 @@ namespace eval ::skin {
 		#Get file from ~/.amsn/profile/skins folder
 		} elseif { [file readable [file join $HOME skins $skin $type $filename]] } {
 			return "[file join $HOME skins $skin $type $filename]"
+		#Get file from ~/.amsn/amsn-extras/skins folder
+		} elseif { [file readable [file join $HOME2 amsn-extras skins $skin $type $filename]] } {
+			return "[file join $HOME2 amsn-extras skins $skin $type $filename]"
 		#Get file from default skin
 		} elseif { [file readable [file join [set ::program_dir] skins $defaultskin $type $filename]] } {
 			return "[file join [set ::program_dir] skins $defaultskin $type $filename]"
@@ -359,7 +362,8 @@ namespace eval ::skin {
 		set skins [glob -directory skins */settings.xml]
 		set skins_in_home [glob -nocomplain -directory [file join $HOME skins] */settings.xml]
 		set skins_in_home2 [glob -nocomplain -directory [file join $HOME2 skins] */settings.xml]
-		set skins [concat $skins $skins_in_home $skins_in_home2]
+		set skins_in_extras [glob -nocomplain -directory [file join $HOME2 amsn-extras skins] */settings.xml]
+		set skins [concat $skins $skins_in_home $skins_in_home2 $skins_in_extras]
 		set skinlist [list]
 
 		foreach skin $skins {
