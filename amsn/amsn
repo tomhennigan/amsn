@@ -1473,11 +1473,9 @@ proc cmsn_draw_notify {} {
 proc cmsn_update_notify {} {
    global list_notify notify_id emotions
 
-#   status_log "Testing bug: Notify3-1\n"
    set notify_text ""
    set cursec [clock seconds]
    set items [expr {[llength $list_notify] -1}]
-#   status_log "Testing bug: Notify3-2\n"
    for {set idx $items} {$idx >= 0} {incr idx -1} {
       set notify_item [lindex $list_notify $idx]
       set msg [lindex $notify_item 0]
@@ -1487,45 +1485,37 @@ proc cmsn_update_notify {} {
       } else {
          set notify_text \n\n$msg${notify_text}
       }
-#      status_log "Testing bug: Notify3-4\n"
+
    }
-#   status_log "Testing bug: Notify3-5\n"
    set notify_text [string range ${notify_text} 2 end]
    .notify.c dchars $notify_id 0 end
 
    .notify.c insert $notify_id 0 $notify_text
-#   status_log "Testing bug: Notify3-6\n"
 
    if {[string length $notify_text] > 0} {
       wm state .notify normal
    } else {
       wm state .notify withdraw
    }
-#   status_log "Testing bug: Notify3-7\n"
+
    wm geometry .notify -0-0
-#   status_log "Testing bug: Notify3-8\n"
    raise .notify
-#   status_log "Testing bug: Notify3-9\n"
    after 1000 cmsn_update_notify
-#   status_log "Testing bug: Notify3-10\n"   
 }
 
 proc cmsn_notify_add {msg {command ""}} {
    global list_notify notify_id
 
-   status_log "Testing bug: Notify1\n"
    if {[string length $msg] >100} {
 	    lappend list_notify [list [string range $msg 0 100]... [expr {[clock seconds] + 7}]]
-   status_log "Testing bug: Notify2\n"
    } else {
 	   lappend list_notify [list $msg [expr {[clock seconds] + 7}]]   
-   status_log "Testing bug: Notify3\n"
    }
 
 #new by AIM
    .notify.c bind $notify_id <Button-1> $command
 #end AIM
-   status_log "Testing bug: Notify4\n"
+
 }
 
 proc cmsn_change_name {} {
