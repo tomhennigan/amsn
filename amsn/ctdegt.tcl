@@ -135,7 +135,9 @@ proc degt_protocol_save { } {
     pack $w.msg $w.filename -side top -fill x
     focus $w.filename.entry
     
-    fileDialog $w $w.filename.entry save "protocol"
+    fileDialog $w $w.filename.entry save "protocol_log.txt"
+    grab $w
+
 }
 
 proc degt_protocol_save_file { filename } {
@@ -1176,6 +1178,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.53  2003/06/14 23:27:50  kakaroto
+# added the 3 buttons in the status log
+#
 # Revision 1.52  2003/06/14 02:17:42  kakaroto
 # fixed bug in the save to file of the protocol window
 #

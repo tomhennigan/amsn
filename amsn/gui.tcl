@@ -2565,9 +2565,17 @@ proc cmsn_draw_status {} {
    entry .status.enter -background white
     checkbutton .status.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable followtext_status
 
-   pack .status.enter .status.follow -side bottom -fill x
-   pack .status.ys -side right -fill y
-   pack .status.info -expand true -fill both
+   frame .status.bot -relief sunken -borderwidth 1
+    button .status.bot.save -text "[trans savetofile]" -command status_save
+    	button .status.bot.clear  -text "Clear" -font sboldf \
+		-command ".status.info delete 0.0 end"
+    	button .status.bot.close -text [trans close] -command toggle_status -font sboldf
+	pack .status.bot.save .status.bot.close .status.bot.clear -side left
+
+    pack .status.bot .status.enter .status.follow -side bottom
+    pack .status.enter  -fill x
+    pack .status.ys -side right -fill y
+    pack .status.info -expand true -fill both
 
    .status.info tag configure green -foreground darkgreen -background white
    .status.info tag configure red -foreground red -background white
@@ -2578,6 +2586,47 @@ proc cmsn_draw_status {} {
    bind .status.enter <Return> ns_enter
    wm protocol .status WM_DELETE_WINDOW { toggle_status }
 }
+
+
+proc status_save { } {
+    set w .status_save
+	
+    toplevel $w
+    wm title $w \"[trans savetofile]\"
+    label $w.msg -justify center -text "Please give a filename"
+    pack $w.msg -side top
+    
+    frame $w.buttons -class Degt
+    pack $w.buttons -side bottom -fill x -pady 2m
+    button $w.buttons.dismiss -text Cancel -command "destroy $w"
+    button $w.buttons.save -text Save -command "status_save_file $w.filename.entry; destroy $w"
+    pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
+    
+    frame $w.filename -bd 2 -class Degt
+    entry $w.filename.entry -relief sunken -width 40
+    label $w.filename.label -text "Filename:"
+    pack $w.filename.entry -side right 
+    pack $w.filename.label -side left
+    pack $w.msg $w.filename -side top -fill x
+    focus $w.filename.entry
+    
+    fileDialog $w $w.filename.entry save "status_log.txt"
+
+    grab $w
+}
+
+proc status_save_file { filename } {
+
+    set fd [open [${filename} get] a+]
+    fconfigure $fd -encoding utf-8
+    puts $fd "[.status.info get 0.0 end]"
+    close $fd
+
+
+}
+
+
+
 #///////////////////////////////////////////////////////////////////////
 
 
