@@ -1528,8 +1528,10 @@ namespace eval ::amsn {
       wm state .${win_name} iconic
       wm title .${win_name} "[trans chat]"
       wm group .${win_name} .
-      wm iconbitmap .${win_name} @[GetSkinFile pixmaps amsn.xbm]
-      wm iconmask .${win_name} @[GetSkinFile pixmaps amsnmask.xbm]
+      if {$tcl_platform(platform) != "windows"} {
+         wm iconbitmap .${win_name} @[GetSkinFile pixmaps amsn.xbm]
+         wm iconmask .${win_name} @[GetSkinFile pixmaps amsnmask.xbm]
+      }
 
  
 #Test on Mac OS X(Darwin) if imagemagick is installed and kill all sndplay processes      
@@ -1719,94 +1721,99 @@ catch {exec killall -c sndplay}
       scrollbar .${win_name}.f.out.ys -command ".${win_name}.f.out.text yview" \
          -highlightthickness 0 -borderwidth 1 -elementborderwidth 1 
 
-      text .${win_name}.status  -width 30 -height 1 -wrap none\
+	frame .${win_name}.statusbar -class Amsn -borderwidth 0 -relief solid
+
+      text .${win_name}.statusbar.status  -width 5 -height 1 -wrap none\
          -font bplainf -borderwidth 1
+      text .${win_name}.statusbar.charstyped  -width 4 -height 1 -wrap none\
+         -font splainf -borderwidth 0
 
 
-
-      button $bottom.buttons.smileys  -image butsmile -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
-		set_balloon $bottom.buttons.smileys [trans insertsmiley]      
+		button $bottom.buttons.smileys  -image butsmile -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
+		set_balloon $bottom.buttons.smileys [trans insertsmiley]
 		button $bottom.buttons.fontsel -image butfont -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
 		set_balloon $bottom.buttons.fontsel [trans changefont]
-      button $bottom.buttons.block -image butblock -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
+		button $bottom.buttons.block -image butblock -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
 		set_balloon $bottom.buttons.block [trans block]
-      button $bottom.buttons.sendfile -image butsend -relief flat -padx 3 -background $bgcolor2 -highlightthickness 0
+		button $bottom.buttons.sendfile -image butsend -relief flat -padx 3 -background $bgcolor2 -highlightthickness 0
 		set_balloon $bottom.buttons.sendfile [trans sendfile]
-      button $bottom.buttons.invite -image butinvite -relief flat -padx 3 -background $bgcolor2 -highlightthickness 0
-      set_balloon $bottom.buttons.invite [trans invite]
+		button $bottom.buttons.invite -image butinvite -relief flat -padx 3 -background $bgcolor2 -highlightthickness 0
+		set_balloon $bottom.buttons.invite [trans invite]
 		pack $bottom.buttons.fontsel $bottom.buttons.smileys -side left
-      pack $bottom.buttons.block $bottom.buttons.sendfile $bottom.buttons.invite -side right
+		pack $bottom.buttons.block $bottom.buttons.sendfile $bottom.buttons.invite -side right
 
-      pack .${win_name}.f.top -side top -fill x -padx 3 -pady 0
-      pack .${win_name}.status -side bottom -fill x
+		pack .${win_name}.f.top -side top -fill x -padx 3 -pady 0
+		pack .${win_name}.statusbar -side bottom -fill x
+		grid .${win_name}.statusbar.status -row 0 -column 0 -padx 0 -pady 0 -sticky we
+		grid .${win_name}.statusbar.charstyped -row 0 -column 1 -padx 0 -pady 0 -sticky e
+		grid columnconfigure .${win_name}.statusbar 0 -weight 1
+		grid columnconfigure .${win_name}.statusbar 1 -minsize 5
 
-		#pack $bottom.in -side bottom -fill x -pady 3 -padx 3
-      #pack $bottom.buttons -side bottom -fill x -padx 3 -pady 0
-		#pack $bottom.pic -side left -padx 2 -pady 2
 		grid $bottom.in -row 1 -column 0 -padx 3 -pady 3 -sticky nsew
 		grid $bottom.buttons -row 0 -column 0 -padx 3 -pady 0 -sticky ewns
 		grid column $bottom 0 -weight 1
 
 		pack .${win_name}.f.out -expand true -fill both -padx 3 -pady 0
-      pack .${win_name}.f.out.text -side right -expand true -fill both -padx 2 -pady 2
-      pack .${win_name}.f.out.ys -side right -fill y -padx 0
+		pack .${win_name}.f.out.text -side right -expand true -fill both -padx 2 -pady 2
+		pack .${win_name}.f.out.ys -side right -fill y -padx 0
 
-      pack .${win_name}.f.top.textto -side left -fill y -anchor nw -padx 0 -pady 3
-      pack .${win_name}.f.top.text -side left -expand true -fill x -padx 4 -pady 3
+		pack .${win_name}.f.top.textto -side left -fill y -anchor nw -padx 0 -pady 3
+		pack .${win_name}.f.top.text -side left -expand true -fill x -padx 4 -pady 3
 
 		pack .${win_name}.f.bottom -side top -expand false -fill x -padx 0 -pady 0
 
-      pack $bottom.in.f.send -fill both -expand true
-      pack $bottom.in.input -side left -expand true -fill both -padx 1 -pady 1
-      pack $bottom.in.f -side left -fill y -padx 3 -pady 4
+		pack $bottom.in.f.send -fill both -expand true
+		pack $bottom.in.input -side left -expand true -fill both -padx 1 -pady 1
+		pack $bottom.in.f -side left -fill y -padx 3 -pady 4
 
-      pack .${win_name}.f -expand true -fill both -padx 0 -pady 0
+		pack .${win_name}.f -expand true -fill both -padx 0 -pady 0
 
-      .${win_name}.f.top.text configure -state disabled
-      .${win_name}.f.out.text configure -state disabled
-      .${win_name}.status configure -state disabled
-      $bottom.in.f.send configure -state disabled
-      $bottom.in.input configure -state normal
-
-
-      .${win_name}.f.out.text tag configure green -foreground darkgreen -background white -font sboldf
-      .${win_name}.f.out.text tag configure red -foreground red -background white -font sboldf
-      .${win_name}.f.out.text tag configure blue -foreground blue -background white -font sboldf
-      .${win_name}.f.out.text tag configure gray -foreground #404040 -background white -font splainf
-      .${win_name}.f.out.text tag configure white -foreground white -background black -font sboldf
-      .${win_name}.f.out.text tag configure url -foreground #000080 -background white -font splainf -underline true
+		.${win_name}.f.top.text configure -state disabled
+		.${win_name}.f.out.text configure -state disabled
+		.${win_name}.statusbar.status configure -state disabled
+		.${win_name}.statusbar.charstyped configure -state disabled
+		$bottom.in.f.send configure -state disabled
+		$bottom.in.input configure -state normal
 
 
-      #bind .${win_name}.f.out.text <Configure> "adjust_yscroll .${win_name}.f.out.text .${win_name}.f.out.ys 0 1"
-
-      bind $bottom.in.input <Tab> "focus $bottom.in.f.send; break"
-
-      bind  $bottom.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y $bottom.in.input"
-      bind  $bottom.buttons.fontsel  <Button1-ButtonRelease> "change_myfont ${win_name}"
-      bind  $bottom.buttons.block  <Button1-ButtonRelease> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} ::amsn::blockUnblockUser"
-      bind $bottom.buttons.sendfile <Button1-ButtonRelease> "::amsn::FileTransferSend .${win_name}"
-      bind $bottom.buttons.invite <Button1-ButtonRelease> "::amsn::ShowInviteList \"[trans invite]\" .${win_name}"
+		.${win_name}.f.out.text tag configure green -foreground darkgreen -background white -font sboldf
+		.${win_name}.f.out.text tag configure red -foreground red -background white -font sboldf
+		.${win_name}.f.out.text tag configure blue -foreground blue -background white -font sboldf
+		.${win_name}.f.out.text tag configure gray -foreground #404040 -background white -font splainf
+		.${win_name}.f.out.text tag configure white -foreground white -background black -font sboldf
+		.${win_name}.f.out.text tag configure url -foreground #000080 -background white -font splainf -underline true
 
 
-      bind $bottom.in.f.send <Return> \
-         "::amsn::MessageSend .${win_name} $bottom.in.input; break"
-      bind $bottom.in.input <Shift-Return> {%W insert insert "\n"; %W see insert; break}
-      bind $bottom.in.input <Control-KP_Enter> {%W insert insert "\n"; %W see insert; break}
-      bind $bottom.in.input <Shift-KP_Enter> {%W insert insert "\n"; %W see insert; break}
-      #Change shorcuts on Mac OS X and ALT=Option on Mac
-      if {$tcl_platform(os) == "Darwin"} {
-      bind $bottom.in.input <Command-Return> {%W insert insert "\n"; %W see insert; break}
-      bind $bottom.in.input <Command-Option-space> BossMode
-      } else {
-      bind $bottom.in.input <Control-Return> {%W insert insert "\n"; %W see insert; break}
-      bind $bottom.in.input <Control-Alt-space> BossMode
-      }
+		#bind .${win_name}.f.out.text <Configure> "adjust_yscroll .${win_name}.f.out.text .${win_name}.f.out.ys 0 1"
 
-      bind $bottom.in.input <<Button3>> "tk_popup .${win_name}.copypaste %X %Y"
-      bind $bottom.in.input <<Button2>> "paste .${win_name} 1"
-      bind .${win_name}.f.out.text <<Button3>> "tk_popup .${win_name}.copy %X %Y"
-      bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
-      
+		bind $bottom.in.input <Tab> "focus $bottom.in.f.send; break"
+
+		bind  $bottom.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y $bottom.in.input"
+		bind  $bottom.buttons.fontsel  <Button1-ButtonRelease> "change_myfont ${win_name}"
+		bind  $bottom.buttons.block  <Button1-ButtonRelease> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} ::amsn::blockUnblockUser"
+		bind $bottom.buttons.sendfile <Button1-ButtonRelease> "::amsn::FileTransferSend .${win_name}"
+		bind $bottom.buttons.invite <Button1-ButtonRelease> "::amsn::ShowInviteList \"[trans invite]\" .${win_name}"
+
+
+		bind $bottom.in.f.send <Return> \
+			"::amsn::MessageSend .${win_name} $bottom.in.input; break"
+		bind $bottom.in.input <Shift-Return> {%W insert insert "\n"; %W see insert; break}
+		bind $bottom.in.input <Control-KP_Enter> {%W insert insert "\n"; %W see insert; break}
+		bind $bottom.in.input <Shift-KP_Enter> {%W insert insert "\n"; %W see insert; break}
+		#Change shorcuts on Mac OS X and ALT=Option on Mac
+		if {$tcl_platform(os) == "Darwin"} {
+			bind $bottom.in.input <Command-Return> {%W insert insert "\n"; %W see insert; break}
+			bind $bottom.in.input <Command-Option-space> BossMode
+		} else {
+			bind $bottom.in.input <Control-Return> {%W insert insert "\n"; %W see insert; break}
+			bind $bottom.in.input <Control-Alt-space> BossMode
+		}
+
+		bind $bottom.in.input <<Button3>> "tk_popup .${win_name}.copypaste %X %Y"
+		bind $bottom.in.input <<Button2>> "paste .${win_name} 1"
+		bind .${win_name}.f.out.text <<Button3>> "tk_popup .${win_name}.copy %X %Y"
+		bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
+
 		#Define this events, in case they were not defined by Tk
 		event add <<Paste>> <Control-v> <Control-V>
 		event add <<Copy>> <Control-c> <Control-C>
@@ -1816,42 +1823,43 @@ catch {exec killall -c sndplay}
 	  bind .${win_name} <<Copy>> "status_log copy\n;tk_textCopy .${win_name}"
 	  bind .${win_name} <<Paste>> "status_log paste\n;tk_textPaste .${win_name}"
 
-      #Change shorcut for history on Mac OS X
-      if {$tcl_platform(os) == "Darwin"} {
-		bind .${win_name} <Command-Option-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
-      } else {
-		bind .${win_name} <Control-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
-      }
+		#Change shorcut for history on Mac OS X
+		if {$tcl_platform(os) == "Darwin"} {
+			bind .${win_name} <Command-Option-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
+		} else {
+			bind .${win_name} <Control-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
+		}
       
 
-      bind .${win_name} <Destroy> "window_history clear %W; ::amsn::closeWindow .${win_name} %W"
+		bind .${win_name} <Destroy> "window_history clear %W; ::amsn::closeWindow .${win_name} %W"
 
-      focus $bottom.in.input
+		focus $bottom.in.input
 
-      change_myfontsize $config(textsize) ${win_name}
+		change_myfontsize $config(textsize) ${win_name}
 
 
 
-      #TODO: We always want these menus and bindings enabled? Think it!!
-      $bottom.in.input configure -state normal
-      $bottom.in.f.send configure -state normal
+		#TODO: We always want these menus and bindings enabled? Think it!!
+		$bottom.in.input configure -state normal
+		$bottom.in.f.send configure -state normal
 
-      .${win_name}.menu.msn entryconfigure 3 -state normal
-      .${win_name}.menu.actions entryconfigure 5 -state normal
+		.${win_name}.menu.msn entryconfigure 3 -state normal
+		.${win_name}.menu.actions entryconfigure 5 -state normal
 
 		#Better binding, works for tk 8.4 only (see proc  tification too)
 		if { [catch {
-		   $bottom.input edit modified false
-		   bind $bottom.in.input <<Modified>> "::amsn::TypingNotification .${win_name} $bottom.in.input"
+			$bottom.input edit modified false
+			bind $bottom.in.input <<Modified>> "::amsn::TypingNotification .${win_name} $bottom.in.input"
 			} res]} {
 			#If fails, fall back to 8.3
-         bind $bottom.in.input <Key> "::amsn::TypingNotification .${win_name} $bottom.in.input"
-		   bind $bottom.in.input <Key-Meta_L> "break;"
-         bind $bottom.in.input <Key-Meta_R> "break;"
-         bind $bottom.in.input <Key-Alt_L> "break;"
-         bind $bottom.in.input <Key-Alt_R> "break;"
-         bind $bottom.in.input <Key-Control_L> "break;"
-         bind $bottom.in.input <Key-Control_R> "break;"
+			bind $bottom.in.input <Key> "::amsn::TypingNotification .${win_name} $bottom.in.input"
+			bind $bottom.in.input <Key-Meta_L> "break;"
+			bind $bottom.in.input <Key-Meta_R> "break;"
+			bind $bottom.in.input <Key-Alt_L> "break;"
+			bind $bottom.in.input <Key-Alt_R> "break;"
+			bind $bottom.in.input <Key-Control_L> "break;"
+			bind $bottom.in.input <Key-Control_R> "break;"
+			bind $bottom.in.input <Key-Return> "break;"
 		}
 
 		bind $bottom.in.input <Return> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
@@ -1860,19 +1868,19 @@ catch {exec killall -c sndplay}
 		
 		#Differents shorcuts on Mac OS X
 		if {$tcl_platform(os) == "Darwin"} {
-		bind $bottom.in.input <Control-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-		bind .${win_name} <Command-w> "destroy .${win_name} %W; break"
-		bind .${win_name} <Command-,> "Preferences"
-		bind all <Command-q> {
-	 	close_cleanup;exit
-	 	}
-	 	bind $bottom.in.input <Command-Up> "window_history previous %W; break"
-		bind $bottom.in.input <Command-Down> "window_history next %W; break"
+			bind $bottom.in.input <Control-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
+			bind .${win_name} <Command-w> "destroy .${win_name} %W; break"
+			bind .${win_name} <Command-,> "Preferences"
+			bind all <Command-q> {
+				close_cleanup;exit
+			}
+			bind $bottom.in.input <Command-Up> "window_history previous %W; break"
+			bind $bottom.in.input <Command-Down> "window_history next %W; break"
 		} else {
-		bind $bottom.in.input <Alt-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-		bind $bottom.in.input <Escape> "destroy .${win_name} %W; break"
-		bind $bottom.in.input <Control-Up> "window_history previous %W; break"
-		bind $bottom.in.input <Control-Down> "window_history next %W; break"
+			bind $bottom.in.input <Alt-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
+			bind $bottom.in.input <Escape> "destroy .${win_name} %W; break"
+			bind $bottom.in.input <Control-Up> "window_history previous %W; break"
+			bind $bottom.in.input <Control-Down> "window_history next %W; break"
 		}
 
 		set window_titles(.${win_name}) ""
@@ -2208,6 +2216,13 @@ catch {exec killall -c sndplay}
 
       set chatid [ChatFor $win_name]
 
+
+	if { [string length [$inputbox get 0.0 end-1c]] == 0 } {
+		CharsTyped $chatid ""
+	} else {
+		CharsTyped $chatid [string length [$inputbox get 0.0 end-1c]]
+	}
+
 		#Works for tcl/tk 8.4 only...
 		catch {
 			bind $inputbox <<Modified>> ""
@@ -2246,7 +2261,8 @@ catch {exec killall -c sndplay}
       global user_info config
 
       set chatid [ChatFor $win_name]
-      
+
+
       if { $chatid == 0 } {
          status_log "VERY BAD ERROR in ::amsn::MessageSend!!!\n" red
 	 return 0
@@ -2271,7 +2287,7 @@ catch {exec killall -c sndplay}
 
       set fontfamily [lindex $config(mychatfont) 0]
       set fontstyle [lindex $config(mychatfont) 1]
-      set fontcolor [lindex $config(mychatfont) 2]	
+      set fontcolor [lindex $config(mychatfont) 2]
 	
       if { [string length $msg] > 400 } {
       	set first 0
@@ -2299,6 +2315,7 @@ catch {exec killall -c sndplay}
       }
 
 
+		CharsTyped $chatid ""
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -2512,13 +2529,36 @@ catch {exec killall -c sndplay}
 
       set msg [stringmap {"\n" " "} $msg]
    
-      ${win_name}.status configure -state normal
-      ${win_name}.status delete 0.0 end
+      ${win_name}.statusbar.status configure -state normal
+      ${win_name}.statusbar.status delete 0.0 end
       if { "$icon"!=""} {
-	  ${win_name}.status image create end -image $icon -pady 0 -padx 1
+	  ${win_name}.statusbar.status image create end -image $icon -pady 0 -padx 1
       }
-      ${win_name}.status insert end $msg
-      ${win_name}.status configure -state disabled
+      ${win_name}.statusbar.status insert end $msg
+      ${win_name}.statusbar.status configure -state disabled
+
+   }
+   #///////////////////////////////////////////////////////////////////////////////
+
+   #///////////////////////////////////////////////////////////////////////////////
+   # CharsTyped (chatid,msg)
+   # Writes the message 'msg' (number of characters typed) in the window 'win_name' status bar.
+   proc CharsTyped { chatid msg } {
+
+	if { $chatid == 0} {
+		return 0
+	} elseif { [WindowFor $chatid] == 0} {
+		return 0
+	} else {
+		set win_name [WindowFor $chatid]
+
+		set msg [stringmap {"\n" " "} $msg]
+
+		${win_name}.statusbar.charstyped configure -state normal
+		${win_name}.statusbar.charstyped delete 0.0 end
+		${win_name}.statusbar.charstyped insert end $msg
+		${win_name}.statusbar.charstyped configure -state disabled
+	}
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -2851,12 +2891,13 @@ catch {exec killall -c sndplay}
    }
 
    proc closeOrDock { closingdocks } {
-     global systemtray_exist statusicon config
+     global systemtray_exist statusicon config ishidden
      if {$closingdocks} {
         wm iconify .
 	if { $systemtray_exist == 1 && $statusicon != 0 && $config(closingdocks) } {
 		 status_log "Hiding\n" white
 		  wm state . withdrawn
+		  set ishidden 1
 	}
 
      } else {
@@ -3229,6 +3270,8 @@ proc cmsn_draw_main {} {
    .dock_menu add radio -label "[trans dockfreedesktop]" -value 3 -variable config(dock) -command "init_dock"
    .dock_menu add radio -label "[trans dockgtk]" -value 1 -variable config(dock) -command "init_dock"
    #.dock_menu add radio -label "[trans dockkde]" -value 2 -variable config(dock) -command "init_dock"
+### need to add dockwindows to translation files
+   .dock_menu add radio -label "Windows" -value 4 -variable config(dock) -command "init_dock"
 
    .main_menu.tools add separator
    #.options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
@@ -3454,8 +3497,13 @@ bind all <Command-q> {
    #wm iconwindow . .caca
 
    #wm iconname . "[trans title]"
-   wm iconbitmap . @[GetSkinFile pixmaps amsn.xbm]
-   wm iconmask . @[GetSkinFile pixmaps amsnmask.xbm]
+   if {$tcl_platform(platform) == "windows"} {
+      wm iconbitmap . [file join $program_dir icons winicons msn.ico]
+      wm iconbitmap . -default [file join $program_dir icons winicons msn.ico]
+   } else {
+      wm iconbitmap . @[GetSkinFile pixmaps amsn.xbm]
+      wm iconmask . @[GetSkinFile pixmaps amsnmask.xbm]
+   }
    . conf -menu .main_menu
 
 

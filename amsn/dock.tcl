@@ -148,6 +148,8 @@ proc init_dock {} {
 			}
 			global user_stat
 			statusicon_proc $user_stat
+		} elseif { $config(dock) == 4} {
+			trayicon_init
 		}
 		vwait events
 
