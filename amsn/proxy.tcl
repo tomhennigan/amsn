@@ -308,7 +308,7 @@ namespace eval ::Proxy {
 	    }
 	    set tmp_data "$tmp_data\r\n\r\n[string range $proxy_queued_data($name) 0 $strend]"
 	    
-	    #status_log "PROXY POST Sending: ($name)\n$tmp_data\n" blue
+	    status_log "PROXY POST Sending: ($name)\n$tmp_data\n" blue
 	    set proxy_queued_data($name) [string replace $proxy_queued_data($name) 0 $strend]         
 	    if { [catch {puts -nonewline [sb get $name sock] "$tmp_data"} res] } {
 		sb set $name error_msg $res
@@ -459,6 +459,10 @@ namespace eval ::Proxy {
 }
 ###################################################################
 # $Log$
+# Revision 1.24  2003/10/18 18:21:23  airadier
+# More debug statements in proxy.tcl.
+# Updated languages.
+#
 # Revision 1.23  2003/10/16 23:51:29  airadier
 # Enabled some proxy debugging again
 #

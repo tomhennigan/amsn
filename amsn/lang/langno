@@ -75,8 +75,11 @@ connecterror Feil ved tilkobling til server
 contactadded Kontakten er lagt til
 contactdoesnotexist Kontakten eksisterer ikke!
 copytogroup Kopier til gruppe
+countrycode Min Lands-/Regionkode
 date Dato
 delete Slett
+disablessl Deaktiver SSL
+editprofile Rediger Profil
 enableproxy Bruk proxy
 encoding Velg encoding
 entercontactemail Oppgi kontakt e-post
@@ -105,6 +108,7 @@ groupunknown Ukjent gruppe
 handle Handle
 helpcontents Hjelp innhold
 help Hjelp
+history Vis Historie
 home Hjem
 ident Identifiserer
 identity Identitet
@@ -128,12 +132,18 @@ login Logg inn
 logout Logg ut
 logsin har nettopp logget inn
 mailer Mailer
+maximised Maksimert
+minimised Minimert
+mins minutter
 mobile Mobil
 movetogroup Flytt til gruppe
 msg Beskjed
 msn AMSN
 mustrestart Du må starte programmet på nytt for å aktivere endringene
+myhomephone Tlf - Hjem
+mymobilephone Tlf - Mobil
 mystatus Min status
+myworkphone Tlf - Arbeid
 needonline Du er ennå/ser ut til å være offline!
 newmail $1 nye meldinger i Innboksen
 newmailfrom Ny e-post fra $1 ($2)
@@ -141,6 +151,7 @@ newmsg Ny melding
 newveravailable Nyere versjon $1 tilgjengelig for nedlasting
 next Neste
 noactivity Ingen aktivitet
+no Nei
 nonewmail Ingen nye meldinger i Innboksen
 nonewver Det er ingen nye versjoner tilgjengelig for nedlasting
 notify gi beskjed
