@@ -1120,7 +1120,7 @@ namespace eval ::amsn {
 	# the 'fontformat' parameter will be used as font format.
 	# The procedure will open a window if it does not exists, add a notifyWindow and
 	# play a sound if it's necessary
-	proc messageFrom { chatid user nick msg type {fontformat ""} } {
+	proc messageFrom { chatid user nick msg type {fontformat ""} {p4c 0} } {
 		global remote_auth config
 		variable first_message
 
@@ -1150,7 +1150,7 @@ namespace eval ::amsn {
 			}
 		}
 
-		PutMessage $chatid $user $nick $msg $type $fontformat
+		PutMessage $chatid $user $nick $msg $type $fontformat $p4c
 
 		set evPar [list $user [::abook::getDisplayNick $user] $msg]
 		if { "$user" != "$chatid" } {
@@ -1868,6 +1868,7 @@ namespace eval ::amsn {
 		.${win_name}.f.out.text tag configure red -foreground red -background white -font sboldf
 		.${win_name}.f.out.text tag configure blue -foreground blue -background white -font sboldf
 		.${win_name}.f.out.text tag configure gray -foreground #404040 -background white -font splainf
+		.${win_name}.f.out.text tag configure gray_italic -foreground #000000 -background white -font splainf -underline true
 		.${win_name}.f.out.text tag configure white -foreground white -background black -font sboldf
 		.${win_name}.f.out.text tag configure url -foreground #000080 -background white -font splainf -underline true
 
@@ -2451,7 +2452,7 @@ namespace eval ::amsn {
 	# Called from a window the the user enters a message to send to the chat. It will
 	# just queue the message to send in the chat associated with 'win_name', and set
 	# a timeout for the message
-	proc MessageSend { win_name input {custom_msg ""}} {
+	proc MessageSend { win_name input {custom_msg ""} {friendlyname ""}} {
 
 		global config
 
@@ -2489,24 +2490,24 @@ namespace eval ::amsn {
 			while { [expr {$first + 400}] <= [string length $msg] } {
 				set msgchunk [string range $msg $first [expr {$first + 399}]]
 				set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
-				::MSN::messageTo $chatid "$msgchunk" $ackid
+				::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
 				incr first 400
 			}
 			set msgchunk [string range $msg $first end]
 			set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
 
 			#Draw our own message
-			messageFrom $chatid [::abook::getPersonal login] [::abook::getPersonal nick] "$msg" user [list $fontfamily $fontstyle $fontcolor]      	
+			messageFrom $chatid [::abook::getPersonal login] [::abook::getPersonal nick] "$msg" user [list $fontfamily $fontstyle $fontcolor] 
 
-			::MSN::messageTo $chatid "$msgchunk" $ackid
+			::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
 		} else {
 			set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msg]]
 			#::MSN::chatQueue $chatid [list ::MSN::messageTo $chatid "$msg" $ackid]
 
 			#Draw our own message
-			messageFrom $chatid [::abook::getPersonal login] [::abook::getPersonal nick] "$msg" user [list $fontfamily $fontstyle $fontcolor]      	
+			messageFrom $chatid [::abook::getPersonal login] [::abook::getPersonal nick] "$msg" user [list $fontfamily $fontstyle $fontcolor]   	
 
-			::MSN::messageTo $chatid "$msg" $ackid
+			::MSN::messageTo $chatid "$msg" $ackid $friendlyname
 		}
 
 
@@ -2649,13 +2650,13 @@ namespace eval ::amsn {
 	# - 'type' can be red, gray... or any tag defined for the textbox when the windo
 	#   was created, or just "user" to use the fontformat parameter
 	# - 'fontformat' is a list containing font style and color
-	proc PutMessage { chatid user nick msg type fontformat } {
+	proc PutMessage { chatid user nick msg type fontformat {p4c ""}} {
 
 		#Run it in mutual exclusion
-		run_exclusive [list ::amsn::PutMessageWrapped $chatid $user $nick $msg $type $fontformat] putmessage
+		run_exclusive [list ::amsn::PutMessageWrapped $chatid $user $nick $msg $type $fontformat $p4c] putmessage
 	}
 
-	proc PutMessageWrapped { chatid user nick msg type fontformat } {
+	proc PutMessageWrapped { chatid user nick msg type fontformat {p4c 0 }} {
 
 		global config
 		set tstamp [timestamp]
@@ -2681,7 +2682,10 @@ namespace eval ::amsn {
 		}
 
 		if {$config(showtimestamps)} {
-			WinWrite $chatid "$tstamp [trans says $user]:\n" gray
+			WinWrite $chatid "$tstamp " gray
+		} 
+		if { $p4c == 1 } {
+			WinWrite $chatid "[trans says $user]:\n" gray_italic
 		} else {
 			WinWrite $chatid "[trans says $user]:\n" gray
 		}
@@ -2918,7 +2922,7 @@ namespace eval ::amsn {
 	# Writes 'txt' into the window related to 'chatid'
 	# It will use 'tagname' as style tag, unles 'tagname'=="user", where it will use
 	# 'fontname', 'fontstyle' and 'fontcolor' as from fontformat
-	proc WinWrite {chatid txt tagname {fontformat ""} {flicker 1}} {
+	proc WinWrite {chatid txt tagname {fontformat ""} {flicker 1} } {
 
 		global emotions config ;#smileys_end_subst
 

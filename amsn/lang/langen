@@ -47,6 +47,7 @@ autodetectip Detect IP address automatically
 autohotmaillog Auto Hotmail login
 autoidle Auto NoActivity
 autoip Automatic IP
+automessage AutoMessage
 autonoact Show me as "Not Active" when inactive for
 avoidseen Prevent this person from seeing when I'm online and contacting me
 away Away
@@ -202,6 +203,7 @@ filename Filename
 filetransfercancelled File transfer cancelled
 filetransfercomplete File transfer complete
 followtext Scroll down when new text is entered
+friendlyname Friendly Name
 ftaccepted File transfer accepted
 ftacceptedby $1 accepted file transfer invitation for file '$2'.
 ftaccepting Accepting file transfer invitation

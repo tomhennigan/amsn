@@ -1743,7 +1743,7 @@ namespace eval ::MSN {
 	# delivery will fail, and message will be nacked. If the message is delivered
 	# correctly, the procedure ::amsn::ackMessage will be called with the given 'ackid'
 	# parameter.
-	proc SendChatMsg { chatid txt ackid } {
+	proc SendChatMsg { chatid txt ackid {friendlyname "" }} {
 		global config msgacks
 
 		set sbn [SBFor $chatid]
@@ -1794,7 +1794,12 @@ namespace eval ::MSN {
 		set smilemsg_len [string length $smilemsg]
 
 		set msg "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n"
-		#set msg "${msg}P4-Context: elchacho\r\n"
+		if { $friendlyname != "" } {
+			set msg "${msg}P4-Context: $friendlyname\r\n"
+		} elseif { [::config::getKey p4c_name] != "" } {
+			set msg "${msg}P4-Context: [::config::getKey p4c_name]\r\n"
+		}
+		set msg "${msg}x-clientcaps : aMSN/[set ::version]\r\n"
 		set msg "${msg}X-MMS-IM-Format: FN=[urlencode $fontfamily]; EF=$style; CO=$color; CS=0; PF=22\r\n\r\n"
 		set msg "$msg$txt_send"
 		#set msg_len [string length $msg]
@@ -1823,14 +1828,14 @@ namespace eval ::MSN {
 	#///////////////////////////////////////////////////////////////////////////////
 	# messageTo (chatid,txt,ackid)
 	# Just queue the message send
-	proc messageTo { chatid txt ackid } {
+	proc messageTo { chatid txt ackid {friendlyname "" }} {
 		if {![chatReady $chatid] && [::abook::getVolatileData [lindex [usersInChat $chatid] 0] state] == "FLN" } {
 			status_log "::MSN::messageTo: chat NOT ready for $chatid\n"
 			::amsn::nackMessage $ackid
 			chatTo $chatid
 			return 0
 		}
-		ChatQueue $chatid [list ::MSN::SendChatMsg $chatid "$txt" $ackid]
+		ChatQueue $chatid [list ::MSN::SendChatMsg $chatid "$txt" $ackid $friendlyname]
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -2321,8 +2326,10 @@ proc cmsn_sb_msg {sb_name recv} {
    set typer [string tolower [lindex $recv 1]]
    if { [::config::getKey displayp4context] !=1 || $p4context == "" } {
 	set nick [::abook::getDisplayNick $typer]
+	   set p4c_enabled 0
    } else {
         set nick "[::config::getKey p4contextprefix]$p4context"
+	   set p4c_enabled 1
    }
    #Notice that we're ignoring the nick sent in the own MSG command, and using the one in ::abook
 
@@ -2411,7 +2418,7 @@ proc cmsn_sb_msg {sb_name recv} {
 			#set fontcolor [lindex $config(mychatfont) 2]
 		}
 
-      ::amsn::messageFrom $chatid $typer $nick "$body" user [list $fontfamily $style $fontcolor]
+      ::amsn::messageFrom $chatid $typer $nick "$body" user [list $fontfamily $style $fontcolor] $p4c_enabled
       sb set $sb_name lastmsgtime [clock format [clock seconds] -format %H:%M:%S]
       ::abook::setContactData $chatid last_msgedme [clock format [clock seconds] -format "%D - %H:%M:%S"]
 
@@ -2430,11 +2437,11 @@ proc cmsn_sb_msg {sb_name recv} {
 	if { $automessage != "-1" && [lindex $automessage 4] != ""} {
 		if { [info exists automsgsent($typer)] } {
 			if { $automsgsent($typer) != 1 } {
-				::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [parse_exec [lindex $automessage 4]]
+				::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [parse_exec [lindex $automessage 4]] "[trans automessage]"
 				set automsgsent($typer) 1
 			}
 		} else {
-				::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [parse_exec [lindex $automessage 4]]
+				::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [parse_exec [lindex $automessage 4]] "[trans automessage]"
 				set automsgsent($typer) 1
 			}
 	}

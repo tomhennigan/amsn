@@ -109,11 +109,17 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	frame $lfname.1 -class Degt
 	label $lfname.pname -image prefpers
-	label $lfname.1.lname -text "[trans enternick] :" -font sboldf -padx 10
-	entry $lfname.1.name -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 45
+	frame $lfname.1.name -class Degt
+	label $lfname.1.name.label -text "[trans enternick] :" -font sboldf -padx 10
+	entry $lfname.1.name.entry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 45
+	frame $lfname.1.p4c -class Degt
+	label $lfname.1.p4c.label -text "[trans friendlyname] :" -font sboldf -padx 10
+	entry $lfname.1.p4c.entry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 45
 	pack $lfname.pname -anchor nw -side left
 	pack $lfname.1 -side top -padx 0 -pady 3 -expand 1 -fill both
-	pack $lfname.1.lname $lfname.1.name -side left
+	pack $lfname.1.name.label $lfname.1.name.entry -side left
+	pack $lfname.1.p4c.label $lfname.1.p4c.entry -side left
+	pack $lfname.1.name $lfname.1.p4c -side top -anchor nw
 
 	## Public Profile Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefprofile]]
@@ -923,12 +929,15 @@ proc InitPref {} {
 	set lfname [$nb.nn getframe personal]
 	set lfname [$lfname.sw.sf getframe]
 	if { [::MSN::myStatusIs] == "FLN" } {
-		$lfname.lfname.f.f.1.name configure -state disabled
+		$lfname.lfname.f.f.1.name.entry configure -state disabled
 	} else {
-		$lfname.lfname.f.f.1.name configure -state normal
-		$lfname.lfname.f.f.1.name delete 0 end
-		$lfname.lfname.f.f.1.name insert 0 [::abook::getPersonal nick]
+		$lfname.lfname.f.f.1.name.entry configure -state normal
+		$lfname.lfname.f.f.1.name.entry delete 0 end
+		$lfname.lfname.f.f.1.name.entry insert 0 [::abook::getPersonal nick]
 	}
+
+	$lfname.lfname.f.f.1.p4c.entry delete 0 end
+	$lfname.lfname.f.f.1.p4c.entry insert 0 [::config::getKey p4c_name]
 
 	# Get My Phone numbers and insert them
 	set lfname "$lfname.lfname4.f.f"
@@ -1212,10 +1221,11 @@ proc SavePreferences {} {
     set lfname [$nb.nn getframe personal]
     set lfname [$lfname.sw.sf getframe]
     set lfname "$lfname.lfname.f.f.1"
-    set new_name [$lfname.name get]
+    set new_name [$lfname.name.entry get]
     if {$new_name != "" && $new_name != [::abook::getPersonal nick] && [::MSN::myStatusIs] != "FLN"} {
 	::MSN::changeName $config(login) $new_name
     }
+	::config::setKey p4c_name [$lfname.p4c.entry get]
 
 	 #Check if convertpath was left blank, set it to "convert"
 	 if { $config(convertpath) == "" } {

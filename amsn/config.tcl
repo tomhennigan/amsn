@@ -137,7 +137,7 @@ proc ConfigDefaults {} {
 	set config(customsmileys2) [list]
 	set config(custom_smileys) 1
 	set config(logsbydate) 1
-	
+	set config(p4c_name) ""
 	
 	if {$tcl_platform(os) != "Darwin"} {
 	set config(convertpath) "convert"								;#Path for convert (from imagemagick)
