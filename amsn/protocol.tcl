@@ -2825,6 +2825,7 @@ proc cmsn_ns_handler {item} {
       REG {	# Rename Group
       	status_log "$item\n" blue
 	::groups::RenameCB [lrange $item 0 5]
+	cmsn_draw_online
 	return 0
       }
       ADG {	# Add Group
@@ -2959,18 +2960,29 @@ proc cmsn_ns_msg {recv} {
 proc cmsn_listdel {recv} {
    set list_name "list_[string tolower [lindex $recv 2]]"
    
-   if { [lindex $recv 5] == "" } {
-      #Remove from all groups!!
-      foreach group [::abook::getGroup [lindex $recv 4] -id] {
-         ::abook::removeContactFromGroup [lindex $recv 4] $group
+   
+   if { [lindex $recv 2] == "FL" } {
+      if { [lindex $recv 5] == "" } {
+         #Remove from all groups!!
+         foreach group [::abook::getGroup [lindex $recv 4] -id] {
+            ::abook::removeContactFromGroup [lindex $recv 4] $group
+         }
+      } else {
+         #Remove fromonly one group
+         ::abook::removeContactFromGroup [lindex $recv 4] [lindex $recv 5]
+      }
+   
+      if { [llength [::abook::getGroup [lindex $recv 4] -id]] == 0 } {
+         status_log "Contact is in no groups, removing!!\n" blue
+         upvar #0 $list_name the_list
+         set idx [lsearch $the_list "[lindex $recv 4] *"]
+         if { $idx != -1 } {
+            set the_list [lreplace $the_list $idx $idx]
+         } else {
+            status_log "cmsn_listdel: PANIC!!!\n" red
+         }
       }
    } else {
-      #Remove fromonly one group
-      ::abook::removeContactFromGroup [lindex $recv 4] [lindex $recv 5]
-   }
-   
-   if { [llength [::abook::getGroup [lindex $recv 4] -id]] == 0 } {
-      status_log "Contact is in no groups, removing!!\n" blue
       upvar #0 $list_name the_list
       set idx [lsearch $the_list "[lindex $recv 4] *"]
       if { $idx != -1 } {
