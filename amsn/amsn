@@ -329,9 +329,10 @@ proc close_cleanup {} {
   }
   SaveLoginList
 
+  ::MSN::logout
+  
   close_dock    ;# Close down the dock socket
   catch {file delete [file join $HOME hotlog.htm]} res
-  catch {file delete [file join $HOME lock]} res
 }
 #///////////////////////////////////////////////////////////////////////
 
