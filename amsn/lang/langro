@@ -1,0 +1,168 @@
+amsn_lang_version 2
+about Despre
+acceptfile Accept fisierul $1, marime $2? Salvat in $3
+actions Actiuni
+addacontact Adauga o persoana noua  
+addedyou te-a adaugat in lista lui/ei de contacte
+addtocontacts Adauga in lista de contact
+addtoo Adauga persoana in lista  
+admincontacts Administrare  contact
+admingroups Administrare  group
+adverts Avertismente
+allowseen  Permite persoanei sa ma vada autentificat si sa ma contacteze
+appearoff neautentificat 
+aretyping $1 scrie un mesaj 
+autohotmaillog Autentificare  automata la Hotmail
+autoip  IP automat  
+avoidseen  Nu permite persoanei sa ma vada cind sunt online si sa ma contacteze
+away Plecat 
+baduserpass Parola sau user gresit
+blankdirect Nu complecta pentru autentificare automata
+block Blocheaza
+blocked Blocat
+browser Navigator
+ broughtby  Brought to you by the following developers
+busy Ocupat 
+cancel Renunta
+changenick Schimba nick-ul 
+chat Conversatie
+chatreq Cerere de conversatie
+chatsmileys Semne in conversatie
+chatack In curs de acceptare
+checkver Verifica daca este versiune noua
+checkingver In curs de verificare 
+choosebasefont Alege caracterul 
+choosebgcolor Alege culoarea  
+clicktologin Autentificare 
+close Inchide 
+   closingdocks Close button docks window
+command Commanda
+confirmdelete Sigur vrei sa stergi  $1?
+contactadded Persoana adaugata
+contactdoesnotexist Persona nu exista!
+connecterror Conectarea la server a esuat 
+copytogroup Adauga la group
+date Data
+delete Sterge
+enableproxy Activeaza proxy
+encoding Alege codul caracterului
+entercontactemail Introduce e-mail 
+enterfilename Introduce fisier 
+enternick Introduce nick-ul 
+examples Exemple
+exitamsn Sigur vrei sa inchizi?
+extras Servicii suplimentare
+filedoesnotexist Fisierul nu exista 
+filename Nume Fisier
+filetransfercancelled Transfer de fisier intrerupt 
+filetransfercomplete Transfer de fisier complect
+gonelunch Plecat la masa 
+group Grup 
+groupadd Adauga un group 
+groupdelete Sterge un group
+grouprename Redenumeste un group
+groupoldname Nume vechi 
+groupnewname Nume nou 
+groupunknown Grup necunoscut 
+groupexists Groupul exista  
+groupmissing Nu pot gasi grupul 
+groupnotempty Grupul nu este gol!
+handle Manuieste
+help Ajutor
+helpcontents Continut
+home Home
+ident In curs de identificare
+identity Identitate
+inbox Casuta postala
+invalidusername nume  gresit 
+invite Invita
+ipaddress Adresa IP 
+istyping $1 scrie un mesaj
+joins $1 $2 incepe conversatia 
+language Alege limba
+leaveblankforhotmail Nu complecta cimpul
+leaves $1 a parasit conversatia
+listeningon ascult pe portul  $1
+listsmileys Listeaza semnele
+loadcontacts Incarca lista de contacte 
+loggedotherlocation Deconectat. Autentificare de la alt PC.
+loggingin In curs de autentificare
+login Autentificare
+loginas Autentificate cu 
+logout Paraseste
+logsin tocmai s-a autentificat 
+mailer Utilitar de e-mail
+mobile Mobil
+movetogroup Muta in grupul
+mustrestart Trebuie restartat.
+mystatus Apar ca 
+msg Mesaj
+msn AMSN
+needonline Esti/Apari neautentificat !
+newmail $1 Mesaje noi in casuta postala
+newmailfrom e-mail nou de la 
+newmsg Mesaj nou 
+newveravailable Versiune noua de $1 este disponibil pentru descarcare.
+next Urmatorul
+noactivity Fara activitate
+nonewmail Nu sint mesaje noi in casuta postala
+nonewver Nu este versiune noua disponibila pentru descarcare
+notify atentioneaza
+nousersinsession Nu sunt persoane in sesiune
+ok Ok
+offline Neautentificat
+onenewmail 1 mesaj nou in casuta postala
+online Autentificat
+onphone Vorbesc la telefon
+openreceived Deschide fisierul primit
+options Optiuni
+ordercontactsby Sorteaza persoanele dupa
+other Altul
+pager Pager
+pass Parola
+phone Detalii
+port Port
+prefapps Applicatii
+preferences Preferinte
+prefsound Sunete
+properties Detalii
+proxyconf configurare proxy
+proxyconfhttp configurare HTTP proxy 
+publishphones Arata numerele de telefon
+receivedbytes Receptionat  $1 of $2 bytes
+receivefile fisier receptionat
+reconnect Asteapta  $1 sa se reconecteze
+reconnecting Reconectat la server
+rememberpass Retine parola
+rightback Revin imediat 
+save Salveaza
+saveas Salveaza ca
+savecontacts Salveaza lista 
+says $1 a scris 
+  sbcon Connecting to Switch Board
+send Trimite 
+sendfile Trimite fisier 
+sendmail Trimite e-mail
+sendmsg Trimite mesaj
+sentbytes Trimis $1 of $2 bytes
+server Server
+servergoingdown Deconectat: se inchide serverul
+sound Event Sound
+startoffline Conectare neautentificat
+status Stare
+syntaxerror  Eroare de sintaxa
+textsize Marime text
+title Al's Messenger
+to La
+tools Utilitare
+yousay Tu zici 
+youwant Tu vrei
+unblock Deblocheaza
+uoffline Neautentificat
+uonline Autentificat
+user Utilizator
+useralreadyonlist Exista deja pe lista 
+version Versiune
+view Vizualizare
+willjoin Asteapta ca $1 sa se alature conversatiei  
+work Lucru

@@ -20,6 +20,7 @@ baduserpass Nom d'usuari o password incorrecte
 blankdirect Deixa-ho en blanc per a conectar-te directament
 block Bloquejar
 blocked Bloquejat
+broughtby Donat per
 browser Navegador
 busy Ocupat
 cancel Cancel·la
@@ -30,6 +31,8 @@ chatsmileys Emoticons al xat
 chatack Acceptant xat de
 checkver Busca una versió nova
 checkingver Buscant noves versions
+choosebasefont Escollir tipus de lletra base
+choosebgcolor Escollir color de fons
 clicktologin Fes clic aquí per conectar-te
 close Tanca
 closingdocks El botó tancar minimitza la finestra
@@ -42,6 +45,7 @@ copytogroup Copia al grup
 date Data
 delete Esborrar
 enableproxy Habilitar el Proxy
+encoding Cofificació
 entercontactemail Escriu l'adreça de correu del contacte
 enterfilename Introdueix el nom de l'arxiu
 enternick Escriu el teu nick
