@@ -105,6 +105,7 @@ closed $1 ile olan sohbet etkinlik olmadýðý için kapatýldý.
 close Kapat
 closingdocks Kapatma tuþu küçültsün
 command komut
+commandstatus Ýþletilen komut
 confirmdelete $1 i silmek istediðinizden emin misiniz?
 confirm Emin misiniz?
 connected Þu an baglýsýnýz
@@ -133,21 +134,29 @@ delprofile2 Sileceðiniz profili seçiniz
 delprofile Profili sil
 description Tarif
 directconnection Ýnternete doðrudan baðlantým var (1863. portu kullanýr)
+disabled Aktif deðil
+disableprofiles Profilleri iptal et(Ýnternet kafe ve paylaþýlan bilgisayarlar için)
 disablessl SSL kullanma
 disconnect $1 ayrýldý
+displaychat Ekran yazý ayarlarý
 dockfreedesktop AçýkMasaüstü (KDE3/Gnome2)
 dockgtk Gnome'da küçültme
 docking Küçültme
 dockingoff Küçültme olsun
 dockkde KDE'de küçültme
 dontdownload TLS'i indirme, kendim kuracaðým
+dontshow Gösterme
 downloadingtls TLS $1 \n adresinden alýnýyor
 editcurrentstate Durumu düzenle
+editcustomstate Düzenle
 edit Düzenle
 editnewstate Yeni Kiþisel Otomatik Mesaj Durumu
 editprofile Profili düzenle
 editstate Var olan otomatik mesaj durumunu düzenle
+editvalue Etiketi düzenle
 emotisounds Bazý gülen adamlarda ses çýkar
+enablebanner aMSN banerýný göster(Yeniden baþlatýlmalý)
+enabled Aktif
 enableproxy proxy ayarlarýný etkinleþtir
 enableremote Uzaktan denetimi etkinleþtir
 enablesound Sesi aç
@@ -160,6 +169,9 @@ errortls TLS kurulumunda hata oluþtu:
 examples Örnekler
 exitamsn Çýkmak istediðinizden emin misiniz?
 extras Ek Hizmetler
+failed Baþarýsýz
+faileddeleteperso Bu resim silinemedi. Çünkü kiþisel resim dosyasý deðildir. Sadece sizin profilinize ait resimler bu yolla silinebilir.
+faileddelete Silinemedi
 faq SYS (Sýkça Yanýtlanan Sorular)
 filedoesnotexist Dosya bulunamadý
 fileman Dosya yöneticisi
@@ -179,6 +191,7 @@ ftportpref Dosya aktarýmlarý için baþlangýç portu
 ftrejectedby $1, '$2' dosyasý için yapýlan aktarým davetini geri çevirdi
 ftrejected Dosya aktarýmý reddedildi
 ftsendinvitation '$2' dosyasý ($3 bayt) için aktarým daveti $1'e gönderildi
+getdisppic Diðer kullanýcýlardan resim alýmýný aktif yap
 gonelunch Yemekte
 groupadd Grup Ekle
 groupdelete Grup Sil
@@ -193,6 +206,7 @@ groupunknown Bilinmeyen grup
 handle Ýsim
 helpcontents Yardým içeriði
 help Yardým
+hidedisplaypic Ekran resmini gösterme
 hiden Gülen adamý menüden çýkar
 hidewindow Pencereyi gizle
 history Geçmiþi göster
@@ -202,6 +216,7 @@ hybrid Melez kip
 identity Kimlik
 ident Kimlik denetleniyor
 inbox Gelen kutusu
+installconvert ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Eðer daha önceden varsa bu bir hatadýr. Lütfen rapor edin. Bu özellikler þimdi iptal edildi. Eðer daha sonra ImageMagik yüklerseniz ayarlardan tekrar aktif hale getirebilirsiniz.
 internalerror Ýç sunucu hatasý
 invalidfile "$1" alanýna girilen $2 dosyasý yok ya da okunamýyor
 invalidusername Geçersiz kullanýcý ismi
@@ -260,6 +275,7 @@ msn AMSN
 mustrestart Yeniliklerin etkinleþmesi için uygulamayý yeniden baþlatmalýsýnýz
 myhomephone Ev telefonum
 mymobilephone Cep telefonum
+mypic Benim resmim :
 mystatus Durumum
 myworkphone Ev telefonum
 natip Ýnternet sayfasýndan IP belirlenmesi
@@ -277,9 +293,11 @@ nologfile $1 ile sohbet kaydý yok
 noneavailable Hiçbiri yok
 nonewmail Gelen kutusunda yeni ileti yok 
 nonewver Daha yeni bir sürüm yok
+nopic Resim yok
 noprofileexists Henüz hiçbir profil yok. Eðer profille baðlanmak \nisterseniz bir tane yaratmalýsýnýz. Bu penceredeki \nYeni Profil Ekle düðmesine týklayarak bunu yapabilirsiniz.
 normal normal
 nosystemtray Görev çubuðu yok 
+notificationserver MSN Bildirme Sunucusu (MSN Messenger Suncusu)
 notify1_5 Baðlantýlar çýkýnca uyarý penceresi göster
 notify1_75 Baðlantýlar durum deðiþtirince uyarý penceresi göster
 notify1 Baðlantýlar girince uyarý penceresi göster
@@ -300,13 +318,16 @@ options Seçenekler
 ordercontactsby Baðlantýlarý sýralama ölçütü
 ordergroupsby Gruplarý sýralama ölçütü
 other Diðer
+others Diðerleri
 pager Çaðrý cihazý
 pass Þifre
 paste Yapýþtýr
 personal Kiþisel
 phone Telefon
+picbrowser Resimleri göster
 picfile Alarm resmi dosyasý (GIF < 500 x 500)
 picstatus Resimli alarmý aç/kapa
+playing Oynatýlýyor: $1
 pluginselector Eklenti seç
 port Port
 prefalerts Alarmlarým ve Seslerim
@@ -350,10 +371,12 @@ proxyconfhttp HTTP proxy desteði ayarlarý
 proxyconf Proxy ayarlarý
 proxyconnection Ýnternete proxy sunucu ile baðlanýyorum
 publishphones Telefon numaramý göster
+purge Temizle
 raised Büyütülmüþ
 readonlymsgbox Alýnan dosyalar dizini salt okunur olduðu için dosya alýnamýyor. \n Lütfen bu dizinin ayarlarýný deðiþtiriniz.
 readonlywarn UYARI: Alýnan dosyalar dizini salt okunur olduðu için \n dosya büyük olasýlýkla alýnamayacak. Lütfen hedefteki ($1) dizinin\n izinlerinin doðru olduðundan emin olun.
 receivedbytes $2 baytýn $1 (s)i alýndý
+receiveddir Alýnan Dosyalar dizini
 receivefile Dosyayý al
 reconnect $1 in yeniden baðlanmasý bekleniyor
 reconnecting Sunucuya yeniden baðlanýlýyor
@@ -376,10 +399,17 @@ send Gönder
 sendmail E-posta iletisi gönder
 sendmsg Ýleti günder
 sentbytes $2 baytýn $1 (s)i gönderildi
+serverbusy Sunucu yoðun
 servergoingdown Sunucu kapanýyor: Baðlantý kesildi
 server Sunucu
+serverunavailable Sunucu ulaþýlamaz
 session Oturum
 showblockedlist Sizi engelleyenlerin listesini göster
+showdisplaypic2 Chat penceresi açýldýðýnda ekran resmini varsayýlan olarak göster
+showdisplaypic Ekran resmini göster
+showmypic Ekran resmimi göster
+shownotify Olaylar gerçekleþtiðinde hatýrlatma penceresini göster
+showuserpic $1 ekran resmi
 skin Kabuk
 skinselector Kabuk Seç
 smileconfig Özel gülen adam ayarlarý
@@ -398,6 +428,7 @@ sourcecode Kaynak kodu (derlenip kurulmasi gerekir)
 sslwarning UYARI!!! SSL'i kapatmak þifrelemeyi engeller, þ?ifreniz düz metin olarak aktarýlýr. Gerçekten kapatmayý gerektiren durumlar olmad?kça kullanmayýnýz.
 startoffline2 Çevrim dýþý görünerek sessizce baðlan
 startoffline Çevrim dýþý olarak baþla
+startontray aMSN sadece trayde baþlasýn
 stateautomsg Gönderilecek Otomatik Mesaj
 state Böyle görünmek istiyorum
 statechange Yeni durum:
@@ -407,14 +438,17 @@ statename Kiþisel Durumun adý
 statenewtext Lütfen yeni Kiþisel Durumunuzu yaratmak için \n gerekli bilgileri girip Kaydet'e týklayýnýz
 status Durum
 stopalarm Alarmý durdur!
+storenickname Özel yer ve özel rumuzdan sonra orjinal isme dön
 stylechat Sohbetler ile ayný görünüþ
 stylehist aMSN Geçmiþ görünüþü
 stylelog Geçmiþinizin görünüþ þeklini seçin
 syntaxerror Yazým hatasý
 tabbed Ýçiçe pencereler
+temp_state Kaydetme (Geçici yer, aMSN kapatýldýðýnda kaybolacaktýr)
 textsize Metin boyutu
 timeremaining Kalan zaman
 title Al'ýn Messenger'ý
+tkerror TK bir hata oluþturdu. Lütfen $1 dosyasý ile amsn-bugs@lists.sf.net adresine rapor edin.
 tlsdowncompleted $1 dosyasý $2 dizinine kaydedildi. Sýkýþtýrýlmýþ dosyayý açýp, (kaynak kodsa) derleyip $dizinine kurunuz.
 tlsinstallexp AMSN artýk güvenli baðlantý için SSL gerektiren MSNP9 kullanýyor.SSL kullanabilmek\niçin AMSN'nin sisteminizde olmayan TLS kütüphanesini kurmasý gerekiyor. Bu sihirbaz\nTLS indirme kurulumunda size yardýmcý olacaktýr.\n\nLütfen doðru paketin indirilmesi için sistem türünüzü seçiniz.
 tlsinstall TLS kütüphanesi kurulum sihirbazý
@@ -425,6 +459,9 @@ tooltips Ýpuçlarýný etkinleþtir
 transnotexists Bu dosyanýn seçili dile çevirisi henüz yok
 traynotcompiled Görev çubuðu simgesi derlenmemiþ, plugins/traydock'a bakýn
 triggers Yazýlý karþýlýðý 
+truncatenames1 Rumuz pencere baþlýðý ve kontak listesi için büyük
+truncatenames2 Rumuz mesaj penceresi için büyük
+truncatenicks Rumuz pencereden geniþliðinden büyük
 twonewmail Gelen kutunuzda $1 yeni ileti var
 unblock Engeli kaldir
 uoffline Çevrim dýþý
@@ -442,6 +479,9 @@ willjoin $1 in sohbete katýlmasý bekleniyor
 work Ýþ
 wrongfields "$1", "$2" ve/veya "$3" alanlarý geçersiz 
 wrongprofileversion Yanlýþ profil ayar dosyasý sürümü. Düzeltmek için $1 dizinini siliniz ya da aMSN'yi güncelleyiniz
+xmmscurrent Oynatýlan parçayý göster
+xmmserr Hiçbir þey çalýnmýyor, ya da xmms-infopipe yüklü deðil.
+xmmssend Oynatýlan þarkýyý gönder.
 xoffset X koordinatý
 yes Evet
 yoffset Y koordinatý
