@@ -85,7 +85,8 @@ change 變更
 changecustomstate 切換到
 changedisplaypic 變更顯示圖片
 changefont 變更字型
-changenick 更改暱名
+changeglobnick 更改全域暱稱
+changenick 更改暱稱
 changestate $1 切換狀態至 $2 
 charscounter 對話視窗中字數
 chatack 正在接受聊天從
@@ -145,6 +146,7 @@ customcolor 自訂顏色
 custom_edit 編輯個人表情符號
 custom_new 新增個人表情符號
 customnick 自訂暱稱
+customstyle 自訂風格
 cut 剪下
 date 日期
 days 天
@@ -163,6 +165,7 @@ directconnection 我的電腦直接連線到Internet (使用 port 1863)
 disabled 關閉
 disableprofiles 關閉個人設定檔 (在網咖或是公用電腦特別有用) 
 disablessl 關閉SSL連線
+disableuserfonts 交談時不使用對方的字型,使用自己設定的字體
 disconnect $1 已經斷線.
 displaychat 顯示文字選項
 displayp4context 顯示P4-Context欄位內容為訊息發送者
@@ -181,6 +184,7 @@ editprofile 編輯個人設定檔
 edit 編輯
 editstate 編輯已經有的自動訊息狀態
 editvalue 設定值
+email 電子郵件信箱
 emailsinlist 在連絡人清單中顯示email而不顯示暱稱
 emotisounds 於特定表情符號播放音效
 enablebanner 顯示 aMSN's 廣告列 (需要重新啟動 aMSN) 
@@ -223,6 +227,9 @@ ftrejectedby $1 拒絕了 '$2' 檔案的檔案傳送要求.
 ftsendinvitation 檔案'$2' ($3 bytes) 的檔案傳送邀請已經送到 $1. 
 fullcontactlist 對不起, 您的連絡人清單已經滿了. 您必須移除一些連絡人才能增加新的連絡人. 
 getdisppic 開啟接收其他使用者的顯示圖片
+globalnick 請輸入樣板來整理您聯絡人的暱稱, 您可以使用下列參數: \$user_login 聯絡人位置, \$nick 聯絡人暱稱以及\$customnick 您自訂的聯絡人暱稱. 例如: \$user_login is \$nick' 代表 'contact@msn.com is Contact'
+globalnicktitle 全域暱稱
+globaloverride 全域暱稱樣板應該覆蓋自訂暱稱
 gonelunch 外出用餐
 groupadd 新增群組
 groupdelete 刪除群組
@@ -323,14 +330,17 @@ msg 訊息
 msn aMSN
 msnstyle MSN聊天風格
 mustrestart 您必須重新啟動程式
+myfriendlyname 我的友善暱稱
 myhomephone 住家電話號碼
 mymobilephone 行動電話號碼
+mynick 我的暱稱
 mypic 我的顯示圖片: 
 mystatus 我的狀態
 myworkphone 公司電話號碼
 natip IP detection by web page  
 natkeepalive 如果您會定時被斷線, 請開啟保持連線
 needonline 您還是在離線中!
+needwinico 需要winico03.dll於plugin資料夾中才能縮小於工具列
 never 從不
 newmail $1 封新郵件在收件匣中
 newmailfrom 新郵件從 $1 ($2)
@@ -342,6 +352,7 @@ nick 暱稱
 no 否
 noactivity 閒置
 nodataavailable $1 沒有任何的資料
+nogap 群組間取消空行
 nogroup 無群組
 nologfile $1 沒有任何紀錄
 noneavailable None Available 
@@ -360,6 +371,7 @@ notify2 當收到新訊息時顯示通知視窗
 notify3 收到新的email時顯示通知視窗
 notifyoffset 跳出型通知視窗位置
 notify 通知
+notifytimeout 通知視窗顯示時間,以千分之一秒為單位
 notifytyping 輸入時通知其他的使用者
 notifywin 通知視窗
 notinlist 您不在對方的聯絡人名單中
@@ -439,10 +451,12 @@ receivedbytes 已收到 $1 of $2 bytes
 receiveddir 我已接收的檔案資料夾
 receivefile 接收檔案
 recentmsg 防止有新信息來時意外關閉視窗
-reconnecting 重新連結伺服器
 reconnect 等待 $1 重新連結
+reconnect2 斷線時自動重新連線
+reconnecting 重新連結伺服器
 reject 拒絕
 rememberpass 儲存密碼
+removeempty 從聯絡清單中移除空白群組
 removefromlist 從清單中移除
 rename 重新命名
 reversed 反向
@@ -467,6 +481,7 @@ servergoingdown 離線: 連結伺服器失敗
 server 伺服器
 serverunavailable 無法連接到伺服器
 session Session
+showbanner 顯示aMSN的廣告
 showblockedlist 顯示封鎖您的清單
 showcachedpics 顯示暫存的圖片
 showdisplaypic2 當聊天視窗開啟時,自動顯示圖片
@@ -480,6 +495,7 @@ smileconfig 自訂表情符號設定
 smilefile 表情符號檔名
 smileintro2 請編輯所需的欄位來自訂此表情符號 (請參考常見問答集)
 smileintro 請完成所需的欄位來建立新的自訂表情符號 (請參考常見問答集)
+sngdblclick 單擊滑鼠開啟訊息視窗
 sound2 當連絡人登入或傳送訊息時播放聲音
 sound 事件音效
 soundactive 在動作中的視窗收到訊息時播放音效
@@ -491,6 +507,7 @@ soundloop 重複播放
 soundserver 聲音伺服器
 soundstatus 聲音警示
 sourcecode 原始程式碼 (需要編譯及安裝)
+splashstart 開始
 sslwarning 警告!! 關閉SSL連線將會關閉加密, 您的密碼將會以明碼於網路上傳送. 只用在非常難對付的proxy伺服器或是網路設定. 
 startoffline2 安靜模式登入,將顯示為"離線"
 startoffline 以隱形狀態登入
@@ -536,6 +553,7 @@ twonewmail $1 封新郵件在收件匣中
 unblock 解除封鎖
 uoffline 離線
 uonline 線上
+useother 使用一個不同程式
 useralreadyonlist 連絡人已經在清單上
 userblocked 這名連絡人是在線上卻把您封鎖
 userdata 使用者資料
@@ -543,9 +561,11 @@ user 使用者
 usernotonline 這名連絡人不在線上
 userproperties 使用者 $1 屬性
 useryourself 您不可以跟自己聊天
+usesnack 使用Snack程式庫 (Tcl internal)
 verifyblocked 檢查封鎖您的人
 version 版本
 view 檢視
+viewcontactsby 檢視聯絡人透過
 viewprofile 檢視個人資訊
 webcaminvite $1 邀請您啟動檢視網路攝影機影像, 但是aMSN尚未支援這個功能.
 willjoin 等待 $1 加入聊天
