@@ -152,7 +152,9 @@ namespace eval ::abook {
 		set sk [sb get ns sock]
 
 		if { $sk != "" } {
-			return [lindex [fconfigure $sk -sockname] 0]
+			set ip ""
+			catch {set ip [lindex [fconfigure $sk -sockname] 0]}
+			return $ip
 		} else {
 			return ""
 		}
