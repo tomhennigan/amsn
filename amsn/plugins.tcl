@@ -927,7 +927,7 @@ namespace eval ::plugins {
 		variable knownplugins
 		variable loadedplugins
 
-		plugins_log core "save_config: saving plugin config for user [::config::getKey login] in $HOME]\n" black
+		plugins_log core "save_config: saving plugin config for user [::config::getKey login] in $HOME]\n"
 	
 		if { [catch {
 			if {$tcl_platform(platform) == "unix"} {
@@ -954,10 +954,10 @@ namespace eval ::plugins {
 					puts $file_id "<loaded>true</loaded>"
 				}
 				if {[array exists ::${namespace}::config]==1} {
-					plugins_log core "save_config: Saving from $plugin's namespace\n" black
+					plugins_log core "save_config: Saving from $plugin's namespace\n"
 					array set aval [array get ::${namespace}::config];
 				} else {
-					plugins_log core "save_config: Saving from $plugin's global place\n" black
+					plugins_log core "save_config: Saving from $plugin's global place\n"
 					array set aval [array get ::${plugin}_cfg]
 				}
 				foreach var_attribute [array names aval] {
@@ -973,7 +973,7 @@ namespace eval ::plugins {
 		puts $file_id "</config>"
 		close $file_id
 
-		plugins_log core "save_config: Plugins config saved\n" black
+		plugins_log core "save_config: Plugins config saved\n"
 	}
 
 
@@ -1005,7 +1005,7 @@ namespace eval ::plugins {
 				::sxml::register_routine $file_id "config:plugin:entry" "::plugins::new_plugin_entry_config"
 				::sxml::parse $file_id
 				::sxml::end $file_id
-				plugins_log core "load_config: Config loaded\n" green
+				plugins_log core "load_config: Config loaded\n"
 			} res] } {
 				::amsn::errorMsg "[trans corruptconfig [file join ${HOME} "plugins.xml.old"]]"
 				file copy [file join ${HOME} "plugins.xml"] [file join ${HOME} "plugins.xml.old"]
@@ -1054,7 +1054,7 @@ namespace eval ::plugins {
 		variable cur_plugin
 		variable loadedplugins
 		set yes $cdata
-		plugins_log core "$cur_plugin has a loaded tag with $yes in it...\n" black
+		plugins_log core "$cur_plugin has a loaded tag with $yes in it...\n"
 		if {$yes == "true"} {
 			if {[lsearch $loadedplugins $cur_plugin] == -1 } {
 				lappend loadedplugins $cur_plugin
