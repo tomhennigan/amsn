@@ -22,13 +22,17 @@ namespace eval ::Nudge {
         	::plugins::RegisterEvent Nudge chatmenu itemmenu
 	        array set ::Nudge::config {
         	        notify {1}
+        	        notifywin {1}
 	                shake {0}
-                	shakes {5}
+                	shakes {10}
+                	shaketoo {0}
         	}
 	        set ::Nudge::configlist [list \
-        	        [list bool "Notify nudges" notify] \
-	                [list bool "Shake the window:" shake] \
+        	        [list bool "Notify nudges with popup-window" notify] \
+        	        [list bool "Notify nudges in the chatwindow" notifyinwin] \
+	                [list bool "Shake the window" shake] \
                 	[list str "Shakes per nudge:" shakes] \
+                	[list bool "Shake on sending" shaketoo] \
         	]
 	}
 
@@ -47,6 +51,11 @@ namespace eval ::Nudge {
 
 		if {[::MSN::GetHeaderValue $msg Content-Type] == "text/x-msnmsgr-datacast" && [::MSN::GetHeaderValue $msg ID] == "1"} {
 		
+			#If the user choosed to have the nudge notified in the window
+			if { $::Nudge::config(notifyinwin) == 1 } {
+				amsn::WinWrite $chatid "\n[timestamp] [trans nudge $nick]." green
+			}
+			
 			#If the user choosed to have a notify window
 			if { $::Nudge::config(notify) == 1 } {
 				#Get a shorter nick-name for the notify window
@@ -62,6 +71,7 @@ namespace eval ::Nudge {
 				#Shake that window
 				::Nudge::shake ${win_name} $::Nudge::config(shakes)
 			}
+			
 			#If Growl plugin is loaded, show the notification
 			set pluginidx [lindex [lsearch -all $::plugins::found "*growl*"] 0]
 			if { $pluginidx != "" } {
@@ -104,13 +114,13 @@ namespace eval ::Nudge {
 		for {set i 0} {$i < $n} {incr i} {
 			wm geometry $window +[expr $x + 10]+[expr $y + 8]
 			update
-			after 100
+			after 10
 			wm geometry $window +[expr $x + 15 ]+[expr $y + 1]
 			update
-			after 100
+			after 10
 			wm geometry $window +$x+$y
 			update
-			after 100
+			after 10
 		}
 	}
 	################################################
@@ -161,14 +171,17 @@ namespace eval ::Nudge {
 		#Find the SB
 		set chatid [::ChatWindow::Name $window_name]
 		set sbn [::MSN::SBFor $chatid]
+		#Shake the window on sending if the user choosed it
+		if { $::Nudge::config(shaketoo) == 1 } {
+			::Nudge::shake $window_name $::Nudge::config(shakes)
+		}
+		
 		#Write the packet
 		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msnmsgr-datacast\r\n\r\nID: 1\r\n\r\n\r\n"
     	set msg_len [string length $msg]
     	#Send the packet
     	::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
 	}
-	
-
 	
 	
 }
