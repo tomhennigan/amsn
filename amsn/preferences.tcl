@@ -940,7 +940,7 @@ proc Preferences { { settings "personal"} } {
 	#Don't pack the minimised option on Mac OS X because that does'nt work in TkAqua
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		grid $lfname.1.max -row 2 -column 1 -sticky w
-		grid $lfname.1.min -row 3 -column 1 -sticky w
+		grid $lfname.1.no -row 3 -column 1 -sticky w
 	} else {
 		grid $lfname.1.max -row 2 -column 1 -sticky w
 		grid $lfname.1.min -row 3 -column 1 -sticky w
@@ -1302,21 +1302,26 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.1.lbrowser -text "[trans browser] :" -padx 5 -font sboldf
 	entry $lfname.1.browser -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable [::config::getVar browser]
 	label $lfname.1.lbrowserex -text "[trans browserexample]" -font examplef
-	#file manager
-	label $lfname.1.lfileman -text "[trans fileman] :" -padx 5 -font sboldf
-	entry $lfname.1.fileman -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable [::config::getVar filemanager]
-	label $lfname.1.lfilemanex -text "[trans filemanexample]" -font examplef
-	#open file command
-	label $lfname.1.lopenfile -text "[trans openfilecommand] :" -padx 5 -font sboldf
-	entry $lfname.1.openfile -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable [::config::getVar showpicture]
-	label $lfname.1.lopenfileex -text "(gnome : gnome-open \$file)(kde : kfmclient exec \$file)" -font examplef
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		#Empty because we don't change filemanager and open file manager on Mac OS X
+	} else {
+		#file manager
+		label $lfname.1.lfileman -text "[trans fileman] :" -padx 5 -font sboldf
+		entry $lfname.1.fileman -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable [::config::getVar filemanager]
+		label $lfname.1.lfilemanex -text "[trans filemanexample]" -font examplef
+		#open file command
+		label $lfname.1.lopenfile -text "[trans openfilecommand] :" -padx 5 -font sboldf
+		entry $lfname.1.openfile -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable [::config::getVar openfilecommand]
+		label $lfname.1.lopenfileex -text "(gnome : gnome-open \$file)(kde : kfmclient exec \$file)" -font examplef
+	}
+	
 	label $lfname.1.lmailer -text "[trans mailer] :" -padx 5 -font sboldf
 	entry $lfname.1.mailer -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable [::config::getVar mailcommand]
 	label $lfname.1.lmailerex -text "[trans mailerexample]" -font examplef
 	
 	#aMSN for Mac OS X always use "QuickTimeTCL" (except in Alarms) so don't let mac user choose sound player
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-	#Empty
+		#Empty
 	} else {
 		label $lfname.1.lsound -text "[trans soundserver] :" -padx 5 -font sboldf
 		frame $lfname.1.sound -class Degt
@@ -1334,22 +1339,26 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.1.lbrowser -row 1 -column 1 -sticky w
 	grid $lfname.1.browser -row 1 -column 2 -sticky w
 	grid $lfname.1.lbrowserex -row 2 -column 2 -columnspan 1 -sticky w
-	grid $lfname.1.lfileman -row 3 -column 1 -sticky w
-	grid $lfname.1.fileman -row 3 -column 2 -sticky w
-	grid $lfname.1.lfilemanex -row 4 -column 2 -columnspan 1 -sticky w
 
-	grid $lfname.1.lopenfile -row 5 -column 1 -sticky w
-	grid $lfname.1.openfile -row 5 -column 2 -sticky w
-	grid $lfname.1.lopenfileex -row 6 -column 2 -columnspan 1 -sticky w
-		
-	grid $lfname.1.lmailer -row 7 -column 1 -sticky w
-	grid $lfname.1.mailer -row 7 -column 2 -sticky w
-	grid $lfname.1.lmailerex -row 8 -column 2 -columnspan 1 -sticky w
-	
 	#aMSN for Mac OS X always use "QuickTimeTCL" (except in Alarms) so don't let mac user choose sound player
+	#because we don't change filemanager and open file manager on Mac OS X
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-	#Empty
+		grid $lfname.1.lmailer -row 7 -column 1 -sticky w
+		grid $lfname.1.mailer -row 7 -column 2 -sticky w
+		grid $lfname.1.lmailerex -row 8 -column 2 -columnspan 1 -sticky w
 	} else {
+		grid $lfname.1.lfileman -row 3 -column 1 -sticky w
+		grid $lfname.1.fileman -row 3 -column 2 -sticky w
+		grid $lfname.1.lfilemanex -row 4 -column 2 -columnspan 1 -sticky w
+	
+		grid $lfname.1.lopenfile -row 5 -column 1 -sticky w
+		grid $lfname.1.openfile -row 5 -column 2 -sticky w
+		grid $lfname.1.lopenfileex -row 6 -column 2 -columnspan 1 -sticky w
+			
+		grid $lfname.1.lmailer -row 7 -column 1 -sticky w
+		grid $lfname.1.mailer -row 7 -column 2 -sticky w
+		grid $lfname.1.lmailerex -row 8 -column 2 -columnspan 1 -sticky w
+		
 		grid $lfname.1.lsound -row 9 -column 1 -sticky nw
 		grid $lfname.1.sound -row 9 -column 2 -sticky w
 		#grid $lfname.1.lsoundex -row 10 -column 2 -columnspan 1 -sticky w

@@ -971,11 +971,13 @@ namespace eval ::amsn {
 
 		checkbutton $w.ftautoclose -text "[trans ftautoclose]" -onvalue 1 -offvalue 0 -variable [::config::getVar ftautoclose]
 		pack $w.ftautoclose -side top
-
+		#Specify the path to the file
+		set filepath [file join $files_dir $filename]
+		
 		#Open directory and Open picture button
 		button $w.close -text "[trans cancel]" -command $cancelcmd
 		button $w.open -text "[trans opendir]" -state disable -command "launch_filemanager \"$files_dir\""
-		button $w.openfile -text "[trans openfile]" -state disable -command "open_file \"$filename\""
+		button $w.openfile -text "[trans openfile]" -state disable -command "open_file \"$filepath\""
 		pack $w.close $w.open $w.openfile -side right -pady 5 -padx 10
 
 		if { [::MSNFT::getTransferType $cookie] == "received" } {
@@ -5947,7 +5949,6 @@ proc open_file {file} {
 			#if { [string first "\$file" [::config::getKey openfilecommand]] == -1 } {
 			#	::config::setKey showpicture "[::config::getKey openfile] \$file"
 			#}
-
 			if {[catch {eval exec [::config::getKey openfilecommand] &} res]} {
 				status_log "[::config::getKey openfilecommand]"
 				status_log $res
