@@ -265,7 +265,7 @@ proc cmsn_draw_main {} {
      set langshort [lindex $langelem 0] 
      set langlong [lindex $langelem 1]
      .lang_menu add command -label "$langlong" -command \
-       "set $config(language) $langshort; load_lang;msg_box \"\[trans mustrestart\]\""
+       "set config(language) $langshort; load_lang;msg_box \"\[trans mustrestart\]\""
    }
 
    menu .user_menu -tearoff 0 -type normal -background #D0D0E0 
@@ -339,7 +339,7 @@ proc cmsn_draw_main {} {
    #Options menu
    menu .options -tearoff 0 -type normal -background #D0D0E0
    .options add command -label "[trans changenick]..." -state disabled \
-      -command cmsn_change_name
+      -command cmsn_change_name -state disabled
    .options add command -label "[trans proxyconf]..." -command cmsn_proxy
    .options add cascade -label "[trans language]..." -menu .lang_menu
    .options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable $config(sound)
@@ -416,6 +416,7 @@ proc cmsn_draw_main {} {
    image create photo contract -file ${images_folder}/contract.gif
    image create photo expand -file ${images_folder}/expand.gif   
 
+   image create photo globe -file ${images_folder}/globe.gif   
 
    foreach img_name $emotion_files {
       image create photo $img_name -file ${images_folder}/${img_name}.gif
@@ -487,7 +488,7 @@ proc cmsn_draw_offline {} {
    #Iniciar sesion
 
    .main.text tag conf check_ver -fore #777777 -underline true \
-   -font splainf -justify center
+   -font splainf -justify left
    .main.text tag bind check_ver <Enter> \
 	    ".main.text tag conf check_ver -fore #0000A0 -underline false;\
 	    .main.text conf -cursor hand2"
@@ -496,6 +497,18 @@ proc cmsn_draw_offline {} {
 	    .main.text conf -cursor left_ptr"
    .main.text tag bind check_ver <Button-1> \
 	    "check_version"
+
+   .main.text tag conf lang_sel -fore #777777 -underline true \
+   -font splainf -justify left
+   .main.text tag bind lang_sel <Enter> \
+	    ".main.text tag conf lang_sel -fore #0000A0 -underline false;\
+	    .main.text conf -cursor hand2"
+   .main.text tag bind lang_sel <Leave> \
+	    ".main.text tag conf lang_sel -fore #000000 -underline true;\
+	    .main.text conf -cursor left_ptr"
+   .main.text tag bind lang_sel <Button-1> \
+	    "tk_popup .lang_menu %X %Y"
+
 
    .main.text tag conf start_login -fore #000000 -underline true \
    -font sboldf -justify center
@@ -506,7 +519,11 @@ proc cmsn_draw_offline {} {
 	    ".main.text tag conf start_login -fore #000000 -underline true;\
 	    .main.text conf -cursor left_ptr"
 
-   .main.text insert end "\n\n\n\n\n\n\n\n\n\n"
+   .main.text image create end -image globe -pady 5 -padx 5
+   .main.text insert end "[trans language]\n" lang_sel
+
+
+   .main.text insert end "\n\n\n\n\n\n\n"
 
    if { $config(login) != "" } {
      .main.text insert end "[trans clicktologin]\n$config(login)" start_login
@@ -521,7 +538,11 @@ proc cmsn_draw_offline {} {
 
    .main.text insert end "\n\n\n\n\n\n\n\n\n\n\n\n"
  
-   .main.text insert end "[trans checkver]..." check_ver
+   .main.text insert end "   "
+   .main.text insert end "[trans loginas]...\n" lang_sel
+
+   .main.text insert end "   "
+   .main.text insert end "[trans checkver]...\n" check_ver
    
    .main.text configure -state disabled
 
@@ -730,25 +751,26 @@ proc cmsn_draw_online {} {
 
 
 
-#by AIM
       .main.text mark set new_text_start end
       .main.text insert $section.last "$user_name$state_desc\n" $user_login
 
 
-	   foreach emotion $emotions {
-	      set symbol [lindex $emotion 0]
-	      set file [lindex $emotion 1]
-	      set chars [string length $symbol]
-	      while {[set pos [.main.text search -exact -nocase \
+#by AIM
+
+#	   foreach emotion $emotions {
+#	      set symbol [lindex $emotion 0]
+#	      set file [lindex $emotion 1]
+#	      set chars [string length $symbol]
+#	      while {[set pos [.main.text search -exact -nocase \
 	                              $symbol new_text_start end]] != ""} {
-	         set posyx [split $pos "."]
-	         set endpos "[lindex $posyx 0].[expr [lindex $posyx 1] + $chars]"
-	         .main.text delete $pos $endpos
+#	         set posyx [split $pos "."]
+#	         set endpos "[lindex $posyx 0].[expr [lindex $posyx 1] + $chars]"
+#	         .main.text delete $pos $endpos
 
-	         .main.text image create $pos -image $file -pady 1 -padx 1
+#	         .main.text image create $pos -image $file -pady 1 -padx 1
 
-	      }
-	   }
+#	      }
+#	   }
 #end AIM	
 
 
@@ -767,7 +789,11 @@ proc cmsn_draw_online {} {
 
    }
    }
-
+   
+   
+   if $config(listsmileys) {
+     smile_subst .main.text
+   }
    .main.text configure -state disabled
 }
 

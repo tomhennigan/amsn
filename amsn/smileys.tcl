@@ -17,3 +17,29 @@ set emotion_files {smile smiled smileo smilep wink sad crooked disgust thumbu
 	emphone emcat emcup embulb emhottie emsleep emstar emnote email
 	messenger vampire girlhug boyhug angel devil cake clk angry dog rosew
 	smilec smilemb smilemb sun rainbow}
+
+
+proc smile_subst {tw mark} {
+  global emotions
+
+#      tw mark set new_text_start end
+#      tw insert $section.last "$user_name$state_desc\n" $user_login
+
+   foreach emotion $emotions {
+	   
+      set symbol [lindex $emotion 0]
+      set file [lindex $emotion 1]
+      set chars [string length $symbol]
+      
+      while {[set pos [$tw search -exact -nocase \
+	                              $symbol 0.0 end]] != ""} {
+         set posyx [split $pos "."]
+         set endpos "[lindex $posyx 0].[expr [lindex $posyx 1] + $chars]"
+         $tw delete $pos $endpos
+
+         $tw image create $pos -image $file -pady 1 -padx 1
+
+      }
+   }
+
+}
