@@ -152,9 +152,9 @@ proc reload_files { } {
 	source remote.tcl	;# The remote control procedures
 	source chatwindow.tcl	;# Abstracted Chat Window code (::ChatWindow namespace)
 	source gui.tcl		;#gui.tcl must be at the beginning to make msg_box procedure available for errors
-        source plugins.tcl	;# Plugins system must be loaded before config
-    source pluginslog.tcl	;# Plugins system must be loaded before config
-	source config.tcl
+	source plugins.tcl	;# Plugins system must be loaded before config
+	source config.tcl	;# config needs to be loaded before pluginslog for translations
+	source pluginslog.tcl
 	source proxy.tcl
 	source abook.tcl	;# Handle buddy address book    
 	source protocol.tcl
