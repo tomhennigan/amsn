@@ -561,7 +561,8 @@ namespace eval ::plugins {
 				set status offline
 			}
 
-			set evpar(status) status
+			set evpar(name) $selection(name)
+			set evpar(status) $status
 			::plugins::PostEvent Load evpar
 			# and upate other info
 			GUI_NewSel
@@ -596,7 +597,8 @@ namespace eval ::plugins {
 			set status offline
 		}
 
-		set evpar(status) status
+		set evpar(name) $selection(name)
+		set evpar(status) $status
 		::plugins::PostEvent Unload evpar
 		# do the actual unloading
 		UnLoadPlugin $selection(name)
