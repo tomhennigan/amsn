@@ -10,7 +10,7 @@ addedyou $1 ($2) Téged hozzáadott a partnerlistájához
 addprofile Új Profil hozzáadása
 addprofiledesc Add meg a létrehozandó profil nevét. \nA Profilok használatával különbözõ beállításokat alkalmazhatsz minden profilra.\nA Profilok nélkül nem használhatod az Elõzményeket, a Figyelmeztetõ jelzéseket vagy a ,Jelszó megjegyzése' funkciót.
 addstate Saját állapot hozzáadása
-addto addto addto addto addto add a $1 -hez
+addto add a $1 -hez
 addtocontacts Hozzáadás a partnerlistához
 addtoo Ennek a személynek hozzáadása a partnerlistához
 admincontacts Partnerek szerkesztése
@@ -29,7 +29,7 @@ alarmstatus Figyelmeztetõ jelzés KI/BE kapcsolása ehhez a felhasználóhoz
 allfiles Minden file
 allowallbutbl A letiltottak listáján szereplõ felhasználók is beszélgethessenek velem
 allowbadwords Nevek cenzúrázásának kikapcsolása
-allowlist Engedélyezettek listája (EL):
+allowlist Engedélyezettek listája (AL):
 allowonlyinal Csak az EngedélyezettekListáján szereplõ felhasználóek beszélhessenek velem
 allowseen Ez a személy mindig láthat ha bejelentkezem
 allow_sms Engedélyezem, hogy az MSN mobil készülékemen is elérhessenek.
@@ -59,7 +59,7 @@ avcanceled Video konferencia felkérés elutasítva
 avgotinvitation Video konferencia felkérés érkezett: $1
 avinitfailed Audio/Video Plugin elindítása sikertelen. Hívás visszavonva
 avoidseen Ez a személy nem láthat ha bejelentkeztem
-away Elmentem itthonról
+away Nincs a gépnél
 awaymsg1 Kérjen "nem vagyok itt" üzenetet mindig, amikor Állapotomat Nemvagyok itt/Elfoglalt -ra állítom.
 awaymsg2 Nem kérdez, mindig a lenti távolléti üzenetet használja
 baduserpass Rossz felhasználónév vagy jelszó
@@ -73,7 +73,7 @@ blockinter1 Amikor az állapotod elérhetõ ellenõrizzen minden
 blockinter2 másodpercben, vagy ellenõrizzen minden:
 blockinter3 minden
 blockinter4 másodpercben.
-blocklist Letiltottak listája (LL):
+blocklist Letiltottak listája (BL):
 blockmessage Ezek az felhasználóek elérhetõek és letiltottak téged
 blockusers Egyszerre ellenõrzendõ felhasználóek száma
 bouncedock Az AMSN ikon pattogjon a helyén amikor üzenet érkezik
@@ -110,6 +110,7 @@ checkemail Mutass levél információt a kapcsolati listában
 checkfilman A bejövõ fájlok ide lesznek mentve : $1. Légyszíves ellenõrizd a fájl kezelõ beállításokat.
 checkingver Új verzió ellenõrzése folyamatban...
 checkonfln Ellenõrizze, hogy ha egy felhasználó kijelentkezik és letilt téged
+checkopenfilecommand Kérem ellenõrizd a file megnyitás parancsot a beállítások ablakban
 checkver Új verzó ellenõrzése
 choosearq Válaszd ki a rendszered
 choosebasefont Betûtípus választása
@@ -128,7 +129,7 @@ clientcaps küldj x-clientcaps csomagot más partnereknek
 clientname Kliens név
 close Bezárás
 closed A beszélgetés közted és $1 között bezárult inaktivitás miatt
-closingdocks Bezáró gomb dokkolása az ablakba
+closingdocks Bezáró gombra dokkolás (minimalizálás)
 command Parancs
 commandstatus Parancs futtatása
 configure Beállítás
@@ -183,6 +184,7 @@ default Alapértelmezett beállítás
 defaultloginradio Alapbeállítással való bejelentkezés
 defchatwinsize Beszélgetõ ablakok alap mérete (X*Y)
 delete Törlés
+deleteall Mindet töröl
 deletecustomstate Saját állapot törlése
 delimiters Idõbélyeg beállítása:
 deliverfail Néhány hiba fordult elõ az üzenet kézbesítése közben
@@ -326,7 +328,7 @@ language_manager Nyelv kezelõ
 lastlogin Utolsó bejelentkezés
 lastlogout Utolsó kijelentkezés
 lastmsgedme Utolsó üzenet
-lastmsgtime Az utolsó üzenet beérkezett:
+lastmsgtime Az utolsó üzenet beérkezett: $1
 lastseen Utolsó kapcsolat ideje
 lclosedwin $1 becsukta a $2 ablakot
 lconftopriv A beszélgetés privátra változott a következõ felhasználóval: $1
@@ -370,8 +372,10 @@ mailerexample ( \$recipient = Címzett ) Hagyd üresen a hotmail használatához
 maintenance A kiszolgáló leáll javításra $1 percen belül
 maximised Teljes méret
 minimised kisméred/Ikonméret
-mins percel
+mins perc után
 mobile Mobil
+mobilegrp1 Mobil csoport
+mobilegrp2 Rakd a felhasználókat a "Mobil" csoportba amikor nem csatlakoznak, és állapot szerint rakd sorrendbe
 modified Módosítva
 month Hónap
 morepersonal Több állapot ->
@@ -445,8 +449,10 @@ ok Rendben
 onenewmail 1 új üzeneted van
 online Elérhetõ
 onphone Telefonálok
+opendir Könyvtár megnyitás
+openfile Nyitva
+openfilecommand File megnyitási parancsoptions Beállítások
 openreceived A beérkezett fájlok megnyitása
-options Beállítások
 ordercontactsby Partnerek rendezése
 ordergroupsby Csoportok rendezése
 original Eredeti
@@ -527,7 +533,7 @@ removefromlist Törlés errõl a listáról
 rename Átnevez
 required_version Nem tudom betölteni a plugin-t. Legalább $1 verziójú AMSN kell
 reversed R-beszélgetés
-reverselist Ellentétes lista (EL):
+reverselist Ellentétes lista (FL):
 rightback Késõbb visszajövök
 save Mentés
 saveas Mentés másként
@@ -592,7 +598,7 @@ statenick Saját név (hogy ne változzon a neved hagyd üresen)
 status Állapot
 stopalarm Figyelmeztetõ hang leállítása
 storenickname Az eredeti becenévhez való visszatérés egy egyéniállapot és egyéni becenév után
-strictfonts Minden betûtípus igazítása az általam megadotthoz (Státusz sor és egyebe)
+strictfonts Minden betûtípus igazítása az általam megadotthoz (Státusz sor és egyebek)
 style Stílus
 stylechat A beszélgetõ ablakokhoz hasonló
 stylehist Elõzmények kinézete
