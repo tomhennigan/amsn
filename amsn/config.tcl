@@ -28,6 +28,7 @@ set config(closingdocks) 1
 set config(yourfont) "Helvetiva 12 bold"
 set config(yourcolor) "red"
 set config(encoding) auto
+set config(basefont) "Helvetica 11 normal"
 #end AIM
 set config(orderbygroup) 0
 set config(withnotebook) 0
@@ -74,7 +75,7 @@ proc load_config {} {
    while {[gets $file_id tmp_data] != "-1"} {
       set var_data [split $tmp_data]
       set var_attribute [lindex $var_data 0]
-      set var_value [lindex $var_data 1]
+      set var_value [join [lrange $var_data 1 end]]
       set config($var_attribute) $var_value
    }
    if {[info exists config(password)]} {

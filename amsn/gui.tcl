@@ -1,25 +1,29 @@
 #Default look
-font create menufont -family Helvetica -size 11 -weight normal
-font create sboldf -family Helvetica -size 11 -weight bold
-font create splainf -family Helvetica -size 11 -weight normal
-font create bboldf -family Helvetica -size 12 -weight bold
-font create bplainf -family Helvetica -size 12 -weight normal
-font create bigfont -family Helvetica -size 13 -weight bold
-font create examplef -family Helvetica -size 10 -weight normal
 
-tk_setPalette #D8D8E0
-option add *Menu.font menufont
-option add *background #D8D8E0
-option add *selectColor #DD0000
-#-selectcolor #FFFFFF
-
-#tk_setPalette activeForeground #FFFF00
 
 namespace eval ::amsn {
    namespace export fileTransferSend fileTransferRecv fileTransferProgress \
    errorMsg notifyAdd
    
    ##PUBLIC
+
+   proc initLook { family size bgcolor} {
+
+      puts "family: $family size: $size\n"
+
+      font create menufont -family $family -size $size -weight normal
+      font create sboldf -family $family -size $size -weight bold
+      font create splainf -family $family -size $size -weight normal
+      font create bboldf -family $family -size [expr {$size+1}] -weight bold
+      font create bplainf -family $family -size [expr {$size+1}] -weight normal
+      font create bigfont -family $family -size [expr {$size+2}] -weight bold
+      font create examplef -family $family -size [expr {$size-1}] -weight normal
+
+      tk_setPalette $bgcolor
+      option add *Menu.font menufont
+      option add *background $bgcolor
+      option add *selectColor #DD0000
+   }
    
    #Shows an error message
    proc errorMsg { msg } {

@@ -166,6 +166,7 @@ namespace eval ::dkfFontSel {
 	    Strikeout overstrike 3 {}        Underline
 	} {
 	    set b $w.style.s$fontstyle
+	    
 	    checkbutton $b -variable [namespace current]::Style($lcstyle) \
 		    -command [namespace code 'set_font]
 	    grid $b -sticky nsew -row $row
@@ -192,11 +193,13 @@ namespace eval ::dkfFontSel {
 	grid $w.size -row 5 -column 1 -rowspan 1 -columnspan 7 -sticky nsew
 	foreach {size row col u d l r} {
 	    8  0 0  {} 10 {} 12
-	    10 1 0   8 {} {} 14
-	    12 0 1  {} 14  8 18
-	    14 1 1  12 {} 10 24
-	    18 0 2  {} 24 12 {}
-	    24 1 2  18 {} 14 {}
+	    9  1 0  {} 10 {} 12
+	    10 0 1   8 {} {} 14
+	    11 1 1   8 {} {} 14
+	    12 0 2  {} 14  8 18
+	    14 1 2  12 {} 10 24
+	    18 0 3  {} 24 12 {}
+	    24 1 3  18 {} 14 {}
 	} {
 	    set b $w.size.b$size
 	    radiobutton $b -variable [namespace current]::Size -value $size \
@@ -216,7 +219,7 @@ namespace eval ::dkfFontSel {
 	    bind $b <Return> "$b invoke; break"
 	}
 	entry $w.size.entry -textvariable [namespace current]::Size
-	grid $w.size.entry -row 0 -column 3 -rowspan 2 -sticky ew
+	grid $w.size.entry -row 0 -column 4 -rowspan 2 -sticky ew
 	grid columnconfigure $w.size 3 -weight 1
 	bind $w.size.entry <Return> \
 		[namespace code {'set_font;break}]
@@ -526,7 +529,9 @@ namespace eval ::dkfFontSel {
 	*DKFChooseFont.Scrollbar.takeFocus     0
 
 	*DKFChooseFont.size.b8.text	       8
+	*DKFChooseFont.size.b9.text	       9
 	*DKFChooseFont.size.b10.text	       10
+	*DKFChooseFont.size.b11.text	       11
 	*DKFChooseFont.size.b12.text	       12
 	*DKFChooseFont.size.b14.text	       14
 	*DKFChooseFont.size.b18.text	       18
