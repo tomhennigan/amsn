@@ -71,6 +71,7 @@ busy No disponible
 cancel Cancelar
 cannotdeleteprofile No se puede borrar este perfil porque parece que está siendo usado por otra sesión de amsn
 cantexec No se puede ejecutar la aplicación: $1. Comprueba las preferencias
+cantremoveothers No se puede borrar el grupo "Resto"
 casesensitive Diferenciar may/minusculas en disparador
 cfgalarmall Cambiar/Añadir/Quitar alarma global
 cfgalarm Cambiar/quitar alarma
