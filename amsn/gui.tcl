@@ -253,46 +253,51 @@ namespace eval ::amsn {
       global config
 
       set filename [ $w.top.fields.file get ]
-            
+
 
       if {$config(autoftip) == 0 } {
         set config(myip) [ $w.top.fields.ip get ]
         set ipaddr [ $w.top.fields.ip get ]
+        destroy $w
+
       } else {
-        set ipaddr [ ::MSN::getMyIP ]
+        destroy $w
+	set ipaddr [ ::MSN::getMyIP ]
       }
-
-
-      destroy $w
 
       if { [catch {set filesize [file size $filename]} res]} {
 	::amsn::errorMsg "[trans filedoesnotexist]"
 	#::amsn::fileTransferProgress c $cookie -1 -1
 	return 1
       }
-      
-            
+
       set chatid [ChatFor $win_name]
-      if { $chatid == 0} {
-         return
+
+      set users [::MSN::usersInChat $chatid]
+
+
+      foreach chatid $users {
+
+         chatUser $chatid
+
+
+         #Calculate a random cookie
+         set cookie [expr {([clock clicks]) % (65536 * 8)}]
+
+         set txt "[trans ftsendinvitation [lindex [::MSN::getUserInfo $chatid] 1] $filename $filesize]"
+
+         status_log "Random generated cookie: $cookie\n"
+         WinWrite $chatid "----------\n" gray
+         WinWriteIcon $chatid fticon 3 2
+         WinWrite $chatid "$txt " gray
+         WinWriteClickable $chatid "[trans cancel]" \
+         "::amsn::CancelFTInvitation $chatid $cookie" ftno$cookie
+         WinWrite $chatid "\n" gray
+         WinWrite $chatid "----------\n" gray
+
+         ::MSN::ChatQueue $chatid "::MSNFT::sendFTInvitation $chatid [list $filename] $filesize $ipaddr $cookie"
+         #::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie
       }
-
-      #Calculate a random cookie
-      set cookie [expr {([clock clicks]) % (65536 * 8)}]            
-
-      set txt "[trans ftsendinvitation [::MSN::usersInChat $chatid] $filename 6969]"
-      
-      status_log "Random generated cookie: $cookie\n"            
-      WinWrite $chatid "----------\n" gray     
-      WinWriteIcon $chatid fticon 3 2 
-      WinWrite $chatid "$txt " gray
-      WinWriteClickable $chatid "[trans cancel]" \
-        "::amsn::CancelFTInvitation $chatid $cookie" ftno$cookie
-      WinWrite $chatid "\n" gray 
-      WinWrite $chatid "----------\n" gray
-                
-      ::MSN::ChatQueue $chatid "::MSNFT::sendFTInvitation $chatid [list $filename] $filesize $ipaddr $cookie"
-      #::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie      
       
       return 0
    }
@@ -363,7 +368,7 @@ namespace eval ::amsn {
       }
             
       set fromname [lindex [::MSN::getUserInfo $fromlogin] 1]
-      set txt [trans ftgotinvitation $fromname '$filename' $filesize $files_dir]      
+      set txt [trans ftgotinvitation $fromname '$filename' $filesize $files_dir]
       
       set win_name [MakeWindowFor $chatid $txt]
       
@@ -689,7 +694,7 @@ namespace eval ::amsn {
    
       global config
       variable first_message 
-      
+
       set win_name [WindowFor $chatid]
    
       if { $win_name == 0 } {
@@ -1502,7 +1507,7 @@ namespace eval ::amsn {
 	}
 	set msgchunk [string range $msg $first end]
 	set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
-	
+
          #Draw our own message
          messageFrom $chatid [lindex $user_info 3] "$msg" user [list $fontfamily $fontstyle $fontcolor]      	
 	
@@ -1554,8 +1559,8 @@ namespace eval ::amsn {
    # window related to 'chatid'
    proc DeliveryFailed { chatid msg } {
 
+      ChatUser $chatid
       set txt "[trans deliverfail]:\n $msg"
-      MakeWindowFor $chatid $txt
       WinWrite $chatid "[timestamp] [trans deliverfail]: " red
       WinWrite $chatid "$msg\n" gray
 
