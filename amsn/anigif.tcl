@@ -64,7 +64,10 @@ namespace eval anigif {
 		    return
 		}
 	    } 
-	    set dispflag [lindex [set ::anigif::${fname}(disposal)] $idx]
+
+	    set dispflag [lindex [set ::anigif::${fname}(disposal)] $idx ]
+	   
+	    #	    status_log "$fname\n" 
 	    switch "$dispflag" {
 		"000" {
 		    # Do nothing
@@ -75,19 +78,26 @@ namespace eval anigif {
 		"100" {
 		    # Restore to background
 		    [set ::anigif::${fname}(curimage)] blank
+		    [set ::anigif::${fname}(curimage)] copy [lindex $list 0] -subsample 2 2 
 		}
 		"101" {
-		    # Restore to previous - not supported
-		    # As recommended, since this is not supported, it is set to blank
+		    # Restore to previous 
 		    [set ::anigif::${fname}(curimage)] blank
+		    [set ::anigif::${fname}(curimage)] copy  [lindex $list 0] -subsample 2 2 
 		}
+		
+		
 		default { puts "no match: $dispflag" }
 	    }
-
-	    [set ::anigif::${fname}(curimage)] copy [lindex $list 0] -subsample 2 2 -compositingrule set
+	    [set ::anigif::${fname}(curimage)] blank
+	    [set ::anigif::${fname}(curimage)] copy [lindex $list 0] -subsample 2 2 
 	    for { set i 1 } { $i <= $idx } { incr i } {
-		[set ::anigif::${fname}(curimage)] copy [lindex $list $i] -subsample 2 2 -compositingrule overlay
+		[set ::anigif::${fname}(curimage)] copy [lindex $list $i] -subsample 2 2 
 	    }
+	    
+#	    [set ::anigif::${fname}(previmage)] copy [set ::anigif::${fname}(curimage)] -compositingrule set
+#	    [set ::anigif::${fname}(curimage)] copy [lindex $list $idx] -subsample 2 2 
+	    
 	    if { [lindex $delay $idx] == 0 } {
 		::anigif::stop $fname
 		return
@@ -189,7 +199,9 @@ namespace eval anigif {
 
 	set ::anigif::${fname}(curimage) [image create photo]
 	[set ::anigif::${fname}(curimage)] blank
+	set ::anigif::${fname}(previmage) [image create photo]
 	[set ::anigif::${fname}(curimage)] copy pic0${fname} -subsample 2 2
+	[set ::anigif::${fname}(previmage)] copy [set ::anigif::${fname}(curimage)]
 	$w configure -image [set ::anigif::${fname}(curimage)]
 
 
