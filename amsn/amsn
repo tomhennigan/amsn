@@ -675,6 +675,7 @@ proc cmsn_draw_online {} {
    .main.text insert end "\n"
 
    clickableImage .main.text bigstate $my_image_type {tk_popup .my_menu %X %Y}
+   bind .main.text.bigstate <Button-3> {tk_popup .my_menu %X %Y}
    
    .main.text insert end "   "
    .main.text insert end "$my_name " mystatus

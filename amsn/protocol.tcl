@@ -27,7 +27,7 @@ for {set i 256} {$i < 65536} {incr i} {
 namespace eval ::MSN {
    namespace export changeName logout changeStatus
    
-   proc changeName { $userlogin newname } {
+   proc changeName { userlogin newname } {
       write_ns_sock "REA" "$userlogin [urlencode $newname]"     
    }
 
