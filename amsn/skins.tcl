@@ -555,7 +555,14 @@ proc SetColors {cstack cdata saved_data cattr saved_attr args} {
         
     if { [info exists sdata(${cstack}:mainwindowbg)] } { ::skin::setColor mainwindowbg [string trim $sdata(${cstack}:mainwindowbg)] }
     if { [info exists sdata(${cstack}:chatwindowbg)] } { ::skin::setColor chatwindowbg [string trim $sdata(${cstack}:chatwindowbg)] }
-    if { [info exists sdata(${cstack}:buttonbarbg)] } { ::skin::setColor buttonbarbg [string trim $sdata(${cstack}:buttonbarbg)] }
+    #Don't use buttonbarbg on Mac OS X and put 0 value to chatborders
+    if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
+    	if { [info exists sdata(${cstack}:chatwindowbg)] } { ::skin::setColor buttonbarbg [string trim $sdata(${cstack}:chatwindowbg)] }
+    	if { [info exists sdata(${cstack}:chatborders)] } { ::skin::setColor chatborders 0 }
+    } else {
+    	if { [info exists sdata(${cstack}:buttonbarbg)] } { ::skin::setColor buttonbarbg [string trim $sdata(${cstack}:buttonbarbg)] }
+    	if { [info exists sdata(${cstack}:chatborders)] } { ::skin::setColor chatborders [string trim $sdata(${cstack}:chatborders)] }
+    }
     if { [info exists sdata(${cstack}:topbarbg)] } { ::skin::setColor topbarbg [string trim $sdata(${cstack}:topbarbg)] }
     if { [info exists sdata(${cstack}:topbartext)] } { ::skin::setColor topbartext [string trim $sdata(${cstack}:topbartext)] }
     if { [info exists sdata(${cstack}:menubgcolor)] } { ::skin::setColor menubackground [string trim $sdata(${cstack}:menubgcolor)] }
@@ -565,7 +572,7 @@ proc SetColors {cstack cdata saved_data cattr saved_attr args} {
     if { [info exists sdata(${cstack}:balloontextcolor)] } { ::skin::setColor balloontext [string trim $sdata(${cstack}:balloontextcolor)] }
     if { [info exists sdata(${cstack}:balloonbgcolor)] } { ::skin::setColor balloonbackground [string trim $sdata(${cstack}:balloonbgcolor)] }
     if { [info exists sdata(${cstack}:balloonbordercolor)] } { ::skin::setColor balloonborder [string trim $sdata(${cstack}:balloonbordercolor)] }
-    if { [info exists sdata(${cstack}:chatborders)] } { ::skin::setColor chatborders [string trim $sdata(${cstack}:chatborders)] }
+    
     if { [info exists sdata(${cstack}:chatpadx)] } { ::skin::setColor chatpadx [string trim $sdata(${cstack}:chatpadx)] }
     if { [info exists sdata(${cstack}:chatpady)] } { ::skin::setColor chatpady [string trim $sdata(${cstack}:chatpady)] }
     if { [info exists sdata(${cstack}:statusbarbg)] } { ::skin::setColor statusbarbg [string trim $sdata(${cstack}:statusbarbg)] }
