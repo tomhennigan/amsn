@@ -74,7 +74,7 @@ proc kill_balloon {} {
 }
 
 proc balloon {target message {cx 0} {cy 0} } {
-    global Bulle tcl_platform
+    global Bulle tcl_platform balloontextcolor balloonbgcolor balloonbordercolor
     #Last focus variable for "Mac OS X focus bug" with balloon
     set lastfocus [focus]
     
@@ -88,21 +88,22 @@ proc balloon {target message {cx 0} {cy 0} } {
 	    set x [expr $cx + 12]
 	    set y [expr $cy + 2]
 	}
-	if { [catch { toplevel .balloon -bg black}] != 0 } {
-	    destroy .balloon
-	    toplevel .balloon -bg black
+	
+	if { [catch { toplevel .balloon -bg ${balloonbordercolor}}] != 0 } {
+		destroy .balloon
+		toplevel .balloon -bg ${balloonbordercolor}
 	}
-
-	#Standard way to show balloon on Mac OS X (aqua), show balloon in white for Mac OS X and yellow for others platforms
+	
+	#Standard way to show balloon on Mac OS X (aqua), show balloon in white for Mac OS X and skinnable balloons for others platforms
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-	    destroy .balloon
-	    toplevel .balloon -relief flat -bg #C3C3C3 \
+		destroy .balloon
+		toplevel .balloon -relief flat -bg #C3C3C3 \
 		-class Balloonhelp ; ::tk::unsupported::MacWindowStyle\
 		style .balloon help none
-	    set bg_balloon #ffffca
+		set bg_balloon #ffffca    
 	} else {
-	    wm overrideredirect .balloon 1
-	    set bg_balloon #ffffaa
+		wm overrideredirect .balloon 1
+		set bg_balloon ${balloonbgcolor}
 	}
 	
 	set wlength [expr {[winfo screenwidth .] - $x - 5}]
@@ -114,9 +115,15 @@ proc balloon {target message {cx 0} {cy 0} } {
 	    set wlength 200
 	}
 	
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		set balloonfgcolor black
+	} else {
+		set balloonfgcolor $balloontextcolor
+	}
+	
         label .balloon.l \
 	    -text ${message} -relief flat \
-	    -bg ${bg_balloon} -fg black -padx 2 -pady 0 -anchor w -font sboldf -justify left -wraplength $wlength
+	    -bg ${bg_balloon} -fg ${balloonfgcolor} -padx 2 -pady 0 -anchor w -font sboldf -justify left -wraplength $wlength
 	pack .balloon.l -side left -padx 1 -pady 1
         wm geometry .balloon +${x}+${y}
         

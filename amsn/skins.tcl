@@ -491,7 +491,7 @@ proc selectskincancel { w } {
 
 
 proc SetBackgroundColors {cstack cdata saved_data cattr saved_attr args} {
-    global bgcolor bgcolor2 menubgcolor menufgcolor menuactivebgcolor menuactivefgcolor
+    global bgcolor bgcolor2 menubgcolor menufgcolor menuactivebgcolor menuactivefgcolor balloontextcolor balloonbgcolor balloonbordercolor
     upvar $saved_data sdata
     
     if { [info exists sdata(${cstack}:background1)] } { set bgcolor [string trim $sdata(${cstack}:background1)] }
@@ -500,7 +500,9 @@ proc SetBackgroundColors {cstack cdata saved_data cattr saved_attr args} {
     if { [info exists sdata(${cstack}:menufgcolor)] } { set menufgcolor [string trim $sdata(${cstack}:menufgcolor)] }
     if { [info exists sdata(${cstack}:menuactivebgcolor)] } { set menuactivebgcolor [string trim $sdata(${cstack}:menuactivebgcolor)] }
     if { [info exists sdata(${cstack}:menuactivefgcolor)] } { set menuactivefgcolor [string trim $sdata(${cstack}:menuactivefgcolor)] }
-
+    if { [info exists sdata(${cstack}:balloontextcolor)] } { set balloontextcolor [string trim $sdata(${cstack}:balloontextcolor)] }
+    if { [info exists sdata(${cstack}:balloonbgcolor)] } { set balloonbgcolor [string trim $sdata(${cstack}:balloonbgcolor)] }
+    if { [info exists sdata(${cstack}:balloonbordercolor)] } { set balloonbordercolor [string trim $sdata(${cstack}:balloonbordercolor)] }
     return 0
 }
 

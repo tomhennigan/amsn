@@ -5,7 +5,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 }
 
 if { $initialize_amsn == 1 } {
-	global bgcolor bgcolor2 menubgcolor menufgcolor menuactivebgcolor menuactivefgcolor
+	global bgcolor bgcolor2 menubgcolor menufgcolor menuactivebgcolor menuactivefgcolor balloontextcolor balloonbgcolor balloonbordercolor
 	
 	init_ticket putmessage
 
@@ -27,7 +27,15 @@ if { $initialize_amsn == 1 } {
 	if { ![info exists menuactivefgcolor] } {
 		set menuactivefgcolor #ffffff
 	}
-
+	if { ![info exists balloontextcolor] } {
+		set balloontextcolor #000000 
+	}
+	if { ![info exists balloonbgcolor] } {
+		set balloonbgcolor #ffffaa
+	}
+	if { ![info exists balloonbordercolor] } {
+		set balloonbordercolor #000000
+	}
 
 	#Virtual events used by Button-click
 	#On Mac OS X, Control emulate the "right click button"
