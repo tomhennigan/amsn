@@ -13,6 +13,8 @@ namespace eval ::amsnplus {
 	proc amsnplusStart { dir } {
 		#register plugin
 		::plugins::RegisterPlugin "aMSN Plus"
+		#set the amsnplus dir in config
+		::config::setKey amsnpluspluginpath $dir
 		#plugin config
 		array set ::amsnplus::config {
 			colour_nicks {0}
@@ -432,7 +434,8 @@ namespace eval ::amsnplus {
 	###################################################################
 	# this returns the readme content in a variable
 	proc help {} {
-		set channel [open "plugins/amsnplus/readme" "RDONLY"]
+		set dir [::config::getKey amsnpluspluginpath]
+		set channel [open "$dir/readme" "RDONLY"]
 		return "[read $channel]"
 	}
 
