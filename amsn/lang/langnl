@@ -180,7 +180,7 @@ encoding Codering instellen
 encoding2 Tekencodering (bijvoorbeeld unicode)
 entercontactemail Voer het e-mailadres van de contactpersoon in
 enterfilename Voer een bestandsnaam in
-enternick De naam in waaronder u voor andere gebruikers zichtbaar bent
+enternick Voer je nieuwe schermnaam in
 errortls Er is een fout opgetreden bij het installeren van de module TLS:
 examples Voorbeelden
 exitamsn Weet u zeker dat u aMSN wilt afsluiten?
@@ -455,6 +455,7 @@ smileintro Vul de nodige velden in om een nieuwe emoticon te creëren
 smileintro2 Pas de nodige velden aan om deze emoticon te bewerken
 sound Geluiden gebuiken
 sound2 Geluid afspelen wanneer contactpersonen zich aanmelden of een bericht verzenden
+soundactive Speel ook geluid af als een bericht aankomt in een aktief venster
 soundcommand Dit moet het afspeelcommando zijn (vb: esdplay)
 soundexample  ( \$sound = te spelen geluidsbestand) Vb: esdplay \$sound
 soundfile Alarmgeluid
