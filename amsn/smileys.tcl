@@ -307,7 +307,7 @@ proc new_custom_emoticon_gui {{name ""}} {
     update_enabled_sound_smileys
 
     bind .new_custom <Destroy> "grab release .new_custom"
-    grab set .new_custom
+ 
 
 
     after 2000 "catch {wm state .new_custom normal}"
