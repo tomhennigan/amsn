@@ -113,6 +113,7 @@ fileman Administrador de Archivos
 filename Nombre de Archivo
 filetransfercancelled Transferencia de archivo cancelada
 filetransfercomplete Transferencia de archivo completada
+followtext Desplazar hacia abajo cuando aparezca nuevo texto
 ftacceptedby $1 ha aceptado la invitación a la transferencia del archivo '$2'.
 ftaccepted Transferencia de archivo aceptada
 ftaccepting Aceptando invitación a transferencia de archivos
