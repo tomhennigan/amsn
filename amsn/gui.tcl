@@ -520,9 +520,9 @@ namespace eval ::amsn {
 
       menu .${win_name}.menu.msn -tearoff 0 -type normal
       .${win_name}.menu.msn add command -label "[trans save]" \
-         -command " ChooseFilename .${win_name}.text ${win_name} "
+         -command " ChooseFilename .${win_name}.f.out.text ${win_name} "
       .${win_name}.menu.msn add command -label "[trans saveas]..." \
-      -command " ChooseFilename .${win_name}.text ${win_name} "
+      -command " ChooseFilename .${win_name}.f.out.text ${win_name} "
       .${win_name}.menu.msn add separator
       .${win_name}.menu.msn add command -label "[trans sendfile]..." \
          -command "::amsn::FileTransferSend .${win_name}" -state disabled
@@ -1314,7 +1314,7 @@ namespace eval ::amsn {
      ${win_name}.f.out.text configure -state normal -font bplainf -foreground black
 
 
-     ${win_name}.text tag configure ftyes$cookie \
+     ${win_name}.f.out.text tag configure ftyes$cookie \
        -foreground #808080 -background white -font bplainf -underline false
      ${win_name}.f.out.text tag bind ftyes$cookie <Enter> ""
      ${win_name}.f.out.text tag bind ftyes$cookie <Leave> ""
@@ -2191,6 +2191,20 @@ proc cmsn_draw_signin {} {
    $pgBuddy.text insert end "[trans loggingin]..." signin
    $pgBuddy.text insert end "\n"
    $pgBuddy.text configure -state disabled
+}
+#///////////////////////////////////////////////////////////////////////
+
+
+#///////////////////////////////////////////////////////////////////////
+proc login_ok {} {
+   global config password
+
+   set config(login) [.login.c.signin get]
+   set password [.login.c.password get]
+   grab release .login
+   destroy .login
+
+   ::MSN::connect $config(login) $password
 }
 #///////////////////////////////////////////////////////////////////////
 

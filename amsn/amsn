@@ -557,22 +557,6 @@ proc show_umenu {user_login x y} {
 
 
 
-#///////////////////////////////////////////////////////////////////////
-proc login_ok {} {
-   global config password
-
-   set config(login) [.login.c.signin get]
-   set password [.login.c.password get]
-   grab release .login
-   destroy .login
-
-   ::MSN::connect $config(login) $password
-}
-#///////////////////////////////////////////////////////////////////////
-
-
-
-
 
 #///////////////////////////////////////////////////////////////////////
 proc run_command_otherwindow { command } {
