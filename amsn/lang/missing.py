@@ -29,5 +29,5 @@ for line in fileinput.input():
 
 print "Needed keys:"
 for key, val in msg_list.items():
-    print string.rstrip(string.join((key, val)))
+    print string.rstrip(key)
 
