@@ -699,7 +699,6 @@ namespace eval ::abookGui {
 		$w.nb insert 0 userdata -text [trans userdata]
 		$w.nb insert 1 notify -text [trans notifywin]
 		$w.nb insert 2 alarms -text [trans alarms]
-		
 		##############
 		#Userdata page
 		##############
@@ -709,7 +708,6 @@ namespace eval ::abookGui {
 		ScrollableFrame $nbIdent.sw.sf -constrainedwidth 1
 		$nbIdent.sw setwidget $nbIdent.sw.sf
 		set nbIdent [$nbIdent.sw.sf getframe]
-		
 		
 		label $nbIdent.title1 -text [trans identity] -font bboldunderf
 		
@@ -731,7 +729,6 @@ namespace eval ::abookGui {
 		$nbIdent.customnick.ent insert end [::abook::getContactData $email customnick]
 		pack $nbIdent.customnick.ent -side left -expand true -fill x
 		pack $nbIdent.customnick.help -side left
-
 		label $nbIdent.customfnickl -text "[trans friendlyname]:"
 		frame $nbIdent.customfnick
 		entry $nbIdent.customfnick.ent -font splainf -bg white
@@ -757,7 +754,6 @@ namespace eval ::abookGui {
 		$nbIdent.ycustomfnick.ent insert end [::abook::getContactData $email cust_p4c_name]
 		pack $nbIdent.ycustomfnick.ent -side left -expand true -fill x
 		pack $nbIdent.ycustomfnick.help -side left
-	
 		# The custom color frame
 		label $nbIdent.customcolor -text "[trans customcolor]:"
 		frame $nbIdent.customcolorf -relief groove -borderwidth 2
@@ -783,9 +779,9 @@ namespace eval ::abookGui {
 		foreach gid [::abook::getGroups $email] {
 			set groups "$groups[::groups::GetName $gid]\n"
 		}
+		
 		set groups [string range $groups 0 end-1]
 		label $nbIdent.g1 -text $groups -font splainf -fg blue -justify left -wraplength 300 
-		
 		
 		label $nbIdent.titlephones -text [trans phones] -font bboldunderf
 		
@@ -802,7 +798,6 @@ namespace eval ::abookGui {
 		label $nbPhone.php -text "[trans pager]:" 
 		label $nbPhone.php1 -font splainf -text [::abook::getContactData $email mob] -fg blue \
 		-justify left -wraplength 300 
-		
 		label $nbIdent.titleothers -text [trans others] -font bboldunderf 
 		
 		label $nbIdent.lastlogin -text "[trans lastlogin]:"
@@ -820,7 +815,6 @@ namespace eval ::abookGui {
 		
 		label $nbIdent.lastmsgedme -text "[trans lastmsgedme]:"
 		label $nbIdent.lastmsgedme1 -text [::abook::dateconvert "[::abook::getContactData $email last_msgedme]"] -font splainf -fg blue
-		
 		#Client-name of the user (from Gaim, dMSN, etc)
 		label $nbIdent.clientname -text "[trans clientname]:"
 		label $nbIdent.clientname1 -text [::abook::getContactData $email clientname] -font splainf -fg blue
@@ -839,7 +833,6 @@ namespace eval ::abookGui {
 		}
 		label $nbIdent.titlepic -text "[trans displaypic]" -font bboldunderf
 		label $nbIdent.displaypic -image user_pic_$email -highlightthickness 2 -highlightbackground black -borderwidth 0
-
 				
 		grid $nbIdent.title1 -row 0 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
 		grid $nbIdent.e -row 1 -column 0 -sticky e
@@ -885,7 +878,6 @@ namespace eval ::abookGui {
 		grid $nbPhone.titlepic -row 27 -column 0 -sticky w -columnspan 2 -pady 5 -padx 5
 		grid $nbPhone.displaypic -row 28 -column 0 -sticky w -columnspan 2 -padx 8
 		#grid columnconfigure $nbIdent.fothers 1 -weight 1
-	
 		
 		grid columnconfigure $nbIdent 1 -weight 1
 		
@@ -921,20 +913,24 @@ namespace eval ::abookGui {
 		grid $nbIdent.yes -row 0 -column 1 -sticky we -padx 5
 		grid $nbIdent.no -row 0 -column 2 -sticky we -padx 5
 		
-
 			
 		##############
 		#Alarms frame
 		##############
+		
 		set nbIdent [$w.nb getframe alarms]
+		
 		ScrolledWindow $nbIdent.sw
+		
 		pack $nbIdent.sw -expand true -fill both
+		
 		ScrollableFrame $nbIdent.sw.sf
+	
 		$nbIdent.sw setwidget $nbIdent.sw.sf
+		
 		set nbIdent [$nbIdent.sw.sf getframe]
 		
 		::alarms::configDialog $email $nbIdent
-		
 		##########
 		#Common
 		##########
@@ -964,7 +960,8 @@ namespace eval ::abookGui {
 			bind $w <Destroy> [list ::abookGui::PropDestroyed $email $w %W]
 		}
 		
-		moveinscreen $w 30
+		#moveinscreen $w 30
+		status_log YOYOYO
 	}
 	
 	#Ask the user if he wants to save or not the user properties window
@@ -1049,14 +1046,14 @@ namespace eval ::abookGui {
 			destroy .globalnick
 		}
 		frame .globalnick.btn 
-		button .globalnick.btn.ok -text "[trans ok]"  -font sboldf \
+		button .globalnick.btn.ok -text "[trans ok]"  \
 			-command {
 			::config::setKey globalnick "[.globalnick.frm.nick get]";
 			::MSN::contactListChanged;
 			cmsn_draw_online;
 			destroy .globalnick
 			}
-		button .globalnick.btn.cancel -text "[trans cancel]"  -font sboldf \
+		button .globalnick.btn.cancel -text "[trans cancel]"  \
 			-command "destroy .globalnick"
 		pack .globalnick.btn.ok .globalnick.btn.cancel -side right -padx 5
 		pack .globalnick.frm -side top -pady 3 -padx 5
