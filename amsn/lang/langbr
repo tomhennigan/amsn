@@ -13,6 +13,8 @@ addtocontacts Adicionar à lista de contatos
 addtoo Adicionar esta pessoa à minha lista de contato
 admincontacts Gerenciar contatos
 admingroups Gerenciar grupos
+advanced Avançado
+advancedprefs Opções de configuração avançada
 adverts Anúncios
 alarmonconnect Ativar o Alarme quando um usuário conectar
 alarmondisconnect Ativar o Alarme quando um usuário desconecta/fica invisível
@@ -25,8 +27,10 @@ allowbadwords Desativar censura nos apelidos
 allowlist Lista de autorizados:
 allowonlyinal Permitir apenas contatos de usuários autorizados
 allowseen Permitir que o usuário veja quando eu estou on-line e possa me contactar
+allprofilesinuse Todos os perfis existentes estão atualmente em uso
 animatedemoticon Este emoticon é animado
 animatedsmileys Ativar smileys animados
+animatenotify Janela de Notificação Animada
 appearance Aparência
 appearoff Aparecer off-line
 areacode DDD
@@ -34,6 +38,7 @@ aretyping $1 está digitando uma mensagem
 autoaccepted Transferência de arquivos aceitado automaticamente
 autoacceptft Pedido de Transferência Automática
 autoaway Me apresente como "Ausente" quando inativo por
+autocheckver Automaticamente verificar por novas versões ao iniciar
 autoconnect2 Logar-me automaticamente quando o aMSN for iniciado.
 autoconnect Conectar automaticamente
 autohotmaillog Logar-se automaticamente no Hotmail
@@ -69,6 +74,7 @@ cantexec Não consegue executar a Aplicação: $1. Ver Preferências
 casesensitive Use as dicas do case-sensitive
 cfgalarmall Configurar/Adicionar/Remover Alarme Global
 cfgalarm Configurar/desativar avisos
+changecustomstate Mudar para
 changedisplaypic Mudar figura da tela
 changefont Mudar a fonte
 changenick Trocar Apelido
@@ -90,6 +96,7 @@ choosebgcolor Escolher cor de fundo
 choosecontact Por favor escolha um contato da lista
 choosefontcolor Escolher cor da fonte
 chooseskin Por Favor escolha a skin que deseja usar
+ch_to_state Mudar para novo estado
 clearlog2 Limpar o histórico de todos os seus contatos
 clearlog3 Limpar todos os logs
 clearlog Limpar log
@@ -122,27 +129,37 @@ dcprofile Não criar Perfil
 default Configuração Padrão
 defaultloginradio Login com a configuração normal
 delete Apagar
+deletecustomstate Excluir estado personalizado
+delimiters Delimitadores de timestamps:
 deliverfail Falha no envio da mensagem
 delprofile2 Selecione o Perfil que você gostaria de remover
 delprofile Apagar Perfil
 description Descrição
 directconnection Eu tenho uma conexão direta com a internet(porta 1863)
+disabled Desabilitar
+disableprofiles Desabilitar perfis (Úteis para cyber-cafés ou ambientes compartilhados
 disablessl Desativar o SSL
 disconnect $1 Disconectou-se.
+displaychat Exibir opções de texto
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Minimizar na bandeja do Gnome
 docking Ícone da bandeja (systray)
 dockingoff Desativado
 dockkde Minimizar na bandeja do KDE
 dontdownload Não descarregue o TLS, eu mesmo o farei
+dontshow Não exibir
 downloadingtls Descarregando módulo TLS de:\n $1
 editcurrentstate Editar estado Atual
+editcustomstate Editar estado personalizado
 edit Editar
 editnewstate Novo estado pessoal de Automensagem
 editprofile Editar Perfil
 editstate Editar o estado de Automensagem existente
+editvalue Alterar valor
+emailsinlist Exibir o e-mail ao invés do apelido na lista de contato
 emotisounds Reproduzir sons com certos emoticons
 enablebanner Mostrar banner aMSN (É preciso reiniciar o aMSN)
+enabled Habilitado
 enableproxy Habilitar proxy
 enableremote Ativar controle remoto
 enablesound Toca sons
@@ -155,7 +172,11 @@ errortls Erro instalando módulo TLS:
 examples Exemplos
 exitamsn Você tem certeza que deseja sair?
 extras Serviços adicionais
+faileddelete Falha na exclusão
+faileddeleteperso Esta imagem não pôde ser excluída porque ela não é um arquivo de imagem pessoal. Apenas imagens que pertençam ao seu perfil pessoal podem ser removidas por este caminho.
+failed Falha
 faq FAQ (Perguntas freqüentemente feitas)
+file Arquivo
 filedoesnotexist Arquivo não existe
 filemanexample ( \$local será substituído pelo diretório ) Ex: nautilus \$location
 fileman Gerenc. Arquivos
@@ -174,6 +195,7 @@ ftportpref Inicializando porta para transferência de arquivos
 ftrejectedby $1 rejeita o pedido de transferência do arquivo '$2'
 ftrejected Transferência de arquivo cancelada
 ftsendinvitation O convite para transferência do arquivo '$2' ($3 bytes) foi enviado para $1
+fullcontactlist Desculpe, sua lista de contatos está cheia. Você precisará remover alguns contatos para poder adicionar novos.
 getdisppic Permitir recebimento de figuras da tela de outros usuários
 gonelunch Fui comer, dá licença?
 groupadd Adicionar um grupo
@@ -199,7 +221,9 @@ hybrid Modo híbrido
 ident Identificando
 identity Identificar
 inbox Caixa de Entrada
+insertsmiley Inserir emotion
 installconvert Você deve instalar ImageMagick (programa conversor) para converter as imagens para o formato requerido pelos servidores MSN. Você pode pegar os binários para o seu Sistema Operacional em ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Se você já o tem, então isto é um bug, favor reportá-lo.
+installconvert Você deve instalar o ImageClick (programa de conversão) para usar Buddy Icons e Emotions personalizados. Você pode baixar os binários para o seu Sistema Operaciona
 internalerror Erro Interno do Servidor
 invalidfile Arquivo $2 no campo "$1" não existe ou não pode ser lido
 invalidusername Nome de usuário inválido
@@ -267,6 +291,7 @@ needonline Você ainda está/aparece desconectado
 newmail $1 nova(s) mensagem(ns) na Caixa de Entrada
 newmailfrom Novo e-mail de $1 ($2)
 newmsg Nova mensagem
+newstate Adicionar estado personalizado
 newveravailable Nova versão $1 disponível para download
 next Próximo
 noactivity Sem atividade
@@ -280,6 +305,7 @@ nopic Sem imagem para exibição
 noprofileexists Não existe de momento nenhum perfil, \n têm de criar um se quiser usar logins perfilados. \nUse o botão Adicionar Novo Perfil nesta janela, para adicionar um novo perfil
 normal Normal
 nosystemtray System tray não está disponível
+notificationserver Servidor Inicial de Notificação do MSN (Servidor MSN Messenger)
 notify1_5 Mostra uma janela de notificação quando um contato sai
 notify1_75 Mostra uma janela de notificação quando um contato muda o seu estado
 notify1 Mostrar janela de avisos quando um contato entrar online
@@ -287,6 +313,7 @@ notify2 Mostrar janela de avisos quando chegarem novas mensagens
 notify3 Mostrar janela de avisos quando chegarem e-mails no Hotmail
 notify notificar
 notifyoffset Ajustar a posição da janela de avisos (em relação ao canto inferior direito)
+notifytyping Enviar notificação para os outros usuários de quando eu estou digitando
 notifywin Janela de avisos
 notls O protocolo MSN 9 requer o pacote tls. Aparentemente ele não está instalado em sua máquina. Se estiver, o caminho para a biblioteca deve ser especificado na janela Preferences (ex: /opt/tls/lib). É possível descarregar o tls de http://tls.sf.net.
 nousersinsession Nenhum usuário na sessão
@@ -300,6 +327,7 @@ options Opções
 ordercontactsby Ordenar contatos por
 ordergroupsby ordenar grupos por
 other Outros
+others Outros
 pager Pager
 pass Senha
 paste Colar
@@ -357,6 +385,7 @@ raised Maximizado/Minimizado
 readonlymsgbox Diretório sem permissão de escrita. Por Favor ajuste as permissões neste diretório.
 readonlywarn  AVISO: O arquivo provavelmente não será salvo corretamente pois o diretório "Received files" está protegido contra gravação. Por favor verifique se as permissões do diretório ($1) estão corretas antes de transferir o arquivo.
 receivedbytes Recebidos $1 de $2 bytes
+receiveddir Pasta de Arquivos Recebidos
 receivefile Arquivo recebido
 reconnect Esperando por $1 para reconectar
 reconnecting Reconectando ao servidor
@@ -379,13 +408,16 @@ sendfile Enviar arquivo
 sendmail Enviar e-mail
 sendmsg Enviar mensagem
 sentbytes Enviados $1 de $2 bytes
+serverbusy Servidor Ocupado
 servergoingdown Desconectado: Servidor está sendo desligado
 server Servidor
+serverunavailable Servidor não disponível
 session Sessão
 showblockedlist Mostra a lista de usuários que bloqueram você
 showdisplaypic2 Mostrar Figura na Tela automaticamente quando uma janela de Conversa é aberta
 showdisplaypic Mostrar Figura na Tela
 showmypic Minha Figura na Tela
+shownotify Exibir janela de notificação quando alguns eventos aconteçam.
 showuserpic Figura do usuario $1
 skinselector Escolha a Skin
 skin Skin 
@@ -405,6 +437,7 @@ sourcecode Código-fonte (necessita de compilação e instalação)
 sslwarning ATENÇÃO!! Desabilitando o SSL desativará a encriptação, assim sua senha será enviada como texto puro pela rede. Utilize somente para proxies realmente trapaceiros ou configurações de rede.
 startoffline2 Iniciar conectado mas invisível ("Aparecer Offline")
 startoffline Iniciar desconectado
+startontray Iniciar o AMSN apenas no ícone da bandeja
 stateautomsg Automensagem para Enviar
 statechange Estado mudado para:
 stateedittext Por favor edite os campos que gostaria \n de modificar e tecle Salvar
@@ -414,14 +447,19 @@ statenewtext Por favor preencha as informações necessárias para criar \n o seu n
 state Quero aparecer como
 status Estado
 stopalarm Desligar avisos
+storenickname Retornar ao apelido original depois de um estado personalizado com um apelido personalizado
+strictfonts Restringir todos os tamanhos de fontes à uma que eu escolher (Barra de Status e outros)
 stylechat Mesma aparência que as janelas de bate-papo
 stylehist Aparência do Histórico
 stylelog Selecione o formato no qual você gostaria de visualizar seu Histórico
 syntaxerror  Erro de sintaxe
 tabbed Janelas em abas
+temp_state Não salvar (Estado temporário, será perdido quando o AMSN for fechado)
 textsize Tamanho do texto
 timeremaining Tempo restante
+timestamps Habilitar timestamps nas janelas de chat
 title Al's Messenger
+tkerror O TK trouxe um erro, existem um bug no amsn, por favor, informe ele. Envie o arquivo $1 para amsn-bugs@lists.sf.net
 tlsdowncompleted Arquivo $1 foi descarregado no diretório $2. Você deve extraí-lo, compilá-lo (se você pegou o código-fonte) e instalá-lo em $3.
 tlsinstall Assistente de Instalação do Módulo TLS
 tlsinstallexp O AMSN agora usa o MSNP9, que requer o uso de uma conexão segura usando o SSL. Para usar o SSL, o AMSN precisa instalar um módulo chamado TLS, que falta no seu sistema. Este assistente o ajudará a descarregar e instalar o TLS. Favor escolher o tipo do seu sistema para que possamos automaticamente descarregar os arquivos TLS necessários.
@@ -432,6 +470,9 @@ to Para
 transnotexists O arquivo solicitado ainda não foi traduzido para a linguagem atual.
 traynotcompiled O ícone da bandeja não está compilado. Verifique plugins/traydoc
 triggers dicas
+truncatenames1 O apelido truncado é maior que a largura da janela nos títulos da janela e lista de contato
+truncatenames2 O apelido truncado é maior que a largura da janela dentro da conversação
+truncatenicks O apelido truncado é maior que a largura da janela
 twonewmail $1 nova(s) mensagem(ns) na Caixa de Entrada
 unblock Desbloquear
 uoffline Desconectado
@@ -449,7 +490,9 @@ willjoin Aguardando $1 entar na conversa
 work Ocupado
 wrongfields O "$1", "$2" e/ou "$3" campos não estão validos
 wrongprofileversion Versão errada do arquivo de configuração do perfil. Para consertar, por favor remova-o do diretório $1, ou atualize o amsn
+xmmscurrent Mostrar som atual
 xmmserr Nenhum áudio em execução ou você não tem o xmms-infopipe instalado
+xmmssend Enviar som atual
 xoffset Deslocamento X
 yes Sim
 yoffset Deslocamento Y

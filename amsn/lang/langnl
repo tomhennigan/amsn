@@ -74,7 +74,6 @@ cantexec Kan het programma $1 niet starten, controleer uw instellingen
 casesensitive Gebruik hoofdlettergevoelige triggers
 cfgalarm Alarminstellingen
 cfgalarmall Alle alarminstellingen
-ch_to_state Activeer nieuwe status
 changecustomstate Verander status in
 changedisplaypic Schermafbeelding wijzigen
 changefont Lettertype instellen
@@ -97,6 +96,7 @@ choosebgcolor Achtergrondkleur instellen
 choosecontact Selecteer een contactpersoon uit de lijst
 choosefontcolor Tekstkleur
 chooseskin Selecteer de skin die u wilt gebruiken
+ch_to_state Activeer nieuwe status
 clearlog2 Verwijder Geschiedenis voor alle contactpersonen
 clearlog3 Verwijder alle logboeken
 clearlog Logboek legen
@@ -128,8 +128,8 @@ days Dagen
 dcprofile Geen profiel aanmaken
 defaultloginradio Inloggen met de standaardconfiguratie
 default Standaard configuratie
-delete Verwijderen
 deletecustomstate Verwijder aangepaste instelling
+delete Verwijderen
 delimiters Haakjes om tijden heen:
 deliverfail Er was een probleem bij het bezorgen van de volgende boodschap
 delprofile2 Selecteer het profiel waarvan u de locale configuratiebestanden wilt verwijderen
@@ -155,6 +155,7 @@ editnewstate Persoonlijke status toevoegen
 editprofile Bewerk profiel
 editstate Persoonlijke status wijzigen
 editvalue Wijzig waarde
+emailsinlist Geef e-mail adressen weer in de contactpersonenlijst
 emotisounds Geluid bij emoticons gebruiken
 enablebanner aMSN Banner weergeven (werkt pas na opnieuw opstarten)
 enabled Actief
@@ -170,10 +171,11 @@ errortls Er is een fout opgetreden bij het installeren van de module TLS:
 examples Voorbeelden
 exitamsn Weet u zeker dat u aMSN wilt afsluiten?
 extras Extra diensten
-failed Mislukt
-faileddelete Verwijderen mislukt
 faileddeleteperso Dit plaatje kan niet verwijderd worden omdat het geen persoonlijk beeldbestand is. Alleen plaatjes die bij je persoonlijke profiel horen kun je op deze manier verwijderen.
+faileddelete Verwijderen mislukt
+failed Mislukt
 faq FAQ (Veel gestelde vragen)
+file Bestand
 filedoesnotexist Bestand bestaat niet
 fileman Bestandsbeheer
 filemanexample  ( \$location wordt vervangen door het pad ) Vb: nautilus \$location
@@ -192,6 +194,7 @@ ftportpref Start de poort voor bestandsoverdracht
 ftrejected Bestandsoverdracht geweigerd
 ftrejectedby $1 weigerde de overdracht van '$2'.
 ftsendinvitation De uitnodiging voor de overdracht van het bestand '$2' ($3 bytes) is verstuurd naar $1
+fullcontactlist Het spijt me, je contactpersonenlijst is vol. Je moet eerst iemand verwijderen voordat je weer anderen kunt toevoegen.
 getdisppic De schermafbeelding van anderen weergeven in gesprekken
 gonelunch Lunchpauze
 groupadd Nieuwe groep maken
@@ -217,6 +220,7 @@ hybrid Hybride modus
 ident Bezig met identificeren
 identity Identiteit
 inbox Postvak IN
+insertsmiley Voeg smiley in
 installconvert U moet het conversie-programma "ImageMagick" installeren om afbeeldingen te converteren naar de opmaak dat door de MSN-servers wordt gebruikt. U kunt een versie van ImageMagick voor uw besturingssysteem downloaden van ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Als deze melding verschijnt terwijl u het al hebt geïnstalleerd, dan is er mogelijk sprake van een bug. Meld dit dan alstublieft.
 internalerror Interne Serverfout
 invalidfile Het bestand "$2", ingevoerd in het veld "$1", bestaat niet of is onleesbaar
@@ -449,6 +453,7 @@ stylehist aMSN geschiedenis stijl
 stylelog Kies de opmaak van de geschiedenislogboeken
 syntaxerror Syntaxfout
 tabbed Vensters met tabbladen
+temp_state Niet opslaan (Tijdelijke status, gaat verloren als AMSN wordt afgesloten)
 textsize Tekstgrootte
 timeremaining Resterende tijd
 timestamps Tijdwergave in discussievensters inschakelen
@@ -456,7 +461,6 @@ title Al's Messenger
 tkerror TK heeft een error gegeven, er zit een bug in amsn, reporteer het astublieft. stuur het bestand $1 naar amsn-bugs@lists.sf.net
 tlsdowncompleted Het bestand $1 is opgeslagen in $2. Pak dit bestand uit, maak er een build van (als u broncode hebt gedownload), en installeer het in $3.
 tlsinstallexp AMSN gebruikt nu versie 9 van het MSN protocol.\nDaarvoor is een met SSL beveiligde verbinding vereist. AMSN heeft hierbij een module\nnodig met de naam TLS, die niet aanwezig is op uw systeem. Deze wizard helpt u bij\nhet downloaden en installeren van TLS. Selecteer het type systeem dat u gebruikt\nzodat de benodigde bestanden automatisch gedownload kunnen worden.
-temp_state Niet opslaan (Tijdelijke status, gaat verloren als AMSN wordt afgesloten)
 tlsinstall TLS Module installatie wizard
 tlsinstcompleted De TLS module is geïnstalleerd. U zou versie 9 van het MSN protocol nu moeten kunnen gebruiken. Als dit niet werkt, dan heb u vermoedelijk niet de juiste module gekozen, of er bestaat geen kant-en-klare module voor uw systeem.
 to Aan
