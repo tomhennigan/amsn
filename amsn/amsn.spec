@@ -82,6 +82,7 @@ if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 /usr/share/amsn/migmd5.tcl
 /usr/share/amsn/notebook.tcl
 /usr/share/amsn/notebook1.tcl
+/usr/share/amsn/plwav.exe
 /usr/share/amsn/progressbar.tcl
 /usr/share/amsn/protocol.tcl
 /usr/share/amsn/proxy.tcl
