@@ -25,6 +25,24 @@ namespace eval ::alarms {
 		}
 	}
 	
+	proc InitMyAlarms {user} {
+		global my_alarms
+		
+		set my_alarms(${user}_enabled) [getAlarmItem $user enabled]
+		set my_alarms(${user}_sound) [getAlarmItem $user sound]
+		set my_alarms(${user}_sound_st) [getAlarmItem $user sound_st]
+		set my_alarms(${user}_pic) [getAlarmItem $user pic]
+		set my_alarms(${user}_pic_st) [getAlarmItem $user pic_st]
+		set my_alarms(${user}_loop) [getAlarmItem $user loop]
+		set my_alarms(${user}_onconnect) [getAlarmItem $user onconnect]
+		set my_alarms(${user}_onmsg) [getAlarmItem $user onmsg]
+		set my_alarms(${user}_onstatus) [getAlarmItem $user onstatus]
+		set my_alarms(${user}_ondisconnect) [getAlarmItem $user ondisconnect]
+		set my_alarms(${user}_command) [getAlarmItem $user command]
+		set my_alarms(${user}_oncommand) [getAlarmItem $user oncommand]
+	
+	}
+	
 	#Function that displays the Alarm configuration for the given user
 	proc configDialog { user {window ""} } {
 		global my_alarms
@@ -43,19 +61,8 @@ namespace eval ::alarms {
 			set w $window
 		}
 		
-	
-		set my_alarms(${user}_enabled) [getAlarmItem $user enabled]
-		set my_alarms(${user}_sound) [getAlarmItem $user sound]
-		set my_alarms(${user}_sound_st) [getAlarmItem $user sound_st]
-		set my_alarms(${user}_pic) [getAlarmItem $user pic]
-		set my_alarms(${user}_pic_st) [getAlarmItem $user pic_st]
-		set my_alarms(${user}_loop) [getAlarmItem $user loop]
-		set my_alarms(${user}_onconnect) [getAlarmItem $user onconnect]
-		set my_alarms(${user}_onmsg) [getAlarmItem $user onmsg]
-		set my_alarms(${user}_onstatus) [getAlarmItem $user onstatus]
-		set my_alarms(${user}_ondisconnect) [getAlarmItem $user ondisconnect]
-		set my_alarms(${user}_command) [getAlarmItem $user command]
-		set my_alarms(${user}_oncommand) [getAlarmItem $user oncommand]
+		InitMyAlarms $user
+		
 	
 		if { $window == "" } {
 			label $w.title -text "[trans alarmpref]: $user" -font bboldf
@@ -111,11 +118,23 @@ namespace eval ::alarms {
 		
 		if { $window == "" } {
 			frame $w.b -class Degt
-			button $w.b.save -text [trans ok] -command "::alarms::SaveAlarm $user; destroy $w" -font sboldf
+			button $w.b.save -text [trans ok] -command [list ::alarms::OkPressed $user $w] -font sboldf
 			button $w.b.cancel -text [trans close] -command "destroy $w; unset my_alarms" -font sboldf
-			button $w.b.delete -text [trans delete] -command "destroy $w; ::alarms::DeleteAlarm $user" -font sboldf
+			button $w.b.delete -text [trans delete] -command "::alarms::DeleteAlarm $user; destroy $w" -font sboldf
 			pack $w.b.save $w.b.cancel $w.b.delete -side right -padx 10
 			pack $w.b -side top -padx 0 -pady 4 -anchor e -expand true -fill both
+		} else {
+			Separator $w.sepbutton -orient horizontal		
+			pack $w.sepbutton -side top -anchor w -expand true -fill x -padx 5 -pady 5
+			button $w.delete -text [trans delete] -command "::alarms::DeleteAlarm $user" -font sboldf
+			pack $w.delete -side top -anchor c
+		
+		}
+	}
+	
+	proc OkPressed { user w} {
+		if { [::alarms::SaveAlarm $user] == 0 } {
+			destroy $w
 		}
 	}
 	
@@ -126,7 +145,8 @@ namespace eval ::alarms {
 		catch {file delete $my_alarms(${user}_pic)}
 		::abook::setContactData $user alarms ""
 		::abook::saveToDisk
-		unset my_alarms
+		InitMyAlarms $user
+		#unset my_alarms
 		
 		cmsn_draw_online
 	}
@@ -137,7 +157,7 @@ namespace eval ::alarms {
 	
 		if { ($my_alarms(${user}_sound_st) == 1) && ([file exists "$my_alarms(${user}_sound)"] == 0) } {
 			msg_box [trans invalidsound]
-			return
+			return -1
 		}
 		
 		
@@ -146,20 +166,20 @@ namespace eval ::alarms {
 		if { ($my_alarms(${user}_pic_st) == 1) } {
 			if { ([file exists "$my_alarms(${user}_pic)"] == 0) } {
 				msg_box [trans invalidpic]
-				return
+				return -1
 			} else {
 				if { [catch {image create photo joanna -file $my_alarms(${user}_pic)}] } {
 					set file [run_convert "$my_alarms(${user}_pic)" "[file join $HOME alarm_${user}.gif]"]
 					if { $file == "" } {
 						msg_box [trans installconvert]
-						return
+						return -1
 					} else {
 						set my_alarms(${user}_pic) $file
 					}
 				} elseif { ([image width joanna] > 1024) && ([image height joanna] > 768) } {
 					image delete joanna
 					msg_box [trans invalidpicsize]
-					return
+					return -1
 				} else {
 					image delete joanna					
 					catch {file copy -force $my_alarms(${user}_pic) [file join $HOME alarm_${user}.gif]}
@@ -187,6 +207,8 @@ namespace eval ::alarms {
 		
 		cmsn_draw_online
 		unset my_alarms
+		
+		return 0
 	}
 }
 

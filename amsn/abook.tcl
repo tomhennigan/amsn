@@ -584,7 +584,7 @@ namespace eval ::abookGui {
 		frame $nbIdent.customnick
 		entry $nbIdent.customnick.ent -font splainf -bg white
 		menubutton $nbIdent.customnick.help -font sboldf -text "<-" -menu $nbIdent.customnick.help.menu
-		menu $nbIdent.customnick.help.menu
+		menu $nbIdent.customnick.help.menu -tearoff 0
 		$nbIdent.customnick.help.menu add command -label [trans nick] -command "$nbIdent.customnick.ent insert insert \\\$nick"
 		$nbIdent.customnick.help.menu add command -label "Email" -command "$nbIdent.customnick.ent insert insert \\\$user_login"
 		$nbIdent.customnick.help.menu add separator
@@ -711,9 +711,7 @@ namespace eval ::abookGui {
 		$nbIdent.sw setwidget $nbIdent.sw.sf
 		set nbIdent [$nbIdent.sw.sf getframe]
 		
-		#::alarms::configDialog $email $nbIdent
-		button $nbIdent.butalarm -text "[trans cfgalarm]..." -command [list ::alarms::configDialog $email]
-		pack $nbIdent.butalarm -side top
+		::alarms::configDialog $email $nbIdent
 		
 		$w.nb compute_size
 		[$w.nb getframe userdata].sw.sf compute_size
@@ -758,6 +756,10 @@ namespace eval ::abookGui {
 
    proc PropOk { email w } {
 	   global colorval_$email
+   	if {[::alarms::SaveAlarm $email] != 0 } {
+		return
+	}
+
 	set nbIdent [$w.nb getframe userdata]
 	set nbIdent [$nbIdent.sw.sf getframe]
    	::abook::setContactData $email customnick [$nbIdent.customnick.ent get]

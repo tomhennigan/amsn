@@ -6076,8 +6076,9 @@ proc show_umenu {user_login grId x y} {
 	-command "::abookGui::showUserProperties $user_login"
 
 	# Display Alarm Config settings
-	.user_menu add separator
-	.user_menu add command -label "[trans cfgalarm]" -command "::alarms::configDialog ${user_login}"
+	#NOT NEEDED ANYMORE! Change it inside preferences!!
+	#.user_menu add separator
+	#.user_menu add command -label "[trans cfgalarm]" -command "::alarms::configDialog ${user_login}"
 
 	tk_popup .user_menu $x $y
 }
