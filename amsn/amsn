@@ -528,28 +528,46 @@ proc cmsn_draw_offline {} {
    .main.text tag bind start_login <Leave> \
 	    ".main.text tag conf start_login -fore #000000 -underline true;\
 	    .main.text conf -cursor left_ptr"
+    .main.text tag bind start_login <Button-1> \
+        "cmsn_ns_connect"
+
+
+   .main.text tag conf start_loginas -fore #000000 -underline true \
+   -font sboldf -justify center
+   .main.text tag bind start_loginas <Enter> \
+	    ".main.text tag conf start_loginas -fore #0000A0 -underline false;\
+	    .main.text conf -cursor hand2"
+   .main.text tag bind start_loginas <Leave> \
+	    ".main.text tag conf start_loginas -fore #000000 -underline true;\
+	    .main.text conf -cursor left_ptr"
+    .main.text tag bind start_loginas <Button-1> \
+        "cmsn_draw_login"    
 
    .main.text image create end -image globe -pady 5 -padx 5
    .main.text insert end "[trans language]\n" lang_sel
 
 
-   .main.text insert end "\n\n\n\n\n\n\n"
+
+   .main.text insert end "\n\n\n\n"
  
    if { $config(login) != "" } {
-     .main.text insert end "[trans clicktologin]\n$config(login)" start_login
+     .main.text insert end "$config(login)\n" start_login
+     .main.text insert end "[trans clicktologin]" start_login
      .main.text tag bind start_login <Button-1> \
 	"cmsn_ns_connect"
+
+     .main.text insert end "\n\n\n\n\n"
+ 
+     .main.text insert end "[trans loginas]...\n" start_loginas
+     .main.text insert end "\n\n\n\n\n\n\n\n\n"
+     
    } else {
-     .main.text insert end "[trans clicktologin]..." start_login
-     .main.text tag bind start_login <Button-1> \
-        "cmsn_draw_login"
+     .main.text insert end "[trans clicktologin]..." start_loginas
+
+     .main.text insert end "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"	
 
    }
 
-   .main.text insert end "\n\n\n\n\n\n\n\n\n\n\n\n"
- 
-   .main.text insert end "   "
-   .main.text insert end "[trans loginas]...\n" lang_sel
 
    .main.text insert end "   "
    .main.text insert end "[trans checkver]...\n" check_ver
