@@ -144,6 +144,8 @@ namespace eval ::amsn {
 		}
 		option add *Font splainf userDefault
 		option add *Button.Font sboldf userDefault
+		option add *Button.activeForeground #5b76c6 userDefault
+
 		#option add *Scrollbar.borderWidth 1 userDefault
 
 		set Entry {-bg #FFFFFF -foreground #000000}
