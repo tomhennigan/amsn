@@ -1,4 +1,5 @@
 amsn_lang_version 2
+add Adauga
 about Despre
 accept Accepta
 acceptfile Accept fisierul $1, marime $2? Salvat in $3
@@ -31,6 +32,7 @@ allowbadwords Dezactiveaza cenzura de pe porecle
 allowlist Lista cu cei acceptati:
 allowonlyinal Numai cei din lista celor acceptati sa ma contacteze
 allowseen Permite persoanei sa ma vada autentificat si sa ma contacteze.
+allow_sms Permite utilizatorilor sa ma contacteze pe mobilul MSN
 allprofilesinuse Toate profilele existente sunt utilizate momentan
 animatedemoticon Acest semn este animat
 animatedsmileys Activeaza semnele de conversatie animate
@@ -108,6 +110,7 @@ checkemail Afiseaza notificarile de mail (inbox) in lista de contacte
 checkfilman Fisierele primite vor fi salvate in $1. Verificati setarile in fereastra de preferinte.
 checkingver In curs de verificare
 checkonfln Verifica daca utilizatorul te-a blocat cand sa deautentificat
+checkopenfilecommand In fereastra de preferinte verifica comanda pentru deschiderea de fisiere
 checkver Verifica daca este versiune noua
 choosearq Alege arhitectura sistemului
 choosebasefont Alege caracterul
@@ -120,6 +123,7 @@ clear Anuleaza
 clearlog Sterge jurnalul
 clearlog2 Sterge jurnalul pentru toate contactele
 clearlog3 Sterge toate jurnalele
+clicktoadd Pentru o notita noua apasa butonul "Adauga"
 clicktologin Autentificare
 clientcaps Trimite pachete x-clientcaps la alti clienti
 clientname Numele clientului
@@ -143,10 +147,12 @@ connecterror Conectarea la server a esuat
 connecting In curs de conectare
 connection Conexiune
 connectionlost Deconectat: Conexia cu serverul sa inchis
+contact Contact
 contactadded Persoana adaugata
 contactdoesnotexist Persona nu exista!
 contactlist Lista contactelor (FL):
 continuously In continuu
+conversationwith $1 utilizatori in conversatie
 convertexplain Calea catre fisierul executabil CONVERT de la ImageMagick (necesar pentru Afisarea Imaginilor).\n Nu completati atunci cand CONVERT este in PATH
 copy Copiaza
 copytogroup Copieaza in grupul
@@ -154,9 +160,11 @@ corruptconfig Fisierul de configurare este corupt. Creez unul nou. Vechiul fisie
 corruptstates Configurarea starilor personalizate este corupta. Creez una noua. Vechiul fisier va fi salvat ca si $1. Te rog sa ni-l trimiti pentru a vedea ce s-a intamplat.
 countrycode Tara / Cod postal
 cprofile Creare Profil
+created Creat
 credits Multumiri
 currentdate Data curenta
 currentlanguage Aceasta este limba pe care o folositi
+currentnotes Notite curente
 custnotifymsg Afiseaza fereastra de avertizare cand soseste un mesaj nou de la un utilizator nou
 custnotifyoffline Afiseaza fereastra de avertizare cand partenerul de chat se deautentifica
 custnotifyonline Afiseaza fereastra de avertizare cand acest contact se autentifica
@@ -176,6 +184,7 @@ default Configurarea implicita
 defaultloginradio Autentificare cu configuratia implicita
 defchatwinsize Dimensiune implicita pentru fereastra de chat (LATIME x INALTIME)
 delete Sterge
+deleteall Sterge tot 
 deletecustomstate Sterge stare personalizata
 delimiters Separatoarele de timp:
 deliverfail Eroare la trimiterea mesajului
@@ -261,6 +270,7 @@ ftrejectedby $1 a refuzat transferul de fisier pentru fisierul '$2'.
 ftsendinvitation Inviatatia de transfer pentru fisierul '$2' ($3 bytes) a fost trimis la $1.
 fullcontactlist Din pacate lista ta de contacte este plina. Va trebui sa stergi cateva contacte pentru a putea adauga altele noi.
 getdisppic Vizualizare poza afisata de la alti utilizatori
+globalcontainer Container general
 globalnick Foloseste un model pentru toate persoanele din lista de contact. Se pot folosi urmatoarele variabile: \$user_login pentru adresa persoanei, \$nick pentru porecla persoanei si \$customnick pentru porecla personalizata. Exemplu: '\$user_login este \$nick' va deveni  'contact@msn.com este Contact'
 globalnicktitle Nick global
 globaloverride Modelul numelor globale ar trebui sa suprascrie nick-ul personalizat 
@@ -292,6 +302,7 @@ ignoreerrors Ignora erorile aMSN pana la terminarea sesiuni curente
 imagefiles Fisiere imagini
 inbox Casuta postala
 insertsmiley Inserare emoticon
+inserttextnote In campurile note si subiect insereaza text apoi apasa Salveaza
 installconvert Trebuie instalat ImageMagick ( program de conversie ) pentru a folosi icoanele Buddy si semnele de conversatie create. Se poate descarca de la ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ 
 internalerror Eroare interna a server-ului
 invalidfile Fisierul $2 introdus in campul "$1" nu exista sau nu poate fi citit
@@ -363,6 +374,9 @@ maximised Marit
 minimised Micsorata
 mins Minute
 mobile Mobil
+mobilegrp1 Grup mobil
+mobilegrp2 Muta utilizatorii in grupul "Mobile" cand sunt deautentificati (si sortat dupa stare)
+modified Modificat
 month Luna
 morepersonal Alte stari ->
 move Muta
@@ -385,7 +399,6 @@ name Nume
 natip detectie de adresa IP prin pagina de web
 natkeepalive Daca esti deconectat frecvent, activeaza MentineConexia
 needonline Esti sau apari neautentificat !
-needwinico Este nevoie de winico03.dll in directorul plugins ca minimizarea ferestrei sa functioneze
 needwinico2 Pentru functionarea minimizarii ferestrei in windows, este nevoie de winico05.dll in directorul utils/windows
 never Niciodata
 new_ft_protocol Foloseste protocolul nou de transfer fisiere.
@@ -395,6 +408,7 @@ newmailfrom Ai primit e-mail nou de la $1 ($2)
 newmailfromother E-mail nou in alt director de la $1 ($2)
 newmsg Mesaj nou
 newstate Adaugare stare personalizata
+newtabbedfeature aMSN are o noua caracteristica in ceea ce priveste gestionarea conversatiilor, puteti avea toate ferestrele din acelas grup sau toata lista de contacte intr-o singura bara de fila. Alegeti modul in care aMSN va gestiona conversatiile.
 newveravailable Versiune noua de $1 este disponibil pentru descarcare.
 next Urmatorul
 nick Nick
@@ -412,6 +426,7 @@ noprofileexists Nu exista profile, \n trebuie sa creati unul daca vreti sa folos
 normal Normal
 noskins Nu am putut gasi skin in directorul skins/. Nu pot porni AMSN
 nosystemtray System tray-ul nu este disponibil
+note Nota
 notificationserver Server MSN de informare (MSN Messenger Server)
 notify Atentioneaza
 notify1 Afiseaza fereastra de atentionare cand cineva se autentifica
@@ -426,6 +441,7 @@ notifytyping Trimite notificare utilizatorilor cand se tasteaza
 notifywin notifica fereatra
 notinlist Nu esti in lista lui/ei de contacte
 notls Protocolul MSN 9 necesita pachetul TLS. Se pare ca acest pachet nu este instalat pe calculator. Daca este instalat, calea catre directorul cu biblioteci trebuie specificat in fereastra de Preferinte (ex: /opt/tls/lib). \n \n Se poate descarca TLS de la http://tls.sf.net.
+nottabbed Ferestere normale fara bara de file
 nousersinsession Nu sunt persoane in sesiune
 nudge $1 iti cere atentia
 offline Neautentificat
@@ -433,6 +449,9 @@ ok Ok
 onenewmail 1 mesaj nou in casuta postala
 online Autentificat
 onphone Vorbesc la telefon
+opendir Deschide directorul
+openfile Deschide
+openfilecommand Comanda de deschidere fisiere
 openreceived Deschide fisierul primit
 options Optiuni
 ordercontactsby Sorteaza persoanele dupa
@@ -445,7 +464,6 @@ pager Pager
 pass Parola
 paste Adauga elementul(le) copiat in memorie
 personal Personal
-personalizat
 phone Telefon
 phones Numere de telefon
 picbrowser Poze disponibile
@@ -485,7 +503,7 @@ prefremote Preferintele conexiunii de la distanta
 prefsession Autentificarea si starea mea
 prefshared Conectii partajate (numai pentru NAT)
 prefsound Sunete
-preview	Vizualizare
+preview Vizualizare
 privacy Privata
 profiledconfig Configurare profil
 profileexists Nu puteti crea acest profil cu autentificarea curenta \n deoarece exista deja. Incercati cu o alta autentificare.
@@ -530,6 +548,7 @@ selectskin Alege un Skin din lista
 send Trimite
 sendfile Trimite fisier
 sendmail Trimite e-mail
+sendmobmsg $1 Trimite pe mobil
 sendmsg Trimite mesaj
 sentbytes Trimis $1 of $2 bytes
 server Server
@@ -585,8 +604,13 @@ style Stil
 stylechat La fel ca si conversatiile
 stylehist Cum arata jurnalele
 stylelog Alege formatul in care vrei sa vizualizezi jurnalul
+subject Subiect
+subjectrequired Necesita subiect
 syntaxerror Eroare de sintaxa
 tabbed In fereastra ingrosata
+tabbedglobal O bara de file pentru toti utilizatorii in lista de contacte
+tabbedgroups O bara de file pentru utilizatorii din acelas grup
+tabtitlenick Afiseaza nickurile in bara de file in loc de email
 temp_state Nu salva (Stare temporara, nu se va salva cand este inchis AMSN)
 textsize Marime text
 timeremaining Timp ramas
@@ -632,6 +656,7 @@ viewprofile Vizualizare profil
 webcaminvite $1 a initiat o sesiune de webcam, dar aMSN nu are implementat aceasta optiune
 willjoin Asteapta ca $1 sa se alature conversatiei
 winkreceived Ai primit o avertizare de la $1. Aceasta optiune nu este implementat in aMSN. 
+wintitlenick Afiseaza nickurile in intr-o singura fila in loc de email
 work Lucru
 wrongfields Campurile "$1", "$2" si/sau "$3" nu sunt valide
 wrongprofileversion Versiunea fisierului de configurarea a profilului este gresit. Pentru remediere sterge directorul $1 sau descarca aMSN actualizat.

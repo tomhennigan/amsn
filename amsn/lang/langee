@@ -184,6 +184,7 @@ default Standardseadistus
 defaultloginradio Logi vaike seadistusega
 defchatwinsize Jutu akna standardsuurus (XsuurusxYsuurus)
 delete Kustuta
+deleteall Kustuta kõik
 deletecustomstate Kustuta muudetud olek
 delimiters Ajatempli piirajad:
 deliverfail Järgneva sõnumi edastamisega tekkis probleem
