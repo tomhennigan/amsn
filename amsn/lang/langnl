@@ -13,6 +13,7 @@ addtoo Voeg deze persoon toe als nieuwe contactpersoon
 addto Toevoegen aan $1
 admincontacts Contactpersonen beheren
 admingroups Groepen beheren
+advanced Geavanceerd
 adverts Advertenties
 alarmonconnect Alarm weergeven bij online komen
 alarmondisconnect Alarm weergeven bij offline gaan
@@ -68,6 +69,7 @@ cannotdeleteprofile Het profiel kan niet verwijderd worden. Het wordt mogelijk g
 cantexec Kan het programma $1 niet starten, controleer uw instellingen
 casesensitive Gebruik hoofdlettergevoelige triggers
 cfgalarm Alarminstellingen
+cfgalarmall Alle alarminstellingen
 changedisplaypic Schermafbeelding wijzigen
 changefont Lettertype instellen
 changenick Schermnaam wijzigen
@@ -96,8 +98,8 @@ clicktologin Klik hier om u aan te melden
 closed Gesprek met $1 is wegens inactiviteit afgesloten
 close Sluiten
 closingdocks Minimaliseren ipv sluiten
-command Programma
-commandstatus Voer opdracht uit
+command Commando
+commandstatus Commandoregel uitvoeren
 confirmdelete Weet u zeker dat u $1 wilt verwijderen?
 confirm Weet u het zeker?
 connected U bent nu verbonden
@@ -110,7 +112,7 @@ contactdoesnotexist Contactpersoon bestaat niet!
 contactlist [FL] Mijn contactpersonen
 copy Kopiëren
 copytogroup Contactpersoon kopiëren naar
-countrycode Landcode
+countrycode Landnunummer
 cprofile Maak profiel
 custom_edit Bewerk zelfgemaakte emoticon
 custom_new Maak een nieuwe emoticon
@@ -121,6 +123,7 @@ dcprofile Geen profiel aanmaken
 defaultloginradio Inloggen met de standaardconfiguratie
 default Standaard configuratie
 delete Verwijderen
+delimiters Haakjes om tijden heen:
 deliverfail Er was een probleem bij het bezorgen van de volgende boodschap
 delprofile2 Selecteer het profiel waarvan u de locale configuratiebestanden wilt verwijderen
 delprofile Verwijder profiel
@@ -128,6 +131,7 @@ description Omschrijving
 directconnection Directe verbonden met het internet (gebruik poort 1863)
 disablessl SSL niet gebruiken
 disconnect $1 is offline gegaan
+displaychat Discussies
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome systeemvak
 dockingoff Geen systeemvak gebruiken
@@ -141,6 +145,7 @@ editnewstate Persoonlijke status toevoegen
 editprofile Bewerk profiel
 editstate Persoonlijke status wijzigen
 emotisounds Geluid bij emoticons gebruiken
+enablebanner aMSN Banner weergeven (werkt pas na opnieuw opstarten)
 enableproxy Gebruik proxy
 enableremote Beheer op afstand toestaan
 enablesound Geluid afspelen
@@ -298,11 +303,12 @@ options Opties
 ordercontactsby Contactpersonen sorteren op
 ordergroupsby Sortering groepen
 other Andere
+others Overigen
 pager Semafoon
 pass Wachtwoord
 paste Plakken
 personal Persoonlijk
-phone Telefoonnummers
+phone Abonneenummer
 picbrowser Afbeeldingenbrowser weergeven
 picfile Alarmafbeelding (GIF < 500 x 500 pixels)
 picstatus Alarmafbeelding gebruiken
@@ -419,6 +425,7 @@ syntaxerror Syntaxfout
 tabbed Vensters met tabbladen
 textsize Tekstgrootte
 timeremaining Resterende tijd
+timestamps Tijdwergave in discussievensters inschakelen
 title Al's Messenger
 tlsdowncompleted Het bestand $1 is opgeslagen in $2. Pak dit bestand uit, maak er een build van (als u broncode hebt gedownload), en installeer het in $3.
 tlsinstallexp AMSN gebruikt nu versie 9 van het MSN protocol.\nDaarvoor is een met SSL beveiligde verbinding vereist. AMSN heeft hierbij een module\nnodig met de naam TLS, die niet aanwezig is op uw systeem. Deze wizard helpt u bij\nhet downloaden en installeren van TLS. Selecteer het type systeem dat u gebruikt\nzodat de benodigde bestanden automatisch gedownload kunnen worden.
@@ -430,6 +437,7 @@ tooltips Tooltips weergeven
 transnotexists Het opgevraagde bestand is nog niet vertaald in de gebruikte taal.
 traynotcompiled Taakbalk icoon plugin is niet gecompileerd. Bekijk plugins/traydock
 triggers Tekst triggers
+truncatenicks Schermnamen die langer zijn dan de vensterbreedte afbreken
 twonewmail U hebt $1 nieuwe berichten in Postvak IN
 unblock Deblokkeer
 uoffline Offline

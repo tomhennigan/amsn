@@ -142,6 +142,7 @@ editnewstate Novo estado pessoal de Automensagem
 editprofile Editar Perfil
 editstate Editar o estado de Automensagem existente
 emotisounds Reproduzir sons com certos ícones de emoções
+enablebanner Mostra imagem do aMSN (Requer tornar a iniciar o aMSN)
 enableproxy Proxy activado
 enableremote Ligar controlo remoto
 enablesound Toca sons em certas emoções

@@ -13,6 +13,7 @@ addtocontacts Ajouter aux contacts
 addtoo Ajouter cette personne à ma liste de contacts
 admincontacts Gérer les contacts
 admingroups Gérer les groupes
+advanced Avancé
 adverts Publicité
 alarmonconnect Activer l'alarme quand l'utilisateur se connecte
 alarmondisconnect Activer l'alarme quand un utilisateur se déconnecte ou passe en mode invisible
@@ -122,6 +123,7 @@ dcprofile Ne pas créer de profil
 default Configuration par défaut
 defaultloginradio Identification avec la configuration par défaut
 delete Effacer
+delimiters Délimiteurs de l'horodateur
 deliverfail Une erreur est survenue lors de l'envoi du message suivant
 delprofile2 Sélectionner le profil que vous voulez supprimer
 delprofile Supprimer un profil
@@ -129,6 +131,7 @@ description Description
 directconnection J'ai une connexion directe à Internet (utilisation du port 1863)
 disablessl Désactiver SSL
 disconnect $1 s'est déconnecté.
+displaychat Options d'affichage du texte
 dockfreedesktop Bureau de travail libre (KDE3/Gnome2)
 dockgtk Ancrer dans GTK
 docking Ancrage actif
@@ -300,6 +303,7 @@ options Options
 ordercontactsby Trier les contacts par
 ordergroupsby Trier les groupes par
 other Autre
+others Autres
 pager Pager
 pass Mot de passe
 paste Coller
@@ -422,6 +426,7 @@ syntaxerror Erreur de syntaxe
 tabbed Onglets
 textsize Taille du texte
 timeremaining Temps restant
+timestamps Activation de l'horodateur des fenêtres de chat
 title Al's Messenger ;)
 tlsdowncompleted Le fichier $1 a été téléchargé dans le répertoire $2. Vous devez l'extraire, le compiler (si vous avez téléchargé le code source) et l'installer dans $3.
 tlsinstall Assistant d'installation du module TLS
@@ -433,6 +438,7 @@ tooltips Activer les info-bulles
 transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue.
 traynotcompiled Le plugiciel de l'icône de la corbeille n'est pas conforme. Sélectionnez plugiciel/ancrage de la corbeille
 triggers Textes déclencheurs
+truncatenicks Raccourcir les surnoms plus long que la largeur de la fenêtre
 twonewmail $1 nouveaux messages dans votre boîte de réception
 unblock Débloquer
 uoffline Déconnectés
