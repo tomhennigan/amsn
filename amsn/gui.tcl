@@ -984,7 +984,7 @@ namespace eval ::amsn {
       #}
 
       set statusmsg "[timestamp] [trans joins [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
-      WinStatus [ WindowFor $chatid ] $statusmsg
+      WinStatus [ WindowFor $chatid ] $statusmsg minijoins
       WinTopUpdate $chatid
 
 	if { $config(keep_logs) } {
@@ -1012,10 +1012,12 @@ namespace eval ::amsn {
 
       if { $closed } {
 	  set statusmsg "[timestamp] [trans leaves [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
+	  set icon minileaves
       } else {
 	  set statusmsg "[timestamp] [trans closed [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
+	  set icon minileaves
       }
-      WinStatus [ WindowFor $chatid ] $statusmsg
+      WinStatus [ WindowFor $chatid ] $statusmsg $icon
       WinTopUpdate $chatid
 
 	if { $config(keep_logs) } {
@@ -2482,6 +2484,8 @@ proc cmsn_draw_main {} {
    image create photo typingimg -file [GetSkinFile pixmaps typing.gif]
    image create photo miniinfo -file [GetSkinFile pixmaps miniinfo.gif]
    image create photo miniwarning -file [GetSkinFile pixmaps miniwarn.gif]
+   image create photo minijoins -file [GetSkinFile pixmaps minijoins.gif]
+   image create photo minileaves -file [GetSkinFile pixmaps minileaves.gif]
 
 
    image create photo butsmile -file [GetSkinFile pixmaps butsmile.gif]
