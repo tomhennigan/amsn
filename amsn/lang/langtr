@@ -66,7 +66,8 @@ blockinter3 her
 blockinter4 saniye
 blocklist Engellenenler listesi
 blockmessage þu kiþiler baðlý ve sizi engellemiþ durumdalar
-blockusers Bir seferde denetlenecek kullanýcý sayýsý 
+blockusers Bir seferde denetlenecek kullanýcý sayýsý
+bouncedock Ýleti gelince aMSN görev çubuðu simgesi zýplasýn
 broughtby Yazýlýmý geliþtirenler
 browse Gözat
 browserexample (\$url URL ile deðiþtirilecek) Örn: mozilla \$url
@@ -84,6 +85,7 @@ change Deðiþtir
 changecustomstate Þu duruma geç:
 changedisplaypic Kullanýcý resmini deðiþtir
 changefont Yazitipi deðiþtir
+changeglobnick Ýsimlendirme þablonunu deðiþtir
 changenick Kullanýcý ismini deðiþtir
 changestate $1, $2 durumuna geçti
 charscounter Sohbet penceresinde girilen harf sayacý
@@ -126,6 +128,7 @@ connectionlost Baðlantý koptu: Sunucuyla baðlantý kesildi
 contactadded Baðlantý eklendi
 contactdoesnotexist Böyle bir baðlantý yok!
 contactlist Baðlantý listesi:
+continuously Sürekli
 convertexplain ImageMagick'in CONVERT uygulamasýnýn konumu (Kullanýcý resimleri için gerekli). \nEðer CONVERT zaten varsayýlan konumlardan birindeyse (PATH deðiþkeni) boþ býrakýlabilir.
 copy Kopyala
 copytogroup Gruba kopyala
@@ -135,6 +138,10 @@ countrycode Ülke/Bölge kodum
 cprofile Profil oluþtur
 credits Emeði Geçenler
 currentdate Bugünün Tarihi
+custnotifymsg Bu kiþiden yeni ileti gelince uyarý penceresi göster
+custnotifyoffline Bu kullanýcý baðlantýsýný kesince uyarý penceresi göster
+custnotifyonline Bu kullanýcý baðlanýnca uyarý penceresi göster
+custnotifystatus Bu kullanýcý durum deðiþtirince uyarý penceresi göster
 customcolor Özel renk
 customnick Özel kullanýcý ismi
 custom_edit Özel gülen adamý düzenle
@@ -175,9 +182,9 @@ editnewstate Yeni Kiþisel Otomatik Mesaj Durumu
 editprofile Profili düzenle
 editstate Var olan otomatik mesaj durumunu düzenle
 editvalue Deðeri deðiþtir
+email E-posta
 emailsinlist Baðlantý listesinde kullanýcý isimleri yerine e-posta adreslerini göster
 emotisounds Bazý gülen adamlarda ses çýkar
-enablebanner Amblem gözüksün
 enabled Etkin
 enableproxy proxy ayarlarýný etkinleþtir
 enableremote Uzaktan denetimi etkinleþtir
@@ -217,6 +224,9 @@ ftrejected Dosya aktarýmý reddedildi
 ftsendinvitation '$2' dosyasý ($3 bayt) için aktarým daveti $1'e gönderildi
 fullcontactlist Baðlantý listeniz dolu. Yeni baðlantý eklemek için bazýlarýný silmeniz gerek
 getdisppic Diðer kullanýcýlardan kullanýcý resmi alýnabilsin
+globalnick Baðlantýlarýnýzý isimlendirmek için bir þablon yaratýn. Þu deðiþkenleri kullanabilirsiniz: Baðlantýlarýn adresleri için \$user_login, kullanýcý adlarý için \$nick ve özel kullanýcý adý için \$customnick. Örneðin: "\$nick, adresi \$user_login" þablonu "baðlantý, adresi baðlantý@msn.com" þekline dönüþür.
+globalnicktitle Ýsimlendirme Þablonu
+globaloverride Ýsimlendirme þablonu özel kullanýcý isimleri yerine de kullanýlsýn
 gonelunch Yemekte
 groupadd Grup Ekle
 groupdelete Grup Sil
@@ -240,6 +250,7 @@ httpconnection HTTP yöntemiyle baðlan (80. porttan HTTP protokolü kullanýr)
 hybrid Melez kip
 identity Kimlik
 ident Kimlik denetleniyor
+ignoreerrors Oturum sonuna kadar diðer aMSN hatalarýný sessizce gözardý et.
 imagefiles Resim Dosyalarý
 inbox Gelen kutusu
 insertsmiley Gülen adam koy
@@ -256,8 +267,10 @@ invitationcancelled Davet iptal edildi
 invite Davet et
 ipaddress IP adresi
 ipdetect HTTP dosya aktarýmlarý için doðru IP'yi belirle
+ircstyle IRC tarzý sohbet
 istyping $1 ileti yazýyor
 joins $1 sohbete katýlýyor
+justonce Bir kez
 keepalive Canlý tut (NAT Keepalive)
 keeplog2 Daha sonra bakmak için tüm sohbetleri Geçmiþ'e kaydet
 keeplog Sohbetlerin kaydýný tut
@@ -312,6 +325,7 @@ msgmaxmin Yeni ileti geldiðinde þöyle olsun:
 msgmode Birden çok pencereyi nasýl düzenleyeceðinizi belirleyin:
 msg Ýleti
 msn AMSN
+msnstyle MSN tarzý sohbet
 mustrestart Yeniliklerin etkinleþmesi için uygulamayý yeniden baþlatmalýsýnýz
 myhomephone Ev telefonum
 mymobilephone Cep telefonum
@@ -321,11 +335,13 @@ myworkphone Ev telefonum
 natip ýnternet sayfasýndan IP belirlenmesi
 natkeepalive Eðer baðlantýnýz sürekli kopuyorsa, bu seçeneði (canlý tut - Keepalive) iþaretleyiniz
 needonline Hala çevrim dýþý görünüyorsunuz!
+needwinico Windows'ta küçülme için plugins dizininde winico03.dll olmasý gerekmektedir.
 newmailfrom Yeni ileti gönderen: $1 ($2)
 newmail Gelen kutunuzda $1 yeni ileti var
 newmsg Yeni ileti
 newstate Yeni özel durum ekle
 newveravailable Yeni $1 sürümü indirilmeye hazýr
+never Asla
 next sonraki
 nick Kullanýcý Ýsmi
 noactivity Etkinlik yok
@@ -348,7 +364,7 @@ notify1 Baðlantýlar girince uyarý penceresi göster
 notify2 Yeni ileti gelince uyarý penceresi göster
 notify3 Yeni e-posta iletisi gelince uyarý penceresi göster
 notifyoffset Uyarý penceresinin konumunu giriniz
-notifytyping Klavyeyi kullandýðým	 karþý tarafa gözüksün
+notifytyping Klavyeyi kullandýðým karþý tarafa gözüksün
 notify uyar
 notifywin Uyarý Penceresi
 notinlist Siz onun baðlantý listesinde deðilsiniz
@@ -456,6 +472,7 @@ servergoingdown Sunucu kapanýyor: Baðlantý kesildi
 server Sunucu
 serverunavailable Sunucuya eriþilemiyor
 session Oturum
+showbanner  aMSN resmini göster
 showblockedlist Sizi engelleyenlerin listesi gösterilsin
 showcachedpics Saklanmýþ kullanýcý resimlerini göster/gizle
 showdisplaypic2 Bir sohbet penceresi açýldýðýnda kullanýcý resmini kendiliðinden göster
@@ -480,6 +497,7 @@ soundserver Ses Sunucusu
 sound Ses
 soundstatus Sesli alarmý aç/kapa
 sourcecode Kaynak kodu (derlenip kurulmasi gerekir)
+splashstart Baþlangýç
 sslwarning UYARI!!! SSL'i kapatmak þifrelemeyi engeller, þifreniz düz metin olarak aktarýlýr. Gerçekten kapatmayý gerektiren durumlar olmadýkça kullanmayýnýz.
 startoffline2 Çevrim dýþý görünerek sessizce baðlan
 startoffline Çevrim dýþý olarak baþla
@@ -535,7 +553,9 @@ useryourself Kendi kendinizle sohbet edemezsiniz
 verifyblocked Sizi engellemiþ kullanýcýlarý belirle
 version Sürüm
 view Görünüm
+viewcontactsby Baðlantý isimleri
 viewprofile Profili gör
+webcaminvite $1 sizi kamera kullanmaya davet etti; ancak aMSN'de bu iþlev yok.
 willjoin $1 in sohbete katýlmasý bekleniyor
 work Ýþ
 wrongfields "$1", "$2" ve/veya "$3" alanlarý geçersiz 
