@@ -23,7 +23,7 @@ proc ConfigDefaults {} {
 	set config(mailcommand) ""		;#Command for checking mail. Blank for hotmail
 
 	#Some Autodetected options
-	if {[tk windowingsystem] == "aqua"} {
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	   set config(soundcommand) "/sw/bin/esdplay \$sound"
 	   set config(browser) "open \$url"
 	   set config(notifyXoffset) 0
