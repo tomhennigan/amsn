@@ -70,6 +70,7 @@ browse Rasfoieste
 browser Navigator
 browserexample ( \$url va fi inlocuit cu URL). Ex: mozilla \$url
 busy Ocupat
+cachedpics Poza retinuta al lui $1
 cancel Renunta
 cannotdeleteprofile Nu se poate sterge profilul deoarece este folosit de o sesiune aMSN
 cantexec Nu pot executa aplicatia: $1. Verifica preferintele
@@ -130,6 +131,7 @@ corruptstates Configurarea starilor personalizate este corupta. Creez una noua. 
 countrycode Tara / Cod postal
 cprofile Creare Profil
 credits Multumiri
+currentdate Data curenta
 custom_edit Editeaza semnele de conversatie create
 custom_new Adauga semne de conversatie noi
 cut Sterge
@@ -275,6 +277,7 @@ loginas Autentificare cu
 loging Jurnale
 logolder Jurnalizeaza numai conversatile care au avut loc in urma cu
 logout Deautentificare
+logsbydate Sorteaza jurnalele dupa data
 logsin tocmai s-a autentificat
 logsmileys Afiseaza semnele de converatie in fereastra jurnal
 logsout tocmai s-a deautentificat
@@ -436,6 +439,7 @@ servergoingdown Deconectat: se inchide serverul
 serverunavailable Serverul nu este disponibil
 session Sesiune
 showblockedlist Arata pesoanele care te-au blocat
+showcachedpics Afiseaza pozele retinute
 showdisplaypic Arata poza
 showdisplaypic2 La deschiderea ferestrei de chat arata poza implicit
 showmypic Poza mea
