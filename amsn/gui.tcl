@@ -5836,11 +5836,16 @@ proc launch_browser { url {local 0}} {
 # launch_filemanager(directory)
 # Launches the configured file manager
 proc launch_filemanager {location} {
-	global config
+	global config tcl_platform
 
 		if { [string length $config(filemanager)] < 1 } {
 			msg_box "[trans checkfilman $location]"
 		} else {
+			#replace all / with \ for windows
+			if { $tcl_platform(platform) == "windows" } {
+				regsub -all {/} $location {\\} location
+			}
+
 			if { [string first "\$location" $config(filemanager)] == -1 } {
 				set config(filemanager) "$config(filemanager) \$location"
 			}
