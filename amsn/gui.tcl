@@ -1925,7 +1925,7 @@ namespace eval ::amsn {
 			#New skinnable button
 			button $bottom.in.f.send -image sendbutton -command "::amsn::MessageSend .${win_name} $bottom.in.input" \
 				-fg black -bg white -bd 0 -relief flat -overrelief flat -activebackground white \
-				-activeforeground #266ee2 -text [trans send] -font sboldf -compound center\
+				-activeforeground #8c8c8c -text [trans send] -font sboldf -compound center\
 				 -highlightthickness 0
 		} else {
 			#Old button
