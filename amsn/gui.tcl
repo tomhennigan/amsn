@@ -6880,6 +6880,15 @@ proc clear_disp { } {
 proc bgerror { args } {
 	global errorInfo errorCode HOME tcl_platform tk_version tcl_version
 
+	set posend [split [.status.info index end] "."]
+	set pos "[expr {[lindex $posend 0]-25}].[lindex $posend 1]"
+	set posend "[lindex $posend 0].[lindex $posend 1]"
+
+	set prot_posend [split [.degt.mid.txt index end] "."]
+	set prot_pos "[expr {[lindex $prot_posend 0]-25}].[lindex $prot_posend 1]"
+	set prot_posend "[lindex $prot_posend 0].[lindex $prot_posend 1]"
+	
+		
 	status_log "\n\n\n\n\n" error
 	status_log "GOT TCL/TK ERROR : $args\n$errorInfo\n$errorCode\n" red
 	catch { status_log    "\ntcl version : $tcl_version ||| tk version : $tk_version\n\ntcl_platform array content : [array get tcl_platform]\n" }
@@ -6890,6 +6899,9 @@ proc bgerror { args } {
 	puts $fd "Bug generated at [clock format [clock seconds] -format "%D - %T"]\n"
 	puts $fd "Error : $args\nStack : $errorInfo\n\nCode : $errorCode\n\n"
 	catch {    puts $fd "tcl version : $tcl_version ||| tk version : $tk_version\n\ntcl_platform array content : [array get tcl_platform]\n\n" }
+	
+	puts $fd "Status_log: \n [.status.info get $pos $posend]\n\n"		
+	puts $fd "Protocol debug: \n [.degt.mid.txt get $prot_pos $prot_posend]\n\n"		
 	puts $fd "==========================================================================\n\n"
 
 
