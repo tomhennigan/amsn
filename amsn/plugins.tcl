@@ -4,6 +4,10 @@
 ##                                                 ##
 #####################################################
 
+proc plugins_log {plugin msg} {
+    status_log "Plugins System : $plugin : $msg\n"
+}
+
 namespace eval ::plugins {
 	# Variable to list all plugins and their properties.
 	# Do NOT access this variable directly, use ::plugins::findplugins
