@@ -16,6 +16,7 @@ admingroups Administrar grupos
 advanced Avanzadas
 advancedprefs Configuración de opciones avanzadas
 adverts Anuncios
+agotinvitation Recibida invitación de audio de $1
 alarmonconnect Activar alarma para este usuario cuando se conecte
 alarmondisconnect Activar alarma para este usuario cuando se desconecte
 alarmonmsg Activar alarma para este usuario cuando te envie un mensaje
@@ -50,6 +51,10 @@ autoidle Detección de inactividad
 autoip IP Automática
 automessage Mensaje automático
 autonoact Mostrarme como "Sin actividad" cuando no hay actividad en
+avaccepted Aceptada llamada para Video Conferencia
+avcanceled Cancelada llamara para Video Conferencia
+avgotinvitation Recibida invitación para Video Conferencia de $1
+avinitfailed Fallo en la inicialización del plugin de Audio/Video. Llamada cancelada.
 avoidseen Evitar que esta persona vea tu conexión y te contacte
 away Ausente
 awaymsg1 Preguntar cuando cambie el estado a Ausente/Vuelvo Enseguida/Ocupado
@@ -150,6 +155,7 @@ countrycode Código de país/región
 cprofile Crear Perfil
 credits Creditos
 currentdate Fecha actual
+currentlanguage Este es el lenguaje usado actualmente
 custnotifymsg Mostrar ventana de aviso cuando este contacto envía un nuevo mensaje
 custnotifyoffline Mostrar ventana de aviso cuando este contacto se desconecte
 custnotifyonline Mostrar ventana de aviso cuando este contacto se conecte
@@ -196,6 +202,7 @@ dockingoff Desactivado
 dockkde Icono KDE
 dontdownload No descargar TLS, lo instalaré yo mismo
 dontshow No mostrar
+download Descargar
 downloadingtls Descargando el módulo TLS desde:\n $1
 editcustomstate Editar estado personalizado
 edit Edición
@@ -230,6 +237,7 @@ filedoesnotexist El archivo no existe
 fileman Administrador de Archivos
 filemanexample ( \$location será reemplazado por el directorio ) Ej: nautilus \$location
 filename Nombre de Archivo
+filenotwritable Este archivo no puede ser eliminado
 filetransfercancelled Transferencia de archivo cancelada
 filetransfercomplete Transferencia de archivo completada
 filetransfer Transferencia de archivos
@@ -304,6 +312,7 @@ keepalive Mantener conexión activa (NAT)
 keeplog2 Registrar las conversaciones en el historial para verlas más tarde
 keeplog Guardar historial de las conversaciones
 language Idioma
+language_manager Administrador de idiomas
 lastlogin Última conexión
 lastlogout Última desconexión
 lastmsgedme Último mensaje
@@ -628,6 +637,7 @@ xmmserr No hay canción en reproducción, o no tienes xmms-infopipe instalado.
 xmmssend Enviar canción actual
 xoffset Desplazamiento X
 year Año
+yesblock Sí, y bloquear
 yes Si
 yesterday Ayer
 yoffset Desplazamiento Y
