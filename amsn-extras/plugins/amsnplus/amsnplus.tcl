@@ -153,13 +153,8 @@ namespace eval ::amsnplus {
 					$plusmenu add command -label "[trans quicktext]" -command "::amsnplus::qtconfig"
 					set i 0
 					#Show all the currents quick texts in the menu
-					while {$i < 10} {
-						set str [lindex $::amsnplus::config(quick_text_$i) 1]
-						set keyword "/[lindex $::amsnplus::config(quick_text_$i) 0]"
-						if { ![string equal $str ""] && ![string equal $keyword ""] } {
-							$plusmenu add command -label $str -command "::amsnplus::insert_text $newvar(window_name) $keyword"
-						}
-						incr i
+					foreach {key txt} $::amsnplus::config(quick_text) {
+						$plusmenu add command -label $txt -command "::amsnplus::insert_text $newvar(window_name) /$key"
 					}
 				}
 			}
@@ -201,13 +196,8 @@ namespace eval ::amsnplus {
 			$plusmenu add command -label "[trans quicktext]" -command "::amsnplus::qtconfig"
 			set i 0
 			#Show all the currents quick texts in the menu
-			while {$i < 10} {
-				set str [lindex $::amsnplus::config(quick_text_$i) 1]
-				set keyword "/[lindex $::amsnplus::config(quick_text_$i) 0]"
-				if { ![string equal $str ""] && ![string equal $keyword ""] } {
-					$plusmenu add command -label $str -command "::amsnplus::insert_text $newvar(window_name) $keyword"
-				}
-				incr i
+			foreach {key txt} $::amsnplus::config(quick_text) {
+				$plusmenu add command -label $txt -command "::amsnplus::insert_text $newvar(window_name) /$key"
 			}
 		}
 	}
@@ -312,7 +302,7 @@ namespace eval ::amsnplus {
 	################################################
 	# this proc lets configure the quick texts
 	proc qtconfig { } {
-		
+	
 		set w .qtconfig
 		#Verify if the window is already opened
 		if {[winfo exists $w]} {
@@ -333,75 +323,114 @@ namespace eval ::amsnplus {
 		}
 		pack $w.top.help -side top -expand true
 		pack $w.top -side top -fill y
-		#Middle frame (left and right)
-		frame $w.middle 
-		frame $w.middle.left 
-		frame $w.middle.right 
 		
-		#Title for each collumn
-		frame $w.middle.left.top
-		frame $w.middle.right.top
-		label $w.middle.left.top.title -text "[trans keyword]"
-		label $w.middle.right.top.title -text "[trans text]"
-		pack $w.middle.left.top.title
-		pack $w.middle.right.top.title
-		pack $w.middle.left.top -side top
-		pack $w.middle.right.top -side top
-		#Create the 10 entry for keyword and text
-		set i 0
-		while {$i < 10} {
-			entry $w.middle.left.keyword$i -background #FFFFFF
-			entry $w.middle.right.text$i -background #FFFFFF
-			pack $w.middle.left.keyword$i -fill x -expand true -pady 2
-			if {[info exists ::amsnplus::config(quick_text_$i)]} {
-				$w.middle.left.keyword$i insert end [lindex $::amsnplus::config(quick_text_$i) 0]
+		frame $w.middle
+		listbox $w.middle.box -yscrollcommand "$w.middle.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 10 -width 20 -selectbackground gray
+		scrollbar $w.middle.ys -command "$w.middle.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
+		pack $w.middle.ys -side right -fill y
+		pack $w.middle.box -side left -expand true -fill both
+		
+		pack $w.middle -side top -fill both -expand true
+		
+		if { [info exists ::amsnplus::config(quick_text)] } {
+		
+			foreach {key txt} $::amsnplus::config(quick_text) {
+				$w.middle.box insert end "/$key -> $txt"
 			}
-			pack $w.middle.right.text$i -fill x -expand true -pady 2
-			if {[info exists ::amsnplus::config(quick_text_$i)]} {
-				$w.middle.right.text$i insert end [lindex $::amsnplus::config(quick_text_$i) 1]
-			}
-			#Add binding for tab for each entry
-			bind $w.middle.left.keyword$i <Tab> "focus $w.middle.right.text$i; break"
-			set i2 [expr $i + 1]
-			if {$i < 9 } {
-				bind $w.middle.right.text$i <Tab> "focus $w.middle.left.keyword$i2; break"
-			}
-			incr i
+			
 		}
-		#Give focus to the first entry
-		focus $w.middle.left.keyword0
-		#Pack middle frame
-		pack $w.middle.left -side left -fill x -padx 5 -expand true
-		pack $w.middle.right -side right -fill x -padx 5 -expand true
-		pack $w.middle -fill x
 		
-		#Bottom frame for save/cancel button
-		frame $w.bottom 
-		button $w.bottom.save -text "[trans save]" -command "::amsnplus::save_qtconfig .qtconfig;destroy .qtconfig"
-		button $w.bottom.cancel -text "[trans cancel]" -command "destroy .qtconfig"
-		pack $w.bottom.save -side left
-		pack $w.bottom.cancel -side right
-		pack $w.bottom -side bottom -pady 5
-		#Save configs if user closes the window
-		bind $w <<Escape>> "::amsnplus::save_qtconfig .qtconfig;destroy .qtconfig"
-		bind $w <<Destroy>> "::amsnplus::save_qtconfig .qtconfig;destroy .qtconfig"
-		wm protocol $w WM_DELETE_WINDOW "::amsnplus::save_qtconfig .qtconfig;destroy .qtconfig"
+		frame $w.bottom
+		button $w.bottom.close -text "[trans close]" -command "destroy .qtconfig"
+		button $w.bottom.add -text "[trans add]" -command "::amsnplus::qtconfig_add"
+		button $w.bottom.delete -text "[trans delete]" -command "::amsnplus::qtconfig_delete"
+		
+		pack $w.bottom.close -side right -padx 10 -pady 10
+		pack $w.bottom.add -side left -padx 10 -pady 10
+		pack $w.bottom.delete -side left -padx 10 -pady 10
+
+		pack $w.bottom -side top -fill y -expand true
 		
 		moveinscreen $w 30
-	}
-	
-	###############################################
-	# this proc saves the quick text configuration
-	proc save_qtconfig { w } {
-		set i 0
-		while {$i < 10} {
-			set keyword [$w.middle.left.keyword$i get]
-			set str [$w.middle.right.text$i get]
-			if {![string equal $keyword ""]} { set ::amsnplus::config(quick_text_$i) [list $keyword $str] }
-			incr i
-		}
+		
 	}
 
+
+	proc qtconfig_add { } {
+	
+		set w .qtconfig_add
+		#Verify if the window is already opened
+		if {[winfo exists $w]} {
+			raise $w
+			return
+		}
+		#Create the window
+		toplevel $w -width 340 -height 270
+		wm title $w "[trans quicktext]"
+		
+		frame $w.top
+		
+		frame $w.top.left
+		frame $w.top.right
+		
+		label $w.top.left.txt -text "[trans keyword]"
+		label $w.top.right.txt -text "[trans text]"
+		pack $w.top.left.txt -side top
+		pack $w.top.right.txt -side top
+				
+		entry $w.top.left.entry -background #FFFFFF
+		entry $w.top.right.entry -background #FFFFFF
+		pack $w.top.left.entry -side top
+		pack $w.top.right.entry -side top
+		
+		pack $w.top.left -side left -fill x -expand true
+		pack $w.top.right -side right -fill x -expand true
+		
+		pack $w.top -side top -fill x -expand true
+		
+		frame $w.bottom
+		
+		button $w.bottom.save -text "[trans save]" -command "::amsnplus::qtconfig_add_save"
+		button $w.bottom.cancel -text "[trans cancel]" -command "destroy $w"
+		pack $w.bottom.save -side right -padx 10 -padx 10
+		pack $w.bottom.cancel -side right -padx 10 -padx 10
+		
+		pack $w.bottom -side top -fill x -expand true
+		
+	}
+		
+	
+	proc qtconfig_add_save { } {
+	
+		set w .qtconfig_add
+	
+		set key [$w.top.left.entry get]
+		set txt [$w.top.right.entry get]
+		
+		if { [string equal $key ""] || [string equal $txt ""] } {
+			
+		} else {
+			set ::amsnplus::config(quick_text) [lappend ::amsnplus::config(quick_text) "$key" "$txt"]			
+			.qtconfig.middle.box insert end "/$key -> $txt"			
+			destroy $w
+		}
+		
+	}
+
+
+	proc qtconfig_delete { } {
+	
+		set w .qtconfig
+	
+		set selection [$w.middle.box curselection]
+		
+		if { $selection != "" } {
+			.qtconfig.middle.box delete $selection $selection			
+			set selection [expr $selection * 2 ]
+			set ::amsnplus::config(quick_text) [lreplace $::amsnplus::config(quick_text) $selection [expr $selection + 1]]
+		}
+		
+	}
 
 
 	#//////////////////////////////////////////////////////////////////////////
@@ -1332,18 +1361,14 @@ namespace eval ::amsnplus {
 			}
 			#check for the quick texts
 			if {$::amsnplus::config(allow_quicktext)} {
-				set k 0
-				while {$k < 10} {
-					set word [lindex $::amsnplus::config(quick_text_$k) 0]
-					if {[string equal $char "/$word"] && ![string equal $char "/"]} {
-						set qt [lindex $::amsnplus::config(quick_text_$k) 1]
+				foreach {key txt} $::amsnplus::config(quick_text) {
+					if {[string equal $char "/$key"] && ![string equal $char "/"]} {
 						set clen [string length $char]
-						set msg [string replace $msg $i [expr $i + $clen] $qt]
+						set msg [string replace $msg $i [expr $i + $clen] $txt]
 						set strlen [string length $msg]
-						set qtlen [string length $qt]
+						set qtlen [string length $txt]
 						set i [expr $i + $qtlen]
 					}
-					incr k
 				}
 			}
 			if {[string equal $incr "1"]} { incr i }
