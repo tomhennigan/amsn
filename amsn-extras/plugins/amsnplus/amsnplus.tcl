@@ -287,23 +287,6 @@ namespace eval ::amsnplus {
 
 
 	#//////////////////////////////////////////////////////////////////////////
-	#                              ON CONNECT
-	#//////////////////////////////////////////////////////////////////////////
-
-	################################################
-	# this does some operations on connect
-	#proc on_connect {event epvar} {
-	#	#state on connect
-	#	set nstate $::amsnplus::config(on_connect)
-	#	if {[::amsnplus::stateIsValid $nstate]} {
-	#		set cstate [::amsnplus::descriptionToState $nstate]
-	#		after 1000 ::MSN::changeStatus $cstate
-	#	}
-	#}
-
-
-	
-	#//////////////////////////////////////////////////////////////////////////
 	#                               QUICK TEXT
 	#//////////////////////////////////////////////////////////////////////////
 	
