@@ -24,6 +24,7 @@ Burger * burger@mwvision.com
 # Fix profiles, the url seems to be wrong, says wrong page for me...
 # Notify window is only clickable on the text, should make whole window clickable and add X to close (left and right click)
 # Write procedure to redraw main window for language + font changes
+# Ask if you want to add profile AFTER sucessfull login with new email, not from login window.
 
 File Transfer issues :
 # File Transfer AUTH protocol fix (and add the nick of person sending file to transfer window)
