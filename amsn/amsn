@@ -392,9 +392,12 @@ proc show_umenu {user_login x y} {
 
    set blocked [::MSN::userIsBlocked $user_login]
    .user_menu delete 0 end
+   .user_menu add command -label "${user_login}" \
+      -command ""
+   .user_menu add separator   
    .user_menu add command -label "[trans sendmsg]" \
       -command "::amsn::chatUser ${user_login}"
-   .user_menu add command -label "[trans sendmail] \($user_login\)" \
+   .user_menu add command -label "[trans sendmail]" \
       -command "launch_mailer $user_login"
    .user_menu add command -label "[trans viewprofile]" \
       -command "::hotmail::viewProfile ${user_login}"
