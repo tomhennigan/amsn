@@ -2173,7 +2173,7 @@ proc cmsn_update_users {sb_name recv} {
          
 	 set win_name "msg_[string tolower ${sb_name}]"
          set timestamp [clock format [clock seconds] -format %H:%M]
-	 set statusmsg "\[$timestamp\] [trans joins $usr_name ($usr_login)]\n"
+	 set statusmsg "\[$timestamp\] [trans joins $usr_name]\n"
 	 .${win_name}.status configure -state normal
    	 .${win_name}.status delete 0.0 end
 	 .${win_name}.status insert end $statusmsg
@@ -2188,7 +2188,7 @@ proc cmsn_update_users {sb_name recv} {
          
 	 set win_name "msg_[string tolower ${sb_name}]"
          set timestamp [clock format [clock seconds] -format %H:%M]
-	 set statusmsg "\[$timestamp\] [trans joins $usr_name ($usr_login)]\n"
+	 set statusmsg "\[$timestamp\] [trans joins $usr_name]\n"
 	 .${win_name}.status configure -state normal
 	 .${win_name}.status delete 0.0 end
 	 .${win_name}.status insert end $statusmsg
