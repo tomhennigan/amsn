@@ -29,7 +29,8 @@ chatack Aceitando uma conversação de
 chat Conversação
 chatreq Requisitando uma conversação
 chatsmileys Figuras de chat 
-checkingver A verificar versão 
+checkfilman Os ficheiros recebidos seram guardados em $1. Por favor verifique nas preferencias o gestor de ficheiros.
+checkingver A verificar versão
 checkver Verificar versão
 choosebasefont Escolher tipo de letra de base
 choosebgcolor Escolher cor de fund
