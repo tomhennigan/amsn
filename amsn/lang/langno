@@ -7,12 +7,17 @@ addacontact Legg til en kontakt
 addedyou $1 ($2) har lagt deg til sin kontaktliste
 addprofiledesc Skriv inn e-postadressen for profilen du vil opprette. \nInnlogginger med profiler lar deg ha forskjellige konfigurasjoner for hver e-postadresse.\nUten profiler kan du ikke bruke Historie, Alarmer eller "Husk Passord" funksjon.
 addprofile Legg til profil
-addstate Add New State
+addstate Legg til ny
 addtocontacts Legg til kontaktliste
+addto Legg til i $1
 addtoo Legg denne personen til i min kontaktliste
 admincontacts Administrer kontakter
 admingroups Administrer grupper
 adverts Reklame
+alarmonconnect Aktiver alarm når en bruker logger på
+alarmondisconnect Aktiver alarm når en bruker logger av
+alarmonmsg Aktiver alarm når en bruker sender deg en melding
+alarmonstatus Ativer alarm når en bruker endrer status
 alarmpref Alarm innstillinger for bruker
 alarmstatus Skru alarm på / av for denne brukeren
 allowallbutbl La alle utenom de som er blokkerte kontakte meg
@@ -20,11 +25,14 @@ allowbadwords Slå av sensur av kallenavn
 allowlist Tillatelsesliste (TL):
 allowonlyinal La kun godkjente brukere kontakte meg
 allowseen La denne personen se meg når jeg er online og kontakte meg
+animatedemoticon Dette uttrykksikonet er animert
 animatedsmileys Bruk animerte smilefjes
 appearance Tilgjengelighet
 appearoff Se ut som jeg er offline
+areacode Retningsnummer
 aretyping $1 skriver en beskjed
 autoaccepted Fil overføring akseptert automatisk
+autoacceptft Aksepter filoverføringsforespørsler automatisk
 autoaway Vis meg som "Borte" når jeg er ikke er aktiv etter
 autoconnect2 Log inn automatisk når aMSN startes
 autoconnect Koble til når aMSN startes
