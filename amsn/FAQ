@@ -124,7 +124,26 @@ to play sound thorught arts, and use artsplay as sound play command for amsn.
 This way sounds will be mixed. If you use gnome, you can use esdplay and
 configure xmms for playing through ESD. Or instead of using the play command,
 you could just make a small script that checks if /dev/dsp is busy, or free,
-before calling "play". 
+before calling "play".
+
+Q: I'm using amsn behind a firewall, or using IP-Masquerade. Sending files
+won't work, can I fix it?
+A: Maybe the firewall is blocking incoming connections. Filetransfers work
+this way: When you want to send someone a file, you send an invitation with
+your IP address and a port number. Then the remote client must connect to
+your IP:port to start the transfer.
+The used port is usually 6891, 6892 and so on (first transfer is on port 6891,
+but if you start a new file transfer while the first one hasn't finished yet,
+then it will use 6892, and so on).
+So, if using a firewall, you must make sure that it allows incoming
+connections to port 6891 (and next ones if you want to be able to make more
+than one transfer at the same time).
+If you're inside a private network with private addresses, like 192.168.0.x,
+then it's more difficult to make file transfers work. You need to send the
+real internet address (you can enter it manually or tell amsn to guess it
+from a web page), instead of the internal address, and tell the gateway (the
+computer with direct connection to the internet) to forward incoming
+connections to port 6891 to your computer inside the private network.
 
 WINDOWS ISSUES
 ==============
