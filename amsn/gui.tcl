@@ -1270,9 +1270,13 @@ namespace eval ::amsn {
 				} else {
 					wm state ${win_name} normal
 				}
-				#wm state ${win_name} normal
 				wm deiconify ${win_name}
-				raise ${win_name}
+				#To have the new window "behind" on Mac OS X
+				if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+					lower ${win_name}
+				} else {
+					raise ${win_name}
+				}
 			} else {
 				if { [winfo exists .bossmode] } {
 					set ::BossMode(${win_name}) "iconic"
