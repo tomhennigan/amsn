@@ -512,7 +512,7 @@ proc smile_subst {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
 				if { $animated && $config(animatedsmileys) } {
 
 					set filename [string map { " " "_" "/" "_" "." "_"} $file]
-					set emoticon $tw.${smileys_drawn}_anigif_$filename
+					set emoticon "$tw.${smileys_drawn}"
 					set smileys_drawn [expr $smileys_drawn + 1]
 
 					label $emoticon -bd 0 -background white
