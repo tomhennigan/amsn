@@ -6535,15 +6535,15 @@ proc reloadAvailablePics { } {
 			}
 		}
 	}
-	
+
 	.picbrowser.pics.text configure  -state disabled	
-	
-	
-	
+
+
+
 }
 
-proc chooseFileDialog {basename {initialfile ""} {types {{"All files"         *}} }} {
-
+#proc chooseFileDialog {basename {initialfile ""} {types {{"All files"         *}} }} {}
+proc chooseFileDialog {basename {initialfile ""} {types {{"Image Files" {*.gif *.jpg *.jpeg *.bmp *.png} }} }} {
 	set parent "."
 	catch {set parent [focus]}
 	 
