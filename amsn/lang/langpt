@@ -41,6 +41,7 @@ busy Ocupado
 cancel Cancelar
 cfgalarm Configurar/Adicinar/Remover Alarme
 changefont Mudar Fonte
+changenick Mudar a alcunha/nick
 chatack Aceitando uma conversação de
 chat Conversação
 chatreq Requisitando uma conversação
@@ -59,8 +60,8 @@ clicktologin Clique aqui para iniciar a sessão
 close Fechar
 closingdocks A fechar docks
 command Comando
-confirmdelete Tem a certeza de queres apagar $1?
 confirm Tens a certeza?
+confirmdelete Tem a certeza de queres apagar $1?
 connecterror Erro na ligação 
 connection Connecção
 contactadded Contacto adicionado
@@ -115,8 +116,8 @@ groupunknown Grupo desconhecido
 handle Manejar
 help Ajuda
 helpcontents Conteúdo do Help 
-history Ver Histórico
 home Casa
+history Ver Histórico
 ident Identificando-se
 identity Identidade
 inbox Caixa de entrada
@@ -139,8 +140,8 @@ leaves $1 deixa a conversação
 lenteredconf $1 entrou na conferencia em $2
 linprivate EM PRIVADO
 listeningon Escutando a porta $1
-listsmileys2 Mostra a lista de Emoções e Smileys na lista de contactos do aMSN
 listsmileys Lista de figuras
+listsmileys2 Mostra a lista de Emoções e Smileys na lista de contactos do aMSN
 ljoinedconf $1 juntou-se á conferencia
 lleftconf $1 abandonou a conferencia
 loadcontacts Carregar contactos
@@ -162,7 +163,8 @@ maximised Maximisado
 minimised Minimisado/Iconificado
 mins minutos
 mobile Telemovel
-movetogroup Mover para o grupo 
+movetogroup Mover para o grupo
+msgmaxmin Quando uma nova menssagem chegar quero que seja:
 msg Mensagem
 msgmode Selecione como gerir janelas multiplas:
 msn AMSN
@@ -183,11 +185,11 @@ noactivity Sem actividade
 nologfile Sem registo para $1
 nonewmail 0 novas mensagens na caixa de correio
 nonewver Não há versão nova
-normal Normal
+notify aviso
 notify1 Mostrar aviso quando entra um contacto
 notify2 Mostrar aviso quando receber mensagem
 notify3 Mostrar aviso quando receber E-Mail
-notify aviso
+normal Normal
 notifyoffset colocar a janela de aviso porforma a ter espaço lateral
 notifywin Janela de aviso
 nousersinsession Não existem utilizadores na sessão
@@ -241,8 +243,8 @@ receivedbytes Bytes recebidos $1 de $2
 receivefile Ficheiro recebido
 reconnect Esperando que $1 volta a ligar-se
 reconnecting Ligando-se de novo ao servidor
-reject Rejectado
 rememberpass Recordar senha
+reject Rejectado
 reversed Revervado
 rightback Volto já
 saveas Guardar como 
@@ -259,12 +261,12 @@ sentbytes Enviando $1 de $2 Bytes
 servergoingdown A desligar servidor 
 server Servidor
 session Sessão
+sound Sons para eventos
 sound2 tocar sons quando os contactos ficam online ou enviam uma menssagem
 soundcommand Isto tem de ser um commando de tocar (ex: esdplay)
 soundfile Ficheiro de som
 soundloop Repetir som
 soundserver Servidor de som
-sound Sons para eventos
 soundstatus Alarm Sonoro
 startoffline2 login silencioso "Aparentar desligado"
 startoffline Começar desligado
@@ -286,6 +288,7 @@ useralreadyonlist Utilizador já existente na lista
 usernotonline O utilizador não esta conectado
 user Utilizador
 version Versão
+viewprofile Ver Perfil
 view Ver 
 willjoin Esperando que $1 se junte à conversação
 work Trabalho 
