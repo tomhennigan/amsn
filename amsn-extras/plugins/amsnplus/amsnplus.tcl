@@ -93,8 +93,6 @@ namespace eval ::amsnplus {
 	# and also the pixmap of amsnplus to choose a color
 	proc remove_from_chatwindow { } {
 		#the path of the menu is always $w.menu
-		#for non-tabbed windows -> .msg_${winid}.menu
-		#for tabbed windows -> .container_${containerid}.msg_${winid}.menu
 		foreach win $::ChatWindow::windows {
 			if { [::ChatWindow::UseContainer] } {
 				set win [split $win .]
@@ -186,7 +184,6 @@ namespace eval ::amsnplus {
 			$plusmenu add command -label "[trans underline]" -command "::amsnplus::insert_text $newvar(window_name) $underline"
 			$plusmenu add command -label "[trans overstrike]" -command "::amsnplus::insert_text $newvar(window_name) $overstrike"
 			$plusmenu add command -label "[trans reset]" -command "::amsnplus::insert_text $newvar(window_name) $reset"
-			$plusmenu add separator
 		}
 
 		$plusmenu add command -label "[trans screenshot]" -command "::amsnplus::insert_text $newvar(window_name) $screenshot"
@@ -296,7 +293,7 @@ namespace eval ::amsnplus {
 
 	
 	#//////////////////////////////////////////////////////////////////////////
-	#                          ALL ABOUT QUICK TEXT
+	#                               QUICK TEXT
 	#//////////////////////////////////////////////////////////////////////////
 	
 	################################################
@@ -413,6 +410,7 @@ namespace eval ::amsnplus {
 			set ::amsnplus::config(quick_text) [lappend ::amsnplus::config(quick_text) "$key" "$txt"]			
 			.qtconfig.middle.box insert end "/$key -> $txt"			
 			destroy $w
+			::plugins::save_config
 		}
 		
 	}
@@ -428,13 +426,14 @@ namespace eval ::amsnplus {
 			.qtconfig.middle.box delete $selection $selection			
 			set selection [expr $selection * 2 ]
 			set ::amsnplus::config(quick_text) [lreplace $::amsnplus::config(quick_text) $selection [expr $selection + 1]]
+			::plugins::save_config
 		}
 		
 	}
 
 
 	#//////////////////////////////////////////////////////////////////////////
-	#                 ALL ABOUT PARSING AND COLORING NICKS
+	#                       PARSING AND COLORING NICKS
 	#//////////////////////////////////////////////////////////////////////////
 
 	################################################
@@ -490,7 +489,7 @@ namespace eval ::amsnplus {
 	
 	
 	#//////////////////////////////////////////////////////////////////////////
-	#                ALL ABOUT MULTIPLE COLOURS IN CHAT WINDOW
+	#                   MULTIPLE FORMATTING TEXT AND COLOR
 	#//////////////////////////////////////////////////////////////////////////
 
 	###############################################
@@ -890,7 +889,7 @@ namespace eval ::amsnplus {
 		
 	
 	#//////////////////////////////////////////////////////////////////////////
-	#                      ALL ABOUT SENDING COMMANDS
+	#                            SENDING COMMANDS
 	#//////////////////////////////////////////////////////////////////////////
 
 	################################################
