@@ -122,7 +122,11 @@ command Reproductor
 commandstatus Executar comanda
 confirmdelete Estàs segur de voler eliminar a $1?
 confirm Estàs segur?
+confirmdg Segur que vols eliminar aquest grup?
+confirmdu Segur que vols eliminar aquest usuari?
+confirmeg Segur que vols buidar aquest grup?
 confirmpurge Totes les imatges mostrades dels teus contactes (però no la teva) estan a punt de ser esborrades. Estàs segur?
+confirmrfl Segur que vols eliminar aques usuari d'aquest grup?
 connected Ara estàs connectat
 connectedwith Connectat amb $1
 connecterror Error connectant amb el servidor
@@ -199,6 +203,7 @@ editvalue Editar valor
 email Correu electrònic
 emailsinlist Mostra les adreces de correu per comptes dels sobrenoms a la llista de contactes
 emotisounds Reproduir sons associats a certes emoticones
+emptygroup Buidar el grup
 enablebanner Mostra la imatge de l'aMSN (requereix tornar a iniciar l'aMSN)
 enabled Activat
 enableproxy Habilitar el servidor intermediari (proxy)

@@ -114,6 +114,7 @@ clearlog2 Limpiar historial para todos los contactos
 clearlog3 Limpiar todos los registros
 clearlog Limpiar historial
 clicktologin Haga click aquí para iniciar la sesión
+clientcaps Enviar paquetes x-clientcaps a otros clientes
 clientname Nombre del cliente
 close Cerrar
 closed Conversación con $1 cerrada por inactividad
@@ -121,8 +122,12 @@ closingdocks Botón de cerrar iconifica la ventana
 command Comando
 commandstatus Ejecutar comando
 confirmdelete ¿Seguro que deseas borrar a $1?
+confirmdg ¿Estás seguro que deseas borrar este grupo?
+confirmdu ¿Estás seguro que deseas borrar este usuario?
+confirmeg ¿Estás seguro que deseas vaciar este grupo?
 confirm ¿ Estás seguro ?
 confirmpurge Todas las Imágenes para Mostrar del resto de los contactos (no las tuyas) serán eliminadas. ¿ Estás seguro ?
+confirmrfl ¿Estás seguro que deseas borrar este usuario de este grupo?
 connected Ahora estás conectado
 connectedwith Conectado como $1
 connecterror Error conectándose al servidor
@@ -198,6 +203,7 @@ editvalue Editar valor
 email  E-Mail
 emailsinlist Mostrar e-mails en lugar de apodos en la lista de contactos
 emotisounds Reproducir sonidos asociados a ciertos emoticonos
+emptygroup Vaciar grupo
 enablebanner Mostrar banner de aMSN (Requiere reiniciar aMSN)
 enabled Activado
 enableproxy Activar proxy

@@ -29,27 +29,6 @@ proc PreferencesCopyConfig {} {
 }
 
 ## Function that makes the group list in the preferences ##
-#this is the obsolete function (the one which used radiobutton)
-#proc MakeGroupList { lfgroup lfcontact } {
-#	global rbsel
-#	array set groups [::abook::getContactData contactlist groups]
-#	catch "frame $lfgroup.lbgroup.fix"
-#	catch "pack $lfgroup.lbgroup.fix -side left -anchor n -expand 1 -fill x"
-#	label $lfgroup.lbgroup.fix.l -text "[trans groups]" -font sboldf
-#	pack $lfgroup.lbgroup.fix.l -side top -anchor w -pady 5
-#	foreach gr [array names groups] {
-#		if {$groups($gr) != "Individuals"} {
-#			radiobutton $lfgroup.lbgroup.fix.$gr -text "$groups($gr)" -value $gr -variable rbsel \
-#				-command "MakeContactList $lfcontact" -justify left
-#			pack $lfgroup.lbgroup.fix.$gr -side top -anchor w
-#		}
-#	}
-#	## special group 'nogroup' ##
-#	radiobutton $lfgroup.lbgroup.fix.ng -text "[trans nogroup]" -value -1 -variable rbsel \
-#		-command "MakeContactList $lfcontact" -justify left
-#	pack $lfgroup.lbgroup.fix.ng -side top -anchor w
-#}
-#this is the new one wich uses listbox
 proc MakeGroupList { lfgroup lfcontact } {
 	
 	array set groups [::abook::getContactData contactlist groups]
@@ -106,54 +85,6 @@ proc RefreshGroupList { lfgroup lfcontact } {
 }
 
 ## Function to be called when a group is selected ##
-#the old one wich used radiobutton
-#proc MakeContactList { lfcontact } {
-#	global rbsel rbcon
-#	catch "DeleteContactList $lfcontact"
-#	if { ![::groups::Exists [::groups::GetName $rbsel]] || $rbsel == 0 } {
-#		DeleteContactList $lfcontact
-#		if { $rbsel == 0 } {
-#			## fix the name of the group ##
-#			label $lfcontact.lbcontact.fix.l -text "[trans nogroup]" -font sboldf
-#			pack $lfcontact.lbcontact.fix.l -side top -pady 5 -anchor w
-#			## list contacts that don't have a group ##
-#			set contacts [::MSN::getList FL]
-#			set i 0
-#			while { $i < [llength $contacts] } {
-#				set c [lindex $contacts $i]
-#				set g [::abook::getGroups $c]
-#				if { [lindex $g 0] == 0 } {
-#					radiobutton $lfcontact.lbcontact.fix.$i -text "$c" -value $c \
-#						-variable rbcon -justify left
-#					pack $lfcontact.lbcontact.fix.$i -side top -anchor w
-#				}
-#				incr i
-#			}
-#		}
-#		return
-#	}
-#	label $lfcontact.lbcontact.fix.l -text "[::groups::GetName $rbsel]" -font sboldf
-#	pack $lfcontact.lbcontact.fix.l -side top -pady 5 -anchor w
-#	set groups [::abook::getContactData contactlist groups]
-#	set contacts [::MSN::getList FL]
-#	set i 0
-#	while { $i < [llength $contacts] } {
-#		set contact [lindex $contacts $i]
-#		set group [::abook::getGroups $contact]
-#		set j 0
-#		while { $j < [llength $group] } {
-#			set g [lindex $group $j]
-#			if { $g == $rbsel } {
-#				radiobutton $lfcontact.lbcontact.fix.$i -text "$contact" -value $contact -variable rbcon \
-#					-justify left
-#				pack $lfcontact.lbcontact.fix.$i -side top -anchor w
-#			}
-#			incr j
-#		}
-#		incr i
-#	}
-#}
-#the new one wich uses listbox
 proc MakeContactList { lfcontact } {
 	global rbsel rbcon
 	catch {DeleteContactList $lfcontact}
@@ -185,9 +116,9 @@ proc MakeContactList { lfcontact } {
 				}
 				incr i
 			}
-		}
 		## make the binding ##
 		bind $lfcontact.lbcontact.fix.list.lb <<ListboxSelect>> "ContactSelectedIs $lfcontact"
+		}
 	} else {
 		label $lfcontact.lbcontact.fix.l -text "[::groups::GetName $rbsel]" -font sboldf
 		pack $lfcontact.lbcontact.fix.l -side top -pady 5 -padx 5 -anchor w
@@ -253,6 +184,8 @@ proc RefreshContactList { lfcontact } {
 
 proc dlgMoveUser {} {
 	global rbcon rbsel gsel pcc
+	if {![info exists rbcon]} {return;}
+	if {![info exists rbsel]} {return;}
 	## check if window exists ##
 	if { [winfo exists .dlgmu] } {
 		set pcc 0
@@ -285,7 +218,9 @@ proc dlgMoveUser {} {
 	## button options ##
 	frame .dlgmu.b 
 	button .dlgmu.b.ok -text "[trans ok]"  -font sboldf \
-		-command " ::MSN::moveUser \$rbcon $oldgid \$gsel; \
+		-command " if {![info exists gsel]} {return;}; \
+			::MSN::moveUser \$rbcon $oldgid \$gsel; \
+			unset gsel; \
 			destroy .dlgmu; "
 	button .dlgmu.b.cancel -text "[trans cancel]"  -font sboldf \
 		-command "destroy .dlgmu; set pcc 0;"
@@ -295,6 +230,8 @@ proc dlgMoveUser {} {
 
 proc dlgCopyUser {} {
 	global rbcon rbsel gsel pcc
+	if {![info exists rbcon]} {return;}
+	if {![info exists rbsel]} {return;}
 	if { [winfo exists .dlgcu] } {
 		set pcc 0
 		return 0
@@ -332,12 +269,16 @@ proc dlgCopyUser {} {
 	frame .dlgcu.b 
 	if { $move == 0 } {
 		button .dlgcu.b.ok -text "[trans ok]"  -font sboldf \
-			-command " ::MSN::copyUser \$rbcon \$gsel; \
+			-command " if {![info exists gsel]} {return;}; \
+				::MSN::copyUser \$rbcon \$gsel; \
+				unset gsel; \
 				destroy .dlgcu; "
 	}
 	if { $move == 1 } {
 		button .dlgcu.b.ok -text "[trans ok]" -font sboldf \
-			-command " ::MSN::moveUser \$rbcon $oldgid \$gsel; \
+			-command " if {![info exists gsel]} {return;}; \
+				::MSN::moveUser \$rbcon $oldgid \$gsel; \
+				unset gsel; \
 				destroy .dlgcu; "
 	}
 	button .dlgcu.b.cancel -text "[trans cancel]"  -font sboldf \
@@ -348,7 +289,11 @@ proc dlgCopyUser {} {
 
 ## This is used to move all the contacts from a group to nogroup ##
 proc BuidarGrup { lfcontact } {
-	global rbsel pcc
+	global rbsel
+	if {![info exists rbsel]} {return;}
+	set answer [tk_messageBox -title "[trans confirm]" -message "[trans confirmeg]" -type yesno -icon question \
+		-parent .cfg]
+	if { $answer == "no" } { return; }
 	if { $rbsel == 0 } { return; }
 	set contacts [::MSN::getList FL]
 	set i 0
@@ -362,6 +307,51 @@ proc BuidarGrup { lfcontact } {
 		}
 		incr i
 	}
+}
+
+## This is used to delete a group in preferences ##
+proc dlgDelGroup { lfgroup lfcontact } {
+	global rbsel
+	if {![info exists rbsel]} {return;}
+	set answer [tk_messageBox -title "[trans confirm]" -message "[trans confirmdg]" -type yesno -icon question \
+		-parent .cfg]
+	if { $answer == "no" } { return; }
+	::groups::Delete $rbsel dlgMsg
+	RefreshGroupList $lfgroup $lfcontact
+}
+
+## This is used to rename a group in preferences ##
+proc dlgRenGroup { lfgroup lfcontact } {
+	global rbsel
+	if {![info exists rbsel]} {return;}
+	::groups::dlgRenameThis $rbsel
+	tkwait window .dlgthis
+	RefreshGroupList $lfgroup $lfcontact
+}
+
+## This is used when we remove contact from list in preferences ##
+proc dlgRFL { lfcontact } {
+	global rbsel rbcon
+	if {![info exists rbcon]} {return;}
+	if {![info exists rbsel]} {return;}
+	set answer [tk_messageBox -title "[trans confirm]" -message "[trans confirmrfl]" -type yesno -icon question \
+		-parent .cfg]
+	if { $answer == "no" } { return; }
+	if { $rbsel != -1 } {
+		::MSN::deleteUser $rbcon $rbsel
+		RefreshContactList $lfcontact
+	}
+}
+
+## This is used to delete a user in preferences ##
+proc dlgDelUser { lfcontact } {
+	global rbcon
+	if {![info exists rbcon]} {return;}
+	set answer [tk_messageBox -title "[trans confirm]" -message "[trans confirmdu]" -type yesno -icon question \
+		-parent .cfg]
+	if { $answer == "no" } { return; }
+	::MSN::deleteUser $rbcon
+	RefreshContactList $lfcontact
 }
 
 proc Preferences { { settings "personal"} } {
@@ -743,9 +733,9 @@ proc Preferences { { settings "personal"} } {
 	pack $lfgroup.lbgroup.b.op -side top -pady 3
 	
 	button $lfgroup.lbgroup.b.bdel -text [trans groupdelete] -width 25 -justify right \
-		-command "::groups::Delete \$rbsel dlgMsg; RefreshGroupList $lfgroup $lfcontact;"
+		-command "dlgDelGroup $lfgroup $lfcontact;"
 	button $lfgroup.lbgroup.b.bren -text [trans grouprename] -width 25 -justify right \
-		-command "::groups::dlgRenameThis \$rbsel; tkwait window .dlgthis; RefreshGroupList $lfgroup $lfcontact;"
+		-command "dlgRenGroup $lfgroup $lfcontact;"
 	button $lfgroup.lbgroup.b.badd -text [trans groupadd] -width 25 -justify right \
 		-command "::groups::dlgAddGroup; tkwait window .dlgag; RefreshGroupList $lfgroup $lfcontact;"
 	pack $lfgroup.lbgroup.b.badd -side top -pady 2 -anchor w
@@ -768,14 +758,17 @@ proc Preferences { { settings "personal"} } {
 	button $lfcontact.lbcontact.b.badd -text [trans addacontact] -width 25 -justify right \
 		-command "cmsn_draw_addcontact; tkwait window .addcontact; RefreshContactList $lfcontact;"
 	button $lfcontact.lbcontact.b.bmov -text [trans movetogroup] -width 25 -justify right \
-		-command "dlgMoveUser; tkwait window .dlgmu; RefreshContactList $lfcontact;"
+		-command "dlgMoveUser; \
+			if {[winfo exists .dlgmu]} {tkwait window .dlgmu;}; \
+			RefreshContactList $lfcontact;"
 	button $lfcontact.lbcontact.b.bcopy -text [trans copytogroup] -width 25 -justify right \
-		-command "dlgCopyUser; tkwait window .dlgcu;"
+		-command "dlgCopyUser; \
+			if {[winfo exists .dlgmu]} {tkwait window .dlgmu;};"
 	button $lfcontact.lbcontact.b.brfg -text [trans removefromlist] -width 25 -justify right \
-		-command "if { \$rbsel \!= -1 } {::MSN::deleteUser \$rbcon \$rbsel; RefreshContactList $lfcontact;}"
+		-command "dlgRFL $lfcontact;"
 	button $lfcontact.lbcontact.b.bdel -text [trans delete] -width 25 -justify right \
-		-command "::MSN::deleteUser \$rbcon; RefreshContactList $lfcontact;"
-	button $lfcontact.lbcontact.b.bdal -text [trans toempty] -width 25 -justify right \
+		-command "dlgDelUser $lfcontact;"
+	button $lfcontact.lbcontact.b.bdal -text [trans emptygroup] -width 25 -justify right \
 		-command "BuidarGrup $lfcontact;"
 	pack $lfcontact.lbcontact.b.badd -side top -pady 2 -anchor w
 	pack $lfcontact.lbcontact.b.bmov -side top -pady 2 -anchor w
