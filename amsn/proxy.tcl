@@ -17,21 +17,11 @@ source socks.tcl	;# SOCKS5 proxy support
 #Connection wrapper for HTTP connection or http proxy
 namespace eval ::HTTPConnection {
 
-	if { $initialize_amsn == 1 } {
-		variable proxy_host "";
-		variable proxy_port "";
-		variable proxy_username "";
-		variable proxy_password "";
-		variable proxy_with_authentication 0;
-	}
 	
 	proc write { name {msg ""} } {
 		variable proxy_queued_data
 		variable proxy_session_id
 		variable proxy_gateway_ip
-		variable proxy_username
-		variable proxy_password
-		variable proxy_with_authentication
 
 		#Cancel any previous attemp to write or POLL
 		after cancel "::HTTPConnection::PollPOST $name"
@@ -73,8 +63,8 @@ namespace eval ::HTTPConnection {
 			set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
 			set tmp_data "$tmp_data\r\nContent-Length: $size"
 			
-			if {$proxy_with_authentication == 1 } {
-				set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode ${proxy_username}:${proxy_password}]"
+			if {[sb get $name proxy_authenticate]  == 1 } {
+				set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode [sb get $name proxy_user]:[sb get $name proxy_password]]"
 			}
 			
 			set tmp_data "$tmp_data\r\n\r\n$current_data"
@@ -133,12 +123,10 @@ namespace eval ::HTTPConnection {
 	#The "server" field in the sbn data must be set to server:port
 	proc connect {sbn} {
 		variable http_gateway
-		variable proxy_host
-		variable proxy_port
-
+		
 		#On direct http connection, use gateway directly as proxy
-		set proxy_host "gateway.messenger.hotmail.com"
-		set proxy_port 80
+		set proxy_host [sb get $sbn proxy_host]
+		set proxy_port [sb get $sbn proxy_port]
 			
 		if { [catch {set sock [socket -async $proxy_host $proxy_port]} res ] } {
 			sb set $sbn error_msg $res
@@ -153,11 +141,6 @@ namespace eval ::HTTPConnection {
 	}
 	
 	proc Connected {sbn} {
-		variable proxy_host
-		variable proxy_port
-		variable proxy_username
-		variable proxy_password
-		variable proxy_with_authentication
 		
 		status_log "::HTTPConnection::Connected: Proxy connected!!\n" green
 		set sock [sb get $sbn sock]
@@ -185,8 +168,8 @@ namespace eval ::HTTPConnection {
 		set tmp_data "$tmp_data\r\nPragma: no-cache"
 		set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
 		set tmp_data "$tmp_data\r\nContent-Length: 0"
-		if {$proxy_with_authentication == 1 } {
-			set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode ${proxy_username}:${proxy_password}]"
+		if {[sb get $sbn proxy_authenticate] == 1 } {
+			set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode [sb get $name proxy_user]:[sb get $name proxy_password]]"
 		}
 		set tmp_data "$tmp_data\r\n\r\n"
 		status_log "::HTTPConnection::Connected: PROXY SEND ($sbn)\n$tmp_data\n" blue
@@ -201,8 +184,10 @@ namespace eval ::HTTPConnection {
 	proc ConnectReply {sbn} {
 		status_log "::HTTPConnection::ConnectReply\n" green
 		HTTPRead $sbn
-		fileevent [sb get $sbn sock] readable [list ::HTTPConnection::HTTPRead $sbn]
-		fileevent [sb get $sbn sock] writable [sb get $sbn connected]
+		catch {
+			fileevent [sb get $sbn sock] readable [list ::HTTPConnection::HTTPRead $sbn]
+			fileevent [sb get $sbn sock] writable [sb get $sbn connected]
+		}
 	}	
 
 	proc HTTPRead { name } {
@@ -300,9 +285,6 @@ namespace eval ::HTTPConnection {
 		variable proxy_session_id
 		variable proxy_gateway_ip 
 		variable proxy_queued_data  
-		variable proxy_username
-		variable proxy_password
-		variable proxy_with_authentication
 
 		if { ![info exists proxy_session_id($name)]} {
 			return
@@ -327,8 +309,8 @@ namespace eval ::HTTPConnection {
 				set tmp_data "$tmp_data\r\nPragma: no-cache"
 				set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
 				set tmp_data "$tmp_data\r\nContent-Length: 0"
-				if {$proxy_with_authentication == 1 } {
-					set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode ${proxy_username}:${proxy_password}]"
+				if {[sb get $name proxy_authenticate] == 1 } {
+					set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode [sb get $name proxy_user]:[sb get $name proxy_password]]"
 				}
 				set tmp_data "$tmp_data\r\n\r\n"
 

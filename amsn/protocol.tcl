@@ -4104,7 +4104,7 @@ proc cmsn_socket {name} {
 	#This is the default read handler, if not changed by proxy
 	sb set $name readable [list read_sb_sock $name]
 	#This is the default procedure that should be called when an error is detected
-	sb set $name errorhandler [list ::MSN::CloseSB $name"]
+	sb set $name errorhandler [list ::MSN::CloseSB $name]
 	
 	
 	if {$config(connectiontype) == "direct" } {
@@ -4117,7 +4117,7 @@ proc cmsn_socket {name} {
 	} elseif {$config(connectiontype) == "http"} {
 	
  		sb set $name connection_wrapper HTTPConnection
-		sb set $name proxy_server "gateway.messenger.hotmail.com"
+		sb set $name proxy_host "gateway.messenger.hotmail.com"
 		sb set $name proxy_port 80
 
 		#status_log "cmsn_socket: Setting up http connection\n" green
@@ -4132,8 +4132,17 @@ proc cmsn_socket {name} {
 		#::Proxy::Setup next readable_handler $name
 		
 		
-	} elseif {$config(connectiontype) == "proxy"} {
-		sb set name $name connection_wrapper HTTPProxy
+	} elseif {$config(connectiontype) == "proxy" && $config(proxytype) == "http"} {
+	
+		#TODO: Right now it's always HTTP proxy!!
+		sb set $name connection_wrapper HTTPConnection
+		set proxy [split $config(proxy) ":"]
+		sb set $name proxy_host [lindex $proxy 0]
+		sb set $name proxy_port [lindex $proxy 1]
+		
+		sb set $name proxy_authenticate $config(proxyauthenticate)
+		sb set $name proxy_user $config(proxyuser) 
+		sb set $name proxy_password $config(proxypass)
 	
 		#status_log "cmsn_socket: Setting up Proxy connection (type=$config(proxytype))\n" green
 		#::Proxy::Init $config(proxy) $config(proxytype)
