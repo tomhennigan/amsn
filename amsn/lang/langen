@@ -22,6 +22,7 @@ alarmonmsg Activate alarm when user sends you a message
 alarmonstatus  Activate alarm when user changes state
 alarmpref Alarm Settings for user
 alarmstatus Turn ON/OFF Alarm for this user
+allfiles All Files
 allowallbutbl Allow all users apart from those in my Block List to contact me
 allowbadwords Disable censorship on nicknames
 allowlist Allow list (AL):
@@ -225,6 +226,7 @@ httpconnection Connect using HTTP method (uses HTTP protocol over port 80)
 hybrid Hybrid mode
 ident Identifying
 identity Identity
+imagefiles Image Files
 inbox Inbox
 insertsmiley Insert emoticon
 installconvert You must install ImageMagick (convert program) in order to use Buddy Icons and Custom Emoticons. You can download the binaries for your Operating System ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . If you already have it, then it is a bug, please report it. These features will now be disabled, if you install ImageMagik later on reenable these options from the Preferences. 
@@ -438,6 +440,7 @@ soundcommand This has to be the play command (ex: esdplay)
 sound Event Sounds
 soundexample ( \$sound = Sound file to be played) Ex: esdplay \$sound
 soundfile Sound File
+soundfiles Sound Files
 soundloop Loop Sound
 soundserver Sound Server
 soundstatus Sound Alarm
