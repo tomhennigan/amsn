@@ -349,17 +349,36 @@ proc idleCheck {} {
       set idletime 0
    }
 
-   if {$idletime >= $config(idletime) && [::MSN::myStatusIs] == "NLN" && $config(autoidle) == 1} {
-      ::MSN::changeStatus IDL
-   } elseif { $idletime < $config(idletime) && [::MSN::myStatusIs] == "IDL"} {
-      ::MSN::changeStatus NLN
+   if { $config(awaytime) >= $config(idletime) } {
+   	set first [expr $config(awaytime) * 60]
+	set firstvar "autoaway"
+	set firststate "AWY"
+	set second [expr $config(idletime) * 60]
+	set secondvar "autoidle"
+	set secondstate "IDL"
+   } else {
+   	set second [expr $config(awaytime) * 60]
+	set secondvar "autoaway"
+	set secondstate "AWY"
+	set first [expr $config(idletime) * 60]
+	set firstvar "autoidle"
+	set firststate "IDL"
+   }
+  
+   if { $idletime >= $first && [::MSN::myStatusIs] == $secondstate && $config($firstvar) == 1 } {
+   	::MSN::changeStatus $firststate
+   } elseif {$idletime >= $second && [::MSN::myStatusIs] == "NLN" && $config($secondvar) == 1} {
+	::MSN::changeStatus $secondstate
+   } elseif { $idletime == 0 && [::MSN::myStatusIs] == $firststate} {
+	::MSN::changeStatus NLN
+   } elseif { $idletime == 0 && [::MSN::myStatusIs] == $secondstate } {
+   	::MSN::changeStatus NLN
    }
 
    set idletime [expr {$idletime + 5}]
    after 5000 idleCheck
 }
 #///////////////////////////////////////////////////////////////////////
-
 
 
 #///////////////////////////////////////////////////////////////////////

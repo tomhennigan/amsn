@@ -464,12 +464,12 @@ proc Preferences { settings } {
 	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
 	checkbutton $lfname.1.lautonoact -text "[trans autonoact]" -onvalue 1 -offvalue 0 -variable config(autoidle)
-	entry $lfname.1.eautonoact -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -state disabled
+	entry $lfname.1.eautonoact -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -textvariable config(idletime)
 	label $lfname.1.lmins -text "[trans mins]" -padx 5
 	pack $lfname.1 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.1.lautonoact $lfname.1.eautonoact $lfname.1.lmins -side left
-	checkbutton $lfname.2.lautoaway -text "[trans autoaway]" -onvalue 1 -offvalue 0 -variable config(autoaway) -state disabled
-	entry $lfname.2.eautoaway -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -state disabled
+	checkbutton $lfname.2.lautoaway -text "[trans autoaway]" -onvalue 1 -offvalue 0 -variable config(autoaway)
+	entry $lfname.2.eautoaway -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -textvariable config(awaytime)
 	label $lfname.2.lmins -text "[trans mins]" -padx 5
 	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.2.lautoaway $lfname.2.eautoaway $lfname.2.lmins -side left
@@ -807,12 +807,18 @@ proc SavePreferences {} {
        set config(withproxy) 0
     }
 
-    # Make sure x and y offsets are digits, if not revert to old values
+    # Make sure entries x and y offsets and idle time are digits, if not revert to old values
     if { [string is digit $config(notifyXoffset)] == 0 } {
     	set config(notifyXoffset) $myconfig(notifyXoffset)
     }
     if { [string is digit $config(notifyYoffset)] == 0 } {
     	set config(notifyYoffset) $myconfig(notifyYoffset)
+    }
+    if { [string is digit $config(idletime)] == 0 } {
+    	set config(idletime) $myconfig(idletime)
+    }
+    if { [string is digit $config(awaytime)] == 0 } {
+    	set config(awaytime) $myconfig(awaytime)
     }
 
     # Check and save phone numbers
@@ -1030,6 +1036,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.38  2003/05/22 21:49:39  burgerman
+# autoidle + autoaway + preferences
+#
 # Revision 1.37  2003/05/22 20:40:10  burgerman
 # 3 new notifies (on msg, on online, on email) now separate, removed old
 # config(notifywin)
