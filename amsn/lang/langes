@@ -1,5 +1,4 @@
 amsn_lang_version 2
-ignoreerrors Ignorar silenciosamente los errores de AMSN hasta el final de la sesión
 about Acerca de
 accept Aceptar
 acceptfile ¿Aceptar archivo $1, tamaño $2 bytes? Se guardará en $3
@@ -129,6 +128,7 @@ connectionlost Desconectado: Conexión con el servidor cerrada
 contactadded Contacto añadido
 contactdoesnotexist El contacto que intentas añadir no existe
 contactlist Lista de Contactos(FL):
+continuously De forma contínua
 convertexplain Ruta al archivo ejecutable CONVERT, del programa ImageMagick (necesario para las\nImágenes para Mostrar). Dejar en blanco si CONVERT se puede encontrar en el PATH.
 copy Copiar
 copytogroup Copiar al grupo
@@ -247,6 +247,7 @@ httpconnection Conectar usando el método HTTP (usa protocolo HTTP por el puerto 
 hybrid Modo híbrido
 ident Identificándose
 identity Identificación
+ignoreerrors Ignorar silenciosamente los errores de AMSN hasta el final de la sesión
 imagefiles Archivos de imágenes
 inbox Bandeja de entrada
 insertsmiley Insertar emoticono
@@ -263,8 +264,10 @@ invitationcancelled La invitación ha sido cancelada
 invite Invitar
 ipaddress Dirección IP
 ipdetect Detectar la IP correcta para transferencias usando HTTP
+ircstyle Chat estilo IRC
 istyping $1 está escribiendo un mensaje
 joins $1 se une a la conversación
+justonce Sólo una vez
 keepalive Mantener conexión activa (NAT)
 keeplog2 Registrar las conversaciones en el historial para verlas más tarde
 keeplog Guardar historial de las conversaciones
@@ -319,6 +322,7 @@ msgmaxmin Cuando un nuevo mensaje llega quiero que sea :
 msg Mensaje
 msgmode Elige como manejar ventanas de múltiples mensajes :
 msn AMSN
+msnstyle Chat estilo MSN
 mustrestart Debes reiniciar el programa para aplicar los cambios
 myhomephone Mi teléfono de casa
 mymobilephone Mi teléfono móvil
@@ -328,6 +332,7 @@ myworkphone Mi teléfono de trabajo
 natip Detección de IP por Web
 natkeepalive Si sufres desconexiones continuamente, activa esta opción
 needonline Todavía estás/apareces desconectado
+never Nunca
 newmail $1 mensajes nuevos en bandeja de entrada
 newmailfrom Nuevo correo de $1 ($2)
 newmsg Nuevo mensaje

@@ -263,6 +263,7 @@ invitationcancelled The invitation was cancelled
 invite Invite
 ipaddress IP Address
 ipdetect Detect correct IP for File Transfers using HTTP
+ircstyle IRC style chat
 istyping $1 is typing a message
 joins $1 joins conversation
 justonce Just once
@@ -320,6 +321,7 @@ msgmaxmin When a new message arrives I want it to be:
 msg Message
 msgmode Select how to handle multiple message windows:
 msn aMSN
+msnstyle MSN style chat
 mustrestart You must restart the program to apply changes
 myhomephone My Home Phone
 mymobilephone My Mobile Phone

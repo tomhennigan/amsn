@@ -1835,6 +1835,10 @@ namespace eval ::amsn {
 			.${win_name}.menu.view add separator
 			.${win_name}.menu.view add command -label "[trans hidewindow]" -command "wm state .${win_name} withdraw"
 		}
+		
+		.${win_name}.menu.view add separator
+		.${win_name}.menu.view add radiobutton -label "[trans msnstyle]" -value "msn" -variable "config(chatstyle)"
+		.${win_name}.menu.view add radiobutton -label "[trans ircstyle]" -value "irc" -variable "config(chatstyle)"
 
 		menu .${win_name}.menu.actions -tearoff 0 -type normal
 		.${win_name}.menu.actions add command -label "[trans addtocontacts]" \
@@ -2819,17 +2823,6 @@ namespace eval ::amsn {
 		global config
 		set tstamp [timestamp]
 
-		#if { $user == $config(login) } {
-		#	set nick [::abook::getNick myself]
-		#} else {
-		#	set nick [::abook::getDisplayNick $user]
-		#}
-		#if { $config(soundactive) == "1" } {
-		#	if { $user != $config(login) } {
-                #		play_sound type.wav
-           	#	}
-		#}
-
 		if {$config(truncatenicks)} {
 			if {$config(showtimestamps)} {
 				set says "$tstamp [trans says [list]]:"
@@ -2847,17 +2840,28 @@ namespace eval ::amsn {
 		if {$config(showtimestamps)} {
 			WinWrite $chatid "$tstamp " gray
 		} 
-		if { $p4c == 1 } {
-			WinWrite $chatid "[trans says $user]:\n" gray_italic
-		} else {
-			WinWrite $chatid "[trans says $user]:\n" gray
+		
+		switch [::config::getKey chatstyle] {
+			msn {
+				if { $p4c == 1 } {
+					WinWrite $chatid "[trans says $user]:\n" gray_italic
+				} else {
+					WinWrite $chatid "[trans says $user]:\n" gray
+				}
+				
+				WinWrite $chatid "$msg\n" $type $fontformat
+			}
+			
+			irc {
+				if { $p4c == 1 } {
+					WinWrite $chatid "<$user> " gray_italic
+				} else {
+					WinWrite $chatid "<$user> " gray
+				}
+				
+				WinWrite $chatid "$msg\n" $type $fontformat
+			}
 		}
-
-		#	global tiempo_out
-		#	tkwait variable tiempo_out
-		#	set tiempo_out 0
-
-		WinWrite $chatid "$msg\n" $type $fontformat
 
 		if {$config(keep_logs)} {
 			::log::PutLog $chatid $user $msg

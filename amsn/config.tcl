@@ -24,6 +24,8 @@ proc ConfigDefaults {} {
 	set config(mailcommand) ""		;#Command for checking mail. Blank for hotmail
         set config(notifytyping) 1		;#Send typing notifications
         set config(soundactive) 0               ;#Typing sound even on active window
+	
+	set config(chatstyle)	"msn"	;#Chat display style
 
 	#Some Autodetected options
 	if {$tcl_platform(os) == "Darwin"} {
