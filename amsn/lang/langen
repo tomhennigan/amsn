@@ -150,6 +150,7 @@ countrycode My Country/Region code
 cprofile Create Profile
 credits Credits
 currentdate Current Date
+currentlanguage This is the language that you use
 custnotifymsg Display notify window when a new user message is received
 custnotifyoffline Display notify window when this contact goes offline
 custnotifyonline Display notify window when this contact comes online
@@ -196,6 +197,7 @@ dockingoff Docking Off
 dockkde KDE Dock
 dontdownload Don't download TLS, I'll install it myself
 dontshow Don't show
+download Download
 downloadingtls Downloading TLS module from:\n $1
 editcustomstate Edit custom state
 edit Edit
@@ -230,6 +232,7 @@ file File
 filemanexample ( \$location will be replaced with the directory ) Ex: nautilus \$location
 fileman File Manager
 filename Filename
+filenotwritable This file can't be deleted
 filetransfercancelled File transfer cancelled
 filetransfercomplete File transfer complete
 filetransfer File Transfer
@@ -304,6 +307,7 @@ keepalive Keepalive (NAT)
 keeplog2 Log all conversations to aMSN's History for future viewing
 keeplog Keep Logs of Chats
 language Language
+language_manager Language manager
 lastlogin Last Log In
 lastlogout Last Log Out
 lastmsgedme Last Message
