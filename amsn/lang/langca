@@ -82,6 +82,7 @@ checkfilman Els fitxers rebuts es desaran a $1. Comprova l'opció de l'administra
 checkingver Buscant versions noves
 checkonfln Comprovar si un usuari m'ha bloquejat quan aparentment es desconnecta
 checkver Busca una versió nova
+choosearq Escull l'arquitectura del teu sistema
 choosebasefont Canviar la font
 choosebgcolor Canviar el color de fons
 choosecontact Si us plau, selecciona un contacte de la llista
