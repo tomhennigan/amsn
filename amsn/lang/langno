@@ -60,28 +60,40 @@ blockmessage Disse personene er koblet til, men har blokkert deg
 blockusers Brukere som sjekkes på en gang
 broughtby Gitt til deg av følgende utviklere
 browse Bla Gjennom
+browserexample ( \$url vil bli erstattet med adressen). F.eks: mozilla \$url
 browser Nettleser
 busy Opptatt
 cancel Avbryt
 cannotdeleteprofile Kan ikke slette profil, den ser ut til å være i bruk av en amsn session
 cantexec Kan ikke kjøre program $1, sjekk instillingene
+casesensitive Skill mellom store og små bokstaver
 cfgalarm  Konfiguer/Legg til/Fjern Alarm
 changedisplaypic Endre Personlig Bilde
 changefont Skift skrifttype
 changenick Endre kallenavn
+changestate $1 endrer status til $2
 chatack Aksepterer chat fra
 chat Chat
 chatmaxmin Når en kontakt åpner en chat med meg, vil jeg at den skal være:
 chatreq Forespørsel om  chat
+chatsmileys2 Vis uttrykksikoner og smileys i chattevinduer
 chatsmileys Chat smileyer
+checkblocking Sjekk konstant om noen blokkerer deg
 checkfilman Sjekk file manageren i instillingene
 checkingver Ser etter nyere versjon
+checkonfln Sjekk om en bruker har blokkert deg når han logger av
 checkver Se etter nyere versjon
+choosearq Velg ditt systems arkitektur
 choosebasefont Velg skrifttype
 choosebgcolor Velg bakgrunnsfarge
+choosecontact Velg en kontakt fra listen
 choosefontcolor Velg skrift farge
 chooseskin Velg hvilket skall du vil bruke
+clearlog2 Slett historien for alle kontaktene dine
+clearlog3 Slett alle loggene
+clearlog Slett logg
 clicktologin Klikk her for å logge inn
+closed Samtale med $1 ble lukket på grunn av inaktivitet
 close Lukk
 closingdocks Lukke-knappen minimerer vinduet
 command Kommando

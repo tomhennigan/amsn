@@ -187,6 +187,7 @@ groupunknown Neznana skupina
 handle Ime
 helpcontents Vsebina pomoci
 help Pomoc
+hidedisplaypic Skrij osebno sliko
 hiden Ne pokazi emotikona v menuju smeskov
 hidewindow Skrij okno
 history Prikazi zgodovino
@@ -272,6 +273,7 @@ no Ne
 noneavailable Noben ni na voljo
 nonewmail Ni novih sporocil v Inboxu
 nonewver Ni novih verzij na voljo za prenos
+nopic Ni slike
 noprofileexists Trenutno ni profilov.\nDa jih uporabljas, ustvari novega\nz gumbom dodaj profil.
 normal Normalno
 nosystemtray Tray ni na voljo
@@ -302,6 +304,7 @@ personal Osebno
 phone Telefon
 picfile Slikovna datoteka
 picstatus Slika omogocena
+playing Igram: $1
 pluginselector Izberi plugine
 port Vrata
 prefalerts Alarmi in zvoki
@@ -375,6 +378,10 @@ servergoingdown Povezava prekinjena
 server Streznik
 session Seja
 showblockedlist Pokazi seznam ljudi, ki so te blokirali
+showdisplaypic2 Prikazi osebno sliko, ko se odpre pogovor
+showdisplaypic Prikazi osebno sliko
+showmypic Moja osebna slika
+showuserpic Osebna slika uporabnika $1
 Shrani.
 skinselector Izberi skin
 skin Skin
@@ -438,6 +445,7 @@ willjoin Cakam, da se $1 pridruzi pogovoru
 work Delo
 wrongfields Polja "$1", "$2" in/ali "$3" niso veljavna
 wrongprofileversion Napacna datoteka nastavitev profila. Da bi jo popravil, odstrani imenik $1 ali posodobi amsn.
+xmmserr Nic se ne igra ali nimas namescenega xmms-infopipe.
 xoffset X odstopanje
 yes Ja
 yoffset Y odstopanje
