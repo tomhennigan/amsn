@@ -1303,7 +1303,7 @@ namespace eval ::ChatWindow {
 		set_balloon $showpic [trans showdisplaypic]
 
 		# Pack them 
-		pack $picture -side left -padx 0 -pady [::skin::getColor chatpady] -anchor w
+		#pack $picture -side left -padx 0 -pady [::skin::getColor chatpady] -anchor w
 		pack $showpic -side right -expand true -fill y -padx 0 -pady [::skin::getColor chatpady] -anchor e
 
 		# Create our bindings
