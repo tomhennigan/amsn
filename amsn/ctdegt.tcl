@@ -1456,8 +1456,8 @@ proc save_text_file { w ent } {
     set f [ open $dstfile w ]
     puts $f $content
     close $f
-    puts "Saved $dstfile"
-    puts "Content $content"
+    #puts "Saved $dstfile"
+    #puts "Content $content"
 }
 
 proc fileDialog {w ent operation basename} {
@@ -1602,6 +1602,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.82  2003/09/23 00:31:26  airadier
+# Removed some "puts" in the code.
+#
 # Revision 1.81  2003/09/17 14:39:57  airadier
 # Added parameters ($url, $location, $recipient, $sound) to app commands configuration.
 #

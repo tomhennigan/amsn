@@ -65,7 +65,7 @@ namespace eval ::abook {
 		set myself [lreplace $myself 4 4 $value]
 	    }
 	    default {
-	        puts "setPersonal unknown field $field -> $value"
+	        status_log "setPersonal unknown field $field -> $value\n"
 	    }
 	}
    }
@@ -75,7 +75,7 @@ namespace eval ::abook {
 	upvar $cdata data
 
 	if { ![info exists myself] } {
-	    puts "ERROR: what happened to me?"
+	    status_log "ERROR: what happened to me?\n"
 	    return
 	}
 	
@@ -138,7 +138,7 @@ namespace eval ::abook {
 	upvar $cdata data
 
 	if { ![info exists contacts($email)] } {
-	    puts "getContact ERROR: unknown contact $email!"
+	    status_log "getContact ERROR: unknown contact $email!\n"
 	    return
 	}
 	
@@ -213,7 +213,7 @@ namespace eval ::abook {
 	    work { ::MSN::WriteSB ns PRP "PHW $value" }
 	    mobile { ::MSN::WriteSB ns PRP "PHM $value" }
 	    pager { ::MSN::WriteSB ns PRP "MOB $value" }
-	    default { puts "setPhone error, unknown $item $value" }
+	    default { status_log "setPhone error, unknown $item $value\n" }
 	}
    }
 
@@ -413,6 +413,9 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.27  2003/09/23 00:31:26  airadier
+# Removed some "puts" in the code.
+#
 # Revision 1.26  2003/09/04 13:00:35  airadier
 # Updated TODO.
 # Syntax checking (some minor syntax improvements).

@@ -73,7 +73,7 @@ proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
     
     lappend emotions_names "$name"
     if { [string match "config:emoticon" $cstack] } {
-	puts "custom smiley"
+	#status_log "custom smiley"
 	lappend config(customsmileys) "$name"
     }
 
@@ -158,7 +158,7 @@ proc new_custom_emoticon_from_gui { {name ""} } {
 
     if { $new_custom_cfg(enablesound) && "$new_custom_cfg(sound)" != "" } {
 	set filename "[string map [list [file dirname [GetSkinFile sounds $new_custom_cfg(sound)]]/ "" ] [GetSkinFile sounds $new_custom_cfg(sound)]]"
-	puts "sound : $filename"
+	#status_log "sound : $filename\n"
 	if { "$filename" == "null" } {
 	    if { [info exists custom_emotions(${name}_sound)] } {unset custom_emotions(${name}_sound)}
 	    msg_box "[trans invalidfile [trans soundfile] \"$new_custom_cfg(sound)\"]"
@@ -173,7 +173,7 @@ proc new_custom_emoticon_from_gui { {name ""} } {
     }
 
     set filename "[string map [list [file dirname [GetSkinFile smileys $new_custom_cfg(file)]]/ "" ] [GetSkinFile smileys $new_custom_cfg(file)]]"
-    puts "smiley : $filename"
+    #status_log "smiley : $filename\n"
     if { "$filename" == "null" } {
 	msg_box "[trans invalidfile [trans smilefile] \"$new_custom_cfg(file)\"]"
 	return
@@ -412,7 +412,7 @@ proc add_custom_emoticons { } {
 	    set name "$x"
 	}
     
-	puts "new custom emoticon $name"
+	#status_log "new custom emoticon $name\n"
 	lappend emotions_names "$name"
 	lappend config(customsmileys2) "$name"
 
@@ -600,7 +600,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 		bind $w.text.$filename <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn} res" 
 	    }
 	    if { [valueforemot "$emotion" custom]  } {
-		puts "creating binding for custom smiley : $emotion"
+		#status_log "creating binding for custom smiley : $emotion\n"
 		bind $w.text.$filename <Button3-ButtonRelease> "edit_custom_emotion \"$emotion\"; event generate $w <Leave>"
 	    }
 	}

@@ -603,7 +603,7 @@ namespace eval ::MSNFT {
       global config files_dir
       variable filedata
 
-      puts "Here2 state=$state cookie=$cookie sockid=$sockid"
+      #puts "Here2 state=$state cookie=$cookie sockid=$sockid"
       
       if {![info exists filedata($cookie)]} {
         status_log "ConnectedMSNFTP: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
@@ -736,7 +736,7 @@ namespace eval ::MSNFT {
 
    proc MonitorTransfer { sockid cookie} {
       
-      puts "Monitortransfer"
+      #puts "Monitortransfer"
       variable filedata
       
       if {![info exists filedata($cookie)]} {
@@ -2960,11 +2960,11 @@ proc cmsn_ns_handler {item} {
       BPR {
 	  if { $protocol == "9" && [llength $item] == 4} {
 	      global loading_list_info
-	      puts "$item --- protocol 9 --- $protocol"
+	      #status_log "$item --- protocol 9 --- $protocol\n"
 	      ::abook::setContact $loading_list_info(last) [lindex $item 1] [lindex $item 2]
 
 	  } else {
-	      puts "$item --- protocol 7 --- $protocol"
+	      #status_log "$item --- protocol 7 --- $protocol\n"
 	      new_contact_list "[lindex $item 1]"
 	      # Update entry in address book setContact(email,PH*/M*,phone/setting)
 	      ::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4] 
@@ -3763,7 +3763,7 @@ proc cmsn_listupdate {recv} {
 	set nickname [lindex $recv 2]
 
 	set list_names [process_msnp9_lists [lindex $recv 3]]
-	puts "$username --- $list_names"
+	#puts "$username --- $list_names"
 	set groups [lindex $recv 4]
 
     } else {
@@ -4016,7 +4016,7 @@ proc new_contact_list { version {load 0} } {
 	}
 
     } else {
-	puts "$list_version becomes $version"
+	#status_log "$list_version becomes $version\n"
 	set list_version $version
     }
    
@@ -4162,7 +4162,7 @@ proc create_group { cstack cdata saved_data cattr saved_attr args } {
 
 proc create_null { cstack cdata saved_data cattr saved_attr args } {
 
-    puts "mv $cstack > /dev/null"
+    #puts "mv $cstack > /dev/null"
     return 0
 }
 
