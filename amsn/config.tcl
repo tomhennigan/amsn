@@ -142,6 +142,7 @@ namespace eval ::config {
 	
 		::config::setKey initialftport 6891	;#Initial for to be used when sending file transfers
 		::config::setKey ftautoaccept 0		;#Auto-Accept file transfer request (Off by default)
+		::config::setKey ftautoclose 0		;#Auto-close file transfer windows when finished
 		::config::setKey new_ft_protocol 0	;#Use new FileTransfer protocol (Off by default)
 	
 		::config::setKey shownotify 1 			;#Show notify window (in general, see advanced options)
