@@ -1290,7 +1290,7 @@ proc cmsn_draw_addcontact {} {
 
 proc addcontact_next {} {
    set tmp_email [.addcontact.c.email get]
-   ::MSN::adduser "$tmp_email"
+   ::MSN::addUser "$tmp_email"
    grab release .addcontact
    msg_box "[trans contactadded]"
    destroy .addcontact
