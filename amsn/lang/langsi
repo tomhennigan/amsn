@@ -1,6 +1,7 @@
 amsn_lang_version 2
 about O programu
 acceptfile Ali sprejmes datoteko $1, njena velikost je $2? Shranjeno v $3
+accept sprejmi
 actions Akcije
 addacontact Dodaj stik
 addedyou vas je dodal/dodala na svoj seznam stikov
@@ -9,10 +10,14 @@ addtoo Dodaj to osebo na moj seznam stikov
 admincontacts Uredi stike
 admingroups Uredi skupine
 adverts Reklame
+alarmpref Nastavitve alarma
+alarmstatus Alarm omogocen
 allowseen Dovoli tej osebi da vidi moj status ko sem prijavljen
 appearoff Na izgled neprijavljen
 aretyping $1 pisejo sporocilo
+autoconnect Prijavi se ob zagonu amsn
 autohotmaillog Samodejna prijava v Hotmail
+autoidle Samodejno idle stanje
 autoip Samodejni IP
 avoidseen Ne dovoli tej osebi da vidi moj status ko sem prijavljen
 away Odsoten
@@ -20,30 +25,43 @@ baduserpass Napacno uporabnisko ime ali geslo
 blankdirect Pustite prazno za neposredno povezavo
 block Blokiraj
 blocked Blokiran
-browser Brskalnik
 broughtby  Naredili naslednji programerji
+browse Prebrskaj
+browser Brskalnik
 busy Zaposlen
 cancel Preklici
+cfgalarm Nastavi zvocni/slikovni alarm
 changenick Zamenjaj nick
+chatack Sprejemam pogovor od
 chat Pogovor
 chatreq Zahtevam pogovor
 chatsmileys Smeskoti
-chatack Sprejemam pogovor od
-checkver Preveri za novo verzijo
 checkingver Preverjam za nove verzije
+checkver Preveri za novo verzijo
 choosebasefont Izberi vrsto pisave
 choosebgcolor Izberi barvo ozadja
+choosefontcolor Izberi barvo pisave
+clearlog Pocisti dnevnik
 clicktologin Pritisni tukaj za prijavo
 close Zapri
 closingdocks Gumb za zaprtje minimira okno
 command Ukaz
+confirm Ali si preprican ?
 confirmdelete Ali si preprican, da bos zbrisal $1?
+connecterror Napaka pri povezavi na streznik
 contactadded Stik dodan
 contactdoesnotexist Stik ne obstaja!
-connecterror Napaka pri povezavi na streznik
+copy Kopiraj
 copytogroup Dodaj v skupino
+cut Izrezi
 date Datum
 delete Izbrisi
+deliverfail Pri dostavljanju sporocila je prislo do tezave
+dockgtk gtk pomol
+dockingoff pristaja prekinjena
+docking pristaja
+dockkde kde pomol
+edit Uredi
 enableproxy Omogoci proxy
 encoding Izberi kodiranje
 entercontactemail Vnesi e-mail osebe
@@ -52,24 +70,28 @@ enternick Vnesi svoj nick
 examples Primeri
 exitamsn Ali si preprican da zelis zapustiti program?
 extras Dodatne storitve
+faq Faq
 filedoesnotexist Datoteka ne obstaja
 filename Ime datoteke
 filetransfercancelled Prenos datoteke preklican
 filetransfercomplete Prenos datoteke koncan
+ftaccepted Sprejemam datoteko...
+ftrejected Prenos datoteke je bil zavrnjen.
 gonelunch Na kosilu
-group Skupina
 groupadd Dodaj v skupino
 groupdelete Izbrisi skupino
-grouprename Preimenuj skupino
-groupoldname Staro ime
-groupnewname Novo ime
-groupunknown Neznana skupina
 groupexists Skupina ze obstaja
 groupmissing Ne morem najti skupine
+groupnewname Novo ime
 groupnotempty Skupina ni prazna!
+groupoldname Staro ime
+grouprename Preimenuj skupino
+group Skupina
+groupunknown Neznana skupina
 handle Handle
-help Pomoc
 helpcontents Vsebina pomoci
+help Pomoc
+history Prikazi zgodovino
 home Domov
 ident Identifying
 identity Identiteta
@@ -79,25 +101,38 @@ invite Povabi
 ipaddress IP Naslov
 istyping $1 pise sporocilo
 joins $1 se je pridruzil pogovoru
+keepalive zad?i ?ivo
+keeplog Hrani dnevnik pogovorov
 language Jezik
+lastmsgtime Zadnje sporocilo prejeto ob $1
+lclosedwin $1 je zaprl okno $2
+lconftopriv Konferenca spremenjena v zasebni pogovor z $1
+lconvstarted Pogovor na $1 se je pricel
 leaveblankforhotmail Pusti prazno za uporabo Hotmail storitev
 leaves $1 je zapustil pogovor
+lenteredconf $1 je vstopil v konferenca na $2
+linprivate ZASEBNO
 listeningon Poslusam na vratih $1
 listsmileys Seznam smeskov
+ljoinedconf $1 se je pridruzil konferenci
+lleftconf $1 je zapustil konferenco
 loadcontacts Nalozi seznam stikov
 loggedotherlocation Disconnected. Logged in other location
 loggingin Prijavljam
-login Prijavi se
 loginas Prijavi se kot
+login Prijavi se
 logout Odjavi se
 logsin se je ravnokar prijavil
+lprivtoconf Zasebni pogovor spremenjen v konferenco na $1
+luclosedwin Zaprli ste okno za $1
 mailer Mailer
 mobile Mobilni
 movetogroup Premakni v skupino
-mustrestart Da bi spremembe prisle v veljavo, moras program ponovno zagnati
-mystatus Moje stane
 msg Sporocilo
 msn AMSN
+mustrestart Da bi spremembe prisle v veljavo, moras program ponovno zagnati
+mystatus Moje stane
+natip IP detekcija od mre?ne strani
 needonline Se zmeraj izgleda/si nepovezan
 newmail $1 novih sporocil v In-Boxu
 newmailfrom Novo sporocilo od
@@ -105,88 +140,80 @@ newmsg Novo sporocilo
 newveravailable Nova verzija $1 je na voljo za prenos
 next Naslednji
 noactivity Ni aktiven
+nologfile Brez dnevnika za $1
 nonewmail Ni novih sporocil v In-Boxu
 nonewver Ni novih verzij na voljo za prenos
+normal Normalno
 notify obvesti
+notifywin Prikazi opozorilo ob dogodkih
 nousersinsession Ni uporabnikov v sessionu
-ok Ok
 offline Neprijavljen
+ok Ok
 onenewmail 1 novo sporocilo v In-Boxu
 online Prijavljen
 onphone Na telefonu
 openreceived Odpri sprejete datoteke
 options Nastavitve
 ordercontactsby Uredi stike po
+ordergroupsby Uredi skupine po
 other Ostalo
 pager Pager
 pass Geslo
+paste Prilepi
 phone Telefon
+picfile Slikovna datoteka
+picstatus Slika omogocena
 port Vrata
 prefapps Aplikacije
 preferences Nastavitve
 prefsound Zvoki
 properties Lastnosti
-proxyconf Nastavitve proxya
 proxyconfhttp Podpora HTTP proxyu
+proxyconf Nastavitve proxya
 publishphones Objavi moje tel. stevilke
 receivedbytes Prejeto $1 od $2 bajtov
 receivefile Sprejmi datoteko
 reconnect Cakam, da se $1 ponovno poveze
 reconnecting Povezujem se s streznikom
+reject zavrni
 rememberpass Shrani geslo
+reversed Zamenjano
 rightback Takoj bom nazaj
-save Shrani
 saveas Shrani kot
 savecontacts Shrani seznam stikov
+save Shrani
+savetofile Shrani v datoteko
 says $1 pravi
 sbcon Connecting to Switch Board
-send Poslji
 sendfile Poslji datoteko
 sendmail Poslji e-mail
 sendmsg Poslji sporocilo
+send Poslji
 sentbytes Poslano $1 od $2 bajtov
-server Streznik
 servergoingdown Povezava prekinjena
+server Streznik
+soundfile Zvocna datoteka
+soundloop Ponavljaj
+soundstatus Zvok omogocen
 sound Zvok dogodka
 startoffline Zacni neprijavljen
 status Stanje
+stopalarm Ustavi alarm
 syntaxerror  Napaka v sintaksi
 textsize Velikost besedila
 title Al's Messenger
-to Za
 tools Orodja
-yousay Pravis
-youwant Hoces
+to Za
 unblock Odblokiraj
 uoffline Neprijavljeni
 uonline Prijavljeni
-user Uporabnik
 useralreadyonlist Uporabnik je ze na seznamu stikov
+usernotonline Uporabnik ni prijavljen
+user Uporabnik
 version Verzija
 view Pogled
+viewprofile Poglej profil
 willjoin Cakam da se $1 pridruzi pogovoru
 work Delo
-lastmsgtime Zadnje sporocilo prejeto ob $1
-cfgalarm Nastavi zvocni/slikovni alarm
-alarmpref Nastavitve alarma
-soundfile Zvocna datoteka
-picfile Slikovna datoteka
-browse Prebrskaj
-soundstatus Zvok omogocen
-soundloop Ponavljaj
-picstatus Slika omogocena
-alarmstatus Alarm omogocen
-autoidle Samodejno idle stanje
-notifywin Prikazi opozorilo ob dogodkih
-ftaccepted Sprejemam datoteko...
-accept sprejmi
-choosefontcolor Izberi barvo pisave
-confirm potrdi
-copy Kopiraj
-cut Izrezi
-edit Uredi
-faq Faq
-ftrejected Prenos datoteke je bil zavrnjen.
-paste Prilepi
-reject zavrni
-stopalarm Ustavi alarm
+yousay Pravis
+youwant Hoces

@@ -179,3 +179,37 @@ willjoin Odottaa $1 liittymistä keskusteluun
 work Työ
 yousay Sanot
 youwant Haluat
+accept Hyväksy
+autoconnect Yhdistä käynnistettäessä amsn
+clearlog Tyhjennä loki
+confirm Oletko varma?
+copy Kopioi
+cut Leikkaa
+deliverfail Seuraavaa viestiä ei voitu välittää
+edit Muokkaa
+faq UKK (Usein Kysytyt Kysymykset)
+ftaccepted Tiedoston siirto hyväksytty
+ftrejected Tiedoston siirto hylätty
+history Historia
+keeplog Pidä keskusteluista lokia
+lclosedwin $1 on sulkenut ikkunan $2
+lconftopriv Julkinen keskustelu muuttui yksityiseksi jossa mukana $1
+lconvstarted Keskustelu alkoi $1
+lenteredconf $1 on liittynyt keskusteluun $2
+linprivate YKSITYINEN KESKUSTELU
+ljoinedconf $1 liittyi keskusteluun
+lleftconf $1 poistui keskustelusta
+lprivtoconf Yksityinen keskustelu muuttui keskusteluksi jossa mukana $1
+luclosedwin Olet sulkenut ikkunan $1
+natip IP:n selvitys web-sivuston mukaan
+nologfile $1 varten ei lokitiedostoa
+normal Normaali
+ordergroupsby Järjestä ryhmät
+paste Liitä
+reject Hylkää
+reversed Käännetty
+savetofile Tallenna tiedostoon
+soundstatus Ääni hälytys
+stopalarm Keskeytä hälytys
+usernotonline Käyttäjä ei ole online-tilassa
+viewprofile Näytä profiili
