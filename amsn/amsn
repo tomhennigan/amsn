@@ -239,7 +239,8 @@ proc status_log {txt {colour ""}} {
 
 
 proc close_cleanup {} {
-  global HOME
+  global HOME config
+  set config(wingeometry) [wm geometry .]
   save_config
   catch {file delete $HOME/hotlog.htm} res
 }
@@ -380,7 +381,7 @@ proc cmsn_draw_main {} {
 
 #   toplevel .main
    wm title . "[trans title] - [trans offline]"
-   wm geometry . 275x400-1+0
+   wm geometry . $config(wingeometry)
    wm iconname . "[trans title]"
    wm iconbitmap . @${images_folder}/amsn.xbm
    . conf -menu .main_menu

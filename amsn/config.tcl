@@ -22,6 +22,7 @@ set config(chatsmileys) 1
 set config(startoffline) 0
 set config(autoftip) 1
 set config(myip) "127.0.0.1"
+set config(wingeometry) 275x400-0+0
 #end AIM
 
 set password ""
