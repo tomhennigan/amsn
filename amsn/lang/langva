@@ -146,6 +146,7 @@ custom_edit Editar un emoticon personalitzat
 custom_new Afegir un emoticon personalitzat
 customcolor Color personal
 customnick Mot personal
+customstyle Estil personalitzat
 cut Tallar
 date Data
 days Dies
@@ -164,6 +165,7 @@ directconnection Tinc una connexió directa a internet (usa el port 1863)
 disabled Desactivat
 disableprofiles Desactivar perfils (útil per a cibercafés o entorns compartits)
 disablessl Desactivar SSL
+disableuserfonts Ignorar el tipus de lletra de l'altre usuari en la conversa, i utilizar sempre el teu tipus de lletra
 disconnect $1 s'ha desconnectat.
 displaychat Configuració de missatges
 displaypic Imatge per a Mostar
@@ -238,6 +240,7 @@ groupnewname Nou nom
 groupnotempty El grup no està buit
 groupoldname Nom antic
 grouprename Canviar nom a grup
+groups Grups
 groupunknown Grup desconegut
 handle Mot
 help Ajuda
@@ -450,6 +453,7 @@ receiveddir Carpeta de Fitxers rebuts
 receivefile Rebre arxiu
 recentmsg Previndre el tancament de la finestra de conversa quan un missatge acaba d'arribar
 reconnect Esperant que $1 es reconnecte
+reconnect2 Reconnectar en perdre la connexió
 reconnecting Reconnectant al servidor
 reject Denegar
 rememberpass Recordar contrasenya
