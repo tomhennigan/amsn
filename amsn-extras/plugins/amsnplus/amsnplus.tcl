@@ -15,7 +15,7 @@ namespace eval ::amsnplus {
 	# this starts amsnplus
 	proc amsnplusStart { dir } {
 		#register plugin
-		::plugins::RegisterPlugin "aMSNPlus"
+		::plugins::RegisterPlugin "aMSN Plus"
 		source [file join $dir amsnplus.tcl]
 		#plugin config
 		array set ::amsnplus::config {
@@ -25,8 +25,8 @@ namespace eval ::amsnplus {
 		#	list [list bool "Colour Nicks?" colour_nicks] \
 		#]
 		#register events
-		::plugins::RegisterEvent aMSNPlus UserNameWritten parse_nick
-		::plugins::RegisterEvent aMSNPlus chat_msg_send parseCommand
+		::plugins::RegisterEvent "aMSN Plus" UserNameWritten parse_nick
+		::plugins::RegisterEvent "aMSN Plus" chat_msg_send parseCommand
 	}
 
 
@@ -148,7 +148,7 @@ namespace eval ::amsnplus {
 				set strlen [string length $msg]
 				set groupname $msg
 				set msg ""
-				set strlen [string length $msg]
+				set strlen 0
 				::groups::Add $groupname
 				::amsn::WinWrite $chatid "\nAdded group $groupname" green
 				set incr 0
@@ -202,7 +202,7 @@ namespace eval ::amsnplus {
 				set strlen [string length $msg]
 				set groupname $msg
 				set msg ""
-				set strlen [string length $msg]
+				set strlen 0
 				::groups::Delete [::groups::GetId $groupname]
 				::amsn::WinWrite $chatid "\nYou've deleted group $groupname\nTo add this group again do: /addgroup $groupname" green
 				set incr 0
@@ -256,7 +256,7 @@ namespace eval ::amsnplus {
 			}
 			if {[string equal $char "/leave"]} {
 				set msg ""
-				set strlen [string length $msg]
+				set strlen 0
 				::MSN::leaveChat $chatid
 				::amsn::WinWrite $chatid "\nYou have left this conversation" green
 				set incr 0
@@ -269,7 +269,7 @@ namespace eval ::amsnplus {
 			}
 			if {[string equal $char "/logout"]} {
 				set msg ""
-				set strlen [string length $msg]
+				set strlen 0
 				::MSN::logout
 				set incr 0
 			}
@@ -279,7 +279,7 @@ namespace eval ::amsnplus {
 				set nick $msg
 				set nlen [string length $nick]
 				set msg ""
-				set strlen [string length $msg]
+				set strlen 0
 				::MSN::changeName [::config::getKey login] $nick
 				::amsn::WinWrite $chatid "\nYour new nick is: $nick" green
 				set incr 0
@@ -295,14 +295,14 @@ namespace eval ::amsnplus {
 					::amsn::FileTransferSend $win_name $file
 				}
 				set msg ""
-				set strlen [string length $msg]
+				set strlen 0
 				set incr 0
 			}
 			if {[string equal $char "/shell"]} {
 				set msg [string replace $msg $i [expr $i + 6] ""]
 				set command $msg
 				set msg ""
-				set strlen [string length $msg]
+				set strlen 0
 				set catch [catch {exec $command}]
 				::amsn::WinWrite $chatid "\nExecuting in the shell: $command" green
 				if {[string equal $catch "1"]} {
