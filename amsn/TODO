@@ -13,7 +13,7 @@ Bug Fixes(priority 1):
 # Check Makefile and amsn.spec now that HELP and FAQ files are added. Make sure everything is installed correctly and FAQ and HELP are in the amsn directory.
 # ** FIXED ** Try and find a quickfix until protocol rewrite for -> Just one chat per user, not open many windows for the same user
 # ** FIXED ** If login from other location, have to restart amsn before being able to reconnect
-# ** SKIPPED ** Sometimes can't rejoin a conversation after other person leaves conversation (closes chat window)
+# ** FIXED ** Sometimes can't rejoin a conversation after other person leaves conversation (closes chat window)
 # ** FIXED ** Add FAQ to Help Menu
 
 

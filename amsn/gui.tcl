@@ -127,36 +127,36 @@ namespace eval ::amsn {
 
       if { $win_name == 0 } {
 
-         set win_name [openWindow]
+         set win_name [openChatWindow]
 	  SetWindowFor $chatid $win_name
          status_log "NEW - Window doesn't exists in messageFrom, created window named [WindowFor $chatid]\n"
 	  WinTopUpdate $chatid
 
       }
 
-     ${win_name}.text configure -state normal -font bplainf -foreground black
+     ${win_name}.f.text configure -state normal -font bplainf -foreground black
 
 
-     ${win_name}.text tag configure ftyes$cookie \
+     ${win_name}.f.text tag configure ftyes$cookie \
        -foreground darkblue -background white -font bboldf -underline false
-     ${win_name}.text tag bind ftyes$cookie <Enter> \
-       "${win_name}.text tag conf ftyes$cookie -underline true;\
-       ${win_name}.text conf -cursor hand2"
-     ${win_name}.text tag bind ftyes$cookie <Leave> \
-       "${win_name}.text tag conf ftyes$cookie -underline false;\
-       ${win_name}.text conf -cursor left_ptr"
-     ${win_name}.text tag bind ftyes$cookie <Button1-ButtonRelease> \
+     ${win_name}.f.text tag bind ftyes$cookie <Enter> \
+       "${win_name}.f.text tag conf ftyes$cookie -underline true;\
+       ${win_name}.f.text conf -cursor hand2"
+     ${win_name}.f.text tag bind ftyes$cookie <Leave> \
+       "${win_name}.f.text tag conf ftyes$cookie -underline false;\
+       ${win_name}.f.text conf -cursor left_ptr"
+     ${win_name}.f.text tag bind ftyes$cookie <Button1-ButtonRelease> \
        "::amsn::AcceptedFT $chatid $cookie; ::amsn::RecvWin {$filename} $cookie; ::MSN::acceptFT $chatid {$filename} $filesize $cookie"
 
-     ${win_name}.text tag configure ftno$cookie \
+     ${win_name}.f.text tag configure ftno$cookie \
        -foreground darkblue -background white -font bboldf -underline false
-     ${win_name}.text tag bind ftno$cookie <Enter> \
-       "${win_name}.text tag conf ftno$cookie -underline true;\
-       ${win_name}.text conf -cursor hand2"
-     ${win_name}.text tag bind ftno$cookie <Leave> \
-       "${win_name}.text tag conf ftno$cookie -underline false;\
-       ${win_name}.text conf -cursor left_ptr"
-     ${win_name}.text tag bind ftno$cookie <Button1-ButtonRelease> \
+     ${win_name}.f.text tag bind ftno$cookie <Enter> \
+       "${win_name}.f.text tag conf ftno$cookie -underline true;\
+       ${win_name}.f.text conf -cursor hand2"
+     ${win_name}.f.text tag bind ftno$cookie <Leave> \
+       "${win_name}.f.text tag conf ftno$cookie -underline false;\
+       ${win_name}.f.text conf -cursor left_ptr"
+     ${win_name}.f.text tag bind ftno$cookie <Button1-ButtonRelease> \
        "::amsn::RejectedFT $chatid $cookie; ::MSN::rejectFT $chatid $cookie"
 
      set timestamp [clock format [clock seconds] -format %H:%M]
@@ -164,17 +164,17 @@ namespace eval ::amsn {
      set txt [trans acceptfile '$filename' $filesize $files_dir]
 
      #TODO: Use Winwrite, os similar, instead of doing it directly
-     ${win_name}.text insert end "----------\n" gray
-     ${win_name}.text image create end -image fticon -pady 2 -padx 3
-     ${win_name}.text insert end "\[$timestamp\] $fromname: $txt" gray
-     ${win_name}.text insert end " - (" gray
-     ${win_name}.text insert end "[trans accept]" ftyes$cookie
-     ${win_name}.text insert end " / " gray
-     ${win_name}.text insert end "[trans reject]" ftno$cookie
-     ${win_name}.text insert end " )\n" gray
-     ${win_name}.text insert end "----------\n" gray
-     ${win_name}.text yview moveto 1.0
-     ${win_name}.text configure -state disabled
+     ${win_name}.f.text insert end "----------\n" gray
+     ${win_name}.f.text image create end -image fticon -pady 2 -padx 3
+     ${win_name}.f.text insert end "\[$timestamp\] $fromname: $txt" gray
+     ${win_name}.f.text insert end " - (" gray
+     ${win_name}.f.text insert end "[trans accept]" ftyes$cookie
+     ${win_name}.f.text insert end " / " gray
+     ${win_name}.f.text insert end "[trans reject]" ftno$cookie
+     ${win_name}.f.text insert end " )\n" gray
+     ${win_name}.f.text insert end "----------\n" gray
+     ${win_name}.f.text yview moveto 1.0
+     ${win_name}.f.text configure -state disabled
      WinFlicker $chatid
 
       if { "[wm state ${win_name}]" == "withdrawn" } {
@@ -255,7 +255,7 @@ namespace eval ::amsn {
    # Called by the protocol layer when a message 'msg' arrives from the chat
    # 'chatid'.'user' is the login of the message sender, and 'user' can be "msg" to
    # send special messages not prefixed by "XXX says:". 'type' can be a style tag as
-   # defined in the openWindow proc, or just "user". If the tpye is "user",
+   # defined in the openChatWindow proc, or just "user". If the tpye is "user",
    # the 'fontformat' parameter will be used as font format.
    # The procedure will open a window if it does not exists, add a notifyWindow and
    # play a sound if it's necessary
@@ -265,7 +265,7 @@ namespace eval ::amsn {
 
       if { $win_name == 0 } {
 
-         set win_name [openWindow]
+         set win_name [openChatWindow]
 	  SetWindowFor $chatid $win_name
          status_log "NEW - Window doesn't exists in messageFrom, created window named [WindowFor $chatid]\n"
 	  WinTopUpdate $chatid
@@ -331,15 +331,15 @@ namespace eval ::amsn {
 
       set win_name [WindowFor $chatid]
 
-      ${win_name}.top.text configure -state normal -font splainf -height 1
-      ${win_name}.top.text delete 0.0 end
-      ${win_name}.top.text insert end $topmsg
-      set size [${win_name}.top.text index end]
+      ${win_name}.f.top.text configure -state normal -font sboldf -height 1
+      ${win_name}.f.top.text delete 0.0 end
+      ${win_name}.f.top.text insert end $topmsg
+      set size [${win_name}.f.top.text index end]
       set posyx [split $size "."]
       set lines [expr {[lindex $posyx 0] - 1}]
 
-      ${win_name}.top.text configure -state normal -font splainf -height $lines -wrap none
-      ${win_name}.top.text configure -state disabled
+      ${win_name}.f.top.text configure -state normal -font sboldf -height $lines -wrap none
+      ${win_name}.f.top.text configure -state disabled
 
       set window_titles(${win_name}) ${title}
       wm title ${win_name} ${title}
@@ -389,7 +389,7 @@ namespace eval ::amsn {
 
       if {[WindowFor $chatid] == 0} {
 	  status_log "userJoins: Window doesn't exist\n"
-         set win_name [openWindow]
+         set win_name [openChatWindow]
          SetWindowFor $chatid $win_name
       }
 
@@ -484,9 +484,9 @@ namespace eval ::amsn {
 
 
    #///////////////////////////////////////////////////////////////////////////////
-   # openWindow ()
+   # openChatWindow ()
    # Opens a new hidden chat window and returns its name.
-   proc openWindow {} {
+   proc openChatWindow {} {
       variable winid
       variable window_titles
       global images_folder config HOME files_dir
@@ -567,93 +567,123 @@ namespace eval ::amsn {
       .${win_name}.copypaste add command -label [trans copy] -command "status_log copy\n;copy 0 ${win_name}"
       .${win_name}.copypaste add command -label [trans paste] -command "status_log paste\n;paste ${win_name}"
 
-      frame .${win_name}.top -class Amsn
-      text .${win_name}.top.text  -borderwidth 1 -width 45 -relief solid -padx 7 -pady 3\
-         -height 1 -wrap none -yscrollcommand ".${win_name}.top.ys set" -background [notebook::tkDarkenn $config(backgroundcolor) 90]
-      scrollbar .${win_name}.top.ys -command ".${win_name}.top.text yview" \
+      set bgcolor #0050C0
+      set bgcolor2 #D0D0F0
 
-      text .${win_name}.text -background white -width 45 -height 15 -wrap word \
-         -yscrollcommand ".${win_name}.ys set" -exportselection 1
-      scrollbar .${win_name}.ys -command ".${win_name}.text yview" \
+      frame .${win_name}.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -padx 3 -pady 1 -relief flat
+
+      text .${win_name}.f.text -borderwidth 0 -background white -width 45 -height 15 -wrap word \
+         -yscrollcommand ".${win_name}.f.ys set" -exportselection 1  -relief solid -highlightthickness 0
+
+      frame .${win_name}.f.top -class Amsn -relief flat -borderwidth 0 -padx 0 -pady 0 -background $bgcolor
+
+
+      text .${win_name}.f.top.textto  -borderwidth 0 -width [string length "[trans to]:"] -relief solid -padx 0 -pady 3\
+         -height 1 -wrap none -background $bgcolor -foreground $bgcolor2 -highlightthickness 0
+      .${win_name}.f.top.textto configure -state normal -font bplainf
+      .${win_name}.f.top.textto insert end "[trans to]:"
+      .${win_name}.f.top.textto configure -state disabled
+
+      text .${win_name}.f.top.text  -borderwidth 0 -width 45 -relief flat -padx 5 -pady 3\
+         -height 1 -wrap none -background $bgcolor -foreground $bgcolor2 -highlightthickness 0
+
+#-yscrollcommand ".${win_name}.f.top.ys set"
+
+
+
+      frame .${win_name}.f.buttons -class Amsn -borderwidth 0 -relief solid -background $bgcolor2
+
+      frame .${win_name}.f.in -class Amsn -pady 3 -background $bgcolor -relief solid -borderwidth 0
+
+      text .${win_name}.f.in.input -background white -width 15 -height 3 -wrap word\
+         -font bboldf -borderwidth 0 -relief solid -highlightthickness 0
+
+      frame .${win_name}.f.in.f -class Amsn -borderwidth 0 -relief solid -background white -padx 3 -pady 4
+      button .${win_name}.f.in.f.send  -text [trans send] -width 5 -borderwidth 1 -relief solid\
+         -command "::amsn::MessageSend .${win_name} .${win_name}.f.in.input" -font bplainf -highlightthickness 0
+
+
+      #scrollbar .${win_name}.f.top.ys -command ".${win_name}.f.top.text yview"
+
+      scrollbar .${win_name}.f.ys -command ".${win_name}.f.text yview" \
 
       text .${win_name}.status  -width 30 -height 1 -wrap none\
-         -font bplainf
-      frame .${win_name}.in -class Amsn
-      text .${win_name}.in.input -background white -width 15 -height 3 -wrap word\
-         -font bboldf
+         -font bplainf -borderwidth 1
 
-      button .${win_name}.in.send  -text [trans send] -width 5 \
-         -command "::amsn::MessageSend .${win_name} .${win_name}.in.input" -font bboldf
 
-      frame .${win_name}.buttons -class Amsn -borderwidth 2 -relief ridge
 
-      button .${win_name}.buttons.smileys  -image butsmile -relief flat -padx 5
-      button .${win_name}.buttons.fontsel -image butfont -relief flat -padx 5
-      button .${win_name}.buttons.block -image butblock -relief flat -padx 5
-      pack .${win_name}.buttons.block .${win_name}.buttons.fontsel .${win_name}.buttons.smileys -side left
+      button .${win_name}.f.buttons.smileys  -image butsmile -relief flat -padx 5
+      button .${win_name}.f.buttons.fontsel -image butfont -relief flat -padx 5
+      button .${win_name}.f.buttons.block -image butblock -relief flat -padx 5
+      pack .${win_name}.f.buttons.block .${win_name}.f.buttons.fontsel .${win_name}.f.buttons.smileys -side left
 
-      pack .${win_name}.top -side top -fill x
+      pack .${win_name}.f.top -side top -fill x
       pack .${win_name}.status -side bottom -fill x
-      pack .${win_name}.in -side bottom -fill x
-      pack .${win_name}.buttons -side bottom -fill x
-      pack .${win_name}.ys -side right -fill y
-      pack .${win_name}.text -expand true -fill both
+      pack .${win_name}.f.in -side bottom -fill x
+      pack .${win_name}.f.buttons -side bottom -fill x
+      pack .${win_name}.f.ys -side right -fill y
+      pack .${win_name}.f.text -side right -expand true -fill both
+           
+      pack .${win_name}.f.top.textto -side left -expand true -fill y
+      pack .${win_name}.f.top.text -side left -expand true -fill x
 
-      pack .${win_name}.top.text -side left -expand true -fill x
-      pack .${win_name}.in.send -side right -fill y
-      pack .${win_name}.in.input -side left -expand true -fill x
+      pack .${win_name}.f.in.f -side right -fill y
+      pack .${win_name}.f.in.f.send -fill both -expand true
+      pack .${win_name}.f.in.input -side left -expand true -fill x
+      
+      pack .${win_name}.f -expand true -fill both
 
-      .${win_name}.top.text configure -state disabled
-      .${win_name}.text configure -state disabled
+      .${win_name}.f.top.text configure -state disabled
+      .${win_name}.f.text configure -state disabled
       .${win_name}.status configure -state disabled
-      .${win_name}.in.send configure -state disabled
-      .${win_name}.in.input configure -state normal
+      .${win_name}.f.in.f.send configure -state disabled
+      .${win_name}.f.in.input configure -state normal
 
 
-      .${win_name}.text tag configure green -foreground darkgreen -background white -font bboldf
-      .${win_name}.text tag configure red -foreground red -background white -font bboldf
-      .${win_name}.text tag configure blue -foreground blue -background white -font bboldf
-      .${win_name}.text tag configure gray -foreground #808080 -background white
-      .${win_name}.text tag configure white -foreground white -background black
-      .${win_name}.text tag configure url -foreground darkblue -background white -font bboldf -underline true
-      #.${win_name}.text tag configure sel -foreground white -background darkblue
+      .${win_name}.f.text tag configure green -foreground darkgreen -background white -font bboldf
+      .${win_name}.f.text tag configure red -foreground red -background white -font bboldf
+      .${win_name}.f.text tag configure blue -foreground blue -background white -font bboldf
+      .${win_name}.f.text tag configure gray -foreground #808080 -background white
+      .${win_name}.f.text tag configure white -foreground white -background black
+      .${win_name}.f.text tag configure url -foreground darkblue -background white -font bboldf -underline true
+      #.${win_name}.f.text tag configure sel -foreground white -background darkblue
 
-      bind .${win_name}.in.input <Tab> "focus .${win_name}.in.send; break"
+      bind .${win_name}.f.in.input <Tab> "focus .${win_name}.f.in.f.send; break"
 
-      bind  .${win_name}.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y .${win_name}.in.input"
-      bind  .${win_name}.buttons.fontsel  <Button1-ButtonRelease> "change_myfont ${win_name}"
-      bind  .${win_name}.buttons.block  <Button1-ButtonRelease> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} blockun_user"
+      bind  .${win_name}.f.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y .${win_name}.f.in.input"
+      bind  .${win_name}.f.buttons.fontsel  <Button1-ButtonRelease> "change_myfont ${win_name}"
+      bind  .${win_name}.f.buttons.block  <Button1-ButtonRelease> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} blockun_user"
 
-      bind .${win_name}.in.send <Return> \
-         "::amsn::MessageSend .${win_name} .${win_name}.in.input; break"
-      bind .${win_name}.in.input <Control-Return> {%W insert end "\n"; break}
-      bind .${win_name}.in.input <Shift-Return> {%W insert end "\n"; break}
+      bind .${win_name}.f.in.f.send <Return> \
+         "::amsn::MessageSend .${win_name} .${win_name}.f.in.input; break"
+      bind .${win_name}.f.in.input <Control-Return> {%W insert end "\n"; break}
+      bind .${win_name}.f.in.input <Shift-Return> {%W insert end "\n"; break}
 
-      bind .${win_name}.in.input <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
-      bind .${win_name}.text <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
+      bind .${win_name}.f.in.input <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
+      bind .${win_name}.f.text <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
       bind .${win_name} <Control-x> "status_log cut\n;copy 1 ${win_name}"
       bind .${win_name} <Control-c> "status_log copy\n;copy 0 ${win_name}"
       bind .${win_name} <Control-v> "status_log paste\n;paste ${win_name}"
 
       bind .${win_name} <Destroy> "::amsn::closeWindow .${win_name} %W"
 
-      focus .${win_name}.in.input
+      focus .${win_name}.f.in.input
 
       change_myfontsize $config(textsize) ${win_name}
 
       status_log "NEW - Window created\n" white
 
       #TODO: We always want these menus and bindings enabled? Think it!!
-      .${win_name}.in.input configure -state normal
-      .${win_name}.in.send configure -state normal
+      .${win_name}.f.in.input configure -state normal
+      .${win_name}.f.in.f.send configure -state normal
 
       .${win_name}.menu.msn entryconfigure 3 -state normal
       .${win_name}.menu.actions entryconfigure 5 -state normal
 
-      bind .${win_name}.in.input <Key> "::amsn::TypingNotification .${win_name}"
-      bind .${win_name}.in.input <Return> "::amsn::MessageSend .${win_name} %W; break"
-      bind .${win_name}.in.input <Key-KP_Enter> "::amsn::MessageSend .${win_name} %W; break"
-      bind .${win_name}.in.input <Alt-s> "::amsn::MessageSend .${win_name} %W; break"
+      bind .${win_name}.f.in.input <Key> "::amsn::TypingNotification .${win_name}"
+      bind .${win_name}.f.in.input <Return> "::amsn::MessageSend .${win_name} %W; break"
+      bind .${win_name}.f.in.input <Key-KP_Enter> "::amsn::MessageSend .${win_name} %W; break"
+      bind .${win_name}.f.in.input <Alt-s> "::amsn::MessageSend .${win_name} %W; break"
 
 
       set window_titles(.${win_name}) ""
@@ -1081,7 +1111,7 @@ namespace eval ::amsn {
 
       if { $win_name == 0 } {
 
-	  set win_name [openWindow]
+	  set win_name [openChatWindow]
          SetWindowFor $user $win_name
 
       }
@@ -1100,7 +1130,7 @@ namespace eval ::amsn {
 
       #We have a window for that chatid, raise it
       raise ${win_name}
-      focus ${win_name}.in.input
+      focus ${win_name}.f.in.input
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -1121,10 +1151,10 @@ namespace eval ::amsn {
          return 0
       }
 
-      ${win_name}.text configure -state normal -font bplainf -foreground black
+      ${win_name}.f.text configure -state normal -font bplainf -foreground black
 
 
-      set text_start [${win_name}.text index end]
+      set text_start [${win_name}.f.text index end]
       set posyx [split $text_start "."]
       set text_start "[expr {[lindex $posyx 0]-1}].[lindex $posyx 1]"
 
@@ -1136,13 +1166,13 @@ namespace eval ::amsn {
 
          set tagid [::md5::md5 "$font$fontcolor"]
 
-         if {[catch {${win_name}.text tag configure $tagid -foreground #$fontcolor -font $font} res] || [string length $fontname] <3} {
+         if {[catch {${win_name}.f.text tag configure $tagid -foreground #$fontcolor -font $font} res] || [string length $fontname] <3} {
             status_log "Font $font or color $fontcolor wrong. Using default\n" red
-            ${win_name}.text tag configure $tagid -foreground black -font bplainf
+            ${win_name}.f.text tag configure $tagid -foreground black -font bplainf
          }
       }
 
-      ${win_name}.text insert end "$txt" $tagid
+      ${win_name}.f.text insert end "$txt" $tagid
 
       if {$config(keep_logs) && [sb exists $name log_fcid]} {	;# LOGS!
          puts -nonewline [sb get $name log_fcid] $txt
@@ -1153,11 +1183,11 @@ namespace eval ::amsn {
 
       foreach url $urlstarts {
 
-         while { $endpos != [${win_name}.text index end] && [set pos [${win_name}.text search -forward -exact -nocase \
+         while { $endpos != [${win_name}.f.text index end] && [set pos [${win_name}.f.text search -forward -exact -nocase \
                                  $url $endpos end]] != "" } {
 
 
-	   set urltext [${win_name}.text get $pos end]
+	   set urltext [${win_name}.f.text get $pos end]
 
 	   set final 0
 	   set caracter [string range $urltext $final $final]
@@ -1174,30 +1204,30 @@ namespace eval ::amsn {
 	   set urlcount "[expr {$urlcount+1}]"
 	   set urlname "url_$urlcount"
 
-	   ${win_name}.text tag configure $urlname \
+	   ${win_name}.f.text tag configure $urlname \
 	      -foreground darkblue -background white -font bboldf -underline true
-	      ${win_name}.text tag bind $urlname <Enter> \
-	      "${win_name}.text tag conf $urlname -underline false;\
-	      ${win_name}.text conf -cursor hand2"
-	   ${win_name}.text tag bind $urlname <Leave> \
-	      "${win_name}.text tag conf $urlname -underline true;\
-	      ${win_name}.text conf -cursor left_ptr"
-	   ${win_name}.text tag bind $urlname <Button1-ButtonRelease> \
+	      ${win_name}.f.text tag bind $urlname <Enter> \
+	      "${win_name}.f.text tag conf $urlname -underline false;\
+	      ${win_name}.f.text conf -cursor hand2"
+	   ${win_name}.f.text tag bind $urlname <Leave> \
+	      "${win_name}.f.text tag conf $urlname -underline true;\
+	      ${win_name}.f.text conf -cursor left_ptr"
+	   ${win_name}.f.text tag bind $urlname <Button1-ButtonRelease> \
 	      "launch_browser \"$urltext\""
 
-  	   ${win_name}.text delete $pos $endpos
-	   ${win_name}.text insert $pos "$urltext" $urlname
+  	   ${win_name}.f.text delete $pos $endpos
+	   ${win_name}.f.text insert $pos "$urltext" $urlname
 
          }
       }
 
       if {$config(chatsmileys)} {
-         smile_subst ${win_name}.text $text_start
+         smile_subst ${win_name}.f.text $text_start
       }
 
 
-      ${win_name}.text yview moveto 1.0
-      ${win_name}.text configure -state disabled
+      ${win_name}.f.text yview moveto 1.0
+      ${win_name}.f.text configure -state disabled
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -1209,34 +1239,34 @@ namespace eval ::amsn {
 
       set win_name [WindowFor $chatid]
 
-     ${win_name}.text configure -state normal -font bplainf -foreground black
+     ${win_name}.f.text configure -state normal -font bplainf -foreground black
 
 
-     ${win_name}.text tag configure ftyes$cookie \
+     ${win_name}.f.text tag configure ftyes$cookie \
        -foreground #808080 -background white -font bplainf -underline false
-     ${win_name}.text tag bind ftyes$cookie <Enter> ""
-     ${win_name}.text tag bind ftyes$cookie <Leave> ""
-     ${win_name}.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
+     ${win_name}.f.text tag bind ftyes$cookie <Enter> ""
+     ${win_name}.f.text tag bind ftyes$cookie <Leave> ""
+     ${win_name}.f.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
 
 
-     ${win_name}.text tag configure ftno$cookie \
+     ${win_name}.f.text tag configure ftno$cookie \
        -foreground #808080 -background white -font bplainf -underline false
-     ${win_name}.text tag bind ftno$cookie <Enter> ""
-     ${win_name}.text tag bind ftno$cookie <Leave> ""
-     ${win_name}.text tag bind ftno$cookie <Button1-ButtonRelease> ""
+     ${win_name}.f.text tag bind ftno$cookie <Enter> ""
+     ${win_name}.f.text tag bind ftno$cookie <Leave> ""
+     ${win_name}.f.text tag bind ftno$cookie <Button1-ButtonRelease> ""
 
-     ${win_name}.text conf -cursor left_ptr
+     ${win_name}.f.text conf -cursor left_ptr
 
      set txt [trans ftaccepted]
 
      #TODO: Use WinWrite or similar
-     ${win_name}.text insert end "----------\n" gray
-     ${win_name}.text image create end -image fticon -pady 2 -padx 3
-     ${win_name}.text insert end " $txt\n" gray
-     ${win_name}.text insert end "----------\n" gray
+     ${win_name}.f.text insert end "----------\n" gray
+     ${win_name}.f.text image create end -image fticon -pady 2 -padx 3
+     ${win_name}.f.text insert end " $txt\n" gray
+     ${win_name}.f.text insert end "----------\n" gray
 
-     ${win_name}.text yview moveto 1.0
-     ${win_name}.text configure -state disabled
+     ${win_name}.f.text yview moveto 1.0
+     ${win_name}.f.text configure -state disabled
    }
 
    proc RejectedFT {chatid cookie} {
@@ -1245,32 +1275,32 @@ namespace eval ::amsn {
 
      #TODO: Use WinWrite or similar (when possible)
      # Improve WinWrite to support tags, clickable text, and so on
-     ${win_name}.text configure -state normal -font bplainf -foreground black
+     ${win_name}.f.text configure -state normal -font bplainf -foreground black
 
 
      ${win_name}.text tag configure ftyes$cookie \
        -foreground #808080 -background white -font bplainf -underline false
-     ${win_name}.text tag bind ftyes$cookie <Enter> ""
-     ${win_name}.text tag bind ftyes$cookie <Leave> ""
-     ${win_name}.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
+     ${win_name}.f.text tag bind ftyes$cookie <Enter> ""
+     ${win_name}.f.text tag bind ftyes$cookie <Leave> ""
+     ${win_name}.f.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
 
-     ${win_name}.text tag configure ftno$cookie \
+     ${win_name}.f.text tag configure ftno$cookie \
        -foreground #808080 -background white -font bplainf -underline false
-     ${win_name}.text tag bind ftno$cookie <Enter> ""
-     ${win_name}.text tag bind ftno$cookie <Leave> ""
-     ${win_name}.text tag bind ftno$cookie <Button1-ButtonRelease> ""
+     ${win_name}.f.text tag bind ftno$cookie <Enter> ""
+     ${win_name}.f.text tag bind ftno$cookie <Leave> ""
+     ${win_name}.f.text tag bind ftno$cookie <Button1-ButtonRelease> ""
 
-     ${win_name}.text conf -cursor left_ptr
+     ${win_name}.f.text conf -cursor left_ptr
 
      set txt [trans ftrejected]
 
-     ${win_name}.text insert end "----------\n" gray
-     ${win_name}.text image create end -image ftreject -pady 2 -padx 3
-     ${win_name}.text insert end "$txt\n" gray
-     ${win_name}.text insert end "----------\n" gray
+     ${win_name}.f.text insert end "----------\n" gray
+     ${win_name}.f.text image create end -image ftreject -pady 2 -padx 3
+     ${win_name}.f.text insert end "$txt\n" gray
+     ${win_name}.f.text insert end "----------\n" gray
 
-     ${win_name}.text yview moveto 1.0
-     ${win_name}.text configure -state disabled
+     ${win_name}.f.text yview moveto 1.0
+     ${win_name}.f.text configure -state disabled
    }
 
    #PRIVATE: Opens Sending Window

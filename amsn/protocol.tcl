@@ -1670,8 +1670,6 @@ proc cmsn_sb_sessionclosed {sbn} {
 proc cmsn_update_users {sb_name recv} {
    global config msg_windows  
 
-   status_log "MWB: entering cmsn_update_users(${sb_name},$recv)\n" white
-
 
    switch [lindex $recv 0] {
 
@@ -1696,7 +1694,9 @@ proc cmsn_update_users {sb_name recv} {
 
 	  set chatid [::MSN::ChatFor $sb_name]
 
-	  ::amsn::userLeaves $chatid [list [lindex $recv 1]]
+	  if {[::MSN::SBFor $chatid] == $sb_name} {
+  	     ::amsn::userLeaves $chatid [list [lindex $recv 1]]
+	  }
       }
 
       IRO {
@@ -1705,7 +1705,7 @@ proc cmsn_update_users {sb_name recv} {
 	  #I'll get an IRO message when I JOIN a conversation, one IRO for
 	  #every user already in the conversation
          sb set $sb_name stat "o"
-	  
+
 	  set usr_login [string tolower [lindex $recv 4]]
 	  set usr_name [urldecode [lindex $recv 5]]
 
@@ -1797,7 +1797,9 @@ proc cmsn_update_users {sb_name recv} {
 
 	  }
 
-	  ::amsn::userJoins $newchatid $usr_name
+	  if {[::MSN::SBFor $newchatid] == $sb_name} {
+	     ::amsn::userJoins $newchatid $usr_name
+	  }
       }
    }
 
@@ -1880,7 +1882,6 @@ proc cmsn_update_users {sb_name recv} {
    #  status_log "MWB:   no users in chat\n" white
    #}
 
-   status_log "MWB: exiting cmsn_update_users(${sb_name},$recv)\n" white
 }
 #///////////////////////////////////////////////////////////////////////
 
