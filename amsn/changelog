@@ -26,6 +26,9 @@ Version 0.52
 		  never connected) when the user is/appear offline
 		o Address book displays information about selected
 		  user (phone numbers, email, handle, group, etc.)
+		o Added Tools|Options|Publish my phone numbers which allows
+		  the user to publish his/her phone numbers as used in
+		  the address book.
 
 Version 0.51
 20020604	o Some fixes and menu reorganizations
