@@ -1,0 +1,444 @@
+amsn_lang_version 2
+about O...
+accept Prihvatiti
+acceptfile Datoteku $1 (Velicina: $2) prihvatiti? Memorisana u $3 
+actions Akcije
+addacontact Novi kontakt
+addedyou $1 ($2) vas je dodao na listu
+addprofiledesc Molim Vas unesite informacije za vas novi profil.\nLogiranje sa profilom omogucava Vam razlicite konfiguracije za svako novo logiranje.\nBez profila nije moguce koristiti istoriju, alarme i memorisane lozinke. 
+addprofile Novi profil
+addstate  Novi status
+addtocontacts Ubaci u listu 
+addto Dodaj u $1
+addtoo Ovu osobu dodaj u listu  
+admincontacts  Kontakti
+admingroups  Grupe
+adverts Reklama
+alarmonconnect Alarm, ako je korisnik online
+alarmondisconnect Alarm, ako se korisnik odjavio
+alarmonmsg Alarm, ako mi korisnik poruku poslao
+alarmonstatus Alarm, ako je korisnik promjenio status
+alarmpref Obavjestenja za ovog korisnika konfigurisati
+alarmstatus Obavjestenja za ovog korisnika ukljuciti/iskljuciti
+allowallbutbl Dozvoli svima, osim blokiranim korisnicima, da me kontaktiraju
+allowbadwords Dozvoli svakakve nadimke
+allowlist Akceptiraj
+allowonlyinal Dozvoli samo korisnicima iz moje Akceptiraj-liste da me kontaktiraju
+allowseen Ovoj osobi dozvoli da vidi kada sam online i da me kontaktira
+animatedemoticon Ova emocija je animirana
+animatedsmileys Animirane osmjehe aktivirati
+appearance Prikaz
+appearoff Prikazi kao offline
+areacode Pozivni
+aretyping $1 unesite poruku
+autoaccepted Automatsko akceptiranje prenosa podataka
+autoacceptft Omoguci automatsko akceptiranje zahtjeva za datotekama
+autoaway Postavi kao "Odsutan" nakon neaktivnog rada od
+autoconnect2 Automatsko logiranje pri startovanju aMSN-a
+autoconnect Automatsko prijavljivanje pri startovanju aMSN-a
+autohotmaillog Automatsko prijavljivanje na Hotmail
+autoidle Automatsko smanjenje opterecenja procesora ako sam neaktivan
+autoip Automatska IP adresa 
+autonoact Postavi kao "Nedostupan" nakon neaktivnog rada od
+avoidseen Ovoj osobi onemoguci da vidi kada sam online i da uspostavi kontakt
+away Odsutan
+awaymsg1 Svaki put poslije Odsutan-poruke pitaj, ako prmjenim status na Vracam se odmah ili Zauzet
+awaymsg2 Nikad ne pitaj, i uvijek primjeni donji razlog
+baduserpass Pogresno korisnicko ime ili lozinka
+bgcolor Promjeni boju pozadine za aMSN
+blankdirect Pri direktnoj vezi ostavi prazno
+block Blokada
+blocked Blokirano
+blockedyougroup Prikazi dodatnu grupu za osobe koje su mene blokirale
+blocking Blokiraj
+blockinter1 Ako je vas status "Online" svakih
+blockinter2 Provjeri sekunde, inace svakih
+blockinter3 svakih
+blockinter4 sekundi.
+blocklist Blokiraj
+blockmessage Ove osobe su online i blokiraju vas
+blockusers Broj korisnika koje mogu istovremno testirati
+broughtby Od ovih programera za Vas
+browse Navigacija
+browser Browser
+browserexample ( \$url bit'ce promjenjena u URL) Npr.: mozilla\$url
+busy Zauzet
+cancel Zatvori
+cannotdeleteprofile Profil ne mogu izbrisati, najvjerovatnije je trenutno u koristenju.
+cantexec Ne mogu izvrsiti $1. Provjerite postavke!
+casesensitive Koristi osjetljivu kombinaciju znakova, koja razlikuje velika i mala slova
+cfgalarm Konfiguracija obavjestenja dodati/izbrisati
+changefont Fontovi
+changenick Izmjena nadimka
+changestate $1 promenjeno u $2
+chatack Prihvati razgovor sa
+chat Razgovor
+chatmaxmin Ako neko sa mnom pocne da razgovora zelim da bude
+chatreq Poziv za razgovor
+chatsmileys2 Osmjehe i emocije u prozoru za razgovor prikazati
+chatsmileys Smijesci dok traje razgovor
+checkblocking Neprestano testiranje da li me neki korisnik blokira
+checkfilman Primljene datoteke bit'ce memorisane u $1. Molim vas da provjerite file manager postavke.
+checkingver Provjera verzije
+checkonfln Testiraj da li me neki korisnik blokira dok prelazi u Offline status.
+checkver Provjeri verziju
+choosearq Odaberite arhitekturu vaseg sistema
+choosebasefont Izbor fonta
+choosebgcolor Boje
+choosecontact Molim vas da odaberete jedan kontakt iz Vase liste
+choosefontcolor Boja za font
+chooseskin Odaberite jedan izgled 
+clearlog2 Cijelu istoriju izbrisati
+clearlog3 Sve Log-datoteke izbrisati
+clearlog Log datoteku izbrisati
+clicktologin Kliknite ovdje za prijavu 
+closed Zatvoreno
+close Zatvori
+closingdocks Dugme "Zatvoriti" minimira prozor
+command Naredba
+confirmdelete $1 zaista izbrisati?
+confirm Da li ste sigurni?
+connected Vi ste sada spojeni
+connecterror Veza sa serverom nije uspostavljena!
+connecting Spajam se...
+connectionlost Odvajam: Veza sa serverom zavrsena
+connection Veza
+contactadded Kontakt dodan
+contactdoesnotexist Kontakt ne postoji!
+contactlist Kontakti
+copy Kopiraj
+copytogroup Kopiraj u grupu
+countrycode Kod moje drzave (ba)
+cprofile Novi profil napraviti
+custom_edit Obradjivanje mojih osmijeha
+custom_new Dodati novi Smiley 
+cut Izrezati
+date Datum
+days dana
+dcprofile Ne pravi profil
+defaultloginradio Logiranje sa standardnom konfiguracijom
+default Standardne postavke
+delete Izbrisi
+deliverfail Pojavio se problem pri dostavljanju sljedece poruke
+delprofile2 Izaberite profil koji zelite izbrisati
+delprofile Profil izbrisati
+description Opis
+directconnection Direktna veza sa interneton (port 1863)
+disablessl SSL deaktivirati.
+disconnect $1 se odjavio.
+dockfreedesktop Usidri na slobodnoj radnoj povrsini(KDE3/Gnome2)
+dockgtk U GTK usidriti
+docking Usidrivanje
+dockingoff Iskljuceno
+dockkde Usidriti u KDE
+dontdownload Ne skidajte TSL, uradit'cu sve sam.
+downloadingtls Skini TLS Modul sa:\n $1
+edit Promjeniti
+editcurrentstate Projena trenutnih  
+editnewstate Novi licni Auto-poruka-status
+editprofile Profil izmjeniti
+editstate Postojece auto-poruke - Status obraditi
+emotisounds Odsvirati ton pri emocijama
+enableproxy Proxy aktivirati
+enableremote Aktivirati kontrolu sa daljine 
+enablesound Sounds aktivirati
+encoding2 Kodni raspored promjeniti
+encoding Kodovi
+entercontactemail E-Mail adresa 
+enterfilename Upisite naziv datoteke
+enternick Vase ime
+errortls Greska pri instalaciji TLS Modula:
+examples Primjeri
+exitamsn Da li ste sigurni?
+extras Ekstra
+faq FAQ (Cesto postavljana pitanja)
+filedoesnotexist Datoteka ne postoji
+fileman Manager za datoteke
+filemanexample (\$location bit'ce promjenjena kroz direktorijum)Npr.: nautilus\$location
+filename Naziv datoteke
+filetransfercancelled Prenos prekinut
+filetransfercomplete Prenos zavrsen
+followtext Na dole, ako novi tekst bude upisan
+ftacceptedby $1 akceptirati poziv za prenos datoteke '$2'.
+ftaccepted Prenos prihvacen
+ftaccepting Akzeptirati poziv za prenos datoteka
+ftconnecterror Greska pri spajanju do suprotne strane
+ftconnecting Spoji port $1 sa $2
+ftconnectionlost Veza sa suprotnom stranom izgubljena
+ftgotinvitation $1 zeli vama datoteku '$2' ($3 Bytes) poslati. Bit'ce memorisana u $4 direktorijumu.Zelite li primiti?
+ftportpref Pocetni port za prenos podataka
+ftrejectedby $1 odbija poziv za prenos datoteke '$2' ab.
+ftrejected Prenos odbijen
+ftsendinvitation Poziv za prenos datoteke '$2' ($3 Bytes) poslan na $1.
+gonelunch Pauza
+groupadd Dodati
+groupdelete Izbrisati
+groupexists Grupa vec postoji
+group Grupa
+groupmissing Ne mogu da nadjem grupu
+groupnewname Novo ime
+groupnotempty Grupa nije prazna
+groupoldname Staro ime
+grouprename Naziv grupe promjeniti
+groupunknown Nepoznata grupa
+handle Manupulirati
+helpcontents Pomoc-Sadrzaj
+help Pomoc
+hiden Emocije i osmjehe iz menija sakriti
+hidewindow Prozore sakriti
+history Arhiva poruka
+home Start
+httpconnection Spajanje sa HTTP metodom (koristi http protokol, port 80)
+hybrid Mjesano
+ident Identifikacija
+identity Identitet
+inbox Postansko sanduce
+internalerror Interna greska na serveru
+invalidfile Datoteka $2, unesena u polje $1, ne postoji ili se ne moze citati.
+invalidusername Pogresno korisnicko ime
+invitationcancelled Pozivnica odbijena
+invite Pozivnica
+ipaddress IP-Adresa
+ipdetect Korektnu IP-Adresu za prenos podataka kroz http protokol pronaci
+istyping $1 pise poruku
+joins $1 ubacuje se u razgovor
+keepalive Vezu drzati otvorenom.
+keeplog2  Sve konverzacije u aMSN memoriji protokolirati, za kasnije preglede
+keeplog Chat's protokolirati
+language Jezik
+lastmsgtime Zadanja poruka stigla  $1
+lclosedwin $1 zatvora prozor $2
+lconftopriv Konferencija prelazi u privatni razgovor sa $1
+lconvstarted Razgovor sa $1 startovan
+leaveblankforhotmail Ostaviti prazno, da se hotmail moze koristiti
+leaves $1 napusta
+lenteredconf $1 otpocinje razgovor sa $2
+linprivate PRIVATNO
+listeningon Port $1
+listsmileys2 Emocije i osmjehe u listi prikazati
+listsmileys Prozor sa smjescima prikazati
+ljoinedconf $1 pristupa konferenciji
+lleftconf $1 napusta konferenciju
+loadcontacts Listu ucitati
+logbigger Makimalna velicina log-datoteka za jedan kontakt
+logfandexp Granica za log-datoteke i istoriju
+loggedotherlocation Veza prekinuta.
+loggingin Prijava u toku...
+login Prijava
+loginas Prijavi kao
+loging Prijavljivanje
+logolder Samo konverzacije logirati zadnjih
+logout Odjava
+logsin se upravo prijavio/la
+logsmileys Emocije i osmjehe u istoriji prikazati.
+logsout se upravo prijavio/la
+lprivtoconf Privatni saptanje prelazi u razgovor $1
+luclosedwin Zatvorili ste pendzer od $1.
+mailer E-Mail
+mailerexample ( \$recipient = Primaoc) Pri koristenju  Hotmail-a ostaviti prazno.
+maximised Makimirano
+minimised Minimirano
+mins minuta
+mobile Mobil
+morepersonal Vise stanja (Status) ->
+move Prebaci
+movetogroup Ka grupi pomjeriti
+msgflicker Titrajuci naslov prozora ako dobijete poruku a prozor nije vidljiv
+msgmaxmin Ako nova poruka stigne, neka bude:
+msgmode Kako treba da organizujem vise prozora sa porukama:
+msg Poruka
+msn AMSN
+mustrestart Pri sljedecem startu izmjene ce biti primjenjene.
+myhomephone Kucni tel. broj
+mymobilephone Mobitel
+mystatus Status
+myworkphone Broj tel. na poslu
+natip IP-Adresu pronaci preko WEB-stranice
+natkeepalive Ukljucite ako se veza cesto prekida
+needonline Vi ste jos uvijek offline ili ste kao offline prikazani
+newmail $1 Nove poruke u postanskom sanducetu
+newmailfrom Novi E-Mail od $1 ($2)
+newmsg Nova poruka
+newveravailable Nova verzija $1 je izasla.
+next Dalje
+noactivity Neaktivan
+nodataavailable Nema podataka za $1
+nologfile Bez log datoteke za $1
+noneavailable Nije pristupacno.
+no Ne
+nonewmail 0 novih poruka u sanducetu
+nonewver Trenutno nema nove verzije
+noprofileexists Trenutno ne postoje profili. \n Vi morate jedan profil napraviti, ako se zelite sa profilom prijaviti. \nKoristite "Novi profil napraviti"-dugme u ovom pendzeru, kako bi ste napravili novi profil.
+normal Normalno
+nosystemtray Systemablage nicht verfügbar
+notify1_5 Pokazi prozor za status, ako neki korisnik ide u Offline modus
+notify1_75 Pokazi prozor za status, ako neki korisnik promjeni status
+notify1 Pokazi prozor za status, ako se neki korisnik upravo prijavio kao online
+notify2 Pokazi prozor ako dobijem novu poruku
+notify3 Pokazi prozor ako dobijem novi E-mail
+notify Obavjestenja
+notifyoffset Poziciju prozora za poruke definisati kroz unos pozicija
+notifywin Obavjestajni prozor
+notls MSN Protokol 9 trazi tls-paket. Izgleda da ovaj paket nije instaliran an vasem sistemu.Ako je ipak instaliran ,
+onda treba te promjeniti pravac za biblioteke i direktorijume, koje su unesene u prozoru "Postavke" (Npr.:/opt/tls/lib). \n \n  tls paket mozete sa sljedece adrese skinuti: http://tls.sf.net
+nousersinsession Nema korisnika u sesiji
+offline Offline
+ok OK
+onenewmail 1 nova poruka u postanskom sanducetu
+online Online
+onphone Telefon
+openreceived Primljene datoteke
+options Opcije
+ordercontactsby Kontakte sortiraj prema
+ordergroupsby Grupe sortiraj prema
+other Drugi
+pager Pager
+pass Lozinka
+paste Ubaci
+personal Licno
+phone Telefon
+picfile Sa obavjestenjem spojena slika (GIF < 500 x 500)
+picstatus Sa obavjestenjem spojenu sliku ukljuciti/iskljuciti
+pluginselector Plugins odabrati
+port Port
+prefalerts Tonovi i signali
+prefapps Aplikacije
+prefawaymsg Poruka u statusu "Odsutan"
+prefblock1 Testiraj pri prekidu
+prefblock2 Testiraj neprekidno
+prefblock3 "Vi ste blokirani od " grupe
+prefconnection Postavke za vezu
+prefemotic Emocije i smijesci
+preferences Postavke
+preffont2 Font u kojem drugi vide vas tekst.
+preffont3 aMSN's font i velicina
+preffont Font
+preflibs Direktorijum za biblioteke
+preflog1 Istorija i log opcije
+preflook aMSN Messenger izgled
+prefmsging Postavke prozora za poruke
+prefname MSN nadimak
+prefphone2 Telefonski broj, koji korisnici\niz vase liste mogu vidjeti
+prefphone Telefon
+prefprivacy Akceptiraj/Blokiraj
+prefprivacy2 Kontakt/Reverzna lista 
+aprefprivacy Akceptiraj/Blokiraj lista 
+prefprofile2 Napravite ili promjenite vas MSN-Profil
+prefprofile3 aMSN's postavke Korisnik/Profil
+prefprofile Profil
+prefproxy Proxy postavke
+prefremote Postavke za spajanje na daljinu
+prefsession Prijava i status
+prefshared Zajednicka veza(samo NAT)
+prefsound Akusticni signali
+privacy Liste
+profiledconfig Postavke ovisne o profilu
+profileexists Profil vec postoji. Odaberite drugi
+profileinuse Ovaj profil koristi vec jedna AMSN sesija, odaberite drugi
+profileloginradio Prijava sa postojecim profilom
+profiles Profili
+properties Lista
+proxyconfhttp Konfiguracija: HTTP-Proxy-podrska
+proxyconf Proxy-Konfiguracija
+proxyconnection Na internet preko Proxy-Servera
+proxy Ja sam iza jednog Proxy-Servera (HTTP or SOCKS5)
+publishphones Telefonski broj prikazati
+raised Podignuto 
+readonlymsgbox Prozor zaustavljen, jer je cilj "read-only". Promjenite prava u ovom direktorijumu.
+readonlywarn WARNUNG: Datateka nece biti korektno memorisana,jer je direktorijum zatvoren za pisanje.Provjerite da li imate prava za direktorijum ($1) prije nego sto pocnete sa prenosom.
+receivedbytes $1 von $2 Bytes primljneno.
+receivefile Datoteku primiti
+reconnecting Nova prijava na server
+reconnect Cekam da se $1 ponovo prijavi
+reject Odbiti
+rememberpass Zapamti lozinku
+removefromlist Iz ove liste izbrisati
+reversed Obrnuto
+reverselist Obrnuta lista (OL)
+rightback Vracam se odmah
+saveas Memorisi kao
+savecontacts Listu snimiti
+save Memorisi
+savetofile Memorisi u
+says $1 kaze
+sbcon Spajanje sa severom
+selectplugins Izaberite Plugins koje zelite aktivirati
+selectskin Izaberite jednu masku (izgled) za aMSN
+sendfile Datoteku poslati
+sendmail E-Mail 
+sendmsg Poruka
+send Posalji
+sentbytes $1 od $2 Bytes preneseno.
+servergoingdown Veza pukla: Greska na serveru
+server Server
+session Status
+showblockedlist Pokazuje listu sa osobama koje Vas blokiraju
+skinselector Izgled
+skin Skin
+smileconfig  Postavke za emocije
+smilefile Osmjeh datoteka
+smileintro2 Promjenite sljedeca opcije kako bi nastimali osmijehe po Vasem ukusu
+smileintro Popunite sljedece opcije kako bi mogli da napravite vlastite smijeske
+sound2 Signal, ako se neka osoba prijavi ili Vam poruku posalje
+sound Akusticni signali
+soundcommand Mora biti play komanda(Npr.: esdplay)
+soundexample ( \$sound = Muzicka datoteka koja treba biti odsvirana)Npr.: esdplay\$sound
+soundfile Sa obavjestenjem spojeni signal
+soundloop Neprestani signal
+soundserver Server za akustiku
+soundstatus Akusticne signale ukljuciti/iskljuciti
+sourcecode Kod tekst
+sslwarning PAZNJA: Ako SSL deaktivirate, deaktivirali ste i kodiranje vase lozinke,tako da se lozinka onda salje u jasnom tekstu.
+startoffline2 Prijavi kao "Offline"
+startoffline Offline-Modus pri startu
+stateautomsg Auto poruka koja treba da bude prenesena
+statechange Status promjenjen u:
+stateedittext Promjenite polja i kliknite na Memorisi
+state Nek izgleda kao da ste
+stateinfo Licne konfiguracije oko statusa
+statename Naziv licnog statusa
+statenewtext Popunite potrebna polja i kliknite na Memorisi
+status Status
+stopalarm Obavjestenja zaustaviti
+stylechat Kao u razgovoru
+stylehist Izgled aMSN-istorije
+stylelog Odaberite format u kojem istorija treba da bude prikazana
+syntaxerror  Sintaks greska
+tabbed Podprozor
+textsize Velicina teksta
+timeremaining Ostalo vremena
+title Al's Messenger
+tlsdowncompleted Datoteka  $1 je snimljena u $2 direktorijum. Morate je u $3 otpakovati, kompilirati i instalirati.
+tlsinstallexp AMSN koristi MSNP9, sto omogucava jednu sigurnu vezu\n preko SSL. Da bi koristio SSL, AMSN mora jedan dodatni modul instalirati, modul TLS. Ovaj carobljnak ce vam pomoci da TSL modul skinete i instalirate.\n
+Molim vas, izaberite vas tip sistema.
+tlsinstall TLS Modul Instalacioni carobnjak
+tlsinstcompleted Instalacija je uspjesno zavrsena. Sada mozete koristiti MSNP9. Ako ipak ne funkcionise onda provjerite da li ste izabrali pravi modul, ili mozda za vas sistem kompiliran modul nije dostupan. 
+to Za
+tools Podesavanja
+tooltips Prikazi tooltips
+transnotexists Zeljena datoteka nije jos prevedena u aktuelni jezik.
+traynotcompiled Icon Plugin nije kompiliran. Provjerite Plugins..
+triggers Kombinacija slova
+twonewmail $1 nova poruka u postanskom sanducetu
+unblock Blokade skinuti
+uoffline Offline
+uonline Online
+useralreadyonlist Korisnik je vec u kontak-listi.
+user Korisnik
+userblocked Korisnik je Online, ali blokira vas
+usernotonline Korisnik nije online
+useryourself Nemojte pricati sa samim sobom!
+verifyblocked Provjeriti ko vas blokira
+version Verzija
+view Prikaz
+viewprofile Profil pogledati
+willjoin Momenat. $1 ubacit ce se u razgovor.
+work Rad
+wrongfields Die Felder "$1", "$2" und/oder "$3" sind nicht gültig
+wrongprofileversion Falsche Version der Profil-Konfigurationsdatei. Um das Problem zu beheben entfernen Sie bitte das Verzeichnis $1, oder installieren Sie eine aktuelle Version von aMSN.
+xoffset X Offset
+yes Da
+yoffset Y Offset
+youblocked Vi ste blokirani
+yousay Ti kazes
+youwant Ti zelis
