@@ -276,7 +276,7 @@ namespace eval ::amsnplus {
 		bind $w <<Destroy>> "::amsnplus::save_qtconfig .qtconfig;destroy .qtconfig"
 		wm protocol $w WM_DELETE_WINDOW "::amsnplus::save_qtconfig .qtconfig;destroy .qtconfig"
 		
-		moveinscreen $w
+		moveinscreen $w 30
 	}
 	
 	###############################################
