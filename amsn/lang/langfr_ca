@@ -29,7 +29,6 @@ allowlist Liste des personnes autorisées
 allowonlyinal N'autoriser que les personnes présentes dans ma liste de personnes autorisées à me contacter
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
 allprofilesinuse Tous les profiles existants sont présentement utilisés
-amsn_lang_version 2
 animatedemoticon Cet émoticon est animé
 animatedsmileys Activer les émoticons animés
 animatenotify Animer la fenêtre de notifications
@@ -43,6 +42,7 @@ autoaway Changer mon statut pour "Absent" lorsque je suis inactif depuis plus de
 autocheckver Vérification automatique au démarrage de la verion
 autoconnect Connexion automatique au démarrage de l'application
 autoconnect2 Me connecter automatiquement quand aMSN est lancé
+autodetectip Détecter l'adresse IP automatiquement
 autohotmaillog Identification automatique à Hotmail
 autoidle Absence automatique après une période d'inactivité
 autoip IP automatique
@@ -90,6 +90,7 @@ chatreq Demande de discussion
 chatsmileys Émoticons de discussion
 chatsmileys2 Afficher les émoticons dans la fenêtre de discussion
 checkblocking Vérifier continuellement si des utilisateurs vous ont bloqué
+checkemail Montre une ligne de notification d'email (Boîte aux lettres) dans la liste des contacts
 checkfilman Les fichiers reçus seront sauvegardés dans $1. Veuillez vérifier les propriétés du gestionnaire de fichier dans la fenêtre de préférences. 
 checkingver Recherche d'une nouvelle version
 checkonfln Vérifier si un utilisateur vous a bloqué lorsqu'il va hors ligne
@@ -127,6 +128,7 @@ corruptconfig Fichier de configuration corrompu. Création d'un nouveau. L'ancien
 corruptstates Fichier de configuration des états personalisés corrompu. Création d'un nouveau. L'ancien fichier sera sauvegardé sous $1. S'il vous plaît veuillez nous l'envoyer pour que nous verifions ce qui c'est passé.
 countrycode Mon code de pays/région
 cprofile Créer un profil
+credits Crédits
 custom_edit Editer un émoticon personnalisé
 custom_new Créer un nouvel émoticon personnalisé
 cut Couper
@@ -158,7 +160,6 @@ dontdownload Ne pas télécharger le module TLS, je l'installerai moi-même
 dontshow Ne pas montrer
 downloadingtls Téléchargement du module TLS à partir de:\n $1
 edit Édition
-editcurrentstate Modifier le statut actuel
 editcustomstate Éditer un statut personnalisé
 editnewstate Nouveau statut avec message automatique personnalisé
 editprofile Modifier profil
@@ -330,6 +331,7 @@ notify3 Afficher un avertissement lorsque du courrier arrive dans votre boîte de
 notifyoffset Établir la position de la fenêtre d'avertissement en relation
 notifytyping Envoyer un avertissement aux autres utilisateurs lorsqu'on est en train d'écrire
 notifywin Fenêtre d'avertissement
+notinlist Vous n'appartenez pas à sa liste de contact
 notls Le protocole 9 de MSN requiert le module tls. Celui-ci ne semble pas être installé sur le système. S'il est installé, le chemin pointant vers ce répertoire devrait être spécifié dans la fenêtre des Préférences (ex: /opt/tls/lib). \n \n Il est possible de télécharger tls sur http://tls.sf.net.
 nousersinsession Pas d'utilisateur dans cette session
 offline Déconnecté
@@ -366,6 +368,7 @@ preferences Préférences
 preffont Texte du message
 preffont2 Changer la façon dont les autres voient mon texte lors des conversations
 preffont3 Changer la police et la taille de l'interface d'aMSN
+prefft Configuration des transferts de fichiers, peer-to-peer et NAT
 preflibs Répertoires des librairies
 preflog1 Historique et options de journalisation
 preflook Apparence de aMSN
@@ -407,6 +410,7 @@ reconnecting Reconnexion au serveur
 reject Refuser
 rememberpass Enregistrer le mot de passe
 removefromlist Supprimer de cette liste
+rename Renommer
 reversed Inversé
 reverselist Liste inversée :
 rightback Bientôt de retour

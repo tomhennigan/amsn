@@ -82,6 +82,7 @@ changedisplaypic Changer l'icône
 changefont Changer la police
 changenick Changer de pseudonyme
 changestate $1 a changé de statut : $2
+charscounter Compteur de charactères dans la fenêtre de conversation
 chatack Accepter de discuter avec
 chat Discuter
 chatmaxmin Quand une fenêtre d'invitation de dialogue s'ouvre, je veux qu'elle soit :
@@ -234,7 +235,11 @@ inbox Boîte aux lettres
 insertsmiley Inserer émoticônes.
 installconvert Vous devez procéder à l'installation de ImageMagick (programme de conversion) afin de convertir les images au format requis par les serveurs de MSN. Vous pouvez télécharger les fichiers d'installation pour votre système d'exploitation à l'adresse ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Si ce programme est déjà installé, ceci est un bug, veuillez le rapporter.
 internalerror Erreur interne au serveur
+invalidfile2 Le fichier $1 ne peut pas être créée, assurez vous d'avoir les permissions nécessaires.
 invalidfile Le fichier $2 entré dans le champ "$1" n'existe pas ou n'est pas lisible
+invalidpic Le fichier "image" n'existe pas
+invalidpicsize La taille du fichier "image" est trop importante, choisissez un fichier de taille inférieure
+invalidsound Le fichier "son" n'existe pas
 invalidusername Utilisateur incorrect
 invitationcancelled L'invitation a été annulée
 invite Invitation
@@ -327,6 +332,7 @@ notifyoffset Sélectionner la position de la fenêtre de notification en précisant
 notify prévenir
 notifytyping Envoyer aux autres utilisateurs une notification lors de l'usage du clavier
 notifywin Fenêtre de notification
+notinlist Vous n'êtes pas dans sa liste de contacts
 notls Le protocole 9 de MSN requiert le module tls. Celui-ci ne semble pas être installé sur le système. S'il est installé,
 nousersinsession Pas d'utilisateur dans cette session
 offline Déconnecté
@@ -461,6 +467,7 @@ stateinfo Configuration de mon statut
 state Je veux apparaître
 statename Nom du statut
 statenewtext Veuillez entrer les informations nécessaires \n a la création de votre nouveau statut et cliquez sur Enregistrer
+statenick surnom personnalisé (laisser vierge pour aucun changement)
 status Statut
 stopalarm Stopper l'alarme
 storenickname Revenir avec son surnom original après avoir un état particulier avec un surnom particulier
@@ -516,9 +523,3 @@ yoffset Position en Y
 youblocked Vous avez été bloqué
 yousay Vous avez dit
 youwant Vous voulez
-charscounter Compteur de charactères dans la fenêtre de conversation
-invalidfile2 Le fichier $1 ne peut pas être créée, assurez vous d'avoir les permissions nécessaires.
-invalidpicsize La taille du fichier "image" est trop importante, choisissez un fichier de taille inférieure
-invalidpic Le fichier "image" n'existe pas
-invalidsound Le fichier "son" n'existe pas
-statenick surnom personnalisé (laisser vierge pour aucun changement)
