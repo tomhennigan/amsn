@@ -1,0 +1,187 @@
+#!/bin/sh
+###########################################
+# Install aMSN CVS version & themes       #
+#					  #
+# Require : tar, wget, unzip		  #
+#					  #
+# Description : Easy install aMSN CVS &   #
+#		new themes		  #
+#					  #
+# Infos : routes-linux.scooba.org	  #
+# Author : mazzaru[AT]wanadoo[dot]fr	  #
+###########################################
+
+VERSION="1.3"
+#--------COLOR-------------------
+COLOROFF="\033[1;0m"
+GREENCOLOR="\033[1;32m"
+REDCOLOR="\033[1;31m" 
+LILACCOLOR="\033[1;35m" 
+#--------PATH--------------------
+WGET=`which wget`
+UNZIP=`which unzip`
+SKINS_PATH=~/.amsn/skins/
+BIN_PATH=~/msn/amsn
+QUIT_MESS=`echo ""
+echo -e "Binary amsn locate at : ${GREENCOLOR}${BIN_PATH}${COLOROFF}"`
+#-------Themes url---------------
+URL_TUX=http://aleron.dl.sourceforge.net/sourceforge/amsn/Tux.zip
+URL_MSN=http://heanet.dl.sourceforge.net/sourceforge/amsn/MSN.zip
+URL_FLUOX=http://heanet.dl.sourceforge.net/sourceforge/amsn/Fluox.zip
+URL_AMAC=http://heanet.dl.sourceforge.net/sourceforge/amsn/aMac.zip
+URL_CRYSTOLA=http://heanet.dl.sourceforge.net/sourceforge/amsn/crystola.zip
+#---------------------------
+URL_PING=google.com
+URL_AMSN_CVS=http://amsn.sourceforge.net/amsn_cvs.tar.gz
+HEADER=`clear 
+echo -e "\t ${LILACCOLOR}+------------------------------+"
+echo -e "\t |   ${GREENCOLOR}aMSN Install script ${VERSION} ${LILACCOLOR}   |" 
+echo -e "\t ${LILACCOLOR}+------------------------------+"
+echo -e "${COLOROFF}"`
+#--------END----------------
+
+#Display a warning message for newbies, usually login always as root.
+if [ $UID -eq 0 ]
+then
+	echo""
+	echo -e "${REDCOLOR}Don't run this script as root !! ;)${COLOROFF}"
+	echo -e "\a"
+	exit 1 
+fi
+
+ping -c 2 ${URL_PING} > /dev/null
+if [ "$?" -ne "0" ]
+then
+	ALERT=`echo -e "${REDCOLOR}Bad Internet Connection${COLOROFF}"`
+fi
+
+FUNC_INSTALL_THEMES(){
+
+while [ ! -z $1 ]
+do
+	ARCHIVE=`echo $1 | awk -F/ '{print $6}'`
+	DIR=`echo $ARCHIVE | awk -F. '{print $1}'`
+	if [ -e ${SKINS_PATH}${DIR} ]
+	then
+		echo -e "${DIR}........${LILACCOLOR}already install${COLOROFF}"
+		shift
+	else
+		${WGET} -q $1
+		${UNZIP} ${ARCHIVE} > /dev/null
+		rm -f ${ARCHIVE}*
+		mv ${DIR} ${SKINS_PATH}
+		echo -e "${DIR}........${GREENCOLOR}install${COLOROFF}"
+		shift
+	fi
+done
+}
+
+FUNC_DEPENDS(){
+
+TCL=`locate libtcl8`
+TK=`locate libtk8`
+
+if [ ! -e ${TCL} ]
+then
+	ALERT=`echo -e "${REDCOLOR}Error depedencies : you must install tcl >= 8.3 first. ${COLOROFF}"
+	echo "With Mandrake (root) : urpmi tcl"
+	echo "With Debian (root) : apt-get install tcl"
+	echo ""`
+	FUNC_MAIN
+fi
+if [ ! -e ${TK} ]
+then
+	ALERT=`echo -e "${ALERT}"
+	echo ""
+	echo -e "${REDCOLOR}Error depedencies : you must install tk >= 8.3 first. ${COLOROFF}"
+	echo "With Mandrake (root) : urpmi tk"
+	echo "With Debian (root) : apt-get install tk"
+	echo ""`
+	FUNC_MAIN
+fi
+FUNC_INSTALL_AMSN
+
+}
+
+
+
+FUNC_TEST_AMSN(){
+
+if [ ! -e /usr/bin/amsn -o ! -e ~/msn ]
+then
+		ALERT=`echo -e "$HOME/msn ${REDCOLOR}not exist, install aMSN first${COLOROFF}"`
+		FUNC_MAIN
+else
+	echo "Waiting..."
+	echo ""
+	FUNC_INSTALL_THEMES $URL_TUX $URL_MSN $URL_FLUOX $URL_AMAC $URL_CRYSTOLA
+	echo ""
+	echo ""
+	echo -en "Run amsn just for testing ? (y/n) [ ${GREENCOLOR}default : n${COLOROFF} ] : "
+	read ON 
+		case $ON in
+			[yY]*)FUNC_RUN_AMSN;;
+			    *)echo "${QUIT_MESS}" ; exit 0;;
+		esac
+fi
+}
+
+FUNC_RUN_AMSN(){
+
+if [ ! -e ${BIN_PATH} ]
+then
+	ALERT=`echo -e "${HOME}/msn ${REDCOLOR}not exist, install aMSN first${COLOROFF}"`
+	FUNC_MAIN
+else
+	${BIN_PATH}
+	FUNC_MAIN
+fi
+
+}
+
+FUNC_INSTALL_AMSN(){
+
+cd ~/
+echo ""
+echo "aMSN CVS downloading please wait..."
+# -q = mode quiet (cf. man wget)
+${WGET} -q ${URL_AMSN_CVS} 
+echo ""
+echo "Installing aMSN CVS version"
+tar zxf amsn_cvs.tar.gz	-C ~/		#Extract without verbose mode (-v)
+rm -f ~/amsn_cvs.tar.gz*		#Archive can be removed
+mkdir -p ${SKINS_PATH}
+echo ""
+echo -ne "Install correct, would you like install themes ? (y/n) [ ${GREENCOLOR}default : n${COLOROFF} ] : "
+read ON
+
+case $ON in
+	[yY]*)FUNC_TEST_AMSN;;
+	    *)echo "${QUIT_MESS}" ; exit 0;;
+esac
+}
+
+FUNC_MAIN(){
+
+echo -e "${HEADER}"
+echo "This script installing aMSN and/or themes : "
+echo ""
+echo "${ALERT}"
+echo ""
+select CHOIX in "Install themes only" "Install the last aMSN version" "Run aMSN" "Quit"
+do
+	case $REPLY in
+		1)FUNC_TEST_AMSN;;
+		2)FUNC_DEPENDS;;
+		3)FUNC_RUN_AMSN;;
+		*)exit 0;;
+	esac
+done
+}
+
+#script start here (call FUNC_MAIN function)
+FUNC_MAIN
+
+#######
+# EOF #
+#######
