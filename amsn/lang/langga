@@ -16,6 +16,7 @@ allowseen Permitir a esta persoa ver cando estás conectado e contactar
 appearoff Sen conexión
 aretyping $1 están escribindo unha mensaxe
 autohotmaillog Login hotmail automático
+autoidle auto inactividade
 autoip IP automática
 avoidseen Evitar que esta persoa vexa a túa conexión e contacte contigo
 away Ausente
@@ -43,13 +44,21 @@ clicktologin Fai click aquí para inicia-la sesión
 close Pechar
 closingdocks Botón de pechar minimiza
 command Comando
+confirm confirmar
 confirmdelete ¿Seguro de desexa borrar a $1?
 connecterror Error ó conectar co servidor
 contactadded Contacto engadido
 contactdoesnotexist O contacto que tentas engadir non existe
+copy copiar
 copytogroup Copiar ó grupo
+cut cortar
 date Data
 delete Eliminar
+dockgtk icono Gtk
+docking icono do sistema
+dockingoff desactivar Icono do sistema
+dockkde icono KDE
+edit editar
 enableproxy Activa-lo proxy
 encoding Codificación de caracteres
 entercontactemail Introduce o email do contacto
@@ -58,6 +67,7 @@ enternick Introduce o teu nick
 examples Exemplos
 exitamsn ¿Seguro que desexa saír?
 extras Servicios adicionais
+faq qmf (questións mais frecuentes)
 filedoesnotexist O arquivo non existe
 filename Nome do Arquivo
 filetransfercancelled Transferencia do arquivo cancelada
@@ -87,6 +97,7 @@ invite Invitar
 ipaddress Dirección IP
 istyping $1 está escribindo unha mensaxe
 joins $1 únese á conversa
+keepalive manter activa a conexión
 language Linguaxe
 lastmsgtime Última mensaxe recibida ás $1
 leaveblankforhotmail Deixar en branco para usar hotmail
@@ -107,6 +118,7 @@ msg Mensaxe
 msn AMSN
 mustrestart Debes reinicia-lo programa para aplica-los cambios
 mystatus Meu estado
+natip Deteción do IP por Web
 needonline Vostede aínda está/aparece desconectado!
 newmail $1 mensaxes novas na bandexa de entrada
 newmailfrom Novo correo de $1
@@ -117,6 +129,7 @@ noactivity Sen actividade
 nonewmail Sen mensaxes novas na bandexa de entrada
 nonewver Non hai versións máis actuais dispoñibles
 notify aviso
+notifywin ventá de avisos
 nousersinsession Non hai usuarios na sesión
 offline Desconectado
 ok Aceptar
@@ -129,6 +142,7 @@ ordercontactsby Ordenar contactos por
 other Outro
 pager Paxinador
 pass Contrasinal
+paste pegar
 phone Teléfono
 picfile Imaxen de aviso (GIF < 500 x 500)
 picstatus Activar/Desactivar imaxen de aviso
