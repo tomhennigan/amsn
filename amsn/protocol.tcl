@@ -4228,7 +4228,7 @@ proc change_BLP_settings { state } {
 }
 
 proc new_contact_list { version {load 0} } {
-    global list_version HOME list_al list_fl list_bl list_rl list_users protocol
+    global list_version HOME list_al list_fl list_bl list_rl list_users protocol contactlist_loaded
 
     if {[string is digit $version] == 0} {return }
 
@@ -4264,10 +4264,13 @@ proc new_contact_list { version {load 0} } {
 	    if { $ret < 0 } {
 		set list_version 0
 		::MSN::WriteSB ns "SYN" "0"
+	    } else {
+		set contactlist_loaded 1
 	    }
 
 	    status_log "new_contact_list ended parsing of file with return code : $ret \n"
 	    sxml::end $contact_id
+
 	}
 
     } else {
@@ -4279,7 +4282,7 @@ proc new_contact_list { version {load 0} } {
 
 
 proc load_contact_list { } {
-    global list_version HOME contactlist_loaded
+    global list_version HOME 
 
     status_log "load_contact_list: checking if contact list files exists\n"
 
@@ -4297,7 +4300,6 @@ proc load_contact_list { } {
     gets $file_id version
     close $file_id
 
-    set contactlist_loaded 1
 
     status_log "load_contact_list: setting contact list version to $version\n"
 
