@@ -4613,7 +4613,7 @@ proc create_msnobj { Creator type filename } {
 
 	set msnobj "<msnobj Creator=\"$Creator\" Size=\"$size\" Type=\"$type\" Location=\"[urlencode $file].tmp\" Friendly=\"AAA=\" SHA1D=\"$sha1d\" SHA1C=\"$sha1c\"/>"
 
-	set msnobjcontext([string map {"\n" ""} [::base64::encode "$msnobj\x00"]]) $filename
+	set msnobjcontext($msnobj) $filename
 	
 	return $msnobj
 }
@@ -4717,11 +4717,15 @@ namespace eval ::MSNP2P {
     proc GetFilenameFromContext { context } {
 	global msnobjcontext
 
-	if { [info exists msnobjcontext($context)] } {
+	    set old_msnobj [::base64::decode $context]
+	    set msnobj [string range $old_msnobj [string first "<" $old_msnobj] [expr [string first "/>" $old_msnobj] + 1]]
+
+	status_log "GetFilenameFromContext : $context == $old_msnobj == $msnobj\n[string first "<" $old_msnobj] - [string first "/>"  $old_msnobj]\n\n" red
+	if { [info exists msnobjcontext($msnobj)] } {
 	    status_log "Found filename\n" red
-	    return $msnobjcontext($context)
+	    return $msnobjcontext($msnobj)
 	} else {
-	    status_log "Couln't find filename for context \n$context\n --- [array get msnobjcontext] --[info exists msnobjcontext($context)] \n" red
+	    status_log "Couln't find filename for context \n$context\n = $msnobj --- [array get msnobjcontext] --[info exists msnobjcontext($msnobj)] \n" red
 	    return ""
 	}
 
