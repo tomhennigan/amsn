@@ -1,0 +1,3 @@
+Support Growl notification on Mac OS X
+http://growl.info/
+By Jerome Gagnon-Voyer
