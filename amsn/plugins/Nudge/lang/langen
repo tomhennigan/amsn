@@ -1,0 +1,13 @@
+amsn_lang_version 2
+shake_receive Shake the window when receiving a nudge
+shake_send Shake the window when sending a nudge
+shake_nudge Shakes per nudge
+popup_nudge Notify nudges with popup-window
+notify_send Notify sent nudges in the chatwindow
+notify_receive Notify received nudges in the chatwindow
+sound_send Play a sound upon sending a nudge
+sound_receive Play a sound upon receiving a nudge.
+add_button Add a button to send a nudge in the chatwindow
+send_nudge Send nudge
+no_nudge_support You cannot sent a nudge to your contact because he or she doesn't use a client that supports nudges
+nudge_sent You have just sent a Nudge
