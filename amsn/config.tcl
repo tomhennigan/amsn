@@ -122,7 +122,7 @@ namespace eval ::config {
 proc save_config {} {
    global tcl_platform config HOME HOME2 version password emotions
 
-   catch {
+   if { [catch {
          if {$tcl_platform(platform) == "unix"} {
 	    set file_id [open "[file join ${HOME} config.xml]" w 00600]
 	    set file_id2 [open "[file join ${HOME} config]" w 00600]
@@ -130,7 +130,9 @@ proc save_config {} {
             set file_id [open "[file join ${HOME} config.xml]" w]
 	    set file_id2 [open "[file join ${HOME} config]" w]
          }
-      } res
+      } res] {
+		return 0
+	}
 
     status_log "saving contact list. Opening of files returned : $res\n"
    set loginback $config(login)
