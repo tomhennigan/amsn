@@ -140,7 +140,7 @@ if {$tcl_platform(os) == "Darwin"} {
 	
 	
 	if {$tcl_platform(os) != "Darwin"} {
-	set config(convertpath) ""								;#Path for convert (from imagemagick)
+	set config(convertpath) "convert"								;#Path for convert (from imagemagick)
 	} else {
 	set config(convertpath) "/usr/local/bin/convert"		;#Path for convert (from imagemagick) on Mac OS X
 	}

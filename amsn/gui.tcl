@@ -6206,6 +6206,7 @@ proc convert_image { filename size } {
 
 global tcl_platform
 
+
 	if { ![file exists $filename] } {
 		status_log "Tring to convert file $filename that does not exist\n" error
 		return ""
@@ -6215,28 +6216,18 @@ global tcl_platform
 
 	status_log "converting $filename to $filename.gif with size $size\n"
 
-    #if { [catch { exec convert -size $size -resize ${size} "$filename" "${filename}.gif" } res] } {
-	#msg_box "[trans installconvert]"
-	#status_log "converting returned error : $res\n"
-	#return 0
-    #}
-	
-	#Specific path to call convert on Mac OSX
+	#IMPORTANT: If convertpath is blank, set it to "convert"
+	if { [::config::getKey convertpath] == "" } {
+		::config::setKey convertpath "convert"
+	}
+
 	#First converstion, no size, only .gif
-	if {$tcl_platform(os) == "Darwin"} {
-	if { [catch { exec /usr/local/bin/convert "${filename}" "${filename}.gif" } res] } {
-		status_log "CONVERT ERROR IN CONVERSION 1: $res" white
-		catch {[file delete $filename]}
-		return ""
-	}	
-	} else {
-	if { [catch { exec convert "${filename}" "${filename}.gif" } res] } {
+	if { [catch { exec [::config::getKey convertpath] "${filename}" "${filename}.gif" } res] } {
 		status_log "CONVERT ERROR IN CONVERSION 1: $res" white
 		catch {[file delete $filename]}
 		return ""
 	}
-	}
-	
+
 	set img [image create photo -file "${filename}.gif"]
 	set origw [image width $img]
 	set origh [image height $img]
@@ -6263,30 +6254,19 @@ global tcl_platform
 
 		
 	}
-	#Specific path to call convert on Mac OSX
-if {$tcl_platform(os) == "Darwin"} {
 
-	if { $origw != [lindex $sizexy 0] || $origh != [lindex $sizexy 1] } {
-		status_log "Will resize to $resizew x $resizeh \n" blue		
-		catch { file delete ${filename}.gif}
-		if { [catch { exec /usr/local/bin/convert "${filename}" -resize "${resizew}x${resizeh}" "${filename}.gif" } res] } {
-			status_log "CONVERT ERROR IN CONVERSION 2: $res" white
-			catch {[file delete ${filename}]}
-			return ""
-		}
-	}
-} else {
+
 	
 	if { $origw != [lindex $sizexy 0] || $origh != [lindex $sizexy 1] } {
 		status_log "Will resize to $resizew x $resizeh \n" blue		
 		catch { file delete ${filename}.gif}
-		if { [catch { exec convert "${filename}" -resize "${resizew}x${resizeh}" "${filename}.gif" } res] } {
+		if { [catch { exec [::config::getKey convertpath] "${filename}" -resize "${resizew}x${resizeh}" "${filename}.gif" } res] } {
 			status_log "CONVERT ERROR IN CONVERSION 2: $res" white
 			catch {[file delete ${filename}]}
 			return ""
 		}
 	}
-}
+
 
 	
 	if { [file exists $filename2.png.0] } {
@@ -6337,20 +6317,12 @@ if {$tcl_platform(os) == "Darwin"} {
 	image delete $img
 	
 	catch {file delete ${filename}.gif}
-#Specific path to call convert on Mac OSX
-if {$tcl_platform(os) == "Darwin"} {
-	if { [catch { exec /usr/local/bin/convert "${filename2}.gif"  "${filename2}.png"}] } {
+
+	if { [catch { exec [::config::getKey convertpath] "${filename2}.gif"  "${filename2}.png"}] } {
 		status_log "CONVERT ERROR IN CONVERSION 3: $res" white
 		catch {[file delete ${filename2}.gif]}
 		return ""
 	}
-} else {
-	if { [catch { exec convert "${filename2}.gif"  "${filename2}.png"}] } {
-		status_log "CONVERT ERROR IN CONVERSION 3: $res" white
-		catch {[file delete ${filename2}.gif]}
-		return ""
-	}
-}
 
 	if { [file exists $filename2.png.0] } {
 		set idx 1
@@ -6377,7 +6349,7 @@ proc convert_image_plus { filename type size } {
 
     catch {
 	create_dir [file join $HOME $type]
-	file copy $filename [file join $HOME $type] 
+	file copy $filename [file join $HOME $type]
 	status_log "Copied $filename to [file join $HOME $type]\n"
     }
 
