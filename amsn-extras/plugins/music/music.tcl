@@ -12,11 +12,122 @@ namespace eval ::music {
 	# Load proc of music Plugin                 #
 	#############################################
 	proc InitPlugin { dir } {
-		global tcl_platform
 		variable musicpluginpath
 		variable playersarray
 		set musicpluginpath $dir
 
+		#Load translation keys (lang files)
+		::music::LoadLangFiles $dir
+		
+		#Verify the OS is supported before loading the plugin
+		#And configure default players for each OS
+		if {![::music::OsVerification]} { return }
+
+		#RegisterPlugin
+		::plugins::RegisterPlugin "Music"
+		
+		#Register events
+		::music::RegisterEvent
+		
+		#Set default values for config
+		::music::ConfigArray
+		#Add items to configure window
+		::music::ConfigList
+
+		#Start changing the nickname on loading
+		::music::wait_load_newname
+		#Register /showsong and /sendsong to 
+		after 5000 ::music::add_command 0 0
+	}
+	
+	#####################################
+	# ::music::RegisterEvent            #
+	# --------------------------------- #
+	# Register events to plugin system  #
+	#####################################	
+	proc RegisterEvent {} {
+		::plugins::RegisterEvent "Music" OnConnect newname
+		::plugins::RegisterEvent "Music" OnDisconnect stop
+		::plugins::RegisterEvent "Music" new_chatwindow CreateMusicMenu
+		::plugins::RegisterEvent "Music" AllPluginsLoaded add_command
+	}
+	
+	#####################################################
+	# ::music::LoadLangFiles dir       					#
+	# ------------------------------------------------- #
+	# Load lang files, only if version is 0.95			#
+	# Because 0.94 do not support lang keys for plugins #
+	#####################################################
+	proc LoadLangFiles {dir} {
+		if {![::music::version_094]} {
+			set langdir [append dir "/lang"]
+			set lang [::config::getGlobalKey language]
+			load_lang $lang $langdir
+		}
+	}
+	########################################
+	# ::music::ConfigArray                 #
+	# -------------------------------------#
+	# Add config array with default values #
+	########################################	
+	proc ConfigArray {} {
+		variable playersarray
+		
+		#Use translation key for 0.95 users
+		if {[::music::version_094]} {
+			set stopmessage "Player stopped"
+		} else {
+			set stopmessage [trans musicstopdefault]
+		}
+		array set ::music::config {
+			player [lindex [array names playersarray] 0]
+			nickname {}
+			second {30}
+			symbol {-}
+			stop {$stopmessage}
+			active {0}
+		}
+		
+	}
+	########################################
+	# ::music::ConfigList                  #
+	# -------------------------------------#
+	# Add items to configure window        #
+	########################################		
+	proc ConfigList {} {
+	variable playersarray
+	
+		if {[::music::version_094]} {
+			set ::music::configlist [list \
+				[list str "Verify new song each ? seconds" second] \
+				[list bool "Add song to the nickname"  active] \
+				[list str "Nickname"  nickname] \
+				[list str "Symbol betwen nick and song"  symbol] \
+				[list str "Stopped message"  stop] \
+			]
+		} else {
+			set ::music::configlist [list \
+				[list label "[trans musicplayer]"] \
+				[list lst [array names playersarray] player] \
+				[list str "[trans musictimeverify]" second] \
+				[list bool "[trans musicaddsongtonick]"  active] \
+				[list str "[trans musicnickname]"  nickname] \
+				[list str "[trans musicseparator]"  symbol] \
+				[list str "[trans musicstopmsg]"  stop] \
+			]
+		}
+	}
+	###########################################
+	# ::music::OsVerification                 #
+	# ----------------------------------------#
+	# Verify the OS is supported by the plugin#
+	# And define players supported            # 
+	###########################################	
+	proc OsVerification {} {
+		global tcl_platform
+		variable playersarray
+		
+		#Define values for supported player on darwin and linux
 		array set OSes [list \
 			"darwin" [list \
 				"ITunes" [list GetSongITunes exec_applescript] \
@@ -26,77 +137,25 @@ namespace eval ::music {
 				"Amarok" [list GetSongAmarok TreatSongAmarok] \
 			]
 		]
-
-		#loading lang - if version is 0.95b (keep compatibility with 0.94)
-
-		if {![::music::version_094]} {
-			set langdir [append dir "/lang"]
-			set lang [::config::getGlobalKey language]
-			load_lang $lang $langdir
-		}
-
+		#Get current OS platform
 		set os [string tolower $tcl_platform(os)]
-
+		#If the OS is not supported show message box error and unload plugin
 		if { ![info exists OSes($os) ] } {
+			#Show message box error
 			if { [::music::version_094] } {
 				msg_box "Your Operating System ($os) isn't yet supported by the music plugin"
 			} else {
 				msg_box [trans musicoserr $os]
 			}
+			#Unload plugin
 			::plugins::UnLoadPlugin "Music"
-			return
+			return 0
 		}
 		array set playersarray $OSes($os)
-
-		#RegisterPlugin
-		::plugins::RegisterPlugin "Music"
-
-		#Register event
-		::plugins::RegisterEvent "Music" OnConnect newname
-		::plugins::RegisterEvent "Music" OnDisconnect stop
-		::plugins::RegisterEvent "Music" new_chatwindow CreateMusicMenu
-
-		if {[::music::version_094]} {
-			array set ::music::config [list \
-				player [lindex [array names playersarray] 0] \
-				nickname {} \
-				second {30} \
-				symbol {-} \
-				stop {Player stopped} \
-				active {0} \
-			]
-			set ::music::configlist [list \
-						#[list rbt [array names [array set OSes($os)]] player] \ How to do choices in 0.94 ?
-						[list str "Verify new song each ? seconds" second] \
-						[list bool "Add song to the nickname"  active] \
-						[list str "Nickname"  nickname] \
-						[list str "Symbol betwen nick and song"  symbol] \
-						[list str "Stopped message"  stop] \
-					]
-		} else {
-			array set ::music::config [list \
-				player [lindex [array names playersarray] 0] \
-				nickname {} \
-				second {30} \
-				symbol {-} \
-				stop [trans musicstopdefault] \
-				active {0} \
-			]
-
-			set ::music::configlist [list \
-						[list label "[trans musicplayer]"] \
-						[list lst [array names playersarray] player] \
-						[list str "[trans musictimeverify]" second] \
-						[list bool "[trans musicaddsongtonick]"  active] \
-						[list str "[trans musicnickname]"  nickname] \
-						[list str "[trans musicseparator]"  symbol] \
-						[list str "[trans musicstopmsg]"  stop] \
-					]
-		}
-
-		#Start changing the nickname on loading
-		::music::wait_load_newname
+		return 1
 	}
+	
+
 
 	###############################################
 	# ::music::newname event epvar                #
@@ -107,14 +166,13 @@ namespace eval ::music {
 		variable config
 		variable name
 		variable activated
-
+		
 		#Get all song information from ::music::GetSong
 		set info [::music::GetSong]
 		set song [lindex $info 0]
 		set file [lindex $info 1]
 
 		set oldname $name
-
 		#First add the nickname the user choosed in config to the name variable
 		set name "$config(nickname)"
 		#Symbol that will be betwen the nick and the song
@@ -175,23 +233,26 @@ namespace eval ::music {
 	proc changenick {name} {
 		set email [::config::getKey login]
 		::MSN::changeName $email $name
+		::music::log "Change nickname for $email $name"
 	}
 
 	###############################################
 	# ::music::GetSong                            #
 	# ------------------------------------------- #
-	# Gets the current playing song in XMMS       #
+	# Gets the current playing song               #
 	###############################################
 	proc GetSong {} {
 		variable config
 		variable playersarray
 
 		if {![info exists playersarray([lindex $config(player) 0])] } {
+			::music::log "Player not supported by Music plugin"
 			return 0
 		}
 		set songfunc $playersarray([lindex $config(player) 0])
 		set retval 0
 		catch {::music::[lindex $songfunc 0]} retval
+		::music::log "Get song: $retval"
 		return $retval
 	}
 
@@ -261,7 +322,6 @@ namespace eval ::music {
 			"Stopped" { set return 0 }
 			default { set return 0 }
 		}
-			#plugins_log music "Song is $return\n"
 		return $return
 	}
 
@@ -308,7 +368,6 @@ namespace eval ::music {
 			lappend return $songart
 			lappend return [urldecode [string range $path 5 end]]
 		}
-		#plugins_log music "Song is $return\n"
 		return $return
 	}
 
@@ -354,7 +413,6 @@ namespace eval ::music {
 			lappend return $songart
 			lappend return $path
 		}
-		#plugins_log music "Song is $return\n"
 		return $return
 
 	}
@@ -385,6 +443,7 @@ namespace eval ::music {
 			$copymenu.music add command -label [trans musiccurrent] -command "::music::menucommand $w 1"
 			$copymenu.music add command -label [trans musicsend] -command "::music::menucommand $w 2"
 		}
+		::music::log "Music menu created"
 
 
 	}
@@ -417,10 +476,12 @@ namespace eval ::music {
 		switch -- $action {
 			1 {
 				#Send a message with the name of the current song
-				::amsn::MessageSend $win_name 0 "[trans playing $song]"
+				::music::log "Send message with song name : [trans playing $song]"
+				::amsn::MessageSend $win_name 0 "[trans playing $song]"	
 			}
 			2 {
 				#Send the current song as a file
+				::music::log "Send file with file $file"
 				::amsn::FileTransferSend $win_name $file
 				return 0
 			}
@@ -496,5 +557,47 @@ namespace eval ::music {
 		} else {
 			return 0
 		}
+	}
+	
+	############################################
+	# ::music::log message                     #
+	# -----------------------------------------#
+	# Add a log message to plugins-log window  #
+	# Type Alt-P to get that window            #
+	# Not compatible with 0.94                 #
+	############################################
+	proc log {message} {
+		if {[::music::version_094]} {
+			return
+		} else {
+			plugins_log music $message
+		}
+	}
+	
+	################################################
+	# ::music::add_command                         #
+	# -------------------------------------------  #
+	# Add irc command /showsong and /sendsong      #
+	# for amsnplus users						   #
+	# Need last update of aMSNPlus plugin +/- 2.3  #
+	# Verify first if amsnplus plugin is loaded    #
+	################################################
+	proc add_command {event evpar} {
+		#If amsnplus plugin is loaded, register the command
+		set pluginidx [lindex [lsearch -all $::plugins::found "*amsnplus*"] 0]
+		if { $pluginidx != "" } {
+			#Avoid a bug if someone use an older version of aMSNPlus
+			::amsnplus::add_command showsong ::music::exec_show_command 0 1
+			::amsnplus::add_command sendsong ::music::exec_send_command 0 1
+		}
+	}
+	
+	#Execute show current song via amsnplus plugin
+	proc exec_show_command {win_name} {
+		::music::menucommand $win_name 1
+	}
+	#Execute send current song via amsnplus plugin
+	proc exec_send_command {win_name} {
+		::music::menucommand $win_name 2
 	}
 }
