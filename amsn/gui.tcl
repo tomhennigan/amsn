@@ -3610,7 +3610,6 @@ namespace eval ::amsn {
 		}
 
 		$w.c create image 17 22 -image [::skin::loadPixmap notifico]
-#		$w.c create image 80 97 -image notifybar
 		$w.c create image 142 12 -image [::skin::loadPixmap notifclose]
 
 		if {[string length $msg] >100} {
@@ -4051,19 +4050,7 @@ proc cmsn_draw_main {} {
 	} else {
 		::skin::setPixmap logolinmsn logolinmsn.gif
 	}
-	
-	::skin::loadPixmap colorbar
-	set barwidth [image width colorbar]
-	set barheight [image height colorbar]
-
-	image create photo mainbar -width 1280 -height $barheight
-#	image create photo notifybar -width 140 -height $barheight
-
-#	notifybar copy colorbar -from 0 0 5 $barheight
-#	notifybar copy colorbar -from 5 0 15 $barheight -to 5 0 64 $barheight
-#	notifybar copy colorbar -from [expr {$barwidth-125}] 0 $barwidth $barheight -to 64 0 139 $barheight
-
-	
+		
 	ScrolledWindow $pgBuddy.sw -auto vertical -scrollbar vertical
 	pack $pgBuddy.sw -expand true -fill both
 	set pgBuddy $pgBuddy.sw
@@ -5228,25 +5215,7 @@ proc cmsn_draw_online_wrapped {} {
 	$pgBuddy.text window create end -window $pgBuddy.text.mystatus -padx 5 -pady 0 -align bottom -stretch false
 	$pgBuddy.text insert end "\n"
 
-	#set width [expr {[winfo width $pgBuddy.text] - 10} ]
-	set width [expr {[winfo width $pgBuddy.text]} - 1 ]
-
-	if { $width < 160 } {
-		set width 160
-	}
-
-	set barheight [image height colorbar]
-	set barwidth [image width colorbar]
-
-	image delete mainbar
-	::skin::loadPixmap colorbar
-	image create photo mainbar -width $width -height $barheight
-	mainbar blank
-	mainbar copy colorbar -from 0 0 5 $barheight
-	mainbar copy colorbar -from 5 0 15 $barheight -to 5 0 [expr {$width - 150}] $barheight
-	mainbar copy colorbar -from [expr {$barwidth - 150}] 0 $barwidth $barheight -to [expr {$width - 150}] 0 $width $barheight
-
-	$pgBuddy.text image create end -image mainbar
+	$pgBuddy.text image create end -image [::skin::getColorBar]
 	$pgBuddy.text insert end "\n"
 
 	if { [::config::getKey checkemail] } {

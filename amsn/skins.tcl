@@ -51,6 +51,38 @@ namespace eval ::skin {
 		return no_pic
 	}
 	
+	#Special image for the colorbar right under your nick in the
+	#contact list window
+	proc getColorBar { {skin_name ""} } {
+	
+		#Get the contact list width
+		global pgBuddy
+		set width [expr {[winfo width $pgBuddy.text]} - 1 ]
+		if { $width < 160 } {
+			set width 160
+		}
+	
+		#Delete old mainbar, and load colorbar
+		catch {image delete mainbar}
+		loadPixmap colorbar
+		
+		set barheight [image height colorbar]
+		set barwidth [image width colorbar]
+	
+		#Create the color bar copying from the pixmap
+		image create photo mainbar -width $width -height $barheight
+		mainbar blank
+		mainbar copy colorbar -from 0 0 5 $barheight
+		mainbar copy colorbar -from 5 0 15 $barheight -to 5 0 [expr {$width - 150}] $barheight
+		mainbar copy colorbar -from [expr {$barwidth - 150}] 0 $barwidth $barheight -to [expr {$width - 150}] 0 $width $barheight
+		
+		return mainbar
+	}
+	
+	###############################
+	# Sounds
+	###############################
+	
 	#Remember which sounds are loaded
 	proc loadSound {sound_name} {
 		variable loaded_sounds
@@ -78,6 +110,8 @@ namespace eval ::skin {
 		#Now reload special images that need special treatment
 		if {[info exists loaded_images(no_pic)]} { unset loaded_images(no_pic) }
 		getNoDisplayPicture $skin_name
+		if {[info exists loaded_images(colorbar)]} { unset loaded_images(colorbar) }
+		getColorBar $skin_name
 		
 		#Reload sounds
 		variable loaded_sounds
