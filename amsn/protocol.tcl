@@ -4493,7 +4493,7 @@ proc filenoext { filename } {
 #"
 
 namespace eval ::MSNP2P {
-	namespace export loadUserPic SessionList ReadData MakePacket MakeACK MakeSLP
+	namespace export loadUserPic SessionList ReadData MakePacket MakeACK MakeSLP  AcceptFT RejectFT
 
 	#Get picture from $user, if cached, or sets image as "loading", and request it
 	#using MSNP2P
@@ -4774,29 +4774,26 @@ namespace eval ::MSNP2P {
 				SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
 				status_log "MSNP2P -> sid : $sid -> Sent ACK for INVITE\n" red
 
-				# Let's make and send a 200 OK Message
-				set slpdata [MakeMSNSLP "OK" $dest $config(login) $branchuid [expr $cseq + 1] $uid 0 0 $sid]
-				SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
-				status_log "MSNP2P -> sid : $sid -> Sent 200 OK Message\n" red
-
 				# Check if this is Buddy Icon or Emoticon request
 				if { $appid == 1 } {
+					# Let's make and send a 200 OK Message
+					set slpdata [MakeMSNSLP "OK" $dest $config(login) $branchuid [expr $cseq + 1] $uid 0 0 $sid]
+					SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+					status_log "MSNP2P -> sid : $sid -> Sent 200 OK Message\n" red
+
 					# Send Data Prep AFTER ACK received (set AfterAck)
 					SessionList set $sid [list -1 -1 -1 -1 "DATAPREP" -1 -1 -1]
+				
 				# Check if this is a file transfer
 				} elseif { $appid == 2 } {
-					global files_dir
-					# Let's get filename from context
+					# Let's get filename and filesize from context
 					set idx [expr [string first "Context:" $data] + 9]
 					set idx2 [expr $idx + 250]
 					set context [base64::decode [string range $data $idx $idx2]]
 					set filename [string map { \x00 "" } [string range $context 19 end]]
-					status_log "context : $context \n filename : $filename\n"
-					::amsn::WinWrite $chatid "Got File Transfer request from MSN6 Client.\nFor now it will be AutoAccepted, will be saved as [file join ${files_dir} $filename]\n" gray
-					# Let's open the file
-					set fd [open "[file join ${files_dir} $filename]" "w"]
-					fconfigure $fd -translation binary
-					SessionList set $sid [list -1 -1 -1 -1 -1 -1 $fd -1]
+					binary scan [string range $context 8 12] i filesize
+					status_log "context : $context \n [string range $context 8 12]  \nfilename : $filename $filesize \n"
+					::amsn::GotFileTransferRequest $chatid $dest $branchuid $cseq $uid $sid $filename $filesize
 				}
 				return
 			}				
@@ -5150,6 +5147,53 @@ namespace eval ::MSNP2P {
 	proc SendPacket { sbn msg } {
 		set msg_len [string length $msg]
 		::MSN::WriteSBNoNL $sbn "MSG" "D $msg_len\r\n$msg"
+	}
+
+	#//////////////////////////////////////////////////////////////////////////////
+	# AcceptFT ( chatid dest branchuid cseq uid sid filename1 )
+	# This function is called when a file transfer is accepted by the user
+	proc AcceptFT { chatid dest branchuid cseq uid sid filename1 } {
+		global config files_dir
+
+		# Let's open the file
+		set filename [file join ${files_dir} $filename1]
+		set origfile $filename
+		
+		set num 1
+		while { [file exists $filename] } {
+			set filename "$origfile.$num"
+			incr num
+		}
+
+		# If we can't create the file notify the user and reject the FT request
+		if {[catch {open $filename w} fileid]} {
+			# Cannot create this file. Abort.
+			status_log "Could not saved the file '$filename' (write-protected target directory?)\n" red
+			RejectFT $chatid $sid
+			::amsn::infoMsg [trans readonlymsgbox] warning
+			return
+		}
+
+		fconfigure $fileid -translation binary
+		SessionList set $sid [list -1 -1 -1 -1 -1 -1 $fileid -1]
+
+		# Let's make and send a 200 OK Message
+		set slpdata [MakeMSNSLP "OK" $dest $config(login) $branchuid [expr $cseq + 1] $uid 0 0 $sid]
+		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+		status_log "MSNP2P -> sid : $sid -> Sent 200 OK Message for File Transfer\n" red
+	}
+
+	#//////////////////////////////////////////////////////////////////////////////
+	# RejectFT ( chatid sid branchuid uid )
+	# This function is called when a file transfer is rejected/canceled
+	proc RejectFT { chatid sid branchuid uid } {
+		global config
+		# All we need to do is send a DECLINE
+		set slpdata [MakeMSNSLP "DECLINE" [lindex [SessionList get $sid] 3] $config(login) $branchuid 1 $uid 0 0 $sid]
+		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+
+		# And we unset our sid vars
+		SessionList unset $sid
 	}
 
 	proc myRand { min max } {
