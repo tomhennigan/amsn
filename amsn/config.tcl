@@ -372,7 +372,7 @@ proc CreateProfile { email value } {
 	load_lang
 	### REPLACE THIS BY MAIN WINDOW REDRAW
 	if { $config(language) != $oldlang } {
-		msg_box [trans mustrestart]		
+		msg_box [trans mustrestart]
 	}
 
 }

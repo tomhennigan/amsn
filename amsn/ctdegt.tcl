@@ -687,7 +687,7 @@ proc Preferences { settings } {
 
 # This is where we fill in the Entries of the Preferences
 proc InitPref {} {
-	global user_stat user_info
+	global user_stat user_info config
 	set nb .cfg.notebook.nn
 	
 	# Insert nickname if online, disable if offline
@@ -750,6 +750,13 @@ proc InitPref {} {
    	unset idx
    	unset tmp_list
 	$lfname.1.profile configure -editable false
+
+	# Lets disable loging if on default profile
+	if { [LoginList exists 0 $config(login)] == 0 } {
+		set lfname [Rnotebook:frame $nb 4]
+		set lfname "$lfname.lfname.f.f"
+		$lfname.log configure -state disabled
+	}
 }
 
 	
@@ -988,6 +995,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.31  2003/01/28 20:23:34  burgerman
+# bah
+#
 # Revision 1.30  2003/01/28 08:36:05  burgerman
 # New look for TODO :P cant help myself
 # Fixed long messages < 400, now gets separated into small fragments and sends automaticly
