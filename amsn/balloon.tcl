@@ -116,7 +116,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
         
    #Focus last windows , in AquaTK ("Mac OS X focus bug")
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" && $lastfocus !="" } {
-	after 25 "focus -force $lastfocus"  
+	after 50 "focus -force $lastfocus"  
 	}
 
 	set Bulle(set) 1
