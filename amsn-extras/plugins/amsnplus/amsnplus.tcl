@@ -15,6 +15,10 @@ namespace eval ::amsnplus {
 		::plugins::RegisterPlugin "aMSN Plus"
 		#set the amsnplus dir in config
 		::config::setKey amsnpluspluginpath $dir
+		#loading lang
+		set langdir [append dir "/lang"]
+		set lang [::config::getGlobalKey language]
+		load_lang $lang $langdir
 		#plugin config
 		array set ::amsnplus::config {
 			colour_nicks {0}
@@ -22,7 +26,7 @@ namespace eval ::amsnplus {
 		}
 		set ::amsnplus::configlist [ \
 		#	list [list bool "Colour Nicks?" colour_nicks]
-			list [list bool "Allow commands in chat window" allow_commands] \  
+			list [list bool "[trans allowcommands]" allow_commands] \  
 		]
 		#register events
 		::plugins::RegisterEvent "aMSN Plus" parse_nick parse_nick
