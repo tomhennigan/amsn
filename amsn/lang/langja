@@ -13,30 +13,37 @@ addtocontacts メンバリストに追加する
 addtoo この人を自分のメンバリストにも追加する
 admincontacts メンバ管理
 admingroups グループ管理
+advanced 詳細
+advancedprefs 詳細オプション設定
 adverts 広告
 alarmonconnect ユーザーがオンラインになった時にアラーム
 alarmondisconnect ユーザーがオフライン/不可視になった時にアラーム
 alarmonmsg メッセージが届いたときにアラーム
 alarmonstatus 他のユーザーのステータスが変わった時にアラーム
 alarmpref この人にアラームを設定
+alarms アラーム
 alarmstatus アラームのオン/オフ
+allfiles 全てのファイル
 allowallbutbl ブロックリストに入っていないメンバからのメッセージを全て受け取る
 allowbadwords ニックネームの検閲を無効にする
-allowlist 許可リスト :
+allowlist 許可リスト (AL):
 allowonlyinal 許可リストに入っているメンバからのメッセージのみ受け取る
 allowseen この人にオンライン状況を伝え、IMを受信する
+allprofilesinuse 既存のプロファイルは全て使用中です
 animatedemoticon この絵文字はアニメーション表示可能
 animatedsmileys スマイリーをアニメーション表示する
+animatenotify 通知ウィンドウをアニメーション表示する
 appearance 外観
 appearoff オフラインに見せる
 areacode エリアコード
 aretyping $1 がメッセージを入力しています
 autoaccepted 自動的に許可されたファイル転送
 autoacceptft ファイル転送要求を自動的に受け入れる
-askprofile このログインにはまだプロフィールが設定されていません。新しいプロフィールを作成しますか？ \n 作成新しいプロフィールを作成しない場合履歴やアラーム、パスワードが保存できません。 \n このプロフィールのために別のプロフィールを作成しますか？ \n \n $1 の新しいプロフィールを作成するには『プロフィールを作成する』をクリックしてください
 autoaway 次の間アクティブではなかった場合『退席中』にする
+autocheckver 起動時に新しいバージョンの確認を自動的に行なう
 autoconnect AMSN起動時に接続する
 autoconnect2 AMSNを起動した時サインインする
+autodetectip IPアドレスを自動的に検出する
 autohotmaillog 自動でHotmailにログインする
 autoidle 自動で『非使用中』にする
 autoip 自動IP設定
@@ -52,7 +59,7 @@ block 禁止
 blocked 禁止済み
 blockedyougroup あなたを禁止しているグループを表示
 blocking 禁止中
-blocklist ブロックリスト :
+blocklist ブロックリスト (BL):
 blockinter1 オンライン時のチェック間隔
 blockinter2 秒, オンラインでないときのチェック間隔:
 blockinter3 ユーザ、その時のチェック間隔
@@ -67,6 +74,7 @@ busy 取り込み中
 cancel キャンセル
 cannotdeleteprofile そのプロフィールはAMSNで利用中のようなので消去できません
 cantexec 以下のアプリケーションが実行できません: $1. 設定を確認してください
+cantremoveothers "その他"グループは削除できません
 casesensitive ケースごとに異なるトリガを使用する
 cfgalarm アラーム 設定/追加/削除
 cfgalarmall 全体のアラームの 設定/追加/削除
@@ -74,6 +82,7 @@ changedisplaypic 表示画像の変更
 changefont フォント変更
 changenick 名前変更
 changestate $1 のステータスが $2 になりました
+charscounter 会話ウインドウに文字数カウンタを表示する
 chat 会話
 chatack 次のメンバからのチャットを開いています
 chatmaxmin 新しい会話が始まったとき:
@@ -91,6 +100,7 @@ choosebgcolor 背景色選択
 choosecontact リストからメンバを選んでください
 chooseskin 使いたいスキンを選択してください
 choosefontcolor 文字色選択
+ch_to_state 新しい状態に切り替える
 clearlog ログ削除
 clearlog2 全メンバの履歴を削除
 clearlog3 全ログを削除
@@ -109,7 +119,8 @@ connection 接続
 connectionlost サーバが終了したため切断されました。
 contactadded メンバリストに追加しました
 contactdoesnotexist メンバが存在しません！
-contactlist メンバ リスト :
+contactlist メンバ リスト (FL):
+convertexplain ImageMagickに含まれる実行ファイル CONVERT のパスを指定します (画像表示に必要です）\n CONVERTがパスに含まれているときには空欄にしてください。
 copy コピー
 copytogroup グループにコピー
 countrycode 自分の国/地域番号
@@ -122,12 +133,17 @@ days 日
 dcprofile プロフィールを作成しない
 default 標準設定
 defaultloginradio デフォルトの設定でログインする
+defchatwinsize 会話ウインドウのデフォルトサイズ (横x縦)
 delete 削除
+deletecustomstate カスタム状態の削除
+delimiters タイムスタンプの区切り文字:
 deliverfail 次のメッセージを配信する際、問題が発生しました
 delprofile プロフィール削除
 delprofile2 削除したいプロフィールを選択してください
 description 詳細
 directconnection インターネットに直接接続しています(ポート1863を使用)
+disabled 無効
+disableprofiles プロファイルを無効にする (サーバーカフェ・共有PC向け)
 disablessl SSLを無効にする
 disconnect $1 は切断されました
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
@@ -137,12 +153,16 @@ dockingoff ドッキングしない
 dockkde KDEドック
 dontdownload TLSをダウンロードしない。手動でインストールします。
 downloadingtls TLSモジュールを以下からダウンロードする:\n $1
-editcurrentstate 現在の設定を編集する
+dontshow 表示しない
 edit 編集
+editcustomstate カスタム状態の編集
 editnewstate 新しい自動返信メッセージ
 editprofile プロフィール編集
 editstate 自動返信メッセージの編集
+emailsinlist メンバリストで、名前の代わりにメールアドレスを表示する
 emotisounds 特定の絵文字に対してサウンドを再生する
+enablebanner aMSNのバナーを表示する (aMSNの再起動が必要です)
+enabled 有効
 enableproxy プロキシを有効に
 enablesound サウンドを有効にする
 enableremote リモートからの操作を有効にする
@@ -199,6 +219,7 @@ hybrid ハイブリッドモード
 ident 個人情報を読み込んでいます
 identity 個人情報
 inbox 受信箱
+insertsmiley 絵文字の挿入
 installconvert Buddyアイコンやカスタムの絵文字を使用するには ImageMagick (変換プログラム) をインストールする必要があります。各OS用のバイナリを以下のサイトからダウンロードできます(ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/)。すでにインストールしてある場合はプログラムのバグですので、ご一報下さい。ImageMagik をインストールして、設定からこのオプションを有効にしなければ、この機能は使えません。 
 invalidfile "$1" に入力された $2 というファイルは存在しないか、読むことができません
 internalerror サーバエラー(Interal Server Error)
@@ -221,6 +242,7 @@ leaveblankforhotmail HotmailをWebで使うにはここを空白にしてください
 leaves $1 は会話から抜けました
 lenteredconf $1 が $2 での会議に参加しました
 linprivate 二人の会話で
+lineflushlog 行ごとにログファイルへ書き込む
 listeningon ポート $1 を開いています
 listsmileys 絵文字リスト
 listsmileys2 メンバリストに絵文字を表示する
@@ -248,7 +270,7 @@ minimised 最小化/アイコン化
 mins 分
 mobile 携帯
 morepersonal 詳細 →
-move Move
+move 移動
 movetogroup グループに移動
 msgflicker フォーカスされていないウィンドウにメッセージが届いた時に、ウィンドウのタイトルを点滅させる。
 msg メッセージ
@@ -267,6 +289,7 @@ needonline あなたは今オフラインになっています！
 newmail 受信箱に $1 通のメッセージがあります
 newmailfrom 次の人からメールが来ました $1 ($2)
 newmsg 新メッセージ
+newstate カスタム状態の追加
 newveravailable 新しいバージョン $1 がダウンロード可能です
 next 次へ
 no No
@@ -280,6 +303,7 @@ nopic 画像なし
 noprofileexists プロファイルが存在しません。\n既存のプロファイルからログインするためには、プロファイルを追加する必要があります。\n追加するには「新しいプロファイルを追加する」ボタンをクリックしてください。
 normal 通常
 nosystemtray システムトレイはありません。
+notificationserver 初期MSN通知サーバ (MSNメッセンジャーサーバ)
 notify 通知
 notify1_5 メンバがオフラインになった時に、通知ウィンドウを表示する
 notify1_75 メンバのステータスが変わったときに、通知ウィンドウを表示する
@@ -287,6 +311,7 @@ notify1 メンバがオンラインになったら通知するウィンドウを表示する
 notify2 メッセージを受信したら通知ウィンドウを表示する
 notify3 メールを受信したら通知ウィンドウを表示する
 notifyoffset 通知ウィンドウの位置を固定する
+notifytyping メッセージの入力を他のユーザーに通知する
 notifywin 通知ウィンドウ
 notls The MSN Protocol 9 を利用するには TLS パッケージが必要ですが、このコンピュータにはインストールされていないようです。インストールされている場合には、設定ウィンドウからライブラリへのパスを設定する必要があります（例: /opt/tls/lib）。\n\n TLSは以下のサイトからダウンロードできます。http://tls.sf.net 
 nousersinsession この会話には誰もいません
@@ -300,6 +325,7 @@ options オプション
 ordercontactsby メンバリストの表示方法
 ordergroupsby グループリストの表示方法
 other その他
+others その他
 pager ポケベル
 pass パスワード
 paste 貼り付け
@@ -357,6 +383,7 @@ raised 開く/アイコン化解除
 readonlymsgbox 保存先ディレクトリが読み取り専用なので、ファイル転送を中止しました。保存先ディレクトリのパーミッションを変更してください。
 readonlywarn 警告: ファイル受信ディレクトリが書き込み制限されているため、受信ファイルはおそらく正しく保存できません。ファイル転送を行う際には予め保存先ディレクトリ ($1) のパーミッションの設定が適切であるか確認してください。
 receivedbytes $1 / $2 バイトを受信しました
+receiveddir 受信ファイルフォルダ
 receivefile ファイル受信
 reconnect $1 が再接続するのを待っています
 reconnecting 再接続しています
@@ -364,10 +391,11 @@ reject 拒否
 rememberpass パスワードを保存
 removefromlist リストから消去する
 reversed 逆順
-reverselist 相手の連絡先リスト
+reverselist 相手の連絡先リスト (RL):
 rightback 一時退席中
 save 保存
 saveas 別名で保存
+savechatwinsize 変更した会話ウインドウの大きさをデフォルトとして保存する
 savecontacts メンバリスト保存
 savetofile ファイルに保存
 says $1 の発言
@@ -386,6 +414,7 @@ showblockedlist あなたをブロックしている人のリストを表示する
 showdisplaypic2 チャットウィンドウを開いたときに、画像を表示する。
 showdisplaypic 画像を表示
 showmypic 自分の表示画像
+shownotify イベントが発生したときに、通知ウインドウを表示する
 showuserpic $1 の表示画像
 skinselector スキンを選択
 skin スキン
@@ -405,6 +434,7 @@ sourcecode ソースコード (コンパイルとインストールが必要です)
 sslwarning 警告!! SSLを無効にすると暗号化が無効になり、パスワードは平文のままでネットワークに送信されます。特殊なプロキシやネットワークの設定をする場合以外はSSLを無効にしないでください。
 startoffline オフラインで起動する
 startoffline2 サインイン時オフラインする
+startontray トレイアイコンの上でAMSNを起動する
 state 次の状態にする
 stateautomsg 自動返信メッセージ
 statechange 以下のステータスに変わりました: 
@@ -412,18 +442,24 @@ stateedittext テキストフィールドを編集し、保存をクリックしてください。
 stateinfo 自動返信の設定
 statename 自動返信の名前
 statenewtext 必要な項目を記入し保存をクリックしてください。
+statenick 名前 (変更しない場合には空欄にしてください)
 status 状態
 stopalarm アラーム停止
+storenickname カスタム状態終了時に名前を元に戻す
+strictfonts 全てのフォントサイズを選択した設定にする(ステータスバーなど)
 stylechat 会話のスタイル
 stylehist AMSNのスタイル
 stylelog 参照したい履歴のフォーマットを選択してください
 syntaxerror シンタックス エラー
 tabbed タブ ウィンドウ
+temp_state 保存しない (一時的な状態なので、AMSNを終了すると設定は失われます)
 textsize 文字サイズ
 timeremaining 残り時間
+timestamps 会話ウインドウでのタイムスタンプ表示を有効にする
 title Al's Messenger
 tlsdowncompleted ファイル $1 の $2 へのダウンロードが完了しました。展開、(ソースコードの場合は)ビルド、の後に $3 にインストールしてください。
 tlsinstallexp aMSN が現在利用しているMSN9にはSSLによるセキュア接続が必要です。SSLを利用するには、TLS モジュールをインストールする必要がありますが、このコンピュータにはインストールされていないようです。このウィザードを使って TLS のダウンロードとインストールを行えます。使用中のシステムを選択すると、自動的に必要なファイルをダウンロードします。
+tlsexplain tcl TLS モジュールのフォルダを指定します。AMSNがモジュールを見つけられないときに指定してください。\n(SSL認証に必要です)
 tlsinstall TLS モジュールインストールウィザード
 tlsinstcompleted TLS モジュールのインストールが完了しました - MSN9 が利用できます。うまく動かない場合は、選択したモジュールが適切でないか、コンパイル済のモジュールがこのシステムでは利用できない可能性があります。
 to To
@@ -432,6 +468,9 @@ tooltips ツールチップを有効にする
 transnotexists そのファイルはまだ日本語訳されていません
 traynotcompiled トレイアイコンプラグインはコンパイルされていません。Plugins/Traydockを確認してください。
 triggers テキストトリガー
+truncatenames1 名前がタイトルやメンバリストの幅よりも長いときは省略表示する
+truncatenames2 名前が会話ウインドウの幅よりも長いときは省略表示する
+truncatenicks 名前がウインドウ幅よりも長いときは省略して表示する
 twonewmail 受信箱に $1 通のメッセージがあります
 unblock 禁止解除
 uoffline オフライン
