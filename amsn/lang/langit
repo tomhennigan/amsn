@@ -7,7 +7,7 @@ activeautoupdate Aggiornamento automatico
 add Aggiungi
 addacontact Aggiungi un contatto
 addedyou $1 ($2) ti ha aggiunto alla sua lista dei contatti
-addprofile Aggiungi un nuvo profilo
+addprofile Aggiungi un nuovo profilo
 addprofiledesc Inserisci il login per il quale vorresti creare un nuovo profilo. \nI login con un profilo ti permettono di avere differenti configurazioni per ogni login.\n Senza profili non puoi usare l'History, gli Allarmi o ricordare le password.
 addstate Aggiungi Nuovo Stato
 addto Aggiungi a $1
@@ -81,7 +81,7 @@ broughtby  Sviluppato da
 browse Cerca
 browser Browser
 browserexample (\$url verrà rimpiazzato dall'URL). Es: mozilla \$url
-busy Ho da fare
+busy Occupato
 cachedpics $1 immagini memorizzate
 cancel Cancella
 cannotdeleteprofile Non posso concellare il profilo perché sembra essere usato da una sessione di aMSN
@@ -128,7 +128,7 @@ clientcaps Invia pacchetto "x-clientcaps" a clients altrui
 clientname Nome client
 close Chiudi
 closed La conversazione con $1 è chiusa per inattività.
-closingdocks Pulsante per chiudere
+closingdocks Pulsante chiudi riduce a icona
 command Comando
 commandstatus Esegui comando
 configure Configura
