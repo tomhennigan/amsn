@@ -582,43 +582,6 @@ namespace eval ::amsn {
 
    }
 
-   #////////////////////////////////////////////////////////////////////////////////
-   #  GotFileTransferRequest ( chatid dest branchuid cseq uid sid filename filesize)
-   #  This procedure is called when we receive an MSN6 File Transfer Request
-   proc GotFileTransferRequest { chatid dest branchuid cseq uid sid filename filesize} {
-   	global config files_dir
-	
-	set win_name [WindowFor $chatid]
-	if { [WindowFor $chatid] == 0} {
-		return 0
-	}
-
-	set fromname [lindex [::MSN::getUserInfo $dest] 1]
-	set txt [trans ftgotinvitation $fromname '$filename' $filesize $files_dir]
-
-	set win_name [MakeWindowFor $chatid $txt]
-
-	WinWrite $chatid "----------\n" gray     
-	WinWriteIcon $chatid fticon 3 2 
-	WinWrite $chatid $txt gray
-	WinWrite $chatid " - (" gray
-	WinWriteClickable $chatid "[trans accept]" "::amsn::AcceptFT $chatid -1 \[list $dest $branchuid $cseq $uid $sid $filename\]" ftyes$sid
-	WinWrite $chatid " / " gray
-	WinWriteClickable $chatid "[trans reject]" "::amsn::RejectFT $chatid -1 \[list $sid $branchuid $uid\]" ftno$sid
-	WinWrite $chatid ")\n" gray 
-	WinWrite $chatid "----------\n" gray
-	if { ![file writable $files_dir]} {
-		WinWrite $chatid "[trans readonlywarn $files_dir]\n" red
-		WinWrite "----------\n" gray
-	}
-
-	if { $config(ftautoaccept) == 1 } {
-		WinWrite $chatid "[trans autoaccepted]\n" gray
-		::amsn::AcceptFT $chatid $dest $branchuid $cseq $uid $sid
-	}
-   }
-   
-
    #Message shown when receiving a file
    proc fileTransferRecv {filename filesize cookie chatid fromlogin} {
       global files_dir config
@@ -658,15 +621,11 @@ namespace eval ::amsn {
    }
 
 
-   proc AcceptFT { chatid cookie {varlist ""} } {
+   proc AcceptFT { chatid cookie } {
    
-       #::amsn::RecvWin $cookie
-      if { $cookie != -1 } {
-      	::MSNFT::acceptFT $chatid $cookie
-      } else {
-      	::MSNP2P::AcceptFT $chatid [lindex $varlist 0] [lindex $varlist 1] [lindex $varlist 2] [lindex $varlist 3] [lindex $varlist 4] [lindex $varlist 5]
-	set cookie [lindex $varlist 4]
-      }
+      #::amsn::RecvWin $cookie
+       ::MSNFT::acceptFT $chatid $cookie
+
       set win_name [WindowFor $chatid]
       if { [WindowFor $chatid] == 0} {
          return 0
@@ -694,16 +653,12 @@ namespace eval ::amsn {
      WinWrite $chatid " $txt\n" gray
      WinWrite $chatid "----------\n" gray
      
+
    }
 
-   proc RejectFT {chatid cookie {varlist ""} } {
+   proc RejectFT {chatid cookie} {
 
-      if { $cookie != -1 } {
-      	::MSNFT::rejectFT $chatid $cookie
-      } else {
-      	::MSNP2P::RejectFT $chatid [lindex $varlist 0] [lindex $varlist 1] [lindex $varlist 2]
-	set cookie [lindex $varlist 0]
-      }
+      ::MSNFT::rejectFT $chatid $cookie
    
       set win_name [WindowFor $chatid]
       if { [WindowFor $chatid] == 0} {
@@ -5793,8 +5748,7 @@ proc convert_image { filename size } {
 
 	#First converstion, no size, only .gif
 	if { [catch { exec convert "$filename" "${filename}.gif" } res] } {
-		msg_box "[trans installconvert] --- $res"
-		status_log "converting returned error : $res\n"
+		status_log "CONVERT ERROR IN CONVERSION 1: $res" white
 		return 0
 	}
 	
@@ -5828,8 +5782,7 @@ proc convert_image { filename size } {
 	
 
 	if { [catch { exec convert -size "${resizew}x${resizeh}" "$filename" -resize "${resizew}x${resizeh}" "${filename}.gif" } res] } {
-		msg_box "[trans installconvert] --- $res"
-		status_log "converting returned error : $res\n"
+		status_log "CONVERT ERROR IN CONVERSION 2: $res" white
 		return 0
 	}
 	
