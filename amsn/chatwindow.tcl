@@ -784,7 +784,7 @@ namespace eval ::ChatWindow {
 		::skin::setPixmap moretabs moretabs.gif
 		::skin::setPixmap lesstabs lesstabs.gif
 
-		frame $bar -class Amsn -relief solid -bg white
+		frame $bar -class Amsn -relief solid -bg white -bd 0
 
 		return $bar
 	}
