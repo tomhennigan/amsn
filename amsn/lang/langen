@@ -4,6 +4,7 @@ accept Accept
 acceptfile Accept file $1, size $2? Saved in $3
 actions Actions
 activeautoupdate Active auto-update
+add Add
 addacontact Add a contact
 addedyou $1 ($2) has added you to his/her contact list
 addprofile Add New Profile
@@ -121,6 +122,7 @@ clear Clear
 clearlog2 Clear the history for all your contacts
 clearlog3 Clear All Logs
 clearlog Clear Log
+clicktoadd Click on Add button for a new note
 clicktologin Click here to log in
 clientcaps Send x-clientcaps packet to others clients
 clientname Client Name
@@ -144,6 +146,7 @@ connecterror Error connecting to server
 connecting Connecting
 connection Connection
 connectionlost Disconnected: Connection with server closed
+contact Contact
 contactadded Contact added
 contactdoesnotexist Contact does not exist!
 contactlist Contact list (FL):
@@ -156,9 +159,11 @@ corruptconfig Configuration file is corrupt. Creating new one. Old file will be 
 corruptstates Custom states config is corrupt. Creating new one. Old file will be saved to $1. Please send it to us to check what happened.
 countrycode My Country/Region code
 cprofile Create Profile
+created Created
 credits Credits
 currentdate Current Date
 currentlanguage This is the language that you use
+currentnotes Current notes
 custnotifymsg Display notify window when a new user message is received
 custnotifyoffline Display notify window when this contact goes offline
 custnotifyonline Display notify window when this contact comes online
@@ -295,6 +300,7 @@ ignoreerrors Silently ignore other AMSN errors until the end of session
 imagefiles Image Files
 inbox Inbox
 insertsmiley Insert emoticon
+inserttextnote Insert text inside the subject field and the note field, then click on Save
 installconvert You must install ImageMagick (convert program) in order to use Buddy Icons and Custom Emoticons. You can download the binaries for your Operating System ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . If you already have it, then it is a bug, please report it. These features will now be disabled, if you install ImageMagik later on reenable these options from the Preferences. 
 internalerror Internal Server Error
 invalidfile2 Filename $1 could not be created, make sure you have the correct permissions for that target.
@@ -366,6 +372,7 @@ maximised Maximised
 minimised Minimised/Iconified
 mins minutes
 mobile Mobile
+modified Modified
 month Month
 morepersonal More States ->
 move Move
@@ -415,6 +422,7 @@ noprofileexists There are currently no profiles, \n you must create one if you w
 normal Normal
 noskins Couldn't found default skin in skins/ folder. Can't start AMSN
 nosystemtray System tray not available
+note Note
 notificationserver Initial MSN Notification Server (MSN Messenger Server)
 notify1_5 Display notify window when contacts go offline
 notify1_75 Display notify window when contacts change status
@@ -589,6 +597,8 @@ stylechat Same look as chats
 stylehist aMSN's history look
 stylelog Select the format in which you would like to view your History
 style Style
+subject Subject
+subjectrequired Subject required
 syntaxerror Syntax Error
 tabbed Tabbed Windows
 tabbedglobal A tabbed window for all users in the contact list

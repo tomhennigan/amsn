@@ -61,7 +61,7 @@ namespace eval ::notes {
   		}
   	 
   		toplevel $w
-  		wm title $w "[trans notes]"
+  		wm title $w "[trans note]"
   		wm geometry $w 660x535+30+30
 		wm protocol $w DELETE_WINDOW "::notes::Display_Notes_Close"		
 
@@ -106,7 +106,7 @@ namespace eval ::notes {
 		# Display the E-Mail of the contact
 		frame $w.right.contact
 		frame $w.right.contact.right
-		label $w.right.contact.right.note -text "Contact" -font bigfont
+		label $w.right.contact.right.note -text "[trans contact]" -font bigfont
 		set nickname "[trunc [::abook::getDisplayNick $email] $w 410 bold]"
 		label $w.right.contact.right.txt -text "$email\n$nickname" -font bold
 		pack configure $w.right.contact.right.note
@@ -124,7 +124,7 @@ namespace eval ::notes {
 
 		# Create the listbox containing the notes
   		frame $w.right.notes -relief sunken -borderwidth 3
-  		label $w.right.notes.current -text "Current notes" -font bold
+  		label $w.right.notes.current -text "[trans currentnotes]" -font bold
   		listbox $w.right.notes.box -yscrollcommand "$w.right.notes.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 7 -width 60
   		scrollbar $w.right.notes.ys -command "$w.right.notes.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
   		pack $w.right.notes.current -expand true -fill both
@@ -134,13 +134,13 @@ namespace eval ::notes {
 
 		# Create the frame containing informations about the note
 		frame $w.right.info -borderwidth 3
-		label $w.right.info.date -text "Click on Add button for a new note"
+		label $w.right.info.date -text "[trans clicktoadd]"
 		pack configure $w.right.info.date -side top -fill x
 
 
 		# Display the subject of the note
 		frame $w.right.subject -relief sunken -borderwidth 3
-		label $w.right.subject.desc -text "Subject" -font bold
+		label $w.right.subject.desc -text "[trans subject]" -font bold
 		text $w.right.subject.txt -font splainf -background white -relief flat -highlightthickness 0 -height 1 -width 60 -state disabled
 		pack $w.right.subject.desc -expand true -fill both
 		pack $w.right.subject.txt -expand true -fill both
@@ -148,7 +148,7 @@ namespace eval ::notes {
 
 		# Display the note
 		frame $w.right.note -relief sunken -borderwidth 3
-		label $w.right.note.desc -text "Note" -font bold
+		label $w.right.note.desc -text "[trans note]" -font bold
 		text $w.right.note.txt -yscrollcommand "$w.right.note.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 7 -width 60 -state disabled
   		scrollbar $w.right.note.ys -command "$w.right.note.txt yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
   		pack $w.right.note.desc -expand true -fill both
@@ -483,7 +483,7 @@ namespace eval ::notes {
 		$w.right.note.txt delete 0.0 end
 		$w.right.subject.txt configure -state normal
 		$w.right.subject.txt delete 0.0 end
-		$w.right.info.date configure -text "Insert text inside the subject field and the note field, then click on Save"
+		$w.right.info.date configure -text "[trans inserttextnote]"
 
 		pack forget $w.right.button.delete
 		pack forget $w.right.button.new
@@ -508,7 +508,7 @@ namespace eval ::notes {
 		set note "[.notemanager.right.note.txt get 0.0 {end - 1 chars}]"
 
 		if { $subject == "" } {
-			$w.right.warning.txt configure -text "[trans titlerequired]" -foreground red -font bold
+			$w.right.warning.txt configure -text "[trans subjectrequired]" -foreground red -font bold
 
 		} else {
 
