@@ -1329,7 +1329,6 @@ proc addcontact_next {} {
       ::MSN::addUser "$tmp_email"
       grab release .addcontact
       destroy .addcontact
-      msg_box "[trans contactadded]"
    } 
 }
 

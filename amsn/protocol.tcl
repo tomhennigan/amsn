@@ -1067,6 +1067,11 @@ proc cmsn_ns_handler {item} {
       ADD -
       LST {
          cmsn_listupdate $item
+	 if { [lindex $item 0] == "ADD" } {
+	     set contact [lindex $item 4]	;# Email address
+	     set addtrid [lindex $item 3]	;# Transaction ID
+	     msg_box "[trans contactadded]\n$contact"
+	 }
 	 # New entry in address book setContact(email,FL,groupID)
 	 # NOTE: IF a user belongs to several groups, the group part
 	 #       of this packet will have the group ids separated
@@ -1144,11 +1149,16 @@ proc cmsn_ns_handler {item} {
       }
       200 {
           status_log "Error: Syntax error\n" red
-	  msg_box "[trans sintaxerror]"
+	  msg_box "[trans syntaxerror]"
           return 0
       }
       201 {
           status_log "Error: Invalid parameter\n" red
+          return 0
+      }
+      205 {
+          status_log "Warning: Contact does not exist $item\n" red
+	  msg_box "[trans contactdoesnotexist]"
           return 0
       }
       911 {
