@@ -159,12 +159,15 @@ void checkMissing() {
 	FILE *f;
 	char langfile[50];
 	char langcode[10];
+	char langenc[50];
 	char langname[100];
 
 	f=fopen(LISTFILE,"r");
 
 	do {
 		fscanf(f,"%s",langcode);
+		fgetc(f);
+		fscanf(f,"%s",langenc);
 		fgetc(f);
 		fgets(langname,100,f);
 
@@ -176,7 +179,7 @@ void checkMissing() {
 
 		if (strcmp(langfile,MASTERFILE)) {
 
-		  printf("<ul><li><b><a name=\"%s\"></a>%s (%s)</b></li></ul>\n",langcode,langname,langcode);
+		  printf("<ul><li><b><a name=\"%s\"></a>%s (%s) - %s</b></li></ul>\n",langcode,langname,langcode,langenc);
 		  checkMissingFor(langfile,langname);
 		}
 
@@ -220,6 +223,7 @@ void writeLocalLinks() {
 	FILE *f;
 	char langfile[50];
 	char langcode[10];
+	char langenc[50];
 	char langname[100];
 	int num;
 
@@ -227,10 +231,12 @@ void writeLocalLinks() {
 
 	printf("<table border=0 cellpadding=5>\n");
 
-	printf("<tr><td><b><font size=-2>See missing for:</font></b></td><td><b><font size=-2>#</font></b></td><td><b><font size=-2>D/L</font></b></td></tr>\n");
+	printf("<tr><td><b><font size=-2>See missing for:</font></b></td><td><b>Encoding</b></td><td><b><font size=-2>#</font></b></td><td><b><font size=-2>D/L</font></b></td></tr>\n");
 
 	do {
 		fscanf(f,"%s",langcode);
+		fgetc(f);
+		fscanf(f,"%s",langenc);
 		fgetc(f);
 		fgets(langname,100,f);
 
@@ -241,7 +247,7 @@ void writeLocalLinks() {
 		sprintf(langfile,"lang%s",langcode);
 		num=countMissingFor(langfile);
 
-		  printf("<tr><td><font size=-2><a href=\"#%s\">%s</a></font></td><td>%d</td><td><a href=\"http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/amsn/msn/lang/lang%s?rev=HEAD&amp;content-type=text/plain\">%s</a></td></tr>\n",langcode,langname,num,langcode,langcode);
+		  printf("<tr><td><font size=-2><a href=\"#%s\">%s</a></font></td><td><font size =-2>%s</td><td>%d</td><td><a href=\"http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/amsn/msn/lang/lang%s?rev=HEAD&amp;content-type=text/plain\">%s</a></td></tr>\n",langcode,langname,langenc,num,langcode,langcode);
 
 	} while(1);
 	
