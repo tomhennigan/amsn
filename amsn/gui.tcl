@@ -573,7 +573,8 @@ namespace eval ::amsn {
       frame .${win_name}.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -padx 3 -pady 1 -relief flat
 
       text .${win_name}.f.text -borderwidth 0 -background white -width 45 -height 15 -wrap word \
-         -yscrollcommand ".${win_name}.f.ys set" -exportselection 1  -relief solid -highlightthickness 0
+         -yscrollcommand ".${win_name}.f.ys set" -exportselection 1  -relief solid -highlightthickness 0\
+	  -padx 3 -pady 1
 
       frame .${win_name}.f.top -class Amsn -relief flat -borderwidth 0 -padx 0 -pady 0 -background $bgcolor
 
