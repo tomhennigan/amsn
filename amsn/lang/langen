@@ -23,7 +23,7 @@ areacode Area Code
 aretyping $1 are typing a message
 askprofile This login doesn't currently have a profile. Would you like to create a new one for it? \n If you don't you will not be able to use the History, or save your Alarms and password. \n If you do you will have a separate configuration for this new profile. \n \n Click on "Create Profile" to create a new profile for $1.
 autoaway Show me as "Away" when inactive for
-autoconnect2 Sign In automaticly when aMSN is launched
+autoconnect2 Sign In automatically when aMSN is launched
 autoconnect Connect on amsn start
 autohotmaillog Auto Hotmail login
 autoidle Auto NoActivity
@@ -52,7 +52,7 @@ busy Busy
 cancel Cancel
 cannotdeleteprofile Cannot delete profile because it seems to be in use by an Amsn session
 cfgalarm Configure/Add/Remove Alarm
-changefont Change Font
+changefont Change font
 changenick Change nick
 chatack Accepting chat from
 chat Chat
@@ -157,7 +157,7 @@ home Home
 httpconnection Connect using HTTP method (uses HTTP protocol over port 80)
 ident Identifying
 identity Identity
-inbox In-Box
+inbox Inbox
 internalerror Interal Server Error
 invalidusername Invalid user name
 invitationcancelled The invitation was cancelled
@@ -167,7 +167,7 @@ ipdetect Detect correct IP for File Transfers using HTTP
 istyping $1 is typing a message
 joins $1 joins conversation
 keepalive Keepalive (NAT)
-keeplog2 Log all Conversations to aMSN's History for future viewing
+keeplog2 Log all conversations to aMSN's History for future viewing
 keeplog Keep Logs of Chats
 language Language
 lastmsgtime Last message received at $1
@@ -217,7 +217,7 @@ myworkphone My Work Phone
 natip IP detection by web page 
 natkeepalive If you are getting disconnected regularly, enable this KeepAlive
 needonline You still are/appear offline!
-newmail $1 new messages in In-Box
+newmail $1 new messages in Inbox
 newmailfrom New mail from $1 ($2)
 newmsg New message
 newveravailable Newer version $1 available for download
@@ -225,21 +225,21 @@ next Next
 noactivity No activity
 nodataavailable No data available for $1
 nologfile No Log file for $1
-nonewmail No new messages in In-Box
+nonewmail No new messages in Inbox
 nonewver There are no new versions available to download
 no No
 normal Normal
 nosystemtray System tray not available
 notify1 Display notify window when contacts come online
 notify2 Display notify window when new messages are received
-notify3 Display notify window when e-mails reach your InBox
+notify3 Display notify window when e-mails reach your Inbox
 notify notify
 notifyoffset Set the position of the notify window by giving it position offsets
 notifywin Notify Window
 nousersinsession No users in session
 offline Offline
 ok Ok
-onenewmail 1 new message in In-Box
+onenewmail 1 new message in Inbox
 online Online
 onphone On phone
 openreceived Open received files
@@ -266,7 +266,7 @@ preferences Preferences
 preffont2 Change the way others see my text in chats
 preffont3 Change aMSN's interface font and size
 preffont My Message Text
-preflog1 My History and Loging Options
+preflog1 My History and Logging Options
 preflook My aMSN Messenger Look
 prefmsging My Messaging Interface
 prefname My MSN Messenger Name/NickName
@@ -274,7 +274,7 @@ prefphone2 Type the phone numbers that you would like people \n on your Allow Li
 prefphone My Phone Numbers
 prefprivacy2 User's Contact/Reverse lists
 prefprivacy User's Allow/Block lists
-prefprofile2 Create or Modify your public profile (the \n description of yourself that others can see)
+prefprofile2 Create or modify your public profile (the \n description of yourself that others can see)
 prefprofile3 aMSN's User Configuration Profiles
 prefprofile My Public Profile
 prefproxy My Proxy Settings
@@ -284,7 +284,7 @@ prefshared Shared Connections (only for NAT)
 prefsound Sounds
 privacy Privacy
 profiledconfig Profiled Config
-profileinuse This Profile is being used by another Amsn session, please chose another one
+profileinuse This Profile is being used by another aMSN session, please chose another one
 profiles Profiles
 properties Properties
 proxyconfhttp HTTP proxy support configuration
@@ -320,7 +320,7 @@ session Session
 showblockedlist Show list of people who blocked you
 sound2 Play sounds when contacts sign in or send a message
 soundcommand This has to be the play command (ex: esdplay)
-sound Event Sound'
+sound Event Sounds
 soundfile Sound File
 soundloop Loop Sound
 soundserver Sound Server
@@ -367,4 +367,4 @@ yoffset Y Offset
 youblocked You have been blocked
 yousay You say
 youwant You want
-twonewmail $1 new messages in In-Box
+twonewmail $1 new messages in Inbox
