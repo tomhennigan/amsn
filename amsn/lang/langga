@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Acerca de
+acceptfile ¿Aceptar arquivo $1, tamaño $2 bytes? gardarase en $3
 actions Accións
 addacontact Engadir un contacto
 addedyou engadiute á súa lista de contactos
@@ -13,6 +14,7 @@ are están
 autohotmaillog Login hotmail automático
 avoidseen Evitar que esta persoa vexa a túa conexión e contacte contigo
 away Ausente
+baduserpass Nome de usuario ou contrasinal incorrectos
 blankdirect Deixar en branco para conexión directa
 blocked Bloqueado
 block Non admitir
@@ -35,18 +37,36 @@ date Data
 delete Eliminar
 enableproxy Activa-lo proxy
 entercontactemail Introduce o email do contacto
+enterfilename Introduce o nombre do arquivo
 enternick Introduce o teu nick
 examples Exemplos
+filedoesnotexist O arquivo non existe
+filename Nome do Arquivo
+filetransfercancelled Transferencia do arquivo cancelada
+filetransfercomplete Transferencia do arquivo completada
 gonelunch Saín comer
+group Grupo
+groupadd Engadir un grupo
+groupdelete Borrar un grupo
+grouprename Cambiar nome ó grupo
+groupoldname Nombre antigo
+groupnewname Novo nome
+groupunknown Grupo descoñecido
+groupexists O grupo xa existe
+groupmissing Non se pode atopa-lo grupo
 help Axuda
 helpcontents Temas de axuda
+home Casa
 ident Identificándose
+identity Identificación
 inbox Bandexa de entrada
 invite Invitar
+ipaddress Dirección IP
 is está
 joins $1 $2 únese á conversa
 language Linguaxe
 leaves $1 deixa a conversa
+listeningon Escoitando no porto $1
 listsmileys Smileys nos contactos
 loadcontacts Cargar lista de contactos
 loggingin Iniciando sesión
@@ -54,10 +74,13 @@ loginas Iniciar sesión como
 login Iniciar sesión
 logout Cerrar sesión
 logsin acaba de iniciar sesión
-mustrestart Debes reiniciar-lo programa para aplica-los cambios
-mystatus Meu estado
+mailer Comando de email
+mobile Celular
 msg Mensaxe
 msn AMSN
+mustrestart Debes reiniciar-lo programa para aplica-los cambios
+mystatus Meu estado
+needonline Vostede aínda está/aparece desconectado!
 newmail $1 mensaxes novas na bandexa de entrada
 newmailfrom Novo correo de
 newmsg Nova mensaxe
@@ -67,21 +90,27 @@ noactivity Sen actividade
 nonewver Non hai versións máis actuais dispoñibles
 notify aviso
 nousersinsession Non hai usuarios na sesión
-ok Aceptar
 offline Desconectado
+ok Aceptar
 online Conectado
 onphone Ó teléfono
 openreceived Abrir arquivos recibidos
 options Opcións
 ordercontactsby Ordenar contactos por
 other Outro
+pager Paxinador
 pass Contrasinal
+phone Teléfono
 port Porto
 prefapps Aplicacións
 preferences Preferencias
 prefsound Sons
+properties Propiedades
 proxyconf Configuración proxy
 proxyconfhttp Configurar soporte de proxy http
+publishphones Publica-los meus números telefónicos
+receivedbytes Recibidos $1 de $2 bytes totais
+receivefile Recibir arquivo
 reconnect Agardando que $1 reconecte
 reconnecting Reconectando ó servidor
 rememberpass Lembrar contrasinal
@@ -95,6 +124,7 @@ send Enviar
 sendfile Enviar arquivo
 sendmail Enviar email
 sendmsg Enviar mensaxe
+sentbytes Enviados $1 de $2 bytes totais
 server Servidor
 sound Son eventos
 startoffline Comezar Desconectado
@@ -103,12 +133,13 @@ title Al's Messenger
 tools Ferramentas
 to Para
 typing $1 escribindo unha mensaxe
-yousay Ti dis
-youwant Queres
 unblock Admitir
 uoffline Desconectados
 uonline Conectados
 user Usuario
 version Versión
-View Ver
+view Ver
 willjoin Agardando que $1 se una á conversa
+work Traballo
+yousay Ti dis
+youwant Queres
