@@ -35,11 +35,11 @@ namespace eval ::Nudge {
 		#Load the pictures
 		::Nudge::setPixmap
 
-		#On 0.94, wait 5 seconds after all the plugins are loaded to register
+		#Wait 5 seconds after all the plugins are loaded to register
 		#the command /nudge to amsnplus plugin
-		if {[::Nudge::version_094]} {
-			after 5000 ::Nudge::add_command 0 0
-		}
+		
+		after 5000 ::Nudge::add_command 0 0
+		
 	}
 	
 	#####################################
@@ -87,8 +87,8 @@ namespace eval ::Nudge {
 			[list bool "$::Nudge::language(popup_nudge)" notify] \
 			[list bool "$::Nudge::language(notify_send)" notsentinwin] \
 			[list bool "$::Nudge::language(notify_receive)" notrecdinwin] \
-			[list bool "$::Nudge::language(sound_send)" soundnotrec] \
-			[list bool "$::Nudge::language(sound_receive)" soundnotsend] \
+			[list bool "$::Nudge::language(sound_send)" soundnotsend] \
+			[list bool "$::Nudge::language(sound_receive)" soundnotrec] \
 			[list bool "$::Nudge::language(add_button)" addbutton] \
 		]
 	}
@@ -194,8 +194,7 @@ namespace eval ::Nudge {
 			}
 			
 			#If Growl plugin is loaded, show the notification, Mac OS X only
-			set pluginidx [lindex [lsearch -all $::plugins::found "*growl*"] 0]
-			if { $pluginidx != "" } {
+			if { [info proc ::growl::InitPlugin] != "" } {
 				catch {growl post Nudge Nudge [trans nudge $nick]}
 				::Nudge::log "Show growl notification"
 			}
@@ -228,6 +227,13 @@ namespace eval ::Nudge {
 	# The window $window will 'shake' $n times.   #
 	###############################################
 	proc shake { window n } {
+		
+		#Tab support on 0.95
+		if {![::Nudge::version_094]} {
+			if {[::ChatWindow::GetContainerFromWindow $window] != ""} {
+				set window [::ChatWindow::GetContainerFromWindow $window]
+			}
+		}
 		
 		#If a strange user decide to use a letter, nothing, or 0, as a number of shake
 		#Rechange the variable to 10 shakes
@@ -298,7 +304,7 @@ namespace eval ::Nudge {
 		
 			#Pack the button in the right area
 			pack $nudgebutton -side right
-			::Nudge::log "Nudge button added in new window"
+			::Nudge::log "Nudge button added the new window: $newvar(window_name)"
 		}
 	}
 
@@ -315,7 +321,7 @@ namespace eval ::Nudge {
 		$newvar(menu_name).actions add separator
 		#Add label in the menu
 		$newvar(menu_name).actions add command -label "$::Nudge::language(send_nudge)" \
-		-command "::Nudge::send_via_queue $newvar(window_name)"
+		-command "::Nudge::send_via_queue \[::ChatWindow::getCurrentTab $newvar(window_name)\]"
 		::Nudge::log "Item Send Nudge added to actions menu of window $newvar(window_name)"
 	}
 	
@@ -424,7 +430,7 @@ namespace eval ::Nudge {
 		}
 		
 		#If the user choosed to have a sound-notify
-		if { $::Nudge::config(soundnotrec) == 1 } {
+		if { $::Nudge::config(soundnotsend) == 1 } {
 			::Nudge::sound
 		}
 		
