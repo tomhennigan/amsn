@@ -2890,16 +2890,6 @@ proc cmsn_sb_msg {sb_name recv} {
 	} elseif { [string range $content 0 16] == "text/x-clientcaps" } {
 		#Packet we receive from 3rd party client (not by MSN)
 		xclientcaps_received $msg $chatid
-		
-	} elseif { [string range $content 0 22] == "text/x-msnmsgr-datacast" } {
-	
-		#ID:1 = Confirmation it's a nudge. 
-		#Call the postevent nudge
-		if {[string first "ID: 1" $msg] != "-1"} {
-			set epvar(chatid) $chatid
-			set epvar(nick) $nick
-			::plugins::PostEvent NudgeReceived epvar
-		}
 	
 	} elseif { [string range $content 0 33] == "application/x-msmsgssystemmessage" } {
 		#Packet we receive when MSN server going down for maintenance
@@ -2909,6 +2899,12 @@ proc cmsn_sb_msg {sb_name recv} {
 	
 	} else {
 		status_log "cmsn_sb_msg: === UNKNOWN MSG ===\n$msg\n" red
+		#Postevent for others kinds of packet (like nudge)
+		set epvar(chatid) $chatid
+		set epvar(nick) $nick
+		set epvar(msg) $msg
+		set epvar(content_type) [::MSN::GetHeaderValue $msg Content-Type]
+		::plugins::PostEvent PacketReceived epvar
 	}
 
 }
