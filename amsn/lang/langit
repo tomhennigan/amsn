@@ -33,7 +33,7 @@ allprofilesinuse Tutti i profili esistenti sono attualmente in uso
 animatedemoticon Questa emoticon è animata
 animatedsmileys Abilita le animazioni delle faccine
 animatenotify Finestra di notifica animata
-appearance Apparenza
+appearance Interfaccia
 appearoff Invisibile
 areacode Codice dell'area
 aretyping $1 stanno scrivendo un messaggio
@@ -42,13 +42,13 @@ autoacceptft Accetta automaticamente le richieste di trasferimento file
 autoaway Mostrami come "Assente" quando sono inattivo per
 autocheckver Controlla automaticamente all'avvio se ci sono nuove versioni
 autoconnect2 Accedi automaticamente quando aMSN viene lanciato
-autoconnect Connetti immediatamente all'esecuzione di asmn 
+autoconnect Connetti immediatamente all'esecuzione di aMSN
 autodetectip Ottieni indirizzo IP automaticamente
 autohotmaillog Auto-login Hotmail
 autoidle Nessuna attività automatica
 autoip IP automatico
 automessage Messaggio Automatico
-autonoact Connetti automaticamente alla partenza di aMSN
+autonoact Mostrami come "Non attivo" quando non attivo per
 avoidseen Impedisci a questa persona di vedermi e di contattarmi quando sono connesso
 awaymsg1 Chiedi di impostare un messaggio di "assente" ogni volta che cambio il mio stato in Assente/Torno Subito/Occupato
 awaymsg2 Non chiedere mai e usa sempre il messaggio di assente qui sotto
@@ -71,7 +71,7 @@ bouncedock Fa lampeggiare l'icona di aMSN quando un messaggio viene ricevuto
 broughtby  Sviluppato da
 browser Browser
 browserexample (\$url verrà rimpiazzato dall'URL). Es: mozilla \$url
-browse Visualizza
+browse Cerca
 busy Ho da fare
 cachedpics $1 immagini memorizzate
 cancel Cancella
@@ -85,12 +85,13 @@ change Cambia
 changecustomstate Passa a
 changedisplaypic Cambia l'immagine personale
 changefont Cambia font
+changeglobnick Cambia nick globale
 changenick Cambia nick
 changestate $1 cambia stato in $2
 charscounter  Contatore dei caratteri digitati nella finestra di chat
 chatack Sto accentando una chiamata da
 chat Inizia la conversazione
-chatmaxmin Quando un contatto apre una chat con me io voglio essere:
+chatmaxmin Quando un contatto apre una chat visualizzala in modo:
 chatreq Sto chiamando
 chatsmileys2 Mostra le Emoticon e le Faccine nella finestra della chat
 chatsmileys Faccine per la chat
@@ -107,9 +108,9 @@ choosecontact Per favore scegli un contatto dalla lista
 choosefontcolor Scegliere il colore del font
 chooseskin Scegli la Skin che preferisci usare
 ch_to_state Passa a nuovo stato
-clearlog2 Cancella l'Hisotry per tutti i tuoi contatti
+clearlog2 Cancella il diario per tutti i tuoi contatti
 clearlog3 Cancella tutti i Log
-clearlog Cancella il Log
+clearlog Cancella i Log
 clicktologin Clicca qui per accedere
 close Chiudi
 closed La conversazione con $1 è chiusa per inattività.
@@ -156,10 +157,10 @@ delete Cancella
 deletecustomstate Elimina Stato personale
 delimiters Delimitatori del campo Ora:
 deliverfail Si è verificato un problema nell'inoltro del seguente messaggio
-delprofile2 Seleziona il profilo che ti piacerebbe rimuovere
+delprofile2 Seleziona il profilo che vorresti rimuovere
 delprofile Cancella il profilo
 description Descrizione
-directconnection Ho una connessione diretta ad internet (usa la porta 1863)
+directconnection Ho una connessione diretta ad internet (uso la porta 1863)
 disabled Disattivato
 disableprofiles Disattiva i profili (utile per Net-cafè o ambienti condivisi)
 disablessl Disattiva SSL
@@ -182,10 +183,11 @@ editnewstate Nuove impostazioni personali di auto-risposta
 editprofile Modifica il Profilo
 editstate Modifica delle impostazioni di auto-risposta esistenti
 editvalue Modifica valore
+email E-mail
 emailsinlist Mostra indirizzi e-mail al posto dei nicks nella lista contatti
 emotisounds Emetti un suono per alcune Emoticons
-enablebanner Mostra il banner di aMSN (Sarà necessario riavviare aMSN)
 enabled Attivato
+enablebanner Mostra il banner di aMSN (Sarà necessario riavviare aMSN)
 enableproxy Proxy abilitato
 enableremote Abilita il controllo a distanza
 enablesound Emetti un suono
@@ -224,6 +226,9 @@ ftrejected Trasferimento del file respinto
 ftsendinvitation L'invito al trasferimento del file '$2' ($3 bytes) è stato mandato a $1.
 fullcontactlist Spiacente, la tua lista dei contatti è piena. E' necessario rimuoverne qualcuno per aggiungerne altri.
 getdisppic Attiva la ricezione delle immagini personali dagli utenti
+globalnick Crea un modello per mostrare i nick dei contatti. Puoi usare queste variabili: \$user_login per la mail del contatto, \$nick per il nick del contatto e \$customnick per un nick personalizzato. Esempio: '\$user_login è \$nick' diventa 'contact@msn.com è Contact'
+globalnicktitle Nick globale
+globaloverride Il modello dei nick globali dovrebbe avere precedenza sui nick personalizzati
 gonelunch A pranzo
 groupadd Aggiungi un gruppo
 groupdelete Cancella un gruppo
@@ -237,19 +242,19 @@ grouprename Rinomina un gruppo
 groupunknown Gruppo sconosciuto
 handle Gestisci
 help Aiuto
-helpcontents Contenuti help
+helpcontents Aiuto
 hidedisplaypic Nascondi l'immagine personale
 hiden Nascondi le emoticon dal menu delle faccine
 hidewindow Nascondi Finestra
 history Mostra l'History
 home Casa
-httpconnection Connessione usando il metodo HTTP (usa il protocollo HTTP sulla porta 80)
+httpconnection Connessione usando il metodo HTTP (uso il protocollo HTTP sulla porta 80)
 hybrid Modo ibrido
 ident Identificazione
 identity Identità
 ignoreerrors Ignora gli altri errori di AMSN fino al termine della sessione
 imagefiles Files immagine
-inbox In Arrivo
+inbox Posta in Arrivo
 insertsmiley Inserisci emoticon
 installconvert E' necessario installare il programma ImageMagick per convertire le immagini in un formato riconosciuto dai servers di MSN. I files binari per il proprio Sistema Operativo si trovano su ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Se il programma è già installato questo messaggio può essere dovuto ad un bug, in tal caso, per favore, segnalatelo.
 internalerror Errore interno del server
@@ -264,11 +269,12 @@ invitationcancelled L'invito è stato cancellato
 invite Invita
 ipaddress Indirizzo IP
 ipdetect Determina l'IP corretto per il trasferimento file usando l'HTTP
+ircstyle Chat in stile IRC
 istyping $1 sta scrivendo un messaggio
 joins $1 si unisce alla conversazione
 justonce Solo una volta
 keepalive Keepalive (NAT)
-keeplog2 Registra tutte le conversazioni in una History di aMSN per una visione futura
+keeplog2 Registra tutte le conversazioni nel diario di aMSN per una visione futura
 keeplog Mantiene un registro delle chat
 language Linguaggio
 lastlogin Ultimo Login
@@ -296,10 +302,10 @@ loggedotherlocation Disconnesso. Loggato da un'altro posto
 loggingin Connessione in corso...
 login Accedi
 loginas Accedi come
-loging Registrazione
+loging Diario
 logolder Registra soltanto le chat che hanno preso posto nell'ultimo
 logout Abbandona
-logsbydate Ordina log per data (Visualizza la history più velocemente)
+logsbydate Ordina log per data (L'apertura della cronologia è velocizzata)
 logsin si e' appena connesso
 logsmileys Mostra le emoticon e le facine nella finestra dell'History di aMSN
 logsout è appena uscito
@@ -309,27 +315,31 @@ lprivtoconf Chat privata divenuta conversazione con $1
 luclosedwin Hai chiuso la finestra su $1
 mailer Client di posta
 mailerexample ( \$recipient = Destinatario ) Lasciare in bianco se si usa hotmail
-maximised Massimizza
-minimised Minimizza/Riduci ad icona
+maximised Massimizzato
+minimised Ridotto ad icona
 mins Minuti
 mobile Mobile
 morepersonal Più stati personali ->
 move Muovi
 movetogroup Sposta al gruppo
 msgflicker Evidenzia il titolo di una finestra di chat quando viene ricevuto un nuovo messaggio e la finestra è in secondo piano.
-msgmaxmin Quando arriva un nuovo messaggio io voglio che sia:
+msgmaxmin Quando arriva un nuovo messaggio voglio che sia:
 msg Messaggio
 msgmode Seleziona come gestire le finestre dei messaggi multipli:
-msn AMSN
+msn aMSN
+msnstyle Chat in stile MSN
 mustrestart Devi riavviare il programma per attivare le modifiche
+myfriendlyname Il mio nome
 myhomephone Il mio telefono di casa
 mymobilephone Il mio numero di cellulare
+mynick Mio nick
 mypic Immagine personale:
 mystatus Il mio stato
 myworkphone Il mio numero d'ufficio
 natip La rilevazione dell'IP dalla pagina web
-natkeepalive Se la connessione cade continuamente abilita questo Auto-Riconnettitore
+natkeepalive Se la connessione cade continuamente abilita questa opzione
 needonline Sembra che tu sia scollegato!
+needwinico Perchè l'icona nella traybar funzioni e' necessario che nella cartella plugins di AMSN ci sia winico03.dll
 never Mai
 newmail $1 nuovi messaggi di posta
 newmailfrom Nuova email da $1 ($2)
@@ -340,6 +350,7 @@ next Prossimo
 nick Soprannome
 noactivity Nessuna attività
 nodataavailable Non ci sono dati disponibili per $1
+nogap Nessuno spazio tra i gruppi
 nogroup Nessun gruppo
 nologfile Non c'é un file di registro per $1
 noneavailable Niente disponibile
@@ -359,6 +370,7 @@ notify2 Mostra una finestra di notifica quando viene ricevuto un nuovo messaggio
 notify3 Mostra una finestra di notifica quando una email raggiunge la tua casella di posta
 notify notifica
 notifyoffset Selziona la posizione della finestra di notifica dandogli delle coordinate di posizione
+notifytimeout Tempo in millisecondi prima che la finestra di notifica scompaia
 notifytyping Invia agli altri utenti una notifica mentre digito
 notifywin Finestra di Notifica
 notinlist Non sei presente nella sua lista contatti
@@ -398,14 +410,14 @@ prefconnection Impostazioni di connessione
 prefemotic Icone delle emozioni e Faccine
 preferences Preferenze
 preffont2 Cambia il modo in cui gli altri vedono il mio testo nelle chat
-preffont3 Cambia la dimensione e il tipo dei caratteri dell'interfaccio di aMSN
-preffont Il mio testo del mio messaggio
-prefft Settaggi trasferimento file, peer-to-peer e NAS
+preffont3 Cambia la dimensione e il tipo dei caratteri dell'interfaccia di aMSN
+preffont Testo del mio messaggio
+prefft Settaggi trasferimento file, peer-to-peer e NAT
 preflibs Cartelle delle librerie
-preflog1 Le mio opzioni di History e registrazione
+preflog1 Opzioni di cronologia e utilizzo
 preflook L'aspetto del mio aMSN
 prefmsging L'interfaccia dei miei messaggi
-prefname Il nome/soprannome del mio MSN messanger
+prefname Il nome/soprannome del mio MSN messenger
 prefphone2 Inserisci il numero di telefono che vorresti fosse visto dalle persone \n sulla tua lista permessi \n
 prefphone Il mio numero di telefono
 prefprivacy2 Lista Contatti/Rifiutati dell'utente
@@ -431,7 +443,7 @@ proxyconnection Mi connetto ad internet usando un server proxy:
 proxy Sono dietro un server proxy (HTTP o SOCKS5)
 publishphones Pubblica il mio numero di telefono
 purge Elimina
-raised Grande/Deiconificato
+raised Ingrandito
 readonlymsgbox Il trasferimento del file e' stato annullato perche' la directory di destinazione ha permessi di sola lettura. \nPer favore cambia i permessi.
 readonlywarn ATTENZIONE: Il file potrebbe NON venire salvato correttamente poiche' la directory "File Ricevuti" sembra essere protetta da scrittura.\n Per favore assicurati che i permessi della directory ($1) siano impostati correttamente prima di trasferire il file.
 receivedbytes Ricevuti $1 byte su $2
@@ -442,6 +454,7 @@ reconnecting Riconnessione al server
 reconnect Sto aspettando che $1 si riconnetta
 reject Respingi
 rememberpass Ricorda password
+removeempty Eliminare gruppi vuoti dalla lista contatti
 removefromlist Rimuovi da questa lista
 rename rinomina
 reversed Invertito
@@ -466,6 +479,7 @@ servergoingdown Disconnesso: il server sta andando giù
 server Server
 serverunavailable Il server non è disponibile
 session Sessione
+showbanner Visualizza il banner di aMSN
 showblockedlist Mostra la lista delle persone che ti bloccano
 showcachedpics Visualizza le immagini memorizzate in cache
 showdisplaypic2 Mostra l'mmagine personale in ogni nuova finestra di chat
@@ -479,6 +493,7 @@ smileconfig Configurazione delle emoticon personalizzate
 smilefile Nome del file della faccina
 smileintro2 Per favore modifica i campi richiesti per personalizzare questa faccina (guarda le FAQ per un aiuto)
 smileintro Per favore riempi i campi richiesti per creare una nuova faccina personalizzata (guarda le FAQ per un aiuto)
+sngdblclick Un click per aprire una nuova finestra per i messaggi
 sound2 Emetti un suono quando i contatti entrano o mandano un messaggio
 soundactive Riproduci un suono anche quando ricevi un messaggio nella finestra attiva
 sound Attiva suoni
@@ -490,10 +505,11 @@ soundloop Loop Suono
 soundserver Server sonoro
 soundstatus (Dis)Abilita il suono dell'allarme
 sourcecode Codice sorgente (necessita compilazione e installazione)
+splashstart Splash screen
 sslwarning ATTENZIONE!! Disabilitando la crittografia SSL, la password verrà inviata in chiaro sulla rete. Questa operazione deve essere compiuta solo se si ha a che fare con proxies particolarmente problematici.
 startoffline2 Entra silenziosamente come "Fuori linea"
 startoffline Inizio Offline
-startontray Avvia AMSN direttamente nella systray
+startontray Avvia AMSN direttamente nella traybar
 stateautomsg Automessaggio da inviare
 statechange stato cambiato in:
 stateedittext Per favore modifica i campi che vorresti \n che fossero modificati e premi Salva
@@ -544,6 +560,7 @@ user Utente
 useryourself Non puoi chattare con te stesso
 verifyblocked Controlla le persone che ti stanno bloccando
 version Versione
+viewcontactsby Visualizza contatti per
 viewprofile Mostra Profilo
 view Vista
 webcaminvite $1 ti ha invitato ad una conferenza via webcam, ma aMSN non supporta questa funzionalità.
