@@ -52,6 +52,10 @@ contactdoesnotexist El contacto que intentas añadir no existe
 copytogroup Copiar al grupo
 date Fecha
 delete Eliminar
+dockgtk Icono Gtk
+docking Icono en bandeja de sistema
+dockingoff Desactivado
+dockkde Icono KDE
 enableproxy Activar proxy
 encoding Codificación de caracteres
 entercontactemail Introduce el email del contacto
@@ -89,6 +93,7 @@ invite Invitar
 ipaddress Dirección IP
 istyping $1 está escribiendo un mensaje
 joins $1 $2 se une a la conversación
+keepalive Mantener conexión activa (NAT)
 language Idioma
 lastmsgtime Ultimo mensaje recibido a las $1
 leaveblankforhotmail Dejar en blanco para usar hotmail
