@@ -1,0 +1,319 @@
+Readme (Versão Portuguesa)
+
+Este programa é Software gratuito; Podes redistribuir e/ou altera-lo
+segundo as condições do GNU General Public License, publicado pela 
+Free Software Foundation; tanto pela segunda versão da Licença, ou
+(se quiseres) alguma versão posterior.
+
+Este programa é distribuído na esperança de ser útil, mas SEM QUALQUER 
+GARANTIA ou USO ESPECIFICO INTENCIONADO. Vê o GNU General Public License 
+para mais detalhes.
+
+Deverás ter recebido uma cópia do GNU General Public License juntamente 
+com este programa, caso contrario, escreve para a Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+===========================================================
+=== A mensagem de Alavaro==================================
+
+O CCMSN foi óptimo, mas infelizmente, o seu autor original abandonou 
+o projecto. Apesar de muito funcional, precisava ainda de muito trabalho para
+melhorar o aspecto e desempenho, tal como para completar o suporte para o 
+protocolo tal como muitas outras coisas. Foi aí que nós, originalmente éramos 
+dois a trabalhar separadamente, decidimos juntar esforços para vos trazer este 
+maravilhoso (esperamos) trabalho ;)
+
+Alvaro J. Iradier
+D. Emilio Grimaldo T.
+
+Por favor enviem bugs, comentários, feedback ou sugestões para a página do 
+projecto Source Forge em:
+
+http://sourceforge.net/projects/amsn
+
+Novas versões e homepage em:
+
+http://amsn.sourceforge.net
+
+
+
+========================================================
+=== Programadores ======================================
+
+Alvaro J. Iradier Muro - airadier@users.sourceforge.net
+Didimo E. Grimaldo T. - lordofscripts@users.sourceforge.net
+Khalaf G. Philippe - burgerman@users.sourceforge.net
+Alaoui Youness - kakaroto@users..sourceforge.net
+Alberto Diaz Hernandez - yozko@users.sourceforge.net
+Luis Quesada T. - elezeta@users.sourceforge.net
+Luis Miguel Garcia - ktech@users.sourceforge.net
+Alexandre Hamelin - ahamelin@users.sourceforge.net
+Jerome Gagnon-Voyer (Manutenção de Mac) - germinator2000@users.sourceforge.net
+========================================================
+=== Suporte Multilinguas ===============================
+
+Adicionado por Alvaro J. Iradier.
+
+Traducções para:
+
+Albanian: por Fatos Shema
+	Astrit Zhushi
+
+Bengali: Mr. Sumit Ranjan Das <sumit at thecyberzoneonline.com>
+
+Bosanski (Bosnian): por Alem Dizdarevic
+
+Brazilian: por Cristiano Leivas
+	Aurélio Couto Arruda
+	Henrique Cesar Ulbrich
+	Fernando Meyer Camargo
+	Mauricio Maciel
+	Fabricio Souza
+	Diógenes Guedes Rettori
+	Cleber P. de Souza
+	Marcelo Abondanza
+	Rafael Giorgetti
+
+Bulgarian: por Ioan Stoimenov Iliavanov
+	https://sourceforge.net/projects/gtlt
+
+Català: Agusti Dosaiguas
+	Albert Astals Cid
+	Lacetani
+	Miquel Serralta
+	Jaume Masvidal Olé
+	Noé Juan Roig
+
+Cymraeg (Welsh): http://www.meddal.org.uk
+
+Czech:	Landsfeld Petr
+
+
+Dansk (Danish): Anders Bach Nielsen
+	Thomas Petersen
+	Søren Louring
+	Kim H. Hansen
+	Kenneth Johansen
+	Alexander Dan Bartholdy
+	Mark Michelsen
+
+Deutsch (German): Jose H. Freidhof
+	Bernhard Heger
+	Harald Freidhof
+	Leo Spalteholz
+	Lars Ermert
+	Philipp Winter
+	Andreas Krüger
+	Bart W. Kemps
+	Peter Roediger
+
+	
+Dutch (Nederlands): por Jan Keirse
+	D. Emilio Grimaldo
+	Stèphan Eizinga
+	Wouter de Bie
+	Jurgen De Backer
+	R. Neleman
+	Jeroen Schaeken
+	Mernout
+	Lyts Famke
+	Harry Vennik
+	Olivier Jacquet
+	Koen Casier
+	Thijs Bruneel
+	Tomasz Nguyen
+	Bart W. Kemps	
+	Arjan Schrijver
+
+Eivissec (Ibiza local language):
+	por Noé Juan Roig
+	
+Ellinika (Greek): por Michail Dimitris	
+	
+English: por Alvaro J. Iradier
+	Gareth Ignatius
+	Jody Branter
+	D. Emilio Grimaldo
+
+Español (Spanish): por Alvaro J. Iradier
+	D. Emilio Grimaldo
+	Luis Llorente Campo
+
+Esperanto: por Mike Mintz
+
+Estonian: por Martin Leo-Kisand
+	Uwe Tallmeister
+	Jaanis Kaar
+
+Euskera: por Galder Segurola
+	Internet&Euskadi www.interneteuskadi.org
+	NOTE: just for testing, some words don't match, still need some
+	improvements. Mail suggestions and adittions.
+
+Français (French): por Guillaume Vaillant
+	Charles Castelain
+	JM Billaud
+	Frédéric Delrieu
+	Bernard Nauwelaerts
+	Raphael Michel
+	Alain Cabiran
+	Valère
+	Valéry Norrant
+	Kami Rousseau
+	Raphaël Slinckx
+	Aurélien Christman
+	Yves Dutrieux
+	Cyril Garcia
+	Patrick Legault
+	Borus Faure
+	Thibault North
+	Joseph Duron
+
+Français (French) Canadian: por Dominic Genest
+	Frédéric Delrieu
+	Olivier Lussier
+	Gavin Sharp
+	Martin Bchale
+	Patrick Legault
+	Louis-Mathieu Parent
+
+Frysk (Frisian): por Jurjen Huisman
+	Lyts Famke
+
+Gallego: por David G. Outes
+
+Greeklish: por noki[a]
+
+Indonesian: por Rai S. Regawa
+
+Íslenska (Icelandic): por Einar Th. Einarsson
+	Ísak Ben
+
+
+Italiano (Italian): por Andrea Di Mento
+	Goffredo Baroncelli
+	Giuseppe Lanni
+	Adriano Varoli
+	Jacopo Lorenzini
+	Patrizio Silvestri
+	Isidoro Russo
+
+Japanese: Michimoto Nakahara
+	Ken Nonaka
+	Takahiro Hara
+
+Korean: por Baek, Seungsoon
+
+Macedonian: por Todor Tanevski
+
+Magyar (Hungarian): por Albert Szoldán
+
+Mongolian: por Zayabaatar Dagvatur
+
+
+Norsk (Norwegian): Gunnar Tjomlid
+	Erik Tørrissen / MrIron
+	tg90nor (Thomas Geirhovd)
+
+Polski (Polish): Michael Swoboda
+	Adrian Dzikowski
+	Manveru1986 (manveru1986 at op.pl)
+	Michal Newiak
+
+Português (Portuguese): por Gustavo J.A.M. Carneiro
+	Mario Joao
+	Paulo Almeida
+	Manuel Silva
+	Francisco Neto
+	Joao Soares
+	Luis Abobora Filipe G. Figuereido
+	Paulo Oliveira
+	Nuno Alves
+	João Pedro Oliveira
+	Carlos Silva
+
+Romanian: por Craciun Attila
+	Arny - http://www.arny.ro/html/amsnro.html
+	Bold Emilian Marius
+
+Russian: por Andrey Zakirov
+	Dr. Vladimir Dontsov, DDS
+	Vladimir Lazarenko
+
+Serbian: por Marko Kocic
+
+Simplified Chinese: por Changchun Zhao
+
+Slovak: por Nico Kovac
+
+Slovenscina (Slovenian): por Kostko
+	Janos Vidali
+
+South African: por Jaco Roeloffs
+
+Suomi (Finnish): por Kalle Kilpinen
+	Jonni Henttinen
+	Otto Parantainen
+
+
+Swahili: por Nsubis
+
+Svenka (Swedish): por Tom Widerström
+	Jimmy Svensson
+	Richard Strand
+	Oscar Jansson
+
+Tamil: por S. Muguntharaj
+
+Traditional Chinese (Taiwan): por Stanley Chu
+	Cheng-Lin Yang
+
+Türkçe (Turkish): por Baris Cicek
+	Gurkan Bebek
+	Kemal Ilgar Eroglu
+
+Valenciano: Juan Arnal Arlandis
+	Juan José García Amaya
+
+
+========================================================
+=== Imagens, ajuda e ícons =============================
+
+Bart W. Kemps
+Guillermo Lapresta
+Josué Rivera Ríos
+LadyMariu
+Henry Damewood
+James Houston
+~Skin artists~
+Xavier Verguin: skins Fluox e Bolos 
+Steels (Benjamin Grosse): skins aMac e Tux 
+Bluetit (Tom Jenkins): Crystola and Stylistic(default) skins
+Luis Quesada: Cubic skin
+
+========================================================
+=== Mais agradecimentos especiais e creditos============
+
+Luis Carlos Gallego (Novos sons para a skin predefenida)
+Arieh Schneier (Tray Icon para o Windows)
+Aitor R. de Samaniego (Algumas contribuições de código)
+Martijn Stolk (Solução para bug do icon do system tray)
+Juan Araya Robles (Emoticons animados do MSN6)
+Ignacio Armenteros (plwav.exe para o windows)
+Pieter van Beek (Patch para corrigir bug com as labels das imagens)
+Martin Carr
+Baris Cicek
+Trevor Feney
+Daniel Gardner (Função de ver prefil)
+Kenneth Henderick (Traducção Alemã do FAQ)
+João Pedro Oliveira (Traducção Portuguêsa do FAQ, Readme e Help)
+Gareth Hughes (Emoticons do MSN6)
+Gareth Ignatius
+Lee Olson (Webdesign)
+David G. Outes (Pacotes Debian)
+Rafael Rodriguez
+Egbert van der Wal (Patch para organizar os grupos alfabeticamente)
+Marco Rodriguez M. (TLS para o Linux-Sparc)
+R. Braun (TLS para o NetBSD-Sparc64)
+Badlop (NSIS Windows Installer)
+ZoRoNaX (Documentação para MSNP2P)
