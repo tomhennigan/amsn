@@ -1906,6 +1906,10 @@ proc Browse_Dialog_file {configitem {initialfile ""}} {
 	if { $initialfile == "" } {
 		set initialfile [set $configitem]
 	}
+
+	if { ![file exists $initialfile] } {
+		set initialfile ""
+	}
 	set browsechoose [tk_getOpenFile -parent [focus] -initialfile $initialfile]
 	if { $browsechoose !="" } {
 		set $configitem $browsechoose
