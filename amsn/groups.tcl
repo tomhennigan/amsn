@@ -81,8 +81,9 @@ namespace eval ::groups {
 			}
 		button .dlgag.b.cancel -text "[trans cancel]"  -font sboldf \
 			-command "destroy .dlgag"
-		pack .dlgag.b.ok .dlgag.b.cancel -side left
-		pack .dlgag.d .dlgag.b -side top
+		pack .dlgag.b.ok .dlgag.b.cancel -side right -padx 5
+		pack .dlgag.d -side top -pady 3 -padx 5
+		pack .dlgag.b  -side top -anchor e -pady 3
 	}
 
 	proc dlgRenGroup {} {
@@ -112,9 +113,10 @@ namespace eval ::groups {
 			destroy .dlgrg }
 		button .dlgrg.b.cancel -text "[trans cancel]" -font sboldf \
 			-command "destroy .dlgrg"
-		pack .dlgrg.b.ok .dlgrg.b.cancel -side left -pady 5
+		pack .dlgrg.b.ok .dlgrg.b.cancel -side right -padx 5
 			
-		pack .dlgrg.d .dlgrg.n .dlgrg.b -side top
+		pack .dlgrg.d .dlgrg.n -side top
+		pack .dlgrg.b -side top -anchor e -pady 3
 	
 	}
 

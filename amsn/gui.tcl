@@ -361,12 +361,12 @@ namespace eval ::amsn {
 
 		#Bottom frame (Close button)
 		frame .about.bottom -class Amsn
-		button .about.bottom.close -text "[trans close]" -font splainf -command "destroy .about"
-		button .about.bottom.credits -text "[trans credits]..." -font splainf -command [list ::amsn::showHelpFile CREDITS [trans credits]]
+		button .about.bottom.close -text "[trans close]" -command "destroy .about"
+		button .about.bottom.credits -text "[trans credits]..." -command [list ::amsn::showHelpFile CREDITS [trans credits]]
 
 		pack .about.bottom.close -side right
-		pack .about.bottom.credits -side right -padx 20
-		pack .about.bottom -side bottom -fill x -pady 3
+		pack .about.bottom.credits -side left
+		pack .about.bottom -side bottom -fill x -pady 3 -padx 5
 
 		#Insert the text in .about.middle.list.text
 		set id [open $filename r]
@@ -432,10 +432,9 @@ namespace eval ::amsn {
 		pack .show.info 			-expand true -fill both -side top
 
 		#Bottom frame (Close button)
-		frame .show.bottom -class Amsn
-		button .show.bottom.close -text "[trans close]" -font splainf -command "destroy .show"
-		pack .show.bottom.close
-		pack .show.bottom -expand 1
+		button .show.close -text "[trans close]" -command "destroy .show"
+		pack .show.close
+		pack .show.close -side top -anchor e -padx 5 -pady 3
 
 		#Insert FAQ text 
 		set id [open $file r]
@@ -5471,12 +5470,12 @@ proc cmsn_change_name {} {
 	pack .change_name.fn.name -side left -fill x -expand true
 	pack .change_name.fn.smiley -side left
 
-	pack .change_name.fb.ok -side left -padx 10
-	pack .change_name.fb.cancel -side left -padx 10
+	pack .change_name.fb.ok -side right -padx 5
+	pack .change_name.fb.cancel -side right -padx 5
 
 	pack .change_name.label -side top -padx 5 -pady 3 -expand true
 	pack .change_name.fn -side top -fill x -expand true -padx 5
-	pack .change_name.fb -side top -pady 3 -expand true
+	pack .change_name.fb -side top -pady 3 -expand true -anchor e
 
 	bind .change_name.fn.name <Return> "change_name_ok"
 	bind .change_name.fn.smiley  <Button1-ButtonRelease> "smile_menu %X %Y .change_name.fn.name"

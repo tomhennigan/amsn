@@ -124,7 +124,7 @@ proc SelectSkinGui { } {
 	button $w.ok -text "[trans ok]" -command "selectskinok $w" -font sboldf
 	button $w.cancel -text "[trans cancel]" -command "destroy $w" -font sboldf
 
-	pack $w.cancel $w.ok -side right
+	pack $w.ok  $w.cancel -side right -pady 5 -padx 5
 
 	foreach skin [findskins] {
 		if { [lindex $skin 0] == [::config::getGlobalKey skin] } { set select $idx } 
@@ -136,7 +136,7 @@ proc SelectSkinGui { } {
 	    set select 0
 	} 
 
-    status_log "select = $select --- [::config::getGlobalKey skin]\n"
+    	status_log "select = $select --- [::config::getGlobalKey skin]\n"
 
         $w.main.right.box selection set $select
         $w.main.right.box itemconfigure $select -background #AAAAAA
