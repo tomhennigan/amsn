@@ -193,8 +193,8 @@ proc cmsn_draw_about {} {
    close $id
    .about.info configure -state disabled
    update idletasks
-   set x [expr ([winfo vrootwidth .about] - [winfo width .about]) / 2]
-   set y [expr ([winfo vrootheight .about] - [winfo height .about]) / 2]
+   set x [expr {([winfo vrootwidth .about] - [winfo width .about]) / 2}]
+   set y [expr {([winfo vrootheight .about] - [winfo height .about]) / 2}]
    wm geometry .about +${x}+${y}
 }
 
@@ -1118,7 +1118,7 @@ proc cmsn_msgwin_flicker {name count} {
 
    if { [string first $win_name [focus]] != 1 } {
 
-        set count  [expr ( $count +1 ) % 2]
+        set count  [expr {( $count +1 ) % 2}]
 	if ![catch {
 	  if { $count == 1 } {
   	     wm title .${win_name} "[trans newmsg]"
@@ -1192,7 +1192,7 @@ proc cmsn_win_write {name txt {colour ""}} {
 	set urltext [string range $urltext 0 [expr $final-1]]
 
         set posyx [split $pos "."]
-        set endpos "[lindex $posyx 0].[expr [lindex $posyx 1] + $final]"
+        set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $final}]"
 
 
 	#puts "    Encontrado url $urltext en $pos-$endpos"
@@ -1468,7 +1468,7 @@ proc cmsn_update_notify {} {
 #   status_log "Testing bug: Notify3-1\n"
    set notify_text ""
    set cursec [clock seconds]
-   set items [expr [llength $list_notify] -1]
+   set items [expr {[llength $list_notify] -1}]
 #   status_log "Testing bug: Notify3-2\n"
    for {set idx $items} {$idx >= 0} {incr idx -1} {
       set notify_item [lindex $list_notify $idx]
@@ -1507,10 +1507,10 @@ proc cmsn_notify_add {msg {command ""}} {
 
    status_log "Testing bug: Notify1\n"
    if {[string length $msg] >100} {
-	    lappend list_notify [list [string range $msg 0 100]... [expr [clock seconds] + 7]]
+	    lappend list_notify [list [string range $msg 0 100]... [expr {[clock seconds] + 7}]]
    status_log "Testing bug: Notify2\n"
    } else {
-	   lappend list_notify [list $msg [expr [clock seconds] + 7]]   
+	   lappend list_notify [list $msg [expr {[clock seconds] + 7}]]   
    status_log "Testing bug: Notify3\n"
    }
 
@@ -1601,7 +1601,7 @@ proc cmsn_sb_sessionclosed {sbn} {
    status_log "$sbn: SESSION CLOSED\n" red
    sb set $sbn stat "d"
    .${win_name}.menu entryconfigure 1 -state disabled
-   set items [expr [sb length $sbn users] -1]
+   set items [expr {[sb length $sbn users] -1}]
    sb set $sbn last_user [sb index $sbn users 0]
    for {set idx $items} {$idx >= 0} {incr idx -1} {
       set user_info [sb index $sbn users $idx]

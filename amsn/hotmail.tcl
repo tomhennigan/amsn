@@ -78,7 +78,7 @@ proc hotmail_procmsg {msg} {
 	    set fromaddr [aim_get_str $msg From-Addr]
 	    set msgurl [aim_get_str $msg Message-URL]
 	    status_log "Hotmail: New mail from $from - $fromaddr\n"
-	    set unread [expr $unread + 1]
+	    set unread [expr {$unread + 1}]
 	    
 	    cmsn_notify_add [trans newmailfrom]\n$from\n($fromaddr) \
 	      "hotmail_viewmsg $msgurl $config(login) $password"
@@ -100,9 +100,9 @@ proc hotmail_procmsg {msg} {
 	  set dest [aim_get_str $msg Dest-Folder]
 	  set delta [aim_get_str $msg Message-Delta]
 	  if { $source == "ACTIVE" } {
-  	    set noleidos [expr $unread - $delta]
+  	    set noleidos [expr {$unread - $delta}]
 	  } elseif {$dest == "ACTIVE"} {
-  	    set noleidos [expr $unread + $delta]
+  	    set noleidos [expr {$unread + $delta}]
 	  } else {
 	    set noleidos $unread
 	  }

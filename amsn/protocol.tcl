@@ -620,8 +620,8 @@ proc cmsn_msg_parse {msg hname bname} {
    upvar $bname body
 
    set head_len [string first "\r\n\r\n" $msg]
-   set head [string range $msg 0 [expr $head_len - 1]]
-   set body [string range $msg [expr $head_len + 4] [string length $msg]]
+   set head [string range $msg 0 [expr {$head_len - 1}]]
+   set body [string range $msg [expr {$head_len + 4}] [string length $msg]]
 
    set body [encoding convertfrom utf-8 $body]
    set body [string map {"\r" ""} $body]
@@ -696,7 +696,7 @@ proc cmsn_sb_msg {sb_name recv} {
       if { $invcommand == "ACCEPT" } {
       
       	set requestdata [aim_get_str $body Request-Data]
-	set requestdata [string range $requestdata 0 [expr [string length requestdata] -2]]
+	set requestdata [string range $requestdata 0 [expr {[string length requestdata] -2}]]
 	
 	set data [aim_get_str $body $requestdata]
 	
