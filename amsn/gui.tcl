@@ -101,7 +101,7 @@ namespace eval ::amsn {
 		option add *Button.Font sboldf userDefault
 		option add *Scrollbar.borderWidth 1 userDefault
 
-		set Entry {-bg #FFFFFF -foreground #0000FF}
+		set Entry {-bg #FFFFFF -foreground #000000}
 		set Label {-bg #FFFFFF -foreground #000000}
 		::themes::AddClass Amsn Entry $Entry 90
 		::themes::AddClass Amsn Label $Label 90

@@ -18,7 +18,7 @@ namespace eval ::themes {
     # P U B L I C
     #
     proc Init {} {
-	set Entry {bg #FFFFFF foreground #0000FF}
+	set Entry {bg #FFFFFF foreground #000000}
 	set Label {bg #AABBCC foreground #000000}
 	set Text {bg #2200FF foreground #111111 font splainf}
 	set Button {foreground #111111}
