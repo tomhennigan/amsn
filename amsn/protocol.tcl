@@ -2165,6 +2165,8 @@ namespace eval ::MSN {
 		set idx [string first "\r\n\r\n" $payload]
 		set head [string range $payload 0 [expr $idx -1]]
 		set body [string range $payload [expr $idx +4] end]
+		set body [string map {"\r" ""} $body]
+		set body [encoding convertfrom utf-8 $body]
 		set head [string map {"\r" ""} $head]
 		set heads [split $head "\n"]
 		foreach header $heads {
