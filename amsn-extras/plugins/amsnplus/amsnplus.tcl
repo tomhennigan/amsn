@@ -10,6 +10,26 @@
 
 namespace eval ::amsnplus {
 
+
+	################################################
+	# this starts amsnplus
+	proc amsnplusStart { dir } {
+		#register plugin
+		::plugins::RegisterPlugin amsnplus
+		source [file join $dir amsnplus.tcl]
+		#plugin config
+		array set ::amsnplus::config {
+			colour_nicks {0}
+		}
+		#set ::amsnplus::configlist [ \
+		#	list [list bool "Colour Nicks?" colour_nicks] \
+		#]
+		#register events
+		::plugins::RegisterEvent amsnplus UserNameWritten parse_nick
+		::plugins::RegisterEvent amsnplus chat_msg_send parseCommand
+	}
+
+
 	################################################
 	# this proc deletes ·$<num> codification
 	# and colours nick if enabled
