@@ -167,7 +167,7 @@ namespace eval ::guiContactList {
 		$canvas create text [expr $xpos + [image width $img] + 5] [expr $ypos + [image height $img]/2] -text $text -anchor w \
 			-fill $colour -font splainf -tags [list contact $email]
 		set grId [getGroupId $email]
-		$canvas bind $email <Button3-ButtonRelease> "show_umenu $email $grId %X %Y;"
+		$canvas bind $email <<Button3>> "show_umenu $email $grId %X %Y;"
 			
 		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + 3]]
 	}
