@@ -1,0 +1,205 @@
+P: ¿Qué es Amsn?
+R: Amsn es un clon del Microsoft Messenger. Te permito mantenerte en contacto
+con tus amigo e intercambiar mensajes instantáneos y ficheros.
+
+INSTALANDOLO y INICIANDO AMSN
+=============================
+
+P: ¿Que necesito para hacer funcionar amsn?
+R: Amsn está escrito en tcl/tk, usted solo necesita un interprete de tcl/tk,
+versión 8.3 o superior. Usted puede conseguirlo de http://tcl.sourceforge.net.
+El interprete está disponible para Linux, Wndows y Macintosh.
+
+P: ¿Cómo puedo crear un acceso directo a amsn en mi escritorio?
+R: 1.- Añade un icono en tu escritorio gnome/kde o un menú que ejecute el
+comando /donde/este/instalado/amsn
+	por ejemplo
+	/home/tu_usuario/msn/amsn
+   2.- Otra forma:
+   Como root, crea uun enlace en /usr/bin al fichero amsn.
+   ls -s /donde/este/instalado/amsn amsn
+   De esta forma tu puedes ejecutar amsn solo escribiendo 'amsn' desde
+cualquier lugar.
+   Luego añada un icono que ejecute el comando 'amsn'.
+
+P: ¿Cómo puedo usar Gnome docking para trabajar?
+R: Tiene que ejecutar 'make' dentro del directorio de plugins, para construir
+el plugin de gnome. Usted necesitará las librerías de desarrollo gnome. Cuando
+el plugin esté construído, solo ejecuto amsn y seleccione Gnome Docking en el
+menú opciones.
+
+USANDO AMSN
+===========
+
+P: ¿Qué significa que en mi lista de contactos aparezca un contacto en color
+magenta?
+R: Significa que tu no estás en la lista de contactos de esa persona.
+
+P: Cuando yo dejo la ventana de amsn en segudno plano, y trabajo con otras
+ventanas, después de un cierto tiempo mi estatus cambia a ausente. Es esto un
+bug?
+R: No, está funcionando bien. Amsn detecta las pulsaciones de teclas y los
+clics del ratón dentro de la ventana de amsn o de las ventanas de
+conversación. Si tu estás trabajando con otras ventanas y no usas amsn, y el
+modo de automáticamente ausente está activo, tu estado cambiara después de 5
+minutos.
+
+SOLUCIONANDO PROBLEMAS
+======================
+
+P: A veces amsn se "cuelga", ¿por qué?
+R: Normalmente, cuando amsn se cuelga es debido a un problema con la
+configuración del sonido. Puede ser que tu estés escuchando un sonido, pero la
+tarjeta de sonido esté bloqueda, y la orden de reproducir se para hasta que la
+tarjeta de sonido esté disponible. Intente desactivar el sonido o cambiar la
+configuración del sonido.
+
+P: Yo intento iniciar amsn pero me devuelve este error:
+bash: ./amsn: bad interpreter: No such file or directory
+R: Usted necesita instalar los paquetes tcl/tk, porque necesitas el interprete
+de wish. Si piensa que lo tiene instalado, intente ejecutar "wish amsn" en
+lugar de "./amsn". Si esto funciona, edite el fichero amsn y cambien la
+primera línea:
+  #!/usr/bin/wish
+  por la dirección donde se encuentra el interprete de wish.
+
+P: Cuando yo inicio amsn me devuelve este error:
+Error in startup script: bad option "map": must be
+compare, first, index, last, length, match, range,
+tolower, toupper, trim, trimleft, trimright, wordend,
+or wordstart
+while executing
+"string map $map $md5body"
+(in namespace eval "::md5" script line 65)
+invoked from within
+"namespace eval ::md5 { ... etc
+R: Usted está usando una versión de tcl/tk que es más antigua que la 8.3.
+Actualize tcl/tk.
+
+P: Después de actualizar amsn, esto es lo que me devuelve cuando lo ejecuto:
+Error in startup script: expected integer but got ""
+while executing
+"font create menufont -family $family -size $size
+-weight normal"
+(procedure "::amsn::initLook" line 5)
+invoked from within
+"::amsn::initLook $family $size $config(backgroundcolor)"
+(file "amsn" line 2184)
+R: Han habido varios cambios en el fichero de configuración. Una solución
+rápida sería eliminar el fichero de configuración antiguo de su directorio de
+usuario. Elimine /home/tu_usuario/.amsn/config y debería funcionarle.
+
+P: No puedo escribir chino, japonés u otro lenguaje en amsn, ¿qué puedo hacer?
+R: Parece que xcin o programas similares no están soportados en la versión
+actual de tcl/tk, por eso amsn no puede trabajar con ellos. Usted debería
+esperar la siguiente versión de tcl/tk y espere que esta soporte xcin.
+Entretando, usted puede escribir texto en otro editor, copiarlo y luego
+pegarlo en la ventana de conversación.
+Nuevo: Internacionalización de copiar y pegar. Si usted tiene problemas
+pegando caracteres en AMSN, descarge e instale la versión de tcl/tk de este
+sitio:
+http://jfontain.free.fr/tcl-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tk-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tcl-thread-8.4a3-2.i386.rpm
+
+-------------------------
+Por favor, nótese que este puede trabajar de otra forma en caso de que usted
+no pueda escribir su lenguaje directamenet en amsn, por ejemplo Chino
+Tradicional usando xcin.
+
+Please note that this could be a work around in case
+you can't type your language directly in to AMSN, for
+example Traditional Chinese using xcin.
+-------------------------
+
+P: ¿Puedo usar amsn detrás de un servidor proxy?
+R: Después de la versión 0.61, el soporte para servidor  proxy HTTP está
+disponible. Esto significa que usted puede conectarse detrás de un proxy HTTP
+(como por ejemplo squid). Si su servidor proxy es socks5, entonces usted no
+tendrá la oportunidad de conectarse todavía, pero el soporte para socks5 está
+en camino.
+
+P: Estoy detrás de un proxy HTTP, ¡pero todavía no puedo conectarme!
+R: Amsn usa CONNECT flag para el proxy HTTP. Usted tiene que estar seguro de
+que su proxy permite este tipo de conexión (SSL). Pregunte a su administrado
+para permitir las conexiones SSL por los CONNECT request.
+
+P: AMsn parece conectarse, pero cuando intento conversar con alguien o cambiar
+mi estado, se desconecta. Esto pasa a menudo, después de algunos minutos de
+inactividad. Probablemente esté destrás de un router o un cortafuegos.
+R: Intente habilitar "Compartir conexión(NAT" en el menú Herramientas -
+Opciones, en la pestaña Conexion. Este es un arreglo para conecciones
+compartidas a internet que permite enviar dummy packages al servidor cada 2
+minutos, esto mantiene via la conexión.
+
+P: El sonido se repite. Por ejemplo, si tengo funcionando XMMS, y alguien
+entra o estoy chateando con alguien, después de que cierro XMMS o el se
+termina el fichero que esoty reproduciendo, todo los sonidosque no habían
+podido ser reprucidos por culpa de XMMS se reproducen de forma molesta.
+R: Usted tiene varias soluciones. Si estás usando KDE, puedes configurar XMMS
+para reproducir sonido a través de arts, y usar artsplay como reproductor de
+sonido para amsn. De esta forma el problema con los sonidos será arreglado. Si
+está usando Gnome, usted puede usar esdplay y configurar XMMS para reproducir
+a través de ESD. En lugar de usar el reproductor, usted puede hacer un pequeño
+script que chequee si /dev/dsp está en uso, o libre, antes de "darle a
+reproducir".
+
+
+VENTANAS
+========
+
+P: ¿Puedo hacer que el sonido funcione bajo Windows?
+R: Sí, nosotros tenemos un pequeño programa llamado plwav.exe, que solo
+reproduce un fichero wav en Windows. Usted puede usarlo como programa de
+sonido (amsn usa algunos programas externos para reproducir sonido). Dirijase
+al menu Herramientas - Opciones - Aplicaciones y introdusca "plwav" como
+programa de sonido.
+
+P: Cuando aparece una ventana emergente, la barra de tareas de la ventana
+aparece oculata parcialmente, ¿ puedo solucionarlo?
+R: Si, usted puede mover la ventana de notificación, moviendo los píxeles X a
+la izquierda y los píxeles Y arriba. Puede hacerlo de dos formas:
+1) Editando el fichero de configuración de amsn, cambiando las líneas:
+notifyYoffset yy
+notifyXoffset xx
+donde yy y xx son los valores que usted quiere para mover la ventana en los
+ejes x e y. Tiene que reiniciar el amsn después de esta modificación.
+2)Otra manera. Pulse Ctrl+S en la lista de contactos. Aparecerá una ventana
+llamada "status log". Usted puede introducir comandos en la parte baja de la
+ventana. Introduzca el siguiente comando:
+global config; set config(notifyXoffset) xx; set config(notifyYoffset) yy
+donde xx e yy son los ejes x e y como habrá deducido. No tiene que reiniciar
+amsn para probar los cambios. Puede incluso hacer una prueba lanzando una
+ventana de notificación introduciendo el siguiente comando:
+::amsn::notifyAdd Testing {}
+
+OTROS
+=====
+P: Si you eligo "guardar contraseña", esta se almacenará desencriptada dentro
+del fichero de configuración amsn. ¿No es esto inseguro?
+R: Es imposible guarda la contraseña de forma encriptada. La contraseña debería ser
+usado para generar una firma digital md5 que debería ser enviada por la red
+durante el login. (La contraseña no se envia en texto plano por la red).
+Nosotros no podemos guardarla de una forma irreversible como las contraseñas
+en /etc/passwd, porque es necesario leer la contraseña para generar esa
+firma. Si nosotros usamos algun tipo de encriptación reversible, entonces
+cualquiera podría descodificarla mirando el código de amsn. En linux el
+fichero de configuración es solo legible por su propietario. La única manera
+de estar seguro que nadie ueda leer la contraseña es no guardandola.
+
+P: Tengo otra pregunta, ¿podéis ayudarme?
+R: Sí, podemos. Pero primero, hecha un vistazo a la página del proyecto
+sourceforge, que está alojado en http://sourceforge.net/projects/amsn, y chequea
+todos los bugs, solicitudes de soporte y los foros genreales para chequear si
+tu problema ya está resuleto. No cheques solo los mensajes marcados como
+"Abiertos". Hay una lista desplegable donde tu puedes seleccionar "Cerrada" en lo 
+alto de la lista de mensajes. Las preguntas resueltas están normalmente marcadas 
+como cerrado. Anes de remitir un bug or preguntar por el soporte, apunte los
+siguientes datos:
+- Versión de Amsn.
+- Versión de Tcl y TK.
+- Localize el error a remitir(si es posible).
+------Stack trace of the submited error (if applicable).--------
+Si todavía tiene alguna duda, puede escribirme a:
+airadier@users.sourceforge.net.- Stack trace of the submited error (if applicable).
+

@@ -109,7 +109,7 @@ your proxy allows this type of connection (SSL). Ask your administrator to
 allow SSL connections through the CONNECT request.
 
 Q: Amsn looks connected, but when I try to chat with someone or change my state
-I get disconnected. This happens often, after some minutes of inactiviry.
+I get disconnected. This happens often, after some minutes of inactivity.
 Probably I'm behind a router or firewall.
 A: Try enabling "Keepalive (NAT)" in the tools->options menu. It's a fix for
 shared internet connections that keeps sending a dummy packet to the server
