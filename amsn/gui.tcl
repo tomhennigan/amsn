@@ -321,18 +321,21 @@ namespace eval ::amsn {
       }
       
       set bytes2 [expr {$bytes/1024}] 
-      set filesize2 "[expr {$filesize/1024}] Kb"      
-      set cien 100
-      set percent [expr {(($bytes/1024)*100/($filesize/1024))}]
+      set filesize2 [expr {$filesize/1024}]      
+      if { $filesize2 != 0 } {
+        set percent [expr {($bytes2*100)/$filesize2}]
+      } else {
+        set percent 100
+      }
       
       if { ($bytes >= $filesize) || ($bytes<0)} {
 	 $w.close configure -text "[trans close]" -command "destroy $w"
          wm protocol $w WM_DELETE_WINDOW "destroy $w"
       } elseif { $mode == "r" } {
-	 $w.progress configure -text "[trans receivedbytes $bytes2 $filesize2]"
+	 $w.progress configure -text "[trans receivedbytes $bytes2 [list $filesize2 Kb]]"
 	 ::dkfprogress::SetProgress $w.prbar $percent
       } else {
-	 $w.progress configure -text "[trans sentbytes $bytes2 $filesize2]"
+	 $w.progress configure -text "[trans sentbytes $bytes2 [list $filesize2 Kb]]"
 	 ::dkfprogress::SetProgress $w.prbar $percent
       }
    }
@@ -440,6 +443,7 @@ namespace eval ::amsn {
       variable NotifPos      
 
       wm state $w withdrawn
+      #Delay the destroying, to avoid a bug in tk 8.3
       after 5000 destroy $w
       set lpos [lsearch -exact $NotifPos $ypos]
       set NotifPos [lreplace $NotifPos $lpos $lpos]
