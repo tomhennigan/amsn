@@ -5,6 +5,8 @@
 ### http://aim.homelinux.com/msn.htm            ###############
 ### airadier@able.es                            ###############
 ###############################################################
+### grimaldo@panama.iaehv.nl (LordOfScripts)    ###############
+###############################################################
 ### Original ccmsn				###############
 ### http://msn.CompuCreations.com/		###############
 ### Dave Mifsud <dave at CompuCreations dot com>###############
@@ -37,7 +39,7 @@
 ###
 
 set version "0.52dev"
-set date "06/20/2002"
+set date "06/21/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -440,6 +442,7 @@ proc cmsn_draw_status {} {
    .status.info tag configure green -foreground darkgreen -background white
    .status.info tag configure red -foreground red -background white
    .status.info tag configure white -foreground white -background black
+   .status.info tag configure blue -foreground blue -background white
 
    bind .status.enter <Return> ns_enter
    wm protocol .status WM_DELETE_WINDOW { toggle_status }
