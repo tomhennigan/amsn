@@ -2785,22 +2785,21 @@ namespace eval ::amsn {
 			# Then load the extension before calling winflash. If this one or the first one were successful,
 			# we add a bind on FocusIn to call the winflash with the -state 0 option to disable it and we return.
 			if { [set ::tcl_platform(platform)] == "windows" } {
-				if { [set ::tcl_platform(platform)] == "windows" } {
-					if { [catch {winflash $win_name -count -1} ] } {
-						if { ![catch { 
-							load [file join [set ::program_dir] plugins winflash flash.dll]
-							winflash $win_name -count -1
-						} ] } {
-							bind $win_name <FocusIn> "catch \" winflash $win_name -state 0\""
-							return
-						}
-						
-					} else {
-						bind $win_name <FocusIn> "catch\"winflash $win_name -state 0\""
+				if { [catch {winflash $win_name -count -1} ] } {
+					if { ![catch { 
+						load [file join [set ::program_dir] plugins winflash flash.dll]
+						winflash $win_name -count -1
+					} ] } {
+						bind $win_name <FocusIn> "catch \" winflash $win_name -state 0\"; bind $win_name <FocusIn> \"\""
 						return
 					}
+					
+				} else {
+					bind $win_name <FocusIn> "catch\"winflash $win_name -state 0\"; bind $win_name <FocusIn> \"\""
+					return
 				}
 			}
+
 
 			set count  [expr {( $count +1 ) % 2}]
 
