@@ -337,7 +337,12 @@ namespace eval ::amsnplus {
 		if { !$::amsnplus::config(allow_colours) } { return }
 		upvar 2 msg msg
 		upvar 2 chatid chatid
-		set fontformat [::config::getKey mychatfont]
+		if {[string equal $::version "0.94"]} {
+			set fontformat [::config::getKey mychatfont]
+		} else {
+			upvar 2 evPar newvar
+			set fontformat $newvar(fontformat)
+		}
 		set color [lindex $fontformat 2]
 		set style [lindex $fontformat 1]
 		set font [lindex $fontformat 0]
