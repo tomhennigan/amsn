@@ -379,6 +379,7 @@ namespace eval ::amsnplus {
 		$newvar(menu_name).actions add command -label "[trans overstrike]" -command "::amsnplus::insert_text $newvar(window_name) $overstrike"
 		$newvar(menu_name).actions add command -label "[trans reset]" -command "::amsnplus::insert_text $newvar(window_name) $reset"
 	}
+
 	###############################################
 	#This is the proc to be compatible with the new way 
 	#in 0.95 to get path of input text (::ChatWindow::GetInputText)
@@ -386,6 +387,10 @@ namespace eval ::amsnplus {
 		if {[::amsnplus::version_094]} {
 			$win.f.bottom.left.in.text insert end $character
 		} else {
+			#if we use tabs then...
+			if { [::ChatWindow::UseContainer] == 1 } {
+				set win [::ChatWindow::GetCurrentWindow $win]
+			}
 			set input [::ChatWindow::GetInputText $win]
 			$input insert end $character
 		}
@@ -397,19 +402,20 @@ namespace eval ::amsnplus {
 	# now add buttons for multi-format text too
 	proc chat_color_button {event epvar} {
 		if { !$::amsnplus::config(allow_colours) } { return }
+
 		#get the event vars
 		upvar 2 bottom bottom
 		upvar 2 w w
-		
 		upvar 2 evpar newvar
 		set amsnplusbutton $newvar(bottom).amsnplus
-		#create the widgeds
 
+		#create the widgeds
 		button $amsnplusbutton -image [::skin::loadPixmap amsnplusbutton] -relief flat -padx 3 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
 			-highlightbackground [::skin::getKey buttonbarbg] \
 			-command "after 1 ::amsnplus::choose_color $w" -activebackground [::skin::getKey buttonbarbg]
 		set_balloon $amsnplusbutton "[trans multiplecolorsbutton]"
+
 		#Configure hover button
 		bind $amsnplusbutton <Enter> "$amsnplusbutton configure -image [::skin::loadPixmap amsnplusbutton_hover]"
 		bind $amsnplusbutton <Leave> "$amsnplusbutton configure -image [::skin::loadPixmap amsnplusbutton]"
