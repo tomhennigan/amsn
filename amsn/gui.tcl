@@ -4103,7 +4103,7 @@ proc cmsn_draw_login {} {
 	combobox::combobox $mainframe.statelist -editable false -highlightthickness 0 -width 15 -bg #FFFFFF -font splainf -textvariable [::config::getVar connectas]
 	$mainframe.statelist list delete 0 end
 	set i 0
-	while {$i < "9"} {
+	while {$i < "8"} {
 		set statecode "[::MSN::numberToState $i]"
 		set description "[trans [::MSN::stateToDescription $statecode]]"
 		$mainframe.statelist list insert end $description
