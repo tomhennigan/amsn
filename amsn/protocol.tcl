@@ -36,6 +36,9 @@ if { $initialize_amsn == 1 } {
 	{HDN appearoff #404040 offline offline boffline}
 	{FLN offline #404040 offline offline boffline}
 	}
+
+	    package require base64
+	    package require sha1
 }
 
 
@@ -1818,14 +1821,27 @@ namespace eval ::MSN {
         set style "${style}U"
       }
 
-      set msg "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n"
+       set smile_send "[process_custom_smileys_SB $txt_send]"
+
+       set smilemsg "MIME-Version: 1.0\r\nContent-Type: text/x-mms-emoticon\r\n\r\n"
+       set smilemsg "$smilemsg$smile_send"
+       set smilemsg_len [string length $smilemsg]
+
+       set msg "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n"
       set msg "${msg}X-MMS-IM-Format: FN=[urlencode $fontfamily]; EF=$style; CO=$color; CS=0; PF=22\r\n\r\n"
       set msg "$msg$txt_send"
       set msg_len [string length $msg]
 
       #WriteSB $sbn "MSG" "A $msg_len"
       #WriteSBRaw $sbn "$msg"
-      WriteSBNoNL $sbn "MSG" "A $msg_len\r\n$msg"
+       if { $smile_send != "" } {
+	   WriteSBNoNL $sbn "MSG" "A $smilemsg_len\r\n$smilemsg"
+	   set msgacks($::MSN::trid) $ackid
+
+       } 
+       
+       WriteSBNoNL $sbn "MSG" "A $msg_len\r\n$msg"
+       
 
       #Setting trid - ackid correspondence
       set msgacks($::MSN::trid) $ackid
@@ -4387,4 +4403,29 @@ proc checking_package_tls { }  {
 	return 1
     }
     
+}
+
+proc create_msnobj { Creator type filename } {
+
+    if { [file exists $filename] == 0 } { return "" }
+    set fd [open $filename r]
+    set data [read $fd]
+    close $fd
+
+    set filename [filenoext [getfilename $filename]]
+    
+    set size [string length $data]
+
+    set sha1d [::base64::encode [binary format H* [::sha1::sha1 $data]]]
+
+    set sha1c [::base64::encode [binary format H* [::sha1::sha1 "Creator${Creator}Size${size}Type${type}Location${filename}.tmpFriendlyAAA=SHA1D${sha1d}"]]]
+    return "<msnobj Creator=\"$Creator\" Size=\"$size\" Type=\"$type\" Location=\"$filename.tmp\" Friendly=\"AAA=\" SHA1D=\"$sha1d\" SHA1C=\"$sha1c\"/>"
+}
+
+proc getfilename { filename } {
+    return "[string map [list [file dirname $filename]/ "" ] $filename]"
+}
+
+proc filenoext { filename } {
+    return "[string replace $filename [string last . $filename] end]"
 }

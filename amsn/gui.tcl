@@ -5263,14 +5263,16 @@ proc check_web_version { token } {
 		}
 
 		catch {status_log "check_web_ver: Current= $yourver New=$lastver ($tmp_data)\n"}
-		if { $newer == 1} {
-			msg_box "[trans newveravailable $tmp_data]\n$weburl"
-		}
-
+	    if { $newer == 1} {
+		msg_box "[trans newveravailable $tmp_data]\n$weburl"
+	    }
+	    
+	    
 	} else {
-		catch {status_log "check_web_ver: status=[::http::status $token] ncode=[::http::ncode $token]\n" blue}
+	    catch {status_log "check_web_ver: status=[::http::status $token] ncode=[::http::ncode $token]\n" blue}
+	    
 	}
-	::http::cleanup $token
+    ::http::cleanup $token
 
 	return $newer
 }
@@ -5560,3 +5562,68 @@ proc window_history { command w } {
     }
 }
 
+
+proc convert_image { filename size } {
+
+    if { ![file exists $filename] } {
+	return 0
+    }
+
+   
+    set filename2 [filenoext $filename]
+
+    status_log "converting $filename to $filename2.png with size $size\n"
+
+    if { [catch { eval exec convert -size $size -resize ${size}! \"$filename\" \"$filename2.png\" } res] } {
+	msg_box "[trans installconvert]"
+	status_log "converting returned error : $res\n"
+    }
+
+    if { [file exists $filename2.png.0] } {
+	set idx 1
+	while { 1 } {
+	    if { [file exists $filename2.png.$idx] } {
+		file delete $filename2.png.$idx
+		incr idx
+	    } else { break }
+	}
+	file rename $filename2.png.0 $filename2.png
+    }
+
+    catch { eval exec convert \"$filename2.png\"  \"$filename2.png.gif\"}
+
+    return $filename2.png
+
+}
+
+
+proc convert_image_plus { filename type size } {
+
+    global HOME
+
+    set file [convert_image $filename $size]
+
+    if { $file == 0 } { return 0}
+
+    catch { 
+	file copy $file [file join $HOME $type] 
+	status_log "Copied $file to [file join $HOME $type]\n"
+    }
+    catch {
+	file copy $file.gif [file join $HOME $type] 
+	status_log "Copied $file.gif to [file join $HOME $type]\n"
+    }
+    
+    catch {
+	set endfile [getfilename $file]
+	status_log "Created files $file and $file.gif, testing with $endfile\n"
+	
+	if { $file != [GetSkinFile $type $endfile] } {
+	    status_log "Removing $file and $file.gif because we have [GetSkinFile $type $endfile]"
+	    file delete $file
+	    file delete $file.gif
+	}
+    } 
+
+    return $endfile
+}

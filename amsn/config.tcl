@@ -115,6 +115,7 @@ proc ConfigDefaults {} {
 	#Custom smileys configuration
 	set config(customsmileys) [list]
 	set config(customsmileys2) [list]
+	set config(custom_smileys) 0
 
 	#Advanced options, not in preferences window
 	set config(tooltips) 1				;#Enable/disable tooltips

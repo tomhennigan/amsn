@@ -9,7 +9,6 @@
 
 package provide Proxy 0.1
 package require http
-package require base64
 
 # This should be converted to a proper package, to use with package require
 source [file join $program_dir socks.tcl]	;# SOCKS5 proxy support
@@ -459,6 +458,15 @@ namespace eval ::Proxy {
 }
 ###################################################################
 # $Log$
+# Revision 1.22  2003/10/14 14:55:25  kakaroto
+# Added SHA1 module..
+# changed controler filename to amsn-remote
+# Added the create_msnobj procedure
+# Custom smileys can be made from any image file.. using ImageMagick to convert them
+# .png and .gif custom smileys files...
+# Sending the custom smileys to msn6 users..
+# changes some things in the way GetSkinFile works
+#
 # Revision 1.21  2003/10/08 09:37:42  kakaroto
 # proxy authentication works now better without a package require everytime..
 #

@@ -157,7 +157,7 @@ proc new_custom_emoticon_from_gui { {name ""} } {
     }
 
     if { $new_custom_cfg(enablesound) && "$new_custom_cfg(sound)" != "" } {
-	set filename "[string map [list [file dirname [GetSkinFile sounds $new_custom_cfg(sound)]]/ "" ] [GetSkinFile sounds $new_custom_cfg(sound)]]"
+	set filename [getfilename [GetSkinFile sounds $new_custom_cfg(sound)]]
 	#status_log "sound : $filename\n"
 	if { "$filename" == "null" } {
 	    if { [info exists custom_emotions(${name}_sound)] } {unset custom_emotions(${name}_sound)}
@@ -172,7 +172,7 @@ proc new_custom_emoticon_from_gui { {name ""} } {
 	if { [info exists custom_emotions(${name}_sound)] } {unset custom_emotions(${name}_sound)}
     }
 
-    set filename "[string map [list [file dirname [GetSkinFile smileys $new_custom_cfg(file)]]/ "" ] [GetSkinFile smileys $new_custom_cfg(file)]]"
+    set filename [getfilename [GetSkinFile smileys $new_custom_cfg(file)]]
     #status_log "smiley : $filename\n"
     if { "$filename" == "null" } {
 	msg_box "[trans invalidfile [trans smilefile] \"$new_custom_cfg(file)\"]"
@@ -180,9 +180,10 @@ proc new_custom_emoticon_from_gui { {name ""} } {
     } else {
 	if { $quit == 1 } { return }
 	create_dir [file join $HOME smileys]
-	catch {file copy [GetSkinFile smileys "$new_custom_cfg(file)"] [file join $HOME smileys]}
+	set file [convert_image_plus [GetSkinFile smileys "$new_custom_cfg(file)"] smileys 19x19]
+	if { $file == 0 } { return }
     }
-    set custom_emotions(${name}_file) "$filename"
+    set custom_emotions(${name}_file) "$file.gif"
     set custom_emotions(${name}_name) "$name"
     set custom_emotions(${name}_text) "$new_custom_cfg(text)"
 
@@ -240,13 +241,13 @@ proc new_custom_emoticon_gui {{name ""}} {
     label $w.ltext -text "[trans triggers]"
     entry $w.text -textvariable new_custom_cfg(text)  -background white
  
-    label $w.lfile -text "[trans smilefile] (GIF 19 x 19)"
+    label $w.lfile -text "[trans smilefile]"
     entry $w.file -textvariable new_custom_cfg(file)  -background white
-    button $w.browsefile -text "[trans browse]" -command "fileDialog2 .new_custom $w.file open \"\" {{\"Gif Files\" *.gif}} " -width 10
+    button $w.browsefile -text "[trans browse]" -command "fileDialog2 .new_custom $w.file open \"\" {{\"Image Files\" {*.gif *.jpg *.jpeg *.bmp *.png} }} " -width 10
   
     label $w.lsound -text "[trans soundfile]"
     entry $w.sound -textvariable new_custom_cfg(sound)  -background white
-    button $w.browsesound -text "[trans browse]" -command "fileDialog2 .new_custom $w.sound open \"\" {{\"Gif Files\" *.gif}} " -width 10
+    button $w.browsesound -text "[trans browse]" -command "fileDialog2 .new_custom $w.sound open \"\" {{\"Image Files\" {*.gif *.jpg *.jpeg *.bmp *.png} }} " -width 10
     checkbutton $w.enablesound -text "[trans enablesound]" -onvalue 1 -offvalue 0 -variable new_custom_cfg(enablesound) -command update_enabled_sound_smileys
     checkbutton $w.animated -text "[trans animatedemoticon]" -onvalue 1 -offvalue 0 -variable new_custom_cfg(animated)
     checkbutton $w.hiden -text "[trans hiden]" -onvalue 1 -offvalue 0 -variable new_custom_cfg(hiden)
@@ -307,7 +308,7 @@ proc new_custom_emoticon_gui {{name ""}} {
     grab set .new_custom
 
 
-    after 2000 "wm state .new_custom normal"
+    after 2000 "catch {wm state .new_custom normal}"
 }
 
 proc update_enabled_sound_smileys { } {
@@ -545,6 +546,45 @@ proc smile_subst {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
 	}
 
 }
+
+proc process_custom_smileys_SB { txt } {
+    global emotions config 
+    
+
+    if { $config(custom_smileys) == 0 } { return "" }
+
+    set msg ""
+
+    status_log "Parsing text for custom smileys : $txt\n\n"
+
+    set txt2 [string toupper $txt]
+
+    foreach emotion $config(customsmileys2) {
+	
+	status_log "Parsing for $emotion\n"
+	foreach symbol $emotions(${emotion}_text) {
+	    set symbol2 [string toupper $symbol]
+
+	    set cases [valueforemot "$emotion" casesensitive] 
+	    set file [valueforemot "$emotion" file]
+
+	    if { $cases == 1} {
+		if {  [string first $symbol $txt] != -1 } {
+		    set msg "$msg$symbol	[create_msnobj $config(login) 2 [GetSkinFile smileys [filenoext $file]]]	"
+		    
+		}
+	    } else {
+		if {  [string first $symbol2 $txt2] != -1 } {
+		    set msg "$msg$symbol	[create_msnobj $config(login) 2 [GetSkinFile smileys [filenoext $file]]]	"
+		}
+	    }
+	}
+    }
+
+    return $msg
+}
+
+
 
 
 #///////////////////////////////////////////////////////////////////////////////
