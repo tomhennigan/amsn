@@ -1204,6 +1204,8 @@ namespace eval ::amsn {
         -onvalue 1 -offvalue 0 -variable config(chatsmileys)
       .${win_name}.menu.view add separator
       .${win_name}.menu.view add command -label "[trans history]" -command "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin" -accelerator "Ctrl+H"
+      .${win_name}.menu.view add separator
+      .${win_name}.menu.view add command -label "[trans hidewindow]" -command "wm state .${win_name} withdraw"
 
       menu .${win_name}.menu.actions -tearoff 0 -type normal
       .${win_name}.menu.actions add command -label "[trans addtocontacts]" \

@@ -180,6 +180,7 @@ handle Handle
 help Help
 helpcontents Help contents
 hiden Hide the emoticon from the smileys menu
+hidewindow Hide Window
 history View History
 home Home
 httpconnection Connect using HTTP method (uses HTTP protocol over port 80)
