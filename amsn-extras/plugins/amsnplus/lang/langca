@@ -1,7 +1,19 @@
 amsn_lang_version 2
 allowcommands Vols permetre l'ús de comandes en la conversa?
-ccolor \nYour text color is $1
-cfont \nYour text font is $1
-deleted \nYou've removed $1 from the list\nTo add this contact again do: /add $1
-groupadded \nAfegir el grup $1.
-groupdeleted \nYou've deleted group $1 \nTo add this group again do: /addgroup $1
+ccolor \nEl teu color de text és $1.
+cfont \nLa teva font és $1.
+cinfo \nInformació sobre $1: \nNick: $2 \nGrup: $3.
+cleave \nHas deixat la conversa.
+cnewnick \nEl teu nou nick és: $1.
+cnewstate \nEl teu nou estat és: $1.
+cnewstatenotvalid \n$1 no és vàlid.
+cnick \nEl teu nick és $1.
+cnotvalid \nLa teva comanda no és vàlida.
+cresult \nResultat de la comanda:\n$1
+cshell \nExecutant a la consola: $1
+cspecify \nHas d'especificar un contacte.
+cstatus \nEl teu estat és $1.
+cstyle \nEl teu estil de font és $1.
+deleted \nHas eliminat $1 de la llista de contactes\nPer afegir-lo de nou, fes: /add $1.
+groupadded \nAfegit el grup $1.
+groupdeleted \nHas eliminat el grup $1 \nPer afegir-lo de nou, fes: /addgroup $1.
