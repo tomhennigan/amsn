@@ -237,6 +237,10 @@ proc status_log {txt {colour ""}} {
 
 }
 
+# configureMenuEntry .main_menu.file "[trans addcontact]" disabled|normal
+proc configureMenuEntry {m e s} {
+    $m entryconfigure $e -state $s
+}
 
 proc close_cleanup {} {
   global HOME config
@@ -331,18 +335,23 @@ proc cmsn_draw_main {} {
      "check_version"
    
 
+   #Order Contacts By submenu
+   menu .order_by -tearoff 0 -type normal -background #D0D0E0
+   .order_by add radio -label "[trans name]" -value 0 \
+   	-variable config(orderbygroup)
+   .order_by add radio -label "[trans group]" -value 1 \
+   	-variable config(orderbygroup)
+
    #Tools menu
    menu .main_menu.tools -tearoff 0 -type normal 
    .main_menu.tools add command -label "[trans addacontact]..." -command \
      cmsn_draw_addcontact
    .main_menu.tools add cascade -label "[trans admincontacts]" -command \
      "" -state disabled
-   ::groups::Init .main_menu.tools 2
-#   .main_menu.tools add cascade -label "[trans admingroups]" -command \
-#     "" -state disabled
+   ::groups::Init .main_menu.tools
    .main_menu.tools add separator
    .main_menu.tools add cascade -label "[trans ordercontactsby]" \
-     -state disabled
+     -menu .order_by
    .main_menu.tools add separator
    .main_menu.tools add cascade -label "[trans options]" -menu .options
 
@@ -367,7 +376,6 @@ proc cmsn_draw_main {} {
      -variable config(listsmileys) 
    .options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 \
      -variable config(closingdocks) 
-
 
    #Help menu
    menu .main_menu.help -tearoff 0 -type normal  
@@ -725,6 +733,10 @@ proc cmsn_draw_online {} {
 #end AIM
 
    .main.text insert end "\n"
+   # TODO: order as it is now or by groups config(orderbygroup) == 1
+   #       Currently orderByGroup not implemented. We have to change
+   #       this section. Use either ::abook::getGroup email -id 
+   #       or ::abook::getGroup email -name
    if { $config(showonline) } {
        clickableImage .main.text contracton contract {set config(showonline) [expr !$config(showonline)];cmsn_draw_online} 5 0
    } else {
@@ -752,7 +764,7 @@ proc cmsn_draw_online {} {
 
       set colour [lindex $state 2]
       set section [lindex $state 3]
-      
+
       if { $section == "online"} {
         incr onlinenum
       } else {
@@ -1801,4 +1813,5 @@ if {$version != $config(last_client_version)} {
    cmsn_draw_about
   
 }
-
+# These menus are disabled until implemented
+configureMenuEntry .main_menu.tools "[trans ordercontactsby]" disabled
