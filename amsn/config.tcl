@@ -196,8 +196,8 @@ proc load_config {} {
 	set using_xml 0
     }
 
-    if { $using_xml == 0 && ([file readable "[file join ${HOME} config]"] == 0) ||
-	([file isfile "[file join ${HOME} config]"] == 0)} {
+    if { $using_xml == 0 && ([file readable "[file join ${HOME} config]"] == 0
+         || [file isfile "[file join ${HOME} config]"] == 0)} {
 	return 1
     }
     
@@ -338,6 +338,7 @@ proc LoadLoginList {{trigger 0}} {
 			set dirname [split $temp "@ ."]
 			set dirname [join $dirname "_"]
 			set HOME "[file join $HOME2 $dirname]"
+			set config(login) "$temp"
 		} else {
 			set config(login) ""
 		}

@@ -139,6 +139,7 @@ proc StateList { action { argument "" } {argument2 ""} } {
 # Creates the menu that will be added under the default states
 # path points to the path of the menu where to add
 proc CreateStatesMenu { path } {
+    global automessage
 	#$path add separator
 	# Delete old menu to create new one
 	if { [$path index end] != 8 } {
@@ -154,6 +155,11 @@ proc CreateStatesMenu { path } {
 	} else {
 		set limit [StateList size]
 	}
+
+    if { [StateList size] > 0 && [info exists automessage] &&
+         $automessage != -1} {
+        $path add command -label "[trans editcurrentstate]..." -command "EditNewState 2 0"
+    }
 
 	for {set idx 0} {$idx <= [expr $limit - 1] } { incr idx 1 } {
 		$path add command -label [lindex [StateList get $idx] 0] -command "ChCustomState $idx"
@@ -200,7 +206,6 @@ proc ChCustomState { idx } {
 				#::MSN::changeName $config(login) $newname
 			}
 			StateList promote $idx
-			CreateStatesMenu .my_menu
 		}
 	} else {
 		if { $config(autochangenick) == 1 && $automessage != "-1" } {
@@ -212,6 +217,7 @@ proc ChCustomState { idx } {
 		}
 		::MSN::changeStatus $idx
 	}
+    CreateStatesMenu .my_menu
 	if { [info exists automsgsent] } {
 		unset automsgsent
 	}
@@ -350,7 +356,7 @@ proc ButtonSaveState { lfname mode { idx "" } } {
 	# reset menus and listbox
 	CreateStatesMenu .my_menu
 
-	if { $mode == 0 || $mode == 2 } {
+	if { ($mode == 0 || $mode == 2) && [winfo exists .cfg] } {
 		set cfgname [Rnotebook:frame .cfg.notebook.nn 3]
 		$cfgname.lfname2.f.f.statelist.box delete 0 end
 		for { set idx 0 } { $idx < [StateList size] } {incr idx } {

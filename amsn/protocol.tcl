@@ -1969,6 +1969,24 @@ proc cmsn_msg_parse {msg hname bname} {
 
 }
 
+proc parse_exec {text} {
+    global tcl_platform
+    foreach line [split $text "\n"] {
+        if {[string index $line 0] == "|"} {
+            set cmd [string range $line 1 [string length $line]]
+            if {$tcl_platform(platform) == "unix"} {
+                catch {exec /bin/sh -c $cmd} output
+            } elseif {$tcl_platform(platform) == "windows"} {
+                catch {exec "c:\\windows\\system32\\cmd.exe" /c $cmd} output
+            }
+            append outtext "$output\n"
+        } else {
+            append outtext "$line\n"
+        }
+    }
+    return [string trimright $outtext "\n"]
+}
+
 proc cmsn_sb_msg {sb_name recv} {
    #TODO: A little cleaning on all this
    global filetoreceive files_dir automessage automsgsent
@@ -2068,11 +2086,11 @@ proc cmsn_sb_msg {sb_name recv} {
 	if { $automessage != "-1" } {
 		if { [info exists automsgsent($typer)] } {
 			if { $automsgsent($typer) != 1 } {
-				::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [lindex $automessage 3]
+				::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [parse_exec [lindex $automessage 3]]
 				set automsgsent($typer) 1
 			}
 		} else {
-				::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [lindex $automessage 3]
+				::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [parse_exec [lindex $automessage 3]]
 				set automsgsent($typer) 1
 			}
 	}

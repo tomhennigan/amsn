@@ -2473,6 +2473,8 @@ proc change_myfontsize {size name} {
 
   set fontfamily \{[lindex $config(mychatfont) 0]\}
   set fontstyle \{[lindex $config(mychatfont) 1]\}
+
+    if { [llength $config(basefont)] < 3 } { set config(basefont) "Helvetica 11 normal" } 
   set fontsize [expr {[lindex $config(basefont) end-1]+$config(textsize)}]
 
   catch {.${name}.f.out.text tag configure yours -font "$fontfamily $fontsize $fontstyle"} res

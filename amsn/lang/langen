@@ -116,6 +116,7 @@ docking Docking
 dockingoff Docking Off
 dockkde KDE Dock
 edit Edit
+editcurrentstate Edit current
 editnewstate New Personal Automessage State
 editprofile Edit Profile
 editstate Edit Existing Automessage State

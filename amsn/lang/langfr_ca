@@ -111,6 +111,7 @@ docking Ancrage actif
 dockingoff Ancrage inactif
 dockkde Ancrage dans KDE
 edit Édition
+editcurrentstate Modifier message courant
 editnewstate Nouvel état avec message automatique personnalisé
 editprofile Modifier profil
 editstate Editer un état existant avec message automatique
