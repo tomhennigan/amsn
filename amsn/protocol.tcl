@@ -851,7 +851,6 @@ namespace eval ::MSN {
 
 	 
 	proc logout {} {
-		variable myStatus
 		
 		::MSN::WriteSBRaw ns "OUT\r\n";
 
@@ -866,7 +865,7 @@ namespace eval ::MSN {
 		
 		sb set ns server [split $config(start_ns_server) ":"]
 		
-		set myStatus FLN
+		setMyStatus FLN
 		status_log "Loging out\n"
 		
 		if {$config(enablebanner) && $config(adverts)} {
@@ -1077,10 +1076,9 @@ namespace eval ::MSN {
    
 	#Send a keepalive message
 	proc PollConnection {} {
-		variable myStatus
 		#Let's try to keep the connection alive... sometimes it gets closed if we
 		#don't do send or receive something for a long time
-		if { $myStatus != "FLN" } {
+		if { [::MSN::myStatusIs] != "FLN" } {
 			::MSN::WriteSBRaw ns "PNG\r\n"
 		}
 
