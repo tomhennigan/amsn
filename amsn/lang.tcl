@@ -646,9 +646,8 @@ proc deletelanguage { langcode {selection ""} } {
 # Save the XML file
 
 	proc SaveVersions {} {
-		global HOME2 tcl_platform
 	
-		set file_id [open "langlist"]
+		set file_id [open "langlist" w]
 
 		fconfigure $file_id -encoding utf-8
 
@@ -659,11 +658,6 @@ proc deletelanguage { langcode {selection ""} } {
 			set version [::lang::ReadLang $langcode version]
 			set encoding [::lang::ReadLang $langcode encoding]
 			puts $file_id "   <lang>\n      <langcode>$langcode</langcode>\n      <name>$name</name>\n      <version>$version</version>\n      <encoding>$encoding</encoding>\n   </lang>"
-		}
-
-		foreach name $::lang::Plugin {
-			set version [::lang::ReadPlugin $name version]
-			puts $file_id "   <plugin>\n      <name>$name</name>\n      <version>$version</version>\n   </plugin>"
 		}
 
 		puts $file_id "</version>"
