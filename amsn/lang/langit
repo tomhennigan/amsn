@@ -60,6 +60,7 @@ blockmessage Queste persone sono online e bloccate da te
 blockusers Numero di utenti da controllare subito
 broughtby  Sviluppato da
 browser Browser
+browserexample (\$url verrà rimpiazzato dall'URL). Es: mozilla \$url
 browse Visualizza
 busy Ho da fare
 cancel Cancella
@@ -81,6 +82,7 @@ checkfilman I files ricevuti saranno salvati in $1. Per favore controlla le impo
 checkingver Sto verificando una nuova versione
 checkonfln Controlla se un utente ti blocca quando va fuori linea.
 checkver Controlla l'esistenza di nuove versioni
+choosearq Scegli l'architettura del tuo sistema
 choosebasefont Seleziona il font
 choosebgcolor Cambia il colore di sfondo
 choosecontact Per favore scegli un contatto dalla lista
@@ -128,6 +130,8 @@ dockgtk Dock GNOME
 docking Abilita dock
 dockingoff Disabilita dock
 dockkde Dock KDE
+dontdownload Non scaricare TLS, verrà installato automaticamente
+downloadingtls Download del modulo TLS in corso da:\n $1
 editcurrentstate Modifica il corrente
 edit Modifica
 editnewstate Nuove impostazioni personali di auto-risposta
@@ -142,11 +146,13 @@ encoding Seleziona la codifica
 entercontactemail Inserisci un contatto per e-mail
 enterfilename Inserisci un nome di file
 enternick Inserisci il tuo nick
+errortls Errore durante l'installazione del modulo TLS:
 examples Esempi
 exitamsn Sei sicuro di voler uscire ?
 extras Servizi extra
 faq FAQ (Risposte alle domande più frequenti)
 filedoesnotexist Il file non esiste
+filemanexample ( \$location sarà rimpiazzato dalla cartella ) Es: nautilus \$location
 fileman File Manager
 filename Filename
 filetransfercancelled Trasferimento file cancellato
@@ -178,6 +184,7 @@ handle Gestisci
 help Aiuto
 helpcontents Contenuti help
 hiden Nascondi le emoticon dal menu delle faccine
+hidewindow Nascondi Finestra
 history Mostra l'History
 home Casa
 httpconnection Connessione usando il metodo HTTP (usa il protocollo HTTP sulla porta 80)
@@ -227,6 +234,7 @@ logsout è appena uscito
 lprivtoconf Chat privata divenuta conversazione con $1
 luclosedwin Hai chiuso la finestra su $1
 mailer Client di posta
+mailerexample ( \$recipient = Destinatario ) Lasciare in bianco se si usa hotmail
 maximised Massimizza
 minimised Minimizza/Riduci ad icona
 mins Minuti
@@ -270,6 +278,7 @@ notify3 Mostra una finestra di notifica quando una email raggiunge la tua casell
 notify notifica
 notifyoffset Selziona la posizione della finestra di notifica dandogli delle coordinate di posizione
 notifywin Finestra di Notifica
+notls Il protocollo MSN 9 richiede il pacchetto tls. Al momento è impossibile trovarlo. Se è installato, è necessario specificare il percorso delle librerie nella finestra Preferenze (es: /opt/tls/lib). \n \n Il pacchetto tls può essere scaricato da http://tls.sf.net.
 nousersinsession Nessun utente nella sessione
 offline Sconnesso
 ok Ok
@@ -302,6 +311,7 @@ preferences Preferenze
 preffont2 Cambia il modo in cui gli altri vedono il mio testo nelle chat
 preffont3 Cambia la dimensione e il tipo dei caratteri dell'interfaccio di aMSN
 preffont Il mio testo del mio messaggio
+preflibs Cartelle delle librerie
 preflog1 Le mio opzioni di History e registrazione
 preflook L'aspetto del mio aMSN
 prefmsging L'interfaccia dei miei messaggi
@@ -369,10 +379,12 @@ smileintro Per favore riempi i campi richiesti per creare una nuova faccina pers
 sound2 Emetti un suono quando i contatti entrano o mandano un messaggio
 sound Attiva suoni
 soundcommand Questo deve essere il comando per emettere il suono (es.: esdplay)
+soundexample (\$sound = Suono da riprodurre) Es: esdplay \$sound
 soundfile File del suono dell'allarme
 soundloop Loop Suono
 soundserver Server sonoro
 soundstatus (Dis)Abilita il suono dell'allarme
+sourcecode Codice sorgente (necessita compilazione e installazione)
 startoffline2 Entra silenziosamente come "Fuori linea"
 startoffline Inizio Offline
 stateautomsg Automessaggio da inviare
@@ -392,6 +404,10 @@ tabbed Finestre con Barra
 textsize Dimensione del testo
 timeremaining Tempo rimanente
 title Al's Messenger
+tlsdowncompleted Il file $1 è stato scaricato nella cartella $2. Estrailo, compilalo (se hai scaricato i sorgenti) e installalo in $3.
+tlsinstallexp AMSN utilizza ora MSNP9. Questo richiede l'uso di una\nconnessione sicura con SSL. Per sfruttare SSL, AMNS necessita la presenza del modulo TLS,\nil quale non è al momento installato. Questo wizard ti guiderà nel recupero\n e nell'installazione di TLS. Per favore seleziona il tipo di sistema in uso per\n passare al download dei files richiesti.
+tlsinstall Wizard per l'installazione del modulo TLS
+tlsinstcompleted L'installazione del modulo TLS è andata a buon fine. Dovresti essere in grado di utilizzare MSNP9. Se così non fosse, probabilmente hai selezionato un modulo errato oppure non esiste un modulo precompilato per il tuo sistema.
 to A
 tools Strumenti
 tooltips Abilita i tooltips

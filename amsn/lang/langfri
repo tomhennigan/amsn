@@ -61,6 +61,7 @@ blockusers Oantal brukers om gelyk te controlearen
 broughtby Oanbean troch de folgende ontwikkelers
 browse Ferkenne
 browser Browser
+browserexample ( \$url wurdt ferfangen troch de URL) Start mozilla \$url
 busy Beset
 cancel Annulearje
 cannotdeleteprofile Het profyl kon net fuortsmiten wurdde, omdat t derop lyket dat het yn gebruk is, troch een oare amsn-sesje
@@ -81,6 +82,7 @@ checkfilman Ûntfangen bestânen wurde bewarre yn $1. Sjoch de ynstellings fan it 
 checkingver Op in neiere fersy oan't kontrolearje 
 checkonfln Controlear of een bruker dy blokkeart hat, at hy "oan e lyne" komt.
 checkver Sjoch foar in neiere fersy
+choosearq Kies de systeem-opbouw
 choosebasefont Lettertype
 choosebgcolor Eftergrûnkleur
 choosecontact  Sykje een kontaktpersoan ut de liste ut
@@ -128,6 +130,8 @@ dockgtk Ferbergje foar gnome
 docking Ferberg
 dockingoff Ferbergje út
 dockkde Ferbergje foar KDE
+dontdownload Donder TLS net del, ik sil TLS sels wol ynstallearje.
+downloadingtls Dondert TLS-module del fan: \n $1
 edit Bewurkje
 editcurrentstate Bewurkje dizze
 editnewstate Nei automatisch berjocht
@@ -142,12 +146,14 @@ encoding Encoderen
 entercontactemail Jou Kontakt-email
 enterfilename Jou in bestânsnamme op
 enternick Jou dyn skermnamme
+errortls Foutsje by het ynstallearen fan de TLS-module
 examples Foarbylden
 exitamsn Slút amsn
 extras Ekstra's
 faq FAQ (Faak stelde fragen (yn't Engels))
 filedoesnotexist Bestân bestiet net
 fileman Bestânbehear
+filemanexample ( \$location sil wurdde ferfangen troch de map ) Start nautilus \$location
 filename Bestânsnamme
 filetransfercancelled Bestânsferstjoering annuleard
 filetransfercomplete Bestânsferstjoering klear
@@ -178,6 +184,7 @@ handle Dwaan
 helpcontents Help inhâld
 help Help
 hiden Verberg dizze Gnysker yn t Gnysker-menu.
+hidewindow Ferberg finster
 history Besjoch Skiednis
 home Thús
 httpconnection Ferbyne mei een HTTP-protocol, oer poarte 80
@@ -226,6 +233,7 @@ logsmileys Toan emoticons en smileys yn aMSN's Skiednisfinsters
 logsout Utlogge
 lprivtoconf Privechat feroare yn Gearkomste mei $1
 luclosedwin Do hast it finster slúten op $1
+mailerexample  ( \$recipient = Recipient ) Lit leech foar gebruk fan Hotmail
 mailer Mail-client
 maximised Fergrut
 minimised Ferlytse
@@ -371,11 +379,13 @@ smileintro2 Bewurkje de benedigde fjilden om een neije eigen Gnysker te meitsjen
 smileintro Ful de benedigde fjilden yn om een neije Gnysker te meitjen. Foar hulp, sjoch yn de FAQ.
 sound2 Spielje lûd as kontakten sich oanmelde of in berjocht stjoere
 soundcommand Dit moat in ôfspielkommando wêse (bg: esdplay)
+soundexample (\$sound = Soud file to be played ) Ex. esdplay \$sound
 soundfile Lûdsbestân
 soundloop Lûd herhelje bliuwe
 sound Lûd
 soundserver Lûdserver
 soundstatus Skakel alarmlûd oan/út
+sourcecode Broncode (moast wol compilearje en ynstallearje
 startoffline2 'Stil' oanmelde mei "Net oanmeld"-status
 startoffline Begjin "Net oanmeld"
 stateautomsg Automatisch Berjocht om te stjoeren:
@@ -395,6 +405,10 @@ tabbed 'Tabbed' finsters
 textsize Tekstgrute
 timeremaining Tiid oer
 title Messenger
+tlsdowncompleted Bestan is deldondere yn map $2. Do moast t utpakke, compleare ast de brondode deldondere hast, en ynstalleare yn $3
+tlsinstallexp Amsn brukt no MSNP9, wat het gebruk fan een veilige ferbyning troch SSL nedich is. Om SSL te bruken, hat AMSN een module, (TLS) nedich, wat net yn dyn systeem sit. Dizze goochelaar helpt dy by het deldonderjen en ynstallearjen fan TLS. Kies dyn systeem-type, en dan gean ik automatiesk TLS foar dy deldonderjen.
+tlsinstall TLS module ynstallaasje-tovenaar
+tlsinstcompleted TLS is goed ynstalleard, kinst no MSNP9 bruke. At het net wurket, hast fest de ferkearde module deldondere, of de compilearde module is net beskikber foar dyn systeem.
 to Oan
 tools Ark
 tooltips Gereedschapstips oansette

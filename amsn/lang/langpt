@@ -82,6 +82,7 @@ checkfilman Os ficheiros recebidos serão guardados em $1. Por favor verifique na
 checkingver A verificar versão
 checkonfln Verifica se um utilizador o bloqueou quando este se desliga
 checkver Verificar versão
+choosearq Escolha a arquitectura do seu sistema
 choosebasefont Escolher tipo de letra base
 choosebgcolor Escolher cor de fundo
 choosecontact Escolha um contacto da lista
@@ -129,6 +130,8 @@ dockgtk Atracar Gnome
 docking Atracando
 dockingoff Atracando Desligado
 dockkde Atracar KDE
+dontdownload Não faça o download de TLS, eu instalo-o automaticamente
+downloadingtls A fazer download do modulo de TLS de:\ $1
 editcurrentstate Editar Corrente estado
 edit Editar
 editnewstate Novo estado pessoal de Automensagem
@@ -143,6 +146,7 @@ encoding A codificar
 entercontactemail Introduza o email do contacto
 enterfilename Introduzir nome ficheiro
 enternick Introduza a sua alcunha
+errortls Erro ao instalar o modulo de TLS:
 examples Exemplos
 exitamsn Sair do AMSN
 extras Extras
@@ -380,6 +384,7 @@ soundloop Repetir som
 soundserver Servidor de som
 sound Sons para eventos
 soundstatus Alarme Sonoro
+sourcecode Codigo Fonte (necessita de ser compilado e instalado)
 startoffline2 login silencioso "Aparentar desligado"
 startoffline Começar desligado
 stateautomsg Automensagem para enviar
@@ -399,6 +404,10 @@ tabbed Janelas com separadores
 textsize Tamanho de texto
 timeremaining Tempo que falta
 title Al's Messenger
+tlsdowncompleted Foi feito o download de $1 para o directorio $2. É necessario fazer o 'extract' e 'build' do ficheiro (caso tenha feito o download do codigo fonte) e instalar o ficheiro dentro do directorio $3
+tlsinstall Assistente de instalação do modulo TLS
+tlsinstallexp AMSN usa agora MSNP9, que necessita o uso de uma ligação\nsegura usando SSL. Para usar SSL, AMSN necessita de instalar um modulo denominado TLS, \que falta no seu sistema. Este Assistente vai ajuda-lo a fazer o download e\na instalar o TLS. Por favor, escolha o seu tipo de sistema para que possa ser feito o download automatico\n dos ficheiros TLS.
+tlsinstcompleted A instalação do modulo TLS foi realizada com sucesso; agora, deve conseguir utilizar o MSNP9. Caso nao funcione, provavelmente nao seleccionou o modulo correcto, ou um modulo compilado ainda nao está disponivel para o seu sistema
 tools Ferramentas
 tooltips Activar ajudas
 to Para
