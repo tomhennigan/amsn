@@ -9,6 +9,7 @@
 
 package provide Proxy 0.1
 package require http
+package require base64
 
 # This should be converted to a proper package, to use with package require
 source [file join $program_dir socks.tcl]	;# SOCKS5 proxy support
@@ -124,9 +125,7 @@ namespace eval ::Proxy {
 		set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
 		set tmp_data "$tmp_data\r\nContent-Length: 0"
 		if {$proxy_with_authentication == 1 } {
-		    if { [catch {package require base64}] == 0 } {
-			set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode ${proxy_username}:${proxy_password}]"
-		    }
+		    set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode ${proxy_username}:${proxy_password}]"
 		}
 		set tmp_data "$tmp_data\r\n\r\n"
 		status_log "PROXY SEND ($name)\n$tmp_data\n" blue
@@ -235,9 +234,7 @@ namespace eval ::Proxy {
 		set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
 		set tmp_data "$tmp_data\r\nContent-Length: 0"
 		if {$proxy_with_authentication == 1 } {
-		    if { [catch {package require base64}] == 0 } {
-			set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode ${proxy_username}:${proxy_password}]"
-		    }
+		    set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode ${proxy_username}:${proxy_password}]"
 		}
 		set tmp_data "$tmp_data\r\n\r\n"
 		
@@ -308,9 +305,7 @@ namespace eval ::Proxy {
 	    set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
 	    set tmp_data "$tmp_data\r\nContent-Length: $size"
 	    if {$proxy_with_authentication == 1 } {
-		if { [catch {package require base64}] == 0 } {
-		    set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode ${proxy_username}:${proxy_password}]"
-		}
+		set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode ${proxy_username}:${proxy_password}]"
 	    }
 	    set tmp_data "$tmp_data\r\n\r\n[string range $proxy_queued_data($name) 0 $strend]"
 	    
@@ -464,6 +459,9 @@ namespace eval ::Proxy {
 }
 ###################################################################
 # $Log$
+# Revision 1.21  2003/10/08 09:37:42  kakaroto
+# proxy authentication works now better without a package require everytime..
+#
 # Revision 1.20  2003/10/08 09:35:59  kakaroto
 # Authentication with proxy on every packet (needs improvement with the pacakge require)
 #
