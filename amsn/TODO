@@ -61,9 +61,15 @@ DONE	Only change font preferences if save is pressed, revert to old if cancel pr
 
 	**Remote Controling issues :
 -	If text sent over socket contains the color word, it disappears from the text (change the string map call)
--	Remove bug when entering invalid commands with only opening quotes and same mistakes...
+DONE	Remove bug when entering invalid commands with only opening quotes and same mistakes...
 -	make it possible to send more than one space between each words in messages
--	make the shell window resizable (and apply the same for the protocol window of amsn)
+DONE	make the shell window resizable (and apply the same for the protocol window of amsn)
+
+
+	**Blocked users detection issues :
+-	If user blocks you directly after getting connected, doesn't automaticaly detect him
+-	If you call the VerifyBlocked procedure manually, what will happen ???
+-	Make timer event configurable (functions already support this)
 
 	**Dock Issues :
 -	New message alert 

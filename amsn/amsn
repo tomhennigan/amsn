@@ -290,10 +290,13 @@ proc timestamp {} {
 # Logs the given text with a timestamp using the given color
 # to the status window
 proc status_log {txt {colour ""}} {
+    global followtext_status
 
    .status.info insert end "[timestamp] $txt" $colour
    #puts "[timestamp] $txt" 
-   #.status.info yview moveto 1.0
+   if { $followtext_status == 1 } {
+       .status.info yview moveto 1.0
+   }
 }
 #///////////////////////////////////////////////////////////////////////////////
 
@@ -659,5 +662,6 @@ if { $config(autoconnect) == 1 } {
   ::MSN::connect $config(login) password
 }
 
+BeginVerifyBlocked
 init_remote_DS
 init_dock

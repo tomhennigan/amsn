@@ -182,6 +182,7 @@ namespace eval ::remote {
 	    set message "[lrange $args 1 end]"
 	}
 	    
+	set message [string map { \{ "" \} ""} $message]
 
 	if { [string match "*@*" $user] == 0 } {
 	    set user [split $user "@"]

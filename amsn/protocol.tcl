@@ -119,7 +119,7 @@ namespace eval ::MSNFT {
       if {[info exists filedata($cookie)]} {        
          ::amsn::FTProgress ca $cookie [lindex $filedata($cookie) 0]   
 	 set sockid [lindex $filedata($cookie) 6]
-	 catch {puts $sockid "CCL\"}
+	 catch {puts $sockid "CCL\n"}
          DeleteFT $cookie
 	 status_log "File transfer manually canceled\n"
       }
@@ -2120,6 +2120,7 @@ proc CALReceived {sb_name user item} {
 	  #::MSN::CleanChat $chatid
           ::amsn::chatStatus $chatid "$user: [trans usernotonline]\n" miniwarning
 	  #msg_box "[trans usernotonline]"
+	  user_not_blocked $user
           return 0
       }   
    }
@@ -2630,13 +2631,16 @@ proc cmsn_change_state {recv} {
 
       if {[lindex $user_data 2] < 7} {		;# User was online before
 
+
 	 #TODO: Is this used for anything???
          #set oldusername [string map {\\ \\\\ \[ \\\[ * \\* ? \\?} \
 	 #  [urldecode [lindex $user_data 1]]]
 
 
       } elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
-      	 
+
+	  user_not_blocked "$user"
+
 	 if { $config(notifyonline) == 1 } {
 	 	::amsn::notifyAdd "$user_name\n[trans logsin]." "::amsn::chatUser $user" online
 	 }
@@ -2650,6 +2654,8 @@ proc cmsn_change_state {recv} {
 #      	 status_log "Inserting <$user_name> in menu\n" white
 #         .main_menu.msg insert 0 command -label "$user_name <$user>" \
 #            -command "::amsn::chatUser $user"
+      } else {
+	  ::MSN::chatTo "$user"	  
       }
 
       set state_no [lsearch $list_states "$substate *"]

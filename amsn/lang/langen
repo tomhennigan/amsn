@@ -112,6 +112,7 @@ fileman File Manager
 filename Filename
 filetransfercancelled File transfer cancelled
 filetransfercomplete File transfer complete
+followtext Scroll down when new text is entered
 ftacceptedby $1 accepted file transfer invitation for file '$2'.
 ftaccepted File transfer accepted
 ftaccepting Accepting file transfer invitation

@@ -25,8 +25,12 @@ proc degt_Init {} {
 }
 
 proc degt_protocol { str {colour ""}} {
+    global followtext_degt
+
    .degt.mid.txt insert end "[timestamp] $str\n" $colour
-   .degt.mid.txt yview moveto 1.0
+    if { $followtext_degt == 1} {
+	.degt.mid.txt yview moveto 1.0
+    }
     
 }
 
@@ -43,6 +47,10 @@ proc degt_protocol_win_toggle {} {
 }
 
 proc degt_protocol_win { } {
+    global followtext_degt
+
+    set followtext_degt 0
+
     toplevel .degt
     wm title .degt "MSN Protocol Debug"
     wm iconname .degt "MSNProt"
@@ -74,7 +82,11 @@ proc degt_protocol_win { } {
 
 	pack .degt.mid.sy -side right -fill y
 	pack .degt.mid.sx -side bottom -fill x
-	pack .degt.mid.txt -anchor nw
+	pack .degt.mid.txt -anchor nw  -expand true -fill both
+
+    pack .degt.mid -expand true -fill both
+
+    checkbutton .degt.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable followtext_degt
 
     frame .degt.bot -relief sunken -borderwidth 1 -class Degt
     	button .degt.bot.clear  -text "Clear" -font sboldf \
@@ -82,7 +94,7 @@ proc degt_protocol_win { } {
     	button .degt.bot.close -text [trans close] -command degt_protocol_win_toggle -font sboldf
 	pack .degt.bot.close .degt.bot.clear -side left
 
-    pack .degt.top .degt.mid .degt.bot -side top
+    pack .degt.top .degt.mid .degt.follow .degt.bot -side top
 
     bind . <Control-d> { degt_protocol_win_toggle }
     wm protocol .degt WM_DELETE_WINDOW { degt_protocol_win_toggle }
@@ -1128,6 +1140,10 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.49  2003/06/14 01:24:53  kakaroto
+# fixed the block thing support
+# fixed bugs with the remote controler
+#
 # Revision 1.48  2003/06/12 00:07:08  burgerman
 # Custom states are here, meaning you can create states with away auto messages. have fun
 #

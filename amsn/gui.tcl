@@ -651,23 +651,27 @@ namespace eval ::amsn {
    # The procedure will open a window if it does not exists, add a notifyWindow and
    # play a sound if it's necessary
    proc messageFrom { chatid user msg type {fontformat ""} } {
-      global remote_auth config
+      global remote_auth 
 
       set notifytext "[trans says [lindex [::MSN::getUserInfo $user] 1]]:\n$msg"
       MakeWindowFor $chatid $notifytext
        
        if { $remote_auth == 1 } {
-	   if { "$user" == "$config(login)" } {
+
+	   if { "$user" != "$chatid" } {
 	       write_remote "To $chatid : $msg" msgsent
 	   } else { 
-	       write_remote "From $user : $msg" msgrcv
+	       write_remote "From $chatid : $msg" msgrcv
 	   }
+
+	   
+	   
        } 
 
       PutMessage $chatid $user $msg $type $fontformat
 
       set evPar [list $user [lindex [::MSN::getUserInfo $user] 1] $msg]            
-      if { "$user" == "$config(login)" } {
+      if { "$user" != "$chatid" } {
          ::plugins::postEvent chat_msg_sent $evPar
       } else { 
 	 ::plugins::postEvent chat_msg_received $evPar
@@ -2529,6 +2533,7 @@ proc set_encoding {enc} {
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_status {} {
+    global followtext_status
    toplevel .status
    wm group .status .
    wm state .status withdrawn
@@ -2538,8 +2543,9 @@ proc cmsn_draw_status {} {
       -yscrollcommand ".status.ys set" -font splainf
    scrollbar .status.ys -command ".status.info yview"
    entry .status.enter -background white
+    checkbutton .status.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable followtext_status
 
-   pack .status.enter -side bottom -fill x
+   pack .status.enter .status.follow -side bottom -fill x
    pack .status.ys -side right -fill y
    pack .status.info -expand true -fill both
 
@@ -3207,12 +3213,11 @@ proc ShowUser {user_name user_login state state_code colour section} {
          set image_type [lindex $state 4]
 
 
-         for {set idx [expr [array size emailBList] - 1]} {$idx >= 0} {incr idx -1} {
-	     if { $emailBList($idx) == "$user_login" } {
-		 set colour #FF0000
-		 set image_type "blockedme"
-	     }
-	 }
+         if { [info exists emailBList($user_login)]} {
+        	set colour #FF0000
+	        set image_type "blockedme"
+         }
+	
 
 
          if {[lsearch $list_bl "$user_login *"] != -1} {

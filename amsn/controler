@@ -14,8 +14,12 @@ proc readsocket { } {
 	connect "Amsn server closed"
     } elseif { $response != "" } {
 #	puts "$response"
+	set response [string map { \; \\\; \" \\\" \[ \\\[ \] \\\] \: \\\: \\ \\\\ \* \\\* kl klawi \? \\\?} $response]
 	set colour [lindex "$response" end]
 	set response [string map [list "$colour" ""]  $response]
+	set response [string map { \\\\ "^[SLASHCAR]^"} $response]
+	set response [string map { \\ ""} $response]
+	set response [string map { "^[SLASHCAR]^" \\} $response]
 	.controler.res.txt insert end "$response \n" $colour
 	.controler.res.txt yview moveto 1.0
     } 
@@ -30,6 +34,11 @@ proc writesocket { } {
     .controler.entry delete 0 end
     .controler.res.txt insert end "\n$command\n" command
     .controler.res.txt yview moveto 1.0
+
+    set command [string map { \; \\\; \" \\\" \[ \\\[ \] \\\] \: \\\: \\ \\\\ \* \\\* kl klawi \? \\\?} $command]
+ #   set command [join $command]
+
+
     if { "$command" != "quit" } {
 	puts ${sock} "$command"
 	flush $sock
@@ -200,13 +209,15 @@ proc control { } {
 
     pack .controler.res.sy -side right -fill y
     pack .controler.res.sx -side bottom -fill x
-    pack .controler.res.txt -anchor nw
+    pack .controler.res.txt -anchor nw -expand true -fill both
 
     entry .controler.entry  -width 50
     button .controler.close -text "Close" -command "destroy .controler"
  
-    grid .controler.res -row 0 -column 0
-    grid .controler.entry -row 15 -column 0
+    pack .controler.res -expand true -fill both 
+    pack .controler.entry -fill x
+    pack .controler.res .controler.entry -side top
+
     bind .controler.entry <Return> "writesocket"
 
     grab set .controler

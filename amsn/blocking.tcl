@@ -3,21 +3,17 @@
 # blocking.tcl v 1.0	2003/05/22   KaKaRoTo
 #########################################################
 
-# Set global variable
-set emailBList(0) ""
-set show_blocked_list 0
 
+set VerifyEnd 1
 
 #///////////////////////////////////////////////////////////////////////////////
 # show_blocked { }
 # open a dialog box with a list of all people who are blocking you 
 # and online at the moment
 proc show_blocked { } {
-    global emailBList show_blocked_list 
-
+    global emailBList 
  
     set wname ".blocked_list"
-
 
     # Update window if exists
      if { [catch {toplevel ${wname} -borderwidth 0 -highlightthickness 0 } res ] } {
@@ -25,7 +21,6 @@ proc show_blocked { } {
 	 toplevel ${wname} -borderwidth 0 -highlightthickness 0
      }
     
-    set_show_blocked_list 1
 
     wm group ${wname} .
     wm title ${wname}  "[trans youblocked]"
@@ -36,12 +31,24 @@ proc show_blocked { } {
     grid ${wname}.c.txt -row 1 -column 1 -sticky w -pady 10
 
 
-    for {set idx [expr [array size emailBList] - 1]} {$idx >= 0} {incr idx -1} {
-	set row [expr 2 + $idx]
 
-	label ${wname}.c.txt${idx} -text "$emailBList($idx)"
-	grid ${wname}.c.txt${idx} -row $row -column 1 -sticky w -pady 10
-    } 
+   set blockers [array get emailBList]
+   set items [llength $blockers]
+   for {set idx 0} {$idx < $items} {incr idx 1} {
+      set emailB [lindex $blockers $idx]; incr idx 1
+
+       set row [expr 2 + [expr $idx / 2]]
+
+       label ${wname}.c.txt${idx} -text "$emailB"
+       grid ${wname}.c.txt${idx} -row $row -column 1 -sticky w -pady 10
+   }
+
+#     for {set idx [expr [array size emailBList] - 1]} {$idx >= 0} {incr idx -1} {
+# 	set row [expr 2 + $idx]
+
+# 	label ${wname}.c.txt${idx} -text "$emailBList($idx)"
+# 	grid ${wname}.c.txt${idx} -row $row -column 1 -sticky w -pady 10
+#     } 
     
     
     button ${wname}.c.ok -text [trans ok] -command "destroy ${wname}"
@@ -51,36 +58,18 @@ proc show_blocked { } {
 
     button ${wname}.c.refresh -text [trans Refresh] -command "VerifyBlocked ; show_blocked"
     grid ${wname}.c.refresh -row $row -column 2 -pady 10
-
-    bind ${wname} <Destroy>  "set_show_blocked_list 0"
     
-}
-
-#///////////////////////////////////////////////////////////////////////////////
-# set_show_blocked_list { value }
-# set the global variable show_blocked_list to the value $value 
-# this variable lets us know if the dialog box showing the list of blockers 
-# is visible or not...
-proc set_show_blocked_list { value } {
-    global show_blocked_list 
-
-    set show_blocked_list $value
 }
 
 #///////////////////////////////////////////////////////////////////////////////
 # warn_blocked { email }
 # adds the user who blocked you to the blockers list
 proc warn_blocked { email } {
-    global emailBList show_blocked_list
+    global emailBList 
 
-    set tmp_list [array get emailBList]
-    
-    for {set idx [expr [array size emailBList] - 1]} {$idx >= 0} {incr idx -1} {
-	set emailBList([expr $idx + 1]) $emailBList($idx)
-    } 
-    set emailBList(0) $email
+    set emailBList($email) 1
 
-    if { $show_blocked_list == 1} {
+    if {[winfo exists .blocked_list] } {
 	show_blocked
     }
 
@@ -89,48 +78,93 @@ proc warn_blocked { email } {
 }
 
 #///////////////////////////////////////////////////////////////////////////////
+# user_not_blocked { email }
+# If the user is in the blockers list,erase him
+proc user_not_blocked { email } {
+    global emailBList
+    
+    if { [info exists emailBList($email)] == 0 } {
+	return 0
+    }
+
+    unset emailBList($email)
+
+    if {[winfo exists .blocked_list] } {
+	show_blocked
+    }
+
+    cmsn_draw_online
+
+} 
+
+
+#///////////////////////////////////////////////////////////////////////////////
+# BeginVerifyBlocked { interval }
+# Starts the VerifyBlocked script every "interval" secondes
+proc BeginVerifyBlocked { {interval 30} {interval2 120}} {
+    global VerifyEnd user_stat
+
+    while { true } {
+	if { "$user_stat" == "NLN" } {
+	    after [expr $interval * 1000] "VerifyBlocked 5 15000"
+	} else {
+	    after [expr $interval2 * 1000] "VerifyBlocked 5 15000"
+	}
+
+	set VerifyEnd 2
+
+	while { $VerifyEnd != 1 } {
+	    vwait VerifyEnd
+	}
+
+
+
+    }
+
+
+}
+
+#///////////////////////////////////////////////////////////////////////////////
 # VerifyBlocked { }
 # tests every offline user in your contact list
-proc VerifyBlocked {} {
-    global list_users list_states emailBList counter
+proc VerifyBlocked { {nbre_users 10} {interval 5000} } {
+    global list_users list_states emailBList counter VerifyEnd
+
+    if { ([info exists VerifyEnd] && $VerifyEnd == 0) } {
+	return
+    }
+
+    set VerifyEnd 0
 
     set counter 0
 
-   for {set idx [expr [array size emailBList] - 1]} {$idx >= 0} {incr idx -1} {
-       unset emailBList($idx)
-    } 
-
-    cmsn_draw_online
- 
-
     foreach user $list_users {
+	
+
+  	if { $counter >= $nbre_users } {
+  	    after $interval reset_counter
+	    vwait counter
+   	}
 
 	set user_state_no [lindex $user 2]
 	set state [lindex $list_states $user_state_no]
 	set state_code [lindex $state 0]
 
-	#TODO : set a counter to test a limited amount of people to avoid flooding
-
- 	set counter [expr $counter + 1 ]
- 	if { $counter > 5 } {
- 	    after 5000 reset_counter
-	    vwait counter
-  	}
-
-
-	if { $counter < 6 } {
-	    if { $state_code =="FLN" } {
-		::MSN::chatTo "[lindex $user 0]"
-	    }
+	if { $state_code =="FLN" } {
+	    set counter [expr $counter + 1 ]
+	    ::MSN::chatTo  "[lindex $user 0]"
+	    
 	}
    }
+
+    set VerifyEnd 1
 }
 
+ 
 proc reset_counter { } {
     global counter
-    set counter 0
+    set counter 1
 }
-
 
 proc show_RL { } {
     global list_rl list_users
