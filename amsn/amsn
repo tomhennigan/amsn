@@ -135,7 +135,6 @@ source [file join $program_dir smileys.tcl]
 source [file join $program_dir groups.tcl]	;# Handle buddy groups
 source [file join $program_dir abook.tcl]	;# Handle buddy address book
 source [file join $program_dir gui.tcl]
-
 #by AIM
 set unread 0
 set notify_command ""
@@ -1335,7 +1334,7 @@ proc cmsn_draw_msgwin {} {
    .${win_name}.text configure -state disabled
    .${win_name}.status configure -state disabled
    .${win_name}.in.send configure -state disabled
-   .${win_name}.in.input configure -state disabled
+   .${win_name}.in.input configure -state normal
 
 
 #   .${win_name}.text tag configure sel -foreground white -background darkblue
@@ -1347,10 +1346,10 @@ proc cmsn_draw_msgwin {} {
    .${win_name}.text tag configure url -foreground darkblue -background white -font bboldf -underline true
 
 
-   bind .${win_name}.in.input <Return> "sb_enter $name %W; break"
-   bind .${win_name}.in.input <Key-KP_Enter> "sb_enter $name %W; break"
+#   bind .${win_name}.in.input <Return> "sb_enter $name %W; break"
+#   bind .${win_name}.in.input <Key-KP_Enter> "sb_enter $name %W; break"
 
-   bind .${win_name}.in.input <Alt-s> "sb_enter $name %W; break"
+#   bind .${win_name}.in.input <Alt-s> "sb_enter $name %W; break"
    bind .${win_name}.in.input <Tab> "focus .${win_name}.in.send; break"
 
    bind  .${win_name}.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y .${win_name}.in.input"   
@@ -1920,6 +1919,12 @@ proc cmsn_sb_sessionclosed {sbn} {
       cmsn_msgwin_title $sbn
       bind .${win_name}.in.input <Key> "cmsn_reconnect ${sbn}"
       bind .${win_name}.in.input <Return> "cmsn_reconnect ${sbn}; break"
+      bind .${win_name}.in.input <Key-KP_Enter> "cmsn_reconnect ${sb_name}; break"
+      bind .${win_name}.in.input <Alt-s> "cmsn_reconnect ${sb_name}; break"
+
+
+
+
    }
 }
 
@@ -1980,6 +1985,8 @@ proc cmsn_update_users {sb_name recv} {
 
       bind .${win_name}.in.input <Key> "sb_change $sb_name"
       bind .${win_name}.in.input <Return> "sb_enter $sb_name %W; break"
+      bind .${win_name}.in.input <Key-KP_Enter> "sb_enter $sb_name %W; break"
+      bind .${win_name}.in.input <Alt-s> "sb_enter $sb_name %W; break"
    } else {
 
      .${win_name}.menu.msn entryconfigure 3 -state disabled
@@ -1989,6 +1996,8 @@ proc cmsn_update_users {sb_name recv} {
       .${win_name}.in.send configure -state disabled
       bind .${win_name}.in.input <Key> "cmsn_reconnect ${sb_name}"
       bind .${win_name}.in.input <Return> "cmsn_reconnect ${sb_name}; break"
+      bind .${win_name}.in.input <Key-KP_Enter> "cmsn_reconnect ${sb_name}; break"
+      bind .${win_name}.in.input <Alt-s> "cmsn_reconnect ${sb_name}; break"
    }
 }
 
