@@ -4308,7 +4308,7 @@ proc create_msnobj { Creator type filename } {
 
 	set sha1c [::base64::encode [binary format H* [::sha1::sha1 "Creator${Creator}Size${size}Type${type}Location${file}.tmpFriendlyAAA=SHA1D${sha1d}"]]]
 
-	set msnobj "<msnobj Creator=\"$Creator\" Size=\"$size\" Type=\"$type\" Location=\"$file.tmp\" Friendly=\"AAA=\" SHA1D=\"$sha1d\" SHA1C=\"$sha1c\"/>"
+	set msnobj "<msnobj Creator=\"$Creator\" Size=\"$size\" Type=\"$type\" Location=\"[urlencode $file].tmp\" Friendly=\"AAA=\" SHA1D=\"$sha1d\" SHA1C=\"$sha1c\"/>"
 
 	set msnobjcontext([string map {"\n" ""} [::base64::encode "$msnobj\x00"]]) $filename
 	
