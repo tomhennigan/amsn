@@ -108,6 +108,7 @@ closingdocks Botão de terminar minimiza
 command Comando
 commandstatus Executar comando
 confirmdelete Tem a certeza que quer apagar $1?
+confirmpurge Todos os retratos armazenados de outros contactos (não os seus retratos) serão apagados. Tem a certeza?
 confirm Tem a certeza?
 connected Você está ligado
 connecterror Erro ao tentar ligação com o servidor
