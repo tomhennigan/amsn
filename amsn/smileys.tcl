@@ -7,7 +7,7 @@ set emotions {
 	{":-P" smilep} {":P" smilep}  {":-(" sad} {":(" sad} {":-<" sad} {":<" sad} {":-|" disgust} {":|" disgust}
 	{":-S" crooked} {":S" crooked} {":-O" smileo} {":O" smileo} {":'(" smilec} {":`(" smilec2} 
 	{":@" angry}  {":-@" angry} {":->" smiled} {"8o|" aggresive} {":$" smilemb} {":-$" smilemb} {":-#" zip} 
-	{":*" kiss } {":-*" kiss} {":^)" new7} {"8-|" glasses} {"8-)" new5} {"|-)" new4} {"+o(" new3}
+	{":-*" kiss} {":^)" new7} {"8-|" glasses} {"8-)" new5} {"|-)" new4} {"+o(" new3}
 	{"*-)" new2} {"^o)" new1} {"(H)" emhottie} {"(BRB)" brb} {"<:o)" party} {"(A)" angel}  {"(6)" devil}
 	{"(L)" love} {"(U)" unlove} {"(K)" lips} {"(F)" rose} {"(W)" rosew} 
 	
@@ -20,7 +20,7 @@ set emotions {
 	
 	{"(*)" emstar} {"(S)" emsleep} {"(R)" rainbow} {"(ST)" rain} {"(#)" sun} {"(LI)" storm} {"(IP)" island}
 	
-	 {"(&)" dog} {"(@)" emcat} {"(TU)" turtle} {"(SN)" turtle} {"(BAH)" turtle} {":-\[" vampire} {":\[" vampire}
+	 {"(&)" dog} {"(@)" emcat} {"(TU)" turtle} {"(SN)" snail} {"(BAH)" sheep} {":-\[" vampire} {":\[" vampire}
 	 
 	 {"(M)" messenger} {"(\{)" boyhug} {"(Z)" emboy} {"(\})" girlhug} {"(X)" emgirl} {"(Y)" thumbu} {"(N)" thumbd} 
 	 {"(YN)" fingerscrossed} {"(h5)" hifive}
