@@ -1,7 +1,7 @@
 amsn_lang_version 2
 about Kuhusu
-accept Kubali
 acceptfile Kubali faili $1, ukubwa $2? Imeifadhiwa kwenye $3
+accept Kubali
 actions Vitendo
 addacontact Ongeza muongeaji
 addedyou amekuongeza kwenye orodha yake ya waongeaji
@@ -13,6 +13,7 @@ adverts Matangazo
 alarmpref Mipangilio ya sauti kwa mtumiaji
 alarmstatus ZIMA/WASHA sauti kwa mtumiaji huyu
 allowseen Mruhusu mtu huyu kuniona na kuwasilina nami nipokuwa natumia
+appearance Muonekano
 appearoff Onekana sijaunganishwa
 areacode Kodi ya Eneo
 aretyping $1 wana chapa ujumbe
@@ -25,17 +26,17 @@ autoidle Auto Sijishughulishi
 autoip IP ya atuomatiki
 autonoact Nionyesha kama "Sijushughulishi" ninapokuwa sifanyi
 avoidseen Epuka mtu huyu kuniona na kuwasiliana nami ninapokuwa natumia
-away Nipo mbali
 awaymsg1 Uliza kwa ujumbe wa kuwa mbali kila mara ninapobadilisha hali yangu kuwa Mbali/NSH/Nashughuri
 awaymsg2 Usiniulize na mara zote tumia ujumbe wa kuwa mbali ufatao chini
+away Nipo mbali
 baduserpass Jina la mtumiaji au neno-siri si la kweli
 bgcolor Badilisha rangi ya  nyuma ya aMSN
 blankdirect Acha wazi kwa muunganisho wa moja kwa moja
-block Zuia
 blocked Amezuiwa
+block Zuia
 broughtby  Imeretwa kwako na watengenezaji wafuatao
-browse Tandaa
 browser Kitandaaji
+browse Tandaa
 busy Ninashughuli
 cancel Sitisha
 cfgalarm Panga/Ongeza/Ondoa Sauti
@@ -59,8 +60,8 @@ clicktologin Bofya hapa kuingia
 close Funga
 closingdocks Batoni ya kufunga inafupisha
 command Amri
-confirm Unauhakika?
 confirmdelete Ni kweli unataka kufuta $1?
+confirm Unauhakika?
 connecterror Tatizo katika kuunganisha na pragramu-tumishi
 connection Muunganisho
 contactadded Muongeaji ameongezwa
@@ -76,13 +77,14 @@ dcprofile Usitengeneze Utashi
 default Mpangilio wa awali
 delete Futa
 deliverfail kulikuwa na tatizo katika kupeleka ujumbe ufuatao
-delprofile Futa Utashi
 delprofile2 Chagua Utashi unaotaka uondelewe
+delprofile Futa Utashi
 dockgtk Gnome Doki
 docking Inadoki
 dockingoff Doki Imezimwa
 dockkde KDE Doki
 edit Hariri
+editprofile Hariri Utashi
 enableproxy Ruhusu proksi
 encoding2 Badilisha jinsi herufi zako zinavyoumbwa
 encoding Chagua aina ya maandishi
@@ -94,6 +96,7 @@ exitamsn Unataka kufunga?
 extras Huduma zaidi
 faq MYM (Maswali yajibiwayo mara kwa mara)
 filedoesnotexist Faili halipo
+fileman Meneja ya Faili
 filename Jina la faili
 filetransfercancelled Muamisho wa faili umesitishwa
 filetransfercomplete Muamisho wa faili umekamilika
@@ -113,6 +116,7 @@ groupunknown Kundi lisilijulikana
 handle Hendo
 helpcontents Yaliyomo kwenye msaada
 help Msaada
+history Ongalia Historia
 home Nyumbani
 ident Inatambulisha
 identity Utambulisho
@@ -120,6 +124,7 @@ inbox Sanduku-Kuingia
 invalidusername Jina la mtumiaji siyo la kweli
 invite Karibisha
 ipaddress Anuani ya IP
+ipdetect Chunguza IP sahihi kwa ajili ya Kuhamisha Faili kwa kutumia HTTP
 istyping $1 anaandika ujumbe
 joins $1 anajiunga na mazungumzo
 keepalive Acha iishi (NAT)
@@ -135,6 +140,7 @@ leaves $1 aacha mazungumzo
 lenteredconf $1 ameingia kwenye kusanyiko katika $2
 linprivate PEMBENI
 listeningon Sikiliza katika poti $1
+listsmileys2 Onyeasha Aikoni za Hisia na visura kwenye orodha kuu ya 
 listsmileys Orodhesha visura
 ljoinedconf $1 amejiunga na kusanyiko
 lleftconf  $1 ametoka kwenye kusanyiko
@@ -144,6 +150,7 @@ logfandexp Kuisha kwa wakati kwa Ukubwa wa Faili za Heabu na historia
 loggedotherlocation Ajaunganishwa. Ameingia sehemu nyingine
 loggingin Unaingia
 loginas Ingia kama
+loging Inaweka hesabu
 login Ingia ndani
 logolder Hesabu za maongezi tu ambazo zimetokea kwa
 logout Toka nje
@@ -158,8 +165,8 @@ mins dakika
 mobile simu ya mkononi
 movetogroup Nenda kwenye Kundi
 msgmaxmin Ujumbe mpya ukija, nataka uwe :
-msg Ujumbe
 msgmode Chagua jinsi ya kushughulikia madirisha ya ujumbe zaidi ya mmoja :
+msg Ujumbe
 msn AMSN
 mustrestart Inakubidi kuanzisha pragramu upya ili mabadiliko yatokee
 myhomephone Simu Yangu ya Nyumbani
@@ -175,13 +182,13 @@ newmsg Ujumbe mpya
 newveravailable Toleo jipya $1 linapatika kwa kutelemsha
 next Inayofuatia
 noactivity Hajishughulishi
+nologfile Hakuna Faili ya Hesabu ya $1
 nonewmail Hakuna ujumbe mpya katika sanduku-kuingia
 nonewver Hakuna toleo jipya kwa ajili kutelemsha
 normal Kawaida
 notify1 Onyesha dirisha la kufahamishia wakati waongeaji wanapojiunga
 notify2 Onyesha dirisha la kufahamishia wakati ujumbe mpya unapofika
 notify3 Onyesha dirisha la kufahamishia wakati barua-p zinapofikia 
-sanduku-kuingia
 notify fahamisha
 notifyoffset Panga sehemu ya dirisha la kufahamishia kwa kulipa umbali wa sehemu
 notifywin dirisha la kufahamishia
@@ -199,6 +206,7 @@ other Nyingine
 pager Peja
 pass Neno-siri
 paste Gundika
+personal Pesono
 phone Simu
 picfile Faili ya picha (GIF < 500 x 500)
 picstatus Sauti ya picha
@@ -218,8 +226,8 @@ prefname Jina/jina la kutima langu la MSN Mesenja
 prefphone2 Chapa namba za simu ambazo unataka watu \n katika oradha ruksa yako kuona \n
 prefphone Namba Zangu za Simu
 prefprofile2 Tengeneza au rekebisha utashi wako kwa wote kuona (\nmaelezo juu yako ambayo wengine wataona)
-prefprofile Utashi wangu kwa wote
 prefprofile3 Utashi wa Mpangilio wa mtumiaji wa aMSN
+prefprofile Utashi wangu kwa wote
 prefproxy Mipangilio yangu ya Proksi
 prefsession Kusaini kwangu na Hali halisi
 prefshared Miunganisho ya kushirikiana (kwa NAT tu)
@@ -239,9 +247,11 @@ reject Kataa
 rememberpass Kumbuka neno-siri
 reversed Imewekwa kinyume
 rightback Narudi sasa hivi
+sanduku-kuingia
 saveas Hifadhi kama
 savecontacts Hifadhi orodha ya waongeaji
 save Hifadhi
+savetofile Hifadhi kwenye Faili
 says $1 anasema
 sbcon Inangaunisha kweye meza ya mitambo
 sendfile Tuma faili
@@ -253,10 +263,11 @@ servergoingdown Imekatishwa: Progamu-tumishi inazimwa
 server Progamu-tumishi
 session Kipindi
 sound2 Cheza sauti kama waongeaji wanaingia au wanatuma ujumbe
-sound Sauti ya tukio
 soundcommand Hii in amri ya cheza (mfn: esdplay)
 soundfile Faili ya sauti
 soundloop Sauti ya kuzunguka
+sound Sauti ya tukio
+soundserver Programu tumishi ya sauti
 soundstatus Sauti ya alamu
 startoffline2 Saini kimya kimya kama "Onekana Ujaunganishwa"
 startoffline Anza ukiwa ujaunganiswa
@@ -269,8 +280,8 @@ syntaxerror  kosa katika kupanga
 tabbed Madirisha yenye Tabu
 textsize Ukubwa wa maandishi
 title Mesenja ya AL
-tools Vifaa
 to Kwenda kwa
+tools Vifaa
 unblock Ruhusu
 uoffline Wasiounganishwa
 uonline Waliounganishwa
@@ -280,6 +291,7 @@ usernotonline Mtumiaji ajaunganishwa
 version Toleo
 viewprofile Angalia Utashi
 view Tazama
+waongeaji ya aMSN
 willjoin Subiri $1 ajiunge na mazungumzo
 work Kazi
 xoffset nafasi X
