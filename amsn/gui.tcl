@@ -4352,6 +4352,7 @@ proc cmsn_draw_online_wrapped {} {
 	set my_state_desc [trans [::MSN::stateToDescription [::MSN::myStatusIs]]]
 	set my_colour [::MSN::stateToColor [::MSN::myStatusIs]]
 	set my_image_type [::MSN::stateToBigImage [::MSN::myStatusIs]]
+	set my_mobilegroup [::config::getKey showMobileGroup]
 
 	#Clear every tag to avoid memory leaks:
 	foreach tag [$pgBuddy.text tag names] {
@@ -4407,6 +4408,10 @@ proc cmsn_draw_online_wrapped {} {
 	# Defaults already set in setup_groups
 		set glist [list online offline]
 		set gcnt 2
+		if { $my_mobilegroup == 1 } {
+			set glist [linsert $glist 1 "mobile"]
+			incr gcnt
+		}
 		::groups::Disable
 	}
 
@@ -4429,7 +4434,7 @@ proc cmsn_draw_online_wrapped {} {
 	# Configure bindings/tags for each named group in our scheme
 	foreach gname $glist {
 
-		if {$gname != "online" && $gname != "offline" && $gname != "blocked" } {
+		if {$gname != "online" && $gname != "offline" && $gname != "blocked" && $gname != "mobile" } {
 			set gtag  "tg$gname"
 		} else {
 			set gtag $gname
@@ -4652,6 +4657,7 @@ proc cmsn_draw_online_wrapped {} {
 				set gtag "blocked"
 			}
 
+
 		$pgBuddy.text insert end $gtitle $gtag
 
 		} else {
@@ -4662,8 +4668,9 @@ proc cmsn_draw_online_wrapped {} {
 				$pgBuddy.text insert end "[trans uoffline]" offline
 			} elseif { [::config::getKey showblockedgroup] == 1 && [llength [array names emailBList] ] != 0 } {
 				$pgBuddy.text insert end "[trans youblocked]" blocked
+			} elseif { $gname == "mobile" && $my_mobilegroup == 1 } {
+				$pgBuddy.text insert end "[trans Mobile]" mobile
 			}
-
 		}
 		
 		if { [::config::getKey nogap] } {
@@ -4676,6 +4683,7 @@ proc cmsn_draw_online_wrapped {} {
 	::groups::UpdateCount online clear
 	::groups::UpdateCount offline clear
 	::groups::UpdateCount blocked clear
+	::groups::UpdateCount mobile clear
 
 	#Draw the users in each group
 	#Go thru list in reverse order, as every item is inserted at the beginning, not the end...
@@ -4702,7 +4710,12 @@ proc cmsn_draw_online_wrapped {} {
 		if { $state_section == "online"} {
 			::groups::UpdateCount online +1
 		} elseif {$state_section == "offline"} {
-			::groups::UpdateCount offline +1
+			if { [::abook::getContactData $user_login MOB] == "Y" && $my_mobilegroup == 1 } {
+				::groups::UpdateCount mobile +1
+				set state_section "mobile"
+			} else {
+				::groups::UpdateCount offline +1
+			}
 		}
 
 
@@ -4713,6 +4726,8 @@ proc cmsn_draw_online_wrapped {} {
 				set section "tg$user_group"
 
 				if { $section == "tgblocked" } {set section "blocked" }
+
+				if { $section == "tgmobile" } {set section "mobile" }
 
 				::groups::UpdateCount $user_group +1 $state_section
 
@@ -4788,7 +4803,10 @@ proc cmsn_draw_online_wrapped {} {
 					$pgBuddy.text tag add dont_replace_smileys $gtag.first $gtag.last
 				}
 			} else {
-				if { $gname == "blocked" } {
+				if { $gname == "mobile" && $my_mobilegroup == 1 } {
+					$pgBuddy.text insert mobile.last " ($::groups::uMemberCnt(mobile))" mobile
+					$pgBuddy.text tag add dont_replace_smileys mobile.first mobile.last
+				} elseif { $gname == "blocked" } {
 					$pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))" blocked
 					$pgBuddy.text tag add dont_replace_smileys blocked.first blocked.last
 				} else {
@@ -4803,6 +4821,10 @@ proc cmsn_draw_online_wrapped {} {
 		$pgBuddy.text insert offline.last " ($::groups::uMemberCnt(offline))" offline
 		$pgBuddy.text tag add dont_replace_smileys online.first online.last
 		$pgBuddy.text tag add dont_replace_smileys offline.first offline.last
+		if { $my_mobilegroup == 1 } {
+			$pgBuddy.text insert mobile.last " ($::groups::uMemberCnt(mobile))" mobile
+			$pgBuddy.text tag add dont_replace_smileys mobile.first mobile.last
+		}
 
 		if { [::config::getKey showblockedgroup] == 1 && [llength [array names emailBList]] } {
 			$pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))" blocked

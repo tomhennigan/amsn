@@ -1046,7 +1046,16 @@ proc Preferences { { settings "personal"} } {
 	pack $lfcontact.lbcontact.b.brfg -side top -pady 2 -anchor w
 	pack $lfcontact.lbcontact.b.bdal -side top -pady 2 -anchor w
 	pack $lfcontact.lbcontact.b.bdel -side top -pady 2 -anchor w
-	
+
+	## Mobile group ##
+	set lfmobile [LabelFrame:create $frm.lfmobile -text [trans mobilegrp1]]
+	pack $frm.lfmobile -anchor n -side top -expand 1 -fill x
+	label $lfmobile.lbmobile -image [::skin::loadPixmap mobile]
+	pack $lfmobile.lbmobile -side left -padx 5 -pady 5 
+	checkbutton $lfmobile.btmobile -text "[trans mobilegrp2]" -onvalue 1 -offvalue 0 \
+		-variable [::config::getVar showMobileGroup]
+	pack $lfmobile.btmobile  -anchor w -side left -padx 0 -pady 5 
+
 	#compute_size
 	$nb.nn compute_size
 	[$nb.nn getframe groups].sw.sf compute_size
