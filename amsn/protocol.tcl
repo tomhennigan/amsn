@@ -1362,6 +1362,7 @@ proc cmsn_auth {{recv ""}} {
 	 configureMenuEntry .main_menu.actions "[trans sendmail]..." normal
 	 configureMenuEntry .main_menu.actions "[trans sendmsg]..." normal
 
+	 configureMenuEntry .main_menu.file "[trans savecontacts]..." normal
 
          #Publish Phone Numbers
 	 configureMenuEntry .options "[trans publishphones]..." normal
