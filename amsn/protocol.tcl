@@ -2615,7 +2615,7 @@ namespace eval ::Event {
 					run_alarm $typer  $username "[trans says $username]: $body"
 				}
 
-
+				global automessage
 				# Send automessage once to each user
 				if { [info exists automessage] } {
 					if { $automessage != "-1" && [lindex $automessage 4] != ""} {
