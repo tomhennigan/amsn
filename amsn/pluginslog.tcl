@@ -69,7 +69,7 @@ namespace eval ::pluginslog {
 	for {set count 0} {$count < [array size log]} {incr count} {
 		set x [expr $count + $idx]
 		if { $x > 499 } {
-			set x 0
+			incr x -500
 		}
 		set plugin [lindex $::pluginslog::log($x) 0]
 		#if no filters, show all
