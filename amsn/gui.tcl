@@ -1666,7 +1666,7 @@ namespace eval ::amsn {
 			if { [::config::getKey leavejoinsinchat] == 1 } {
 				::amsn::WinWrite $chatid "\n" green "" 0
 				::amsn::WinWriteIcon $chatid minijoins 5 0
-				::amsn::WinWrite $chatid " [trans joins [::abook::getDisplayNick $usr_name]]" green "" 0
+				::amsn::WinWrite $chatid "[timestamp] [trans joins [::abook::getDisplayNick $usr_name]]" green "" 0
 			}
 		}
 
@@ -1703,7 +1703,7 @@ namespace eval ::amsn {
 			if { [::config::getKey leavejoinsinchat] == 1 } {
 				::amsn::WinWrite $chatid "\n" green "" 0
 				::amsn::WinWriteIcon $chatid minileaves 5 0
-				::amsn::WinWrite $chatid " [trans leaves $username]" green "" 0
+				::amsn::WinWrite $chatid "[timestamp] [trans leaves $username]" green "" 0
 			}
 
 		} else {
