@@ -1,173 +1,319 @@
-FAQ 1.6 (vertaling van de Engelse 1.6-versie)
+FAQ 1.8
 -------
 
-V:Wat is aMSN?
-A:aMSN is een MSN Messenger-kloon. Je kan er mee in contact blijven over internet met je vrienden en 'instant messages' (directe berichten) en bestanden uitwisselen.
+V: Wat is aMSN?
+A: aMSN is een kloon van de MSN Messenger van Microsoft. Je kunt het
+gebruiken om via internet contact te onderhouden met je vrienden, door
+het uitwisselen van berichten en bestanden.
 
-INSTALLATIE EN OPSTARTEN
-======================
+INSTALLEREN EN OPSTARTEN
+========================
 
-V:Wat heb ik nodig om aMSN te gebruiken?
-A:aMSN is geschreven in tcl/tk, dus heb je een werkende tcl/tk-interpreter nodig (tcl/tk is een scripting-taal en hoeft niet gecompileerd te worden in machinetaal maar wordt door een 'interpreter' (een soort tolk) 'on the fly' vertaald naar machinetaal) - versie 8.3 of later. Je kan deze vinden op http://tcl.sourceforge.net. De 'interpreter' is beschikbaar voor Linux-systemen, Windows en Macintosh-systemen.  Sommige bijkomende mogelijkheden vereisen enkele extra programma's en bibliotheken, zoals het icoontje in het systeemvak ('systray' genoemd in Windows), de MSN-avatars (ook 'Schermafbeeldingen' genoemd) of de SSL-verbinding voor het MSN Protocol versie 9.
+V: Wat heb ik nodig om aMSN te gebruiken?
+A: Amsn is geschreven in tcl/tk, dus je hebt slechts een werkende tcl/tk
+interpreter nodig, versie 8.3 of nieuwer. Deze is te downloaden van
+http://tcl.sourceforge.net. Deze interpreter is beschikbaar voor linux,
+windows en macintosh. Enkele aanvullende functies, zoals het systeemvak-
+pictogram, de Schermafbeeldingen, en de door middel van SSL beveiligde
+verbinding voor MSN Protocol 9, kunnen extra programma's of bibliotheken
+nodig hebben.
 
-V:Hoe installeer en gebruik ik aMSN op unix/linux-systemen? 
-A: Download gewoon het bestand amsn-x_xx.tar.gz.  Pak het uit met de volgende commando's:
+V: Hoe installeer en gebruik ik aMSN op unix/linux-systemen? 
+A: Download het amsn-x_xx.tar.gz bestand. Pak het uit met de opdracht:
+  gzip -d amsn-x_xx.tar.gz
+  tar xvf amsn-x_xx.tar
+Er wordt een map aangemaakt met de naam 'msn'.
+aMSN is nu geïnstalleerd en gebruiksklaar.
+Doe het volgende om aMSN te starten:
+  cd msn
+  ./amsn
+of als dat niet werkt, probeer
+  wish amsn
+Als het commando 'wish' niet bestaat, dan is tcl/tk niet geïnstalleerd.
+Wanneer "wish amsn" wel werkt, maar "./amsn" niet, pas dan het bestand
+'amsn' aan, en corrigeer het pad naar 'wish' op de eerste regel.
+De standaard-instelling is: '/usr/bin/wish'
 
-	gzip -d amsn-x_xx.tar.gz  
-	tar xvf amsn-x_xx.tar
-of
-	tar xvzf amsn-x_xx.tar.gz
+V: Hoe schakel ik de 'Schermafbeeldingen' in?
+A: Ga, nadat je ImageMagick geïstalleerd hebt, in aMSN naar het venster
+'Voorkeuren'.  Ga naar het tabblad 'Overigen'.  Ga naar het invoerveld
+'CONVERT' en klik op 'Verkennen'. Ga dan naar de map waar je ImageMagick
+geïnstalleerd hebt en selecteer het uitvoerbare bestand 'convert' (onder
+windows 'CONVERT.EXE'). Klik op 'Openen', sla de aanpassingen op en start
+aMSN opnieuw.
+Open nu opnieuw het venster 'Voorkeuren' en controleer of de optie 'De
+schermafbeelding van anderen weergeven tijdens gesprekken' (Op het tabblad
+'Geavanceerd') ingeschakeld is, deze zou automatisch uitgeschakeld kunnen
+zijn aangezien het programma ImageMagick niet beschikbaar was.
 
-PS: In de bekendste bureaubladomgevingen kan je dit ook uitpakken door op het bestand te (dubbel)klikken
+V: Wanneer ik vanuit een grafische browser zoals konqueror of nautilus
+dubbelklik op het bestand 'amsn' opent dit het bestand in een teksteditor
+i.p.v. dat aMSN wordt gestart!
+A: aMSN is geschreven in tcl/tk, een geinterpreteerde taal, dus het bestand
+'amsn' is niet meer dan een tekstbestand met daarin de programmacode van
+aMSN.  Het bestandsbeheer zou dus kunnen denken dat het een gewoon tekstbestand
+is en het daarom openen in een teskteditor. Om aMSN te starten kun je dan
+"Openen met..." (of iets dergelijks) kiezen en het programma 'wish' gebruiken
+om het bestand 'amsn' te openen. En, zoals al eerder vermeldt, als het 'wish'
+niet bestaat, is tcl/tk niet (goed) geïnstalleerd.
 
-Het zal een map 'msn/' aanmaken en aMSN is geinstalleerd en klaar voor gebruik.
-Om het programma te starten ga je in de map ( typ "cd msn" ) en start het met "./amsn" als dit niet lukt, probeer dan eens "wish amsn".
-Als het 'wish'-commando niet bestaat, heb je tcl/tk niet goed geïnstalleerd. Als "wish amsn" werkt maar "./amsn" niet, open dan het bestand met een tekst-editor en pas het 'path' van wish aan in de eerste lijn zodat het correct is (standaard staat dit op /usr/bin/wish).
-
-
-V:Hoe zet ik de 'Schermafbeeldingen' aan na het downloaden van ImageMagick?
-A:Ga, nadat je ImageMagick geïstalleerd hebt, naar aMSN's 'Opties'-dialoog.  Klik op het tabblad 'Overigen'.  Ga onderaan naar het invoerveld 'CONVERT' en klik op 'Verkennen'.  Ga dan naar de map waar je ImageMagick geïnstalleerd hebt en selecteer de binary (het uitvoerbaar bestand - onder windows 'CONVERT.EXE' genoemd). Klik op 'Openen', sla de aanpassingen op en herstart dan aMSN. Open dan opnieuw het 'Opties'-dialoogvenster en controleer of de optie "Schermafbeelding standaard tonen bij openen van een gespreksvenster" aangevinkt is, deze zou automatisch uitgeschakeld kunnen zijn aangezien het programma "CONVERT.EXE" niet kon vinden.
-
-
-V:Wanneer ik vanuit een grafische browser zoals konqueror of nautilus dubbelklik op het bestand 'amsn' opent dit het bestand in een teksteditor ipv het programma te starten!
-A:aMSN is geschreven in tcl/tk, een geinterpreteerde taal (zie eerste vraag), dus het bestand 'amsn' is niet meer dan een tekstbestand met daarin de programmacode van aMSN.  Het bestandsbeheer zou dus kunnen denken dat het een gewoon tekstbestand is en het daarom openen in een teskteditor. Om aMSN te starten kun je dan "Open met..." (of iets dergelijks) kiezen en het programma 'wish' kiezen.  Als het programma 'wish' niet bestaat, is tcl/tk niet (goed) geïnstalleerd.
-PS: Controleer ook of je als gebruiker de permissie hebt om het bestand uit te voeren!
-
-V:Hoe maak ik een snelkoppeling voor aMSN aan op mijn bureaublad ?
-A:Dit kan op 1 van de volgende manieren:
-	1) Voeg een icoontje toe op je bureaublad dat het volgende commando uitvoert:
+V: Hoe maak ik een snelkoppeling naar aMSN op mijn bureaublad?
+A: Dit kan op de volgende manieren:
+	1) Maak een snelkoppeling op je bureaublad naar:
 		/waar/amsn/geinstalleerd/is/amsn
 			(bv. /home/jouwnaam/msn/amsn)
-	2) Maak als superuser ('root') een link aan in /usr/bin naar het amsn-bestand:
+	2) Maak als 'root' een link aan in /usr/bin naar het amsn-bestand:
 		ln -s /waar/amsn/geinstalleerd/is/amsn /usr/bin/amsn
-	  Zo kan je amsn uitvoeren door gewoon "amsn" als commando op te geven,van waar je ook bent in je bestandssysteem
-	  Maak dan een icoontje aan op je desktop dat het commando 'amsn' uitvoert.
+	  Zo kun je amsn uitvoeren door gewoon "amsn" als commando op te geven,
+	  ongeacht in welke map je je op dat moment bevindt.
+	  Maak dan een pictogram aan op je bureaublad voor het commando 'amsn'.
 
 
-V:Hoe krijg ik zo een icoontje in het systeemvak van Gnome/KDE ?
-A:	*Voor Gnome 1.x, typ 'make' in de plugins-map onder de amsn-map
-	 Nadat de plugin gemaakt is selecteer je gewoon "Gnome systeemvak" in het menu
-	 Extra > Systeemvak
-	*Voor de nieuwe freedesktop(GNOME2/KDE3)-plugin, lees het README-bestand in utils/linux/traydock (in de aMSN-map)
-
+V: Hoe krijg ik zo een icoontje in het systeemvak van Gnome/KDE ?
+A: * Om de OUDE GNOME1 plugin te compileren moet je 'make' draaien in de map
+     'plugins' van je aMSN-installatie. Hiervoor moeten wel de ontwikkel-
+     bibliotheken van Gnome op je systeem aawezig zijn. Nadat de plugin is
+     gecompileerd hoef je enkel nog in het menu Extra -> Systeemvak de optie
+     'Gnome systeemvak' in te schakelen.
+   * Voor de nieuwe freedesktop(GNOME2/KDE3)-plugin, lees het bestand README
+     in de map utils/linux/traydock van je aMSN-installatie.
 
 GEBRUIK
 =======
-V:Wat betekenen de magenta gekleurde contacten in [BL]-lijst ? En die rare tekentjes voor sommige schuilnamen in mijn contactenlijst ?
-A:Dit betekent dat jij niet bent toegevoegd aan de contactenlijst van die contactpersoon.
 
-V:Kan ik een contactadres kopiëren naar het klembord ?
-A:Zeker, klik rechts op de naam van de contactpersoon in de contactenlijst en klik op z'n adres in het pop-up-menu.  Het adres van deze contactpersoon wordt dan naar het klembord gekopiëerd.
+V: Wat betekent dat pictogram voor sommige schermnamen in mijn contactenlijst?
+A: Dit betekent dat die contactpersoon jou niet in zijn of haar contactenlijst
+heeft staan.
 
-V:Hoe kan ik terugbladeren naar de berichten die ik verzond eerder in het gesprek?
-A:Om enkel de eerder verzonden berichten in een gespreksvenster weer te geven, moet je de Ctrl toets gebruiken in combinatie met de pijltjes-toetsen.  Met Ctrl-Omhoog krijg je het vorige bericht en met Ctrl-Omlaag dat erna, net zoals in een shell.
+V: Kan ik een e-mailadres van een contactpersoon kopiëren naar het klembord?
+A: Zeker, klik met de rechter muisknop op de naam van de contactpersoon in de
+contactpersonenlijst en klik op het adres in het pop-up-menu. Het adres van
+deze contactpersoon wordt dan naar het klembord gekopiëerd.
 
-----
+V: Kan ik terugbladeren naar de berichten die ik eerder in het gesprek verzond?
+A: Ja, om de eerder verzonden berichten in een gespreksvenster weer te geven,
+hoef je slechts de Ctrl toets te gebruiken in combinatie met de pijltjes-toetsen.
+Met Ctrl-Omhoog krijg je het vorige bericht en met Ctrl-Omlaag dat erna, net zoals
+in een shell.
 
-V:Wat betekenen de 4 lijsten op het tabblad 'Privacy' in het opties-dialoogvenster ?
-A:Er zijn er 4 lijsten: de "Geaccepteerd", "Geblokkeerd", "Omgekeerde lijst" en "Mijn contactpersonen".  De lijsten hebben de volgende betekenis:
-	Geaccepteerd: Deze lijst bevat de email-adressen van de mensen die jou mogen zien als je online bent en met jou een conversatie kunnen hebben als je niet offline bent.
-	Geblokkeerd: Deze lijst bevat de mensen die jij blokkeert.  Ze kunnen niet zien wanneer je online bent en kunnen je ook geen berichten zenden.
-	Omgekeerde lijst: De lijst van alle mensen die jou hebben toegevoegd aan hun contactenlijst.
-	Mijn contactpersonen: Dit zijn jouw contactpersonen.
+V: Wat betekenen de lijsten op het tabblad 'Privacy' in het venster 'Voorkeuren'?
+A: De vier lijsten hebben de volgende betekenis:
+   
+   [AL] Geaccepteerd: Deze lijst bevat de e-mail adressen van de mensen die kunnen
+   zien of jij online bent en een gesprek met jou kunnen beginnenwanneer je niet
+   offline bent.
+   
+   [BL] Geblokkeerd: Deze lijst bevat de adressen van de personen die jij hebt
+   geblokkeerd. Ze kunnen niet zien wanneer jij online bent en kunnen je ook geen
+   berichten sturen.
+   
+   [RL] Omgekeerde lijst: De e-mail adressen alle mensen die jou hebben toegevoegd
+   aan hun contactpersonenlijst.
+   
+   [FL] Mijn contactpersonen: Dit zijn jouw contactpersonen.
 
-V:Ik wil m'n zelf gemaakte smileys (lachebekjes/emoticons) toevoegen, hoe kan ik dat doen?
-A:Er is een nieuwe knop in het smileys-menu waarmee je dit kunt doen. Klik op "maak een nieuwe emoticon" en er verschijnt een vensterje waar je de gevraagde invoegvelden moet invullen.
-De 'omschrijving' is wat verschijnt als tooltip-tekst wanneer je er met je muis overheen gaat, de "Tekst triggers" zijn de dingen die je kan typen om deze emoticon te laten verschijnen (bv ;) voor een knipoogje).  Om meedere zulke "Triggers" te gebruiken moet je ze achter elkaar zetten, gescheiden door een spatie.  Om een trigger met een spatie erin toe te voegen moet je deze tussen dubbele aanhalingstekens zetten, bv. "mijn lachebekje".
-Bijvoorbeeld: "Hallo daar", "hey", "hey daar"
-Hiermee stel je 3 'triggers' in voor eenzelfde smiley.
+V: Ik wil mijn zelfgemaakte emoticons toevoegen, hoe doe ik dat?
+A: Er is een knop in het emoticons-menu waarmee je dit kunt doen. Klik op "Maak
+een nieuwe emoticon" en er verschijnt een venster waar je de gegevens voor jou
+emoticon kunt invullen.
 
-Bij "Bestandsnaam van de emoticon" moet de naam van het .gif-bestand van je emoticon.  Deze moet bij voorkeur 19 bij 19 pixels zijn, om het emoticons-menu correct te laten werken. Je kan hier de volledige locatie van het bestand geven - gebruik hiervoor de knop "Verkennen", of gewoon de bestandnaam als dit bestand zich bevindt in ~/.amsn/<profile>/smileys of msn/skins/<skin>/smileys.
-Het "alarmgeluid" is een geluid dat wordt afgespeeld als de smiley wordt getoond. Bv een geluid van een lach bij een lachend gezichtje.  Dit kan elk soort geluidsbestand zijn dat ge geluids-afspeel-commando (dat je instelt onder Opties>Overige) aan kan. Om dit te laten afspelen moet je ook wel nog "Geluid afspelen" aanklikken.
-Als je een animated gif (bewegende smiley) gebruikt en je wilt dat de emoticon beweegt moet je dit ook aanklikken.  Je kan ook aanklikken om de nieuwe emoticon niet te tonen in het smileys-menu, je kan 'm dan nog wel gebruiken a.d.h.v. de "triggers".
-Om je nieuwe smiley te gebruiken moet je na 't invullen van alle gegevens enkel nog op 'Ok' klikken, en als er geen foutmelding(en) word(en/t) getoond (bijv. omdat je iets vergeten bent in te vullen of omdat de opgegeven bestanden niet bestaan) is je emoticon gebruiksklaar!
+Omschrijving : Een omschrijving van de emoticon al tooltip-tekst.
 
-V:De schermnamen zijn nu afgekort.  Kan je ze weer volledig laten verschijnen in de contactenlijst, het gespreksvenster enz.?
-A:Zeker! Je kan dit instellen in het Opties-venster onder het tabblad 'Geavanceerd'.
+Tekst triggers: Tekens die je kunt typen om deze emoticon te laten verschijnen
+ (zoals bv ;-) voor een knipoogje). Om meedere zulke "triggers" te gebruiken
+ moet je ze achter elkaar zetten, gescheiden door een spatie. Om een trigger met
+ een spatie erin toe te voegen moet je deze tussen dubbele aanhalingstekens
+ zetten, bv. "mijn lachebekje".
+ Bijvoorbeeld: "Hallo daar" hey "hey daar"
+ Hiermee stel je 3 'triggers' in voor eenzelfde smiley.
 
-V:Is de blokkeer-detectie niet meer mogelijk in deze versie ? 
-A:Het was door een fout in het vorige MSN-protocol dat we dit konden doen, Microsoft heeft deze fout opgelost en dus kunnen we deze optie niet meer gebruiken en hebben we deze dus weggelaten.
+Bestandsnaam van de emoticon: De naam van het .gif-bestand van je emoticon.
+ Deze moet bij voorkeur 19 bij 19 pixels zijn, om het emoticons-menu correct
+ te laten werken. Je kan hier de volledige locatie van het bestand geven -
+ gebruik hiervoor de knop "Verkennen", of gewoon de bestandnaam als dit bestand
+ zich bevindt in ~/.amsn/<profile>/smileys of msn/skins/<skin>/smileys.
+ 
+Alarmgeluid: is een geluid dat wordt afgespeeld als de smiley wordt getoond.
+ Bv een geluid van een lach bij een lachend gezichtje.  Dit kan elk soort
+ geluidsbestand zijn dat het geluid-afspeel-commando (dat je instelt onder
+ Voorkeuren > Overige) aan kan. Om dit te laten afspelen moet je wel ook
+ "Geluid afspelen" inschakelen.
+
+Als je een animated gif (bewegende smiley) gebruikt en je wilt dat de emoticon
+beweegt moet je dit ook inschakelen.  Je kunt ook instellen dat de nieuwe
+emoticon niet in het smileys-menu getoond moet worden, je kunt die dan nog wel
+gebruiken a.d.h.v. de "triggers".
+
+Om je nieuwe smiley te gebruiken hoef je na 't invullen van alle gegevens enkel
+nog op 'Ok' te klikken, en als er geen foutmelding(en) word(en/t) getoond
+(bijv. omdat je iets vergeten bent in te vullen of omdat de opgegeven bestanden
+niet bestaan) is je emoticon gebruiksklaar!
+
+V: De schermnamen zijn nu afgekort. Kun je ze weer volledig laten verschijnen
+in de contactpersonenlijst, het gespreksvenster enz.?
+A: Ja, je kunt dit instellen in het venster 'Voorkeuren', op het tabblad
+'Geavanceerd' onder het kopje 'Weergave'.
+
+V: De blokkeer-detectie is niet meer aanwezig in deze versie, waarom? 
+A: Vanwege een fout in het vorige MSN-protocol was het mogelijk om te detecteren
+of iemand je geblokkeerd had. Deze fout is inmiddels verholpen. Het heeft dus
+geen enkele zin meer om de blokkeer-detectie beschikbaar te houden, het werkt toch
+niet meer.
 
 
 PROBLEEMOPLOSSING
 =================
 
-V:Soms lijkt aMSN te haperen, of 'hangt' het zelfs, hoe komt dit?
-A:Wanneer aMSN gaat 'hangen' is dit meestal een probleem met je geluids-configuratie.  Misschien probeert aMSN een geluidje te spelen maar is je geluidsapparaat bezet, en wacht het afspeel programma dat u gebruikt  tot dit weer vrij is.  Probeer eens de geluidjes af te zetten of je geluidsconfiguratie aan te passen.
+V: Soms lijkt aMSN te haperen, of 'hangt' het zelfs, hoe komt dit?
+A: Als aMSN 'hangt' is dit meestal een probleem met je geluids-configuratie.
+Misschien probeert aMSN geluid af te spelen maar is het geluidsapparaat bezet,
+en wacht het afspeelprogramma dat u gebruikt tot dit weer vrij is. Probeer
+eens het geluid uit te schakelen of je geluidsconfiguratie aan te passen.
 
-
-V:Ik probeer aMSN te starten maar krijg volgende foutmelding:
+V: Ik probeer aMSN te starten maar krijg deze foutmelding:
 	bash: ./amsn: bad interpreter: No such file or directory
-A:Dit betekent dat de tcl/tk paketten niet (juist) geinstalleerd zijn, en je hebt deze nodig voor de wish-interpreter. Als je denkt dat het wel juist is geinstalleerd, probeer dan eens "wish amsn" ipv "./amsn".  Als dit werkt, pas dan in het amsn-bestand de eerste regel ("#!/usr/bin/wish) aan met de juiste locatie van de interpreter.
+A: Je moet de tcl/tk pakketten geïnstalleerd hebben omdat aMSN de interpreter
+'wish' nodig heeft. Als je denkt dat die wel op je systeem aanwezig is,
+probeer dan eens 'wish amsn' i.p.v. './amsn'. Werkt dit? Pas dan de eerste
+regel van het bestand 'amsn' aan. Standaard staat daar:
+ #!/usr/bin/wish
+ wijzig dit in het correcte pad naar 'wish' op uw systeem.
 
-
-V:Wanneer ik aMSN start krijg ik volgende foutmelding:
-Error in startup script: bad option "map": must be compare, first, index, last, length, match, range, tolower, toupper, trim, trimleft, trimright, wordend, or wordstart while executing
+V: Wanneer ik aMSN start krijg ik volgende foutmelding:
+Error in startup script: bad option "map": must be
+compare, first, index, last, length, match, range,
+tolower, toupper, trim, trimleft, trimright, wordend,
+or wordstart
+while executing
 "string map $map $md5body"
 (in namespace eval "::md5" script line 65)
 invoked from within
 "namespace eval ::md5 { ... etc
-A:Dit betekent dat je een te oude versie van tcl/tk gebruikt.  Installeer versie 8.3 of nieuwer.
+A: Dit betekent dat je een te oude versie van tcl/tk gebruikt.
+Installeer versie 8.3 of nieuwer.
 
 
-V:Nadat ik een nieuwe versie van aMSN installeerde kreeg ik volgende foutmelding:
-Error in startup script: expected integer but got "" while executing
-"font create menufont -family $family -size $size -weight normal"
+V: Nadat ik een nieuwe versie van aMSN installeerde kreeg ik volgende foutmelding:
+Error in startup script: expected integer but got ""
+while executing
+"font create menufont -family $family -size $size
+-weight normal"
 (procedure "::amsn::initLook" line 5)
 invoked from within
 "::amsn::initLook $family $size $config(backgroundcolor)"
 (file "amsn" line 2184)
-A:Er zijn enkele aanpassingen gebeurt in het configuratiebestand. Verwijder het oude bestand ( /home/yourusername/.amsn/config ) en laat het programma een nieuw aanmaken.
+A: Er zijn enkele aanpassingen gebeurt in het configuratiebestand. Verwijder het
+oude bestand ( /home/yourusername/.amsn/config ). aMSN zou nu weer moeten werken.
+
+V: Ik kan geen speciale tekens invoeren in aMSN, voor talen met andere tekens
+dan het engelse alfabet, zoals bijvoorbeeld chinees of japans.
+A: Het schijnt dat programma's zoals xcin door de huidige tcl versie niet worden
+ondersteund, en daarom werkt het dus ook niet in aMSN. Je zult helaas moeten
+wachten op een volgende tcl/tk versie die hier wel mee om kan gaan. Ondertussen
+kun je je behelpen door de tekst in een andere editor te typen, en in het aMSN
+gespreksvenster te plakken.
+Nieuw: Internationalisatie kopiëren en plakken. Als je problemen hebt met het
+plakken van tekens in aMSN, download en installeer dan de volgende pakketten:
+http://jfontain.free.fr/tcl-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tk-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tcl-thread-8.4a3-2.i386.rpm
+Merk op dat dit een manier kan zijn om om het probleem met het in aMSN typen van
+tekst in jouw taal heen te werken, zoals Traditioneel Chinees met xcin.
+
+V: Kan ik aMSN gebruiken achter een proxy-server?
+A: Ja, na versie 0.61 is proxy-support aanwezig. Om erachter te komen
+welke proxy-types uw versie van aMSN ondersteund, moet u even op het tabblad
+'Verbinding' van het venster 'Voorkeuren' kijken.
 
 
-V:Kan ik aMSN gebruiken achter een proxy-server?
-A:Zeker, na versie 0.61 is proxy-support aanwezig. Om erachter te komen welke proxy-types uw versie van aMSN ondersteund, moet u even op het tabblad 'Verbinding' van het opties-dialoog kijken.
+V: aMSN lijkt ingelogd, maar wanneer in een gesprek wil starten of mijn status
+wil veranderen valt mijn verbinding weg. Dit gebeurt vaak, soms na enkele minuten
+inactiviteit. Waarschijnlijk ben ik achter een firewall of router.
+A: Probeer eens de optie "Verbinding in stand houden (NAT)" in te schakelen (je
+vindt deze in het venster 'Voorkeuren' onder 'Geavanceerd'). Deze optie zendt om
+de 2 minuten een pakketje naar de server zodat de verbinding actief blijft.
 
+V: De geluidjes worden niet gespeeld wanneer ik naar muziek luister met bv. XMMS
+maar opgehoopt en nadat XMMS is afgesloten, of het liedje is afgelopen, allemaal
+na elkaar afgespeeld, en ik kan dat vervelende ge-'pling' niet stoppen. Wat kan
+ik doen om het op een normale manier te laten functioneren?
+A: Je kunt dit op verschillende manieren oplossen.  Als je Gnome gebruikt, kun je
+aMSN het geluid laten spelen door esd, de Gnome geluidsserver, gebruik hiervoor
+als geluidscommando 'esdplay'. Onder KDE kun je geluid laten afspelen door aRts,
+de KDE geluidsserver. Gebruik hiervoor 'artsplay' als geluidscommando. (Deze moet
+je opgeven in het venster 'Voorkeuren', tabblad 'Overigen'.) Op deze manier zouden
+de geluidjes gemixt moeten worden.
 
-V:aMSN lijkt ingelogd, maar wanneer in een gesprek wil starten of mijn status wil veranderen valt mijn verbinding weg.  Dit gebeurt vaak, soms na enkele minuten inactiviteit.  Waarschijnlijk ben ik achter een firewall of router.
-A:Probeer eens de optie "Verbinding in stand houden (NAT)" in te schakelen (je vindt deze in het 'Opties'-dialoogvenster onder 'Geavanceerd).  Deze optie zendt om de 2 minuten een pakketje naar de server zodat de verbinding actief blijft.
+V: Ik gebruik aMSN achter een firewall of gebruik IP-Masquerade. Ik kan hierdoor
+blijkbaar geen bestanden verzenden, kan ik dit oplossen?
+A: Misschien blokkeert de firewall inkomende verbindingen. Bestandsoverdrachten
+werken op volgende manier: Wanneer jij iemand een bestand wil zenden, zend je een
+uitnodiging met je IP-adres en een poortnummer, daarop zal de andere kant een
+verbinding maken met je IP-adres:poort om de overdracht te starten.
+De gebruikte poort is meestal 6891 of een hoger poort-nummer naargelang het aantal
+overdrachten. (De eerste gebruikt poort 6891, de tweede 6892 enz.)
+Dus, als je een firewall gebruikt moet je inkomende verbindingen toelaten op deze
+poortnummers - je kunt op deze manier ook het aantal gelijktijdige overdrachten
+beperken.
+Om bestanden te kunnen verzenden vanuit een privaat netwerk (als je bv een IP-adres
+hebt in de vorm 192.168.0.x), kun je een router instellen om verbindingen met poort
+6891 (of hogere voor meerdere overdrachten) door te zenden (te 'forwarden') naar
+jouw IP-adres. Een flexibelere/veiligere manier is om dit door een programmatje te
+laten doen (bv. 'reAIM') die dit automatisch doet voor je, voor meerdere PC's op een
+netwerk. Bovendien zal dit programmaatje ervoor zorgen dat bestandsoverdrachten
+binnen je privaat netwerk niet over het internet worden verzonden.
 
-
-V:De geluidjes worden niet gespeeld wanneer ik naar muziek luister met bv. XMMS maar opgehoopt en nadat XMMS is afgesloten, of het liedje is afgelopen, allemaal na elkaar afgespeeld, en ik kan dat vervelende ge-'pling' niet stoppen. Wat kan ik doen om het op een normale manier te laten functioneren?
-A:Je kunt dit op verschillende manieren.  Als je Gnome gebruikt, kun je aMSN de geluidjes laten spelen door esd, de Gnome geluidsserver, gebruik hiervoor als geluidscommando 'esdplay'.  KDE-gebruikers laten misschien best de geluidjes afspelen door arts, de KDE geluidsserver; gebruik hiervoor 'artsplay' als geluidscommando. (deze moet je opgeven in het dialoogvenster 'Opties', tabblad 'Overigen') Op deze manier zouden de geluidjes gemixt moeten worden.
-
-
-V:Ik gebruik aMSN achter een firewall of gebruik IP-Masquerade.  Ik kan hierdoor blijkbaar geen bestanden verzenden, kan ik dit oplossen?
-A:Misschien blokkeert de firewall inkomende verbindingen. Bestandsoverdrachten werken op volgende manier: Wanneer jij iemand een bestand wil zenden, zend je een uitnodiging met je IP-adres en een poortnummer, daarop zal de andere kant een verbinding maken met je IP-adres:poort om de overdracht te starten.  De gebruikte poort is meestal 6891 of een hoger poort-nr. naargelang het aantal overdrachten (de eerste gebruikt poort 6891, de tweede 6892 enz.)
-Dus, als je een firewall gebruikt moet je inkomende verbindingen toelating geven met deze poortnummers te verbinden - je kan op deze manier ook het aantal gelijktijdige overdrachten beperken.
-Om bestanden te kunnen verzenden van achter een privaat netwerk (als je bv een IP-adres hebt in de vorm 192.168.0.x), kan je een router instellen om verbindingen met poort 6891 (of hogere voor meerdere overdrachten) door te zenden (te 'forwarden') naar jouw IP-adres.  Een flexibelere/veiligere manier is om dit door een programmatje te laten doen (bv. 'reAIM') die dit automatisch doet voor je, voor meerdere PC's op een netwerk.  Bovendien zal dit programmaatje ervoor zorgen dat bestandsoverdrachten binnen je privaat netwerk niet over het internet worden verzonden.
-
-
-V:Wanneer er een meldingsvenster verschijnt, verstopt dit deels de taakbalk.  Kan ik dit oplossen?
-A:Dit kan je door de afstand van de rechteronderhoek van je scherm weer te geven waarop het venster moet verschijnen, dit is uitgedrukt in pixels in de X-en Y-coordinaat.  Je kan dit instellen onder Extra>Opties>Geavanceerd.
+V: Wanneer er een meldingsvenster verschijnt, verstopt dit deels de taakbalk.
+Kan ik dit oplossen?
+A: Dit kan je door de afstand van de rechteronderhoek van je scherm weer te geven
+waar het venster moet verschijnen. Je kunt dit instellen onder Extra -> Voorkeuren
+-> Geavanceerd, door de afstand in pixels horizontaal (X) en vertikaal (Y) vanaf de
+rechter onderhoek van het scherm op te geven.
 
 
 aMSN gebruiken onder MS Windows
 ===============================
 
-V:Kan ik de geluidjes laten werken onder windows?
-A:Natuurlijk, we hebben een klein programmaatje dat .wav-bestanden kan afspelen onder windows.  Je kunt het gebruiken als je geluidscommando.  Ga naar Extra>Opties>Overigen, en vul daar 'plwav' in bij het invoegveld 'geluidsserver'.
+V: Kan ik het geluid werkend krijgen onder windows?
+A: Natuurlijk, we hebben een klein programmaatje dat .wav-bestanden kan afspelen
+onder windows. Je kunt het gebruiken als je geluidscommando.
+Ga naar Extra -> Voorkeuren -> Overigen, en vul daar 'plwav' in bij het invoerveld
+'geluidsserver'.
 
 
 DIVERS
 ======
 
-V:Ik ben er op uitgekomen dat aMSN enkele poorten boven poort 600000 opent.  Is dit normaal? Dit is toch geen achterdeurtje? Waarom gebeurt dit?
-A:Het is volkomen normaal; aMSN gebruikt 'sockets' om te voorkomen dat 2 aMSN-instanties (2 keer aMSN tegelijk draaien) hetzelfde profiel gebruiken, wat problemen zou kunnen veroorzaken. We doen dit zo omdat we denken dat dit de betere platform-onafhankele manier is. Als jij met een betere werkwijze voor de proppen komt, mag je dit ons altijd melden ;)
+V: Ik heb ontdekt dat aMSN enkele poorten boven de 60000 opent. Is dit normaal?
+Dit is toch geen achterdeurtje? Waarom gebeurt dit?
+A: Het is volkomen normaal. aMSN gebruikt 'sockets' om te voorkomen dat twee aMSN-
+instanties hetzelfde profiel gebruiken, wat problemen zou kunnen veroorzaken.
+We doen dit zo omdat we denken dat dit de betere platform-onafhankele manier is.
+Als jij met een betere werkwijze voor de proppen komt, mag je dit ons altijd
+melden ;)
 Als je ~/.amsn/profile bekijkt, kan je zien welk profiel welke poort gebruikt.
 
-V:Ik heb nog vragen, kan je me helpen?
-A:Dat kunnen we! Maar eerst zouden we willen dat je een kijkje neemt op onze sourceforge-project webpagina, op http://sourceforge.net/projects/amsn.  Kijk daar na of je probleem nog niet is behandeld bij de 'bugs', de 'support requests' of in de fora.  Bekijk niet enkel de vragen die met "open" gemarkeerd staan, dit zijn namelijk meestal de vragen die nog niet beantwoord zijn, er is een "drop-down"-lijst waar je "Closed" of "Pending" kan kiezen.
-Sprokkel volgende informatie bijeen vooraleer een foutrapport in te zenden of om gebruikershulp te vragen:
--aMSN versienr.
--tcl/tk versienr.
--eventuele foutmelding(en) die je kreeg
--laatste foutberichten in de debug-vensters (druk hiervoor Ctrl+D en Ctrl+S in de contactenlijst).
--laatste acties die je ondernam voor de fout zich voordeed of hoe je de fout kan reconstrueren.
+V: Ik heb nog vragen, kan iemand mij helpen?
+A: Dat kunnen we! Maar eerst zouden we willen dat je een kijkje neemt op onze
+sourceforge project webpagina, op http://sourceforge.net/projects/amsn. Kijk daar
+na of je probleem nog niet is behandeld bij de 'bugs', de 'support requests' of in
+de fora.  Bekijk niet enkel de vragen die met "open" gemarkeerd staan, dit zijn
+namelijk meestal de vragen die nog niet beantwoord zijn, er is een "drop-down"-lijst
+waar je "Closed" of "Pending" kan kiezen.
+Verzamel de volgende informatie alvorens een foutrapport in te sturen of om
+gebruikershulp te vragen:
+- het aMSN versienummer
+- het tcl/tk versienummer
+- eventuele foutmelding(en) die je kreeg
+- Indien beschikbaar een stack-trace.
+- Laatste foutberichten in de debug-vensters
+  (druk hiervoor Ctrl+D en Ctrl+S in de contactenlijst).
+- Laatste acties die je ondernam voor de fout zich voordeed of hoe je de fout
+  kunt reconstrueren.
 
+Voor vragen kun je altijd mailen naar airadier@users.sourceforge.net (in het Engels
+of Spaans) of naar escapor@linux.be (in het Nederlands).
 
-Voor vragen kan je steeds mailen naar airadier@users.sourceforge.net (in het Engels) of naar escapor@linux.be (in het nederlands).
-
-
-
-Nota: Dit is een vertaling van het Engelstalige FAQ-document.  De Engelstalige FAQ zal waarschijnlijk steeds wat beter op de bal inspelen (meer "up to date" zijn), dus kan je daar misschien ook een kijken als je hier geen oplossing voor je probleem vindt.
+Nota: Dit is een vertaling van het Engelstalige FAQ-document.  De Engelstalige FAQ
+zal waarschijnlijk steeds wat beter bij de tijd zijn, dus kun je daar misschien
+ook even kijken als je hier geen oplossing voor je probleem vindt.

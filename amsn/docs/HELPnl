@@ -1,19 +1,26 @@
-Helpbestand voor aMSN:
+Help-bestand voor aMSN
 
-Benodigdheden:
-aMSN isgeschreven in tcl/tk, dus heb je een werkende tcl/tk-interpreter nodig (tcl/tk is een scripting-taal en moet niet gecompileerd worden in machinetaal maar wordt door een 'interpreter' (een soort tolk tolk) 'on the fly' vertaald naar machinetaal) - versie 8.3 of later. Je kan deze vinden op http://tcl.sourceforge.net. De 'interpreter' is beschikbaaroor linux-systemen, Windows en Macintosh-systemen.  Sommige bijkomende mogelijkheden vereisen enkele extra programmas en bibliotheken, zoals het mededelingengebied-icoontje ('systray' genoemd in Windows), de MSN-avatars (ook 'Display Pictures' genoemd) of de SSL connectie voor het MSN Protocol versie 9.
+Systeemeisen:
+Amsn is geschreven in tcl/tk, dus je hebt slechts een werkende tcl/tk interpreter
+nodig, versie 8.3 of nieuwer. Deze is te downloaden van http://tcl.sourceforge.net.
+Deze interpreter is beschikbaar voor linux, windows en macintosh. Enkele aanvullende
+functies, zoals het systeemvak-pictogram, de Schermafbeeldingen, en de door middel
+van SSL beveiligde verbinding voor MSN Protocol 9, kunnen extra programma's of
+bibliotheken nodig hebben.
 
+Installatie handleiding:
+Download het amsn-x_xx.tar.gz bestand. Pak het uit met de opdracht:
+  gzip -d amsn-x_xx.tar.gz
+  tar xvf amsn-x_xx.tar
+Er wordt een map gemaakt met de naam msn/, en aMSN is geïnstalleerd en gebruiksklaar.
+Doe het volgende om aMSN te starten:
+  cd msn
+  ./amsn
+of als dat niet werkt, probeer
+  wish amsn
+Als het commando 'wish' niet bestaat, dan is tcl/tk niet geïnstalleerd. Wanneer
+"wish amsn" wel werkt, maar "./amsn" niet, pas dan het bestand 'amsn' aan, en
+corrigeer het pad naar 'wish' op de eerste regel. De standaard-instelling is:
+/usr/bin/wish
 
-
-Hoe installeer en gebruik ik aMSN op unix/linux-systemen? 
-Download het bestand amsn-x_xx.tar.gz.  Extract het met volgende commandos:
-
-	-  gzip -d amsn-x_xx.tar.gz  
-	   tar xvf amsn-x_xx.tar
-PS: In de bekendste desktop-omgevingen kan je dit ook uitpakken door op het bestand te (dubbel)klikken
-
-Dit zal een map 'msn/' aanmaken, en aMSN is geinstalleerd en klaar voor gebruik.
-Om het programma te starten ga je in de map ( typ "cd msn" ) en start het met "./amsn" als dit niet lukt,porbeer dan eens "wish amsn".
-Als het 'wish'-commando nietg bestaat, heb je tcl/tk niet goed geinstalleerd. Als "wish amsn" werkt maar "./amsn" niet, pas dan ht bestand aan met een tekst-editor en pas het 'path' van wish aan in de eerste lijn zodat het correct is (standaard staat dit op /usr/bin/wish).
-
-PS: je kan een icoontje creeen op je desktop met als snelkoppeling een verwijzing naar /plaats/waar/je/de/map/hebt/uitgepakt/msn/amsn
+Als je dan nog steeds problemen hebt, gebruik dan de FAQ.
