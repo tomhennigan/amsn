@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <plugin>
-        <name>Gename</name>
-        <author>Karol Krizka</author>
-        <description>Plugin for generating random names</description>
-        <amsn_version>0.94</amsn_version>
-        <plugin_version>1.0</plugin_version>
-        <plugin_file>gename.tcl</plugin_file>
-        <plugin_namespace>gename</plugin_namespace>
-        <init_procedure>InitPlugin</init_procedure>
+	<name>gename</name>
+	<author>Karol Krizka</author>
+	<description>Plugin for generating random names</description>
+	<amsn_version>0.94</amsn_version>
+	<plugin_version>1.0</plugin_version>
+	<plugin_file>gename.tcl</plugin_file>
+	<plugin_namespace>gename</plugin_namespace>
+	<init_procedure>InitPlugin</init_procedure>
 </plugin>
