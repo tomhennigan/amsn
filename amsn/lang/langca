@@ -37,6 +37,7 @@ appearance Aparença
 appearoff Simula desconnexió
 areacode Codi d'àrea
 aretyping $1 estan escrivint un missatge
+author Autor
 autoaccepted Transferència del fitxer acceptada automàticament
 autoacceptft Accepta automàticament les transferències de fitxers
 autoaway Mostra'm en l'estat "Absent" quan no hi hagi activitat en
@@ -368,6 +369,7 @@ mynick El meu sobrenom
 mypic La meva Imatge Mostrada:
 mystatus El meu estat
 myworkphone El meu telèfon a la feina
+name Nom
 natip Detecció d'IP a través de pàgina web
 natkeepalive Si et desconnecten contínuament, activa aquesta opció
 needonline En l'estat "Simula desconnexió" no pots enviar missatges!
@@ -497,6 +499,7 @@ rememberpass Recordar contrasenya
 removeempty Elimina els grups buits de la llista de contacte
 removefromlist Suprimeix d'aquesta llista
 rename Renombrar
+required_version Impossible carregar aquest plugin, necessites com a mínim la versió $1 de l'aMSN per a que funcioni
 reversed Invertit
 reverselist Llista inversa:
 rightback Ara torno
@@ -592,6 +595,7 @@ truncatenames2 Escurça els sobrenoms més llargs que l'amplada de la finestra a l
 truncatenicks Escurça els sobrenoms més llargs que l'amplada de la finestra
 twonewmail $1 missatges nous a la bústia
 unblock Desbloquejar
+unload Descarregar
 uoffline Desconnectats
 uonline Connectats
 useother Utilitza un altre programa
