@@ -1502,6 +1502,7 @@ namespace eval ::amsn {
 	.${win_name}.menu.apple add separator
 	.${win_name}.menu.apple add command -label "[trans preferences]..." -command Preferences -accelerator "Command-,"
 	.${win_name}.menu.apple add separator
+	
 	}
 	
       menu .${win_name}.menu.msn -tearoff 0 -type normal
@@ -1717,6 +1718,7 @@ namespace eval ::amsn {
       bind  $bottom.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y $bottom.in.input"
       bind  $bottom.buttons.fontsel  <Button1-ButtonRelease> "change_myfont ${win_name}"
       bind  $bottom.buttons.block  <Button1-ButtonRelease> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} ::amsn::blockUnblockUser"
+
 
       bind $bottom.in.f.send <Return> \
          "::amsn::MessageSend .${win_name} $bottom.in.input; break"
@@ -3185,6 +3187,7 @@ proc cmsn_draw_main {} {
    image create photo butsmile -file [GetSkinFile pixmaps butsmile.gif]
    image create photo butfont -file [GetSkinFile pixmaps butfont.gif]
    image create photo butblock -file [GetSkinFile pixmaps butblock.gif]
+
 
    image create photo fticon -file [GetSkinFile pixmaps fticon.gif]
    image create photo ftreject -file [GetSkinFile pixmaps ftreject.gif]
