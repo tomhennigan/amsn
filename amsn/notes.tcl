@@ -62,13 +62,13 @@ namespace eval ::notes {
   	 
   		toplevel $w
   		wm title $w "[trans notes]"
-  		wm geometry $w 700x545+30+30
+  		wm geometry $w 675x480+30+30
 		wm protocol $w DELETE_WINDOW "::notes::Display_Notes_Close"		
 
 
 		# Create the frame containing the list of the contacts
 		frame $w.contact -relief sunken -borderwidth 3
-  		listbox $w.contact.box -yscrollcommand "$w.contact.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 10 -width 25 -selectbackground gray
+  		listbox $w.contact.box -yscrollcommand "$w.contact.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 10 -width 20 -selectbackground gray
   		scrollbar $w.contact.ys -command "$w.contact.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
   		pack $w.contact.ys -side right -fill y
   		pack $w.contact.box -side left -expand true -fill both
@@ -116,7 +116,7 @@ namespace eval ::notes {
 		# Create the listbox containing the notes
   		frame $w.right.notes -relief sunken -borderwidth 3
   		label $w.right.notes.current -text "Current notes" -font bold
-  		listbox $w.right.notes.box -yscrollcommand "$w.right.notes.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 10 -width 60
+  		listbox $w.right.notes.box -yscrollcommand "$w.right.notes.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 7 -width 60
   		scrollbar $w.right.notes.ys -command "$w.right.notes.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
   		pack $w.right.notes.current -expand true -fill both
   		pack $w.right.notes.ys -side right -fill y
@@ -140,7 +140,7 @@ namespace eval ::notes {
 		# Display the note
 		frame $w.right.note -relief sunken -borderwidth 3
 		label $w.right.note.desc -text "Note" -font bold
-		text $w.right.note.txt -yscrollcommand "$w.right.note.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 10 -width 60 -state disabled
+		text $w.right.note.txt -yscrollcommand "$w.right.note.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 7 -width 60 -state disabled
   		scrollbar $w.right.note.ys -command "$w.right.note.txt yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
   		pack $w.right.note.desc -expand true -fill both
   		pack $w.right.note.ys -side right -fill y
