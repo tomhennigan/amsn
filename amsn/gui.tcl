@@ -431,11 +431,7 @@ namespace eval ::amsn {
       set statusmsg "[timestamp] [trans leaves $usr_name]\n"
       WinStatus [ WindowFor $chatid ] $statusmsg
       WinTopUpdate $chatid
-
-      if {$config(keep_logs)} {
-      	 ::log::StopLog $usr_name
-      }
-
+     
    }
    #///////////////////////////////////////////////////////////////////////////////
 
