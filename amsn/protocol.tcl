@@ -4321,7 +4321,6 @@ proc cmsn_listupdate {recv} {
 
 		#Remove user from all lists while receiving List data
 		::abook::setContactData $username lists ""
-		::abook::setVolatileData $username state "FLN"
 		
 	}
 
@@ -4347,6 +4346,7 @@ proc cmsn_listupdate {recv} {
 			if { ($list_sort == "FL") } {
 				::abook::setContactData $username group $groups
 				set loading_list_info(last) $username
+				::abook::setVolatileData $username state "FLN"
 			}
 		}
 	}
