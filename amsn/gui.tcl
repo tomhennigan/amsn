@@ -6378,6 +6378,8 @@ proc check_web_version { token } {
 	}
 	::http::cleanup $token
 
+	::lang::UpdateLang
+
 	return $newer
 }
 #///////////////////////////////////////////////////////////////////////

@@ -7,26 +7,27 @@ if { $initialize_amsn == 1 } {
     set langlong "English"
 }
 
-proc scan_languages {} {
-   global lang_list
-   set lang_list [list]
+proc scan_languages { } {
 
-   set file_id [open "langlist" r]
-   fconfigure $file_id -encoding utf-8
+	global lang_list
+	set lang_list [list]
 
+	# Wait for sxml.tcl to be loaded
+	after 1 {
 
-   while {[gets $file_id tmp_data] != "-1"} {
-      set pos [string first " " $tmp_data]
-      set langshort [string range $tmp_data 0 [expr {$pos -1}]]
-      set pos [expr {$pos + 1}]
-      set pos2 [string first " " $tmp_data $pos]
-      set langenc [string range $tmp_data $pos [expr {$pos2 -1}]]
-      set langlong [string range $tmp_data [expr {$pos2 +1}] [string length $tmp_data]]
-      lappend lang_list "{$langshort} {$langlong} {$langenc}"
-   }
-   close $file_id
+		::lang::LoadVersions
+		set list $::lang::Lang
+
+		foreach langcode $list {
+			set name [::lang::ReadLang $langcode name]
+			set encoding [::lang::ReadLang $langcode encoding]
+			lappend lang_list "{$langcode} {$name} {$encoding}"
+		}
+
+	}
 
 }
+
 
 proc detect_language { {default "en"} } {
 	global env
@@ -175,17 +176,14 @@ namespace eval ::lang {
 
 #///////////////////////////////////////////////////////////////////////
 proc show_languagechoose {} {
-	global lang_list
 
 	set languages [list]
-	set available [::lang::get_available_language]
 
-	foreach langelem $lang_list {
-		set langcode [lindex $langelem 0]
-		if { [lsearch $available $langcode] != -1 } {
-			set langlong [lindex $langelem 1]
-			lappend languages [list "$langlong" "$langcode"]
-		}
+	::lang::LoadOnlineVersions
+
+	foreach langcode $::lang::Lang {
+		set name [::lang::ReadLang $langcode name]
+		lappend languages [list "$name" "$langcode"]
 	}
 
 	set wname ".langchoose"
@@ -198,6 +196,7 @@ proc show_languagechoose {} {
 	toplevel $wname
 	wm title $wname "[trans language]"
 	wm geometry $wname 300x350
+	wm protocol $wname DELETE_WINDOW "::lang::language_manager_close"
 
 	frame $wname.notebook -borderwidth 3
 	set nb $wname.notebook
@@ -218,7 +217,7 @@ proc show_languagechoose {} {
 			-borderwidth 1 -elementborderwidth 1 
 
 	button $frm.buttons.ok -text "[trans ok]" -command [list ::lang::show_languagechoose_Ok $languages]
-	button $frm.buttons.cancel -text "[trans cancel]" -command [list destroy $wname]
+	button $frm.buttons.cancel -text "[trans cancel]" -command "::lang::language_manager_close"
 
 
 	pack $frm.list.ys -side right -fill y
@@ -263,12 +262,11 @@ proc show_languagechoose {} {
 	pack $frm.selection.box -side left -expand true -fill both
 
 	# Add the lang into the previous list
-	foreach lang $lang_list {
-		set langcode [lindex $lang 0]
-		set langname [lindex $lang 1]
+	foreach langcode $::lang::OnlineLang {
+		set langname [::lang::ReadOnlineLang $langcode name]
 		$frm.selection.box insert end "$langname"
 		# Choose the background according to the fact lang is available or not
-		if { [lsearch $available $langcode] != -1 } {
+		if { [lsearch $::lang::Lang $langcode] != -1 } {
 			$frm.selection.box itemconfigure end -background #DDF3FE
 		} else {
 			$frm.selection.box itemconfigure end -background #FFFFFF
@@ -283,11 +281,11 @@ proc show_languagechoose {} {
 	pack configure $frm.txt.text
 
 	frame $frm.command
-	button $frm.command.load -text "[trans load]" -command "::lang::language_manager_load" -state disabled
-	pack configure $frm.command.load -side right
+	button $frm.command.load -text "[trans download]" -command "::lang::language_manager_load" -state disabled
+	pack configure $frm.command.load -side right -padx 5
 
-	button $frm.command.close -text "[trans close]" -command "destroy .langchoose"
-	pack configure $frm.command.close -side right
+	button $frm.command.close -text "[trans close]" -command "::lang::language_manager_close"
+	pack configure $frm.command.close -side right -padx 5
 
 	pack configure $frm.selection -side top -expand true -fill both -padx 4 -pady 4
 	pack configure $frm.txt -side top -fill x
@@ -311,6 +309,14 @@ proc show_languagechoose {} {
 
 
 #///////////////////////////////////////////////////////////////////////
+proc language_manager_close { } {
+
+	::lang::SaveVersions
+	destroy .langchoose
+
+}
+
+#///////////////////////////////////////////////////////////////////////
 proc show_languagechoose_Ok { itemlist } {
 	set sel [.langchoose.notebook.nn.flanguage.list.items curselection]
 	if { $sel == "" } { return }
@@ -322,7 +328,7 @@ proc show_languagechoose_Ok { itemlist } {
 #///////////////////////////////////////////////////////////////////////
 proc language_manager_selected { } {
 
-	global gui_language lang_list
+	global gui_language
 
 	set dir [get_language_dir]
 	if { $dir == 0 } {
@@ -333,26 +339,24 @@ proc language_manager_selected { } {
 
 	# Get the selected item
 	set selection [$w.selection.box curselection]
-	set langcode [lindex [lindex $lang_list $selection] 0]
+	set langcode [lindex $::lang::OnlineLang $selection]
 	set lang "lang$langcode"
 
-	set available [::lang::get_available_language]
-
-	# If the lang selected is the used lang
+	# If the lang selected is the current lang
 	if { $langcode == [::config::getGlobalKey language]} {
-		$w.command.load configure -state disabled -text "[trans unload]"
+		$w.command.load configure -state disabled -text "[trans delete]"
 		$w.txt.text configure -text "[trans currentlanguage]" -foreground red
 	# If the file is not available
-	} elseif {[lsearch $available $langcode] == -1 } {
-		$w.command.load configure -state normal -text "[trans load]" -command "[list ::lang::getlanguage "lang$langcode" $selection]"
+	} elseif {[lsearch $::lang::Lang $langcode] == -1 } {
+		$w.command.load configure -state normal -text "[trans download]" -command "[list ::lang::getlanguage "$langcode" $selection]"
 		$w.txt.text configure -text " "
 	# If the file is protected
 	} elseif { ![file writable "$dir/$lang"] } {
-		$w.command.load configure -state disabled -text "[trans unload]"
-		$w.txt.text configure -text "[trans filenotwritable]" red
+		$w.command.load configure -state disabled -text "[trans delete]"
+		$w.txt.text configure -text "[trans filenotwritable]" -foreground red
 	# If the file is available
-	} elseif {[lsearch $available $langcode] != -1 } {
-		$w.command.load configure -state normal -text "[trans unload]" -command "[list ::lang::deletelanguage "lang$langcode" $selection]"
+	} elseif {[lsearch $::lang::Lang $langcode] != -1 } {
+		$w.command.load configure -state normal -text "[trans delete]" -command "[list ::lang::deletelanguage "$langcode" $selection]"
 		$w.txt.text configure -text " "
 	}
 
@@ -360,15 +364,13 @@ proc language_manager_selected { } {
 	.langchoose.notebook.nn.flanguage.list.items delete 0 end
 
 	set languages [list]
-	set available [::lang::get_available_language]
 
-	foreach langelem $lang_list {
-		set langcode [lindex $langelem 0]
-		if { [lsearch $available $langcode] != -1 } {
-			set langlong [lindex $langelem 1]
-			lappend languages [list "$langlong" "$langcode"]
-		}
+
+	foreach langcode $::lang::Lang {
+		set name [::lang::ReadLang $langcode name]
+		lappend languages [list "$name" "$langcode"]
 	}
+
 
 	foreach item $languages {
 		.langchoose.notebook.nn.flanguage.list.items insert end [lindex $item 0]
@@ -399,19 +401,37 @@ proc set_language { langname } {
 
 #///////////////////////////////////////////////////////////////////////
 # Get the encoding of a language
-proc get_language_encoding { lang } {
+proc get_lang_encoding { langcode } {
 
 	global lang_list
 
 	# Search in the lang_list list the lang we want, and return its encoding
 	foreach langdata $lang_list {
-		if { "lang[lindex $langdata 0]" == $lang } {
+		if { [lindex $langdata 0] == $langcode } {
 			set langenc [lindex $langdata 2]
 			break
 		}
 	}
 
 	return $langenc
+
+}
+
+#///////////////////////////////////////////////////////////////////////
+# Get the name of a language
+proc get_lang_name { langcode } {
+
+	global lang_list
+
+	# Search in the lang_list list the lang we want, and return its encoding
+	foreach langdata $lang_list {
+		if { [lindex $langdata 0] == $langcode } {
+			set langname [lindex $langdata 1]
+			break
+		}
+	}
+
+	return $langname
 
 }
 
@@ -431,35 +451,12 @@ proc get_language_dir { } {
 
 
 #///////////////////////////////////////////////////////////////////////
-# Return the lang that are saved on the disk
-proc get_available_language {} {
-
-	global lang_list
-
-	set dir [get_language_dir]
-	if { $dir == 0 } {
-		return
-	}
-
-	set available [list]
-
-	# Search the files on the disk
-	foreach lang $lang_list {
-		set file [lindex $lang 0]
-		if { [file exists "$dir/lang$file"] } {
-			lappend available $file
-		}
-	}
-
-	return $available
-}
-
-
-#///////////////////////////////////////////////////////////////////////
 # Download the lang file
-proc getlanguage { lang selection } {
+proc getlanguage { langcode {selection ""} } {
 
 	global lang_list weburl
+
+	set lang "lang$langcode"
 
 	set dir [get_language_dir]
 	if { $dir == 0 } {
@@ -473,14 +470,20 @@ proc getlanguage { lang selection } {
 		return
 	}
 
+	# Get the information from the online version
+	set name [::lang::ReadOnlineLang $langcode name]
+	set version [::lang::ReadOnlineLang $langcode version]
+	set encoding [::lang::ReadOnlineLang $langcode encoding]
+	
+
 	# Create a new file
 	set fid [open $file w]
 
 	# Choose the encoding of the file according to the encoding of the lang
-	fconfigure $fid -encoding "[get_language_encoding $lang]"
+	fconfigure $fid -encoding "$encoding"
 
 	# Download the content of the file from the web
-	set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/lang/$lang?rev=HEAD&content-type=text" -timeout 10000]
+	set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/lang/$lang?rev=$version&content-type=text" -timeout 10000]
 	set content [::http::data $token]
 
 	# Puts the content into the file
@@ -488,7 +491,9 @@ proc getlanguage { lang selection } {
 
 	close $fid
 
-	catch {
+	::lang::AddLang "$langcode" "$name" "$version" "$encoding"
+
+	if { $selection != "" } {
 		.langchoose.notebook.nn.fmanager.selection.box itemconfigure $selection -background #DDF3FE
 		::lang::language_manager_selected
 	}
@@ -499,21 +504,262 @@ proc getlanguage { lang selection } {
 
 #///////////////////////////////////////////////////////////////////////
 # Delete a lang file
-proc deletelanguage { lang selection } {
+proc deletelanguage { langcode {selection ""} } {
 	
 	set dir [get_language_dir]
 	if { $dir == 0 } {
 		return
 	}
 
-	file delete "$dir/$lang"
+	file delete "$dir/lang$langcode"
 
-	catch {
+	::lang::RemoveLang $langcode
+
+	if { $selection != "" } {
 		.langchoose.notebook.nn.fmanager.selection.box itemconfigure $selection -background #FFFFFF
 		::lang::language_manager_selected
 	}
 }
 
+
+#///////////////////////////////////////////////////////////////////////
+# Load the language versions
+
+	proc LoadVersions { } {
+
+
+		# Reinitialise all the versions
+		if { [info exists ::lang::Lang] } {
+			foreach langcode $::lang::Lang {
+				::lang::RemoveLang $langcode
+			}
+		}
+
+		set ::lang::Lang ""
+
+		set file_id [open "langlist"]
+		set file_id2 [open "langlist.xml" w]
+		puts $file_id2 [read $file_id]
+		close $file_id
+		close $file_id2
+
+		set filename "langlist.xml"
+
+		set id [::sxml::init $filename]
+		sxml::register_routine $id "version:lang" "::lang::XMLLang"
+		sxml::parse $id
+		sxml::end $id
+
+		file delete langlist.xml
+
+	}
+
+
+#///////////////////////////////////////////////////////////////////////
+	proc XMLLang { cstack cdata saved_data cattr saved_attr args } {
+		upvar $saved_data sdata
+
+		set langcode $sdata(${cstack}:langcode)
+		set name $sdata(${cstack}:name)
+		set version $sdata(${cstack}:version)
+		set encoding $sdata(${cstack}:encoding)
+		::lang::AddLang $langcode $name $version $encoding
+
+		return 0
+
+	}
+
+
+#///////////////////////////////////////////////////////////////////////
+# Read the properties a lang (version, name, encoding)
+
+	proc ReadLang { langcode array } {
+
+		set list [array get ::lang::Lang$langcode]
+		set index [lsearch $list $array]
+		if { $index != -1 } {
+			return [lindex $list [expr $index + 1]]
+		} else {
+			return ""
+		}
+
+	}
+
+	proc ReadOnlineLang { langcode array } {
+
+		set list [array get ::lang::OnlineLang$langcode]
+		set index [lsearch $list $array]
+		if { $index != -1 } {
+			return [lindex $list [expr $index + 1]]
+		} else {
+			return ""
+		}
+
+	}
+
+
+#///////////////////////////////////////////////////////////////////////
+# Check if a lang is loaded
+
+	proc LangExists { langcode } {
+
+		if {[lsearch $::lang::Lang $langcode] != -1 } {
+			return 1
+		} else {
+			return 0
+		}
+
+	}
+
+
+#///////////////////////////////////////////////////////////////////////
+# Add a new lang
+
+	proc AddLang { langcode name version encoding } {
+
+
+		if { ![::lang::LangExists $langcode] } {
+			array set ::lang::Lang$langcode [list name "$name" version $version encoding $encoding]
+			lappend ::lang::Lang $langcode
+			set ::lang::Lang [lsort $::lang::Lang]
+		}
+
+	}
+
+
+#///////////////////////////////////////////////////////////////////////
+# Delete a lang from the XML file and delete all the information about it that are in memory
+
+	proc RemoveLang { langcode } {
+		
+		if { [::lang::LangExists $langcode] } {
+			set index [lsearch $::lang::Lang $langcode]
+			set ::lang::Lang [lreplace $::lang::Lang $index $index]
+		}
+
+		catch {unset ::lang::Lang$langcode}
+
+	}
+
+			
+#///////////////////////////////////////////////////////////////////////
+# Save the XML file
+
+	proc SaveVersions {} {
+		global HOME2 tcl_platform
+	
+		set file_id [open "langlist"]
+
+		fconfigure $file_id -encoding utf-8
+
+		puts $file_id  "<?xml version=\"1.0\"?>\n\n<version>"
+
+		foreach langcode $::lang::Lang {
+			set name [::lang::ReadLang $langcode name]
+			set version [::lang::ReadLang $langcode version]
+			set encoding [::lang::ReadLang $langcode encoding]
+			puts $file_id "   <lang>\n      <langcode>$langcode</langcode>\n      <name>$name</name>\n      <version>$version</version>\n      <encoding>$encoding</encoding>\n   </lang>"
+		}
+
+		foreach name $::lang::Plugin {
+			set version [::lang::ReadPlugin $name version]
+			puts $file_id "   <plugin>\n      <name>$name</name>\n      <version>$version</version>\n   </plugin>"
+		}
+
+		puts $file_id "</version>"
+
+		close $file_id
+
+	}
+
+
+
+#///////////////////////////////////////////////////////////////////////
+# Load the online version and read the XML file
+
+	proc LoadOnlineVersions { } {
+
+		set ::lang::OnlineLang ""
+
+		set filename "langlistnew.xml"
+
+		set fid [open $filename w]
+		set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/langlist?rev=HEAD&content-type=text/plain" -timeout 10000]
+		set content [::http::data $token]
+		puts -nonewline $fid "$content"
+		close $fid
+
+		set id [::sxml::init $filename]
+		sxml::register_routine $id "version:lang" "::lang::XMLOnlineLang"
+		sxml::register_routine $id "version:plugin" "::lang::XMLOnlinePlugin"
+		sxml::parse $id
+		sxml::end $id
+
+		file delete "langlistnew.xml"
+
+
+	}
+
+
+#///////////////////////////////////////////////////////////////////////
+
+	proc XMLOnlineLang { cstack cdata saved_data cattr saved_attr args } {
+
+		upvar $saved_data sdata
+
+		set langcode $sdata(${cstack}:langcode)
+		set name $sdata(${cstack}:name)
+		set version $sdata(${cstack}:version)
+		set encoding $sdata(${cstack}:encoding)
+		array set ::lang::OnlineLang$langcode [list name $name version $version encoding $encoding]
+
+		lappend ::lang::OnlineLang $langcode
+
+		return 0
+
+	}
+
+
+
+#///////////////////////////////////////////////////////////////////////
+# This proc is called to check if a new version of lang files exists, and download it
+
+	proc UpdateLang { } {
+
+		set ::lang::UpdatedLang [list]
+
+		::lang::LoadVersions
+		::lang::LoadOnlineVersions
+
+		foreach langcode $::lang::Lang {
+			set version [::lang::ReadLang $langcode version]
+			set onlineversion [::lang::ReadOnlineLang $langcode version]
+			set current [split $version "."]
+			set new [split $onlineversion "."]
+			set newer 0
+			if { [lindex $new 0] > [lindex $current 0] } {
+				set newer 1
+			} elseif { [lindex $new 1] > [lindex $current 1] } {
+				set newer 1
+			}
+			if { $newer == 1 } {
+				set name $::lang::OnlineLang"$langcode"(name)
+				set encoding $::lang::OnlineLang"$langcode"(encoding)
+				::lang::deletelanguage $langcode
+				::lang::getlanguage $langcode
+				set ::lang::Lang"$langcode"(version) $onlineversion
+				set ::lang::Lang"$langcode"(name) $name
+				set ::lang::Lang"$langcode"(encoding) $encoding
+				lappend ::lang::UpdatedLang $langcode
+				::amsn::notifyAdd "Lang$langcode updated" ""
+			}
+		}
+
+		status_log "Update : $::lang::UpdatedLang\n" blue
+
+		::lang::SaveVersions
+
+	}
 
 
 }
