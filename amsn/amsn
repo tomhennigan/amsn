@@ -6,6 +6,7 @@
 ### airadier@users.sourceforge.net              ###############
 ###############################################################
 ### grimaldo@panama.iaehv.nl (LordOfScripts)    ###############
+### http://www.coralys.com/linux/               ###############
 ###############################################################
 ### Original ccmsn				###############
 ### http://msn.CompuCreations.com/		###############
@@ -40,7 +41,7 @@
 ###
 
 set version "0.61beta"
-set date "07/03/2002"
+set date "07/04/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -77,8 +78,8 @@ if {$tcl_platform(platform) == "unix"} {
 set log_dir "${HOME}/logs"
 
 # And setup where to find optional packages
-lappend auto_path $program_dir
-lappend auto_path ${HOME}
+lappend auto_path "$program_dir/plugins"
+lappend auto_path "${HOME}/plugins"
 
 #=======================================================================
 set images_folder "[file join $program_dir i]"
@@ -202,6 +203,13 @@ proc cmsn_draw_about {} {
    wm title .about "Acerca de [trans title]"
    wm transient .about .
 
+   set developers "\nDidimo Grimaldo\nAlvaro I. Munro\nDave Mifsud"
+   frame .about.top
+       label .about.top.i -image msndroid
+       label .about.top.l -font splainf -text "[trans broughtby]:$developers"
+       pack .about.top.i .about.top.l -side left
+   pack .about.top
+
    text .about.info -background white -width 60 -height 30 -wrap word \
       -yscrollcommand ".about.ys set" -font   examplef
    scrollbar .about.ys -command ".about.info yview" 
@@ -215,6 +223,12 @@ proc cmsn_draw_about {} {
    set x [expr {([winfo vrootwidth .about] - [winfo width .about]) / 2}]
    set y [expr {([winfo vrootheight .about] - [winfo height .about]) / 2}]
    wm geometry .about +${x}+${y}
+
+   frame .about.bottom
+       button .about.bottom.close -text "[trans close]" -font splainf \
+       		-command "destroy .about"
+       pack .about.bottom.close
+   pack .about.bottom -expand 1
 }
 
 proc toggle_status {} {
@@ -380,6 +394,7 @@ proc cmsn_draw_main {} {
    .options add cascade -label "[trans language]" -menu .lang_menu
    .options add command -label "[trans encoding]..." -command "show_encodingchoose"
    .options add command -label "[trans choosebasefont]..." -command "choose_basefont"
+   .options add command -label "[trans choosebgcolor]..." -command "choose_theme"
    .options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
    .options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
      -command "msg_box \"[trans mustrestart]\""
@@ -432,6 +447,7 @@ proc cmsn_draw_main {} {
    }
    # End of Notebook Creation/Initialization
 
+   image create photo msndroid -file [file join ${images_folder} msnbot.gif]
    image create photo online -file [file join ${images_folder} online.gif]
    image create photo offline -file [file join ${images_folder} offline.gif]
    image create photo away -file [file join ${images_folder} away.gif]
@@ -494,6 +510,38 @@ proc cmsn_draw_main {} {
    cmsn_draw_status
    cmsn_draw_offline
 }
+
+proc choose_theme { } {
+    global config
+    setColor . . background {-background -highlightbackground}
+#    setColor . . background {-foreground}
+}
+
+proc setColor {w button name options} {
+    global config
+
+    grab $w
+    set initialColor [$button cget -$name]
+    set color [tk_chooseColor -title "[trans choosebackgroundcolor]" -parent $w \
+	-initialcolor $initialColor]
+    if [string compare $color ""] {
+        set config(backgroundcolor) $color
+	setColor_helper $w $options $color
+    }
+    grab release $w
+}
+
+proc setColor_helper {w options color} {
+    foreach option $options {
+	catch {
+	    $w config $option $color
+	}
+    }
+    foreach child [winfo children $w] {
+	setColor_helper $child $options $color
+    }
+}
+
 
 proc choose_basefont { } {
    global config  
@@ -2109,6 +2157,7 @@ proc show_list {list_name} {
 
 ###############################################################
 create_dir $HOME
+create_dir $HOME/plugins
 create_dir $log_dir
 create_dir $files_dir
 
@@ -2122,8 +2171,7 @@ load_config						;# CONFIG
 scan_languages
 load_lang
 
-::amsn::initLook [lindex $config(basefont) 0] [lindex $config(basefont) 1] #D8D8E0
-
+::amsn::initLook [lindex $config(basefont) 0] [lindex $config(basefont) 1] $config(backgroundcolor)
 
 if { $config(encoding) != "auto" } {
   set_encoding $config(encoding)
