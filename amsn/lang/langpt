@@ -71,6 +71,7 @@ busy Ocupado
 cancel Cancelar
 cannotdeleteprofile Não é possível remover o perfil, porque ele parece estar a ser usado numa sessão aMSN
 cantexec Aplicação não executada: $1. Verificar as preferências
+cantremoveothers Não é possível remover o grupo "Outros"
 casesensitive Usar actuadores de "case-sensitive" (sensibilidade ao CAPS)
 cfgalarmall Configurar/Adicionar/Remover Alarme Global
 cfgalarm Configurar/Adicionar/Remover Alarme
@@ -116,8 +117,11 @@ connectionlost Desligado: Ligação com o servidor desligada
 contactadded Contacto adicionado
 contactdoesnotexist Contacto não existe!
 contactlist Lista de Contactos (LC):
+convertexplain (Necessário para Mostrar Imagens).\n Deixe em branco se CONVERT estiver no seu directório.
 copy Copiar
 copytogroup Copiar para grupo
+corruptconfig O ficheiro de configuração está danificado. Crie um novo. O ficheiro será guardado em $1. Por favor envie-o para nós para verificar o que aconteceu.
+corruptstates A configuração dos estados criados por si está danificada. Crie um novo. O ficheiro antigo será guardado em $1. Por favor envie-o para nós para verificar o que aconteceu.
 countrycode Código do meu País/Região
 cprofile Criar Perfil
 custom_edit Criar "smiley"
@@ -128,6 +132,8 @@ days Dias
 dcprofile Não Criar Perfil
 default Configuração por defeito
 defaultloginradio Iniciar sessão com a configuração por defeito
+defchatwinsize Tamanho, por omissão, para janelas de conversação (XTAMANHOxYTAMANHO)
+deletecustomstate Apagar o estado configurado
 delete Eliminar
 delimiters Delimitadores de carimbos de tempo:
 deliverfail Houve um problema ao entregar a seguinte mensagem
@@ -149,12 +155,13 @@ dontdownload Não descarregar TLS, eu instalo-o
 dontshow Não mostrar
 downloadingtls Descarregando o módulo TLS a partir de:\n $1
 editcurrentstate Editar presente
-edit Editar
 editcustomstate Editar
+edit Editar
 editnewstate Novo Estado Pessoal de Automensagem
 editprofile Editar Perfil
 editstate Editar o Estado de Automensagem Existente
 editvalue Editar valor
+emailsinlist Mostrar e-mails ao invés dos nicks na lista de contactos
 emotisounds Reproduzir sons para certos ícones de emoção
 enablebanner Mostrar imagem do aMSN (Requer re-inicialização do aMSN)
 enabled Activado
@@ -170,11 +177,12 @@ errortls Erro ao instalar o módulo TLS:
 examples Exemplos
 exitamsn Tem a certeza que deseja sair?
 extras Serviços Extra
-failed Falhou
 faileddelete Falhou a apagar
 faileddeleteperso Esta imagem não pode ser apagada porque não é um ficheiro pessoal. Apenas figuras pertencentes ao seu perfil pessoal podem ser removidas deste modo.
+failed Falhou
 faq FAQ (Perguntas Comuns)
 filedoesnotexist Ficheiro não existe
+file Ficheiro
 filemanexample ( \$location será substituído pela directoria ) Ex: nautilus \$location
 fileman Gestor de ficheiros
 filename Nome de ficheiro
@@ -192,6 +200,7 @@ ftportpref Inicializando porta para transferência de ficheiros
 ftrejectedby $1 rejeitou o pedido de transferência para o ficheiro '$2'.
 ftrejected Transferência de ficheiro rejeitada
 ftsendinvitation O pedido para transferência do ficheiro '$2' ($3 bytes) foi enviado para $1.
+fullcontactlist Desculpe: a sua lista de contactos está cheia. Necessita de remover alguns contactos para poder adicionar os novos.
 getdisppic Activar recepção das Imagens de Exibição dos outros utilizadores
 gonelunch A almoçar
 groupadd Adicionar um grupo
@@ -217,6 +226,7 @@ hybrid Modo híbrido
 ident Identificando
 identity Identidade
 inbox Caixa de entrada
+insertsmiley Inserir emoticon
 installconvert É necessário instalar o ImageMagick (programa de conversão) para poder ícones "Buddy" e ícones de emoção criados. Pode descarregar os ficheiros binários para o seu Sistema Operativo em ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Se já possuir o programa, então trata-se de uma falha, por favor reporte-a. Estas características serão agora desactivadas, se instalar ImageMagick mais tarde active-as em Preferências.
 internalerror Erro Interno do Servidor
 invalidfile Ficheiro $2 do campo "$1" não existe ou não pode ser lido
@@ -258,6 +268,7 @@ logout Terminar sessão
 logsin acabou de iniciar sessão
 logsmileys Mostrar Ícones de Emoções e "Smileys" nas janelas de histórico do aMSN
 logsout acabou de sair
+longnick O seu "nickname" é maior que 130 caractéres. Esta função não é officialmente sportada pelo protocolo MSN. Tem a certeza que o quer usar?
 lprivtoconf Conversação privada tornou-se Conferência com $1
 luclosedwin Fechou a janela de $1
 mailerexample (\$recipient = Recipiente ) Deixar em branco para usar Hotmail
@@ -286,6 +297,7 @@ needonline Você ainda está/aparece como desligado!
 newmail $1 novas mensagens na Caixa de Entrada
 newmailfrom Novo correio de $1 ($2)
 newmsg Nova mensagem
+newstate Adicionar um estado configurado
 newveravailable Nova versão disponível para descarga
 next Seguinte
 noactivity Sem actividade
@@ -298,6 +310,7 @@ nonewver Não há versões novas para descarregar
 nopic Sem imagem
 noprofileexists De momento não existe nenhum perfil, \n tem de criar um se quiser usar inícios de sessão perfilados. \nUse o botão Adicionar Novo Perfil nesta janela, para adicionar um novo perfil.
 normal Normal
+noskins Não foi possivel encontrar o "skin" por usado por omissão no directório skins/ . Não é possível iniciar o AMSN.      
 nosystemtray Bandeja do sistema não disponível
 notificationserver Servidor MSN Inicial de Notificação (Servidor de MSN Messenger)
 notify1_5 Mostrar uma janela de notificação quando um contacto se desliga
@@ -307,6 +320,7 @@ notify2 Mostrar janela de notificação quando recebe novas mensagens
 notify3 Mostrar janela de notificação quando recebe correio electrónico
 notify avisar
 notifyoffset Colocar a janela de aviso por forma a ter espaço lateral
+notifytyping Enviar ao outros utilizadores notificações de que está a escrever
 notifywin Janela de notificação
 notls O Protocolo 9 da MSN requer o pacote TLS. Este pacote não parece estar instalado nesta máquina. Se está instalado, o caminho para a directoria da biblioteca deve ser especificado na janela de Preferências (ex: /opt/tls/lib). \n \n É possível descarregar o TLS em http://tls.sf.net.
 nousersinsession Sem utilizadores na sessão
@@ -389,6 +403,7 @@ reversed Revertido
 reverselist Lista de Reversos (LR):
 rightback Volto já
 saveas Guardar como
+savechatwinsize Guardar o tamanho da janela de conversação, como sendo o tamnho por omissão quando for reajustado.
 savecontacts Guardar lista de contactos
 save Guardar
 savetofile Guardar para o ficheiro
@@ -441,6 +456,7 @@ statenewtext Por favor introduza a informação necessária para criar \n o seu nov
 status Estado
 stopalarm Alarme para Parar
 storenickname Regressar ao nick original
+strictfonts Restringir todos os tamanhos da fonte aos que eu seleccionei (Barra de Estados e outros)
 stylechat O mesmo aspecto que nas conversações
 stylehist O aspecto do histórico do aMSN
 stylelog Seleccionar a forma na qual gostaria de ver o Histórico
@@ -453,6 +469,7 @@ timestamps Activar carimbos de tempo nas janelas de conversação
 title Al's Messenger
 tkerror TK veio com um erro, encontrou um erro no AMSN, por favor reporte-o. Envio o ficheiro $1 para amsn-bugs@lists.sf.net
 tlsdowncompleted O ficheiro $1 foi descarregado para a directoria $2. É necessário descompactá-lo e fazer o 'build' (caso tenha descarregado código fonte) e instalá-lo na directoria $3.
+tlsexplain Directório onde o modulo tcl de TLS se encontra. SE o AMSN não for capaz de o localizar, por favor especifique-p.\n(Necessário para a autentificação SSL)
 tlsinstall Assistente de Instalação do Módulo TLS
 tlsinstallexp O aMSN usa agora MSNP9, que necessita de uma ligação\nsegura usando SSL. Para usar SSL, o aMSN necessita de instalar um módulo chamado TLS,\nque não se encontra no seu sistema. Este assistente irá ajudá-lo a descarregar e\na instalar o TLS. Por favor escolha o seu tipo de sistema para que possamos fazer a descarga automática\n dos ficheiros TLS necessários.
 tlsinstcompleted A instalação do módulo TLS foi realizada com sucesso - agora deve conseguir utilizar o MSNP9. Caso não consiga, provavelmente não seleccionou o módulo correcto, ou um módulo compilado ainda não está disponível para o seu sistema.
@@ -491,11 +508,3 @@ yoffset Margem vertical
 youblocked Você foi bloqueado por
 yousay Você diz
 youwant Você quer
-deletecustomstate Apagar o estado configurado
-emailsinlist Mostrar e-mails ao invés dos nicks na lista de contactos
-file Ficheiro
-fullcontactlist Desculpe: a sua lista de contactos está cheia. Necessita de remover alguns contactos para poder adicionar os novos.
-insertsmiley Inserir emoticon
-newstate Adicionar um estado configurado
-notifytyping Enviar ao outros utilizadores notificações de que está a escrever
-strictfonts Restringir todos os tamanhos da fonte aos que eu seleccionei (Barra de Estados e outros)
