@@ -242,6 +242,12 @@ namespace eval ::pop3 {
 		fileevent $chan writable ""
 
 		if {[catch {
+			#test for end of file
+			if { [eof $chan] } {
+				plugins_log pop3 "ERROR : EOF reached in open(2)\n"
+				error
+			}
+			
 			::pop3::send $chan {} 1
 			::pop3::send $chan "user $user" 1
 			::pop3::send $chan "pass $password" 1
@@ -291,21 +297,35 @@ namespace eval ::pop3 {
 	# continuation of send when data return is received
 	proc ::pop3::send2 {chan} {
 		if {[catch {
+			set popRet ""
+
+			#test for end of file
+			if { [eof $chan] } {
+				set popRet "xxx EOF reached in send(2)"
+				error
+			}
+
+			#get result
 			set popRet [string trim [gets $chan]]
-			if { $popRet == "" && ![eof $chan] } {
+
+			#check for non completed read, already tested for eof above
+			if { $popRet == "" } {
 				return
 			}
+
+			#read complete so remove filevent
 			fileevent $chan readable ""
 
+			#check the result was +OK
 			if {[string first "+OK" $popRet] == -1} {
-				plugins_log pop3 "ERROR : [string range $popRet 4 end]\n"
-				set ::pop3::chanreturn_$chan "ERROR"
-				return
+				error
 			}
 	
+			#return result
 			set ::pop3::chanreturn_$chan [string range $popRet 3 end]
 		} errorStr]} {
 			fileevent $chan readable ""
+			plugins_log pop3 "ERROR : [string range $popRet 4 end]\n"
 			set ::pop3::chanreturn_$chan "ERROR"
 			return
 		}
