@@ -4258,9 +4258,12 @@ proc play_sound {sound {absolute_path 0} {force_play 0}} {
 	if { [::config::getKey sound] == 1 || $force_play == 1} {
 		#Activate snack on Mac OS X (remove that during 0.94 CVS)
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			::config::setKey usesnack 1
-		}
-		 if { [::config::getKey usesnack] } {
+			if { $absolute_path == 1 } {
+			play_Sound_Mac $sound
+			} else {
+			play_Sound_Mac [GetSkinFile sounds $sound]
+			}
+		} elseif { [::config::getKey usesnack] } {
 			if { $absolute_path == 1 } {
 				snack_play_sound [::skin::loadSound $sound]
 			} else {
@@ -4367,15 +4370,26 @@ proc replay_loop {sound id} {
 #play_Sound_Mac Play sounds on Mac OS X with the extension "QuickTimeTcl"
 proc play_Sound_Mac {sound} {
 			set sound_name [file tail $sound]
-			#Find the name of the sound
+			#Find the name of the sound without .wav or .mp3, etc
 			set sound_small [string first "." "$sound_name"]
 			set sound_small [expr {$sound_small -1}]
 			set sound_small_name [string range $sound_name 0 $sound_small]
+			#Necessary for Mac OS 10.2 compatibility
+			#Find the path of the sound, begin with skins/.. or /..
+			#/ = The sound has a real path, skin in Application Support (.amsn) or anywhere on hard disk
+			#s = skins, the sound is inside aMSN Folder
+			set sound_start [string range $sound 0 0]
 			#Destroy previous song if he already play
 			destroy .fake.$sound_small_name
-			#Create the ""movie"" in QuickTime TCL to play the sound
+			#Find the path of aMSN folder
 			set pwd "[exec pwd]"
-			catch {movie .fake.$sound_small_name -file $pwd/$sound -controller 0}
+			#Create the sound in QuickTime TCL to play the sound
+			if {$sound_start == "/"} {
+				catch {movie .fake.$sound_small_name -file $sound -controller 0}
+			} else {
+				#This way we create real path for skins inside aMSN application
+				catch {movie .fake.$sound_small_name -file $pwd/$sound -controller 0}
+			}
 			#Play the sound
 			catch {.fake.$sound_small_name play}
 			return
