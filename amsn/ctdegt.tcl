@@ -557,7 +557,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.psession -anchor nw -side left
 	frame $lfname.statelist -relief sunken -borderwidth 3
 	listbox $lfname.statelist.box -yscrollcommand "$lfname.statelist.ys set" -font splainf -background \
-	white -relief flat -highlightthickness 0 -height 5
+	white -relief flat -highlightthickness 0 -height 4
 	scrollbar $lfname.statelist.ys -command "$lfname.statelist.box yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
 	pack $lfname.statelist.ys -side right -fill y
@@ -599,12 +599,11 @@ proc Preferences { { settings "personal"} } {
 	#radiobutton $lfname.3.tabbed -text [trans tabbed] -value 2 -variable config(msgmode) -state disabled
 	checkbutton $lfname.winflicker -text "[trans msgflicker]" -onvalue 1 -offvalue 0 -variable config(flicker)
 	checkbutton $lfname.showdisplaypic -text "[trans showdisplaypic2]" -onvalue 1 -offvalue 0 -variable config(showdisplaypic)
-	checkbutton $lfname.getdisplaypic -text "[trans getdisppic]" -variable config(getdisppic) -command getdisppic_clicked
 
 	#pack $lfname.3.lmsgmode -anchor w -side top -padx 10
 	#pack $lfname.3.normal $lfname.3.tabbed -side left -padx 10
 
-	pack $lfname.1 $lfname.2 $lfname.3 $lfname.winflicker $lfname.showdisplaypic $lfname.getdisplaypic -anchor w -side top 
+	pack $lfname.1 $lfname.2 $lfname.3 $lfname.winflicker $lfname.showdisplaypic -anchor w -side top
 
 	frame $frm.dummy -class Degt
 	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
@@ -1429,6 +1428,9 @@ proc SavePreferences {} {
 		set config(initialftport) 6891
 	}
 
+	if { $config(getdisppic) != 0 } {
+		check_imagemagick
+	}
 
 
     # Make sure entries x and y offsets and idle time are digits, if not revert to old values
@@ -1548,7 +1550,7 @@ proc SavePreferences {} {
 	puts $fd "set libtls [list $libtls]"
 	close $fd
     }
-    
+
 
     # Blocking
     #if { $config(blockusers) == "" } { set config(blockusers) 1}
@@ -1786,12 +1788,6 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 	
 }
 
-proc getdisppic_clicked {} {
-	global config
-	if { $config(getdisppic) == 1 } {
-		check_imagemagick	
-	}
-}
 
 #proc Browse_Dialog {}
 #Browse dialog function (used in TLS directory and convert file), first show the dialog (choose folder or choose file), after check if user choosed something, if yes, set the new variable
@@ -1805,6 +1801,9 @@ set $configitem $browsechoose
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.116  2004/02/23 19:58:58  airadier
+# Improved imagemagick detection.
+#
 # Revision 1.115  2004/02/22 17:24:41  airadier
 # New config system. Language settings moved to global config.
 #

@@ -179,6 +179,7 @@ proc ConfigDefaults {} {
 		[list notifymsg bool notify2] \
 		[list notifyemail bool notify3] \
 		[list "" connection] \
+		[list getdisppic bool getdisppic] \
 		[list autoconnect bool autoconnect autoconnect2] \
 		[list keepalive bool keepalive natkeepalive]\
 		[list start_ns_server str notificationserver]\
@@ -223,8 +224,8 @@ proc ConfigDefaults {} {
 	set config(withnotebook) 0			;#Use notebook tabs in contact lsit
 
 	set config(adverts) 0				;#Enable banner advertisements
-        set config(displaypic) "amsn.png"                   ;# Diplay picture
-        set config(getdisppic) 1
+	set config(displaypic) "amsn.png"                   ;# Diplay picture
+	set config(getdisppic) 1
 	set config(notifwidth) 150			;#Notify window width
 	set config(notifheight) 100		;#Notify window height
 }
