@@ -42,8 +42,11 @@ namespace eval ::pop3 {
 			[list bool "Load mail program on click" loadMailProg] \
 			[list str "          Mail Program" mailProg] \
 		]
-		
-		::pop3::start 0 0
+
+		#only start checking now if already online
+		if { (!$::initialize_amsn) && ([::MSN::myStatusIs] != "FLN") } {
+			::pop3::start 0 0
+		}
 	}
 
 
@@ -287,7 +290,6 @@ namespace eval ::pop3 {
 	# Results:
 	#	An integer variable wich contains the number of mails in the mbox
 	proc ::pop3::check { } {
-
 		catch {
 			set chan [::pop3::open $::pop3::config(host) $::pop3::config(user) $::pop3::config(pass) $::pop3::config(port)]
 			set mails [::pop3::status $chan]
@@ -319,6 +321,8 @@ namespace eval ::pop3 {
 	#	event   -> The event wich runs the proc (Supplied by Plugins System)
 	#     evPar   -> The array of parameters (Supplied by Plugins System)
 	proc start {event evPar} {
+		#cancel any previous starts first
+		::pop3::stop 0 0
 		catch { after 5000 ::pop3::check }
 	}
 
