@@ -255,6 +255,7 @@ msn AMSN
 mustrestart Debes reiniciar el programa para aplicar los cambios
 myhomephone Mi teléfono de casa
 mymobilephone Mi teléfono móvil
+mypic Mi imagen para mostrar:
 mystatus Mi estado
 myworkphone Mi teléfono de trabajo
 natip Detección de IP por Web
@@ -301,6 +302,7 @@ pass Contraseña
 paste Pegar
 personal Personal
 phone Teléfono
+picbrowser Navegador de imágenes para mostrar
 picfile Archivo de imagen (GIF < 500 x 500)
 picstatus Imagen para la alarma
 playing Reproduciendo: $1
@@ -347,6 +349,7 @@ proxyconfhttp Configurar soporte de proxy http
 proxyconnection Me conecto a internet usando un servidor proxy:
 proxy Estoy detrás de un servidor proxy (HTTP o SOCKS5)
 publishphones Publicar mis números telefónicos
+purge Purgar
 raised Elevada/Desiconificada
 readonlymsgbox La transferencia de archivos se ha cancelado porque el directorio de recepción es sólo lectura. Comprueba los permisos de este directorio.
 readonlywarn AVISO: El archivo puede NO ser guardado correctamente porque el directorio de archivos recibidos parece estar protegido contra escritura. Comprueba que los permisos en el directorio ($1) son correctos antes de la transferencia

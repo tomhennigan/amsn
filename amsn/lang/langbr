@@ -171,6 +171,7 @@ ftportpref Inicializando porta para transferência de arquivos
 ftrejectedby $1 rejeita o pedido de transferência do arquivo '$2'
 ftrejected Transferência de arquivo cancelada
 ftsendinvitation O convite para transferência do arquivo '$2' ($3 bytes) foi enviado para $1
+getdisppic Permitir recebimento de figuras da tela de outros usuários
 gonelunch Fui comer, dá licença?
 groupadd Adicionar um grupo
 groupdelete Apagar um grupo

@@ -68,6 +68,7 @@ cannotdeleteprofile Kan inte ta bort profilen eftersom det verkar som om den anv
 cantexec Kan inte köra: $1. Kolla inställningarna.
 casesensitive Skilj på stora och små bokstäver
 cfgalarm Konfigurera alarm
+changedisplaypic Ändra visningsbild
 changefont Ändra Font
 changenick Ändra smeknamn
 changestate $1 byter status till $2
@@ -170,6 +171,7 @@ ftportpref Port för filer
 ftrejectedby $1 nekade filöverföringen av '$2'.
 ftrejected Filöverföring nekades.
 ftsendinvitation Filöverföringsförfrågan på '$2' ($3 bytes) har skickats till $1.
+getdisppic Aktivera nerladdning av andra användares visningsbilder
 gonelunch På lunch
 groupadd Lägg till grupp
 groupdelete Ta bort gruppen
@@ -184,6 +186,7 @@ groupunknown Okänd grupp
 handle Namn 
 helpcontents Innehåll
 help Hjälp
+hidedisplaypic Dölj visningsbilden
 hiden Dölj ikonen från smileymenyn
 hidewindow Dölj fönster
 history Se historia
@@ -269,6 +272,7 @@ noneavailable Ingen Tillänglig
 no Nej
 nonewmail Inga nya meddelanden i Inkorgen
 nonewver Det finns inga nya versioner att ladda ner
+nopic Ingen bild
 noprofileexists Det finns för tillfället inga profiler. \n Du måste skapa en om du vill kunna använda profiler. \n Lägg till en profil med hjälp av knapparna.
 normal Normal
 nosystemtray Aktivitetsfältet är inte tillängligt
@@ -299,6 +303,7 @@ personal Personligt
 phone Telefon
 picfile Bild för informationsmeddelanden (GIF-format, mindre än 500x500)
 picstatus Visa/dölj bild vid informationsmeddelanden.
+playing Lyssnar på: $1
 pluginselector Välj Plugins
 port Port
 prefalerts Ljud och Varningsmeddelanden
@@ -372,6 +377,10 @@ servergoingdown Nerkopplad: Servern kopplas ner.
 server Server
 session Session
 showblockedlist Visa en lista över personer som blockerar dig
+showdisplaypic2 Visa bild automatiskt då ett chattfönster öppnas
+showdisplaypic Visa bild
+showmypic Min bild
+showuserpic $1's bild
 skinselector Välj skin
 skin Skin
 smileconfig Specialgjorda emoticonkonfiguration

@@ -255,6 +255,7 @@ msn aMSN
 mustrestart You must restart the program to apply changes
 myhomephone My Home Phone
 mymobilephone My Mobile Phone
+mypic My Display Picture:
 mystatus My status
 myworkphone My Work Phone
 natip IP detection by web page 
@@ -301,6 +302,7 @@ pass Password
 paste Paste
 personal Personal
 phone Phone
+picbrowser Display Pictures browser
 picfile Picture File (GIF < 500 x 500)
 picstatus Picture Alarm
 playing Playing: $1
@@ -347,6 +349,7 @@ proxyconf Proxy configuration
 proxyconnection I connect to the internet using a proxy server:
 proxy I am behind a proxy server (HTTP or SOCKS5)
 publishphones Publish my phone numbers
+purge Purge
 raised Raised/Deiconified
 readonlymsgbox The file transfer has been canceled due to the received directory being read-only. Please fix the permissions on this directory.
 readonlywarn WARNING: The file will probably NOT be saved correctly as the "Received files" directory seems to be write-protected. Please ensure that the permissions on the target directory ($1) are set correctly before transfering the file.
@@ -450,6 +453,3 @@ yoffset Y Offset
 youblocked You have been blocked by
 yousay You say
 youwant You want
-mypic My Display Picture:
-picbrowser Display Pictures browser
-purge Purge

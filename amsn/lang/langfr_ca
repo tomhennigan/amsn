@@ -171,6 +171,7 @@ ftportpref Premier port pour le transfert de fichiers
 ftrejectedby $1 a refusé l'invitation de transfert de fichier pour le fichier '$2'.
 ftrejected Transfert de fichier refusé
 ftsendinvitation L'invitation de transfert du fichier '$2' ($3 octets) a été envoyé à $1.
+getdisppic Activer la réception des images provenant des autres utilisateurs
 gonelunch Parti[e] manger
 groupadd Ajouter un groupe
 groupdelete Supprimer un groupe
@@ -271,6 +272,7 @@ noneavailable Non disponible
 nonewmail Pas de nouveaux messages
 nonewver Il n'y a pas de nouvelle version disponible
 no Non
+nopic Pas d'imag
 noprofileexists Utiliser les profils... \nUtiliser le boutton Ajouter nouveau profil dans cette fenetre pour en créer un nouveau.
 normal Normal
 nosystemtray La zone de notification n'est pas accessible
