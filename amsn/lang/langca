@@ -13,6 +13,9 @@ admingroups Administrar grups
 adverts Anuncis
 alarmpref Preferències de l'alarma per l'usuari
 alarmstatus Activar l'alarma per aquest usuari
+allowallbutbl Permet que tots els usuaris, llevat dels bloquejats, contactin amb mi
+allowlist Llista d'acceptats:
+allowonlyinal Permet que contactin amb mi només els usuaris acceptats
 allowseen Deixa que aquesta persona vegi si estic connectat i que contacti amb mi
 appearance Aparença
 appearoff Simula desconnexió
@@ -35,6 +38,7 @@ bgcolor Canvia el color del fons de l'aMSN
 blankdirect Deixa-ho en blanc per a connectar-te directament
 block Bloquejar
 blocked Bloquejat
+blocklist Llista de bloquejats:
 blockmessage Aquesta gent estan connectats i t'han bloquejat
 broughtby Desenvolupat per
 browse Navegar
@@ -56,6 +60,7 @@ checkingver Buscant versions noves
 checkver Busca una versió nova
 choosebasefont Canviar la font
 choosebgcolor Canviar el color de fons
+choosecontact Si us plau, selecciona un contacte de la llista
 choosefontcolor Escull el color del tipus de lletra
 clearlog2 Neteja l'historial per tots els contactes
 clearlog3 Netejar tots els registres
@@ -66,6 +71,7 @@ closingdocks El botó tancar minimitza la finestra
 command Reproductor
 confirmdelete Estàs segur de voler eliminar a $1?
 confirm Estàs segur?
+contactlist Llista de contactes:
 connected Ara estàs connectat
 connecterror Error connectant-se amb el servidor
 connecting Connectant
@@ -112,7 +118,7 @@ fileman Gestor de fitxers
 filename Nom del fitxer
 filetransfercancelled S'ha cancel·lat la transferència
 filetransfercomplete La transferència del fitxer ha finalitzat
-followtext Vés a la part inferior quan s'introdueixi un nou missatge en una conversa
+followtext Vés a la part inferior quan s'introdueixi una nova línia de text
 ftacceptedby $1 ha acceptat la invitació per la transferència del fitxer '$2'.
 ftaccepted Transferència de fitxers acceptada
 ftaccepting Acceptant la invitació per la transferència de fitxers
@@ -144,6 +150,7 @@ httpconnection Connectar-se amb el mètode HTTP (utilitza el protocol HTTP pel po
 ident Identifica
 identity Identitat
 inbox Bústia
+internalerror Error intern del servidor
 invalidusername Nom d'usuari invàlid
 invitationcancelled La invitació ha sigut cancel·lada
 invite Convida
@@ -188,6 +195,7 @@ minimised Minimitzada/iconificada
 mins minuts
 mobile Mòbil
 morepersonal Més estats ->
+move Moure
 movetogroup Moure al grup
 msgmaxmin Quan arribi un nou missatge, vull que la finestra sigui:
 msg Missatge
@@ -207,6 +215,7 @@ newmsg Nou missatge
 newveravailable La versió $1 està disponible per a baixar-se
 next Següent
 noactivity Sense activitat
+nodataavailable No hi ha dades disponibles per a $1
 nologfile No existeix fitxer d'historial per $1
 nonewmail No hi ha missatges nous a la bústia
 nonewver No hi ha cap versió nova per a baixar-se
@@ -253,6 +262,7 @@ prefmsging Interfície dels missatges
 prefname Sobrenom a l'aMSN
 prefphone2 Escriu els números de telèfon que vols permetre veure als contactes \n de la teva llista de contactes amb permís \n
 prefphone Números de telèfon
+prefprivacy Llista de contactes acceptats i bloquejats per l'usuari
 prefprofile2 Crea o modifica el teu perfil públic\n(la teva descripció que poden veure els altres)
 prefprofile3 Configuració dels perfils d'usuari de l'aMSN
 prefprofile Perfil públic
@@ -261,6 +271,7 @@ prefremote Preferències de connexió remota
 prefsession Inici de sessió
 prefshared Connexions compartides (només per NAT)
 prefsound So
+privacy Privacitat
 profiledconfig Configuració de perfil
 profileinuse Aquest perfil està sent utilitzat per una altra sessió aMSN. Per favor, escull-ne un altre
 profiles Perfils
@@ -277,6 +288,7 @@ reconnect Esperant a que $1 es reconnecti
 reconnecting Reconnectant-se al servidor
 reject Rebutjar
 rememberpass Recordar contrasenya
+removefromlist Suprimeix d'aquesta llista
 reversed Invertit
 rightback Ara torno
 saveas Desar com
