@@ -338,6 +338,13 @@ namespace eval ::pop3 {
 					if { $::pop3::config(notify) == 1 && $mails != 0 } {
 						::amsn::notifyAdd "POP3\n[trans newmail $mails]" "" "" plugins
 					}
+					#If Growl plugin is loaded, show the notification
+					if {$mails !=0} {
+						set pluginidx [lindex [lsearch -all $::plugins::found "*growl*"] 0]
+						if { $pluginidx != "" } {
+							 catch {growl post Pop POP3 [trans newmail $mails]}
+						}
+					}
 				}
 				plugins_log pop3 "POP3 messages: $mails\n"
 			} else {
