@@ -31,6 +31,7 @@ allowbadwords Saltarse la censura en los apodos
 allowlist Lista de Aceptados(AL):
 allowonlyinal Permitir sólo a los usuarios Aceptados contactar conmigo
 allowseen Permitir a esta persona ver cuándo estás conectado y contactar
+allow_sms Permitir que los usuarios contacten conmigo en mi dispositivo móvil MSN
 allprofilesinuse Todos los perfiles que existen están siendo usados actualmente
 animatedemoticon Emoticono con animación
 animatedsmileys Activar emoticonos animados
@@ -147,6 +148,7 @@ contactadded Contacto añadido
 contactdoesnotexist El contacto que intentas añadir no existe
 contactlist Lista de Contactos(FL):
 continuously De forma contínua
+conversationwith $1 usuarios en la conversación
 convertexplain Ruta al archivo ejecutable CONVERT, del programa ImageMagick (necesario para las\nImágenes para Mostrar). Dejar en blanco si CONVERT se puede encontrar en el PATH.
 copy Copiar
 copytogroup Copiar al grupo
@@ -261,6 +263,7 @@ ftrejected Transferencia de archivo cancelada
 ftsendinvitation Una invitación para la transferencia del archivo '$2' ($3 bytes) ha sido enviada a $1.
 fullcontactlist Su lista de contactos está llena. Necesitará eliminar algún contacto para poder añadir nuevos.
 getdisppic Habilitar la recepción de Imágenes para Mostrar de otros usuarios
+globalcontainer Contenedor global
 globalnick Introduzca una expresión con la que formar todos los apodos, puede usar las variables \$user_login para la dirección del contacto y \$nick para su apodo o \$customnick para su apodo personalizado.\nPor ejemplo: '\$user_login es \$nick' mostraría 'contacto@hotmail.com es Contacto'
 globalnicktitle Apodo global
 globaloverride El apodo global debe sobreescribir el apodo personalizado
@@ -333,8 +336,8 @@ listsmileys2 Mostrar emoticonos y smileys en la lista de contactos de aMSN
 listsmileys Smileys en contactos
 ljoinedconf $1 se une a la conversación
 lleftconf $1 deja la conversación
-load Cargar
 loadcontacts Cargar lista de contactos
+load Habilitar
 logbigger Archivos de registro de un contacto no superan los
 logeventconnect Registrar las conexiones
 logeventdisconnect Registrar las desconexiones
@@ -394,6 +397,7 @@ newmailfrom Nuevo correo de $1 ($2)
 newmailfromother Nuevo correo electrónico de $1 ($2) en otras carpetas
 newmsg Nuevo mensaje
 newstate Añadir estado personalizado
+newtabbedfeature AMSN tiene una nueva función para gestionar las conversaciones. Ahora puedes tener todas las ventanas de un mismo grupo, o de toda la lista de contactos, en una sola ventana con patillas. Por favor, elige el modo en que AMSN debería gestionar las conversaciones
 newveravailable Nueva versión $1 disponible para descarga
 next Siguiente
 nick Apodo
@@ -425,6 +429,7 @@ notifytyping Enviar a otros usuarios notificaciones cuando se está tecleando
 notifywin Ventana de avisos
 notinlist No estás en su lista de contactos
 notls La versión 9 del protocolo MSN requiere usar el paquete "tls". Este paquete no parece estar instalado en el equipo. Si está instalado, la ruta al directorio debería ser especificado en la ventana de Preferencias (ej: /opt/tls/lib). \n \n Es posible descargar "tls" en http://tls.sf.net.
+nottabbed Ventanas normales sin patillas
 nousersinsession No hay usuarios en la sesión
 nudge $1 reclama tu atención
 offline Desconectado
@@ -528,6 +533,7 @@ selectskin Elige un tema (skin) de la lista
 send Enviar
 sendfile Enviar archivo
 sendmail Enviar email
+sendmobmsg $1 Enviar a dispositivo móvil
 sendmsg Enviar mensaje
 sentbytes Enviados $1 de $2 bytes totales
 serverbusy Servidor ocupado
@@ -584,7 +590,10 @@ style Estilo
 stylehist apariencia de historial de aMSN
 stylelog Elige el estilo en el que deseas ver el historial
 syntaxerror Error de sintaxis
+tabbedglobal Una ventana con patillas para todos los usuarios
+tabbedgroups Una ventana con patillas para cada grupo
 tabbed Ventanas con solapas
+tabtitlenick Mostrar apodos en lugar de emails en las patillas
 temp_state No almacenar (Estado temporal, se perderá al reiniciar AMSN)
 textsize Tamaño del texto
 timeremaining Tiempo restante
@@ -609,7 +618,7 @@ truncatenicks Truncar apodos más largos que el ancho de la ventana
 twonewmail $1 mensajes nuevos en bandeja de entrada
 unblock Admitir
 unknown Desconocido
-unload Descargar
+unload Deshabilitar
 uoffline Desconectados
 uonline Conectados
 update Actualizar
@@ -630,6 +639,7 @@ view Ver
 webcaminvite $1 te ha invitado a una sesión de videoconferencia, pero AMSN todavía no soporta esta característica.
 willjoin Esperando que $1 se una a la conversación
 winkreceived Has recibido un Wink de $1, estas animaciones no estan disponibles en esta versión de aMSN.
+wintitlenick Mostrar apodos en lugar de email en las ventanas con patillas
 work Trabajo
 wrongfields Los campos "$1", "$2" y/o "$3" no son valido(s)
 wrongprofileversion Versión del archivo de perfiles incorrecta. Por favor borre el directorio $1 para solucionarlo, o actualice amsn.
