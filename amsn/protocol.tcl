@@ -1172,7 +1172,7 @@ namespace eval ::MSN {
 		#Kill any remaining timers
 		after cancel "::MSN::CheckKill $sb"
 	
-		if { ![info exists $sb] } {
+		if { [info procs $sb] == "" } {
 			#The SB was destroyed
 			return
 		}
@@ -1428,7 +1428,7 @@ namespace eval ::MSN {
 
 		set sb [SBFor $chatid]
 
-		if { $sb == 0 } {
+		if { $sb == 0 || [info procs $sb] == "" } {
 			status_log "usersInChat: no SB for chat $chatid!! (shouldn't happen?)\n" white
 			return [list]
 		}
