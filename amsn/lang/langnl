@@ -1,6 +1,6 @@
 amsn_lang_version 2
-about About
-acceptfile Accepteer bestand $1, omvang $2? opgeslaan in $3
+about Over...
+acceptfile Accepteer bestand $1, omvang $2? opgeslagen in $3
 actions Acties
 addacontact Voeg een contact toe
 addedyou Heeft jou toegevoegd aan zijn/haar contactenlijst
@@ -9,17 +9,19 @@ addtoo Voeg deze persoon toe aan mijn contactenlijst
 admincontacts Beheer contacten
 admingroups Beheer groepen
 adverts Advertenties
-allowseen Sta deze persoon toe om te zien wanneer ik online ben en om mij te contacteren
+allowseen Sta deze persoon toe om te zien wanneer ik online ben en om mij 
+te contacteren
 appearoff Doe alsof je offline bent
 aretyping $1 zijn bezig met typen
 autohotmaillog Automatisch inloggen bij Hotmail
 autoip Automatisch IP
-avoidseen Vermijd dat deze persoon kan zien wanneer ik online ben en dat hij mij kan contacteren
+avoidseen Vermijd dat deze persoon kan zien wanneer ik online ben en dat 
+hij mij kan contacteren
 away Afwezig
 baduserpass Foutieve gebruikersnaam of wachtwoord
 blankdirect Laat leeg voor directe connectie
 block Blokkeer
-blocked Geblokeerd
+blocked Geblokkeerd
 broughtby Aangeboden door de volgende ontwikkelaars
 browser Browser
 busy Bezig
@@ -42,7 +44,7 @@ connecterror Verbindingsfout
 contactadded Contactpersoon toegevoegd
 contactdoesnotexist Contactpersoon bestaat niet
 contacterror Fout tijdens het verbinden met de server
-copytogroup copiëren naar groep
+copytogroup kopiëren naar groep
 date Datum
 delete Wis
 enableproxy Gebruik proxy
@@ -55,8 +57,8 @@ exitamsn Sluit amsn
 extras Extra's
 filedoesnotexist Bestand bestaat niet
 filename Bestandsnaam
-filetransfercancelled Bestandsverzending geanuleerd
-filetransfercomplete Bestandsverzending compleet
+filetransfercancelled Bestandsverzending geannuleerd
+filetransfercomplete Bestandsverzending klaar
 gonelunch Uit eten
 groupadd Voeg een groep toe
 groupdelete Verwijder een groep
@@ -99,10 +101,12 @@ mobile GSM
 movetogroup Verplaats naar groep
 msg Bericht
 msn AMSN
-mustrestart Je moet het programma herstarten voordat de veranderingen effect hebben
+mustrestart Je moet het programma herstarten voordat de veranderingen effect 
+hebben
 mystatus Mijn status
 needonline Je bent offline (of doet alsof)  
-newmail $1 nieuwe berichten in In-Box
+newmail $1 nieuwe berichten 
+in In-Box
 newmailfrom Nieuwe email van
 newmsg Nieuw bericht
 newveravailable Nieuwere versie $1 beschikbaar
@@ -137,7 +141,7 @@ receivefile Ontvang bestand
 reconnecting Bezig met opnieuw verbinden met de server
 reconnect Wachten tot $1 opnieuw verbindt
 rememberpass Bewaar wachtwoord
-rightback Onmiddelijk terug
+rightback Onmiddellijk terug
 saveas Opslaan als
 savecontacts Contactenlijst opslaan
 save Opslaan
@@ -153,7 +157,7 @@ server Server
 sound Geluid 
 startoffline Begin offline
 status Status
-syntaxerror Syntax error
+syntaxerror Syntaxfout
 textsize Tekstgrootte
 title Al's Messenger
 to Aan
