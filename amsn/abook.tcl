@@ -285,7 +285,7 @@ namespace eval ::abookGui {
 
 	toplevel $w -class ABook
 	wm title $w "[trans about] $email"
-	wm geometry $w 210x140
+#	wm geometry $w 210x140
 	set nbtIdent "[trans identity]"
 	set nbtPhone "[trans phone]"
 	frame $w.n -class ABook
@@ -374,6 +374,9 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.17  2002/11/06 12:11:46  airadier
+# Let the contact properties window be the size it wants to be, or texts won't fit...
+#
 # Revision 1.16  2002/11/04 03:41:57  airadier
 # Hotmail login should work fine again, please test it!
 #
