@@ -382,7 +382,7 @@ namespace eval ::Proxy {
 					fconfigure $sock -blocking 0
 				}
 
-				#set log [stringmap {\r ""} $content_data]
+				#set log [string map {\r ""} $content_data]
 				set log $content_data
 
 				status_log "Proxy POST Received ($name):\n$headers\n " green
@@ -431,7 +431,7 @@ namespace eval ::Proxy {
 		} elseif {[gets $sock tmp_data] != -1} {
 		
 			variable proxy_header
-			set tmp_data [stringmap {\r ""} $tmp_data]
+			set tmp_data [string map {\r ""} $tmp_data]
 			lappend proxy_header $tmp_data
 			status_log "PROXY RECV: $tmp_data\n"
 			if {$tmp_data == ""} {

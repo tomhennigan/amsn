@@ -321,10 +321,10 @@ namespace eval ::abookGui {
 	incr ends -1
 	set w [string range $w 0 $ends]
 	#set w [string map { @ "" _ "" - "" . "" } $w]
-	set w [stringmap { "@" "" } $w]
-	set w [stringmap { "_" "" } $w]
-	set w [stringmap { "-" "" } $w]
-	set w [stringmap { "." "" } $w]
+	set w [string map { "@" "" } $w]
+	set w [string map { "_" "" } $w]
+	set w [string map { "-" "" } $w]
+	set w [string map { "." "" } $w]
  	set w ".a$w"	
 
 	if {[winfo exists $w]} {
@@ -423,6 +423,10 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.30  2004/02/22 19:28:23  burgerman
+# Reidentation of ALL gui.tcl file and Cleanup.
+# Removed obsolete stringmap function.
+#
 # Revision 1.29  2003/11/10 00:28:20  airadier
 # Get rid of GetMyIP, now we get IP from initial profile from server.
 #

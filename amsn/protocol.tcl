@@ -1788,7 +1788,7 @@ namespace eval ::MSN {
 
       #set sock [sb get $sbn sock]
 
-      set txt_send [encoding convertto utf-8 [stringmap {"\n" "\r\n"} $txt]]
+      set txt_send [encoding convertto utf-8 [string map {"\n" "\r\n"} $txt]]
 
       set fontfamily [lindex $config(mychatfont) 0]
       set fontstyle [lindex $config(mychatfont) 1]
@@ -1859,7 +1859,7 @@ namespace eval ::MSN {
    #///////////////////////////////////////////////////////////////////////////////
    proc GetHeaderValue { bodywithr name } {
 
-      set body "\n[stringmap {"\r" ""} $bodywithr]"
+      set body "\n[string map {"\r" ""} $bodywithr]"
       set pos [string first "\n${name}:" $body]
 
       if { $pos < 0 } {
@@ -2110,7 +2110,7 @@ global tcl_platform
 
 		set item [sb index ns data 0]
 		set item [encoding convertfrom utf-8 $item]
-		set item [stringmap {\r ""} $item]
+		set item [string map {\r ""} $item]
 		set item [split $item]
 		#set item [split [sb index ns data 0]]
 		sb ldel ns data 0
@@ -2141,9 +2141,9 @@ proc cmsn_msg_parse {msg hname bname} {
    set body [string range $msg [expr {$head_len + 4}] [string length $msg]]
 
    set body [encoding convertfrom utf-8 $body]
-   set body [stringmap {"\r" ""} $body]
+   set body [string map {"\r" ""} $body]
 
-   set head [stringmap {"\r" ""} $head]
+   set head [string map {"\r" ""} $head]
    set head_lines [split $head "\n"]
    foreach line $head_lines {
       set colpos [string first ":" $line]
