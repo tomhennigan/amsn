@@ -945,7 +945,7 @@ proc delete_user {user_login} {
 }
 
 proc send_mail {user_login} {
-  global config
+  global config password
 
   set mail_param $user_login ;#By default, just the address
   if {[string first "balsa" $config(mailcommand)] != -1} {
@@ -954,9 +954,13 @@ proc send_mail {user_login} {
       set mail_param "-compose mailto:$user_login"
   } elseif {[string first "sylpheed" $config(mailcommand)] != -1} {
       set mail_param "--compose $user_login"
+  } elseif {[string length $config(mailcommand)]==0} {
+     hotmail_compose $user_login $config(login) $password
+     return 0
   }
 
   exec $config(mailcommand) $mail_param &
+  return 0
 }
 
 proc menuCmdMove {newgid {paramlist ""}} {

@@ -245,7 +245,8 @@ proc Preferences { settings } {
 	set nbApps   [getNote $nb.p $nbtApps]
 	LabelEntry $nbApps.browser "[trans browser]" myconfig(browser) 20
 	LabelEntry $nbApps.mailer "[trans mailer]" myconfig(mailcommand) 20
-	pack $nbApps.browser $nbApps.mailer -side top
+	label $nbApps.mailerhot -text "Leave blank for using hotmail web mail" -font splainf
+	pack $nbApps.browser $nbApps.mailer  $nbApps.mailerhot -side top
         bind .cfg <Control-a> { pickNote $nb.p $nbtApps }
 
 	#  .--------------.
@@ -397,6 +398,9 @@ proc LabelEntryGet { path } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.7  2002/07/01 00:05:06  airadier
+# Hotmail web mail used as mailer if field is left blank
+#
 # Revision 1.6  2002/06/27 19:17:00  lordofscripts
 # -Added command interpreter for NSCommand Window (ctrl+m). The command
 #  !sl dumps the contents of fl/rl/al/bl lists to a file in ~/.amsn/logs/
