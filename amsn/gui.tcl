@@ -349,7 +349,6 @@ namespace eval ::amsn {
 		label .about.top.i -image msndroid
 		label .about.top.l -font splainf -text "[trans broughtby]:$developers"
 		pack .about.top.i .about.top.l -side left
-		pack .about.top
 
 		#Middle frame (About text)
 		frame .about.middle
@@ -360,7 +359,6 @@ namespace eval ::amsn {
 		pack .about.middle.list.ys -side right -fill y
 		pack .about.middle.list.text -side left -expand true -fill both
 		pack .about.middle.list -side top -expand true -fill both -padx 1 -pady 1
-		pack .about.middle -expand true -fill both -side top
 
 		#Bottom frame (Close button)
 		frame .about.bottom -class Amsn
@@ -369,7 +367,10 @@ namespace eval ::amsn {
 
 		pack .about.bottom.close -side right
 		pack .about.bottom.credits -side left
+		
+		pack .about.top -side top
 		pack .about.bottom -side bottom -fill x -pady 3 -padx 5
+		pack .about.middle -expand true -fill both -side top
 
 		#Insert the text in .about.middle.list.text
 		set id [open $filename r]
