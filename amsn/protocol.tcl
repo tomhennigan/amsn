@@ -4554,6 +4554,7 @@ namespace eval ::MSNP2P {
 	# 4 - Step to run after ack     (AferAck)   For now can be DATAPREP, SENDDATA
 	# 5 - CallID (MSNSLP)		(callid)
 	# 6 - File Descriptor		(fd)
+	# 7 - Session Type		(type) bicon, emoticon, filetransfer
 	#
 	# action can be :
 	#	get : This method returns a list with all the array info, 0 if non existant
@@ -4569,11 +4570,12 @@ namespace eval ::MSNP2P {
 		variable AfterAck
 		variable CallId
 		variable Fd
+		variable Type
 		switch $action {
 			get {
 				if { [info exists MsgId($sid)] } {
 					# Session found, return values
-					return [list $MsgId($sid) $TotalSize($sid) $Offset($sid) $Destination($sid) $AfterAck($sid) $CallId($sid) $Fd($sid)]
+					return [list $MsgId($sid) $TotalSize($sid) $Offset($sid) $Destination($sid) $AfterAck($sid) $CallId($sid) $Fd($sid) $Type($sid)]
 				} else {
 					# Session not found, return 0
 					return 0
@@ -4602,6 +4604,9 @@ namespace eval ::MSNP2P {
 				}
 				if { [lindex $varlist 6] != -1 } {
 					set Fd($sid) [lindex $varlist 6]
+				}
+				if { [lindex $varlist 7] != -1 } {
+					set Type($sid) [lindex $varlist 7]
 				}
 			}
 
@@ -4635,6 +4640,11 @@ namespace eval ::MSNP2P {
 					unset Fd($sid)
 				} else {
 					status_log "Trying to unset Fd($sid) but dosent exist\n" red
+				}
+				if { [info exists Type($sid)] } {
+					unset Type($sid)
+				} else {
+					status_log "Trying to unset Type($sid) but dosent exist\n" red
 				}
 			}
 
@@ -4680,7 +4690,7 @@ namespace eval ::MSNP2P {
 	        set cTotalDataSize [int2word $cTotalDataSize1 $cTotalDataSize2]
    	        set cAckSize [int2word $cAckSize1 $cAckSize2]
 
-		#status_log "Read header : $cSid $cId $cOffset $cTotalDataSize $cMsgSize $cFlags $cAckId $cAckUID $cAckSize" red
+		status_log "Read header : $cSid $cId $cOffset $cTotalDataSize $cMsgSize $cFlags $cAckId $cAckUID $cAckSize\n" red
 		status_log "Sid : $cSid -> " red
 		
 		# Check if this is an ACK Message
@@ -4700,7 +4710,7 @@ namespace eval ::MSNP2P {
 				switch $step {
 					DATAPREP {
 						# Set the right variables, prepare to send data after next ack
-						SessionList set $sid [list -1 4 0 -1 "SENDDATA" -1 -1]
+						SessionList set $sid [list -1 4 0 -1 "SENDDATA" -1 -1 -1]
 						
 						# We need to send a data preparation message
 						SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [binary format i 0]]
@@ -4719,15 +4729,6 @@ namespace eval ::MSNP2P {
 		if { [string first "INVITE MSNMSGR" $data] != -1 } {
 			status_log "Got an invitation!\n" red
 
-			# Let's check if it's an invitation for buddy icon or emoticon
-			set idx [expr [string first "EUF-GUID:" $data] + 11]
-			set idx2 [expr [string first "\}" $data $idx] - 1]
-			set eufguid [string range $data $idx $idx2]
-			if { $eufguid != "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" } {
-				status_log "Got unknown INVITE EUF-GUID $eufguid\n" red
-				return
-			}
-			
 			# Let's get the session ID, destination email, branchUID, UID, AppID, Cseq
 			set idx [expr [string first "SessionID:" $data] + 11]
 			set idx2 [expr [string first "\r\n" $data $idx] - 1]
@@ -4753,26 +4754,52 @@ namespace eval ::MSNP2P {
 			set idx2 [expr [string first "\r\n" $data $idx] - 1]
 			set cseq [string range $data $idx $idx2]
 
-			unset idx idx2
+			# Let's check if it's an invitation for buddy icon or emoticon
+			set idx [expr [string first "EUF-GUID:" $data] + 11]
+			set idx2 [expr [string first "\}" $data $idx] - 1]
+			set eufguid [string range $data $idx $idx2]
+			if { $eufguid == "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" || $eufguid == "5D3E02AB-6190-11D3-BBBB-00C04F795683"} {
+				status_log "Got INVITE for buddy icon or emoticon for file transfer $eufguid\n" red
+				
+				# Make new data structure for this session id
+				if { $eufguid == "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" } {
+					# Buddyicon or emoticon (right now emoticons not implemented)
+					SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "bicon"]
+				} elseif { $eufguid == "5D3E02AB-6190-11D3-BBBB-00C04F795683" } {
+					# File transfer
+					SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "filetransfer"]
+				}
+	
+				# Let's send an ACK
+				SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
+				status_log "MSNP2P -> sid : $sid -> Sent ACK for INVITE\n" red
 
-			# Make new data structure for this session id
-			SessionList set $sid [list 0 0 0 $dest 0 $uid 0]
+				# Let's make and send a 200 OK Message
+				set slpdata [MakeMSNSLP "OK" $dest $config(login) $branchuid [expr $cseq + 1] $uid 0 0 $sid]
+				SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+				status_log "MSNP2P -> sid : $sid -> Sent 200 OK Message\n" red
 
-			# Let's send an ACK
-			SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
-			status_log "MSNP2P -> sid : $sid -> Sent ACK for INVITE\n" red
-
-			# Let's make and send a 200 OK Message
-			set slpdata [MakeMSNSLP "OK" $dest $config(login) $branchuid [expr $cseq + 1] $uid 0 0 $sid]
-			SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
-			status_log "MSNP2P -> sid : $sid -> Sent 200 OK Message\n" red
-
-			# Check if this is Buddy Icon or Emoticon request
-			if { $appid == 1 } {
-				# Send Data Prep AFTER ACK received (set AfterAck)
-				SessionList set $sid [list -1 -1 -1 -1 "DATAPREP" -1 -1]
-			}
-			return
+				# Check if this is Buddy Icon or Emoticon request
+				if { $appid == 1 } {
+					# Send Data Prep AFTER ACK received (set AfterAck)
+					SessionList set $sid [list -1 -1 -1 -1 "DATAPREP" -1 -1 -1]
+				# Check if this is a file transfer
+				} elseif { $appid == 2 } {
+					global files_dir
+					# Let's get filename from context
+					set idx [expr [string first "Context:" $data] + 9]
+					set idx2 [expr $idx + 250]
+					set context [base64::decode [string range $data $idx $idx2]]
+					set filename [string map { \x00 "" } [string range $context 19 end]]
+					status_log "context : $context \n filename : $filename\n"
+					::amsn::WinWrite $chatid "Got File Transfer request from MSN6 Client.\nFor now it will be AutoAccepted, will be saved as [file join ${files_dir} $filename]\n" gray
+					# Let's open the file
+					set fd [open "[file join ${files_dir} $filename]" "w"]
+					fconfigure $fd -translation binary
+					SessionList set $sid [list -1 -1 -1 -1 -1 -1 $fd -1]
+				}
+				return
+			}				
 		}
 
 		# Check if it is a 200 OK message
@@ -4820,25 +4847,26 @@ namespace eval ::MSNP2P {
 			# Check if this is last part if splitted
 			if { [expr $cOffset + $cMsgSize] >= $cTotalDataSize } {
 			    close $fd
-
-				set session_data [SessionList get $cSid]
-				set user_login [lindex $session_data 3]
-				set userinfo [::MSN::getUserInfo $user_login]
-				set filename [::MSNP2P::GetFilenameFromMSNOBJ [lindex $userinfo 3]]
-
-			    status_log "Closed file $filename.. finished writing\n" red
-			    # Lets send an ACK followed by a BYE
+			    
+			    set session_data [SessionList get $cSid]
+			    set user_login [lindex $session_data 3]
+			    set userinfo [::MSN::getUserInfo $user_login]
+				
+			    # Lets send an ACK followed by a BYE if it's a buddy icon or emoticon
 			    status_log "Sending an ACK for file received and sending a BYE\n" red
 			    SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
-			    SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" $user_login $config(login) "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex $session_data 5] 0 0] 1]
-			    
-			    #file rename -force [file join $HOME displaypic cache.png] "${temporal_filename}.png"
-			    set file [filenoext [convert_image [file join $HOME displaypic cache $filename].png 96x96]].gif
-
-			    image create photo user_pic_${user_login} -file "[file join $HOME displaypic cache $filename].gif"
-
-			    # Delete Session Vars
-			    # SessionList unset $sid
+			    			    			
+			    if { [lindex [SessionList get $cSid] 7] == "bicon" } {
+			    	SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" $user_login $config(login) "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex $session_data 5] 0 0] 1]
+				set filename [::MSNP2P::GetFilenameFromMSNOBJ [lindex $userinfo 3]]
+				status_log "Closed file $filename.. finished writing\n" red
+				set file [filenoext [convert_image [file join $HOME displaypic cache $filename].png 96x96]].gif
+				image create photo user_pic_${user_login} -file "[file join $HOME displaypic cache $filename].gif"
+			    } elseif { [lindex [SessionList get $cSid] 7] == "filetransfer" } {
+			       	# Display message that file transfer is finished...
+				status_log "File transfer finished!\n"
+				::amsn::WinWrite $chatid "File Transfer Completed Successfully!\n" gray
+			    }
 			}
 		    } elseif { $cMsgSize == 4 } {
 			# We got ourselves a DATA PREPARATION message, lets open file and send ACK
@@ -4852,7 +4880,7 @@ namespace eval ::MSNP2P {
 			fconfigure $fd -translation binary
 			SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
 			status_log "Sent an ACK for DATA PREP Message\n" red
-			SessionList set $sid [list -1 -1 -1 -1 -1 -1 $fd]
+			SessionList set $sid [list -1 -1 -1 -1 -1 -1 $fd -1]
 		    } else {
 			# This is a DATA message, lets receive
 		#	puts -nonewline $fd [string range $data $headend [expr $headend + $cMsgSize]]
@@ -4875,21 +4903,13 @@ namespace eval ::MSNP2P {
 		set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 		set callid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 
-		SessionList set $sid [list 0 0 0 $dest 0 $callid 0]
+		SessionList set $sid [list 0 0 0 $dest 0 $callid 0 "bicon"]
 
 		# Create and send our packet
 		set slpdata [MakeMSNSLP "INVITE" $dest $config(login) $branchid 0 $callid 0 0 "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" $sid 1 [string map { "\n" "" } [::base64::encode "${msnobject}%00"]]]
 		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
 		status_log "Sent an INVITE to $dest on chatid $chatid of object $msnobject\n" red
 	}
-
-
-	#//////////////////////////////////////////////////////////////////////////////
-	# GetDisplayPic	(user msnobj)
-	# This is where we check if we already have a display pic, and do what is appropriate
-	# Has to be called : - When new window is opened with a new user or users (call for all users)
-	#		     - When user changes state AND we have a window open with him
-	#		     - When someone is invited into your conversation
 
 
 	#//////////////////////////////////////////////////////////////////////////////
@@ -4980,7 +5000,7 @@ namespace eval ::MSNP2P {
 		unset slpdata
 
 		# Save new Session Variables into SessionList
-		SessionList set $sid [list $MsgId $TotalSize $Offset -1 -1 -1 -1]
+		SessionList set $sid [list $MsgId $TotalSize $Offset -1 -1 -1 -1 -1]
 
 		return $packet
 	}
@@ -5020,7 +5040,7 @@ namespace eval ::MSNP2P {
 		if { $new == 1 } {
 			incr MsgId -4
 		}
-		SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1]
+		SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1]
 	
 		return "${theader}${b}"
 	}
@@ -5099,11 +5119,11 @@ namespace eval ::MSNP2P {
 	# This procedure sends the data given by the filename in the Session vars given by SessionID
 	proc SendData { sid chatid filename } {
 		global config
-		SessionList set $sid [list -1 [file size "${filename}"] -1 -1 -1 -1 -1]
+		SessionList set $sid [list -1 [file size "${filename}"] -1 -1 -1 -1 -1 -1]
 		set fd [lindex [SessionList get $sid] 6]
 		if { $fd == 0 } {
 			set fd [open "${filename}"]
-			SessionList set $sid [list -1 -1 -1 -1 -1 -1 $fd]
+			SessionList set $sid [list -1 -1 -1 -1 -1 -1 $fd -1]
 			fconfigure $fd -translation binary
 		}
 		set chunk [read $fd 1200]
@@ -5116,7 +5136,7 @@ namespace eval ::MSNP2P {
 			close $fd
 			unset fd
 			# We finished sending the data, set appropriate Afterack and Fd
-			SessionList set $sid [list -1 -1 -1 -1 0 -1 0]
+			SessionList set $sid [list -1 -1 -1 -1 0 -1 0 -1]
 		} else {
 			# Still need to send
 			after 10 "::MSNP2P::SendData $sid $chatid \"$filename\""
