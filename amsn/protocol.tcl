@@ -5281,7 +5281,7 @@ namespace eval ::MSNP2P {
 			SessionList set $sid [list -1 -1 -1 -1 0 -1 0 -1 -1]
 		} else {
 			# Still need to send
-			after 10 "::MSNP2P::SendData $sid $chatid \"$filename\""
+			after 10 [list ::MSNP2P::SendData $sid $chatid ${filename}]
 		}
 	}		
 
