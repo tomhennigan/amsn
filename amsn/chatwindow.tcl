@@ -489,6 +489,7 @@ namespace eval ::ChatWindow {
 				set container [::ChatWindow::GetContainerFor $chatid]
 				set win_name [::ChatWindow::Open $container]
 				::ChatWindow::SetFor $chatid $win_name
+				::ChatWindow::SwitchToTab $container $win_name
 				::ChatWindow::NameTabButton $container $win_name $chatid
 			}
 			#update idletasks
@@ -2052,7 +2053,11 @@ namespace eval ::ChatWindow {
 	proc NameTabButton { container win chatid } {
 		set w [string map { "." "_"} $win]
 		set tab $container.bar.$w
-		$tab configure -text "$chatid"
+		if {[::config::getKey wintitlenick]==1} {
+			$tab configure -text "[::abook::getNick $chatid]"
+		} else {
+			$tab configure -text "$chatid"
+		}
 	}
 
 	proc SwitchToTab { container win } {
@@ -2077,7 +2082,11 @@ namespace eval ::ChatWindow {
 	}
 
 	proc NameTabbedWindow { container chatid } {
-		wm title $container "$chatid"
+		if {[::config::getKey wintitlenick]==1} {
+			wm title $container "[::abook::getNick $chatid]"
+		} else {
+			wm title $container "$chatid"
+		}
 	}
 
 
