@@ -125,6 +125,7 @@ delprofile2 Izberi profil, ki bi ga rad izbrisal
 delprofile Izbrisi profil
 description Opis
 directconnection Neposredna povezava (vrata 1863)
+disablessl Onemogoci SSL
 disconnect $1 se je odjavil/a.
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk gtk pomol
@@ -132,6 +133,7 @@ dockingoff Pristaja prekinjena
 docking Pristaja
 dockkde kde pomol
 dontdownload Ne poberi TLS-ja, namestil ga bom sam
+downloadingtls Pobiram modul TLS iz:\n $1
 drugi)
 editcurrentstate Uredi trenutno stanje
 editnewstate Novo osebno stanje za avtomatsko sporocilo
@@ -147,6 +149,7 @@ encoding Izberi kodiranje
 entercontactemail Vnesi e-mail osebe
 enterfilename Prosim vnesi ime datoteke
 enternick Vnesi svoj nick
+errortls Napaka pri namestitvi modula TLS:
 examples Primeri
 exitamsn Ali si preprican, da zelis zapustiti program?
 extras Dodatne storitve
@@ -336,8 +339,8 @@ profileinuse Ta profil uporablja druga seja Amsn. Prosim izberi drugega.
 profileloginradio Prijavi se s profilom
 profiles Profili
 properties Lastnosti
-proxyconfhttp Podpora HTTP proxyu
-proxyconf Nastavitve proxya
+proxyconfhttp Podpora HTTP proxyju
+proxyconf Nastavitve proxyja
 proxyconnection Proxy povezava:
 proxy Sem za proxy streznikom (HTTP ali SOCKS5)
 publishphones Objavi moje tel. stevilke
@@ -387,6 +390,7 @@ soundserver Zvocni streznik
 soundstatus Zvok omogocen
 sound Zvok dogodka
 sourcecode Izvorna koda (potrebno jo je prevesti in namestiti)
+sslwarning POZOR!! Onemogocenje SSL-ja bo onemogocilo enkripcijo, tako da bo tvoje geslo poslano kot navadno besedilo. Uporabi le pri kompliciranih nastavitvah proxyja in omrezja.
 startoffline2 Prijavi se kot "Na videz neprijavljen"
 startoffline Zacni neprijavljen
 stateautomsg Avtomatsko sporocilo
@@ -406,8 +410,10 @@ tabbed Okna z "uhlji"
 textsize Velikost besedila
 timeremaining Cas do konca prenosa
 title Al's Messenger
+tlsdowncompleted Datoteka $1 se je prenesla v imenik $2. Moras jo izvleci, prevesti (ce si pobral izvorno kodo) in namestiti v $3.
 tlsinstall Carovnik za namestitev modula TLS
 tlsinstallexp AMSN uporablja MSNP9, ki potrebuje varno\npovezavo s SSL-jem. Da bi uporabljal SSL, mora AMSN namestiti modul TLS,\nki ga ni na tvojem racunalniku. Ta carovnik ti bo pomagal pobrati in\nnamestiti TLS. Prosim izberi tvoj sistem, da lahko poberem\npotrebne TLS datoteke.
+tlsinstcompleted Namestitev modula TLS je bila uspesna; zdaj naj bi bilo mogoce uporabljati MSNP9. Ce ne deluje, verjetno nisi izbral pravega modula ali pa prevedenega ni na voljo za tvoj sistem.
 tools Orodja
 tooltips Omogoci tooltipe
 to Za

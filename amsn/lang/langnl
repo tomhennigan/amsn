@@ -193,6 +193,7 @@ hybrid Hybriede modus
 ident Bezig met identificeren
 identity Identiteit
 inbox Postvak IN
+installconvert Je moet het conversie-programma ImageMagick installeren om plaatjes te converteren naar het formaat dat door de MSN-servers wordt gebruikt. Je kunt een versie van ImageMagick voor jouw besturingssysteem downloaden van ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Als deze melding verschijnt terwijl je het al hebt geinstalleerd, dan is er sprake van een bug. Meldt die dan alsjeblieft.
 internalerror Interne Server Fout
 invalidfile Het bestand $2, ingevoerd in het veld "$1", bestaat niet of is onleesbaar
 invalidusername Ongeldige gebruikersnaam
