@@ -121,6 +121,7 @@ close Sluiten
 closingdocks Minimaliseren i.p.v. sluiten
 command Commando
 commandstatus Commandoregel uitvoeren
+configure Configureren
 confirm Weet je het zeker?
 confirmbl Weet je zeker dat je deze contactpersoon wilt blokkeren?
 confirmdelete Weet je zeker dat je $1 wilt verwijderen?
@@ -228,6 +229,7 @@ filedoesnotexist Bestand bestaat niet
 fileman Bestandsbeheer
 filemanexample  ( \$location wordt vervangen door het pad ) Vb: nautilus \$location
 filename Bestandsnaam
+filetransfer Bestandsoverdracht
 filetransfercancelled Bestandsoverdracht geannuleerd
 filetransfercomplete Bestandsoverdracht voltooid
 followtext Scroll naar beneden als er nieuwe tekst is ingevoerd
@@ -316,6 +318,7 @@ listsmileys2 Emoticons weergeven in de contactpersonenlijst
 listsmileys Toon emoticons in lijst
 ljoinedconf $1 nam deel aan de vergadering
 lleftconf $1 heeft de vergadering verlaten
+load Laden
 loadcontacts Laad de lijst van contactpersonen
 logbigger Het logboek voor elke contactpersoon mag niet groter zijn dan
 logeventconnect In logboek bijhouden wanneer contactpersonen online komen
@@ -368,6 +371,7 @@ natkeepalive Verbinding in stand houden (Selecteren als de verbinding regelmatig
 needonline Je bent niet online
 needwinico Het bestand winico03.dll moet in de map plugins staan om het Windows systeemvak te kunnen gebruiken.
 never Nooit
+new_ft_protocol Gebruik het nieuwe Bestandsoverdracht Protocol (bevat nog enkele fouten)
 newmail Je hebt $1 nieuwe berichten in Postvak IN
 newmailfolder Je hebt $1 nieuwe berichten in andere Hotmail mappen
 newmailfrom Nieuwe e-mail van $1 ($2)
@@ -604,6 +608,7 @@ viewcontactsby Contactpersonen weergeven met
 viewprofile Profiel Weergeven
 webcaminvite $1 wil een webcam-sessie beginnen, maar deze functie wordt niet door aMSN ondersteund.
 willjoin Wachten tot $1 de conversatie zal bijwonen
+winkreceived Je hebt een knipoog ontvangen van $1. Dit onderdeel wordt momenteel niet ondersteund door aMSN.
 work Werk
 wrongfields De velden "$1", "$2" en/of "$3" waren ongeldig
 wrongprofileversion Verkeerde profiel configuratiebestand versie. Om te repareren, gelieve de map $1 te verwijderen, of aMSN te updaten.
