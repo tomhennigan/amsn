@@ -23,13 +23,13 @@ namespace eval ::amsnplus {
 		#set the amsnplus dir in config
 		::config::setKey amsnpluspluginpath $dir
 		#loading lang - if version is 0.95b (keep compatibility with 0.94)
-		if {![string equal $::version "0.94"]} {
+		if {![::amsnplus::version_094]} {
 			set langdir [append dir "/lang"]
 			set lang [::config::getGlobalKey language]
 			load_lang $lang $langdir
 		}
 		#plugin config
-		if {[string equal $::version "0.94"]} {
+		if {[::amsnplus::version_094]} {
 			array set ::amsnplus::config {
 				parse_nicks 1
 				colour_nicks 0
@@ -46,7 +46,7 @@ namespace eval ::amsnplus {
 				quick_text_8 ""
 				quick_text_9 ""
 			}
-			if {[string equal $::version "0.94"]} {
+			if {[::amsnplus::version_094]} {
 				set ::amsnplus::configlist [ list \
 					[list bool "Do you want to parse nicks?" parse_nicks] \
 					[list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \
@@ -79,7 +79,7 @@ namespace eval ::amsnplus {
 				quick_text_8 ""
 				quick_text_9 ""
 			}
-			if {[string equal $::version "0.94"]} {
+			if {[::amsnplus::version_094]} {
 				set ::amsnplus::configlist [ list \
 					[list bool "Do you want to parse nicks?" parse_nicks] \
 					[list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \
@@ -218,7 +218,7 @@ namespace eval ::amsnplus {
 		
 		#Text explanation, in frame top.help
 		frame $w.top 
-		if {[string equal $::version "0.94"]} {
+		if {[::amsnplus::version_094]} {
 			label $w.top.help -text "Here you should configure your quick text, the keyword and the text. \n Then in the chat window, if you do /keyword, \
 				you'll see the text" -height 2
 		} else {
@@ -380,7 +380,7 @@ namespace eval ::amsnplus {
 		if { !$::amsnplus::config(allow_colours) } { return }
 		#get the event vars
 		upvar 2 bottom bottom
-		if {[string equal $::version "0.94"]} {
+		if {[::amsnplus::version_094]} {
 			upvar 2 win_name win_name
 		} else {
 			upvar 2 w w
@@ -392,7 +392,7 @@ namespace eval ::amsnplus {
 		#create the imgages
 		set img1 [image create photo -file $pixmap1 -format gif]
 		#create the widgeds
-		if {[string equal $::version "0.94"]} {
+		if {[::amsnplus::version_094]} {
 			button $bottom.buttons.multiple_colors -image $img1 -relief flat -padx 3 \
 				-highlightthickness 0 -borderwidth 0 \
 				-command "after 1 ::amsnplus::choose_color $win_name"
@@ -428,7 +428,7 @@ namespace eval ::amsnplus {
 		if { !$::amsnplus::config(allow_colours) } { return }
 		upvar 2 message msg
 		upvar 2 chatid chatid
-		if {[string equal $::version "0.94"]} {
+		if {[::amsnplus::version_094]} {
 			set fontformat [::config::getKey mychatfont]
 		} else {
 			upvar 2 evPar newvar
@@ -811,7 +811,7 @@ namespace eval ::amsnplus {
 				set msg ""
 				set strlen 0
 				::groups::Add $groupname
-				if {[string equal $::version "0.94"]} {
+				if {[::amsnplus::version_094]} {
 					::amsnplus::write_window $chatid "\nAdded group $groupname" 0
 				} else {
 					::amsnplus::write_window $chatid "[trans groupadded $groupname]" 0
@@ -855,7 +855,7 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + $ulen] ""]
 				set strlen [string length $msg]
 				::MSN::deleteUser $user_login
-				if {[string equal $::version "0.94"]} {
+				if {[::amsnplus::version_094]} {
 					::amsnplus::write_window $chatid "\nDeleted contact $user_login" 0
 				} else {
 					::amsnplus::write_window $chatid "[trans groupdeleted $user_login]" 0
@@ -868,7 +868,7 @@ namespace eval ::amsnplus {
 				set msg ""
 				set strlen 0
 				::groups::Delete [::groups::GetId $groupname]
-				if {[string equal $::version "0.94"]} {
+				if {[::amsnplus::version_094]} {
 					::amsnplus::write_window $chatid "\nDeleted group $groupname" 0
 				} else {
 					::amsnplus::write_window $chatid "[trans groupdeleted $groupname]" 0
@@ -897,20 +897,20 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + $lfield] ""]
 				set strlen [string length $msg]
 				if {[string equal $field "color"]} {
-					if {[string equal $::version "0.94"]} {
+					if {[::amsnplus::version_094]} {
 						::amsnplus::write_window $chatid "\nYour color is: $fontcolor" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans ccolor $fontcolor]" 0
 					}
 				} elseif {[string equal $field "font"]} {
-					if {[string equal $::version "0.94"]} {
+					if {[::amsnplus::version_094]} {
 						::amsnplus::write_window $chatid "\nYour font is: $fontfamily" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cfont $fontfamily]" 0
 					}
 				} elseif {[string equal $field "nick"]} {
 					set nick [::abook::getPersonal nick]
-					if {[string equal $::version "0.94"]} {
+					if {[::amsnplus::version_094]} {
 						::amsnplus::write_window $chatid "\nYour nick is: $nick" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cnick $nick]" 0
@@ -918,13 +918,13 @@ namespace eval ::amsnplus {
 				} elseif {[string equal $field "state"]} {
 					set status [::MSN::myStatusIs]
 					set status [::MSN::stateToDescription $status]
-					if {[string equal $::version "0.94"]} {
+					if {[::amsnplus::version_094]} {
 						::amsnplus::write_window $chatid "\nYour status is: $status" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cstatus $status]" 0
 					}
 				} elseif {[string equal $field "style"]} {
-					if {[string equal $::version "0.94"]} {
+					if {[::amsnplus::version_094]} {
 						::amsnplus::write_window $chatid "\nYour style is: $fontstyle" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cstyle $fontstyle]" 0
@@ -947,7 +947,7 @@ namespace eval ::amsnplus {
 				set msg ""
 				set strlen 0
 				::MSN::leaveChat $chatid
-				if {[string equal $::version "0.94"]} {
+				if {[::amsnplus::version_094]} {
 					::amsnplus::write_window $chatid "\nYou've left this conversation" 0
 				} else {
 					::amsnplus::write_window $chatid "[trans cleave]" 0
@@ -1001,19 +1001,19 @@ namespace eval ::amsnplus {
 				set msg ""
 				set strlen 0
 				set catch [catch {exec $command}]
-				if {[string equal $::version "0.94"]} {
+				if {[::amsnplus::version_094]} {
 					::amsnplus::write_window $chatid "\nExecuting: $command" 0
 				} else {
 					::amsnplus::write_window $chatid "[trans cshell $command]" 0
 				}
 				if {[string equal $catch "1"]} {
-					if {[string equal $::version "0.94"]} {
+					if {[::amsnplus::version_094]} {
 						::amsnplus::write_window $chatid "\nYour command is not valid" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cnotvalid]" 0
 					}
 				} else {
-					if {[string equal $::version "0.94"]} {
+					if {[::amsnplus::version_094]} {
 						::amsnplus::write_window $chatid "\nThis is the result of the command:\n$catch" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cresult $catch]" 0
@@ -1039,13 +1039,13 @@ namespace eval ::amsnplus {
 				if {[::amsnplus::stateIsValid $nstate]} {
 					set cstate [::amsnplus::descriptionToState $nstate]
 					::MSN::changeStatus $cstate
-					if {[string equal $::version "0.94"]} {
+					if {[::amsnplus::version_094]} {
 						::amsnplus::write_window $chatid "\nNew state is: $nstate" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cnewstate $nstate]" 0
 					}
 				} else {
-					if {[string equal $::version "0.94"]} {
+					if {[::amsnplus::version_094]} {
 						::amsnplus::write_window $chatid "\n$nstate is not valid" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cnewstatenotvalid $nstate]" 0
@@ -1079,7 +1079,7 @@ namespace eval ::amsnplus {
 				set strlen [string length $msg]
 				set user_login [::amsnplus::readWord $i $msg $strlen]
 				if {[string equal $user_login ""]} {
-					if {[string equal $::version "0.94"]} {
+					if {[::amsnplus::version_094]} {
 						::amsnplus::write_window $chatid "\mYou must specify a contact" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cspecify]" 0
@@ -1090,7 +1090,7 @@ namespace eval ::amsnplus {
 					set strlen [string length $msg]
 					set group [::groups::GetName [::abook::getContactData $user_login group]]
 					set nick [::abook::getContactData $user_login nick]
-					if {[string equal $::version "0.94"]} {
+					if {[::amsnplus::version_094]} {
 						::amsnplus::write_window $chatid "\n$user_login info: $nick $group" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cinfo $user_login $nick $group]" 0
@@ -1125,6 +1125,22 @@ namespace eval ::amsnplus {
 		set dir [::config::getKey amsnpluspluginpath]
 		set channel [open "$dir/readme" "RDONLY"]
 		return "[read $channel]"
+	}
+	
+	############################################
+	# ::amsnplus::version_094                  #
+	# -----------------------------------------#
+	# Verify if the version of aMSN is 0.94    #
+	# Useful if we want to keep compatibility  #
+	############################################
+	proc version_094 {} {
+		global version
+		scan $version "%d.%d" y1 y2;
+		if { $y2 == "94" } {
+			return 1
+		} else {
+			return 0
+		}
 	}
 
 }
