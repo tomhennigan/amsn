@@ -793,12 +793,11 @@ namespace eval ::pop3 {
 		}
 
 		::pop3::close $chan
+		after 1 ::pop3::check
 
 		if { $failed == 1 } {
 			msg_box "Delete failed\nYour email may have changed since last update\nUpdating now."
 		}
-
-		after 1 ::pop3::check
 	}
 }
 
