@@ -1450,7 +1450,7 @@ proc sb_enter { sbn name } {
       set txt_send [encoding convertto utf-8 $txt_send]      
 
       set msg "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n"
-      set msg "${msg}X-MMS-IM-Format: FN=Helvetica; EF=B; CO=ff0000; CS=0; PF=22\r\n\r\n"
+      set msg "${msg}X-MMS-IM-Format: FN=Helvetica; EF=B; CO=ff; CS=0; PF=22\r\n\r\n"
       set msg "$msg$txt_send"
       set msg_len [string length $msg]
       set timestamp [clock format [clock seconds] -format %H:%M]
