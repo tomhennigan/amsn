@@ -1,518 +1,595 @@
 amsn_lang_version 2
 about Lidhje me
+acceptfile Pranoje skedarinï¿½ $1, madhesia $2? E ruajtur neï¿½$3
 accept pranoj
-acceptfile Pranoje skedën $1, madhësia $2? E ruajtur në $3
-actions Akcionet
-addacontact Shto një kontakt
-addedyou $1 ($2) Të ka shtuar listën e kontakteve të tij/a
-addprofile Shto profil të ri
-addprofiledesc Shto login-in të cilit dëshironi t'ia krijoni profilin.\nLogin-et e profilizuara mundësojne konfigurime të ndryshme për cdo login.\nPa profile, ju nuk mund të përdorni Historinë, Tingujt apo funksionin për "mbajtjen në mend të fjalëkalimit".
-addstate Shto gjendje të re
-addto Shtoje tek $1
+actions Aksionet
+addacontact Shto njeï¿½kontakt
+addedyou $1 ($2) Teï¿½ka shtuar listenï¿½e kontakteve tï¿½tij/a
+addprofiledesc Shto login-in teï¿½cilit deshironi t'ia krijoni profilin.\nLogin-et e profilizuara mundï¿½ojne konfigurime tï¿½ndryshme pï¿½ cdo login.\nPa profile, ju nuk mund teï¿½perdorni Historinï¿½ Tingujt apo funksionin perï¿½ "mbajtjen neï¿½mend teï¿½fjaleï¿½kalimit".
+addprofile Shto profil teï¿½ri
+addstate Shto gjendje (status) teï¿½re
 addtocontacts Shto kontakte
-addtoo Shtoje këtë person në listën e kontakteve të mija
+addtoo Shtoje kï¿½ï¿½person nï¿½listï¿½ e kontakteve tï¿½mija
+addto Shtoje tek $1
 admincontacts Rregullo kontaktet
 admingroups Rregullo grupet
 advanced Avacnim
 advancedprefs Konfigurimi i opcioneve te avancuara
 adverts Reklamat
-alarmonconnect Aktivo tingullin kur shfrytëzuesi futet online
-alarmondisconnect Aktivo tingullin kur shfrytëzuesi del jashtë/i padukshëm
-alarmonmsg Aktivo tingullin kur shfrytëzuesi ju dërgon mesazh
-alarmonstatus Aktivo tingullin kur shfrytëzuesi e ndërron gjendjen
-alarmpref Alarmoj Mjedis për përdorues
-alarmstatus ndez/fik Alarmoj për kjo përdorues
-allfiles Të gjithë skedat
-allowallbutbl Lejo të gjithë shfrytëzuesit të më kontaktojnë përveq ata që i kam ne bllok listë
-allowbadwords Ndalo cenzurën tek nofkat
-allowlist Lista e të lejuarve (AL):
-allowonlyinal Lejo vetëm shfrytëzuesit e listë se lejuarve të më kontaktojnë
-allowseen Lejoje këtë person të më shohë dhe të më kontaktojë kur unë jam në linjë
-allprofilesinuse Te gjitha profilet momentalisht janë në perdorim
-animatedemoticon Ky simbol është i animuar
+alarmonconnect Aktivo tingullin kur shfrytï¿½uesi futet online
+alarmondisconnect Aktivo tingullin kur shfrytï¿½uesi del jashtï¿½i padukshï¿½
+alarmonmsg Aktivo tingullin kur shfrytï¿½uesi ju dï¿½gon mesazh
+alarmonstatus Aktivo tingullin kur shfrytï¿½uesi e ndï¿½ron gjendjen
+alarmpref Alarmoj Mjedis pï¿½ pï¿½dorues
+alarms Alarmet
+alarmstatus ndez/fik Alarmoj pï¿½ kjo pï¿½dorues
+allfiles Tï¿½gjithï¿½skedat
+allowallbutbl Lejo tï¿½gjithï¿½shfrytï¿½uesit tï¿½mï¿½kontaktojnï¿½pï¿½veq ata qï¿½i kam ne bllok listï¿½allowbadwords Ndalo cenzurï¿½ tek nofkat
+allowlist Lista e tï¿½lejuarve (AL):
+allowonlyinal Lejo vetï¿½ shfrytï¿½uesit e listï¿½se lejuarve tï¿½mï¿½kontaktojnï¿½allowseen Lejoje kï¿½ï¿½person tï¿½mï¿½shohï¿½dhe tï¿½mï¿½kontaktojï¿½kur unï¿½jam nï¿½linjï¿½allprofilesinuse Te gjitha profilet momentalisht janï¿½nï¿½perdorim
+animatedemoticon Ky simbol ï¿½htï¿½i animuar
 animatedsmileys Lejo simbolet e animuara
-animatenotify Dritarja e animuar për njoftim
+animatenotify Dritarja e animuar pï¿½ njoftim
 appearance Paraqitja
-appearoff Paraqitu si jashtë linjës
+appearoff Paraqitu si jashtï¿½linjï¿½
 areacode Kodi i Regjionit
-aretyping $1 janë duke shkruajtur porosi
-autoaccepted Transferi i skedës pranohet automatikisht
-autoacceptft Automatikisht prano kërkesat per transferimin e skedës
-autoaway Më paraqit si "Jashtë" kur joaktiv për
-autocheckver Ne fillim, automatikisht shiko për versione të reja
-autoconnect Kyçu automatikisht kur aMSN startohet
-autoconnect2 Kyçu automatikisht kur aMSN lëshohet
-autohotmaillog Automatikisht kyçu në Hotmail
+aretyping $1 janï¿½duke shkruajtur porosi
+author Autori
+autoaccepted Transferi i skedï¿½ pranohet automatikisht
+autoacceptft Automatikisht prano kï¿½kesat per transferimin e skedï¿½
+autoaway Mï¿½paraqit si "Jashtï¿½ kur joaktiv pï¿½
+autocheckver Ne fillim, automatikisht shiko pï¿½ versione tï¿½reja
+autoconnect2 Kyï¿½ automatikisht kur aMSN lï¿½hohet
+autoconnect Kyï¿½ automatikisht kur aMSN startohet
+autodetectip Detekto Automatikisht IP Adresen
+autohotmaillog Automatikisht kyï¿½ nï¿½Hotmail
 autoidle Auto-Joaktiv
 autoip IP Automatike
-autonoact Më paraqit si "Joaktiv" kur joaktiv për
-avoidseen Mos e lejoje këtë person të më shohë dhe të më kontaktojë kur unë jam në linjë
-away Jashtë
-awaymsg1 Më pyet për mesazhet e largimeve sa herë që e ndërroj gjendjen në Away/BRB/Busy
-awaymsg2 Kurrë mos pyet dhe gjithmonë përdore mesazhin e largimit të mëposhtëm
-baduserpass Shfrytëzuesi apo fjalëkalimi i gabuar
-bgcolor Ndërro ngjyrën e prapavisë së aMSN-it
-blankdirect Lëre të zbrazët për lidhje direkte
+automessage AutoMessage
+autonoact Mï¿½paraqit si "Joaktiv" kur joaktiv pï¿½
+avoidseen Mos e lejoje kï¿½ï¿½person tï¿½mï¿½shohï¿½dhe tï¿½mï¿½kontaktojï¿½kur unï¿½jam nï¿½linjï¿½away Jashtï¿½awaymsg1 Mï¿½pyet pï¿½ mesazhet e largimeve sa herï¿½qï¿½e ndï¿½roj gjendjen nï¿½Away/BRB/Busy
+awaymsg2 Kurrï¿½mos pyet dhe gjithmonï¿½pï¿½dore mesazhin e largimit tï¿½mï¿½oshtï¿½
+baduserpass Shfrytï¿½uesi apo fjalï¿½alimi i gabuar
+bgcolor Ndï¿½ro ngjyrï¿½ e prapavisï¿½sï¿½aMSN-it
+blankdirect Lï¿½e tï¿½zbrazï¿½ pï¿½ lidhje direkte
 block Bllokoje
 blocked I/e Bllokuar
-blockedyougroup Paraqit grup të veçantë për njerëzit të cilët të kanë bllokuar
+blockedyougroup Paraqit grup tï¿½veï¿½ntï¿½pï¿½ njerï¿½it tï¿½cilï¿½ tï¿½kanï¿½bllokuar
 blocking Bllokimet
-blockinter1 Kur gjenda juaj është i/e  kyçur, shiko çdo
-blockinter2 sekonda, përndryshe shiko çdo:
-blockinter3 çdo
+blockinter1 Kur gjenda juaj ï¿½htï¿½i/e  kyï¿½r, shiko ï¿½o
+blockinter2 sekonda, pï¿½ndryshe shiko ï¿½o:
+blockinter3 ï¿½o
 blockinter4 sekonda.
 blocklist Bllok lista (BL):
-blockmessage Këta njerëz janë të kyçur dhe ju kanë bllokuar
-blockusers Numri i shfrytëzuesve për t'i shikuar përnjëherë
-broughtby Sjellur tek ju nga
-browse hedh një sy
+blockmessage Kï¿½a njerï¿½ janï¿½tï¿½kyï¿½r dhe ju kanï¿½bllokuar
+blockusers Numri i shfrytï¿½uesve pï¿½ t'i shikuar pï¿½njï¿½erï¿½broughtby Sjellur tek ju nga
+bouncedock Dridhe aMSN ikonen ne taskbar kurr pranon mesazh te ri
+browse hedh njï¿½sy
+browserexample ( \$url do tï¿½zï¿½endï¿½ohet me URL). P.sh: mozilla \$url
 browser Shfletuesi
-browserexample ( \$url do të zëvendësohet me URL). P.sh: mozilla \$url
-busy I zënë
-cancel Anulo
-cannotdeleteprofile Nuk mund të fshij profilin sepse duket që është i zanun nga sesioni i aMSN-it
-cantexec Nuk mund të ekzekuton aplikacionin: $1. Shiko preferencat
-cantremoveothers Nuk mund të fshin grupin "Të tjerët" 
-casesensitive Përdor shkronjat "case-sensitive"
-cfgalarm Konfiguro/Shto/Heq Alarmo
+busy I zï¿½ï¿½cancel Anulo
+cachedpics $1 Fotografit e Chashe-irata
+cannotdeleteprofile Nuk mund tï¿½fshij profilin sepse duket qï¿½ï¿½htï¿½i zanun nga sesioni i aMSN-it
+cantexec Nuk mund tï¿½ekzekuton aplikacionin: $1. Shiko preferencat
+cantremoveothers Nuk mund tï¿½fshin grupin "Tï¿½tjerï¿½" 
+casesensitive Pï¿½dor shkronjat "case-sensitive"
 cfgalarmall Konfiguro/Shto/Fshij zilen globale
-ch_to_state Kalo në gjendjen e re
+cfgalarm Konfiguro/Shto/Heq Alarmo
 changecustomstate Kalo tek
-changedisplaypic Ndërro fotografinë e paraqitjes
-changefont Ndërro fontin
-changenick Ndërro nofkën
-changestate $1 ndërron gjendjen në $2
-charscounter Numëratori i shkronjave(simboleve) të shkruara në dritaren e bisedimeve
+changedisplaypic Ndï¿½ro fotografinï¿½e paraqitjes
+changefont Ndï¿½ro fontin
+changeglobnick Ndroje Nofken
+change Ndroje
+changenick Ndï¿½ro nofkï¿½
+changesize Ndroje Madhesine
+changestate $1 ndï¿½ron gjendjen nï¿½$2
+charscounter Numï¿½atori i shkronjave(simboleve) tï¿½shkruara nï¿½dritaren e bisedimeve
+chatack Duke pranuar bisedï¿½
 chat Bisedo
-chatack Duke pranuar bisedën
-chatmaxmin Kur kontakti e hap dritaren per të biseduar, dua që ajo të jetë:
-chatreq Duke kërkuar bisedë (chat)
+chatmaxmin Kur kontakti e hap dritaren per tï¿½biseduar, dua qï¿½ajo tï¿½jetï¿½
+chatreq Duke kï¿½kuar bisedï¿½(chat)
+chatsmileys2 Paraqit simbolet dhe "smileys" ne dritaret pï¿½ bisedime.
 chatsmileys :) e bisedave
-chatsmileys2 Paraqit simbolet dhe "smileys" ne dritaret për bisedime.
-checkblocking Vazhdimisht shiko nëse shfrytëzuesit janë duke të bllokuar
-checkfilman Skedat e pranuara do të ruhen në $1. Ju lutem shiko opcionet e 'file manager-it' tek dritarja e preferencave.
-checkingver Duke shikuar për version të ri
-checkonfln Shiko nëse shfrytëzuesi ju ka bllokuar kur ai del jashtë linjës
-checkver Shiko për version të ri
-choosearq Zgjidh arkitekturën e sistemit
+checkblocking Vazhdimisht shiko nï¿½e shfrytï¿½uesit janï¿½duke tï¿½bllokuar
+checkemail Trego per ndonje e-mail te ri (inbox) ne listen e Kontakteve
+checkfilman Skedat e pranuara do tï¿½ruhen nï¿½$1. Ju lutem shiko opcionet e 'file manager-it' tek dritarja e preferencave.
+checkingver Duke shikuar pï¿½ version tï¿½ri
+checkonfln Shiko nï¿½e shfrytï¿½uesi ju ka bllokuar kur ai del jashtï¿½linjï¿½
+checkver Shiko pï¿½ version tï¿½ri
+choosearq Zgjidh arkitekturï¿½ e sistemit
 choosebasefont Zgjidh llojin e shkronjave
 choosebgcolor Zgjidh ngjyren e prapavise
-choosecontact Ju lutem zgjidh kontaktin në listë
-choosefontcolor Zgjidh ngjyrën e fontit
-chooseskin Ju lutemi zgjidhni mbulesën që do t'a përdorni
+choosecontact Ju lutem zgjidh kontaktin nï¿½listï¿½choosefontcolor Zgjidh ngjyrï¿½ e fontit
+chooseskin Ju lutemi zgjidhni mbulesï¿½ qï¿½do t'a pï¿½dorni
+ch_to_state Kalo nï¿½gjendjen e re
+clearlog2 Fshij historinï¿½pï¿½ tï¿½gjithï¿½kontaktet
+clearlog3 Fshij tï¿½gjitha regjistrimet (llogat)
 clearlog Fshij regjistrimet(llogat)
-clearlog2 Fshij historinë për të gjithë kontaktet
-clearlog3 Fshij të gjitha regjistrimet (llogat)
-clicktologin Kliko këtu për të hyrë
-close Mbylle
-closed Biseda me $1 u mbyll per shkak të joaktivitetit
-closingdocks Mbyll dritaren pjesës së butonave (button docks)
-command Komandë
-commandstatus Ekzekuto komandën
-confirm A jeni të sigurtë?
-confirmdelete A jeni i sigurtë që do ta fshini $1?
-confirmpurge Të gjitha fotografitë e kontakteve të tjerë (Jo fotografitë tuaja të paraqitjes) do të fshihen. A jeni të sigurtë?
-connected Ju jeni tashmë i kyçur
-connecterror Nuk mund të lidhet me serverin
-connecting Duke u kyçur
+clear Pastro
+clicktologin Kliko kï¿½u pï¿½ tï¿½hyrï¿½close Mbylle
+clientcaps Dergo x-clientcaps paket tek Klientet tjere
+clientname Emri i Klientit
+closed Biseda me $1 u mbyll per shkak tï¿½joaktivitetit
+closingdocks Mbyll dritaren pjesï¿½ sï¿½butonave (button docks)
+command Komandï¿½commandstatus Ekzekuto komandï¿½
+configure Konfiguro
+confirm A jeni tï¿½sigurtï¿½
+confirmbl A jeni i sigurt se doni ta bllokoni kete Kontakt?
+confirmdelete A jeni i sigurtï¿½qï¿½do ta fshini $1?
+confirmdg A jeni i sigurt se doni ta humbni kete grup?
+confirmdu A jeni i sigurt se doni ta humbni kete Shfrytezues?
+confirmeg A jeni i sigurt se doni ta pastroni kete Grup?
+confirmpurge Tï¿½gjitha fotografitï¿½e kontakteve tï¿½tjerï¿½(Jo fotografitï¿½tuaja tï¿½paraqitjes) do tï¿½fshihen. A jeni tï¿½sigurtï¿½
+confirmrfl A jeni i sigurt se doni ta humbni kete Shfrytezues nga ky Grup?
+connected Ju jeni tashmï¿½i kyï¿½r
+connectedwith Konektuar (lidhur) me $1
+connecterror Nuk mund tï¿½lidhet me serverin
+connecting Duke u kyï¿½r
 connection Lidhja
-connectionlost U Ç'kyçët: Lidhja me server u mbyll
+connectionlost U ï¿½kyï¿½t: Lidhja me server u mbyll
 contactadded Kontakti u shtua
 contactdoesnotexist Kontakti nuk ekziston!
 contactlist Lista e kontakteve (FL):
-convertexplain Lokacioni për të konvertuar skedën ekzekutabile, prej ImageMagick (kërkohet për paraqitjen e fotografive).\n Lëre të zbrazët nëse CONVERT veç është në lokacion
+continuously Vazhdimisht
+convertexplain Lokacioni pï¿½ tï¿½konvertuar skedï¿½ ekzekutabile, prej ImageMagick (kï¿½kohet pï¿½ paraqitjen e fotografive).\n Lï¿½e tï¿½zbrazï¿½ nï¿½e CONVERT veï¿½ï¿½htï¿½nï¿½lokacion
 copy Copy
 copytogroup Krypto Grupi
-corruptconfig Skedari i konfigurimit ështe korruputar. Krijohet një të re. Skedari i vjetër do të ruhet në $1. Ju lutem dërgoni tek ne, të shohim se ç'ka ndodhur.
-corruptstates Konfiguruesi i gjendjes së kostumizuar ështe korruptuar. Skedari i vjetër do të ruhet në $1. Ju lutem dërgoni tek ne, të shohim se ç'ka ndodhur.
+corruptconfig Skedari i konfigurimit ï¿½hte korruputar. Krijohet njï¿½tï¿½re. Skedari i vjetï¿½ do tï¿½ruhet nï¿½$1. Ju lutem dï¿½goni tek ne, tï¿½shohim se ï¿½ka ndodhur.
+corruptstates Konfiguruesi i gjendjes sï¿½kostumizuar ï¿½hte korruptuar. Skedari i vjetï¿½ do tï¿½ruhet nï¿½$1. Ju lutem dï¿½goni tek ne, tï¿½shohim se ï¿½ka ndodhur.
 countrycode Vendi im/Kodi i regjionit
 cprofile Krijo Profil
+credits Kredite
+currentdate Data momentale
+custnotifymsg Sinjalizo notifikimin me dritare kurr merr mesazh nga nje shfrytezues i ri
+custnotifyoffline Sinjalizo notifikimin me dritare kurr ky shfrytezues paraqitet si off-line (jasht lidhjes)
+custnotifyonline Sinjalizo notifikimin me dritare kurr ky shfrytezues paraqitet on-line (ne lidhje)
+custnotifystatus DSinjalizo notifikimin me dritare kurr ky shfrytezues ndrron gjendjen
+customcolor Ngjyra te Zakonshme
 custom_edit Edito 'smiley-in' e kostumizuar
-custom_new Edito 'smiley' të kostumizuar
+custom_new Edito 'smiley' tï¿½kostumizuar
+customnick Nofka e zakonshme
+customstyle Stili i zakonshem
 cut Cut
 date Data
-days Ditë
-dcprofile Mos Krijo Profil
+dateformat Ndrro formatin e dates
+day Dita
+days Ditï¿½dcprofile Mos Krijo Profil
 default Konfigurimi i parazgjedhur
-defaultloginradio Kyçu me konfigurimin e parazgjedhur
-defchatwinsize Madhësia e parazgjedhur për dritaret për bisedime (XSIZExYSIZE)
-delete Fshije
+defaultloginradio Kyï¿½ me konfigurimin e parazgjedhur
+defchatwinsize Madhï¿½ia e parazgjedhur pï¿½ dritaret pï¿½ bisedime (XSIZExYSIZE)
 deletecustomstate Fshij gjendjen e kostumizuar
-delimiters Ndarësit e 'Timestamps':
-deliverfail Pati problem në dërgimin e mesazhit
+delete Fshije
+delimiters Ndarï¿½it e 'Timestamps':
+deliverfail Pati problem nï¿½dï¿½gimin e mesazhit
+delprofile2 Zgjidh profilin tï¿½cilin dï¿½hiron ta fshin
 delprofile Fshij profilin
-delprofile2 Zgjidh profilin të cilin dëshiron ta fshin
-description Përshkrimi
-directconnection Unë kam lidhje direkte nëinternet (përdor portin 1863)
+description Pï¿½shkrimi
+directconnection Unï¿½kam lidhje direkte nï¿½nternet (pï¿½dor portin 1863)
 disabled Ndalohet
-disableprofiles Ndalo profilet (I përdorshëm për cyber-kafet ose në zonat publike)
+disableprofiles Ndalo profilet (I pï¿½dorshï¿½ pï¿½ cyber-kafet ose nï¿½zonat publike)
 disablessl Ndalo SSL
-disconnect $1 u çkyç.
+disableuserfonts Injoro fontet te cilat i ka ne perdorim shfrytezuesi, dhe shfrytezo Fontet e mia
+disconnect $1 u ï¿½yï¿½
+disconnectedfrom I Ckyqur nga $1
 displaychat Paraqit opcionet e tekstit
+displayeventconnect Trego kurr Shfrytezuesit kalojne online
+displayeventdisconnect Trego kurr Shfrytezuesit kalojne offline
+displayeventemail Trego kurr E-maili eshte pranuar
+displayeventstate Trego kurr Shfrytezuesit 
+displayp4context Trego P4-Kontekst fushen si pjese e mesazhit nga Shfrytesuesi
+displaypic Trego Fotografine
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
 docking Docking
 dockingoff Docking Off
 dockkde KDE Dock
-dontdownload Mos shkarko TLS, Do t'a instaloj vetë
-dontshow Mos paraqit
+dontdownload Mos shkarko TLS, Do t'a instaloj vetï¿½dontshow Mos paraqit
 downloadingtls Shkarko TLS modulin prej:\n $1
-edit Edito
 editcustomstate Edito gjendjen e kostumizuar
+edit Edito
 editnewstate Gjendje e re e auto-mesazhit personal
 editprofile Edito Profilin
-editstate Edito gjendjen ekzistuese të auto-mesazhit personal
-editvalue Edito vlerën
-emailsinlist Paraqit e-mailat në vend të nofkave në listën e kontakteve
-emotisounds Lësho tinguj për simbolet(emoticons) e caktuara
-enablebanner Paraqit banerin e aMSN-it  (Kërkon  re-startimin e aMSN-it)
+editstate Edito gjendjen ekzistuese tï¿½auto-mesazhit personal
+editvalue Edito vlerï¿½
+email E-mail
+emailsinlist Paraqit e-mailat nï¿½vend tï¿½nofkave nï¿½listï¿½ e kontakteve
+emotisounds Lï¿½ho tinguj pï¿½ simbolet(emoticons) e caktuara
+emptygroup Pastroje Grupin
+enablebanner Paraqit banerin e aMSN-it  (Kï¿½kon  re-startimin e aMSN-it)
 enabled Lejohet
-enableproxy Mundëso proxin
-enableremote Lejo kontrollen prej së largu
+enableproxy Mundï¿½o proxin
+enableremote Lejo kontrollen prej sï¿½largu
 enablesound Lesho tingujt
+encoding2 Ndï¿½ro mï¿½yrï¿½ se si karakterat jane enkoduar
 encoding Enkodimi
-encoding2 Ndërro mënyrën se si karakterat jane enkoduar
 entercontactemail Shkruaje e-mail-in e kontaktit
-enterfilename Ju lutem shkruane emrin e skedës
-enternick Shkruaje nofkën tuaj
-errortls Error gjatë instalimit të TLS modulit:
+enterfilename Ju lutem shkruane emrin e skedï¿½
+enternick Shkruaje nofkï¿½ tuaj
+errortls Error gjatï¿½instalimit tï¿½TLS modulit:
+eventhistory Shiko Historine
 examples Shembuj
-exitamsn Ju po e lini aMSN-in.\nA jeni të sigurtë?
+exitamsn Ju po e lini aMSN-in.\nA jeni tï¿½sigurtï¿½
 extras Servise ekstra
-failed Dështoi
-faileddelete Dështoi të fshin
-faileddeleteperso Kjo fotografi nuk mund të fshihet sepse nuk është skedë e fotografive personale. Vetëm fotografitë që i përkasin profilit tuaj personal mund të fshihen në këtë mënyrë.
-faq FAQ (Pyetjet Më Të Shpeshta)
-file File
+faileddelete Dï¿½htoi tï¿½fshin
+faileddeleteperso Kjo fotografi nuk mund tï¿½fshihet sepse nuk ï¿½htï¿½skedï¿½e fotografive personale. Vetï¿½ fotografitï¿½qï¿½i pï¿½kasin profilit tuaj personal mund tï¿½fshihen nï¿½kï¿½ï¿½mï¿½yrï¿½
+failed Dï¿½htoi
+faq FAQ (Pyetjet Mï¿½Tï¿½Shpeshta)
 filedoesnotexist skedari nuk ekziston
-fileman Menagjeri i skedarëve
-filemanexample ( \$location do të zëvendësohet me lokacionin ) p.sh: nautilus \$location
+file File
+filemanexample ( \$location do tï¿½zï¿½endï¿½ohet me lokacionin ) p.sh: nautilus \$location
+fileman Menagjeri i skedarï¿½e
 filename Emri i skedarit
-filetransfercancelled Transferi i skedës u anulua
-filetransfercomplete Transferi i skedës përfundoi
-followtext Lëviz te poshtë kur një tekst i ri është shkruajtur
-ftaccepted Transferi i skedës pranuar
-ftacceptedby $1 pranoi thirrjen për transferin e skedës '$2'.
-ftaccepting Duke pranuar thirrjen për pranimin e skedës
-ftconnecterror Error gjatë lidhjes me anën tjetër
+filetransfercancelled Transferi i skedï¿½ u anulua
+filetransfercomplete Transferi i skedï¿½ pï¿½fundoi
+filetransfer Transferi i Skedareve (Fajllave)
+followtext Lï¿½iz te poshtï¿½kur njï¿½tekst i ri ï¿½htï¿½shkruajtur
+friendlyname Emri Shoqerues
+ftacceptedby $1 pranoi thirrjen pï¿½ transferin e skedï¿½ '$2'.
+ftaccepted Transferi i skedï¿½ pranuar
+ftaccepting Duke pranuar thirrjen pï¿½ pranimin e skedï¿½
+ftautoclose Mbylle dritaren kurr transferi i Skedareve perfundon
+ftconnecterror Error gjatï¿½lidhjes me anï¿½ tjetï¿½
 ftconnecting Duke u lidhur tek $1 porti $2
-ftconnectionlost Lidhja me anën tjetër u ndërpre
-ftgotinvitation $1 dëshiron t'ju dërgon skedën '$2' ($3 bajta). Skedari do të ruhet në lokacionin $4. A dëshironi t'a pranoni këtë skedar?
-ftportpref Duke startuar portin për transferin e skedës
-ftrejected Transferi i skedës refuzoj
-ftrejectedby $1 rrefuzoi ftesën për transferin e skedës '$2'.
-ftsendinvitation Ftesa për transferin e skedës '$2' ($3 bytes) u dërgua tek $1.
-fullcontactlist Keqardhje, kontakt lista juaj është e mbushur. Ju duheni të fshini disa kontakte në mënyrë që të shtoni të reja.
-getdisppic Lejo pranimin e fotografive që paraqiten prej shfrytëzuesve tjerë
-gonelunch Shkova për të ngrënë
-group Grupit
-groupadd Shto një grup
-groupdelete Fshije një grup
+ftconnectionlost Lidhja me anï¿½ tjetï¿½ u ndï¿½pre
+ftgotinvitation $1 dï¿½hiron t'ju dï¿½gon skedï¿½ '$2' ($3 bajta). Skedari do tï¿½ruhet nï¿½lokacionin $4. A dï¿½hironi t'a pranoni kï¿½ï¿½skedar?
+ftportpref Duke startuar portin pï¿½ transferin e skedï¿½
+ftrejectedby $1 rrefuzoi ftesï¿½ pï¿½ transferin e skedï¿½ '$2'.
+ftrejected Transferi i skedï¿½ refuzoj
+ftsendinvitation Ftesa pï¿½ transferin e skedï¿½ '$2' ($3 bytes) u dï¿½gua tek $1.
+fullcontactlist Keqardhje, kontakt lista juaj ï¿½htï¿½e mbushur. Ju duheni tï¿½fshini disa kontakte nï¿½mï¿½yrï¿½qï¿½tï¿½shtoni tï¿½reja.
+getdisppic Lejo pranimin e fotografive qï¿½paraqiten prej shfrytï¿½uesve tjerï¿½gonelunch Shkova pï¿½ tï¿½ngrï¿½ï¿½group Grupit
+globalnick Beje te mundshem Formimin e te gjith shfrytezuesve ne Nofka. Mund t'i shfrytezoni keto variable: \$user_login per ty kontaktet' adresen, \$nick for your contacts' nofka dhe \$customnick for your contacts' Nofka e Zakonshme. Per Shembull: '\$user_login eshte \$nick' do te jete 'contact@msn.com eshte Kontakt'
+globalnicktitle Nofka Globale
+globaloverride Nofkat globale duhet t'i mposhtin nofkat e zakonshme
+groupadd Shto njï¿½grup
+groupdelete Fshije njï¿½grup
 groupexists Grupi ekziston
 groupmissing Nuk mund ta gjej grupin
 groupnewname emri i ri
-groupnotempty Grupi nuk është i zbrazët!
-groupoldname Emri i vjetër
-grouprename Riemërtoje grupin
+groupnotempty Grupi nuk ï¿½htï¿½i zbrazï¿½!
+groupoldname Emri i vjetï¿½
+grouprename Riemï¿½toje grupin
+groups Grupet
 groupunknown Group i panjohur
-handle Mbanë
-help Ndihmë
-helpcontents Përmbajtja e ndihmës
-hidedisplaypic Fshih paraqitjen e fotografisë
-hiden Fshih simbolin (emoticon) prej listës së 'smiley-ve'
+handle Mbanï¿½help Ndihmï¿½helpcontents Pï¿½mbajtja e ndihmï¿½
+hidedisplaypic Fshih paraqitjen e fotografisï¿½hiden Fshih simbolin (emoticon) prej listï¿½ sï¿½'smiley-ve'
 hidewindow Fshih dritaren
-history Shiko Historinë
-home Shtëpi
-httpconnection Kyçu duke përdorur HTTP metodën (perdor HTTP protocollin përmes portit 80)
+history Shiko Historinï¿½home Shtï¿½i
+httpconnection Kyï¿½ duke pï¿½dorur HTTP metodï¿½ (perdor HTTP protocollin pï¿½mes portit 80)
 hybrid Klasifikimeve
 ident Duke identifikuar
 identity Identiteti
-imagefiles Skeda të fotove
+ignoreerrors Me qetesi injoro te gjitha AMSN error-at deri ne fund te sesionit
+imagefiles Skeda tï¿½fotove
 inbox In-Box
 insertsmiley Shto simbolin(emoticon)
-installconvert Ju duhet të instaloni ImageMagick (program konvertues) ne mënyrë të përdorni 'Buddy' ikona dhe simbole(emoticons) të kostumizuara. Ju mund t'i shkarkoni skedat binare për sistemin e juaj operativ në ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Nëse veç e keni atëherë është 'bug'. Ju lutemi raportoni. Këto elemente tani do të ndalen. Nëse instaloni ImageMagik më vonë, ri-lëshoni këto opcione prej preferencave.
-internalerror Error i brendshëm i serverit
-invalidfile Skedari $2 i futur në fushën "$1" nuk ekziston ose nuk mund të lexohet
+installconvert Ju duhet tï¿½instaloni ImageMagick (program konvertues) ne mï¿½yrï¿½tï¿½pï¿½dorni 'Buddy' ikona dhe simbole(emoticons) tï¿½kostumizuara. Ju mund t'i shkarkoni skedat binare pï¿½ sistemin e juaj operativ nï¿½ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Nï¿½e veï¿½e keni atï¿½erï¿½ï¿½htï¿½'bug'. Ju lutemi raportoni. Kï¿½o elemente tani do tï¿½ndalen. Nï¿½e instaloni ImageMagik mï¿½vonï¿½ ri-lï¿½honi kï¿½o opcione prej preferencave.
+internalerror Error i brendshï¿½ i serverit
 invalidfile2 Skedari $1 could not be created, make sure you have the correct permissions for that target.
-invalidpic Skedari i dhënë i fotografisë nuk ekziton
-invalidpicsize Fotografia e dhënë është shume e madhe, Ju lutemi zgjdhni një më të vogël
-invalidsound Skedari i dhene i zërit nuk ekziston
-invalidusername Emër i gabuar i shfrytëzuesit
+invalidfile Skedari $2 i futur nï¿½fushï¿½ "$1" nuk ekziston ose nuk mund tï¿½lexohet
+invalidgroup Grupe Invalide
+invalidpicsize Fotografia e dhï¿½ï¿½ï¿½htï¿½shume e madhe, Ju lutemi zgjdhni njï¿½mï¿½tï¿½vogï¿½
+invalidpic Skedari i dhï¿½ï¿½i fotografisï¿½nuk ekziton
+invalidsound Skedari i dhene i zï¿½it nuk ekziston
+invalidusername Emï¿½ i gabuar i shfrytï¿½uesit
 invitationcancelled Ftesa u anulua
 invite Ftoje
 ipaddress IP Adresa
-ipdetect Detekto IP valide për transferin e skedave përmes HTTP-së
-istyping $1 është duke shkruar porosi
-joins $1 i bashkangjitet bisedës
+ipdetect Detekto IP valide pï¿½ transferin e skedave pï¿½mes HTTP-sï¿½istyping $1 ï¿½htï¿½duke shkruar porosi
+ircstyle IRC stil
+joins $1 i bashkangjitet bisedï¿½
+justonce Vetem nje here
 keepalive Keepalive (NAT)
+keeplog2 Regjistro(Log) tï¿½gjitha bisedat tek historia e aMSN-it pï¿½ t'i shikuar mï¿½vonï¿½language Gjuha
 keeplog Mbaj regjistrimet (Logs) e bisedave
-keeplog2 Regjistro(Log) të gjitha bisedat tek historia e aMSN-it për t'i shikuar më vonë
-language Gjuha
-lastmsgtime i/e Fundit mesazh marrura në $1
+lastlogin Log in-i i Fundit
+lastlogout Log Out-i i Fundit
+lastmsgedme Mesazhi i Fundit
+lastmsgtime i/e Fundit mesazh marrura nï¿½$1
+lastseen Hera e Fundit On-line
 lclosedwin $1 ka mbyllur dritaren me $2
-lconftopriv Konferenca u kthye ne bisedë private me $1
+lconftopriv Konferenca u kthye ne bisedï¿½private me $1
 lconvstarted Biseda filloi me $1
-leaveblankforhotmail Lëre zbrazët për hotmail web
-leaves $1 e la bisedën
-lenteredconf $1 është futur në konferencë me $2
-lineflushlog Zbraze(Flush) baferin në regjistra(logs) pas çdo rreshti të shkruar
+leaveblankforhotmail Lï¿½e zbrazï¿½ pï¿½ hotmail web
+leavejoinsinchat Trego "daljen/hyrjen ne konverzacion" notifikimet mbrenda ne dritare
+leaves $1 e la bisedï¿½
+lenteredconf $1 ï¿½htï¿½futur nï¿½konferencï¿½me $2
+lineflushlog Zbraze(Flush) baferin nï¿½regjistra(logs) pas ï¿½o rreshti tï¿½shkruar
 linprivate PRIVATISHT
-listeningon Duke dëgjuar në portin $1
+listeningon Duke dï¿½juar nï¿½portin $1
+listsmileys2 Paraqit simbolet (Emoticons dhe Smileys) nï¿½kontakt listï¿½ kryesore tï¿½aMSN-it
 listsmileys Listoj simbolet (smileys)
-listsmileys2 Paraqit simbolet (Emoticons dhe Smileys) në kontakt listën kryesore të aMSN-it
-ljoinedconf $1 iu bashkangjit konferencës
-lleftconf $1 e la konferencën
-loadcontacts Ngarkoje listën e kontakteve
-logbigger Regjistro(Log) madhësitë e skedarëve për cdo kontakt që nuk e tepron
-logfandexp Regjistro(Log) madhësitë e skedave dhe mbarimin (expiry) e historisë
-loggedotherlocation U ç'kyç. Kyçja është bërë nga ndonjë lokacion tjetër
-loggingin Duke u kyçur
-login Kyçu
-loginas Kyçu
+ljoinedconf $1 iu bashkangjit konferencï¿½
+lleftconf $1 e la konferencï¿½
+loadcontacts Ngarkoje listï¿½ e kontakteve
+load Load
+logbigger Regjistro(Log) madhï¿½itï¿½e skedarï¿½e pï¿½ cdo kontakt qï¿½nuk e tepron
+logeventconnect Regjistro Koneksionet
+logeventdisconnect Regjistro lidhjet e shkeputura
+logeventemail Regjistro kurr pranohet nje e-mail
+logeventstate Regjistro ndryshimet e statusit
+logfandexp Regjistro(Log) madhï¿½itï¿½e skedave dhe mbarimin (expiry) e historisï¿½loggedotherlocation U ï¿½kyï¿½ Kyï¿½a ï¿½htï¿½bï¿½ï¿½nga ndonjï¿½lokacion tjetï¿½
+loggingin Duke u kyï¿½r
+loginas Kyï¿½
 loging Regjistrimi (Logging)
-logolder Regjistroi vetëm bisedat të cilat janë bërë në fund
-logout Ç'kyçu
-logsin Vetëm sa u kyç
-logsmileys Shfaq simbolet(Emoticons dhe Smileys) në dritaren e historisë së aMSN-it
-logsout vetëm sa doli
-longnick Nofka juaj është më e gjatë se 130 simbole. Kjo zyrtarisht nuk është e përkrahur nga MSN protokolli. A jeni të sigurtë se do të vendosni ketë?
-lprivtoconf Biseda private kaloi në Konferencë me $1
+login Kyï¿½
+logolder Regjistroi vetï¿½ bisedat tï¿½cilat janï¿½bï¿½ï¿½nï¿½fund
+logout ï¿½kyï¿½
+logsbydate Rendo Regjistrimet simbas dates (Shiko historine shum me shpejt)
+logsin Vetï¿½ sa u kyï¿½logsmileys Shfaq simbolet(Emoticons dhe Smileys) nï¿½dritaren e historisï¿½sï¿½aMSN-it
+logsout vetï¿½ sa doli
+longnick Nofka juaj ï¿½htï¿½mï¿½e gjatï¿½se 130 simbole. Kjo zyrtarisht nuk ï¿½htï¿½e pï¿½krahur nga MSN protokolli. A jeni tï¿½sigurtï¿½se do tï¿½vendosni ketï¿½
+longp4c Emri yt shoqerues eshte me i gjat se 130 karaktere. Emerimi i Emrit shoqerues do te jete si $1. A jeni i/e sigurt?
+lprivtoconf Biseda private kaloi nï¿½Konferencï¿½me $1
 luclosedwin Ju e keni mbyllur dritaren me $1
+mailerexample ( \$recipient = Recipient ) Lï¿½e tï¿½zbrazï¿½ nï¿½mï¿½yrï¿½qï¿½ta perdorni Hotmail
 mailer Mail-i
-mailerexample ( \$recipient = Recipient ) Lëre të zbrazët në mënyrë që ta perdorni Hotmail
+maintenance Serveri do te ndalet ne $1 minuta
 maximised Maksimizuar
 minimised Minimizuar/Ikonizuar
 mins minuta
 mobile Mobil
-morepersonal Më shumë shtete ->
+month Muaji
+morepersonal Mï¿½shumï¿½shtete ->
 move Move
-movetogroup Lëviz grupin
+movetogroup Lï¿½iz grupin
+msgflicker Lï¿½unde(dridhe) titullin e dritares pï¿½ biseda kur porosia e re pranohet nï¿½dritaren e pafukusuar.
+msgmaxmin Kur porosia arrinï¿½ Unï¿½dua qï¿½ajo tï¿½jetï¿½
+msgmode Zgjidh se si do ti menagjosh dritaret me porosi tï¿½shumï¿½ishta:
 msg Porosi
-msgflicker Lëkunde(dridhe) titullin e dritares për biseda kur porosia e re pranohet në dritaren e pafukusuar.
-msgmaxmin Kur porosia arrinë, Unë dua që ajo të jetë:
-msgmode Zgjidh se si do ti menagjosh dritaret me porosi të shumëfishta:
 msn AMSN-Shqip
-mustrestart Duhet ta startoni përsëri programin në mënyrë që t'i merr parasysh ndryshimet
-myhomephone Numri i telefonit (Shtëpi)
+msnstyle MSN Stili
+mustrestart Duhet ta startoni pï¿½sï¿½i programin nï¿½mï¿½yrï¿½qï¿½t'i merr parasysh ndryshimet
+myfriendlyname Emri im Shoqerues
+myhomephone Numri i telefonit (Shtï¿½i)
 mymobilephone Numri i telefonit (Celular)
-mypic Fotografia ime që paraqitet:
+mynick Nofka ime
+mypic Fotografia ime qï¿½paraqitet:
 mystatus Statusi im
-myworkphone Numri i telefonit (Punë)
-natip detektimi i IP-së përmes web faqes
-natkeepalive Nëse vazhdimisht po keni ndërprerje atëherë lejo këtë "KeepAlive"
-needonline Ju ende jeni i paraqitur si jashtë linjës!
-newmail $1 Mesazhe të reja në In-Box
-newmailfrom Masazh të ri nga $1 ($2)
+myworkphone Numri i telefonit (Punï¿½
+name Emri
+natip detektimi i IP-sï¿½pï¿½mes web faqes
+natkeepalive Nï¿½e vazhdimisht po keni ndï¿½prerje atï¿½erï¿½lejo kï¿½ï¿½"KeepAlive"
+needonline Ju ende jeni i paraqitur si jashtï¿½linjï¿½!
+needwinico Duhet winico03.dll ne Plugins direktorium per windows traydocking te funksionoj
+never Kurr
+new_ft_protocol Shfrytezo File Transfer protocol (Disa probleme te pazgjidhura)
+newmail $1 Mesazhe tï¿½reja nï¿½In-Box
+newmailfolder Ju keni $1 mesazhe te reja ne Inbox
+newmailfrom Masazh tï¿½ri nga $1 ($2)
+newmailfromother E-mail i ri ne $1 ($2)
 newmsg Mesazh i ri
-newstate Shto gjendje të re
-newveravailable Versioni i ri $1 është në dispozicion për shkarkim.
+newstate Shto gjendje tï¿½re
+newveravailable Versioni i ri $1 ï¿½htï¿½nï¿½dispozicion pï¿½ shkarkim.
 next Tjetra
-no Jo
+nick Nofka
 noactivity Nuk ka aktivitet
-nodataavailable Nuk ka shënim valid për $1
-nologfile Nuk ka skedar të regjistrimeve (Log file) për $1
-noneavailable S'ka asnjë
-nonewmail Nuk ka e-mail te ri
-nonewver Nuk ka version të ri për ta marrë
-nopic Nuk ka fotografi
-noprofileexists Momentalisht nuk ekziston ndonjë profil, \n duhet të krijoni një nëse dëshironi të përdorni kyçje të profilizuara. \nPërdore butonin Shto profil të ri në këtë dritare në mënyrë që ta shtoni një profil të ri.
+nodataavailable Nuk ka shï¿½im valid pï¿½ $1
+nogap Pa ndarje ne mes te Grupeve
+nogroup Pa Grupe
+no Jo
+nologfile Nuk ka skedar tï¿½regjistrimeve (Log file) pï¿½ $1
+noneavailable S'ka asnjï¿½nonewmail Nuk ka e-mail te ri
+nonewver Nuk ka version tï¿½ri pï¿½ ta marrï¿½nopic Nuk ka fotografi
+noprofileexists Momentalisht nuk ekziston ndonjï¿½profil, \n duhet tï¿½krijoni njï¿½nï¿½e dï¿½hironi tï¿½pï¿½dorni kyï¿½e tï¿½profilizuara. \nPï¿½dore butonin Shto profil tï¿½ri nï¿½kï¿½ï¿½dritare nï¿½mï¿½yrï¿½qï¿½ta shtoni njï¿½profil tï¿½ri.
 normal normale
-noskins Nuk mund t'a gjen mbulesën e parazgjedhur në lokacionin e mbulesave. AMSN nuk po mundet të starton
-nosystemtray Tabaku i sistemit (System tray) nuk është në dispozicion
+noskins Nuk mund t'a gjen mbulesï¿½ e parazgjedhur nï¿½lokacionin e mbulesave. AMSN nuk po mundet tï¿½starton
+nosystemtray Tabaku i sistemit (System tray) nuk ï¿½htï¿½nï¿½dispozicion
 notificationserver Initial MSN Notification Server (MSN Messenger Server)
-notify Lajmëro
-notify1 Shfaq dritaren lajmëruese kur kontakti futet ne linjë
-notify1_5 Shfaq dritaren lajmëruese kur kontakti del nga linja
-notify1_75 Shfaq dritaren lajmëruese kur kontakti ndërron gjendjen
-notify2 Shfaq dritaren lajmëruese kur porositë e reja pranohen
-notify3 Shfaq dritaren lajmëruese kur e-maili i ri arrinë
-notifyoffset Offset the position of the notification pop-up
+notify1_75 Shfaq dritaren lajmï¿½uese kur kontakti ndï¿½ron gjendjen
+notify1 Shfaq dritaren lajmï¿½uese kur kontakti futet ne linjï¿½notify1_5 Shfaq dritaren lajmï¿½uese kur kontakti del nga linja
+notify2 Shfaq dritaren lajmï¿½uese kur porositï¿½e reja pranohen
+notify3 Shfaq dritaren lajmï¿½uese kur e-maili i ri arrinï¿½notifyoffset Offset the position of the notification pop-up
+notify4 Trego notifikimin per e-mailat e ri te pranuar
+notify Lajmï¿½o
+notifytimeout Numri i milisekondave para se te zhdukej dritarja e notifikimit
 notifytyping Send other users notifications when typing
-notifywin Dritarja e lajmërimeve
-notls Protokolli 9 i MSN-it kërkon TLS paketën. Kjo paketë po duket se nuk është e instaluar ne këtë makinë. Nëse është e instaluar, atëherë lokacioni i librarisë duhet të caktohet në Dritaren e Preferencave (p.sh.: /opt/tls/lib). \n \n Eshtë e mundhme që TLS të shkarkohet nga http://tls.sf.net.
-nousersinsession Nuk ka shfrytëzues në sesion
-offline Jashtë linjës
+notifywin Dritarja e lajmï¿½imeve
+notinlist Ju nuk jeni ne listen e shfrytezuesve te tij/saj
+notls Protokolli 9 i MSN-it kï¿½kon TLS paketï¿½. Kjo paketï¿½po duket se nuk ï¿½htï¿½e instaluar ne kï¿½ï¿½makinï¿½ Nï¿½e ï¿½htï¿½e instaluar, atï¿½erï¿½lokacioni i librarisï¿½duhet tï¿½caktohet nï¿½Dritaren e Preferencave (p.sh.: /opt/tls/lib). \n \n Eshtï¿½e mundhme qï¿½TLS tï¿½shkarkohet nga http://tls.sf.net.
+nousersinsession Nuk ka shfrytï¿½ues nï¿½sesion
+nudge $1 Kerkon vemendjen tuaj
+offline Jashtï¿½linjï¿½
 ok Ok
-onenewmail 1 Mesazhe të reja në In-Box
-online Në Linjë
-onphone Në telefon
+onenewmail 1 Mesazhe tï¿½reja nï¿½In-Box
+online Nï¿½Linjï¿½onphone Nï¿½telefon
 openreceived Hapi Skedat e marrura
 options Opcionet
-ordercontactsby Rradhit kontaktet ne bazë të
-ordergroupsby Rradhit grupet në menyrë
-other Tjëter
-others Të Tjerët
+ordercontactsby Rradhit kontaktet ne bazï¿½tï¿½ordergroupsby Rradhit grupet nï¿½menyrï¿½other Tjï¿½er
+original Origjinal
+others Tï¿½Tjerï¿½
+p4contextprefix Prefiksi P4-Context Derguesit me kete rresht
 pager Pejgjer
-pass Fjalëkalimi
+pass Fjalï¿½alimi
 paste Paste
 personal Personale
+phones Numrat e Telefonit
 phone Telefoni
 picbrowser Paraqit browserin e fotografive
-picfile Alarmoj Pikturë Dosje (GIF < 500 x 500)
-picstatus ndez/fik Alarmoj Pikturë
-playing Playing: $1
-pluginselector Zgjidh Plugin-ët
+picfile Alarmoj Pikturï¿½Dosje (GIF < 500 x 500)
+picstatus ndez/fik Alarmoj Pikturï¿½playing Playing: $1
+pluginselector Zgjidh Plugin-ï¿½
 port Porti
 prefalerts Urgjencat dhe Tingujt
 prefapps Aplikacionet
-prefawaymsg Mesazhi im gjatë gjendjes Jashtë
-prefblock1 Shiko në ç'kyçje
+prefawaymsg Mesazhi im gjatï¿½gjendjes Jashtï¿½prefblock1 Shiko nï¿½ï¿½kyï¿½e
 prefblock2 Vazhdimisht shiko
 prefblock3 "Ju jeni bllokuar nga" grupi
 prefconnection Opcionet e Konekcionit
 prefemotic ikonat e simboleve(emotions dhe smileys)
 preferences Preferencat
-preffont Teksti i mesazheve të mi
-preffont2 Ndërro mënyrën se si të tjerët e shohin tekstin tim në sesionet e bisedimeve
-preffont3 Ndërro paraqitjen (interface) fontin dhe madhësine e aMSN-it
+preffont2 Ndï¿½ro mï¿½yrï¿½ se si tï¿½tjerï¿½ e shohin tekstin tim nï¿½sesionet e bisedimeve
+preffont3 Ndï¿½ro paraqitjen (interface) fontin dhe madhï¿½ine e aMSN-it
+preffont Teksti i mesazheve tï¿½mi
+prefft File transfer, peer-to-peer dhe NAT konfigurimet
 preflibs Lokacionet e librarive
-preflog1 Opcionet e mi të Historisë dhe të Regjistrimeve(logging)
+preflog1 Opcionet e mi tï¿½Historisï¿½dhe tï¿½Regjistrimeve(logging)
+preflogevent Historia e Ndodhive te mia
 preflook Pamja e  aMSN-it tim
-prefmsging Paraqitja(Interface) e bisedimeve të mia.
+prefmsging Paraqitja(Interface) e bisedimeve tï¿½mia.
 prefname Emri im i MSN Mesengjerit/Nofka
-prefphone Numrat e mi të telefonit
-prefphone2 Shkruaj numrat e telefonit që njerëzit në \n Listën e Lejuar të mund t'i shohin \n
-prefprivacy Lista e të Lejuarve/Bllokuarve të shfrytëzuesit
-prefprivacy2 Lista e Konakteve/Përmbysura të shfrytëzuesit
+prefphone2 Shkruaj numrat e telefonit qï¿½njerï¿½it nï¿½\n Listï¿½ e Lejuar tï¿½mund t'i shohin \n
+prefphone Numrat e mi tï¿½telefonit
+prefprivacy2 Lista e Konakteve/Pï¿½mbysura tï¿½shfrytï¿½uesit
+prefprivacy Lista e tï¿½Lejuarve/Bllokuarve tï¿½shfrytï¿½uesit
+prefprofile2 Krijo ose modifiko profilin tï¿½d publik \n(pï¿½shkrimi juaj qï¿½tï¿½tjerï¿½ mund ta shohin)
+prefprofile3 Konfiguracioni i profileve tï¿½shfrytï¿½uesit tï¿½aMSN-it
 prefprofile Profili im publik
-prefprofile2 Krijo ose modifiko profilin tënd publik \n(përshkrimi juaj që të tjerët mund ta shohin)
-prefprofile3 Konfiguracioni i profileve të shfrytëzuesit të aMSN-it
 prefproxy Aranzhimet e Proksit tim
-prefremote Preferencat e kyçjes prej së largu
-prefsession Kyçja dhe gjendja(statusi) im/e
-prefshared Konekcionet e përbashkëta(Shared)  (vetëm për NAT)
-prefsound Zërat
+prefremote Preferencat e kyï¿½es prej sï¿½largu
+prefsession Kyï¿½a dhe gjendja(statusi) im/e
+prefshared Konekcionet e pï¿½bashkï¿½a(Shared)  (vetï¿½ pï¿½ NAT)
+prefsound Zï¿½at
+preview Parashiko
 privacy Intimiteti(Privacy)
 profiledconfig Konfirurimi i Profilizuar
-profileexists Ju nuk mund t'a krijoni profilin me këtë login\n sepse një vetëm ekziston. Ju lutemi zgjidhni një login tjetër.
-profileinuse Ky Profil është duke u përdorur nga një sesion tjetër i aMSN-it, Ju lutemi zgjidhni një login tjetër
-profileloginradio Kyçuni duke përdorur profilin ekzistues
+profileexists Ju nuk mund t'a krijoni profilin me kï¿½ï¿½login\n sepse njï¿½vetï¿½ ekziston. Ju lutemi zgjidhni njï¿½login tjetï¿½.
+profileinuse Ky Profil ï¿½htï¿½duke u pï¿½dorur nga njï¿½sesion tjetï¿½ i aMSN-it, Ju lutemi zgjidhni njï¿½login tjetï¿½
+profileloginradio Kyï¿½ni duke pï¿½dorur profilin ekzistues
 profiles Profilet
 properties Karakteristikat
-proxy Unë gjindem mbas proksi server-it (HTTP ose SOCKS5)
+proxyconfhttp  Konfigurimi i pï¿½kahjes sï¿½HTTP proxit
 proxyconf Konfigurimi i proksit
-proxyconfhttp  Konfigurimi i përkahjes së HTTP proxit
-proxyconnection Unë kyçem në internet me anë të proksi serverit:
+proxyconnection Unï¿½kyï¿½m nï¿½internet me anï¿½tï¿½proksi serverit:
+proxy Unï¿½gjindem mbas proksi server-it (HTTP ose SOCKS5)
 publishphones Publiko numrat e telefonit
 purge Spastroj(Purge)
-raised E lartësuar/Paikonizuar
-readonlymsgbox Transferi i skedarit u anulua për shkak se lokacioni ku pranohen skedarët është vetëm-lexo(read-only). Ju lutemi rregulloni lejimet(permissions) në këtë lokacion.
-readonlywarn VËREJTJE: Skedari mesiguri se nuk është ruajtur si duhet sepse lokacioni "Received files" duket të jetë mbrojtje-shkrimi(write-protected). Ju lutemi vërtetohuni se lejimet (permissions) në lokacionin e destinuar ($1) janë të rregulluara para së të bëni transferin e skedarëve.
+raised E lartï¿½uar/Paikonizuar
+readonlymsgbox Transferi i skedarit u anulua pï¿½ shkak se lokacioni ku pranohen skedarï¿½ ï¿½htï¿½vetï¿½-lexo(read-only). Ju lutemi rregulloni lejimet(permissions) nï¿½kï¿½ï¿½lokacion.
+readonlywarn Vï¿½EJTJE: Skedari mesiguri se nuk ï¿½htï¿½ruajtur si duhet sepse lokacioni "Received files" duket tï¿½jetï¿½mbrojtje-shkrimi(write-protected). Ju lutemi vï¿½tetohuni se lejimet (permissions) nï¿½lokacionin e destinuar ($1) janï¿½tï¿½rregulluara para sï¿½tï¿½bï¿½i transferin e skedarï¿½e.
 receivedbytes U pranua $1 nga $2 bajt
 receiveddir Received Files lokacioni(folderi)
-receivefile Prano skedën
-reconnect Duke pritur $1 që të lidhet prap
+receivefile Prano skedï¿½
+recentmsg Ndalo mbylljen e dritares se bisedave kurr mesazhi arrin
+reconnect2 Ri-lidhu ne Humbje te lidhjes
+reconnect Duke pritur $1 qï¿½tï¿½lidhet prap
 reconnecting Duke u lidhur prap me serverin
 reject Refuzoj
-rememberpass Mbaje në mend fjalëkalimin
+rememberpass Mbaje nï¿½mend fjalï¿½alimin
+removeempty Largo grupet e zbrazeta prej kontakt listes
 removefromlist Fshij nga lista
-reversed të përmbytura
-reverselist Lista e përmbytur (RL):
-rightback Kthehm së shpejti
-save Ruaje
+rename Ri-Emero
+required_version E pamundur te startohet ky Plugin. Ju Nevojitet, minimumi, aMSN verzioni $1
+reversed tï¿½pï¿½mbytura
+reverselist Lista e pï¿½mbytur (RL):
+rightback Kthehm sï¿½shpejti
 saveas Ruaje si
-savechatwinsize Ruaj madhësine e dritares së bisedave ashtu që të jetë e parazgjedhur(default) sa herë që e nderroj madhësinë e dritares
-savecontacts Ruaje listën e kontakteve
-savetofile Ruaje në skedën
-says $1 thotë
-sbcon Duke u lidhur në Switch Board
-selectplugins Ju lutemi zgjidh plugin-in që do ta aktivoni
-selectskin Ju lutemi zgjidh mbulesën nga lista
-send Dërgo
-sendfile Dërgo skedën
-sendmail Dërgo postën
-sendmsg Dërgo mesazhin
-sentbytes $1 u dërgua $2 bajt
+savechatwinsize Ruaj madhï¿½ine e dritares sï¿½bisedave ashtu qï¿½tï¿½jetï¿½e parazgjedhur(default) sa herï¿½qï¿½e nderroj madhï¿½inï¿½e dritares
+savecontacts Ruaje listï¿½ e kontakteve
+save Ruaje
+savetofile Ruaje nï¿½skedï¿½
+says $1 thotï¿½sbcon Duke u lidhur nï¿½Switch Board
+selectplugins Ju lutemi zgjidh plugin-in qï¿½do ta aktivoni
+selectskin Ju lutemi zgjidh mbulesï¿½ nga lista
+send Dï¿½go
+sendfile Dï¿½go skedï¿½
+sendmail Dï¿½go postï¿½
+sendmsg Dï¿½go mesazhin
+sentbytes $1 u dï¿½gua $2 bajt
+serverbusy Serveri ï¿½htï¿½i zï¿½ï¿½servergoingdown U ï¿½kyï¿½ Serveri u ndal
 server Serveri
-serverbusy Serveri është i zënë
-servergoingdown U ç'kyç: Serveri u ndal
-serverunavailable Serveri nuk është ne dispozicion
+serverunavailable Serveri nuk ï¿½htï¿½ne dispozicion
 session Sesionet
-showblockedlist Trego listën e njerëzve që ju kanë bllokuar
-showdisplaypic Trego fotografinë
-showdisplaypic2 Trego fotografinë gjithmonë sa herë të hapet dritarja për bisedime
+showbanner Trego banerin e aMSN-it
+showblockedlist Trego listï¿½ e njerï¿½ve qï¿½ju kanï¿½bllokuar
+showcachedpics Trego Fotografit e Chashe-irata
+showdisplaypic Trego fotografinï¿½showdisplaypic2 Trego fotografinï¿½gjithmonï¿½sa herï¿½tï¿½hapet dritarja pï¿½ bisedime
 showmypic Fotografija ime e paraqitjes
-shownotify Paraqit dritaren për lajmërime sa herë që ndodh diçka
+shownotify Paraqit dritaren pï¿½ lajmï¿½ime sa herï¿½qï¿½ndodh diï¿½a
 showuserpic Fotografia e $1
 skin Mbulesa
-skinselector Zgjidh Mbulesën
+skinselector Zgjidh Mbulesï¿½
 smileconfig Konfigurimi i simbolit(emoticon)
-smilefile Emri i skedari të "Smileys"
-smileintro Ju lutemi kompletoni fushat e kërkuara që ta krijoni një simbol(smiley) të kostumizuar (shiko FAQ për ndihmë)
-smileintro2 Ju lutem editoni fushat e kërkuara që ta krijoni një simbol(smiley) të kostumizuar (shiko FAQ për ndihmë)
-sound Zëri i ndodhive
-sound2 Lësho tinguj kur kontakti kyçet apo dërgon mesazhe
-soundcommand Kjo duhet të jetë komandë e lëshimit të tingujve(Play command) (p.sh: esdplay)
-soundexample ( \$sound = Tingulli që do të lëshohet(played)) p.sh.: esdplay \$sound
+smilefile Emri i skedari tï¿½"Smileys"
+smileintro2 Ju lutem editoni fushat e kï¿½kuara qï¿½ta krijoni njï¿½simbol(smiley) tï¿½kostumizuar (shiko FAQ pï¿½ ndihmï¿½
+smileintro Ju lutemi kompletoni fushat e kï¿½kuara qï¿½ta krijoni njï¿½simbol(smiley) tï¿½kostumizuar (shiko FAQ pï¿½ ndihmï¿½
+snackfailed Snack nuk ka mundur te startoj, Duke u kthyer ne Start-up te zakonshem
+sngdblclick Nje klik per te hapur dritare te re te bisedes
+sound2 Lï¿½ho tinguj kur kontakti kyï¿½t apo dï¿½gon mesazhe
+soundactive Lesho zera kurr pranon mesazhe edhe ne dritaret aktive te bisedave
+soundcommand Kjo duhet tï¿½jetï¿½komandï¿½e lï¿½himit tï¿½tingujve(Play command) (p.sh: esdplay)
+soundexample ( \$sound = Tingulli qï¿½do tï¿½lï¿½hohet(played)) p.sh.: esdplay \$sound
 soundfile Alarmoj Tingull Dosje
-soundfiles Skedarët e tingujve
-soundloop Tingull unazor(që përsëritet)
-soundserver Server-i i zërit
+soundfiles Skedarï¿½ e tingujve
+soundloop Tingull unazor(qï¿½pï¿½sï¿½itet)
+soundserver Server-i i zï¿½it
 soundstatus ndez/fik Alarmoj Tingull
-sourcecode Kodi Burimor (kërkon kompajllim dhe instalim)
-sslwarning VËREJTJE!! Ndalesa e SSL do t'a ndal enkriptimin, kështuqë fjalëkalimi(password) do të dërgohet si i drejtë(plain text) nëpër rrjetë. Përdore vetëm në proksi apo rrjetave e konfiguruara në mënyrë mashtruese.
-startoffline Kyçu si "Jashtë linjës"
-startoffline2 Kyçu në mënyrë të heshtur si "Paraqitu si jashtë linje (Appear Offline)"
-startontray Starto AMSN-in vetëm në ikonën e tabakut(tray)
-state Unë dëshiroj të paraqitem sikur
-stateautomsg AutoMesazhi për dërgim
-statechange gjendja(statusi) u ndërrua në:
-stateedittext Ju lutemi editoni fushat të cilat dëshironi\n t'i modifikoni dhe klikoni në Ruaj
+sound Zï¿½i i ndodhive
+sourcecode Kodi Burimor (kï¿½kon kompajllim dhe instalim)
+splashstart Starto
+sslwarning Vï¿½EJTJE!! Ndalesa e SSL do t'a ndal enkriptimin, kï¿½htuqï¿½fjalï¿½alimi(password) do tï¿½dï¿½gohet si i drejtï¿½plain text) nï¿½ï¿½ rrjetï¿½ Pï¿½dore vetï¿½ nï¿½proksi apo rrjetave e konfiguruara nï¿½mï¿½yrï¿½mashtruese.
+startoffline2 Kyï¿½ nï¿½mï¿½yrï¿½tï¿½heshtur si "Paraqitu si jashtï¿½linje (Appear Offline)"
+startoffline Kyï¿½ si "Jashtï¿½linjï¿½"
+startontray Starto AMSN-in vetï¿½ nï¿½ikonï¿½ e tabakut(tray)
+stateautomsg AutoMesazhi pï¿½ dï¿½gim
+statechange gjendja(statusi) u ndï¿½rua nï¿½
+stateedittext Ju lutemi editoni fushat tï¿½cilat dï¿½hironi\n t'i modifikoni dhe klikoni nï¿½Ruaj
 stateinfo Konfigurimi i Gjendjes Personale
 statename Emri i Gjendjes Personale
-statenewtext Ju lutemi plotësoni fushat e kërkuara që të krijoni\n Gjendjen tuaj Personal të re dhe klikoni në Ruaj
-statenick Nofkë e kostumizuar (lëreni të zbrazët nëse nuk doni ndryshime)
+statenewtext Ju lutemi plotï¿½oni fushat e kï¿½kuara qï¿½tï¿½krijoni\n Gjendjen tuaj Personal tï¿½re dhe klikoni nï¿½Ruaj
+statenick Nofkï¿½e kostumizuar (lï¿½eni tï¿½zbrazï¿½ nï¿½e nuk doni ndryshime)
+state Unï¿½dï¿½hiroj tï¿½paraqitem sikur
 status Statusit
 stopalarm Pushoj Alarmoj
-storenickname Kthehu tek nofka origjinale pas gjendjes(statusit) të kostumizuar me nofkë të kostumizuar
-strictfonts Fikso të gjitha madhësitë e fonteve me këtë të cilin unë zgjodha (në tabakun e statusit(Status bar) dhe të tjera)
-stylechat Pamje të njejtë me bisedat
-stylehist Pamja e historisë së aMSN-it
-stylelog Zgjidhni formatin në të cilin dëshironi ta shikoni historinë tuaj
+storenickname Kthehu tek nofka origjinale pas gjendjes(statusit) tï¿½kostumizuar me nofkï¿½tï¿½kostumizuar
+strictfonts Fikso tï¿½gjitha madhï¿½itï¿½e fonteve me kï¿½ï¿½tï¿½cilin unï¿½zgjodha (nï¿½tabakun e statusit(Status bar) dhe tï¿½tjera)
+stylechat Pamje tï¿½njejtï¿½me bisedat
+stylehist Pamja e historisï¿½sï¿½aMSN-it
+stylelog Zgjidhni formatin nï¿½tï¿½cilin dï¿½hironi ta shikoni historinï¿½tuaj
+style Stili
 syntaxerror  Error sintaksor
 tabbed Dritaret me shenja (Tabbed Windows)
-temp_state Mos ruaj (Gjendje e përkohshme, do të humbet kur e mbyllni AMSN-in)
-textsize Madhësia e tekstit
+temp_state Mos ruaj (Gjendje e pï¿½kohshme, do tï¿½humbet kur e mbyllni AMSN-in)
+textsize Madhï¿½ia e tekstit
 timeremaining Koha e mbetur
-timestamps Lejo "timestamps" në dritaret për bisedime
+timestamps Lejo "timestamps" nï¿½dritaret pï¿½ bisedime
 title Mesengjeri i Al-it
-tkerror TK solli error, u gjind gabim(bug) në amsn, ju lutemi raportoni atë. Dërgo skedarin $1 në amsn-bugs@lists.sf.net
-tlsdowncompleted Skedari $1 u shkarkua në lokacionin $2. Ju duhet t'a ekstraktoni atë, t'a ndërtoni atë (nëse e keni shkarkuar kodin burimor) dhe ta instaloni atë brenda $3.
-tlsexplain Folderi ku tcl TLS moduli është gjindet. Nëse AMSN-i nuk mund ta gjen atë, ju lutemi caktoni ju.\n(Kërkohet për autentifikimin me SSL).
-tlsinstall Mjeshtri(wizard) për instalimin e TLS Modulit
-tlsinstallexp aMSN-i tani përdor MSNP9, i cili kërkon përdorimin e konekcionit të\nsigurtë duke përdorur SSL. Në mënyrë që t'a përdorni SSL, aMSN-it i nevoitet moduli i quajtur TLS,\ni cili po i mungon sistemit tuaj. Ky mjeshtër(wizard) do t'ju ndihmon të shkarkoni dhe\ninstaloni TLS. Ju lutemi zgjidhni tipin e sistemit në mënyrë që ne \n në mënyrë automatike të mund t'i shkarkojme skedarët e nevoitur të TLS.
-tlsinstcompleted Instalimi i TLS modulit ishte i sukseshëm -- Tani ju është e mundësuar përdorimi i MSNP9. Nëse ky nuk punon, atëherë ju sigurisht nuk e keni zgjedhur modulin e saktë apo moduli i kompajlluar nuk është në dispozicion për sistemin tuaj.
-to Te
+tkerror TK solli error, u gjind gabim(bug) nï¿½amsn, ju lutemi raportoni atï¿½ Dï¿½go skedarin $1 nï¿½amsn-bugs@lists.sf.net
+tlsdowncompleted Skedari $1 u shkarkua nï¿½lokacionin $2. Ju duhet t'a ekstraktoni atï¿½ t'a ndï¿½toni atï¿½(nï¿½e e keni shkarkuar kodin burimor) dhe ta instaloni atï¿½brenda $3.
+tlsexplain Folderi ku tcl TLS moduli ï¿½htï¿½gjindet. Nï¿½e AMSN-i nuk mund ta gjen atï¿½ ju lutemi caktoni ju.\n(Kï¿½kohet pï¿½ autentifikimin me SSL).
+tlsinstallexp aMSN-i tani pï¿½dor MSNP9, i cili kï¿½kon pï¿½dorimin e konekcionit tï¿½nsigurtï¿½duke pï¿½dorur SSL. Nï¿½mï¿½yrï¿½qï¿½t'a pï¿½dorni SSL, aMSN-it i nevoitet moduli i quajtur TLS,\ni cili po i mungon sistemit tuaj. Ky mjeshtï¿½(wizard) do t'ju ndihmon tï¿½shkarkoni dhe\ninstaloni TLS. Ju lutemi zgjidhni tipin e sistemit nï¿½mï¿½yrï¿½qï¿½ne \n nï¿½mï¿½yrï¿½automatike tï¿½mund t'i shkarkojme skedarï¿½ e nevoitur tï¿½TLS.
+tlsinstall Mjeshtri(wizard) pï¿½ instalimin e TLS Modulit
+tlsinstcompleted Instalimi i TLS modulit ishte i sukseshï¿½ -- Tani ju ï¿½htï¿½e mundï¿½uar pï¿½dorimi i MSNP9. Nï¿½e ky nuk punon, atï¿½erï¿½ju sigurisht nuk e keni zgjedhur modulin e saktï¿½apo moduli i kompajlluar nuk ï¿½htï¿½nï¿½dispozicion pï¿½ sistemin tuaj.
+today Sot
 tools Veglat
 tooltips Lejo "tooltips"
-transnotexists Skedari i kërkuar akoma nuk është përkthyer në gjuhën momentale.
-traynotcompiled plugin-i i ikonës së tabakut(Tray icon) nuk është kompajlluar. Shiko plugins/traydock
+to Te
+transnotexists Skedari i kï¿½kuar akoma nuk ï¿½htï¿½pï¿½kthyer nï¿½gjuhï¿½ momentale.
+traynotcompiled plugin-i i ikonï¿½ sï¿½tabakut(Tray icon) nuk ï¿½htï¿½kompajlluar. Shiko plugins/traydock
 triggers Tekst "triggers"
-truncatenames1 Këput nofkat që janë më të gjata se gjerësia e dritares ne vendet si titujt e dritareve dhe në kontakt listë
-truncatenames2 Këput nofkat që janë më të gjata se gjerësia e dritares brenda dritares së bisedimeve
-truncatenicks Këput nofkat që janë më të gjata se gjerësia e dritares
-twonewmail $1 Mesazhe të reja në In-Box
-unblock Ç'bllokoje
-uoffline Jashtë linjës
-uonline Në linjë
-user Shfrytëzuesi
-useralreadyonlist Shfrytëzuesi është në listën e kontakteve
-userblocked Shfrytëzuesi gjindet në linjë mirëpo ju ka bllokuar
-usernotonline Shfrytëzuesi gjindet jashtë linjes
-useryourself Ju nuk mund të bisedoni me vetëvetën
-verifyblocked Shiko njerëzit që ju kanë bllokuar
+truncatenames1 Kï¿½ut nofkat qï¿½janï¿½mï¿½tï¿½gjata se gjerï¿½ia e dritares ne vendet si titujt e dritareve dhe nï¿½kontakt listï¿½truncatenames2 Kï¿½ut nofkat qï¿½janï¿½mï¿½tï¿½gjata se gjerï¿½ia e dritares brenda dritares sï¿½bisedimeve
+truncatenicks Kï¿½ut nofkat qï¿½janï¿½mï¿½tï¿½gjata se gjerï¿½ia e dritares
+twonewmail $1 Mesazhe tï¿½reja nï¿½In-Box
+unblock ï¿½bllokoje
+unknown E Panjohur
+unload Unload
+uoffline Jashtï¿½linjï¿½
+uonline Nï¿½linjï¿½user Shfrytï¿½uesi
+useother Shfrytezo tjeter Program
+useralreadyonlist Shfrytï¿½uesi ï¿½htï¿½nï¿½listï¿½ e kontakteve
+userblocked Shfrytï¿½uesi gjindet nï¿½linjï¿½mirï¿½o ju ka bllokuar
+userdata Datat e Shfrytezuesit
+usernotonline Shfrytï¿½uesi gjindet jashtï¿½linjes
+userproperties Ndryshimet e shfrytezuesit $1
+useryourself Ju nuk mund tï¿½bisedoni me vetï¿½etï¿½
+usesnack Shfrytezo Snack librar-in (Tcl internal)
+verifyblocked Shiko njerï¿½it qï¿½ju kanï¿½bllokuar
 version Versioni
-view Shiko
+viewcontactsby Shiko kontaktet simbas
 viewprofile Shiko Profilin
-willjoin Duke pritur $1 t'i bashkangjitet bisedës
-work Punë
-wrongfields Fushat "$1", "$2" dhe/ose "$3" nuk janë valide
-wrongprofileversion Versioni i skedarit për konfigurimin e profilit është gabim. Në mënyrë që ta rregulloni atë atëherë ju lutemi fshini lokacionin $1, ose përtrini(update) aMSN-in
-xmmscurrent Paraqit këngën momentale
-xmmserr Asgjë nuk po luan(Nothing is playing), ose ju nuk e keni xmms-infopipe të instaluar.
-xmmssend Dërgo këngën momentale
+view Shiko
+webcaminvite $1 Ju therret qe te shiheni me kamer, por aMSN nuk e suporton kete mundesi.
+willjoin Duke pritur $1 t'i bashkangjitet bisedï¿½
+winkreceived Ju keni pranuar Wink prej $1. Kjo mundesi nuk eshte e suportuar nga aMSN.
+work Punï¿½wrongfields Fushat "$1", "$2" dhe/ose "$3" nuk janï¿½valide
+wrongprofileversion Versioni i skedarit pï¿½ konfigurimin e profilit ï¿½htï¿½gabim. Nï¿½mï¿½yrï¿½qï¿½ta rregulloni atï¿½atï¿½erï¿½ju lutemi fshini lokacionin $1, ose pï¿½trini(update) aMSN-in
+xmmscurrent Paraqit kï¿½gï¿½ momentale
+xmmserr Asgjï¿½nuk po luan(Nothing is playing), ose ju nuk e keni xmms-infopipe tï¿½instaluar.
+xmmssend Dï¿½go kï¿½gï¿½ momentale
 xoffset X Ofseti
+year Viti
 yes Po
+yesterday Dje
 yoffset Y Ofseti
 youblocked Ju jeni bllokuar nga
 yousay Ju thuani
