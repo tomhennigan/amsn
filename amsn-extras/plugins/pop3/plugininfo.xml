@@ -4,7 +4,7 @@
 	<author>Alberto Diaz and Arieh Schneier</author>
 	<description>Plugin to check POP3 accounts in aMSN in the same way as hotmail ones.</description>
 	<amsn_version>0.94</amsn_version>
-	<plugin_version>1.6</plugin_version>
+	<plugin_version>1.7</plugin_version>
 	<plugin_file>pop3.tcl</plugin_file>
 	<plugin_namespace>pop3</plugin_namespace>
 	<init_procedure>Init</init_procedure>

@@ -10,7 +10,6 @@
 #  * add translation
 #  * allow for multiple emails
 #  * create a right click menu to delete mails
-#  * make getfroms non blocking
 
 
 namespace eval ::pop3 {
@@ -322,7 +321,14 @@ namespace eval ::pop3 {
 
 			#check for non completed read, already tested for eof above
 			if { $popRet == "" } {
-				return
+				if { [fblocked $chan] == 1 } {
+					#still more data
+					error "continue!"
+				} else {
+					#read an empty line need to call gets again to continue
+					::pop3::send2 $chan
+					error "continue!"
+				}
 			}
 
 			#read complete so remove filevent
@@ -336,6 +342,11 @@ namespace eval ::pop3 {
 			#return result
 			set ::pop3::chanreturn_$chan [string range $popRet 3 end]
 		} errorStr]} {
+			if { $errorStr == "continue!" } { 
+				#need some way to return without an error?
+				return
+			}
+
 			fileevent $chan readable ""
 			plugins_log pop3 "ERROR : [string range $popRet 4 end]\n"
 			set ::pop3::chanreturn_$chan "ERROR"
@@ -351,33 +362,85 @@ namespace eval ::pop3 {
 	#	chan ->  The channel, returned by ::pop3::open
 	#	id   ->  The id number of the message
 	# Results:
-	#	The name in the "From:" section.
-	proc ::pop3::from {chan id} {
-		set from "unknown"
-		set subject ""
-
+	#	An array with information in it:
+	#	1st element : The name in the "From:" section.
+	#	2nd element : The subject.
+	proc ::pop3::getinfo {chan id} {
 		if {![catch {
 			set data [::pop3::send $chan "TOP $id 0"]
 		} errorStr]} {
-			while {1} {
-				set line [string trimright [gets $chan] \r]
+			set ::pop3::chanreturn_from_$chan "unknown"
+			set ::pop3::chanreturn_subject_$chan ""
+			set ::pop3::chanreturn_complete_$chan "somethingtodelete"
+			fileevent $chan readable [list ::pop3::getinfo2 $chan]
+			vwait ::pop3::chanreturn_complete_$chan
 
-				# End of the message is a line with just "."
-				if {$line == "."} {
-					break
-				} elseif {[string index $line 0] == "."} {
-					set line [string range $line 1 end]
-				}
-
-				if {[string equal -nocase -length 5 $line "From: "]} {
-					set from [::pop3mime::field_decode [string range $line 6 end]]
-				} elseif {[string equal -nocase -length 8 $line "Subject: "]} {
-					set subject [::pop3mime::field_decode [string range $line 9 end]]
-				}
-			}
+			set from [set ::pop3::chanreturn_from_$chan]
+			unset ::pop3::chanreturn_from_$chan
+			set subject [set ::pop3::chanreturn_subject_$chan]
+			unset ::pop3::chanreturn_subject_$chan
+			set popRet [set ::pop3::chanreturn_complete_$chan]
+			unset ::pop3::chanreturn_complete_$chan
+			if { $popRet == "ERROR" } { error }
 		}
 
 		return [list $from $subject]
+	}
+	# continuation of send when data return is received
+	proc ::pop3::getinfo2 {chan} {
+		#turn off event while processing to stop infinite loop
+		fileevent $chan readable ""
+
+		if {[catch {
+			#test for end of file
+			if { [eof $chan] } {
+				error "EOF reached in getinfo(2)"
+			}
+
+			#get the next line line
+			set line [string trimright [gets $chan] \r]
+
+			#check for non completed read, already tested for eof above
+			if { $line == "" } {
+				if { [fblocked $chan] == 1 } {
+					#still more data
+					fileevent $chan readable [list ::pop3::getinfo2 $chan]
+					error "continue!"
+				} else {
+					#read an empty line need to call gets again to continue
+					::pop3::getinfo2 $chan
+					error "continue!"
+				}
+			}
+
+			# End of the message is a line with just "."
+			if {$line == "."} {
+				#fileevent $chan readable ""
+				set ::pop3::chanreturn_complete_$chan "COMPLETE"
+				error "continue!"
+			} elseif {[string index $line 0] == "."} {
+				set line [string range $line 1 end]
+			}
+
+			if {[string equal -nocase -length 5 $line "From: "]} {
+				set ::pop3::chanreturn_from_$chan [::pop3mime::field_decode [string range $line 6 end]]
+			} elseif {[string equal -nocase -length 8 $line "Subject: "]} {
+				set ::pop3::chanreturn_subject_$chan  [::pop3mime::field_decode [string range $line 9 end]]
+			}
+
+			#still more data
+			fileevent $chan readable [list ::pop3::getinfo2 $chan]
+		} errorStr]} {
+			if { $errorStr == "continue!" } { 
+				#need some way to return without an error?
+				return
+			}
+
+			fileevent $chan readable ""
+			plugins_log pop3 "ERROR (in getinfo2): $errorStr\n"
+			set ::pop3::chanreturn_complete_$chan "ERROR"
+			return
+		}
 	}
 
 
@@ -396,10 +459,10 @@ namespace eval ::pop3 {
 		if {$first <= $last} {
 			set ::pop3::balloontext "\n\nNew mail from:"
 			for {set x $first} {$x <= $last} {incr x} {
-				set info [::pop3::from $chan $x]
+				set info [::pop3::getinfo $chan $x]
 				set from [lindex $info 0]
 				set subject [lindex $info 1] 
-				set ::pop3::balloontext "$::pop3::balloontext\n$from\n$subject\n"
+				set ::pop3::balloontext "$::pop3::balloontext\n$from : \"$subject\""
 			}
 		}
 	}
@@ -654,6 +717,8 @@ namespace eval ::pop3 {
 		}
 	}
 }
+
+
 	#######################################################################################
 	#######################################################################################
 	####                MIME DECODING FUNCTIONS OF THE POP3 PLUGIN                     ####
@@ -733,7 +798,8 @@ namespace eval ::pop3mime {
 		shiftjis Shift_JIS \
 		symbol "" \
 		unicode "" \
-		utf-8 ""]
+		utf-8 "" \
+	]
 
 	variable encodings
 	array set encodings $encList
