@@ -104,10 +104,11 @@ proc save_config {} {
       		set file_id [open "[file join ${HOME} config]" w]
    }
 
+   set loginback $config(login)
+   set passback $password
+
    # using default, make sure to reset config(login)
    if { $HOME == $HOME2 } {
-        set loginback $config(login) 
-	set passback $password
    	set config(login) ""
 	set password ""
    }
