@@ -620,11 +620,11 @@ proc dlgDelUser { lfcontact } {
 }
 
 proc Preferences { { settings "personal"} } {
-    global myconfig proxy_server proxy_port temp_BLP list_BLP Preftabs libtls proxy_user proxy_pass rbsel rbcon
+    global myconfig proxy_server proxy_port temp_BLP list_BLP Preftabs libtls proxy_user proxy_pass rbsel rbcon pager
 
     set temp_BLP $list_BLP
     ::config::setKey libtls_temp $libtls
-
+    set pager "N"
     if {[ winfo exists .cfg ]} {
     	raise .cfg
         return
@@ -746,6 +746,9 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.2.lphone5 -text "[trans mymobilephone] :" -padx 10 -font sboldf
 	entry $lfname.2.ephone51 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5	
 	entry $lfname.2.ephone52 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20
+    checkbutton $lfname.2.mobphone -text "[trans allow_sms]" -onvalue "Y" -offvalue "N" -variable pager
+        
+    
 	pack $lfname.1 -expand 1 -fill both -side top
 	pack $lfname.2 -expand 1 -fill both -side top
 	grid $lfname.2.lphone1 -row 1 -column 1 -sticky w -columnspan 2
@@ -761,7 +764,7 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.2.lphone5 -row 5 -column 1 -sticky w
 	grid $lfname.2.ephone51 -row 5 -column 2 -sticky w
 	grid $lfname.2.ephone52 -row 5 -column 3 -sticky w
-		
+        grid $lfname.2.mobphone	-row 6 -column 1 -sticky w
 	
 	$nb.nn compute_size
 	[$nb.nn getframe personal].sw.sf compute_size
@@ -1718,13 +1721,13 @@ proc check_int {text} {
 
 # This is where we fill in the Entries of the Preferences
 proc InitPref { {fullinit 0} } {
-	global Preftabs proxy_user proxy_pass
+	global Preftabs proxy_user proxy_pass pager
 	set nb .cfg.notebook
 
 	if { $fullinit } {
 		set proxy_user [::config::getKey proxyuser]
 		set proxy_pass [::config::getKey proxypass]
-	
+	        set pager [::abook::getPersonal MOB]
 		# Insert nickname if online, disable if offline
 		#set lfname [Rnotebook:frame $nb $Preftabs(personal)]
 		set lfname [$nb.nn getframe personal]
@@ -1743,6 +1746,9 @@ proc InitPref { {fullinit 0} } {
 		
 		# Get My Phone numbers and insert them
 		set lfname "$lfname.lfname4.f.f"
+	    if { [::abook::getPersonal MBE] == "N" } {
+		 $lfname.2.mobphone configure -state disabled
+	    }
 		if { [::MSN::myStatusIs] == "FLN" } {
 			$lfname.2.ephone1 configure -state disabled
 			$lfname.2.ephone31 configure -state disabled
@@ -1751,6 +1757,7 @@ proc InitPref { {fullinit 0} } {
 			$lfname.2.ephone42 configure -state disabled
 			$lfname.2.ephone51 configure -state disabled
 			$lfname.2.ephone52 configure -state disabled
+		        $lfname.2.mobphone configure -state disabled
 		} else {
 			$lfname.2.ephone1 configure -state normal
 			$lfname.2.ephone31 configure -state normal
@@ -1774,6 +1781,8 @@ proc InitPref { {fullinit 0} } {
 			$lfname.2.ephone42 insert 0 [join [lrange [split [::abook::getPersonal PHW] " "] 2 end]]
 			$lfname.2.ephone51 insert 0 [lindex [split [::abook::getPersonal PHM] " "] 1]
 			$lfname.2.ephone52 insert 0 [join [lrange [split [::abook::getPersonal PHM] " "] 2 end]]
+		        
+		    #$lframe.2.mobphone configure -variable [::abook::getPersonal MOB]
 		}
 		
 		# Init remote preferences
@@ -1949,7 +1958,7 @@ proc setCfgFonts {path value} {
 
 
 proc SavePreferences {} {
-	global myconfig proxy_server proxy_port list_BLP temp_BLP Preftabs libtls proxy_user proxy_pass
+	global myconfig proxy_server proxy_port list_BLP temp_BLP Preftabs libtls proxy_user proxy_pass pager
 
 	set nb .cfg.notebook
 	
@@ -2003,6 +2012,7 @@ proc SavePreferences {} {
 	}
 
 	# Check and save phone numbers
+        
 	if { [::MSN::myStatusIs] != "FLN" } {
 		#set lfname [Rnotebook:frame $nb $Preftabs(personal)]
 		set lfname [$nb.nn getframe personal]
@@ -2039,8 +2049,8 @@ proc SavePreferences {} {
 		if { $work != [::abook::getPersonal PHM] } {
 			::abook::setPhone mobile $mobile
 		}
-		if { $home != [::abook::getPersonal PHH] || $work != [::abook::getPersonal PHW] || $work != [::abook::getPersonal PHM] } {
-			::abook::setPhone pager N
+		if {$pager != [::abook::getPersonal MOB] } {
+			::abook::setPhone pager $pager
 		}
 	}
 
