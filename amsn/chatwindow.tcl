@@ -532,6 +532,7 @@ namespace eval ::ChatWindow {
 		}
 
 		set top_win [winfo toplevel $win_name]
+		status_log "TopLevel window: $top_win, Name: $win_name, State: [wm state $top_win]\n"
 
 		# If this is the first message, and no focus on window, then show notify
 		if { $::ChatWindow::first_message($win_name) == 1  && $msg!="" } {
@@ -593,11 +594,14 @@ namespace eval ::ChatWindow {
 				}
 
 			} else {
-				if { [winfo exists .bossmode] } {
-					set ::BossMode(${top_win}) "iconic"
-					wm state ${top_win} withdraw
-				} else {
-					wm state ${top_win} iconic
+				#Container for tabs might be non-iconified
+				if { [wm state $top_win] != "normal" } {
+					if { [winfo exists .bossmode] } {
+						set ::BossMode(${top_win}) "iconic"
+						wm state ${top_win} withdraw
+					} else {
+						wm state ${top_win} iconic
+					}
 				}
 			}
 		}
