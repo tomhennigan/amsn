@@ -37,7 +37,7 @@
 ###
 
 set version "0.52dev"
-set date "06/19/2002"
+set date "06/20/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -90,7 +90,8 @@ source [file join $program_dir ctdegt.tcl]
 source [file join $program_dir hotmail.tcl]
 source [file join $program_dir checkver.tcl]
 source [file join $program_dir smileys.tcl]
-source [file join $program_dir abook.tcl]
+source [file join $program_dir groups.tcl]	;# Handle buddy groups
+source [file join $program_dir abook.tcl]	;# Handle buddy address book
 source [file join $program_dir gui.tcl]
 
 #by AIM
@@ -318,8 +319,9 @@ proc cmsn_draw_main {} {
      cmsn_draw_addcontact
    .main_menu.tools add cascade -label "[trans admincontacts]" -command \
      "" -state disabled
-   .main_menu.tools add cascade -label "[trans admingroups]" -command \
-     "" -state disabled
+   ::groups::Init .main_menu.tools 2
+#   .main_menu.tools add cascade -label "[trans admingroups]" -command \
+#     "" -state disabled
    .main_menu.tools add separator
    .main_menu.tools add cascade -label "[trans ordercontactsby]" \
      -state disabled
@@ -1805,7 +1807,11 @@ proc cmsn_listupdate {recv} {
       set $list_name [list]
       status_log "clearing $list_name\n"
    }
-
+   
+   if {$list_name == "list_al"} { # Here we have the groups already
+       ::groups::Enable
+   }
+   
    if {[lindex $recv 0] == "ADD"} {		;# FIX: guess I should really
       set recv [linsert $recv 4 "1" "1"]	;# get it out of here!!
    }
