@@ -135,6 +135,10 @@ countrycode My Country/Region code
 cprofile Create Profile
 credits Credits
 currentdate Current Date
+custnotifymsg Display notify window when a new user message is received
+custnotifyoffline Display notify window when this contact goes offline
+custnotifyonline Display notify window when this contact comes online
+custnotifystatus Display notify window when this contact changes status
 customcolor Custom color
 custom_edit Edit custom smiley
 custom_new Add new custom smiley
