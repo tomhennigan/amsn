@@ -207,7 +207,10 @@ namespace eval ::guiContactList {
 	# Draw the group title on the canvas
 	proc drawGroup { canvas element curPos } {
 		set xpos [lindex $curPos 0]
-		set ypos [expr [lindex $curPos 1] + 20]
+		set ypos [lindex $curPos 1]
+		if { ![::config::getKey nogap] } {
+			set ypos [expr $ypos + 20]
+		}
 		
 		# Let's setup the right image (expanded or contracted)
 		if { [::groups::IsExpanded [lindex $element 0]] } {
@@ -225,7 +228,7 @@ namespace eval ::guiContactList {
 		set groupcount [getGroupCount $element]
 		
 		#Store group name and groupcount as string, for measuring length of underline
-		set groupheader "[lindex $element 1] $groupcount"
+		set groupheader "[lindex $element 1] ($groupcount)"
 		
 		#Setup co-ords for underline on hover
 		set xuline1 [expr $xpos + [image width $img] + (2*$xpad)]
@@ -257,16 +260,16 @@ namespace eval ::guiContactList {
 		set mode [::config::getKey orderbygroup]
 		if { $mode == 0} {
 			#Status mode
-			set groupcount ($::groups::uMemberCnt([lindex $element 0]))
+			set groupcount $::groups::uMemberCnt([lindex $element 0])
 		}  elseif { $mode == 1} {
 			#Group mode
-			set groupcount ($::groups::uMemberCnt_online([lindex $element 0])/$::groups::uMemberCnt([lindex $element 0]))
+			set groupcount $::groups::uMemberCnt_online([lindex $element 0])/$::groups::uMemberCnt([lindex $element 0])
 		} elseif { $mode == 2} {
 			#Hybrid mode
 			if {[lindex $element 0] == "offline"} {
-				set groupcount ($::groups::uMemberCnt([lindex $element 0]))
+				set groupcount $::groups::uMemberCnt([lindex $element 0])
 			} else {
-				set groupcount ($::groups::uMemberCnt_online([lindex $element 0]))	
+				set groupcount $::groups::uMemberCnt_online([lindex $element 0])	
 			}
 		}
 		return $groupcount
@@ -289,6 +292,15 @@ namespace eval ::guiContactList {
 		
 		# Go through each group, and insert the contacts in a new list that will represent our GUI view
 		foreach group $groupList {
+			set grId [lindex $group 0]
+			
+			# if group is empty and remove empty groups is set (or this is Individuals group) then skip this group
+			if { ($grId == 0 || ([::config::getKey removeempty] && $grId != "offline" && $grId != "mobile")) &&
+				[getGroupCount $group] == 0
+			} {
+				continue
+			}
+
 			# First we append the group
 			lappend contactList $group
 
