@@ -219,11 +219,6 @@ proc ChCustomState { idx } {
 		if { [lindex [StateList get $idx] 2] != "" } {
 			if {![info exists original_nick] && $config(storename)} {
 				set original_nick [urldecode [lindex $user_info 4]]
-				if { ![file exists [file join ${HOME} "nick.cache"]] } {
-					set nickcache [open [file join ${HOME} "nick.cache"] w]
-					puts $nickcache $original_nick
-					close $nickcache
-				} 
 			}
 			set new_state [lindex [lindex $list_states [lindex [StateList get $idx] 2]] 0]
 			if { $new_state == $user_stat } {
@@ -232,6 +227,14 @@ proc ChCustomState { idx } {
 			set automessage [StateList get $idx]
 			set newname "[lindex [StateList get $idx] 1]"
 			if { $newname != "" } {
+					catch {
+						set nickcache [open [file join ${HOME} "nick.cache"] w]
+						fconfigure $nickcache -encoding utf-8
+						puts $nickcache $original_nick
+						puts $nickcache $newname
+						puts $nickcache [lindex $user_info 3]
+						close $nickcache
+					}
 				::MSN::changeName $config(login) $newname 1
 				StateList promote $idx
 			}
@@ -245,6 +248,7 @@ proc ChCustomState { idx } {
 		if {[info exists original_nick] && $config(storename)} {
 			::MSN::changeName $config(login) $original_nick 1
 			unset original_nick
+			catch { file delete [file join ${HOME} "nick.cache"] }
 		}
 		::MSN::changeStatus $idx
 	}

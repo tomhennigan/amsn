@@ -917,17 +917,19 @@ namespace eval ::MSN {
       }
    }
 
-   proc changeName { userlogin newname nocache } {
+   proc changeName { userlogin newname { nocache 1 } } {
 
       global HOME config
 
       set name [urlencode $newname]
-      
-      if { !$nocache && $config(storename) } {
-          set nickcache [open [file join ${HOME} "nick.cache"] w]
-          puts $nickcache $newname
-          close $nickcache
-      }
+
+		#What was this nocache thing for??
+      #if { !$nocache && $config(storename) } {
+		# If we use this, copy from automsg.tcl, to write more data...
+      #    set nickcache [open [file join ${HOME} "nick.cache"] w]
+      #    puts $nickcache $newname
+      #    close $nickcache
+      #}
 
       if { $config(allowbadwords) } {
          ::MSN::WriteSB ns "REA" "$userlogin $name" \
@@ -3535,15 +3537,6 @@ proc cmsn_auth {{recv ""}} {
 			global user_info
 			set user_info $recv
 			sb set ns stat "o"
-			# Switch to our cached nickname if the server's one is different that ours
-			if { [file exists [file join ${HOME} "nick.cache"]] && $config(storename) } {
-				set nickcache [open [file join ${HOME} "nick.cache"] r]
-				gets $nickcache storednick
-				if { $storednick != [urldecode [lindex $user_info 4]] && $storednick != "" } {
-					::MSN::changeName $config(login) $storednick 1
-				}
-				close $nickcache
-			}
 
 			save_config						;# CONFIG
 			load_contact_list
@@ -3587,6 +3580,29 @@ proc cmsn_auth {{recv ""}} {
 }
 
 proc initial_syn_handler {recv} {
+
+	global HOME user_info
+
+	# Switch to our cached nickname if the server's one is different that ours
+	if { [file exists [file join ${HOME} "nick.cache"]] && [::config::getKey storename] } {
+
+		set nickcache [open [file join ${HOME} "nick.cache"] r]
+
+		gets $nickcache storednick
+		gets $nickcache custom_nick
+		gets $nickcache stored_login
+
+		status_log "$storednick\n$custom_nick - [lindex $user_info 4]\n$stored_login - [lindex $user_info 3]\n"
+
+		close $nickcache
+
+		if { ($custom_nick == [urldecode [lindex $user_info 4]]) && ($stored_login == [lindex $user_info 3]) && ($storednick != "") } {
+			::MSN::changeName [lindex $user_info 3] $storednick 1
+		}
+
+		catch { file delete [file join ${HOME} "nick.cache"] }
+	}
+
 
 	if {[::config::getKey startoffline]} {
 		::MSN::changeStatus "HDN"
