@@ -16,8 +16,8 @@ BuildRoot: %{_tmppath}/%{name}-root
 %description
 This is Tcl/Tk clone that implements the Microsoft Messenger (MSN)
 for Unix,Windows, or Macintosh platforms. It supports file transfers,
-and many more features. Visit http://amsn.sourceforge.net/ for details.
-This is an ongoing project, and it is already going pretty well.
+groups, and many more features. Visit http://amsn.sourceforge.net/ for
+details. This is an ongoing project, and it is already going pretty well.
 
 %prep
 %setup -q
@@ -55,15 +55,20 @@ rm -f %{prefix}/bin/amsn
 if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 
 %files
-%doc README TODO changelog GNUGPL
+#%doc README TODO changelog GNUGPL
 /usr/bin/amsn
+/usr/share/amsn/LEEME
+/usr/share/amsn/README
+/usr/share/amsn/TODO
 /usr/share/amsn/amsn
 /usr/share/amsn/uninstall.sh
 /usr/share/amsn/abook.tcl
+/usr/share/amsn/changelog
 /usr/share/amsn/checkver.tcl
 /usr/share/amsn/config.tcl
 /usr/share/amsn/ctadverts.tcl
 /usr/share/amsn/ctdegt.tcl
+/usr/share/amsn/dkffont.tcl
 /usr/share/amsn/emoticons.htm
 /usr/share/amsn/groups.tcl
 /usr/share/amsn/gui.tcl
@@ -156,6 +161,7 @@ if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 /usr/share/amsn/lang/langde
 /usr/share/amsn/lang/langen
 /usr/share/amsn/lang/langes
+/usr/share/amsn/lang/langeu
 /usr/share/amsn/lang/langfr
 /usr/share/amsn/lang/langga
 /usr/share/amsn/lang/langit
