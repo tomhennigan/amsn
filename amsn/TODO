@@ -105,7 +105,7 @@ DONE	Chinese dosen't work (GB2312)
 
 -	Menu accelerators
 -	Be able to change thers font in chat (same as you, or different)
--	Gnome2 Docking + KDE Docking
+DONE	Gnome2 Docking + KDE Docking
 -	Autoconnect (when connection detected)
 -	Notebook like chat windows (as an option)
 -	AutoAway Messages
