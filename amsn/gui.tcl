@@ -2275,6 +2275,7 @@ namespace eval ::amsn {
 		#Postevent for chat_msg_receive	
 		set evPar(user) user
 		set evPar(msg) msg
+		set evPar(chatid) chatid
 		::plugins::PostEvent chat_msg_receive evPar
 				
 		WinWrite $chatid "\n$customchat" "says" $customfont
