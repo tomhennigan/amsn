@@ -16,7 +16,7 @@ admingroups グループ管理
 adverts 広告
 alarmonconnect ユーザーがオンラインになった時にアラーム
 alarmondisconnect ユーザーがオフライン/不可視になった時にアラーム
-alarmonmsn メッセージが届いたときにアラーム
+alarmonmsg メッセージが届いたときにアラーム
 alarmonstatus 他のユーザーのステータスが変わった時にアラーム
 alarmpref この人にアラームを設定
 alarmstatus アラームのオン/オフ
@@ -50,11 +50,12 @@ bgcolor 背景色
 blankdirect 直接接続するにはここを空白にしてください
 block 禁止
 blocked 禁止済み
+blockedyougroup あなたを禁止しているグループを表示
 blocking 禁止中
 blocklist ブロックリスト :
 blockinter1 オンライン時のチェック間隔
 blockinter2 秒, オンラインでないときのチェック間隔:
-blockinter3 間隔
+blockinter3 ユーザ、その時のチェック間隔
 blockinter4 秒。
 blockmessage メンバはオンラインですが、あなたをブロックしています
 blockusers 同時にチェックするユーザー数
@@ -255,6 +256,7 @@ msn AMSN
 mustrestart 設定の変更を反映するにはAMSNを再起動する必要があります
 myhomephone 自宅電話番号
 mymobilephone 携帯電話番号
+mypic 自分の表示画像:
 mystatus 状態
 myworkphone 勤務先電話番号
 natip WebページでのIP検出
@@ -269,16 +271,22 @@ no No
 noactivity 非使用中
 nodataavailable $1 のデータはありません。
 nologfile $1 とのログファイルはありません
+noneavailable 何も利用できません
 nonewmail 未読メールはありません
 nonewver 新しいバージョンはありませんでした
+nopic 画像なし
+noprofileexists プロファイルが存在しません。\n既存のプロファイルからログインするためには、プロファイルを追加する必要があります。\n追加するには「新しいプロファイルを追加する」ボタンをクリックしてください。
 normal 通常
 nosystemtray システムトレイはありません。
 notify 通知
+notify1_5 メンバがオフラインになった時に、通知ウィンドウを表示する
+notify1_75 メンバのステータスが変わったときに、通知ウィンドウを表示する
 notify1 メンバがオンラインになったら通知するウィンドウを表示する
 notify2 メッセージを受信したら通知ウィンドウを表示する
 notify3 メールを受信したら通知ウィンドウを表示する
 notifyoffset 通知ウィンドウの位置を固定する
 notifywin 通知ウィンドウ
+notls The MSN Protocol 9 を利用するには TLS パッケージが必要ですが、このコンピュータにはインストールされていないようです。インストールされている場合には、設定ウィンドウからライブラリへのパスを設定する必要があります（例: /opt/tls/lib）。\n\n TLSは以下のサイトからダウンロードできます。http://tls.sf.net 
 nousersinsession この会話には誰もいません
 offline オフライン
 ok Ok
@@ -295,16 +303,23 @@ pass パスワード
 paste 貼り付け
 personal 個人
 phone 電話
+picbrowser 画像表示ブラウザ
 picfile 画像(500 x 500 以下のGIF)
 picstatus アラームの画像
+playing 再生中: $1
+pluginselector プラグインを選択
 port ポート
 prefalerts 効果音設定
 prefapps アプリケーション
 prefawaymsg 不在メッセージ
+prefblock1 切断時にチェック
+prefblock2 常にチェック
+prefblock3 グループによる"あなたはブロックされました"表示の設定。
 prefconnection 接続設定
 prefemotic 顔文字
 preferences 詳細設定
 preffont 自分の文字
+preflibs ライブラリのディレクトリ
 preffont2 チャットでの文字表示方法を変更
 preffont3 フォント
 preflog1 履歴とログの設定
@@ -325,7 +340,9 @@ prefshared 接続共有
 prefsound 効果音
 privacy プライバシー
 profiledconfig プロファイル済みの設定
+profileexists このログインに対しては既にプロファイルが存在しているので新たに作成することができません。\n 別のログインを選択してください。 
 profileinuse そのプロフィールは別に起動しているAMSNが使用しています。 \n 他のものを選択してください。
+profileloginradio 既存のプロファイルを利用してログイン
 profiles プロファイル
 properties 詳細
 proxy HTTPかSocks5のプロキシ内部で使用する
@@ -333,7 +350,10 @@ proxyconf プロキシ設定
 proxyconfhttp HTTPプロキシを自動設定する
 proxyconnection 次のProxyサーバを使用してインターネットに接続:
 publishphones 電話番号を公開
+purge 消去
 raised 開く/アイコン化解除
+readonlymsgbox 保存先ディレクトリが読み取り専用なので、ファイル転送を中止しました。保存先ディレクトリのパーミッションを変更してください。
+readonlywarn 警告: ファイル受信ディレクトリが書き込み制限されているため、受信ファイルはおそらく正しく保存できません。ファイル転送を行う際には予め保存先ディレクトリ ($1) のパーミッションの設定が適切であるか確認してください。
 receivedbytes $1 / $2 バイトを受信しました
 receivefile ファイル受信
 reconnect $1 が再接続するのを待っています
@@ -350,6 +370,8 @@ savecontacts メンバリスト保存
 savetofile ファイルに保存
 says $1 の発言
 sbcon スイッチボードに接続しています
+selectplugins プラグインを選んでください。
+selectskin リストからスキンを選んでください。
 send 送信
 sendfile ファイル送信
 sendmail メール送信
@@ -359,17 +381,31 @@ server サーバ
 servergoingdown サーバがダウンしたためサービスから切断されました
 session セッション
 showblockedlist あなたをブロックしている人のリストを表示する
+showdisplaypic2 チャットウィンドウを開いたときに、画像を表示する。
+showdisplaypic 画像を表示
+showmypic 自分の表示画像
+showuserpic $1 の表示画像
+skinselector スキンを選択
+skin スキン
+smileconfig カスタム絵文字の設定
+smilefile 絵文字ファイル
+smileintro2 必要な項目を編集して、絵文字をカスタマイズしてください。(必要に応じて FAQ を参照してください)
+smileintro 新たなカスタム絵文字を作成するには、必要な項目を全て埋めてください。(必要に応じて FAQ を参照してください)
 sound 効果音
+soundexample ( \$sound = 再生する効果音のファイル名) 例: esdplay \$sound
 sound2 メンバがサインインやメッセージを送信した場合効果音を鳴らす
 soundcommand 再生コマンド
 soundfile 効果音ファイル
 soundloop 効果音をループ
 soundserver サウンドサーバ
 soundstatus 効果音
+sourcecode ソースコード (コンパイルとインストールが必要です)
+sslwarning 警告!! SSLを無効にすると暗号化が無効になり、パスワードは平文のままでネットワークに送信されます。特殊なプロキシやネットワークの設定をする場合以外はSSLを無効にしないでください。
 startoffline オフラインで起動する
 startoffline2 サインイン時オフラインする
 state 次の状態にする
 stateautomsg 自動返信メッセージ
+statechange 以下のステータスに変わりました: 
 stateedittext テキストフィールドを編集し、保存をクリックしてください。
 stateinfo 自動返信の設定
 statename 自動返信の名前
@@ -382,11 +418,18 @@ stylelog 参照したい履歴のフォーマットを選択してください
 syntaxerror シンタックス エラー
 tabbed タブ ウィンドウ
 textsize 文字サイズ
+timeremaining 残り時間
 title Al's Messenger
+tlsdowncompleted ファイル $1 の $2 へのダウンロードが完了しました。展開、(ソースコードの場合は)ビルド、の後に $3 にインストールしてください。
+tlsinstallexp aMSN が現在利用しているMSN9にはSSLによるセキュア接続が必要です。SSLを利用するには、TLS モジュールをインストールする必要がありますが、このコンピュータにはインストールされていないようです。このウィザードを使って TLS のダウンロードとインストールを行えます。使用中のシステムを選択すると、自動的に必要なファイルをダウンロードします。
+tlsinstall TLS モジュールインストールウィザード
+tlsinstcompleted TLS モジュールのインストールが完了しました - MSN9 が利用できます。うまく動かない場合は、選択したモジュールが適切でないか、コンパイル済のモジュールがこのシステムでは利用できない可能性があります。
 to To
 tools ツール
+tooltips ツールチップを有効にする
 transnotexists そのファイルはまだ日本語訳されていません
 traynotcompiled トレイアイコンプラグインはコンパイルされていません。Plugins/Traydockを確認してください。
+triggers テキストトリガー
 twonewmail 受信箱に $1 通のメッセージがあります
 unblock 禁止解除
 uoffline オフライン
@@ -402,7 +445,9 @@ view 表示
 viewprofile プロフィール閲覧
 willjoin $1 が会話に参加するのを待っています
 work 仕事
+wrongfields 項目 "$1" , "$2" あるいは 項目 "$3" が無効です。もしくは、全てが無効です。
 wrongprofileversion プロフィール設定ファイルのバージョンが違います。修復するには $1 ディレクトリを消去するかAMSNをアップデートしてください
+xmmserr 何も演奏されていないか、xmms-infopipe がインストールされていません。
 xoffset X 位置
 yes Yes
 yoffset Y 位置
