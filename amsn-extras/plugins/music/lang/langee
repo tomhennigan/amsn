@@ -9,3 +9,9 @@ musicsend Saada mängiv lugu
 musicerr Midagi ei mängi või plugin ei saa loo infot.
 playing Kuulan : $1
 musicoserr Sinu operatsioonisüsteem ($1) ei ole veel toetatud
+musicplayer Vali oma lemmik mängija
+musicstopdefault Mängija peatatud
+separator Eraldaja
+songartist lugu-esitaja
+artistsong esitaja-lugu
+choose_order Vali esitaja ja loo järjekord (XMMS ei toeta seda)
