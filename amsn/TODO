@@ -35,9 +35,9 @@ Alarm system improvements and bugs :
 Loging system improvements and bugs :
 # Add date limit or file size limit for log files
 # Add option for partial loging of only certain users
-# Save to FILE (all of history for example)
+# ** DONE ** Save to FILE (all of history for example)
 # Save to LOG (if loging disabled, allows to log certain conversations only)
-# "Clear all logs" button
+# "Clear all logs" button (in preferences)
 # Compress log files with optimal algorithm for txt files
 # Loging syntax options (timestamps, email or nics, etc)
 
@@ -68,7 +68,6 @@ Others
 # Encrypt password? (do we really need to? I think not)
 # Resume File Transfers
 # Socks5 Proxy Support
-http://svcs.microsoft.com/svcs/mms/profile.asp?Country=AU&BrandID=MSMSGS&passport=user@hotmail.com or just http://profiles.msn.com/user@hotmail.com
 # Option to popup/raise/unminimize message window on message receive
 # Option to have local window appear before remote user sends message (only when remote double clicks your name). Some people asked for this... even begged.. so here it is
 

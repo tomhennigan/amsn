@@ -22,11 +22,8 @@ proc StartLog { email } {
 
 	global log_dir config
 	status_log "DEBUG: Opening log file for $email\n"
-	set dirname [split $config(login) "@ ."]
-	set dirname [join $dirname "_"]
-	file mkdir [file join ${log_dir} ${dirname}]
 	
-	LogArray $email set [open "[file join ${log_dir} ${dirname} ${email}.log]" a+]
+	LogArray $email set [open "[file join ${log_dir} ${email}.log]" a+]
 	fconfigure [LogArray $email get] -buffersize 1024
 }
 
@@ -131,9 +128,9 @@ proc StopLog {email {who 0} } {
 	status_log "DEBUG: Closing log file for $email\n"
 	if { [LogArray $email get] != 0 } {
 		if { $who == 1 } {
-			puts -nonewline [LogArray $email get] "\|\"LRED\[$email [trans lclosedwin] [clock format [clock seconds] -format "%d %b %T"]\]\n\n"
+			puts -nonewline [LogArray $email get] "\|\"LRED\[[trans lclosedwin $email [clock format [clock seconds] -format "%d %b %T"]]\]\n\n"
 		} else {
-			puts -nonewline [LogArray $email get] "\|\"LRED\[[trans luclosedwin] [clock format [clock seconds] -format "%d %b %T"]\]\n\n"
+			puts -nonewline [LogArray $email get] "\|\"LRED\[[trans luclosedwin [clock format [clock seconds] -format "%d %b %T"]]\]\n\n"
 		}
 		close [LogArray $email get]
 	}
@@ -194,10 +191,10 @@ proc WriteLog { email txt {conf 0} {user_list ""}} {
 	if { $fileid != 0 } {
 		if { $last_conf != $conf && $conf != 2} {
 			if { $conf == 1 } {
-				puts -nonewline $fileid "\|\"LRED\[[trans lprivtoconf] ${users}\]\n"
+				puts -nonewline $fileid "\|\"LRED\[[trans lprivtoconf ${users}]\]\n"
 				ConfArray $email set $conf
 			} elseif { [llength $user_list] == 1 } {
-				puts -nonewline $fileid "\|\"LRED\[[trans lconftopriv] ${users}\]\n"
+				puts -nonewline $fileid "\|\"LRED\[[trans lconftopriv ${users}]\]\n"
 				ConfArray $email set $conf
 			}
 		}
@@ -207,9 +204,9 @@ proc WriteLog { email txt {conf 0} {user_list ""}} {
 		set fileid [LogArray $email get]
 		if { $fileid != 0 } {
 		if { $conf == 0 } {
-			puts -nonewline $fileid "\|\"LRED\[[trans lconvstarted] [clock format [clock seconds] -format "%d %b %T"]\]\n"
+			puts -nonewline $fileid "\|\"LRED\[[trans lconvstarted [clock format [clock seconds] -format "%d %b %T"]]\]\n"
 		} else {
-			puts -nonewline $fileid "\|\"LRED\[$email [trans lenteredconf] [clock format [clock seconds] -format "%d %b %T"] \(${users}\) \]\n"
+			puts -nonewline $fileid "\|\"LRED\[[trans lenteredconf $email [clock format [clock seconds] -format "%d %b %T"]] \(${users}\) \]\n"
 		}
 		puts -nonewline $fileid "\|\"LGRA[timestamp] $txt"
 		}
@@ -230,7 +227,7 @@ proc LeavesConf { chatid usr_name } {
 		foreach user_info $user_list {
 			set fileid [LogArray [lindex $user_info 0] get]
 			if { $fileid != 0 } {
-				puts -nonewline $fileid "\|\"LRED\[$usr_name [trans lleftconf]\]\n"
+				puts -nonewline $fileid "\|\"LRED\[[trans lleftconf $usr_name]\]\n"
 			}
 			if { [llength $user_list] == 1 } {
 				ConfArray [lindex $user_info 0] set 3
@@ -255,7 +252,7 @@ proc JoinsConf { chatid usr_name } {
 			set login [lindex $user_info 0]
 			set fileid [LogArray $login get]
 			if { $login != $usr_name && $fileid != 0} {
-				puts -nonewline $fileid "\|\"LRED\[$usr_name [trans ljoinedconf]\]\n"
+				puts -nonewline $fileid "\|\"LRED\[[trans ljoinedconf $usr_name]\]\n"
 			}
 		}
 	}
@@ -316,7 +313,7 @@ proc OpenLogWin { email } {
 		set logvar [read $id]
 		close $id
 	} else {
-		set logvar "\|\"LRED[trans nologfile] $email"
+		set logvar "\|\"LRED[trans nologfile $email]"
 	}
 
 	ParseLog $wname $logvar

@@ -105,17 +105,17 @@ keepalive Keepalive (NAT)
 keeplog Keep Logs of Chats
 language Language
 lastmsgtime Last message received at $1
-lclosedwin has closed the window on
-lconftopriv Conference turned into Private chat with
-lconvstarted Conversation started on
+lclosedwin $1 has closed the window on $2
+lconftopriv Conference turned into Private chat with $1
+lconvstarted Conversation started on $1
 leaveblankforhotmail Leave blank for using hotmail web
 leaves $1 leaves conversation
-lenteredconf has entered into a conference on
+lenteredconf $1 has entered into a conference on $2
 linprivate IN PRIVATE
 listeningon Listening on port $1
 listsmileys List smileys
-ljoinedconf has joined conference
-lleftconf has left conference
+ljoinedconf $1 has joined conference
+lleftconf $1 has left conference
 loadcontacts Load contact list
 loggedotherlocation Disconnected. Logged in other location
 loggingin Logging In
@@ -123,8 +123,8 @@ loginas Login as
 login Log In
 logout Log Out
 logsin has just logged in
-lprivtoconf Private chat turned into Conference with
-luclosedwin You have closed the window on
+lprivtoconf Private chat turned into Conference with $1
+luclosedwin You have closed the window on $1
 mailer Mailer
 mobile Mobile
 movetogroup Move to Group
@@ -140,7 +140,7 @@ newmsg New message
 newveravailable Newer version $1 available for download
 next Next
 noactivity No activity
-nologfile No Log file for
+nologfile No Log file for $1
 nonewmail No new messages in In-Box
 nonewver There are no new versions available to download
 normal Normal
