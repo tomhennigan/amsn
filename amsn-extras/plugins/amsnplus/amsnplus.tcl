@@ -96,7 +96,10 @@ namespace eval ::amsnplus {
 		#for non-tabbed windows -> .msg_${winid}.menu
 		#for tabbed windows -> .container_${containerid}.msg_${winid}.menu
 		foreach win $::ChatWindow::windows {
-			status_log "Destroying plusmenu on $win\n"
+			if { [::ChatWindow::UseContainer] } {
+				set win [split $win .]
+				set win ".[lindex $win 1]"
+			}
 			${win}.menu delete last
 		}
 	}
@@ -124,6 +127,10 @@ namespace eval ::amsnplus {
 	# creates the menu on opened chats
 	proc add_chat_menu { } {
 		foreach win $::ChatWindow::windows {
+			if { [::ChatWindow::UseContainer] } {
+				set win [split $win .]
+				set win ".[lindex $win 1]"
+			}
 			catch {
 				menu ${win}.menu.plusmenu -tearoff 0
 				set plusmenu ${menu_name}.plusmenu
@@ -171,7 +178,6 @@ namespace eval ::amsnplus {
 		set reset [binary format c 15]
 		set screenshot "/screenshot"
 	
-		status_log "\n\n\n$newvar(menu_name)\n\n\n"
 		set menu_name $newvar(menu_name)
 		menu ${menu_name}.plusmenu -tearoff 0
 		$newvar(menu_name) add cascade -label "Plus!" -menu ${menu_name}.plusmenu
