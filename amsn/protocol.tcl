@@ -6361,6 +6361,9 @@ namespace eval ::MSN6FT {
 
 		 binary scan [string range $data 0 47] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2
 
+		if { ![info exists cAckSize2] } {
+			return
+		}
 
 		 set cOffset [int2word $cOffset1 $cOffset2]
 		 set cTotalDataSize [int2word $cTotalDataSize1 $cTotalDataSize2]
