@@ -6455,16 +6455,23 @@ proc BossMode { } {
 			set children ""
 		} else {
 
-			wm title .bossmode "[trans msn]"
+			wm title .bossmode "[trans pass]"
 
-			label .bossmode.passl -text "[trans password]"
+			label .bossmode.passl -text "[trans pass]"
 			entry .bossmode.pass -show "*"
 			pack .bossmode.passl .bossmode.pass -side left
 
 			#updatebossmodetime
 			bind .bossmode.pass <Return> "BossMode"
 
-			wm protocol .bossmode WM_DELETE_WINDOW "BossMode"
+			if { [::config::getKey dock] == 4 } {
+				wm state .bossmode withdraw
+				wm protocol .bossmode WM_DELETE_WINDOW "wm state .bossmode withdraw"
+				catch {wm iconbitmap .bossmode [file join icons winicons bossmode.ico]}
+				statusicon_proc "BOSS"
+			} else {
+				wm protocol .bossmode WM_DELETE_WINDOW "BossMode"
+			}
 		}
 
 		foreach child $children {
@@ -6523,6 +6530,10 @@ proc BossMode { } {
 
 		set bossMode 0
 		destroy .bossmode
+		
+		if { [::config::getKey dock] == 4 } {
+			statusicon_proc [::MSN::myStatusIs]
+		}
 	}
 
 

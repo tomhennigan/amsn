@@ -24,6 +24,15 @@ proc iconify_proc {} {
 
 proc taskbar_icon_handler { msg x y } {
 	global iconmenu ishidden
+
+	if { [winfo exists .bossmode] } {
+		if { $msg=="WM_LBUTTONDBLCLK" } {
+			wm state .bossmode normal
+			focus -force .bossmode
+		}
+		return
+	}
+
 	if { $msg=="WM_RBUTTONUP" } {
 		#tk_popup $iconmenu $x $y
 		tk_popup $iconmenu [expr "$x + 85"] [expr "$y - 11"] [$iconmenu index end]
@@ -280,6 +289,13 @@ proc statusicon_proc {status} {
 				set tooltip "$my_name ($config(login)): [trans appearoff]"
 				if { $config(dock) == 4 } {
 					set trayicon [winico create [file join icons winicons hidden.ico]]
+				}
+			  }
+			  "BOSS" {   #for bossmode, only for win at the moment
+				#set pixmap "[GetSkinFile pixmaps doffline.xpm]"
+				set tooltip "[trans pass]"
+				if { $config(dock) == 4 } {
+					set trayicon [winico create [file join icons winicons bossmode.ico]]
 				}
 			  }
 			  default {
