@@ -15,6 +15,7 @@ alarmstatus Turn ON/OFF Alarm for this user
 allowseen Allow this person to see when I'm online and contact me
 appearoff Appear offline
 aretyping $1 are typing a message
+autoconnect Connect on amsn start
 autohotmaillog Auto Hotmail login
 autoidle Auto NoActivity
 autoip Automatic IP

@@ -16,6 +16,7 @@ alarmstatus Activar/Desactivar alarma para este usuario
 allowseen Permitir a esta persona ver cuándo estás conectado y contactar
 appearoff Sin conexión
 aretyping $1 están escribiendo un mensaje
+autoconnect Conectar al arrancar amsn
 autohotmaillog Login hotmail automático
 autoidle Detección de inactividad
 autoip IP Automática
