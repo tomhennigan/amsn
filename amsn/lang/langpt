@@ -1,5 +1,5 @@
 amsn_lang_version 2
-about Sobre
+about Acerca
 accept Aceitar
 acceptfile Aceitar o ficheiro $1, com $2 de tamanho? Guardado em $3
 actions Acções
@@ -13,6 +13,9 @@ admingroups Grupo de acesso
 adverts Avisos
 alarmpref Definições de alarme para o utilizador
 alarmstatus Ligar/Desligar alarme para este utilizador
+allowallbutbl Permitir ser contactado por todos os utilizadores excepto bloqueados
+allowlist Lista de autorizados:
+allowonlyinal Permitir apenas contactos de utilizadores autorizados
 allowseen Permitir que esta pessoa o veja e contacte quando estiver ligado
 appearance Aparência
 appearoff Aparecer como desligado
@@ -35,7 +38,10 @@ bgcolor Mudar a cor de fundo do aMSN
 blankdirect Deixar em branco para ligação directa
 block Bloquear
 blocked Bloqueado
+blocking A bloquear
+blocklist Lista de bloqueados:
 blockmessage Estes utilizadores estão ligados mas bloquearam-no
+blockusers Número de utilizadores a verificar de uma vez
 broughtby Trazido por
 browse Explorar
 browser Explorador
@@ -51,11 +57,14 @@ chatmaxmin converse comigo eu quero que ele seja:
 chatreq Requisitando uma conversação
 chatsmileys2 Mostrar Emoções e Smileys nas janelas de conversação
 chatsmileys Figuras de chat 
+checkblocking Verifica continuamente se há utilizadores a bloqueá-lo
 checkfilman Os ficheiros recebidos serão guardados em $1. Por favor verifique nas preferências o gestor de ficheiros.
 checkingver A verificar versão
+checkonfln Verifica se um utilizador o bloqueou quando este se desliga
 checkver Verificar versão
 choosebasefont Escolher tipo de letra base
 choosebgcolor Escolher cor de fundo
+choosecontact Escolha um contacto da lista
 choosefontcolor Escolher cor da letra
 clearlog2 Apagar o histórico de todos o contactos
 clearlog3 Apagar todos os registos
@@ -73,6 +82,7 @@ connection Conexão
 connectionlost Fechada a ligação com o servidor 
 contactadded Contacto adicionado
 contactdoesnotexist O contacto não existe
+contactlist Lista de contactos:
 copy Copiar
 copytogroup Copiar para o grupo
 countrycode Codigo do meu Pais/Região
@@ -96,6 +106,7 @@ edit Editar
 editnewstate Novo estado pessoal de Automensagem
 editprofile Editar Perfil
 editstate Editar o estado de Automensagem existente
+emotisounds Reproduzir sons com certos ícones de emoções
 enableproxy Proxy activado
 enableremote Ligar controlo remoto
 encoding2 Alterar a forma como os carecteres são codificados
@@ -112,6 +123,7 @@ fileman Gestor de ficheiros
 filename Nome ficheiro
 filetransfercancelled Transferência de ficheiro cancelada
 filetransfercomplete Transferência de ficheiro completa
+followtext Deslocar para baixo quando novo texto é inserido
 ftacceptedby $1 aceita o pedido de transferência do ficheiro $2
 ftaccepted Trnsferência de Ficheiro aceite
 ftaccepting Aceitando o pedido de transferência de ficheiro
@@ -143,6 +155,7 @@ httpconnection HTTP connection método (usa o protocolo HTTP na porta 80)
 ident Identificando-se
 identity Identidade
 inbox Caixa de entrada
+internalerror Erro Interno do Servidor
 invalidusername Utilizador inválido
 invitationcancelled O convite foi cancelado
 invite Convidar
@@ -187,6 +200,7 @@ minimised Minimizado/Iconificado
 mins minutos
 mobile Telemóvel
 morepersonal Mais estados->
+move Mover
 movetogroup Mover para o grupo
 msgmaxmin Quando uma nova mensagem chegar quero que seja:
 msg Mensagem
@@ -240,6 +254,8 @@ port Porta
 prefalerts Os meus sons de aviso
 prefapps Aplicativos
 prefawaymsg Minha mensagem de Ausente
+prefblock1 Verificar ao desligar
+prefblock2 Verificar continuamente
 prefconnection Definições da ligação
 prefemotic Emoções Icones e Smileys
 preferences Preferências
@@ -252,6 +268,8 @@ prefmsging A interface do Messager
 prefname O meu nome/alcunha
 prefphone2 escreva os números de telefone que gostaria \n que fossem visíveis às pessoas dos seus contactos \n
 prefphone Números de telefone
+prefprivacy2 Lista de Contactos/Reversos do utilizador
+prefprivacy Lista de autorizados/bloqueados do utilizador
 prefprofile2 Criar ou modificar perfil público \n(uma descrição sobre si)
 prefprofile3 configuração de perfies do aMSN
 prefprofile O meu perfil Público
@@ -260,9 +278,10 @@ prefremote Preferências da ligação remota
 prefsession Meu login e estado
 prefshared Conexões Partilhadas(apenas para NAT)
 prefsound Som predefinido
+privacy Privacidade
 profiledconfig Configuração de perfil
 profileinuse Este perfil está a ser usado por uma outra sessão Amsn, por favor escolha outro
-profiles Perfíes
+profiles Perfis
 properties Propriedades
 proxyconf Configuração de proxy
 proxyconfhttp Configurar suporte de proxy http
@@ -276,7 +295,9 @@ reconnect Esperando que $1 volta a ligar-se
 reconnecting Ligando-se de novo ao servidor
 reject Rejeitado
 rememberpass Recordar senha
-reversed Revervado
+removefromlist Remover desta lista
+reversed Revertido
+reverselist Lista de reversos:
 rightback Volto já
 saveas Guardar como
 savecontacts Guardar contactos
@@ -293,7 +314,7 @@ servergoingdown A desligar servidor
 server Servidor
 session Sessão
 showblockedlist Mostra lista de utilizadores que o bloqueram
-sound2 tocar sons quando os contactos ficam online ou enviam uma menssagem
+sound2 tocar sons quando os contactos ficam online ou enviam uma mensagem
 soundcommand Isto tem de ser um comando de tocar (ex: esdplay)
 soundfile Ficheiro de som
 soundloop Repetir som

@@ -38,8 +38,13 @@ bgcolor Schimba culoarea fundalului
 blankdirect Nu complecta pentru autentificare automata
 block Blocheaza
 blocked Blocat
+blocking Blocari
+blockinter1 Cind esti online verifica la fiecare
+blockinter2 secunde, altfel verifica la fiecare:
+blockinter3 la fiecare
 blocklist Lista celor blocati:
 blockmessage Aceste persoane sunt online si te-au blocat
+blockusers Numarul de utilizatori care sa fie verificati odata 
 broughtby aMSN Messenger programat de
 browse Rasfoieste
 browser Navigator
@@ -55,8 +60,10 @@ chatmaxmin Cind o persoana intra in conversatie cu mine vreau ca fereastra sa fi
 chatreq Cerere de conversatie
 chatsmileys2 Afiseaza semnele de conversatie in fereastra de conversatie 
 chatsmileys Semne in conversatie
+checkblocking Verifica permanent daca utilizatorii te blocheaza
 checkfilman Fisierele primite vor fi salvate in $1. Verificati setarile in fereastra de preferinte. 
 checkingver In curs de verificare 
+checkonfln Verifica daca utilizatorul te-a blocat cind sa deautentificat
 checkver Verifica daca este versiune noua
 choosebasefont Alege caracterul 
 choosebgcolor Alege culoarea  
@@ -102,6 +109,7 @@ edit Editare
 editnewstate Creeaza o noua stare pentru mesajului automat 
 editprofile Editeaza profilul
 editstate Editeaza starea mesajului automat existent
+emotisounds Semne in conversatie cu sunet 
 enableproxy Activeaza proxy
 enableremote Activeaza posibilitatea de control de la distanta 
 encoding2 Schimba tipul codului de caracter 
@@ -234,7 +242,7 @@ ok Ok
 onenewmail 1 mesaj nou in casuta postala
 online Autentificat
 onphone Vorbesc la telefon
-openreceived Deschide fisierul primit
+openreceived Deschide fisierul primit 
 options Optiuni
 ordercontactsby Sorteaza persoanele dupa
 ordergroupsby Sorteaza grupurle dupa
@@ -250,6 +258,8 @@ port Port
 prefalerts Evenimente si sunete
 prefapps Aplicatii
 prefawaymsg Mesajul meu cind sunt plecat
+prefblock1 Verifica la deconectare
+prefblock2 Verifica permanent
 prefconnection Setari pentru conexie 
 prefemotic Semnele de conversatie 
 preferences Preferinte
