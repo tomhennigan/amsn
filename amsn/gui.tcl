@@ -6071,7 +6071,8 @@ proc show_umenu {user_login grId x y} {
 		.user_menu add command -label "[trans copytogroup]..." -command "tk_popup .copy_group_menu $x $y" -state disabled
 		.user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login}"
 	}
-
+	
+	.user_menu add separator
 	.user_menu add command -label "[trans properties]" \
 	-command "::abookGui::showUserProperties $user_login"
 
