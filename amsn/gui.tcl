@@ -5891,9 +5891,11 @@ proc convert_display_picture { filename } {
 
 
 proc pictureBrowser {} {
-	global config
+	global config selected_image
 	
 	toplevel .picbrowser
+	
+	set selected_image $config(displaypic)
 	
 	frame .picbrowser.pics
 	text .picbrowser.pics.text -width 5 -font sboldf -background white -yscrollcommand ".picbrowser.pics.ys set" \
@@ -5916,8 +5918,7 @@ proc pictureBrowser {} {
 	button .picbrowser.browse -command "pictureChooseFile; reloadAvailablePics" -text "[trans browse]..." -font sboldf
 	button .picbrowser.delete -command "destroy .picbrowser" -text "[trans delete]" -font sboldf -state disabled
 	button .picbrowser.purge -command "destroy .picbrowser" -state disabled -text "[trans purge]..." -font sboldf
-	button .picbrowser.ok -command "set_displaypic \[file tail \$selected_image\];\
-		destroy .picbrowser" -text "[trans ok]" -font sboldf
+	button .picbrowser.ok -command "set_displaypic \${selected_image};destroy .picbrowser" -text "[trans ok]" -font sboldf
 	button .picbrowser.cancel -command "destroy .picbrowser" -text "[trans cancel]" -font sboldf
 	
 	grid .picbrowser.pics -row 0 -column 0 -rowspan 4 -columnspan 3 -padx 3 -pady 3 -sticky nsew
@@ -5947,6 +5948,7 @@ proc pictureBrowser {} {
 				image delete $img
 			}
 			unset image_names
+			unset selected_image
 	} }
 
 	
@@ -5954,6 +5956,23 @@ proc pictureBrowser {} {
 		
 	wm title .picbrowser "[trans picbrowser]"
 	grab .picbrowser
+}
+
+proc addPicture {the_image pic_text filename} {
+	frame .picbrowser.pics.text.$the_image -borderwidth 0 -highlightthickness 1 -background white -highlightbackground black
+	label .picbrowser.pics.text.$the_image.pic -image $the_image -relief flat -borderwidth 0 -highlightthickness 2 \
+		-background white -highlightbackground black
+	label .picbrowser.pics.text.$the_image.desc -text "$pic_text" -font splainf -background white
+	pack .picbrowser.pics.text.$the_image.pic -side top
+	pack .picbrowser.pics.text.$the_image.desc -side top				
+	bind .picbrowser.pics.text.$the_image <Enter> ".picbrowser.pics.text.$the_image configure -highlightbackground red"
+	bind .picbrowser.pics.text.$the_image <Leave> ".picbrowser.pics.text.$the_image configure -highlightbackground black"
+	bind .picbrowser.pics.text.$the_image <Button1-ButtonRelease> "[list .picbrowser.mypic configure -image $the_image];[list set selected_image $filename]"
+	bind .picbrowser.pics.text.$the_image.pic <Button1-ButtonRelease> "[list .picbrowser.mypic configure -image $the_image];[list set selected_image $filename]"
+	status_log "File: $filename\n" blue
+			
+	.picbrowser.pics.text window create end -window .picbrowser.pics.text.$the_image -padx 3 -pady 3
+	
 }
 
 proc reloadAvailablePics { } {
@@ -5983,8 +6002,37 @@ proc reloadAvailablePics { } {
 	if { $skin != "default" } {
 		catch {set files [concat $files [glob -directory [file join $program_dir skins default displaypic] *.png]]}
 	}
-	catch {set files [concat $files [glob -directory [file join $HOME displaypic] *.png]]}
-	catch {set files [concat $files [glob -directory [file join $HOME displaypic cache] *.png]]}
+	catch {set myfiles [glob -directory [file join $HOME displaypic] *.png]}
+	catch {set cachefiles [glob -directory [file join $HOME displaypic cache] *.png]}
+	
+	addPicture no_pic "[trans nopic]" ""
+
+	
+	set image_names [list]		
+
+	set files [lsort -dictionary $files]
+	set myfiles [lsort -dictionary $myfiles]
+		
+	foreach filename $files {
+		set the_image [image create photo -file "[filenoext $filename].gif" ]	
+		addPicture $the_image "[trunc [filenoext [file tail $filename]] .picbrowser.pics.text 90 splainf]" [file tail $filename]
+		lappend image_names $the_image
+	}
+	
+	foreach filename $myfiles {
+		set the_image [image create photo -file "[filenoext $filename].gif" ]	
+		addPicture $the_image "[trunc [filenoext [file tail $filename]] .picbrowser.pics.text 90 splainf]" [file tail $filename]
+		lappend image_names $the_image
+	}
+
+	foreach filename $cachefiles {
+		set the_image [image create photo -file "[filenoext $filename].gif" ]	
+		addPicture $the_image "" "cache/[file tail $filename]"
+		lappend image_names $the_image
+	}
+	
+		
+	return
 
 	#Reload images		
 	frame .picbrowser.pics.text.nopic -borderwidth 0 -highlightthickness 1 -background white -highlightbackground black
@@ -6001,7 +6049,7 @@ proc reloadAvailablePics { } {
 	.picbrowser.pics.text window create end -window .picbrowser.pics.text.nopic -padx 3 -pady 3	
 	
 			
-	set image_names [list]
+
 	foreach filename $files {
 		if { [file exists [filenoext $filename].gif] } {
 			set the_image [image create photo -file "[filenoext $filename].gif" ]
