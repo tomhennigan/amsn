@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <plugin>
-	<name>aMSN Plus</name>
+	<name>aMSNPlus</name>
 	<author>Mark</author>
 	<description>aMSN Extension (commands in chat window, coloring nicks...)</description>
 	<amsn_version>0.94</amsn_version>

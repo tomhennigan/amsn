@@ -15,7 +15,7 @@ namespace eval ::amsnplus {
 	# this starts amsnplus
 	proc amsnplusStart { dir } {
 		#register plugin
-		::plugins::RegisterPlugin amsnplus
+		::plugins::RegisterPlugin "aMSNPlus"
 		source [file join $dir amsnplus.tcl]
 		#plugin config
 		array set ::amsnplus::config {
