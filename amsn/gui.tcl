@@ -2338,6 +2338,7 @@ catch {exec killall -c sndplay}
       if { [WindowFor $chatid] == 0} {
 	      chatUser $chatid
 		}
+		update idletasks
       set txt "[trans deliverfail]:\n $msg"
       WinWrite $chatid "[timestamp] [trans deliverfail]:\n" red
       WinWrite $chatid "$msg\n" gray
@@ -5500,7 +5501,7 @@ proc launch_browser { url } {
 
 	global config tcl_platform
 
-	if { [string tolower [string range $url 0 6]] != "http://" } {
+	if { ([string tolower [string range $url 0 6]] != "http://") || ([string tolower [string range $url 0 6]] != "file://") } {
 		set url "http://$url"
 	}
 
