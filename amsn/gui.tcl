@@ -5648,7 +5648,7 @@ proc launch_browser { url {local 0}} {
 # launch_filemanager(directory)
 # Launches the configured file manager
 proc launch_filemanager {location} {
-  global config
+  global config tcl_platform
 
   if { [string length $config(filemanager)] < 1 } {
     msg_box "[trans checkfilman $location]"
@@ -5657,10 +5657,18 @@ proc launch_filemanager {location} {
 			set config(filemanager) "$config(filemanager) \$location"
 		}
 
-
-    if {[catch {eval exec $config(filemanager) &} res]} {
-       ::amsn::errorMsg "[trans cantexec $config(filemanager)]"
-    }
+      if { $tcl_platform(platform) == "windows" } {
+	  set fileman  [string map [list "\$location" "$location"  ] $config(filemanager)]
+      
+	  if {[catch {eval exec [string map {"/" "\\\\" } $fileman] &} res]} {
+	      ::amsn::errorMsg "[trans cantexec $config(filemanager)]"
+	  }
+      } else {
+	  if {[catch {eval exec $config(filemanager) &} res]} {
+	      ::amsn::errorMsg "[trans cantexec $config(filemanager)]"
+	  }
+      }
+ 
   }
 
 }

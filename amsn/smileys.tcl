@@ -377,14 +377,14 @@ proc load_smileys { } {
 	}
     set skin_id [sxml::init [GetSkinFile "" settings.xml]]
 
-	 catch {
+#	 catch {
 	sxml::register_routine $skin_id "skin:smileys:emoticon" new_emoticon
 	sxml::register_routine $skin_id "skin:Description" skin_description
 	sxml::register_routine $skin_id "skin:Colors" SetBackgroundColors
 	sxml::parse $skin_id
 	sxml::end $skin_id
 	add_custom_emoticons
-	}
+#	}
 
 
     if { ! [info exists smileys_drawn] } {
@@ -709,7 +709,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 	unset temp
 
 	set emoticonbinding($filename) 0
-	catch { 
+#	catch { 
 	    if { [string match {(%)} $symbol] != 0 } {
 		bind $w.text.$filename <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; wm state $w withdrawn} res"
 	    } else {
@@ -719,7 +719,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 		#status_log "creating binding for custom smiley : $emotion\n"
 		bind $w.text.$filename <Button3-ButtonRelease> "edit_custom_emotion \"$emotion\"; event generate $w <Leave>"
 	    }
-	}
+#	}
     }
 
     event generate $w <Enter>
@@ -793,7 +793,7 @@ proc create_smile_menu { {x 0} {y 0} } {
 
 	if { $hiden} {continue}
 
-	catch {
+#	catch {
  	    if { $animated } {
  		label $w.text.$filename -background [$w.text cget -background]
   		::anigif::anigif  [GetSkinFile smileys ${file}] $w.text.$filename
@@ -809,7 +809,7 @@ proc create_smile_menu { {x 0} {y 0} } {
 	    bind $w.text.$filename <Leave> "$w.text.$filename configure -relief flat"
 	    if { $config(tooltips) } {set_balloon $w.text.$filename "$name $symbol"}
 	    $w.text window create end -window $w.text.$filename -padx 1 -pady 1
-	}
+#	}
 	
 	
     }
