@@ -72,7 +72,7 @@ busy Sibuk
 cancel Batalkan
 cannotdeleteprofile Tidak bisa menghapus profil karena tampaknya masih digunakan
 cantexec Aplikasi tidak bisa dijalankan: $1. Periksa pilihan
-"cantremoveothers Tidak dapat mengilangkan group ""Lain-lain"""
+cantremoveothers Tidak dapat menghilangkan group "Lain-lain"
 casesensitive Gunakan pemicu yang sensitif terhadap bentuk huruf (besar/kecil)
 cfgalarmall Atur/Tambahkan/Hilangkan Alarm Global
 cfgalarm Rubah Pengaturan/Tambah/Hapus alarm
