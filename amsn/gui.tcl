@@ -61,6 +61,10 @@ namespace eval ::amsn {
 		option add *Menu.font menufont
 		option add *background $bgcolor
 		option add *selectColor #DD0000
+		option add *Scrollbar.width 12 userDefault
+		option add *Font splainf userDefault
+		option add *Button.Font sboldf userDefault
+		option add *Scrollbar.borderWidth 1 userDefault
 
 		set Entry {-bg #FFFFFF -foreground #0000FF}
 		set Label {-bg #FFFFFF -foreground #000000}
