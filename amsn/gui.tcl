@@ -1259,9 +1259,9 @@ namespace eval ::amsn {
 	    set evPar(1) [::abook::getDisplayNick $user]
 	    set evPar(2) $msg
 	    if { "$user" != "$chatid" } {
-		::plugins::PostEvent chat_msg_send evPar [info level]
+		::plugins::PostEvent chat_msg_send evPar
 	    } else {
-		::plugins::PostEvent chat_msg_received evPar [info level]
+		::plugins::PostEvent chat_msg_received evPar
 	    }
 	    
 	}
