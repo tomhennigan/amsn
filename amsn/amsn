@@ -47,7 +47,6 @@ set weburl "http://amsn.sourceforge.net"
 #the correct working dir
 
 if {[catch {file readlink [info script]} res]!=0} {
-  puts "No es un link: [info script]"
   set program_dir [file dirname [info script]]
 } else {
    set resdir [file dirname $res]
@@ -312,7 +311,7 @@ proc cmsn_draw_main {} {
    .main_menu.file add separator
    .main_menu.file add command -label "[trans sendfile]..." -state disabled
    .main_menu.file add command -label "[trans openreceived]" \
-      -command "msg_box \"Received files in\n$files_dir\""
+      -command "msg_box \"$files_dir\""
    .main_menu.file add separator
    .main_menu.file add command -label "[trans close]" -command "close_cleanup;exit"
 

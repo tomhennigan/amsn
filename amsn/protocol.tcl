@@ -1,30 +1,31 @@
 #	Microsoft Messenger Protocol Implementation
 # $Id$
 #=======================================================================
-for {set i 0} {$i < 256} {incr i} {
-   set c [format %c $i]
-   set hex [string tolower %[format %.2X $i]]
-      if { $c == ")" } {
-      	set url_map() $hex
-	set url_unmap($hex) "\)"
-      } elseif { $c == "," } {
-      	set url_map(\,) $hex
-	set url_unmap($hex) "\,"
-      } else {
-        set url_map($c) $hex
-        set url_unmap($hex) "$c"
-      }	
+#Not necessary loops anymore
+#for {set i 0} {$i < 256} {incr i} {
+#   set c [format %c $i]
+#   set hex [string tolower %[format %.2X $i]]
+#      if { $c == ")" } {
+#      	set url_map() $hex
+#	set url_unmap($hex) "\)"
+#      } elseif { $c == "," } {
+#      	set url_map(\,) $hex
+#	set url_unmap($hex) "\,"
+#      } else {
+#        set url_map($c) $hex
+#        set url_unmap($hex) "$c"
+#      }	
+#
+#}
 
-}
 
-
-for {set i 256} {$i < 65536} {incr i} {
-   set c [format %c $i]
-   set hex [string tolower %[format %.2X $i]]
-   set url_map($c) $hex
-   set url_unmap($hex) "$c"
-
-}
+#for {set i 256} {$i < 65536} {incr i} {
+#   set c [format %c $i]
+#   set hex [string tolower %[format %.2X $i]]
+#   set url_map($c) $hex
+#   set url_unmap($hex) "$c"
+#
+#}
 
 namespace eval ::MSN {
    namespace export changeName logout changeStatus connect blockUser \
@@ -1506,36 +1507,66 @@ proc get_password {method data} {
 }
 
 proc urldecode {str} {
-  global url_unmap url_map
-    # estracted from ncgi - solves users from needing to install extra packages!
+#  global url_unmap url_map
+# estracted from ncgi - solves users from needing to install extra packages!
 #    regsub -all {\+} $str { } str
 #    regsub -all {[][\\\$]} $str {\\&} str
 #    regsub -all {%([0-9a-fA-F][0-9a-fA-F])} $str {[format %c 0x\1]} str
 
-#Nuevo a ver si arregla el $ y los corchetes
-    regsub -all {[\$]} $str {$url_map(&)} str
-    set str [subst -nocommands -nobackslashes $str]
-#    status_log "Original: $str\n" white
-    regsub -all {%([0-9a-fA-F][0-9a-fA-F])} $str {$url_unmap([string tolower &])} str
-#    status_log "Prueba: $str\n" white
-#    status_log "Prueba2: [subst -nocommands -nobackslashes $str]\n" white
+#New version, no need of url_unmap
+    set begin 0
+    set end [string first "%" $str $begin]
+    set decode ""
+    
+    while { $end >=0 } {
+      set decode "${decode}[string range $str $begin [expr {$end-1}]]"
+      set decode "${decode}[format %c 0x[string range $str [expr {$end+1}] [expr {$end+2}]]]"
+      set begin [expr {$end+3}]
+      set end [string first "%" $str $begin]
+    }
+    
+    set decode ${decode}[string range $str $begin [string length $str]]
+    return $decode
 
-    return [subst -nocommands -nobackslashes $str]
+#Nuevo a ver si arregla el $ y los corchetes
+#    regsub -all {[\$]} $str {$url_map(&)} str
+#    set str [subst -nocommands -nobackslashes $str]
+#    regsub -all {%([0-9a-fA-F][0-9a-fA-F])} $str {$url_unmap([string tolower &])} str
+
+#    return [subst -nocommands -nobackslashes $str]
 }
 
 proc urlencode {str} {
-   global url_map
+#   global url_map
+
+   set encode ""
+   
+   for {set i 0} {$i<[string length $str]} {incr i} {
+     set character [string range $str $i $i]
+     if {[string match {[^a-zA-Z0-9]} $character]==0} {       
+       #Try 8 bits character, then 16 bits unicode
+       binary scan $character c charval
+       binary scan $character s charval
+       set charval [expr ( $charval + 0x10000 ) % 0x10000]
+       set encode "${encode}%[format %.2X $charval]"
+     } else {
+       set encode "${encode}$character"
+     }
+   } 
+   
+   return $encode
+
 
 #   regsub -all \[^a-zA-Z0-9\)\\\[\\\\]\\\\\] $str {$url_map(&)} str
-   regsub -all {[^a-zA-Z0-9\)\[\]\\]} $str {$url_map(&)} str
-   set str [subst -nobackslashes -nocommands $str]
+#   regsub -all {[^a-zA-Z0-9\)\[\]\\]} $str {$url_map(&)} str
+#   set str [subst -nobackslashes -nocommands $str]
 
    #Special character with problems
-   regsub -all {\\} $str $url_map(\\) str
-   regsub -all {\)} $str $url_map() str
-   regsub -all {\[} $str $url_map(\[) str
-   regsub -all {\]} $str $url_map(\]) str
+#   regsub -all {\\} $str $url_map(\\) str
+#   regsub -all {\)} $str $url_map() str
+#   regsub -all {\[} $str $url_map(\[) str
+#   regsub -all {\]} $str $url_map(\]) str
 
-   return [subst -nobackslashes -nocommands -novariables $str]
+#   return [subst -nobackslashes -nocommands -novariables $str]
 
 }
