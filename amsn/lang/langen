@@ -164,6 +164,7 @@ directconnection I have a direct connection to the internet (uses port 1863)
 disabled Disabled
 disableprofiles Disable profiles (Useful for cyber-cafes or shared environments)
 disablessl Disable SSL
+disableuserfonts Ignore remote user font in chats, and use your own font type
 disconnect $1 has disconnected.
 displaychat Display text options
 displayp4context Display P4-Context field content as message sender

@@ -186,6 +186,7 @@ proc ConfigDefaults {} {
 		[list local startontray bool startontray] \
 		[list local charscounter bool charscounter] \
                 [list local strictfonts bool strictfonts] \
+		[list local disableuserfonts bool disableuserfonts] \
                 [list local sngdblclick bool sngdblclick] \
                 [list local nogap bool nogap] \
                 [list local removeempty bool removeempty] \

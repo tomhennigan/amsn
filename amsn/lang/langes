@@ -166,6 +166,7 @@ directconnection Tengo una conexión directa a internet (usa el puerto 1863)
 disabled Desactivado
 disableprofiles Desactivar perfiles (Útil para cibercafés o entornos compartidos)
 disablessl Desactivar SSL
+disableuserfonts Ignorar el tipo de letra del otro usuario en el chat, y usar siempre tu tipo de letra
 disconnect $1 se ha desconectado
 displaychat Configuración de mensajes
 displayp4context Mostrar contenido del campo P4-Context como remitente del mensaje
@@ -351,6 +352,7 @@ next Siguiente
 nick Apodo
 noactivity Sin actividad
 nodataavailable No hay datos disponibles para $1
+nogap No dejar espacio entre los grupos en lista de contactos
 nogroup Sin grupo
 nologfile No existe archivo de historial para $1
 noneavailable No hay ninguno disponible
@@ -454,6 +456,7 @@ reconnect Esperando que $1 se reconecte
 reconnecting Reconectando al servidor
 reject Rechazar
 rememberpass Recordar contraseña
+removeempty Eliminar grupos vacíos de la lista de contactos
 removefromlist Borrar de esta lista
 rename Cambiar nombre
 reversed Invertido
@@ -550,6 +553,7 @@ twonewmail $1 mensajes nuevos en bandeja de entrada
 unblock Admitir
 uoffline Desconectados
 uonline Conectados
+useother Usar un comando o programa distinto
 useralreadyonlist El usuario ya se encuentra en la lista de contactos.
 userblocked El usuario se encuentra online pero estás bloqueado
 userdata Datos de usuario 
@@ -557,6 +561,7 @@ usernotonline El usuario no se encuentra en línea
 userproperties Propiedades del usuario $1
 user Usuario
 useryourself No puedes hablar contigo mismo
+usesnack Usar la biblioteca SNACK (Extensión de TCL)
 verifyblocked Comprobar qué contactos te bloquean
 version Versión
 viewcontactsby Ver contactos como

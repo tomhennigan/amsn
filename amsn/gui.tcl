@@ -5460,10 +5460,21 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 
 	if { $config(tooltips) == 1 } {
 		if {$not_in_reverse} {
-			set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n $user_login\n [trans status] : [trans [::MSN::stateToDescription $state_code]]\n [trans notinlist] "
+			set balloon_message2 "\n[trans notinlist]"
 		} else {
-			set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n $user_login\n [trans status] : [trans [::MSN::stateToDescription $state_code]] "
+			set balloon_message2 ""
 		}
+		if {$config(orderbygroup) == 0} {
+			set gname ""
+			set glist [::abook::getGroups $user_login]
+			foreach i $glist {
+				set gname "$gname [::groups::GetName $i]"
+			}
+			set balloon_message3 "\n[trans group] : $gname"
+		} else {
+			set balloon_message3 ""
+		}
+		set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n$user_login\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 \n[trans lastlogin] : [::abook::getContactData $user_login last_login]\n[trans lastlogout] : [::abook::getContactData $user_login last_logout]\n[trans lastmsgedme] : [::abook::getContactData $user_login last_msgedme]"
 		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 
 		$pgBuddy.text tag bind $user_unique_name <Leave> \
