@@ -1169,6 +1169,7 @@ namespace eval ::ChatWindow {
 			-setgrid 0 -wrap word -exportselection 1 -highlightthickness 0 -selectborderwidth 1 \
 			-borderwidth [::skin::getKey chat_output_border] \
 			-bordercolor [::skin::getKey chat_output_border_color]
+		set textinner [$text getinnerframe]
 
 		$out setwidget $text
 
@@ -1189,20 +1190,20 @@ namespace eval ::ChatWindow {
 		$text tag configure url -foreground #000080 -background white -font splainf -underline true
 
 		# Create our bindings
-		bind $text <<Button3>> "tk_popup $w.copy %X %Y"
+		bind $textinner <<Button3>> "tk_popup $w.copy %X %Y"
 
 		# Do not bind copy command on button 1 on Mac OS X 
 		if {![catch {tk windowingsystem} wsystem] && $wsystem != "aqua"} {
-			bind $text <Button1-ButtonRelease> "copy 0 $w"
+			bind $textinner <Button1-ButtonRelease> "copy 0 $w"
 		}
 
 		# When someone type something in out.text, regive the focus to in.input and insert that key
-		bind $text <KeyPress> "::ChatWindow::lastKeytyped %A $w"
+		bind $textinner <KeyPress> "::ChatWindow::lastKeytyped %A $w"
 
 
 		#Added to stop amsn freezing when control-up pressed in the output window
 		#If you can find why it is freezing and can stop it remove this line
-		bind $text <Control-Up> "break"
+		bind $textinner <Control-Up> "break"
 
 		return $fr
 	}
