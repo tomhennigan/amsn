@@ -4556,12 +4556,15 @@ proc RefreshLogin { mainframe {extra 0} } {
 		$mainframe.loginentry configure -state normal
 		$mainframe.passentry configure -state normal
 		$mainframe.remember configure -state disabled
+		focus $mainframe.loginentry
+		bind $mainframe.loginentry <Tab> "focus $mainframe.passentry; break"
 	} elseif { $loginmode == 1 } {
 		$mainframe.box configure -state normal
 		$mainframe.passentry2 configure -state normal
 		$mainframe.loginentry configure -state disabled
 		$mainframe.passentry configure -state disabled
 		$mainframe.remember configure -state normal
+		focus $mainframe.passentry2
 	}
 }
 
