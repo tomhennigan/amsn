@@ -85,9 +85,10 @@ int countMissingFor(char *langfile) {
 
 
 	do {
+		if(feof(f)) break;
+
 		fscanf(f,"%s",keyname);
 		while (fgetc(f)!='\n') if (feof(f)) break;
-		if(feof(f)) break;
 
 		for (i=0;i<keynum;i++) {
 			if (!strcmp(keytable[i]->keyname,keyname)) {
@@ -128,20 +129,23 @@ void checkMissingFor(char *langfile,char *langname,char *langcode,char *langenc)
 
 
 	do {
+		if(feof(f)) break;
+
+
 		fscanf(f,"%s",keyname);
 		while (fgetc(f)!='\n') if (feof(f)) break;
-		if(feof(f)) break;
+
 
 		for (i=0;i<keynum;i++) {
 			if (!strcmp(keytable[i]->keyname,keyname)) {
 				keytable[i]->missing=0;
 				break;
-			} 
+			}
 		}
 
 	} while(1);
 
-	num=0;	
+	num=0;
 	for (i=0;i<keynum;i++) {
 		if (keytable[i]->missing==1) num++;
 	}
