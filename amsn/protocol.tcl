@@ -921,6 +921,18 @@ namespace eval ::MSN {
       set autostatuschange 0
    }
 
+  proc changeStatus2 {new_status} {
+      variable myStatus
+      global autostatuschange config
+
+      ::MSN::WriteSB ns "CHG" "$new_status 268435508 [urlencode [create_msnobj $config(login) 3 /home/burger/buddy.png]]"
+      set myStatus $new_status
+
+      #Reset automatic status change to 0
+      set autostatuschange 0
+   }
+
+
    proc myStatusIs {} {
        variable myStatus
        return $myStatus
@@ -1124,7 +1136,7 @@ namespace eval ::MSN {
       }
       
    }
-   
+
    proc WriteSB {sbn cmd param {handler ""}} {
       WriteSBNoNL $sbn $cmd "$param\r\n" $handler
    }
@@ -1455,6 +1467,7 @@ namespace eval ::MSN {
       }
           
       cmsn_reconnect $sbn
+      status_log "Opened chjat with $user on sb $sbn\n"
       return $lowuser
 
    }
@@ -2284,6 +2297,11 @@ proc cmsn_sb_msg {sb_name recv} {
 	 #... other types of commands
 
       }
+   
+   } elseif { [string range $content 0 23] == "application/x-msnmsgrp2p" } {
+   	status_log "Got an MSNP2P Message : \n$msg\n" red
+	status_log "Calling MSNP2P::Read with chatid $chatid\n"
+	MSNP2P::ReadData $msg $chatid
       
    } else {
       status_log "cmsn_sb_msg: === UNKNOWN MSG ===\n$msg\n" red
@@ -2380,6 +2398,10 @@ proc cmsn_sb_handler {sb_name item} {
 	  return 0
       }
       ACK {
+         if { ! [info exists msgacks($ret_trid)]} {
+	    return 0
+	 }
+
          set ackid $msgacks($ret_trid)
 	  ::amsn::ackMessage $ackid
 	  unset msgacks($ret_trid)
@@ -4432,3 +4454,513 @@ proc getfilename { filename } {
 proc filenoext { filename } {
     return "[string replace $filename [string last . $filename] end]"
 }
+
+#"
+
+namespace eval ::MSNP2P {
+	namespace export SessionList ReadData MakePacket MakeACK MakeSLP
+
+	global fd
+	set fd -1
+
+	#//////////////////////////////////////////////////////////////////////////////
+	# SessionList (action sid [varlist])
+	# Data Structure for MSNP2P Sessions, contains :
+	# 0 - Message Identifier	(msgid)
+	# 1 - TotalDataSize		(totalsize) This variable is only used if sending data in split packets
+	# 2 - Offset			(offset)
+	# 3 - Destination		(dest)
+	# 4 - Step to run after ack     (AferAck)   For now can be DATAPREP, SENDDATA
+	# 5 - CallID (MSNSLP)		(callid)
+	#
+	# action can be :
+	#	get : This method returns a list with all the array info, 0 if non existant
+	#	set : This method sets the variables for the given sessionid, takes a list as argument.
+	#	unset : This methode removes the given sessionid variables
+	#	findid : This method searchs all Sessions for one that has the given Identifier, returns session ID or -1 if not found
+	#	findcallid : This method searches all Sessions for one that has the given Call-ID, returns session ID or -1 if not found
+	proc SessionList { action sid { varlist "" } } {
+		variable MsgId
+		variable TotalSize
+		variable Offset
+		variable Destination
+		variable AfterAck
+		variable CallId
+		switch $action {
+			get {
+				if { [info exists MsgId($sid)] } {
+					# Session found, return values
+					return [list $MsgId($sid) $TotalSize($sid) $Offset($sid) $Destination($sid) $AfterAck($sid) $CallId($sid)]
+				} else {
+					# Session not found, return 0
+					return 0
+				}
+			}
+			
+			set {
+				# This overwrites previous vars if they are set to something else than -1
+				if { [lindex $varlist 0] != -1 } {
+					set MsgId($sid) [lindex $varlist 0] 
+				}
+				if { [lindex $varlist 1] != -1 } {
+					set TotalSize($sid) [lindex $varlist 1]
+				}
+				if { [lindex $varlist 2] != -1 } {
+					set Offset($sid) [lindex $varlist 2]
+				}
+				if { [lindex $varlist 3] != -1 } {
+					set Destination($sid) [lindex $varlist 3]
+				}
+				if { [lindex $varlist 4] != -1 } {
+					set AfterAck($sid) [lindex $varlist 4]
+				}
+				if { [lindex $varlist 5] != -1 } {
+					set CallId($sid) [lindex $varlist 5]
+				}
+			}
+
+			unset {
+				if { [info exists MsgId($sid)] } {
+					unset MsgId($sid) TotalSize($sid) Offset($sid) Destination($sid) AfterAck($sid)
+				} else {
+					status_log "Trying to unset unexisting Session\n"
+				}
+			}
+
+			findid {
+				set idx [lsearch [array get MsgId] $sid]
+				if { $idx != -1 } {
+					return [lindex [array get MsgId] [expr $idx - 1]]
+				} else {
+					return -1
+				}
+			}
+			findcallid {
+				set idx [lsearch [array get CallId] $sid]
+				if { $idx != -1 } {
+					return [lindex [array get CallId] [expr $idx - 1]]
+				} else {
+					return -1
+				}
+			}
+		}
+	}
+
+
+	#//////////////////////////////////////////////////////////////////////////////
+	# ReadData ( data chatid )
+	# This is the handler for all received MSNP2P packets
+	# data is the MSNP2P packet
+	# chatid will be used to get the SB ?? Ack alvaro if it's better to use chatid or some way to use the dest email
+	# For now only manages buddy and emoticon transfer
+	# TODO : Error checking on fields (to, from, sizes, etc)
+	proc ReadData { data chatid } {
+		global config fd user_info
+		
+		status_log "called ReadData with $data\n" red
+		
+		# Get values from the header
+		set idx [expr [string first "\r\n\r\n" $data] + 4]
+		set headend [expr $idx + 48]
+		binary scan [string range $data $idx $headend] iiwwiiiiw cSid cId cOffset cTotalDataSize cMsgSize cFlags cAckId cAckUID cAckSize
+		
+		status_log "Read header : $cSid $cId $cOffset $cTotalDataSize $cMsgSize $cFlags $cAckId $cAckUID $cAckSize\n" red
+		
+		# Check if this is an ACK Message
+		# TODO : Actually check if the ACK is good ? check size and all that crap...
+		if { $cMsgSize == 0 } {
+			# Let us check if any of our sessions is waiting for an ACK
+			 set sid [SessionList findid $cAckId]
+			 status_log "GOT SID : $sid for Ackid : $cAckId\n"
+			 if { $sid != -1 } {
+			 	# We found a session id that is waiting for an ACK
+			 	set step [lindex [SessionList get $sid] 4]
+
+				status_log "STEP IS : $step\n"
+				
+				# Just these 2 for now, will probably need more with file transfers
+				switch $step {
+					DATAPREP {
+						# Set the right variables, prepare to send data after next ack
+						SessionList set $sid [list -1 4 0 -1 "SENDDATA" -1]
+						
+						# We need to send a data preparation message
+						SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [binary format i 0]]
+					}
+					SENDDATA {
+						status_log "SENDING DATA NOW \n"
+						SendData $sid $chatid
+					}
+				}
+			}
+			status_log "Got MSNP2P ACK\n"
+			return
+		}
+
+		# Check if this is an INVITE message
+		if { [string first "INVITE MSNMSGR" $data] != -1 } {
+			status_log "Got an invitation!\n" red
+			# Let's get the session ID, destination email, branchUID, UID, AppID, Cseq
+			set idx [expr [string first "SessionID:" $data] + 11]
+			set idx2 [expr [string first "\r\n" $data $idx] - 1]
+			set sid [string range $data $idx $idx2]
+			
+			set idx [expr [string first "From: <msnmsgr:" $data] + 15]
+			set idx2 [expr [string first "\r\n" $data $idx] - 2]
+			set dest [string range $data $idx $idx2]
+
+			set idx [expr [string first "branch=\{" $data] + 8]
+			set idx2 [expr [string first "\}" $data $idx] - 1]
+			set branchuid [string range $data $idx $idx2]
+
+			set idx [expr [string first "Call-ID: \{" $data] + 10]
+			set idx2 [expr [string first "\}" $data $idx] - 1]
+			set uid [string range $data $idx $idx2]
+
+			set idx [expr [string first "AppID:" $data] + 6]
+			set idx2 [expr [string first "\r\n" $data $idx] - 1]
+			set appid [string range $data $idx $idx2]
+			
+			set idx [expr [string first "CSeq:" $data] + 6]
+			set idx2 [expr [string first "\r\n" $data $idx] - 1]
+			set cseq [string range $data $idx $idx2]
+
+			unset idx idx2
+			
+			# Make new data structure for this session id
+			SessionList set $sid [list 0 0 0 $dest 0 0]
+
+			# Let's send an ACK
+			SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
+
+			# Let's make and send a 200 OK Message
+			set slpdata [MakeMSNSLP "OK" $dest $config(login) $branchuid [expr $cseq + 1] $uid 0 0 $sid]
+			SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+
+			# Check if this is Buddy Icon or Emoticon request
+			if { $appid == 1 } {
+				# Send Data Prep AFTER ACK received (set AfterAck)
+				SessionList set $sid [list -1 -1 -1 -1 "DATAPREP" -1]
+			}
+			return
+		}
+
+		# Check if it is a 200 OK message
+		if { [string first "MSNSLP/1.0 200 OK" $data] != -1 } {
+			# Send a 200 OK ACK
+			set idx [expr [string first "SessionID:" $data] + 11]
+			set idx2 [string first "\r\n" $data $idx]
+			set sid [string range $data $idx $idx2]
+			SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
+			return
+		}
+		
+		# Check if we got BYE message
+		if { [string first "BYE MSNMSGR:" $data] != -1 } {
+			# Lets get the call ID and find our SessionID	
+			set idx [expr [string first "Call-ID: \{" $data] + 10]
+			set idx2 [string first "\}" $data $idx]
+			set uid [string range $data $idx $idx2]
+			set sid [SessionList findcallid $uid]
+			
+			if { $sid != -1 } {
+				# Send a BYE ACK
+				SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
+
+				# Delete SessionID Data
+				SessionList unset $sid
+			} else {
+				status_log "Got a BYE for unexsiting SessionID\n"
+			}
+			return
+		}
+
+		# Let's check for data preparation messages and data messages
+		if { $cSid != 0 } {
+			set sid $cSid
+			if { $fd != -1 } {
+				# File already open and being written to (fd exists)
+				# Lets write data to file
+				puts -nonewline $fd [string range $headend [expr $headend + $cMsgSize]]
+				
+				# Check if this is last part if splitted
+				if { [expr $cOffset + $cMsgSize] >= $cTotalDataSize } {
+					close $fd
+
+					# Lets send an ACK followed by a BYE
+					SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
+					SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" $dest $config(login) "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex [SessionList get $sid] 5] 0 0] 1]
+
+					# Delete Session Vars
+					SessionList unset $sid
+				}
+			} elseif { $cMsgSize == 4 && [string range $headend [expr $headend + $cMsgSize]] == 0 } {
+				# We got ourselves a DATA PREPARATION message, lets open file and send ACK
+				fd = [open "test.png"]
+				SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
+			} else {
+				# This is a DATA message, lets receive
+				puts -nonewline $fd [string range $headend [expr $headend + $cMsgSize]]
+			}
+		}
+	}
+
+	#//////////////////////////////////////////////////////////////////////////////
+	# RequestObject ( chatid msnobject )
+	# This function creates the invitation packet in order to receive an MSNObject (custom emoticon and display buddy for now)
+	# chatid : Chatid from wich we will request the object
+	# dest : The email of the user that will receive our request
+	# msnobject : The object we want to request (has to be url decoded)
+	proc RequestObject { chatid dest msnobject } {
+		global config
+		# Let's create a new session
+		set sid [expr int([expr rand() * 1000000]) + 4]
+		# Generate BranchID and CallID
+		set branchid "[format %X [expr [expr int([expr rand() * 1000000])%48144] + 4369]]-[format %X [expr [expr int([expr rand() * 1000000])%48144] + 4369]]-[format %X [expr [expr int([expr rand() * 1000000])%48144] + 4369]]-[format %X [expr [expr int([expr rand() * 1000000])%48144]] + 4369]-[format %X [expr [expr int([expr rand() * 1000000])%48144] + 4369]]"
+		set callid "[format %X [expr [expr int([expr rand() * 1000000])%48144] + 4369]]-[format %X [expr [expr int([expr rand() * 1000000])%48144] + 4369]]-[format %X [expr [expr int([expr rand() * 1000000])%48144] + 4369]]-[format %X [expr [expr int([expr rand() * 1000000])%48144]] + 4369]-[format %X [expr [expr int([expr rand() * 1000000])%48144] + 4369]]"
+		SessionList set $sid [list 0 0 0 $dest 0 $callid]
+		
+		# Create and send our packet
+		set slpdata [MakeMSNSLP "INVITE" $dest $config(login) $branchid 0 $callid 0 0 "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" $sid 1 [::base64::encode $msnobject]]
+		SendPacket $chatid [MakePacket $sid $slpdata 1]
+		status_log "Sent an INVITE to $dest on chatid $chatid of object $msnobject\n"
+	}
+				
+
+		
+
+					
+	#//////////////////////////////////////////////////////////////////////////////
+	# MakePacket ( sid slpdata [nullsid] [MsgId] [TotalSize] [Offset] [Destination] )
+	# This function creates the appropriate MSNP2P packet with the given SLP info
+	# This will be used for everything except for ACK's
+	# slpdata	: the SLP info created by MakeMSNSLP that will be included in the packet
+	#		  it could also be binary data that will be sent in the P2P packet
+	# sid		: the session id
+	# nullsid 	: 0 to add sid to header, 1 to put 0 instead of sid in header (usefull for negot + bye)
+	# Returns the MSNP2P packet (half text half binary)
+	proc MakePacket { sid slpdata {nullsid "0"} {MsgId "0"} {TotalSize "0"} {Offset "0"} {Destination "0"} {AfterAck "0"} } {
+		
+		# Let's get our session id variables and put them in a list
+		# If sessionid is 0, means we want to initiate a new session
+		if { $sid != 0 } {
+			set SessionInfo [SessionList get $sid]
+			set MsgId [lindex $SessionInfo 0]
+			set TotalSize [lindex $SessionInfo 1]
+			set Offset [lindex $SessionInfo 2]
+			set Destination [lindex $SessionInfo 3]
+		}
+		
+		# Here is our text header
+		set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $Destination\r\n\r\n"
+		
+		# We start by creating the 48 byte binary header
+		if { $nullsid != 0 } {
+			# session id field set to 0 during negotiation and bye
+			set bheader [binary format i 0]
+		} else {
+			# normal message
+			set bheader [binary format i $sid]
+		}
+
+		if { $MsgId == 0 } {
+			# No MsgId let's generate one and add to our list
+			set MsgId [expr int([expr rand() * 1000000]) + 4]
+		} elseif { $Offset == 0 } {
+			# Offset is different than 0, we need to incr the MsgId to prepare our next message
+			incr MsgId
+		}
+			
+		append bheader [binary format i $MsgId]
+		append bheader [binary format w $Offset]
+
+		set CurrentSize [string length $slpdata]
+		# We must set TotalSize to the size of data if it is > 1202 bytes otherwise we set to 0
+		if { $TotalSize == 0 } {
+			# This isn't a split message
+			append bheader "[binary format w $CurrentSize][binary format i $CurrentSize]"
+		} else {
+			# This is a split message
+			append bheader "[binary format w $TotalSize][binary format i $CurrentSize]"
+			if { $Offset == 0 } {
+				incr Offset
+			}
+			incr Offset $CurrentSize
+			if { $Offset >= $TotalSize } {
+				# We have finished sending the last part of the message
+				set Offset 0
+				set TotalSize 0
+			}
+		}
+		
+		# Set flags to 0
+		append bheader [binary format i 0]
+		
+		# Just give the Ack Session ID some dumbo random number
+		append bheader [binary format i 3415435]
+
+		# Set last 2 ack fields to 0
+		append bheader [binary format iw 0 0]
+		
+		# Now the footer
+		if { $nullsid == 1 } {
+			# Negotiating Session so set to 0
+			set bfooter [binary format I 0]
+		} else {
+			# Either sending a display pic, or an emoticon so set to 1
+			set bfooter [binary format I 1]
+		}
+
+		# Combine it all
+		set packet "${theader}${bheader}${slpdata}${bfooter}"
+		status_log "Sent a packet with header $theader\n"
+		
+		unset bheader
+		unset bfooter
+		unset slpdata
+
+		# Save new Session Variables into SessionList
+		SessionList set $sid [list $MsgId $TotalSize $Offset -1 -1 -1]
+
+		return $packet
+	}
+
+
+	#//////////////////////////////////////////////////////////////////////////////
+	# MakeACK (sid originalsid originalsize originalid originaluid) 
+	# This function creates an ack packet for msnp2p
+	# original* arguments are all arguments of the message we want to ack
+	# Returns the ACK packet
+	proc MakeACK { sid originalsid originalsize originalid originaluid } {
+		if { $sid != 0 } {
+			set SessionInfo [SessionList get $sid]
+			set MsgId [lindex $SessionInfo 0]
+			set Destination [lindex $SessionInfo 3]
+		}
+		
+		if { $MsgId == 0 } {
+			# No MsgId let's generate one and add to our list
+			set MsgId [expr int([expr rand() * 1000000]) + 10]
+			set new 1
+		} else {
+			incr MsgId
+		}
+					
+		# The text header
+		set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $Destination\r\n\r\n"
+
+		# Set the binary header and footer
+		set b [binary format iiwwiiiiwI $originalsid $MsgId 0 $originalsize 0 2 $originalid $originaluid $originalsize 0]
+
+		# Save new Session Variables into SessionList
+		if { $new == 1 } {
+			incr MsgId -4
+		}
+		SessionList set $sid [list $MsgId -1 -1 -1 -1 -1]
+	
+		return "${theader}${b}"
+	}
+
+	
+	#//////////////////////////////////////////////////////////////////////////////
+	# MakeMSNSLP ( method to from branchuid cseq maxfwds contenttentype [A] [B] [C] [D] [E] [F] [G])
+	# This function creates the appropriate MSNSLP packets
+	# method :		INVITE, BYE, OK, DECLINE
+	# contenttype : 	0 for application/x-msnmsgr-sessionreqbody (Starting a session)
+	#			1 for application/x-msnmsgr-transreqbody (Starting transfer)
+	#
+	# If INVITE method is chosen then A, B, C, D and/or E are used dependinf on contenttype
+	# for 0 we got : "EUF-GUID", "SessionID", "AppID" and "Context" (E not used)
+	# for 1 we got : "Bridges", "NetID", "Conn-Type", "UPnPNat" and "ICF"
+	#
+	# If OK method is chosen then A to G are used depending on contenttype
+	# for 0 we got : "SessionID"
+	# for 1 we got : "Bridge", "Listening", "Nonce", "IPv4External-Addrs","IPv4External-Port"
+	#		 "IPv4Internal-Addrs" and "IPv4Internal-Port"
+	# Returns the formated MSNSLP data
+	proc MakeMSNSLP { method to from branchuid cseq uid maxfwds contenttype {A ""} {B ""} {C ""} {D ""} {E ""} {F ""} {G ""} } {
+		
+		# Generate start line
+		if { $method == "INVITE" } {
+			set data "INVITE MSNMSGR:${to} MSNSLP/1.0\r\n"
+		} elseif { $method == "BYE" } {
+			set data "BYE MSNMSGR:${to} MSNSLP/1.0\r\n"
+		} elseif { $method == "OK" } {
+			set data "MSNSLP/1.0 200 OK\r\n"
+		} elseif { $method == "DECLINE" } {
+			set data "MSNSLP/1.0 603 DECLINE\r\n"
+		}
+
+		# Lets create our message body first (so we can calc it's length for the header)
+		set body ""
+		if { $method == "INVITE" } {
+			if { $contenttype == 0 } {
+				append body "EUF-GUID: {${A}}\r\nSessionID: ${B}\r\nAppID: ${C}\r\nContext: ${D}\r\n"
+			} else {
+				append body "Bridges: ${A}\r\nNetID: ${B}\r\nConn-Type: ${C}\r\nUPnPNat: ${D}\r\nICF: ${E}\r\n"
+			}
+		} elseif { $method == "OK" } {
+			if { $contenttype == 0 } {
+				append body "SessionID: ${A}\r\n"
+			} else {
+				# Still not sure what to do with all those tags
+			}
+		} elseif { $method == "DECLINE" } {
+			append body "SessionID: ${A}\r\n"
+		}
+		append body "\r\n\x00"
+				
+		# Here comes the message header
+		append data "To: <msnmsgr:${to}>\r\nFrom: <msnmsgr:${from}>\r\nVia: MSNSLP/1.0/TLP ;branch={${branchuid}}\r\nCSeq:${cseq}\r\nCall-ID: {${uid}}\r\nMax-Forwards: ${maxfwds}\r\n"
+		if { $method == "BYE" } {
+			append data "Content-Type: application/x-msnmsgr-sessionclosebody\r\n"
+		} else {
+			if { $contenttype == 0 } {
+				append data "Content-Type: application/x-msnmsgr-sessionreqbody\r\n"
+			} else {
+				append data "Content-Type: application/x-msnmsgr-transreqbody\r\n"
+			}
+		}
+		append data "Content-Length: [expr [string length $body]]\r\n\r\n"
+#"
+		append data $body
+		unset body
+
+		#status_log $data
+		return $data
+	}
+
+	#//////////////////////////////////////////////////////////////////////////////
+	# SendData ( sid chatid )
+	# This procedure sends the data given by the filename in the Session vars given by SessionID
+	proc SendData { sid chatid } {
+		global fd
+		SessionList set $sid [list -1 [file size "/home/burger/buddy.png"] -1 -1 -1 -1]
+		if { [info exists fd] == 0 } {
+			set fd [open "/home/burger/buddy.png"]
+		}
+		set chunk [read $fd 1200]
+		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $chunk]
+
+		status_log "[SessionList get $sid]\n"
+		if { [lindex [SessionList get $sid] 1] == 0 } {
+			# All file has been sent
+			close $fd
+			# We finished sending the data, set appropriate Afterack
+			SessionList set $sid [list -1 -1 -1 -1 0 -1]
+		} else {
+			# Still need to send
+			after 10 "::MSNP2P::SendData $sid $chatid"
+		}
+	}		
+
+	
+	#//////////////////////////////////////////////////////////////////////////////
+	# SendPacket ( sbn msg )
+	# This function sends the packet given by (msg) into the given (sbn)
+	proc SendPacket { sbn msg } {
+		set msg_len [string length $msg]
+		::MSN::WriteSBNoNL $sbn "MSG" "D $msg_len\r\n$msg"
+	}
+}
+
