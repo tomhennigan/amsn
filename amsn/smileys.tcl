@@ -426,7 +426,7 @@ proc load_smileys { } {
 
     foreach x $emotions_names {
 	set img_name "$emotions(${x}_file)"
-	image create photo $img_name -file [GetSkinFile smileys ${img_name}]
+	image create photo $img_name -file [GetSkinFile smileys ${img_name}] -format gif
 
     }
 
