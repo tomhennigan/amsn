@@ -1,0 +1,13 @@
+amsn_lang_version 2
+shake_receive Mover la ventana cuando se recibe un nudge.
+shake_send Mover la ventana cuando se envía un nudge.
+shake_nudge Movimientos por nudge
+popup_nudge Notificar nudges con la ventana emergente.
+notify_send Notificar nudges enviados en la ventana de chat.
+notify_receive Notificar nudges recibidos en la ventana de chat.
+sound_send Ejecutar un sonido cuando se envie un nudge.
+sound_receive Ejecutar un sonido cuando se reciba un nudge.
+add_button Añadir un botón para enviar un nudge en la ventana de chat.
+send_nudge Enviar nudge.
+no_nudge_support No se puede enviar un nudge a su contacto por que él o ella no usa un cliente que soporte nudges.
+nudge_sent Ya ha enviado un Nudge.
