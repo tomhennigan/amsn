@@ -1382,7 +1382,13 @@ proc ChooseFilename { twn title } {
 }
 
 proc save_text_file { w ent } {
-    set content [ $w get 1.0 end ]
+
+    set content ""
+    set dump [$w  dump  -text 0.0 end]
+    foreach { text output index } $dump {
+	set content "${content}${output}"
+    }
+
     set dstfile [ $ent get ]
     set f [ open $dstfile w ]
     puts $f $content
@@ -1533,6 +1539,11 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.76  2003/09/08 03:45:59  kakaroto
+# improved blocking thing..
+# fixed bug with smileys
+# save to file conversation saves also the smileys used...
+#
 # Revision 1.75  2003/09/04 13:00:36  airadier
 # Updated TODO.
 # Syntax checking (some minor syntax improvements).

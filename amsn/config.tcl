@@ -130,6 +130,7 @@ proc save_config {} {
          }
       } res
 
+    status_log "saving contact list. Opening of files returned : $res\n"
    set loginback $config(login)
    set passback $password
 

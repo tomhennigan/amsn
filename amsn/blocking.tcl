@@ -193,14 +193,19 @@ proc ContinueVerifyBlocked { nbre_users interval } {
 	    vwait counter
    	}
 
+	set username [lindex $user 0]
 	set user_state_no [lindex $user 2]
 	set state [lindex $list_states $user_state_no]
 	set state_code [lindex $state 0]
 
-	if { $state_code =="FLN" && ([sb get $sbn_blocking stat] != "d" && [sb get $sbn_blocking stat] != "") } {
+	if { $state_code =="FLN" && 
+	     ( [lindex [set ::abook::contacts($username)] 2] == "" && 
+	       [lindex [set ::abook::contacts($username)] 3] == "" && 
+	       [lindex [set ::abook::contacts($username)] 4] == "") &&
+	     ([sb get $sbn_blocking stat] != "d" && [sb get $sbn_blocking stat] != "") } {
 #	    set counter [expr {$counter + 1 }]
 	    incr counter	    
-	    ::MSN::WriteSB $sbn_blocking "CAL" "[lindex $user 0]" "CALReceived $sbn_blocking [lindex $user 0]"
+	    ::MSN::WriteSB $sbn_blocking "CAL" "$username" "CALReceived $sbn_blocking $username"
 	    
 	}
     }

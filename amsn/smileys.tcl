@@ -18,6 +18,7 @@ proc compareSmileyLength { a_name b_name } {
     set a $emotions(${a_name}_text)
     set b $emotions(${b_name}_text)
 
+
     if { [string length [lindex $a 0]] > [string length [lindex $b 0]] } {
 	return -1
     } elseif { [string length [lindex $a 0]] < [string length [lindex $b 0]] } {
@@ -81,6 +82,7 @@ proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
 	if { $x2 == "_dummy_" } {continue}
 
 	set emotions(${name}_${x2}) [string trim $sdata($x)]
+	set emotions(${name}_${x2}) [string map { \\ \\\\ } $emotions(${name}_${x2})]
 
      }
 
@@ -114,6 +116,7 @@ proc new_custom_emoticon {cstack cdata saved_data cattr saved_attr args} {
 	if { $x2 == "_dummy_" } {continue}
 
 	set custom_emotions(${name}_${x2}) [string trim $sdata($x)]
+	set custom_emotions(${name}_${x2}) [string map { \\ \\\\ } $custom_emotions(${name}_${x2})]
 
      }
 
@@ -512,6 +515,7 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
 		    
 		    $tw window create $endpos -window $emoticon       
 		    bind $emoticon <Destroy> "::anigif::destroy $emoticon"		    
+		    $tw tag remove smiley $endpos
 
 		    set tagname  [$tw tag names $endpos]
 		    if { [llength $tagname] == 1 } {
@@ -528,6 +532,7 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
 
 		} else {
 		    $tw image create $endpos -image $file -pady 1 -padx 1
+		    $tw tag remove smiley $endpos
 		}
 
 		

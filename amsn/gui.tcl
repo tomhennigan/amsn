@@ -1201,9 +1201,9 @@ namespace eval ::amsn {
 
       frame .${win_name}.f.out -class Amsn -background white -borderwidth 0 -relief flat
 
-      text .${win_name}.f.out.text -borderwidth 0 -background white -width 45 -height 15 -wrap word \
+      text .${win_name}.f.out.text -borderwidth 3 -foreground white -background white -width 45 -height 15 -wrap word \
 	  -yscrollcommand "adjust_yscroll .${win_name}.f.out.text .${win_name}.f.out.ys" -exportselection 1  \
-	  -relief solid -highlightthickness 0 \
+	  -relief flat -highlightthickness 0 \
 	  -selectborderwidth 1
 
 
@@ -1955,7 +1955,7 @@ namespace eval ::amsn {
       
       if { $tagid == "user" || $tagid == "yours" } {
 
-      	set txt " $txt"
+#      	set txt " $txt"
       
          set size [expr {[lindex $config(basefont) 1]+$config(textsize)}]
          set font "\"$fontname\" $size $fontstyle"
@@ -3865,8 +3865,6 @@ proc copy { cut w } {
     clipboard clear
 
     set dump [$window  dump  -text [lindex $index 0] [lindex $index 1]]
-
-    set len [llength $dump]
 
     foreach { text output index } $dump {
 	clipboard append "$output"
