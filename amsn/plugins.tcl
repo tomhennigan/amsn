@@ -689,7 +689,7 @@ namespace eval ::plugins {
 						str {
 							# This configuration item is a text input (Text string variable)
 							entry $confwin.${i}e -textvariable \
-								::${namespace}::config([lindex $confitem 2])
+								::${namespace}::config([lindex $confitem 2]) -bg white
 							label $confwin.${i}l -text [lindex $confitem 1]
 							grid $confwin.${i}l -column 1 -row $row -sticky w -padx 20
 							grid $confwin.${i}e -column 2 -row $row	-sticky w
@@ -711,7 +711,7 @@ namespace eval ::plugins {
 									set width [string length "$item"]
 								}
 							}
-							listbox $confwin.$i -height $height -width $width
+							listbox $confwin.$i -height $height -width $width -bg white
 							foreach item [lindex $confitem 1] {
 								$confwin.$i insert end $item
 							}
@@ -1267,6 +1267,7 @@ namespace eval ::plugins {
 		# Else, look at the URL given
 		} else {
 		
+
 			set token [::http::geturl "$URL" -timeout 10000 -binary 1]
 			set content [::http::data $token]
 			if { [string first "<html>" "$content"] != -1 } {
@@ -1275,6 +1276,7 @@ namespace eval ::plugins {
 			
 			set place 3
 			
+
 		}
 
 		set filename "[file join $HOME2 $plugin.xml]"
