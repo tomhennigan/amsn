@@ -2369,6 +2369,7 @@ namespace eval ::DirectConnection {
 			if { [string length $remaining] >= $length } {
 				set payload [string range $remaining 0 [expr $length -1]]
 				set dataBuffer [string range $dataBuffer [string length "$command\r\n$payload"] end]
+				set command [encoding convertfrom utf-8 $command]
 				$self handleCommand $command $payload
 				$self receivedData
 			} else {
@@ -2376,6 +2377,7 @@ namespace eval ::DirectConnection {
 			}
 		} else {
 			set dataBuffer [string range $dataBuffer [string length "$command\r\n"] end]
+			set command [encoding convertfrom utf-8 $command]
 			$self handleCommand $command
 			$self receivedData
 		}
