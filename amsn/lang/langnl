@@ -21,6 +21,7 @@ alarmondisconnect Alarm weergeven bij offline gaan
 alarmonmsg Alarm weergeven bij ontvangen bericht
 alarmonstatus Alarm weergeven bij veranderen status
 alarmpref Alarm
+alarms Alarm
 alarmstatus Alarm inschakelen
 allfiles Alle bestanden
 allowallbutbl Iedereen die ik niet geblokkeerd heb kan mij berichten sturen en mijn status zien
@@ -78,6 +79,7 @@ cantremoveothers De groep "Andere contactpersonen" kan niet verwijderd worden
 casesensitive Gebruik hoofdlettergevoelige triggers
 cfgalarm Alarminstellingen
 cfgalarmall Alle alarminstellingen
+change Wijzigen
 changecustomstate Verander status in
 changedisplaypic Schermafbeelding wijzigen
 changefont Lettertype instellen
@@ -131,8 +133,12 @@ corruptstates Het aangepaste statussen bestand is beschadigd. Er wordt een nieuw
 countrycode Landnunummer
 cprofile Maak profiel
 credits De makers
+cachedpics $1 opgeslagen plaatjes
+currentdate Huidige datum
 custom_edit Bewerk zelfgemaakte emoticon
 custom_new Maak een nieuwe emoticon
+customcolor Aangepaste kleur
+customnick Aangepaste Schermnaam
 cut Knippen
 date Datum
 days Dagen
@@ -241,6 +247,7 @@ installconvert U moet het conversie-programma "ImageMagick" installeren om afbee
 internalerror Interne Serverfout
 invalidfile Het bestand "$2", ingevoerd in het veld "$1", bestaat niet of is onleesbaar
 invalidfile2 Het bestand $1 kan niet aangemaakt worden. Heeft u wel de juiste toegangsrechten?
+invalidgroup Ongeldige groep
 invalidpic Het opgegeven afbeeldingsbestand bestaat niet.
 invalidpicsize Het opgegeven plaatje is te groot. Zoek alsjeblieft een kleinere uit.
 invalidsound Het opgegeven geluidsbestand bestaat niet.
@@ -255,11 +262,15 @@ keepalive Verbinding in stand houden (NAT)
 keeplog Gesprekken opslaan in een logboek
 keeplog2 In een logboek automatisch een geschiedenis bijhouden van de gesprekken
 language Taal
+lastlogin Vorige login
+lastlogout Vorige logout
+lastmsgedme Laatste bericht
 lastmsgtime Laatste bericht ontvangen om $1
 lclosedwin $1 heeft het venster gesloten op $2
 lconftopriv Vergadering veranderde in privé-gesprek met $1
 lconvstarted Gesprek gestart op $1
 leaveblankforhotmail Laat leeg om Hotmail web te gebruiken
+leavejoinsinchat In het gespreksvenster weergeven dat iemand het gesprek binnenkomt of verlaat.
 leaves $1 verlaat het gesprek
 lenteredconf $1 kwam de vergadering binnen op $2
 lineflushlog Werk logfiles bij na elke regel
@@ -279,6 +290,7 @@ loginas Aanmelden als
 loging Logboeken
 logolder Bewaar alleen de gesprekken de plaatsvonden in de laatste
 logout Afmelden
+logsbydate Logs sorteren op datum (Geschiedenis laadt een stuk sneller)
 logsin heeft zich aangemeld
 logsmileys Toon emoticons in aMSN's geschiedenisvensters
 logsout heeft zich afgemeld 
@@ -315,9 +327,11 @@ newmsg Nieuw bericht
 newstate Voeg nieuwe aangepaste status toe
 newveravailable Versie $1 is beschikbaar voor downloaden.
 next Volgende
+nick Schermnaam
 no Nee
 noactivity Geen activiteit
 nodataavailable Geen gegevens beschikbaar voor $1
+nogroup Geen groep
 nologfile Geen logboek voor $1
 noneavailable Geen beschikbaar.
 nonewmail Geen nieuwe berichten in Postvak IN
@@ -413,6 +427,7 @@ readonlywarn WAARSCHUWING: Het bestand zal waarschijnlijk NIET correct worden op
 receivedbytes $1 van de $2 bytes ontvangen
 receiveddir Map voor ontvangen bestanden
 receivefile Ontvang bestand
+recentmsg Voorkom sluiten van een gespreksvenster wanneer er net een bericht aankomt
 reconnect Wachten tot $1 opnieuw verbindt
 reconnecting Bezig met opnieuw verbinden met de server
 reject Afwijzen
@@ -442,6 +457,7 @@ servergoingdown Verbinding verbroken: De server wordt uitgeschakeld
 serverunavailable Server is niet beschikbaar
 session Sessie
 showblockedlist Toon de lijst van mensen die u geblokkeerd hebben
+showcachedpics Opgeslagen plaatjes laten zien/verbergen
 showdisplaypic Toon schermafbeelding
 showdisplaypic2 Schermafbeelding standaard tonen bij het openen van een gespreksvenster
 showmypic Mijn Afbeelding
@@ -512,12 +528,15 @@ uonline Online
 user Gebruiker
 useralreadyonlist Deze gebruiker staat al in uw lijst
 userblocked De gebruiker is online maar heeft u geblokkeerd
+userdata Gebruikersinformatie
 usernotonline De gebruiker is offline
+userproperties Eigenschappen van $1
 useryourself U kan niet met uzelf chatten
 verifyblocked Controleer welke mensen u blokkeren
 version Versie
 view Beeld
 viewprofile Profiel Weergeven
+webcaminvite $1 wil een webcam-sessie beginnen, maar deze functie wordt niet door AMSN ondersteund.
 willjoin Wachten tot $1 de conversatie zal bijwonen
 work Werk
 wrongfields De velden "$1", "$2" en/of "$3" waren ongeldig
@@ -531,21 +550,3 @@ yoffset verticaal
 youblocked U bent geblokkeerd
 yousay U zegt
 youwant U wilt
-cachedpics $1 opgeslagen plaatjes
-currentdate Huidige datum
-logsbydate Logs sorteren op datum (Geschiedenis laadt een stuk sneller)
-showcachedpics Opgeslagen plaatjes laten zien/verbergen
-alarms Alarms
-change Aanpassen
-customcolor Aangepaste kleur
-customnick Aangepaste Schermnaam
-invalidgroup Ongeldige groep
-lastlogin Vorige login
-lastlogout Vorige logout
-lastmsgedme Laatste bericht
-leavejoinsinchat Laat "verlaat/neemt deel aan gesprek" berichten zien in het chat venster
-nick Schermnaam
-nogroup Geen groep
-recentmsg Onderdruk sluiten van chatvenster wanneer er net een bericht aankomt
-userdata Gebruikersinformatie
-userproperties Eigenschappen van $1
