@@ -212,43 +212,52 @@ namespace eval ::smiley {
 				$tw tag configure smiley -elide true
 				$tw tag add smiley $pos $endpos
 		
-				if { [ValueForSmiley $emotion_name animated 1] && [::config::getKey animatedsmileys] } {
-					global smileys_drawn
-					set emoticon "$tw.${smileys_drawn}"
-					incr smileys_drawn 
-			
-					label $emoticon -bd 0 -background white
-					::anigif::anigif [GetSkinFile smileys [ValueForSmiley $emotion_name file]] $emoticon
-			
-					#TODO: I just added this to avoid a bug I can't find... someday we can fix it
-					catch {
-						$tw window create $endpos -window $emoticon
-						bind $emoticon <Destroy> [list ::anigif::destroy $emoticon]
-						$tw tag remove smiley $endpos
-					}
-			
-					#Preserver replaced text tags
-					set tagname  [$tw tag names $endpos]
-					if { [llength $tagname] == 1 } {
-						bind $emoticon <Button3-ButtonRelease> [$tw tag bind $tagname <Button3-ButtonRelease>]
-						bind $emoticon <Enter> [$tw tag bind $tagname <Enter>]
-						bind $emoticon <Leave> [$tw tag bind $tagname <Leave>]
-					}
-		
-				} else {
-					$tw image create $endpos -image [::skin::loadSmiley $symbol] -pady 0 -padx 0
-					$tw tag remove smiley $endpos
-				}
-		
-				if { [::config::getKey emotisounds] == 1 && $contact_list == 0 && [ValueForSmiley $emotion_name sound] != "" } {
+				set animated [ValueForSmiley $emotion_name animated 1]
+				if { $contact_list == 0 && [ValueForSmiley $emotion_name sound] != "" } {
 					set sound [ValueForSmiley $emotion_name sound]
-					play_sound $sound
-				}
+				} else { set sound "" }
+				
+				::smiley::SubstSmiley $tw $endpos [::skin::loadSmiley $symbol] [ValueForSmiley $emotion_name file] $animated $sound
 		
 		
 			}
 		}
 	
+	}
+	
+	proc SubstSmiley { tw endpos image file animated { sound "" }} {
+	
+		if { $animated && [::config::getKey animatedsmileys] } {
+			global smileys_drawn
+			set emoticon "$tw.${smileys_drawn}"
+			incr smileys_drawn 
+	
+			label $emoticon -bd 0 -background white
+			::anigif::anigif [GetSkinFile smileys $file] $emoticon
+	
+			#TODO: I just added this to avoid a bug I can't find... someday we can fix it
+			catch {
+				$tw window create $endpos -window $emoticon
+				bind $emoticon <Destroy> [list ::anigif::destroy $emoticon]
+				$tw tag remove smiley $endpos
+			}
+	
+			#Preserver replaced text tags
+			set tagname  [$tw tag names $endpos]
+			if { [llength $tagname] == 1 } {
+				bind $emoticon <Button3-ButtonRelease> [$tw tag bind $tagname <Button3-ButtonRelease>]
+				bind $emoticon <Enter> [$tw tag bind $tagname <Enter>]
+				bind $emoticon <Leave> [$tw tag bind $tagname <Leave>]
+			}
+
+		} else {
+			$tw image create $endpos -image $image -pady 0 -padx 0
+			$tw tag remove smiley $endpos
+		}
+
+		if { [::config::getKey emotisounds] == 1 && $sound != "" } {
+			play_sound $sound
+		}
 	}
 	
 	# proc substYourSmileys { tw {start "0.0"} {end "end"} {contact_list 0} }
@@ -283,39 +292,13 @@ namespace eval ::smiley {
 		
 				$tw tag configure smiley -elide true
 				$tw tag add smiley $pos $endpos
-		
-				if { [info exists emotion(animated)] && [is_true $emotion(animated)] && [::config::getKey animatedsmileys] } {
-					global smileys_drawn
-					set emoticon "$tw.${smileys_drawn}"
-					incr smileys_drawn 
-			
-					label $emoticon -bd 0 -background white
-					::anigif::anigif [GetSkinFile smileys $emotion(file)] $emoticon
-			
-					#TODO: I just added this to avoid a bug I can't find... someday we can fix it
-					catch {
-						$tw window create $endpos -window $emoticon
-						bind $emoticon <Destroy> [list ::anigif::destroy $emoticon]
-						$tw tag remove smiley $endpos
-					}
-			
-					#Preserver replaced text tags
-					set tagname  [$tw tag names $endpos]
-					if { [llength $tagname] == 1 } {
-						bind $emoticon <Button3-ButtonRelease> [$tw tag bind $tagname <Button3-ButtonRelease>]
-						bind $emoticon <Enter> [$tw tag bind $tagname <Enter>]
-						bind $emoticon <Leave> [$tw tag bind $tagname <Leave>]
-					}
-		
-				} else {
-					$tw image create $endpos -image $custom_images($name) -pady 0 -padx 0
-					$tw tag remove smiley $endpos
-				}
-		
-				if { [::config::getKey emotisounds] == 1 && $contact_list == 0 && [info exists emotion(sound)] && $emotion(sound) != "" } {
-					play_sound $emotion(sound)
-				}
-		
+				
+				set animated [expr {[info exists emotion(animated)] && [is_true $emotion(animated)]}]
+				if { $contact_list == 0 && [info exists emotion(sound)] && $emotion(sound) != "" } {
+					set sound $emotion(sound)
+				} else { set sound "" }
+				
+				::smiley::SubstSmiley $tw $endpos $custom_images($name) $emotion(file) $animated $sound
 		
 			}
 		}
