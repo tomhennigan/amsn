@@ -7,7 +7,14 @@ alvaro       	Alvaro Iradier <airadier at users.sourceforge.net) (>=0.4)
 ###############################################################################
 
 Version 0.62
-20020???
+20020????
+		o Updated languages: Català, danish, dutch, french, italian,
+		  chinese...
+		o New languages: Albanian, brazilian, greek, korean, romanian
+		o Added support for font types in chat window
+		o Fixed typing notification
+		o Show user name when receiving a file
+		o Automatic change to "inactivity" when idle for 5 minutes		  
 		o Experimental SOCKS5 proxy support using code from
 		  waster.8m.com integrated into our generic proxy code
 		o Supports saving contact lists (~/.amsn/contactlist.txt)
