@@ -8,6 +8,10 @@
 namespace eval ::amsnplus {
 
 
+	##########################################################################
+	                           CORE PROCEDURES
+	##########################################################################
+	
 	################################################
 	# this starts amsnplus
 	proc amsnplusStart { dir } {
@@ -39,13 +43,63 @@ namespace eval ::amsnplus {
 		::plugins::RegisterEvent "aMSN Plus" parse_nick parse_nick
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_send parseCommand
 	}
-
-	################################################
-	# this proc add external commands to amsnplus
-	# (useful for other plugins)
-	proc add_command { keyword proc parameters } {
-		set ::amsnplus::external_commands($keyword) [list $proc $parameters]
+	
+	
+	############################################################################
+	                       GENERAL PURPOSE FUNCTIONS
+	############################################################################
+		
+	####################################################
+	# returns 1 if the char is a numbar, otherwise 0
+	proc is_a_number { char } {
+		return [string match \[0-9\] $char]
 	}
+		
+	#####################################################
+	# this returns the first word read in a string
+	proc readWord { i msg strlen } {
+		set a $i
+		set str ""
+		while {$a<$strlen} {
+			set char [string index $msg $a]
+			if {[string equal $char " "]} {
+				return $str
+			}
+			set str "$str$char"
+			incr a
+		}
+		return $str
+	}
+		
+	####################################################################
+	# this is a proc to parse description to state in order to make
+	# more easier to the user to change the state
+	proc descriptionToState { newstate } {
+		if {[string equal $newstate "online"]} { return "NLN" }
+		if {[string equal $newstate "away"]} { return "AWY" }
+		if {[string equal $newstate "busy"]} { return "BSY" }
+		if {[string equal $newstate "rightback"]} { return "BSY" }
+		if {[string equal $newstate "onphone"]} { return "PHN" }
+		if {[string equal $newstate "gonelunch"]} { return "LUN" }
+		return $newstate
+	}
+	
+	###################################################################
+	# this detects if the state user want to change is valid
+	proc stateIsValid { state } {
+		if {[string equal $state "online"]} { return 1 }
+		if {[string equal $state "away"]} { return 1 }
+		if {[string equal $state "busy"]} { return 1 }
+		if {[string equal $state "rightback"]} { return 1 }
+		if {[string equal $state "onphone"]} { return 1 }
+		if {[string equal $state "gonelunch"]} { return 1 }
+		return 0	
+	}
+	
+	
+	############################################################################
+	                  ALL ABOUT PARSING AND COLORING NICKS
+	############################################################################
 
 	################################################
 	# this proc deletes ·$<num> codification
@@ -97,27 +151,10 @@ namespace eval ::amsnplus {
 		return $default
 	}
 	
-	####################################################
-	# returns 1 if the char is a numbar, otherwise 0
-	proc is_a_number { char } {
-		return [string match \[0-9\] $char]
-	}
 	
-	#####################################################
-	# this returns the first word read in a string
-	proc readWord { i msg strlen } {
-		set a $i
-		set str ""
-		while {$a<$strlen} {
-			set char [string index $msg $a]
-			if {[string equal $char " "]} {
-				return $str
-			}
-			set str "$str$char"
-			incr a
-		}
-		return $str
-	}
+	#############################################################################
+	                        ALL ABOUT AMSNPLUS COMMANDS
+	#############################################################################
 	
 	#####################################################
 	# this looks chat text for a command
@@ -472,30 +509,12 @@ namespace eval ::amsnplus {
 			set incr 1
 		}
 	}
-	
-	####################################################################
-	# this is a proc to parse description to state in order to make
-	# more easier to the user to change the state
-	proc descriptionToState { newstate } {
-		if {[string equal $newstate "online"]} { return "NLN" }
-		if {[string equal $newstate "away"]} { return "AWY" }
-		if {[string equal $newstate "busy"]} { return "BSY" }
-		if {[string equal $newstate "rightback"]} { return "BSY" }
-		if {[string equal $newstate "onphone"]} { return "PHN" }
-		if {[string equal $newstate "gonelunch"]} { return "LUN" }
-		return $newstate
-	}
 
-	###################################################################
-	# this detects if the state user want to change is valid
-	proc stateIsValid { state } {
-		if {[string equal $state "online"]} { return 1 }
-		if {[string equal $state "away"]} { return 1 }
-		if {[string equal $state "busy"]} { return 1 }
-		if {[string equal $state "rightback"]} { return 1 }
-		if {[string equal $state "onphone"]} { return 1 }
-		if {[string equal $state "gonelunch"]} { return 1 }
-		return 0	
+	################################################
+	# this proc add external commands to amsnplus
+	# (useful for other plugins)
+	proc add_command { keyword proc parameters } {
+		set ::amsnplus::external_commands($keyword) [list $proc $parameters]
 	}
 
 	###################################################################
