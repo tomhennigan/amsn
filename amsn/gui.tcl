@@ -7213,8 +7213,6 @@ proc pictureBrowser {} {
 	grid row .picbrowser 3 -weight 1		
 
 
-	reloadAvailablePics
-
 	#Free ifmages:
 	bind .picbrowser <Destroy> {
 		if {"%W" == ".picbrowser"} {
@@ -7227,6 +7225,8 @@ proc pictureBrowser {} {
 		} 
 	}
 
+	tkwait visibility .picbrowser.pics.text
+	reloadAvailablePics	
 
 	.picbrowser.pics.text configure -state disabled
 
