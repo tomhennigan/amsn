@@ -74,6 +74,8 @@ cantexec Incapable d'exécuter l'application $1. Vérifiez les paramètres.
 casesensitive Utiliser des déclencheurs sensibles à la casse
 cfgalarmall Configurer/Ajouter/Supprimer une Alarme Globale
 cfgalarm Configurer/Ajouter/Supprimer alarme
+ch_to_state Changer à un nouvel état
+changecustomstate Changer à
 changedisplaypic Modifier l'image affichée
 changefont Changer la police
 changenick Changer de pseudonyme
@@ -148,6 +150,7 @@ dontshow Ne pas montrer
 downloadingtls Téléchargement du module TLS à partir de:\n $1
 editcurrentstate Modifier le statut actuel
 edit Édition
+editcustomstate Éditer
 editnewstate Nouveau statut avec message automatique personnalisé
 editprofile Modifier profil
 editstate Modifier un statut existant avec message automatique
@@ -167,6 +170,9 @@ errortls Erreur lors de l'installation du module TLS
 examples Exemples
 exitamsn Quitter aMSN?
 extras Services Additionnels
+failed Échec
+faileddelete Échec de l'effacement
+faileddeleteperso Cette photo ne peut pas être effacée parce qu'elle n'est pas un fichier de photo personnelle. Seulement les photos qui appartiennent à votre profil personnel peuvent être effacées de cette façon.
 faq Foire Aux Questions
 filedoesnotexist Le fichier n'existe pas
 filemanexample ( \$location sera remplacé par le répertoire ) Ex: nautilus \$location
@@ -434,11 +440,13 @@ statename Nom du statut
 statenewtext Veuillez entrer les informations nécessaires \n à la création de votre nouveau statut et cliquez sur Enregistrer
 status Statut
 stopalarm Arrêter l'alarme
+storenickname Retourner au pseudonyme original après un état personnalisé avec un pseudonyme personnalisé
 stylechat Même apparence que les conversations
 stylehist Apparence de l'historique d'aMSN
 stylelog Sélectionner le format dans lequel vous voulez voir l'historique
 syntaxerror Erreur de syntaxe
 tabbed Onglets
+temp_state Ne pas enregistrer (État temporaire, va être perdu quand AMSN va être fermé)
 textsize Taille du texte
 timeremaining Temps restant
 timestamps Activation de l'horodateur des fenêtres de chat
