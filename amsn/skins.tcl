@@ -145,13 +145,15 @@ proc SelectSkinGui { } {
 		incr idx
 	}
 
-	if { $select != -1 } {
-		$w.main.right.box selection set $select
-		$w.main.right.box itemconfigure $select -background #AAAAAA
-	} else {
-		$w.main.right.box selection set 0
-		$w.main.right.box itemconfigure $select -background #AAAAAA	
-	}
+	if { $select == -1 } {
+	    set select 0
+	} 
+
+    status_log "select = $select --- $config(skin)\n"
+
+        $w.main.right.box selection set $select
+        $w.main.right.box itemconfigure $select -background #AAAAAA
+
 	applychanges
 	bind $w <Destroy> "grab release $w"
 	bind $w.main.right.box <Button1-ButtonRelease> "applychanges"
@@ -259,4 +261,12 @@ proc SetBackgroundColors {cstack cdata saved_data cattr saved_attr args} {
     if { [info exists sdata(${cstack}:background2)] } { set bgcolor2 [string trim $sdata(${cstack}:background2)] }
 
     return 0
+}
+
+
+proc init_skindefaults { } {
+    global skinconfig
+
+    set skinconfig(smilew) 19      ;# Smiley width
+    set skinconfig(smileh) 19      ;# Smiley height
 }

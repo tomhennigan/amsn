@@ -46,7 +46,12 @@
 
 
    <smileys>
-   
+
+      <size>
+         <smilew>22 </smilew>
+	 <smileh>22 </smileh>
+      </size>   
+
       <emoticon>
          <name> Happy </name>
          <text> ":)" </text>

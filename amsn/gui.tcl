@@ -4547,12 +4547,14 @@ proc cmsn_draw_online { {delay 0} } {
 		"+set Bulle(first) 0; kill_balloon;"
 	bind $pgBuddy.text.bigstate <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
-
+	if {$config(listsmileys)} {
+		smile_subst $pgBuddy.text.mystatus
+	}
 	#Calculate number of lines, and set my status size (for multiline nicks)
 	set size [$pgBuddy.text.mystatus index end]
 	set posyx [split $size "."]
 	set lines [expr {[lindex $posyx 0] - 1}]
-	if { [llength [$pgBuddy.text.mystatus image names]] } { incr lines }
+	if { [expr [llength [$pgBuddy.text.mystatus image names]] + [llength [$pgBuddy.text.mystatus window names]]] } { incr lines }
 
 	$pgBuddy.text.mystatus configure -state normal -height $lines -wrap none
 	$pgBuddy.text.mystatus configure -state disabled
@@ -4769,7 +4771,7 @@ proc cmsn_draw_online { {delay 0} } {
 
 	#Don't replace smileys in all text, to avoid replacing in mail notification
 	if {$config(listsmileys)} {
-		smile_subst $pgBuddy.text.mystatus
+
 		smile_subst $pgBuddy.text 0.0 end
 	}
 	update idletasks

@@ -92,6 +92,19 @@ proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
 }
 
 
+proc set_emoticon_size {cstack cdata saved_data cattr saved_attr args} {
+    global skinconfig
+    upvar $saved_data sdata
+
+
+    if { [info exists sdata(${cstack}:smilew)] } { set skinconfig(smilew) [string trim $sdata(${cstack}:smilew)] }
+    if { [info exists sdata(${cstack}:smileh)] } { set skinconfig(smileh) [string trim $sdata(${cstack}:smileh)] }
+
+    return 0
+    
+
+}
+
 #///////////////////////////////////////////////////////////////////////////////
 # proc new_custom_emoticon {cstack cdata saved_data cattr saved_attr args}
 #
@@ -362,31 +375,35 @@ proc edit_custom_emotion { emotion } {
 # it will be refreshed
 
 proc load_smileys { } {
-    global custom_emotions emoticon_number sortedemotions program_dir smileys_drawn emotions emotions_names
+    global custom_emotions emoticon_number sortedemotions program_dir smileys_drawn emotions emotions_names 
 
     set emoticon_number 0
 
     set emotions_names [list]
     if { [info exists emotions] } {unset emotions}
+    
 
-    	set skin_id [sxml::init [GetSkinFile "" settings.xml]]
+    init_skindefaults
 
-	 if { $skin_id == -1 } {
-	 	::amsn::errorMsg "[trans noskins]"
-		exit
-	}
     set skin_id [sxml::init [GetSkinFile "" settings.xml]]
-
-#	 catch {
-	sxml::register_routine $skin_id "skin:smileys:emoticon" new_emoticon
-	sxml::register_routine $skin_id "skin:Description" skin_description
-	sxml::register_routine $skin_id "skin:Colors" SetBackgroundColors
-	sxml::parse $skin_id
-	sxml::end $skin_id
-	add_custom_emoticons
-#	}
-
-
+    
+    if { $skin_id == -1 } {
+	::amsn::errorMsg "[trans noskins]"
+	exit
+    }
+    #set skin_id [sxml::init [GetSkinFile "" settings.xml]]
+    
+    #	 catch {
+    sxml::register_routine $skin_id "skin:smileys:emoticon" new_emoticon
+    sxml::register_routine $skin_id "skin:Description" skin_description
+    sxml::register_routine $skin_id "skin:Colors" SetBackgroundColors
+    sxml::register_routine $skin_id "skin:smileys:size" set_emoticon_size
+    sxml::parse $skin_id
+    sxml::end $skin_id
+    add_custom_emoticons
+    #	}
+    
+    
     if { ! [info exists smileys_drawn] } {
 	set smileys_drawn 0
     }
@@ -709,7 +726,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 	unset temp
 
 	set emoticonbinding($filename) 0
-#	catch { 
+	catch { 
 	    if { [string match {(%)} $symbol] != 0 } {
 		bind $w.text.$filename <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; wm state $w withdrawn} res"
 	    } else {
@@ -719,7 +736,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 		#status_log "creating binding for custom smiley : $emotion\n"
 		bind $w.text.$filename <Button3-ButtonRelease> "edit_custom_emotion \"$emotion\"; event generate $w <Leave>"
 	    }
-#	}
+	}
     }
 
     event generate $w <Enter>
@@ -737,7 +754,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 
 
 proc create_smile_menu { {x 0} {y 0} } {
-    global emotions emotions_names config
+    global emotions emotions_names config skinconfig
     
     set w .smile_selector
     if {[catch {[toplevel $w]} res]} {
@@ -747,8 +764,8 @@ proc create_smile_menu { {x 0} {y 0} } {
     set xy_geo [calcul_geometry_smileys]
 
 	 #Smiley width and eight. Maybe we should load it from the skin settings
-	 set smiw 22
-	 set smih 22
+	 set smiw $skinconfig(smilew)
+	 set smih $skinconfig(smileh)
 
 	 incr smiw 4
 	 incr smih 4
@@ -793,7 +810,7 @@ proc create_smile_menu { {x 0} {y 0} } {
 
 	if { $hiden} {continue}
 
-#	catch {
+	catch {
  	    if { $animated } {
  		label $w.text.$filename -background [$w.text cget -background]
   		::anigif::anigif  [GetSkinFile smileys ${file}] $w.text.$filename
@@ -809,7 +826,7 @@ proc create_smile_menu { {x 0} {y 0} } {
 	    bind $w.text.$filename <Leave> [list $w.text.$filename configure -relief flat]
 	    if { $config(tooltips) } {set_balloon $w.text.$filename "$name $symbol"}
 	    $w.text window create end -window $w.text.$filename -padx 1 -pady 1
-#	}
+	}
 	
 
     }
