@@ -4093,6 +4093,7 @@ proc cmsn_listupdate {recv} {
 
 		set contactlist_loaded 1
 		::abook::setConsistent
+		::abook::saveToDisk	
 	}
 
 }
