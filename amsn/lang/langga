@@ -15,10 +15,11 @@ alarmstatus Activar/Desactivar aviso para este usuario
 allowseen Permitir a esta persoa ver cando estás conectado e contactar
 appearoff Sen conexión
 aretyping $1 están escribindo unha mensaxe
+autoconnect Conectar ó inicio do amsn
 autohotmaillog Login hotmail automático
 autoidle auto inactividade
 autoip IP automática
-avoidseen Evitar que esta persoa vexa a túa conexión e contacte contigo
+avoidseen Evitar que esta persoa vexa a túa conexión e entre en contacto contigo
 away Ausente
 baduserpass Nome de usuario ou contrasinal incorrectos
 blankdirect Deixar en branco para conexión directa
@@ -42,7 +43,7 @@ choosebgcolor Elixir cor de fondo
 choosefontcolor Elixir cor da letra
 clicktologin Fai click aquí para inicia-la sesión
 close Pechar
-closingdocks Botón de pechar minimiza
+closingdocks O botón de pechar minimiza
 command Comando
 confirm confirmar
 confirmdelete ¿Seguro de desexa borrar a $1?
@@ -54,6 +55,7 @@ copytogroup Copiar ó grupo
 cut cortar
 date Data
 delete Eliminar
+deliverfail Houbo un problema mandando a seguinte mensaxe
 dockgtk icono Gtk
 docking icono do sistema
 dockingoff desactivar Icono do sistema
@@ -112,7 +114,7 @@ login Iniciar sesión
 logout Pechar sesión
 logsin acaba de iniciar sesión
 mailer Comando de email
-mobile Celular
+mobile Móbil
 movetogroup Mover ó grupo
 msg Mensaxe
 msn AMSN
@@ -189,9 +191,11 @@ unblock Admitir
 uoffline Desconectados
 uonline Conectados
 useralreadyonlist O usuario xa se atopa na lista de contactos
+usernotonline O usuario non se atopa conectado.
 user Usuario
 version Versión
 view Ver
+viewprofile Ver perfil
 willjoin Agardando que $1 se una á conversa
 work Traballo
 yousay Ti dis

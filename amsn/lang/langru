@@ -15,6 +15,7 @@ alarmstatus Вкл./Выкл. оповещение для этого пользователя
 allowseen Разрешить этому пользователю видеть мой статус и добавлять меня в свой контакт-лист
 appearoff Отключен
 aretyping $1 печатает сообщение
+autoconnect Соединяться при запуске aMSN
 autohotmaillog Автоматический вход на Hotmail
 autoidle Автоматический режим  неактивности
 autoip Автоматичекий показ IP
@@ -54,18 +55,21 @@ copytogroup Скопировать в группу
 cut Вырезать
 date Дата
 delete Удалить
+deliverfail Произошла ошибка при попытке доставить следующее сообщение
 dockgtk gtk Док
 docking
 dockingoff Выключить Док
 dockkde kde Док
 edit Редактировать
 enableproxy Включить прокси
+encoding Выберите кодировку
 entercontactemail Введите контактный e-mail
 enterfilename Введите имя файла
 enternick Введите ваш ник
 examples Примеры
 exitamsn Вы уверены, что хотите выйти?
 extras Дополнительные возможности
+faq FAQ (Часто задаваемые вопросы)
 filedoesnotexist Файл не существует
 filename Имя файла
 filetransfercancelled Передача файла отменена
@@ -95,6 +99,7 @@ invite Пригласить
 ipaddress IP адрес
 istyping $1 печатает сообщение
 joins $1 присоединяется к беседе
+keepalive Keepalive (NAT)
 language Язык
 lastmsgtime Последнее сообщение принято в $1
 leaveblankforhotmail Оставьте путым для использования почты Hotmail
@@ -142,6 +147,7 @@ pass Пароль
 paste Вставить
 phone Телефон
 picfile Файл Картинка (GIF < 500 x 500)
+picstatus Оповещение картинкой
 port Порт
 prefapps Программы
 preferences Настройки
@@ -171,6 +177,7 @@ servergoingdown Отключено: сервер в дауне
 server Сервер
 sound Звук событий
 soundfile Звуковой Файл
+soundloop Проигрывать звук по кругу
 soundstatus Звуковое Оповещение
 startoffline Запуск в отключенном состоянии
 status Статус
@@ -184,9 +191,11 @@ unblock Разблокировать
 uoffline Отключиться
 uonline Подключиться
 useralreadyonlist Пользователь уже добавлен в контакт-лист
+usernotonline Пользователь не в сети
 user Пользователь
 version Версия
 view Вид
+viewprofile Просмотреть профайл
 willjoin Ожидание пока $1 вступит в разговор 
 work Работа
 yousay Вы говорите
