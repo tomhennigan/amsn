@@ -159,11 +159,18 @@ namespace eval ::guiContactList {
 
 		set state_code [::abook::getVolatileData $email state FLN]
 		
-		set colour [::MSN::stateToColor $state_code]
+		
+		if { [::abook::getContactData $email customcolor] != "" } {
+			set colour [::abook::getContactData $email customcolor] 
+		} else {
+			set colour [::MSN::stateToColor $state_code]
+		}
 
 		set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
 		
 		set text "[::abook::getDisplayNick $email] \([trans [::MSN::stateToDescription $state_code]]\)"
+		
+		
 		
 		set xnickpos [expr $xpos + [image width $img] + 5]
 		set ynickpos [expr $ypos + [image height $img]/2]
