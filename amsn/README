@@ -1,13 +1,16 @@
 ========================================================
 === Version Alvaro's Messenger==========================
 
-The CCMSN was great, I found it when I was looking for 
-a MSN Messenger Linux client, and liked it very much,
-except for the visual aspect, it was little "ugly", font
-types were very bad looking, and not very fine emoticons, 
-so I started to improve it.
+The CCMSN was great but unfortunately its original author
+abandoned the project. Although it was very functional it
+still needed major work to improve its look and feel
+as well as complete the protocol support among many 
+other things. That's when we, originally two working on
+it separately, decided to join efforts and bring to you
+this fine (we hope) piece of work ;)
 
 Alvaro J. Iradier
+D. Emilio Grimaldo T.
 
 Please send bugs, comments, feedback or suggestions to
 Source Forge project page at:
@@ -47,7 +50,8 @@ Catala: Agusti Dosaiguas
 
 Danish: Anders Bach Nielsen
 
-Deutchsland: Jose H. Freidhof
+Deutsch: Jose H. Freidhof,
+         Bernhard Heger
 
 English: by Alvaro J. Iradier
             Gareth Ignatius
