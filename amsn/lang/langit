@@ -309,7 +309,7 @@ prefshared Connessioni condivise (solo per NAT)
 prefsound Suono
 privacy Privacy
 profiledconfig Configurazione del Profilo
-profileexists Non puoi creare un profilo con questo login \n perch√© ne esiste gi√† un altro. Per favore scegli un altro login.
+profileexists Non puoi creare un profilo con questo login \n perch√© ne esiste gi√  un altro. Per favore scegli un altro login.
 profileinuse Questo profilo Ë gi‡ in uso da un'altra sessione di aMSN, per favore sceglierne un altro
 profileloginradio Entra usando un profilo esistente
 profiles Profili
@@ -373,6 +373,7 @@ stylelog Seleziona il formato nel quale vorresti vedere la tua History
 syntaxerror Errore di sintassi
 tabbed Finestre con Barra
 textsize Dimensione del testo
+timeremaining Tempo rimanente
 title Al's Messenger
 to A
 tools Strumenti

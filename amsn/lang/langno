@@ -5,6 +5,7 @@ acceptfile Aksepter fil $1, størrelse $2? Lagret i $3
 actions Hendelser
 addacontact Legg til en kontakt
 addedyou $1 ($2) har lagt deg til sin kontaktliste
+addprofile Legg til profil
 addtocontacts Legg til kontaktliste
 addtoo Legg denne personen til i min kontaktliste
 admincontacts Administrer kontakter
@@ -12,28 +13,54 @@ admingroups Administrer grupper
 adverts Reklame
 alarmpref Alarm innstillinger for bruker
 alarmstatus Skru alarm på / av for denne brukeren
+allowallbutbl La alle utenom de i sommer er blokkerte kontakte meg
+allowbadwords Slå av sensur av kallenavn
+allowonlyinal La kun de som er i Allow List kontakte meg
 allowseen La denne personen se meg når jeg er online og kontakte meg
+animatedsmileys Bruk animerte smilefjes
 appearoff Se ut som jeg er offline
 aretyping $1 skriver en beskjed
+autoaccepted Fil overføring akseptert automatisk
+autoaway Vis meg som "Borte" når jeg er ikke er aktiv etter
+autoconnect2 Log inn automatisk når aMSN startes
+autoconnect Koble til når aMSN startes
 autohotmaillog Auto Hotmail innlogging
+autoidle Automatisk gå "No Activity"
 autoip Automatisk IP
+autonoact Vis meg som "No Activity" når jeg ikke er aktiv etter
 avoidseen Hindre denne personen i å se når jeg er online og kontakte meg
 away Borte
+awaymsg1 Spør etter away beskjed vær gang jeg går som Away/BRB/Busy
+awaymsg2 Aldri spør, men bruk away beskjeden under
 baduserpass Feil brukernavn eller passord
+bgcolor Skift aMSN's bakgrunn farge
 blankdirect La stå tom for direkte tilkobling
 block Blokker
 blocked Blokkert
+blockedyougroup Vis en seperat gruppe for folk som har blokkert deg
+blocking Blokkering
+blockinter1 Når statusen din er online, sjekk vær
+blockinter2 sekkund, eller sjekk vært: 
+blockinter3 vær
+blocklist Blokkering liste (BL)
+blockmessage Disse personene er koblet til, men har blokkert deg
+blockusers Brukere som sjekkes på en gang
 broughtby Gitt til deg av følgende utviklere
 browse browse (not really any other good word in norwegian :)
 browser Nettleser
 busy Opptatt
 cancel Avbryt
+cannotdeleteprofile Kan ikke slette profil, den ser ut til å være i bruk av en amsn session
+cantexec Kan ikke kjøre program $1, sjekk instillingene
 cfgalarm  Konfiguer/Legg til/Fjern Alarm
+changefont Skift skrifttype
 changenick Endre kallenavn
 chatack Aksepterer chat fra
 chat Chat
+chatmaxmin Når en kontakt åpner en chat med meg, vil jeg at den skal være:
 chatreq Forespørsel om  chat
 chatsmileys Chat smileyer
+checkfilman Sjekk file manageren i instillingene
 checkingver Ser etter nyere versjon
 checkver Se etter nyere versjon
 choosebasefont Velg skrifttype
@@ -166,20 +193,34 @@ soundstatus Skru Av / På alarm
 startoffline Start offline
 status Status
 stopalarm Stans alarm
+stylechat Samme utseende som chatter
+stylehist aMSN's History utseende
+stylelog Velg hvilke format du vil vise History loggen på
 syntaxerror  Syntax Error
 textsize Skriftstørrelse
+timeremaining Tid gjennstår
 title Al's Messenger
 tools Verktøy
 to Til
+transnotexists Den forspurte filen har ikke enda blitt oversatt til dette språket enda
+twonewmail $1 nye meldinger i Innboksen
 unblock Deblokker
 uoffline Offline
 uonline Online
 useralreadyonlist Brukeren er allerede i kontaktlisten
+userblocked Brukeren er koblet til, men har blokkert deg 
 user Bruker
+usernotonline Brukeren er ikke koblet til
+useryourself Du kan ikke snakke med deg selv
+verifyblocked Se etter folk som blokkerer deg
 version Versjon
+viewprofile Vis profil
 view Vis
 willjoin Venter $1 blir med i samtalen
 work Arbeid
+wrongfields "$1", "$2" og/eller "$3" feltene er ikke gyldig
+wrongprofileversion Feil profil konfigurasjon fil version. For og fikse det, vennligst slett mappen $1, eller oppdater amsn
+yes Ja
+youblocked Du har blitt blokkert av
 yousay Du sier
 youwant Du vil
-twonewmail $1 nye meldinger i Innboksen
