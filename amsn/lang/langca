@@ -71,21 +71,21 @@ busy Ocupat
 cancel Cancel·la
 cannotdeleteprofile No es pot eliminar el perfil, sembla que s'està utilitzant en una altra sessió aMSN
 cantexec No puc executar l'aplicació $1. Comprova les preferències.
+cantremoveothers	 No puc esborrar es grup "altres"
 casesensitive Diferenciar les majúscules i les minúscules als disparadors
 cfgalarmall Configura, afegeix o elimina l'altarma global
 cfgalarm Configurar l'alarma per aquest usuari
-ch_to_state Canvia al nou estat
 changecustomstate Canvia a
 changedisplaypic Canviar la Imatge Mostrada 
 changefont Canviar font
 changenick Canviar el meu sobrenom
 changestate $1 canvia l'estat a $2
 chatack Acceptant la conversa de l'usuari
+chat Conversa
 chatmaxmin Quan un contacte obri una conversa, vull que sigui:
 chatreq Demanant conversa
 chatsmileys2 Mostrar emoticones a la finestra de la conversa
 chatsmileys Emoticones a la conversa
-chat Conversa
 checkblocking Comprovar contínuament si algun usuari m'ha bloquejant
 checkfilman Els fitxers rebuts es desaran a $1. Comprova l'opció de l'administrador de fitxers a la finestra de preferències.
 checkingver Buscant versions noves
@@ -97,6 +97,7 @@ choosebgcolor Canviar el color de fons
 choosecontact Si us plau, selecciona un contacte de la llista
 choosefontcolor Escull el color del tipus de lletra
 chooseskin Selecciona l'aparença que vols utilitzar
+ch_to_state Canvia al nou estat
 clearlog2 Neteja l'historial per tots els contactes
 clearlog3 Netejar tots els registres
 clearlog Neteja de l'historial
@@ -108,6 +109,7 @@ command Reproductor
 commandstatus Executar comanda
 confirmdelete Estàs segur de voler eliminar a $1?
 confirm Estàs segur?
+confirmpurge	 Totes ses imatges guardades de's teus contactes (no ses teues) estan a punt de ser esborrades. Estàs segur?
 connected Ara estàs connectat
 connecterror Error connectant amb el servidor
 connecting Connectant
@@ -116,6 +118,7 @@ connectionlost Desconnectat: connexió amb el servidor tancada
 contactadded Contacte inclòs
 contactdoesnotexist ¡El contacte que intentes afegir no existeix!
 contactlist Llista de contactes (FL):
+convertexplain	 On es troba s'arxiu executable CONVERT, d'ImageMagick (Es necessita per vore ses imatges).\n Deixa-ho en blanc si CONVERT està a es path.
 copy Copia
 copytogroup Copia al grup
 corruptconfig El fitxer de configuració conté errors. Ara en crearé un de nou i desaré l'antic a $1. Si vols ajudar-nos, envia'ns el fitxer erroni.
@@ -130,8 +133,9 @@ days dies
 dcprofile No crear perfil
 defaultloginradio Configuració per defecte
 default Utilitza la configuració predeterminada
-delete Esborrar
+defchatwinsize	 Es tamany predeterminat per ses finestres (tamany_de_Xxtamany_de_Y)
 deletecustomstate Esborrar estat personalitzat
+delete Esborrar
 delimiters Delimitadors de temps:
 deliverfail Hi ha hagut un problema al enviar el missatge
 delprofile2 Selecciona el perfil que t'agradaria eliminar
@@ -174,12 +178,12 @@ errortls Error instal·lant el mòdul TLS:
 examples Exemples
 exitamsn Estàs segur de voler sortir?
 extras Serveis extra
-failed Fallit
 faileddelete Esborrat fallit
 faileddeleteperso Aquesta imatge no pot ser esborrada perquè no és una imatge personal. D'aquesta manera, només pots eliminar les imatges del teu perfil.
+failed Fallit
 faq Preguntes més freqüents (FAQ)
-file Fitxer
 filedoesnotexist El fitxer no existeix
+file Fitxer
 filemanexample (\$location serà substituïda pel directori o fitxer) Ex: nautilus \$location
 fileman Gestor de fitxers
 filename Nom del fitxer
@@ -400,6 +404,7 @@ reversed Invertit
 reverselist Llista inversa:
 rightback Ara torno
 saveas Desar com
+savechatwinsize	 Guardar sa mida de sa finestra de xerrada quan es redimensioni
 savecontacts Desar la llista de contactes
 save Desar
 savetofile Desar en fitxer
@@ -465,6 +470,7 @@ timestamps Mostra l'hora a les converses
 title aMSN
 tkerror Hi ha hagut un error de TK, segurament perquè hi ha un error a l'aMSN. Si ens vols ajudar, envia'ns el fitxer $1 a l'adreça amsn-bugs@lists.sf.net 
 tlsdowncompleted El fitxer $1 ha estat desat al directori $2. L'has de descomprimir, compilar (si és el codi font) i instal·lar-lo a dins de $3.
+tlsexplain	 Directori on està es módul de tcl. Si s'AMSN no pot trobar-lo, per favor posa'l.\n(Es necessita per sa autenticació SSL).
 tlsinstall Assistent d'instal·lació del mòdul TLS
 tlsinstallexp Ara l'aMSN utilitza MSNP9, que requereix un connexió segura a\ntravés del protocol SSL. Per tal d'utilitzar-lo, necessites tenir instal·lat\nel mòdul TLS i no l'he trobat al sistema. Aquest assistent t'ajudarà a obtenir\ni a instal·lar el mòdul. Escull quin tipus de sistema tens per poder obtenir el\nmòdul TLS de manera automàtica
 tlsinstcompleted La instal·lació del mòdul TLS ha estat satisfactòria, ara hauries de poder utilitzar el protocol MSNP9. Si no et funciona, segurament serà perquè no has escollir el mòdul corresponent al teu sistema.

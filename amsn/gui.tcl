@@ -3383,7 +3383,7 @@ proc cmsn_draw_main {} {
    image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
 
        text $pgBuddy.text0 -background white -width 0 -height 0 -wrap none \
-      -cursor left_ptr -font splainf \
+      -cursor left_ptr -font bboldf \
       -selectbackground white -selectborderwidth 0 -exportselection 0 \
       -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
 

@@ -3170,6 +3170,7 @@ proc cmsn_ns_handler {item} {
 
 				if { [llength $item] == 5 } {
 					status_log "Going to receive contact list\n" blue
+					global list_al list_bl list_rl list_fl list_users
 					#First contact in list
 					set list_al [list]
 					set list_bl [list]
@@ -4080,9 +4081,7 @@ proc cmsn_listupdate {recv} {
 		lists_compare		;# FIX: hmm, maybe I should not run it always!
 		list_users_refresh
 
-		if { $list_name == "list_rl" } {
-			set contactlist_loaded 1
-		}
+		set contactlist_loaded 1
 	}
 
 }
@@ -4321,8 +4320,8 @@ proc save_contact_list { } {
 			status_log "Saving contact list... latest list version is already on disk...\n" blue
 			return
 		}
-    }
-	close $file_id
+		close $file_id
+	 }
 
 
 	set file_id [open "[file join ${HOME} contacts.ver]" w]
