@@ -1131,11 +1131,6 @@ namespace eval ::amsn {
 				notifyAdd "$msg" "::amsn::chatUser $chatid"
 			}
 
-		}
-
-		#If no focus, and it's a message event, do something to the window
-		if { [string first ${win_name} [focus]] != 0 && $msg != ""} {
-
 			if { $config(newmsgwinstate) == 0 } {
 				wm state ${win_name} normal
 				wm deiconify ${win_name}
@@ -1143,8 +1138,6 @@ namespace eval ::amsn {
 			} else {
 				wm state ${win_name} iconic
 			}
-
-			play_sound type.wav
 
 		#If it's not a message event, then it's a window creation (user joins to chat)
 		} elseif { $msg == "" } {
@@ -1156,6 +1149,12 @@ namespace eval ::amsn {
 				wm state ${win_name} iconic
 			}
 		}
+
+		#If no focus, and it's a message event, do something to the window
+		if { [string first ${win_name} [focus]] != 0 && $msg != ""} {
+			play_sound type.wav
+		}
+
 
 		return $win_name
    }
