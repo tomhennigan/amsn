@@ -51,20 +51,22 @@ block Blokker
 blocked Blokkert
 blockedyougroup Vis en seperat gruppe for folk som har blokkert deg
 blocking Blokkering
-blockinter1 Når statusen din er online, sjekk vær
-blockinter2 sekkund, eller sjekk vært: 
-blockinter3 vær
+blockinter1 Når statusen din er online, sjekk hvert
+blockinter2 sekund, eller sjekk hvert:
+blockinter3 hvert
+blockinter4 sekund.
 blocklist Blokkeringsliste (BL)
 blockmessage Disse personene er koblet til, men har blokkert deg
 blockusers Brukere som sjekkes på en gang
 broughtby Gitt til deg av følgende utviklere
-browse browse (not really any other good word in norwegian :)
+browse Bla Gjennom
 browser Nettleser
 busy Opptatt
 cancel Avbryt
 cannotdeleteprofile Kan ikke slette profil, den ser ut til å være i bruk av en amsn session
 cantexec Kan ikke kjøre program $1, sjekk instillingene
 cfgalarm  Konfiguer/Legg til/Fjern Alarm
+changedisplaypic Endre Personlig Bilde
 changefont Skift skrifttype
 changenick Endre kallenavn
 chatack Aksepterer chat fra
@@ -130,6 +132,7 @@ groupunknown Ukjent gruppe
 handle Handle
 helpcontents Hjelp innhold
 help Hjelp
+hidedisplaypic Skjul Personlig Bilde
 hidewindow Skjul Vindu
 history Vis Historie
 home Hjem
