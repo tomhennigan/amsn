@@ -109,7 +109,7 @@ namespace eval ::growl {
 			catch {growl post Newstate $nickname "[trans changestate $nickname [trans online]]" [::growl::getpicture $email]}
 			}
 			"IDL" {
-			catch {growl post Newstate $nickname "[trans changestate $nickname [trans away]]" [::growl::getpicture $email]}
+			catch {growl post Newstate $nickname "[trans changestate $nickname [trans noactivity]]" [::growl::getpicture $email]}
 			}
 			"BSY" {
 			catch {growl post Newstate $nickname "[trans changestate $nickname [trans busy]]" [::growl::getpicture $email]}
