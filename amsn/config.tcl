@@ -267,7 +267,7 @@ namespace eval ::config {
 		::config::setKey sngdblclick 0		;#Use single or double click to open a message window (0 double, 1 single)
 		::config::setKey nogap 0			;#Remove the empty line between groups
 		::config::setKey removeempty 0		;#Remove empty groups from the contact list
-		::config::setKey tabtitlenick 0		;#Whether nick or mail is displayed in the tab
+		::config::setKey tabtitlenick 1		;#Whether nick or mail is displayed in the tab
 		::config::setKey wintitlenick 1		;#Whether nick or mail is displayed in a tab window
 		::config::setKey emailsincontactlist 0	;#Display emails instead of nicks in the contact list
 		::config::setKey leavejoinsinchat	1	;#Display leave/join notifications in chat text area

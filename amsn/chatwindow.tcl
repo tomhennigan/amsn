@@ -2053,7 +2053,7 @@ namespace eval ::ChatWindow {
 	proc NameTabButton { container win chatid } {
 		set w [string map { "." "_"} $win]
 		set tab $container.bar.$w
-		if {[::config::getKey wintitlenick]==1} {
+		if {[::config::getKey tabtitlenick]==1} {
 			$tab configure -text "[::abook::getNick $chatid]"
 		} else {
 			$tab configure -text "$chatid"
