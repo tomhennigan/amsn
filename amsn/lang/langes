@@ -77,6 +77,8 @@ dcprofile No Crear Perfil
 default Configuración por defecto
 delete Eliminar
 deliverfail Ocurrió un problema al enviar el siguiente mensaje
+delprofile2 Elige el perfil que te gustaría borrar
+delprofile Borrar Perfil
 dockgtk Icono Gtk
 docking Icono en bandeja de sistema
 dockingoff Desactivado
@@ -94,6 +96,7 @@ exitamsn ¿Está seguro de que desea salir?
 extras Servicios Adicionales
 faq FAQ (Preguntas frecuentes)
 filedoesnotexist El archivo no existe
+fileman Administrador de Archivos
 filename Nombre de Archivo
 filetransfercancelled Transferencia de archivo cancelada
 filetransfercomplete Transferencia de archivo completada
@@ -223,6 +226,7 @@ prefname Mi nombre/apodo en MSN Messenger
 prefphone2 Escribe los números que quieras permitir ver a los contactos \n en tu lista de Permitidos \n
 prefphone Mis números de teléfono
 prefprofile2 Crea o modifica tu perfil público (la \n descripción de ti mismo que otros puede ver)
+prefprofile3 Perfiles de configuración de los usuarios
 prefprofile Mi perfil público
 prefproxy Configuración de mi proxy
 prefsession My inicio de sesión y estado
@@ -260,6 +264,7 @@ session Sesión
 sound2 Reproducir sonidos cuando los contactos se conectan o envían mensajes
 soundfile Archivo de sonido
 soundloop Sonido repetitivo
+soundserver Servidor de Sonido
 sound Sonido eventos
 soundstatus Sonido para la alarma
 startoffline2 Conectarse sigilosamente pareciendo "Desconectado"
