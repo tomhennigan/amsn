@@ -4,6 +4,13 @@
 ##                                                 ##
 #####################################################
 
+proc plugins_log {plugin msg} {
+    if {[info procs "::pluginslog::plugins_log"] == "::pluginslog::plugins_log"} {
+	::pluginslog::plugins_log $plugin $msg
+    } else {
+	status_log "Plugins System: $plugin: $msg"
+    }
+}
 
 namespace eval ::plugins {
     # Variable to list all plugins and their properties.
@@ -62,13 +69,13 @@ namespace eval ::plugins {
 	proc PostEvent { event var } {
 		variable pluginsevents 
 
-		status_log "Plugins System: Calling event $event with variable $var\n"
+		plugins_log core "Calling event $event with variable $var\n"
 	
 		if { [info exists pluginsevents(${event}) ] } { # do we have any procs for the event?
 			foreach cmd $pluginsevents(${event}) { # let's call all of them
-				status_log "Plugins System: Executing $cmd\n"
+				plugins_log core "Executing $cmd\n"
 				catch { eval $cmd $event $var } res ; # call
-				status_log "Plugins System: Return $res from event handler $cmd\n"
+				plugins_log core "Return $res from event handler $cmd\n"
 			}
 		}
 	}
@@ -89,14 +96,14 @@ namespace eval ::plugins {
 	proc RegisterPlugin { plugin } {
 		variable knownplugins
 	
-		status_log "Plugins System: RegisterPlugin called with $plugin\n"
+		plugins_log core "RegisterPlugin called with $plugin\n"
 		if { [lsearch $knownplugins "$plugin"] != -1} { # Already registered?
 			status_log "Plugin System: Trying to register a plugin twice..\n"
 			return 0 ; #Yup, no need to do it again.
 		}
 		lappend knownplugins $plugin
 
-		status_log "Plugins System: New plugin :\nName : [lindex $plugin 0]\n                            "
+		plugins_log core "New plugin :\nName : [lindex $plugin 0]\n                            "
 		return 1; # First timer :D
 	}
     
@@ -121,7 +128,7 @@ namespace eval ::plugins {
 		status_log "Plugin Systems: RegisterEvent called with $plugin $event $cmd\n"
 
 		if { [lsearch $knownplugins $plugin] == -1 } { # UnRegistered?
-			status_log "Plugins System: Registering an event for an unknown plugin...\n"
+			plugins_log core "Registering an event for an unknown plugin...\n"
 			return; # Bye Bye
 		}
 		set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin*"] 0]
@@ -132,12 +139,12 @@ namespace eval ::plugins {
 
 		if {[lsearch -exact [array names pluginsevents $event] $event]!=-1} { # Will error if I search with empty key
 			if {[lsearch $pluginsevents(${event}) "\:\:$namespace\:\:$cmd"] != -1 } { # Event already registered?
-				status_log "Plugins System: Trying to register a event twice"
+				plugins_log core "Trying to register a event twice"
 				return; # Bye Bye
 			}
 		}
 
-		status_log "Plugins System: Binding $event to $cmd\n"
+		plugins_log core "Binding $event to $cmd\n"
 		lappend pluginsevents(${event}) "\:\:$namespace\:\:$cmd"; # Add the command to the list
 	}
 
@@ -172,9 +179,9 @@ namespace eval ::plugins {
 			set pluginsevents(${event}) [lreplace $pluginsevents(${event}) \
 				[lsearch $pluginsevents(${event}) "\:\:$namespace\:\:$cmd"] \
 				[expr [lsearch $pluginsevents(${event}) "\:\:$namespace\:\:$cmd"] +1] ""]
-			status_log "Plugins System: Event \:\:$namespace\:\:$cmd on $event unregistered ...\n"
+			plugins_log core "Event \:\:$namespace\:\:$cmd on $event unregistered ...\n"
 		} else {
-			status_log "Plugins System: Trying to unregister a unknown event...\n"
+			plugins_log core "Trying to unregister a unknown event...\n"
 		}
 	}
     
@@ -203,7 +210,7 @@ namespace eval ::plugins {
 			# While there is a command in the list that belongs to the 
 			# plugins namespace, give it's index to x and delete it
 			while { [set x [lsearch -regexp $pluginsevents(${event}) "\:\:$namespace\:\:*" ]] != -1 } {
-				status_log "Plugins System: UnRegistering command $x from $pluginsevents(${event})...\n"
+				plugins_log core "UnRegistering command $x from $pluginsevents(${event})...\n"
 				# the long remove item procedure
 				# TODO: move this into a proc?
 				set pluginsevents(${event}) [lreplace $pluginsevents(${event}) $x [expr $x +1] ""]
@@ -246,7 +253,7 @@ namespace eval ::plugins {
 			# for each file names plugin.tcl that is in any directory, do stuff
 			# -nocomplain is used to shut errors up if no plugins found
 			foreach file [glob -nocomplain -directory $dir */plugininfo.xml] {
-				status_log "Plugins System: Found plugin files in $file\n"
+				plugins_log core "Found plugin files in $file\n"
 				if { [::plugins::LoadInfo $file] } {
 					lset ::plugins::found $idx 5 [file join [file dirname $file] \
 						[lindex [lindex $::plugins::found $idx] 5]]
@@ -611,12 +618,12 @@ namespace eval ::plugins {
 		set namespace $selection(namespace)
 		# continue if something is selected
 		if {$name != "" && $namespace != ""} {
-			status_log "Plugins System: Calling ConfigPlugin in the $name namespace\n"
+			plugins_log core "Calling ConfigPlugin in the $name namespace\n"
 			# is there a config list?
 			if {[info exists ::${namespace}::configlist] == 0} {
 				# no config list, do a error.
 				#TODO: instead a error, just put a label "Nothing to configure" in the configure dialog
-				status_log "Plugins System: No Configuration variable for $name.\n"
+				plugins_log core "No Configuration variable for $name.\n"
 				set x [toplevel $w.error]
 				label $x.title -text "Error in Plugin!"
 				label $x.label -text "No Configuration variable for $name.\n"
@@ -789,7 +796,7 @@ namespace eval ::plugins {
 	#
 	proc UnLoadPlugin { plugin } {
 		variable loadedplugins
-		status_log "Plugins System: Unloading plugin $plugin\n"
+		plugins_log core "Unloading plugin $plugin\n"
 		set loadedplugins [lreplace $loadedplugins [lsearch $loadedplugins "$plugin"] [lsearch $loadedplugins "$plugin"]]
 		UnRegisterEvents $plugin
 		set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin*"] 0]
@@ -862,11 +869,11 @@ namespace eval ::plugins {
 		catch { source $file }
 
 		if {[lsearch "$loadedplugins" $plugin] == -1} {
-			status_log "Plugins System: appending to loadedplugins\n"
+			plugins_log core "appending to loadedplugins\n"
 			lappend loadedplugins $plugin
 		}
 		if {[info procs ::${namespace}::${init_proc}] == "::${namespace}::${init_proc}"} {
-			status_log "Plugins System: Initializing plugin $plugin with ${namespace}::${init_proc}\n"
+			plugins_log core "Initializing plugin $plugin with ${namespace}::${init_proc}\n"
 			::${namespace}::${init_proc} [file dirname $file]
 			eval {proc ::${namespace}::${init_proc} {file} { return } }
 		}
@@ -920,7 +927,7 @@ namespace eval ::plugins {
 		variable knownplugins
 		variable loadedplugins
 
-		status_log "Plugins System: save_config: saving plugin config for user [::config::getKey login] in $HOME]\n" black
+		plugins_log core "save_config: saving plugin config for user [::config::getKey login] in $HOME]\n" black
 	
 		if { [catch {
 			if {$tcl_platform(platform) == "unix"} {
@@ -932,10 +939,10 @@ namespace eval ::plugins {
 			return 0
 		}
 
-		status_log "Plugins System: save_config: saving plugin config_file. Opening of file returned : $res\n"
+		plugins_log core "save_config: saving plugin config_file. Opening of file returned : $res\n"
 
 		puts $file_id  "<?xml version=\"1.0\"?>\n\n<config>"
-		status_log "Plugins System: I will save the folowing: $knownplugins\n"
+		plugins_log core "I will save the folowing: $knownplugins\n"
 		foreach {plugin} $knownplugins {
 			set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin*"] 0]
 			if { $pluginidx != "" } {
@@ -943,14 +950,14 @@ namespace eval ::plugins {
 				status_log "NAMESPACE: $namespace\n"
 				puts $file_id "<plugin>\n<name>${plugin}</name>"
 				if {[lsearch $loadedplugins $plugin]!=-1} {
-					status_log "Plugins System: $plugin loaded...\n"
+					plugins_log core "$plugin loaded...\n"
 					puts $file_id "<loaded>true</loaded>"
 				}
 				if {[array exists ::${namespace}::config]==1} {
-					status_log "Plugins System: save_config: Saving from $plugin's namespace\n" black
+					plugins_log core "save_config: Saving from $plugin's namespace\n" black
 					array set aval [array get ::${namespace}::config];
 				} else {
-					status_log "Plugins System: save_config: Saving from $plugin's global place\n" black
+					plugins_log core "save_config: Saving from $plugin's global place\n" black
 					array set aval [array get ::${plugin}_cfg]
 				}
 				foreach var_attribute [array names aval] {
@@ -966,7 +973,7 @@ namespace eval ::plugins {
 		puts $file_id "</config>"
 		close $file_id
 
-		status_log "Plugins System: save_config: Plugins config saved\n" black
+		plugins_log core "save_config: Plugins config saved\n" black
 	}
 
 
@@ -990,7 +997,7 @@ namespace eval ::plugins {
 		set loadedplugins [list]
 
 		if { [file exists [file join ${HOME} "plugins.xml"]] } {
-			status_log "Plugins System: load_config: loading file [file join ${HOME} plugins.xml]\n" blue
+			plugins_log core "load_config: loading file [file join ${HOME} plugins.xml]\n"
 			if { [catch {
 				set file_id [::sxml::init [file join ${HOME} "plugins.xml"]]
 				::sxml::register_routine $file_id "config:plugin:name" "::plugins::new_plugin_config"
@@ -998,7 +1005,7 @@ namespace eval ::plugins {
 				::sxml::register_routine $file_id "config:plugin:entry" "::plugins::new_plugin_entry_config"
 				::sxml::parse $file_id
 				::sxml::end $file_id
-				status_log "Plugins System: load_config: Config loaded\n" green
+				plugins_log core "load_config: Config loaded\n" green
 			} res] } {
 				::amsn::errorMsg "[trans corruptconfig [file join ${HOME} "plugins.xml.old"]]"
 				file copy [file join ${HOME} "plugins.xml"] [file join ${HOME} "plugins.xml.old"]
@@ -1047,7 +1054,7 @@ namespace eval ::plugins {
 		variable cur_plugin
 		variable loadedplugins
 		set yes $cdata
-		status_log "Plugins System: $cur_plugin has a loaded tag with $yes in it...\n" black
+		plugins_log core "$cur_plugin has a loaded tag with $yes in it...\n" black
 		if {$yes == "true"} {
 			if {[lsearch $loadedplugins $cur_plugin] == -1 } {
 				lappend loadedplugins $cur_plugin
