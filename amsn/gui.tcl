@@ -7600,3 +7600,15 @@ proc highlight_selected_tags { text tags } {
 		}
 	}
 }
+
+# Implements "lsearch -all" for Tcl/TK 8.3 compatbility
+proc lsearchall {slist sterm} {
+	set i 0
+	foreach item $slist {
+		if { [lsearch $item $sterm] > -1 } {
+			lappend rlist $i
+		}
+		incr i
+	}
+	return $rlist
+}

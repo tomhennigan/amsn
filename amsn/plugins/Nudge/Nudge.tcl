@@ -335,7 +335,11 @@ namespace eval ::Nudge {
 	proc add_command {event evpar} {
 	
 		#If amsnplus plugin is loaded, register the command
-		set pluginidx [lindex [lsearch -all $::plugins::found "*amsnplus*"] 0]
+		if {$::tcl_version > 8.3} {
+			set pluginidx [lindex [lsearch -all $::plugins::found "*amsnplus*"] 0]
+		} else {
+			set pluginidx [lindex [lsearchall $::plugins::found "amsnplus*"] 0]
+		}
 		if { $pluginidx != "" } {
 			#Avoid a bug if someone use an older version of aMSNPlus
 			catch {::amsnplus::add_command nudge ::Nudge::SendNudge 0 1}

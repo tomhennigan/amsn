@@ -512,7 +512,11 @@ namespace eval ::pop3 {
 			::amsn::notifyAdd "POP3\n[trans newmail $::pop3::newMails]" "" "" plugins
 
 			#If Growl plugin is loaded, show the notification
-			set pluginidx [lindex [lsearch -all $::plugins::found "*growl*"] 0]
+			if {$::tcl_version > 8.3} {
+				set pluginidx [lindex [lsearch -all $::plugins::found "*growl*"] 0]
+			} else {
+				set pluginidx [lindex [lsearchall $::plugins::found "*growl*"] 0]
+			}
 			if { $pluginidx != "" } {
 				catch {growl post Pop POP3 [trans newmail $::pop3::newMails]}
 			}
