@@ -402,7 +402,13 @@ namespace eval ::abook {
 		} else {
 			set nick [::abook::getNick $user_login]
 			set customnick [::abook::getContactData $user_login customnick]
-			if { $customnick != ""} {
+			if { $globalnick != "" } {
+				#By default, quote backslashes and variables
+				set globalnick [string map {"\\" "\\\\" "\$" "\\\$"} $globalnick]
+				#Now, let's unquote the variables we want to replace
+				set globalnick [string map {"\\\$nick" "\$nick" "\\\$user_login" "\$user_login" "\\\$customnick" "\$customnick"} $globalnick] 				#Return the custom nick, replacing backslashses and variables
+				return [subst -nocommands $globalnick]
+			} elseif { $customnick != "" && $globalnick == "" } {
 				#By default, quote backslashes and variables
 				set customnick [string map {"\\" "\\\\" "\$" "\\\$"} $customnick]
 				#Now, let's unquote the variables we want to replace
@@ -870,6 +876,41 @@ namespace eval ::abookGui {
 	   	global colorval_$email	
 		set colorval_$email ""
 		$w.customcolorf.col configure -background [$w.customcolorf cget -background] -highlightthickness 0
+	}
+
+	proc SetGlobalNick { } {
+		
+		if {[winfo exists .globalnick]} {
+			return
+		}
+	
+		toplevel .globalnick
+		wm title .globalnick "[trans globalnicktitle]"
+		frame .globalnick.frm -bd 1 
+		label .globalnick.frm.lbl -text "[trans globalnick]" -font sboldf -justify left -wraplength 400
+		entry .globalnick.frm.nick -width 50 -bg #FFFFFF -font splainf
+		pack .globalnick.frm.lbl -pady 2 -side top
+		pack .globalnick.frm.nick -pady 2 -side bottom
+		bind .globalnick.frm.nick <Return> {
+			::config::setKey globalnick "[.globalnick.frm.nick get]";
+			::MSN::contactListChanged;
+			cmsn_draw_online;
+			destroy .globalnick
+		}
+		frame .globalnick.btn 
+		button .globalnick.btn.ok -text "[trans ok]"  -font sboldf \
+			-command {
+			::config::setKey globalnick "[.globalnick.frm.nick get]";
+			::MSN::contactListChanged;
+			cmsn_draw_online;
+			destroy .globalnick
+			}
+		button .globalnick.btn.cancel -text "[trans cancel]"  -font sboldf \
+			-command "destroy .globalnick"
+		pack .globalnick.btn.ok .globalnick.btn.cancel -side right -padx 5
+		pack .globalnick.frm -side top -pady 3 -padx 5
+		pack .globalnick.btn  -side top -anchor e -pady 3
+
 	}
 
 	proc PropOk { email w } {
