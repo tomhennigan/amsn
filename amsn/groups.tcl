@@ -431,10 +431,10 @@ namespace eval ::groups {
 		set bShowing(offline)	1
 		set bShowing(blocked)   1
 	
-		if { [info exists config(expanded_group_online)] } {
+		if { [::config::getKey expanded_group_online]!="" } {
 			set bShowing(online) [::config::getKey expanded_group_online]
 		}
-		if { [info exists config(expanded_group_offline)] } {
+		if { [::config::getKey expanded_group_offline]!="" } {
 			set bShowing(offline) [::config::getKey expanded_group_offline]
 		}
 		::abook::setContactData contactlist groups ""

@@ -3698,7 +3698,7 @@ proc cmsn_ns_handler {item} {
 			LSG {
 
 				::groups::Set [lindex $item 1] [lindex $item 2]
-				if { [info exists config(expanded_group_[lindex $item 1])] } {
+				if { [::config::getKey expanded_group_[lindex $item 1]]!="" } {
 					set ::groups::bShowing([lindex $item 1]) [::config::getKey expanded_group_[lindex $item 1]]
 				}
 
@@ -4076,7 +4076,7 @@ proc recreate_contact_lists {} {
 	#from ::abook	
 	foreach groupid [::groups::GetList] {
 		::groups::Set $groupid [::groups::GetName $groupid]
-		if { [info exists config(expanded_group_$groupid)] } {
+		if { [::config::getKey expanded_group_$groupid]!="" } {
 			set ::groups::bShowing($groupid) [::config::getKey expanded_group_$groupid]		
 		} else {
 			set ::groups::bShowing($groupid) 1

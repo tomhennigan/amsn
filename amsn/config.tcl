@@ -326,6 +326,9 @@ namespace eval ::config {
 		array set ::config $values
 	}
 	
+	proc unsetKey {key} {
+		unset ::config($key)
+	}	
 
 	proc getGlobalKey {key} {
 		return [set ::gconfig($key)]
@@ -420,7 +423,7 @@ namespace eval ::config {
 }
 
 proc save_config {} {
-   global tcl_platform config HOME HOME2 version password emotions
+   global tcl_platform HOME HOME2 version password emotions
 
    status_log "save_config: saving config for user [::config::getKey login] in $HOME]\n" black
    
@@ -435,12 +438,12 @@ proc save_config {} {
 	}
 
     status_log "save_config: saving config_file. Opening of file returned : $res\n"
-   set loginback $config(login)
+   set loginback [::config::getKey login]
    set passback $password
 
    # using default, make sure to reset config(login)
    if { $HOME == $HOME2 } {
-   	set config(login) ""
+   	::config::setKey login ""
 	set password ""
    }
 
@@ -448,14 +451,14 @@ proc save_config {} {
     puts $file_id  "<?xml version=\"1.0\"?>\n\n<config>"
 
     foreach var_attribute [::config::getKeys] {
-      set var_value $config($var_attribute)
+      set var_value [::config::getKey $var_attribute]
        if { "$var_attribute" != "remotepassword" && "$var_attribute" != "customsmileys" && "$var_attribute" != "customsmileys2"} {
 		set var_value [::sxml::xmlreplace $var_value]
 	   puts $file_id "   <entry>\n      <attribute>$var_attribute</attribute>\n      <value>$var_value</value>\n   </entry>"
        }
     }
 
-    if { ($config(save_password)) && ($password != "")} {
+    if { ([::config::getKey save_password]) && ($password != "")} {
 
 	set key [string range "${loginback}dummykey" 0 7]
 	binary scan [::des::encrypt $key "${password}\n"] h* encpass
@@ -463,10 +466,10 @@ proc save_config {} {
     }
 
     set key [string range "${loginback}dummykey" 0 7]
-    binary scan [::des::encrypt $key "${config(remotepassword)}\n"] h* encpass
+    binary scan [::des::encrypt $key "[::config::getKey remotepassword]\n"] h* encpass
     puts $file_id "   <entry>\n      <attribute>remotepassword</attribute>\n      <value>$encpass</value>\n   </entry>\n"
 
-    foreach custom $config(customsmileys2) {
+    foreach custom [::config::getKey customsmileys2] {
 	puts $file_id "   <emoticon>"
 	foreach attribute [array names emotions] {
 	    if { [string match "${custom}_*" $attribute ] } {
@@ -482,7 +485,7 @@ proc save_config {} {
 
     close $file_id
 
-    set config(login) $loginback
+    ::config::setKey login $loginback
     set password $passback
 
     status_log "save_config: Config saved\n" black
@@ -500,7 +503,7 @@ proc new_config_entry  {cstack cdata saved_data cattr saved_attr args} {
 }
 
 proc load_config {} {
-	global config HOME password protocol clientid tcl_platform
+	global HOME password protocol clientid tcl_platform
 
 	create_dir "[file join ${HOME} smileys]"
 
@@ -550,7 +553,7 @@ proc load_config {} {
 			}
 	}
 
-    if {[info exists config(encpassword)]} {
+    if {[::config::getKey encpassword]!=""} {
 	set key [string range "[::config::getKey login]dummykey" 0 7]
 	set password [::config::getKey encpassword]
 	catch {set encpass [binary format h* [::config::getKey encpassword]]}
@@ -558,10 +561,10 @@ proc load_config {} {
 	#puts "Password length is: [string first "\n" $password]\n"
 	set password [string range $password 0 [expr { [string first "\n" $password] -1 }]]
 	#puts "Password is: $password\nHi\n"
-	unset config(encpassword)
+	::config::unsetKey encpassword
     }
 
-    if {[info exists config(remotepassword)]} {
+    if {[::config::getKey remotepassword]!=""} {
  	set key [string range "[::config::getKey login]dummykey" 0 7]
  	catch {set encpass [binary format h* [::config::getKey remotepassword]]}
  	catch {::config::setKey remotepassword [::des::decrypt $key $encpass]}
