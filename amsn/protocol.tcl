@@ -2601,7 +2601,7 @@ namespace eval ::Event {
 					set style [lindex [::config::getKey mychatfont] 1]
 					#set fontcolor [lindex [::config::getKey mychatfont] 2]
 				}
-
+				set body [encoding convertfrom utf-8 [string map {"\r\n" "\n"} $body]]
 				::amsn::messageFrom $chatid $typer $nick "$body" user [list $fontfamily $style $fontcolor] $p4c_enabled
 				set options(-lastmsgtime) [clock format [clock seconds] -format %H:%M:%S]
 				::abook::setContactData $typer last_msgedme [clock format [clock seconds] -format "%D - %H:%M:%S"]
