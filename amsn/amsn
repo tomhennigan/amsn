@@ -356,7 +356,7 @@ proc cmsn_draw_main {} {
 
    image create photo mainback -file ${images_folder}/back.gif   
 
-   #toplevel .main
+#   toplevel .main
    wm title . "[trans title] - [trans offline]"
    wm geometry . 275x400-1+0
    wm iconname . "[trans title]"
@@ -410,7 +410,9 @@ proc cmsn_draw_main {} {
 #   .main.status configure -state disabled
 #   bind .main.status <Double-Button-3> toggle_status
    bind . <Control-s> toggle_status
-   bind .main <Destroy> "close_cleanup"
+   bind .main <Destroy> "close_cleanup "
+
+   wm protocol . WM_DELETE_WINDOW { wm iconify . }
 
    cmsn_draw_status
    cmsn_draw_offline
@@ -1438,7 +1440,7 @@ proc cmsn_draw_notify {} {
    toplevel .notify -width 154 -height 104
    wm title .notify "[trans msn] [trans notify]"
    wm overrideredirect .notify 1
-   wm geometry .notify -10-60
+   wm geometry .notify -0-0
    wm transient .notify .
    wm state .notify withdraw
    
@@ -1496,7 +1498,7 @@ proc cmsn_update_notify {} {
       wm state .notify withdraw
    }
 #   status_log "Testing bug: Notify3-7\n"
-   wm geometry .notify -10-60
+   wm geometry .notify -0-0
 #   status_log "Testing bug: Notify3-8\n"
    raise .notify
 #   status_log "Testing bug: Notify3-9\n"
