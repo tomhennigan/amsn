@@ -826,6 +826,12 @@ namespace eval ::amsn {
 		set txt [trans ftgotinvitation $fromname '$filename' [sizeconvert $filesize] $files_dir]
 		set win_name [::ChatWindow::MakeFor $chatid $txt $dest]
 		WinWrite $chatid "\n----------\n" green
+
+		if { [::skin::loadPixmap "FT_preview_${sid}"] != "" } {
+			WinWriteIcon $chatid FT_preview_${sid} 5 5
+			WinWrite $chatid "\n" green
+		}
+
 		WinWriteIcon $chatid fticon 3 2
 		WinWrite $chatid $txt green
 		WinWrite $chatid " - (" green
@@ -834,12 +840,6 @@ namespace eval ::amsn {
 		WinWriteClickable $chatid "[trans reject]" [list ::amsn::RejectFT $chatid -1 [list $sid $branchuid $uid]] ftno$sid
 		WinWrite $chatid ")\n" green
 		WinWrite $chatid "----------" green
-
-		if { [::skin::loadPixmap "FT_preview_${sid}"] != "" } {
-			WinWrite $chatid "\n" green
-			WinWriteIcon $chatid FT_preview_${sid} 5 5
-			WinWrite $chatid "\n----------" green
-		}
 
 
 		::log::ftlog $dest $txt
