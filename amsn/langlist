@@ -149,7 +149,7 @@
 		<langcode>hu</langcode>
 		<name>Hungary</name>
 		<version>1.13</version>
-		<encoding>iso8859-2</encoding>
+		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
 		<langcode>id</langcode>
