@@ -2357,6 +2357,9 @@ namespace eval ::amsn {
 		#pack $win.bottom.pic -side left -padx 2 -pady 2
 		upvar #0 ${win}_show_picture show_pic
 
+		set yview [lindex [${win}.f.out.text yview] 1]
+
+
 		if { $balloontext != "" } {
 			#unset_balloon $win.f.bottom.pic
 			change_balloon $win.f.bottom.pic $balloontext
@@ -2374,6 +2377,13 @@ namespace eval ::amsn {
 			change_balloon $win.f.bottom.showpic [trans hidedisplaypic]
 			set show_pic 1
 		}
+
+		if {$yview == 1} {
+			update idletasks
+			${win}.f.out.text see end 
+		}
+
+
 	}
 
 	proc HidePicture { win } {
