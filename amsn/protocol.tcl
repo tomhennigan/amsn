@@ -1542,6 +1542,10 @@ proc cmsn_sb_handler {sb_name item} {
 	  unset msgacks($ret_trid)
 	  return 0
       }
+      208 {
+         status_log "invalid user name for chat\n"
+	  msg_box "[trans invalidusername]"
+      }
       217 {
           #TODO: Check what we do with sb stat "?", disable chat window?
 	   # this should be related to user state changes

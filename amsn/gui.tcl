@@ -802,9 +802,11 @@ namespace eval ::amsn {
 
    }
 
+   
+
    #///////////////////////////////////////////////////////////////////////////////
    proc ChooseList {title online command other skip {userslist ""}} {
-      global list_users list_bl list_states userchoose_req
+      global list_users list_bl list_states userchoose_req bgcolor
 
       if { $userslist == "" } {
          set userslist $list_users
@@ -832,7 +834,7 @@ namespace eval ::amsn {
 
       set wname "[focus]_userchoose"
 
-      if { [catch {toplevel $wname -width 400 -height 300} res ] } {
+      if { [catch {toplevel $wname -width 400 -height 300 -borderwidth 0 -highlightthickness 0 } res ] } {
          raise $wname
          focus $wname
          return 0
@@ -842,30 +844,40 @@ namespace eval ::amsn {
       wm transient $wname .
       wm geometry $wname 280x300
 
-      frame $wname.list -class Amsn
+      frame $wname.blueframe -background $bgcolor
+
+      frame $wname.blueframe.list -class Amsn -borderwidth 0
       frame $wname.buttons -class Amsn
 
 
-      listbox $wname.list.userlist -yscrollcommand "$wname.list.ys set" -font splainf
-      scrollbar $wname.list.ys -command "$wname.list.userlist yview"
+      listbox $wname.blueframe.list.userlist -yscrollcommand "$wname.blueframe.list.ys set" -font splainf \
+         -background white -relief flat -highlightthickness 0 -height 1
+      scrollbar $wname.blueframe.list.ys -command "$wname.blueframe.list.userlist yview" -highlightthickness 0 \
+         -borderwidth 1 -elementborderwidth 2
 
-      button  $wname.buttons.ok -text "[trans ok]" -command "$command \[string range \[lindex \[$wname.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname" -font sboldf
+      button  $wname.buttons.ok -text "[trans ok]" -command "$command \[string range \[lindex \[$wname.blueframe.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname" -font sboldf
       button  $wname.buttons.cancel -text "[trans cancel]" -command "destroy $wname" -font sboldf
 
 
-
-      pack $wname.list.ys -side right -fill y
-      pack $wname.list.userlist -side left -expand true -fill both
-      pack $wname.list -side top -expand true -fill both
+      pack $wname.blueframe.list.ys -side right -fill y
+      pack $wname.blueframe.list.userlist -side left -expand true -fill both
+      pack $wname.blueframe.list -side top -expand true -fill both -padx 4 -pady 4
+      pack $wname.blueframe -side top -expand true -fill both
 
       if { $other == 1 } {
          button  $wname.buttons.other -text "[trans other]..." -command "cmsn_draw_otherwindow \"$title\" \"$command\"; destroy $wname" -font sboldf
-         pack $wname.buttons.other $wname.buttons.cancel $wname.buttons.ok -padx 10 -side right
+         #pack $wname.buttons.other $wname.buttons.cancel $wname.buttons.ok -padx 10 -side right
+         pack $wname.buttons.ok -padx 0 -side left
+	  pack $wname.buttons.cancel -padx 0 -side right
+         pack $wname.buttons.other -padx 10 -side left
+
       } else {
-         pack $wname.buttons.cancel $wname.buttons.ok -padx 10 -side right
+         pack $wname.buttons.ok -padx 0 -side left
+	  pack $wname.buttons.cancel -padx 0 -side right
+
       }
 
-      pack $wname.buttons -side bottom
+      pack $wname.buttons -side bottom -fill x -pady 3
 
 
       foreach user $userslist {
@@ -877,15 +889,18 @@ namespace eval ::amsn {
 
          if {($online != "online") || ($state_code != "FLN")} {
             if {[lsearch $list_bl "$user_login *"] != -1} {
-               $wname.list.userlist insert end "BLOCKED -> $user_name <$user_login>"
+               $wname.blueframe.list.userlist insert end "BLOCKED -> $user_name <$user_login>"
             } else {
-               $wname.list.userlist insert end "$user_name <$user_login>"
+               $wname.blueframe.list.userlist insert end "$user_name <$user_login>"
             }
          }
 
       }
 
-      bind $wname.list.userlist <Double-Button-1> "$command \[string range \[lindex \[$wname.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname"
+      bind $wname.blueframe.list.userlist <Double-Button-1> "$command \[string range \[lindex \[$wname.blueframe.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname"
+      focus $wname.buttons.ok
+      bind $wname <Escape> "destroy $wname"
+      bind $wname <Return> "$command \[string range \[lindex \[$wname.blueframe.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname"
    }
    #///////////////////////////////////////////////////////////////////////////////
 
@@ -1561,6 +1576,8 @@ proc cmsn_draw_main {} {
 	PreferencesMenu .pref_menu
 
    #Language selection menu
+   #TODO: Remove this menu, no longer used
+
    menu .lang_menu -tearoff 0 -type normal
 
    for {set i 0} {$i < [llength $lang_list]} {incr i} {
@@ -1664,7 +1681,8 @@ proc cmsn_draw_main {} {
       -command "::abookGui::showEntry $config(login) -edit"
    .options add separator
    .options add cascade -label "[trans preferences]..." -menu .pref_menu
-   .options add cascade -label "[trans language]" -menu .lang_menu
+   #.options add cascade -label "[trans language]" -menu .lang_menu
+   .options add command -label "[trans language]..." -command "show_languagechoose"
    .options add command -label "[trans encoding]..." -command "show_encodingchoose"
    .options add command -label "[trans choosebasefont]..." -command "choose_basefont"
    .options add command -label "[trans choosebgcolor]..." -command "choose_theme"
@@ -1949,6 +1967,33 @@ proc choose_basefont { } {
 
 
 #///////////////////////////////////////////////////////////////////////
+proc show_languagechoose {} {
+   global lang_list
+
+   set languages [list]
+
+   for {set i 0} {$i < [llength $lang_list]} {incr i} {
+     set langelem [lindex $lang_list $i]
+     set langshort [lindex $langelem 0]
+     set langlong [lindex $langelem 1]
+     lappend languages [list $langshort "$langlong"]
+     #-command "set config(language) $langshort; load_lang;msg_box \"\[trans mustrestart\]\""
+   }
+
+  ::amsn::ChooseList "[trans language]" both "set_language" 0 1 $languages
+}
+#///////////////////////////////////////////////////////////////////////
+
+
+proc set_language { langname } {
+   global config
+   set config(language) $langname
+   load_lang
+   msg_box [trans mustrestart]
+}
+
+
+#///////////////////////////////////////////////////////////////////////
 proc show_encodingchoose {} {
   set encodings [encoding names]
   set encodings [lsort $encodings]
@@ -2038,7 +2083,7 @@ proc cmsn_draw_offline {} {
 	    "$pgBuddy.text tag conf lang_sel -fore #000000 -underline true;\
 	    $pgBuddy.text conf -cursor left_ptr"
    $pgBuddy.text tag bind lang_sel <Button1-ButtonRelease> \
-	    "tk_popup .lang_menu %X %Y"
+	    "show_languagechoose"
 
 
    $pgBuddy.text tag conf start_login -fore #000000 -underline true \
@@ -2165,8 +2210,8 @@ proc cmsn_draw_login {} {
    wm geometry .login
    wm title .login "[trans login] - [trans title]"
    wm transient .login .
-   canvas .login.c -width 400 -height 150
-   pack .login.c -expand true -fill both
+   canvas .login.c -width 400 -height 150 -relief flat -highlightthickness 0
+   pack .login.c -expand true -fill both -padx 0 -pady 0
 
    entry .login.c.signin -width 20 -bg #FFFFFF -bd 1 -font splainf
    entry .login.c.password -width 20 -bg #FFFFFF -bd 1 \
@@ -2205,9 +2250,13 @@ proc cmsn_draw_login {} {
         } else {
            focus .login.c.ok
         }
-   } 
+   }
 
    bind .login.c.password <Return> "login_ok"
+
+   bind .login <Escape> "grab release .login;destroy .login"
+   bind .login <Return> "login_ok"
+
 
    tkwait visibility .login
    grab set .login
