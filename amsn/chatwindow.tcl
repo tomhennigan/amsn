@@ -1203,7 +1203,7 @@ namespace eval ::ChatWindow {
 		set textsizemenu $menu.textsize
 		menu $textsizemenu -tearoff 0 -type normal
 
-		foreach size {8 6 4 2 1 0 -0 -2 } { 
+		foreach size {" 8" " 6" " 4" " 2" " 1" "   0" " -0" " -2" } { 
 			if {$size > 0 } {
 				$textsizemenu add command -label "+$size" -command "change_myfontsize $size"
 			} else {
@@ -1691,10 +1691,12 @@ namespace eval ::ChatWindow {
 			bind $text <Command-Return> {%W insert insert "\n"; %W see insert; break}
 			bind $text <Command-Option-space> BossMode
 			bind $text <Command-a> {%W tag add sel 1.0 {end - 1 chars};break}
+			bind $text <Command-A> {%W tag add sel 1.0 {end - 1 chars};break}
 		} else {
 			bind $text <Control-Return> {%W insert insert "\n"; %W see insert; break}
 			bind $text <Control-Alt-space> BossMode
 			bind $text <Control-a> {%W tag add sel 1.0 {end - 1 chars};break}
+			bind $text <Control-A> {%W tag add sel 1.0 {end - 1 chars};break}
 		}
 
 		bind $text <<Button3>> "tk_popup $w.copypaste %X %Y"
