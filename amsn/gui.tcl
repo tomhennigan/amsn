@@ -3767,19 +3767,21 @@ proc change_myfont {win_name} {
 
 #///////////////////////////////////////////////////////////////////////
 proc change_myfontsize {size name} {
-	global config
+	if { $size == ""} {
+		::config::setKey textsize 0
+	} else {
+		::config::setKey textsize $size	
+	}
 
-	set config(textsize) $size
-
-	set fontfamily \{[lindex $config(mychatfont) 0]\}
-	set fontstyle \{[lindex $config(mychatfont) 1]\}
+	set fontfamily \{[lindex [::config::getKey mychatfont] 0]\}
+	set fontstyle \{[lindex [::config::getKey mychatfont] 1]\}
 
 	if { [llength [::config::getGlobalKey basefont]] < 3 } { ::config::setGlobalKey basefont [list Helvetica 11 normal] }
-	set fontsize [expr {[lindex [::config::getGlobalKey basefont] end-1]+$config(textsize)}]
+	set fontsize [expr {[lindex [::config::getGlobalKey basefont] end-1] + [::config::getKey textsize]}]
 
 	catch {.${name}.f.out.text tag configure yours -font "$fontfamily $fontsize $fontstyle"} res
 	catch {.${name}.f.bottom.in.input configure -font "$fontfamily $fontsize $fontstyle"} res
-	catch {.${name}.f.bottom.in.input configure -foreground "#[lindex $config(mychatfont) end]"} res
+	catch {.${name}.f.bottom.in.input configure -foreground "#[lindex [::config::getKey mychatfont] end]"} res
 
 	#Get old user font and replace its size
 	catch {
