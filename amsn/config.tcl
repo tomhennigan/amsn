@@ -27,8 +27,8 @@ proc ConfigDefaults {} {
 
 	#Some Autodetected options
 	if {$tcl_platform(os) == "Darwin"} {
-		set osversion [string range "$tcl_platform(osVersion)" 0 2]
-		if { $osversion == "6.8"} {
+		set osversion [string range "$tcl_platform(osVersion)" 0 0]
+		if { $osversion == "6"} {
 			set config(soundcommand) "utils/qtplay \$sound";#Soundplayer for Mac OS 10.2 Jaguar
 		} else {
 			set config(soundcommand) "./sndplay \$sound";#Soundplayer for Mac OS 10.3 Panther
@@ -483,8 +483,8 @@ proc load_config {} {
 					}
 			set soundmac [string range "[::config::getKey soundcommand]" 1 11]
 				if { $soundmac=="program_dir" } {
-					set osversion [string range "$tcl_platform(osVersion)" 0 2]
-					if { $osversion == "6.8"} {
+					set osversion [string range "$tcl_platform(osVersion)" 0 0]
+					if { $osversion == "6"} {
 						set config(soundcommand) "utils/qtplay \$sound"
 					} else {
 						set config(soundcommand) "./sndplay \$sound"
