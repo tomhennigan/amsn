@@ -14,11 +14,12 @@ proc LoadStateList {} {
 	global HOME
 
 	StateList clear
-
-	set file_id [sxml::init [file join ${HOME} "states.xml"]]
-	sxml::register_routine $file_id "states:newstate" "new_state"	    
-	sxml::parse $file_id
-	sxml::end $file_id
+	if { [file exists [file join ${HOME} "states.xml"]] } {
+		set file_id [sxml::init [file join ${HOME} "states.xml"]]
+		sxml::register_routine $file_id "states:newstate" "new_state"	    
+		sxml::parse $file_id
+		sxml::end $file_id
+	}
 }
 
 #///////////////////////////////////////////////////////////////////////////////
