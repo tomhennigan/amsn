@@ -245,11 +245,11 @@ proc run_alarm {user nick msg} {
 	set wind_name alarm_${alarm_win_number}
 
 	if { [::alarms::getAlarmItem ${user} pic_st] == 1 || [::alarms::getAlarmItem ${user} sound_st] == 1 } {
-	toplevel .${wind_name}
-	set myDate [ clock format [clock seconds] -format " - %d/%m/%y at %H:%M" ]
-	wm title .${wind_name} "[trans alarm] $user $myDate"	
-	label .${wind_name}.txt -text "$msg"
-	pack .${wind_name}.txt
+		toplevel .${wind_name}
+		set myDate [ clock format [clock seconds] -format " - %d/%m/%y at %H:%M" ]
+		wm title .${wind_name} "[trans alarm] $user $myDate"	
+		label .${wind_name}.txt -text "$msg"
+		pack .${wind_name}.txt
 	}
 	
 	#Create picture
@@ -293,7 +293,10 @@ proc run_alarm {user nick msg} {
 				after 1000 [list play_loop $sound $wind_name]
 				
 			} else {
-				play_sound $sound 1
+				button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}"
+				wm protocol .${wind_name} WM_DELETE_WINDOW "destroy .${wind_name}"
+				pack .${wind_name}.stopmusic -padx 2
+				play_sound $sound 1 1
 			}
 			
 		}

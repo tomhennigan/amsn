@@ -4217,12 +4217,12 @@ proc cmsn_msgwin_sendmail {name} {
 
 
 #///////////////////////////////////////////////////////////////////////
-proc play_sound {sound {absolute_path 0}} {
+proc play_sound {sound {absolute_path 0} {force_play 0}} {
 
 	#If absolute_path == 1 it means we don't have to get the sound
 	#from the skin, but just use it as an absolute path to the sound file
 
-	if { [::config::getKey sound] == 1 } {
+	if { [::config::getKey sound] == 1 || $force_play == 1} {
 		#If Mac OS X, use play_Sound_Mac to play sounds
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			if { $absolute_path == 1 } {
@@ -4261,15 +4261,13 @@ proc play_sound_other {sound} {
 		set config(soundcommand) "$config(soundcommand) \$sound"
 	}
 
-	if { $config(sound) == 1 } {
-		set soundcommand [::config::getKey soundcommand]
-		#Quote everything, or "eval" will fail
-		set soundcommand [string map { "\\" "\\\\" "\[" "\\\[" "\$" "\\\$" "\[" "\\\[" } $soundcommand]
-		#Unquote the $sound variable so it's replaced
-		set soundcommand [string map { "\\\$sound" "\${sound}" } $soundcommand]
-		
-		catch {eval exec $soundcommand &} res
-	}
+	set soundcommand [::config::getKey soundcommand]
+	#Quote everything, or "eval" will fail
+	set soundcommand [string map { "\\" "\\\\" "\[" "\\\[" "\$" "\\\$" "\[" "\\\[" } $soundcommand]
+	#Unquote the $sound variable so it's replaced
+	set soundcommand [string map { "\\\$sound" "\${sound}" } $soundcommand]
+	
+	catch {eval exec $soundcommand &} res
 }
 
 #Play sound in a loop
