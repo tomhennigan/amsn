@@ -821,6 +821,11 @@ namespace eval ::MSN {
 			set proxy_host [lindex $lproxy 0]
 			set proxy_port [lindex $lproxy 1]
 
+			if { $proxy_port == "" } {
+				set proxy_port 8080
+				set config(proxy) "$proxy_host:$proxy_port"
+			}
+
 			::http::config -proxyhost $proxy_host -proxyport $proxy_port
 		}
 

@@ -465,7 +465,7 @@ proc Preferences { { settings "personal"} } {
 	# _| Appearance |________________________________________________
 	image create photo preflook -file [GetSkinFile pixmaps preflook.gif]
 	image create photo prefemotic -file [GetSkinFile pixmaps prefemotic.gif]
-	image create photo prefalerts -file [GetSkinFile pixmaps prefalerts.gif]	
+	image create photo prefalerts -file [GetSkinFile pixmaps prefalerts.gif]
 
 	set frm [Rnotebook:frame $nb $Preftabs(appearance)]
 	
@@ -539,7 +539,7 @@ proc Preferences { { settings "personal"} } {
 	# _| Session |________________________________________________
 	image create photo prefstatus -file [GetSkinFile pixmaps prefstatus.gif]
 	image create photo prefaway -file [GetSkinFile pixmaps prefaway.gif]
-	image create photo prefmsg -file [GetSkinFile pixmaps prefmsg.gif]	
+	image create photo prefmsg -file [GetSkinFile pixmaps prefmsg.gif]
 
 	set frm [Rnotebook:frame $nb $Preftabs(session)]
 	
@@ -703,20 +703,20 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.2.http -anchor w -side top -padx 10
 	radiobutton $lfname.3.proxy -text "[trans proxyconnection]" -value proxy -variable config(connectiontype) -command UpdatePreferences
 	pack $lfname.3.proxy -anchor w -side top -padx 10
-	
+
 	#checkbutton $lfname.1.proxy -text "[trans proxy]" -onvalue 1 -offvalue 0 -variable config(withproxy)
 	#pack $lfname.1.proxy -anchor w -side top -padx 10
-	
+
 	#radiobutton $lfname.2.http -text "HTTP" -value http -variable config(proxytype)
 	#radiobutton $lfname.2.socks5 -text "SOCKS5" -value socks -variable config(proxytype) -state disabled
 	#pack $lfname.2.http $lfname.2.socks5 -anchor w -side left -padx 10
-	
+
 	pack $lfname.1 $lfname.2 $lfname.3 $lfname.4 $lfname.5 -anchor w -side top -padx 0 -pady 0 -expand 1 -fill both
-	
-	radiobutton $lfname.4.post -text "HTTP (POST method)" -value http -variable config(proxytype)
-	radiobutton $lfname.4.ssl -text "SSL (CONNECT method)" -value ssl -variable config(proxytype)
-	radiobutton $lfname.4.socks5 -text "SOCKS5" -value socks5 -variable config(proxytype) -state disabled
-	
+
+	radiobutton $lfname.4.post -text "HTTP (POST method)" -value http -variable config(proxytype) -command UpdatePreferences
+	radiobutton $lfname.4.ssl -text "SSL (CONNECT method)" -value ssl -variable config(proxytype) -command UpdatePreferences
+	radiobutton $lfname.4.socks5 -text "SOCKS5" -value socks5 -variable config(proxytype) -command UpdatePreferences
+
 	grid $lfname.4.post -row 1 -column 1 -sticky w -pady 5 -padx 10
 	grid $lfname.4.ssl -row 1 -column 2 -sticky w -pady 5 -padx 10
 	grid $lfname.4.socks5 -row 1 -column 3 -sticky w -pady 5 -padx 10
@@ -1174,8 +1174,13 @@ proc UpdatePreferences {} {
 		$lfname.4.socks5 configure -state normal
 		$lfname.5.server configure -state normal
 		$lfname.5.port configure -state normal
-		$lfname.5.user configure -state normal
-		$lfname.5.pass configure -state normal
+		if { $config(proxytype) == "socks5" } {
+			$lfname.5.user configure -state normal
+			$lfname.5.pass configure -state normal
+		} else {
+			$lfname.5.user configure -state disabled
+			$lfname.5.pass configure -state disabled
+		}
 	} else {
 		$lfname.4.post configure -state disabled
 		$lfname.4.ssl configure -state disabled
@@ -1606,6 +1611,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.89  2003/11/03 19:14:50  airadier
+# Improve proxy settings
+#
 # Revision 1.88  2003/10/29 19:14:23  airadier
 # Let's show display pictures.
 #
