@@ -14,6 +14,7 @@ addtoo Dodaj to osebo na moj seznam stikov
 admincontacts Uredi stike
 admingroups Uredi skupine
 advanced Dodatno
+advancedprefs Dodatne nastavitve
 adverts Reklame
 alarmonconnect Vklopi alarm, ko se stik prijavi
 alarmondisconnect Vklopi alarm, ko se stik odjavi
@@ -28,6 +29,7 @@ allowonlyinal Dovoli kontakt le uporabnikom v Allow seznamu
 allowseen Dovoli tej osebi da vidi moj status ko sem prijavljen
 animatedemoticon Ta emotikon je animiran
 animatedsmileys Omogoci animirane smeske
+animatenotify Animirana obvestila
 appearance Izgled
 appearoff Na videz neprijavljen
 areacode Postna stevilka
@@ -35,6 +37,7 @@ aretyping $1 pisejo sporocilo
 autoaccepted Prenos datoteke avtomaticno sprejet
 autoacceptft Avtomaticno sprejmi prihajajoce datoteke
 autoaway Prikazi me kot "Odsoten", ko sem neaktiven
+autocheckver Samodejno preveri za novo razlicico
 autoconnect2 Prijavi se ob zagonu aMSN
 autoconnect Prijavi se ob zagonu amsn
 autohotmaillog Samodejna prijava v Hotmail
@@ -83,9 +86,9 @@ chatsmileys2 Prikazi emotikone in smeske v pogovornih oknih
 chatsmileys Smeskoti
 checkblocking Preverjaj, ce te ostali blokirajo
 checkfilman Prejete datoteke bodo shranjene v $1. Preveri nastavitve upravljalca datotek v nastavitvah.
-checkingver Preverjam za nove verzije
+checkingver Preverjam za novo razlicico
 checkonfln Preveri, ce te je uporabnik blokiral, ko se odjavi
-checkver Preveri za novo verzijo
+checkver Preveri za novo razlicico
 choosearq Izberi arhitekturo sistema
 choosebasefont Izberi vrsto pisave
 choosebgcolor Izberi barvo ozadja
@@ -130,6 +133,8 @@ delprofile2 Izberi profil, ki bi ga rad izbrisal
 delprofile Izbrisi profil
 description Opis
 directconnection Neposredna povezava (vrata 1863)
+disabled Izkljuceno
+disableprofiles Izkljuci profile (Uporabno v kiberkavarnah in skupinskem okolju)
 disablessl Onemogoci SSL
 disconnect $1 se je odjavil/a.
 displaychat Prikazi nastavitve besedila
@@ -146,8 +151,10 @@ editnewstate Novo osebno stanje za avtomatsko sporocilo
 editprofile Uredi profil
 editstate Uredi obstojece stanje za avtomatsko sporocilo
 edit Uredi
+editvalue Uredi vrednost
 emotisounds Igraj zvok na dolocene emotikone
 enablebanner Prikazi aMSNjevo pasico (Potreben je ponoven zagon aMSN)
+enabled Vkljuceno
 enableproxy Omogoci proxy
 enableremote Omogoci nadzor na daljavo
 enablesound Igraj zvok
@@ -225,6 +232,7 @@ lconvstarted Pogovor se je pricel ($1)
 leaveblankforhotmail Pusti prazno za uporabo Hotmail storitev
 leaves $1 je zapustil/a pogovor
 lenteredconf $1 je vstopil v konferenca na $2
+lineflushlog Pisi dnevnik vrstico za vrstico (brez medpomnilnika)
 linprivate ZASEBNO
 listeningon Poslusam na vratih $1
 listsmileys2 Prikazi emotikone in smeske v seznamu stikov
@@ -272,7 +280,7 @@ needonline Se vedno si/izgledas neprijavljen!
 newmail $1 novih sporocil v Inboxu
 newmailfrom Novo sporocilo od $1 ($2)
 newmsg Novo sporocilo
-newveravailable Nova verzija $1 je na voljo za prenos
+newveravailable Nova razlicica $1 je na voljo za prenos
 next Naslednji
 noactivity Ni aktiven/a
 nodataavailable Ni podatkov za $1
@@ -280,11 +288,12 @@ nologfile Brez dnevnika za $1
 no Ne
 noneavailable Noben ni na voljo
 nonewmail Ni novih sporocil v Inboxu
-nonewver Ni novih verzij na voljo za prenos
+nonewver Ni novih razlicic na voljo za prenos
 nopic Brez slike
 noprofileexists Trenutno ni profilov.\nDa jih uporabljas, ustvari novega\nz gumbom dodaj profil.
 normal Normalno
 nosystemtray Tray ni na voljo
+notificationserver Zacetni MSNjev streznik (MSN Messengerjev streznik)
 notify1_5 Prikazi obvestilo, ko se kdo odjavi
 notify1_75 Prikazi obvestilo, ko kdo zamenja stanje
 notify1 Prikazi obvestilo, ko se kdo prijavi
@@ -363,6 +372,7 @@ raised V oknu
 readonlymsgbox Prenos datoteke je preklican, ker je ciljna mapa samo za branje. Popravi njena ovoljenja.
 readonlywarn OPOZORILO: Datoteka verjetno NE bo shranjena pravilno, ker je mapa "Prejetedatoteke"zascitena za pisanje. Pred prenosom preveri, ce so dovoljenja ciljne mape ($1) nastavljene pravilno.
 receivedbytes Prejeto $1 od $2 bajtov
+receiveddir Mapa s prejetimi datotekami
 receivefile Sprejmi datoteko
 reconnect Cakam, da se $1 ponovno poveze
 reconnecting Povezujem se s streznikom
@@ -394,6 +404,7 @@ showblockedlist Pokazi seznam ljudi, ki so te blokirali
 showdisplaypic2 Prikazi osebno sliko, ko se odpre pogovor
 showdisplaypic Prikazi osebno sliko
 showmypic Moja osebna slika
+shownotify Pokazi obvestilo ob nekaterih dogodkih
 showuserpic Osebna slika uporabnika $1
 Shrani.
 skinselector Izberi skin
@@ -442,6 +453,8 @@ to Za
 transnotexists Zahtevana datoteka se ni bila prevedena v slovenscino.
 traynotcompiled Plugin za tray ikono ni preveden. Preveri plugins/traydock.
 triggers Smeska sprozijo
+truncatenames1 Skrajsaj nicke, ki ne stojijo v naslovu okna in v seznamu stikov
+truncatenames2 Skrajsaj nicke, ki ne stojijo v oknu s pogovorom
 truncatenicks Skrajsaj nicke, ki ne stojijo v oknu
 twonewmail $1 novi sporocili v Inboxu
 unblock Odblokiraj
@@ -453,7 +466,7 @@ usernotonline Uporabnik ni prijavljen
 user Uporabnik
 useryourself Ne mores govoriti sam s seboj
 verifyblocked Preveri, kdo te blokira
-version Verzija
+version Razlicica
 view Pogled
 viewprofile Poglej profil
 willjoin Cakam, da se $1 pridruzi pogovoru
