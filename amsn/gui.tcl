@@ -3858,9 +3858,11 @@ proc cmsn_draw_main {} {
 		# they share this space with the branding image. The branding image
 		# is cycled in between adverts.
 		if {$tcl_platform(os) == "Darwin"} {
-			adv_show_banner file [GetSkinFile pixmaps logomacmsn.gif]
+			::skin::setImage banner logomacmsn.gif
+			#adv_show_banner file [GetSkinFile pixmaps logomacmsn.gif]
 		} else {
-			adv_show_banner file [GetSkinFile pixmaps logolinmsn.gif]
+			::skin::setImage banner logolinmsn.gif
+			#adv_show_banner file [GetSkinFile pixmaps logolinmsn.gif]
 		}
 	}
 
