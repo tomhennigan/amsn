@@ -1,0 +1,172 @@
+FAQ 1.4
+--------
+
+P: O que é o aMSN?
+R: O aMSN é um clone do Microsoft Messenger. Ele permite que você se comunique com seus amigos e troque mensagens instantâneas e arquivos.
+
+
+INSTALAÇÃO E UTILIZAÇÃO
+=======================
+
+P: O que é preciso para utilizar o aMSN?
+R: O aMSN foi escrito em TCL/TK; assim, você precisa apenas de um interpretador TCL/TK versão 8.3 ou posterior. Você pode baixá-lo em http://tcl.sourceforge.net. O interpretador está disponível para Linux, Windows e Macintosh. Algumas características adicionais podem demandar programas ou bibliotecas extras, como o ícone na barra de tarefas, o Exibir Fotografias ou a conexão SSL para o Protocolo MSN 9.
+
+P: Como instalo e utilizo o aMSN?
+R: Basta baixar o arquivo amsn-x_xx.tar.gz. Descompacte-o com o comando:
+  gzip -d amsn-x_xx.tar.gz
+  tar xvf amsn-x_xx.tar
+Isso criará um diretório msn/ ;o aMSN será instalado e estará pronto para a utilização.
+Para iniciar, digite:
+  cd msn
+  ./amsn
+Ou, se isso não funcionar, tente
+  wish amsn
+Se o comando wish não existir, é porque o TCL/TK não está corretamente instalado.
+Se "wish amsn" funcionar, mas "./amsn" não, edite o arquivo "amsn" e configure o atalho correto para o 'wish' na primeira linha. Por padrão, ele está configurado como:
+/usr/bin/wish
+
+P: Quando clico duas vezes no arquivo "amsn" em um navegador gráfico, como o konqueror ou o nautilus, um editor de texto é aberto em vez do aMSN!
+R: o aMSN foi escrito em TCL/TK, uma linguagem interpretada; assim, o arquivo "amsn" é apenas um arquivo de texto com o código do programa. O gerenciador de arquivos pode pensar que é um arquivo de texto e iniciar o editor de texto. Para rodar o aMSN você deve escolher "Abrir com...", "Rodar com..." ou similar, e usar o programa "wish" para abrir o arquivo "amsn". Reiterando o que se viu na questão anterior, se o comando "wish" não existir, você precisará instalar o TCL/TK.
+
+P: Como eu crio um atalho para o aMSN em minha área de trabalho?
+R: 1. - Adicione um ícone em sua área de trabalho ou menu gnome/kde que inicie o comando: 
+/onde/você/tem/amsn/instalado/amsn
+ por exemplo
+ /home/usuário/msn/amsn
+2. Outro modo:
+Como root, crie um link em /usr/bin para o arquivo amsn em -s onde/você/tem/amsn/instalado/amsn amsn
+Desse modo, você pode iniciat o aMSN aoenas digitando "amsn" de qualquer lugar.
+Em seguida adicione um ícone que inicie o comando 'amsn'.
+
+P: Como faço para o ícone na barra de tarefas do Gnome ou KDE funcionar?
+R: É preciso rodar o comando 'make' dentro do diretório de plugins para construir o plugin do Gnome 1.x. Você precisará das bibliotecas de desenvolvimento do Gnome. Depois de construir o plugin, basta rodar o amsn e selecionar 'Minimizar na bandeja do Gnome' no menu de opções.
+
+Para construir o plugin de barra de tarefas do Freedesktop (compatível com Gnome2 e KDE3), leia o arquivo README em plugins/traydoc.
+
+UTILIZAÇÃO
+==========
+
+P: O que significam os contatos em vermelho na minha lista de contatos? 
+R: Significam que você não está na lista de contatos daquela pessoa.
+
+P: Posso copiar o endereço de um contato para a área de transferência?
+R: Sim, clique com o botão direito no nome daquele contato na lista de contatos e clique no endereço dele no menu deslizante. O endereço de email do contato será copiado na área de transferência.
+
+P: Como posso acessar o histórico das mensagens que enviei em minhas janelas de conversa?
+R: Se você quer acessar mensagens anteriores da mesma janela de mensagens, basta utilizar a tecla Ctrl com as setas. Funciona como no Shell (prompt de comando); Ctrl+seta para cima mostra a mensagem anterior e Ctrl+seta para baixo mostra a mensagem seguinte.
+
+P: Na aba "privacidade" do menu "preferências", o que significam as quatro listas?
+R: Há quatro listas, conhecidas como Lista de Permissões (AL), Lista de Bloqueios (BL), Lista Reversa(RL) e Lista de Contatos. A última é óbvia; eis o significado das outras três:
+AL: Esta lista contém os emails das pessoas que têm a permissão de ver quando você está online; elas também podem conversar com você quando seu status não for 'offline';
+BL: Esta é a lista de bloqueios, ou seja, a lista das pessoas que você bloqueou. Isso significa que elas não podem ver você quando você está online e não podem conversar com você.
+RL: Esta é a lista reversa, com os endereços de email das pessoas que adicionaram você à lista delas. As pessoas que aparecem em verde nessa lista não estão em sua lista de contatos, mas você está na delas.
+
+P: gostaria de adicionar meus próprios emoticoms; como posso fazer isso? 
+R: Há um novo botão no menu de emoticoms que permite fazer isso.
+Clique no botão "Adicionar emoticom" e preencha os campos pedidos. O campo "descrição" pode coter o que você quiser, pois é apenas a descrição que será mostrada no tooltip. O campo "atalho" é a combinação de teclas que você quer associar ao seu emoticom; por exemplo, o sorriso tem atalhos como :) :-) ... A gargalhada tem atalhos como :D :-D :> :->  ... para definir múltiplos atalhos, deve-se digitá-los um após o outro, separados por um espaço. Se você quiser utilozar um atalho que comporte um espaço (por exemplo, "como vai"), coloque-o entre aspas: "como vai" oi "tudo bem". Estes seriam três atalhos para o mesmo emoticom.
+O campo "arquivo" é para o nome do arquivo gif. Ele deve ter o tamanho 19 x 19 pixels para que o menu de emoticoms não seja alterado. Claro, pode ter o tamanho que você quiser, mas coisas estranhas podem acontecer... (menu de emoticoms adulterado, se você acrescentar aquele smiley ao seu apelido, o item "meu status" da janela principal do aMSN pode ser alterado também etc.). Você pode fornecer o caminho completo, usar o botão procurar ou apenas digitar o nome do arquivo, se ele estiver no diretório ~/.amsn/<profile>/smileys or msn/skins/<skin>/smileys. O arquivo será copiado de lá para seu diretório de perfis no caso de o arquivo original ser movido ou renomeado. As mesmas propriedades podem ser consideradas para o campo "arquivo de som"; este é usado para tocar um som quando o emoticom for mostrado. Por exemplo, o emoticom LOL com o atalho LOL faz um som de gargalhada. O som deve ser um arquivo .wav ou de quaisquer extensões suportadas por seu tocador de som (configurados na aba de preferências... play, esdplay ou mpg123 se você quiser usar um arquivo mp3). Para que essa entrada fique disponível, você deve primeiro ativar a caixa que diz "tocar som". A caixa "animado" significa que aquele arquivo GIF é animado; se o GIF for animado e a opção não for selecionada, o emoticom mostrará uma imagem parada. 
+A opção "não mostrar no menu de emoticoms" significa que o emoticom não aparecerá no menu de emoticoms caso a opção esteja selecionada, mas ainda poderá ser ativado através dos atalhos.
+A opção "diferenciar" significa que os atalhos diferenciarão maiúsculas e minúsculas, ou seja, um atalho "LOL" seria diferente de um atalho "lol". Se a opção não or marcada, o uso de maiúsculas/minúsculas é indiferente.
+Após terminar suas configurações, pressione o botão OK; ele apontará erroscaso você tenha esquecido de configurar uma das 3 primeiras opões (descrição, atalhos e arquivo GIF) ou se os arquivos (GIF e/ou som) não existem ou não podem ser lidos pelo usuário. Se nenhuma mensagem for mostrada, você já pode utilizar seus novos emoticoms. 
+Divirta-se.
+
+P: Os apelidos estão cortados. É possível visualizá-los inteiros?
+R: Sim. Para que os apelidos sejam mostrados em sua totalidade na lista de contatos, nos alertas e na janela de conversa, vá ao arquivo de configuração e modifique manualmente a opção. A opção responsável por este comportamento se chama "truncatenames". Depois de encontrar essa opção, mude seu valor de 1 para 0. Reinicie o aMSN.
+Não há uma maneira direta de dar esse comando apenas na lista de contatos, apenas na janela de conversa ou nos alertas - a opção afetará a todos ao mesmo tempo.
+Esta opção não pode ser mudada na janela de Preferências. Ela será adicionada no futuro.
+
+P: Por que a detecção de bloqueio não está funcionando direito?
+R: A detecção de bloqueio não é 100% efetiva. Ela usa de dois meios para saber quem bloqueou você. No primeiro, ela apenas tenta conferir se o usuário realmente saiu do ar ou se bloqueou você quando aparentemente saiu do ar. O outro meio "sonda" usuários aparentemente offline em sua lista de contatos em intervalos de tempo determinados (por exemplo, 5 segundos). Isso não pode ser feito muito rápido ou o servidor vai expulsar você devido à sobrecarga (flooding).
+A detecçao se baseia em um erro de protocolo. Se você convida um usuário offline para uma conversa, e o usuário realmente está offline, ele retornará um código de erro. Se o usuário estiver online, mas bloqueando você, outro código retorna. Se você quer ter certeza, o melhor modo é clicar com o botão direito no contato "aparentemente" offline e escolher "enviar mensagem". Então se abrirá uma janela de conversa e, na barra de status, você verá "Usuário offline" ou "usuário está online, mas bloqueou você" dependendo do que realmente está acontecendo. Claro, você só pode detectar se o usuário estiver online e houver bloqueado você. Se ele estiver offline, não há como saber.
+
+Saudações.
+
+
+RESOLUÇÃO DE PROBLEMAS
+======================
+
+P: às vezes o aMSN "trava", por quê?
+R: Quando o aMSN trava é normalmente um problema com a configuração do som. Talvez você esteja tocando algum som mas a placa de som está bloqueada e o comando "play" trava até que a placa de som esteja disponível. Tente desligar o som ou mudar a configuração do comando se som.
+
+P: Estou tentando rodar o aMSN mas aparece o seguinte erro:
+bash: ./amsn: bad interpreter: No such file or directory
+R: Você precisa instalar os pacotes TCL/TK, poris você precisa do interpretador wish. Se você acha que já o tem, tente "wish amsn" em vez de "./amsn". Se funcionar, edite o aMSN e mude a primeira linha: 
+ #!/usr/bin/wish
+Para a locação do interpretador wish.
+
+P: Quando rodo o aMSN aparece o seguinte erro:
+Error in startup script: bad option "map": must be
+compare, first, index, last, length, match, range,
+tolower, toupper, trim, trimleft, trimright, wordend,
+or wordstart
+while executing
+"string map $map $md5body"
+(in namespace eval "::md5" script line 65)
+invoked from within
+"namespace eval ::md5 { ... etc
+A: você está usando uma versão do TCL/TK mais antiga do que a 8.3. Atualize o TCL/TK.
+
+
+P: Após atualizar o aMSN, eis o que aparece quando rodo o programa:
+Error in startup script: expected integer but got ""
+while executing
+"font create menufont -family $family -size $size
+-weight normal"
+(procedure "::amsn::initLook" line 5)
+invoked from within
+"::amsn::initLook $family $size $config(backgroundcolor)"
+(file "amsn" line 2184)
+R: Houve algumas mudanças no arquivo de configuração. Um reparo rápido para que a nova versão funcione é deletar o antigo arquivo config em seu home dir.
+Delete /home/yourusername/.amsn/config  e o programa deverá funcionar.
+
+P: Não consigo digitar em chinês/japonês/ outras linguagens no aMSN. O que tenho de fazer?
+R: Parece que xcin ou outros programas similares não são compatíveis com a nova versão do TCL/TK, de forma que o aMSN também não funciona com eles. Você precisa esperar a próxima versão do TCL/TK e torcer para que seja compatível com o xcin. Enquanto isso, você pode digitar o texto em outro editor e copiar-colar na janela de conversa.
+Novo: copiar e colar internacionalizado. Se você tiver problemas ao colar caracteres no aMSN, baixe e instale esta versão do TCL/TK a partir deste site:
+http://jfontain.free.fr/tcl-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tk-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tcl-thread-8.4a3-2.i386.rpm
+Note que este é apenas um truque no caso de você não poder digitar sua linguagem diretamente no aMSN, por exemplo, chinês tradicional, usando o xcin.
+
+
+P: Posso usar o aMSN por trás de um servidor Proxy?
+R: Desde a versão desenvolvida logo após a 0.61, o suporte a proxy HTTP está disponível. Isso significa que você só pode se conectar por trás de um proxy HTTP (como o squid, por exemplo). Se seu servidor de Proxy for o socks5 você não conseguirá conectar, mas o suporte ao socks5 logo estará disponível.
+
+P: O aMSN parece conectado, mas quando tento conversar com alguém ou mudo meu status, sou desconectado. Isso acntece com frequência, após alguns minutos de inatividade.
+Provavelmente estou por trás de um roteador ou um firewall.
+R: Tente habilitar o "Keepalive (NAT)" no menu Ferramentas->opções. É  uma solução ára conexões compartilhadas que continuam enviando um pacote fictício ao servidor a cada  2 minutos, para manter a conexão ativa.
+
+P: O evento sonoro é repetitivo. Por exemplo, se o XMMS está rodando e alguém se conecta ou se estou conversando com alguém, depois de o XMMS ou o arquivo serem fechado, todos os eventos sonoros que não podiam ser tocados por causa do XMMS começam a tocar de forma insistente.
+R: Há diversas soluções. Se você está usando KDE, pode configurar o XMMS para tocar sons através do arts, e usar artsplay como comando "play" no aMSN.
+Dessa maneira o som ficará confuso. Se você está usando Gnome, pode utilizar o esdplay e configurar o XMMS para tocar através do ESD. Ou, em vez de usar o comando "play", você pode simplesmente criar um pequeno script que cheque se o /dev/dsp está ocupado ou livre, antes de dar o comando "play".
+
+P: Estou utilizando o aMSN por trás de um firewall ou IP-Masquerade. Não consigo enviar arquivos. Como consertar isso?
+R: Talvez o firewall esteja bloqueando as conexões de entrada. A transferência de arquivos funciona da seguinte maneira: Quando você quer enviar um arquivo, você manda um convite com seu endereço IP e um número de porta. Dí o cliente remoto deve se conectar ao seu IP:porta para iniciar a transferência.
+A porta utilizada é normalmente 6891, 6892 e assim por diante (a primeira transferência utiliza a 6891, mas se uma nova transferência for iniciada antes que a primeira seja concluída, então a porta será a 6892 etc).
+Assim, ao utilizar um firewall, você deve se certificar de que ele permita cionexões de entrada na porta 6891 (e seguintes, se você quiser ser capaz de realizar mais de uma transferência ao mesmo tempo).
+Se você estiver dentro de uma rede privada com endereço privado, como 192.168.0.x, é mais difícil fazer com que a transferência de arquivos funcione. Você precisa enviar o endereço da internet real (pode-se digitá-lo manualmente ou mandar o aMSN apanhá-lo em uma página da web), em vez do endereço  interno, e ordenar ao gateway (o computador com conexão direta à internet) que encaminhe as conesões de entrada à porta 6891 para o seu computador dentro da rede privada.
+
+
+Rodando no Windows
+==================
+
+P: Posso fazer o som funcionar no Windows?
+R: Sim, temos um pequeno programa chamado plwav.exe que toca um wav no windows. Você pode utilizá-lo como comando de som (o aMSN necessita de alguns programas externos para tocar sons). Vá em Ferramentas->opções->preferências->aplicações e configure "plwav" como comando de servidor de som.
+
+P: Quando a janela de notificação aparece, a barra de tarefas do Windows a esconde parcialmente. Como consertar isso?
+R: Você pode mover a janela de notoficação X pixels para a esquerda e Y pixels para cima. Mude isso em Ferramentas->opções->preferências->aparência.
+
+OUTROS
+=====
+P: Notei que o aMSN está abrindo algumas portas acima da porta 60000. Isso é normal? É um Backdoor? Por que isso acontece?
+R: É normal. O aMSN utiliza sockets como sistema de bloquieo para evitar que duas ocorrências do aMSN utilizem o mesmo perfil ao meso tempo (o que poderia causar problemas). Este é o melhor sistema de bloqueio em plataforma independente que encontramos. Se você descobrir uma maneira melhor de fazê-lo, por favor nos conte :)
+Se você conferir em  ~/.amsn/profiles, poderá ver qual porta está sendo usada para cada perfil.
+
+P: Tenho outra questão, vocês podem me ajudar?
+R: Sim, podemos. Mas antes, dê uma olhada na página do projeto-fonte do programa, em http://sourceforge.net/projects/amsn, e confira todos os bugs, pedidos de suporte e forums para ver se seu problema já não foi solucionado. Não olhe apenas as mensagens marcadas "Open" (Aberto). Há um menu de rolagem onde você pode selecionar "Closed" (Fechado) ou "Pending" (Pendente) no alto da lista de mensagens. Questões já respondidas são normalmente marcadas como Closed.
+Antes de submeter um bug ou pedir suporte, tenha em mãos as seguintes informações:
+- Versão do Amsn
+- Versão do TCL e do TK
+- STACK TRACE do erro enviado (se aplicável)
+- Últimas mensagens de erro nas janelas debug (Ctrl+D e Ctrl+S na lista de contatos).
+Se você ainda tiver uma questão, pode me escrever no endereço
+airadier@users.sourceforge.net.
