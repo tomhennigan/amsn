@@ -44,7 +44,7 @@
 namespace eval anigif {
 
     proc anigif2 {fname {idx 0}} {
-	if { ![info exists ::anigif::${fname}] } {
+	if { ![info exists ::anigif::${fname}(images)] } {
 	    #Cleanup
 	    #???
 	    #destroy $w
@@ -54,7 +54,7 @@ namespace eval anigif {
 		set list [set ::anigif::${fname}(images)]
 		set delay [set ::anigif::${fname}(delay)]
 	    }
-	    if { ![info exists ::anigif::${fname}] } { return }
+	    if { ![info exists ::anigif::${fname}(images)] } { return }
 
 	    if { $idx >= [llength $list]  } {
 		set idx 0
