@@ -1046,6 +1046,7 @@ namespace eval ::abookGui {
 		menu .globalnick.frm.help.menu -tearoff 0
 		.globalnick.frm.help.menu add command -label [trans nick] -command ".globalnick.frm.nick insert insert \\\$nick"
 		.globalnick.frm.help.menu add command -label [trans email] -command ".globalnick.frm.nick insert insert \\\$user_login"
+		.globalnick.frm.help.menu add command -label [trans customnick] -command ".globalnick.frm.nick insert insert \\\$customnick"
 		.globalnick.frm.help.menu add separator
 		.globalnick.frm.help.menu add command -label [trans delete] -command ".globalnick.frm.nick delete 0 end"
 
