@@ -97,6 +97,7 @@ closed Conversa amb $1 tancada per inactivitat
 close Tancar
 closingdocks El botó tancar minimitza la finestra
 command Reproductor
+commandstatus Executar comanda
 confirmdelete Estàs segur de voler eliminar a $1?
 confirm Estàs segur?
 connected Ara estàs connectat
