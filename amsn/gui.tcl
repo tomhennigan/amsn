@@ -76,7 +76,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey notifwidth 150
 	::skin::setKey notifheight 100
 	::skin::setKey x_notifyclose 140
-	::skin::setKey y_notifclose 2
+	::skin::setKey y_notifyclose 2
 	
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		::skin::setKey balloonbackground #ffffca
