@@ -1,0 +1,218 @@
+amsn_lang_version 2
+about Über
+accept Annehmen
+acceptfile Datei $1 (Größe: $2) annehmen? In $3 gespeichert
+actions Aktionen
+addacontact Kontakt hinzufügen
+addedyou hat dich ihrer/seiner Kontaktliste hinzugefügt
+addtocontacts In die Kontaktliste einfügen
+addtoo Diese Person meiner Kontaktliste hinzufügen
+admincontacts Verwaltung - Kontakte
+admingroups Verwaltung - Gruppen
+adverts Werbung
+alarmpref Benachrichtigung für diesen Benutzer konfigurieren
+alarmstatus Benachrichtigung für diesen Benutzer an/ausschalten
+allowseen Dieser Person ermöglichen, zu sehen, wenn ich online bin, und Kontakt mit mir aufzunehmen
+appearance Erscheinung
+appearoff Als offline anzeigen
+areacode Postleitzahl
+aretyping $1 geben Nachrichten ein
+autoaway Setze mich "Away" nach Inaktivität von
+autoconnect2 Automatisch Einloggen wenn aMSN gestartet wird
+autoconnect Automatische Anmeldung beim Starten
+autohotmaillog Automatische Anmeldung bei Hotmail
+autoidle Automatische Senkung des Prozessorverbrauchs wenn inaktiv
+autoip Automatische IP
+autonoact Setze mich "Nat Availible" nach Inaktivität von
+avoidseen Dieser Person nicht ermöglichen, zu sehen, wenn ich online bin, und Kontakt mit mir aufzunehmen
+away Abwesend
+awaymsg1 Jedes mal nach der Away-Nachricht fragen, wenn ich meinen Status zu Away/BRB/Busy wechsle
+awaymsg2 Nie nachfragen und immer den Untenstehenden Grund verwenden
+baduserpass Benutzername oder Passwort ungültig
+bgcolor Die Hintergrundfarbe von aMSN ändern
+blankdirect Bei direkter Verbindung leer lassen
+block Blockieren
+blocked Blockiert
+broughtby Von diesen Entwickler für dich gebracht
+browse Navigieren
+browser Browser
+busy Beschäftigt
+cancel Abbrechen
+cfgalarm Benachrichtigung konfigurieren/hinzufügen/löschen
+changefont Die Schriftart ändern
+changenick Namen ändern
+chatack Chat annehmen von
+chat Chat
+chatreq Einladung zum Chat
+chatsmileys2 Smileys und Emoticons im Chat-Fenster anzeigen
+chatsmileys Smileys während Chat
+checkfilman Empfangene Dateien werden in $1 gespechert. Bitte überprüfen sie die file manager Einstellungen im Einstellungen-Fenster
+checkingver Auf neue Versionen prüfen
+checkver Auf neue Version prüfen
+choosebasefont Schriftart auswählen
+choosebgcolor Hintergrundfarbe Auswählen
+choosefontcolor Schriftfarbe auswählen
+clearlog2 Alle Historys zurücksetzen
+clearlog3 Alle Logs leeren
+clearlog Log löschen
+clicktologin Klicken Sie hier, um sich anzumelden 
+close Schließen
+closingdocks Schaltfläche "Schließen" koppelt Fenster
+command Befehl
+confirmdelete $1 wirklich löschen?
+confirm Sind Sie sicher?
+connecterror Verbindungsaufbau zum Server fehlgeschlagen!
+connection Verbindung
+contactadded Kontakt hinzugefügt
+contactdoesnotexist Kontakt nicht vorhanden!
+copy Kopieren
+copytogroup Kopieren zur Gruppe
+countrycode Meine Postleitzahl
+cprofile Profil erstellen
+cut Ausschneiden
+date Datum
+delete Löschen
+deliverfail Es trat ein Problem beim Zustellen folgender Nachricht auf
+dockgtk In GTK festankern
+docking Festankern eingeschaltet
+dockingoff Festankern ausgeschaltet
+dockkde In KDE festankern
+edit Ändern
+enableproxy Proxy aktivieren
+encoding Encoding auswählen
+entercontactemail Gib eine E-Mail-Adresse ein
+enterfilename Gib einen Dateinamen ein
+enternick Gib deinen Namen ein
+examples Beispiele
+exitamsn Wirklich beenden?
+extras Extras
+faq Am häufigsten gestellte Fragen
+filedoesnotexist Datei nicht vorhanden
+filename Dateiname
+filetransfercancelled Übertragung abgebrochen
+filetransfercomplete Übertragung abgeschlossen
+ftaccepted Übertragung angenommen
+ftrejected Übertragung abgewiesen
+gonelunch Mittagspause
+groupadd Gruppe hinzufügen
+groupdelete Gruppe löschen
+groupexists Gruppe bereits vorhanden
+group Gruppe
+groupmissing Gruppe kann nicht gefunden werden
+groupnewname Neuer Name
+groupnotempty Gruppe ist nicht leer
+groupoldname Alter Name
+grouprename Gruppe umbenennen
+groupunknown Unbekannte Gruppe
+handle Handle
+helpcontents Hilfe - Inhalt
+help Hilfe
+home Start
+ident Identifiziere
+identity Identität
+inbox Posteingang
+invalidusername Benutzername ungültig
+invite Einladen
+ipaddress IP-Adresse
+istyping $1 gibt eine Nachricht ein
+joins $1 wurde dem Chat hinzugefügt
+keepalive Die Verbindung offen halten
+language Sprache
+lastmsgtime Letzte Nachricht angekommen am $1
+leaveblankforhotmail Leer lassen, um Hotmail zu benutzen
+leaves $1 hat Chat verlassen
+listeningon Port $1
+listsmileys Smiley-Auswahlfenster anzeigen
+loadcontacts Kontaktliste laden
+loggedotherlocation Verbindung getrennt.
+loggingin Anmeldung läuft...
+login Anmeldung
+loginas Anmelden als
+logout Abmelden
+logsin hat sich gerade angemeldet
+mailer E-Mail
+mobile Mobil
+movetogroup Zur Gruppe bewegen
+msg Nachricht
+msn AMSN
+mustrestart Änderungen werden erst nach einem Neustart übernommen
+mystatus Mein Status
+natip Die IP-Adresse über Webseite ausfindig machen
+needonline Du bist noch immer offline bzw. wirst als offline angezeigt!
+newmail $1 neue Nachrichten im Posteingang
+newmailfrom Neue E-Mail von
+newmsg Neue Nachricht
+newveravailable Neuere Version $1 steht zur Verfügung
+next Weiter
+noactivity inaktiv
+nonewmail 0 neue Nachrichten im Posteingang
+nonewver Zurzeit keine neue Version verfügbar
+notify Benachrichtigen
+notifywin Benachrichtigungsfenster
+nousersinsession Keine Benutzer in Sitzung
+offline Offline
+ok OK
+onenewmail 1 neue Nachrichten im Posteingang
+online Online
+onphone Am Telefon
+openreceived Empfangene Datei(en) aufrufen
+options Optionen
+ordercontactsby Kontakte sortieren nach
+other Andere
+pager Pager
+pass Passwort
+paste Einfügen
+phone Telefon
+picfile Mit der Benachrichtigung verbundenes Bild (GIF < 500 x 500)
+picstatus Mit der Benachrichtigung verbundenes Bild ein/ausschalten
+port Port
+prefapps Anwendungen
+preferences Einstellungen
+prefsound Akustische Signale
+properties Eigenschaften
+proxyconfhttp Konfiguration: HTTP-Proxy-Unterstützung
+proxyconf Proxy-Konfiguration
+publishphones Meine Telefonnummern veröffentlichen
+receivedbytes $1 von $2 Bytes empfangen
+receivefile Datei empfangen
+reconnecting Erneute Anmeldung beim Server
+reconnect Warte, bis $1 wieder angemeldet ist
+reject Abweisen
+rememberpass Passwort speichern
+rightback Bin gleich zurück
+saveas Speichern unter
+savecontacts Kontaktliste speichern
+save Speichern
+says $1 sagt
+sbcon Verbinde mit Server
+sendfile Datei senden
+sendmail E-Mail senden
+sendmsg Nachricht senden
+send Senden
+sentbytes $1 von $2 Bytes gesendet
+servergoingdown Verbindungsabbruch: Serverfehler
+server Server
+sound Akustische Signale
+soundfile Mit der Benachrichtigung verbundene Klang-Datei
+soundloop Den Klang unendlisch abspielen
+soundstatus Akustisches Signal ein/ausschalten
+startoffline Offline-Modus beim Start
+status Status
+stopalarm Benachrichtigung stoppen
+syntaxerror  Syntaxfehler
+textsize Textgröße
+title Al's Messenger
+to An
+tools Extras
+unblock Blockieren entfernen
+uoffline Offline
+uonline Online
+useralreadyonlist Benutzer ist bereits in Kontaktliste
+user Benutzer
+usernotonline Benutzer ist nicht online
+version Version
+view Ansicht
+willjoin Warte... $1 wird dem Chat hinzugefügt
+work Arbeit
+yousay Du sagst
+youwant Du willst
