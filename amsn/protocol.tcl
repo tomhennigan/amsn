@@ -1306,6 +1306,37 @@ namespace eval ::MSN {
 	
 	}
 
+	proc addSBTyper { sb_name typer } {
+		
+		set idx [sb search $sb_name typers $typer]
+		if {$idx == -1} {
+			sb append $sb_name typers $typer
+		}
+	
+		#after 8000 "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name\} res"
+		#We have to catch it as the sb can be closed before the 8 seconds to delete the typing user
+		after cancel [list ::MSN::DelSBTyper $sb_name $typer]
+		after 6000 [list ::MSN::DelSBTyper $sb_name $typer]
+		set chatid [::MSN::ChatFor $sb_name]
+		if { $chatid != "" } {
+			::amsn::updateTypers $chatid
+		}
+	
+	}	
+	
+	proc DelSBTyper {sb_name typer} {
+		after cancel [list ::MSN::DelSBTyper $sb_name $typer]		
+		catch {
+			set idx [sb search $sb_name typers $typer]
+			sb ldel $sb_name typers $idx
+			set chatid [::MSN::ChatFor $sb_name]
+			if { $chatid != "" } {
+				::amsn::updateTypers $chatid
+			}
+		}
+		
+	}
+	
 	
 	proc typersInChat { chatid } {
 
@@ -1779,6 +1810,12 @@ namespace eval ::MSN {
 		
 		#Setting trid - ackid correspondence
 		set msgacks($::MSN::trid) $ackid
+		
+		global typing
+		if { [info exists typing($sbn)] } {
+			after cancel "unset typing($sbn)"
+			unset typing($sbn)
+		}
 
 	}
 
@@ -2335,8 +2372,6 @@ proc cmsn_sb_msg {sb_name recv} {
 
 
 
-   #TODO: better use afterID
-   after cancel "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;::amsn::updateTypers $chatid\} res"
 
    #A standard message
    if {[string range $content 0 9] == "text/plain"} {
@@ -2408,25 +2443,12 @@ proc cmsn_sb_msg {sb_name recv} {
 	}
 
 
-      set idx [sb search $sb_name typers $typer]
-      sb ldel $sb_name typers $idx
-      ::amsn::updateTypers $chatid
+	::MSN::DelSBTyper $sb_name $typer
 
 
    } elseif {[string range $content 0 19] == "text/x-msmsgscontrol"} {
 
-      if {[llength $typer]} {
-	 set idx [sb search $sb_name typers $typer]
-	 if {$idx == -1} {
-            sb append $sb_name typers $typer
-	 }
-
-	 #after 8000 "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name\} res"
-	 #We have to catch it as the sb can be closed before the 8 seconds to delete the typing user
-	 after 8000 "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;::amsn::updateTypers $chatid\} res"
-        ::amsn::updateTypers $chatid
-
-      }
+      ::MSN::addSBTyper $sb_name $typer
 
    } elseif {[string range $content 0 18] == "text/x-msmsgsinvite"} {
 
