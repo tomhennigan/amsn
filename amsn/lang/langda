@@ -55,6 +55,7 @@ copytogroup Kopier til gruppe
 cut Klip
 date Dato
 delete Slet
+deliverfail Der var et problem med at levere følgende besked
 dockgtk Gnome Minimer
 docking Minimer
 dockingoff Minimer Ikke

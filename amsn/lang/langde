@@ -55,6 +55,7 @@ copytogroup Kopieren zur Gruppe
 cut Ausschneiden
 date Datum
 delete Löschen
+deliverfail Es trat ein Problem beim Zustellen folgender Nachricht auf
 dockgtk In GTK festankern
 docking Festankern eingeschaltet
 dockingoff Festankern ausgeschaltet

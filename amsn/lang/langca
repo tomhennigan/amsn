@@ -11,7 +11,7 @@ admincontacts Administrar la llista de contactes
 admingroups Administrar grups
 adverts Anuncis
 alarmpref Preferències de l'alarma per l'usuari
-alarmstatus Engegar/Parar l'alarma per aquest usuari
+alarmstatus Activar l'alarma per aquest usuari
 allowseen Deixa que aquesta persona vegi si estic connectat i que contacti amb mi
 appearoff Simula desconnexió
 aretyping $1 estan escrivint un missatge
@@ -30,7 +30,7 @@ browse Navegar
 browser Navegador
 busy Ocupat
 cancel Cancel·la
-cfgalarm Configurar/Afegir/Esborrar Alarma
+cfgalarm Configurar l'alarma per aquest usuari
 changenick Canvia de nick
 chatack Acceptant xat de
 chatreq Demanant xat
@@ -57,13 +57,14 @@ copytogroup Copia al grup
 cut Talla
 date Data
 delete Esborrar
+deliverfail  Hi ha hagut un problema al enviar el missatge
 dockgtk Acoplament amb el Gnome
 docking Acoplament
 dockingoff Desactivat
 dockkde Acoplament amb el KDE
 edit Edita
 enableproxy Habilitar el servidor intermediari (Proxy)
-encoding Escull la codificació
+encoding Escull la codificació dels caràcters
 entercontactemail Escriu l'adreça de correu del contacte
 enterfilename Introdueix el nom del fitxer
 enternick Escriu el teu nick
@@ -75,9 +76,9 @@ filedoesnotexist El fitxer no existeix
 filename Nom del fitxer
 filetransfercancelled S'ha cancel·lat la transferència
 filetransfercomplete La transferència del fitxer ha finalitzat
-ftaccepted Transferència de Fitxers acceptada
-ftrejected Transferència de Fitxers rebutjada
-gonelunch Estic dinant
+ftaccepted Transferència de fitxers acceptada
+ftrejected Transferència de fitxers rebutjada
+gonelunch Estic menjant
 groupadd Afegir un grup
 groupdelete Esborrar un grup
 groupexists El grup ja existeix
@@ -122,7 +123,7 @@ msn AMSN
 mustrestart Has de reiniciar el programa per a que els canvis tinguin efecte
 mystatus El meu estat
 natip Detecció d'IP a través de pàgina web
-needonline Encara ets/sembles desconnectat!
+needonline En l'estat "Simula desconnexió" no pots enviar missatges!
 newmail $1 missatges nous a la bústia
 newmailfrom Nou missatge de correu de
 newmsg Nou missatge
@@ -147,8 +148,8 @@ pager Paginador
 pass Contrasenya
 paste Enganxa
 phone Telèfon
-picfile Fitxer d'Imatge per a l'Alarma (GIF < 500 x 500)
-picstatus Engegar/Parar Imatge per a l'Alarma
+picfile Fitxer d'imatge per a l'alarma (GIF < 500 x 500)
+picstatus Imatge per a l'alarma
 port Port
 prefapps Aplicacions
 preferences Preferències
@@ -176,14 +177,14 @@ sendmsg Enviar missatge
 sentbytes Enviats $1 de $2 bytes
 servergoingdown Desconnectat: El servidor s'apagarà per manteniment
 server Servidor
-soundfile Fitxer de So de l'Alarma
-soundloop So Repetitiu
+soundfile Fitxer de so de l'alarma
+soundloop Reproducció contínua del so
 sound So en un event
-soundstatus Engegar/Parar el So d'Alarma
+soundstatus So a l'alarma
 startoffline Iniciar la connexió en l'estat "Simula desconnexió"
 status Estat
-stopalarm Parar l'Alarma
-syntaxerror  Error de sintàxi
+stopalarm Parar l'alarma
+syntaxerror  Error de sintaxi
 textsize Mida del text
 title Al's Messenger
 to A
