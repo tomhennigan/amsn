@@ -130,21 +130,29 @@ namespace eval ::amsnplus {
 				set win [split $win .]
 				set win ".[lindex $win 1]"
 			}
+			
+			set bold [binary format c 2]
+			set italic [binary format c 5]
+			set underline [binary format c 31]
+			set overstrike [binary format c 6]
+			set reset [binary format c 15]
+			set screenshot "/screenshot"
+			#I think the catch is useless but it's in case someone close a chatwindow very fast, then we won't have a stupid bugreport
 			catch {
 				menu ${win}.menu.plusmenu -tearoff 0
-				set plusmenu ${menu_name}.plusmenu
+				set plusmenu ${win}.menu.plusmenu
 		
 				if { $::amsnplus::config(allow_colours) } {
-					$plusmenu add command -label "[trans choosecolor]" -command "::amsnplus::choose_color $newvar(window_name)"
-					$plusmenu add command -label "[trans bold]" -command "::amsnplus::insert_text $newvar(window_name) $bold"
-					$plusmenu add command -label "[trans italic]" -command "::amsnplus::insert_text $newvar(window_name) $italic"
-					$plusmenu add command -label "[trans underline]" -command "::amsnplus::insert_text $newvar(window_name) $underline"
-					$plusmenu add command -label "[trans overstrike]" -command "::amsnplus::insert_text $newvar(window_name) $overstrike"
-					$plusmenu add command -label "[trans reset]" -command "::amsnplus::insert_text $newvar(window_name) $reset"
+					$plusmenu add command -label "[trans choosecolor]" -command "::amsnplus::choose_color $win"
+					$plusmenu add command -label "[trans bold]" -command "::amsnplus::insert_text $win $bold"
+					$plusmenu add command -label "[trans italic]" -command "::amsnplus::insert_text $win $italic"
+					$plusmenu add command -label "[trans underline]" -command "::amsnplus::insert_text $win $underline"
+					$plusmenu add command -label "[trans overstrike]" -command "::amsnplus::insert_text $win $overstrike"
+					$plusmenu add command -label "[trans reset]" -command "::amsnplus::insert_text $win $reset"
 					$plusmenu add separator
 				}
 
-				$plusmenu add command -label "[trans screenshot]" -command "::amsnplus::insert_text $newvar(window_name) $screenshot"
+				$plusmenu add command -label "[trans screenshot]" -command "::amsnplus::insert_text $win $screenshot"
 				if {$::amsnplus::config(allow_quicktext)} {
 					$plusmenu add separator
 					#Menu item to edit the currents quick texts
@@ -152,7 +160,7 @@ namespace eval ::amsnplus {
 					set i 0
 					#Show all the currents quick texts in the menu
 					foreach {key txt} $::amsnplus::config(quick_text) {
-						$plusmenu add command -label $txt -command "::amsnplus::insert_text $newvar(window_name) /$key"
+						$plusmenu add command -label $txt -command "::amsnplus::insert_text $win /$key"
 					}
 				}
 			}
