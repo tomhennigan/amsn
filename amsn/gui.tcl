@@ -885,6 +885,11 @@ namespace eval ::amsn {
 		# bytes >= filesize for connection finished
 
 		variable firsttimes    ;# Array. Times in ms when the FT started.
+		variable ratetimer
+
+		if { [info exists ratetimer($cookie)] } {
+			after cancel $ratetimer($cookie)
+		}
 
 		set w .ft$cookie
 
@@ -960,6 +965,8 @@ namespace eval ::amsn {
 						"[trans sentbytes $bytes $filesize] ($rate KB/s)"
 				}
 				$w.time configure -text "[trans timeremaining] :  $timeleft"
+
+				set ratetimer($cookie) [after 1000 [list ::amsn::FTProgress $mode $cookie $filename $bytes $filesize $chatid]]
 			}
 			ca {
 				$w.progress configure -text "[trans filetransfercancelled]"
@@ -982,6 +989,7 @@ namespace eval ::amsn {
 				# Whenever a file transfer is terminated in a way or in another,
 				# remove the counters for this cookie.
 				if {[info exists firsttimes($cookie)]} { unset firsttimes($cookie) }
+				if {[info exists ratetimer($cookie)]} { unset ratetimer($cookie) }
 			}
 		}
 
