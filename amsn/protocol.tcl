@@ -3689,7 +3689,9 @@ proc save_contact_list { } {
 
     close $file_id
     
-    set file_id [open "[file join ${HOME} contacts.xml]" w]
+    set file_id [open "[file join ${HOME} contacts.xml]" w ]
+
+    fconfigure $file_id -encoding utf-8
 
     puts $file_id "<?xml version=\"1.0\"?>"
 
@@ -3706,21 +3708,21 @@ proc save_contact_list { } {
 
 
     foreach user $list_al { 
-	set user [string map { "<" "&lt;" "&" "&amp;" "\"" "&quot;" "'" "&apos"} $user]
+	set user [string map { "<" "&lt;" "&" "&amp;" "\"" "&quot;" "'" "&apos;"} $user]
 	puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>\n      </user>"
     }
 
     puts $file_id "   </AL>\n\n   <BL>"
 
     foreach user $list_bl { 
-	set user [string map { "<" "&lt;" "&" "&amp;" "\"" "&quot;" "'" "&apos"} $user]
+	set user [string map { "<" "&lt;" "&" "&amp;" "\"" "&quot;" "'" "&apos;"} $user]
 	puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>\n      </user>"
     }
     
     puts $file_id "   </BL>\n\n   <RL>"
 
     foreach user $list_rl { 
-	set user [string map { "<" "&lt;" "&" "&amp;" "\"" "&quot;" "'" "&apos"} $user]
+	set user [string map { "<" "&lt;" "&" "&amp;" "\"" "&quot;" "'" "&apos;"} $user]
 	puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>\n      </user>"
     }
 
@@ -3728,7 +3730,7 @@ proc save_contact_list { } {
 
     foreach user $list_fl { 
 	::abook::getContact [lindex $user 0] userd
-       	set user [string map { "<" "&lt;" "&" "&amp;" "\"" "&quot;" "'" "&apos"} $user]
+       	set user [string map { "<" "&lt;" "&" "&amp;" "\"" "&quot;" "'" "&apos;"} $user]
 	puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>"
 	puts $file_id "         <gid>[join [::abook::getGroup [lindex $user 0] -id] ,]</gid>\n         <PHH>[set userd(phh)]</PHH>"
 	puts $file_id "         <PHW>[set userd(phw)]</PHW>\n         <PHM>[set userd(phm)]</PHM>\n         <MOB>[set userd(mob)]</MOB>"

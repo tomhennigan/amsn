@@ -152,6 +152,9 @@ namespace eval sxml {
 	if { [catch {set fd [open $file]}]  } {
 	    return -1
 	}
+	
+	fconfigure $fd -encoding utf-8
+
 	incr xml_invoc
 	set xml_cdata_parse($xml_invoc) 0
 	set xml_stack($xml_invoc) {}
