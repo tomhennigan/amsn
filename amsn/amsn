@@ -371,36 +371,6 @@ proc cmsn_draw_main {} {
      "msg_box \"[trans version]: $version - [trans date]: $date\n$weburl\""
 
 
-   #Messenger menu
-#   menu .main_menu.msn -tearoff 0 -type normal -background #D0D0E0 
-  
-#   .main_menu.msn add command -label "[trans login]..." -command cmsn_draw_login
-#   .main_menu.msn add command -label "[trans logout]" -state disabled \
-      -command cmsn_logout
-#   .main_menu.msn add cascade -label "[trans mystatus]" -state disabled -menu .my_menu
-#   .main_menu.msn add separator
-#    .main_menu.msn add command -label "[trans addacontact]..." -state disabled \
-#      -command cmsn_draw_addcontact
-#   .main_menu.msn add command -label "[trans changenick]..." -state disabled \
-#      -command cmsn_change_name
-#   .main_menu.msn add separator
-#   .main_menu.msn add command -label "[trans proxyconf]..." -command cmsn_proxy
-#   .main_menu.msn add separator
-#   .main_menu.msn add cascade -label "[trans preferences]..." -menu .pref_menu
-#   .main_menu.msn add separator
-#   .main_menu.msn add cascade -label "[trans language]..." -menu .lang_menu
-#   .main_menu.msn add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
-#   .main_menu.msn add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
-#     -command "msg_box \"[trans mustrestart]\""
-
-#   .main_menu.msn add checkbutton -label "[trans autohotmaillog]" -onvalue 1 -offvalue 0 -variable config(autohotlogin)
-#   .main_menu.msn add separator
-#   .main_menu.msn add command -label "[trans close]" -command exit
-
-#   menu .main_menu.msg -tearoff 0 -type normal -background #D0D0E0 
-#   .main_menu.msg add separator
-#   .main_menu.msg add command -label "[trans other]..." -command send_im_other -state disabled
-
    image create photo mainback -file ${images_folder}/back.gif   
 
    #toplevel .main
@@ -442,7 +412,7 @@ proc cmsn_draw_main {} {
       -yscrollcommand ".main.ys set" -cursor left_ptr -font splainf \
       -selectbackground white -selectborderwidth 0 -exportselection 0
    scrollbar .main.ys -command ".main.text yview" -background #D0D0E0
-   text .main.status -background #D0D0E0 -width 30 -height 1 -wrap none
+#   text .main.status -background #D0D0E0 -width 30 -height 1 -wrap none
 
    adv_initialize .main $config(proxy)
    # This one is not a banner but a branding. When adverts are enabled
@@ -450,12 +420,13 @@ proc cmsn_draw_main {} {
    # is cycled in between adverts.
    adv_show_banner  file ${images_folder}/logolinmsn.gif
 
-   pack .main.status -side bottom -fill x
+#   pack .main.status -side bottom -fill x
    pack .main.ys -side right -fill y
    pack .main.text -expand true -fill both
 
-   .main.status configure -state disabled
-   bind .main.status <Double-Button-3> toggle_status
+#   .main.status configure -state disabled
+#   bind .main.status <Double-Button-3> toggle_status
+   bind . <Control-s> toggle_status
    bind .main <Destroy> "close_cleanup"
 
    cmsn_draw_status
@@ -490,12 +461,12 @@ proc cmsn_draw_offline {} {
 
    wm title . "[trans title] - [trans offline]"
 
-   .main.status configure -state normal -font splainf
-   .main.status delete 0.0 end
-   .main.status insert end "[trans offline]"
+#   .main.status configure -state normal -font splainf
+#   .main.status delete 0.0 end
+#   .main.status insert end "[trans offline]"
 
 
-   .main.status configure -state disabled 
+#   .main.status configure -state disabled 
 
    .main.text configure -state normal 
    .main.text delete 0.0 end
@@ -607,10 +578,10 @@ proc cmsn_draw_offline {} {
 
 proc cmsn_draw_signin {} {
 
-   .main.status configure -state normal -font splainf
-   .main.status delete 0.0 end
-   .main.status insert end "[trans loggingin]..."
-   .main.status configure -state disabled
+#   .main.status configure -state normal -font splainf
+#   .main.status delete 0.0 end
+#   .main.status insert end "[trans loggingin]..."
+#   .main.status configure -state disabled
 
    .main.text configure -state normal -font splainf
    .main.text delete 0.0 end
@@ -687,10 +658,10 @@ proc cmsn_draw_online {} {
    set my_colour [lindex $my_state 2]
    set my_image_type [lindex $my_state 5]
 
-   .main.status configure -state normal
-   .main.status delete 0.0 end
-   .main.status insert end $my_state_desc
-   .main.status configure -state disabled
+#   .main.status configure -state normal
+#   .main.status delete 0.0 end
+#   .main.status insert end $my_state_desc
+#   .main.status configure -state disabled
 
    .main.text configure -state normal -font splainf
    .main.text delete 0.0 end
@@ -920,7 +891,7 @@ proc copypaste_menu {text x y delete} {
 
 
 proc cmsn_draw_msgwin {} {
-   global images_folder sb_num sb_list
+   global images_folder sb_num sb_list config
 
    incr sb_num
    set name "sb$sb_num"
@@ -946,15 +917,34 @@ proc cmsn_draw_msgwin {} {
    menu .${win_name}.menu -tearoff 0 -type menubar -background #D0D0E0 \
       -borderwidth 0 -activeborderwidth -0 
    .${win_name}.menu add cascade -label "[trans msn]" -menu .${win_name}.menu.msn
+   .${win_name}.menu add cascade -label "[trans view]" -menu .${win_name}.menu.view
+   .${win_name}.menu add cascade -label "[trans actions]" -menu .${win_name}.menu.actions
    .${win_name}.menu add cascade -label "[trans invite]" -menu .${win_name}.menu.invite \
       -state disabled
 
    menu .${win_name}.menu.msn -tearoff 0 -type normal -background #D0D0E0 
    .${win_name}.menu.msn add command -label "[trans save]" \
       -command " ChooseFilename .${win_name}.text ${name} " 
+   .${win_name}.menu.msn add command -label "[trans saveas]..." \
+      -command " ChooseFilename .${win_name}.text ${name} " 
+   .${win_name}.menu.msn add separator
+   .${win_name}.menu.msn add command -label "[trans sendfile]..." \
+      -command " sb_sendfile $name " 
+   .${win_name}.menu.msn add command -label "[trans openreceived]..." \
+      -command "msgbox not implemented" 
    .${win_name}.menu.msn add separator
    .${win_name}.menu.msn add command -label "[trans close]" \
       -command "destroy .${win_name}" 
+
+   menu .${win_name}.menu.view -tearoff 0 -type normal -background #D0D0E0 
+   .${win_name}.menu.view add command -label "[trans textsize]" \
+      -command " "  -state disabled
+   .${win_name}.menu.view add separator
+   .${win_name}.menu.view add checkbutton -label "[trans chatsmileys]" \
+     -onvalue 1 -offvalue 0 -variable config(chatsmileys)
+
+   menu .${win_name}.menu.actions -tearoff 0 -type normal -background #D0D0E0 
+
 
    menu .${win_name}.menu.invite -tearoff 0 -type normal -background #D0D0E0
 #by AIM Sirve para algo?
@@ -1008,17 +998,10 @@ proc cmsn_draw_msgwin {} {
    .${win_name}.text tag configure gray -foreground #808080 -background white
    .${win_name}.text tag configure white -foreground white -background black
    .${win_name}.text tag configure url -foreground darkblue -background white -font bboldf -underline true
-#   .${win_name}.text tag bind url <Enter> \
-#	    ".${win_name}.text tag conf url -underline false;\
-#	    .${win_name}.text conf -cursor hand2"
-#   .${win_name}.text tag bind url <Leave> \
-#	    ".${win_name}.text tag conf url -underline true;\
-#	    .${win_name}.text conf -cursor left_ptr"
-#   .${win_name}.text tag bind url <Button-1> \
-#	    "puts Yendo"
    
 
    bind .${win_name}.in.input <Return> "sb_enter $name %W; break"
+   bind .${win_name}.in.input <Enter> "sb_enter $name %W; break"
    bind .${win_name}.in.input <Alt-s> "sb_enter $name %W; break"
    bind .${win_name}.in.input <Tab> "focus .${win_name}.in.send; break"
    bind .${win_name}.in.send <Return> \

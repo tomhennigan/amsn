@@ -52,12 +52,14 @@ proc read_sb_sock {sbn} {
    }
 
 }
+
+
 proc write_sb_sock {sbn cmd param {handler ""}} {
    global trid
    incr trid
 
    puts [sb get $sbn sock] "$cmd $trid $param\r"
-   status_log "$sbn: SEND: $cmd $trid $param\n" red
+#   status_log "$sbn: SEND: $cmd $trid $param\n" red
    degt_protocol "->SB $cmd $trid $param"
 
    if {$handler != ""} {
@@ -122,13 +124,12 @@ proc read_ns_sock {} {
 
       set log [string map {\r ""} $tmp_data]
 
-      status_log "RECV: <-$log->\n" green
+#      status_log "RECV: <-$log->\n" green
       degt_protocol "<-NS $tmp_data"
 
       sb append ns data $tmp_data		 
 
       if {[string range $tmp_data 0 2] == "MSG"} {
-
 
          set recv [split $tmp_data]
 	 fconfigure $ns_sock -blocking 1
@@ -146,7 +147,7 @@ proc write_ns_sock {cmd param {handler ""}} {
    incr trid
 
    puts -nonewline [sb get ns sock] "$cmd $trid $param\r\n"
-   status_log "SEND: $cmd $trid $param\n" red
+#   status_log "SEND: $cmd $trid $param\n" red
    degt_protocol "->NS $cmd $trid $param"
 
    if {$handler != ""} {
@@ -225,7 +226,7 @@ proc cmsn_sb_msg {sb_name recv} {
 
    set msg [sb index $sb_name data 1]
 
-   status_log "LOG: $msg\n" white
+#   status_log "LOG: $msg\n" white
 
  
    sb ldel $sb_name data 1
@@ -259,7 +260,7 @@ proc cmsn_sb_msg {sb_name recv} {
       
    } elseif {[string range $content 0 19] == "text/x-msmsgscontrol"} {
 
-      status_log "$msg\n" white     
+#      status_log "$msg\n" white     
       set typer [array get headers typinguser]
       if {[llength $typer]} {
          set typer [lindex $typer 1]
@@ -272,6 +273,19 @@ proc cmsn_sb_msg {sb_name recv} {
          cmsn_show_typers $sb_name
       }
 
+   } elseif {[string range $content 0 18] == "text/x-msmsgsinvite"} {
+#File transfers
+      set invcommand [aim_get_str $body Invitation-Command]
+      set cookie [aim_get_str $body Invitation-Cookie]
+      if { $invcommand == "ACCEPT" } {
+	status_log "Invitation cookie $cookie ACCEPTED\n" white
+	amsn_sendfile $cookie $sb_name
+      } elseif {$invcommand =="CANCEL" } {
+        set cancelcode [aim_get_str $body Cancel-Code]
+	status_log "Invitation cookie $cookie CANCELED: $cancelcode\n" white
+      } else {
+        status_log "Unknown invitation!!\n" white
+      }
    } else {
       status_log "=== UNKNOWN MSG ===\n$msg\n" white
    }
@@ -432,10 +446,11 @@ proc cmsn_answer_challenge {item} {
    } else {
      set cadenita [lindex $item 2]Q1P7W2E4J9R8U3S5
      set cadenita [::md5::md5 $cadenita]
-#     write_ns_sock "QRY" "msmsgs@msnmsgr.com 32\r\n$cadenita"     
-   incr trid
+     write_ns_sock "QRY" "msmsgs@msnmsgr.com 32"     
+     puts -nonewline [sb get ns sock] $cadenita
+#   incr trid
 
-   puts -nonewline [sb get ns sock] "QRY $trid msmsgs@msnmsgr.com 32\r\n$cadenita"
+#   puts -nonewline [sb get ns sock] "QRY $trid msmsgs@msnmsgr.com 32\r\n$cadenita"
 
    }
 }
@@ -702,21 +717,108 @@ proc sb_enter { sbn name } {
       set msg_len [string length $msg]
       set timestamp [clock format [clock seconds] -format %H:%M]
       incr trid
-      puts $sock "MSG $trid U $msg_len"
+      puts $sock "MSG $trid N $msg_len"
       puts -nonewline $sock $msg
       cmsn_win_write $sbn "\[$timestamp\] [trans yousay]:\n" gray
       cmsn_win_write $sbn "$txt\n" blue
    } else {
-      status_log "$sbn: trying to send, nut no users in this session\n" white
+      status_log "$sbn: trying to send, but no users in this session\n" white
       return 0
    }
    $name delete 0.0 end
    focus ${name}
 }
 
+set atransfer ""
+
+proc amsn_sendfile {cookie sbn} {
+	global atransfer trid
+
+	set sock [sb get $sbn sock]
+
+	#Invitation accepted, send IP and Port to connect to
+	set ipaddr "192.168.0.10"
+	set port 6891
+	set authcookie [expr $trid * $port % (65536 * 4)]
+	
+
+	set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+	set msg "${msg}Invitation-Command: INVITE\r\n"
+	set msg "${msg}Invitation-Cookie: $cookie\r\n"
+	set msg "${msg}IP-Address: $ipaddr\r\n"
+	set msg "${msg}Port: $port\r\n"
+	set msg "${msg}AuthCookie: $authcookie\r\n"
+	set msg "${msg}Launch-Application: FALSE\r\n"
+	set msg "${msg}Request-Data: IP-Address:\r\n\r\n"
+
+	socket -server amsn_acceptconnection $port
+	lappend atransfer $authcookie
+	
+	set msg_len [string length $msg]
+	incr trid
+	puts $sock "MSG $trid N $msg_len"
+	puts -nonewline $sock $msg
+
+	status_log "Final invitation for filetransfer sent\n" red
+
+}
+
+proc amsn_acceptconnection {sockid hostaddr hostport} {
+  status_log "Conexión aceptada sockid: $sockid hostaddr: $hostaddr port: $hostport\n" white  
+  fconfigure $sockig -blocking 1
+  gets $sockid tmpdata  
+  status_log "RECIBO: $tmp_data\n" green
+  if { $tmpdata == "VER MSNFTP"} {
+    puts $sockid "VER MSNFTP"
+    gets $sockid tmpdata      
+    
+    if { $tmpdata == "USR elpochero@hotmail.com 1111" } {
+      puts $sockid "FIL 87823"
+      
+      gets $sockid $tmpdata
+      if { $tmpdata == "TFR" } {
+        fconfigure $sockig -blocking 0
+        #Comenzar transmisión
+      }
+    } else {    
+      #Abortar conexión
+    }
+  } else {
+      #Abortar conexión
+  }
+}
+
+proc sb_sendfile { sbn {file prueba.txt} {filesize 5}} {
+	global trid atransfer
+
+	set sock [sb get $sbn sock]
+
+	#Invitation to filetransfer, initial message
+	set cookie [expr $trid * $filesize % (65536 * 4)]
+
+	set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+	set msg "${msg}Application-Name: File Transfer\r\n"
+	set msg "${msg}Application-GUID: {5D3E02AB-6190-11d3-BBBB-00C04F795683}\r\n"
+	set msg "${msg}Invitation-Command: INVITE\r\n"
+	set msg "${msg}Invitation-Cookie: $cookie\r\n"
+	set msg "${msg}Application-File: $file\r\n"
+	set msg "${msg}Application-FileSize: $filesize\r\n\r\n"
+	
+	set msg_len [string length $msg]
+	incr trid
+	puts $sock "MSG $trid N $msg_len"
+	puts -nonewline $sock $msg
+
+	status_log "Sending file $file\n" red
+
+	set atransfer { "Cookie:$cookie" "$file" $filesize $sbn }
+
+}
+
+
 proc ns_enter {} {
    puts -nonewline [sb get ns sock] "[.status.enter get]\r\n"
-   status_log "SEND: [.status.enter get]\n" red
+#   status_log "SEND: [.status.enter get]\n" red
    .status.enter delete 0 end
 }
 
@@ -753,8 +855,7 @@ proc cmsn_proxy_read {name} {
       close $sock
       sb set $name stat "d"
       status_log "PROXY: $name CLOSED\n" red
-   } else {
-      if {[gets $sock tmp_data] != -1} {
+   } elseif {[gets $sock tmp_data] != -1} {
 	 global proxy_header
 	 set tmp_data [string map {\r ""} $tmp_data]
 	 lappend proxy_header $tmp_data
@@ -771,8 +872,7 @@ proc cmsn_proxy_read {name} {
 	    status_log "PROXY ESTABLISHED: running [sb get $name connected]\n"
             fileevent [sb get $name sock] readable [sb get $name readable]
             eval [sb get $name connected]
-         }
-      }
+          }
    }
 }
 
