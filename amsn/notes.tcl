@@ -62,12 +62,13 @@ namespace eval ::notes {
   	 
   		toplevel $w
   		wm title $w "[trans notes]"
-  		wm geometry $w 700x530+30+30
+  		wm geometry $w 700x545+30+30
+		wm protocol $w DELETE_WINDOW "::notes::Display_Notes_Close"		
 
 
 		# Create the frame containing the list of the contacts
 		frame $w.contact -relief sunken -borderwidth 3
-  		listbox $w.contact.box -yscrollcommand "$w.contact.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 10 -width 25
+  		listbox $w.contact.box -yscrollcommand "$w.contact.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 10 -width 25 -selectbackground gray
   		scrollbar $w.contact.ys -command "$w.contact.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
   		pack $w.contact.ys -side right -fill y
   		pack $w.contact.box -side left -expand true -fill both
@@ -81,6 +82,18 @@ namespace eval ::notes {
 
 		# Sorts contacts
 		set sortedcontact_list [lsort -dictionary $contact_list]
+
+		set ::notes::contacts $sortedcontact_list
+
+		set ::notes::contactswithnotes [list]
+
+		# Search contacts with notes
+		foreach contact $sortedcontact_list {
+			if { [file exists [file join $HOME notes ${contact}_note.xml]] == 1 } {
+				lappend ::notes::contactswithnotes $contact
+			}
+		}
+			
 		
 		foreach contact $sortedcontact_list {
 			$w.contact.box insert end "$contact"
@@ -124,7 +137,6 @@ namespace eval ::notes {
 		pack $w.right.subject.txt -expand true -fill both
 		
 
-
 		# Display the note
 		frame $w.right.note -relief sunken -borderwidth 3
 		label $w.right.note.desc -text "Note" -font bold
@@ -154,11 +166,18 @@ namespace eval ::notes {
 		pack configure $w.right.button.edit -side left -padx 3 -pady 3
 		pack configure $w.right.button.delete -side right -padx 3 -pady 3
 		pack configure $w.right.button.new -side right -padx 3 -pady 3
+
+
+		# Create the close button
+		frame $w.right.close
+		button $w.right.close.button -text "[trans close]" -command "::notes::Display_Notes_Close"
+		pack configure $w.right.close.button -side right -padx 3
+
 		
 		#If user click on a note, display the note
   		bind $w.right.notes.box <<ListboxSelect>> "::notes::Notes_Selected_Note"
   		#If user click on a contact at left
-		bind $w.contact.box <<ListboxSelect>> [list "::notes::Notes_Selected_Contact" "$sortedcontact_list"]
+		bind $w.contact.box <<ListboxSelect>> "::notes::Notes_Selected_Contact"
 		bind $w.right.subject.txt <Button1-ButtonRelease> "::notes::Note_New"
 		bind $w.right.note.txt <Button1-ButtonRelease> "::notes::Note_New"
 		
@@ -171,6 +190,7 @@ namespace eval ::notes {
 		pack configure $w.right.note -side top -fill y
 		pack configure $w.right.warning -side top -fill x
 		pack configure $w.right.button -side top -fill x
+		pack configure $w.right.close -side top -fill x
 		pack configure $w.right -side right -fill y
 		
 		bind $w.right.subject.txt <Tab> "focus $w.right.note.txt; break"
@@ -179,16 +199,33 @@ namespace eval ::notes {
 		set ::notes::email $email
 		if { $email != "" } {
 			::notes::get_Note $email
-
   			foreach note $::notes::notes {
   				set subject [lindex $note 2]
   				$w.right.notes.box insert end "$subject"
   			}
-
 			$w.right.button.new configure -state normal
-
+			set ::notes::selectedcontact [lsearch $::notes::contacts $email]
+			::notes::Update_Contact_Background
 		}
-		bind $w <<Escape>> "destroy $w"
+
+		bind $w <<Escape>> "::notes::Display_Notes_Close"
+	}
+
+
+#//////////////////////////////////////////////////////////////
+# When the window is closed
+
+	proc Display_Notes_Close { } {
+
+		unset -nocomplain ::notes::email
+		unset -nocomplain ::notes::selected
+		unset -nocomplain ::notes::selectedcontact
+		unset -nocomplain ::notes::notes
+		unset -nocomplain ::notes::contacts
+		unset -nocomplain ::notes::contactswithnotes
+
+		destroy .notemanager
+
 	}
 
 
@@ -250,6 +287,8 @@ namespace eval ::notes {
 		$w.right.button.edit configure -state normal
 		$w.right.button.delete configure -state normal
 
+		$w.contact.box itemconfigure $::notes::selectedcontact -background gray
+
 		
 	}
 
@@ -257,15 +296,19 @@ namespace eval ::notes {
 #//////////////////////////////////////////////////////////////
 # Display the notes of a contact when they are selected
 
-	proc Notes_Selected_Contact { list } {
+	proc Notes_Selected_Contact { } {
 
 		global HOME
 
 		set w ".notemanager"
 
+		$w.contact.box itemconfigure $::notes::selectedcontact -background white
+
 		set selection [$w.contact.box curselection]
 
-		set contact [lindex $list $selection]
+		set ::notes::selectedcontact $selection
+
+		set contact [lindex $::notes::contacts $selection]
 
 		$w.right.notes.box delete 0 end
 
@@ -299,6 +342,8 @@ namespace eval ::notes {
 		bind $w.right.subject.txt <Button1-ButtonRelease> "::notes::Note_New"
 		bind $w.right.note.txt <Button1-ButtonRelease> "::notes::Note_New"
 
+		::notes::Update_Contact_Background
+
 	}
 
 
@@ -307,6 +352,10 @@ namespace eval ::notes {
 
 	proc Note_Delete { } {
 
+		global HOME
+
+		set w ".notemanager"
+
 		set selection $::notes::selected
 
 		set ::notes::notes [lreplace $::notes::notes $selection $selection]
@@ -314,7 +363,18 @@ namespace eval ::notes {
 		::notes::Notes_Save
 		::notes::Update_Notes
 
-		.notemanager.right.notes.box selection set $selection
+		$w.right.notes.box selection set $selection
+
+		if { $selection == [.notemanager.right.notes.box size] } {
+			$w.right.button.edit configure -state disabled
+			$w.right.button.delete configure -state disabled
+		}
+
+		if { [.notemanager.right.notes.box size] == 0 } {
+			file delete [file join $HOME notes ${::notes::email}_note.xml]
+			set idx [lsearch $::notes::contactswithnotes $::notes::email]
+			set ::notes::contactswithnotes [lreplace $::notes::contactswithnotes $idx $idx]
+		}
 
 	}
 
@@ -428,6 +488,10 @@ namespace eval ::notes {
 			::notes::Update_Notes
 			::notes::Notes_Selected_Note last
 
+			if { [lsearch $::notes::contactswithnotes $::notes::email] == -1 } {
+				set ::notes::contactswithnotes [lappend ::notes::contactswithnotes $::notes::email]
+			}
+
 		}
 
 	}
@@ -450,6 +514,7 @@ namespace eval ::notes {
 
 		$w.right.notes.box configure -state normal
 		$w.contact.box configure -state normal
+		$w.right.warning.txt configure -text ""
 
 		::notes::Update_Notes
 		::notes::Notes_Selected_Note choose $::notes::selected
@@ -538,5 +603,22 @@ namespace eval ::notes {
 
 	}
 
+
+#//////////////////////////////////////////////////////////////
+# Update the background of the items of the contact list
+
+	proc Update_Contact_Background { } {
+
+		for {set i 0} {$i< [expr [llength $::notes::contacts]]} {incr i} {
+			if { $i == $::notes::selectedcontact } {
+				.notemanager.contact.box itemconfigure $i -background gray
+			} elseif { [lsearch $::notes::contactswithnotes [lindex $::notes::contacts $i]] != -1 } {
+				.notemanager.contact.box itemconfigure $i -background #DDF3FE
+			} else {
+				.notemanager.contact.box itemconfigure $i -background white
+			}
+		}
+
+	}
 
 }
