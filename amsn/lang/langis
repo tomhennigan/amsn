@@ -1,7 +1,7 @@
 amsn_lang_version 2
 about Um
-acceptfile Taka við $1 ($2 bæti)? Verður vistuð í $3
 accept Samþykkja
+acceptfile Taka við $1 ($2 bæti)? Verður vistuð í $3
 actions Aðgerðir
 addacontact Bæta við kunningja
 addedyou hefur bætt þér við kunningjalistann sinn
@@ -15,9 +15,9 @@ alarmstatus Kveikja/Slökkva á viðvörunum fyrir þennan notanda
 allowseen Leyfa viðkomandi að sjá þegar ég er tengd(ur), og hafa samband við mig
 appearoff Sýnast vera fjarverandi (offline)
 aretyping $1 er að skrifa eitthvað
-autoconnect Tengjast þegar amsn startar
+autoconnect Tengjast þegar amsn fer í gang
 autohotmaillog Sjálfkrafa tenging við Hotmail
-autoidle Sjálfvirkt 'NoActivity'
+autoidle Sjálfvirkt 'Ekkert lífsmark'
 autoip Automatic IP
 avoidseen Forðast að þessi geti séð hvort ég er tengd(ur)
 away Skrapp frá
@@ -26,16 +26,16 @@ blankdirect Ekki skrifa neitt, ef þú ert með beintengingu
 block Blokka
 blocked Blokkað
 broughtby  Skrifað af eftirfarandi forriturum
-browser Vafri
 browse skoða
+browser Vafri
 busy Ekki trufla
 cancel Hætta við
 cfgalarm Stilla Aðvaranir
 changenick Breyta nafni
 chatack Samþykki spjall við
+chat Spjall
 chatreq Fer fram á spjall 
 chatsmileys bros-karlar
-chat Spjall
 checkingver Athuga með nýja útgáfu
 checkver Athuga hvort til er nýrri útgáfa
 choosebasefont Velja leturgerð
@@ -45,8 +45,8 @@ clicktologin Smelltu hér til að tengjast
 close Loka
 closingdocks 'Loka' takkinn minnkar glugga
 command Skipun
-confirmdelete Ertu ákveðin(n) í að eyða $1?
 confirm Ertu viss?
+confirmdelete Ertu ákveðin(n) í að eyða $1?
 connecterror Villa kom upp við að tengjast þjóni
 contactadded Kunningja bætt við
 contactdoesnotexist Þessi gaur er ekki til!
@@ -55,9 +55,9 @@ copytogroup Afrita yfir í grúppu
 cut Klippa
 date Dags.
 delete Eyða
-dockgtk Gnome festingar
 docking Festingar
 dockingoff Engar festingar
+dockgtk Gnome festingar
 dockkde KDE festingar
 edit Sýsla
 enableproxy Virkja proxy
@@ -79,7 +79,7 @@ gonelunch Fór í mat
 groupadd Búa til nýjan hóp
 groupdelete Eyða hóp
 groupexists Þessi hópur er til!
-group Hópur
+group Hóp
 groupmissing Finn ekki hóp
 groupnewname Nýtt nafn
 groupnotempty Hópurinn er ekki tómur!
@@ -104,7 +104,7 @@ lastmsgtime Síðasta skeyti kom kl. $1
 leaveblankforhotmail Skildu eftir autt til að nota hotmail vefinn
 leaves $1 yfirgefur spjallið
 listeningon Hlustar á porti $1
-listsmileys Lista yfir bros-karlaList smileys
+listsmileys Lista yfir bros-karla
 loadcontacts Hlaða inn kunningja lista
 loggedotherlocation Tenging rofin. Tengur frá annarri tölvu
 loggingin Tengist
@@ -130,8 +130,8 @@ noactivity ekkert lífsmark
 nonewmail Ekkert markvert í pósthólfinu
 nonewver Þú ert að nota nýjustu 'stabílu' útgáfuna
 notify láta vita
-notifywin Notify Window (vantar þýðingu)
-nousersinsession No users in session (vantar þýðingu)
+notifywin Skilaboðagluggi
+nousersinsession Allir farnir
 offline Ekki tengd/ur
 ok Ok
 onenewmail 1 bréf í pósthólfinu
@@ -146,54 +146,54 @@ pass Lykilorð
 paste Líma
 phone Sími
 picfile Mynd (.GIF < 500 x 500)
-picstatus Picture Alarm
+picstatus Mynd með viðvörun
 port Port
-prefapps Applications
-preferences Preferences
-prefsound Sounds
-properties Properties
-proxyconfhttp HTTP proxy support configuration
-proxyconf Proxy configuration
-publishphones Publish my phone numbers
-receivedbytes Received $1 of $2 bytes
-receivefile Receive file
-reconnecting Reconnecting to server
-reconnect Waiting for $1 to reconnect
-reject Reject
-rememberpass Remember password
-rightback Be right back
-saveas Save as
-savecontacts Save contact list
-save Save
-says $1 says
-sbcon Connecting to Switch Board
-sendfile Send file
-sendmail Send mail
-sendmsg Send message
-send Send
-sentbytes Sent $1 of $2 bytes
-servergoingdown Disconnected: Server is going down
-server Server
-sound Event Sound
-soundfile Sound File
-soundloop Loop Sound
-soundstatus Sound Alarm
-startoffline Start Offline
-status Status
-stopalarm Stop Alarm
-syntaxerror  Syntax Error
-textsize Text size
-title Al's Messenger
-tools Tools
-to To
-unblock Unblock
-uoffline Offline
-uonline Online
-useralreadyonlist User is already on contact list
-user User
-version Version
-view View
-willjoin Waiting $1 joins conversation
-work Work
-yousay You say
-youwant You want
+prefapps Forrit
+preferences Kjörstillingar
+prefsound Hljóð
+properties Eiginleikar
+proxyconfhttp HTTP proxy stillingar
+proxyconf Proxy stillingar
+publishphones Birta símanúmerin mín
+receivedbytes $1 af $2 bætum komin
+receivefile Taka við skrá
+reconnecting Endurvek tengingu
+reconnect Bíð eftir að $1 tengist aftur
+reject Hafna
+rememberpass Muna lykilorð
+rightback Kemur að vörmu
+saveas Vista sem
+savecontacts Vista kunningjalista
+save Vista
+says $1 segir
+sbcon Tengist skiptiborði
+sendfile Senda skrá
+sendmail Senda póst
+sendmsg Senda skeyti
+send Senda
+sentbytes Hef sent $1 af $2 bætum
+servergoingdown Aftengist: Netþjónninn er að deyja
+server Netþjónn
+sound Hljóð með atburði
+soundfile Hljóðskrá
+soundloop Loop-a hljóði
+soundstatus Sound Alarm (vantar þýðingu)
+startoffline Sýnast fjarverandi eftir tengingu
+status Stöðu
+stopalarm Stöðva viðvörun
+syntaxerror  Málvilla
+textsize Leturstærð
+title Al's MSN messenger
+tools Tól
+to Til
+unblock Af-blokka
+uoffline Fjarverandi
+uonline Tengdir
+useralreadyonlist Þessi notandi er nú þegar í kunningjalistanum
+user Notandi
+version Útgáfa
+view Skoða
+willjoin Bíð eftir að $1 sláist í hópinn
+work Vinna
+yousay Þú segir
+youwant Þú villt
