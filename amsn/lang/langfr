@@ -47,6 +47,7 @@ chat Discuter
 chatreq Inviter à discuter
 chatsmileys2 Afficher les Emoticons et les Smileys dans la fenêtre de chat
 chatsmileys Utiliser les "smileys"
+checkfilman Les fichiers reçus seront sauvegardés dans $1. Veuillez vérifier les propriétés du gestionnaire de fichier dans la fenêtre de préférences. 
 checkingver Recherche d'une nouvelle version
 checkver Nouvelle version
 choosebasefont Choisir la police de caractère

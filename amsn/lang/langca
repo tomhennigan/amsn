@@ -48,6 +48,7 @@ chatreq Demanant xat
 chatsmileys2 Mostrar emoticones a la finestra del xat
 chatsmileys Emoticones al xat
 checkingver Buscant versions noves
+checkfilman Els fitxers rebuts es desaran a $1. Comprova l'opció de l'administrador de fitxers a la finestra de preferències.
 checkver Busca una versió nova
 choosebasefont Canviar la font
 choosebgcolor Canviar el color de fons
