@@ -5783,7 +5783,7 @@ proc convert_image { filename size } {
 	if { $origw != [lindex $sizexy 0] || $origh != [lindex $sizexy 1] } {
 		status_log "Will resize to $resizew x $resizeh \n" blue		
 		catch { file delete ${filename}.gif}
-		if { [catch { exec convert -size "${resizew}x${resizeh}" "${filename}" -resize "${resizew}x${resizeh}" "${filename}.gif" } res] } {
+		if { [catch { exec convert "${filename}" -resize "${resizew}x${resizeh}" "${filename}.gif" } res] } {
 			status_log "CONVERT ERROR IN CONVERSION 2: $res" white
 			catch {[file delete ${filename}]}
 			return ""
@@ -5813,6 +5813,13 @@ proc convert_image { filename size } {
 	set halfh [expr [lindex $sizexy 1] / 2]
 	set x1 [expr {$centerx-$halfw}]
 	set y1 [expr {$centery-$halfh}]
+	if { $x1 < 0 } {
+		set x1 0
+	}
+	if { $y1 < 0 } {
+		set y1 0
+	}
+
 	set x2 [expr {$x1+[lindex $sizexy 0]}]
 	set y2 [expr {$y1+[lindex $sizexy 1]}]
 	 
@@ -5823,13 +5830,21 @@ proc convert_image { filename size } {
 	#	return 0
 	#}
 
+	set neww [image width $img]
+	set newh [image height $img]
+	status_log "Resized image size is $neww $newh\n" blue
+
 	status_log "Center of image is $centerx,$centery, will crop from $x1,$y1 to $x2,$y2 \n" blue
 	$img write "${filename2}.gif" -from $x1 $y1 $x2 $y2
 	image delete $img
 	
 	catch {file delete ${filename}.gif}
 
-	catch { exec convert "${filename2}.gif"  "${filename2}.png"}
+	if { [catch { exec convert "${filename2}.gif"  "${filename2}.png"}] } {
+		status_log "CONVERT ERROR IN CONVERSION 3: $res" white
+		catch {[file delete ${filename2}.gif]}
+		return ""
+	}
 
 	if { [file exists $filename2.png.0] } {
 		set idx 1
