@@ -203,7 +203,7 @@ proc cmsn_draw_about {} {
 
    text .about.info -background white -width 60 -height 30 -wrap word \
       -yscrollcommand ".about.ys set" -font   examplef
-   scrollbar .about.ys -command ".about.info yview" -background #D0D0E0
+   scrollbar .about.ys -command ".about.info yview" 
    pack .about.ys -side right -fill y
    pack .about.info -expand true -fill both
    set id [open "[file join $program_dir README]" r]
@@ -249,7 +249,7 @@ proc cmsn_draw_main {} {
      password config HOME files_dir
 
    #User status menu
-   menu .my_menu -tearoff 0 -type normal -background #D0D0E0 
+   menu .my_menu -tearoff 0 -type normal  
    .my_menu add command -label [trans online] -command "::MSN::changeStatus NLN"
    .my_menu add command -label [trans busy] -command "::MSN::changeStatus BSY"
    .my_menu add command -label [trans rightback] -command "::MSN::changeStatus BRB"
@@ -261,11 +261,11 @@ proc cmsn_draw_main {} {
    .my_menu add command -label "[trans changenick]..." -command cmsn_change_name
 
    #Preferences dialog/menu
-   menu .pref_menu -tearoff 0 -type normal -background #D0D0E0
+   menu .pref_menu -tearoff 0 -type normal 
 	PreferencesMenu .pref_menu
    
    #Language selection menu
-   menu .lang_menu -tearoff 0 -type normal -background #D0D0E0
+   menu .lang_menu -tearoff 0 -type normal 
 
    for {set i 0} {$i < [llength $lang_list]} {incr i} {
      set langelem [lindex $lang_list $i]
@@ -275,10 +275,10 @@ proc cmsn_draw_main {} {
        "set config(language) $langshort; load_lang;msg_box \"\[trans mustrestart\]\""
    }
 
-   menu .user_menu -tearoff 0 -type normal -background #D0D0E0 
+   menu .user_menu -tearoff 0 -type normal  
 
    #Main menu
-   menu .main_menu -tearoff 0 -type menubar -background #D0D0E0 \
+   menu .main_menu -tearoff 0 -type menubar  \
       -borderwidth 0 -activeborderwidth -0 
 #   .main_menu add cascade -label "[trans msn]" -menu .main_menu.msn
 #   .main_menu add cascade -label "[trans msg]" -menu .main_menu.msg -state disabled
@@ -289,7 +289,7 @@ proc cmsn_draw_main {} {
 
 
    #File menu
-   menu .main_menu.file -tearoff 0 -type normal -background #D0D0E0
+   menu .main_menu.file -tearoff 0 -type normal 
    if { [string length $config(login)] > 0 } {
      .main_menu.file add command -label "[trans login] $config(login)" \
        -command "cmsn_ns_connect $config(login) $password" -state normal
@@ -317,7 +317,7 @@ proc cmsn_draw_main {} {
 
    #Actions menu
    set dummy_user "recipient@somewhere.com"
-   menu .main_menu.actions -tearoff 0 -type normal -background #D0D0E0
+   menu .main_menu.actions -tearoff 0 -type normal 
    .main_menu.actions add command -label "[trans sendmsg]..." -command \
      send_im_other -state disabled
    .main_menu.actions add command -label "[trans sendmail]..." -command \
@@ -330,7 +330,7 @@ proc cmsn_draw_main {} {
    
 
    #Tools menu
-   menu .main_menu.tools -tearoff 0 -type normal -background #D0D0E0
+   menu .main_menu.tools -tearoff 0 -type normal 
    .main_menu.tools add command -label "[trans addacontact]..." -command \
      cmsn_draw_addcontact
    .main_menu.tools add cascade -label "[trans admincontacts]" -command \
@@ -345,7 +345,7 @@ proc cmsn_draw_main {} {
    .main_menu.tools add cascade -label "[trans options]" -menu .options
 
    #Options menu
-   menu .options -tearoff 0 -type normal -background #D0D0E0
+   menu .options -tearoff 0 -type normal 
    .options add command -label "[trans changenick]..." -state disabled \
       -command cmsn_change_name -state disabled
    .options add command -label "[trans publishphones]..." -state disabled \
@@ -366,7 +366,7 @@ proc cmsn_draw_main {} {
 
 
    #Help menu
-   menu .main_menu.help -tearoff 0 -type normal -background #D0D0E0 
+   menu .main_menu.help -tearoff 0 -type normal  
 
    .main_menu.help add command -label "[trans helpcontents]..." -command cmsn_draw_about
    .main_menu.help add separator
@@ -415,8 +415,8 @@ proc cmsn_draw_main {} {
    text .main.text -background white -width 30 -height 30 -wrap none \
       -yscrollcommand ".main.ys set" -cursor left_ptr -font splainf \
       -selectbackground white -selectborderwidth 0 -exportselection 0
-   scrollbar .main.ys -command ".main.text yview" -background #D0D0E0
-#   text .main.status -background #D0D0E0 -width 30 -height 1 -wrap none
+   scrollbar .main.ys -command ".main.text yview" 
+#   text .main.status  -width 30 -height 1 -wrap none
 
    adv_initialize .main $config(proxy)
    # This one is not a banner but a branding. When adverts are enabled
@@ -446,7 +446,7 @@ proc cmsn_draw_status {} {
 
    text .status.info -background white -width 60 -height 30 -wrap word \
       -yscrollcommand ".status.ys set" -font splainf
-   scrollbar .status.ys -command ".status.info yview" -background #D0D0E0
+   scrollbar .status.ys -command ".status.info yview" 
    entry .status.enter -background white
 
    pack .status.enter -side bottom -fill x
@@ -926,7 +926,7 @@ proc cmsn_draw_msgwin {} {
    wm group .${win_name} ""
    wm iconbitmap . @${images_folder}/amsn.xbm
    
-   menu .${win_name}.menu -tearoff 0 -type menubar -background #D0D0E0 \
+   menu .${win_name}.menu -tearoff 0 -type menubar  \
       -borderwidth 0 -activeborderwidth -0 
    .${win_name}.menu add cascade -label "[trans msn]" -menu .${win_name}.menu.msn
    .${win_name}.menu add cascade -label "[trans view]" -menu .${win_name}.menu.view
@@ -934,7 +934,7 @@ proc cmsn_draw_msgwin {} {
    .${win_name}.menu add cascade -label "[trans invite]" -menu .${win_name}.menu.invite \
       -state disabled
 
-   menu .${win_name}.menu.msn -tearoff 0 -type normal -background #D0D0E0 
+   menu .${win_name}.menu.msn -tearoff 0 -type normal  
    .${win_name}.menu.msn add command -label "[trans save]" \
       -command " ChooseFilename .${win_name}.text ${name} " 
    .${win_name}.menu.msn add command -label "[trans saveas]..." \
@@ -948,17 +948,17 @@ proc cmsn_draw_msgwin {} {
    .${win_name}.menu.msn add command -label "[trans close]" \
       -command "destroy .${win_name}" 
 
-   menu .${win_name}.menu.view -tearoff 0 -type normal -background #D0D0E0 
+   menu .${win_name}.menu.view -tearoff 0 -type normal  
    .${win_name}.menu.view add command -label "[trans textsize]" \
       -command " "  -state disabled
    .${win_name}.menu.view add separator
    .${win_name}.menu.view add checkbutton -label "[trans chatsmileys]" \
      -onvalue 1 -offvalue 0 -variable config(chatsmileys)
 
-   menu .${win_name}.menu.actions -tearoff 0 -type normal -background #D0D0E0 
+   menu .${win_name}.menu.actions -tearoff 0 -type normal  
 
 
-   menu .${win_name}.menu.invite -tearoff 0 -type normal -background #D0D0E0
+   menu .${win_name}.menu.invite -tearoff 0 -type normal 
 #by AIM Sirve para algo?
    .${win_name}.menu.invite add separator
    .${win_name}.menu.invite add command -label "Otro..." -state disabled
@@ -968,22 +968,22 @@ proc cmsn_draw_msgwin {} {
    .${win_name} conf -menu .${win_name}.menu
 
    frame .${win_name}.top
-   text .${win_name}.top.text -background #D0D0E0 -borderwidth 0 -width 30 \
+   text .${win_name}.top.text  -borderwidth 0 -width 30 \
       -height 1 -wrap word -yscrollcommand ".${win_name}.top.ys set"
    scrollbar .${win_name}.top.ys -command ".${win_name}.top.text yview" \
-      -background #D0D0E0
+      
    text .${win_name}.text -background white -width 50 -height 15 -wrap word \
       -yscrollcommand ".${win_name}.ys set" -exportselection 1
       #-selectforeground white \
       #-selectbackground darkblue -selectborderwidth 1 
    scrollbar .${win_name}.ys -command ".${win_name}.text yview" \
-      -background #D0D0E0
-   text .${win_name}.status -background #D0D0E0 -width 30 -height 1 -wrap none\
+      
+   text .${win_name}.status  -width 30 -height 1 -wrap none\
    -font bplainf
    frame .${win_name}.in
    text .${win_name}.in.input -background white -width 25 -height 3 -wrap word\
    -font bboldf
-   button .${win_name}.in.send -background #D0D0E0 -text [trans send] -width 5 \
+   button .${win_name}.in.send  -text [trans send] -width 5 \
       -command "sb_enter $name .${win_name}.in.input" -font bboldf
 
    pack .${win_name}.top -side top -fill x
@@ -1021,8 +1021,8 @@ proc cmsn_draw_msgwin {} {
    bind .${win_name}.in.input <Control-Return> {%W insert end "\n"; break}
    bind .${win_name} <Destroy> "cmsn_destroyed_msgwin $name %W"
    
-#   menu .${win_name}.text.copypaste -tearoff 0 -type normal -background #D0D0E0 
-#   menu .${win_name}.in.copypaste -tearoff 0 -type normal -background #D0D0E0 
+#   menu .${win_name}.text.copypaste -tearoff 0 -type normal  
+#   menu .${win_name}.in.copypaste -tearoff 0 -type normal  
 
 #   bind .${win_name}.text <Button-3> "copypaste_menu .${win_name}.text %X %Y 0"
 #   bind .${win_name}.in <Button-3> "copypaste_menu .${win_name}.in %X %Y 1"
