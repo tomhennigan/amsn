@@ -3977,10 +3977,6 @@ proc cmsn_draw_login {} {
 
 	bind .login <Return> "login_ok"
 	bind .login <Escape> "ButtonCancelLogin .login"
-    bind .login <Destroy> {
-	global config protocol
-	set protocol $config(protocol)
-    }
 }
 
 #///////////////////////////////////////////////////////////////////////

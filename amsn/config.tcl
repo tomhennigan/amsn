@@ -4,7 +4,7 @@
 
 proc ConfigDefaults {} {
 	global gconfig config tcl_platform password auto_path advanced_options
-	set config(protocol) "9"		;# Which MSN Protocol do you prefeer too use: 7|9
+	set config(protocol) "9"		;# Which MSN Protocol do you prefeer to use: 9
 	set config(nossl) 0				;#Disable the use of SSL, so it doesn't requite TLS package: 0|1
 
 	set config(login) ""				;# These are defaults for users without
@@ -360,8 +360,6 @@ proc load_config {} {
  	#puts "Password is: $config(remotepassword)\nHi\n"      
     }
      
-
-    set protocol $config(protocol)
 
     # WebCam: clientid is 268435508, but since we dont support webcam, this is the default:
     set clientid "268435500"

@@ -798,7 +798,7 @@ namespace eval ::MSN {
 
       global config tlsinstalled login_passport_url
 
-      if { $config(protocol) == 9 && $tlsinstalled == 0 && [checking_package_tls] == 0 && $config(nossl) == 0} {
+      if { $tlsinstalled == 0 && [checking_package_tls] == 0 && $config(nossl) == 0} {
          ::amsn::installTLS
           return
       }
@@ -3028,7 +3028,7 @@ proc cmsn_change_state {recv} {
 }
 
 proc cmsn_ns_handler {item} {
-   global list_cmdhnd password config protocol
+   global list_cmdhnd password config
 
    set item [encoding convertfrom utf-8 $item]
    set item [stringmap {\r ""} $item]
@@ -3123,28 +3123,25 @@ proc cmsn_ns_handler {item} {
 	 return 0
       }
       SYN {
-	  new_contact_list "[lindex $item 2]" 1
-	  global protocol
-	  if { $protocol == "9" } {
-	      global loading_list_info
-	      
-	      set loading_list_info(version) [lindex $item 2]
-	      set loading_list_info(total) [lindex $item 3]
-	      set loading_list_info(current) 1
-	      set loading_list_info(gtotal) [lindex $item 4]
-	  }
-	 return 0
+				new_contact_list "[lindex $item 2]" 1
+				global loading_list_info
+
+				set loading_list_info(version) [lindex $item 2]
+				set loading_list_info(total) [lindex $item 3]
+				set loading_list_info(current) 1
+				set loading_list_info(gtotal) [lindex $item 4]
+			 	return 0
       }
       BLP {
 #	  puts "$item == [llength $item]"
-	  if { $protocol == "9" && [llength $item] == 3} {
+	  if { [llength $item] == 3} {
 	      change_BLP_settings "[lindex $item 1]"
 	  } else {
 	      new_contact_list "[lindex $item 2]"
 	      change_BLP_settings "[lindex $item 3]"
 
 	  }
-	  return 0  
+	  return 0
       }
       CHL {
      	  status_log "Challenge received, answering\n" green
@@ -3156,12 +3153,12 @@ proc cmsn_ns_handler {item} {
 	  return 0
       }
       BPR {
-	  if { $protocol == "9" && [llength $item] == 4} {
+	  if { [llength $item] == 4} {
 	      global loading_list_info
-	      #status_log "$item --- protocol 9 --- $protocol\n"
 	      ::abook::setContact $loading_list_info(last) [lindex $item 1] [lindex $item 2]
 
 	  } else {
+	  		#TODO: Remove this? It looks from protocol 7
 	      #status_log "$item --- protocol 7 --- $protocol\n"
 	      new_contact_list "[lindex $item 1]"
 	      # Update entry in address book setContact(email,PH*/M*,phone/setting)
@@ -3170,22 +3167,11 @@ proc cmsn_ns_handler {item} {
 	 return 0
       }
       PRP {
-	  if { $protocol != "9" } {
-	      new_contact_list "[lindex $item 2]"
-	      ::abook::setPersonal [lindex $item 3] [lindex $item 4]
-	  }
-	return 0
+				return 0
       }
       LSG {
 
-	  global protocol
-	  if { $protocol == "9" } {
 	      ::groups::Set [lindex $item 1] [lindex $item 2]
-	  } else {
-	      ::groups::Set [lindex $item 5] [lindex $item 6]
-	      new_contact_list "[lindex $item 2]"
-	      #status_log "$item\n" blue
-	  }
 	return 0
       }
       REG {	# Rename Group
@@ -3381,12 +3367,12 @@ proc cmsn_listdel {recv} {
 }
 
 proc cmsn_auth {{recv ""}} {
-   global config list_version protocol
+   global config list_version
 
-   status_log "cmsn_auth starting for protocol $protocol, stat=[sb get ns stat]\n" blue
+   status_log "cmsn_auth starting, stat=[sb get ns stat]\n" blue
 
-    if {($protocol == "9") && ([info exist recv])} { return [cmsn_auth_msnp9 $recv]}
-    if {($protocol == "9") && (![info exist recv])} { return [cmsn_auth_msnp9]}
+    if { [info exist recv]} { return [cmsn_auth_msnp9 $recv]}
+    else {![info exist recv]} { return [cmsn_auth_msnp9]}
 
    switch [sb get ns stat] {
       c {
@@ -3600,7 +3586,7 @@ proc msnp9_authenticate { ticket } {
 }
 
 proc cmsn_auth_msnp9 {{recv ""}} {
-	global config list_version info protocol
+	global config list_version info
 
 	switch [sb get ns stat] {
 
@@ -4035,7 +4021,7 @@ proc process_msnp9_lists { bin } {
 }
 
 proc cmsn_listupdate {recv} {
-	global list_fl list_al list_bl list_rl protocol contactlist_loaded
+	global list_fl list_al list_bl list_rl contactlist_loaded
 
 	set contactlist_loaded 0
 
@@ -4054,7 +4040,7 @@ proc cmsn_listupdate {recv} {
 		set groups [::abook::getGroup $username -id]
 
 
-	} elseif { $protocol == "9" } {
+	} else {
 		global loading_list_info
 
 		set command LST
@@ -4070,22 +4056,6 @@ proc cmsn_listupdate {recv} {
 		set list_names [process_msnp9_lists [lindex $recv 3]]
 		#puts "$username --- $list_names"
 		set groups [split [lindex $recv 4] ,]
-
-	} else {
-
-		set command LST
-
-		set list_names "list_[string tolower [lindex $recv 2]]"
-		set version [lindex $recv 3]
-
-		set current [lindex $recv 4]
-		set total [lindex $recv 5]
-
-		if {$current != 0} {
-			set username [lindex $recv 6]
-			set nickname [lindex $recv 7]
-			set groups [split [lindex $recv 8] ,]
-		}
 
 	}
 
@@ -4126,9 +4096,7 @@ proc cmsn_listupdate {recv} {
 			if { ($list_name == "list_fl") } {
 				::abook::setContact $username group $groups
 				::abook::setContact $username nick $nickname
-				if { $protocol == "9" } {
-					set loading_list_info(last) $username
-				}
+				set loading_list_info(last) $username
 			}
 		}
 	}
@@ -4138,13 +4106,8 @@ proc cmsn_listupdate {recv} {
 		lists_compare		;# FIX: hmm, maybe I should not run it always!
 		list_users_refresh
 
-		if { $protocol != "9" } {
-			new_contact_list "$version"
+		if { $list_name == "list_rl" } {
 			set contactlist_loaded 1
-		} else {
-			if { $list_name == "list_rl" } {
-				set contactlist_loaded 1
-			}
 		}
 	}
 
@@ -4279,7 +4242,7 @@ proc change_BLP_settings { state } {
 }
 
 proc new_contact_list { version {load 0} } {
-    global list_version HOME list_al list_fl list_bl list_rl list_users protocol contactlist_loaded
+    global list_version HOME list_al list_fl list_bl list_rl list_users contactlist_loaded
 
     if {[string is digit $version] == 0} {return }
 
