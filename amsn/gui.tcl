@@ -7747,6 +7747,10 @@ proc degt_ns_command_win {} {
 proc bgerror { args } {
 	global errorInfo errorCode HOME2 tcl_platform tk_version tcl_version
 	
+	if { [lindex $args 0] == [list] } {
+		return
+	}
+	
 	if { [info exists ::dont_give_bug_reports] && $::dont_give_bug_reports == 1 } {
 		return
 	}
