@@ -2078,8 +2078,7 @@ proc cmsn_sb_msg {sb_name recv} {
 	 
 	 if { $cancelcode == "FTTIMEOUT" } {
 	    ::MSNFT::timeoutedFT $cookie
-	 } elseif { $cancelcode == "REJECT" } {
-	 
+	 } elseif { $cancelcode == "REJECT" } {	 
 	    ::MSNFT::rejectedFT $chatid $fromlogin $cookie
 	 }
 	 
@@ -2095,6 +2094,31 @@ proc cmsn_sb_msg {sb_name recv} {
 
 }
 
+proc CALReceived {sb_name user item} {
+   status_log "CALReceived:  $sb_name $user $item\n" white
+   switch [lindex $item 0] {   
+       216 {
+	   # if you try to begin a chat session with someone who blocked you and is online
+	   set chatid [::MSN::ChatFor $sb_name]
+	   ::MSN::ClearQueue $chatid
+           ::amsn::chatStatus $chatid "$user: [trans userblocked]\n" miniwarning
+	   warn_blocked $user
+	   return 0
+       }
+       217 {
+          #TODO: Check what we do with sb stat "?", disable chat window?
+	   # this should be related to user state changes
+	  #sb get $sb_name stat
+	  set chatid [::MSN::ChatFor $sb_name]
+	  ::MSN::ClearQueue $chatid
+	  #::MSN::CleanChat $chatid
+          ::amsn::chatStatus $chatid "$user: [trans usernotonline]\n" miniwarning
+	  #msg_box "[trans usernotonline]"
+          return 0
+      }   
+   }
+   cmsn_sb_handler $sb_name [encoding convertto utf-8 $item]
+}
 
 proc cmsn_sb_handler {sb_name item} {
    global list_cmdhnd msgacks
@@ -2104,9 +2128,12 @@ proc cmsn_sb_handler {sb_name item} {
 
    set ret_trid [lindex $item 1]
    set idx [lsearch $list_cmdhnd "$ret_trid *"]
+   status_log "list_cmdhnd: $list_cmdhnd\n" white
    if {$idx != -1} {		;# Command has a handler associated!
       status_log "evaluating handler for $ret_trid\n"
-      eval "[lindex [lindex $list_cmdhnd $idx] 1] {$item}"
+      set command "[lindex [lindex $list_cmdhnd $idx] 1] {$item}"
+      set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
+      eval "$command"
       return 0
    } else {
    switch [lindex $item 0] {
@@ -2168,25 +2195,6 @@ proc cmsn_sb_handler {sb_name item} {
 	   return 0
 
        }
-       216 {
-	   # if you try to begin a chat session with someone who blocked you and is online
-	   set chatid [::MSN::ChatFor $sb_name]
-	   ::MSN::ClearQueue $chatid
-           ::amsn::chatStatus $chatid "[trans userblocked]\n" miniwarning
-	   warn_blocked $chatid
-	   return 0
-       }
-       217 {
-          #TODO: Check what we do with sb stat "?", disable chat window?
-	   # this should be related to user state changes
-	  #sb get $sb_name stat
-	  set chatid [::MSN::ChatFor $sb_name]
-	  ::MSN::ClearQueue $chatid
-	  #::MSN::CleanChat $chatid
-          ::amsn::chatStatus $chatid "[trans usernotonline]\n" miniwarning
-	  #msg_box "[trans usernotonline]"
-          return 0
-      }
       "" {
          return 0
       }
@@ -2207,7 +2215,7 @@ proc cmsn_invite_user {name user} {
       || ("[sb get $name stat]" == "n") \
       || ("[sb get $name stat]" == "i")} {
 
-      ::MSN::WriteSB $name "CAL" $user
+      ::MSN::WriteSB $name "CAL" $user "CALReceived $name $user"
 
    } else {
 
@@ -2661,7 +2669,12 @@ proc cmsn_ns_handler {item} {
    set idx [lsearch $list_cmdhnd "$ret_trid *"]
    if {$idx != -1} {		;# Command has a handler associated!
       status_log "evaluating handler for $ret_trid\n"
-      eval "[lindex [lindex $list_cmdhnd $idx] 1] \"$item\""
+      
+      set command "[lindex [lindex $list_cmdhnd $idx] 1] {$item}"
+      set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
+      eval "$command"
+      
+      #eval "[lindex [lindex $list_cmdhnd $idx] 1] \"$item\""
       return 0
    } else {
    switch [lindex $item 0] {
