@@ -4,6 +4,7 @@ acceptfile Acceptes l'arxiu $1, de tamany $2? Guardat a $3
 actions Accions
 addacontact Inclou un contacte
 addedyou t'ha inclòs a la seva llista de contactes
+addtocontacts Afegir als contactes
 addtoo Inclou aquesta persona a la meva llista de contactes
 admincontacts Administrar la llista de contactes
 admingroups Administrar grups
@@ -12,6 +13,7 @@ allowseen Deixa que aquesta persona vegi si estic conectat i que contacti amb mi
 appearoff Simula Desconexió
 are són
 autohotmaillog Conectar-se a Hotmail automàticament
+autoip IP Automàtica
 avoidseen No deixis que aquesta persona vegi si estic conectat i que contacti amb mi
 away No hi és
 baduserpass Nom d'usuari o password incorrecte
@@ -24,15 +26,19 @@ cancel Cancel·la
 changenick Canvia de nick
 chat Xat
 chatreq Demanant xat
-chatsmileys 'Smileys' al xat
+chatsmileys Emoticons al xat
 chatack Acceptant xat de
 checkver Busca una versió nova
 checkingver Buscant noves versions
 clicktologin Fes clic aquí per conectar-te
 close Tanca
+closingdocks El botó tancar minimitza la finestra
 command Comanament
+confirmdelete ¿Estàs segur de voler eliminar a $1?
 contactadded Contacte inclòs
+contactdoesnotexist ¡El contacte que intentes afegir no existeix!
 connecterror Error conectant-se amb el servidor
+copytogroup Copia al grup
 date Data
 delete Esborrar
 enableproxy Habilitar el Proxy
@@ -40,11 +46,23 @@ entercontactemail Escriu l'adreça de correu del contacte
 enterfilename Introdueix el nom de l'arxiu
 enternick Escriu el teu nick
 examples Exemples
+exitamsn ¿Estàs segur de voler sortit?
+extras Serveis extra
+filedoesnotexist L'arxiu no existeix
 filename Nom de l'arxiu
 filetransfercancelled S'ha cancel·lat la transferència
 filetransfercomplete La transferència del arxiu ha finalitzat
 gonelunch Estic dinant
 group Grup
+groupadd Afegir un grup
+groupdelete Esborrar un grup
+grouprename Renomenar un grup
+groupoldname Nom antic
+groupnewname Nom nou
+groupunknown Grup desconegut
+groupexists El grup ja existeix
+groupmissing No es pot trobar el grup
+groupnotempty El grup no està buit!
 handle Manipula
 help Ajuda
 helpcontents Contiguts
@@ -52,14 +70,18 @@ home Casa
 ident Identifica
 identity Identitat
 inbox Bustia
+invalidusername Nom d'usuari invàlid
 invite Convida
 ipaddress Adreça IP
 is és
 joins $1 $2 s'uneix a la conversa
 language Idioma
+leaveblankforhotmail Deixa en blanc per usar hotmail
 leaves $1 deixa la conversa
-listsmileys Llista de 'Smileys'
+listeningon Escoltant el port $1
+listsmileys Llista d'emoticons
 loadcontacts Carregar una llista de contactes
+loggedotherlocation Desconectat. S'ha iniciat la sessió en un altre lloc
 loggingin Conectant-se
 login Conectar-se
 loginas Conectar-se com
@@ -67,24 +89,25 @@ logout Desconectar-se
 logsin s'acaba de conectar
 mailer Gestor de correu
 mobile Mòvil
+movetogroup Moure al grup
 mustrestart Has de reiniciar el programa per a que els canvis tinguin efecte
 mystatus El meu estat
 msg Missatge
 msn AMSN
 needonline Encara ets/sembles desconectat!
-newmail $1 missatges nous a la bustia
+newmail $1 missatges nous a la bústia
 newmailfrom Nou missatge de correu de
 newmsg Nou missatge
 newveravailable Nova versió $1 està disponible per a baixar-se
 next Següent
 noactivity Sense activitat
-nonewmail No missatges nous a la bustia
+nonewmail No hi ha missatges nous a la bústia
 nonewver No hi ha cap nova versió per a baixar-se
 notify notificar
 nousersinsession No hi ha usuaris a la sessió
 ok Bé
 offline Desconectat
-onenewmail 1 missatge nou a la bustia
+onenewmail 1 missatge nou a la bústia
 online Conectat
 onphone Al telèfon
 openreceived Obrir arxius rebuts
@@ -101,6 +124,7 @@ prefsound Só
 properties Propietats
 proxyconf Configuració Proxy
 proxyconfhttp Configuració del suport Proxy HTTP
+publishphones Publicar els meus nombres de telèfon
 receivedbytes Rebuts $1 de $2 bytes
 receivefile Rebent arxiu
 reconnect Esperant a $1 a que es reconecti
@@ -118,8 +142,11 @@ sendmail Enviar missatge de correu
 sendmsg Enviar missatge
 sentbytes Enviats $1 de $2 bytes
 server Servidor
+servergoingdown Desconectat: El servidor s'apagarà per manteniment
 sound Só en un event
 startoffline Començar desconectat
+status Estat
+syntaxerror  Error de sintàxi
 textsize Tamany del text
 title Al's Messenger
 to A
@@ -131,6 +158,7 @@ unblock Desbloquejar
 uoffline Desconectats
 uonline Conectats
 user Ususari
+useralreadyonlist L'usuari ja és a la llista de contactes
 version Versió
 view Veure
 willjoin Esperant a $1 a que s'uneixi a la conversa
