@@ -1127,19 +1127,20 @@ proc cmsn_ns_handler {item} {
       }
       REA {
          global user_info config
-	 status_log "Item: $item\n" white
-	 if { [lindex $item 3] == $config(login) } {
+	      status_log "Item: $item\n" white
+	      if { [lindex $item 3] == $config(login) } {
             set user_info $item
-   	    cmsn_draw_online
-	 }
+   	      cmsn_draw_online
+	      }
          return 0	 
       }
       ADD {
-	 if { [lindex $item 2] == "FL"} {
-	     set contact [lindex $item 4]	;# Email address
-	     set addtrid [lindex $item 3]	;# Transaction ID
-	     msg_box "[trans contactadded]\n$contact"
-	 }
+	     if { [lindex $item 2] == "FL"} {
+	       set contact [lindex $item 4]	;# Email address
+	       set addtrid [lindex $item 3]	;# Transaction ID
+	       msg_box "[trans contactadded]\n$contact"
+	   }
+      
 	 set curr_list [lindex $item 2]
 	 if { ($curr_list == "FL") } {
 	     status_log "PRUEBA1: $item\n" blue
@@ -1181,8 +1182,10 @@ proc cmsn_ns_handler {item} {
       }
       CHG {
 	 global user_stat
-	 set user_stat [lindex $item 2]
-	 cmsn_draw_online
+    if { $user_stat != [lindex $item 2] } {
+	    set user_stat [lindex $item 2]
+	    cmsn_draw_online
+    }
 	 return 0
       }
       GTC -
