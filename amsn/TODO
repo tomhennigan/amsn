@@ -29,7 +29,7 @@ kakaroto * zyffe@hotmail.com
 -	Make sure everything is installed correctly and FAQ and HELP are in the amsn directory.
 -	Make good RPMs, for Redhat, Suse, Mandrake, etc.
 -	Improve font selection (unify with color selection)
--	When selecting a new color for the font in a chat, don't change only 
+-	When selecting a new color for the font in a chat, don't change only
 	the color of the text send but the color of the text being writen too (for all window).
 -	When queue is cleared, NAK every message in queue
 -	Check for connection state, make sure amsn disconnects if connection goes down. -> add timeouts to changestates and keepalive
@@ -38,7 +38,7 @@ kakaroto * zyffe@hotmail.com
 -	Add receivedir to preferences, replace NAT section with File Transfer
 DONE	Remove old config file (we now only need the .xml, backward compatibilty is redundant since oct15th)
 -	Check functionality of all proxies with new MSNP9 protocol (socks, not keep-alive http proxies)
--	Get rid of all MSNP7 code.. it sure is useless now
+DONE	Get rid of all MSNP7 code.. it sure is useless now
 -	We sometimes get double pasting, just bind our paste procedure to the <<Paste>> event, instead of to <Ctrl-Key-V>
 -	Phone numbers seem to be screwed up again :P getting erased for some reason
 
@@ -97,7 +97,6 @@ DONE	Allow alarms to run a command
 -	Problem with URLs
 -	Problem with sound
 -	Selections dont appear
--	Double Pastes on CTRL-V
 -	Ugly program icons (WISH icon, not ours)
 -	Fonts dialog all messed up
 -	Dosen't connect if msn installed in path with spaces (ex. Documents and Settings), add quotes
