@@ -9,7 +9,7 @@
 	<plugin_namespace>amsnplus</plugin_namespace>
 	<init_procedure>amsnplusStart</init_procedure>
 
-	<cvs_version>1.88</cvs_version>
+	<cvs_version>1.89</cvs_version>
 
 	<lang>
 		<langcode>ca</langcode>
