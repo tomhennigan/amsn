@@ -88,6 +88,7 @@ proc ConfigDefaults {} {
 	set config(newmsgwinstate) 1		;#Iconify or restore chat window on new message
 	set config(newchatwinstate) 1		;#Iconify or restore chat window on new chat
 	set config(flicker) 1				;#Flicker window on new message
+	set config(showdisplaypic) 1		;#Show display picture as default
 
 
 	set config(autochangenick) 1		;# automaticly change nick to custom state

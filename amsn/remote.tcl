@@ -203,7 +203,7 @@ namespace eval ::remote {
 	    while { [set win_name [::amsn::WindowFor $lowuser]] == 0 } { }
 	}
 
-	set input "${win_name}.f.in.input"
+	set input "${win_name}.f.bottom.in.input"
 	$input  insert end "${message}"
 	
 	::amsn::MessageSend $win_name $input 

@@ -613,11 +613,12 @@ proc Preferences { { settings "personal"} } {
 	#radiobutton $lfname.3.normal -text [trans normal] -value 1 -variable config(msgmode) -state disabled
 	#radiobutton $lfname.3.tabbed -text [trans tabbed] -value 2 -variable config(msgmode) -state disabled
 	checkbutton $lfname.winflicker -text "[trans msgflicker]" -onvalue 1 -offvalue 0 -variable config(flicker)
+	checkbutton $lfname.showdisplaypic -text "[trans showdisplaypic2]" -onvalue 1 -offvalue 0 -variable config(showdisplaypic)
 
 	#pack $lfname.3.lmsgmode -anchor w -side top -padx 10
 	#pack $lfname.3.normal $lfname.3.tabbed -side left -padx 10
 
-	pack $lfname.1 $lfname.2 $lfname.3 $lfname.winflicker -anchor w -side top -pady 5
+	pack $lfname.1 $lfname.2 $lfname.3 $lfname.winflicker $lfname.showdisplaypic -anchor w -side top -pady 5
 
 	frame $frm.dummy -class Degt
 	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
@@ -1605,6 +1606,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.88  2003/10/29 19:14:23  airadier
+# Let's show display pictures.
+#
 # Revision 1.87  2003/10/21 23:29:18  airadier
 # Fixed a small bug when saving tlslib in tlsconfig.tcl
 #

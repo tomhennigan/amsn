@@ -1364,6 +1364,7 @@ namespace eval ::amsn {
 
       if {[catch { wm geometry .${win_name} $config(winchatsize)} res]} {
          wm geometry .${win_name} 350x320
+			status_log "No config(winchatsize). Setting default size for chat window\n" red
       }
       #wm state .${win_name} withdrawn
       wm state .${win_name} iconic
@@ -1414,6 +1415,9 @@ namespace eval ::amsn {
       .${win_name}.menu.view add separator
       .${win_name}.menu.view add checkbutton -label "[trans chatsmileys]" \
         -onvalue 1 -offvalue 0 -variable config(chatsmileys)
+		  global .${win_name}.show_picture
+		  set .${win_name}.show_picture $config(showdisplaypic)
+		  .${win_name}.menu.view add checkbutton -label "[trans showdisplaypic]" -command "::amsn::ShowOrHidePicture .${win_name}" -onvalue 1 -offvalue 0 -variable ".${win_name}_show_picture"
       .${win_name}.menu.view add separator
       .${win_name}.menu.view add command -label "[trans history]" -command "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin" -accelerator "Ctrl+H"
       .${win_name}.menu.view add separator
@@ -1451,7 +1455,7 @@ namespace eval ::amsn {
 
       frame .${win_name}.f.out -class Amsn -background white -borderwidth 0 -relief flat
 
-      text .${win_name}.f.out.text -borderwidth 3 -foreground white -background white -width 45 -height 15 -wrap word \
+      text .${win_name}.f.out.text -borderwidth 3 -foreground white -background white -width 45 -height 5 -wrap word \
 	  -yscrollcommand "adjust_yscroll .${win_name}.f.out.text .${win_name}.f.out.ys" -exportselection 1  \
 	  -relief flat -highlightthickness 0 \
 	  -selectborderwidth 1
@@ -1475,23 +1479,29 @@ namespace eval ::amsn {
 
 
 
-      frame .${win_name}.f.buttons -class Amsn -borderwidth 0 -relief solid -background $bgcolor2
+		frame .${win_name}.f.bottom -class Amsn -borderwidth 0 -relief solid -background $bgcolor
+		set bottom .${win_name}.f.bottom
 
-      frame .${win_name}.f.in -class Amsn -background white -relief solid -borderwidth 0
+		frame $bottom.buttons -class Amsn -borderwidth 0 -relief solid -background $bgcolor2
 
-      text .${win_name}.f.in.input -background white -width 15 -height 3 -wrap word\
+
+      frame $bottom.in -class Amsn -background white -relief solid -borderwidth 0
+
+      text $bottom.in.input -background white -width 15 -height 3 -wrap word\
          -font bboldf -borderwidth 0 -relief solid -highlightthickness 0 -exportselection 1
 
-      frame .${win_name}.f.in.f -class Amsn -borderwidth 0 -relief solid -background white
-      button .${win_name}.f.in.f.send  -text [trans send] -width 5 -borderwidth 1 -relief solid \
-         -command "::amsn::MessageSend .${win_name} .${win_name}.f.in.input" -font bplainf -highlightthickness 0
+      frame $bottom.in.f -class Amsn -borderwidth 0 -relief solid -background white
+      button $bottom.in.f.send  -text [trans send] -width 5 -borderwidth 1 -relief solid \
+         -command "::amsn::MessageSend .${win_name} $bottom.in.input" -font bplainf -highlightthickness 0
 
-		catch {
-			image create photo my_pic -file "[filenoext [GetSkinFile displaypic $config(displaypic)]].gif"
 
-      	label .${win_name}.f.in.pic  -borderwidth 2 -relief solid \
-         	-image my_pic
-		}
+
+		catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}
+		image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
+		label $bottom.pic  -borderwidth 2 -relief solid -image no_pic
+
+		bind $bottom.pic <Button1-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
+		bind $bottom.pic <Button3-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
 
 		#scrollbar .${win_name}.f.top.ys -command ".${win_name}.f.top.text yview"
 
@@ -1503,34 +1513,45 @@ namespace eval ::amsn {
 
 
 
-      button .${win_name}.f.buttons.smileys  -image butsmile -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
-      button .${win_name}.f.buttons.fontsel -image butfont -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
-      button .${win_name}.f.buttons.block -image butblock -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
-      pack .${win_name}.f.buttons.block .${win_name}.f.buttons.fontsel .${win_name}.f.buttons.smileys -side left
+      button $bottom.buttons.smileys  -image butsmile -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
+      button $bottom.buttons.fontsel -image butfont -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
+      button $bottom.buttons.block -image butblock -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
+      pack $bottom.buttons.block $bottom.buttons.fontsel $bottom.buttons.smileys -side left
 
       pack .${win_name}.f.top -side top -fill x -padx 3 -pady 0
       pack .${win_name}.status -side bottom -fill x
-      pack .${win_name}.f.in -side bottom -fill x -pady 3 -padx 3
-      pack .${win_name}.f.buttons -side bottom -fill x -padx 3 -pady 0
-      pack .${win_name}.f.out -expand true -fill both -padx 3 -pady 0
+
+		#pack $bottom.in -side bottom -fill x -pady 3 -padx 3
+      #pack $bottom.buttons -side bottom -fill x -padx 3 -pady 0
+		#pack $bottom.pic -side left -padx 2 -pady 2
+		grid $bottom.in -row 1 -column 0 -padx 3 -pady 3 -sticky nsew
+		grid $bottom.buttons -row 0 -column 0 -padx 3 -pady 0 -sticky ewns
+		if { $config(showdisplaypic) } {
+			grid $bottom.pic -row 0 -column 1 -padx 2 -pady 2 -rowspan 2
+			::amsn::ChangePicture .${win_name} my_pic
+		}
+		grid column $bottom 0 -weight 1
+
+		pack .${win_name}.f.out -expand true -fill both -padx 3 -pady 0
       pack .${win_name}.f.out.text -side right -expand true -fill both -padx 2 -pady 2
       pack .${win_name}.f.out.ys -side right -fill y -padx 0
 
       pack .${win_name}.f.top.textto -side left -fill y -anchor nw -padx 0 -pady 3
       pack .${win_name}.f.top.text -side left -expand true -fill x -padx 4 -pady 3
 
-      pack .${win_name}.f.in.f.send -fill both -expand true
-      pack .${win_name}.f.in.input -side left -expand true -fill x -padx 1
-      pack .${win_name}.f.in.f -side left -fill y -padx 3 -pady 4
-		catch {pack .${win_name}.f.in.pic -side left -padx 5 -pady 5}
+		pack .${win_name}.f.bottom -side top -expand false -fill x -padx 0 -pady 0
+
+      pack $bottom.in.f.send -fill both -expand true
+      pack $bottom.in.input -side left -expand true -fill both -padx 1 -pady 1
+      pack $bottom.in.f -side left -fill y -padx 3 -pady 4
 
       pack .${win_name}.f -expand true -fill both -padx 0 -pady 0
 
       .${win_name}.f.top.text configure -state disabled
       .${win_name}.f.out.text configure -state disabled
       .${win_name}.status configure -state disabled
-      .${win_name}.f.in.f.send configure -state disabled
-      .${win_name}.f.in.input configure -state normal
+      $bottom.in.f.send configure -state disabled
+      $bottom.in.input configure -state normal
 
 
       .${win_name}.f.out.text tag configure green -foreground darkgreen -background white -font bboldf
@@ -1543,22 +1564,22 @@ namespace eval ::amsn {
 
       bind .${win_name}.f.out.text <Configure> "adjust_yscroll .${win_name}.f.out.text .${win_name}.f.out.ys 0 1"
 
-      bind .${win_name}.f.in.input <Tab> "focus .${win_name}.f.in.f.send; break"
+      bind $bottom.in.input <Tab> "focus $bottom.in.f.send; break"
 
-      bind  .${win_name}.f.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y .${win_name}.f.in.input"
-      bind  .${win_name}.f.buttons.fontsel  <Button1-ButtonRelease> "change_myfont ${win_name}"
-      bind  .${win_name}.f.buttons.block  <Button1-ButtonRelease> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} ::amsn::blockUnblockUser"
+      bind  $bottom.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y $bottom.in.input"
+      bind  $bottom.buttons.fontsel  <Button1-ButtonRelease> "change_myfont ${win_name}"
+      bind  $bottom.buttons.block  <Button1-ButtonRelease> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} ::amsn::blockUnblockUser"
 
-      bind .${win_name}.f.in.f.send <Return> \
-         "::amsn::MessageSend .${win_name} .${win_name}.f.in.input; break"
-      bind .${win_name}.f.in.input <Control-Return> {%W insert insert "\n"; %W see insert; break}
-      bind .${win_name}.f.in.input <Shift-Return> {%W insert insert "\n"; %W see insert; break}
-      bind .${win_name}.f.in.input <Control-KP_Enter> {%W insert insert "\n"; %W see insert; break}
-      bind .${win_name}.f.in.input <Shift-KP_Enter> {%W insert insert "\n"; %W see insert; break}
-      bind .${win_name}.f.in.input <Control-Alt-space> BossMode
+      bind $bottom.in.f.send <Return> \
+         "::amsn::MessageSend .${win_name} $bottom.in.input; break"
+      bind $bottom.in.input <Control-Return> {%W insert insert "\n"; %W see insert; break}
+      bind $bottom.in.input <Shift-Return> {%W insert insert "\n"; %W see insert; break}
+      bind $bottom.in.input <Control-KP_Enter> {%W insert insert "\n"; %W see insert; break}
+      bind $bottom.in.input <Shift-KP_Enter> {%W insert insert "\n"; %W see insert; break}
+      bind $bottom.in.input <Control-Alt-space> BossMode
 
-      bind .${win_name}.f.in.input <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
-      bind .${win_name}.f.in.input <Button2-ButtonRelease> "paste .${win_name} 1"
+      bind $bottom.in.input <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
+      bind $bottom.in.input <Button2-ButtonRelease> "paste .${win_name} 1"
       bind .${win_name}.f.out.text <Button3-ButtonRelease> "tk_popup .${win_name}.copy %X %Y"
       bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
 
@@ -1572,43 +1593,42 @@ namespace eval ::amsn {
 
       bind .${win_name} <Destroy> "window_history clear %W; ::amsn::closeWindow .${win_name} %W"
 
-      focus .${win_name}.f.in.input
+      focus $bottom.in.input
 
       change_myfontsize $config(textsize) ${win_name}
 
 
       #TODO: We always want these menus and bindings enabled? Think it!!
-      .${win_name}.f.in.input configure -state normal
-      .${win_name}.f.in.f.send configure -state normal
+      $bottom.in.input configure -state normal
+      $bottom.in.f.send configure -state normal
 
       .${win_name}.menu.msn entryconfigure 3 -state normal
       .${win_name}.menu.actions entryconfigure 5 -state normal
 
 		#Better binding, works for tk 8.4 only (see proc  tification too)
 		if { [catch {
-		   .${win_name}.f.in.input edit modified false
-		   bind .${win_name}.f.in.input <<Modified>> "::amsn::TypingNotification .${win_name}"
+		   $bottom.input edit modified false
+		   bind $bottom.in.input <<Modified>> "::amsn::TypingNotification .${win_name} $bottom.in.input"
 			} res]} {
 			#If fails, fall back to 8.3
-         bind .${win_name}.f.in.input <Key> "::amsn::TypingNotification .${win_name}"
-		   bind .${win_name}.f.in.input <Key-Meta_L> "break;"
-         bind .${win_name}.f.in.input <Key-Meta_R> "break;"
-         bind .${win_name}.f.in.input <Key-Alt_L> "break;"
-         bind .${win_name}.f.in.input <Key-Alt_R> "break;"
-         bind .${win_name}.f.in.input <Key-Control_L> "break;"
-         bind .${win_name}.f.in.input <Key-Control_R> "break;"
+         bind $bottom.in.input <Key> "::amsn::TypingNotification .${win_name} $bottom.in.input"
+		   bind $bottom.in.input <Key-Meta_L> "break;"
+         bind $bottom.in.input <Key-Meta_R> "break;"
+         bind $bottom.in.input <Key-Alt_L> "break;"
+         bind $bottom.in.input <Key-Alt_R> "break;"
+         bind $bottom.in.input <Key-Control_L> "break;"
+         bind $bottom.in.input <Key-Control_R> "break;"
 		}
 
-		bind .${win_name}.f.in.input <Return> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-		bind .${win_name}.f.in.input <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-		bind .${win_name}.f.in.input <Alt-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
+		bind $bottom.in.input <Return> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
+		bind $bottom.in.input <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
+		bind $bottom.in.input <Alt-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
 
-		bind .${win_name}.f.in.input <Escape> "destroy .${win_name} %W; break"
+		bind $bottom.in.input <Escape> "destroy .${win_name} %W; break"
 
-		bind .${win_name} <Configure> "::amsn::ChangeWinSize .${win_name}"
 
-		bind .${win_name}.f.in.input <Control-Up> "window_history previous %W; break"
-		bind .${win_name}.f.in.input <Control-Down> "window_history next %W; break"
+		bind $bottom.in.input <Control-Up> "window_history previous %W; break"
+		bind $bottom.in.input <Control-Down> "window_history next %W; break"
 		set window_titles(.${win_name}) ""
 		set first_message(.${win_name}) 1
 
@@ -1630,18 +1650,73 @@ namespace eval ::amsn {
 		if { $chatid != 0 } {
 			after cancel "::amsn::WinTopUpdate $chatid"
 			after 200 "::amsn::WinTopUpdate $chatid"
+
 		}
-	}
-
-
-
-   proc ChangeWinSize { win } {
       global config
       set geom [wm geometry $win]
       set pos_start [string first "+" $geom]
       set config(winchatsize)  [string range $geom 0 [expr {$pos_start-1}]]
       #status_log "$config(winchatsize)\n"
-   }
+
+	}
+
+
+
+
+	proc ShowPicMenu { win x y } {
+		status_log "Show menu in window $win, position $x $y\n" blue
+		catch {menu $win.picmenu -tearoff 0}
+		$win.picmenu delete 0 end
+
+		set chatid [::amsn::ChatFor $win]
+		set users [::MSN::usersInChat $chatid]
+
+		$win.picmenu add command -label "[trans showmypic]" \
+         -command "::amsn::ChangePicture $win my_pic"
+		foreach user $users {
+			$win.picmenu add command -label "[trans showuserpic $user]" \
+   	      -command "::amsn::ChangePicture $win user_pic_$user"
+
+		}
+		$win.picmenu add separator
+		$win.picmenu add command -label "[trans hidedisplaypic]" \
+         -command "::amsn::HidePicture $win"
+
+		tk_popup $win.picmenu $x $y
+
+
+	}
+
+	proc ChangePicture {win picture} {
+		#pack $win.bottom.pic -side left -padx 2 -pady 2
+		grid $win.f.bottom.pic -row 0 -column 1 -padx 2 -pady 2 -rowspan 2
+		if { [catch {$win.f.bottom.pic configure -image $picture}] } {
+			status_log "Failed to set picture, using no_pic\n" red
+			image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
+			$win.f.bottom.pic configure -image no_pic
+		}
+		global ${win}_show_picture
+		set ${win}_show_picture 1
+	}
+
+	proc HidePicture { win } {
+		global ${win}_show_picture
+		grid forget $win.f.bottom.pic
+		set ${win}_show_picture 0
+
+	}
+
+	proc ShowOrHidePicture { win } {
+		upvar #0 ${win}_show_picture value
+		status_log "Here value=$value\n"
+		if { $value == 1} {
+			::amsn::ChangePicture $win [$win.f.bottom.pic cget -image]
+		} else {
+			::amsn::HidePicture $win
+		}
+
+	}
+
 
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -1847,19 +1922,19 @@ namespace eval ::amsn {
 
 
    #///////////////////////////////////////////////////////////////////////////////
-   # TypingNotification (win_name)
+   # TypingNotification (win_name inputbox)
    # Called by a window when the user types something into the text box. It tells
    # the protocol layer to send a typing notificacion to the chat that the window
    # 'win_name' is connected to
-   proc TypingNotification { win_name } {
+   proc TypingNotification { win_name inputbox} {
 
       set chatid [ChatFor $win_name]
 
 		#Works for tcl/tk 8.4 only...
 		catch {
-			bind ${win_name}.f.in.input <<Modified>> ""
-			${win_name}.f.in.input edit modified false
-			bind ${win_name}.f.in.input <<Modified>> "::amsn::TypingNotification ${win_name}"
+			bind $inputbox <<Modified>> ""
+			$inputbox edit modified false
+			bind $inputbox <<Modified>> "::amsn::TypingNotification ${win_name} $inputbox"
 		}
 
 
@@ -2048,12 +2123,13 @@ namespace eval ::amsn {
 		set tstamp [timestamp]
 		set says "$tstamp [trans says [list]]:"
 		
-      set win_name [WindowFor $chatid]		
-		set maxw [winfo width $win_name.f.out.text]
-		incr maxw [expr -10-[font measure splainf -displayof $win_name "$says"]]
-		set user_trunc [trunc [lindex [::MSN::getUserInfo $user] 1] $win_name $maxw splainf]
+      #set win_name [WindowFor $chatid]		
+		#set maxw [winfo width $win_name.f.out.text]
+		#incr maxw [expr -10-[font measure splainf -displayof $win_name "$says"]]
+		#set user_trunc [trunc [lindex [::MSN::getUserInfo $user] 1] $win_name $maxw splainf]
+		set user [lindex [::MSN::getUserInfo $user] 1]
 		#set user_trunc [lindex [::MSN::getUserInfo $user] 1]
-      WinWrite $chatid "$tstamp [trans says $user_trunc]:\n" gray
+      WinWrite $chatid "$tstamp [trans says $user]:\n" gray
       WinWrite $chatid "$msg\n" $type $fontformat
 	   
       if {$config(keep_logs)} {
@@ -2197,7 +2273,7 @@ namespace eval ::amsn {
 
       #We have a window for that chatid, raise it
       raise ${win_name}
-      focus -force ${win_name}.f.in.input
+      focus -force ${win_name}.f.bottom.in.input
 
    }
 	  #///////////////////////////////////////////////////////////////////////////////
@@ -2997,8 +3073,8 @@ proc change_myfontsize {size name} {
   set fontsize [expr {[lindex $config(basefont) end-1]+$config(textsize)}]
 
   catch {.${name}.f.out.text tag configure yours -font "$fontfamily $fontsize $fontstyle"} res
-  catch {.${name}.f.in.input configure -font "$fontfamily $fontsize $fontstyle"} res
-  catch {.${name}.f.in.input configure -foreground "#[lindex $config(mychatfont) end]"} res
+  catch {.${name}.f.bottom.in.input configure -font "$fontfamily $fontsize $fontstyle"} res
+  catch {.${name}.f.bottom.in.input configure -foreground "#[lindex $config(mychatfont) end]"} res
 
   #Get old user font and replace its size
   catch {
@@ -4370,7 +4446,7 @@ proc trunc {str {window ""} {maxw 0 } {font ""}} {
 #///////////////////////////////////////////////////////////////////////
 proc copy { cut w } {
 
-    set window $w.f.in.input
+    set window $w.f.bottom.in.input
     set index [$window tag ranges sel]
 
     if { $index == "" } {
@@ -4399,14 +4475,14 @@ proc paste { window {middle 0} } {
     if { [catch {selection get} res] != 0 } {
 	catch {
 	    set contents [ selection get -selection CLIPBOARD ]
-	    $window.f.in.input insert insert $contents
+	    $window.f.bottom.in.input insert insert $contents
 	}
 	#puts "CLIPBOARD selection enabled"
     } else {
 	if { $middle == 0} {
 	    catch {
 		set contents [ selection get -selection CLIPBOARD ]
-		$window.f.in.input insert insert $contents
+		$window.f.bottom.in.input insert insert $contents
 	    }
 	    #puts "CLIPBOARD selection enabled"
 	} else {

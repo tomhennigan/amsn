@@ -185,6 +185,7 @@ groupunknown Grupo desconocido
 handle Nick
 help Ayuda
 helpcontents Temas de ayuda
+hidedisplaypic Ocultar Imagen para Mostrar
 hiden No mostrar en el menú de emoticonos
 hidewindow Ocultar ventana
 history Ver historial
@@ -373,6 +374,10 @@ servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
 server Servidor
 session Sesión
 showblockedlist Mostrar contactos que te bloquean
+showdisplaypic Ver Imagen para Mostrar
+showdisplaypic2 Por defecto, ver la Imagen para Mostrar al abrir una ventana de conversación.
+showmypic Mostrar mi imagen
+showuserpic Imagen de $1
 skinselector Elegir tema(skin)
 skin Tema (skin)
 smileconfig Configuración de emoticono personalizado
@@ -435,6 +440,7 @@ willjoin Esperando que $1 se una a la conversación
 work Trabajo
 wrongfields Los campos "$1", "$2" y/o "$3" no son valido(s)
 wrongprofileversion Versión del archivo de perfiles incorrecta. Por favor borre el directorio $1 para solucionarlo, o actualice amsn.
+xmmserr Nothing is playing, or you dont have xmms-infopipe installed.
 xoffset Desplazamiento X
 yes Si
 yoffset Desplazamiento Y

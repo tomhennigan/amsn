@@ -185,6 +185,7 @@ groupunknown Unknown group
 handle Handle
 helpcontents Help contents
 help Help
+hidedisplaypic Hide Display Picture
 hiden Hide the emoticon from the smileys menu
 hidewindow Hide Window
 history View History
@@ -373,6 +374,10 @@ servergoingdown Disconnected: Server is going down
 server Server
 session Session
 showblockedlist Show list of people who blocked you
+showdisplaypic Show Display Picture
+showdisplaypic2 Show Display Picture by default when a chat window is opened
+showmypic My Display Picture
+showuserpic $1's Display Picture
 skinselector Select Skin
 skin Skin
 smileconfig Custom emoticon configuration
@@ -435,10 +440,10 @@ willjoin Waiting $1 joins conversation
 work Work
 wrongfields The "$1", "$2" and/or "$3" fields were not valid
 wrongprofileversion Wrong profile configuration file version. In order to fix it, please remove directory $1, or update aMSN
+xmmserr Nothing is playing, or you dont have xmms-infopipe installed.
 xoffset X Offset
 yes Yes
 yoffset Y Offset
 youblocked You have been blocked by
 yousay You say
 youwant You want
-xmmserr Nothing is playing, or you dont have xmms-infopipe installed.
