@@ -1,7 +1,272 @@
 
 package require AMSN_BWidget
 
+#This object type is a generic and abstract preference item.
+::snit::type PreferenceItem {
+	
+	option -variable -default ""
 
+	#Common methods for all preference items
+	
+	#Return the item value
+	method getValue {} {
+	}
+	
+	#Set the item value
+	method setValue {new_val} {
+	}
+	
+	#Draw the element in the given widget path (path must be a container)
+	method draw {path} {
+	}
+
+	#Store the current value to the related variable
+	method store {} {
+		status_log "Instance: $self\n" white
+	}
+}
+
+#This type is child of PreferenceItem. It groups some options under a 
+#frame with a label and an icon.
+::snit::type ItemsFrame {
+	#Delegate to PrferenceItem!!
+	delegate method * to preferenceitem
+	delegate option * to preferenceitem
+
+	variable itemPath ""
+	variable items [list]
+
+	constructor {args} {
+		install preferenceitem using PreferenceItem %AUTO%
+		$self configurelist $args
+	}
+	
+	destructor {
+		catch {
+			destroy preferenceitem
+			destroy $itemPath.f
+			
+			#Destroy child items
+			foreach item $items {
+				$item destroy
+			}
+		}
+	}
+	
+	#########################
+	#Static options (creation time)
+	#########################
+	
+	#Text for the item label
+	option -text -readonly yes -default ""
+	#Icon for the frame
+	option -icon -readonly yes -default ""
+	#Options for packing the frame
+	option -expand -readonly yes -default true
+	option -fill -readonly yes -default x
+
+	#########################
+	#Dinamic options
+	#########################
+	
+	#Enable or disable the item
+	option -enabled true
+	
+	#Add a new PreferenceItem to the group
+	method addItem {item} {
+		lappend items $item
+	}
+	
+	#Create the label frame and icon, and tell all children items to draw themshelves
+	method draw { path } {
+		
+		set f [LabelFrame:create $path.f -text $options(-text) -font splainf] 
+		pack $path.f -side top
+		
+		#If there is an icon, draw it
+		if { $options(-icon) != "" } {
+			frame $f.f
+			label $f.icon -image [::skin::loadPixmap $options(-icon)]
+			pack $f.icon -side left
+			pack $f.f -side left
+			
+			set f $f.f
+		}
+		
+		#Now tell all the children to draw themshelves, and pack them
+		set num 0
+		foreach item $items {
+			set f2 $f.f$num
+			frame $f2
+			$item draw $f2
+			pack $f2 -side top -expand $options(-expand) -fill $options(-fill)
+			
+			incr num
+		}
+	}
+	
+	#Tell all children to store themselves
+	method store {} {
+		foreach item $items {
+			$item store
+		}
+	}
+
+}
+
+#A text entry item. Child of PreferenceItem
+::snit::type TextEntry {
+	
+	#Delegate to PrferenceItem!!
+	delegate method * to preferenceitem
+	delegate option * to preferenceitem
+
+	variable itemPath ""
+		
+	constructor {args} {
+		install preferenceitem using PreferenceItem %AUTO%
+		$self configurelist $args
+	}
+	
+	destructor {
+		catch {
+			destroy preferenceitem
+			destroy $itemPath.l
+			destroy $itemPath.t
+		}
+	}
+	
+	#########################
+	#Static options (creation time)
+	#########################
+	
+	#Text for the item label
+	option -text -readonly yes -default ""
+	#With of the textfield
+	option -width -readonly yes -default ""
+	#Command to be triggered when the item changes
+	option -onchange -readonly yes -default ""
+	
+	#########################
+	#Dinamic options
+	#########################
+	
+	#Enable or disable the item
+	option -enabled true
+	
+	#Triggered when the -enabled option is changed
+	onconfigure -enabled { val } {
+		set options(-enabled) $val
+		if { $val } {
+			$itemPath.t configure -state normal 
+		} else {
+			$itemPath.t configure -state disabled
+		}
+	}
+
+	variable value ""
+	
+	#Return the item value
+	method getValue {} {
+		return $value
+	}
+	
+	#Set the item value
+	method setValue {new_val} {
+		set value $new_val
+	}
+	
+		
+	method draw { path } {
+		set itemPath $path
+		#Draw an input box
+		
+		#Composed by a label... and...
+		label $path.l -text $options(-text) -font sboldf
+		
+		if { $options(-enabled) } {
+			set state normal 
+		} else {
+			set state disabled
+		}
+		
+		if { $options(-onchange) != "" } {
+			set validatecommand [list $options(-onchange) $self %s %S]
+		} else {
+			set validatecommand ""
+		}
+		
+		#...a text entry (can have defined with or not)
+		if { [string is integer -strict $options(-width)] } {
+			entry $path.t -width $options(-width) -background white -state $state -textvariable [varname value] \
+				-validate all -validatecommand $validatecommand
+			pack $path.t -side right -expand false -padx 5 -pady 3
+			pack $path.l -side right -expand false -padx 5 -pady 3
+		} else {
+			entry $path.t -background white -state $state -textvariable [varname value] \
+				-validate all -validatecommand $validatecommand
+			pack $path.t -side right -expand true -fill x -padx 5 -pady 3
+			pack $path.l -side right -expand false -padx 5 -pady 3
+		}
+	}
+}
+
+::snit::widget PreferencesWindow {
+	variable sections [list]
+	
+	method addSection {section} {
+		lappend sections $section
+	}
+}
+
+::snit::type PreferencesSection {
+	variable preferenceItems [list]
+	variable preferenceSections [list]
+}
+
+proc test {} {
+	destroy .p
+	catch { .prefs.personal.nicks destroy }
+	
+	::skin::setPixmap prefpers prefpers.gif
+	::skin::setPixmap prefprofile prefprofile.gif
+	::skin::setPixmap preffont preffont.gif
+	::skin::setPixmap prefphone prefphone.gif
+	
+	
+	PreferencesWindow .prefs
+	
+	set section [PreferencesSection create .prefs.personal -text [trans personal]]
+	
+	set frame [ItemsFrame create .prefs.personal.nicks -text [trans prefname] -icon prefpers]
+	$frame addItem [TextEntry create .prefs.personal.nicks.nick -width 50 -text "[trans enternick] :"]
+	$frame addItem [TextEntry create .prefs.personal.nicks.chat -width 50 -text "[trans friendlyname] :"]
+	$section addItem $frame
+	set c [ItemsFrame create .prefs.personal.preffont -text [trans preffont] -icon preffont]
+	$c addItem [TextEntry create .prefs.personal.preffont.test -text "Test"]
+	$section addItem $frame
+	
+	.prefs addSection $section
+	.prefs show
+	
+	
+}
+
+proc test2 {item oldval newval} {
+	status_log "$item: old=$oldval new=$newval\n" blue
+	return [string is integer $newval]
+}
+
+proc new_preferences {} {
+	PreferencesWindow create .prefs
+	
+	PreferenceSection create .prefs.personal
+	PreferenceSection create .prefs.personal.nick
+	
+	.prefs.personal addItem 
+	
+	.pref_win 
+}
 
 if { $initialize_amsn == 1 } {
 	global myconfig proxy_server proxy_port proxy_user proxy_pass rbsel rbcon pgc
