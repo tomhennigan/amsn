@@ -605,6 +605,7 @@ viewprofile View Profile
 view View
 webcaminvite $1 invited you to start an webcam session, but aMSN does not support this feature.
 willjoin Waiting $1 joins conversation
+winkreceived You have received a Wink from $1. This feature is not currently supported by aMSN.
 work Work
 wrongfields The "$1", "$2" and/or "$3" fields were not valid
 wrongprofileversion Wrong profile configuration file version. In order to fix it, please remove directory $1, or update aMSN

@@ -604,6 +604,7 @@ viewcontactsby Ver contactos como
 viewprofile Ver perfil
 webcaminvite $1 te ha invitado a una sesión de videoconferencia, pero AMSN todavía no soporta esta característica.
 willjoin Esperando que $1 se una a la conversación
+winkreceived Has recibido un Wink de $1, estas animaciones no estan disponibles en esta versión de aMSN.
 work Trabajo
 wrongfields Los campos "$1", "$2" y/o "$3" no son valido(s)
 wrongprofileversion Versión del archivo de perfiles incorrecta. Por favor borre el directorio $1 para solucionarlo, o actualice amsn.

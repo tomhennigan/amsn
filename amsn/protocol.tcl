@@ -5295,11 +5295,14 @@ namespace eval ::MSNP2P {
 						# File transfer
 						SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "filetransfer" "" "$branchuid"]
 					} elseif { $eufguid =="E073B06B-636E-45B7-ACA4-6D4B5978C93C"} {
-					#We received Winks
-					status_log "####WINKS RECEIVED####\n" blue
-					set decoding [base64::decode $context]
-					status_log "$decoding\n" blue
-					status_log "######################\n" blue
+						#We received Winks
+						status_log "####WINKS RECEIVED####\n" blue
+						set decoding [base64::decode $context]
+						status_log "$decoding\n" blue
+						status_log "######################\n" blue
+					
+						# Let's notify the user that he/she has received a Wink
+						::amsn::WinWrite $chatid "\n [trans winkreceived [::abook::getDisplayNick $chatid]]\n" black "" 0
 					}
 					
 					# Let's send an ACK
