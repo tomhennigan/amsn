@@ -41,8 +41,8 @@
 ############################################################
 ### Some global variables
 ############################################################
-set version "0.90"
-set date "02/17/2004"
+set version "0.91CVS"
+set date "02/19/2004"
 set weburl "http://amsn.sourceforge.net"
 set program_dir ""
 set HOME ""
