@@ -344,7 +344,7 @@ namespace eval ::pop3 {
 				WinLoadFile "msimn"
 			}
 		} else {
-			if { [catch {exec $::pop3::config(mailProg)} res] } {
+			if { [catch {eval "exec $::pop3::config(mailProg)"} res] } {
 				plugins_log pop3 "Failed to load $::pop3::config(mailProg) with the error: $res"
 			}
 		}
