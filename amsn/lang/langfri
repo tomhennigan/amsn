@@ -5,6 +5,7 @@ accept Oannimme
 actions Aksje
 addacontact Foeg in kontakt ta
 addedyou $1 ($2) hat dy tafoegd oan syn/har kontaktenlist
+addstate  Foech n neije tastan ta
 addtocontacts Tafoegje oan kontaktenlist
 addtoo Foeg dizze persoan ta oan myn kontaktenlist
 admincontacts Behear kontakten
@@ -12,6 +13,9 @@ admingroups Behear groepen
 adverts Advertinsjes
 alarmpref Alarmynstellings foar dizze gebrûker
 alarmstatus Doch alarm oan/út foar dizze gebrûker
+allowallbutbl  Stean alle brukers, beheale de minsken dy ik blokkeart haw, ta om contact mei my te sykjen
+allowlist  Betrouwbar-liste
+allowonlyinal Stean allinich de minsken ut myn Betrouwbar-liste ta om om contact mei my te sykjen
 allowseen Stea dizze persoan ta om te sjen wannear't ik oanmeld bin, en om my te sprekke
 appearance Status
 appearoff Ferskyn "Net oanmeld"
@@ -34,6 +38,7 @@ bgcolor Feroarje aMSN's eftergrûnkleur
 blankdirect Lit leech foar direkte ferbining
 block Blokkear
 blocked Blokkeard
+blocklist Blokkear-liste
 blockmessage Dizze minsken binne oan e line, mar hawwe dy blokkeard
 broughtby Oanbean troch de folgende ontwikkelers
 browse Ferkenne
@@ -55,6 +60,7 @@ checkingver Op in neiere fersy oan't kontrolearje
 checkver Sjoch foar in neiere fersy
 choosebasefont Lettertype
 choosebgcolor Eftergrûnkleur
+choosecontact  Sykje een kontaktpersoan ut de liste ut
 choosefontcolor Kies tekstkleur
 clearlog2 Smit alle skiednis foar al dyn contacten fuort
 clearlog3 Smit alle logboeken fuort
@@ -72,6 +78,7 @@ connection Ferbining
 connectionlost De ferbyning mei de server is fuort
 contactadded Kontaktpersoan tafoegd
 contactdoesnotexist Kontaktpersoan bestiet net
+contactlist kontaktpersoanenliste
 copy Kopiearje
 copytogroup Kopiearje nei groep
 countrycode Myn lân/geakode
@@ -92,7 +99,9 @@ docking Ferberg
 dockingoff Ferbergje út
 dockkde Ferbergje foar KDE
 edit Bewurkje
+editnewstate Nei automatisch berjocht
 editprofile Bewurkje profyl
+editstate Bewurkje een besteand automatisch berjocht
 enableproxy Brûk proxy
 enableremote meitsje op ofstan betsjinje mogelijk
 encoding2 Feroarje fan encodering by dyn tekens
@@ -109,6 +118,7 @@ fileman Bestânbehear
 filename Bestânsnamme
 filetransfercancelled Bestânsferstjoering annuleard
 filetransfercomplete Bestânsferstjoering klear
+followtext  Scroll nei under, at der neije tekst ynfoecht is
 ftaccepted Bestânsferstjoering oannôm
 ftacceptedby $1 akseptearet de bestansferstjoer-utnoeching foar het bestan: '$2'
 ftaccepting Akseptear de bestansferstjoering
@@ -116,6 +126,7 @@ ftconnecterror Ferbyningsflater mei de oare kompjoeter
 ftconnecting Ferbynt nei $1 mei poarte $2
 ftconnectionlost Ferbyning mei de oare kompjoer bist kwyt
 ftgotinvitation $1 wol dy '$2' ($3 bytes) stjoere. kinst t werom fyne yn dizze map:  $4. Wolst dit bestan echt oannimme?
+ftportpref Begjinpoarte foar bestansferstjoer
 ftrejected Bestânsferstjoering âfwesen
 ftrejectedby $1 kitste de bestansferstjoering fan het bestan '$2' of.
 ftsendinvitation Bestansferstjoering-utnoeching foar het bestan '$2' ($3 bytes) is fertsjoerd nei $1
@@ -139,6 +150,7 @@ httpconnection Ferbyne mei een HTTP-protocol, oer poarte 80
 identity Identiteit
 ident Oan't identificearje
 inbox Inbox
+internalerror   Ynterne Server Fout
 invalidusername Dyn gebrûkersnamme is net júst.
 invitationcancelled bestansferstjoering is ofkitst
 invite Noegje út
@@ -182,6 +194,8 @@ maximised Fergrut
 minimised Ferlytse
 mins minúten
 mobile Mobiele telefoan
+morepersonal Mear tastannen ==>
+move  Beweeg
 movetogroup Ferhûzje nei groep
 msg Berjocht
 msgmaxmin As in berjocht ûntfange wurdt, wol ik dat se wurde:
@@ -202,6 +216,7 @@ newveravailable Neiere fersy $1 beskikber
 next Folgende 
 ng
 noactivity Gjin aksje
+nodataavailable Gjin data beskikbar foar $1
 nologfile Gjin logboek foar $1
 no nee
 nonewmail Gjin berjochten yn In-Box
@@ -248,6 +263,8 @@ prefmsging Hoe't myn berjochten d'r útsjoche
 prefname Myn MSN Messengernamme
 prefphone2 De telefoannûmers dy't minsken dyst derfoar tastimming jûn hast, sjen meie
 prefphone Myn telefoannûmers
+prefprivacy2 Gebrukers kontakt / Omgekearde liste
+prefprivacy Gebrukers Betroiuwbarren / Blokkearde liste
 prefprofile2 Meitsje of feroarje in profyl\n (beskriuwing fan dysels dy't oaren sjen kinne)
 prefprofile3 aMSN's konfiguraasjeprofylen foar gebrûkers
 prefprofile Myn profyl
@@ -256,6 +273,7 @@ prefremote Ynstellings foar op afstan betsjinje
 prefsession Myn oanmelding en status
 prefshared Dielde ferbiningen (alline foar NAT)
 prefsound Lûd
+privacy privacy
 profiledconfig Profylkonfiguraasje
 profileinuse Dit profyn wurdt al brukt troch een oare amsn-sesje, do moast een oare utsykje
 profiles Profylen
@@ -272,7 +290,9 @@ reconnecting Op'e nei oan't ferbine mei de server
 reconnect Wachtsje tot $1 opnei ferbint
 reject Ôfwise
 rememberpass Bewarje wachtwurd
+removefromlist Helje ut dizze liste
 reversed Omgekeard
+reverselist Kear de liste om
 rightback Sa werom
 saveas Bewarje as
 save Bewarje
@@ -298,6 +318,12 @@ soundserver Lûdserver
 soundstatus Skakel alarmlûd oan/út
 startoffline2 'Stil' oanmelde mei "Net oanmeld"-status
 startoffline Begjin "Net oanmeld"
+stateautomsg Automatisch Berjocht om te stjoeren:
+stateedittext Bewurkje de fjilden die'st graach \n feroare hawwe wolst, en druk dan op Opslaan
+state Ik wol ferskyne as:
+stateinfo Persoanlyke Tastan Ynstellings
+statename Namme fan de persoanlyke tastan
+statenewtext Ful de ferplichte ynformaasje yn, \n om dyn neije persoanlyke tastan te meitsjen, en druk dan op Opslaan
 status Status
 stopalarm Stop it alarm
 stylechat Styl lyk as chatberjochten
@@ -311,6 +337,7 @@ to Oan
 tools Ark
 transnotexists Dit bestan is noch nei het Frysk oerset
 traynotcompiled Dizze funksje fan de balke is nog net complileare, sjoch de plugins mar efkes nei.
+twonewmail $1 neie berjochten
 unblock Deblokkear
 uoffline Net oanmeld
 uonline Oanmeld
@@ -332,4 +359,3 @@ yoffset Y-posysje
 youblocked Do bist blokkeart
 yousay Do seist
 youwant Do wolst
-twonewmail $1 neie berjochten
