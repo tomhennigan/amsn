@@ -25,7 +25,9 @@ proc degt_Init {} {
 }
 
 proc degt_protocol { str {colour ""}} {
-    .degt.mid.txt insert end "[timestamp] $str\n" $colour
+   .degt.mid.txt insert end "[timestamp] $str\n" $colour
+   .degt.mid.txt yview moveto 1.0
+    
 }
 
 proc degt_protocol_win_toggle {} {
@@ -1028,6 +1030,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.36  2003/04/24 11:04:32  airadier
+# Auto scrolling in protocol debug window
+#
 # Revision 1.35  2003/04/09 17:38:44  airadier
 # Added a check in msgacks()
 #
