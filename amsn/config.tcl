@@ -157,48 +157,46 @@ proc ConfigDefaults {} {
 	#
 	# type can be: bool | int | str | folder
 	set advanced_options [list \
-		[list "" appearance] \
-		[list tooltips bool tooltips] \
-		[list emailsincontactlist bool emailsinlist] \
-		[list leavejoinsinchat bool leavejoinsinchat] \
-		[list animatenotify bool animatenotify] \
-		[list enablebanner bool enablebanner] \
-		[list truncatenames bool truncatenames1] \
-		[list truncatenicks bool truncatenames2] \
-		[list showtimestamps bool timestamps] \
-		[list savechatwinsize bool savechatwinsize] \
-		[list winchatsize str defchatwinsize] \
-		[list startontray bool startontray] \
-		[list charscounter bool charscounter] \
-                [list strictfonts bool strictfonts] \
-		[list "" notifyoffset] \
-		[list notifyXoffset int xoffset] \
-		[list notifyYoffset int yoffset] \
-		[list "" prefalerts] \
-		[list notifyonline bool notify1] \
-		[list notifyoffline bool notify1_5] \
-		[list notifystate bool notify1_75] \
-		[list notifymsg bool notify2] \
-		[list notifyemail bool notify3] \
-		[list "" connection] \
-		[list getdisppic bool getdisppic] \
-		[list checkemail bool checkemail] \
-		[list autoconnect bool autoconnect autoconnect2] \
-		[list keepalive bool keepalive natkeepalive]\
-		[list start_ns_server str notificationserver]\
-		[list "" others] \
-		[list allowbadwords bool allowbadwords] \
-		[list disableprofiles bool disableprofiles] \
-		[list receiveddir folder receiveddir] \
-		[list notifytyping bool notifytyping] \
-		[list lineflushlog bool lineflushlog] \
-		[list autocheckver bool autocheckver] \
-		[list storename bool storenickname] \
-
+		[list title appearance] \
+		[list local tooltips bool tooltips] \
+		[list local emailsincontactlist bool emailsinlist] \
+		[list local leavejoinsinchat bool leavejoinsinchat] \
+		[list local animatenotify bool animatenotify] \
+		[list local enablebanner bool enablebanner] \
+		[list local truncatenames bool truncatenames1] \
+		[list local truncatenicks bool truncatenames2] \
+		[list local showtimestamps bool timestamps] \
+		[list local savechatwinsize bool savechatwinsize] \
+		[list local winchatsize str defchatwinsize] \
+		[list local startontray bool startontray] \
+		[list local charscounter bool charscounter] \
+                [list local strictfonts bool strictfonts] \
+		[list title notifyoffset] \
+		[list local notifyXoffset int xoffset] \
+		[list local notifyYoffset int yoffset] \
+		[list title prefalerts] \
+		[list local notifyonline bool notify1] \
+		[list local notifyoffline bool notify1_5] \
+		[list local notifystate bool notify1_75] \
+		[list local notifymsg bool notify2] \
+		[list local notifyemail bool notify3] \
+		[list title connection] \
+		[list local getdisppic bool getdisppic] \
+		[list local checkemail bool checkemail] \
+		[list local autoconnect bool autoconnect autoconnect2] \
+		[list local keepalive bool keepalive natkeepalive]\
+		[list local start_ns_server str notificationserver]\
+		[list title others] \
+		[list local allowbadwords bool allowbadwords] \
+		[list local receiveddir folder receiveddir] \
+		[list local notifytyping bool notifytyping] \
+		[list local lineflushlog bool lineflushlog] \
+		[list local autocheckver bool autocheckver] \
+		[list local storename bool storenickname] \
+		[list global disableprofiles bool disableprofiles] \
 	]
 	set config(tooltips) 1				;#Enable/disable tooltips
 	set config(animatenotify) 1		;#Animate notify window
-	set config(disableprofiles) 0		;#Disable profiles (useful for cybercafes or similar)
 	set config(disableuserfonts) 0	;#Disable custom fonts for other users (use always yours).
 	set config(autoconnect) 0			;#Automatically connect when amsn starts
 	set config(receiveddir) ""			;#Directory where received files are stored
@@ -236,10 +234,12 @@ proc ConfigDefaults {} {
 namespace eval ::config {
 
 	proc GlobalDefaults {} {
-		global gconfig tcl_platform 
+		global gconfig tcl_platform
+		
 		setGlobalKey last_client_version ""		
 		setGlobalKey language "en"			;#Default language
 		setGlobalKey skin "default"			;#AMSN skin
+		setGlobalKey disableprofiles 0 ;#Disable profiles (useful for cybercafes or similar)
 
 		#Specific configs for Mac OS X (Aqua) first, and for others systers after
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
@@ -253,14 +253,17 @@ namespace eval ::config {
 
 	proc get {key} {
 		global config
-		return $config($key)
+		return [set config($key)]
 	}
 
 	proc getKey {key} {
 		global config
-		return $config($key)
+		return [set config($key)]
 	}
-
+	
+	proc getVar {key} {
+		return "config($key)"
+	}
 
 	proc setKey {key value} {
 		global config
@@ -269,7 +272,11 @@ namespace eval ::config {
 
 	proc getGlobalKey {key} {
 		global gconfig
-		return $gconfig($key)
+		return [set gconfig($key)]
+	}
+	
+	proc getGlobalVar {key} {
+		return "gconfig($key)"
 	}
 
 	proc setGlobalKey {key value} {
@@ -290,21 +297,27 @@ namespace eval ::config {
 
 
 	proc loadGlobal {} {
-		global gconfig HOME2
+		global gconfig HOME2 HOME
 
 		GlobalDefaults
+		
+		if { [info exists HOME2] } {
+			set config_file [file join ${HOME2} "gconfig.xml"]
+		} else {
+			set config_file [file join ${HOME} "gconfig.xml"]
+		}
 
-		if { [file exists [file join ${HOME2} "gconfig.xml"]] } {
+		if { [file exists $config_file] } {
 
 			if { [catch {
-				set file_id [sxml::init [file join ${HOME2} "gconfig.xml"]]
+				set file_id [sxml::init $config_file]
 
 				sxml::register_routine $file_id "config:entry" "::config::NewGConfigEntry"
 				set val [sxml::parse $file_id]
 				sxml::end $file_id
 			} res] } {
-				::amsn::errorMsg "[trans corruptconfig [file join ${HOME2} "gconfig.xml.old"]]"
-				file copy [file join ${HOME} "gconfig.xml"] [file join ${HOME2} "gconfig.xml.old"]
+				::amsn::errorMsg "[trans corruptconfig ${config_file}.old]"
+				file copy "$config_file" "$config_file.old"
 			}
 		}
 	}
@@ -567,6 +580,13 @@ proc LoadLoginList {{trigger 0}} {
 	}
 	close $file_id
 
+	#If profiles are disabled, don't load one
+	if { [::config::getGlobalKey disableprofiles] == 1 } {
+		status_log "LoadLoginList: profiles disabled, ignoring\n" blue		
+		::config::setKey login ""
+		set HOME2 $HOME
+		return
+	}
 	
 	# Modify HOME dir to current profile, chose a non locked profile, if none available go to default
 	if { $trigger == 0 } {
@@ -1164,7 +1184,8 @@ if { $initialize_amsn == 1 } {
 	#create_dir $log_dir
 	#create_dir $files_dir
 	ConfigDefaults
-	::config::GlobalDefaults
+	::config::loadGlobal
+	
 	
 	;# Load of logins/profiles in combobox
 	;# Also sets the newest login as config(login)
@@ -1173,15 +1194,9 @@ if { $initialize_amsn == 1 } {
 		exit
 	}
 
-	
-	
-	set gconfig(language) en  ;#Load english as default language to fill trans array
-	load_lang
-
-	::config::loadGlobal
+	load_lang ;#Load default english language
 	scan_languages
-	load_lang
-
+	load_lang [::config::getGlobalKey language]
 
 	load_config		;# So this loads the config of this newest dude
 

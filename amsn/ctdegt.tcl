@@ -968,12 +968,14 @@ proc Preferences { { settings "personal"} } {
 }
 
 proc reload_advanced_options {path} {
-	global advanced_options config
+	global advanced_options config gconfig
 
 	set i 0
 	foreach opt $advanced_options {
-		if {[lindex $opt 0] == "" } {
-			if { $i != 0 } {
+		incr i	
+		#For each advanced option, check if it's a title, it's local config, or global configs
+		if {[lindex $opt 0] == "title" } {
+			if { $i != 1 } {
 				label $path.sp$i -font bboldf
 				label $path.l$i -font bboldf -text "[trans [lindex $opt 1]]"
 				pack $path.sp$i $path.l$i -side top -anchor w -pady 4
@@ -981,37 +983,42 @@ proc reload_advanced_options {path} {
 				label $path.l$i -font bboldf -text "[trans [lindex $opt 1]]"
 				pack $path.l$i -side top -anchor w -pady 4
 			}
-		} elseif {![info exists config([lindex $opt 0])]} {
-			label $path.l$i -text "ERROR: Non-existing option \"[lindex $opt 0]\"" -font splainf
-			pack $path.l$i -side top -anchor w
-			#$opt_list insert end " ERROR: Non-existing option \"[lindex $opt 0]\""
 		} else {
-			switch [lindex $opt 1] {
+			if {[lindex $opt 0] == "local"} {
+				set config_var [::config::getVar [lindex $opt 1]]
+			} elseif {[lindex $opt 0] == "global"} {
+				set config_var [::config::getGlobalVar [lindex $opt 1]]
+			} else {
+				label $path.l$i -text "ERROR: Unknown advanced option type: \"[lindex $opt01]\""
+				pack $path.l$i -side top -anchor w
+				continue
+			}
+			
+			switch [lindex $opt 2] {
 				bool {
-					checkbutton $path.cb$i -text [trans [lindex $opt 2]] -font splainf -variable config([lindex $opt 0])
+					checkbutton $path.cb$i -text [trans [lindex $opt 3]] -font splainf -variable $config_var
 					pack $path.cb$i -side top -anchor w
 				}
 				folder {
 					frame $path.fr$i
-					button $path.fr$i.browse -text [trans browse] -command "Browse_Dialog_dir config([lindex $opt 0])"
-					LabelEntry $path.fr$i.le "[trans [lindex $opt 2]]:" config([lindex $opt 0]) 20
+					button $path.fr$i.browse -text [trans browse] -command "Browse_Dialog_dir config([lindex $opt 1])"
+					LabelEntry $path.fr$i.le "[trans [lindex $opt 3]]:" $config_var 20
 					pack $path.fr$i.le -side left -anchor w -expand true -fill x
 					pack $path.fr$i.browse -side left
 					pack $path.fr$i -side top -anchor w -expand true -fill x
 				}
 				int {
-					LabelEntry $path.le$i "[trans [lindex $opt 2]]:" config([lindex $opt 0]) 20
-					$path.le$i.ent configure -validate focus -validatecommand "check_int %W" -invalidcommand "$path.le$i.ent delete 0 end; $path.le$i.ent insert end $config([lindex $opt 0])"
+					LabelEntry $path.le$i "[trans [lindex $opt 3]]:" $config_var 20
+					$path.le$i.ent configure -validate focus -validatecommand "check_int %W" -invalidcommand "$path.le$i.ent delete 0 end; $path.le$i.ent insert end [set $config_var]"
 					pack $path.le$i -side top -anchor w -expand true -fill x
 				}
 				default {
-					LabelEntry $path.le$i "[trans [lindex $opt 2]]:" config([lindex $opt 0]) 20
+					LabelEntry $path.le$i "[trans [lindex $opt 3]]:" $config_var 20
 					pack $path.le$i -side top -anchor w -expand true -fill x
-			#		$opt_list insert end " [trans [lindex $opt 2]]: $config([lindex $opt 0])"
 				}
 			}
+			
 		}
-		incr i
 
 	}
 

@@ -3780,7 +3780,6 @@ proc show_languagechoose {} {
 		set langshort [lindex $langelem 0]
 		set langlong [lindex $langelem 1]
 		lappend languages [list "$langlong" $langshort ]
-		#-command "set config(language) $langshort; load_lang;msg_box \"\[trans mustrestart\]\""
 	}
 
 	::amsn::listChoose "[trans language]" $languages set_language 0 1
@@ -3791,12 +3790,10 @@ proc show_languagechoose {} {
 proc set_language { langname } {
 	set oldlang  [::config::getGlobalKey language]
 
-	::config::setGlobalKey language $langname
-	load_lang
+	load_lang $langname
 	msg_box [trans mustrestart]
 
-	::config::setGlobalKey language $oldlang
-	load_lang
+	load_lang $oldlang
 
 	::config::setGlobalKey language $langname
 	::config::saveGlobal
@@ -3990,7 +3987,7 @@ proc cmsn_draw_offline {} {
 
 	$pgBuddy.text insert end "\n\n\n\n"
 
-	if { $config(login) != ""} {
+	if { ([::config::getKey login] != "") && ([::config::getGlobalKey disableprofiles] != 1)} {
 		if { $password != "" } {
 			$pgBuddy.text insert end "$config(login)\n" start_login
 			$pgBuddy.text insert end "[trans clicktologin]" start_login
@@ -4163,7 +4160,7 @@ proc cmsn_draw_login {} {
 	radiobutton $mainframe.button -text [trans defaultloginradio] -value 0 -variable loginmode -command "RefreshLogin $mainframe"
 	label $mainframe.loginlabel -text "[trans user]: " -font sboldf
 	entry $mainframe.loginentry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 25
-	if { $config(disableprofiles)!=1} { grid $mainframe.button -row 1 -column 1 -columnspan 2 -sticky w -padx 10 }
+	if { [::config::getGlobalKey disableprofiles]!=1} { grid $mainframe.button -row 1 -column 1 -columnspan 2 -sticky w -padx 10 }
 	grid $mainframe.loginlabel -row 2 -column 1 -sticky e -padx 10
 	grid $mainframe.loginentry -row 2 -column 2 -sticky w -padx 10
 
@@ -4175,7 +4172,7 @@ proc cmsn_draw_login {} {
 		-bg #FFFFFF \
 		-font splainf \
 		-command ConfigChange
-	if { $config(disableprofiles)!=1} {
+	if { [::config::getGlobalKey disableprofiles]!=1} {
 		grid $mainframe.button2 -row 1 -column 3 -sticky w
 		grid $mainframe.box -row 2 -column 3 -sticky w
 	}
@@ -4199,7 +4196,7 @@ proc cmsn_draw_login {} {
 	button $buttonframe.cancel -text [trans cancel] -command "ButtonCancelLogin .login" -font sboldf
 	button $buttonframe.ok -text [trans ok] -command login_ok  -font sboldf
 	button $buttonframe.addprofile -text [trans addprofile] -command AddProfileWin -font sboldf
-	if { $config(disableprofiles)!=1} {
+	if { [::config::getGlobalKey disableprofiles]!=1} {
 		pack $buttonframe.ok $buttonframe.cancel $buttonframe.addprofile -side right -padx 10
 	} else {
 		pack $buttonframe.ok $buttonframe.cancel -side right -padx 10
@@ -4207,14 +4204,14 @@ proc cmsn_draw_login {} {
 
 	grid $mainframe.passlabel -row 3 -column 1 -sticky e -padx 10
 	grid $mainframe.passentry -row 3 -column 2 -sticky w -padx 10
-	if { $config(disableprofiles)!=1} {
+	if { [::config::getGlobalKey disableprofiles]!=1} {
 		grid $mainframe.passentry2 -row 3 -column 3 -sticky w
 	}
 	grid $mainframe.remember -row 5 -column 2 -sticky wn
 	grid $mainframe.offline -row 6 -column 2 -sticky wn
 	grid $mainframe.example -row 1 -column 4 -rowspan 4
 
-	if { $config(disableprofiles) != 1 } {
+	if { [::config::getGlobalKey disableprofiles] != 1 } {
 		grid $mainframe.nossl -row 7 -column 1 -sticky en -columnspan 4
 	}
 
@@ -4239,7 +4236,7 @@ proc cmsn_draw_login {} {
 		set loginmode 1
 	}
 
-	if { $config(disableprofiles)==1} {
+	if { [::config::getGlobalKey disableprofiles]==1} {
 		set loginmode 0
 	}
 
