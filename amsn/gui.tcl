@@ -2958,7 +2958,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 
 #Focus last windows , in AquaTK (Mac OS X)
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" && $lastfocus!="" } {
-	after 50 "focus -force $lastfocus"  
+	after 50 "focus -force $lastfocus"
 	}
 	
       if { $sound != ""} {
@@ -3009,9 +3009,9 @@ proc adjust_yscroll {text bar begin end } {
         set scrolling 1
      }
 
-     pack forget $bar
      if {[info exists scrollbar_packed_$bar]} {
-        unset scrollbar_packed_$bar
+     	pack forget $bar
+		  unset scrollbar_packed_$bar
      }
 
 
