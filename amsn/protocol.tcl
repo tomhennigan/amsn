@@ -438,7 +438,12 @@ namespace eval ::MSN {
 
       if {[catch {eof $ns_sock} res]} {
 
-         return ""
+         set oldstat [sb get ns stat]
+         sb set ns stat "d"
+
+         if { ("$oldstat" != "d") && ("$oldstat" != "u") } {
+            logout
+         }
 
       } elseif {[eof $ns_sock]} {
 
@@ -472,7 +477,17 @@ namespace eval ::MSN {
 
       if { [catch {puts [sb get ns sock] "$msgtxt"} res]} {
          degt_protocol "->NS(FAILED) $msgtxt" error
-         return 0
+
+         catch {close [sb get ns sock]} res
+	          
+         set oldstat [sb get ns stat]
+         sb set ns stat "d"
+
+         if { ("$oldstat" != "d") && ("$oldstat" != "u") } {
+            logout
+         }
+	 
+	 return 0
       }
       degt_protocol "->NS $msgtxt" nssend
 
@@ -1393,6 +1408,7 @@ proc read_sb_sock {sbn} {
    if {[catch {eof $sb_sock} res]} {
 
       catch {close $sb_sock} res
+      status_log "Error reading EOF in read_sb_sock\n" red
       cmsn_sb_sessionclosed $sbn
 
    } elseif {[eof $sb_sock]} {
@@ -1405,6 +1421,8 @@ proc read_sb_sock {sbn} {
 
       set tmp_data "ERROR READING SB !!!"
       if {[catch {gets $sb_sock tmp_data} res] || "$tmp_data" == "" } {
+         degt_protocol "<-SB($sbn) BASURA" error
+         return 0
          catch {close $sb_sock} res
          degt_protocol "<-SB($sbn) CLOSED" error
          cmsn_sb_sessionclosed $sbn
@@ -2129,7 +2147,7 @@ proc cmsn_update_users {sb_name recv} {
             the close event has been catch before the BYE...\n"
          }
 
-         if { "$chatid" != "[lindex $recv 1]" || ![::MSN::chatReady $chatid]} {
+         if { [::MSN::SBFor $chatid] == $sb_name } {
             ::amsn::userLeaves $chatid [list [lindex $recv 1]]
          }
 
