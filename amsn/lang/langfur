@@ -327,6 +327,7 @@ msgmode Sielç cemût aministrâ i barcons dai mes multiplis:
 msn AMSN
 msnstyle Stîl di chat MSN
 mustrestart Tu âs di tornâ a inviâ il program par ativâ les modifichis
+myfriendlyname Il gno non par i amiis
 myhomephone Il gno numar di telefon di cjase
 mymobilephone Il gno numar di telefonin
 mynick Il gno Sorenon
@@ -347,6 +348,7 @@ next Prossim
 nick Sorenon
 noactivity Nissune ativitât
 nodataavailable No son dâts disponibii par $1
+nogap Nissun spazi tal mieç dai grops
 nogroup Nissun grop
 nologfile Nol é un file di regjistri par $1
 noneavailable Nie disponibil
@@ -450,6 +452,7 @@ reconnecting Riconession al server
 reconnect O stoi spietant che $1 a si torni a coneti
 reject Pare indaûr
 rememberpass Visiti le password
+removeempty Rimôf i grops vueits de liste dai contats
 removefromlist Rimôf di cheste liste
 rename Rinomine
 reversed Ledrosât
@@ -488,6 +491,7 @@ smileconfig Configurazion des emoticon personalizadis
 smilefile Non dal file de musute
 smileintro2 Par plasè modifiche i cjamps che coventin par personalizâ cheste musute (cjale le FAQ par un jutori)
 smileintro Par plasè jemple i cjamps domandâts par creâ une gnove musute personalizade (cjale le FAQ par un jutori)
+sngdblclick Frache dome une volte par vierzi un gnûf barcon di chat 
 sound2 Fâs un sun cuant che i contats e jentrin o mandin un mes
 soundactive Fâs dai suns cuant che tu ricevis mes ancje tai barcons atîfs
 sound Ative suns
