@@ -3691,12 +3691,14 @@ proc choose_font { parent title {initialfont ""} {initialcolor ""}} {
 
 #///////////////////////////////////////////////////////////////////////
 proc change_myfont {win_name} {
-	global config
-
-	set fontname [lindex $config(mychatfont) 0] 
-	set fontsize [expr {[lindex [::config::getGlobalKey basefont] end-1] + $config(textsize)}]
-	set fontstyle [lindex $config(mychatfont) 1]	
-	set fontcolor [lindex $config(mychatfont) 2]
+	
+	set basesize [lindex [::config::getGlobalKey basefont] 1]	
+	
+	#Get current font configuration
+	set fontname [lindex [::config::getKey mychatfont] 0] 
+	set fontsize [expr {$basesize + [::config::getKey textsize]}]
+	set fontstyle [lindex [::config::getKey mychatfont] 1]	
+	set fontcolor [lindex [::config::getKey mychatfont] 2]
 
 	if { [catch {
 			set selfont_and_color [choose_font .${win_name} [trans choosebasefont] [list $fontname $fontsize $fontstyle] "#$fontcolor"]
@@ -3707,55 +3709,52 @@ proc change_myfont {win_name} {
 	}
 	
 	set selfont [lindex $selfont_and_color 0]
-	set color [lindex $selfont_and_color 1]
-	
+	set selcolor [lindex $selfont_and_color 1]
+
 	if { $selfont == ""} {
 		return
 	}
 	
-	if { $color == "" } {
-		set color $fontcolor
+	set sel_fontfamily [lindex $selfont 0]
+	set sel_fontstyle [lrange $selfont 2 end]
+	
+	
+	if { $selcolor == "" } {
+		set selcolor $fontcolor
 	} else {
-		set color [string range $color 1 end]
+		set selcolor [string range $selcolor 1 end]
 	}
 	
-	set config(mychatfont) [list [lindex $selfont 0] [lrange $selfont 2 end] $color]
-
+	::config::setKey mychatfont [list $sel_fontfamily $sel_fontstyle $selcolor]
 	
-	set config(textsize) [expr {[lindex $selfont 1]- [lindex [::config::getGlobalKey basefont] 1]}]
-	change_myfontsize $config(textsize) ${win_name}
-
+	change_myfontsize [::config::getKey textsize] $win_name
+	
 }
 #///////////////////////////////////////////////////////////////////////
 
+proc change_myfontsize { size name } {
+	
+	set basesize [lindex [::config::getGlobalKey basefont] 1]	
+	
+	#Get current font configuration
+	set fontfamily [lindex [::config::getKey mychatfont] 0] 
+	set fontsize [expr {$basesize + $size} ]
+	set fontstyle [lindex [::config::getKey mychatfont] 1]	
+	set fontcolor [lindex [::config::getKey mychatfont] 2]
 
-
-#///////////////////////////////////////////////////////////////////////
-proc change_myfontsize {size name} {
-	if { $size == ""} {
-		::config::setKey textsize 0
-	} else {
-		::config::setKey textsize $size	
-	}
-
-	set fontfamily \{[lindex [::config::getKey mychatfont] 0]\}
-	set fontstyle \{[lindex [::config::getKey mychatfont] 1]\}
-
-	if { [llength [::config::getGlobalKey basefont]] < 3 } { ::config::setGlobalKey basefont [list Helvetica 11 normal] }
-	set fontsize [expr {[lindex [::config::getGlobalKey basefont] end-1] + [::config::getKey textsize]}]
-
-	catch {.${name}.f.out.text tag configure yours -font "$fontfamily $fontsize $fontstyle"} res
-	catch {.${name}.f.bottom.in.input configure -font "$fontfamily $fontsize $fontstyle"} res
-	catch {.${name}.f.bottom.in.input configure -foreground "#[lindex [::config::getKey mychatfont] end]"} res
+	.${name}.f.out.text tag configure yours -font [list $fontfamily $fontsize $fontstyle]
+	.${name}.f.bottom.in.input configure -font [list $fontfamily $fontsize $fontstyle]
+	.${name}.f.bottom.in.input configure -foreground "#$fontcolor"
 
 	#Get old user font and replace its size
 	catch {
 		set font [lreplace [.${name}.f.out.text tag cget user -font] 1 1 $fontsize]
 		.${name}.f.out.text tag configure user -font $font
-	} res
+	} res	
+	
+	::config::setKey textsize $size
+	
 }
-#///////////////////////////////////////////////////////////////////////
-
 
 
 #///////////////////////////////////////////////////////////////////////

@@ -1706,15 +1706,22 @@ proc choose_basefont { } {
 		raise .basefontsel
 		return
 	}
-			
-	set font [SelectFont .basefontsel -parent .cfg -title [trans choosebasefont] -font [::config::getGlobalKey basefont] -styles [list]]
+
 	
-	if { [llength $font] < 2 } {
-		return 0
+	if { [catch {
+			set font [SelectFont .basefontsel -parent .cfg -title [trans choosebasefont] -font [::config::getGlobalKey basefont] -styles [list]]
+		}]} {
+		
+		set font [SelectFont .basefontsel -parent .cfg -title [trans choosebasefont] -font [list "helvetica" 12 [list]] -styles [list]]
+		
 	}
 
 	set family [lindex $font 0]
 	set size [lindex $font 1]
+			
+	if { $family == "" || $size == ""} {
+		return
+	}
 
 	set newfont [list $family $size normal]
 
