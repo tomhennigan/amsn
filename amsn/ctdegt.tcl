@@ -496,17 +496,27 @@ proc Preferences { { settings ""} } {
 	pack $lfname.pmsging -anchor nw -side left
 	frame $lfname.1 -class Degt
 	frame $lfname.2 -class Degt
-	label $lfname.1.lmsgmaxmin -text [trans msgmaxmin] -padx 10
-	radiobutton $lfname.1.max -text [trans maximised] -value 0 -variable config(newmsgwinstate)
-	radiobutton $lfname.1.min -text [trans minimised] -value 1 -variable config(newmsgwinstate)
-	pack $lfname.1.lmsgmaxmin -anchor w -side top -padx 10
+	frame $lfname.3 -class Degt
+	
+	label $lfname.1.lchatmaxmin -text [trans chatmaxmin] -padx 10
+	radiobutton $lfname.1.max -text [trans raised] -value 0 -variable config(newchatwinstate)
+	radiobutton $lfname.1.min -text [trans minimised] -value 1 -variable config(newchatwinstate)
+	pack $lfname.1.lchatmaxmin -anchor w -side top -padx 10
 	pack $lfname.1.max $lfname.1.min -side left -padx 10
-	label $lfname.2.lmsgmode -text [trans msgmode] -padx 10
-	radiobutton $lfname.2.normal -text [trans normal] -value 1 -variable config(msgmode) -state disabled
-	radiobutton $lfname.2.tabbed -text [trans tabbed] -value 2 -variable config(msgmode) -state disabled
-	pack $lfname.2.lmsgmode -anchor w -side top -padx 10
-	pack $lfname.2.normal $lfname.2.tabbed -side left -padx 10
-	pack $lfname.1 $lfname.2 -anchor w -side top
+		
+	label $lfname.2.lmsgmaxmin -text [trans msgmaxmin] -padx 10
+	radiobutton $lfname.2.max -text [trans raised] -value 0 -variable config(newmsgwinstate)
+	radiobutton $lfname.2.min -text [trans minimised] -value 1 -variable config(newmsgwinstate)
+	pack $lfname.2.lmsgmaxmin -anchor w -side top -padx 10
+	pack $lfname.2.max $lfname.2.min -side left -padx 10
+	
+	label $lfname.3.lmsgmode -text [trans msgmode] -padx 10
+	radiobutton $lfname.3.normal -text [trans normal] -value 1 -variable config(msgmode) -state disabled
+	radiobutton $lfname.3.tabbed -text [trans tabbed] -value 2 -variable config(msgmode) -state disabled	
+	pack $lfname.3.lmsgmode -anchor w -side top -padx 10 
+	pack $lfname.3.normal $lfname.3.tabbed -side left -padx 10
+	
+	pack $lfname.1 $lfname.2 $lfname.3 -anchor w -side top -pady 5
 
 	frame $frm.dummy -class Degt
 	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
@@ -1069,6 +1079,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.44  2003/06/05 12:06:02  airadier
+# Fixed a raise/minimize issue with chat windows, and added a new option for raising or iconifying window when a new chat starts
+#
 # Revision 1.43  2003/06/01 19:49:36  airadier
 # Very alpha support of POST proxy method.
 # Removed WriteNS, WriteNSRaw, and read_ns_sock, it was same code as WriteSB, WriteSBRaw and read_sb_sock, so now they're the same, always use SB procedures.

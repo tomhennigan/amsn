@@ -446,25 +446,26 @@ namespace eval ::amsn {
          set first_message($win_name) 0
 	 #wm state ${win_name} normal
 
-         #If window not focused, play "type" sound and show notify
-	 if { [string first ${win_name} [focus]] != 0 } {
-
-   	    if { $config(newmsgwinstate) == 0 } {
-	 	raise ${win_name}
-	    } else {
-	 	#wm iconify ${win_name}
-	    }
-
-            if { $config(notifymsg) == 1 } {
-	 	notifyAdd "[trans says [lindex [::MSN::getUserInfo $user] 1]]:\n$msg" \
-		"::amsn::chatUser $chatid"
-	    }
+         if { ($config(notifymsg) == 1) && ([string first ${win_name} [focus]] != 0)} {
+            notifyAdd "[trans says [lindex [::MSN::getUserInfo $user] 1]]:\n$msg" \
+	    "::amsn::chatUser $chatid"
 	 }
 
       }
-
+      
       if { [string first ${win_name} [focus]] != 0 } {
+
+         if { $config(newmsgwinstate) == 0 } {
+	    wm deiconify ${win_name}
+            raise ${win_name}
+            status_log "Raise window\n"
+         } else {
+            #wm iconify ${win_name}
+            status_log "Keep it\n"
+         }
+      
          play_sound type
+	 
       }
       
    }
@@ -956,8 +957,14 @@ namespace eval ::amsn {
       set window_titles(.${win_name}) ""
       set first_message(.${win_name}) 1
 
+      if { $config(newchatwinstate) == 0 } {
+	 wm state .${win_name} normal
+	 raise .${win_name}
+      } else {
+         wm state .${win_name} iconic
+      }
 
-      wm state .${win_name} iconic
+      #wm state .${win_name} iconic
       return ".${win_name}"
 
    }

@@ -77,6 +77,7 @@ proc ConfigDefaults {} {
 	set config(showtimestamps) 1
 	set config(allowbadwords) 1
 	set config(newmsgwinstate) 1
+        set config(newchatwinstate) 1
 	set config(receiveddir) ""
         set config(remotepassword) ""
         set config(enableremote) 0
