@@ -268,27 +268,27 @@ namespace eval ::Nudge {
 		if { $::Nudge::config(addbutton) == 1 } {
 			upvar 2 evpar newvar
 			upvar 2 bottom bottom
-			
+			set nudgebutton $bottom.buttons.nudge
 			#Create the button with an actual Pixmal
 			#Use after 1 to avoid a bug on Mac OS X when we close the chatwindow before the end of the nudge
 			#Keep compatibility with 0.94 for the getColor
 			if {[::Nudge::version_094]} {
-				button $bottom.buttons.nudge -image [::skin::loadPixmap nudge] -relief flat -padx 3 \
+				button $nudgebutton -image [::skin::loadPixmap nudge] -relief flat -padx 3 \
 				-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0 \
 				-highlightbackground [::skin::getColor background2] \
 				-command "after 1 ::Nudge::send_via_queue $newvar(window_name)"
 			} else {
-				button $bottom.buttons.nudge -image [::skin::loadPixmap nudge] -relief flat -padx 3 \
-				-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-				-highlightbackground [::skin::getColor buttonbarbg] \
+				button $nudgebutton -image [::skin::loadPixmap nudge] -relief flat -padx 3 \
+				-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
+				-highlightbackground [::skin::getKey buttonbarbg] \
 				-command "after 1 ::Nudge::send_via_queue $newvar(window_name)"
 			}
 			
 			#Define baloon info
-			set_balloon $bottom.buttons.nudge "$::Nudge::language(send_nudge)"
+			set_balloon $nudgebutton "$::Nudge::language(send_nudge)"
 		
 			#Pack the button in the right area
-			pack $bottom.buttons.nudge -side right
+			pack $nudgebutton -side right
 			::Nudge::log "Nudge button added in new window"
 		}
 	}
