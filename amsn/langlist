@@ -34,7 +34,7 @@
 	<lang>
 		<langcode>ca</langcode>
 		<name>Catalan</name>
-		<version>1.106</version>
+		<version>1.107</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -46,7 +46,7 @@
 	<lang>
 		<langcode>cy</langcode>
 		<name>Cymraeg\Welsh</name>
-		<version>1.7</version>
+		<version>1.8</version>
 		<encoding>utf-8</encoding>
 	</lang>
 	<lang>
@@ -64,7 +64,7 @@
 	<lang>
 		<langcode>ee</langcode>
 		<name>Estonian</name>
-		<version>1.27</version>
+		<version>1.28</version>
 		<encoding>iso8859-4</encoding>
 	</lang>
 	<lang>
@@ -76,7 +76,7 @@
 	<lang>
 		<langcode>en</langcode>
 		<name>English</name>
-		<version>1.271</version>
+		<version>1.275</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -106,7 +106,7 @@
 	<lang>
 		<langcode>fr</langcode>
 		<name>French (France)</name>
-		<version>1.114</version>
+		<version>1.115</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -148,7 +148,7 @@
 	<lang>
 		<langcode>hu</langcode>
 		<name>Hungary</name>
-		<version>1.13</version>
+		<version>1.15</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -244,7 +244,7 @@
 	<lang>
 		<langcode>sl</langcode>
 		<name>Slovenian (Slovenscina)</name>
-		<version>1.21</version>
+		<version>1.22</version>
 		<encoding>iso8859-2</encoding>
 	</lang>
 	<lang>
