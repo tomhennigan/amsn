@@ -143,17 +143,21 @@ namespace eval ::skin {
 		}
 	
 		#Delete old mainbar, and load colorbar
+		#The colorbar will be loaded as follows:
+		#[first 10 px][11th px repeating to fill][the rest of the colorbar]
 		catch {image delete mainbar}
 		
 		set barheight [image height [loadPixmap colorbar]]
 		set barwidth [image width [loadPixmap colorbar]]
+		set barendwidth [expr $barwidth - 11]
+		set barendstart [expr $width - $barendwidth]
 	
 		#Create the color bar copying from the pixmap
 		image create photo mainbar -width $width -height $barheight
 		mainbar blank
-		mainbar copy [loadPixmap colorbar] -from 0 0 5 $barheight
-		mainbar copy [loadPixmap colorbar] -from 5 0 15 $barheight -to 5 0 [expr {$width - 150}] $barheight
-		mainbar copy [loadPixmap colorbar] -from [expr {$barwidth - 150}] 0 $barwidth $barheight -to [expr {$width - 150}] 0 $width $barheight
+		mainbar copy [loadPixmap colorbar] -from 0 0 10 $barheight
+		mainbar copy [loadPixmap colorbar] -from 10 0 11 $barheight -to 10 0 $barendstart $barheight
+		mainbar copy [loadPixmap colorbar] -from [expr $barwidth - $barendwidth] 0 $barwidth $barheight -to $barendstart 0 $width $barheight
 		
 		return mainbar
 	}
