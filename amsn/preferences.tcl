@@ -61,14 +61,6 @@ proc Preferences { { settings "personal"} } {
 
     # Frame to hold the preferences tabs/notebook
     frame .cfg.notebook -class Degt
-    pack .cfg.notebook -side top -fill both -expand 1 -padx 5 -pady 5
-
-    # Frame for common buttons (all preferences)
-    frame .cfg.buttons -class Degt
-    button .cfg.buttons.save -text [trans save] -font sboldf -command "SavePreferences; destroy .cfg"
-    button .cfg.buttons.cancel -text [trans close] -font sboldf -command "destroy .cfg"
-    pack .cfg.buttons.save .cfg.buttons.cancel -side left -padx 10 -pady 5
-    pack .cfg.buttons -side top -fill x
 
     #set nb .cfg.notebook.nn
     set nb .cfg.notebook
@@ -95,9 +87,10 @@ proc Preferences { { settings "personal"} } {
 	$nb.nn insert end connection -text [trans connection]
 	$nb.nn insert end others -text [trans others]
 	$nb.nn insert end advanced -text [trans advanced]
+	$nb.nn insert end advanced2 -text [trans advanced]
+	$nb.nn insert end advanced3 -text [trans advanced]
+	$nb.nn insert end advanced4 -text [trans advanced]
 
-
-	pack $nb -fill both -expand 1 -padx 10 -pady 10
 
 	#  .----------.
 	# _| Personal |________________________________________________
@@ -109,7 +102,7 @@ proc Preferences { { settings "personal"} } {
 	set frm [$nb.nn getframe personal]
 	#Scrollable frame that will contain options
 	ScrolledWindow $frm.sw -borderwidth 1
-	ScrollableFrame $frm.sw.sf -constrainedwidth 1
+	ScrollableFrame $frm.sw.sf 
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
 	set frm [$frm.sw.sf getframe]	
@@ -194,7 +187,7 @@ proc Preferences { { settings "personal"} } {
 	set frm [$nb.nn getframe appearance]
 	#Scrollable frame that will contain options
 	ScrolledWindow $frm.sw -borderwidth 1
-	ScrollableFrame $frm.sw.sf -constrainedwidth 1
+	ScrollableFrame $frm.sw.sf
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
 	set frm [$frm.sw.sf getframe]	
@@ -262,7 +255,7 @@ proc Preferences { { settings "personal"} } {
 	set frm [$nb.nn getframe session]
 	#Scrollable frame that will contain options
 	ScrolledWindow $frm.sw -borderwidth 1
-	ScrollableFrame $frm.sw.sf -constrainedwidth 1
+	ScrollableFrame $frm.sw.sf
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
 	set frm [$frm.sw.sf getframe]	
@@ -419,7 +412,7 @@ proc Preferences { { settings "personal"} } {
 	set frm [$nb.nn getframe connection]
 	#Scrollable frame that will contain options
 	ScrolledWindow $frm.sw -borderwidth 1
-	ScrollableFrame $frm.sw.sf -constrainedwidth 1
+	ScrollableFrame $frm.sw.sf
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
 	set frm [$frm.sw.sf getframe]	
@@ -530,7 +523,7 @@ proc Preferences { { settings "personal"} } {
 	
 	#Scrollable frame that will contain options
 	ScrolledWindow $frm.sw -borderwidth 1
-	ScrollableFrame $frm.sw.sf -constrainedwidth 1
+	ScrollableFrame $frm.sw.sf
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
 	set frm [$frm.sw.sf getframe]	
@@ -626,7 +619,7 @@ proc Preferences { { settings "personal"} } {
 	
 	#Scrollable frame that will contain advanced optoins
 	ScrolledWindow $lfname.sw -borderwidth 1
-	ScrollableFrame $lfname.sw.sf -constrainedwidth 1
+	ScrollableFrame $lfname.sw.sf
 	$lfname.sw setwidget $lfname.sw.sf
 	set path [$lfname.sw.sf getframe]	
 	pack $lfname.sw -anchor n -side top -expand true -fill both
@@ -812,19 +805,29 @@ proc Preferences { { settings "personal"} } {
 	#frame $frm.dummy -class Degt
 	#pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 
-    setCfgFonts $nb splainf
-
+    # Frame for common buttons (all preferences)
+    frame .cfg.buttons -class Degt
+    button .cfg.buttons.save -text [trans save] -font sboldf -command "SavePreferences; destroy .cfg"
+    button .cfg.buttons.cancel -text [trans close] -font sboldf -command "destroy .cfg"
+    pack .cfg.buttons.save .cfg.buttons.cancel -side right -padx 10 -pady 5
+    pack .cfg.buttons -side bottom -fill x
+    
+    
     #Rnotebook:totalwidth $nb
+    $nb.nn raise personal
     $nb.nn compute_size
+    pack $nb.nn -expand true -fill both
+    #pack $nb -fill both -expand 1 -padx 10 -pady 10
 
+    pack .cfg.notebook -side bottom -fill both -expand true -padx 5 -pady 5
+    
+    
     InitPref
     UpdatePreferences
 
     #wm geometry .cfg [expr [Rnotebook:totalwidth $nb] + 50]x595
 
     #catch { Rnotebook:raise $nb $Preftabs($settings) }
-    $nb.nn raise personal
-    pack $nb.nn -expand true -fill both
 
     
     bind .cfg <Destroy> "RestorePreferences %W"
