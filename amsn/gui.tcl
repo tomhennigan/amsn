@@ -2512,38 +2512,46 @@ proc cmsn_draw_main {} {
      -menu .ordergroups_by
 
    .main_menu.tools add separator
-   .main_menu.tools add cascade -label "[trans options]" -menu .options
+   #.main_menu.tools add cascade -label "[trans options]" -menu .options
 
    #Options menu
-   menu .options -tearoff 0 -type normal
-   .options add command -label "[trans changenick]..." -state disabled \
-      -command cmsn_change_name -state disabled
+   #menu .options -tearoff 0 -type normal
+   #.options add command -label "[trans changenick]..." -state disabled \
+   #   -command cmsn_change_name -state disabled
 #   .options add command -label "[trans publishphones]..." -state disabled \
-      -command "::abookGui::showEntry $config(login) -edit"
-   .options add separator
-   #.options add cascade -label "[trans preferences]..." -menu .pref_menu
-   .options add command -label "[trans preferences]..." -command Preferences
+   #   -command "::abookGui::showEntry $config(login) -edit"
+   #.options add separator
+   #.options add command -label "[trans preferences]..." -command Preferences
 
    #TODO: Move this into preferences window
-   .options add cascade -label "[trans docking]" -menu .dock_menu
+   #.options add cascade -label "[trans docking]" -menu .dock_menu
+   .main_menu.tools add cascade -label "[trans docking]" -menu .dock_menu
    menu .dock_menu -tearoff 0 -type normal
    .dock_menu add radio -label "[trans dockingoff]" -value 0 -variable config(dock) -command "init_dock"
    .dock_menu add radio -label "[trans dockfreedesktop]" -value 3 -variable config(dock) -command "init_dock"
    .dock_menu add radio -label "[trans dockgtk]" -value 1 -variable config(dock) -command "init_dock"
    #.dock_menu add radio -label "[trans dockkde]" -value 2 -variable config(dock) -command "init_dock"
 
-   .options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
+   .main_menu.tools add separator
+   #.options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
    #Let's disable adverts until it works, it's only problems for know
    set config(adverts) 0
    #.options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
    #-command "msg_box \"[trans mustrestart]\""
-   .options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable config(closingdocks) 
-   .options add separator
-   .options add command -label "[trans language]..." -command show_languagechoose
-    .options add command -label "[trans skinselector]..." -command SelectSkinGui
+   #.options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable config(closingdocks)
+   #.options add separator
+   #.options add command -label "[trans language]..." -command show_languagechoose
+   # .options add command -label "[trans skinselector]..." -command SelectSkinGui
 #    .options add command -label "[trans pluginselector]..." -command ::plugins::PluginGui
 
-   
+	.main_menu.tools add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
+	.main_menu.tools add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable config(closingdocks)
+
+	.main_menu.tools add separator
+   .main_menu.tools add command -label "[trans language]..." -command show_languagechoose
+    .main_menu.tools add command -label "[trans skinselector]..." -command SelectSkinGui
+   .main_menu.tools add command -label "[trans preferences]..." -command Preferences
+
    #Help menu
    menu .main_menu.help -tearoff 0 -type normal
 
@@ -3119,7 +3127,7 @@ proc cmsn_draw_offline {} {
 
    #Change nick
    configureMenuEntry .main_menu.actions "[trans changenick]..." disabled
-   configureMenuEntry .options "[trans changenick]..." disabled
+   #configureMenuEntry .options "[trans changenick]..." disabled
 
    configureMenuEntry .main_menu.actions "[trans sendmail]..." disabled
    configureMenuEntry .main_menu.actions "[trans sendmsg]..." disabled

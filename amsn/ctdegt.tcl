@@ -154,7 +154,7 @@ proc degt_protocol_save_file { filename } {
 
 }
 
-# Ctrl-M to toggle raise/hide. This window is for developers only 
+# Ctrl-M to toggle raise/hide. This window is for developers only
 # to issue commands manually to the Notification Server
 proc degt_ns_command_win {} {
     if {[winfo exists .nscmd]} {
@@ -490,13 +490,9 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.3.llook -text "[trans preffont3]" -padx 10
 	button $lfname.3.bfont -text [trans changefont] -font sboldf -command "choose_basefont"
 	pack $lfname.3 -side top -padx 0 -pady 1 -expand 1 -fill both
-	pack $lfname.3.llook -side left	
+	pack $lfname.3.llook -side left
 	pack $lfname.3.bfont -side right -padx 15
-        checkbutton $lfname.tooltips -text "[trans tooltips]" -onvalue 1 -offvalue 0 -variable config(tooltips)
-        pack $lfname.tooltips -side top -anchor w -padx 10
-	#checkbutton $lfname.truncate -text "[trans truncatenames]" -onvalue 1 -offvalue 0 -variable config(truncatenames)
-	#pack $lfname.truncate -side top -anchor w -padx 10
-    
+
 	
 	## Emoticons Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefemotic]]
@@ -509,8 +505,9 @@ proc Preferences { { settings "personal"} } {
 	checkbutton $lfname.1.list -text "[trans listsmileys2]" -onvalue 1 -offvalue 0 -variable config(listsmileys)
         checkbutton $lfname.1.sound -text "[trans emotisounds]" -onvalue 1 -offvalue 0 -variable config(emotisounds)
         checkbutton $lfname.1.animated -text "[trans animatedsmileys]" -onvalue 1 -offvalue 0 -variable config(animatedsmileys)
-	checkbutton $lfname.1.log -text "[trans logsmileys]" -onvalue 1 -offvalue 0 -variable config(logsmileys) -state disabled
-	pack $lfname.1.chat $lfname.1.list $lfname.1.sound  $lfname.1.animated $lfname.1.log -anchor w -side top -padx 10
+	#checkbutton $lfname.1.log -text "[trans logsmileys]" -onvalue 1 -offvalue 0 -variable config(logsmileys) -state disabled
+	#pack $lfname.1.chat $lfname.1.list $lfname.1.sound  $lfname.1.animated $lfname.1.log -anchor w -side top -padx 10
+	pack $lfname.1.chat $lfname.1.list $lfname.1.sound  $lfname.1.animated -anchor w -side top -padx 10
 
 	## Alerts and Sounds Frame ##
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefalerts]]
@@ -605,21 +602,21 @@ proc Preferences { { settings "personal"} } {
 	radiobutton $lfname.1.min -text [trans minimised] -value 1 -variable config(newchatwinstate)
 	pack $lfname.1.lchatmaxmin -anchor w -side top -padx 10
 	pack $lfname.1.max $lfname.1.min -side left -padx 10
-		
+
 	label $lfname.2.lmsgmaxmin -text [trans msgmaxmin] -padx 10
 	radiobutton $lfname.2.max -text [trans raised] -value 0 -variable config(newmsgwinstate)
 	radiobutton $lfname.2.min -text [trans minimised] -value 1 -variable config(newmsgwinstate)
 	pack $lfname.2.lmsgmaxmin -anchor w -side top -padx 10
 	pack $lfname.2.max $lfname.2.min -side left -padx 10
-	
-	label $lfname.3.lmsgmode -text [trans msgmode] -padx 10
-	radiobutton $lfname.3.normal -text [trans normal] -value 1 -variable config(msgmode) -state disabled
-	radiobutton $lfname.3.tabbed -text [trans tabbed] -value 2 -variable config(msgmode) -state disabled	
+
+	#label $lfname.3.lmsgmode -text [trans msgmode] -padx 10
+	#radiobutton $lfname.3.normal -text [trans normal] -value 1 -variable config(msgmode) -state disabled
+	#radiobutton $lfname.3.tabbed -text [trans tabbed] -value 2 -variable config(msgmode) -state disabled
 	checkbutton $lfname.winflicker -text "[trans msgflicker]" -onvalue 1 -offvalue 0 -variable config(flicker)
-	
-	pack $lfname.3.lmsgmode -anchor w -side top -padx 10 
-	pack $lfname.3.normal $lfname.3.tabbed -side left -padx 10
-	
+
+	#pack $lfname.3.lmsgmode -anchor w -side top -padx 10
+	#pack $lfname.3.normal $lfname.3.tabbed -side left -padx 10
+
 	pack $lfname.1 $lfname.2 $lfname.3 $lfname.winflicker -anchor w -side top -pady 5
 
 	frame $frm.dummy -class Degt
@@ -1605,6 +1602,10 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.85  2003/10/02 00:30:20  airadier
+# Removed some advanced options from preferences window.
+# Changed "Tools" menu.
+#
 # Revision 1.84  2003/09/24 04:49:36  ahamelin
 # Implemented the truncation of nicknames in the contact list, the alerts and the
 # chat window. Added a FAQ that tells how to change it to the old behavior.

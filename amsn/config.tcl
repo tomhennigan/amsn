@@ -86,7 +86,6 @@ proc ConfigDefaults {} {
         set config(initialftport) 6891
         set config(remotepassword) ""
         set config(enableremote) 0
-	set config(animatenotify) 1
         set config(checkonfln) 0
         set config(checkblocking) 0
         set config(blockinter1) 60
@@ -95,7 +94,6 @@ proc ConfigDefaults {} {
         set config(blockusers) 2
         set config(emotisounds) 1
         set config(animatedsmileys) 1
-        set config(tooltips) 1
         set config(skin) "default"
         set config(ftautoaccept) 0
         set config(customsmileys) [list]
@@ -108,6 +106,11 @@ proc ConfigDefaults {} {
 	set config(notifwidth) 150
 	set config(notifheight) 100
 	set password ""
+
+	#Advanced options
+	set config(tooltips) 1
+	set config(animatenotify) 1
+
 }
 
 namespace eval ::config {

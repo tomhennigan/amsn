@@ -3273,7 +3273,7 @@ proc cmsn_auth {{recv ""}} {
  
          #Change nick
 	 configureMenuEntry .main_menu.actions "[trans changenick]..." normal
-	 configureMenuEntry .options "[trans changenick]..." normal
+	 #configureMenuEntry .options "[trans changenick]..." normal
 
 	 configureMenuEntry .main_menu.actions "[trans sendmail]..." normal
 	 configureMenuEntry .main_menu.actions "[trans sendmsg]..." normal
@@ -3391,7 +3391,7 @@ proc cmsn_auth_msnp9 {{recv ""}} {
  
          #Change nick
 	 configureMenuEntry .main_menu.actions "[trans changenick]..." normal
-	 configureMenuEntry .options "[trans changenick]..." normal
+	 #configureMenuEntry .options "[trans changenick]..." normal
 
 	 configureMenuEntry .main_menu.actions "[trans sendmail]..." normal
 	 configureMenuEntry .main_menu.actions "[trans sendmsg]..." normal
