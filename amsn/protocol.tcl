@@ -2199,10 +2199,15 @@ proc cmsn_sb_msg {sb_name recv} {
       #if alarm_onmsg is on run it
       global alarms list_users
       if { ([info exists alarms(${chatid}_onmsg)]) && ($alarms(${chatid}_onmsg) == 1) && ([info exists alarms(${chatid})]) && ($alarms(${chatid}) == 1)} {
-        set idx [lsearch $list_users "${chatid} *"]
-        set username [lindex [lindex $list_users $idx] 1]
-        run_alarm $chatid  "[trans says $username] $body"
+	  set idx [lsearch $list_users "${chatid} *"]
+	  set username [lindex [lindex $list_users $idx] 1]
+	  run_alarm $chatid  "[trans says $username] $body"
+      } elseif { ([info exists alarms(all_onmsg)]) && ($alarms(all_onmsg) == 1) && ([info exists alarms(all)]) && ($alarms(all) == 1)} {
+	  set idx [lsearch $list_users "${chatid} *"]
+	  set username [lindex [lindex $list_users $idx] 1]
+	  run_alarm all  "[trans says $username] $body"
       }
+
 
       # Send automessage once to each user
       	if { [info exists automessage] } {
@@ -2850,46 +2855,72 @@ proc cmsn_change_state {recv} {
       }
    }
 
-#sistema de alarmas (que debe sustituir al anterio que esta implementado mas adelante) de KNO
-   global alarms
-   if {[lindex $recv 0] !="ILN"} {
-   #no es la comprobacion del principio
-     if {[lindex $recv 0] == "FLN"} {
-     #el usuario se ha desconectado
-     set idx [lsearch $list_users "$user *"]
-     set user_name [lindex [lindex $list_users $idx] 1]
-       if { ([info exists alarms([lindex $recv 1]_ondisconnect)]) && ($alarms([lindex $recv 1]_ondisconnect) == 1) && ([info exists alarms([lindex $recv 1])]) && ($alarms([lindex $recv 1]) == 1)} {
-	 run_alarm [lindex $recv 1] [trans disconnect $user_name]
-       }
-     } else {
-	     if { ([info exists alarms([lindex $recv 2]_onstatus)]) && ($alarms([lindex $recv 2]_onstatus) == 1) && ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1)} {
-       switch -exact [lindex $recv 1] {
-         "NLN" {
-	 	run_alarm [lindex $recv 2] "[trans changestate $user_name [trans online]]"
-	 }
-	 "IDL" {
-	 	run_alarm [lindex $recv 2] "[trans changestate $user_name [trans away]]"
-	 }
-	 "BSY" {
-	 	run_alarm [lindex $recv 2] "[trans changestate $user_name [trans busy]]"
-	 }
-	 "BRB" {
-	 	run_alarm [lindex $recv 2] "[trans changestate $user_name [trans rightback]]"
-	 }
-	 "AWY" {
-	 	run_alarm [lindex $recv 2] "[trans changestate $user_name [trans away]]"
-	 }
-	 "PHN" {
-	 	run_alarm [lindex $recv 2] "[trans changestate $user_name [trans onphone]]"
-	 }
-	 "LUN" {
-	 	run_alarm [lindex $recv 2] "[trans changestate $user_name [trans gonelunch]]"
-	 }
-       }
-       }
-     }
-   }
-#fin sistema de alarmas
+    #sistema de alarmas (que debe sustituir al anterio que esta implementado mas adelante) de KNO
+    global alarms
+    if {[lindex $recv 0] !="ILN"} {
+	#no es la comprobacion del principio
+	if {[lindex $recv 0] == "FLN"} {
+	    #el usuario se ha desconectado
+	    set idx [lsearch $list_users "$user *"]
+	    set user_name [lindex [lindex $list_users $idx] 1]
+	    if { ([info exists alarms([lindex $recv 1]_ondisconnect)]) && ($alarms([lindex $recv 1]_ondisconnect) == 1) && ([info exists alarms([lindex $recv 1])]) && ($alarms([lindex $recv 1]) == 1)} {
+		run_alarm [lindex $recv 1] [trans disconnect $user_name]
+	    } elseif { ([info exists alarms(all_ondisconnect)]) && ($alarms(all_ondisconnect) == 1) && ([info exists alarms(all)]) && ($alarms(all) == 1)} {
+		run_alarm all [trans disconnect $user_name]
+	    }
+	} else {
+	    if { ([info exists alarms([lindex $recv 2]_onstatus)]) && ($alarms([lindex $recv 2]_onstatus) == 1) && ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1)} {
+		switch -exact [lindex $recv 1] {
+		    "NLN" {
+			run_alarm [lindex $recv 2] "[trans changestate $user_name [trans online]]"
+		    }
+		    "IDL" {
+			run_alarm [lindex $recv 2] "[trans changestate $user_name [trans away]]"
+		    }
+		    "BSY" {
+			run_alarm [lindex $recv 2] "[trans changestate $user_name [trans busy]]"
+		    }
+		    "BRB" {
+			run_alarm [lindex $recv 2] "[trans changestate $user_name [trans rightback]]"
+		    }
+		    "AWY" {
+			run_alarm [lindex $recv 2] "[trans changestate $user_name [trans away]]"
+		    }
+		    "PHN" {
+			run_alarm [lindex $recv 2] "[trans changestate $user_name [trans onphone]]"
+		    }
+		    "LUN" {
+			run_alarm [lindex $recv 2] "[trans changestate $user_name [trans gonelunch]]"
+		    }
+		}
+	    } elseif {([info exists alarms(all_onstatus)]) && ($alarms(all_onstatus) == 1) && ([info exists alarms(all)]) && ($alarms(all) == 1)} {
+		switch -exact [lindex $recv 1] {
+		    "NLN" {
+			run_alarm all "[trans changestate $user_name [trans online]]"
+		    }
+		    "IDL" {
+			run_alarm all "[trans changestate $user_name [trans away]]"
+		    }
+		    "BSY" {
+			run_alarm all "[trans changestate $user_name [trans busy]]"
+		    }
+		    "BRB" {
+			run_alarm all "[trans changestate $user_name [trans rightback]]"
+		    }
+		    "AWY" {
+			run_alarm all "[trans changestate $user_name [trans away]]"
+		    }
+		    "PHN" {
+			run_alarm all "[trans changestate $user_name [trans onphone]]"
+		    }
+		    "LUN" {
+			run_alarm all "[trans changestate $user_name [trans gonelunch]]"
+		    }
+		}
+	    }
+	}
+    }
+    #fin sistema de alarmas
 
    set idx [lsearch $list_users "$user *"]
    if {$idx != -1} {
@@ -2928,8 +2959,10 @@ proc cmsn_change_state {recv} {
 		}
 
 		if { ([info exists alarms([lindex $recv 2]_onconnect)]) && ($alarms([lindex $recv 2]_onconnect) == 1) && ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1)} {
-			#catch { run_alarm [lindex $recv 2] [lindex $recv 3]}        ;# Run Alarm using EMAIL ADDRESS (Burger)
-			catch { run_alarm [lindex $recv 2] "$user_name [trans logsin]"}
+		    run_alarm [lindex $recv 2] "$user_name [trans logsin]"
+		} elseif { ([info exists alarms(all_onconnect)]) && ($alarms(all_onconnect) == 1) && ([info exists alarms(all)]) && ($alarms(all) == 1)} {
+	
+		    run_alarm all "$user_name [trans logsin]"
 		}
 	}
 

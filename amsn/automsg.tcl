@@ -224,6 +224,8 @@ proc CreateStatesMenu { path } {
     } else {
 	$path add command -label "[trans changedisplaypic]..." -command pictureBrowser -state disabled
     }
+    $path add command -label "[trans cfgalarmall]..." -command "alarm_cfg all" 
+
 }
 
 #///////////////////////////////////////////////////////////////////////////////
