@@ -2214,8 +2214,8 @@ namespace eval ::ChatWindow {
 	 }
 
 	#///////////////////////////////////////////////////////////////////////////////////
-	# NameTabButton $container $win
-	# This proc changes the name of the tab from $win to $chat_ids($win)
+	# NameTabButton $win $chatid
+	# This proc changes the name of the tab
 	proc NameTabButton { win chatid } {
 		variable win2tab
 		
@@ -2226,7 +2226,7 @@ namespace eval ::ChatWindow {
 		incr max_w -5
 		if { $users == "" || [llength $users] == 1} {
 			set nick [::abook::getContactData $chatid nick]
-			if { $nick == "" } {
+			if { $nick == "" || [::config::getKey tabtitlenick] == 0 } {
 				#status_log "writing chatid\n" red
 				$tab configure -text "[trunc $chatid $tab $max_w sboldf]"
 			} else {
