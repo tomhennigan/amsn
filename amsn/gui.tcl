@@ -305,7 +305,7 @@ namespace eval ::amsn {
    	  ShowTransient .about
     
       wm state .about withdrawn
-      grab .about
+      
       
 #Top frame (Picture and name of developers)
       set developers "\nDidimo Grimaldo\nAlvaro J. Iradier\nKhalaf Philippe\nDave Mifsud"
@@ -376,7 +376,7 @@ namespace eval ::amsn {
       wm title .show "$title"
       
     ShowTransient .show
-	grab .show
+	
 	
 #Top frame (Help text area)
 	  frame .show.info

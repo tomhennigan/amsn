@@ -139,7 +139,7 @@ proc SelectSkinGui { } {
 
     bind $w <Destroy> "grab release $w"
 
-    grab set $w
+    
 }
 
 
