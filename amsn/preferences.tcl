@@ -1453,11 +1453,18 @@ proc UpdatePreferences {} {
 	set lfname "${lfname}.lfname.f.f"
 	#Disabled that if we are on Mac OS X because we can't choose Snack
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-	#Empty
+		#Empty
 	} else {
-		
 		if { $config(usesnack) == 1 } {
-			$lfname.1.sound.sound configure -state disabled
+			#load Snack when being used
+			if {![catch {package require snack}]} {
+				$lfname.1.sound.sound configure -state disabled
+				snack::audio playLatency 750
+			} else {
+				::config::setKey usesnack 0
+				$lfname.1.sound.sound configure -state normal
+				msg_box [trans snackfailed]
+			}
 		} else {
 			$lfname.1.sound.sound configure -state normal 
 		}

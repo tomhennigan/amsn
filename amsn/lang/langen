@@ -496,6 +496,7 @@ smileconfig Custom emoticon configuration
 smilefile Smiley filename
 smileintro2 Please edit the required fields to customize this smiley (see the FAQ for help)
 smileintro Please complete the required fields to create a new custom smiley (see the FAQ for help)
+snackfailed Snack failed to load, reverting to default
 sngdblclick Single click to open a new message window
 sound2 Play sounds when contacts sign in or send a message
 soundactive Play sounds when receiving incoming messages also in active windows

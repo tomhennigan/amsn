@@ -2,12 +2,6 @@ package require AMSN_BWidget
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	#Use QuickeTimeTcl on Mac OS X to play sounds
 	package require QuickTimeTcl
-} else {
-	#Use Snack on other OSs to play sounds
-	if {![catch {package require snack}]} {
-	   snack::audio playLatency 750
-	} 
-	
 }
 
 if { $initialize_amsn == 1 } {

@@ -560,6 +560,18 @@ proc load_config {} {
     if { $initialize_amsn != 1 } {
 	resetBanner
     }
+    
+    #load Snack when being used
+    if { [::config::getKey usesnack] } {
+	if {![catch {package require snack}]} {
+		snack::audio playLatency 750
+	} else {
+		::config::setKey config 0
+		msg_box [trans snackfailed]
+	}
+    } 
+
+    
     ::plugins::LoadPlugins
 }
 
