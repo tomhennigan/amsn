@@ -64,17 +64,15 @@ namespace eval ::Nudge {
 		upvar 2 msg msg
 
 		if {[::MSN::GetHeaderValue $msg Content-Type] == "text/x-msnmsgr-datacast" && [::MSN::GetHeaderValue $msg ID] == "1"} {
-		
+			::Nudge::log "\n\t\tStart receiving nudge from <[::abook::getDisplayNick $chatid]>\n"
 			#If the user choosed to have the nudge notified in the window
 			if { $::Nudge::config(notsentinwin) == 1 } {
 				::Nudge::winwrite $chatid "[trans nudge $nick]!" bell
 			}
 			
-			#Todo: use the original shake sound of MSN 7
 			#If the user choosed to have a sound-notify
 			if { $::Nudge::config(soundnotrec) == 1 } {
-				set dir [::config::getKey nudgepluginpath]
-				play_sound $dir/nudge.wav 1
+				::Nudge::sound
 			}
 			
 			#If the user choosed to have a notify window
@@ -95,8 +93,10 @@ namespace eval ::Nudge {
 			set pluginidx [lindex [lsearch -all $::plugins::found "*growl*"] 0]
 			if { $pluginidx != "" } {
 				catch {growl post Nudge Nudge [trans nudge $nick]}
+				::Nudge::log "Show growl notification"
 			}
-					
+			
+			::Nudge::log "\n\t\tReceiving nudge from <[::abook::getDisplayNick $chatid]> is finished\n"		
 		
 		}
 	
@@ -114,6 +114,7 @@ namespace eval ::Nudge {
 		set nickname [trunc $nick . $maxw splainf]
 		#Show the notification
 		::amsn::notifyAdd "Nudge\n[trans nudge $nickname]." "::amsn::chatUser $email" "" plugins
+		::Nudge::log "Notify window created"
 	}
 
 
@@ -156,10 +157,9 @@ namespace eval ::Nudge {
 			after 10
 			catch {wm geometry $window +$x+$y}
 			update
-			after 10
-
-			
+			after 10	
 		}
+		::Nudge::log "Window shaked $n times"
 	}
 	################################################
 	# ::Nudge::sendbutton event epvar              #
@@ -195,6 +195,7 @@ namespace eval ::Nudge {
 		
 			#Pack the button in the right area
 			pack $bottom.buttons.nudge -side right
+			::Nudge::log "Nudge button added in new window"
 		}
 	}
 
@@ -212,6 +213,7 @@ namespace eval ::Nudge {
 		#Add label in the menu
 		$newvar(menu_name).actions add command -label "Send Nudge" \
 		-command "::Nudge::send_via_queue $newvar(window_name)"
+		::Nudge::log "Item Send Nudge added to actions menu of window $newvar(window_name)"
 	}
 	
 	################################################
@@ -230,6 +232,7 @@ namespace eval ::Nudge {
 		#Add label in the menu
 		$newvar(menu_name) add command -label "Send Nudge" \
 		-command "::Nudge::ClSendNudge $newvar(user_login)"
+		::Nudge::log "Create Send Nudge item in right click menu"
 	}
 
 	################################################  
@@ -244,6 +247,7 @@ namespace eval ::Nudge {
 		set win_name [::ChatWindow::For $lowuser]	
 		#Determine if a window with that user already exist (0=no window)
 		if { $win_name == 0 } {
+			::Nudge::log "We don't have any window with <[::abook::getDisplayNick $lowuser]> yet(via right-click menu)"
 			#Start the conversation
 			::amsn::chatUser $username
 			#Now that we have a window, find the name of this new window
@@ -251,6 +255,7 @@ namespace eval ::Nudge {
 			#Send the nudge via the ChatQueue (to wait that connection is etablished before sending)
 			::Nudge::send_via_queue $win_name
 		} else {
+			::Nudge::log "We already have a window with <[::abook::getDisplayNick $lowuser]> (via right click menu)"
 			#If the window with the contact was already open
 			#Send the nudge via the ChatQueue to reactive the conversation if it was closed
 			::Nudge::send_via_queue $win_name
@@ -282,10 +287,12 @@ namespace eval ::Nudge {
 	
 		#Find the SB
 		set chatid [::ChatWindow::Name $window_name]
+		::Nudge::log "\n\t\tStart sending Nudge to <[::abook::getDisplayNick $chatid]>\n"
 		#Check if the user can accept the nudge (MSN 7 protocol needed), if not, stop here.
 			if {![::Nudge::check_clientid $chatid]} {
 				::Nudge::winwrite $chatid \
 				"You cannot sent a Nudge to your contact because he or she doesn't use a client that supports Nudges." belloff red
+				::Nudge::log "\n\t\tCan't send a Nudge to <[::abook::getDisplayNick $chatid]> because he doesn't use MSN 7 protocol\n"
 				return
 			}
 	
@@ -296,10 +303,8 @@ namespace eval ::Nudge {
 		}
 		
 		#If the user choosed to have a sound-notify
-		#Todo: have the same sound as MSN 7
 		if { $::Nudge::config(soundnotrec) == 1 } {
-				set dir [::config::getKey nudgepluginpath]
-				play_sound $dir/nudge.wav 1
+			::Nudge::sound
 		}
 		
 		#Shake the window on sending if the user choosed it
@@ -326,6 +331,8 @@ namespace eval ::Nudge {
     	
     	#Send the packet
     	::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
+    	::Nudge::log "Nudge packet sent"
+    	::Nudge::log "\n\t\tFinished sending Nudge to <[::abook::getDisplayNick $chatid]>\n"
 	}
 	
 	######################################################
@@ -337,6 +344,7 @@ namespace eval ::Nudge {
 	# 0.95 use the skinnable separation instead of "--"  # 
 	######################################################
 	proc winwrite {chatid text iconname {color "green"} } {
+		global version
 		#Look at the version of aMSN to know witch kind of separation we use
 		scan $version "%d.%d" y1 y2;
 		if { $y2 == "94" } {
@@ -350,6 +358,7 @@ namespace eval ::Nudge {
 			amsn::WinWriteIcon $chatid $iconname 3 2
 			amsn::WinWrite $chatid "[timestamp] $text\n" $color
 			amsn::WinWriteIcon $chatid greyline 3
+			::Nudge::log "Seperation and message wrote in chatwindow"
 		}
 	}
 	
@@ -361,11 +370,44 @@ namespace eval ::Nudge {
 	# Boolean answer                           #
 	############################################
 	proc check_clientid {email} {
+		::Nudge::log "Verify if contact is using MSN 7.0 protocol"
 		if {[::abook::getContactData $email clientid] == "MSN 7.0" } {
+			::Nudge::log "He uses MSN 7.0 protocol"
 			return 1
 		} else {
+			::Nudge::log "He doesn't use MSN 7.0 protocol"
 			return 0
 		}
+	}
+	
+	############################################
+	# ::Nudge::log message                     #
+	# -----------------------------------------#
+	# Add a log message to plugins-log window  #
+	# Type Alt-P to get that window            #
+	# Not compatible with 0.94                 #
+	############################################
+	proc log {message} {
+		global version
+		scan $version "%d.%d" y1 y2;
+		if { $y2 == "94" } {
+			return
+		} else {
+			plugins_log Nudge $message
+		}
+	}
+	
+	############################################
+	# ::Nudge::sound                           #
+	# -----------------------------------------#
+	# Play sound message                       #
+	# When we send and/or receive a nudge      #
+	# Real sound from MSN 7                    #
+	############################################
+	proc sound {} {
+		set dir [::config::getKey nudgepluginpath]
+		play_sound $dir/nudge.wav 1
+		::Nudge::log "Play sound for nudge, directory of nudge plugin: [::config::getKey nudgepluginpath]"
 	}
 
 }
