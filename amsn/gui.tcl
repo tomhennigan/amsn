@@ -1676,7 +1676,7 @@ namespace eval ::amsn {
 		#scrollbar .${win_name}.f.top.ys -command ".${win_name}.f.top.text yview"
 
       scrollbar .${win_name}.f.out.ys -command ".${win_name}.f.out.text yview" \
-         -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
+         -highlightthickness 0 -borderwidth 1 -elementborderwidth 1 
 
       text .${win_name}.status  -width 30 -height 1 -wrap none\
          -font bplainf -borderwidth 1
@@ -1686,7 +1686,10 @@ namespace eval ::amsn {
       button $bottom.buttons.smileys  -image butsmile -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
       button $bottom.buttons.fontsel -image butfont -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
       button $bottom.buttons.block -image butblock -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
-      pack $bottom.buttons.block $bottom.buttons.fontsel $bottom.buttons.smileys -side left
+      button $bottom.buttons.sendfile -image butsend -relief flat -padx 3 -background $bgcolor2 -highlightthickness 0
+      button $bottom.buttons.invite -image butinvite -relief flat -padx 3 -background $bgcolor2 -highlightthickness 0
+      pack $bottom.buttons.fontsel $bottom.buttons.smileys -side left
+      pack $bottom.buttons.block $bottom.buttons.sendfile $bottom.buttons.invite -side right
 
       pack .${win_name}.f.top -side top -fill x -padx 3 -pady 0
       pack .${win_name}.status -side bottom -fill x
@@ -1735,6 +1738,8 @@ namespace eval ::amsn {
       bind  $bottom.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y $bottom.in.input"
       bind  $bottom.buttons.fontsel  <Button1-ButtonRelease> "change_myfont ${win_name}"
       bind  $bottom.buttons.block  <Button1-ButtonRelease> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} ::amsn::blockUnblockUser"
+      bind $bottom.buttons.sendfile <Button1-ButtonRelease> "::amsn::FileTransferSend .${win_name}"
+      bind $bottom.buttons.invite <Button1-ButtonRelease> "::amsn::ShowInviteList \"[trans invite]\" .${win_name}"
 
 
       bind $bottom.in.f.send <Return> \
@@ -2062,7 +2067,7 @@ set y [expr $y - 115]
       listbox $wname.blueframe.list.userlist -yscrollcommand "$wname.blueframe.list.ys set" -font splainf \
          -background white -relief flat -highlightthickness 0 -height 1
       scrollbar $wname.blueframe.list.ys -command "$wname.blueframe.list.userlist yview" -highlightthickness 0 \
-         -borderwidth 1 -elementborderwidth 2
+         -borderwidth 1 -elementborderwidth 1 
 
       button  $wname.buttons.ok -text "[trans ok]" -command "$command \[string range \[lindex \[$wname.blueframe.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname" -font sboldf
       button  $wname.buttons.cancel -text "[trans cancel]" -command "destroy $wname" -font sboldf
@@ -3221,6 +3226,8 @@ proc cmsn_draw_main {} {
    image create photo butsmile -file [GetSkinFile pixmaps butsmile.gif]
    image create photo butfont -file [GetSkinFile pixmaps butfont.gif]
    image create photo butblock -file [GetSkinFile pixmaps butblock.gif]
+   image create photo butsend -file [GetSkinFile pixmaps butsend.gif]
+   image create photo butinvite -file [GetSkinFile pixmaps butinvite.gif]
 
 
    image create photo fticon -file [GetSkinFile pixmaps fticon.gif]
@@ -3259,7 +3266,7 @@ proc cmsn_draw_main {} {
       -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
       
    scrollbar $pgBuddy.ys -command "$pgBuddy.text yview" -highlightthickness 0 \
-      -borderwidth 1 -elementborderwidth 2
+      -borderwidth 1 -elementborderwidth 1 
 
 
    #This shouldn't go here
