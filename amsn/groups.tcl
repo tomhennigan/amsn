@@ -176,13 +176,54 @@ namespace eval ::groups {
 		}
 		# The submenu of standard group actions
 		menu .group_handler -tearoff 0 -type normal
-		.group_handler add command -label "[trans delete]" -command "::groups::Delete $gid dlgMsg"
-		.group_handler add command -label "[trans rename]..." -command "::groups::dlgRenameThis $gid"
-		.group_handler add separator
 		.group_handler add command -label "[trans groupadd]..." -command ::groups::dlgAddGroup
+		if {$gid != "online" & $gid != "offline"} {
+			.group_handler add separator
+			.group_handler add command -label "[trans delete]" -command "::groups::Delete $gid dlgMsg"
+			.group_handler add command -label "[trans rename]..." -command "::groups::dlgRenameThis $gid"
+			.group_handler add separator
+			.group_handler add command -label "[trans block]" -command "::groups::blockgroup $gid"
+			.group_handler add command -label "[trans unblock]" -command "::groups::unblockgroup $gid"
+		}
 		tk_popup .group_handler $cx $cy
 	}
-   
+
+	#Block all the contacts into a group	
+	proc blockgroup {gid} {
+		#Ask confirmation for block all the users in the group
+		set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans block]]
+		#If yes
+		if {$answer == "yes"} {
+			#Get all the contacts
+			foreach user_login [::abook::getAllContacts] {
+				#Get the group for each contact
+				foreach gp [::abook::getContactData $user_login group] {
+					#If the group is the same at specified, block the user
+					if {$gp == $gid} {
+						set name [::abook::getNick ${user_login}]
+						::MSN::blockUser ${user_login} [urlencode $name]
+					}
+				}
+			}
+		}
+	}
+	#Unblock all the contacts into a group
+	proc unblockgroup {gid} {
+		#For each user in all contacts
+		foreach user_login [::abook::getAllContacts] {
+			#Get the group for each contact
+			foreach gp [::abook::getContactData $user_login group] {
+				#Compare if the group of the user is the same that the group requested to be blocked
+				if {$gp == $gid} {
+					#If yes, block the user
+					set name [::abook::getNick ${user_login}]
+					::MSN::unblockUser ${user_login} [urlencode $name]
+				}
+			}
+		}
+	}
+	
+
 	# Used to display the list of groups that are candidates for
 	# deletion in the Delete Group... & Rename Group menus
 	proc updateMenu {type path {cb ""} {pars ""}} {
@@ -596,5 +637,7 @@ namespace eval ::groups {
 		set g_list [lsort -increasing $g_list]
 		return $g_list
 	    }
+
+
 }
 
