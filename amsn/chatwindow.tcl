@@ -954,7 +954,7 @@ namespace eval ::ChatWindow {
 			 # -class amsnChatFrame (need to fix class option and re-add below)
 		framec $top -relief solid\
 				-borderwidth [::skin::getKey chat_top_border] \
-				-bordercolor [::skin::getKey chat_top_border_color] \
+				-bordercolor [::skin::getKey topbarborder] \
 				-background [::skin::getKey topbarbg]
 		
 		# set our inner widget's names
@@ -1659,16 +1659,20 @@ namespace eval ::ChatWindow {
 		#get the colour for the state
 		set colour [::skin::getKey topbarbg]
 		set tcolour [::skin::getKey topbartext]
+		set bcolour [::skin::getKey topbarborder]
 		if { ([llength $user_list] == 1) && ("$user_state" != "" ) } {
 			if { ($state_code == "IDL") || ($state_code == "BRB") || ($state_code == "AWY") || ($state_code == "LUN") } {
 				set colour [::skin::getKey topbarawaybg]
 				set tcolour [::skin::getKey topbarawaytext]
+				set bcolour [::skin::getKey topbarawayborder]
 			} elseif { ($state_code == "PHN") || ($state_code == "BSY") } {
 				set colour [::skin::getKey topbarbusybg]
 				set tcolour [::skin::getKey topbarbusytext]
+				set bcolour [::skin::getKey topbarbusyborder]
 			} elseif { ($state_code == "FLN") } {
 				set colour [::skin::getKey topbarofflinebg]
 				set tcolour [::skin::getKey topbarofflinetext]
+				set bcolour [::skin::getKey topbarofflineborder]
 			}
 		}
 		#set the areas to the colour
