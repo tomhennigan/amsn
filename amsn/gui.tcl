@@ -1523,7 +1523,7 @@ namespace eval ::amsn {
 	set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
 
          #Draw our own message
-         messageFrom $chatid [lindex $user_info 3] "$msgchunk" user [list $fontfamily $fontstyle $fontcolor]      	
+         messageFrom $chatid [lindex $user_info 3] "$msg" user [list $fontfamily $fontstyle $fontcolor]      	
 	
 	::MSN::messageTo $chatid "$msg" $ackid
       } else {

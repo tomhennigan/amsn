@@ -3,6 +3,7 @@
 ### Remote controller program
 ###
 
+set initialize_amsn 1
 
 proc readsocket { } {
     global sock
