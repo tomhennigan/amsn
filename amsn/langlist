@@ -106,7 +106,7 @@
 	<lang>
 		<langcode>fr</langcode>
 		<name>French (France)</name>
-		<version>1.118</version>
+		<version>1.119</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -118,7 +118,7 @@
 	<lang>
 		<langcode>fri</langcode>
 		<name>Frisian</name>
-		<version>1.13</version>
+		<version>1.14</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -196,7 +196,7 @@
 	<lang>
 		<langcode>nl</langcode>
 		<name>Dutch</name>
-		<version>1.110</version>
+		<version>1.111</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
