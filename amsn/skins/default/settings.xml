@@ -55,8 +55,8 @@
 			<contract_ypad>6</contract_ypad>
 			<expand_xpad>8</expand_xpad>
 			<expand_ypad>6</expand_ypad>
-			<x_dp_top>2</x_dp_top>
-			<y_dp_top>2</y_dp_top>
+			<x_dp_top>7</x_dp_top>
+			<y_dp_top>7</y_dp_top>
 		</Geometry>
 		<Options>
 			<underline_contact>1</underline_contact>

@@ -4188,11 +4188,11 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 			canvas $tw.$name -width [image width [::skin::loadPixmap mystatus_bg]] -height [image height [::skin::loadPixmap mystatus_bg]] -bg white
 			#There's a strange bug on Mac OS X, we need to move the picture and the border at the position 2+2 to see it completely
 			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-				$tw.$name create image +2 +2 -anchor nw -image [::skin::loadPixmap mystatus_bg]
-				$tw.$name create image "[expr {[::skin::getKey x_dp_top]+2}]" "[expr {[::skin::getKey y_dp_top]+2}]" -anchor nw -image my_pic_small
+				$tw.$name create image "[expr {[::skin::getKey x_dp_top]+2}]" "[expr {[::skin::getKey y_dp_top]+2}]" -anchor nw -image
+				$tw.$name create image +2 +2 -anchor nw -image [::skin::loadPixmap mystatus_bg] my_pic_small
 			} else {
-				$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg]
 				$tw.$name create image [::skin::getKey x_dp_top] [::skin::getKey y_dp_top] -anchor nw -image my_pic_small
+				$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg]
 			}
 		} 
 		#else {
