@@ -398,7 +398,7 @@ namespace eval ::amsn {
    # It should be called after a IRO or JOI in the switchboard.
    # It will open a new window if it doesn't exists, and show the status message.
    # - 'chatid' is the chat name
-   # - 'usr_name' is the user nick to show in the status message
+   # - 'usr_name' is the user email to show in the status message
    proc userJoins { chatid usr_name } {
 
       if {[WindowFor $chatid] == 0} {
@@ -414,14 +414,16 @@ namespace eval ::amsn {
 
 
    #///////////////////////////////////////////////////////////////////////////////
-   # userLeaves (charid, user_name)
+   # userLeaves (chatid, user_name)
    # called from the protocol layer when a user LEAVES a chat, before userJoinsLeft.
    # It will show the status message. No need to show it if the window is already
    # closed, right?
    # - 'chatid' is the chat name
-   # - 'usr_name' is the user nick to show in the status message
+   # - 'usr_name' is the user email to show in the status message
    proc userLeaves { chatid usr_name } {
 
+      global config
+      
       if {[WindowFor $chatid] == 0} {
          return 0
       }
@@ -429,6 +431,10 @@ namespace eval ::amsn {
       set statusmsg "[timestamp] [trans leaves $usr_name]\n"
       WinStatus [ WindowFor $chatid ] $statusmsg
       WinTopUpdate $chatid
+
+      if {$config(keep_logs)} {
+      	 ::log::StopLog $usr_name
+      }
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -1017,6 +1023,7 @@ namespace eval ::amsn {
    # chat related to 'win_name', and unsets variables used for that window
    proc closeWindow { win_name path } {
 
+      global config
       variable window_titles
 
       if { "$win_name" != "$path" } {
@@ -1024,13 +1031,21 @@ namespace eval ::amsn {
       }
 
       set chatid [ChatFor $win_name]
+
+      if {$config(keep_logs)} {
+		set user_list [::MSN::usersInChat $chatid]
+		foreach user_info $user_list {
+			set user_login [lindex $user_info 0]
+			::log::StopLog $user_login
+		}
+      }
+
       UnsetWindowFor $chatid $win_name
       unset window_titles(${win_name})
 
       ::MSN::chatQueue $chatid [list ::MSN::leaveChat $chatid]
 
-
-   }
+}
    #///////////////////////////////////////////////////////////////////////////////
 
 
@@ -1046,12 +1061,26 @@ namespace eval ::amsn {
    # - 'fontformat' is a list containing font style and color
    proc PutMessage { chatid user msg type fontformat } {
 
+	global config
 	if { "$user" != "msg" } {
 		WinWrite $chatid "[timestamp] [trans says [::MSN::userName $chatid $user]]:\n" gray
 	}
 
 	WinWrite $chatid "$msg\n" $type [lindex $fontformat 0] [lindex $fontformat 1] [lindex $fontformat 2]
 	WinFlicker $chatid
+
+	if {$config(keep_logs)} {
+		set user_list [::MSN::usersInChat $chatid]
+		foreach user_info $user_list {
+			set user_login [lindex $user_info 0]
+			status_log "DEBUGG: $user_login\n"
+			if { [llength user_list] > 1 } {
+				::log::WriteLog $user_login "C $user : $msg\n"
+			} else {
+				::log::WriteLog $user_login "$user : $msg\n"
+			}
+		}
+	}
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -1214,11 +1243,6 @@ namespace eval ::amsn {
       }
 
       ${win_name}.f.out.text insert end "$txt" $tagid
-
-      ;#if {$config(keep_logs) && [sb exists $name log_fcid]} {	;# LOGS!
-      ;#   puts -nonewline [sb get $name log_fcid] $txt
-      ;#}
-
 
       set endpos $text_start
 

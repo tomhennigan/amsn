@@ -901,10 +901,6 @@ namespace eval ::MSN {
 
 	  after 60000 "::MSN::KillSB ${name}"
 
-         if {$config(keep_logs) && [sb exists $name log_fcid]} {		;# LOGS!
-           close [sb get $name log_fcid]
-         }
-
       }
 
    }
@@ -1706,7 +1702,6 @@ proc cmsn_sb_sessionclosed {sbn} {
       sb ldel $sbn users $idx
 
       amsn::userLeaves [::MSN::ChatFor $sbn] [list [lindex $user_info 0]]
-
    }
 
    #NEW and TODO: check it this works. If session closed, and we'are not the preferred sb for the chat, remove
@@ -1850,24 +1845,24 @@ proc cmsn_update_users {sb_name recv} {
    }
 
 
-   if {[sb exists $sb_name log_fcid]} {
-      close [sb get $sb_name log_fcid]
-      sb unset $sb_name log_fcid
-   }
-
-   if {$config(keep_logs) && [sb length $sb_name users]} {	;# LOGS!
-      global log_dir
-      upvar #0 [sb name $sb_name users] tmp_users_list
-      set users_list [lsort $tmp_users_list]
-      set file_name ""
-      foreach usrinfo $users_list {
-         set user_email [split [lindex $usrinfo 0] "@"]
-	 set user_login [lindex $user_email 0]
-         set file_name "${file_name}-${user_login}"
-      }
-      set file_name [string range ${file_name} 1 end]
-      sb set $sb_name log_fcid [open "[file join ${log_dir} ${file_name}]" a+]
-   }
+#   if {[sb exists $sb_name log_fcid]} {
+#      close [sb get $sb_name log_fcid]
+#      sb unset $sb_name log_fcid
+#   }
+#
+#   if {$config(keep_logs) && [sb length $sb_name users]} {	;# LOGS!
+#      global log_dir
+#      upvar #0 [sb name $sb_name users] tmp_users_list
+#      set users_list [lsort $tmp_users_list]
+#      set file_name ""
+#      foreach usrinfo $users_list {
+#         set user_email [split [lindex $usrinfo 0] "@"]
+#	 set user_login [lindex $user_email 0]
+#        set file_name "${file_name}-${user_login}"
+#      }
+#      set file_name [string range ${file_name} 1 end]
+#      sb set $sb_name log_fcid [open "[file join ${log_dir} ${file_name}]" a+]
+#   }
 
 
 }
