@@ -4,7 +4,7 @@
 	<author>Mark</author>
 	<description>aMSN Extension (commands in chat window, coloring nicks...)</description>
 	<amsn_version>0.94</amsn_version>
-	<plugin_version>2.1</plugin_version>
+	<plugin_version>2.1b</plugin_version>
 	<plugin_file>amsnplus.tcl</plugin_file>
 	<plugin_namespace>amsnplus</plugin_namespace>
 	<init_procedure>amsnplusStart</init_procedure>

@@ -84,6 +84,7 @@ Features:
 	"/hi" will be replaced by "hi guys!!" like emotes plugin does with "/me" occurrences
       None of that quick texts can replace any existing command so check your keyword is not a command, otherwise
       you would execute the command and not the quick text.
+      You can also use them by the action menu of the chat window.
 
 Contact:
   If you have a suggestion or some else, write to markitus@catmail.homelinux.org

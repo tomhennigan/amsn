@@ -69,6 +69,7 @@ namespace eval ::amsnplus {
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_receive parse_colours
 		::plugins::RegisterEvent "aMSN Plus" chatwindowbutton chat_color_button
 		::plugins::RegisterEvent "aMSN Plus" chatmenu edit_menu
+		::plugins::RegisterEvent "aMSN Plus" chatmenu add_quicktext
 	}
 
 		
@@ -143,6 +144,24 @@ namespace eval ::amsnplus {
 	#//////////////////////////////////////////////////////////////////////////
 	#                          ALL ABOUT QUICK TEXT
 	#//////////////////////////////////////////////////////////////////////////
+
+	################################################
+	# this adds the quick text configured entries
+	# in the chat window menu
+	proc add_quicktext {event epvar} {
+		if {!$::amsnplus::config(allow_quicktext)} { return }
+		upvar 2 evPar newvar
+		$newvar(menu_name).actions add separator
+		set i 0
+		while {$i < 10} {
+			set str [lindex $::amsnplus::config(quick_text_$i) 1]
+			set keyword "/[lindex $::amsnplus::config(quick_text_$i) 0]"
+			if { ![string equal $str ""] && ![string equal $keyword ""] } {
+				$newvar(menu_name).actions add command -label $str -command "$newvar(window_name).f.bottom.left.in.text insert end $keyword"
+			}
+			incr i
+		}
+	}
 
 	################################################
 	# this proc lets configure the quick texts
