@@ -1881,7 +1881,6 @@ proc read_sb_sock {sbn} {
 
 		} elseif  { "$tmp_data" == "" } {
 
-			status_log "Blank read!! Why does this happen??\n" red
 			update idletasks
 
 		} else {
@@ -1900,7 +1899,6 @@ proc read_sb_sock {sbn} {
 
 				#sb append $sbn data $msg_data
 
-				status_log "read_sb_sock: Got a message, going to read it non_blocking...\n" blue
 				set old_handler "[fileevent $sb_sock readable]"
 				#fileevent $sb_sock readable [list read_non_blocking $sb_sock [lindex $recv 3] [list finished_reading_msg $sbn $old_handler $tmp_data]]
 				read_non_blocking $sb_sock [lindex $recv 3] [list finished_reading_msg $sbn $old_handler $tmp_data]
