@@ -90,17 +90,7 @@ namespace eval ::amsnplus {
 	####################################################
 	# returns 1 if the char is a numbar, otherwise 0
 	proc is_a_number { char } {
-		if {[string equal $char "0"]} {return 1}
-		if {[string equal $char "1"]} {return 1}
-		if {[string equal $char "2"]} {return 1}
-		if {[string equal $char "3"]} {return 1}
-		if {[string equal $char "4"]} {return 1}
-		if {[string equal $char "5"]} {return 1}
-		if {[string equal $char "6"]} {return 1}
-		if {[string equal $char "7"]} {return 1}
-		if {[string equal $char "8"]} {return 1}
-		if {[string equal $char "9"]} {return 1}
-		return 0
+		return [string match \[0-9\] $char]
 	}
 	
 	#####################################################
