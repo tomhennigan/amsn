@@ -163,7 +163,6 @@ proc Rnotebook:addtab {w ind} {
     pack $w.tabs.b$ind -side left -pady 0 -padx $Rnotebook($w,padx) -fill y
     bind $w.tabs.b$ind <Configure> "Rnotebook:raise $w current"
     frame $w.body.f$ind -borderwidth 0 -background $Rnotebook($w,background)
-
 }
 
 #
@@ -269,7 +268,7 @@ proc Rnotebook:raise {w num} {
     }
     if { $num != $Rnotebook($w,current) } {
 	pack forget $w.body.f$Rnotebook($w,current)
-	pack $w.body.f$num -fill both -expand 1
+	pack $w.body.f$num -fill both -expand 1 -pady 10
     }
     set Rnotebook($w,current) $num
     set bw $Rnotebook($w,bwidth)

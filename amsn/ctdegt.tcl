@@ -246,8 +246,8 @@ proc PreferencesMenu {m} {
     bind . <Control-p> { Preferences sound }
 
     $m add command -label [trans personal] -command "Preferences personal"
-    $m add command -label [trans general] -command "Preferences general"
-    $m add command -label [trans options] -command "Preferences options"
+    $m add command -label [trans general] -command "Preferences appearance"
+    $m add command -label [trans options] -command "Preferences session"
     $m add command -label [trans loging] -command "Preferences loging"
     $m add command -label [trans connection] -command "Preferences connection"
     $m add command -label [trans prefapps] -command "Preferences apps"
@@ -266,7 +266,7 @@ proc Preferences { settings } {
     toplevel .cfg
     wm title .cfg [trans preferences]
     wm iconname .cfg [trans preferences]
-    wm geometry .cfg 440x400
+    wm geometry .cfg 500x595
 
     # Frame to hold the preferences tabs/notebook
     frame .cfg.notebook -class Degt
@@ -274,15 +274,15 @@ proc Preferences { settings } {
 
     # Frame for common buttons (all preferences)
     frame .cfg.buttons -class Degt
-    button .cfg.buttons.save -text [trans save] -command "SavePreferences; destroy .cfg"
-    button .cfg.buttons.cancel -text [trans close] -command "destroy .cfg" 
+    button .cfg.buttons.save -text [trans save] -font sboldf -command "SavePreferences; destroy .cfg"
+    button .cfg.buttons.cancel -text [trans close] -font sboldf -command "destroy .cfg" 
     pack .cfg.buttons.save .cfg.buttons.cancel -side left -padx 10 -pady 5
     pack .cfg.buttons -side top -fill x
    
     set nb .cfg.notebook.nn
 	# Preferences Notebook
 	# Modified Rnotebook to translate automaticly those keys in -tabs {}
-	Rnotebook:create $nb -tabs {personal general options loging connection prefapps profiles} -borderwidth 2
+	Rnotebook:create $nb -tabs {personal appearance session loging connection prefapps profiles} -borderwidth 2
 	pack $nb -fill both -expand 1 -padx 10 -pady 10
 
 	#  .----------.
@@ -290,38 +290,138 @@ proc Preferences { settings } {
 	image create photo prefpers -file [file join ${images_folder} prefpers.gif]
 	image create photo prefprofile -file [file join ${images_folder} prefprofile.gif]
 	image create photo preffont -file [file join ${images_folder} preffont.gif]
+	image create photo prefphone -file [file join ${images_folder} prefphone.gif]
 	set frm [Rnotebook:frame $nb 1]
 
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefname]]
-	pack $frm.lfname -side top -expand 1 -fill x
+	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.pname -image prefpers
-	label $lfname.lname -text "[trans enternick] :" -font sboldf
-	entry $lfname.name -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 35
-	pack $lfname.pname -side left
-	pack $lfname.lname $lfname.name -side top	
+	label $lfname.lname -text "[trans enternick] :" -font sboldf -padx 10
+	entry $lfname.name -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 30
+	pack $lfname.pname $lfname.lname $lfname.name -side left	
 
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefprofile]]
-	pack $frm.lfname2 -side top -expand 1 -fill x
+	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
 	label $lfname.pprofile -image prefprofile
 	label $lfname.lprofile -text [trans prefprofile2 \n] -padx 10
-	button $lfname.bprofile -text [trans editprofile] -command "" -state disabled
-	pack $lfname.pprofile $lfname.lprofile $lfname.bprofile -side left
-	
+	button $lfname.bprofile -text [trans editprofile] -font sboldf -command "" -state disabled
+	pack $lfname.pprofile $lfname.lprofile -side left
+	pack $lfname.bprofile -side right -padx 15
+
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans preffont]]
-	pack $frm.lfname3 -side top -expand 1 -fill x
+	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.pfont -image preffont
 	label $lfname.lfont -text [trans preffont2 \n] -padx 10
-	button $lfname.bfont -text [trans changefont] -command "change_myfont .cfg"
-	pack $lfname.pfont $lfname.lfont $lfname.bfont -side left
+	button $lfname.bfont -text [trans changefont] -font sboldf -command "change_myfont cfg"
+	pack $lfname.pfont $lfname.lfont -side left
+	pack $lfname.bfont -side right -padx 15
+
+	set lfname [LabelFrame:create $frm.lfname4 -text [trans prefphone]]
+	pack $frm.lfname4 -anchor n -side top -expand 1 -fill x 
+	frame $lfname.1 -class Degt
+	frame $lfname.2 -class Degt
+	label $lfname.1.pphone -image prefphone
+	pack $lfname.1.pphone -side left -anchor nw
+	label $lfname.1.lphone -text [trans prefphone2 \n] -padx 10
+	pack $lfname.1.lphone -fill both -side left
+
+	label $lfname.2.lphone1 -text "[trans countrycode] :" -padx 10 -font sboldf
+	entry $lfname.2.ephone1 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5
+	label $lfname.2.lphone21 -text "[trans areacode]" -pady 5
+	label $lfname.2.lphone22 -text "[trans phone]" -pady 5
+	label $lfname.2.lphone3 -text "[trans myhomephone] :" -padx 10 -font sboldf
+	entry $lfname.2.ephone31 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5	
+	entry $lfname.2.ephone32 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20
+	label $lfname.2.lphone4 -text "[trans myworkphone] :" -padx 10 -font sboldf
+	entry $lfname.2.ephone41 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5	
+	entry $lfname.2.ephone42 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20
+	label $lfname.2.lphone5 -text "[trans mymobilephone] :" -padx 10 -font sboldf
+	entry $lfname.2.ephone51 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5	
+	entry $lfname.2.ephone52 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20	
+
+	pack $lfname.1 -expand 1 -fill both -side top
+	pack $lfname.2 -expand 1 -fill both -side top
+
+	grid $lfname.2.lphone1 -row 1 -column 1 -sticky w -columnspan 2
+	grid $lfname.2.ephone1 -row 1 -column 3 -sticky w
+	grid $lfname.2.lphone21 -row 2 -column 2 -sticky e
+	grid $lfname.2.lphone22 -row 2 -column 3 -sticky e
+	grid $lfname.2.lphone3 -row 3 -column 1 -sticky w
+	grid $lfname.2.ephone31 -row 3 -column 2 -sticky w
+	grid $lfname.2.ephone32 -row 3 -column 3 -sticky w
+	grid $lfname.2.lphone4 -row 4 -column 1 -sticky w
+	grid $lfname.2.ephone41 -row 4 -column 2 -sticky w
+	grid $lfname.2.ephone42 -row 4 -column 3 -sticky w
+	grid $lfname.2.lphone5 -row 5 -column 1 -sticky w
+	grid $lfname.2.ephone51 -row 5 -column 2 -sticky w
+	grid $lfname.2.ephone52 -row 5 -column 3 -sticky w
+	
+	#  .------------.
+	# _| Appearance |________________________________________________
+	image create photo preflook -file [file join ${images_folder} preflook.gif]
+	image create photo prefemotic -file [file join ${images_folder} prefemotic.gif]
+	image create photo prefalerts -file [file join ${images_folder} prefalerts.gif]	
+
+	set frm [Rnotebook:frame $nb 2]
+	
+	set lfname [LabelFrame:create $frm.lfname -text [trans preflook]]
+	pack $frm.lfname -anchor n -side top -expand 1 -fill x
+	label $lfname.plook -image preflook
+	frame $lfname.1 -class Degt
+	frame $lfname.2 -class Degt
+	frame $lfname.3 -class Degt
+	label $lfname.1.llook -text "[trans encoding2]" -padx 10
+	button $lfname.1.bencoding -text [trans encoding] -font sboldf -command "show_encodingchoose"
+	pack $lfname.plook -anchor nw -side left
+	pack $lfname.1 -side top -padx 0 -pady 5 -expand 1 -fill both
+	pack $lfname.1.llook -side left
+	pack $lfname.1.bencoding -side right -padx 15
+	label $lfname.2.llook -text "[trans bgcolor]" -padx 10
+	button $lfname.2.bbgcolor -text [trans choosebgcolor] -font sboldf -command "choose_theme"
+	pack $lfname.2 -side top -padx 0 -pady 5 -expand 1 -fill both
+	pack $lfname.2.llook -side left	
+	pack $lfname.2.bbgcolor -side right -padx 15
+	label $lfname.3.llook -text "[trans preffont3]" -padx 10
+	button $lfname.3.bfont -text [trans changefont] -font sboldf -command "choose_basefont"
+	pack $lfname.3 -side top -padx 0 -pady 5 -expand 1 -fill both
+	pack $lfname.3.llook -side left	
+	pack $lfname.3.bfont -side right -padx 15
+	
+	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefemotic]]
+	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
+	label $lfname.pemotic -image prefemotic
+	pack $lfname.pemotic -side left -anchor nw
+	frame $lfname.1 -class Degt
+	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
+	checkbutton $lfname.1.chat -text "[trans chatsmileys2]" -onvalue 1 -offvalue 0 -variable myconfig(chatsmileys)
+	checkbutton $lfname.1.list -text "[trans listsmileys2]" -onvalue 1 -offvalue 0 -variable myconfig(listsmileys)
+	checkbutton $lfname.1.log -text "[trans logsmileys]" -onvalue 1 -offvalue 0 -variable myconfig(logsmileys) -state disabled	
+	pack $lfname.1.chat $lfname.1.list $lfname.1.log -anchor w -side top -padx 10
+	
+	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefalerts]]
+	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
+	label $lfname.palerts -image prefalerts
+	pack $lfname.palerts -side left -anchor nw
+	frame $lfname.1 -class Degt
+	frame $lfname.2 -class Degt
+	label $lfname.2.loffset -text "[trans notifyoffset]" -padx 10
+	label $lfname.2.lxoffset -text "[trans xoffset] :" -font sboldf -padx 10
+	entry $lfname.2.xoffset -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 5 -textvariable myconfig(notifyXoffset)
+	label $lfname.2.lyoffset -text "[trans yoffset] :" -font sboldf -padx 10
+	entry $lfname.2.yoffset -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 5 -textvariable myconfig(notifyYoffset)
+	pack $lfname.2.loffset -side top -anchor w
+	pack $lfname.2.lxoffset $lfname.2.xoffset $lfname.2.lyoffset $lfname.2.yoffset -side left -anchor w
+	checkbutton $lfname.1.alert1 -text "[trans notify1]" -onvalue 1 -offvalue 0 -variable myconfig(notifywin)
+	checkbutton $lfname.1.alert2 -text "[trans notify2]" -onvalue 1 -offvalue 0 -variable myconfig(notifywin)
+	checkbutton $lfname.1.alert3 -text "[trans notify3]" -onvalue 1 -offvalue 0 -variable myconfig(notifywin)
+	checkbutton $lfname.1.sound -text "[trans sound2]" -onvalue 1 -offvalue 0 -variable myconfig(sound)	
+	pack $lfname.2 -anchor w -side top -padx 10 -expand 1 -fill both
+	pack $lfname.1 -anchor w -side top -padx 0 -pady 5 -expand 1 -fill both
+	pack $lfname.1.alert1 $lfname.1.alert2 $lfname.1.alert3 $lfname.1.sound -anchor w -side top -padx 10
+	
 	
 	#  .---------.
-	# _| General |________________________________________________
-	set frm [Rnotebook:frame $nb 2]
-	label $frm.l2 -text "Welcome frame 1 !" 
-	pack $frm.l2 -fill both -expand 1
-
-	#  .---------.
-	# _| Options |________________________________________________
+	# _| Session |________________________________________________
 	set frm [Rnotebook:frame $nb 3]
 	label $frm.l3 -text "Welcome frame 1 !" 
 	pack $frm.l3 -fill both -expand 1
@@ -355,8 +455,8 @@ proc Preferences { settings } {
 
     switch $settings {
         personal { Rnotebook:raise $nb 1 }
-	general { Rnotebook:raise $nb 2 }
-        options { Rnotebook:raise $nb 3 }
+	appearance { Rnotebook:raise $nb 2 }
+        session { Rnotebook:raise $nb 3 }
         loging { Rnotebook:raise $nb 4 }
 	connection { Rnotebook:raise $nb 5 }
         apps { Rnotebook:raise $nb 6 }
@@ -479,43 +579,15 @@ proc LabelEntryGet { path } {
     return [$path.ent get]
 }
 
+#/////////////////////////////////////////////////////////////
 # A Labeled Frame widget for Tcl/Tk
 # $Revision$
 #
 # Copyright (C) 1998 D. Richard Hipp
 #
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Library General Public
-# License as published by the Free Software Foundation; either
-# version 2 of the License, or (at your option) any later version.
-#
-# This library is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Library General Public License for more details.
-# 
-# You should have received a copy of the GNU Library General Public
-# License along with this library; if not, write to the
-# Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-# Boston, MA  02111-1307, USA.
-#
 # Author contact information:
 #   drh@acm.org
 #   http://www.hwaci.com/drh/
-
-#
-# Usage Example:
-#
-#     set f [LabelFrame:create .name -text "Frame Label"]
-#     pack .name
-#     button $f.content -text "Content of the Frame"
-#     pack $f.content
-#
-# The first argument is the name of the label frame.  The
-# return value is the name of a subframe within the frame
-# into which the contents of the frame should be packed.
-# Arguments after the first are options.
-#
 proc LabelFrame:create {w args} {
   frame $w -bd 0
   label $w.l
@@ -553,8 +625,11 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
-# Revision 1.20  2003/01/11 00:26:18  burgerman
-# some work on preferences + removed comments from old notebook and notebook1.tcl
+# Revision 1.21  2003/01/12 23:33:03  burgerman
+# more work on preferences, damn these things take long
+# partial fix for windows launch_browser (now hotmail login dosent work on windows, will fix)
+# fix on bg color selection
+# think thats about it ...
 #
 # Revision 1.17  2003/01/05 22:37:56  burgerman
 # Save to File in loging implemented

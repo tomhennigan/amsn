@@ -14,6 +14,8 @@ alarmpref Alarm Settings for user
 alarmstatus Turn ON/OFF Alarm for this user
 allowseen Allow this person to see when I'm online and contact me
 appearoff Appear offline
+appearance Appearance
+areacode Area Code
 aretyping $1 are typing a message
 autoconnect Connect on amsn start
 autohotmaillog Auto Hotmail login
@@ -23,6 +25,7 @@ askprofile This login dosen't currently have a profile. Would you like to create
 avoidseen Avoid this person can see when I'm online and contact me
 away Away
 baduserpass Wrong user name or password
+bgcolor Change aMSN's background color 
 blankdirect Leave blank for direct connection
 block Block
 blocked Blocked
@@ -38,6 +41,7 @@ chatack Accepting chat from
 chat Chat
 chatreq Requesting chat
 chatsmileys Chat smileys
+chatsmileys2 Display Emoticons and Smileys in chat windows
 checkingver Checking for new versions
 checkver Check for new version
 choosebasefont Choose font type
@@ -51,10 +55,12 @@ command Command
 confirm Are you sure?
 confirmdelete Are you sure you want to delete $1?
 connecterror Error connecting to server
+connection Connection
 contactadded Contact added
 contactdoesnotexist Contact does not exist!
 copy Copy
 copytogroup Copy to group
+countrycode My Country/Region code
 cprofile Create Profile
 cut Cut
 date Date
@@ -69,6 +75,7 @@ edit Edit
 editprofile Edit Profile
 enableproxy Enable proxy
 encoding Choose encoding
+encoding2 Change the way your characters are encoded
 entercontactemail Enter contact e-mail
 enterfilename Please enter a filename
 enternick Enter your nick
@@ -119,6 +126,7 @@ lenteredconf $1 has entered into a conference on $2
 linprivate IN PRIVATE
 listeningon Listening on port $1
 listsmileys List smileys
+listsmileys2 Display Emoticons and Smileys in aMSN's main contact list
 ljoinedconf $1 has joined conference
 lleftconf $1 has left conference
 loadcontacts Load contact list
@@ -126,8 +134,10 @@ loggedotherlocation Disconnected. Logged in other location
 loggingin Logging In
 loginas Login as
 login Log In
+loging Loging
 logout Log Out
 logsin has just logged in
+logsmileys Displays Emoticons and Smileys in aMSN's history windows
 lprivtoconf Private chat turned into Conference with $1
 luclosedwin You have closed the window on $1
 mailer Mailer
@@ -136,6 +146,9 @@ movetogroup Move to Group
 msg Message
 msn AMSN
 mustrestart You must restart the program to apply changes
+myhomephone My Home Phone
+mymobilephone My Mobile Phone
+myworkphone My Work Phone
 mystatus My status
 natip IP detection by web page 
 needonline You still are/appear offline!
@@ -150,6 +163,10 @@ nonewmail No new messages in In-Box
 nonewver There are no new versions available to download
 normal Normal
 notify notify
+notify1 Display notify window when contacts come online
+notify2 Display notify window when new messages are received
+notify3 Display notify window when e-mails reach your InBox
+notifyoffset Set the position of the notify window by giving it position offsets
 notifywin Notify Window
 nousersinsession No users in session
 offline Offline
@@ -165,18 +182,26 @@ other Other
 pager Pager
 pass Password
 paste Paste
+personal Personal
 phone Phone
 picfile Picture File (GIF < 500 x 500)
 picstatus Picture Alarm
 port Port
+prefalerts My Event Alerts and Sounds
 prefapps Applications
+prefemotic Emotions Icons and Smileys 
 preferences Preferences
 preffont My Message Text
 preffont2 Change the way others see my text in chats
+preffont3 Change aMSN's interface font and size
+preflook My aMSN Messenger Look
 prefname My MSN Messenger Name/NickName
+prefphone My Phone Numbers
+prefphone2 Type the phone numbers that you would like people $1 on your Allow List to see $1
 prefprofile My Public Profile
 prefprofile2 Create or Modify your public profile (the $1 description of yourself that others can see)
 prefsound Sounds
+profiles Profiles
 properties Properties
 proxyconfhttp HTTP proxy support configuration
 proxyconf Proxy configuration
@@ -202,7 +227,9 @@ send Send
 sentbytes Sent $1 of $2 bytes
 servergoingdown Disconnected: Server is going down
 server Server
-sound Event Sound
+session Session
+sound Event Sound'
+sound2 Play sounds when contacts sign in or send a message
 soundfile Sound File
 soundloop Loop Sound
 soundstatus Sound Alarm
@@ -225,5 +252,7 @@ view View
 viewprofile View Profile
 willjoin Waiting $1 joins conversation
 work Work
+xoffset X Offset
+yoffset Y Offset
 yousay You say
 youwant You want

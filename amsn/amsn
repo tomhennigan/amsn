@@ -107,7 +107,7 @@ set pgNews  ""
 # Load program modules
 source [file join $program_dir ctthemes.tcl]
 source [file join $program_dir notebook.tcl]	;# Notebook Megawidget
-source [file join $program_dir notebook1.tcl]	;# Notebook Megawidget
+#source [file join $program_dir notebook1.tcl]	;# Notebook Megawidget
 source [file join $program_dir rnotebook.tcl]	;# Notebook Megawidget
 source [file join $program_dir progressbar.tcl]	;# Progressbar Megawidget
 source [file join $program_dir dkffont.tcl]	;# Font selection megawidget
@@ -168,8 +168,13 @@ proc msg_box {msg} {
 
 #///////////////////////////////////////////////////////////////////////
 proc launch_browser { url } {
-	global config
-	eval exec $config(browser) $url &
+	global config tcl_platform
+	if { $tcl_platform(platform) == "windows" } {
+		regsub -all -nocase {htm} $url {ht%6D} url
+    		exec rundll32 url.dll,FileProtocolHandler $url &
+  	} else {
+		eval exec $config(browser) $url &
+	}
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -409,7 +414,7 @@ proc setColor {w button name options} {
     set initialColor [$button cget -$name]
     set color [tk_chooseColor -title "[trans choosebackgroundcolor]" -parent $w \
 	-initialcolor $initialColor]
-    if { "$color" == "" } {
+    if { $color != "" } {
         set config(backgroundcolor) $color
 	::themes::ApplyDeep $w $options $color
     }
@@ -774,4 +779,4 @@ if { $config(autoconnect) == 1 } {
   ::MSN::connect $config(login) password
 }
 
-#Preferences 0
+#Preferences appearance
