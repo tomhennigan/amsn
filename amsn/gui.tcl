@@ -5809,9 +5809,11 @@ proc change_disp_ok { } {
     set file [$w.filename.file get]
 
     if { $file != "" } {
-	set config(displaypic) [convert_image_plus [$w.filename.file get] displaypic 96x96]
+		set config(displaypic) [convert_image_plus [$w.filename.file get] displaypic 96x96]
+		catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}
     } else {
-	set config(displaypic) ""
+		set config(displaypic) ""
+		catch {image create photo my_pic -file "[GetSkinFile displaypic $config(displaypic).gif]"}
     }
 
     
