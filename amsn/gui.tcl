@@ -2305,18 +2305,22 @@ namespace eval ::amsn {
 		$win.picmenu add separator
 		$win.picmenu add command -label "[trans changedisplaypic]..." -command pictureBrowser
 		
-		$win.picmenu add separator
-		#Sub-menu to change size
-		$win.picmenu add cascade -label "[trans changesize]" -menu $win.picmenu.size
-		catch {menu $win.picmenu.size -tearoff 0 -type normal}
-		$win.picmenu.size delete 0 end
-		#4 possible size (someone can add something to let the user choose his size)
-		$win.picmenu.size add command -label "64x64" -command "::amsn::convertsize $user $win 64x64"
-		$win.picmenu.size add command -label "96x96" -command "::amsn::convertsize $user $win 96x96"
-		$win.picmenu.size add command -label "128x128" -command "::amsn::convertsize $user $win 128x128"
-		$win.picmenu.size add command -label "192x192" -command "::amsn::convertsize $user $win 192x192"
-		#Get back to original picture
-		$win.picmenu.size add command -label "[trans original]" -command "::MSNP2P::loadUserPic $chatid $user 1"
+		set user [$win.f.bottom.pic cget -image]
+		if { $user != "no_pic" && $user != "my_pic" } {
+			set user [string range $user 9 end]
+			$win.picmenu add separator
+			#Sub-menu to change size
+			$win.picmenu add cascade -label "[trans changesize]" -menu $win.picmenu.size
+			catch {menu $win.picmenu.size -tearoff 0 -type normal}
+			$win.picmenu.size delete 0 end
+			#4 possible size (someone can add something to let the user choose his size)
+			$win.picmenu.size add command -label "64x64" -command "::amsn::convertsize $user $win 64x64"
+			$win.picmenu.size add command -label "96x96" -command "::amsn::convertsize $user $win 96x96"
+			$win.picmenu.size add command -label "128x128" -command "::amsn::convertsize $user $win 128x128"
+			$win.picmenu.size add command -label "192x192" -command "::amsn::convertsize $user $win 192x192"
+			#Get back to original picture
+			$win.picmenu.size add command -label "[trans original]" -command "::MSNP2P::loadUserPic $chatid $user 1"
+		}
 		tk_popup $win.picmenu $x $y
 	}
 	
