@@ -5120,7 +5120,7 @@ proc newcontact {new_login new_name} {
     pack ${wname}.c -expand true -fill both
 
    button ${wname}.c.ok -text [trans ok]  -font sboldf \
-       -command "set newc_exit OK; newcontact_ok \"OK\" $newc_add_to_list \"$new_login\" [list $new_name];destroy ${wname}"
+       -command "set newc_exit OK; newcontact_ok \"OK\" \$newc_add_to_list \"$new_login\" [list $new_name];destroy ${wname}"
    button ${wname}.c.cancel -text [trans cancel]  -font sboldf \
       -command "newcontact_ok \"CANCEL\" 0 \"$new_login\" [list $new_name];destroy ${wname}"
 
