@@ -25,10 +25,18 @@ for {set i 256} {$i < 65536} {incr i} {
 }
 
 namespace eval ::MSN {
-   namespace export changeName logout changeStatus
-   
-   proc changeName { userlogin newname } {
-      write_ns_sock "REA" "$userlogin [urlencode $newname]"     
+
+   namespace export changeName logout changeStatus connect blockUser \
+   unblockUser addUser deleteUser login
+
+   proc login { username password } {
+      if [catch { cmsn_ns_connect $username $password } res] {
+        msg_box "[trans connecterror]"
+	
+        sb set ns stat "d"
+        cmsn_draw_offline
+	
+      }   
    }
 
    proc logout {} {
@@ -42,15 +50,168 @@ namespace eval ::MSN {
 
    }
 
+   
+   proc changeName { userlogin newname } {
+      ::MSN::WriteNS "REA" "$userlogin [urlencode $newname]"     
+   }
+
+
    proc changeStatus {new_status} {
-      write_ns_sock "CHG" $new_status
+      ::MSN::WriteNS "CHG" $new_status
       status_log "Changing state to $new_status\n" red
    }
 
+   proc blockUser { userlogin } {
+     ::MSN::WriteNS REM "AL $userlogin"
+     ::MSN::WriteNS ADD "BL $userlogin $userlogin"
+   }
+
+   proc unblockUser { userlogin } {
+      ::MSN::WriteNS REM "BL $userlogin"
+      ::MSN::WriteNS LST "RL"
+   }
+   
+   proc addUser { userlogin {username ""}} {
+      if { $username == "" } {
+        set username $userlogin
+      }
+      ::MSN::WriteNS "ADD" "FL $userlogin $username"   
+   }
+   
+   proc deleteUser { userlogin } {
+      ::MSN::WriteNS REM "FL $userlogin"
+   #   ::MSN::WriteNS REM "AL $userlogin"
+   }   
+
+   #Internal procedures
+
+   variable trid 0
+
+
+   proc WriteSB {sbn cmd param {handler ""}} {
+      variable trid
+      incr trid
+      
+      puts [sb get $sbn sock] "$cmd $trid $param\r"
+      degt_protocol "->SB $cmd $trid $param"
+
+      if {$handler != ""} {
+         global list_cmdhnd
+         lappend list_cmdhnd [list $trid $handler]
+      }
+   }
+
+
+   proc WriteNS {cmd param {handler ""}} {
+      variable trid
+      incr trid
+
+      puts -nonewline [sb get ns sock] "$cmd $trid $param\r\n"
+      degt_protocol "->NS $cmd $trid $param"
+
+      if {$handler != ""} {
+         global list_cmdhnd
+         lappend list_cmdhnd [list $trid $handler]
+      }
+
+   }
+
+
+   #New protocol by AIM, challenges
+   proc AnswerChallenge { item } {
+      if { [lindex $item 1] != 0 } {
+        status_log "Invalid challenge\n" white
+      } else {
+        set cadenita [lindex $item 2]Q1P7W2E4J9R8U3S5
+        set cadenita [::md5::md5 $cadenita]
+        ::MSN::WriteNS "QRY" "msmsgs@msnmsgr.com 32"     
+        puts -nonewline [sb get ns sock] $cadenita
+      }
+   }
+
+   proc InviteFT { sbn file } {
+      #Invitation to filetransfer, initial message
+      variable trid atransfer
+
+      #Change this $file get, pass the name of the file as parameter
+      set file [ $file get ]
+
+      if { [catch {set filesize [file size $file]} res]} {
+        #::AMSN::Error ...
+	msg_box "File does not exist"
+	return 0;
+      }
+
+      set sock [sb get $sbn sock]
+
+      #Calculate a random cookie
+      set cookie [expr $trid * $filesize % (65536 * 4)]
+
+      set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+      set msg "${msg}Application-Name: File Transfer\r\n"
+      set msg "${msg}Application-GUID: {5D3E02AB-6190-11d3-BBBB-00C04F795683}\r\n"
+      set msg "${msg}Invitation-Command: INVITE\r\n"
+      set msg "${msg}Invitation-Cookie: $cookie\r\n"
+      set msg "${msg}Application-File: [file tail $file]\r\n"
+      set msg "${msg}Application-FileSize: $filesize\r\n\r\n"
+      set msg_len [string length $msg]
+
+      incr trid
+      puts $sock "MSG $trid N $msg_len"
+      puts -nonewline $sock $msg
+
+      status_log "Invitation to $file sent\n" red
+
+      #Change to allow multiple filetransfer
+      set atransfer [list "Cookie:$cookie" "$file" $filesize $sbn ]
+
+   }
+
+   proc SendFile {cookie sbn} {
+      #File transfer accepted by remote, send final ACK
+      variable atransfer trid
+
+      set sock [sb get $sbn sock]
+
+      #Invitation accepted, send IP and Port to connect to
+      #option: posibility to enter IP address (firewalled connections)
+      set ipaddr [lindex [fconfigure $sock -sockname] 0]
+      #if error ::AMSN::Error ...
+
+      #A configurable port needed for firewalled connections
+      set port 6891
+
+      #Random authcookie
+      set authcookie [expr $trid * $port % (65536 * 4)]
+	
+      while {[catch {set sockid [socket -server amsn_acceptconnection $port]} res]} {
+         incr port
+      }
+
+      after 120000 "status_log \"Closing $sockid\n\";close $sockid"
+      lappend atransfer $authcookie
+
+      set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+      set msg "${msg}Invitation-Command: ACCEPT\r\n"
+      set msg "${msg}Invitation-Cookie: $cookie\r\n"
+      set msg "${msg}IP-Address: $ipaddr\r\n"
+      set msg "${msg}Port: $port\r\n"
+      set msg "${msg}AuthCookie: $authcookie\r\n"
+      set msg "${msg}Launch-Application: FALSE\r\n"
+      set msg "${msg}Request-Data: IP-Address:\r\n\r\n"
+
+	
+      set msg_len [string length $msg]
+      incr trid
+      puts $sock "MSG $trid N $msg_len"
+      puts -nonewline $sock $msg
+
+      status_log "Listening on port $port for incoming connections...\n" red
+
+   }
+
+
 }
-
-
-
 
 
 
@@ -77,20 +238,6 @@ proc read_sb_sock {sbn} {
 
 }
 
-
-proc write_sb_sock {sbn cmd param {handler ""}} {
-   global trid
-   incr trid
-
-   puts [sb get $sbn sock] "$cmd $trid $param\r"
-#   status_log "$sbn: SEND: $cmd $trid $param\n" red
-   degt_protocol "->SB $cmd $trid $param"
-
-   if {$handler != ""} {
-      global list_cmdhnd
-      lappend list_cmdhnd [list $trid $handler]
-   }
-}
 
 proc sb {do sbn var {value ""}} {
    global ${sbn}_info
@@ -166,20 +313,6 @@ proc read_ns_sock {} {
 
 }
 
-proc write_ns_sock {cmd param {handler ""}} {
-   global trid
-   incr trid
-
-   puts -nonewline [sb get ns sock] "$cmd $trid $param\r\n"
-#   status_log "SEND: $cmd $trid $param\n" red
-   degt_protocol "->NS $cmd $trid $param"
-
-   if {$handler != ""} {
-      global list_cmdhnd
-      lappend list_cmdhnd [list $trid $handler]
-   }
-
-}
 
 proc proc_sb {} {
    global sb_list
@@ -311,14 +444,18 @@ proc cmsn_sb_msg {sb_name recv} {
 	
 	if { $data == "" } {
   	  status_log "Invitation cookie $cookie ACCEPTED\n" white
-	  amsn_sendfile $cookie $sb_name  
+	  ::MSN::SendFile $cookie $sb_name  
 	} else {
 	  set ipaddr $data
 	  set port [aim_get_str $body Port]
 	  set authcookie [aim_get_str $body AuthCookie]
 	  status_log "Going to receive a file..\n" 
 	  status_log "Body: $body\n"
-	  yesNoDialog "Accept file [lindex $filetoreceive 0], [lindex $filetoreceive 1] bytes?\nSaved to ${HOME}" "amsn_connectfiletransfer $ipaddr $port $authcookie \"[lindex $filetoreceive 0]\" $sb_name"
+
+          set answer [tk_messageBox -message "Accept file [lindex $filetoreceive 0], [lindex $filetoreceive 1] bytes?\nSaved to ${HOME}" -type yesno -icon question]
+	  if {$answer == "yes"} {
+	     amsn_connectfiletransfer $ipaddr $port $authcookie \"[lindex $filetoreceive 0]\" $sb_name
+	  }
 	  
 	}		
 
@@ -387,7 +524,7 @@ proc cmsn_sb_handler {sb_name item} {
 
 proc cmsn_invite_user {name user} {
    status_log "$name: Inviting $user\n" green
-   write_sb_sock $name "CAL" $user
+   ::MSN::WriteSB $name "CAL" $user
 }
 
 proc cmsn_chat_user {user} {
@@ -397,7 +534,7 @@ proc cmsn_chat_user {user} {
    sb set $name invite $user
 
    status_log "$name: CHAT1 Talking with $user\n" green
-   write_ns_sock "XFR" "SB" "cmsn_open_sb $name"
+   ::MSN::WriteNS "XFR" "SB" "cmsn_open_sb $name"
    
    cmsn_msgwin_top $name "[trans chatreq]..."
 #   if [catch { cmsn_msgwin_top $name "[trans chatreq]..."} res]  {
@@ -454,7 +591,7 @@ proc cmsn_conn_sb {name} {
    fileevent [sb get $name sock] writable {}
    sb set $name stat "a"
    set cmd [sb get $name auth_cmd]; set param [sb get $name auth_param]
-   write_sb_sock $name $cmd $param "cmsn_connected_sb $name"
+   ::MSN::WriteSB $name $cmd $param "cmsn_connected_sb $name"
    cmsn_msgwin_top $name "[trans ident]..."
 }
 
@@ -462,7 +599,7 @@ proc cmsn_conn_ans {name} {
    fileevent [sb get $name sock] writable {}
    sb set $name stat "a"
    set cmd [sb get $name auth_cmd]; set param [sb get $name auth_param]
-   write_sb_sock $name $cmd $param
+   ::MSN::WriteSB $name $cmd $param
    cmsn_msgwin_top $name "[trans ident]..."
 }
 
@@ -484,33 +621,16 @@ proc cmsn_reconnect {name} {
    } elseif {[sb get $name stat] == "d"} {
       sb set $name stat "rc"
       sb set $name invite [lindex [sb get $name last_user] 0]
-      write_ns_sock "XFR" "SB" "cmsn_open_sb $name"
+      ::MSN::WriteNS "XFR" "SB" "cmsn_open_sb $name"
       cmsn_msgwin_top $name "[trans reconnecting]..."
    }
 }
 
 
 
-#New protocol by AIM
-proc cmsn_answer_challenge {item} {
-   global trid
-
-   if { [lindex $item 1] != 0 } {
-     status_log "Invalid challenge\n" white
-   } else {
-     set cadenita [lindex $item 2]Q1P7W2E4J9R8U3S5
-     set cadenita [::md5::md5 $cadenita]
-     write_ns_sock "QRY" "msmsgs@msnmsgr.com 32"     
-     puts -nonewline [sb get ns sock] $cadenita
-#   incr trid
-
-#   puts -nonewline [sb get ns sock] "QRY $trid msmsgs@msnmsgr.com 32\r\n$cadenita"
-
-   }
-}
 
 proc cmsn_ns_handler {item} {
-   global list_cmdhnd password
+   global list_cmdhnd password config
 
    set item [encoding convertfrom utf-8 $item]
    set item [string map {\r ""} $item]
@@ -534,7 +654,7 @@ proc cmsn_ns_handler {item} {
             sb set ns serv $tmp_ns
             status_log "got a NS transfer!\n"
             status_log "reconnecting to [lindex $tmp_ns 0]\n"
-            cmsn_ns_connect
+            cmsn_ns_connect $config(login) $password
             return 0
 	 } else {
             status_log "got an unknown transfer!!\n" red
@@ -582,7 +702,7 @@ proc cmsn_ns_handler {item} {
       }
       CHL {
      	  status_log "Challenge received\n" red
-	  cmsn_answer_challenge $item
+	  ::MSN::AnswerChallenge $item
 	  return 0
       }
       QRY {
@@ -643,7 +763,7 @@ proc cmsn_ns_msg {recv} {
 
 
 proc cmsn_listdel {recv} {
-   write_ns_sock "LST" "[lindex $recv 2]"
+   ::MSN::WriteNS "LST" "[lindex $recv 2]"
 }
 
 proc cmsn_auth {{recv ""}} {
@@ -653,7 +773,7 @@ proc cmsn_auth {{recv ""}} {
    switch [sb get ns stat] {
       c {
 #New version of protocol
-         write_ns_sock "VER" "MSNP7 MSNP6 MSNP5 MSNP4 CVR0"
+         ::MSN::WriteNS "VER" "MSNP7 MSNP6 MSNP5 MSNP4 CVR0"
 	 sb set ns stat "v"
 	 return 0
       }
@@ -662,7 +782,7 @@ proc cmsn_auth {{recv ""}} {
 	    status_log "was expecting VER reply but got a [lindex $recv 0]\n" red
 	    return 1
 	 } elseif {[lsearch -exact $recv "CVR0"] != -1} {
-            write_ns_sock "INF" ""
+            ::MSN::WriteNS "INF" ""
 	    sb set ns stat "i"
 	    return 0
 	 } else {
@@ -676,7 +796,7 @@ proc cmsn_auth {{recv ""}} {
             return 1
          } elseif {[lsearch -exact $recv "MD5"] != -1} {
             global config
-            write_ns_sock "USR" "MD5 I $config(login)"
+            ::MSN::WriteNS "USR" "MD5 I $config(login)"
             sb set ns stat "u"
             return 0
          } else {
@@ -691,7 +811,7 @@ proc cmsn_auth {{recv ""}} {
             status_log "was expecting USR x MD5 S xxxxx but got something else!\n" red
             return 1
          }
-         write_ns_sock "USR" "MD5 S [get_password 'MD5' [lindex $recv 4]]"
+         ::MSN::WriteNS "USR" "MD5 S [get_password 'MD5' [lindex $recv 4]]"
          sb set ns stat "us"
          return 0
       }
@@ -708,12 +828,12 @@ proc cmsn_auth {{recv ""}} {
          set user_info $recv
          sb set ns stat "a"
 	 save_config						;# CONFIG
-	 write_ns_sock "SYN" "0"
+	 ::MSN::WriteNS "SYN" "0"
 # Me pongo online al comenzar
    if {$config(startoffline)} {
-      write_ns_sock "CHG" "HDN" ;
+      ::MSN::WriteNS "CHG" "HDN" ;
    } else {
-      write_ns_sock "CHG" "NLN" ;
+      ::MSN::WriteNS "CHG" "NLN" ;
    }
    #Log out
    .main_menu.file entryconfigure 2 -state normal
@@ -732,7 +852,7 @@ proc cmsn_auth {{recv ""}} {
 }
 
 proc sb_change { sbn } {
-	global trid typing config
+	global typing config
 
 	if { $typing != $sbn } {
 	
@@ -743,16 +863,16 @@ proc sb_change { sbn } {
 		set sock [sb get $sbn sock]
 
 		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgscontrol\r\nTypingUser: $config(login)\r\n\r\n\r\n"
-
 		set msg_len [string length $msg]
-		incr trid
-		puts $sock "MSG $trid U $msg_len"
+
+		incr ::MSN::trid
+		puts $sock "MSG $::MSN::trid U $msg_len"
 		puts -nonewline $sock $msg
 	}
 }
 
 proc sb_enter { sbn name } {
-   global trid user_info
+   global user_info
 
    set txt [$name get 0.0 end-1c]
    if {[string length $txt] < 1} { return 0 }
@@ -771,8 +891,8 @@ proc sb_enter { sbn name } {
       set msg "$msg$txt_send"
       set msg_len [string length $msg]
       set timestamp [clock format [clock seconds] -format %H:%M]
-      incr trid
-      puts $sock "MSG $trid N $msg_len"
+      incr ::MSN::trid
+      puts $sock "MSG $::MSN::trid N $msg_len"
       puts -nonewline $sock $msg
 #      cmsn_win_write $sbn "\[$timestamp\] [trans yousay]:\n" gray
       cmsn_win_write $sbn "\[$timestamp\] [trans says [urldecode [lindex $user_info 4]]]:\n" gray
@@ -788,7 +908,6 @@ proc sb_enter { sbn name } {
 set atransfer ""
 
 proc amsn_acceptfiletransfer {cookie sbn} {
-	global trid
 
 	set sock [sb get $sbn sock]
 
@@ -799,8 +918,8 @@ proc amsn_acceptfiletransfer {cookie sbn} {
 	set msg "${msg}Request-Data: IP-Address:\r\n\r\n"
 
 	set msg_len [string length $msg]
-	incr trid
-	puts $sock "MSG $trid N $msg_len"
+	incr ::MSN::trid
+	puts $sock "MSG $::MSN::trid N $msg_len"
 	puts -nonewline $sock $msg
 
 	status_log "Accepting filetransfer sent\n" red
@@ -808,58 +927,7 @@ proc amsn_acceptfiletransfer {cookie sbn} {
 
 }
 
-proc amsn_sendfile {cookie sbn} {
-	global atransfer trid
 
-	set sock [sb get $sbn sock]
-
-	#Invitation accepted, send IP and Port to connect to
-	set ipaddr [lindex [fconfigure $sock -sockname] 0]
-	set port 6891
-	set authcookie [expr $trid * $port % (65536 * 4)]
-	
-
-	set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
-	set msg "${msg}Invitation-Command: ACCEPT\r\n"
-	set msg "${msg}Invitation-Cookie: $cookie\r\n"
-	set msg "${msg}IP-Address: $ipaddr\r\n"
-	set msg "${msg}Port: $port\r\n"
-	set msg "${msg}AuthCookie: $authcookie\r\n"
-	set msg "${msg}Launch-Application: FALSE\r\n"
-	set msg "${msg}Request-Data: IP-Address:\r\n\r\n"
-
-	while {[catch {set sockid [socket -server amsn_acceptconnection $port]} res]} {
-	  set port [expr $port + 1]
-	}
-	after 120000 "status_log \"Closing $sockid\n\";close $sockid"
-	lappend atransfer $authcookie
-	
-	set msg_len [string length $msg]
-	incr trid
-	puts $sock "MSG $trid N $msg_len"
-	puts -nonewline $sock $msg
-
-	status_log "Final invitation for filetransfer sent\n" red
-
-}
-
-
-proc yesNoDialog { msg yescmd {nocmd ""}} {
-    toplevel .yesno
-    wm title .yesno "Question"
-     label .yesno.msg -justify center -text $msg
-     pack .yesno.msg -side top
-
-     frame .yesno.buttons
-     pack .yesno.buttons -side bottom -fill x -pady 2m
-      button .yesno.buttons.no -text No -command "destroy .yesno; $nocmd"
-      button .yesno.buttons.yes -text Yes \
-        -command "$yescmd; destroy .yesno"
-      pack .yesno.buttons.yes .yesno.buttons.no -side left -expand 1
-
-    focus .yesno.buttons.yes
-
-}
 
 proc amsn_connectfiletransfer {ipaddr port authcookie filename sbn} {
    #I connect to a remote host to retrive the file
@@ -963,6 +1031,7 @@ proc acceptfilepacket { sockid fileid filesize sbn} {
    }
 }
 
+
 proc amsn_acceptconnection {sockid hostaddr hostport} {
   global atransfer
    #Someone connects to my host to get the file i offer
@@ -1045,7 +1114,7 @@ proc SelectFileToTransfer { twn title } {
      pack $w.buttons -side bottom -fill x -pady 2m
       button $w.buttons.dismiss -text Cancel -command "destroy $w"
       button $w.buttons.save -text Send \
-        -command "sb_sendfile $twn $w.filename.entry; destroy $w"
+        -command "::MSN::InviteFT $twn $w.filename.entry; destroy $w"
       pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
 
     frame $w.filename -bd 2
@@ -1077,39 +1146,6 @@ proc fileDialog2 {w ent operation basename} {
 	$ent insert 0 $file
 	$ent xview end
     }
-}
-
-
-proc sb_sendfile { sbn file} {
-	global trid atransfer
-
-	set file [ $file get ]
-
-	status_log "File size: [file size $file]\n"
-	set filesize [file size $file]
-
-	set sock [sb get $sbn sock]
-
-	#Invitation to filetransfer, initial message
-	set cookie [expr $trid * $filesize % (65536 * 4)]
-
-	set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
-	set msg "${msg}Application-Name: File Transfer\r\n"
-	set msg "${msg}Application-GUID: {5D3E02AB-6190-11d3-BBBB-00C04F795683}\r\n"
-	set msg "${msg}Invitation-Command: INVITE\r\n"
-	set msg "${msg}Invitation-Cookie: $cookie\r\n"
-	set msg "${msg}Application-File: [file tail $file]\r\n"
-	set msg "${msg}Application-FileSize: $filesize\r\n\r\n"
-	
-	set msg_len [string length $msg]
-	incr trid
-	puts $sock "MSG $trid N $msg_len"
-	puts -nonewline $sock $msg
-
-	status_log "Sending file $file\n" red
-
-	set atransfer [list "Cookie:$cookie" "$file" $filesize $sbn ]
-
 }
 
 
@@ -1204,18 +1240,17 @@ proc cmsn_ns_connected {} {
 proc cmsn_sb_connected {name} {
    fileevent [sb get $name sock] writable {}
    sb set $name stat "c"
-   write_sb_sock $name [sb get $name auth_cmd] [sb get $name auth_param]
+   ::MSN::WriteSB $name [sb get $name auth_cmd] [sb get $name auth_param]
    cmsn_msgwin_top $name "[trans indent]..."
 }
 
-proc cmsn_ns_connect {} {
-   global config unread list_al list_bl list_fl list_rl password
+proc cmsn_ns_connect { username password} {
+   global unread list_al list_bl list_fl list_rl config
 
-   if { ($config(login) == "") || ($password == "")} {
+   if { ($username == "") || ($password == "")} {
      cmsn_draw_login
-     return
+     return -1
    }
-
 
    set list_al [list]
    set list_bl [list]
@@ -1234,7 +1269,6 @@ proc cmsn_ns_connect {} {
    #Proxy Config
 #   .options entryconfigure 1 -state disabled
 
-   wm title . "[trans title] - $config(login)"
    cmsn_draw_signin
 
    sb set ns data [list]

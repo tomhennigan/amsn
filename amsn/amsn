@@ -272,10 +272,10 @@ proc cmsn_draw_main {} {
    menu .main_menu.file -tearoff 0 -type normal -background #D0D0E0
    if { [string length $config(login)] > 0 } {
      .main_menu.file add command -label "[trans login] $config(login)" \
-       -command cmsn_ns_connect -state normal
+       -command "cmsn_ns_connect $config(login) $password" -state normal
    } else {
      .main_menu.file add command -label "[trans login]" \
-       -command cmsn_ns_connect -state disabled
+       -command "cmsn_ns_connect $config(login) $password" -state disabled
    }
    .main_menu.file add command -label "[trans login]..." -command \
      cmsn_draw_login
@@ -435,7 +435,7 @@ proc cmsn_draw_status {} {
 
 proc cmsn_draw_offline {} {
 
-   global sboldf config
+   global sboldf config password
 
    wm title . "[trans title] - [trans offline]"
 
@@ -483,7 +483,7 @@ proc cmsn_draw_offline {} {
 	    ".main.text tag conf start_login -fore #000000 -underline true;\
 	    .main.text conf -cursor left_ptr"
     .main.text tag bind start_login <Button-1> \
-        "cmsn_ns_connect"
+        "cmsn_ns_connect $config(login) $password"
 
 
    .main.text tag conf start_loginas -fore #000000 -underline true \
@@ -508,7 +508,7 @@ proc cmsn_draw_offline {} {
      .main.text insert end "$config(login)\n" start_login
      .main.text insert end "[trans clicktologin]" start_login
      .main.text tag bind start_login <Button-1> \
-	"cmsn_ns_connect"
+	"cmsn_ns_connect $config(login) $password"
 
      .main.text insert end "\n\n\n\n\n"
  
@@ -545,11 +545,13 @@ proc cmsn_draw_offline {} {
 }
 
 proc cmsn_draw_signin {} {
-
+    global config
 #   .main.status configure -state normal -font splainf
 #   .main.status delete 0.0 end
 #   .main.status insert end "[trans loggingin]..."
 #   .main.status configure -state disabled
+
+   wm title . "[trans title] - $config(login)"
 
    .main.text configure -state normal -font splainf
    .main.text delete 0.0 end
@@ -782,18 +784,15 @@ proc cmsn_draw_online {} {
 }
 
 proc block_user {user_login} {
-   write_ns_sock REM "AL ${user_login}"
-   write_ns_sock ADD "BL ${user_login} ${user_login}"
+   ::MSN::blockUser ${user_login}
 }
 
 proc unblock_user {user_login} {
-   write_ns_sock REM "BL ${user_login}"
-   write_ns_sock LST "RL"
+   ::MSN::unblockUser ${user_login}
 }
 
 proc delete_user {user_login} {
-   write_ns_sock REM "FL ${user_login}"
-#   write_ns_sock REM "AL ${user_login}"
+   ::MSN::deleteUser ${user_login}
 }
 
 proc send_mail {user_login} {
@@ -841,11 +840,8 @@ proc login_ok {} {
    grab release .login
    destroy .login
 
-   if [catch { cmsn_ns_connect } res] {
-     msg_box "[trans connecterror]"
-     sb set ns stat "d"
-     cmsn_draw_offline
-   }
+   MSN::connect $config(login) $password
+
 }
 
 proc copypaste_menu {text x y delete} {
@@ -1292,7 +1288,7 @@ proc cmsn_draw_addcontact {} {
 
 proc addcontact_next {} {
    set tmp_email [.addcontact.c.email get]
-   write_ns_sock "ADD" "FL $tmp_email $tmp_email"
+   ::MSN::adduser "$tmp_email"
    grab release .addcontact
    msg_box "[trans contactadded]"
    destroy .addcontact
@@ -1707,8 +1703,8 @@ proc cmsn_change_state {recv} {
       if {$user_name != [urldecode [lindex $user_data 1]]} {
       	#Nick differs from the one on our list, so change it
 	#in the server list too
-	write_ns_sock "REM" "FL $user"
-	write_ns_sock "ADD" "FL $user [urlencode $user_name]"
+	::MSN::deleteUser $user
+	::MSN::addUser $user [urlencode $user_name]
       }
 
       
@@ -1778,15 +1774,15 @@ proc lists_compare {} {
          tkwait window .newc 
          if {$newc_exit == "OK"} {
 	    if {$newc_allow_block == "allow"} {
-	       write_ns_sock "ADD" "AL [lindex $x 0] [urlencode [lindex $x 1]]"
+	       ::MSN::WriteNS "ADD" "AL [lindex $x 0] [urlencode [lindex $x 1]]"
 	    } else {
-	       write_ns_sock "ADD" "BL [lindex $x 0] [urlencode [lindex $x 1]]"
+	       ::MSN::WriteNS "ADD" "BL [lindex $x 0] [urlencode [lindex $x 1]]"
 	    }
 	    if {$newc_add_to_list} {
-	       write_ns_sock "ADD" "FL [lindex $x 0] [urlencode [lindex $x 1]]"
+	       ::MSN::WriteNS "ADD" "FL [lindex $x 0] [urlencode [lindex $x 1]]"
 	    }
 	 } else {;# if clicked on OK, by default Accept List	  
-	       write_ns_sock "ADD" "AL [lindex $x 0] [urlencode [lindex $x 1]]"
+	       ::MSN::WriteNS "ADD" "AL [lindex $x 0] [urlencode [lindex $x 1]]"
 	 }
 
       } ;# NOT in AL/BL
