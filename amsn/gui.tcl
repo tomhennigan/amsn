@@ -4930,10 +4930,8 @@ proc tk_textPaste { w } {
 #///////////////////////////////////////////////////////////////////////
 proc copy { cut w } {
 
-#Try this (for chat windows)
-	set window [::ChatWindow::GetInputText $w]
-
-	if { [ catch {$window tag ranges sel}]} {
+	#Try this (for chat windows)
+	if { [ catch {set window [::ChatWindow::GetInputText $w]} ]} {
 		set window $w
 	}
 
