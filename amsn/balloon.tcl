@@ -28,7 +28,7 @@
 bind Bulle <Enter> {
     set Bulle(set) 0
     set Bulle(first) 1
-    set Bulle(id) [after 1000 {balloon %W $Bulle(%W) %X %Y}]
+    set Bulle(id) [after 1000 [list balloon %W $Bulle(%W) %X %Y]]
 }
 
 bind Bulle <Button> {
@@ -44,7 +44,7 @@ bind Bulle <Leave> {
 bind Bulle <Motion> {
     if {$Bulle(set) == 0} {
         after cancel $Bulle(id)
-        set Bulle(id) [after 1000 {balloon %W $Bulle(%W) %X %Y}]
+        set Bulle(id) [after 1000 [list balloon %W $Bulle(%W) %X %Y]]
     }
 }
 
