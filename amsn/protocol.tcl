@@ -3102,19 +3102,19 @@ proc cmsn_ns_handler {item} {
 				return 0
 			}
 			ADD {
-				status_log "Before: [lindex $item 4] is now in groups: [::abook::getGroup [lindex $item 4] -id]\n"
+				status_log "Before: [lindex $item 4] is now in groups: [::abook::getGroups [lindex $item 4]]\n"
 				new_contact_list "[lindex $item 3]"
-				status_log "After 1: [lindex $item 4] is now in groups: [::abook::getGroup [lindex $item 4] -id]\n"
+				status_log "After 1: [lindex $item 4] is now in groups: [::abook::getGroups [lindex $item 4]]\n"
 				set curr_list [lindex $item 2]
 				status_log "curr_list=$curr_list\n"
 				if { ($curr_list == "FL") } {
 					::abook::setContactData [lindex $item 4] nick [lindex $item 5]
 					::abook::addContactToGroup [lindex $item 4] [lindex $item 6]
 					status_log "Adding contact to group [lindex $item 6]\n"
-					status_log "After 2: [lindex $item 4] is now in groups: [::abook::getGroup [lindex $item 4] -id]\n"
+					status_log "After 2: [lindex $item 4] is now in groups: [::abook::getGroups [lindex $item 4]]\n"
 				}
 				cmsn_listupdate $item
-				status_log "After 3: [lindex $item 4] is now in groups: [::abook::getGroup [lindex $item 4] -id]\n"
+				status_log "After 3: [lindex $item 4] is now in groups: [::abook::getGroups [lindex $item 4]]\n"
 				return 0
 			}
 			LST {
@@ -3387,7 +3387,7 @@ proc cmsn_listdel {recv} {
 	if { [lindex $recv 2] == "FL" } {
 		if { [lindex $recv 5] == "" } {
 			#Remove from all groups!!
-			foreach group [::abook::getGroup $user -id] {
+			foreach group [::abook::getGroups $user] {
 				::abook::removeContactFromGroup $user $group
 			}
 		} else {
@@ -3395,7 +3395,7 @@ proc cmsn_listdel {recv} {
 			::abook::removeContactFromGroup $user [lindex $recv 5]
 		}
 
-		if { [llength [::abook::getGroup $user -id]] == 0 } {
+		if { [llength [::abook::getGroups $user]] == 0 } {
 			status_log "cmsn_listdel: Contact [lindex $recv 4] is in no groups, removing!!\n" blue
 			upvar #0 $list_name the_list
 			set idx [lsearch $the_list "$user *"]
@@ -4031,7 +4031,7 @@ proc cmsn_listupdate {recv} {
 		set username [lindex $recv 4]
 		set nickname [lindex $recv 5]
 		#set groups [lindex $recv 6]
-		set groups [::abook::getGroup $username -id]
+		set groups [::abook::getGroups $username]
 
 
 	} else {
@@ -4396,7 +4396,7 @@ proc save_contact_list { } {
 		set user [::sxml::xmlreplace $user]
 
 		puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>"
-		puts $file_id "         <gid>[join [::abook::getGroup [lindex $user 0] -id] ,]</gid>\n         <PHH>[::sxml::xmlreplace [set userd(phh)]]</PHH>"
+		puts $file_id "         <gid>[join [::abook::getGroups [lindex $user 0]] ,]</gid>\n         <PHH>[::sxml::xmlreplace [set userd(phh)]]</PHH>"
 		puts $file_id "         <PHW>[::sxml::xmlreplace [set userd(phw)]]</PHW>\n         <PHM>[::sxml::xmlreplace [set userd(phm)]]</PHM>\n         <MOB>[::sxml::xmlreplace [set userd(mob)]]</MOB>"
 		puts $file_id "\n      </user>"
 	}

@@ -263,7 +263,7 @@ proc debug_cmd_lists {subcmd {basename ""}} {
     set items [llength $user_entries]
     for {set idx 0} {$idx < $items} {incr idx 1} {
         set vkey [lindex $user_entries $idx]; incr idx 1
-	set gid [::abook::getGroup $vkey -id]
+	set gid [::abook::getGroups $vkey]
         set unick  [urlencode [::abook::getName $vkey]]
         if {($subcmd == "-save") || ($subcmd == "-export")} {
 	    # This is for the enhanced (AMSN) contact list export
@@ -1818,6 +1818,9 @@ set $configitem $browsechoose
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.118  2004/02/28 19:26:27  airadier
+# Fixes and simplifications. getGroup is now named getGroups, and doesn't have the "how" parameter cause it's never used
+#
 # Revision 1.117  2004/02/24 16:16:11  airadier
 # Fixes for file dialog. Removed IP in file transfers, moved to preferences. Moved last_client_version to global options.
 #

@@ -4752,7 +4752,7 @@ proc cmsn_draw_online { {delay 0} } {
 		set breaking ""
 
 		if { $config(orderbygroup) } {
-			foreach user_group [::abook::getGroup $user_login -id] {
+			foreach user_group [::abook::getGroups $user_login] {
 				set section "tg$user_group"
 
 				if { $section == "tgblocked" } {set section "blocked" }
@@ -4787,7 +4787,7 @@ proc cmsn_draw_online { {delay 0} } {
 		if { $config(showblockedgroup) == 1 && [info exists emailBList($user_login)]} {
 			::groups::UpdateCount blocked +1
 			if {[::groups::IsExpanded blocked]} {
-				ShowUser $user_name $user_login $state $state_code $colour "blocked" [lindex [::abook::getGroup $user_login -id] 0]
+				ShowUser $user_name $user_login $state $state_code $colour "blocked" [lindex [::abook::getGroups $user_login] 0]
 			}
 		}
 	}

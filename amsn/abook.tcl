@@ -3,7 +3,7 @@
 # $Id$
 #=======================================================================
 namespace eval ::abook {
-	namespace export setContact getContact getGroup getName \
+	namespace export setContact getContact getGroups getName \
 		setPhone setDemographics getDemographics \
 		setPersonal getPersonal
 
@@ -71,9 +71,8 @@ namespace eval ::abook {
    proc getName {passport} {
 		return [urldecode [getContactData $passport nick]]
    }
-   
 
-   
+
       
 	# Sends a message to the notification server with the
 	# new set of phone numbers. Notice this can only be done
@@ -207,17 +206,11 @@ namespace eval ::abook {
 		}
 	}
 	
-	# Used to fetch the group ID so that the caller can order by
+	# Used to fetch the groups ID so that the caller can order by
 	# group if needed. Returns -1 on error.
-	# ::abook::getGroup my@passport.com -id    : returns group id
-	# ::abook::getGroup my@passport.com -name  : return group name
-	proc getGroup {passport how} {
-		set groupId [getContactData $passport group]
-		if {$how == "-id"} {
-			return $groupId
-		}
-		set groupName [::groups::GetName $groupId]
-		return $groupName
+	# ::abook::getGroups my@passport.com    : returns group ids
+	proc getGroups {passport} {
+		return [getContactData $passport group]
 	}
    
 	proc addContactToGroup { email grId } {
