@@ -6084,15 +6084,15 @@ proc reloadAvailablePics { } {
 	.picbrowser.pics.text configure -state normal
 	.picbrowser.pics.text delete 0.0 end
 			
-	if { [catch { set skin "[::config::get skin]" } ] != 0 } {
-		set skin "default"
-	}
+	#if { [catch { set skin "[::config::get skin]" } ] != 0 } {
+	#	set skin "default"
+	#}
 	
 	set files [list]
-	catch {set files [glob -directory [file join $program_dir skins $skin displaypic] *.png] }
-	if { $skin != "default" } {
-		catch {set files [concat $files [glob -directory [file join $program_dir skins default displaypic] *.png]]}
-	}
+	#catch {set files [glob -directory [file join $program_dir skins $skin displaypic] *.png] }
+	#if { $skin != "default" } {
+	catch {set files [concat $files [glob -directory [file join $program_dir skins default displaypic] *.png]]}
+	#}
 	catch {set myfiles [glob -directory [file join $HOME displaypic] *.png]}
 	catch {set cachefiles [glob -directory [file join $HOME displaypic cache] *.png]}
 	
