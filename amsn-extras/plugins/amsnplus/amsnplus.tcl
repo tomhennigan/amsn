@@ -665,7 +665,7 @@ namespace eval ::amsnplus {
 	################################################
 	# this proc add external commands to amsnplus
 	# (useful for other plugins)
-	proc add_command { keyword proc parameters {0 win_name} {0 chatid} } {
+	proc add_command { keyword proc parameters {win_name 0} {chatid 0} } {
 		set ::amsnplus::external_commands($keyword) [list $proc $parameters $win_name $chatid]
 	}
 	
