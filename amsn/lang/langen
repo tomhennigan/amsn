@@ -4,6 +4,9 @@ actions Actions
 addacontact Add a contact
 addedyou has added you to his/her contact list
 addtoo Add this person to my contact list
+admincontacts Admin contacts
+admingroups Admin groups
+adverts Advertisements
 allowseen Allow this person to see when I'm online and contact me
 appearoff Appear offline
 are are
@@ -33,13 +36,16 @@ enternick Enter your nick
 examples Examples
 gonelunch Gone to lunch
 help Help
+helpcontents Help contents
 ident Identifying
+inbox In-Box
 invite Invite
 is is
 joins $1 $2 joins conversation
 language Language
 leaves $1 leaves conversation
 listsmileys List smileys
+loadcontacts Load contact list
 loggingin Logging In
 login Log In
 loginas Login as
@@ -62,6 +68,9 @@ ok Ok
 offline Offline
 online Online
 onphone On phone
+openreceived Open received files
+options Options
+ordercontactsby Order contacts by
 other Other
 pass Password
 port Port
@@ -75,9 +84,13 @@ reconnecting Reconnecting to server
 rememberpass Remember password
 rightback Be right back
 save Save
+savecontacts Save contact list
 says $1 says
 sbcon Connecting to Switch Board
 send Send
+sendfile Send file
+sendmail Send mail
+sendmsg Send message
 server Server
 sound Event Sound
 title Al's Messenger
