@@ -4384,6 +4384,9 @@ proc cmsn_draw_online_wrapped {} {
 	$pgBuddy.text image create end -image [::skin::getColorBar]
 	$pgBuddy.text insert end "\n"
 
+  	set evpar(text) $pgBuddy.text
+  	::plugins::PostEvent ContactListColourBarDrawn evpar
+
 	if { [::config::getKey checkemail] } {
 		# Show Mail Notification status
 		clickableImage $pgBuddy.text mailbox mailbox [list hotmail_login [::config::getKey login] $password] 5 0
@@ -4406,8 +4409,10 @@ proc cmsn_draw_online_wrapped {} {
 		$pgBuddy.text tag add dont_replace_smileys mail.first mail.last
 	}
 
-	
-	
+  	set evpar(text) pgBuddy.text
+  	::plugins::PostEvent ContactListEmailsDrawn evpar	
+
+
 	# For each named group setup its heading where >><< image
 	# appears together with the group name and total nr. of handles
 	# [<<] My Group Name (n)
