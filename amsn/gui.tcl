@@ -455,7 +455,6 @@ namespace eval ::amsn {
 	 	#wm iconify ${win_name}
 	    }
 
-            sonido type
             if { $config(notifymsg) == 1 } {
 	 	notifyAdd "[trans says [lindex [::MSN::getUserInfo $user] 1]]:\n$msg" \
 		"::amsn::chatUser $chatid"
@@ -464,8 +463,10 @@ namespace eval ::amsn {
 
       }
 
-
-
+      if { [string first ${win_name} [focus]] != 0 } {
+         sonido type
+      }
+      
    }
    #///////////////////////////////////////////////////////////////////////////////
 
