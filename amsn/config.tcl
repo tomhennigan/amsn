@@ -443,7 +443,7 @@ proc LoginList { action age {email ""} {lock ""} } {
 # email : email of the new profile/login
 proc ConfigChange { window email } {
 	global HOME HOME2 password config log_dir proftrig lockSock
-	set proftrig 0
+	#set proftrig 0
 	if { $email != "" } {
 		
 	status_log "Called ChangeConfig with $email, old is $config(login)\n"
@@ -628,6 +628,7 @@ proc DeleteProfile { email entrypath } {
 		
 		# Make sure profile isn't locked
 		if { [CheckLock $email] == -1 } {
+			msg_box [trans cannotdeleteprofile]
 			return
 		}
 		
@@ -648,8 +649,8 @@ proc DeleteProfile { email entrypath } {
 proc CheckLock { email } {
 	global response LockList
 	set Port [LoginList getlock 0 $email]
-#    puts "cheking lock for $email ... got $Port"
-#    puts "[array get LockList]"
+    puts "cheking lock for $email ... got $Port"
+    puts "[array get LockList]"
 	if { $Port != 0 } {
 	if { [catch {socket -server phony $Port} newlockSock] != 0  } {
 		# port is taken, let's make sure it's a profile lock
@@ -660,6 +661,7 @@ proc CheckLock { email } {
 			vwait response
 			
 			#set response [gets $clientSock]
+			puts "\n$response\n"
 			if { $response == "AMSN_LOCK_PONG" } {
 				# profile is locked
 				close $clientSock
