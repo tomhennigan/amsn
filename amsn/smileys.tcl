@@ -206,14 +206,24 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
 
 		if { $animated } {
 		    
-		    set emoticon $tw.${smileys_drawn}_anigif_$filename
+		    set emoticon $tw.${smileys_drawn}_anigif_$filename	    
 		    set smileys_drawn [expr $smileys_drawn + 1]		      
 		    
-		    label $emoticon -bd 0 -background [$tw cget -background]
+		    label $emoticon -bd 0 -background white
 		    ::anigif::anigif [file join $smileys_folder ${file}] $emoticon
 		    
 		    $tw window create $pos -window $emoticon       
 		    bind $emoticon <Destroy> "::anigif::destroy $emoticon"		    
+
+		    set tagname  [$tw tag names $pos]
+		    if { [llength $tagname] == 1 } {
+		       #status_log "Replacing. Existing binding for $tagname: [$tw tag bind $tagname <Button3-ButtonRelease>]\n" blue
+		       bind $emoticon <Button3-ButtonRelease> "[$tw tag bind $tagname <Button3-ButtonRelease>]"
+		       bind $emoticon <Enter> "[$tw tag bind $tagname <Enter>]"
+		       bind $emoticon <Leave> "[$tw tag bind $tagname <Leave>]"
+		       
+		    }
+
 #		    bind $emoticon <Visibility> "VisibilityChangeEmot $emoticon 1 %s $tw $pos $file"
 
 
