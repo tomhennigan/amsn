@@ -141,6 +141,7 @@ proc ConfigDefaults {} {
 	set config(showtimestamps) 1		;#Show timestamps on messages
 	set config(adverts) 0				;#Enable banner advertisements
         set config(displaypic) ""                   ;# Diplay picture
+        set config(getdisppic) 0 
 }
 
 namespace eval ::config {

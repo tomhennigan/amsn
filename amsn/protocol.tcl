@@ -2379,7 +2379,9 @@ proc cmsn_sb_handler {sb_name item} {
 
         foreach usr_login [sb get $sb_name users] {
            ::amsn::userJoins $chatid $usr_login
-           ::MSNP2P::loadUserPic $chatid $usr_login
+	    if { $config(getdisppic) == 1 } {
+		::MSNP2P::loadUserPic $chatid $usr_login
+	    }
 	}
 
 	 return 0
@@ -2817,7 +2819,9 @@ proc cmsn_update_users {sb_name recv} {
           #and get a fake "user joins" message if we don't check it
           if {[::MSN::SBFor $chatid] == $sb_name} {
              ::amsn::userJoins $chatid $usr_login
-				 ::MSNP2P::loadUserPic $chatid $usr_login
+	      if { $config(getdisppic) == 1 } {
+		  ::MSNP2P::loadUserPic $chatid $usr_login
+	      }
           }
 
       }
