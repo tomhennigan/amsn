@@ -4740,7 +4740,13 @@ proc cmsn_draw_online_wrapped {} {
 				::groups::UpdateCount $user_group +1 $state_section
 
 				if { [::config::getKey orderbygroup] == 2 } {
-					if { $state_code == "FLN" } { set section "offline"}
+					if { $state_code == "FLN" } {
+						if { $state_section == "mobile" } {
+							set section "mobile"
+						} else {
+							set section "offline"
+						}
+					}
 					if { $breaking == "$user_login" } { continue }
 				}
 				
@@ -4748,7 +4754,11 @@ proc cmsn_draw_online_wrapped {} {
 
 				if { [::config::getKey orderbygroup] == 2 } {
 					if { $state_code == "FLN" } {
-						set myGroupExpanded [::groups::IsExpanded offline]
+						if { $state_section == "mobile" } {
+							set myGroupExpanded [::groups::IsExpanded mobile]
+						} else {
+							set myGroupExpanded [::groups::IsExpanded offline]
+						}
 					}
 				}
 
@@ -4757,7 +4767,7 @@ proc cmsn_draw_online_wrapped {} {
 				}
 
 				#Why "breaking"? Why not just a break? Or should we "continue" instead of breaking?
-				if { [::config::getKey orderbygroup] == 2 && $state_code == "FLN" } { set breaking $user_login}
+				if { [::config::getKey orderbygroup] == 2 && $state_code == "FLN" && $state_section != "mobile" } { set breaking $user_login}
 
 			}
 		} elseif {[::groups::IsExpanded $state_section]} {
@@ -4780,16 +4790,25 @@ proc cmsn_draw_online_wrapped {} {
 			#If we're managing special group "Individuals" (ID == 0), then remove header if:
 			# 1) we're in hybrid mode and there are no online contacts
 			# 2) or we're in group mode and there're no contacts (online or offline)
-			if {  ($gname == 0 || ([::config::getKey removeempty] && $gname != "offline")) &&
-				(($::groups::uMemberCnt_online($gname) == 0 && [::config::getKey orderbygroup] == 2 && $gname != "mobile") ||
-				 ($::groups::uMemberCnt($gname) == 0 && [::config::getKey orderbygroup] == 1) ||
-                                 ($gname == "mobile" && $::groups::uMemberCnt($gname) == 0 && $my_mobilegroup == 1)) } {
+			if {  ($gname == 0 || ([::config::getKey removeempty] && $gname != "offline" && $gname != "mobile")) &&
+				(($::groups::uMemberCnt_online($gname) == 0 && [::config::getKey orderbygroup] == 2) ||
+				 ($::groups::uMemberCnt($gname) == 0 && [::config::getKey orderbygroup] == 1)) } {
 				set endidx [split [$pgBuddy.text index $gtag.last] "."]
 				if { [::config::getKey nogap] } {
 					$pgBuddy.text delete $gtag.first [expr {[lindex $endidx 0]+1}].0
 				} else {
 					$pgBuddy.text delete $gtag.first [expr {[lindex $endidx 0]+2}].0
 				}
+				if { [::groups::IsExpanded $gname] } {
+					destroy $pgBuddy.text.contract$gname
+				} else {
+					destroy $pgBuddy.text.expand$gname
+				}
+				
+				continue
+			}
+
+			if { ([::config::getKey removeempty] && $gname == "mobile" && $::groups::uMemberCnt(mobile) == 0) } {
 				if { [::groups::IsExpanded $gname] } {
 					destroy $pgBuddy.text.contract$gname
 				} else {
@@ -4818,6 +4837,9 @@ proc cmsn_draw_online_wrapped {} {
 				if { $gname == "blocked" } {
 					$pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))" blocked
 					$pgBuddy.text tag add dont_replace_smileys blocked.first blocked.last
+				} elseif { $gname == "mobile" && $my_mobilegroup == 1 } {
+					$pgBuddy.text insert mobile.last " ($::groups::uMemberCnt(mobile))" mobile
+					$pgBuddy.text tag add dont_replace_smileys mobile.first mobile.last
 				} else {
 					$pgBuddy.text insert ${gtag}.last \
 						" ($::groups::uMemberCnt_online(${gname})/$::groups::uMemberCnt($gname))" $gtag
