@@ -24,6 +24,7 @@ Existing Feature Improvements (priority 2):
 # Improve file transfers: non blocking negotiation
 # Display link to received file and click to open
 # ** FIXED ** Unblock dosen't work from chat window
+# Change the block icon to unblock when user is blocked in chat window
 # Fix display issue when copying a user in more than 1 group (displays the user twice in the same group)
 # Reenable copy option for contact list (currently commented out)
 # ** FIXED ** Copy/Paste in message windows + Right click popup menu for copy/paste
