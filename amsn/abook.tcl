@@ -955,10 +955,12 @@ namespace eval ::abookGui {
 		#Request from users with 800X600 screen (they can't see accept/cancel button)
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			wm protocol $w WM_DELETE_WINDOW "[list ::abookGui::closeProperties $email $w]"
-			bind $w <Destroy> [list ::abookGui::PropDestroyed $email $w %W]
+			bind $w <<Escape>> "[list ::abookGui::closeProperties $email $w]"
 		} else {
-			bind $w <Destroy> [list ::abookGui::PropDestroyed $email $w %W]
+			bind $w <<Escape>> "destroy $w"
 		}
+
+		bind $w <Destroy> [list ::abookGui::PropDestroyed $email $w %W]
 		
 		moveinscreen $w 30
 		status_log YOYOYO
@@ -1055,6 +1057,7 @@ namespace eval ::abookGui {
 			}
 		button .globalnick.btn.cancel -text "[trans cancel]"  \
 			-command "destroy .globalnick"
+		bind .globalnick <<Escape>> "destroy .globalnick"
 		pack .globalnick.btn.ok .globalnick.btn.cancel -side right -padx 5
 		pack .globalnick.frm -side top -pady 3 -padx 5
 		pack .globalnick.btn  -side top -anchor e -pady 3
