@@ -65,21 +65,21 @@ if {[catch {file readlink [info script]} res]!=0} {
 
 # Setup other important directory paths
 if {$tcl_platform(platform) == "unix"} {
-   set HOME "$env(HOME)/.amsn"
-   set files_dir "$env(HOME)/amsn_received"
+   set HOME "[file join $env(HOME) .amsn]"
+   set files_dir "[file join $env(HOME) amsn_received]"
 } elseif {$tcl_platform(platform) == "windows"} {
-   set HOME "$env(USERPROFILE)/amsn"
-   set files_dir "$env(USERPROFILE)/amsn_received"
+   set HOME "[file join $env(USERPROFILE) amsn]"
+   set files_dir "[file join $env(USERPROFILE) amsn_received]"
 } else {
    set HOME "amsn"
    set files_dir "amsn_received"
 }
 
-set log_dir "${HOME}/logs"
+set log_dir "[file join ${HOME} logs]"
 
 # And setup where to find optional packages
-lappend auto_path "$program_dir/plugins"
-lappend auto_path "${HOME}/plugins"
+lappend auto_path "[file join $program_dir plugins]"
+lappend auto_path "[file join ${HOME} plugins]"
 
 #=======================================================================
 set images_folder "[file join $program_dir i]"
