@@ -1692,14 +1692,16 @@ namespace eval ::amsn {
 
 	proc ChangePicture {win picture} {
 		#pack $win.bottom.pic -side left -padx 2 -pady 2
-		grid $win.f.bottom.pic -row 0 -column 1 -padx 2 -pady 2 -rowspan 2
+		upvar #0 ${win}_show_picture show_pic
+
+		if { $show_pic } {
+			grid $win.f.bottom.pic -row 0 -column 1 -padx 2 -pady 2 -rowspan 2
+		}
 		if { [catch {$win.f.bottom.pic configure -image $picture}] } {
 			status_log "Failed to set picture, using no_pic\n" red
 			image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
 			$win.f.bottom.pic configure -image no_pic
 		}
-		global ${win}_show_picture
-		set ${win}_show_picture 1
 	}
 
 	proc HidePicture { win } {
