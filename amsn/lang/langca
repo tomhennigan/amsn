@@ -44,7 +44,7 @@ connecterror Error connectant-se amb el servidor
 copytogroup Copia al grup
 date Data
 delete Esborrar
-enableproxy Habilitar el servidor d'intercanvi (Proxy)
+enableproxy Habilitar el servidor intermediari (Proxy)
 encoding Escull la codificació
 entercontactemail Escriu l'adreça de correu del contacte
 enterfilename Introdueix el nom de l'arxiu
@@ -127,8 +127,8 @@ prefapps Aplicacions
 preferences Preferències
 prefsound Só
 properties Propietats
-proxyconf Configuració del servidor d'intercanvi (Proxy)
-proxyconfhttp Configuració del suport per al servidor d'intercanvi HTTP
+proxyconf Configuració del servidor intermediari (Proxy)
+proxyconfhttp Configuració del suport per al servidor intermediari HTTP
 publishphones Publicar els meus números de telèfon
 receivedbytes Rebuts $1 de $2 bytes
 receivefile Rebent arxiu
