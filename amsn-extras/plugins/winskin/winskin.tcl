@@ -260,14 +260,14 @@ namespace eval ::winskin {
 					-background #ffffff
 			pack $filler -padx 0 -pady 0 -side right -expand true
 
-			bind $imag <1> "after 1 ::winskin::switchskin"
-			bind $imagm <1> "::winskin::buttondown"
+			bind $imag <ButtonPress-1> "after 1 ::winskin::switchskin"
+			bind $imagm <ButtonPress-1> "::winskin::buttondown"
 			bind $imagm <B1-Motion> "::winskin::drag"
 			bind $imagm <ButtonRelease-1> "::winskin::release"
-			bind $imagr <1> "::winskin::buttondown"
+			bind $imagr <ButtonPress-1> "::winskin::buttondown"
 			bind $imagr <B1-Motion> "::winskin::resize"
 			bind $imagr <ButtonRelease-1> "::winskin::release"
-			bind $imagc <1> "::amsn::closeOrDock [::config::getKey closingdocks]"
+			bind $imagc <ButtonPress-1> "::amsn::closeOrDock [::config::getKey closingdocks]"
 
 			$vars(text) insert end "\n"
 		}
@@ -288,9 +288,11 @@ namespace eval ::winskin {
 		set posx [winfo pointerx .]
 		set posy [winfo pointery .]
 
-		bind . <Configure>
-		rename ::cmsn_draw_online xxxxx
-		proc ::cmsn_draw_online {{a ""}} {}
+		if { [info procs xxxxx] == ""} {
+			bind . <Configure>
+			rename ::cmsn_draw_online xxxxx
+			proc ::cmsn_draw_online {{a ""}} {}
+		}
 
 		scan [wm geometry .] "%dx%d+%d+%d" width height wx wy
 		set dset 1
@@ -342,13 +344,17 @@ namespace eval ::winskin {
 		if { $dset } {
 			set x [winfo pointerx .]
 			set y [winfo pointery .]
-			wm geometry . "[expr {$width - $posx + $x}]x[expr {$height + $posy - $y}]+${winxpos}+[expr {$dy + $y}]"
+			set newwidth [expr {$width - $posx + $x}]
+			if { $newwidth < 10 } { set newwidth 10 }
+			set newheight [expr {$height + $posy - $y}]
+			if { $newheight < 10 } { set newheight 10 }
+			set wy [expr {$dy + $y}]
+			wm geometry . "${newwidth}x${newheight}+${winxpos}+${wy}"
 
 			if { $skinned == 1 } {
 				variable contentsleft
 
 				update idletasks
-				set wy [expr {$dy + $y}]
 				set titlemenuheight [expr {[winfo rooty .] - ($wy)}]
 				if { $::winskin::config(hidemenu) == 1 } {
 					set menuheight [expr {$titlemenuheight}]
