@@ -744,7 +744,12 @@ namespace eval ::MSN {
    }
 
    proc lastMessageTime { chatid } {
-      return [sb get [SBFor $chatid] lastmsgtime]
+      set sbn [SBFor $chatid]
+      if {$sbn != 0} {
+         return [sb get [SBFor $chatid] lastmsgtime]
+      } else {
+         return 0
+      }
    }
 
    proc userName { chatid user } {
@@ -881,10 +886,10 @@ namespace eval ::MSN {
       unset ${name}_info
    }
 
-   proc leaveChat { chatid } {
+   proc CleanChat { chatid } {
       global config sb_list
 
-      status_log "Entering leavechat\n"
+      status_log "Entering CleanChat\n"
 
       while { [SBFor $chatid] != 0 } {
 
@@ -902,10 +907,11 @@ namespace eval ::MSN {
 	  after 60000 "::MSN::KillSB ${name}"
 
       }
-
    }
 
-
+   proc leaveChat { chatid } {
+      ChatQueue $chatid -1
+   }
 
    #///////////////////////////////////////////////////////////////////////////////
    # chatReady (chatid)
@@ -1040,17 +1046,23 @@ namespace eval ::MSN {
 
       if {[llength $chat_queues($chatid)] == 0} {
          unset chat_queues($chatid)
-         return 0
+         return
       }
 
       if { $count >= 15 } {
-         return 0
+         return
       }
 
+      set command [lindex $chat_queues($chatid) 0]
+      if { $command == -1 } {
+         status_log "leaveChat is queued\n" red
+         set chat_queues($chatid) [lreplace $chat_queues($chatid) 0 0]	  
+	  CleanChat $chatid
+	  return
+      }
 
       if {[chatReady $chatid]} {
 
-         set command [lindex $chat_queues($chatid) 0]
          set chat_queues($chatid) [lreplace $chat_queues($chatid) 0 0]
 	  eval $command
 	  ProcessQueue $chatid
@@ -1065,7 +1077,7 @@ namespace eval ::MSN {
 
 
 
-   proc chatQueue { chatid command } {
+   proc ChatQueue { chatid command } {
 
       variable chat_queues
 
@@ -1078,14 +1090,14 @@ namespace eval ::MSN {
 
 
    }
-
+   
    #///////////////////////////////////////////////////////////////////////////////
-   # messageTo (chatid,txt,ackid)
+   # SendChatMsg (chatid,txt,ackid)
    # Sends the message 'txt' to the given 'chatid'. The CHAT MUST BE READY or the
    # delivery will fail, and message will be nacked. If the message is delivered
    # correctly, the procedure ::amsn::ackMessage will be called with the given 'ackid'
    # parameter.
-   proc messageTo { chatid txt ackid} {
+   proc SendChatMsg { chatid txt ackid } {
       global config user_info msgacks
 
       set sbn [SBFor $chatid]
@@ -1140,10 +1152,16 @@ namespace eval ::MSN {
       set msgacks($::MSN::trid) $ackid
 
    }
+
    #///////////////////////////////////////////////////////////////////////////////
+   # messageTo (chatid,txt,ackid)
+   # Just queue the message send
+   proc messageTo { chatid txt ackid } {
+      ChatQueue $chatid [list ::MSN::SendChatMsg $chatid "$txt" $ackid]
+   }
+   #///////////////////////////////////////////////////////////////////////////////
+
 }
-
-
 
 proc read_sb_sock {sbn} {
 

@@ -938,7 +938,7 @@ namespace eval ::amsn {
 
       #Don't queue unless chat is ready, but try to reconnect
       if { [::MSN::chatReady $chatid] } {
-         ::MSN::chatQueue $chatid [list sb_change $chatid]
+         sb_change $chatid
       } else {
          ::MSN::chatTo $chatid
       }
@@ -968,7 +968,8 @@ namespace eval ::amsn {
       focus ${input}
 
       set ackid [after 50000 ::amsn::DeliveryFailed $chatid [list $msg]]
-      ::MSN::chatQueue $chatid [list ::MSN::messageTo $chatid "$msg" $ackid]
+      #::MSN::chatQueue $chatid [list ::MSN::messageTo $chatid "$msg" $ackid]
+      ::MSN::messageTo $chatid "$msg" $ackid
 
       set fontfamily [lindex $config(mychatfont) 0]
       set fontstyle [lindex $config(mychatfont) 1]
@@ -1043,7 +1044,7 @@ namespace eval ::amsn {
       UnsetWindowFor $chatid $win_name
       unset window_titles(${win_name})
 
-      ::MSN::chatQueue $chatid [list ::MSN::leaveChat $chatid]
+      ::MSN::leaveChat $chatid
 
 }
    #///////////////////////////////////////////////////////////////////////////////
