@@ -81,6 +81,7 @@ changedisplaypic Change Display picture
 changefont Change font
 changenick Change nick
 changestate $1 changes state to $2
+charscounter Typed characters counter in chat window
 chatack Accepting chat from
 chat Chat
 chatmaxmin When a contact opens a chat with me I want it to be:
@@ -231,8 +232,8 @@ inbox Inbox
 insertsmiley Insert emoticon
 installconvert You must install ImageMagick (convert program) in order to use Buddy Icons and Custom Emoticons. You can download the binaries for your Operating System ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . If you already have it, then it is a bug, please report it. These features will now be disabled, if you install ImageMagik later on reenable these options from the Preferences. 
 internalerror Internal Server Error
-invalidfile File $2 entered in field "$1" does not exist or is not readable
 invalidfile2 Filename $1 could not be created, make sure you have the correct permissions for that target.
+invalidfile File $2 entered in field "$1" does not exist or is not readable
 invalidpicsize The given picture is too big, please choose a smaller one
 invalidpic The given picture file doesn't exist
 invalidsound The given sound file doesn't exist

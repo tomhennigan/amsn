@@ -81,6 +81,7 @@ changedisplaypic Cambiar imagen mostrada
 changefont Cambiar fuente
 changenick Cambiar apodo
 changestate $1 cambia su estado a $2
+charscounter Contador de caracteres tecleados en ventana de chat
 chatack Aceptando conversación de
 chat Conversación
 chatmaxmin Cuando un contacto me abre una conversación, quiero que sea:
