@@ -770,7 +770,7 @@ namespace eval ::lang {
 		::lang::LoadOnlineVersions
 
 		if { $::lang::LoadOk == 0 } {
-			status_lang "Unable to update language\n" red
+			status_log "Unable to update language\n" red
 			return
 		}
 
