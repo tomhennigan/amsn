@@ -57,10 +57,10 @@ blockinter3 gebruikers gedurende
 blockinter4 seconden
 blocklist [BL] Geblokkeerd
 blockmessage Deze mensen zijn online en hebben u geblokkeerd
-blockusers Controleer tegelijk
+blockusers Controleer gelijktijdig
 broughtby Aangeboden door de volgende ontwikkelaars
-browserexample ( \$url wordt vervangen door de URL ). Vb: mozilla \$url
 browser Webrowser
+browserexample ( \$url wordt vervangen door de URL ). Vb: mozilla \$url
 browse Verkennen
 busy Bezet
 cancel Annuleren
@@ -129,8 +129,8 @@ disablessl SSL niet gebruiken
 disconnect $1 is offline gegaan
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome systeemvak
-dockingoff Geen systeemvak gebruiken
 docking Systeemvak
+dockingoff Geen systeemvak gebruiken
 dockkde KDE Systeemvak
 dontdownload Download TLS niet. Ik installeer het zelf.
 downloadingtls Bezig met downloaden van TLS vanaf:\n $1
@@ -296,7 +296,7 @@ openreceived Ontvangen bestanden openen
 options Opties
 ordercontactsby Contactpersonen sorteren op
 ordergroupsby Sortering groepen
-other Nieuwe persoonlijke status
+other Andere
 pager Semafoon
 pass Wachtwoord
 paste Plakken
@@ -405,10 +405,10 @@ startoffline Stil aanmelden
 stateautomsg Automatisch bericht
 statechange status is veranderd in:
 stateedittext Pas de velden aan die u wilt \n veranderen en druk op Opslaan
+state Weer te geven status
 stateinfo Configuratie persoonlijke status
 statename Personlijke statusnaam
 statenewtext Vul de benodigde informatie in om uw persoonlijke status\nte creëren en klik op Opslaan
-state Weer te geven status
 status Status
 stopalarm Stop het alarm
 stylechat Dezelfde stijl als gesprekken
