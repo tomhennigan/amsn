@@ -2360,6 +2360,7 @@ namespace eval ::MSN {
 	}
 
 	method handleCommand { command {payload ""}} {
+		set command [split $command]
 		degt_protocol "<-$self-[$self cget -sock] $command" "sbrecv"
 		if { $payload != "" } {
 			degt_protocol "Message Contents:\n$payload" "sbrecv"
@@ -2369,7 +2370,6 @@ namespace eval ::MSN {
 #		cmsn_sb_handler $self [split $command] $payload
 
 		global list_cmdhnd msgacks
-
 		set ret_trid [lindex $command 1]
 		set idx [lsearch $list_cmdhnd "$ret_trid *"]
 	
