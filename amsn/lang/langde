@@ -1,0 +1,83 @@
+amsn_lang_version 2
+about Über
+addacontact Kontakt hinzufügen
+addedyou hat dich hinzugefügt zu seine/seiner Kontact liste
+addtoo Kontakt hinzufügen
+allowseen Personen erlauben zu sehen wenn ich Online bin
+appearoff Offline
+are sind
+avoidseen Personen nicht erluben wenn ich Online bin
+away Abwesend
+blankdirect Leer lassen für direkte verbindung
+block Blockieren
+busy Beschäftigt
+cancel Cancel
+changenick Name ändern
+chat Chat
+chatreq Einladung zum Chat
+chatack Chat annehmen von
+checkver Nach update suchen
+checkingver Suche nach update
+clicktologin Hier klicken zum anmelden
+close Schliessen
+contactadded Kontakt hinzugefügt
+set lang(connecterror) "Fehler beim verbinden zum Server"
+date Datum
+delete Löschen
+entercontactemail Geben sie Kontakt E-mail ein
+enternick Nick-Name eingeben
+examples Beispiel
+gonelunch Mittagessen
+help Hilfe
+ident Identifieziere
+invite Einladen
+is ist
+joins $1 $2 wurde zum chat hinzugegügt
+language Sprache
+leaves $1 hat Chat verlassen
+loggingin Anmeldung ...
+login Anmelden
+logout Abmelden
+logsin hat sich gerade angemeldet
+mustrestart Sie müssen programm neustarten um änderungen zu übernehmen
+mystatus mein Status
+msg Nachricht
+msn AMSN
+newmail $1 neue nachrichten in der In-Box
+newmailfrom Neue Nachricht von
+newmsg Neue Nachricht
+newveravailable Neue Version $1 verfügbar für Downmload
+next Nächste
+noactivity Keine aktivität
+nonewver Es sind zur Zeit keine Updates vorhanden
+notify Benachrichtigen
+nousersinsession Keine User in dieser Session
+ok Ok
+offline Offline
+online Online
+onphone Am Telefon
+other Andere
+pass Password
+port Port
+proxyconf Proxy configuration
+proxyconfhttp HTTP proxy support configuration
+reconnect Warte auf $1 zum verbinden
+reconnecting Verbinde zu Server
+rememberpass Password speichern
+rightback Gleich zurück
+says $1 sagt
+sbcon Verbinde zu Switch Board
+send Sende
+server Server
+sound Akkustisches signal
+title Al's Messenger
+to zu
+typing $1 gibt nachricht ein
+yousay Du sagtest
+youwant Du willst
+unblock Entblocken
+uoffline Offline
+uonline Online
+user Benutzer
+version Version
+willjoin $1 wartet das er zur konversation hinzugefügt wird
