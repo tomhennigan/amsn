@@ -633,7 +633,7 @@ namespace eval ::amsn {
 			set cookie [expr {([clock clicks]) % (65536 * 8)}]
 			#May be we should see the filesize in Kilobytes instead of bytes, disabled for the moment
 			#set filesizek [expr {int($filesize)/int(1024)}]
-			set txt "[trans ftsendinvitation [::abook::getNick $chatid] $filename $filesize]"
+			set txt "[trans ftsendinvitation [::abook::getDisplayNick $chatid] $filename $filesize]"
 
 			status_log "Random generated cookie: $cookie\n"
 			WinWrite $chatid "----------\n" green
@@ -713,7 +713,7 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		set fromname [::abook::getNick $dest]
+		set fromname [::abook::getDisplayNick $dest]
 		set txt [trans ftgotinvitation $fromname '$filename' $filesize $files_dir]
 		set win_name [MakeWindowFor $chatid $txt $dest]
 		WinWrite $chatid "----------\n" green
@@ -745,7 +745,7 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		set fromname [::abook::getNick $fromlogin]
+		set fromname [::abook::getDisplayNick $fromlogin]
 		set txt [trans ftgotinvitation $fromname '$filename' $filesize $files_dir]
 
 		set win_name [MakeWindowFor $chatid $txt $fromlogin]
@@ -1131,7 +1131,7 @@ namespace eval ::amsn {
 
 			set maxw [expr {$config(notifwidth)-20}]
 			incr maxw [expr 0-[font measure splainf "[trans says [list]]:"]]
-			set nickt [trunc [::abook::getNick $user] $maxw splainf]
+			set nickt [trunc [::abook::getDisplayNick $user] $maxw splainf]
 
 			#if { ($config(notifymsg) == 1) && ([string first ${win_name} [focus]] != 0)} {
 			#	notifyAdd "[trans says $nickt]:\n$msg" "::amsn::chatUser $chatid"
@@ -1153,7 +1153,7 @@ namespace eval ::amsn {
 
 		PutMessage $chatid $user $msg $type $fontformat
 
-		set evPar [list $user [::abook::getNick $user] $msg]
+		set evPar [list $user [::abook::getDisplayNick $user] $msg]
 		if { "$user" != "$chatid" } {
 			::plugins::PostEvent chat_msg_sent $evPar
 		} else {
@@ -1266,7 +1266,7 @@ namespace eval ::amsn {
 
 		foreach user_login $user_list {
 
-			set user_name [string map {"\n" " "} [::abook::getNick $user_login]]
+			set user_name [string map {"\n" " "} [::abook::getDisplayNick $user_login]]
 			set state_code [::abook::getVolatileData $user_login state]
 			
 			if { $state_code == "" } {
@@ -1410,7 +1410,7 @@ namespace eval ::amsn {
 
 		if { $win_name != 0 } {
 
-			set statusmsg "[timestamp] [trans joins [::abook::getNick $usr_name]]\n"
+			set statusmsg "[timestamp] [trans joins [::abook::getDisplayNick $usr_name]]\n"
 			WinStatus [ WindowFor $chatid ] $statusmsg minijoins
 			WinTopUpdate $chatid
 
@@ -1422,7 +1422,7 @@ namespace eval ::amsn {
 
 			if { [::config::getKey leavejoinsinchat] == 1 } {
 				::amsn::WinWriteIcon $chatid minijoins 5 0
-				::amsn::WinWrite $chatid " [trans joins [::abook::getNick $usr_name]]\n" green "" 0
+				::amsn::WinWrite $chatid " [trans joins [::abook::getDisplayNick $usr_name]]\n" green "" 0
 			}
 		}
 
@@ -1450,7 +1450,7 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		set username [::abook::getNick $usr_name]
+		set username [::abook::getDisplayNick $usr_name]
 
 		if { $closed } {
 			set statusmsg "[timestamp] [trans leaves $username]\n"
@@ -1504,7 +1504,7 @@ namespace eval ::amsn {
 		set typingusers ""
 
 		foreach login $typers_list {
-			set user_name [::abook::getNick $login]
+			set user_name [::abook::getDisplayNick $login]
 			set typingusers "${typingusers}${user_name}, "
 		}
 
@@ -2623,7 +2623,7 @@ namespace eval ::amsn {
 		if { $user == $config(login) } {
 			set nick [::abook::getNick myself]
 		} else {
-			set nick [::abook::getNick $user]
+			set nick [::abook::getDisplayNick $user]
 		}
 
 		if {$config(truncatenicks)} {
