@@ -4,6 +4,7 @@ accept Accepter
 acceptfile Accepter fil $1, størrelse $2? Gemt i $3
 actions Handlinger
 activeautoupdate Automatisk opdatering
+add Tilføj
 addacontact Tilføj en kontakt
 addedyou $1 ($2) har tilføjet dig til hans/hendes kontaktliste
 addprofile Tilføj ny profil
@@ -26,6 +27,7 @@ alarmpref Alarminstillinger for bruger
 alarms Alarmer
 alarmstatus Slå Alarm TIL/FRA for denne bruger
 allfiles Alle Filer
+allow_sms Tillad personer a kontakte mig pŒ MSN Mobil
 allowallbutbl Tillad alle brugere, bortset fra dem på min Blokeringsliste, at kontakte mig
 allowbadwords Fjern censurering på kaldenavne
 allowlist Tillad-Liste (TL):
@@ -108,6 +110,7 @@ checkemail Vis mailoplysning (inbox) i kontaktlisten
 checkfilman Modtagne filer vil blive gemt i $1. Kontrollér filoverførsels-indstillingerne i egenskaber-vinduet.
 checkingver Tjekker for ny version
 checkonfln Tjek om en bruger bare har blokeret dig, når han/hun går offline
+checkopenfilecommand V¾r venlig at kontrollere åben fil kommandoen i egenskaber
 checkver Tjek for ny version
 choosearq Vælg din system-arkitektur
 choosebasefont Vælg skrifttype
@@ -120,6 +123,7 @@ clear Ryd
 clearlog Ryd log
 clearlog2 Tøm historien for alle dine kontaktpersoner
 clearlog3 Tøm alle log-filer
+clicktoadd Klik på tilfør for at tilføre en ny note
 clicktologin Klik her for at logge ind
 clientcaps Send x-klientcaps pakker til andre klienter
 clientname Klientnavn
@@ -143,10 +147,12 @@ connecterror Kunne ikke få forbindelse til server
 connecting Tilslutter
 connection Forbindelse
 connectionlost Frakoblet: Forbindelsen med serveren er lukket
+contact Kontakt
 contactadded Kontakt tilføjet
 contactdoesnotexist Kontakt eksisterer ikke!
 contactlist Kontakt-Liste (KL):
 continuously Fortsat
+conversationwith $1 personer i samtalen
 convertexplain Stien til CONVERT-filen, fra ImageMagick (påkrævet til Display-billeder).\n Lad feltet være blankt hvis CONVERT findes i din alm. sti
 copy Kopier
 copytogroup Kopier til gruppe
@@ -154,9 +160,11 @@ corruptconfig Fejl i konfigurationsfilen. Laver en ny fil. Den gamle fil vil bli
 corruptstates Fejl i dine brugerdefinerede status. Laver en ny. Den gamle fil vil blive gemt i $1. Send den venligst til os så vi kan finde ud af, hvad der er sket.
 countrycode Min Lande-/Regions-kode
 cprofile Opret profil
+created Opret
 credits Credits
 currentdate Nuværende Dato
 currentlanguage Det aktuelle sprog
+currentnotes Ênuv¾rende noter
 custnotifymsg Vis beskedvindue når en ny brugerbesked modtages
 custnotifyoffline Vis beskedvindue når denne kontakt går offline
 custnotifyonline Vis beskedvindue når denne kontakt går online
@@ -176,6 +184,7 @@ default Oprindelig konfiguration
 defaultloginradio Log ind med standard konfiguration
 defchatwinsize Standardstørrelse for chatvinduer (XSTØRRELSExYSTØRRELSE)
 delete Slet
+deleteall Slet alle
 deletecustomstate Slet brugerdefineret status
 delimiters Afstandstegn:
 deliverfail Der var et problem med at levere følgende besked
@@ -262,6 +271,7 @@ ftrejectedby $1 har afvist filoverførsels-tilbuddet på filen '$2'.
 ftsendinvitation Filoverførsels-tilbud på filen '$2' ($3 bytes) er blevet sendt til $1.
 fullcontactlist Desværre, din kontaktliste er fuld. Du er nødt til at fjerne nogle kontakter for at kunne tilføje nogle nye.
 getdisppic Modtag gerne Display-billeder fra andre brugere
+globalcontainer Global container
 globalnick Indsæt en skabelon til at danne alle dine kontakters kaldenavne. Du kan bruge disse variabler:\$user_login for dine kontakters addresse, \$nick for dine kontakters kaldenavn og \$customnick for dine kontakters brugervalgte kaldenavn. For eksempel: '\$user_login er \$nick' vil være 'contact@msn.com er kontakt'
 globalnicktitle Globalt kaldenavn
 globaloverride Globale kaldenavnes format bør overskrive brugervalgte kaldenavne
@@ -293,6 +303,7 @@ ignoreerrors Ignorer andre AMSN fejl indtil slutningen af sessionen
 imagefiles Billedfiler
 inbox Indbakke
 insertsmiley Indsæt emoticon
+inserttextnote Insæt teskt i emne feltet og noe feltet derfer klik på gem
 installconvert Du skal have ImageMagick (konverteringsprogram) installeret for at kunne anvende Buddy-Ikoner og Brugerdefinerede Emoticons. Du kan downloade programmet til dit operativsystem ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Hvis du allerede har det installeret, så er dette en programfejl, rapportér det venligst. Disse specifikke muligheder vil derfor IKKE blive anvendt, men hvis du senere installerer ImageMagick, så slå disse muligheder til igen under Præferencer.
 internalerror Intern Server-Fejl
 invalidfile Filen $2, der er indtastet i feltet "$1", eksisterer ikke eller er ikke læselig
@@ -364,6 +375,9 @@ maximised Maksimeret
 minimised Minimeret
 mins minutter
 mobile Mobil
+mobilegrp1 Mobil grouppe
+mobilegrp2 Put personer i "Mobil" groppen nŒr de er offline (og sorter efter status)
+modified ændret
 month Måned
 morepersonal Flere Status ->
 move Flyt
@@ -395,6 +409,7 @@ newmailfrom Ny mail fra $1 ($2)
 newmailfromother Ny post i andre biblioteker fra $1 ($2)
 newmsg Ny besked
 newstate Tilføj brugerdefineret status
+newtabbedfeature aMSN har fået en ny funktion, du kan nu tale med alle i din kontakt list eller gruppe i et faneblad vindue. vær venlig a vælge hvordan aMSN skal håndtere dine samtaler
 newveravailable Det er nu muligt at download den nye version $1
 next Næste
 nick Kaldenavn
@@ -412,6 +427,7 @@ noprofileexists Der er ingen profiler, \n du skal lave én, hvis du ønsker at anv
 normal Normal
 noskins Kunne ikke finde et standard-skin i mappen skins/. AMSN kan ikke startes
 nosystemtray Der er ingen system-bakke
+note Note
 notificationserver MSN Notifikationsserver (MSN Messenger Server)
 notify giv besked
 notify1 Vis en besked, når kontaktpersoner er online
@@ -426,6 +442,7 @@ notifytyping Send notifikationer til andre brugere, når du skriver
 notifywin Beskedvindue
 notinlist Du er ikke på hans/hendes kontaktliste
 notls MSN Protokol 9 kræver TLS-pakken. Denne pakke ser ikke ud til at være installeret på denne maskine. Hvis den er installeret, så skal stien til dennes bibliotek specificeres i Præferencer-vinduet (f.eks: /opt/tls/lib). \n \n Det er muligt at downloade TLS fra http://tls.sf.net .
+nottabbed Normal vinduer uden faneblad
 nousersinsession Ingen brugere i session
 nudge $1 anmoder om din opmærksomhed
 offline Offline
@@ -433,6 +450,9 @@ ok Ok
 onenewmail 1 ny besked i Indbakken
 online Online
 onphone I telefon
+opendir åben mappe
+openfile åben
+openfilecommand åben fil
 openreceived Åbn modtagne filer
 options Muligheder
 ordercontactsby Sorter kontakter efter
@@ -529,6 +549,7 @@ selectskin Vælg venligst et skin fra listen
 send Send
 sendfile Send fil
 sendmail Send mail
+sendmobmsg $1 Send til Mobil
 sendmsg Send besked
 sentbytes Har sendt $1 ud af $2 bytes
 server Server
@@ -584,8 +605,13 @@ style Stil
 stylechat Samme udseende som chats
 stylehist aMSN's historie-udseende
 stylelog Vælg formatet du vil have vist din historie i
+subject Emne
+subjectrequired Emne kræves
 syntaxerror Syntaksfejl
 tabbed Faneblad vinduer
+tabbedglobal Faneblad vindue for alle personer i kontakt listen
+tabbedgroups Faneblad vindue for alle personer i samme gruppe
+tabtitlenick Vis nicks i faneblad i stedet for email
 temp_state Gem ikke (Midlertidig status, vil blive glemt, når du lukker AMSN)
 textsize Tekststørrelse
 timeremaining Tilbageværende tid
@@ -630,7 +656,8 @@ viewcontactsby Se kontakter efter
 viewprofile Vis profil
 webcaminvite $1 har inviteret dig til at starte webcam, men aMSN understøtter ikke dette. 
 willjoin Venter på at $1 slutter sig til samtalen
-winkreceived Du har modtaget et vink fra $1. Denne funktion understøttes ikke endnu af aMSN.
+winkreceived Du har modtaget et blink fra $1. Denne funktion understøttes ikke endnu af aMSN.
+wintitlenick Vis nicks i et faneblad vindue i stedet for email
 work Arbejde
 wrongfields Felterne "$1", "$2" og/eller "$3" er ikke brugbare
 wrongprofileversion Forkert version på profil-instillingsfilen. For at reparere det, fjern da venligst mappen $1, eller updater aMSN
