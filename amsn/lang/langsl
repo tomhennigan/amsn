@@ -121,7 +121,8 @@ closed Povezava z $1 zaprta zaradi neaktivnosti
 closingdocks Gumb za zaprtje minimira okno
 command Ukaz
 commandstatus Izvedi ukaz
-confirm Ali si preprièan ?
+confirm Ali si preprièan?
+confirmbl Ali si preprièan, da ¾eli¹ blokirati ta stik?
 confirmdelete Ali si preprièan, da ¾eli¹ zbrisati $1?
 confirmdg Ali si preprièan, da ¾eli¹ zbrisati to skupino?
 confirmdu Ali si preprièan, da ¾eli¹ zbrisati ta stik?
@@ -339,6 +340,7 @@ lprivtoconf Zasebni pogovor spremenjen v konferenco ($1)
 luclosedwin Zaprli ste okno ($1)
 mailer Mailer
 mailerexample ( \$recipient = prejemnik ) Pusti prazno za uporabo Hotmaila
+maintenance Stre¾nik èez $1 minut ne bo veè dostopen zaradi vzdr¾evanja
 maximised Maksimiran
 minimised Minimiran
 mins minut
@@ -404,6 +406,7 @@ notifywin Obvestila
 notinlist Nisi na njegovem/njenem seznamu stikov
 notls MSN protokol 9 potrebuje tls. Izgleda, da ni name¹èen na tem raèunalniku. èe je, vnesi pot do njegovega imenika v nastavitvah (npr.: /opt/tls/lib).\n\ntls lahko pobere¹ s http://tls.sf.net.
 nousersinsession Ni uporabnikov v seji
+nudge $1 zahteva pozornost
 offline Neprijavljen
 ok V redu
 onenewmail 1 novo sporoèilo v Inboxu
@@ -554,6 +557,7 @@ status Stanje
 stopalarm Ustavi alarm
 storenickname Zamenjaj nick na prej¹njega po vrnitvi iz osebnega stanja
 strictfonts Vse pisave naj bodo po moji izbiri (Statusna vrstica in ostalo)
+style Naèin pogovora
 stylechat Enak izgled kot pogovori
 stylehist Izgled zgodovine
 stylelog Izberi zapis, v katerem ¾eli¹ videti zgodovino

@@ -114,6 +114,7 @@ clearlog2 Netejar l'historial per a tots els contactes
 clearlog3 Netejar tots els registres
 clearlog Netejar historial
 clicktologin Fes click ací per a iniciar la sessió
+clientcaps Enviar paquets x-clientcaps a altres clients
 clientname Nom del client
 closed Conversa amb $1 tancada per inactivitat
 close Tancar
@@ -122,7 +123,11 @@ command Ordre
 commandstatus Executar ordre
 confirmdelete Segur que vols esborrar a $1?
 confirm Estàs segur?
+confirmdg Segur que vols eliminar este grup?
+confirmdu Segur que vols eliminar este usuari?
+confirmeg Segur que vols buidar este grup?
 confirmpurge Totes les imatges de mostra d'altres contactes (no les teues) seran esborrades. Estàs segur?
+confirmrfl Segur que vols eliminar este usuari d'este grup?
 connected Ara estàs connectat
 connectedwith Connectat amb $1
 connecterror Error connectant-se al servidor
@@ -198,6 +203,7 @@ editvalue Editar valor
 email Correu electrònic
 emailsinlist Mostrar correus-e enlloc de mots en la llista de contactes
 emotisounds Reproduir sons per a certs emoticons
+emptygroup Buidar el grup
 enablebanner Mostrar anunci d'aMSN (Requerix Reiniciar)
 enabled Activat
 enableproxy Activar proxy
@@ -549,6 +555,7 @@ status Estat
 stopalarm Parar el so de l'avís
 storenickname Tornar al mot original després d'un estat personalitzat
 strictfonts Establir totes les fonts de AMSN al tamany que jo vaig triar.
+style Estil
 stylechat La mateixa aparença que a les converses
 stylehist apariència de l'historial de aMSN
 stylelog Tria l'estil en el que vols vore l'historial

@@ -114,6 +114,7 @@ clearlog Sohbet kaydýný sil
 clearlog2 Tüm baðlantýlarýn Geçmiþini sil
 clearlog3 Tüm sohbet kayýtlarýný sil
 clicktologin Baðlanmak için týklayýn
+clientcaps Diðer istemcilere x-clientcaps paketlerini gönder
 clientname Ýstemci Ýsmi
 close Kapat
 closed $1 ile olan sohbet etkinlik olmadýðý için kapatýldý.
@@ -122,7 +123,11 @@ command Komut
 commandstatus Komutu çalýþtýr
 confirm Emin misiniz?
 confirmdelete $1 i silmek istediðinizden emin misiniz?
+confirmdg Bu grubu silmek istediðinizden emin misiniz?
+confirmdu Bu kullanýcýyý silmek istediðinizden emin misiniz?
+confirmeg Bu grubu boþaltmak istediðinizden emin misiniz?
 confirmpurge Diðer kullanýcýlardan alýnan kullanýcý resimleri (sizinkiler deðil) silinecek. Emin misiniz?
+confirmrfl Bu kullanýcýyý bu gruptan silmek istediðinizden emin misiniz?
 connected þu an baglýsýnýz
 connectedwith $1 ile baðlandý
 connecterror Sunucuya baðlanýrken hata oluþtu
@@ -150,7 +155,7 @@ customcolor Özel renk
 custom_edit Özel gülen adamý düzenle
 custom_new Yeni özel gülen adam ekle
 customnick Özel rumuz
-customstyle Özel stil
+customstyle Özel tarz
 cut Kes
 date Tarih
 dateformat Tarih biçemini degiþtir
@@ -198,6 +203,7 @@ editvalue Deðeri deðiþtir
 email E-posta
 emailsinlist Baðlantý listesinde kullanýcý isimleri yerine e-posta adreslerini göster
 emotisounds Bazý gülen adamlarda ses çýkar
+emptygroup Grubu boþalt
 enabled Etkin
 enableproxy proxy ayarlarýný etkinleþtir
 enableremote Uzaktan denetimi etkinleþtir
@@ -548,6 +554,7 @@ status Durum
 stopalarm Alarmý durdur!
 storenickname Deðiþik rumuzu olan özelleþtirilmiþ durumdan sonra asýl rumuza
 strictfonts Tüm metinler için (durum çubuðu ve diðerleri) yalnýzca seçtiðim yaztipi boyutunu kullan
+style Tarz
 stylechat Sohbetler ile ayný görünüþ
 stylehist aMSN Geçmiþ görünüþü
 stylelog Geçmiþinizin görünüþ þeklini seçin

@@ -69,9 +69,9 @@ blockmessage Queste persone sono online e bloccate da te
 blockusers Numero di utenti da controllare subito
 bouncedock Fa lampeggiare l'icona di aMSN quando un messaggio viene ricevuto
 broughtby  Sviluppato da
+browse Cerca
 browser Browser
 browserexample (\$url verrà rimpiazzato dall'URL). Es: mozilla \$url
-browse Cerca
 busy Ho da fare
 cachedpics $1 immagini memorizzate
 cancel Cancella
@@ -122,12 +122,12 @@ closingdocks Pulsante per chiudere
 command Comando
 commandstatus Esegui comando
 confirmdelete Sei sicuro di voler cancellare $1?
-confirmpurge Tutte le immagini salvate dei contatti eccetto le proprie saranno rimosse. Continuare?
-confirm Sei sicuro?
 confirmdg Sei sicuro di voler cancellare questo gruppo?
 confirmdu Sei sicuro di voler cancellare questo utente?
 confirmeg Sei sicuro di voler svuotare questo gruppo?
+confirmpurge Tutte le immagini salvate dei contatti eccetto le proprie saranno rimosse. Continuare?
 confirmrfl Sei sicuro di voler rimuovere quest'utente da questo gruppo?
+confirm Sei sicuro?
 connected Adesso sei connesso
 connectedwith Connesso con $1
 connecterror Errore durante la connessione al server
@@ -480,9 +480,9 @@ receivedbytes Ricevuti $1 byte su $2
 receiveddir Cartella dei files ricevuti
 receivefile Sto ricevendo il file
 recentmsg Previeni la chiusura di una finestra di chat quando è appena arrivato un messaggio
+reconnect2 Riconnetti su disconnessione
 reconnecting Riconnessione al server
 reconnect Sto aspettando che $1 si riconnetta
-reconnect2 Riconnetti su disconnessione
 reject Respingi
 rememberpass Ricorda password
 removeempty Eliminare gruppi vuoti dalla lista contatti

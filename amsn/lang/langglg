@@ -116,8 +116,9 @@ closingdocks O botón de pechar minimiza
 command Comando
 commandstatus Executar comando
 confirmdelete ¿Seguro de desexa borrar a $1?
-confirm ¿ Estás seguro ?
-confirmpurge Todalas Imaxes para Mostrar do resto dos contactos (non as túas) serán eliminadas. ¿ Estás seguro ?
+confirm ¿Estás seguro?
+confirmbl ¿Seguro que queres bloquear este contacto?
+confirmpurge Tódalas Imaxes para Mostrar do resto dos contactos (non as túas) serán eliminadas. ¿Estás seguro?
 connected Agora estás conectado
 connecterror Error ó conectar co servidor
 connecting Conectando

@@ -1,5 +1,4 @@
 amsn_lang_version 2
-
 about Despre
 accept Accepta
 acceptfile Accept fisierul $1, marime $2? Salvat in $3
@@ -560,6 +559,7 @@ stylechat La fel ca si conversatiile
 stylehist Cum arata jurnalele
 stylelog Alege formatul in care vrei sa vizualizezi jurnalul
 syntaxerror Eroare de sintaxa
+style Stil
 tabbed In fereastra ingrosata
 temp_state Nu salva (Stare temporara, nu se va salva cand este inchis AMSN)
 textsize Marime text

@@ -556,6 +556,7 @@ status Estat
 stopalarm Parar l'alarma
 storenickname Retorna al sobrenom original al sortir d'un estat personalitzat
 strictfonts Restringeix la mida de les fonts a la seleccionada
+style Aparença
 stylechat La mateixa aparença que a les converses
 stylehist Aparença de l'històric de l'aMSN
 stylelog Escull l'estil en que desitjes veure l'històric

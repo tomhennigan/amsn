@@ -122,6 +122,7 @@ closingdocks Minimaliseren i.p.v. sluiten
 command Commando
 commandstatus Commandoregel uitvoeren
 confirm Weet je het zeker?
+confirmbl Weet je zeker dat je deze contactpersoon wilt blokkeren?
 confirmdelete Weet je zeker dat je $1 wilt verwijderen?
 confirmdg Weet je zeker dat je deze groep wilt verwijderen?
 confirmdu Weet je zeker dat je deze gebruiker wilt verwijderen?
@@ -339,6 +340,7 @@ lprivtoconf Privé-gesprek veranderde in vergadering met $1
 luclosedwin Je hebt het venster gesloten op $1
 mailer E-mail programma
 mailerexample ( \$recipient = Geadresseerde ) Laat dit veld leeg als je hotmail wilt gebruiken
+maintenance De server zal wegens onderhoudswerkzaamheden over $1 minuten enige tijd niet beschikbaar zijn
 maximised Gemaximaliseerd
 minimised Gespreksvenster niet activeren
 mins minuten
@@ -404,6 +406,7 @@ notifywin Meldingsvenster
 notinlist Je staat niet in zijn/haar contactenlijst
 notls Versie 9 van het MSN protocol vereist het pakket tls. Dit pakket lijkt niet geïnstalleerd te zijn op deze machine. Als het wel geïnstalleerd is, moet het pad naar de map, waarin de tls-library is geïnstalleerd, worden opgegeven in het instellingen venster. (bijv. /opt/tls/lib). \n \n Tls is te downloaden van http://tls.sf.net
 nousersinsession Geen gebruiker in sessie
+nudge $1 vraagt je aandacht
 offline Offline
 ok Ok
 onenewmail Je hebt 1 nieuw bericht in Postvak IN
