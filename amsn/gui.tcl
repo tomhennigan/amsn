@@ -2142,8 +2142,10 @@ namespace eval ::amsn {
 
 		bind $bottom.in.input <Key-Delete> "::amsn::DeleteKeyPressed .${win_name} $bottom.in.input %K"
 		bind $bottom.in.input <Key-BackSpace> "::amsn::DeleteKeyPressed .${win_name} $bottom.in.input %K"
-		bind $bottom.in.input <Key-Up> "::amsn::UpKeyPressed $bottom.in.input"
-		bind $bottom.in.input <Key-Down> "::amsn::DownKeyPressed $bottom.in.input"
+		bind $bottom.in.input <Key-Up> {tk::TextSetCursor %W [::amsn::UpKeyPressed %W]; break}
+		bind $bottom.in.input <Key-Down> {tk::TextSetCursor %W [::amsn::DownKeyPressed %W]; break}
+		bind $bottom.in.input <Shift-Key-Up> {tk::TextKeySelect %W [::amsn::UpKeyPressed %W]; break}
+		bind $bottom.in.input <Shift-Key-Down> {tk::TextKeySelect %W [::amsn::DownKeyPressed %W]; break}
 		global skipthistime
 		set skipthistime 0
 
@@ -2621,38 +2623,45 @@ namespace eval ::amsn {
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# UpKeyPressed (inputbox)
-	# Called by a window when the user uses the up key in a text box. It moves the
-	# cursor up a line
+	# Called by a window when the user uses the up key in a text box. It returns
+	# the index of the character 1 line above the insertion cursor
 	proc UpKeyPressed { inputbox } {
-		set xpos [lindex [$inputbox bbox insert] 0]
-		set ypos [lindex [$inputbox bbox insert] 1]
-		set height [lindex [$inputbox bbox insert] 3]
+		$inputbox see insert
+		
+		set bbox [$inputbox bbox insert]
+		set xpos [expr [lindex $bbox 0]+[lindex $bbox 2]/2]
+		set ypos [lindex $bbox 1]
+		set height [lindex $bbox 3]
 		if { $ypos > $height } {
-			$inputbox mark set insert "@$xpos,[expr $ypos-$height]"
+			return [$inputbox index "@$xpos,[expr $ypos-$height]"]
 		} else {
 			$inputbox yview scroll -1 units
 			update
 			set ypos [lindex [$inputbox bbox insert] 1]
 			set height [lindex [$inputbox bbox insert] 3]
 			if { $ypos > $height } {
-				$inputbox mark set insert "@$xpos,[expr $ypos-$height]"
+				return [$inputbox index "@$xpos,[expr $ypos-$height]"]
 			}
 		}
+		return [$inputbox index insert]
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# DownKeyPressed (inputbox)
-	# Called by a window when the user uses the down key in a text box. It moves the
-	# cursor down a line
+	# Called by a window when the user uses the down key in a text box. It returns
+	# the index of the character 1 line below the insertion cursor
 	proc DownKeyPressed { inputbox } {
-		set xpos [lindex [$inputbox bbox insert] 0]
-		set ypos [lindex [$inputbox bbox insert] 1]
-		set height [lindex [$inputbox bbox insert] 3]
+		$inputbox see insert
+		
+		set bbox [$inputbox bbox insert]
+		set xpos [expr [lindex $bbox 0]+[lindex $bbox 2]/2]
+		set ypos [lindex $bbox 1]
+		set height [lindex $bbox 3]
 		set inputboxheight [lindex [$inputbox configure -height] end]
 		if { [expr $ypos+$height] < [expr $inputboxheight*$height] } {
-			$inputbox mark set insert "@$xpos,[expr $ypos+$height]"
+			return [$inputbox index "@$xpos,[expr $ypos+$height]"]
 		} else {
 			$inputbox yview scroll +1 units
 			update
@@ -2660,9 +2669,10 @@ namespace eval ::amsn {
 			set height [lindex [$inputbox bbox insert] 3]
 			set inputboxheight [lindex [$inputbox configure -height] end]
 			if { [expr $ypos+$height] < [expr $inputboxheight*$height] } {
-				$inputbox mark set insert "@$xpos,[expr $ypos+$height]"
+				return [$inputbox index "@$xpos,[expr $ypos+$height]"]
 			}
 		}
+		return [$inputbox index insert]
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
