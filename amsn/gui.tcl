@@ -369,6 +369,12 @@ namespace eval ::amsn {
    #Adds a message to the notify, that executes "command" when clicked, and
    #plays "sound"
    proc notifyAdd { msg command {sound ""}} {
+   
+      global config
+      
+      if { $config(notifywin) == 0 } {
+        return;
+      }
       variable NotifID
       variable NotifPos
       variable im

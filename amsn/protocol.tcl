@@ -67,7 +67,11 @@ namespace eval ::MSN {
 
    
    proc changeName { userlogin newname } {
-      ::MSN::WriteNS "REA" "$userlogin [urlencode $newname]"     
+      set name [urlencode $newname]
+      if { [string length $name] > 350} {
+        set name [string range $name 0 350]
+      }
+      ::MSN::WriteNS "REA" "$userlogin $name"     
    }
 
 

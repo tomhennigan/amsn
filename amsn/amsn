@@ -402,6 +402,7 @@ proc cmsn_draw_main {} {
      -command "msg_box \"[trans mustrestart]\""
    .options add checkbutton -label "[trans autohotmaillog]" -onvalue 1 -offvalue 0 -variable config(autohotlogin)
    .options add checkbutton -label "[trans autoidle]" -onvalue 1 -offvalue 0 -variable config(autoidle)
+   .options add checkbutton -label "[trans notifywin]" -onvalue 1 -offvalue 0 -variable config(notifywin)
    .options add checkbutton -label "[trans startoffline]" -onvalue 1 -offvalue 0 \
      -variable config(startoffline) 
    .options add checkbutton -label "[trans chatsmileys]" -onvalue 1 -offvalue 0 \
