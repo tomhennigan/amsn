@@ -2712,7 +2712,8 @@ namespace eval ::Event {
 				status_log [$p2pmessage toString 1]
 			}
 
-			text/x-mms-emoticon {
+			text/x-mms-emoticon -
+			text/x-mms-animemoticon {
 				global ${chatid}_smileys
 				status_log "Got a custom smiley from peer\n" red
 				set ${chatid}_smileys(dummy) ""
