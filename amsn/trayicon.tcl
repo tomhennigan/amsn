@@ -35,7 +35,16 @@ proc taskbar_icon_handler { msg x y } {
 
 	if { $msg=="WM_RBUTTONUP" } {
 		#tk_popup $iconmenu $x $y
+
+		#workaround for bug with the popup not unposting
+		wm state .trayiconwin normal
+		wm geometry .trayiconwin "+0+[expr 2 * [winfo screenheight .]]"
+		focus -force .trayiconwin
+
 		tk_popup $iconmenu [expr "$x + 85"] [expr "$y - 11"] [$iconmenu index end]
+
+		#workaround for bug with the popup not unposting
+		wm state .trayiconwin withdrawn
 	}
 	if { $msg=="WM_LBUTTONDBLCLK" } {
 		if { $ishidden == 0 } {
@@ -102,8 +111,16 @@ proc trayicon_init {} {
 		}
 	}
 
-	destroy .immain
-	set iconmenu .immain
+	#workaround for bug with the popup not unposting
+	destroy .trayiconwin
+	toplevel .trayiconwin -class Amsn
+	wm geometry .trayiconwin "+0+[expr 2 * [winfo screenheight .]]"
+	wm state .trayiconwin withdrawn
+	destroy .trayiconwin.immain
+	set iconmenu .trayiconwin.immain
+
+	#destroy .immain
+	#set iconmenu .immain
 	menu $iconmenu -tearoff 0 -type normal
 
 	menu $iconmenu.imstatus -tearoff 0 -type normal
