@@ -33,6 +33,7 @@ checkver Busca una versió nova
 checkingver Buscant versions noves
 choosebasefont Escull el tipus de lletra
 choosebgcolor Escull el color de fons
+choosefontcolor Escull el color del tipus de lletra
 clicktologin Fes clic aquí per connectar-te
 close Tanca
 closingdocks El botó tancar minimitza la finestra
