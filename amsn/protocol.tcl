@@ -663,6 +663,22 @@ proc read_ns_sock {} {
 	 fconfigure $ns_sock -blocking 1
 	 set msg_data [read $ns_sock [lindex $recv 3]]
 	 status_log "MSGDATA: $msg_data " green
+
+	 # Demographic Information about subscriber/user. Can be used
+	 # for a variety of things. 
+	 set content [aim_get_str $msg_data Content-Type]
+	 if {[string range $content 0 19] == "text/x-msmsgsprofile"} {
+	     # 1033 is English. See XXXX for info
+	     set d(langpreference) [aim_get_str $msg_data lang_preference]
+	     set d(preferredemail) [aim_get_str $msg_data preferredEmail]
+	     set d(country) [aim_get_str $msg_data country]
+	     set d(gender) [aim_get_str $msg_data Gender]
+	     set d(kids) [aim_get_str $msg_data Kid]
+	     set d(age) [aim_get_str $msg_data Age]
+	     set d(mspauth) [aim_get_str $msg_data MSPAuth]
+	     ::abook::setDemographics d
+	 }
+
 	 fconfigure $ns_sock -blocking 0
          sb append ns data $msg_data
       } 
