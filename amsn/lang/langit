@@ -171,6 +171,7 @@ ftportpref Porta iniziale per il trasferimento file
 ftrejectedby $1 ha rifiutato l'invito al trasferimento del file '$2'.
 ftrejected Trasferimento del file respinto
 ftsendinvitation L'invito al trasferimento del file '$2' ($3 bytes) è stato mandato a $1.
+getdisppic Attiva la ricezione delle immagini personali dagli utenti
 gonelunch A pranzo
 groupadd Aggiungi un gruppo
 groupdelete Cancella un gruppo
@@ -254,6 +255,7 @@ msn AMSN
 mustrestart Devi riavviare il programma per attivare le modifiche
 myhomephone Il mio telefono di casa
 mymobilephone Il mio numero di cellulare
+mypic Immagine personale:
 mystatus Il mio stato
 myworkphone Il mio numero d'ufficio
 natip La rilevazione dell'IP dalla pagina web
@@ -300,6 +302,7 @@ pass Password
 paste Incolla
 personal Personale
 phone Telefono
+picbrowser Mostra il selettore delle immagini personali
 picfile File dell'immagine dell'allarme (GIF < 500x500)
 picstatus (Dis)Abilita l'immagine per l'allarme
 playing Sto ascoltando: $1
@@ -346,6 +349,7 @@ proxyconfhttp Configurazione supporto proxy HTTP
 proxyconnection Mi connetto ad internet usando un server proxy:
 proxy Sono dietro un server proxy (HTTP o SOCKS5)
 publishphones Pubblica il mio numero di telefono
+purge Elimina
 raised Grande/Deiconificato
 readonlymsgbox Il trasferimento del file e' stato annullato perche' la directory di destinazione ha permessi di sola lettura. \nPer favore cambia i permessi.
 readonlywarn ATTENZIONE: Il file potrebbe NON venire salvato correttamente poiche' la directory "File Ricevuti" sembra essere protetta da scrittura.\n Per favore assicurati che i permessi della directory ($1) siano impostati correttamente prima di trasferire il file.
