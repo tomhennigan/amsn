@@ -4523,6 +4523,7 @@ namespace eval ::MSNP2P {
 				status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic cache ${filename}] doesn't exist!!\n" white
 				image create photo user_pic_$user -file [GetSkinFile displaypic "loading.gif"]
 
+				create_dir [file join $HOME displaypic]
 				create_dir [file join $HOME displaypic cache]
 				::MSNP2P::RequestObject $chatid $user $msnobj
 			} else {
