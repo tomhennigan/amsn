@@ -30,21 +30,19 @@ namespace eval ::plugins {
     }
 
     proc PostEvent { event args } {
-	variable pluginslist 
-	variable pluginsevents 
-	
-	status_log "Plugin System: Calling event $event with $args\n"
-	foreach plugin $pluginslist {
-	    status_log "Next plugin: $plugin\n"
-	    set plugin [lindex $plugin 0]
-	    if { [info exists pluginsevents(${plugin}_${event}) ] } {
-		catch { eval ::${plugin}::$pluginsevents(${plugin}_${event}) $args } res
-		status_log "Return $res from event $event of plugin $plugin\n"
+		variable pluginslist 
+		variable pluginsevents 
+		
+		status_log "Plugin System: Calling event $event with $args\n"
+		foreach plugin $pluginslist {
+		    status_log "Next plugin: $plugin\n"
+		    set plugin [lindex $plugin 0]
+		    if { [info exists pluginsevents(${plugin}_${event}) ] } {
+				catch { eval ::${plugin}::$pluginsevents(${plugin}_${event}) $args } res
+			status_log "Return $res from event $event of plugin $plugin\n"
 	    }
 	}
-	
     }
-    
     proc RegisterPlugin { plugin  description } {
 	variable pluginslist
 	
@@ -150,7 +148,7 @@ namespace eval ::plugins {
         label $w.desc.desc -textvariable ::plugins::selection(desc) -width 40 -wraplength 250
         frame $w.command
         button $w.command.load -text "Load" -command "::plugins::GUI_Load" -state disabled
-        button $w.command.config -text "Configure" -command "::plugins::GUI_Config" -state disabled
+        button $w.command.config -text "Configure" -command "::plugins::GUI_Config" ;#-state disabled
         button $w.command.close -text "Close" -command "::plugins::GUI_Close"
  
         #add the plugins
@@ -210,9 +208,11 @@ namespace eval ::plugins {
         status_log "Plugin System: these plugins are loaded: $loadedplugins"
         if {[lsearch "$loadedplugins" $selection(name)] != -1 } {
 	    $w.command.load configure -state active -text "Unload" -command "::plugins::GUI_Unload"
-            if {[info procs "::${selection(name)}::ConfigPlugin"] != ""} {
+            if {[info exists ::${selection(name)}::configlist] == 1} {
                 $w.command.config configure -state active
-            }
+            } else {
+		$w.command.config configure -state disabled
+	    }
         } else {
 	    $w.command.load configure -state active -text "Load" -command "::plugins::GUI_Load"
             $w.command.config configure -state disabled
@@ -243,21 +243,42 @@ namespace eval ::plugins {
     proc GUI_Config {} {
         variable selection
         variable w
-        status_log "Plugin System: GUI_Config called"
+        status_log "Plugin System: GUI_Config called\n"
         set name $selection(name)
         if {$name != ""} {
-            status_log "Calling ConfigPlugin in the $name namespace"
-            if {[catch {eval "::${name}::ConfigPlugin"}]} {
-                status_log "Plugin System: No Configuration procedure for $name or errors were returned"
+            status_log "Calling ConfigPlugin in the $name namespace\n"
+	    if {[info exists ::${name}::configlist] == 0} {
+		status_log "Plugin System: No Configuration variable for $name.\n"
                 set x [toplevel $w.error]
-                label $x.title -text "!!!Warning!!!"
-                label $x.label -text "No Configuration procedure for $name or errors were returned!"
+                label $x.title -text "Error in Plugin!"
+                label $x.label -text "No Configuration variable for $name.\n"
                 button $x.ok -text "OK" -command "destroy $x"
                 grid $x.title -column 1 -row 1
                 grid $x.label -column 1 -row 2
                 grid $x.ok -column 1 -row 3
-                                                                                                                             
-            }
+	    } else {
+		set confwin [toplevel $w.confwin]
+		set i 0
+		foreach confitem [set ::${name}::configlist] {
+		    incr i
+		    #status_log "confitem: $confitem\n"	
+		    if {[lindex $confitem 0] == "label"} {
+			label $confwin.$i -text [lindex $confitem 1]
+			pack $confwin.$i -side top -anchor w -padx 10
+		    } elseif {[lindex $confitem 0] == "bool"} {
+			checkbutton $confwin.$i -text [lindex $confitem 1] -variable ::${name}::config([lindex $confitem 2])
+			pack $confwin.$i -side top -anchor w -padx 20
+		    } elseif {[lindex $confitem 0] == "ext"} {
+			button $confwin.$i -text [lindex $confitem 1] -command ::${name}::[lindex $confitem 2]
+			pack $confwin.$i -side top -anchor w -padx 20
+		    } elseif {[lindex $confitem 0] == "str"} {
+			entry $confwin.${i}e -textvariable ::${name}::config([lindex $confitem 2])
+			label $confwin.${i}l -text [lindex $confitem 1]
+			pack $confwin.${i}l -side top -anchor w -padx 20
+			pack $confwin.${i}e -side top -anchor w -padx 40
+		    }
+		}
+	    }
         }
     }
     proc GUI_Close {} {
