@@ -504,3 +504,17 @@ yoffset Desplaçament Y
 youblocked Has sigut bloquejat per
 yousay Tu dius
 youwant Vols
+allfiles Tots els archius 
+cantremoveothers No puc borrar el grup "Atres"
+charscounter Contador de caracters escrits en la finestra de chat
+confirmpurge Totes les imagens de mostra d'atres contactes (no les teues) seran borrades. ¿Estas segur?
+credits Credits 
+defchatwinsize Tamany per defecte de les finestres de chat (TamanyXxTamanyY) 
+imagefiles Archius d'Image
+invalidfile2 L'archiu $1 no es pot crear, assegurat que tens els permisos correctes per ad eixe desti. 
+invalidpicsize L'image es molt gran, per favor tria atra mes menuda
+invalidpic L'imgae no existix
+invalidsound El ficher de so no existix
+savechatwinsize Guardar el tamany de la finestra de chat com per defecte al canviar-lo
+soundfiles Archius de so
+statenick Mot personalisat (deixar en blanc per a no canviar-lo) 
