@@ -2323,7 +2323,11 @@ catch {exec killall -c sndplay}
    # window related to 'chatid'
    proc DeliveryFailed { chatid msg } {
 
-      chatUser $chatid
+      set win_name [WindowFor $chatid]
+
+      if { [WindowFor $chatid] == 0} {
+	      chatUser $chatid
+		}
       set txt "[trans deliverfail]:\n $msg"
       WinWrite $chatid "[timestamp] [trans deliverfail]:\n" red
       WinWrite $chatid "$msg\n" gray
