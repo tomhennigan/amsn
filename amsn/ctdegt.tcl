@@ -88,7 +88,7 @@ proc degt_ns_command_win {} {
     wm iconname .nscmd "MSNCmd"
     wm state .nscmd withdraw
     label .nscmd.l -text "NS Command:" -font bboldf
-    entry .nscmd.e -width 20 
+    entry .nscmd.e -width 20 -bg #FFFFFF
     pack .nscmd.l .nscmd.e -side left
 
     bind .nscmd.e <Return> {
@@ -332,9 +332,9 @@ proc ChooseFilename { twn title } {
       pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
 
     frame $w.filename -bd 2
-     entry $w.filename.entry -relief sunken -width 40 
+     entry $w.filename.entry -relief sunken -width 40  -bg #FFFFFF
      label $w.filename.label -text "Filename:"
-     pack $w.filename.entry -side right
+     pack $w.filename.entry -side right 
      pack $w.filename.label -side left
     pack $w.msg $w.filename -side top -fill x
     focus $w.filename.entry
@@ -388,7 +388,7 @@ proc LabelEntry { path lbl value width } {
 	label $path.lbl -text $lbl -justify left \
 	    -font sboldf
 	entry $path.ent -text $value -relief sunken \
-	    -width $width -font splainf 
+	    -width $width -font splainf -bg #FFFFFF
 	pack $path.lbl $path.ent -side left -anchor e -expand 1 -fill x
 #	pack $path.ent $path.lbl -side right -anchor e -expand 1 -fill x
 }
@@ -399,6 +399,9 @@ proc LabelEntryGet { path } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.10  2002/07/03 19:10:15  airadier
+# Changes in colors (didn't look good on some systems)
+#
 # Revision 1.9  2002/07/01 00:50:31  airadier
 # Proxy support in checkver, fixed a problem with proxy, if entered but "use proxy" not checked
 #

@@ -127,16 +127,7 @@ set typing ""
 #end AIM
 
 #=======================================================================
-#Default look
-font create menufont -family Helvetica -size 11 -weight normal
-font create sboldf -family Helvetica -size 11 -weight bold
-font create splainf -family Helvetica -size 11 -weight normal
-font create bboldf -family Helvetica -size 12 -weight bold
-font create bplainf -family Helvetica -size 12 -weight normal
-font create bigfont -family Helvetica -size 13 -weight bold
-font create examplef -family Helvetica -size 10 -weight normal
 
-option add *Menu.font menufont
 
 set trid 0
 
@@ -714,7 +705,7 @@ proc cmsn_draw_login {} {
 
    checkbutton .login.c.remember -variable config(save_password) \
       -text "[trans rememberpass]" -font sboldf \
-      -highlightthickness 0 -activeforeground #FFFFFF -selectcolor #FFFFFF
+      -highlightthickness 0 
 
    .login.c create text 133 12 -font sboldf -anchor ne \
 	-text "[trans user]: "

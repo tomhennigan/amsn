@@ -87,7 +87,7 @@ namespace eval ::groups {
 	wm title .dlgag "[trans groupadd]"
 	frame .dlgag.d -bd 1 
 	    label .dlgag.d.lbl -text "[trans group]" 
-	    entry .dlgag.d.ent -width 20
+	    entry .dlgag.d.ent -width 20 -bg #FFFFFF
 	    pack .dlgag.d.lbl .dlgag.d.ent -side left
 	    bind .dlgag.d.ent <Return> { 
 	    	::groups::Add "[.dlgag.d.ent get]" dlgMsg; 
@@ -124,7 +124,7 @@ namespace eval ::groups {
 
 	frame .dlgrg.n -bd 1 
 	    label .dlgrg.n.lbl -text "[trans groupnewname]:"
-	    entry .dlgrg.n.ent -width 20
+	    entry .dlgrg.n.ent -width 20 -bg #FFFFFF
 	    pack .dlgrg.n.lbl .dlgrg.n.ent -side left
 	    
 	frame .dlgrg.b 

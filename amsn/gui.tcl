@@ -1,4 +1,18 @@
+#Default look
+font create menufont -family Helvetica -size 11 -weight normal
+font create sboldf -family Helvetica -size 11 -weight bold
+font create splainf -family Helvetica -size 11 -weight normal
+font create bboldf -family Helvetica -size 12 -weight bold
+font create bplainf -family Helvetica -size 12 -weight normal
+font create bigfont -family Helvetica -size 13 -weight bold
+font create examplef -family Helvetica -size 10 -weight normal
+
 tk_setPalette #D8D8E0
+option add *Menu.font menufont
+option add *background #D8D8E0
+option add *selectColor #DD0000
+#-selectcolor #FFFFFF
+
 #tk_setPalette activeForeground #FFFF00
 
 namespace eval ::amsn {
@@ -39,8 +53,8 @@ namespace eval ::amsn {
       label $w.top.labels.ip -text "[trans ipaddress]:"
 
       frame $w.top.fields
-      entry $w.top.fields.file -width 40
-      entry $w.top.fields.ip -width 15 
+      entry $w.top.fields.file -width 40 -bg #FFFFFF
+      entry $w.top.fields.ip -width 15 -bg #FFFFFF
       checkbutton $w.top.fields.autoip -text "[trans autoip]" -variable config(autoftip)
       
       pack $w.top.fields.file -side top -anchor w
