@@ -348,7 +348,7 @@ namespace eval ::amsn {
       set col [format "%2.2X%2.2XFF" $rg $rg]
       $im put "#$col" -to 0 $i 180 [expr {$i + 1}]
    }
-
+   
    proc close {} {
       set answer [tk_messageBox -message "[trans exitamsn]" -type yesno -icon question -title [trans title]]
       if {$answer == "yes"} {
@@ -392,14 +392,16 @@ namespace eval ::amsn {
          -relief ridge -borderwidth 2
       pack $w.c
 
+
       $w.c create image 75 50 -image $im 
-      $w.c create image 20 25 -image notifico
+      $w.c create image 17 22 -image notifico
+      $w.c create image 80 97 -image notifybar
 
       if {[string length $msg] >100} {
          set msg "[string range $msg 0 100]..."
       } 
    
-      set notify_id [$w.c create text 75 50 -font splainf \
+      set notify_id [$w.c create text 75 63 -font splainf \
          -justify center -width 145 -text "$msg"]
 
       $w.c bind $notify_id <Enter> \

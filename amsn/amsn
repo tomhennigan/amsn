@@ -401,6 +401,7 @@ proc cmsn_draw_main {} {
    .options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
      -command "msg_box \"[trans mustrestart]\""
    .options add checkbutton -label "[trans autohotmaillog]" -onvalue 1 -offvalue 0 -variable config(autohotlogin)
+   .options add checkbutton -label "[trans autoidle]" -onvalue 1 -offvalue 0 -variable config(autoidle)
    .options add checkbutton -label "[trans startoffline]" -onvalue 1 -offvalue 0 \
      -variable config(startoffline) 
    .options add checkbutton -label "[trans chatsmileys]" -onvalue 1 -offvalue 0 \
@@ -465,6 +466,12 @@ proc cmsn_draw_main {} {
    image create photo blocked -file [file join ${images_folder} blocked.gif]
 
    image create photo colorbar -file [file join ${images_folder} colorbar.gif]
+   image create photo mainbar -width 1280 -height 4
+   image create photo notifybar -width 140 -height 4
+   notifybar copy colorbar -from 0 0 5 4 
+   notifybar copy colorbar -from 5 0 15 4 -to 5 0 64 4
+   notifybar copy colorbar -from 160 0 235 4 -to 64 0 139 4      
+
    image create photo mailbox -file [file join ${images_folder} unread.gif]
 
    image create photo contract -file [file join ${images_folder} contract.gif]
@@ -525,13 +532,9 @@ proc anti_idle {} {
 }
 
 proc incr_idle {} {
-  global idletime
+  global idletime config
   
-#  status_log "Idle: $idletime \n" black
-  
-#  status_log "My status: [::MSN::myStatusIs]\n" red
-  
-  if {$idletime >= 300 && [::MSN::myStatusIs] == "NLN" } {
+   if {$idletime >= 300 && [::MSN::myStatusIs] == "NLN" && $config(autoidle) == 1} {
     ::MSN::changeStatus IDL
   } elseif { $idletime <300 && [::MSN::myStatusIs] == "IDL"} {
     ::MSN::changeStatus NLN
@@ -913,7 +916,15 @@ proc cmsn_draw_online {} {
    $pgBuddy.text insert end "   "
    $pgBuddy.text insert end " $my_name " mystatus
    $pgBuddy.text insert end "($my_state_desc) \n" mystatus
-   $pgBuddy.text image create end -image colorbar 
+
+   set width [expr {[winfo width $pgBuddy.text] - 10} ]
+
+   mainbar blank
+   mainbar copy colorbar -from 0 0 5 4 
+   mainbar copy colorbar -from 5 0 15 4 -to 5 0 [expr {$width - 75}] 4
+   mainbar copy colorbar -from 160 0 235 4 -to [expr {$width - 75}] 0 $width 4      
+
+   $pgBuddy.text image create end -image mainbar 
    $pgBuddy.text insert end "\n"
 
    # Show Mail Notification status 
@@ -1013,6 +1024,9 @@ proc cmsn_draw_online {} {
    }
 
    $pgBuddy.text configure -state disabled
+   
+#   bind $pgBuddy.text <Configure>  cmsn_draw_online
+
 }
 
 proc ShowUser {user_name user_login state state_code colour section} {

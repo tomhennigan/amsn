@@ -20,6 +20,7 @@ set config(soundcommand) "play"
 set config(language) "en"
 set config(adverts) 0
 set config(autohotlogin) 1
+set config(autoidle) 1
 set config(showonline) 1
 set config(showoffline) 1
 set config(listsmileys) 1
