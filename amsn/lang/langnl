@@ -82,6 +82,7 @@ checkfilman Ontvangen bestanden zullen bewaard worden in $1. Controleer de besta
 checkingver Bezig met zoeken naar een nieuwere versie
 checkonfln Controleer of een gebruiker je heeft geblokkeerd wanneer hij offline gaat
 checkver Controleer of een nieuwere versie beschikbaar is
+choosearq Kies je systeem
 choosebasefont Lettertype
 choosebgcolor Achtergrondkleur
 choosecontact Kies een contactpersoon uit de lijst
@@ -129,6 +130,7 @@ dockgtk Gnome Dock
 docking Docking
 dockingoff Docking uitschakelen
 dockkde KDE Dock
+dontdownload Download TLS niet. Ik installeer het zelf.
 edit    Bewerken
 editcurrentstate Huidige bewerken
 editnewstate Nieuwe Persoonlijke Automatische Berichten Status
@@ -180,6 +182,7 @@ handle Nick
 helpcontents Help inhoud
 help Help
 hiden Verberg deze emoticon in het smileys-menu
+hidewindow Verberg venster
 history Toon geschiedenis
 home Thuis
 httpconnection Verbinden via het HTTP-protocol via poort 80
@@ -379,6 +382,7 @@ sound Geluid
 soundloop Geluid blijven herhalen
 soundserver Geluidserver
 soundstatus Schakel alarm geluid aan/uit
+sourcecode Broncode (moet gecompileerd en geinstalleerd worden)
 startoffline2 Stil aanmelden met "Offline verschijnen"
 startoffline Begin offline
 stateautomsg Automatisch Bericht om te versturen
@@ -398,6 +402,8 @@ tabbed Vensters met tabbladen
 textsize Tekstgrootte
 timeremaining Resterende tijd
 title Al's Messenger
+tlsinstallexp AMSN gebruikt nu versie 9 van het MSN protocol.\nDaarvoor is een met SSL beveiligde verbinding vereist. AMSN heeft hierbij een module\nnodig met de naam TLS, die niet aanwezig is op uw systeem. Deze wizard helpt u bij\nhet downloaden en installeren van TLS. Selecteer het type systeem dat je gebruikt\nzodat de benodigde bestanden automatisch gedownload kunnen worden.
+tlsinstall TLS Module installatie wizard
 to Aan
 tools Extra
 tooltips Tooltips weergeven

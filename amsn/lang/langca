@@ -129,6 +129,7 @@ dockgtk Acoplament amb el Gnome
 docking Acoplament
 dockingoff Desactivat
 dockkde Acoplament amb el KDE
+dontdownload No obtinguis d'Internet el mòdul TLS. L'instal·laré jo.
 editcurrentstate Edita l'estat actual
 edit Edita
 editnewstate Nou missatge automàtic per a un estat personalitzat
@@ -380,6 +381,7 @@ soundloop Reproducció contínua del so
 soundserver Servidor de so
 sound So en un event
 soundstatus So a l'alarma
+sourcecode Codi font (necessita ser compilat i instal·lat)
 startoffline2 Connectar-se silenciosament apareixent en l'estat "Desconnectat"
 startoffline Inicia en l'estat "Simula desconnexió"
 stateautomsg Missatge automàtic a enviar
@@ -399,6 +401,8 @@ tabbed Finestres sobreposades
 textsize Mida del text
 timeremaining Temps restant
 title aMSN
+tlsinstall Assistent d'instal·lació del mòdul TLS
+tlsinstallexp Ara l'aMSN utilitza MSNP9, que requereix un connexió segura a\ntravés del protocol SSL. Per tal d'utilitzar-lo, necessites tenir instal·lat\nel mòdul TLS i no l'he trobat al sistema. Aquest assistent t'ajudarà a obtenir\ni a instal·lar el mòdul. Escull quin tipus de sistema tens per poder obtenir el\nmòdul TLS de manera automàtica
 to A
 tools Eines
 tooltips Activa el rètol indicador de funcions

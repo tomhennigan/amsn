@@ -82,6 +82,7 @@ checkfilman Los archivos recibidos se guardarán en $1. Comprueba la opción de ad
 checkingver Buscando si hay disponible una nueva versión
 checkonfln Comprobar si un usuario te bloquea cuando aparentemente se desconecta
 checkver Buscar nuevas versiones
+choosearq Elija la arquitectura de su sistema
 choosebasefont Elegir tipo de letra
 choosebgcolor Elegir color de fondo
 choosecontact Por favor selecciona un contacto de la lista
@@ -129,6 +130,7 @@ dockgtk Icono Gtk
 docking Icono en bandeja de sistema
 dockingoff Desactivado
 dockkde Icono KDE
+dontdownload No descargar TLS, lo instalaré yo mismo
 editcurrentstate Editar actual
 edit Edición
 editnewstate Nuevo mensaje automático para estado personalizado
@@ -380,6 +382,7 @@ soundloop Sonido repetitivo
 soundserver Servidor de Sonido
 sound Sonido eventos
 soundstatus Sonido para la alarma
+sourcecode Código fuente
 startoffline2 Conectarse sigilosamente pareciendo "Desconectado"
 startoffline Comenzar Desconectado
 stateautomsg Mensaje automático a enviar
@@ -399,6 +402,8 @@ tabbed Ventanas con solapas
 textsize Tamaño del texto
 timeremaining Tiempo restante
 title Al's Messenger
+tlsinstall Asistente de instalación del módulo TLS
+tlsinstallexp AMSN ahora usa el protocolo MSNP9, que requiere utilzar una conexión\nsegura usando SSL. Para poder usar SSL, AMSN necesita un módulo llamado TLS,\nque no se pudo encontrar en su sistema. Este asistente le ayudará a descargar\ny instalar TLS. Por favor, elije tu tipo de sistema para poder\ndescargar los archivos requeridos para TLS automáticamente.
 tools Herramientas
 tooltips Activar globos de ayuda
 to Para

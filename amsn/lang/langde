@@ -5,6 +5,7 @@ acceptfile Datei $1 (Größe: $2) annehmen? In $3 gespeichert
 actions Aktionen
 addacontact Kontakt hinzufügen
 addedyou $1 ($2) hat dich ihrer/seiner Kontaktliste hinzugefügt
+addprofile Neues Profil hinzufügen
 addstate Neuen Status hinzufügen
 addtocontacts In die Kontaktliste einfügen
 addto Hinzufügen zu $1
@@ -12,9 +13,14 @@ addtoo Diese Person meiner Kontaktliste hinzufügen
 admincontacts Verwaltung - Kontakte
 admingroups Verwaltung - Gruppen
 adverts Werbung
+alarmonconnect Alamiere, wenn der Benutzer online kommt
+alarmondisconnect Alamiere, wenn der Benutzer sich abmeldet
+alarmonmsg Alamiere, wenn der Benutzer dir eine Nachricht sendet
+alarmonstatus Alamiere, wenn der Benutzer den Status ändert
 alarmpref Benachrichtigung für diesen Benutzer konfigurieren
 alarmstatus Benachrichtigung für diesen Benutzer an/ausschalten
 allowallbutbl Erlaube allen, ausser den Benutzern der Blockieren - Liste, mich zu kontaktieren
+allowbadwords Nicknames nicht zensieren
 allowlist Akzeptieren - Liste :
 allowonlyinal Erlaube nur Benutzern aus meiner Akzeptieren - Liste mich zu kontaktieren
 allowseen Dieser Person ermöglichen, zu sehen, wenn ich online bin, und Kontakt mit mir aufzunehmen
@@ -23,6 +29,8 @@ appearance Erscheinung
 appearoff Als offline anzeigen
 areacode Vorwahl 
 aretyping $1 geben Nachrichten ein
+autoaccepted Dateitransfers automatisch akzeptieren
+autoacceptft Dateianfragen automatisch akzeptieren
 autoaway Setze mich "Away" nach Inaktivität von
 autoconnect2 Automatisch Einloggen wenn aMSN gestartet wird
 autoconnect Automatische Anmeldung beim Starten
@@ -39,10 +47,12 @@ bgcolor Die Hintergrundfarbe von aMSN ändern
 blankdirect Bei direkter Verbindung leer lassen
 block Blockieren
 blocked Blockiert
+blockedyougroup Seperate Gruppe anzeigen für die Leute, die dich geblockt haben
 blocking Blockieren
 blockinter1 Wenn Ihr Status online ist, alle 
 blockinter2 Sekunden checken, ansonsten alle :
 blockinter3 alle
+blockinter4 Sekunden.
 blocklist Blockieren - Liste :
 blockmessage Diese Personen sind Online und blocken Sie
 blockusers Anzahl der auf einmal zu testenden Benutzer
@@ -52,9 +62,11 @@ browser Browser
 busy Beschäftigt
 cancel Abbrechen
 cannotdeleteprofile Kann das Profil nicht löschen, da es anscheinend von einer Amsn session verwendet wird.
+cantexec Kann $1 nicht ausführen. Überprüfe die Einstellungen
 cfgalarm Benachrichtigung konfigurieren/hinzufügen/löschen
 changefont Die Schriftart ändern
 changenick Namen ändern
+changestate $1 geändert in $2
 chatack Chat annehmen von
 chat Chat
 chatmaxmin Wen ein Kontakt einen Chat mit mir beginnt, möchte ich das dieser :
@@ -70,10 +82,12 @@ choosebasefont Schriftart auswählen
 choosebgcolor Hintergrundfarbe Auswählen
 choosecontact Bitte wählen Sie einen Kontakt aus der Liste
 choosefontcolor Schriftfarbe auswählen
+chooseskin Bitte wähle einen Skin aus
 clearlog2 Alle Historys zurücksetzen
 clearlog3 Alle Logs leeren
 clearlog Log löschen
 clicktologin Klicken Sie hier, um sich anzumelden 
+closed Geschlossen
 close Schließen
 closingdocks Schaltfläche "Schließen" koppelt Fenster
 command Befehl
@@ -91,28 +105,35 @@ copy Kopieren
 copytogroup Kopieren zur Gruppe
 countrycode Meine Landesvorwahl
 cprofile Profil erstellen
+custom_edit Bearbeite den eigenen Smiley
+custom_new Neuen Smiley hinzufügen
 cut Ausschneiden
 date Datum
 days Tage
 dcprofile Profil nicht erstellen
+defaultloginradio Einloggen mit Standardkonfiguration
 default Standardeinstellung
 delete Löschen
 deliverfail Es trat ein Problem beim Zustellen folgender Nachricht auf
 delprofile2 Profil auswählen, das gelöscht werden soll.
 delprofile Profil löschen
+description Beschreibung
 directconnection Ich habe eine direkte Verbindung mit dem Internet (benutzt port 1863)
+disconnect $1 hat sich abgemeldet.
 dockfreedesktop In freiem Desktop festankern (KDE3/Gnome2)
 dockgtk In GTK festankern
 docking Festankern eingeschaltet
 dockingoff Festankern ausgeschaltet
 dockkde In KDE festankern
 edit Ändern
+editcurrentstate Veränder den derzeitigen 
 editnewstate Neuer persönlicher Autonachrichten - Status
 editprofile Profil ändern
 editstate Vorhandenen Autonachrichten - Status bearbeiten
 emotisounds Spielt Geräusche bei bestimmten Emoticons
 enableproxy Proxy aktivieren
 enableremote Aktiviere Fernkontrolle
+enablesound Sounds aktivieren
 encoding2 Encoding Optionen ändern
 encoding Encoding auswählen
 entercontactemail Gib eine E-Mail-Adresse ein
@@ -153,13 +174,17 @@ groupunknown Unbekannte Gruppe
 handle Handle
 helpcontents Hilfe - Inhalt
 help Hilfe
+hiden Emoticons aus dem Smiley Menü verbergen
+hidewindow Fenster verbergen
 history Verlauf ansehen
 home Start
 httpconnection Verbinde mit der HTTP Methode (verwendet das HTTP Protokoll mit Port 80)
+hybrid Hybridmodus
 ident Identifiziere
 identity Identität
 inbox Posteingang
 internalerror Interner Server Fehler
+invalidfile Die Datei $2, die im Feld $1 eingegeben wurde, existiert nicht oder ist nicht lesbar.
 invalidusername Benutzername ungültig
 invitationcancelled Die Einladung wurde abgebrochen
 invite Einladen
@@ -196,6 +221,7 @@ logolder Nur Unterhaltungen loggen, der letzten
 logout Abmelden
 logsin hat sich gerade angemeldet
 logsmileys Emoticons und Smileys in der History anzeigen
+logsout hat sich so eben abgemeldet.
 lprivtoconf Privater Chat wird zum Gespräch mit $1
 luclosedwin Sie haben das Fenster von $1 geschlossen.
 mailer E-Mail
@@ -226,11 +252,14 @@ next Weiter
 noactivity inaktiv
 nodataavailable Keine Daten verfügbar für $1
 nologfile Keine Log-Datei für $1
+noneavailable Nicht verfügbar.
 no Nein
 nonewmail 0 neue Nachrichten im Posteingang
 nonewver Zurzeit keine neue Version verfügbar
 normal Normal
 nosystemtray Systemablage nicht verfügbar
+notify1_5 Zeige Statusfenster an, wenn der Kontakt offlien geht
+notify1_75 Zeige Statusfenster an, wenn der Kontakt den Zustand ändert
 notify1 Fenster anzeigen wenn ein Kontakt online kommt.
 notify2 Fenster anzeigen wenn eine neue Nachricht empfangen wird.
 notify3 Fenster anzeigen wenn eine eMail ankommt.
@@ -285,6 +314,7 @@ prefshared Gemeinsame Verbindung (nur NAT)
 prefsound Akustische Signale
 privacy Privatsphäre
 profiledconfig Profilabhängige Einstellungen
+profileexists Das Profil existiert bereits. Bitte wählen Sie ein Anderes
 profileinuse Dieses Profil wird von einer anderer AMSN Session verwendet, bitte wählen Sie ein Anderes
 profiles Profile
 properties Eigenschaften
@@ -310,6 +340,7 @@ save Speichern
 savetofile Speichern unter
 says $1 sagt
 sbcon Verbinde mit Server
+selectskin Bitte wählen Sie einen Skin aus
 sendfile Datei senden
 sendmail E-Mail senden
 sendmsg Nachricht senden
@@ -319,6 +350,7 @@ servergoingdown Verbindungsabbruch: Serverfehler
 server Server
 session Session
 showblockedlist Zeigt eine Liste mit Personen von denen Sie geblockt werden
+skin Skin
 sound2 Klang wiedergeben, wenn sich ein Kontakt anmeldet oder eine Nachricht schreibt
 sound Akustische Signale
 soundcommand Muss das Play Kommando sein (Bsp.: esdplay)
@@ -326,6 +358,7 @@ soundfile Mit der Benachrichtigung verbundene Klang-Datei
 soundloop Den Klang unendlisch abspielen
 soundserver Klangserver
 soundstatus Akustisches Signal ein/ausschalten
+sourcecode Quelltext
 startoffline2 Als "Als offline anzeigen" anmelden
 startoffline Offline-Modus beim Start
 stateautomsg Autonachricht die gesendet werden soll
@@ -369,29 +402,3 @@ yoffset Y Offset
 youblocked Sie wurden blockiert
 yousay Du sagst
 youwant Du willst
-alarmonconnect Alamiere, wenn der Benutzer online kommt
-alarmondisconnect Alamiere, wenn der Benutzer sich abmeldet
-alarmonmsg Alamiere, wenn der Benutzer dir eine Nachricht sendet
-alarmonstatus Alamiere, wenn der Benutzer den Status ändert
-allowbadwords Nicknames nicht zensieren
-autoaccepted Dateitransfers automatisch akzeptieren
-autoacceptft Dateianfragen automatisch akzeptieren
-blockedyougroup Seperate Gruppe anzeigen für die Leute, die dich geblockt haben
-blockinter4 Sekunden.
-cantexec Kann $1 nicht ausführen. Überprüfe die Einstellungen
-changestate $1 geändert in $2
-chooseskin Bitte wähle einen Skin aus
-closed Geschlossen
-custom_edit Bearbeite den eigenen Smiley
-custom_new Neuen Smiley hinzufügen
-defaultloginradio Einloggen mit Standardkonfiguration
-description Beschreibung
-disconnect $1 hat sich abgemeldet.
-editcurrentstate Veränder den derzeitigen 
-enablesound Sounds aktivieren
-hybrid Hybridmodus
-invalidfile Die Datei $2, die im Feld $1 eingegeben wurde, existiert nicht oder ist nicht lesbar.
-logsout hat sich so eben abgemeldet.
-noneavailable Nicht verfügbar.
-notify1_5 Zeige Statusfenster an, wenn der Kontakt offlien geht
-notify1_75 Zeige Statusfenster an, wenn der Kontakt den Zustand ändert

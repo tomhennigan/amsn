@@ -83,6 +83,7 @@ checkfilman Prejete datoteke bodo shranjene v $1. Preveri nastavitve upravljalca
 checkingver Preverjam za nove verzije
 checkonfln Preveri, ce te je uporabnik blokiral, ko se odjavi
 checkver Preveri za novo verzijo
+choosearq Izberi arhitekturo sistema
 choosebasefont Izberi vrsto pisave
 choosebgcolor Izberi barvo ozadja
 choosecontact Prosim izberi stik s seznama
@@ -130,6 +131,7 @@ dockgtk gtk pomol
 dockingoff Pristaja prekinjena
 docking Pristaja
 dockkde kde pomol
+dontdownload Ne poberi TLS-ja, namestil ga bom sam
 drugi)
 editcurrentstate Uredi trenutno stanje
 editnewstate Novo osebno stanje za avtomatsko sporocilo
@@ -384,6 +386,7 @@ soundloop Ponavljaj
 soundserver Zvocni streznik
 soundstatus Zvok omogocen
 sound Zvok dogodka
+sourcecode Izvorna koda (potrebno jo je prevesti in namestiti)
 startoffline2 Prijavi se kot "Na videz neprijavljen"
 startoffline Zacni neprijavljen
 stateautomsg Avtomatsko sporocilo
@@ -403,6 +406,8 @@ tabbed Okna z "uhlji"
 textsize Velikost besedila
 timeremaining Cas do konca prenosa
 title Al's Messenger
+tlsinstall Carovnik za namestitev modula TLS
+tlsinstallexp AMSN uporablja MSNP9, ki potrebuje varno\npovezavo s SSL-jem. Da bi uporabljal SSL, mora AMSN namestiti modul TLS,\nki ga ni na tvojem racunalniku. Ta carovnik ti bo pomagal pobrati in\nnamestiti TLS. Prosim izberi tvoj sistem, da lahko poberem\npotrebne TLS datoteke.
 tools Orodja
 tooltips Omogoci tooltipe
 to Za

@@ -34,8 +34,8 @@ aretyping $1 are typing a message
 autoaccepted File transfer accepted automatically
 autoacceptft Automatically accept File Transfer requests
 autoaway Show me as "Away" when inactive for
-autoconnect Connect on amsn start
 autoconnect2 Sign In automatically when aMSN is launched
+autoconnect Connect on amsn start
 autohotmaillog Auto Hotmail login
 autoidle Auto NoActivity
 autoip Automatic IP
@@ -71,25 +71,26 @@ cfgalarm Configure/Add/Remove Alarm
 changefont Change font
 changenick Change nick
 changestate $1 changes state to $2
-chat Chat
 chatack Accepting chat from
+chat Chat
 chatmaxmin When a contact opens a chat with me I want it to be:
 chatreq Requesting chat
-chatsmileys Chat smileys
 chatsmileys2 Display Emoticons and Smileys in chat windows
+chatsmileys Chat smileys
 checkblocking Continuously check if users are blocking you
 checkfilman Received files will be saved in $1. Please check file manager settings in preferences window.
 checkingver Checking for new versions
 checkonfln Check if a user blocked you when he gets offline
 checkver Check for new version
+choosearq Choose your system architecture
 choosebasefont Choose font type
 choosebgcolor Choose background color
 choosecontact Please choose a contact from the list
 choosefontcolor Choose font color
 chooseskin Please select the Skin you would like to use
-clearlog Clear Log
 clearlog2 Clear the history for all your contacts
 clearlog3 Clear All Logs
+clearlog Clear Log
 clicktologin Click here to log in
 close Close
 closed Conversation with $1 closed for inactivity
@@ -119,8 +120,8 @@ default Default Config
 defaultloginradio Login with default configuration
 delete Delete
 deliverfail There was a problem delivering the following message
-delprofile Delete Profile
 delprofile2 Select the Profile that you would like to have removed 
+delprofile Delete Profile
 description Description
 directconnection I have direct connection to the internet (uses port 1863)
 disconnect $1 has disconnected.
@@ -129,8 +130,9 @@ dockgtk Gnome Dock
 docking Docking
 dockingoff Docking Off
 dockkde KDE Dock
-edit Edit
+dontdownload Don't download TLS, I'll install it myself
 editcurrentstate Edit current
+edit Edit
 editnewstate New Personal Automessage State
 editprofile Edit Profile
 editstate Edit Existing Automessage State
@@ -138,8 +140,8 @@ emotisounds Play sounds on certain emoticons
 enableproxy Enable proxy
 enableremote Enable remote controling
 enablesound Play sound
-encoding Choose encoding
 encoding2 Change the way your characters are encoded
+encoding Choose encoding
 entercontactemail Enter contact e-mail
 enterfilename Please enter a filename
 enternick Enter your nick
@@ -148,28 +150,28 @@ exitamsn Are you sure you want to quit?
 extras Extra Services
 faq FAQ (Frequently Answered Questions)
 filedoesnotexist File does not exist
-fileman File Manager
 filemanexample ( \$location will be replaced with the directory ) Ex: nautilus \$location
+fileman File Manager
 filename Filename
 filetransfercancelled File transfer cancelled
 filetransfercomplete File transfer complete
 followtext Scroll down when new text is entered
-ftaccepted File transfer accepted
 ftacceptedby $1 accepted file transfer invitation for file '$2'.
+ftaccepted File transfer accepted
 ftaccepting Accepting file transfer invitation
 ftconnecterror Error connecting to remote peer
 ftconnecting Connecting to $1 port $2
 ftconnectionlost Connection with remote peer lost
 ftgotinvitation $1 wants to send you the file '$2' ($3 bytes). It will be saved in directory $4. Do you want to receive this file?
 ftportpref Starting port for file transfers
-ftrejected File transfer rejected
 ftrejectedby $1 rejected file transfer invitation for file '$2'.
+ftrejected File transfer rejected
 ftsendinvitation File transfer invitation for file '$2' ($3 bytes) has been sent to $1.
 gonelunch Gone to lunch
-group Group
 groupadd Add a group
 groupdelete Delete a group
 groupexists Group already exists
+group Group
 groupmissing Cannot find group
 groupnewname New name
 groupnotempty Group is not empty!
@@ -177,8 +179,8 @@ groupoldname Old name
 grouprename Rename a group
 groupunknown Unknown group
 handle Handle
-help Help
 helpcontents Help contents
+help Help
 hiden Hide the emoticon from the smileys menu
 hidewindow Hide Window
 history View History
@@ -198,8 +200,8 @@ ipdetect Detect correct IP for File Transfers using HTTP
 istyping $1 is typing a message
 joins $1 joins conversation
 keepalive Keepalive (NAT)
-keeplog Keep Logs of Chats
 keeplog2 Log all conversations to aMSN's History for future viewing
+keeplog Keep Logs of Chats
 language Language
 lastmsgtime Last message received at $1
 lclosedwin $1 has closed the window on $2
@@ -210,8 +212,8 @@ leaves $1 leaves conversation
 lenteredconf $1 has entered into a conference on $2
 linprivate IN PRIVATE
 listeningon Listening on port $1
-listsmileys List smileys
 listsmileys2 Display Emoticons and Smileys in aMSN's main contact list
+listsmileys List smileys
 ljoinedconf $1 has joined conference
 lleftconf $1 has left conference
 loadcontacts Load contact list
@@ -219,9 +221,9 @@ logbigger Log file sizes for each contact never exceed
 logfandexp Log File Sizes and History Expiry
 loggedotherlocation Disconnected. Logged in other location
 loggingin Logging In
-login Log In
 loginas Login as
 loging Logging
+login Log In
 logolder Only log chats that have taken place in the last
 logout Log Out
 logsin has just logged in
@@ -229,8 +231,8 @@ logsmileys Displays Emoticons and Smileys in aMSN's history windows
 logsout has just logged out
 lprivtoconf Private chat turned into Conference with $1
 luclosedwin You have closed the window on $1
-mailer Mailer
 mailerexample ( \$recipient = Recipient ) Leave blank for using hotmail
+mailer Mailer
 maximised Maximised
 minimised Minimised/Iconified
 mins minutes
@@ -238,9 +240,9 @@ mobile Mobile
 morepersonal More States ->
 move Move
 movetogroup Move to Group
-msg Message
 msgflicker Flicker chat window title when new message is received on unfocused window.
 msgmaxmin When a new message arrives I want it to be :
+msg Message
 msgmode Select how to handle multiple message windows :
 msn AMSN
 mustrestart You must restart the program to apply changes
@@ -256,22 +258,22 @@ newmailfrom New mail from $1 ($2)
 newmsg New message
 newveravailable Newer version $1 available for download
 next Next
-no No
 noactivity No activity
 nodataavailable No data available for $1
 nologfile No Log file for $1
 noneavailable None Available
 nonewmail No new messages in Inbox
 nonewver There are no new versions available to download
+no No
 noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
 normal Normal
 nosystemtray System tray not available
-notify notify
-notify1 Display notify window when contacts come online
 notify1_5 Display notify window when contacts goes offline
 notify1_75 Display notify window when contacts changes state
+notify1 Display notify window when contacts come online
 notify2 Display notify window when new messages are received
 notify3 Display notify window when e-mails reach your Inbox
+notify notify
 notifyoffset Set the position of the notify window by giving it position offsets
 notifywin Notify Window
 notls The MSN Protocol 9 requires the tls package. This package does not seem to be installed on this machine. If it's installed, the path to the library directory should be specified in the Preferences window (ex: /opt/tls/lib). \n \n It's possible to download tls from http://tls.sf.net.
@@ -304,21 +306,21 @@ prefblock3 "You have been blocked by" group
 prefconnection Connection settings
 prefemotic Emotions Icons and Smileys 
 preferences Preferences
-preffont My Message Text
 preffont2 Change the way others see my text in chats
 preffont3 Change aMSN's interface font and size
+preffont My Message Text
 preflibs Libraries directories
 preflog1 My History and Logging Options
 preflook My aMSN Messenger Look
 prefmsging My Messaging Interface
 prefname My MSN Messenger Name/NickName
-prefphone My Phone Numbers
 prefphone2 Type the phone numbers that you would like people \n on your Allow List to see \n
-prefprivacy User's Allow/Block lists
+prefphone My Phone Numbers
 prefprivacy2 User's Contact/Reverse lists
-prefprofile My Public Profile
+prefprivacy User's Allow/Block lists
 prefprofile2 Create or modify your public profile (the \n description of yourself that others can see)
 prefprofile3 aMSN's User Configuration Profiles
+prefprofile My Public Profile
 prefproxy My Proxy Settings
 prefremote Remote Connection Preferences
 prefsession My Sign In and Status
@@ -331,62 +333,63 @@ profileinuse This Profile is being used by another aMSN session, please chose an
 profileloginradio Login using an existing Profile
 profiles Profiles
 properties Properties
-proxy I am behind a Proxy Server (HTTP or SOCKS5)
-proxyconf Proxy configuration
 proxyconfhttp HTTP proxy support configuration
+proxyconf Proxy configuration
 proxyconnection I connect to the internet using a proxy server:
+proxy I am behind a Proxy Server (HTTP or SOCKS5)
 publishphones Publish my phone numbers
 raised Raised/Deiconified
 readonlymsgbox The file transfer has been canceled due to the received directory being read-only. Please fix permissions on this directory.
 readonlywarn WARNING: The file will probably NOT be saved correctly as the "Received files" directory seems to be write-protected. Please ensure that the permissions on the target directory ($1) are set correctly before transfering the file.
 receivedbytes Received $1 of $2 bytes
 receivefile Receive file
-reconnect Waiting for $1 to reconnect
 reconnecting Reconnecting to server
+reconnect Waiting for $1 to reconnect
 reject Reject
 rememberpass Remember password
 removefromlist Remove from this list
 reversed Reversed
 reverselist Reverse list (RL):
 rightback Be right back
-save Save
 saveas Save as
 savecontacts Save contact list
+save Save
 savetofile Save to File
 says $1 says
 sbcon Connecting to Switch Board
 selectplugins Please select the plugins you want enabled
 selectskin Please choose a skin from the list
-send Send
 sendfile Send file
 sendmail Send mail
 sendmsg Send message
+send Send
 sentbytes Sent $1 of $2 bytes
-server Server
 servergoingdown Disconnected: Server is going down
+server Server
 session Session
 showblockedlist Show list of people who blocked you
-skin Skin
 skinselector Select Skin
+skin Skin
 smileconfig Custom emoticon configuration
 smilefile Smiley filename
-smileintro Please fill the required fields to create a new custom smiley (see the FAQ for help)
 smileintro2 Please edit the required fields to customize this smiley (see the FAQ for help)
-sound Event Sounds
+smileintro Please fill the required fields to create a new custom smiley (see the FAQ for help)
 sound2 Play sounds when contacts sign in or send a message
 soundcommand This has to be the play command (ex: esdplay)
+sound Event Sounds
 soundexample ( \$sound = Sound file to be played) Ex: esdplay \$sound
 soundfile Sound File
 soundloop Loop Sound
 soundserver Sound Server
 soundstatus Sound Alarm
-startoffline Start Offline
+sourcecode Source Code (needs compiling and installing)
 startoffline2 Sign In silently as "Appear Offline"
-state I want to appear as	
+startoffline Start Offline
 stateautomsg AutoMessage to Send
 statechange status changed to : 
 stateedittext Please edit the fields you would like \n to have modified and press Save
 stateinfo Personal State Configuration
+state I want to appear as	
 statename Name of Personal State
 statenewtext Please fill the required information to create \n your new Personal State and press Save
 status Status
@@ -399,9 +402,11 @@ tabbed Tabbed Windows
 textsize Text size
 timeremaining Time remaining
 title Al's Messenger
-to To
+tlsinstallexp AMSN now uses MSNP9, which requires the use of a secure\nconnection using SSL. In order to use SSL, AMSN needs to install a module called TLS,\nwhich is missing in your system. This wizard will help you in downloading and\ninstalling TLS. Please choose your system type so we can automatically download\nthe required TLS files.
+tlsinstall TLS Module installation wizard
 tools Tools
 tooltips Enable tooltips
+to To
 transnotexists The requested file has not been translated into the current language yet.
 traynotcompiled Tray icon plugin is not complied. Check plugins/traydock
 triggers Text triggers
@@ -409,15 +414,15 @@ twonewmail $1 new messages in Inbox
 unblock Unblock
 uoffline Offline
 uonline Online
-user User
 useralreadyonlist User is already on contact list
 userblocked The user is online but blocked you
 usernotonline The user is not online
+user User
 useryourself You can't chat with yourself
 verifyblocked Check for people blocking you
 version Version
-view View
 viewprofile View Profile
+view View
 willjoin Waiting $1 joins conversation
 work Work
 wrongfields The "$1", "$2" and/or "$3" fields were not valid
@@ -428,8 +433,3 @@ yoffset Y Offset
 youblocked You have been blocked by
 yousay You say
 youwant You want
-sourcecode Source Code (needs compiling and installing)
-dontdownload Don't download TLS, I'll install it myself
-tlsinstall TLS Module installation wizard
-tlsinstallexp AMSN now uses MSNP9, which requires the use of a secure\nconnection using SSL. In order to use SSL, AMSN needs to install a module called TLS,\nwhich is missing in your system. This wizard will help you in downloading and\ninstalling TLS. Please choose your system type so we can automatically download\nthe required TLS files.
-choosearq Choose your system architecture
