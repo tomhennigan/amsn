@@ -31,6 +31,7 @@ checkver Check for new version
 checkingver Checking for new versions
 clicktologin Click here to log in
 close Close
+closingdocks Close button docks window
 command Command
 contactadded Contact added
 connecterror Error connecting to server
@@ -41,6 +42,7 @@ entercontactemail Enter contact e-mail
 enterfilename Please enter a filename
 enternick Enter your nick
 examples Examples
+exitamsn Are you sure you want to quit?
 filedoesnotexist File does not exist
 filename Filename
 filetransfercancelled File transfer cancelled

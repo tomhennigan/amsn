@@ -32,6 +32,7 @@ checkingver Buscando si hay disponible una nueva versión
 checkver Buscar nuevas versiones
 clicktologin Haga click aquí para iniciar la sesión
 close Cerrar
+closingdocks Botón de cerrar minimiza
 command Comando
 contactadded Contacto añadido
 date Fecha
@@ -41,6 +42,7 @@ entercontactemail Introduce el email del contacto
 enterfilename Introduce el nombre del archivo
 enternick Introduce tu nick
 examples Ejemplos
+exitamsn ¿Estás seguro de que desear salir?
 filedoesnotexist El archivo no existe
 filename Nombre de Archivo
 filetransfercancelled Transferencia de archivo cancelada
