@@ -1498,7 +1498,9 @@ namespace eval ::amsn {
 		
 		#Check if the image that is currently showing is
 		#from the user that left. Then, change it
-		set current_image [$win_name.f.bottom.pic cget -image]
+		set current_image ""
+		#Catch it, because the window might be closed
+		catch {set current_image [$win_name.f.bottom.pic cget -image]}
 		if { [string compare $current_image "user_pic_$usr_name"]==0} {
 			set users_in_chat [::MSN::usersInChat $chatid]
 			set new_user [lindex $users_in_chat 0]
