@@ -708,13 +708,21 @@ proc sb {do sbn var {value ""}} {
          lappend sb_data $value
       }
       index {
-         return [lindex $sb_data $value]
+         if { [info exists sb_data] } {
+           return [lindex $sb_data $value]
+	  } else {
+	    return -1
+	  }
       }
       ldel {
          set sb_data [lreplace $sb_data $value $value]
       }
       length {
-         return [llength $sb_data]
+         if { [info exists sb_data] } {
+           return [llength $sb_data]
+	  } else {
+	    return -1
+	  }
       }
       search {
          return [lsearch $sb_data $value]
@@ -947,7 +955,7 @@ proc cmsn_sb_msg {sb_name recv} {
       
       	set requestdata [aim_get_str $body Request-Data]
 	set requestdata [string range $requestdata 0 [expr {[string length requestdata] -2}]]
-	
+
 	set data [aim_get_str $body $requestdata]
 	
 	if { $data == "" } {
@@ -1119,39 +1127,45 @@ proc cmsn_rng {recv} {
 
    status_log "MWB: entering cmsn_rng($recv)\n" white
 
-   if { [info exists msg_windows($emaill)] } {
-
-   	set sbn $msg_windows($emaill)
-       status_log "MWB:   A window for that user already exists: $sbn\n" white
-	#catch { close [sb get $sbn sock] }
-       #We leave the switchboard if it exists
-
-       set idx [lsearch -exact $sb_list $sbn]
-
-       if {$idx == -1} {
-         status_log "MWB:   tried to destroy unknown SB $sbn\n" white
-
-       } else {
-
-         set sb_list [lreplace $sb_list $idx $idx]
-         if {[sb get $name stat] != "d"} {
-           catch {
-           puts [sb get $name sock] "OUT"
-           close [sb get $name sock]
-           } res
-         }
-
-         #if {$config(keep_logs) && [sb exists $name log_fcid]} {		;# LOGS!
-         #  close [sb get $name log_fcid]
-         #}
-	  global ${name}_info
-         unset ${name}_info
-       }
-
-   } else {
+#   if { [info exists msg_windows($emaill)] } {
+#
+#   	set sbn $msg_windows($emaill)
+#       status_log "MWB:   A window for that user already exists: $sbn\n" white
+#	#catch { close [sb get $sbn sock] }
+#       #We leave the switchboard if it exists
+#
+#       set idx [lsearch -exact $sb_list $sbn]
+#
+#       if {$idx == -1} {
+#         status_log "MWB:   tried to destroy unknown SB $sbn\n" white
+#
+#       } else {
+#
+#         set sb_list [lreplace $sb_list $idx $idx]
+#         if {[sb get $sbn stat] != "d"} {
+#	  #  fileevent [sb get $sbn sock] readable {}
+#	  #  sb set $sbn readable "read_sb_sock $sbn"
+#
+#           catch {
+#           puts [sb get $sbn sock] "OUT"
+#           close [sb get $sbn sock]
+#           } res
+#
+#         }
+#
+#         #if {$config(keep_logs) && [sb exists $sbn log_fcid]} {		;# LOGS!
+#         #  close [sb get $sbn log_fcid]
+#         #}
+#	  global ${sbn}_info
+#         unset ${sbn}_info
+#       }
+#
+#   } else {
    	set sbn [cmsn_draw_msgwin $emaill]
        status_log "MWB:   Getting a new window: $sbn\n" white
-   }
+
+#   }
+
 
    sb set $sbn serv [split [lindex $recv 2] ":"]
    sb set $sbn connected "cmsn_conn_ans $sbn"
@@ -1164,6 +1178,7 @@ proc cmsn_rng {recv} {
 
    cmsn_socket $sbn
    return 0
+
 }
 
 proc cmsn_open_sb {sbn recv} {
@@ -1192,19 +1207,23 @@ proc cmsn_open_sb {sbn recv} {
 }
 
 proc cmsn_conn_sb {name} {
+   status_log "MWB: Entering cmsn_conn_sb\n" white
    fileevent [sb get $name sock] writable {}
    sb set $name stat "a"
    set cmd [sb get $name auth_cmd]; set param [sb get $name auth_param]
    ::MSN::WriteSB $name $cmd $param "cmsn_connected_sb $name"
    cmsn_msgwin_top $name "[trans ident]..."
+   status_log "MWB: Exiting cmsn_conn_sb\n" white
 }
 
 proc cmsn_conn_ans {name} {
+   status_log "MWB: Entering cmsn_conn_ans\n" white
    fileevent [sb get $name sock] writable {}
    sb set $name stat "a"
    set cmd [sb get $name auth_cmd]; set param [sb get $name auth_param]
    ::MSN::WriteSB $name $cmd $param
    cmsn_msgwin_top $name "[trans ident]..."
+   status_log "MWB: Exiting cmsn_conn_ans\n" white
 }
 
 proc cmsn_connected_sb {name recv} {
@@ -1582,12 +1601,12 @@ proc sb_change_fake { sbn } {
 
 proc sb_change { sbn } {
 	global typing config
-	
+
 	if { $typing != $sbn } {
-		set typing $sbn	
+		set typing $sbn
 
 		after 4000 "set typing \"\""
-		
+
 		set sock [sb get $sbn sock]
 
 		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgscontrol\r\nTypingUser: $config(login)\r\n\r\n\r\n"
