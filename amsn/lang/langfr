@@ -154,6 +154,7 @@ custnotifyoffline Affiche une notification quand un de vos contact se déconnecte
 custnotifyonline Affiche une notification quand un de vos contact se connecte
 custnotifystatus Affiche une notification quand un de vos contact change de status
 currentdate Date actuelle
+currentlanguage Langue actuel
 customcolor Couleur personnalisée
 custom_edit Editer un émoticon personnalisé
 custom_new Créer un émoticon personnalisé
@@ -196,6 +197,7 @@ dockingoff Pas d'ancrage
 dockkde Ancrage dans KDE
 dontdownload Ne pas télécharger TLS, je l'installerai moi-même
 dontshow Ne pas montrer
+download Télécharger
 downloadingtls Téléchargement du module TLS à partir de :\n $1
 editcustomstate Editer le statut personnel
 edit Edition
@@ -230,6 +232,7 @@ file Fichier
 filemanexample (\$location sera remplacé par le répertoire) Ex: nautilus \$location
 fileman Gestionnaire de fichiers
 filename Fichier
+filenotwritable Ce fichier ne peut pas être supprimé
 filetransfer Transfert de fichier
 filetransfercancelled Transfert de fichier annulé
 filetransfercomplete Transfert de fichier terminé
@@ -304,6 +307,7 @@ keepalive Garder la connexion ouverte (NAT)
 keeplog2 Enregistrer toutes les conversations dans l'historique de aMSN pour une visualisation ultérieure
 keeplog Garder l'historique des conversations
 language Langue
+language_manager Superviseur des traductions
 lastlogin Dernière connexion
 lastlogout Dernière déconnexion
 lastmsgedme Dernier message

@@ -150,6 +150,7 @@ countrycode Landnummer
 cprofile Maak profiel
 credits De makers
 currentdate Huidige datum
+currentlanguage Deze taal gebruikt u nu
 custnotifymsg Geef meldingsvenster weer als een nieuw bericht aankomt
 custnotifyoffline Geef meldingsvenster weer als deze contactpersoon offline gaat
 custnotifyonline Geef meldingsvenster weer als deze contactpersoon online komt
@@ -196,6 +197,7 @@ docking Systeemvak
 dockkde KDE Systeemvak
 dontdownload Download TLS niet. Ik installeer het zelf.
 dontshow Verberg
+download Downloaden
 downloadingtls Bezig met downloaden van TLS vanaf:\n $1
 edit Bewerken
 editcustomstate Wijzig aangepaste status
@@ -230,6 +232,7 @@ filedoesnotexist Bestand bestaat niet
 fileman Bestandsbeheer
 filemanexample  ( \$location wordt vervangen door het pad ) Vb: nautilus \$location
 filename Bestandsnaam
+filenotwritable Dit bestand kan niet verwijderd worden
 filetransfer Bestandsoverdracht
 filetransfercancelled Bestandsoverdracht geannuleerd
 filetransfercomplete Bestandsoverdracht voltooid
@@ -304,6 +307,7 @@ keepalive Verbinding in stand houden (NAT)
 keeplog2 In een logboek automatisch een geschiedenis bijhouden van de gesprekken
 keeplog Gesprekken opslaan in een logboek
 language Taal
+language_manager Vertalingscoördinator
 lastlogin Vorige login
 lastlogout Vorige logout
 lastmsgedme Laatste bericht
@@ -375,7 +379,6 @@ name Naam
 natip  IP detectie via website
 natkeepalive Verbinding in stand houden (Selecteren als de verbinding regelmatig wegvalt)
 needonline Je bent niet online
-needwinico Het bestand winico03.dll moet in de map plugins staan om het Windows systeemvak te kunnen gebruiken.
 needwinico2 Het bestand winico05.dll moet in de map utils/windows om het Windows systeemvak te kunnen gebruiken.
 never Nooit
 new_ft_protocol Gebruik het nieuwe protocol voor bestandsoverdracht (er zijn nog enkele bugs)
@@ -630,8 +633,10 @@ xmmssend Verzend het huidige nummer
 xoffset horizontaal
 year Jaar
 yes Ja
+yesblock Ja en blokkeer
 yesterday Gisteren
 yoffset verticaal
 youblocked Je bent geblokkeerd
 yousay Jij zegt
 youwant Jij wilt
+

@@ -8,7 +8,7 @@ addedyou $1 ($2) Téged hozzáadott a partnerlistájához
 addprofile Új Profil hozzáadása
 addprofiledesc Add meg a létrehozandó profil nevét. \nA Profilok használatával különbözõ beállításokat alkalmazhatsz minden profilra.\nA Profilok nélkül nem használhatod az Elõzményeket, a Figyelmeztetõ jelzéseket vagy a ,Jelszó megjegyzése' funkciót.
 addstate Saját állapot hozzáadása
-addto Add to $1
+addto addto add a $1 -hez
 addtocontacts Hozzáadás a partnerlistához
 addtoo Ennek a személynek hozzáadása a partnerlistához
 admincontacts Partnerek szerkesztése
@@ -150,6 +150,7 @@ countrycode Ország/Régió kód
 cprofile Profil létrehozása
 credits Stáblista
 currentdate Jelenlegi dátum
+currentlanguage Ezt a nyelvet használod
 custnotifymsg Értesítés új üzenetekrõl
 custnotifyoffline Értesítési ablak, ha egy partner lecsatlakozik
 custnotifyonline Értesítési ablak, ha egy partner csatlakozik
@@ -174,7 +175,7 @@ delimiters Idõbélyeg beállítása:
 deliverfail Néhány hiba fordult elõ az üzenet kézbesítése közben
 delprofile Profil törlése
 delprofile2 Jelölje ki azt a profilt, amit ki szeretne törölni
-description Description
+description Leírás
 directconnection Közvetlen internet kapcsolatot használok (1863as portot használja)
 disabled Kikapcsolva
 disableprofiles Profilok kikapcsolása (Ezt a netkávézóknál vagy egyéb publikus gépeknél érdemes használni)
@@ -196,6 +197,7 @@ dockingoff Dokkolás kikapcsolása
 dockkde Dokkolás a KDE-be
 dontdownload Ne töltsd le a TLS modult, felteszem magamtól
 dontshow Ne látszódjon
+download Letöltés
 downloadingtls TLS modul letöltése innen:\n $1
 edit Szerkesztés
 editcustomstate Saját állapot beállítása
@@ -230,13 +232,14 @@ filedoesnotexist A fájl nem jött létre
 fileman Fájlkezelö
 filemanexample ( \$location lesz a hely ) Pl: nautilus \$location
 filename Fájlnév
+filenotwritable Ezt a fájlt nem lehet törölni
 filetransfer File átvitel
 filetransfercancelled Fájl átvitel megszakítva
 filetransfercomplete Fájl átvitel kész
 filters Szûrõk
 filtersselect Válaszd ki a megjelenítendõ szûrõket\n(Megj.: ha nincs kiválaszott az összes megjelenik)
 filtersx Szûrõ kiválasztás
-followtext Scroll down when new text is entered
+followtext Gördítés ha új szöveg lett beírva
 friendlyname Baráti név
 ftaccepted Fájl átvitel engedélyezése
 ftacceptedby $1 elfogadta a '$2' fájl átvitelét.
@@ -304,6 +307,7 @@ keepalive Életbentartás (NAT)
 keeplog Beszélgetések naplózása
 keeplog2 Minden beszélgetés naplózása
 language Nyelv
+language_manager Nyelv kezelõ
 lastlogin Utolsó bejelentkezés
 lastlogout Utolsó kijelentkezés
 lastmsgedme Utolsó üzenet
@@ -441,7 +445,6 @@ picfile Figyelmeztetõ kép fájl (GIF < 500 x 500)
 picstatus Figyelmeztetõ kép KI/BE kapcsolása
 playing Lejátszás: $1
 pluginselector Pluginok kiválasztása
-port Port
 prefalerts Saját Riasztásaim és Hangjaim
 prefapps Alkalmazások
 prefawaymsg Nem vagyok itt üzenetem
@@ -452,10 +455,10 @@ prefconnection Kapcsolat beálításai
 prefemotic Mosolyjelek
 preferences Beállítások
 preffont Üzenetem
-preffont2 Change the way others see my text in chat sessions
+preffont2 Mások által látott szövegem kinézetének megváltoztatása
 preffont3 Betûtipus és méret változtatása
 prefft File átvitel, peer-to-peer és NAT beállítások
-preflibs Libraries directories
+preflibs Könyvtárak mappája
 preflog1 Naplózások és elõzmények beállításai
 preflogevent Az én elõzményeim
 preflook aMSN kinézet
@@ -586,13 +589,12 @@ tlsexplain A könyvtár ahol a tcl TLS modul van. Ha az AMSN nem találja, légyszív
 tlsinstall TLS Modul telepítõ
 tlsinstallexp Az aMSN mostantól az MSNP9et használja, ami biztonságos SSL kapcsolatot használ. \nHogy használhasd az SSLt, fel kell tenned a TSL nevû modult,\nami nincs feltelepítve. Ez a varázsló segít neked hogy letölthesd és\ntelepíthetsd a TLSt. Légyszíves válaszd ki a rendszeredet, s így le tudom tölteni\na szükséges fájlokat.
 tlsinstcompleted TLS modul sikeresen feltelepítve - mostantól használhatod az MSNP9et. Ha nem mûködik, akkor vagy rossz modult választottál ki, vagy a lefordított modul nem jó a te rendszeredhez.
-to To
 today Ma
 tools Eszközök
-tooltips Enable tooltips
+tooltips eszközsegítségek bekapcsolása
 transnotexists A megadott fájl még nem fordították le erre a nyelvre.
 traynotcompiled A "Tray ikon" plugin nincs lefordítva. Lefordítani a plugins/traydock -ban tudod.
-triggers Text triggers
+triggers Szöveg csapdák
 truncatenames1 Azon nevek rövidítése, amelyek hosszabbak mint az ablak vagy mint a partner listád
 truncatenames2 Azon nevek rövidítése, amelyek hosszabbak mint a beszélgetõ ablak szélessége
 truncatenicks Azon nevek rövidítése, amelyek hosszabbak mint az ablak szélessége
@@ -602,7 +604,7 @@ unknown Ismeretlen
 unload eltávolítás
 uoffline Kapcsolat nélkül
 uonline Kapcsolatban
-update	frissítés
+update frissítés
 useother más program használata
 user Felhasználó
 useralreadyonlist A felhasználó már szerepel a listádban
@@ -610,7 +612,7 @@ userblocked A felhasználó bejelentkezett, de leblokkolt téged.
 userdata Felhasználói adat
 usernotonline A felhasználó nincs bejelentkezve
 userproperties $1 felhasználói tulajdonságai
-useryourself Nem beszélgethetsz saját magaddal.. 
+useryourself Nem beszélgethetsz saját magaddal..
 usesnack A falat(Snack) könyvtár használata (Tcl internal)
 verifyblocked Letiltások ellenõrzése
 version Verzió
@@ -629,9 +631,9 @@ xmmssend Aktuális szám küldése
 xoffset X eltolás
 year Év
 yes Igen
+yesblock Igen és blokkolás
 yesterday Tegnap
 yoffset Y eltolás
 youblocked Letiltott
 yousay Te mondtad
 youwant Te akartad
-

@@ -150,6 +150,7 @@ countrycode Oznaka moje dr¾ave
 cprofile Ustvari profil
 credits Zasluge
 currentdate Trenutni datum
+currentlanguage Jezik, ki ga uporablja¹
 custnotifymsg Prika¾i obvestilo, ko ti ta stik po¹lje sporoèilo
 custnotifyoffline Prika¾i obvestilo, ko se ta stik odjavi
 custnotifyonline Prika¾i obvestilo, ko se ta stik prijavi
@@ -196,6 +197,7 @@ dockingoff Pristaja prekinjena
 dockkde kde pomol
 dontdownload Ne poberi TLS-ja, namestil ga bom sam
 dontshow Ne prika¾i
+download Poberi
 downloadingtls Pobiram modul TLS iz:\n $1
 edit Uredi
 editcustomstate Uredi
@@ -230,6 +232,7 @@ filedoesnotexist Datoteka ne obstaja
 fileman Upravljalec datotek
 filemanexample ( \$location bo zamenjan z mapo ) Npr.: nautilus \$location
 filename Ime datoteke
+filenotwritable Datoteke ni mogoèe izbrisati
 filetransfer Prenos datoteke
 filetransfercancelled Prenos datoteke preklican
 filetransfercomplete Prenos datoteke konèan
@@ -304,6 +307,7 @@ keepalive Dr¾i ¾ivo (NAT)
 keeplog Hrani dnevnik pogovorov
 keeplog2 Bele¾i vse pogovore v aMSN dnevnik za kasnej¹i pregled
 language Jezik
+language_manager Upravljalnik jezikov
 lastlogin Zadnja prijava
 lastlogout Zadnja odjava
 lastmsgedme Zadnje sporoèilo
@@ -635,3 +639,4 @@ yoffset Y odstopanje
 youblocked Blokirajo te
 yousay Pravi¹
 youwant Hoèe¹
+
