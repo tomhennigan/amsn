@@ -1,10 +1,11 @@
 amsn_lang_version 2
 about Za Programot
 accept Prifati
-acceptfile Prifati datoteka $1, golemina $2? Snimena vo $3 
+acceptfile Prifati datoteka $1, golemina $2? Snimena vo $3
 actions Akcii
 addacontact Dodadi kontakt
 addedyou te dodade tebe vo negovata/nejzinata lista na kontakti
+addstate Dodadi nova sostojba
 addtocontacts Dodadi vo listata na kontakti
 addtoo Dodadi ja ovaa licnost vo mojata lista na kontakti
 admincontacts Administriraj gi kontaktite
@@ -12,12 +13,15 @@ admingroups Administriraj gi grupite
 adverts Reklami
 alarmpref Podesuvanje na alarm za korisnikot
 alarmstatus Ukluci/iskluci go alarmot za ovoj korisnik
+allowallbutbl Dozvoli site korisnici osven blokiranite da me kontaktiraat
+allowlist Lista na blagoprijatni:
+allowonlyinal Samo prifatenite korisnici da me kontaktiraat
 allowseen Dozvoli ovaa licnost da me vidi i da me kontaktira dodeka sum na linija
 appearance Izgled
 appearoff Neka izgleda deka ne sum na linija
 areacode Regionalen kod
 aretyping $1 pisuvaat poraka
-askprofile Ovoj korisnik momentalno nema profil. Dali bi sakale da kreirate profil za nego? \n Ako ne nema da mozete da koristite istorija, da gi snimate alarmite i lozinkite. \n Ako napravite ke imate odvoena konfiguracija za ovoj profil \n \n Kliknete na "Kreiraj profil" za da kreirate nov profil za $1.
+askprofile Ovoj korisnik momentalno nema profil. Dali bi sakal da kreiras profil za nego? \n Ako ne nema da mozes da koristis istorija, da gi snimas alarmite i lozinkite. \n Ako napravis ke imas odvoena konfiguracija za ovoj profil \n \n Klikni na "Kreiraj profil" za da kreiras nov profil za $1.
 autoaway Prikazi me kako "Odsuten" koga sum neaktiven 
 autoconnect Konektiraj se pri start na aMSN
 autoconnect2 Prijavi me avtomatski pri start na aMSN
@@ -46,7 +50,7 @@ changefont
 changenick Smeni go prekarot
 chat Razgovor
 chatack Prifakanje na razgovor od
-chatmaxmin Koga kontaktot zapocnuva muabet so mene sakam toa da bide:
+chatmaxmin Koga kontaktot zapocnuva razgovor so mene sakam toa da bide:
 chatreq Baranje na razgovor
 chatsmileys Nasmevki za razgovor
 chatsmileys2 Prikazi emocii i nasmevki vo prozorite za razgovor
@@ -55,6 +59,7 @@ checkingver Proveruvam dali ima novi verzii
 checkver Proveri dali ima nova verzija
 choosebasefont Odberi tip na bukvi
 choosebgcolor Odberi boja na pozadinata
+choosecontact Te molam izberi kontakt od listata
 choosefontcolor Odberi boja na bukvite
 clearlog Izbrisete gi zabeleskite
 clearlog2 Izbrisete ja istorijata za site vasi kontakti
@@ -63,8 +68,8 @@ clicktologin Klikni ovde za da se prijavis
 close Zatvori
 closingdocks Kopce za Zatvaranje Smaluva
 command Naredba
-confirm Dali ste siguren?
-confirmdelete Dali ste siguren deka sakate da go izbrisete $1?
+confirm Dali si siguren?
+confirmdelete Dali si siguren deka sakas da go izbrises $1?
 connected Sega si povrzan
 connecterror Greska pri povrzuvanjeto se serverot
 connecting Povrzuvanje
@@ -72,6 +77,7 @@ connection Vrska
 connectionlost Vrskata so serverot e prekinata
 contactadded Kontaktot e dodaden
 contactdoesnotexist Kontaktot ne postoi!
+contactlist Lista na kontakti:
 copy Kopiraj
 copytogroup Kopiraj vo grupa
 countrycode Moja zemja/region kod
@@ -84,7 +90,7 @@ default Podrazbirana konfiguracija
 delete Izbrisi
 deliverfail Ima problem pri dostavuvanjeto na porakata
 delprofile Izbrisi go profilot
-delprofile2 Izberete go profilot koj sakate da go izbrisete
+delprofile2 Izberi go profilot koj sakas da go izbrises
 directconnection Jas imam direktna vrska na internet (port 1863)
 dockfreedesktop Sloboden Desktop (KDE3/Gnome2)
 dockgtk Gnome namestuvanje
@@ -92,7 +98,9 @@ docking Namesti se zgodno
 dockingoff Vrati se nazad
 dockkde KDE Namestuvanje
 edit Editiraj
+editnewstate Nova licna avto-poraka sostojba
 editprofile Editiraj go profilot
+editstate Uredi postoecka avto-poraka sostojba 
 enableproxy Aktiviraj proxy
 enableremote Ovozmozi dalecinsko kontroliranje
 encoding Odberi kodiranje
@@ -109,8 +117,18 @@ fileman Fajl menager
 filename Datoteka
 filetransfercancelled Prenosot na datotekata e ponisten
 filetransfercomplete Prenosot na datotekata e zavrsen
+followtext Pomesti nadolu koga nov tekst e vnesen
 ftaccepted Prenosot na datotekata e prifaten
+ftacceptedby $1 prifati pokana za prenos na datotekata '$2'
+ftaccepting Ja prifakam porakata za prenos na dattekata 
+ftconnecterror Greska pri povrzuvanje so korisnikot
+ftconnecting Se povrzuvam so $1 na port $2
+ftconnectionlost Vrskata so dalecniot korisnik e izgubena
+ftgotinvitation $1 saka da ti isprati datoteka '$2' ($3 bajti). Ke bide snimena vo direktoriumot $4. Dali sakas da ja primis ovaa datoteka?
+ftportpref Koristi go ovoj i naslednite portovi za prenos na datoteki
 ftrejected Prenosot na datotekata e odbien
+ftrejectedby $1 ja odbi pokanata za prenos na datotekata '$2'.
+ftsendinvitation Pokanata za prenos na datotekata $2 ($3 bajti) bese ispatena na $1
 gonelunch Pojden na rucek
 group Grupa
 groupadd Dodadi grupa
@@ -131,7 +149,9 @@ httpconnection Povrzi se koristejki HTTP metod (koristi HTTP protokol na port 80
 ident Identificaranje
 identity Identitet
 inbox Postensko sandace
+internalerror Vnatrewna greska na serverot
 invalidusername Pogresno korisnicko ime
+invitationcancelled Pokanata bese otkazana
 invite Pokani
 ipaddress IP Adresa
 ipdetect Detektiraj ja tocnata IP za file transfer preku HTTP
@@ -173,6 +193,8 @@ maximised Maksimizirano
 minimised Minimizirano
 mins minuti
 mobile Mobilen
+morepersonal poveke sostojbi ->
+move Premesti
 movetogroup Premesti vo grupa
 msg Poraka
 msgmaxmin Koga nova poraka pristignuva sakam da bide : 
@@ -191,12 +213,13 @@ newmailfrom Novo pismo od
 newmsg Nova poraka
 newveravailable Ponova verzija $1 e spremna za simnuvanje
 next Sleden
+no Ne
 noactivity Bez aktivnost
 nologfile Nema beleski za $1
 nonewmail Nema nova poraka vo postenskoto sandace
 nonewver Nema novi verzii spremni za simnuvanje
 normal Normalno
-nosystemtray Sistemskiot pepelnik ne e dostapen
+nosystemtray Sistemskata fioka ne e dostapna
 notify opomeni
 notify1 Prikazi opomena koga kontaktot se povrzuva
 notify2 Prikazi opomena koga pristignuva nova poraka
@@ -204,7 +227,7 @@ notify3 Prikazi opomena koga pristignuva pismo
 notifyoffset Odredi ja pozicijata na opomenuvackiot prozorec
 notifywin Prozorec za opomenuvanje
 nousersinsession Nema korisnici vo sesijata
-offline Ne na linija
+offline Nepovrzan
 ok Vo Red
 onenewmail 1 nova poraka vo postenskoto sandace
 online Na linija
@@ -226,9 +249,9 @@ prefalerts Moi opomeni i zvuci
 prefapps Aplikacii
 prefawaymsg Moi poraki za odsutnost
 prefconnection Postavki na povrzuvanjeto
-prefemotic emocii-ikoni i nasmevki
-preferences Prilagoduvanja
-preffont Mojot tekst za poraki
+prefemotic emocii, ikoni i nasmevki
+preferences Parametri
+preffont Moj tekst za poraki
 preffont2 Promeni go mojot tekst vo razgovorite
 preffont3 Promeni go fontot i negovata golemina na aMSN
 preflog1 Mojata istorija i opciite za beleski
@@ -237,6 +260,8 @@ prefmsging Mojot interfejs za poraki
 prefname Moeto ime/prekar za MSN mesingerot
 prefphone Moite  telefonski broevi
 prefphone2 Vnesete gi broevite koi sakate drugite luge da gi vidat
+prefprivacy Korisnickata Dozvoli/Blokiraj lista
+prefprivacy2 Korisnickata Kontakt/Obratna lista
 prefprofile Mojot javen profil
 prefprofile2 Kreirajte/Modificirajte go vasiot javen profil
 prefprofile3 Konfiguracijata na korisnicki aMSN profili
@@ -245,8 +270,9 @@ prefremote Ikon i nasmevki za emociite
 prefsession Moeto prijavuvanje i status
 prefshared Deleni konekcii (samo za NAT)
 prefsound Zvuci
+privacy Privatnost
 profiledconfig Konfiguracija na profil
-profileinuse Ovoj profil e upotrebuvan od druga ?MSN seisja, ve molam izberete si drug
+profileinuse Ovoj profil e upotrebuvan od druga аMSN sesija, te molam izberi si drug
 profiles Profili
 properties Osobini
 proxy Jas sum pozadi proxu server (HTTP ili SOCKS)
@@ -261,12 +287,14 @@ reconnect Cekanje $1 da se povrze povtorno
 reconnecting Povtorno povrzuvanje so serverot
 reject Odbieno
 rememberpass Zapamti ja lozinkata
+removefromlist Odstrani od listata
 reversed Obratno
+reverselist Obratna lista:
 rightback Vednas se vrakam
-save Snimi
-saveas Snimi kako 
-savecontacts Snimi ja listata na kontakti
-savetofile Snimi vo datoteka
+save Zacuvaj 
+saveas Zacuvaj kako 
+savecontacts Zacuvaj ja listata na kontakti
+savetofile Zacuvaj vo datoteka
 says $1 veli
 sbcon Povrzuvanje na kartickata za povrzuvanje
 send Isprati
@@ -287,6 +315,12 @@ soundserver Server za zvuk
 soundstatus Zvucniot alarm
 startoffline Pocni bez povrzuvanje
 startoffline2 Prijavi se tivko kako da "izgledam nepovrzan"
+state Sakam da izgleda kako
+stateautomsg Avto-poraka za isprakanje
+stateedittext Te molam uredi gi polinjata koi sakas \n da gi promenis i pritisni Zacuvaj
+stateinfo Licna konfiguracija na sostojbite
+statename Ime na licnata sostojba
+statenewtext Te molam popolni gi potrebnite informaci za sozdavanje \n tvoj anova licna sostojba i pritisni Zacuvaj
 status Status
 stopalarm Zapri go alarmot
 stylechat Izgledaj kako razgovorite
@@ -316,6 +350,7 @@ willjoin Cekanje $1 da se prikluci na razgovorot
 work Rabota
 wrongprofileversion Pogresna verzija na konfiguracionata datoteka na profilot. Za da go popravite ova odstranete go direktoriumot $1, ili osovremeneto go aMSN
 xoffset X pomestuvanje
+yes Da 
 yoffset Y pomestuvanje
 youblocked Vie ste blokirani
 yousay Ti velis

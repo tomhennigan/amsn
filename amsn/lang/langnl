@@ -5,6 +5,7 @@ acceptfile Accepteer bestand $1, grootte $2? opgeslagen in $3
 actions Acties
 addacontact Voeg een contact toe
 addedyou $1 ($2) Heeft jou toegevoegd aan zijn/haar contactenlijst
+addstate Voeg nieuwe status toe
 addtocontacts Toevoegen aan contactenlijst
 addtoo Voeg deze persoon toe aan mijn contactenlijst
 admincontacts Beheer contacten
@@ -12,6 +13,9 @@ admingroups Beheer groepen
 adverts Advertenties
 alarmpref Alarm instellingen voor de huidige gebruiker
 alarmstatus Schakel alarm aan/uit voor de huidige gebruiker
+allowallbutbl Sta alle gebruikers contact met me op te nemen behalve geblokkeerde
+allowlist Lijst met toegestane gebruikers :
+allowonlyinal Sta alleen gebruikers toe uit mijn lijst met toegestane gebruikers
 allowseen Sta deze persoon toe om te zien wanneer ik online ben en om mij te contacteren
 appearance Status
 appearoff Offline verschijnen
@@ -34,6 +38,7 @@ bgcolor Verander aMSN's achtergrondkleur
 blankdirect Laat leeg voor directe connectie
 block Blokkeer
 blocked Geblokkeerd
+blocklist Lijst met geblokkeerde gebruikers
 blockmessage Deze mensen zijn online en blokkeren jou
 broughtby Aangeboden door de volgende ontwikkelaars
 browser Browser
@@ -55,6 +60,7 @@ checkingver Bezig met controleren op een nieuwere versie
 checkver Controleer voor een nieuwe versie
 choosebasefont Lettertype
 choosebgcolor Achtergrondkleur
+choosecontact Kies een contact van de lijst
 choosefontcolor Kies tekstkleur
 clearlog2 Verwijder Geschiedenis voor alle contacten
 clearlog3 Verwijder alle logboeken
@@ -72,6 +78,7 @@ connectionlost De verbinding met de server is gesloten
 connection Verbinding
 contactadded Contactpersoon toegevoegd
 contactdoesnotexist Contactpersoon bestaat niet
+contactlist Lijst met contacten
 copy    Kopiëren
 copytogroup kopiëren naar groep
 countrycode Mijn Land/Regiocode
@@ -92,7 +99,9 @@ dockingoff Verbergen uit
 docking Verberg
 dockkde Verbergen voor KDE
 edit    Bewerken
+editnewstate Nieuw Persoonlijke Automatische Berichten Staat
 editprofile Bewerk profiel
+editstate Verander Bestaande Automatische Berichten Staat
 enableproxy Gebruik proxy
 enableremote Controle op afstand aanzetten
 encoding2 Veranderen van encodering bij jouw tekens
@@ -109,6 +118,7 @@ fileman Bestandsbeheer
 filename Bestandsnaam
 filetransfercancelled Bestandsverzending geannuleerd
 filetransfercomplete Bestandsverzending klaar
+followtext Scroll naar beneden als er nieuwe tekst is ingevoerd
 ftaccepted Bestand transfer geaccepteerd
 ftacceptedby $1 accepteert het versturen van het bestand '$2'
 ftaccepting accepteer de bestandsoverdracht
@@ -116,6 +126,7 @@ ftconnecterror Fout in de verbinding met de contactpersoon
 ftconnecting  Verbind met $1 via poort $2
 ftconnectionlost De verbinding met de andere gebruiker is verbroken
 ftgotinvitation $1 wil je '$2' ($3 bytes) overdragen. Het wordt opgeslagen in de map:  $4. Wil je dit bestand aannemen?
+ftportpref Start de poort voor bestandsuitwisseling
 ftrejected Bestand transfer afgewezen
 ftrejectedby $1 weigerde de overdracht van '$2'.
 ftsendinvitation De uitnodiging om het bestand '$2' ($3 bytes) te versturen, is verstuurd naar $1
@@ -139,6 +150,7 @@ httpconnection Verbinden via het HTTP-protocol via poort 80
 ident Bezig met identificeren
 identity Identiteit
 inbox Inbox
+internalerror Interne Server Fout
 invalidusername Uw gebruikersnaam is fout.
 invitationcancelled De bestandsoverdracht is geweigerd
 invite Nodig uit
@@ -182,7 +194,9 @@ maximised Vergroot
 minimised Verkleind
 mins minuten
 mobile Mobiele telefoon
+morepersonal Meer Staten ->
 movetogroup Verplaats naar groep
+move Verplaats
 msg Bericht
 msgmaxmin Als een bericht wordt ontvangen wil ik zijn:
 msgmode Selecteer hoe meerdere chat-vensters worden weergegeven:
@@ -201,6 +215,7 @@ newmsg Nieuw bericht
 newveravailable Nieuwere versie $1 beschikbaar
 next Volgende
 noactivity Geen activiteit
+nodataavailable Geen data beschikbaar voor $1
 nologfile Geen logboek voor $1
 no nee
 nonewmail 0 nieuwe berichten in In-Box
@@ -248,6 +263,8 @@ prefmsging Mijn Berichtenweergave
 prefname Mijn MSN Messenger Naam
 prefphone2 De telefoonnummers die jij zichtbaar wilt maken voor \n
 prefphone Mijn telefoonnummers
+prefprivacy2 Gebruikers Contact/Omkeer lijsten
+prefprivacy Gebruikers Sta Toe/Blokkeer lijsten
 prefprofile2 Maak of wijzig jouw profiel
 prefprofile3 aMSN's configuratieprofielen voor gebruikers
 prefprofile Mijn Profiel
@@ -256,6 +273,7 @@ prefremote Voorkeuren voor verbinding op afstand
 prefsession Mijn Aanmelden en Status
 prefshared Gedeelde verbindingen (alleen voor NAT)
 prefsound Geluid
+privacy Privacy
 profiledconfig Profielconfiguratie
 profileinuse Dit profiel is in gebruik door een andere Amsn sessie, gelieve een andere te kiezen
 profiles Profielen
@@ -272,7 +290,9 @@ reconnecting Bezig met opnieuw verbinden met de server
 reconnect Wachten tot $1 opnieuw verbindt
 reject Afwijzen
 rememberpass Bewaar wachtwoord
+removefromlist Verwijder uit de lijst
 reversed Omgekeerd
+reverselist Omgekeerde lijst
 rightback Ben zo terug
 saveas Opslaan als
 savecontacts Contactenlijst opslaan
@@ -299,6 +319,12 @@ soundserver Geluidserver
 soundstatus Schakel alarm geluid aan/uit
 startoffline2 'Stil' Aanmelden met "Offline"-status
 startoffline Begin offline
+stateautomsg Automatisch Bericht om te Zenden
+stateedittext Pas de velden aan waar veranderd \n moet worden en druk op Opslaan
+state Ik wil verschijnen als
+stateinfo Persoonlijke Staat Configuratie
+statename Naam van de Persoonlijke Staat
+statenewtext Vul de benodigde informatie in om je \n Persoonlijke Staat te maken en druk op Opslaan
 status Status
 stopalarm Stop het alarm
 stylechat Dezelfde stijl als chats
