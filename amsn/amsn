@@ -323,10 +323,10 @@ proc cmsn_draw_main {} {
    menu .main_menu.file -tearoff 0 -type normal 
    if { [string length $config(login)] > 0 } {
      .main_menu.file add command -label "[trans login] $config(login)" \
-       -command "cmsn_ns_connect $config(login) $password" -state normal
+       -command "::MSN::connect $config(login) $password" -state normal
    } else {
      .main_menu.file add command -label "[trans login]" \
-       -command "cmsn_ns_connect $config(login) $password" -state disabled
+       -command "::MSN::connect $config(login) $password" -state disabled
    }
    .main_menu.file add command -label "[trans login]..." -command \
      cmsn_draw_login
@@ -702,7 +702,7 @@ proc cmsn_draw_offline {} {
 	    "$pgBuddy.text tag conf start_login -fore #000000 -underline true;\
 	    $pgBuddy.text conf -cursor left_ptr"
     $pgBuddy.text tag bind start_login <Button1-ButtonRelease> \
-        "cmsn_ns_connect $config(login) $password"
+        "::MSN::connect $config(login) $password"
 
 
    $pgBuddy.text tag conf start_loginas -fore #000000 -underline true \
@@ -727,7 +727,7 @@ proc cmsn_draw_offline {} {
      $pgBuddy.text insert end "$config(login)\n" start_login
      $pgBuddy.text insert end "[trans clicktologin]" start_login
      $pgBuddy.text tag bind start_login <Button1-ButtonRelease> \
-	"cmsn_ns_connect $config(login) $password"
+	"::MSN::connect $config(login) $password"
 
      $pgBuddy.text insert end "\n\n\n\n\n"
  

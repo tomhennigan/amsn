@@ -15,8 +15,9 @@ namespace eval ::MSN {
 	
         sb set ns stat "d"
         cmsn_draw_offline
-	
-      }   
+
+      }
+      ::MSN::StartPolling      
    }
 
    proc logout {} {
@@ -30,8 +31,8 @@ namespace eval ::MSN {
       if {$config(adverts)} {
          adv_pause
       }
-      ::groups::Disable
 
+      ::groups::Disable
 
       cmsn_draw_offline
 
@@ -40,13 +41,13 @@ namespace eval ::MSN {
 
 
 
-   
+
    proc changeName { userlogin newname } {
       set name [urlencode $newname]
       if { [string length $name] > 350} {
         set name [string range $name 0 350]
       }
-      ::MSN::WriteNS "REA" "$userlogin $name"     
+      ::MSN::WriteNS "REA" "$userlogin $name"
    }
 
 
@@ -219,9 +220,30 @@ namespace eval ::MSN {
 
    #Internal procedures
 
+   proc StartPolling {} {
+      after 60000 "::MSN::PollConnection"
+   }
+
+   proc StopPolling {} {
+      after cancel "::MSN::PollConnection"
+   }
+
+   proc PollConnection {} {
+      variable myStatus
+
+      #Let's try to keep the connection alive... sometimes it gets closed if we
+      #don't do send or receive something for a long time
+
+      if { $myStatus != "FLN" } {
+         ::MSN::WriteNS "CHG" $myStatus
+      }
+      
+      after 60000 "::MSN::PollConnection"
+   }
+
    variable trid 0
-   variable atransfer 
-   
+   variable atransfer
+
    proc WriteSB {sbn cmd param {handler ""}} {
       variable trid
       incr trid
@@ -258,7 +280,7 @@ namespace eval ::MSN {
       } else {
         set cadenita [lindex $item 2]Q1P7W2E4J9R8U3S5
         set cadenita [::md5::md5 $cadenita]
-        ::MSN::WriteNS "QRY" "msmsgs@msnmsgr.com 32"     
+        ::MSN::WriteNS "QRY" "msmsgs@msnmsgr.com 32"
         puts -nonewline [sb get ns sock] $cadenita
       }
    }
