@@ -137,7 +137,13 @@ if {$tcl_platform(os) == "Darwin"} {
 	set config(customsmileys2) [list]
 	set config(custom_smileys) 1
 	
-	set config(convertpath) ""
+	
+	
+	if {$tcl_platform(os) != "Darwin"} {
+	set config(convertpath) ""								;#Path for convert (from imagemagick)
+	} else {
+	set config(convertpath) "/usr/local/bin/convert"		;#Path for convert (from imagemagick) on Mac OS X
+	}
 
 	#Advanced options, not in preferences window
 	# Create the entry in the list and then, set
