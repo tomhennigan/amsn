@@ -181,17 +181,20 @@ namespace eval ::abook {
 		
 		#Need this timeout thing to avoid the socket blocking...
 		set connection_success 0
-		set clientsock [socket -async [getDemographicField clientip] $port]
+		if {[catch {set clientsock [socket -async [getDemographicField clientip] $port]}]} {
+			catch {close $sock}
+			return "Firewall"
+		}
 
 		fileevent $clientsock readable [list ::abook::connectionHandler $clientsock]
 		after 1000 ::abook::connectionTimeout
 		vwait connection_success
 		if { $connection_success == 0 } {
-			close $sock
+			catch {close $sock}
 			catch { close $clientsock }
 			return "Firewall"
 		} else {
-			close $sock
+			catch {close $sock}
 			catch { close $clientsock }
 			return "Direct-Connect"
 		}
@@ -235,8 +238,12 @@ namespace eval ::abook {
 
 	# This proc is a dummy socket server proc, because we need a command to be called which the client connects to the test server (if not firewalled)
 	proc dummysocketserver { sock ip port } {
-		puts $sock "AMSNPING"
-		flush $sock
+		if {[catch {
+			puts $sock "AMSNPING"
+			flush $sock
+		}]} {
+			status_log "::abook::dummysocketserver: Error writing to socket\n"
+		}
 	}
 
 	# This will transform the ip adress into a netID adress (which is the 32 bits unsigned integer represent the ip)
