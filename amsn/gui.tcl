@@ -6580,7 +6580,7 @@ proc pictureChooseFile { } {
 			set desc_file "[filenoext [file tail $file]].dat"
 			set fd [open [file join $HOME displaypic $desc_file] w]
 			status_log "Writing description to $desc_file\n"
-			puts $fd "Today\n[filenoext [file tail $file]].png"
+			puts $fd "[clock format [clock seconds] -format %x]\n[filenoext [file tail $file]].png"
 			close $fd
 			
 			lappend image_names $image_name
