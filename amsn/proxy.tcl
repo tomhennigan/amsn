@@ -123,8 +123,13 @@ namespace eval ::Proxy {
 		set tmp_data "$tmp_data\r\nPragma: no-cache"
 		set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
 		set tmp_data "$tmp_data\r\nContent-Length: 0"
+		if {$proxy_with_authentication == 1 } {
+		    if { [catch {package require base64}] == 0 } {
+			set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode ${proxy_username}:${proxy_password}]"
+		    }
+		}
 		set tmp_data "$tmp_data\r\n\r\n"
-		#status_log "PROXY SEND ($name)\n$tmp_data\n" blue
+		status_log "PROXY SEND ($name)\n$tmp_data\n" blue
 		if { [catch {puts -nonewline [sb get $name sock] "$tmp_data"} res]} {
 		    #TODO: Error connecting, logout and show error message
 		    #sb set $name error_msg "[fconfigure [sb get $name sock] -error]"
@@ -442,6 +447,9 @@ namespace eval ::Proxy {
 }
 ###################################################################
 # $Log$
+# Revision 1.19  2003/10/08 09:29:39  kakaroto
+# Added base64 support and now HTTP proxy with username/password works with Basic authentication
+#
 # Revision 1.18  2003/10/06 15:14:33  airadier
 # Added option to disable SSL.
 # Proxy and http connection should work with MSNP9 now (disabling SSL).

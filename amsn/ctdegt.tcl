@@ -1050,8 +1050,11 @@ proc Preferences { { settings "personal"} } {
 
 # This is where we fill in the Entries of the Preferences
 proc InitPref {} {
-	global user_stat user_info config Preftabs
+	global user_stat user_info config Preftabs proxy_user proxy_pass
 	set nb .cfg.notebook.nn
+
+        set proxy_user $config(proxyuser)
+        set proxy_pass $config(proxypass)
 
 	# Insert nickname if online, disable if offline
 	set lfname [Rnotebook:frame $nb $Preftabs(personal)]
@@ -1602,6 +1605,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.86  2003/10/08 09:29:39  kakaroto
+# Added base64 support and now HTTP proxy with username/password works with Basic authentication
+#
 # Revision 1.85  2003/10/02 00:30:20  airadier
 # Removed some advanced options from preferences window.
 # Changed "Tools" menu.
