@@ -87,9 +87,6 @@ proc Preferences { { settings "personal"} } {
 	$nb.nn insert end connection -text [trans connection]
 	$nb.nn insert end others -text [trans others]
 	$nb.nn insert end advanced -text [trans advanced]
-	$nb.nn insert end advanced2 -text [trans advanced]
-	$nb.nn insert end advanced3 -text [trans advanced]
-	$nb.nn insert end advanced4 -text [trans advanced]
 
 
 	#  .----------.
@@ -101,7 +98,7 @@ proc Preferences { { settings "personal"} } {
 	#set frm [Rnotebook:frame $nb $Preftabs(personal)]
 	set frm [$nb.nn getframe personal]
 	#Scrollable frame that will contain options
-	ScrolledWindow $frm.sw -borderwidth 1
+	ScrolledWindow $frm.sw
 	ScrollableFrame $frm.sw.sf 
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
@@ -186,7 +183,7 @@ proc Preferences { { settings "personal"} } {
 	#set frm [Rnotebook:frame $nb $Preftabs(appearance)]
 	set frm [$nb.nn getframe appearance]
 	#Scrollable frame that will contain options
-	ScrolledWindow $frm.sw -borderwidth 1
+	ScrolledWindow $frm.sw
 	ScrollableFrame $frm.sw.sf
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
@@ -254,7 +251,7 @@ proc Preferences { { settings "personal"} } {
 	#set frm [Rnotebook:frame $nb $Preftabs(session)]
 	set frm [$nb.nn getframe session]
 	#Scrollable frame that will contain options
-	ScrolledWindow $frm.sw -borderwidth 1
+	ScrolledWindow $frm.sw
 	ScrollableFrame $frm.sw.sf
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
@@ -411,7 +408,7 @@ proc Preferences { { settings "personal"} } {
 	#set frm [Rnotebook:frame $nb $Preftabs(connection)]
 	set frm [$nb.nn getframe connection]
 	#Scrollable frame that will contain options
-	ScrolledWindow $frm.sw -borderwidth 1
+	ScrolledWindow $frm.sw
 	ScrollableFrame $frm.sw.sf
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
@@ -522,7 +519,7 @@ proc Preferences { { settings "personal"} } {
 	set frm [$nb.nn getframe others]
 	
 	#Scrollable frame that will contain options
-	ScrolledWindow $frm.sw -borderwidth 1
+	ScrolledWindow $frm.sw
 	ScrollableFrame $frm.sw.sf
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
@@ -618,7 +615,7 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname -anchor n -side top -expand true -fill both
 	
 	#Scrollable frame that will contain advanced optoins
-	ScrolledWindow $lfname.sw -borderwidth 1
+	ScrolledWindow $lfname.sw
 	ScrollableFrame $lfname.sw.sf
 	$lfname.sw setwidget $lfname.sw.sf
 	set path [$lfname.sw.sf getframe]	
@@ -1574,19 +1571,3 @@ proc choose_basefont { } {
 
 }
 #///////////////////////////////////////////////////////////////////////
-
-proc test_scroll {} {
-	toplevel .test
-	ScrolledWindow .test.sc
-	ScrollableFrame .test.sc.f
-	.test.sc setwidget .test.sc.f
-	set path [.test.sc.f getframe]
-	
-	for {set i 0} {$i < 20 } {incr i} {
-		checkbutton $path.b$i -text "Probando probando" -variable prueba
-		pack $path.b$i -side top
-	
-	}
-	pack .test.sc
-	
-}
