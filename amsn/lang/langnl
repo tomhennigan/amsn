@@ -270,6 +270,7 @@ notify3 Toon inlichtingenvenster wanneer er nieuwe emails worden ontvangen
 notify Licht in
 notifyoffset Wijzig de positie van het inlichtingenvenster d.m.v. positie-offsets
 notifywin Inlichtingenvenster
+notls Versie 9 van het MSN protocol vereist het pakket tls. Dit pakket lijkt niet geïnstalleerd te zijn op deze machine. Als het wel geïnstalleerd is, moet het pad naar de map, waarin de tls-library is geïnstalleerd, worden opgegeven in het instellingen venster. (bijv. /opt/tls/lib). \n \n Tls is te downloaden van http://tls.sf.net
 nousersinsession Geen gebruiker in sessie
 offline Offline
 ok Ok
@@ -302,6 +303,7 @@ preferences Instellingen
 preffont2 Verander mijn tekstweergave voor anderen
 preffont3 Verander aMSN's lettertype en grootte
 preffont Mijn berichtentekst
+preflibs Zoekpad voor libraries
 preflog1 Mijn Geschiedenis en logboek-opties
 preflook Mijn aMSN Messenger Stijl
 prefmsging Mijn Berichtenweergave
