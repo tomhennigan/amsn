@@ -167,7 +167,6 @@ proc reload_files { } {
 	source proxy.tcl
 	source abook.tcl	;# Handle buddy address book    
 	source protocol.tcl
-	source msnp2p.tcl
 	source ctadverts.tcl
 	source preferences.tcl
 	source hotmail.tcl
