@@ -276,12 +276,10 @@ namespace eval ::amsn {
 
       toplevel .about
       wm title .about "[trans about] [trans title]"
-      #Disable transient windows on Mac OS X
-      if {$tcl_platform(os) == "Darwin"} {
-      #wm transient .about .
-      } else {
-      wm transient .about .
-      }
+      
+    set wintransient .about
+    ShowTransient $wintransient
+    
       wm state .about withdrawn
       grab .about
 
@@ -342,12 +340,9 @@ namespace eval ::amsn {
       global program_dir tcl_platform
       toplevel .show
       wm title .show "$title"
-     #Disable transient window on Mac OS X 
-     if {$tcl_platform(os) == "Darwin"} {
-      #wm transient .show .
-      } else {
-      wm transient .show .
-      }
+      
+    set wintransient .show
+    ShowTransient $wintransient
 
       text .show.info -background white -width 60 -height 30 -wrap word \
          -yscrollcommand ".show.ys set" -font   examplef
@@ -2024,13 +2019,8 @@ if {$tcl_platform(os) == "Darwin"} {
 
       wm group $wname .
 
-      wm title $wname $title
-      #Diable transient window on Mac OS X
-      if {$tcl_platform(os) == "Darwin"} {
-      #wm transient $wname .
-	  } else {
-	  wm transient $wname .
-	  }
+    set wintransient $wname
+    ShowTransient $wintransient
       
       
       
@@ -3831,12 +3821,8 @@ proc cmsn_draw_login {} {
 	wm group .login .
 	#wm geometry .login 600x220
 	wm title .login "[trans login] - [trans title]"
-	#Disable transient window on Mac OS X
-	if {$tcl_platform(os) == "Darwin"} {
-	#wm transient .login .
-	} else {
-	wm transient .login .
-	}
+    set wintransient .login
+    ShowTransient $wintransient
 	set mainframe [LabelFrame:create .login.main -text [trans login] -font splainf]
 
 	radiobutton $mainframe.button -text [trans defaultloginradio] -value 0 -variable loginmode -command "RefreshLogin $mainframe"
@@ -3985,12 +3971,10 @@ global tcl_platform
     wm group .add_profile .login 
 
     wm title .add_profile "[trans addprofile]" 
-    #Disable transient window on Mac Os X
-    if {$tcl_platform(os) == "Darwin"} {
-    #wm transient .add_profile .
-    } else {
-    wm transient .add_profile .
-    }
+
+    set wintransient .add_profile
+    ShowTransient $wintransient
+    
     set mainframe [LabelFrame:create .add_profile.main -text [trans  addprofile] -font splainf] 
     label $mainframe.desc -text "[trans addprofiledesc]" -font splainf  -justify left 
     entry $mainframe.login -bg #FFFFFF -bd 1 -font splainf  -highlightthickness 0 -width 35 
@@ -4965,12 +4949,8 @@ proc newcontact {new_login new_name} {
     wm geometry ${wname} -0+100
     wm title ${wname} "$new_name - [trans title]"
     
-    #Disable transient window in Mac OS X
-    if {$tcl_platform(os) == "Darwin"} {
-    #wm transient ${wname} .
-    } else {
-    wm transient ${wname} .
-    }
+    set wintransient ${wname}
+    ShowTransient $wintransient
     canvas ${wname}.c -width 500 -height 150
     pack ${wname}.c -expand true -fill both
 
@@ -5025,12 +5005,8 @@ proc cmsn_change_name {} {
 	wm group .change_name .
 	wm geometry .change_name -0+100
 	wm title .change_name "[trans changenick] - [trans title]"
-	#Diable transient window on Mac OS X
-	if {$tcl_platform(os) == "Darwin"} {
-	#wm transient .change_name .
-	} else {
-	wm transient .change_name .
-	}
+    set wintransient .change_name
+    ShowTransient $wintransient
 
 	label .change_name.label -font sboldf -text "[trans enternick]:"
 
@@ -6515,3 +6491,13 @@ proc bgerror { args } {
 
     msg_box "[trans tkerror [file join $HOME bugreport.amsn]]"
 }
+
+#ShowTransient  {wintransient}
+#The function try to know if the operating system is Mac OS X or not. If no, enable window in transient. Else, 
+#don't change nothing.
+   proc ShowTransient {wintransient} {
+   global tcl_platform
+   if {$tcl_platform(os) != "Darwin"} {
+	wm transient $wintransient .
+	}
+	}
