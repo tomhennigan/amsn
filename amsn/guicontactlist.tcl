@@ -131,11 +131,7 @@ namespace eval ::guiContactList {
 		$canvas addtag items all
 		$canvas delete items
 
-		#Background image goes here
-		set bgimg [image create photo -file "" -format gif]
-		
 		$canvas create image 0 0 -image [::skin::loadPixmap back] -anchor nw
-		#$canvas create image 0 0 -image $bgimg -anchor nw
 
 		# Now let's get a contact list
 		set contactList [generateCL]
@@ -188,7 +184,7 @@ namespace eval ::guiContactList {
 		#Add binding for balloon
 		if { [::config::getKey tooltips] == 1 } {
 			$canvas bind $email <Enter> +[list balloon_enter %W %X %Y "[getBalloonMessage $email $element]"]
-			$canvas bind $email <Motion> +[list balloon_enter %W %X %Y "[getBalloonMessage $email $element]"]
+			$canvas bind $email <Motion> +[list balloon_motion %W %X %Y "[getBalloonMessage $email $element]"]
 			$canvas bind $email <Leave> \
 				"+set Bulle(first) 0; kill_balloon"
 		}
@@ -202,8 +198,8 @@ namespace eval ::guiContactList {
 		 
 		$canvas bind $email <<Button3>> "show_umenu $email $grId %X %Y;"
 		$canvas bind $email $singordblclick "::amsn::chatUser $email"
-		$canvas bind $email <Enter> "$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $colour -tag uline ; $canvas lower uline $email"
-		$canvas bind $email <Leave> "$canvas delete uline"
+		$canvas bind $email <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $colour -tag uline ; $canvas lower uline $email"
+		$canvas bind $email <Leave> "+$canvas delete uline"
 		
 		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + 3]]
 	}
@@ -236,21 +232,21 @@ namespace eval ::guiContactList {
 		set xuline2 [expr $xuline1 + [font measure sboldf $groupheader]]
 		set yuline [expr $ypos + [font configure sboldf -size] + 2 ]
 		
+		#set the group id, our ids are integers and tags can't be so add gid_ to start
+		set gid gid_[lindex $element 0]
+		
 		# First we draw our little group toggle button
 		$canvas create image [expr $xpos + $xpad] $ypos -image $img -anchor nw \
-			-tags [list group toggleimg [lindex $element 1]]
+			-tags [list group toggleimg $gid]
 		
 		$canvas create text $xuline1 $ypos -text $groupheader -anchor nw \
-			-fill $groupcolor -font sboldf -tags [list group title [lindex $element 1]]
-		
-		#Set variable gid to group name (index 1) - group ID (index 0) doesn't seem to "exist" (tags of above canvas elements used to be index 0).
-		set gid [lindex $element 1]
+			-fill $groupcolor -font sboldf -tags [list group title $gid]
 		
 		#Create mouse event bindings
 		$canvas bind $gid <<Button1>> "::groups::ToggleStatus [lindex $element 0];guiContactList::createCLWindow"
 		$canvas bind $gid <<Button3>> "::groups::GroupMenu $gid %X %Y"
-		$canvas bind $gid <Enter> "$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $groupcolor -tag uline ; $canvas lower uline $gid"
-		$canvas bind $gid <Leave> "$canvas delete uline"
+		$canvas bind $gid <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $groupcolor -tag uline ; $canvas lower uline $gid"
+		$canvas bind $gid <Leave> "+$canvas delete uline"
 		
 		return [list $xpos [expr $ypos + 20]]
 	}
@@ -331,7 +327,7 @@ namespace eval ::guiContactList {
 		
 		# Online/Offline mode
 		if { $mode == 0 } {
-			set groupList [list [list "online" "Online"] [list "offline" "Offline"]]
+			set groupList [list [list "online" [trans online]] [list "offline" [trans offline]]]
 		
 		# Group mode
 		} elseif { $mode == 1 || $mode == 2} {
@@ -358,7 +354,7 @@ namespace eval ::guiContactList {
 		
 		# Hybrid Mode, we add offline group
 		if { $mode == 2 } {
-			lappend groupList [list "offline" "Offline"]
+			lappend groupList [list "offline" [trans offline]]
 		}
 		
 		return $groupList
