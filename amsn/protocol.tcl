@@ -27,26 +27,10 @@
 #
 #}
 
-package require http 2.3
-
 namespace eval ::MSN {
    namespace export changeName logout changeStatus connect blockUser \
    unblockUser addUser deleteUser login myStateIs inviteFT acceptFT rejectFT \
    cancelReceiving cancelSending getMyIP moveUser
-
-   proc initProxy { proxy } {
-      # TODO Test with Proxy
-      # for the moment, just configure the http to use proxy or not
-      if {($proxy != ":") && ($proxy != "") } {
-         set lproxy [split $proxy ":"]
-         set proxy_host [lindex $lproxy 0]
-         set proxy_port [lindex $lproxy 1]
-         ::http::config -proxyhost $proxy_host -proxyport $proxy_port
-      } else {
-         ::http::config -proxyhost ""
-      }
-
-   }
 
    proc connect { username password } {
       if {[catch { cmsn_ns_connect $username $password } res]} {
@@ -1486,6 +1470,18 @@ proc ns_enter {} {
 #   status_log "SEND: [.status.enter get]\n" red
 }
 
+# Added by DEGT during creation of Proxy namespace based on original
+# by Dave Mifsud and expanding on the idea.
+proc proxy_callback {event socket_name} {
+    switch $event {
+        dropped {   # Proxy connection dropped/closed during read
+	    if {$socket_name == "ns"} {
+	        cmsn_draw_offline;
+	    }
+	}
+    }
+}
+
 proc cmsn_socket {name} {
    global config
 
@@ -1493,8 +1489,9 @@ proc cmsn_socket {name} {
       set proxy_serv [split $config(proxy) ":"]
       set tmp_serv [lindex $proxy_serv 0]
       set tmp_port [lindex $proxy_serv 1]
-      set next "cmsn_proxy_connect $name"
-      set readable_handler "cmsn_proxy_read $name"
+      ::Proxy::OnCallback "dropped" "proxy_callback"
+      set next "::Proxy::Connect $name"
+      set readable_handler "::Proxy::Read $name"
       sb set $name stat "pw"
    } else {
       set tmp_serv [lindex [sb get $name serv] 0]
@@ -1509,44 +1506,6 @@ proc cmsn_socket {name} {
      fconfigure $sock -buffering none -translation {binary binary} -blocking 0
      fileevent $sock readable $readable_handler
      fileevent $sock writable $next
-}
-
-proc cmsn_proxy_read {name} {
-   global proxy_header
-
-   set sock [sb get $name sock]
-   if {[eof $sock]} {
-      close $sock
-      sb set $name stat "d"
-      status_log "PROXY: $name CLOSED\n" red
-   } elseif {[gets $sock tmp_data] != -1} {
-	 global proxy_header
-	 set tmp_data [string map {\r ""} $tmp_data]
-	 lappend proxy_header $tmp_data
-	 status_log "PROXY RECV: $tmp_data\n"
-	 if {$tmp_data == ""} {
-	    set proxy_status [split [lindex $proxy_header 0]]
-	    if {[lindex $proxy_status 1] != "200"} {
-	       close $sock
-	       sb set $name stat "d"
-	       status_log "PROXY CLOSED: [lindex $proxy_header 0]\n"
-               if {$name == "ns"} cmsn_draw_offline ;# maybe should be passed
-	       return 1
-	    }
-	    status_log "PROXY ESTABLISHED: running [sb get $name connected]\n"
-            fileevent [sb get $name sock] readable [sb get $name readable]
-            eval [sb get $name connected]
-          }
-   }
-   return 0
-}
-
-proc cmsn_proxy_connect {name} {
-   fileevent [sb get $name sock] writable {}
-   sb set $name stat "pc"
-   set tmp_data "CONNECT [join [sb get $name serv] ":"] HTTP/1.0"
-   status_log "PROXY SEND: $tmp_data\n"
-   puts -nonewline [sb get $name sock] "$tmp_data\r\n\r\n"
 }
 
 proc cmsn_ns_connected {} {
