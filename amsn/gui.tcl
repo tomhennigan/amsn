@@ -288,6 +288,9 @@ namespace eval ::amsn {
 
       $w.c bind $notify_id <Button-1> "after cancel $after_id;\
         ::amsn::KillNotify $w $ypos; $command"
+
+      $w.c bind $notify_id <Button-3> "after cancel $after_id;\
+        ::amsn::KillNotify $w $ypos"
       
       wm title $w "[trans msn] [trans notify]"
       wm overrideredirect $w 1

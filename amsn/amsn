@@ -1461,8 +1461,6 @@ proc cmsn_msgwin_sendmail {name} {
          set user_login [lindex $usrinfo 0]
          set recipient "${recipient}${user_login}"
       }
-      set title [string replace $title end-1 end " - [trans chat]"]
-      set topmsg [string replace $topmsg end-1 end]
    } else {
       set recipient "recipient@somewhere.com"
    }
