@@ -31,7 +31,7 @@ proc ConfigDefaults {} {
 	   set config(browser) "explorer \$url"
 	   set config(notifyXoffset) 0
 	   set config(notifyYoffset) 28
-	   set config(filemanager) "start $location"
+	   set config(filemanager) "start \$location"
 	} else {
 	   set config(soundcommand) ""
 	   set config(browser) ""
