@@ -80,6 +80,7 @@ ipaddress IP Address
 istyping $1 is typing a message
 joins $1 $2 joins conversation
 language Language
+lastmsgtime Last message received at $1
 leaveblankforhotmail Leave blank for using hotmail web
 leaves $1 leaves conversation
 listeningon Listening on port $1

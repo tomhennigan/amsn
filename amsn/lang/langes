@@ -81,6 +81,7 @@ ipaddress Dirección IP
 istyping $1 está escribiendo un mensaje
 joins $1 $2 se une a la conversación
 language Idioma
+lastmsgtime Ultimo mensaje recibido a las $1
 leaveblankforhotmail Dejar en blanco para usar hotmail
 leaves $1 deja la conversación
 listeningon Escuchando en el puerto $1

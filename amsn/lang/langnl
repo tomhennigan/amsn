@@ -82,6 +82,7 @@ ipadress IP adres
 istyping $1 is geeft een bericht in
 joins $1 $2 neemt deel aan conversatie
 language Taal
+lastmsgtime Laatste bericht ontvangen om $1
 leaveblankforhotmail Laat leeg voor gebruiken van hotmail web
 leaves $1 verlaat conversatie
 listeningon Aan het luisteren op poort $1
