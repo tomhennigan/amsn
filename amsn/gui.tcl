@@ -1296,14 +1296,7 @@ namespace eval ::amsn {
 		PutMessage $chatid $user $nick $msg $type $fontformat $p4c
 
 #		set evPar [list $user [::abook::getDisplayNick $user] $msg]
-		set evPar(0) $user
-		set evPar(1) [::abook::getDisplayNick $user]
-		set evPar(2) $msg
-		if { "$user" != "$chatid" } {
-			::plugins::PostEvent chat_msg_send evPar
-		} else {
-			::plugins::PostEvent chat_msg_received evPar
-		}
+		
 	    
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -3073,11 +3066,26 @@ namespace eval ::amsn {
 		#Return the custom nick, replacing backslashses and variables
 		set customchat [subst -nocommands $customchat]
 				
+		set evPar(0) $user
+		set evPar(1) [::abook::getDisplayNick $user]
+		set evPar(2) $msg
+		if { "$user" != "$chatid" } {
+			::plugins::PostEvent chat_msg_send evPar
+		} else {
+			::plugins::PostEvent chat_msg_receive evPar
+		}
+				
 		WinWrite $chatid "$customchat" "says" $customfont
 		WinWrite $chatid "$msg\n" $type $fontformat 1 $user
 
 		if {[::config::getKey keep_logs]} {
 			::log::PutLog $chatid $nick $msg
+		}
+		
+		if { "$user" != "$chatid" } {
+			::plugins::PostEvent chat_msg_sent evPar
+		} else {
+			::plugins::PostEvent chat_msg_received evPar
 		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -3358,6 +3366,11 @@ namespace eval ::amsn {
 			}
 		}
 
+		set evPar(0) $tagname
+		set evPar(1) ${win_name}
+		set evPar(2) $txt
+		::plugins::PostEvent WinWrite evPar
+
 		${win_name}.f.out.text insert end "$txt" $tagid
 
 		#TODO: Make an url_subst procedure, and improve this using regular expressions
@@ -3439,6 +3452,8 @@ namespace eval ::amsn {
 		after cancel [list ::amsn::cancelRecent ${win_name}]
 		set recent_message(${win_name}) 1
 		after 2000 [list ::amsn::cancelRecent ${win_name}]
+		
+		::plugins::PostEvent WinWritten evPar
 
 
 	}
