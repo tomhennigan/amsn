@@ -6370,7 +6370,7 @@ proc pictureBrowser {} {
 
 	button .picbrowser.browse -command "set selected_image \[pictureChooseFile\]; reloadAvailablePics" -text "[trans browse]..." -font sboldf
 	button .picbrowser.delete -command "pictureDeleteFile ;reloadAvailablePics" -text "[trans delete]" -font sboldf
-	button .picbrowser.purge -command "destroy .picbrowser" -state disabled -text "[trans purge]..." -font sboldf
+	button .picbrowser.purge -command "purgePictures; reloadAvailablePics" -text "[trans purge]..." -font sboldf
 	button .picbrowser.ok -command "set_displaypic \${selected_image};destroy .picbrowser" -text "[trans ok]" -font sboldf
 	button .picbrowser.cancel -command "destroy .picbrowser" -text "[trans cancel]" -font sboldf
 	
@@ -6409,6 +6409,22 @@ proc pictureBrowser {} {
 	.picbrowser.pics.text configure -state disabled
 		
 	wm title .picbrowser "[trans picbrowser]"
+}
+
+proc purgePictures {} {
+	global HOME
+
+	set answer [tk_messageBox -message "[trans confirmpurge]" -type yesno -icon question -title [trans purge] -parent .picbrowser]
+	if {$answer == "yes"} {
+		catch {set cachefiles [glob -directory [file join $HOME displaypic cache] *.png]}
+		if { [info exists cachefiles] } {
+			foreach filename $cachefiles {
+				catch { file delete $filename }
+				catch { file delete "[filenoext $filename].gif" }
+			}
+		}
+	}
+
 }
 
 proc getPictureDesc {filename} {
@@ -6485,7 +6501,7 @@ proc reloadAvailablePics { } {
 	#}
 	catch {set myfiles [glob -directory [file join $HOME displaypic] *.png]}
 	catch {set cachefiles [glob -directory [file join $HOME displaypic cache] *.png]}
-	
+
 	addPicture no_pic "[trans nopic]" ""
 
 	
@@ -6526,7 +6542,7 @@ proc reloadAvailablePics { } {
 	if { [info exists cachefiles] } {
 		foreach filename $cachefiles {
 			if { [file exists "[filenoext $filename].gif"] } {
-				set the_image [image create photo -file "[filenoext $filename].gif" ]	
+				set the_image [image create photo -file "[filenoext $filename].gif" ]
 				addPicture $the_image "[getPictureDesc $filename]" "cache/[file tail $filename]"
 				lappend image_names $the_image
 			}

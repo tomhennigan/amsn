@@ -109,6 +109,7 @@ command Comando
 commandstatus Ejecutar comando
 confirmdelete ¿Seguro que deseas borrar a $1?
 confirm ¿ Estás seguro ?
+confirmpurge Todas las Imágenes para Mostrar del resto de los contactos (no las tuyas) serán eliminadas. ¿ Estás seguro ?
 connected Ahora estás conectado
 connecterror Error conectándose al servidor
 connecting Conectando
