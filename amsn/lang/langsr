@@ -1,0 +1,199 @@
+amsn_lang_version 2
+about O...
+accept Prihvati
+acceptfile Prihvati fajl $1, velicina $2? Snimljen u $3
+actions Akcije
+addacontact Dodaj kontakt
+addedyou vas je dodao u svoju kontakt listu
+addtocontacts dodaj u kontakt listu
+addtoo Dodaj ovu osobu u moju kontakt listu
+admincontacts Uredi kontakte
+admingroups Uredi grupe
+adverts Reklame
+alarmpref Podesavanje alarma za korisnika
+alarmstatus Ukluci/Iskljuci alarm za ovog korisnika
+allowseen Dozvoli ovoj osobi da vidi kada sam onlajn i kontaktira me
+appearoff Izigravaj da si oflajn
+aretyping $1 kuca poruku
+autoconnect Konektuj se kad se amsn startuje
+autohotmaillog Automatsko logovanje na Hotmail
+autoidle Automatska  NeAktivnost
+autoip Automatski IP
+avoidseen Zabrani ovoj osobi da vidi kada sam onlajn i kontaktira me
+away Odsutan
+baduserpass Pogresno korisnicko ime ili lozinka
+blankdirect Ostavi prazno za direktnu vezu
+block Blokiraj
+blocked Blokiran
+broughtby  Isporuceno od straner sledecih developera
+browse Browse
+browser Browser
+busy Zauzet
+cancel Odustani
+cfgalarm Podesi/Dodaj/Ukloni Alarm
+changenick Promeni nadimak
+chatack Prihvata chat od
+chat Chat
+chatreq Zahteva chat
+chatsmileys Chat smajliji
+checkingver Proveravam novu verziju
+checkver Provera nove verzije
+choosebasefont Izaberi tip fonta
+choosebgcolor Izaberi boju pozadine
+choosefontcolor Izaberi boju fonta
+clicktologin Klikni ovde da bi se ulogovao
+close Zatvori
+closingdocks Close dugme Minimizuje
+command Komanda
+confirm Da li si siguran?
+confirmdelete Da li si siguran da zelis da obrises $1?
+connecterror Greska prilikom konektovanja na server
+contactadded Kontakt dodat
+contactdoesnotexist Kontakt ne postoji!
+copy Kopiraj
+copytogroup Kopiraj u grupu
+cut Iseci
+date Datum
+delete Brisi
+docking Docking
+dockingoff Docking Isklucen
+dockgtk Gnome Dock
+dockkde KDE Dock
+edit Edituj
+enableproxy Dozvoli proksi
+encoding Izaberi kodiranje
+entercontactemail Unesi kontakt e-mail
+enterfilename Unesi ime fajla
+enternick Unesi svoj nadimak
+examples Primeri
+exitamsn Da li si siguran da zelis da zavrsis?
+extras Posebne Usluge
+faq FAQ (Najcesce Postavljana Pitanja)
+filedoesnotexist Fajl ne postoji
+filename Ime fajla
+filetransfercancelled Prenos fajla prekinut
+filetransfercomplete Prenos fajla zavrsen
+ftaccepted Prenos fajla prihvacen
+ftrejected Prenos fajla odbijen
+gonelunch Otisao na klopu
+groupadd Dodaj u grupu
+groupdelete Obrisi groupu
+groupexists Grupa vec postoji
+group Grupa
+groupmissing Ne mogu da pronadjem grupu
+groupnewname Novo ime
+groupnotempty Grupa nije praznay!
+groupoldname Staro ime
+grouprename Preimenuj grupu
+groupunknown Nepoznata grupa
+handle Handle
+helpcontents Sadrzaj pomoci
+help Pomoc
+home Home
+ident Identifikujem
+identity Identitet
+inbox Inbox
+invalidusername Nepropisno korisnicko ime
+invite Pozovi
+ipaddress IP Adresa
+istyping $1 kuca poruku
+joins $1 se prikljucuje razgovoru
+keepalive Keepalive (NAT)
+language Jezik
+lastmsgtime Poslednja poruka primljena u $1
+leaveblankforhotmail Ostavi prazno da bi koristio hotmail web
+leaves $1 napusta razgovor
+listeningon Osluskuje na portu $1
+listsmileys Izlistaj smajlije
+loadcontacts Ucitaj kontakt listu
+loggedotherlocation Diskonektovan. Logovao se na drugom mestu
+loggingin Logujem se
+loginas Loguj se kao
+login Loguj se
+logout Izloguj se
+logsin se upravo logovao
+mailer Mailer
+mobile Mobilni
+movetogroup Pomeri u Grupu
+msg Poruka
+msn AMSN
+mustrestart Morate da restartujete program da bi se prihvatile promene
+mystatus Moj status
+natip IP detekcijan sa web strane
+needonline Jos uvek si/kao oflajn!
+newmail $1 nova poruka u inbox-u
+newmailfrom Novi mejl od
+newmsg Nova poruka
+newveravailable Novija verzija $1 na raspolaganju za daunload
+next Sledece
+noactivity Neaktivan
+nonewmail Nema novih porukau inbox-u
+nonewver Nema nove verzije na raspolaganju za daunload
+notify Obavesti
+notifywin Notify Window
+nousersinsession Nema korisnika u sesiji
+offline Oflajn
+ok U redu
+onenewmail 1 nova poruka u inbox-u
+online Onlajn
+onphone Na telefonu
+openreceived Otvori primljene fajlove
+options Opcije
+ordercontactsby Uredi kontakte prema
+other Drugo
+pager Pejdzer
+pass Sifra
+paste Pejstuj
+phone Telefon
+picfile Fajl Slika (GIF < 500 x 500)
+picstatus Alarm Slika
+port Port
+prefapps Aplikacije
+preferences Podesavanja
+prefsound Zvuci
+properties Svojstva
+proxyconfhttp Podesavanje HTTP proksi podrske
+proxyconf Podesavanje Proksija
+publishphones Objavi  moje telefonske brojeve
+receivedbytes Primio $1 od $2 bajtova
+receivefile Primi fajl
+reconnecting Rekonektujem se na server
+reconnect Cekam $1 da se  rekonektujem
+reject Odbij
+rememberpass Zapamti sifru
+rightback Odmah se vracam
+saveas Snimi kao
+savecontacts Snimi kontakt listu
+save Snimi
+says $1 kaze
+sbcon Konektujem se na Switch Board
+sendfile Posalji fajl
+sendmail Posalji mejl
+sendmsg Posalji poruku
+send Posalji
+sentbytes Poslato $1 od $2 bajtova
+servergoingdown Diskonektovan: Server je puko
+server Server
+sound Dogadjaj Zvuk
+soundfile Zvucni Fajl
+soundloop Ponavljaj Zvuk
+soundstatus Zvucni Alarm
+startoffline Startuj Oflajn
+status Status
+stopalarm Stopiraj Alarm
+syntaxerror  Sintaksna Greska
+textsize Velicina teksta
+title Al-ov Messenger
+tools Alati
+to Za
+unblock Odblokiraj
+uoffline Oflajn
+uonline Onlajn
+useralreadyonlist Korisnik je vec u kontakt listi
+user Korisnik
+version Verzija
+view Pogled
+willjoin Cekamg $1 da se prikljuci razgovoru
+work Posao
+yousay Ti kazes
+youwant Ti zelis

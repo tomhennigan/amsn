@@ -15,6 +15,7 @@ alarmstatus Figyelmeztetõ jelzés KI/BE kapcsolása ehhez a felhasználóhoz
 allowseen Ez a személy mindig láthat ha bejelentkezem
 appearoff Nem látható a bejelentkezés (rejtett üzemmód)
 aretyping $1 éppen üzenetet gépel
+autoconnect Kapcsolódás az AMSN indulásakor
 autohotmaillog Automatikus Hotmail bejelentkezés
 autoidle Inaktivitás érzékelõ
 autoip Automatikus IP
@@ -54,6 +55,7 @@ copytogroup Másolás a csoportokba
 cut Kivágás
 date Dátum
 delete Törlés
+deliverfail Néhány hiba fordult elõ az üzenet kézbesítése közben
 dockgtk Dokkolás a Gnome-ba
 docking Dokkolás
 dockingoff Dokkolás kikapcsolása
@@ -128,6 +130,7 @@ next Következõ
 noactivity Nem vagyok itt
 nonewmail Nincs új üzeneted
 nonewver Nincs elérhetõ új verzió
+normal	Normál
 notify értesítés
 notifywin Értesítõ ablak
 nousersinsession Nincs felhasználó a kapcsolatok között
@@ -139,6 +142,7 @@ onphone Telefonálok
 openreceived A beérkezett fájlok megnyitása
 options Beállítások
 ordercontactsby Partnerek rendezése
+ordergroupsby Csoportok rendezése
 other Más
 pager Személyi hívó
 pass Jelszó
@@ -160,6 +164,7 @@ reconnecting Újra kapcsolódás a szerverhez
 reconnect Várakozás a $1kapcsolódására
 reject Elvet
 rememberpass Emlékezz a jelszavamra
+reversed R-beszélgetés
 rightback Késõbb visszajövök
 saveas Mentés másként
 savecontacts A partnerlista mentése
@@ -190,8 +195,10 @@ uoffline Kapcsolat nélkül
 uonline Kapcsolatban
 useralreadyonlist A felhasználó már szerepel a listádban
 user Felhasználó
+usernotonline A felhasználó nincs bejelentkezve
 version Verzió
 view Nézet
+viewprofile Profil megtekintése
 willjoin  Várakozok $1  csatlakozására a beszélgetéshez
 work Foglalkozás
 yousay Te mondtad

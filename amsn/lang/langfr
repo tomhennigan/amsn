@@ -17,9 +17,11 @@ appearoff Apparaître déconnecté
 aretyping $1 est en train de taper un message
 autoconnect Connection automatique au lancement
 autohotmaillog Identification automatique à Hotmail
-autoidle diminution automatique de la consommation processeur lors d'inactivité
+autoidle diminution automatique de la consommation processeur lors 
+d'inactivité
 autoip IP automatique
-avoidseen Interdire à cette personne de me voir ou de me contacter quand je suis en ligne
+avoidseen Interdire à cette personne de me voir ou de me contacter quand je 
+suis en ligne
 away Absent
 baduserpass Mauvais nom d'utilisateur ou mot de passe
 blankdirect Laisser vide pour une connexion sans proxy
@@ -118,7 +120,7 @@ mobile Mobile
 movetogroup Deplacer vers groupe
 msg Message
 msn AMSN
-mustrestart Vous devez redémarrer l'application pour que les changements 
+mustrestart Vous devez redémarrer l'application pour que les changements
 mystatus Mon état
 natip détection de l'adresse IP par page web
 needonline Vous êtes toujours déconnecté!
@@ -131,6 +133,7 @@ next Suivant
 noactivity Inactif
 nonewmail 0 nouveau[x] message[s]
 nonewver Il n'y a pas de nouvelle version disponible
+normal Normal
 notify prévenir
 notifywin fenêtre de notification
 nousersinsession Pas d'utilisateurs dans cette session
@@ -142,6 +145,7 @@ onphone Au téléphone
 openreceived Ouvrir les fichiers reçus
 options Options
 ordercontactsby Trier les contacts par
+ordergroupsby Trier les groupes par
 other Autre
 pager Pager
 pass Mot de passe
@@ -164,6 +168,7 @@ reconnect Dans l'attente de la reconnexion de $1
 reconnecting Reconnexion au serveur
 reject Refuser
 rememberpass Enregistrer le mot de passe
+reversed Inverser
 rightback Bientôt de retour
 saveas Enregistrer sous
 savecontacts Enregistrer la liste des contacts
@@ -198,6 +203,7 @@ usernotonline L'utilisateur n'est pas en ligne
 user Utilisateur
 version Version
 view Vue
+viewprofile Afficher le profil
 willjoin Dans l'attente que $1 rejoigne la conversation
 work Travail
 yousay Vous avez dit
