@@ -17,7 +17,7 @@ if { $initialize_amsn == 1 } {
 }
 
 proc PreferencesCopyConfig {} {
-	global myconfig proxy_server proxy_port
+	global myconfig proxy_server proxy_port config
 	
 	set config_entries [array get config]
 	set items [llength $config_entries]
@@ -1522,7 +1522,7 @@ proc setCfgFonts {path value} {
 
 
 proc SavePreferences {} {
-    global myconfig proxy_server proxy_port list_BLP temp_BLP Preftabs libtls libtls_temp proxy_user proxy_pass
+    global myconfig proxy_server proxy_port list_BLP temp_BLP Preftabs libtls libtls_temp proxy_user proxy_pass config
 
     set nb .cfg.notebook
 

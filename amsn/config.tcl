@@ -311,7 +311,7 @@ namespace eval ::config {
 	}
 	
 	proc getVar {key} {
-		return "config($key)"
+		return "::config($key)"
 	}
 
 	proc setKey {key value} {
@@ -325,7 +325,7 @@ namespace eval ::config {
 	}
 	
 	proc getGlobalVar {key} {
-		return "gconfig($key)"
+		return "::gconfig($key)"
 	}
 
 	proc setGlobalKey {key value} {
