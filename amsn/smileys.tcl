@@ -668,8 +668,8 @@ proc create_smile_menu { {x 0} {y 0} } {
 	toplevel $w     
     }
     set xy_geo [calcul_geometry_smileys]
-    set x_geo [expr 23*[lindex $xy_geo 0]+8]
-    set y_geo [expr 23*[lindex $xy_geo 1]+8]
+    set x_geo [expr 23*[lindex $xy_geo 0]+12]
+    set y_geo [expr 23*[lindex $xy_geo 1]+12]
     set x [expr $x - 15]
     set y [expr $y + 15 - $y_geo]
     
