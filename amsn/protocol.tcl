@@ -922,7 +922,7 @@ namespace eval ::MSN {
       if { $config(displaypic) != "" } {
 	  ::MSN::WriteSB ns "CHG" "$new_status 268435500 [urlencode [create_msnobj $config(login) 3 [GetSkinFile displaypic $config(displaypic)]]]"
       } else {
-	  ::MSN::WriteSB ns "CHG" "$new_status $clientid"
+	  ::MSN::WriteSB ns "CHG" "$new_status 0"
       }
       set myStatus $new_status
 
