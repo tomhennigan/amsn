@@ -2285,7 +2285,7 @@ proc cmsn_draw_login {} {
    frame .login.c -relief flat -highlightthickness 0
    pack .login.c -expand true -fill both -padx 10 -pady 10
 
-   label .login.c.user -text "[trans user]: "
+   label .login.c.user -text "[trans user]: " -font sboldf
    combobox::combobox .login.c.signin \
 	    -editable true \
 	    -highlightthickness 0 \
@@ -2293,7 +2293,7 @@ proc cmsn_draw_login {} {
 	    -bg #FFFFFF \
 	    -font splainf \
 	    -command ConfigChange
-   label .login.c.example -text "[trans examples] :\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com"
+   label .login.c.example -text "[trans examples] :\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com" -font examplef
 
    grid .login.c.user -row 2 -column 2 -sticky w
    grid .login.c.signin -row 2 -column 3 -sticky w
@@ -2310,7 +2310,7 @@ proc cmsn_draw_login {} {
    unset idx
    unset tmp_list
 
-   label .login.c.lpass -text "[trans pass]: "
+   label .login.c.lpass -text "[trans pass]: " -font sboldf
    entry .login.c.password -width 25 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -show "*"
    checkbutton .login.c.remember -variable config(save_password) \
       -text "[trans rememberpass]" -font sboldf -highlightthickness 0 -pady 0
