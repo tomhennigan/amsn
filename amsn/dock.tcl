@@ -1,6 +1,10 @@
 # Docking Protocol
 
-set docksock 0
+if { $initialize_amsn == 1 } { 
+    global docksock 
+    
+    set docksock 0
+}
 
 proc dock_handler { sock } {
         global password

@@ -10,22 +10,30 @@
 #
 # $Id$
 #
-set adv_url "http://ads.someserver.com/ads/servead.php?s=234x46&afid=1234"
-set adv_timeout 3000	; # Timeout (ms) for HTTP request
-#set adv_cycle 300000	; # Time (ms) between fetch requests
-set adv_cycle 3000	; # Time (ms) between fetch requests
-set adv_lastfile ""	; # Last file used in adv_show_banner file xxx
-set adv_recycle  2	; # Modulo used for recycling adv_lastfile
 
-#
-# Advertisement Module globals
-#
-set adv_enable 1	; # Enable/Disable banner fetching (dynamic)
-set adv_paused 1	; # Paused until connection established
-set adv_fetched 0	; # Count how many adverts we fetched
-set adv_after_id -1
+if { $initialize_amsn == 1 } {
+    global adv_url adv_timeout adv_cycle adv_enable adv_paused
+    global adv_fetched adv_recycle adv_lastfile adv_after_id
 
+    set adv_url "http://ads.someserver.com/ads/servead.php?s=234x46&afid=1234"
+    set adv_timeout 3000	; # Timeout (ms) for HTTP request
+    #set adv_cycle 300000	; # Time (ms) between fetch requests
+    set adv_cycle 3000	; # Time (ms) between fetch requests
+    set adv_lastfile ""	; # Last file used in adv_show_banner file xxx
+    set adv_recycle  2	; # Modulo used for recycling adv_lastfile
+    
+    #
+    # Advertisement Module globals
+    #
+    set adv_enable 1	; # Enable/Disable banner fetching (dynamic)
+    set adv_paused 1	; # Paused until connection established
+    set adv_fetched 0	; # Count how many adverts we fetched
+    set adv_after_id -1
+
+}
+ 
 package require http 2.3
+
 
 #
 # Initialize the Advertisement module (hey! need bread on the table!)

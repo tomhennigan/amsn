@@ -1,5 +1,6 @@
 #Default look
 if { $initialize_amsn == 1 } {
+    global bgcolor bgcolor2
 
     set bgcolor #0050C0
     set bgcolor2 #D0D0F0
@@ -1781,7 +1782,7 @@ namespace eval ::amsn {
 	  #///////////////////////////////////////////////////////////////////////////////
 
 	  if { $initialize_amsn == 1 } {
-	      
+
 	      variable urlcount 0
 	      set urlstarts { "http://" "https://" "ftp://" "www." }
 	  }
@@ -1891,7 +1892,7 @@ namespace eval ::amsn {
 
    }
    #///////////////////////////////////////////////////////////////////////////////
-
+	  
    proc WinWriteIcon { chatid imagename {padx 0} {pady 0}} {
       
       set win_name [WindowFor $chatid]
@@ -1935,17 +1936,19 @@ namespace eval ::amsn {
       ${win_name}.f.out.text configure -state disabled
    }   
 
-   variable NotifID 0
-   variable NotifPos [list]
-   variable im [image create photo -width 180 -height 110]
-
+   if { $initialize_amsn == 1 } {
+       variable NotifID 0
+       variable NotifPos [list]
+       variable im [image create photo -width 180 -height 110]
+       
    
-   #TODO: We will make amsn skinnable, so this should be used only if there not exists
-   # a background bitmap for the notifyWindow
-   for {set i 0} {$i < 110} {incr i} {
-      set rg [expr {35+$i*2}]
-      set col [format "%2.2X%2.2XFF" $rg $rg]
-      $im put "#$col" -to 0 $i 180 [expr {$i + 1}]
+       #TODO: We will make amsn skinnable, so this should be used only if there not exists
+       # a background bitmap for the notifyWindow
+       for {set i 0} {$i < 110} {incr i} {
+	   set rg [expr {35+$i*2}]
+	   set col [format "%2.2X%2.2XFF" $rg $rg]
+	   $im put "#$col" -to 0 $i 180 [expr {$i + 1}]
+       }
    }
 
    proc closeAmsn {} {
@@ -4210,7 +4213,8 @@ proc close_cleanup {} {
 
 
 if { $initialize_amsn == 1 } {
-
+    global idletime oldmousepos autostatuschange
+    
     set idletime 0
     set oldmousepos [list]
     set autostatuschange 0
@@ -4362,9 +4366,8 @@ proc show_umenu {user_login grId x y} {
 
 
 #///////////////////////////////////////////////////////////////////////
-if { $initialize_amsn == 1 } {
-    package require http 2.3
-}
+package require http 2.3
+
 proc checking_ver {} {
    global version weburl
 

@@ -4,6 +4,7 @@
 #########################################################
 
 if { $initialize_amsn == 1 } {
+    global VerifyEnd
 
     set VerifyEnd 1
 }

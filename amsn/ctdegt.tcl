@@ -8,8 +8,12 @@
 #
 
 ###################### Protocol Debugging ###########################
-set degt_protocol_window_visible 0
-set degt_command_window_visible 0
+if { $initialize_amsn == 1 } {
+    global degt_protocol_window_visible egt_command_window_visible
+
+    set degt_protocol_window_visible 0
+    set degt_command_window_visible 0
+}
 
 proc degt_Init {} {
     set Entry {bg #FFFFFF foreground #0000FF}
@@ -280,10 +284,15 @@ proc debug_cmd_lists {subcmd {basename ""}} {
     }
 }
 
-###################### Preferences Window ###########################
-array set myconfig {}   ; # configuration backup
-set proxy_server ""
-set proxy_port ""
+if { $initialize_amsn == 1 } {
+    global myconfig proxy_server proxy_port
+    
+    ###################### Preferences Window ###########################
+    array set myconfig {}   ; # configuration backup
+    set proxy_server ""
+    set proxy_port ""
+    
+}
 
 proc PreferencesCopyConfig {} {
     global config myconfig proxy_server proxy_port
@@ -1509,6 +1518,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.69  2003/08/09 04:42:39  kakaroto
+# oufff, at last, the "reload_files" proc is working...
+#
 # Revision 1.68  2003/08/07 15:46:00  airadier
 # Call cmsn_draw_online on preferences exit (if online)
 #

@@ -19,17 +19,21 @@ namespace eval ::groups {
 		    GetList ToggleStatus UpdateCount IsExpanded \
 		    menuCmdMove menuCmdCopy
 
-   #
-   # P R I V A T E
-   #
-   variable parent "";
-   variable entryid -1;
-   variable groupname "";	# Temporary variable for TCL crappiness
-   variable groups;		# Group names (array). Not URLEncoded!
-				# indexed by ID. Message LSG
-   variable bShowing;		# (array) Y=shown/expanded N=hidden/collapsed
-   variable uMemberCnt;		# (array) member count for that group
-   variable uMemberCnt_online;	# (array) member count for that group
+    if { $initialize_amsn == 1 } {
+
+	#
+	# P R I V A T E
+	#
+	variable parent "";
+	variable entryid -1;
+	variable groupname "";	# Temporary variable for TCL crappiness
+	variable groups;		# Group names (array). Not URLEncoded!
+	                                # indexed by ID. Message LSG
+	variable bShowing;		# (array) Y=shown/expanded N=hidden/collapsed
+	variable uMemberCnt;		# (array) member count for that group
+	variable uMemberCnt_online;	# (array) member count for that group
+	
+    }
 
    #
    proc menuCmdDelete {gid {pars ""}} {

@@ -1,5 +1,7 @@
 namespace eval ::hotmail {
-   variable unread 0
+    if { $initialize_amsn == 1 } {
+	variable unread 0
+    }
 
    proc unreadMessages {} {
       variable unread

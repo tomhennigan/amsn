@@ -430,7 +430,9 @@ proc calcul_geometry_smileys {  } {
 
 }
 
-
+# after_info { } 
+#
+# Gives information about the pending timers 
 proc after_info { } {
     
     foreach in [after info] {
@@ -438,6 +440,3 @@ proc after_info { } {
     }
 }
 
-
-# Init smileys
-load_smileys

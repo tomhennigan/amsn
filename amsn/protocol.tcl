@@ -2,7 +2,10 @@
 #=======================================================================
 
 if { $initialize_amsn == 1 } {
-    
+    global user_info user_stat list_fl list_rl list_al list_bl
+    global list_users list_BLP list_otherusers list_cmdhnd sb_list list_states
+
+
     set user_info ""
     set user_stat "FLN"
     set list_fl [list]

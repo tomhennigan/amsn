@@ -378,6 +378,4 @@ namespace eval ::md5 {
 	md5 $k_opad
     }
 
-if { $initialize_amsn == 1 } {
-    package provide md5 1.4
-}
+package provide md5 1.4

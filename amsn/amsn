@@ -128,46 +128,55 @@ set pgNews  ""
 #///////////////////////////////////////////////////////////////////////
 
 
-set initialize_amsn 1
-set directory $program_dir
-
 ############################################################
 #### Load program modules
 ############################################################
-source [file join $directory ctthemes.tcl]
-source [file join $directory notebook.tcl]	;# Notebook Megawidget
-#source [file join $directory notebook1.tcl]	;# Notebook Megawidget
-source [file join $directory rnotebook.tcl]	;# Notebook Megawidget
-source [file join $directory progressbar.tcl]	;# Progressbar Megawidget
-source [file join $directory dkffont.tcl]	;# Font selection megawidget
-source [file join $directory migmd5.tcl]
-source [file join $directory des.tcl]		;# DES encryption
-source [file join $directory sxml.tcl]   	;# Simple XML parser
-source [file join $directory config.tcl]
-source [file join $directory proxy.tcl]
-source [file join $directory protocol.tcl]
-source [file join $directory ctadverts.tcl]
-source [file join $directory lang.tcl]
-source [file join $directory ctdegt.tcl]
-source [file join $directory hotmail.tcl]
-source [file join $directory smileys.tcl]
-source [file join $directory groups.tcl]	;# Handle buddy groups
-source [file join $directory abook.tcl]	;# Handle buddy address book
-source [file join $directory anigif.tcl]	;# Animated GIFS
-source [file join $directory gui.tcl]
-source [file join $directory alarm.tcl]	;# Alarms code (Burger)
-source [file join $directory dock.tcl]	;# Docking routines
-source [file join $directory trayicon.tcl]	;# Docking routines for freedesktop system tray compliant docks
-source [file join $directory loging.tcl]	;# Euh yeh it's for loging :P
-source [file join $directory combobox.tcl]	;# The all mighty combobox is here! (B. Oakley)
-source [file join $directory blocking.tcl]    ;# The blocking users feature
-source [file join $directory remote.tcl  ]    ;# The remote control procedures
-source [file join $directory automsg.tcl]
-source [file join $directory plugins.tcl]	;# Plugins system
-source [file join $directory balloon.tcl]       ;# For the balloons tooltip
+set initialize_amsn 1
 
 
 
+proc reload_files { } {
+    foreach glob [info globals] {
+	global $glob
+    }
+
+    source [file join $program_dir ctthemes.tcl]
+    source [file join $program_dir notebook.tcl]	;# Notebook Megawidget
+    #source [file join $program_dir notebook1.tcl]	;# Notebook Megawidget
+    source [file join $program_dir rnotebook.tcl]	;# Notebook Megawidget
+    source [file join $program_dir progressbar.tcl]	;# Progressbar Megawidget
+    source [file join $program_dir dkffont.tcl]	;# Font selection megawidget
+    source [file join $program_dir migmd5.tcl]
+    source [file join $program_dir des.tcl]		;# DES encryption
+    source [file join $program_dir sxml.tcl]   	;# Simple XML parser
+    source [file join $program_dir config.tcl]
+    source [file join $program_dir proxy.tcl]
+    source [file join $program_dir protocol.tcl]
+    source [file join $program_dir ctadverts.tcl]
+    source [file join $program_dir lang.tcl]
+    source [file join $program_dir ctdegt.tcl]
+    source [file join $program_dir hotmail.tcl]
+    source [file join $program_dir smileys.tcl]
+    source [file join $program_dir groups.tcl]	;# Handle buddy groups
+    source [file join $program_dir abook.tcl]	;# Handle buddy address book
+    source [file join $program_dir anigif.tcl]	;# Animated GIFS
+    source [file join $program_dir gui.tcl]
+    source [file join $program_dir alarm.tcl]	;# Alarms code (Burger)
+    source [file join $program_dir dock.tcl]	;# Docking routines
+    source [file join $program_dir trayicon.tcl]	;# Docking routines for freedesktop system tray compliant docks
+    source [file join $program_dir loging.tcl]	;# Euh yeh it's for loging :P
+    source [file join $program_dir combobox.tcl]	;# The all mighty combobox is here! (B. Oakley)
+    source [file join $program_dir blocking.tcl]    ;# The blocking users feature
+    source [file join $program_dir remote.tcl  ]    ;# The remote control procedures
+    source [file join $program_dir automsg.tcl]
+    source [file join $program_dir plugins.tcl]	;# Plugins system
+    source [file join $program_dir balloon.tcl]       ;# For the balloons tooltip
+
+}
+
+reload_files
+
+set initialize_amsn 0
 #///////////////////////////////////////////////////////////////////////
 
 ###############################################################
@@ -179,6 +188,9 @@ ConfigDefaults
 
 set config(language) en  ;#Load english as default language to fill trans array
 load_lang
+
+# Init smileys
+load_smileys
 
 ;# Load of logins/profiles in combobox
 ;# Also sets the newest login as config(login)

@@ -59,11 +59,13 @@ namespace eval ::dkfFontSel {
 	return $newlist
     }
 
+    # ----------------------------------------------------------------------
+    # Now we start in earnest
+    namespace export dkf_chooseFont
+
     if { $initialize_amsn == 1 } {
-	# ----------------------------------------------------------------------
-	# Now we start in earnest
-	namespace export dkf_chooseFont
-	
+	global Style 
+
 	variable Family Helvetica
 	variable Size   12
 	variable Done   0

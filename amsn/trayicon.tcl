@@ -1,8 +1,12 @@
-set statusicon 0
-set mailicon 0
-set systemtray_exist 0
-set iconmenu 0
 
+if { $initialize_amsn == 1 } {
+    global statusicon mailicon systemtray_exist iconmenu
+
+    set statusicon 0
+    set mailicon 0
+    set systemtray_exist 0
+    set iconmenu 0
+}
 proc iconify_proc {} {
 	global statusicon config systemtray_exist
 	if { [focus] == "."} {

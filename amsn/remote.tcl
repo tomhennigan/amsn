@@ -2,10 +2,14 @@
 ### remote.tcl v 1.0	2003/05/22   KaKaRoTo
 #########################################################
 
-set remote_port 0
-set remote_auth 0
-set remote_sock_lock 0
-set remote_sock 0
+if { $initialize_amsn == 1 } {
+    global remote_port remote_auth remote_sock_lock remote_sock
+   
+    set remote_port 0
+    set remote_auth 0
+    set remote_sock_lock 0
+    set remote_sock 0
+}
 
 namespace eval ::remote {
 
