@@ -136,56 +136,30 @@ namespace eval ::pop3 {
 	# Results:
 	#	None
 	proc ::pop3::close {chan} {
-		if {[catch {::pop3::send $chan "QUIT"} errorStr]} {
-			if { ($errorStr == "blocked") || ($errorStr == "notOpenYet") } {
-				after 1000 [list ::pop3::close $chan]
-				return
-			}
+		catch {
+			::pop3::send $chan "QUIT"
 		}
+
 		::close $chan
 		unset ::pop3::chanopen_$chan
-	}
-
-	proc ::pop3::waitTillOpen {chan user password time} {
-		#don't block untill we know that its available
-		fconfigure $chan -blocking 0
-		if {[catch {::pop3::send $chan {} 1} errorStr]} {
-			if { $errorStr == "blocked" } {
-				plugins_log pop3 "Mail server was blocked, Trying again in $time milliseconds"
-				#exponentially wait longer periods
-				after $time [list ::pop3::waitTillOpen $chan $user $password [expr "$time * 2"]]
-				return
-			}
-			::close $chan
-		}
-		fconfigure $chan -blocking 1
-
-		if {[catch {
-			::pop3::send $chan "user $user" 1
-			::pop3::send $chan "pass $password" 1
-			} errorStr]} {
-			::close $chan
-			return "POP3 LOGIN ERROR: $errorStr\n"
-		}
-
-		set ::pop3::chanopen_$chan 1
 	}
 
 	# pop3::open
 	# Description
 	#	Opens a connection to a POP3 mail server.
 	# Arguments:
-	#       args ->  A list of options and values, possibly empty,
-	#		 followed by the regular arguments, i.e. host, user,
-	#		 passwd and port. The latter is optional.
+	#	args ->  A list of options and values, possibly empty,
+	#	           followed by the regular arguments, i.e. host, user,
+	#	           passwd and port. The latter is optional.
 	#
 	#	host   -> The name or IP address of the POP3 server host.
-	#       user   -> The username to use when logging into the server.
-	#       passwd -> The password to use when logging into the server.
-	#       port   -> (optional) The socket port to connect to, defaults
-	#                 to port 110, the POP standard port address.
+	#	user   -> The username to use when logging into the server.
+	#	passwd -> The password to use when logging into the server.
+	#	port   -> (optional) The socket port to connect to, defaults
+	#	            to port 110, the POP standard port address.
 	# Results:
-	#	The connection channel (a socket).
+	#	Returns immediately the connection channel (a socket).
+	#	When the channel is ready (open) it sets ::pop3::chanopen_$chan to 1
 	#	May throw errors from the server.
 	proc ::pop3::open {args} {
 		array set cstate {msex 0 retr_mode retr limit {}}
@@ -243,15 +217,35 @@ namespace eval ::pop3 {
 			fconfigure $chan -translation {binary crlf}
 		}
 
+		fconfigure $chan -blocking 0
 		set ::pop3::chanopen_$chan 0
 
 		#give it a chance to open then call rest
-		after 100 [list ::pop3::waitTillOpen $chan $user $password 100]
+		fileevent $chan writable [list ::pop3::Open2 $chan $user $password]
 		
+		#wait till chan is open before returning
+		vwait ::pop3::chanopen_$chan
+
 		return $chan
 	}
-	
-	
+	#continuation of open when the channel is ready
+	proc ::pop3::Open2 {chan user password} {
+		fileevent $chan writable ""
+
+		if {[catch {
+			::pop3::send $chan {} 1
+			::pop3::send $chan "user $user" 1
+			::pop3::send $chan "pass $password" 1
+			} errorStr]} {
+			::close $chan
+			set ::pop3::chanopen_$chan -1
+			return
+		}
+
+		set ::pop3::chanopen_$chan 1
+	}
+
+
 	# ::pop3::send
 	# Description:
 	#	Send a command string to the POP3 server.  This is an
@@ -266,25 +260,34 @@ namespace eval ::pop3 {
 	proc ::pop3::send {chan cmdstring {override 0}} {
 		global PopErrorNm PopErrorStr debug
 
-		if { ($override == 0) && ([set ::pop3::chanopen_$chan] == 0) } {
-			error "notOpenYet"
+		if { ($override == 0) && ([set ::pop3::chanopen_$chan] != 1) } {
+			plugins_log pop3 "ERROR : Data sent when channel not open"
+			error "ERROR : Data sent when channel not open"
 		}
 
 		if {$cmdstring != {}} {
 			puts $chan $cmdstring
 		}
 
-		set popRet [string trim [gets $chan]]
+		set ::pop3::chanreturn_$chan "somethingtodelete"
+		fileevent $chan readable [list ::pop3::send2 $chan]
+		vwait ::pop3::chanreturn_$chan
+		if { [set ::pop3::chanreturn_$chan] == "ERROR" } { error }
 
-		if { [fblocked $chan] } {
-			error "blocked"
-		}
+		return [set ::pop3::chanreturn_$chan]
+	}
+	# continuation of send when data return is received
+	proc ::pop3::send2 {chan} {
+		fileevent $chan readable ""
+		set popRet [string trim [gets $chan]]
 	
 		if {[string first "+OK" $popRet] == -1} {
-			error [string range $popRet 4 end]
+			plugins_log pop3 "ERROR : [string range $popRet 4 end]"
+			set ::pop3::chanreturn_$chan "ERROR"
+			return
 		}
 	
-		return [string range $popRet 3 end]
+		set ::pop3::chanreturn_$chan [string range $popRet 3 end]
 	}
 
 
@@ -299,7 +302,7 @@ namespace eval ::pop3 {
 	#	and octetSize is the size (in octets, or 8 bytes) of
 	#	the entire spool.
 	proc ::pop3::status {chan} {
-		set data  [::pop3::send $chan "STAT"]
+		set data [::pop3::send $chan "STAT"]
 		return [lindex [split [string range $data 1 end] ] 0]
 	}
 
@@ -314,20 +317,25 @@ namespace eval ::pop3 {
 	#	An integer variable wich contains the number of mails in the mbox
 	proc ::pop3::check { } {
 		catch {
+			plugins_log pop3 "Checking for messages now"
 			set chan [::pop3::open $::pop3::config(host) $::pop3::config(user) $::pop3::config(pass) $::pop3::config(port)]
-			#wait till chan is open before checking it
-			vwait ::pop3::chanopen_$chan
-			set mails [::pop3::status $chan]
-			::pop3::close $chan
+			#check that it opened properly
+			if { [set ::pop3::chanopen_$chan] == 1 } {
+				set mails [::pop3::status $chan]
+				::pop3::close $chan
 
-			if { $::pop3::emails != $mails } {
-				set ::pop3::emails $mails
-				cmsn_draw_online
+				if { $::pop3::emails != $mails } {
+					set ::pop3::emails $mails
+					cmsn_draw_online
 
-				if { $::pop3::config(notify) == 1 && $mails != 0 } {
-					::amsn::notifyAdd "POP3\n[trans newmail $mails]" "" "" plugins
+					if { $::pop3::config(notify) == 1 && $mails != 0 } {
+						::amsn::notifyAdd "POP3\n[trans newmail $mails]" "" "" plugins
+					}
 				}
 				plugins_log pop3 "POP3 messages: $mails\n"
+			} else {
+				plugins_log pop3 "POP3 failed to open"
+				unset ::pop3::chanopen_$chan
 			}
 		}
 
