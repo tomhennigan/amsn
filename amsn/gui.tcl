@@ -2603,10 +2603,10 @@ namespace eval ::amsn {
        }
      }
 		  
-		  update
+#	  update
 
 		  if {$config(chatsmileys)} {
-	  custom_smile_subst $chatid ${win_name}.f.out.text $text_start end 
+	  custom_smile_subst $chatid ${win_name}.f.out.text $text_start end
 	  smile_subst ${win_name}.f.out.text $text_start end 0
       }
 
