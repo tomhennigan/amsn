@@ -39,7 +39,7 @@
 ###
 
 set version "0.52beta"
-set date "06/27/2002"
+set date "06/29/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -282,6 +282,7 @@ proc cmsn_draw_main {} {
    }
 
    menu .user_menu -tearoff 0 -type normal  
+   menu .move_group_menu -tearoff 0 -type normal
 
    #Main menu
    menu .main_menu -tearoff 0 -type menubar  \
@@ -734,7 +735,11 @@ proc cmsn_draw_online {} {
    # Configure bindings/tags for each named group in our scheme
    for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
        set gname [lindex $glist $gidx]
-       set gtag  "tg$gname"
+       if {$gname != "online" && $gname != "offline"} {
+           set gtag  "tg$gname"
+       } else {
+           set gtag $gname
+       }
        .main.text tag conf $gtag -fore #000000 -font sboldf
        .main.text tag bind $gtag <Button1-ButtonRelease> \
 	 "::groups::ToggleStatus $gname;cmsn_draw_online"
@@ -851,13 +856,22 @@ proc cmsn_draw_online {} {
 }
 
 proc ShowUser {user_name user_login state state_code colour section} {
-    global list_bl
+    global list_bl list_rl
 
          if {($state_code != "NLN") && ($state_code !="FLN")} {
             set state_desc " ([trans [lindex $state 1]])"
 	 } else {
             set state_desc ""
          }
+
+	 # If user is not in the Reverse List it means (s)he has not
+	 # yet added/approved us. Show their name in yellow. A way
+	 # of knowing how has a) not approved you yet, or b) has
+	 # removed you from their contact list even if you still 
+	 # have them...
+         if {[lsearch $list_rl "$user_login *"] == -1} {
+	     set colour #FF00FF
+	 }
 
          set image_type [lindex $state 4]
          if {[lsearch $list_bl "$user_login *"] != -1} {
@@ -920,6 +934,13 @@ proc send_mail {user_login} {
   exec $config(mailcommand) $mail_param &
 }
 
+proc menuCmdMove {newgid {paramlist ""}} {
+    set passport [lindex $paramlist 0]
+    set currgid  [::abook::getGroup $passport -id]
+    puts "menuCmdMove $passport from $currgid to $newgid"
+#    ::MSN::moveUser $passport $currgid $newgid
+}
+
 proc show_umenu {user_login x y} {
    global list_bl
 
@@ -938,9 +959,12 @@ proc show_umenu {user_login x y} {
          -command  "unblock_user ${user_login}"
    }
    .user_menu add command -label "[trans delete]" -command "set answer \[tk_messageBox -message \"[trans confirmdelete ${user_login}]\" -type yesno -icon question\]; if {\$answer == \"yes\"} {delete_user ${user_login}}"
+   .user_menu add cascade -label "[trans movetogroup]..." -menu .move_group_menu
    .user_menu add separator
    .user_menu add command -label "[trans properties]" \
       -command "::abookGui::showEntry $user_login"
+
+   ::groups::updateMenu menu .move_group_menu menuCmdMove $user_login
 
    tk_popup .user_menu $x $y
 }
