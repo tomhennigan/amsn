@@ -6080,15 +6080,21 @@ proc amsn_save { url token } {
 	set savedir [.update.dir get]
 	destroy .update.save
 	destroy .update.dir
-	if { [string equal $savedir ""] } { set savedir $::HOME }
+	if { [string equal $savedir ""] } { set savedir "~/" }
 	#write the file into disk
 	set lastslash [expr {[string last "/" $url]+1}]
 	set fname [string range $url $lastslash end]
-	set file_id [open [file join $savedir $fname] w]
-	fconfigure $file_id -translation {binary binary} -encoding binary
-	puts -nonewline $file_id [::http::data $token]
-	close $file_id
-	.update.q configure -text "Saved $fname in $savedir."
+	
+	if { [catch {
+		set file_id [open [file join $savedir $fname] w]
+		fconfigure $file_id -translation {binary binary} -encoding binary
+		puts -nonewline $file_id [::http::data $token]
+		close $file_id
+	}]} {
+		.update.q configure -text "File can't be saved (check permissions and free space avaiable and path)."
+	} else {
+		.update.q configure -text "Saved $fname in $savedir."
+	}
 }
 
 #///////////////////////////////////////////////////////////////////////
