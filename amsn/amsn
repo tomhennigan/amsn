@@ -1,7 +1,7 @@
 #!/usr/bin/wish
 ###############################################################
-### Alvaro's Messenger			 					   ###############
-###															###############
+### Alvaro's Messenger  		        ###############
+###						###############
 ### http://aim.homelinux.com/msn.htm            ###############
 ### airadier@users.sourceforge.net              ###############
 ###############################################################
@@ -41,7 +41,7 @@
 ###
 
 set version "0.62beta"
-set date "07/07/2002"
+set date "07/08/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -99,7 +99,7 @@ set pgNews  ""
          }
       set logo [file join $artdir $art]
       if { [ file exists $logo ] } {
-         frame .splash -borderwidth 4 -relief raised
+         frame .splash -borderwidth 4 -relief raised -class Amsn
          set logo [ image create photo -file $logo ]
          label .splash.logo -image $logo
          pack  .splash.logo -fill both
@@ -117,6 +117,7 @@ set pgNews  ""
 #Splash bonline.gif 3000 $images_folder
 
 #Load program modules
+source [file join $program_dir ctthemes.tcl]
 source [file join $program_dir notebook.tcl]	;# Notebook Megawidget
 source [file join $program_dir notebook1.tcl]	;# Notebook Megawidget
 source [file join $program_dir progressbar.tcl]	;# Progressbar Megawidget
@@ -205,9 +206,9 @@ proc cmsn_draw_about {} {
    wm transient .about .
 
    set developers "\nDidimo Grimaldo\nAlvaro I. Munro\nDave Mifsud"
-   frame .about.top
+   frame .about.top -class Amsn
        label .about.top.i -image msndroid
-       label .about.top.l -font splainf -text "[trans broughtby]:$developers"
+       label .about.top.l -font splainf -text "[trans broughtby]:$developers" 
        pack .about.top.i .about.top.l -side left
    pack .about.top
 
@@ -225,7 +226,7 @@ proc cmsn_draw_about {} {
    set y [expr {([winfo vrootheight .about] - [winfo height .about]) / 2}]
    wm geometry .about +${x}+${y}
 
-   frame .about.bottom
+   frame .about.bottom -class Amsn
        button .about.bottom.close -text "[trans close]" -font splainf \
        		-command "destroy .about"
        pack .about.bottom.close
@@ -332,7 +333,8 @@ proc cmsn_draw_main {} {
    .main_menu.file add command -label "[trans inbox]" -command \
      "hotmail_login $config(login) $password"
    .main_menu.file add separator
-   .main_menu.file add command -label "[trans savecontacts]..." -state disabled
+   .main_menu.file add command -label "[trans savecontacts]..." \
+   	-command "debug_cmd_lists -export contactlist.txt" -state disabled
    .main_menu.file add command -label "[trans loadcontacts]..." -state disabled
    .main_menu.file add separator
    .main_menu.file add command -label "[trans sendfile]..." -state disabled
@@ -430,7 +432,7 @@ proc cmsn_draw_main {} {
    wm iconbitmap . @[file join ${images_folder} amsn.xbm]
    . conf -menu .main_menu
 
-   frame .main 
+   frame .main -class Amsn
    pack .main -expand true -fill both
    # Create the Notebook and initialize the page paths. These
    # page paths must be used for adding new widgets to the
@@ -528,22 +530,10 @@ proc setColor {w button name options} {
 	-initialcolor $initialColor]
     if [string compare $color ""] {
         set config(backgroundcolor) $color
-	setColor_helper $w $options $color
+	::themes::ApplyDeep $w $options $color
     }
     grab release $w
 }
-
-proc setColor_helper {w options color} {
-    foreach option $options {
-	catch {
-	    $w config $option $color
-	}
-    }
-    foreach child [winfo children $w] {
-	setColor_helper $child $options $color
-    }
-}
-
 
 proc choose_basefont { } {
    global config  
@@ -726,6 +716,7 @@ proc cmsn_draw_offline {} {
    configureMenuEntry .main_menu.actions "[trans sendmail]..." disabled
    configureMenuEntry .main_menu.actions "[trans sendmsg]..." disabled
 
+   configureMenuEntry .main_menu.file "[trans savecontacts]..." disabled
 
    #Publish Phone Numbers
    configureMenuEntry .options "[trans publishphones]..." disabled
@@ -1121,8 +1112,8 @@ proc user_choose {title online command {userslist ""}} {
    wm transient .userchoose .
    wm geometry .userchoose 400x300
  
-   frame .userchoose.list
-   frame .userchoose.buttons
+   frame .userchoose.list -class Amsn
+   frame .userchoose.buttons -class Amsn
 
     
    listbox .userchoose.list.userlist -yscrollcommand ".userchoose.list.ys set"
@@ -1302,7 +1293,7 @@ proc cmsn_draw_msgwin {} {
 
    .${win_name} conf -menu .${win_name}.menu
 
-   frame .${win_name}.top
+   frame .${win_name}.top -class Amsn
    text .${win_name}.top.text  -borderwidth 0 -width 45 \
       -height 1 -wrap word -yscrollcommand ".${win_name}.top.ys set"
    scrollbar .${win_name}.top.ys -command ".${win_name}.top.text yview" \
@@ -1315,14 +1306,14 @@ proc cmsn_draw_msgwin {} {
       
    text .${win_name}.status  -width 30 -height 1 -wrap none\
    -font bplainf
-   frame .${win_name}.in
+   frame .${win_name}.in -class Amsn
    text .${win_name}.in.input -background white -width 15 -height 3 -wrap word\
    -font bboldf
   
    button .${win_name}.in.send  -text [trans send] -width 5 \
       -command "sb_enter $name .${win_name}.in.input" -font bboldf
 
-   frame .${win_name}.buttons 
+   frame .${win_name}.buttons -class Amsn
 
    button .${win_name}.buttons.smileys  -image butsmile -relief flat -padx 5
    button .${win_name}.buttons.fontsel -image butfont -relief flat -padx 5
@@ -2181,7 +2172,10 @@ load_lang
 set family [lindex $config(basefont) 0]
 set size [lindex $config(basefont) end-1]
 
+::themes::Init
+degt_Init
 ::amsn::initLook $family $size $config(backgroundcolor)
+
 
 
 if { $config(encoding) != "auto" } {
