@@ -195,8 +195,8 @@ namespace eval ::Proxy {
 	
 	proc ConnectedPOST { name } {
 		ReadPOST $name   
-		sb set $name write_proc "::Proxy::WritePOST $name"
-		#sb set $name read_proc "::Proxy::ReadPOST $name"
+		sb set $name write_proc [list ::Proxy::WritePOST $name]
+		#sb set $name read_proc [list ::Proxy::ReadPOST $name"]
 		#catch { fileevent [sb get $name sock] readable [sb get $name readable] } res      
 		catch { fileevent [sb get $name sock] readable "::Proxy::ReadPOST $name" } res   
 		status_log "Evaluating: [sb get $name connected]\n" white

@@ -785,9 +785,13 @@ namespace eval ::MSN {
    cancelReceiving cancelSending moveUser
 
 	if { $initialize_amsn == 1 } {
+		#Forward list
 		variable list_FL [list]
+		#Reverse List
 		variable list_RL [list]
+		#Accept List
 		variable list_AL [list]
+		#Block list
 		variable list_BL [list]
 
 		variable myStatus FLN
@@ -807,8 +811,8 @@ namespace eval ::MSN {
 		
 	}
 
-	
-   proc connect { {passwd ""}} {
+  	#TODO: New abstract connection system
+	proc connect { {passwd ""}} {
 
 		global config tlsinstalled login_passport_url
 		set username [::config::getKey login]
@@ -872,10 +876,10 @@ namespace eval ::MSN {
 	 
 	proc logout {} {
 		variable myStatus
-
 		
 		::MSN::WriteSBRaw ns "OUT\r\n";
-		
+
+  		#TODO: New abstract connection system
 		catch {close [sb get ns sock]} res
 		sb set ns stat "d"
 		
@@ -904,6 +908,7 @@ namespace eval ::MSN {
 		::MSN::clearList BL
 		::MSN::clearList FL
 		::MSN::clearList rL
+		
 		set list_BLP -1
 		if { [info exists emailBList] } {
 			unset emailBList
@@ -920,18 +925,24 @@ namespace eval ::MSN {
 	}
 
 
-
+	#Callback procedure called when a REA (screen name change) message is received
 	proc GotREAResponse { recv } {
 	
 		global  config
 	
 		if { [string tolower [lindex $recv 3]] == [string tolower $config(login)] } {
+			#This is our own nick change
 			::abook::setPersonal nick [urldecode [lindex $recv 4]]
 			cmsn_draw_online 1
+		} else {
+			#This is another one nick change
+			::abook::setContactData [lindex $recv 3] nick [urldecode [lindex $recv 4]]
+
 		}
 	
 	}
 
+	#Handler when we're setting our nick, so we check if the nick is allowed or not
 	proc badNickCheck { userlogin newname recv } {
 
 		if { "[lindex $recv 0]" == "209"} {
@@ -947,21 +958,22 @@ namespace eval ::MSN {
 		}
 	}
 
+	#Change a users nickname
 	proc changeName { userlogin newname { nourlencode 0 } } {
 
-		global HOME config
-
+		if { $userlogin == "" } {
+			return
+		}
+		
 		if { $nourlencode } {
 			set name $newname
 		} else {
 			set name [urlencode $newname]
 		}
 
-		if { $userlogin == "" } {
-			return
-		}
-
-		if { $config(allowbadwords) } {
+		if { [::config::getKey allowbadwords] == 1 } {
+			#If we're allowing banned words in nicks, try to set usual nick. It it fails,
+			#we will try again urlencoding every character, to avoid censure
 			::MSN::WriteSB ns "REA" "$userlogin $name" \
 				"::MSN::badNickCheck $userlogin [list $name]"
 		} else {
@@ -970,11 +982,12 @@ namespace eval ::MSN {
 	}
 
   
+	#Procedure called to change our status
 	proc changeStatus {new_status} {
-		global autostatuschange config clientid
+		global autostatuschange clientid
 	
-		if { $config(displaypic) != "" } {
-			::MSN::WriteSB ns "CHG" "$new_status 268435500 [urlencode [create_msnobj $config(login) 3 [GetSkinFile displaypic $config(displaypic)]]]"
+		if { [::config::getKey displaypic] != "" } {
+			::MSN::WriteSB ns "CHG" "$new_status $clientid [urlencode [create_msnobj [::config::getKey login] 3 [GetSkinFile displaypic [::config::getKey displaypic]]]]"
 		} else {
 			::MSN::WriteSB ns "CHG" "$new_status 0"
 		}
@@ -996,13 +1009,11 @@ namespace eval ::MSN {
 	}
 
 	proc userIsBlocked {userlogin} {
-		#TODO: Change to use new ::abook system when everything if finished
-
-		if {[lsearch [::MSN::getList BL] "$userlogin*"] != -1} {
+		set lists [::abook::getLists $userlogin]
+		if { [lsearch $lists BL] != -1} {
 			return 1
-		} else {
-			return 0
-		}
+		} 
+		return 0
 
 	}
 
@@ -1026,6 +1037,7 @@ namespace eval ::MSN {
 
 	}
 
+	#Copy user from one group to another
 	proc copyUser { passport newGid {userName ""}} {
 		if { $userName == "" } {
 		set userName $passport
@@ -1034,6 +1046,7 @@ namespace eval ::MSN {
 	}
 
 
+	#Add user to our Forward (contact) list
 	proc addUser { userlogin {username ""}} {
 		set userlogin [string map {" " ""} $userlogin]
 		if { $username == "" } {
@@ -1043,6 +1056,7 @@ namespace eval ::MSN {
 	}
    
 	
+	#Handler for the ADD message, to show the ADD messagebox
 	proc ADDHandler { item } {
 	
 		if { [lindex $item 2] == "FL"} {
@@ -1054,7 +1068,7 @@ namespace eval ::MSN {
 
 	}
 
-	
+	#Delete user (from a given group $grID, or from all groups)
 	proc deleteUser { userlogin {grId ""}} {
 		if { $grId == "" } {
 			::MSN::WriteSB ns REM "FL $userlogin"
@@ -1063,9 +1077,11 @@ namespace eval ::MSN {
 		}
 	}
 
-
+	##################################################
 	#Internal procedures
+	##################################################
 
+	#Start the loop that will keep a keepalive (PNG) message every minute
 	proc StartPolling {} {
 		global config
 
@@ -1077,10 +1093,12 @@ namespace eval ::MSN {
 		}
 	}
 
+	#Stop sending the keepalive message
 	proc StopPolling {} {
 		after cancel "::MSN::PollConnection"
 	}   
    
+	#Send a keepalive message
 	proc PollConnection {} {
 		variable myStatus
 		#Let's try to keep the connection alive... sometimes it gets closed if we
@@ -1096,11 +1114,11 @@ namespace eval ::MSN {
 		variable trid 0
 	}
 
+	#TODO: New abstract connection system
 	proc DirectWrite { sbn cmd } {
 	
 		set sb_sock [sb get $sbn sock]
 
-		#set command "[sb get ns puts] -nonewline [sb get ns sock] \"$cmd\""
 		if {[catch {puts -nonewline $sb_sock "$cmd"} res]} {
 			status_log "::MSN::DirectWrite: SB $sbn problem when writing to the socket: $res...\n" red
 			::MSN::CloseSB $sbn
@@ -1115,10 +1133,12 @@ namespace eval ::MSN {
 		
 	}
 
+	#Write a string to the given SB, followed by a NewLine character, adding the transfer ID
 	proc WriteSB {sbn cmd param {handler ""}} {
 		WriteSBNoNL $sbn $cmd "$param\r\n" $handler
 	}
    
+	#Write a string to the given SB, with no NewLine, adding the transfer ID
 	proc WriteSBNoNL {sbn cmd param {handler ""}} {
 
 		variable trid
@@ -1138,18 +1158,18 @@ namespace eval ::MSN {
 
 	proc WriteSBRaw {sbn cmd} {
 
-		global config
-		#TODO: change this
-
 		#Finally, to write, use write_proc (by default ::MSN::DirectWrite)      
-		set command "[sb get $sbn write_proc] [list $cmd]"
-		catch {eval $command}		
+		set command [sb get $sbn write_proc]
+		lappend command $cmd
+		catch {eval $command}
 	}
 
-	
-	# Check if the old closed preferred SB is still the preferred SB, or close it
-	# if not
+
+	########################################################################	
+	# Check if the old closed preferred SB is still the preferred SB, or
+	# close it if not.
 	proc CheckKill { sbn } {
+	
 		#Kill any remaining timers
 		after cancel "::MSN::CheckKill $sbn"
 	
@@ -1204,13 +1224,6 @@ namespace eval ::MSN {
 		status_log "::MSN::CloseSB $sbn Called\n" green
 		catch {fileevent [sb get $sbn sock] readable "" } res
 		catch {fileevent [sb get $sbn sock] writable "" } res
-
-		#If we keep it here we have problems, specially the proc_ns one (can't connect)
-		#if { $sbn == "ns" } {
-		#   proc_ns
-		#} else {
-		#   proc_sb
-		#}
 		
 		set sock [sb get $sbn sock]
 
@@ -1218,11 +1231,17 @@ namespace eval ::MSN {
 			catch {close $sock} res
 		}
 		
+		#Append an empty string to the SB buffer. This will cause the
+		#actual SB cleaning, but will allow to process all buffer
+		#before doing the cleaning
 		sb append $sbn data ""
 
 	}
 	#///////////////////////////////////////////////////////////////////////
-   
+
+	########################################################################
+	#Called when we find a "" (empty string) in the SB buffer. This means
+	#the SB is closed. Proceed to clear everything related to it
 	proc ClearSB { sbn } {
 
 		status_log "::MSN::ClearSB $sbn called\n" green
@@ -1233,9 +1252,14 @@ namespace eval ::MSN {
 		sb set $sbn stat "d"
 		
 		if { $sbn == "ns" } {
+		
+			#If we were not disconnected or authenticating, logout
 			if { ("$oldstat" != "d") && ("$oldstat" != "u") } {
 				logout
 			}
+			
+			#If we're not disconnected, connected, or authenticating, then
+			#we have a connection error.
 			if { ("$oldstat"!="d") && ("$oldstat" !="o") && ("$oldstat" !="u") && ("$oldstat" !="us")} {
 				set error_msg [sb get ns error_msg]
 				if { $error_msg != "" } {
@@ -1245,6 +1269,7 @@ namespace eval ::MSN {
 				}
 			}
 		
+			#If we were connected, we have lost the connection
 			if { ("$oldstat"=="o") } {
 				set error_msg [sb get ns error_msg]
 				if { $error_msg != "" } {
@@ -1256,22 +1281,23 @@ namespace eval ::MSN {
 			}
 			
 		} else {
+			#Check if we can kill the SB (clear all related info
 			CheckKill $sbn	
 		}
 		
 	}
 	#///////////////////////////////////////////////////////////////////////
    
+	########################################################################
+	#Answer the server challenge. This is a handler for CHL message
 	proc AnswerChallenge { item } {
+	
 		if { [lindex $item 1] != 0 } {
-		status_log "Invalid challenge\n" red
+			status_log "Invalid challenge\n" red
 		} else {
-			#set str [lindex $item 2]Q1P7W2E4J9R8U3S5
-			#set str [::md5::md5 $str]
-
-			#::MSN::WriteSBNoNL ns "QRY" "msmsgs@msnmsgr.com 32\r\n$str"
-
-			#Let's test MSN6 challenge strings
+			#MSN6 challenge strings
+			#Get the challenge string, append this string, and
+			#send back the md5sum of the composed string
 			set str [lindex $item 2]JXQ6J@TUOGYV@N0M
 			set str [::md5::md5 $str]
 
@@ -1280,7 +1306,50 @@ namespace eval ::MSN {
 		}
 	}
 
-
+	proc CALReceived {sb_name user item} {
+	
+		switch [lindex $item 0] {   
+			216 {
+				# if you try to begin a chat session with someone who blocked you and is online
+				set chatid [::MSN::ChatFor $sb_name]
+				::MSN::ClearQueue $chatid
+				::amsn::chatStatus $chatid "$user: [trans userblocked]\n" miniwarning
+				warn_blocked $user
+				return 0
+			}
+			217 {
+				#TODO: Check what we do with sb stat "?", disable chat window?
+				# this should be related to user state changes
+				#sb get $sb_name stat
+				set chatid [::MSN::ChatFor $sb_name]
+				::MSN::ClearQueue $chatid
+				# DO NOT cleanchat... it's needed for WinTopUpdate 
+				# ::MSN::CleanChat $chatid
+				::amsn::chatStatus $chatid "$user: [trans usernotonline]\n" miniwarning
+				#msg_box "[trans usernotonline]"
+				user_not_blocked $user
+				return 0
+			} 
+			713 {
+				status_log "CALReceived: 713 USER TOO ACTIVE \nStoping the VerifyBlocked procedure\n" white
+				StopVerifyBlocked
+				return 0
+			}
+		}
+	}
+	
+	
+	
+	########################################################################
+	########################################################################
+	########################################################################
+	# CHAT RELATED PROCEDURES. SHOULD THEY HAVE THEIR OWN NAMESPACE??
+	########################################################################
+	########################################################################
+	########################################################################
+	
+	########################################################################
+	# Return a list of users in chat, or last user in chat is chat is closed
 	proc usersInChat { chatid } {
 
 		set sb_name [SBFor $chatid]
@@ -1301,17 +1370,23 @@ namespace eval ::MSN {
 	
 	}
 
+	########################################################################
+	#Set the given $typer as a typing user. He will be removed after 6
+	#seconds.
 	proc addSBTyper { sb_name typer } {
 		
 		set idx [sb search $sb_name typers $typer]
 		if {$idx == -1} {
+			#Add if not already typing
 			sb append $sb_name typers $typer
 		}
 	
-		#after 8000 "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name\} res"
-		#We have to catch it as the sb can be closed before the 8 seconds to delete the typing user
+		#Cancel last DelSBTyper timer
 		after cancel [list ::MSN::DelSBTyper $sb_name $typer]
+		#Remove typer after 6 seconds without a new notification
 		after 6000 [list ::MSN::DelSBTyper $sb_name $typer]
+		
+		#TODO: Call CHAT layer instead of GUI layer
 		set chatid [::MSN::ChatFor $sb_name]
 		if { $chatid != "" } {
 			::amsn::updateTypers $chatid
@@ -1319,11 +1394,15 @@ namespace eval ::MSN {
 	
 	}	
 	
+	########################################################################
+	#Remove the given typer from the chat typers list
 	proc DelSBTyper {sb_name typer} {
-		after cancel [list ::MSN::DelSBTyper $sb_name $typer]		
+		after cancel [list ::MSN::DelSBTyper $sb_name $typer]
 		catch {
 			set idx [sb search $sb_name typers $typer]
 			sb ldel $sb_name typers $idx
+		
+			#TODO: Call CHAT layer instead of GUI layer
 			set chatid [::MSN::ChatFor $sb_name]
 			if { $chatid != "" } {
 				::amsn::updateTypers $chatid
@@ -1332,7 +1411,8 @@ namespace eval ::MSN {
 		
 	}
 	
-	
+	########################################################################
+	#Return a list of users currently typing in the given chat
 	proc typersInChat { chatid } {
 
 		set name [SBFor $chatid]
@@ -1363,7 +1443,6 @@ namespace eval ::MSN {
 
    
 	if { $initialize_amsn == 1 } {
-
 		variable sb_num 0
 	}
 
@@ -1381,16 +1460,19 @@ namespace eval ::MSN {
 	
 		set lowuser [string tolower ${user}]
 
+		#If there's already an existing chat for that user, and
+		#that chat is ready, return it as chatd
 		if { [chatReady $lowuser] } {
 			return $lowuser
 		}
 
 
+		#Get SB for that chatid, if it exists
 		set sbn [SBFor $lowuser]
 
 		if { $sbn == 0 } {
-
-
+			#If no SB exists, get a new one and
+			#configure it
 			set sbn [GetNewSB]
 
 			status_log "::MSN::chatTo: Opening chat to user $user\n"
@@ -1411,14 +1493,15 @@ namespace eval ::MSN {
 			AddSBFor $lowuser $sbn
 			lappend sb_list "$sbn"
 		}
-			
+		#Now we have a SB ready for reconnection
 		cmsn_reconnect $sbn
-		#status_log "Opened chat with $user on sb $sbn\n"
+		
 		return $lowuser
-
 	}
 
 
+	########################################################################
+	#Totally remove the given SB
 	proc KillSB { name } {
 		global sb_list
 		global ${name}_info
@@ -1444,6 +1527,8 @@ namespace eval ::MSN {
 	}
 
    
+	########################################################################
+	#Totally clean a chat. Remove all associated SBs
 	proc CleanChat { chatid } {
 		global config sb_list
 
@@ -1466,6 +1551,9 @@ namespace eval ::MSN {
 	}
    
 
+	########################################################################
+	#Enqueue a -1 command to the chat Queue. This will produce a call
+	#to CleanChat only after all the chat queue is processed
 	proc leaveChat { chatid } {
 		ChatQueue $chatid -1
 	}
@@ -1515,7 +1603,8 @@ namespace eval ::MSN {
 	#///////////////////////////////////////////////////////////////////////////////
 
 
-
+	########################################################################
+	#Given a chatid, retuen the preferred SB to be used for that chat
 	proc SBFor { chatid } {
 
 		variable sb_chatid
@@ -1553,7 +1642,8 @@ namespace eval ::MSN {
 
 	}
 
-
+	########################################################################
+	# Given a SB, return  the chatid it's associated to
 	proc ChatFor { sb_name } {
 	
 		variable chatid_sb
@@ -1567,6 +1657,8 @@ namespace eval ::MSN {
 	}
 
    
+	########################################################################
+	# Add the given SB to the list of usable SBs for that chat
 	proc AddSBFor { chatid sb_name} {
 		variable sb_chatid
 		variable chatid_sb
@@ -1602,7 +1694,7 @@ namespace eval ::MSN {
 			set sb_chatid($chatid) [linsert $sb_chatid($chatid) 0 $sb_name]
 		}
 	
-				set chatid_sb($sb_name) $chatid
+		set chatid_sb($sb_name) $chatid
 	
 		if { $oldsb_chatid != $sb_chatid($chatid) } {
 			status_log "::MSN::AddSBFor: Adding SB $sb_name to chat $chatid\n" blue	 
@@ -1614,7 +1706,8 @@ namespace eval ::MSN {
 		}
 	}
 
-	
+	########################################################################
+	# Remove a SB from the list of usable SBs for the chatid
 	proc DelSBFor { chatid sb_name} {
 		variable sb_chatid
 		variable chatid_sb
@@ -1646,7 +1739,8 @@ namespace eval ::MSN {
 
 	}
 
-
+	########################################################################
+	# Invite a user to an existing chat
 	proc inviteUser { chatid user } {
 		set sb_name [::MSN::SBFor $chatid]
 
@@ -1656,6 +1750,8 @@ namespace eval ::MSN {
 	}
 
 
+	########################################################################
+	# Clear the given chat pending events queue
 	proc ClearQueue {chatid } {
 
 		variable chat_queues
@@ -1672,6 +1768,8 @@ namespace eval ::MSN {
 	}
 
 	
+	########################################################################
+	# Check for pending events in the chat queue, and try to process them
 	proc ProcessQueue { chatid {count 0} } {
 
 		variable chat_queues
@@ -1685,6 +1783,7 @@ namespace eval ::MSN {
 			return
 		}
 
+		# Too many retries!
 		if { $count >= 15 } {
 			#TODO: Should we clean queue or anything?
 			set chat_queues($chatid) [lreplace $chat_queues($chatid) 0 0]         
@@ -1692,9 +1791,11 @@ namespace eval ::MSN {
 			return
 		}
 
+		#Get next pending command
 		set command [lindex $chat_queues($chatid) 0]
 		
 		if { $command == -1 } {
+			#This command means we closed the chat window, or similar. Leave chat!
 			status_log "::MSN::ProcessQueue: processing leaveChat in queue for $chatid\n" black
 			set chat_queues($chatid) [lreplace $chat_queues($chatid) 0 0]
 			CleanChat $chatid
@@ -1703,13 +1804,13 @@ namespace eval ::MSN {
 		}
 
 		if {[chatReady $chatid]} {
-
+			#Chat is ready, so we can run the command, and go for next one
 			set chat_queues($chatid) [lreplace $chat_queues($chatid) 0 0]
 			eval $command
 			ProcessQueue $chatid
 
 		} else {
-
+			#Chat is not ready! Try to reconnect, and try again later
 			chatTo $chatid
 			after 3000 "::MSN::ProcessQueue $chatid [expr {$count + 1}]"
 
@@ -1717,7 +1818,8 @@ namespace eval ::MSN {
 
 	}
 
-
+	########################################################################
+	#Enqueue the given command to the chat queue
 	proc ChatQueue { chatid command } {
 
 		variable chat_queues
@@ -1852,7 +1954,9 @@ namespace eval ::MSN {
 		#///////////////////////////////////////////////////////////////////////////////
 	
 	}
-
+	
+	########################################################################
+	# Return a sorted version of the contact list
 	proc sortedContactList { } {
 		variable list_users
 		
@@ -1863,16 +1967,19 @@ namespace eval ::MSN {
 		return $list_users
 	}
 	
+	#Mark the contact list as changed
 	proc contactListChanged { } {
 		variable list_users
 		set list_users ""
 	}
 	
+	#Return the given list
 	proc getList { list_type } {
 		variable list_${list_type}
 		return [set list_${list_type}]
 	}
 	
+	#Clear the given list
 	proc clearList { list_type } {
 		variable list_${list_type} 
 		set list_${list_type}  [list]
@@ -1882,6 +1989,7 @@ namespace eval ::MSN {
 		set list_users ""
 	}
 	
+	#Add a user to a list
 	proc addToList {list_type user} {
 		variable list_${list_type}
 
@@ -1897,6 +2005,7 @@ namespace eval ::MSN {
 		
 	}
 	
+	#Delete a user from a list
 	proc deleteFromList {list_type user} {
 		variable list_${list_type} 
 		
@@ -1912,7 +2021,7 @@ namespace eval ::MSN {
 		set list_users ""
 	}
 	
-	
+	#Compare two states, for sorting
 	proc CompareState { item1 item2 } {
 		set state1 [::MSN::stateToNumber [::abook::getVolatileData $item1 state FLN]]
 		set state2 [::MSN::stateToNumber [::abook::getVolatileData $item2 state FLN]]
@@ -1926,6 +2035,7 @@ namespace eval ::MSN {
 		}
 	}
 
+	#Compare two nicks, for sorting
 	proc CompareNick { item1 item2 } {
 		return [string compare -nocase [::abook::getDisplayNick $item1] [::abook::getDisplayNick $item2]]
 	}	
@@ -1969,12 +2079,7 @@ namespace eval ::MSN {
 		variable list_states
 		set state [lindex $list_states [lsearch $list_states "$state_code *"]]
 		return [lindex $state 5]	
-	}
-	
-				
-
-	
-	
+	}	
 
 
 }
@@ -2517,38 +2622,6 @@ proc cmsn_sb_msg {sb_name recv} {
 
 }
 
-proc CALReceived {sb_name user item} {
-   
-	switch [lindex $item 0] {   
-		216 {
-			# if you try to begin a chat session with someone who blocked you and is online
-			set chatid [::MSN::ChatFor $sb_name]
-			::MSN::ClearQueue $chatid
-			::amsn::chatStatus $chatid "$user: [trans userblocked]\n" miniwarning
-			warn_blocked $user
-			return 0
-		}
-		217 {
-			#TODO: Check what we do with sb stat "?", disable chat window?
-			# this should be related to user state changes
-			#sb get $sb_name stat
-			set chatid [::MSN::ChatFor $sb_name]
-			::MSN::ClearQueue $chatid
-			# DO NOT cleanchat... it's needed for WinTopUpdate 
-			# ::MSN::CleanChat $chatid
-			::amsn::chatStatus $chatid "$user: [trans usernotonline]\n" miniwarning
-			#msg_box "[trans usernotonline]"
-			user_not_blocked $user
-			return 0
-		} 
-		713 {
-			status_log "CALReceived: 713 USER TOO ACTIVE \nStoping the VerifyBlocked procedure\n" white
-			StopVerifyBlocked
-			return 0
-		}
-	}
-	#cmsn_sb_handler $sb_name [encoding convertto utf-8 $item]
-}
 
 proc cmsn_sb_handler {sb_name item} {
 	global list_cmdhnd msgacks config
@@ -2645,7 +2718,7 @@ proc cmsn_invite_user {name user} {
 		|| ("[sb get $name stat]" == "n") \
 		|| ("[sb get $name stat]" == "i")} {
 
-		::MSN::WriteSB $name "CAL" $user "CALReceived $name $user"
+		::MSN::WriteSB $name "CAL" $user "::MSN::CALReceived $name $user"
 
 	} else {
 
@@ -3966,7 +4039,7 @@ proc cmsn_socket {name} {
 	
 	#read_proc not yet used, maybe in the future (by Alvaro)
 	#sb set $name read_proc "::MSN::DirectRead $name"
-	sb set $name write_proc "::MSN::DirectWrite $name"
+	sb set $name write_proc [list ::MSN::DirectWrite $name]
 	
 	if {$config(connectiontype) == "direct" } {
 

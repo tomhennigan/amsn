@@ -202,7 +202,7 @@ proc ContinueVerifyBlocked { nbre_users interval } {
 	     ([sb get $sbn_blocking stat] != "d" && [sb get $sbn_blocking stat] != "") } {
 #	    set counter [expr {$counter + 1 }]
 	    incr counter	    
-	    ::MSN::WriteSB $sbn_blocking "CAL" "$username" "CALReceived $sbn_blocking $username"
+	    ::MSN::WriteSB $sbn_blocking "CAL" "$username" "::MSN::CALReceived $sbn_blocking $username"
 	    
 	}
     }

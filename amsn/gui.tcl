@@ -2602,7 +2602,7 @@ namespace eval ::amsn {
 
 
 	#///////////////////////////////////////////////////////////////////////////////
-	# closedWindow (win_name,path)
+# 	# closeWindow (win_name)
 	# Called when a window is about to be closed
 	proc closeWindow { win_name} {
 		variable recent_message
