@@ -158,6 +158,7 @@ disableprofiles Izkljuci profile (Uporabno v kiberkavarnah in skupinskem okolju)
 disablessl Onemogoci SSL
 disconnect $1 se je odjavil/a.
 displaychat Prikazi nastavitve besedila
+displayp4context Prikazi kontekst P4
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk gtk pomol
 dockingoff Pristaja prekinjena
@@ -360,11 +361,11 @@ ordercontactsby Uredi stike
 ordergroupsby Uredi skupine
 other Ostalo
 others Ostalo
+p4contextprefix Predpona konteksta P4
 pager Pager
 pass Geslo
 paste Prilepi
 personal Osebno
-phone Telefon
 phones Telefonske stevilke
 picbrowser Prikazi brskalnik slik
 picfile Slikovna datoteka

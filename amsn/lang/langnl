@@ -543,3 +543,5 @@ userdata Gebruikersinformatie
 userproperties Eigenschappen van $1
 displayp4context Toon de inhoud van het P4-Context veld als verzender van de boodschap
 p4contextprefix Plaats volgende tekst voor P4-context verzenders
+displaypic Toon figuur
+phones Telefoonnummers
