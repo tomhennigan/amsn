@@ -5247,27 +5247,32 @@ proc check_web_version { token } {
 	set newer 0
 
 	set tmp_data [ ::http::data $token ]
+
+	if { [::http::status $token] == "ok" && [::http::ncode $token] == 200 } {
+		set tmp_data [string map {"\n" "" "\r" ""} $tmp_data]
+		set lastver [split $tmp_data "."]
+		set yourver [split $version "."]
+
+		if { [lindex $lastver 0] > [lindex $yourver 0] } {
+			set newer 1
+		} else {
+			# Major version is at least the same
+			if { [lindex $lastver 1] > [lindex $yourver 1] } {
+				set newer 1
+			}
+		}
+
+		catch {status_log "check_web_ver: Current= $yourver New=$lastver ($tmp_data)\n"}
+		if { $newer == 1} {
+			msg_box "[trans newveravailable $tmp_data]\n$weburl"
+		}
+
+	} else {
+		catch {status_log "check_web_ver: status=[::http::status $token] ncode=[::http::ncode $token]\n" blue}
+	}
 	::http::cleanup $token
 
-	set lastver [split $tmp_data "."]
-	set yourver [split $version "."]
-
-	if { [lindex $lastver 0] > [lindex $yourver 0] } {
-		set newer 1
-	} else {
-		# Major version is at least the same
-		if { [lindex $lastver 1] > [lindex $yourver 1] } {
-			set newer 1
-		}
-	}
-
-	if { $newer == 1} {
-		msg_box "[trans newveravailable $tmp_data]\n$weburl"
-	}
-
 	return $newer
-
-
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -5290,20 +5295,21 @@ proc check_version {} {
 
 	update idletasks
 
+	status_log "Getting ${weburl}/amsn_latest\n" blue
 	if { [catch {
-		set token [::http::geturl "${weburl}/amsn_latest" -timeout 5000]
+		set token [::http::geturl ${weburl}/amsn_latest -timeout 10000]
 
 		if {[check_web_version $token]==0} {
 			msg_box "[trans nonewver]"
 		}
 
 	} res ]} {
-		msg_box "[trans connecterror]"
+		msg_box "[trans connecterror]: $res"
 	}
 
 	destroy .checking
 
-	
+
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -5313,7 +5319,7 @@ proc check_version_silent {} {
 	global weburl
 
 	catch {
-		::http::geturl [list $weburl/amsn_latest] -timeout 2000 -command check_web_version
+		::http::geturl ${weburl}/amsn_latest -timeout 10000 -command check_web_version
 	}
 
 }

@@ -3518,7 +3518,7 @@ proc cmsn_auth_msnp9 {{recv ""}} {
 
 			if {$config(nossl)
 			|| ($config(connectiontype) != "direct" && $config(connectiontype) != "http")
-			||[catch {puts "Here"; ::http::geturl https://nexus.passport.com/rdr/pprdr.asp -timeout 5000 -command "gotNexusReply [list $info(all)]" }]} {
+			||[catch {::http::geturl https://nexus.passport.com/rdr/pprdr.asp -timeout 5000 -command "gotNexusReply [list $info(all)]" }]} {
 				msnp9_do_auth [list $info(all)] https://login.passport.com/login2.srf
 			}
 
