@@ -287,11 +287,11 @@ namespace eval ::Nudge {
 			#Use after 1 to avoid a bug on Mac OS X when we close the chatwindow before the end of the nudge
 			#Keep compatibility with 0.94 for the getColor
 			if {[::Nudge::version_094]} {
-				label $nudgebutton -image [::skin::loadPixmap nudgebutton] -relief flat -padx 3 \
+				label $nudgebutton -image [::skin::loadPixmap nudgebutton] -relief flat -padx 0 \
 				-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0 \
 				-highlightbackground [::skin::getColor background2] -activebackground [::skin::getColor background2]\
 			} else {
-				label $nudgebutton -image [::skin::loadPixmap nudgebutton] -relief flat -padx 3 \
+				label $nudgebutton -image [::skin::loadPixmap nudgebutton] -relief flat -padx 0 \
 				-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
 				-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
 			}
