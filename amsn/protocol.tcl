@@ -2289,7 +2289,11 @@ namespace eval ::DirectConnection {
 				} else {
 					set command [sb get $sbn command_handler]
 					lappend command $tmp_data
-					eval $command
+					if {[catch {eval $command}]} {
+						status_log "::DirectConnection::Read: Read error in $sbn, no command handler, closing\n" red
+						catch {fileevent $sb_sock readable ""}
+						eval [sb get $sbn error_handler]
+					}
 				}
 			}
 		}
