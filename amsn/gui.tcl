@@ -4427,6 +4427,10 @@ proc cmsn_draw_online_wrapped {} {
 			set mailmsg "[trans newmail $unread]\n"
 		}
 
+	  	set evpar(text) pgBuddy.text
+		set evpar(msg) mailmsg
+  		::plugins::PostEvent ContactListEmailsDraw evpar	
+
 		set maxw [expr [winfo width $pgBuddy.text] -30]
 		set short_mailmsg [trunc $mailmsg $pgBuddy.text $maxw splainf]
 		$pgBuddy.text insert end "$short_mailmsg\n" mail
