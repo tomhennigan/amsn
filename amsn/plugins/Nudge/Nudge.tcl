@@ -334,12 +334,23 @@ namespace eval ::Nudge {
 	# Use ::amsn::WinWrite to add text in a chat         #
 	# window when we send/receive a nudge                #	
 	# Add a seperation of "-" before and & after the text#	
-	# Add the <bell> pixmap just before the text         # 
+	# 0.95 use the skinnable separation instead of "--"  # 
 	######################################################
 	proc winwrite {chatid text iconname {color "green"} } {
+		#Look at the version of aMSN to know witch kind of separation we use
+		scan $version "%d.%d" y1 y2;
+		if { $y2 == "94" } {
 			amsn::WinWrite $chatid "\n----------\n" $color 
 			amsn::WinWriteIcon $chatid $iconname 3 2
 			amsn::WinWrite $chatid "[timestamp] $text\n----------" $color
+		} else {
+			amsn::WinWrite $chatid "\n" $color
+			amsn::WinWriteIcon $chatid greyline 3
+			amsn::WinWrite $chatid "\n" $color
+			amsn::WinWriteIcon $chatid $iconname 3 2
+			amsn::WinWrite $chatid "[timestamp] $text\n" $color
+			amsn::WinWriteIcon $chatid greyline 3
+		}
 	}
 	
 	############################################

@@ -3208,6 +3208,8 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap notinlist notinlist.gif
 	::skin::setPixmap smile smile.gif
 	
+	::skin::setPixmap greyline greyline.gif
+	
 	::skin::setPixmap nullimage null
 	#set the nullimage transparent
 	[::skin::loadPixmap nullimage] blank
