@@ -5,18 +5,36 @@ actions Toiminnot
 addacontact Lisää henkilö
 addedyou $1 ($2) on lisännyt sinut yhteystietoihinsa
 addprofile Lisää uusi profiili
+addstate Lisää uusi tila
 addtocontacts Lisää yhteystietoihin
 addtoo Lisää henkilö yhteystietoluettelooni
 admincontacts Hallitse yhteystietoja
 admingroups Hallitse ryhmiä
 adverts Mainokset
+alarmonconnect Hälytä, kun käyttäjä kirjautuu sisään
+alarmondisconnect Hälytä, kun käyttäjä kirjautuu ulos
+alarmonmsg Hälytä, kun käyttäjä lähettää viestin
+alarmonstatus Hälytä, kun käyttäjä vaihtaa tilaansa
 alarmpref Hälytysasetukset käyttäjälle
 alarmstatus Aseta hälytys päälle/pois 
+allfiles Kaikki tiedostot
+allowlist Sallittut nimimerkit:
+allowbadwords Älä sensuroi käyttäjien lempinimiä
 allowseen Anna tämän henkilön nähdä online-tilani ja ottaa yhteyttä minuun
+allowonlyinal Hyväksy vain sallittujen nimimerkkien yhteydenotot
+animatedemoticon Tämä hymiö on animoitu
+animatedsmileys Ota animoidut hymiöt käyttöön
 appearance Olemus
 appearoff Näyttäydy muille offline-tilaisena
 areacode Suuntanumero
 aretyping $1 kirjoittavat viestiä
+autoaccepted Tiedostonsiirto hyväksyttiin automaattisesti
+autoacceptft Hyväksy tiedonsiirrot automaattisesti
+autoaway Vaihda tilakseni "Poissa", kun olen ollut tekemättä mitään
+autocheckver Tarkista käynnistettäessä, onko aMSN:stä uudempaa versiota saatavilla
+autoconnect2 Kirjaa minut automaattisesti sisään, kun aMSN käynnistyy
+autodetectip Tunnista IP-osoite automaattisesti
+autonoact Vaihda tilakseni "Ei toimintaa", kun olen ollut tekemättä mitään
 autohotmaillog Automaattinen kirjautuminen Hotmail-palveluun
 autoidle Poissa-tila päälle määräajan kuluttua (5min) 
 autoip Automaattinen IP
@@ -26,12 +44,24 @@ baduserpass Virheellinen käyttäjänimi tai salasana
 bgcolor Vaihda aMSN:n taustaväri
 blankdirect Jätä tyhjäksi, jos käytät suoraa yhteyttä
 blocked Estetty
+blockedyougroup Näytä erillinen ryhmä ihmisille, jotka ovat estäneet yhteydenottosi
 block Estä
+blocking Estää
+blockinter1 Kun tilasi on "Online", tarkista joka
+blockinter2 sekunti, muuten joka:
+blockinter3 joka
+blockinter4 sekunti
+blocklist Estettyjen lista:
+blockmessage Nämä henkilöt ovat "Online" ja ovat estäneet yhteydenottosi
 broughtby  Kehitetty seuraavien kehittäjien toimesta
 browser Selain
 browse Selaa
 busy Varattu
 cancel Peruuta
+cachedpics $1 haettua kuvaa
+cannotdeleteprofile Profiilia ei voi poistaa, koska se on aMSN-session käytössä
+cantexec Ohjelmaa $1 ei voi suorittaa. Tarkista asetukset
+cantremoveothers Ryhmää "Muut" ei voi poistaa
 cfgalarm Aseta/Lisää/Poista hälytys
 changefont Vaihda fontti
 changenick Vaihda lempinimi
@@ -41,15 +71,30 @@ chatreq Pyydä keskusteluun
 chatsmileys Hymiöt
 checkingver Tarkistaa uusinta versiota
 checkver Tarkista uusin versio
+cfgalarmall Säädä/Lisää/Poista globaaleja häytyksiä
+changestate Vaihda tila $1 tilaan $2
+chatmaxmin Kun joku avaa kanssani keskustelun, haluan olla:
+chatsmileys2 Näytä hymiöt keskusteluikkunoissa
+checkblocking Tarkista jatkuvasti, estävätkö henkilöt yhteydenottosi
+checkemail Näytä postinilmoitusrivi yhteyslistassa
+checkfilman Vastaanotetut tiedostot tallennetaan kansioon $1. Tarkista tiedostojenhallinnan asetukset Valinnat-ikkunasta
+checkonfln Tarkista, estääkö käyttäjä viestisi, kun hän kirjautuu ulos 
+choosearq Valitse järjestelmäsi arkkitehtuuri
 choosebasefont Valitse fontti
 choosebgcolor Valitse taustaväri
+choosecontact Valitse käyttäjä:
 choosefontcolor Valitse fontin väri
 chooseskin Valitse käytettävä olemus
+ch_to_state Vaihda uuteen tilaan
+clearlog3 Tyhjennä kaikki logit
 clicktologin Klikkaa tästä kirjautuaksesi
 close Sulje
+closed Keskustelu $1n kanssa suljettiin, koska mitään keskustelua ei oltu käyty moneen minuuttiin.
 closingdocks Sulje-painike pienentää ikkunan
 command Komento
+commandstatus Suorita komento
 confirmdelete Haluatko varmasti poistaa $1?
+confirmpurge Kaikki henkilökuvat muista yhteyksistä poistetaan (ei koske omia kuvia). Haluatko varmasti jatkaa?
 connecterror Virhe yhdistettäessä palvelimelle
 contactadded Yhteystieto lisätty
 contactdoesnotexist Yhteystietoa ei ole!
@@ -57,12 +102,38 @@ connecting Yhdistää
 connection Yhteys
 connectionlost Yhteys katkesi: Yhteys palvelimeen suljettu
 copytogroup Kopio ryhmään
+corruptconfig Konfiguraatiotiedosto on vahingoittunut. Uutta luodaan. Vanha tiedosto tallenetaan kansioon $1. Ole hyvä ja lähetä se meille, jotta voimme tarkistaa mitä tapahtui.
+corruptstates Mukautettujen tilojen asetustiedosto on vahingoittunut. Uutta luodaan. Vanha tiedosto tallennetaan kansioon $1. Ole hyvä ja lähetä se meille, jotta voimme selvittää mitä tapahtui.
+countrycode Oma Maa/Alue koodi
+currentdate Tämänhetkinen päivämäärä
+custom_edit Muokkaa mukautettua hymiötä
+custom_new Luo uusi mukautettu hymiö
 cprofile Luo profiili
 date Päiväys
+days Päivät
+dcprofile Älä Luo Profiilia
 delete Poista
 default Oletusasetukset
+defaultloginradio Kirjaudu sisään perusasetuksilla
+defchatwinsize Oletuskoko keskusteluikkunoille (LEVEYSxKORKEUS)
 editprofile Muokkaa profiilia
+deletecustomstate Poista mukautettu tila
+delprofile Poista profiili
+delprofile2 Valitse profiili, jonka haluat poistaa
+description Kuvaus
+directconnection Olen suoraan yhteydessä internetiin (käyttää porttia 1863)
+disabled Ei käytössä
+disablessl Älä käytä SSL:ää
+disconnect $1 katkaisi yhteyden
+displaychat Näytä tekstin valinnat
+dontshow Älä näytä
+editcustomstate Muokkaa mukautettua tilaa
+editvalue Muokkaa arvoa
+emailsinlist Näytä listassa sähköpostiosoitteet lempinimien sijasta
+emotisounds Käytä ääniä joidenkin hymiöiden kanssa
+enabled Käytössä
 enableproxy Ota välityspalvelin käyttöön
+enablesound Käytä ääntä
 encoding Valitse tekstin koodaus
 entercontactemail Anna henkilön sähköpostiosoite
 enterfilename Anna tiedoston nimi
@@ -70,12 +141,18 @@ enternick Anna lempinimesi
 examples Esimerkit
 exitamsn Haluatko varmasti lopettaa?
 extras Lisäpalvelut
+failed Epäonnistui
 faileddelete Poistaminen epäonnistui
+file Tiedosto
 filedoesnotexist Tiedostoa ei ole
 fileman Tiedostonhallintaohjelma
 filename Tiedoston nimi
 filetransfercancelled Tiedoston siirto keskeytetty
 filetransfercomplete Tiedoston siirto valmis
+ftgotinvitation $1 haluaa lähettää sinulle tiedoston '$2' ($3 tavua). Se tallennetaan kansioon $4. Hyväksytkö tiedoston vastaanoton?
+ftrejectedby $1 kieltäytyi vastaanottamasta tiedostoa $2
+ftsendinvitation Tiedostoa '$2' ($3 tavua) yritetään lähettää $1lle. Odotetaan vastaanottajan hyväksyntää.
+fullcontactlist Yhteyslistasi on täysi. Sinun tarvitsee poistaa joitain henkilöitä listalta, jos haluat lisätä uusia.
 gonelunch Lounaalla
 groupadd Lisää ryhmä
 groupdelete Poista ryhmä
@@ -90,21 +167,37 @@ groupunknown Tuntematon ryhmä
 handle Käsittele
 help Apua
 helpcontents Sisältö
+hidedisplaypic Piilota henkilökuva
+hidewindow Piilota ikkuna
+httpconnection Yhteys käyttää HTTP yhteystapaa (käyttää HTTP protokollan yli porttia 80)
 home Koti
 identity Henkilöllisyys
 ident Tunnistus käynnissä
+imagefiles Kuvatiedostot
 inbox Saapuneet
+insertsmiley Lisää hymiö
+installconvert Sinun täytyy asentaa ImageMagick (muunto-ohjelma), jos haluat käyttää Buddy-ikoneita ja mukautettuja hymiöitä. Voit ladata ohjelma binäärit omaa käyttöjärjestelmääsi varten osoitteesta ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Jos sinulla on jo kyseinen ohjelma, kyseessä on bugi. Tässä tapauksessa ilmoita siitä meille. Nämä ominaisuudet otetaan nyt pois käytöstä. Jos asennat ImageMagickin uudelleen, laita nämä asetukset takaisin päälle Valinnoista.
+internalerror Palvelimen sisäinen virhe
 invalidusername Virheellinen käyttäjänimi
+invalidfile Kenttään "$1" syötettyä tiedostoa $2 ei ole tai se ei ole luettava.
+invalidfile2 Tiedostoa $1 ei voitu tehdä. Varmista, että sinulla on käyttöoikeudet kyseiseen kohteeseen.
+invalidpic Annettua tiedostoa ei ole olemassa.
+invalidpicsize Annettu kuvakoko on liaan suuri, ole hyvä ja valitse pienempi kuva
+invalidsound Annettua äänitiedostoa ei ole olemassa
 invite Kutsu
+invitationcancelled Kutsu peruttu
 ipaddress IP-osoite
+ipdetect Tunnista oikea IP-osoite tiedostonsiirtoja varten käyttämällä HTTP:ta.
 istyping $1 kirjoittaa viestiä
 joins $1 liittyy keskusteluun
+keeplog2 Pidä lokia kaikista aMSN:n keskusteluista myöhempää tarkastelua varten
 language Kieli
 lastmsgtime Viimeisin viesti saapunut $1
 leaveblankforhotmail Jätä tyhjäksi Hotmail web-palvelua varten
 leaves $1 poistui keskustelusta
 listeningon Kuuntelee porttia $1
 listsmileys Hymiöluettelo
+listsmileys2 Näytä hymiöt aMSN:n yhteyslistalla.
 loadcontacts Lataa yhteystiedot
 loggedotherlocation Yhteys katkesi. Olet kirjautuneena toisesta paikasta.
 loggingin Kirjaudutaan sisälle
@@ -115,7 +208,9 @@ logout Kirjaudu ulos
 logsin on juuri kirjautunut sisään
 logsout kirjautui juuri ulos
 mailer Sähköpostiohjelma
+mins minuuttia
 mobile Matkapuhelin
+move Siirrä
 movetogroup Siirrä ryhmään
 msg Viesti
 msn AMSN
@@ -125,6 +220,7 @@ mymobilephone Oma matkapuhelin
 mystatus Oma tila
 myworkphone Oma työpuhelin
 needonline Sinä olet/näyt vieläkin offline-tilaisena!
+newstate Uusi tila
 newmail $1 uutta viestiä saapunut Saapuneisiin
 newmailfrom Uusi viesti $1 ($2)
 newmsg Uusi viesti
@@ -135,6 +231,7 @@ noactivity Ei toimintaa
 nonewmail Ei uusia viestejä Saapuneissa
 nonewver Uudempaa versiota ei ole saatavilla
 nopic Ei kuvaa
+noskins Skins-kansiosta ei löytynyt perusulkoasua. AMSN:ää ei voi käynnistää.
 notify muistuta
 notifywin Muistutus-ikkuna
 nousersinsession Ei käyttäjiä
@@ -147,26 +244,39 @@ openreceived Avaa vastaanotetut tiedostot
 options Asetukset
 ordercontactsby Järjestä yhteystiedot
 other Muu
+others Muut
 pager Hakulaite
 pass Salasana
+personal Henkilökohtainen
 phone Puhelin
 picfile Hälytyksen kuva (GIF < 500 x 500)
 picstatus Kuvahälytys päälle/pois
+playing Nyt soi: $1
 port Portti
+prefalerts Omat hälytykset ja äänet
 prefapps Sovellukset
+prefconnection Yhteysasetukset
+prefemotic Hymiöt
 preferences Valinnat
+prefprofile Oma julkinen profiili
+prefprofile2 Luo tai muokkaa omaa julkista profiilia (itsesi kuvaus, jonka muut voivat nähdä)
 prefsound Äänet
 profiles Profiilit
 properties Ominaisuudet
+prefproxy Välityspalvelinasetukset
+proxy Olen välityspalvelimen takana (HTTP tai SOCKS5)
 proxyconfhttp HTTP-välityspalvelin asetukset
 proxyconf Välityspalvelimen asetukset
 proxyconnection Olen yhteydessä internetiin välityspalvelimen kautta:
 publishphones Julkaise puhelinnumeroni
 receivedbytes Vastaanotettu $1 / $2 tavusta
+receiveddir Vastaanotettujen tiedostojen kansio
 receivefile Vastaanota tiedosto
 reconnecting Yhdistetään uudelleen palvelimeen
 reconnect Odottaa $1 uudelleen kirjautumista
 rememberpass Muista salasana
+removefromlist Poista tästä listasta
+rename Nimeä uudelleen
 rightback Tulen kohta takaisin
 saveas Tallenna nimellä
 savecontacts Tallenna yhteystiedot
@@ -181,9 +291,13 @@ sendmsg Lähetä viesti
 sentbytes Lähetetty $1 / $2 tavusta
 servergoingdown Yhteys katkaistu: palvelin sammutetaan
 server Palvelin
+serverbusy Palvelin on varattu
+serverunavailable Palvelin ei ole saatavilla
+session Istunto
 skin Ulkoasu
 skinselector Valitse ulkoasu
 soundfile Hälytyksen äänitiedosto
+soundfiles Äänitiedostot
 soundloop Soita ääntä silmukassa
 sound Tapahtumien äänimerkki
 sourcecode Lähdekoodi (vaatii sekä kääntämisen että asentamisen) 
