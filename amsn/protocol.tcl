@@ -5173,7 +5173,7 @@ namespace eval ::MSNP2P {
 		if {[catch {open $filename w} fileid]} {
 			# Cannot create this file. Abort.
 			status_log "Could not saved the file '$filename' (write-protected target directory?)\n" red
-			RejectFT $chatid $sid
+			RejectFT $chatid $sid $branchuid $uid
 			::amsn::infoMsg [trans readonlymsgbox] warning
 			return
 		}
