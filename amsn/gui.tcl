@@ -4736,7 +4736,7 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 
     if { $config(tooltips) == 1 } {
 
-	set balloon_message "$user_name \n $user_login \n [trans status] : [trans [lindex $state 1]] "
+	set balloon_message "[string map {% %%} $user_name] \n $user_login \n [trans status] : [trans [lindex $state 1]] "
 
 	$pgBuddy.text tag bind $user_unique_name <Enter> \
 	    "+set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message)] %X %Y]\]"

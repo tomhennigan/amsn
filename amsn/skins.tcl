@@ -57,34 +57,34 @@ proc skin_description {cstack cdata saved_data cattr saved_attr args} {
 
 proc findskins { } {
     variable program_dir
-	 global HOME2
+    global HOME2
 
     set skins [glob -directory [file join $program_dir skins] */settings.xml]
-	 if {![catch {set local_skins [glob -directory [file join $HOME2 skins] */settings.xml]} res]} {
-	 	lappend skins $local_skins
-	 }
+    if {![catch {set local_skins [glob -directory [file join $HOME2 skins] */settings.xml]} res]} {
+        set skins "$skins $local_skins"
+    }
     status_log "Found skin files in $skins\n"
 
     set skinlist [list]
 
     foreach skin $skins {
-	set dir [file dirname $skin]
-	status_log "Skin: $dir\n"
+        set dir [file dirname $skin]
+        status_log "Skin: $dir\n"
 
-	set desc ""
+        set desc ""
 
-	if { [file readable [file join $dir desc.txt] ] } {
-	    set fd [open [file join $dir desc.txt]]
-	    set desc [string trim [read $fd]]
-	    status_log "$dir has description : $desc\n"
-	    close $fd
-	}
+        if { [file readable [file join $dir desc.txt] ] } {
+            set fd [open [file join $dir desc.txt]]
+            set desc [string trim [read $fd]]
+            status_log "$dir has description : $desc\n"
+            close $fd
+        }
 
-	#set skinname [string map [list  "[file join $program_dir skins]/" "" ] $dir]
-	set lastslash [expr {[string last "/" $dir]+1}]
-	set skinname [string range $dir $lastslash end]
-	lappend skinname $desc
-	lappend skinlist $skinname
+        #set skinname [string map [list  "[file join $program_dir skins]/" "" ] $dir]
+        set lastslash [expr {[string last "/" $dir]+1}]
+        set skinname [string range $dir $lastslash end]
+        lappend skinname $desc
+        lappend skinlist $skinname
     }
     
     return $skinlist

@@ -405,37 +405,37 @@ namespace eval ::groups {
 
     proc Rename { old new {ghandler ""}} {
         set old [string trim $old]
-	set new [string trim $new]
+        set new [string trim $new]
 
-	if {$old == $new} { return 0 }
+        if {$old == $new || $old == ""} { return 0 }
 
-	if {![::groups::Exists $old]} {
-	   if {$ghandler != ""} {
-	       set retval [eval "$ghandler \"$old : [trans groupunknown]\""]
-	   }
-	   return 0
-	}
+        if {![::groups::Exists $old]} {
+            if {$ghandler != ""} {
+                set retval [eval "$ghandler \"$old : [trans groupunknown]\""]
+            }
+            return 0
+        }
 
-	if {[::groups::Exists $new]} {
-	   if {$ghandler != ""} {
-	       set retval [eval "$ghandler \"$new : [trans groupexists]\""]
-	   }
-	   return 0
-	}
+        if {[::groups::Exists $new]} {
+            if {$ghandler != ""} {
+                set retval [eval "$ghandler \"$new : [trans groupexists]\""]
+            }
+            return 0
+        }
 
- 	set currentGid [::groups::GetId $old]
-	if {$currentGid == -1} {
-	   if {$ghandler != ""} {
-	       set retval [eval "$ghandler \"[trans groupmissing]: $old\""]
-	   }
-	   return 0
-	}
+        set currentGid [::groups::GetId $old]
+        if {$currentGid == -1} {
+            if {$ghandler != ""} {
+                set retval [eval "$ghandler \"[trans groupmissing]: $old\""]
+            }
+            return 0
+        }
 
-	#TODO Keep track of transaction number
-	set new [urlencode $new]
-	::MSN::WriteSB ns "REG" "$currentGid $new 0"
-	# RenameCB() should be called when we receive the REG
-	# packet from the server
+        #TODO Keep track of transaction number
+        set new [urlencode $new]
+        ::MSN::WriteSB ns "REG" "$currentGid $new 0"
+        # RenameCB() should be called when we receive the REG
+        # packet from the server
         return 1
     }
 
