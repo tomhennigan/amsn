@@ -9,28 +9,34 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>stop</deinit_procedure>
-	<cvs_version>1.0</cvs_version>
+	<cvs_version>1.1</cvs_version>
 	
 	<lang>
 		<langcode>en</langcode>
-		<version>1.0</version>
+		<version>1.1</version>
 	</lang>
 	
 	<lang>
 		<langcode>fr</langcode>
-		<version>1.0</version>
+		<version>1.1</version>
 	</lang>
 	
 	<lang>
 		<langcode>fr_CA</langcode>
-		<version>1.0</version>
+		<version>1.1</version>
 	</lang>
+	
+	<file>
+		<path>display_and_send.scpt</path>
+		<version>1.1</version>
+	</file>
 	
 	
 	<URL>
 		<main>http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/music/music.tcl?rev=$version&content-type=text/plain</main>
 		<plugininfo>http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/music/plugininfo.xml?rev=HEAD&content-type=text/plain</plugininfo>
 		<lang>http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/music/lang/lang$langcode?rev=$version&content-type=text/plain</lang>
+		<file>http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/music/$file?rev=$version&content-type=text/plain</file>
 	</URL>
 	
 	
