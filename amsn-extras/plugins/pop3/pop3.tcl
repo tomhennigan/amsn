@@ -318,7 +318,6 @@ namespace eval ::pop3 {
 	#	event   -> The event wich runs the proc (Supplied by Plugins System)
 	#     evPar   -> The array of parameters (Supplied by Plugins System)
 	proc start {event evPar} {
-		cmsn_draw_online
 		catch { after 5000 ::pop3::check }
 	}
 
