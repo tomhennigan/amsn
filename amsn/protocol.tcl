@@ -2,9 +2,10 @@
 #=======================================================================
 
 if { $initialize_amsn == 1 } {
-	global list_BLP list_cmdhnd sb_list contactlist_loaded
+	global list_BLP list_cmdhnd sb_list contactlist_loaded oldstatus
 	
 	set contactlist_loaded 0
+	set oldstatus "NLN"
 	
 	#To be deprecated and replaced with ::abook thing
 	set list_BLP -1
@@ -2131,7 +2132,7 @@ namespace eval ::MSN {
 
 #Connection wrapper for Direct Connection
 namespace eval ::DirectConnection {
-	
+
 	#Called to write some data to the connection
 	proc write { sbn data } {
 	
@@ -3549,7 +3550,7 @@ proc cmsn_change_state {recv} {
 
 
 proc cmsn_ns_handler {item} {
-	global list_cmdhnd password
+	global list_cmdhnd password oldstatus
 
 	set ret_trid [lindex $item 1]
 	set idx [lsearch $list_cmdhnd "$ret_trid *"]
@@ -3582,6 +3583,7 @@ proc cmsn_ns_handler {item} {
 					sb set ns server $tmp_ns
 					status_log "cmsn_ns_handler: got a NS transfer, reconnecting to [lindex $tmp_ns 0]!\n" green
 					cmsn_ns_connect [::config::getKey login] $password nosigin
+					set recon 1
 					return 0
 				} else {
 					status_log "cmsn_ns_handler: got an unknown transfer!!\n" red
@@ -3738,11 +3740,13 @@ proc cmsn_ns_handler {item} {
 					status_log "Logged other location\n" red
 					return 0
 				} else {
-					::MSN::logout
 					if { [::config::getKey reconnect] == 1 } {
+						set oldstatus [::MSN::myStatusIs]
+						::MSN::logout
 						::MSN::connect
 					}
 					if { [::config::getKey reconnect] == 0 } {
+						::MSN::logout
 						msg_box "[trans servergoingdown]"
 					}
 					return 0
@@ -3796,33 +3800,39 @@ proc cmsn_ns_handler {item} {
 				msg_box "[trans invalidgroup]"
 			}
 			600 {
-				::MSN::logout
 				if { [::config::getKey reconnect] == 1 } {
+					set oldstatus [::MSN::myStatusIs]
+					::MSN::logout
 					::MSN::connect
 				}
 				if { [::config::getKey reconnect] == 0 } {
+					::MSN::logout
 					::amsn::errorMsg "[trans serverbusy]"
 				}
 				status_log "Error: Server is busy\n" red
 				return 0
 			}
 			601 {
-				::MSN::logout
 				if { [::config::getKey reconnect] == 1 } {
+					set oldstatus [::MSN::myStatusIs]
+					::MSN::logout
 					::MSN::connect
 				}
 				if { [::config::getKey reconnect] == 0 } {
+					::MSN::logout
 					::amsn::errorMsg "[trans serverunavailable]"
 				}
 				status_log "Error: Server is unavailable\n" red
 				return 0
 			}
 			500 {
-				::MSN::logout
 				if { [::config::getKey reconnect] == 1 } {
+					set oldstatus [::MSN::myStatusIs]
+					::MSN::logout
 					::MSN::connect
 				}
 				if { [::config::getKey reconnect] == 0 } {
+					::MSN::logout
 					::amsn::errorMsg "[trans internalerror]"
 				}
 				status_log "Error: Internal server error\n" red
@@ -4108,7 +4118,7 @@ proc recreate_contact_lists {} {
 
 proc initial_syn_handler {recv} {
 
-	global HOME
+	global HOME oldstatus
 
 	# Switch to our cached nickname if the server's one is different that ours
 	if { [file exists [file join ${HOME} "nick.cache"]] && [::config::getKey storename] } {
@@ -4135,8 +4145,8 @@ proc initial_syn_handler {recv} {
 		::MSN::changeStatus "HDN"
 		send_dock "STATUS" "HDN"
 	} else {
-		::MSN::changeStatus "NLN"
-		send_dock "STATUS" "NLN"
+		::MSN::changeStatus $oldstatus
+		send_dock "STATUS" $oldstatus
 	}
 
 	cmsn_ns_handler $recv
