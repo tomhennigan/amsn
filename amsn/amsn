@@ -308,13 +308,23 @@ proc configureMenuEntry {m e s} {
 # close_cleanup()
 # Makes some cleanup and config save before closing
 proc close_cleanup {} {
-  global HOME config
+  global HOME config lockSock
   set config(wingeometry) [wm geometry .]
   set config(showonline)  [::groups::IsExpanded online]
   set config(showoffline) [::groups::IsExpanded offline]
 
   save_config
   save_alarms   ;# Save alarm settings
+
+  # Unlock current profile
+  LoginList changelock 0 $config(login) 0
+  if { [info exists lockSock] } {
+  	if { $lockSock != 0 } {
+		close $lockSock
+	}
+  }
+  SaveLoginList
+
   close_dock    ;# Close down the dock socket
   catch {file delete [file join $HOME hotlog.htm]} res
   catch {file delete [file join $HOME lock]} res
@@ -542,9 +552,7 @@ if { $config(receiveddir) != "" } {
    }
 }
 
-
 cmsn_draw_main
-
 
 bind all <KeyPress> "set idletime 0"
 

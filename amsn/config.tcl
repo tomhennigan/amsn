@@ -142,26 +142,35 @@ proc load_config {} {
 # Loads the list of logins/profiles from the profiles file in the HOME dir
 # sets up the first user in list as config(login)
 proc LoadLoginList {{trigger 0}} {
-	global HOME HOME2 config
+	global HOME HOME2 config lockSock
 
+	puts stdout "called loadloginlist\n"
+	
 	if { $trigger != 0 } {
 		status_log "getting profiles"
 	} else {
 		set HOME2 $HOME
 	}
 
+	puts stdout "${HOME}\n"
 	if {([file readable "[file join ${HOME} profiles]"] != 0) || ([file isfile "[file join ${HOME}/profiles]"] != 0)} {
 		set HOMEE $HOME
+	} elseif {([file readable "[file join ${HOME2} profiles]"] != 0) || ([file isfile "[file join ${HOME2}/profiles]"] != 0)} {
+		set HOMEE $HOME2
 	} else {
 		return 1
 	}
-		
+	
+	puts stdout "ookkkk\n"
+	
 	set file_id [open "${HOMEE}/profiles" r]
 	gets $file_id tmp_data
-	if {$tmp_data != "amsn_profiles_version 1"} {	;# config version not supported!
-      		return 1
+	if {$tmp_data != "amsn_profiles_version 2"} {	;# config version not supported!
+      		msg_box [trans wrongprofileversion]
+		close $file_id
+		return 1
    	}
-
+	
 	# Clear all list, only seems to work this way
 	set idx 0
 	while { [LoginList get $idx] != 0 } {
@@ -171,30 +180,35 @@ proc LoadLoginList {{trigger 0}} {
 
 	# Now add profiles from file to list
 	while {[gets $file_id tmp_data] != "-1"} {
-		LoginList add 0 $tmp_data
+		set temp_data [split $tmp_data]
+		LoginList add 0 [lindex $tmp_data 0] [lindex $tmp_data 1]
 	}
 	close $file_id
-	
+	LoginList show 0
 	
 	# Modify HOME dir to current profile, chose a non locked profile, if none available go to default
 	if { $trigger == 0 } {
 		set HOME2 $HOME
 		set flag 0
 		for { set idx 0 } { $idx <= [LoginList size 0] } {incr idx 1} {
-			set temp [LoginList get $idx]
-			set dirname [split $temp "@ ."]
-			set dirname [join $dirname "_"]
-			if { [file exists [file join $HOME2 $dirname lock]] != 1 } {
+			if { [CheckLock [LoginList get $idx]] != -1 } {
+				LockProfile [LoginList get $idx]
 				set flag 1
 				break
 			}
 		}
 
+		# if flag is 1 means we found a profile and we use it, if not defaults
 		if { $flag == 1 } {
+			set temp [LoginList get $idx]
+			puts stdout "$temp\n"
+			set dirname [split $temp "@ ."]
+			set dirname [join $dirname "_"]
+			puts stdout "$dirname\n"
 			set HOME "[file join $HOME2 $dirname]"
-			open "${HOME}/lock" w
 		}
-		
+
+		LoginList show 0
 		#if { [LoginList get 0] != 0 } {
 		#	set temp [LoginList get 0]
 		#	set dirname [split $temp "@ ."]
@@ -202,6 +216,7 @@ proc LoadLoginList {{trigger 0}} {
 		#	set HOME "[file join $HOME2 $dirname]"
 		#	set file_id [open "${HOME}/lock" w]
 		#}
+		SaveLoginList
 	}
 }
 
@@ -210,18 +225,18 @@ proc LoadLoginList {{trigger 0}} {
 # SaveLoginList ()
 # Saves the list of logins/profiles to the profiles file in the HOME dir
 proc SaveLoginList {} {
-	global HOME2 tcl_platform
+	global HOME2 tcl_platform currentlock
 
 	if {$tcl_platform(platform) == "unix"} {
 		set file_id [open "[file join ${HOME2} profiles]" w 00600]
 	} else {
       		set file_id [open "[file join ${HOME2} profiles]" w]
 	}
-	puts $file_id "amsn_profiles_version 1"
+	puts $file_id "amsn_profiles_version 2"
 	
 	set idx [LoginList size 0]
 	while { $idx >= 0 } {
-		puts $file_id "[LoginList get $idx]"
+		puts $file_id "[LoginList get $idx] [LoginList getlock 0 [LoginList get $idx]]"
 		incr idx -1
 	}
 	close $file_id
@@ -233,16 +248,20 @@ proc SaveLoginList {} {
 # Controls information for list of profiles read from the profiles file
 # action can be :
 #	add : Adds new user to list, or if exists makes this user the newest
-#	      (age is ignored)
+#	      (age is ignored), lock must be given if new profile
 #	get : Returns the email by age, returns 0 if no email for age exists
 #	exists : Checks the email if exists returns 1, 0 if dosent (age is ignored)
+#	getlock : Returns lock code for given email, if non existant returns -1.
+#	changelock : changes lock for user given by email to lock port given by lock
 #	unset : Removes profile given by email from the list and moves 
 #		all elements up by 1 (age is ignored)
 #       size : Returns [array size ProfileList] - 1
 #	show : Dumps list to status_log, for debugging purposes only
-proc LoginList { action age {email ""} } {
+proc LoginList { action age {email ""} {lock ""} } {
 	variable ProfileList
 	#global ProfileList
+	variable LockList
+	global currentlock
 
 	switch $action {
 		add {
@@ -252,14 +271,19 @@ proc LoginList { action age {email ""} } {
 				# User dosen't exist, proceed normaly
 				for {set idx [expr [array size ProfileList] - 1]} {$idx >= 0} {incr idx -1} {
 					set ProfileList([expr $idx + 1]) $ProfileList($idx)
+					set LockList([expr $idx + 1]) $LockList($idx)
 				} 
 				set ProfileList(0) $email
+				set LockList(0) $lock
 			} else {
 				# This means user exists, and we make him newest
+				set emaillock $LockList([expr [expr $idx-1] / 2])
 				for {set idx [lindex $tmp_list [expr $idx - 1]]} {$idx > 0} {incr idx -1} {
 					set ProfileList($idx) $ProfileList([expr $idx - 1])
+					set LockList($idx) $LockList([expr $idx - 1])
 				}
 				set ProfileList(0) $email
+				set LockList(0) $emaillock
 			}
 		}
 
@@ -269,7 +293,9 @@ proc LoginList { action age {email ""} } {
 			if { $idx != -1 } {
 				for {set idx [lindex $tmp_list [expr $idx - 1]]} {$idx < [expr [array size ProfileList] - 1]} {incr idx} {
 					set ProfileList($idx) $ProfileList([expr $idx + 1])
+					set LockList($idx) $LockList([expr $idx + 1])
 				}
+			unset LockList([expr [array size ProfileList] - 1])
 			unset ProfileList([expr [array size ProfileList] - 1])
 			}
 		}
@@ -292,6 +318,30 @@ proc LoginList { action age {email ""} } {
 			}
 		}
 		
+		getlock {
+			LoginList show 0
+			set tmp_list [array get ProfileList]
+			puts stdout $tmp_list
+			set idx [lsearch $tmp_list "$email"]
+			puts stdout "called getlock, looking for $email found it in $idx\n"
+			if { $idx == -1 } {
+				return -1
+			} else {
+				return $LockList([expr [expr $idx-1] / 2])
+			}
+		}
+
+		changelock {
+			set tmp_list [array get ProfileList]
+			set idx [lsearch $tmp_list "$email"]
+			if { $idx == -1 } {
+				status_log "changelock called on unexisting email : $email, shouldn't happen!\n"
+				return -1
+			} else {
+				set LockList([expr [expr $idx-1] / 2]) $lock
+			}
+		}
+		
 		size {
 			return [expr [array size ProfileList] - 1]
 		}
@@ -300,7 +350,7 @@ proc LoginList { action age {email ""} } {
 			puts stdout "List is\n"
 			for {set idx 0} {$idx < [array size ProfileList]} {incr idx} {
 				#status_log "$idx : $ProfileList($idx)\n"
-				puts stdout "$idx : $ProfileList($idx)\n"
+				puts stdout "$idx : $ProfileList($idx) loclist is : $LockList($idx)\n"
 			}
 		}
 	}
@@ -312,16 +362,16 @@ proc LoginList { action age {email ""} } {
 # Called when the user selects a combobox item or enters new signin
 # email : email of the new profile/login
 proc ConfigChange { window email } {
-	global HOME HOME2 password config log_dir proftrig
+	global HOME HOME2 password config log_dir proftrig lockSock
 	set proftrig 0
 	if { $email != "" } {
 		if { [LoginList exists 0 $config(login)] == 1 } {
 			save_config
 		}
 
-	#if { [info exists password] } {
-	#	set password ""
-	#}
+	if { [info exists password] } {
+		set password ""
+	}
 
 	status_log "Called ChangeConfig with $email, old is $config(login)\n"
 		
@@ -336,8 +386,8 @@ proc ConfigChange { window email } {
 		set dirname [split $email "@ ."]
 		set dirname [join $dirname "_"]
 		set HOME "[file join $HOME2 $dirname]"
-
-		if { [file exists "${HOME}/lock"] == 1 } {
+				
+		if { [CheckLock $email] == -1 } { 
 			status_log "lock exists\n"
 			msg_box [trans profileinuse]
 			set HOME $OLDHOME
@@ -348,22 +398,31 @@ proc ConfigChange { window email } {
 			$window select $index
 		} else {
 			status_log "lock dosent exist\n"
+			
+			# Make sure we delete old lock
+			if { [info exists lockSock] } {
+				if { $lockSock != 0 } {
+					close $lockSock
+					unset lockSock
+				}
+			}
+			LoginList changelock 0 $config(login) 0 
+
 			if { [info exists password] } {
 				set password ""
 			}
 
 			load_config
 			
-			if { [file exists "${OLDHOME}/lock"] == 1 } {
-				file delete "${OLDHOME}/lock"
-			}
-			
-			open "${HOME}/lock" w
-
 			LoginList add 0 $email
 			set log_dir "[file join ${HOME} logs]"
 		
 			load_lang
+
+			# port isn't taken or port taken by other program, meaning profile ain't locked
+			# let's setup the new lock
+			LockProfile $email
+			
 			### REPLACE THIS BY MAIN WINDOW REDRAW
 			if { $config(language) != $oldlang } {
 				msg_box [trans mustrestart]		
@@ -373,10 +432,14 @@ proc ConfigChange { window email } {
 		# Profile dosent exist, put proftrig to 1 so it asks to create
 
 		# Make sure we delete old lock
-		if { [file exists "${HOME}/lock"] == 1 } {
-			file delete "${HOME}/lock"
+		if { [info exists lockSock] } {
+			if { $lockSock != 0 } {
+				close $lockSock
+				unset lockSock
+			}
 		}
-
+		LoginList changelock 0 $config(login) 0 
+		
 		set proftrig 1
 		set config(login) $email
 		set config(save_password) 0
@@ -399,7 +462,7 @@ proc ConfigChange { window email } {
 # email : email of new profile
 # value : If 1 create new profile, if 0 use default profile
 proc CreateProfile { email value } {
-	global HOME HOME2 config log_dir password proftrig
+	global HOME HOME2 config log_dir password proftrig lockSock
 	set oldpass $password
 	set oldoffline $config(startoffline)
 	set oldlang $config(language)
@@ -425,23 +488,27 @@ proc CreateProfile { email value } {
 		set config(login) $email
 		set password $oldpass
 		set config(startoffline) $oldoffline
-		LoginList add 0 $email
+		LoginList add 0 $email 0
 
+		LoginList show 0
+		
 		# Lock profile
-		open "${HOME}/lock" w
+		LockProfile $email
+		
 	} else {
 		status_log "not creating new profile"
 		# Dosent want to save profile, use/load default config in this case
 		set HOME $HOME2
 		load_config
 		set log_dir ""
-		
+				
 		# Set variables for default profile
 		set config(login) $email
 		set password $oldpass
 		set config(startoffline) $oldoffline
 		set config(save_password) 0
 		set config(keep_logs) 0
+
 	}
 	
 	set proftrig 0
@@ -468,8 +535,7 @@ proc DeleteProfile { email entrypath } {
 		set dir [join $dir "_"]
 		
 		# Make sure profile isn't locked
-		if { [file exists [file join $HOME2 $dir lock]] == 1 } {
-			msg_box [trans cannotdeleteprofile]
+		if { [CheckLock $email] == -1 } {
 			return
 		}
 		
@@ -483,3 +549,88 @@ proc DeleteProfile { email entrypath } {
 		SaveLoginList
 	}
 }
+
+#///////////////////////////////////////////////////////////////////////////////
+# CheckLock ( email )
+# Check Lock of profile given by email
+# Return -1 if profile is already locked, returns 0 otherwise
+proc CheckLock { email } {
+	global response
+	set Port [LoginList getlock 0 $email]
+	if { $Port != 0 } {
+	if { [catch {socket -server phony $Port} newlockSock] != 0  } {
+		# port is taken, let's make sure it's a profile lock
+		if { [catch {socket localhost $Port} clientSock] == 0 } {
+			fileevent $clientSock readable "lockcltHdl $clientSock"
+			fconfigure $clientSock -buffering line
+			puts $clientSock "AMSN_LOCK_PING"
+			vwait response
+			
+			#set response [gets $clientSock]
+			if { $response == "AMSN_LOCK_PONG" } {
+				# profile is locked
+				close $clientSock
+				return -1
+			} else {
+				# other non amsn program is using the lock port, we better reset the lock to 0
+				LoginList changelock 0 $email 0
+			}
+		}
+	} else {
+		close $newlockSock
+	}
+	}
+	return 0
+}
+
+proc lockcltHdl { sock } {
+	global response
+	set response [gets $sock]
+}
+
+#///////////////////////////////////////////////////////////////////////////////
+# LockProfile ( email )
+# Creates a new lock for given profile, tries random ports until one works
+proc LockProfile { email } {
+	global lockSock
+	set trigger 0
+	puts stdout "called lock profile\n"
+	while { $trigger == 0 } {
+		# Generate random port between 5000 and 65535
+		set Port [expr rand()]
+		set Port [expr $Port * 60535]
+		set Port [expr int($Port)]
+		set Port [expr $Port + 5000]
+		if { [catch {socket -server lockSvrNew $Port} newlockSock] == 0  } {
+			# Got one
+			LoginList changelock 0 $email $Port
+			set lockSock $newlockSock
+			set trigger 1
+		}
+	}
+	if { $trigger == 1 } {
+		#vwait events
+	}
+}
+
+
+proc lockSvrNew { sock addr port} {
+	if { $addr == "127.0.0.1" } {
+		fileevent $sock readable "lockSvrHdl $sock"
+		fconfigure $sock -buffering line
+	}
+}
+
+proc lockSvrHdl { sock } {
+	puts stdout "Called the svr handler\n"
+	set ping [gets $sock]
+	if {[eof $sock]} {
+        	catch {close $sock}
+	} else {
+		if { $ping == "AMSN_LOCK_PING" } {
+			puts $sock "AMSN_LOCK_PONG"
+		}
+	}
+}
+
+
