@@ -814,10 +814,18 @@ namespace eval ::amsn {
 
 
    #PRIVATE: Opens Receiving Window
-   proc FTWin {cookie filename user} {
+   proc FTWin {cookie filename user {chatid 0}} {
       global bgcolor
    
      status_log "Creating receive progress window\n"
+      
+      # Set appropriate Cancel command
+      if { [::MSNP2P::SessionList get $cookie] == 0 } {
+      	set cancelcmd "::MSNFT::cancelFT $cookie"
+      } else {
+      	set cancelcmd "::MSNP2P::CancelFT $chatid $cookie"
+      }
+      
       set w .ft$cookie
       toplevel $w
       wm group $w .
@@ -838,7 +846,7 @@ namespace eval ::amsn {
       pack $w.progress $w.time -side top
 
 
-      button $w.close -text "[trans cancel]" -command "::MSNFT::cancelFT $cookie" -font sboldf
+      button $w.close -text "[trans cancel]" -command $cancelcmd -font sboldf
       pack $w.close -side bottom -pady 5
 
       if { [::MSNFT::getTransferType $cookie] == "received" } {
@@ -846,7 +854,7 @@ namespace eval ::amsn {
       } else {
          wm title $w "$filename - [trans sendfile]"
       }
-      wm protocol $w WM_DELETE_WINDOW "::MSNFT::cancelFT $cookie"
+      wm protocol $w WM_DELETE_WINDOW $cancelcmd
 
        ::dkfprogress::SetProgress $w.prbar 0
    }
@@ -869,12 +877,13 @@ namespace eval ::amsn {
    # cookie: ID for the filetransfer
    # bytes: bytes sent/received (-1 if cancelling)
    # filesize: total bytes in the file
+   # chatid used for MSNP9 through server transfers
    ####
    # The following constant is the interval in milliseconds at which (roughly)
    # the transfer speed will be updated on the file transfer window.
    variable TX_UPDATE_INTERVAL 1000
    #
-   proc FTProgress {mode cookie filename {bytes 0} {filesize 1000}} {
+   proc FTProgress {mode cookie filename {bytes 0} {filesize 1000} {chatid 0}} {
       # -1 in bytes to transfer cancelled
       # bytes >= filesize for connection finished
 
@@ -886,7 +895,7 @@ namespace eval ::amsn {
       set w .ft$cookie
 
       if { ([winfo exists $w] == 0) && ($mode != "ca")} {
-        FTWin $cookie [::MSNFT::getFilename $cookie] [::MSNFT::getUsername $cookie]        
+        FTWin $cookie [::MSNFT::getFilename $cookie] [::MSNFT::getUsername $cookie] $chatid        
       }
       
       if {[winfo exists $w] == 0} {

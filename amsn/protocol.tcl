@@ -4983,6 +4983,11 @@ namespace eval ::MSNP2P {
 				SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
 				status_log "Sending BYE ACK\n" red
 
+				# If it's a file transfer, advise the user it has been canceled
+				if { [lindex [SessionList get $sid] 7] == "filetransfer" } {
+				    	::amsn::FTProgress ca $sid [lindex [SessionList get $sid] 6]
+				}
+
 				# Delete SessionID Data
 				SessionList unset $sid
 			} else {
@@ -4993,6 +4998,8 @@ namespace eval ::MSNP2P {
 
 		# Let's check for data preparation messages and data messages
 		if { $cSid != 0 } {
+		    # Make sure this isn't a canceled FT
+		    if { [lindex [SessionList get $cSid] 7] == "ftcanceled" } { return }
 		    set sid $cSid
 		    set fd [lindex [SessionList get $cSid] 6]
 		    
@@ -5377,8 +5384,24 @@ namespace eval ::MSNP2P {
 		# Let's make and send a 200 OK Message
 		set slpdata [MakeMSNSLP "OK" $dest $config(login) $branchuid [expr $cseq + 1] $uid 0 0 $sid]
 		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
-		::amsn::FTProgress w $sid $filename1 [trans throughserver]
+		::amsn::FTProgress w $sid $filename1 [trans throughserver] 1000 $chatid
 		status_log "MSNP2P -> sid : $sid -> Sent 200 OK Message for File Transfer\n" red
+	}
+
+	#//////////////////////////////////////////////////////////////////////////////
+	# CancelFT ( chatid sid )
+	# This function is called when a file transfer is canceled by the user
+	proc CancelFT { chatid sid } {
+		global config
+		set session_data [SessionList get $sid]
+		set user_login [lindex $session_data 3]
+		
+		status_log "MSNP2P -> sid : $sid -> User canceled FT, sending BYE to chatid : $chatid and SB : [::MSN::SBFor $chatid]\n" red
+		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" $user_login $config(login) "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex $session_data 5] 0 0] 1]
+		::amsn::FTProgress ca $sid [lindex [SessionList get $sid] 6]
+
+		# Change sid type to canceledft
+		SessionList set $sid [list -1 -1 -1 -1 -1 -1 -1 "ftcanceled" -1] 
 	}
 
 	#//////////////////////////////////////////////////////////////////////////////
