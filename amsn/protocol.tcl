@@ -2378,10 +2378,10 @@ proc cmsn_sb_handler {sb_name item} {
         ::MSN::AddSBFor $chatid $sb_name
 
         foreach usr_login [sb get $sb_name users] {
-           ::amsn::userJoins $chatid $usr_login
 	    if { $config(getdisppic) == 1 } {
 		::MSNP2P::loadUserPic $chatid $usr_login
 	    }
+           ::amsn::userJoins $chatid $usr_login
 	}
 
 	 return 0
@@ -2817,11 +2817,11 @@ proc cmsn_update_users {sb_name recv} {
           #so you will connect to its sb and be able to chat, but after
           #a while the user will join your old invitation,
           #and get a fake "user joins" message if we don't check it
-          if {[::MSN::SBFor $chatid] == $sb_name} {
-             ::amsn::userJoins $chatid $usr_login
 	      if { $config(getdisppic) == 1 } {
 		  ::MSNP2P::loadUserPic $chatid $usr_login
 	      }
+          if {[::MSN::SBFor $chatid] == $sb_name} {
+             ::amsn::userJoins $chatid $usr_login
           }
 
       }
@@ -4484,35 +4484,35 @@ namespace eval ::MSNP2P {
 
 			#status_log "::MSNP2P::GetUser: MSNOBJ is $msnobj\n" blue
 
-			set sha1d [::MSNP2P::GetSHA1DFromMSNOBJ $msnobj]
-			status_log "::MSNP2P::GetUser: SHA1D is $sha1d\n" white
+			set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
+			status_log "::MSNP2P::GetUser: filename is $filename\n" white
 
-			if { $sha1d == "" } {
+			if { $filename == "" } {
 				return
 			}
 
 			global HOME
-			if { ![file readable "[file join $HOME displaypic ${sha1d}].gif"] } {
-				status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic ${sha1d}] doesn't exist!!\n" white
+			if { ![file readable "[file join $HOME displaypic ${filename}].gif"] } {
+				status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic ${filename}] doesn't exist!!\n" white
 				image create photo user_pic_$user -file [GetSkinFile displaypic "loading.gif"]
 
-				global temporal_filename temporal_username
-				set temporal_filename [file join $HOME displaypic ${sha1d}]
-				set temporal_username $user
 				::MSNP2P::RequestObject $chatid $user $msnobj
 			} else {
-			    catch {image create photo user_pic_$user -file "[file join $HOME displaypic ${sha1d}].gif"}
+			    catch {image create photo user_pic_$user -file "[file join $HOME displaypic ${filename}].gif"}
 
 			}
 
 	}
 
-	proc GetSHA1DFromMSNOBJ { msnobj } {
+	proc GetFilenameFromMSNOBJ { msnobj } {
 		set sha1d [split $msnobj " "]
 		set idx [lsearch $sha1d "SHA1D=*"]
 		set sha1d [lindex $sha1d $idx]
 		set sha1d [string range $sha1d 7 end-1]
-		return $sha1d
+		if { $sha1d == "" } {
+			return ""
+		}
+		return [::md5::md5 $sha1d]
 	}
 
 	#//////////////////////////////////////////////////////////////////////////////
@@ -4692,13 +4692,13 @@ namespace eval ::MSNP2P {
 			set idx [expr [string first "AppID:" $data] + 7]
 			set idx2 [expr [string first "\r\n" $data $idx] - 1]
 			set appid [string range $data $idx $idx2]
-			
+
 			set idx [expr [string first "CSeq:" $data] + 6]
 			set idx2 [expr [string first "\r\n" $data $idx] - 1]
 			set cseq [string range $data $idx $idx2]
 
 			unset idx idx2
-			
+
 			# Make new data structure for this session id
 			SessionList set $sid [list 0 0 0 $dest 0 $uid 0]
 
@@ -4727,7 +4727,7 @@ namespace eval ::MSNP2P {
 			SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
 			return
 		}
-		
+
 		# Check if we got BYE message
 		if { [string first "BYE MSNMSGR:" $data] != -1 } {
 			# Lets get the call ID and find our SessionID
@@ -4736,7 +4736,7 @@ namespace eval ::MSNP2P {
 			set uid [string range $data $idx $idx2]
 			set sid [SessionList findcallid $uid]
 			status_log "Looked for UID $uid and found it for sid $sid\n"
-			
+
 			if { $sid != -1 } {
 				# Send a BYE ACK
 				SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
@@ -4761,26 +4761,35 @@ namespace eval ::MSNP2P {
 			if { [expr $cOffset + $cMsgSize] >= $cTotalDataSize } {
 			    close $fd
 
-			    global temporal_username temporal_filename
+				set session_data [SessionList get $sid]
+				set user_login [lindex $session_data 3]
+				set user_info [::MSN::getUserInfo $user_login]
+				set filename [::MSNP2P::GetFilenameFromMSNOBJ [lindex $user_info 3]]
+
 
 			    status_log "Closed file.. finished writing\n" red
 			    # Lets send an ACK followed by a BYE
 			    SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
-			    SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" $temporal_username $config(login) "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex [SessionList get $sid] 5] 0 0] 1]
+			    SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" $user_login $config(login) "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex $session_data 5] 0 0] 1]
 			    set fd -1
 
-			    file rename -force [file join $HOME displaypic cache.png] "${temporal_filename}.png"
-			    set file [filenoext [convert_image ${temporal_filename}.png 96x96]].gif
+			    #file rename -force [file join $HOME displaypic cache.png] "${temporal_filename}.png"
+			    set file [filenoext [convert_image [file join $HOME displaypic $filename].png 96x96]].gif
 
-			    image create photo user_pic_${temporal_username} -file $file
+			    image create photo user_pic_${user_login} -file "[file join $HOME displaypic $filename].gif"
 
 			    # Delete Session Vars
 			    SessionList unset $sid
 			}
 		    } elseif { $cMsgSize == 4 } {
 			# We got ourselves a DATA PREPARATION message, lets open file and send ACK
-			status_log "Got data preparation message, opening file for writing\n" red
-			set fd [open "[file join $HOME displaypic cache.png]" "w"]
+			set session_data [SessionList get $sid]
+			set user_login [lindex $session_data 3]
+			status_log "Got data preparation message, opening file for writing\nSID=$sid, user=$user_login" red
+			set user_info [::MSN::getUserInfo $user_login]
+			set filename [::MSNP2P::GetFilenameFromMSNOBJ [lindex $user_info 3]]
+
+			set fd [open "[file join $HOME displaypic ${filename}.png]" "w"]
 			fconfigure $fd -translation binary
 			SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
 		    } else {
