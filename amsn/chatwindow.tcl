@@ -751,10 +751,15 @@ namespace eval ::ChatWindow {
 		button $bottom.buttons.invite -image [::skin::loadPixmap butinvite] -relief flat -padx 3 \
 			-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.invite [trans invite]
-
+		
 		pack $bottom.buttons.fontsel $bottom.buttons.smileys -side left
 		pack $bottom.buttons.block $bottom.buttons.sendfile $bottom.buttons.invite -side right
-
+		
+		#send chatwindowbutton postevent
+		set evpar(bottom) $bottom.buttons
+		set evpar(window_name) ".${win_name}"
+		::plugins::PostEvent chatwindowbutton evPar
+		
 		# Remove thin border on Mac OS X to improve the appearance (padx)
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			pack .${win_name}.f.top -side top -fill x -padx 0 -pady 0
