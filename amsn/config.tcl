@@ -27,7 +27,12 @@ proc ConfigDefaults {} {
 
 	#Some Autodetected options
 	if {$tcl_platform(os) == "Darwin"} {
-	   set config(soundcommand) "./sndplay \$sound"
+		set osversion [string range "$tcl_platform(osVersion)" 0 2]
+		if { $osversion == "6.8"} {
+			set config(soundcommand) "utils/qtplay \$sound";#Soundplayer for Mac OS 10.2 Jaguar
+		} else {
+			set config(soundcommand) "./sndplay \$sound";#Soundplayer for Mac OS 10.3 Panther
+		}
 	   set config(browser) "open \$url"
 	   set config(notifyXoffset) 100
 	   set config(notifyYoffset) 75
@@ -443,7 +448,7 @@ proc new_config_entry  {cstack cdata saved_data cattr saved_attr args} {
 }
 
 proc load_config {} {
-	global config HOME password protocol clientid
+	global config HOME password protocol clientid tcl_platform
 
 	create_dir "[file join ${HOME} smileys]"
 
@@ -478,9 +483,14 @@ proc load_config {} {
 					}
 			set soundmac [string range "[::config::getKey soundcommand]" 1 11]
 				if { $soundmac=="program_dir" } {
-					::config::setKey soundcommand "./sndplay \$sound"
+					set osversion [string range "$tcl_platform(osVersion)" 0 2]
+					if { $osversion == "6.8"} {
+						set config(soundcommand) "utils/qtplay \$sound"
+					} else {
+						set config(soundcommand) "./sndplay \$sound"
 					}
-		}
+				}			
+			}
 	}
 
     if {[info exists config(encpassword)]} {
