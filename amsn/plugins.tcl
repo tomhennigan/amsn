@@ -855,7 +855,7 @@ namespace eval ::plugins {
 		variable loadedplugins
 
 		if { ![CheckRequeriments $required_version] } {
-			msg_box "[trans required_version $required_version]"
+			msg_box "$plugin: [trans required_version $required_version]"
 			return 0
 		}
 
