@@ -228,7 +228,7 @@ proc debug_cmd_lists {subcmd {basename ""}} {
 }
 
 ###################### Preferences Window ###########################
-array set myconfig {}   ; # Cached configuration 
+array set myconfig {}   ; # configuration backup
 set proxy_server ""
 set proxy_port ""
 
@@ -240,13 +240,13 @@ proc PreferencesCopyConfig {} {
     for {set idx 0} {$idx < $items} {incr idx 1} {
         set var_attribute [lindex $config_entries $idx]; incr idx 1
 	set var_value [lindex $config_entries $idx]
-	# Copy into the cache for modification. We will only
-	# copy back/save if the user chooses to accept new settings.
+	# Copy into the cache for modification. We will
+	# restore it if users chooses "close"
 	set myconfig($var_attribute) $var_value
     }
 
     # Now process certain exceptions. Should be reverted
-    # in the SavePreferences procedure
+    # in the RestorePreferences procedure
     set proxy_data [split $myconfig(proxy) ":"]
     set proxy_server [lindex $proxy_data 0]
     set proxy_port [lindex $proxy_data 1]
@@ -290,10 +290,10 @@ proc Preferences { settings } {
     # Frame for common buttons (all preferences)
     frame .cfg.buttons -class Degt
     button .cfg.buttons.save -text [trans save] -font sboldf -command "SavePreferences; destroy .cfg"
-    button .cfg.buttons.cancel -text [trans close] -font sboldf -command "destroy .cfg" 
+    button .cfg.buttons.cancel -text [trans close] -font sboldf -command "RestorePreferences; destroy .cfg"
     pack .cfg.buttons.save .cfg.buttons.cancel -side left -padx 10 -pady 5
     pack .cfg.buttons -side top -fill x
-   
+
     set nb .cfg.notebook.nn
 
 	# Preferences Notebook
@@ -316,7 +316,7 @@ proc Preferences { settings } {
 	label $lfname.lname -text "[trans enternick] :" -font sboldf -padx 10
 	entry $lfname.name -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 45
 	pack $lfname.pname $lfname.lname $lfname.name -side left
-	
+
 	## Public Profile Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefprofile]]
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
@@ -415,11 +415,11 @@ proc Preferences { settings } {
 	pack $lfname.pemotic -side left -anchor nw
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
-	checkbutton $lfname.1.chat -text "[trans chatsmileys2]" -onvalue 1 -offvalue 0 -variable myconfig(chatsmileys)
-	checkbutton $lfname.1.list -text "[trans listsmileys2]" -onvalue 1 -offvalue 0 -variable myconfig(listsmileys)
-	checkbutton $lfname.1.log -text "[trans logsmileys]" -onvalue 1 -offvalue 0 -variable myconfig(logsmileys) -state disabled	
+	checkbutton $lfname.1.chat -text "[trans chatsmileys2]" -onvalue 1 -offvalue 0 -variable config(chatsmileys)
+	checkbutton $lfname.1.list -text "[trans listsmileys2]" -onvalue 1 -offvalue 0 -variable config(listsmileys)
+	checkbutton $lfname.1.log -text "[trans logsmileys]" -onvalue 1 -offvalue 0 -variable config(logsmileys) -state disabled
 	pack $lfname.1.chat $lfname.1.list $lfname.1.log -anchor w -side top -padx 10
-	
+
 	## Alerts and Sounds Frame ##
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefalerts]]
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
@@ -429,15 +429,15 @@ proc Preferences { settings } {
 	frame $lfname.2 -class Degt
 	label $lfname.2.loffset -text "[trans notifyoffset]" -padx 10
 	label $lfname.2.lxoffset -text "[trans xoffset] :" -font sboldf -padx 10
-	entry $lfname.2.xoffset -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 5 -textvariable myconfig(notifyXoffset)
+	entry $lfname.2.xoffset -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 5 -textvariable config(notifyXoffset)
 	label $lfname.2.lyoffset -text "[trans yoffset] :" -font sboldf -padx 10
-	entry $lfname.2.yoffset -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 5 -textvariable myconfig(notifyYoffset)
+	entry $lfname.2.yoffset -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 5 -textvariable config(notifyYoffset)
 	pack $lfname.2.loffset -side top -anchor w
 	pack $lfname.2.lxoffset $lfname.2.xoffset $lfname.2.lyoffset $lfname.2.yoffset -side left -anchor w
-	checkbutton $lfname.1.alert1 -text "[trans notify1]" -onvalue 1 -offvalue 0 -variable myconfig(notifywin)
-	checkbutton $lfname.1.alert2 -text "[trans notify2]" -onvalue 1 -offvalue 0 -variable myconfig(notifywin)
-	checkbutton $lfname.1.alert3 -text "[trans notify3]" -onvalue 1 -offvalue 0 -variable myconfig(notifywin)
-	checkbutton $lfname.1.sound -text "[trans sound2]" -onvalue 1 -offvalue 0 -variable myconfig(sound)	
+	checkbutton $lfname.1.alert1 -text "[trans notify1]" -onvalue 1 -offvalue 0 -variable config(notifywin)
+	checkbutton $lfname.1.alert2 -text "[trans notify2]" -onvalue 1 -offvalue 0 -variable config(notifywin)
+	checkbutton $lfname.1.alert3 -text "[trans notify3]" -onvalue 1 -offvalue 0 -variable config(notifywin)
+	checkbutton $lfname.1.sound -text "[trans sound2]" -onvalue 1 -offvalue 0 -variable config(sound)
 	pack $lfname.2 -anchor w -side top -padx 10 -expand 1 -fill both
 	pack $lfname.1 -anchor w -side top -padx 0 -pady 5 -expand 1 -fill both
 	pack $lfname.1.alert1 $lfname.1.alert2 $lfname.1.alert3 $lfname.1.sound -anchor w -side top -padx 10
@@ -460,18 +460,18 @@ proc Preferences { settings } {
 	frame $lfname.1 -class Degt
 	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
-	checkbutton $lfname.1.lautonoact -text "[trans autonoact]" -onvalue 1 -offvalue 0 -variable myconfig(autoidle)
+	checkbutton $lfname.1.lautonoact -text "[trans autonoact]" -onvalue 1 -offvalue 0 -variable config(autoidle)
 	entry $lfname.1.eautonoact -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -state disabled
 	label $lfname.1.lmins -text "[trans mins]" -padx 5
 	pack $lfname.1 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.1.lautonoact $lfname.1.eautonoact $lfname.1.lmins -side left
-	checkbutton $lfname.2.lautoaway -text "[trans autoaway]" -onvalue 1 -offvalue 0 -variable myconfig(autoaway) -state disabled
+	checkbutton $lfname.2.lautoaway -text "[trans autoaway]" -onvalue 1 -offvalue 0 -variable config(autoaway) -state disabled
 	entry $lfname.2.eautoaway -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -state disabled
 	label $lfname.2.lmins -text "[trans mins]" -padx 5
 	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.2.lautoaway $lfname.2.eautoaway $lfname.2.lmins -side left
-	checkbutton $lfname.3.lonstart -text "[trans autoconnect2]" -onvalue 1 -offvalue 0 -variable myconfig(autoconnect)
-	checkbutton $lfname.3.lstrtoff -text "[trans startoffline2]" -onvalue 1 -offvalue 0 -variable myconfig(startoffline)
+	checkbutton $lfname.3.lonstart -text "[trans autoconnect2]" -onvalue 1 -offvalue 0 -variable config(autoconnect)
+	checkbutton $lfname.3.lstrtoff -text "[trans startoffline2]" -onvalue 1 -offvalue 0 -variable config(startoffline)
 	pack $lfname.3 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.3.lonstart $lfname.3.lstrtoff -anchor w -side top
 
@@ -480,8 +480,8 @@ proc Preferences { settings } {
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
 	label $lfname.psession -image prefaway
 	pack $lfname.psession -anchor nw -side left
-	radiobutton $lfname.awaymsg1 -text [trans awaymsg1] -value 1 -variable myconfig(awaymsg) -state disabled
-	radiobutton $lfname.awaymsg2 -text [trans awaymsg2] -value 2 -variable myconfig(awaymsg) -state disabled
+	radiobutton $lfname.awaymsg1 -text [trans awaymsg1] -value 1 -variable config(awaymsg) -state disabled
+	radiobutton $lfname.awaymsg2 -text [trans awaymsg2] -value 2 -variable config(awaymsg) -state disabled
 	text $lfname.awayentry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 60 -height 3 -state disabled
 	pack $lfname.awaymsg1 $lfname.awaymsg2 -anchor w -side top
 	pack $lfname.awayentry -anchor w -side top -padx 10
@@ -494,13 +494,13 @@ proc Preferences { settings } {
 	frame $lfname.1 -class Degt
 	frame $lfname.2 -class Degt
 	label $lfname.1.lmsgmaxmin -text [trans msgmaxmin] -padx 10
-	radiobutton $lfname.1.max -text [trans maximised] -value 1 -variable myconfig(msgmaxmin) -state disabled
-	radiobutton $lfname.1.min -text [trans minimised] -value 2 -variable myconfig(msgmaxmin) -state disabled
+	radiobutton $lfname.1.max -text [trans maximised] -value 1 -variable config(msgmaxmin) -state disabled
+	radiobutton $lfname.1.min -text [trans minimised] -value 2 -variable config(msgmaxmin) -state disabled
 	pack $lfname.1.lmsgmaxmin -anchor w -side top -padx 10
 	pack $lfname.1.max $lfname.1.min -side left -padx 10
 	label $lfname.2.lmsgmode -text [trans msgmode] -padx 10
-	radiobutton $lfname.2.normal -text [trans normal] -value 1 -variable myconfig(msgmode) -state disabled
-	radiobutton $lfname.2.tabbed -text [trans tabbed] -value 2 -variable myconfig(msgmode) -state disabled
+	radiobutton $lfname.2.normal -text [trans normal] -value 1 -variable config(msgmode) -state disabled
+	radiobutton $lfname.2.tabbed -text [trans tabbed] -value 2 -variable config(msgmode) -state disabled
 	pack $lfname.2.lmsgmode -anchor w -side top -padx 10
 	pack $lfname.2.normal $lfname.2.tabbed -side left -padx 10
 	pack $lfname.1 $lfname.2 -anchor w -side top
@@ -521,12 +521,12 @@ proc Preferences { settings } {
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.plog1 -image prefhist
 	pack $lfname.plog1 -anchor nw -side left
-	checkbutton $lfname.log -text "[trans keeplog2]" -onvalue 1 -offvalue 0 -variable myconfig(keep_logs)
+	checkbutton $lfname.log -text "[trans keeplog2]" -onvalue 1 -offvalue 0 -variable config(keep_logs)
 	pack $lfname.log -anchor w -side top
 	frame $lfname.2 -class Degt
 	label $lfname.2.lstyle -text "[trans stylelog]" -padx 10
-	radiobutton $lfname.2.hist -text [trans stylechat] -value 1 -variable myconfig(logstyle) -state disabled
-	radiobutton $lfname.2.chat -text [trans stylehist] -value 2 -variable myconfig(logstyle) -state disabled
+	radiobutton $lfname.2.hist -text [trans stylechat] -value 1 -variable config(logstyle) -state disabled
+	radiobutton $lfname.2.chat -text [trans stylehist] -value 2 -variable config(logstyle) -state disabled
 	pack $lfname.2.lstyle -anchor w -side top -padx 10
 	pack $lfname.2.hist $lfname.2.chat -side left -padx 10
 	pack $lfname.2 -anchor w -side top -expand 1 -fill x
@@ -549,13 +549,13 @@ proc Preferences { settings } {
 	label $lfname.plog1 -image prefhist3
 	pack $lfname.plog1 -anchor nw -side left
 	frame $lfname.1 -class Degt
-	checkbutton $lfname.1.lolder -text "[trans logolder]" -onvalue 1 -offvalue 0 -variable myconfig(logexpiry) -state disabled
+	checkbutton $lfname.1.lolder -text "[trans logolder]" -onvalue 1 -offvalue 0 -variable config(logexpiry) -state disabled
 	entry $lfname.1.eolder -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -state disabled
 	label $lfname.1.ldays -text "[trans days]" -padx 5
 	pack $lfname.1 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.1.lolder $lfname.1.eolder $lfname.1.ldays -side left
 	frame $lfname.2 -class Degt
-	checkbutton $lfname.2.lbigger -text "[trans logbigger]" -onvalue 1 -offvalue 0 -variable myconfig(logmaxsize) -state disabled
+	checkbutton $lfname.2.lbigger -text "[trans logbigger]" -onvalue 1 -offvalue 0 -variable config(logmaxsize) -state disabled
 	entry $lfname.2.ebigger -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -state disabled
 	label $lfname.2.lmbs -text "MBs" -padx 5
 	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
@@ -577,8 +577,8 @@ proc Preferences { settings } {
 	pack $lfname.pshared -side left -anchor nw
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
-	checkbutton $lfname.1.keepalive -text "[trans natkeepalive]" -onvalue 1 -offvalue 0 -variable myconfig(keepalive)
-	checkbutton $lfname.1.ip -text "[trans ipdetect]" -onvalue 1 -offvalue 0 -variable myconfig(natip)
+	checkbutton $lfname.1.keepalive -text "[trans natkeepalive]" -onvalue 1 -offvalue 0 -variable config(keepalive)
+	checkbutton $lfname.1.ip -text "[trans ipdetect]" -onvalue 1 -offvalue 0 -variable config(natip)
 	pack $lfname.1.keepalive $lfname.1.ip -anchor w -side top -padx 10
 	
 	## Proxy Frame ##
@@ -589,10 +589,10 @@ proc Preferences { settings } {
 	frame $lfname.1 -class Degt
 	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
-	checkbutton $lfname.1.proxy -text "[trans proxy]" -onvalue 1 -offvalue 0 -variable myconfig(withproxy)
+	checkbutton $lfname.1.proxy -text "[trans proxy]" -onvalue 1 -offvalue 0 -variable config(withproxy)
 	pack $lfname.1.proxy -anchor w -side top -padx 10
-	radiobutton $lfname.2.http -text "HTTP" -value http -variable myconfig(proxytype)
-	radiobutton $lfname.2.socks5 -text "SOCKS5" -value socks -variable myconfig(proxytype) -state disabled	
+	radiobutton $lfname.2.http -text "HTTP" -value http -variable config(proxytype)
+	radiobutton $lfname.2.socks5 -text "SOCKS5" -value socks -variable config(proxytype) -state disabled
 	pack $lfname.2.http $lfname.2.socks5 -anchor w -side left -padx 10
 	pack $lfname.1 $lfname.2 $lfname.3 -anchor w -side top -padx 0 -pady 0 -expand 1 -fill both
 	label $lfname.3.lserver -text "[trans server] :" -padx 5 -font sboldf
@@ -629,14 +629,14 @@ proc Preferences { settings } {
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -expand 1 -fill both
 	label $lfname.1.lbrowser -text "[trans browser] :" -padx 5 -font sboldf
-	entry $lfname.1.browser -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable myconfig(browser)
-	label $lfname.1.lfileman -text "[trans fileman] :" -padx 5 -font sboldf 
-	entry $lfname.1.fileman -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable myconfig(filemanager)
+	entry $lfname.1.browser -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable config(browser)
+	label $lfname.1.lfileman -text "[trans fileman] :" -padx 5 -font sboldf
+	entry $lfname.1.fileman -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable config(filemanager)
 	label $lfname.1.lmailer -text "[trans mailer] :" -padx 5 -font sboldf
-	entry $lfname.1.mailer -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable myconfig(mailcommand)
+	entry $lfname.1.mailer -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable config(mailcommand)
 	label $lfname.1.lhot -text "[trans leaveblankforhotmail]" -font examplef -padx 5 
 	label $lfname.1.lsound -text "[trans soundserver] :" -padx 5 -font sboldf
-	entry $lfname.1.sound -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable myconfig(soundcommand)
+	entry $lfname.1.sound -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable config(soundcommand)
 	label $lfname.1.sound2 -text "[trans soundcommand]" -font examplef -padx 5
 
 	grid $lfname.1.lbrowser -row 1 -column 1 -sticky w
@@ -671,7 +671,7 @@ proc Preferences { settings } {
 	pack $lfname.1.profile -anchor w -side left -padx 10
 	pack $lfname.1.bdel -anchor e -side left -padx 15
 	pack $lfname.1 -anchor w -side top -expand 1 -fill x
-	
+
     setCfgFonts $nb splainf
 
     Rnotebook:totalwidth $nb
@@ -679,7 +679,7 @@ proc Preferences { settings } {
     InitPref
 
     wm geometry .cfg [expr [Rnotebook:totalwidth $nb] + 50]x595
- 
+
     switch $settings {
         personal { Rnotebook:raise $nb 1 }
 	appearance { Rnotebook:raise $nb 2 }
@@ -691,6 +691,8 @@ proc Preferences { settings } {
 	default { return }
     }
 
+    bind .cfg <Destroy> "RestorePreferences"
+
     #tkwait visibility .cfg
     #grab set .cfg
 }
@@ -699,7 +701,7 @@ proc Preferences { settings } {
 proc InitPref {} {
 	global user_stat user_info config
 	set nb .cfg.notebook.nn
-	
+
 	# Insert nickname if online, disable if offline
 	set lfname [Rnotebook:frame $nb 1]
 	if { $user_stat == "FLN" } {
@@ -769,13 +771,13 @@ proc InitPref {} {
 	}
 }
 
-	
-# This function sets all fonts to plain instead of bold, 
+
+# This function sets all fonts to plain instead of bold,
 # excluding the ones that are set to sboldf or examplef
 proc setCfgFonts {path value} {
 	catch {set res [$path cget -font]}
 	if { [info exists res] } {
-	        if { $res != "sboldf" && $res != "examplef" } {         
+	        if { $res != "sboldf" && $res != "examplef" } {
 		    catch { $path config -font $value }
         	}
 	}
@@ -796,26 +798,26 @@ proc SavePreferences {} {
     set p_server [string trim $proxy_server]
     set p_port [string trim $proxy_port]
     if { ($p_server != "") && ($p_port != "") && [string is digit $proxy_port] } {
-       set myconfig(proxy) [join [list $p_server $p_port] ":"]
+       set config(proxy) [join [list $p_server $p_port] ":"]
     } else {
-       set myconfig(proxy) ""
-       set myconfig(withproxy) 0
+       set config(proxy) ""
+       set config(withproxy) 0
     }
 
     # Make sure x and y offsets are digits, if not revert to old values
-    if { [string is digit $myconfig(notifyXoffset)] == 0 } {
-    	set myconfig(notifyXoffset) $config(notifyXoffset)
+    if { [string is digit $config(notifyXoffset)] == 0 } {
+    	set config(notifyXoffset) $myconfig(notifyXoffset)
     }
-    if { [string is digit $myconfig(notifyYoffset)] == 0 } {
-    	set myconfig(notifyYoffset) $config(notifyYoffset)
+    if { [string is digit $config(notifyYoffset)] == 0 } {
+    	set config(notifyYoffset) $myconfig(notifyYoffset)
     }
-    
+
     # Check and save phone numbers
     if { $user_stat != "FLN" } {
 	    set lfname [Rnotebook:frame $nb 1]
 	    set lfname "$lfname.lfname4.f.f"
  	   ::abook::getPersonal phones
-    
+
 	    set cntrycode [$lfname.2.ephone1 get]
 	    if { [string is digit $cntrycode] == 0 } {
 	    	set cntrycode [lindex [split $phones(phh) " "] 0]
@@ -840,7 +842,7 @@ proc SavePreferences {} {
 	    if { $home != $phones(phh) } {
 		::abook::setPhone home $home
 	    }
-	    if { $work != $phones(phw) } {    
+	    if { $work != $phones(phw) } {
 		::abook::setPhone work $work
 	    }
 	    if { $work != $phones(phm) } {
@@ -850,7 +852,7 @@ proc SavePreferences {} {
 		::abook::setPhone pager N
 	    }
     }
-        
+
     # Change name
     set lfname [Rnotebook:frame $nb 1]
     set lfname "$lfname.lfname.f.f"
@@ -859,9 +861,28 @@ proc SavePreferences {} {
 	::MSN::changeName $config(login) $new_name
     }
 
-    # II. Copy back into current/active configuration. This
-    #     means it will only be saved if user chose "Save".
-    #	  Remember it is also saved during exit/cleanup
+    # Restore old configuration as if nothing happened
+    set config_entries [array get config]
+    set items [llength $config_entries]
+    for {set idx 0} {$idx < $items} {incr idx 1} {
+        set var_attribute [lindex $config_entries $idx]; incr idx 1
+	set var_value [lindex $config_entries $idx]
+	set myconfig($var_attribute) $var_value
+#	puts "myCONFIG $var_attribute $var_value"
+    }
+
+    # Save configuration.
+    save_config
+
+}
+
+proc RestorePreferences {} {
+    global config myconfig proxy_server proxy_port user_info user_stat
+
+    set nb .cfg.notebook.nn
+
+
+    # Restore old configuration as if nothing happened
     set config_entries [array get myconfig]
     set items [llength $config_entries]
     for {set idx 0} {$idx < $items} {incr idx 1} {
@@ -872,9 +893,10 @@ proc SavePreferences {} {
     }
 
     # Save configuration.
-    save_config
+    #save_config
 
 }
+
 ###################### Other Features     ###########################
 proc ChooseFilename { twn title } {
     puts $title
@@ -1005,6 +1027,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.34  2003/04/07 16:50:35  airadier
+# Fixed font config saving issues (now we save a config backup in the preferences window, and restore it when window is destroyed, instead of modyfing a copy and saving it to $config when clicking "Save).
+#
 # Revision 1.33  2003/04/02 00:44:45  airadier
 # Every NS or SB network operation is now done thru WriteNS/WriteSB, so everything is logged to the protocol window.
 #

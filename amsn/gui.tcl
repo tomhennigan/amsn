@@ -1893,7 +1893,7 @@ proc cmsn_draw_main {} {
 #   .options add command -label "[trans encoding]..." -command "show_encodingchoose"
 #   .options add command -label "[trans choosebasefont]..." -command "choose_basefont"
 #   .options add command -label "[trans choosebgcolor]..." -command "choose_theme"
- 
+
    .options add cascade -label "[trans docking]" -menu .dock_menu
    menu .dock_menu -tearoff 0 -type normal
    .dock_menu add radio -label "[trans dockingoff]" -value 0 -variable config(dock) -command "init_dock"
@@ -2430,6 +2430,8 @@ proc cmsn_draw_signin {} {
    $pgBuddy.text insert end "[trans loggingin]..." signin
    $pgBuddy.text insert end "\n"
    $pgBuddy.text configure -state disabled
+
+   tkwait visibility .loginanim
 }
 #///////////////////////////////////////////////////////////////////////
 
