@@ -1,4 +1,4 @@
-FAQ 1.5
+FAQ 1.6
 --------
 
 Q: What is Amsn?
@@ -15,7 +15,7 @@ interpreter is available for linux, windows and macintosh.Some additional
 features might require extra programs, or libraries, like the docking icon,
 the Display Pictures, or the SSL connection for MSN Protocol 9.
 
-Q: How do I install and run amsn?
+Q: How do I install and run amsn on unix/linux?
 A: Just download the amsn-x_xx.tar.gz file. Untar it with the command:
   gzip -d amsn-x_xx.tar.gz
   tar xvf amsn-x_xx.tar
@@ -29,6 +29,16 @@ If wish command doesn't exist, then you don't have tcl/tk correctly installed.
 If "wish amsn" works, but "./amsn" doesn't, edit 'amsn' file and set the
 correct path to 'wish' in the first line. By default it's set to:
 /usr/bin/wish
+
+Q: After downloading imagemagick, How do I enable Display Pictures?
+After you installed imagemagick, go to the AMSN's Preferences dialog. There,
+click on "Others". Go to a field named "CONVERT", and click the browse button.
+Then go to the folder where you installed imagemagick, and select the
+"CONVERT.EXE" file. 
+The, save preferences and restart AMSN. Then go to preferences again, and
+check that the option "Enable receiving Display Pictures from other users"
+is enabled, as it was disabled automatically because CONVERT.EXE couldn't
+be found.
 
 Q: When I double click "amsn" file from a graphical file browser, like
 konqueror or nautilus, it opens a text editor instead of running AMSN!
