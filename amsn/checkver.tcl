@@ -54,7 +54,7 @@ proc check_version {} {
 
    wm title .checking "[trans title]"
    wm transient .checking .
-   canvas .checking.c -width 250 -height 50 -bg #D0D0E0
+   canvas .checking.c -width 250 -height 50 
    pack .checking.c -expand true -fill both
 
    .checking.c create text 125 25 -font splainf -anchor n \
