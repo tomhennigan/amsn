@@ -1069,7 +1069,6 @@ proc cmsn_ns_handler {item} {
       }
       ADD -
       LST {
-         cmsn_listupdate $item
 	 if { ([lindex $item 0] == "ADD") && ([lindex $item 2] == "FL") } {
 	     set contact [lindex $item 4]	;# Email address
 	     set addtrid [lindex $item 3]	;# Transaction ID
@@ -1079,11 +1078,16 @@ proc cmsn_ns_handler {item} {
 	 # NOTE: IF a user belongs to several groups, the group part
 	 #       of this packet will have the group ids separated
 	 #       by commas:  0,5  (group 0 & 5).
-	 if { [lindex $item 2] == "FL" } {
+	 set curr_list [lindex $item 2]
+	 # It could be that it is in the FL but not in RL or viceversa.
+	 # Everything that is in AL or BL is in either of the above.
+	 # Only FL contains the group membership though...
+	 if { ($curr_list == "FL") } {
 	      status_log "$item\n" blue
 	     ::abook::setContact [lindex $item 6] FL [lindex $item 8]
 	     ::abook::setContact [lindex $item 6] nick [lindex $item 7]
 	 }
+         cmsn_listupdate $item
          return 0
       }
       REM {
@@ -1121,13 +1125,14 @@ proc cmsn_ns_handler {item} {
 	  return 0
       }
       BPR {
-      	status_log "BPR: TODO $item\n" white
+      	status_log "$item\n" white
 	 # Update entry in address book setContact(email,PH*/M*,phone/setting)
 	 ::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4] 
 	 return 0
       }
       PRP {
-      	status_log "PRP: TODO $item\n" white
+      	status_log "$item\n" white
+	 ::abook::setPersonal [lindex $item 3] [lindex $item 4]
 	return 0
       }
       LSG {
