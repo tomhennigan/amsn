@@ -349,7 +349,7 @@ needonline Vous êtes toujours déconnecté(e)!
 needwinico Winico03.dll doit figurer dans le dossier de Plug-ins afin que l'icône dans la Barre des tâches fonctionne
 newmail $1 nouveaux messages
 newmailfrom Nouveau message de $1 ($2)
-newmailfolder $@ nouveaux messages dans les autres dossiers Hotmail
+newmailfolder $1 nouveaux messages dans les autres dossiers Hotmail
 newmsg Nouveau message
 newstate Ajouter un état personnel
 newveravailable Nouvelle version disponible ($1)
