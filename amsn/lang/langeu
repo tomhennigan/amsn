@@ -1,0 +1,298 @@
+amsn_lang_version 2
+about Honi buruz
+acceptfile Onartu $1 fitxategia, tamaina $2? $3 gisa gordeta
+accept Onartu
+actions Ekintzak
+addacontact Kontaktua gehitu
+addedyou k bere kontaktuen zerrendara gehitu zaitu
+addtocontacts Kontaktu zerrendara gehitu
+addtoo Pertsona hau zure kontaktuen zerrendara gehitu
+admincontacts Kontaktuak administratu
+admingroups Taldeak administratu
+adverts Iragarpen
+alarmpref Erabiltzailearentzat alarma aukerak
+alarmstatus Erabiltzaile honentzako alarma jarri edo kendu
+allowseen Pertsona honek konektatuta nagoela ikusi dezan eta nirekin kontaktatzeko baimendu
+appearance Itxura
+appearoff Konektatuta
+areacode Kode eremua
+aretyping $1 idazten daude
+askprofile Erabili Historia, edo zure alarmak eta pasahitzak gorde. \n Egiten baduzu, profil honentzako konfigurazio desberdinak edukiko dituzu profil honentzako. \n Sakatu "Profila sortu"-n $1 -rentzat profil berria sortzeko.
+autoaway Erakutsi "Ez dago" ez-aktibo nagoenean honengaitik: 
+autoconnect2 aMSN abiarazita izaten denean sinatu automatikoki
+autoconnect AMSNra konektatu hasterakoan
+autohotmaillog Hotmailen automatikoki hasi saioa
+autoidle Auto aktibitate eza
+autoip IP automatikoa
+autonoact Erakutsi "Ez aktibo" ez-aktibo nagoenean honengaitik:
+avoidseen Pertsona honek konektatuta nagoela ikusi dezan eta nirekin kontaktatzeko galerazi
+away Ez dago
+awaymsg1 Galdetu "ez nago" mezuengaitik "Ez nago/Okupatuta/BRB" mezuetara aldatzen dudan bakoitzean
+awaymsg2 Inoiz ez galdetu, eta erabili azpiko mezua
+baduserpass Erabiltzaile izena edo pasahitza ez da zuzena
+bgcolor Aldatu aMSN-ren atzeko planoaren kolorea
+blankdirect Konexio zuzena erabiltzeko zuriz utzi
+block Blokeatu
+blocked Blokeatuta
+broughtby Honako progamatzaile hauei esker AMSN erabili dezakezu
+browse Nabigatu
+browser Nabigatzailea
+busy Okupatuta
+cancel Utzi
+cfgalarm Alarma Konfiguratu/Gehitu/Ezabatu
+changefont Letra-tipoa aldatu
+changenick Ezizena aldatu
+chatack -ren txata onartzen
+chatreq Txat eskakizuna
+chatsmileys2 Emotikonak eta Smile-ak erakutsi txat leihoetan
+chatsmileys Smiley-ak txatean
+chat Txat
+checkfilman Jasotako fitxategiak $1-an gordeak izango dira. Egiaztatu fitxategi-kudeatzailearen ezarpenak fitxategi hobespen leihoetan.
+checkingver Bertsio berriagorik dagoen egiaztatzen
+checkver Bertsio berria dagoen egiaztatu
+choosebasefont Letra-mota hautatu
+choosebgcolor Atzeko planoko kolorea hautatu
+choosefontcolor letrako kolorea hautatu
+clearlog2 Ezabatu zure kontaktu guztien historia
+clearlog3 Log guztiak ezabatu
+clearlog Log-a ezabatu
+clicktologin Klik egin hemen saioa hasteko
+close Itzi
+closingdocks Ixteko botoiak minimizatzen du
+command Komandoa
+confirmdelete $1 ezabatzearekin ados zaude?
+confirm Zihur al zaude?
+connecterror Akatsa zerbitzarira konektatzerakoan
+connection Konekzioa
+contactadded Kontaktua gehituta
+contactdoesnotexist Kontaktua ez da existitzen
+copy Kopiatu
+copytogroup Taldera kopiatu
+countrycode Nire estatu/eskualde kodea
+cprofile Sortu profila
+cut Ebaki
+date Data
+days Egunak
+dcprofile Profila ez sortu
+default Konfigurazio lehenetsia
+delete Ezabatu
+deliverfail Hurrengo mezua bidaltzen arazoa egon da
+delprofile2 Ezabatu nahi duzun profila aukeratu
+delprofile Profila ezabatu
+dockgtk Gnome ikonoa
+dockingoff Desaktibatuta
+docking Sistemako bandejan ikonoa
+dockkde KDE ikonoa
+edit Editatu
+editprofile Profila editatu
+enableproxy Proxya gaitu
+encoding2 Aldatu zure karaktereak kodetzen diren modua
+encoding Kodeatzen
+entercontactemail Kontaktuaren e-posta sartu
+enterfilename Fitxategi-izena sartu mesedez
+enternick Zure ezizena sartu
+examples Adibideak
+exitamsn Zihur programatik atera nahi zarela?
+extras Zerbitzu osagarriak
+faq MEG Maiz Egiten diren Galderak
+filedoesnotexist Fitxategia ez da existitzen
+fileman Fitxategi-kudeatzailea
+filename Fitxategi-izena
+filetransfercancelled Fitxategien transferentzia bertan behera utzita
+filetransfercomplete Fitxategien transferentzia osatuta
+ftaccepted Fitxategi transferentzia onartuta
+ftrejected Fitxategi transferentzia gaitzetsita
+gonelunch Jatera joanda
+groupadd Talde bat gehitu
+groupdelete Talde bat ezabatu
+groupexists Talde hau badago lehendik
+groupmissing Taldea ez dago
+groupnewname Izen berria
+groupnotempty Taldea ez dago utzik!
+groupoldname Izen zaharra
+grouprename Talde bat berizendatu
+group Taldea
+groupunknown Talde ezezaguna
+handle Heldulekua
+helpcontents Laguntzaren edukiak
+help Laguntza
+history Historia
+home Etxea
+ident Identifikatzen
+identity Identitatea
+inbox Sarrera-bandeja
+invalidusername Erabiltzaile izen ez zuzena
+invite Gonbidatu
+ipaddress IP Helbidea
+ipdetect HTTP fitxategien transferentziarako IP zuzena detektatu 
+istyping $1 mezu bat idazten dago
+joins $1 berriketan sartzen da
+keepalive Konexioa ez eten (NAT)
+keeplog2 aMSN-ren historian solasaldi guztiak gorde, etorkizunerako ikuspegientzat 
+keeplog Txat-eko solasaldiak gorde
+language Hizkuntza
+lastmsgtime Azken mezuaren ordua
+lclosedwin $1-k $2 leihoa itxi du
+lconftopriv Solasaldia $1-ekin txat pribatua bilakatu da
+lconvstarted $1-n hasitako solasaldia
+leaveblankforhotmail Zuriz utzi Hotmailen weba erabiliko baduzu
+leaves $1 berriketatik ateratzen da
+lenteredconf $1 $2 solasaldian sartu da
+linprivate Pribatuan
+listeningon $1 ataka entzuten
+listsmileys2 aMSN-ren kontaktu zerrendan Emoticon eta Smileyk erakutsi
+listsmileys Smiley-ak kontaktuan
+ljoinedconf $1 solasaldian sartu da
+lleftconf $1-ek solasaldia utzi du
+loadcontacts Kontaktuen zerrenda kargatu
+logbigger Kontaktu bakoitzerako log fitxategiaren tamaina ez da sekulan gainditzen
+logfandexp Log fitxategien tamaina eta Historiaren amaitzea 
+loggedotherlocation Deskonektaturik: Beste lekuren batean saioa hasi da
+loggingin Saioa hasten
+loginas Beste saio bat hasteko
+loging saio-hasiera
+login Saioa hasi
+logolder Iraganean egon diren solasaldiak logean gorde bakarrik
+logout Saioa amaitu
+logsin oraintxe bertan saioa hasi du
+logsmileys Historia leihoan aMSN-ren Emoticonak eta Smiley-ak erakutsi
+lprivtoconf Txat pribatua, $1ekin konferentzia bilakatu da
+luclosedwin $1n leihoa itxi duzu
+mailer Bidalketa-funtzioa
+maximised Maximizatu
+minimised Minimizatu
+mins minutuak
+mobile Mugikorra
+movetogroup Taldera mugitu
+msgmaxmin Mezu berri bat jasotzen dudanean hura honako hau izatea nahi dut:
+msg Mezua
+msgmode Mezu anitzen leihoak nola erabili hautatu:
+msn AMSN
+mustrestart Aldaketak aplikatzeko programa berrabiarazi behar duzu
+myhomephone Nire Etxeko telefonoa
+mymobilephone Nire Telefono Mugikorra
+mystatus Nire egoera
+myworkphone Nire Laneko Telefonoa
+natip Webaren bitartez IP-a detektaturik
+natkeepalive Maiz deskonektatua gelditzen bazara "Konektatuta gelditu" gaitu
+needonline Oraindik deskonektatuta zaude edo deskonektatuta ematen duzu!
+newmail $1 mezu berri zure sarrera-bandejan
+newmailfrom -ren mezu berria
+newmsg Mezu berria
+newveravailable $1 bertsio berria deskargatzeko erabilgarri
+next Hurrengoa
+noactivity Ez dago aktibitaterik
+nologfile $1rako ez dago log fitxategirik
+nonewmail 0 mezu berri zure sarrera-bandejan
+nonewver Ez dago bertsio berriagorik deskargatzeko erabilgarri
+normal Normala
+notify1 Jakinarazketa leihoa erakutsi kontaktuak konektatzen direnean
+notify2 Mezu berriak jasotzen direnean jakinarazketa leihoan erakutsi
+notify3 Mezu berriak zure sarrera-bandejan jasotzerakoan
+notify jakinarazi
+notifyoffset Jakinarazketa leihoaren posizioa aldatu bere posizioa emanez
+notifywin Abisuen leihoa
+nousersinsession Ez dago erabiltzailerik saioan
+offline Deskonektatuta
+ok Ok
+onenewmail Mezu berri bat zure sarrera-bandejan
+online Konektatuta
+onphone Telefonoz hitzegiten
+openreceived Ireki jasotako fitxategia
+options Aukerak
+ordercontactsby Kontaktuak ordenatu
+ordergroupsby Taldeak ordenatu honen arabera
+other Beste bat
+pager Bilagailu
+pass Pasahitza
+paste Itsatsi
+personal Pertsonala
+phone Telefonoa
+picfile Alarmaren irudiaren fitxategia (GIF < 500 x 500)
+picstatus Alarmaren irudia ON/OFF
+port Ataka
+prefalerts Nire gertaeren alertak eta soinuak
+prefapps Aplikazioak
+prefawaymsg Nire ez-nago motako mezua
+prefemotic Emozio ikonoak eta Smiley-ak
+preferences Hobespenak
+preffont2 Aldatu besteek txatetan nire testuak ikusten duten modua
+preffont3 Aldatu aMSN-ren interfazearen letra-mota eta letra-tamaina
+preffont Nire mezuaren testua
+preflog1 Nire Historia eta Logen aukerak
+preflook Nire aMSN mezulariaren kanpo-itxura
+prefmsging Nire mezuen interfazea
+prefname MSN Messenger-en Izena/Ezizena
+prefphone2 Idatzi jendeak bere onarpen zerrendetan \n ikusiko dituen telefono zenbakiak \n
+prefphone Nire Telefono Zenbakiak
+prefprofile2 Sortu edo aldatu zure profil publikoa (besteek \n ikusten duten zeure buruaren deskribapena)
+prefprofile3 aMSN-ren Erabiltzaileen Konfigurazio Profilak
+prefprofile Nire Profil Publikoa
+prefproxy Nire Proxy Ezarpenak
+prefsession Nire sarrera-sinadura eta egoera
+prefshared Konpartitutako konexioak (NATerako soilik)
+prefsound Soinuak
+profiledconfig Konfigurazio profilak
+profiles Profilak
+properties Propietateak
+proxyconfhttp HTTP proxyaren konfigurazioa
+proxyconf Proxyaren konfigurazioa
+proxy Proxy baten atzean nago (HTTP edo Socks5)
+publishphones Nire telefono zenbakiak argitara eman
+receivedbytes $2 byteetako $1 jasota
+receivefile Fitxategia jaso
+reconnect $1 birkonektatzera itxaroten
+reconnecting Zerbitzariara birkonektatzen
+reject Ezeztatu
+rememberpass Pasahitza gogoratu
+reversed Alderantzikatuta
+rightback Oraintxe bueltan nago
+saveas Gorde Honela
+savecontacts Kontaktu zerrenda gorde
+save Gorde
+savetofile Gorde fitxategian
+says $1[e]k dio
+sbcon Switch Board-era konektatzen
+send Bidali
+sendfile Fitxategia bidali
+sendmail E-posta bidali
+sendmsg Mezua bidali
+sentbytes $2 bytetako $1 bidaliak
+servergoingdown Deskonektaturik: Zerbitzaria mantentze lanetarako itzaliko da
+server Zerbitzaria
+session Sesioa
+sound2 Kontaktuak sartzen direnean edo mezu bat jasotzerakoan soinu bat jo
+soundcommand Hau martxan jartzeko komandoa izan behar da (ex: esdplay)
+soundfile Alarmaren Soinuaren Fitxategia
+sound Gertaeren soinuak
+soundloop Etengabeko soinua
+soundserver Soinu zerbitzaria
+soundstatus Alarmaren soinua jarri edo kendu
+startoffline2 "Deskonektatuta ematen du" bezala sarrera-sinadura egin
+startoffline Deskonektatuta hasi
+status Egoera
+stopalarm Alarma gelditu
+stylechat Txateko kanpo-itxura bera
+stylehist aMSN-ren kanpo-itxuraren historia
+stylelog Zure historia ikusi nahi duzun formatua aukeratu
+syntaxerror Akats sintaktikoa
+tabbed Tabbed Windows
+textsize Testuaren tamaina
+title Al's Messenger
+to Nori
+tools Tresnak
+unblock Desblokeatu
+uoffline Deskonektatuta
+uonline Konektatuta
+useralreadyonlist Erabiltzailea kontaktuen zerrendan dago jada
+user Erabiltzaile
+usernotonline Erabiltzailea ez dago konektaturik
+version Bertsioa
+view Ikuspegia
+viewprofile Profila ikusi
+willjoin $1 berriketan sartzera itxaroten
+work Lana
+xoffset X desplazaketa
+yoffset Y desplazaketa
+yousay Zuk diozu
+youwant Zu itxaroten duzu
