@@ -29,21 +29,29 @@ proc scan_languages {} {
 }
 
 proc trans {msg args} {
-global lang
-  for {set i 1} {$i <= [llength $args]} {incr i} {
-     set $i [lindex $args [expr {$i-1}]]
-  }
-   if {[ catch {
-         if { [string length $lang($msg)] > 0 } {
-            return [subst -nocommands $lang($msg)]
-         } else {
-            return "$msg $args"
-         }
-      }  res] == 1} {
-      return "$msg $args"
-   } else {
-      return $res
-   }
+	global lang
+	for {set i 1} {$i <= [llength $args]} {incr i} {
+		set $i [lindex $args [expr {$i-1}]]
+	}
+	if {[ catch {
+			if { [string length $lang($msg)] > 0 } {
+				return [subst -nocommands $lang($msg)]
+			} else {
+				if {[llength $args]>0} {
+					return "$msg $args"
+				} else {
+					return "$msg"
+				}
+			}
+		}  res] == 1} {
+		if {[llength $args]>0} {
+			return "$msg $args"
+		} else {
+			return "$msg"
+		}
+	} else {
+		return $res
+	}
 
 }
 
