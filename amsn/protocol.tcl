@@ -2327,20 +2327,36 @@ namespace eval ::DirectConnection {
 
 ::snit::type Message {
 
+	variable headers 
+	variable body
+
+	#creates a message object from a received payload
+	method createFromPayload { payload } {
+		set idx [string first "\r\n\r\n" $payload]
+		set head [string range $payload 0 [expr $idx -1]]
+		set body [string range $payload [expr $idx +4] end]
+		set head [string map {"\r" ""} $head]
+		set heads [split $head "\n"]
+		foreach header $heads {
+			set idx [string first ": " $header]
+			array set headers [list [string range $header 0 [expr $idx -1]] \
+					  [string range $header [expr $idx +2] end]]
+		}
+	}
+
+	method getHeader { name } {
+		return [lindex [array get headers $name] 1]
+	}
 }
 
 
 ::snit::type Connection {
 
 	option -name
-#	option -data [list]
 	option -server ""
 	option -stat ""
 	option -sock ""
 	option -connected ""
-#	option -command_handler
-#	option -payload_handler ""
-#	option -error_handler ""
 	option -connection_wrapper ""
 	option -time ""
 	option -error_msg ""
@@ -2356,7 +2372,6 @@ namespace eval ::DirectConnection {
 			#put available data in buffer. When buffer is empty dataRemains is set to 0
 			set dataRemains [$self appendDataToBuffer]
 
-			degt_protocol buffer:$dataBuffer
 			#check for the a newline, if there is we have a command if not return
 			set idx [string first "\r\n" $dataBuffer]
 			if { $idx == -1 } { return }
@@ -2365,22 +2380,22 @@ namespace eval ::DirectConnection {
 			#check for payload commands:
 			if {[lsearch {MSG NOT PAG} [string range $command 0 2]] != -1} {
 				set length [lindex [split $command] 3]
-				degt_protocol thelength:$length
 				set remaining [string range $dataBuffer [expr $idx +2] end]
 				#if the whole payload is in the buffer process the command else return
 				if { [string length $remaining] >= $length } {
 					set payload [string range $remaining 0 [expr $length -1]]
 					set dataBuffer [string range $dataBuffer [string length "$command\r\n$payload"] end]
 					set command [encoding convertfrom utf-8 $command]
-					$self handleCommand $command $payload
+					$options(-name) handleCommand $command $payload
 				} else {
 					return
 				}
 			} else {
 				set dataBuffer [string range $dataBuffer [string length "$command\r\n"] end]
 				set command [encoding convertfrom utf-8 $command]
-				$self handleCommand $command
+				$options(-name) handleCommand $command
 			}
+			update idletasks
 		}
 	}
 
@@ -2416,17 +2431,6 @@ namespace eval ::DirectConnection {
 	method sockError { } {
 		::MSN::CloseSB $self
 	}
-
-	method handleCommand { command {payload ""}} {
-		degt_protocol command:$command
-		degt_protocol payload:$payload
-		if { [string first NS $self] != -1 } {
-			cmsn_ns_handler [split $command] $payload
-		} else {
-			cmsn_sb_handler $options(-name) [split $command] $payload
-		}
-	}
-
 }
 
 ::snit::type NS {
@@ -2443,6 +2447,14 @@ namespace eval ::DirectConnection {
 	constructor {args} {
 		install connection using Connection %AUTO% -name $self
 		$self configurelist $args
+	}
+
+	method handleCommand { command {payload ""}} {
+		degt_protocol "<-ns-[$self cget -sock] $command" "nsrecv"
+		if { $payload != "" } {
+			degt_protocol "Message Contents:\n$payload" "nsrecv"
+		}
+		cmsn_ns_handler [split $command] $payload
 	}
 }
 
@@ -2479,6 +2491,16 @@ namespace eval ::DirectConnection {
 
 	method delTyper { idx } {
 		set options(-typers) [lreplace $options(-typers) $idx $idx]
+	}
+
+	method handleCommand { command {payload ""}} {
+		degt_protocol "<-$self-[$self cget -sock] $command" "sbrecv"
+		if { $payload != "" } {
+			degt_protocol "Message Contents:\n$payload" "sbrecv"
+		}
+#		set message [Message create %AUTO%]
+#		$message createFromPayload $payload
+		cmsn_sb_handler $self [split $command] $payload
 	}
 
 	method search { option index } {
