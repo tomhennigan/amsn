@@ -780,5 +780,3 @@ if { $config(autoconnect) == 1 } {
 #Preferences session
 
 init_dock
-
-

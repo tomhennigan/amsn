@@ -255,7 +255,7 @@ proc PreferencesMenu {m} {
 }
 
 proc Preferences { settings } {
-    global config myconfig proxy_server proxy_port images_folder
+    global config myconfig proxy_server proxy_port images_folder nb user_info user_stat
 
     if {[ winfo exists .cfg ]} {
         return
@@ -299,13 +299,21 @@ proc Preferences { settings } {
 	image create photo prefphone -file [file join ${images_folder} prefphone.gif]
 	set frm [Rnotebook:frame $nb 1]
 
+	## Nickname Selection Entry Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefname] -font splainf]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.pname -image prefpers
 	label $lfname.lname -text "[trans enternick] :" -font sboldf -padx 10
-	entry $lfname.name -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 30
-	pack $lfname.pname $lfname.lname $lfname.name -side left	
+	entry $lfname.name -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 45
+	pack $lfname.pname $lfname.lname $lfname.name -side left
+	# Insert nickname if online, disable if offline
+	if { $user_stat == "FLN" } {
+		$lfname.name configure -state disabled
+	} else {
+		$lfname.name insert 0 [urldecode [lindex $user_info 4]]
+	}
 
+	## Public Profile Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefprofile]]
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
 	label $lfname.pprofile -image prefprofile
@@ -314,6 +322,7 @@ proc Preferences { settings } {
 	pack $lfname.pprofile $lfname.lprofile -side left
 	pack $lfname.bprofile -side right -padx 15
 
+	## Chat Font Frame ##
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans preffont]]
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.pfont -image preffont
@@ -322,6 +331,7 @@ proc Preferences { settings } {
 	pack $lfname.pfont $lfname.lfont -side left
 	pack $lfname.bfont -side right -padx 15
 
+	## Phone Numbers Frame ##
 	set lfname [LabelFrame:create $frm.lfname4 -text [trans prefphone]]
 	pack $frm.lfname4 -anchor n -side top -expand 1 -fill x 
 	frame $lfname.1 -class Degt
@@ -330,7 +340,6 @@ proc Preferences { settings } {
 	pack $lfname.1.pphone -side left -anchor nw
 	label $lfname.1.lphone -text [trans prefphone2] -padx 10
 	pack $lfname.1.lphone -fill both -side left
-
 	label $lfname.2.lphone1 -text "[trans countrycode] :" -padx 10 -font sboldf
 	entry $lfname.2.ephone1 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5
 	label $lfname.2.lphone21 -text "[trans areacode]" -pady 5
@@ -343,11 +352,9 @@ proc Preferences { settings } {
 	entry $lfname.2.ephone42 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20
 	label $lfname.2.lphone5 -text "[trans mymobilephone] :" -padx 10 -font sboldf
 	entry $lfname.2.ephone51 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5	
-	entry $lfname.2.ephone52 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20	
-
+	entry $lfname.2.ephone52 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20
 	pack $lfname.1 -expand 1 -fill both -side top
 	pack $lfname.2 -expand 1 -fill both -side top
-
 	grid $lfname.2.lphone1 -row 1 -column 1 -sticky w -columnspan 2
 	grid $lfname.2.ephone1 -row 1 -column 3 -sticky w
 	grid $lfname.2.lphone21 -row 2 -column 2 -sticky e
@@ -361,7 +368,6 @@ proc Preferences { settings } {
 	grid $lfname.2.lphone5 -row 5 -column 1 -sticky w
 	grid $lfname.2.ephone51 -row 5 -column 2 -sticky w
 	grid $lfname.2.ephone52 -row 5 -column 3 -sticky w
-
 	frame $frm.dummy -class Degt
 	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 	
@@ -373,6 +379,7 @@ proc Preferences { settings } {
 
 	set frm [Rnotebook:frame $nb 2]
 	
+	## General aMSN Look Options (Encoding, BGcolor, General Font)
 	set lfname [LabelFrame:create $frm.lfname -text [trans preflook]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.plook -image preflook
@@ -396,6 +403,7 @@ proc Preferences { settings } {
 	pack $lfname.3.llook -side left	
 	pack $lfname.3.bfont -side right -padx 15
 	
+	## Emoticons Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefemotic]]
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
 	label $lfname.pemotic -image prefemotic
@@ -407,6 +415,7 @@ proc Preferences { settings } {
 	checkbutton $lfname.1.log -text "[trans logsmileys]" -onvalue 1 -offvalue 0 -variable myconfig(logsmileys) -state disabled	
 	pack $lfname.1.chat $lfname.1.list $lfname.1.log -anchor w -side top -padx 10
 	
+	## Alerts and Sounds Frame ##
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefalerts]]
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.palerts -image prefalerts
@@ -427,7 +436,6 @@ proc Preferences { settings } {
 	pack $lfname.2 -anchor w -side top -padx 10 -expand 1 -fill both
 	pack $lfname.1 -anchor w -side top -padx 0 -pady 5 -expand 1 -fill both
 	pack $lfname.1.alert1 $lfname.1.alert2 $lfname.1.alert3 $lfname.1.sound -anchor w -side top -padx 10
-
 	frame $frm.dummy -class Degt
 	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 	
@@ -439,6 +447,7 @@ proc Preferences { settings } {
 
 	set frm [Rnotebook:frame $nb 3]
 	
+	## Sign In and AutoStatus Options Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefsession]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.psession -image prefstatus
@@ -461,6 +470,7 @@ proc Preferences { settings } {
 	pack $lfname.3 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.3.lonstart $lfname.3.lstrtoff -anchor w -side top
 
+	## Away Messages Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefawaymsg]]
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
 	label $lfname.psession -image prefaway
@@ -471,6 +481,7 @@ proc Preferences { settings } {
 	pack $lfname.awaymsg1 $lfname.awaymsg2 -anchor w -side top
 	pack $lfname.awayentry -anchor w -side top -padx 10
 
+	## Messaging Interface Frame ##
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefmsging]]
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.pmsging -image prefmsg
@@ -499,6 +510,8 @@ proc Preferences { settings } {
 	image create photo prefhist3 -file [file join ${images_folder} prefhist3.gif]
 
 	set frm [Rnotebook:frame $nb 4]
+
+	## Loging Options Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans preflog1]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.plog1 -image prefhist
@@ -513,6 +526,7 @@ proc Preferences { settings } {
 	pack $lfname.2.hist $lfname.2.chat -side left -padx 10
 	pack $lfname.2 -anchor w -side top -expand 1 -fill x
 	
+	## Clear All Logs Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans clearlog]]
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
 	label $lfname.plog1 -image prefhist2
@@ -524,6 +538,7 @@ proc Preferences { settings } {
 	pack $lfname.1.bclear -side right -padx 15
 	pack $lfname.1 -anchor w -side top -expand 1 -fill x
 
+	## Logs Expiry Frame ##
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans logfandexp]]
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.plog1 -image prefhist3
@@ -540,7 +555,6 @@ proc Preferences { settings } {
 	label $lfname.2.lmbs -text "MBs" -padx 5
 	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.2.lbigger $lfname.2.ebigger $lfname.2.lmbs -side left
-
 	frame $frm.dummy -class Degt
 	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 
@@ -550,6 +564,8 @@ proc Preferences { settings } {
 	image create photo prefproxy -file [file join ${images_folder} prefproxy.gif]	
 
 	set frm [Rnotebook:frame $nb 5]
+	
+	## NAT Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefshared]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.pshared -image prefnat
@@ -560,7 +576,7 @@ proc Preferences { settings } {
 	checkbutton $lfname.1.ip -text "[trans ipdetect]" -onvalue 1 -offvalue 0 -variable myconfig(natip)
 	pack $lfname.1.keepalive $lfname.1.ip -anchor w -side top -padx 10
 	
-	set frm [Rnotebook:frame $nb 5]
+	## Proxy Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefproxy]]
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
 	label $lfname.pshared -image prefproxy
@@ -599,6 +615,8 @@ proc Preferences { settings } {
 	image create photo prefapps -file [file join ${images_folder} prefpers.gif]
 
 	set frm [Rnotebook:frame $nb 6]
+	
+	## Applications Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefapps]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.pshared -image prefapps
@@ -631,6 +649,7 @@ proc Preferences { settings } {
 	# _| Profiles |________________________________________________
 	image create photo prefapps -file [file join ${images_folder} prefpers.gif]
 	
+	## Delete Profiles Frame ##
 	set frm [Rnotebook:frame $nb 7]
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefprofile3]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
@@ -662,8 +681,13 @@ proc Preferences { settings } {
         profiles { Rnotebook:raise $nb 7 }
 	default { return }
     }
+
+    tkwait visibility .cfg
+    grab set .cfg
 }
 
+# This function sets all fonts to plain instead of bold, 
+# excluding the ones that are set to sboldf
 proc setCfgFonts {path value} {
 	catch {set res [$path cget -font]}
 	if { [info exists res] } {
@@ -838,6 +862,10 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.26  2003/01/22 06:50:55  burgerman
+# More work on prefs...
+# set user_stat to FLN on disconnect
+#
 # Revision 1.25  2003/01/21 18:30:07  burgerman
 # more work on pref
 # removed -nobackslashes from proc trans to allow /n in translations

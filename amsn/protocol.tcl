@@ -40,11 +40,12 @@ namespace eval ::MSN {
    }
 
    proc logout {} {
-      global config
+      global config user_stat
       variable myStatus
       catch {puts -nonewline [sb get ns sock] "OUT\r\n"; sb set ns stat "d"} res
 
       set myStatus FLN
+      set user_stat FLN
       status_log "Loging out\n"
 
       if {$config(adverts)} {
