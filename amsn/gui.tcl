@@ -4310,7 +4310,8 @@ proc snack_play_sound {snd {loop 0}} {
 		#When 2 sounds play at the same time callback doesnt get deleted unless both are stopped so requires a catch
 		catch { $snd play -command [list snack_play_sound $snd 1] } { }
 	} else {
-		$snd play
+		#This catch will avoid some errors is waveout is being used
+		catch { $snd play }
 	}
 }
 
