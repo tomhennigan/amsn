@@ -138,13 +138,7 @@ namespace eval ::skin {
 	#  - skin_name => [NOT REQUIRED] Overrides the current skin.
 	proc getColorBar { {skin_name ""} } {
 		# Get the contact list width
-		global pgBuddy
-
-		set width [winfo width $pgBuddy]
-
-		if { $width < 160 } {
-			set width 160
-		}
+		global pgBuddyTop
 
 		# Delete old mainbar, and load colorbar
 		# The colorbar will be loaded as follows:
@@ -154,8 +148,11 @@ namespace eval ::skin {
 		set barheight [image height [loadPixmap colorbar]]
 		set barwidth [image width [loadPixmap colorbar]]
 		set barendwidth [expr $barwidth - 11]
+		set width [winfo width [winfo parent $pgBuddyTop]]
+		if { $width < $barwidth } {
+			set width $barwidth
+		}
 		set barendstart [expr $width - $barendwidth]
-	
 		# Create the color bar copying from the pixmap
 		image create photo mainbar -width $width -height $barheight
 		mainbar blank

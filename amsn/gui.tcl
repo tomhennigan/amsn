@@ -4200,8 +4200,10 @@ proc toggleGroup {tw name image id {padx 0} {pady 0}} {
 
 #///////////////////////////////////////////////////////////////////////
 proc clickableImage {tw name image command {padx 0} {pady 0}} {
-	label $tw.$name -image [::skin::loadPixmap $image] -background white
-	$tw.$name configure -cursor hand2 -borderwidth 0
+	label $tw.$name -background white -border 0 -cursor hand2 -borderwidth 0 \
+			-image [::skin::loadPixmap $image] \
+			-width [image width [::skin::loadPixmap $image]] \
+			-height [image height [::skin::loadPixmap $image]]
 	bind $tw.$name <Button1-ButtonRelease> $command
 	$tw window create end -window $tw.$name -padx $padx -pady $pady -align center -stretch true
 }
@@ -4229,14 +4231,8 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 		if {$type == "mystatus"} {
 			canvas $tw.$name -width [image width [::skin::loadPixmap mystatus_bg]] -height [image height [::skin::loadPixmap mystatus_bg]] \
 					-bg white -highlightthickness 0
-			#There's a strange bug on Mac OS X, we need to move the picture and the border at the position 2+2 to see it completely
-			#if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			#	$tw.$name create image "[expr {[::skin::getKey x_dp_top]+2}]" "[expr {[::skin::getKey y_dp_top]+2}]" -anchor nw -image my_pic_small
-			#	$tw.$name create image +2 +2 -anchor nw -image [::skin::loadPixmap mystatus_bg]
-			#} else {
-				$tw.$name create image [::skin::getKey x_dp_top] [::skin::getKey y_dp_top] -anchor nw -image my_pic_small
-				$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg]
-			#}
+			$tw.$name create image [::skin::getKey x_dp_top] [::skin::getKey y_dp_top] -anchor nw -image my_pic_small
+			$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg]
 		} 
 		#else {
 			#label $tw.$name -image my_pic_small -background white -bd 1 -relief solid
@@ -4263,8 +4259,11 @@ proc load_my_smaller_pic {path} {
 		global pgBuddy
 		status_log "load_my_smaller_pic: Picture not found!!Show the default amsn status icon instead\n" blue
 		set my_image_type [::MSN::stateToBigImage [::MSN::myStatusIs]]
-		label $path -image [::skin::loadPixmap $my_image_type] -background white -border 0
-		$path configure -cursor hand2 -borderwidth 0
+
+		label $path -background white -border 0 -cursor hand2 -borderwidth 0 \
+					-image [::skin::loadPixmap $my_image_type] \
+					-width [image width [::skin::loadPixmap $my_image_type]] \
+					-height [image height [::skin::loadPixmap $my_image_type]]
 		bind $path <Button1-ButtonRelease> {tk_popup .my_menu %X %Y}
 		return 0
 	}
@@ -4458,8 +4457,10 @@ proc cmsn_draw_online_wrapped {} {
 	# that the user can change his/her status that way
 	# Verify if the skinner wants to replace the status picture for the display picture
 	if { ![::skin::getKey showdisplaycontactlist] } {
-		label $pgBuddyTop.bigstate -image [::skin::loadPixmap $my_image_type] -background white -border 0
-		$pgBuddyTop.bigstate configure -cursor hand2 -borderwidth 0
+		label $pgBuddyTop.bigstate -background white -border 0 -cursor hand2 -borderwidth 0 \
+					-image [::skin::loadPixmap $my_image_type] \
+					-width [image width [::skin::loadPixmap $my_image_type]] \
+					-height [image height [::skin::loadPixmap $my_image_type]]
 		bind $pgBuddyTop.bigstate <Button1-ButtonRelease> {tk_popup .my_menu %X %Y}
 		set disppic $pgBuddyTop.bigstate
 	} else {
@@ -4473,7 +4474,7 @@ proc cmsn_draw_online_wrapped {} {
 		-background white -borderwidth 0 \
 		-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
 		-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
-	pack $pgBuddyTop.mystatus -expand true -fill x -side left
+	pack $pgBuddyTop.mystatus -expand true -fill x -side left -padx 0 -pady 0
 
 	$pgBuddyTop.mystatus configure -state normal
 
@@ -4508,9 +4509,8 @@ proc cmsn_draw_online_wrapped {} {
 		$pgBuddyTop.mystatus insert end "\n" mystatuslabel
 	}
 
-	#need to update so that width of mystatus is correct
-	update idletasks
-	set maxw [expr [winfo width $pgBuddyTop.mystatus] - [font measure bboldf -displayof $pgBuddyTop.mystatus " ($my_state_desc)" ]]
+	set maxw [expr [winfo width [winfo parent $pgBuddyTop]]-[$pgBuddyTop.bigstate cget -width]-(2*[::skin::getKey bigstate_xpad])]
+	incr maxw [expr 0-[font measure bboldf -displayof $pgBuddyTop.mystatus " ($my_state_desc)" ]]
 	set my_short_name [trunc $my_name $pgBuddyTop.mystatus $maxw bboldf]
 	$pgBuddyTop.mystatus insert end "$my_short_name " mystatus
 	$pgBuddyTop.mystatus insert end "($my_state_desc)" mystatus
@@ -4554,7 +4554,7 @@ proc cmsn_draw_online_wrapped {} {
 			-background white -borderwidth 0 \
 			-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
 			-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
-		pack $pgBuddyTop.mail -expand true -fill x -before $colorbar -side bottom
+		pack $pgBuddyTop.mail -expand true -fill x -before $colorbar -side bottom -padx 0 -pady 0
 
 		$pgBuddyTop.mail configure -state normal
 
@@ -4582,8 +4582,7 @@ proc cmsn_draw_online_wrapped {} {
 		set evpar(msg) mailmsg
   		::plugins::PostEvent ContactListEmailsDraw evpar	
 
-		update idletasks
-		set maxw [expr [winfo width $pgBuddyTop.mail]-[winfo width $pgBuddyTop.mail.mailbox]-(2*[::skin::getKey mailbox_xpad])]
+		set maxw [expr [winfo width [winfo parent $pgBuddyTop]]-[$pgBuddyTop.mail.mailbox cget -width]-(2*[::skin::getKey mailbox_xpad])]
 		set short_mailmsg [trunc $mailmsg $pgBuddyTop.mail $maxw splainf]
 		$pgBuddyTop.mail insert end "$short_mailmsg" {mail dont_replace_smileys}
 
