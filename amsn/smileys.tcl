@@ -484,12 +484,16 @@ proc smile_subst {tw {start "0.0"} {end "end"} {enable_sound 0}} {
 	foreach symbol $emotions(${emotion}_text) {
 	    set chars [string length $symbol]
 
-
+	    
 	    if { [valueforemot "$emotion" casesensitive] } {set nocase "-exact"} else {set nocase "-nocase"}
+	    set sound [valueforemot "$emotion" sound]
+	    set animated [valueforemot "$emotion" animated]
+	    set file [valueforemot "$emotion" file]
+
 	    while {[set pos [$tw search -exact $nocase \
 				 $symbol $start $end]] != ""} {
 
-	    set animated [valueforemot "$emotion" animated]
+
 
 		set posyx [split $pos "."]
 		set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $chars}]"
@@ -499,8 +503,8 @@ proc smile_subst {tw {start "0.0"} {end "end"} {enable_sound 0}} {
 
 		if { $animated && $config(animatedsmileys) } {
 
-		   set file [valueforemot "$emotion" file]
-			set filename [string map { " " "_" "/" "_" "." "_"} $file]
+
+		    set filename [string map { " " "_" "/" "_" "." "_"} $file]
 
 		    
 		    set emoticon $tw.${smileys_drawn}_anigif_$filename	    
@@ -515,27 +519,20 @@ proc smile_subst {tw {start "0.0"} {end "end"} {enable_sound 0}} {
 
 		    set tagname  [$tw tag names $endpos]
 		    if { [llength $tagname] == 1 } {
-		       #status_log "Replacing. Existing binding for $tagname: [$tw tag bind $tagname <Button3-ButtonRelease>]\n" blue
-		       bind $emoticon <Button3-ButtonRelease> "[$tw tag bind $tagname <Button3-ButtonRelease>]"
-		       bind $emoticon <Enter> "[$tw tag bind $tagname <Enter>]"
-		       bind $emoticon <Leave> "[$tw tag bind $tagname <Leave>]"
-		       
+			bind $emoticon <Button3-ButtonRelease> "[$tw tag bind $tagname <Button3-ButtonRelease>]"
+			bind $emoticon <Enter> "[$tw tag bind $tagname <Enter>]"
+			bind $emoticon <Leave> "[$tw tag bind $tagname <Leave>]"
+			
 		    }
-
-#		    bind $emoticon <Visibility> "VisibilityChangeEmot $emoticon 1 %s $tw $pos $file"
-
-
+		    
 
 		} else {
-
-			 set file [valueforemot "$emotion" file]
 		    $tw image create $endpos -image $file -pady 1 -padx 1
 		    $tw tag remove smiley $endpos
 		}
 
 		
 		if { $config(emotisounds) == 1 && $enable_sound == 1 && $sound != "" } {
-	    set sound [valueforemot "$emotion" sound]
 		    play_sound $sound
 		}
 
