@@ -1165,8 +1165,9 @@ namespace eval ::MSN {
 
          if { [::MSN::SBFor $chatid] == $sbn } {
 
+            #It's the preferred SB, so keep it for the moment
             set items [expr {[sb length $sbn users] -1}]
-	    status_log "When SB Closed, there are $items users: [sb get $sbn users]\n" white
+            status_log "When SB Closed, there are $items users: [sb get $sbn users]\n" white
             #TODO: Check if this works
             #sb set $sbn last_user [sb index $sbn users 0]
             for {set idx $items} {$idx >= 0} {incr idx -1} {
@@ -1175,10 +1176,13 @@ namespace eval ::MSN {
 
                amsn::userLeaves [::MSN::ChatFor $sbn] [list $user_info] 0
             }
+            #Try to kill it again in 60 seconds
+            after 60000 "::MSN::CloseSB $sbn"
 
          } else {
-	    ::MSN::KillSB $sbn
-	 }
+            DelSBFor $chatid $sbn
+            ::MSN::KillSB $sbn
+         }
       }
    }
    #///////////////////////////////////////////////////////////////////////
@@ -1419,7 +1423,7 @@ namespace eval ::MSN {
 		WriteSBRaw $name "OUT\r\n"
          }
 
-	  #after 60000 "::MSN::KillSB ${name}"
+	 after 60000 "::MSN::KillSB ${name}"
 
       }
 
@@ -1444,6 +1448,8 @@ namespace eval ::MSN {
 	     return 0
 	  }
 
+	  # This next two are necessary because SBFor doesn't
+	  # always return a ready SB
 	  if { "[sb get $sbn stat]" != "o" } {
 	     return 0
 	  }
@@ -1839,15 +1845,7 @@ proc read_sb_sock {sbn} {
          }
       }
    }
-   
-   #If we uncomment then, then we can process the SB or NS queue unsorted. Problems!!!
-   #if { $sbn == "ns" } {
-   #  proc_ns
-   #} else {
-   #  proc_sb
-   #}   
-   
-   
+      
 }
 
 #Manages the SwitchBoard (SB) structure
@@ -2040,12 +2038,16 @@ proc cmsn_sb_msg {sb_name recv} {
          } else {
             #The GUI accepts the change, so let's change
             status_log "sb_msg: change accepted\n"
-           ::MSN::DelSBFor $chatid $sb_name
-	     set chatid $desiredchatid
+            ::MSN::DelSBFor $chatid $sb_name
+            set chatid $desiredchatid
             ::MSN::AddSBFor $chatid $sb_name
          }
 
+      } else {
+          #Add it so it's moved to front
+          ::MSN::AddSBFor $chatid $sb_name
       }
+      
    } else {
    
       status_log "Error, no chatid in cmsn_sb_msg, please check this!!\n" red
@@ -2053,9 +2055,9 @@ proc cmsn_sb_msg {sb_name recv} {
       ::MSN::AddSBFor $chatid $sb_name
       
    }
+   
 
 
-   #after cancel "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name\} res"
    #TODO: better use afterID
    after cancel "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;::amsn::updateTypers $chatid\} res"
 
@@ -2793,10 +2795,6 @@ proc cmsn_change_state {recv} {
 	      ::amsn::notifyAdd "$user_name\n[trans statechange] [trans [lindex [lindex $list_states $state_no] 1]]." \
 		  "::amsn::chatUser $user" state state
 	  }
-
-	 #TODO: Is this used for anything???
-         #set oldusername [string map {\\ \\\\ \[ \\\[ * \\* ? \\?} \
-	 #  [urldecode [lindex $user_data 1]]]
 
 
       } elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
