@@ -112,6 +112,7 @@ clearlog2 Pocisti zgodovino za vse stike
 clearlog3 Pocisti vse dnevnike
 clearlog Pocisti dnevnik
 clicktologin Pritisni tukaj za prijavo
+clientname Odjemalec
 closed Povezava z $1 zaprta zaradi neaktivnosti
 close Zapri
 closingdocks Gumb za zaprtje minimira okno
