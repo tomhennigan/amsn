@@ -2909,6 +2909,11 @@ proc cmsn_rng {recv} {
 
 proc cmsn_open_sb {sb recv} {
 
+	#if the sb doesn't exist return
+	if {[info procs $sb] == ""} {
+		return 0
+	}
+	
 	#TODO: I hope this works. If stat is not "c" (trying to connect), ignore
 	if { [$sb cget -stat] != "c" } {
 		return 0
