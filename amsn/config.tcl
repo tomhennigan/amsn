@@ -104,12 +104,14 @@ proc ConfigDefaults {} {
 
 	set config(dock) 0					;#Docking type
 
-	set config(newmsgwinstate) 1		;#Iconify or restore chat window on new message
+	
 	#Specific for Mac OS X, if newchatwinstate=1, new windows of message never appear
 	if {$tcl_platform(os) == "Darwin"} {
 		set config(newchatwinstate) 0		;#Iconify or restore chat window on new chat
+		set config(newmsgwinstate) 0		;#Iconify or restore chat window on new message
 	} else {
 		set config(newchatwinstate) 1		;#Iconify or restore chat window on new chat
+		set config(newmsgwinstate) 1		;#Iconify or restore chat window on new message
 	}
 	set config(flicker) 1				;#Flicker window on new message
 	set config(showdisplaypic) 1		;#Show display picture as default
