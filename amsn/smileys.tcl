@@ -565,7 +565,13 @@ proc smile_menu { {x 0} {y 0} {text text}} {
     set x [expr $x - 15]
     set y [expr $y - 15]
     wm geometry $w +$x+$y
+    #It won't work on Windows without this
+    update idletasks
+    
     wm state $w normal
+    
+    #It won't work on Windows without this
+    raise $w
 
 
     foreach emotion [lsort $emotions_names] {
