@@ -5,6 +5,7 @@ acceptfile Acceptes el fitxer $1, de mida $2? Desat a $3
 actions Accions
 addacontact Afegeix un contacte
 addedyou $1 ($2) t'ha inclòs a la seva llista de contactes
+addstate Afegir un nou estat
 addtocontacts Afegir als contactes
 addtoo Afegeix aquesta persona a la meva llista de contactes
 admincontacts Administrar la llista de contactes
@@ -92,7 +93,9 @@ docking Acoplament
 dockingoff Desactivat
 dockkde Acoplament amb el KDE
 edit Edita
+editnewstate Nou missatge automàtic per a un estat personalitzat
 editprofile Editar perfil
+editstate Editar missatge automàtic per a un estat personalitzat
 enableproxy Habilitar el servidor intermediari (proxy)
 enableremote Activar control remot
 encoding2 Canvia la codificació utilitzada pels teus caràcters
@@ -116,7 +119,7 @@ ftconnecterror Error connectant amb l'usuari remot
 ftconnecting Connectant amb $1 pel port $2
 ftconnectionlost S'ha perdut la connexió amb l'usuari remot
 ftgotinvitation $1 et vol enviar el fitxer '$2' ($3 bytes). Serà desat al directori $4. Vols rebre el fitxer?
-ftportpref Utilitza aquest port, i els que venen a continuació, per les transferències de fitxers
+ftportpref Utilitza aquest port, o els següents, per les transferències de fitxers
 ftrejectedby $1 ha rebutjat la invitació per la transferència del fitxer '$2'.
 ftrejected Transferència de fitxers rebutjada
 ftsendinvitation La invitació per la transferència del fitxer '$2' ($3 bytes) ha sigut enviada a $1.
@@ -183,6 +186,7 @@ maximised Maximitzada
 minimised Minimitzada/iconificada
 mins minuts
 mobile Mòbil
+morepersonal Més estats ->
 movetogroup Moure al grup
 msgmaxmin Quan arribi un nou missatge, vull que la finestra sigui:
 msg Missatge
@@ -298,6 +302,12 @@ sound So en un event
 soundstatus So a l'alarma
 startoffline2 Connectar-se silenciosament apareixent en l'estat "Desconnectat"
 startoffline Iniciar la connexió en l'estat "Simula desconnexió"
+stateautomsg Missatge automàtic a enviar
+stateedittext Edita els camps que vulguis modificar\ni prem "Desar"
+stateinfo Configuració dels estats personalitzats
+statename Nom de l'estat personalitzat
+statenewtext Emplena la informació necessària per crear\nel nou estat personalitzat i prem "Desar"
+state Vull aparèixer com
 status Estat
 stopalarm Parar l'alarma
 stylechat La mateixa aparença que als xats

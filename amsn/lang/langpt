@@ -5,6 +5,7 @@ acceptfile Aceitar o ficheiro $1, com $2 de tamanho? Guardado em $3
 actions Acções
 addacontact Adicionar um contacto
 addedyou $1 ($2) Adicionou-o à sua lista de contactos
+addstate Adicionar novo estado
 addtocontacts Adicionar à lista de contactos
 addtoo Adicionar esta pessoa à minha lista de contactos
 admincontacts Administrar contactos
@@ -92,7 +93,9 @@ docking Atracando
 dockingoff Atracando Desligado
 dockkde Atracar KDE
 edit Editar
+editnewstate Novo estado pessoal de Automensagem
 editprofile Editar Perfil
+editstate Editar o estado de Automensagem existente
 enableproxy Proxy activado
 enableremote Ligar controlo remoto
 encoding2 Alterar a forma como os carecteres são codificados
@@ -183,6 +186,7 @@ maximised Maximizado
 minimised Minimizado/Iconificado
 mins minutos
 mobile Telemóvel
+morepersonal Mais estados->
 movetogroup Mover para o grupo
 msgmaxmin Quando uma nova mensagem chegar quero que seja:
 msg Mensagem
@@ -298,6 +302,12 @@ sound Sons para eventos
 soundstatus Alarme Sonoro
 startoffline2 login silencioso "Aparentar desligado"
 startoffline Começar desligado
+stateautomsg Automensagem para enviar
+stateedittext Por favor edite os campos que gostaria\nde ter modificado e prima Gurdar
+state Eu quero aparecer como
+stateinfo Configuração do Estado Pessoal
+statename Nome do Estado Pessoal
+statenewtext informação para criar \n o seu novo Estado Pessoal e prima Gurdar
 status Estado
 stopalarm Parar Alarme
 stylechat O mesmo aspecto das conversas
