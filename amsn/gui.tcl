@@ -5004,9 +5004,9 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 
 	if { $config(tooltips) == 1 } {
                 if {$not_in_reverse} {
-                	set balloon_message "[string map {"%" "%%"} $user_name]\n $user_login\n [trans status] : [trans [::MSN::stateToDescription $state_code]]\n [trans notinlist] "
+                	set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n $user_login\n [trans status] : [trans [::MSN::stateToDescription $state_code]]\n [trans notinlist] "
                 } else {
-			set balloon_message "[string map {"%" "%%"} $user_name]\n $user_login\n [trans status] : [trans [::MSN::stateToDescription $state_code]] "
+			set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n $user_login\n [trans status] : [trans [::MSN::stateToDescription $state_code]] "
                 }
 		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 
