@@ -723,7 +723,7 @@ proc ns_enter {} {
 proc cmsn_socket {name} {
    global config
 
-   if {$config(proxy) != ""} {
+   if {$config(withproxy) == 1} {
       set proxy_serv [split $config(proxy) ":"]
       set tmp_serv [lindex $proxy_serv 0]
       set tmp_port [lindex $proxy_serv 1]
