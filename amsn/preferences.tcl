@@ -933,7 +933,7 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.1.lconvertpath -text "CONVERT" -padx 5 -font sboldf
 	entry $lfname.1.convertpath -bg #FFFFFF -bd 1 -width 45 -highlightthickness 0 -textvariable [::config::getVar convertpath]
 	label $lfname.1.lconvertpathexp -text [trans convertexplain] -justify left -font examplef
-	button $lfname.1.browseconv -text [trans browse] -command "Browse_Dialog_file config(convertpath)"
+	button $lfname.1.browseconv -text [trans browse] -command "Browse_Dialog_file [::config::getVar convertpath]"
 
 
 
@@ -1249,7 +1249,7 @@ proc reload_advanced_options {path} {
 				}
 				folder {
 					frame $path.fr$i
-					button $path.fr$i.browse -text [trans browse] -command "Browse_Dialog_dir config([lindex $opt 1])"
+					button $path.fr$i.browse -text [trans browse] -command "Browse_Dialog_dir [::config::getVar [lindex $opt 1]]"
 					LabelEntry $path.fr$i.le "[trans [lindex $opt 3]]:" $config_var 20
 					pack $path.fr$i.le -side left -anchor w -expand true -fill x
 					pack $path.fr$i.browse -side left
