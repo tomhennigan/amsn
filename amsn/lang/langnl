@@ -1,86 +1,93 @@
 amsn_lang_version 2
-about Informatie
+about Over aMSN
 accept Accepteren
 acceptfile Accepteer bestand $1, grootte $2? opgeslagen in $3
 actions Acties
 addacontact Voeg een contact toe
-addedyou $1 ($2) Heeft jou toegevoegd aan zijn/haar contactenlijst
+addedyou $1 ($2) Heeft jou toegevoegd aan zijn/haar lijst van contactpersonen
 addstate Voeg nieuwe status toe
-addtocontacts Toevoegen aan contactenlijst
-addtoo Voeg deze persoon toe aan mijn contactenlijst
-admincontacts Beheer contacten
+addtocontacts Toevoegen aan lijst van contactpersonen
+addtoo Voeg deze persoon toe als nieuwe contactpersoon
+admincontacts Beheer contactpersonen
 admingroups Beheer groepen
 adverts Advertenties
-alarmpref Alarm instellingen voor de huidige gebruiker
-alarmstatus Schakel alarm aan/uit voor de huidige gebruiker
-allowallbutbl Sta alle gebruikers contact met me op te nemen behalve geblokkeerde
+alarmpref Alarm instellingen voor deze gebruiker
+alarmstatus Schakel het alarm voor deze gebruiker aan/uit
+allowallbutbl Sta alle gebruikers toe om contact met mij op te nemen, behalve geblokkeerde
 allowlist Lijst met toegestane gebruikers :
-allowonlyinal Sta alleen gebruikers toe uit mijn lijst met toegestane gebruikers
-allowseen Sta deze persoon toe om te zien wanneer ik online ben en om mij te contacteren
+allowonlyinal Sta alleen toegestane gebruikers toe om contact met mij op te nemen
+allowseen Deze persoon toestaan om mijn online-status te zien, en contact met mij op te nemen
 appearance Status
 appearoff Offline verschijnen
 areacode Regiocode
 aretyping $1 zijn bezig met typen
-askprofile Deze login heeft geen profiel. Wil je een profiel aanmaken? \n Als je dit niet doet, zal je de Geschiedenis en het bewaren van wachtwoord en Alarmen niet kunnen gebruiken.\n  Als je een profiel aanmaakt wordt er een aparte configuratie gemaakt hiervoor. \n \n Klik op "Maak profiel" om een nieuw profiel te maken voor $1.
-autoaway Automatisch afwezig na inactiviteit van
-autoconnect2 Automatisch inloggen wanneer aMSN wordt gestart
-autoconnect Automatisch inloggen
-autohotmaillog Automatisch inloggen bij Hotmail
-autoidle Automatisch afwezig
+askprofile Deze login heeft nog geen profiel. Wil je een nieuw profiel maken? \n Als je dit niet doet, kun je de Geschiedenis niet gebruiken, en kun je je wachtwoord en Alarmen niet bewaren.\n  Als je wel een profiel maakt wordt daar een aparte configuratie voor gemaakt. \n \n Klik op "Maak profiel" om een nieuw profiel te maken voor $1.
+autoaway Verschijn als "Afwezig" bij geen activiteit gedurende
+autoconnect2 Automatisch aanmelden wanneer aMSN wordt gestart
+autoconnect Automatisch aanmelden
+autohotmaillog Automatisch aanmelden bij Hotmail
+autoidle Automatisch "Geen Activiteit"
 autoip Automatisch IP
-autonoact Automatisch niet-actief na inactiviteit van
-avoidseen Vermijd dat deze persoon kan zien wanneer ik online ben en dat hij mij contacteert.
+autonoact Verschijn met "Geen Activiteit" bij geen activiteit gedurende
+avoidseen Voorkom dat deze persoon kan zien of ik online ben en contact met mij opneemt.
 away Afwezig
-awaymsg1 Vragen om afwezig-bericht als de status veranderd wordt naar Afwezig/Ben zo terug/In Bezet
-awaymsg2 Niet vragen en altijd het onderstaande afwezig-bericht gebruiken
-baduserpass Foutieve gebruikersnaam of wachtwoord
-bgcolor Verander aMSN's achtergrondkleur
-blankdirect Laat leeg voor directe connectie
+awaymsg1 Vragen om afwezig-bericht als de status veranderd wordt naar Afwezig/Ben zo terug/Bezet
+awaymsg2 Niet vragen. Gebruik altijd het onderstaande bericht bij afwezigheid
+baduserpass Gebruikersnaam of wachtwoord onjuist
+bgcolor Verander de achtergrondkleur van aMSN
+blankdirect Leeg laten voor directe verbinding
 block Blokkeer
 blocked Geblokkeerd
+blocking Blokkeren
+blockinter1 Controleer als je online bent elke
+blockinter2 seconden, en controleer anders elke:
+blockinter3 elke
 blocklist Lijst met geblokkeerde gebruikers
-blockmessage Deze mensen zijn online en blokkeren jou
+blockmessage Deze mensen zijn online en hebben jou geblokkeerd
+blockusers Aantal gebruikers om tegelijk te controleren
 broughtby Aangeboden door de volgende ontwikkelaars
 browser Browser
 browse Verkennen
 busy Bezet
 cancel Annuleren
-cannotdeleteprofile Kan het profiel niet verwijderen omdat het er naar uitziet dat het in gebruik is door een Amsn sessie
+cannotdeleteprofile Kan het profiel niet verwijderen. Het is mogelijk in gebruik bij een aMSN sessie
 cfgalarm Alarm configureren/toevoegen/verwijderen
 changefont Verander lettertype
-changenick Verander Schermnaam
-chatack Aanvaard chat van
-chat Chat
+changenick Verander schermnaam
+chatack Gesprek aanvaarden van
+chat Gesprek
 chatmaxmin Als iemand een gesprek met mij begint, dan wil ik dat het is:
-chatreq Verzoek om te chatten
-chatsmileys2 Toon emoticons en smileys in chat-vensters
+chatreq Indienen van verzoek voor gesprek
+chatsmileys2 Toon emoticons en smileys tijdens gesprek
 chatsmileys Toon emoticons
-checkfilman Ontvangen bestanden zullen bewaard worden in $1. Gelieve bestandsbeheerinstellingen na te kijken in het instellingenvenster.
-checkingver Bezig met controleren op een nieuwere versie
-checkver Controleer voor een nieuwe versie
+checkblocking Blijven controleren of gebruikers jou blokkeren
+checkfilman Ontvangen bestanden zullen bewaard worden in $1. Controleer de bestandsbeheerinstellingen in het instellingenvenster.
+checkingver Bezig met zoeken naar een nieuwere versie
+checkonfln Controleer of een gebruiker je heeft geblokkeerd wanneer hij offline gaat
+checkver Controleer of een nieuwere versie beschikbaar is
 choosebasefont Lettertype
 choosebgcolor Achtergrondkleur
-choosecontact Kies een contact van de lijst
-choosefontcolor Kies tekstkleur
+choosecontact Kies een contactpersoon van de lijst
+choosefontcolor Tekstkleur
 clearlog2 Verwijder Geschiedenis voor alle contacten
 clearlog3 Verwijder alle logboeken
 clearlog Logboek leegmaken
-clicktologin Klik hier om in te loggen
+clicktologin Klik hier om je aan te melden
 close Sluiten
-closingdocks Sluit venster
+closingdocks Venster sluiten-knop minimaliseert venster
 command Programma
-confirmdelete Wilt je echt $1 verwijderen?
+confirmdelete Weet je zeker dat je $1 wilt verwijderen?
 confirm Weet je het zeker?
 connected Je bent nu verbonden
-connecterror Verbindingsfout
+connecterror Fout bij verbinden met server
 connecting Bezig met verbinden
 connectionlost De verbinding met de server is gesloten
 connection Verbinding
-contactadded Contactpersoon toegevoegd
-contactdoesnotexist Contactpersoon bestaat niet
-contactlist Lijst met contacten
+contactadded De contactpersoon is toegevoegd
+contactdoesnotexist Contactpersoon bestaat niet!
+contactlist Lijst met contactpersonen :
 copy    Kopiëren
-copytogroup kopiëren naar groep
+copytogroup Kopiëren naar groep
 countrycode Mijn Land/Regiocode
 cprofile Maak profiel
 cut     Knippen
@@ -88,48 +95,48 @@ date Datum
 days Dagen
 dcprofile Geen profiel aanmaken
 default Standaard configuratie
-delete Wis
-deliverfail Er was een problem bij het bezorgen van de volgende boodschap
+delete Verwijderen
+deliverfail Er was een probleem bij het bezorgen van de volgende boodschap
 delprofile2 Kies het profiel dat je wilt verwijderen
 delprofile Verwijder profiel
-directconnection Ik heb een directe verbinding met het internet, via poort 1863
+directconnection Ik heb een directe verbinding met het internet (gebruik poort 1863)
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
-dockgtk Verbergen voor gnome
-dockingoff Verbergen uit
-docking Verberg
-dockkde Verbergen voor KDE
+dockgtk Gnome Dock
+docking Docking
+dockingoff Docking uitschakelen
+dockkde KDE Dock
 edit    Bewerken
-editnewstate Nieuw Persoonlijke Automatische Berichten Staat
+editnewstate Nieuwe Persoonlijke Automatische Berichten Status
 editprofile Bewerk profiel
-editstate Verander Bestaande Automatische Berichten Staat
+editstate Verander Bestaande Automatische Berichten Status
 enableproxy Gebruik proxy
 enableremote Controle op afstand aanzetten
-encoding2 Veranderen van encodering bij jouw tekens
-encoding Encoderen
-entercontactemail Geef contact-email in
-enterfilename Gelieve een bestandsnaam in te geven
-enternick Geef uw schermnaam in
+encoding2 Verander je tekencodering
+encoding Kies codering
+entercontactemail Voer het e-mailadres van de contactpersoon in
+enterfilename Voer een bestandsnaam in
+enternick Voer uw schermnaam in
 examples Voorbeelden
-exitamsn Sluit amsn
-extras Extra's
+exitamsn Weet je zeker dat je aMSN wilt afsluiten?
+extras Extra diensten
 faq FAQ (Veel gestelde vragen)
 filedoesnotexist Bestand bestaat niet
 fileman Bestandsbeheer
 filename Bestandsnaam
-filetransfercancelled Bestandsverzending geannuleerd
-filetransfercomplete Bestandsverzending klaar
+filetransfercancelled Bestandsoverdracht geannuleerd
+filetransfercomplete Bestandsoverdracht voltooid
 followtext Scroll naar beneden als er nieuwe tekst is ingevoerd
-ftaccepted Bestand transfer geaccepteerd
-ftacceptedby $1 accepteert het versturen van het bestand '$2'
-ftaccepting accepteer de bestandsoverdracht
-ftconnecterror Fout in de verbinding met de contactpersoon
-ftconnecting  Verbind met $1 via poort $2
+ftaccepted Bestandsoverdracht geaccepteerd
+ftacceptedby $1 accepteert de overdracht van het bestand '$2'
+ftaccepting Bestandsoverdracht accepteren
+ftconnecterror Fout bij verbinden met de contactpersoon
+ftconnecting  Bezig met verbinden met $1 via poort $2
 ftconnectionlost De verbinding met de andere gebruiker is verbroken
-ftgotinvitation $1 wil je '$2' ($3 bytes) overdragen. Het wordt opgeslagen in de map:  $4. Wil je dit bestand aannemen?
-ftportpref Start de poort voor bestandsuitwisseling
-ftrejected Bestand transfer afgewezen
+ftgotinvitation $1 wil je het bestand '$2' ($3 bytes) toesturen. Het wordt opgeslagen in de map $4. Wil je dit bestand ontvangen?
+ftportpref Start de poort voor bestandsoverdracht
+ftrejected Bestandsoverdracht geweigerd
 ftrejectedby $1 weigerde de overdracht van '$2'.
-ftsendinvitation De uitnodiging om het bestand '$2' ($3 bytes) te versturen, is verstuurd naar $1
+ftsendinvitation De uitnodiging voor de overdracht van het bestand '$2' ($3 bytes) is verstuurd naar $1
 gonelunch Lunchpauze
 groupadd Voeg een groep toe
 groupdelete Verwijder een groep
@@ -144,99 +151,99 @@ groupunknown Onbekende groep
 handle Nick
 helpcontents Help inhoud
 help Help
-history Geschiedenis
+history Toon geschiedenis
 home Thuis
 httpconnection Verbinden via het HTTP-protocol via poort 80
 ident Bezig met identificeren
 identity Identiteit
-inbox Inbox
+inbox Postvak IN
 internalerror Interne Server Fout
-invalidusername Uw gebruikersnaam is fout.
-invitationcancelled De bestandsoverdracht is geweigerd
+invalidusername Ongeldige gebruikersnaam
+invitationcancelled De uitnodiging is geannuleerd
 invite Nodig uit
 ipaddress IP adres
-ipdetect Detecteer correcte IP-adres voor Bestandsoverdracht via HTTP
+ipdetect Detecteer het juiste IP-adres voor bestandsoverdracht via HTTP
 istyping $1 is bezig met typen
-joins $1 neemt deel aan conversatie
-keepalive Hou verbinding in stand
-keeplog2 Bewaar alle gesprekken in logboek van aMSN-Geschiedenis voor toekomstig bekijken
-keeplog Bewaar logboek van chatgesprekken
+joins $1 neemt deel aan het gesprek
+keepalive Houd de verbinding in stand (NAT)
+keeplog2 Bewaar alle gesprekken in de geschiedenis om ze later te kunnen bekijken
+keeplog Bewaar logboek van gesprekken
 language Taal
 lastmsgtime Laatste bericht ontvangen om $1
 lclosedwin $1 heeft het venster gesloten op $2
-lconftopriv Vergadering veranderde in privechat met $1
-lconvstarted Conversatie gestart op $1
-leaveblankforhotmail Laat leeg voor gebruiken van Hotmail web
+lconftopriv Vergadering veranderde in privegesprek met $1
+lconvstarted Gesprek gestart op $1
+leaveblankforhotmail Laat leeg om Hotmail web te gebruiken
 leaves $1 verlaat conversatie
-lenteredconf $1 betrad de vergadering op $2
-linprivate IN PRIVE
+lenteredconf $1 kwam de vergadering binnen op $2
+linprivate PRIVE
 listeningon Bezig met luisteren op poort $1
-listsmileys2 Toon emoticons en smileys in aMSN's hoofdcontactenlijst
+listsmileys2 Toon emoticons en smileys in de contactpersonenlijst
 listsmileys Toon smileys in lijst
 ljoinedconf $1 nam deel aan de vergadering
 lleftconf $1 heeft de vergadering verlaten
 loadcontacts Bezig met laden van de contactenlijst
-logbigger Bewaar permanent de bestandsgrootten van ieder contact in logboek
-logfandexp Bewaar tijdelijk alle bestandsgrootten en Geschiedenis
-loggedotherlocation U bent reeds aangemeld
-loggingin Bezig met inloggen
-loginas Inloggen als
-loging Inloggen
-login Log In
-logolder Alleen bewaarde gesprekken die in het verleden plaats hebben
-logout Log Uit
-logsin heeft zojuist ingelogd
+logbigger Het logboek voor elke contactpersoon mag niet groter zijn dan
+logfandexp Grootte van logboeken en verloop van de Geschiedenis
+loggedotherlocation Verbinding verbroken. U bent elders aangemeld.
+loggingin Bezig met aanmelden
+login Aanmelden
+loginas Aanmelden als
+loging Aanmelden
+logolder Bewaar alleen de gesprekken de plaatsvonden in de laatste
+logout Afmelden
+logsin heeft zich aangemeld.
 logsmileys Toont emoticons en smileys in aMSN's geschiedenisvensters
-lprivtoconf Privechat veranderde in vergadering met $1
+lprivtoconf Privegesprek veranderde in vergadering met $1
 luclosedwin Je hebt het venster gesloten op $1
-mailer Mail client
-maximised Vergroot
-minimised Verkleind
+mailer E-mail programma
+maximised Gemaximaliseerd
+minimised Geminimaliseerd/Pictogram
 mins minuten
 mobile Mobiele telefoon
 morepersonal Meer Staten ->
 movetogroup Verplaats naar groep
 move Verplaats
 msg Bericht
-msgmaxmin Als een bericht wordt ontvangen wil ik zijn:
-msgmode Selecteer hoe meerdere chat-vensters worden weergegeven:
+msgmaxmin Als een bericht aankomt, wil ik dat het is:
+msgmode Kies hoe meerdere chat-vensters worden weergegeven:
 msn AMSN
-mustrestart Je moet het programma herstarten voordat de veranderingen effect
+mustrestart Je moet het programma herstarten voordat de veranderingen effect hebben
 myhomephone Mijn telefoonnummer (thuis)
 mymobilephone Mijn mobiele nummer
 mystatus Mijn status
 myworkphone Mijn telefoonnummer (werk)
 natip   IP detectie via website
-natkeepalive Wanneer optreedt dat je regelmatig uit wordt gelogd, moet dit
-needonline Je bent offline (of doet alsof)
-newmail $1 nieuwe berichten
-newmailfrom Nieuwe email van $1 ($2)
+natkeepalive Als de verbinding regelmatig wegvalt, activeer dan deze optie "Verbinding in stand houden"
+needonline Je bent/verschijnt nog steeds offline!
+newmailfrom Je hebt een e-mail ontvangen van $1 ($2)
+newmail Je hebt $1 nieuwe berichten in je Postvak IN
 newmsg Nieuw bericht
-newveravailable Nieuwere versie $1 beschikbaar
+newveravailable Versie $1 is beschikbaar voor downloaden.
 next Volgende
 noactivity Geen activiteit
-nodataavailable Geen data beschikbaar voor $1
+nodataavailable Geen gegevens beschikbaar voor $1
 nologfile Geen logboek voor $1
-no nee
-nonewmail 0 nieuwe berichten in In-Box
+no Nee
+nonewmail Geen nieuwe berichten in Postvak IN
 nonewver Er zijn geen nieuwere versies beschikbaar
 normal Normaal
-nosystemtray Systeembalk niet beschikbaar
+nosystemtray Systeemvak niet beschikbaar
 notify1 Toon inlichtingenvenster wanneer een contact online komt
 notify2 Toon inlichtingenvenster wanneer nieuwe berichten ontvangen worden
 notify3 Toon inlichtingenvenster wanneer er nieuwe emails worden ontvangen
 notify Licht in
-notifyoffset Wijzig de positie van het inlichtingenvenster door middel van
+notifyoffset Wijzig de positie van het inlichtingenvenster d.m.v. positie-offsets
 notifywin Inlichtingenvenster
 nousersinsession Geen gebruiker in sessie
 offline Offline
 ok Ok
-onenewmail 1 nieuw bericht in In-Box
+onenewmail Je hebt 1 nieuw bericht in Postvak IN
 online Online
 onphone Aan de telefoon
 openreceived Open ontvangen bestanden
 options Opties
-ordercontactsby Sorteer contacten op
+ordercontactsby Sorteer contactpersonen op
 ordergroupsby Sorteer groepen op
 other Andere
 pager Beeper
@@ -247,10 +254,11 @@ phone Telefoon
 picfile Alarm beeldbestand (GIF < 500 x 500 pixels)
 picstatus Schakel alarm beeldbestand aan/uit
 port Poort
-positie-offsets
 prefalerts Mijn Alarm en Geluiden
 prefapps Programma's
 prefawaymsg Mijn afwezig-bericht
+prefblock1 Controleer bij het verbreken van de verbinding
+prefblock2 Controleer altijd
 prefconnection Verbindingsinstellingen
 prefemotic Emoticons en smileys
 preferences Instellingen
@@ -261,83 +269,83 @@ preflog1 Mijn Geschiedenis en logboek-opties
 preflook Mijn aMSN Messenger Stijl
 prefmsging Mijn Berichtenweergave
 prefname Mijn MSN Messenger Naam
-prefphone2 De telefoonnummers die jij zichtbaar wilt maken voor \n
+prefphone2 De telefoonnummers die jij zichtbaar wilt maken voor \n mensen in je lijst met toegestane personen \n
 prefphone Mijn telefoonnummers
 prefprivacy2 Gebruikers Contact/Omkeer lijsten
-prefprivacy Gebruikers Sta Toe/Blokkeer lijsten
+prefprivacy Gebruikers Toestaan/Blokkeer lijsten
 prefprofile2 Maak of wijzig jouw profiel
 prefprofile3 aMSN's configuratieprofielen voor gebruikers
-prefprofile Mijn Profiel
+prefprofile Mijn openbare profiel
 prefproxy Mijn Proxy-instellingen
 prefremote Voorkeuren voor verbinding op afstand
 prefsession Mijn Aanmelden en Status
 prefshared Gedeelde verbindingen (alleen voor NAT)
-prefsound Geluid
+prefsound Geluiden
 privacy Privacy
 profiledconfig Profielconfiguratie
-profileinuse Dit profiel is in gebruik door een andere Amsn sessie, gelieve een andere te kiezen
+profileinuse Dit profiel wordt momenteel gebruik door een andere Amsn sessie, kies een andere
 profiles Profielen
 properties Eigenschappen
-proxyconfhttp HTTP proxy configuratie ondersteuning
+proxyconfhttp Configuratie voor HTTP proxy ondersteuning
 proxyconf Proxy configuratie
-proxyconnection Ik heb een internetverbinding via een proxyserver
+proxyconnection Ik heb een internetverbinding via een proxyserver:
 proxy Ik maak gebruik van een Proxy Server (HTTP of SOCKS5)
 publishphones Publiceer mijn telefoonnummers
 raised Zichtbaar/Gede-iconificeerd
-receivedbytes $1 van $2 bytes ontvangen
+receivedbytes $1 van de $2 bytes ontvangen
 receivefile Ontvang bestand
 reconnecting Bezig met opnieuw verbinden met de server
 reconnect Wachten tot $1 opnieuw verbindt
 reject Afwijzen
-rememberpass Bewaar wachtwoord
-removefromlist Verwijder uit de lijst
+rememberpass Onthoud wachtwoord
+removefromlist Verwijder uit deze lijst
 reversed Omgekeerd
-reverselist Omgekeerde lijst
+reverselist Omgekeerde lijst:
 rightback Ben zo terug
 saveas Opslaan als
 savecontacts Contactenlijst opslaan
 save Opslaan
-savetofile Bestand opslaan
+savetofile Opslaan in bestand
 says $1 zegt
 sbcon Bezig met verbinden met Switch Board
 sendfile Verzend een bestand
-sendmail Zend een email
-sendmsg Zend een bericht
+sendmail Verstuur een e-mail
+sendmsg Verstuur een bericht
 send Verzend
-sentbytes $1 van $2 bytes verzonden
-servergoingdown De server gaat offline
+sentbytes $1 van de $2 bytes verzonden
+servergoingdown Verbinding verbroken: De server gaat uit
 server Server
 session Sessie
 showblockedlist Toon de lijst van mensen die jou geblokkeerd hebben
 sound2 Speel geluid als contacten zich aanmelden of een bericht verzenden
 soundcommand Dit moet het afspeelcommando zijn (vb: esdplay)
-soundfile Alarm geluidsbestand
 soundfile Geluidsbestand
-sound Geluid 
+sound Geluid
 soundloop Geluid blijven herhalen
 soundserver Geluidserver
 soundstatus Schakel alarm geluid aan/uit
-startoffline2 'Stil' Aanmelden met "Offline"-status
+startoffline2 Stil aanmelden met "Offline verschijnen"
 startoffline Begin offline
-stateautomsg Automatisch Bericht om te Zenden
-stateedittext Pas de velden aan waar veranderd \n moet worden en druk op Opslaan
+stateautomsg Automatisch Bericht om te versturen
+stateedittext Pas de velden aan die je wilt \n veranderen en druk op Opslaan
 state Ik wil verschijnen als
 stateinfo Persoonlijke Staat Configuratie
 statename Naam van de Persoonlijke Staat
 statenewtext Vul de benodigde informatie in om je \n Persoonlijke Staat te maken en druk op Opslaan
 status Status
 stopalarm Stop het alarm
-stylechat Dezelfde stijl als chats
+stylechat Dezelfde stijl als gesprekken
 stylehist aMSN's geschiedenis stijl
 stylelog Kies het formaat waarin je jouw Geschiedenis wilt bekijken
 syntaxerror Syntaxfout
-tabbed 'Tabbed' vensters
+tabbed Vensters met tabbladen
 textsize Tekstgrootte
 title Al's Messenger
 to Aan
-tools Systeem
+tools Extra
 transnotexists Het opgevraagde bestand is nog niet vertaald in de gebruikte taal.
 traynotcompiled Taakbalk icoon plugin is niet gecompileerd. Bekijk plugins/traydock
+twonewmail Je hebt $1 nieuwe berichten in je Postvak IN
 unblock Deblokkeer
 uoffline Offline
 uonline Online
@@ -346,17 +354,16 @@ userblocked De gebruiker is online maar heeft je geblokkeerd
 user Gebruiker
 usernotonline De gebruiker is offline
 useryourself Je kan niet met jezelf chatten
-verifyblocked Check de mensen die je blokkeren
+verifyblocked Controleer welke mensen jou blokkeren
 version Versie
 view Beeld
 viewprofile Profiel Weergeven
 willjoin Wachten tot $1 de conversatie zal bijwonen
 work werk
-wrongprofileversion Verkeerde profiel configuratiebestand versie. Om te repareren, gelieve directorie $1 te verwijderen, of Amsn te updaten.
+wrongprofileversion Verkeerde profiel configuratiebestand versie. Om te repareren, gelieve directorie $1 te verwijderen, of aMSN te updaten.
 xoffset X-positie
-yes ja
+yes Ja
 yoffset Y-positie
-youblocked Je bent geblokkeerd geworden
+youblocked Je bent geblokkeerd
 yousay Jij zegt
 youwant Jij wilt
-twonewmail $1 nieuwe berichten

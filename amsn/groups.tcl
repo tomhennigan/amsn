@@ -2,11 +2,6 @@
 #	by: Dídimo Emilio Grimaldo Tuñón
 # $Id$
 #=======================================================================
-# BUGS
-#  - When a group from the middle is deleted, that id remains unused.
-#    therefore the menu entry shows "". Currently Exists/GetName check
-#    for this (to prevent error). That ID is reused next time a group
-#    is added.
 # TODO LIST
 #  - Keep track of transactions pending completion
 #  - Investigate what happens when a group is deleted, which
@@ -17,9 +12,6 @@
 #    the address book (::abook) contains the group IDs received
 #    in the Forward List.
 #	* group id is left unused until a new group is added.
-#  - If a user belongs to two groups the gid would be x,y that
-#    causes an error. For now assume only one group.
-#  - Move user from one group to another
 
 namespace eval ::groups {
    namespace export Init Enable Disable Set Rename Delete Add \
@@ -33,7 +25,6 @@ namespace eval ::groups {
    variable parent "";
    variable entryid -1;
    variable groupname "";	# Temporary variable for TCL crappiness
-   variable groupCnt 0;
    variable groups;		# Group names (array). Not URLEncoded!
 				# indexed by ID. Message LSG
    variable bShowing;		# (array) Y=shown/expanded N=hidden/collapsed
@@ -192,7 +183,6 @@ namespace eval ::groups {
    }
 
    proc DeleteCB {pdu} {	# RMG 24 12065 15
-	variable groupCnt
 	variable groups
 	variable bShowing
 	variable uMemberCnt
@@ -204,7 +194,6 @@ namespace eval ::groups {
 
 	# Update our local information
 	unset groups($gid)
-	incr groupCnt -1
 	unset uMemberCnt($gid)
 	unset uMemberCnt_online($gid)
 	unset bShowing($gid)
@@ -217,7 +206,6 @@ namespace eval ::groups {
    }
 
    proc AddCB {pdu} {	# ADG 23 12064 New%20Group 15 =?Ñ?-CC
-	variable groupCnt
 	variable groups
 	variable uMemberCnt
 	variable uMemberCnt_online
@@ -229,7 +217,6 @@ namespace eval ::groups {
 	set gid  [lindex $pdu 4]
 
  	set groups($gid) $gname
-	incr groupCnt
 	set uMemberCnt($gid) 0
 	set uMemberCnt_online($gid) 0
 	set bShowing($gid) 1
@@ -359,14 +346,12 @@ namespace eval ::groups {
    # MSN Packet: LSG <x> <trid> <cnt> <total> <gid> <name> 0
    proc Set { nr name } {	# There is a new group in the list
        variable groups
-       variable groupCnt
        variable uMemberCnt
        variable uMemberCnt_online
        variable bShowing
 
        set name [urldecode $name]
        set groups($nr) $name
-       incr groupCnt
        set uMemberCnt($nr) 0
        set uMemberCnt_online($nr) 0
        set bShowing($nr)   1
@@ -375,17 +360,13 @@ namespace eval ::groups {
 
    # Get a group's name (decoded) given its ID (0..n)
    proc GetName {nr} {
-       variable groupCnt
        variable groups
+
 
        if {![info exists groups($nr)]} {
            return ""
        }
-       if { $nr <= $groupCnt } {
-           return $groups($nr)
-       } else {
-       	   return ""
-       }
+       return $groups($nr)
    }
 
    # Does a reverse lookup from group name to find it's id.
@@ -394,9 +375,10 @@ namespace eval ::groups {
         variable groups
 	# Groups are stored here in decoded state. When sent to
 	# the server we must urlencode them!
-	for {set i 0} {$i < $::groups::groupCnt} {incr i} {
-	    if {$groups($i) == $gname} {
-	    	return $i
+        set gname [string trim $gname]
+	foreach group [array names groups] {
+	    if {$groups($group) == $gname} {
+		return $group
 	    }
 	}
 	return -1
@@ -406,11 +388,9 @@ namespace eval ::groups {
         variable groups
 
         set gname [string trim $gname]
-	for {set i 0} {$i < $::groups::groupCnt} {incr i} {
-	    if {[info exists groups($i)]} {
-		if {$groups($i) == $gname} {
-		    return 1
-		}
+	foreach group [array names groups] {
+	    if {$groups($group) == $gname} {
+		return 1
 	    }
 	}
 	return 0
@@ -518,5 +498,4 @@ proc TestInitGroups {} {	# ONLY FOR TESTING
     set ::groups::groups(1) "Dummy-1"
     set ::groups::groups(2) "Dummy-2"
     set ::groups::groups(3) "Dummy-3"
-    set ::groups::groupCnt 4
 }
