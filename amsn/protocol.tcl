@@ -464,7 +464,7 @@ namespace eval ::MSNFT {
 
    proc sendFTInvitation { chatid filename filesize ipaddr cookie} {
       #Invitation to filetransfer, initial message
-      variable filedatasendFTInvitation
+      variable filedata
 
 #       ::MSNP2P::SendFT $chatid $filename $filesize
 #       return 0
