@@ -37,6 +37,7 @@ appearance Utseende
 appearoff Osynlig
 areacode Riktnummer
 aretyping $1 skriver ett meddelande
+author Upphovsman
 autoaccepted Filöverföringen accepterades automatiskt
 autoacceptft Acceptera filer automatiskt.
 autoaway Visa som "inte vid datorn" efter
@@ -81,13 +82,13 @@ cantremoveothers Kan inte ta bort "Övriga"-gruppen
 casesensitive Skilj på versaler och gemener
 cfgalarm Konfigurera kungörelser
 cfgalarmall Konfigurera globala kungörelser
-ch_to_state Sätt som status
 change Ändra
 changecustomstate Byt till
 changedisplaypic Byt avatar
 changefont Teckensnitt
 changeglobnick Redigera globalt smeknamn
 changenick Redigera smeknamn
+changesize Ändra storlek
 changestate $1 byter status till $2
 charscounter Räknare för antal skrivna tecken i konversationsfönstret
 chat Konversation
@@ -108,6 +109,8 @@ choosebgcolor Bakgrundsfärg
 choosecontact Välj en kontakt från listan
 choosefontcolor Välj textfärg
 chooseskin Välj det tema du vill använda i aMSN
+ch_to_state Sätt som status
+clear	Töm
 clearlog Ta bort loggfiler
 clearlog2 Radera historiken för alla kontakter
 clearlog3 Ta bort
@@ -119,13 +122,15 @@ closed Konversationen med $1 stängdes på grund av inaktivitet.
 closingdocks Stängknappen minimerar programmet till systemfältet
 command Kommando
 commandstatus Kör kommando vid kungörelse
+configure Konfigurera
 confirm Är du säker på att du vill utföra åtgärden?
+confirmbl Vill du verkligen blockera den här kontakten?
+confirmdelete Är du säker på att du vill radera $1?
 confirmdg Är du säker på att du vill radera gruppen?
 confirmdu Är du säker på att du vill ta bort kontakten från kontaktlistan?
 confirmeg Är du säker på att du vill tömma den här gruppen?
-confirmrfl Är du säker på att du vill ta bort kontakten från denna grupp?
-confirmdelete Är du säker på att du vill radera $1?
 confirmpurge Alla lagrade avatarer kommer att raderas, är du säker? (Din egna avatar påverkas inte)
+confirmrfl Är du säker på att du vill ta bort kontakten från denna grupp?
 connected Du är nu ansluten
 connectedwith Ansluten med $1
 connecterror Kunde inte ansluta
@@ -141,7 +146,6 @@ copy Kopiera
 copytogroup Kopiera till grupp
 corruptconfig Konfigurationsfilen är korrupt. En ny konfigurationsfil är skapad. Den gamla filen sparas till $1. Skicka den gärna till oss så vi får se vad som är fel.
 corruptstates Konfigurationsfilen för personlig status är korrupt. En ny konfigurationsfil är skapad. Gamla filen sparas till $1. Skicka den gärna till oss och berätta vad som hände.
-customstyle Anpassat tema
 countrycode Landskod
 cprofile Skapa ny profil
 credits Tack till
@@ -150,14 +154,16 @@ custnotifymsg Informera mig när ett konversationsmeddelande kommer
 custnotifyoffline Informera mig när den här kontakten lämnar
 custnotifyonline Informera mig när den här kontakten ansluter
 custnotifystatus Informera mig när den här kontakten ändrar sin status
+customcolor Egen färg
 custom_edit Ändra personlig smiley
 custom_new Lägg till personlig smiley
-customcolor Egen färg
 customnick Anpassat smeknamn
+customstyle Anpassat tema
 customstyle Specialgjord stil
 cut Klipp ut
 date Datum
 dateformat Ändra datumformat
+day Dag
 days Dagar
 dcprofile Skapa inte ny profil
 default Standardkonfiguration
@@ -225,13 +231,18 @@ filedoesnotexist Filen finns inte
 fileman Filhanterare
 filemanexample (\$location byts ut mot mappen) Ex: nautilus \$location
 filename Filnamn
+filetransfer Fil överföring
 filetransfercancelled Filöverföringen avbröts
 filetransfercomplete Filöverföringen är klar
+filters Filtren
+filtersselect Väj filtren du vill se\n(Notera, inga valda betyde visa alla)
+filtersx Val av filter
 followtext Bläddra nedåt när nytt meddelande kommer
 friendlyname Konversationsnamn
 ftaccepted Filöverföring accepterad
 ftacceptedby $1 accepterade överföring av '$2'.
 ftaccepting Accepterar filöverföring
+ftautoclose Stäng fönstrer när filöverföringen är färdig
 ftconnecterror Fel: Kan inte ansluta etablera förbindelse
 ftconnecting Ansluter till $1 på port $2
 ftconnectionlost Fel: Kunde inte upprätthålla förbindelsen
@@ -313,6 +324,7 @@ listsmileys Visa smileys
 listsmileys2 Lista smileys
 ljoinedconf $1 anslöts till konversationen
 lleftconf $1 kom in i konversationen
+load Load maintenance Servern tas ned för underhåll om $1 minuter
 loadcontacts Ladda kontakter
 logbigger Enskilda loggfiler får inte bli större än
 logeventconnect Bokför anslutningar
@@ -337,10 +349,12 @@ lprivtoconf Privatkonversation blev konferens med $1
 luclosedwin Du stängde fönstret $1
 mailer Avsändare
 mailerexample ( \$recipient = Mottagare) Lämna blank om du använder Hotmail
+maintenance Servern går ner för underhålling om $1 minuter 
 maximised Maximerad
 minimised Minimerad
 mins minuter
 mobile Mobiltelefonnummer
+month Månad
 morepersonal Mer ->
 move Flytta
 movetogroup Flytta till grupp
@@ -358,11 +372,14 @@ mynick Smeknamn
 mypic Avatar:
 mystatus Min status
 myworkphone Mitt arbetstelefonnummer
+name Namn
 natip NAT IP
 natkeepalive Om du ofta blir utkastad bör du välja detta alternativ
 needonline Du är utloggad/verkar vara utloggad
 needwinico Behöver winico03.dll i plugins-mappen för att windowssystemfältsminimering ska fungera
+needwinico2 Behöver winico05.dll i utils/windows mappen för att windows traydocking skall fungera 
 never Aldrig
+new_ft_protocol Använd nytt fil överförings protocoll (en del buggar finns kvar)
 newmail $1 nya meddelanden i inkorgen
 newmailfolder Du har fått $1 nytt/nya meddelanden i annan hotmailmapp
 newmailfrom Nytt meddelande från $1 ($2)
@@ -401,6 +418,7 @@ notifywin Informationsmeddelanden
 notinlist Du finns inte på hans/hennes kontaktlista
 notls MSN Protocol 9 kräver TLS-paketet. TLS verkar inte vara installerat på denna dator. Om det är installerat så ska sökvägen till TLS vara specifierad i Inställningar. \n Du kan ladda ner TLS från http://tls.sf.net.
 nousersinsession Inga användare i konversationen
+nudge $1 söker din uppmärksamhet
 offline Ej ansluten
 ok Bekräfta
 onenewmail 1 nytt meddelande i inkorgen
@@ -410,6 +428,7 @@ openreceived Öppna mottagna filer-mappen
 options Alternativ
 ordercontactsby Sortera användare efter
 ordergroupsby Sortera grupper efter
+original Orginal
 other Annan
 others Sökvägar
 p4contextprefix Sätt den här texten som prefix för P4-Context sändare
@@ -456,6 +475,7 @@ prefremote Fjärranslutningsinställningar
 prefsession Automatisk justering av status
 prefshared Delade anslutningar (endast för NAT)
 prefsound Ljudinställningar
+preview Förhandsgranska
 privacy Integritet
 profiledconfig Profilkonfiguration
 profileexists Du kan inte skapa en profil med detta inloggningsnamn \n eftersom det redan finns. Var vänlig och välj ett annat inloggninsnamn.
@@ -484,6 +504,7 @@ rememberpass Kom ihåg lösenordet
 removeempty Ta bort tomma grupper från kontaktlistan
 removefromlist Ta bort från denna lista
 rename Byt namn
+required_version Ej möjligt att ladda plugin. Kräver minst version $1 av aMSN
 reversed Omvänd
 reverselist Du finns på dessa användares kontaktlista:
 rightback Snart tillbaka
@@ -525,7 +546,7 @@ sngdblclick Enkelklick öppnar ett nytt konversationsfönster
 sound Ljud
 sound2 Spela upp ljud när en kontakt ansluter eller skickar ett meddelande
 soundactive Spela ljud när nytt meddelande har mottagits även i aktiva fönster 
-soundcommand Program som ska användas för för att spela upp ljud (t.ex: esdplay)
+soundcommand Program som ska användas för för att spela upp ljud (t.ex: esdplay)
 soundexample ( \$sound = Ljudfilen som ska spelas upp) Ex: esdplay \$soundsoundfile Ljud för informationsmeddelanden.
 soundfile Ljudfil
 soundfiles Ljudfiler
@@ -550,11 +571,11 @@ status Status
 stopalarm Stoppa alla varningar.
 storenickname Återgå till ursprungligt smeknamn efter att ha använt ett annat initierat av personlig status
 strictfonts Begränsa teckenstorlek till den valda
+style Tema
 stylechat Samma utseende som konversation
 stylehist aMSNs loggdesign
 stylelog Välj i vilket format du vill se din historik
 syntaxerror Felaktigt syntax
-style Tema
 tabbed Fönster med flikar
 temp_state Spara inte (Temporär personlig status och kommer inte att finnas som alternativ vid omstart)
 textsize Textstorlek
@@ -568,6 +589,7 @@ tlsinstall TLS installation
 tlsinstallexp aMSN använder MSNP9 vilket kräver en säker anslutning via SSL. \n För att kunna använda aMSN med SSL så måste du installera en modul som heter TLS, \nsom inte finns på denna dator. aMSN kommer hjälpa dig att ladda ner och installera TLS. Välj rätt system så laddas TLS automatiskt ner.
 tlsinstcompleted TLS installerades. Nu ska du kunna använda MSNP9. Om det inte fungerar så valde du antingen fel modul, eller så var den modulen du valde inte tillänglig för ditt system.
 to Till
+today	Idag
 tools Verktyg
 tooltips Aktivera verktygstips
 transnotexists Filen har tyvärr inte blivit översatt till det nuvarande språket än
@@ -578,8 +600,11 @@ truncatenames2 Förkorta smeknamn längre än fönstrets bred inuti konversationer
 truncatenicks Förkorta smeknamn längre än fönstrets bred 
 twonewmail $1 nya meddelanden i inkorgen
 unblock Ta bort blockering
+unknown Okänd
+unload Ladda ur
 uoffline Ej anslutna
 uonline Anslutna
+update Uppdatera
 useother Använd ett annat program
 user Användare
 useralreadyonlist Användaren finns redan i listan
@@ -596,6 +621,7 @@ viewcontactsby Namnvisningsläge
 viewprofile Visa profil
 webcaminvite $1 bjöd in dig att starta en webbkamerakonversation, men aMSN stödjer tyvärr inte webbkamerakonversationer än. 
 willjoin Väntar på att $1 ska ansluta sig till konversationen
+winkreceived Du har fått en ”Wink” från $1. Den här funktionen stödjs för tillfället inte av aMSN.
 work Arbete
 wrongfields Fältet "$1", "$2" och/eller "$3" är inte giltigt.
 wrongprofileversion Fel profilversion. För att fixa det, ta bort $1 eller uppgradera aMSN
@@ -603,29 +629,10 @@ xmmscurrent Visa låten som spelas.
 xmmserr Ingenting spelas eller så har du inte xmms-infopipe installerat.
 xmmssend Sänd musikfilen som jag spelar upp
 xoffset X position
+year År
 yes Ja
+yesterday igår
 yoffset Y position
 youblocked Du har blivit blockerad av
 yousay Du säger
 youwant Du vill
-changesize Ändra storlek
-day Dag
-original Orginal
-today	Idag
-year År
-yesterday igår
-month Månad
-clear	Töm
-author Upphovsman
-configure Konfigurera
-confirmbl Vill du verkligen blockera den här kontakten?
-filetransfer Fil överföring
-ftautoclose Stäng fönstrer när filöverföringen är färdig
-load Load maintenance Servern tas ned för underhåll om $1 minuter
-name Namn
-new_ft_protocol Använd nytt fil överförings protocoll (en del buggar finns kvar)
-nudge $1 söker din uppmärksamhet
-required_version Ej möjligt att ladda plugin. Kräver minst version $1 av aMSN
-unknown Okänd
-unload Ladda ur
-winkreceived Du har fått en ”Wink” från $1. Den här funktionen stödjs för tillfället inte av aMSN.
