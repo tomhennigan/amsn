@@ -212,8 +212,13 @@ namespace eval ::smiley {
 				
 				set start [::smiley::SubstSmiley $tw $pos $symbol [::skin::loadSmiley $symbol] [ValueForSmiley $emotion_name file] $animated $sound]
 		
+				#If SubstSmiley returns -1, start from beggining.
+				#See why in SubstSmiley. This is a fix
+				if { $start == -1 } { set start $textbegin }
+
 		
 			}
+			
 		}
 	
 	}
@@ -231,7 +236,7 @@ namespace eval ::smiley {
 		}
 
 		$tw tag configure smiley -elide true
-		$tw tag add smiley $pos $endpos	
+		$tw tag add smiley $pos $endpos
 	
 		if { $animated && [::config::getKey animatedsmileys] } {
 			global smileys_drawn
@@ -265,7 +270,10 @@ namespace eval ::smiley {
 			play_sound $sound
 		}
 		
-		return $pos
+		#If I return $pos and there's a smiley next to the replaced one,
+		#it won't be replaced!! is this a tk error?? We return -1,
+		#so we restart from beginning
+		return -1
 	}
 	
 	# proc substYourSmileys { tw {start "0.0"} {end "end"} {contact_list 0} }
@@ -293,6 +301,9 @@ namespace eval ::smiley {
 					} else { set sound "" }
 					
 					set start [::smiley::SubstSmiley $tw $pos $symbol $emotion(image_name) $emotion(file) $animated $sound]
+					#If SubstSmiley returns -1, start from beggining.
+					#See why in SubstSmiley. This is a fix
+					if { $start == -1 } { set start $textbegin }
 			
 				}
 			}
