@@ -1511,7 +1511,14 @@ namespace eval ::amsn {
       wm group .${win_name} .
       wm iconbitmap .${win_name} @[GetSkinFile pixmaps amsn.xbm]
       wm iconmask .${win_name} @[GetSkinFile pixmaps amsnmask.xbm]
-
+ 
+ 
+#Test on Mac OS X(Darwin) if imagemagick is installed      
+if {$tcl_platform(os) == "Darwin"} {
+if { $config(getdisppic) != 0 } {
+	check_imagemagick2
+}
+}
       menu .${win_name}.menu -tearoff 0 -type menubar  \
          -borderwidth 0 -activeborderwidth -0
          
