@@ -42,7 +42,7 @@ proc StartLog { email } {
 # Checks if the date the file was created is older than a month, and moves file if necessary
 #
 
-proc CheckLogDate { email } {
+proc CheckLogDate {email} {
     global log_dir
 
     status_log "Opening file\n"
@@ -341,19 +341,32 @@ proc JoinsConf { chatid usr_name } {
 # chat window open... So it will be static and contain what has been said before
 # history button was pressed
 
-proc OpenLogWin { email } {
+proc OpenLogWin { {email ""} } {
 
-	global bgcolor log_dir langenc
+	global bgcolor log_dir langenc logvar
+
+	#Get all the contacts
+	foreach contact [::abook::getAllContacts] {
+		#Selects the contacts who are in our list and adds them to the contact_list
+		if {[string last "FL" [::abook::getContactData $contact lists]] != -1} {
+			lappend contact_list $contact
+		}
+	}
+	#Sorts contacts
+	set sortedcontact_list [lsort -dictionary $contact_list]
+
+	#If there is no email defined, we remplace it by the first email in the dictionary order
+	if {$email == ""} {
+		set email [lindex $sortedcontact_list 0]
+	}
 	
 	set fileid [LogArray $email get]
 	if { $fileid != 0 && $fileid != "stdout"} {
 		flush $fileid
 	}
 	unset fileid
-	
-	set wname [split $email "@ ."]
-	set wname [join $wname "_"]
-	set wname ".${wname}_hist"
+
+	set wname [::log::wname $email]
 
 	if { [catch {toplevel ${wname} -width 600 -height 400 -borderwidth 0 -highlightthickness 0 } res ] } {
         	raise ${wname}
@@ -367,6 +380,7 @@ proc OpenLogWin { email } {
 	wm title $wname "[trans history] (${email})"
       	wm geometry $wname 600x400
 
+	frame $wname.top
 	frame $wname.blueframe -background $bgcolor
 	frame $wname.blueframe.log -class Amsn -borderwidth 0
       	frame $wname.buttons -class Amsn
@@ -387,64 +401,47 @@ proc OpenLogWin { email } {
 		set logvar "\|\"LRED[trans nologfile $email]"
 	}
 
-	if { [::config::getKey logsbydate] == 1 } {
-	    frame $wname.date  -class Amsn -borderwidth 0
-	    combobox::combobox $wname.date.list -editable true -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
-	    set date_list ""
-	    set erdate_list ""
-	    $wname.date.list list delete 0 end
-	    foreach date [glob -nocomplain -types f [file join ${log_dir} * ${email}.log]] {
-		set date [getfilename [file dirname $date]]
-		status_log "Found date $date for log of $email\n"
-		if { [catch { clock scan "1 $date"}] == 0 } {
-		    lappend date_list  [clock scan "1 $date"]
-		} else {
-		    lappend erdate_list $date
-		}
-	
-	    }
-	    set sorteddate_list [lsort -integer $date_list]
-
-	    $wname.date.list list insert end "[trans currentdate]"
-	    foreach date $sorteddate_list {
-		status_log "Adding date [trans [clock format $date -format "%B"]] [clock format $date -format "%Y"]\n" blue
-		$wname.date.list list insert end "[trans [clock format $date -format "%B"]] [clock format $date -format "%Y"]"
-	    }
-	    if { $erdate_list != "" } {
-		$wname.date.list list insert end "_ _ _ _ _"
-		foreach date $erdate_list {
-		    status_log "Adding Erroneous date $date\n" red
-		    $wname.date.list list insert end "$date"
-		}
-	    }
-
-	    $wname.date.list select 0
-
-	    $wname.date.list configure -command "::log::ChangeLogToDate $wname $email"
-	    $wname.date.list configure -editable false
-	    pack $wname.date.list -side right -fill x
-	    pack $wname.date -side top -fill x
+	frame $wname.top.contact  -class Amsn -borderwidth 0
+	combobox::combobox $wname.top.contact.list -editable true -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
+	$wname.top.contact.list list delete 0 end
+	foreach contact $sortedcontact_list {
+		$wname.top.contact.list list insert end $contact
 	}
+
+	#Get all the list
+ 	set list [$wname.top.contact.list list get 0 end]
+ 	#Do a search in that list to find where is exactly the email we need
+	set exactMatch [lsearch -exact $list $email]
+  	#Select the email in the list when we open the window with the result of the search
+	$wname.top.contact.list select $exactMatch
+	$wname.top.contact.list configure -command "::log::ChangeLogWin $wname $email"
+	$wname.top.contact.list configure -editable false
+
+	pack $wname.top.contact.list -side left
+	pack $wname.top.contact -side left
+
+	::log::LogsByDate $wname $email "1"
 
 	ParseLog $wname $logvar
 
 	button $wname.buttons.close -text "[trans close]" -command "destroy $wname" -font sboldf
 	button $wname.buttons.save -text "[trans savetofile]" -command "::log::SaveToFile ${wname} ${email} [list ${logvar}]" -font sboldf
   	button $wname.buttons.clear -text "[trans clearlog]" \
-				    -command "if { !\[winfo exists $wname.date.list\] } { \
+				    -command "if { !\[winfo exists $wname.top.date.list\] } { \
 				                    set date \".\" \
 				              } else {
-				                    set date \[$wname.date.list list get \[$wname.date.list curselection\]\]\
-                                              }
+				                    set date \[$wname.top.date.list list get \[$wname.top.date.list curselection\]\]\
+					      }
                                               if { \[::log::ClearLog $email \"\$date\"\] } { 
 				                    destroy $wname
 			         	      }" \
 	                            -font sboldf
 
+
 	menu ${wname}.copypaste -tearoff 0 -type normal
       	${wname}.copypaste add command -label [trans copy] -command "tk_textCopy ${wname}.blueframe.log.txt"
       	
-
+	pack $wname.top -side top -fill x
  	pack $wname.blueframe.log.ys -side right -fill y
 	pack $wname.blueframe.log.txt -side left -expand true -fill both
  	pack $wname.blueframe.log -side top -expand true -fill both -padx 4 -pady 4
@@ -460,35 +457,155 @@ proc OpenLogWin { email } {
 }
 
 
-proc ChangeLogToDate { w email widget  date } {
+proc wname {email} {
 
-    global log_dir
-
-    status_log "Changing log for $w to $date\n\n"
-
-    if { $date == "[trans currentdate]" } {
-	set date "."
-    }
-    if { $date == "_ _ _ _ _" } {
-	return
-    }
-
-    if { [file exists [file join ${log_dir} $date ${email}.log]] == 1 } {
-	set id [open "[file join ${log_dir} $date ${email}.log]" r]
-	fconfigure $id -encoding utf-8
-	set logvar [read $id]
-	close $id
-    } else {
-	set logvar "\|\"LRED[trans nologfile $email]"
-    }
-
-    $w.blueframe.log.txt configure -state normal
-    $w.blueframe.log.txt delete 0.0 end
-
-    ParseLog $w $logvar
+	set wname [split $email "@ ."]
+	set wname [join $wname "_"]
+	set wname ".${wname}_hist"
+	return $wname
 }
 
 
+proc LogsByDate {wname email init} {
+
+	global log_dir logvar
+
+	#If we store logs by date
+	if { [::config::getKey logsbydate] == 1 } {
+		#If this is the first log we view
+		if {$init == 1} {
+			frame $wname.top.date  -class Amsn -borderwidth 0
+			combobox::combobox $wname.top.date.list -editable true -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
+		}			
+		set date_list ""
+		set erdate_list ""
+		$wname.top.date.list list delete 0 end
+		foreach date [glob -nocomplain -types f [file join ${log_dir} * ${email}.log]] {
+			set date [getfilename [file dirname $date]]
+			status_log "Found date $date for log of $email\n"
+			if { [catch { clock scan "1 $date"}] == 0 } {
+				lappend date_list  [clock scan "1 $date"]
+			} else {
+				lappend erdate_list $date
+			}
+		}
+		set sorteddate_list [lsort -integer $date_list]
+
+		$wname.top.date.list list insert end "[trans currentdate]"
+		foreach date $sorteddate_list {
+			status_log "Adding date [trans [clock format $date -format "%B"]] [clock format $date -format "%Y"]\n" blue
+			$wname.top.date.list list insert end "[trans [clock format $date -format "%B"]] [clock format $date -format "%Y"]"
+		}
+		if { $erdate_list != "" } {
+			$wname.top.date.list list insert end "_ _ _ _ _"
+			foreach date $erdate_list {
+				status_log "Adding Erroneous date $date\n" red
+				$wname.top.date.list list insert end "$date"
+			}
+		}
+
+		$wname.top.date.list select 0
+
+		$wname.top.date.list configure -command "::log::ChangeLogToDate $wname $email"
+		$wname.top.date.list configure -editable false
+		pack $wname.top.date.list -side right
+		pack $wname.top.date -side right
+	}
+}
+
+
+proc Fileexist {email date} {
+
+	global logvar log_dir
+
+	#Checks if the log exists
+	if { [file exists [file join ${log_dir} $date ${email}.log]] == 1} {
+		set id [open "[file join ${log_dir} $date ${email}.log]" r]
+		fconfigure $id -encoding utf-8
+		set logvar [read $id]
+		close $id
+	} else {
+		set logvar "\|\"LRED[trans nologfile $email]"
+  	}
+}
+
+
+proc ResetSave {w email} {
+
+	global logvar
+
+	set name [::log::wname $email]
+
+	#Redefined the command of the button according to the new contact logging
+	$w.buttons.save configure -command "::log::SaveToFile ${name} ${email} [list ${logvar}]"
+
+}
+
+
+proc ResetDelete {w email} {
+	
+	global logvar date
+
+	set name [::log::wname $email]
+
+	#Redefined the command of the button according to the new contact logging
+	$w.buttons.clear configure -command	"if { !\[winfo exists $w.top.date.list\] } { \
+							set date \".\" \
+						} else {
+							set date \[$w.top.date.list list get \[$w.top.date.list curselection\]\]\
+						}
+						if { \[::log::ClearLog $email \"\$date\"\] } { 
+							destroy $w
+						} "
+}
+
+
+proc ChangeLogToDate { w email widget date } {
+
+	global log_dir logvar
+
+	status_log "Changing log for $w to $date\n\n"
+
+	if { $date == "[trans currentdate]" } {
+		set date "."
+	}
+	if { $date == "_ _ _ _ _" } {
+		return
+	}
+
+	::log::Fileexist $email $date
+
+	$w.blueframe.log.txt configure -state normal
+	$w.blueframe.log.txt delete 0.0 end
+
+	::log::ResetSave $w $email
+
+	ParseLog $w $logvar
+
+}
+
+proc ChangeLogWin {w contact widget email} {
+
+	global log_dir logvar date
+
+	status_log "Switch to $contact\n\n" blue
+
+	::log::Fileexist $email "."
+
+	$w.blueframe.log.txt configure -state normal
+	$w.blueframe.log.txt delete 0.0 end
+	wm title $w "[trans history] (${email})"
+
+	::log::LogsByDate $w $email "0"	
+
+	::log::ResetSave $w $email
+	::log::ResetDelete $w $email
+
+	ParseLog $w $logvar
+
+	$w.top.date.list select 0
+
+}	
 
 
 #///////////////////////////////////////////////////////////////////////////////
@@ -655,17 +772,11 @@ proc ClearLog { email date } {
 	}
 
 
-
-	if {![catch {set parent [focus]}]} {
-		set parent "."
-	}
-	set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans clearlog] -parent $parent]
+	set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans clearlog]]
 	if {$answer == "yes"} {	
 		global log_dir
 	
 		catch { file delete [file join ${log_dir} $date ${email}.log] }
-
-		OpenLogWin $email
 	}
 	return 1
 }

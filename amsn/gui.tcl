@@ -3808,6 +3808,10 @@ proc cmsn_draw_main {} {
 	#User to reverse group lists
 	.main_menu.tools add cascade -label "[trans viewcontactsby]" -menu .view_by
 
+	#View the history
+	.main_menu.tools add separator
+	.main_menu.tools add command -label "[trans history]" -command ::log::OpenLogWin
+
 	#Unnecessary separator when you remove the 2 dockings items menu on Mac OS X
 	if {$tcl_platform(os) != "Darwin"} {
 		.main_menu.tools add separator
