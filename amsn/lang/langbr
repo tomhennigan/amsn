@@ -232,7 +232,7 @@ imagefiles Arquivos de Imagem
 inbox Caixa de Entrada
 insertsmiley Inserir emotion
 installconvert Você deve instalar ImageMagick (programa conversor) para converter as imagens para o formato requerido pelos servidores MSN. Você pode pegar os binários para o seu Sistema Operacional em ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Se você já o tem, então isto é um bug, favor reportá-lo.
-installconvert Você deve instalar o ImageClick (programa de conversão) para usar Buddy Icons e Emotions personalizados. Você pode baixar os binários para o seu Sistema Operaciona
+installconvert Você deve instalar o ImageMagick (programa de conversão) para usar Buddy Icons e Emotions personalizados. Você pode baixar os binários para o seu Sistema Operaciona
 internalerror Erro Interno do Servidor
 invalidfile Arquivo $2 no campo "$1" não existe ou não pode ser lido
 invalidfile2 O Arquivo $1 não pôde ser salvo. Certifique-se que você tem as permissões corretas para o diretório de destino.
