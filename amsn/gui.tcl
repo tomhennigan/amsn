@@ -6009,7 +6009,7 @@ proc amsn_update { new_version } {
 	#progress bar
 	pack [::dkfprogress::Progress .update.prbar] -fill x -expand 0 -padx 5 -pady 5 -side top
 	#download new amsn version
-	set amsn_tarball [::http::geturl $amsn_url -progress "amsn_download_progress $amsn_url" -command "amsn_install $amsn_url"]
+	set amsn_tarball [::http::geturl $amsn_url -progress "amsn_download_progress $amsn_url" -command "amsn_choose_dir $amsn_url"]
 }
 
 #///////////////////////////////////////////////////////////////////////
@@ -6027,7 +6027,7 @@ proc amsn_download_progress { url token {total 0} {current 0} } {
 }
 
 #///////////////////////////////////////////////////////////////////////
-proc amsn_install { url token } {
+proc amsn_choose_dir { url token } {
 	if { [::http::status $token] == "reset" } {
 		::http::cleanup $token
 		destroy .update.prbar
@@ -6040,14 +6040,19 @@ proc amsn_install { url token } {
 		return
 	}
 	destroy .update.prbar
+	.update.q configure -text "Where do you want to save the file?"
+	entry .update.dir
+	button .update.save -command "amsn_save $url $token" -text "Save"
+	pack .update.dir -side left
+	pack .update.save -side left
 	.update.c configure -command "destroy .update"
 }
 
 #///////////////////////////////////////////////////////////////////////
 proc amsn_save { url token } {
 	set savedir [.update.dir get]
-	destroy .update.save
 	destroy .update.dir
+	destroy .update.save
 	if { [string equal $savedir ""] } { set savedir "~/" }
 	#write the file into disk
 	set lastslash [expr {[string last "/" $url]+1}]
@@ -6063,17 +6068,23 @@ proc amsn_save { url token } {
 	} else {
 		.update.q configure -text "Saved $fname in $savedir."
 		if { $::tcl_platform(platform)=="unix" } {
-			set old_dir [pwd]
-			cd $::program_dir
-			cd ..
-			if { [catch { set shell [exec "tar xzfp $savedir/$fname"] }] } {
-				.update.q configure -text "Problems occurred during the installation. Please report it."
-			} else {
-				.update.q configure -text "Installation complete: $shell"
-			}
-			cd $old_dir 
+			button .update.install -text "Install" -command "amsn_install $savedir $fname"
+			pack .update.install -side left
 		}
 	}
+}
+
+#///////////////////////////////////////////////////////////////////////
+proc amsn_install { savedir fname } {
+	set old_dir [pwd]
+	cd $::program_dir
+	cd ..
+	if { [catch { set shell [exec "tar xzfp $savedir/$fname"] }] } {
+		.update.q configure -text "Problems occurred during the installation (tar xzfp $savedir/$fname). Please report it."
+	} else {
+		.update.q configure -text "Installation complete: $shell"
+	}
+	cd $old_dir 
 }
 
 #///////////////////////////////////////////////////////////////////////
