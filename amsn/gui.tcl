@@ -1240,11 +1240,11 @@ namespace eval ::amsn {
 
 		set win_name [WindowFor $chatid]
 
-		#if { [lindex [${win_name}.f.out.ys get] 1] == 1.0 } {
-		#   set scrolling 1
-		#} else {
-		#   set scrolling 0
-		#}
+		if { [lindex [${win_name}.f.out.text yview] 1] == 1.0 } {
+		   set scrolling 1
+		} else {
+		   set scrolling 0
+		}
 
 
 		${win_name}.f.top.text configure -state normal -font sboldf -height 1 -wrap none
@@ -1322,7 +1322,7 @@ namespace eval ::amsn {
 			wm title ${win_name} ${title}
 		}
 
-		#if { $scrolling } { ${win_name}.f.out.text yview moveto 1.0 }
+		if { $scrolling } { ${win_name}.f.out.text yview moveto 1.0 }
 
 		update idletasks
 
@@ -1695,13 +1695,13 @@ namespace eval ::amsn {
 
 		frame .${win_name}.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -relief flat
 
-		frame .${win_name}.f.out -class Amsn -background white -borderwidth 0 -relief flat
-
+		ScrolledWindow .${win_name}.f.out -auto vertical -scrollbar vertical
+		
 		text .${win_name}.f.out.text -borderwidth 3 -foreground white -background white -width 45 -height 5 -wrap word \
-		-yscrollcommand "adjust_yscroll .${win_name}.f.out.text .${win_name}.f.out.ys" -exportselection 1  \
-		-relief flat -highlightthickness 0 \
-		-selectborderwidth 1
-
+			-exportselection 1  -relief flat -highlightthickness 0 -selectborderwidth 1
+		
+		.${win_name}.f.out setwidget .${win_name}.f.out.text
+		
 
 		frame .${win_name}.f.top -class Amsn -relief flat -borderwidth 0 -background $bgcolor
 
@@ -1717,8 +1717,6 @@ namespace eval ::amsn {
 			-height 1 -wrap none -background $bgcolor -foreground $bgcolor2 -highlightthickness 0 \
 			-selectbackground $bgcolor -selectborderwidth 0 -selectforeground $bgcolor2 -exportselection 1
 
-		#-yscrollcommand ".${win_name}.f.top.ys set"
-		
 		#Change color of border on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			frame .${win_name}.f.bottom -class Amsn -borderwidth 0 -relief solid -background $bgcolor2
@@ -1755,11 +1753,6 @@ namespace eval ::amsn {
 		bind $bottom.pic <Button1-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
 		bind $bottom.pic <<Button3>> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
 
-
-		#scrollbar .${win_name}.f.top.ys -command ".${win_name}.f.top.text yview"
-
-		scrollbar .${win_name}.f.out.ys -command ".${win_name}.f.out.text yview" \
-			-highlightthickness 0 -borderwidth 1 -elementborderwidth 1 
 
 		frame .${win_name}.statusbar -class Amsn -borderwidth 0 -relief solid
 
@@ -1808,10 +1801,7 @@ namespace eval ::amsn {
 			} else {
 				pack .${win_name}.f.out -expand true -fill both -padx 3 -pady 0
 			}
-			
-		pack .${win_name}.f.out.text -side right -expand true -fill both -padx 2 -pady 2
-		pack .${win_name}.f.out.ys -side right -fill y -padx 0
-
+		
 		pack .${win_name}.f.top.textto -side left -fill y -anchor nw -padx 0 -pady 3
 		pack .${win_name}.f.top.text -side left -expand true -fill x -padx 4 -pady 3
 
@@ -1838,8 +1828,6 @@ namespace eval ::amsn {
 		.${win_name}.f.out.text tag configure white -foreground white -background black -font sboldf
 		.${win_name}.f.out.text tag configure url -foreground #000080 -background white -font splainf -underline true
 
-
-		#bind .${win_name}.f.out.text <Configure> "adjust_yscroll .${win_name}.f.out.text .${win_name}.f.out.ys 0 1"
 
 		bind $bottom.in.input <Tab> "focus $bottom.in.f.send; break"
 
@@ -2848,7 +2836,7 @@ namespace eval ::amsn {
 
 
 
-		if { [lindex [${win_name}.f.out.ys get] 1] == 1.0 } {
+		if { [lindex [${win_name}.f.out.text yview] 1] == 1.0 } {
 			set scrolling 1
 		} else {
 			set scrolling 0
@@ -2951,8 +2939,6 @@ namespace eval ::amsn {
 
 		if { $scrolling } {
 			${win_name}.f.out.text yview moveto 1.0
-			set ys $win_name.f.out.ys
-			$ys set [lindex [$ys get] 0] 1.0
 		}
 		${win_name}.f.out.text configure -state disabled
 
@@ -2972,7 +2958,7 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		if { [lindex [${win_name}.f.out.ys get] 1] == 1.0 } {
+		if { [lindex [${win_name}.f.out.text yview] 1] == 1.0 } {
 			set scrolling 1
 		} else {
 			set scrolling 0
@@ -2996,7 +2982,7 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		if { [lindex [${win_name}.f.out.ys get] 1] == 1.0 } {
+		if { [lindex [${win_name}.f.out.text yview] 1] == 1.0 } {
 			set scrolling 1
 		} else {
 			set scrolling 0
@@ -3208,55 +3194,6 @@ namespace eval ::amsn {
 
 }
 
-
-proc clean_yscroll_variable { bar } {
-	global scrollbar_packed_$bar
-
-	catch { unset scrollbar_packed_$bar }
-}
-
-proc adjust_yscroll {text bar begin end } {
-
-	global scrollbar_packed_$bar
-
-	set scrolling 0
-
-	if { $begin == 0 && $end == 1 } {
-
-		#if { [lindex [$bar get] 1] == 1.0 } {
-		#   set scrolling 1
-		#}
-
-		if {[info exists scrollbar_packed_$bar]} {
-			pack forget $bar
-			unset scrollbar_packed_$bar
-		}
-
-
-	} else {
-
-		if { ![info exists scrollbar_packed_$bar ]} {
-
-			if { [lindex [$bar get] 1] == 1.0 } {
-				set scrolling 1
-			}
-
-			pack forget $text
-			pack $bar -side right -fill y -padx 0 -pady 0
-			pack $text -side right -expand true -fill both
-			set scrollbar_packed_$bar 1
-			#set command [list bind $bar <Destroy> "status_log \"Destroyed\n\"" white]
-			#status_log "$command\n" white
-			#eval $command
-
-			update idletasks
-
-		}
-
-	}
-
-	$bar set $begin $end
-}
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_main {} {
@@ -3520,6 +3457,7 @@ proc cmsn_draw_main {} {
 	
 	
 	frame .main.f -class Amsn -relief flat -background white
+	ScrolledWindow .main.f.sw -auto vertical -scrollbar vertical
 	#pack .main -expand true -fill both
 	#pack .main.f -expand true  -fill both  -padx 4 -pady 4 -side top
 
@@ -3533,10 +3471,11 @@ proc cmsn_draw_main {} {
 		 set pgNews  [notebook:getpage .main.nb 1]
 		 pack .main.nb -fill both -expand 1
 	} else {
-		set pgBuddy .main.f
+		set pgBuddy .main.f.sw
 		set pgNews  ""
-		pack .main -fill both -expand true
+		pack .main -fill both -expand true 
 		pack .main.f -expand true -fill both -padx 4 -pady 4 -side top
+		pack .main.f.sw -expand true -fill both
 	}
 	# End of Notebook Creation/Initialization
 
@@ -3609,22 +3548,12 @@ proc cmsn_draw_main {} {
 	image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
 	
 	text $pgBuddy.text -background white -width 30 -height 0 -wrap none \
-		-yscrollcommand "adjust_yscroll $pgBuddy.text $pgBuddy.ys" -cursor left_ptr -font splainf \
+		-cursor left_ptr -font splainf \
 		-selectbackground white -selectborderwidth 0 -exportselection 0 \
 		-relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
+		
+	$pgBuddy setwidget $pgBuddy.text
 
-	scrollbar $pgBuddy.ys -command "$pgBuddy.text yview" -highlightthickness 0 \
-		-borderwidth 1 -elementborderwidth 1
-
-
-	#This shouldn't go here
-	#if {$config(withproxy)} {
-
-	#::Proxy::Init $config(proxy) "http"
-	#::Proxy::Init $config(proxy) "post"
-	#::Proxy::Init $config(proxy) $config(proxytype)
-	#::Proxy::LoginData $config(proxyauthenticate) $config(proxyuser) $config(proxypass)
-	#}
 
 	if {$config(enablebanner)} {
 
@@ -3641,8 +3570,6 @@ proc cmsn_draw_main {} {
 		}
 	}
 
-	pack $pgBuddy.text -side left -expand true -fill both -padx 0 -pady 0
-	#pack $pgBuddy.ys -side left -fill y -padx 0 -pady 0
 	#Command-key for "key shorcut" in Mac OS X
 	if {$tcl_platform(os) == "Darwin"} {
 		bind . <Command-s> toggle_status
@@ -4470,7 +4397,8 @@ proc cmsn_draw_online_wrapped {} {
 	global emotions login \
 	config password pgBuddy bgcolor automessage emailBList tcl_platform
 
-	set scrollidx [$pgBuddy.ys get]
+	set scrollidx [$pgBuddy.text yview]
+	status_log "scrollidx is $scrollidx\n" white
 
 	set my_name [::abook::getPersonal nick]
 	set my_state_no [::MSN::stateToNumber [::MSN::myStatusIs]]
@@ -4870,7 +4798,6 @@ proc cmsn_draw_online_wrapped {} {
 		smile_subst $pgBuddy.text 0.0 end
 	}
 	update idletasks
-	$pgBuddy.ys set [lindex $scrollidx 0] [lindex $scrollidx 1]
 	$pgBuddy.text yview moveto [lindex $scrollidx 0]
 }
 #///////////////////////////////////////////////////////////////////////
@@ -6589,15 +6516,11 @@ proc pictureBrowser {} {
 
 	set selected_image $config(displaypic)
 
-	frame .picbrowser.pics
-	text .picbrowser.pics.text -width 40 -font sboldf -background white -yscrollcommand ".picbrowser.pics.ys set" \
+	ScrolledWindow .picbrowser.pics -auto vertical -scrollbar vertical
+	text .picbrowser.pics.text -width 40 -font sboldf -background white \
 		-cursor left_ptr -font splainf -selectbackground white -selectborderwidth 0 -exportselection 0 \
 		-relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0 -wrap none
-	scrollbar .picbrowser.pics.ys -command ".picbrowser.pics.text yview"
-
-	pack .picbrowser.pics.text -side left -expand true -fill both -padx 0 -pady 0
-	pack .picbrowser.pics.ys -side left -fill y -padx 0 -pady 0
-
+	.picbrowser.pics setwidget .picbrowser.pics.text
 
 	load_my_pic
 
