@@ -26,6 +26,7 @@ alarmpref Alarmi seaded kasutajale
 alarms Alarmid
 alarmstatus Alarm selle kasutaja puhul Sees/Väljas
 allfiles Kõik failid
+allow_sms Luban kasutajatel endaga läbi MSNis määratud mobiili suhelda
 allowallbutbl Luba kõikidel kasutajatel väljaarvatud minu Blokk Listis olevatel võtta minuga ühendust
 allowbadwords Lülita välja nimede tsensuur
 allowlist Lubatud list (AL):
@@ -147,6 +148,7 @@ contactadded Sõber lisatud
 contactdoesnotexist Seda sõpra ei eksisteeri!
 contactlist Kontaktide nimekiri (FL):
 continuously Järjepidevalt
+conversationwith Oled vestluses $1 inimesega
 convertexplain Tee käivitatava failini CONVERT (ImageMagicki osa mis on vajalik kasutajate piltide näitamiseks).\n Jätte tühjaks kui CONVERT asub kataloogitees
 copy Kopeeri
 copytogroup Kopeeri gruppi
@@ -261,6 +263,7 @@ ftrejectedby $1 keeldus faili '$2' laadimisest.
 ftsendinvitation Faili '$2' ($3 baiti) saatmise teade saadetud kasutajale $1.
 fullcontactlist Kahjuks on sinu kontaktide nimekiri täis. Uute kontaktide lisamiseks pead eemaldama mõned vanemad.
 getdisppic Luba teiste kasutajate piltide vastuvõtt
+globalcontainer Üldine konteiner
 globalnick Sisesta mall kirjeldamaks kontaktide hüüdnimesid. Sa võid kasutada muutujaid \$user_login kontakti aadressina, \$nick kontakti hüüdnimena ja \$customnick kontakti kohandatud hüüdnimena. Näiteks: '\$user_login on \$nick' annaks 'kasutaja@msn.com on Kasutaja'
 globalnicktitle Globaalne hüüdnimi
 globaloverride Globaalsed hüüdnimed peaks tühistama kohandatud nime
@@ -394,6 +397,7 @@ newmailfrom Uus kiri saatjalt $1 ($2)
 newmailfromother Uus kiri teises kaustas aadressilt $1 ($2)
 newmsg Uus sõnum
 newstate Lisa oma olek
+newtabbedfeature aMSNis on uus võimalus vestluste haldamiseks: sa saad valida, et mõne grupi, või terve nimekirja, vestlusaknad on ühes aknas erinevates tabides. Palun vali kuidas aMSN haldab su vestlusi.
 newveravailable Uuem versioon $1 allalaadimiseks saadaval
 next Edasi
 nick Hüüdnimi
@@ -425,6 +429,7 @@ notifytyping Näita teisele kasutajale, et ma trükin teadet
 notifywin Teateaken
 notinlist Sa ei ole tema kontaktide nimekirjas
 notls MSN protokoll 9 vajab TLS paketti. Tundub, et see pakett ei ole installeeritud. Kui see on installeeritud, siis tuleb kontrollida Seadete alt kas kataloog on määratud (näiteks: /opt/tls/lib). \n\nTLS on võimalik laadida aadressilt http://tls.sf.net 
+nottabbed Normaalsed, ilma tabideta, aknad
 nousersinsession Ühtegi kasutajat sessioonis
 nudge $1 soovib sinu tähelepanu
 offline Offline
@@ -528,6 +533,7 @@ selectskin Palun vali skin listist
 send Saada
 sendfile Saada fail
 sendmail Saada kiri
+sendmobmsg $1 saada mobiilile
 sendmsg Saada sõnum
 sentbytes Saadetud $1/$2 baiti
 server Server
@@ -585,6 +591,9 @@ stylehist aMSN'i Ajaloo välimus
 stylelog Vali, kuidas soovid oma Ajalugu vaadata
 syntaxerror Süntaksi viga
 tabbed Kaartidena
+tabbedglobal Kõik inimesed on ühes tabidega aknas
+tabbedgroups Samas grupis olevad inimesed ühes tabidega aknas
+tabtitlenick Soovid e-maili asemel tabides hüüdnime näidata ?
 temp_state Ära salvesta (Ajutine seisund mida ei salvestata AMSNi sulgemisel)
 textsize Teksti suurus
 timeremaining Aega on jäänud
@@ -630,6 +639,7 @@ viewprofile Vaata profiili
 webcaminvite $1 kutsus sind alustama veebikaamera seanssi kuid aMSN ei toeta seda võimalust
 willjoin Ootan, et $1 liituks vestlusega
 winkreceived $1 saatis sulle Winki kuid aMSN ei toeta seda hetkel.
+wintitlenick Soovid e-maili asemel tabidega aknas hüüdnime näidata ?
 work Töö
 wrongfields Väljad "$1", "$2" ja/või "$3" on vigased
 wrongprofileversion Profiili konfiguratsiooni faili versioon on vale. Parandamiseks kustuta kataloog $1 või uuenda aMSN.
