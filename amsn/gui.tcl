@@ -741,13 +741,15 @@ namespace eval ::amsn {
 			set txt "[trans ftsendinvitation [::abook::getDisplayNick $chatid] $filename [sizeconvert $filesize]]"
 
 			status_log "Random generated cookie: $cookie\n"
-			WinWrite $chatid "\n----------\n" green
+			WinWrite $chatid "\n" green
+			WinWriteIcon $chatid greyline 3
+			WinWrite $chatid "\n" green
 			WinWriteIcon $chatid fticon 3 2
 			WinWrite $chatid "$txt " green
 			WinWriteClickable $chatid "[trans cancel]" \
 				"::amsn::CancelFTInvitation $chatid $cookie" ftno$cookie
 			WinWrite $chatid "\n" green
-			WinWrite $chatid "----------" green
+			WinWriteIcon $chatid greyline 3
 
 			::MSN::ChatQueue $chatid [list ::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie]
 			#::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie
@@ -779,10 +781,12 @@ namespace eval ::amsn {
 
 		set txt [trans invitationcancelled]
 
-		WinWrite $chatid "\n----------\n" green
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid greyline 3
+		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid ftreject 3 2
 		WinWrite $chatid " $txt\n" green
-		WinWrite $chatid "----------" green
+		WinWriteIcon $chatid greyline 3
 
 		set email [::MSN::usersInChat $chatid]
 		::log::ftlog $email $txt
@@ -795,10 +799,12 @@ namespace eval ::amsn {
 			return 0
 		}   
 		set txt [trans ftacceptedby [::abook::getDisplayNick $chatid] $filename]
-		WinWrite $chatid "\n----------\n" green
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid greyline 3
+		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid fticon 3 2
 		WinWrite $chatid " $txt\n" green
-		WinWrite $chatid "----------" green
+		WinWriteIcon $chatid greyline 3
 
 		set email [::MSN::usersInChat $chatid]
 		::log::ftlog $email $txt
@@ -810,11 +816,13 @@ namespace eval ::amsn {
 			return 0
 		}   
 		set txt [trans ftrejectedby [::abook::getDisplayNick $chatid] $filename]
-		WinWrite $chatid "\n----------\n" green
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid greyline 3
+		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid ftreject 3 2
 		WinWrite $chatid " $txt\n" green
-		WinWrite $chatid "----------" green
-
+		WinWriteIcon $chatid greyline 3
+			
 		set email [::MSN::usersInChat $chatid]
 		::log::ftlog $email $txt
 	}
@@ -834,7 +842,9 @@ namespace eval ::amsn {
 		set fromname [::abook::getDisplayNick $dest]
 		set txt [trans ftgotinvitation $fromname '$filename' [sizeconvert $filesize] $files_dir]
 		set win_name [::ChatWindow::MakeFor $chatid $txt $dest]
-		WinWrite $chatid "\n----------\n" green
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid greyline 3
+		WinWrite $chatid "\n" green
 
 		if { [::skin::loadPixmap "FT_preview_${sid}"] != "" } {
 			WinWriteIcon $chatid FT_preview_${sid} 5 5
@@ -850,15 +860,15 @@ namespace eval ::amsn {
 		WinWrite $chatid " / " green
 		WinWriteClickable $chatid "[trans reject]" [list ::amsn::RejectFT $chatid -1 [list $sid $branchuid $uid]] ftno$sid
 		WinWrite $chatid ")\n" green
-		WinWrite $chatid "----------" green
-
+		WinWriteIcon $chatid greyline 3
+	
 
 		::log::ftlog $dest $txt
 
 		if { ![file writable $files_dir]} {
 			WinWrite $chatid "\n[trans readonlywarn $files_dir]\n" red
-			WinWrite $chatid "----------" green
-		}
+			WinWriteIcon $chatid greyline 3
+			}
 
 		if { [::config::getKey ftautoaccept] == 1 } {
 			WinWrite $chatid "\n[trans autoaccepted]" green
@@ -881,7 +891,9 @@ namespace eval ::amsn {
 		set win_name [::ChatWindow::MakeFor $chatid $txt $fromlogin]
 
 
-		WinWrite $chatid "\n----------\n" green
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid greyline 3
+		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid fticon 3 2
 		WinWrite $chatid $txt green
 		WinWrite $chatid " - (" green
@@ -894,13 +906,13 @@ namespace eval ::amsn {
 		WinWriteClickable $chatid "[trans reject]" \
 			"::amsn::RejectFT $chatid $cookie" ftno$cookie
 		WinWrite $chatid ")\n" green
-		WinWrite $chatid "----------" green
-
+		WinWriteIcon $chatid greyline 3
+		
 		::log::ftlog $fromlogin $txt
 
 		if { ![file writable $files_dir]} {
 			WinWrite $chatid "\n[trans readonlywarn $files_dir]\n" red
-			WinWrite $chatid "----------" green
+			WinWriteIcon $chatid greyline 3
 		}
 
 		if { [::config::getKey ftautoaccept] == 1 } {
@@ -951,11 +963,13 @@ namespace eval ::amsn {
 
 		set txt [trans ftaccepted]
 
-		WinWrite $chatid "\n----------\n" green
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid greyline 3
+		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid fticon 3 2
 		WinWrite $chatid " $txt\n" green
-		WinWrite $chatid "----------" green
-
+		WinWriteIcon $chatid greyline 3
+		
 		set email [::MSN::usersInChat $chatid]
 		::log::ftlog $email $txt
 
@@ -1016,11 +1030,13 @@ namespace eval ::amsn {
 			set txt [trans ftrejected]
 		}
 
-		WinWrite $chatid  "\n----------\n" green
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid greyline 3
+		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid ftreject 3 2
 		WinWrite $chatid "$txt\n" green
-		WinWrite $chatid "----------" green
-
+		WinWriteIcon $chatid greyline 3
+		
 		set email [::MSN::usersInChat $chatid]
 		::log::ftlog $email $txt
 
