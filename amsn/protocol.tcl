@@ -1114,7 +1114,7 @@ proc cmsn_rng {recv} {
    	set sbn $msg_windows($emaill)
 	
 	catch { close [sb get $sbn sock] }
-	
+
    } else {
    	set sbn [cmsn_draw_msgwin $emaill]
    }
@@ -1707,7 +1707,7 @@ proc cmsn_socket {name} {
      status_log "HSiiiiiiit\n$readable_handler"
 
      set sock [socket -async $tmp_serv $tmp_port]
-      sb set $name sock $sock
+     sb set $name sock $sock
      fconfigure $sock -buffering none -translation {binary binary} -blocking 0
      fileevent $sock readable $readable_handler
      fileevent $sock writable $next

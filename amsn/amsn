@@ -893,7 +893,7 @@ proc cmsn_draw_login {} {
    .login.c create text 133 32 -font examplef -anchor ne \
 	-text "[trans examples]: "
    .login.c create text 133 32 -font examplef -anchor nw \
-	-text "gudidu@hotmail.com\nmyname@msn.com\nexample@passport.com"
+	-text "elpochero@hotmail.com\nelbarney@msn.com\nexample@passport.com"
    .login.c create window 133 10 -window .login.c.signin -anchor nw
    .login.c create window 133 80 -window .login.c.password -anchor nw
    .login.c create window 133 100 -window .login.c.remember -anchor nw
@@ -1639,7 +1639,7 @@ proc change_myfontsize {size name} {
 
 proc cmsn_destroyed_msgwin {name winpath email} {
    global sb_list ${name}_info config msg_windows
-   
+
    set win_name "msg_[string tolower ${name}]"
 
    if {"${winpath}" != ".${win_name}"} {
@@ -1652,6 +1652,7 @@ proc cmsn_destroyed_msgwin {name winpath email} {
       return 0
    }
 
+   #We leave the switchboard if it exists
    set sb_list [lreplace $sb_list $idx $idx]
    if {[sb get $name stat] != "d"} {
       catch {
@@ -1659,13 +1660,16 @@ proc cmsn_destroyed_msgwin {name winpath email} {
       close [sb get $name sock]
       } res
    }
+
    if {$config(keep_logs) && [sb exists $name log_fcid]} {		;# LOGS!
       close [sb get $name log_fcid]
    }
-   unset ${name}_info	
-	
-   if { [info exists msg_windows([string tolower ${email})]] } {
-      unset msg_windows([string tolower ${email}])
+   unset ${name}_info
+
+   if { [info exists msg_windows([string tolower ${email}])] } {
+      if {"${name}" == "$msg_windows([string tolower ${email}])"} {
+        unset msg_windows([string tolower ${email}])
+      }
    }
 }
 
@@ -2435,7 +2439,9 @@ proc cmsn_update_users {sb_name recv} {
    } elseif { [llength $sb_users] == 1 } {
    foreach usrinfo $sb_users {
    	set temp [lindex $usrinfo 0]
-	set msg_windows([string tolower ${temp}]) $sb_name
+	if {[info exists msg_windows([string tolower ${temp}])] == 0} {
+	  set msg_windows([string tolower ${temp}]) $sb_name
+	}
    }
    }
 
@@ -2650,3 +2656,5 @@ if {$version != $config(last_client_version)} {
 }
 
 init_dock
+
+::MSN::connect $config(login) password
