@@ -32,7 +32,9 @@ chatack Acceptant xat de
 checkver Busca una versió nova
 checkingver Buscant versions noves
 choosebasefont Escull el tipus de lletra
+choosebackgroundcolor Escull el color de fons
 choosebgcolor Escull el color de fons
+choosefont Escull el tipus de lletra
 choosefontcolor Escull el color del tipus de lletra
 clicktologin Fes clic aquí per connectar-te
 close Tanca
