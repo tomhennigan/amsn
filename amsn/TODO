@@ -50,6 +50,7 @@ Extra Features (priority 3):
 # Encrypt password? (do we really need to?)
 # Resume File Transfers
 # ** FIXED HTTP PROXY ** Proxy Support (http and socks5)
+# Add View MSN Profile : http://members.msn.com/?pgmarket=en-us&mem=user@hotmail.com
 
 
 Graphical Interface (priority 4):
