@@ -271,6 +271,7 @@ notify3 Mostrar ventana de aviso al recibir un nuevo correo electrónico
 notify aviso
 notifyoffset Ajusta la posición de la ventana de aviso mediante un desplazamiento
 notifywin Ventana de avisos
+notls La versión 9 del protocolo MSN requiere usar el paquete "tls". Este paquete no parece estar instalado en el equipo. Si está instalado, la ruta al directorio debería ser especificado en la ventana de Preferencias (ej: /opt/tls/lib). \n \n Es posible descargar "tls" en http://tls.sf.net.
 nousersinsession No hay usuarios en la sesión
 offline Desconectado
 ok Aceptar
@@ -303,6 +304,7 @@ preferences Preferencias
 preffont2 Cambia la forma en que otros ven mi texto en la conversación
 preffont3 Cambiar el tipo de letra y tamaño del interface de aMSN
 preffont Texto de mis mensajes
+preflibs Directorio para bibliotecas
 preflog1 Mis opciones de historial y registros
 preflook Apariencia de mi aMSN Messenger
 prefmsging Interfaz de mis mensajes
