@@ -2325,7 +2325,7 @@ catch {exec killall -c sndplay}
 
       chatUser $chatid
       set txt "[trans deliverfail]:\n $msg"
-      WinWrite $chatid "[timestamp] [trans deliverfail]: " red
+      WinWrite $chatid "[timestamp] [trans deliverfail]:\n" red
       WinWrite $chatid "$msg\n" gray
 
    }
