@@ -428,6 +428,15 @@ proc load_config {} {
 			::amsn::errorMsg "[trans corruptconfig [file join ${HOME} "config.xml.old"]]"
 			file copy [file join ${HOME} "config.xml"] [file join ${HOME} "config.xml.old"]
 		}
+		
+		#Force the change of the default background color for Mac OS X users
+		#Happen only if they had the standard blue by default in 0.90
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			set bgcolormac [::config::getKey backgroundcolor]
+				if { $bgcolormac=="#D8D8E0" } {
+					::config::setKey backgroundcolor #ECECEC
+					}
+		}
 	}
 
     if {[info exists config(encpassword)]} {
