@@ -5896,31 +5896,6 @@ proc launch_browser { url {local 0}} {
 	if { ![regexp ^\[\[:alnum:\]\]+:// $url] && $local != 1 } {
 		set url "http://$url"
 	}
-#///////////////////////////////////////////////////////////////////////
-# open_file(file)
-# open the file with the environnment's default
-proc open_file {file} {
-	global tcl_platform
-
-		if { [string length [::config::getKey openfilecommand]] < 1 } {
-			msg_box "[trans checkopenfilecommand $file]"
-		} else {
-			#replace all / with \ for windows
-			if { $tcl_platform(platform) == "windows" } {
-				regsub -all {/} $file {\\} file
-			}
-
-			#if { [string first "\$file" [::config::getKey openfilecommand]] == -1 } {
-			#	::config::setKey showpicture "[::config::getKey openfile] \$file"
-			#}
-
-			if {[catch {eval exec [::config::getKey openfilecommand] &} res]} {
-				status_log "[::config::getKey openfilecommand]"
-				status_log $res
-				::amsn::errorMsg "[trans cantexec [::config::getKey openfilecommand]]"
-			}
-		}
-}
 
 	if { $tcl_platform(platform)=="windows" && [string tolower [string range $url 0 6]] == "file://" } {
 		set url [string range $url 7 end]
@@ -5956,7 +5931,30 @@ proc open_file {file} {
 
 }
 #///////////////////////////////////////////////////////////////////////
+# open_file(file)
+# open the file with the environnment's default
+proc open_file {file} {
+	global tcl_platform
 
+		if { [string length [::config::getKey openfilecommand]] < 1 } {
+			msg_box "[trans checkopenfilecommand $file]"
+		} else {
+			#replace all / with \ for windows
+			if { $tcl_platform(platform) == "windows" } {
+				regsub -all {/} $file {\\} file
+			}
+
+			#if { [string first "\$file" [::config::getKey openfilecommand]] == -1 } {
+			#	::config::setKey showpicture "[::config::getKey openfile] \$file"
+			#}
+
+			if {[catch {eval exec [::config::getKey openfilecommand] &} res]} {
+				status_log "[::config::getKey openfilecommand]"
+				status_log $res
+				::amsn::errorMsg "[trans cantexec [::config::getKey openfilecommand]]"
+			}
+		}
+}
 
 #///////////////////////////////////////////////////////////////////////
 # launch_filemanager(directory)
