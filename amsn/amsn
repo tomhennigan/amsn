@@ -503,7 +503,7 @@ proc cmsn_draw_offline {} {
    .main.text tag bind check_ver <Leave> \
 	    ".main.text tag conf check_ver -fore #000000 -underline true;\
 	    .main.text conf -cursor left_ptr"
-   .main.text tag bind check_ver <Button-1> \
+   .main.text tag bind check_ver <Button1-ButtonRelease> \
 	    "check_version"
 
    .main.text tag conf lang_sel -fore #777777 -underline true \
@@ -514,7 +514,7 @@ proc cmsn_draw_offline {} {
    .main.text tag bind lang_sel <Leave> \
 	    ".main.text tag conf lang_sel -fore #000000 -underline true;\
 	    .main.text conf -cursor left_ptr"
-   .main.text tag bind lang_sel <Button-1> \
+   .main.text tag bind lang_sel <Button1-ButtonRelease> \
 	    "tk_popup .lang_menu %X %Y"
 
 
@@ -526,7 +526,7 @@ proc cmsn_draw_offline {} {
    .main.text tag bind start_login <Leave> \
 	    ".main.text tag conf start_login -fore #000000 -underline true;\
 	    .main.text conf -cursor left_ptr"
-    .main.text tag bind start_login <Button-1> \
+    .main.text tag bind start_login <Button1-ButtonRelease> \
         "cmsn_ns_connect $config(login) $password"
 
 
@@ -538,7 +538,7 @@ proc cmsn_draw_offline {} {
    .main.text tag bind start_loginas <Leave> \
 	    ".main.text tag conf start_loginas -fore #000000 -underline true;\
 	    .main.text conf -cursor left_ptr"
-    .main.text tag bind start_loginas <Button-1> \
+    .main.text tag bind start_loginas <Button1-ButtonRelease> \
         "cmsn_draw_login"    
 
    .main.text image create end -image globe -pady 5 -padx 5
@@ -551,7 +551,7 @@ proc cmsn_draw_offline {} {
    if { $config(login) != "" } {
      .main.text insert end "$config(login)\n" start_login
      .main.text insert end "[trans clicktologin]" start_login
-     .main.text tag bind start_login <Button-1> \
+     .main.text tag bind start_login <Button1-ButtonRelease> \
 	"cmsn_ns_connect $config(login) $password"
 
      .main.text insert end "\n\n\n\n\n"
@@ -665,7 +665,7 @@ proc cmsn_draw_login {} {
 proc clickableImage {tw name image command {padx 0} {pady 0}} {
    label $tw.$name -image $image
    $tw.$name configure -cursor hand2 -borderwidth 0 
-   bind $tw.$name <Button-1> $command
+   bind $tw.$name <Button1-ButtonRelease> $command
    $tw window create end -window $tw.$name -padx $padx -pady $pady
 }
 
@@ -692,19 +692,19 @@ proc cmsn_draw_online {} {
     .main.text tag bind mystatus <Leave> \
       ".main.text tag conf mystatus -under false;.main.text conf -cursor left_ptr"
 
-   .main.text tag bind mystatus <Button-1> "tk_popup .my_menu %X %Y"
-   .main.text tag bind mystatus <Button-3> "tk_popup .my_menu %X %Y"
+   .main.text tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
+   .main.text tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
 
 
    .main.text tag conf mail -fore black -underline true -font splainf
-   .main.text tag bind mail <Button-1> "hotmail_login $config(login) $password"
+   .main.text tag bind mail <Button1-ButtonRelease> "hotmail_login $config(login) $password"
    .main.text tag bind mail <Enter> \
    	".main.text tag conf mail -under false;.main.text conf -cursor hand2"
    .main.text tag bind mail <Leave> \
    	".main.text tag conf mail -under true;.main.text conf -cursor left_ptr"
 
    .main.text tag conf online -fore #000000 -font sboldf
-   .main.text tag bind online <Button-1> \
+   .main.text tag bind online <Button1-ButtonRelease> \
      "set config(showonline) [expr {!$config(showonline)}];cmsn_draw_online"
    .main.text tag bind online <Enter> \
    	".main.text tag conf online -under true;.main.text conf -cursor hand2"
@@ -712,7 +712,7 @@ proc cmsn_draw_online {} {
    	".main.text tag conf online -under false;.main.text conf -cursor left_ptr"
 
    .main.text tag conf offline -fore #000000 -font sboldf
-   .main.text tag bind offline <Button-1> \
+   .main.text tag bind offline <Button1-ButtonRelease> \
      "set config(showoffline) [expr {!$config(showoffline)}];cmsn_draw_online"
    .main.text tag bind offline <Enter> \
    	".main.text tag conf offline -under true;.main.text conf -cursor hand2"
@@ -722,7 +722,7 @@ proc cmsn_draw_online {} {
    .main.text insert end "\n"
 
    clickableImage .main.text bigstate $my_image_type {tk_popup .my_menu %X %Y}
-   bind .main.text.bigstate <Button-3> {tk_popup .my_menu %X %Y}
+   bind .main.text.bigstate <Button3-ButtonRelease> {tk_popup .my_menu %X %Y}
    
    .main.text insert end "   "
    .main.text insert end "$my_name " mystatus
@@ -809,8 +809,8 @@ proc cmsn_draw_online {} {
          .main.text tag bind $user_login <Leave> \
             ".main.text tag conf $user_login -under false;.main.text conf -cursor left_ptr"
 
-         .main.text tag bind $user_login <Button-3> "show_umenu $user_login %X %Y"
-          bind .main.text.$imgname <Button-3> "show_umenu $user_login %X %Y"
+         .main.text tag bind $user_login <Button3-ButtonRelease> "show_umenu $user_login %X %Y"
+          bind .main.text.$imgname <Button3-ButtonRelease> "show_umenu $user_login %X %Y"
 
           if { $state_code !="FLN" } {
              bind .main.text.$imgname <Double-Button-1> "cmsn_chat_user $user_login"
@@ -1043,7 +1043,7 @@ proc cmsn_draw_msgwin {} {
    bind .${win_name}.in.input <Alt-s> "sb_enter $name %W; break"
    bind .${win_name}.in.input <Tab> "focus .${win_name}.in.send; break"
 
-   bind  .${win_name}.buttons.smileys  <Button-1> "smile_menu %X %Y .${win_name}.in.input"   
+   bind  .${win_name}.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y .${win_name}.in.input"   
 
    bind .${win_name}.in.send <Return> \
       "sb_enter $name .${win_name}.in.input; break"
@@ -1266,7 +1266,7 @@ proc cmsn_win_write {name txt {colour ""}} {
 	.${win_name}.text tag bind $urlname <Leave> \
 	  ".${win_name}.text tag conf $urlname -underline true;\
 	  .${win_name}.text conf -cursor left_ptr"
-	.${win_name}.text tag bind $urlname <Button-1> \
+	.${win_name}.text tag bind $urlname <Button1-ButtonRelease> \
 	  "launch_browser \"$urltext\""
 
   	.${win_name}.text delete $pos $endpos

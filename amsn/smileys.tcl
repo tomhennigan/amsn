@@ -60,7 +60,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
    toplevel $w
    set x [expr {$x-10}]
    set y [expr {$y-10}]
-   wm geometry $w 236x160+$x+$y
+   wm geometry $w 215x146+$x+$y
    wm title $w "[trans msn]"
    wm overrideredirect $w 1
    wm transient $w
@@ -74,16 +74,21 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 
    $w.text configure -state normal
 
-   set num 0 
 
    foreach emotion $emotions {
       set symbol [lindex $emotion 0]
       set file [lindex $emotion 1]
       set chars [string length $symbol]
 
-     catch [clickableImage $w.text $file $file "$text insert insert \"$symbol\"; destroy $w" 3 3] res
+      catch {
+         label $w.text.$file -image $file
+         $w.text.$file configure -cursor hand2 -borderwidth 1 -relief flat
+         bind $w.text.$file <Button1-ButtonRelease> "$text insert insert \"$symbol\"; destroy $w"
+         bind $w.text.$file <Enter> "$w.text.$file configure -relief raised"
+         bind $w.text.$file <Leave> "$w.text.$file configure -relief flat"
+         $w.text window create end -window $w.text.$file -padx 1 -pady 1
+      }
      
-     incr num
 
    }
 
