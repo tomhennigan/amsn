@@ -18,6 +18,16 @@ namespace eval ::themes {
     # P U B L I C
     #
     proc Init {} {
+	set Entry {bg #FFFFFF foreground #0000FF}
+	set Label {bg #AABBCC foreground #000000}
+	set Text {bg #2200FF foreground #111111 font splainf}
+	set Button {foreground #111111}
+	#    set Frame {background #111111}
+	::themes::AddClass Degt Entry $Entry 90
+	::themes::AddClass Degt Label $Label 90
+	::themes::AddClass Degt Text $Text 90
+	::themes::AddClass Degt Button $Button 90
+	#    ::themes::AddClass Degt Frame $Frame 90
     }
 
     # Function  : themes::RegisterWidget

@@ -153,7 +153,7 @@ proc reload_files { } {
     source [file join abook.tcl]	;# Handle buddy address book    
 	 source [file join protocol.tcl]
     source [file join ctadverts.tcl]
-    source [file join ctdegt.tcl]
+    source [file join preferences.tcl]
     source [file join hotmail.tcl]
     source [file join groups.tcl]	;# Handle buddy groups
     source [file join anigif.tcl]	;# Animated GIFS
@@ -228,7 +228,6 @@ set family [lindex [::config::getGlobalKey basefont] 0]
 set size [lindex [::config::getGlobalKey basefont] 1]
 
 ::themes::Init
-degt_Init
 if { $family == "" } { set family "Helvetica"}
 if { $size == "" } { set size "11"}
 ::amsn::initLook $family $size $config(backgroundcolor)
