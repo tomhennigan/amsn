@@ -3267,9 +3267,9 @@ proc newcontact {new_login new_name} {
     pack ${wname}.c -expand true -fill both
 
    button ${wname}.c.ok -text [trans ok]  \
-       -command "set newc_exit OK; newcontact_ok \"OK\" $newc_add_to_list \"$new_login\" \"$new_name\";destroy ${wname}"
+       -command "set newc_exit OK; newcontact_ok \"OK\" $newc_add_to_list \"$new_login\" [list $new_name];destroy ${wname}"
    button ${wname}.c.cancel -text [trans cancel]  \
-      -command "newcontact_ok \"CANCEL\" 0 \"$new_login\" \"$new_name\";destroy ${wname}"
+      -command "newcontact_ok \"CANCEL\" 0 \"$new_login\" [list $new_name];destroy ${wname}"
 
   radiobutton ${wname}.c.allow  -value "1" -variable newc_allow_block \
      -text [trans allowseen] \
@@ -3295,7 +3295,7 @@ proc newcontact {new_login new_name} {
    ${wname}.c create window 245 120 -window ${wname}.c.ok -anchor ne
    ${wname}.c create window 255 120 -window ${wname}.c.cancel -anchor nw
 
-    bind ${wname} <Destroy> "newcontact_ok \"DESTROY\" 0 \"$new_login\" \"$new_name\""
+    bind ${wname} <Destroy> "newcontact_ok \"DESTROY\" 0 \"$new_login\" [list $new_name]"
 #   tkwait visibility ${wname}
 #   grab set ${wname}
 }
