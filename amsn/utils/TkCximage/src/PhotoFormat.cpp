@@ -106,15 +106,15 @@ static int ImageRead(Tcl_Interp *interp, CxImage image, Tk_PhotoHandle imageHand
 
 
 	if(!image.Crop(srcX, srcY, srcX + width, srcY + height)) {
-		Tcl_AppendResult(interp, image.GetLastError());
+		Tcl_AppendResult(interp, image.GetLastError(), NULL);
 		return TCL_ERROR;
 	}
 	if(!image.Flip()) {
-		Tcl_AppendResult(interp, image.GetLastError());
+		Tcl_AppendResult(interp, image.GetLastError(), NULL);
 		return TCL_ERROR;
 	}
 	if(!image.Encode2RGBA(buffer, size)) {
-		Tcl_AppendResult(interp, image.GetLastError());
+		Tcl_AppendResult(interp, image.GetLastError(), NULL);
 		return TCL_ERROR;
 	}
 
@@ -168,18 +168,21 @@ static int ChanWrite (Tcl_Interp *interp, CONST char *fileName, Tcl_Obj *format,
 		Type = CXIMAGE_FORMAT_GIF;
 	}
 
-	if (Type == CXIMAGE_FORMAT_GIF) 
-		image.DecreaseBpp(8, true);
+	RGB2BGR(blockPtr);
 
 	if(!image.CreateFromArray(blockPtr->pixelPtr, blockPtr->width, blockPtr->height, 
 		8 * blockPtr->pixelSize, blockPtr->pitch, true))
 	{
-		Tcl_AppendResult(interp, image.GetLastError());
+		Tcl_AppendResult(interp, image.GetLastError(), NULL);
 		return TCL_ERROR;
 	}
 
+
+	if (Type == CXIMAGE_FORMAT_GIF) 
+		image.DecreaseBpp(8, true);
+
 	if (!image.Save(fileName, Type)) {
-		Tcl_AppendResult(interp, image.GetLastError());
+		Tcl_AppendResult(interp, image.GetLastError(), NULL);
 		return TCL_ERROR;
 	}
 
@@ -203,20 +206,23 @@ static int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock 
 		Type = CXIMAGE_FORMAT_GIF;
 	}
 
-	if (Type == CXIMAGE_FORMAT_GIF)
-		image.DecreaseBpp(8, true);
-
-	
+	RGB2BGR(blockPtr);
 
 	if(!image.CreateFromArray(blockPtr->pixelPtr, blockPtr->width, blockPtr->height, 
 		8 * blockPtr->pixelSize, blockPtr->pitch, true)) 
 	{
-		Tcl_AppendResult(interp, image.GetLastError());
+		Tcl_AppendResult(interp, image.GetLastError(), NULL);
 		return TCL_ERROR;
 	}
-	
+
+
+
+	if (Type == CXIMAGE_FORMAT_GIF)
+		image.DecreaseBpp(8, true);
+
+		
 	if (!image.Encode(buffer, size, Type) ) {		
-		Tcl_AppendResult(interp, image.GetLastError());
+		Tcl_AppendResult(interp, image.GetLastError(), NULL);
 		return TCL_ERROR;
 	}
 

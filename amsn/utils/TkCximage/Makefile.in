@@ -1,11 +1,16 @@
 subdirs		= src
 TKCXIMAGE_FILE	= @TKCXIMAGE_FILE@
 
-.PHONY : all clean distclean
+.PHONY : all test check clean distclean
 
 all : 
 	for i in ${subdirs}; do cd $$i && make all && cd ../; done
 	cp src/${TKCXIMAGE_FILE} ./
+
+test : check
+
+check : all
+	wish demos/demo.tcl || true
 
 clean : 
 	for i in ${subdirs}; do cd $$i && make clean && cd ../; done

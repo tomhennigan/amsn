@@ -12,6 +12,21 @@
 #include "PhotoFormat.cpp"
 #include "procs.cpp"
 
+
+void RGB2BGR(Tk_PhotoImageBlock *data) {
+	int i;
+	BYTE temp;
+	int size = data->height * data->width * data->pixelSize;
+
+	for (i = 0; i < size; i+= data->pixelSize) {
+		temp = *(data->pixelPtr + i + data->offset[0]);
+		*(data->pixelPtr + i + data->offset[0]) = *(data->pixelPtr + i + data->offset[2]);
+		*(data->pixelPtr + i + data->offset[2]) = temp;
+	}
+
+}
+
+
 int GetFileTypeFromFileName(char * Filename) {
 
 	char * ptr = NULL; 

@@ -63,23 +63,24 @@ static int Tk_Convert (ClientData clientData,
 	if(!image.Load(In, InType) ) {
 	
 		if(!image.Load(In, CXIMAGE_FORMAT_UNKNOWN)) {
-			Tcl_AppendResult(interp, image.GetLastError());
-			return TCL_ERROR;
-		}
-		
-		if (OutType == CXIMAGE_FORMAT_UNKNOWN)
-			OutType = CXIMAGE_FORMAT_GIF;
-
-		if (OutType == CXIMAGE_FORMAT_GIF) 
-			image.DecreaseBpp(8, true);
-
-		if (image.Save(Out, OutType))
-			return TCL_OK;
-		else {
-			Tcl_AppendResult(interp, image.GetLastError());
+			Tcl_AppendResult(interp, image.GetLastError(), NULL);
 			return TCL_ERROR;
 		}
 	}
+
+	if (OutType == CXIMAGE_FORMAT_UNKNOWN)
+	  OutType = CXIMAGE_FORMAT_GIF;
+	
+	if (OutType == CXIMAGE_FORMAT_GIF) 
+	  image.DecreaseBpp(8, true);
+	
+	if (image.Save(Out, OutType))
+	  return TCL_OK;
+	else {
+	  Tcl_AppendResult(interp, image.GetLastError(), NULL);
+	  return TCL_ERROR;
+	}
+
 	
 	return TCL_OK;
 
@@ -234,7 +235,7 @@ static int Tk_Thumbnail (ClientData clientData,
 		return TCL_ERROR;
 
 	if( (Color = Tk_AllocColorFromObj(interp, Tk_MainWindow(interp), objv[4])) == NULL) {
-		Tcl_AppendResult(interp, "Invalid Color for background");
+		Tcl_AppendResult(interp, "Invalid Color for background", NULL);
 		return TCL_ERROR;
 	}
 
@@ -259,7 +260,7 @@ static int Tk_Thumbnail (ClientData clientData,
 	if(!image.CreateFromArray(photoData.pixelPtr, photoData.width, photoData.height, 
 		8 * photoData.pixelSize, photoData.pitch, true) )
 	{
-		Tcl_AppendResult(interp, image.GetLastError());
+		Tcl_AppendResult(interp, image.GetLastError(), NULL);
 		return TCL_ERROR;
 	}
 
@@ -269,7 +270,7 @@ static int Tk_Thumbnail (ClientData clientData,
 	CxColor.rgbReserved = alpha;
 
 	if(!image.Thumbnail(width, height, CxColor)) {
-		Tcl_AppendResult(interp, image.GetLastError());
+		Tcl_AppendResult(interp, image.GetLastError(), NULL);
 		return TCL_ERROR;
 	}
 
@@ -285,11 +286,11 @@ static int Tk_Thumbnail (ClientData clientData,
 
 
 	if(!image.Flip()) {
-		Tcl_AppendResult(interp, image.GetLastError());
+		Tcl_AppendResult(interp, image.GetLastError(), NULL);
 		return TCL_ERROR;
 	}
 	if(!image.Encode2RGBA(buffer, size)) {
-		Tcl_AppendResult(interp, image.GetLastError());
+		Tcl_AppendResult(interp, image.GetLastError(), NULL);
 		return TCL_ERROR;
 	}
 
@@ -325,17 +326,5 @@ static int Tk_Thumbnail (ClientData clientData,
 
 }
 
-void RGB2BGR(Tk_PhotoImageBlock *data) {
-	int i;
-	BYTE temp;
-	int size = data->height * data->width * data->pixelSize;
-
-	for (i = 0; i < size; i+= data->pixelSize) {
-		temp = *(data->pixelPtr + i + data->offset[0]);
-		*(data->pixelPtr + i + data->offset[0]) = *(data->pixelPtr + i + data->offset[2]);
-		*(data->pixelPtr + i + data->offset[2]) = temp;
-	}
-
-}
 
 
