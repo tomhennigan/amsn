@@ -68,6 +68,7 @@ cannotdeleteprofile - Impossível apagar as configurações, pois estão em uso por 
 cantexec Não consegue executar a Aplicação: $1. Ver Preferências
 casesensitive Use as dicas do case-sensitive
 cfgalarm Configurar/desativar avisos
+changedisplaypic Mudar figura da tela
 changefont Mudar a fonte
 changenick Trocar Apelido
 changestate $1 Muda o estado para $2
@@ -440,3 +441,4 @@ yoffset Deslocamento Y
 youblocked Você foi bloqueado
 yousay Você diz
 youwant Você quer
+xmmserr Nenhum áudio em execução ou você não tem o xmms-infopipe instalado

@@ -301,6 +301,7 @@ personal Personal
 phone Teléfono
 picfile Archivo de imagen (GIF < 500 x 500)
 picstatus Imagen para la alarma
+playing Reproduciendo: $1
 pluginselector Selector de plug-ins
 port Puerto
 prefalerts Mis alertas y sonidos de eventos
@@ -374,8 +375,8 @@ servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
 server Servidor
 session Sesión
 showblockedlist Mostrar contactos que te bloquean
-showdisplaypic Ver Imagen para Mostrar
 showdisplaypic2 Por defecto, ver la Imagen para Mostrar al abrir una ventana de conversación.
+showdisplaypic Ver Imagen para Mostrar
 showmypic Mostrar mi imagen
 showuserpic Imagen de $1
 skinselector Elegir tema(skin)

@@ -301,7 +301,7 @@ personal Personal
 phone Phone
 picfile Picture File (GIF < 500 x 500)
 picstatus Picture Alarm
-playing Playing : $0
+playing Playing: $1
 pluginselector Select Plugins
 port Port
 prefalerts My Event Alerts and Sounds
