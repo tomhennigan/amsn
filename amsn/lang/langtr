@@ -1,381 +1,423 @@
 amsn_lang_version 2
-about Hakkinda
-acceptfile $1 dosyasi aktariliyor; boyut $2 bayt; kaydedilen konum $3  
+about Hakkýnda
+acceptfile $1 dosyasý aktarýlýyor; boyut $2 bayt; kaydedilen konum $3  
 accept Kabul et
 actions Eylemler
-addacontact Yeni baglanti ekle
-addedyou $1 ($2) sizi baglanti listesine ekledi
+addacontact Yeni baðlantý ekle
+addedyou $1 ($2) sizi baðlantý listesine ekledi
+addprofile Yeni profil ekle
+addprofiledesc Ekleyeceðiniz yeni profilin kullanýcý ismini giriniz.\nKullanýcýlar profiller kullanarak deðiþik ayarlar yapabilirler.\nProfil olmazsa Geçmiþ, Alarmlar ve þifre hatýrlama özelliklerini kullanamazsýnýz.
 addstate Yeni durum ekle
 addto $1ye ekle
-addtocontacts Baglanti listesine ekle
-addtoo Bu kisiyi baglanti listesine ekle
-admincontacts Baglantilari düzenle
-admingroups Gruplari düzenle
+addtocontacts Baðlantý listesine ekle
+addtoo Bu kiþiyi baðlantý listesine ekle
+admincontacts Baðlantýlarý düzenle
+admingroups Gruplarý düzenle
 adverts reklamlar
-alarmpref Kullanicinin alarm ayarlari
-alarmstatus Bu kullanici için alarmi aç/kapa
-allowallbutbl Engellenenler disinda herkesin bana ulasmasina izin ver
-allowbadwords Kullanici isimlerinde sansürü kaldir
-allowlist Izin verilenler
-allowonlyinal Yalnizca izin verilenler listesindekiler bana ulasabilsin
-allowseen Bu kisi ben çevrim içiyken beni görebilsin ve bana yazabilsin
-animatedsmileys Hareketli gülen adamlari etkinlestir
-appearance Görünüs
-appearoff Çevrim disi görün
+alarmonconnect Kullanýcý baðlanýnca alarm çalsýn
+alarmondisconnect Kullanýcý çýkýnca alarm çalsýn
+alarmonmsg Kullanýcý ileti gönderince alarm çalsýn
+alarmonstatus Kullanýcý durum deðiþtirince alarm çalsýn 
+alarmpref Kullanýcýnýn alarm ayarlarý
+alarmstatus Bu kullanýcý için alarmý aç/kapa
+allowallbutbl Engellenenler dýþýnda herkesin bana ulaþmasýna izin ver
+allowbadwords Kullanýcý isimlerinde sansürü kaldýr
+allowlist Ýzin verilenler
+allowonlyinal Yalnýzca izin verilenler listesindekiler bana ulaþabilsin
+allowseen Bu kiþi ben çevrim içiyken beni görebilsin ve bana yazabilsin
+animatedemoticon Bu gülen adam hareketlidir
+animatedsmileys Hareketli gülen adamlarý etkinleþtir
+appearance Görünüþ
+appearoff Çevrim dýþý görün
 areacode Alan kodu
-aretyping $1 ileti yaziyor
-askprofile Bu kullanici için profil olusturulmamis. Yeni profil olusturmak ister misiniz? \n Eger olusturmazsaniz Geçmis özelligini kullanamaz, alarm ve sifreleri kaydedemezsiniz. Eger olusturursaniz bu yeni profilin ayri ayarlari olacaktir. \n \n $1 için yeni profil olusturmak istiyorsaniz "Profil olustur"a tiklayiniz.
-autoaway Bu süre kadar eylemsiz kalirsam beni disarida göster:
-autoconnect2 aMSN baslayinca kendiliginden baglan
-autoconnect Açilista kendiliginden baglan
-autohotmaillog Hotmail'e otomatik giris
-autoidle Otomatik EtkinlikYok özelligi 
+aretyping $1 ileti yazýyor
+autoaccepted Dosya aktarýmý otomatikman kabul edildi
+autoacceptft Dosya aktarým istemlerini otomatikman kabul et
+autoaway Bu süre kadar eylemsiz kalýrsam beni diþarýda göster:
+autoconnect2 aMSN baþlayýnca kendiliðinden baðlan
+autoconnect Açýlýþta kendiliðinden baðlan
+autohotmaillog Hotmail'e otomatik giriþ
+autoidle Otomatik EtkinlikYok özelliði 
 autoip Otomatik IP
-autonoact Bu süre kadar eylemsiz kalirsam "Etkinlik yok" göster:
-avoidseen Bu kisi ben çevrim içiyken beni göremesin ve bana yazamasin
-away Disarida
-awaymsg1 Durumumu Disarida/Hemen Dönecek/Mesgul'e her çevirdigimde birakacagim notu sor
-awaymsg2 Hiçbir zaman sorma ve asagidaki notu kullan
-baduserpass Yanlis kullanici ismi ya da sifresi
-bgcolor aMSN'in arkaplan rengini degistir
-blankdirect Dogrudan baglanti için bos birakin
-blocked Engellenmis
+autonoact Bu süre kadar eylemsiz kalýrsam "Etkinlik yok" göster:
+avoidseen Bu kiþi ben çevrim içiyken beni göremesin ve bana yazamasýn
+away Dýþarýda
+awaymsg1 Durumumu Dýþarýda/Hemen Dönecek/Meþgul'e her çevirdiðimde býrakacaðým notu sor
+awaymsg2 Hiçbir zaman sorma ve asaðýdaki notu kullan
+baduserpass Yanlýþ kullanýcý ismi ya da þifresi
+bgcolor aMSN'in arkaplan rengini deðiþtir
+blankdirect Doðrudan baðlantý için boþ býrakýn
 block Engelle
+blocked Engellenmiþ
+blockedyougroup Sizi engelleyenleri ayrý bir grupta göster
 blocking Engelleme
-blockinter1 Denetleme sekli bagli iken her
+blockinter1 Denetleme þekli baðlý iken her
 blockinter2 saniyede bir, yoksa her:
 blockinter3 her
+blockinter4 saniye
 blocklist Engellenenler listesi
-blockmessage Su kisiler bagli ve sizi engellemis durumdalar
-blockusers Bir seferde denetlenecek kullanici sayisi 
-broughtby Yazilimi gelistirenler
+blockmessage Þu kiþiler baðlý ve sizi engellemiþ durumdalar
+blockusers Bir seferde denetlenecek kullanýcý sayýsý 
+broughtby Yazýlýmý geliþtirenler
 browse gözat
-browser Internet tarayici
-busy Mesgul
-cancel Iptal Et
-cannotdeleteprofile Profil kullanimda oldugu için silinemiyor
-cantexec $1 uygulamasi çalistirilamiyor. Seçenekleri kontrol edin.
-cfgalarm Alarmi Düzenle/Ekle/Kaldir
-changefont Yazitipi degistir
-changenick Kullanici ismi degistir
-chatack Sohbet istemi kabul edilen kisi
-chatmaxmin Bir arkadasim benimle sohbet penceresi açtiginda pencerenin söyle olmasini istiyorum:
+browser Ýnternet tarayýcý
+busy Meþgul
+cancel Ýptal Et
+cannotdeleteprofile Profil kullanýmda olduðu için silinemiyor
+cantexec $1 uygulamasi çalýþtýrýlamýyor. Seçenekleri kontrol edin.
+casesensitive Yazýlý karþýlýklarda büyük/küçük harfe duyarlý ol
+cfgalarm Alarmý Düzenle/Ekle/Kaldýr
+changefont Yazitipi deðiþtir
+changenick Kullanýcý ismi deðiþtir
+changestate $1, $2 durumuna geçti
+chatack Sohbet istemi kabul edilen kiþi
+chatmaxmin Bir arkadaþým benimle sohbet penceresi açtýðýnda pencerenin þöyle olmasýný istiyorum:
 chatreq Sohbet istemi
 chatsmileys2 Sohbet penceresinde gülen adamlar görünsün
 chatsmileys Gülen adamlar
 chat Sohbet et
-checkblocking Digerlerinin beni engelleyip engellemedigini sürekli denetle
-checkfilman Alinan dosyalar $1 konumuna kaydedilecek. Lütfen seçenekler penceresinde dosya yöneticisi ayarlarini yapiniz. 
-checkingver Yeni sürüm araniyor
-checkonfln Bir kullanicinin beni engelleyip engellemedigini o çevrim disi olunca denetle
+checkblocking Diðerlerinin beni engelleyip engellemediðini sürekli denetle
+checkfilman Alýnan dosyalar $1 konumuna kaydedilecek. Lütfen seçenekler penceresinde dosya yöneticisi ayarlarini yapýnýz. 
+checkingver Yeni sürüm aranýyor
+checkonfln Bir kullanýcýnýn beni engelleyip engellemediðini o çevrim dýþý olunca denetle
 checkver Yeni sürüm ara
-choosebasefont Yazitipini seç
+choosebasefont Yazýtipini seç
 choosebgcolor Arkaplan rengini seç
-choosecontact Lütfen listeden bir baglanti seçiniz
+choosecontact Lütfen listeden bir baðlantý seçiniz
 choosefontcolor Yazi rengini seç
-clearlog2 Tüm baglantilarin Geçmisini sil
-clearlog3 Tüm sohbet kayitlarini sil
-clearlog Sohbet kaydini sil
-clicktologin Baglanmak için tiklayin
-closed $1 ile olan sohbet etkinlik olmadigi için kapatildi.
+chooseskin Lütfen kullanacaðýnýz kabuðu seçiniz
+clearlog2 Tüm baðlantýlarýn Geçmisini sil
+clearlog3 Tüm sohbet kayýtlarýný sil
+clearlog Sohbet kaydýný sil
+clicktologin Baðlanmak için týklayýn
+closed $1 ile olan sohbet etkinlik olmadýðý için kapatýldý.
 close Kapat
-closingdocks Kapatma tusu küçültsün
+closingdocks Kapatma tuþu küçültsün
 command komut
-confirmdelete $1 i silmek istediginizden emin misiniz?
+confirmdelete $1 i silmek istediðinizden emin misiniz?
 confirm Emin misiniz?
-connected Su an baglisiniz
-connecterror Sunucuya baglanirken hata olustu
-connecting Baglaniyor
-connection Baglanti
-connectionlost Baglanti koptu: Sunucuyla baglanti kesildi
+connected Þu an baglýsýnýz
+connecterror Sunucuya baðlanýrken hata oluþtu
+connecting Baðlanýyor
+connection Baðlantý
+connectionlost Baðlantý koptu: Sunucuyla baðlantý kesildi
 contactadded Baglanti eklendi
-contactdoesnotexist Böyle bir baglanti yok!
-contactlist Baglanti listesi:
+contactdoesnotexist Böyle bir baðlantý yok!
+contactlist Baðlantý listesi:
 copy Kopyala
 copytogroup Gruba kopyala
 countrycode Ülke/Bölge kodum
-cprofile Profil olustur
+cprofile Profil oluþtur
+custom_edit Özel gülen adamý düzenle
+custom_new Yeni özel gülen adam ekle
 cut Kes
 date Tarih
 days Gün
-dcprofile Profil olusturma
-default Varsayilan ayar
+dcprofile Profil oluþturma
+default Varsayýlan ayar
+defaultloginradio Varsayýlan ayarlarla baðlan
 delete Sil
-deliverfail Asagidaki iletinin gönderilmesinde hata olustu
-delprofile2 Sileceginiz profili seçiniz
+deliverfail Aþagýdaki iletinin gönderilmesinde hata oluþtu
+delprofile2 Sileceðiniz profili seçiniz
 delprofile Profili sil
-directconnection Internete dogrudan baglantim var (1863. portu kullanir)
-dockfreedesktop AcikMasaüstü (KDE3/Gnome2)
+description Tarif
+directconnection Ýnternete doðrudan baðlantým var (1863. portu kullanýr)
+disconnect $1 ayrýldý
+dockfreedesktop AçýkMasaüstü (KDE3/Gnome2)
 dockgtk Gnome'da küçültme
 docking Küçültme
 dockingoff Küçültme olsun
 dockkde KDE'de küçültme
 edit Düzenle
-editnewstate Yeni Kisisel Otomatik Mesaj Durumu
+editcurrentstate Durumu düzenle
+editnewstate Yeni Kiþisel Otomatik Mesaj Durumu
 editprofile Profili düzenle
 editstate Var olan otomatik mesaj durumunu düzenle
-emotisounds Bazi gülen adamlarda ses cikar
-enableproxy proxy ayarlarini etkinlestir
-enableremote Uzaktan denetimi etkinlestir
-encoding2 Alfabe degistirin
+emotisounds Bazý gülen adamlarda ses cikar
+enableproxy proxy ayarlarýný etkinleþtir
+enableremote Uzaktan denetimi etkinleþtir
+enablesound Sesi aç
+encoding2 Alfabe degiþtirin
 encoding Alfabe seçimi
-entercontactemail Baglantinin e-posta adresini girin
-enterfilename Lütfen bir dosya adi girin
-enternick Kullanici isminizi girin
+entercontactemail Baðlantýnýn e-posta adresini girin
+enterfilename Lütfen bir dosya adý girin
+enternick Kullanýcý isminizi girin
 examples Örnekler
-exitamsn Çikmak istediginizden emin misiniz?
+exitamsn Çýkmak istediðinizden emin misiniz?
 extras Ek Hizmetler
-faq SYS (Sikça Yanitlanan Sorular)
-filedoesnotexist Dosya bulunamadi
+faq SYS (Sýkça Yanýtlanan Sorular)
+filedoesnotexist Dosya bulunamadý
 fileman Dosya yöneticisi
-filename Dosya adi
-filetransfercancelled Dosya aktarimi iptal edildi
-filetransfercomplete Dosya aktarimi tamamlandi
-followtext Yeni metin girilince asagi kaydir
-ftacceptedby $1, '$2' dosyasi için yapilan aktarim davetini kabul etti
-ftaccepted Dosya aktarimi kabul edildi
-ftaccepting Dosya aktarim davetini kabul ediyor
-ftconnecterror Karsi tarafa baglanmada hata olustu
-ftconnecting $1 port $2 e baglaniliyor
-ftconnectionlost Karsi tarafla olan baglanti koptu
-ftgotinvitation $1 size '$2' dosyasini göndermek istiyor ($3 bayt). Bu dosya $4 dizinine kaydedilecek. Dosyayi almak istiyor musunuz?
-ftportpref Dosya aktarimlari için baslangiç portu
-ftrejectedby $1, '$2' dosyasi için yapilan aktarim davetini geri çevirdi
-ftrejected Dosya aktarimi reddedildi
-ftsendinvitation '$2' dosyasi ($3 bayt) için aktarim daveti $1'e gönderildi
+filename Dosya adý
+filetransfercancelled Dosya aktarýmý iptal edildi
+filetransfercomplete Dosya aktarýmý tamamlandý
+followtext Yeni metin girilince aþaði kaydýr
+ftacceptedby $1, '$2' dosyasý için yapýlan aktarým davetini kabul etti
+ftaccepted Dosya aktarýmý kabul edildi
+ftaccepting Dosya aktarým davetini kabul ediyor
+ftconnecterror Karþý tarafa baðlanmada hata oluþtu
+ftconnecting $1 port $2 e baðlanýlýyor
+ftconnectionlost Karþý tarafla olan baðlantý koptu
+ftgotinvitation $1 size '$2' dosyasýný göndermek istiyor ($3 bayt). Bu dosya $4 dizinine kaydedilecek. Dosyayý almak istiyor musunuz?
+ftportpref Dosya aktarýmlarý için baþlangýç portu
+ftrejectedby $1, '$2' dosyasý için yapýlan aktarým davetini geri çevirdi
+ftrejected Dosya aktarýmý reddedildi
+ftsendinvitation '$2' dosyasý ($3 bayt) için aktarým daveti $1'e gönderildi
 gonelunch Yemekte
 groupadd Grup Ekle
 groupdelete Grup Sil
 groupexists Bu grup zaten var
 group Grup
-groupmissing Grup bulunamadi
+groupmissing Grup bulunamadý
 groupnewname Yeni isim
-groupnotempty Grup bos degil!
+groupnotempty Grup boþ deðil!
 groupoldname Grubun eski adi
 grouprename Grubu yeniden isimlendir
 groupunknown Bilinmeyen grup
-handle Isim
-helpcontents Yardim içerigi
-help Yardim
-history Geçmisi göster
+handle Ýsim
+helpcontents Yardým içeriði
+help Yardým
+hiden Gülen adamý menüden çýkar
+history Geçmiþi göster
 home Ev
-httpconnection HTTP yöntemiyle baglan (80. porttan HTTP protokolü kullanir)
+httpconnection HTTP yöntemiyle baðlan (80. porttan HTTP protokolü kullanýr)
 hybrid Melez kip
 identity Kimlik
 ident Kimlik denetleniyor
 inbox Gelen kutusu
-internalerror Iç sunucu hatasi
-invalidusername Geçersiz kullanici ismi
+internalerror Ýç sunucu hatasý
+invalidfile "$1" alanýna girilen $2 dosyasý yok ya da okunamýyor
+invalidusername Geçersiz kullanýcý ismi
 invitationcancelled Davet iptal edildi
 invite Davet et
 ipaddress IP adresi
-ipdetect HTTP dosya aktarimlari için dogru IP'yi belirle
-istyping $1 ileti yaziyor
-joins $1 sohbete katiliyor
-keepalive Canli tut (NAT)
-keeplog2 Daha sonra bakmak için tüm sohbetleri Geçmis'e kaydet
-keeplog Sohbetlerin kaydini tut
+ipdetect HTTP dosya aktarýmlarý için doðru IP'yi belirle
+istyping $1 ileti yazýyor
+joins $1 sohbete katýlýyor
+keepalive Canlý tut (NAT)
+keeplog2 Daha sonra bakmak için tüm sohbetleri Geçmiþ'e kaydet
+keeplog Sohbetlerin kaydýný tut
 language Dil
-lastmsgtime Son iletinin alindigi zaman: $1
-lclosedwin $1 $2'de penceresini kapatti
-lconftopriv $1 ile sohbet özel görüsmeye çevrildi
-lconvstarted Sohbetin baslama saati $1
-leaveblankforhotmail Hotmail sayfasini kullanmak istiyorsaniz bos birakin
-leaves $1 sohbetten ayriliyor
-lenteredconf $1 $2'de bir konferansa katildi
+lastmsgtime Son iletinin alýndýðý zaman: $1
+lclosedwin $1 $2'de penceresini kapattý
+lconftopriv $1 ile sohbet özel görüþmeye çevrildi
+lconvstarted Sohbetin baþlama saati $1
+leaveblankforhotmail Hotmail sayfasýný kullanmak istiyorsanýz bos býrakýn
+leaves $1 sohbetten ayrýlýyor
+lenteredconf $1 $2'de bir konferansa katýldý
 linprivate ÖZEL
 listeningon $1. port dinleniyor
-listsmileys2 Baglanti listesinde gülen adamlar görünsün
-listsmileys Gülen adamlari listele
-ljoinedconf $1 konferansa katildi
-lleftconf $1 konferanstan ayrildi
-loadcontacts Baglanti listesi yükle
-logbigger Her baglanti için kayit dosyasi boyutu ust siniri
-logfandexp Kayit dosya boyutlari ve Geçmis kayitlarinin silinme zamani 
-loggedotherlocation Baska bir yerden baglandiginiz için baglanti kesildi
-loggingin Baglaniyor
-loginas Kullanici ismi seç
-login Baglan
+listsmileys2 Baðlantý listesinde gülen adamlar görünsün
+listsmileys Gülen adamlarý listele
+ljoinedconf $1 konferansa katýldý
+lleftconf $1 konferanstan ayrýldý
+loadcontacts Baðlantý listesi yükle
+logbigger Her baðlantý için kayýt dosyasý boyutu üst sýnýrý
+logfandexp Kayýt dosya boyutlarý ve Geçmiþ kayýtlarýnýn silinme zamaný 
+loggedotherlocation Baþka bir yerden baðlandýðýnýz için baðlanti kesildi
+loggingin Baðlanýyor
+loginas Kullanýcý ismi seç
+login Baðlan
 loging Kayda geçirme
-logolder Yalniz bu sure oncesine kadar yapilan sohbetlerin kaydini tut
-logout Baglantiyi kes
-logsin baglandi
-logsmileys Geçmis penceresinde gülen adamlar görünsün
-logsout $1 az önce sohbetten ayrildi.
-lprivtoconf $1 ile özel görüsme konferansa çevrildi
-luclosedwin $1 de pencereyi kapadiniz
-mailer E-posta uygulamasi
-maximised Büyütülmüs
-minimised Küçültülmüs
+logolder Yalnýz bu süre öncesine kadar yapýlan sohbetlerin kaydýný tut
+logout Baðlantýyý kes
+logsin baðlandý
+logsmileys Geçmiþ penceresinde gülen adamlar görünsün
+logsout $1 az önce sohbetten ayrýldý.
+lprivtoconf $1 ile özel görüþme konferansa çevrildi
+luclosedwin $1 de pencereyi kapadýnýz
+mailer E-posta uygulamasý
+maximised Büyütülmüþ
+minimised Küçültülmüþ
 mins dakika
 mobile Cep
-morepersonal Diger Durumlar ->
-move Tasi
-movetogroup Baska gruba tasi
-msg Ileti
-msgmaxmin Yeni ileti geldiginde söyle olsun:
-msgmode Birden çok pencereyi nasil düzenleyeceginizi belirleyin:
+morepersonal Diðer Durumlar ->
+move Taþý
+movetogroup Baþka gruba taþý
+msg Ýleti
+msgflicker Seçili olmayan sohbet pencereleri ileti gelince yanýp sönsün
+msgmaxmin Yeni ileti geldiðinde þöyle olsun:
+msgmode Birden çok pencereyi nasýl düzenleyeceðinizi belirleyin:
 msn AMSN
-mustrestart Yeniliklerin etkinlesmesi için uygulamayi yeniden baslatmalisiniz
+mustrestart Yeniliklerin etkinleþmesi için uygulamayý yeniden baþlatmalýsýnýz
 myhomephone Ev telefonum
 mymobilephone Cep telefonum
 mystatus Durumum
 myworkphone Ev telefonum
-natip Internet sayfasindan IP belirlenmesi
-natkeepalive Eger baglantiniz sürekli kopuyorsa, Canli tut seçenegini isaretleyiniz
-needonline Hala çevrim disi görünüyorsunuz!
+natip Ýnternet sayfasýndan IP belirlenmesi
+natkeepalive Eðer baðlantýnýz sürekli kopuyorsa, bu seçeneði (canlý tut) iþaretleyiniz
+needonline Hala çevrim dýþý görünüyorsunuz!
 newmailfrom Yeni ileti gönderen: $1 ($2)
 newmail Gelen kutunuzda $1 yeni ileti var
 newmsg Yeni ileti
-newveravailable Yeni $1 sürümü indirilmeye hazir
+newveravailable Yeni $1 sürümü indirilmeye hazýr
 next sonraki
 noactivity Etkinlik yok
-nodataavailable $1 hakkinda bilgi yok
-no Hayir 
-nologfile $1 ile sohbet kaydi yok
+nodataavailable $1 hakkýnda bilgi yok
+no Hayýr 
+nologfile $1 ile sohbet kaydý yok
+noneavailable Hiçbiri yok
 nonewmail Gelen kutusunda yeni ileti yok 
 nonewver Daha yeni bir sürüm yok
+noprofileexists Henüz hiçbir profil yok. Eðer profille baðlanmak \nisterseniz bir tane yaratmalýsýnýz. Bu penceredeki \nYeni Profil Ekle düðmesine týklayarak bunu yapabilirsiniz.
 normal normal
-nosystemtray Görev çubugu yok 
-notify1_5 Baglantilar çikinca uyari penceresi göster
-notify1_75 Baglantilar durum degistirince uyari penceresi göster
-notify1 Baglantilar girince uyari penceresi göster
-notify2 Yeni ileti gelince uyari penceresi göster
-notify3 Yeni e-posta iletisi gelince uyari penceresi göster
-notifyoffset Uyari penceresinin konumunu giriniz
+nosystemtray Görev çubuðu yok 
+notify1_5 Baðlantilar çýkýnca uyarý penceresi göster
+notify1_75 Baðlantýlar durum degiþtirince uyarý penceresi göster
+notify1 Baðlantýlar girince uyarý penceresi göster
+notify2 Yeni ileti gelince uyarý penceresi göster
+notify3 Yeni e-posta iletisi gelince uyarý penceresi göster
+notifyoffset Uyarý penceresinin konumunu giriniz
 notify uyar
-notifywin Uyari Penceresi
-nousersinsession Ortamda kullanici yok
-offline Çevrim disi
+notifywin Uyarý Penceresi
+nousersinsession Ortamda kullanýcý yok
+offline Çevrim dýþý
 ok Tamam
 onenewmail Gelen kutusunda 1 yeni ileti var
 online Çevrim içi
 onphone Telefonda
-openreceived Alinan dosyalari göster
+openreceived Alinan dosyalarý göster
 options Seçenekler
-ordercontactsby Baglantilari siralama ölçütü
-ordergroupsby Gruplari siralama ölçütü
-other Diger
-pager Çagri cihazi
-pass Sifre
-paste Yapistir
-personal Kisisel
+ordercontactsby Baðlantýlarý sýralama ölçütü
+ordergroupsby Gruplarý sýralama ölçütü
+other Diðer
+pager Çaðrý cihazý
+pass Þifre
+paste Yapýþtýr
+personal Kiþisel
 phone Telefon
-picfile Alarm resmi dosyasi (GIF < 500 x 500)
-picstatus Resimli alarmi aç/kapa
+picfile Alarm resmi dosyasý (GIF < 500 x 500)
+picstatus Resimli alarmý aç/kapa
+pluginselector Eklenti seç
 port Port
-prefalerts Alarmlarim ve Seslerim
+prefalerts Alarmlarým ve Seslerim
 prefapps Uygulamalar
-prefawaymsg Disaridayken birakacagim not
-prefblock1 Baglantiyi keserken denetle
+prefawaymsg Dýþarýdayken býrakacaðým not
+prefblock1 Baðlantýyý keserken denetle
 prefblock2 Sürekli denetle
-prefconnection Baglanti ayarlari
+prefblock3 "Sizi engelleyenler" grubu
+prefconnection Baðlantý ayarlarý
 prefemotic Gülen adamlar
 preferences Seçenekler
-preffont2 Yazitipim digerlerine daha baska gözüksün
-preffont3 aMSN'in arayüz yazitipi ve metin boyutunu degistir
-preffont Ileti yazitipim
-preflog1 Geçmis ve sohbet kayit seçeneklerim
-preflook aMSN'imin görünüsü
-prefmsging Ileti arayüzüm
-prefname MSN Messenger adim/rumuzum
-prefphone2 Izin verdiginiz kisilerin görmesini \n istediginiz telefon numaralarini girin
-prefphone Telefon numaralarim
-prefprivacy2 Kullanicinin Baglanti/Ters listeleri
-prefprivacy Kullanicinin Izin Verilenler/Engellenenler listeleri
-prefprofile2 Açik profilinizi (digerlerinin \n görecegi bilgiler) yaratin/degistirin
-prefprofile3 aMSN kullanici ayar profili
-prefprofile Açik profilim 
-prefproxy proxy ayarlarim
-prefremote Uzaktan denetim ayarlari
-prefsession Baglanti durumum
-prefshared Paylasilan baglantilar (yalniz NAT için)
+preffont2 Yazýtipim diðerlerine daha baþka gözüksün
+preffont3 aMSN'in arayüz yazýtipi ve metin boyutunu deðiþtir
+preffont Ýleti yazýtipim
+preflog1 Geçmiþ ve sohbet kayýt seçeneklerim
+preflook aMSN'imin görünüþü
+prefmsging Ýleti arayüzüm
+prefname MSN Messenger adým/rumuzum
+prefphone2 Ýzin verdiðiniz kiþilerin görmesini \n istediðiniz telefon numaralarýný girin
+prefphone Telefon numaralarým
+prefprivacy2 Kullanýcýnýn Baðlantý/Ters listeleri
+prefprivacy Kullanýcýnýn Ýzin Verilenler/Engellenenler listeleri
+prefprofile2 Açýk profilinizi (diðerlerinin \n göreceði bilgiler) yaratýn/deðiþtirin
+prefprofile3 aMSN kullanýcý ayar profili
+prefprofile Açýk profilim 
+prefproxy proxy ayarlarým
+prefremote Uzaktan denetim ayarlarý
+prefsession Baðlantý durumum
+prefshared Paylaþýlan baðlantýlar (yalnýz NAT için)
 prefsound Sesler
 privacy Gizlilik
-profiledconfig Ayarlarin profili çikarildi
-profileinuse Bu profil baska bir aMSN oturumunda kullaniliyor, lütfen baska birini seçiniz
+profiledconfig Ayarlarýn profili çýkarýldý
+profileexists Bu kullanýcý ismi için bir profil zaten var.\n Lütfen baþka isim seçiniz. 
+profileinuse Bu profil baþka bir aMSN oturumunda kullanýlýyor, lütfen baþka birini seçiniz.
+profileloginradio Var olan bir profil ile baðlan
 profiles Profiller
 properties Özellikler
-proxy Bir proxy sunucu arkasindayim (HTTP ya da SOCKS5)
-proxyconfhttp HTTP proxy destegi ayarlari
-proxyconf Proxy ayarlari
-proxyconnection Internete proxy sunucu ile baglaniyorum
-publishphones Telefon numarami göster
-raised Büyütülmüs
-receivedbytes $2 baytin $1 (s)i alindi
-receivefile Dosyayi al
-reconnect $1 in yeniden baglanmasi bekleniyor
-reconnecting Sunucuya yeniden baglaniliyor
+proxy Bir proxy sunucu arkasýndayým (HTTP ya da SOCKS5)
+proxyconfhttp HTTP proxy desteði ayarlarý
+proxyconf Proxy ayarlarý
+proxyconnection Ýnternete proxy sunucu ile baðlanýyorum
+publishphones Telefon numaramý göster
+raised Büyütülmüþ
+readonlymsgbox Alýnan dosyalar dizini salt okunur olduðu için dosya alýnamýyor. \n Lütfen bu dizinin ayarlarýný deðiþtiriniz.
+readonlywarn UYARI: Alýnan dosyalar dizini salt okunur olduðu için \n dosya büyük olasýlýkla alýnamayacak. Lütfen hedefteki ($1) dizinin\n izinlerinin doðru olduðundan emin olun.
+receivedbytes $2 baytýn $1 (s)i alýndý
+receivefile Dosyayý al
+reconnect $1 in yeniden baðlanmasý bekleniyor
+reconnecting Sunucuya yeniden baðlanýlýyor
 reject Geri çevir
-rememberpass sifreyi hatirla
-removefromlist Bu listeden çikar
+rememberpass Þifreyi hatýrla
+removefromlist Bu listeden çýkar
 reversed ters
 reverselist Listeyi tersine çevir
-rightback Hemen dönecegim
-saveas Farkli kaydet
-savecontacts Baglanti listesini kaydet
+rightback Hemen döneceðim
+saveas Farklý kaydet
+savecontacts Baðlantý listesini kaydet
 save Kaydet
 savetofile Dosyaya kaydet
 says $1 diyor ki
-sbcon Switch Board'a baglaniyor
+sbcon Switch Board'a baðlanýyor
+selectplugins Lütfen etkinleþtireceðiniz eklentileri seçiniz
+selectskin Lütfen listeden bir kabuk seçiniz
 sendfile Dosya gönder
 send Gönder
 sendmail E-posta iletisi gönder
-sendmsg Ileti günder
-sentbytes $2 baytin $1 (s)i gönderildi
-servergoingdown Sunucu kapaniyor: Baglanti kesildi
+sendmsg Ýleti günder
+sentbytes $2 baytýn $1 (s)i gönderildi
+servergoingdown Sunucu kapanýyor: Baðlantý kesildi
 server Sunucu
 session Oturum
 showblockedlist Sizi engelleyenlerin listesini göster
-sound2 Baglantilar girince ya da ileti gönderince ses çikar
+skin Kabuk
+skinselector Kabuk Seç
+smileconfig Özel gülen adam ayarlarý
+smilefile Gülen adam dosya ismi
+smileintro Özel bir gülen adam yaratmak için ilgili alanlarý doldurunuz \n(yardým için SSS'a bakýnýz)
+smileintro2 Bu gülen adamý özelleþtirmek için ilgili alanlarý düzenleyiniz \n(yardým için SSS'a bakýnýz)
+sound2 Baðlantýlar girince ya da ileti gönderince ses çýkar
 soundcommand Ses çalma komutu (örn: esdplay)
-soundfile Alarm ses dosyasi
-soundloop Ses tekrarlasin
+soundfile Alarm ses dosyasý
+soundloop Ses tekrarlasýn
 soundserver Ses Sunucusu
 sound Ses
-soundstatus Sesli alarmi aç/kapa
-startoffline2 Çevrim disi görünerek sessizce baglan
-startoffline Çevrim disi olarak basla
+soundstatus Sesli alarmý aç/kapa
+startoffline2 Çevrim dýþý görünerek sessizce baðlan
+startoffline Çevrim dýþý olarak baþla
 stateautomsg Gönderilecek Otomatik Mesaj
 state Böyle görünmek istiyorum
 statechange Yeni durum:
-stateedittext Lütfen degistirmek istediginiz\nkisimlari degistirip Kaydet'e tiklayiniz.
-stateinfo Kisisel Durum ayarlari
-statename Kisisel Durumun adi
-statenewtext Lütfen yeni Kisisel Durumunuzu yaratmak için \n gerekli bilgileri girip Kaydet'e tiklayiniz
+stateedittext Lütfen deðiþtirmek istediðiniz\nkýsýmlarý deðiþtirip Kaydet'e týklayýnýz.
+stateinfo Kiþisel Durum ayarlarý
+statename Kiþisel Durumun adý
+statenewtext Lütfen yeni Kiþisel Durumunuzu yaratmak için \n gerekli bilgileri girip Kaydet'e týklayýnýz
 status Durum
-stopalarm Alarmi durdur!
-stylechat Sohbetler ile ayni görünüs
-stylehist aMSN Geçmis görünüsü
-stylelog Geçmisinizin görünüs seklini seçin
-syntaxerror Yazim hatasi
-tabbed Içiçe pencereler
+stopalarm Alarmý durdur!
+stylechat Sohbetler ile ayný görünüþ
+stylehist aMSN Geçmiþ görünüþü
+stylelog Geçmiþinizin görünüþ þeklini seçin
+syntaxerror Yazým hatasý
+tabbed Ýçiçe pencereler
 textsize Metin boyutu
-title Al'in Messenger'i
+timeremaining Kalan zaman
+title Al'ýn Messenger'ý
 to Kime
 tools Araçlar
-tooltips Ipuçlarini etkinlestir
-transnotexists Bu dosyanin seçili dile çevirisi henüz yok
-traynotcompiled Görev çubugu simgesi derlenmemis, plugins/traydock'a bakin 
+tooltips Ýpuçlarýný etkinleþtir
+transnotexists Bu dosyanýn seçili dile çevirisi henüz yok
+traynotcompiled Görev çubuðu simgesi derlenmemiþ, plugins/traydock'a bakýn
+triggers Yazýlý karþýlýðý 
 twonewmail Gelen kutunuzda $1 yeni ileti var
 unblock Engeli kaldir
-uoffline Çevrim disi
+uoffline Çevrim dýþý
 uonline Çevrim içi
-useralreadyonlist Kullanici zaten baglanti listesinde
-userblocked Bu kullanici bagli ama sizi engellemis
-user Kullanici
-usernotonline Bu kullanici bagli degil
+useralreadyonlist Kullanýcý zaten baðlantý listesinde
+userblocked Bu kullanýcý baðli ama sizi engellemiþ
+user Kullanýcý
+usernotonline Bu kullanýcý baðlý deðil
 useryourself Kendi kendinizle sohbet edemezsiniz
-verifyblocked Sizi engellemis kullanicilari belirle
+verifyblocked Sizi engellemiþ kullanýcýlarý belirle
 version Sürüm
 view Görünüm
 viewprofile Profili gör
-willjoin $1 in sohbete katilmasi bekleniyor
-work Is
-wrongprofileversion Yanlis profil ayar dosyasi sürümü. Düzeltmek için $1 dizinini siliniz ya da aMSN'yi güncelleyiniz
-xoffset X koordinati
+willjoin $1 in sohbete katýlmasý bekleniyor
+work Ýþ
+wrongfields "$1", "$2" ve/veya "$3" alanlarý geçersiz 
+wrongprofileversion Yanlýþ profil ayar dosyasý sürümü. Düzeltmek için $1 dizinini siliniz ya da aMSN'yi güncelleyiniz
+xoffset X koordinatý
 yes Evet
-yoffset Y koordinati
+yoffset Y koordinatý
 youblocked Engellendiniz
 yousay Diyorsunuz ki
-youwant Istiyorsunuz ki
+youwant Ýstiyorsunuz ki
