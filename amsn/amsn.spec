@@ -53,6 +53,7 @@ make  proot=%{prefix} prefix=${RPM_BUILD_ROOT}%{prefix} version=%{version} wmapp
 %doc README TODO changelog GNUGPL
 /usr/bin/amsn
 /usr/share/amsn/uninstall.sh
+/usr/share/amsn/abook.tcl
 /usr/share/amsn/checkver.tcl
 /usr/share/amsn/config.tcl
 /usr/share/amsn/ctadverts.tcl
