@@ -71,6 +71,7 @@ busy Bezet
 cancel Annuleren
 cannotdeleteprofile Het profiel kan niet verwijderd worden. Het wordt mogelijk gebruikt door een andere aMSN sessie
 cantexec Kan het programma $1 niet starten, controleer uw instellingen
+cantremoveothers De groep "Andere contactpersonen" kan niet verwijderd worden
 casesensitive Gebruik hoofdlettergevoelige triggers
 cfgalarm Alarminstellingen
 cfgalarmall Alle alarminstellingen
@@ -116,8 +117,11 @@ connection Verbinding
 contactadded Aan uw contactenlijst is toegevoegd
 contactdoesnotexist Contactpersoon bestaat niet!
 contactlist [FL] Mijn contactpersonen
+convertexplain Pad naar het programma 'convert' van ImageMagick (dit is nodig voor scherm afbeeldingen). \nLeeglaten indien 'convert' binnen het zoekpad staat.
 copy Kopiëren
 copytogroup Contactpersoon kopiëren naar
+corruptconfig Het configuratiebestand is beschadigd. Er wordt een nieuw bestand aangemaakt. Het oude wordt opgeslagen in $1. Wilt u het oude bestand a.u.b. naar ons opsturen zodat wij kunnen nagaan wat er fout is gegaan?
+corruptstates Het aangepaste statussen bestand is beschadigd. Er wordt een nieuw bestand aangemaakt. Het oude wordt opgeslagen in $1. Wilt u het oude bestand a.u.b. naar ons opsturen zodat wij kunnen nagaan wat er fout is gegaan?
 countrycode Landnunummer
 cprofile Maak profiel
 custom_edit Bewerk zelfgemaakte emoticon
@@ -262,6 +266,7 @@ logout Afmelden
 logsin heeft zich aangemeld
 logsmileys Toon emoticons in aMSN's geschiedenisvensters
 logsout heeft zich afgemeld 
+longnick De naam die je hebt ingesteld is langer dan 130 tekens, dit is eigenlijk te lang. Wil je het toch proberen?
 lprivtoconf Privegesprek veranderde in vergadering met $1
 luclosedwin U hebt het venster gesloten op $1
 mailer E-mail programma
@@ -303,6 +308,7 @@ nonewver Er zijn geen nieuwere versies beschikbaar
 nopic Geen afbeelding
 noprofileexists Er zijn momenteel geen profielen, \nU moet er een aanmaken als u aanmeldingsnamen met een profiel wilt gebruiken. \n Gebruik de knop Nieuw profiel aanmaken in dit venster om een nieuw profiel toe te voegen.
 normal Oplopend
+noskins Kan AMSN niet starten omdat er geen skins zijn geïnstalleerd in de map skins/.
 nosystemtray Systeemvak niet beschikbaar
 notificationserver Initiële MSN Notificatie Server (MSN Messenger server)
 notify1_5 Melding weergeven wanneer een contactpersoon offline gaat
@@ -460,6 +466,7 @@ timestamps Tijdwergave in discussievensters inschakelen
 title Al's Messenger
 tkerror TK heeft een error gegeven, er zit een bug in amsn, reporteer het astublieft. stuur het bestand $1 naar amsn-bugs@lists.sf.net
 tlsdowncompleted Het bestand $1 is opgeslagen in $2. Pak dit bestand uit, maak er een build van (als u broncode hebt gedownload), en installeer het in $3.
+tlsexplain De map waar de tcl TLS module staat. A.u.b. opgeven als AMSN het zelf niet kan vinden.\n(Dit is nodig voor beveiligd aanmelden met SSL)
 tlsinstallexp AMSN gebruikt nu versie 9 van het MSN protocol.\nDaarvoor is een met SSL beveiligde verbinding vereist. AMSN heeft hierbij een module\nnodig met de naam TLS, die niet aanwezig is op uw systeem. Deze wizard helpt u bij\nhet downloaden en installeren van TLS. Selecteer het type systeem dat u gebruikt\nzodat de benodigde bestanden automatisch gedownload kunnen worden.
 tlsinstall TLS Module installatie wizard
 tlsinstcompleted De TLS module is geïnstalleerd. U zou versie 9 van het MSN protocol nu moeten kunnen gebruiken. Als dit niet werkt, dan heb u vermoedelijk niet de juiste module gekozen, of er bestaat geen kant-en-klare module voor uw systeem.
