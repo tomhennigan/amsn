@@ -1271,7 +1271,7 @@ namespace eval ::MSN {
 					msg_box "[trans connectionlost]: [sb get ns error_msg]"
 				} else {
 					msg_box "[trans connectionlost]"
-s				}
+				}
 				status_log "Connection lost\n" red
 			}
 			
