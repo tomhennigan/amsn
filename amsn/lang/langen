@@ -55,6 +55,7 @@ copytogroup Copy to group
 cut Cut
 date Date
 delete Delete
+deliverfail There was a problem delivering the following message
 docking Docking
 dockingoff Docking Off
 dockgtk Gnome Dock

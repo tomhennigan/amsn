@@ -56,6 +56,7 @@ copytogroup Copiar al grupo
 cut Cortar
 date Fecha
 delete Eliminar
+deliverfail Ocurrió un problema al enviar el siguiente mensaje
 dockgtk Icono Gtk
 docking Icono en bandeja de sistema
 dockingoff Desactivado

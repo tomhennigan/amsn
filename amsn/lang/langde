@@ -191,6 +191,7 @@ uoffline Offline
 uonline Online
 useralreadyonlist Benutzer ist bereits in Kontaktliste
 user Benutzer
+usernotonline Benutzer ist nicht online
 version Version
 view Ansicht
 willjoin Warte... $1 wird dem Chat hinzugefügt
