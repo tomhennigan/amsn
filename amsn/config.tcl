@@ -161,7 +161,6 @@ namespace eval ::config {
 	
 		#Custom smileys configuration
 		::config::setKey customsmileys [list]
-		::config::setKey customsmileys2 [list]
 		::config::setKey custom_smileys 1
 		::config::setKey logsbydate 1
 		::config::setKey p4c_name ""
@@ -461,7 +460,7 @@ proc save_config {} {
 	#Save all keys except special ones
 	foreach var_attribute [::config::getKeys] {
 		set var_value [::config::getKey $var_attribute]
-		if { "$var_attribute" != "remotepassword" && "$var_attribute" != "customsmileys" && "$var_attribute" != "customsmileys2"} {
+		if { "$var_attribute" != "remotepassword" && "$var_attribute" != "customsmileys"} {
 			set var_value [::sxml::xmlreplace $var_value]
 			puts $file_id "   <entry>\n      <attribute>$var_attribute</attribute>\n      <value>$var_value</value>\n   </entry>"
 		}
@@ -539,6 +538,7 @@ proc load_config {} {
 			set val [sxml::parse $file_id]
 			sxml::end $file_id
 			status_log "load_config: Config loaded\n" green
+			if { [winfo exists .smile_selector]} { destroy .smile_selector }
 			
 		} res] } {
 			::amsn::errorMsg "[trans corruptconfig [file join ${HOME} "config.xml.old"]]"
