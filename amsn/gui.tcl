@@ -2780,9 +2780,6 @@ set y [expr $y - 115]
        variable NotifID 0
        variable NotifPos [list]
        
-       variable notifyonline [image create photo -file [GetSkinFile pixmaps notifyonline.gif] -format gif]
-       variable notifyoffline [image create photo -file [GetSkinFile pixmaps notifyoffline.gif] -format gif]
-       variable notifystate [image create photo -file [GetSkinFile pixmaps notifystate.gif] -format gif]
    }
 
    proc closeAmsn {} {
@@ -2833,9 +2830,6 @@ set y [expr $y - 115]
       }
       variable NotifID
       variable NotifPos
-      variable notifyonline
-      variable notifyoffline
-      variable notifystate
 
       #New name for the window
       set w .notif$NotifID
@@ -2864,16 +2858,16 @@ set y [expr $y - 115]
 
       switch $type {
 	  online {
-	      $w.c create image 75 50 -image $notifyonline
+	      $w.c create image 75 50 -image notifyonline
 	  }
 	  offline {
-	      $w.c create image 75 50 -image $notifyoffline
+	      $w.c create image 75 50 -image notifyoffline
 	  }
 	  state {
-	      $w.c create image 75 50 -image $notifystate
+	      $w.c create image 75 50 -image notifystate
 	  }
 	  default {
-	      $w.c create image 75 50 -image $notifyonline
+	      $w.c create image 75 50 -image notifyonline
 	  }
       }
 
@@ -3289,7 +3283,11 @@ proc cmsn_draw_main {} {
    image create photo ftreject -file [GetSkinFile pixmaps ftreject.gif]
 
    image create photo notifico -file [GetSkinFile pixmaps notifico.gif]
-   image create photo notifclose -file [GetSkinFile pixmaps notifclose.gif] 
+   image create photo notifclose -file [GetSkinFile pixmaps notifclose.gif]
+       image create photo notifyonline -file [GetSkinFile pixmaps notifyonline.gif] -format gif
+       image create photo notifyoffline -file [GetSkinFile pixmaps notifyoffline.gif] -format gif
+       image create photo notifystate -file [GetSkinFile pixmaps notifystate.gif] -format gif
+
 
    image create photo blocked -file [GetSkinFile pixmaps blocked.gif]
 
