@@ -2006,7 +2006,7 @@ namespace eval ::amsn {
       }
 
 #      vwait smileys_end_subst
-		  
+
       if { $scrolling } { ${win_name}.f.out.text yview moveto 1.0 }
       ${win_name}.f.out.text configure -state disabled
       
@@ -2022,9 +2022,20 @@ namespace eval ::amsn {
       if { [WindowFor $chatid] == 0} {
          return 0
       }
-      
+
+       if { [lindex [${win_name}.f.out.ys get] 1] == 1.0 } {
+	   set scrolling 1
+       } else {
+	   set scrolling 0
+       }
+
+
       ${win_name}.f.out.text configure -state normal
       ${win_name}.f.out.text image create end -image $imagename -pady $pady -padx $pady
+
+      if { $scrolling } { ${win_name}.f.out.text yview moveto 1.0 }
+
+
       ${win_name}.f.out.text configure -state disabled
    }
 
@@ -2035,7 +2046,14 @@ namespace eval ::amsn {
       if { [WindowFor $chatid] == 0} {
          return 0
       }
-      
+
+       if { [lindex [${win_name}.f.out.ys get] 1] == 1.0 } {
+	   set scrolling 1
+       } else {
+	   set scrolling 0
+       }
+
+
       if { $tagid == "" } {
          set tagid [getUniqueValue]
       }
@@ -2055,6 +2073,9 @@ namespace eval ::amsn {
                    
       ${win_name}.f.out.text configure -state normal
       ${win_name}.f.out.text insert end "$txt" $tagid
+
+      if { $scrolling } { ${win_name}.f.out.text yview moveto 1.0 }
+
       ${win_name}.f.out.text configure -state disabled
    }   
 
