@@ -12,6 +12,11 @@
 	variable headers 
 	variable body ""
 
+	constructor {args} {
+		#TODO: remove me when object is destroyed in the right place
+		after 30000 $self destroy
+		$self configurelist $args
+	}
 
 	#creates a message object from a received payload
 	method createFromMessage { message } {
