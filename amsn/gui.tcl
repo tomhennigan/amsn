@@ -749,8 +749,6 @@ namespace eval ::amsn {
          -command "::amsn::ShowChatList \"[trans properties]\" .${win_name} ::abookGui::showEntry"
       .${win_name}.menu.actions add separator
       .${win_name}.menu.actions add command -label "[trans invite]..." -command "::amsn::ShowInviteList \"[trans invite]\" .${win_name}"
-      .${win_name}.menu.actions add command -label "[trans sendfile]..." \
-      -command "::amsn::FileTransferSend .${win_name}"  -state disabled
       .${win_name}.menu.actions add separator
       .${win_name}.menu.actions add command -label [trans sendmail] \
           -command "::amsn::ShowChatList \"[trans sendmail]\" .${win_name} launch_mailer"
