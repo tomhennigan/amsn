@@ -22,6 +22,7 @@ alarmonmsg Activer l'alarme quand un utilisateur m'envoie un message
 alarmonstatus Activer l'alarme quand un utilisateur change de statut
 alarmpref Configuration alarme utilisateur
 alarmstatus Activer/désactiver l'alarme pour cet utilisateur
+allfiles Tous les fichiers
 allowallbutbl Autoriser tout le monde à me contacter sauf les personnes que j'ai bloquées
 allowbadwords Désactiver la censure des surnoms
 allowlist Liste des personnes autorisées
@@ -109,6 +110,7 @@ command Commande
 commandstatus Exécuter la commande
 confirmdelete Confirmer suppression
 confirm Êtes vous sûr?
+confirmpurge Toutes les images enregistrées de vos contacts (excepté les vôtres) vont être supprimées. Êtes-vous sur de vouloir le faire ?
 connected Vous êtes maintenant connecté(e)
 connecterror Erreur de connexion
 connecting Se connecter
@@ -225,6 +227,7 @@ httpconnection Connexion par la méthode HTTP (utilisation du protocole HTTP par 
 hybrid Mode hybride
 ident Identification
 identity Identité
+imagefiles Fichiers image
 inbox Boîte aux lettres
 insertsmiley Inserer émoticônes.
 installconvert Vous devez procéder à l'installation de ImageMagick (programme de conversion) afin de convertir les images au format requis par les serveurs de MSN. Vous pouvez télécharger les fichiers d'installation pour votre système d'exploitation à l'adresse ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Si ce programme est déjà installé, ceci est un bug, veuillez le rapporter.
@@ -403,10 +406,10 @@ répertoire.
 reversed Inverser
 reverselist Liste inversée :
 rightback Bientôt de retour
-save Enregistrer
 saveas Enregistrer sous
-savecontacts Enregistrer la liste des contacts
 savechatwinsize Sauvegarder en tant que taille par défaut la taille de la fenêtre de discussion quand elle sera changée.
+savecontacts Enregistrer la liste des contacts
+save Enregistrer
 savetofile Sauvegarder dans un fichier
 says $1 dit
 sbcon Connexion au "Switch Board"
@@ -439,6 +442,7 @@ soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
 sound Événements Sonores
 soundexample ( \$sound = Fichier audio qui sera joué) Ex: esdplay \$sound
 soundfile Fichier son associé à l'alarme
+soundfiles Fichiers son
 soundloop Jouer le son en boucle
 soundserver Serveur de Sons
 soundstatus Activer/Désactiver l'alarme sonore

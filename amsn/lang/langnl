@@ -22,6 +22,7 @@ alarmonmsg Alarm weergeven bij ontvangen bericht
 alarmonstatus Alarm weergeven bij veranderen status
 alarmpref Alarm
 alarmstatus Alarm inschakelen
+allfiles Alle bestanden
 allowallbutbl Iedereen die ik niet geblokkeerd heb kan mij berichten sturen en mijn status zien
 allowbadwords Ongecensureerde schermnamen weergeven
 allowlist [AL] Geaccepteerd
@@ -108,6 +109,7 @@ closingdocks Minimaliseren ipv sluiten
 command Commando
 commandstatus Commandoregel uitvoeren
 confirmdelete Weet u zeker dat u $1 wilt verwijderen?
+confirmpurge Alle opgeslagen chatplaatjes van je contactpersonen zullen verwijderd worden. Weet je het zeker?
 confirm Weet u het zeker?
 connected U bent nu verbonden
 connecterror Fout bij verbinden met server
@@ -132,6 +134,7 @@ days Dagen
 dcprofile Geen profiel aanmaken
 defaultloginradio Inloggen met de standaardconfiguratie
 default Standaard configuratie
+defchatwinsize Standaard grootte voor chatvensters (Xgrootte x Ygrootte)
 deletecustomstate Verwijder aangepaste instelling
 delete Verwijderen
 delimiters Haakjes om tijden heen:
@@ -223,6 +226,7 @@ httpconnection Verbinden via het HTTP-protocol via poort 80
 hybrid Hybride modus
 ident Bezig met identificeren
 identity Identiteit
+imagefiles Beeldbestanden
 inbox Postvak IN
 insertsmiley Voeg smiley in
 installconvert U moet het conversie-programma "ImageMagick" installeren om afbeeldingen te converteren naar de opmaak dat door de MSN-servers wordt gebruikt. U kunt een versie van ImageMagick voor uw besturingssysteem downloaden van ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Als deze melding verschijnt terwijl u het al hebt geïnstalleerd, dan is er mogelijk sprake van een bug. Meld dit dan alstublieft.
@@ -401,6 +405,7 @@ reversed Aflopend
 reverselist Omgekeerde lijst
 rightback Ben zo terug
 saveas Opslaan als
+savechatwinsize Chatvenster grootte opslaan na het resizen
 savecontacts Contactpersonenlijst opslaan
 save Opslaan
 savetofile Opslaan in bestand
@@ -434,6 +439,7 @@ sound2 Geluid afspelen wanneer contactpersonen zich aanmelden of een bericht ver
 soundcommand Dit moet het afspeelcommando zijn (vb: esdplay)
 soundexample  ( \$sound = te spelen geluidsbestand) Vb: esdplay \$sound
 soundfile Alarmgeluid
+soundfiles Geluidsbestanden
 sound Geluiden gebuiken
 soundloop Geluid in een lus herhalen
 soundserver Geluidsserver
