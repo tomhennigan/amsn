@@ -14,6 +14,7 @@ addtoo Legg til denne personen i kontaktlisten
 admincontacts Administrer kontakter
 admingroups Administrer grupper
 advanced Avansert
+advancedprefs Konfigurasjon av avanserte alternativer
 adverts Reklame
 alarmonconnect Aktiver alarm når en bruker logger på
 alarmondisconnect Aktiver alarm når en bruker logger av
@@ -21,13 +22,16 @@ alarmonmsg Aktiver alarm når en bruker sender deg en melding
 alarmonstatus Ativer alarm når en bruker endrer status
 alarmpref Alarm innstillinger for bruker
 alarmstatus Skru alarm på / av for denne brukeren
+allfiles Alle filer
 allowallbutbl La alle utenom de som er blokkerte kontakte meg
 allowbadwords Slå av sensur av kallenavn
 allowlist Tillatelsesliste (TL):
 allowonlyinal La kun godkjente brukere kontakte meg
 allowseen La denne personen se meg når jeg er online og kontakte meg
+allprofilesinuse Alle eksisterende profiler er i bruk
 animatedemoticon Dette uttrykksikonet er animert
 animatedsmileys Bruk animerte smilefjes
+animatenotify Animert Varselvindu
 appearance Tilgjengelighet
 appearoff Se ut som jeg er offline
 areacode Retningsnummer
@@ -35,6 +39,7 @@ aretyping $1 skriver en beskjed
 autoaccepted Fil overføring akseptert automatisk
 autoacceptft Aksepter filoverføringsforespørsler automatisk
 autoaway Vis meg som "Borte" når jeg er ikke er aktiv etter
+autocheckver Sjekk automatisk etter nyere versjoner under oppstarten
 autoconnect2 Log inn automatisk når aMSN startes
 autoconnect Koble til når aMSN startes
 autohotmaillog Auto Hotmail innlogging
@@ -67,9 +72,11 @@ busy Opptatt
 cancel Avbryt
 cannotdeleteprofile Kan ikke slette profil, den ser ut til å være i bruk av en amsn session
 cantexec Kan ikke kjøre program $1, sjekk instillingene
+cantremoveothers Kan ikke fjerne "Andre"-gruppen
 casesensitive Skill mellom store og små bokstaver
 cfgalarmall Konfigurer/Legg til/Fjern Global Alarm
 cfgalarm  Konfiguer/Legg til/Fjern Alarm
+changecustomstate Bytt til
 changedisplaypic Endre Personlig Bilde
 changefont Skift skrifttype
 changenick Endre kallenavn
@@ -120,8 +127,8 @@ cut Klipp ut
 date Dato
 days Dager
 dcprofile Ikke Opprett Profil
-default Standardkonfigurasjon
 defaultloginradio Logg inn med standardkonfigurasjonen
+default Standardkonfigurasjon
 default Standardkonfigurasjon
 delete Slett
 deliverfail Det var problemer med å levere følgende melding
@@ -129,6 +136,7 @@ delprofile2 Velg hvilken profil du vil fjerne
 delprofile Slett Profil
 description Beskrivelse
 directconnection Direkte tilkobling til internett (bruker port 1863)
+disabled Deaktivert
 disablessl Deaktiver SSL
 disconnect $1 har koblet fra.
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
@@ -137,6 +145,7 @@ docking Dokking
 dockingoff Dokking Av
 dockkde KDE-dokk
 dontdownload ikke last ned TLS, jeg vil installere det selv
+dontshow Ikke vis
 downloadingtls Laster ned TLS-modul fra:\n $1
 editcurrentstate Rediger nåværende
 editnewstate Ny Personlig Auto-beskjed-status
@@ -145,6 +154,7 @@ edit Rediger
 editstate Rediger Eksisterende Auto-beskjed-status
 emotisounds Spill av lyder for visse uttrykksikoner
 enablebanner Vis aMSN's banner (krever omstart av aMSN)
+enabled Aktivert
 enableproxy Bruk proxy
 enableremote Aktiver fjernkontrollering
 enablesound Spill av lyd
@@ -251,6 +261,7 @@ openreceived Åpne mottatte filer
 options Alternativer
 ordercontactsby Sorter kontakter etter
 other Andre
+others Andre
 pager Personsøker
 pass Passord
 paste Lim inn
@@ -274,6 +285,7 @@ prefphone Mine Telefonnummer
 prefprofile2 Opprett eller modifiser min offentlige profil \n(beskrivelse av meg selv som andre kan se)
 prefprofile Min Offentlige Profil
 prefsound Lyder
+profiledconfig Profilkonfigurasjon
 profileexists Du can ikke opprette en profil med denne adressen \n fordi det allerede finnes en profil for adressen. Velg en annen adresse.
 profileinuse Denne profilen blir brukt av en annen aMSN-sesjon. Vennligst velg en annen profil.
 profiles Profiler
@@ -312,6 +324,7 @@ skinselector Velg Skall
 skin Skall
 sound2 Spill av lyder når personer logger inn eller sender meg en melding
 soundfile Handlings lyd
+soundfiles Lydfiler
 sound Hendelseslyd
 soundloop lyd loop
 soundstatus Skru Av / På alarm

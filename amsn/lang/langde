@@ -81,6 +81,7 @@ changedisplaypic Anzeigebild ändern
 changefont Die Schriftart ändern
 changenick Namen ändern
 changestate $1 geändert in $2
+charscounter Die eingegebenen Buchstaben erscheinen im Chatfenster.
 chatack Chat annehmen von
 chat Chat
 chatmaxmin Wen ein Kontakt einen Chat mit mir beginnt, möchte ich das dieser :
@@ -232,7 +233,11 @@ inbox Posteingang
 insertsmiley Smiley einfügen
 installconvert Sie müssen das Konvertierprogramm ImageMagick installieren, um die Grafiken in das von den MSN-Servern benötigte Format konvertieren zu können. Sie können die Binärdateien für Ihr Betriebssystem unter ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ herunterladen. Sollten Sie ImageMagick bereits installiert haben, ist dies ein Fehler, bitte informieren Sie die Entwickler.
 internalerror Interner Server Fehler
+invalidfile2 Dateiname $1 kann nicht erstellt werden. Stellen Sie sicher, dass Sie die erforderlichen Berechtigungen besitzen.
 invalidfile Die Datei $2, die im Feld $1 eingegeben wurde, existiert nicht oder ist nicht lesbar.
+invalidpic Die angegebene Bilddatei existiert nicht.
+invalidpicsize Das angegebene Bild ist zu groß. Bitte wählen Sie ein anderes.
+invalidsound Die angegebene Sounddatei existiert nicht.
 invalidusername Benutzername ungültig
 invitationcancelled Die Einladung wurde abgebrochen
 invite Einladen
@@ -457,6 +462,7 @@ state Ich möchte erscheinen als
 stateinfo Persönliche Status Konfiguration
 statename Name des Persönlichen Status
 statenewtext Bitte füllen Sie die benötigten Felder aus um Ihren\n Persönlichen Status zu erstellen und drücken Sie Speichern
+statenick Benutzerdefinierter Nick. (Leer lassen für keine Änderung)
 status Status
 stopalarm Benachrichtigung stoppen
 storenickname Nach einem benutzerdefinierten Status mit benutzerdefiniertem Nickname zum ursprünglichen Nickname zurückkehren

@@ -232,8 +232,8 @@ inbox Postvak IN
 insertsmiley Voeg smiley in
 installconvert U moet het conversie-programma "ImageMagick" installeren om afbeeldingen te converteren naar de opmaak dat door de MSN-servers wordt gebruikt. U kunt een versie van ImageMagick voor uw besturingssysteem downloaden van ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Als deze melding verschijnt terwijl u het al hebt geïnstalleerd, dan is er mogelijk sprake van een bug. Meld dit dan alstublieft.
 internalerror Interne Serverfout
-invalidfile Het bestand "$2", ingevoerd in het veld "$1", bestaat niet of is onleesbaar
 invalidfile2 Het bestand $1 kan niet aangemaakt worden. Heeft u wel de juiste toegangsrechten?
+invalidfile Het bestand "$2", ingevoerd in het veld "$1", bestaat niet of is onleesbaar
 invalidpic Het opgegeven afbeeldingsbestand bestaat niet.
 invalidpicsize Het opgegeven plaatje is te groot. Zoek alsjeblieft een kleinere uit.
 invalidsound Het opgegeven geluidsbestand bestaat niet.
@@ -460,6 +460,7 @@ stateedittext Pas de velden aan die u wilt \n veranderen en druk op Opslaan
 stateinfo Configuratie persoonlijke status
 statename Personlijke statusnaam
 statenewtext Vul de benodigde informatie in om uw persoonlijke status\nte creëren en klik op Opslaan
+statenick Aangepaste schermnaam (laat het leeg voor geen verandering)
 state Weer te geven status
 status Status
 stopalarm Stop het alarm
