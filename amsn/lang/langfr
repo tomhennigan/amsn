@@ -341,7 +341,7 @@ longnick Votre pseudo est supérieur à 130 caractères. Ce n'est pas supporté offi
 longp4c Votre pseudo de conversation dépasse les 130 caractères. Le client MSN officiel affichera $1. Voulez-vous continuer ?
 lprivtoconf  Conversation privée changée en conférence avec $1
 luclosedwin Vous avez fermé la fenêtre sous $1
-maintenance Le serveur est hors-service pour cause de maintenance pendant $1 minutes
+maintenance Le serveur sera hors-service pour cause de maintenance dans $1 minutes
 mailerexample (\$recipient = destinataire) Laisser vide pour utiliser Hotmail
 mailer Programme de courrier
 maximised Maximisé
@@ -608,7 +608,7 @@ viewprofile Afficher le profil
 view Vue
 webcaminvite $1 vous invite à démarrer un conversation par Webcam, mais aMSN ne supporte pas cette option.
 willjoin Dans l'attente que $1 rejoigne la conversation
-winkreceived Vous avez reçu 'clin d'oeil' un provenant de $1. Cette fonctionnalité n'est pas encore supporté par aMSN
+winkreceived Vous avez reçu un 'clin d'oeil' provenant de $1. Cette fonctionnalité n'est pas encore supporté par aMSN.
 work Travail
 wrongfields Les champs "$1", "$2" et/ou "$3" sont invalides
 wrongprofileversion Mauvaise version du fichier de profil. Afin de la fixer, enlevez le répertoire $1, ou mettez à jour aMSN
