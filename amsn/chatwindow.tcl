@@ -2493,7 +2493,10 @@ namespace eval ::ChatWindow {
 		if { $number_tabs < 2 } {
 			pack forget ${container}.bar
 		} else {
+			#Fix  hidden tabs problem, thanks to Le philousophe
 			pack  ${container}.bar -side top -fill both -expand false
+			pack forget [GetCurrentWindow $container]
+			pack [GetCurrentWindow $container] -side bottom -expand true -fill both
 		}
 
 		if { $max_tabs > 0 && $number_tabs > $max_tabs } {
