@@ -1261,7 +1261,7 @@ namespace eval ::ChatWindow {
 		# Create The input frame
 		set input $bottom.in
 		framec $input -class Amsn -relief solid \
-				-background [::skin::getKey buttonbarbg] \
+				-background [::skin::getKey sendbuttonbg] \
 				-borderwidth [::skin::getKey chat_input_border] \
 				-bordercolor [::skin::getKey chat_input_border_color]
 		
