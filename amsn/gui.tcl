@@ -276,7 +276,6 @@ namespace eval ::amsn {
       if { $chatid == 0} {
          return
       }
-      #TODO: Check that window is not closed
 
       #Calculate a random cookie
       set cookie [expr {([clock clicks]) % (65536 * 8)}]            
@@ -291,14 +290,7 @@ namespace eval ::amsn {
         "::amsn::CancelFTInvitation $chatid $cookie" ftno$cookie
       WinWrite $chatid "\n" gray 
       WinWrite $chatid "----------\n" gray
-          
-      
-      #::amsn::SendWin [file tail $filename] $cookie
-      #TODO: We should get the chatid just at the beginning, and then go passing it as an argument,
-      # so the file transfer won't give an error if the window is closed before clicking OK
-      #status_log "sending FT invitation to chatid [ChatFor $win_name] (win_name is $win_name)\n"
-      #::MSN::inviteFT [ChatFor $win_name] $filename $cookie $ipaddr
-
+                
       ::MSN::ChatQueue $chatid "::MSNFT::sendFTInvitation $chatid [list $filename] $filesize $ipaddr $cookie"
       #::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie      
       
@@ -485,7 +477,6 @@ namespace eval ::amsn {
       button $w.close -text "[trans cancel]" -command "::MSNFT::cancelFT $cookie" -font sboldf
       pack $w.close -side bottom -pady 5
                         
-      #TODO: sendfile or receive file, depending on FT type
       if { [::MSNFT::getTransferType $cookie] == "received" } {
          wm title $w "$filename - [trans receivefile]"
       } else {
@@ -1277,8 +1268,6 @@ namespace eval ::amsn {
 	set chatid [ChatFor $win_name]
 
 	if { [llength $userlist] > 0 } {
-		#TODO: Should queue invitation until chat is ready, to fix some problems when
-		# inviting a user while the first one hasn't joined yet
    		#ChooseList $title both "::MSN::inviteUser [ChatFor $win_name]" 1 0 $userlist
 		ChooseList $title both "::amsn::queueinviteUser [ChatFor $win_name]" 1 0 $userlist
   	} else {	        

@@ -64,21 +64,24 @@ namespace eval ::MSNFT {
 
       set ipaddr [::MSN::GetHeaderValue $body $requestdata]
 
-      if { $ipaddr == "" } {
+      #If IP field is blank, and we are sender, Send the File and requested IP (SendFile)
+      if { ($ipaddr == "") && ([getTransferType $cookie]=="send") } {
 
          status_log "Invitation to filetransfer $cookie accepted\n" black
 	 ::amsn::acceptedFT $chatid $fromlogin [getFilename $cookie]
 	 set newcookie [::md5::md5 "$cookie$fromlogin"]
 	 set filedata($newcookie) $filedata($cookie)
          SendFile $newcookie $cookie
-       
-      } else {
+      
+      #If message comes from sender, and we are receiver, connect
+      } elseif { ($fromlogin == [lindex $filedata($cookie) 3]) && ([getTransferType $cookie]=="receive")} {
+      
          after cancel "::MSNFT::timeoutedFT $cookie"
          set port [::MSN::GetHeaderValue $body Port]
          set authcookie [::MSN::GetHeaderValue $body AuthCookie]
          status_log "Body: $body\n"
-         ConnectMSNFTP $ipaddr $port $authcookie $cookie
-	 
+         ConnectMSNFTP $ipaddr $port $authcookie $cookie	 
+      
       }
    }
    
@@ -516,7 +519,6 @@ namespace eval ::MSNFT {
       set ipaddr [lindex $filedata($cookie) 5]
       #if error ::AMSN::Error ...
 
-      #TODO: A configurable port needed for firewalled connections
       set port $config(initialftport)
 
       #Random authcookie
