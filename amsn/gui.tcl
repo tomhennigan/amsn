@@ -3628,7 +3628,7 @@ namespace eval ::amsn {
 		bind $w.c <Enter> "$w.c configure -cursor hand2"
 		bind $w.c <Leave> "$w.c configure -cursor left_ptr"
 		#bind $w <ButtonRelease-1> "after cancel $after_id; ::amsn::KillNotify $w $ypos; $command"
-		bind $w <ButtonRelease-1> "::amsn::testX %x %y $after_id $w $ypos \"$command\""
+		bind $w <ButtonRelease-1> [list ::amsn::testX %x %y $after_id $w $ypos $command]
 		bind $w <ButtonRelease-3> "after cancel $after_id; ::amsn::KillNotify $w $ypos"
 
 
