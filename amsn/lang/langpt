@@ -14,6 +14,7 @@ addtoo Adicionar esta pessoa à minha lista de contactos
 admincontacts Administrar contactos
 admingroups Administrar grupos
 advanced Avançado
+advancedprefs Opções avançadas de configuração
 adverts Publicidade
 alarmonconnect Activar o alarme quando um utilizador se liga
 alarmondisconnect Activar o alarme quando um utilizador se desliga (ou fica invisível)
@@ -26,8 +27,10 @@ allowbadwords Desactivar censura nas alcunhas (“nicknames”)
 allowlist Lista de Autorizados (LA):
 allowonlyinal Permitir apenas que contactos da minha Lista de autorizados me contactem
 allowseen Permitir que esta pessoa me veja quando estiver ligado e me contacte
+allprofilesinuse Todos os perfis existentes estao a ser utilizados neste momento
 animatedemoticon Este ícone de emoção é animado
 animatedsmileys Activar "smileys" animados
+animatenotify Janela de notificação animada
 appearance Aparência
 appearoff Aparecer como desligado
 areacode Código postal
@@ -35,6 +38,7 @@ aretyping $1 estão a escrever uma mensagem
 autoaccepted Transferência de ficheiro aceitada automaticamente
 autoacceptft Aceitar pedido de Transferência de Ficheiros automaticamente
 autoaway Mostrar-me como "Ausente" quando estiver inactivo por
+autocheckver Verificar automaticamente se existem novas versões ao iniciar o programa
 autoconnect2 Ligar automaticamente quando aMSN é executado
 autoconnect Iniciar sessão ao iniciar aMSN
 autohotmaillog Ligação Automática ao Hotmail
@@ -129,6 +133,8 @@ delprofile2 Seleccione o perfil a remover
 delprofile Apagar perfil
 description Descrição
 directconnection Ligação directa à Internet (usa a porta 1863)
+disabled Desactivado
+disableprofiles Desactivar perfis (Util para cyber-cafés or ambientes partilhados)
 disablessl Desactivar SSL
 disconnect $1 terminou a sessão.
 displaychat Mostrar opções de texto
@@ -144,8 +150,10 @@ edit Editar
 editnewstate Novo Estado Pessoal de Automensagem
 editprofile Editar Perfil
 editstate Editar o Estado de Automensagem Existente
+editvalue Editar valor
 emotisounds Reproduzir sons para certos ícones de emoção
 enablebanner Mostrar imagem do aMSN (Requer re-inicialização do aMSN)
+enabled Activado
 enableproxy Activar "proxy"
 enableremote Activar controlo remoto
 enablesound Reproduzir som
@@ -223,6 +231,7 @@ lconvstarted Conversação iniciada em $1
 leaveblankforhotmail Deixar vazio para usar Hotmail
 leaves $1 deixa a conversação
 lenteredconf $1 entrou numa conferência em $2
+lineflushlog Limpar os ficheiros de log após cada linha
 linprivate EM PRIVADO
 listeningon Escutando a porta $1
 listsmileys2 Mostrar Ícones de Emoção e "Smileys" na lista de contactos principal do aMSN
@@ -283,6 +292,7 @@ nopic Sem imagem
 noprofileexists De momento não existe nenhum perfil, \n tem de criar um se quiser usar inícios de sessão perfilados. \nUse o botão Adicionar Novo Perfil nesta janela, para adicionar um novo perfil.
 normal Normal
 nosystemtray Bandeja do sistema não disponível
+notificationserver Servidor MSN Inicial de Notificação (Servidor de MSN Messenger)
 notify1_5 Mostrar uma janela de notificação quando um contacto se desliga
 notify1_75 Mostrar uma janela de notificação quando um contacto muda o seu estado
 notify1 Mostrar janela de notificação quando são recebidas novas mensagens
@@ -361,6 +371,7 @@ raised Maximizado
 readonlymsgbox A transferência foi cancelada devido ao facto da directoria de recepção ser somente de leitura. Por favor modifique as permissões desta directoria.
 readonlywarn AVISO: Provavelmente, o ficheiro NÃO será guardado correctamente devido à directoria "Received Files" parecer estar protegida contra escrita. Por favor assegure-se que as permissões da directoria destino ($1) estão correctas antes de transferir o ficheiro.
 receivedbytes $1 bytes recebidos (de $2)
+receiveddir Pasta dos Ficheiros Recebidos
 receivefile Receber ficheiro
 reconnect Esperando que $1 volte a ligar-se
 reconnecting Ligando de novo ao servidor
@@ -392,6 +403,7 @@ showblockedlist Mostra lista de utilizadores que o bloquearam
 showdisplaypic2 Mostrar imagem de utilizador sempre que uma janela de conversação for aberta
 showdisplaypic Mostrar imagem de utilizador
 showmypic A Minha Imagem de Utilizador
+shownotify Mostrar janela de notificação quando acontece algum evento
 showuserpic A Imagem de Utilizador de $1
 skin Aspecto Gráfico
 skinselector Escolha Aspecto Gráfico
@@ -411,6 +423,7 @@ sourcecode Código Fonte (necessita de compilação e instalação)
 sslwarning AVISO!! Desactivar o SSL irá desactivar a encriptação, tal que a sua palavra-chave irá ser enviada simplesmente como texto através da rede. Usar apenas em caso de "proxies" ou configurações de rede seguras!
 startoffline2 Início de sessão silencioso ("Aparentar Desligado")
 startoffline Começar Desligado
+startontray Iniciar AMSN no icon-tray somente
 stateautomsg Automensagem a enviar
 statechange estado mudou para:
 stateedittext Por favor edite os campos que gostaria \n de modificar e escolha Guardar
@@ -439,6 +452,8 @@ to Para
 transnotexists O ficheiro pretendido ainda não foi traduzido para o presente idioma.
 traynotcompiled "Plugin" do ícone da bandeja não está em conformidade. Verifique "plugins"/bandeja
 triggers Dicas
+truncatenames1 Cortar nicks maiores que a largura da janela nos títulos da janela e lista de contactos
+truncatenames2 Cortar nicks maiors que a largura da janela dentro das janelas de conversação
 truncatenicks Reduzir alcunhas ("nicknames") que não caibam na janela
 twonewmail $1 novas mensagens na Caixa de Entrada
 unblock Desbloquear
@@ -457,7 +472,9 @@ willjoin Esperando que $1 se junte à conversação
 work Trabalho
 wrongfields Os campos "$1", "$2" e/ou "$3" não eram válidos.
 wrongprofileversion Versão errada do ficheiro de configuração do perfil. De modo a repará-lo, por favor remova a directoria $1, ou actualize o aMSN
+xmmscurrent Mostrar a música currente
 xmmserr Nenhum som está a ser reproduzido, ou então não tem o "xmms-infopipe" instalado.
+xmmssend Enviar música currente
 xoffset Margem horizontal
 yes Sim
 yoffset Margem vertical
