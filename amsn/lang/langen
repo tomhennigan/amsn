@@ -48,6 +48,9 @@ groupdelete Delete a group
 grouprename Rename a group
 groupoldname Old name
 groupnewname New name
+groupunknown Unknown group
+groupexists Group already exists
+groupmissing Cannot find group
 handle Handle
 help Help
 helpcontents Help contents
