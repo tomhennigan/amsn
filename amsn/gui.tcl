@@ -3277,12 +3277,18 @@ proc cmsn_draw_main {} {
 	menu .dock_menu -tearoff 0 -type normal
 	.dock_menu add radio -label "[trans dockingoff]" -value 0 -variable config(dock) -command "init_dock"
 	if { $tcl_platform(platform) == "windows"} {
+		.dock_menu add radio -label "[trans dockfreedesktop]" -value 3 -variable config(dock) -command "init_dock" -state disabled
+		.dock_menu add radio -label "[trans dockgtk]" -value 1 -variable config(dock) -command "init_dock" -state disabled
+		#.dock_menu add radio -label "[trans dockkde]" -value 2 -variable config(dock) -command "init_dock" -state disabled
+	### need to add dockwindows to translation files
 		.dock_menu add radio -label "Windows" -value 4 -variable config(dock) -command "init_dock"
 	} else {
 		.dock_menu add radio -label "[trans dockfreedesktop]" -value 3 -variable config(dock) -command "init_dock"
 		.dock_menu add radio -label "[trans dockgtk]" -value 1 -variable config(dock) -command "init_dock"
 		#.dock_menu add radio -label "[trans dockkde]" -value 2 -variable config(dock) -command "init_dock"
 	### need to add dockwindows to translation files
+		.dock_menu add radio -label "Windows" -value 4 -variable config(dock) -command "init_dock" -state disabled
+
 	}
 
    .main_menu.tools add separator
