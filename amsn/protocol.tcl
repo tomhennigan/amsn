@@ -343,7 +343,7 @@ namespace eval ::MSN {
                #Send the file
 
                set fileid [open $filename r]
-               fconfigure $fileid -translation {binary binary}
+               fconfigure $fileid -translation {binary binary} -blocking 1
                status_log "Sending file $filename size $filesize\n"
 
                fconfigure $sockid -blocking 0
@@ -364,9 +364,10 @@ namespace eval ::MSN {
 
    proc SendPacket { sockid fileid filesize cookie } {
       #Send a packet for the file transfer
+      fileevent $sockid writable ""
+      
       set sentbytes [tell $fileid]
 
-      fileevent $sockid writable ""
 
       if {[expr {$filesize-$sentbytes >2045}]} {
          set packetsize 2045
@@ -382,8 +383,8 @@ namespace eval ::MSN {
          set byte2 [expr {$packetsize >> 8}]
 	  
          if {[catch {
-	    puts -nonewline $sockid "\0[format %c $byte1][format %c $byte2]"
-            puts -nonewline $sockid $datos
+	    puts -nonewline $sockid "\0[format %c $byte1][format %c $byte2]$datos"
+#            puts -nonewline $sockid $datos
 	 } res]} {
 	   cancelSending $cookie
 	   return
@@ -394,7 +395,6 @@ namespace eval ::MSN {
 
       } else {
          close $fileid
-   	 fileevent $sockid writable ""
          variable atransfer
          array unset atransfer $cookie      
          ::amsn::fileTransferProgress s $cookie $filesize $filesize
@@ -456,7 +456,7 @@ namespace eval ::MSN {
 
       fconfigure $sockid -blocking 1 -buffering none -translation {binary binary}   
 
-      status_log "Conectado, voy a enviar\n"
+      status_log "Conectado, voy a identificarme\n"
       puts $sockid "VER MSNFTP\r"
       status_log "ENVIO: VER MSNFTP\r\n"
       gets $sockid tmpdata
@@ -512,19 +512,20 @@ namespace eval ::MSN {
      set recvbytes [tell $fileid]
      set packetrest [expr {2045 - ($recvbytes % 2045)}]
 
+     status_log "Reading, file pos $recvbytes\n"
+
       if {$packetrest == 2045} { 
          #Need a full packet, header included
 
          fconfigure $sockid -blocking 1   
          set header [read $sockid 3]   
-         fconfigure $sockid -blocking 0	
 
          set packet1 1
          binary scan $header ccc packet1 packet2 packet3
 
          #If packet1 is 1 -- Transfer canceled by the other
          if { ($packet1 != 0) } {
-            status_log "File transfer cancelled by remote\n"
+            status_log "File transfer cancelled by remote with packet1=$packet1\n"
 	    
 	    ::amsn::fileTransferProgress c $cookie -1 -1
 	
@@ -539,9 +540,9 @@ namespace eval ::MSN {
          set packet3 [expr {($packet3 + 0x100) % 0x100}]
          set packetsize [expr {$packet2 + ($packet3<<8)}]
 
-         set thedata [read $sockid $packetsize]
-         puts -nonewline $fileid $thedata
-
+         set firstbyte [read $sockid 1]
+         puts -nonewline $fileid $firstbyte
+         fconfigure $sockid -blocking 0
 
          set recvbytes [tell $fileid]	 		
          ::amsn::fileTransferProgress r $cookie $recvbytes $filesize
