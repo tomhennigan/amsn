@@ -687,6 +687,15 @@ namespace eval ::plugins {
 							grid $confwin.${i}l -column 1 -row $row -sticky w -padx 20
 							grid $confwin.${i}e -column 2 -row $row	-sticky w
 						}
+						lst {
+							#This configuration item is a listbox that stores the selected item.
+							listbox $confwin.$i
+							foreach item [lindex $confitem 1] {
+								$confwin.$i insert end $item
+							}
+							bind $confwin.$i <<ListboxSelect>> "::plugins::lst_refresh $confwin.$i ::${namespace}::config([lindex $confitem 2])"
+							grid $confwin.$i -column 2 -row $row -sticky w
+						}
 					}
 				}
 			}
@@ -703,6 +712,24 @@ namespace eval ::plugins {
 			grid $winconf.cancel -column 2 -row 2 -sticky e -pady 5 -padx 5
 			moveinscreen $winconf 30
 		}
+	}
+
+
+	###############################################################
+	# lst_refresh (path, config)
+	#
+	# The list box on config window changes its selected value, so
+	# this proc refresh the associated variable with the new value
+	#
+	# Arguments
+	# path - The listbox widget path 
+	# config - The complete config entry (with plugin namespace)
+	#
+	# Return
+	# none
+	#
+	proc lst_refresh { path config } {
+		set ${config} [$path get [$path curselection] [$path curselection]]	
 	}
 
 
