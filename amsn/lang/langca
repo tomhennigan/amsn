@@ -47,6 +47,7 @@ autodetectip Detecta l'adreça IP automàticament
 autohotmaillog Connectar-se a Hotmail automàticament
 autoidle Canviar a "Sense activitat" de manera automàtica
 autoip IP automàtica
+automessage Missatge automàtic
 autonoact Mostra'm en l'estat "Sense activitat" quan no hi hagi activitat en
 avoidseen No deixis que aquesta persona vegi si estic connectat i que contacti amb mi
 away Absent
@@ -79,9 +80,9 @@ cantremoveothers No puc esborrar el grup "Altres"
 casesensitive Diferenciar les majúscules i les minúscules als disparadors
 cfgalarmall Configura, afegeix o elimina l'altarma global
 cfgalarm Configurar l'alarma per aquest usuari
-change Canvi
+change Canviar
 changecustomstate Canvia a
-changedisplaypic Canviar la Imatge Mostrada
+changedisplaypic Canviar la Imatge Mostrada 
 changefont Canviar font
 changenick Canviar el meu sobrenom
 changestate $1 canvia l'estat a $2
@@ -158,6 +159,8 @@ disableprofiles Desactiva els perfils (útil en entorn públics i sistemes compart
 disablessl Desactiva l'SSL
 disconnect $1 s'ha desconnectat.
 displaychat Opcions del text mostrat
+displayp4context Mostra el contingut del camp P4-Context com l'emisor del missatge
+displaypic Mostra l'imatge
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Acoplament amb el Gnome
 docking Acoplament
@@ -201,6 +204,7 @@ filename Nom del fitxer
 filetransfercancelled S'ha cancel·lat la transferència
 filetransfercomplete La transferència del fitxer ha finalitzat
 followtext Vés a la part inferior quan s'introdueixi una nova línia de text
+friendlyname Sobrenom
 ftacceptedby $1 ha acceptat la invitació per la transferència del fitxer '$2'.
 ftaccepted Transferència de fitxers acceptada
 ftaccepting Acceptant la invitació per la transferència de fitxers
@@ -292,6 +296,7 @@ logsin s'acaba de connectar
 logsmileys Mostrar emoticones a la finestra d'historial de l'aMSN
 logsout s'acaba de desconnectar
 longnick El teu sobrenom conté més de 130 caràcters i el protocol MSN no els accepta. Estàs segur de voler tenir aquest sobrenom?
+longp4c El teu sobrenom és més llarg de 130 caràcters. El sobrenom que es veurà des d'un client oficial MSN serà $1. Estàs segur d'utilitzar-lo?
 lprivtoconf La conversa privada canvia a conversa múltiple amb $1
 luclosedwin Has tancat la finestra a les $1
 mailerexample (\$recipient indica l'adreça del contacte) Deixa-ho buit per utilitzar hotmail.
@@ -361,11 +366,13 @@ ordercontactsby Ordenar els contactes per
 ordergroupsby Ordenar grups per
 others Altres
 other Un altre
+p4contextprefix Text complementari al P4-Context
 pager Paginador
 pass Contrasenya
 paste Enganxa
 personal Personal
 phone Telèfon
+phones Números de telèfon
 picbrowser Navegador d'Imatge Mostrada
 picfile Fitxer d'imatge per a l'alarma (GIF < 500 x 500)
 picstatus Imatge per a l'alarma
@@ -464,6 +471,7 @@ smilefile Nom del fitxer de l'emoticona
 smileintro2 Edita els camps per personalitzar aquesta emoticona (a les FAQ tens més ajuda)
 smileintro Emplena els camps per crear una nova emoticona personalitzada (a les FAQ tens més ajuda)
 sound2 Reprodueix sons quan els contactes es connectin o enviïn missatges
+soundactive Reprodueix so quan es rebi un missatge si la finestra està activa
 soundcommand La comanda per reproduir el so (ex: esdplay)
 soundexample (\$sound és el fitxer sonor per ser reproduït) Ex: esdplay \$sound
 soundfile Fitxer de so de l'alarma
@@ -518,17 +526,17 @@ twonewmail $1 missatges nous a la bústia
 unblock Desbloquejar
 uoffline Desconnectats
 uonline Connectats
-user Usuari
 useralreadyonlist L'usuari ja és a la llista de contactes
 userblocked Aquest usuari està connectat però t'ha bloquejat a la seva llista
-userdata Dades d'usuari
 usernotonline L'usuari no està connectat
+user Usuari
+userdata Dades d'usuari
 userproperties Propietats de l'usuari $1
 useryourself No pots conversar amb tu mateix
 verifyblocked Comprova la gent que em té bloquejat a la seva llista
 version Versió
-view Veure
 viewprofile Mostrar perfil
+view Veure
 willjoin Esperant que $1 s'uneixi a la conversa
 work Treball
 wrongfields Els camps "$1", "$2" i/o "$3" no són vàlids
@@ -542,10 +550,3 @@ yoffset Desplaçament Y
 youblocked Has estat bloquejat per
 yousay Dius
 youwant Vols
-automessage Auto-Missatge
-displayp4context Mostra el contingut del camp P4-Context com l'emisor del missatge
-displaypic Mostra l'imatge
-friendlyname Alies
-p4contextprefix Text complementari al P4-Context
-phones Numeros de telèfons
-longp4c El teu nom Alies és més llarg de 130 caràcters. El nom Alies que es veurà desde un client official MSN serà $1. Estàs segur d'utilitzar aquest nom?
