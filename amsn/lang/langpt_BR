@@ -1,4 +1,4 @@
-amsn_lang_version 2
+amsn_lang_version 3
 about Sobre
 accept Aceitar
 acceptfile Aceitar arquivo $1, tamanho $2? Salvo em $3
@@ -224,7 +224,7 @@ extras Serviços adicionais
 faileddelete Falha na exclusão
 faileddeleteperso Esta imagem não pôde ser excluída porque ela não é um arquivo de imagem pessoal. Apenas imagens que pertençam ao seu perfil pessoal podem ser removidas.
 failed Falha
-faq FAQ (Perguntas freqüentemente feitas)
+faq FAQ (Perguntas freqüentes)
 file Arquivo
 filedoesnotexist Arquivo não existe
 filemanexample ( \$local será substituído pelo diretório ) Ex: nautilus \$location
@@ -233,11 +233,15 @@ filename Nome do Arquivo
 filetransfercancelled Transferência de arquivo cancelada
 filetransfercomplete Transferência de arquivo completa
 filetransfer Transferência de arquivo.
+filters Filtros
+filtersx Seleção de filtros 
+filtersselect Selecione os filtros que você deseja ver\n(Nota: nenhum selecionado significa mostrar todos) 
 followtext Deslocar para baixo quando novo texto é inserido
 friendlyname Nome Amigável
 ftacceptedby $1 aceitou pedido de transferência do arquivo '$2'.
 ftaccepted Transferência de arquivo aceita
 ftaccepting Aceitando pedido de transferência de arquivo
+ftautoclose Feche a janela quando a transferência do arquivo tiver terminado
 ftconnecterror Erro na conexão remota
 ftconnecting Conectando em $1 porta $2
 ftconnectionlost Conexão remota perdida
@@ -371,7 +375,7 @@ name Nome
 natip Detectar IP pela web
 natkeepalive Estou sendo desconectado com freqüência (manter conexão ativa)
 needonline Você ainda está/aparece desconectado
-needwinico Necessário o arquivo winico03.dll no diretório de plugins Para o traydocking do windows funcionar
+needwinico Preciso do arquivo winico03.dll no diretório de plugins para que o icone possa ficar na barra do windows
 never Nunca
 new_ft_protocol Novo protocolo de transferência de arquivos (ainda possui alguns bugs)
 newmail $1 nova(s) mensagem(ns) na Caixa de Entrada
@@ -469,6 +473,7 @@ prefremote Configurações de Conexão Remota
 prefsession Meu login e estado de conexão
 prefshared Conexões compartilhadas (apenas para NAT)
 prefsound Sons
+preview Visualizar
 privacy Privacidade
 profiledconfig Configuração por perfis
 profileexists Você não pode criar um perfil com este login \n pois ele já existe. Por Favor escolha outro login.
@@ -597,6 +602,7 @@ unknown Desconhecido
 unload Descarregar
 uoffline Desconectado
 uonline Conectado
+update Atualizar
 useother Usar um programa diferente
 useralreadyonlist Usuário já está na lista de contatos
 userblocked Usuário está online mas bloqueou você

@@ -233,6 +233,9 @@ filename Failinimi
 filetransfer Faili saatmine
 filetransfercancelled Faili edastamine tühistatud
 filetransfercomplete Faili edastamine õnnestunud!
+filters Filtrid
+filtersselect Vali filtrid mida soovid näha\n (Kui pole midagi valitud näidatakse tervet teksti)
+filtersx Filtrite valik
 followtext Keri alla kui sisestatakse uus tekst
 friendlyname Sõbralik nimi
 ftaccepted Faili edastamisega nõustutud
@@ -373,6 +376,7 @@ natip IP määramine veebilehe kaudu
 natkeepalive Kui su ühendus pidevalt katkeb, võimalda see Ülalhoidmine
 needonline Sa oled/ilmud ikka lahtiühendatuna
 needwinico Plugins kataloogi on vaja panna winico03.dll, et Windowsi tray'mine töötaks
+needwinico2 Selleks, et Windowsi süsteemisalvestamine(tray) töötaks, peab utils/windows kataloog sisaldama faili winico05.dll
 never Mitte kunagi
 new_ft_protocol Kasuta failivahetuseks uut protokolli (võib esineda üksikuid vigu)
 newmail $1 uut sõnumit postkastis
@@ -599,6 +603,7 @@ unknown Tundmatu
 unload Lae maha
 uoffline Offline
 uonline Online
+update Uuenda
 useother Kasuta muud programmi
 user Kasutaja
 useralreadyonlist Kasutaja on juba sõbranimekirjas
