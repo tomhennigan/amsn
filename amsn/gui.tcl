@@ -2122,9 +2122,11 @@ namespace eval ::amsn {
    # writes the delivery error message without waiting for the message to timeout,
    # and cancels the timer.
    proc nackMessage { ackid } {
-     set command [lindex [after info $ackid] 0]
-     after cancel $ackid
-     eval $command
+     if {![catch {after info $ackid} command]} {
+        set command [lindex $command 0]
+        after cancel $ackid
+        eval $command
+     }
    }
    #///////////////////////////////////////////////////////////////////////////////
 

@@ -86,6 +86,9 @@ proc alarm_cfg { user } {
 	set my_alarms(${user}_pic) $alarms(${user}_pic)
 	set my_alarms(${user}_pic_st) $alarms(${user}_pic_st)
 	set my_alarms(${user}_loop) $alarms(${user}_loop)
+	if {![info exists alarms(${user}_onconnect)]} {
+		set alarms(${user}_onconnect) 0
+	}
 	set my_alarms(${user}_onconnect) $alarms(${user}_onconnect)
 	set my_alarms(${user}_onmsg) $alarms(${user}_onmsg)
 	set my_alarms(${user}_onstatus) $alarms(${user}_onstatus)
@@ -216,6 +219,9 @@ proc save_alarm_pref { user } {
    } else {
 	set alarms(${user}_pic) $my_alarms(${user}_pic)
    }
+	if {![info exists my_alarms(${user}_onconnect)]} {
+		set my_alarms(${user}_onconnect) 0
+	}
    set alarms(${user}_onconnect) $my_alarms(${user}_onconnect)
    set alarms(${user}_onmsg) $my_alarms(${user}_onmsg)
    set alarms(${user}_onstatus) $my_alarms(${user}_onstatus)
