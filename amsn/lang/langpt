@@ -34,6 +34,7 @@ bgcolor Mudar a cor de fundo do aMSN
 blankdirect Deixar em branco para ligação directa
 block Bloquear
 blocked Bloqueado
+blockmessage Estes utilizadores estão ligados mas bloquearam-no
 broughtby Trazido por
 browse Explorar
 browser Explorador
@@ -61,9 +62,11 @@ clicktologin Clique aqui para iniciar a sessão
 close Fechar
 closingdocks A fechar docks
 command Comando
-confirm Tem a certeza?
 confirmdelete Tem a certeza de que quer apagar $1?
+confirm Tem a certeza?
+connected Você está ligado agora
 connecterror Erro na ligação
+connecting A ligar
 connection Conexão
 contactadded Contacto adicionado
 contactdoesnotexist O contacto não existe
@@ -80,6 +83,7 @@ delete Eliminar
 deliverfail Erro ao entregar a seguinte mensagem
 delprofile2 Seleccione o perfil a remover
 delprofile Apagar perfil
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Atracar Gnome
 docking Atracando
 dockingoff Atracando Desligado
@@ -87,6 +91,7 @@ dockkde Atracar KDE
 edit Editar
 editprofile Editar Perfil
 enableproxy Proxy activado
+enableremote Ligar controlo remoto
 encoding2 Alterar a forma como os carecteres são codificados
 encoding A codificar
 entercontactemail Introduza o email do contacto
@@ -117,8 +122,8 @@ groupunknown Grupo desconhecido
 handle Manejar
 help Ajuda
 helpcontents Conteúdo da Ajuda
-home Casa
 history Ver Histórico
+home Casa
 ident Identificando-se
 identity Identidade
 inbox Caixa de entrada
@@ -141,8 +146,8 @@ leaves $1 deixa a conversação
 lenteredconf $1 entrou na conferência em $2
 linprivate EM PRIVADO
 listeningon Escutando a porta $1
-listsmileys Lista de figuras
 listsmileys2 Mostra a lista de Emoções e Smileys na lista de contactos do aMSN
+listsmileys Lista de figuras
 ljoinedconf $1 juntou-se á conferência
 lleftconf $1 abandonou a conferência
 loadcontacts Carregar contactos
@@ -186,11 +191,12 @@ noactivity Sem actividade
 nologfile Sem registo para $1
 nonewmail 0 novas mensagens na caixa de correio
 nonewver Não há versão nova
-notify aviso
+normal Normal
+nosystemtray Bandeja do sistema não disponível
 notify1 Mostrar aviso quando entra um contacto
 notify2 Mostrar aviso quando receber mensagem
 notify3 Mostrar aviso quando receber E-Mail
-normal Normal
+notify aviso
 notifyoffset colocar a janela de aviso por forma a ter espaço lateral
 notifywin Janela de aviso
 nousersinsession Não existem utilizadores na sessão
@@ -230,6 +236,7 @@ prefprofile2 Criar ou modificar perfil público \n(uma descrição sobre si)
 prefprofile3 configuração de perfies do aMSN
 prefprofile O meu perfil Público
 prefproxy As Minhas definições de proxy
+prefremote Preferências da ligação remota
 prefsession Meu login e estado
 prefshared Conexões Partilhadas(apenas para NAT)
 prefsound Som predefinido
@@ -245,8 +252,8 @@ receivedbytes Bytes recebidos $1 de $2
 receivefile Ficheiro recebido
 reconnect Esperando que $1 volta a ligar-se
 reconnecting Ligando-se de novo ao servidor
-rememberpass Recordar senha
 reject Rejeitado
+rememberpass Recordar senha
 reversed Revervado
 rightback Volto já
 saveas Guardar como
@@ -263,12 +270,13 @@ sentbytes Enviando $1 de $2 Bytes
 servergoingdown A desligar servidor
 server Servidor
 session Sessão
-sound Sons para eventos
+showblockedlist Mostra lista de utilizadores que o bloqueram
 sound2 tocar sons quando os contactos ficam online ou enviam uma menssagem
 soundcommand Isto tem de ser um comando de tocar (ex: esdplay)
 soundfile Ficheiro de som
 soundloop Repetir som
 soundserver Servidor de som
+sound Sons para eventos
 soundstatus Alarme Sonoro
 startoffline2 login silencioso "Aparentar desligado"
 startoffline Começar desligado
@@ -284,18 +292,24 @@ title Al's Messenger
 tools Ferramentas
 to Para
 transnotexists O ficheiro pretendido ainda não foi traduzido para o presente idioma
+traynotcompiled Plugin do icon da bandeja não está em conformidade. Verifique plugins/traydoc
 unblock Desbloquear
 uoffline Desligados
 uonline Ligados
 useralreadyonlist Utilizador já existente na lista
+userblocked O utilizador está ligado mas bloqueou-o
 usernotonline O utilizador não esta conectado
 user Utilizador
+useryourself Você não pode conversar consigo próprio
+verifyblocked Verificar utilizadores que o estão a bloquear
 version Versão
 viewprofile Ver Perfil
 view Ver
 willjoin Esperando que $1 se junte à conversação
 work Trabalho
+wrongprofileversion Versão errada do ficheiro de configuração do perfil. No sentido de o reparar, por favor remova-o do diretório $1, ou actualize o amsn
 xoffset espaço X
 yoffset espaço Y
+youblocked Você foi bloqueado
 yousay Você diz
 youwant Queres
