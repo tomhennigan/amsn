@@ -277,7 +277,7 @@ proc authenticate { command sock } {
     if { $command == "auth" } {
 	set remotemd5key "[md5keygen]"
 	write_remote "auth $remotemd5key"
-    } elseif { [lindex $command 0] == "auth2" } {
+    } elseif { [lindex $command 0] == "auth2" && [info exists remotemd5key] } {
 	if { "[lindex $command 1]" ==  "[::md5::hmac $remotemd5key [list $config(remotepassword)]]" } {
 	    if { $config(enableremote) == 1 } { 
 		set remote_auth 1
@@ -294,6 +294,7 @@ proc authenticate { command sock } {
 		write_remote "User disabled remote control"
 	    }	
 	}	
+	unset remotemd5key
     } else {
           write_remote "[trans syntaxerror] : $command" error
     }
