@@ -23,6 +23,9 @@ namespace eval ::smiley {
 	#                          about a given smiley NAME. To retrieve this
 	#                          data, better use [ValueForSmiley NAME FIELD]
 	#                          instead of accessing this variable
+	#
+	# array custom_emotions(NAME) - Similar to emotions_data, but used for
+	#                          storing information about your custom smileys
 	
 
 	#///////////////////////////////////////////////////////////////////////////////
@@ -136,7 +139,7 @@ namespace eval ::smiley {
 	# we need to do it that way since after calling "load_smileys" it erases the
 	# emotions list...
 	proc newCustomEmoticonXML {cstack cdata saved_data cattr saved_attr args} {
-		global custom_emotions custom_images
+		global custom_emotions
 		
 		upvar $saved_data sdata
 		
@@ -155,13 +158,14 @@ namespace eval ::smiley {
 			if { $field_sort == "_dummy_" } {continue}
 			set emotion($field_sort) [string trim $sdata($field)]
 		}
+		#Create the image now and store it
+		set emotion(image_name) [image create photo -file $emotion(file) -format gif]
 		
 		#Add to the list of custom emoticons
 		lappend [::config::getVar customsmileys] $emotion(name)
 		#Store the emoticon data in the custom_emoticons array
 		set custom_emotions($emotion(name)) [array get emotion]
 		#Create the image, and associate it
-		set custom_images($emotion(name)) [image create photo -file $emotion(file) -format gif]
 
 		
 		return 0
@@ -268,7 +272,7 @@ namespace eval ::smiley {
 	#
 	# Similar to substSmileys, but replace only your custom smileys
 	proc substYourSmileys {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
-		global custom_emotions custom_images
+		global custom_emotions
 		
 		#Search for all possible emotions
 		foreach name [::config::getKey customsmileys] {
@@ -288,7 +292,7 @@ namespace eval ::smiley {
 					set sound $emotion(sound)
 				} else { set sound "" }
 				
-				set start [::smiley::SubstSmiley $tw $pos $symbol $custom_images($name) $emotion(file) $animated $sound]
+				set start [::smiley::SubstSmiley $tw $pos $symbol $emotion(image_name) $emotion(file) $animated $sound]
 		
 			}
 		}
@@ -304,13 +308,11 @@ namespace eval ::smiley {
 	# so that when you click on a smiley, it inserts its symbol into your text 
 	# if the smile menu doesn't exist it created it first with [create_smile_menu $x $y]
 	proc smileyMenu { {x 0} {y 0} {text text}} {
-		global emotions_names emoticonbinding
+		global emotions_names
 		
 		set w .smile_selector
 		
 		if { ! [winfo exists $w]} { CreateSmileyMenu $x $y }
-		
-		if { [info exists emoticonbinding ] } {unset emoticonbinding}
 		
 		set x [expr $x - 15]
 		set y [expr $y + 15 - [winfo height $w]]
@@ -326,22 +328,20 @@ namespace eval ::smiley {
 		#Add bindings for standard emotions
 		set temp 0
 		foreach name $emotions_names {
+			if { [ValueForSmiley $name hiden 1] } {continue}
 		
 			#Get the first symbol for that smiley
-			set symbol [lindex [ValueForSmiley $name symbols] 0]	
-			set file [ValueForSmiley $name file]
-			set hiden [ValueForSmiley $name hiden 1]
-			
-			if { $hiden } {continue}
+			set symbol [lindex [ValueForSmiley $name symbols] 0]
 			
 			catch { 
 				#TODO: Improve this now we know about quoting a bit more?
 				if { [string match {(%)} $symbol] != 0 } {
-					bind $w.text.$temp <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; wm state $w withdrawn} res"
+					bind $w.c.$temp <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; wm state $w withdrawn} res"
 				} else {
-					bind $w.text.$temp <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn} res" 
+					bind $w.c.$temp <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn} res" 
 				}
 			}
+			
 			incr temp
 		}
 		
@@ -353,24 +353,41 @@ namespace eval ::smiley {
 			catch { 
 				#TODO: Improve this now we know about quoting a bit more?
 				if { [string match {(%)} $symbol] != 0 } {
-					bind $w.text.$temp <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; wm state $w withdrawn} res"
+					bind $w.c.$temp <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; wm state $w withdrawn} res"
 				} else {
-					bind $w.text.$temp <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn} res" 
+					bind $w.c.$temp <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn} res" 
 				}
 			}
-			
-			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-				bind $w.text.$temp <Button2-ButtonRelease> "[list ::smiley::editCustomEmotion $name]\; event generate $w <Leave>"
-				bind $w.text.$temp <Control-ButtonRelease> "[list ::smiley::editCustomEmotion $name]\; event generate $w <Leave>"
-			} else {
-				bind $w.text.$temp <Button3-ButtonRelease> "[list ::smiley::editCustomEmotion $name]\; event generate $w <Leave>"
-			}
-			
 			incr temp
 		}
 		
 		event generate $w <Enter>
 	
+	}
+	
+	#Create ONE smiley in the smileys menu
+	proc CreateSmileyInMenu {w cols rows smiw smih emot_num name symbol image file animated} {
+		catch {
+			if { $animated } {
+				label $w.$emot_num -background [$w cget -background]
+				::anigif::anigif  $file $w.$emot_num
+				bind $w.$emot_num <Destroy> [list ::anigif::destroy $w.$emot_num]
+			} else {
+				label $w.$emot_num -image $image -background [$w cget -background]
+			}
+	
+			$w.$emot_num configure -cursor hand2 -borderwidth 1 -relief flat
+			
+			#Bindings for raise/flat on mouse over
+			bind $w.$emot_num <Enter>  [list $w.$emot_num configure -relief raised]
+			bind $w.$emot_num <Leave> [list $w.$emot_num configure -relief flat]
+
+			#Toolstip
+			if { [::config::getKey tooltips] } {set_balloon $w.$emot_num "$name $symbol"}
+			set xpos [expr {($emot_num % $cols)* $smiw}]
+			set ypos [expr {($emot_num / $cols) * $smih}]
+			$w create window $xpos $ypos -window $w.$emot_num -anchor nw -width $smiw -height $smih
+		}
 	}
 
 	#///////////////////////////////////////////////////////////////////////////////
@@ -380,71 +397,63 @@ namespace eval ::smiley {
 	# To get the width and height of the menu, then it creates the menu withdrawn with 
 	# the animated smileys and static smileys in the correct order
 	proc CreateSmileyMenu { {x 0} {y 0} } {
-		global emotions emotions_names skinconfig custom_emotions custom_images
-		
+		global emotions emotions_names skinconfig custom_emotions
+
 		set w .smile_selector
 		if {[catch {[toplevel $w]} res]} {
 			destroy $w
 			toplevel $w
 		}
 		
-		set xy_geo [calcul_geometry_smileys]
+		#Calculate the total number of smileys (including custom ones)
+		set emoticon_number [llength $emotions_names]
+		incr emoticon_number [llength [::config::getKey customsmileys]]
 		
-		#Smiley width and eight. Maybe we should load it from the skin settings
-		set smiw $skinconfig(smilew)
-		set smih $skinconfig(smileh)
-	
-		incr smiw 4
-		incr smih 4
+		#Fixed smiley size
+		set smiw 26
+		set smih 26
 		
-		set x_geo [expr $smiw*[lindex $xy_geo 0]+12]
-		set y_geo [expr $smiw*[lindex $xy_geo 1]+12]
-		set x [expr $x - 15]
-		set y [expr $y + 15 - $y_geo]
+		#We want to keep a certain ratio:
+		# cols/(rows+1) = 4/3
+		# we know cols*rows>=emoticon_number
+		#This is the solution of solving that equation system
+		set ratio [expr {4.0/3.0}]
+		set cols [expr {ceil(($ratio+sqrt(($ratio*$ratio)+4.0*$ratio*$emoticon_number))/2.0)}]
+		set rows [expr {ceil(double($emoticon_number) / $cols)+1}]
+
+		#status_log "Smileys: $emoticon_number. Cols: $cols. Rows: $rows\n" white
+		set cols [expr int($cols)]
+		set rows [expr int($rows)]
 		
-		wm geometry $w ${x_geo}x${y_geo}+$x+$y
+		set x_geo [expr $smiw*$cols +2 ]
+		set y_geo [expr $smih*$rows +2 ]
+		
+		
+		wm state $w withdrawn
+		wm geometry $w ${x_geo}x${y_geo}
 		wm title $w "[trans msn]"
 		wm overrideredirect $w 1
 		wm transient $w
-		wm state $w normal
 		
 		
-		text $w.text -background white -borderwidth 2 -relief flat \
-			-selectbackground white -selectborderwidth 0 -exportselection 0
-		
-		pack $w.text
-		
-		$w.text configure -state normal
+		canvas $w.c -background white -borderwidth 0 -relief flat \
+			-selectbackground white -selectborderwidth 0 
+		pack $w.c -expand true -fill both
 		
 		#Add standard smileys
-		set temp 0
+		set emot_num 0
 		foreach name $emotions_names {
-			set symbol [lindex [ValueForSmiley $name symbols] 0]
-			set file [ValueForSmiley $name file]
 			set hiden [ValueForSmiley $name hiden 1]
-			set animated [expr {[ValueForSmiley $name animated 1] && [::config::getKey animatedsmileys 0]}]
 			if { $hiden} {continue}
 			
-			catch {
-				if { $animated } {
-					label $w.text.$temp -background [$w.text cget -background]
-					::anigif::anigif  [GetSkinFile smileys ${file}] $w.text.$temp
-					bind $w.text.$temp <Destroy> [list ::anigif::destroy $w.text.$temp]
-				} else {
-					label $w.text.$temp -image [::skin::loadSmiley $symbol] -background [$w.text cget -background]
-				}
-		
-				$w.text.$temp configure -cursor hand2 -borderwidth 1 -relief flat
-				
-				#Bindings for raise/flat on mouse over
-				bind $w.text.$temp <Enter>  [list $w.text.$temp configure -relief raised]
-				bind $w.text.$temp <Leave> [list $w.text.$temp configure -relief flat]
+			set symbol [lindex [ValueForSmiley $name symbols] 0]
+			set file [ValueForSmiley $name file]
+			set animated [expr {[ValueForSmiley $name animated 1] && [::config::getKey animatedsmileys 0]}]
+			
+			CreateSmileyInMenu $w.c $cols $rows $smiw $smih \
+				$emot_num $name $symbol [::skin::loadSmiley $symbol] [GetSkinFile smileys ${file}] $animated
 
-				#Toolstip
-				if { [::config::getKey tooltips] } {set_balloon $w.text.$temp "$name $symbol"}
-				$w.text window create end -window $w.text.$temp -padx 1 -pady 1
-			}
-			incr temp
+			incr emot_num
 		
 		}
 		
@@ -456,37 +465,28 @@ namespace eval ::smiley {
 			if {![info exists emotion(animated)]} { set emotion(animated) 0 }
 			set animated [expr {$emotion(animated) && [::config::getKey animatedsmileys 0]}]
 			
-			#catch {
-				if { $animated } {
-					label $w.text.$temp -background [$w.text cget -background]
-					::anigif::anigif  $emotion(file) $w.text.$temp
-					bind $w.text.$temp <Destroy> [list ::anigif::destroy $w.text.$temp]
-				} else {
-					label $w.text.$temp -image $custom_images($name) -background [$w.text cget -background]
-				}
-		
-				$w.text.$temp configure -cursor hand2 -borderwidth 1 -relief flat
-				
-				#Bindings for raise/flat on mouse over
-				bind $w.text.$temp <Enter>  [list $w.text.$temp configure -relief raised]
-				bind $w.text.$temp <Leave> [list $w.text.$temp configure -relief flat]
-
-				#Toolstip
-				if { [::config::getKey tooltips] } {set_balloon $w.text.$temp "$name $emotion(text)"}
-				$w.text window create end -window $w.text.$temp -padx 1 -pady 1
-			#}
-			incr temp
+			CreateSmileyInMenu $w.c $cols $rows $smiw $smih \
+				$emot_num $name $emotion(text) $emotion(image_name) $emotion(file) $animated
+			
+			#Add binding for custom emoticons
+			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+				bind $w.c.$emot_num <Button2-ButtonRelease> "[list ::smiley::editCustomEmotion $name]\; event generate $w <Leave>"
+				bind $w.c.$emot_num <Control-ButtonRelease> "[list ::smiley::editCustomEmotion $name]\; event generate $w <Leave>"
+			} else {
+				bind $w.c.$emot_num <Button3-ButtonRelease> "[list ::smiley::editCustomEmotion $name]\; event generate $w <Leave>"
+			}
+			
+			incr emot_num
 		}
+
+		#Add the create custom smiley button	
+		label $w.c.custom_new -text "[trans custom_new]"  -background [$w.c cget -background] -font sboldf
+		bind $w.c.custom_new <Enter> [list $w.c.custom_new configure -relief raised]
+		bind $w.c.custom_new <Leave> [list $w.c.custom_new configure -relief flat]
+		bind $w.c.custom_new <Button1-ButtonRelease> "::smiley::newCustomEmoticonGUI; event generate $w <Leave>"
 		
-		label $w.text.custom_new -text "[trans custom_new]"  -width [expr 1+[lindex $xy_geo 0]*3] -background [$w.text cget -background] -font splainf
-		bind $w.text.custom_new <Enter> [list $w.text.custom_new configure -relief raised]
-		bind $w.text.custom_new <Leave> [list $w.text.custom_new configure -relief flat]
-		bind $w.text.custom_new <Button1-ButtonRelease> "::smiley::newCustomEmoticonGUI; event generate $w <Leave>"
-		
-		$w.text insert end "\n"
-		$w.text window create end -window $w.text.custom_new -padx 1 -pady 1
-		
-		$w.text configure -state disabled
+		set ypos [expr {(($rows-1)*$smih + ($smih/2))}]
+		$w.c create window  0 $ypos -window $w.c.custom_new -width [expr $x_geo - 2] -height $smih -anchor w
 		
 		
 		bind $w <Enter> "bind $w <Leave> \"bind $w <Leave> \\\"wm state $w withdrawn\\\"\""
@@ -661,7 +661,7 @@ namespace eval ::smiley {
 	# this saves what was entered in the GUI for creating new custom smiley or edits
 	# previously saved options
 	proc NewCustomEmoticonFromGUI { {name ""} } {
-		global custom_emotions custom_images new_custom_cfg HOME
+		global custom_emotions new_custom_cfg HOME
 		
 		set w .new_custom
 
@@ -721,8 +721,8 @@ namespace eval ::smiley {
 			}
 		}
 		
+		set emotion(image_name) [image create photo -file $emotion(file) -format gif]
 		set custom_emotions($name) [array get emotion]
-		set custom_images($name) [image create photo -file $emotion(file) -format gif]
 		if { $edit == 0} {
 			lappend [::config::getVar customsmileys] $name
 		}
@@ -874,109 +874,34 @@ proc parse_x_mms_emoticon { data chatid } {
 
 }
 proc process_custom_smileys_SB { txt } {
-    global custom_emotions
-    
-
-    #    if { [::config::getKey custom_smileys] == 0 } { return "" }
-
-    set msg ""
-
-    #status_log "Parsing text for custom smileys : $txt\n\n"
-
-    set txt2 [string toupper $txt]
-
-    foreach name [::config::getKey customsmileys] {
+	global custom_emotions
 	
-	array set emotion $custom_emotions($name)
-	#foreach symbol $emotion(text) {
-	set symbol $emotion(text)
-	set symbol2 [string toupper $symbol]
-
-	set cases [expr {[info exists emotion(casesensitive] && [is_true $emotion(casesensitive)]}]
-	set file $emotion(file)
-
-	if { $cases == 1} {
-		if {  [string first $symbol $txt] != -1 } {
-			set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [GetSkinFile smileys [filenoext $file].png]]	"
-		}
-	} else {
-		if {  [string first $symbol2 $txt2] != -1 } {
-			set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [GetSkinFile smileys [filenoext $file].png]]	"
-		}
-	}
-	#}
-    }
-
-    return $msg
-}
-
-
-
-
-#///////////////////////////////////////////////////////////////////////////////
-# proc calcul_geometry_smileys {  }
-#
-# This function is used to calculate the optimal width and height for the
-# smileys menu. it calculs 5 different possibilities for width/height then searches
-# for the lowest value and returns the values for width and height that are optimal for 
-# the menu depending on the number of smileys to show
-
-
-proc calcul_geometry_smileys {  } {
-	global emotions_names
-
-	set emoticon_number [llength $emotions_names]
-	incr emoticon_number [llength [::config::getKey customsmileys]]
-	set min [expr int(sqrt($emoticon_number))]
+	set msg ""
 	
-	set values [list]
-	set x [list]
-	set y [list]
+	set txt2 [string toupper $txt]
+
+	#Try to find used smileys in the message	
+	foreach name [::config::getKey customsmileys] {
+		
+		array set emotion $custom_emotions($name)
+		#foreach symbol $emotion(text) {
+		set symbol $emotion(text)
+		set symbol2 [string toupper $symbol]
 	
-	lappend values [expr ($min - 1) * ($min + 1)]
-	lappend x [expr $min - 1]
-	lappend y [expr $min - 1]
+		set file $emotion(file)
 	
-	lappend values [expr ($min) * ($min)]
-	lappend x $min
-	lappend y $min
-	
-	lappend values [expr ($min) * ($min + 1)]
-	lappend x [expr $min + 1]
-	lappend y $min 
-	
-	lappend values [expr ($min) * ($min + 2)]
-	lappend x [expr $min + 2]
-	lappend y $min 
-	
-	lappend values [expr ($min + 1) * ($min + 1)]
-	lappend x [expr $min + 1]
-	lappend y [expr $min + 1]
-	
-	set diff [list]
-	
-	foreach val $values { 
-	
-		if {$val < $emoticon_number} {
-		lappend diff 1000
+		if { [info exists emotion(casesensitive] && [is_true $emotion(casesensitive)]} {
+			if {  [string first $symbol $txt] != -1 } {
+				set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [GetSkinFile smileys [filenoext $file].png]]	"
+			}
 		} else {
-		lappend diff [expr $val - $emoticon_number]
+			if {  [string first $symbol2 $txt2] != -1 } {
+				set msg "$msg$symbol	[create_msnobj [::config::getKey login] 2 [GetSkinFile smileys [filenoext $file].png]]	"
+			}
 		}
+		#}
 	}
 	
-	set min_val 0
-	
-	while { 1 } {
-		if { [lsearch $diff "$min_val"] == -1 } {
-		set min_val [expr $min_val + 1]
-		continue
-		} 
-		
-		set min [lsearch $diff "$min_val" ]
-		
-		return "[lindex $x $min] [expr [lindex $y $min] + 1]"
-	}
-
+	return $msg
 }
-
 
