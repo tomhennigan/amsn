@@ -435,7 +435,7 @@ proc SelectSkinGui { } {
 		set currentskin [lindex [lindex $the_skins 0] 0]
 		if { $::skin::preview_skin_change == 1 } {
 			set ::skin::skin_reloaded_needs_reset 1
-		::skin::reloadSkin $currentskin
+			::skin::reloadSkin $currentskin
 		}
 	} else {
 		status_log "select = $select --- [::config::getGlobalKey skin]\n"
@@ -520,9 +520,9 @@ proc clear_exampleimg { } {
 
 proc selectskinok { w } {
 
-    if { [$w.main.right.box curselection] == "" } {
-	$w.status configure -text "[trans selectskin]"
-    }  else {
+	if { [$w.main.right.box curselection] == "" } {
+		$w.status configure -text "[trans selectskin]"
+	}  else {
 	
 	$w.status configure -text ""
 
@@ -543,9 +543,9 @@ proc selectskinok { w } {
 
 proc selectskincancel { w } {
 	if { $::skin::skin_reloaded_needs_reset } {
-		unset ::skin::skin_reloaded_needs_reset
-	::skin::reloadSkin [::config::getGlobalKey skin]
+		::skin::reloadSkin [::config::getGlobalKey skin]
 	}
+	unset ::skin::skin_reloaded_needs_reset
 	destroy $w
 }
 
