@@ -297,7 +297,7 @@ namespace eval ::abookGui {
 	::abook::getContact $email cd
 
 	if { $cd(available) == "N" } {
-	    msg_box "[nodataavailable $1]"
+	    msg_box "[trans nodataavailable $email]"
 	    return
 	}
 
@@ -411,6 +411,9 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.25  2003/08/03 18:30:03  airadier
+# Small bug Fix
+#
 # Revision 1.24  2003/06/28 05:38:00  kakaroto
 # added the boss mode
 # added the gui for the blocking thing + using only one SB
