@@ -35,7 +35,7 @@ animatedsmileys Omogoci animirane smeske
 animatenotify Animirana obvestila
 appearance Izgled
 appearoff Na videz neprijavljen
-areacode Postna stevilka
+areacode Omrezna stevilka
 aretyping $1 pisejo sporocilo
 autoaccepted Prenos datoteke avtomaticno sprejet
 autoacceptft Avtomaticno sprejmi prihajajoce datoteke
@@ -536,6 +536,7 @@ verifyblocked Preveri, kdo te blokira
 version Razlicica
 view Pogled
 viewprofile Poglej profil
+webcaminvite $1 te je povabil/a na videokanferenco, a aMSN tega ne podpira.
 willjoin Cakam, da se $1 pridruzi pogovoru
 work Delo
 wrongfields Polja "$1", "$2" in/ali "$3" niso veljavna
