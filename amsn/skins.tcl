@@ -161,7 +161,7 @@ namespace eval ::skin {
 		mainbar copy [loadPixmap colorbar] -from 0 0 10 $barheight
 		mainbar copy [loadPixmap colorbar] -from 10 0 11 $barheight -to 10 0 $barendstart $barheight
 		mainbar copy [loadPixmap colorbar] -from [expr $barwidth - $barendwidth] 0 $barwidth $barheight -to $barendstart 0 $width $barheight
-
+		set ::skin::loaded_images(colorbar) 1
 		return mainbar
 	}
 
@@ -217,9 +217,6 @@ namespace eval ::skin {
 		if {[info exists loaded_images(colorbar)]} {
 			unset loaded_images(colorbar)
 			::skin::getColorBar $skin_name
-			# This statment is required for update the colorbar in realtime (without waiting for resizing contact list).
-			# Should be removed when the new contact list comes out.
-			if { [::MSN::myStatusIs] != "FLN" } { cmsn_draw_online }
 		}
 
 		# Reload sounds
