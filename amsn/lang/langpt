@@ -124,6 +124,7 @@ delprofile2 Seleccione o perfil a remover
 delprofile Apagar perfil
 description Descrição
 directconnection Direct connection para internet (usar porta 1863)
+disablessl Desactivar SSL
 disconnect $1 Disconectou-se.
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Atracar Gnome
@@ -385,6 +386,7 @@ soundserver Servidor de som
 sound Sons para eventos
 soundstatus Alarme Sonoro
 sourcecode Codigo Fonte (necessita de ser compilado e instalado)
+sslwarning AVISO!! Desactivar o SSL irá desactivar a encripitação , neste caso a sua password irá ser enviada como texto simples atraves da rede. Usar apenas em caso de querer usar  proxys ou configurações de rede!
 startoffline2 login silencioso "Aparentar desligado"
 startoffline Começar desligado
 stateautomsg Automensagem para enviar
