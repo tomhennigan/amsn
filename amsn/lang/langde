@@ -7,6 +7,7 @@ addacontact Kontakt hinzufügen
 addedyou $1 ($2) hat dich ihrer/seiner Kontaktliste hinzugefügt
 addstate Neuen Status hinzufügen
 addtocontacts In die Kontaktliste einfügen
+addto Hinzufügen zu $1
 addtoo Diese Person meiner Kontaktliste hinzufügen
 admincontacts Verwaltung - Kontakte
 admingroups Verwaltung - Gruppen
@@ -17,6 +18,7 @@ allowallbutbl Erlaube allen, ausser den Benutzern der Blockieren - Liste, mich z
 allowlist Akzeptieren - Liste :
 allowonlyinal Erlaube nur Benutzern aus meiner Akzeptieren - Liste mich zu kontaktieren
 allowseen Dieser Person ermöglichen, zu sehen, wenn ich online bin, und Kontakt mit mir aufzunehmen
+animatedsmileys Animierte Smileys aktivieren
 appearance Erscheinung
 appearoff Als offline anzeigen
 areacode Vorwahl 
@@ -38,8 +40,13 @@ bgcolor Die Hintergrundfarbe von aMSN ändern
 blankdirect Bei direkter Verbindung leer lassen
 block Blockieren
 blocked Blockiert
+blocking Blockieren
+blockinter1 Wenn Ihr Status online ist, alle 
+blockinter2 Sekunden checken, ansonsten alle :
+blockinter3 alle
 blocklist Blockieren - Liste :
 blockmessage Diese Personen sind Online und blocken Sie
+blockusers Anzahl der auf einmal zu testenden Benutzer
 broughtby Von diesen Entwickler für dich gebracht
 browse Navigieren
 browser Browser
@@ -55,8 +62,10 @@ chatmaxmin Wen ein Kontakt einen Chat mit mir beginnt, möchte ich das dieser :
 chatreq Einladung zum Chat
 chatsmileys2 Smileys und Emoticons im Chat-Fenster anzeigen
 chatsmileys Smileys während Chat
+checkblocking Fortwährend testen ob Benutzer Sie blockieren
 checkfilman Empfangene Dateien werden in $1 gespechert. Bitte überprüfen sie die file manager Einstellungen im Einstellungen-Fenster
 checkingver Auf neue Versionen prüfen
+checkonfln Testen ob ein Benutzer Sie blockiert hat wenn er Offline geht
 checkver Auf neue Version prüfen
 choosebasefont Schriftart auswählen
 choosebgcolor Hintergrundfarbe Auswählen
@@ -74,8 +83,8 @@ confirm Sind Sie sicher?
 connected Sie sind jetzt Verbunden
 connecterror Verbindungsaufbau zum Server fehlgeschlagen!
 connecting Verbinde
-connection Verbindung
 connectionlost Getrennt : Verbindung mit Server beendet
+connection Verbindung
 contactadded Kontakt hinzugefügt
 contactdoesnotexist Kontakt nicht vorhanden!
 contactlist Kontakt - Liste :
@@ -93,15 +102,16 @@ deliverfail Es trat ein Problem beim Zustellen folgender Nachricht auf
 delprofile2 Profil auswählen, das gelöscht werden soll.
 delprofile Profil löschen
 directconnection Ich habe eine direkte Verbindung mit dem Internet (benutzt port 1863)
+dockfreedesktop In freiem Desktop festankern (KDE3/Gnome2)
 dockgtk In GTK festankern
 docking Festankern eingeschaltet
 dockingoff Festankern ausgeschaltet
 dockkde In KDE festankern
-dockfreedesktop In freiem Desktop festankern (KDE3/Gnome2)
 edit Ändern
 editnewstate Neuer persönlicher Autonachrichten - Status
-editstate Vorhandenen Autonachrichten - Status bearbeiten
 editprofile Profil ändern
+editstate Vorhandenen Autonachrichten - Status bearbeiten
+emotisounds Spielt Geräusche bei bestimmten Emoticons
 enableproxy Proxy aktivieren
 enableremote Aktiviere Fernkontrolle
 encoding2 Encoding Optionen ändern
@@ -119,16 +129,16 @@ filename Dateiname
 filetransfercancelled Übertragung abgebrochen
 filetransfercomplete Übertragung abgeschlossen
 followtext Herunterrollen wenn neuer Text eingegeben wird
-ftaccepted Übertragung angenommen
 ftacceptedby $1 akzeptiert die Einladung zum Transfer der Datei '$2'.
+ftaccepted Übertragung angenommen
 ftaccepting Akzeptiere Einladung zum Dateitransfer
 ftconnecterror Fehler beim Verbinden mit Gegenüber
 ftconnecting Verbinde mit $1 Port $2
 ftconnectionlost Verbindung mit Gegenüber verloren
 ftgotinvitation $1 möchte Ihnen die Datei '$2' ($3 Bytes) schicken. Sie würde im Verzeichnis $4 gespeichert. Möchten Sie diese Datei empfangen?
 ftportpref Anfangsport für Dateiübertragungen
-ftrejected Übertragung abgewiesen
 ftrejectedby $1 lehnt die Einladung zum Transfer der Datei '$2' ab.
+ftrejected Übertragung abgewiesen
 ftsendinvitation Einladung zum Transfer der Datei '$2' ($3 Bytes) wurde an $1 gesendet.
 gonelunch Mittagspause
 groupadd Gruppe hinzufügen
@@ -180,9 +190,9 @@ logbigger Maximale Größe der Log-Datei für einen Kontakt
 logfandexp Begrenzungen für Log-Dateien und History
 loggedotherlocation Verbindung getrennt.
 loggingin Anmeldung läuft...
-loging Loggen 
 login Anmeldung
 loginas Anmelden als
+loging Loggen 
 logolder Nur Unterhaltungen loggen, der letzten
 logout Abmelden
 logsin hat sich gerade angemeldet
@@ -197,15 +207,15 @@ mobile Mobil
 morepersonal Mehr Zustände (Status) ->
 move Bewegen
 movetogroup Zur Gruppe bewegen
-msg Nachricht
 msgmaxmin Wenn eine neue Nachricht eintrifft wird sie :
 msgmode Wie sollen mehrere Nachrichtenfenster verwaltet werden :
+msg Nachricht
 msn AMSN
 mustrestart Änderungen werden erst nach einem Neustart übernommen
 myhomephone Meine Festnetznummer
 mymobilephone Meine Handynummer
-myworkphone Meine Arbeitsnummer
 mystatus Mein Status
+myworkphone Meine Arbeitsnummer
 natip Die IP-Adresse über Webseite ausfindig machen
 natkeepalive Wenn die Verbindung oft getrennt wird, schalten sie diesen KeepAlive an.
 needonline Du bist noch immer offline bzw. wirst als offline angezeigt!
@@ -214,10 +224,10 @@ newmailfrom Neue E-Mail von $1 ($2)
 newmsg Neue Nachricht
 newveravailable Neuere Version $1 steht zur Verfügung
 next Weiter
-no Nein
 noactivity inaktiv
 nodataavailable Keine Daten verfügbar für $1
 nologfile Keine Log-Datei für $1
+no Nein
 nonewmail 0 neue Nachrichten im Posteingang
 nonewver Zurzeit keine neue Version verfügbar
 normal Normal
@@ -250,6 +260,8 @@ port Port
 prefalerts Töne und Klänge
 prefapps Anwendungen
 prefawaymsg Away-Mitteilung
+prefblock1 Testen beim Trennen
+prefblock2 Fortwährend testen
 prefconnection Verbindungseinstellungen
 prefemotic Emoticons und Smileys
 preferences Einstellungen
@@ -274,13 +286,13 @@ prefshared Gemeinsame Verbindung (nur NAT)
 prefsound Akustische Signale
 privacy Privatsphäre
 profiledconfig Profilabhängige Einstellungen
-profiles Profile
 profileinuse Dieses Profil wird von einer anderer AMSN Session verwendet, bitte wählen Sie ein Anderes
+profiles Profile
 properties Eigenschaften
-proxy Ich bin hinter einem Proxy Server (HTTP or SOCKS5)
 proxyconfhttp Konfiguration: HTTP-Proxy-Unterstützung
 proxyconf Proxy-Konfiguration
 proxyconnection Ich verbinde mit dem Internet über einen Proxy-Server:
+proxy Ich bin hinter einem Proxy Server (HTTP or SOCKS5)
 publishphones Meine Telefonnummern veröffentlichen
 raised Wiederhergestellt
 receivedbytes $1 von $2 Bytes empfangen
@@ -309,8 +321,8 @@ server Server
 session Session
 showblockedlist Zeigt eine Liste mit Personen von denen Sie geblockt werden
 sound2 Klang wiedergeben, wenn sich ein Kontakt anmeldet oder eine Nachricht schreibt
-soundcommand Muss das Play Kommando sein (Bsp.: esdplay)
 sound Akustische Signale
+soundcommand Muss das Play Kommando sein (Bsp.: esdplay)
 soundfile Mit der Benachrichtigung verbundene Klang-Datei
 soundloop Den Klang unendlisch abspielen
 soundserver Klangserver
@@ -319,8 +331,8 @@ startoffline2 Als "Als offline anzeigen" anmelden
 startoffline Offline-Modus beim Start
 stateautomsg Autonachricht die gesendet werden soll
 stateedittext Bitte ändern sie die Felder die Sie gerne\n bearbeitet haben nmöchten und drücken Sie Speichern
-stateinfo Persönliche Status Konfiguration
 state Ich möchte erscheinen als
+stateinfo Persönliche Status Konfiguration
 statename Name des Persönlichen Status
 statenewtext Bitte füllen Sie die benötigten Felder aus um Ihren\n Persönlichen Status zu erstellen und drücken Sie Speichern
 status Status
@@ -336,6 +348,7 @@ to An
 tools Extras
 transnotexists Die gewünschte Datei wurde noch nicht in die aktuelle Sprache übersetzt.
 traynotcompiled Ablage Icon Plugin ist nicht compiliert. Überprüfen Sie Plugins/Ablageanker
+twonewmail $1 neue Nachrichten im Posteingang
 unblock Blockieren entfernen
 uoffline Offline
 uonline Online
@@ -344,8 +357,8 @@ user Benutzer
 userblocked Der Benutzer ist Online aber er blockt Sie ab
 usernotonline Benutzer ist nicht online
 useryourself Sie können nicht mit sich selbst chatten
-version Version
 verifyblocked Überprüfen wer Sie blockiert
+version Version
 view Ansicht
 viewprofile Profil ansehen
 willjoin Warte... $1 wird dem Chat hinzugefügt
@@ -357,4 +370,3 @@ yoffset Y Offset
 youblocked Sie wurden blockiert
 yousay Du sagst
 youwant Du willst
-twonewmail $1 neue Nachrichten im Posteingang
