@@ -308,7 +308,10 @@ proc EditNewState { mode { idx "" } } {
 						[trans onphone] \
 						[trans busy] \
 						[trans away] \
-						[trans gonelunch]]	
+						[trans gonelunch]]
+
+	# select online in combobox by default
+	$lfname.statebox select 0
 	
 	# Fill all entries if editing an existing state
 	if { $mode == 2 } {
@@ -338,7 +341,8 @@ proc ButtonSaveState { lfname mode { idx "" } } {
 	} elseif { $mode == 1 } {
 		StateList add $gui_info
 		ChCustomState [expr [StateList size] - 1]
-		StateList unset [expr [StateList size] - 1]
+		StateList unset 0
+		CreateStatesMenu .my_menu
 	} elseif { $mode == 2 } {
 		StateList edit $gui_info $idx
 	}
