@@ -1,4 +1,5 @@
 amsn_lang_version 2
+
 about Informazioni
 accept Accetta
 acceptfile Accetto il file $1, dimensioni $2? Salvato in $3
@@ -46,6 +47,7 @@ autodetectip Ottieni indirizzo IP automaticamente
 autohotmaillog Auto-login Hotmail
 autoidle Nessuna attività automatica
 autoip IP automatico
+automessage Messaggio Automatico
 autonoact Connetti automaticamente alla partenza di aMSN
 avoidseen Impedisci a questa persona di vedermi e di contattarmi quando sono connesso
 awaymsg1 Chiedi di impostare un messaggio di "assente" ogni volta che cambio il mio stato in Assente/Torno Subito/Occupato
@@ -70,6 +72,7 @@ browser Browser
 browserexample (\$url verrà rimpiazzato dall'URL). Es: mozilla \$url
 browse Visualizza
 busy Ho da fare
+cachedpics $1 immagini memorizzate
 cancel Cancella
 cannotdeleteprofile Non posso concellare il profilo perché sembra essere usato da una sessione di aMSN
 cantexec Non posso eseguire l'applicazione: $1. Controlla nelle preferenze
@@ -77,6 +80,7 @@ cantremoveothers Non posso rimuovere il gruppo "Altri"
 casesensitive Usa comandi discriminanti tra maiuscole e minuscole
 cfgalarmall Configura/Aggiungi/Rimuovi l'allarme globale
 cfgalarm Configura/Aggiungi/Rimuovi l'allarme
+change Cambia
 changecustomstate Passa a
 changedisplaypic Cambia l'immagine personale
 changefont Cambia font
@@ -90,9 +94,9 @@ chatreq Sto chiamando
 chatsmileys2 Mostra le Emoticon e le Faccine nella finestra della chat
 chatsmileys Faccine per la chat
 checkblocking Controlla continuamente se gli utenti ti stanno bloccando
+checkemail Visualizza riga notifica mail(posta in arrivo) nella lista dei contatti
 checkfilman I files ricevuti saranno salvati in $1. Per favore controlla le impostazioni del file manager nella finestra delle preferenze.
 checkingver Sto verificando una nuova versione
-checkemail Visualizza riga notifica mail(posta in arrivo) nella lista dei contatti
 checkonfln Controlla se un utente ti blocca quando va fuori linea.
 checkver Controlla l'esistenza di nuove versioni
 choosearq Scegli l'architettura del tuo sistema
@@ -130,8 +134,11 @@ corruptstates La configurazione degli Stati personali è corrotta. Ne creo una nu
 countrycode Il mio codice Regionale/Nazionale
 cprofile Crea un profilo
 credits credits
+currentdate Data Attuale
+customcolor Colore Personalizzato
 custom_edit Crea una faccina personalizzata
 custom_new Aggiungi una nuova faccina personalizzata
+customnick Soprannome Personalizzato
 cut Taglia
 date Data
 days Giorni
@@ -152,6 +159,8 @@ disableprofiles Disattiva i profili (utile per Net-cafè o ambienti condivisi)
 disablessl Disattiva SSL
 disconnect $1 si è sconnesso.
 displaychat Mostra le opzioni del testo
+displayp4context Visualizza il contenuto del campo P4-Context come mittente del messaggio
+displaypic Immagine Utente 
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Dock GNOME
 docking Abilita dock
@@ -195,6 +204,7 @@ filename Filename
 filetransfercancelled Trasferimento file cancellato
 filetransfercomplete Trasferimento del file completo
 followtext Segui il nuovo testo quando viene inserito
+friendlyname Soprannome 
 ftacceptedby $1 ha accettato l'invito a trasferire il file '$2'.
 ftaccepted Trasferimento del file accettato
 ftaccepting In attesa di accettare l'invito al trasferimento file
@@ -238,6 +248,7 @@ installconvert E' necessario installare il programma ImageMagick per convertire 
 internalerror Errore interno del server
 invalidfile2 Il file $1 non può essere creato, assicurati di avere i permessi necessari.
 invalidfile Il file $2 inserito nel campo "$1" non esiste o non è leggibile
+invalidgroup Gruppo non valido
 invalidpic La foto scelta non esiste
 invalidpicsize La foto scelta è troppo grande, scegline una più piccola
 invalidsound Il file audio scelto non esiste
@@ -252,11 +263,15 @@ keepalive Keepalive (NAT)
 keeplog2 Registra tutte le conversazioni in una History di aMSN per una visione futura
 keeplog Mantiene un registro delle chat
 language Linguaggio
+lastlogin Ultimo Login
+lastlogout Ultima Uscita
+lastmsgedme Ultimo Messaggio
 lastmsgtime Ultimo messaggio ricevuto alle $1
 lclosedwin $1 ha chiuso la finestra su $2
 lconftopriv La conversazione è divenuta una chat privata con $1
 lconvstarted La conversazione è cominciata su $1
 leaveblankforhotmail Lascia in bianco per l'uso di hotmail
+leavejoinsinchat Visualizza la notifica di "entrata/uscita" dalla conversazione all'interno della finestra di chat
 leaves $1 abbandona la conversazione
 lenteredconf $1 è entrato in conversazione su $2
 lineflushlog Svuota il buffer del file di log ad ogni nuova riga
@@ -276,10 +291,12 @@ loginas Accedi come
 loging Registrazione
 logolder Registra soltanto le chat che hanno preso posto nell'ultimo
 logout Abbandona
+logsbydate Ordina log per data (Visualizza la history più velocemente)
 logsin si e' appena connesso
 logsmileys Mostra le emoticon e le facine nella finestra dell'History di aMSN
 logsout è appena uscito
 longnick Il tuo nick è lungo più di 130 caratteri. Il protocollo ufficiale di MSN non lo consente. Vuoi impostarlo ugualmente?
+longp4c Il tuo soprannome è più lungo di 130 caratteri. Il Soprannome che apprarirà nella versione ufficiale di MSN sarà $1. Sei sicuro di salvare le impostazioni?
 lprivtoconf Chat privata divenuta conversazione con $1
 luclosedwin Hai chiuso la finestra su $1
 mailer Client di posta
@@ -311,8 +328,10 @@ newmsg Nuovo messaggio
 newstate Aggiungi uno Stato personale
 newveravailable La nuova versione $1 è disponibile per il download
 next Prossimo
+nick Soprannome
 noactivity Nessuna attività
 nodataavailable Non ci sono dati disponibili per $1
+nogroup Nessun gruppo
 nologfile Non c'é un file di registro per $1
 noneavailable Niente disponibile
 nonewmail Nessun nuovo messaggio di posta
@@ -333,6 +352,7 @@ notify notifica
 notifyoffset Selziona la posizione della finestra di notifica dandogli delle coordinate di posizione
 notifytyping Invia agli altri utenti una notifica mentre digito
 notifywin Finestra di Notifica
+notinlist Non sei presente nella sua lista contatti
 notls Il protocollo MSN 9 richiede il pacchetto tls. Al momento è impossibile trovarlo. Se è installato, è necessario specificare il percorso delle librerie nella finestra Preferenze (es: /opt/tls/lib). \n \n Il pacchetto tls può essere scaricato da http://tls.sf.net.
 nousersinsession Nessun utente nella sessione
 offline Sconnesso
@@ -346,10 +366,12 @@ ordercontactsby Ordina i contatti per
 ordergroupsby Ordina i gruppi per
 other Altri
 others Altri
+p4contextprefix Prefissa i mittenti nel P4-Context con questa serie di caratteri
 pager Impaginatore
 pass Password
 paste Incolla
 personal Personale
+phones Numeri di Telefonoalarms Allarmi
 phone Telefono
 picbrowser Mostra il selettore delle immagini personali
 picfile File dell'immagine dell'allarme (GIF < 500x500)
@@ -406,6 +428,7 @@ readonlywarn ATTENZIONE: Il file potrebbe NON venire salvato correttamente poich
 receivedbytes Ricevuti $1 byte su $2
 receiveddir Cartella dei files ricevuti
 receivefile Sto ricevendo il file
+recentmsg Previeni la chiusura di una finestra di chat quando è appena arrivato un messaggio
 reconnecting Riconnessione al server
 reconnect Sto aspettando che $1 si riconnetta
 reject Respingi
@@ -435,6 +458,7 @@ server Server
 serverunavailable Il server non è disponibile
 session Sessione
 showblockedlist Mostra la lista delle persone che ti bloccano
+showcachedpics Visualizza le immagini memorizzate in cache
 showdisplaypic2 Mostra l'mmagine personale in ogni nuova finestra di chat
 showdisplaypic Mostra l'immagine personale
 showmypic Immagine personale
@@ -447,6 +471,7 @@ smilefile Nome del file della faccina
 smileintro2 Per favore modifica i campi richiesti per personalizzare questa faccina (guarda le FAQ per un aiuto)
 smileintro Per favore riempi i campi richiesti per creare una nuova faccina personalizzata (guarda le FAQ per un aiuto)
 sound2 Emetti un suono quando i contatti entrano o mandano un messaggio
+soundactive Riproduci un suono anche quando ricevi un messaggio nella finestra attiva
 sound Attiva suoni
 soundcommand Questo deve essere il comando per emettere il suono (es.: esdplay)
 soundexample (\$sound = Suono da riprodurre) Es: esdplay \$sound
@@ -503,7 +528,9 @@ uoffline Offline
 uonline Online
 useralreadyonlist L'utente è già nella lista contatti
 userblocked L'utente è online ma ti ha bloccato
+userdata Dati Utente
 usernotonline Questo Utente non è online
+userproperties Proprietà dell'utente $1
 user Utente
 useryourself Non puoi chattare con te stesso
 verifyblocked Controlla le persone che ti stanno bloccando
@@ -523,11 +550,3 @@ yoffset Spostamento sull'asse delle Y
 youblocked Sei stato bloccato
 yousay Tu dici
 youwant Tu vuoi
-
-automessage Messaggio Automatico
-displayp4context Visualizza il contenuto del campo P4-Context come mittente del messaggio
-displaypic Immagine Utente 
-friendlyname Soprannome 
-longp4c Il tuo soprannome è più lungo di 130 caratteri. Il Soprannome che apprarirà nella versione ufficiale di MSN sarà $1. Sei sicuro di salvare le impostazioni?
-p4contextprefix Prefissa i mittenti nel P4-Context con questa serie di caratteri
-phones Numeri di Telefono
