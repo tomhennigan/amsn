@@ -27,16 +27,17 @@ def esc(text,color,bold=False):
 	return seq+text+"\33[0m"
 
 def usage():
-	print "Usage: missing.py [--nocolor] langXX"
+	print "Usage: missing.py [--nocolor] [--hidetrans] langXX"
 
 #By default, colors are shown
 nocolors=False
+hidetrans=False
 	
 msg_list = {}
 
 #Get options
 try:
-	opts,args=getopt.getopt(sys.argv[1:],"n",["nocolor"])
+	opts,args=getopt.getopt(sys.argv[1:],"n",["nocolor","hidetrans"])
 except getopt.GetoptError:
 	usage()
 	sys.exit(-1)
@@ -44,6 +45,7 @@ except getopt.GetoptError:
 #Process options
 for opt,arg in opts:
 	if opt in ("--nocolor"): nocolors=True
+	elif opt in ("--hidetrans"): hidetrans=True
 	
 #After parsing options, we should just have the language file
 if len(args) != 1:
@@ -63,17 +65,20 @@ except IOError:
     print "Couldn't open lang file '"+args[0]+"'"
     sys.exit(2)
 	
+###################################
+#Processing of the master keys
 print
 print esc("Loading master file...",CYAN)
 #Skip version line
-line=langen.next()
+header=langen.next().strip()
 #Load all master keys
-for line in langen:
+for num,line in enumerate(langen):
     
     line=line.strip("\n")
     
     if len(line)<=0:
         print esc(" ERROR:",RED)+esc(" blank line in 'langen', you should remove it",BOLD)
+        print " -->",esc("Line "+str(num+2),YELLOW,True)
         continue
     
     i = string.find(line, ' ')
@@ -89,27 +94,32 @@ for line in langen:
 
 print
     
+###################################
 #Now find missing keys
 print esc("Checking for missing keys in "+args[0]+"...",CYAN)
 loaded_keys=[]
 #Skin version line
-line=f.next();
-for line in f:
+line=f.next().strip()
+if not line==header:
+        print esc(" ERROR:",RED)+esc(" Header in file should be "+header,BOLD)
+	print " --> ",esc(line,YELLOW,True)
+for num,line in enumerate(f):
     tokens = string.split(line)
     
     if len(tokens)<=0:
         print esc(" ERROR:",RED)+esc(" blank line, you should remove it",BOLD)
+        print " -->",esc("Line "+str(num+2),YELLOW,True)
         continue
 
     if len(tokens)<2:
         print esc(" ERROR:",RED)+esc(" invalid key, you should remove it",BOLD)
-        print " --> ",esc(line,YELLOW,True)
+        print " Line "+str(num+2)+" -->",esc(line.strip(),YELLOW,True)
         continue
 
     key = tokens[0]
     if key in loaded_keys:
         print esc(" ERROR:",RED)+esc(" found duplicated key",BOLD)
-        print " -->'"+esc(key,YELLOW,True)+"'. Please remove one of the ocurrences"
+        print " Line "+str(num+2)+" -->'"+esc(key,YELLOW,True)+"'. Please remove one of the ocurrences"
         continue
     else:
         loaded_keys.append(key)
@@ -117,9 +127,10 @@ for line in f:
         del msg_list[key]
     except KeyError:
         print esc(" warning:",YELLOW)+esc(" found possibly deprecated key",BOLD)
-	print " --> '"+key+"'. Please remove it if it's not used in latest AMSN stable version"
-#    print string.rstrip(line)
+	print " Line "+str(num+2)+" --> '"+esc(key,YELLOW,True)+"'. Please remove it if it's not used in latest AMSN stable version"
 
+###################################
+#Print results
 num_missing=len(msg_list.items())
 if num_missing>0:
 	errormsg=str(num_missing)+" missing keys in "+args[0]+":"
@@ -134,6 +145,8 @@ else:
 keys=msg_list.keys()
 keys.sort()
 for key in keys:
-    print esc(key,CYAN,True)
+    if hidetrans: print esc(key,CYAN,True)
+    else:
+    	print esc(key,CYAN,True)+": "+msg_list[key]
 
 print
