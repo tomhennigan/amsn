@@ -3329,6 +3329,14 @@ proc cmsn_auth_msnp9 {{recv ""}} {
 	 set auth [split [lrange $auth 2 end] ","]
 	 set auth [lindex [split [lindex $auth 4] "'"] 1]
 
+	status_log "auth=${auth}--\n" blue
+	if { $auth=="" } {
+	  ::MSN::logout
+	  status_log "Error: User/Password\n" red
+	  ::amsn::errorMsg "[trans baduserpass]"
+	  return 0
+	}
+
 	 ::MSN::WriteSB ns "USR" "TWN S $auth"
          sb set ns stat "us"
          return 0
@@ -3629,15 +3637,16 @@ proc amsn_ssl_connect {string} {
 
   # TODO: Make a proc who handle those :)
 
-   flush $socket; gets $socket; flush $socket; gets $socket
-   flush $socket; gets $socket; flush $socket; gets $socket
-   flush $socket; gets $socket; flush $socket; gets $socket
-   flush $socket; gets $socket; flush $socket; gets $socket
-   flush $socket; gets $socket; flush $socket; gets $socket
-   flush $socket; gets $socket; flush $socket; gets $socket
-   flush $socket; gets $socket; flush $socket; gets $socket
-   flush $socket; gets $socket; flush $socket; gets $socket
-   flush $socket; gets $socket; flush $socket; set recv [gets $socket]
+   flush $socket; status_log "[gets $socket]\n"; flush $socket; status_log "[gets $socket]\n"
+   flush $socket; status_log "[gets $socket]\n"; flush $socket; status_log "[gets $socket]\n"
+   flush $socket; status_log "[gets $socket]\n"; flush $socket; status_log "[gets $socket]\n"
+   flush $socket; status_log "[gets $socket]\n"; flush $socket; status_log "[gets $socket]\n"
+   flush $socket; status_log "[gets $socket]\n"; flush $socket; status_log "[gets $socket]\n"
+   flush $socket; status_log "[gets $socket]\n"; flush $socket; status_log "[gets $socket]\n"
+   flush $socket; status_log "[gets $socket]\n"; flush $socket; status_log "[gets $socket]\n"
+   flush $socket; status_log "[gets $socket]\n"; flush $socket; status_log "[gets $socket]\n"
+   flush $socket; status_log "[gets $socket]\n"; flush $socket; set recv [gets $socket]
+	status_log "$recv\n"
 
    return $recv
 }
