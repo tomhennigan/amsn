@@ -43,18 +43,23 @@
 			<chat_dp_border_color>#a6a5b2</chat_dp_border_color>
 			<sendbuttonbg>#ffffff</sendbuttonbg>
 			<topbarbg>#f3f3ff</topbarbg>
+			<topbarbg_sel>#d8d8ff</topbarbg_sel>
 			<topbartext>#0005c3</topbartext>
 			<topbarborder>#5155ff</topbarborder>
 			<topbarawaybg>#f7fff7</topbarawaybg>
+			<topbarawaybg_sel>#d7ffd7</topbarawaybg_sel>
 			<topbarawaytext>#00aa00</topbarawaytext>
 			<topbarawayborder>#009a00</topbarawayborder>
 			<topbarbusybg>#fff3f7</topbarbusybg>
+			<topbarbusybg_sel>#ffd3d7</topbarbusybg_sel>
 			<topbarbusytext>#a21010</topbarbusytext>
 			<topbarbusyborder>#9c0000</topbarbusyborder>
 			<topbarofflinebg>#f6f6f6</topbarofflinebg>
+			<topbarofflinebg_sel>#d6d6d6</topbarofflinebg_sel>
 			<topbarofflinetext>#424242</topbarofflinetext>
 			<topbarofflineborder>#5e5e5e</topbarofflineborder>
 			<statusbarbg>#fcfcee</statusbarbg>
+			<statusbarbg_sel>#bbbbee</statusbarbg_sel>
 			<statusbartext>#000000</statusbartext>
 			<chat_status_border_color>#6b5600</chat_status_border_color>
 
