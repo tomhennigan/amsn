@@ -24,7 +24,6 @@ namespace eval ::skin {
 		if { [info exists ::skin_setting($key)] } {
 			return [::set ::skin_setting($key)]
 		} else {
-			status_log "OOPS, trying to get a setting that don't exists: $key\n" red
 			return $default
 		}
 	}
