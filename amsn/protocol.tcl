@@ -3425,6 +3425,7 @@ proc cmsn_ns_handler {item} {
 			}
 			208 {
 				status_log "Warning: Invalid username $item\n" red
+				msg_box "[trans invalidusername]"
 				return 0
 			}
 			209 {
