@@ -5,6 +5,7 @@ acceptfile ¿Aceptar archivo $1, tamaño $2 bytes? Se guardará en $3
 actions Acciones
 activeautoupdate Activar actualización automática
 addacontact Añadir un contacto
+add Añadir
 addedyou $1 ($2) te ha añadido a su lista de contactos
 addprofile Añadir un perfil
 addprofiledesc Introduce el nombre de usuario para el que quieres crear un perfil. \nLos perfiles permiten tener configuraciones distintas para cada usuario.\nSin un perfil no se puede usar el historial, alarmas o recordar contraseña.
@@ -121,6 +122,7 @@ clear Limpiar
 clearlog2 Limpiar historial para todos los contactos
 clearlog3 Limpiar todos los registros
 clearlog Limpiar historial
+clicktoadd Haz click en Añadir para crear una nueva nota
 clicktologin Haga click aquí para iniciar la sesión
 clientcaps Enviar paquetes x-clientcaps a otros clientes
 clientname Nombre del cliente
@@ -145,6 +147,7 @@ connecting Conectando
 connection Conexión
 connectionlost Desconectado: Conexión con el servidor cerrada
 contactadded Contacto añadido
+contact Contacto
 contactdoesnotexist El contacto que intentas añadir no existe
 contactlist Lista de Contactos(FL):
 continuously De forma contínua
@@ -156,9 +159,11 @@ corruptconfig El archivo configuración está corrupto. Creando uno nuevo. El anti
 corruptstates El archivo de la configuración de los autoestados está corrupto. Creando uno nuevo. El antiguo será salvado como $1. Por favor, envianoslo para ver qué ha ocurrido.
 countrycode Código de país/región
 cprofile Crear Perfil
+created Creado
 credits Creditos
 currentdate Fecha actual
 currentlanguage Este es el lenguaje usado actualmente
+currentnotes Notas actualies
 custnotifymsg Mostrar ventana de aviso cuando este contacto envía un nuevo mensaje
 custnotifyoffline Mostrar ventana de aviso cuando este contacto se desconecte
 custnotifyonline Mostrar ventana de aviso cuando este contacto se conecte
@@ -295,6 +300,7 @@ ignoreerrors Ignorar silenciosamente los errores de AMSN hasta el final de la se
 imagefiles Archivos de imágenes
 inbox Bandeja de entrada
 insertsmiley Insertar emoticono
+inserttextnote Inserta el texto en el campo Asunto y en el campo Nota, y después pulsa Guardar
 installconvert Debes instalar ImageMagick (comando 'convert') para poder convertir las imagenes al formato empleado por los servidores de MSN. Puedes descargar los binarios para tu Sistema Operativo desde ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Si ya los tienes, esto es un fallo en AMSN, por favor comunicanoslo.
 internalerror Error interno del servidor
 invalidfile2 El archivo $1 no se ha podido crear, asegurate de que tienes los permisos apropiados para el archivo destino.
@@ -366,6 +372,7 @@ maximised Maximizada
 minimised Minimizada/Iconificada
 mins minutos
 mobile Celular
+modified Modificado
 month Mes
 morepersonal Más estados ->
 move Mover
@@ -415,6 +422,7 @@ noprofileexists Actualmente no existe ningún perfil. \n Debes crear uno si quier
 normal Normal
 noskins No se ha podido encontrar el perfil por defecto (default) en la carpeta skins/. No se puede iniciar AMSN
 nosystemtray Bandeja del sistema no disponible
+note Nota
 notificationserver Servidor inicial de notificaciones MSN (Servidor MSN Messenger)
 notify1_5 Mostrar ventana de aviso cuando un contacto se desconecte
 notify1_75 Mostrar ventana de aviso cuando un contacto cambia de estado
@@ -589,6 +597,8 @@ stylechat El mismo que los chats
 style Estilo
 stylehist apariencia de historial de aMSN
 stylelog Elige el estilo en el que deseas ver el historial
+subject Asunto
+subjectrequired Asunto requerido
 syntaxerror Error de sintaxis
 tabbedglobal Una ventana con patillas para todos los usuarios
 tabbedgroups Una ventana con patillas para cada grupo
