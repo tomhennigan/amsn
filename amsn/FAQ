@@ -9,17 +9,17 @@ INSTALLING AND RUNNING
 =====================
 
 Q: What do I need to run amsn?
-A: Amsn is written in tcl/tk, so you just need a working tcl/tk interpreter,
-version 8.3 or later. You can get it at http://tcl.sourceforge.net. The
+A: Amsn is written in tcl/tk, so you just need a working tcl/tk interpreter
+(version 8.3 or later). You can get it at http://tcl.sourceforge.net. The
 interpreter is available for linux, windows and macintosh.Some additional
-features might require extra programs, or libraries, like the docking icon,
-the Display Pictures, or the SSL connection for MSN Protocol 9.
+features might require extra programs or libraries, like the docking icon,
+the Display Pictures or the SSL connection for MSN Protocol 9.
 
 Q: How do I install and run amsn on unix/linux?
 A: Just download the amsn-x_xx.tar.gz file. Untar it with the command:
   gzip -d amsn-x_xx.tar.gz
   tar xvf amsn-x_xx.tar
-It will create a msn/ directory, and amsn is installed and ready to run.
+It will create an msn/ directory, and amsn is installed and ready to run.
 To launch it, do:
   cd msn
   ./amsn
@@ -125,9 +125,9 @@ will then be copied in your profile directory in case you move or rename the
 original file.
 The same properties may be considered for the "Sound file" field... this is
 used for playing a sound, when the smiley is shown.. for example the LOL
-smiley triggered on LOL make a laughing sound. The sound must be a .wav file
+smiley triggered on LOL makes a laughing sound. The sound must be a .wav file
 or any extension supported by your sound player (set in the application
-preferences tab... play, esdplay, or mpg123 if you want it to be a .mp3
+preferences tab... play, esdplay, or mpg123 if you want it to be an .mp3
 file...) . For that entry to be available, you must first activate the
 checkbutton that says "play sound"
 The check-button "animated" means that this GIF file is animated, if the GIF
@@ -175,7 +175,7 @@ this works, edit amsn and change the first line:
  #!/usr/bin/wish
  with the location of the wish interpreter.
 
-Q: When I run amsn i get this error:
+Q: When I run amsn I get this error:
 Error in startup script: bad option "map": must be
 compare, first, index, last, length, match, range,
 tolower, toupper, trim, trimleft, trimright, wordend,
@@ -187,7 +187,7 @@ invoked from within
 "namespace eval ::md5 { ... etc
 A: You're using a version of tcl/tk that is older than 8.3. Update tcl/tk.
 
-Q: After updating amsn, this is what i get when I run it:
+Q: After updating amsn, this is what I get when I run it:
 Error in startup script: expected integer but got ""
 while executing
 "font create menufont -family $family -size $size
@@ -227,7 +227,7 @@ A: Try enabling "Keepalive (NAT)" in the tools->options menu, inside advanced
 preferences. It's a fix for shared internet connections that keeps sending a
 dummy packet to the server every 2 minutes, to keep the connection alive.
 
-Q: The sound even is repeating. For example if  XMMS is running and someone
+Q: The sound event is repeating. For example if XMMS is running and someone
 logged in or you were chatting with someone, after XMMS is closed or the
 file is finished all the sound events that weren`t able to be played
 because of XMMS are now played in an annoying way.
@@ -289,7 +289,7 @@ at http://sourceforge.net/projects/amsn, and check all the bugs, support
 request and general forums to check if your problem is already answered. Don't
 check only the messages marked as "Open". There's a drop down list where you
 can select "Closed", or "Pending" at the top of the messages list. Already answered
-question are usually marked as Closed.
+questions are usually marked as Closed.
 Before submitting a bug or asking for support, get the following information:
 - Amsn version.
 - Tcl and Tk version.
