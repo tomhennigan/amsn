@@ -855,7 +855,7 @@ namespace eval ::MSN {
 			set passwd [set password]
 		}
 
-		ns configure -data [list] -stat "d" -sock "" \
+		ns configure -stat "d" -sock "" \
 			-server [split [::config::getKey start_ns_server] ":"]
 		
 		#Setup the conection
@@ -1235,11 +1235,11 @@ namespace eval ::MSN {
 			eval $command
 		}
 		
-		#Append an empty string to the SB buffer. This will cause the
-		#actual SB cleaning, but will allow to process all buffer
-		#before doing the cleaning
-		$sb addData ""
-
+#		#Append an empty string to the SB buffer. This will cause the
+#		#actual SB cleaning, but will allow to process all buffer
+#		#before doing the cleaning
+#		$sb addData ""
+		ClearSB $sb
 	}
 	#///////////////////////////////////////////////////////////////////////
 
@@ -1251,9 +1251,10 @@ namespace eval ::MSN {
 		status_log "::MSN::ClearSB $sb called\n" green
 		
 		set oldstat [$sb cget -stat]
-		$sb configure -data ""
+#		$sb configure -data ""
 		$sb configure -sock ""
 		$sb configure -stat "d"
+		puts $oldstat
 		
 		if { $sb == "ns" } {
 	
@@ -2148,28 +2149,6 @@ namespace eval ::MSN {
 		return [lindex $state 5]	
 	}	
 
-	proc receivedCommand { sbn command } {
-		if { $sbn == "ns" } {
-			set debugcolor "nsrecv"
-		} else {
-			set debugcolor "sbrecv"
-		}
-		$sbn addData $command
-		degt_protocol "<-$sbn $command" $debugcolor
-	}
-	
-	proc receivedPayload { sbn command data } {
-		if { $sbn == "ns" } {
-			set debugcolor "nsrecv"
-		} else {
-			set debugcolor "sbrecv"
-		}	
-		$sbn addData $command
-		$sbn addData $data
-		degt_protocol "<-$sbn $command" $debugcolor
-		degt_protocol "Message Contents:\n$data" msgcontents
-	}
-
 }
 
 #Connection wrapper for Direct Connection
@@ -2217,9 +2196,9 @@ namespace eval ::DirectConnection {
 			return -1
 		}
 	
+		fconfigure $sock -buffering none -translation binary -blocking 0
 		$sbn configure -sock $sock
-		fconfigure $sock -buffering none -translation {binary binary} -blocking 0
-		fileevent $sock readable [list ::DirectConnection::Readable $sbn $sock]
+		fileevent $sock readable [list $sbn receivedData]
 		set connected_command [$sbn cget -connected]
 		lappend connected_command $sock
 		fileevent $sock writable $connected_command
@@ -2345,133 +2324,102 @@ namespace eval ::DirectConnection {
 		::http::cleanup $token
 	
 	}
-	
-		
-	#Private callback, called when there's something to be read in the socket	
-	proc Readable {sbn sb_sock } {
-	
-		if {[catch {eof $sb_sock} res]} {
-			status_log "::DirectConnection::Read: Error reading EOF for $sbn: $res\n" red
-			catch {fileevent $sb_sock readable ""}
-			eval [$sbn cget -error_handler]
-			return
-		} elseif {[eof $sb_sock]} {	
-			status_log "::DirectConnection::Read: EOF in $sbn, closing\n" red
-			catch {fileevent $sb_sock readable ""}
-			eval [$sbn cget -error_handler]
-			return
-		} else {
-	
-			set tmp_data "ERROR READING SB !!!"
-			if {[catch {gets $sb_sock tmp_data} res]} {	
-				status_log "::DirectConnection::Read: Read error in $sbn, closing: $res\n" red
-				catch {fileevent $sb_sock readable ""}
-				eval [$sbn cget -error_handler]
-				return
-			} elseif  { "$tmp_data" == "" } {
-				update idletasks
-			} else {
-				if {[string range $tmp_data 0 2] == "MSG"} {
-					set recv [split $tmp_data]
-					set old_handler "[fileevent $sb_sock readable]"
-					ReadNonBlocking $sbn [lindex $recv 3] [list ::DirectConnection::FinishedReadingPayload $sbn $old_handler $tmp_data]
-				} else {
-					set command [$sbn cget -command_handler]
-					lappend command $tmp_data
-					if {[catch {eval $command}]} {
-						status_log "::DirectConnection::Read: Read error in $sbn, no command handler, closing\n" red
-						catch {fileevent $sb_sock readable ""}
-						eval [$sbn cget -error_handler]
-					}
-				}
-			}
-		}
-	}
-
-	
-	proc ReadNonBlocking { sbn amount finish_proc {read 0}} {
-	
-		set sock [$sbn cget -sock]
-	
-		fileevent $sock readable ""
-	
-		if {[catch {eof $sock} res]} {
-			status_log "::DirectConnection::ReadNonBlocking: Error reading EOF for sock $sock ($sbn): $res\n" red
-			eval [$sbn cget -error_handler]
-			return
-		} elseif {[eof $sock]} {
-			status_log "::DirectConnection::ReadNonBlocking: Eof in sock $sock ($sbn), closing\n" red
-			eval [$sbn cget -error_handler]
-			return
-		}
-	
-		set buffer_name "read_buffer_$sock"
-		upvar #0 $buffer_name read_buffer
-	
-		if { $read == 0 } {
-			set read_buffer ""
-		}
-	
-		set to_read [expr {$amount - $read}]
-		set data [read $sock $to_read]
-	
-		if  { "$data" == "" } {
-			status_log "::DirectConnection::ReadNonBlocking: Blank read!! Why does this happen??\n" red
-			update idletasks
-		}
-
-		set read_buffer "${read_buffer}$data"	
-		set read_bytes [string length ${data}]
-		set read_until_now [expr {$read + $read_bytes}]
-	
-		if { $read_until_now < $amount } {
-			fileevent $sock readable [list ::DirectConnection::ReadNonBlocking $sbn $amount $finish_proc $read_until_now]
-		} else {
-			eval $finish_proc
-		}
-	}
-	
-	
-	proc FinishedReadingPayload {sbn old_handler msg_data} {
-	
-		set sock [$sbn cget -sock]
-	
-		set buffer_name "read_buffer_$sock"
-		upvar #0 $buffer_name read_buffer
-	
-		set command [$sbn cget -payload_handler]
-		lappend command $msg_data
-		lappend command $read_buffer
-		eval $command
-
-		unset read_buffer
-
-		fileevent $sock readable $old_handler
-	}
-		
 }
+
+::snit::type Message {
+
+}
+
 
 ::snit::type Connection {
 
-	option -data [list]
+	option -name
+#	option -data [list]
 	option -server ""
 	option -stat ""
 	option -sock ""
 	option -connected ""
-	option -command_handler
-	option -payload_handler ""
-	option -error_handler ""
+#	option -command_handler
+#	option -payload_handler ""
+#	option -error_handler ""
 	option -connection_wrapper ""
 	option -time ""
 	option -error_msg ""
 
+	variable dataBuffer ""
 
-	method addData { value } {
-		lappend options(-data) $value
+
+	method receivedData { } {
+
+		#first put available data in the buffer
+		$self appendDataToBuffer
+
+		degt_protocol buffer:$dataBuffer
+		#check for the a newline, if there is we have a command if not return
+		set idx [string first "\r\n" $dataBuffer]
+		if { $idx == -1 } { return }
+		set command [string range $dataBuffer 0 [expr $idx -1]]
+
+		#check for payload commands:
+		if {[lsearch {MSG NOT PAG} [string range $command 0 2]] != -1} {
+			set length [lindex [split $command] 3]
+			degt_protocol thelength:$length
+			set remaining [string range $dataBuffer [expr $idx +2] end]
+			#if the whole payload is in the buffer process the command else return
+			if { [string length $remaining] >= $length } {
+				set payload [string range $remaining 0 [expr $length -1]]
+				set dataBuffer [string range $dataBuffer [string length "$command\r\n$payload"] end]
+				$self handleCommand $command $payload
+				$self receivedData
+			} else {
+				return
+			}
+		} else {
+			set dataBuffer [string range $dataBuffer [string length "$command\r\n"] end]
+			$self handleCommand $command
+			$self receivedData
+		}
 	}
 
-	method delData { idx } {
-		set options(-data) [lreplace $options(-data) $idx $idx]
+	method appendDataToBuffer { } {
+		set sock $options(-sock)
+		if {[catch {eof $sock} res]} {
+			status_log "Error reading EOF for $self: $res\n" red
+			catch {fileevent $sock readable ""}
+			$self sockError
+			return
+		} elseif {[eof $sock]} {	
+			status_log "Read EOF in $self, closing\n" red
+			catch {fileevent $sock readable ""}
+			$self sockError
+			return
+		} else {
+			set tmp_data "ERROR READING SOCKET !!!"
+			if {[catch {set tmp_data [read $sock]} res]} {	
+				status_log "Read error in $self, closing: $res\n" red
+				catch {fileevent $sock readable ""}
+				$self sockError
+				return
+			}
+			if { $tmp_data == "" } {
+			}
+			append dataBuffer $tmp_data
+		}
+	}
+
+	method sockError { } {
+		puts sockError
+		::MSN::CloseSB $self
+	}
+
+	method handleCommand { command {payload ""}} {
+		degt_protocol command:$command
+		degt_protocol payload:$payload
+		if { [string first NS $self] != -1 } {
+			cmsn_ns_handler [split $command] $payload
+		} else {
+			cmsn_sb_handler $options(-name) [split $command] $payload
+		}
 	}
 
 }
@@ -2483,9 +2431,12 @@ namespace eval ::DirectConnection {
 	option -autherror_handler ""
 	option -passerror_handler ""
 	option -ticket_handler ""
+	option -proxy_host
+	option -proxy_port
+	option -proxy_authenticate
 
 	constructor {args} {
-		install connection using Connection %AUTO%
+		install connection using Connection %AUTO% -name $self
 		$self configurelist $args
 	}
 }
@@ -2505,7 +2456,7 @@ namespace eval ::DirectConnection {
 
 
 	constructor {args} {
-		install connection using Connection %AUTO%
+		install connection using Connection %AUTO% -name $self
 		$self configurelist $args
 	}
 
@@ -2528,88 +2479,6 @@ namespace eval ::DirectConnection {
 	method search { option index } {
 		return [lsearch $options($option) $index]
 	}
-}
-
-proc proc_sb_watchdog {} {
-	status_log "ALERT: PROC_SB STOPPED WORKING!!!!!!!\n" red
-	after cancel proc_sb
-	proc_sb
-}
-
-proc proc_sb {} {
-	global sb_list
-
-	after cancel proc_sb
-	after 4000 proc_sb_watchdog
-	#status_log "Processing SB\n"	
-	foreach sb $sb_list {
-		while {[llength [$sb cget -data]]} {
-			set item [lindex [$sb cget -data] 0]
-			set item [encoding convertfrom utf-8 $item]
-			
-			set item [string map {\r ""} $item]
-			set item [split $item]
-			
-			$sb delData 0
-			
-			if { $item == "" } {
-				::MSN::ClearSB $sb
-				break
-			}
-			set result [cmsn_sb_handler $sb $item]
-			if {$result == 0} {
-		
-			} else {
-				status_log "proc_sb: problem processing SB data!\n" red
-				continue
-			}
-
-		}
-	}
-	
-	after cancel proc_sb_watchdog
-	after 250 proc_sb
-	return 1
-}
-
-
-proc proc_ns_watchdog {} {
-	status_log "ALERT: PROC_NS STOPPED WORKING!!!!!!!\n" red
-	after cancel proc_ns
-	proc_ns
-}
-
-proc proc_ns {} {
-	
-	after cancel proc_ns
-	after 4000 proc_ns_watchdog
-	#status_log "Processing NS\n"
-	while {[llength [ns cget -data]]} {
-		set item [lindex [ns cget -data] 0]
-		
-
-		set item [encoding convertfrom utf-8 $item]
-		
-		set item [string map {\r ""} $item]
-		set item [split $item]
-		ns delData 0
-
-		if { $item == "" } {
-			status_log "proc_ns: NS Socket was closed\n" green
-			::MSN::ClearSB ns
-			break
-		}		
-		
-		set result [cmsn_ns_handler $item]
-		if {$result != 0} {
-			status_log "problem processing NS data: $item!!\n" red
-		}
-	}
-
-	after cancel proc_ns_watchdog
-	
-	after 100 proc_ns
-	return 1
 }
 
 
@@ -2665,13 +2534,14 @@ proc parse_exec {text} {
 	return [string trimright $outtext "\n"]
 }
 
-proc cmsn_sb_msg {sb recv} {
+proc cmsn_sb_msg {sb recv payload} {
 	#TODO: A little cleaning on all this
 	global filetoreceive files_dir automessage automsgsent
 
 	#Get the msg headers from the SB
-	set msg [lindex [$sb cget -data] 0]
-	$sb delData 0
+#	set msg [lindex [$sb cget -data] 0]
+	set msg $payload
+#	$sb delData 0
 
 	#Call cmsn_msg_parse to parse headers and get message
 	array set headers [list]
@@ -2905,7 +2775,7 @@ proc cmsn_sb_msg {sb recv} {
 }
 
 
-proc cmsn_sb_handler {sb item} {
+proc cmsn_sb_handler {sb item {payload ""}} {
 	global list_cmdhnd msgacks
 
 	#set item [encoding convertfrom utf-8 $item]
@@ -2922,7 +2792,7 @@ proc cmsn_sb_handler {sb item} {
 	} else {
 		switch [lindex $item 0] {
 			MSG {
-				cmsn_sb_msg $sb $item
+				cmsn_sb_msg $sb $item $payload
 				return 0
 			}
 			BYE -
@@ -3166,7 +3036,7 @@ proc cmsn_reconnect { sb } {
 			$sb configure -time [clock seconds]
 	
 			$sb configure -sock ""
-			$sb configure -data [list]
+			#$sb configure -data [list]
 			$sb configure -users [list]
 			$sb configure -typers [list]
 			$sb configure -title [trans chat]
@@ -3585,7 +3455,7 @@ proc cmsn_change_state {recv} {
 }
 
 
-proc cmsn_ns_handler {item} {
+proc cmsn_ns_handler {item {payload ""}} {
 	global list_cmdhnd password
 
 	set ret_trid [lindex $item 1]
@@ -3603,7 +3473,7 @@ proc cmsn_ns_handler {item} {
 	} else {
 		switch [lindex $item 0] {
 			MSG {
-				cmsn_ns_msg $item
+				cmsn_ns_msg $item $payload
 				return 0
 			}
 
@@ -3892,10 +3762,10 @@ proc cmsn_ns_handler {item} {
 }
 
 
-proc cmsn_ns_msg {recv} {
+proc cmsn_ns_msg {recv payload} {
 
-	set msg_data [lindex [ns cget -data] 0]
-	ns delData 0
+	set msg_data $payload
+#	ns delData 0
 	#status_log "cmsn_ns_msg:\n$msg_data\n" red
 
 	if { [lindex $recv 1] != "Hotmail" && [lindex $recv 2] != "Hotmail"} {
@@ -4287,10 +4157,8 @@ proc ns_enter {} {
 proc setup_connection {name} {
 
 	#This is the default read handler, if not changed by proxy
-	$name configure -command_handler [list ::MSN::receivedCommand $name]
-	$name configure -payload_handler [list ::MSN::receivedPayload $name]
 	#This is the default procedure that should be called when an error is detected
-	$name configure -error_handler [list ::MSN::CloseSB $name]
+#	$name configure -error_handler [list ::MSN::CloseSB $name]
 
 	if {[::config::getKey connectiontype] == "direct" } {
  		$name configure -connection_wrapper DirectConnection
@@ -4431,7 +4299,7 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	ns configure -autherror_handler "msnp9_auth_error"
 	ns configure -passerror_handler "msnp9_userpass_error"
 	ns configure -ticket_handler "msnp9_authenticate"
-	ns configure -data [list]
+	#ns configure -data [list]
 	ns configure -connected "cmsn_ns_connected"
 
 	cmsn_socket ns
@@ -4812,14 +4680,28 @@ proc xclientcaps_received {msg chatid} {
 			::abook::setContactData $chatid operatingsystem $operatingsystem
 		}
 }
-###############################################
-# add_Clientid chatid clientid                #
-# ------------------------------------------- #
-# Look for clientid information               #
-# Add it to ContactData                       #
-# More information:                           #
-# http://ceebuh.info/docs/?url=clientid.html  #
-###############################################
+#################################################
+# add_Clientid chatid clientid                	#
+# ---------------------------------------------	#
+# Look for clientid information               	#
+# Add it to ContactData                       	#
+# More information:                           	#
+# http://ceebuh.info/docs/?url=clientid.html	#
+#################################################
+# id bit     capability				#
+# 0x00000001 Mobile Device			#
+# 0x00000002 Unknown				#
+# 0x00000004 Ink Viewing			#
+# 0x00000008 Ink Creating			#
+# 0x00000010 Webcam				#
+# 0x00000020 Multi-Packeting			#
+# 0x00000040 Paging				#
+# 0x00000080 Direct-Paging			#
+# 0x00000200 WebMessenger			#
+# 0x00001000 Unknown (Msgr 7 always[?] sets it)	#
+# 0x00004000 DirectIM				#
+# 0x00008000 Winks				#
+#################################################
 proc add_Clientid {chatid clientid} {
 	#We look on the clientid number to determine witch client it is
 	#Remember, aMSN 0.94B is known as MSN 7, 0.93 as MSN 6.0
