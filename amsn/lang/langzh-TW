@@ -37,6 +37,7 @@ appearance 外觀
 appearoff 隱形
 areacode 區碼
 aretyping $1 正在輸入訊息
+author 作者
 autoaccepted 檔案傳送已經被自動接受 
 autoacceptft 自動接受檔案傳送要求
 autoaway 當我閒置時,將我的狀態顯示為「離開」
@@ -121,6 +122,7 @@ closed 因為發呆所以與 $1 的對話已經被關閉
 closingdocks 關閉docks視窗
 commandstatus 執行命令
 command 指令
+configure 設置
 confirm 你確定要？
 confirmbl 您確定要封鎖該名使用者?
 confirmrfl 您確定要從本群組中刪除這名聯絡人嗎?
@@ -229,6 +231,7 @@ filedoesnotexist 檔案不存在
 fileman 檔案管理員
 filemanexample ( \$location 將會取代為目錄 ) Ex: nautilus \$location
 filename 檔案名稱
+filetransfer 檔案傳送
 filetransfercancelled 檔案傳送已取消
 filetransfercomplete 檔案傳送完畢
 followtext 往下捲,當新的文字被輸入
@@ -317,6 +320,7 @@ listsmileys2 顯示表情符號於aMSN的主要連絡人清單
 listsmileys 表情符號
 ljoinedconf $1 已經加入會議
 lleftconf $1 已經離開會議
+load 載入
 loadcontacts 匯入連絡人清單
 logbigger 每位連絡人的紀錄檔案大小沒有上限
 logeventconnect 紀錄連線
@@ -364,11 +368,13 @@ mynick 我的暱稱
 mypic 我的顯示圖片: 
 mystatus 我的狀態
 myworkphone 公司電話號碼
+name 姓名
 natip IP detection by web page  
 natkeepalive 如果您會定時被斷線, 請開啟保持連線
 needonline 您還是在離線中!
 needwinico 需要winico03.dll於plugin資料夾中才能縮小於工具列
 never 從不
+new_ft_protocol 使用新的檔案傳輸協定(目前仍有bug)
 newmail $1 封新郵件在收件匣中
 newmailfolder 您在hotmail其他的信件夾中有$1封新的郵件
 newmailfromother 信件夾中有由$1 ($2)寄來的新郵件
@@ -492,6 +498,7 @@ rememberpass 儲存密碼
 removeempty 從聯絡清單中移除空白群組
 removefromlist 從清單中移除
 rename 重新命名
+required_version 無法載入這個plugin,它需要至少aMSN $1以上的版本才能執行
 reversed 反向
 reverselist 保留清單 (RL): 
 rightback 馬上回來
@@ -587,6 +594,7 @@ truncatenames2 於對話中將暱稱超過視窗寬度的部分截去
 truncatenicks 將暱稱超過視窗寬度的部分截去
 twonewmail $1 封新郵件在收件匣中
 unblock 解除封鎖
+unload 卸除
 uoffline 離線
 uonline 線上
 useother 使用一個不同程式
@@ -605,6 +613,7 @@ viewcontactsby 檢視聯絡人透過
 viewprofile 檢視個人資訊
 webcaminvite $1 邀請您啟動檢視網路攝影機影像, 但是aMSN尚未支援這個功能.
 willjoin 等待 $1 加入聊天
+winkreceived 您已經從$1收到一個wink,目前aMSN尚未支援該功能
 work 工作
 wrongfields "$1", "$2" and/or "$3" 欄位是無效的
 wrongprofileversion 錯誤的個人設定檔版本. 為了要修復它, 請移除目錄$1, 或是升級aMSN
