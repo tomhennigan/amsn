@@ -211,6 +211,7 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
 	    set animated [valueforemot "$emotion" animated]
 	    set sound [valueforemot "$emotion" sound]
 	    if { [valueforemot "$emotion" casesensitive] } {set nocase "-exact"} else {set nocase "-nocase"}
+	    if { $config(animatedsmileys) == 0 } {set animated 0}
 
 #	    puts "$symbol :  $animated -- $sound -- $nocase"
 
@@ -458,12 +459,12 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 	create_smile_menu $x $y
     }
 
-    set x [expr $x - 15]
-    set y [expr $y - 15]
+#     set x [expr $x - 15]
+#     set y [expr $y - 15]
 
-    wm geometry $w +$x+$y
+#     wm geometry $w +$x+$y
     
-    wm state $w normal
+#    wm state $w normal
 
     foreach emotion [lsort $emotions_names] {
 	set symbol [lindex $emotions(${emotion}_text) 0]
@@ -472,9 +473,11 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 
 	catch { 
 	    if { [string match {(%)} $symbol] != 0 } {
-		bind $w.text.$filename <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; wm state $w withdrawn} res"
+#		bind $w.text.$filename <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; wm state $w withdrawn} res"
+		bind $w.text.$filename <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; destroy $w} res"
 	    } else {
-		bind $w.text.$filename <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\;[list wm state $w withdrawn]} res"     
+#		bind $w.text.$filename <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\;[list wm state $w withdrawn]} res"     
+		bind $w.text.$filename <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\;[list destroy $w]} res"     
 	    }
 	}
     }
@@ -491,15 +494,15 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 
 
 proc create_smile_menu { {x 0} {y 0} } {
-    global emotions emotions_names smileys_folder
+    global emotions emotions_names smileys_folder config
     
     set w .smile_selector
     if {[catch {[toplevel $w]} res]} {
 	destroy $w
 	toplevel $w     
     }
-    set x [expr $x - 10]
-    set y [expr $y - 10]
+    set x [expr $x - 15]
+    set y [expr $y - 15]
     set xy_geo [calcul_geometry_smileys]
     set x_geo [lindex $xy_geo 0]
     set y_geo [lindex $xy_geo 1]
@@ -526,6 +529,7 @@ proc create_smile_menu { {x 0} {y 0} } {
 	set chars [string length $symbol]
 	set hiden [valueforemot "$emotion" hiden]
 	set animated [valueforemot "$emotion" animated]
+	if { $config(animatedsmileys) == 0 } {set animated 0}
 
 	if { $hiden} {continue}
 
@@ -553,9 +557,10 @@ proc create_smile_menu { {x 0} {y 0} } {
     $w.text configure -state disabled
     
  #   bind $w <Leave> "wm state $w withdrawn"
-    bind $w <Enter> "bind $w <Leave> \"bind $w <Leave> \\\"wm state $w withdrawn\\\"\""
-    
-    wm state $w withdrawn
+#    bind $w <Enter> "bind $w <Leave> \"bind $w <Leave> \\\"wm state $w withdrawn\\\"\""
+    bind $w <Enter> "bind $w <Leave> \"bind $w <Leave> \\\"destroy $w\\\"\""
+
+#    wm state $w withdrawn
 
 }
 

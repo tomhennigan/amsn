@@ -2160,6 +2160,7 @@ proc CALReceived {sb_name user item} {
        713 {
 	   status_log "CALReceived : 713 USER TOO ACTIVE \nStoping the VerifyBlocked procedure" red
 	   StopVerifyBlocked
+	   return 0
        }
    }
    cmsn_sb_handler $sb_name [encoding convertto utf-8 $item]

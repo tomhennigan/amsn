@@ -484,8 +484,9 @@ proc Preferences { { settings "personal"} } {
 	checkbutton $lfname.1.chat -text "[trans chatsmileys2]" -onvalue 1 -offvalue 0 -variable config(chatsmileys)
 	checkbutton $lfname.1.list -text "[trans listsmileys2]" -onvalue 1 -offvalue 0 -variable config(listsmileys)
         checkbutton $lfname.1.sound -text "[trans emotisounds]" -onvalue 1 -offvalue 0 -variable config(emotisounds)
+        checkbutton $lfname.1.animated -text "[trans animatedsmileys]" -onvalue 1 -offvalue 0 -variable config(animatedsmileys)
 	checkbutton $lfname.1.log -text "[trans logsmileys]" -onvalue 1 -offvalue 0 -variable config(logsmileys) -state disabled
-	pack $lfname.1.chat $lfname.1.list $lfname.1.sound $lfname.1.log -anchor w -side top -padx 10
+	pack $lfname.1.chat $lfname.1.list $lfname.1.sound  $lfname.1.animated $lfname.1.log -anchor w -side top -padx 10
 
 	## Alerts and Sounds Frame ##
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefalerts]]
@@ -1494,6 +1495,10 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.64  2003/07/19 17:56:50  kakaroto
+# added a "disabled animated smileys" option
+# destroying smileys menu everytime
+#
 # Revision 1.63  2003/06/30 11:23:47  kakaroto
 # added skin support and animated smileys
 #
