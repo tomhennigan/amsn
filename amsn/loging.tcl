@@ -389,7 +389,12 @@ proc OpenLogWin { {email ""} } {
       	wm geometry $wname 600x400
 
 	frame $wname.top
-	frame $wname.blueframe -background [::skin::getColor background1]
+	#No ugly blue frame on Mac OS X, system already put a border around windows
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		frame $wname.blueframe
+	} else {
+		frame $wname.blueframe -background [::skin::getColor background1]
+	}
 	frame $wname.blueframe.log -class Amsn -borderwidth 0
       	frame $wname.buttons -class Amsn
 

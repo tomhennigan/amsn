@@ -1866,8 +1866,12 @@ namespace eval ::amsn {
 		wm title $wname $title
 
 #		wm geometry $wname 320x350
-
-		frame $wname.blueframe -background [::skin::getColor background1]
+		#No ugly blue frame on Mac OS X, system already use a border around window
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			frame $wname.blueframe
+		} else {
+			frame $wname.blueframe -background [::skin::getColor background1]
+		}
 
 		frame $wname.blueframe.list -class Amsn -borderwidth 0
 		frame $wname.buttons -class Amsn
