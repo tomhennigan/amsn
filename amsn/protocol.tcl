@@ -1909,7 +1909,7 @@ proc read_sb_sock {sbn} {
 				set recv [split $tmp_data]
 
 				set old_handler "[fileevent $sb_sock readable]"
-				read_non_blocking $sb_sock [lindex $recv 3] [list finished_reading_msg $sbn $old_handler $tmp_data]
+				read_non_blocking $sbn [lindex $recv 3] [list finished_reading_msg $sbn $old_handler $tmp_data]
 
 			} else {
 				sb append $sbn data $tmp_data
@@ -1920,20 +1920,22 @@ proc read_sb_sock {sbn} {
 
 }
 
-proc read_non_blocking { sock amount finish_proc {read 0}} {
+proc read_non_blocking { sbn amount finish_proc {read 0}} {
+
+	set sock [sb get $sbn sock]
 
 	fileevent $sock readable ""
 
 	if {[catch {eof $sock} res]} {
 
-		status_log "read_non_blocking: Error reading EOF for sock $sock: $res\n" red
-		catch {close $sock}
+		status_log "read_non_blocking: Error reading EOF for sock $sock ($sbn): $res\n" red
+		::MSN::CloseSB $sbn
 		return
 
 	} elseif {[eof $sock]} {
 
-		status_log "read_non_blocking: Eof in sock $sock, closing\n" red
-		catch {close $sock}
+		status_log "read_non_blocking: Eof in sock $sock ($sbn), closing\n" red
+		::MSN::CloseSB $sbn
 		return
 
 	}
@@ -1961,7 +1963,7 @@ proc read_non_blocking { sock amount finish_proc {read 0}} {
 	set read_until_now [expr {$read + $read_bytes}]
 
 	if { $read_until_now < $amount } {
-		fileevent $sock readable [list read_non_blocking $sock $amount $finish_proc $read_until_now]
+		fileevent $sock readable [list read_non_blocking $sbn $amount $finish_proc $read_until_now]
 	} else {
 		eval $finish_proc
 	}
