@@ -552,13 +552,13 @@ namespace eval ::amsnplus {
 		set w $newvar(window_name)
 
 		#create the widgeds
-		button $amsnplusbutton -image [::skin::loadPixmap amsnplusbutton] -relief flat -padx 3 \
+		label $amsnplusbutton -image [::skin::loadPixmap amsnplusbutton] -relief flat -padx 3 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-			-highlightbackground [::skin::getKey buttonbarbg] \
-			-command "after 1 ::amsnplus::choose_color $w" -activebackground [::skin::getKey buttonbarbg]
+			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
 		set_balloon $amsnplusbutton "[trans multiplecolorsbutton]"
 
 		#Configure hover button
+		bind $amsnplusbutton <<Button1>> "after 1 ::amsnplus::choose_color $w" 
 		bind $amsnplusbutton <Enter> "$amsnplusbutton configure -image [::skin::loadPixmap amsnplusbutton_hover]"
 		bind $amsnplusbutton <Leave> "$amsnplusbutton configure -image [::skin::loadPixmap amsnplusbutton]"
 		
