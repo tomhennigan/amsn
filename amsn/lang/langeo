@@ -261,7 +261,7 @@ sentbytes Sentinta $1 de $2 bajtoj
 server Servilo
 servergoingdown Malkonektita: Servilo estas subiranta
 session Seanco
-sound Evento-Sono
+sound Evento-Sonoblockinter3
 sound2 Ludu sonojn kiam kontaktuloj salutas aŭ sendas mesaĝon
 soundcommand Tiu devas esti la "play" komando (ekz: esdplay)
 soundfile Sono-dosiero
@@ -289,7 +289,7 @@ useralreadyonlist Uzulo estas jam en kontaktulo-listo
 usernotonline La uzulo ne estas enreta
 version Versio
 view Rigardu
-viewprofile Rigardu Profilon
+viewprofile Rigardu Profilonblockinter3
 willjoin Atendas $1 enveni konversacion
 work Laboro
 xoffset X Deŝovo
@@ -297,3 +297,11 @@ yoffset Y Deŝovo
 yousay Vi diras
 youwant Vi volas
 twonewmail $1 novaj mesaĝoj en LeterKesto
+alarms alarmoj
+blockinter3 ĉiu
+blockinter4 sekundoj.
+description Priskribo
+change Ŝanĝu
+file Sliparo
+no Ne
+yes Jes
