@@ -494,7 +494,7 @@ proc LoginList { action age {email ""} {lock ""} } {
 
 		show {
 			for {set idx 0} {$idx < [array size ProfileList]} {incr idx} {
-				#status_log "$idx : $ProfileList($idx)\n"
+				status_log "$idx : $ProfileList($idx)\n"
 #				puts stdout "$idx : $ProfileList($idx) loclist is : $LockList($idx)\n"
 			}
 		}
@@ -507,8 +507,8 @@ proc LoginList { action age {email ""} {lock ""} } {
 # Called when the user selects a combobox item or enters new signin
 # email : email of the new profile/login
 proc ConfigChange { window email } {
-	global HOME HOME2 password config log_dir proftrig lockSock
-	#set proftrig 0
+	global HOME HOME2 password config log_dir lockSock
+
 	if { $email != "" } {
 		
 	status_log "Called ChangeConfig with $email, old is $config(login)\n"
@@ -522,7 +522,6 @@ proc ConfigChange { window email } {
 		
 		# Profile exists, make the switch
 		set OLDHOME $HOME
-		set proftrig 0
 		set oldlang $config(language)
 
 		set dirname [split $email "@ ."]
@@ -531,16 +530,12 @@ proc ConfigChange { window email } {
 				
 		if { [CheckLock $email] == -1 } { 
 			msg_box [trans profileinuse]
-			set proftrig 3
 			set HOME $OLDHOME
 			
 			# Reselect previous element in combobox
-			#set cb [$window list get 0 [LoginList size 0]]
-			#set index [lsearch $cb $config(login)]
-			#$window select $index
-			$window delete 0 end
-			$window insert 0 $config(login)
-			
+			set cb [$window list get 0 [LoginList size 0]]
+			set index [lsearch $cb $config(login)]
+			$window select $index
 		} else {
 			if { [info exists password] } {
 				set password ""
@@ -568,38 +563,20 @@ proc ConfigChange { window email } {
 			# port isn't taken or port taken by other program, meaning profile ain't locked
 			# let's setup the new lock
 			LockProfile $email
+			SaveLoginList
 			
 			### REPLACE THIS BY MAIN WINDOW REDRAW
 			if { $config(language) != $oldlang } {
 				msg_box [trans mustrestart]
 			}
-
-			# this tells the the program to close the login window on OK press
-			set proftrig 2
 		}
-	} else {
-		# Profile dosent exist, put proftrig to 1 so it asks to create
-
-		# Make sure we delete old lock
-		if { [info exists lockSock] } {
-			if { $lockSock != 0 } {
-				close $lockSock
-				unset lockSock
-			}
-		}
-		LoginList changelock 0 $config(login) 0 
-		
-		set proftrig 1
-		set config(login) $email
-		set config(save_password) 0
-		set config(startoffline) 0
 	}
 	}
 	
 	if { [winfo exists .login] } {
-		.login.c.password delete 0 end
-		if { $proftrig != 1 && [info exists password] } {
-			.login.c.password insert 0 $password
+		.login.main.f.f.passentry2 delete 0 end
+		if { [info exists password] } {
+			.login.main.f.f.passentry2 insert 0 $password
 		}
 	}
 	}
@@ -609,65 +586,131 @@ proc ConfigChange { window email } {
 
 
 #///////////////////////////////////////////////////////////////////////////////
-# CreateProfile ( email value )
-# Either creates a new profile or uses default profile
-# Called from NewProfileAsk
-# email : email of new profile
-# value : If 1 create new profile, if 0 use default profile
-proc CreateProfile { email value } {
-	global HOME HOME2 config log_dir password proftrig lockSock
-	set oldpass $password
-	set oldoffline $config(startoffline)
-	set oldlang $config(language)
+# SwitchProfileMode ( value )
+# Switches between default and profiled mode, called from radiobuttons
+# value : If 1 use profiles, if 0 use default profile
+proc SwitchProfileMode { value } {
+	global lockSock HOME HOME2 config log_dir loginmode
 
 	if { $value == 1 } {
-		status_log "Creating new profile"
-		# Create a new profile with $email
-		# Set HOME dir and create it
-		set dirname [split $email "@ ."]
-		set dirname [join $dirname "_"]
-		set HOME "[file join $HOME2 $dirname]"
-		create_dir $HOME
-		set log_dir "[file join ${HOME} logs]"
-		create_dir $log_dir
-		
-		# Load default config initially
-		set temphome $HOME
-		set HOME $HOME2
-		load_config
-		set HOME $temphome
-		
-		# Set current variables and add the profiles list
-		set config(login) $email
-		set password $oldpass
-		set config(startoffline) $oldoffline
-		LoginList add 0 $email 0
+		if { $HOME == $HOME2 } {
+			status_log "Was in default profile, selecting first available\n"
+			for { set idx 0 } { $idx <= [LoginList size 0] } { incr idx } {
+				if { [CheckLock [LoginList get $idx]] != -1 } {
+					set window .login.main.f.f.box
+					set cb [$window list get 0 [LoginList size 0]]
+					set index [lsearch $cb [LoginList get $idx]]
+					$window select $index
 
-		# Lock profile
-		LockProfile $email
-		
+					#ConfigChange .login.main.f.f.box [LoginList get $idx]
+					break
+				}
+			}
+			
+			if { $idx > [LoginList size 0] } { 
+				msg_box [trans allprofilesinuse] 
+				# Going back to default profile
+				set loginmode 0
+				RefreshLogin .login.main.f.f 1
+			}
+		# Else we are already in a profile, select that profile in combobox
+		} else {
+			set window .login.main.f.f.box
+			set cb [$window list get 0 [LoginList size 0]]
+			set index [lsearch $cb $config(login)]
+			$window select $index
+			unset window
+		}
 	} else {
-		# Dosent want to save profile, use/load default config in this case
+		# Switching to default profile, remove lock on previous profiles if needed
+		
+		# Make sure we delete old lock
+		if { [info exists lockSock] } {
+			if { $lockSock != 0 } {
+				close $lockSock
+				unset lockSock
+			}
+		}
+		if { $config(login) != "" } {
+			LoginList changelock 0 $config(login) 0
+			SaveLoginList
+		}
+
+		# Load default config 
 		set HOME $HOME2
 		load_config
 		set log_dir ""
 				
 		# Set variables for default profile
-		set config(login) $email
-		set password $oldpass
-		set config(startoffline) $oldoffline
 		set config(save_password) 0
 		set config(keep_logs) 0
 	}
+}
+
+
+#///////////////////////////////////////////////////////////////////////////////
+# CreateProfile ( email )
+# Creates a new profile
+# email : email of new profile
+proc CreateProfile { email } {
+	global HOME HOME2 config log_dir password lockSock
 	
-	set proftrig 0
-
-	load_lang
-	### REPLACE THIS BY MAIN WINDOW REDRAW
-	if { $config(language) != $oldlang } {
-		msg_box [trans mustrestart]
+	if { [LoginList exists 0 $email] == 1 } {
+		msg_box [trans profileexists]
+		return -1
 	}
+	
+	set oldlang $config(language)
+	set oldlogin $config(login)
+	
+	status_log "Creating new profile"
+	# Create a new profile with $email
+	# Set HOME dir and create it
+	set dirname [split $email "@ ."]
+	set dirname [join $dirname "_"]
+	set newHOMEdir "[file join $HOME2 $dirname]"
+	create_dir $newHOMEdir
+	set log_dir "[file join ${newHOMEdir} logs]"
+	create_dir $log_dir
+	
+	# Load default config initially while keeping previous language
+	file copy -force [file join $HOME2 config] $newHOMEdir
+	
+	set oldhome $HOME
+	set HOME $newHOMEdir
+	load_config
+	set config(login) $email
+	set config(language) $oldlang
+	save_config
+	set HOME $oldhome
+	load_config
+	unset oldhome
+	unset newHOMEdir
+		
+	# Add to login list
+	LoginList add 0 $email 0
+	SaveLoginList
 
+	# Redraw combobox with new profile
+	if { [winfo exists .login] } {
+		.login.main.f.f.box list delete 0 end
+		set idx 0
+		set tmp_list ""
+		while { [LoginList get $idx] != 0 } {
+			lappend tmp_list [LoginList get $idx]
+			incr idx
+		}
+		eval .login.main.f.f.box list insert end $tmp_list
+		unset idx
+		unset tmp_list
+
+		# Select the new profile in combobox
+		set window .login.main.f.f.box
+		set cb [$window list get 0 [LoginList size 0]]
+		set index [lsearch $cb $email]
+		$window select $index
+	}
+	return 0
 }
 
 #///////////////////////////////////////////////////////////////////////////////
@@ -714,19 +757,15 @@ proc DeleteProfile { email entrypath } {
 proc CheckLock { email } {
 	global response LockList
 	set Port [LoginList getlock 0 $email]
-    puts "cheking lock for $email ... got $Port"
-    puts "[array get LockList]"
-	if { $Port != 0 } {
+    	if { $Port != 0 } {
 	if { [catch {socket -server phony $Port} newlockSock] != 0  } {
 		# port is taken, let's make sure it's a profile lock
 		if { [catch {socket localhost $Port} clientSock] == 0 } {
 			fileevent $clientSock readable "lockcltHdl $clientSock"
 			fconfigure $clientSock -buffering line
-			puts $clientSock "AMSN_LOCK_PING"
 			vwait response
 			
 			#set response [gets $clientSock]
-			puts "\n$response\n"
 			if { $response == "AMSN_LOCK_PONG" } {
 				# profile is locked
 				close $clientSock
@@ -799,6 +838,7 @@ proc lockSvrNew { sock addr port} {
 
 proc lockSvrHdl { sock } {
 	set command [gets $sock]
+	
 	if {[eof $sock]} {
 	    catch {close $sock}
 	    close_remote $sock

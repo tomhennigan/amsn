@@ -2880,169 +2880,202 @@ proc cmsn_draw_signin {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc login_ok {} {
-   global config password proftrig
-
-    status_log "going into login_ok now\n"
-
-   #set config(login) [string tolower [.login.c.signin get]]
+	global config password loginmode
+	
+	
+	if { $loginmode == 0 } {
+		set config(login) [string tolower [.login.main.f.f.loginentry get]]
+	   	set password [.login.main.f.f.passentry get]
+	} else {
+		if { $password != [.login.main.f.f.passentry2 get] } {
+			set password [.login.main.f.f.passentry2 get]
+		}
+	}
    
-   set newpassword [.login.c.password get]
-   
-    # ConfigChange ".login.c.signin" [.login.c.signin get]
+	grab release .login
+	destroy .login
 
-   if { $proftrig != 3 } {
-   	set password $newpassword
-   }
-   
-   grab release .login
-   destroy .login
-
-   if { $proftrig == 1 } {
-	NewProfileAsk $config(login)
-	vwait proftrig
-   }
-   
-   if { $proftrig == 3 } {
-   	cmsn_draw_login
-   } else {
-   	SaveLoginList
-   	if { $password != "" && $config(login) != "" } {
+	if { $password != "" && $config(login) != "" } {
 		::MSN::connect [list $config(login)] [list $password]
 	} else {
 		cmsn_draw_login
 	}
-   }
-
 }
 #///////////////////////////////////////////////////////////////////////
 
-
-
 #///////////////////////////////////////////////////////////////////////
+# Main login window, separated profiled or default logins  
+# cmsn_draw_login {}
+# 
 proc cmsn_draw_login {} {
-   global config password proftrig
+	global config password loginmode HOME HOME2
 
-   set proftrig 0
+	if {[winfo exists .login]} {
+		raise .login
+		return 0
+	}
 
-   if {[winfo exists .login]} {
-      raise .login
-      return 0
-   }
+	LoadLoginList 1
 
-   LoadLoginList 1
-
-   set oldlogin $config(login)
-   toplevel .login
-   wm group .login .
-   
-   wm geometry .login
-   wm title .login "[trans login] - [trans title]"
-   wm transient .login .
-   frame .login.c -relief flat -highlightthickness 0
-   pack .login.c -expand true -fill both -padx 10 -pady 10
-
-   label .login.c.user -text "[trans user]: " -font sboldf
-   combobox::combobox .login.c.signin \
-	    -editable true \
+	toplevel .login
+	wm group .login .
+	wm geometry .login 800x220
+	wm title .login "[trans login] - [trans title]"
+	wm transient .login .
+	
+	set mainframe [LabelFrame:create .login.main -text [trans login] -font splainf]
+		
+	radiobutton $mainframe.button -text [trans defaultloginradio] -value 0 -variable loginmode -command "RefreshLogin $mainframe"
+	label $mainframe.loginlabel -text "[trans user]: " -font sboldf
+	entry $mainframe.loginentry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 25
+	grid $mainframe.button -row 1 -column 2 -sticky w
+	grid $mainframe.loginlabel -row 2 -column 1 -sticky w
+	grid $mainframe.loginentry -row 2 -column 2 -sticky w
+			
+	radiobutton $mainframe.button2 -text [trans profileloginradio] -value 1 -variable loginmode -command "RefreshLogin $mainframe"
+	combobox::combobox $mainframe.box \
+	    -editable false \
 	    -highlightthickness 0 \
 	    -width 25 \
 	    -bg #FFFFFF \
 	    -font splainf \
 	    -command ConfigChange
-   label .login.c.example -text "[trans examples] :\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com" -font examplef
+	grid $mainframe.button2 -row 1 -column 3 -sticky w
+	grid $mainframe.box -row 2 -column 3 -sticky w
 
-   grid .login.c.user -row 2 -column 2 -sticky w
-   grid .login.c.signin -row 2 -column 3 -sticky w
-   grid .login.c.example -rowspan 3 -row 2 -column 4 -sticky n
-   # Lets fill our combobox
-   .login.c.signin insert 0 $config(login)
-   set idx 0
-   set tmp_list ""
-   while { [LoginList get $idx] != 0 } {
-	lappend tmp_list [LoginList get $idx]
-	incr idx
-   }
-   eval .login.c.signin list insert end $tmp_list
-   unset idx
-   unset tmp_list
+	label $mainframe.passlabel -text "[trans pass]: " -font sboldf
+	entry $mainframe.passentry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 25 -show "*"
+	entry $mainframe.passentry2 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 25 -show "*"
+	checkbutton $mainframe.remember -variable config(save_password) \
+	-text "[trans rememberpass]" -font splainf -highlightthickness 0 -pady 5 -padx 10
+	checkbutton $mainframe.offline -variable config(startoffline) \
+	-text "[trans startoffline]" -font splainf -highlightthickness 0 -pady 5 -padx 10
+	label $mainframe.example -text "[trans examples] :\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com" -font examplef -padx 10
+	
+	set buttonframe [frame .login.buttons -class Degt]
+	button $buttonframe.cancel -text [trans cancel] -command "ButtonCancelLogin .login" -font sboldf
+	button $buttonframe.ok -text [trans ok] -command login_ok  -font sboldf
+	button $buttonframe.addprofile -text [trans addprofile] -command AddProfileWin -font sboldf
+	pack $buttonframe.ok $buttonframe.cancel $buttonframe.addprofile -side right -padx 10
 
-   label .login.c.lpass -text "[trans pass]: " -font sboldf
-   entry .login.c.password -width 25 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -show "*"
-   checkbutton .login.c.remember -variable config(save_password) \
-      -text "[trans rememberpass]" -font splainf -highlightthickness 0 -pady 5
-   checkbutton .login.c.offline -variable config(startoffline) \
-      -text "[trans startoffline]" -font splainf -highlightthickness 0 -pady 5
-   
-   grid .login.c.lpass -row 3 -column 2 -sticky w
-   grid .login.c.password -row 3 -column 3 -sticky w
-   grid .login.c.remember -row 4 -column 3 -sticky ws
-   grid .login.c.offline -row 4 -column 2 -sticky wn
-   .login.c.password insert 0 $password	
+	grid $mainframe.passlabel -row 3 -column 1 -sticky w
+	grid $mainframe.passentry -row 3 -column 2 -sticky w
+	grid $mainframe.passentry2 -row 3 -column 3 -sticky w
+	grid $mainframe.remember -row 4 -column 2 -sticky ws
+	grid $mainframe.offline -row 4 -column 1 -sticky wn
+	grid $mainframe.example -row 1 -column 4 -rowspan 4
 
-   button .login.c.ok -text [trans ok] -command login_ok  -font sboldf
-   button .login.c.cancel -text [trans cancel] -command "ButtonCancelLogin .login $oldlogin" -font sboldf
+	pack .login.main .login.buttons -side top -anchor n -expand true -fill both -padx 10 -pady 10
 
-   
-   grid .login.c.ok -row 5 -column 3 -sticky e -padx 5
-   grid .login.c.cancel -row 5 -column 4 -sticky w -padx 5
-   
-   if { [info exists config(login)] == 0 } {
-	focus .login.c.signin
-   } else {
-	if { $config(save_password) == 0 } {
-	   focus .login.c.password
-        } else {
-           focus .login.c.ok
-        }
-   }
+	# Lets fill our combobox
+	#$mainframe.box insert 0 $config(login)
+	set idx 0
+	set tmp_list ""
+	while { [LoginList get $idx] != 0 } {
+		lappend tmp_list [LoginList get $idx]
+		incr idx
+	}
+	eval $mainframe.box list insert end $tmp_list
+	unset idx
+	unset tmp_list
 
-   bind .login.c.password <Return> "login_ok; break"
-   bind .login <Escape> "ButtonCancelLogin .login $oldlogin"
-   bind .login <Return> "login_ok; break"
-   bind .login <Destroy> "if \{ \[grab status .login\] == \"local\" \} \{ButtonCancelLogin .login $oldlogin \}"
+	# Select appropriate radio button
+	if { $HOME == $HOME2 } {
+		set loginmode 0 
+	} else {
+		set loginmode 1
+	}
+	RefreshLogin $mainframe
 
-   tkwait visibility .login
-   grab set .login
+	bind .login <Return> "login_ok"
+	bind .login <Escape> "ButtonCancelLogin .login"
 }
+
 #///////////////////////////////////////////////////////////////////////
+# proc RefreshLogin { mainframe }
+# Called after pressing a radio button in the Login screen to enable/disable
+# the appropriate entries
+proc RefreshLogin { mainframe {extra 0} } {
+	global loginmode
+	
+	if { $extra == 0 } {
+		SwitchProfileMode $loginmode
+	}
+
+	if { $loginmode == 0 } {
+		$mainframe.box configure -state disabled
+		$mainframe.passentry2 configure -state disabled
+		$mainframe.loginentry configure -state normal
+		$mainframe.passentry configure -state normal
+		$mainframe.remember configure -state disabled
+		.login.buttons.addprofile configure -state disabled
+	} elseif { $loginmode == 1 } {
+		$mainframe.box configure -state normal
+		$mainframe.passentry2 configure -state normal
+		$mainframe.loginentry configure -state disabled
+		$mainframe.passentry configure -state disabled
+		$mainframe.remember configure -state normal
+		.login.buttons.addprofile configure -state normal
+	}
+}
+	
 
 #///////////////////////////////////////////////////////////////////////////////
 # ButtonCancelLogin ()
-# Function thats releases grab on .login and destroys it, calling ConfigChange if necessary
+# Function thats releases grab on .login and destroys it
 proc ButtonCancelLogin { window {email ""} } {
 	grab release $window
-	if { $email != "" } {
-		ConfigChange $window $email 
-	} 
-	destroy $window -font sboldf
+	destroy $window
+	cmsn_draw_offline
 }
 
 #///////////////////////////////////////////////////////////////////////////////
-# NewProfileAsk ()
-# Asks user if he would like to create a new profile when he enters in a new
-# email during login.
+# AddProfileWin ()
+# Small dialog window with entry to create new profile
+proc AddProfileWin { } {
+	
+	if {[winfo exists .add_profile]} {
+		raise .add_profile
+		return 0
+	}
+	 	
+	toplevel .add_profile
+	wm group .add_profile .login
+	
+	wm title .add_profile "[trans addprofile]"
+	wm transient .add_profile .
 
-proc NewProfileAsk { email } {
-	toplevel .loginask
-	wm group .loginask .
-	wm title .loginask "[trans login]"
-   	frame .loginask.c -relief flat -highlightthickness 0
-   	pack .loginask.c -expand true -fill both -padx 10 -pady 0
+	label .add_profile.desc -text "[trans addprofiledesc]" -font splainf -justify left
+	entry .add_profile.login -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 35
+	label .add_profile.example -text "[trans examples] :\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com" -font examplef -padx 10
+	button .add_profile.cancel -text [trans cancel] -command "grab release .add_profile; destroy .add_profile" -font sboldf
+	button .add_profile.ok -text [trans ok] -command "AddProfileOk"  -font sboldf
+	grid .add_profile.desc -row 1 -column 1 -sticky w -columnspan 2 -padx 5 -pady 5
+	grid .add_profile.login -row 2 -column 1 -padx 5 -pady 5
+	grid .add_profile.example -row 2 -column 2 -sticky e
+	grid .add_profile.cancel -row 3 -column 2 -sticky e -padx 5 -pady 5
+	grid .add_profile.ok -row 3 -column 2 -sticky w -padx 5 -pady 5
 
-	label .loginask.c.txt -text "[trans askprofile $email]"
-	grid .loginask.c.txt -row 1 -column 1 -sticky w -pady 10
+	bind .add_profile <Return> "AddProfileOk"
+	bind .add_profile <Escape> "grab release .add_profile; destroy .add_profile"
 
-	button .loginask.c.ok -text [trans cprofile] -command "grab release .loginask; destroy .loginask; CreateProfile $email 1"
-	button .loginask.c.cancel -text [trans dcprofile] -command "grab release .loginask; destroy .loginask; CreateProfile $email 0"
-   
-   	grid .loginask.c.ok -row 2 -column 1 -pady 10
-  	grid .loginask.c.cancel -row 2 -column 1 -pady 5 -sticky e
-
-	bind .loginask <Destroy> "if \{ \[grab status .loginask\] == \"local\" \} \{ CreateProfile $email 0\}"
-	tkwait visibility .loginask
-	grab set .loginask
+	grab .add_profile
 }
 
+#///////////////////////////////////////////////////////////////////////////////
+# AddProfileOk ()
+# 
+proc AddProfileOk {} {
+	set login [.add_profile.login get]
+	if { $login == "" } {
+		return
+	}
+	
+	if { [CreateProfile $login] != -1 } {
+		grab release .add_profile
+		destroy .add_profile
+	}
+}
 
 #///////////////////////////////////////////////////////////////////////
 proc toggleGroup {tw name image id {padx 0} {pady 0}} {

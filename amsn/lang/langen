@@ -5,6 +5,8 @@ acceptfile Accept file $1, size $2? Saved in $3
 actions Actions
 addacontact Add a contact
 addedyou $1 ($2) has added you to his/her contact list
+addprofile Add New Profile
+addprofiledesc Enter the login for wich you would like to create a new profile. \nProfiled logins allows you to have different configurations for each login.\nWithout profiles you cannot use the History, Alarms or remember passwords.
 addstate Add New State
 addto Add to $1
 addtocontacts Add to contact list
@@ -25,7 +27,6 @@ appearance Appearance
 appearoff Appear offline
 areacode Area Code
 aretyping $1 are typing a message
-askprofile This login doesn't currently have a profile. Would you like to create a new one for it? \n If you don't you will not be able to use the History, or save your Alarms and password. \n If you do you will have a separate configuration for this new profile. \n \n Click on "Create Profile" to create a new profile for $1.
 autoaway Show me as "Away" when inactive for
 autoconnect2 Sign In automatically when aMSN is launched
 autoconnect Connect on amsn start
@@ -104,6 +105,7 @@ date Date
 days Days
 dcprofile Don't Create Profile
 default Default Config
+defaultloginradio Login with default configuration
 delete Delete
 deliverfail There was a problem delivering the following message
 delprofile2 Select the Profile that you would like to have removed 
@@ -303,6 +305,7 @@ prefsound Sounds
 privacy Privacy
 profiledconfig Profiled Config
 profileinuse This Profile is being used by another aMSN session, please chose another one
+profileloginradio Login using an existing Profile
 profiles Profiles
 properties Properties
 proxyconfhttp HTTP proxy support configuration
