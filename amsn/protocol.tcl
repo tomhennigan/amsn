@@ -2083,7 +2083,7 @@ proc proc_ns_watchdog {} {
 }
 
 proc proc_ns {} {
-
+global tcl_platform
    after cancel proc_ns
 	after 4000 proc_ns_watchdog
 
@@ -2104,11 +2104,14 @@ proc proc_ns {} {
       } else {
          status_log "problem processing NS data: $item!!\n" red
       }
-
+	#Kill soundplayer when we quit aMSN-Mac (sometime he stay open and eat your CPU)
+	if { $tcl_platform(os) == "Darwin" } {
+		catch {exec killall -c sndplay}
+	}
    }
 
 	after cancel proc_ns_watchdog
-
+	
    after 100 proc_ns
    return 1
 }
