@@ -14,6 +14,10 @@ addtoo Dodaj to osebo na moj seznam stikov
 admincontacts Uredi stike
 admingroups Uredi skupine
 adverts Reklame
+alarmonconnect Vklopi alarm, ko se stik prijavi
+alarmondisconnect Vklopi alarm, ko se stik odjavi
+alarmonmsg Vklopi alarm, ko ti stik poslje sporocilo
+alarmonstatus Vklopi alarm, ko stik zamenja stanje
 alarmpref Nastavitve alarma
 alarmstatus Alarm omogocen
 allowallbutbl Dovoli vsem uporabnikom, razen blokiranim, da me kontaktirajo
@@ -51,6 +55,7 @@ blocking Blokiranje
 blockinter1 Ko si prijavljen, preveri vsakih
 blockinter2 sekund, sicer pa
 blockinter3 ljudi vsakih
+blockinter4 sekund
 blocklist Block seznam
 blockmessage Ti ljudje so prijavljeni in so te blokirali
 blockusers Hkrati preveri
@@ -65,6 +70,7 @@ casesensitive Obcutljiv na velikost crk
 cfgalarm Nastavi zvocni/slikovni alarm
 changefont Zamenjaj pisavo
 changenick Zamenjaj nick
+changestate $1 je spremenil/a stanje na $2
 chatack Sprejemam pogovor od
 chatmaxmin Ko mi stik zacne pogovor z mano, hocem, da je:
 chat Pogovor
@@ -80,6 +86,7 @@ choosebasefont Izberi vrsto pisave
 choosebgcolor Izberi barvo ozadja
 choosecontact Prosim izberi stik s seznama
 choosefontcolor Izberi barvo pisave
+chooseskin Prosim izberi skin, ki bi ga rad uporabil
 clearlog2 Pocisti zgodovino za vse stike
 clearlog3 Pocisti vse dnevnike
 clearlog Pocisti dnevnik
@@ -116,6 +123,7 @@ delprofile2 Izberi profil, ki bi ga rad izbrisal
 delprofile Izbrisi profil
 description Opis
 directconnection Neposredna povezava (vrata 1863)
+disconnect $1 se je odjavil/a.
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk gtk pomol
 dockingoff Pristaja prekinjena
@@ -228,6 +236,7 @@ mobile Mobilni
 morepersonal Vec stanj ->
 move Premakni
 movetogroup Premakni v skupino
+msgflicker Naslov okna s pogovorom naj utripa, ce prejme sporocilo, ko ni aktivno
 msgmaxmin Ko prispe novo sporocilo, hocem da je:
 msgmode Izberi nacin prikazovanja vec pogovornih oken:
 msg Sporocilo
@@ -249,6 +258,7 @@ noactivity Ni aktiven/a
 nodataavailable Ni podatkov za $1
 nologfile Brez dnevnika za $1
 no Ne
+noneavailable Noben ni na voljo
 nonewmail Ni novih sporocil v Inboxu
 nonewver Ni novih verzij na voljo za prenos
 noprofileexists Trenutno ni profilov.\nDa jih uporabljas, ustvari novega\nz gumbom dodaj profil.
@@ -262,6 +272,7 @@ notify3 Prikazi obvestilo ob novem e-mailu
 notify obvesti
 notifyoffset Nastavi pozicijo obvestilnega okna
 notifywin Prikazi opozorilo ob dogodkih
+notls MSN protokol 9 potrebuje tls. Izgleda, da ni namescen na tem racunalniku. Ce je, vnesi pot do njegovega imenika v nastavitvah (npr.: /opt/tls/lib). \n \ntls lahko poberes s http://tls.sf.net.
 nousersinsession Ni uporabnikov v seji
 offline Neprijavljen
 ok Ok
@@ -280,6 +291,7 @@ personal Osebno
 phone Telefon
 picfile Slikovna datoteka
 picstatus Slika omogocena
+pluginselector Izberi plugine
 port Vrata
 prefalerts Alarmi in zvoki
 prefapps Aplikacije
@@ -293,6 +305,7 @@ preferences Nastavitve
 preffont2 Spremeni pisavo, kot jo vidijo drugi
 preffont3 Spremeni pisavo uporabniskega vmesnika
 preffont Tekst mojih sporocil
+preflibs Imenik s knjizicami
 preflog1 Zgodovina in dnevnik
 preflook Izgled uporabniskega vmesnika
 prefmsging Uporabniski vmesnik sporocil
@@ -322,6 +335,8 @@ proxyconnection Proxy povezava:
 proxy Sem za proxy streznikom (HTTP ali SOCKS5)
 publishphones Objavi moje tel. stevilke
 raised V oknu
+readonlymsgbox Prenos datoteke je preklican, ker je ciljna mapa samo za branje. Popravi njena ovoljenja.
+readonlywarn OPOZORILO: Datoteka verjetno NE bo shranjena pravilno, ker je mapa "Prejetedatoteke"zascitena za pisanje. Pred prenosom preveri, ce so dovoljenja ciljne mape ($1) nastavljene pravilno.
 receivedbytes Prejeto $1 od $2 bajtov
 receivefile Sprejmi datoteko
 reconnect Cakam, da se $1 ponovno poveze
@@ -338,6 +353,8 @@ save Shrani
 savetofile Shrani v datoteko
 says $1 pravi
 sbcon Povezujem se na Switch Board
+selectplugins Izberi plugin, ki ga zelis omogociti
+selectskin Izberi skin s seznama
 sendfile Poslji datoteko
 sendmail Poslji e-mail
 sendmsg Poslji sporocilo
@@ -348,6 +365,9 @@ server Streznik
 session Seja
 showblockedlist Pokazi seznam ljudi, ki so te blokirali
 Shrani.
+skinselector Izberi skin
+skinselector Izberi skin
+skin Skin
 smileconfig Nastavitve tvojih emotikonov
 smilefile Datoteka
 smileintro2 Uredi potrebna polja, ce zelis spremeniti tega smeska (poglej v FAQ za pomoc)
@@ -407,22 +427,3 @@ yoffset Y odstopanje
 youblocked Blokirajo te
 yousay Pravis
 youwant Hoces
-alarmonconnect Vklopi alarm, ko se stik prijavi
-alarmondisconnect Vklopi alarm, ko se stik odjavi
-alarmonmsg Vklopi alarm, ko ti stik poslje sporocilo
-alarmonstatus Vklopi alarm, ko stik zamenja stanje
-blockinter4 sekund
-changestate $1 je spremenil/a stanje na $2
-chooseskin Prosim izberi skin, ki bi ga rad uporabil
-disconnect $1 se je odjavil/a.
-msgflicker Naslov okna s pogovorom naj utripa, ce prejme sporocilo, ko ni aktivno
-noneavailable Noben ni na voljo
-notls MSN protokol 9 potrebuje tls. Izgleda, da ni namescen na tem racunalniku. Ce je, vnesi pot do njegovega imenika v nastavitvah (npr.: /opt/tls/lib). \n \ntls lahko poberes s http://tls.sf.net.
-pluginselector Izberi plugine
-preflibs Imenik s knjizicami
-readonlymsgbox Prenos datoteke je preklican, ker je ciljna mapa samo za branje. Popravi njena ovoljenja.
-readonlywarn OPOZORILO: Datoteka verjetno NE bo shranjena pravilno, ker je mapa "Prejetedatoteke"zascitena za pisanje. Pred prenosom preveri, ce so dovoljenja ciljne mape ($1) nastavljene pravilno.
-selectplugins Izberi plugin, ki ga zelis omogociti
-selectskin Izberi skin s seznama
-skin Skin
-skinselector Izberi skin

@@ -71,6 +71,7 @@ proc SelectSkinGui { } {
     set w .skin_selector 
     toplevel $w
     wm geometry $w 500x300
+    wm title $w "[trans chooseskin]"
 
     label $w.choose -text "[trans chooseskin]"
     pack $w.choose -side top

@@ -2655,7 +2655,7 @@ proc change_myfont {win_name} {
   set fontsize [expr {[lindex $config(basefont) end-1] + $config(textsize)}]
   set fontcolor [lindex $config(mychatfont) 2]
 
-  set selfont [tk_chooseFont -title [trans choosefont] -initialfont "\{[lindex $config(mychatfont) 0]\} $fontsize \{[lindex $config(mychatfont) 1]\}"]
+  set selfont [tk_chooseFont -title [trans choosebasefont] -initialfont "\{[lindex $config(mychatfont) 0]\} $fontsize \{[lindex $config(mychatfont) 1]\}"]
 
   if { [string length $selfont] <1} {
     return
@@ -2752,7 +2752,7 @@ proc play_sound {sound} {
 proc choose_basefont { } {
    global config
 
-   set font "[tk_chooseFont -title [trans choosefont] -initialfont $config(basefont)]"
+   set font "[tk_chooseFont -title [trans choosebasefont] -initialfont $config(basefont)]"
 
    if { [llength $font] < 2 } {
      return 0
@@ -4677,7 +4677,7 @@ proc setColor {w button name options} {
 
     grab $w
     set initialColor [$button cget -$name]
-    set color [tk_chooseColor -title "[trans choosebackgroundcolor]" -parent $w \
+    set color [tk_chooseColor -title "[trans choosebgcolor]" -parent $w \
 	-initialcolor $initialColor]
     if { $color != "" } {
         set config(backgroundcolor) $color
