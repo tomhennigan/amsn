@@ -114,6 +114,7 @@ clearlog Tühjenda logi
 clearlog2 Tühjenda kõikide kontaktide Ajalugu
 clearlog3 Tühjenda kõik logid
 clicktologin Vajuta siia, et sisse logida
+clientcaps Saada vestluskaaslase kliendile x-clientcap pakett
 clientname Kliendi nimi
 close Sulge
 closed Vestlus $1'ga suleti passiivsuse pärast
@@ -122,7 +123,11 @@ command Käsk
 commandstatus Käivita käsk
 confirm Oled kindel?
 confirmdelete Oled sa kindel et tahad seda kustutada $1?
+confirmdg Oled kindel, et soovid selle grupi kustutada ?
+confirmdu Oled kindel, et soovid selle kasutaja kustutada ?
+confirmeg Oled kindel, et soovid selle grupi tühjendada ?
 confirmpurge Kõik teiste ksautajate kuvapildid kustutatakse (sinu enda pildid säilivad). Soovid jätkata ?
+confirmrfl Oled kindel, et soovid kasutaja sellest grupist kustutada ?
 connected Sa oled nüüd ühendatud
 connectedwith Ühendus saavutatud $1
 connecterror Viga serveriga ühendamisel
@@ -198,6 +203,7 @@ editvalue Muuda väärtust
 email Email
 emailsinlist Näita kontaktide nimekirjas nimede asemel e-maili aadresse
 emotisounds Mängi heli kindla emotikoniga
+emptygroup Tühjenda grupp
 enabled Lubatud
 enableproxy Võimalda proxy
 enableremote Luba kaughaldus
@@ -324,9 +330,9 @@ loging Logimine
 logolder Logi ainult vestlusi, mis toimunud viimasel
 logout Logi välja
 logsbydate Sorteeri logid kuupäeva järgi (Ajaloo näitamine laeb palju kiiremini)
-logsin on just sisse loginud
+logsin logis sisse
 logsmileys Näitab emotsioone aMSN'i Ajaloo akendes
-logsout logis just välja
+logsout logis välja
 longnick Sinu nimi on pikem kui 130 märki. Ametlik MSN protokoll ei toeta nii pikki nimesid. Kindel, et tahad nime selliseks muuta ?
 longp4c Sinu Sõbralik nimi on pikem kui 130 märki. Ametlikus MSN versioonis näidatav nimi on $1. SOled kindel, et soovid selle seada ?
 lprivtoconf Privaatvestlus muudetud konverentsiks isikuga $1
