@@ -3764,7 +3764,7 @@ proc create_contact_list {cstack cdata saved_data cattr saved_attr args } {
     set contactinfo ""
 
     lappend contactinfo "$sdata(${cstack}:email)"
-    lappend contactinfo "{$sdata(${cstack}:nickname)}"
+    lappend contactinfo "$sdata(${cstack}:nickname)"
 
     lappend ${list} "$contactinfo"
 
