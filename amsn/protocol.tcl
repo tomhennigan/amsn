@@ -57,7 +57,9 @@ namespace eval ::MSN {
       ::MSN::TogglePolling
 
       #Alert dock of status change
-      send_dock "NLN"
+#      send_dock "NLN"
+	send_dock "STATUS" "NLN"
+	send_dock "MAIL" 0
    }
 
    proc logout {} {
@@ -89,7 +91,8 @@ namespace eval ::MSN {
 
       cmsn_draw_offline
       #Alert dock of status change
-      send_dock "FLN"
+#      send_dock "FLN"
+	send_dock "STATUS" "FLN"
    }
 
 
@@ -2473,7 +2476,8 @@ proc cmsn_ns_handler {item} {
 		#about the status chage
 
 	       #Alert dock of status change
-	       send_dock [lindex $item 2]
+#	       send_dock [lindex $item 2]
+	       send_dock "STATUS" [lindex $item 2]
 	     }
          return 0
       }

@@ -153,6 +153,7 @@ source [file join $program_dir anigif.tcl]	;# Animated GIFS
 source [file join $program_dir gui.tcl]
 source [file join $program_dir alarm.tcl]	;# Alarms code (Burger)
 source [file join $program_dir dock.tcl]	;# Docking routines
+source [file join $program_dir trayicon.tcl]	;# Docking routines for freedesktop system tray compliant docks
 source [file join $program_dir loging.tcl]	;# Euh yeh it's for loging :P
 source [file join $program_dir combobox.tcl]	;# The all mighty combobox is here! (B. Oakley)
 

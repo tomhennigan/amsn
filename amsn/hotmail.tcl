@@ -247,5 +247,7 @@ proc hotmail_procmsg {msg} {
 	  }
 	}
 		#End by AIM
+	# dock mail icon 
+	send_dock "MAIL" [::hotmail::unreadMessages]
 
 }

@@ -1036,11 +1036,17 @@ namespace eval ::amsn {
          return 0
       }
 
-      set wname "[focus]_userchoose"
+      if { [focus] == "" } {
+      	set wname "._userchoose"
+	status_log "focus null\n"
+      } else {
+      	set wname "[focus]_userchoose"
+	status_log "focus non null\n"
+      }
 
       if { [catch {toplevel $wname -width 400 -height 300 -borderwidth 0 -highlightthickness 0 } res ] } {
-         raise $wname
-         focus $wname
+         graise $wname
+	 focus $wname
          return 0
       }
 
@@ -1955,7 +1961,8 @@ proc cmsn_draw_main {} {
    .options add cascade -label "[trans docking]" -menu .dock_menu
    menu .dock_menu -tearoff 0 -type normal
    .dock_menu add radio -label "[trans dockingoff]" -value 0 -variable config(dock) -command "init_dock"
-   .dock_menu add radio -label "[trans dockgtk]" -value 1 -variable config(dock) -command "init_dock"
+   #.dock_menu add radio -label "[trans dockgtk]" -value 1 -variable config(dock) -command "init_dock"
+   .dock_menu add radio -label "[trans dockfreedesktop]" -value 3 -variable config(dock) -command "init_dock"
    #.dock_menu add radio -label "[trans dockkde]" -value 2 -variable config(dock) -command "init_dock"
 
    .options add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
