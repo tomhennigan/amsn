@@ -236,7 +236,7 @@ namespace eval ::dkfFontSel {
 
 	# OK, Cancel and (partially) Apply.  See also 'configure_apply
 	frame $w.butnframe
-	grid $w.butnframe -row 0 -column 0 -rowspan 4 -columnspan 2 \
+	grid $w.butnframe -row 0 -column 7 -rowspan 4 -columnspan 2 \
 		-sticky nsew -pady $gap
 	foreach {but code} {
 	    ok  0

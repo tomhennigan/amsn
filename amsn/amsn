@@ -773,10 +773,10 @@ if {$version != $config(last_client_version)} {
   
 }
 
-init_dock
-
 if { $config(autoconnect) == 1 } {
   ::MSN::connect $config(login) password
 }
 
-#Preferences session
+init_dock
+
+Preferences session

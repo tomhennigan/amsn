@@ -2313,9 +2313,9 @@ proc cmsn_draw_login {} {
    label .login.c.lpass -text "[trans pass]: " -font sboldf
    entry .login.c.password -width 25 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -show "*"
    checkbutton .login.c.remember -variable config(save_password) \
-      -text "[trans rememberpass]" -font sboldf -highlightthickness 0 -pady 0
+      -text "[trans rememberpass]" -font splainf -highlightthickness 0 -pady 5
    checkbutton .login.c.offline -variable config(startoffline) \
-      -text "[trans startoffline]" -font sboldf -highlightthickness 0 -pady 0
+      -text "[trans startoffline]" -font splainf -highlightthickness 0 -pady 5
    
    grid .login.c.lpass -row 3 -column 2 -sticky w
    grid .login.c.password -row 3 -column 3 -sticky w
@@ -2327,8 +2327,8 @@ proc cmsn_draw_login {} {
    button .login.c.cancel -text [trans cancel] -command "grab release .login;destroy .login" -font sboldf
 
    
-   grid .login.c.ok -row 5 -column 3 -sticky w
-   grid .login.c.cancel -row 5 -column 3
+   grid .login.c.ok -row 5 -column 3 -sticky e -padx 5
+   grid .login.c.cancel -row 5 -column 4 -sticky w -padx 5
    
    if { [info exists config(login)] == 0 } {
 	focus .login.c.signin

@@ -14,7 +14,7 @@ set degt_command_window_visible 0
 proc degt_Init {} {
     set Entry {bg #FFFFFF foreground #0000FF}
     set Label {bg #AABBCC foreground #000000}
-    set Text {bg #2200FF foreground #111111}
+    set Text {bg #2200FF foreground #111111 font splainf}
     set Button {foreground #111111}
 #    set Frame {background #111111}
     ::themes::AddClass Degt Entry $Entry 90
@@ -286,6 +286,7 @@ proc Preferences { settings } {
     pack .cfg.buttons -side top -fill x
    
     set nb .cfg.notebook.nn
+
 	# Preferences Notebook
 	# Modified Rnotebook to translate automaticly those keys in -tabs {}
 	Rnotebook:create $nb -tabs {personal appearance session loging connection prefapps profiles} -borderwidth 2
@@ -299,7 +300,7 @@ proc Preferences { settings } {
 	image create photo prefphone -file [file join ${images_folder} prefphone.gif]
 	set frm [Rnotebook:frame $nb 1]
 
-	set lfname [LabelFrame:create $frm.lfname -text [trans prefname]]
+	set lfname [LabelFrame:create $frm.lfname -text [trans prefname] -font splainf]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.pname -image prefpers
 	label $lfname.lname -text "[trans enternick] :" -font sboldf -padx 10
@@ -547,7 +548,7 @@ proc Preferences { settings } {
 	#  .------------.
 	# _| Connection |________________________________________________
 	image create photo prefnat -file [file join ${images_folder} prefnat.gif]
-	image create photo prefproxy -file [file join ${images_folder} prefnat.gif]	
+	image create photo prefproxy -file [file join ${images_folder} prefproxy.gif]	
 
 	set frm [Rnotebook:frame $nb 5]
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefshared]]
@@ -574,13 +575,13 @@ proc Preferences { settings } {
 	radiobutton $lfname.2.socks5 -text "SOCKS5" -value socks -variable myconfig(proxytype)	
 	pack $lfname.2.http $lfname.2.socks5 -anchor w -side left -padx 10
 	pack $lfname.1 $lfname.2 $lfname.3 -anchor w -side top -padx 0 -pady 0 -expand 1 -fill both
-	label $lfname.3.lserver -text "[trans server] :" -padx 5 
+	label $lfname.3.lserver -text "[trans server] :" -padx 5 -font sboldf
 	entry $lfname.3.server -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20
-	label $lfname.3.lport -text "[trans port] :" -padx 5 
+	label $lfname.3.lport -text "[trans port] :" -padx 5 -font sboldf
 	entry $lfname.3.port -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5
-	label $lfname.3.luser -text "[trans user] :" -padx 5 
+	label $lfname.3.luser -text "[trans user] :" -padx 5 -font sboldf
 	entry $lfname.3.user -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20
-	label $lfname.3.lpass -text "[trans pass] :" -padx 5 
+	label $lfname.3.lpass -text "[trans pass] :" -padx 5 -font sboldf
 	entry $lfname.3.pass -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20 -show "*"
 	grid $lfname.3.lserver -row 1 -column 1 -sticky e
 	grid $lfname.3.server -row 1 -column 2 -sticky w -pady 5
@@ -596,40 +597,61 @@ proc Preferences { settings } {
 
 	#  .--------------.
 	# _| Applications |________________________________________________
-	image create photo prefnat -file [file join ${images_folder} prefnat.gif]
+	image create photo prefapps -file [file join ${images_folder} prefnat.gif]
 
 	set frm [Rnotebook:frame $nb 6]
-	set lfname [LabelFrame:create $frm.lfname -text [trans prefshared]]
+	set lfname [LabelFrame:create $frm.lfname -text [trans prefapps]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
-	label $lfname.pshared -image prefnat
+	label $lfname.pshared -image prefapps
 	pack $lfname.pshared -side left -anchor nw
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -expand 1 -fill both
-	label $lfname.1.lbrowser -text "[trans browser] :" -padx 5 
-	entry $lfname.1.browser -bg #FFFFFF -bd 1 -font sboldf -highlightthickness 0 -width 20
-	label $lfname.1.lfileman -text "[trans fileman] :" -padx 5 
-	entry $lfname.1.fileman -bg #FFFFFF -bd 1 -font sboldf -highlightthickness 0 -width 20
-	label $lfname.1.lmailer -text "[trans mailer] :" -padx 5 
-	entry $lfname.1.mailer -bg #FFFFFF -bd 1 -font sboldf -highlightthickness 0 -width 20
-	label $lfname.1.lsound -text "[trans sound] :" -padx 5 
-	entry $lfname.1.sound -bg #FFFFFF -bd 1 -font sboldf -highlightthickness 0 -width 20
+	label $lfname.1.lbrowser -text "[trans browser] :" -padx 5 -font sboldf
+	entry $lfname.1.browser -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20
+	label $lfname.1.lfileman -text "[trans fileman] :" -padx 5 -font sboldf 
+	entry $lfname.1.fileman -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20
+	label $lfname.1.lmailer -text "[trans mailer] :" -padx 5 -font sboldf
+	entry $lfname.1.mailer -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20
+	label $lfname.1.lhot -text "[trans leaveblankforhotmail]" -padx 5
+	label $lfname.1.lsound -text "[trans soundserver] :" -padx 5 -font sboldf
+	entry $lfname.1.sound -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20
 	grid $lfname.1.lbrowser -row 1 -column 1 -sticky w
 	grid $lfname.1.browser -row 1 -column 2 -sticky w
 	grid $lfname.1.lfileman -row 2 -column 1 -sticky w
 	grid $lfname.1.fileman -row 2 -column 2 -sticky w
 	grid $lfname.1.lmailer -row 3 -column 1 -sticky w
 	grid $lfname.1.mailer -row 3 -column 2 -sticky w
+	grid $lfname.1.lhot -row 3 -column 3 -sticky w
 	grid $lfname.1.lsound -row 4 -column 1 -sticky w
 	grid $lfname.1.sound -row 4 -column 2 -sticky w
 
+	frame $frm.dummy -class Degt
+	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
+
 	#  .----------.
 	# _| Profiles |________________________________________________
+	image create photo prefapps -file [file join ${images_folder} prefnat.gif]
+	
 	set frm [Rnotebook:frame $nb 7]
-	label $frm.l7 -text "Welcome frame 1 !" 
-	pack $frm.l7 -fill both -expand 1
+	set lfname [LabelFrame:create $frm.lfname -text [trans prefprofile]]
+	pack $frm.lfname -anchor n -side top -expand 1 -fill x
+	label $lfname.pprofile -image prefapps
+	pack $lfname.pprofile -side left -anchor nw
+	label $lfname.ldelprofile -text "[trans delprofile]" -padx 5
+	frame $lfname.1 -class Degt
+	combobox::combobox $lfname.1.profile -editable false -highlightthickness 0 -width 25 -bg #FFFFFF -font splainf 
+	button $lfname.1.bdel -text [trans delprofile2] -font sboldf -command "DeleteProfile"
+	pack $lfname.ldelprofile -anchor w -side top
+	pack $lfname.1.profile -anchor w -side left -padx 10
+	pack $lfname.1.bdel -anchor e -side left -padx 15
+	pack $lfname.1 -anchor w -side top -expand 1 -fill x
+		
+    setCfgFonts $nb splainf
 
-    
+    Rnotebook:totalwidth $nb
 
+    wm geometry .cfg [Rnotebook:totalwidth $nb]x595
+    status_log "[Rnotebook:totalwidth $nb]"
 
     switch $settings {
         personal { Rnotebook:raise $nb 1 }
@@ -642,6 +664,20 @@ proc Preferences { settings } {
 	default { return }
     }
 }
+
+proc setCfgFonts {path value} {
+	catch {set res [$path cget -font]}
+	if { [info exists res] } {
+	        if { $res != "sboldf" } {         
+		    catch { $path config -font $value }
+        	}
+	}
+        foreach child [winfo children $path] {
+            setCfgFonts $child $value
+        }
+}
+
+
 
 proc SavePreferences {} {
     global config myconfig proxy_server proxy_port
@@ -803,6 +839,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.24  2003/01/21 16:12:24  burgerman
+# Some more work on pref, dkfont fix..
+#
 # Revision 1.23  2003/01/18 17:46:26  burgerman
 # more pref work
 #

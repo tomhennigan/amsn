@@ -93,6 +93,7 @@ exitamsn Are you sure you want to quit?
 extras Extra Services
 faq FAQ (Frequently Answered Questions)
 filedoesnotexist File does not exist
+fileman File Manager
 filename Filename
 filetransfercancelled File transfer cancelled
 filetransfercomplete File transfer complete
@@ -131,7 +132,7 @@ lastmsgtime Last message received at $1
 lclosedwin $1 has closed the window on $2
 lconftopriv Conference turned into Private chat with $1
 lconvstarted Conversation started on $1
-leaveblankforhotmail Leave blank for using hotmail web
+leaveblankforhotmail Leave blank to use hotmail web
 leaves $1 leaves conversation
 lenteredconf $1 has entered into a conference on $2
 linprivate IN PRIVATE
@@ -260,6 +261,7 @@ sound2 Play sounds when contacts sign in or send a message
 sound Event Sound'
 soundfile Sound File
 soundloop Loop Sound
+soundserver Sound Server
 soundstatus Sound Alarm
 startoffline2 Sign In silently as "Appear Offline"
 startoffline Start Offline

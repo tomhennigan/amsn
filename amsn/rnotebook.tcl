@@ -319,4 +319,22 @@ proc Rnotebook:button {w num} {
   }
 }
 
+#
+# Return the total width of all buttons to set window size
+#
+proc Rnotebook:totalwidth {w} {
+  global Rnotebook
+  set num 0
+  set width 0
+  set i "$w.tabs.b$num"
+  while { [winfo exists $i] } {
+  	set i "$w.tabs.b$num"
+	set width [expr $width + [$i cget -width]]
+	incr num
+	status_log "$i and $width"
+  }
+  return $width
+}
+
+
 
