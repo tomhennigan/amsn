@@ -7,18 +7,18 @@ A: Amsn is written in tcl/tk, so you just need a working tcl/tk interpreter,
 version 8.3 or later. You can get it at http://tcl.sourceforge.net. The
 interpreter is available for linux, windows and macintosh.
 
-Q: How do I create a shortcut to amsn in my desktop?
-A: 1.- Add an icon to your gnome/kde desktop or menu, that 
-launchs the command: 
+Q: How do I create a shortcut to amsn on my desktop?
+A: 1.- Add an icon to your gnome/kde desktop or menu, that
+launches the command: 
 /wherever/you/have/amsn/installed/amsn 
- for example 
+ for example
  /home/yourusername/msn/amsn 
- 2. Other way: 
- As root, create a link in /usr/bin to the amsn file 
- ln -s /wherever/you/have/amsn/installed/amsn amsn 
- This way, you can launch amsn by just typing 'amsn' from 
-anywhere. 
- Then add an icon that launchs the command 'amsn'. 
+ 2. Other way:
+ As root, create a link in /usr/bin to the amsn file
+ ln -s /wherever/you/have/amsn/installed/amsn amsn
+ This way, you can launch amsn by just typing 'amsn' from
+anywhere.
+ Then add an icon that launchs the command 'amsn'.
 
 Q: What do the magenta contacts in my contact list mean?
 A: It means that you are not in that person's contact list.
@@ -49,7 +49,7 @@ menu. It should be disabled as it isn't working for the moment.
 
 Q: I try to run amsn but I get this error:
 bash: ./amsn: bad interpreter: No such file or directory 
-A: Hi, you need to install the tcl/tk packages, because you need  the wish
+A: you need to install the tcl/tk packages, because you need the wish
 interpreter. If you think you have it, try "wish amsn" instead of "./amsn". If
 this works, edit amsn and change the first line: 
  #!/usr/bin/wish 
@@ -65,7 +65,7 @@ while executing
 (in namespace eval "::md5" script line 65)
 invoked from within
 "namespace eval ::md5 { ... etc
-A: You're using tcl/tk older than 8.3. Update tcl/tk.
+A: You're using a version of tcl/tk that is older than 8.3. Update tcl/tk.
 
 Q: After updating amsn, this is what i get when I run it:
 Error in startup script: expected integer but got ""
@@ -84,7 +84,7 @@ Q: Can't type chinese / japanese / other languages in amsn. What can I do?
 A: It looks like xcin or similar programs are not supported in the current
 version of tcl/tk, so amsn doesn't work with them either. You should wait for
 next version of tcl/tk and hope it supports xcin. Meanwhile, you can type the
-text in another editor, and copy-paste it into the chat window.
+text in another editor, and copy-paste it into the chat window .
 
 Q: I have another question, can you help me?
 A: Yes, we can. But first, take a look at the sourceforge project page, located
