@@ -275,11 +275,11 @@ namespace eval ::amsnplus {
 	proc edit_menu {event epvar} {
 		if { !$::amsnplus::config(allow_colours) } { return }
 		upvar 2 evPar newvar
-		set bold "(!FB)"
-		set italic "(!FI)"
-		set underline "(!FU)"
-		set overstrike "(!FS)"
-		set reset "(!FR)"
+		set bold [binary format c 2]
+		set italic [binary format c 5]
+		set underline [binary format c 31]
+		set overstrike [binary format c 6]
+		set reset [binary format c 15]
 		$newvar(menu_name).actions add separator
 		$newvar(menu_name).actions add command -label "[trans bold]" -command "$newvar(window_name).f.bottom.left.in.text insert end $bold"
 		$newvar(menu_name).actions add command -label "[trans italic]" -command "$newvar(window_name).f.bottom.left.in.text insert end $italic"
@@ -303,8 +303,6 @@ namespace eval ::amsnplus {
 		append pixmap1 $amsnpluspath "/pixmaps/multiple_colors.gif"
 		#create the imgages
 		set img1 [image create photo -file $pixmap1 -format gif]
-		#create the texts
-		set bold "(!FB)"
 		#create the widgeds
 		button $bottom.buttons.multiple_colors -image $img1 -relief flat -padx 3 \
 			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0 \
@@ -326,7 +324,8 @@ namespace eval ::amsnplus {
 		set color [tk_chooseColor -parent $win];
 		if {[string equal $color ""]} { return }
 		set color [::amsnplus::hexToRGB [string replace $color 0 0 ""]];
-		$win.f.bottom.left.in.text insert end $color
+		set code "[binary format c 3]$color"
+		$win.f.bottom.left.in.text insert end $code
 	}
 	
 	###############################################
@@ -345,9 +344,9 @@ namespace eval ::amsnplus {
 		set strlen [string length $msg]
 		set i 0
 		while {$i<$strlen} {
-			set char [string range $msg $i [expr $i + 4]]
-			if {[string equal $char "(!FB)"]} {
-				set msg [string replace $msg $i [expr $i + 3] ""]
+			set char [string index $msg $i]
+			if {[string equal $char [binary format c 2]]} {
+				set msg [string replace $msg $i [expr $i - 1] ""]
 				set strlen [string length $msg]
 				set str [string range $msg 0 [expr $i - 1]]
 				set slen [string length $str]
@@ -363,8 +362,8 @@ namespace eval ::amsnplus {
 					set style [linsert $style end "bold"]
 				}
 			}
-			if {[string equal $char "(!FI)"]} {
-				set msg [string replace $msg $i [expr $i + 3] ""]
+			if {[string equal $char [binary format c 5]]} {
+				set msg [string replace $msg $i [expr $i - 1] ""]
 				set strlen [string length $msg]
 				set str [string range $msg 0 [expr $i - 1]]
 				set slen [string length $str]
@@ -380,8 +379,8 @@ namespace eval ::amsnplus {
 					set style [linsert $style end "italic"]
 				}
 			}
-			if {[string equal $char "(!FU)"]} {
-				set msg [string replace $msg $i [expr $i + 3] ""]
+			if {[string equal $char [binary format c 31]]} {
+				set msg [string replace $msg $i [expr $i - 1] ""]
 				set strlen [string length $msg]
 				set str [string range $msg 0 [expr $i - 1]]
 				set slen [string length $str]
@@ -397,8 +396,8 @@ namespace eval ::amsnplus {
 					set style [linsert $style end "underline"]
 				}
 			}
-			if {[string equal $char "(!FS)"]} {
-				set msg [string replace $msg $i [expr $i + 3] ""]
+			if {[string equal $char [binary format c 6]]} {
+				set msg [string replace $msg $i [expr $i - 1] ""]
 				set strlen [string length $msg]
 				set str [string range $msg 0 [expr $i - 1]]
 				set slen [string length $str]
@@ -414,8 +413,8 @@ namespace eval ::amsnplus {
 					set style [linsert $style end "overstrike"]
 				}
 			}
-			if {[string equal $char "(!FR)"]} {
-				set msg [string replace $msg $i [expr $i + 3] ""]
+			if {[string equal $char [binary format c 15]]} {
+				set msg [string replace $msg $i [expr $i - 1] ""]
 				set strlen [string length $msg]
 				set str [string range $msg 0 [expr $i - 1]]
 				set slen [string length $str]
@@ -426,35 +425,34 @@ namespace eval ::amsnplus {
 				::amsn::WinWrite $chatid $str "user" $customfont
 				set style [list]
 			}
-			set char [string range $msg $i [expr $i + 3]]
-			if {[string equal $char "(!FC"]} {
-				if {[::amsnplus::is_a_number [string index $msg [expr $i + 5]]]} {
-					set new_color [string range $msg [expr $i + 4] [expr $i + 5]]
-					set msg [string replace $msg $i [expr $i + 5] ""]
+			if {[string equal $char [binary format c 3]]} {
+				#predefined colors format
+				if {[::amsnplus::is_a_number [string index $msg [expr $i + 1]]]} {
+					if {[::amsnplus::is_a_number [string index $msg [expr $i + 2]]]} {
+						set new_color [string range $msg [expr $i + 1] [expr $i + 2]]
+						set msg [string replace $msg $i [expr $i + 1] ""]
+						set strlen [string length $msg]
+					} else {
+						set new_color [string index $msg [expr $i + 1]]
+						set msg [string replace $msg $i $i ""]
+						set strlen [string length $msg]
+					}
+					set str [string range $msg 0 [expr $i - 1]]
+					set slen [string length $str]
+					set msg [string replace $msg 0 $slen ""]
+					set i -1
 					set strlen [string length $msg]
-				} else {
-					set new_color [string index $msg [expr $i + 4]]
-					set msg [string replace $msg $i [expr $i + 4] ""]
-					set strlen [string length $msg]
-				}
-				set str [string range $msg 0 [expr $i - 1]]
-				set slen [string length $str]
-				set msg [string replace $msg 0 $slen ""]
-				set i -1
-				set strlen [string length $msg]
-				set customfont [list $font $style $color]
-				::amsn::WinWrite $chatid $str "user" $customfont
-				if {$new_color < 15} {
-					set color [::amsnplus::RGBToHex [::amsnplus::colourToRGB $new_color]]
-				}
-			}
-			set char [string index $msg $i]
-			if {[string equal $char "("]} {
-				if {[::amsnplus::is_a_number [string range $msg [expr $i + 1] [expr $i + 3]]]} {
-					if {[::amsnplus::is_a_number [string range $msg [expr $i + 5] [expr $i + 7]]]} {
-						if {[::amsnplus::is_a_number [string range $msg [expr $i + 9] [expr $i + 11]]]} {
-							set rgb [string range $msg $i [expr $i + 11]]
-							set msg [string replace $msg $i [expr $i + 11] ""]
+					set customfont [list $font $style $color]
+					::amsn::WinWrite $chatid $str "user" $customfont
+					if {$new_color < 15} {
+						set color [::amsnplus::RGBToHex [::amsnplus::colourToRGB $new_color]]
+					}
+				#(rrr,ggg,bbb) format
+				}  elseif {[::amsnplus::is_a_number [string range $msg [expr $i + 2] [expr $i + 4]]]} {
+					if {[::amsnplus::is_a_number [string range $msg [expr $i + 6] [expr $i + 8]]]} {
+						if {[::amsnplus::is_a_number [string range $msg [expr $i + 10] [expr $i + 12]]]} {
+							set rgb [string range $msg [expr $i + 1] [expr $i + 12]]
+							set msg [string replace $msg $i [expr $i + 12] ""]
 							set strlen [string length $msg]
 							set str [string range $msg 0 [expr $i - 1]]
 							set slen [string length $str]
