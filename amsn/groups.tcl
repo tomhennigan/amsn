@@ -374,7 +374,7 @@ namespace eval ::groups {
 		menu .group_menu -tearoff 0 -type normal
 		.group_menu add command -label "[trans groupadd]..." \
 			-command ::groups::dlgAddGroup
-		.group_menu add cascade -label "[trans grouprename]..." \
+		.group_menu add cascade -label "[trans grouprename]" \
 			-menu .group_list_rename
 		.group_menu add cascade -label "[trans groupdelete]" \
 			-menu .group_list_delete
@@ -433,6 +433,7 @@ namespace eval ::groups {
 		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
 		# The entryid of the parent is 0
 		$parent entryconfigure $entryid -state normal
+		$parent entryconfigure 6 -state normal
 		#status_log "Groups: menu enabled\n" blue
 	}
 
@@ -442,6 +443,8 @@ namespace eval ::groups {
 		variable entryid
 	
 		$parent entryconfigure $entryid -state disabled
+		$parent entryconfigure 6 -state disabled
+
 	}
 
 	# Gets called whenever we receive a List Group (LSG) packet,

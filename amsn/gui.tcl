@@ -3829,12 +3829,11 @@ proc cmsn_draw_main {} {
 	.main_menu.tools add separator
 	.main_menu.tools add cascade -label "[trans ordercontactsby]" -menu .order_by
 
+	.main_menu.tools add cascade -label "[trans viewcontactsby]" -menu .view_by
+
 	#Added by Trevor Feeney
 	#User to reverse group lists
-	.main_menu.tools add cascade -label "[trans ordergroupsby]" -menu .ordergroups_by
-
-	#User to reverse group lists
-	.main_menu.tools add cascade -label "[trans viewcontactsby]" -menu .view_by
+	.main_menu.tools add cascade -label "[trans ordergroupsby]" -menu .ordergroups_by -state disabled
 
 	#View the history and the event log
 	.main_menu.tools add separator
