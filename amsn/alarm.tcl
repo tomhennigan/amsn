@@ -196,10 +196,19 @@ namespace eval ::alarms {
 						msg_box [trans installconvert]
 						return -1
 					} else {
-						set my_alarms(${user}_pic) $file
-						set my_alarms(${user}_copied_pic) 1
+						image create photo joanna -file $file
+						if { ([image width joanna] >= 1024) || ([image height joanna] >= 768) } {
+							set my_alarms(${user}_copied_pic) 0
+							catch {file delete $file}
+							msg_box [trans invalidpicsize]
+							return -1
+						} else {
+							set my_alarms(${user}_pic) $file
+							set my_alarms(${user}_copied_pic) 1
+						}
+						image delete joanna
 					}
-				} elseif { ([image width joanna] > 1024) && ([image height joanna] > 768) } {
+				} elseif { ([image width joanna] >= 1024) || ([image height joanna] >= 768) } {
 					image delete joanna
 					msg_box [trans invalidpicsize]
 					return -1
