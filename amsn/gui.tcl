@@ -3826,9 +3826,7 @@ proc cmsn_draw_main {} {
 	image create photo belloff -file [GetSkinFile pixmaps belloff.gif]
 
 	image create photo notinlist -file [GetSkinFile pixmaps notinlist.gif]
-	image create photo blockedme -file [GetSkinFile pixmaps blockedme.gif]
 
-	image create photo blockedme -file [GetSkinFile pixmaps blockedme.gif]
 	image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
 	
 	ScrolledWindow $pgBuddy.sw -auto vertical -scrollbar vertical
