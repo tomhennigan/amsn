@@ -1,4 +1,4 @@
-SSS 1.5
+SSS 1.6
 ----------
 
 S: Amsn nedir?
@@ -22,6 +22,10 @@ yapýn, eðer iþe yaramazsa
 deneyin. Eðer wish programýnýz yoksa, Tcl/Tk'niz yoktur ya da doðru kurulmamýþtýr. Eðer "wish amsn" çalýþýr da "./amsn" çalýþmazsa, 'amsn' dosyasýný düzenleyip ilk satýrdaki 'wish' dosya konumunu düzeltin. Varsayýlan deðer
    /usr/bin/wish
 dir.
+
+S: ImageMagick'i kurduktan sonra Kullanýcý Resimleri'ni nasýl etkinleþtirebilirim?
+Y: Programý kurduktan sonra AMSN Seçenekler penceresini açýn. "Diðerleri" sekmesine girin. Orada "CONVERT" isimli alanda "Gözat" tuþuna týklayýp ImageMagick'i kurduðunuz dizine gidin ve "CONVERT.EXE" dosyasýný seçin (Linux'ta "convert" dosyasý,  genelde /usr/bin altýna kurulur).
+Daha sonra seçenekleri kaydedip aMSN'yi yeniden baþlatýn. Tekrar Seçenekler'e giderek Geliþmiþ sekmesi altýnda Baðlantý bölümünde "Diðer kullanýcýlardan kullanýcý resmi alýnabilsln" seçeneðinin iþaretli olduðundan emin olunuz. ImageMagick bulunamadýðý durumlarda bu seçenek kendiðinden kapatýlýr.
 
 S: Konqueror ya da Nautilus gibi grafik arayüzlü bir dosya tarayýcýsýnda amsn'ye týkladýðým zaman, amsn'nin çalýþtýrýlmasý yerine bir metin düzenleyici açýlýyor!
 Y: Amsn, yorumlayýcýlý bir dil olan Tcl/Tk ile yazýldýðý için 'amsn' dosyasý program kodunu içeren bir düz metin dosyasýdýr. Dosya tarayýcý dosyayý metin dosyasý olarak görüp düzenleyiciyi açabilir. amsn'yi çalýþtýrmak için "Birlikte Aç...", "Birlikte Çalýþtýr..." gibi seçenekleri seçip çalýþtýrýcý program olarak 'wish'i seçmelisiniz. Yukarýda belirtildiði gibi, eðer 'wish' yoksa, Tcl/Tk'yi kurmalýsýnýz.
