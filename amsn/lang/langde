@@ -22,6 +22,7 @@ alarmonmsg Alamiere, wenn der Benutzer dir eine Nachricht sendet
 alarmonstatus Alamiere, wenn der Benutzer den Status ändert
 alarmpref Benachrichtigung für diesen Benutzer konfigurieren
 alarmstatus Benachrichtigung für diesen Benutzer an/ausschalten
+allfiles Alle Dateien
 allowallbutbl Erlaube allen, ausser den Benutzern der Blockieren - Liste, mich zu kontaktieren
 allowbadwords Nicknames nicht zensieren
 allowlist Akzeptieren - Liste :
@@ -226,6 +227,7 @@ httpconnection Verbinde mit der HTTP Methode (verwendet das HTTP Protokoll mit P
 hybrid Hybridmodus
 ident Identifiziere
 identity Identität
+imagefiles Bilddateien
 inbox Posteingang
 insertsmiley Smiley einfügen
 installconvert Sie müssen das Konvertierprogramm ImageMagick installieren, um die Grafiken in das von den MSN-Servern benötigte Format konvertieren zu können. Sie können die Binärdateien für Ihr Betriebssystem unter ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ herunterladen. Sollten Sie ImageMagick bereits installiert haben, ist dies ein Fehler, bitte informieren Sie die Entwickler.
@@ -439,6 +441,7 @@ sound Akustische Signale
 soundcommand Muss das Play Kommando sein (Bsp.: esdplay)
 soundexample ( \$sound = Sounddatei, die abgespielt werden soll) Bsp: esdplay \$sound
 soundfile Mit der Benachrichtigung verbundene Klang-Datei
+soundfiles Sounddateien
 soundloop Den Klang unendlich abspielen
 soundserver Klangserver
 soundstatus Akustisches Signal ein/ausschalten
