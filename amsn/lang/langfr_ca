@@ -68,6 +68,7 @@ cannotdeleteprofile le profil ne peut être supprimé car il semble utilisé par un
 cantexec Incapable d'exécuter l'application $1. Vérifiez les paramètres.
 casesensitive Utiliser des déclencheurs sensibles à la casse
 cfgalarm Configurer/Ajouter/Supprimer alarme
+changedisplaypic Modifier l'image affichée
 changefont Changer la police
 changenick Changer de pseudonyme
 changestate $1 est maintenant $2
@@ -184,6 +185,7 @@ groupunknown Groupe inconnu
 handle Pseudonyme
 help Aide
 helpcontents Contenu de l'aide
+hidedisplaypic Cacher l'image affichée
 hiden Cacher cet émoticon du menu
 hidewindow Masquer la fenêtre
 history Voir l'historique
@@ -299,6 +301,7 @@ personal Personnel
 phone Téléphone
 picfile Image associée à l'alarme (GIF < 500 x 500)
 picstatus Activer/Désactiver l'image associée à l'alarme
+playing En jeu: $1
 pluginselector Choisir les plugiciels
 port Port
 prefalerts Mes alertes d'évènements et sons
@@ -372,6 +375,10 @@ servergoingdown Serveur en cours d'arrêt
 server Serveur
 session Session
 showblockedlist Afficher la liste des personnes que vous ont bloqué
+showdisplaypic2 Lorsqu'une fenêtre de conversation est ouverte, afficher l'image par défaut
+showdisplaypic Afficher l'image
+showmypic Mon image
+showuserpic L'image de $1
 skin apparence
 skinselector Changer l'apparence
 smileconfig Configuration des émoticons personnalisés
@@ -434,6 +441,7 @@ willjoin Dans l'attente que $1 rejoigne la conversation
 work Travail
 wrongfields Les champs "$1", "$2" et/ou "$3" sont invalides
 wrongprofileversion Mauvaise version du fichier de profil. Afin de la fixer, enlevez svp le répertoire $1, ou mettez à jour aMSN
+xmmserr Rien ne joue, ou vous n'avez pas installé xmms-infopipe
 xoffset Décalage en X
 yes Oui
 yoffset Décalage en Y
