@@ -979,14 +979,7 @@ namespace eval ::ChatWindow {
 			$paned paneconfigure $output -minsize 50 -height 200
 			$paned paneconfigure $input -minsize 100 -height 120
 		} else {
-			#Remove thin border on Mac OS X (padx)
-			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-				pack $output -expand true -fill both -padx 0 -pady [::skin::getColor chat_output_pady]
-			} else {
-				pack $output -expand true -fill both -padx [::skin::getColor chat_output_padx]\
-				 -pady [::skin::getColor chat_output_pady]
-			}
-
+			pack $output -expand true -fill both -padx 0 -pady 0
 			pack $input -side top -expand false -fill both -padx [::skin::getColor chat_input_padx]\
 			 -pady [::skin::getColor chat_input_pady]
 		}
@@ -1106,7 +1099,17 @@ namespace eval ::ChatWindow {
 			-setgrid 0 -wrap word -exportselection 1  -relief solid -highlightthickness 0 -selectborderwidth 1
 
 		$out setwidget $text
-		pack $out -expand true -fill both -padx 0 -pady 0
+
+		#Remove thin border on Mac OS X (padx)
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			pack $out -expand true -fill both \
+				-padx 0 \
+				-pady [::skin::getColor chat_output_pady]
+		} else {
+			pack $out -expand true -fill both \
+				-padx [::skin::getColor chat_output_padx] \
+				-pady [::skin::getColor chat_output_pady]
+		}
 
 		# Configure our widgets
 		$text configure -state disabled
@@ -1157,12 +1160,18 @@ namespace eval ::ChatWindow {
 		set input [CreateInputFrame $w $leftframe]
 		set picture [CreatePictureFrame $w $bottom]
 
-		pack $buttons -side top -expand false -fill x -padx [::skin::getColor chat_buttons_padx] -pady 0 -anchor n
-		pack $input -side top -expand true -fill both -padx [::skin::getColor chat_input_padx]\
-		 -pady [::skin::getColor chat_input_pady] -anchor n
-		pack $leftframe -side left -expand true -fill both -padx [::skin::getColor chat_leftframe_padx] -pady [::skin::getColor chat_leftframe_pady]
-		pack $picture -side right -expand false -padx [::skin::getColor chat_dp_padx]\
-		 -pady [::skin::getColor chat_dp_pady] -anchor ne
+		pack $buttons -side top -expand false -fill x -anchor n \
+				-padx [::skin::getColor chat_buttons_padx] \
+				-pady [::skin::getColor chat_buttons_pady]
+		pack $input -side top -expand true -fill both -anchor n \
+				-padx [::skin::getColor chat_input_padx] \
+				-pady [::skin::getColor chat_input_pady]
+		pack $leftframe -side left -expand true -fill both \
+				-padx [::skin::getColor chat_leftframe_padx] \
+				-pady [::skin::getColor chat_leftframe_pady]
+		pack $picture -side right -expand false -anchor ne \
+				-padx [::skin::getColor chat_dp_padx] \
+				-pady [::skin::getColor chat_dp_pady]
 
 		# Bind the focus
 		bind $bottom <FocusIn> "focus $input"

@@ -12,7 +12,7 @@ namespace eval ::skin {
 	##################################
 	#  Colors Management Procedures  #
 	##################################
-	
+
 	proc getColor {color {default ""}} {
 		if { [info exists ::skin($color)] } {
 			return [set ::skin($color)]
@@ -49,9 +49,9 @@ namespace eval ::skin {
 		}
 	}
 	
-	##################################
+	####################################
 	#  Settings Management Procedures  #
-	##################################
+	####################################
 	
 	proc get {key {default ""}} {
 		if { [info exists ::skin_setting($key)] } {
@@ -91,7 +91,6 @@ namespace eval ::skin {
 		
 		store expand_xpad 5
 		store expand_ypad 0
-		
 	}
 
 	
@@ -136,15 +135,12 @@ namespace eval ::skin {
 	
 	#Set an association: smiley name - filename
 	proc setSmiley { smiley_name filename } {
-			
 		variable smiley_names
 		set smiley_names($smiley_name) $filename
-		
 	}
 	
 	#Load the given smiley, if not loaded already
 	proc loadSmiley { smiley_name } {
-	
 		global tcl_platform
 		variable loaded_smileys
 		
@@ -156,7 +152,6 @@ namespace eval ::skin {
 		set smiley_file $smiley_names($smiley_name)
 		
 		set imagename [image create photo -file [GetSkinFile smileys $smiley_file] -format gif]
-		
 		
 		set loaded_smileys($smiley_name) $imagename
 		return $imagename
@@ -275,9 +270,8 @@ namespace eval ::skin {
 	
 		#Set defaults
 		InitSkinDefaults
-
 		
-	
+		
 		#Load smileys info from default skin first
 		set skin_id [sxml::init [GetSkinFile "" settings.xml default]]
 		sxml::register_routine $skin_id "skin:smileys:emoticon" ::smiley::newEmoticon
@@ -317,13 +311,10 @@ namespace eval ::skin {
 	proc SetEmoticonSize {cstack cdata saved_data cattr saved_attr args} {
 		upvar $saved_data sdata
 		
-		
 		if { [info exists sdata(${cstack}:smilew)] } { ::skin::store smilew [string trim $sdata(${cstack}:smilew)] }
 		if { [info exists sdata(${cstack}:smileh)] } { ::skin::store smileh [string trim $sdata(${cstack}:smileh)] }
 		
 		return 0
-	
-	
 	}
 	
 }
@@ -342,7 +333,7 @@ proc GetSkinFile { type filename {skin_override ""} } {
 	
 	
 	#Get file using global path
-	if { "[string range $filename 0 0]" == "/" && [file readable  $filename] } {
+	if { "[string range $filename 0 0]" == "/" && [file readable $filename] } {
 		return "$filename"
 	#Get file from program dir skins folder
 	} elseif { [file readable [file join [set ::program_dir] skins $skin $type $filename]] } {
@@ -357,10 +348,9 @@ proc GetSkinFile { type filename {skin_override ""} } {
 	} elseif { [file readable [file join [set ::program_dir] skins $defaultskin $type $filename]] } {
 		return "[file join [set ::program_dir] skins $defaultskin $type $filename]"
 	} else {
-	#	status_log "File [file join  [set ::program_dir]skins $skin $type $filename] not found!!!\n"
+	#	status_log "File [file join [set ::program_dir]skins $skin $type $filename] not found!!!\n"
 		return "[file join [set ::program_dir] skins $defaultskin $type null]"
 	}
-	
 }
 
 proc GetDisplayPicture { filename {skin_override ""}} {
@@ -373,7 +363,7 @@ proc GetDisplayPicture { filename {skin_override ""}} {
 	set defaultskin "default"
 		
 	#Get file using global path
-	if { "[string range $filename 0 0]" == "/" && [file readable  $filename] } {
+	if { "[string range $filename 0 0]" == "/" && [file readable $filename] } {
 		return "$filename"
 	#Get from personal display pics
 	} elseif { [file readable [file join $HOME displaypic $filename]] } {
@@ -391,7 +381,7 @@ proc GetDisplayPicture { filename {skin_override ""}} {
 	} elseif { [file readable [file join [set ::program_dir] skins $defaultskin displaypic $filename]] } {
 		return "[file join [set ::program_dir] skins $defaultskin displaypic $filename]"
 	} else {
-	#	status_log "File [file join  [set ::program_dir]skins $skin displaypic $filename] not found!!!\n"
+	#	status_log "File [file join [set ::program_dir]skins $skin displaypic $filename] not found!!!\n"
 		return "[file join [set ::program_dir] skins $defaultskin displaypic null]"
 	}
 	
@@ -400,10 +390,10 @@ proc GetDisplayPicture { filename {skin_override ""}} {
 
 
 proc skin_description {cstack cdata saved_data cattr saved_attr args} {
-    global skin
+	global skin
 
-    set skin(description) [string trim "$cdata"]
-    return 0
+	set skin(description) [string trim "$cdata"]
+	return 0
 }
 
 proc findskins { } {
@@ -411,10 +401,9 @@ proc findskins { } {
 
 	set skins [glob -directory skins */settings.xml]
 	set skins_in_home [glob -nocomplain -directory [file join $HOME skins] */settings.xml]
-    	set skins_in_home2 [glob -nocomplain -directory [file join $HOME2 skins] */settings.xml]
+	set skins_in_home2 [glob -nocomplain -directory [file join $HOME2 skins] */settings.xml]
 
 	set skins [concat $skins $skins_in_home $skins_in_home2]
-
 
 	set skinlist [list]
 
@@ -433,7 +422,7 @@ proc findskins { } {
 		lappend skinname $desc
 		lappend skinlist $skinname
 	}
-    
+	
 	return $skinlist
 }
 
@@ -452,14 +441,14 @@ proc SelectSkinGui { } {
 
 	label $w.choose -text "[trans chooseskin]" -font bboldf
 	pack $w.choose -side top
-    
+	
 	frame $w.main -relief solid -borderwidth 2
 	frame $w.main.left -relief flat
 	frame $w.main.right -relief flat
 	frame $w.main.left.images -relief flat
 	text $w.main.left.desc -height 6 -width 40 -relief flat -background [::skin::getColor mainwindowbg] -font sboldf -wrap word
 	listbox $w.main.right.box -yscrollcommand "$w.main.right.ys set" -font splainf -background \
-	white -relief flat -highlightthickness 0  -height 8 -width 30
+	white -relief flat -highlightthickness 0 -height 8 -width 30
 	scrollbar $w.main.right.ys -command "$w.main.right.box yview" -highlightthickness 0 \
 	-borderwidth 1 -elementborderwidth 2
 
@@ -488,7 +477,7 @@ proc SelectSkinGui { } {
 	button $w.cancel -text "[trans cancel]" -command "selectskincancel $w" 
 	checkbutton $w.preview -text "[trans preview]" -variable ::skin::preview_skin_change -onvalue 1 -offvalue 0
 
-	pack $w.ok  $w.cancel $w.preview -side right -pady 5 -padx 5
+	pack $w.ok $w.cancel $w.preview -side right -pady 5 -padx 5
 
 	set the_skins [findskins]
 
@@ -596,23 +585,23 @@ proc selectskinok { w } {
 
 	if { [$w.main.right.box curselection] == "" } {
 		$w.status configure -text "[trans selectskin]"
-	}  else {
+	} else {
 	
-	$w.status configure -text ""
+		$w.status configure -text ""
 
-	set skinidx [$w.main.right.box curselection]
+		set skinidx [$w.main.right.box curselection]
 
-	set skin [lindex [lindex [findskins] $skinidx] 0]
-	status_log "Chose skin No $skinidx : $skin\n"
-	config::setGlobalKey skin $skin
-	save_config
-	::config::saveGlobal
-	unset ::skin::skin_reloaded_needs_reset
-	::skin::reloadSkin $skin
-	#msg_box [trans mustrestart]
+		set skin [lindex [lindex [findskins] $skinidx] 0]
+		status_log "Chose skin No $skinidx : $skin\n"
+		config::setGlobalKey skin $skin
+		save_config
+		::config::saveGlobal
+		unset ::skin::skin_reloaded_needs_reset
+		::skin::reloadSkin $skin
+		#msg_box [trans mustrestart]
 
-	destroy $w
-    }
+		destroy $w
+	}
 }
 
 proc selectskincancel { w } {
@@ -625,80 +614,84 @@ proc selectskincancel { w } {
 
 
 proc SetColors {cstack cdata saved_data cattr saved_attr args} {
-    upvar $saved_data sdata
-        
-    if { [info exists sdata(${cstack}:mainwindowbg)] } { ::skin::setColor mainwindowbg [string trim $sdata(${cstack}:mainwindowbg)] }
-    if { [info exists sdata(${cstack}:chatwindowbg)] } { ::skin::setColor chatwindowbg [string trim $sdata(${cstack}:chatwindowbg)] }
-    #Don't use buttonbarbg on Mac OS X and put 0 value to chatborders
-    if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
-    	if { [info exists sdata(${cstack}:chatwindowbg)] } { ::skin::setColor buttonbarbg [string trim $sdata(${cstack}:chatwindowbg)] }
-    	if { [info exists sdata(${cstack}:chat_top_border)] } { ::skin::setColor chat_top_border 0 }
-	if { [info exists sdata(${cstack}:chat_output_border)] } { ::skin::setColor chat_output_border 0 }
-	if { [info exists sdata(${cstack}:chat_buttons_border)] } { ::skin::setColor chat_buttons_border 0 }
-	if { [info exists sdata(${cstack}:chat_input_border)] } { ::skin::setColor chat_input_border 0 }
-	if { [info exists sdata(${cstack}:chat_status_border)] } { ::skin::setColor chat_status_border 0 }
-    } else {
-    	if { [info exists sdata(${cstack}:buttonbarbg)] } { ::skin::setColor buttonbarbg [string trim $sdata(${cstack}:buttonbarbg)] }
-    	if { [info exists sdata(${cstack}:chatborders)] } { ::skin::setColor chatborders [string trim $sdata(${cstack}:chatborders)] }
-    }
-    if { [info exists sdata(${cstack}:topbarbg)] } { ::skin::setColor topbarbg [string trim $sdata(${cstack}:topbarbg)] }
-    if { [info exists sdata(${cstack}:topbartext)] } { ::skin::setColor topbartext [string trim $sdata(${cstack}:topbartext)] }
-    if { [info exists sdata(${cstack}:topbarawaybg)] } { ::skin::setColor topbarawaybg [string trim $sdata(${cstack}:topbarawaybg)] }
-    if { [info exists sdata(${cstack}:topbarawaytext)] } { ::skin::setColor topbarawaytext [string trim $sdata(${cstack}:topbarawaytext)] }
-    if { [info exists sdata(${cstack}:topbarbusybg)] } { ::skin::setColor topbarbusybg [string trim $sdata(${cstack}:topbarbusybg)] }
-    if { [info exists sdata(${cstack}:topbarbusytext)] } { ::skin::setColor topbarbusytext [string trim $sdata(${cstack}:topbarbusytext)] }
-    if { [info exists sdata(${cstack}:topbarofflinebg)] } { ::skin::setColor topbarofflinebg [string trim $sdata(${cstack}:topbarofflinebg)] }
-    if { [info exists sdata(${cstack}:topbarofflinetext)] } { ::skin::setColor topbarofflinetext [string trim $sdata(${cstack}:topbarofflinetext)] }
-    if { [info exists sdata(${cstack}:menubgcolor)] } { ::skin::setColor menubackground [string trim $sdata(${cstack}:menubgcolor)] }
-    if { [info exists sdata(${cstack}:menufgcolor)] } { ::skin::setColor menuforeground [string trim $sdata(${cstack}:menufgcolor)] }
-    if { [info exists sdata(${cstack}:menuactivebgcolor)] } { ::skin::setColor menuactivebackground [string trim $sdata(${cstack}:menuactivebgcolor)] }
-    if { [info exists sdata(${cstack}:menuactivefgcolor)] } { ::skin::setColor menuactiveforeground [string trim $sdata(${cstack}:menuactivefgcolor)] }
-    if { [info exists sdata(${cstack}:balloontextcolor)] } { ::skin::setColor balloontext [string trim $sdata(${cstack}:balloontextcolor)] }
-    if { [info exists sdata(${cstack}:balloonbgcolor)] } { ::skin::setColor balloonbackground [string trim $sdata(${cstack}:balloonbgcolor)] }
-    if { [info exists sdata(${cstack}:balloonbordercolor)] } { ::skin::setColor balloonborder [string trim $sdata(${cstack}:balloonbordercolor)] }
-    
-    if { [info exists sdata(${cstack}:chat_top_padx)] } { ::skin::setColor chat_top_padx [string trim $sdata(${cstack}:chat_top_padx)] }
-    if { [info exists sdata(${cstack}:chat_top_pady)] } { ::skin::setColor chat_top_pady [string trim $sdata(${cstack}:chat_top_pady)] }
-    if { [info exists sdata(${cstack}:chat_paned_padx)] } { ::skin::setColor chat_paned_padx [string trim $sdata(${cstack}:chat_paned_padx)] }
-    if { [info exists sdata(${cstack}:chat_paned_pady)] } { ::skin::setColor chat_paned_pady [string trim $sdata(${cstack}:chat_paned_pady)] }
-    if { [info exists sdata(${cstack}:chat_buttons_padx)] } { ::skin::setColor chat_buttons_padx [string trim $sdata(${cstack}:chat_buttons_padx)] }
-    if { [info exists sdata(${cstack}:chat_buttons_pady)] } { ::skin::setColor chat_buttons_pady [string trim $sdata(${cstack}:chat_buttons_pady)] }
-    if { [info exists sdata(${cstack}:chat_status_padx)] } { ::skin::setColor chat_status_padx [string trim $sdata(${cstack}:chat_status_padx)] }
-    if { [info exists sdata(${cstack}:chat_status_pady)] } { ::skin::setColor chat_status_pady [string trim $sdata(${cstack}:chat_status_pady)] }
-    if { [info exists sdata(${cstack}:chat_input_padx)] } { ::skin::setColor chat_input_padx [string trim $sdata(${cstack}:chat_input_padx)] }
-    if { [info exists sdata(${cstack}:chat_input_pady)] } { ::skin::setColor chat_input_pady [string trim $sdata(${cstack}:chat_input_pady)] }
-    if { [info exists sdata(${cstack}:chat_dp_padx)] } { ::skin::setColor chat_dp_padx [string trim $sdata(${cstack}:chat_dp_padx)] }
-    if { [info exists sdata(${cstack}:chat_dp_pady)] } { ::skin::setColor chat_dp_pady [string trim $sdata(${cstack}:chat_dp_pady)] }
-    if { [info exists sdata(${cstack}:chat_leftframe_padx)] } { ::skin::setColor chat_leftframe_padx [string trim $sdata(${cstack}:chat_leftframe_padx)] }
-    if { [info exists sdata(${cstack}:chat_leftframe_pady)] } { ::skin::setColor chat_leftframe_pady [string trim $sdata(${cstack}:chat_leftframe_pady)] }
-    if { [info exists sdata(${cstack}:chat_sendbutton_padx)] } { ::skin::setColor chat_sendbutton_padx [string trim $sdata(${cstack}:chat_sendbutton_padx)] }
-    if { [info exists sdata(${cstack}:chat_sendbutton_pady)] } { ::skin::setColor chat_sendbutton_pady [string trim $sdata(${cstack}:chat_sendbutton_pady)] }
+	upvar $saved_data sdata
+		
+	if { [info exists sdata(${cstack}:mainwindowbg)] } { ::skin::setColor mainwindowbg [string trim $sdata(${cstack}:mainwindowbg)] }
+	if { [info exists sdata(${cstack}:chatwindowbg)] } { ::skin::setColor chatwindowbg [string trim $sdata(${cstack}:chatwindowbg)] }
+	#Don't use buttonbarbg on Mac OS X and put 0 value to chatborders
+	if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
+		if { [info exists sdata(${cstack}:chatwindowbg)] } { ::skin::setColor buttonbarbg [string trim $sdata(${cstack}:chatwindowbg)] }
 
-    if { [info exists sdata(${cstack}:chat_top_border)] } { ::skin::setColor chat_top_border [string trim $sdata(${cstack}:chat_top_border)] }
-    if { [info exists sdata(${cstack}:chat_output_border)] } { ::skin::setColor chat_output_border [string trim $sdata(${cstack}:chat_output_border)] }
-    if { [info exists sdata(${cstack}:chat_buttons_border)] } { ::skin::setColor chat_buttons_border [string trim $sdata(${cstack}:chat_buttons_border)] }
-    if { [info exists sdata(${cstack}:chat_input_border)] } { ::skin::setColor chat_input_border [string trim $sdata(${cstack}:chat_input_border)] }
-if { [info exists sdata(${cstack}:chat_status_border)] } { ::skin::setColor chat_status_border [string trim $sdata(${cstack}:chat_status_border)] }
-    
-    if { [info exists sdata(${cstack}:statusbarbg)] } { ::skin::setColor statusbarbg [string trim $sdata(${cstack}:statusbarbg)] }
-    if { [info exists sdata(${cstack}:statusbartext)] } { ::skin::setColor statusbartext [string trim $sdata(${cstack}:statusbartext)] }
-    return 0
+		if { [info exists sdata(${cstack}:chat_top_border)] } { ::skin::setColor chat_top_border 0 }
+		if { [info exists sdata(${cstack}:chat_output_border)] } { ::skin::setColor chat_output_border 0 }
+		if { [info exists sdata(${cstack}:chat_buttons_border)] } { ::skin::setColor chat_buttons_border 0 }
+		if { [info exists sdata(${cstack}:chat_input_border)] } { ::skin::setColor chat_input_border 0 }
+		if { [info exists sdata(${cstack}:chat_status_border)] } { ::skin::setColor chat_status_border 0 }
+	} else {
+		if { [info exists sdata(${cstack}:buttonbarbg)] } { ::skin::setColor buttonbarbg [string trim $sdata(${cstack}:buttonbarbg)] }
+		if { [info exists sdata(${cstack}:chatborders)] } { ::skin::setColor chatborders [string trim $sdata(${cstack}:chatborders)] }
+
+		if { [info exists sdata(${cstack}:chat_top_border)] } { ::skin::setColor chat_top_border [string trim $sdata(${cstack}:chat_top_border)] }
+		if { [info exists sdata(${cstack}:chat_output_border)] } { ::skin::setColor chat_output_border [string trim $sdata(${cstack}:chat_output_border)] }
+		if { [info exists sdata(${cstack}:chat_buttons_border)] } { ::skin::setColor chat_buttons_border [string trim $sdata(${cstack}:chat_buttons_border)] }
+		if { [info exists sdata(${cstack}:chat_input_border)] } { ::skin::setColor chat_input_border [string trim $sdata(${cstack}:chat_input_border)] }
+		if { [info exists sdata(${cstack}:chat_status_border)] } { ::skin::setColor chat_status_border [string trim $sdata(${cstack}:chat_status_border)] }
+	}
+	if { [info exists sdata(${cstack}:topbarbg)] } { ::skin::setColor topbarbg [string trim $sdata(${cstack}:topbarbg)] }
+	if { [info exists sdata(${cstack}:topbartext)] } { ::skin::setColor topbartext [string trim $sdata(${cstack}:topbartext)] }
+	if { [info exists sdata(${cstack}:topbarawaybg)] } { ::skin::setColor topbarawaybg [string trim $sdata(${cstack}:topbarawaybg)] }
+	if { [info exists sdata(${cstack}:topbarawaytext)] } { ::skin::setColor topbarawaytext [string trim $sdata(${cstack}:topbarawaytext)] }
+	if { [info exists sdata(${cstack}:topbarbusybg)] } { ::skin::setColor topbarbusybg [string trim $sdata(${cstack}:topbarbusybg)] }
+	if { [info exists sdata(${cstack}:topbarbusytext)] } { ::skin::setColor topbarbusytext [string trim $sdata(${cstack}:topbarbusytext)] }
+	if { [info exists sdata(${cstack}:topbarofflinebg)] } { ::skin::setColor topbarofflinebg [string trim $sdata(${cstack}:topbarofflinebg)] }
+	if { [info exists sdata(${cstack}:topbarofflinetext)] } { ::skin::setColor topbarofflinetext [string trim $sdata(${cstack}:topbarofflinetext)] }
+	if { [info exists sdata(${cstack}:menubgcolor)] } { ::skin::setColor menubackground [string trim $sdata(${cstack}:menubgcolor)] }
+	if { [info exists sdata(${cstack}:menufgcolor)] } { ::skin::setColor menuforeground [string trim $sdata(${cstack}:menufgcolor)] }
+	if { [info exists sdata(${cstack}:menuactivebgcolor)] } { ::skin::setColor menuactivebackground [string trim $sdata(${cstack}:menuactivebgcolor)] }
+	if { [info exists sdata(${cstack}:menuactivefgcolor)] } { ::skin::setColor menuactiveforeground [string trim $sdata(${cstack}:menuactivefgcolor)] }
+	if { [info exists sdata(${cstack}:balloontextcolor)] } { ::skin::setColor balloontext [string trim $sdata(${cstack}:balloontextcolor)] }
+	if { [info exists sdata(${cstack}:balloonbgcolor)] } { ::skin::setColor balloonbackground [string trim $sdata(${cstack}:balloonbgcolor)] }
+	if { [info exists sdata(${cstack}:balloonbordercolor)] } { ::skin::setColor balloonborder [string trim $sdata(${cstack}:balloonbordercolor)] }
+	
+	if { [info exists sdata(${cstack}:chat_top_padx)] } { ::skin::setColor chat_top_padx [string trim $sdata(${cstack}:chat_top_padx)] }
+	if { [info exists sdata(${cstack}:chat_top_pady)] } { ::skin::setColor chat_top_pady [string trim $sdata(${cstack}:chat_top_pady)] }
+	if { [info exists sdata(${cstack}:chat_paned_padx)] } { ::skin::setColor chat_paned_padx [string trim $sdata(${cstack}:chat_paned_padx)] }
+	if { [info exists sdata(${cstack}:chat_paned_pady)] } { ::skin::setColor chat_paned_pady [string trim $sdata(${cstack}:chat_paned_pady)] }
+	if { [info exists sdata(${cstack}:chat_output_padx)] } { ::skin::setColor chat_output_padx [string trim $sdata(${cstack}:chat_output_padx)] }
+	if { [info exists sdata(${cstack}:chat_output_pady)] } { ::skin::setColor chat_output_pady [string trim $sdata(${cstack}:chat_output_pady)] }
+	if { [info exists sdata(${cstack}:chat_buttons_padx)] } { ::skin::setColor chat_buttons_padx [string trim $sdata(${cstack}:chat_buttons_padx)] }
+	if { [info exists sdata(${cstack}:chat_buttons_pady)] } { ::skin::setColor chat_buttons_pady [string trim $sdata(${cstack}:chat_buttons_pady)] }
+	if { [info exists sdata(${cstack}:chat_status_padx)] } { ::skin::setColor chat_status_padx [string trim $sdata(${cstack}:chat_status_padx)] }
+	if { [info exists sdata(${cstack}:chat_status_pady)] } { ::skin::setColor chat_status_pady [string trim $sdata(${cstack}:chat_status_pady)] }
+	if { [info exists sdata(${cstack}:chat_input_padx)] } { ::skin::setColor chat_input_padx [string trim $sdata(${cstack}:chat_input_padx)] }
+	if { [info exists sdata(${cstack}:chat_input_pady)] } { ::skin::setColor chat_input_pady [string trim $sdata(${cstack}:chat_input_pady)] }
+	if { [info exists sdata(${cstack}:chat_dp_padx)] } { ::skin::setColor chat_dp_padx [string trim $sdata(${cstack}:chat_dp_padx)] }
+	if { [info exists sdata(${cstack}:chat_dp_pady)] } { ::skin::setColor chat_dp_pady [string trim $sdata(${cstack}:chat_dp_pady)] }
+	if { [info exists sdata(${cstack}:chat_leftframe_padx)] } { ::skin::setColor chat_leftframe_padx [string trim $sdata(${cstack}:chat_leftframe_padx)] }
+	if { [info exists sdata(${cstack}:chat_leftframe_pady)] } { ::skin::setColor chat_leftframe_pady [string trim $sdata(${cstack}:chat_leftframe_pady)] }
+	if { [info exists sdata(${cstack}:chat_sendbutton_padx)] } { ::skin::setColor chat_sendbutton_padx [string trim $sdata(${cstack}:chat_sendbutton_padx)] }
+	if { [info exists sdata(${cstack}:chat_sendbutton_pady)] } { ::skin::setColor chat_sendbutton_pady [string trim $sdata(${cstack}:chat_sendbutton_pady)] }
+	
+	if { [info exists sdata(${cstack}:statusbarbg)] } { ::skin::setColor statusbarbg [string trim $sdata(${cstack}:statusbarbg)] }
+	if { [info exists sdata(${cstack}:statusbartext)] } { ::skin::setColor statusbartext [string trim $sdata(${cstack}:statusbartext)] }
+
+	return 0
 }
 
 
 proc SetContactListColors {cstack cdata saved_data cattr saved_attr args} {
-    upvar $saved_data sdata
-    
-    if { [info exists sdata(${cstack}:online)] } { ::skin::setContactListColor online [string trim $sdata(${cstack}:online)] }
-    if { [info exists sdata(${cstack}:noactivity)] } { ::skin::setContactListColor noactivity [string trim $sdata(${cstack}:noactivity)] }
-    if { [info exists sdata(${cstack}:rightback)] } { ::skin::setContactListColor rightback [string trim $sdata(${cstack}:rightback)] }
-    if { [info exists sdata(${cstack}:onphone)] } { ::skin::setContactListColor onphone [string trim $sdata(${cstack}:onphone)] }
-    if { [info exists sdata(${cstack}:busy)] } { ::skin::setContactListColor busy [string trim $sdata(${cstack}:busy)] }
-    if { [info exists sdata(${cstack}:away)] } { ::skin::setContactListColor away [string trim $sdata(${cstack}:away)] }
-    if { [info exists sdata(${cstack}:gonelunch)] } { ::skin::setContactListColor gonelunch [string trim $sdata(${cstack}:gonelunch)] }
-    if { [info exists sdata(${cstack}:appearoff)] } { ::skin::setContactListColor appearoff [string trim $sdata(${cstack}:appearoff)] }
-    if { [info exists sdata(${cstack}:offline)] } { ::skin::setContactListColor offline [string trim $sdata(${cstack}:offline)] }
-    return 0
+	upvar $saved_data sdata
+	
+	if { [info exists sdata(${cstack}:online)] } { ::skin::setContactListColor online [string trim $sdata(${cstack}:online)] }
+	if { [info exists sdata(${cstack}:noactivity)] } { ::skin::setContactListColor noactivity [string trim $sdata(${cstack}:noactivity)] }
+	if { [info exists sdata(${cstack}:rightback)] } { ::skin::setContactListColor rightback [string trim $sdata(${cstack}:rightback)] }
+	if { [info exists sdata(${cstack}:onphone)] } { ::skin::setContactListColor onphone [string trim $sdata(${cstack}:onphone)] }
+	if { [info exists sdata(${cstack}:busy)] } { ::skin::setContactListColor busy [string trim $sdata(${cstack}:busy)] }
+	if { [info exists sdata(${cstack}:away)] } { ::skin::setContactListColor away [string trim $sdata(${cstack}:away)] }
+	if { [info exists sdata(${cstack}:gonelunch)] } { ::skin::setContactListColor gonelunch [string trim $sdata(${cstack}:gonelunch)] }
+	if { [info exists sdata(${cstack}:appearoff)] } { ::skin::setContactListColor appearoff [string trim $sdata(${cstack}:appearoff)] }
+	if { [info exists sdata(${cstack}:offline)] } { ::skin::setContactListColor offline [string trim $sdata(${cstack}:offline)] }
+	return 0
 }
 
 

@@ -57,6 +57,8 @@
      <chat_top_pady>3</chat_top_pady>
      <chat_paned_padx>3</chat_paned_padx>
      <chat_paned_pady>3</chat_paned_pady>
+     <chat_output_padx>3</chat_output_padx>
+     <chat_output_pady>0</chat_output_pady>
      <chat_buttons_padx>3</chat_buttons_padx>
      <chat_buttons_pady>3</chat_buttons_pady>
      <chat_input_padx>3</chat_input_padx>

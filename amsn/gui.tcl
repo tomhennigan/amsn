@@ -26,6 +26,8 @@ if { $initialize_amsn == 1 } {
 	::skin::setDefaultColor chat_top_pady 0
 	::skin::setDefaultColor chat_paned_padx 0
 	::skin::setDefaultColor chat_paned_pady 0
+	::skin::setDefaultColor chat_output_padx 0
+	::skin::setDefaultColor chat_output_pady 0
 	::skin::setDefaultColor chat_buttons_padx 0
 	::skin::setDefaultColor chat_buttons_pady 0
 	::skin::setDefaultColor chat_input_padx 0
