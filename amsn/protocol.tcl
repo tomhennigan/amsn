@@ -5069,6 +5069,7 @@ namespace eval ::MSNP2P {
 	# TODO : Error checking on fields (to, from, sizes, etc)
 	proc ReadData { data chatid } {
 		global HOME
+		variable chunkedData
 
 		#status_log "called ReadData with $data\n" red
 
@@ -5084,6 +5085,25 @@ namespace eval ::MSNP2P {
 
 		#status_log "Read header : $cSid $cId $cOffset $cTotalDataSize $cMsgSize $cFlags $cAckId $cAckUID $cAckSize\n" red
 		#status_log "Sid : $cSid -> " red
+
+		if {$cSid == "0" && $cMsgSize != $cTotalDataSize } {
+			status_log "Received PARTIAL DATA\n\n" red
+			if { ![info exists chunkedData($cId)] } {
+				set chunkedData($cId) "[string range $data $headend end-4]"
+			} else {
+				set chunkedData($cId) "$chunkedData($cId)[string range $data $headend end-4]"
+			}
+			status_log "Data is now : $chunkedData($cId)\n\n";
+
+			if { $cTotalDataSize != [string length $chunkedData($cId)] } {
+				return 
+			} else {
+				set data $chunkedData($cId)
+				set headend 0
+				set cMsgSize $cTotalDataSize
+			}
+
+		}
 
 		if { [lindex [SessionList get $cSid] 7] == "ignore" } {
 			status_log "MSNP2P | $cSid -> Ignoring packet! not for us!\n"
@@ -5181,7 +5201,7 @@ namespace eval ::MSNP2P {
 				SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
 
 				# We received an invite for a FT, send 200 OK
-				answerFTInvite $sid $chatid $branchuid $conntype
+				::MSN6FT::answerFTInvite $sid $chatid $branchuid $conntype
 
 			} elseif { $ctype == "application/x-msnmsgr-sessionreqbody" } {
 				
@@ -5242,13 +5262,8 @@ namespace eval ::MSNP2P {
 					} elseif { $appid == 2 } {
 						# Let's get filename and filesize from context
 						set idx [expr [string first "Context:" $data] + 9]
-						set idx2 [expr $idx + 250]
-						set context [base64::decode [string range $data $idx $idx2]]
-						set filename [string map { \x00 "" } [string range $context 19 end]]
-						binary scan [string range $context 8 12] i filesize
-						status_log "context : $context \n [string range $context 8 12]  \nfilename : $filename $filesize \n"
-						::MSNFT::invitationReceived $filename $filesize $sid $chatid $dest 1
-						::amsn::GotFileTransferRequest $chatid $dest $branchuid $cseq $uid $sid $filename $filesize
+						set context [base64::decode [string range $data $idx end]]
+						::MSN6FT::GotFileTransferRequest $chatid $dest $branchuid $cseq $uid $sid $context
 					}
 					return
 				} elseif { $eufguid == "4BD96FC0-AB17-4425-A14A-439185962DC8" }	{
@@ -5743,6 +5758,35 @@ namespace eval ::MSNP2P {
 	}
 
 
+}
+
+proc myRand { min max } {
+	set maxFactor [expr [expr $max + 1] - $min]
+	set value [expr int([expr rand() * 1000000])]
+	set value [expr [expr $value % $maxFactor] + $min]
+	return $value
+}
+
+
+proc binword { word } {
+
+	return [binary format ii $word 0]
+	#return [binary format ii [expr $word % 4294967296] [expr ( $word - ( $word % 4294967296)) / 4294967296 ]]
+
+}
+
+
+proc int2word { int1 int2 } {
+	if { $int2>0} {
+		status_log "Warning!!!! int was a 64-bit integer!! Ignoring for tcl/tk 8.3 compatibility!!!!\n" white
+	}
+	return $int1
+	#return [expr $int2 * 4294967296 + $int1]
+}
+
+
+
+namespace eval ::MSN6FT {
 	proc SendFT { chatid filename filesize} {
 		
 		set sid [expr int([expr rand() * 1000000000])%125000000 + 4]
@@ -5752,7 +5796,7 @@ namespace eval ::MSNP2P {
 		
 		set dest [lindex [::MSN::usersInChat $chatid] 0]
 		
-		SessionList set $sid [list 0 0 0 $dest 0 $callid 0 "filetransfer" "$filename" "$branchid"]
+		::MSNP2P::SessionList set $sid [list 0 0 0 $dest 0 $callid 0 "filetransfer" "$filename" "$branchid"]
 		set previewdata "\x1c\x02\x00\x00\x00\x00\x00\x00[binary format i $filesize]\x00\x00\x00\x00\x00\x00\x00\x00"
 		
 		set idx 0
@@ -5768,9 +5812,9 @@ namespace eval ::MSNP2P {
 		
 		
 		# Create and send our packet
-		set slpdata [MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 0 $callid 0 0 "5D3E02AB-6190-11D3-BBBB-00C04F795683" $sid 2 \
+		set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 0 $callid 0 0 "5D3E02AB-6190-11D3-BBBB-00C04F795683" $sid 2 \
 				 [string map { "\n" "" } [::base64::encode "$previewdata"]]]
-		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 		status_log "Sent an INVITE to [::MSN::usersInChat $chatid]  on chatid $chatid for filetransfer of filename $filename\n" red
 	
 	}
@@ -5779,7 +5823,7 @@ namespace eval ::MSNP2P {
 	
 	proc SendFTInvite { sid chatid} {
 		
-		set session [SessionList get $sid]
+		set session [::MSNP2P::SessionList get $sid]
 		set branchid [lindex $session 9]
 		set callid [lindex $session 5]
 		set dest [lindex $session 3]
@@ -5798,17 +5842,17 @@ namespace eval ::MSNP2P {
 
 
 
-		set slpdata [MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 0 $callid 0 1 "TCPv1" \
+		set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 0 $callid 0 1 "TCPv1" \
 				 $netid $conntype $upnp "false"]
-		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 		
-		#	after 5000 "::MSNP2P::SendData $sid $chatid [lindex [SessionList get $sid] 8]"
+		#	after 5000 "::MSNP2P::SendData $sid $chatid [lindex [::MSNP2P::SessionList get $sid] 8]"
 	}
 	
 	
 	proc SendFTInvite2 { sid chatid} {
 		
-		set session [SessionList get $sid]
+		set session [::MSNP2P::SessionList get $sid]
 		set branchid [lindex $session 9]
 		set callid [lindex $session 5]
 
@@ -5830,11 +5874,11 @@ namespace eval ::MSNP2P {
 		}
 
 
-		set slpdata [MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 1 $callid 0 2 "TCPv1" "true" "$nonce" "$clientip"\
+		set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 1 $callid 0 2 "TCPv1" "true" "$nonce" "$clientip"\
 				 "$port" "$localip" "$port"]
-		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 		
-#		after 5000 "::MSNP2P::SendData $sid $chatid [lindex [SessionList get $sid] 8]"
+#		after 5000 "::MSNP2P::SendData $sid $chatid [lindex [::MSNP2P::SessionList get $sid] 8]"
 	}
 
 	proc OpenMsnFTPort { port } {
@@ -5856,14 +5900,42 @@ namespace eval ::MSNP2P {
 		}
 	}
 
+	proc GotFileTransferRequest { chatid dest branchuid cseq uid sid context } {
+		binary scan [string range $context 0 3] i size
+		binary scan [string range $context 8 11] i filesize
+		binary scan [string range $context 16 19] i nopreview
+		set filename [encoding convertfrom unicode [string range $context 20 [expr $size - 20]]]
+
+		set filename [string range $filename 0 [expr [string first "\x00" $filename] -1]]
+
+		if { $nopreview == 0 } {
+			set previewdata [string range $context $size end]
+			set dir [file join [set ::HOME] FT cache]
+			create_dir $dir
+			set fd [open "[file join $dir ${sid}.png ]" "w"]
+			puts $fd "$previewdata"
+			close $fd
+			set file [png_to_gif [file join $dir ${sid}.png]]
+			if { $file != "" } {
+				set file [filenoext $file].gif
+				::skin::setPixmap FT_preview_${sid} "[file join $dir ${sid}.gif]"
+			}
+		}
+
+		status_log "context : $context \n size : $size \n filesize : $filesize \n nopreview : $nopreview \nfilename : $filename\n"
+		::MSNFT::invitationReceived $filename $filesize $sid $chatid $dest 1
+		::amsn::GotFileTransferRequest $chatid $dest $branchuid $cseq $uid $sid $filename $filesize
+
+	}
+
 	proc answerFTInvite { sid chatid branchid conntype } {
-		SessionList set $sid [list -1 -1 -1 -1 -1 -1 -1 -1 -1 "$branchid" ]
-		set session [SessionList get $sid]
+		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 -1 -1 -1 -1 -1 "$branchid" ]
+		set session [::MSNP2P::SessionList get $sid]
 		set dest [lindex $session 3]
 		set callid [lindex $session 5]
 
-		set slpdata [MakeMSNSLP "OK" $dest [config::getKey login] $branchid 1 $callid 0 1 "TCPv1" "false" "00000000-0000-0000-0000-000000000000"]
-		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+		set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [config::getKey login] $branchid 1 $callid 0 1 "TCPv1" "false" "00000000-0000-0000-0000-000000000000"]
+		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 
 	}
 	
@@ -5881,7 +5953,8 @@ namespace eval ::MSNP2P {
 		
 		set num 1
 		while { [file exists $filename] } {
-			set filename "$origfile.$num"
+	                set filename "[file join [file dirname $origfile] $num.[file tail $origfile]]"
+			#set filename "$origfile.$num"
 			incr num
 		}
 
@@ -5895,11 +5968,11 @@ namespace eval ::MSNP2P {
 		}
 
 		fconfigure $fileid -translation binary
-		SessionList set $sid [list -1 -1 -1 -1 -1 -1 $fileid -1 -1 -1]
+		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 -1 -1 $fileid -1 -1 -1]
 
 		# Let's make and send a 200 OK Message
-		set slpdata [MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr $cseq + 1] $uid 0 0 $sid]
-		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+		set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr $cseq + 1] $uid 0 0 $sid]
+		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 		::amsn::FTProgress w $sid $filename1 [trans throughserver] 1000 $chatid
 		status_log "MSNP2P | $sid -> Sent 200 OK Message for File Transfer\n" red
 	}
@@ -5908,15 +5981,15 @@ namespace eval ::MSNP2P {
 	# CancelFT ( chatid sid )
 	# This function is called when a file transfer is canceled by the user
 	proc CancelFT { chatid sid } {
-		set session_data [SessionList get $sid]
+		set session_data [::MSNP2P::SessionList get $sid]
 		set user_login [lindex $session_data 3]
 		
 		status_log "MSNP2P | $sid -> User canceled FT, sending BYE to chatid : $chatid and SB : [::MSN::SBFor $chatid]\n" red
-		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" $user_login [::config::getKey login] "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex $session_data 5] 0 0] 1]
-		::amsn::FTProgress ca $sid [lindex [SessionList get $sid] 6]
+		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid [::MSNP2P::MakeMSNSLP "BYE" $user_login [::config::getKey login] "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex $session_data 5] 0 0] 1]
+		::amsn::FTProgress ca $sid [lindex [::MSNP2P::SessionList get $sid] 6]
 
 		# Change sid type to canceledft
-		SessionList set $sid [list -1 -1 -1 -1 -1 -1 -1 "ftcanceled" -1 -1]
+		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 -1 -1 -1 "ftcanceled" -1 -1]
 	}
 
 	#//////////////////////////////////////////////////////////////////////////////
@@ -5924,36 +5997,13 @@ namespace eval ::MSNP2P {
 	# This function is called when a file transfer is rejected/canceled
 	proc RejectFT { chatid sid branchuid uid } {
 		# All we need to do is send a DECLINE
-		set slpdata [MakeMSNSLP "DECLINE" [lindex [SessionList get $sid] 3] [::config::getKey login] $branchuid 1 $uid 0 0 $sid]
-		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+		set slpdata [::MSNP2P::MakeMSNSLP "DECLINE" [lindex [::MSNP2P::SessionList get $sid] 3] [::config::getKey login] $branchuid 1 $uid 0 0 $sid]
+		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 
 		# And we unset our sid vars
-		SessionList unset $sid
+		::MSNP2P::SessionList unset $sid
 	}
 
-	proc myRand { min max } {
-		set maxFactor [expr [expr $max + 1] - $min]
-		set value [expr int([expr rand() * 1000000])]
-		set value [expr [expr $value % $maxFactor] + $min]
-		return $value
-	}
-}
-
-
-proc binword { word } {
-
-	return [binary format ii $word 0]
-	#return [binary format ii [expr $word % 4294967296] [expr ( $word - ( $word % 4294967296)) / 4294967296 ]]
-
-}
-
-
-proc int2word { int1 int2 } {
-	if { $int2>0} {
-		status_log "Warning!!!! int was a 64-bit integer!! Ignoring for tcl/tk 8.3 compatibility!!!!\n" white
-	}
-	return $int1
-	#return [expr $int2 * 4294967296 + $int1]
 }
 
 # all audio/video functions go here
@@ -6115,7 +6165,7 @@ namespace eval ::MSNAV {
 	# returns -1 if something is missing
 	proc acceptInvitationPacket {cookie requested chatid} {
 		
-		set sessionid "[format %X [::MSNP2P::myRand 4369 65450]][format %X [::MSNP2P::myRand 4369 65450]]-[format %X [::MSNP2P::myRand 4369 65450]]-[format %X [::MSNP2P::myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [::MSNP2P::myRand 4369 65450]][format %X [::MSNP2P::myRand 4369 65450]][format %X [::MSNP2P::myRand 4369 65450]]"
+		set sessionid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 		CookieList set $cookie [list $sessionid -1 -1]
 		
 		# we need the connection type
@@ -6267,7 +6317,7 @@ namespace eval ::MSNAV {
 		}
 
 		# make new sessionid
-		set sessionid "[format %X [::MSNP2P::myRand 4369 65450]][format %X [::MSNP2P::myRand 4369 65450]]-[format %X [::MSNP2P::myRand 4369 65450]]-[format %X [::MSNP2P::myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [::MSNP2P::myRand 4369 65450]][format %X [::MSNP2P::myRand 4369 65450]][format %X [::MSNP2P::myRand 4369 65450]]"
+		set sessionid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 		# make new cookie
 		set cookie [expr {([clock clicks]) % (65536 * 8)}]
 

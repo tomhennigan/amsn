@@ -72,6 +72,10 @@ namespace eval ::skin {
 		
 		#Not loaded, so let's load it
 		variable pixmap_names
+		if { ! [info exists pixmap_names($image_name) ] } {
+			return ""
+		}
+
 		set image_file $pixmap_names($image_name)
 		set img [image create photo -file [GetSkinFile pixmaps $image_file] -format gif]
 		set loaded_pixmaps($image_name) $img

@@ -836,6 +836,13 @@ namespace eval ::amsn {
 		WinWrite $chatid ")\n" green
 		WinWrite $chatid "----------" green
 
+		if { [::skin::loadPixmap "FT_preview_${sid}"] != "" } {
+			WinWrite $chatid "\n" green
+			WinWriteIcon $chatid FT_preview_${sid} 5 5
+			WinWrite $chatid "\n----------" green
+		}
+
+
 		::log::ftlog $dest $txt
 
 		if { ![file writable $files_dir]} {
