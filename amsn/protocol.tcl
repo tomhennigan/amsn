@@ -652,14 +652,14 @@ proc sb {do sbn var {value ""}} {
 
    switch $do {
       name {
-	 return $sb_tmp
+	 		return $sb_tmp
       }
       set {
          set sb_data $value
-	 return 0
+			 return 0
       }
       get {
-	 return $sb_data
+	 		return $sb_data
       }
       append {
          lappend sb_data $value
@@ -819,24 +819,28 @@ proc cmsn_sb_msg {sb_name recv} {
    set content [lindex [array get headers content-type] 1]
    set timestamp [clock format [clock seconds] -format %H:%M]
 
+   set typer [lindex $recv 1]
+   after cancel "catch {set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name} res"      
+
    if {[string range $content 0 9] == "text/plain"} {
       cmsn_win_write $sb_name \
         "\[$timestamp\] [trans says [urldecode [lindex $recv 2]]]:\n" gray
       cmsn_win_write $sb_name "$body\n" red
+      
+      status_log "llegamsg: $recv\n"
+      
       set idx [sb search $sb_name typers [lindex $recv 1]]
       sb ldel $sb_name typers $idx
       cmsn_show_typers $sb_name
-      cmsn_msgwin_flicker $sb_name 20
       
+      cmsn_msgwin_flicker $sb_name 20     
       set win_name "msg_[string tolower ${sb_name}]"
 
       if { [string compare [wm state .${win_name}] "withdrawn"] == 0 } {
         wm state .${win_name} iconic
 	::amsn::notifyAdd "[trans says [urldecode [lindex $recv 2]]]:\n$body" \
 	   "wm state .${win_name} normal"
-#	cmsn_notify_add [trans says [urldecode [lindex $recv 2]]]:\n$body \
-#	  "wm state .${win_name} normal"
-      }
+      }            
 
       if { [string first $win_name [focus]] != 1 } {
         sonido type
@@ -844,17 +848,19 @@ proc cmsn_sb_msg {sb_name recv} {
       
    } elseif {[string range $content 0 19] == "text/x-msmsgscontrol"} {
 
-#      status_log "$msg\n" white     
-      set typer [array get headers typinguser]
+      status_log "llegamsgcontrol: $recv\n"
+          
       if {[llength $typer]} {
-         set typer [lindex $typer 1]
+#         set typer [lindex $typer 1]
 	 set idx [sb search $sb_name typers "$typer"]
 	 if {$idx == -1} {
             sb append $sb_name typers $typer
-	 } else {
-            sb ldel $sb_name typers $idx
-         }
+	 } 
+	 
          cmsn_show_typers $sb_name
+	 
+	 after 8000 "catch {set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name} res"
+
       }
 
    } elseif {[string range $content 0 18] == "text/x-msmsgsinvite"} {
