@@ -127,7 +127,7 @@ namespace eval ::plugins {
 		}
 		set namespace [lindex $::plugins::found $pluginidx 6]
 
-		if {[array names pluginsevents -exact $event] == "$event"} { # Will error if I search with empty key
+		if {[lsearch -exact [array names pluginsevents $event] $event]!=-1} { # Will error if I search with empty key
 			if {[lsearch $pluginsevents(${event}) "\:\:$namespace\:\:$cmd"] != -1 } { # Event already registered?
 				status_log "Plugins System: Trying to register a event twice"
 				return; # Bye Bye
