@@ -58,43 +58,49 @@ proc taskbar_icon_handler { msg x y } {
 proc trayicon_init {} {
 	global config systemtray_exist password iconmenu wintrayicon statusicon
 
-  if { $config(dock) == 4 } {
-	set ext "[file join plugins winico03.dll]"
-	if { [file exists $ext] != 1 } {
-###need to put in translations
-		msg_box "need winico03.dll in plugins directory"
-		close_dock
-		set config(dock) 0
-		return
-	}
-	if { [catch {load $ext winico}] }	{
-		set config(dock) 0
-		close_dock
-		return
-	}
-	set systemtray_exist 1
-	set wintrayicon [winico create [file join icons winicons msn.ico]]
-	winico taskbar add $wintrayicon -text "[trans offline]" -callback "taskbar_icon_handler %m %x %y"
-	set statusicon 1
-  } else {
-	set ext "[file join plugins traydock libtray.so]"
-	if { ![file exists $ext] } {
-		set config(dock) 0
-		msg_box "[trans traynotcompiled]"
-		close_dock
-		return
-	}
-
-	if { $systemtray_exist == 0 && $config(dock) == 3} {
-		if { [catch {load $ext Tray}] }	{
+	if { $config(dock) == 4 } {
+		set ext "[file join plugins winico03.dll]"
+		if { [file exists $ext] != 1 } {
+			###TODO: need to put in translations
+			msg_box "need winico03.dll in plugins directory"
+			close_dock
+			set config(dock) 0
+			return
+		}
+		if { [catch {load $ext winico}] }	{
 			set config(dock) 0
 			close_dock
 			return
 		}
+		set systemtray_exist 1
+		set wintrayicon [winico create [file join icons winicons msn.ico]]
+		winico taskbar add $wintrayicon -text "[trans offline]" -callback "taskbar_icon_handler %m %x %y"
+		set statusicon 1
+	} else {
+		set ext "[file join plugins traydock libtray.so]"
+		if { ![file exists $ext] } {
+			set config(dock) 0
+			msg_box "[trans traynotcompiled]"
+			close_dock
+			return
+		}
 
-		set  systemtray_exist [systemtray_exist]; #a system tray exist?
+		if { $systemtray_exist == 0 && $config(dock) == 3} {
+			if { [catch {load $ext Tray}] }	{
+				set config(dock) 0
+				close_dock
+				return
+			}
+	
+			set  systemtray_exist [systemtray_exist]; #a system tray exist?
+		}
 	}
-  }
+
+	## set icon to current status if added icon while already logged in
+	if { [::MSN::myStatusIs] != "FLN" } {
+		statusicon_proc [::MSN::myStatusIs]
+		mailicon_proc [::hotmail::unreadMessages]
+	}
 
 	destroy .immain
 	set iconmenu .immain
@@ -311,7 +317,7 @@ proc taskbar_mail_icon_handler { msg x y } {
 
 proc mailicon_proc {num} {
 	# Workaround for bug in the traydock-plugin - statusicon added - BEGIN
-	global systemtray_exist mailicon statusicon config password winmailicon
+	global systemtray_exist mailicon statusicon config password winmailicon tcl_platform
 	# Workaround for bug in the traydock-plugin - statusicon added - END
 	set icon .mi
 	if {$systemtray_exist == 1 && $mailicon == 0 && ($config(dock) == 3 || $config(dock) == 4)  && $num >0} {
@@ -333,15 +339,15 @@ proc mailicon_proc {num} {
 			set mailicon 1
 		}
 
-	} elseif {$systemtray_exist == 1 && $mailicon != 0 && $num ==0} {
-		if { $config(dock) != 4 } {
+	} elseif {$systemtray_exist == 1 && $mailicon != 0 && $num == 0} {
+		if { $tcl_platform(platform) != "windows" } {
 			remove_icon $mailicon
 			set mailicon 0
 		} else {
 			winico taskbar delete $winmailicon
 			set mailicon 0
 		}
-	} elseif {$systemtray_exist == 1 && $mailicon != 0 && ($config(dock) == 3 || $config(dock) == 4)  && $num >0} {
+	} elseif {$systemtray_exist == 1 && $mailicon != 0 && ($config(dock) == 3 || $config(dock) == 4)  && $num > 0} {
 		if { $num == 1 } {
 			set msg [trans onenewmail]
 		} elseif { $num == 2 } {
