@@ -214,8 +214,6 @@ namespace eval ::plugins {
                 $w.command.config configure -state active
             }
         } else {
-            #$w.command.load configure -state active
-            #$w.command.unload configure -state disabled
 	    $w.command.load configure -state active -text "Load" -command "::plugins::GUI_Load"
             $w.command.config configure -state disabled
         }
@@ -272,6 +270,9 @@ namespace eval ::plugins {
         status_log "Unloading plugin $plugin"
 	set loadedplugins [lreplace $loadedplugins [lsearch $loadedplugins "$plugin"] [lsearch $loadedplugins "$plugin"]]
 	UnRegisterPlugin $plugin
+	if {[info procs "::${plugin}::DeInitPlugin"] == "::${plugin}::DeInitPlugin"} {
+	    ::${plugin}::DeInitPlugin
+	}
     }
     
     proc LoadPlugins {} {
