@@ -868,6 +868,8 @@ proc eventdisplay { } {
 proc eventlog { } {
 	if { [::config::getKey log_event_connect] || [::config::getKey log_event_disconnect] || [::config::getKey log_event_email] || [::config::getKey log_event_state] } {
 	return 1
+	} else {
+	return 0
 	}
 }
 
