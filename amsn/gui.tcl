@@ -295,9 +295,26 @@ namespace eval ::amsn {
 
    #///////////////////////////////////////////////////////////////////////////////
    # Draws the about window
-   proc aboutWindow {} {
+   proc aboutWindow {{localized 0}} {
 
       global program_dir tcl_platform
+
+		if { [winfo exists .about] } {
+			raise .about
+			return
+		}
+
+
+		if { $localized } {
+			set filename "[file join $program_dir docs README[::config::getKey language]]"
+		} else {
+			set filename [file join $program_dir README]
+		}
+		if {![file exists $filename] } {
+			status_log "File $filename NOT exists!!\n" red
+			msg_box "[trans transnotexists]"
+			return
+		}
 
       toplevel .about
       wm title .about "[trans about] [trans title]"
@@ -333,8 +350,8 @@ namespace eval ::amsn {
       pack .about.bottom -side bottom -fill x -pady 3
       
 #Insert the text in .about.middle.list.text
-      set id [open "[file join $program_dir README]" r]
-      .about.middle.list.text insert 1.0 [read $id]
+      set id [open $filename r]
+		.about.middle.list.text insert 1.0 [read $id]
 	  close $id
 	  
       .about.middle.list.text configure -state disabled
@@ -343,23 +360,23 @@ namespace eval ::amsn {
       set x [expr {([winfo vrootwidth .about] - [winfo width .about]) / 2}]
       set y [expr {([winfo vrootheight .about] - [winfo height .about]) / 2}]
       wm geometry .about +${x}+${y}
-      
+
       #Should we disable resizable? Since when we make the windows smaller (in y), we lost the "Close button"
       #wm resizable .about 0 0
 
    }
    #///////////////////////////////////////////////////////////////////////////////
 
-   
+
    #///////////////////////////////////////////////////////////////////////////////
    # showHelpFile(filename,windowsTitle)
    proc showTranslatedHelpFile {file title} {
       global program_dir config
-      
+
       set filename [file join "docs" "${file}$config(language)"]
       set fullfilename [file join $program_dir $filename]
-      
-      if {[file exists $fullfilename]} { 
+
+      if {[file exists $fullfilename]} {
          status_log "File $filename exists!!\n" blue
 	 showHelpFile $filename "$title"
       } else {
@@ -372,9 +389,15 @@ namespace eval ::amsn {
    # showHelpFile(filename,windowsTitle)
    proc showHelpFile {file title} {
       global program_dir
+
+		if { [winfo exists .show] } {
+			raise .show
+			return
+		}
+
       toplevel .show
       wm title .show "$title"
-      
+
     ShowTransient .show
 	
 	
@@ -1566,9 +1589,9 @@ catch {exec killall -c sndplay}
 	.${win_name}.menu.apple add separator
 	.${win_name}.menu.apple add command -label "[trans preferences]..." -command Preferences -accelerator "Command-,"
 	.${win_name}.menu.apple add separator
-	
+
 	}
-	
+
       menu .${win_name}.menu.msn -tearoff 0 -type normal
       .${win_name}.menu.msn add command -label "[trans savetofile]..." \
          -command " ChooseFilename .${win_name}.f.out.text ${win_name} "
@@ -3343,7 +3366,14 @@ proc cmsn_draw_main {} {
          -command "::amsn::showHelpFile FAQ [list [trans faq]]"
    }
    .main_menu.helping add separator
-   .main_menu.helping add command -label "[trans about]..." -command ::amsn::aboutWindow
+	if { $config(language) != "en" } {
+      .main_menu.helping add command -label "[trans about] - $langlong..." \
+         -command "::amsn::aboutWindow 1"
+      .main_menu.helping add command -label "[trans about] - English..." \
+         -command ::amsn::aboutWindow
+   } else {
+		.main_menu.helping add command -label "[trans about]..." -command ::amsn::aboutWindow
+   }
    .main_menu.helping add command -label "[trans version]..." -command \
      "msg_box \"[trans version]: $version\n[trans date]: $date\n$weburl\""
 
