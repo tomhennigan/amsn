@@ -6422,9 +6422,9 @@ proc pictureDeleteFile {} {
 			catch {file delete [filenoext $filename].gif}
 			set selected_image ""
 			.picbrowser.mypic configure -image no_pic
-			if { [file exists $filename] != 1 } {
+			if { [file exists $filename] == 1 } {
 				tk_messageBox -message [trans faileddelete] -type ok -icon error -title [trans failed] -parent $parent
-				status_log "Failed: file [file join $HOME displaypic $selected_image] could not be deleted.\n";
+				status_log "Failed: file $filename could not be deleted.\n";
 			}
 		}
 		
