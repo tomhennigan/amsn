@@ -228,7 +228,7 @@ namespace eval ::winskin {
 
 	# ::winskin::draw
 	# Description:
-	#	Adds a line of buttons in the contact list
+	#	Adds a line of buttons in the contact list and/or removes top section
 	# Arguments:
 	#	event   -> The event wich runs the proc (Supplied by Plugins System)
 	#     evPar   -> The array of parameters (Supplied by Plugins System)
@@ -238,6 +238,8 @@ namespace eval ::winskin {
 
 		if { ($::winskin::config(removetop) == 1) && ($skinned == 1) } {
 			$vars(text) delete 1.0 end
+			#TODO: change postevent and dont hardcode location
+			catch { pack forget $::pgBuddyTop }
 		}
 
 		if { $::winskin::config(addbuttons) == 1 } {
@@ -248,7 +250,8 @@ namespace eval ::winskin {
 					-width [winfo width $vars(text)]\
 					-borderwidth 0 \
 					-background #ffffff
-			$vars(text) window create end -window $buttons -padx 0 -pady 0
+			$vars(text) insert 1.0 "\n"
+			$vars(text) window create 1.0 -window $buttons -padx 0 -pady 0
 
 			set imag $buttons.skin
 			set imagm $buttons.move
@@ -295,8 +298,6 @@ namespace eval ::winskin {
 			bind $imagr <B1-Motion> "::winskin::resize"
 			bind $imagr <ButtonRelease-1> "::winskin::release"
 			bind $imagc <ButtonPress-1> "::amsn::closeOrDock [::config::getKey closingdocks]"
-
-			$vars(text) insert end "\n"
 		}
 	}
 
