@@ -1,0 +1,19 @@
+Amsn için yardým dosyasý
+
+Gereksinimler:
+Amsn Tcl/Tk ile yazýlmýþtýr; dolayýsýyla, 8.3 ya da daha yeni sürüm çalýþan bir Tcl yorumlayýcý yeterlidir. Tcl'i http://tcl.sourceforge.net adresinden alabilirsiniz. Yorumlayýcýnin Linux, Windows ve Macintosh sürümleri bulunmaktadýr. Sistem çubuðu ikonu, kullanýcý resimleri, MSN Protokol 9 için SSL baðlantýsý gibi bazý ek özellikler baþka program ya da kütüphaneler gerektirebilir.
+
+Kurulum Kýlavuzu:
+amsn-x_xx.tar.gz dosyasýný indirin. Dosyayý
+   gzip -d amsn-x_xx.tar.gz
+   tar xvf amsn-x_xx.tar
+komutlarý ile açýn. Bir msn/ dizini oluþup amsn kullanýma hazýr duruma gelecektir. Çalýþtýrmak için:
+   cd msn
+   ./amsn
+yapýn, eðer iþe yaramazsa
+   wish amsn
+deneyin. Eðer wish programýnýz yoksa, Tcl/Tk'niz yoktur ya da doðru kurulmamýþtýr. Eðer "wish amsn" çalýþýr da "./amsn" çalýþmazsa, 'amsn' dosyasýný düzenleyip ilk satýrdaki 'wish' dosya konumunu düzeltin. Varsayýlan deðer
+   /usr/bin/wish
+dir.
+
+Eðer hala sorunlarýnýz varsa, SYS'ye (Sýkça yanýtlanan Sorular) bakýnýz.

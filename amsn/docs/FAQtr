@@ -1,0 +1,166 @@
+SSS 1.5
+----------
+
+S: Amsn nedir?
+Y: Amsn bir Microsoft Messenger benzeridir. Arkadaþlarýnýzla iletiþim kumanýzý ve anýnda mesaj ve dosya gönderebilmenizi saðlar.
+
+KURULUM VE ÇALIÞTIRMA
+=====================
+
+S: Amsn'yi çalýþtýrabilmek için neler gerekiyor?
+Y: Amsn Tcl/TK ile yazýlmýþtýr, dolayýsýyla çalýþan bir Tcl/Tk yorumlayýcýsý gereklidir; yorumlayýcýnýn sürüm 8.3 ya da daha yeni olmasi gerekir. Yorumlayýcý http://tcl.sourceforge.net adresinden alýnabilir. Yorumlayýcýnýn Linux, Windows ve Macintosh için sürümleri bulunmaktadýr. Sistem çubuðu ikonu, kullanýcý resimleri, MSN Protokol 9 için SSL baðlantýsý gibi bazý ek özellikler baþka program ya da kütüphaneler gerektirebilir.
+
+S: Amsn'yi nasýl kurup çalýþtýrýrým?
+Y: amsn-x_xx.tar.gz dosyasýný indirin. Dosyayý
+   gzip -d amsn-x_xx.tar.gz
+   tar xvf amsn-x_xx.tar
+komutlarý ile açýn. Bir msn/ dizini oluþup amsn kullanýma hazýr duruma gelecektir. Çalýþtýrmak için:
+   cd msn
+   ./amsn
+yapýn, eðer iþe yaramazsa
+   wish amsn
+deneyin. Eðer wish programýnýz yoksa, Tcl/Tk'niz yoktur ya da doðru kurulmamýþtýr. Eðer "wish amsn" çalýþýr da "./amsn" çalýþmazsa, 'amsn' dosyasýný düzenleyip ilk satýrdaki 'wish' dosya konumunu düzeltin. Varsayýlan deðer
+   /usr/bin/wish
+dir.
+
+S: Konqueror ya da Nautilus gibi grafik arayüzlü bir dosya tarayýcýsýnda amsn'ye týkladýðým zaman, amsn'nin çalýþtýrýlmasý yerine bir metin düzenleyici açýlýyor!
+Y: Amsn, yorumlayýcýlý bir dil olan Tcl/Tk ile yazýldýðý için 'amsn' dosyasý program kodunu içeren bir düz metin dosyasýdýr. Dosya tarayýcý dosyayý metin dosyasý olarak görüp düzenleyiciyi açabilir. amsn'yi çalýþtýrmak için "Birlikte Aç...", "Birlikte Çalýþtýr..." gibi seçenekleri seçip çalýþtýrýcý program olarak 'wish'i seçmelisiniz. Yukarýda belirtildiði gibi, eðer 'wish' yoksa, Tcl/Tk'yi kurmalýsýnýz.
+
+S: Masaüstümde amsn'ye nasýl kýsayol oluþturabilirim?
+Y: 1.- Gnome/Kde masaüstü ya da menüsüne komutu çalýþtýran bir simge koyun:
+   /amsn'nin/kurulduðu/yer/amsn
+örneðin
+   /home/kullaniciisminiz/msn/amsn
+
+2.- Diðer yol:
+root iken, /usr/bin'de amsn dosyasýna bir baðlantý yaratýn:
+   ln -s /amsn'nin/kurulduðu/yer/amsn amsn
+Böylece komut satýrýnda 'amsn' diyerek amsn'yi çalýþtýrabilirsiniz.
+
+S: Gnome/KDE'deki küçültmeyi nasil çalýþýr duruma getirebilirim?
+Y: ESKi Gnome1 eklentisi için plugins dizini altýnda 'make' komutunu çalýþtýrmalýsýnýz. Gnome1 geliþtirme kütüphaneleri gerekecektir. Eklenti derlenince, amsn'yi çalýþtýrýp seçenekler menüsünde Gnome'da küçültmeyi seçin.
+YENÝ AçikMasaüstü (Gnome2 ve KDE3 uyumlu) eklentisini derlemek için plugins/traydoc altýndaki README dosyasýný okuyun.
+
+KULLANIM
+========
+
+S: Baðlantý listemdeki eflatun renkli baðlantýlar nedir?
+Y: Bunlar baðlantý listelerinde sizin olmadýðýnýz kiþilerdir.
+
+S: Bir baðlantýnýn adresini clipboard'a kopyalayabilir miyim?
+Y: Evet, baðlantý listesinde baðlantýnýn ismi üzerine sað týklayýn, çýkan menüdeki adresin üstüne týklayýn. E-posta adresi clipboard'a kopyalanacaktýr.
+
+S: Bir sohbet penceresinde yazdýðým geçmiþ iletilere nasýl ulaþabilirim?
+Y: Bunun için control ve yön tuþlarýný kullanabilirsiniz. Týpký bir kabuk komut satýrýnda olduðu gibi, ctrl+yukarý ok bir önceki, ctrl+aþaðý ok da bir sonraki iletiyi gösterecektir.
+
+S: Seçenekler'in Gizlilik sekmesindeki dört liste ne listeleridir?
+Y: Bu dört liste Ýzin Verilenler Listesi (Allow List - AL), Engellenenler Listesi (Block List - BL), Karþý Liste (Reverse
+List - RL) ve Baðlantý Listesi'dir. Sonuncunun ne oluðu açýktýr; diðerleri ise:
+AL (Ýzin Verilenler): Bu listedeki kiþiler baðlandýðýnýz zaman sizi görebilirler ve siz çevrim dýþý deðilken sizinle sohbet edebilirler.
+BL (Engellenenler): Bu listedeki kiþiler engellenmiþtir; baðlandýðýnýzda sizi göremezler ve sizinle sohbet edemezler.
+RL (Karþý liste): Bunlar sizi kendi baðlantý listelerine ekleyen kiþilerdir. Yeþil görünenler sizin listenizde olmayanlardýr (ama siz onlarýn listesindesinizdir).
+
+S: Kendi özel gülen adamlarýmý eklemek istiyorum, nasýl yapabilirim?
+Y: Gülen adamlar menüsünde bunun için "Yeni özel gülen adam ekle" düðmesi vardýr. Buna tiklayýp çýkan pencerede ilgili alanlarý doldurmanýz gerekir. "Tarif" kýsmýna istediðiniz bilgiyi girebilirsiniz, ipuçlarýnda (tooltip) bilgi olarak bu metin gösterilecektir. "Yazýlý karþýlýðý" ise gülen adamýn çýkmasi için yazmanýz gereken metindir; örneðin :), :-) vb. bazý çok bilinen yazýlý karþýlýklardýr. Birden çok yazýlý karþýlýk koymak için bunlarý boþlukla ayýrarak ardarda yazýn. Ýçinde boþluk geçen yazýlý karþýlýklarý çift týrnak içinde yazmalýsýnýz, örneðin:
+   "ne haber" selam "iyi günler"
+yazarak gülen adamýnýz için 3 deðiþik yazýlý karþýlýk tanýmlayabilirsiniz.
+"Gülen adam dosya ismi" alanýna gif dosyasýnýn konumu girilir. Gülen adamlar menüsünün bozulmamasý için dosya 19x19 boyunda olmalýdýr. Gerçekte resim boyutlarý için sýnýr yoktur ama baþka boylarda dosyalar kötü sonuçlar verebilir (gülen adamlar menüsü bozulabilir; ya da gülen adamý kullanýcý isminizde kullanýrsanýz ana pencerenin "Durumum" bölümü de bozulabilir). "Gözat" düðmesinin de yardýmýyla tam dosya konumunu girebilirsiniz; ama eðer dosya ~/.amsn/<profile>/smileys ya da msn/skins/<skin>/smileys dizinlerinden birindeyse sadece dosya ismini yazmak da yeterli olacaktýr. Silinme ve taþýnma olasýlðýna karþý, bu dosya daha sonra sizin profil dizinine kopyalanacaktýr.
+"Alarm ses dosyasý" için de durum benzerdir. Bu dosya, gülen adam gösterilince çýkacak sesi belirler. Örnek olarak, LOL metnine karþýlýk gelen gülen adam bir gülme sesi çýkarýr. Ses dosyasý .wav ya da kullandýðýnýz ses programýnýn (Seçenekler'de  belirtilmiþtir, play, esdplay, ya da mp3 için mpg123 olabilir) desteklediði bir türden olmalýdýr. Bu alanýn etkinleþmesi için önce "Sesi aç" seçeneðine týklamalýsýnýz.
+"Bu gülen adam hareketlidir" seçeneði ise hareketli GiF dosyalarý içindir. Eðer dosya hareketli ise ve siz bunu seçmezseniz gülen adam hareketsiz olacaktýr.
+"Gülen adamý menüden çýkar" seçilirse, gülen adamýnýz menüde gözükmez (ama kullanýlabilir).
+"Yazýlý karþýlýklarda büyük,küçük harfe duyarli ol" seçeneði ise yazýlý karþýlýklarda büyük, küçük harf ayrýmý yapýlmasý içindir. Örneðin, eðer bu seçilirse, "Slm" metni "slm"dan farklý olarak algýlanýr. Eðer seçilmezse büyük/küçük harf farkýnýn önemi olmayacaktýr.
+Ayarlarý yapýnca "Tamam"a týklayýn. Ýlk üç alandan doldurmayý unuttuðunuz varsa ya da resim dosyasý bulunamazsa hata bildirilecektir. Hata yoksa gülen adamýnýz kullanýlabilir demektir. Ýyi eðlenceler!
+
+S: Kullanýcý isimleri kýsaltýlýyor. Ýsimlerin tamamýný göstermek mümkün mü?
+Y: Evet. Sohbet ve uyarý pencerelerinde ya da baðlatý listesinde isimleri kýsaltýlmadan görmek istiyorsanýz Seçenekler altýndaki Geliþmiþ sekmesine gidip isim kýsaltmayý devredýþý býrakabilirsiniz.
+
+S: Engelleme belirleme artýk yok. Niye?
+Y: MSN Messenger protokolündeki bir açýða dayanan bu özellik, açýðýn kapatýlmasý ile artik kullanýlamamaktadýr. Eski amsn sürümlerinde var olan bu özellik yeni sürümlerde "Seçenekler"den çýkarýlmýþtýr.
+
+SORUN GÝDERME
+=============
+
+S: Amsn bazen kilitleniyor, neden?
+Y: Bu genelde ses ayarlarýndaký sorunlardan kaynaklanýr. Ses kartýna eriþilemiyorken ses çalýnmaya çalýþýlýrsa, ses çalma komutu karta eriþilinceye kadar çalýþmayý durdurabilir. Ses özelliklerini kapatmayý ya da ses programýný yeniden ayarlamayý deneyin.
+
+S: Amsn'yi çalýþtýrmak isterken þu hata ile karþýlaþýyorum:
+   bash: ./amsn: bad interpreter: No such file or directory
+Y: Tcl/Tk kurmanýz gerekir; çünkü wish yorumlayýcýsý gereklidir. Eðer zaten kurulu ise 'amsn' dosyasýnýn ilk satýrýndaki
+   #!/usr/bin/wish
+komutunu, wish komutunun konumu doðru gösterilecek þekilde deðiþtirin.
+
+S: Amsn'yi çalýþtýrýnca þu hatayý aliyorum:
+   Error in startup script: bad option "map": must be
+   compare, first, index, last, length, match, range,
+   tolower, toupper, trim, trimleft, trimright, wordend,
+   or wordstart
+   while executing
+   "string map $map $md5body"
+   (in namespace eval "::md5" script line 65)
+   invoked from within
+   "namespace eval ::md5 { ... etc
+Y: Tcl/Tk'nin 8.3'ten daha eski bir sürümünü kullanýyorsunuz. Sürümünüzü güncelleyin.
+
+S: Amsn'yi güncelledikten sonra çalýþtýrýnca þu hatayý aliyorum:
+   Error in startup script: expected integer but got ""
+   while executing
+   "font create menufont -family $family -size $size
+   -weight normal"
+   (procedure "::amsn::initLook" line 5)
+   invoked from within
+   "::amsn::initLook $family $size $config(backgroundcolor)"
+   (file "amsn" line 2184)
+Y: Yeni sürümlerde ayar dosyalarý deðiþtirilmiþtir. Sorunu gidermenin kýsa bir yolu kullanýcý dizininizdeki (home directory) eski ayar dosyanýzý silmektir.
+   /home/kullaniciisminiz/.amsn/config
+dosyasýný sildikten sonra sorun artýk giderilmiþ olmalýdýr.
+
+S: Amsn'de Çince/Japonca ya da bazý baþka dillerde yazý yazamýyorum. Ne yapmalýyým?
+Y: Tcl/Tk'nin þu anki sürümünde xcin ya da benzeri programlar desteklenmemektedir; dolayýsýyla amsn de bunlarý desteklememektedir. þu an için yalnýzca Tcl/Tk'nin yeni sürümünün çýkmasýný ve bu sürümün xcin desteði içermesini umabiliriz. Bu arada, basþka bir metin düzenleyicide metni yazýp kopyala/yapýþtýr ile amsn penceresine aktarabilirsiniz.
+Yeni: Kopyala/Yapýþtýr için dil desteði: Eðer harflerin kopyalanýp yapýþtýrýlmasýnda sorun varsa, Tcl/Tk'nin aþaðýda belirtilen sürümlerini alýp kurun:
+   http://jfontain.free.fr/tcl-8.4a3-2.i386.rpm
+   http://jfontain.free.fr/tk-8.4a3-2.i386.rpm
+   http://jfontain.free.fr/tcl-thread-8.4a3-2.i386.rpm
+Harfleri doðrudan pencere içine yazamadýðýnýz durumlar için bu, dolaylý bir çözüm yolu olacaktýr.
+
+S: Amsn'yi bir proxy sunucu arkasýnda kullanabilir miyim?
+Y: Amsn'nin 0.61 sürümünden beri HTTP proxy desteði vardýr. Buna göre yalnýzca bir HTTP proxy ardýndan (squid gibi) baðlanabilirsiniz. Eðer proxy sunucunuz socks5 ise baðlanamazsýnýz; ancak socks5 desteðini geliþtirmekteyiz.
+
+S: Amsn baðlý gözüküyor; ama biriyle sohbet etmek ya da durumumu deðiþtirmek istediðimde baðlantým kesiliyor. Bu, birkaç dakika etkinlik olmamasýnýn ardýndan sýkça olan bir durum. Büyük bir olasýlýkla bir yönlendirici (router) ya da güvenlik duvarý (firewall) ardýndayým.
+Y: Araçlar->Seçenekler altýnda "Canlý tut (NAT Keepalive)" seçeneðini iþaretleyin. Bu ðekilde, paylaþýlan baðlantýlarda sunucuya iki dakikada bir boþ paket gönderilerek baðlantýnýn canlý kalmasý saðlanýr.
+
+S: Sesler sürekli tekrarlýyor. Örneðin XMMS çalýþýrken biri baðlanýrsa ya da sohbet ediyorsam, XMMS'yi kapattýktan sonra ya da çalýnan þarký bitince, XMMS açýkken çýkarýlamayan sesler sinir bozucu bir þekilde ardarda çalýnmaya baþlýyor.
+Y: Buna pek çok çözüm yolu var. Eðer KDE kullanýyorsanýz, XMMS'yi ses için Arts kullanacak þekilde ayarlayabilir ve amsn ses programý olarak play kullanabilirsiniz. Böylece ses dosyalarý ayný anda çalýnabilir. Gnome kullanýyorsanýz, amsn için esdplay ve XMMS için ESD programlarýný kullanabilirsiniz. Ya da, doðrudan play komutu kullanmak yerine, play'i çaðýrmadan önce /dev/dsp'nin meþgul olup olmadýðýný denetleyen bir kod yazýp onu kullanabilirsiniz.
+
+S: Amsn'yi bir güvenlik duvarý ardýndan kullanýyorum ya da IP-Masquerade kullanýyorum. Dosya gönderemiyorum; bunu düzeltebilir miyim?
+Y: Güvenlik duvarý gelen baðlantýlarý engelliyor olabilir. Dosya aktarýmlarý þu þekilde iþler: Birine dosya göndermek istediðiniz zaman, IP adresinizi ve port numarasýný içeren bir davet göderirsiniz. Aktarýmýn baþlamasý için karþý tarafýn IP:port adresine baðlanabilmesi gerekir.
+Kullanýlan port genelde 6891, 6892, ve devamý þeklindedir (ilk aktarým 6891 üzerinden olur; eðer bu bitmeden yeni bir aktarým baþlatýrsaniz 6892 kullanýlýr, ve böyle gider).
+Dolayýsýyla, güvenlik duvarýnýz varsa 6891.ci portun eriþilebilir olmasý gerekir (sonrakiler kapalý kalýrsa ayný anda sadece bir dosya gönderebilirsiniz).
+Eðer özel bir aðda özel bir adrese sahipseniz (192.168.0.x gibi) o zaman dosya aktarýmýný saðlamak daha zordur. Bu durumda özel adresiniz yerine gerçek internet adresinizi göndermelisiniz (bunu elle girebilir ya da amsn'nin bir internet sayfasý aracýlýðýyla bunu bulmasýný isteyebilirsiniz), ve aða çýkýþ kapýnýza (gateway - aða doðrudan baðlantýlý bilgisayar), size gelen baðlantýlarý özel aðdaki bilgisayarýnýzýn 6891.ci portuna yönlendirmesini söylemelisiniz.
+
+WÝNDOWS'TA ÇALIÞTIRMA
+=====================
+
+S: Windows altýnda sesleri etkinleþtirebilir miyim?
+Y: Evet, windows altýnda .wav dosyalarýný çalmaya yarayan plwav.exe adlý küçük bir programýmýz var. Onu ses komutu olarak kullanabilirsiniz (sesleri çalabilmek için amsn'nin dýþ programlara gereksinimi vardýr). Araçlar->Seçenekler->Diðerleri sekmesinde Uygulamalar bölümünde ses sunucusu komutu olarak "plwav" girin.
+
+S: Uyari penceresi çýktýðýnda (sað alt köþe) Windows görev çubuðunun bir kýsmý kapanýyor; bunu önleyebilir miyim?
+Y: Evet, uyarý penceresini X piksel sola ve Y piksel yukarý kaydýrmak için Araçlar->Seçenekler->Geliþmiþ sekmesinde X ve Y deðerlerini ayarlayabilirsiniz (satýrlarýn üzerine çift týklayýp ayarlarý deðiþtirebilirsiniz).
+
+DÝÐER
+=====
+
+S: Amsn'nin 60000'den büyük numaralý bazý portlar açtýðýný gördüm. Bu olaðan mý? Bunlar arka kapý mi? Bu niçin oluyor?
+Y: Bu olaðandýr. Amsn, soketleri, iki amsn programýnýn ayný profili ayný anda kullanmasýný (ki bu sorun çýkarablir) engellemek için kilit olarak kullanýr. Bu, bizim bulduðumuz, iþletim sisteminden baðýmsýz daha iyi bir çözümdür. Eðer siz daha iyi bir yol biliyorsanýz, lütfen bize söyleyin :) .
+~/.amsn/profiles dosyasýnda hangi profil için hangi portun kullanýldýðýný görebilirsiniz.
+
+S: Baþka bir sorum var, bana yardým edebilir misiniz?
+Y: Evet. Ama lütfen önce http://sourceforge.net/projects/amsn adresindeki sourceforge proje sayfasýna gidin ve hatalarý, yardým isteklerini ve forumlarý tarayip sorunuzun zaten yanýtlanmýþ olup olmadýðýna bakin. Yalnýzca "Open (Açýk)" olarak gösterilen baþlýklara deðil, menüden "Closed" ve "Pending"i seçerek diðer baþlýklara da bakýn. Yanýtlanmýþ sorular genelde "Closed" olarak iþaretlenir.
+Hata bildirmeden ya da yardým istemeden önce þu bilgileri edinin:
+- Amsn sürümü.
+- Tcl ve Tk sürümleri.
+- Ýlgili durumlarda, hatanýn bellek izi (stack trace)
+- Ýlgili durumlarda, hata ayýklama pencerelerinde (ana pencerede Ctrl+D ve Ctrl+S yapýn) gözüken son hata iletileri.
+
+Baþka sorularýnýz varsa, bana (Alvaro Ýradier)
+   airadier@users.sourceforge.net
+adresinden ulaþabilirsiniz.
