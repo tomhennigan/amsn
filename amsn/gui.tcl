@@ -64,6 +64,7 @@ namespace eval ::amsn {
 		font create sboldf -family $family -size $size -weight bold
 		font create splainf -family $family -size $size -weight normal
 		font create sbolditalf -family $family -size $size -weight bold -slant italic
+		font create macfont -family [list {Lucida Grande}] -size 13 -weight normal
 
 		if { [::config::getKey strictfonts] } {
 			font create bboldf -family $family -size $size -weight bold
@@ -141,10 +142,13 @@ namespace eval ::amsn {
 		#Use different width for scrollbar on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			option add *Scrollbar.width 15 userDefault
+			option add *Button.Font macfont userDefault
 		} elseif { $tcl_platform(platform) == "windows"} {
 			option add *Scrollbar.width 14 userDefault
+			option add *Button.Font sboldf userDefault
 		} else {
 			option add *Scrollbar.width 12 userDefault
+			option add *Button.Font sboldf userDefault
 		}
 		option add *Font splainf userDefault
 		option add *Button.Font sboldf userDefault
@@ -208,8 +212,8 @@ namespace eval ::amsn {
 
 		frame .tlsdown.f
 
-		button .tlsdown.f.ok -text "[trans ok]" -command "::amsn::downloadTLS; bind .tlsdown <Destroy> {}; destroy .tlsdown" -font sboldf
-		button .tlsdown.f.cancel -text "[trans cancel]" -command "destroy .tlsdown" -font sboldf
+		button .tlsdown.f.ok -text "[trans ok]" -command "::amsn::downloadTLS; bind .tlsdown <Destroy> {}; destroy .tlsdown"
+		button .tlsdown.f.cancel -text "[trans cancel]" -command "destroy .tlsdown"
 
 		pack .tlsdown.f.cancel -side right -padx 10 -pady 10
 		pack .tlsdown.f.ok -side right -padx 10 -pady 10
@@ -299,7 +303,7 @@ namespace eval ::amsn {
 
 			pack $w.progress -side top -padx 10 -pady 3
 
-			button $w.close -text "[trans cancel]" -command "" -font sboldf
+			button $w.close -text "[trans cancel]" -command ""
 			pack $w.close -side bottom -pady 5 -padx 10
 
 			wm title $w "[trans tlsinstall]"
@@ -982,7 +986,7 @@ namespace eval ::amsn {
 		pack $w.progress $w.time -side top
 
 
-		button $w.close -text "[trans cancel]" -command $cancelcmd -font sboldf
+		button $w.close -text "[trans cancel]" -command $cancelcmd
 		pack $w.close -side bottom -pady 5
 
 		if { [::MSNFT::getTransferType $cookie] == "received" } {
@@ -1592,8 +1596,8 @@ namespace eval ::amsn {
 		$w.fn.ent insert end [::config::getKey customchatstyle]
 		
 		frame $w.fb
-		button $w.fb.ok -text [trans ok] -command [list ::amsn::enterCustomStyleOk $w] -font sboldf
-		button $w.fb.cancel -text [trans cancel] -command "destroy $w" -font sboldf
+		button $w.fb.ok -text [trans ok] -command [list ::amsn::enterCustomStyleOk $w]
+		button $w.fb.cancel -text [trans cancel] -command "destroy $w"
 	
 	
 		pack $w.fn.label $w.fn.ent $w.fn.help -side left -fill x -expand true
@@ -2576,8 +2580,8 @@ namespace eval ::amsn {
 		scrollbar $wname.blueframe.list.ys -command "$wname.blueframe.list.items yview" -highlightthickness 0 \
 			-borderwidth 1 -elementborderwidth 1 
 
-		button  $wname.buttons.ok -text "[trans ok]" -command [list ::amsn::listChooseOk $wname $itemlist $command] -font sboldf
-		button  $wname.buttons.cancel -text "[trans cancel]" -command [list destroy $wname] -font sboldf
+		button  $wname.buttons.ok -text "[trans ok]" -command [list ::amsn::listChooseOk $wname $itemlist $command]
+		button  $wname.buttons.cancel -text "[trans cancel]" -command [list destroy $wname]
 
 
 		pack $wname.blueframe.list.ys -side right -fill y
@@ -2586,7 +2590,7 @@ namespace eval ::amsn {
 		pack $wname.blueframe -side top -expand true -fill both
 
 		if { $other == 1 } {
-			button  $wname.buttons.other -text "[trans other]..." -command [list ::amsn::listChooseOther $wname $title $command] -font sboldf
+			button  $wname.buttons.other -text "[trans other]..." -command [list ::amsn::listChooseOther $wname $title $command]
 			pack $wname.buttons.ok -padx 5 -side right
 			pack $wname.buttons.cancel -padx 5 -side right
 			pack $wname.buttons.other -padx 5 -side left
@@ -4476,10 +4480,10 @@ proc cmsn_draw_status {} {
 	checkbutton .status.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable followtext_status -font sboldf
 
 	frame .status.bot -relief sunken -borderwidth 1
-	button .status.bot.save -text "[trans savetofile]" -command status_save -font sboldf
-	button .status.bot.clear  -text "Clear" -font sboldf \
+	button .status.bot.save -text "[trans savetofile]" -command status_save
+	button .status.bot.clear  -text "Clear" \
 		-command ".status.info delete 0.0 end"
-	button .status.bot.close -text [trans close] -command toggle_status -font sboldf
+	button .status.bot.close -text [trans close] -command toggle_status 
 	pack .status.bot.save .status.bot.close .status.bot.clear -side left
 
 	pack .status.bot .status.enter .status.follow -side bottom
@@ -4825,9 +4829,9 @@ proc cmsn_draw_login {} {
 	label $mainframe.example -text "[trans examples] :\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com" -font examplef -padx 10
 
 	set buttonframe [frame .login.buttons -class Degt]
-	button $buttonframe.cancel -text [trans cancel] -command "ButtonCancelLogin .login" -font sboldf
-	button $buttonframe.ok -text [trans ok] -command login_ok  -font sboldf
-	button $buttonframe.addprofile -text [trans addprofile] -command AddProfileWin -font sboldf
+	button $buttonframe.cancel -text [trans cancel] -command "ButtonCancelLogin .login"
+	button $buttonframe.ok -text [trans ok] -command login_ok -default active
+	button $buttonframe.addprofile -text [trans addprofile] -command AddProfileWin 
 	if { [::config::getGlobalKey disableprofiles]!=1} {
 		pack $buttonframe.ok $buttonframe.cancel $buttonframe.addprofile -side right -padx 10
 	} else {
@@ -4949,8 +4953,8 @@ proc AddProfileWin {} {
 	grid $mainframe.example -row 2 -column 2 -sticky e 
 
 	set buttonframe [frame .add_profile.buttons -class Degt] 
-	button $buttonframe.cancel -text [trans cancel] -command "grab release  .add_profile; destroy .add_profile" -font sboldf 
-	button $buttonframe.ok -text [trans ok] -command "AddProfileOk  $mainframe"  -font sboldf 
+	button $buttonframe.cancel -text [trans cancel] -command "grab release  .add_profile; destroy .add_profile" 
+	button $buttonframe.ok -text [trans ok] -command "AddProfileOk  $mainframe" 
 
 	AddProfileOk $mainframe 
 
@@ -5891,9 +5895,9 @@ proc cmsn_draw_addcontact {} {
 		-text "[trans examples]:\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com"
 
 	frame .addcontact.b	
-	button .addcontact.b.next -text "[trans next]->" -command addcontact_next -font sboldf
+	button .addcontact.b.next -text "[trans next]->" -command addcontact_next
 	button .addcontact.b.cancel -text [trans cancel] \
-		-command "set pcc 0; destroy .addcontact" -font sboldf
+		-command "set pcc 0; destroy .addcontact" 
 	pack .addcontact.b.next .addcontact.b.cancel -side right -padx 5
 
 	
@@ -5942,9 +5946,9 @@ proc cmsn_draw_otherwindow { title command } {
 		
 	frame .otherwindow.b
 	button .otherwindow.b.ok -text "[trans ok]" \
-		-command "run_command_otherwindow \"$command\"" -font sboldf
+		-command "run_command_otherwindow \"$command\""
 	button .otherwindow.b.cancel -text [trans cancel]  \
-		-command "grab release .otherwindow;destroy .otherwindow" -font sboldf
+		-command "grab release .otherwindow;destroy .otherwindow" 
 		
 	pack .otherwindow.b.ok .otherwindow.b.cancel -side right -padx 5
 
@@ -6008,9 +6012,9 @@ proc newcontact {new_login new_name} {
 		-highlightthickness 0 -activeforeground #FFFFFF -selectcolor #FFFFFF
 
 	frame ${wname}.b
-	button ${wname}.b.ok -text [trans ok]  -font sboldf \
+	button ${wname}.b.ok -text [trans ok]  \
 		-command [list newcontact_ok ${wname} $new_login $new_name]
-	button ${wname}.b.cancel -text [trans cancel]  -font sboldf \
+	button ${wname}.b.cancel -text [trans cancel]\
 		-command [list destroy ${wname}]
 	pack ${wname}.b.ok ${wname}.b.cancel -side right -padx 5
 	
@@ -6072,8 +6076,8 @@ proc cmsn_change_name {} {
 	button $w.p4c.newline -image butnewline -relief flat -padx 3 -command "$w.p4c.name insert end \"\n\""
 
 	frame $w.fb
-	button $w.fb.ok -text [trans ok] -command change_name_ok -font sboldf
-	button $w.fb.cancel -text [trans cancel] -command "destroy $w" -font sboldf
+	button $w.fb.ok -text [trans ok] -command change_name_ok 
+	button $w.fb.cancel -text [trans cancel] -command "destroy $w"
 
 
 	pack $w.fn.label $w.fn.name $w.fn.newline $w.fn.smiley -side left -fill x -expand true
@@ -7262,11 +7266,11 @@ proc pictureBrowser {} {
 	label .picbrowser.mypic -image my_pic -background white -borderwidth 2 -relief solid
 	label .picbrowser.mypic_label -text "[trans mypic]" -font splainf
 
-	button .picbrowser.browse -command "set selected_image \[pictureChooseFile\]; reloadAvailablePics" -text "[trans browse]..." -font sboldf
-	button .picbrowser.delete -command "pictureDeleteFile ;reloadAvailablePics" -text "[trans delete]" -font sboldf
-	button .picbrowser.purge -command "purgePictures; reloadAvailablePics" -text "[trans purge]..." -font sboldf
-	button .picbrowser.ok -command "set_displaypic \${selected_image};destroy .picbrowser" -text "[trans ok]" -font sboldf
-	button .picbrowser.cancel -command "destroy .picbrowser" -text "[trans cancel]" -font sboldf
+	button .picbrowser.browse -command "set selected_image \[pictureChooseFile\]; reloadAvailablePics" -text "[trans browse]..." 
+	button .picbrowser.delete -command "pictureDeleteFile ;reloadAvailablePics" -text "[trans delete]"
+	button .picbrowser.purge -command "purgePictures; reloadAvailablePics" -text "[trans purge]..." 
+	button .picbrowser.ok -command "set_displaypic \${selected_image};destroy .picbrowser" -text "[trans ok]" 
+	button .picbrowser.cancel -command "destroy .picbrowser" -text "[trans cancel]" 
 	
 	checkbutton .picbrowser.showcache -command "reloadAvailablePics" -variable show_cached_pics\
 		-font sboldf -text [trans showcachedpics]
@@ -7651,10 +7655,10 @@ proc degt_protocol_win { } {
 	checkbutton .degt.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable followtext_degt -font sboldf
 	
 	frame .degt.bot -relief sunken -borderwidth 1 -class Degt
-	button .degt.bot.save -text "[trans savetofile]" -command degt_protocol_save -font sboldf
-		button .degt.bot.clear  -text "Clear" -font sboldf \
+	button .degt.bot.save -text "[trans savetofile]" -command degt_protocol_save 
+		button .degt.bot.clear  -text "Clear" \
 			-command ".degt.mid.txt delete 0.0 end"
-		button .degt.bot.close -text [trans close] -command degt_protocol_win_toggle -font sboldf
+		button .degt.bot.close -text [trans close] -command degt_protocol_win_toggle 
 		pack .degt.bot.save .degt.bot.close .degt.bot.clear -side left
 	
 	pack .degt.top .degt.mid .degt.follow .degt.bot -side top
@@ -7841,12 +7845,12 @@ proc show_bug_dialog {} {
 	checkbutton $w.ignoreerrors -text [trans ignoreerrors] -variable "dont_give_bug_reports" -font sboldf
 	pack $w.ignoreerrors -in $w.med -side left -padx 10 -pady 5
 
-	button $w.button -text [trans ok] -command "set closed_bug_window 1" -default active -highlightbackground #e8e8e8 -activeforeground #5b76c6
+	button $w.button -text [trans ok] -command "set closed_bug_window 1" -default active -highlightbackground #e8e8e8 -activeforeground #5b76c6 -pady 1
 	pack $w.button -in $w.bot
 	
 	#Execute script on Mac OS X to create a mail in "Mail" application and attach the bugreport to the mail
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		button $w.mail -text [trans sendmail] -command "exec osascript plugins/applescript/mail-bugreport.scpt &" -highlightbackground #e8e8e8 -activeforeground #5b76c6
+		button $w.mail -text [trans sendmail] -command "exec osascript plugins/applescript/mail-bugreport.scpt &" -highlightbackground #e8e8e8 -activeforeground #5b76c6  -pady 1
 		pack $w.mail -in $w.bot
 	}
 
