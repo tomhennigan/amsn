@@ -40,6 +40,7 @@ if { $initialize_amsn == 1 } {
 	    variable log
 	    variable window
 	    variable filters
+	    variable followtext
 	    $window.info delete 1.0 end
 	    for {set x 0} {$x < $idx} {incr x} {
 		set plugin [lindex $::pluginslog::log($x) 0]
@@ -53,7 +54,11 @@ if { $initialize_amsn == 1 } {
 		#if no filters, show all
 		#if in filter, show it.
 		if {[llength $filters] == 0 || [lsearch $filters $plugin] != -1} { 
-		    $window.info insert end "$plugin: [lindex $pluginslog::log($x) 1]\n"
+		    $window.info insert end "$plugin:[timestamp] [lindex $pluginslog::log($x) 1]\n"
+		    #If option "scroll down when new text is entered" 
+		    if {$followtext} {
+				catch {$window.info yview end}
+		    }
 		}
 	    }
 	}
