@@ -46,6 +46,7 @@ proc CheckLogDate { email } {
     global log_dir
 
     status_log "Opening file\n"
+    create_dir $log_dir
 
     if { ![file exists [file join $log_dir date]] } {
 	status_log "Date file not found, creating\n\n"
