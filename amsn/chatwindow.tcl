@@ -506,13 +506,13 @@ namespace eval ::ChatWindow {
 		# Apple menu, only on Mac OS X for legacy reasons (Each OS X app have one Apple menu)
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			.${win_name}.menu add cascade -label "Apple" -menu .${win_name}.menu.apple
+			menu .${win_name}.menu.apple -tearoff 0 -type normal
 			.${win_name}.menu.apple add command -label "[trans about] aMSN" \
 				-command ::amsn::aboutWindow
 			.${win_name}.menu.apple add separator
 			.${win_name}.menu.apple add command -label "[trans preferences]..." \
 				-command Preferences -accelerator "Command-,"
 			.${win_name}.menu.apple add separator
-			menu .${win_name}.menu.apple -tearoff 0 -type normal
 		}
 
 		menu .${win_name}.menu.msn -tearoff 0 -type normal
