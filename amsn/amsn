@@ -330,6 +330,8 @@ proc cmsn_draw_main {} {
    menu .options -tearoff 0 -type normal -background #D0D0E0
    .options add command -label "[trans changenick]..." -state disabled \
       -command cmsn_change_name -state disabled
+   .options add command -label "[trans publishphones]..." -state disabled \
+      -command "::abookGui::showEntry $config(login) -edit"
    .options add cascade -label "[trans preferences]..." -menu .pref_menu
    .options add separator
    .options add cascade -label "[trans language]" -menu .lang_menu
@@ -549,7 +551,8 @@ proc cmsn_draw_offline {} {
    #Change nick
    .main_menu.actions entryconfigure 2 -state disabled
    .options entryconfigure 0 -state disabled
-
+   #Publish Phone Numbers
+   .options entryconfigure 1 -state disabled	;# Publish
 }
 
 proc cmsn_draw_signin {} {
@@ -1850,6 +1853,7 @@ cmsn_draw_main
 cmsn_draw_notify
 
 degt_protocol_win
+degt_ns_command_win
 
 after 500 proc_ns
 after 750 proc_sb
