@@ -167,7 +167,7 @@ namespace eval ::groups {
 	# The submenu of standard group actions
 	menu .group_handler -tearoff 0 -type normal
 	.group_handler add command -label "[trans delete]" -command "::groups::Delete $gid dlgMsg"
-	.group_handler add command -label "[trans grouprename]..." -command "::groups::dlgRenameThis $gid"
+	.group_handler add command -label "[trans rename]..." -command "::groups::dlgRenameThis $gid"
 	.group_handler add separator
 	.group_handler add command -label "[trans groupadd]..." -command ::groups::dlgAddGroup
 	tk_popup .group_handler $cx $cy

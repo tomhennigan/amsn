@@ -410,6 +410,7 @@ reconnect Waiting for $1 to reconnect
 reject Reject
 rememberpass Remember password
 removefromlist Remove from this list
+rename Rename
 reversed Reversed
 reverselist Reverse list (RL):
 rightback Be right back

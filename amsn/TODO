@@ -1,4 +1,10 @@
-0.90 TODO LIST
+AMSN TO-DO List
+============
+
+Check our Wiki page TO-DO list:
+
+http://amsn.sourceforge.net/wiki
+
 DONE We must finish MSNP2P (Sending files throught MSNP2P and do transfer 
 dialogs)
 DONE We must send to waste all MSNP7 code
@@ -35,13 +41,9 @@ kakaroto * zyffe@hotmail.com
 -	Check for connection state, make sure amsn disconnects if connection goes down. -> add timeouts to changestates and keepalive
 -	When we get a NAK from a message, try to enqueue it again, as probably it will success.
 -	Fix focus and children things with list window. (For example add_user from chat window), and dialogs in general.
--	Add receivedir to preferences, replace NAT section with File Transfer
-DONE	Remove old config file (we now only need the .xml, backward compatibilty is redundant since oct15th)
 -	Check functionality of all proxies with new MSNP9 protocol (socks, not keep-alive http proxies)
 DONE	Get rid of all MSNP7 code.. it sure is useless now
 -	We sometimes get double pasting, just bind our paste procedure to the <<Paste>> event, instead of to <Ctrl-Key-V>
--	Phone numbers seem to be screwed up again :P getting erased for some reason
-
 
 	************************************************
 	***Existing Feature Improvements (priority 2)***
@@ -49,20 +51,13 @@ DONE	Get rid of all MSNP7 code.. it sure is useless now
 
 	** General issues **
 -	Option to display or not the chat button bar
-DONE	Option to enable/disable showing timestamps
 -	Add option to modify keepalive interval (in seconds)
-DONE	Add a "typed characters" counter in chat window.
-DONE	Add an option to remove the amsn banner on contact list.
-DONE	Make Advanced buttons in preferences (maybe a Key - Value type of list for advanced users)
 DONE	Make a Pure PNG Reader (will be used for buddy icons + filetransfer previews, and maybe other stuff)
 -	In the Privacy tab, if 2 users have exactly the same nickname in a listbox, we can control only the first user 
 	(we can't delete the second user with that nick from the list ...)
--	If user blocks you directly after getting connected, doesn't automaticaly detect him
 -	Improve truncation to check picture widths, instead of using fixed values
 -	Load AMSN faster (load pictures on demand -> GetImage wrapper? Maybe use GetSkinFile?)
-DONE, but unused	Get rid of all global config, make a config namespace. Only have a few global options (languages, skin, etc)
 -	Get rid of global variables list_al, list_bl, make use of ::abook:: namespace (avatars, custom nicknames, etc)
--	Improve contextual menu for groups (right click menu) (we should have Delete THIS group type of entries)
 -	Clean ugly GUI code (long window names xx.xx.xxx.xx, use -Class instead of repeated options all the time)
 
 	** Remote Control issues **
@@ -71,16 +66,13 @@ DONE, but unused	Get rid of all global config, make a config namespace. Only hav
 
 	** Dock Issues **
 -	New message alert 
-DONE	Dock is "detaching" from notification area whenever any other icon is removed from notification area
 
 	** File Transfer issues **
 -	File Transfer AUTH protocol fix
 -	Display link to received file and click to open
 -	Send files through server with MSNP2P if behind NAT
--	Make Progress bar work with MSNP2P file receiving/sending
 
 	** Alarm system improvements and bugs **
-DONE	Allow alarms to run a command
 -	JPG Support (use same as for MSN6 Pictures)
 
 	** Loging system improvements and bugs **
@@ -99,16 +91,12 @@ DONE	Allow alarms to run a command
 -	Selections dont appear
 -	Ugly program icons (WISH icon, not ours)
 -	Fonts dialog all messed up
--	Dosen't connect if msn installed in path with spaces (ex. Documents and Settings), add quotes
 -	Alarms options (paths) aren't saved correctly if they contain spaces
 -	ImageMagick is never detected since there is a convert.exe program in the System32 DIR and exec looks for that one first
 -	Browser problems in windows when URL contains wierd characters
 
 	** MSNP2P Stuff **
 -	Do checksum checking, understand error message, send error messages, etc...
-DONE	Get custom emoticons working (send and receive them)
--	Check if there is a way to receive pictures from ppl not on your contact list
--	We only check for buddy icon changes of the first person in a conference, if others change we don't update buddy icon.
 
 
 	*********************************
