@@ -355,6 +355,8 @@ namespace eval ::config {
 proc save_config {} {
    global tcl_platform config HOME HOME2 version password emotions
 
+   status_log "save_config: saving config for user [::config::getKey login] in $HOME]\n" black
+   
    if { [catch {
          if {$tcl_platform(platform) == "unix"} {
 	    set file_id [open "[file join ${HOME} config.xml]" w 00600]
@@ -365,7 +367,7 @@ proc save_config {} {
 		return 0
 	}
 
-    status_log "saving contact list. Opening of file returned : $res\n"
+    status_log "save_config: saving config_file. Opening of file returned : $res\n"
    set loginback $config(login)
    set passback $password
 
@@ -416,6 +418,8 @@ proc save_config {} {
     set config(login) $loginback
     set password $passback
 
+    status_log "save_config: Config saved\n" black
+    
 
 }
 
@@ -435,6 +439,7 @@ proc load_config {} {
 	create_dir "[file join ${HOME} smileys]"
 
 	set user_login [::config::getKey login]
+	status_log "load_config: Started. HOME=$HOME, config(login)=$user_login\n"
 	ConfigDefaults
 
 	if { [file exists [file join ${HOME} "config.xml"]] } {
@@ -495,8 +500,8 @@ proc load_config {} {
 	# Load up the personal states
 	LoadStateList
     if { [winfo exists .my_menu] } {CreateStatesMenu .my_menu}
-    if { $user_login != [::config::getKey login] } {
-	status_log "load_config: Profile name is different from config(login)!!! FIXING\n" red
+    if { [::config::getKey login] == "" } {
+	status_log "load_config: Empty login !!! FIXING\n" red
 	::config::setKey login $user_login
     }
     
@@ -938,7 +943,7 @@ proc CreateProfile { email } {
 	
 	set oldlogin $config(login)
 
-	status_log "Creating new profile"
+	status_log "Creating new profile for $email\n" blue
 	# Create a new profile with $email
 	# Set HOME dir and create it
 	set dirname [split $email "@ ."]
@@ -953,9 +958,12 @@ proc CreateProfile { email } {
 	
 	set oldhome $HOME
 	set HOME $newHOMEdir
+	
+	::config::setKey login $email
 	load_config
-	set config(login) $email
 	save_config
+	
+	::config::setKey login $oldlogin
 	set HOME $oldhome
 	load_config
 	unset oldhome
