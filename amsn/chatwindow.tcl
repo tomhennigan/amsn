@@ -562,7 +562,6 @@ namespace eval ::ChatWindow {
 		}
 
 		set top_win [winfo toplevel $win_name]
-		status_log "TopLevel window: $top_win, Name: $win_name, State: [wm state $top_win]\n"
 
 		# PostEvent 'new_conversation' to notify plugins that the window was created
 		if { $::ChatWindow::first_message($win_name) == 1 } {
