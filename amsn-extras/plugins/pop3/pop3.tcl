@@ -399,7 +399,11 @@ namespace eval ::pop3 {
 	proc loadDefaultEmail { } {
 		if { $::tcl_platform(platform) == "windows" } {
 			if { [catch { WinLoadFile $::pop3::config(mailProg) } ] } {
-				load [file join utils windows winutils winutils.dll]
+				if {[string equal $::version "0.94"]} {
+					load [file join plugins winutils winutils.dll]
+				} else {
+					load [file join utils windows winutils winutils.dll]
+				}
 				WinLoadFile $::pop3::config(mailProg)
 			}
 		} else {
