@@ -2177,6 +2177,7 @@ proc sb {do sbn var {value ""}} {
 
 proc proc_sb_watchdog {} {
 	status_log "ALERT: PROC_SB STOPPED WORKING!!!!!!!" red
+	after cancel proc_sb
 	proc_sb
 }
 
@@ -2223,6 +2224,7 @@ proc proc_sb {} {
 
 proc proc_ns_watchdog {} {
 	status_log "ALERT: PROC_NS STOPPED WORKING!!!!!!!" red
+	after cancel proc_ns
 	proc_ns
 }
 
@@ -3509,7 +3511,7 @@ proc cmsn_ns_msg {recv} {
 		set d(kv) [::MSN::GetHeaderValue $msg_data kv]
 		set d(sid) [::MSN::GetHeaderValue $msg_data sid]
 		set d(sessionstart) [clock seconds]
-		set d(clientip) [::MSN::GetHeaderValue $msg_data ClientIP]		      
+		set d(clientip) [::MSN::GetHeaderValue $msg_data ClientIP]		     
 		::abook::setDemographics d
 				
 		global config
