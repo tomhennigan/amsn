@@ -42,6 +42,7 @@ autoaway Setze mich "Abwesend" nach Inaktivität von
 autocheckver Beim Start automatisch auf neue Versionen prüfen
 autoconnect2 Automatisch Einloggen wenn aMSN gestartet wird
 autoconnect Automatische Anmeldung beim Starten
+autodetectip IP-Adresse automatisch ermitteln
 autohotmaillog Automatische Anmeldung bei Hotmail
 autoidle Automatische Senkung des Prozessorverbrauchs wenn inaktiv
 autoip Automatische IP
@@ -69,6 +70,7 @@ browse Navigieren
 browser Browser
 browserexample ( \$url wird ersetzt durch URL). Bsp: mozilla \$url
 busy Beschäftigt
+cachedpics Gespeicherte Bilder $1
 cancel Abbrechen
 cannotdeleteprofile Kann das Profil nicht löschen, da es anscheinend von einer Amsn session verwendet wird.
 cantexec Kann $1 nicht ausführen. Überprüfe die Einstellungen
@@ -89,6 +91,7 @@ chatreq Einladung zum Chat
 chatsmileys2 Smileys und Emoticons im Chat-Fenster anzeigen
 chatsmileys Smileys während Chat
 checkblocking Fortwährend testen ob Benutzer Sie blockieren
+checkemail Zeige neue Nachrichten in der Kontaktliste
 checkfilman Empfangene Dateien werden in $1 gespeichert. Bitte überprüfen sie die Dateimanager Einstellungen im Einstellungen-Fenster
 checkingver Auf neue Versionen prüfen
 checkonfln Testen ob ein Benutzer Sie blockiert hat wenn er Offline geht
@@ -127,6 +130,8 @@ corruptconfig Configurationsdatei ist korrupt. Sie wird neuerstellt. Die alta Da
 corruptstates Eigene Staten Konfigurationsdatei ist korrupt. Sie wird neuerstellt. Die alta Datei wird nach $1 gespeichert. Bitte senden Sie uns diese Datei damit wir herausfindend koennen was passiert ist.
 countrycode Meine Landesvorwahl
 cprofile Profil erstellen
+credits Danksagung
+currentdate Aktuelles Datum
 custom_edit Bearbeite den eigenen Smiley
 custom_new Neuen Smiley hinzufügen
 cut Ausschneiden
@@ -273,6 +278,7 @@ loginas Anmelden als
 loging Loggen
 logolder Nur Unterhaltungen loggen, der letzten
 logout Abmelden
+logsbydate Sortiere Logeinträge nach Datum (zeigt das Log sehr viel schneller)
 logsin hat sich gerade angemeldet
 logsmileys Emoticons und Smileys in der History anzeigen
 logsout hat sich so eben abgemeldet.
@@ -330,6 +336,7 @@ notify Benachrichtigen
 notifyoffset Setzt die Position des Nachrichtenfensters durch Angabe der Positionsoffsets
 notifytyping Anderen Nutzern Benachrichtigung beim Eingeben einer Nachricht senden
 notifywin Benachrichtigungsfenster
+notinlist Sie sind nicht in Ihrer/Seiner Addressbuch.
 notls Das MSN Protokoll 9 erfordert das tls-Paket. Dieses Paket scheint auf Ihrem System nicht installiert zu sein. Wenn es installiert ist, dann sollte der Pfad zum Bibliotheken-Verzeichnis im "Einstellungen" Fenster eingegeben werden (Bsp: /opt/tls/lib). \n \n Es ist möglich, tls von http://tls.sf.net zu downloaden.
 nousersinsession Keine Benutzer in Sitzung
 offline Offline
@@ -383,6 +390,7 @@ prefremote Fernverbindungseinstellungen
 prefsession Anmeldung und Status
 prefshared Gemeinsame Verbindung (nur NAT)
 prefsound Akustische Signale
+prefft Dateiübertragung, p2p und NAT Einstellungen
 privacy Privatsphäre
 profiledconfig Profilabhängige Einstellungen
 profileexists Das Profil existiert bereits. Bitte wählen Sie ein Anderes
@@ -407,6 +415,7 @@ reconnect Warte, bis $1 wieder angemeldet ist
 reject Abweisen
 rememberpass Passwort speichern
 removefromlist Aus dieser Liste entfernen
+rename Umbenennen
 reversed Umgekehrt
 reverselist Reverse Liste :
 rightback Bin gleich zurück
@@ -430,6 +439,7 @@ server Server
 serverunavailable Server ist nicht erreichbar
 session Session
 showblockedlist Zeigt eine Liste mit Personen von denen Sie geblockt werden
+showcachedpics Zeige zwischengespeicherte Bilder.
 showdisplaypic2 Anzeigebild standardmäßig anzeigen, wenn ein Chatfenster geöffnet wird
 showdisplaypic Anzeigebild anzeigen
 showmypic Mein Anzeigebild
