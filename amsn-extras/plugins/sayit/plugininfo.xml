@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <plugin>
 	<name>sayit</name>
-	<author>William Bowling</author>
-	<description>Mac OS X only. Speaks the messages you receive in the background. It will use the default voice set in the system preferences. If you enter a different voice, make sure you use a capital first letter</description>
+	<author>William Bowling (Mac), Arieh Schneier (Win)</author>
+	<description>Mac OS X or Windows only. Speaks the messages you receive in the background. It will use the default voice set in the system preferences. If you enter a different voice (Mac), make sure you use a capital first letter</description>
 	<amsn_version>0.94</amsn_version>
-	<plugin_version>1.0</plugin_version>
+	<plugin_version>1.1</plugin_version>
 	<plugin_file>sayit.tcl</plugin_file>
 	<plugin_namespace>sayit</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
