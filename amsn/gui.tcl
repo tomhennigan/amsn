@@ -1164,11 +1164,12 @@ namespace eval ::amsn {
 			}
 		}
 
-		set bytes2 [expr {int($bytes/1024)}]
-		set filesize2 [expr {int($filesize/1024)}]
-		if { $filesize2 != 0 } {
-			set percent [expr {int(($bytes2*100)/$filesize2)}]
-			::dkfprogress::SetProgress $w.prbar $percent
+		#set bytes2 [expr {int($bytes/1024)}]
+		#set filesize2 [expr {int($filesize/1024)}]
+		if { $filesize != 0 } {
+			#set percent [expr {int(($bytes2*100)/$filesize2)}]
+			#::dkfprogress::SetProgress $w.prbar $percent
+			::dkfprogress::SetProgress $w.prbar $bytes $filesize
 		}
 
 		# Close the window if the filetransfer is finished
