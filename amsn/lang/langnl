@@ -6,8 +6,9 @@ actions Acties
 addacontact Voeg een contactpersoon toe
 addedyou $1 ($2) Heeft jou toegevoegd aan zijn/haar lijst van contactpersonen
 addstate Voeg nieuwe status toe
-addto Toevoegen aan $1
+addtocontacts Voeg toe aan lijst van contactpersonen
 addtoo Voeg deze persoon toe als nieuwe contactpersoon
+addto Toevoegen aan $1
 admincontacts Beheer contactpersonen
 admingroups Beheer groepen
 adverts Advertenties
@@ -345,7 +346,7 @@ textsize Tekstgrootte
 title Al's Messenger
 to Aan
 tools Extra
-tooltips Tooltips weergevenaddtocontacts Toevoegen aan lijst van contactpersonen
+tooltips Tooltips weergeven
 transnotexists Het opgevraagde bestand is nog niet vertaald in de gebruikte taal.
 traynotcompiled Taakbalk icoon plugin is niet gecompileerd. Bekijk plugins/traydock
 twonewmail Je hebt $1 nieuwe berichten in Postvak IN

@@ -6,6 +6,7 @@ actions Acções
 addacontact Adicionar um contacto
 addedyou $1 ($2) Adicionou-o à sua lista de contactos
 addstate Adicionar novo estado
+addto adicionar a $1
 addtocontacts Adicionar à lista de contactos
 addtoo Adicionar esta pessoa à minha lista de contactos
 admincontacts Administrar contactos
@@ -17,6 +18,7 @@ allowallbutbl Permitir ser contactado por todos os utilizadores excepto bloquead
 allowlist Lista de autorizados:
 allowonlyinal Permitir apenas contactos de utilizadores autorizados
 allowseen Permitir que esta pessoa o veja e contacte quando estiver ligado
+animatedsmileys smileys animados activados
 appearance Aparência
 appearoff Aparecer como desligado
 areacode Código de zona
@@ -39,6 +41,9 @@ blankdirect Deixar em branco para ligação directa
 block Bloquear
 blocked Bloqueado
 blocking A bloquear
+blockinter1 Quando seu estado estiver online verificar sempre
+blockinter2 segundos, caso contrário verificar de :
+blockinter3 sempre
 blocklist Lista de bloqueados:
 blockmessage Estes utilizadores estão ligados mas bloquearam-no
 blockusers Número de utilizadores a verificar de uma vez
@@ -220,6 +225,7 @@ newmsg Nova mensagem
 newveravailable Nova versão disponível
 next Seguinte
 noactivity Sem actividade
+nodataavailable Sem data disponível para $1
 nologfile Sem registo para $1
 nonewmail 0 novas mensagens na caixa de correio
 nonewver Não há versão nova
@@ -339,9 +345,11 @@ tabbed Janelas com separadores
 textsize Tamanho de texto
 title Al's Messenger
 tools Ferramentas
+tooltips Activar ajudas
 to Para
 transnotexists O ficheiro pretendido ainda não foi traduzido para o presente idioma
 traynotcompiled Plugin do icon da bandeja não está em conformidade. Verifique plugins/traydoc
+twonewmail $1 novas mensagens na caixa de correio
 unblock Desbloquear
 uoffline Desligados
 uonline Ligados
@@ -363,4 +371,3 @@ yoffset espaço Y
 youblocked Você foi bloqueado
 yousay Você diz
 youwant Queres
-twonewmail $1 novas mensagens na caixa de correio

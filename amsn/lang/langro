@@ -6,6 +6,7 @@ actions Actiuni
 addacontact Adauga o persoana noua  
 addedyou te-a adaugat in lista lui/ei de contacte
 addstate Adauga o stare noua
+addto Adauga la $1
 addtocontacts Adauga in lista de contact
 addtoo Adauga persoana in lista  
 admincontacts Administrare nume
@@ -13,10 +14,11 @@ admingroups Administrare grup
 adverts Avertismente
 alarmpref Setari de sunet pentru utilizator
 alarmstatus Opreste/Porneste sunetele
-allowallbutbl  Permite tutoror sa ma contactaze in afara de cei din lista celor blocati 
+allowallbutbl  Permite tuturor sa ma contactaze in afara de cei din lista celor blocati 
 allowlist Lista cu cei acceptati:
-allowonlyinal Numai cei din lita celor permi sa ma contacteze
+allowonlyinal Numai cei din lista celor acceptati sa ma contacteze
 allowseen  Permite persoanei sa ma vada autentificat si sa ma contacteze.
+animatedsmileys Activeaza semnele de conversatie animate
 appearance Aparente 
 appearoff Neautentificat
 areacode Codul postal 
@@ -149,7 +151,7 @@ group Numele grupului
 groupoldname Nume vechi 
 grouprename Redenumeste un grup
 groupunknown Grup necunoscut 
-handle Manuieste 
+handle  
 help Ajutor
 helpcontents Continut
 history Vizualizeaza jurnalul
@@ -274,7 +276,7 @@ prefphone2 Scrie numerele de telefon pe care vrei ca alti sa le vada din lista c
 prefphone Numere de telefon
 prefprivacy2 Lista contactelor / celor opusi 
 prefprivacy Lista cu cei acceptati / blocati
-prefprofile2 Creaza sau modifica profilul public \n ( descrierea personala pe care o pot vedea altii)
+prefprofile2 Creaza sau modifica profilul public \n (descrierea personala pe care o pot vedea altii)
 prefprofile3 Profilul aMSN pentru configurarea utilizatorului
 prefprofile Profilul public
 prefproxy Setari proxy
@@ -344,6 +346,7 @@ textsize Marime text
 title aMSN Messanger
 to La
 tools Utilitare
+tooltips Porneste descrierile elementelor de control
 transnotexists Fisierul cerut nu a fost inca tradus.
 traynotcompiled Acest plugin nu este instalat. Verifica plugins/traydoc
 twonewmail $1 Mesaje noi in casuta postala
