@@ -140,7 +140,7 @@ namespace eval ::plugins {
        grab set $w
        
    }
-   
+
    proc pluginsguiok { w idxmax } {
        variable plugins
        variable pluginslist
@@ -161,5 +161,6 @@ namespace eval ::plugins {
 	   } elseif { $state == 0 && [lsearch $pluginslist "$file *"] != -1 } {
 	       
 	   }
-   }
+       }
+	}
 }
