@@ -41,11 +41,17 @@ if { $initialize_amsn == 1 } {
 		event add <<Button3>> <Control-ButtonRelease>
 		event add <<Button3>> <Button2-ButtonRelease>
 		event add <<Escape>> <Command-w>
+		event add <<Paste>> <Command-v> <Command-V>
+		event add <<Copy>> <Command-c> <Command-C>
+		event add <<Cut>> <Command-x> <Command-X>
 	} else {
 		event add <<Button1>> <Button1-ButtonRelease>
 		event add <<Button2>> <Button2-ButtonRelease>
 		event add <<Button3>> <Button3-ButtonRelease>
 		event add <<Escape>> <Escape>
+		event add <<Paste>> <Control-v> <Control-V>
+		event add <<Copy>> <Control-c> <Control-C>
+		event add <<Cut>> <Control-x> <Control-X>
 	}
 }
 

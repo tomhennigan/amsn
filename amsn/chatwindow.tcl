@@ -446,13 +446,6 @@ namespace eval ::ChatWindow {
 	proc Open { } {
 		global  HOME tcl_platform
 
-
-		#Define this events, in case they were not defined by Tk
-		event add <<Paste>> <Control-v> <Control-V>
-		event add <<Copy>> <Control-c> <Control-C>
-		event add <<Cut>> <Control-x> <Control-X>
-
-
 		set w [CreateTopLevelWindow]
 
 		# Test on Mac OS X(TkAqua) if ImageMagick is installed   
