@@ -121,6 +121,7 @@ closed Povezava z $1 zaprta zaradi neaktivnosti
 closingdocks Gumb za zaprtje minimira okno
 command Ukaz
 commandstatus Izvedi ukaz
+configure Nastavi
 confirm Ali si preprièan?
 confirmbl Ali si preprièan, da ¾eli¹ blokirati ta stik?
 confirmdelete Ali si preprièan, da ¾eli¹ zbrisati $1?
@@ -317,6 +318,7 @@ listsmileys Seznam sme¹kov
 listsmileys2 Prika¾i emotikone in sme¹ke v seznamu stikov
 ljoinedconf $1 se je pridru¾il/a konferenci
 lleftconf $1 je zapustil/a konferenco
+load Nalo¾i
 loadcontacts Nalo¾i seznam stikov
 logbigger Dnevni¹ka datoteka za vsak stik je lahko velika najveè
 logeventconnect Bele¾i prijave
@@ -369,6 +371,7 @@ natkeepalive èe te velikokrat odjavi, oznaèi to mo¾nost
 needonline ©e vedno si/izgleda¹ neprijavljen!
 needwinico Da bi pristaja delovala v Oknih, potrebuje¹ datoteko winico05.dll v mapi plugins
 never Nikoli
+new_ft_protocol Uporabi nov protokol za prenos datotek (¹e nekaj hro¹èev)
 newmail $1 novih sporoèil v Inboxu
 newmailfolder $1 novih sporoèil v ostalih imenikih
 newmailfrom Novo sporoèilo od $1 ($2)
