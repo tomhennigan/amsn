@@ -30,7 +30,13 @@ Version 0.52
 		  the user to publish his/her phone numbers as used in
 		  the address book.
 		o Added smiley selector menu in the chat window
-		o Order by groups implemented (alpha-beta)
+		o Order by groups implemented
+		o Implemented group related functionality (delete,add,
+		  rename,moveto)
+		o Buddy list shows buddies in magenta when they have
+		  removed you from their contact list
+		o Debug window command !sl saves a list (al/rl/fl/bl)
+		  crossreference to the logdir
 
 Version 0.51
 20020604	o Some fixes and menu reorganizations
