@@ -422,7 +422,10 @@ namespace eval ::groups {
 
 	# Get a group's name (decoded) given its ID (0..n)
 	proc GetName {nr} {
-		#variable groups
+		if { $nr == 0 } {
+			#Special group "Individuals"
+			return [trans nogroup]
+		}
 		array set groups [abook::getContactData contactlist groups]
 		
 		if {![info exists groups($nr)]} {

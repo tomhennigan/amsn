@@ -239,6 +239,7 @@ installconvert Debes instalar ImageMagick (comando 'convert') para poder convert
 internalerror Error interno del servidor
 invalidfile El archivo $2 introducido en el campo "$1" no existe o no se pudo leer
 invalidfile2 El archivo $1 no se ha podido crear, asegurate de que tienes los permisos apropiados para el archivo destino.
+invalidgroup Grupo no válido
 invalidpic El archivo de imagen elegido no existe
 invalidpicsize La imagen elegida es demasiado grande, por favor elija una más pequeña
 invalidsound El archivo de sonido elegido no existe
@@ -258,6 +259,7 @@ lclosedwin $1 ha cerrado la ventana a las $2
 lconftopriv La conversación pasa a ser un privado con $1
 lconvstarted Comienza la conversación a las $1
 leaveblankforhotmail Dejar en blanco para usar hotmail
+leavejoinsinchat Mostrar notificaciones de "deja/se une a la conversación" en la ventana de chat
 leaves $1 deja la conversación
 lenteredconf $1 se une a la conversación a las $2
 lineflushlog Escribir históricos a disco línea a línea (sin buffer)
@@ -316,6 +318,7 @@ next Siguiente
 no No
 noactivity Sin actividad
 nodataavailable No hay datos disponibles para $1
+nogroup Sin grupo
 nologfile No existe archivo de historial para $1
 noneavailable No hay ninguno disponible
 nonewmail No hay mensajes nuevos en bandeja de entrada
@@ -527,4 +530,3 @@ yoffset Desplazamiento Y
 youblocked Has sido bloqueado
 yousay Tú dices
 youwant Quieres
-leavejoinsinchat Mostrar notificaciones de "deja/se une a la conversación" en la ventana de chat

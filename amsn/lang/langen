@@ -239,6 +239,7 @@ installconvert You must install ImageMagick (convert program) in order to use Bu
 internalerror Internal Server Error
 invalidfile File $2 entered in field "$1" does not exist or is not readable
 invalidfile2 Filename $1 could not be created, make sure you have the correct permissions for that target.
+invalidgroup Invalid group
 invalidpic The given picture file doesn't exist
 invalidpicsize The given picture is too big, please choose a smaller one
 invalidsound The given sound file doesn't exist
@@ -258,6 +259,7 @@ lclosedwin $1 has closed the window on $2
 lconftopriv Conference turned into Private chat with $1
 lconvstarted Conversation started on $1
 leaveblankforhotmail Leave blank to use Hotmail
+leavejoinsinchat Show "leaves/joins converstation" notifications inside the chat window
 leaves $1 leaves conversation
 lenteredconf $1 has entered into a conference on $2
 lineflushlog Flush log files after each line
@@ -316,6 +318,7 @@ next Next
 no No
 noactivity No activity
 nodataavailable No data available for $1
+nogroup No group
 nologfile No Log file for $1
 noneavailable None Available
 nonewmail No new messages in Inbox
@@ -527,4 +530,3 @@ yoffset Y Offset
 youblocked You have been blocked by
 yousay You say
 youwant You want
-leavejoinsinchat Show "leaves/joins converstation" notifications inside the chat wind

@@ -4422,8 +4422,11 @@ proc cmsn_draw_online_wrapped {} {
 		set thelistnames [list]
 
 		foreach gid $thelist {
-			set thename [::groups::GetName $gid]
-			lappend thelistnames [list "$thename" $gid]
+			#Ignore special group "Individuals" when sorting
+			if { $gid != 0} {
+				set thename [::groups::GetName $gid]
+				lappend thelistnames [list "$thename" $gid]
+			}
 		}
 
 
@@ -4433,11 +4436,13 @@ proc cmsn_draw_online_wrapped {} {
 			set sortlist [lsort -decreasing -dictionary -index 0 $thelistnames ]
 		}
 
-		set glist [list]
+		#Make "Individuals" group (ID 0) always the first
+		set glist [list 0] 
 
 		foreach gdata $sortlist {
 			lappend glist [lindex $gdata 1]
 		}
+		
 
 		set gcnt [llength $glist]
 
@@ -4489,14 +4494,17 @@ proc cmsn_draw_online_wrapped {} {
 		$pgBuddy.text tag conf $gtag -fore #000080 -font sboldf
 		$pgBuddy.text tag bind $gtag <Button1-ButtonRelease> \
 			"::groups::ToggleStatus $gname;cmsn_draw_online"
-		#Specific for Mac OS X, Change button3 to button 2 and add control-click
-		if {$tcl_platform(os) == "Darwin"} {
-			$pgBuddy.text tag bind $gtag <Button2-ButtonRelease> "::groups::GroupMenu $gname %X %Y"
-			$pgBuddy.text tag bind $gtag <Control-ButtonRelease> "::groups::GroupMenu $gname %X %Y"
-		} else {
-			$pgBuddy.text tag bind $gtag <Button3-ButtonRelease> "::groups::GroupMenu $gname %X %Y"
+			
+		#Don't add menu for "Individuals" group
+		if { $gname != 0 } {
+			#Specific for Mac OS X, Change button3 to button 2 and add control-click
+			if {$tcl_platform(os) == "Darwin"} {
+				$pgBuddy.text tag bind $gtag <Button2-ButtonRelease> "::groups::GroupMenu $gname %X %Y"
+				$pgBuddy.text tag bind $gtag <Control-ButtonRelease> "::groups::GroupMenu $gname %X %Y"
+			} else {
+				$pgBuddy.text tag bind $gtag <Button3-ButtonRelease> "::groups::GroupMenu $gname %X %Y"
+			}
 		}
-
 
 
 		$pgBuddy.text tag bind $gtag <Enter> \
@@ -4628,6 +4636,8 @@ proc cmsn_draw_online_wrapped {} {
 		$pgBuddy.text tag add dont_replace_smileys mail.first mail.last
 	}
 
+	
+	
 	# For each named group setup its heading where >><< image
 	# appears together with the group name and total nr. of handles
 	# [<<] My Group Name (n)
@@ -4635,6 +4645,7 @@ proc cmsn_draw_online_wrapped {} {
 
 		set gname [lindex $glist $gidx]
 		set gtag  "tg$gname"
+		
 
 		if { [::groups::IsExpanded $gname] } {
 			toggleGroup $pgBuddy.text contract$gname contract $gname 5 0
@@ -4744,6 +4755,24 @@ proc cmsn_draw_online_wrapped {} {
 		for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
 			set gname [lindex $glist $gidx]
 			set gtag  "tg$gname"
+			
+			#If we're managing special group "Individuals" (ID == 0), then remove header if:
+			# 1) we're in hybrid mode and there are no online contacts
+			# 2) or we're in group mode and there're no contacts (online or offline)
+			if { ($gname == 0) &&
+				(($::groups::uMemberCnt_online($gname) == 0 && [::config::getKey orderbygroup] == 2) ||
+				 ($::groups::uMemberCnt($gname) == 0 && [::config::getKey orderbygroup] == 1))} {
+				set endidx [split [$pgBuddy.text index $gtag.last] "."]
+				$pgBuddy.text delete $gtag.first [expr {[lindex $endidx 0]+1}].0
+				if { [::groups::IsExpanded $gname] } {
+					destroy $pgBuddy.text.contract$gname
+				} else {
+					destroy $pgBuddy.text.expand$gname
+				}
+				
+				continue
+			}
+			
 			if {$config(orderbygroup) == 2 } {
 				if { $gname == "offline" } {
 					$pgBuddy.text insert offline.last " ($::groups::uMemberCnt(offline))\n" offline

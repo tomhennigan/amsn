@@ -3390,8 +3390,8 @@ proc cmsn_ns_handler {item} {
 				return 0
 			}
 			224 {
-				status_log "Warning: Can't remove \"Others\" group" red
-				msg_box "[trans cantremoveothers]"
+# # # 				status_log "Warning: Invalid group" red
+				msg_box "[trans invalidgroup]"
 			}
 			600 {
 				::MSN::logout
