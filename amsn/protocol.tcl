@@ -4518,7 +4518,7 @@ namespace eval ::MSNP2P {
 	#using MSNP2P
 	proc loadUserPic { chatid user } {
 			global config
-			if { $config(getdisppic) == 0 } {
+			if { $config(getdisppic) != 1 } {
 				status_log "Display Pics disabled, exiting loadUserPic\n" red
 				return
 			}
