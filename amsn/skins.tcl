@@ -84,9 +84,9 @@ proc SelectSkinGui { } {
 		return
 	}
 	toplevel $w
-#	wm geometry $w 450x250
 	wm resizable $w 0 0
 	wm title $w "[trans chooseskin]"
+	wm geometry $w +100+100
 
 	label $w.choose -text "[trans chooseskin]" -font bboldf
 	pack $w.choose -side top
@@ -144,6 +144,8 @@ proc SelectSkinGui { } {
 	applychanges
 	bind $w <Destroy> "grab release $w"
 	bind $w.main.right.box <Button1-ButtonRelease> "applychanges"
+
+	
    
 }
 
