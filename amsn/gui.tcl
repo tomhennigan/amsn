@@ -4122,6 +4122,7 @@ proc AddProfileWin {} {
 
 	pack .add_profile.main .add_profile.buttons -side top -anchor n -expand  true -fill both -padx 10 -pady 10 
 	catch {grab .add_profile}
+	focus $mainframe.login
 } 
 
 #////////////////////////////////////////////////////////////////////// ///////// 
