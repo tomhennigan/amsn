@@ -419,7 +419,7 @@ namespace eval ::dkfFontSel {
 	wm transient $w $parent
 	wm iconname $w ChooseFont
 	wm group $w $parent
-	wm protocol $w WM_DELETE_WINDOW {#}
+	wm protocol $w WM_DELETE_WINDOW [namespace code {set Done 1}]
 
 	if {![string length $options(-initialfont)]} {
 	    set options(-initialfont) [option get $w initialFont InitialFont]
