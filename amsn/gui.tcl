@@ -1125,7 +1125,7 @@ namespace eval ::amsn {
 
       if { $colour == "user" || $colour == "yours" } {
          set size [expr {[lindex $config(basefont) 1]+$config(textsize)}]
-         set font "$fontname $size $fontstyle"
+         set font "\"$fontname\" $size $fontstyle"
 
          set tagid [::md5::md5 "$font$fontcolor"]
 
