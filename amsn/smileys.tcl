@@ -12,8 +12,8 @@ set emotions {{":-)" smile} {":)" smile} {":-D" smiled} {":D" smiled}
 	{"(*)" emstar} {"(8)" emnote} {"(E)" email} {"(M)" messenger}
 	{":-[" vampire} {":[" vampire} {"(\})" girlhug} {"(\{)" boyhug}
 	{"(A)" angel} {"(6)" devil} {"(^)" cake} {"(O)" clk} {":-@" angry}
-	{":@" angry} {"(&)" dog} {"(W)" rosew} {":`(" smilec} {":$" smilemb} 
-	{":-$" smilemb} {"(#)" sun} {"(R)" rainbow}}
+	{":@" angry} {"(&)" dog} {"(W)" rosew} {":`(" smilec} {":'(" smilec}
+	{":$" smilemb} {":-$" smilemb} {"(#)" sun} {"(R)" rainbow}}
 
 set emotion_files {smile smiled smileo smilep wink sad crooked disgust thumbu
 	thumbd love unlove lips gift rose emgirl emboy photo beer coctail
@@ -22,7 +22,7 @@ set emotion_files {smile smiled smileo smilep wink sad crooked disgust thumbu
 	smilec smilemb smilemb sun rainbow}
 
 
-proc smile_subst {tw} {
+proc smile_subst {tw {start "0.0"}} {
   global emotions
 
 #      tw mark set new_text_start end
@@ -35,7 +35,7 @@ proc smile_subst {tw} {
       set chars [string length $symbol]
       
       while {[set pos [$tw search -exact -nocase \
-	                              $symbol 0.0 end]] != ""} {
+	                              $symbol $start end]] != ""} {
          set posyx [split $pos "."]
          set endpos "[lindex $posyx 0].[expr [lindex $posyx 1] + $chars]"
          $tw delete $pos $endpos
