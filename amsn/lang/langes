@@ -76,7 +76,7 @@ invite Invitar
 ipaddress Dirección IP
 is está
 joins $1 $2 se une a la conversación
-language Lenguaje
+language Idioma
 leaveblankforhotmail Dejar en blanco para usar hotmail
 leaves $1 deja la conversación
 listeningon Escuchando en el puerto $1
