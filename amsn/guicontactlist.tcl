@@ -268,7 +268,7 @@ namespace eval ::guiContactList {
 		
 		# Online/Offline mode
 		if { $mode == 0 } {
-			set groupList [list [list "online" "online"] [list "offline" "offline"]]
+			set groupList [list [list "online" "Online"] [list "offline" "Offline"]]
 		
 		# Group mode
 		} elseif { $mode == 1 || $mode == 2} {
@@ -295,7 +295,7 @@ namespace eval ::guiContactList {
 		
 		# Hybrid Mode, we add offline group
 		if { $mode == 2 } {
-			lappend groupList [list "offline" "offline"]
+			lappend groupList [list "offline" "Offline"]
 		}
 		
 		return $groupList
