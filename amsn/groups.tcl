@@ -33,7 +33,7 @@ namespace eval ::groups {
    namespace export Init Enable Disable Set Rename Delete Add \
    		    RenameCB DeleteCB AddCB \
 		    GetList ToggleStatus UpdateCount IsExpanded \
-		    menuCmdMove
+		    menuCmdMove menuCmdCopy
 
    #
    # P R I V A T E
@@ -51,6 +51,14 @@ namespace eval ::groups {
    proc menuCmdDelete {gid {pars ""}} {
 	::groups::Delete $gid dlgMsg
    }
+
+   proc menuCmdCopy {newgid {paramlist ""}} {
+    set passport [lindex $paramlist 0]
+    set currgid  [::abook::getGroup $passport -id]
+#    puts "menuCmdMove $passport from $currgid to $newgid"
+    ::MSN::copyUser $passport $currgid $newgid
+   }
+
 
    proc menuCmdMove {newgid {paramlist ""}} {
     set passport [lindex $paramlist 0]

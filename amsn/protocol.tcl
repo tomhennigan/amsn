@@ -103,9 +103,18 @@ namespace eval ::MSN {
       if { $userName == "" } {
         set userName $passport
       }
-      set atrid [::MSN::WriteNS "ADD" "FL $passport $userName $newGid"]
       set rtrid [::MSN::WriteNS "REM" "FL $passport $oldGid"]
+      set atrid [::MSN::WriteNS "ADD" "FL $passport $userName $newGid"]
+
    }
+
+   proc copyUser { passport oldGid newGid {userName ""}} {
+      if { $userName == "" } {
+        set userName $passport
+      }
+      set atrid [::MSN::WriteNS "ADD" "FL $passport $userName $newGid"]
+   }
+   
    
    proc addUser { userlogin {username ""}} {
       if { $username == "" } {
@@ -1343,9 +1352,15 @@ proc cmsn_auth {{recv ""}} {
          .main_menu.file entryconfigure 3 -state normal
          #Add a contact
          .main_menu.tools entryconfigure 0 -state normal
+         .main_menu.tools entryconfigure 4 -state normal
          #Change nick
 	 configureMenuEntry .main_menu.actions "[trans changenick]..." normal
 	 configureMenuEntry .options "[trans changenick]..." normal
+
+	 configureMenuEntry .main_menu.actions "[trans sendmail]..." normal
+	 configureMenuEntry .main_menu.actions "[trans sendmsg]..." normal
+
+
          #Publish Phone Numbers
 	 configureMenuEntry .options "[trans publishphones]..." normal
 
