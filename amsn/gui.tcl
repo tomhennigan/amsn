@@ -5755,11 +5755,11 @@ proc convert_image { filename size } {
 	
 	#Depending on ratio, resize to keep smaller dimension to XX pixels
 	if { $origratio > $ratio} {
-		set resizew ""
 		set resizeh [lindex $sizexy 1]
+		set resizew ""
 	} else {
-		set resizeh ""
 		set resizew [lindex $sizexy 0]
+		set resizeh ""
 	}
 	
 	status_log "Will resize to $resizew x $resizeh \n" blue
@@ -5817,6 +5817,7 @@ proc convert_image { filename size } {
 				incr idx
 	    	} else { break }
 		}
+		file delete $filename2.png
 		file rename $filename2.png.0 $filename2.png
 	}
 
