@@ -1470,7 +1470,9 @@ namespace eval ::MSN {
 	  if { [llength $sb_chatid($chatid)] > 0 } {
 
 	     #Try to find a connected SB
-	     foreach sbn $sb_chatid($chatid) {
+	     for {set idx 0} {$idx<[llength $sb_chatid($chatid)]} {incr idx} {
+	        set sbn [lindex $sb_chatid($chatid) $idx]
+	     #foreach sbn $sb_chatid($chatid) {}
 
 	        if {![catch {sb get $sbn stat} res ]} {
 	           if { "[sb get $sbn stat]" == "o" } {
@@ -1479,6 +1481,11 @@ namespace eval ::MSN {
 
 	              if { "$sb_sock" != "" } {
                          #status_log "SBFor: Returned $sbn as SB for $chatid\n" blue
+			 if {$idx!=0} {
+			   status_log "SBFor: Moving $sbn to front $chatid\n" blue
+			   set sb_chatid($chatid) [lreplace $sb_chatid($chatid) $idx $idx]
+			   set sb_chatid($chatid) [linsert $sb_chatid($chatid) 0 $sbn]
+			 }
 		         return $sbn
 	              }
 
