@@ -41,7 +41,6 @@ proc ConfigDefaults {} {
 
 	set config(language) "en"
 	set config(adverts) 0
-	set config(autohotlogin) 1
 	set config(autoidle) 1
 	set config(idletime) 5
 	set config(autoaway) 1
@@ -98,11 +97,15 @@ namespace eval ::config {
 
 proc save_config {} {
    global tcl_platform config HOME HOME2 version password
-
-   if {$tcl_platform(platform) == "unix"} {
-		set file_id [open "[file join ${HOME} config]" w 00600]
-   } else {
-      		set file_id [open "[file join ${HOME} config]" w]
+   
+   if { [catch {
+         if {$tcl_platform(platform) == "unix"} {
+	    set file_id [open "[file join ${HOME} config]" w 00600]
+         } else {
+            set file_id [open "[file join ${HOME} config]" w]
+         }
+      } res ]} {
+      ::amsn::errorMsg "[trans openwriteerror [file join ${HOME} config]]"
    }
    
 
@@ -148,21 +151,28 @@ proc load_config {} {
     global config HOME password
 
     if {([file readable "[file join ${HOME} config]"] == 0) ||
-	([file isfile "[file join ${HOME}/config]"] == 0)} {
+	([file isfile "[file join ${HOME} config]"] == 0)} {
+	
+	::amsn::errorMsg "[trans openwriteerror [file join ${HOME} config]]"
 	return 1
     }
+    
     ConfigDefaults
+    
     set file_id [open "${HOME}/config" r ]
+    
     gets $file_id tmp_data
     if {$tmp_data != "amsn_config_version 1"} {	;# config version not supported!
 	return 1
     }
+    
     while {[gets $file_id tmp_data] != "-1"} {
 	set var_data [split $tmp_data]
 	set var_attribute [lindex $var_data 0]
 	set var_value [join [lrange $var_data 1 end]]
 	set config($var_attribute) $var_value
     }
+    
     if {[info exists config(password)]} {
 	set key [string range "$config(login)dummykey" 0 7]
 	set password $config(password)
@@ -173,7 +183,8 @@ proc load_config {} {
 	#puts "Password is: $password\nHi\n"      
 	unset config(password)
     }
-     if {[info exists config(remotepassword)]} {
+    
+    if {[info exists config(remotepassword)]} {
  	set key [string range "$config(login)dummykey" 0 7]
  	catch {set encpass [binary format h* $config(remotepassword)]}
  	catch {set config(remotepassword) [::des::decrypt $key $encpass]}
@@ -181,6 +192,7 @@ proc load_config {} {
  	set config(remotepassword) [string range $config(remotepassword) 0 [expr { [string first "\n" $config(remotepassword)] -1 }]]
  	#puts "Password is: $config(remotepassword)\nHi\n"      
      }
+     
     close $file_id
 }
 

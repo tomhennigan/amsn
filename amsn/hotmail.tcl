@@ -20,7 +20,7 @@ namespace eval ::hotmail {
    #
       global tcl_platform HOME program_dir config
 
-      if {($config(autohotlogin)) && ($pass != "")} {
+      if {$pass != ""} {
 
          set read_id [open "${program_dir}/hotmlog.htm" r]
 
@@ -86,7 +86,7 @@ proc hotmail_login {userlogin {pass ""}} {
 #
   global tcl_platform HOME program_dir config d
 
-  if {($config(autohotlogin)) && ($pass != "")} {
+  if {$pass != ""} {
 
     set read_id [open "${program_dir}/hotmlog.htm" r]
 
@@ -147,7 +147,7 @@ proc hotmail_viewmsg {msgurl userlogin {pass ""}} {
 #
   global tcl_platform HOME program_dir config
 
-  if {($config(autohotlogin)) && ($pass != "")} {
+  if {$pass != ""} {
 
     set read_id [open "${program_dir}/hotmlog.htm" r]
 

@@ -2148,16 +2148,6 @@ proc cmsn_draw_main {} {
    set config(adverts) 0
    #.options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
    #-command "msg_box \"[trans mustrestart]\""
-#   .options add checkbutton -label "[trans autohotmaillog]" -onvalue 1 -offvalue 0 -variable config(autohotlogin)
-#   .options add checkbutton -label "[trans autoidle]" -onvalue 1 -offvalue 0 -variable config(autoidle)
-#   .options add checkbutton -label "[trans notifywin]" -onvalue 1 -offvalue 0 -variable config(notifywin)
-#   .options add checkbutton -label "[trans startoffline]" -onvalue 1 -offvalue 0 -variable config(startoffline) 
-#   .options add checkbutton -label "[trans autoconnect]" -onvalue 1 -offvalue 0 -variable config(autoconnect) 
-#   .options add checkbutton -label "[trans chatsmileys]" -onvalue 1 -offvalue 0 -variable config(chatsmileys)
-#   .options add checkbutton -label "[trans listsmileys]" -onvalue 1 -offvalue 0 -variable config(listsmileys)
-#   .options add checkbutton -label "[trans keepalive]" -onvalue 1 -offvalue 0 -variable config(keepalive) -command "::MSN::TogglePolling"
-#   .options add checkbutton -label "[trans keeplog]" -onvalue 1 -offvalue 0 -variable config(keep_logs)
-#   .options add checkbutton -label "[trans natip]" -onvalue 1 -offvalue 0 -variable config(natip)
    .options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable config(closingdocks) 
 
    #Help menu
