@@ -46,7 +46,7 @@ if { $initialize_amsn == 1 } {
 		event add <<Button2>> <Button3-ButtonRelease>
 		event add <<Button3>> <Control-ButtonRelease>
 		event add <<Button3>> <Button2-ButtonRelease>
-		event add <<Escape>> <Command-w>
+		event add <<Escape>> <Command-w> <Command-W>
 		event add <<Paste>> <Command-v> <Command-V>
 		event add <<Copy>> <Command-c> <Command-C>
 		event add <<Cut>> <Command-x> <Command-X>
@@ -3309,9 +3309,11 @@ proc cmsn_draw_main {} {
 	#Command-key for "key shortcut" in Mac OS X
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		bind . <Command-s> toggle_status
+		bind . <Command-S> toggle_status
 		bind . <Command-,> Preferences
 		bind . <Command-Option-space> BossMode
 	    bind . <Option-p> ::pluginslog::toggle
+	    bind . <Option-P> ::pluginslog::toggle
 	} else {
 		bind . <Control-s> toggle_status
 	    bind . <Alt-p> ::pluginslog::toggle
@@ -3323,6 +3325,9 @@ proc cmsn_draw_main {} {
 	#Shortcut to Quit aMSN on Mac OS X
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		bind all <Command-q> {
+			close_cleanup;exit
+		}
+		bind all <Command-Q> {
 			close_cleanup;exit
 		}
 	}
