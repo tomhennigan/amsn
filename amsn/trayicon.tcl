@@ -237,7 +237,15 @@ proc remove_icon {icon} {
 	}
 }
 
+proc restart_tray { } {
+    global user_stat
 
+    puts "RESTARTING the traydock"
+
+    statusicon_proc "REMOVE"
+    statusicon_proc "$user_stat"
+    
+}
 		
 		
 	
