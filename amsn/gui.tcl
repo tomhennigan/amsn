@@ -2180,7 +2180,9 @@ proc cmsn_draw_main {} {
    #.options add checkbutton -label "[trans adverts]" -onvalue 1 -offvalue 0 -variable config(adverts) \
    #-command "msg_box \"[trans mustrestart]\""
    .options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable config(closingdocks) 
-
+   .options add separator
+   .options add command -label "[trans language]..." -command show_languagechoose
+   
    #Help menu
    menu .main_menu.help -tearoff 0 -type normal
 
