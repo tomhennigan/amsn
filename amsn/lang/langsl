@@ -184,6 +184,7 @@ default Privzete nastavitve
 defaultloginradio Prijavi se s privzetimi nastavitvami
 defchatwinsize Privzeta velikost okna s pogovorom (XxY)
 delete Izbri¹i
+deleteall Izbri¹i vse
 deletecustomstate Izbri¹i osebno stanje
 delimiters Kraji¹èi prikaza èasa
 deliverfail Pri dostavljanju sporoèila je pri¹lo do te¾ave
