@@ -87,6 +87,8 @@ namespace eval ::music {
 			symbol {-} \
 			stop $stopmessage \
 			active {0} \
+			songart {1} \
+			separator {-} \
 		]
 		
 	}
@@ -105,6 +107,7 @@ namespace eval ::music {
 				[list str "Nickname"  nickname] \
 				[list str "Symbol betwen nick and song"  symbol] \
 				[list str "Stopped message"  stop] \
+				[list str "Separator" separator] \
 			]
 		} else {
 			set ::music::configlist [list \
@@ -115,6 +118,9 @@ namespace eval ::music {
 				[list str "[trans musicnickname]"  nickname] \
 				[list str "[trans musicseparator]"  symbol] \
 				[list str "[trans musicstopmsg]"  stop] \
+				[list label "[trans choose_order]"] \
+				[list rbt "[trans songartist]" "[trans artistsong]" songart] \
+				[list str "[trans separator]" separator] \
 			]
 		}
 	}
@@ -399,10 +405,11 @@ namespace eval ::music {
 		#Open in "read" permission the file (SongIngo)
 		set gets [open $file r]
 
-		#Get the 4 first lines
+		#Get the 5 first lines
 		set software [gets $gets]
 		set status [gets $gets]
-		set songart [gets $gets]
+		set song [gets $gets]
+		set art [gets $gets]
 		set path [gets $gets]
 
 		#Close the file
@@ -411,6 +418,13 @@ namespace eval ::music {
 		if {$status == "0"} {
 			return 0
 		} else {
+			#Define in witch order we want to show the song (from the config)
+			#Use the separator(from the cong) betwen song and artist
+			if {$::music::config(songart) == 1} {
+				append songart $song " " $::music::config(separator) " " $art
+			} elseif {$::music::config(songart) == 2} {
+				append songart $art " " $::music::config(separator) " " $song
+			}
 			lappend return $songart
 			lappend return $path
 		}
