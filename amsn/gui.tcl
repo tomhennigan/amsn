@@ -8,7 +8,7 @@ if { $initialize_amsn == 1 } {
 	init_ticket putmessage
 
 	::skin::setDefaultColor mainwindowbg #7979f2
-	::skin::setDefaultColor chatwindowbg #cccccc
+	::skin::setDefaultColor chatwindowbg #EAEAEA
 	::skin::setDefaultColor buttonbarbg #eeeeff
 	::skin::setDefaultColor topbarbg #5050e5
 	::skin::setDefaultColor topbartext #ffffff
