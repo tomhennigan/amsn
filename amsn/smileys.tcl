@@ -254,7 +254,7 @@ proc new_custom_emoticon_gui {{name ""}} {
     checkbutton $w.casesensitive -text "[trans casesensitive]" -onvalue 1 -offvalue 0 -variable new_custom_cfg(casesensitive) -font sboldf
 
     frame .new_custom.buttons -class Degt
-    
+
     if { $name == "" } {
 	wm title .new_custom "[trans custom_new]"
 	label .new_custom.1.intro -text "[trans smileintro]" -font splainf
@@ -282,8 +282,8 @@ proc new_custom_emoticon_gui {{name ""}} {
     grid $w.name -row 1 -column 1 -padx 2 -pady 2
 
     grid $w.ltext -row 2 -column 0 -padx 2 -pady 2 -sticky w
-    grid $w.text -row 2 -column 1 -padx 2 -pady 2 
-    
+    grid $w.text -row 2 -column 1 -padx 2 -pady 2
+
     grid $w.lfile -row 3 -column 0 -padx 2 -pady 2 -sticky w
     grid $w.file -row 3 -column 1 -padx 2 -pady 2
     grid $w.browsefile -row 3 -column 2 -padx 2 -pady 2 -sticky w
@@ -293,10 +293,10 @@ proc new_custom_emoticon_gui {{name ""}} {
     grid $w.browsesound -row 4 -column 2 -padx 2 -pady 2 -sticky w
     
     grid $w.enablesound -row 5 -column 0 -padx 2 -pady 2 -sticky w
-    grid $w.animated -row 5 -column 2 -padx 2 -pady 2
+    grid $w.animated -row 5 -column 2 -padx 2 -pady 2 -sticky w
 
-    grid $w.hiden -row 6 -column 0 -padx 2 -pady 2 -columnspan 2
-    grid $w.casesensitive -row 6 -column 2 -padx 2 -pady 2
+    grid $w.hiden -row 6 -column 0 -padx 2 -pady 2 -columnspan 2 -sticky w
+    grid $w.casesensitive -row 6 -column 2 -padx 2 -pady 2 -sticky w
 
     
     pack .new_custom.1 -expand 1 -fill both -side top -pady 15
