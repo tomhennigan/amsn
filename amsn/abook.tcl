@@ -877,9 +877,29 @@ namespace eval ::abookGui {
 		pack $w.nb -expand true -fill both -side bottom -padx 3 -pady 3
 		#pack $w.nb
 		
-		bind $w <Destroy> [list ::abookGui::PropDestroyed $email $w %W]
+		#Ask to save or not to save when we close the user properties window on Mac OS X
+		#Request from users with 800X600 screen (they can't see accept/cancel button)
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			wm protocol $w WM_DELETE_WINDOW "[list ::abookGui::closeProperties $email $w]"
+			bind $w <Destroy> [list ::abookGui::PropDestroyed $email $w %W]
+		} else {
+			bind $w <Destroy> [list ::abookGui::PropDestroyed $email $w %W]
+		}
 		
 		moveinscreen $w 30
+	}
+	
+	#Ask the user if he wants to save or not the user properties window
+	proc closeProperties {email w} {
+		#Ask the user yes/no if he wants to save, parent=window to attach the question, title= totally useless on Mac
+		set answer [tk_messageBox -message "[trans save] ?" -type yesno -icon question -title "[trans save] ?"]
+		#When the user answer yes, save preferences and close the window
+		if {$answer == "yes"} {
+			::abookGui::PropOk $email $w
+		#When the user do not answer yes (no), then Restore previous preferences and close the window
+		} else {
+			destroy $w
+		}
 	}
 	
 	proc PropDestroyed { email w win } {
