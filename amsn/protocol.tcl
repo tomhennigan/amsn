@@ -2888,40 +2888,8 @@ proc cmsn_sb_msg {sb_name recv} {
 		}
 
 	} elseif { [string range $content 0 16] == "text/x-clientcaps" } {
-	
-		#Get String for Client-Name (Gaim, dMSN and others)
-		if {[string first "Client-Name:" $msg] != "-1"} {
-			set begin [expr {[string first "Client-Name:" $msg]+13}]
-			set end   [expr {[string first "\n" $msg $begin]-2}]
-			set clientname "[urldecode [string range $msg $begin $end]]"
-			#status_log "Client-Name:\n$clientname\n"
-			#Add this information to abook
-			::abook::setContactData $chatid clientname $clientname
-		}
-		#Get String for Chat Logging (Gaim and some others)
-		if {[string first "Chat-Logging" $msg] != "-1"} {
-			set begin [expr {[string first "Chat-Logging" $msg]+14}]
-			set end   [expr {[string first "\n" $msg $begin]-2}]
-			set chatlogging "[urldecode [string range $msg $begin $end]]"
-			#status_log "ChatLogging:\n$chatlogging\n"
-			#Add this information to abook
-			if {$chatlogging == "Y"} { 
-				set chatlogging "[trans yes]" 
-			} else { 
-				set chatlogging "[trans no]" 
-			}
-			::abook::setContactData $chatid chatlogging $chatlogging
-		}
-		#Get String for Operating System (dMSN)
-		#This information is stored but not used anywhere inside aMSN
-		if {[string first "Operating-System:" $msg] != "-1"} {
-			set begin [expr {[string first "Operating-System:" $msg]+18}]
-			set end   [expr {[string first "\n" $msg $begin]-1}]
-			set operatingsystem "[urldecode [string range $msg $begin $end]]"
-			#status_log "Operating System:\n$operatingsystem\n"
-			#Add this information to abook
-			::abook::setContactData $chatid operatingsystem $operatingsystem
-		}
+		#Packet we receive from 3rd party client (not by MSN)
+		xclientcaps_received $msg $chatid
 		
 	} elseif { [string range $content 0 22] == "text/x-msnmsgr-datacast" } {
 	
@@ -4800,7 +4768,49 @@ proc getfilename { filename } {
 proc filenoext { filename } {
 	return "[string replace $filename [string last . $filename] end]"
 }
-
+#############################################################
+# xclientcaps_received msg chatid                           #
+# ----------------------------------------------------------#
+# Packets received from 3rd party client (not by MSN)       #                      
+# Add the information to ContactData                        #
+# More information:                                         #
+# http://www.chat.solidhouse.com/msninterop/clientcaps.php  #
+#############################################################
+proc xclientcaps_received {msg chatid} {
+		#Get String for Client-Name (Gaim, dMSN and others)
+		if {[string first "Client-Name:" $msg] != "-1"} {
+			set begin [expr {[string first "Client-Name:" $msg]+13}]
+			set end   [expr {[string first "\n" $msg $begin]-2}]
+			set clientname "[urldecode [string range $msg $begin $end]]"
+			#status_log "Client-Name:\n$clientname\n"
+			#Add this information to abook
+			::abook::setContactData $chatid clientname $clientname
+		}
+		#Get String for Chat Logging (Gaim and some others)
+		if {[string first "Chat-Logging" $msg] != "-1"} {
+			set begin [expr {[string first "Chat-Logging" $msg]+14}]
+			set end   [expr {[string first "\n" $msg $begin]-2}]
+			set chatlogging "[urldecode [string range $msg $begin $end]]"
+			#status_log "ChatLogging:\n$chatlogging\n"
+			#Add this information to abook
+			if {$chatlogging == "Y"} { 
+				set chatlogging "[trans yes]" 
+			} else { 
+				set chatlogging "[trans no]" 
+			}
+			::abook::setContactData $chatid chatlogging $chatlogging
+		}
+		#Get String for Operating System (dMSN)
+		#This information is stored but not used anywhere inside aMSN
+		if {[string first "Operating-System:" $msg] != "-1"} {
+			set begin [expr {[string first "Operating-System:" $msg]+18}]
+			set end   [expr {[string first "\n" $msg $begin]-1}]
+			set operatingsystem "[urldecode [string range $msg $begin $end]]"
+			#status_log "Operating System:\n$operatingsystem\n"
+			#Add this information to abook
+			::abook::setContactData $chatid operatingsystem $operatingsystem
+		}
+}
 ###############################################
 # add_Clientid chatid clientid                #
 # ------------------------------------------- #
