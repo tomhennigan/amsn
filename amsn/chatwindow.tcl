@@ -1025,7 +1025,7 @@ namespace eval ::ChatWindow {
 
 		#TODO: We always want these menus and bindings enabled? Think it!!
 		$msnmenu entryconfigure 3 -state normal
-		$actionsmenu entryconfigure 6 -state normal
+		$actionsmenu entryconfigure 8 -state normal
 
 
 		return $mainmenu
@@ -1125,6 +1125,7 @@ namespace eval ::ChatWindow {
 		set viewmenu $menu.view
 		menu $viewmenu -tearoff 0 -type normal
 
+		$viewmenu add cascade -label "[trans style]" -menu [CreateStyleMenu $viewmenu]
 		$viewmenu add cascade -label "[trans textsize]" -menu [CreateTextSizeMenu $viewmenu]
 		$viewmenu add separator
 		$viewmenu add checkbutton -label "[trans chatsmileys]" \
@@ -1138,23 +1139,12 @@ namespace eval ::ChatWindow {
 		$viewmenu add separator
 
 		# Remove this menu item on Mac OS X because we "lost" the window instead
-		# of just hide it and change accelerator for history on Mac OS X
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			$viewmenu add command -label "[trans history]" \
-				-command "::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::getCurrentTab $w\] ::log::OpenLogWin" \
-				-accelerator "Command-Option-H"
-		} else {
-			$viewmenu add command -label "[trans history]" \
-				-command "::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::getCurrentTab $w\] ::log::OpenLogWin" \
-				-accelerator "Ctrl+H"
-			$viewmenu add separator
+		# of just hide it
+		if {[catch {tk windowingsystem} wsystem] || $wsystem != "aqua"} {
 			$viewmenu add command -label "[trans hidewindow]" \
 				-command "wm state \[::ChatWindow::getCurrentTab $w\] withdraw"
 		}
 		
-		$viewmenu add separator
-		$viewmenu add cascade -label "[trans style]" -menu [CreateStyleMenu $viewmenu]
-
 		return $viewmenu
 	}
 
@@ -1213,19 +1203,34 @@ namespace eval ::ChatWindow {
 			-command "::amsn::ShowAddList \"[trans addtocontacts]\" \[::ChatWindow::getCurrentTab $w\] ::MSN::addUser"
 		$actionsmenu add command -label "[trans block]/[trans unblock]" \
 			-command "::amsn::ShowChatList \"[trans block]/[trans unblock]\" \[::ChatWindow::getCurrentTab $w\] ::amsn::blockUnblockUser"
+		$actionsmenu add separator
 		$actionsmenu add command -label "[trans viewprofile]" \
 			-command "::amsn::ShowChatList \"[trans viewprofile]\" \[::ChatWindow::getCurrentTab $w\] ::hotmail::viewProfile"
+											
 		$actionsmenu add command -label "[trans properties]" \
 			-command "::amsn::ShowChatList \"[trans properties]\" \[::ChatWindow::getCurrentTab $w\] ::abookGui::showUserProperties"
-		$actionsmenu add command -label "[trans note]" \
+		$actionsmenu add command -label "[trans note]..." \
 			-command "::amsn::ShowChatList \"[trans note]\" \[::ChatWindow::getCurrentTab $w\] ::notes::Display_Notes"
+		# Change accelerator for history on Mac OS X
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			$actionsmenu add command -label "[trans history]" \
+				-command "::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::getCurrentTab $w\] ::log::OpenLogWin" \
+				-accelerator "Command-Option-H"
+		} else {
+			$actionsmenu add command -label "[trans history]" \
+				-command "::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::getCurrentTab $w\] ::log::OpenLogWin" \
+				-accelerator "Ctrl+H"
+		}
 		$actionsmenu add separator
 		$actionsmenu add command -label "[trans invite]..." \
 			-command "::amsn::ShowInviteList \"[trans invite]\" \[::ChatWindow::getCurrentTab $w\]"
 		$actionsmenu add separator
-		$actionsmenu add command -label [trans sendmail] \
+		$actionsmenu add command -label "[trans sendmail]..." \
 			-command "::amsn::ShowChatList \"[trans sendmail]\" \[::ChatWindow::getCurrentTab $w\] launch_mailer"
+		$actionsmenu add command -label "[trans sendfile]..." \
+		    -command "::amsn::FileTransferSend \[::ChatWindow::getCurrentTab $w\]"
 
+			
 		return $actionsmenu
 	}
 
