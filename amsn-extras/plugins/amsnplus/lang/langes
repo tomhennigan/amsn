@@ -4,6 +4,7 @@ allowcolours Quieres permitir el uso de multiples colores en la conversación?
 bold Negrita
 ccolor \nTu color de texto es $1.
 cfont \nTu fuente es $1.
+choosecolor Escoje un color
 cinfo \nInformacion sobre $1: \nNick: $2 \nGrupo: $3.
 cleave \nHas dejado esta conversación.
 cnewnick \nTu nuevo nick es: $1.

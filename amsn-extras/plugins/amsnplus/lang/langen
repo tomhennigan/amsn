@@ -5,6 +5,7 @@ allowquicktext Do you want to use quick text feature?
 bold Bold
 ccolor \nYour text color is $1
 cfont \nYour text font is $1
+choosecolor Choose a color
 cinfo \nContact information:\n$1 \nNick: $2 \nGroup: $3
 cleave \nYou have left this conversation
 cnewnick \nYour new nick is: $1

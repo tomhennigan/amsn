@@ -373,6 +373,7 @@ namespace eval ::amsnplus {
 		set reset [binary format c 15]
 		
 		$newvar(menu_name).actions add separator
+		$newvar(menu_name).actions add command -label "[trans choosecolor]" -command "::amsnplus::choose_color $newvar(window_name)"
 		$newvar(menu_name).actions add command -label "[trans bold]" -command "::amsnplus::insert_text $newvar(window_name) $bold"
 		$newvar(menu_name).actions add command -label "[trans italic]" -command "::amsnplus::insert_text $newvar(window_name) $italic"
 		$newvar(menu_name).actions add command -label "[trans underline]" -command "::amsnplus::insert_text $newvar(window_name) $underline"
@@ -404,10 +405,9 @@ namespace eval ::amsnplus {
 		if { !$::amsnplus::config(allow_colours) } { return }
 
 		#get the event vars
-		upvar 2 bottom bottom
-		upvar 2 w w
-		upvar 2 evpar newvar
+		upvar 2 evPar newvar
 		set amsnplusbutton $newvar(bottom).amsnplus
+		set w $newvar(window_name)
 
 		#create the widgeds
 		button $amsnplusbutton -image [::skin::loadPixmap amsnplusbutton] -relief flat -padx 3 \

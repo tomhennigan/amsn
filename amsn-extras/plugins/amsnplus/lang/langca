@@ -5,6 +5,7 @@ allowquicktext Vols permetre l'ús dels textes ràpids?
 bold Negreta
 ccolor \nEl teu color de text és $1.
 cfont \nLa teva font és $1.
+choosecolor Escull un color
 cinfo \nInformació sobre $1: \nNick: $2 \nGrup: $3\nClient: $4\nSistema Operatiu: $5.
 cleave \nHas deixat la conversa.
 cnewnick \nEl teu nou nick és: $1.
