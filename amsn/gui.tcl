@@ -2738,6 +2738,11 @@ proc cmsn_msgwin_sendmail {name} {
 proc play_sound {sound_name} {
     global config 
 
+	if { [string first "\$sound" $config(soundcommand)] == -1 } {
+		set config(soundcommand) "$config(soundcommand) \$sound"
+	}
+
+
     if { $config(sound) == 1 } {
 	set sound [GetSkinFile sounds $sound_name]
 	catch {eval exec $config(soundcommand) &} res
@@ -4449,6 +4454,10 @@ proc launch_browser { url } {
 
   	} else {
 
+		if { [string first "\$url" $config(browser)] == -1 } {
+			set config(browser) "$config(browser) \$url"
+		}
+
 		#if { [catch {eval exec $config(browser) [list $url] &} res ] } {}
 		if { [catch {eval exec $config(browser) &} res ] } {
 		   ::amsn::errorMsg "[trans cantexec $config(browser)]"
@@ -4469,6 +4478,11 @@ proc launch_filemanager {location} {
   if { [string length $config(filemanager)] < 1 } {
     msg_box "[trans checkfilman $location]"
   } else {
+		if { [string first "\$location" $config(filemanager)] == -1 } {
+			set config(filemanager) "$config(filemanager) \$location"
+		}
+
+
     if {[catch {eval exec $config(filemanager) &} res]} {
        ::amsn::errorMsg "[trans cantexec $config(filemanager)]"
     }
@@ -4487,6 +4501,11 @@ proc launch_mailer {recipient} {
      ::hotmail::composeMail $recipient $config(login) $password
      return 0
   }
+
+	if { [string first "\$recipient" $config(mailcommand)] == -1 } {
+		set config(mailcommand) "$config(mailcommand) \$recipient"
+	}
+
 
   if { [catch {eval exec $config(mailcommand) &} res]} {
      ::amsn::errorMsg "[trans cantexec $config(mailcommand)]"
