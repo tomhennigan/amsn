@@ -812,7 +812,6 @@ proc ClearAllLogs {} {
 #Log Events
 proc EventLog { txt } {
 
-	StartLog eventlog
 	set fileid [LogArray eventlog get]
 	puts -nonewline $fileid "\|\"LGRA[timestamp] \|\"LNOR: $txt\n"
 }
@@ -859,7 +858,7 @@ proc eventstatus { name state } {
 }
 
 #Check if an event display is activated
-proc eventdisplay { } {
+proc checkeventdisplay { } {
 	if { [::config::getKey display_event_connect] || [::config::getKey display_event_disconnect] || [::config::getKey display_event_email] || [::config::getKey display_event_state] } {
 		return 1
 	} else {
@@ -868,7 +867,7 @@ proc eventdisplay { } {
 }
 
 #Check if an event log is activated
-proc eventlog { } {
+proc checkeventlog { } {
 	if { [::config::getKey log_event_connect] || [::config::getKey log_event_disconnect] || [::config::getKey log_event_email] || [::config::getKey log_event_state] } {
 		return 1
 	} else {
@@ -881,10 +880,10 @@ proc eventlogin { } {
 	global eventdisconnected
 	if { $eventdisconnected } {
 		set eventdisconnected 0
-		if { [::log::eventdisplay] } {
+		if { [::log::checkeventdisplay] } {
 			.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : [trans connectedwith [::config::getKey login]]"
 		}
-		if { [::log::eventlog] } {
+		if { [::log::checkeventlog] } {
 			StartLog eventlog
 			set fileid [LogArray eventlog get]
 			puts -nonewline $fileid "\|\"LRED\[[clock format [clock seconds] -format "%d %b %Y %T"]\] [trans connectedwith [::config::getKey login]]\n"
@@ -894,13 +893,14 @@ proc eventlogin { } {
 
 #Display/log when we disconnect if we display/log an event
 proc eventlogout { } {
-	if { [::log::eventdisplay] } {
+	if { [::log::checkeventdisplay] } {
 		.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : [trans disconnectedfrom [::config::getKey login]]"
 	}
-	if { [::log::eventlog] } {
-		StartLog eventlog
+	if { [::log::checkeventlog] } {
 		set fileid [LogArray eventlog get]
 		puts -nonewline $fileid "\|\"LRED\[[clock format [clock seconds] -format "%d %b %Y %T"]\] [trans disconnectedfrom [::config::getKey login]]\n\n"
+		close [LogArray eventlog get]
+		LogArray eventlog unset
 	}
 }
 
