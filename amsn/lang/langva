@@ -150,6 +150,8 @@ customnick Mot personal
 customstyle Estil personalitzat
 cut Tallar
 date Data
+dateformat Canvia el format de la data
+day Dia
 days Dies
 dcprofile No Crear Perfil
 default Configuracio per defecte
@@ -323,6 +325,7 @@ maximised Maximitzada
 minimised Minimitzada/Iconificada
 mins minuts
 mobile Mòbil
+month Mes
 morepersonal Més estats ->
 move Moure
 movetogroup Moure al Grup
@@ -346,6 +349,7 @@ needonline Encara estàs/aparentes desconnectat
 needwinico Es necessita el fitxer winico03.dll al directori de connectors perquè funcione l'acoblament per Windows
 never Mai
 newmail $1 missatges nous en safata d'entrada
+newmailfolder Tens $1 nous missatges en altres carpets de Hotmail
 newmailfrom Nou correu de $1 ($2)
 newmsg Nou missatge
 newstate Afegir nou estat personalitzat
@@ -545,6 +549,7 @@ tlsinstall Assistent d'instal·lació del modul TLS
 tlsinstallexp aMSN ara gasta MSNP9, que requerix l'us d'una connexio\nsegura utilitzant SSL. Per a usar SSL, aMSN necessita instalar el mòdul anomenat TLS,\nque no es troba en el teu sistema. Este assistent t'ajudarà a descarregar i\ninstalar TLS. Per favor, tria el tipus del teu sistema per a que es puga descarregar\nautomàticament els fichers TLS requerits.
 tlsinstcompleted El modul TLS s'ha instalat correctament, deuries poder usar MSNP9. Si no funciona, aleshores probablement no seleccionares el mòdul correcte, o no hi ha un mòdul compilat per al teu sistema.
 to Per a
+today Hui
 tools Ferramentes
 tooltips Activar informació de ferramentes
 transnotexists Este fitxer encara no ha estat traduït
@@ -580,7 +585,9 @@ xmmscurrent Mostra cançó actual
 xmmserr No hi ha res reproduint-se, o no tens xmms-infopipe instal·lat.
 xmmssend Envia cançó actual
 xoffset Desplaçament X
+year Any
 yes si
+yesterday Ahir
 yoffset Desplaçament Y
 youblocked Has sigut bloquejat per
 yousay Tu dius
