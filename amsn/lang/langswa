@@ -1,0 +1,288 @@
+amsn_lang_version 2
+about Kuhusu
+accept Kubali
+acceptfile Kubali faili $1, ukubwa $2? Imeifadhiwa kwenye $3
+actions Vitendo
+addacontact Ongeza muongeaji
+addedyou amekuongeza kwenye orodha yake ya waongeaji
+addtocontacts Ongeza kwenya orodha ya waongeaji
+addtoo Muongeze mtu huyu kwenye orodha yangu ya waongeaji
+admincontacts Panga waongeaji
+admingroups Panga makundi
+adverts Matangazo
+alarmpref Mipangilio ya sauti kwa mtumiaji
+alarmstatus ZIMA/WASHA sauti kwa mtumiaji huyu
+allowseen Mruhusu mtu huyu kuniona na kuwasilina nami nipokuwa natumia
+appearoff Onekana sijaunganishwa
+areacode Kodi ya Eneo
+aretyping $1 wana chapa ujumbe
+askprofile Muingilio huu kwa sasa hauna utashi. Ungependa kuutenganezea mpya? \n Kama hutaki hautaweza kutumia historia, au kuhifadhi alamu zako na neno-siri. \n kama unataka utakuwa na mpangilio tofauti kwa utashi huu mpya. \n \n Bofya "Tengeneza Utashi" ili kutengeneza  utashi wa $1
+autoaway Nionyeshe kama sipo ninapokuwa sijishughulishi kwa
+autoconnect2 Saini moja kwa moja wakati aMSN inapoanzishwa
+autoconnect Unganisha wakati amsn inaanza
+autohotmaillog Iingia Hotmail yenyewe
+autoidle Auto Sijishughulishi
+autoip IP ya atuomatiki
+autonoact Nionyesha kama "Sijushughulishi" ninapokuwa sifanyi
+avoidseen Epuka mtu huyu kuniona na kuwasiliana nami ninapokuwa natumia
+away Nipo mbali
+awaymsg1 Uliza kwa ujumbe wa kuwa mbali kila mara ninapobadilisha hali yangu kuwa Mbali/NSH/Nashughuri
+awaymsg2 Usiniulize na mara zote tumia ujumbe wa kuwa mbali ufatao chini
+baduserpass Jina la mtumiaji au neno-siri si la kweli
+bgcolor Badilisha rangi ya  nyuma ya aMSN
+blankdirect Acha wazi kwa muunganisho wa moja kwa moja
+block Zuia
+blocked Amezuiwa
+broughtby  Imeretwa kwako na watengenezaji wafuatao
+browse Tandaa
+browser Kitandaaji
+busy Ninashughuli
+cancel Sitisha
+cfgalarm Panga/Ongeza/Ondoa Sauti
+changefont Badilisha Maandishi
+changenick Badilisha jina
+chatack Inakubali maongezi kutoka
+chat Ongea
+chatreq Inaomba maongezi
+chatsmileys2 Onyesha aikoni za Hisia na Visura kwenye Madirisha ya maongezi
+chatsmileys Visura vya moengezi
+checkfilman Mafaili yaliyopokewa yatahifadhiwa katika $1. Tafadhali angalia taratibu za faili-maneja katika dirisha la mapendeleo
+checkingver Inaangalia Matoleo Mapya
+checkver Angalia tolea jipya
+choosebasefont Chagua aina za maandishi
+choosebgcolor Chagua rangi ya nyuma
+choosefontcolor Chagua rangi ya maandishi
+clearlog2 Futa historia ya waongeaji wenzako wote
+clearlog3 Futa Hesabu Zote
+clearlog Futa hesabu
+clicktologin Bofya hapa kuingia
+close Funga
+closingdocks Batoni ya kufunga inafupisha
+command Amri
+confirm Unauhakika?
+confirmdelete Ni kweli unataka kufuta $1?
+connecterror Tatizo katika kuunganisha na pragramu-tumishi
+connection Muunganisho
+contactadded Muongeaji ameongezwa
+contactdoesnotexist Muongeaji hayupo!
+copy Nakili
+copytogroup Nakili kwenda kwenye kundi
+countrycode Kodi yangu ya Nchi/Mkoa
+cprofile Tengeneza Utashi
+cut Kata
+date Tarehe
+days Siku
+dcprofile Usitengeneze Utashi
+default Mpangilio wa awali
+delete Futa
+deliverfail kulikuwa na tatizo katika kupeleka ujumbe ufuatao
+delprofile Futa Utashi
+delprofile2 Chagua Utashi unaotaka uondelewe
+dockgtk Gnome Doki
+docking Inadoki
+dockingoff Doki Imezimwa
+dockkde KDE Doki
+edit Hariri
+enableproxy Ruhusu proksi
+encoding2 Badilisha jinsi herufi zako zinavyoumbwa
+encoding Chagua aina ya maandishi
+entercontactemail Weka barua-p ya muongeaji
+enterfilename Tafadhali jaza jina la faili
+enternick Jaza jina la kutumia
+examples Mifano
+exitamsn Unataka kufunga?
+extras Huduma zaidi
+faq MYM (Maswali yajibiwayo mara kwa mara)
+filedoesnotexist Faili halipo
+filename Jina la faili
+filetransfercancelled Muamisho wa faili umesitishwa
+filetransfercomplete Muamisho wa faili umekamilika
+ftaccepted Muamisho wa faili umekubalika
+ftrejected Muamisho wa faili umekataliwa
+gonelunch Amekwenda kula
+groupadd Ongeza kundi
+groupdelete Futa kundi
+groupexists Kundi lipo tayari
+group Kundi
+groupmissing Kundi alipatikani
+groupnewname Jina jipya
+groupnotempty Kundi sio tupu!
+groupoldname Jina la zamani
+grouprename Badilisha jina la kundi
+groupunknown Kundi lisilijulikana
+handle Hendo
+helpcontents Yaliyomo kwenye msaada
+help Msaada
+home Nyumbani
+ident Inatambulisha
+identity Utambulisho
+inbox Sanduku-Kuingia
+invalidusername Jina la mtumiaji siyo la kweli
+invite Karibisha
+ipaddress Anuani ya IP
+istyping $1 anaandika ujumbe
+joins $1 anajiunga na mazungumzo
+keepalive Acha iishi (NAT)
+keeplog2 Weka Hesabu ya Mazungumzo yote kwenye historia ya aMSN kwa ajili ya kutazamwa baadaye
+keeplog Weka Hesabu ya Moengezi
+language Lugha
+lastmsgtime Ujumbe wa mwisho umepokelewa saa $1
+lclosedwin $1 amefunga dirisha katika $2
+lconftopriv $1 amegeuza kusanyiko kuwa Maongezi binafsi
+lconvstarted Maongezi yameanza $1
+leaveblankforhotmail Acha wazi kwa kutumia webu ya hotmail
+leaves $1 aacha mazungumzo
+lenteredconf $1 ameingia kwenye kusanyiko katika $2
+linprivate PEMBENI
+listeningon Sikiliza katika poti $1
+listsmileys Orodhesha visura
+ljoinedconf $1 amejiunga na kusanyiko
+lleftconf  $1 ametoka kwenye kusanyiko
+loadcontacts Weka orodha ya waongeaji
+logbigger Ukubwa wa Faili ya hesabu kwa kila muongeaji hauwezi kuzidi
+logfandexp Kuisha kwa wakati kwa Ukubwa wa Faili za Heabu na historia
+loggedotherlocation Ajaunganishwa. Ameingia sehemu nyingine
+loggingin Unaingia
+loginas Ingia kama
+login Ingia ndani
+logolder Hesabu za maongezi tu ambazo zimetokea kwa
+logout Toka nje
+logsin Ameingia sasa hivi
+logsmileys Onyesha Aikoni za Hisia na Visura katika dirisha la historia la aMSN
+lprivtoconf $1 amefanya Maongezi binafsi kuwa Kusanyiko
+luclosedwin Umefunga dirisha katika $1
+mailer Kitumaji
+maximised Imekuzwa
+minimised Imefupishwa/ImefanywaAikoni
+mins dakika
+mobile simu ya mkononi
+movetogroup Nenda kwenye Kundi
+msgmaxmin Ujumbe mpya ukija, nataka uwe :
+msg Ujumbe
+msgmode Chagua jinsi ya kushughulikia madirisha ya ujumbe zaidi ya mmoja :
+msn AMSN
+mustrestart Inakubidi kuanzisha pragramu upya ili mabadiliko yatokee
+myhomephone Simu Yangu ya Nyumbani
+mymobilephone Simu Yangu ya Mkononi
+mystatus Hali yangu
+myworkphone Simu Yangu ya Kazini
+natip Ugunduzi wa IP kwa kurasa ya tovuti
+natkeepalive Kama unakatwa mara kwa mara, ruhusu hii EndelezaKuishi
+needonline Bado upo/unaonekana ujaunganishwa!
+newmail $1 ujumbe mpya katika sanduku-Kuingia
+newmailfrom Barua-p mpya kutoka
+newmsg Ujumbe mpya
+newveravailable Toleo jipya $1 linapatika kwa kutelemsha
+next Inayofuatia
+noactivity Hajishughulishi
+nonewmail Hakuna ujumbe mpya katika sanduku-kuingia
+nonewver Hakuna toleo jipya kwa ajili kutelemsha
+normal Kawaida
+notify1 Onyesha dirisha la kufahamishia wakati waongeaji wanapojiunga
+notify2 Onyesha dirisha la kufahamishia wakati ujumbe mpya unapofika
+notify3 Onyesha dirisha la kufahamishia wakati barua-p zinapofikia 
+sanduku-kuingia
+notify fahamisha
+notifyoffset Panga sehemu ya dirisha la kufahamishia kwa kulipa umbali wa sehemu
+notifywin dirisha la kufahamishia
+nousersinsession Hakuna mtumiaji katika kipindi
+offline Ujaunganishwa
+ok Sawa
+onenewmail Ujumbe 1 mpya katika sanduku-kuingia
+online Umeunganishwa
+onphone Yupo kwenye simu
+openreceived Fungua faili zilizopokewa
+options Chaguo
+ordercontactsby Panga waongeaji kwa
+ordergroupsby Panga makundi kwa
+other Nyingine
+pager Peja
+pass Neno-siri
+paste Gundika
+phone Simu
+picfile Faili ya picha (GIF < 500 x 500)
+picstatus Sauti ya picha
+port Poti
+prefalerts Ving'ora Tukio vyangu na Sauti
+prefapps Programu za matumizi
+prefawaymsg Ujumbe Wangu wa kuwa Mbali
+prefemotic Aikoni za hisia na visura
+preferences Mapendeleo
+preffont2 Badilisha jinsi wengine wanavyoona maandishi yangu katika maongezi
+preffont3 Badilisha maandishi na ukubwa wa muonekano wa aMSN
+preffont Mandishi ya Ujumbe wangu
+preflog1 Historia yangu na chaguo langu la kuingia
+preflook Muonekano wangu wa Mesenja ya aMSN
+prefmsging Sehemu yangu ya Kutumia Ujumbe
+prefname Jina/jina la kutima langu la MSN Mesenja
+prefphone2 Chapa namba za simu ambazo unataka watu \n katika oradha ruksa yako kuona \n
+prefphone Namba Zangu za Simu
+prefprofile2 Tengeneza au rekebisha utashi wako kwa wote kuona (\nmaelezo juu yako ambayo wengine wataona)
+prefprofile Utashi wangu kwa wote
+prefprofile3 Utashi wa Mpangilio wa mtumiaji wa aMSN
+prefproxy Mipangilio yangu ya Proksi
+prefsession Kusaini kwangu na Hali halisi
+prefshared Miunganisho ya kushirikiana (kwa NAT tu)
+prefsound Sauti
+profiledconfig Mpangilio uliotashiwa
+profiles Utashi
+properties Tabia
+proxyconfhttp Mpangilio wa msaada wa HTTP proksi
+proxyconf Mpangilia wa Proksi
+proxy Nipo nyuma ya Programu Tumishi ya Proksi (HTTP au SOCKS5)
+publishphones Tawanya namba zangu za simu
+receivedbytes $1 ya $2 baiti zimepokelewa
+receivefile Pokea faili
+reconnecting Unganisha tena kwenye programu-tumishi
+reconnect Subiri kujiunga tena kwa $1
+reject Kataa
+rememberpass Kumbuka neno-siri
+reversed Imewekwa kinyume
+rightback Narudi sasa hivi
+saveas Hifadhi kama
+savecontacts Hifadhi orodha ya waongeaji
+save Hifadhi
+says $1 anasema
+sbcon Inangaunisha kweye meza ya mitambo
+sendfile Tuma faili
+sendmail Tuma barua-p
+sendmsg Tuma ujumbe
+send Tuma
+sentbytes $1 ya $2 baiti zimeshatumwa
+servergoingdown Imekatishwa: Progamu-tumishi inazimwa
+server Progamu-tumishi
+session Kipindi
+sound2 Cheza sauti kama waongeaji wanaingia au wanatuma ujumbe
+sound Sauti ya tukio
+soundcommand Hii in amri ya cheza (mfn: esdplay)
+soundfile Faili ya sauti
+soundloop Sauti ya kuzunguka
+soundstatus Sauti ya alamu
+startoffline2 Saini kimya kimya kama "Onekana Ujaunganishwa"
+startoffline Anza ukiwa ujaunganiswa
+status Hali
+stopalarm Simamisha alamu
+stylechat Muonekano kama wa maongezi
+stylehist Muaonekano wa historia wa aMSN
+stylelog Chagua jinsi utakavyotaka uione historia yako
+syntaxerror  kosa katika kupanga
+tabbed Madirisha yenye Tabu
+textsize Ukubwa wa maandishi
+title Mesenja ya AL
+tools Vifaa
+to Kwenda kwa
+unblock Ruhusu
+uoffline Wasiounganishwa
+uonline Waliounganishwa
+useralreadyonlist Mtumiaji yupo kwenye orodha ya waongeaji tayari
+user Mtumiaji
+usernotonline Mtumiaji ajaunganishwa
+version Toleo
+viewprofile Angalia Utashi
+view Tazama
+willjoin Subiri $1 ajiunge na mazungumzo
+work Kazi
+xoffset nafasi X
+yoffset nafasi Y
+yousay Unasema
+youwant Unataka
