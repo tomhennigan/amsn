@@ -434,7 +434,7 @@ namespace eval ::amsn {
 		#Top frame (Picture and name of developers)
 		set developers "\nDidimo Grimaldo\nAlvaro J. Iradier\nKhalaf Philippe\nDave Mifsud"
 		frame .about.top -class Amsn
-		label .about.top.i -image msndroid
+		label .about.top.i -image [::skin::loadPixmap msndroid]
 		label .about.top.l -font splainf -text "[trans broughtby]:$developers"
 		pack .about.top.i .about.top.l -side left
 
@@ -1469,7 +1469,7 @@ namespace eval ::amsn {
 
 
 			#TODO: When we have better, smaller and transparent images, uncomment this
-			#${win_name}.f.top.text image create end -image $user_image -pady 0 -padx 2
+			#${win_name}.f.top.text image create end -image [::skin::loadPixmap $user_image] -pady 0 -padx 2
 
 			#set topmsg "${topmsg}${user_name} <${user_login}> "
 			#${win_name}.f.top.text insert end "${user_name} <${user_login}>"
@@ -2009,7 +2009,7 @@ namespace eval ::amsn {
 		#Only compatible with TCL/TK 8.4, and disable it on Mac OS X(too ugly!)
 		if { $::tcl_version >= 8.4 && $tcl_platform(os) != "Darwin"} {
 			#New skinnable button
-			button $bottom.in.f.send -image sendbutton -command "::amsn::MessageSend .${win_name} $bottom.in.input" \
+			button $bottom.in.f.send -image [::skin::loadPixmap sendbutton] -command "::amsn::MessageSend .${win_name} $bottom.in.input" \
 				-fg black -bg white -bd 0 -relief flat -overrelief flat -activebackground white \
 				-activeforeground #8c8c8c -text [trans send] -font sboldf -compound center\
 				 -highlightthickness 0
@@ -2025,7 +2025,7 @@ namespace eval ::amsn {
 
 		label $bottom.pic  -borderwidth 1 -relief solid -image [::skin::getNoDisplayPicture] -background #FFFFFF
 		set_balloon $bottom.pic [trans nopic]
-		button $bottom.showpic -bd 0 -padx 0 -pady 0 -image imgshow -bg $bgcolor -highlightthickness 0 \
+		button $bottom.showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] -bg $bgcolor -highlightthickness 0 \
 		-command "::amsn::ToggleShowPicture ${win_name}; ::amsn::ShowOrHidePicture .${win_name}" -font splainf
 			set_balloon $bottom.showpic [trans showdisplaypic]
 		grid $bottom.showpic -row 0 -column 2 -padx 0 -pady 3 -rowspan 2 -sticky ns
@@ -2045,15 +2045,15 @@ namespace eval ::amsn {
 
 
 
-		button $bottom.buttons.smileys  -image butsmile -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
+		button $bottom.buttons.smileys  -image [::skin::loadPixmap butsmile] -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.smileys [trans insertsmiley]
-		button $bottom.buttons.fontsel -image butfont -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
+		button $bottom.buttons.fontsel -image [::skin::loadPixmap butfont] -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.fontsel [trans changefont]
-		button $bottom.buttons.block -image butblock -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
+		button $bottom.buttons.block -image [::skin::loadPixmap butblock] -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.block [trans block]
-		button $bottom.buttons.sendfile -image butsend -relief flat -padx 3 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
+		button $bottom.buttons.sendfile -image [::skin::loadPixmap butsend] -relief flat -padx 3 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.sendfile [trans sendfile]
-		button $bottom.buttons.invite -image butinvite -relief flat -padx 3 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
+		button $bottom.buttons.invite -image [::skin::loadPixmap butinvite] -relief flat -padx 3 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.invite [trans invite]
 		pack $bottom.buttons.fontsel $bottom.buttons.smileys -side left
 		pack $bottom.buttons.block $bottom.buttons.sendfile $bottom.buttons.invite -side right
@@ -2350,7 +2350,7 @@ namespace eval ::amsn {
 		} elseif { $nopack == "" } {
 			grid $win.f.bottom.pic -row 0 -column 1 -padx 0 -pady 3 -rowspan 2
 			#grid forget $win.f.bottom.showpic
-			$win.f.bottom.showpic configure -image imghide
+			$win.f.bottom.showpic configure -image [::skin::loadPixmap imghide]
 			#unset_balloon $win.f.bottom.showpic
 			change_balloon $win.f.bottom.showpic [trans hidedisplaypic]
 			set show_pic 1
@@ -2363,7 +2363,7 @@ namespace eval ::amsn {
 
 		#grid $win.f.bottom.showpic -row 0 -column 1 -padx 0 -pady 0 -rowspan 2
 		#Change here to change the icon, instead of text
-		$win.f.bottom.showpic configure -image imgshow
+		$win.f.bottom.showpic configure -image [::skin::loadPixmap imgshow]
 		change_balloon $win.f.bottom.showpic [trans showdisplaypic]
 
 		set ${win}_show_picture 0
@@ -3111,7 +3111,7 @@ namespace eval ::amsn {
 			${win_name}.statusbar.status delete 0.0 end
 
 			if { "$icon"!=""} {
-				${win_name}.statusbar.status image create end -image $icon -pady 0 -padx 1
+				${win_name}.statusbar.status image create end -image [::skin::loadPixmap $icon] -pady 0 -padx 1
 			}
 
 			${win_name}.statusbar.status insert end $msg
@@ -3453,7 +3453,7 @@ namespace eval ::amsn {
 
 
 		${win_name}.f.out.text configure -state normal
-		${win_name}.f.out.text image create end -image $imagename -pady $pady -padx $pady
+		${win_name}.f.out.text image create end -image [::skin::loadPixmap $imagename] -pady $pady -padx $pady
 
 		if { $scrolling } { ${win_name}.f.out.text yview moveto 1.0 }
 
@@ -3596,22 +3596,22 @@ namespace eval ::amsn {
 
 		switch $type {
 			online {
-				$w.c create image 75 50 -image notifyonline
+				$w.c create image 75 50 -image [::skin::loadPixmap notifyonline]
 			}
 			offline {
-				$w.c create image 75 50 -image notifyoffline
+				$w.c create image 75 50 -image [::skin::loadPixmap notifyoffline]
 			}
 			state {
-				$w.c create image 75 50 -image notifystate
+				$w.c create image 75 50 -image [::skin::loadPixmap notifystate]
 			}
 			default {
-				$w.c create image 75 50 -image notifyonline
+				$w.c create image 75 50 -image [::skin::loadPixmap notifyonline]
 			}
 		}
 
-		$w.c create image 17 22 -image notifico
+		$w.c create image 17 22 -image [::skin::loadPixmap notifico]
 #		$w.c create image 80 97 -image notifybar
-		$w.c create image 142 12 -image notifclose
+		$w.c create image 142 12 -image [::skin::loadPixmap notifclose]
 
 		if {[string length $msg] >100} {
 			set msg "[string range $msg 0 100]..."
@@ -4610,7 +4610,7 @@ proc cmsn_draw_offline {} {
 	$pgBuddy.text tag bind start_loginas <Button1-ButtonRelease> \
 		"cmsn_draw_login"
 
-	$pgBuddy.text image create end -image globe -pady 5 -padx 5
+	$pgBuddy.text image create end -image [::skin::loadPixmap globe] -pady 5 -padx 5
 	$pgBuddy.text insert end "[trans language]\n" lang_sel
 
 	$pgBuddy.text insert end "\n\n\n\n"
@@ -4986,7 +4986,7 @@ proc AddProfileOk {mainframe} {
 
 #///////////////////////////////////////////////////////////////////////
 proc toggleGroup {tw name image id {padx 0} {pady 0}} {
-	label $tw.$name -image $image
+	label $tw.$name -image [::skin::loadPixmap $image]
 	$tw.$name configure -cursor hand2 -borderwidth 0
 	bind $tw.$name <Button1-ButtonRelease> "::groups::ToggleStatus $id; cmsn_draw_online"
 	$tw window create end -window $tw.$name -padx $padx -pady $pady
@@ -4995,7 +4995,7 @@ proc toggleGroup {tw name image id {padx 0} {pady 0}} {
 
 #///////////////////////////////////////////////////////////////////////
 proc clickableImage {tw name image command {padx 0} {pady 0}} {
-	label $tw.$name -image $image -background white
+	label $tw.$name -image [::skin::loadPixmap $image] -background white
 	$tw.$name configure -cursor hand2 -borderwidth 0
 	bind $tw.$name <Button1-ButtonRelease> $command
 	$tw window create end -window $tw.$name -padx $padx -pady $pady -align center -stretch true
@@ -5604,7 +5604,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 	set not_in_reverse [expr {[lsearch [::abook::getLists $user_login] RL] == -1}]
 	if {$not_in_reverse} {
 		set imgname2 "img2_[getUniqueValue]"
-		label $pgBuddy.text.$imgname2 -image notinlist 
+		label $pgBuddy.text.$imgname2 -image [::skin::loadPixmap notinlist]
 		$pgBuddy.text.$imgname2 configure -cursor hand2 -borderwidth 0
 		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname2 -padx 1 -pady 1
 		bind $pgBuddy.text.$imgname2 <Enter> \
@@ -5623,9 +5623,9 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		#regsub -all "\[^\[:alnum:\]\]" [string tolower $user_login] "_" imagee
 
 		if { [::alarms::isEnabled $user_login] } {
-			label $pgBuddy.text.$imagee -image bell
+			label $pgBuddy.text.$imagee -image [::skin::loadPixmap bell]
 		} else {
-			label $pgBuddy.text.$imagee -image belloff
+			label $pgBuddy.text.$imagee -image [::skin::loadPixmap belloff]
 		}
 
 		$pgBuddy.text.$imagee configure -cursor hand2 -borderwidth 0
@@ -5638,7 +5638,7 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 
 	#set imgname "img[expr {$::groups::uMemberCnt(online)+$::groups::uMemberCnt(offline)}]"
 	set imgname "img[getUniqueValue]"
-	label $pgBuddy.text.$imgname -image $image_type
+	label $pgBuddy.text.$imgname -image [::skin::loadPixmap $image_type]
 	$pgBuddy.text.$imgname configure -cursor hand2 -borderwidth 0
 	if { $last_element > 0 } {
 		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname -padx 3 -pady 1 -align baseline
@@ -6062,14 +6062,14 @@ proc cmsn_change_name {} {
 	frame $w.fn
 	label $w.fn.label -font sboldf -text "[trans enternick]:"
 	entry $w.fn.name -width 40 -bg #FFFFFF -bd 1 -font splainf
-	button $w.fn.smiley -image butsmile -relief flat -padx 3 -highlightthickness 0
-	button $w.fn.newline -image butnewline -relief flat -padx 3 -command "$w.fn.name insert end \"\n\""
+	button $w.fn.smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
+	button $w.fn.newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3 -command "$w.fn.name insert end \"\n\""
 
 	frame $w.p4c
 	label $w.p4c.label -font sboldf -text "[trans friendlyname]:"
 	entry $w.p4c.name -width 40 -bg #FFFFFF -bd 1 -font splainf
-	button $w.p4c.smiley -image butsmile -relief flat -padx 3 -highlightthickness 0
-	button $w.p4c.newline -image butnewline -relief flat -padx 3 -command "$w.p4c.name insert end \"\n\""
+	button $w.p4c.smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
+	button $w.p4c.newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3 -command "$w.p4c.name insert end \"\n\""
 
 	frame $w.fb
 	button $w.fb.ok -text [trans ok] -command change_name_ok 
@@ -6759,7 +6759,7 @@ proc check_version {} {
 	ShowTransient .checking
 	canvas .checking.c -width 250 -height 50
 
-	label .checking.d -image download
+	label .checking.d -image [::skin::loadPixmap download]
 	.checking.c create text 125 25 -font splainf -anchor n \
 		-text "[trans checkingver]..." -justify center -width 250
 	pack .checking.d -expand true -side left
@@ -7831,7 +7831,7 @@ proc show_bug_dialog {} {
 	label $w.msg -justify left -text [trans tkerror [file join $::HOME2 bugreport.amsn]] -wraplength 300 -font sboldf
 	pack $w.msg -in $w.top -side right -expand 1 -fill both -padx 3m -pady 3m
 
-	label $w.bitmap -image warning
+	label $w.bitmap -image [::skin::loadPixmap warning]
 	pack $w.bitmap -in $w.top -side left -padx 3m -pady 3m
 
 	checkbutton $w.ignoreerrors -text [trans ignoreerrors] -variable "dont_give_bug_reports" -font sboldf

@@ -5,34 +5,42 @@
 #########################################################
 
 namespace eval ::skin {
+
+	###############################
+	# Standard Pixmaps
+	###############################
+
 	proc setPixmap {pixmap_name pixmap_file} {
+		#Sets the image name - file name association,
+		#but load on demand
 		variable pixmap_names
 		set pixmap_names($pixmap_name) $pixmap_file
-		
-		#For now, load Images
-		loadPixmap $pixmap_name
 	}
 	
-	# Right now this procedure does nothing, but in the future, we can
-	# delay the actual image loading until it's required, instead of
-	# loading it in setImage
+	#Check if the image was previously loaded, or we need to load
+	#it. This way, the pixmaps will be loaded first time they're used,
+	#on demand
 	proc loadPixmap {image_name} {
+	
+		#Check if pixmap is already loaded
 		variable loaded_pixmaps
-		variable pixmap_names
-		
 		if { [info exists loaded_pixmaps($image_name)] } {
 			return $image_name
 		}
 		
+		#Not loaded, so let's load it
+		variable pixmap_names
 		set image_file $pixmap_names($image_name)
-		
 		image create photo $image_name -file [GetSkinFile pixmaps $image_file] -format gif
 		set loaded_pixmaps($image_name) 1
 	
 		return $image_name
 	}
 	
-	#Some special images!	
+	###############################
+	#Some special images!
+	###############################
+		
 	proc getNoDisplayPicture { {skin_name ""} } {
 		variable loaded_images
 		if { [info exists loaded_images(no_pic)] } {
@@ -235,9 +243,9 @@ proc applychanges { } {
 	
 	# If our skin hasn't the example images, take them from the default one
 	image create photo preview1 -file [GetSkinFile pixmaps prefpers.gif $currentskin] -format gif
-	image create photo preview2 -file [GetSkinFile pixmaps bonline.gif $currentskin] -format gif		
-	image create photo preview3 -file [GetSkinFile pixmaps offline.gif $currentskin] -format gif		
-	image create photo preview4 -file [GetSkinFile pixmaps baway.gif $currentskin] -format gif	
+	image create photo preview2 -file [GetSkinFile pixmaps bonline.gif $currentskin] -format gif
+	image create photo preview3 -file [GetSkinFile pixmaps offline.gif $currentskin] -format gif
+	image create photo preview4 -file [GetSkinFile pixmaps baway.gif $currentskin] -format gif
 	image create photo preview5 -file [GetSkinFile pixmaps amsnicon.gif $currentskin] -format gif
 	image create photo preview6 -file [GetSkinFile pixmaps butblock.gif $currentskin] -format gif
 	image create photo preview7 -file [GetSkinFile pixmaps butsmile.gif $currentskin] -format gif

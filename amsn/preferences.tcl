@@ -291,7 +291,7 @@ proc Preferences { { settings "personal"} } {
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefname] -font splainf]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	frame $lfname.1 -class Degt
-	label $lfname.pname -image prefpers
+	label $lfname.pname -image [::skin::loadPixmap prefpers]
 	frame $lfname.1.name -class Degt
 	label $lfname.1.name.label -text "[trans enternick] :" -font sboldf -padx 10
 	entry $lfname.1.name.entry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 45
@@ -307,7 +307,7 @@ proc Preferences { { settings "personal"} } {
 	## Public Profile Frame ##
 	#set lfname [LabelFrame:create $frm.lfname2 -text [trans prefprofile]]
 	#pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
-	#label $lfname.pprofile -image prefprofile
+	#label $lfname.pprofile -image [::skin::loadPixmap prefprofile]
 	#label $lfname.lprofile -text [trans prefprofile2] -padx 10
 	#button $lfname.bprofile -text [trans editprofile] -font sboldf -command "" -state disabled
 	#pack $lfname.pprofile $lfname.lprofile -side left
@@ -316,7 +316,7 @@ proc Preferences { { settings "personal"} } {
 	## Chat Font Frame ##
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans preffont]]
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
-	label $lfname.pfont -image preffont
+	label $lfname.pfont -image [::skin::loadPixmap preffont]
 	label $lfname.lfont -text [trans preffont2] -padx 10
 	button $lfname.bfont -text [trans changefont] -font sboldf -command "change_myfont cfg"
 	pack $lfname.pfont $lfname.lfont -side left
@@ -327,7 +327,7 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname4 -anchor n -side top -expand 1 -fill x 
 	frame $lfname.1 -class Degt
 	frame $lfname.2 -class Degt
-	label $lfname.1.pphone -image prefphone
+	label $lfname.1.pphone -image [::skin::loadPixmap prefphone]
 	pack $lfname.1.pphone -side left -anchor nw
 	label $lfname.1.lphone -text [trans prefphone2] -padx 10
 	pack $lfname.1.lphone -fill both -side left
@@ -381,7 +381,7 @@ proc Preferences { { settings "personal"} } {
 	## General aMSN Look Options (Encoding, BGcolor, General Font, Clock Format)
 	set lfname [LabelFrame:create $frm.lfname -text [trans preflook]]
 	pack $frm.lfname -anchor n -side top -expand 0 -fill x
-	label $lfname.plook -image preflook
+	label $lfname.plook -image [::skin::loadPixmap preflook]
 	frame $lfname.1 -class Degt
 	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
@@ -414,7 +414,7 @@ proc Preferences { { settings "personal"} } {
 	## Emoticons Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefemotic]]
 	pack $frm.lfname2 -anchor n -side top -expand 0 -fill x
-	label $lfname.pemotic -image prefemotic
+	label $lfname.pemotic -image [::skin::loadPixmap prefemotic]
 	pack $lfname.pemotic -side left -anchor nw
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -side left -padx 0 -pady 0 -expand 1 -fill x
@@ -429,7 +429,7 @@ proc Preferences { { settings "personal"} } {
 	## Alerts and Sounds Frame ##
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefalerts]]
 	pack $frm.lfname3 -anchor n -side top -expand 0 -fill x
-	label $lfname.palerts -image prefalerts
+	label $lfname.palerts -image [::skin::loadPixmap prefalerts]
 	pack $lfname.palerts -side left -anchor nw
 	frame $lfname.1 -class Degt
 	checkbutton $lfname.1.alert1 -text "[trans shownotify]" -onvalue 1 -offvalue 0 -variable [::config::getVar shownotify]
@@ -467,7 +467,7 @@ proc Preferences { { settings "personal"} } {
 	## Sign In and AutoStatus Options Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefsession]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
-	label $lfname.psession -image prefstatus
+	label $lfname.psession -image [::skin::loadPixmap prefstatus]
 	pack $lfname.psession -anchor nw -side left
 	frame $lfname.1 -class Degt
 	frame $lfname.2 -class Degt
@@ -491,7 +491,7 @@ proc Preferences { { settings "personal"} } {
 	## Away Messages Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefawaymsg]]
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
-	label $lfname.psession -image prefaway
+	label $lfname.psession -image [::skin::loadPixmap prefaway]
 	pack $lfname.psession -anchor nw -side left
 	frame $lfname.statelist -relief sunken -borderwidth 3
 	listbox $lfname.statelist.box -yscrollcommand "$lfname.statelist.ys set" -font splainf -background \
@@ -513,7 +513,7 @@ proc Preferences { { settings "personal"} } {
 	## Messaging Interface Frame ##
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefmsging]]
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
-	label $lfname.pmsging -image prefmsg
+	label $lfname.pmsging -image [::skin::loadPixmap prefmsg]
 	pack $lfname.pmsging -anchor nw -side left
 	frame $lfname.1 -class Degt
 	frame $lfname.2 -class Degt
@@ -585,7 +585,7 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfcontact -anchor n -side top -expand 1 -fill x
 
 	## Group Selection Frame ##
-	label $lfgroup.group -image prefpersc
+	label $lfgroup.group -image [::skin::loadPixmap prefpersc]
 	pack $lfgroup.group -side left
 	frame $lfgroup.lbgroup
 	pack $lfgroup.lbgroup -side left -anchor n -expand true -fill both -padx 10
@@ -606,7 +606,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfgroup.lbgroup.b.bdel -side top -pady 2 -anchor w
 
 	## Contact Selection Frame ##
-	label $lfcontact.contact -image prefprofilec
+	label $lfcontact.contact -image [::skin::loadPixmap prefprofilec]
 	pack $lfcontact.contact -side left
 	frame $lfcontact.lbcontact 
 	pack $lfcontact.lbcontact -side left -anchor n -expand 1 -fill x -padx 10
@@ -651,7 +651,7 @@ proc Preferences { { settings "personal"} } {
 	## Loging Options Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans preflog1]]
 	pack $frm.lfname -anchor n -side top -expand 0 -fill x
-	label $lfname.plog1 -image prefhist
+	label $lfname.plog1 -image [::skin::loadPixmap prefhist]
 	pack $lfname.plog1 -anchor nw -side left
 	checkbutton $lfname.log -text "[trans keeplog2]" -onvalue 1 -offvalue 0 -variable [::config::getVar keep_logs]
 	checkbutton $lfname.date -text "[trans logsbydate]" -onvalue 1 -offvalue 0 -variable [::config::getVar logsbydate]
@@ -671,7 +671,7 @@ proc Preferences { { settings "personal"} } {
 	## Clear All Logs Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans clearlog]]
 	pack $frm.lfname2 -anchor n -side top -expand 0 -fill x
-	label $lfname.plog1 -image prefhist2
+	label $lfname.plog1 -image [::skin::loadPixmap prefhist2]
 	pack $lfname.plog1 -anchor nw -side left
 	frame $lfname.1 -class Degt
 	label $lfname.1.lclear -text "[trans clearlog2]" -padx 10
@@ -683,7 +683,7 @@ proc Preferences { { settings "personal"} } {
 	## Logs Expiry Frame ##
 #	set lfname [LabelFrame:create $frm.lfname3 -text [trans logfandexp]]
 #	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
-#	label $lfname.plog1 -image prefhist3
+#	label $lfname.plog1 -image [::skin::loadPixmap prefhist3]
 #	pack $lfname.plog1 -anchor nw -side left
 #	frame $lfname.1 -class Degt
 #	checkbutton $lfname.1.lolder -text "[trans logolder]" -onvalue 1 -offvalue 0 -variable [::config::getVar logexpiry] -state disabled
@@ -741,7 +741,7 @@ proc Preferences { { settings "personal"} } {
 	## Connection Frame ##
 	set lfname [LabelFrame:create $frm.lfnameconnection -text [trans prefconnection]]
 	pack $frm.lfnameconnection -anchor n -side top -expand 1 -fill x
-	label $lfname.pshared -image prefproxy
+	label $lfname.pshared -image [::skin::loadPixmap prefproxy]
 	pack $lfname.pshared -side left -anchor nw	
 	
 	frame $lfname.1 -class Degt
@@ -794,7 +794,7 @@ proc Preferences { { settings "personal"} } {
 	## NAT (or similar) Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefft]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
-	label $lfname.pshared -image prefnat
+	label $lfname.pshared -image [::skin::loadPixmap prefnat]
 	pack $lfname.pshared -side left -anchor nw
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
@@ -819,7 +819,7 @@ proc Preferences { { settings "personal"} } {
         ## Remote Control Frame ##
         set lfname [LabelFrame:create $frm.lfname3 -text [trans prefremote]]
         pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
-	label $lfname.pshared -image prefremote
+	label $lfname.pshared -image [::skin::loadPixmap prefremote]
 	pack $lfname.pshared -side left -anchor nw
 	frame $lfname.1 -class Degt
         frame $lfname.2 -class Degt
@@ -852,7 +852,7 @@ proc Preferences { { settings "personal"} } {
 	## Delete Profiles Frame ##
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefprofile3]]
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
-	label $lfname.pprofile -image prefapps
+	label $lfname.pprofile -image [::skin::loadPixmap prefapps]
 	pack $lfname.pprofile -side left -anchor nw
 	frame $lfname.1 -class Degt
 	label $lfname.1.ldelprofile -text "[trans delprofile2]" -font sboldf -padx 5
@@ -866,7 +866,7 @@ proc Preferences { { settings "personal"} } {
 	## Applications Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefapps]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
-	label $lfname.pshared -image prefapps
+	label $lfname.pshared -image [::skin::loadPixmap prefapps]
 	pack $lfname.pshared -side left -anchor nw
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -expand 0 -fill both
@@ -920,7 +920,7 @@ proc Preferences { { settings "personal"} } {
 	## Library directories frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans preflibs]]
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
-	label $lfname.pshared -image prefapps
+	label $lfname.pshared -image [::skin::loadPixmap prefapps]
 	pack $lfname.pshared -side left -anchor nw
 
 	frame $lfname.1 -class Degt
@@ -989,7 +989,7 @@ proc Preferences { { settings "personal"} } {
          # Allow/Block lists
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefprivacy]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill both
-	label $lfname.pprivacy -image prefapps
+	label $lfname.pprivacy -image [::skin::loadPixmap prefapps]
 	pack $lfname.pprivacy -anchor nw -side left
 
 	frame $lfname.allowlist -relief sunken -borderwidth 3
@@ -1035,7 +1035,7 @@ proc Preferences { { settings "personal"} } {
         # Contact/Reverse lists
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefprivacy2]]
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill both
-	label $lfname.pprivacy -image prefapps
+	label $lfname.pprivacy -image [::skin::loadPixmap prefapps]
 	pack $lfname.pprivacy -anchor nw -side left
 
 	frame $lfname.contactlist -relief sunken -borderwidth 3
@@ -1097,7 +1097,7 @@ proc Preferences { { settings "personal"} } {
 	## Check on disconnect ##
 	#set lfname [LabelFrame:create $frm.lfname -text [trans prefblock1]]
 	#pack $frm.lfname -anchor n -side top -expand 1 -fill x
-	#label $lfname.ppref1 -image prefapps
+	#label $lfname.ppref1 -image [::skin::loadPixmap prefapps]
 	#pack $lfname.ppref1 -side left -padx 5 -pady 5 
 	#checkbutton $lfname.enable -text "[trans checkonfln]" -onvalue 1 -offvalue 0 -variable [::config::getVar checkonfln]
 	#pack $lfname.enable  -anchor w -side left -padx 0 -pady 5 
@@ -1105,7 +1105,7 @@ proc Preferences { { settings "personal"} } {
 	## "You have been blocked" group ##
 	#set lfname [LabelFrame:create $frm.lfname3 -text [trans prefblock3]]
 	#pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
-	#label $lfname.ppref3 -image prefapps
+	#label $lfname.ppref3 -image [::skin::loadPixmap prefapps]
 	#pack $lfname.ppref3 -side left -padx 5 -pady 5 
 	#checkbutton $lfname.group -text "[trans blockedyougroup]" -onvalue 1 -offvalue 0 -variable [::config::getVar showblockedgroup]
 	#pack $lfname.group  -anchor w -side left -padx 0 -pady 5 
@@ -1113,7 +1113,7 @@ proc Preferences { { settings "personal"} } {
 	## Continuously check ##
 	#set lfname [LabelFrame:create $frm.lfname2 -text [trans prefblock2]]
 	#pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
-	#label $lfname.ppref2 -image prefapps
+	#label $lfname.ppref2 -image [::skin::loadPixmap prefapps]
 	#pack $lfname.ppref2 -side left -padx 5 -pady 5 
 
 	#frame $lfname.enable -class Degt

@@ -294,7 +294,7 @@ proc EditNewState { mode { idx "" } } {
 		return 0
 	}
 
-	image create photo prefaway -file [file join [GetSkinFile pixmaps prefaway.gif]]
+	::skin::setPixmap prefaway [file join [GetSkinFile pixmaps prefaway.gif]]
 
 	toplevel .editstate
 	wm group .editstate .
@@ -311,7 +311,7 @@ proc EditNewState { mode { idx "" } } {
 	pack $lfname -anchor n -side top -expand 1 -fill x
     
 	frame .editstate.1 -class Degt
-	label .editstate.1.away -image prefaway
+	label .editstate.1.away -image [::skin::loadPixmap prefaway]
 	pack .editstate.1.away -side left -anchor nw
     
 	if { $mode == 0 || $mode == 1 } {

@@ -41,13 +41,8 @@ package require http
 proc adv_initialize { win } {
     global adv_cycle adv_enable adv_paused adv_after_id bgcolor
 
-#    image create photo banner
-#    banner blank
-
     label ${win}.banner -bd 0 -relief flat -background #FFFFFF
-#    label ${win}.banner -bd 0 -relief flat -background $bgcolor
     pack ${win}.banner -side bottom -fill x
-#    ${win}.banner configure -image banner
 
     # Banner is clickable, but so far no way to get the URL
     # that corresponds to that banner

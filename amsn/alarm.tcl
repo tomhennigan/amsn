@@ -345,9 +345,9 @@ proc switch_alarm { user icon} {
 proc redraw_alarm_icon { user icon } {
 
 	if { [::alarms::getAlarmItem $user enabled] == 1 } {
-		$icon configure -image bell
+		$icon configure -image [::skin::loadPixmap bell]
 	} else {
-		$icon configure -image belloff
+		$icon configure -image [::skin::loadPixmap belloff]
 	}
 }
 
