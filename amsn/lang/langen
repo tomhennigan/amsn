@@ -192,6 +192,7 @@ nologfile No Log file for $1
 nonewmail No new messages in In-Box
 nonewver There are no new versions available to download
 normal Normal
+nosystemtray System tray not available
 notify1 Display notify window when contacts come online
 notify2 Display notify window when new messages are received
 notify3 Display notify window when e-mails reach your InBox
