@@ -34,6 +34,7 @@ bgcolor Die Hintergrundfarbe von aMSN ändern
 blankdirect Bei direkter Verbindung leer lassen
 block Blockieren
 blocked Blockiert
+blockmessage Diese Personen sind Online und blocken Sie
 broughtby Von diesen Entwickler für dich gebracht
 browse Navigieren
 browser Browser
@@ -264,6 +265,7 @@ sentbytes $1 von $2 Bytes gesendet
 servergoingdown Verbindungsabbruch: Serverfehler
 server Server
 session Session
+showblockedlist Zeigt eine Liste mit Personen von denen Sie geblockt werden
 sound2 Klang wiedergeben, wenn sich ein Kontakt anmeldet oder eine Nachricht schreibt
 soundcommand Muss das Play Kommando sein (Bsp.: esdplay)
 sound Akustische Signale
@@ -291,8 +293,11 @@ uoffline Offline
 uonline Online
 useralreadyonlist Benutzer ist bereits in Kontaktliste
 user Benutzer
+userblocked Der Benutzer ist Online aber er blockt Sie ab
 usernotonline Benutzer ist nicht online
+useryourself Sie können nicht mit sich selbst chatten
 version Version
+verifyblocked Überprüfen wer Sie blockiert
 view Ansicht
 viewprofile Profil ansehen
 willjoin Warte... $1 wird dem Chat hinzugefügt
@@ -300,5 +305,6 @@ work Arbeit
 wrongprofileversion Falsche Version der Profil-Konfigurationsdatei. Um das Problem zu beheben entfernen Sie bitte das Verzeichnis $1, oder installieren Sie eine aktuelle Version von aMSN.
 xoffset X Offset
 yoffset Y Offset
+youblocked Sie wurden blockiert
 yousay Du sagst
 youwant Du willst
