@@ -6,9 +6,9 @@ actions Mûveletek
 activeautoupdate Auto-frissítés akiválása
 add hozzáad
 addacontact Partner hozzáadása
-addedyou $1 ($2) Téged hozzáadott a partnerlistájához
+addedyou $1 ($2) hozzáadta Önt a partnerlistájához
 addprofile Új Profil hozzáadása
-addprofiledesc Add meg a létrehozandó profil nevét. \nA Profilok használatával különbözõ beállításokat alkalmazhatsz minden profilra.\nA Profilok nélkül nem használhatod az Elõzményeket, a Figyelmeztetõ jelzéseket vagy a ,Jelszó megjegyzése' funkciót.
+addprofiledesc Adja meg a létrehozandó profil nevét. \nA Profilok használatával különbözõ beállításokat alkalmazhat minden profilra.\nA Profilok nélkül nem használhatja az Elõzményeket, a Figyelmeztetõ jelzéseket vagy a ,Jelszó megjegyzése' funkciót.
 addstate Saját állapot hozzáadása
 addto add a $1 -hez
 addtocontacts Hozzáadás a partnerlistához
@@ -18,19 +18,19 @@ admingroups Csoportok szerkesztése
 advanced Haladó
 advancedprefs Haladó beállítások
 adverts Hírdetések
-agotinvitation Hangos beszélgetésre felkért: $1
+agotinvitation Hangos beszélgetésre felkérte: $1
 alarmonconnect Riasztás amikor egy felhasználó bejelentkezik
 alarmondisconnect Riasztás amikor egy felhasználó kijelentkezik / kapcsolat elrejtése módba kapcsol
 alarmonmsg Riasztás amikor egy felhasználó üzenetet küldd neked
 alarmonstatus Riasztás amikor egy felhasználó megváltoztatja az állapotát
-alarmpref Figyelmeztetõ jeézés ennek a felhasználónak
+alarmpref Figyelmeztetõ jelzés ennek a felhasználónak
 alarms Riasztások
 alarmstatus Figyelmeztetõ jelzés KI/BE kapcsolása ehhez a felhasználóhoz
-allfiles Minden file
+allfiles Minden fájl
 allowallbutbl A letiltottak listáján szereplõ felhasználók is beszélgethessenek velem
 allowbadwords Nevek cenzúrázásának kikapcsolása
 allowlist Engedélyezettek listája (AL):
-allowonlyinal Csak az EngedélyezettekListáján szereplõ felhasználóek beszélhessenek velem
+allowonlyinal Csak az Engedélyezettek Listáján szereplõ felhasználók beszélhessenek velem
 allowseen Ez a személy mindig láthat ha bejelentkezem
 allow_sms Engedélyezem, hogy az MSN mobil készülékemen is elérhessenek.
 allprofilesinuse Minden létezõ profil használatban van
@@ -45,7 +45,7 @@ author Szerzõ
 autoaccepted Fájl átvitel automatikusan elindítva
 autoacceptft Automatikusan fogadja el a fájl átviteleket
 autoaway "Nem vagyok itt" használata ha inaktív vagyok
-autocheckver Indításnál ellenõrizze automatikusan van-e újabb verzió
+autocheckver Indításnál ellenõrizze automatikusan, hogy van-e újabb verzió
 autoconnect Kapcsolódás az AMSN indulásakor
 autoconnect2 Automatikus bejelentkezés az aMSN indításakor
 autodetectip IP cím automatikus bemérése
@@ -110,13 +110,13 @@ checkemail Mutass levél információt a kapcsolati listában
 checkfilman A bejövõ fájlok ide lesznek mentve : $1. Légyszíves ellenõrizd a fájl kezelõ beállításokat.
 checkingver Új verzió ellenõrzése folyamatban...
 checkonfln Ellenõrizze, hogy ha egy felhasználó kijelentkezik és letilt téged
-checkver Új verzó ellenõrzése
+checkver Új verzó keresése
 choosearq Válaszd ki a rendszered
 choosebasefont Betûtípus választása
 choosebgcolor Háttérszín választása
 choosecontact Légyszíves válassz valakit a listából
 choosefontcolor Betû szín választása
-chooseskin Légyszíves válaszd ki a használni kívánt felületet
+chooseskin Kérem, válassza ki a használni kívánt felületet
 ch_to_state Új állapotba váltás
 clear Törlés
 clearlog Naplófájl törlése
@@ -126,7 +126,7 @@ clicktoadd Kattints a hozzáad gombra egy új jegyzet hozzáadásához
 clicktologin Kattints ide a bejelentkezéshez
 clientcaps küldj x-clientcaps csomagot más partnereknek
 clientname Kliens név
-close Bezárás
+close Kilépés
 closed A beszélgetés közted és $1 között bezárult inaktivitás miatt
 closingdocks Bezáró gombra dokkolás (minimalizálás)
 command Parancs
@@ -343,33 +343,33 @@ listsmileys2 Mosoly és egyéb jelek megjelenítése a partner listán
 ljoinedconf $1 csatlakozott a beszélgetéshez
 lleftconf $1 elhagyta a beszélgetést
 load Töltés
-loadcontacts Partnerlista töltése
+loadcontacts Partnerlista betöltése
 logbigger A naplófájlok egyik partnerrel sem érik el a maximumot
 logeventconnect Kapcsolatok naplózása
 logeventdisconnect Lecsatlakozások naplózása
 logeventemail E-mail üzenetek naplózása
 logeventstate Állapot váltások naplózása
 logfandexp Naplófájlok mérete és elõzmények megtartási ideje
-loggedotherlocation Megszakítva. Belépés másik helyrõl.
-loggingin Belépve
+loggedotherlocation Megszakítva. Bejelentkezett egy másik helyrõl.
+loggingin Bejelentkezés...
 login Bejelentkezés
 loginas Bejelentkezés mint
 loging Naplózás
 logolder Csak azon beszélgetések naplózása, melyek le lettek folytatva az elmúlt
-logout Kilépés
+logout Kijelentkezés
 logsbydate A naplók dátum szerinti rendezése (Az elõzmények betöltése gyorsabb)
 logsin Bejelentkezett
 logsmileys Mosolyjelek megjelenítése a naplófájlokban
 logsout kijelentkezett
 longnick A beceneved hoszabb mint 130 karakter. Az MSN protokoll ezt nem támogatja.. biztos hogy használni akarod?
 longp4c A baráti neved hosszabb mint 130 karakter. Az AMSN-ben megjelenö baráti neved $1 lesz. Biztos beállítod?
-lprivtoconf A privát beszélgetés konferenciávávált a következõ felhasználóval: $1
+lprivtoconf A privát beszélgetés konferenciává vált a következõ felhasználóval: $1
 luclosedwin Bezártad az ablakot vele: $1
 mailer Levelezõ
 mailerexample ( \$recipient = Címzett ) Hagyd üresen a hotmail használatához
 maintenance A kiszolgáló leáll javításra $1 percen belül
 maximised Teljes méret
-minimised kisméred/Ikonméret
+minimised kis méret/Ikonméret
 mins perc után
 mobile Mobil
 modified Módosítva
@@ -398,8 +398,8 @@ needonline Az állapotod offline!
 needwinico2 A winico05.dll -re van szükség a utils/windows mappában a tálcára zároláshoz
 never Soha
 new_ft_protocol Használd az új file átviteli eljárást (kicsit hibás lehet)
-newmail $1 új üzeneted van
-newmailfolder $1 leveled van egyéb Hotmail könyvtárakban
+newmail $1 új levele van
+newmailfolder $1 levele van egyéb Hotmail könyvtárakban
 newmailfrom Új levél érkezett... $1 ($2)
 newmailfromother Új levél $1 -tõl eltérõ mappában ($2)
 newmsg Új levél
@@ -415,8 +415,8 @@ nogap Nincs szünet a csoportok közt
 nogroup Nincs csoport
 nologfile Nincs naplófájl tõle ( $1 )
 noneavailable Nem elérhetõ
-nonewmail Nincs új üzeneted
-nonewver Nincs elérhetõ új verzió
+nonewmail Nincs új üzenete
+nonewver Nincs elérhetõ újabb verzió
 nopic Nincs kép
 noprofileexists Nincsenek profilok, \n létre kell hoznod egyet, hogy profillal jelentkezhess be. \nKlikkelj az , Új profil hozzáadása gombra.
 normal Normál
@@ -442,7 +442,7 @@ nousersinsession Nincs felhasználó a kapcsolatok között
 nudge $1 A figyelmedet szerené
 offline Kapcsolat nélkül
 ok Rendben
-onenewmail 1 új üzeneted van
+onenewmail Egy új üzenete van
 online Elérhetõ
 onphone Telefonálok
 openreceived A beérkezett fájlok megnyitása
@@ -625,7 +625,7 @@ triggers Szöveg csapdák
 truncatenames1 Azon nevek rövidítése, amelyek hosszabbak mint az ablak vagy mint a partner listád
 truncatenames2 Azon nevek rövidítése, amelyek hosszabbak mint a beszélgetõ ablak szélessége
 truncatenicks Azon nevek rövidítése, amelyek hosszabbak mint az ablak szélessége
-twonewmail $1 új üzeneted van
+twonewmail $1 új üzenete van
 unblock Blokkolás feloldása
 unknown Ismeretlen
 unload eltávolítás

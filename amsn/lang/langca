@@ -650,3 +650,28 @@ preview Vista preliminar
 unknown Desconegut
 update Actualització
 yesblock Si i blocar
+add Afegir
+allow_sms Permetre als usuaris contactar amb mi  través d'un dispositiu MSN mobile
+checkopenfilecommand Si us plau, comprova el commandament d'obertura de fitxers a la finestra de prefeències
+clicktoadd Click al botó afegir per una nova nota
+contact Contacte
+conversationwith $1 usuaris a la conversa
+created Creat
+currentnotes Notes actuals
+deleteall El·limina-ho tot
+globalcontainer Contanidor global
+inserttextnote Introdueix text al camp subjecte i el camp nota, i després fes click a desar
+mobilegrp1 Grup Mòbil
+mobilegrp2 INtrodueix usuaris al grup "Mòbil" quan estan fora de linia (i ordenats per estat)
+modified Modificat
+newtabbedfeature aMSN té una nova opció per administrar les converses, ara fots tenir totes les finestres del mateix grup o de tota la llista de contactes a una finestra amb pestanyes. Si us plau selecciona la manera en que l'aMSN a de administrar les teves converses
+note Nota
+nottabbed Finestres normal sense pestanyes
+opendir Directori obert
+openfile Obrir
+openfilecommand Commandament d'obertura de fitxers
+sendmobmsg $1 enviar a un dispositiu mòbil
+subject Subjecte
+subjectrequired Subjecte requerit
+tabbedglobal Una finestra amb pestanyes per a tots els usuaris de la llista de contactes
+tabbedgroups Una finestra amb pestanyes per els usuaris de la mateix grup

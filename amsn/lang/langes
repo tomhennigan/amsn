@@ -667,3 +667,8 @@ yoffset Desplazamiento Y
 youblocked Has sido bloqueado
 yousay Tú dices
 youwant Quieres
+checkopenfilecommand Por favor revisa el comando de abrir archivos en la ventana de preferencias
+deleteall Borrar todo
+opendir Abrir carpeta
+openfile Abrir
+openfilecommand Comando para abrir archivos
