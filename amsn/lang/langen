@@ -270,6 +270,7 @@ notify2 Display notify window when new messages are received
 notify3 Display notify window when e-mails reach your Inbox
 notifyoffset Set the position of the notify window by giving it position offsets
 notifywin Notify Window
+notls The MSN Protocol 9 requires the tls package. This package does not seem to be installed on this machine. If it's installed, the path to the library directory should be specified in the Preferences window (ex: /opt/tls/lib). \n \n It's possible to download tls from http://tls.sf.net.
 nousersinsession No users in session
 offline Offline
 ok Ok
@@ -302,6 +303,7 @@ preferences Preferences
 preffont My Message Text
 preffont2 Change the way others see my text in chats
 preffont3 Change aMSN's interface font and size
+preflibs Libraries directories
 preflog1 My History and Logging Options
 preflook My aMSN Messenger Look
 prefmsging My Messaging Interface

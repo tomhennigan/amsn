@@ -791,6 +791,13 @@ namespace eval ::MSN {
 
    proc connect { username password } {
 
+      global config
+      if { $config(libtls) == "" && $config(protocol) == 9 } {
+          ::amsn::infoMsg [trans notls]
+          set config(protocol) 7
+          return
+      }
+
       #Log out
       .main_menu.file entryconfigure 2 -state normal
 
@@ -3278,14 +3285,10 @@ proc cmsn_auth_msnp9 {{recv ""}} {
    global config list_version info protocol
 
    if {$protocol == "9"} {
-      if [catch {package require tls}] {
+      if [catch {package require $config(libtls)}] {
          # Either tls is not installed, or $auto_path does not point to it.
-
-         # TODO: We should be able to specify the location of tls in the
-         #       settings (at least I use non-standard app paths). -AH
-
-         # TODO: Maybe use ::amsn::infoMsg() instead of a log message (?).
-
+         # Should now never happen; the check for the presence of tls is made
+         # before this point.
          status_log "Could not find the package tls on this system.\n"
          return -1
       }

@@ -810,6 +810,20 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.1.sound -row 4 -column 2 -sticky w
 	grid $lfname.1.sound2 -row 4 -column 3 -sticky w
 
+    ## Library directories frame ##
+    set lfname [LabelFrame:create $frm.lfname2 -text [trans preflibs]]
+    pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
+    label $lfname.pshared -image prefapps
+    pack $lfname.pshared -side left -anchor nw
+
+    frame $lfname.1 -class Degt
+    pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill both
+    label $lfname.1.llibtls -text "tls :" -padx 5
+    entry $lfname.1.libtls -bg #FFFFFF -bd 1 -width 40 -highlightthickness 0 -textvariable config(libtls)
+
+    grid $lfname.1.llibtls -row 1 -column 1 -sticky w
+    grid $lfname.1.libtls  -row 1 -column 2 -sticky w
+
 	frame $frm.dummy -class Degt
 	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 
@@ -1539,6 +1553,10 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.77  2003/09/11 04:54:12  ahamelin
+# New configuration setting for the location of tls and added a check for
+# the presence of the package.
+#
 # Revision 1.76  2003/09/08 03:45:59  kakaroto
 # improved blocking thing..
 # fixed bug with smileys

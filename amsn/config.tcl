@@ -3,7 +3,7 @@
 #
 
 proc ConfigDefaults {} {
-	global config tcl_platform password
+	global config tcl_platform password auto_path
 	set config(protocol) "7"		;# Witch MSN Protocol do you prefeer too use
 	set config(login) ""			;# These are defaults for users without
 	set config(save_password) 0		;# a config file
@@ -105,6 +105,16 @@ proc ConfigDefaults {} {
 	set config(flicker) 1
 	set config(autocheckver) 1
 	set password ""
+
+    # Try to guess where the tls package is installed. Default to no value
+    # if we can't find anything relevant.
+    set config(libtls) ""
+    foreach dir $auto_path {
+        if { ![catch {glob [file join $dir "tls*"]} files] } {
+            set config(libtls) [lindex $files 0]
+            break
+        }
+    }
 }
 
 namespace eval ::config {
@@ -161,7 +171,7 @@ proc save_config {} {
 	set key [string range "${loginback}dummykey" 0 7]
 	binary scan [::des::encrypt $key "${password}\n"] h* encpass
 	puts $file_id "   <entry>\n      <attribute>encpassword</attribute>\n      <value>$encpass</value>\n   </entry>"
-	puts $file_id "encpassword $encpass"
+	puts $file_id2 "encpassword $encpass"
     }
 
     set key [string range "${loginback}dummykey" 0 7]
