@@ -1470,6 +1470,8 @@ proc ns_enter {} {
    } elseif {$command != ""} {
      if {[catch {eval $command} res]} {
         msg_box "$res"
+     } else {
+       status_log "$res\n"
      }
    }
    
