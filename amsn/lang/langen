@@ -43,6 +43,11 @@ filetransfercancelled File transfer cancelled
 filetransfercomplete File transfer complete
 gonelunch Gone to lunch
 group Group
+groupadd Add a group
+groupdelete Delete a group
+grouprename Rename a group
+groupoldname Old name
+groupnewname New name
 handle Handle
 help Help
 helpcontents Help contents
