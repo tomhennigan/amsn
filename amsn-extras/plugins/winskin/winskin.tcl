@@ -15,9 +15,11 @@ namespace eval ::winskin {
 
 		array set ::winskin::config {
 			addbuttons {1}
+			hidescroll {0}
 			hidemenu {1}
 			removetop {0}
 			removeicons {0}
+			removespace {0}
 			removestates {0}
 			startskinned {0}
 			topmost {0}
@@ -26,9 +28,11 @@ namespace eval ::winskin {
 
 		set ::winskin::configlist [list \
 			[list bool "Add the buttons" addbuttons] \
+			[list bool "Make sure the scrollbar is always hidden" hidescroll] \
 			[list bool "Hide the menu bar" hidemenu] \
 			[list bool "Remove the top section" removetop] \
 			[list bool "Remove the icons at the start of each line (0.95b or later only)" removeicons] \
+			[list bool "Remove the extra space the start of each line (0.95b or later only)" removespace] \
 			[list bool "Remove the state (in brackets) at the end of each line (0.95b or later only)" removestates] \
 			[list bool "Start Skinned (on connection)" startskinned] \
 			[list bool "Always On Top" topmost] \
@@ -123,7 +127,6 @@ namespace eval ::winskin {
 			#Remove topmost
 			catch { wm attributes . -topmost 0 }
 		}
-		cmsn_draw_online
 	}
 
 
@@ -160,8 +163,9 @@ namespace eval ::winskin {
 					destroy $ic
 				}
 			}
+		}
 
-			#remove spaces
+		if { ($::winskin::config(removespace) == 1) && ($skinned == 1) } {
 			$vars(text) configure -state normal
 			set pos 1.0
 			while { [set pos [$vars(text) search -regexp "^    " $pos end]] != "" } {
@@ -175,18 +179,29 @@ namespace eval ::winskin {
 			set x {}
 			foreach a [set ::MSN::list_states] {lappend x (\\([trans [lindex $a 1]]\\)$)}
 			set x [join $x "|"]
-			while { [set start [$::pgBuddy.text search -regexp $x 1.0 end]] != "" } {
+			set start 1.0
+			while { [set start [$::pgBuddy.text search -regexp $x $start end]] != "" } {
 				set end [$::pgBuddy.text search -regexp "\\)" $start end]
 				$vars(text) delete $start-1chars $end+1chars
 			}
 			$vars(text) configure -state disabled
+		}
+
+		if { ($::winskin::config(hidescroll) == 1) && ($skinned == 1) } {
+			::Widget::getVariable $::pgBuddy data
+			set data(vsb,present) 0
+			set data(vsb,packed) 0
+			grid remove $::pgBuddy.vscroll
+		} else {
+			::Widget::getVariable $::pgBuddy data
+			set data(vsb,present) 1
 		}
 	}
 
 
 	# ::winskin::draw
 	# Description:
-	#	Adds a line in the contact list
+	#	Adds a line of buttons in the contact list
 	# Arguments:
 	#	event   -> The event wich runs the proc (Supplied by Plugins System)
 	#     evPar   -> The array of parameters (Supplied by Plugins System)
@@ -210,36 +225,35 @@ namespace eval ::winskin {
 
 			set imag $buttons.skin
 			set imagm $buttons.move
+			set imagr $buttons.rezise
 			set imagc $buttons.close
 			set filler $buttons.filler
 			#destroy $imag $imagm $imagc
 			if { $skinned == 1} {
 				label $imag -image [image create photo -file [file join $::winskin::dir pixmaps remove.gif]]
-				#label $imag -image [::skin::loadPixmap winskin_remove]
 			} else {
 				label $imag -image [image create photo -file [file join $::winskin::dir pixmaps replace.gif]]
-				#label $imag -image [::skin::loadPixmap winskin_replace]
 			}
 			label $imagm -image [image create photo -file [file join $::winskin::dir pixmaps move.gif]]
-			#label $imagm -image [::skin::loadPixmap winskin_move]
+			label $imagr -image [image create photo -file [file join $::winskin::dir pixmaps resize.gif]]
 			label $imagc -image [image create photo -file [file join $::winskin::dir pixmaps close.gif]]
 
 			$imag configure -cursor hand2 -borderwidth 0 -padx 0 -pady 0
 			$imagm configure -cursor fleur -borderwidth 0 -padx 0 -pady 0
+			$imagr configure -cursor top_right_corner -borderwidth 0 -padx 0 -pady 0
 			$imagc configure -cursor hand2 -borderwidth 0 -padx 0 -pady 0
 
-			#$vars(text) window create end -window $imag -padx 5 -pady 0
-			#$vars(text) window create end -window $imagm -padx 5 -pady 0
-			#$vars(text) window create end -window $imagc -padx 5 -pady 0
 			pack $imagc -padx 5 -pady 0 -side right
+			pack $imagr -padx 5 -pady 0 -side right
 			pack $imagm -padx 5 -pady 0 -side right
 			pack $imag -padx 5 -pady 0 -side right
-			update idletasks
-			incr usedwidth [winfo width $imagc]
+			incr usedwidth [image width [$imagc cget -image]]
 			incr usedwidth 10
-			incr usedwidth [winfo width $imagm]
+			incr usedwidth [image width [$imagr cget -image]]
 			incr usedwidth 10
-			incr usedwidth [winfo width $imag]
+			incr usedwidth [image width [$imagm cget -image]]
+			incr usedwidth 10
+			incr usedwidth [image width [$imag cget -image]]
 			incr usedwidth 10
 			frame $filler -width [expr {[winfo width $vars(text)] - $usedwidth}] \
 					-borderwidth 0 \
@@ -250,6 +264,9 @@ namespace eval ::winskin {
 			bind $imagm <1> "::winskin::buttondown"
 			bind $imagm <B1-Motion> "::winskin::drag"
 			bind $imagm <ButtonRelease-1> "::winskin::release"
+			bind $imagr <1> "::winskin::buttondown"
+			bind $imagr <B1-Motion> "::winskin::resize"
+			bind $imagr <ButtonRelease-1> "::winskin::release"
 			bind $imagc <1> "::amsn::closeOrDock [::config::getKey closingdocks]"
 
 			$vars(text) insert end "\n"
@@ -260,13 +277,16 @@ namespace eval ::winskin {
 		variable dset
 		variable dx
 		variable dy
+		variable posx
+		variable posy
+		variable winxpos
 		variable width
 		variable height
 		variable skinned
 		variable contentsleft
 
-		set x [winfo pointerx .]
-		set y [winfo pointery .]
+		set posx [winfo pointerx .]
+		set posy [winfo pointery .]
 
 		bind . <Configure>
 		rename ::cmsn_draw_online xxxxx
@@ -274,14 +294,24 @@ namespace eval ::winskin {
 
 		scan [wm geometry .] "%dx%d+%d+%d" width height wx wy
 		set dset 1
-		set dx [expr {$wx-$x}]
-		set dy [expr {$wy-$y}]
+		set dx [expr {$wx-$posx}]
+		set dy [expr {$wy-$posy}]
+		set winxpos $wx
 
 		#if skinned need to take borederwidth into account
 		if { $skinned == 1 } {
 			#set width [expr {$width - (2 * ([winfo rootx .] - ($wx)))}]
 			set width [expr {$width - (2 * $contentsleft)}]
 		}
+	}
+
+	proc release { } {
+		variable dset
+		set dset 0
+
+		rename ::cmsn_draw_online ""
+		rename xxxxx ::cmsn_draw_online
+		cmsn_draw_online
 	}
 
 	proc drag { } {
@@ -298,12 +328,38 @@ namespace eval ::winskin {
 		}
 	}
 
-	proc release { } {
+	proc resize { } {
+		variable skinned
 		variable dset
-		set dset 0
+		#variable dx
+		variable dy
+		variable posx
+		variable posy
+		variable winxpos
+		variable width
+		variable height
 
-		rename ::cmsn_draw_online ""
-		rename xxxxx ::cmsn_draw_online
-		cmsn_draw_online
+		if { $dset } {
+			set x [winfo pointerx .]
+			set y [winfo pointery .]
+			wm geometry . "[expr {$width - $posx + $x}]x[expr {$height + $posy - $y}]+${winxpos}+[expr {$dy + $y}]"
+
+			if { $skinned == 1 } {
+				variable contentsleft
+
+				update idletasks
+				set wy [expr {$dy + $y}]
+				set titlemenuheight [expr {[winfo rooty .] - ($wy)}]
+				if { $::winskin::config(hidemenu) == 1 } {
+					set menuheight [expr {$titlemenuheight}]
+				} else {
+					set menuheight 0
+				}
+				if { [catch { plugins_log winskin [WinRemoveTitle . $menuheight] } ] } {
+					load [file join $::winskin::dir winutils.dll]
+					plugins_log winskin [WinRemoveTitle . $menuheight]
+				}
+			}
+		}
 	}
 }
