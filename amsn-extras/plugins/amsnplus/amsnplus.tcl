@@ -51,7 +51,7 @@ namespace eval ::amsnplus {
 				[list bool "Do you want to parse nicks?" parse_nicks] \
 				[list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \
 				[list bool "Do you want to allow commands in the chat window?" allow_commands] \
-				[list bool "Do you want to allow multiple colours in the chat window?" allow_colours] \
+				[list bool "Do you want to allow multiple colours in the chat window?" allow_colours] \ 
 				[list bool "Do you want to use the quick text feature?" allow_quicktext] \
 			]
 		} else {
@@ -162,7 +162,7 @@ namespace eval ::amsnplus {
 			incr i
 		}
 	}
-
+	
 	################################################
 	# this proc lets configure the quick texts
 	proc qtconfig { } {
@@ -194,7 +194,7 @@ namespace eval ::amsnplus {
 		button .qtconfig.save -text "[trans save]" -command "::amsnplus::save_qtconfig .qtconfig"
 		pack .qtconfig.save -side bottom
 	}
-
+	
 	###############################################
 	# this proc saves the quick text configuration
 	proc save_qtconfig { win } {
@@ -859,6 +859,7 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + 9] ""]
 				set strlen [string length $msg]
 				::amsnplus::qtconfig
+				set incr 0
 			} elseif {[string equal $char "/sendfile"]} {
 				set msg [string replace $msg $i [expr $i + 9] ""]
 				set strlen [string length $msg]
@@ -989,7 +990,6 @@ namespace eval ::amsnplus {
 						set i [expr $i + $qtlen]
 					}
 					incr k
-					set incr 0
 				}
 			}
 			if {[string equal $incr "1"]} { incr i }
