@@ -9,7 +9,7 @@
 namespace eval ::pop3 {
 	variable config
 	variable configlist
-	variable emails 0
+	variable emails -1
 	variable newMails -1
 
 	#######################################################################################
@@ -429,9 +429,11 @@ namespace eval ::pop3 {
 			}
 		}
 
-		#reset number of new mails
-		set ::pop3::newMails 0
-		cmsn_draw_online
+		if { $::pop3::config(leavemails) == 1 } {
+			#reset number of new mails
+			set ::pop3::newMails 0
+			cmsn_draw_online
+		}
 	}
 
 
