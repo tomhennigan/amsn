@@ -82,6 +82,7 @@ checkfilman Alýnan dosyalar $1 konumuna kaydedilecek. Lütfen seçenekler penceres
 checkingver Yeni sürüm aranýyor
 checkonfln Bir kullanýcýnýn beni engelleyip engellemediðini o çevrim dýþý olunca denetle
 checkver Yeni sürüm ara
+choosearq Sistem türünüzü seçin
 choosebasefont Yazýtipini seç
 choosebgcolor Arkaplan rengini seç
 choosecontact Lütfen listeden bir baðlantý seçiniz
@@ -123,12 +124,15 @@ delprofile2 Sileceðiniz profili seçiniz
 delprofile Profili sil
 description Tarif
 directconnection Ýnternete doðrudan baðlantým var (1863. portu kullanýr)
+disablessl SSL kullanma
 disconnect $1 ayrýldý
 dockfreedesktop AçýkMasaüstü (KDE3/Gnome2)
 dockgtk Gnome'da küçültme
 docking Küçültme
 dockingoff Küçültme olsun
 dockkde KDE'de küçültme
+dontdownload TLS'i indirme, kendim kuracaðým
+downloadingtls TLS $1 \n adresinden alýnýyor
 editcurrentstate Durumu düzenle
 edit Düzenle
 editnewstate Yeni Kiþisel Otomatik Mesaj Durumu
@@ -143,6 +147,7 @@ encoding Alfabe seçimi
 entercontactemail Baðlantýnýn e-posta adresini girin
 enterfilename Lütfen bir dosya adý girin
 enternick Kullanýcý isminizi girin
+errortls TLS kurulumunda hata oluþtu:
 examples Örnekler
 exitamsn Çýkmak istediðinizden emin misiniz?
 extras Ek Hizmetler
@@ -180,6 +185,7 @@ handle Ýsim
 helpcontents Yardým içeriði
 help Yardým
 hiden Gülen adamý menüden çýkar
+hidewindow Pencereyi gizle
 history Geçmiþi göster
 home Ev
 httpconnection HTTP yöntemiyle baðlan (80. porttan HTTP protokolü kullanýr)
@@ -379,6 +385,8 @@ soundserver Ses Sunucusu
 sound Ses
 soundexample (\$sound = Çalýnacak ses dosyasý) Örn: esdplay \$sound
 soundstatus Sesli alarmý aç/kapa
+sourcecode Kaynak kodu (derlenip kurulmasi gerekir)
+sslwarning UYARI!!! SSL'i kapatmak þifrelemeyi engeller, þ?ifreniz düz metin olarak aktarýlýr. Gerçekten kapatmayý gerektiren durumlar olmad?kça kullanmayýnýz.
 startoffline2 Çevrim dýþý görünerek sessizce baðlan
 startoffline Çevrim dýþý olarak baþla
 stateautomsg Gönderilecek Otomatik Mesaj
@@ -398,6 +406,10 @@ tabbed Ýçiçe pencereler
 textsize Metin boyutu
 timeremaining Kalan zaman
 title Al'ýn Messenger'ý
+tlsdowncompleted $1 dosyasý $2 dizinine kaydedildi. Sýkýþtýrýlmýþ dosyayý açýp, (kaynak kodsa) derleyip $dizinine kurunuz.
+tlsinstallexp AMSN artýk güvenli baðlantý için SSL gerektiren MSNP9 kullanýyor.SSL kullanabilmek\niçin AMSN'nin sisteminizde olmayan TLS kütüphanesini kurmasý gerekiyor. Bu sihirbaz\nTLS indirme kurulumunda size yardýmcý olacaktýr.\n\nLütfen doðru paketin indirilmesi için sistem türünüzü seçiniz.
+tlsinstall TLS kütüphanesi kurulum sihirbazý
+tlsinstcompleted TLS kütüphanesi baþarýyla kuruldu, artýk MSNP9 kullanabilirsniz. Eðer kullanamýyorsanýz, sistem türünüzü yanlýþ seçmiþ olabilirsiniz, ya da sisteminize uygun derlenmiþ TLS sürümü yoktur.
 to Kime
 tools Araçlar
 tooltips Ýpuçlarýný etkinleþtir
