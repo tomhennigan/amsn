@@ -51,7 +51,6 @@ proc MakeGroupList { lfgroup lfcontact } {
 
 	## entries ##
 	$lfgroup.lbgroup.fix.list.lb insert end "[trans nogroup]"
-	status_log "[array get groups]\n" white
 	foreach gr [lsort [array names groups]] {
 		if { $groups($gr) != "Individuals" } {
 			$lfgroup.lbgroup.fix.list.lb insert end $groups($gr)
@@ -89,7 +88,7 @@ proc MakeContactList { lfcontact } {
 	global rbsel rbcon
 	catch {DeleteContactList $lfcontact}
 	
-	
+	if {![info exists rbsel]} { return; }
 	if { ![::groups::Exists [::groups::GetName $rbsel]] || $rbsel == 0 } {
 		if { $rbsel == 0 } {
 			## fix the name of the group ##
