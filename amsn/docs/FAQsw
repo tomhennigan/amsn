@@ -1,0 +1,212 @@
+Q: Vad är Amsn?
+A: Amsn är en Microsoft Messenger-klon. Du kan hålla kontakten med och 
+skicka filer till dina kompisar, din familj med flera.
+
+INSTALLERING OCH KÖRNING
+=======================
+Q: Vad behöver jag för att köra Amsn?
+A: Amsn är skrivet i tcl/tk, så du behöver bara fungerande tcl/tk version 
+8.3 (eller en nyare version).
+Tcl/tk finns till Linux, Macintosh och Windows.
+and macintosh.
+
+Q: Hur skapar jag en genväg till Amsn på skrivbordet?
+A: 1. Skapa en icon till ditt gnome/kde skrivbord som kör 
+/där/du/har/amsn/installerat amsn
+till exempel
+/home/användare/msn/amsn
+
+2. Ett alternativt sätt:
+Skapa en länk ä /usr/bin till amsn på följande sätt:
+ln -s /där/du/har/amsn/installerat amsn (som root)
+På så sätt så kan u starta amsn genom att enbart skriva amsn från t.ex ett 
+terminalfönster.
+Sen skapar du bara en ikon som kör 'amsn'
+
+Q: Hur får jag Gnome dockningen att fungera?
+A: Du måste köra 'make' i 'plugins' mappen (stäng av Amsn innan du gör det). 
+Du måste ha Gnome Development Libraries.
+När kommandot 'make' är färdigt så är det bara att köra Amsn och välja
+Gnomedockning i Alternativ.
+
+ANVÄNDANDET
+===========
+
+Q: Vad betyder det när någons nick är rosa?
+A: Det betyder att du inte finns i den personens kontaktlista. (Du kan vara 
+borttagen eller inte tillagd ännu)
+
+Q: När jag har Amsn körandes i bakgrunden och jobbar med andra fönster så 
+sätts min status till 'Borta' efter ett tag, är det en bug?
+A: Nej. Amsn känner av knapptryckningar i amsn och chat-fönstren och om du 
+har kryssat i Auto-Idle rutan så kommer din status andras om du inte har 
+skrivit någonting i amsn efter ett tag.
+
+PROBLEM
+===============
+
+Q: Ibland "hänger sej" amsn, varför?
+A: Det beror oftast på att det är ett problem med ljudkonfigurationen.
+   Testa stäng av ljud eller ställ in rätt Play kommando i Alternativ -> 
+Inställningar
+
+Q: Jag försöker köra Amsn men jhag får detta felmeddelandet:
+   bash: ./amsn: bad interpreter: No such file or directory
+A: Du måste installera tcl/tk. Försök starta amsn med "wish amsn" istället.
+   Om det funkar så ändra /usr/bin/amsn (eller 
+/där/du/har/amsn/installerat/amsn)'s första rad
+   #!/usr/bin/wish
+   till platsen där du har wish.
+
+Q: När jag startar msn så får jag det här felmeddelandet:
+   Error in startup script: bad option "map": must be
+   compare, first, index, last, length, match, range,
+   tolower, toupper, trim, trimleft, trimright, wordend,
+   or wordstart
+   while executing
+   "string map $map $md5body"
+   (in namespace eval "::md5" script line 65)
+   invoked from within
+   "namespace eval ::md5 { ... etc
+A: Du kör en gammal versoin av tcl/tk, uppdatera tcl/tk.
+
+Q: Efter jag har uppdaterat så får jag följande meddelande
+   Error in startup script: expected integer but got ""
+   while executing
+   "font create menufont -family $family -size $size
+   -weight normal"
+   (procedure "::amsn::initLook" line 5)
+   invoked from within
+   "::amsn::initLook $family $size $config(backgroundcolor)"
+   (file "amsn" line 2184)
+A: En snabb fix till det problemet är att ta bort den gamla 
+konfigurationsfilen.
+   Ta bort /home/användare/.amsn/config (eller motsvarande mapp där du har 
+amsn) och sen så ska det funka.
+
+Q: Jag kan inte skriva kinesiska / japanska / andra språks tecken i amsn. 
+Vad ska jag göra?
+A: Det verkar som om xcin eller liknande program inte stöds i den aktuella 
+versionen av tcl/tk, så amsn
+   fungerar inte med dom heller. Vänta på nästa version av tcl/tk och hoppas 
+åp att den stöder xcin.
+   Medans du väntar på det kan du skriva i en annan text-editor then kopiera 
+och klistra in i amsn.
+   NYTT: Internationell (specialtecken osv) klipp-och-klistra. Om du har 
+problem att klistra in
+   tecken i Amsn, ladda ner och installera tcl/tk från den här sidan:
+http://jfontain.free.fr/tcl-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tk-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tcl-thread-8.4a3-2.i386.rpm
+   Notera att det kan vara ett sätt att komma runt problemet om du inte kan 
+skriva ditt lands tecken
+   direkt till Amsn, t.ex Traditionell Kinesiska om du använder xcin.
+
+Q: Kan jag använda Amsn bakom proxy?
+A: Sedan utvecklingsversionen direkt efter 0.61 så finns det HTTP Proxy 
+support.
+   Det betyder att du kan bara ansluta bakom en HTTP proxy (som t.ex Squid).
+   Om du har en Socks5 proxy så fungerar det tyvärr inte, men socks5 support 
+kommer snart.
+
+Q: jag sitter bakom en HTTP proxy men jag kan fortfarande inte ansluta!
+A: Amsn använder CONNECT-flaggan genom HTTP proxyn.
+   Du måste vara säker på att din proxy tillåter SSL-anslutningar.
+   Be din nätverksadministratör tillåta SSL-anslutningar genom CONNECT 
+förfrågningar.
+
+Q: Amsn verkar vara ansluten till servern men när jag försöker skriva till 
+bågon eller ändra min status
+   så blir jag nedkopplad. Det här händer ofta. har det någonting att göra 
+med att jag sitter bakom en brandvägg?
+A: Testa välj alternativet "om du blir nedkopplad..." i Verktyg -> 
+Inställningar -> Anslutning.
+   Det är en fix för delat anslutning som skickar packets till servern var 
+annan minut för att hålla anslutningen igång.
+
+Q: Ljuden loopas. T.ex om XMMS är igång och någon loggar in och jag stänger 
+ner XMMS
+   så spelas alla ljud som skulle ha spelas från Amsn men som blev 
+'stoppade' av XMMS
+   upp på ett störande sätt.
+A: Det finns många svar på det. OM du använder KDE så kan du ställa in XMMS 
+så att
+   ljuden spelas genom Arts och använda Arts som Plsy kommandoi Amsn.
+   OM du använder Gnome så kan du använda ESDplay och ställa in XMMS så att
+   XMMS använder edsplay.
+
+Q: Jag använder Amsn bakom en brandvägg eller använder IP-Masquerading och
+   jag kan nte skicka filer. Kan jag fixa så att jag kan skicka filer?
+A: Din brandvägg kanske blockerar inkommande anslutningar.
+   Filsändelser fungerar såhär:
+   När du vill skicka en fil till någon så skickar du en inbjudan med din IP 
+och ett portnummer.
+   Sen måste den du skivkar filen till ansluta till din IP och port för att 
+ta emot filen.
+   Portarna som används är oftast 6891, 6892 osv (den första filen skickas 
+på 6891 den andra på 6892 om du har två filersändelser igång samtidigt osv)
+   så om du använder en brandvägg så måste du ställa in den tillåter 
+inkommande anslutningar på port 689 (6892 osv om du vill kunna skicka flera 
+filer samtidigt).
+   Om du använder ett privat nätverk med privata adresser, som t.ex 
+192.168.0.x så är det lite svårare.
+   Du måste då skicka din riktiga IP för att få det att fungera (du kan 
+ställa in den manuellt eller säga åt Amsn att gissa den från en websida) 
+istället för den interna adressen, och säga till gatewayen att vidareskicka 
+inkommande anslutningar på port 6891 (osv) till datorn på det privata nätet.
+notifyYoffset yy
+notifyXoffset xx
+
+WINDOWS PROBLEM
+===============
+
+Q: Kan jag få ljud att fungera i windows
+A: Ja, det finns ett litet program som heter plwav.exe som spelar upp en 
+.wav i windows.
+   Du kan använda den som Play kommando (Amsn behöver ett externt program 
+för att spela upp ljud)
+   gå till Alternativ -> Inställningar -> Ljud och skriv in "plwav"
+
+Q: När någon loggar in eller jag får ett mail så gömmer aktivitetsfältet en 
+del av det, går det att fixa?
+A: Du kan ändra popup-fönstrets X pixel till vänster och Y pixel uppåt.
+   För att göra det så ändrar du i Amsns konfigurationsfil:
+notifyYoffset yy
+notifyXoffset xx
+   där yy och xx är x och y positionen. Du måste starta om Amsn för att 
+ändringarna ska fungera.
+
+
+ANNAT
+=====
+
+Q: Om jag väljer att spara mitt lösenord så att jag slipper skriva in det 
+varje gång jag vill logga in så
+   sparas det okrypterat i konfig filen. Är inte det osäkert?
+A: Det är omöjligt att spara lösenordet i krypterad form efterssom 
+lösenordet behövs för att
+   skapa en digital md5 signatur som måste skickas över nätverket då du 
+loggar in. (Lösenordet skickas inte som ren text över nätverket).
+   Vi kan inte spara det på samma sätt som lösenord i /etc/passwd efterssom 
+det är nödvändigt att
+   kunna läsa av lösenordet för att skapa md5 signaturen.
+   Om vi skulle använt oss av nån sorts omvändbar kryptering så skulle alla 
+kunnat kryptera upp det
+   genom att kolla på amsns källkod. I Linux så kan konfig-filen bara läsas 
+av ägaren.
+   Det enda sättet att vara säker på att ingen kan läsa ditt lösenord är att
+inte spara det utan att skriva
+   in det manuellt varje gång då ska logga in.
+
+Q: Jag har entill fråga, kan du hjälpa mej?
+A: Självklart, men kolla på http://sourceforge.net/projects/amsn först och 
+titta på forumet
+   och se efter om din fråga redan har fått ett svar.
+   Innan du ställer en fråga på forumet, leta reda på Amsn versionen, Tcl 
+och Tk versionen och
+   skicka gärna med eventuella felmeddelanden
+
+   Om du fortfarande har problem så kan du maila på
+airadier@users.sourceforge.net
+
+(Swedish translation by Richard.S - lordanger@come-to-chat.com)
