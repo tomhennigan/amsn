@@ -6,12 +6,78 @@ Updated 03.May.2004, Henrique Cesar Ulbrich (Hatredman)
 This little document is a guide to translator and translation
 managers that works or wants to work in aMSN.
 
+Index:
+
+*. Introduction.
+   What is this aMSN translation stuff all about?
+
+0. The most important thing
+   Explains why and how to subscribe to the amsn-lang forum.
+
+1. For translators
+   For those who Want to translate aMSN for their own language, 
+   or help improve/extend the existing translation. Must read.
+
+2. For translation managers
+   For those who are in charge of coordination of local or global 
+   translation efforts and commiting the langfiles to the CVS server.
+   If you want to start a local translation effort please read this.
+
+3. For both - useful tools
+   Some of the tools you *must* use before sending your files. These
+   tools are included with aMSN. 
+
+
+Introduction
+-------------
+
+There are many ways you can help the aMSN project. One of them is 
+by translating the software to other languages. This can be easily
+done. Another way is proofreading the current translations in search
+of typos and errors and missing (untranslated) messages. There is
+plenty of work for everyone who wants to be involved, and this seems
+to be your case as you are reading this file ;-)
+
+The aMSN Messenger can be translated into any language you want. 
+It is easy to do so because all of the translated messages for every 
+new language are stored in a special file called langfile. The name 
+of each and every langfile indicates clearly the language it contains. 
+The format is langXX, where XX is the two-caracter ISO code of your 
+language. For instance, for the italian language, whose ISO code is IT, 
+the langfile is called langit. A few examples:
+
+English: langen
+Spanish: langes
+German: langde
+French: langfr
+
+The ISO codes for the english, spanish, german and french languages are, 
+respectively, en, es, de and fr. Later in this document we will see how
+to determine the country code for new languages. For the languages already
+present in aMSN (some completely translated, some not) please refer to our 
+translation effort page: 
+http://amsn.sourceforge.net/modules.php?name=Translation
+
+You can help us enormously by checking periodicaly the webpage above
+and, if your language has any missing key (a key is one of the many 
+messages shown on the various aMSN windows, menus ans dialog boxes), 
+translate it and send us the file. Even if you language has zero 
+missing keys, it is important to scan the file for possible errors 
+or bad writting styles introduced by other translators.
+
+
 This document deals only with the langXX files (that is, the
 language files that translates aMSN's messages, menus and dialog
-boxes). We are preparing another document for the docs/ folder,
-dealing with the translation of the HELP, FAQ and README files. In
-the mean time, read the present file completely and ask what to do
-(at amsn-lang@lists.sourceforge.net) when in doubt.
+boxes). There are other files that need translation and proofreading 
+like the HELP, FAQ and README files. We are preparing another 
+document for the docs/ folder, dealing with the translation of 
+these files. In the mean time, read the present file completely 
+and ask what to do (at amsn-lang@lists.sourceforge.net) when in doubt.
+
+Tip: this LANG-HOWTO file surely contains many errors. If you are a
+native english speaker, please help us by proofreading it.
+
+
 
 0. The most important thing
 ---------------------------
@@ -24,20 +90,20 @@ translation team, including:
 - Best translation practices;
 - Issues and questions about this HOWTO;
 - Coordination of local efforts;
-- Stabilishment of local language translation managers.
+- Stablishment of local language translation managers.
 
 One important thing you MUST ask at the amsn-lang list is if there
 is somebody already doing what you intend to. 
 
-For instance, if you want to translate the HELP file in greek
+For instance, if you want to translate the HELP file into greek
 (HELPgr) you shoud ask first. This way, if there is another person
 already translating the same HELPgr you won't waste your time.
 
-You can join the list by visiting this page:
+You can subscribe to the list by visiting this page:
 
    http://lists.sourceforge.net/lists/listinfo/amsn-lang
 
-Remember, joining or not is not a choice. You MUST joint.
+Remember, joining or not is not an option. You MUST subscribe.
 
 
 1. For Translators
@@ -59,7 +125,8 @@ coding and line break issues.
 
 RULES THAT MUST BE FOLLOWED:
 1. Download the langfile you want to work on from the website or via
-CVS. ( you will find the link at the translation page )
+CVS. You will find the link at the translation page:
+http://amsn.sourceforge.net/modules.php?name=Translation
 
 2. Add the missing keywords from the list at the bottom of the page
 to the language file.
@@ -195,9 +262,14 @@ it's polite to ask :))
 3. For both - Useful tools
 --------------------------
 
-In the lang/ folder you have some useful scripts.
+In the lang/ folder you have some useful scripts. 
+Remember to replace XX in langXX for the two-letter
+code of your language. Example: Valenciano = langva.
 
-untranslated.py langXX: will list the missing keys in langXX file. That
+The tools are:
+
+
+- untranslated.py: will list the missing keys in langXX file. That
 is, the keys that exist in langen (the master language), but not in
 langXX file. This is an updated version of the old missing.py file, 
 which is still necessary for the website automation.
@@ -208,7 +280,8 @@ Usage in Linux:
 Usage in Windows (must have the Python interpreter installed):
 python unstranslated.py langXX
 
-errors.py langXX: will list the possible errors in langXX. That is,
+
+- errors.py: will list the possible errors in langXX. That is,
 the apparent keys that are in langXX but not in langen. This
 usually happens when a key name is mistyped, or when there are
 spplited lines (a translation is spplited into multiple lines
@@ -221,24 +294,39 @@ Usage in Linux:
 Usage in Windows (must have the Python interpreter installed):
 python errors.py langXX
 
-dups.sh langXX: will tell you the keys that are duplicated inside
+
+- dups.sh: will tell you the keys that are duplicated inside
 the file.
 
 Usage in Linux:
 ./dups.sh langXX
 
-To use it in Windows you will have Cygwin installed. The syntax is
-the same.
+To use it in Windows you must have Cygwin installed. 
+The syntax is identical. http://www.cygwin.com
 
-sortlang langXX: will sort the language file. BE CAREFUL. Don't apply
+
+- sortlang: will sort the language file. BE CAREFUL. Don't apply
 sortlang if there are spplited translations, as sorting it will
 sort these spplited lines, and it will be quite difficult to join
 them again. So please fix any spplited lines before sorting.
 Sorting is not mandatory, but it's recommended to sort before
 commiting to the CVS.
 
-convert.tcl source_file source_encoding dest_file dest_encoding:
-Converts the given source, in the source encoding, to the given
-destination file using the given encoding.
+Usage in Linux:
+./sortlang langXX
+
+To use it in Windows you must have Cygwin installed.
+The syntax is identical. http://www.cygwin.com
+
+
+- convert.tcl: converts the given source, in the source encoding, 
+to the given destination file using the given encoding.
+
+Usage in Linux:
+./convert.tcl source_file 
+source_encoding dest_file dest_encoding
+
+Usage in Windows:
+whish convert.tcl source_file source_encoding dest_file dest_encoding
 
 If you are in Linux using bash, remember that the auto completion is your friend...
