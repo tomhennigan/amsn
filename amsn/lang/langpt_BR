@@ -111,6 +111,7 @@ checkemail Mostrar notificação de mensagem (Caixa de Entrada) na lista de contat
 checkfilman Os arquivos recebidos serão armazenados em $1. Por favor, verifique as configurações do gerenciador de arquivos em "Preferências".
 checkingver Checando por novas versões
 checkonfln Checar se um usuário bloqueou você quando ele ficar offline
+checkopenfilecommand Por favor cheque o comando abrir arquivos na janela de preferências
 checkver Checar se existe nova versão do aMSN
 choosearq Escolha a arquitetura do seu sistema
 choosebasefont Escolher tipo de fonte
@@ -183,6 +184,7 @@ default Configuração Padrão
 defaultloginradio Entrar com a configuração normal
 defchatwinsize Tamanho padrão para as janelas de conversa (XSIZExYSIZE)
 delete Apagar
+deleteall Apagar tudo
 deletecustomstate Excluir estado personalizado
 delimiters Delimitadores de "timestamps":
 deliverfail Houve um problema ao enviar esta mensagem
@@ -448,6 +450,9 @@ ok Ok
 onenewmail 1 nova mensagem na Caixa de Entrada
 online Conectado
 onphone No telefone
+opendir Abrir diretório
+openfile Abrir
+openfilecommand Comando abrir arquivo
 openreceived Abrir arquivos recebidos
 options Opções
 ordercontactsby Ordenar contatos por

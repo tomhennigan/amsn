@@ -110,6 +110,7 @@ checkemail Mostrar la notificació de correu en la llista de contactes
 checkfilman Els arxius rebuts es guardaràn en $1. Comprova l'opció d'administrador d'arxius en la finestra de preferències.
 checkingver Buscant si hi ha una nova versió
 checkonfln Comprovar si un usuari et bloqueja quan es desconnecte
+checkopenfilecommand Per favor, comprova el commandament d'obertura de fitxers a la finestra de preferències
 checkver Buscar noves versions
 choosearq Triar l'arquitectura del sistema
 choosebasefont Triar tipus de lletra
@@ -182,8 +183,9 @@ dcprofile No Crear Perfil
 default Configuracio per defecte
 defaultloginradio Entrar en la configuració per defecte
 defchatwinsize Tamany per defecte de les finestres de conversa (TamanyXxTamanyY)
-deletecustomstate Eliminar estat personalitzat
 delete Eliminar
+deleteall Eliminar-ho tot
+deletecustomstate Eliminar estat personalitzat
 delimiters Delimitadors de l'hora
 deliverfail Hi ha hagut un problema al enviar el següent missatge
 delprofile2 Selecciona el perfil que vols esborrar
@@ -372,6 +374,8 @@ maximised Maximitzada
 minimised Minimitzada/Iconificada
 mins minuts
 mobile Mòbil
+mobilegrp1 Grup de mòbil
+mobilegrp2 Introduix usuaris al grup "Mòbil" quan estan desconnectats (i ordenats per estat)
 modified Modificat
 month Mes
 morepersonal Més estats ->
@@ -445,6 +449,9 @@ ok Acceptar
 onenewmail 1 missatge nou en safata d'entrada
 online Connectat
 onphone Al telèfon
+opendir Obrir carpeta
+openfile Obrir
+openfilecommand Comandament d'obertura de fitxers
 openreceived Obrir arxius rebuts
 options Opcions
 ordercontactsby Ordenar contactes per
