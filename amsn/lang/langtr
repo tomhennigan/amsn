@@ -61,6 +61,7 @@ blockusers Bir seferde denetlenecek kullanýcý sayýsý
 broughtby Yazýlýmý geliþtirenler
 browse gözat
 browser Ýnternet tarayýcý
+browserexample (\$url URL ile deðiþtirilecek) Örn: mozilla \$url
 busy Meþgul
 cancel Ýptal Et
 cannotdeleteprofile Profil kullanýmda olduðu için silinemiyor
@@ -148,6 +149,7 @@ extras Ek Hizmetler
 faq SYS (Sýkça Yanýtlanan Sorular)
 filedoesnotexist Dosya bulunamadý
 fileman Dosya yöneticisi
+filemanexample (\$location dizin ile deðiþtirilecek) Örn: nautilus \$location
 filename Dosya adý
 filetransfercancelled Dosya aktarýmý iptal edildi
 filetransfercomplete Dosya aktarýmý tamamlandý
@@ -227,6 +229,7 @@ logsout $1 az önce sohbetten ayrýldý.
 lprivtoconf $1 ile özel görüþme konferansa çevrildi
 luclosedwin $1 de pencereyi kapadýnýz
 mailer E-posta uygulamasý
+mailerexample (\$recipient = alýcý) Hotmail'i kullanmak için boþ býrakýnýz 
 maximised Büyütülmüþ
 minimised Küçültülmüþ
 mins dakika
@@ -343,7 +346,7 @@ reject Geri çevir
 rememberpass Þifreyi hatýrla
 removefromlist Bu listeden çýkar
 reversed ters
-reverselist Listeyi tersine çevir
+reverselist Ters liste
 rightback Hemen döneceðim
 saveas Farklý kaydet
 savecontacts Baðlantý listesini kaydet
@@ -374,6 +377,7 @@ soundfile Alarm ses dosyasý
 soundloop Ses tekrarlasýn
 soundserver Ses Sunucusu
 sound Ses
+soundexample (\$sound = Çalýnacak ses dosyasý) Örn: esdplay \$sound
 soundstatus Sesli alarmý aç/kapa
 startoffline2 Çevrim dýþý görünerek sessizce baðlan
 startoffline Çevrim dýþý olarak baþla
