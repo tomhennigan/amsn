@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Sobre
+accept Acceptar
 acceptfile Acceptes l'arxiu $1, de tamany $2? Guardat a $3
 actions Accions
 addacontact Afegeix un contacte
@@ -9,6 +10,8 @@ addtoo Afegeix aquesta persona a la meva llista de contactes
 admincontacts Administrar la llista de contactes
 admingroups Administrar grups
 adverts Anuncis
+alarmpref Preferències de l'alarma per l'usuari
+alarmstatus Engegar/Parar l'alarma per aquest usuari
 allowseen Deixa que aquesta persona vegi si estic connectat i que contacti amb mi
 appearoff Simula Desconnexió
 aretyping $1 estan escrivint un missatge
@@ -21,9 +24,11 @@ blankdirect Deixa-ho en blanc per a connectar-te directament
 block Bloquejar
 blocked Bloquejat
 broughtby Desenvolupat per
+browse Navegar
 browser Navegador
 busy Ocupat
 cancel Cancel·la
+cfgalarm Configurar/Afegir/Esborrar Alarma
 changenick Canvia de nick
 chatack Acceptant xat de
 chatreq Demanant xat
@@ -59,6 +64,8 @@ filedoesnotexist L'arxiu no existeix
 filename Nom de l'arxiu
 filetransfercancelled S'ha cancel·lat la transferència
 filetransfercomplete La transferència del arxiu ha finalitzat
+ftaccepted Transferència de Fitxers acceptada
+ftrejected Transferència de Fitxers rebutjada
 gonelunch Estic dinant
 groupadd Afegir un grup
 groupdelete Esborrar un grup
@@ -125,6 +132,8 @@ other Un altre
 pager Paginador
 pass Contrasenya
 phone Telèfon
+picfile Fitxer d'Imatge per a l'Alarma (GIF < 500 x 500)
+picstatus Engegar/Parar Imatge per a l'Alarma
 port Port
 prefapps Aplicacions
 preferences Preferències
@@ -137,6 +146,7 @@ receivedbytes Rebuts $1 de $2 bytes
 receivefile Rebent arxiu
 reconnect Esperant a que $1 es reconnecti
 reconnecting Reconnectant-se al servidor
+reject Rebutjar
 rememberpass Recordar contrasenya
 rightback Un moment
 saveas Guardar com
@@ -151,9 +161,13 @@ sendmsg Enviar missatge
 sentbytes Enviats $1 de $2 bytes
 servergoingdown Desconnectat: El servidor s'apagarà per manteniment
 server Servidor
+soundfile Fitxer de So de l'Alarma
+soundloop So Repetitiu
 sound So en un event
+soundstatus Engegar/Parar el So d'Alarma
 startoffline Començar desconnectat
 status Estat
+stopalarm Parar l'Alarma
 syntaxerror  Error de sintàxi
 textsize Tamany del text
 title Al's Messenger

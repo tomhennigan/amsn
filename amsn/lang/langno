@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Om
+accept Aksepter
 acceptfile Aksepter fil $1, størrelse $2? Lagret i $3
 actions Hendelser
 addacontact Legg til en kontakt
@@ -9,6 +10,8 @@ addtoo Legg denne personen til i min kontaktliste
 admincontacts Administrer kontakter
 admingroups Administrer grupper
 adverts Reklame
+alarmpref Alarm innstillinger for bruker
+alarmstatus Skru alarm på / av for denne brukeren
 allowseen La denne personen se meg når jeg er online og kontakte meg
 appearoff Se ut som jeg er offline
 aretyping $1 skriver en beskjed
@@ -21,9 +24,11 @@ blankdirect La stå tom for direkte tilkobling
 block Blokker
 blocked Blokkert
 broughtby Gitt til deg av følgende utviklere
+browse browse (not really any other good word in norwegian :)
 browser Nettleser
 busy Opptatt
 cancel Avbryt
+cfgalarm  Konfiguer/Legg til/Fjern Alarm
 changenick Endre kallenavn
 chatack Aksepterer chat fra
 chat Chat
@@ -57,6 +62,8 @@ filedoesnotexist Filen eksisterer ikke
 filename Filnavn
 filetransfercancelled Filoverføringen ble avbrutt
 filetransfercomplete Filoverføringen er fullført
+ftaccepted Sending av fil akseptert
+ftrejected Sending av fil avslått
 gonelunch Ute til lunsj
 groupadd Legg til en gruppe
 groupdelete Slett en gruppe
@@ -123,6 +130,8 @@ other Andre
 pager Personsøker
 pass Passord
 phone Telefon
+picfile Bilde for alarm (GIF < 500 x 500)
+picstatus Skru På / Av bilde alarm
 port Port
 prefapps Applikasjoner
 preferences Innstillinger
@@ -135,6 +144,7 @@ receivedbytes Mottatt $1 av $2 bytes
 receivefile Motta fil
 reconnecting Kobler til serveren på nytt
 reconnect Venter på at $1 skal koble til på nytt
+reject Avslå
 rememberpass Husk passord
 rightback Straks tilbake
 saveas Lagre som
@@ -149,9 +159,13 @@ send Send
 sentbytes Sendt $1 av $2 bytes
 servergoingdown Frakoblet: Serveren går ned
 server Server
+soundfile Handlings lyd
 sound Hendelseslyd
+soundloop lyd loop
+soundstatus Skru Av / På alarm
 startoffline Start offline
 status Status
+stopalarm Stans alarm
 syntaxerror  Syntax Error
 textsize Skriftstørrelse
 title Al's Messenger
