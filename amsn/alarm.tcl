@@ -4,12 +4,15 @@
 #########################################################
 
 
-
+#::Alarms namespace. Everything related to alarms (alerts)
 namespace eval ::alarms {
+
+	#Returns 1 if the user has an alarm enabled
 	proc isEnabled { user } {
 		return [getAlarmItem $user enabled]
 	}
 
+	#Return an alarm cofiguration item for the given user
 	proc getAlarmItem { user item } {
 	
 		#We convert the stored data (a list) into an array
@@ -183,7 +186,8 @@ proc load_alarms {} {
 	close $file_id
 	
 	#REMOVE OLD VERSION alarms file.Not used anymore
-	file delete [file join ${HOME} alarms]
+	#file delete [file join ${HOME} alarms]
+	
 }
 
 
