@@ -232,6 +232,12 @@ namespace eval ::amsnplus {
 				set lfield [string length $field]
 				set msg [string replace $msg $i [expr $i + $lfield] ""]
 				set strlen [string length $msg]
+				if {[string equal $field "color"]} {
+					::amsn::WinWrite $chatid "\nYour text color is $fontcolor" green
+				}
+				if {[string equal $field "font"]} {
+					::amsn::WinWrite $chatid "\nYour text font is $fontfamily" green
+				}
 				if {[string equal $field "nick"]} {
 					set nick [::abook::getPersonal nick]
 					::amsn::WinWrite $chatid "\nYour nick is $nick" green
@@ -240,6 +246,9 @@ namespace eval ::amsnplus {
 					set status [::MSN::myStatusIs]
 					set status [::MSN::stateToDescription $status]
 					::amsn::WinWrite $chatid "\nYour status is $status" green
+				}
+				if {[string equal $field "style"]} {
+					::amsn::WinWrite $chatid "\nYour font style is $fontstyle" green
 				}
 				set incr 0
 			}

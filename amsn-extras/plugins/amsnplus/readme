@@ -26,7 +26,12 @@ Features:
       /deletegroup groupname	delete a group of contacts
       /font font_face		changes config font to font_face
       /help			displays this help
-      /info nick|state		displays your current nick or your current state
+      /info field		displays your current value from field, possibilities:
+      		color	your chat font color
+		font	your chat font
+		nick	your nick
+		state	your state
+		style	your chat font style
       /invite user_login	invite user_login to the current conversation
       /kill			this closes amsn without comfirmation
       /leave			leave the conversation without closing the chat window
