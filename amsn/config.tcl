@@ -69,15 +69,20 @@ proc ConfigDefaults {} {
 
 	set config(autoftip) 1				;#Detect IP for file transfers automatically
 	set config(myip) "127.0.0.1"		;#Your IP
-	#Specific for Mac OS X, to not have the main window squeezing in top corner
+
+	#Specific for Mac OS X, to not have the main window squeezing in top corner and change the default font for the system default font
 if {$tcl_platform(os) == "Darwin"} {
 	set config(wingeometry) 275x400-200+200			;#Main window geometry
+	set config(basefont) "Lucida Grande 11 normal"	;#AMSN base font
 	} else {
 	set config(wingeometry) 275x400-0+0			;#Main window geometry
+	set config(basefont) "Helvetica 11 normal"	;#AMSN base font
 	}
+	
 	set config(closingdocks) 0						;#Close button minimizes (or docks) main window
 	set config(backgroundcolor)  #D8D8E0		;#AMSN background color
-	set config(basefont) "Helvetica 11 normal"	;#AMSN base font
+	
+	
 	set config(encoding) auto						;#ANSN encoding
 
 	set config(textsize) 2									;#User text size

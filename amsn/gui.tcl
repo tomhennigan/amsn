@@ -1641,9 +1641,9 @@ namespace eval ::amsn {
 
       text $bottom.in.input -background white -width 15 -height 3 -wrap word\
          -font bboldf -borderwidth 0 -relief solid -highlightthickness 0 -exportselection 1
-
+	#Send button in conversation window, specifications and command
       frame $bottom.in.f -class Amsn -borderwidth 0 -relief solid -background white
-      button $bottom.in.f.send  -text [trans send] -width 5 -borderwidth 1 -relief solid \
+      button $bottom.in.f.send  -text [trans send] -width 6 -borderwidth 1 -relief solid \
          -command "::amsn::MessageSend .${win_name} $bottom.in.input" -font bplainf -highlightthickness 0
 
 
