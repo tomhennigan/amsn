@@ -215,14 +215,14 @@ proc applychanges { } {
 	clear_exampleimg
 	
 	# If our skin hasn't the example images, take them from the default one
-	image create photo preview1 -file [GetSkinFile pixmaps prefpers.gif $currentskin]
-	image create photo preview2 -file [GetSkinFile pixmaps bonline.gif $currentskin]		
-	image create photo preview3 -file [GetSkinFile pixmaps offline.gif $currentskin]		
-	image create photo preview4 -file [GetSkinFile pixmaps baway.gif $currentskin]		
-	image create photo preview5 -file [GetSkinFile pixmaps amsnicon.gif $currentskin]
-	image create photo preview6 -file [GetSkinFile pixmaps butblock.gif $currentskin]	
-	image create photo preview7 -file [GetSkinFile pixmaps butsmile.gif $currentskin]
-	image create photo preview8 -file [GetSkinFile pixmaps butsend.gif $currentskin]
+	image create photo preview1 -file [GetSkinFile pixmaps prefpers.gif $currentskin] -format gif
+	image create photo preview2 -file [GetSkinFile pixmaps bonline.gif $currentskin] -format gif		
+	image create photo preview3 -file [GetSkinFile pixmaps offline.gif $currentskin] -format gif		
+	image create photo preview4 -file [GetSkinFile pixmaps baway.gif $currentskin] -format gif	
+	image create photo preview5 -file [GetSkinFile pixmaps amsnicon.gif $currentskin] -format gif
+	image create photo preview6 -file [GetSkinFile pixmaps butblock.gif $currentskin] -format gif
+	image create photo preview7 -file [GetSkinFile pixmaps butsmile.gif $currentskin] -format gif
+	image create photo preview8 -file [GetSkinFile pixmaps butsend.gif $currentskin] -format gif
 	
 	label $w.main.left.images.1 -image preview1
 	label $w.main.left.images.2 -image preview2
