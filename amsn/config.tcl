@@ -106,7 +106,10 @@ proc save_config {} {
 
    # using default, make sure to reset config(login)
    if { $HOME == $HOME2 } {
+        set loginback $config(login) 
+	set passback $password
    	set config(login) ""
+	set password ""
    }
    
    puts $file_id "amsn_config_version 1"
@@ -123,6 +126,9 @@ proc save_config {} {
       puts $file_id "password ${password}"
    }
    close $file_id
+   
+   set config(login) $loginback
+   set password $passback
 }
 
 proc load_config {} {
