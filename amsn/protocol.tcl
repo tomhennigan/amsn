@@ -840,12 +840,6 @@ namespace eval ::MSN {
 
 		::MSN::StartPolling
 		::groups::Reset
-		if { [info exists config(expanded_group_online)] } {
-			set ::groups::bShowing(online) $config(expanded_group_online)
-		}
-		if { [info exists config(expanded_group_offline)] } {
-			set ::groups::bShowing(offline) $config(expanded_group_offline)
-		}
 
 		if {$config(connectiontype) == "direct" || $config(connectiontype) == "http" } {
 			::http::config -proxyhost ""
@@ -3705,13 +3699,14 @@ proc cmsn_auth {{recv ""}} {
 
 proc recreate_contact_lists {} {
 
-
+	global config
+	
 	#There's no need to recreate groups, as ::groups already gets all data
 	#from ::abook	
 	foreach groupid [::groups::GetList] {
 		::groups::Set $groupid [::groups::GetName $groupid]
 		if { [info exists config(expanded_group_$groupid)] } {
-			set ::groups::bShowing($groupid) [::config::getKey expanded_group_$groupid]
+			set ::groups::bShowing($groupid) [::config::getKey expanded_group_$groupid]		
 		} else {
 			set ::groups::bShowing($groupid) 1
 			::config::setKey expanded_group_$groupid 1

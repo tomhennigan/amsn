@@ -374,6 +374,13 @@ namespace eval ::groups {
 		set bShowing(offline)	1
 		set bShowing(blocked)   1
 	
+		global config
+		if { [info exists config(expanded_group_online)] } {
+			set bShowing(online) $config(expanded_group_online)
+		}
+		if { [info exists config(expanded_group_offline)] } {
+			set bShowing(offline) $config(expanded_group_offline)
+		}
 		::abook::setContactData contactlist groups ""
 		::abook::unsetConsistent
 		#Clear list of groups
