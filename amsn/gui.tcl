@@ -21,6 +21,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setDefaultColor statusbarbg #eeeeee
 	::skin::setDefaultColor statusbartext #000000
 
+	::skin::setDefaultColor underline_contact 1 ;#Use 1 to underline, 0 to not underline
 	
 	::skin::setDefaultColor chat_top_padx 0
 	::skin::setDefaultColor chat_top_pady 0
@@ -4991,13 +4992,13 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 
 
 	$pgBuddy.text tag bind $user_unique_name <Enter> \
-		"$pgBuddy.text tag conf $user_unique_name -under true; $pgBuddy.text conf -cursor hand2"
+		"$pgBuddy.text tag conf $user_unique_name -under [::skin::getColor underline_contact]; $pgBuddy.text conf -cursor hand2"
 
 	$pgBuddy.text tag bind $user_unique_name <Leave> \
 		"$pgBuddy.text tag conf $user_unique_name -under false;	$pgBuddy.text conf -cursor left_ptr"
 
 	bind $pgBuddy.text.$imgname <Enter> \
-		"$pgBuddy.text tag conf $user_unique_name -under true; $pgBuddy.text conf -cursor hand2"
+		"$pgBuddy.text tag conf $user_unique_name -under [::skin::getColor underline_contact]; $pgBuddy.text conf -cursor hand2"
 	bind $pgBuddy.text.$imgname <Leave> \
 		"$pgBuddy.text tag conf $user_unique_name -under false;	$pgBuddy.text conf -cursor left_ptr"
 

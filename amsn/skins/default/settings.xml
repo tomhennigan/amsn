@@ -53,6 +53,8 @@
      <statusbarbg>#fcfcee</statusbarbg>
      <statusbartext>#000000</statusbartext>
      
+     <underline_contact>1</underline_contact>
+     
      <chat_top_padx>3</chat_top_padx>
      <chat_top_pady>3</chat_top_pady>
      <chat_paned_padx>3</chat_paned_padx>

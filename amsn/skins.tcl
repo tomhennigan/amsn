@@ -624,7 +624,7 @@ proc SetColors {cstack cdata saved_data cattr saved_attr args} {
 			chat_top_padx chat_top_pady chat_paned_padx chat_paned_pady chat_output_padx chat_output_pady \
 			chat_buttons_padx chat_buttons_pady chat_status_padx chat_status_pady chat_input_padx chat_input_pady \
 			chat_dp_padx chat_dp_pady chat_leftframe_padx chat_leftframe_pady chat_sendbutton_padx \
-			chat_sendbutton_pady statusbarbg statusbartext \
+			chat_sendbutton_pady statusbarbg statusbartext underline_contact\
 			] {
 		if { [info exists sdata(${cstack}:$key)] } { ::skin::setColor $key [string trim $sdata(${cstack}:$key)] }
 	}
