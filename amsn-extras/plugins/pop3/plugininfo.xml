@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <plugin>
-	<name>POP3</name>
+	<name>pop3</name>
 	<author>Alberto Diaz and Arieh Schneier</author>
 	<description>Plugin to check POP3 accounts in aMSN in the same way as hotmail ones.</description>
 	<amsn_version>0.94</amsn_version>
