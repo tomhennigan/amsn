@@ -3,6 +3,7 @@ about Despre
 accept Accepta
 acceptfile Accept fisierul $1, marime $2? Salvat in $3
 actions Actiuni
+activeautoupdate Active auto-update
 addacontact Adauga o persoana noua  
 addedyou Te-a adaugat in lista lui/ei de contacte
 addprofile Adauga un profil nou
@@ -16,6 +17,7 @@ admingroups Administrare grup
 advanced Setari amanuntite
 advancedprefs Configurarea optiunilor
 adverts Avertismente
+agotinvitation Invitatia Audio receptionata de la $1
 alarmonconnect Activeaza sunetele de avertizare cand cineva se autentifica
 alarmondisconnect Activeaza sunetele de avertizare cand cineva se deautentifica sau devine invizibil
 alarmonmsg Activeaza sunetele de avertizare cand cineva iti trimite un mesaj
@@ -50,6 +52,10 @@ autoidle mod pasiv automat
 autoip IP automat
 automessage MesajAutomat
 autonoact Arata "Fara Activitate" cand sunt inactiv de
+avaccepted Cererea pentru conferinta Video acceptata
+avcanceled Cererea pentru conferinta Video anulata
+avgotinvitation Receptionat invitatie pentru conferinta Video de la $1
+avinitfailed Initializarea pluginului Audio/Video a esuat. Cererea anulata
 avoidseen Nu permite persoanei sa ma vada autentificat si sa ma contacteze.
 away Plecat
 awaymsg1 Confirmare inainte de schimbarea starii Plecat/Revin/Ocupat
@@ -150,6 +156,7 @@ countrycode Tara / Cod postal
 cprofile Creare Profil
 credits Multumiri
 currentdate Data curenta
+currentlanguage Aceasta este limba pe care o folositi
 custnotifymsg Afiseaza fereastra de avertizare cand soseste un mesaj nou de la un utilizator nou
 custnotifyoffline Afiseaza fereastra de avertizare cand partenerul de chat se deautentifica
 custnotifyonline Afiseaza fereastra de avertizare cand acest contact se autentifica
@@ -196,6 +203,7 @@ dockingoff Detaseaza
 dockkde Ataseaza in KDE
 dontdownload Nu descarca TLS, O sa il instalez manual
 dontshow Nu arata
+download Descarca
 downloadingtls In curs de descarcare modulul TLS de la:\n $1
 edit Editare
 editcustomstate Editeaza stare personalizata
@@ -230,14 +238,19 @@ filedoesnotexist Fisierul nu exista
 fileman Manager de fisiere
 filemanexample ( \$location va fi inlocuit cu directorul ) Ex: nautilus \$location
 filename Nume fisier
+filenotwritable Fisierul nu poate fi sters
 filetransfer Transfer de fisiere
 filetransfercancelled Transfer de fisier intrerupt
 filetransfercomplete Transfer de fisier complect
+filters Filtre
+filtersselect Selectati filtrele pe care vreti sa le vedeti\n(Nota: neselectarea nici unui filtru inseamna afisearea tuturor filtrelor)
+filtersx Selecteaza filtrul
 followtext Derulare in jos cand se introduce un text nou
 friendlyname Numele real
 ftaccepted Transfer de fisier acceptat
 ftacceptedby $1 a acceptat trasnferul pentru fisierul '$2'.
 ftaccepting Transfer de fisier acceptat
+ftautoclose Inchide fereastra cand transferul de fisire s-a terminat
 ftconnecterror Eroare de conectare la calculatorul de la distanta
 ftconnecting In curs de conectare la $1 portul $2
 ftconnectionlost Conexie intrerupta
@@ -300,6 +313,7 @@ keepalive Conectiune continua (NAT)
 keeplog Pastreaza jurnalele converatlor
 keeplog2 Jurnalizeaza toate conversatiile aMSN pentru vizualizare ulterioara
 language Alege limba
+language_manager Manager de limbaj
 lastlogin Ultima autentificare
 lastlogout Ultima deautentificare
 lastmsgedme Ultimul mesaj
@@ -370,8 +384,9 @@ myworkphone Telefonul de serviciu
 name Nume
 natip detectie de adresa IP prin pagina de web
 natkeepalive Daca esti deconectat frecvent, activeaza MentineConexia
-needonline Esti sau Apari neautentificat !
+needonline Esti sau apari neautentificat !
 needwinico Este nevoie de winico03.dll in directorul plugins ca minimizarea ferestrei sa functioneze
+needwinico2 Pentru functionarea minimizarii ferestrei in windows, este nevoie de winico05.dll in directorul utils/windows
 never Niciodata
 new_ft_protocol Foloseste protocolul nou de transfer fisiere.
 newmail $1 Mesaje noi in casuta postala
@@ -470,6 +485,7 @@ prefremote Preferintele conexiunii de la distanta
 prefsession Autentificarea si starea mea
 prefshared Conectii partajate (numai pentru NAT)
 prefsound Sunete
+preview	Vizualizare
 privacy Privata
 profiledconfig Configurare profil
 profileexists Nu puteti crea acest profil cu autentificarea curenta \n deoarece exista deja. Incercati cu o alta autentificare.
@@ -598,6 +614,7 @@ unknown Necunoscut
 unload Descarca
 uoffline Neautentificat
 uonline Autentificat
+update Actualizare
 useother Foloseste alt program
 user Utilizator
 useralreadyonlist Exista deja pe lista
@@ -624,6 +641,7 @@ xmmssend Trimite melodia curenta
 xoffset Coordonata X
 year An
 yes Da
+yesblock Blocare si da
 yesterday Ieri
 yoffset Coordonata Y
 youblocked Ai fost blocat
