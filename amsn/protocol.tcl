@@ -3045,9 +3045,10 @@ proc cmsn_change_state {recv} {
 		if { $config(notifyoffline) == 1 } {
 			::amsn::notifyAdd "$short_name\n[trans logsout]." "" offline offline
 		}
-		if { $config(checkonfln) == 1 } {
-			::MSN::chatTo "$user"
-		}
+		#blocking
+                #if { $config(checkonfln) == 1 } {
+			#::MSN::chatTo "$user"
+		#}
 	}
 
 	#TODO: Change this with ::MSN::setUserInfo
