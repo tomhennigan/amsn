@@ -31,7 +31,7 @@ namespace eval ::sayit {
 
 		if { (($email != [::config::getKey login]) && [focus] == "") && $msg != "" } {
 			if { $::tcl_platform(platform) == "windows" } {
-				WinSayit $msg
+				after 0 "WinSayit \"$msg\""
 			} else {
 				if {$config(voice)!=""} {
 					exec say -v $config(voice) $msg
