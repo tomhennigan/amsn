@@ -169,9 +169,12 @@ namespace eval ::guiContactList {
 		
 		set grId [getGroupId $email]
 		
-		#Add binding for ballon
+		#Add binding for balloon
 		if { [::config::getKey tooltips] == 1 } {
-			getBalloonMessage $email $element $canvas
+			$canvas bind $email <Enter> +[list balloon_enter %W %X %Y "[getBalloonMessage $email $element]"]
+			$canvas bind $email <Motion> +[list balloon_enter %W %X %Y "[getBalloonMessage $email $element]"]
+			$canvas bind $email <Leave> \
+				"+set Bulle(first) 0; kill_balloon"
 		}
 		
 		#Add binding for click / right click
@@ -361,7 +364,7 @@ namespace eval ::guiContactList {
 	
 	#Here we create the balloon message
 	#And we add the binding to the canvas item
-	proc getBalloonMessage {email element canvas} {
+	proc getBalloonMessage {email element} {
 	 	
 	 	#Get variables
 	 	set not_in_reverse [expr {[lsearch [::abook::getLists $email] RL] == -1}]
@@ -391,12 +394,7 @@ namespace eval ::guiContactList {
 		
 		#Define the final balloon message
 		set balloon_message "[string map {"%" "%%"} [::abook::getNick $email]]\n$email\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 $balloon_message4\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $email last_msgedme]"]"
-
-		#Add binding
-		$canvas bind $email <Enter> +[list balloon_enter %W %X %Y $balloon_message]
-		$canvas bind $email <Motion> +[list balloon_enter %W %X %Y $balloon_message]
-		$canvas bind $email <Leave> \
-			"+set Bulle(first) 0; kill_balloon"
+		return $balloon_message	
 	}
 	
 }
