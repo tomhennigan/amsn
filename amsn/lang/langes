@@ -3,6 +3,7 @@ about Acerca de
 accept Aceptar
 acceptfile ¿Aceptar archivo $1, tamaño $2 bytes? Se guardará en $3
 actions Acciones
+activeautoupdate Activar actualización automática
 addacontact Añadir un contacto
 addedyou $1 ($2) te ha añadido a su lista de contactos
 addprofile Añadir un perfil
