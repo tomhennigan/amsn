@@ -924,47 +924,54 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
 	
-	label $lfname.1.lchatmaxmin -text [trans chatmaxmin] -padx 10
-	radiobutton $lfname.1.max -text [trans raised] -value 0 -variable [::config::getVar newchatwinstate]
+	label $lfname.1.lchatmaxmin -text [trans chatmaxmin]
+	radiobutton $lfname.1.max -text [trans raised] -value 0 -variable [::config::getVar newchatwinstate] -padx 17
+	grid $lfname.1.lchatmaxmin -row 1 -column 1 -sticky w
 	
 	#Don't show the minimised option on Mac OS X because that does'nt work in TkAqua
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		#Empty 
 	} else {
-		radiobutton $lfname.1.min -text [trans minimised] -value 1 -variable [::config::getVar newchatwinstate]
+		radiobutton $lfname.1.min -text [trans minimised] -value 1 -variable [::config::getVar newchatwinstate] -padx 17
 	}
 	
-	radiobutton $lfname.1.no -text [trans dontshow] -value 2 -variable [::config::getVar newchatwinstate]
-	pack $lfname.1.lchatmaxmin -anchor w -side top -padx 10
+	radiobutton $lfname.1.no -text [trans dontshow] -value 2 -variable [::config::getVar newchatwinstate]  -padx 17
 	
 	#Don't pack the minimised option on Mac OS X because that does'nt work in TkAqua
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		pack $lfname.1.max $lfname.1.no -side left -padx 10
+		grid $lfname.1.max -row 2 -column 1 -sticky w
+		grid $lfname.1.min -row 3 -column 1 -sticky w
 	} else {
-		pack $lfname.1.max $lfname.1.min $lfname.1.no -side left -padx 10
+		grid $lfname.1.max -row 2 -column 1 -sticky w
+		grid $lfname.1.min -row 3 -column 1 -sticky w
+		grid $lfname.1.no -row 4 -column 1 -sticky w
 	}
 	
 	#Don't enable this option on Mac OS X because we can't minimized window this way with TkAqua
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		#empty
 	} else {
-		label $lfname.2.lmsgmaxmin -text [trans msgmaxmin] -padx 10
-		radiobutton $lfname.2.max -text [trans raised] -value 0 -variable [::config::getVar newmsgwinstate]
-		radiobutton $lfname.2.min -text [trans minimised] -value 1 -variable [::config::getVar newmsgwinstate]
-		pack $lfname.2.lmsgmaxmin -anchor w -side top -padx 10
-		pack $lfname.2.max $lfname.2.min -side left -padx 10
+		label $lfname.2.lmsgmaxmin -text [trans msgmaxmin]
+		radiobutton $lfname.2.max -text [trans raised] -value 0 -variable [::config::getVar newmsgwinstate] -padx 17
+		radiobutton $lfname.2.min -text [trans minimised] -value 1 -variable [::config::getVar newmsgwinstate] -padx 17
+		
+		grid $lfname.2.lmsgmaxmin -row 1 -column 1 -sticky w
+		grid $lfname.2.max -row 2 -column 1 -sticky w
+		grid $lfname.2.min -row 3 -column 1 -sticky w
 	}
 	
-	label $lfname.3.lmsgmode -text [trans msgmode] -padx 10
-	radiobutton $lfname.3.nottabbed -text [trans nottabbed] -value 0 -variable [::config::getVar tabbedchat]
-	radiobutton $lfname.3.tabbedglobal -text [trans tabbedglobal] -value 1 -variable [::config::getVar tabbedchat]
-	radiobutton $lfname.3.tabbedgroups -text [trans tabbedgroups] -value 2 -variable [::config::getVar tabbedchat] 
-
+	label $lfname.3.lmsgmode -text [trans msgmode] 
+	radiobutton $lfname.3.nottabbed -text [trans nottabbed] -value 0 -variable [::config::getVar tabbedchat] -padx 17
+	radiobutton $lfname.3.tabbedglobal -text [trans tabbedglobal] -value 1 -variable [::config::getVar tabbedchat] -padx 17
+	radiobutton $lfname.3.tabbedgroups -text [trans tabbedgroups] -value 2 -variable [::config::getVar tabbedchat] -padx 17
+	
+	grid $lfname.3.lmsgmode  -row 1 -column 1 -sticky w
+	grid $lfname.3.nottabbed -row 2 -column 1 -sticky w
+	grid $lfname.3.tabbedglobal -row 3 -column 1 -sticky w
+	grid $lfname.3.tabbedgroups -row 4 -column 1 -sticky w
+	
 	checkbutton $lfname.winflicker -text "[trans msgflicker]" -onvalue 1 -offvalue 0 -variable [::config::getVar flicker]
 	checkbutton $lfname.showdisplaypic -text "[trans showdisplaypic2]" -onvalue 1 -offvalue 0 -variable [::config::getVar showdisplaypic]
-
-	pack $lfname.3.lmsgmode -anchor w -side top -padx 10
-	pack $lfname.3.nottabbed $lfname.3.tabbedglobal $lfname.3.tabbedgroups -side left -padx 10
 
 	pack $lfname.1 $lfname.2 $lfname.3 $lfname.winflicker $lfname.showdisplaypic -anchor w -side top
 
