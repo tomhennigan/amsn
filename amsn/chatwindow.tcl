@@ -380,7 +380,7 @@ namespace eval ::ChatWindow {
 			::config::setKey wincontainersize  [string range $geometry 0 [expr {$pos_start-1}]]
 		}
 		if { [winfo exists ${window}.bar] } {
-			CheckForTooManyTabs $window
+			CheckForTooManyTabs $window 0
 		}
 	}
 
@@ -789,7 +789,6 @@ namespace eval ::ChatWindow {
 		if { !([UseContainer] == 0 || $container == "" )} {
 			AddWindowToContainer $container $w
 		}
-
 		return "$w"
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -807,6 +806,17 @@ namespace eval ::ChatWindow {
 		set container [CreateContainerWindow]
 		set mainmenu [CreateMainMenu $container]
 		$container configure -menu $mainmenu
+		
+		#Change Close item menu because the behavior is not the same with tabs
+		$container.menu.msn delete "[trans close]"
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			$container.menu.msn add command -label "[trans close]" \
+			    -command "::ChatWindow::CloseTabInContainer $container" -accelerator "Command-W"
+		} else {
+			$container.menu.msn add command -label "[trans close]" \
+			    -command "::ChatWindow::CloseTabInContainer $container"
+		}
+		
 
 		#we bind <Escape> to close the current tab
 		#set current [GetCurrentWindow $container]
@@ -951,8 +961,8 @@ namespace eval ::ChatWindow {
 			bind $w <Control-h> \
 				"::amsn::ShowChatList \"[trans history]\" $w ::log::OpenLogWin"
 		}
-
-		bind $w <<Escape>> "::ChatWindow::Close $w; break"
+		#I think it's not needed because the container already have <<escape>> binding
+		#bind $w <<Escape>> "::ChatWindow::Close $w; break"
 		bind $w <Destroy> "window_history clear %W; ::ChatWindow::Closed $w %W"
 
 
@@ -1117,10 +1127,10 @@ namespace eval ::ChatWindow {
 		#Add accelerator label to "close" on Mac Version
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			$msnmenu add command -label "[trans close]" \
-			    -command "destroy $w" -accelerator "Command-W"
+			    -command "::ChatWindow::Close $w" -accelerator "Command-W"
 		} else {
 			$msnmenu add command -label "[trans close]" \
-			    -command "destroy $w"
+			    -command "::ChatWindow::Close $w"
 		}
 
 		return $msnmenu
@@ -1180,7 +1190,7 @@ namespace eval ::ChatWindow {
 		set ${w}_show_picture 0
 		
 		$viewmenu add checkbutton -label "[trans showdisplaypic]" \
-			-command "::amsn::ShowOrHidePicture \[::ChatWindow::getCurrentTab $w\]" -onvalue 1 \
+			-command "::amsn::ToggleShowPicture \[::ChatWindow::getCurrentTab $w\]; ::amsn::ShowOrHidePicture \[::ChatWindow::getCurrentTab $w\]" -onvalue 1 \
 		    -offvalue 0 -variable "${w}_show_picture"
 		
 
@@ -2208,7 +2218,6 @@ namespace eval ::ChatWindow {
 				return
 			}
 		}
-
 		CheckForTooManyTabs $container
 	}
 
@@ -2401,8 +2410,8 @@ namespace eval ::ChatWindow {
 
 		::ChatWindow::UpdateContainerTitle $container
 
-		#make the focus
-		focus [::ChatWindow::GetInputText $win]
+		#make the focus, after 50ms to let the time to the window to be switched
+		after 50 focus [::ChatWindow::GetInputText $win]
 
 	}
 
@@ -2473,11 +2482,10 @@ namespace eval ::ChatWindow {
 
 	}
 
-	proc CheckForTooManyTabs { container } {
+	proc CheckForTooManyTabs { container {dorepack "1"}} {
 		variable containerwindows
 		variable visibletabs
 		variable win2tab
-
 		set bar_w [winfo width ${container}.bar]
 		set tab_w [image width [::skin::loadPixmap tab]]
 
@@ -2495,21 +2503,20 @@ namespace eval ::ChatWindow {
 		set more ${container}.bar.more
 		destroy $less
 		destroy $more
-
 		status_log "Got $number_tabs tabs in $container that has a max of $max_tabs\n" red
 
 		if { $number_tabs < 2 } {
 			pack forget ${container}.bar
 		} else {
 			#Fix  hidden tabs problem, thanks to Le philousophe
-			pack  ${container}.bar -side top -fill both -expand false
+			pack ${container}.bar -side top -fill both -expand false
+			#Theses lines are absolutely necessary on Mac OS X to fix a crash problem
+			if { [winfo exists [GetCurrentWindow $container]] && $dorepack && ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+				pack forget [GetCurrentWindow $container]
+				pack [GetCurrentWindow $container] -side bottom -expand true -fill both
+			}
 
-			#if { [winfo exists [GetCurrentWindow $container]] } {
-			#	pack forget [GetCurrentWindow $container]
-			#	pack [GetCurrentWindow $container] -side bottom -expand true -fill both
-			#}
 		}
-
 		if { $max_tabs > 0 && $number_tabs > $max_tabs } {
 			#-image [::skin::loadPixmap lesstabs] 
 			#[image width [::skin::loadPixmap lesstabs]] 
@@ -2519,7 +2526,6 @@ namespace eval ::ChatWindow {
 			    -fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
 			    -activebackground [::skin::getKey sendbuttonbg] -activeforeground black \
 			    -highlightthickness 0 -pady 0 -padx 0
-
 			#-image [::skin::loadPixmap moretabs] 
 			#[image width [::skin::loadPixmap lesstabs]] 
 			button $more -text ">" \
@@ -2528,24 +2534,21 @@ namespace eval ::ChatWindow {
 			    -fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
 			    -activebackground [::skin::getKey sendbuttonbg] -activeforeground black \
 			    -highlightthickness 0 -pady 0 -padx 0
-
 			if { $::tcl_version >= 8.4 } {
 				$less configure -overrelief flat -compound center
 				$more configure -overrelief flat -compound center
-			}
-			
+			}			
 			pack $more -side right -expand false -fill both -anchor e
 			pack $less -side right -expand false -fill both -anchor e
 
-			UpdateVisibleTabs $container  $max_tabs
-		
+			UpdateVisibleTabs $container  $max_tabs		
 			UpdateLessMoreButtons $container $less $more
 
 
 		} else {
 			set visibletabs($container) [set containerwindows($container)]
-		}
 
+		}
 		foreach window [set containerwindows($container)] {
 			set tab [set win2tab($window)]
 			catch {pack forget $tab}
@@ -2554,7 +2557,6 @@ namespace eval ::ChatWindow {
 			set tab [set win2tab($window)]
 			pack $tab -side left -expand false -fill both -anchor e
 		}
-
 	}
 
 	proc LessTabs { container less more} {
@@ -2675,7 +2677,6 @@ namespace eval ::ChatWindow {
 		if { [::config::getKey tabbedchat] == 0 } {
 			return $win
 		}
-
 		return $containercurrent($win)
 	}
 
