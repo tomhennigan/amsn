@@ -14,6 +14,10 @@ addto Toevoegen aan $1
 admincontacts Beheer contactpersonen
 admingroups Beheer groepen
 adverts Advertenties
+alarmonconnect Activeer alarm als een gebruiker online komt
+alarmondisconnect Activeer alarm als een gebruiker offline gaat of onzichtbaar wordt
+alarmonmsg Activeer alarm als een gebruiker je een bericht stuurt
+alarmonstatus Activeer alarm als een gebruiker van status veranderd
 alarmpref Alarm instellingen voor deze gebruiker
 alarmstatus Schakel het alarm voor deze gebruiker aan/uit
 allowallbutbl Sta alle gebruikers toe om contact met mij op te nemen, behalve geblokkeerde
@@ -50,6 +54,7 @@ blocking Blokkeren
 blockinter1 Controleer als je online bent elke
 blockinter2 seconden, en controleer anders elke:
 blockinter3 elke
+blockinter4 seconden.
 blocklist Lijst met geblokkeerde gebruikers
 blockmessage Deze mensen zijn online en hebben jou geblokkeerd
 blockusers Aantal gebruikers om tegelijk te controleren
@@ -64,6 +69,7 @@ casesensitive Gebruik hoofdlettergevoelige triggers
 cfgalarm Alarm configureren/toevoegen/verwijderen
 changefont Verander lettertype
 changenick Verander schermnaam
+changestate $1 heeft de status veranderd in $2
 chatack Gesprek aanvaarden van
 chat Gesprek
 chatmaxmin Als iemand een gesprek met mij begint, dan wil ik dat het is:
@@ -79,6 +85,7 @@ choosebasefont Lettertype
 choosebgcolor Achtergrondkleur
 choosecontact Kies een contactpersoon van de lijst
 choosefontcolor Tekstkleur
+chooseskin Kies de skin die je gebruiken wilt
 clearlog2 Verwijder Geschiedenis voor alle contacten
 clearlog3 Verwijder alle logboeken
 clearlog Logboek leegmaken
@@ -115,6 +122,7 @@ delprofile2 Kies het profiel dat je wilt verwijderen
 delprofile Verwijder profiel
 description Omschrijving
 directconnection Ik heb een directe verbinding met het internet (gebruik poort 1863)
+disconnect $1 is offline gegaan
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
 docking Docking
@@ -227,6 +235,7 @@ morepersonal Meer Staten ->
 movetogroup Verplaats naar groep
 move Verplaats
 msg Bericht
+msgflicker Laat titel van chat-venster knipperen als een bericht aankomt in een inactief venster.
 msgmaxmin Als een bericht aankomt, wil ik dat het is:
 msgmode Kies hoe meerdere chat-vensters worden weergegeven:
 msn AMSN
@@ -246,6 +255,7 @@ next Volgende
 noactivity Geen activiteit
 nodataavailable Geen gegevens beschikbaar voor $1
 nologfile Geen logboek voor $1
+noneavailable Geen beschikbaar.
 no Nee
 nonewmail Geen nieuwe berichten in Postvak IN
 nonewver Er zijn geen nieuwere versies beschikbaar
@@ -278,6 +288,7 @@ personal Persoonlijk
 phone Telefoon
 picfile Alarm beeldbestand (GIF < 500 x 500 pixels)
 picstatus Schakel alarm beeldbestand aan/uit
+pluginselector Selecteer plugins
 port Poort
 prefalerts Mijn Alarm en Geluiden
 prefapps Programma's
@@ -336,6 +347,8 @@ save Opslaan
 savetofile Opslaan in bestand
 says $1 zegt
 sbcon Bezig met verbinden met Switch Board
+selectplugins Selecteer de plugins die je wilt activeren
+selectskin Kies een skin uit de lijst
 sendfile Verzend een bestand
 sendmail Verstuur een e-mail
 sendmsg Verstuur een bericht
@@ -345,6 +358,8 @@ servergoingdown Verbinding verbroken: De server gaat uit
 server Server
 session Sessie
 showblockedlist Toon de lijst van mensen die jou geblokkeerd hebben
+skinselector Kies een skin
+skin Skin
 smileconfig Configuratie voor zelfgemaakte smileys
 smilefile Bestandsnaam van de smiley
 smileintro2 Pas de nodige velden aan om deze smiley te bewerken

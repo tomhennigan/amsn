@@ -14,6 +14,10 @@ addtoo Ajouter cette personne à ma liste de contacts
 admincontacts Gérer les contacts
 admingroups Gérer les groupes
 adverts Publicité
+alarmonconnect Activer l'alarme quand l'utilisateur se connecte
+alarmondisconnect Activer l'alarme quand un utilisateur se déconnecte ou passe en mode invisible
+alarmonmsg Activer l'alarme quand un utilisateur m'envoie un message
+alarmonstatus Activer l'alarme quand un utilisateur change de statut
 alarmpref Configuration alarme utilisateur
 alarmstatus Activer/désactiver l'alarme pour cet utilisateur
 allowallbutbl Autoriser tout le monde à me contacter sauf les personnes que j'ai bloquées
@@ -64,6 +68,7 @@ casesensitive Utiliser des déclencheurs sensibles à la casse
 cfgalarm Configurer/Ajouter/Supprimer alarme
 changefont Changer la police
 changenick Changer de pseudonyme
+changestate $1 a changé de statut : $2
 chatack Accepter de discuter avec
 chat Discuter
 chatmaxmin Quand une fenêtre d'invitation de dialogue s'ouvre, je veux qu'elle soit :
@@ -79,6 +84,7 @@ choosebasefont Choisir la police de caractère
 choosebgcolor Choisir la couleur de fond
 choosecontact Veuillez choisir un contact dans la liste
 choosefontcolor Choisir la couleur de police
+chooseskin sélectionnez l'apparence que vous souhaitez utiliser dans la liste
 clearlog2 Effacer l'historique de tout les contacts
 clearlog3 Effacer tout les logs
 clearlog Effacer les logs
@@ -115,6 +121,7 @@ delprofile2 Sélectionner le profil que vous voulez supprimer
 delprofile Supprimer un profil
 description Description
 directconnection J'ai une connexion directe à Internet (utilisation du port 1863)
+disconnect $1 s'est déconnecté
 dockfreedesktop Bureau de travail libre (KDE3/Gnome2)
 dockgtk Ancrer dans GTK
 docking Ancrage actif
@@ -226,6 +233,7 @@ mobile Mobile
 morepersonal Autres états ->
 move Déplacer
 movetogroup Déplacer vers groupe
+msgflicker faire clignoter la barre de titre d'une fenêtre inactive quand un message est reçu
 msgmaxmin Quand un nouveau message arrive, je veux qu'il soit
 msg Message
 msgmode Choisissez comment manier plusieurs fenêtres de messages :
@@ -247,6 +255,7 @@ next Suivant
 noactivity Inactif
 nodataavailable Pas de données disponibles pour $1
 nologfile Pas de fichier log pour $1
+noneavailable Pas disponible
 nonewmail Pas de nouveau message
 nonewver Il n'y a pas de nouvelle version disponible
 no Non
@@ -279,6 +288,7 @@ personal Personnel
 phone Téléphone
 picfile Image associée à l'alarme (GIF < 500 x 500)
 picstatus Activer/Désactiver l'image associée à l'alarme
+pluginselector Sélection d'un plug-in
 port Port
 prefalerts Mes Alertes d'évènements et sons
 prefapps Applications
@@ -337,6 +347,8 @@ save Enregistrer
 savetofile Sauvegarder dans un fichier
 says $1 dit
 sbcon Connexion au "Switch Board"
+selectplugins Sélectionnez un plug-in
+selectskin sélectionnez l'apparence que vous souhaitez utiliser dans la liste
 send Envoyer
 sendfile Envoyer un fichier
 sendmail Envoyer un courrier
@@ -346,6 +358,8 @@ servergoingdown Serveur en cours d'arrêt
 server Serveur
 session Session
 showblockedlist Voir la liste des personnes que vous avez bloqué
+skin apparence
+skinselector Changer l'apparence
 smileconfig Configuration des émoticons personnalisés
 smilefile Nom du fichier de l'émoticon
 smileintro2 Veuillez editer les champs obligatoires pour personnaliser cet émoticon (voir la FAQ pour l'aide)

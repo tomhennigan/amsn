@@ -14,6 +14,10 @@ addtoo Afegeix aquesta persona a la meva llista de contactes
 admincontacts Administrar la llista de contactes
 admingroups Administrar grups
 adverts Anuncis
+alarmonconnect Activa l'alarma quan l'usuari es connecti
+alarmondisconnect Activa l'alarma quan l'usuari canviï a l'estat "Desconnectat"
+alarmonmsg Activa l'alarma quan l'usuari t'enviï un missatge
+alarmonstatus Activa l'alarma quan l'usuari canviï d'estat
 alarmpref Preferències de l'alarma per l'usuari
 alarmstatus Activar l'alarma per aquest usuari
 allowallbutbl Permet que tots els usuaris, llevat dels bloquejats, contactin amb mi
@@ -50,6 +54,7 @@ blocking Bloqueig
 blockinter1 Quan el meu estat sigui Connectat, comprova-ho cada
 blockinter2 segons, sinó comprova-ho cada
 blockinter3 de cada
+blockinter4 segons.
 blocklist Llista de bloquejats:
 blockmessage Aquesta gent estan connectats i t'han bloquejat
 blockusers Número de contactes a comprovar cada vegada:
@@ -64,6 +69,7 @@ casesensitive Diferenciar les majúscules i les minúscules als disparadors
 cfgalarm Configurar l'alarma per aquest usuari
 changefont Canviar font
 changenick Canviar el meu sobrenom
+changestate $1 canvia l'estat a $2
 chatack Acceptant xat de
 chatmaxmin Quan un contacte obri una conversa, vull que sigui:
 chatreq Demanant xat
@@ -79,6 +85,7 @@ choosebasefont Canviar la font
 choosebgcolor Canviar el color de fons
 choosecontact Si us plau, selecciona un contacte de la llista
 choosefontcolor Escull el color del tipus de lletra
+chooseskin Selecciona l'aparença que vols utilitzar
 clearlog2 Neteja l'historial per tots els contactes
 clearlog3 Netejar tots els registres
 clearlog Neteja de l'historial
@@ -115,6 +122,7 @@ delprofile2 Selecciona el perfil que t'agradaria eliminar
 delprofile Esborrar perfil
 description Descripció
 directconnection Tinc una connexió directa a Internet (utilitza el port 1863)
+disconnect $1 s'ha desconnectat.
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Acoplament amb el Gnome
 docking Acoplament
@@ -228,6 +236,7 @@ move Moure
 movetogroup Moure al grup
 msgmaxmin Quan arribi un nou missatge, vull que la finestra sigui:
 msg Missatge
+msgflicker Fes pampalluguejar el títol de la conversa quan arribi un missatge en una finestra no seleccionada
 msgmode Escull com gestionar finestres de missatges múltiples:
 msn aMSN
 mustrestart Has de reiniciar el programa per a que els canvis tinguin efecte
@@ -246,6 +255,7 @@ next Següent
 noactivity Sense activitat
 nodataavailable No hi ha dades disponibles per a $1
 nologfile No existeix fitxer d'historial per $1
+noneavailable No disponible
 nonewmail No hi ha missatges nous a la bústia
 nonewver No hi ha cap versió nova per a baixar-se
 no No
@@ -278,6 +288,7 @@ personal Personal
 phone Telèfon
 picfile Fitxer d'imatge per a l'alarma (GIF < 500 x 500)
 picstatus Imatge per a l'alarma
+pluginselector Selecciona el connector
 port Port
 prefalerts Alertes i sons d'events
 prefapps Aplicacions
@@ -336,6 +347,8 @@ save Desar
 savetofile Desar en fitxer
 says $1 diu
 sbcon Connectant amb la Switch Board
+selectplugins Selecciona els connectors que vols activar
+selectskin Selecciona una aparença de la llista
 send Enviar
 sendfile Enviar fitxer
 sendmail Enviar correu electrònic
@@ -345,6 +358,8 @@ servergoingdown Desconnectat: El servidor s'apagarà per manteniment
 server Servidor
 session Sessió
 showblockedlist Mostra'm la llista de la gent que em té bloquejat a la seva llista de contactes
+skin Aparença
+skinselector Selector d'aparences
 smileconfig Configura l'emoticona personalitzada
 smilefile Nom del fitxer de l'emoticona
 smileintro2 Edita els camps per personalitzar aquesta emoticona (a les FAQ tens més ajuda)

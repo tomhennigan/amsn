@@ -14,6 +14,10 @@ addtoo Aggiungi questa persona alla mia lista dei contatti
 admincontacts Amministrazione contatti
 admingroups Amministrazione gruppi
 adverts Avvertimenti
+alarmonconnect Attiva un allarme quando un utente diventa online
+alarmondisconnect Attiva un allarme quando un utente diventa sconnesso/invisibile
+alarmonmsg Attiva un allarme quando un utente ti manda un messaggio
+alarmonstatus Attiva un allarme quando un utente cambia il suo stato
 alarmpref Impostazioni dell'allarme dell'utente
 alarmstatus (Dis)Abilita l'allarme per questo utente
 allowallbutbl Permetti a tutti gli utenti tranne quelli nella lista dei bloccati di contattarmi
@@ -21,7 +25,8 @@ allowbadwords Disabilita la censura sui nicknames
 allowlist Permetti la lista:
 allowonlyinal Permetti soltanto agli utenti nella mia lista dei Permessi di contattarmi
 allowseen Permetti a questa persona di vedermi e di contattarmi quando sono connesso
-animatedemoticon Questa emoticon Ã¨ animata
+animatedemoticon Questa emoticon è animata
+animatedemoticon Questa emoticon è animata
 animatedsmileys Abilita le animazioni delle faccine
 appearance Apparenza
 appearoff Invisibile
@@ -50,6 +55,7 @@ blocking in blocco
 blockinter1 Quando il tuo stato è "In linea" controlla ogni
 blockinter2 secondi, altrimenti controlla ogni :
 blockinter3 ogni
+blockinter4 secondi.
 blocklist Lista di utenti bloccati:
 blockmessage Queste persone sono online e bloccate da te
 blockusers Numero di utenti da controllare subito
@@ -64,6 +70,7 @@ casesensitive Usa comandi discriminanti tra maiuscole e minuscole
 cfgalarm Configure/Aggiungi/Rimuovi l'allarme
 changefont Cambia font
 changenick Cambia nick
+changestate $1 cambia stato in $2
 chatack Sto accentando una chiamata da
 chat Inizia la conversazione
 chatmaxmin Quando un contatto apre una chat con me io voglio essere:
@@ -79,6 +86,7 @@ choosebasefont Seleziona il font
 choosebgcolor Cambia il colore di sfondo
 choosecontact Per favore scegli un contatto dalla lista
 choosefontcolor Scegliere il colore del font
+chooseskin Scegli la Skin che preferisci usare
 clearlog2 Cancella l'Hisotry per tutti i tuoi contatti
 clearlog3 Cancella tutti i Log
 clearlog Cancella il Log
@@ -115,6 +123,7 @@ delprofile2 Seleziona il profilo che ti piacerebbe rimuovere
 delprofile Cancella il profilo
 description Descrizione
 directconnection Ho una connessione diretta ad internet (usa la porta 1863)
+disconnect $1 si è sconnesso.
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Dock GNOME
 docking Abilita dock
@@ -178,7 +187,8 @@ ident Identificazione
 identity Identità
 inbox In Arrivo
 internalerror Errore interno del server
-invalidfile Il file $2 inserito nel campo "$1" non esiste o non Ã¨ leggibile
+invalidfile Il file $2 inserito nel campo "$1" non esiste o non è leggibile
+invalidfile Il file $2 inserito nel campo "$1" non esiste o non è leggibile
 invalidusername Username non valido
 invitationcancelled L'invito è stato cancellato
 invite Invita
@@ -215,7 +225,8 @@ logolder Registra soltanto le chat che hanno preso posto nell'ultimo
 logout Abbandona
 logsin si e' appena connesso
 logsmileys Mostra le emoticon e le facine nella finestra dell'History di aMSN
-logsout Ã¨ appena uscito
+logsout è appena uscito
+logsout è appena uscito
 lprivtoconf Chat privata divenuta conversazione con $1
 luclosedwin Hai chiuso la finestra su $1
 mailer Client di posta
@@ -226,6 +237,7 @@ mobile Mobile
 morepersonal Più stati personali ->
 move Muovi
 movetogroup Sposta al gruppo
+msgflicker Evidenzia il titolo di una finestra di chat quando viene ricevuto un nuovo messaggio e la finestra è in secondo piano.
 msgmaxmin Quando arriva un nuovo messaggio io voglio che sia:
 msg Messaggio
 msgmode Seleziona come gestire le finestre dei messaggi multipli:
@@ -246,6 +258,7 @@ next Prossimo
 noactivity Nessuna attività
 nodataavailable Non ci sono dati disponibili per $1
 nologfile Non c'é un file di registro per $1
+noneavailable Niente disponibile
 nonewmail Nessun nuovo messaggio di posta
 nonewver Non ci sono nuove versioni da scaricare
 no No
@@ -278,6 +291,7 @@ personal Personale
 phone Telefono
 picfile File dell'immagine dell'allarme (GIF < 500x500)
 picstatus (Dis)Abilita l'immagine per l'allarme
+pluginselector Seleziona i Plugins
 port Porta
 prefalerts Suoni e Allarmi dei miei eventi
 prefapps Applicazioni
@@ -309,7 +323,7 @@ prefshared Connessioni condivise (solo per NAT)
 prefsound Suono
 privacy Privacy
 profiledconfig Configurazione del Profilo
-profileexists Non puoi creare un profilo con questo login \n perchÃ© ne esiste giÃ  un altro. Per favore scegli un altro login.
+profileexists Non puoi creare un profilo con questo login \n perché ne esiste già un altro. Per favore scegli un altro login.
 profileinuse Questo profilo è già in uso da un'altra sessione di aMSN, per favore sceglierne un altro
 profileloginradio Entra usando un profilo esistente
 profiles Profili
@@ -320,6 +334,8 @@ proxyconnection Mi connetto ad internet usando un server proxy:
 proxy Sono dietro un server proxy (HTTP o SOCKS5)
 publishphones Pubblica il mio numero di telefono
 raised Grande/Deiconificato
+readonlymsgbox Il trasferimento del file e' stato annullato perche' la directory di destinazione ha permessi di sola lettura. \nPer favore cambia i permessi.
+readonlywarn ATTENZIONE: Il file potrebbe NON venire salvato correttamente poiche' la directory "File Ricevuti" sembra essere protetta da scrittura.\n Per favore assicurati che i permessi della directory ($1) siano impostati correttamente prima di trasferire il file.
 receivedbytes Ricevuti $1 byte su $2
 receivefile Sto ricevendo il file
 reconnecting Riconnessione al server
@@ -336,6 +352,8 @@ save Salva
 savetofile Salva nel file
 says $1 dice
 sbcon Connessione a Switch Board
+selectplugins Seleziona i Plugins che desideri attivi
+selectskin Seleziona una Skin dalla lista
 sendfile Manda file
 send Invia
 sendmail Manda e-mail
@@ -345,6 +363,8 @@ servergoingdown Disconnesso: il server sta andando giù
 server Server
 session Sessione
 showblockedlist Mostra la lista delle persone che ti bloccano
+skinselector Seleziona Skin
+skin Skin
 smileconfig Configurazione delle emoticon personalizzate
 smilefile Nome del file della faccina
 smileintro2 Per favore modifica i campi richiesti per personalizzare questa faccina (guarda le FAQ per un aiuto)
