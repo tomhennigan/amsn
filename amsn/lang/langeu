@@ -651,21 +651,26 @@ modified Aldatuta
 note Oharra
 avcanceled Bideo konferentzia errefusatua
 allow_sms Utzi nire kontaktuei kontaktatzea nire MSN mugikorrera
-avgotinvitation Bideo konferentzia baterako inbitazino bat jaso da $1-rengandik.
-avinitfailed Audio/Bideoaren pluginaren hasieran hust baten bat sortu da. Deia moztua.
-clicktoadd Sakatu gehitu botoiari ahora berri bat egiteko.
+avgotinvitation Bideo konferentzia baterako gonbidapen bat jaso da $1-rengandik.
+avinitfailed Audio/Bideoaren pluginaren hasieran akats baten bat sortu da. Deia moztua.
+clicktoadd Sakatu gehitu botoiari ohar berri bat egiteko.
 created Sortuta
-currentnotes Orain arteko ahorrak
+currentnotes Orain arteko oharrak
 globalcontainer Edukiontzi globlala
-inserttextnote Idatzi tituloaren lekuan eta notaren lekuan, ondoren klik egin gorde botoian
+inserttextnote Idatzi izenburu eta oharraren lekuan, ondoren klik egin gorde botoian
 mobilegrp1 Mugikor taldea
 mobilegrp2 sartu kontaktuak "mugikor" taldean deskonektaturik daudenean (egoeraz ordenaturik)
-newtabbedfeature aMSN-ak ezaugarri berri bat dauka elkarrizketak antolatzeko, orain  lehio guztiak talde batean eduki ditzakezu edo zure kontaktu lista  osoa lehio batean. Mesedez, aukeratu  nola antolatu behar dituen zure elkarrizketak
-nottabbed Lehioak elkartuta egon barik
+newtabbedfeature aMSN-ak ezaugarri berri bat dauka elkarrizketak antolatzeko, orain  leiho guztiak talde batean eduki ditzakezu edo zure kontaktu zerrenda osoa leiho batean. Mesedez, aukeratu  nola antolatu behar dituen zure elkarrizketak
+nottabbed Leihoak elkartuta egon barik
 sendmobmsg $1 bidali mugikor batera
-subject Titulua
-subjectrequired Titulu bat behar da
-tabbedglobal Lehio bakar bat kontaktu guztientzat
-tabbedgroups Lehio bakar bat talde bateko kontaktu guztientzat
-tabtitlenick Erakutsi nick-a e-mailaren ordez interguneetan
-wintitlenick Erakutsi nick-a e-mailaren ordez lehio intergunedunetan
+subject Izenburua
+subjectrequired Izenburu bat behar da
+tabbedglobal Leiho bakar bat kontaktu guztientzat
+tabbedgroups Leiho bakar bat talde bateko kontaktu guztientzat
+tabtitlenick Erakutsi nick-a e-postaren ordez interguneetan
+wintitlenick Erakutsi nick-a e-postaren ordez leiho intergunedunetan
+checkopenfilecommand Lehentasunen leihoan fitxategia ireki komandoa egiaztatu
+deleteall Guztia ezabatu
+opendir Direktorioa ireki
+openfile Ireki
+openfilecommand Ireki fitxategia komandoa
