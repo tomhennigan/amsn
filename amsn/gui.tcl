@@ -7128,9 +7128,9 @@ proc chooseFileDialog { {initialfile ""} {title ""} {parent ""} {entry ""} {oper
 		set starting_dir [file dirname $selfile]
 		
 		if { $entry != "" } {
-			$ent delete 0 end
-			$ent insert 0 $file
-			$ent xview end
+			$entry delete 0 end
+			$entry insert 0 $selfile
+			$entry xview end
 		}
 	}
 	
