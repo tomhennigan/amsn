@@ -16,6 +16,7 @@ away Away
 blankdirect Leave blank for direct connection
 block Block
 blocked Blocked
+browser Browser
 busy Busy
 cancel Cancel
 changenick Change nick
@@ -27,6 +28,7 @@ checkver Check for new version
 checkingver Checking for new versions
 clicktologin Click here to log in
 close Close
+command Command
 contactadded Contact added
 connecterror Error connecting to server
 date Date
@@ -52,6 +54,7 @@ login Log In
 loginas Login as
 logout Log Out
 logsin has just logged in
+mailer Mailer
 mustrestart You must restart the program to apply changes
 mystatus My status
 msg Message

@@ -17,6 +17,7 @@ away Ausente
 blankdirect Dejar en blanco para conexión directa
 blocked Bloqueado
 block No admitir
+browser Navegador
 busy No disponible
 cancel Cancelar
 changenick Cambiar apodo
@@ -28,6 +29,7 @@ checkingver Buscando si hay disponible una nueva versión
 checkver Buscar nuevas versiones
 clicktologin Haga click aquí para iniciar la sesión
 close Cerrar
+command Comando
 contactadded Contacto añadido
 date Fecha
 delete Eliminar
