@@ -97,6 +97,7 @@ close Close
 closed Conversation with $1 closed due to inactivity
 closingdocks Close button minimizes
 command Command
+commandstatus Execute command
 confirm Are you sure?
 confirmdelete Are you sure you want to delete $1?
 connected You are now connected

@@ -89,7 +89,19 @@ proc alarm_cfg { user } {
 	set my_alarms(${user}_onconnect) $alarms(${user}_onconnect)
 	set my_alarms(${user}_onmsg) $alarms(${user}_onmsg)
 	set my_alarms(${user}_onstatus) $alarms(${user}_onstatus)
-	set my_alarms(${user}_ondisconnect) $alarms(${user}_ondisconnect)
+       set my_alarms(${user}_ondisconnect) $alarms(${user}_ondisconnect)
+       if { [info exists alarms(${user}_command)] } {
+	   set my_alarms(${user}_command) $alarms(${user}_command)
+       } else {
+	   set my_alarms(${user}_command) ""
+       }
+	    
+       if { [info exists alarms(${user}_oncommand)] } {
+	   set my_alarms(${user}_oncommand) $alarms(${user}_oncommand)
+       } else {
+	   set my_alarms(${user}_oncommand) 0
+       }	    
+
    } else {
 	set my_alarms(${user}) 1
 	set my_alarms(${user}_sound) "[GetSkinFile sounds alarm.wav]"
@@ -114,6 +126,16 @@ proc alarm_cfg { user } {
 	pack .alarm_cfg.sound2.button2 -side top -anchor w
    pack .alarm_cfg.sound1 -side top -padx 10 -pady 2 -anchor w -fill x
    pack .alarm_cfg.sound2 -side top -padx 10 -pady 2
+
+   frame .alarm_cfg.command1
+   frame .alarm_cfg.command2
+   LabelEntry .alarm_cfg.command1.entry "[trans command]" my_alarms(${user}_command) 30
+   checkbutton .alarm_cfg.command2.button -text "[trans commandstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_oncommand) -font splainf
+   pack .alarm_cfg.command1.entry -side left -expand true -fill x
+   pack .alarm_cfg.command2.button -side left -expand true -fill x
+   pack .alarm_cfg.command1 -side top -padx 10 -pady 2 -anchor w -fill x
+   pack .alarm_cfg.command2 -side top -padx 10 -pady 2
+
 
    frame .alarm_cfg.pic1
    frame .alarm_cfg.pic2
@@ -198,6 +220,8 @@ proc save_alarm_pref { user } {
    set alarms(${user}_onmsg) $my_alarms(${user}_onmsg)
    set alarms(${user}_onstatus) $my_alarms(${user}_onstatus)
    set alarms(${user}_ondisconnect) $my_alarms(${user}_ondisconnect)
+   set alarms(${user}_command) $my_alarms(${user}_command)
+   set alarms(${user}_oncommand) $my_alarms(${user}_oncommand)
    cmsn_draw_online
 
    unset my_alarms
@@ -225,6 +249,10 @@ proc run_alarm {user msg} {
 	pack .${wind_name}.jojo
 	}
    }
+
+    if { $alarms(${user}_oncommand) == 1 } {
+	catch { eval exec $alarms(${user}_command) & } res 
+    }
 
 	status_log "${wind_name}"
    if { $alarms(${user}_sound_st) == 1 } {
