@@ -44,8 +44,8 @@ proc adv_initialize { win } {
 #    image create photo banner
 #    banner blank
 
-#    label ${win}.banner -bd 0 -relief flat -background #FFFFFF
-    label ${win}.banner -bd 0 -relief flat -background $bgcolor
+    label ${win}.banner -bd 0 -relief flat -background #FFFFFF
+#    label ${win}.banner -bd 0 -relief flat -background $bgcolor
     pack ${win}.banner -side bottom -fill x
 #    ${win}.banner configure -image banner
 
@@ -63,14 +63,15 @@ proc adv_initialize { win } {
 
 # Reset the banner, either showing it or hiding it
 proc resetBanner {} {
+	global bgcolor
 
 	if {[::config::getKey enablebanner]} {
 		# This one is not a banner but a branding. When adverts are enabled
 		# they share this space with the branding image. The branding image
 		# is cycled in between adverts.
-		.main.banner configure -image [::skin::loadPixmap logolinmsn]
+		.main.banner configure -background #FFFFFF -image [::skin::loadPixmap logolinmsn]
 	} else {
-		.main.banner configure -image [::skin::loadPixmap nullimage]
+		.main.banner configure -background $bgcolor -image [::skin::loadPixmap nullimage]
 	}
 }
 
