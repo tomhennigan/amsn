@@ -2279,7 +2279,7 @@ namespace eval ::amsn {
       }
 
       if {$config(chatsmileys)} {
-	  smile_subst ${win_name}.f.out.text $text_start end 1
+	  smile_subst ${win_name}.f.out.text $text_start end 0
       }
 
 
@@ -4072,7 +4072,7 @@ proc cmsn_draw_online { {force 0} } {
 
 	#Don't replace smileys in all text, to avoid replacing in mail notification
 	if {$config(listsmileys)} {
-		smile_subst $pgBuddy.text 0.0 end 1
+		smile_subst $pgBuddy.text 0.0 end
 	}
 
 }
