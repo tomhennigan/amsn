@@ -15,7 +15,15 @@ namespace eval ::ChatWindow {
 	variable recent_message
 	variable titles
 	variable windows [list]
-	variable winid 0
+
+	if { [info exists ::ChatWindow::winid] } {
+		# As ::ChatWindow::winid is the index used in the
+		# window widgets for chat windows, we only initialize
+		# it at the first time, to avoid problems with proc
+		# reload_files wich will cause some bugs related to
+		# winid being 0 after some windows have been created.
+		variable winid 0
+	}
 	#///////////////////////////////////////////////////////////////////////////////
 
 
@@ -306,9 +314,6 @@ namespace eval ::ChatWindow {
 		# If there wasn't a window created and assigned to $chatid, let's create one
 		# through ::ChatWindow::Open and assign it to $chatid with ::ChatWindow::SetFor
 		if { $win_name == 0 } {
-			# This debug message is temporary here to help us to find the bug of the
-			# window .msg_0 created when it was already created, so it raises an error.
-			status_log "DEBUG: ::ChatWindow::MakeFor - No Window for $chatid, calling ::ChatWindow::Open to create\n" red
 			set win_name [::ChatWindow::Open]
 			::ChatWindow::SetFor $chatid $win_name
 			update idletasks
@@ -441,20 +446,10 @@ namespace eval ::ChatWindow {
 	proc Open { } {
 		global  HOME files_dir tcl_platform xmms
 
-		# Some debug information put here to help us to locate the bug reported by Jerome
-		# and Youness about creating a window .msg_0 that already exists. All the ouput in
-		# red and prefixed with the string 'DEBUG: ' in this proc is for that pourpose.
-		status_log "DEBUG: ::ChatWindow::winid value: $::ChatWindow::winid\n" red
-		status_log "DEBUG: We are going to create window .msg_$::ChatWindow::winid\n" red
-		
 		set win_name "msg_$::ChatWindow::winid"
 		incr ::ChatWindow::winid
 
-		status_log "DEBUG: ::ChatWindow::winid incremented, new value: $::ChatWindow::winid\n" red
-
 		toplevel .${win_name} -class Amsn
-
-		status_log "DEBUG: .$win_name created successfully\n" red
 
 		# If there isn't a configured size for Chat Windows, use the default one and store it.
 		if {[catch { wm geometry .${win_name} [::config::getKey winchatsize] } res]} {
