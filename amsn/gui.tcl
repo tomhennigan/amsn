@@ -2056,32 +2056,29 @@ namespace eval ::amsn {
 
 
 	proc ShowInviteList { title win_name } {
-		global list_users
-
-
-		#if {![::MSN::chatReady [ChatFor $win_name]]} {
-		#   return 0
-		#}
+		global list_users list_states
 
 		set userlist [list]
 		set chatusers [::MSN::usersInChat [ChatFor $win_name]]
 
-		foreach user_info $list_users {
+		foreach user_info $list_users {			
 			set user_login [lindex $user_info 0]
 			set user_state_no [lindex [::MSN::getUserInfo $user_login] 2]
 			if {($user_state_no < 7) && ([lsearch $chatusers "$user_login"] == -1)} {
-				set user_name [lindex [::MSN::getUserInfo $user_login] 1]
-				lappend userlist [list $user_login $user_name $user_state_no]
+				if { $user_state_no != 0 } {
+					lappend userlist [list "[::abook::getUserDisplayName $user_login] ([trans [lindex [lindex $list_states $user_state_no] 1]])" $user_login]
+				} else {
+					lappend userlist [list "[::abook::getUserDisplayName $user_login]" $user_login]
+				}
 			}
 		}
 
 		set chatid [ChatFor $win_name]
 
 		if { [llength $userlist] > 0 } {
-			#ChooseList $title both "::MSN::inviteUser [ChatFor $win_name]" 1 0 $userlist
-			ChooseList $title both "::amsn::queueinviteUser [ChatFor $win_name]" 1 0 $userlist
+			::amsn::listChoose $title $userlist "::amsn::queueinviteUser [ChatFor $win_name]" 1 0
+
 		} else {	        
-			#cmsn_draw_otherwindow $title "::MSN::inviteUser [ChatFor $win_name]"
 			cmsn_draw_otherwindow $title "::amsn::queueinviteUser [ChatFor $win_name]"
 		}
 	}
@@ -2091,21 +2088,28 @@ namespace eval ::amsn {
 	}
 
 	proc ShowChatList {title win_name command} {
-		global list_users
+		global list_users list_states
 
 		set userlist [list]
 		set chatusers [::MSN::usersInChat [ChatFor $win_name]]
 
 		foreach user_login $chatusers {
 			set user_state_no [lindex [::MSN::getUserInfo $user_login] 2]
-			status_log "user_state_no: $user_state_no\n"
 
 			set user_name [lindex [::MSN::getUserInfo $user_login] 1]
-			lappend userlist [list $user_login $user_name $user_state_no]
+#			lappend userlist [list $user_login $user_name $user_state_no]
+			if { $user_state_no != 0 } {
+				lappend userlist [list "[::abook::getUserDisplayName $user_login] ([trans [lindex [lindex $list_states $user_state_no] 1]])" $user_login]
+			} else {
+				lappend userlist [list "[::abook::getUserDisplayName $user_login]" $user_login]
+			}
+			
 		}
 
 		if { [llength $userlist] > 0 } {
-			ChooseList $title both $command 0 1 $userlist
+			status_log "Here\n"
+			#ChooseList $title both $command 0 1 $userlist
+			::amsn::listChoose $title $userlist $command 0 1
 		} else {
 			status_log "No users\n"
 		}
@@ -2113,6 +2117,94 @@ namespace eval ::amsn {
 	}
 
 
+	#///////////////////////////////////////////////////////////////////////////////
+	#title: Title of the window
+	#itemlist: Array,or list, with two columns and N rows. Column 0 is the one to be
+	#shown in the list. Column 1 is the use used to parameter to the command
+	proc listChoose {title itemlist command {other 0} {skip 1}} {
+		global userchoose_req bgcolor tcl_platform
+
+		set itemcount [llength $itemlist]
+
+		#If just 1 user, and $skip flag set to one, just run command on that user
+		if { $itemcount == 1 && $skip == 1} {
+			eval $command [lindex [lindex $itemlist 0] 1]
+			return 0
+		}
+
+		if { [focus] == ""  || [focus] =="." } {
+			set wname "._listchoose"
+		} else {
+			set wname "[focus]._listchoose"
+		}
+
+		if { [catch {toplevel $wname -borderwidth 0 -highlightthickness 0 } res ] } {
+			raise $wname
+			focus $wname
+			return 0
+		} else {
+			set wname $res
+		}
+
+		wm title $wname $title
+
+#		wm geometry $wname 320x350
+
+		frame $wname.blueframe -background $bgcolor
+
+		frame $wname.blueframe.list -class Amsn -borderwidth 0
+		frame $wname.buttons -class Amsn
+
+		listbox $wname.blueframe.list.items -yscrollcommand "$wname.blueframe.list.ys set" -font splainf \
+			-background white -relief flat -highlightthickness 0 -height 20 -width 60
+		scrollbar $wname.blueframe.list.ys -command "$wname.blueframe.list.items yview" -highlightthickness 0 \
+			-borderwidth 1 -elementborderwidth 1 
+
+		button  $wname.buttons.ok -text "[trans ok]" -command [list ::amsn::listChooseOk $wname $itemlist $command] -font sboldf
+		button  $wname.buttons.cancel -text "[trans cancel]" -command [list destroy $wname] -font sboldf
+
+
+		pack $wname.blueframe.list.ys -side right -fill y
+		pack $wname.blueframe.list.items -side left -expand true -fill both
+		pack $wname.blueframe.list -side top -expand true -fill both -padx 4 -pady 4
+		pack $wname.blueframe -side top -expand true -fill both
+
+		if { $other == 1 } {
+			button  $wname.buttons.other -text "[trans other]..." -command [list ::amsn::listChooseOther $wname $title $command] -font sboldf
+			pack $wname.buttons.ok -padx 0 -side left
+			pack $wname.buttons.cancel -padx 0 -side right
+			pack $wname.buttons.other -padx 10 -side left
+		} else {
+			pack $wname.buttons.ok -padx 0 -side left
+			pack $wname.buttons.cancel -padx 0 -side right
+		}
+
+		pack $wname.buttons -side bottom -fill x -pady 3
+
+		foreach item $itemlist {
+			$wname.blueframe.list.items insert end [lindex $item 0]
+		}
+
+
+		bind $wname.blueframe.list.items <Double-Button-1> [list ::amsn::listChooseOk $wname $itemlist $command]
+		catch {focus $wname.buttons.ok}
+		
+		bind $wname <Escape> [list destroy $wname]
+		bind $wname <Return> [list ::amsn::listChooseOk $wname $itemlist $command]
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+	
+	proc listChooseOther { wname title command } {
+		destroy $wname
+		cmsn_draw_otherwindow $title $command
+	}
+			
+	proc listChooseOk { wname itemlist command} {
+		set sel [$wname.blueframe.list.items curselection]
+		if { $sel == "" } { return }
+		destroy $wname		
+		eval "$command [lindex [lindex $itemlist $sel] 1]"
+	}
 
 	#///////////////////////////////////////////////////////////////////////////////
 	proc ChooseList {title online command other skip {userslist ""}} {
@@ -3740,11 +3832,11 @@ proc show_languagechoose {} {
 		set langelem [lindex $lang_list $i]
 		set langshort [lindex $langelem 0]
 		set langlong [lindex $langelem 1]
-		lappend languages [list $langshort "$langlong"]
+		lappend languages [list "$langlong" $langshort ]
 		#-command "set config(language) $langshort; load_lang;msg_box \"\[trans mustrestart\]\""
 	}
 
-	::amsn::ChooseList "[trans language]" both "set_language" 0 1 $languages
+	::amsn::listChoose "[trans language]" $languages set_language 0 1
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -3772,10 +3864,10 @@ proc show_encodingchoose {} {
 	set encodings [lsort $encodings]
 	set enclist [list]
 	foreach enc $encodings {
-		lappend enclist [list $enc "" 0]
+		lappend enclist [list $enc $enc]
 	}
-	set enclist [linsert $enclist 0 [list auto "Automatic" 0]]
-	::amsn::ChooseList "[trans encoding]" both set_encoding 0 1 $enclist
+	set enclist [linsert $enclist 0 [list "Automatic" auto]]
+	::amsn::listChoose "[trans encoding]" $enclist set_encoding 0 1
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -4632,7 +4724,10 @@ proc cmsn_draw_online { {delay 0} } {
 	::groups::UpdateCount blocked clear
 
 	#Draw the users in each group
-	foreach user $list_users {
+	#foreach user $list_users {}
+	#Go thru list in reverse order, as every item is inserted at the beginning, not the end...
+	for {set i [expr {[llength $list_users] - 1}]} {$i >= 0} {incr i -1} {
+		set user [lindex $list_users $i]
 
 		set user_login [lindex $user 0]
 		set user_name [lindex $user 1]

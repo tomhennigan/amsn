@@ -266,6 +266,20 @@ namespace eval ::abook {
 	    set d(valid) N
 	}
     }
+    
+	#Returns the user nickname
+	proc getUserNickname { user_login } {
+		return [lindex [::MSN::getUserInfo $user_login] 1]
+	}
+	
+	#Returns the user nickname, or just email, depending on configuration
+	proc getUserDisplayName { user_login } {
+		if { [::config::getKey emailsincontactlist] } {
+			return $user_login
+		} else {
+			return [getUserNickname $user_login]
+		}
+	}
 }
 
 namespace eval ::abookGui {
@@ -422,118 +436,3 @@ namespace eval ::abookGui {
 	bind $w <Control-c> { destroy $w }
    }
 }
-# $Log$
-# Revision 1.30  2004/02/22 19:28:23  burgerman
-# Reidentation of ALL gui.tcl file and Cleanup.
-# Removed obsolete stringmap function.
-#
-# Revision 1.29  2003/11/10 00:28:20  airadier
-# Get rid of GetMyIP, now we get IP from initial profile from server.
-#
-# Revision 1.28  2003/10/08 12:18:12  airadier
-# Fixed copy to group (wasn't working fine).
-# Updated languages.
-#
-# Revision 1.27  2003/09/23 00:31:26  airadier
-# Removed some "puts" in the code.
-#
-# Revision 1.26  2003/09/04 13:00:35  airadier
-# Updated TODO.
-# Syntax checking (some minor syntax improvements).
-#
-# Revision 1.25  2003/08/03 18:30:03  airadier
-# Small bug Fix
-#
-# Revision 1.24  2003/06/28 05:38:00  kakaroto
-# added the boss mode
-# added the gui for the blocking thing + using only one SB
-# chnaged the way to access tabs in the preferences window (Preftabs array)
-# added entry to add directly to FL/AL/BL lists
-# "Execute : $command" in the status log when executing a command using it's entry...
-# added a catch for the call of run_alarms .. we needed that..
-#
-# Revision 1.23  2003/06/20 12:33:50  airadier
-# Support for multiple groups.
-# Added copy to group feature.
-# Removed tray icon destroy, resulted in segfault
-#
-# Revision 1.22  2003/06/15 14:35:28  airadier
-# Added a new translation
-#
-# Revision 1.21  2003/06/01 19:49:36  airadier
-# Very alpha support of POST proxy method.
-# Removed WriteNS, WriteNSRaw, and read_ns_sock, it was same code as WriteSB, WriteSBRaw and read_sb_sock, so now they're the same, always use SB procedures.
-#
-# Revision 1.20  2003/03/01 19:02:07  airadier
-# Now using PNG command for keepalive connection.
-# Trying to change "string map" to "stringmap", our own string map procedure.
-#
-# Revision 1.19  2003/01/23 06:38:14  burgerman
-# more work on prefs
-# reomved status_log from UsersInChat
-#
-# Revision 1.18  2002/12/16 02:42:52  airadier
-# Some fixes.
-# Syntax checking passed.
-#
-# Revision 1.17  2002/11/06 12:11:46  airadier
-# Let the contact properties window be the size it wants to be, or texts won't fit...
-#
-# Revision 1.16  2002/11/04 03:41:57  airadier
-# Hotmail login should work fine again, please test it!
-#
-# Revision 1.15  2002/09/07 06:05:03  burgerman
-# Cleaned up source files, removed all commented lines that seemed outdated or used for debugging (outputs)...
-#
-# Revision 1.14  2002/07/09 23:25:25  lordofscripts
-# - T-THEMES the return of color themes
-#
-# Revision 1.13  2002/07/02 10:32:50  lordofscripts
-# - Added getName in abook. It only returns the screen name, otherwise
-#   use getContact which returns all the info
-# - Corrected menuCopyCmd and menuMoveCmd to retrieve the screenname from
-#   abook and use it to invoke ::MSN::userMove/Copy so that the screen
-#   name is preserved in the operation.
-#
-# Revision 1.12  2002/07/01 23:03:27  airadier
-# Standard background for all widgets
-#
-# Revision 1.11  2002/07/01 21:30:30  lordofscripts
-# - Now it is possible to move buddies from one group to another. Had to
-#   post a 2nd popup because tk_popup cannot handle cascaded menus
-#
-# Revision 1.10  2002/06/25 23:17:56  lordofscripts
-# -Added handling and keeping info of PRP messages (get/setPersonal)
-#
-# Revision 1.9  2002/06/24 15:15:48  lordofscripts
-# Added getGroup function needed for ordering by groups
-#
-# Revision 1.8  2002/06/24 12:34:56  lordofscripts
-# Use color scheme for showEntry dialog and sticky w for the rightmost
-# column of the notebook tabs to align them to the left side. Increased
-# width of dialog so that it shows all the info when data is too long.
-#
-# Revision 1.7  2002/06/20 17:46:14  lordofscripts
-# Moved group-related handling to the "groups" namespace (new)
-#
-# Revision 1.6  2002/06/19 17:49:22  lordofscripts
-# Added setDemographics and getDemographics as handled by text/x-msmsgsprofile
-#
-# Revision 1.5  2002/06/19 14:34:58  lordofscripts
-# Added facility window (Ctrl+M) to enter commands to be issued to the
-# Notification Server. Abook now allows to either show (read only)
-# information about a buddy, or to publish (showEntry email -edit) the
-# user's phone numbers so that other buddies can see them.
-#
-# Revision 1.4  2002/06/18 14:28:12  lordofscripts
-# Implemented dialog for address book. Namespace abookGui
-#
-# Revision 1.3  2002/06/17 12:31:32  airadier
-# Quick hack to avoid a bug when adding contacts (var contacts($email) non existing)
-#
-# Revision 1.2  2002/06/17 00:10:53  lordofscripts
-# *** empty log message ***
-#
-# Revision 1.1  2002/06/17 00:01:57  lordofscripts
-# Handles Address Book containing data about users in the forward list
-#
