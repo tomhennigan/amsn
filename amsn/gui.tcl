@@ -3420,7 +3420,7 @@ proc cmsn_draw_main {} {
 	}
    }
    pack $pgBuddy.text0 -side top -fill both -padx 0 -pady 0
-   pack $pgBuddy.text -side right -expand true -fill both -padx 0 -pady 0
+   pack $pgBuddy.text -side left -expand true -fill both -padx 0 -pady 2
    #pack $pgBuddy.ys -side left -fill y -padx 0 -pady 0
 #Command-key for "key shorcut" in Mac OS X
 if {$tcl_platform(os) == "Darwin"} {
@@ -3770,6 +3770,7 @@ proc cmsn_draw_offline {} {
    $pgBuddy.text configure -state normal
    $pgBuddy.text delete 0.0 end
    $pgBuddy.text0 delete 0.0 end
+	pack forget $pgBuddy.text0
    $pgBuddy.text0 configure -height 0
 
    #Iniciar sesion
@@ -4212,7 +4213,7 @@ proc cmsn_draw_online { {delay 0} } {
 	#Delay not forced redrawing (to avoid too many redraws)
 	if { $delay } {
 		after cancel "cmsn_draw_online"
-		after 250 "cmsn_draw_online"
+		after 500 "cmsn_draw_online"
 		return
 	}
 
@@ -4229,6 +4230,12 @@ proc cmsn_draw_online { {delay 0} } {
 	set my_image_type [lindex $my_state 5]
 
 	#Resize tex0 to contain the robot etc
+	pack forget $pgBuddy.text0
+	pack forget $pgBuddy.text
+
+	pack $pgBuddy.text0 -side top -fill both -padx 0 -pady 0
+   pack $pgBuddy.text -side left -expand true -fill both -padx 0 -pady 2
+	update idletasks
 	$pgBuddy.text0 configure -height 4
 	#Clear every tag to avoid memory leaks:
 	foreach tag [$pgBuddy.text tag names] {
@@ -4296,11 +4303,11 @@ proc cmsn_draw_online { {delay 0} } {
 	} else {
 		::MSN::sortContactList 2 1
 	}
-	$pgBuddy.text0 configure -state normal
+	$pgBuddy.text0 configure -state normal -font bboldf
+	$pgBuddy.text0 delete 0.0 end
 
 	$pgBuddy.text configure -state normal -font splainf
 	$pgBuddy.text delete 0.0 end
-	$pgBuddy.text0 delete 0.0 end
 
 	#Set up TAGS for mail notification
 	$pgBuddy.text tag conf mail -fore black -underline true -font splainf
@@ -4346,17 +4353,17 @@ proc cmsn_draw_online { {delay 0} } {
 	# Display MSN logo with user's handle. Make it clickable so
 	# that the user can change his/her status that way
 	if {![winfo exists $pgBuddy.text0.bigstate]} {
-		clickableImage $pgBuddy.text0 bigstate $my_image_type {tk_popup .my_menu %X %Y} 0 6
+		clickableImage $pgBuddy.text0 bigstate $my_image_type {tk_popup .my_menu %X %Y} 0 3
 	}
 
 
 	bind $pgBuddy.text0.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
 	if {![winfo exists $pgBuddy.text0.mystatus]} {
 		text $pgBuddy.text0.mystatus -font bboldf -height 2 \
-		-width [expr {([winfo width $pgBuddy.text]-45)/[font measure bboldf -displayof $pgBuddy.text "0"]}] \
+		-width [expr {([winfo width $pgBuddy.text]-45)/[font measure bboldf -displayof $pgBuddy.text0 "0"]}] \
 		-background white -borderwidth 0 \
 		-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
-		-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 6
+		-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 3
 	}
 
 
@@ -4392,7 +4399,12 @@ proc cmsn_draw_online { {delay 0} } {
 		$pgBuddy.text0.mystatus insert end "\n" mystatuslabel
 	}
 
-	set maxw [expr [winfo width $pgBuddy.text0] - 70]
+	$pgBuddy.text0 window create end -window $pgBuddy.text0.mystatus -padx 5 -pady 0 -align bottom -stretch false
+	$pgBuddy.text0 insert end "\n"
+
+
+	update idletasks
+	set maxw [winfo width $pgBuddy.text0.mystatus]
 	incr maxw [expr 0-[font measure bboldf -displayof $pgBuddy.text0.mystatus " ($my_state_desc)" ]]
 	set my_short_name [trunc $my_name $pgBuddy.text0.mystatus $maxw bboldf]
 	$pgBuddy.text0.mystatus insert end "$my_short_name " mystatus
@@ -4422,9 +4434,6 @@ proc cmsn_draw_online { {delay 0} } {
 	$pgBuddy.text0.mystatus configure -state normal -height $lines -wrap none
 	$pgBuddy.text0.mystatus configure -state disabled
 
-	$pgBuddy.text0 window create end -window $pgBuddy.text0.mystatus -padx 6 -pady 0 -align bottom -stretch false
-	$pgBuddy.text0 insert end "\n"
-
 	#set width [expr {[winfo width $pgBuddy.text] - 10} ]
 	set width [expr {[winfo width $pgBuddy.text0]} - 1 ]
 
@@ -4442,8 +4451,9 @@ proc cmsn_draw_online { {delay 0} } {
 	mainbar copy colorbar -from 5 0 15 $barheight -to 5 0 [expr {$width - 150}] $barheight
 	mainbar copy colorbar -from [expr {$barwidth - 150}] 0 $barwidth $barheight -to [expr {$width - 150}] 0 $width $barheight
 
-	$pgBuddy.text0 image create end -image mainbar
-#	$pgBuddy.text0 insert end "\n"
+	#$pgBuddy.text0 insert end "\n"
+
+	$pgBuddy.text0 image create end -image mainbar -align top
 
 	# Show Mail Notification status
 	clickableImage $pgBuddy.text mailbox mailbox "hotmail_login [list $config(login)] [list $password]" 5 0
