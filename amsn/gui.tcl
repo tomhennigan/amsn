@@ -2784,6 +2784,18 @@ namespace eval ::amsn {
 
 		set xpos [::config::getKey notifyXoffset]
 		set ypos [::config::getKey notifyYoffset]
+		#Avoid a bugreport if someone removed his xpos or ypos variable in the preferences
+		if {$xpos == ""} {
+			::config::setKey notifyXoffset 100
+			set xpos [::config::getKey notifyXoffset]
+		}
+		if {$ypos == ""} {
+			::config::setKey notifyYoffset 75
+			set ypos [::config::getKey notifyYoffset]
+			
+		}
+
+
 
 		#Search for a free notify window position
 		while { [lsearch -exact $NotifPos $ypos] >=0 } {
