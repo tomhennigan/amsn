@@ -32,6 +32,7 @@ namespace eval ::TeXIM {
 	        set ::TeXIM::configlist [list \
 					     [list bool "Show tex" showtex] \
 					     [list bool "Display errors" showerror] \
+					     [list str "Additional packages to use" latex_packages] \
 					     [list str "Path to latex binary" path_latex] \
 					     [list str "Path to dvips binary" path_dvips] \
 					     [list str "Path to convert binary" path_convert] \
@@ -63,12 +64,17 @@ namespace eval ::TeXIM {
 			set chan [open ${::TeXIM::dir}/temp.tex w]
 			puts $chan "\\documentclass\[12pt\]\{article\}"
 			puts $chan "\\pagestyle\{empty\}"
-			puts $chan "\\usepackage\[basic\]\{circ\}"
-			puts $chan "\\usepackage\{SIunits\}"
-			puts $chan "\\usepackage\{amsmath\}"
-			puts $chan "\\usepackage\{times\}"
-			puts $chan "\\usepackage\{amstext\}"
-			puts $chan "\\usepackage\{amssymb\}"
+			foreach package [set ::TeXIM::config(latex_packages)] {
+				if { [set idx [string last "," $package]] == -1 } {
+					puts $chan "\\usepackage\{$package\}"
+				} else {
+					incr idx -1
+					set base [string range $package 0 $idx]
+					incr idx +2
+					set pack [string range $package $idx end]
+					puts $chan "\\usepackage\[$base\]\{$pack\}"
+				}
+			}
 			puts $chan "\\begin\{document\}"
 			#puts $chan "\\begin\{huge\}"
 			puts $chan $msg
@@ -167,5 +173,6 @@ namespace eval ::TeXIM {
 		
 
 	}
-
+	
+	
 }
