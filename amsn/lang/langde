@@ -5,6 +5,7 @@ acceptfile Datei $1 (Größe: $2) annehmen? In $3 gespeichert
 actions Aktionen
 addacontact Kontakt hinzufügen
 addedyou $1 ($2) hat dich ihrer/seiner Kontaktliste hinzugefügt
+addprofiledesc Bitte geben Sie das Login ein, für das Sie ein neues Profil erstellen wollen. \nLogins mit einem Profil erlauben Ihnen verschiedene Konfigurationen für jedes Login. \nOhne ein Profil können Sie die History, Alarme, oder ein gespeichertes Passwort nicht benutzen.
 addprofile Neues Profil hinzufügen
 addstate Neuen Status hinzufügen
 addtocontacts In die Kontaktliste einfügen
@@ -24,6 +25,7 @@ allowbadwords Nicknames nicht zensieren
 allowlist Akzeptieren - Liste :
 allowonlyinal Erlaube nur Benutzern aus meiner Akzeptieren - Liste mich zu kontaktieren
 allowseen Dieser Person ermöglichen, zu sehen, wenn ich online bin, und Kontakt mit mir aufzunehmen
+animatedemoticon Dieses Emoticon ist animiert
 animatedsmileys Animierte Smileys aktivieren
 appearance Erscheinung
 appearoff Als offline anzeigen
@@ -59,10 +61,12 @@ blockusers Anzahl der auf einmal zu testenden Benutzer
 broughtby Von diesen Entwickler für dich gebracht
 browse Navigieren
 browser Browser
+browserexample ( \$url wird ersetzt durch URL). Bsp: mozilla \$url
 busy Beschäftigt
 cancel Abbrechen
 cannotdeleteprofile Kann das Profil nicht löschen, da es anscheinend von einer Amsn session verwendet wird.
 cantexec Kann $1 nicht ausführen. Überprüfe die Einstellungen
+casesensitive Use case-sensitive triggers Buchstabenkombinationen verwenden, die auf Groß -und Kleinschreibung achten
 cfgalarm Benachrichtigung konfigurieren/hinzufügen/löschen
 changefont Die Schriftart ändern
 changenick Namen ändern
@@ -78,6 +82,7 @@ checkfilman Empfangene Dateien werden in $1 gespechert. Bitte überprüfen sie die
 checkingver Auf neue Versionen prüfen
 checkonfln Testen ob ein Benutzer Sie blockiert hat wenn er Offline geht
 checkver Auf neue Version prüfen
+choosearq Wählen Sie Ihre Systemarchitektur
 choosebasefont Schriftart auswählen
 choosebgcolor Hintergrundfarbe Auswählen
 choosecontact Bitte wählen Sie einen Kontakt aus der Liste
@@ -119,12 +124,15 @@ delprofile2 Profil auswählen, das gelöscht werden soll.
 delprofile Profil löschen
 description Beschreibung
 directconnection Ich habe eine direkte Verbindung mit dem Internet (benutzt port 1863)
+disablessl SSL deaktivieren
 disconnect $1 hat sich abgemeldet.
 dockfreedesktop In freiem Desktop festankern (KDE3/Gnome2)
 dockgtk In GTK festankern
 docking Festankern eingeschaltet
 dockingoff Festankern ausgeschaltet
 dockkde In KDE festankern
+dontdownload TLS nicht downloaden, ich installiere es selbst
+downloadingtls Downloade TLS Modul von:\n $1
 edit Ändern
 editcurrentstate Veränder den derzeitigen 
 editnewstate Neuer persönlicher Autonachrichten - Status
@@ -139,12 +147,14 @@ encoding Encoding auswählen
 entercontactemail Gib eine E-Mail-Adresse ein
 enterfilename Gib einen Dateinamen ein
 enternick Gib deinen Namen ein
+errortls Fehler bei der Installation des TLS Moduls:
 examples Beispiele
 exitamsn Wirklich beenden?
 extras Extras
 faq Häufig gestellte Fragen
 filedoesnotexist Datei nicht vorhanden
 fileman Dateimanager
+filemanexample ( \$location wird mit dem Verzeichnis ersetzt ) Bsp: nautilus \$location
 filename Dateiname
 filetransfercancelled Übertragung abgebrochen
 filetransfercomplete Übertragung abgeschlossen
@@ -225,6 +235,7 @@ logsout hat sich so eben abgemeldet.
 lprivtoconf Privater Chat wird zum Gespräch mit $1
 luclosedwin Sie haben das Fenster von $1 geschlossen.
 mailer E-Mail
+mailerexample ( \$recipient = Empfänger ) Bei Benutzung von Hotmail leer lassen.
 maximised Maximiert
 minimised Minimiert
 mins Minuten
@@ -232,6 +243,7 @@ mobile Mobil
 morepersonal Mehr Zustände (Status) ->
 move Bewegen
 movetogroup Zur Gruppe bewegen
+msgflicker Flackernder Chatfenstertitel, wenn eine neue Nachricht eintrifft und das Fenster nicht im Focus ist.
 msgmaxmin Wenn eine neue Nachricht eintrifft wird sie :
 msgmode Wie sollen mehrere Nachrichtenfenster verwaltet werden :
 msg Nachricht
@@ -256,6 +268,7 @@ noneavailable Nicht verfügbar.
 no Nein
 nonewmail 0 neue Nachrichten im Posteingang
 nonewver Zurzeit keine neue Version verfügbar
+noprofileexists Im Moment existieren keine Profile. \n Sie müssen eines erstellen, wenn Sie sich mit einem Profil einloggen wollen. \nBenutzen Sie den "Neues Profil hinzufügen"-Button in diesem Fenster, um ein neues Profil hinzuzufügen.
 normal Normal
 nosystemtray Systemablage nicht verfügbar
 notify1_5 Zeige Statusfenster an, wenn der Kontakt offlien geht
@@ -266,6 +279,7 @@ notify3 Fenster anzeigen wenn eine eMail ankommt.
 notify Benachrichtigen
 notifyoffset Setzt die Position des Nachrichtenfensters durch Angabe der Positionsoffsets
 notifywin Benachrichtigungsfenster
+notls Das MSN Protokoll 9 erfordert das tls-Paket. Dieses Paket scheint auf Ihrem System nicht installiert zu sein. Wenn es installiert ist, dann sollte der Pfad zum Bibliotheken-Verzeichnis im "Einstellungen" Fenster eingegeben werden (Bsp: /opt/tls/lib). \n \n Es ist möglich, tls von http://tls.sf.net zu downloaden.
 nousersinsession Keine Benutzer in Sitzung
 offline Offline
 ok OK
@@ -284,18 +298,21 @@ personal persönlich
 phone Telefon
 picfile Mit der Benachrichtigung verbundenes Bild (GIF < 500 x 500)
 picstatus Mit der Benachrichtigung verbundenes Bild ein/ausschalten
+pluginselector Plugins auswählen
 port Port
 prefalerts Töne und Klänge
 prefapps Anwendungen
 prefawaymsg Away-Mitteilung
 prefblock1 Testen beim Trennen
 prefblock2 Fortwährend testen
+prefblock3 "Sie sind blockiert worden von" group
 prefconnection Verbindungseinstellungen
 prefemotic Emoticons und Smileys
 preferences Einstellungen
 preffont2 Schriftart in der andere meinen Text sehen.
 preffont3 aMSN's Schriftart und Größe
 preffont Schriftart
+preflibs Bibliotheken Verzeichnisse
 preflog1 History und Log-Optionen
 preflook aMSN Messenger Aussehen
 prefmsging Aussehen des Chat-Fensters
@@ -316,6 +333,7 @@ privacy Privatsphäre
 profiledconfig Profilabhängige Einstellungen
 profileexists Das Profil existiert bereits. Bitte wählen Sie ein Anderes
 profileinuse Dieses Profil wird von einer anderer AMSN Session verwendet, bitte wählen Sie ein Anderes
+profileloginradio Mit einem existierenden Profil anmelden
 profiles Profile
 properties Eigenschaften
 proxyconfhttp Konfiguration: HTTP-Proxy-Unterstützung
@@ -324,6 +342,8 @@ proxyconnection Ich verbinde mit dem Internet über einen Proxy-Server:
 proxy Ich bin hinter einem Proxy Server (HTTP or SOCKS5)
 publishphones Meine Telefonnummern veröffentlichen
 raised Wiederhergestellt
+readonlymsgbox Der Dateitransfer wurde gestoppt, weil das Ziel-Verzeichnis read-only ist. Bitte berichtigen Sie die Berechtigungen an diesem Verzeichnis.
+readonlywarn WARNUNG: Die Datei wird möglicherweise NICHT korrekt gespeichert, da das "Received files" Verzeichnis schreibgeschützt zu sein scheint. Bitte stellen Sie sicher, dass die Berechtigungen am Zielverzeichnis ($1) richtig gesetzt sind, bevor Sie eine Datei transferieren.
 receivedbytes $1 von $2 Bytes empfangen
 receivefile Datei empfangen
 reconnecting Erneute Anmeldung beim Server
@@ -340,6 +360,7 @@ save Speichern
 savetofile Speichern unter
 says $1 sagt
 sbcon Verbinde mit Server
+selectplugins Bitte wählen Sie die Plugins aus, die aktiviert sein sollen
 selectskin Bitte wählen Sie einen Skin aus
 sendfile Datei senden
 sendmail E-Mail senden
@@ -350,18 +371,26 @@ servergoingdown Verbindungsabbruch: Serverfehler
 server Server
 session Session
 showblockedlist Zeigt eine Liste mit Personen von denen Sie geblockt werden
+skinselector Skin auswählen
 skin Skin
+smileconfig Benutzerdefinierte Emoticon Konfiguration
+smilefile Smiley Dateiname
+smileintro2 Bitte editieren Sie die erforderlichen Felder, um das Smiley nach Ihren Bedürfnissen anzupassen (sehen Sie sich bei Bedarf die FAQ an).
+smileintro Bitte füllen Sie die erforderlichen Felder aus, um ein neues eigenes Smiley zu erzeugen (sehen Sie sich bei Bedarf die FAQ an)
 sound2 Klang wiedergeben, wenn sich ein Kontakt anmeldet oder eine Nachricht schreibt
 sound Akustische Signale
 soundcommand Muss das Play Kommando sein (Bsp.: esdplay)
+soundexample ( \$sound = Sounddatei, die abgespielt werden soll) Bsp: esdplay \$sound
 soundfile Mit der Benachrichtigung verbundene Klang-Datei
 soundloop Den Klang unendlisch abspielen
 soundserver Klangserver
 soundstatus Akustisches Signal ein/ausschalten
 sourcecode Quelltext
+sslwarning WARNUNG: Wenn Sie SSL deaktiviern, wird auch Verschlüsselung deaktiviert. Deshalb wir Ihr Passwort im Klartext über das Netzwerk gesendet. Tun Sie dies nur bei wirklich guten Proxyservern, oder Netzwerkkonfigurationen.
 startoffline2 Als "Als offline anzeigen" anmelden
 startoffline Offline-Modus beim Start
 stateautomsg Autonachricht die gesendet werden soll
+statechange Status gewechselt in:
 stateedittext Bitte ändern sie die Felder die Sie gerne\n bearbeitet haben nmöchten und drücken Sie Speichern
 state Ich möchte erscheinen als
 stateinfo Persönliche Status Konfiguration
@@ -375,11 +404,18 @@ stylelog Format auswählen in dem die History angezeigt werden soll
 syntaxerror  Syntaxfehler
 tabbed Unterfenster
 textsize Textgröße
+timeremaining Zeit verbleibend
 title Al's Messenger
+tlsdowncompleted Die Datei $1 wurde in das Verzeichnis $2 downgeloaded. Sie müssen sie innerhalb von $3 extrahieren, kompilieren  und installieren (wenn sie den Quelltext downgeloaded haben).
+tlsinstallexp AMSN nützt nun MSNP9, das die Benutzung einer sicheren\nVerbindung via SSL erfordert. Um SSL zu nützen, muss AMSN ein Modul installieren, das sich TLS nennt\nund auf Ihrem System fehlt. Dieser Wizard wird Ihnen dabei helfen, TLS zu downloaden und\nzu installieren. Bitte wählen Sie Ihren Systemtyp, damit wir automatisch die erforderlichen TLS Dateien downloaden können.
+tlsinstall TLS Modul Installations Wizard
+tlsinstcompleted Die Installation des TLS Moduls war erfolgreich. Nun sollten Sie in der Lage sein, MSNP9 zu nutzen. Wenn es dennoch nicht funktioniert haben Sie vielleicht nicht das richtige Modul ausgewählt, oder ein kompiliertes Modul ist für Ihr System nicht erhältlich.
 to An
 tools Extras
+tooltips Tooltips zulassen
 transnotexists Die gewünschte Datei wurde noch nicht in die aktuelle Sprache übersetzt.
 traynotcompiled Ablage Icon Plugin ist nicht compiliert. Überprüfen Sie Plugins/Ablageanker
+triggers Buchstabenkombination
 twonewmail $1 neue Nachrichten im Posteingang
 unblock Blockieren entfernen
 uoffline Offline
@@ -395,6 +431,7 @@ view Ansicht
 viewprofile Profil ansehen
 willjoin Warte... $1 wird dem Chat hinzugefügt
 work Arbeit
+wrongfields Die Felder "$1", "$2" und/oder "$3" sind nicht gültig
 wrongprofileversion Falsche Version der Profil-Konfigurationsdatei. Um das Problem zu beheben entfernen Sie bitte das Verzeichnis $1, oder installieren Sie eine aktuelle Version von aMSN.
 xoffset X Offset
 yes Ja
@@ -402,40 +439,3 @@ yoffset Y Offset
 youblocked Sie wurden blockiert
 yousay Du sagst
 youwant Du willst
-addprofiledesc Bitte geben Sie das Login ein, für das Sie ein neues Profil erstellen wollen. \nLogins mit einem Profil erlauben Ihnen verschiedene Konfigurationen für jedes Login. \nOhne ein Profil können Sie die History, Alarme, oder ein gespeichertes Passwort nicht benutzen.
-animatedemoticon Dieses Emoticon ist animiert
-browserexample ( \$url wird ersetzt durch URL). Bsp: mozilla \$url
-casesensitive Use case-sensitive triggers Buchstabenkombinationen verwenden, die auf Groß -und Kleinschreibung achten
-choosearq Wählen Sie Ihre Systemarchitektur
-disablessl SSL deaktivieren
-dontdownload TLS nicht downloaden, ich installiere es selbst
-downloadingtls Downloade TLS Modul von:\n $1
-errortls Fehler bei der Installation des TLS Moduls:
-filemanexample ( \$location wird mit dem Verzeichnis ersetzt ) Bsp: nautilus \$location
-mailerexample ( \$recipient = Empfänger ) Bei Benutzung von Hotmail leer lassen.
-msgflicker Flackernder Chatfenstertitel, wenn eine neue Nachricht eintrifft und das Fenster nicht im Focus ist.
-noprofileexists Im Moment existieren keine Profile. \n Sie müssen eines erstellen, wenn Sie sich mit einem Profil einloggen wollen. \nBenutzen Sie den "Neues Profil hinzufügen"-Button in diesem Fenster, um ein neues Profil hinzuzufügen.
-notls Das MSN Protokoll 9 erfordert das tls-Paket. Dieses Paket scheint auf Ihrem System nicht installiert zu sein. Wenn es installiert ist, dann sollte der Pfad zum Bibliotheken-Verzeichnis im "Einstellungen" Fenster eingegeben werden (Bsp: /opt/tls/lib). \n \n Es ist möglich, tls von http://tls.sf.net zu downloaden.
-pluginselector Plugins auswählen
-prefblock3 "Sie sind blockiert worden von" group
-preflibs Bibliotheken Verzeichnisse
-profileloginradio Mit einem existierenden Profil anmelden
-readonlymsgbox Der Dateitransfer wurde gestoppt, weil das Ziel-Verzeichnis read-only ist. Bitte berichtigen Sie die Berechtigungen an diesem Verzeichnis.
-readonlywarn WARNUNG: Die Datei wird möglicherweise NICHT korrekt gespeichert, da das "Received files" Verzeichnis schreibgeschützt zu sein scheint. Bitte stellen Sie sicher, dass die Berechtigungen am Zielverzeichnis ($1) richtig gesetzt sind, bevor Sie eine Datei transferieren.
-selectplugins Bitte wählen Sie die Plugins aus, die aktiviert sein sollen
-skinselector Skin auswählen
-smileconfig Benutzerdefinierte Emoticon Konfiguration
-smilefile Smiley Dateiname
-smileintro2 Bitte editieren Sie die erforderlichen Felder, um das Smiley nach Ihren Bedürfnissen anzupassen (sehen Sie sich bei Bedarf die FAQ an).
-smileintro Bitte füllen Sie die erforderlichen Felder aus, um ein neues eigenes Smiley zu erzeugen (sehen Sie sich bei Bedarf die FAQ an)
-soundexample ( \$sound = Sounddatei, die abgespielt werden soll) Bsp: esdplay \$sound
-sslwarning WARNUNG: Wenn Sie SSL deaktiviern, wird auch Verschlüsselung deaktiviert. Deshalb wir Ihr Passwort im Klartext über das Netzwerk gesendet. Tun Sie dies nur bei wirklich guten Proxyservern, oder Netzwerkkonfigurationen.
-statechange Status gewechselt in:
-timeremaining Zeit verbleibend
-tlsdowncompleted Die Datei $1 wurde in das Verzeichnis $2 downgeloaded. Sie müssen sie innerhalb von $3 extrahieren, kompilieren  und installieren (wenn sie den Quelltext downgeloaded haben).
-tlsinstallexp AMSN nützt nun MSNP9, das die Benutzung einer sicheren\nVerbindung via SSL erfordert. Um SSL zu nützen, muss AMSN ein Modul installieren, das sich TLS nennt\nund auf Ihrem System fehlt. Dieser Wizard wird Ihnen dabei helfen, TLS zu downloaden und\nzu installieren. Bitte wählen Sie Ihren Systemtyp, damit wir automatisch die erforderlichen TLS Dateien downloaden können.
-tlsinstall TLS Modul Installations Wizard
-tlsinstcompleted Die Installation des TLS Moduls war erfolgreich. Nun sollten Sie in der Lage sein, MSNP9 zu nutzen. Wenn es dennoch nicht funktioniert haben Sie vielleicht nicht das richtige Modul ausgewählt, oder ein kompiliertes Modul ist für Ihr System nicht erhältlich.
-tooltips Tooltips zulassen
-triggers Buchstabenkombination
-wrongfields Die Felder "$1", "$2" und/oder "$3" sind nicht gültig

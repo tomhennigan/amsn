@@ -124,6 +124,7 @@ delprofile2 Elige el perfil que te gustaría borrar
 delprofile Borrar Perfil
 description Descripción
 directconnection Tengo una conexión directa a internet (usa el puerto 1863)
+disablessl Desactivar SSL
 disconnect $1 se ha desconectado
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Icono Gtk
@@ -385,6 +386,7 @@ soundserver Servidor de Sonido
 sound Sonido eventos
 soundstatus Sonido para la alarma
 sourcecode Código fuente
+sslwarning ¡¡CUIDADO!! Al desactivar SSL, se desactiva la encriptación, y tu contraseña será enviada a través de la red como texto sin encriptar. Utilizar sólo si es imprescindible, como en algunos servidores proxy, o configuraciones de red muy estrictas.
 startoffline2 Conectarse sigilosamente pareciendo "Desconectado"
 startoffline Comenzar Desconectado
 stateautomsg Mensaje automático a enviar
@@ -437,5 +439,3 @@ yoffset Desplazamiento Y
 youblocked Has sido bloqueado
 yousay Tú dices
 youwant Quieres
-disablessl Desactivar SSL
-sslwarning ¡¡CUIDADO!! Al desactivar SSL, se desactiva la encriptación, y tu contraseña será enviada a través de la red como texto sin encriptar. Utilizar sólo si es imprescindible, como en algunos servidores proxy, o configuraciones de red muy estrictas.
