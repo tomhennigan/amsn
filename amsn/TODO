@@ -75,7 +75,7 @@ DONE	Make timer event configurable (functions already support this)
 	**Dock Issues :
 -	New message alert 
 -	Bug if dock started while online
--	Refresh notification area when dock is removed (use destroy .immain??)
+DONE	Refresh notification area when dock is removed (use destroy .immain??)
 
 	**File Transfer issues :
 -	File Transfer AUTH protocol fix
@@ -130,6 +130,7 @@ DONE	Reenable copy option for contact list (currently commented out)
 
 	***Extra Features (priority 3)***
 
+-	New protocol version (MSNP8)
 -	Menu accelerators
 -	Be able to change thers font in chat (same as you, or different)
 DONE	Gnome2 Docking + KDE Docking
@@ -148,6 +149,9 @@ DONE	Option to popup/raise/unminimize message window on message receive
 	***Graphical Interface (priority 4)***
 
 -	Background image
+-	Personal pictures (MSN 6 style)
+-	Personal emoticons (MSN 6)
+-	Online games
 DONE	Animation when logging in
 -	Make notify window size configurable
 -	Transparent background message windows (is it possible now with 8.4?)
