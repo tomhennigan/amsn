@@ -5,6 +5,8 @@ acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
 actions Actions
 addacontact Ajouter un contact
 addedyou $1 ($2) vous a ajouté dans sa liste de contacts
+addprofile Ajouter nouveau profil
+addprofiledesc \nLes profils vous permettent d'avoir des configurations différentes pour chaque compte.\nSans les profils, vous ne pourrez pas utiliser l'historique, les alarmes et les recupérations de mot de passe.
 addstate Ajouter un nouveau statut
 addto Ajouter à $1
 addtocontacts Ajouter aux contacts
@@ -25,6 +27,8 @@ appearance Apparition
 appearoff Apparaître déconnecté
 areacode Code de la Zone
 aretyping $1 est en train de taper un message
+autoaccepted Transfert de fichier accepté automatiquement
+autoacceptft Accepter automatiquement les transferts de fichiers
 autoaway Me marquer "Absent" quand inactif plus de
 autoconnect2 Me connecter automatiquement quand aMSN est lancé
 autoconnect Connexion automatique au lancement
@@ -41,6 +45,7 @@ bgcolor Changer la couleur de fond de aMSN
 blankdirect Laisser vide pour une connexion sans proxy
 block Bloquer
 blocked Bloqué
+blockedyougroup Créer un groupe séparé pour les gens qui vous ont bloqué.
 blocking Bloquer
 blockinter1 Lorsque vous êtes en ligne, vérifier à chaque
 blockinter2 seconde(s), sinon vérifier à chaque:
@@ -103,6 +108,7 @@ date Date
 days Jours
 dcprofile Ne pas créer de profil
 default Configuration par défaut
+defaultloginradio Identification avec la configuration par défaut
 delete Effacer
 deliverfail Une erreur est survenue lors de l'envoi du message suivant
 delprofile2 Sélectionner le profil que vous voulez supprimer
@@ -243,6 +249,7 @@ nologfile Pas de fichier log pour $1
 nonewmail Pas de nouveau message
 nonewver Il n'y a pas de nouvelle version disponible
 no Non
+noprofileexists Utiliser les profils... \nUtiliser le boutton Ajouter nouveau profil dans cette fenetre pour en créer un nouveau.
 normal Normal
 nosystemtray La poubelle n'est pas accessible
 notify1_5 Afficher une fenêtre d'information quand les contacts se déconnectent
@@ -277,6 +284,7 @@ prefapps Applications
 prefawaymsg Mon message d'absence
 prefblock1 Verification lors de déconnection
 prefblock2 Vérifier continuellement
+prefblock3 Groupe "Vous avez été bloqué par"
 prefconnection Préférences de connexion
 prefemotic Emoticons, Icônes et Smileys
 preferences Préférences
@@ -301,7 +309,9 @@ prefshared Connexions partagées (Seulement pour NAT)
 prefsound Sons
 privacy Privé
 profiledconfig Configuration profilée
+profileexists Vous ne pouvez pas créer un profil avec cet identifiant \n car il est déja utilisé par un profil. Choisissez en un autre.
 profileinuse Profil actuellement utilisé par une autre session Amsn. Veuillez choisir un autre profil.
+profileloginradio S'identifier avec un profil existant
 profiles Profils
 properties Propriétés
 proxyconf Configuration du proxy
@@ -337,8 +347,8 @@ session Session
 showblockedlist Voir la liste des personnes que vous avez bloqué
 smileconfig Configuration des émoticons personnalisés
 smilefile Nom du fichier de l'émoticon
-smileintro Veuillez remplir les champs obligatoires pour créer un nouvel émoticon (voir la FAQ pour l'aide)
 smileintro2 Veuillez editer les champs obligatoires pour personnaliser cet émoticon (voir la FAQ pour l'aide)
+smileintro Veuillez remplir les champs obligatoires pour créer un nouvel émoticon (voir la FAQ pour l'aide)
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
 sound Événements Sonores
