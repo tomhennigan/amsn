@@ -76,7 +76,7 @@ proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
     lappend emotions_names "$name"
     if { [string match "config:emoticon" $cstack] } {
 	#status_log "custom smiley"
-	lappend config(customsmileys) "$name"
+	lappend [::config::getVar customsmileys] "$name"
     }
 
     foreach x [array names sdata] {
@@ -123,7 +123,7 @@ proc new_custom_emoticon {cstack cdata saved_data cattr saved_attr args} {
     if { [info exists sdata(${cstack}:disabled)] && [is_true $sdata(${cstack}:disabled)] } { return 0 }
 
     set name [string trim $sdata(${cstack}:name)]
-    lappend config(customsmileys) "$name"
+    lappend [::config::getVar customsmileys] "$name"
 
 
     foreach x [array names sdata] {
@@ -220,7 +220,7 @@ proc new_custom_emoticon_from_gui { {name ""} } {
     }
 
     if { $edit == 0} {
-	    lappend config(customsmileys) "${name}"
+	    lappend [::config::getVar customsmileys] "${name}"
     }
     load_smileys
     
@@ -464,7 +464,7 @@ proc add_custom_emoticons { } {
 	
 	#status_log "new custom emoticon $name\n"
 	lappend emotions_names "$name"
-	lappend config(customsmileys2) "$name"
+	lappend [::config::getVar customsmileys2] "$name"
 
 	foreach emotion [array names custom_emotions] {
 		if { [string match [string map { \\ \\\\ \[ \\\[ \] \\\]} "${x}_*"] $emotion ] } {
