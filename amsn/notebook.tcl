@@ -109,8 +109,8 @@ namespace eval notebook {
 	set labelList($parent) $labels
 	set i 0; set j 0
 	set bg [$canvas($parent) cget -bg]
-	set dark  [tkDarken $bg 50]
-	set light [tkDarken $bg 133]
+	set dark  [tkDarkenn $bg 50]
+	set light [tkDarkenn $bg 133]
 	foreach l $labels {
 	    grid column $parent $i -minsize 7
 	    incr i
@@ -236,3 +236,22 @@ namespace import notebook::*
 #pack [canvas [getNote .p Spong].spong -bg white] \
 #	-fill both -expand 1 -padx 2m -pady 2m
 #pickNote .p Wibble
+
+proc tkDarkenn {color percent} {
+     foreach {red green blue} [winfo rgb . $color] {
+         set red [expr {($red/256)*$percent/100}]
+         set green [expr {($green/256)*$percent/100}]
+         set blue [expr {($blue/256)*$percent/100}]
+         break
+     }
+     if {$red > 255} {
+         set red 255
+     }
+     if {$green > 255} {
+         set green 255
+     }
+     if {$blue > 255} {
+         set blue 255
+     }
+     return [format "#%02x%02x%02x" $red $green $blue]
+ }

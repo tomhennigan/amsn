@@ -416,10 +416,10 @@ namespace eval ::amsn {
       
       set after_id [after 8000 "::amsn::KillNotify $w $ypos"]
 
-      $w.c bind $notify_id <Button-1> "after cancel $after_id;\
+      $w.c bind $notify_id <Button1-ButtonRelease> "after cancel $after_id;\
         ::amsn::KillNotify $w $ypos; $command"
 
-      $w.c bind $notify_id <Button-3> "after cancel $after_id;\
+      $w.c bind $notify_id <Button3-ButtonRelease> "after cancel $after_id;\
         ::amsn::KillNotify $w $ypos"
       
       wm title $w "[trans msn] [trans notify]"
