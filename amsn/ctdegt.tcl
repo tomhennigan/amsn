@@ -267,7 +267,7 @@ proc PreferencesMenu {m} {
     $m add command -label [trans profiles] -command "Preferences profiles"
 }
 
-proc Preferences { settings } {
+proc Preferences { { settings ""} } {
     global config myconfig proxy_server proxy_port images_folder
 
     if {[ winfo exists .cfg ]} {
@@ -1069,6 +1069,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.42  2003/05/31 16:51:02  airadier
+# Removed preferences cascade menu, some people asked for it.
+#
 # Revision 1.41  2003/05/31 07:35:40  kakaroto
 # rcontroler shell and remote controling support
 # added support for remote controlling and added the remote controler shell

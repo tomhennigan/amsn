@@ -1851,8 +1851,8 @@ proc cmsn_draw_main {} {
    .my_menu add command -label "[trans changenick]..." -command cmsn_change_name
 
    #Preferences dialog/menu
-   menu .pref_menu -tearoff 0 -type normal
-   PreferencesMenu .pref_menu
+   #menu .pref_menu -tearoff 0 -type normal
+   #PreferencesMenu .pref_menu
 
    menu .user_menu -tearoff 0 -type normal
    menu .move_group_menu -tearoff 0 -type normal
@@ -1902,7 +1902,7 @@ proc cmsn_draw_main {} {
 
    #Actions menu
    set dummy_user "recipient@somewhere.com"
-   menu .main_menu.actions -tearoff 0 -type normal 
+   menu .main_menu.actions -tearoff 0 -type normal
    .main_menu.actions add command -label "[trans sendmsg]..." -command \
      "::amsn::ChooseList \"[trans sendmsg]\" online ::amsn::chatUser 1 0"
    .main_menu.actions add command -label "[trans sendmail]..." -command \
@@ -1949,7 +1949,7 @@ proc cmsn_draw_main {} {
    .main_menu.tools add separator
    .main_menu.tools add cascade -label "[trans ordercontactsby]" \
      -menu .order_by
-     
+
    #Added by Trevor Feeney
    #User to reverese group lists
    .main_menu.tools add cascade -label "[trans ordergroupsby]" \
@@ -1965,12 +1965,10 @@ proc cmsn_draw_main {} {
 #   .options add command -label "[trans publishphones]..." -state disabled \
       -command "::abookGui::showEntry $config(login) -edit"
    .options add separator
-   .options add cascade -label "[trans preferences]..." -menu .pref_menu
-#   .options add command -label "[trans language]..." -command "show_languagechoose"
-#   .options add command -label "[trans encoding]..." -command "show_encodingchoose"
-#   .options add command -label "[trans choosebasefont]..." -command "choose_basefont"
-#   .options add command -label "[trans choosebgcolor]..." -command "choose_theme"
+   #.options add cascade -label "[trans preferences]..." -menu .pref_menu
+   .options add command -label "[trans preferences]..." -command Preferences
 
+   #TODO: Move this into preferences window
    .options add cascade -label "[trans docking]" -menu .dock_menu
    menu .dock_menu -tearoff 0 -type normal
    .dock_menu add radio -label "[trans dockingoff]" -value 0 -variable config(dock) -command "init_dock"
