@@ -6,6 +6,7 @@ actions Actions
 addacontact Ajouter un contact
 addedyou $1 ($2) vous a ajouté dans sa liste de contacts
 addstate Ajouter un nouveau statut
+addto Ajouter à $1
 addtocontacts Ajouter aux contacts
 addtoo Ajouter cette personne à ma liste de contacts
 admincontacts Gérer les contacts
@@ -14,6 +15,7 @@ adverts Publicité
 alarmpref Configuration alarme utilisateur
 alarmstatus Activer/désactiver l'alarme pour cet utilisateur
 allowallbutbl Autoriser tout le monde à me contacter sauf les personnes que j'ai bloquées
+allowbadwords Désactiver la censure des surnoms
 allowlist Liste des personnes autorisées
 allowonlyinal Seulement autoriser les utilisateurs de ma Liste d'acception à me contacter
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
@@ -52,6 +54,7 @@ browser Navigateur web
 busy Occupé
 cancel Annuler
 cannotdeleteprofile le profil ne peut être supprimé car il semble utilisé par une session Amsn
+cantexec Impossible d'exécuter l'application : $1. Vérifiez les préférences.
 cfgalarm Configurer/Ajouter/Supprimer alarme
 changefont Changer la police
 changenick Changer de pseudonyme
@@ -74,6 +77,7 @@ clearlog2 Effacer l'historique de tout les contacts
 clearlog3 Effacer tout les logs
 clearlog Effacer les logs
 clicktologin Cliquez pour vous connecter
+closed Conversation avec $1 fermée parce qu'inactive.
 close Fermer
 closingdocks Le bouton fermer ancre l'application
 command Commande
@@ -156,6 +160,7 @@ helpcontents Contenu de l'aide
 history Voir l'historique
 home Domicile
 httpconnection Connexion par la méthode HTTP (utilisation du protocole HTTP par le port 80)
+hybrid Mode hybride
 ident Identification
 identity Identité
 inbox Boîte aux lettres
@@ -196,6 +201,7 @@ logolder Seulement logguer les conversation qui ont eu lieu dans les
 logout Se déconnecter
 logsin vient de se connecter
 logsmileys Afficher les Emoticons et les Smiley dans la fenêtre d'historique de aMSN
+logsout vient juste de se déconnecter
 lprivtoconf  Conversation privée changée en conférence avec $1
 luclosedwin Vous avez fermé la fenêtre sous $1
 mailer Programme de courrier
@@ -232,6 +238,8 @@ nonewver Il n'y a pas de nouvelle version disponible
 no Non
 normal Normal
 nosystemtray La poubelle n'est pas accessible
+notify1_5 Afficher une fenêtre d'information quand les contacts se déconnectent
+notify1_75 Afficher une fenêtre d'information quand les contacts changent de status
 notify1 Afficher une notification quand un contact est en ligne
 notify2 Afficher une notification quand de nouveaux messages sont reçus
 notify3 Afficher une notification quand des emails arrivent dans votre boîte de réception
@@ -330,6 +338,7 @@ soundstatus Activer/Désactiver l'alarme sonore
 startoffline2 Se connecter "Apparaître hors ligne" silencieusement
 startoffline Démarrer déconnecté
 stateautomsg Message a envoyer automatiquement
+statechange status changé en :
 stateedittext Veuillez éditer les champs que vous \n voulez modifier et cliquez sur Enregistrer
 stateinfo Configuration de mon statut
 state Je veux apparaître 
@@ -346,6 +355,7 @@ textsize Taille du texte
 title Al's Messenger ;)
 to A
 tools Outils
+tooltips Activer les info-bulles
 transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue.
 traynotcompiled Le plugin de l'icone de la corbeille n'est pas conforme. Sélectionnez plugins/ancrage de la corbeille
 twonewmail $1 nouveaux messages dans votre boîte de réception
