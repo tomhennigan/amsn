@@ -1090,6 +1090,7 @@ namespace eval ::amsn {
 	      # Auto incremented variable to name the windows
 	      variable winid 0
 	      #///////////////////////////////////////////////////////////////////////////////
+	      variable clipboard ""
 	  }
 
 
@@ -1138,9 +1139,9 @@ namespace eval ::amsn {
          -command "destroy .${win_name}"
 
       menu .${win_name}.menu.edit -tearoff 0 -type normal
-      .${win_name}.menu.edit add command -label "[trans cut]" -command "copy 1 ${win_name}" -accelerator "Ctrl+X"
-      .${win_name}.menu.edit add command -label "[trans copy]" -command "copy 0 ${win_name}" -accelerator "Ctrl+C"
-      .${win_name}.menu.edit add command -label "[trans paste]" -command "paste ${win_name}" -accelerator "Ctrl+V"
+      .${win_name}.menu.edit add command -label "[trans cut]" -command "copy 1 .${win_name}" -accelerator "Ctrl+X"
+      .${win_name}.menu.edit add command -label "[trans copy]" -command "copy 0 .${win_name}" -accelerator "Ctrl+C"
+      .${win_name}.menu.edit add command -label "[trans paste]" -command "paste .${win_name}" -accelerator "Ctrl+V"
 
       menu .${win_name}.menutextsize -tearoff 0 -type normal
       .${win_name}.menutextsize add command -label "+8" -command "change_myfontsize 8 ${win_name}"
@@ -1178,12 +1179,12 @@ namespace eval ::amsn {
       .${win_name} conf -menu .${win_name}.menu
 
       menu .${win_name}.copypaste -tearoff 0 -type normal
-      .${win_name}.copypaste add command -label [trans cut] -command "status_log cut\n;copy 1 ${win_name}"
-      .${win_name}.copypaste add command -label [trans copy] -command "status_log copy\n;copy 0 ${win_name}"
-      .${win_name}.copypaste add command -label [trans paste] -command "status_log paste\n;paste ${win_name}"
+      .${win_name}.copypaste add command -label [trans cut] -command "status_log cut\n;copy 1 .${win_name}"
+      .${win_name}.copypaste add command -label [trans copy] -command "status_log copy\n;copy 0 .${win_name}"
+      .${win_name}.copypaste add command -label [trans paste] -command "status_log paste\n;paste .${win_name}"
 
       menu .${win_name}.copy -tearoff 0 -type normal
-      .${win_name}.copy add command -label [trans copy] -command "status_log copy\n;copy 0 ${win_name}"
+      .${win_name}.copy add command -label [trans copy] -command "status_log copy\n;copy 0 .${win_name}"
 
       frame .${win_name}.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -relief flat
 
@@ -1218,7 +1219,7 @@ namespace eval ::amsn {
       frame .${win_name}.f.in -class Amsn -background white -relief solid -borderwidth 0
 
       text .${win_name}.f.in.input -background white -width 15 -height 3 -wrap word\
-         -font bboldf -borderwidth 0 -relief solid -highlightthickness 0
+         -font bboldf -borderwidth 0 -relief solid -highlightthickness 0 -exportselection 1
 
       frame .${win_name}.f.in.f -class Amsn -borderwidth 0 -relief solid -background white
       button .${win_name}.f.in.f.send  -text [trans send] -width 5 -borderwidth 1 -relief solid \
@@ -1288,12 +1289,14 @@ namespace eval ::amsn {
       bind .${win_name}.f.in.input <Control-Alt-space> BossMode
 
       bind .${win_name}.f.in.input <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
+      bind .${win_name}.f.in.input <Button2-ButtonRelease> "paste .${win_name} 1"
       bind .${win_name}.f.out.text <Button3-ButtonRelease> "tk_popup .${win_name}.copy %X %Y"
-      
+      bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
+   
       if {$tcl_platform(platform) == "unix" } {
-#	  bind .${win_name} <Control-x> "status_log cut\n;copy 1 ${win_name}"
-#	  bind .${win_name} <Control-c> "status_log copy\n;copy 0 ${win_name}"
-	  bind .${win_name} <Control-v> "status_log paste\n;paste ${win_name}"
+	  bind .${win_name} <Control-x> "status_log cut\n;copy 1 .${win_name}"
+	  bind .${win_name} <Control-c> "status_log copy\n;copy 0 .${win_name}"
+	  bind .${win_name} <Control-v> "status_log paste\n;paste .${win_name}"
       }
 
       bind .${win_name} <Control-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
@@ -3786,20 +3789,53 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 
 
 #///////////////////////////////////////////////////////////////////////
-proc copy { cut window } {
-	clipboard clear
-	catch { clipboard append [selection get] }
-	if { $cut == "1" } { catch { .$window.f.in.input delete sel.first sel.last } }
+proc copy { cut w } {
+
+    set window $w.f.in.input
+    set index [$window tag ranges sel]
+ 
+    if { $index == "" } {
+	set window $w.f.out.text 
+	set index [$window tag ranges sel]
+	if { $index == "" } {  return }
+    }
+
+    clipboard clear
+
+    set dump [$window  dump  -text [lindex $index 0] [lindex $index 1]]
+
+    set len [llength $dump]
+
+    foreach { text output index } $dump {
+	clipboard append "$output"
+    }
+
+#    selection clear
+    if { $cut == "1" } { catch { $window delete sel.first sel.last } }
 }
 #///////////////////////////////////////////////////////////////////////
 
 
 
 #///////////////////////////////////////////////////////////////////////
-proc paste { window } {
-	catch { set contents [ selection get -selection CLIPBOARD ] }
-    	catch { set point [ .$window.f.in.input index insert ] }
-    	catch { .$window.f.in.input insert $point $contents }
+proc paste { window {middle 0} } {
+    if { [catch {selection get} res] != 0 } {
+	catch {
+	    set contents [ selection get -selection CLIPBOARD ]
+	    $window.f.in.input insert insert $contents
+	}
+	puts "CLIPBOARD selection enabled"
+    } else {
+	if { $middle == 0} {
+	    catch {
+		set contents [ selection get -selection CLIPBOARD ]
+		$window.f.in.input insert insert $contents
+	    }
+	    puts "CLIPBOARD selection enabled"
+	} else {
+	    puts "PRIMARY selection enabled"
+	}
+    }
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -4931,3 +4967,4 @@ proc window_history { command w } {
 	}
     }
 }
+

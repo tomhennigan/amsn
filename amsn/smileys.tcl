@@ -496,11 +496,11 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
 		set posyx [split $pos "."]
 		set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $chars}]"
 
-#		$tw tag configure smiley ;# -elide true
-#		$tw tag add smiley $pos $endpos
+		$tw tag configure smiley -elide true
+		$tw tag add smiley $pos $endpos
 #		$tw tag bind smiley <<Selection>> "puts \"selected\""
 
-		$tw delete $pos $endpos
+#		$tw delete $pos $endpos
 
 		if { $animated } {
 		    
@@ -510,10 +510,10 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
 		    label $emoticon -bd 0 -background white
 		    ::anigif::anigif [GetSkinFile smileys ${file}] $emoticon
 		    
-		    $tw window create $pos -window $emoticon       
+		    $tw window create $endpos -window $emoticon       
 		    bind $emoticon <Destroy> "::anigif::destroy $emoticon"		    
 
-		    set tagname  [$tw tag names $pos]
+		    set tagname  [$tw tag names $endpos]
 		    if { [llength $tagname] == 1 } {
 		       #status_log "Replacing. Existing binding for $tagname: [$tw tag bind $tagname <Button3-ButtonRelease>]\n" blue
 		       bind $emoticon <Button3-ButtonRelease> "[$tw tag bind $tagname <Button3-ButtonRelease>]"
@@ -527,7 +527,7 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
 
 
 		} else {
-		    $tw image create $pos -image $file -pady 1 -padx 1
+		    $tw image create $endpos -image $file -pady 1 -padx 1
 		}
 
 		
