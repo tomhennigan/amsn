@@ -470,6 +470,7 @@ namespace eval ::amsn {
 		set x [expr {([winfo vrootwidth .about] - [winfo width .about]) / 2}]
 		set y [expr {([winfo vrootheight .about] - [winfo height .about]) / 2}]
 		wm geometry .about +${x}+${y}
+		moveinscreen .about 30
 
 		#Should we disable resizable? Since when we make the windows smaller (in y), we lost the "Close button"
 		#wm resizable .about 0 0
