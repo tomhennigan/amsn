@@ -915,7 +915,7 @@ proc eventlogout { } {
 		::log::OpenLogEvent
 		set fileid [LogArray eventlog get]
 		puts -nonewline $fileid "\|\"LRED\[[clock format [clock seconds] -format "%d %b %Y %T"]\] [trans disconnectedfrom [::config::getKey login]]\n\n"
-		::CloseLogEvent
+		::log::CloseLogEvent
 	}
 }
 
