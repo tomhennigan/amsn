@@ -245,9 +245,12 @@ proc PreferencesCopyConfig {} {
 proc PreferencesMenu {m} {
     bind . <Control-p> { Preferences sound }
 
-    $m add command -label [trans prefsound] -command "Preferences sound"
+    $m add command -label [trans personal] -command "Preferences personal"
+    $m add command -label [trans options] -command "Preferences options"
+    $m add command -label [trans loging] -command "Preferences loging"
+    $m add command -label [trans connection] -command "Preferences connection"
     $m add command -label [trans prefapps] -command "Preferences apps"
-    $m add command -label [trans proxyconf] -command "Preferences proxy"
+    $m add command -label [trans profiles] -command "Preferences profiles"
 }
 
 proc Preferences { settings } {
@@ -262,55 +265,75 @@ proc Preferences { settings } {
     toplevel .cfg
     wm title .cfg [trans preferences]
     wm iconname .cfg [trans preferences]
+    wm geometry .cfg 400x220
 
     # Frame to hold the preferences tabs/notebook
-    set nbtSounds [trans prefsound]
-    set nbtApps   [trans prefapps]
-    set nbtProxy  Proxy
-    set nb .cfg.n
-    frame .cfg.n -class Degt
-	# Preferences Notebook
-	pack [notebook $nb.p $nbtSounds $nbtApps $nbtProxy] \
-		    -expand 1 -fill both -padx 1m -pady 1m
-	#  .--------.
-	# _| Sounds |________________________________________________
-	set nbSounds [getNote $nb.p $nbtSounds]
-	LabelEntry $nbSounds.play "[trans command]" myconfig(soundcommand) 20
-	pack $nbSounds.play
-        bind .cfg <Control-s> { pickNote $nb.p $nbtSounds }
-
-	#  .--------------.
-	# _| Applications |__________________________________________
-	set nbApps   [getNote $nb.p $nbtApps]
-	LabelEntry $nbApps.browser "[trans browser]" myconfig(browser) 20
-	LabelEntry $nbApps.mailer "[trans mailer]" myconfig(mailcommand) 20
-	label $nbApps.mailerhot -text "[trans leaveblankforhotmail]" -font splainf
-	LabelEntry $nbApps.fileman "[trans filemanager]" myconfig(filemanager) 20
-	pack $nbApps.browser $nbApps.mailer  $nbApps.mailerhot $nbApps.fileman -side top
-        bind .cfg <Control-a> { pickNote $nb.p $nbtApps }
-
-	#  .--------------.
-	# _|   P r o x y  |__________________________________________
-	set nbProxy [getNote $nb.p $nbtProxy]
-	LabelEntry $nbProxy.server "[trans server]" proxy_server 20
-	LabelEntry $nbProxy.port "[trans port]" proxy_port 5
-	checkbutton $nbProxy.on -variable myconfig(withproxy) \
-		-text "[trans enableproxy]"
-	pack $nbProxy.server $nbProxy.port $nbProxy.on -side top
-        bind .cfg <Control-p> { pickNote $nb.p $nbtProxy }
+    frame .cfg.notebook -class Degt
+    pack .cfg.notebook -side top -fill both -expand 1
 
     # Frame for common buttons (all preferences)
-    frame .cfg.b -class Degt
-    	button .cfg.b.save -text [trans save] -command "SavePreferences; destroy .cfg"
-    	button .cfg.b.cancel -text [trans close] -command "destroy .cfg" 
-	pack .cfg.b.save .cfg.b.cancel -side left
+    frame .cfg.buttons -class Degt
+    button .cfg.buttons.save -text [trans save] -command "SavePreferences; destroy .cfg"
+    button .cfg.buttons.cancel -text [trans close] -command "destroy .cfg" 
+    pack .cfg.buttons.save .cfg.buttons.cancel -side left -padx 10 -pady 5
+    pack .cfg.buttons -side top -fill x
+   
+    set nb .cfg.notebook.nn
+	# Preferences Notebook
+	# Modified Rnotebook to translate automaticly those keys in -tabs {}
+	Rnotebook:create $nb -tabs {personal options loging connection prefapps profiles} -borderwidth 2
+	pack $nb -fill both -expand 1 -padx 10 -pady 10
 
-    pack .cfg.n .cfg.b -side top
+	#  .----------.
+	# _| Personal |________________________________________________
+	set frm [Rnotebook:frame $nb 1]
+	label $frm.lname -text [trans enternick]
+	entry $frm.name -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 
+	label $frm.lpprofile -text [trans pprofile]
+	grid $frm.lname -row 1 -column 1
+	grid $frm.name -row 1 -column 2
+	grid $frm.lpprofile -row 2 -column 1
+	
+	#  .---------.
+	# _| Options |________________________________________________
+	set frm [Rnotebook:frame $nb 2]
+	label $frm.l2 -text "Welcome frame 1 !" 
+	pack $frm.l2 -fill both -expand 1
+
+	#  .--------.
+	# _| Loging |________________________________________________
+	set frm [Rnotebook:frame $nb 3]
+	label $frm.l3 -text "Welcome frame 1 !" 
+	pack $frm.l3 -fill both -expand 1
+
+	#  .------------.
+	# _| Connection |________________________________________________
+	set frm [Rnotebook:frame $nb 4]
+	label $frm.l4 -text "Welcome frame 1 !" 
+	pack $frm.l4 -fill both -expand 1
+
+	#  .--------------.
+	# _| Applications |________________________________________________
+	set frm [Rnotebook:frame $nb 5]
+	label $frm.l5 -text "Welcome frame 1 !" 
+	pack $frm.l5 -fill both -expand 1
+
+	#  .----------.
+	# _| Profiles |________________________________________________
+	set frm [Rnotebook:frame $nb 6]
+	label $frm.l6 -text "Welcome frame 1 !" 
+	pack $frm.l6 -fill both -expand 1
+
+    
+
 
     switch $settings {
-        sound { pickNote $nb.p $nbtSounds }
-        apps  { pickNote $nb.p $nbtApps }
-        proxy  { pickNote $nb.p $nbtProxy }
+        personal { Rnotebook:raise $nb 1 }
+        options { Rnotebook:raise $nb 2 }
+        loging { Rnotebook:raise $nb 3 }
+	connection { Rnotebook:raise $nb 4 }
+        apps { Rnotebook:raise $nb 5 }
+        profiles { Rnotebook:raise $nb 6 }
 	default { return }
     }
 }
@@ -431,6 +454,9 @@ proc LabelEntryGet { path } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.18  2003/01/10 16:57:31  burgerman
+# Fixed some combox box issues, disabled preferences in menu because I am rewriting.
+#
 # Revision 1.17  2003/01/05 22:37:56  burgerman
 # Save to File in loging implemented
 #

@@ -106,8 +106,9 @@ set pgNews  ""
 #///////////////////////////////////////////////////////////////////////
 # Load program modules
 source [file join $program_dir ctthemes.tcl]
-source [file join $program_dir notebook.tcl]	;# Notebook Megawidget
-source [file join $program_dir notebook1.tcl]	;# Notebook Megawidget
+#source [file join $program_dir notebook.tcl]	;# Notebook Megawidget
+#source [file join $program_dir notebook1.tcl]	;# Notebook Megawidget
+source [file join $program_dir rnotebook.tcl]	;# Notebook Megawidget
 source [file join $program_dir progressbar.tcl]	;# Progressbar Megawidget
 source [file join $program_dir dkffont.tcl]	;# Font selection megawidget
 source [file join $program_dir migmd5.tcl]
@@ -335,6 +336,7 @@ proc close_cleanup {} {
   set config(wingeometry) [wm geometry .]
   set config(showonline)  [::groups::IsExpanded online]
   set config(showoffline) [::groups::IsExpanded offline]
+  
   save_config
   save_alarms   ;# Save alarm settings
   SaveLoginList ;# Save list of profiles

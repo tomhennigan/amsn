@@ -144,9 +144,8 @@ proc load_config {} {
 proc LoadLoginList {} {
 	global HOME HOME2 config
 	
-	if {([file readable "[file join ${HOME} profiles]"] == 0) || ([file isfile "[file join ${HOME}/profiles]"] == 0)} {
-		return 1
-	}
+	if {([file readable "[file join ${HOME} profiles]"] != 0) || ([file isfile "[file join ${HOME}/profiles]"] != 0)} {
+		
 	set file_id [open "${HOME}/profiles" r]
 	gets $file_id tmp_data
 	if {$tmp_data != "amsn_profiles_version 1"} {	;# config version not supported!
@@ -157,6 +156,7 @@ proc LoadLoginList {} {
 		LoginList add 0 $tmp_data
 	}
 	close $file_id
+	}
 	
 	set HOME2 $HOME
 	if { [LoginList get 0] != 0 } {
@@ -201,6 +201,7 @@ proc SaveLoginList {} {
 #	unset : Removes profile given by email from the list and moves 
 #		all elements up by 1 (age is ignored)
 #       size : Returns [array size ProfileList] - 1
+#	show : Dumps list to status_log, for debugging purposes only
 proc LoginList { action age {email ""} } {
 	variable ProfileList
 
@@ -270,10 +271,12 @@ proc LoginList { action age {email ""} } {
 # ConfigChange ( window email)
 # Called when the user selects a combobox item or enters new signin
 # email : email of the new profile/login
-
 proc ConfigChange { window email } {
 	global HOME HOME2 password config
-	save_config
+	if { $email != "" } {
+		save_config
+	}
+
 	set oldlang $config(language)
 	if { [info exists password] } {
 		set password ""
@@ -286,16 +289,41 @@ proc ConfigChange { window email } {
 		load_config
 		LoginList add 0 $email
 	} else {
+		NewProfileAsk $email
+	}
+
+	if { $config(language) != $oldlang } {
+		msg_box [trans mustrestart]		
+	}
+ 
+	load_lang
+	.login.c.password delete 0 end
+	.login.c.password insert 0 $password
+}
+
+
+#///////////////////////////////////////////////////////////////////////////////
+# CreateProfile ( email value )
+# Either creates a new profile or uses default profile
+# Called from NewProfileAsk
+# email : email of new profile
+# value : If 1 create new profile, if 0 use default profile
+proc CreateProfile { email value } {
+	global HOME HOME2 config
+	if { $value == 1 } {
+		status_log "Creating new profile"
+		# Create a new profile with $email
 		create_dir $HOME
 		set log_dir "[file join ${HOME} logs]"
 		create_dir $log_dir
 		ConfigDefaults
 		LoginList add 0 $email
+	} else {
+		status_log "not creating new profile"
+		# Dosent want to save profile, use/load default config in this case
+		set HOME $HOME2
+		load_config
+		set config(save_password) 0
+		.login.c.remember configure -state disabled
 	}
-	if { $config(language) != $oldlang } {
-		msg_box [trans mustrestart]		
-	} 
-	load_lang
-	.login.c.password delete 0 end
-	.login.c.password insert 0 $password
 }

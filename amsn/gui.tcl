@@ -1618,8 +1618,8 @@ proc cmsn_draw_main {} {
    .my_menu add command -label "[trans changenick]..." -command cmsn_change_name
 
    #Preferences dialog/menu
-   menu .pref_menu -tearoff 0 -type normal
-	PreferencesMenu .pref_menu
+   #menu .pref_menu -tearoff 0 -type normal
+#	PreferencesMenu .pref_menu
 
    menu .user_menu -tearoff 0 -type normal
    menu .move_group_menu -tearoff 0 -type normal
@@ -1729,7 +1729,7 @@ proc cmsn_draw_main {} {
    .options add command -label "[trans publishphones]..." -state disabled \
       -command "::abookGui::showEntry $config(login) -edit"
    .options add separator
-   .options add cascade -label "[trans preferences]..." -menu .pref_menu
+#   .options add cascade -label "[trans preferences]..." -menu .pref_menu
    .options add command -label "[trans language]..." -command "show_languagechoose"
    .options add command -label "[trans encoding]..." -command "show_encodingchoose"
    .options add command -label "[trans choosebasefont]..." -command "choose_basefont"
@@ -2301,6 +2301,7 @@ proc cmsn_draw_login {} {
    # Lets fill our combobox
    .login.c.signin insert 0 $config(login)
    set idx 0
+   set tmp_list ""
    while { [LoginList get $idx] != 0 } {
 	lappend tmp_list [LoginList get $idx]
 	incr idx
@@ -2348,6 +2349,31 @@ proc cmsn_draw_login {} {
 }
 #///////////////////////////////////////////////////////////////////////
 
+#///////////////////////////////////////////////////////////////////////////////
+# NewProfileAsk ()
+# Asks user if he would like to create a new profile when he enters in a new
+# email during login.
+
+proc NewProfileAsk { email } {
+	toplevel .loginask
+	wm group .loginask .
+	wm title .loginask "[trans login]"
+   	frame .loginask.c -relief flat -highlightthickness 0
+   	pack .loginask.c -expand true -fill both -padx 10 -pady 0
+
+	label .loginask.c.txt -text "[trans askprofile \n $email]"
+	grid .loginask.c.txt -row 1 -column 1 -sticky w -pady 10
+
+	button .loginask.c.ok -text [trans cprofile] -command "grab release .loginask; destroy .loginask; CreateProfile $email 1"
+	button .loginask.c.cancel -text [trans dcprofile] -command "grab release .loginask; destroy .loginask; CreateProfile $email 0"
+
+   
+   	grid .loginask.c.ok -row 2 -column 1 -pady 10
+  	grid .loginask.c.cancel -row 2 -column 1 -pady 5 -sticky e
+
+	#bind .login <Destroy> {if {"%W" == ".loginask "} {return 0} }
+	grab set .loginask
+}
 
 
 #///////////////////////////////////////////////////////////////////////
