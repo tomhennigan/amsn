@@ -519,7 +519,7 @@ proc smile_subst {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
 
 	    set start $textbegin
 
-	    while {[set pos [$tw search -exact $nocase $symbol $start $end]] != ""} {
+	    while {[set pos [$tw search -exact $nocase -- $symbol $start $end]] != ""} {
 
 		set posyx [split $pos "."]
 		set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $chars}]"
@@ -855,7 +855,7 @@ proc create_smile_menu { {x 0} {y 0} } {
 # proc calcul_geometry_smileys {  }
 #
 # This function is used to calculate the optimal width and height for the
-# smileys menu. it calculs 5 different possibilities for width/height then searchs 
+# smileys menu. it calculs 5 different possibilities for width/height then searchs
 # for the lowest value and returns the values for width and height that are optimal for 
 # the menu depending on the number of smileys to show
 
