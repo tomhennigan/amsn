@@ -55,7 +55,9 @@ proc findskins { } {
 	 global HOME2
 
     set skins [glob -directory [file join $program_dir skins] */settings.xml]
-	 lappend skins [glob -directory [file join $HOME2 skins] */settings.xml]
+	 if {![catch {set local_skins [glob -directory [file join $HOME2 skins] */settings.xml]} res]} {
+	 	lappend skins $local_skins
+	 }
     status_log "Found skin files in $skins\n"
 
     set skinlist [list]

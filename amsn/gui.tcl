@@ -3411,7 +3411,7 @@ proc cmsn_draw_login {} {
 
 	toplevel .login
 	wm group .login .
-	wm geometry .login 800x220
+	#wm geometry .login 600x220
 	wm title .login "[trans login] - [trans title]"
 	wm transient .login .
 
