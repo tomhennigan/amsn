@@ -3756,6 +3756,7 @@ proc cmsn_draw_main {} {
 	image create photo expand -file [GetSkinFile pixmaps expand.gif]
 
 	image create photo globe -file [GetSkinFile pixmaps globe.gif]
+	image create photo download -file [GetSkinFile pixmaps download.gif]
 
 	image create photo typingimg -file [GetSkinFile pixmaps typing.gif]
 	image create photo miniinfo -file [GetSkinFile pixmaps miniinfo.gif]
@@ -6349,11 +6350,12 @@ proc check_version {} {
 	wm title .checking "[trans title]"
 	ShowTransient .checking
 	canvas .checking.c -width 250 -height 50
-	pack .checking.c -expand true -fill both
 
+	label .checking.d -image download
 	.checking.c create text 125 25 -font splainf -anchor n \
 		-text "[trans checkingver]..." -justify center -width 250
-
+	pack .checking.d -expand true -side left
+	pack .checking.c -expand true
 	tkwait visibility .checking
 	catch {grab .checking}
 
@@ -6407,7 +6409,7 @@ proc BossMode { } {
 	#    puts "BossMode : $bossMode"
 
 
-	if { $bossMode == 0 } { 
+	if { $bossMode == 0 } {
 		set children [winfo children .]
 
 		if { [catch { toplevel .bossmode } ] } {
