@@ -6483,8 +6483,13 @@ proc launch_browser { url {local 0}} {
 
 		#regsub -all -nocase {htm} $url {ht%6D} url
 		#regsub -all -nocase {&} $url {^&} url
-		catch { exec rundll32 url.dll,FileProtocolHandler $url & } res
 
+		#catch { exec rundll32 url.dll,FileProtocolHandler $url & } res
+		#run WinLoadFile, if its not loaded yet then load it
+		if { [catch { WinLoadFile $url } ] } {
+			load [file join plugins winutils winutils.dll]
+			WinLoadFile $url
+		}
 	} else {
 
 		if { [string first "\$url" [::config::getKey browser]] == -1 } {
