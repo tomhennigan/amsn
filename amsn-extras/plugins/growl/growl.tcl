@@ -29,7 +29,8 @@ namespace eval ::growl {
     	#Default config for the plugin
     	array set ::growl::config {
 		userconnect {1}
-		lastmessage {0}
+		lastmessage {1}
+		lastmessage_outside {1}
 		changestate {0}
 		offline {0}
     	}
@@ -37,6 +38,7 @@ namespace eval ::growl {
     	set ::growl::configlist [list \
 				  [list bool "[trans notify1]"  userconnect] \
 				  [list bool "[trans notify2]" lastmessage] \
+				  [list bool "Show notification for last message received only if focus is outside aMSN" lastmessage_outside] \
 				  [list bool "[trans notify1_75]" changestate] \
 				  [list bool "[trans notify1_5]" offline] \
 				 ]
@@ -77,11 +79,23 @@ namespace eval ::growl {
     	#Define the 3 variables, email, nickname and message
     	set email $user
     	set nickname [::abook::getDisplayNick $user]
-    		#Only show the notification if we are not in aMSN and the message is not from us
+    		
+    		#Verify the config. Show newmessage if we are outside aMSN or just in another chatwindow
+    		#Only show the notification if the message is not from us
     		#Use contact's avatar as picture if possible (via getpicture)
-    		if { (($email != [::config::getKey login]) && [focus] == "") && $msg != "" && $config(lastmessage)} {
-    			catch {growl post Newmessage $nickname $msg [::growl::getpicture $email]}
+
+    		if { $config(lastmessage_outside) } {
+    			if { (($email != [::config::getKey login]) && [focus] == "") && $msg != "" && $config(lastmessage)} {
+    				catch {growl post Newmessage $nickname $msg [::growl::getpicture $email]}
+    			}
+    		} else {
+    			if { (($email != [::config::getKey login]) && ".[lindex [split [focus] .] 1]" != "[::ChatWindow::For $email]") && $msg != "" && $config(lastmessage)} {
+    				catch {growl post Newmessage $nickname $msg [::growl::getpicture $email]}
+    			}
     		}
+    		
+
+
  	}
         
     ###############################################
