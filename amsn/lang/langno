@@ -121,6 +121,7 @@ encoding Velg koding
 entercontactemail Oppgi kontakt e-post
 enterfilename Vennligst oppgi et filnavn
 enternick Oppgi ditt nick
+errortls Problemer med installasjon av TLS-modul:
 examples Eksempler
 exitamsn Er du sikker på at du vil avslutte?
 extras Ekstra tjenester
@@ -131,6 +132,7 @@ filetransfercancelled Filoverføringen ble avbrutt
 filetransfercomplete Filoverføringen er fullført
 ftaccepted Sending av fil akseptert
 ftrejected Sending av fil avslått
+getdisppic Aktiver mottak av Personlige Bilder fra andre brukere
 gonelunch Ute til lunsj
 groupadd Legg til en gruppe
 groupdelete Slett en gruppe
@@ -182,6 +184,7 @@ msn AMSN
 mustrestart Du må starte programmet på nytt for å aktivere endringene
 myhomephone Tlf - Hjem
 mymobilephone Tlf - Mobil
+mypic Mitt Personlige Bilde:
 mystatus Min status
 myworkphone Tlf - Arbeid
 needonline Du er ennå/ser ut til å være offline!
@@ -194,6 +197,7 @@ noactivity Ingen aktivitet
 no Nei
 nonewmail Ingen nye meldinger i Innboksen
 nonewver Det er ingen nye versjoner tilgjengelig for nedlasting
+nopic Ikke noe bilde
 normal Normal
 notify gi beskjed
 nousersinsession Ingen brukere i sesjonen
@@ -235,7 +239,7 @@ properties Egenskaper
 proxyconfhttp HTTP proxy support konfigurasjon
 proxyconf Proxy konfigurasjon
 publishphones Publiser mine telefonnummer
-raised Maksimert
+raised Åpnet
 receivedbytes Mottatt $1 av $2 bytes
 receivefile Motta fil
 reconnecting Kobler til serveren på nytt
@@ -246,6 +250,7 @@ rightback Straks tilbake
 saveas Lagre som
 savecontacts Lagre kontaktliste
 save Lagre
+savetofile Lagre til fil
 says $1 sier
 sbcon Kobler til koblingstavle
 selectskin Velg et skall fra listen

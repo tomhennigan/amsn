@@ -257,6 +257,7 @@ msn AMSN
 mustrestart Da bi spremembe prisle v veljavo, moras program ponovno zagnati
 myhomephone Domaci telefon
 mymobilephone Mobilni telefon
+mypic Moja osebna slika:
 mystatus Moje stanje
 myworkphone Sluzbeni telefon
 natip IP detekcija od mrezne strani
@@ -274,7 +275,7 @@ no Ne
 noneavailable Noben ni na voljo
 nonewmail Ni novih sporocil v Inboxu
 nonewver Ni novih verzij na voljo za prenos
-nopic Ni slike
+nopic Brez slike
 noprofileexists Trenutno ni profilov.\nDa jih uporabljas, ustvari novega\nz gumbom dodaj profil.
 normal Normalno
 nosystemtray Tray ni na voljo
@@ -303,6 +304,7 @@ pass Geslo
 paste Prilepi
 personal Osebno
 phone Telefon
+picbrowser Prikazi brskalnik slik
 picfile Slikovna datoteka
 picstatus Slika omogocena
 playing Igram: $1
@@ -349,6 +351,7 @@ proxyconf Nastavitve proxyja
 proxyconnection Proxy povezava:
 proxy Sem za proxy streznikom (HTTP ali SOCKS5)
 publishphones Objavi moje tel. stevilke
+purge Ocisti
 raised V oknu
 readonlymsgbox Prenos datoteke je preklican, ker je ciljna mapa samo za branje. Popravi njena ovoljenja.
 readonlywarn OPOZORILO: Datoteka verjetno NE bo shranjena pravilno, ker je mapa "Prejetedatoteke"zascitena za pisanje. Pred prenosom preveri, ce so dovoljenja ciljne mape ($1) nastavljene pravilno.
