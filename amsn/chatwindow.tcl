@@ -1,6 +1,6 @@
 #########################################
 #    Chat Window code abstraction       #
-#           By Alberto Díaz             #
+#           By Alberto Dï¿½z             #
 #########################################
 namespace eval ::ChatWindow {
 
@@ -1305,7 +1305,7 @@ namespace eval ::ChatWindow {
 		button $showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] \
 			-bg [::skin::getColor chatwindowbg] -highlightthickness 0 -font splainf \
 			-command "::amsn::ToggleShowPicture $w; ::amsn::ShowOrHidePicture $w" \
-			-highlightbackground [::skin::getColor chatwindowbg]
+			-highlightbackground [::skin::getColor chatwindowbg] -activebackground [::skin::getColor chatwindowbg]
 		set_balloon $showpic [trans showdisplaypic]
 
 		# Pack them 
