@@ -1,0 +1,14 @@
+amsn_lang_version 2
+serverlabel Insét din udgåne mail server oplysning..
+smtpserver SMTP Server (e.g.: localhost, smtp.gmail.com)
+smtpport Server port (default: 25)
+userlabel Hvis din server kréver signatur, Insét det i det néste felt (Gmail kréver det)
+smtpuser Bruger (e.g.: my_mail@gmail.com)
+smtppass Kodeord
+sendtolabel Insét i det néste felt den e-mail for du vil modtage logsene.
+sendto Send logs til (e.g.: my_mail@gmail.com)
+logslabel Udseende.
+defaultprefix aMSN Samtale: 
+showfooter Footer
+htmlformat Brug html format (farver, emotikoner...)
+footer _________________________________________________________________\n aMSN Messenger http://amsn.sf.net/\n Logs sent by GLogs plugin.

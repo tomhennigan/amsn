@@ -1,0 +1,33 @@
+amsn_lang_version 2
+allowcommands Tillad kommandoer i samtale vinduet?
+allowcolours Tillad mangfoldig farver i samtale vinduet?
+allowquicktext Tillad brug af hurtig tekst?
+bold Kraftig
+ccolor \nDin tekst farver er $1
+cfont \nDin tekst skriftstype er $1
+cinfo \nKontakt oplysning:\n$1 \nNick: $2 \nGroppe: $3
+cleave \nDu har forladt denne samtale
+cnewnick \nDit nye nick er: $1
+cnewstate \nDin nye tilstand er: $1
+cnewstatenotvalid \n$1 Det er ikke gyldig
+cnick \nDit nick er $1
+cnotvalid \nKommandoen er ikke gyldig
+colournicks Vil du have farver i dit nick? (ikke fuldt udviklet)
+cresult \nVirkning af kommandoen:\n$1
+cshell \nExecuting in the shell: $1
+cspecify \nDu må specificere en kontakt
+cstatus \nDin status er $1
+cstyle \nDin skriftstype er $1
+deleted \nDu har fjernet $1 fra listen\nFor at tilføjre denne kontakt igen gør: /add $1
+groupadded \nTilføj groppe $1.
+groupdeleted \nDu har slettet groppe $1 \nFor at tilføjre denne groppe igen gør: /addgroup $1
+italic Kursiv
+keyword Stikord
+multiplecolorsbutton Tilføj en ny farve
+overstrike Overstreget
+parsenicks Vil du analysere msn plus farve kodifikation i nicks?
+qthelp Her skal du konfigurer din hurtig tekst, stikordet og teskten.\nSŒ i samtale vinduet, hvis du gør /keywork, Vil du se teskten
+quicktext Hurtig teskt
+reset Gendan stil
+text Teskt til at skrive
+underline Understreget
