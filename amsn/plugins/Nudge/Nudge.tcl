@@ -206,7 +206,7 @@ namespace eval ::Nudge {
 		#Check if the user can accept the nudge (MSN 7 protocol needed), if not, stop here.
 		if {![::Nudge::check_clientid $chatid]} {
 			::Nudge::winwrite $chatid \
-			"You cannot sent a Nudge to your contact because he don't have a client to support Nudges" red
+			"You cannot sent a Nudge to your contact because they don't have a client that supports Nudges" red
 			return
 		}
 		
