@@ -6,7 +6,7 @@ actions Actions
 addacontact Add a contact
 addedyou $1 ($2) has added you to his/her contact list
 addprofile Add New Profile
-addprofiledesc Enter the login for wich you would like to create a new profile. \nProfiled logins allows you to have different configurations for each login.\nWithout profiles you cannot use the History, Alarms or remember passwords.
+addprofiledesc Enter the login which you would like to create a new profile for. \nProfiled logins allow you to have different configurations for each login.\nWithout profiles you cannot use the History, Alarms or "Remember Password" function.
 addstate Add New State
 addto Add to $1
 addtocontacts Add to contact list
@@ -20,7 +20,7 @@ alarmonmsg Activate alarm when user sends you a message
 alarmonstatus  Activate alarm when user changes state
 alarmpref Alarm Settings for user
 alarmstatus Turn ON/OFF Alarm for this user
-allowallbutbl Allow all users but those in Block List to contact me
+allowallbutbl Allow all users apart from those in my Block List to contact me
 allowbadwords Disable censorship on nicknames
 allowlist Allow list (AL):
 allowonlyinal Only allow users in my Accept List to contact me
@@ -40,7 +40,7 @@ autohotmaillog Auto Hotmail login
 autoidle Auto NoActivity
 autoip Automatic IP
 autonoact Show me as "Not Active" when inactive for
-avoidseen Avoid this person can see when I'm online and contact me
+avoidseen Prevent this person from seeing when I'm online and contacting me
 away Away
 awaymsg1 Ask for away message each time I change my status to Away/BRB/Busy
 awaymsg2 Never ask and always use the away message below 
@@ -52,7 +52,7 @@ blocked Blocked
 blockedyougroup Show a separate group for people who have blocked you
 blocking Blocking
 blockinter1 When your status is online check every 
-blockinter2 seconds, else check every :
+blockinter2 seconds, else check every:
 blockinter3 every 
 blockinter4 seconds.
 blocklist Block list (BL):
@@ -64,8 +64,8 @@ browser Browser
 browserexample ( \$url will be replaced with the URL). Ex: mozilla \$url
 busy Busy
 cancel Cancel
-cannotdeleteprofile Cannot delete profile because it seems to be in use by an Amsn session
-cantexec Can't execute applicattion: $1. Check preferences
+cannotdeleteprofile Cannot delete profile because it seems to be in use by an aMSN session
+cantexec Can't execute application: $1. Check preferences
 casesensitive Use case-sensitive triggers
 cfgalarm Configure/Add/Remove Alarm
 changefont Change font
@@ -87,14 +87,14 @@ choosebasefont Choose font type
 choosebgcolor Choose background color
 choosecontact Please choose a contact from the list
 choosefontcolor Choose font color
-chooseskin Please select the Skin you would like to use
+chooseskin Please select the skin you would like to use
 clearlog2 Clear the history for all your contacts
 clearlog3 Clear All Logs
 clearlog Clear Log
 clicktologin Click here to log in
 close Close
-closed Conversation with $1 closed for inactivity
-closingdocks Close button Minimizes
+closed Conversation with $1 closed due to inactivity
+closingdocks Close button minimizes
 command Command
 confirm Are you sure?
 confirmdelete Are you sure you want to delete $1?
@@ -120,10 +120,10 @@ default Default Config
 defaultloginradio Login with default configuration
 delete Delete
 deliverfail There was a problem delivering the following message
-delprofile2 Select the Profile that you would like to have removed 
+delprofile2 Select the profile that you would like to remove 
 delprofile Delete Profile
 description Description
-directconnection I have direct connection to the internet (uses port 1863)
+directconnection I have a direct connection to the internet (uses port 1863)
 disablessl Disable SSL
 disconnect $1 has disconnected.
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
@@ -138,7 +138,7 @@ edit Edit
 editnewstate New Personal Automessage State
 editprofile Edit Profile
 editstate Edit Existing Automessage State
-emotisounds Play sounds on certain emoticons
+emotisounds Play sounds for certain emoticons
 enableproxy Enable proxy
 enableremote Enable remote controling
 enablesound Play sound
@@ -211,7 +211,7 @@ lastmsgtime Last message received at $1
 lclosedwin $1 has closed the window on $2
 lconftopriv Conference turned into Private chat with $1
 lconvstarted Conversation started on $1
-leaveblankforhotmail Leave blank to use hotmail web
+leaveblankforhotmail Leave blank to use Hotmail
 leaves $1 leaves conversation
 lenteredconf $1 has entered into a conference on $2
 linprivate IN PRIVATE
@@ -221,7 +221,7 @@ listsmileys List smileys
 ljoinedconf $1 has joined conference
 lleftconf $1 has left conference
 loadcontacts Load contact list
-logbigger Log file sizes for each contact never exceed 
+logbigger Log file sizes for each contact never exceeds 
 logfandexp Log File Sizes and History Expiry
 loggedotherlocation Disconnected. Logged in other location
 loggingin Logging In
@@ -235,7 +235,7 @@ logsmileys Displays Emoticons and Smileys in aMSN's history windows
 logsout has just logged out
 lprivtoconf Private chat turned into Conference with $1
 luclosedwin You have closed the window on $1
-mailerexample ( \$recipient = Recipient ) Leave blank for using hotmail
+mailerexample ( \$recipient = Recipient ) Leave blank to use Hotmail
 mailer Mailer
 maximised Maximised
 minimised Minimised/Iconified
@@ -245,10 +245,10 @@ morepersonal More States ->
 move Move
 movetogroup Move to Group
 msgflicker Flicker chat window title when new message is received on unfocused window.
-msgmaxmin When a new message arrives I want it to be :
+msgmaxmin When a new message arrives I want it to be:
 msg Message
-msgmode Select how to handle multiple message windows :
-msn AMSN
+msgmode Select how to handle multiple message windows:
+msn aMSN
 mustrestart You must restart the program to apply changes
 myhomephone My Home Phone
 mymobilephone My Mobile Phone
@@ -273,14 +273,14 @@ noprofileexists There are currently no profiles, \n you must create one if you w
 normal Normal
 nosystemtray System tray not available
 notify1_5 Display notify window when contacts goes offline
-notify1_75 Display notify window when contacts changes state
+notify1_75 Display notify window when contacts changes status
 notify1 Display notify window when contacts come online
 notify2 Display notify window when new messages are received
-notify3 Display notify window when e-mails reach your Inbox
+notify3 Display notify window when new emails arrive
 notify notify
-notifyoffset Set the position of the notify window by giving it position offsets
+notifyoffset Offset the position of the notification pop-up
 notifywin Notify Window
-notls The MSN Protocol 9 requires the tls package. This package does not seem to be installed on this machine. If it's installed, the path to the library directory should be specified in the Preferences window (ex: /opt/tls/lib). \n \n It's possible to download tls from http://tls.sf.net.
+notls The MSN Protocol 9 requires the TLS package. This package does not seem to be installed on this machine. If it's installed, the path to the library directory should be specified in the Preferences window (ex: /opt/tls/lib). \n \n It's possible to download TLS from http://tls.sf.net.
 nousersinsession No users in session
 offline Offline
 ok Ok
@@ -310,7 +310,7 @@ prefblock3 "You have been blocked by" group
 prefconnection Connection settings
 prefemotic Emotions Icons and Smileys 
 preferences Preferences
-preffont2 Change the way others see my text in chats
+preffont2 Change the way others see my text in chat sessions
 preffont3 Change aMSN's interface font and size
 preffont My Message Text
 preflibs Libraries directories
@@ -333,17 +333,17 @@ prefsound Sounds
 privacy Privacy
 profiledconfig Profiled Config
 profileexists You cannot create a profile with this login \n because one already exists. Please chose another login.
-profileinuse This Profile is being used by another aMSN session, please chose another one
+profileinuse This Profile is being used by another aMSN session, please choose another one
 profileloginradio Login using an existing Profile
 profiles Profiles
 properties Properties
 proxyconfhttp HTTP proxy support configuration
 proxyconf Proxy configuration
 proxyconnection I connect to the internet using a proxy server:
-proxy I am behind a Proxy Server (HTTP or SOCKS5)
+proxy I am behind a proxy server (HTTP or SOCKS5)
 publishphones Publish my phone numbers
 raised Raised/Deiconified
-readonlymsgbox The file transfer has been canceled due to the received directory being read-only. Please fix permissions on this directory.
+readonlymsgbox The file transfer has been canceled due to the received directory being read-only. Please fix the permissions on this directory.
 readonlywarn WARNING: The file will probably NOT be saved correctly as the "Received files" directory seems to be write-protected. Please ensure that the permissions on the target directory ($1) are set correctly before transfering the file.
 receivedbytes Received $1 of $2 bytes
 receivefile Receive file
@@ -377,7 +377,7 @@ skin Skin
 smileconfig Custom emoticon configuration
 smilefile Smiley filename
 smileintro2 Please edit the required fields to customize this smiley (see the FAQ for help)
-smileintro Please fill the required fields to create a new custom smiley (see the FAQ for help)
+smileintro Please complete the required fields to create a new custom smiley (see the FAQ for help)
 sound2 Play sounds when contacts sign in or send a message
 soundcommand This has to be the play command (ex: esdplay)
 sound Event Sounds
@@ -388,11 +388,11 @@ soundserver Sound Server
 soundstatus Sound Alarm
 sourcecode Source Code (needs compiling and installing)
 sslwarning WARNING!! Disabling SSL will disable encryption, so your password will be sent as plain text over the network. Use only for really tricky proxies or network configurations.
-startoffline2 Sign In silently as "Appear Offline"
+startoffline2 Sign in silently as "Appear Offline"
 startoffline Start Offline
 stateautomsg AutoMessage to Send
-statechange status changed to : 
-stateedittext Please edit the fields you would like \n to have modified and press Save
+statechange status changed to: 
+stateedittext Please edit the fields you would like \n to modify and press Save
 stateinfo Personal State Configuration
 state I want to appear as	
 statename Name of Personal State
@@ -408,9 +408,9 @@ textsize Text size
 timeremaining Time remaining
 title Al's Messenger
 tlsdowncompleted File $1 was downloaded to directory $2. You must extract it, build it (if you downloaded source code) and install it inside $3.
-tlsinstallexp AMSN now uses MSNP9, which requires the use of a secure\nconnection using SSL. In order to use SSL, AMSN needs to install a module called TLS,\nwhich is missing in your system. This wizard will help you in downloading and\ninstalling TLS. Please choose your system type so we can automatically download\nthe required TLS files.
+tlsinstallexp aMSN now uses MSNP9, which requires the use of a secure\nconnection using SSL. In order to use SSL, aMSN needs to install a module called TLS,\nwhich is missing from your system. This wizard will help you to download and\ninstall TLS. Please choose your system type so we can automatically download\nthe required TLS files.
 tlsinstall TLS Module installation wizard
-tlsinstcompleted TLS module installation was sucessful, now you should be able to use MSNP9. If this doesn't work, then probably you didn't select the right module, or a compiled module is not available for your system.
+tlsinstcompleted TLS module installation was sucessful - you should now be able to use MSNP9. If this doesn't work, then you probably didn't select the right module, or a compiled module is not available for your system.
 tools Tools
 tooltips Enable tooltips
 to To
@@ -433,7 +433,7 @@ view View
 willjoin Waiting $1 joins conversation
 work Work
 wrongfields The "$1", "$2" and/or "$3" fields were not valid
-wrongprofileversion Wrong profile config file version. In order to fix it, please remove directory $1, or update amsn
+wrongprofileversion Wrong profile configuration file version. In order to fix it, please remove directory $1, or update aMSN
 xoffset X Offset
 yes Yes
 yoffset Y Offset
