@@ -77,9 +77,9 @@ namespace eval ::plugins {
     }
 
     proc UnRegisterEvent {plugin event cmd} {
-	variable pluginevents
-	if {[lsearch $pluginevents(${event}) "\:\:$plugin\:\:$cmd"] != -1} {
-	    set $pluginevents(${event}) [lreplace $pluginevents(${event}) [lsearch $pluginevents(${event}) "\:\:$plugin\:\:$cmd"] [expr [lsearch $pluginevents(${event}) "\:\:$plugin\:\:$cmd"] +1] ""]
+	variable pluginsevents
+	if {[lsearch $pluginsevents(${event}) "\:\:$plugin\:\:$cmd"] != -1} {
+	    set pluginsevents(${event}) [lreplace $pluginsevents(${event}) [lsearch $pluginsevents(${event}) "\:\:$plugin\:\:$cmd"] [expr [lsearch $pluginsevents(${event}) "\:\:$plugin\:\:$cmd"] +1] ""]
 	    status_log "Plugins System: Event \:\:$plugin\:\:$cmd on $event unregistered ...\n"
 	} else {
 	    status_log "Plugins System: Trying to unregister a unknown event...\n"
@@ -88,10 +88,10 @@ namespace eval ::plugins {
     
     proc UnRegisterEvents {plugin} {
 	variable pluginsevents
-	foreach {event} [array names pluginevents] {
-	    while { [set x [lsearch -regexp $pluginsevents(${event}) "\:\:$plugin\:\:*" ]] !=1 } {
-		status_log "Plugins System: UnRegistering command $x from $pluginevents(${event})...\n"
-		set $pluginevents(${event}) [lreplace $pluginevents(${event}) $x [expr $x +1] ""]
+	foreach {event} [array names pluginsevents] {
+	    while { [set x [lsearch -regexp $pluginsevents(${event}) "\:\:$plugin\:\:*" ]] != -1 } {
+		status_log "Plugins System: UnRegistering command $x from $pluginsevents(${event})...\n"
+		set pluginsevents(${event}) [lreplace $pluginsevents(${event}) $x [expr $x +1] ""]
 	    }
 	}
      }
@@ -440,7 +440,7 @@ namespace eval ::plugins {
 	variable knownplugins
 	set cur_plugin $cdata
 	if {[lsearch $knownplugins $cur_plugin] == -1 } {
-	    append knownplugins $cur_plugin
+	    lappend knownplugins $cur_plugin
 	}
 	return 0
     }
