@@ -21,11 +21,16 @@ proc PreferencesCopyConfig {} {
 	
 	array set myconfig [::config::getAll]
 	
+	set proxy_server ""
+	set proxy_port ""
+	
 	# Now process certain exceptions. Should be reverted
 	# in the RestorePreferences procedure
-	set proxy_data $myconfig(proxy)
-	set proxy_server [lindex $proxy_data 0]
-	set proxy_port [lindex $proxy_data 1]
+	catch {
+		set proxy_data $myconfig(proxy)
+		set proxy_server [lindex $proxy_data 0]
+		set proxy_port [lindex $proxy_data 1]
+	}
 }
 
 ## Function that makes the group list in the preferences ##
