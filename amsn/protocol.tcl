@@ -936,7 +936,7 @@ namespace eval ::MSN {
       
       global list_users list_states list_otherusers user_info
 
-      set wanted_info [list $user "" ""]
+      set wanted_info [list $user $user ""]
 
       set idx [lsearch $list_users "${user} *"]
 
@@ -1045,7 +1045,7 @@ namespace eval ::MSN {
 
          sb set $sbn stat "d"
 
-         AddSBFor $lowuser $sbn         
+         AddSBFor $lowuser $sbn
 	 lappend sb_list "$sbn"
       }
 
@@ -1216,7 +1216,7 @@ namespace eval ::MSN {
 
 	  set index [lsearch $sb_chatid($chatid) $sb_name]
 	  
-          status_log "AddSBFor: Adding SB $sb_name to chat $chatid\n" blue	  
+          status_log "AddSBFor: Adding SB $sb_name to chat $chatid\n" blue
           status_log "AddSBFor: sb_chatid ($chatid) was $sb_chatid($chatid)\n" blue
 	  
 	  if { $index == -1 } {
@@ -1239,19 +1239,19 @@ namespace eval ::MSN {
       variable sb_chatid
       variable chatid_sb
 
-      status_log "DelSBFor: Deleting SB $sb_name from chat $chatid\n" blue      
-            
+      status_log "DelSBFor: Deleting SB $sb_name from chat $chatid\n" blue
+
       if {![info exists sb_chatid($chatid)]} {
          status_log "DelSBFor: sb_chatid($chatid) doesn't exist\n" red
 	 return 0
       }
       status_log "DelSBFor: sb_chatid ($chatid) was $sb_chatid($chatid)\n" blue
 
-      
+
       set index [lsearch $sb_chatid($chatid) $sb_name]
 
-      if { $index == -1 } {        
-         status_log "DelSBFor: SB $sb_name is not in sb_chatid($chatid)\n" red      
+      if { $index == -1 } {
+         status_log "DelSBFor: SB $sb_name is not in sb_chatid($chatid)\n" red
 	 return 0
       }
 
@@ -1261,7 +1261,7 @@ namespace eval ::MSN {
       if {[llength $sb_chatid($chatid)] == 0 } {
         unset sb_chatid($chatid)
       }
-      
+
       unset chatid_sb($sb_name)
 
    }
@@ -1285,7 +1285,7 @@ namespace eval ::MSN {
 
       #TODO: We should NAK every message in the queue, must modify the queue format
       #to save the message ack ID
-      
+
       if {![info exists chat_queues($chatid)]} {
          return 0
       }
@@ -1331,7 +1331,7 @@ namespace eval ::MSN {
          ProcessQueue $chatid
 
       } else {
-      
+
          chatTo $chatid
          after 3000 "::MSN::ProcessQueue $chatid [expr {$count + 1}]"
 
@@ -1374,10 +1374,10 @@ namespace eval ::MSN {
 
       if {![chatReady $chatid]} {
          status_log "chat NOT ready in ::MSN::SendChatMsg\n"
-         ::amsn::nackMessage $ackid         
+         ::amsn::nackMessage $ackid
 	 return 0
       }
-      
+
       status_log "SendChatMsg:: Sending message to chat $chatid using SB $sbn\n" blue
 
       #set sock [sb get $sbn sock]
@@ -1725,6 +1725,7 @@ proc cmsn_sb_msg {sb_name recv} {
 
       }
    } else {
+      status_log "Error, no chatid in cmsn_sb_msg, please check this!!\n" red
       set chatid $desiredchatid
       ::MSN::AddSBFor $chatid $sb_name
    }
@@ -1875,7 +1876,22 @@ proc cmsn_sb_handler {sb_name item} {
 	 return 0
       }
       ANS {
-         #status_log "$sb_name: [join $item]\n" green
+	status_log "Got ANS reply in $sb_name\n" green
+	status_log "There are [sb length $sb_name users] Users: [sb get $sb_name users]\n" green
+	if { [sb length $sb_name users] == 1 } {
+	   set chatid [sb index $sb_name users 0]
+	} else {
+	   set chatid $sb_name
+	}
+        ::MSN::AddSBFor $chatid $sb_name
+
+        foreach usr_login [sb get $sb_name users] {
+           ::amsn::userJoins $chatid $usr_login
+	}
+
+
+        status_log "New hidden chat chatid is [::MSN::ChatFor $sb_name], we could open window here\n" green
+	 #status_log "$sb_name: [join $item]\n" green
 	 return 0
       }
       NAK {
@@ -1901,9 +1917,9 @@ proc cmsn_sb_handler {sb_name item} {
 	   #if you try to begin a chat session with yourself
 	   set chatid [::MSN::ChatFor $sb_name]
 	   ::MSN::ClearQueue $chatid
-           ::amsn::chatStatus $chatid "[trans useryourself]\n" miniwarning 
+           ::amsn::chatStatus $chatid "[trans useryourself]\n" miniwarning
 	   return 0
-	   
+
        }
        216 {
 	   # if you try to begin a chat session with someone who blocked you and is online
@@ -2046,7 +2062,7 @@ proc cmsn_conn_sb {name} {
 
 proc cmsn_conn_ans {name} {
 
-     
+
 
    status_log "cmsn_conn_ans $name\n" green
    catch {fileevent [sb get $name sock] writable {}} res
@@ -2061,6 +2077,7 @@ proc cmsn_conn_ans {name} {
    status_log "cmsn_conn_ans: Authenticating in $name...\n" green
 
 }
+
 
 proc cmsn_connected_sb {name recv} {
 
@@ -2309,16 +2326,6 @@ proc cmsn_update_users {sb_name recv} {
 
              set chatid $usr_login
 
-             #Don't put it in status if we're not the preferred SB.
-             #It can happen that you invite a user to your sb,
-             #but just in that moment the user invites you,
-             #so you will connect to its sb and be able to chat, but after
-             #a while the user will join your old invitation,
-             #and get a fake "user joins" message if we don't check it
-             if {[::MSN::SBFor $chatid] == $sb_name} {
-                ::amsn::userJoins $chatid $usr_name
-             }
-	     
 
 	  } else {
 
@@ -2326,12 +2333,12 @@ proc cmsn_update_users {sb_name recv} {
 
 	     #Procedure to change chatid-sb correspondences
 	     set oldchatid [::MSN::ChatFor $sb_name]
-	     
+
 	     if { $oldchatid == 0 } {
 	        status_log "cmsn_update_users: JOI - VERY BAD ERROR, oldchatid = 0. CHECK!!\n" error
 		return 0
 	     }
-	     
+
 	     set chatid $sb_name
 
 	     #Remove old chatid correspondence
@@ -2341,9 +2348,17 @@ proc cmsn_update_users {sb_name recv} {
 	     status_log "JOI - Another user joins, Now I'm chatid $chatid (I was $oldchatid)\n"
 	     ::amsn::chatChange $oldchatid $chatid
 
-	     ::amsn::userJoins $chatid $usr_name     
-	     
 	  }
+
+	  #Don't put it in status if we're not the preferred SB.
+          #It can happen that you invite a user to your sb,
+          #but just in that moment the user invites you,
+          #so you will connect to its sb and be able to chat, but after
+          #a while the user will join your old invitation,
+          #and get a fake "user joins" message if we don't check it
+          if {[::MSN::SBFor $chatid] == $sb_name} {
+             ::amsn::userJoins $chatid $usr_login
+          }
 
       }
    }

@@ -425,6 +425,7 @@ namespace eval ::amsn {
    # play a sound if it's necessary
    proc messageFrom { chatid user msg type {fontformat ""} } {
    	global config
+      variable first_message
 
       set win_name [WindowFor $chatid]
 
@@ -440,27 +441,30 @@ namespace eval ::amsn {
 
       #If window is withdran (Created but not visible) show notify, and change
       #the window state
-      if { "[wm state $win_name]" == "withdrawn" } {
+      if { $first_message($win_name) == 1 } {
 
-	 wm state ${win_name} normal
+         set first_message($win_name) 0
+	 #wm state ${win_name} normal
 
-	 if { $config(newmsgwinstate) == 0 } {
+         #If window not focused, play "type" sound and show notify
+	 if { [string first ${win_name} [focus]] != 0 } {
+
+   	    if { $config(newmsgwinstate) == 0 } {
 	 	raise ${win_name}
-	 } else {
-	 	wm iconify ${win_name}
-	 }
+	    } else {
+	 	#wm iconify ${win_name}
+	    }
 
-         if { $config(notifymsg) == 1 } {
+            sonido type
+            if { $config(notifymsg) == 1 } {
 	 	notifyAdd "[trans says [lindex [::MSN::getUserInfo $user] 1]]:\n$msg" \
 		"::amsn::chatUser $chatid"
+	    }
 	 }
 
       }
 
-      #If window not focused, play "type" sound
-      if { [string first ${win_name} [focus]] != 0 } {
-         sonido type
-      }
+
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -587,25 +591,27 @@ namespace eval ::amsn {
 
 
    #///////////////////////////////////////////////////////////////////////////////
-   # userJoins (charid, user_name)
+   # userJoins (charid, user_login)
    # called from the protocol layer when a user JOINS a chat
    # It should be called after a JOI in the switchboard.
    # If a window exists, it will show "user joins conversation" in the status bar
    # - 'chatid' is the chat name
-   # - 'usr_name' is the user email to show in the status message
+   # - 'usr_login' is the user that joins email
    proc userJoins { chatid usr_name } {
 
 	global config
 
       if {[WindowFor $chatid] == 0} {
-         return 0
+          set win_name [OpenChatWindow]
+	  SetWindowFor $chatid $win_name
+
       }
 
       #if { "$chatid" == "$usr_name" && [::MSN::chatReady $chatid] } {
       #   return 0
       #}
-      
-      set statusmsg "[timestamp] [trans joins $usr_name]\n"
+
+      set statusmsg "[timestamp] [trans joins [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
       WinStatus [ WindowFor $chatid ] $statusmsg
       WinTopUpdate $chatid
 
@@ -632,7 +638,7 @@ namespace eval ::amsn {
          return 0
       }
 
-      set statusmsg "[timestamp] [trans leaves $usr_name]\n"
+      set statusmsg "[timestamp] [trans leaves [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
       WinStatus [ WindowFor $chatid ] $statusmsg
       WinTopUpdate $chatid
 
@@ -712,6 +718,7 @@ namespace eval ::amsn {
 
       variable winid
       variable window_titles
+      variable first_message
       global images_folder config HOME files_dir bgcolor bgcolor2
 
       set win_name "msg_$winid"
@@ -720,7 +727,8 @@ namespace eval ::amsn {
       toplevel .${win_name}
       
       wm geometry .${win_name} 350x320
-      wm state .${win_name} withdrawn
+      #wm state .${win_name} withdrawn
+      wm state .${win_name} iconic
       wm title .${win_name} "[trans chat]"
       wm group .${win_name} .
       wm iconbitmap . @${images_folder}/amsn.xbm
@@ -920,19 +928,20 @@ namespace eval ::amsn {
       bind .${win_name}.f.in.input <Key-Meta_L> "break;"
       bind .${win_name}.f.in.input <Key-Meta_R> "break;"
       bind .${win_name}.f.in.input <Key-Alt_L> "break;"
-      bind .${win_name}.f.in.input <Key-Alt_R> "break;"     
+      bind .${win_name}.f.in.input <Key-Alt_R> "break;"
       bind .${win_name}.f.in.input <Key-Control_L> "break;"
       bind .${win_name}.f.in.input <Key-Control_R> "break;"
       bind .${win_name}.f.in.input <Return> "::amsn::MessageSend .${win_name} %W; break"
       bind .${win_name}.f.in.input <Key-KP_Enter> "::amsn::MessageSend .${win_name} %W; break"
       bind .${win_name}.f.in.input <Alt-s> "::amsn::MessageSend .${win_name} %W; break"
-      
+
       bind .${win_name}.f.in.input <Escape> "destroy .${win_name} %W; break"
 
       set window_titles(.${win_name}) ""
+      set first_message(.${win_name}) 1
 
-      
-      wm state .${win_name} withdrawn      
+
+      wm state .${win_name} iconic
       return ".${win_name}"
 
    }
@@ -1267,6 +1276,7 @@ namespace eval ::amsn {
 
       global config
       variable window_titles
+      variable first_message
 
 
       set chatid [ChatFor $win_name]
@@ -1285,6 +1295,7 @@ namespace eval ::amsn {
 
       UnsetWindowFor $chatid $win_name
       unset window_titles(${win_name})
+      unset first_message(${win_name})
 
       ::MSN::leaveChat $chatid
 
