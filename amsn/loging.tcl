@@ -639,7 +639,9 @@ proc ParseLog { wname logvar } {
 			set color [string range $line [expr $aidx + 3] [expr $aidx + 5]]
 			set aidx [expr $aidx + 6]
 			set bidx [string first "\|\"L" $line $aidx]
-			if { $bidx != -1 } {
+			if { [string first "\|\"L" $line] == -1 } {
+				set string [string range $line 0 end]
+			} elseif { $bidx != -1 } {
 				set string [string range $line [expr $aidx] [expr $bidx - 1]]
 			} else {
 				set string [string range $line [expr $aidx] end]
