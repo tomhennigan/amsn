@@ -271,6 +271,7 @@ needonline Sie sind noch immer offline bzw. werden als offline angezeigt!
 newmail $1 neue Nachrichten im Posteingang
 newmailfrom Neue E-Mail von $1 ($2)
 newmsg Neue Nachricht
+newstate Voeg aangepaste status toe
 newveravailable Neuere Version $1 steht zur Verfügung
 next Weiter
 noactivity inaktiv
@@ -291,6 +292,7 @@ notify2 Fenster anzeigen wenn eine neue Nachricht empfangen wird.
 notify3 Fenster anzeigen wenn eine eMail ankommt.
 notify Benachrichtigen
 notifyoffset Setzt die Position des Nachrichtenfensters durch Angabe der Positionsoffsets
+notifytyping Laat andere gebruikers zien dat u aan het typen bent
 notifywin Benachrichtigungsfenster
 notls Das MSN Protokoll 9 erfordert das tls-Paket. Dieses Paket scheint auf Ihrem System nicht installiert zu sein. Wenn es installiert ist, dann sollte der Pfad zum Bibliotheken-Verzeichnis im "Einstellungen" Fenster eingegeben werden (Bsp: /opt/tls/lib). \n \n Es ist möglich, tls von http://tls.sf.net zu downloaden.
 nousersinsession Keine Benutzer in Sitzung
@@ -419,6 +421,7 @@ statenewtext Bitte füllen Sie die benötigten Felder aus um Ihren\n Persönlichen 
 status Status
 stopalarm Benachrichtigung stoppen
 storenickname Keer terug naar de originele nickname na een persoonlijke status met een aangepaste nickname
+strictfonts Stel alle lettertype groottes in op wat ik gekozen heb (Statusbar en anderen)
 stylechat Wie in den Chats
 stylehist Aussehen der aMSN History
 stylelog Format auswählen in dem die History angezeigt werden soll

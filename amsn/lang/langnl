@@ -285,6 +285,7 @@ needonline U bent niet online
 newmailfrom Nieuwe e-mail van $1 ($2)
 newmail U hebt $1 nieuwe berichten in Postvak IN
 newmsg Nieuw bericht
+newstate Voeg nieuwe aangepaste status toe
 newveravailable Versie $1 is beschikbaar voor downloaden.
 next Volgende
 noactivity Geen activiteit
@@ -306,6 +307,7 @@ notify2 Melding weergeven wanneer er een bericht wordt ontvangen
 notify3 Melding weergeven wanneer er een e-mail wordt ontvangen
 notify Licht in
 notifyoffset Afstand meldingsvenster vanaf de hoek van het scherm
+notifytyping Laat anderen in een gesprek zien of je aan het typen bent
 notifywin Meldingsvenster
 notls Versie 9 van het MSN protocol vereist het pakket tls. Dit pakket lijkt niet geïnstalleerd te zijn op deze machine. Als het wel geïnstalleerd is, moet het pad naar de map, waarin de tls-library is geïnstalleerd, worden opgegeven in het instellingen venster. (bijv. /opt/tls/lib). \n \n Tls is te downloaden van http://tls.sf.net
 nousersinsession Geen gebruiker in sessie
@@ -440,6 +442,7 @@ state Weer te geven status
 status Status
 stopalarm Stop het alarm
 storenickname Herstel de oorspronkelijke schermnaam na een aangepaste status met aangepaste schermnaam.
+strictfonts Beperk de lettergrootte overal tot wat ik heb ingesteld, ook in de statusbalk e.d.
 stylechat Dezelfde stijl als gesprekken
 stylehist aMSN geschiedenis stijl
 stylelog Kies de opmaak van de geschiedenislogboeken
