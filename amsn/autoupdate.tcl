@@ -717,7 +717,6 @@ namespace eval ::autoupdate {
 	
 		pack forget $w.list
 		pack forget $w.button
-		pack configure $w.button.close -side right -padx 3 -pady 3
 
 		label $w.update.txt -text ""
 		pack configure $w.update.txt -fill x
