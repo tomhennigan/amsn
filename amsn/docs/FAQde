@@ -1,0 +1,242 @@
+FAQ 1.3
+-------
+
+F: Was ist amsn?
+A: Amsn ist ein Microsoft Messenger Klon. Er erlaubt Ihnen, mit Ihren Freunden in Kontakt 
+zu bleiben und mit ihnen Instant Messages und Dateien auszutauschen.
+
+Installation
+============
+
+F: Was brauche ich, damit amsn laeuft?
+A: Amsn ist in tcl/tk geschrieben, deshalb brauchen Sie lediglich einen funktionierenden
+tcl/tk Interpreter, Version 8.3 oder hoeher. Sie bekommen dies auf http://tcl.sourceforge.net.
+Der Interpreter ist erhaeltlich fuer Linux, Windows und Macintosh.
+
+F: Wie installiere ich amsn und bringe es zum Laufen?
+A: Sie muessen nur die amsn-x_xx.tar.gz Datei downloaden. Enttarn Sie es mit dem Befehl:
+   gzip -d amsn-x_xx.tar.gz
+   tar xvf amsn-x_xx.tar
+Dies wird ein msn/ Verzeichnis erstellen und amsn ist installiert und bereit, zu arbeiten.
+Um es auszufuehren, geben Sie ein:
+
+  cd msn
+  ./amsn
+  
+oder, falls dies nichts nuetzt, versuchen Sie:
+
+  wish amsn
+
+Wenn der 'wish' Befehl nicht existiert, dann haben Sie tcl/tk nicht korrekt installiert.
+Wenn 'wish amsn' funktioniert, aber './amsn' nicht, dann editieren Sie die 'amsn' Datei und
+setzten Sie den korrekten Pfad zu 'wish' in die erste Zeile. Standardmaessig ist dieser auf
+/usr/bin/wish gesetzt.
+
+F: Wie erzeuge ich eine Verknuepfung auf mein Desktop?
+A: 1. - Erzeugen Sie auf Ihrem Gnome/KDE Desktop ein Icon, das folgenden Befehl ausfuehrt:
+/der/Pfad/zu/Ihrer/Version/amsn
+
+Zum Beispiel: /home/username/msn/amsn
+
+2. - Andere Moeglichkeit:
+Erzeugen Sie als Root in /usr/bin einen Link zu der amsn Datei:
+ln -s /Pfad/zu/Ihrer/Version/amsn amsn
+Auf diese Weise koennen Sie amsn von ueberall aus starten, indem Sir nur 'amsn' ausfuehren.
+Danach erzeugen Sie ein Icon, das den Befehl 'amsn' ausfuehrt.
+
+F: Wie bekomme ich das Gnome/KDE docking zum Laufen?
+A: Sie muessen 'make' innerhalb des plugins Verzeichnis aufrufen, um das OLD GNOME1 plugin zu
+erzeugen. Sie brauchen dazu Gnome Entwicklungs Bibliotheken. Sobald das Plugin erzeugt wurde,
+starten sie nur 'amsn' und waehlen Sie Gnome Docking im Optionenmenue aus.
+
+BENUTZUNG
+=========
+
+F: Was bedeuten diese Magenta-farbenen Kontakte in meiner Kontaktliste?
+A: Dies bedeutet, dass Sie nicht in der Kontaktliste dieser Person sind.
+
+F: Kann ich eine Kontaktadresse in das Clipboard kopieren?
+A: Ja, klicken Sie mit der rechten Maustaste auf den Kontakt in der Kontaktliste und klicken Sie auf
+die Adresse in dem Popup Menue. Die Email-Adresse des Kontaktes wird in das Clipboard kopiert.
+
+F: Wie kann ich die History von den Nachrichten die ich verschickt habe erreichen?
+A: Wenn Sie frueher verschickte Nachrichten sehen wollen, dann muessen Sie lediglich den Strg Knopf
+mit den Pfeilen benutzen. Dies funktioniert genauso, wie in einer Shell, deshalb Strg-Oben zeigt Ihnen
+die vorigen und Strg-Hinunter die folgenden Nachrichten an.
+
+F: Was bedeuten in der 'Privatsphaere' der Einstellungen diese vier Listen?
+A: Dort sind vier Listen, bekannt als Akzeptieren Liste(AL), Blockieren Liste(BL), Reverse Liste(RL),
+und die Kontakt Liste. Die letzte Liste ist offensichtlich, deshalb erklaere ich, was die anderen drei
+Listen bedeuten:
+AL: Diese Liste beinhaltet die EMails von den Leuten, die die Erlaubnis haben, Sie zu sehen, wenn Sie
+online sind. Und diese koennen sich auch mit Ihnen unterhalten, wenn Sie nicht offline sind.
+BL: Dies ist die Blockieren Liste, was bedeutet, dass sie die Liste der Personen beinhaltet, die von
+blockiert werden. Dies bedeutet, dass diese Sie nicht sehen koennen, wenn Sie online sind und sie koennen
+ihnen auch keine Nachrichten schicken.
+RL: Dies ist die Reverse Liste. Sie beinhaltet die Email Adresse von Personen, die Sie ihrer Kontaktliste
+hinzugefuegt haben. Personen, die in dieser Liste als gruen erscheinen sind Personen, die nich in Ihrer
+Kontaktliste sind, aber Sie sind in deren Liste.
+
+F: Ich moechte meine eigenen Smileys verwenden. Wie mache ich das?
+A: Im Smileys Menue ist ein neuer Button, der Ihnen dies ermoeglicht. Klicken Sie auf den 'Add new custom Smiley'
+Button und ein Fenster wird erscheinen, in das sie die erforderlichen Informationen eintragen muessen.
+Das 'Description' Feld kann auf jeden beliebigen Namen gesetzt werden. Dies wird lediglich die Beschreibung, die
+als Tooltip erscheint.
+Das 'Text Triggers' Feld, gibt an, was Sie eintippen muessen, damit das Smiley angezeigt wird. Das regulaere Smiley
+benutzt dazu Zeichen, wie :) :-) .. Das grosse Smiley benutzt Zeichen, wie :D :-D :> :-> ... um multiple Buchstabenkombinationen
+zu setzten, muessen Sie diese eine nach dem anderem eintippen, getrennt durch ein Leerzeichen. Wenn Sie eine Buchstabenkombination
+verwenden wollen, die ein Leerzeichen beinhaltet, dann setzten Sie sie unter Anfuehrungszeichen.. Zum Beispiel:
+"hallo mann"
+"hallo man" hi "wie gehts": Dies waeren drei Buchstabenkombinationen fuer das gleiche Smiley.
+Das 'smiley file' Feld ist der Dateiname der GIF-Datei. Diese muss von der Groesse 19x19 sein, ansonsten wird das Smiley
+nicht korrekt funktionieren. Es ist zwar moeglich, eine groessere Grafik zu implementieren, aber es koennten einige verrueckte
+Dinge geschehen, wie dass das Smiley Menue nicht mehr korrekt funktioniert.
+Das 'Sound file' Feld wird genauso gehandhabt. Dies wird dazu gebraucht, dass ein Klang abgespielt wird, wenn Sie das Smiley benutzen.
+Die Sounddatei muss eine .wav Datei sein, oder irgendeine Erweiterung, die ihr Sound Geraet unterstuetzt. Damit dieser Eintrag wirksam
+wird, muessen Sie nur den Checkbutton aktivieren, der mit 'play sound' beschriftet ist.
+Der mit "animated" beschriftete Checkbutton bedeutet, dass die GIF-Datei animiert ist. Wenn die GIF-Datei animiert ist und die die Option
+nicht aktivieren, dann wird das Smiley nur ein statisches Bild sein.
+Die "Hide from smileys menu" Option bedeutet, dass sich das Smiley nicht im Menue befinden wird, aber trotzdem mit der Buchstabenkombination
+verfuegbar sein wird.
+Die "case sensitive" Option bedeutet, dass die Buchstabenkombination auf die Gross -und Kleinschreibung Ruecksicht nehmen. Das bedeutet, dass
+einen 'LOL' Tastenkombination nicht das gleiche ist, wie 'lol'. Wenn diese Option nicht aktiviert ist, dann braucht keine Ruecksicht auf
+Gross -und Kleinschreibung genommen zu werden.
+
+Wenn Sie die Einstellungen beendet haben, klicken Sie auf den OK Button. Dieser wird eine Fehlermeldung ausgeben, falls Sie eine der drei oberen
+Optionen nicht bestimmt haben (description, triggers und GIF file), oder wenn die Dateien (GIF, und/oder Sound) nicht existieren oder fuer
+den Benutzer nicht lesbar sind. Wenn keine Fehlermeldung erscheint, dann koennen Sie Ihr neues Smiley schon benutzen. Viel Spass!
+
+F: Die Nicknamen sind verkuerzt. Ist es moeglich, diese wieder auf den vollen Namen zu aendern?
+A: Ja. Um die Nickname in ihrer vollen Laenge in der Kontaktliste anzuzeigen, muessen Sie in die Konfigurationsdatei gehen und die
+Option manuell umstellen. Die Option, die dafuer verantwortlich ist, nennt sich "truncatenames". Suchen Sie diesen String in der Konfigurationsdatei
+des entsprechenden Profiles und aendern Sie dessen Wert von 1 in 0 um. Starten Sie danach amsn neu.
+Es gibt keinen einfachen Weg, um dieses Feature nur in der Kontaktliste, in den Chatfenstern, oder in dem Alarm zu aktivieren -- diese Option beeinflusst
+alle drei zur gleichen Zeit.
+Diese Option kann nicht in den Einstellungen geaendert werden. Allerdings duerfte dies in einer zukuenftigen Version hinzugefuegt werden.
+
+
+PROBLEMBEKAEMPFUNG
+==================
+
+F: Manchmal 'haengt' amsn. Warum?
+A: Wenn amsn haengt, dann ist dies meistens ein Problem mit der Sound-Konfiguration. Vielleicht spielen Sie gerade einen Sound ab, aber die Soundkarte
+ist blockiert, und der Play Befehl stoppt, sobald die Soundkarte verfuegbar ist. Versuchen Sie Sound zu deaktivieren, oder aendern Sie die Sound Befehl
+Konfiguration.
+
+F: Ich versuche, amsn zu starten, aber ich bekomme folgende Fehlermeldung:
+bash: ./amsn: bad interpreter: No such file or directory
+A: Sie muessen das tcl/tk Package installieren, weil sie den wish Interpreter brauchen.
+Wenn Sie glauben, dass Sie ihn haben, versuchen Sie "wish amsn", anstatt von "./amsn".
+Wenn dies funktioniert, editieren Sie amsn und aendern Sie die erste Zeile:
+#!/usr/bin/wish
+mit dem Ort des wish Interpreters.
+
+F: Wenn ich amsn starte, bekomme ich folgede Fehlermeldung:
+Error in startup script: bad option "map": must be compare,
+first, index, last, length, match, range, tolower, toupper,
+trim, trimleft, trimright, wordend, or wordstart
+while executing
+"string map $map $md5body"
+(in namespace eval "::md5" script line 65)
+invoked from within
+"namespace eval ::md5 { ... etc
+A: Sie benutzer eine Version von tcl/tk, die aelter ist, als 8.3. Updaten Sie tcl/tk
+
+F: Nachdem ich amsn upgedated habe, bekomme ich dies, wenn ich amsn starten will:
+Error in startup script: expected integer but go ""
+while executing
+"font create menufont -family $family -size $size
+-weight normal"
+(procedure "::amsn__initLook" line 5)
+invoked from within
+"::amsn::initLook $family $size $config(backgroudcolor)"
+(file "amsn" line 2184)
+A: Es gab einige Aenderungen in der Konfigurationsdatei. Um die neue Version
+schnell zum Laufen zu bekommen, muessen sie nur die alte Konfigurationsdatei
+in Ihrem /home Verzeichnis loeschen. Loeschen Sie /home/username/.amsn/config
+und amsn sollte nun arbeiten.
+
+F: Ich kann kein chinesisch / japanisch / andere Sprachen in amsn tippen. Was kann ich machen?
+A: Anscheinend werde xcin, oder aehnliche Programme nicht von Ihrer momentanen Version von
+tcl/tk unterstuetzt. Sie muessen auf die naechste Version von tcl/tk warten und hoffen, dass
+diese xcin unterstuetzt. In der Zwischenzeit koennen Sie den Text in einen anderen Editor tippen
+und ihn dann mit Copy and Paste in das Chat-Fenster kopieren.
+Neu: Internationalisierung copy and paste. Wenn Sie Probleme haben, Zeichen in amsn zu kopieren, 
+downloaden und installieren Sie die Version von tcl/tk von dieser Seite:
+http://jfontain.free.fr/tcl-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tk-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tcl-thread-8.4a3-2.i386.rpm
+
+F: Kann ich amsn hinter einem Proxy-Server verwenden?
+A: Seit der Version 0.61 ist es moeglich, amsn hinter einem HTTP
+-Proxy zu benutzen. Wenn ihr Proxy-Server Socks5 ist, dann werden
+Sie noch nicht in der Lage sein, eine Verbindung aufzubauen, aber
+eine Unterstuetzung fuer socks5 ist bereits in Arbeit.
+
+F: Es sieht so aus, als ob amsn eine Verbindung haette, aber wenn ich versuche, mit jemandem zu chatten,
+oder mein Land aendere, geht die Verbindung verloren. Dies passiert haeufig nach ein paar Minuten
+an Inaktivitaet. Wahrscheinlich bin ich hinter einem Router, oder einer Firewall.
+A: Versuchen Sie in Extras - Optionen - Einstellungen unter "Verbindung" Keepalive zu aktivieren.
+Dies ist ein Fix fuer geteilte Internetverbindungen, das alle zwei Minute ein Dummy-Paket an den
+Server sendet, um die Verbindung bestehen zu lassen.
+
+F: Der Sound widerholt sich. Wenn zum Beispiel XMMS laeuft und sich jemand einloggt, oder ich
+mit jemandem chatte, nachdem XMMS geschlossen wurde, oder eine Datei fertiggespielt wurde, werden
+nun alle Sounds abgespielt, die vorher nicht abgespielt werden konnten.
+A: Sie haben mehrere Moeglichkeiten, das Problem zu beheben. Wenn Sie KDE benutzen, dann koennen Sie 
+XMMS so konfigurieren, dass er Sounds waehrend der Wiedergabe abspielt und dass er artsplay als Sound
+fuer amsn nutzt. Auf diese Weise wird die Wiedergabe gemischt. Wenn Sie Gnome verwenden, dann koennen Sie
+esdplay benutzen, um XMMS so zu konfigurieren, dass er durch ESD spielt. Oder anstatt dem play-Befehl, koennen
+Sie auch ein kleines Skript schreiben, das checkt, ob /dev/dsp 'beschaeftigt', oder frei ist, bevor "play"
+aufgerufen wird.
+
+F: Ich verwende amsn hinter einer Firewall, oder IP-Masquerade. Nachrichten zu versenden wird wohl nicht
+funktionieren. Kann ich das trotzdem irgendwie beheben?
+A: Moeglicherweise blockt die Firewall einkommende Verbindungen. Dateitransfer wird so funktionieren:
+Wenn Sie jemandem eine Datei senden wollen, dann senden Sie ihm eine Einladung mit Ihrer IP-Adresse und der
+Portnummer. Danach muss der Remote-Client eine Verbindung zu Ihrer IP:Port aufbauen, um den Transfer zu starten.
+Der genuetzte Port ist fuer gewoehnlich 6891, 6892 und so weiter.. (der ersten Transfer findet auf Port 6891 statt, 
+aber wenn ein Zweiter gestartet wird und der Erste noch nicht beendet ist, dann wird Port 6892 genuetzt und so weiter..)
+Wenn Sie also eine Firewall benuetzten, dann stellen Sie sicher, dass diese einkommende Daten auf Port 6891 (und die
+naechsten, wenn Sie oft mehrere Dateien zur selben Zeit verschicken) erlaubt.
+Wenn Sie sich innerhalb eines privaten Netzwerkes befinden, das eigene Adressen verwendet, wie zum Beispiel:
+192.168.0.x dann ist es schwieriger, den Dateitransfer zu ermoeglichen. Sie muessen die wirkliche IP (sie koennen diese
+manuell eingeben, oder amsn anweisen, diese von einer Website zu erraten), nicht die des Netzwerkes senden und dem
+Gateway (der Computer mit direktem Zugang in das Internet) mitteilen, einkommende Verbindungen auf Port 6891 an Ihren
+Computer innerhalb des Netzwerkes weiterzuleiten.
+
+Funktionsweise unter Windows
+============================
+
+F: Kann ich den Sound unter Windows zum Laufen bekommen?
+A: Ja, wir haben ein kleines Programm, das sich plwav.exe nennt und das nur eine .wav-Datei unter Windows spielt.
+Sie koennen es als Sound-Befehl benuetzten (amsn braucht einige externe Programme, um Sounds abzuspielen). 
+Gehen Sie auf  Extras -> Optionen -> Einstellungen -> Erscheinung und geben Sie "plwav" als Sound Server Befehl ein.
+
+Sonstiges
+=========
+
+F: Ich habe eine andere Frage, koennt ihr mir helfen?
+A: Ja, wir koennen. Aber zuerst werfen Sie bitte einen Blick auf die sourcefore Projektseite, die sich auf 
+http://sourceforge.net/projects/amsn befindet. Dort sehen Sie sich bitte alle Bugs, Supportanfragen und Foren
+an, um zu sehen, ob Ihr Problem nicht bereits beantwortet worden ist. Sehen Sie sich nicht nur die Messages, die 
+mit "Open" markiert sind an. Es gibt eine Popup-Liste, wo Sie "Closed", oder "Pending" an der Spitze der Messages-Liste
+auswaehlen koennen.
+Bevor Sie einen Bug bekanntgeben, oder um Support bitten, besorgen Sie sich bitte folgende Informationen:
+- amsn Versionsnummer
+- tcl/tk Versionsnummer
+- Stack trace von der ausgegebenen Fehlermeldung (wenn moeglich)
+- Die letzten Fehlermeldungen im Debug-Fenster (Strg+D und Strg+s in der Kontaktliste
+Wenn Sie noch immer eine Frage haben, koennen Sie mir eine Email schreiben an
+airadier@users.sourceforge.net
+
+
+
+
+
+
+
+
+
+
+

@@ -402,3 +402,40 @@ yoffset Y Offset
 youblocked Sie wurden blockiert
 yousay Du sagst
 youwant Du willst
+addprofiledesc Bitte geben Sie das Login ein, für das Sie ein neues Profil erstellen wollen. \nLogins mit einem Profil erlauben Ihnen verschiedene Konfigurationen für jedes Login. \nOhne ein Profil können Sie die History, Alarme, oder ein gespeichertes Passwort nicht benutzen.
+animatedemoticon Dieses Emoticon ist animiert
+browserexample ( \$url wird ersetzt durch URL). Bsp: mozilla \$url
+casesensitive Use case-sensitive triggers Buchstabenkombinationen verwenden, die auf Groß -und Kleinschreibung achten
+choosearq Wählen Sie Ihre Systemarchitektur
+disablessl SSL deaktivieren
+dontdownload TLS nicht downloaden, ich installiere es selbst
+downloadingtls Downloade TLS Modul von:\n $1
+errortls Fehler bei der Installation des TLS Moduls:
+filemanexample ( \$location wird mit dem Verzeichnis ersetzt ) Bsp: nautilus \$location
+mailerexample ( \$recipient = Empfänger ) Bei Benutzung von Hotmail leer lassen.
+msgflicker Flackernder Chatfenstertitel, wenn eine neue Nachricht eintrifft und das Fenster nicht im Focus ist.
+noprofileexists Im Moment existieren keine Profile. \n Sie müssen eines erstellen, wenn Sie sich mit einem Profil einloggen wollen. \nBenutzen Sie den "Neues Profil hinzufügen"-Button in diesem Fenster, um ein neues Profil hinzuzufügen.
+notls Das MSN Protokoll 9 erfordert das tls-Paket. Dieses Paket scheint auf Ihrem System nicht installiert zu sein. Wenn es installiert ist, dann sollte der Pfad zum Bibliotheken-Verzeichnis im "Einstellungen" Fenster eingegeben werden (Bsp: /opt/tls/lib). \n \n Es ist möglich, tls von http://tls.sf.net zu downloaden.
+pluginselector Plugins auswählen
+prefblock3 "Sie sind blockiert worden von" group
+preflibs Bibliotheken Verzeichnisse
+profileloginradio Mit einem existierenden Profil anmelden
+readonlymsgbox Der Dateitransfer wurde gestoppt, weil das Ziel-Verzeichnis read-only ist. Bitte berichtigen Sie die Berechtigungen an diesem Verzeichnis.
+readonlywarn WARNUNG: Die Datei wird möglicherweise NICHT korrekt gespeichert, da das "Received files" Verzeichnis schreibgeschützt zu sein scheint. Bitte stellen Sie sicher, dass die Berechtigungen am Zielverzeichnis ($1) richtig gesetzt sind, bevor Sie eine Datei transferieren.
+selectplugins Bitte wählen Sie die Plugins aus, die aktiviert sein sollen
+skinselector Skin auswählen
+smileconfig Benutzerdefinierte Emoticon Konfiguration
+smilefile Smiley Dateiname
+smileintro2 Bitte editieren Sie die erforderlichen Felder, um das Smiley nach Ihren Bedürfnissen anzupassen (sehen Sie sich bei Bedarf die FAQ an).
+smileintro Bitte füllen Sie die erforderlichen Felder aus, um ein neues eigenes Smiley zu erzeugen (sehen Sie sich bei Bedarf die FAQ an)
+soundexample ( \$sound = Sounddatei, die abgespielt werden soll) Bsp: esdplay \$sound
+sslwarning WARNUNG: Wenn Sie SSL deaktiviern, wird auch Verschlüsselung deaktiviert. Deshalb wir Ihr Passwort im Klartext über das Netzwerk gesendet. Tun Sie dies nur bei wirklich guten Proxyservern, oder Netzwerkkonfigurationen.
+statechange Status gewechselt in:
+timeremaining Zeit verbleibend
+tlsdowncompleted Die Datei $1 wurde in das Verzeichnis $2 downgeloaded. Sie müssen sie innerhalb von $3 extrahieren, kompilieren  und installieren (wenn sie den Quelltext downgeloaded haben).
+tlsinstallexp AMSN nützt nun MSNP9, das die Benutzung einer sicheren\nVerbindung via SSL erfordert. Um SSL zu nützen, muss AMSN ein Modul installieren, das sich TLS nennt\nund auf Ihrem System fehlt. Dieser Wizard wird Ihnen dabei helfen, TLS zu downloaden und\nzu installieren. Bitte wählen Sie Ihren Systemtyp, damit wir automatisch die erforderlichen TLS Dateien downloaden können.
+tlsinstall TLS Modul Installations Wizard
+tlsinstcompleted Die Installation des TLS Moduls war erfolgreich. Nun sollten Sie in der Lage sein, MSNP9 zu nutzen. Wenn es dennoch nicht funktioniert haben Sie vielleicht nicht das richtige Modul ausgewählt, oder ein kompiliertes Modul ist für Ihr System nicht erhältlich.
+tooltips Tooltips zulassen
+triggers Buchstabenkombination
+wrongfields Die Felder "$1", "$2" und/oder "$3" sind nicht gültig
