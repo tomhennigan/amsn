@@ -141,6 +141,7 @@ source [file join $directory progressbar.tcl]	;# Progressbar Megawidget
 source [file join $directory dkffont.tcl]	;# Font selection megawidget
 source [file join $directory migmd5.tcl]
 source [file join $directory des.tcl]		;# DES encryption
+source [file join $directory sxml.tcl]   	;# Simple XML parser
 source [file join $directory config.tcl]
 source [file join $directory proxy.tcl]
 source [file join $directory protocol.tcl]
@@ -162,7 +163,6 @@ source [file join $directory blocking.tcl]    ;# The blocking users feature
 source [file join $directory remote.tcl  ]    ;# The remote control procedures
 source [file join $directory automsg.tcl]
 source [file join $directory plugins.tcl]	;# Plugins system
-
 
 
 

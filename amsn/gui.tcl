@@ -1868,7 +1868,7 @@ namespace eval ::amsn {
       }
 
       if {$config(chatsmileys)} {
-         smile_subst ${win_name}.f.out.text $text_start
+         smile_subst ${win_name}.f.out.text $text_start 1
       }
 
 

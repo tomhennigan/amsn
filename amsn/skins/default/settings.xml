@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+
+<!--
+             settings.xml  --- 2003/07/01  --- KaKaRoTo
+
+	     Default AMSN skin
+	     Configuration for smileys
+	     
+	     file should begin with <smileys> and end with </smileys>
+	     To define a new emoticon, you must put it between the statements <emoticon> and </emoticon>
+	     You must define the 3 variables name, text and file in order to successfully create the emoticon
+	     You may have as many text statements but only one for name and one for file
+	     Here are the other options available... maybe more to come :
+	     animated : set it to 1, true, or yes to specify it's an animated gif
+	     sound : sets the filename for playing an emotisound for that smiley
+	     casesensitive : set it to 1, true or yes if you want to trigger that smiley on a the case sensitive text
+	     
+	     any suggestions, or questions... you know what you have to do :P     
+-->
+
+<smileys>
+
+   <emoticon>
+      <name> smile </name>
+      <text> ":-)"</text>
+      <text> ":)"</text>
+      <file> smile</file>
+   </emoticon>
+
+   <emoticon>
+      <name> wink </name>
+      <text> ";)" </text>
+      <file> wink</file>
+   </emoticon>
+
+   <emoticon>
+      <name> big smile </name>
+      <text> ":D" </text>
+      <text> ":-D" </text>
+      <text> ":>" </text>
+      <text> ":->" </text>
+      <file> smiled </file>
+   </emoticon>
+
+   <emoticon>
+      <name> smile thong </name>
+      <text> ":-P" </text>
+      <text> ":P" </text>
+      <file> smilep </file>
+   </emoticon>
+
+   <emoticon>
+      <name> sad </name>
+      <text> ":(" </text>
+      <text> ":-(" </text>
+ <!--     <text> ":<" </text>  NEED TO FIX THE XML PARSER FOR THIS TO WORK -->
+ <!--     <text> ":-<" </text> NEED TO FIX THE XML PARSER FOR THIS TO WORK -->
+      <file> sad </file>
+   </emoticon>
+
+   <emoticon>
+      <name> disgusted </name>
+      <text> ":|" </text>
+      <text> ":-|" </text>
+      <file> disgust </file>
+   </emoticon>
+
+   <emoticon>
+      <name> feeling weird </name>
+      <text> ":-S" </text>
+      <text> ":S" </text>
+      <file> crooked </file>
+   </emoticon>
+
+  <emoticon>
+      <name> opened mouth </name>
+      <text> ":O" </text>
+      <text> ":-O" </text>
+      <file> smileo </file>
+   </emoticon>
+
+  <emoticon>
+      <name> feel down </name>
+      <text> ":`(" </text>
+      <file> smilec </file>
+   </emoticon>
+
+  <emoticon>
+      <name> crying </name>
+      <text> ":'(" </text>
+      <file> smilec2 </file>
+   </emoticon>
+
+
+ <!--Those were took from the trillian skin, and were only meant for testings...-->
+   <emoticon>
+      <name> rolling eyes </name>
+      <text> "I-'" </text>
+      <file> emroll </file>
+      <animated> 1 </animated>
+   </emoticon>
+
+   <emoticon>
+      <name> lol </name>
+      <text> "LOL" </text>
+      <file> emlol </file>
+      <animated> 1 </animated>
+      <casesensitive> true </casesensitive>
+      <sound> lol </sound>
+   </emoticon>
+
+</smileys>
+
+<!--
+        Remaining smileys to add to this file as xml... plz help :(
+
+	{":@" angry}  {":-@" angry}  {"8o|" aggresive} {":$" smilemb} {":-$" smilemb} {":-#" zip} 
+	{":-*" kiss} {":^)" new7} {"8-|" glasses} {"8-)" new5} {"|-)" new4} {"+o(" new3}
+	{"*-)" new2} {"^o)" new1} {"(h)" emhottie} {"(brb)" brb} {"<:o)" party} {"(a)" angel}  {"(6)" devil}
+	{"(l)" love} {"(u)" unlove} {"(k)" lips} {"(F)" rose} {"(W)" rosew} 
+	
+	
+	{"(b)" beer} {"(D)" coctail} {"(C)" emcup} {"(^)" cake} {"(pl)" toilet} {"(pi)" pizza}
+	
+	{"(t)" emphone} {"(mp)" mobphone} {"(e)" email} {"(co)" computer} {"(o)" clk} {"(p)" photo} {"(~)" film} 
+	{"(i)" embulb beep} {"(%)" handcuffs} {"(||)" chopsticks} {"(um)" umbrella} {"(xx)" xbox} {"(mo)" money}
+	{"(g)" gift} {"(ci)" cigarette} {"(au)" car} {"(ap)" plane} {"(so)" football} {"(8)" emnote} {"(?)" asl}
+	
+	{"(*)" emstar} {"(s)" emsleep} {"(r)" rainbow} {"(st)" rain} {"(#)" sun} {"(li)" storm} {"(ip)" island}
+	
+	 {"(&)" dog woof} {"(@)" emcat meow} {"(tu)" turtle} {"(sn)" snail} {"(bah)" sheep} {":-\[" vampire} {":\[" vampire}
+	 
+	 {"(m)" messenger} {"(\{)" boyhug} {"(Z)" emboy} {"(\})" girlhug} {"(x)" emgirl} {"(y)" thumbu} {"(n)" thumbd} 
+	{"(yn)" fingerscrossed} {"(h5)" hifive} 
+
+-->
