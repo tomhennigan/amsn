@@ -6,6 +6,7 @@ proc InitPlugin { dir } {
 	::plugins::RegisterPlugin Nudge
 	source [file join $dir Nudge.tcl]
 	::plugins::RegisterEvent Nudge PacketReceived received
+	::plugins::RegisterEvent Nudge chatwindowbutton sendbutton
 	array set ::Nudge::config { 
 		notify {1}
 		shake {0}
