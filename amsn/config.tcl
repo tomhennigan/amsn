@@ -3,175 +3,175 @@
 #
 
 proc ConfigDefaults {} {
-	global config tcl_platform password auto_path advanced_options
+	global tcl_platform password auto_path advanced_options
 
-	set config(protocol) "9"		;# Which MSN Protocol do you prefer to use: 9
-	set config(nossl) 0			;#Disable the use of SSL, so it doesn't requite TLS package: 0|1
+	::config::setKey protocol "9"		;# Which MSN Protocol do you prefer to use: 9
+	::config::setKey nossl 0			;#Disable the use of SSL, so it doesn't requite TLS package: 0|1
 
-	set config(login) ""			;# These are defaults for users without
-	set config(save_password) 0		;# a config file: 0|1
+	::config::setKey login ""			;# These are defaults for users without
+	::config::setKey save_password 0		;# a config file: 0|1
 
-	set config(keep_logs) 1			;#Save log files: 0|1
-	set config(display_event_connect) 1	;#Display when someone connect
-	set config(display_event_disconnect) 1	;#Display when someone disconnect
-	set config(display_event_email) 1	;#Display when a new E-Mail is received
-	set config(display_event_state) 0	;#Display changement of status
-	set config(log_event_connect) 0		;#Log when someone connect
-	set config(log_event_disconnect) 0	;#Log when someone disconnect
-	set config(log_event_email) 0		;#Log when a new E-Mail is received
-	set config(log_event_state) 0		;#Log changement of status
-	set config(eventdisconnected) 1		;#Test to know if we must display or/and log the connection or not
+	::config::setKey keep_logs 1			;#Save log files: 0|1
+	::config::setKey display_event_connect 1	;#Display when someone connect
+	::config::setKey display_event_disconnect 1	;#Display when someone disconnect
+	::config::setKey display_event_email 1	;#Display when a new E-Mail is received
+	::config::setKey display_event_state 0	;#Display changement of status
+	::config::setKey log_event_connect 0		;#Log when someone connect
+	::config::setKey log_event_disconnect 0	;#Log when someone disconnect
+	::config::setKey log_event_email 0		;#Log when a new E-Mail is received
+	::config::setKey log_event_state 0		;#Log changement of status
+	::config::setKey eventdisconnected 1		;#Test to know if we must display or/and log the connection or not
 
-	set config(connectiontype) direct	;# Connection type: direct|http|proxy
-	set config(proxy) ""			;# If using proxy, proxy host
-	set config(proxytype) "http"		;# Proxy type: http|ssl|socks5
-	set config(proxyauthenticate) 0		;# SOCKS5 use username/password
-	set config(proxyuser) ""		;# user and password for SOCKS5 proxy
-	set config(proxypass) ""		;#
+	::config::setKey connectiontype direct	;# Connection type: direct|http|proxy
+	::config::setKey proxy ""			;# If using proxy, proxy host
+	::config::setKey proxytype "http"		;# Proxy type: http|ssl|socks5
+	::config::setKey proxyauthenticate 0		;# SOCKS5 use username/password
+	::config::setKey proxyuser ""		;# user and password for SOCKS5 proxy
+	::config::setKey proxypass ""		;#
 
-	set config(sound) 1			;#Sound enabled: 0|1
-	set config(mailcommand) ""		;#Command for checking mail. Blank for hotmail
-        set config(notifytyping) 1		;#Send typing notifications
-        set config(soundactive) 0               ;#Typing sound even on active window
+	::config::setKey sound 1			;#Sound enabled: 0|1
+	::config::setKey mailcommand ""		;#Command for checking mail. Blank for hotmail
+        ::config::setKey notifytyping 1		;#Send typing notifications
+        ::config::setKey soundactive 0               ;#Typing sound even on active window
 	
-	set config(chatstyle)	"msn"		;#Chat display style
+	::config::setKey chatstyle	"msn"		;#Chat display style
 
-	set config(reconnect) 1			;#Variable for amsn to reconnect on loss
+	::config::setKey reconnect 1			;#Variable for amsn to reconnect on loss
 
 	#Some Autodetected options
 	if {$tcl_platform(os) == "Darwin"} {
 		set osversion [string range "$tcl_platform(osVersion)" 0 0]
 		if { $osversion == "6"} {
-			set config(soundcommand) "utils/qtplay \$sound";#Soundplayer for Mac OS 10.2 Jaguar
+			::config::setKey soundcommand "utils/qtplay \$sound";#Soundplayer for Mac OS 10.2 Jaguar
 		} else {
-			set config(soundcommand) "./sndplay \$sound";#Soundplayer for Mac OS 10.3 Panther
+			::config::setKey soundcommand "./sndplay \$sound";#Soundplayer for Mac OS 10.3 Panther
 		}
-	   set config(browser) "open \$url"
-	   set config(notifyXoffset) 100
-	   set config(notifyYoffset) 75
-	   set config(filemanager) "open \$location"   
-	   set config(usesnack) 0
+	   ::config::setKey browser "open \$url"
+	   ::config::setKey notifyXoffset 100
+	   ::config::setKey notifyYoffset 75
+	   ::config::setKey filemanager "open \$location"   
+	   ::config::setKey usesnack 0
 	} elseif {$tcl_platform(platform) == "unix"} {
-	   set config(soundcommand) "play \$sound"
-	   set config(browser) "mozilla \$url"
-	   set config(notifyXoffset) 0
-	   set config(notifyYoffset) 0
-	   set config(filemanager) "my_filemanager open \$location"
-	   set config(usesnack) 0
+	   ::config::setKey soundcommand "play \$sound"
+	   ::config::setKey browser "mozilla \$url"
+	   ::config::setKey notifyXoffset 0
+	   ::config::setKey notifyYoffset 0
+	   ::config::setKey filemanager "my_filemanager open \$location"
+	   ::config::setKey usesnack 0
 	} elseif {$tcl_platform(platform) == "windows"} {
-	   set config(soundcommand) "utils/plwav.exe \$sound"
-	   set config(browser) "explorer \$url"
-	   set config(notifyXoffset) 0
-	   set config(notifyYoffset) 28
-	   set config(filemanager) "explorer \$location"
-	   set config(usesnack) 1
+	   ::config::setKey soundcommand "utils/plwav.exe \$sound"
+	   ::config::setKey browser "explorer \$url"
+	   ::config::setKey notifyXoffset 0
+	   ::config::setKey notifyYoffset 28
+	   ::config::setKey filemanager "explorer \$location"
+	   ::config::setKey usesnack 1
 	} else {
-	   set config(soundcommand) ""			;#Sound player command
-	   set config(browser) ""			;#Browser command
-	   set config(filemanager) ""			;#Filemanager command
+	   ::config::setKey soundcommand ""			;#Sound player command
+	   ::config::setKey browser ""			;#Browser command
+	   ::config::setKey filemanager ""			;#Filemanager command
 
-	   set config(notifyXoffset) 0			;#Notify window offsets
-	   set config(notifyYoffset) 0
-	   set config(usesnack) 0			;#Use the Snack library for sounds
+	   ::config::setKey notifyXoffset 0			;#Notify window offsets
+	   ::config::setKey notifyYoffset 0
+	   ::config::setKey usesnack 0			;#Use the Snack library for sounds
 	}
 	
-	set config(autoidle) 1				;#Enable/disable auto-idle feature: 0|1
-	set config(idletime) 5				;#Minutes before setting status to idle
-	set config(autoaway) 1				;#Enable/disable auto-away feature: 0|1
-	set config(awaytime) 10				;#Minutes before setting status to away
+	::config::setKey autoidle 1				;#Enable/disable auto-idle feature: 0|1
+	::config::setKey idletime 5				;#Minutes before setting status to idle
+	::config::setKey autoaway 1				;#Enable/disable auto-away feature: 0|1
+	::config::setKey awaytime 10				;#Minutes before setting status to away
 
-	set config(orderbygroup) 0			;#Order contacts by group: 0=No | 1=Groups | 2=Hybrid
-	set config(ordergroupsbynormal) 1		;#Order groups normal or inverted
+	::config::setKey orderbygroup 0			;#Order contacts by group: 0=No | 1=Groups | 2=Hybrid
+	::config::setKey ordergroupsbynormal 1		;#Order groups normal or inverted
 
-	set config(dateformat) MDY			;#Change date format (eg Month/Day/Year)
+	::config::setKey dateformat MDY			;#Change date format (eg Month/Day/Year)
 
-	set config(listsmileys) 1			;#Show smileys in contact list
-	set config(chatsmileys) 1			;#Show smileys in chat window
+	::config::setKey listsmileys 1			;#Show smileys in contact list
+	::config::setKey chatsmileys 1			;#Show smileys in chat window
 
-	set config(startoffline) 0			;#Start session as offline (hidden)
+	::config::setKey startoffline 0			;#Start session as offline (hidden)
 
-	set config(autoftip) 1				;#Detect IP for file transfers automatically
-	set config(myip) "127.0.0.1"			;#Your IP
-	set config(manualip) "127.0.0.1"		;#Manual IP
+	::config::setKey autoftip 1				;#Detect IP for file transfers automatically
+	::config::setKey myip "127.0.0.1"			;#Your IP
+	::config::setKey manualip "127.0.0.1"		;#Manual IP
 
 	
 	#Specific configs for Mac OS X (Aqua) first, and for others systems after
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		set config(wingeometry) 275x400-200+200		;#Main window geometry on Mac OS X
-		set config(backgroundcolor)  #ECECEC		;#AMSN Mac OS X background color
-		set config(dockbounce) once					;#Dock bouncing on Mac OS X
+		::config::setKey wingeometry 275x400-200+200		;#Main window geometry on Mac OS X
+		::config::setKey backgroundcolor  #ECECEC		;#AMSN Mac OS X background color
+		::config::setKey dockbounce once					;#Dock bouncing on Mac OS X
 	} else {
-		set config(wingeometry) 275x400-0+0			;#Main window geometry
-		set config(backgroundcolor)  #D8D8E0		;#AMSN background color
+		::config::setKey wingeometry 275x400-0+0			;#Main window geometry
+		::config::setKey backgroundcolor  #D8D8E0		;#AMSN background color
 	}
 	
-	set config(closingdocks) 0						;#Close button minimizes (or docks) main window
+	::config::setKey closingdocks 0						;#Close button minimizes (or docks) main window
 	
 	
 	
-	set config(encoding) auto						;#ANSN encoding
+	::config::setKey encoding auto						;#ANSN encoding
 
-	set config(textsize) 2							;#User text size
-	set config(mychatfont) "{Helvetica} {} 000000"	;#User chat font
-	set config(winchatsize) "350x320"		;#Default chat window size
-	set config(savechatwinsize) 1			;#Save chat window sizes when changed?
+	::config::setKey textsize 2							;#User text size
+	::config::setKey mychatfont "{Helvetica} {} 000000"	;#User chat font
+	::config::setKey winchatsize "350x320"		;#Default chat window size
+	::config::setKey savechatwinsize 1			;#Save chat window sizes when changed?
 
-	set config(notifymsg) 1				;#Show notify window when a message arrives
-	set config(notifyonline) 1			;#Show notify window when a user goes online
-	set config(notifyoffline) 0			;#Show notify window when a user goes offline
-	set config(notifystate) 0			;#Show notify window when a user changes status
-	set config(notifyemail) 1			;#Show notify window when a new mail arrives
-	set config(notifyemailother) 0			;#Show notify window when a new mail arrives in other folders
+	::config::setKey notifymsg 1				;#Show notify window when a message arrives
+	::config::setKey notifyonline 1			;#Show notify window when a user goes online
+	::config::setKey notifyoffline 0			;#Show notify window when a user goes offline
+	::config::setKey notifystate 0			;#Show notify window when a user changes status
+	::config::setKey notifyemail 1			;#Show notify window when a new mail arrives
+	::config::setKey notifyemailother 0			;#Show notify window when a new mail arrives in other folders
 
-	set config(dock) 0				;#Docking type
+	::config::setKey dock 0				;#Docking type
 
 	
 	#Specific for Mac OS X, if newchatwinstate=1, new windows of message never appear
 	if {$tcl_platform(os) == "Darwin"} {
-		set config(newchatwinstate) 0		;#Iconify or restore chat window on new chat
-		set config(newmsgwinstate) 0		;#Iconify or restore chat window on new message
+		::config::setKey newchatwinstate 0		;#Iconify or restore chat window on new chat
+		::config::setKey newmsgwinstate 0		;#Iconify or restore chat window on new message
 	} else {
-		set config(newchatwinstate) 1		;#Iconify or restore chat window on new chat
-		set config(newmsgwinstate) 1		;#Iconify or restore chat window on new message
+		::config::setKey newchatwinstate 1		;#Iconify or restore chat window on new chat
+		::config::setKey newmsgwinstate 1		;#Iconify or restore chat window on new message
 	}
-	set config(flicker) 1				;#Flicker window on new message
-	set config(showdisplaypic) 1		;#Show display picture as default
+	::config::setKey flicker 1				;#Flicker window on new message
+	::config::setKey showdisplaypic 1		;#Show display picture as default
 
 
-	set config(autochangenick) 1		;# automaticly change nick to custom state
+	::config::setKey autochangenick 1		;# automaticly change nick to custom state
 
-	set config(initialftport) 6891	;#Initial for to be used when sending file transfers
-	set config(ftautoaccept) 0
+	::config::setKey initialftport 6891	;#Initial for to be used when sending file transfers
+	::config::setKey ftautoaccept 0
 
-	set config(shownotify) 1 			;#Show notify window (in general, see advanced options)
+	::config::setKey shownotify 1 			;#Show notify window (in general, see advanced options)
 
 	#Remote control options
-	set config(enableremote) 0
-	set config(remotepassword) ""
+	::config::setKey enableremote 0
+	::config::setKey remotepassword ""
 
 	#Blocking detection options
-	set config(checkonfln) 0
-	set config(checkblocking) 0
-	set config(blockinter1) 60
-	set config(blockinter2) 300
-	set config(blockinter3) 5
-	set config(blockusers) 2
-	set config(showblockedgroup) 0
+	::config::setKey checkonfln 0
+	::config::setKey checkblocking 0
+	::config::setKey blockinter1 60
+	::config::setKey blockinter2 300
+	::config::setKey blockinter3 5
+	::config::setKey blockusers 2
+	::config::setKey showblockedgroup 0
 
-	set config(emotisounds) 1			;#Play sound on certain emoticons
-	set config(animatedsmileys) 1		;#Show animated smileys
+	::config::setKey emotisounds 1			;#Play sound on certain emoticons
+	::config::setKey animatedsmileys 1		;#Show animated smileys
 
 	#Custom smileys configuration
-	set config(customsmileys) [list]
-	set config(customsmileys2) [list]
-	set config(custom_smileys) 1
-	set config(logsbydate) 1
-	set config(p4c_name) ""
+	::config::setKey customsmileys [list]
+	::config::setKey customsmileys2 [list]
+	::config::setKey custom_smileys 1
+	::config::setKey logsbydate 1
+	::config::setKey p4c_name ""
 	
 	if {$tcl_platform(os) != "Darwin"} {
-	set config(convertpath) "convert"								;#Path for convert (from imagemagick)
+	::config::setKey convertpath "convert"								;#Path for convert (from imagemagick)
 	} else {
-	set config(convertpath) "/usr/local/bin/convert"		;#Path for convert (from imagemagick) on Mac OS X
+	::config::setKey convertpath "/usr/local/bin/convert"		;#Path for convert (from imagemagick) on Mac OS X
 	}
 
 	#Advanced options, not in preferences window
@@ -236,48 +236,48 @@ proc ConfigDefaults {} {
 		[list local globaloverride bool globaloverride ] \
 		[list global disableprofiles bool disableprofiles] \
 	]
-	set config(tooltips) 1				;#Enable/disable tooltips
-	set config(animatenotify) 1		;#Animate notify window
-	set config(disableuserfonts) 0	;#Disable custom fonts for other users (use always yours).
-	set config(autoconnect) 0			;#Automatically connect when amsn starts
-	set config(receiveddir) ""			;#Directory where received files are stored
-	set config(lineflushlog) 1			;#Flush log files after each line
-	set config(autocheckver) 1			;#Automatically check for newer versions on startup
-	set config(truncatenames) 1		;#Truncate nicknames longer than window width in windows' title
-	set config(truncatenicks) 0		;#Truncate nicknames longer than window width in chat windows
-	set config(keepalive) 1				;#Keep alive connection (ping every minute)
-	set config(showtimestamps) 1		;#Show timestamps on messages ("Yes" by default)
-	set config(leftdelimiter) \[		;#Left Timestamps' delimiter  '[' by default
-	set config(rightdelimiter) \]		;#Right Timestamps' delimiter ']' by default
-	set config(start_ns_server) "messenger.hotmail.com:1863"
-	set config(allowbadwords) 1		;#Disable censure on nicks
-	set config(enablebanner) 1		;#Show or Hide AMSN Banner (By default Show)
-	set config(startontray) 0		;#Start amsn on tray icon only (hide contact list)
-	set config(storename) 1			;#Store original nick in a variable when go to custom states to revert it when go back
-	set config(strictfonts) 0		;#Use strict fonts' size in _ALL_ AMSN's fonts (Disabled by default)
-	set config(sngdblclick) 0		;#Use single or double click to open a message window (0 double, 1 single)
-	set config(nogap) 0			;#Remove the empty line between groups
-	set config(removeempty) 0		;#Remove empty groups from the contact list
-	set config(emailsincontactlist) 0	;#Display emails instead of nicks in the contact list
-	set config(leavejoinsinchat)	1	;#Display leave/join notifications in chat text area
-	set config(charscounter)	1	;#Display typed characters counter
-	set config(checkemail)	1	;#Show inbox email notification line
-	set config(recentmsg) 0		;#Recent message window closing protection
-	set config(displayp4context) 1	;#Accept P4-Context fieds
-	set config(p4contextprefix) "" ; #Prefix for P4-Context messages
-	set config(notifytimeout) 8000 ; #Number of milisecs before the notify will go away
-	set config(globalnick) ""		;#The global custom nickname (pattern), disabled by default
-	set config(globaloverride) 0		;# Sets whether Global nicknames pattern should override custom nicks, disabled by default
+	::config::setKey tooltips 1				;#Enable/disable tooltips
+	::config::setKey animatenotify 1		;#Animate notify window
+	::config::setKey disableuserfonts 0	;#Disable custom fonts for other users (use always yours).
+	::config::setKey autoconnect 0			;#Automatically connect when amsn starts
+	::config::setKey receiveddir ""			;#Directory where received files are stored
+	::config::setKey lineflushlog 1			;#Flush log files after each line
+	::config::setKey autocheckver 1			;#Automatically check for newer versions on startup
+	::config::setKey truncatenames 1		;#Truncate nicknames longer than window width in windows' title
+	::config::setKey truncatenicks 0		;#Truncate nicknames longer than window width in chat windows
+	::config::setKey keepalive 1				;#Keep alive connection (ping every minute)
+	::config::setKey showtimestamps 1		;#Show timestamps on messages ("Yes" by default)
+	::config::setKey leftdelimiter \[		;#Left Timestamps' delimiter  '[' by default
+	::config::setKey rightdelimiter \]		;#Right Timestamps' delimiter ']' by default
+	::config::setKey start_ns_server "messenger.hotmail.com:1863"
+	::config::setKey allowbadwords 1		;#Disable censure on nicks
+	::config::setKey enablebanner 1		;#Show or Hide AMSN Banner (By default Show)
+	::config::setKey startontray 0		;#Start amsn on tray icon only (hide contact list)
+	::config::setKey storename 1			;#Store original nick in a variable when go to custom states to revert it when go back
+	::config::setKey strictfonts 0		;#Use strict fonts' size in _ALL_ AMSN's fonts (Disabled by default)
+	::config::setKey sngdblclick 0		;#Use single or double click to open a message window (0 double, 1 single)
+	::config::setKey nogap 0			;#Remove the empty line between groups
+	::config::setKey removeempty 0		;#Remove empty groups from the contact list
+	::config::setKey emailsincontactlist 0	;#Display emails instead of nicks in the contact list
+	::config::setKey leavejoinsinchat	1	;#Display leave/join notifications in chat text area
+	::config::setKey charscounter	1	;#Display typed characters counter
+	::config::setKey checkemail	1	;#Show inbox email notification line
+	::config::setKey recentmsg 0		;#Recent message window closing protection
+	::config::setKey displayp4context 1	;#Accept P4-Context fieds
+	::config::setKey p4contextprefix "" ; #Prefix for P4-Context messages
+	::config::setKey notifytimeout 8000 ; #Number of milisecs before the notify will go away
+	::config::setKey globalnick ""		;#The global custom nickname (pattern), disabled by default
+	::config::setKey globaloverride 0		;# Sets whether Global nicknames pattern should override custom nicks, disabled by default
 
 	#System options, not intended to be edited (unless you know what you're doing)
 	set password ""
-	set config(withnotebook) 0			;#Use notebook tabs in contact list
+	::config::setKey withnotebook 0			;#Use notebook tabs in contact list
 
-	set config(adverts) 0				;#Enable banner advertisements
-	set config(displaypic) "amsn.png"                   ;# Display picture
-	set config(getdisppic) 1
-	set config(notifwidth) 150			;#Notify window width
-	set config(notifheight) 100		;#Notify window height
+	::config::setKey adverts 0				;#Enable banner advertisements
+	::config::setKey displaypic "amsn.png"                   ;# Display picture
+	::config::setKey getdisppic 1
+	::config::setKey notifwidth 150			;#Notify window width
+	::config::setKey notifheight 100		;#Notify window height
 }
 
 namespace eval ::config {
@@ -473,10 +473,9 @@ proc save_config {} {
 }
 
 proc new_config_entry  {cstack cdata saved_data cattr saved_attr args} {
-    global config
     upvar $saved_data sdata
 
-    set config($sdata(${cstack}:attribute)) $sdata(${cstack}:value)
+    ::config::setKey $sdata(${cstack}:attribute) $sdata(${cstack}:value)
 
     return 0
 
@@ -525,18 +524,18 @@ proc load_config {} {
 				if { $soundmac=="program_dir" } {
 					set osversion [string range "$tcl_platform(osVersion)" 0 0]
 					if { $osversion == "6"} {
-						set config(soundcommand) "utils/qtplay \$sound"
+						::config::setKey soundcommand "utils/qtplay \$sound"
 					} else {
-						set config(soundcommand) "./sndplay \$sound"
+						::config::setKey soundcommand "./sndplay \$sound"
 					}
 				}			
 			}
 	}
 
     if {[info exists config(encpassword)]} {
-	set key [string range "$config(login)dummykey" 0 7]
-	set password $config(encpassword)
-	catch {set encpass [binary format h* $config(encpassword)]}
+	set key [string range "[::config::getKey login]dummykey" 0 7]
+	set password [::config::getKey encpassword]
+	catch {set encpass [binary format h* [::config::getKey encpassword]]}
 	catch {set password [::des::decrypt $key $encpass]}
 	#puts "Password length is: [string first "\n" $password]\n"
 	set password [string range $password 0 [expr { [string first "\n" $password] -1 }]]
@@ -545,12 +544,12 @@ proc load_config {} {
     }
 
     if {[info exists config(remotepassword)]} {
- 	set key [string range "$config(login)dummykey" 0 7]
- 	catch {set encpass [binary format h* $config(remotepassword)]}
- 	catch {set config(remotepassword) [::des::decrypt $key $encpass]}
- 	#puts "Password length is: [string first "\n" $config(remotepassword)]\n"
- 	set config(remotepassword) [string range $config(remotepassword) 0 [expr { [string first "\n" $config(remotepassword)] -1 }]]
- 	#puts "Password is: $config(remotepassword)\nHi\n"
+ 	set key [string range "[::config::getKey login]dummykey" 0 7]
+ 	catch {set encpass [binary format h* [::config::getKey remotepassword]]}
+ 	catch {::config::setKey remotepassword [::des::decrypt $key $encpass]}
+ 	#puts "Password length is: [string first "\n" [::config::getKey remotepassword]]\n"
+ 	::config::setKey remotepassword [string range [::config::getKey remotepassword] 0 [expr { [string first "\n" [::config::getKey remotepassword]] -1 }]]
+ 	#puts "Password is: [::config::getKey remotepassword]\nHi\n"
     }
 
     # WebCam: clientid is 268435508, but since we dont support webcam, this is the default:
@@ -564,7 +563,7 @@ proc load_config {} {
 	::config::setKey login $user_login
     }
     
-    if { $config(enableremote) } {
+    if { [::config::getKey enableremote] } {
 	init_remote_DS
     }
     
@@ -595,7 +594,7 @@ proc load_config {} {
 # Loads the list of logins/profiles from the profiles file in the HOME dir
 # sets up the first user in list as config(login)
 proc LoadLoginList {{trigger 0}} {
-	global HOME HOME2 config
+	global HOME HOME2
 
 	#puts stdout "called loadloginlist\n"
 	status_log "LoadLoginList: starting\n" blue
@@ -696,11 +695,11 @@ proc LoadLoginList {{trigger 0}} {
 			set dirname [split $temp "@ ."]
 			set dirname [join $dirname "_"]
 			set HOME "[file join $HOME2 $dirname]"
-			set config(login) "$temp"
+			::config::setKey login "$temp"
 			status_log "LoadLoginList: we found a free profile: $temp\n" green		
 		} else {
 			status_log "LoadLoginList: using default profile\n" green			
-			set config(login) ""
+			::config::setKey login ""
 		}
 		SaveLoginList
 	}
@@ -858,15 +857,15 @@ proc LoginList { action age {email ""} {lock ""} } {
 # email : email of the new profile/login
 proc ConfigChange { window email } {
 	status_log "ConfigChange: $email\n" blue
-	global HOME HOME2 password config log_dir lockSock
+	global HOME HOME2 password log_dir lockSock
 
 	if { $email != "" } {
 		status_log "ConfigChange: Valid email\n" green
 		
-		if { $email != $config(login) } {
+		if { $email != [::config::getKey login] } {
 			status_log "ConfigChange: Email changed\n" blue
 			
-			if { [LoginList exists 0 $config(login)] == 1 } {
+			if { [LoginList exists 0 [::config::getKey login]] == 1 } {
 				save_config
 			}
 		
@@ -889,7 +888,7 @@ proc ConfigChange { window email } {
 					
 					# Reselect previous element in combobox
 					set cb [$window list get 0 [LoginList size 0]]
-					set index [lsearch $cb $config(login)]
+					set index [lsearch $cb [::config::getKey login]]
 					$window select $index
 				} else {
 					status_log "ConfigChange: Profile is free\n" green
@@ -906,14 +905,14 @@ proc ConfigChange { window email } {
 						}
 					}
 		
-					if { [LoginList exists 0 $config(login)] } {
-						LoginList changelock 0 $config(login) 0
+					if { [LoginList exists 0 [::config::getKey login]] } {
+						LoginList changelock 0 [::config::getKey login] 0
 					}
 					
 					config::setKey login $email
 					load_config
 		
-					set config(protocol) 9
+					::config::setKey protocol 9
 		
 					LoginList add 0 $email
 					set log_dir "[file join ${HOME} logs]"
@@ -943,7 +942,7 @@ proc ConfigChange { window email } {
 # Switches between default and profiled mode, called from radiobuttons
 # value : If 1 use profiles, if 0 use default profile
 proc SwitchProfileMode { value } {
-	global lockSock HOME HOME2 config log_dir loginmode
+	global lockSock HOME HOME2 log_dir loginmode
 
 	if { $value == 1 } {
 		if { $HOME == $HOME2 } {
@@ -973,7 +972,7 @@ proc SwitchProfileMode { value } {
 		} else {
 			set window .login.main.f.f.box
 			set cb [$window list get 0 [LoginList size 0]]
-			set index [lsearch $cb $config(login)]
+			set index [lsearch $cb [::config::getKey login]]
 			$window select $index
 			unset window
 		}
@@ -987,8 +986,8 @@ proc SwitchProfileMode { value } {
 				unset lockSock
 			}
 		}
-		if { $config(login) != "" } {
-			LoginList changelock 0 $config(login) 0
+		if { [::config::getKey login] != "" } {
+			LoginList changelock 0 [::config::getKey login] 0
 			SaveLoginList
 		}
 
@@ -1000,8 +999,8 @@ proc SwitchProfileMode { value } {
 		set log_dir ""
 				
 		# Set variables for default profile
-		set config(save_password) 0
-		set config(keep_logs) 0
+		::config::setKey save_password 0
+		::config::setKey keep_logs 0
 	}
 }
 
@@ -1011,7 +1010,7 @@ proc SwitchProfileMode { value } {
 # Creates a new profile
 # email : email of new profile
 proc CreateProfile { email } {
-	global HOME HOME2 config log_dir password lockSock loginmode
+	global HOME HOME2 log_dir password lockSock loginmode
 	
 	if { [LoginList exists 0 $email] == 1 } {
 		msg_box [trans profileexists]
@@ -1023,7 +1022,7 @@ proc CreateProfile { email } {
 		save_config
 	}
 	
-	set oldlogin $config(login)
+	set oldlogin [::config::getKey login]
 
 	status_log "Creating new profile for $email\n" blue
 	# Create a new profile with $email
@@ -1080,8 +1079,8 @@ proc CreateProfile { email } {
 }
 
 proc gethomes {} {
-	global HOME HOME2 config log_dir
-	status_log "HOME = $HOME \nHOME2 = $HOME2\nlogin = $config(login)\nlog_dir = $log_dir\n"
+	global HOME HOME2 log_dir
+	status_log "HOME = $HOME \nHOME2 = $HOME2\nlogin = [::config::getKey login]\nlog_dir = $log_dir\n"
 }
 
 #///////////////////////////////////////////////////////////////////////////////
@@ -1089,14 +1088,14 @@ proc gethomes {} {
 # Delete profile given by email, has to be different than the current profile
 # entrypath : Path to the combobox containing the profiles list in preferences
 proc DeleteProfile { email entrypath } {
-	global config HOME2
+	global HOME2
 	if { $email == "" } {
 		return
 	}
 	#Reload profiles file
 	LoadLoginList 1
 	# Make sure profile isn't locked
-	if { $email == $config(login) } {
+	if { $email == [::config::getKey login] } {
 		msg_box [trans cannotdeleteprofile]
 		return
 	}
