@@ -843,6 +843,14 @@ namespace eval ::MSN {
 
    proc logout {} {
 
+		# Change back from customized status nick to original one
+      global original_nick config
+      if {[info exists original_nick] && $config(storename)} {
+        ::MSN::changeName $config(login) $original_nick
+        unset original_nick
+      }
+
+
       ::MSN::WriteSBRaw ns "OUT\r\n";
 
       catch {close [sb get ns sock]} res
