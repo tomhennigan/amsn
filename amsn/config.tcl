@@ -1073,6 +1073,10 @@ proc SwitchProfileMode { value } {
 		# Set variables for default profile
 		::config::setKey save_password 0
 		::config::setKey keep_logs 0
+		::config::setKey log_event_connect 0
+		::config::setKey log_event_disconnect 0
+		::config::setKey log_event_email 0
+		::config::setKey log_event_state 0
 	}
 }
 
