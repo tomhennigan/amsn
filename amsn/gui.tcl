@@ -228,7 +228,7 @@ namespace eval ::amsn {
 			} 
 		}
 
-		grab .tlsdown
+		catch {grab .tlsdown}
 	}
 
 	proc downloadTLS {} {
@@ -4170,7 +4170,7 @@ proc status_save { } {
 
 	fileDialog $w $w.filename.entry save "status_log.txt"
 
-	grab $w
+	catch {grab $w}
 }
 
 proc status_save_file { filename } {
@@ -4379,7 +4379,7 @@ proc login_ok {} {
 		}
 	}
 
-	grab release .login
+	catch {grab release .login}
 	destroy .login
 
 	if { $password != "" && $config(login) != "" } {
@@ -4544,7 +4544,7 @@ proc RefreshLogin { mainframe {extra 0} } {
 # ButtonCancelLogin ()
 # Function thats releases grab on .login and destroys it
 proc ButtonCancelLogin { window {email ""} } {
-	grab release $window
+	catch {grab release $window}
 	destroy $window
 	cmsn_draw_offline
 }
@@ -4592,8 +4592,7 @@ proc AddProfileWin {} {
 	
 
 	pack .add_profile.main .add_profile.buttons -side top -anchor n -expand  true -fill both -padx 10 -pady 10 
-	#grab $mainframe 
-	grab .add_profile 
+	catch {grab .add_profile}
 } 
 
 #////////////////////////////////////////////////////////////////////// ///////// 
@@ -4607,7 +4606,7 @@ proc AddProfileOk {mainframe} {
 	} 
 
 	if { [CreateProfile $login] != -1 } { 
-		grab release .add_profile 
+		catch {grab release .add_profile}
 		destroy .add_profile 
 	} 
 
@@ -5502,7 +5501,7 @@ proc addcontact_next {} {
 	set tmp_email [.addcontact.email get]
 	if { $tmp_email != ""} {
 		::MSN::addUser "$tmp_email"
-		grab release .addcontact
+		catch {grab release .addcontact}
 		destroy .addcontact
 	}
 }
@@ -6223,7 +6222,7 @@ proc choose_theme { } {
 proc setColor {w button name options} {
 	global config
 
-	grab $w
+	catch {grab $w}
 	set initialColor [$button cget -$name]
 	set color [tk_chooseColor -title "[trans choosebgcolor]" -parent $w \
 		-initialcolor $initialColor]
@@ -6231,7 +6230,7 @@ proc setColor {w button name options} {
 		set config(backgroundcolor) $color
 		::themes::ApplyDeep $w $options $color
 	}
-	grab release $w
+	catch {grab release $w}
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -6355,7 +6354,7 @@ proc check_version {} {
 		-text "[trans checkingver]..." -justify center -width 250
 
 	tkwait visibility .checking
-	grab .checking
+	catch {grab .checking}
 
 	update idletasks
 
@@ -7251,7 +7250,7 @@ proc degt_protocol_save { } {
 	focus $w.filename.entry
 	
 	fileDialog $w $w.filename.entry save "protocol_log.txt"
-	grab $w
+	catch {grab $w}
 
 }
 

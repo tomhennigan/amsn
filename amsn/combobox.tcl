@@ -1371,9 +1371,9 @@ proc ::combobox::WidgetProc {w command args} {
 	    catch {
 		set status [lindex $oldGrab 1]
 		if {$status == "global"} {
-		    grab -global [lindex $oldGrab 0]
+		    catch {grab -global [lindex $oldGrab 0]}
 		} elseif {$status == "local"} {
-		    grab [lindex $oldGrab 0]
+		    catch {grab [lindex $oldGrab 0]}
 		}
 		unset status
 	    }
