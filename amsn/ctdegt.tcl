@@ -437,9 +437,9 @@ proc Preferences { settings } {
 	entry $lfname.2.yoffset -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 5 -textvariable config(notifyYoffset)
 	pack $lfname.2.loffset -side top -anchor w
 	pack $lfname.2.lxoffset $lfname.2.xoffset $lfname.2.lyoffset $lfname.2.yoffset -side left -anchor w
-	checkbutton $lfname.1.alert1 -text "[trans notify1]" -onvalue 1 -offvalue 0 -variable config(notifywin)
-	checkbutton $lfname.1.alert2 -text "[trans notify2]" -onvalue 1 -offvalue 0 -variable config(notifywin)
-	checkbutton $lfname.1.alert3 -text "[trans notify3]" -onvalue 1 -offvalue 0 -variable config(notifywin)
+	checkbutton $lfname.1.alert1 -text "[trans notify1]" -onvalue 1 -offvalue 0 -variable config(notifyonline)
+	checkbutton $lfname.1.alert2 -text "[trans notify2]" -onvalue 1 -offvalue 0 -variable config(notifymsg)
+	checkbutton $lfname.1.alert3 -text "[trans notify3]" -onvalue 1 -offvalue 0 -variable config(notifyemail)
 	checkbutton $lfname.1.sound -text "[trans sound2]" -onvalue 1 -offvalue 0 -variable config(sound)
 	pack $lfname.2 -anchor w -side top -padx 10 -expand 1 -fill both
 	pack $lfname.1 -anchor w -side top -padx 0 -pady 5 -expand 1 -fill both
@@ -1030,6 +1030,10 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.37  2003/05/22 20:40:10  burgerman
+# 3 new notifies (on msg, on online, on email) now separate, removed old
+# config(notifywin)
+#
 # Revision 1.36  2003/04/24 11:04:32  airadier
 # Auto scrolling in protocol debug window
 #

@@ -2324,7 +2324,7 @@ proc cmsn_update_users {sb_name recv} {
 
 
 proc cmsn_change_state {recv} {
-   global list_fl list_users
+   global list_fl list_users config
 
    if {[lindex $recv 0] == "FLN"} {
       set user [lindex $recv 1]
@@ -2366,7 +2366,11 @@ proc cmsn_change_state {recv} {
 
 
       } elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
-         ::amsn::notifyAdd "$user_name\n[trans logsin]." "::amsn::chatUser $user" online
+      	 
+	 if { $config(notifyonline) == 1 } {
+	 	::amsn::notifyAdd "$user_name\n[trans logsin]." "::amsn::chatUser $user" online
+	 }
+	 
          if { ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1) } {
              run_alarm [lindex $recv 2] [lindex $recv 3]        ;# Run Alarm using EMAIL ADDRESS (Burger)
          }

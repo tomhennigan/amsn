@@ -214,9 +214,12 @@ proc hotmail_procmsg {msg} {
 	    status_log "Hotmail: New mail from $from - $fromaddr\n"
 
             ::hotmail::setUnreadMessages [expr { [::hotmail::unreadMessages] + 1}]
+	
+	    if { $config(notifyemail) == 1 } {
+	    	::amsn::notifyAdd "[trans newmailfrom]\n$from\n($fromaddr)" \
+	      	"hotmail_viewmsg $msgurl $config(login) $password" newemail
+	    }
 
-            ::amsn::notifyAdd "[trans newmailfrom]\n$from\n($fromaddr)" \
-	      "hotmail_viewmsg $msgurl $config(login) $password" newemail
 	    cmsn_draw_online
 
 	  } 

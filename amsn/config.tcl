@@ -65,7 +65,10 @@ proc ConfigDefaults {} {
 	set config(ordergroupsbynormal) 0
 	set config(withnotebook) 0
 	set config(keepalive) 0
-	set config(notifywin) 1
+	#set config(notifywin) 1
+	set config(notifymsg) 1
+	set config(notifyonline) 1
+	set config(notifyemail) 1
 	set config(natip) 0
 	set config(dock) 0
 	set config(autoconnect) 0

@@ -280,7 +280,7 @@ namespace eval ::amsn {
 
    #Dialog shown when receiving a file
    proc fileTransferRecv {filename filesize cookie chatid fromlogin fromname} {
-      global files_dir
+      global files_dir config
 
       #Newer version
 
@@ -338,8 +338,10 @@ namespace eval ::amsn {
 
       if { "[wm state ${win_name}]" == "withdrawn" } {
         wm state ${win_name} iconic
-	::amsn::notifyAdd "[trans says $fromname]:\n$txt" \
-	   "::amsn::chatUser $chatid"
+	if { $config(notifymsg) == 1 } {
+		::amsn::notifyAdd "[trans says $fromname]:\n$txt" \
+		"::amsn::chatUser $chatid"
+	}
 	   #"wm state ${win_name} normal"
       }
 
@@ -422,6 +424,7 @@ namespace eval ::amsn {
    # The procedure will open a window if it does not exists, add a notifyWindow and
    # play a sound if it's necessary
    proc messageFrom { chatid user msg type {fontformat ""} } {
+   	global config
 
       set win_name [WindowFor $chatid]
 
@@ -442,8 +445,10 @@ namespace eval ::amsn {
 	 wm state ${win_name} normal
 	 wm iconify ${win_name}
 
-         notifyAdd "[trans says [lindex [::MSN::getUserInfo $user] 1]]:\n$msg" \
-           "::amsn::chatUser $chatid"
+         if { $config(notifymsg) == 1 } {
+	 	notifyAdd "[trans says [lindex [::MSN::getUserInfo $user] 1]]:\n$msg" \
+		"::amsn::chatUser $chatid"
+	 }
 
       }
 
@@ -1741,9 +1746,9 @@ namespace eval ::amsn {
 
       global config
 
-      if { $config(notifywin) == 0 } {
-        return;
-      }
+      #if { $config(notifywin) == 0 } {
+      #  return;
+      #}
       variable NotifID
       variable NotifPos
       variable im
