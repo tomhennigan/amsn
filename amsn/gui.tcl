@@ -7600,8 +7600,7 @@ proc degt_protocol_win { } {
 	text   .degt.mid.txt -height 20 -width 85 -font splainf \
 		-wrap none -background white -foreground black \
 		-yscrollcommand ".degt.mid.sy set" \
-		-xscrollcommand ".degt.mid.sx set" \
-		-undo false
+		-xscrollcommand ".degt.mid.sx set"
 	scrollbar .degt.mid.sy -command ".degt.mid.txt yview"
 	scrollbar .degt.mid.sx -orient horizontal -command ".degt.mid.txt xview"
 	
