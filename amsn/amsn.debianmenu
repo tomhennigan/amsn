@@ -1,0 +1,8 @@
+?package(amsn): \
+needs="x11" \
+section="Networking/Instant messaging" \
+title="Alvaro's MSN Messenger" \
+longtitle="A MSN Messenger client" \
+longtitle[es]="Un cliente de MSN Messenger" \
+command="soundwrapper amsn" \
+icon="messenger.png"
