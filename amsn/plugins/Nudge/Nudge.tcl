@@ -23,6 +23,9 @@ namespace eval ::Nudge {
         	::plugins::RegisterEvent Nudge chatmenu itemmenu
         	::plugins::RegisterEvent Nudge right_menu clitemmenu
         	
+        	#Save in a config key where is the Nudge plugin
+    		::config::setKey nudgepluginpath $dir
+    	
 	        array set ::Nudge::config {
         	notify {1}
        		notsentinwin {1}
@@ -70,7 +73,8 @@ namespace eval ::Nudge {
 			#Todo: use the original shake sound of MSN 7
 			#If the user choosed to have a sound-notify
 			if { $::Nudge::config(soundnotrec) == 1 } {
-				play_sound type.wav
+				set dir [::config::getKey nudgepluginpath]
+				play_sound $dir/nudge.wav 1
 			}
 			
 			#If the user choosed to have a notify window
@@ -168,12 +172,21 @@ namespace eval ::Nudge {
 		if { $::Nudge::config(addbutton) == 1 } {
 			upvar 2 evpar newvar
 			upvar 2 bottom bottom
+			global version
 			
 			#Create the button with an actual Pixmal
 			#Use after 1 to avoid a bug on Mac OS X when we close the chatwindow before the end of the nudge
-			button $bottom.buttons.nudge -image [::skin::loadPixmap bell] -relief flat -padx 3 \
-			-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0 \
-			-command "after 1 ::Nudge::send_via_queue $newvar(window_name)"
+			#Keep compatibility with 0.94 for the getColor
+			scan $version "%d.%d" y1 y2;
+			if { $y2 == "94" } {
+				button $bottom.buttons.nudge -image [::skin::loadPixmap bell] -relief flat -padx 3 \
+				-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0 \
+				-command "after 1 ::Nudge::send_via_queue $newvar(window_name)"
+			} else {
+				button $bottom.buttons.nudge -image [::skin::loadPixmap bell] -relief flat -padx 3 \
+				-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0 \
+				-command "after 1 ::Nudge::send_via_queue $newvar(window_name)"
+			}
 			
 			#Define baloon info
 			set_balloon $bottom.buttons.nudge "Send Nudge"
@@ -283,7 +296,8 @@ namespace eval ::Nudge {
 		#If the user choosed to have a sound-notify
 		#Todo: have the same sound as MSN 7
 		if { $::Nudge::config(soundnotrec) == 1 } {
-			play_sound type.wav
+				set dir [::config::getKey nudgepluginpath]
+				play_sound $dir/nudge.wav 1
 		}
 		
 		#Shake the window on sending if the user choosed it
