@@ -855,7 +855,7 @@ proc SwitchProfileMode { value } {
 				set loginmode 0
 				RefreshLogin .login.main.f.f 1
 			} elseif { $idx > [LoginList size 0] } { 
-				msg_box [trans allprofilesinuse3] 
+				msg_box [trans allprofilesinuse] 
 				# Going back to default profile
 				set loginmode 0
 				RefreshLogin .login.main.f.f 1
