@@ -114,7 +114,6 @@ make  proot=%{prefix} prefix=${RPM_BUILD_ROOT}%{prefix} version=%{version} wmapp
 /usr/share/amsn/i/messenger.gif
 /usr/share/amsn/i/messenger.png
 /usr/share/amsn/i/notifico.gif
-/usr/share/amsn/i/notify.gif
 /usr/share/amsn/i/offline.gif
 /usr/share/amsn/i/online.gif
 /usr/share/amsn/i/photo.gif
