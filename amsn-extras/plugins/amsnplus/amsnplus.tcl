@@ -16,10 +16,12 @@ namespace eval ::amsnplus {
 		#plugin config
 		array set ::amsnplus::config {
 			colour_nicks {0}
+			allow_commands {1}
 		}
-		#set ::amsnplus::configlist [ \
-		#	list [list bool "Colour Nicks?" colour_nicks] \
-		#]
+		set ::amsnplus::configlist [ \
+		#	list [list bool "Colour Nicks?" colour_nicks]
+			list [list bool "Allow commands in chat window" allow_commands] \  
+		]
 		#register events
 		#::plugins::RegisterEvent "aMSN Plus" UserNameWritten parse_nick
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_send parseCommand
@@ -113,6 +115,7 @@ namespace eval ::amsnplus {
 	# this looks chat text for a command
 	# if found, executes what command is supposed to do
 	proc parseCommand {event epvar} {
+		if { !$::amsnplus::config(allow_commands) } { return 0 }
 		upvar 2 nick nick
 		upvar 2 msg msg
 		upvar 2 chatid chatid
