@@ -465,7 +465,7 @@ namespace eval ::amsn {
 
 		#Create the window
 		toplevel $w
-		wm title $w "[trans delete]"
+		wm title $w "[trans delete] - $user_login"
 
 		#Create the three frames
 		frame $w.top
