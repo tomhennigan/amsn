@@ -22,6 +22,7 @@ groupadded \nAjout du groupe $1.
 groupdeleted \nVous avez supprimé le groupe $1 \nPour ajouter à nouveau ce groupe, tappez : /addgroup $1
 italic Italique
 multiplecolorsbutton Ajouter une nouvelle couleur
+overstrike Barré
 parsenicks Voulez-vous filtrer la codification des couleurs de MSN plus dans les pseudos ?
 qthelp Ici, vous pouvez configurer un Texte Rapide, le mot-clef ainsi que le texte.\nUne fois dans la fenêtre de discutions, taper /mot-clef pour afficher le texte associé
 quicktext Textes rapides
