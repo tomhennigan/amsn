@@ -1407,7 +1407,10 @@ proc sb_enter { sbn name } {
    
    if {[sb length $sbn users]} {
       set txt_send [string map {"\n" "\r\n"} $txt]
-      set msg "MIME-Version: 1.0\r\nContent-Type: text/plain\r\n\r\n"
+
+      set txt_send [encoding convertto utf-8 $txt_send]      
+
+      set msg "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\n"
       set msg "$msg$txt_send"
       set msg_len [string length $msg]
       set timestamp [clock format [clock seconds] -format %H:%M]
