@@ -614,7 +614,7 @@ proc Preferences { { settings "personal"} } {
 	#radiobutton $lfname.3.tabbed -text [trans tabbed] -value 2 -variable config(msgmode) -state disabled
 	checkbutton $lfname.winflicker -text "[trans msgflicker]" -onvalue 1 -offvalue 0 -variable config(flicker)
 	checkbutton $lfname.showdisplaypic -text "[trans showdisplaypic2]" -onvalue 1 -offvalue 0 -variable config(showdisplaypic)
-	checkbutton $lfname.getdisplaypic -text "[trans getdisplaypic]" -variable config(getdisppic) -command getdisppic_clicked
+	checkbutton $lfname.getdisplaypic -text "[trans getdisppic]" -variable config(getdisppic) -command getdisppic_clicked
 
 	#pack $lfname.3.lmsgmode -anchor w -side top -padx 10
 	#pack $lfname.3.normal $lfname.3.tabbed -side left -padx 10
@@ -1617,6 +1617,9 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.92  2003/11/10 00:04:28  airadier
+# Fixed translation problem
+#
 # Revision 1.91  2003/11/07 18:54:14  airadier
 # New "getdisppic" option added to preferences, with imagemagick check
 #
