@@ -1,114 +1,114 @@
 FAQ 1.2
---------
+-------
 
 P: ¿Qué es Amsn?
-R: Amsn es un clon del Microsoft Messenger. Te permito mantenerte en contacto
-con tus amigo e intercambiar mensajes instantáneos y ficheros.
+R: Amsn es un clon del Microsoft Messenger. Te permite mantenerte en contacto
+con tus amigos e intercambiar mensajes instantáneos y ficheros.
 
 INSTALANDO E INICIANDO AMSN
-=============================
+===========================
 
-P: ¿Que necesito para hacer funcionar amsn?
-R: Amsn está escrito en tcl/tk, usted solo necesita un interprete de tcl/tk,
+P: ¿Qué necesito para hacer funcionar amsn?
+R: Amsn está escrito en tcl/tk, usted sólo necesita un intérprete de tcl/tk,
 versión 8.3 o superior. Usted puede conseguirlo de http://tcl.sourceforge.net.
-El interprete está disponible para Linux, Wndows y Macintosh.
+El intérprete está disponible para Linux, Windows y Macintosh.
 
 Q: ¿Cómo instalo y ejecuto amsn?
-A: Simplemente descarga el archivo amsn-x_xx.tar.gz. Descomprimelo con el comando:
+A: Simplemente descargue el archivo amsn-x_xx.tar.gz. Descomprímalo con el comando:
   gzip -d amsn-x_xx.tar.gz
   tar xvf amsn-x_xx.tar
 Se creará el directorio msn/, y amsn ya está instalado y listo para ejecutarse.
-Para ejecutar, escribe:
+Para ejecutar, escriba:
   cd msn
   ./amsn
-y si esto no funciona, intenta:
+y si esto no funciona, intente:
   wish amsn
-Si el comando 'wish' no exists, tu sistema no tiene tcl/tk correctamente
-instalado. Si "wish amsn" funciona, pero "./amsn" no lo hace, edita el archivo
-'amsn' y pon la ruta correcta al ejecutable 'wish' en la primera línea. Por
+Si el comando 'wish' no existe, su sistema no tiene tcl/tk correctamente
+instalado. Si "wish amsn" funciona, pero "./amsn" no lo hace, edite el archivo
+'amsn' y ponga la ruta correcta al ejecutable 'wish' en la primera línea. Por
 defecto, está configurado como: /usr/bin/wish
 
 P: ¿Cómo puedo crear un acceso directo a amsn en mi escritorio?
-R: 1.- Añade un icono en tu escritorio gnome/kde o un menú que ejecute el
-comando /donde/este/instalado/amsn
-	por ejemplo
+R: 1.- Añada un icono en su escritorio gnome/kde o un menú que ejecute el
+comando /donde/esté/instalado/amsn
+	por ejemplo:
 	/home/tu_usuario/msn/amsn
    2.- Otra forma:
-   Como root, crea un enlace en /usr/bin al fichero amsn.
-   ln -s /donde/este/instalado/amsn amsn
-   De esta forma tu puedes ejecutar amsn solo escribiendo 'amsn' desde
+   Como root, cree un enlace en /usr/bin al fichero amsn.
+   ln -s /donde/esté/instalado/amsn amsn
+   De esta forma usted puede ejecutar amsn escribiendo sólo 'amsn' desde
 cualquier lugar.
    Luego añada un icono que ejecute el comando 'amsn'.
 
 P: ¿Cómo puedo usar el icono de bandeja para Gnome/Kde?
-R: Tienes que ejecutar 'make' dentro del directorio de plugins, para compilar
-el plugin de gnome1. Necesitarás las librerías de desarrollo gnome. Cuando
-el plugin esté compilado, solo ejecute amsn y seleccione Gnome Docking en el
+R: Tiene que ejecutar 'make' dentro del directorio de plugins, para compilar
+el plugin de gnome1. Necesitará las librerías de desarrollo de gnome. Cuando
+el plugin esté compilado, sólo ejecute amsn y seleccione Gnome Docking en el
 menú opciones. Para la versión del icono de bandeja de freedesktop (compatible
-con Gnome2 y KDE3), echa un vistazo al archivo README en plugins/traydoc.
+con Gnome2 y KDE3), eche un vistazo al archivo README en plugins/traydoc.
 
 USANDO AMSN
 ===========
 
 P: ¿Qué significa que en mi lista de contactos aparezca un contacto en color
 magenta?
-R: Significa que tu no estás en la lista de contactos de esa persona.
+R: Significa que usted no está en la lista de contactos de esa persona.
 
-Q: ¿Puedo copiar una dirección de un contacto al portapapeles ?
-A: Si, haz click con el botón derecho en elIn the preferences' privacy tab, what do those four lists mean nombre del contacto en
-la lista, y haz click en el menú en su dirección. La dirección de correo
-del contacto será copiada al portapapeles.
+Q: ¿Puedo copiar una dirección de un contacto al portapapeles?
+A: Si, vaya a la sección privacidad del menú preferencias y haga click con
+el botón derecho en el nombre del contacto en cualquiera de las listas de
+contactos. La dirección de correo del contacto será copiada al portapapeles.
 
-Q: ¿Como puedo acceder al historial de mensajes que he mandado en un chat?
-A: Si quieres acceder a los mensajes previamente enviados en una ventana de
-chat, simplemente necesitas pulsar a la vez la tecla de Control junto a las
-flechas de arriba y abajo. Funciona similar a una terminal. Ctrl+Arriba te
+Q: ¿Cómo puedo acceder al historial de mensajes que he mandado en un chat?
+A: Si quiere acceder a los mensajes previamente enviados en una ventana de
+chat, simplemente necesita pulsar a la vez la tecla de Control junto a las
+flechas de arriba y abajo. Funciona similar a una terminal. Ctrl+Arriba le
 lleva al mensaje anterior, y Ctrl+Abajo al siguiente.
 
 Q: ¿Qué significan las listas de la sección "Privacidad" en las preferencias?
 A: Hay cuatro listas, conocidas como "Lista de Aceptados (AL)", Lista de
 Bloqueados(BL), Lista Inversa(RL) y Lista de Contactos. La última de ellas es
 obvia, y el resto significan lo siguiente:
-AL: Esta lista contiene las direcciones de la gente que puede verte y hablar
-contigo cuando estás en línea.
+AL: Esta lista contiene las direcciones de la gente que puede verle y hablar
+con usted cuando está en línea.
 BL: Esta es la lista de bloqueados, que contiene una lista de personas a las
-que estás bloqueando (no admitidos). No te pueden ver cuando estás conectado, ni
-hablar contigo.
-RL: Esta es la lista inversa. Contiene la lista de personas que te han añadido
+que está bloqueando (no admitidos). No le pueden ver cuando está conectado, ni
+hablar con usted.
+RL: Esta es la lista inversa. Contiene la lista de personas que le han añadido
 a su lista de contactos. Las direcciones que aparecen en verde son personas
-que no tienes en tu lista de contactos, pero tú estas en la suya.
+que no tiene en su lista de contactos, pero ustéd está en la suya.
 
-Q: Quiero añadir mis emoticonos personalizados, ¿Cómo lo hago?
+Q: Quiero añadir mis emoticonos personalizados, ¿cómo lo hago?
 A: Ahora hay una nueva opción en el menú de emoticonos que permite hacer esto.
-Seleccionalá y aparecerá una ventana, donde debes rellanar los campos
-requeridos. El campo "descripción" puede ser lo que quieras, sólo es la
+Seleccionela y aparecerá una ventana, donde debe rellanar los campos
+requeridos. El campo "descripción" puede ser lo que quiera, sólo es la
 descripción mostrada por el globo de ayuda.
-El campo "Disparador" es el texto que quieres que sea sustituido por el nuevo
+El campo "Disparador" es el texto que quiere que sea sustituido por el nuevo
 emoticono. Por ejemplo, los emoticonos por defecto tienen disparadores
-como :), :-), etc. Puedes poner varios disparadores, separandolos entre ellos
-por un espacio. Si quieres poner un espacio en el texto disparador, debes
+como :), :-), etc. Puede poner varios disparadores, separándolos entre ellos
+por un espacio. Si quiere poner un espacio en el texto disparador, debe
 entrecomillarlo, por ejemplo:
 "hello there" hi "what's up"
 haría que el emoticono tuviera 3 disparadores.
 El "Nombre del archivo" es el nombre del archivo .gif con la imagen del
 emoticono. Éste debe ser de tamaño 19x19 pixels. Realmente puede ser de
 cualquier tamaño, pero si no es de 19x19, el menú o los textos pueden
-verse mal. Puedes directamente escribir el nombre completo, ruta incluida,
+verse mal. Puede directamente escribir el nombre completo, ruta incluida,
 del archivo, usar el botón "Examinar", o simplemente poner el nombre del
 archivo sin ruta, si éste se encuentra guardado en el directorio
 ~/.amsn/<nombre_del_perfil>/smileys o en msn/skins/<skin>/smileys. El
-archivo será copiado a tu directorio del perfil, por si acaso después
-renombras o mueves el archivo original.
+archivo será copiado a su directorio del perfil, por si acaso, después
+renombre o mueva el archivo original.
 Las mismas propiedades son aplicables para el "Archivo de sonido"... éste
 se usa para reproducir un sonido cuando el emoticono es mostrado. Por ejemplo,
 el emoticono "LOL" que se dispara con el texto "LOL" tiene un sonido de una
 carcajada. El sonido debe ser un archivo .wav, o cualquier archivo de sonido
 soportado por el comando de sonido que tengas configurado (sección Aplicaciones
 dentro de las preferencias... play, esdplay, artsplay, mpg123...). Para que
-este campo esté disponible, debes activar la casilla de verificación que dice
+este campo esté disponible, debe activar la casilla de verificación que dice
 "Reproducir sonido".
 La casilla de verificación "Emoticono con Animacion" significa que el archivo
-.gif es animado. Si no activas esta casilla, y el .gif es animado, se mostrará
+.gif es animado. Si no activa esta casilla, y el .gif es animado, se mostrará
 como una imagen estática.
 La opción "Ocultar del menú de emoticonos" hace que el emoticono no aparezca
 en el menú desplegable de emoticonos, pero seguirá siendo activado con los
@@ -116,11 +116,11 @@ disparadores.
 El campo "Distinguir mayúsculas/minúsculas" indica que el disparador debe
 diferenciar entre mayúsculas y minúsculas. Es decir, que un disparador "LOL"
 es disinto de "lol". Si no se activa, esto es indiferente.
-Cuando hayas terminado la configuración, pulsa el botón OK. Se mostrará
-un error si has olvidado de configurar alguna de las 3 opciones necesarias,
+Cuando hayas terminado la configuración, pulse el botón OK. Se mostrará
+un error si ha olvidado de configurar alguna de las 3 opciones necesarias,
 o si los archivos no existen o no se pueden leer por el usuario. Si no se
-muestra ningún mensaje de error, entonces ya puedes usar tu nuevo emoticono.
-Diviertanse.
+muestra ningún mensaje de error, entonces ya puede usar su nuevo emoticono.
+Diviértanse.
 
 
 SOLUCIONANDO PROBLEMAS
@@ -128,19 +128,19 @@ SOLUCIONANDO PROBLEMAS
 
 P: A veces amsn se "cuelga", ¿por qué?
 R: Normalmente, cuando amsn se cuelga es debido a un problema con la
-configuración del sonido. Puede ser que tu estés escuchando un sonido, pero la
+configuración del sonido. Puede ser que esté escuchando un sonido, pero la
 tarjeta de sonido esté bloqueda, y la orden de reproducir se para hasta que la
 tarjeta de sonido esté disponible. Intente desactivar el sonido o cambiar la
 configuración del sonido.
 
 P: Cuando intento iniciar amsn me devuelve este error:
 bash: ./amsn: bad interpreter: No such file or directory
-R: Necesita instalar los paquetes tcl/tk, porque es necesario el interprete
+R: Necesita instalar los paquetes tcl/tk, porque es necesario el intérprete
 de wish. Si piensa que lo tiene instalado, intente ejecutar "wish amsn" en
 lugar de "./amsn". Si esto funciona, edite el fichero amsn y cambie la
 primera línea:
   #!/usr/bin/wish
-  por la dirección donde se encuentra el interprete de wish.
+  por la dirección donde se encuentra el intérprete wish.
 
 P: Cuando yo inicio amsn me devuelve este error:
 Error in startup script: bad option "map": must be
@@ -164,7 +164,7 @@ while executing
 invoked from within
 "::amsn::initLook $family $size $config(backgroundcolor)"
 (file "amsn" line 2184)
-R: Han habido varios cambios en el fichero de configuración. Una solución
+R: Ha habido varios cambios en el fichero de configuración. Una solución
 rápida sería eliminar el fichero de configuración antiguo de su directorio de
 usuario. Elimine /home/tu_usuario/.amsn/config y debería funcionarle.
 
@@ -175,7 +175,7 @@ esperar la siguiente versión de tcl/tk y espere que esta soporte xcin.
 Entretando, usted puede escribir texto en otro editor, copiarlo y luego
 pegarlo en la ventana de conversación.
 Nuevo: Internacionalización de copiar y pegar. Si usted tiene problemas
-pegando caracteres en AMSN, descarge e instale la versión de tcl/tk de este
+pegando caracteres en AMSN, descargue e instale la versión de tcl/tk de este
 sitio:
 http://jfontain.free.fr/tcl-8.4a3-2.i386.rpm
 http://jfontain.free.fr/tk-8.4a3-2.i386.rpm
@@ -195,16 +195,16 @@ en camino.
 P: AMSN parece conectarse, pero cuando intento conversar con alguien o cambiar
 mi estado, se desconecta. Esto pasa a menudo, después de algunos minutos de
 inactividad. Probablemente esté destrás de un router o un cortafuegos.
-R: Intente habilitar "Compartir conexión(NAT" en el menú Herramientas -
-Opciones, en la pestaña Conexion. Este es un arreglo para conecciones
-compartidas a internet que permite enviar dummy packages al servidor cada 2
-minutos, esto mantiene via la conexión.
+R: Intente habilitar "Compartir conexión(NAT)" en el menú Herramientas -
+Opciones, en la pestaña Conexión. Éste es un arreglo para conexiones
+compartidas a internet que permite enviar paquetes tontos al servidor cada 2
+minutos; esto mantiene viva la conexión.
 
 P: El sonido se repite. Por ejemplo, si tengo funcionando XMMS, y alguien
 entra o estoy chateando con alguien, después de que cierro XMMS o el se
-termina el fichero que esoty reproduciendo, todo los sonidosque no habían
+termina el fichero que estoy reproduciendo, todo los sonidos que no había
 podido ser reprucidos por culpa de XMMS se reproducen de forma molesta.
-R: Usted tiene varias soluciones. Si estás usando KDE, puedes configurar XMMS
+R: Usted tiene varias soluciones. Si está usando KDE, puede configurar XMMS
 para reproducir sonido a través de arts, y usar artsplay como reproductor de
 sonido para amsn. De esta forma el problema con los sonidos será arreglado. Si
 está usando Gnome, usted puede usar esdplay y configurar XMMS para reproducir
@@ -214,58 +214,57 @@ reproducir".
 
 Q: Estoy usando amsn tras un firewall, o usando IP-Masquerade. No puedo
 enviar archivos, ¿Cómo puedo arreglarlo?
-A: Probablemente el cortafuegos(firewall) está bloqueando las conexiones
-entrantes. Las transferencias de archivos funcionan así: Cuando quieres
-mandar a alguien un archivo, envías una invitación a esa persona con tu
+A: Probablemente el cortafuegos (firewall) está bloqueando las conexiones
+entrantes. Las transferencias de archivos funcionan así: Cuando quiere
+mandar a alguien un archivo, envía una invitación a esa persona con su
 dirección IP y un número de puerto. Entonces, el cliente remoto debe
 conectarse a la IP y puerto dado para comenzar la transferencia.
 El puerto usado es normalmente 6891, 6892 y siguientes (la primera
-transferencia es en el puerto 6891, pero si empiezas otra a la vez,
+transferencia es en el puerto 6891, pero si empieza otra a la vez,
 usará el puerto 6892, y así sucesivamente).
-Por tanto, si estás usando un firewall, debes asegurarte que permite
-conexiones entrantes al puerto 6891 (y siguientes, si quieres hacer más
+Por tanto, si está usando un firewall, debe asegurarse que permite
+conexiones entrantes al puerto 6891 (y siguientes, si quiere hacer más
 de una transferencia a la vez).
-Si estás dentro de una red privada, con direcciones privadas como
+Si está dentro de una red privada, con direcciones privadas como
 192.168.0.x, entonces es más dificil hacer funcionar las transferencias de
-archivos. Necesitas enviar como dirección IP la dirección real de internet
-(la puedes introducir manualmente o decirle a amsn que la averigüe a
+archivos. Necesita enviar como dirección IP la dirección real de internet
+(la puede introducir manualmente o decirle a amsn que la averigüe a
 a través de una página web), en lugar de la dirección interna, y configurar
 la puerta de enlace (el ordenador o máquina con conexión directa a internet)
-para que redirija las conexiones al puerto 6891 hasta tu ordenador dentro
+para que redirija las conexiones al puerto 6891 hasta su ordenador dentro
 de la red privada.
 
 
 Ejecución en Windows
-========
+====================
 
 P: ¿Puedo hacer que el sonido funcione bajo Windows?
-R: Sí, nosotros tenemos un pequeño programa llamado plwav.exe, que solo
+R: Sí, nosotros tenemos un pequeño programa llamado plwav.exe, que sólo
 reproduce un fichero wav en Windows. Usted puede usarlo como programa de
-sonido (amsn usa algunos programas externos para reproducir sonido). Dirijase
-al menu Herramientas - Opciones - Preferencias - Aplicaciones, e introduzca
+sonido (amsn usa algunos programas externos para reproducir sonido). Diríjase
+al menú Herramientas - Opciones - Preferencias - Aplicaciones, e introduzca
 "plwav" como programa de sonido.
 
 P: Cuando aparece una ventana emergente, la barra de tareas de la ventana
-aparece oculata parcialmente, ¿ puedo solucionarlo?
-R: Si, usted puede mover la ventana de notificación, moviendo los píxeles X a
+aparece oculta parcialmente, ¿puedo solucionarlo?
+R: Sí, usted puede mover la ventana de notificación, moviendo los píxeles X a
 la izquierda y los píxeles Y arriba. Puede cambiar esto en:
 Herramientas->Opciones->Preferencias->Apariencia
 
 OTROS
 =====
 P: Tengo otra pregunta, ¿podéis ayudarme?
-R: Sí, podemos. Pero primero, hecha un vistazo a la página del proyecto
-sourceforge, que está alojado en http://sourceforge.net/projects/amsn, y chequea
-todos los bugs, solicitudes de soporte y los foros genreales para chequear si
-tu problema ya está resuleto. No cheques solo los mensajes marcados como
-"Abiertos". Hay una lista desplegable donde tu puedes seleccionar "Cerrada" en lo 
+R: Sí, podemos. Pero primero, eche un vistazo a la página del proyecto
+sourceforge, que está alojada en http://sourceforge.net/projects/amsn, y compruebe
+todos los errores, solicitudes de soporte y los foros generales para comprobar si
+su problema ya está resuelto. No compruebe sólo los mensajes marcados como
+"Abiertos". Hay una lista desplegable donde usted puede seleccionar "Cerrada" en lo 
 alto de la lista de mensajes. Las preguntas resueltas están normalmente marcadas 
-como cerrado. Anes de remitir un bug or preguntar por el soporte, apunte los
+como cerrado. Antes de remitir un bug or preguntar por el soporte, apunte los
 siguientes datos:
 - Versión de Amsn.
 - Versión de Tcl y TK.
-- Localize el error a remitir(si es posible).
+- Localice el error a remitir (si es posible).
 
 Si todavía tiene alguna duda, puedes escribirnos a:
 amsn-users@lists.sourceforge.net
-
