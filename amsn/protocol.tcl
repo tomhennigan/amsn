@@ -3389,13 +3389,13 @@ proc cmsn_change_state {recv} {
 	if {[lindex $recv 0] == "FLN"} {
 		#User is going offline
 		set user [lindex $recv 1]
-		set epvar(user) [lindex $recv 1]
+		set evpar(user) [lindex $recv 1]
 		set user_name ""
-		set epvar(nick) [::abook::getDisplayNick [lindex $recv 1]]
+		set evpar(nick) [::abook::getDisplayNick [lindex $recv 1]]
 		set substate "FLN"
-		set epvar(substate) "FLN"
+		set evpar(substate) "FLN"
 		set msnobj [::abook::getVolatileData $user msnobj ""]
-		::plugins::PostEvent ChangeState epvar
+		::plugins::PostEvent ChangeState evpar
 	} elseif {[lindex $recv 0] == "ILN"} {
 		#Initial status when we log in
 		set user [lindex $recv 3]
@@ -3407,17 +3407,17 @@ proc cmsn_change_state {recv} {
 	} else {
 		#Coming online or changing state
 		set user [lindex $recv 2]
-		set epvar(user) [lindex $recv 2]
+		set evpar(user) [lindex $recv 2]
 		set encoded_user_name [lindex $recv 3]
 		set user_name [urldecode [lindex $recv 3]]
-		set epvar(nick) [::abook::getDisplayNick [lindex $recv 2]]
+		set evpar(nick) [::abook::getDisplayNick [lindex $recv 2]]
 		set substate [lindex $recv 1]
-		set epvar(substate) [lindex $recv 1]
+		set evpar(substate) [lindex $recv 1]
 		set msnobj [urldecode [lindex $recv 5]]
 		#Add clientID to abook
 		add_Clientid $user [lindex $recv 4]
 		#Send plugin's postevent
-		::plugins::PostEvent ChangeState epvar
+		::plugins::PostEvent ChangeState evpar
 	
 	}
 	
