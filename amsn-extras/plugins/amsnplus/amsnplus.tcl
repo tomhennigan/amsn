@@ -270,8 +270,11 @@ namespace eval ::amsnplus {
 				#if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 				#	::amsn::WinWrite $chatid "\nThis doesn't work on mac os x, take a look at tcl documentation of exec" green
 				#} else {
-					exec $command
+					set result [exec $command]
 					::amsn::WinWrite $chatid "\nExecuting in the shell: $command" green
+					if {![string equal $result ""]} {
+						::amsn::WinWrite $chatid "\nResults of the command/s:\n$result" green
+					}
 				#}
 				set incr 0
 			}
