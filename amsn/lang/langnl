@@ -112,6 +112,7 @@ clearlog2 Verwijder Geschiedenis voor al je contactpersonen
 clearlog3 Verwijder alle logboeken
 clearlog Logboek legen
 clicktologin Klik hier om u aan te melden
+clientname Client naam
 closed Het gesprek met $1 is wegens inactiviteit afgesloten
 close Sluiten
 closingdocks Minimaliseren i.p.v. sluiten
@@ -282,6 +283,7 @@ lastlogin Vorige login
 lastlogout Vorige logout
 lastmsgedme Laatste bericht
 lastmsgtime Laatste bericht ontvangen om $1
+lastseen Laatste keer online
 lclosedwin $1 heeft het venster gesloten op $2
 lconftopriv Vergadering veranderde in privé-gesprek met $1
 lconvstarted Gesprek gestart op $1
@@ -495,6 +497,7 @@ smileconfig Configuratie voor zelfgemaakte emoticons
 smilefile Bestandsnaam van de emoticon
 smileintro2 Pas de nodige velden aan om deze emoticon te bewerken
 smileintro Vul de nodige velden in om een nieuwe emoticon te creëren
+snackfailed Het is niet gelukt om Snack te laden. Teruggevallen op de standaard-functies.
 sngdblclick Slechts eenmaal klikken om een nieuw gespreksvenster te openen
 sound2 Geluid afspelen wanneer contactpersonen zich aanmelden of een bericht verzenden
 soundactive Speel ook geluid af als een bericht aankomt in een aktief venster
