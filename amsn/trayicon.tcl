@@ -96,12 +96,6 @@ proc trayicon_init {} {
 		}
 	}
 
-	## set icon to current status if added icon while already logged in
-	if { [::MSN::myStatusIs] != "FLN" } {
-		statusicon_proc [::MSN::myStatusIs]
-		mailicon_proc [::hotmail::unreadMessages]
-	}
-
 	destroy .immain
 	set iconmenu .immain
 	menu $iconmenu -tearoff 0 -type normal
@@ -148,6 +142,12 @@ proc trayicon_init {} {
 	$iconmenu add separator
 	$iconmenu add command -label "[trans close]" -command "close_cleanup;exit"
 	CreateStatesMenu .my_menu
+
+	## set icon to current status if added icon while already logged in
+	if { [::MSN::myStatusIs] != "FLN" } {
+		statusicon_proc [::MSN::myStatusIs]
+		mailicon_proc [::hotmail::unreadMessages]
+	}
 }
 
 proc statusicon_proc {status} {
