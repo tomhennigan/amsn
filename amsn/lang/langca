@@ -64,7 +64,9 @@ closingdocks El botó tancar minimitza la finestra
 command Reproductor
 confirmdelete Estàs segur de voler eliminar a $1?
 confirm Estàs segur?
+connected Ara estàs connectat
 connecterror Error connectant-se amb el servidor
+connecting Connectant
 connection Connexió
 contactadded Contacte inclòs
 contactdoesnotexist ¡El contacte que intentes afegir no existeix!
@@ -89,6 +91,7 @@ dockkde Acoplament amb el KDE
 edit Edita
 editprofile Editar perfil
 enableproxy Habilitar el servidor intermediari (proxy)
+enableremote Activar control remot
 encoding2 Canvia la codificació utilitzada pels teus caràcters
 encoding Canviar la codificació
 entercontactemail Escriu l'adreça de correu del contacte
@@ -189,6 +192,7 @@ nologfile No existeix fitxer d'historial per $1
 nonewmail No hi ha missatges nous a la bústia
 nonewver No hi ha cap versió nova per a baixar-se
 normal Normal
+nosystemtray Safata del sistema no disponible
 notify1 Mostrar una finestra d'avís quan un contacte es connecti
 notify2 Mostrar una finestra d'avís quan arribin nous missatges
 notify3 Mostrar una finestra d'avís quan arribi un nou correu electrònic
@@ -232,6 +236,7 @@ prefprofile2 Crea o modifica el teu perfil públic\n(la teva descripció que poden
 prefprofile3 Configuració dels perfils d'usuari de l'aMSN
 prefprofile Perfil públic
 prefproxy Paràmetres del servidor intermedi (proxy)
+prefremote Preferències de connexió remota
 prefsession Inici de sessió
 prefshared Connexions compartides (només per NAT)
 prefsound So
