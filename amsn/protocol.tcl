@@ -2900,11 +2900,10 @@ proc cmsn_sb_msg {sb_name recv} {
 	} else {
 		status_log "cmsn_sb_msg: === UNKNOWN MSG ===\n$msg\n" red
 		#Postevent for others kinds of packet (like nudge)
-		set epvar(chatid) $chatid
-		set epvar(nick) $nick
-		set epvar(msg) $msg
-		set epvar(content_type) [::MSN::GetHeaderValue $msg Content-Type]
-		::plugins::PostEvent PacketReceived epvar
+		set evpar(chatid) chatid
+		set evpar(nick) nick
+		set evpar(msg) msg
+		::plugins::PostEvent PacketReceived evpar
 	}
 
 }

@@ -11,27 +11,30 @@
 namespace eval ::Nudge {
 
 	###############################################
-	# ::Nudge::received event epvar               #
+	# ::Nudge::received event evpar               #
 	# ------------------------------------------- #
 	# Is the event handler. Simply checks our     #
 	# config and do what it says.                 #
 	###############################################
-	proc received { event epvar } {
-		upvar 2 $epvar args
+	proc received { event evpar } {
+		upvar 2 evpar args
+		upvar 2 chatid chatid
+		upvar 2 nick nick
+		upvar 2 msg msg
 
-		if {$args(content_type) == "text/x-msnmsgr-datacast" && [::MSN::GetHeaderValue $args(msg) ID] == "1"} {
+		if {[::MSN::GetHeaderValue $msg Content-Type] == "text/x-msnmsgr-datacast" && [::MSN::GetHeaderValue $msg ID] == "1"} {
 		
 			#If the user choosed to have a notify window
 			if { $::Nudge::config(notify) == 1 } {
 				#Get a shorter nick-name for the notify window
 				set maxw [expr {[::config::getKey notifwidth]-20}]
-				set nickname [trunc $args(nick) . $maxw splainf]
-				::Nudge::notify $nickname $args(chatid)
+				set nickname [trunc $nick . $maxw splainf]
+				::Nudge::notify $nickname $chatid
 			}
 			#If the user choosed to make the window shake
 			if { $::Nudge::config(shake) == 1 } {
 				#Get the name of the window from the people who sent the nudge
-				set lowuser [string tolower $args(chatid)]
+				set lowuser [string tolower $chatid]
 				set win_name [::ChatWindow::For $lowuser]
 				#Shake that window
 				::Nudge::shake ${win_name} $::Nudge::config(shakes)
@@ -44,8 +47,9 @@ namespace eval ::Nudge {
 	###############################################
 	# ::Nudge::notify nickname email              #
 	# ------------------------------------------- #
-	# Pops-up a notification telling that $sender #
-	# has sent you a nudge                        #
+	# Pops-up a notification telling that         #
+	# $email(sender) has sent you a nudge         #
+	#                                             #
 	###############################################
 	proc notify { nickname email } {
 		::amsn::notifyAdd "Nudge\n[trans nudge $nickname]." "::amsn::chatUser $email" "" offline
