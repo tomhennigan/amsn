@@ -1344,7 +1344,7 @@ namespace eval ::MSN {
 				#sb get $sb_name stat
 				set chatid [::MSN::ChatFor $sb_name]
 				::MSN::ClearQueue $chatid
-				# DO NOT cleanchat... it's needed for WinTopUpdate 
+				# DO NOT cleanchat... it's needed for ::ChatWindow::TopUpdate 
 				# ::MSN::CleanChat $chatid
 				::amsn::chatStatus $chatid "$user: [trans usernotonline]\n" miniwarning
 				#msg_box "[trans usernotonline]"
@@ -2711,7 +2711,7 @@ proc cmsn_sb_msg {sb_name recv} {
 		if { "$chatid" != "$desiredchatid" } {
 			#Our chatid is different than the desired one!! try to change
 			status_log "cmsn_sb_msg: Trying to change chatid from $chatid to $desiredchatid for SB $sb_name\n"
-			set newchatid [::amsn::chatChange $chatid $desiredchatid]
+			set newchatid [::ChatWindow::Change $chatid $desiredchatid]
 			if { "$newchatid" != "$desiredchatid" } {
 				#The GUI doesn't accept the change, as there's another window for that chatid
 				status_log "cmsn_sb_msg: change NOT accepted\n"
@@ -2792,11 +2792,11 @@ proc cmsn_sb_msg {sb_name recv} {
 			if { $automessage != "-1" && [lindex $automessage 4] != ""} {
 				if { [info exists automsgsent($typer)] } {
 					if { $automsgsent($typer) != 1 } {
-						::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [parse_exec [lindex $automessage 4]] "[trans automessage]"
+						::amsn::MessageSend [::ChatWindow::For $chatid] 0 [parse_exec [lindex $automessage 4]] "[trans automessage]"
 						set automsgsent($typer) 1
 					}
 				} else {
-						::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [parse_exec [lindex $automessage 4]] "[trans automessage]"
+						::amsn::MessageSend [::ChatWindow::For $chatid] 0 [parse_exec [lindex $automessage 4]] "[trans automessage]"
 						set automsgsent($typer) 1
 					}
 			}
@@ -3285,7 +3285,7 @@ proc cmsn_update_users {sb_name recv} {
 
 				set desiredchatid $usr_login
 
-				set newchatid [::amsn::chatChange $chatid $desiredchatid]
+				set newchatid [::ChatWindow::Change $chatid $desiredchatid]
 
 				if { "$newchatid" != "$desiredchatid" } {
 					#The GUI doesn't accept the change, as there's another window for that chatid
@@ -3366,7 +3366,7 @@ proc cmsn_update_users {sb_name recv} {
 				::MSN::AddSBFor $chatid $sb_name
 		
 				status_log "cmsn_update_users: JOI - Another user joins, Now I'm chatid $chatid (I was $oldchatid)\n"
-				::amsn::chatChange $oldchatid $chatid
+				::ChatWindow::Change $oldchatid $chatid
 
 			}
 
@@ -6292,7 +6292,7 @@ namespace eval ::MSNAV {
 			CookieList set $cookie [list 0 0 "AV"]
 		}
 
-		set win_name [::amsn::MakeWindowFor $chatid $txt $fromlogin]
+		set win_name [::ChatWindow::MakeFor $chatid $txt $fromlogin]
 
 		::amsn::WinWrite $chatid "\n----------\n" green
 		::amsn::WinWrite $chatid $txt green
@@ -6315,8 +6315,8 @@ namespace eval ::MSNAV {
 	proc acceptInvite {cookie requested chatid} {
 		
 		# let's fix the visuals
-		set win_name [::amsn::WindowFor $chatid]
-		if { [::amsn::WindowFor $chatid] == 0} {
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}
 
@@ -6398,8 +6398,8 @@ namespace eval ::MSNAV {
 	# returns nothing
 	proc cancelSession {cookie chatid code}	{
 		
-		set win_name [::amsn::WindowFor $chatid]
-		if { [::amsn::WindowFor $chatid] == 0} {
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}   
 
@@ -6579,8 +6579,8 @@ namespace eval ::MSNAV {
 		# Check if init works good
 		if { $res == -1 } {
 			#display error
-			set win_name [::amsn::WindowFor $chatid]
-			if { [::amsn::WindowFor $chatid] == 0} {
+			set win_name [::ChatWindow::For $chatid]
+			if { [::ChatWindow::For $chatid] == 0} {
 				return 0
 			}   
 		
