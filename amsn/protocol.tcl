@@ -6177,8 +6177,16 @@ namespace eval ::MSN6FT {
 		binary scan [string range $context 0 3] i size
 		binary scan [string range $context 8 11] i filesize
 		binary scan [string range $context 16 19] i nopreview
-		set filename [encoding convertfrom unicode [string range $context 20 [expr $size - 20]]]
-		set filename [string range $filename 0 [expr [string first "\x00" $filename] -1]]
+		
+		#Another way to have the filename on Mac OS X because we're having problem with Unicode
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			set filename [encoding convertfrom utf-8 [string range $context 20 [expr $size - 20]]]
+			set filename [string map { "\x00" "" } $filename]
+		} else {
+			set filename [encoding convertfrom unicode [string range $context 20 [expr $size - 20]]]
+			set filename [string range $filename 0 [expr [string first "\x00" $filename] -1]]
+		}
+
 		if { $nopreview == 0 } {
 			set previewdata [string range $context $size end]
 			set dir [file join [set ::HOME] FT cache]
