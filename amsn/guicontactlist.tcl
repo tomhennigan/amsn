@@ -170,8 +170,6 @@ namespace eval ::guiContactList {
 		
 		set text "[::abook::getDisplayNick $email] \([trans [::MSN::stateToDescription $state_code]]\)"
 		
-		
-		
 		set xnickpos [expr $xpos + [image width $img] + 5]
 		set ynickpos [expr $ypos + [image height $img]/2]
 
@@ -209,8 +207,9 @@ namespace eval ::guiContactList {
 		 
 		$canvas bind $email <<Button3>> "show_umenu $email $grId %X %Y;"
 		$canvas bind $email $singordblclick "::amsn::chatUser $email"
-		$canvas bind $email <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $colour -tag uline ; $canvas lower uline $email"
-		$canvas bind $email <Leave> "+$canvas delete uline"
+		$canvas bind $email <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $colour -tag uline ; $canvas lower uline \
+			$email;$canvas configure -cursor hand2"
+		$canvas bind $email <Leave> "+$canvas delete uline;$canvas configure -cursor left_ptr"
 		
 		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + 3]]
 	}
@@ -264,8 +263,9 @@ namespace eval ::guiContactList {
 		#Create mouse event bindings
 		$canvas bind $gid <<Button1>> "::groups::ToggleStatus [lindex $element 0];guiContactList::createCLWindow"
 		$canvas bind $gid <<Button3>> "::groups::GroupMenu $gid %X %Y"
-		$canvas bind $gid <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $groupcolor -tag uline ; $canvas lower uline $gid"
-		$canvas bind $gid <Leave> "+$canvas delete uline"
+		$canvas bind $gid <Enter> "+$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $groupcolor -tag uline ; $canvas lower uline \
+			$gid;$canvas configure -cursor hand2"
+		$canvas bind $gid <Leave> "+$canvas delete uline;$canvas configure -cursor left_ptr"
 		
 		return [list $xpos [expr $ypos + 20]]
 	}
@@ -441,7 +441,7 @@ namespace eval ::guiContactList {
 			set balloon_message3 ""
 		}
 		
-		#If the status is offline, get the last time he was offline
+		#If the status is offline, get the last time he was online
 		if {$state_code == "FLN"} {
 			set balloon_message4 "\n[trans lastseen] : [::abook::dateconvert "[::abook::getContactData $email last_seen]"]"
 		} else {
