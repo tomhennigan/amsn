@@ -352,7 +352,6 @@ proc LoadLoginList {{trigger 0}} {
 		} else {
 			set config(login) ""
 		}
-
 		SaveLoginList
 	}
 }
@@ -757,12 +756,13 @@ proc DeleteProfile { email entrypath } {
 proc CheckLock { email } {
 	global response LockList
 	set Port [LoginList getlock 0 $email]
-    	if { $Port != 0 } {
+	if { $Port != 0 } {
 	if { [catch {socket -server phony $Port} newlockSock] != 0  } {
 		# port is taken, let's make sure it's a profile lock
 		if { [catch {socket localhost $Port} clientSock] == 0 } {
 			fileevent $clientSock readable "lockcltHdl $clientSock"
 			fconfigure $clientSock -buffering line
+			puts $clientSock "AMSN_LOCK_PING"
 			vwait response
 			
 			#set response [gets $clientSock]
