@@ -759,7 +759,7 @@ namespace eval ::amsn {
       foreach user_login $user_list {
 
          #set user_name [lindex $user_info 1]
-	 set user_name [lindex [::MSN::getUserInfo $user_login] 1]
+	 set user_name [stringmap {"\n" " "} [lindex [::MSN::getUserInfo $user_login] 1]]
 	 set user_state_no [lindex [::MSN::getUserInfo $user_login] 2]
 
 	  if { "$user_state_no" == "" } {
@@ -1657,6 +1657,8 @@ namespace eval ::amsn {
    # icon 'icon' at the beginning of the message, if specified.
    proc WinStatus { win_name msg {icon ""}} {
 
+      set msg [stringmap {"\n" " "} $msg]
+   
       ${win_name}.status configure -state normal
       ${win_name}.status delete 0.0 end
       if { "$icon"!=""} {
@@ -3016,9 +3018,22 @@ proc cmsn_draw_online {} {
    $pgBuddy.text.mystatus insert end "$my_name " mystatus
    $pgBuddy.text.mystatus insert end "($my_state_desc)" mystatus
 
+   
+   #Calculate number of lines, and set my status size (for multiline nicks)
+   set size [$pgBuddy.text.mystatus index end]
+   set posyx [split $size "."]
+   set lines [expr {[lindex $posyx 0] - 1}]
 
+   $pgBuddy.text.mystatus configure -state normal -height $lines -wrap none
+   
    $pgBuddy.text.mystatus configure -state disabled
+
+   
+   
    $pgBuddy.text window create end -window $pgBuddy.text.mystatus -padx 6 -pady 0 -align bottom -stretch false
+   
+   
+ 
 
    $pgBuddy.text insert end "\n"
 
@@ -3115,7 +3130,6 @@ proc cmsn_draw_online {} {
       set user_group [::abook::getGroup $user_login -id]
       if {$config(orderbygroup)} {
 
-
           set section $user_group
 	  set section "tg$section"
 	  #::groups::UpdateCount $user_group +1
@@ -3204,7 +3218,23 @@ proc ShowUser {user_name user_login state state_code colour section} {
 
 
          $pgBuddy.text mark set new_text_start end
-         $pgBuddy.text insert $section.last " $user_name$state_desc \n" $user_login
+	 #set user_name [stringmap {"\n" "\n           "} $user_name]
+	 set user_lines [split $user_name "\n"]
+	 set last_element [expr {[llength $user_lines] -1 }]
+	 
+	 $pgBuddy.text insert $section.last " $state_desc \n" $user_login
+	 for {set i $last_element} {$i >= 0} {set i [expr {$i-1}]} {
+	    if { $i != $last_element} {
+	       set current_line " [lindex $user_lines $i]\n"
+	    } else {
+	       set current_line " [lindex $user_lines $i]"
+	    }
+	    $pgBuddy.text insert $section.last "$current_line" $user_login
+	    if { $i != 0} {
+	       $pgBuddy.text insert $section.last "      "
+	    }
+	 }
+         #$pgBuddy.text insert $section.last " $user_name$state_desc \n" $user_login
 
 	 set imgname "img[expr {$::groups::uMemberCnt(online)+$::groups::uMemberCnt(offline)}]"
          label $pgBuddy.text.$imgname -image $image_type
