@@ -7380,23 +7380,23 @@ proc show_bug_dialog {} {
 		}
 	}        
 		
-	frame $w.bot
-	frame $w.med
-	frame $w.top
+	frame $w.bot -background white
+	frame $w.med -background white
+	frame $w.top -background white
 	pack $w.bot -side bottom -fill both
 	pack $w.med -side bottom -fill both
 	pack $w.top -side top -fill both -expand 1
 	
-	label $w.msg -justify left -text [trans tkerror [file join $::HOME2 bugreport.amsn]] -wraplength 300
+	label $w.msg -justify left -text [trans tkerror [file join $::HOME2 bugreport.amsn]] -wraplength 300 -background white -font sboldf
 	pack $w.msg -in $w.top -side right -expand 1 -fill both -padx 3m -pady 3m
 	
-	label $w.bitmap -bitmap error
+	label $w.bitmap -bitmap error -background white
 	pack $w.bitmap -in $w.top -side left -padx 3m -pady 3m
 	
-	checkbutton $w.ignoreerrors -text [trans ignoreerrors] -variable "dont_give_bug_reports"
+	checkbutton $w.ignoreerrors -text [trans ignoreerrors] -variable "dont_give_bug_reports" -background white -font sboldf
 	pack $w.ignoreerrors -in $w.med -side left -padx 10 -pady 5
 	
-	button $w.button -text [trans ok] -command "set closed_bug_window 1" -default active
+	button $w.button -text [trans ok] -command "set closed_bug_window 1" -default active -highlightbackground white
 	pack $w.button -in $w.bot
 	
 	bind $w <Return> "set closed_bug_window 1"
