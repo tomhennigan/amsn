@@ -3521,13 +3521,17 @@ proc cmsn_change_state {recv} {
 		::log::eventstatus $custom_user_name [::MSN::stateToDescription $substate]
 
 	} elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
-
+		
 		user_not_blocked "$user"
 		
 		#Register last login and notify it in the events
 		::abook::setContactData $user last_login [clock format [clock seconds] -format "%D - %H:%M:%S"]
 		::log::eventconnect $custom_user_name
-
+		#Register PostEvent "UserConnect" for Plugins
+		set evPar(0) $user
+		set evPar(1) $custom_user_name
+		set evPar(2) "[trans logsin]."
+		::plugins::PostEvent UserConnect evPar
 		
 		if { ([::config::getKey notifyonline] == 1 && [::abook::getContactData $user notifyonline -1] != 0) ||
 		     [::abook::getContactData $user notifyonline -1] == 1 } {
