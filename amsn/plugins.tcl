@@ -535,10 +535,8 @@ namespace eval ::plugins {
 			::plugins::PostEvent Load evpar
 			# and upate other info
 			GUI_NewSel
+			::plugins::save_config
 		}
-		# save the configuraion?
-		#TODO: check if this is really needed
-		#::plugins::save_config
 	}
 
 
