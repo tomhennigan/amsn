@@ -1,7 +1,7 @@
 amsn_lang_version 2
 shake_receive Laat het venster trillen als je een nudge ontvangt
 shake_send Laat het venster trillen als je een nudge verzendt
-skane_nudge Aantal trilbewegingen per nudge
+shake_nudge Aantal trilbewegingen per nudge
 popup_nudge Geef een meldingsvenster weer als je een nudge ontvangt
 notify_send Meld verzonden nudges in het gespreksvenster
 notify_receive Meld ontvangen nudges in het gespreksvenster
