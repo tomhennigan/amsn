@@ -677,7 +677,7 @@ namespace eval ::MSNFT {
               set filesize [lindex $filedata($cookie) 1]
 	      
               #Send the file
-              #TODO, what if not exists? 
+              #TODO, what if not exists?
               if {[catch {set fileid [open $filename r]} res]} {
 	         return 0;
 	      }
@@ -1897,17 +1897,7 @@ proc read_sb_sock {sbn} {
 
 				set recv [split $tmp_data]
 
-				#TODO: Do this non-blocking
-				#fconfigure $sb_sock -blocking 1
-				#set msg_data [read $sb_sock [lindex $recv 3]]
-				#fconfigure $sb_sock -blocking 0
-
-				#degt_protocol "Message Contents:\n$msg_data" msgcontents
-
-				#sb append $sbn data $msg_data
-
 				set old_handler "[fileevent $sb_sock readable]"
-				#fileevent $sb_sock readable [list read_non_blocking $sb_sock [lindex $recv 3] [list finished_reading_msg $sbn $old_handler $tmp_data]]
 				read_non_blocking $sb_sock [lindex $recv 3] [list finished_reading_msg $sbn $old_handler $tmp_data]
 
 			} else {
@@ -2085,8 +2075,15 @@ proc proc_ns {} {
 	#status_log "Processing NS\n"	
    while {[sb length ns data]} {
 
-      set item [split [sb index ns data 0]]
-      sb ldel ns data 0
+
+		set item [sb index ns data 0]
+		set item [encoding convertfrom utf-8 $item]
+		set item [stringmap {\r ""} $item]
+		set item [split $item]
+		#set item [split [sb index ns data 0]]
+
+		status_log "proc_ns: item is [sb index ns data 0] / $item\n" red
+		sb ldel ns data 0
 
       set result [cmsn_ns_handler $item]
       if {$result == 0} {
@@ -3076,271 +3073,278 @@ proc cmsn_change_state {recv} {
 }
 
 proc cmsn_ns_handler {item} {
-   global list_cmdhnd password config
+	global list_cmdhnd password config
 
-   set item [encoding convertfrom utf-8 $item]
-   set item [stringmap {\r ""} $item]
+	set ret_trid [lindex $item 1]
+	set idx [lsearch $list_cmdhnd "$ret_trid *"]
+	if {$idx != -1} {		;# Command has a handler associated!
+		status_log "cmsn_ns_handler: evaluating handler for $ret_trid\n"
 
-   set ret_trid [lindex $item 1]
-   set idx [lsearch $list_cmdhnd "$ret_trid *"]
-   if {$idx != -1} {		;# Command has a handler associated!
-      status_log "cmsn_ns_handler: evaluating handler for $ret_trid\n"
-      
-      set command "[lindex [lindex $list_cmdhnd $idx] 1] {$item}"
-      set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
-      eval "$command"
-      
-      #eval "[lindex [lindex $list_cmdhnd $idx] 1] \"$item\""
-      return 0
-   } else {
-   switch [lindex $item 0] {
-      MSG {
-         cmsn_ns_msg $item
-	 return 0
+		#TODO: Better use [list ]: test it
+		set command "[lindex [lindex $list_cmdhnd $idx] 1] [list $item]"
+		set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
+		eval "$command"
 
-      }
-      VER -
-      INF -
-      CVR -
-      USR {
-	 return [cmsn_auth $item]
-      }
-      XFR {
-	 if {[lindex $item 2] == "NS"} {
-	    set tmp_ns [split [lindex $item 3] ":"]
-            sb set ns serv $tmp_ns
-            status_log "cmsn_ns_handler: got a NS transfer, reconnecting to [lindex $tmp_ns 0]!\n" green
-            cmsn_ns_connect $config(login) $password nosigin
-            return 0
-	 } else {
-            status_log "cmsn_ns_handler: got an unknown transfer!!\n" red
-            return 0
-	 }
-      }
-      RNG {
-         return [cmsn_rng $item]
-      }
-      REA {
-         ::MSN::GotREAResponse $item
-	 return 0
-      }
-      ADD {
-		status_log "Before: [lindex $item 4] is now in groups: [::abook::getGroup [lindex $item 4] -id]\n"
-		new_contact_list "[lindex $item 3]"
-		status_log "After 1: [lindex $item 4] is now in groups: [::abook::getGroup [lindex $item 4] -id]\n"
-	 set curr_list [lindex $item 2]
-	 status_log "curr_list=$curr_list\n"
-	 if { ($curr_list == "FL") } {
-	     ::abook::setContact [lindex $item 4] nick [lindex $item 5]
-	     ::abook::addContactToGroup [lindex $item 4] [lindex $item 6]
-		  status_log "Adding contact to group [lindex $item 6]\n"
-		  status_log "After 2: [lindex $item 4] is now in groups: [::abook::getGroup [lindex $item 4] -id]\n"
-	 }
-         cmsn_listupdate $item
-			status_log "After 3: [lindex $item 4] is now in groups: [::abook::getGroup [lindex $item 4] -id]\n"
-         return 0
-      }
-      LST {
-         cmsn_listupdate $item
-         return 0
-      }
-      REM {
-	  new_contact_list "[lindex $item 3]"
-         cmsn_listdel $item
-         return 0
-      }
-      FLN -
-      ILN -
-      NLN {
-         cmsn_change_state $item
-	 return 0
-      }
-      CHG {
-	 global user_stat
-    	    if { $user_stat != [lindex $item 2] } {
-	       set user_stat [lindex $item 2]
-	       cmsn_draw_online 1
-
-	       #Alert dock of status change
-#	       send_dock [lindex $item 2]
-	       send_dock "STATUS" [lindex $item 2]
-	     }
-         return 0
-      }
-      GTC {
-	 return 0
-      }
-      SYN {
-				new_contact_list "[lindex $item 2]" 1
-				global loading_list_info
-
-				set loading_list_info(version) [lindex $item 2]
-				set loading_list_info(total) [lindex $item 3]
-				set loading_list_info(current) 1
-				set loading_list_info(gtotal) [lindex $item 4]
-			 	return 0
-      }
-      BLP {
-#	  puts "$item == [llength $item]"
-	  if { [llength $item] == 3} {
-	      change_BLP_settings "[lindex $item 1]"
-	  } else {
-	      new_contact_list "[lindex $item 2]"
-	      change_BLP_settings "[lindex $item 3]"
-
-	  }
-	  return 0
-      }
-      CHL {
-     	  status_log "Challenge received, answering\n" green
-	  ::MSN::AnswerChallenge $item
-	  return 0
-      }
-      QRY {
-          status_log "Challenge accepted\n" green
-	  return 0
-      }
-      BPR {
-	  if { [llength $item] == 4} {
-	      global loading_list_info
-	      ::abook::setContact $loading_list_info(last) [lindex $item 1] [lindex $item 2]
-
-	  } else {
-			status_log "THIS IS BADLY PROCESSED!!! BPR!!!\n" red
-			status_log "THIS IS BADLY PROCESSED!!! BPR!!!\n" white
-	      #new_contact_list "[lindex $item 1]"
-	      # Update entry in address book setContact(email,PH*/M*,phone/setting)
-	      #::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4]
-	  }
-	 return 0
-      }
-      PRP {
+		#eval "[lindex [lindex $list_cmdhnd $idx] 1] \"$item\""
+		return 0
+	} else {
+		switch [lindex $item 0] {
+			MSG {
+				cmsn_ns_msg $item
 				return 0
-      }
-      LSG {
-
-	      ::groups::Set [lindex $item 1] [lindex $item 2]
-			global config
-			if { [info exists config(expanded_group_[lindex $item 1])] } {
-				set ::groups::bShowing([lindex $item 1]) $config(expanded_group_[lindex $item 1])
 			}
 
-	return 0
-      }
-      REG {	# Rename Group
-	  new_contact_list "[lindex $item 2]"
-      	#status_log "$item\n" blue
-	::groups::RenameCB [lrange $item 0 5]
-	cmsn_draw_online 1
-	return 0
-      }
-      ADG {	# Add Group
-	  new_contact_list "[lindex $item 2]"
-      	#status_log "$item\n" blue
-	::groups::AddCB [lrange $item 0 5]
-   	cmsn_draw_online 1
-	return 0
-      }
-      RMG {	# Remove Group
-	  new_contact_list "[lindex $item 2]"
-      	#status_log "$item\n" blue
-	::groups::DeleteCB [lrange $item 0 5]
-   	cmsn_draw_online 1
-	return 0
-      }
-      OUT {	
-      	if { [lindex $item 1] == "OTH"} {
-	  ::MSN::logout	  
-	  msg_box "[trans loggedotherlocation]"
-	  return 0
-	} else {
-	  ::MSN::logout	  
-	  msg_box "[trans servergoingdown]"
-	  return 0
-	}
-      }
-      QNG {
-        #Ping response
-	status_log "Ping response\n" blue
-	return 0
-      }
-      200 {
-          status_log "Error: Syntax error\n" red
-	  msg_box "[trans syntaxerror]"
-          return 0
-      }
-      201 {
-          status_log "Error: Invalid parameter\n" red
-	  msg_box "[trans contactdoesnotexist]"
-          return 0
-      }
-      205 {
-          status_log "Warning: Invalid user $item\n" red
-	  msg_box "[trans contactdoesnotexist]"
-          return 0
-      }
-      206 {
-          status_log "Warning: Domain name missing $item\n" red
-	  msg_box "[trans contactdoesnotexist]"
-          return 0
-      }
-      208 {
-          status_log "Warning: Invalid username $item\n" red
-          return 0
-      }
-      209 {
-          status_log "Warning: Invalid fusername $item\n" red
-	  msg_box "[trans invalidusername]"
-          return 0
-      }
-      210 {
-          msg_box "[trans fullcontactlist]"
-          status_log "Warning: User list full $item\n" red
-          return 0
-      }
-      216 {
-          #status_log "Keeping connection alive\n" blue
-          return 0
-      }
-      224 {
-         status_log "Warning: Can't remove \"Others\" group" red
-          msg_box "[trans cantremoveothers]"
-      }
+			VER -
+			INF -
+			CVR -
+			USR {
+				return [cmsn_auth $item]
+			}
+			XFR {
+				if {[lindex $item 2] == "NS"} {
+					set tmp_ns [split [lindex $item 3] ":"]
+					sb set ns serv $tmp_ns
+					status_log "cmsn_ns_handler: got a NS transfer, reconnecting to [lindex $tmp_ns 0]!\n" green
+					cmsn_ns_connect $config(login) $password nosigin
+					return 0
+				} else {
+					status_log "cmsn_ns_handler: got an unknown transfer!!\n" red
+					return 0
+				}
+			}
+			RNG {
+				return [cmsn_rng $item]
+			}
+			REA {
+				::MSN::GotREAResponse $item
+				return 0
+			}
+			ADD {
+				status_log "Before: [lindex $item 4] is now in groups: [::abook::getGroup [lindex $item 4] -id]\n"
+				new_contact_list "[lindex $item 3]"
+				status_log "After 1: [lindex $item 4] is now in groups: [::abook::getGroup [lindex $item 4] -id]\n"
+				set curr_list [lindex $item 2]
+				status_log "curr_list=$curr_list\n"
+				if { ($curr_list == "FL") } {
+					::abook::setContact [lindex $item 4] nick [lindex $item 5]
+					::abook::addContactToGroup [lindex $item 4] [lindex $item 6]
+					status_log "Adding contact to group [lindex $item 6]\n"
+					status_log "After 2: [lindex $item 4] is now in groups: [::abook::getGroup [lindex $item 4] -id]\n"
+				}
+				cmsn_listupdate $item
+				status_log "After 3: [lindex $item 4] is now in groups: [::abook::getGroup [lindex $item 4] -id]\n"
+				return 0
+			}
+			LST {
+				cmsn_listupdate $item
+				return 0
+			}
+			REM {
+				new_contact_list "[lindex $item 3]"
+				cmsn_listdel $item
+				return 0
+			}
+			FLN -
+			ILN -
+			NLN {
+				cmsn_change_state $item
+				return 0
+			}
+			CHG {
+				global user_stat
+				if { $user_stat != [lindex $item 2] } {
+					set user_stat [lindex $item 2]
+					cmsn_draw_online 1
 
-      600 {
-	  ::MSN::logout
-	  status_log "Error: Server is busy\n" red
-	  ::amsn::errorMsg "[trans serverbusy]"
-	  return 0
-      }
-      601 {
-	  ::MSN::logout
-	  status_log "Error: Server is unavailable\n" red
-	  ::amsn::errorMsg "[trans serverunavailable]"
-	  return 0
-      }
-      500 {
-	  ::MSN::logout
-	  status_log "Error: Internal server error\n" red
-	  ::amsn::errorMsg "[trans internalerror]"
-          return 0
-      }
-      911 {
-	  #set password ""
-	  ::MSN::logout
-	  status_log "Error: User/Password\n" red
-	  ::amsn::errorMsg "[trans baduserpass]"
-	  return 0
-      }
-      "" {
-         return 0
-      }
-      default {
-         status_log "Got unknown NS input!! --> [lindex $item 0]\n" red
-	 return 0
-      }
-   }
-   }
+				#Alert dock of status change
+				#send_dock [lindex $item 2]
+				send_dock "STATUS" [lindex $item 2]
+				}
+				return 0
+			}
+			GTC {
+				#TODO: How we store this privacy information??
+				return 0
+			}
+			SYN {
+				new_contact_list "[lindex $item 2]"
+				global loading_list_info
+
+				if { [llength $item] == 5 } {
+					status_log "Going to receive contact list\n" blue
+					set loading_list_info(version) [lindex $item 2]
+					set loading_list_info(total) [lindex $item 3]
+					set loading_list_info(current) 1
+					set loading_list_info(gtotal) [lindex $item 4]
+				}
+				return 0
+			}
+			BLP {
+				#puts "$item == [llength $item]"
+				if { [llength $item] == 2} {
+					change_BLP_settings "[lindex $item 1]"
+				} else {
+					new_contact_list "[lindex $item 2]"
+					change_BLP_settings "[lindex $item 3]"
+				}
+				return 0
+			}
+			CHL {
+				status_log "Challenge received, answering\n" green
+				::MSN::AnswerChallenge $item
+				return 0
+			}
+			QRY {
+				status_log "Challenge accepted\n" green
+				return 0
+			}
+			BPR {
+				if { [llength $item] == 3} {
+					global loading_list_info
+					::abook::setContact $loading_list_info(last) [lindex $item 1] [lindex $item 2]
+				} else {
+					status_log "THIS IS BADLY PROCESSED!!! BPR!!!\n" red
+					status_log "THIS IS BADLY PROCESSED!!! BPR!!!\n" white
+					#new_contact_list "[lindex $item 1]"
+					# Update entry in address book setContact(email,PH*/M*,phone/setting)
+					#::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4]
+				}
+				return 0
+			}
+			PRP {
+				if { [llength $item] == 3 } {
+					status_log "Setting phone [lindex $item 1] [urldecode [lindex $item 2]]\n" white
+			    	::abook::setPersonal [lindex $item 1] [urldecode [lindex $item 2]]
+				} else {
+					new_contact_list "[lindex $item 2]"
+			    	::abook::setPersonal [lindex $item 3] [urldecode [lindex $item 4]]
+				}
+				#TODO: Why do we ignore this??? It's our own phone number...
+				return 0
+			}
+			LSG {
+
+				::groups::Set [lindex $item 1] [lindex $item 2]
+				global config
+				if { [info exists config(expanded_group_[lindex $item 1])] } {
+					set ::groups::bShowing([lindex $item 1]) $config(expanded_group_[lindex $item 1])
+				}
+
+				return 0
+			}
+			REG {	# Rename Group
+				new_contact_list "[lindex $item 2]"
+				#status_log "$item\n" blue
+				::groups::RenameCB [lrange $item 0 5]
+				cmsn_draw_online 1
+				return 0
+			}
+			ADG {	# Add Group
+				new_contact_list "[lindex $item 2]"
+				#status_log "$item\n" blue
+				::groups::AddCB [lrange $item 0 5]
+				cmsn_draw_online 1
+				return 0
+			}
+			RMG {	# Remove Group
+				new_contact_list "[lindex $item 2]"
+				#status_log "$item\n" blue
+				::groups::DeleteCB [lrange $item 0 5]
+				cmsn_draw_online 1
+				return 0
+			}
+			OUT {
+				if { [lindex $item 1] == "OTH"} {
+					::MSN::logout
+					msg_box "[trans loggedotherlocation]"
+					return 0
+				} else {
+					::MSN::logout
+					msg_box "[trans servergoingdown]"
+					return 0
+				}
+			}
+			QNG {
+				#Ping response
+				status_log "Ping response\n" blue
+				return 0
+			}
+			200 {
+				status_log "Error: Syntax error\n" red
+				msg_box "[trans syntaxerror]"
+				return 0
+			}
+			201 {
+				status_log "Error: Invalid parameter\n" red
+				msg_box "[trans contactdoesnotexist]"
+				return 0
+			}
+			205 {
+				status_log "Warning: Invalid user $item\n" red
+				msg_box "[trans contactdoesnotexist]"
+				return 0
+			}
+			206 {
+				status_log "Warning: Domain name missing $item\n" red
+				msg_box "[trans contactdoesnotexist]"
+				return 0
+			}
+			208 {
+				status_log "Warning: Invalid username $item\n" red
+				return 0
+			}
+			209 {
+				status_log "Warning: Invalid fusername $item\n" red
+				msg_box "[trans invalidusername]"
+				return 0
+			}
+			210 {
+				msg_box "[trans fullcontactlist]"
+				status_log "Warning: User list full $item\n" red
+				return 0
+			}
+			216 {
+				#status_log "Keeping connection alive\n" blue
+				return 0
+			}
+			224 {
+				status_log "Warning: Can't remove \"Others\" group" red
+				msg_box "[trans cantremoveothers]"
+			}
+			600 {
+				::MSN::logout
+				status_log "Error: Server is busy\n" red
+				::amsn::errorMsg "[trans serverbusy]"
+				return 0
+			}
+			601 {
+				::MSN::logout
+				status_log "Error: Server is unavailable\n" red
+				::amsn::errorMsg "[trans serverunavailable]"
+				return 0
+			}
+			500 {
+				::MSN::logout
+				status_log "Error: Internal server error\n" red
+				::amsn::errorMsg "[trans internalerror]"
+				return 0
+			}
+			911 {
+				#set password ""
+				::MSN::logout
+				status_log "Error: User/Password\n" red
+				::amsn::errorMsg "[trans baduserpass]"
+				return 0
+			}
+			"" {
+				return 0
+			}
+			default {
+				status_log "Got unknown NS input!! --> [lindex $item 0]\n" red
+				return 0
+			}
+		}
+	}
 
 }
 
@@ -3350,12 +3354,12 @@ proc cmsn_ns_msg {recv} {
    set msg_data [sb index ns data 0]
    sb ldel ns data 0
 	status_log "cmsn_ns_msg:\n$msg_data\n" red
-   
+
    if { [lindex $recv 1] != "Hotmail" && [lindex $recv 2] != "Hotmail"} {
       status_log "cmsn_ns_msg: NS MSG From Unknown source ([lindex $recv 1] [lindex $recv 2]):\n$msg_data\n" red
       return
    }
-   
+
    # Demographic Information about subscriber/user. Can be used
    # for a variety of things.
    set content [::MSN::GetHeaderValue $msg_data Content-Type]
@@ -3400,7 +3404,7 @@ proc cmsn_listdel {recv} {
          #Remove fromonly one group
          ::abook::removeContactFromGroup [lindex $recv 4] [lindex $recv 5]
       }
-   
+
       if { [llength [::abook::getGroup [lindex $recv 4] -id]] == 0 } {
          status_log "cmsn_listdel: Contact [lindex $recv 4] is in no groups, removing!!\n" blue
          upvar #0 $list_name the_list
@@ -4032,6 +4036,7 @@ proc cmsn_listupdate {recv} {
 
 	foreach list_name $list_names {
 
+		#TODO: What is this for???
 		#List is empty or first user in list
 		if {($current <= 1) && ($command == "LST")} {
 			set $list_name [list]
@@ -4200,32 +4205,36 @@ proc urlencode {str} {
 }
 
 proc change_BLP_settings { state } {
-    global list_BLP
+	global list_BLP
 
-    if { "$state" == "AL" } {
-	set list_BLP 1
-    } elseif { "$state" == "BL" } {
-	set list_BLP 0
-    } else {
-	set list_BLP -1
-    }
+	if { "$state" == "AL" } {
+		set list_BLP 1
+	} elseif { "$state" == "BL" } {
+		set list_BLP 0
+	} else {
+		set list_BLP -1
+	}
 
 }
 
-proc new_contact_list { version {load 0} } {
-	global list_version HOME list_al list_fl list_bl list_rl list_users contactlist_loaded
+proc new_contact_list { version } {
+	global list_version contactlist_loaded
 
-	if {[string is digit $version] == 0} {return }
+	if {[string is digit $version] == 0} {
+		status_log "new_contact_list: Wrong version=$version\n" red
+		return
+
+	}
 
 	status_log "new_contact_list: new contact list version : $version --- previous was : $list_version\n"
-
 
 	if { $list_version != $version } {
 
 		set list_version $version
+		set contactlist_loaded 0
 
-	} elseif { $load } {
-
+	} else {
+		set contactlist_loaded 1
 
 	}
 
@@ -4233,37 +4242,34 @@ proc new_contact_list { version {load 0} } {
 
 
 proc load_contact_list { } {
-    global list_version HOME list_al list_bl list_rl list_fl list_users contactlist_loaded
+	global list_version HOME list_al list_bl list_rl list_fl list_users contactlist_loaded
 
-    status_log "load_contact_list: checking if contact list files exists\n"
+	status_log "load_contact_list: checking if contact list files exists\n"
 
-    if {[file readable "[file join ${HOME} contacts.xml]"] == 0} {
-	set list_version "0"
-	return 0
-    }
-
-    if {[file readable "[file join ${HOME} contacts.ver]"] == 0} {
-	set list_version "0"
-	return 0
-    }
-
-    set file_id [open [file join ${HOME} contacts.ver] r]
-    gets $file_id version
-    close $file_id
-
-	 if {$version == ""} {
-	 	set list_version "0"
-		return 0
-	 }
-
-    status_log "load_contact_list: setting contact list version to $version\n"
-
-	status_log "load_contact_list loading contact list from file\n"
-	if {[file readable "[file join ${HOME} contacts.ver]"] == 0} {
+	if {[file readable "[file join ${HOME} contacts.xml]"] == 0} {
+		set list_version 0
 		return 0
 	}
 
+	if {[file readable "[file join ${HOME} contacts.ver]"] == 0} {
+		set list_version 0
+		return 0
+	}
+
+	set file_id [open [file join ${HOME} contacts.ver] r]
+	gets $file_id version
+	close $file_id
+
+	if {$version == ""} {
+		set list_version 0
+		return 0
+	}
+
+	status_log "load_contact_list: setting contact list version to $version\n"
 	set list_version $version
+
+	status_log "load_contact_list loading contact list from file\n"
+
 
 	set list_al [list]
 	set list_bl [list]
@@ -4282,10 +4288,15 @@ proc load_contact_list { } {
 
 	status_log "load_contact_list: parsing file\n"
 	set ret -1
-	set ret [sxml::parse $contact_id]
+	catch {
+		set ret [sxml::parse $contact_id]
+	}
 
+	status_log "new_contact_list ended parsing of file with return code : $ret \n"
+	sxml::end $contact_id
 
 	if { $ret < 0 } {
+
 		set list_version 0
 		set list_al [list]
 		set list_bl [list]
@@ -4293,21 +4304,16 @@ proc load_contact_list { } {
 		set list_fl [list]
 		set list_users [list]
 		#::MSN::WriteSB ns "SYN" "0"
-	} else {
-		set contactlist_loaded 1
+
 	}
 
-	status_log "new_contact_list ended parsing of file with return code : $ret \n"
-	sxml::end $contact_id
-
-	return $list_version
 
 }
 
 proc save_contact_list { } {
     global HOME list_version list_al list_fl list_rl list_bl list_BLP contactlist_loaded
 
-    if { $contactlist_loaded == 0 } { return }
+    if { $contactlist_loaded == 0 || $list_version == 0 } { return }
 
     if {[file readable "[file join ${HOME} contacts.ver]"] != 0} {
 
@@ -4326,7 +4332,7 @@ proc save_contact_list { } {
     puts $file_id "$list_version"
 
     close $file_id
-    
+
     set file_id [open "[file join ${HOME} contacts.xml]" w ]
 
     fconfigure $file_id -encoding utf-8
