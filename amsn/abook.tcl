@@ -269,27 +269,25 @@ namespace eval ::abookGui {
 	    return 
 	}
 
-	set bgcol #ABC8CE
 
-#	option add *NoteBook.Label.background $bgcol
-	toplevel $w -background $bgcol
+	toplevel $w 
 	wm title $w "[trans about] $email"
 	wm geometry $w 210x140
 	set nbtIdent "[trans identity]"
 	set nbtPhone "[trans phone]"
-	frame $w.n -background $bgcol
+	frame $w.n 
 	    pack [notebook $w.n.p $nbtIdent $nbtPhone] \
 	    	-expand 1 -fill both -padx 1m -pady 1m
 	#  .----------.
 	# _| Identity |________________________________________________
 	set nbIdent [getNote $w.n.p $nbtIdent]
-	$nbIdent configure -background $bgcol
-   	label $nbIdent.e -text "Email:" -font bboldf -bg $bgcol
-   	label $nbIdent.e1 -text $email -font splainf -fg blue -bg $bgcol
-	label $nbIdent.h -text "[trans handle]:" -font bboldf -bg $bgcol
-	label $nbIdent.h1 -text $cd(handle) -font splainf -fg blue -bg $bgcol
-	label $nbIdent.g -text "[trans group]:" -font bboldf -bg $bgcol
-	label $nbIdent.g1 -text $cd(group) -font splainf -fg blue -bg $bgcol
+	$nbIdent configure 
+   	label $nbIdent.e -text "Email:" -font bboldf 
+   	label $nbIdent.e1 -text $email -font splainf -fg blue 
+	label $nbIdent.h -text "[trans handle]:" -font bboldf 
+	label $nbIdent.h1 -text $cd(handle) -font splainf -fg blue 
+	label $nbIdent.g -text "[trans group]:" -font bboldf 
+	label $nbIdent.g1 -text $cd(group) -font splainf -fg blue 
 #	set group_names [::groups::GetList -names]
 #	set group_total [llength $group_names]
 #set cd(newgroup) $cd(group)
@@ -311,19 +309,19 @@ namespace eval ::abookGui {
 	#  .--------.
 	# _| Phones |________________________________________________
 	set nbPhone [getNote $w.n.p $nbtPhone]
-	$nbPhone configure -background $bgcol
+	$nbPhone configure 
 	if { $edit == "" } {
-	label $nbPhone.h -font bboldf -text "[trans home]:" -bg $bgcol
-	label $nbPhone.h1 -font splainf -text $cd(phh) -fg blue -bg $bgcol \
+	label $nbPhone.h -font bboldf -text "[trans home]:" 
+	label $nbPhone.h1 -font splainf -text $cd(phh) -fg blue \
 		-justify left
-	label $nbPhone.w -font bboldf -text "[trans work]:" -bg $bgcol
-	label $nbPhone.w1 -font splainf -text $cd(phw) -fg blue -bg $bgcol\
+	label $nbPhone.w -font bboldf -text "[trans work]:"
+	label $nbPhone.w1 -font splainf -text $cd(phw) -fg blue \
 		-justify left
-	label $nbPhone.m -font bboldf -text "[trans mobile]:" -bg $bgcol
-	label $nbPhone.m1 -font splainf -text $cd(phm) -fg blue -bg $bgcol \
+	label $nbPhone.m -font bboldf -text "[trans mobile]:" 
+	label $nbPhone.m1 -font splainf -text $cd(phm) -fg blue \
 		-justify left
-	label $nbPhone.p -font bboldf -text "[trans pager]:" -bg $bgcol
-	label $nbPhone.p1 -font splainf -text $cd(mob) -fg blue -bg $bgcol \
+	label $nbPhone.p -font bboldf -text "[trans pager]:" 
+	label $nbPhone.p1 -font splainf -text $cd(mob) -fg blue \
 		-justify left
 	grid $nbPhone.h -row 0 -column 0 -sticky e
 	grid $nbPhone.h1 -row 0 -column 1 -sticky w
@@ -335,16 +333,16 @@ namespace eval ::abookGui {
 	grid $nbPhone.p1 -row 3 -column 1 -sticky w
 	} else {
 	label $nbPhone.h -font bboldf -text "[trans home]:"
-	entry $nbPhone.h1 -font splainf -text cd(phh) -fg blue -bg $bgcol
+	entry $nbPhone.h1 -font splainf -text cd(phh) -fg blue
 	$nbPhone.h1 insert 1 $cd(phh)
-	label $nbPhone.w -font bboldf -text "[trans work]:" -bg $bgcol
-	entry $nbPhone.w1 -font splainf -text cd(phw) -fg blue -bg $bgcol
+	label $nbPhone.w -font bboldf -text "[trans work]:"
+	entry $nbPhone.w1 -font splainf -text cd(phw) -fg blue 
 	$nbPhone.w1 insert 1 $cd(phw)
-	label $nbPhone.m -font bboldf -text "[trans mobile]:" -bg $bgcol
-	entry $nbPhone.m1 -font splainf -text cd(phm) -fg blue -bg $bgcol
+	label $nbPhone.m -font bboldf -text "[trans mobile]:" 
+	entry $nbPhone.m1 -font splainf -text cd(phm) -fg blue 
 	$nbPhone.m1 insert 1 $cd(phm)
-	label $nbPhone.p -font bboldf -text "[trans pager]:" -bg $bgcol
-	label $nbPhone.p1 -font splainf -text $cd(mob) -fg blue -bg $bgcol \
+	label $nbPhone.p -font bboldf -text "[trans pager]:" 
+	label $nbPhone.p1 -font splainf -text $cd(mob) -fg blue \
 		-justify left
 	grid $nbPhone.h -row 0 -column 0 -sticky e
 	grid $nbPhone.h1 -row 0 -column 1 -sticky w
@@ -357,10 +355,10 @@ namespace eval ::abookGui {
 	}
         bind $w <Control-p> "pickNote $w.n.p $nbtPhone"
 
-	frame $w.b -background $bgcol
-	    button $w.b.ok -text "[trans close]" -command "destroy $w" \
-	    	-bg $bgcol
-	    button $w.b.submit -text "Update" -state disabled -bg $bgcol \
+	frame $w.b 
+	    button $w.b.ok -text "[trans close]" -command "destroy $w"
+
+	    button $w.b.submit -text "Update" -state disabled \
 		    -command "::abookGui::updatePhones $nbPhone h1 w1 m1 p1; destroy $w"
 	    pack $w.b.ok $w.b.submit -side left
 	    if {$edit != ""} {
@@ -372,6 +370,9 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.12  2002/07/01 23:03:27  airadier
+# Standard background for all widgets
+#
 # Revision 1.11  2002/07/01 21:30:30  lordofscripts
 # - Now it is possible to move buddies from one group to another. Had to
 #   post a 2nd popup because tk_popup cannot handle cascaded menus

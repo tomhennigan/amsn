@@ -70,26 +70,26 @@ namespace eval ::groups {
             return
 	}
 
-	set bgcol #ABC8CE
+#	set bgcol #ABC8CE
 	set bgcol2 #ABC8D2
 
-	toplevel .dlgag -background $bgcol -highlightcolor $bgcol2
+	toplevel .dlgag -highlightcolor $bgcol2
 	wm title .dlgag "[trans groupadd]"
-	frame .dlgag.d -bd 1 -background $bgcol
-	    label .dlgag.d.lbl -text "[trans group]" -background $bgcol
+	frame .dlgag.d -bd 1 
+	    label .dlgag.d.lbl -text "[trans group]" 
 	    entry .dlgag.d.ent -width 20
 	    pack .dlgag.d.lbl .dlgag.d.ent -side left
 	    bind .dlgag.d.ent <Return> { 
 	    	::groups::Add "[.dlgag.d.ent get]" dlgMsg; 
 		destroy .dlgag
 	    }
-	frame .dlgag.b -background $bgcol
-	    button .dlgag.b.ok -text "[trans ok]" -background $bgcol \
+	frame .dlgag.b 
+	    button .dlgag.b.ok -text "[trans ok]" \
 	    	-command {
 			::groups::Add "[.dlgag.d.ent get]" dlgMsg; 
 			destroy .dlgag
 		}
-	    button .dlgag.b.cancel -text "[trans cancel]" -background $bgcol \
+	    button .dlgag.b.cancel -text "[trans cancel]" \
 	    	-command "destroy .dlgag"
 	    pack .dlgag.b.ok .dlgag.b.cancel -side left
 	pack .dlgag.d .dlgag.b -side top
@@ -100,32 +100,29 @@ namespace eval ::groups {
             return
 	}
 
-	set bgcol #ABC8CE
 	set bgcol2 #ABC8D2
 
-	toplevel .dlgrg -background $bgcol -highlightcolor $bgcol2
+	toplevel .dlgrg -highlightcolor $bgcol2
 	wm title .dlgrg "[trans grouprename]"
-	frame .dlgrg.d -bd 1 -background $bgcol
-	    label .dlgrg.d.lbl -text "[trans groupoldname]:" \
-	    	-background $bgcol
+	frame .dlgrg.d -bd 1 
+	    label .dlgrg.d.lbl -text "[trans groupoldname]:"
 #	    set oldmenu [tk_optionMenu .dlgrg.d.old ::groups::groupname {}]
 #	    $oldmenu add radiobutton -label F -variable ::groups::groupname
 	    ::groups::updateMenu option .dlgrg.d.old
-	    .dlgrg.d.old configure -background $bgcol
+	    .dlgrg.d.old configure 
 	    pack .dlgrg.d.lbl .dlgrg.d.old -side left -padx 10 -pady 5 
 
-	frame .dlgrg.n -bd 1 -background $bgcol
-	    label .dlgrg.n.lbl -text "[trans groupnewname]:" \
-	    	-background $bgcol
+	frame .dlgrg.n -bd 1 
+	    label .dlgrg.n.lbl -text "[trans groupnewname]:"
 	    entry .dlgrg.n.ent -width 20
 	    pack .dlgrg.n.lbl .dlgrg.n.ent -side left
 	    
-	frame .dlgrg.b -background $bgcol
-	    button .dlgrg.b.ok -text "[trans ok]" -background $bgcol \
+	frame .dlgrg.b 
+	    button .dlgrg.b.ok -text "[trans ok]" \
 	    	-command { \
 		::groups::Rename $::groups::groupname "[.dlgrg.n.ent get]" handler;\
 		destroy .dlgrg }
-	    button .dlgrg.b.cancel -text "[trans cancel]" -background $bgcol \
+	    button .dlgrg.b.cancel -text "[trans cancel]" \
 	    	-command "destroy .dlgrg"
 	    pack .dlgrg.b.ok .dlgrg.b.cancel -side left -pady 5
 		

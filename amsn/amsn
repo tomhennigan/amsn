@@ -985,15 +985,14 @@ proc menuCmdMove {newgid {paramlist ""}} {
 }
 
 proc show_umenu {user_login x y} {
-   global list_bl
+   global list_bl config
 
    set blocked [lsearch $list_bl "${user_login} *"]
    .user_menu delete 0 end
-   .user_menu add command -label "$user_login" \
-      -command "send_mail $user_login"
-   .user_menu add separator
-   .user_menu add command -label "[trans chat]" \
+   .user_menu add command -label "[trans sendmsg]" \
       -command "cmsn_chat_user ${user_login}"
+   .user_menu add command -label "[trans sendmail] \($user_login\)" \
+      -command "send_mail $user_login"
    .user_menu add separator
    if {$blocked == -1} {
       .user_menu add command -label "[trans block]" -command  "block_user ${user_login}"
@@ -1002,12 +1001,22 @@ proc show_umenu {user_login x y} {
          -command  "unblock_user ${user_login}"
    }
 
-   ::groups::updateMenu menu .move_group_menu ::groups::menuCmdMove $user_login
+      ::groups::updateMenu menu .move_group_menu ::groups::menuCmdMove $user_login
 
+
+   if {$config(orderbygroup)} {
+
+   #   .user_menu add cascade -label "[trans movetogroup]..." -menu .move_group_menu 
+      .user_menu add command -label "[trans copytogroup]..." -command "tk_popup .copy_group_menu $x $y"
+      .user_menu add command -label "[trans movetogroup]..." -command "tk_popup .move_group_menu $x $y"
+   #   .user_menu add command -label "[trans deletefromgroup]..." -command "delete_from_group"
+   } else {
+   #   .user_menu add cascade -label "[trans movetogroup]..." -menu .move_group_menu -state disabled
+      .user_menu add command -label "[trans copytogroup]..." -command "tk_popup .copy_group_menu $x $y" -state disabled
+      .user_menu add command -label "[trans movetogroup]..." -command "tk_popup .move_group_menu $x $y" -state disabled
+   #   .user_menu add command -label "[trans deletefromgroup]..." -command "delete_from_group" -state disabled
+   }
    .user_menu add command -label "[trans delete]" -command "set answer \[tk_messageBox -message \"[trans confirmdelete ${user_login}]\" -type yesno -icon question\]; if {\$answer == \"yes\"} {delete_user ${user_login}}"
-#   .user_menu add cascade -label "[trans movetogroup]..." -menu .move_group_menu 
-   .user_menu add command -label "[trans movetogroup]..." -command "tk_popup .move_group_menu $x $y"
-   .user_menu add separator
    .user_menu add command -label "[trans properties]" \
       -command "::abookGui::showEntry $user_login"
 
@@ -1183,7 +1192,7 @@ proc cmsn_draw_msgwin {} {
    bind .${win_name}.in.input <Tab> "focus .${win_name}.in.send; break"
 
    bind  .${win_name}.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y .${win_name}.in.input"   
-   bind  .${win_name}.buttons.fontsel  <Button1-ButtonRelease> "tk_chooseFont"   
+#   bind  .${win_name}.buttons.fontsel  <Button1-ButtonRelease> "tk_chooseFont"   
 
 
    bind .${win_name}.in.send <Return> \
