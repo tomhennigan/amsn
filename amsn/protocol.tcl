@@ -985,17 +985,13 @@ namespace eval ::MSN {
       || [string compare -length 4 $ip "127."] == 0 \
       || [string compare -length 8 $ip "192.168."] == 0 \
       || $config(natip) == 1 } {
-	set token [::http::geturl "http://www2.simflex.com/ip.shtml" -timeout 10000]
-	
-	set ip [::http::data $token]
-	
-	set ip [string range $ip 162 176]
-	set idx [string first \n $ip]
-	set ip [string range $ip 0 [expr {$idx-1}] ]
-      	status_log "Called get http ip: $ip, $token\n"	
-	
-	::http::cleanup $token
-      	unset token
+        set token [::http::geturl "http://www.showmyip.com/simple/" -timeout 10000]
+        set ip [string trim [::http::data $token]]
+        ::http::cleanup $token
+        status_log "Called get http ip: $ip, $token\n"	
+
+        ::http::cleanup $token
+        unset token
       }
 
       return $ip
