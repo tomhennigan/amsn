@@ -39,6 +39,7 @@ browse Navigieren
 browser Browser
 busy Beschäftigt
 cancel Abbrechen
+cannotdeleteprofile Kann das Profil nicht löschen, da es anscheinend von einer Amsn session verwendet wird.
 cfgalarm Benachrichtigung konfigurieren/hinzufügen/löschen
 changefont Die Schriftart ändern
 changenick Namen ändern
@@ -73,6 +74,7 @@ cprofile Profil erstellen
 cut Ausschneiden
 date Datum
 days Tage
+dcprofile Profil nicht erstellen
 default Standardeinstellung
 delete Löschen
 deliverfail Es trat ein Problem beim Zustellen folgender Nachricht auf
@@ -95,6 +97,7 @@ exitamsn Wirklich beenden?
 extras Extras
 faq Häufig gestellte Fragen
 filedoesnotexist Datei nicht vorhanden
+fileman Dateimanager
 filename Dateiname
 filetransfercancelled Übertragung abgebrochen
 filetransfercomplete Übertragung abgeschlossen
@@ -114,6 +117,7 @@ groupunknown Unbekannte Gruppe
 handle Handle
 helpcontents Hilfe - Inhalt
 help Hilfe
+history Verlauf ansehen
 home Start
 ident Identifiziere
 identity Identität
@@ -125,8 +129,12 @@ ipdetect Korekte IP für Dateiübertragung durch HTTP feststellen
 istyping $1 gibt eine Nachricht ein
 joins $1 wurde dem Chat hinzugefügt
 keepalive Die Verbindung offen halten
+keeplog2 Alle Konversationen in aMSN's Speicher zum späteren ansehen protokollieren
+keeplog Chat's protokollieren
 language Sprache
 lastmsgtime Letzte Nachricht angekommen am $1
+lclosedwin $1 hat das Fenster auf $2 geschlossen
+lconftopriv Konferenz wurde zum Privatchat mit $1
 lconvstarted Gespräch mit $1 gestartet.
 leaveblankforhotmail Leer lassen, um Hotmail zu benutzen
 leaves $1 hat Chat verlassen
@@ -135,6 +143,8 @@ linprivate PRIVAT
 listeningon Port $1
 listsmileys2 Emoticons und Smileys in der Kontaktliste anzeigen.
 listsmileys Smiley-Auswahlfenster anzeigen
+ljoinedconf $1 ist der Konferenz beigetreten
+lleftconf $1 hat die Konferenz verlassen
 loadcontacts Kontaktliste laden
 logbigger Maximale Größe der Log-Datei für einen Kontakt
 logfandexp Begrenzungen für Log-Dateien und History
@@ -156,8 +166,13 @@ mins Minuten
 mobile Mobil
 movetogroup Zur Gruppe bewegen
 msg Nachricht
+msgmaxmin Wenn eine neue Nachricht eintrifft wird sie :
+msgmode Wie sollen mehrere Nachrichtenfenster verwaltet werden :
 msn AMSN
 mustrestart Änderungen werden erst nach einem Neustart übernommen
+myhomephone Meine Festnetznummer
+mymobilephone Meine Handynummer
+myworkphone Meine Arbeitsnummer
 mystatus Mein Status
 natip Die IP-Adresse über Webseite ausfindig machen
 natkeepalive Wenn die Verbindung oft getrennt wird, schalten sie diesen KeepAlive an.
@@ -168,12 +183,15 @@ newmsg Neue Nachricht
 newveravailable Neuere Version $1 steht zur Verfügung
 next Weiter
 noactivity inaktiv
+nologfile Keine Log-Datei für $1
 nonewmail 0 neue Nachrichten im Posteingang
 nonewver Zurzeit keine neue Version verfügbar
+normal Normal
 notify1 Fenster anzeigen wenn ein Kontakt online kommt.
 notify2 Fenster anzeigen wenn eine neue Nachricht empfangen wird.
 notify3 Fenster anzeigen wenn eine eMail ankommt.
 notify Benachrichtigen
+notifyoffset Setzt die Position des Nachrichtenfensters durch Angabe der Positionsoffsets
 notifywin Benachrichtigungsfenster
 nousersinsession Keine Benutzer in Sitzung
 offline Offline
@@ -189,6 +207,7 @@ other Andere
 pager Pager
 pass Passwort
 paste Einfügen
+personal persönlich
 phone Telefon
 picfile Mit der Benachrichtigung verbundenes Bild (GIF < 500 x 500)
 picstatus Mit der Benachrichtigung verbundenes Bild ein/ausschalten
@@ -216,7 +235,9 @@ prefshared Gemeinsame Verbindung (nur NAT)
 prefsound Akustische Signale
 profiledconfig Profilabhängige Einstellungen
 profiles Profile
+profileinuse Dieses Profil wird von einer anderer AMSN Session verwendet, bitte wählen Sie ein Anderes
 properties Eigenschaften
+proxy Ich bin hinter einem Proxy Server (HTTP or SOCKS5)
 proxyconfhttp Konfiguration: HTTP-Proxy-Unterstützung
 proxyconf Proxy-Konfiguration
 publishphones Meine Telefonnummern veröffentlichen
@@ -270,7 +291,10 @@ user Benutzer
 usernotonline Benutzer ist nicht online
 version Version
 view Ansicht
+viewprofile Profil ansehen
 willjoin Warte... $1 wird dem Chat hinzugefügt
 work Arbeit
+xoffset X Offset
+yoffset Y Offset
 yousay Du sagst
 youwant Du willst

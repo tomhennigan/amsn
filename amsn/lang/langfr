@@ -39,6 +39,7 @@ browse Naviguer
 browser Navigateur web
 busy Occupé
 cancel Annuler
+cannotdeleteprofile le profil ne peut être supprimé car il semble utilisé par une session Amsn
 cfgalarm Configurer/Ajouter/Supprimer alarme
 changefont Changer la police
 changenick Changer de pseudonyme
@@ -234,6 +235,7 @@ prefsession Ma connexion et statut
 prefshared Connexions partagées (Seulement pour NAT)
 prefsound Sons
 profiledconfig Configuration profilée
+profileinuse Profil actuellement utilisé par une autre session Amsn. Veuillez choisir un autre profil.
 profiles Profils
 properties Propriétés
 proxyconf Configuration du proxy
