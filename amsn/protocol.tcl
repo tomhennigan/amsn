@@ -2925,14 +2925,20 @@ proc cmsn_sb_msg {sb_name recv} {
 		
 	} elseif { [string range $content 0 22] == "text/x-msnmsgr-datacast" } {
 	
-	#ID:1 = Confirmation it's a nudge. 
-	#Call the postevent nudge
-	if {[string first "ID: 1" $msg] != "-1"} {
-		set epvar(chatid) $chatid
-		set epvar(nick) $nick
-		::plugins::PostEvent NudgeReceived epvar
-	}
-
+		#ID:1 = Confirmation it's a nudge. 
+		#Call the postevent nudge
+		if {[string first "ID: 1" $msg] != "-1"} {
+			set epvar(chatid) $chatid
+			set epvar(nick) $nick
+			::plugins::PostEvent NudgeReceived epvar
+		}
+	
+	} elseif { [string range $content 0 33] == "application/x-msmsgssystemmessage" } {
+		#Packet we receive when MSN server going down for maintenance
+		if {[string first "Type: 1" $msg] != "-1"} {
+			system_message $msg
+		}
+	
 	} else {
 		status_log "cmsn_sb_msg: === UNKNOWN MSG ===\n$msg\n" red
 	}
@@ -4795,8 +4801,14 @@ proc filenoext { filename } {
 	return "[string replace $filename [string last . $filename] end]"
 }
 
-#Look for clientid information and add it to ContactData
-#More information on numbers here: http://ceebuh.info/docs/?url=clientid.html
+###############################################
+# add_Clientid chatid clientid                #
+# ------------------------------------------- #
+# Look for clientid information               #
+# Add it to ContactData                       #
+# More information:                           #
+# http://ceebuh.info/docs/?url=clientid.html  #
+###############################################
 proc add_Clientid {chatid clientid} {
 	#We look on the clientid number to determine witch client it is
 	#Remember, aMSN 0.94B is known as MSN 7, 0.93 as MSN 6.0
@@ -4819,7 +4831,25 @@ proc add_Clientid {chatid clientid} {
 	}
 }
 
-
+###############################################
+# system_message msg                          #
+# ------------------------------------------- #
+# Show an alert when the server send the      #
+# message that MSN going down for maintenance #
+# in $minute minutes.                         #
+###############################################
+proc system_message {msg} {
+		
+	if {[string first "Arg1:" $msg] != "-1"} {
+		#Find the minute variable
+		set begin [expr {[string first "Arg1:" $msg]+6}]
+		set end   [expr {[string first "\r" $msg $begin]}]
+		set minute "[urldecode [string range $msg $begin $end]]"
+		status_log "Server close for maintenance in -$minute- minutes"
+		#Show the alert
+		::amsn::messageBox [trans maintenance $minute] ok error
+	}
+}
 
 namespace eval ::MSNP2P {
 	namespace export loadUserPic SessionList ReadData MakePacket MakeACK MakeSLP AcceptFT RejectFT
