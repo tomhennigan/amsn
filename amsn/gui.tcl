@@ -2571,7 +2571,7 @@ namespace eval ::amsn {
 
 #		wm geometry $wname 320x350
 
-		frame $wname.blueframe -background [::skin::getColor background]
+		frame $wname.blueframe -background [::skin::getColor background1]
 
 		frame $wname.blueframe.list -class Amsn -borderwidth 0
 		frame $wname.buttons -class Amsn
