@@ -262,7 +262,7 @@ namespace eval ::pop3 {
 		global PopErrorNm PopErrorStr debug
 
 		if { ($override == 0) && ([set ::pop3::chanopen_$chan] != 1) } {
-			plugins_log pop3 "ERROR : Data sent when channel not open"
+			plugins_log pop3 "ERROR : Data sent when channel not open\n"
 			error "ERROR : Data sent when channel not open"
 		}
 
@@ -289,7 +289,7 @@ namespace eval ::pop3 {
 		fileevent $chan readable ""
 
 		if {[string first "+OK" $popRet] == -1} {
-			plugins_log pop3 "ERROR : [string range $popRet 4 end]"
+			plugins_log pop3 "ERROR : [string range $popRet 4 end]\n"
 			set ::pop3::chanreturn_$chan "ERROR"
 			return
 		}
@@ -324,7 +324,7 @@ namespace eval ::pop3 {
 	#	An integer variable wich contains the number of mails in the mbox
 	proc ::pop3::check { } {
 		catch {
-			plugins_log pop3 "Checking for messages now"
+			plugins_log pop3 "Checking for messages now\n"
 			set chan [::pop3::open $::pop3::config(host) $::pop3::config(user) $::pop3::config(pass) $::pop3::config(port)]
 			#check that it opened properly
 			if { [set ::pop3::chanopen_$chan] == 1 } {
@@ -348,7 +348,7 @@ namespace eval ::pop3 {
 					}
 				}
 			} else {
-				plugins_log pop3 "POP3 failed to open"
+				plugins_log pop3 "POP3 failed to open\n"
 				unset ::pop3::chanopen_$chan
 			}
 		}
@@ -408,7 +408,7 @@ namespace eval ::pop3 {
 			}
 		} else {
 			if { [catch {eval "exec $::pop3::config(mailProg)"} res] } {
-				plugins_log pop3 "Failed to load $::pop3::config(mailProg) with the error: $res"
+				plugins_log pop3 "Failed to load $::pop3::config(mailProg) with the error: $res\n"
 			}
 		}
 	}
