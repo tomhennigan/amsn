@@ -1056,7 +1056,11 @@ proc cmsn_ns_handler {item} {
       LST {
          cmsn_listupdate $item
 	 # New entry in address book setContact(email,FL,groupID)
+	 # NOTE: IF a user belongs to several groups, the group part
+	 #       of this packet will have the group ids separated
+	 #       by commas:  0,5  (group 0 & 5).
 	 if { [lindex $item 2] == "FL" } {
+	      status_log "$item\n" blue
 	     ::abook::setContact [lindex $item 6] FL [lindex $item 8]
 	     ::abook::setContact [lindex $item 6] nick [lindex $item 7]
 	 }
@@ -1107,8 +1111,23 @@ proc cmsn_ns_handler {item} {
 	return 0
       }
       LSG {
-      	status_log "LSG: DONE $item\n" white
+      	status_log "$item\n" blue
 	::groups::Set [lindex $item 5] [lindex $item 6]
+	return 0
+      }
+      REG {	# Rename Group
+      	status_log "$item\n" blue
+	::groups::RenameCB [lrange $item 0 5]
+	return 0
+      }
+      ADG {	# Add Group
+      	status_log "$item\n" blue
+	::groups::AddCB [lrange $item 0 5]
+	return 0
+      }
+      RMG {	# Remove Group
+      	status_log "$item\n" blue
+	::groups::DeleteCB [lrange $item 0 5]
 	return 0
       }
       200 {
