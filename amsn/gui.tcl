@@ -2361,7 +2361,7 @@ proc NewProfileAsk { email } {
    	frame .loginask.c -relief flat -highlightthickness 0
    	pack .loginask.c -expand true -fill both -padx 10 -pady 0
 
-	label .loginask.c.txt -text "[trans askprofile \n $email]"
+	label .loginask.c.txt -text "[trans askprofile $email]"
 	grid .loginask.c.txt -row 1 -column 1 -sticky w -pady 10
 
 	button .loginask.c.ok -text [trans cprofile] -command "grab release .loginask; destroy .loginask; CreateProfile $email 1"
@@ -2372,6 +2372,7 @@ proc NewProfileAsk { email } {
   	grid .loginask.c.cancel -row 2 -column 1 -pady 5 -sticky e
 
 	#bind .login <Destroy> {if {"%W" == ".loginask "} {return 0} }
+	tkwait visibility .loginask
 	grab set .loginask
 }
 

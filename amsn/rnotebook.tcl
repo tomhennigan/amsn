@@ -324,14 +324,11 @@ proc Rnotebook:button {w num} {
 #
 proc Rnotebook:totalwidth {w} {
   global Rnotebook
-  set num 0
+  set num 1
   set width 0
-  set i "$w.tabs.b$num"
-  while { [winfo exists $i] } {
-  	set i "$w.tabs.b$num"
-	set width [expr $width + [$i cget -width]]
+  while { [winfo exists "$w.tabs.b$num"] } {
+	set width [expr $width + [winfo reqwidth "$w.tabs.b$num"]]
 	incr num
-	status_log "$i and $width"
   }
   return $width
 }

@@ -23,7 +23,7 @@ global lang
   }
    if {[ catch {
          if { [string length $lang($msg)] > 0 } {
-            return [subst -nobackslashes -nocommands $lang($msg)]
+            return [subst -nocommands $lang($msg)]
          } else {
             return "$msg $args"
          }

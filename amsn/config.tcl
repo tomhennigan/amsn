@@ -289,6 +289,7 @@ proc ConfigChange { window email } {
 		load_config
 		LoginList add 0 $email
 		set log_dir "[file join ${HOME} logs]"
+		.login.c.remember configure -state normal
 	} else {
 		NewProfileAsk $email
 	}

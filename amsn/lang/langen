@@ -17,7 +17,7 @@ appearance Appearance
 appearoff Appear offline
 areacode Area Code
 aretyping $1 are typing a message
-askprofile This login dosen't currently have a profile. Would you like to create a new one for it? $1 If you don't you will not be able to use the History, or save your Alarms and password. $1 If you do you will have a separate configuration for this new profile. $1 $1 Click on "Create Profile" to create a new profile for $2.
+askprofile This login dosen't currently have a profile. Would you like to create a new one for it? \n If you don't you will not be able to use the History, or save your Alarms and password. \n If you do you will have a separate configuration for this new profile. \n \n Click on "Create Profile" to create a new profile for $1.
 autoaway Show me as "Away" when inactive for
 autoconnect2 Sign In automaticly when aMSN is launched
 autoconnect Connect on amsn start
@@ -76,6 +76,8 @@ dcprofile Don't Create Profile
 default Default Config
 delete Delete
 deliverfail There was a problem delivering the following message
+delprofile Delete Profile
+delprofile2 Select the Profile that you would like to have removed 
 dockgtk Gnome Dock
 docking Docking
 dockingoff Docking Off
@@ -220,10 +222,11 @@ preflog1 My History and Loging Options
 preflook My aMSN Messenger Look
 prefmsging My Messaging Interface
 prefname My MSN Messenger Name/NickName
-prefphone2 Type the phone numbers that you would like people $1 on your Allow List to see $1
+prefphone2 Type the phone numbers that you would like people \n on your Allow List to see \n
 prefphone My Phone Numbers
-prefprofile2 Create or Modify your public profile (the $1 description of yourself that others can see)
+prefprofile2 Create or Modify your public profile (the \n description of yourself that others can see)
 prefprofile My Public Profile
+prefprofile3 aMSN's User Configuration Profiles
 prefproxy My Proxy Settings
 prefsession My Sign In and Status
 prefshared Shared Connections (only for NAT)

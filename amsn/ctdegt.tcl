@@ -272,7 +272,6 @@ proc Preferences { settings } {
     }
 
     wm iconname .cfg [trans preferences]
-    wm geometry .cfg 500x595
 
     # Frame to hold the preferences tabs/notebook
     frame .cfg.notebook -class Degt
@@ -310,7 +309,7 @@ proc Preferences { settings } {
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefprofile]]
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
 	label $lfname.pprofile -image prefprofile
-	label $lfname.lprofile -text [trans prefprofile2 \n] -padx 10
+	label $lfname.lprofile -text [trans prefprofile2] -padx 10
 	button $lfname.bprofile -text [trans editprofile] -font sboldf -command "" -state disabled
 	pack $lfname.pprofile $lfname.lprofile -side left
 	pack $lfname.bprofile -side right -padx 15
@@ -318,7 +317,7 @@ proc Preferences { settings } {
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans preffont]]
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.pfont -image preffont
-	label $lfname.lfont -text [trans preffont2 \n] -padx 10
+	label $lfname.lfont -text [trans preffont2] -padx 10
 	button $lfname.bfont -text [trans changefont] -font sboldf -command "change_myfont cfg"
 	pack $lfname.pfont $lfname.lfont -side left
 	pack $lfname.bfont -side right -padx 15
@@ -329,7 +328,7 @@ proc Preferences { settings } {
 	frame $lfname.2 -class Degt
 	label $lfname.1.pphone -image prefphone
 	pack $lfname.1.pphone -side left -anchor nw
-	label $lfname.1.lphone -text [trans prefphone2 \n] -padx 10
+	label $lfname.1.lphone -text [trans prefphone2] -padx 10
 	pack $lfname.1.lphone -fill both -side left
 
 	label $lfname.2.lphone1 -text "[trans countrycode] :" -padx 10 -font sboldf
@@ -597,7 +596,7 @@ proc Preferences { settings } {
 
 	#  .--------------.
 	# _| Applications |________________________________________________
-	image create photo prefapps -file [file join ${images_folder} prefnat.gif]
+	image create photo prefapps -file [file join ${images_folder} prefpers.gif]
 
 	set frm [Rnotebook:frame $nb 6]
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefapps]]
@@ -630,17 +629,17 @@ proc Preferences { settings } {
 
 	#  .----------.
 	# _| Profiles |________________________________________________
-	image create photo prefapps -file [file join ${images_folder} prefnat.gif]
+	image create photo prefapps -file [file join ${images_folder} prefpers.gif]
 	
 	set frm [Rnotebook:frame $nb 7]
-	set lfname [LabelFrame:create $frm.lfname -text [trans prefprofile]]
+	set lfname [LabelFrame:create $frm.lfname -text [trans prefprofile3]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.pprofile -image prefapps
 	pack $lfname.pprofile -side left -anchor nw
-	label $lfname.ldelprofile -text "[trans delprofile]" -padx 5
+	label $lfname.ldelprofile -text "[trans delprofile2]" -padx 5
 	frame $lfname.1 -class Degt
 	combobox::combobox $lfname.1.profile -editable false -highlightthickness 0 -width 25 -bg #FFFFFF -font splainf 
-	button $lfname.1.bdel -text [trans delprofile2] -font sboldf -command "DeleteProfile"
+	button $lfname.1.bdel -text [trans delprofile] -font sboldf -command "DeleteProfile"
 	pack $lfname.ldelprofile -anchor w -side top
 	pack $lfname.1.profile -anchor w -side left -padx 10
 	pack $lfname.1.bdel -anchor e -side left -padx 15
@@ -650,7 +649,7 @@ proc Preferences { settings } {
 
     Rnotebook:totalwidth $nb
 
-    wm geometry .cfg [Rnotebook:totalwidth $nb]x595
+    wm geometry .cfg [expr [Rnotebook:totalwidth $nb] + 50]x595
     status_log "[Rnotebook:totalwidth $nb]"
 
     switch $settings {
@@ -839,6 +838,11 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.25  2003/01/21 18:30:07  burgerman
+# more work on pref
+# removed -nobackslashes from proc trans to allow /n in translations
+# fixed couple of tiny bugs in login profile dialog
+#
 # Revision 1.24  2003/01/21 16:12:24  burgerman
 # Some more work on pref, dkfont fix..
 #
