@@ -172,7 +172,6 @@ proc reload_files { } {
 	source plugins.tcl	;# Plugins system
 	source balloon.tcl	;# For the balloons tooltip
 	source png.tcl		;# PNG Parser and zlib deflate in pure TCL (KaKaRoTo)
-
 }
 
 proc check_imagemagick {} {

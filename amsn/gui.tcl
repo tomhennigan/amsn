@@ -75,20 +75,65 @@ namespace eval ::amsn {
 			font create examplef -family $family -size [expr {$size-2}] -weight normal
 		}
 
-		catch {tk_setPalette $bgcolor}
+		catch {tk_setPalette $menubgcolor}
 		option add *Menu.font menufont
-		option add *background $bgcolor
+		option add *background $menubgcolor
 		option add *selectColor #DD0000
 
-		# some menu options to make em look nicer
-		option add *Menu.background $menubgcolor 
-		option add *Menu.foreground $menufgcolor
-		option add *Menu.relief raised
-		option add *Menu.borderWidth 1
-		option add *Menu.activeBorderWidth 1
-		option add *Menu.activeBackground $menuactivebgcolor
-		option add *Menu.activeForeground $menuactivefgcolor
-		
+		if { [tk windowingsystem] == "x11" } {
+			option add *borderWidth 1 widgetDefault
+			option add *activeBorderWidth 1 widgetDefault
+			option add *selectBorderWidth 1 widgetDefault
+
+			option add *Listbox.background white widgetDefault
+			option add *Listbox.selectBorderWidth 0 widgetDefault
+			option add *Listbox.selectForeground white widgetDefault
+			option add *Listbox.selectBackground #4a6984 widgetDefault
+
+			option add *Entry.background white widgetDefault
+			option add *Entry.foreground black widgetDefault
+			option add *Entry.selectBorderWidth 0 widgetDefault
+			option add *Entry.selectForeground white widgetDefault
+			option add *Entry.selectBackground #4a6984 widgetDefault
+			option add *Entry.padX 2 widgetDefault
+			option add *Entry.padY 4 widgetDefault
+
+			option add *Text.background white widgetDefault
+			option add *Text.selectBorderWidth 0 widgetDefault
+			option add *Text.selectForeground white widgetDefault
+			option add *Text.selectBackground #4a6984 widgetDefault
+			option add *Text.padX 2 widgetDefault
+			option add *Text.padY 4 widgetDefault
+
+			option add *Menu.activeBorderWidth 0 widgetDefault
+			option add *Menu.highlightThickness 0 widgetDefault
+			option add *Menu.borderWidth 2 widgetDefault
+			option add *Menu.background $menubgcolor
+			option add *Menu.foreground $menufgcolor
+			option add *Menu.activeBackground $menuactivebgcolor
+			option add *Menu.activeForeground $menuactivefgcolor
+
+			option add *Menubutton.activeBackground #4a6984 widgetDefault
+			option add *Menubutton.activeForeground white widgetDefault
+			option add *Menubutton.activeBorderWidth 0 widgetDefault
+			option add *Menubutton.highlightThickness 0 widgetDefault
+			option add *Menubutton.borderWidth 0 widgetDefault
+			option add *Menubutton.padX 2 widgetDefault
+			option add *Menubutton.padY 4 widgetDefault
+
+			option add *Labelframe.borderWidth 2 widgetDefault
+			option add *Frame.borderWidth 2 widgetDefault
+			option add *Labelframe.padY 8 widgetDefault
+			option add *Labelframe.padX 12 widgetDefault
+
+			option add *highlightThickness 0 widgetDefault
+			option add *troughColor #c3c3c3 widgetDefault
+
+			option add *Scrollbar.width		12 widgetDefault
+			option add *Scrollbar.borderWidth		1 widgetDefault
+			option add *Scrollbar.highlightThickness	0 widgetDefault
+		}
+
 		#Use different width for scrollbar on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			option add *Scrollbar.width 15 userDefault
@@ -99,7 +144,7 @@ namespace eval ::amsn {
 		}
 		option add *Font splainf userDefault
 		option add *Button.Font sboldf userDefault
-		option add *Scrollbar.borderWidth 1 userDefault
+		#option add *Scrollbar.borderWidth 1 userDefault
 
 		set Entry {-bg #FFFFFF -foreground #000000}
 		set Label {-bg #FFFFFF -foreground #000000}
@@ -1646,7 +1691,7 @@ namespace eval ::amsn {
 		incr winid
 
 		toplevel .${win_name} -class Amsn
-
+		
 		if {[catch { wm geometry .${win_name} [::config::getKey winchatsize] } res]} {
 			wm geometry .${win_name} 350x390
 			::config::setKey winchatsize 350x390
