@@ -41,7 +41,7 @@
 ###
 
 set version "0.62beta"
-set date "07/16/2002"
+set date "09/30/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -338,7 +338,7 @@ proc cmsn_draw_main {} {
      "hotmail_login $config(login) $password"
    .main_menu.file add separator
    .main_menu.file add command -label "[trans savecontacts]..." \
-   	-command "debug_cmd_lists -export contactlist.txt" -state disabled
+   	-command "debug_cmd_lists -export contactlist" -state disabled
    .main_menu.file add command -label "[trans loadcontacts]..." -state disabled
    .main_menu.file add separator
    .main_menu.file add command -label "[trans sendfile]..." -state disabled
