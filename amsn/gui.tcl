@@ -618,7 +618,7 @@ namespace eval ::amsn {
 		set w ${win_name}_sendfile
 		if { [ winfo exists $w ] } {
 			if {$filename == ""} { 
-				fileDialog2 $w $w.top.fields.file open "" 
+				chooseFileDialog "" "" $w $w.top.fields.file 
 			} else { 
 				$w.top.fields.file insert 0 $filename
 			}
@@ -662,7 +662,7 @@ namespace eval ::amsn {
 		focus $w.top.fields.file
 
 		if {$filename == ""} { 
-			fileDialog2 $w $w.top.fields.file open "" 
+			chooseFileDialog "" "" $w $w.top.fields.file
 			::amsn::FileTransferSendOk $w $win_name
 		} else {
 			$w.top.fields.file insert 0 $filename 
@@ -674,7 +674,7 @@ namespace eval ::amsn {
 
 #		set filename [ $w.top.fields.file get ]
 		if { $filename == "" } {
-			set filename [chooseFileDialog "" "" [list [list [trans allfiles] *]] [trans sendfile]]
+			set filename [chooseFileDialog "" [trans sendfile] $win_name]
 			status_log $filename
 		}
 		
@@ -4233,7 +4233,7 @@ proc status_save { } {
 	pack $w.msg $w.filename -side top -fill x
 	focus $w.filename.entry
 
-	fileDialog $w $w.filename.entry save "status_log.txt"
+	chooseFileDialog "status_log.txt" "" $w $w.filename.entry save
 
 	catch {grab $w}
 }
@@ -7107,19 +7107,35 @@ proc reloadAvailablePics { } {
 
 }
 
-#proc chooseFileDialog {basename {initialfile ""} {types {{"All files"         *}} }} {}
-proc chooseFileDialog {basename {initialfile ""} {types { {"All Files" {*}}} } {title ""}} {
-	set parent "."
-	catch {set parent [focus]}
 
+#proc chooseFileDialog {basename {initialfile ""} {types {{"All files"         *}} }} {}
+proc chooseFileDialog { {initialfile ""} {title ""} {parent ""} {entry ""} {operation "open"} {types {{ "All Files" {*} }} }} {
+
+	if { $parent == "" } {
+		set parent "."
+		catch {set parent [focus]}
+	}
+	
 	global  starting_dir
-	set selfile [tk_getOpenFile -filetypes $types -parent $parent -initialdir $starting_dir -initialfile $initialfile -title $title]
+	if { $operation == "open" } {
+		set selfile [tk_getOpenFile -filetypes $types -parent $parent -initialdir $starting_dir -initialfile $initialfile -title $title]
+	} else {
+		set selfile [tk_getSaveFile -filetypes $types -parent $parent -initialdir $starting_dir -initialfile $initialfile -title $title]
+	}
 	if { $selfile != "" } {
 		#Remember last directory
 		set starting_dir [file dirname $selfile]
-	}		
+		
+		if { $entry != "" } {
+			$ent delete 0 end
+			$ent insert 0 $file
+			$ent xview end
+		}
+	}
+	
 	return $selfile
 }
+
 
 proc pictureDeleteFile {} {
 	global selected_image HOME
@@ -7159,7 +7175,7 @@ proc pictureChooseFile { } {
 	}
 
 
-	set file [chooseFileDialog "" "" [list [list [trans imagefiles] [list *.gif *.GIF *.jpg *.JPG *.bmp *.BMP *.png *.PNG]] [list [trans allfiles] *]]]
+	set file [chooseFileDialog "" "" "" "" open [list [list [trans imagefiles] [list *.gif *.GIF *.jpg *.JPG *.bmp *.BMP *.png *.PNG]] [list [trans allfiles] *]]]
 
 	if { $file != "" } {
 		if { ![catch {convert_image_plus $file displaypic "96x96"} res]} {
@@ -7330,7 +7346,7 @@ proc degt_protocol_save { } {
 	pack $w.msg $w.filename -side top -fill x
 	focus $w.filename.entry
 	
-	fileDialog $w $w.filename.entry save "protocol_log.txt"
+	chooseFileDialog "protocol_log.txt" "" $w $w.filename.entry save 
 	catch {grab $w}
 
 }

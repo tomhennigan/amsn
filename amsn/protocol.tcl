@@ -4083,28 +4083,6 @@ proc sb_change { chatid } {
 ###################### Other Features     ###########################
 
 
-proc fileDialog2 {w ent operation basename {types {{"All files"         *}} }} {
-    #   Type names		Extension(s)	Mac File Type(s)
-    #
-    #---------------------------------------------------------
-    #   set types {{"All files"		*} }
-    
-    global starting_dir
-
-    if {$operation == "open"} {
-	set file [tk_getOpenFile -filetypes $types -parent $w -initialdir $starting_dir]
-    } else {
-	set file [tk_getSaveFile -filetypes $types -parent $w \
-	    -initialfile $basename]
-    }
-    if {[string compare $file ""]} {
-	$ent delete 0 end
-	$ent insert 0 $file
-	$ent xview end
-    }
-}
-
-
 proc ns_enter {} {
 	set command "[.status.enter get]"
 	.status.enter delete 0 end

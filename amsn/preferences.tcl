@@ -1394,7 +1394,7 @@ proc ChooseFilename { twn title } {
     pack $w.msg $w.filename -side top -fill x
     focus $w.filename.entry
 
-    fileDialog $w $w.filename.entry save Untitled
+    chooseFileDialog "Untitled" "" $w $w.filename.entry save
 }
 
 proc save_text_file { w ent } {
@@ -1419,33 +1419,6 @@ proc save_text_file { w ent } {
     #puts "Content $content"
 }
 
-proc fileDialog {w ent operation basename} {
-    #   Type names		Extension(s)	Mac File Type(s)
-    #
-    #---------------------------------------------------------
-    set types {
-	{"Text files"		{.txt .doc}	}
-	{"Text files"		{}		TEXT}
-	{"Tcl Scripts"		{.tcl}		TEXT}
-	{"C Source Files"	{.c .h}		}
-	{"All Source Files"	{.tcl .c .h}	}
-	{"Image Files"		{.gif}		}
-	{"Image Files"		{.jpeg .jpg}	}
-	{"Image Files"		""		{GIFF JPEG}}
-	{"All files"		*}
-    }
-    if {$operation == "open"} {
-	set file [tk_getOpenFile -filetypes $types -parent $w]
-    } else {
-	set file [tk_getSaveFile -filetypes $types -parent $w \
-	    -initialfile $basename -defaultextension .txt]
-    }
-    if { "$file" != "" } {
-	$ent delete 0 end
-	$ent insert 0 $file
-	$ent xview end
-    }
-}
 
 # Usage: LabelEntry .mypath.mailer "Label:" config(mailcommand) 20
 proc LabelEntry { path lbl variable width } {

@@ -601,7 +601,7 @@ proc SaveToFile { wname email logvar } {
 	pack $w.msg $w.filename -side top -fill x
 	focus $w.filename.entry
 
-	fileDialog $w $w.filename.entry save $wname
+	chooseFileDialog $wname "" $w $w.filename.entry save
 }
 
 
