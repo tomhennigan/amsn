@@ -1014,6 +1014,8 @@ namespace eval ::amsn {
 			wm title $w "$filename - [trans sendfile]"
 		}
 		wm protocol $w WM_DELETE_WINDOW $cancelcmd
+		moveinscreen $w 30
+		
 
 		::dkfprogress::SetProgress $w.prbar 0
 	}
@@ -1159,7 +1161,6 @@ namespace eval ::amsn {
 			set percent [expr {int(($bytes2*100)/$filesize2)}]
 			::dkfprogress::SetProgress $w.prbar $percent
 		}
-		moveinscreen $w 30
 
 	}
 
