@@ -39,7 +39,7 @@
 ###
 
 set version "0.52beta"
-set date "06/26/2002"
+set date "06/27/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -338,9 +338,9 @@ proc cmsn_draw_main {} {
    #Order Contacts By submenu
    menu .order_by -tearoff 0 -type normal -background #D0D0E0
    .order_by add radio -label "[trans status]" -value 0 \
-   	-variable config(orderbygroup)
+   	-variable config(orderbygroup) -command "cmsn_draw_online"
    .order_by add radio -label "[trans group]" -value 1 \
-   	-variable config(orderbygroup)
+   	-variable config(orderbygroup) -command "cmsn_draw_online"
 
    #Tools menu
    menu .main_menu.tools -tearoff 0 -type normal 
@@ -807,7 +807,7 @@ proc cmsn_draw_online {} {
 
       if { $section == "online"} {
 	   ::groups::UpdateCount online +1
-      } else {
+      } elseif {$section == "offline"} {
 	   ::groups::UpdateCount offline +1
       }
 
@@ -820,21 +820,45 @@ proc cmsn_draw_online {} {
 	  ::groups::UpdateCount $user_group +1
       }
       
-      # Do NOT display buddy if...
-      #	  1. state is FLN(offline) and !showoffline, or
-      #	  2. state is NLN(online) and !showonline and !orderByGroup, or
-      #   3. orderByGroup and group is not collapsed
-      set myGroupExpanded [::groups::IsExpanded $user_group]
-       if { ($config(orderbygroup) == 1 && $myGroupExpanded == 1) || \
-            ($state_code == "NLN" && $config(showonline))
-	  } {
+      # Check if the group/section is expanded, display accordingly
+      if {$config(orderbygroup)} {
+	  set myGroupExpanded [::groups::IsExpanded $user_group]
+      } else {
+	  set myGroupExpanded [::groups::IsExpanded $section]
+      }
+ 
+      if {$myGroupExpanded} {
+	  ShowUser $user_name $user_login $state $state_code $colour $section
+       }
+   }
+
+   if {$config(listsmileys)} {
+     smile_subst .main.text
+   }  
+
+   if {$config(orderbygroup)} {
+        for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
+	    set gname [lindex $glist $gidx]
+	    set gtag  "tg$gname"
+	   .main.text insert $gtag.last " ($::groups::uMemberCnt($gname))\n" $gtag
+ 	}
+   } else {
+       .main.text insert online.last " ($::groups::uMemberCnt(online))\n" online
+       .main.text insert offline.last " ($::groups::uMemberCnt(offline))\n" offline
+   }
+
+   .main.text configure -state disabled
+}
+
+proc ShowUser {user_name user_login state state_code colour section} {
+    global list_bl
+
          if {($state_code != "NLN") && ($state_code !="FLN")} {
             set state_desc " ([trans [lindex $state 1]])"
 	 } else {
             set state_desc ""
          }
-      
-         
+
          set image_type [lindex $state 4]
          if {[lsearch $list_bl "$user_login *"] != -1} {
             set image_type "blocked"
@@ -867,27 +891,6 @@ proc cmsn_draw_online {} {
             .main.text tag bind $user_login <Double-Button-1> \
 	        "cmsn_chat_user $user_login"
          }
-   
-
-      }
-   }
-
-   if {$config(listsmileys)} {
-     smile_subst .main.text
-   }  
-
-   if {$config(orderbygroup)} {
-        for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
-	    set gname [lindex $glist $gidx]
-	    set gtag  "tg$gname"
-	   .main.text insert $gtag.last " ($::groups::uMemberCnt($gname))\n" $gtag
- 	}
-   } else {
-       .main.text insert online.last " ($::groups::uMemberCnt(online))\n" online
-       .main.text insert offline.last " ($::groups::uMemberCnt(offline))\n" offline
-   }
-
-   .main.text configure -state disabled
 }
 
 proc block_user {user_login} {
