@@ -14,6 +14,10 @@ addtoo Foeg dizze persoan ta oan myn kontaktenlist
 admincontacts Behear kontakten
 admingroups Behear groepen
 adverts Advertinsjes
+alarmonconnect Aktifear het alarm at de bruker oan e lyne komt.
+alarmondisconnect Aktifear het alarm at de bruker fan e lyne giet.
+alarmonmsg Aktifear het alarm at de bruker dy een berjocht stjoerd.
+alarmonstatus Aktifear het alarm at de bruker syn status feroaret.
 alarmpref Alarmynstellings foar dizze gebrûker
 alarmstatus Doch alarm oan/út foar dizze gebrûker
 allowallbutbl  Stean alle brukers, beheale de minsken dy ik blokkeart haw, ta om contact mei my te sykjen
@@ -27,6 +31,7 @@ appearance Status
 appearoff Ferskyn "Net oanmeld"
 areacode Geakode
 aretyping $1 binne oan't type
+autoaccepted Bestans-ferstjoering automatiesk acceptearje.
 autoacceptft Automaties bestans-oerstjoering akseptearje
 autoaway Feroarje myn status yn "Net oanwêzich" as't ik net warber bin nei
 autoconnect2 Automatysk oanmelde wannear't aMSN start wurdt
@@ -49,6 +54,7 @@ blocking Blokkearen
 blockinter1 At dyn staus op "oan e lyne" stiet, controlear dan eltse
 blockinter2 seconden, oars controlear dan eltse:
 blockinter3 seconden.
+blockinter4 seconden.
 blocklist Blokkear-liste
 blockmessage Dizze minsken binne oan e line, mar hawwe dy blokkeard
 blockusers Oantal brukers om gelyk te controlearen
@@ -63,6 +69,7 @@ casesensitive Haadlettergefoelig
 cfgalarm Alarm konfigurearje/tafoege/foartsmite
 changefont Feroarje lettertype
 changenick Feroarje skermnamme
+changestate $1 feroaret yn $2
 chatack Nim chat oan fan
 chat Chat
 chatmaxmin At ien een gesprek mei my begjint, dan wol ik het finster:
@@ -78,6 +85,7 @@ choosebasefont Lettertype
 choosebgcolor Eftergrûnkleur
 choosecontact  Sykje een kontaktpersoan ut de liste ut
 choosefontcolor Kies tekstkleur
+chooseskin Kies de hud diest bruke wolst.
 clearlog2 Smit alle skiednis foar al dyn contacten fuort
 clearlog3 Smit alle logboeken fuort
 clearlog Smit fuort
@@ -114,6 +122,7 @@ delprofile2 Kies it profyl dast foartsmite wolst
 delprofile Smit profyl foart
 description Beskriuwing
 directconnection Ik haw n directe ferbyning mei het internet, troch poarte 1863
+disconnect $1 hat de ferbyning ferbrutsen
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Ferbergje foar gnome
 docking Ferberg
@@ -226,6 +235,7 @@ morepersonal Mear tastannen ==>
 move  Beweeg
 movetogroup Ferhûzje nei groep
 msg Berjocht
+msgflicker Lit de titelbalke fan het chat-finster knipperje at der een nei berjocht oankaam is yn een finster wer gjin focus op stiet.
 msgmaxmin As in berjocht ûntfange wurdt, wol ik dat se wurde:
 msgmode Hoe't meardere chat-finsters wêrjûn wurde moatte:
 msn AMSN
@@ -246,6 +256,7 @@ ng
 noactivity Gjin aksje
 nodataavailable Gjin data beskikbar foar $1
 nologfile Gjin logboek foar $1
+noneavailable Gjin beskikber.
 no nee
 nonewmail Gjin berjochten yn In-Box
 nonewver D'r binne gjin neiere fersys beskikber
@@ -260,6 +271,7 @@ notify3 Toan advysfinster wannear't d'r neie emails ûntfange wurde
 notify Jou advys
 notifyoffset Feroarje de posysje fan it advysfinster mei it jaan fan koördinaten
 notifywin Advysfinster
+notls Het MSN Protocol 9 hathet tls-package nedich. Dizze package is net installeard op dizze computer. At it wol installeard is, moast de bibliotheek-map beskriuwn wurde yn het ynstellings-menu. (fb /opt/tls/lib) \n \n Kinst t ek deldonderje fan http://tls.sf.net
 nousersinsession Gjin gebrûker yn sitting
 offline Net oanmeld
 ok Ok
@@ -278,6 +290,7 @@ personal Persoanlik
 phone Telefoan
 picfile Alarm byldbestân (GIF < 500 x 500 pixels)
 picstatus Skakel alarm byldbestân oan/út
+pluginselector Selectear de Plugins
 port Poarte
 prefalerts Myn Alarm en Lûd
 prefapps Programma's
@@ -291,6 +304,7 @@ preferences Ynstellings
 preffont2 Feroarje hoe't oaren myn tekst sjoche
 preffont3 Feroarje aMSN's lettertype en grute
 preffont Myn berjochtentekst
+preflibs Bibliotheek mappen
 preflog1 Myn Skiednis- en Logboekynstellings
 preflook Myn aMSN Messenger Styl
 prefmsging Hoe't myn berjochten d'r útsjoche
@@ -320,6 +334,8 @@ proxyconnection Ik bin mei het internet ferbun troch een proxy server
 proxy Ik meitsje brûk fan in Proxy Server (HTTP of SOCKS5)
 publishphones Publisear myn telefoannûmers
 raised omheech gien
+readonlymsgbox De bestans-ferstjoer is annuleard omdat de de ontfangende map allinich lezzen (read-only) is.
+readonlywarn Waarskoging: het bestan sil net goed opslein wurdde, omdat de "received files" -map tsjin skriuwen befeilige is. Soarche der earst foar dat de tastimmings op de map: ($1) goed stean, foar de bestansferstjoering begjint.
 receivedbytes $1 fan $2 bytes krigen
 receivefile Ûntfang bestân
 reconnecting Op'e nei oan't ferbine mei de server
@@ -336,6 +352,8 @@ savecontacts Kontaktenlist bewarje
 savetofile Bestân bewarje
 says $1 seit
 sbcon Mei Switch Board oan't ferbine 
+selectplugins Selectear de plugins die ast oansette wolst.
+selectskin Kies een hud (skin) ut e liste.
 send Ferstjoer 
 sendfile Ferstjoer in bestân
 sendmail Ferstjoer in email
@@ -345,6 +363,8 @@ servergoingdown De server giet út
 server Server
 session Sitting
 showblockedlist Lit de list sjen, fan minsken dy dy blokkeart hawwe
+skin Hud (skin)
+skinselector Selectear de hud (skin)
 smileconfig Eigen Gnysker-ynstellings
 smilefile Gnysker bestansnamme:
 smileintro2 Bewurkje de benedigde fjilden om een neije eigen Gnysker te meitsjen
