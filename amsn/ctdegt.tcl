@@ -245,7 +245,7 @@ proc Preferences { settings } {
 	set nbApps   [getNote $nb.p $nbtApps]
 	LabelEntry $nbApps.browser "[trans browser]" myconfig(browser) 20
 	LabelEntry $nbApps.mailer "[trans mailer]" myconfig(mailcommand) 20
-	label $nbApps.mailerhot -text "Leave blank for using hotmail web mail" -font splainf
+	label $nbApps.mailerhot -text "[trans leaveblankforhotmail]" -font splainf
 	pack $nbApps.browser $nbApps.mailer  $nbApps.mailerhot -side top
         bind .cfg <Control-a> { pickNote $nb.p $nbtApps }
 
@@ -398,6 +398,9 @@ proc LabelEntryGet { path } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.8  2002/07/01 00:06:55  airadier
+# Translation
+#
 # Revision 1.7  2002/07/01 00:05:06  airadier
 # Hotmail web mail used as mailer if field is left blank
 #

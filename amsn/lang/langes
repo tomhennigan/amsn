@@ -75,6 +75,7 @@ ipaddress Dirección IP
 is está
 joins $1 $2 se une a la conversación
 language Lenguaje
+leaveblankforhotmail Dejar en blanco para usar hotmail
 leaves $1 deja la conversación
 listeningon Escuchando en el puerto $1
 listsmileys Smileys en contactos

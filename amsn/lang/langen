@@ -74,6 +74,7 @@ ipaddress IP Address
 is is
 joins $1 $2 joins conversation
 language Language
+leaveblankforhotmail Leave blank for using hotmail web
 leaves $1 leaves conversation
 listeningon Listening on port $1
 listsmileys List smileys
