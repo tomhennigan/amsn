@@ -33,16 +33,16 @@ areacode Vorwahl
 aretyping $1 geben Nachrichten ein
 autoaccepted Dateitransfers automatisch akzeptieren
 autoacceptft Dateianfragen automatisch akzeptieren
-autoaway Setze mich "Away" nach Inaktivität von
+autoaway Setze mich "Abwesend" nach Inaktivität von
 autoconnect2 Automatisch Einloggen wenn aMSN gestartet wird
 autoconnect Automatische Anmeldung beim Starten
 autohotmaillog Automatische Anmeldung bei Hotmail
 autoidle Automatische Senkung des Prozessorverbrauchs wenn inaktiv
 autoip Automatische IP
-autonoact Setze mich "Not Availible" nach Inaktivität von
+autonoact Setze mich "Nicht Activ" nach Inaktivität von
 avoidseen Dieser Person nicht ermöglichen, zu sehen, wenn ich online bin, und Kontakt mit mir aufzunehmen
 away Abwesend
-awaymsg1 Jedes mal nach der Away-Nachricht fragen, wenn ich meinen Status zu Away/BRB/Busy wechsle
+awaymsg1 Jedes mal nach der Away-Nachricht fragen, wenn ich meinen Status zu Away/BGZ/Busy wechsle
 awaymsg2 Nie nachfragen und immer den Untenstehenden Grund verwenden
 baduserpass Benutzername oder Passwort ungültig
 bgcolor Die Hintergrundfarbe von aMSN ändern
@@ -51,12 +51,12 @@ block Blockieren
 blocked Blockiert
 blockedyougroup Separate Gruppe anzeigen für die Leute, die Sie blockiert haben
 blocking Blockieren
-blockinter1 Wenn Ihr Status online ist, alle 
+blockinter1 Wenn Ihr Status online ist, alle
 blockinter2 Sekunden checken, ansonsten alle :
 blockinter3 alle
 blockinter4 Sekunden.
 blocklist Blockieren - Liste :
-blockmessage Diese Personen sind Online und blocken Sie
+blockmessage Diese Personen sind Online und blockieren Sie
 blockusers Anzahl der auf einmal zu testenden Benutzer
 broughtby Von diesen Entwickler für dich gebracht
 browse Navigieren
@@ -66,7 +66,7 @@ busy Beschäftigt
 cancel Abbrechen
 cannotdeleteprofile Kann das Profil nicht löschen, da es anscheinend von einer Amsn session verwendet wird.
 cantexec Kann $1 nicht ausführen. Überprüfe die Einstellungen
-casesensitive Use case-sensitive triggers Buchstabenkombinationen verwenden, die auf Groß -und Kleinschreibung achten
+casesensitive Buchstabenkombinationen verwenden, die auf Groß und Kleinschreibung achten
 cfgalarm Benachrichtigung konfigurieren/hinzufügen/löschen
 changedisplaypic Anzeigebild ändern
 changefont Die Schriftart ändern
@@ -79,7 +79,7 @@ chatreq Einladung zum Chat
 chatsmileys2 Smileys und Emoticons im Chat-Fenster anzeigen
 chatsmileys Smileys während Chat
 checkblocking Fortwährend testen ob Benutzer Sie blockieren
-checkfilman Empfangene Dateien werden in $1 gespechert. Bitte überprüfen sie die file manager Einstellungen im Einstellungen-Fenster
+checkfilman Empfangene Dateien werden in $1 gespeichert. Bitte überprüfen sie die Dateimanager Einstellungen im Einstellungen-Fenster
 checkingver Auf neue Versionen prüfen
 checkonfln Testen ob ein Benutzer Sie blockiert hat wenn er Offline geht
 checkver Auf neue Version prüfen
@@ -89,10 +89,10 @@ choosebgcolor Hintergrundfarbe Auswählen
 choosecontact Bitte wählen Sie einen Kontakt aus der Liste
 choosefontcolor Schriftfarbe auswählen
 chooseskin Bitte wähle einen Skin aus
-clearlog2 Alle Historys zurücksetzen
+clearlog2 Alle Logs zurücksetzen
 clearlog3 Alle Logs leeren
 clearlog Log löschen
-clicktologin Klicken Sie hier, um sich anzumelden 
+clicktologin Klicken Sie hier, um sich anzumelden
 closed Geschlossen
 close Schließen
 closingdocks Schaltfläche "Schließen" koppelt Fenster
@@ -396,12 +396,12 @@ sound Akustische Signale
 soundcommand Muss das Play Kommando sein (Bsp.: esdplay)
 soundexample ( \$sound = Sounddatei, die abgespielt werden soll) Bsp: esdplay \$sound
 soundfile Mit der Benachrichtigung verbundene Klang-Datei
-soundloop Den Klang unendlisch abspielen
+soundloop Den Klang unendlich abspielen
 soundserver Klangserver
 soundstatus Akustisches Signal ein/ausschalten
 sourcecode Quelltext
 sslwarning WARNUNG: Wenn Sie SSL deaktiviern, wird auch Verschlüsselung deaktiviert. Deshalb wir Ihr Passwort im Klartext über das Netzwerk gesendet. Tun Sie dies nur bei wirklich guten Proxyservern, oder Netzwerkkonfigurationen.
-startoffline2 Als "Als offline anzeigen" anmelden
+startoffline2 Als "Alssoundloop Den Klang unendlich abspielen offline anzeigen" anmelden
 startoffline Offline-Modus beim Start
 stateautomsg Autonachricht die gesendet werden soll
 statechange Status gewechselt in:
