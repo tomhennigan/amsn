@@ -598,7 +598,7 @@ namespace eval ::amsn {
             }
 
             set currtime  [clock clicks -milliseconds]
-            set difftime  [expr $currtime - $lasttimes($cookie)]
+            set difftime  [expr {$currtime - $lasttimes($cookie)}]
 
             if {![info exists rates] || ![info exists rates($cookie)]} {
                 set rates($cookie) "???"
@@ -607,21 +607,21 @@ namespace eval ::amsn {
 
             if {$difftime >= $TX_UPDATE_INTERVAL} {
                 # How many bytes did we transfer in the last second?
-                set diffbytes [expr $bytes - $lastbytes($cookie)]
+                set diffbytes [expr {$bytes - $lastbytes($cookie)}]
 
                 # Times a thousand because we used milliseconds and we want
                 # the speed in seconds. Divides by 1024 to get it in KBs.
                 # "K" is more polyglot than "KB", right?
-                set r [expr (1.0*$TX_UPDATE_INTERVAL*$diffbytes/$difftime)/1024]
+                set r [expr {(1.0*$TX_UPDATE_INTERVAL*$diffbytes/$difftime)/1024}]
 		if {$r != 0 } {
-		    if { [catch {set time [expr int {((($filesize - $bytes) / 1024) / $r)}]}] != 0 } {
+		    if { [catch {set time [expr {int (((($filesize - $bytes) / 1024) / $r))}]}] != 0 } {
 			set rates(time$cookie) "???"
 		    } else {
-			set temp1 [expr int {($time / 60)}]
-			set t1 [expr $time - ($temp1 * 60)]
-			set temp2 [expr int {($temp1 / 60)}]
-			set t2 [expr $temp1 - ($temp2 * 60)]
-			set t3 [expr int {($temp2 / 60)}]
+			set temp1 [expr {int (($time / 60))}]
+			set t1 [expr {$time - ($temp1 * 60)}]
+			set temp2 [expr {int (($temp1 / 60))}]
+			set t2 [expr {$temp1 - ($temp2 * 60)}]
+			set t3 [expr {int (($temp2 / 60))}]
 			set rates(time$cookie) [format "%02i:%02i:%02i" $t3 $t2 $t1]
 		    }
 
@@ -1470,7 +1470,7 @@ namespace eval ::amsn {
       }
 
       if { [catch {toplevel $wname -width 400 -height 300 -borderwidth 0 -highlightthickness 0 } res ] } {
-         graise $wname
+         raise $wname
 	 focus $wname
          return 0
       }
@@ -1620,8 +1620,8 @@ namespace eval ::amsn {
 	
       if { [string length $msg] > 400 } {
       	set first 0
-	while { [expr $first + 400] <= [string length $msg] } {
-		set msgchunk [string range $msg $first [expr $first + 399]]
+	while { [expr {$first + 400}] <= [string length $msg] } {
+		set msgchunk [string range $msg $first [expr {$first + 399}]]
 		set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
 		::MSN::messageTo $chatid "$msgchunk" $ackid
 		incr first 400
@@ -1889,7 +1889,7 @@ namespace eval ::amsn {
       raise ${win_name}
       focus -force ${win_name}.f.in.input
 
-  }
+   }
 	  #///////////////////////////////////////////////////////////////////////////////
 
 	  if { $initialize_amsn == 1 } {
@@ -2622,7 +2622,7 @@ proc change_myfontsize {size name} {
 
   catch {.${name}.f.out.text tag configure yours -font "$fontfamily $fontsize $fontstyle"} res
   catch {.${name}.f.in.input configure -font "$fontfamily $fontsize $fontstyle"} res
-  catch {.${name}.f.in.input configure -foreground #[lindex $config(mychatfont) end]} res
+  catch {.${name}.f.in.input configure -foreground "#[lindex $config(mychatfont) end]"} res
 
   #Get old user font and replace its size
   catch {
@@ -3398,7 +3398,7 @@ proc cmsn_draw_online { {force 0} } {
    
    if {$config(listsmileys)} {
 	smile_subst $pgBuddy.text.mystatus 
-    }
+   }
 
    
    #Calculate number of lines, and set my status size (for multiline nicks)
@@ -4254,9 +4254,9 @@ proc VerifySelect { path list } {
    if { [$path.${list}list.box curselection] == "" } {
 	$path.status configure -text "[trans choosecontact]"
        return 0
-    }  else {
+   }  else {
 	return 1
-    }
+   }
 
 }
 
@@ -4511,17 +4511,17 @@ proc idleCheck {} {
 
    # TODO: According to preferences, this is always true
    if { $config(awaytime) >= $config(idletime) } {
-	set first [expr $config(awaytime) * 60]
+	set first [expr {$config(awaytime) * 60}]
 	set firstvar "autoaway"
 	set firststate "AWY"
 	set second [expr $config(idletime) * 60]
 	set secondvar "autoidle"
 	set secondstate "IDL"
    } else {
-	set second [expr $config(awaytime) * 60]
+	set second [expr {$config(awaytime) * 60}]
 	set secondvar "autoaway"
 	set secondstate "AWY"
-	set first [expr $config(idletime) * 60]
+	set first [expr {$config(idletime) * 60}]
 	set firstvar "autoidle"
 	set firststate "IDL"
    }
@@ -4823,7 +4823,7 @@ proc BossMode { } {
 proc updatebossmodetime { } {
 
     .bossmode.time configure -text "[string map { \" "" } [clock format [clock seconds] -format \"%T\"]]"
-
+	#" Just to fix some editos syntax hilighting
     after 1000 updatebossmodetime
 }
 
@@ -4864,8 +4864,8 @@ proc window_history { command w } {
 		    return
 		}
 
-		set win_history(${w}_count) [expr $idx + 1]
-		set win_history(${w}_index) [expr $idx + 1]
+		set win_history(${w}_count) [expr {$idx + 1}]
+		set win_history(${w}_index) [expr {$idx + 1}]
 #		set win_history(${w}_${idx}) "$msg"
 		lappend win_history(${w}) "$msg"
 
@@ -4901,8 +4901,9 @@ proc window_history { command w } {
 		}
 		set win_history(${w}_temp) "$msg"
 	    }
-
-	    set idx [expr $idx - 1]
+	    
+	    incr idx -1
+	    #set idx [expr {$idx - 1}]
 	    set win_history(${w}_index) $idx
 	        
 	    $w delete $zero end
@@ -4915,7 +4916,8 @@ proc window_history { command w } {
 	    set idx $win_history(${w}_index)
 	    if { $idx ==  $win_history(${w}_count) } { return -1}
 
-	    set idx [expr $idx +1]
+	    incr idx
+	    #set idx [expr $idx +1]
 	    set win_history(${w}_index) $idx
 	    $w delete $zero end
 	    #	    if {! [info exists win_history(${w}_${idx})] } { }

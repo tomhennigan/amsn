@@ -48,7 +48,7 @@ proc LoadStateList {} {
 		}
 		for { set idx2 0 } { $idx2 < $tmp_data } { incr idx2 1 } {
 		    append message [gets $file_id]
-		    if { $idx2 < [expr $tmp_data - 1] } {
+		    if { $idx2 < [expr {$tmp_data - 1}] } {
 			append message "\n"
 		    }
 		}
@@ -79,7 +79,7 @@ proc SaveStateList {} {
     puts $file_id "amsn_states_version 1"
     
     set idx 0
-    while { $idx <= [expr [StateList size] - 1] } {
+    while { $idx <= [expr {[StateList size] - 1}] } {
 	set tmp [StateList get $idx]
 	puts $file_id "[lindex $tmp 0]"
 	puts $file_id "[lindex $tmp 1]"
@@ -98,7 +98,7 @@ proc SaveStateList {} {
     puts $file_id "<?xml version=\"1.0\"?>\n\n<states>"
     
     set idx 0
-    while { $idx <= [expr [StateList size] - 1] } {
+    while { $idx <= [expr {[StateList size] - 1}] } {
 	set tmp [StateList get $idx]
 	puts $file_id "   <newstate>\n      <name>[lindex $tmp 0]</name>"
 	puts $file_id "      <state>[lindex $tmp 1]</state>\n      <message>[lindex $tmp 3]</message>\n   </newstate>\n"
@@ -136,7 +136,7 @@ proc StateList { action { argument "" } {argument2 ""} } {
 	promote {
 	    set temp $StatesList($argument)
 	    for {set idx $argument} {$idx > 0} {incr idx -1} {
-		set StatesList($idx) $StatesList([expr $idx - 1])
+		set StatesList($idx) $StatesList([expr {$idx - 1}])
 	    }
 	    set StatesList(0) $temp
 	    unset temp
@@ -147,10 +147,10 @@ proc StateList { action { argument "" } {argument2 ""} } {
 	}
 
 	unset {
-	    for {set idx $argument} {$idx < [expr [array size StatesList] - 1]} {incr idx} {
-		set StatesList($idx) $StatesList([expr $idx + 1])
+	    for {set idx $argument} {$idx < [expr {[array size StatesList] - 1}]} {incr idx} {
+		set StatesList($idx) $StatesList([expr {$idx + 1}])
 	    }
-	    unset StatesList([expr [array size StatesList] - 1])
+	    unset StatesList([expr {[array size StatesList] - 1}])
 	}
 
 	size {
@@ -198,7 +198,7 @@ proc CreateStatesMenu { path } {
 	$path add command -label "[trans editcurrentstate]..." -command "EditNewState 3"
     }
 
-    for {set idx 0} {$idx <= [expr $limit - 1] } { incr idx 1 } {
+    for {set idx 0} {$idx <= [expr {$limit - 1}] } { incr idx 1 } {
 	$path add command -label [lindex [StateList get $idx] 0] -command "ChCustomState $idx"
     }
 
@@ -209,7 +209,7 @@ proc CreateStatesMenu { path } {
 	if { [winfo exists .otherstates] != 1 } {
 	    menu .otherstates -tearoff 0 -type normal
 	}
-	for {} { $idx <= [expr [StateList size] - 1] } { incr idx } {
+	for {} { $idx <= [expr {[StateList size] - 1}] } { incr idx } {
 	    .otherstates add command -label [lindex [StateList get $idx] 0] -command "ChCustomState $idx"
 	}
 	.otherstates add separator
@@ -402,7 +402,7 @@ proc ButtonSaveState { lfname mode { idx "" } } {
 	StateList add $gui_info
     } elseif { $mode == 1 } {
 	StateList add $gui_info
-	ChCustomState [expr [StateList size] - 1]
+	ChCustomState [expr {[StateList size] - 1}]
 	StateList unset 0
 	CreateStatesMenu .my_menu
     } elseif { $mode == 2 } {
@@ -411,7 +411,7 @@ proc ButtonSaveState { lfname mode { idx "" } } {
 	CreateStatesMenu .my_menu
     } elseif { $mode == 3 } {
 	StateList add $gui_info
-	ChCustomState [expr [StateList size] - 1]
+	ChCustomState [expr {[StateList size] - 1}]
 	StateList unset 0
 	CreateStatesMenu .my_menu
     }

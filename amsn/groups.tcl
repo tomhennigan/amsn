@@ -79,8 +79,8 @@ namespace eval ::groups {
 		destroy .dlgag
 	    }
 	frame .dlgag.b 
-	    button .dlgag.b.ok -text "[trans ok]" \
-	    	-command {
+	button .dlgag.b.ok -text "[trans ok]" \
+		-command {
 			::groups::Add "[.dlgag.d.ent get]" dlgMsg; 
 			destroy .dlgag
 		}
@@ -336,7 +336,7 @@ namespace eval ::groups {
 	::groups::updateMenu menu .group_list ::groups::menuCmdDelete
 	# The entryid of the parent is 0
 	$parent entryconfigure $entryid -state normal
-	status_log "Groups: menu enabled\n" blue
+	#status_log "Groups: menu enabled\n" blue
    }
 
    # Call this one when going offline (disconnecting)
@@ -361,7 +361,8 @@ namespace eval ::groups {
        set uMemberCnt($nr) 0
        set uMemberCnt_online($nr) 0
        set bShowing($nr)   1
-       status_log "Groups: added group $nr ($name)\n" blue
+       
+       #status_log "Groups: added group $nr ($name)\n" blue
    }
 
    # Get a group's name (decoded) given its ID (0..n)
@@ -400,7 +401,7 @@ namespace eval ::groups {
 	    }
 	}
 	return 0
-    }
+   }
 
     proc Rename { old new {ghandler ""}} {
         set old [string trim $old]

@@ -30,7 +30,7 @@ proc compareSmileyLength { a_name b_name } {
 
 
 #///////////////////////////////////////////////////////////////////////////////
-# proc is_true { data } {
+# proc is_true { data }
 #
 # is used to see if a value is true or false while creating the emoticon
 # we need it to simplify the source code because we may need to see an XML value

@@ -66,13 +66,6 @@ proc dock_handler { sock } {
 	}
 }
 
-#proc send_dock {status} {
-#	global docksock
-#	if { $docksock != 0 } {
-#	   puts $docksock $status
-#	}
-#}
-
 proc send_dock {type status} {
 	global docksock 
 	if { $type == "STATUS" } {
@@ -145,11 +138,6 @@ proc init_dock {} {
 			}
 			catch {exec [file join ${program_dir} plugins/gnomedock] ${program_dir}/plugins/icons/ &} res
 		} elseif { $config(dock) == 2} {
-#			if { $docksock != 0 } {
-#				close_dock
-#				set config(dock) 2
-#			}
-#			catch {exec [file join ${program_dir} plugins/gnomedock] ${program_dir}/plugins/icons/ &} res
 		} elseif { $config(dock) == 3} {
 			if { $systemtray_exist == 0 } {
 				trayicon_init

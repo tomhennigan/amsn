@@ -275,7 +275,7 @@ proc load_config {} {
  	#puts "Password length is: [string first "\n" $config(remotepassword)]\n"
  	set config(remotepassword) [string range $config(remotepassword) 0 [expr { [string first "\n" $config(remotepassword)] -1 }]]
  	#puts "Password is: $config(remotepassword)\nHi\n"      
-     }
+    }
      
 
 	# Load up the personal states
@@ -411,18 +411,19 @@ proc LoginList { action age {email ""} {lock ""} } {
 			set idx [lsearch $tmp_list "$email"]
 			if { $idx == -1 } {
 				# User dosen't exist, proceed normaly
-				for {set idx [expr [array size ProfileList] - 1]} {$idx >= 0} {incr idx -1} {
-					set ProfileList([expr $idx + 1]) $ProfileList($idx)
-					set LockList([expr $idx + 1]) $LockList($idx)
+				for {set idx [expr {[array size ProfileList] - 1}]} {$idx >= 0} {incr idx -1} {
+					set ProfileList([expr {$idx + 1}]) $ProfileList($idx)
+					set LockList([expr {$idx + 1}]) $LockList($idx)
 				} 
 				set ProfileList(0) $email
 				set LockList(0) $lock
 			} else {
 				# This means user exists, and we make him newest
-				set emaillock $LockList([expr [expr $idx-1] / 2])
-				for {set idx [lindex $tmp_list [expr $idx - 1]]} {$idx > 0} {incr idx -1} {
-					set ProfileList($idx) $ProfileList([expr $idx - 1])
-					set LockList($idx) $LockList([expr $idx - 1])
+				#set emaillock $LockList([expr {[expr {$idx-1}] / 2}])
+				set emaillock $LockList([expr {($idx-1) / 2}])
+				for {set idx [lindex $tmp_list [expr {$idx - 1}]]} {$idx > 0} {incr idx -1} {
+					set ProfileList($idx) $ProfileList([expr {$idx - 1}])
+					set LockList($idx) $LockList([expr {$idx - 1}])
 				}
 				set ProfileList(0) $email
 				set LockList(0) $emaillock
@@ -433,12 +434,12 @@ proc LoginList { action age {email ""} {lock ""} } {
 			set tmp_list [array get ProfileList]
 			set idx [lsearch $tmp_list "$email"]
 			if { $idx != -1 } {
-				for {set idx [lindex $tmp_list [expr $idx - 1]]} {$idx < [expr [array size ProfileList] - 1]} {incr idx} {
-					set ProfileList($idx) $ProfileList([expr $idx + 1])
-					set LockList($idx) $LockList([expr $idx + 1])
+				for {set idx [lindex $tmp_list [expr {$idx - 1}]]} {$idx < [expr {[array size ProfileList] - 1}]} {incr idx} {
+					set ProfileList($idx) $ProfileList([expr {$idx + 1}])
+					set LockList($idx) $LockList([expr {$idx + 1}])
 				}
-			unset LockList([expr [array size ProfileList] - 1])
-			unset ProfileList([expr [array size ProfileList] - 1])
+			unset LockList([expr {[array size ProfileList] - 1}])
+			unset ProfileList([expr {[array size ProfileList] - 1}])
 			}
 		}
 
@@ -493,7 +494,7 @@ proc LoginList { action age {email ""} {lock ""} } {
 		}
 				
 		size {
-			return [expr [array size ProfileList] - 1]
+			return [expr {[array size ProfileList] - 1}]
 		}
 
 		show {
@@ -813,9 +814,9 @@ proc GetRandomProfilePort { } {
 	while { $trigger == 0 } {
 		# Generate random port between 60535 and 65535
 		set Port [expr rand()]
-		set Port [expr $Port * 10000]
-		set Port [expr int($Port)]
-		set Port [expr $Port + 60535]
+		set Port [expr {$Port * 10000}]
+		set Port [expr {int($Port)}]
+		set Port [expr {$Port + 60535}]
 		# Check if port isn't on another profile already
 		if { [LoginList lockexists 0 $Port] != 1 } {
 			set trigger 1

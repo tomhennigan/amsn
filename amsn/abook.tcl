@@ -108,7 +108,9 @@ namespace eval ::abook {
 		#set value [adjustGroup $value]
 		set value [split $value ,]
 		set contacts($email) [lreplace $contacts($email) 0 0 $value]
-		status_log "Added groups $value for $email\n" white
+		
+		#status_log "Added groups $value for $email\n" white
+		
 	    }
 	    nick {	;# From LST.FL (User handle)
 		set contacts($email) [lreplace $contacts($email) 1 1 $value]
@@ -411,6 +413,10 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.26  2003/09/04 13:00:35  airadier
+# Updated TODO.
+# Syntax checking (some minor syntax improvements).
+#
 # Revision 1.25  2003/08/03 18:30:03  airadier
 # Small bug Fix
 #

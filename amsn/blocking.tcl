@@ -39,7 +39,8 @@ proc show_blocked { } {
    for {set idx 0} {$idx < $items} {incr idx 1} {
       set emailB [lindex $blockers $idx]; incr idx 1
 
-       set row [expr 2 + [expr $idx / 2]]
+       #set row [expr {2 + [expr {$idx / 2}]}]
+       set row [expr {2 + ($idx / 2)}]
 
        label ${wname}.c.txt${idx} -text "$emailB"
        grid ${wname}.c.txt${idx} -row $row -column 1 -sticky w -pady 10
@@ -55,7 +56,8 @@ proc show_blocked { } {
     
     button ${wname}.c.ok -text [trans ok] -command "destroy ${wname}"
     
-    set row [expr [expr [array size emailBList]] + 2]
+    #set row [expr {[expr {[array size emailBList]}] + 2}]
+    set row [expr {[array size emailBList] + 2}]
     grid ${wname}.c.ok -row $row -column 0 -pady 10
 
     button ${wname}.c.refresh -text [trans Refresh] -command "VerifyBlocked ; show_blocked"
@@ -115,7 +117,7 @@ proc BeginVerifyBlocked { {interval 60} {interval2 300} {nbre_users 2} {interval
     set stop_VerifyBlocked 0
 
 
-    set interval3 [expr $interval3 * 1000]
+    set interval3 [expr {$interval3 * 1000}]
 
     while { 1 } {
 
@@ -124,9 +126,9 @@ proc BeginVerifyBlocked { {interval 60} {interval2 300} {nbre_users 2} {interval
 	}
 
 	if { "$user_stat" == "NLN" } {
-	    after [expr $interval * 1000] "VerifyBlocked $nbre_users $interval3"
+	    after [expr {$interval * 1000}] "VerifyBlocked $nbre_users $interval3"
 	} else {
-	    after [expr $interval2 * 1000] "VerifyBlocked $nbre_users $interval3"
+	    after [expr {$interval2 * 1000}] "VerifyBlocked $nbre_users $interval3"
 	}
 
 	set VerifyEnd 2
@@ -196,11 +198,12 @@ proc ContinueVerifyBlocked { nbre_users interval } {
 	set state_code [lindex $state 0]
 
 	if { $state_code =="FLN" && ([sb get $sbn_blocking stat] != "d" && [sb get $sbn_blocking stat] != "") } {
-	    set counter [expr $counter + 1 ]
+#	    set counter [expr {$counter + 1 }]
+	    incr counter	    
 	    ::MSN::WriteSB $sbn_blocking "CAL" "[lindex $user 0]" "CALReceived $sbn_blocking [lindex $user 0]"
 	    
 	}
-   }
+    }
 
     set VerifyEnd 1
 }

@@ -34,7 +34,7 @@ DONE	Don't save password if login fails becoz of wrong username or password
 DONE	Notify window is only clickable on the text, should make whole window clickable
 DONE	Add X in corner of notify window to close, maybe make it nicer too (border, etc)
 -	Write procedure to redraw main window for language + font changes
--	Fix new profile issues for existing users, should ask them to add profile even if they dont go to "login as"
+DONE	Fix new profile issues for existing users, should ask them to add profile even if they dont go to "login as"
 -	Check for connection state, make sure amsn disconnects if connection goes down. -> add timeouts to changestates and keepalive
 DONE	Authorisation request dialogs halt all AMSN, and queue all events, then kaboom when dialog is closed, not good.
 DONE	Fix use of default config for non profile logins (currently uses hard coded default config)
@@ -55,8 +55,8 @@ DONE	Bug with font selection in preferences window. Saved if "close" clicked, bu
 DONE	Read/write profiles on login window for multiple AMSN's
 DONE	Implement lock system to make sure you don't delete profile open on another AMSN window
 DONE	Only change font preferences if save is pressed, revert to old if cancel pressed
--	Add receivedir, animatednotify and allowbadword options in preferences
--	Add disable window flicker in preferences
+-	Add receivedir, animatednotify and options in preferences
+DONE	Add disable window flicker in preferences
 
 	***Existing Feature Improvements (priority 2)***
 

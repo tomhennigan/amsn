@@ -120,7 +120,7 @@ namespace eval anigif {
 	# If the file is already opened 
 	if { [info exists ::anigif::${fname}(count)] && [set ::anigif::${fname}(count)] != 0 } {
 
-	    set ::anigif::${fname}(count) [expr [set ::anigif::${fname}(count)] + 1]
+	    set ::anigif::${fname}(count) [expr {[set ::anigif::${fname}(count)] + 1}]
 	    set ::anigif::${w}(fname) $fname
 	    $w configure -image [set ::anigif::${fname}(curimage)]
 
@@ -217,8 +217,8 @@ namespace eval anigif {
 	    }
 	    set fname [set ::anigif::${w}(fname)]
  
-	    if { [expr [set ::anigif::${fname}(count)] - 1]} {
-		set ::anigif::${fname}(count) [expr [set ::anigif::${fname}(count)] - 1]
+	    if { [expr {[set ::anigif::${fname}(count)] - 1}]} {
+		set ::anigif::${fname}(count) [expr {[set ::anigif::${fname}(count)] - 1}]
 		unset ::anigif::${w}
 		
 	    } else {

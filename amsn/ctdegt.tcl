@@ -1194,9 +1194,9 @@ proc UpdatePreferences {} {
 proc setCfgFonts {path value} {
 	catch {set res [$path cget -font]}
 	if { [info exists res] } {
-	        if { $res != "sboldf" && $res != "examplef" } {
+		if { $res != "sboldf" && $res != "examplef" } {
 		    catch { $path config -font $value }
-        	}
+		}
 	}
         foreach child [winfo children $path] {
             setCfgFonts $child $value
@@ -1474,7 +1474,7 @@ proc LabelFrame:create {w args} {
   }
   $w.l config -text $text
   pack $w.f -padx $padx -pady $pady -fill both -expand 1
-  place $w.l -x [expr $padx+10] -y $pady -anchor w
+  place $w.l -x [expr {$padx+10}] -y $pady -anchor w
   pack $w.f.f -padx $ipadx -pady $ipady -fill both -expand 1
   raise $w.l
   return $w.f.f
@@ -1533,6 +1533,10 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.75  2003/09/04 13:00:36  airadier
+# Updated TODO.
+# Syntax checking (some minor syntax improvements).
+#
 # Revision 1.74  2003/09/02 08:31:20  kakaroto
 # Skin selector GUI
 #
