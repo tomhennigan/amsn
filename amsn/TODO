@@ -41,6 +41,7 @@ kakaroto * zyffe@hotmail.com
 	** General issues **
 -	Option to display or not the chat button bar
 -	Option to enable/disable showing timestamps
+-	Add option to modify keepalive interval (in seconds)
 -	Add a "typed characters" counter in chat window.
 -	Add an option to remove the amsn banner on contact list.
 -	Make Advanced buttons in preferences (maybe a Key - Value type of list for advanced users)
