@@ -1,84 +1,156 @@
 amsn_lang_version 2
 about Über
+acceptfile Datei $1 (Größe: $2) annehmen? In $3 gespeichert
+actions Aktionen
 addacontact Kontakt hinzufügen
-addedyou hat dich hinzugefügt zu seine/seiner Kontact liste
-addtoo Kontakt hinzufügen
-allowseen Personen erlauben zu sehen wenn ich Online bin
-appearoff Offline
+addedyou hat dich ihrer/seiner Kontaktliste hinzugefügt
+addtoo Diese Person meiner Kontaktliste hinzufügen
+admincontacts Verwaltung - Kontakte
+admingroups Verwaltung - Gruppen
+adverts Werbung
+allowseen Dieser Person ermöglichen, zu sehen, wenn ich online bin, und Kontakt mit mir aufzunehmen
+appearoff Als offline anzeigen
 are sind
-avoidseen Personen nicht erluben wenn ich Online bin
+autohotmaillog Automatische Anmeldung bei Hotmail
+autoip Automatische IP
+avoidseen Dieser Person nicht ermöglichen, zu sehen, wenn ich online bin, und Kontakt mit mir aufzunehmen
 away Abwesend
-blankdirect Leer lassen für direkte verbindung
+baduserpass Benutzername oder Passwort ungültig
+blankdirect Bei direkter Verbindung leer lassen
 block Blockieren
+blocked Blockiert
+browser Browser
 busy Beschäftigt
-cancel Cancel
-changenick Name ändern
+cancel Abbrechen
+changenick Namen ändern
 chat Chat
 chatreq Einladung zum Chat
+chatsmileys Smileys während Chat
 chatack Chat annehmen von
-checkver Nach update suchen
-checkingver Suche nach update
+checkver Auf neue Version prüfen
+checkingver Auf neue Versionen prüfen
 clicktologin Hier klicken zum anmelden
-close Schliessen
+close Schließen
+closingdocks Schaltfläche "Schließen" koppelt Fenster
+command Befehl
+confirmdelete $1 wirklich löschen?
 contactadded Kontakt hinzugefügt
-connecterror Fehler beim verbinden zum Server
+contactdoesnotexist Kontakt nicht vorhanden!
+connecterror Verbindungsaufbau zum Server fehlgeschlagen!
 date Datum
 delete Löschen
-entercontactemail Geben sie Kontakt E-mail ein
-enternick Nick-Name eingeben
-examples Beispiel
-gonelunch Mittagessen
+enableproxy Proxy aktivieren
+entercontactemail Gib eine E-Mail-Adresse ein
+enterfilename Gib einen Dateinamen ein
+enternick Gib deinen Namen ein
+examples Beispiele
+exitamsn Wirklich beenden?
+filedoesnotexist Datei nicht vorhanden
+filename Dateiname
+filetransfercancelled Übertragung abgebrochen
+filetransfercomplete Übertragung abgeschlossen
+gonelunch Mittagspause
+group Gruppe
+groupadd Gruppe hinzufügen
+groupdelete Gruppe löschen
+grouprename Gruppe umbenennen
+groupoldname Alter Name
+groupnewname Neuer Name
+groupunknown Unbekannte Gruppe
+groupexists Gruppe bereits vorhanden
+groupmissing Gruppe kann nicht gefunden werden
+handle Handle
 help Hilfe
-ident Identifieziere
+helpcontents Hilfe - Inhalt
+home Start
+ident Identifiziere
+identity Identität
+inbox Posteingang
+invalidusername Benutzername ungültig
 invite Einladen
+ipaddress IP-Adresse
 is ist
-joins $1 $2 wurde zum chat hinzugegügt
+joins $1 $2 wurde dem Chat hinzugefügt
 language Sprache
 leaves $1 hat Chat verlassen
-loggingin Anmeldung ...
-login Anmelden
+listeningon Port $1
+listsmileys Smiley-Auswahlfenster anzeigen
+loadcontacts Kontaktliste laden
+loggedotherlocation Verbindung getrennt.
+loggingin Anmeldung läuft...
+login Anmeldung
 loginas Anmelden als
 logout Abmelden
 logsin hat sich gerade angemeldet
-mustrestart Sie müssen programm neustarten um änderungen zu übernehmen
-mystatus mein Status
+mailer E-Mail
+mobile Mobil
+mustrestart Änderungen werden erst nach einem Neustart übernommen
+mystatus Mein Status
 msg Nachricht
 msn AMSN
-newmail $1 neue nachrichten in der In-Box
-newmailfrom Neue Nachricht von
+needonline Du bist noch immer offline bzw. wirst als offline angezeigt!
+newmail $1 neue Nachrichten im Posteingang
+newmailfrom Neue E-Mail von
 newmsg Neue Nachricht
-newveravailable Neue Version $1 verfügbar für Downmload
-next Nächste
-noactivity Keine aktivität
-nonewver Es sind zur Zeit keine Updates vorhanden
+newveravailable Neuere Version $1 steht zur Verfügung
+next Weiter
+noactivity inaktiv
+nonewver Zurzeit keine neue Version verfügbar
 notify Benachrichtigen
-nousersinsession Keine User in dieser Session
-ok Ok
+nousersinsession Keine Benutzer in Sitzung
+ok OK
 offline Offline
 online Online
 onphone Am Telefon
+openreceived Empfangene Datei(en) aufrufen
+options Optionen
+ordercontactsby Kontakte sortieren nach
 other Andere
-pass Password
+pager Pager
+pass Passwort
+phone Telefon
 port Port
-proxyconf Proxy configuration
-proxyconfhttp HTTP proxy support configuration
-reconnect Warte auf $1 zum verbinden
-reconnecting Verbinde zu Server
-rememberpass Password speichern
-rightback Gleich zurück
+prefapps Anwendungen
+preferences Einstellungen
+prefsound Akustische Signale
+properties Eigenschaften
+proxyconf Proxy-Konfiguration
+proxyconfhttp Konfiguration: HTTP-Proxy-Unterstützung
+publishphones Meine Telefonnummern veröffentlichen
+receivedbytes $1 von $2 Bytes empfangen
+receivefile Datei empfangen
+reconnect Warte, bis $1 wieder angemeldet ist
+reconnecting Erneute Anmeldung beim Server
+rememberpass Passwort speichern
+rightback Bin gleich zurück
+save Speichern
+saveas Speichern unter
+savecontacts Kontaktliste speichern
 says $1 sagt
-sbcon Verbinde zu Switch Board
-send Sende
+sbcon Verbinde mit Server
+send Senden
+sendfile Datei senden
+sendmail E-Mail senden
+sendmsg Nachricht senden
+sentbytes $1 von $2 Bytes gesendet
 server Server
-sound Akkustisches signal
+servergoingdown Verbindungsabbruch: Serverfehler
+sound Akustische Signale
+startoffline Offline-Modus beim Start
+syntaxerror  Syntaxfehler
+textsize Textgröße
 title Al's Messenger
-to zu
-typing $1 gibt nachricht ein
-yousay Du sagtest
+to An
+tools Extras
+typing $1 gibt eine Nachricht ein
+yousay Du sagst
 youwant Du willst
-unblock Entblocken
+unblock Blockieren entfernen
 uoffline Offline
 uonline Online
 user Benutzer
+useralreadyonlist Benutzer ist bereits in Kontaktliste
 version Version
-willjoin $1 wartet das er zur konversation hinzugefügt wird
+view Ansicht
+willjoin Warte... $1 wird dem Chat hinzugefügt
+work Arbeit
