@@ -3111,7 +3111,8 @@ namespace eval ::amsn {
 		
 		#To put the notify window in front of all, specific for Windows only
 		if {$tcl_platform(platform) == "windows"} {
-			wm attributes $w -topmost 1
+			#Some verions of tk don't support this
+			catch { wm attributes $w -topmost 1 }
 		}
 
 
