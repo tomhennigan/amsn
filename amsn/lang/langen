@@ -173,6 +173,7 @@ faq FAQ (Frequently Answered Questions)
 failed Failed
 faileddelete Failed to delete
 faileddeleteperso This picture cannot be deleted because it is not a personal picture file. Only pictures that belong to your personal profile can be removed this way.
+file File
 filedoesnotexist File does not exist
 filemanexample ( \$location will be replaced with the directory ) Ex: nautilus \$location
 fileman File Manager

@@ -173,6 +173,7 @@ faileddelete No se pudo borrar
 faileddeleteperso Esta imagen no se puede borrar porque no es una imagen personal para mostrar. Sólo las imágenes que pertenecen a tu perfil personal pueden ser eliminadas así.
 failed Fallo
 faq FAQ (Preguntas frecuentes)
+file Archivo
 filedoesnotexist El archivo no existe
 fileman Administrador de Archivos
 filemanexample ( \$location será reemplazado por el directorio ) Ej: nautilus \$location

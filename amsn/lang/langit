@@ -168,6 +168,7 @@ examples Esempi
 exitamsn Sei sicuro di voler uscire ?
 extras Servizi extra
 faq FAQ (Risposte alle domande più frequenti)
+file Archivio
 filedoesnotexist Il file non esiste
 filemanexample ( \$location sarà rimpiazzato dalla cartella ) Es: nautilus \$location
 fileman File Manager

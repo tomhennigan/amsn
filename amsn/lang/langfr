@@ -174,6 +174,7 @@ faileddelete Échec de l'effacement
 faileddeleteperso Cette photo ne peut pas être effacée parce qu'elle n'est pas un fichier de photo personnelle. Seulement les photos qui appartiennent à votre profil personnel peuvent être effacées de cette façon.
 failed Échec
 faq Questions les plus fréquentes
+file Fichier
 filedoesnotexist Le fichier n'existe pas
 filemanexample ( \$location sera remplacé par le répertoire ) Ex: nautilus \$location
 fileman Gestionnaire de fichiers

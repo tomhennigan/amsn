@@ -1500,7 +1500,13 @@ namespace eval ::amsn {
 
       menu .${win_name}.menu -tearoff 0 -type menubar  \
          -borderwidth 0 -activeborderwidth -0
-      .${win_name}.menu add cascade -label "[trans msn]" -menu .${win_name}.menu.msn
+         
+         if {$tcl_platform(os) != "Darwin"} {
+         .${win_name}.menu add cascade -label "[trans msn]" -menu .${win_name}.menu.msn
+} else {
+		.${win_name}.menu add cascade -label "[trans file]" -menu .${win_name}.menu.msn
+}
+      
       .${win_name}.menu add cascade -label "[trans edit]" -menu .${win_name}.menu.edit
       .${win_name}.menu add cascade -label "[trans view]" -menu .${win_name}.menu.view
       .${win_name}.menu add cascade -label "[trans actions]" -menu .${win_name}.menu.actions
@@ -2959,7 +2965,13 @@ proc cmsn_draw_main {} {
 
    #Main menu
    menu .main_menu -tearoff 0 -type menubar  -borderwidth 0 -activeborderwidth -0
-   .main_menu add cascade -label "[trans msn]" -menu .main_menu.file
+   
+   if {$tcl_platform(os) != "Darwin"} {
+    .main_menu add cascade -label "[trans msn]" -menu .main_menu.file
+	} else {
+ 	.main_menu add cascade -label "[trans file]" -menu .main_menu.file
+ 	}
+  
    .main_menu add cascade -label "[trans actions]" -menu .main_menu.actions
 
    .main_menu add cascade -label "[trans tools]" -menu .main_menu.tools
