@@ -1725,12 +1725,14 @@ catch {exec killall -c sndplay}
       scrollbar .${win_name}.f.out.ys -command ".${win_name}.f.out.text yview" \
          -highlightthickness 0 -borderwidth 1 -elementborderwidth 1 
 
-	frame .${win_name}.statusbar -class Amsn -borderwidth 0 -relief solid
+		frame .${win_name}.statusbar -class Amsn -borderwidth 0 -relief solid
 
-      text .${win_name}.statusbar.status  -width 5 -height 1 -wrap none\
-         -font bplainf -borderwidth 1
-      text .${win_name}.statusbar.charstyped  -width 4 -height 1 -wrap none\
-         -font splainf -borderwidth 0
+		text .${win_name}.statusbar.status  -width 5 -height 1 -wrap none\
+			-font bplainf -borderwidth 1
+		text .${win_name}.statusbar.charstyped  -width 4 -height 1 -wrap none\
+			-font splainf -borderwidth 1
+		.${win_name}.statusbar.charstyped tag configure center -justify center
+
 
 
 		button $bottom.buttons.smileys  -image butsmile -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
@@ -1749,9 +1751,11 @@ catch {exec killall -c sndplay}
 		pack .${win_name}.f.top -side top -fill x -padx 3 -pady 0
 		pack .${win_name}.statusbar -side bottom -fill x
 		grid .${win_name}.statusbar.status -row 0 -column 0 -padx 0 -pady 0 -sticky we
-		grid .${win_name}.statusbar.charstyped -row 0 -column 0 -padx 0 -pady 0 -sticky e
+		if { [::config::getKey charscounter] } {
+			grid .${win_name}.statusbar.charstyped -row 0 -column 0 -padx 0 -pady 0 -sticky e
+		}
 		grid columnconfigure .${win_name}.statusbar 0 -weight 1
-		grid columnconfigure .${win_name}.statusbar 1 -minsize 5
+		grid columnconfigure .${win_name}.statusbar 1
 
 		grid $bottom.in -row 1 -column 0 -padx 3 -pady 3 -sticky nsew
 		grid $bottom.buttons -row 0 -column 0 -padx 3 -pady 0 -sticky ewns
@@ -2565,7 +2569,7 @@ catch {exec killall -c sndplay}
 
 		${win_name}.statusbar.charstyped configure -state normal
 		${win_name}.statusbar.charstyped delete 0.0 end
-		${win_name}.statusbar.charstyped insert end $msg
+		${win_name}.statusbar.charstyped insert end $msg center
 		${win_name}.statusbar.charstyped configure -state disabled
 	}
 

@@ -168,6 +168,7 @@ if {$tcl_platform(os) == "Darwin"} {
 		[list savechatwinsize bool savechatwinsize] \
 		[list winchatsize str defchatwinsize] \
 		[list startontray bool startontray] \
+		[list charscounter bool charscounter] \
                 [list strictfonts bool strictfonts] \
 		[list "" notifyoffset] \
 		[list notifyXoffset int xoffset] \
@@ -213,6 +214,7 @@ if {$tcl_platform(os) == "Darwin"} {
 	set config(storename) 1			;#Store original nick in a variable when go to custom states to revert it when go back
 	set config(strictfonts) 0		;#Use strict fonts' size in _ALL_ AMSN's fonts (Disabled by default)
 	set config(emailsincontactlist) 0	;#Display emails instead of nicks in the contact list
+	set config(charscounter)	1	;#Display typed characters counter
 
 
 	#System options, not intended to be edited (unless you know what you're doing)
