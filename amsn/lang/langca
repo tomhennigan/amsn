@@ -112,6 +112,7 @@ fileman Gestor de fitxers
 filename Nom del fitxer
 filetransfercancelled S'ha cancel·lat la transferència
 filetransfercomplete La transferència del fitxer ha finalitzat
+followtext Vés a la part inferior quan s'introdueixi un nou missatge en una conversa
 ftacceptedby $1 ha acceptat la invitació per la transferència del fitxer '$2'.
 ftaccepted Transferència de fitxers acceptada
 ftaccepting Acceptant la invitació per la transferència de fitxers
