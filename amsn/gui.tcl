@@ -6,11 +6,12 @@ set bgcolor2 #D0D0F0
 
 
 namespace eval ::amsn {
+
    namespace export fileTransferRecv fileTransferProgress \
    errorMsg notifyAdd initLook messageFrom chatChange userJoins\
    userLeaves updateTypers ackMessage nackMessage closeWindow \
    chatStatus chatUser
-   
+
    ##PUBLIC
 
    proc initLook { family size bgcolor} {
@@ -42,10 +43,16 @@ namespace eval ::amsn {
    }
    #///////////////////////////////////////////////////////////////////////////////
 
+   #///////////////////////////////////////////////////////////////////////////////
+   # Shows the error message specified by "msg"
+   proc infoMsg { msg } {
+      tk_messageBox -type ok -icon info -message $msg -title "[trans title]"
+   }
+   #///////////////////////////////////////////////////////////////////////////////
 
-
-   #FileTransferSend Switchboardane Windowtitle
-   #Still need to improve
+   #///////////////////////////////////////////////////////////////////////////////
+   # FileTransferSend (chatid)
+   # Shows the file transfer window, for window win_name
    proc FileTransferSend { win_name } {
       global config
 
@@ -287,7 +294,7 @@ namespace eval ::amsn {
 	 wm state ${win_name} normal
 	 wm iconify ${win_name}
 
-         notifyAdd "[trans says [::MSN::userName $chatid $user]]:\n$msg" \
+         notifyAdd "[trans says [lindex [::MSN::getUserInfo $user] 1]]:\n$msg" \
            "::amsn::chatUser $chatid"
 
       }
@@ -308,24 +315,34 @@ namespace eval ::amsn {
    # window with the user names and states.
    proc WinTopUpdate { chatid } {
 
+      if { [WindowFor $chatid] == 0 } {
+         return 0
+      }
+
       variable window_titles
       global list_states
 
       set topmsg ""
       set title ""
+
       set user_list [::MSN::usersInChat $chatid]
 
-      foreach user_info $user_list {
+      if {[llength $user_list] == 0} {
+         return 0
+      }
 
-         set user_login [lindex $user_info 0]
-         set user_name [lindex $user_info 1]
-         set user_state_no [lindex $user_info 2]
-	  
+      foreach user_login $user_list {
+
+         #set user_name [lindex $user_info 1]
+	 set user_name [lindex [::MSN::getUserInfo $user_login] 1]
+	 set user_state_no [lindex [::MSN::getUserInfo $user_login] 2]
+
 	  if { "$user_state_no" == "" } {
 	     set user_state_no 0
 	  }
 
 	  set user_state [lindex [lindex $list_states $user_state_no] 1]
+
 
 	  set title "${title}${user_name}, "
 
@@ -335,7 +352,7 @@ namespace eval ::amsn {
             set topmsg "${topmsg} \([trans $user_state]\) "
 	  }
 	  set topmsg "${topmsg}\n"
-	  
+
       }
 
       set title [string replace $title end-1 end " - [trans chat]"]
@@ -357,6 +374,10 @@ namespace eval ::amsn {
 
       set window_titles(${win_name}) ${title}
       wm title ${win_name} ${title}
+
+
+      after cancel "::amsn::WinTopUpdate $chatid"
+      after 3000 "::amsn::WinTopUpdate $chatid"
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -480,7 +501,7 @@ namespace eval ::amsn {
       set typingusers ""
 
       foreach login $typers_list {
-         set user_name [lindex $login 1]
+         set user_name [lindex [::MSN::getUserInfo $login] 1]
          set typingusers "${typingusers}${user_name}, "
       }
 
@@ -756,12 +777,11 @@ namespace eval ::amsn {
       set userlist [list]
       set chatusers [::MSN::usersInChat [ChatFor $win_name]]
 
-      foreach user_info $chatusers {
-         set user_login [lindex $user_info 0]
-         set user_state_no [lindex $user_info 2]
-         
+      foreach user_login $chatusers {
+         set user_state_no [lindex [::MSN::getUserInfo $user_login] 2]
+
 	 if {([lsearch $list_users "$user_login *"] == -1)} {
-	     set user_name [lindex $user_info 1]
+	     set user_name [lindex [::MSN::getUserInfo $user_login] 1]
 	     lappend userlist [list $user_login $user_name $user_state_no]
          }
       }
@@ -785,11 +805,10 @@ namespace eval ::amsn {
 	set userlist [list]
 	set chatusers [::MSN::usersInChat [ChatFor $win_name]]
 
-	foreach user_info $list_users {
-     		set user_login [lindex $user_info 0]
-      		set user_state_no [lindex $user_info 2]
+	foreach user_login $list_users {
+      		set user_state_no [lindex [::MSN::getUserInfo $user_login] 2]
       		if {($user_state_no < 7) && ([lsearch $chatusers "$user_login *"] == -1)} {
-          		set user_name [lindex $user_info 1]
+          		set user_name [lindex [::MSN::getUserInfo $user_login] 1]
 	  		lappend userlist [list $user_login $user_name $user_state_no]
       		}
    	}
@@ -810,12 +829,11 @@ namespace eval ::amsn {
       set userlist2 [list]
       set chatusers [::MSN::usersInChat [ChatFor $win_name]]
 
-      foreach user_info $chatusers {
-         set user_login [lindex $user_info 0]
-         set user_state_no [lindex $user_info 2]
+      foreach user_login $chatusers {
+         set user_state_no [lindex [::MSN::getUserInfo $user_login] 2]
 
          if { $user_state_no < 7 } {
-      	     set user_name [lindex $user_info 1]
+      	     set user_name [lindex [::MSN::getUserInfo $user_login] 1]
       	     lappend userlist [list $user_login $user_name $user_state_no]
          }
       }
@@ -826,7 +844,7 @@ namespace eval ::amsn {
 
    }
 
-   
+
 
    #///////////////////////////////////////////////////////////////////////////////
    proc ChooseList {title online command other skip {userslist ""}} {
@@ -837,7 +855,7 @@ namespace eval ::amsn {
       }
 
       set usercount 0
-      
+
       #Count users. Ignore offline ones if $online=="online"
       foreach user $userslist {
          set user_login [lindex $user 0]
@@ -1068,8 +1086,7 @@ namespace eval ::amsn {
 
       if {$config(keep_logs)} {
 		set user_list [::MSN::usersInChat $chatid]
-		foreach user_info $user_list {
-			set user_login [lindex $user_info 0]
+		foreach user_login $user_list {
 			::log::StopLog $user_login
 		}
       }
@@ -1078,7 +1095,7 @@ namespace eval ::amsn {
       unset window_titles(${win_name})
 
       ::MSN::leaveChat $chatid
-   
+
    }
    #///////////////////////////////////////////////////////////////////////////////
 
@@ -1097,7 +1114,7 @@ namespace eval ::amsn {
 
 	global config
 	if { "$user" != "msg" } {
-		WinWrite $chatid "[timestamp] [trans says [::MSN::userName $chatid $user]]:\n" gray
+		WinWrite $chatid "[timestamp] [trans says [lindex [::MSN::getUserInfo $user] 1]]:\n" gray
 	}
 
 	WinWrite $chatid "$msg\n" $type [lindex $fontformat 0] [lindex $fontformat 1] [lindex $fontformat 2]
@@ -2400,6 +2417,18 @@ proc NewProfileAsk { email } {
 
 
 #///////////////////////////////////////////////////////////////////////
+proc toggleGroup {tw name image id {padx 0} {pady 0}} {
+   label $tw.$name -image $image
+   $tw.$name configure -cursor hand2 -borderwidth 0
+   bind $tw.$name <Button1-ButtonRelease> "::groups::ToggleStatus $id; cmsn_draw_online"
+   $tw window create end -window $tw.$name -padx $padx -pady $pady
+}
+#///////////////////////////////////////////////////////////////////////
+
+
+
+
+#///////////////////////////////////////////////////////////////////////
 # TODO: move into ::amsn namespace, and maybe improve it
 proc cmsn_draw_online {} {
    global emotions user_stat login list_users list_states user_info list_bl\
@@ -2455,7 +2484,7 @@ proc cmsn_draw_online {} {
        } else {
            set gtag $gname
        }
-       $pgBuddy.text tag conf $gtag -fore $bgcolor -font sboldf
+       $pgBuddy.text tag conf $gtag -fore #000080 -font sboldf
        $pgBuddy.text tag bind $gtag <Button1-ButtonRelease> \
 	 "::groups::ToggleStatus $gname;cmsn_draw_online"
        $pgBuddy.text tag bind $gtag <Enter> \

@@ -9,6 +9,8 @@ set list_rl [list]
 set list_al [list]
 set list_bl [list]
 set list_users [list]
+#A list for temp users, usually that join chats but are not in your list
+set list_otherusers [list]
 set list_cmdhnd [list]
 
 set sb_list [list]
@@ -738,9 +740,12 @@ namespace eval ::MSN {
             set user_name [lindex $usrinfo 1]
             lappend typers [list ${user_login} ${user_name}]
          }
+         return [sb get $name typers]
+      } else {
+         return [list]
       }
 
-      return $typers
+      return [sb get $name typers]
 
    }
 
@@ -753,52 +758,73 @@ namespace eval ::MSN {
       }
    }
 
-   proc userName { chatid user } {
-
-       global user_info
-
-	set sb_name [SBFor $chatid]
-	
-	if { $sb_name == 0 } {
-	   return $user
-	}
-
-	set usernum [sb search $sb_name users "$user *"]
-
-	if { "$user" == "[lindex $user_info 3]" } {
-	   return [urldecode [lindex $user_info 4]]
-	} elseif { $usernum != -1 } {
-	   return [lindex [sb index $sb_name users $usernum] 1]
-	} else {
-	   status_log "User $user not found in chat $chatid\n"
-	   return $user
-	}
-
-   }
-
    proc getUserInfo { user } {
-      global list_users list_states
+      global list_users list_states list_otherusers
+
+
+      set user_info [list $user "" ""]
 
       set idx [lsearch $list_users "${user} *"]
 
       if { $idx != -1} {
+
          set user_info [lindex $list_users $idx]
 
-	  status_log "user_info is $user_info\n"
-
-         set user_login [lindex $user_info 0]
-         set user_name [lindex $user_info 1]
-	  set state [lindex $user_info 2]
-
       } else {
-         set user_login $user
-	  set user_name ""
-	  set state 7
+
+         set idx [lsearch $list_otherusers "${user} *"]
+
+         if { $idx != -1} {
+
+            set user_info [lindex $list_otherusers $idx]
+
+         }
+
       }
+
+      set user_login [lindex $user_info 0]
+      set user_name [lindex $user_info 1]
+      set state [lindex $user_info 2]
 
       return [list $user_login $user_name $state]
 
    }
+
+   proc setUserInfo { user_login {user_name ""} {user_state_no ""} } {
+      global list_users list_states list_otherusers
+
+      set idx [lsearch $list_users "${user_login} *"]
+
+      if { $idx != -1} {
+
+         set olduserinfo [lindex $list_users $idx]
+
+         if { "$user_name" == "" } {
+	    set user_name [lindex $olduserinfo 1]
+	 }
+
+         if { "$user_state_no" == "" } {
+	    set user_state_no [lindex $olduserinfo 2]
+	 }
+
+	 set list_users [lreplace $list_users $idx $idx [list $user_login $user_name $user_state_no]]
+	 set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
+
+      } else {
+
+         set idx [lsearch $list_otherusers "${user_login} *"]
+
+	 if {$idx != -1} {
+	    #TODO: If user_name=="", delete the user. Use this from BYE
+            set list_otherusers [lreplace $list_otherusers $idx $idx [list $user_login $user_name $user_state_no]]
+	 } else {
+            lappend list_otherusers [list $user_login $user_name $user_state_no]
+	 }
+
+      }
+
+   }
+
 
    variable sb_num 0
 
@@ -843,7 +869,7 @@ namespace eval ::MSN {
       sb set $sbn lastmsgtime 0
       sb set $sbn flickering 0
 
-      sb set $sbn last_user [getUserInfo $lowuser]
+      sb set $sbn last_user $lowuser
 
       lappend sb_list "$sbn"
 
@@ -1687,7 +1713,7 @@ proc cmsn_reconnect { name } {
  	status_log "Calling reconnect with d tag\n"
 
       sb set $name stat "rc"
-      sb set $name invite [lindex [sb get $name last_user] 0]
+      sb set $name invite [sb get $name last_user]
       ::MSN::WriteNS "XFR" "SB" "cmsn_open_sb $name"
 
       ::amsn::chatStatus [::MSN::ChatFor $name] "[trans reconnecting]..."
@@ -1797,9 +1823,12 @@ proc cmsn_update_users {sb_name recv} {
 	  set usr_login [string tolower [lindex $recv 4]]
 	  set usr_name [urldecode [lindex $recv 5]]
 
-	  sb append $sb_name users [list $usr_login $usr_name [lindex [::MSN::getUserInfo $usr_login] 2]]
+	  #sb append $sb_name users [list $usr_login $usr_name [lindex [::MSN::getUserInfo $usr_login] 2]]
+	  sb append $sb_name users [list $usr_login]
 
-         sb set $sb_name last_user [list $usr_login $usr_name]
+	  ::MSN::setUserInfo $usr_login $usr_name
+
+         sb set $sb_name last_user $usr_login
 	  status_log "Setting last_user as [list $usr_login $usr_name] in IRO\n"
 
 	  if { [sb length $sb_name users] == 1 } {
@@ -1825,11 +1854,15 @@ proc cmsn_update_users {sb_name recv} {
 	  set usr_login [string tolower [lindex $recv 1]]
 	  set usr_name [urldecode [lindex $recv 2]]
 
-	  sb append $sb_name users [list $usr_login $usr_name [lindex [::MSN::getUserInfo $usr_login] 2]]
+	  #sb append $sb_name users [list $usr_login $usr_name [lindex [::MSN::getUserInfo $usr_login] 2]]
+	  sb append $sb_name users [list $usr_login]
+
+	  ::MSN::setUserInfo $usr_login $usr_name
+
 
 	  if { [sb length $sb_name users] == 1 } {
 
-            sb set $sb_name last_user [list $usr_login $usr_name]
+            sb set $sb_name last_user $usr_login
 	     status_log "Setting last_user as [list $usr_login $usr_name] in JOI\n"
 
 	     set chatid $usr_login
@@ -1953,6 +1986,7 @@ proc cmsn_change_state {recv} {
 
       set state_no [lsearch $list_states "$substate *"]
 
+      #TODO: Change this with ::MSN::setUserInfo
       set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no]]
       set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
 

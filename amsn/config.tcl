@@ -15,7 +15,6 @@ proc ConfigDefaults {} {
 	set config(proxyauthenticate) 0		;# SOCKS5 use username/password
 	set config(start_ns_server) "messenger.hotmail.com:1863"
 	set config(last_client_version) ""
-	#by AIM
 	set config(sound) 1
 	set config(mailcommand) ""
 
@@ -24,12 +23,12 @@ proc ConfigDefaults {} {
 	   set config(soundcommand) "play"
 	   set config(browser) "mozilla"
 	   set config(notifyXoffset) 0
- 	  set config(notifyYoffset) 0
- 	  set config(filemanager) ""
+	   set config(notifyYoffset) 0
+	   set config(filemanager) ""
 	} elseif {$tcl_platform(platform) == "windows"} {
-	  set config(soundcommand) "plwav.exe"
- 	  set config(browser) "explorer"
- 	  set config(notifyXoffset) 0
+	   set config(soundcommand) "plwav.exe"
+	   set config(browser) "explorer"
+	   set config(notifyXoffset) 0
 	   set config(notifyYoffset) 28
 	   set config(filemanager) "start"
 	} else {
@@ -59,7 +58,6 @@ proc ConfigDefaults {} {
 	set config(backgroundcolor) #D8D8E0
 	set config(textsize) 2
 	set config(mychatfont) "{Helvetica} {} 000000"
-	#end AIM
 	set config(orderbygroup) 0
 	#Added by Trevor Feeney
 	#Defaults group order to normal
@@ -71,7 +69,6 @@ proc ConfigDefaults {} {
 	set config(dock) 0
 	set config(autoconnect) 0
 	set config(showtimestamps) 1
-
 	set password ""
 }
 
@@ -297,7 +294,7 @@ proc ConfigChange { window email } {
 		LoginList add 0 $email
 		set log_dir "[file join ${HOME} logs]"
 		
-		status_log "Profile exists, password is $password\n"
+		#status_log "Profile exists, password is $password\n"
 	
 		load_lang
 		### REPLACE THIS BY MAIN WINDOW REDRAW

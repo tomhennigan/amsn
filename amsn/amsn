@@ -6,7 +6,7 @@
 ###        Alvaro's Messenger - amsn             ###############
 ###                                              ###############
 ###       http://amsn.sourceforge.net            ###############
-###     amsn-usesr@lists.sourceforge.net         ###############
+###     amsn-users@lists.sourceforge.net         ###############
 ###                                              ###############
 ################################################################
 ### airadier at users.sourceforge.net (airadier) ###############
@@ -37,7 +37,7 @@
 ###
 
 set version "0.80a"
-set date "12/11/2002"
+set date "6/3/2003"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -62,9 +62,6 @@ if {[catch {file readlink [info script]} res]!=0} {
 
 # Setup other important directory paths
 
-#set dirname [split $config(login) "@ ."]
-#set dirname [join $dirname "_"]
-#set HOME "[file join $HOME $dirname]"
 
 if {$tcl_platform(platform) == "unix"} {
    set HOME "[file join $env(HOME) .amsn]"
@@ -160,7 +157,7 @@ set list_states {
 #///////////////////////////////////////////////////////////////////////
 #TODO: Make an amsn::messageBox procedure and move in there
 proc msg_box {msg} {
-   tk_messageBox -type ok -icon info -message $msg -title "[trans title]"
+   ::amsn::infoMsg "$msg"
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -435,17 +432,6 @@ proc clickableImage {tw name image command {padx 0} {pady 0}} {
 
 
 
-#///////////////////////////////////////////////////////////////////////
-proc toggleGroup {tw name image id {padx 0} {pady 0}} {
-   label $tw.$name -image $image
-   $tw.$name configure -cursor hand2 -borderwidth 0
-   bind $tw.$name <Button1-ButtonRelease> "::groups::ToggleStatus $id; cmsn_draw_online"
-   $tw window create end -window $tw.$name -padx $padx -pady $pady
-}
-#///////////////////////////////////////////////////////////////////////
-
-
-
 
 #///////////////////////////////////////////////////////////////////////
 proc blockun_user { user_login } {
@@ -688,9 +674,10 @@ proc cmsn_listupdate {recv} {
 	   ::groups::Enable
        }
    }
-   
+
    if {[lindex $recv 0] == "ADD"} {		;# FIX: guess I should really
       set recv [linsert $recv 4 "1" "1"]	;# get it out of here!!
+      status_log "ADDING...\n" blue
    }
 
    if {[lindex $recv 4] != 0} {
