@@ -82,7 +82,7 @@ namespace eval ::winskin {
 			}
 
 			if { $::winskin::config(removeborder) == 1 } {
-				scan [wm geometry .] "%dx%d+%d+%d" width height wx wy
+				scan [wm geometry .] "%dx%d%*\[+-\]%d%*\[+-\]%d" width height wx wy
 				set contentsleft [expr {[winfo rootx .] - ($wx)}]
 				set titlemenuheight [expr {[winfo rooty .] - ($wy)}]
 				set titleheight $::winskin::config(titleheight)
@@ -140,7 +140,7 @@ namespace eval ::winskin {
 				}
 
 				update idletasks
-				scan [wm geometry .] "%dx%d+%d+%d" width height wx wy
+				scan [wm geometry .] "%dx%d%*\[+-\]%d%*\[+-\]%d" width height wx wy
 				set newwidth [expr {$width + (2 * $contentsleft)}]
 				set newheight [expr {$height + $titleheight + $contentsleft}]
 				set wx [expr {$wx - $contentsleft}]
@@ -268,9 +268,9 @@ namespace eval ::winskin {
 			set filler $buttons.filler
 			#destroy $imag $imagm $imagc
 			if { $skinned == 1} {
-				label $imag -image [image create photo -file [file join $::winskin::dir pixmaps remove.gif]]
-			} else {
 				label $imag -image [image create photo -file [file join $::winskin::dir pixmaps replace.gif]]
+			} else {
+				label $imag -image [image create photo -file [file join $::winskin::dir pixmaps remove.gif]]
 			}
 			label $imagm -image [image create photo -file [file join $::winskin::dir pixmaps move.gif]]
 			if { $::winskin::config(resizetopright) == 1 } {
@@ -339,7 +339,7 @@ namespace eval ::winskin {
 			proc ::cmsn_draw_online {{a ""}} {}
 		}
 
-		scan [wm geometry .] "%dx%d+%d+%d" width height wx wy
+		scan [wm geometry .] "%dx%d%*\[+-\]%d%*\[+-\]%d" width height wx wy
 		set dset 1
 		set dx [expr {$wx-$posx}]
 		set dy [expr {$wy-$posy}]
