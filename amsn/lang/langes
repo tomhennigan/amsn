@@ -128,8 +128,8 @@ days Días
 dcprofile No Crear Perfil
 default Configuración por defecto
 defaultloginradio Usar configuración por defecto
-delete Eliminar
 deletecustomstate Eliminar estado personalizado
+delete Eliminar
 delimiters Delimitadores de la hora:
 deliverfail Ocurrió un problema al enviar el siguiente mensaje
 delprofile2 Elige el perfil que te gustaría borrar
@@ -155,6 +155,7 @@ editnewstate Nuevo mensaje automático para estado personalizado
 editprofile Editar Perfil
 editstate Editar mensaje automático para estado personalizado
 editvalue Editar valor
+emailsinlist Mostrar e-mails en lugar de apodos en la lista de contactos
 emotisounds Reproducir sonidos asociados a ciertos emoticonos
 enablebanner Mostrar banner de aMSN (Requiere reiniciar aMSN)
 enabled Activado

@@ -151,6 +151,7 @@ if {$tcl_platform(os) == "Darwin"} {
 	set advanced_options [list \
 		[list "" appearance] \
 		[list tooltips bool tooltips] \
+		[list emailsincontactlist bool emailsinlist] \
 		[list animatenotify bool animatenotify] \
 		[list enablebanner bool enablebanner] \
 		[list truncatenames bool truncatenames1] \
@@ -201,6 +202,7 @@ if {$tcl_platform(os) == "Darwin"} {
 	set config(startontray) 0		;#Start amsn on tray icon only (hide contact list)
 	set config(storename) 1			;#Store original nick in a variable when go to custom states to revert it when go back
 	set config(strictfonts) 0		;#Use strict fonts' size in _ALL_ AMSN's fonts (Disabled by default)
+	set config(emailsincontactlist) 0	;#Display emails instead of nicks in the contact list
 
 
 	#System options, not intended to be edited (unless you know what you're doing)

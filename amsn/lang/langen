@@ -74,7 +74,6 @@ cantexec Can't execute application: $1. Check preferences
 casesensitive Use case-sensitive triggers
 cfgalarmall Configure/Add/Remove Global Alarm
 cfgalarm Configure/Add/Remove Alarm
-ch_to_state Switch to new state
 changecustomstate Switch to
 changedisplaypic Change Display picture
 changefont Change font
@@ -97,6 +96,7 @@ choosebgcolor Choose background color
 choosecontact Please choose a contact from the list
 choosefontcolor Choose font color
 chooseskin Please select the skin you would like to use
+ch_to_state Switch to new state
 clearlog2 Clear the history for all your contacts
 clearlog3 Clear All Logs
 clearlog Clear Log
@@ -128,8 +128,8 @@ days Days
 dcprofile Don't Create Profile
 default Default Config
 defaultloginradio Login with default configuration
-delete Delete
 deletecustomstate Delete custom state
+delete Delete
 delimiters Timestamps' delimiters:
 deliverfail There was a problem delivering the following message
 delprofile2 Select the profile that you would like to remove 
@@ -155,6 +155,7 @@ editnewstate New Personal Automessage State
 editprofile Edit Profile
 editstate Edit Existing Automessage State
 editvalue Edit value
+emailsinlist Show emails instead of nicknames in the contact list
 emotisounds Play sounds for certain emoticons
 enablebanner Show aMSN's banner (Requires restart aMSN)
 enabled Enabled
@@ -170,12 +171,12 @@ errortls Error installing TLS module:
 examples Examples
 exitamsn Are you sure you want to quit?
 extras Extra Services
-faq FAQ (Frequently Answered Questions)
-failed Failed
 faileddelete Failed to delete
 faileddeleteperso This picture cannot be deleted because it is not a personal picture file. Only pictures that belong to your personal profile can be removed this way.
-file File
+failed Failed
+faq FAQ (Frequently Answered Questions)
 filedoesnotexist File does not exist
+file File
 filemanexample ( \$location will be replaced with the directory ) Ex: nautilus \$location
 fileman File Manager
 filename Filename

@@ -4639,7 +4639,12 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 
          $pgBuddy.text mark set new_text_start end
 	 #set user_name [stringmap {"\n" "\n           "} $user_name]
-	 set user_lines [split $user_name "\n"]
+
+	 if { [::config::getKey emailsincontactlist] } {
+	 	set user_lines "$user_login"
+	 } else {
+	 	set user_lines [split $user_name "\n"]
+	 }
 	 set last_element [expr {[llength $user_lines] -1 }]
 
 	 $pgBuddy.text insert $section.last " $state_desc \n" $user_unique_name
