@@ -1,0 +1,176 @@
+amsn_lang_version 2
+about Oor...
+acceptfile Aanvaar lêer $1, grootte $2? gestoor in $3
+actions Aksies
+addacontact Voeg `n kontak toe
+addedyou Het jou toegevoeg aan sy/haar kontaktelys
+addtocontacts Voeg toe aan kontakte
+addtoo Voeg hierdie persoon toe aan my kontaktelys
+admincontacts Beheer Kontakte
+admingroups Beheer groepe
+adverts Advertensies
+allowseen Laat die persoon toe om te sien wanneer ek online is en om my
+te kontak
+appearoff Maak asof jy offline is
+aretyping $1 is besig om te skryf
+autohotmaillog Log outomaties in by Hotmail
+autoip Outomatiese IP
+avoidseen Vermy dat die persoon kan sien wanneer ek online is en dat
+hy/sy my kan kontak
+away Afwesig
+baduserpass Ongeldige gebruikersnaam of wagwoord
+blankdirect Laat leeg vir direkte verbinding
+block Blokkeer
+blocked Geblokkeer
+broughtby Aangebied deur die volgende ontwikkelaars
+browser Blaaier(Browser)
+busy Besig
+cancel Kanseleer
+changenick Verander Alias
+chatack Aanvaar chat van
+chat Chat
+chatreq Versoek om te chat
+chatsmileys Ontsper(enable) emotikons
+checkingver Besig met kontrole of daar `n nuwer weergawe is
+checkver Kontroleer of daar `n nuwer weergawe is
+choosebasefont Lettertipe
+choosebgcolor Agtergrondkleur
+choosefontcolor Kies teks kleur
+clicktologin Kliek hier om aan te teken
+close Toemaak
+closingdocks Sluit venster
+command Opdrag
+confirmdelete Is jy seker jy wil $1 skrap?
+connecterror Verbindingsfout
+contactadded Kontakpersoon toegevoeg
+contactdoesnotexist Kontakpersoon bestaan nie
+contacterror Fout tydens verbinding met die bediener(server)
+copytogroup kopieër na groep
+date Datum
+delete Verwyder
+enableproxy Gebruik instaanbediener(proxy)
+encoding Enkodering
+entercontactemail Vul kontak-e-pos in
+enterfilename Vul a.s.b. `n lêernaam in
+enternick Vul u Alias in
+examples Voorbeelde
+exitamsn Sluit amsn
+extras Ekstras
+filedoesnotexist Lêer bestaan nie
+filename Lêernaam
+filetransfercancelled Lêeroorplasing gekanseleer
+filetransfercomplete Lêeroorplasing klaar
+gonelunch Uit vir middagete
+groupadd Voeg `n groep toe
+groupdelete Verwyder `n groep
+groupexists Groep bestaan al
+group Groep
+groupmissing Kan die groep nie kry nie
+groupnewname Nuwe naam
+groupnotempty Die groep is nie leeg nie!
+groupoldname Ou naam
+grouprename Verander `n groepnaam
+groupunknown Onbekende groep
+handle Handle
+helpcontents Help inhoud
+help Help
+home Tuis
+ident Besig met identifisering
+identity Identiteit
+inbox Inbox
+invalidusername U Aliasnaam is verkeerd.
+invite Nodig uit
+ipaddress IP adres
+ipadress IP adres
+istyping $1 is besig om te skryf
+joins $1 $2 neem deel aan gesprek
+language Taal
+lastmsgtime Laaste boodskap ontvang om $1
+leaveblankforhotmail Los leeg vir Hotmail web
+leaves $1 verlaat gesprek
+listeningon Besig om te luister op poort $1
+listsmileys Wys emotikons in lys
+loadcontacts Besig om kontaktelys te laai
+loggedotherlocation U is alreeds aangemeld
+loggingin Besig om aan te teken
+loginas Teken aan as
+login Teken Aan
+logout Teken Uit
+logsin het nounet aangeteken
+mailer E-pos klient(mailer)
+mobile Selfoon
+movetogroup Verplaas na groep
+msg Boodskap
+msn AMSN
+mustrestart Jy moet die program oorbegin voordat die veranderinge effek
+het
+mystatus My status
+needonline Jy is offline (of maak asof)
+newmail $1 nuwe e-pos berigte
+in In-Box
+newmailfrom Nuwe e-pos van
+newmsg Nuwe boodskap
+newveravailable Nuwer weergawe $1 beskikbaar
+next Volgende
+noactivity Geen aktiwiteit
+nonewmail 0 nuwe e-pos berigte in In-Box
+nonewver Daar is geen nuwer weergawes beskikbaar nie
+notify Laat weet
+nousersinsession Geen gebruikers in sessie
+offline Offline
+ok Ok
+onenewmail 1 nuwe e-pos berig in In-Box
+online Online
+onphone Op die telefoon
+openreceived Maak ontvangde lêers oop
+options Opsies
+ordercontactsby Sorteer kontakte op
+other Ander
+pager Beeper
+pass Wagwoord
+phone Telefoon
+port Poort
+prefapps Programme
+preferences Voorkeur Instellinge
+prefsound Geluide
+properties Eienskappe
+proxyconfhttp HTTP instaanbediener(proxy) opstelling ondersteuning
+proxyconf Instaanbediener(proxy) opstelling
+publishphones Publiseer my telefoonnommers
+receivedbytes $1 van $2 bytes ontvang
+receivefile Ontvang lêer
+reconnecting Besig om van voor af te verbind met die bediener(server)
+reconnect Wag tot $1 van voor af verbind
+rememberpass Onthou wagwoord
+rightback Nou-nou terug
+saveas Stoor as
+savecontacts Stoor kontaktelys lokaal
+save Stoor(save)
+says $1 sê
+sbcon Besig met verbinding na Skakelbord
+sendfile Stuur `n lêer
+sendmail Stuur `n e-pos
+sendmsg Stuur `n boodskap
+send Stuur
+sentbytes $1 van $2 grepe(bytes) is verstuur
+servergoingdown Die bediener(server) gaan offline
+server Bediener(Server)
+sound Geluid
+startoffline Begin offline
+status Status
+syntaxerror Sintaksfout
+textsize Teksgrootte
+title Al's Messenger
+to Aan
+tools Gereedskap
+unblock Deblokkeer
+uoffline Offline
+uonline Online
+useralreadyonlist Gebruiker is al in u lys!
+user Gebruiker
+version Weergawe
+view Aansig
+willjoin Wag tot $1 by die gesprek sal aansluit
+work werk
+yousay Jy sê
+youwant Jy wil

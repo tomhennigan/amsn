@@ -1,0 +1,174 @@
+amsn_lang_version 2
+about Plirofories gia to amsn
+acceptfile Apodoxh arxeio $1, megethos $2? apothikeusi sto $3
+actions Energeies
+addacontact Prosthiki epafhs
+addedyou sas prosthese sth lista epafwn tou/ths
+addtocontacts Prosthese sth lista epafwn
+addtoo Prosthese auto to atomo sth lista epafwn mou
+admincontacts Diaxeirish epafwn
+admingroups Diaxeirish omadwn
+adverts Diahmiseis
+allowseen Epetrepse se auto to atomo na blepei pote eimai sindedemenos kai na epikoinwnei mazi mou
+
+appearoff Emfanish ektos syndeshs
+aretyping o/h $1 tupwnei ena mhnuma
+autohotmaillog Automath syndesh me Hotmail
+autoip Automato IP
+avoidseen Epetrepse se auto to atomo na blepse thn katastash mou kai enhmerwsh me AWAY den briskomai ston ypologisth mou
+baduserpass Lathos username h password
+blankdirect Afhste keno gia apeutheias syndesh
+block Apokleismos
+blocked Apokleismenos
+
+browser Browser
+broughtby Auto to programma ftiaxthke apo tous
+busy Apasxolhmenos
+cancel Akyrwsh
+changenick Allagh pseudonymou
+chat Synomilia
+chatreq Prospa8w na dhmiourghsw synomilia
+chatsmileys Xamogela synomilias
+chatack Apodoxh synomilias apo
+checkver Anazhthsh kainourias ekdoshs
+checkingver Elegxw gia kainouries ekdoseis
+choosebasefont Epilogh typou grammatoseiras
+choosebgcolor Epilogh xrwmmatos fontou
+choosefontcolor Epilogh xrwmmatos grammatoseiras
+clicktologin Pathste edw gia syndesh
+close kleisimo
+closingdocks To koumpi kleisimatos mazeuei to para8yro
+command Entolh
+
+confirmdelete Thelete pragmati na svhstei to $1?
+contactadded Epafh prostethike
+contactdoesnotexist hepafh den yparxei
+connecterror Apotyxia syndeshs me to server
+copytogroup Antegrapse thn omada
+date Hmeromhnia
+delete Diagrafh
+enableproxy Energopoihsh diakomisth
+encoding Diale3e kwdikopoihsh
+entercontactemail Dwste to email ths epafhs
+enterfilename Parakalw dwste onoma arxeiou
+enternick Dwste to pseudonymo sas
+examples Paradeigmata
+exitamsn Thelete pragmati na fygete?
+extras Prosthetes leitourgies
+filedoesnotexist To arxeio den yparxei
+filename Onoma arxeiou
+filetransfercancelled H metafora tou arxeiou akyrwthike
+filetransfercomplete  H metafora tou arxeiou oloklhrwtyhike
+gonelunch Leipw gia faghto
+group Omada
+groupadd Prosthikh mias omadas
+groupdelete Diagrafh mias omadas
+grouprename Metonomasia mias omadas
+groupoldname Palio onoma
+groupnewname Kainourio onoma
+groupunknown Agnwsth omada
+groupexists H omada yparxei
+groupmissing H omada den yparxei
+groupnotempty H omada den einai adeia
+handle xeirismos
+help Bohtheia
+helpcontents Themeta sth bohtheia
+home Spiti
+ident Anagnwrizw
+identity Tautothta
+inbox Eiserxomena e-mails
+invalidusername Mh apodekto onoma xrhsth
+invite Proskalese
+ipaddress IP dieuthynsh
+istyping o/h $1 typwnei ena  minima
+joins $1 $2 eiserxetai sth sizitisi
+language Glwssa
+lastmsgtime To teleutaio minima lifthike stis $1
+leaveblankforhotmail ¶φησε κενό για χρήση του hotmail
+leaves o/h $1 apoxwrei apo th sizitisi
+listeningon Perimenw sto port $1
+listsmileys Lista xamogelwn
+loadcontacts Eisagwgh epafwn
+
+loggedotherlocation Aposyndesh.  Hdh syndedemenos apo allh topo8esia
+loggingin Syndeomai
+login Syndesh
+loginas Syndesh ws
+logout Aposyndesh
+logsin molis syndethike
+mailer Hlektronikos Taxydromos
+mobile Kinhto
+movetogroup Metakinhsh sthn omada
+mustrestart Xreiazetai epanekinish tou programmatos wste na isxysoun oi allages
+mystatus Katastash
+msg Ameso minima
+msn AMSN
+needonline Akoma eiste/faineste ektos syndeshs
+newmail $1 kainouria minimata hlektronikou taxydromiou
+newmailfrom kainourio mail apo ton/thn
+newmsg kainourio minima
+newveravailable kainouria ekdosh $1 dia8esimh gia katebasma
+next Epomeno
+noactivity Kamia drasthriothta
+nonewmail Den yparxoun nea minimata hlektronikou taxydromiou
+nonewver den yparxei kainouria ekdosh
+notify anakoinwse
+nousersinsession Kanenas xrhsths sth synedriash
+ok Entaksei
+offline Ektos syndeshs
+onenewmail 1 kainourio minima hlektronikou taxydromiou
+online Sindedemenos
+onphone Briskomai sto thlefwno
+openreceived Anoigma lhfthentwn arxeiwn
+options Epiloges
+ordercontactsby taksinomhsh epafwn kata
+other allo
+pager Bombhths
+pass Kwdikos
+phone thlefwno
+port port
+prefapps Efarmoges
+preferences Pritimiseis
+prefsound Hxoi
+properties Idiothtes
+proxyconf Idiothtas apomakrusmenou diakomisth
+proxyconfhttp Idiothtes HTTP apomakrysmenou diakomisth
+publishphones Gnwstopoihse ta thlefwna mou
+receivedbytes Exw labei $1 apo $2 bytes
+receivefile Lhpsh arxeiou
+reconnect Perimenw ton/thn $1 na epanelthei
+reconnecting Epanasindesh me apomakrismeno ypoloigsth
+rememberpass Apothikeuse ton kwdiko
+rightback Epistrefw amesws
+save Apothikeush
+saveas Apothikeush ws
+savecontacts Apothikeush listas epafwn
+says $1 leei
+sbcon Syndeomai sto Switch Board
+send Apostolh
+sendfile Apostolh arxeiou
+sendmail Apostolh minimatos hlektonikou taxydromiou
+sendmsg Apostolh amesou minimatos
+sentbytes Exw steilei $1 apo $2 bytes
+server Server
+servergoingdown Aposyndethika: o server termatizei th leitourgia tou
+sound Hxos gegonotwn
+startoffline Ekkinhsh aposynedemenos
+status katastash
+syntaxerror Lathos syntakshs
+textsize Megethos keimenou
+title Al's Messenger
+to Sto
+tools Ergaleia
+yousay Esy les
+youwant Esy theleis
+unblock Apodoxh
+uoffline Aposynedemenoi
+uonline Syndedemenoi
+user Xrhsths
+useralreadyonlist o xrhsths einai hdh sth lista epafwn
+version Ekdosh
+view Probolh
+willjoin Perimenw ton/thn $1 na eiselthei sth sizitisi
+work Douleia
+

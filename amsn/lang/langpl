@@ -1,0 +1,168 @@
+amsn_lang_version 2
+about O
+acceptfile Przyjac plik $1, o wielkosci $2? Zachowany w $3
+actions Akcje
+addacontact Dodaj kontakt
+addedyou dodal/a cie do swojej listy kontaktowej
+addtocontacts Dodaj do listy kontaktowej
+addtoo Dodaj ta osobe do mojej listy kontaktowej
+admincontacts Administracja kontaktami 
+admingroups Administracja grupami
+adverts Reklamy
+allowseen Zezwol tej osobie na widzenie i kontaktowanie sie ze mna
+appearoff Niewidzialny
+aretyping $1 pisza wiadomosc
+autohotmaillog Automatyczny login do Hotmail
+autoip Automatyczny IP
+avoidseen Nie zezwalaj tej osobie na widzenie i kontaktowanie sie ze mna
+away Nie ma
+baduserpass Bledna nazwa uzytkownika lub haslo
+blankdirect Zostaw puste dla bezposredniego polaczenia
+block Zablokuj
+blocked Zablokowany
+browser Przegladarka
+broughtby  Dostarczony wam przez nastepujacych tworcow
+busy Zajety
+cancel Wroc
+changenick Zmien nick
+chat Czat
+chatreq Zamawia chat
+chatsmileys Czatowe buzki
+chatack Akceptuje czat od
+checkver Sprawdz czy jest nowa wersja
+checkingver Sprawdza czy jest nowa wersja
+choosebasefont Wybierz czcionke
+choosebgcolor Wybierz kolor tla
+clicktologin Kliknij tu by sie zalogowac
+close Zamknij
+closingdocks Guzik zamykania zaczepia okno
+command Komenda
+confirmdelete Czy na pewno chcesz usunac $1?
+contactadded Kontakt dodany
+contactdoesnotexist Kontakt nie istnieje!
+connecterror Blad przy laczeniu z serwerem
+copytogroup Kopiuj do grupy
+date Data
+delete Kasuj
+enableproxy Umozliw proxy
+encoding Wybierz kodowanie
+entercontactemail Wpisz e-mail kontaktowy
+enterfilename Wpisz nazwe pliku
+enternick Wpisz swoj nick
+examples Przyklady
+exitamsn Czy na pewno chcesz wyjsc?
+extras Uslugi Dodatkowe
+filedoesnotexist Plik nie istnieje
+filename Nazwapliku
+filetransfercancelled Przesylanie pliku zatrzymane
+filetransfercomplete Przesylanie pliku zakonczone
+gonelunch Wyszedlem na obiad
+group Grupa
+groupadd Dodaj grupe
+groupdelete Usun grupe
+grouprename Zmien nazwe grupy
+groupoldname Stara nazwa
+groupnewname Nowa nazwa
+groupunknown Grupa nieznana
+groupexists Grupa juz istnieje
+groupmissing Nie mozna znalezc grupy
+groupnotempty Grupa nie jest pusta!
+handle Handle
+help Pomoc
+helpcontents Pomoc Spis Tresci
+home Dom
+ident Rozpoznawanie
+identity Identity
+inbox W Skrzynce
+invalidusername Nieprawidlowa nazwa uzytkownika
+invite Zapros
+ipaddress Adres IP
+istyping $1 pisze wiadomosc
+joins $1 $2 wlaczyl sie do rozmowy
+language Jezyk
+leaveblankforhotmail Zostaw puste do uzywania sieci Hotmail
+leaves $1 opuscil rozmowe
+listeningon Wysluchuje na porcie $1
+listsmileys Pokaz buzki
+loadcontacts Wczytaj liste kontaktowa
+loggedotherlocation Rozlaczony. Zalogowany gdzie indziej
+loggingin Loguje sie
+login Zaloguj sie
+loginas Zaloguj sie jako
+logout Wyloguj sie
+logsin wlasnie sie zalogowal/a
+mailer Poczta
+mobile Przenosne
+movetogroup Przenies do grupy
+mustrestart Aby zakonczyc zmiany musisz ponownie uruchomic program
+mystatus Moj status
+msg Wiadomosc
+msn AMSN
+needonline Wciaz jestes rozlaczony lub niewidzialny!
+newmail $1 nowych wiadomosci w skrzynce
+newmailfrom Nowa poczta od
+newmsg Nowa wiadomosc
+newveravailable Nowa wersja $1 moze byc uzyskana w Internecie
+next Dalej
+noactivity Brak aktywnosci
+nonewmail W skrzynce nie ma nowych wiadomosci
+nonewver Nie ma nowych wersji
+notify powiadom
+nousersinsession W sesji nie ma uzytkownikow
+ok Ok
+offline Rozlaczony
+onenewmail 1 nowa wiadomosc w skrzynce
+online Polaczony
+onphone Rozmawia przez telefon
+openreceived Otworz otrzymane pliki
+options Opcje
+ordercontactsby Uporzadkuj kontakty wedlug
+other Inne
+pager Pager
+pass Haslo
+phone Telefon
+port Port
+prefapps Applikacje
+preferences Ustawienia
+prefsound Dzwieki
+properties Wlasciwosci
+proxyconf Konfiguracja Proxy
+proxyconfhttp Konfiguracja HTTP proxy support
+publishphones Opublikuj moje numery telefonow
+receivedbytes Otrzymano $1 z $2 bajtow
+receivefile Otrzymuje plik
+reconnect Czeka az $1 wznowi polaczenie
+reconnecting Wznawia polaczenie z serwerem
+rememberpass Zapamietaj haslo
+rightback Zaraz wracam
+save Zachowaj
+saveas Zachowaj jako
+savecontacts Zachowaj liste kontaktowa
+says $1 mowi
+sbcon Laczy sie z Centrala
+send Wyslij
+sendfile Wyslij plik
+sendmail Wyslij poczte
+sendmsg Wyslij wiadomosc
+sentbytes Wyslano $1 z $2 bajtow
+server Serwer
+servergoingdown Rozlaczony: Problemy z serwerem
+sound Odglosy zdarzen
+startoffline Zacznij rozlaczony
+status Status
+syntaxerror  Bledna kom
+textsize Rozmiar tekstu
+title Al's Messenger
+to Do
+tools Narzedzia
+yousay Ty mowisz
+youwant Ty chcesz
+unblock Odblokuj
+uoffline Rozlaczony
+uonline Polaczony
+user Uzytkownik
+useralreadyonlist Uzytkownik znajduje sie juz na liscie kontaktowej
+version Wersja
+view Zobacz
+willjoin Czeka $1 przylacza sie do rozmowy
+work Praca

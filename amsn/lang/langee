@@ -1,0 +1,168 @@
+amsn_lang_version 2
+about About
+acceptfile Accept file $1, size $2? Saved in $3
+actions Actions
+addacontact Lisa sõber
+addedyou on lisanud sind enda sõbralisti
+addtocontacts Lisa sõbralisti
+addtoo Lisa see inimene oma sõbralisti
+admincontacts Admin contacts
+admingroups Admin groups
+adverts Reklaamid
+allowseen Luba sellel inimesel ennast ühendatud näha
+appearoff Ilmu lahtiühendatud
+aretyping $1 trükivad mingit sõnumit
+autohotmaillog Automaatne Hotmaili sisselogimine
+autoip Automaatne IP
+avoidseen Väldi seda inimest mind ühendatud nägemast
+away Eemal
+baduserpass Vale kasutajanimi või parool
+blankdirect Jäta tühjaks otseühenduse puhul
+block Blokeeri
+blocked Blokeeritud
+browser Brauser
+broughtby  Toodut teile järgnevate isikute poolt
+busy Tal on kiire
+cancel tühista
+changenick Muuda hüüdnime
+chat Chat
+chatreq Requesting chat
+chatsmileys Chat smileys
+chatack Nõustun Chatiga
+checkver Kontrolli uuendusi
+checkingver Kontrollin uuendusi
+choosebasefont Vali fondi tüüp
+choosebgcolor Vali tausta värv
+clicktologin Vajuta siia et sisse logida
+close Sulge
+closingdocks Close button docks window
+command Käsk
+confirmdelete Oled sa kindel et tahd seda kustutada$1?
+contactadded Sõber lisatud
+contactdoesnotexist Seda sõpra ei eksisteeri!
+connecterror Viga serveriga ühendamisel
+copytogroup Kopeeri gruppi
+date Kuupäev
+delete Kustuta
+enableproxy Pane proxy peale
+encoding Vali encodimine
+entercontactemail Sisesta sõbra e-maili aadress
+enterfilename Palun sisesta failinimi
+enternick Sisesta oma hüüdnimi
+examples Näited
+exitamsn Oled ikka kindel et tahad väljuda?
+extras Lisateenused
+filedoesnotexist Faili ei eksisteeri
+filename Failinimi
+filetransfercancelled Faili edastamine tühistatud
+filetransfercomplete Faili edastamine õnnestunud!
+gonelunch Lõunale läinud
+group Grupp
+groupadd Lisa grupp
+groupdelete Kustuta grupp
+grouprename Nimet grupp üle
+groupoldname Vana nimi
+groupnewname Uus nimi
+groupunknown Tundmatu grupp
+groupexists Grupp juba eksisteerib
+groupmissing Ei suuda gruppi leida
+groupnotempty Grupp ei ole tühi!
+handle Handle
+help Abi
+helpcontents Abi pealkirjad
+home Kodu
+ident Tuvastamine
+identity Tuvasta
+inbox kastis
+invalidusername Halb kasutajanimi
+invite Kutsu
+ipaddress IP Aadress
+istyping $1 kirjutab sõnumit
+joins $1 $2 liitub vestlusega
+language Keel
+leaveblankforhotmail Jäta tühjaks et kasutada Hotmaili veebi
+leaves $1 lahkub vestluselt
+listeningon Kuulan porti $1
+listsmileys Nimekiri smileys
+loadcontacts Lae sõbranimekiri
+loggedotherlocation Lashtiühendatud.Logitud teise kohta
+loggingin Login sisse
+login Logi sisse
+loginas Logi sisse kui
+logout Logi välja
+logsin on just sisse loginud
+mailer Mailer
+mobile Mobiil
+movetogroup Liiguta gruppi
+mustrestart Sa pead programmi uuesti käivitama et muudatusi rakendada
+mystatus Minu olek
+msg Sõnum
+msn AMSN
+needonline Sa oled/ilmud ikka lahtiühendatuna
+newmail $1 kastis üks uus sõnum
+newmailfrom Uus mail.Kust-
+newmsg Uus sõnum
+newveravailable Kunagi pole versioon $1 allalaadimiseks saadaval
+next Järgmine
+noactivity Pole tegevust
+nonewmail Kastis pole ühtegi uut sõnumit
+nonewver Pole ühtegi versiooni allalaadimiseks saadaval.
+notify teata
+nousersinsession Ühtegi kasutajat sessioonis
+ok olgu
+offline Lahtiühendatud
+onenewmail 1 uus sõnum kastis
+online Ühendatud
+onphone Telefonil
+openreceived Ava saadud failid
+options Sättimine
+ordercontactsby Telli sõpru-
+other Teine/teised
+pager Pager
+pass Salasõna
+phone Telefon
+port Port
+prefapps Programmid
+preferences Sätted
+prefsound Helid
+properties Properties
+proxyconf Proxy konfigureerimine
+proxyconfhttp HTTP proxy support konfigureerimine
+publishphones Avalda mu telefoni numbrid
+receivedbytes Kätte saanud $1 sellest $2 baitides
+receivefile Tiri fail
+reconnect Ootan  $1 järgi uuesti ühendamiseks
+reconnecting Uuesti ühendan serveriga
+rememberpass Mäleta parooli
+rightback Olen kohe tagasi
+save Salvesta
+saveas Salvesta kui
+savecontacts Salvesta sõbra nimekiri
+says $1 ütleb
+sbcon Ühendan "Switchboardiga"...
+send Saada
+sendfile Saada fail
+sendmail Saada mail
+sendmsg Saada sõnum
+sentbytes saadetud $1 sellest $2 baite
+server Server
+servergoingdown Lahtuühendatud.server sulgub
+sound Event Sound
+startoffline Stardi lahtiühendatuna
+status Olek
+syntaxerror  Syntaxi viga
+textsize Teksti suurus
+title Al-i sõnumisaatja
+to kuhu
+tools Tööriistad
+yousay Sa ütled
+youwant Sa tahad
+unblock Ärablokeeri enam
+uoffline Lahtiühendatud
+uonline Ühendatud
+user Kasutaja
+useralreadyonlist Kasutaja on juba sõbranimekirjas
+version Versioon
+view vaade
+willjoin Ootan et $1 liituks vestlusega
+work Töö

@@ -1,0 +1,168 @@
+amsn_lang_version 2
+about O programu
+acceptfile Ali sprejmes datoteko $1, njena velikost je $2? Shranjeno v $3
+actions Akcije
+addacontact Dodaj stik
+addedyou vas je dodal/dodala na svoj seznam stikov
+addtocontacts Dodaj na seznam stikov
+addtoo Dodaj to osebo na moj seznam stikov
+admincontacts Uredi stike
+admingroups Uredi skupine
+adverts Reklame
+allowseen Dovoli tej osebi da vidi moj status ko sem prijavljen
+appearoff Na izgled neprijavljen
+aretyping $1 pisejo sporocilo
+autohotmaillog Samodejna prijava v Hotmail
+autoip Samodejni IP
+avoidseen Ne dovoli tej osebi da vidi moj status ko sem prijavljen
+away Odsoten
+baduserpass Napacno uporabnisko ime ali geslo
+blankdirect Pustite prazno za neposredno povezavo
+block Blokiraj
+blocked Blokiran
+browser Brskalnik
+broughtby  Naredili naslednji programerji
+busy Zaposlen
+cancel Preklici
+changenick Zamenjaj nick
+chat Pogovor
+chatreq Zahtevam pogovor
+chatsmileys Smeskoti
+chatack Sprejemam pogovor od
+checkver Preveri za novo verzijo
+checkingver Preverjam za nove verzije
+choosebasefont Izberi vrsto pisave
+choosebgcolor Izberi barvo ozadja
+clicktologin Pritisni tukaj za prijavo
+close Zapri
+closingdocks Close button docks window
+command Ukaz
+confirmdelete Ali si preprican, da bos zbrisal $1?
+contactadded Stik dodan
+contactdoesnotexist Stik ne obstaja!
+connecterror Napaka pri povezavi na streznik
+copytogroup Dodaj v skupino
+date Datum
+delete Izbrisi
+enableproxy Omogoci proxy
+encoding Izberi kodiranje
+entercontactemail Vnesi e-mail osebe
+enterfilename Prosim vnesi ime datoteke
+enternick Vnesi svoj nick
+examples Primeri
+exitamsn Ali si preprican da zelis zapustiti program?
+extras Dodatne storitve
+filedoesnotexist Datoteka ne obstaja
+filename Ime datoteke
+filetransfercancelled Prenos datoteke preklican
+filetransfercomplete Prenos datoteke koncan
+gonelunch Na kosilu
+group Skupina
+groupadd Dodaj v skupino
+groupdelete Izbrisi skupino
+grouprename Preimenuj skupino
+groupoldname Staro ime
+groupnewname Novo ime
+groupunknown Neznana skupina
+groupexists Skupina ze obstaja
+groupmissing Ne morem najti skupine
+groupnotempty Skupina ni prazna!
+handle Handle
+help Pomoc
+helpcontents Vsebina pomoci
+home Domov
+ident Identifying
+identity Identiteta
+inbox In-Box
+invalidusername Napacno uporabnisko ime
+invite Povabi
+ipaddress IP Naslov
+istyping $1 pise sporocilo
+joins $1 $2 se je pridruzil pogovoru
+language Jezik
+leaveblankforhotmail Pusti prazno za uporabo Hotmail storitev
+leaves $1 je zapustil pogovor
+listeningon Poslusam na vratih $1
+listsmileys Seznam smeskov
+loadcontacts Nalozi seznam stikov
+loggedotherlocation Disconnected. Logged in other location
+loggingin Prijavljam
+login Prijavi se
+loginas Prijavi se kot
+logout Odjavi se
+logsin se je ravnokar odjavil
+mailer Mailer
+mobile Mobilni
+movetogroup Premakni v skupino
+mustrestart Da bi spremembe prisle v veljavo, moras program ponovno zagnati
+mystatus Moje stane
+msg Sporocilo
+msn AMSN
+needonline Se zmeraj izgleda/si nepovezan
+newmail $1 novih sporocil v In-Boxu
+newmailfrom Novo sporocilo od
+newmsg Novo sporocilo
+newveravailable Nova verzija $1 je na voljo za prenos
+next Naslednji
+noactivity Ni aktiven
+nonewmail Ni novih sporocil v In-Boxu
+nonewver Ni novih verzij na voljo za prenos
+notify obvesti
+nousersinsession Ni uporabnikov v sessionu
+ok Ok
+offline Neprijavljen
+onenewmail 1 novo sporocilo v In-Boxu
+online Prijavljen
+onphone Na telefonu
+openreceived Odpri sprejete datoteke
+options Nastavitve
+ordercontactsby Uredi stike po
+other Ostalo
+pager Pager
+pass Geslo
+phone Telefon
+port Vrata
+prefapps Aplikacije
+preferences Nastavitve
+prefsound Zvoki
+properties Lastnosti
+proxyconf Nastavitve proxya
+proxyconfhttp Podpora HTTP proxyu
+publishphones Objavi moje tel. stevilke
+receivedbytes Prejeto $1 od $2 bajtov
+receivefile Sprejmi datoteko
+reconnect Cakam, da se $1 ponovno poveze
+reconnecting Povezujem se s streznikom
+rememberpass Shrani geslo
+rightback Takoj bom nazaj
+save Shrani
+saveas Shrani kot
+savecontacts Shrani seznam stikov
+says $1 pravi
+sbcon Connecting to Switch Board
+send Poslji
+sendfile Poslji datoteko
+sendmail Poslji e-mail
+sendmsg Poslji sporocilo
+sentbytes Poslano $1 od $2 bajtov
+server Streznik
+servergoingdown Povezava prekinjena
+sound Zvok dogodka
+startoffline Zacni neprijavljen
+status Stanje
+syntaxerror  Napaka v sintaksi
+textsize Velikost besedila
+title Al's Messenger
+to Za
+tools Orodja
+yousay Pravis
+youwant Hoces
+unblock Odblokiraj
+uoffline Neprijavljeni
+uonline Prijavljeni
+user Uporabnik
+useralreadyonlist Uporabnik je ze na seznamu stikov
+version Verzija
+view Pogled
+willjoin Cakam da se $1 pridruzi pogovoru
+work Delo
