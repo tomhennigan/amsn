@@ -1147,27 +1147,38 @@ namespace eval ::plugins {
 		set ::plugins::plglang ""
 		set ::plugins::plgfile ""
 
+
 		set id [::sxml::init $path]
+
 		sxml::register_routine $id "plugin" "::plugins::XML_Plugin_CVS"
 		sxml::register_routine $id "plugin:lang" "::plugins::XML_Plugin_Lang"
 		sxml::register_routine $id "plugin:file" "::plugins::XML_Plugin_File"
+
 		sxml::parse $id
+
 		sxml::end $id
 
 	}
 
 
 	proc XML_Plugin_CVS { cstack cdata saved_data cattr saved_attr args } {
+
 		upvar $saved_data sdata
+
+
 
 		catch {set ::plugins::plgversion $sdata(${cstack}:cvs_version)}
 
+
 		return 0
+
+
 
 	}
 
 
 	proc XML_Plugin_Lang { cstack cdata saved_data cattr saved_attr args } {
+
 		upvar $saved_data sdata
 
 		catch {lappend ::plugins::plglang "$sdata(${cstack}:langcode)" "$sdata(${cstack}:version)"}
@@ -1178,6 +1189,7 @@ namespace eval ::plugins {
 
 
 	proc XML_Plugin_File { cstack cdata saved_data cattr saved_attr args } {
+
 		upvar $saved_data sdata
 
 		catch {lappend ::plugins::plgfile "$sdata(${cstack}:path)" "$sdata(${cstack}:version)"}
@@ -1185,6 +1197,7 @@ namespace eval ::plugins {
 		return 0
 
 	}
+
 
 #/////////////////////////////////////////////////////
 # Get the plugininfo.xml on the CVS, and load it
@@ -1219,28 +1232,36 @@ namespace eval ::plugins {
 		puts -nonewline $fid "$content"
 		close $fid
 
+
 		set id [::sxml::init $filename]
 		sxml::register_routine $id "plugin" "::plugins::XML_OnlinePlugin_CVS"
 		sxml::register_routine $id "plugin:lang" "::plugins::XML_OnlinePlugin_Lang"
 		sxml::register_routine $id "plugin:file" "::plugins::XML_OnlinePlugin_File"
 		sxml::parse $id
+
 		sxml::end $id
 
 	}
 
 
 	proc XML_OnlinePlugin_CVS { cstack cdata saved_data cattr saved_attr args } {
+
 		upvar $saved_data sdata
+
 
 		catch {set ::plugins::plgonlineversion $sdata(${cstack}:cvs_version)}
 		catch {set ::plugins::plgonlinerequire $sdata(${cstack}:amsn_version)}
 
+
 		return 0
+
+
 
 	}
 
 
 	proc XML_OnlinePlugin_Lang { cstack cdata saved_data cattr saved_attr args } {
+
 		upvar $saved_data sdata
 
 		catch {lappend ::plugins::plgonlinelang [list $sdata(${cstack}:langcode) $sdata(${cstack}:version)]}
@@ -1251,6 +1272,7 @@ namespace eval ::plugins {
 
 
 	proc XML_OnlinePlugin_File { cstack cdata saved_data cattr saved_attr args } {
+
 		upvar $saved_data sdata
 
 		catch {lappend ::plugins::plgonlinefile [list $sdata(${cstack}:path) $sdata(${cstack}:version)]}
@@ -1262,11 +1284,17 @@ namespace eval ::plugins {
 #/////////////////////////////////////////////////////
 # Update the plugin (.tcl file)
 
-	proc UpdateCVS { plugin path version} {
+	proc UpdateMain { plugin path version } {
 
 		global HOME HOME2
 
 		set program_dir [set ::program_dir]
+		
+		set w ".updatelangplugin"
+		
+		if { [winfo exists $w] } {
+			$w.update.txt configure -text "Updating $plugin..."
+		}
 
 		if { [string first $HOME $path] != -1 | [string first $HOME2 $path] != -1 } {
 			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/$plugin.tcl?rev=$version&content-type=text/plain" -timeout 10000]
@@ -1285,38 +1313,45 @@ namespace eval ::plugins {
 		puts -nonewline $fid "$content"
 		close $fid
 
-		::amsn::notifyAdd "$plugin updated" "" "" plugins
-
 	}
 
 #/////////////////////////////////////////////////////
 # Update the language files
 
-	proc UpdateLang { plugin langcode path version} {
+	proc UpdateLangs { plugin path langcodes } {
 
 		global HOME HOME2
 
 		set program_dir [set ::program_dir]
+		
+		set w ".updatelangplugin"
 
-		if { [string first $HOME $path] != -1 | [string first $HOME2 $path] != -1 } {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text/plain" -timeout 10000]
-		} elseif { [string first $program_dir $path] != -1} {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text/plain" -timeout 10000]
-		} else {
-			return
+		
+		foreach { langcode version} $langcodes {
+		
+			if { [winfo exists $w] } {
+				$w.update.txt configure -text "Updating $plugin : lang$langcode..."
+			}
+
+			if { [string first $HOME $path] != -1 | [string first $HOME2 $path] != -1 } {
+				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text/plain" -timeout 10000]
+			} elseif { [string first $program_dir $path] != -1} {
+				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text/plain" -timeout 10000]
+			} else {
+				return
+			}
+
+			set content [::http::data $token]
+
+			set filename [file join $path "lang" lang$langcode]
+
+			set fid [open $filename w]
+			fconfigure $fid -encoding binary
+			puts -nonewline $fid "$content"
+			close $fid
+
 		}
-
-		set content [::http::data $token]
-
-		set filename [file join $path "lang" lang$langcode]
-
-		set fid [open $filename w]
-		fconfigure $fid -encoding binary
-		puts -nonewline $fid "$content"
-		close $fid
-
-		::amsn::notifyAdd "$plugin : Lang$langcode updated" "" "" plugins
-
+		
 	}
 
 #/////////////////////////////////////////////////////
@@ -1339,41 +1374,51 @@ namespace eval ::plugins {
 #/////////////////////////////////////////////////////
 # Update all the others files (pictures, sounds...)
 
-	proc UpdateFile { plugin file path version} {
+	proc UpdateFiles { plugin path files } {
 
 		global HOME HOME2
 
 		set program_dir [set ::program_dir]
+		
+		set w ".updatelangplugin"
+		
+		foreach { file version } $files {
 
-		if { [string first $HOME $path] != -1 | [string first $HOME2 $path] != -1 } {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/$file?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
-		} elseif { [string first $program_dir $path] != -1} {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/$file?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
-		} else {
-			return
+			if { [winfo exists $w] } {
+				$w.update.txt configure -text "Updating $plugin : $file..."
+			}
+
+			if { [string first $HOME $path] != -1 | [string first $HOME2 $path] != -1 } {
+				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/$file?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
+			} elseif { [string first $program_dir $path] != -1} {
+				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/$file?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
+			} else {
+				return
+			}
+
+			set content [::http::data $token]
+
+			set filename [file join $path $file]
+
+			set dir [file join $path [file dirname $file]]
+			if { ![file isdirectory $dir] } {
+				file mkdir $dir
+				status_log "Auto-update ($plugin) : create dir $dir\n" red
+			}	
+
+			set fid [open $filename w]
+			fconfigure $fid -encoding binary
+			puts -nonewline $fid "$content"
+			close $fid
+
+			::amsn::notifyAdd "$plugin : $file updated" "" "" plugins
+			
 		}
-
-		set content [::http::data $token]
-
-		set filename [file join $path $file]
-
-		set dir [file join $path [file dirname $file]]
-		if { ![file isdirectory $dir] } {
-			file mkdir $dir
-			status_log "Auto-update ($plugin) : create dir $dir\n" red
-		}	
-
-		set fid [open $filename w]
-		fconfigure $fid -encoding binary
-		puts -nonewline $fid "$content"
-		close $fid
-
-		::amsn::notifyAdd "$plugin : $file updated" "" "" plugins
 
 	}
 
 #/////////////////////////////////////////////////////
-# Update all the plugins
+# Update a plugin
 
 	proc UpdatePlugin { plugin } {
 
@@ -1381,21 +1426,16 @@ namespace eval ::plugins {
 		set name [lindex $plugin 6]
 		set path "[string range $path 0 end-[expr [string length $name] + 5]]"
 		set pathinfo "$path/plugininfo.xml"
-		if { ![catch {
-			get_Version "$pathinfo" "$name"
-			get_OnlineVersion "$pathinfo" "$name"
-			if { [::plugins::CheckRequirements $::plugins::plgonlinerequire] } {
-				set version [DetectNewCVS "$::plugins::plgversion" "$::plugins::plgonlineversion" "$name" "$path"]
-				set lang [DetectNewLang "$name" "$path"]
-				set file [DetectNewFile "$name" "$path"]
-			} else {
-				status_log "Can't update $name : required version $::plugins::plgonlinerequire\n" red
-			}
-		}] } {
-			SavePlugininfo "$plugin" "$pathinfo"
-		} else {
-			status_log "Error while updating $name : don't save Plugininfo.xml\n" red
-		}
+		
+		set main [::plugins::ReadPluginUpdates $name main]
+		set langs [::plugins::ReadPluginUpdates $name lang]
+		set files [::plugins::ReadPluginUpdates $name file]
+		
+		::plugins::UpdateMain $name $path $main
+		::plugins::UpdateLangs $name $path $langs
+		::plugins::UpdateFiles $name $path $files
+		
+		SavePlugininfo "$plugin" "$pathinfo"
 
 	}
 
@@ -1417,52 +1457,79 @@ namespace eval ::plugins {
 			get_Version "$pathinfo" "$name"
 			get_OnlineVersion "$pathinfo" "$name"
 
+			# If the online plugin is compatible with the current version of aMSN
 			if { [::plugins::CheckRequirements $::plugins::plgonlinerequire] } {
 
+				# If the main file has been updated
 				if { [::plugins::DetectNew "$::plugins::plgversion" "$::plugins::plgonlineversion"] } {
+					set main "$::plugins::plgonlineversion"
 					set updated 1
 				} else {
+					set main 0
+				}
+				
 
-					foreach onlinelang $::plugins::plgonlinelang {
-						set langcode [lindex $onlinelang 0]
-						set onlineversion [lindex $onlinelang 1]
-						if { [::lang::LangExists $langcode] } {
-							set id [expr [lsearch $::plugins::plglang $langcode] + 1]
-							if { $id == 0 } {
-								set version "0.0"
-							} else {
-								set version [lindex $::plugins::plglang $id]
-							}
-							if { [::plugins::DetectNew $version $onlineversion] } {
-								set updated 1
-							}
-						}
-					}
-
-
-					foreach onlinefile $::plugins::plgonlinefile {
-						set file [lindex $onlinefile 0]
-						set onlineversion [lindex $onlinefile 1]
-						set id [expr [lsearch $::plugins::plgfile $file] + 1]
+				# Check each language file
+				
+				set langlist [list]
+				
+				foreach onlinelang $::plugins::plgonlinelang {
+					set langcode [lindex $onlinelang 0]
+					set onlineversion [lindex $onlinelang 1]
+					if { [::lang::LangExists $langcode] } {
+						set id [expr [lsearch $::plugins::plglang $langcode] + 1]
 						if { $id == 0 } {
 							set version "0.0"
 						} else {
-							set version [lindex $::plugins::plgfile $id]
+							set version [lindex $::plugins::plglang $id]
 						}
 						if { [::plugins::DetectNew $version $onlineversion] } {
+							set langlist [lappend langlist "$langcode" "$onlineversion"]
 							set updated 1
 						}
 					}
 				}
 
+
+				# Check each other file
+				
+				set filelist [list]
+				
+				foreach onlinefile $::plugins::plgonlinefile {
+					set file [lindex $onlinefile 0]
+					set onlineversion [lindex $onlinefile 1]
+					set id [expr [lsearch $::plugins::plgfile $file] + 1]
+					if { $id == 0 } {
+						set version "0.0"
+					} else {
+						set version [lindex $::plugins::plgfile $id]
+					}
+					if { [::plugins::DetectNew $version $onlineversion] } {
+						set filelist [lappend filelist "$file" "$onlineversion"]
+						set updated 1
+					}
+				}
+				
+
+				array set ::plugins::UpdatedPlugin$name [list main "$main" lang "$langlist" file "$filelist"]
+				
+
+				# If the plugin has been updated, add it to the updated plugin list
+				if { $updated == 1} {
+					set ::plugins::UpdatedPlugins [lappend ::plugins::UpdatedPlugins $plugin]
+				}
+				
+			} else {
+			
+					status_log "Can't update $name : required version $::plugins::plgonlinerequire\n" red
+					
 			}
 
-			if { $updated == 1} {
-				set ::plugins::UpdatedPlugins [lappend ::plugins::UpdatedPlugins $plugin]
-			}
+			
 		}
 
 	}
+
 
 #/////////////////////////////////////////////////////
 # Detect if the onlineversion if upper the version
@@ -1474,7 +1541,9 @@ namespace eval ::plugins {
 		if { [lindex $new 0] > [lindex $current 0] } {
 			return 1
 		} elseif { [lindex $new 1] > [lindex $current 1] } {
+
 			return 1
+
 		} else {
 			return 0
 		}
@@ -1483,78 +1552,18 @@ namespace eval ::plugins {
 
 
 #/////////////////////////////////////////////////////
-# Detect if the .tcl file has been updated
+# Read the updated file of a plugi
 
-	proc DetectNewCVS { version onlineversion plugin path } {
+	proc ReadPluginUpdates { name array } {
 
-		if { [::plugins::DetectNew $version $onlineversion] } {
-			::plugins::UpdateCVS $plugin $path $onlineversion
+		set list [array get ::plugins::UpdatedPlugin$name]
+		set index [lsearch $list $array]
+		if { $index != -1 } {
+			return [lindex $list [expr $index + 1]]
+		} else {
+			return ""
 		}
-
-		return $onlineversion
-
-	}
-
-
-#/////////////////////////////////////////////////////
-# Detect if the languages file have been updated
-
-	proc DetectNewLang { plugin path } {
-
-		foreach onlinelang $::plugins::plgonlinelang {
-			set langcode [lindex $onlinelang 0]
-			set onlineversion [lindex $onlinelang 1]
-			if { [::lang::LangExists $langcode] } {
-				set id [expr [lsearch $::plugins::plglang $langcode] + 1]
-				if { $id == 0 } {
-					set version "0.0"
-				} else {
-					set version [lindex $::plugins::plglang $id]
-				}
-				if { [::plugins::DetectNew $version $onlineversion] } {
-					::plugins::UpdateLang $plugin $langcode $path $onlineversion
-					if { $id == 0 } {
-						lappend ::plugins::plglang $langcode $onlineversion
-					} else {
-						lset ::plugins::plglang $id $onlineversion
-					}
-				}
-			} else {
-				::plugins::DeleteLang $plugin $langcode $path
-			}
-		}
-
-		return $::plugins::plglang
-
-	}
-
-
-#/////////////////////////////////////////////////////
-# Detect if the others files have been updated
-
-	proc DetectNewFile { plugin path } {
-
-		foreach onlinefile $::plugins::plgonlinefile {
-			set file [lindex $onlinefile 0]
-			set onlineversion [lindex $onlinefile 1]
-			set id [expr [lsearch $::plugins::plgfile $file] + 1]
-			if { $id == 0 } {
-				set version "0.0"
-			} else {
-				set version [lindex $::plugins::plgfile $id]
-			}
-			if { [::plugins::DetectNew $version $onlineversion] } {
-				::plugins::UpdateFile $plugin $file $path $onlineversion
-				if { $id == 0 } {
-					lappend ::plugins::plgfile $file $onlineversion
-				} else {
-					lset ::plugins::plgfile $id $onlineversion
-				}
-			}
-		}
-
-		return $::plugins::plgfile
-
+	
 	}
 
 
@@ -1571,6 +1580,7 @@ namespace eval ::plugins {
 		file delete $file
 
 	}
+
 
 
 }

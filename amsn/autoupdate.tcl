@@ -626,7 +626,7 @@ namespace eval ::autoupdate {
 	proc UpdateLangPlugin {} {
 
 
-		::lang::UpdateLang
+		::lang::UpdatedLang
 		::plugins::UpdatedPlugins
 
 		if { ($::lang::UpdatedLang == "") && ($::plugins::UpdatedPlugins == "") } {
@@ -692,26 +692,23 @@ namespace eval ::autoupdate {
 		set w ".updatelangplugin"
 	
 		pack forget $w.list
-		pack forget $w.button.update
+		pack forget $w.button
 		pack configure $w.button.close -side right -padx 3 -pady 3
 
-		wm geometry $w 300x150
+		label $w.update.txt -text ""
+		pack configure $w.update.txt -fill x
 
+		wm geometry $w 300x100
+
+		set langcodes [list]
 
 		foreach langcode $::lang::UpdatedLang {
 			if { [::autoupdate::ReadLangSelected $langcode] == 1} {
-				set onlineversion [::lang::ReadOnlineLang $langcode version]
-				set name $::lang::OnlineLang"$langcode"(name)
-				set encoding $::lang::OnlineLang"$langcode"(encoding)
-				::lang::deletelanguage $langcode
-				::lang::getlanguage $langcode
-				set ::lang::Lang"$langcode"(version) $onlineversion
-				set ::lang::Lang"$langcode"(name) $name
-				set ::lang::Lang"$langcode"(encoding) $encoding
+				set langcodes [lappend langcodes $langcode]
 			}
 		}
 
-		::lang::SaveVersions
+		::lang::UpdateLang $langcodes
 
 
 		foreach plugin $::plugins::UpdatedPlugins {

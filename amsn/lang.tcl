@@ -362,7 +362,7 @@ namespace eval ::lang {
 			$w.txt.text configure -text "[trans currentlanguage]" -foreground red		
 		# If the file is not available
 		} elseif {[lsearch $::lang::Lang $langcode] == -1 } {
-			$w.command.load configure -state normal -text "[trans download]" -command "[list ::lang::getlanguage "$langcode" $selection]"
+			$w.command.load configure -state normal -text "[trans download]" -command "[list ::lang::downloadlanguage "$langcode" $selection]"
 			$w.txt.text configure -text ""
 		# If the file is protected
 		} elseif { ![file writable "$dir/$lang"] } {
@@ -466,7 +466,7 @@ namespace eval ::lang {
 
 	#///////////////////////////////////////////////////////////////////////
 	# Download the lang file
-	proc getlanguage { langcode {selection ""} } {
+	proc downloadlanguage { langcode {selection ""} } {
 
 		global lang_list weburl
 
@@ -492,9 +492,6 @@ namespace eval ::lang {
 
 		# Create a new file
 		set fid [open $file w]
-
-		# Choose the encoding of the file according to the encoding of the lang
-		# fconfigure $fid -encoding "$encoding"
 		fconfigure $fid -encoding binary
 
 		# Download the content of the file from the web
@@ -506,6 +503,7 @@ namespace eval ::lang {
 
 		close $fid
 
+		# Add the language into the language list
 		::lang::AddLang "$langcode" "$name" "$version" "$encoding"
 
 		if { $selection != "" } {
@@ -762,9 +760,9 @@ namespace eval ::lang {
 
 
 	#///////////////////////////////////////////////////////////////////////
-	# This proc is called to check if a new version of lang files exists, and download it
+	# This proc is called to check if a new version of lang files exists, and put it into the ::lang::UpdatedLang list
 
-	proc UpdateLang { } {
+	proc UpdatedLang { } {
 
 		set ::lang::UpdatedLang [list]
 
@@ -793,6 +791,33 @@ namespace eval ::lang {
 		}
 
 		::lang::SaveVersions
+	}
+
+
+	proc UpdateLang { langcodes } {
+	
+		set w ".updatelangplugin"
+	
+		foreach langcode $langcodes {
+		
+			if { [winfo exists $w] } {
+				$w.update.txt configure -text "Updating $langcode..."
+			}
+
+			set onlineversion [::lang::ReadOnlineLang $langcode version]
+			set name $::lang::OnlineLang"$langcode"(name)
+			set encoding $::lang::OnlineLang"$langcode"(encoding)
+			::lang::deletelanguage $langcode
+			::lang::downloadlanguage $langcode
+			set ::lang::Lang"$langcode"(version) $onlineversion
+			set ::lang::Lang"$langcode"(name) $name
+			set ::lang::Lang"$langcode"(encoding) $encoding
+			
+		}
+		
+		::lang::SaveVersions
+
+	
 	}
 
 }
