@@ -1287,11 +1287,14 @@ proc cmsn_draw_msgwin {} {
       -command "destroy .${win_name}" 
 
    menu .${win_name}.menutextsize -tearoff 0 -type normal
-   .${win_name}.menutextsize add command -label "+4" -command "change_myfontsize 4"
-   .${win_name}.menutextsize add command -label "+3" -command "change_myfontsize 3"
-   .${win_name}.menutextsize add command -label "+2" -command "change_myfontsize 2"
-   .${win_name}.menutextsize add command -label "+1" -command "change_myfontsize 1"   
-   .${win_name}.menutextsize add command -label "+0" -command "change_myfontsize 0"   
+   .${win_name}.menutextsize add command -label "+8" -command "change_myfontsize 8 ${win_name}"
+   .${win_name}.menutextsize add command -label "+6" -command "change_myfontsize 6 ${win_name}"
+   .${win_name}.menutextsize add command -label "+4" -command "change_myfontsize 4 ${win_name}"
+   .${win_name}.menutextsize add command -label "+2" -command "change_myfontsize 2 ${win_name}"
+   .${win_name}.menutextsize add command -label "+1" -command "change_myfontsize 1 ${win_name}"
+   .${win_name}.menutextsize add command -label "+0" -command "change_myfontsize 0 ${win_name}"   
+   .${win_name}.menutextsize add command -label "-1" -command "change_myfontsize -1 ${win_name}"
+   .${win_name}.menutextsize add command -label "-2" -command "change_myfontsize -2 ${win_name}"   
       
    menu .${win_name}.menu.view -tearoff 0 -type normal  
    .${win_name}.menu.view add cascade -label "[trans textsize]" \
@@ -1384,8 +1387,8 @@ proc cmsn_draw_msgwin {} {
    bind .${win_name}.in.input <Tab> "focus .${win_name}.in.send; break"
 
    bind  .${win_name}.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y .${win_name}.in.input"   
-#   bind  .${win_name}.buttons.fontsel  <Button1-ButtonRelease> "tk_chooseFont"   
-
+   bind  .${win_name}.buttons.fontsel  <Button1-ButtonRelease> "tk_chooseFont"   
+   bind  .${win_name}.buttons.block  <Button1-ButtonRelease> "show_chatuserlist \"[trans block]\" $name block_user"
 
    bind .${win_name}.in.send <Return> \
       "sb_enter $name .${win_name}.in.input; break"
@@ -1404,9 +1407,22 @@ proc cmsn_draw_msgwin {} {
 
 }
 
-proc change_myfontsize {size} {
+proc change_myfontsize {size name} {
   global config
+  
   set config(textsize) $size
+  
+  set fontfamily \{[lindex $config(mychatfont) 0]\}
+  set fontstyle \{[lindex $config(mychatfont) 1]\}
+  set fontsize [expr {[lindex $config(basefont) end-1]+$config(textsize)}]
+    
+  catch {.${name}.text tag configure yours -font "$fontfamily $fontsize $fontstyle"} res
+  
+  #Get old user font and replace its size
+  catch {
+     set font [lreplace [.${name}.text tag cget user -font] 1 1 $fontsize]
+     .${name}.text tag configure user -font $font
+  } res
 }
 
 proc cmsn_destroyed_msgwin {name winpath} {
@@ -1586,7 +1602,7 @@ proc cmsn_win_write {name txt {colour ""} {fontname ""} {fontstyle ""} {fontcolo
    #.${win_name}.text mark set new_text_start end
 
    if { $colour == "user" || $colour == "yours" } {
-      set size [expr {[lindex $config(basefont) end-1]+$config(textsize)}]
+      set size [expr {[lindex $config(basefont) 1]+$config(textsize)}]
       set font "$fontname $size $fontstyle"
       status_log "Using font: $font\n" red
       if {[catch {.${win_name}.text tag configure $colour -foreground #$fontcolor -font $font} res] || [string length $fontname] <3} {
@@ -2221,9 +2237,8 @@ load_config						;# CONFIG
 scan_languages
 load_lang
 
-#set family [lrange $config(basefont) 0 end-2]
 set family [lindex $config(basefont) 0]
-set size [lindex $config(basefont) end-1]
+set size [lindex $config(basefont) 1]
 
 ::themes::Init
 degt_Init

@@ -29,14 +29,12 @@ set config(autoftip) 1
 set config(myip) "127.0.0.1"
 set config(wingeometry) 275x400-0+0
 set config(closingdocks) 0
-set config(yourfont) "Helvetica 12 bold"
-set config(yourcolor) "red"
 set config(backgroundcolor)  "#AABBCC"
 set config(encoding) auto
 set config(basefont) "Helvetica 11 normal"
 set config(backgroundcolor) #D8D8E0
 set config(textsize) 2
-set config(mychatfont) "Helvetica normal 000000"
+set config(mychatfont) "{Helvetica} {} 000000"
 #end AIM
 set config(orderbygroup) 0
 set config(withnotebook) 0

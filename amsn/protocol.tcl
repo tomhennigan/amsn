@@ -853,7 +853,7 @@ proc cmsn_sb_msg {sb_name recv} {
       
 
       
-#      status_log "Font: $fontfamily, ($fontstyle) $style, $fontcolor\n" blue
+      status_log "Font: $fontfamily, ($fontstyle) $style, $fontcolor\n" blue
 
       cmsn_win_write $sb_name \
         "\[$timestamp\] [trans says [urldecode [lindex $recv 2]]]:\n" gray
@@ -1461,11 +1461,29 @@ proc sb_enter { sbn name } {
       set txt_send [encoding convertto utf-8 $txt_send]      
 
       set fontfamily [lindex $config(mychatfont) 0]
-      set style [lindex $config(mychatfont) 1]
-      set fontcolor [lindex $config(mychatfont) 1]
+      set fontstyle [lindex $config(mychatfont) 1]
+      set fontcolor [lindex $config(mychatfont) 2]
+
+      set color "000000$fontcolor"
+      set color "[string range $color end-1 end][string range $color end-3 end-2][string range $color end-5 end-4]"
+      
+      set style ""
+      
+      if { [string first "bold" $fontstyle] >= 0 } {
+        set style "${style}B"
+      }
+      if { [string first "italic" $fontstyle] >= 0 } {
+        set style "${style}I"
+      }
+      if { [string first "overstrike" $fontstyle] >= 0 } {
+        set style "${style}S"
+      }
+      if { [string first "underline" $fontstyle] >= 0 } {
+        set style "${style}U"
+      }
 
       set msg "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n"
-      set msg "${msg}X-MMS-IM-Format: FN=[urlencode $fontfamily]; EF=; CO=0; CS=0; PF=22\r\n\r\n"
+      set msg "${msg}X-MMS-IM-Format: FN=[urlencode $fontfamily]; EF=$style; CO=$color; CS=0; PF=22\r\n\r\n"
       set msg "$msg$txt_send"
       set msg_len [string length $msg]
       set timestamp [clock format [clock seconds] -format %H:%M]
@@ -1474,9 +1492,10 @@ proc sb_enter { sbn name } {
       puts $sock "MSG $::MSN::trid N $msg_len"
       puts -nonewline $sock $msg
 
+      status_log "Font: \{$fontfamily\}, \{$fontstyle\}, $fontcolor\n" blue
+
       cmsn_win_write $sbn "\[$timestamp\] [trans says [urldecode [lindex $user_info 4]]]:\n" gray
-#      cmsn_win_write $sbn "$txt\n" blue
-      cmsn_win_write $sbn "$txt\n" yours $fontfamily $style $fontcolor      
+      cmsn_win_write $sbn "$txt\n" yours \{$fontfamily\} \{$fontstyle\} $fontcolor      
    } else {
       status_log "$sbn: trying to send, but no users in this session\n" white
       return 0
