@@ -468,10 +468,8 @@ namespace eval ::amsn {
          if { $config(newmsgwinstate) == 0 } {
 	    wm deiconify ${win_name}
             raise ${win_name}
-            status_log "Raise window\n"
          } else {
             #wm iconify ${win_name}
-            status_log "Keep it\n"
          }
       
          play_sound type
