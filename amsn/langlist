@@ -14,11 +14,11 @@ ga iso8859-1 Gallego
 gr iso8859-7 Greek
 gr2 iso8859-1 Greeklish
 hu iso8859-2 Hungary
-is iso8859-1 Icelandic
+is iso8859-10 Icelandic
 id iso8859-1 Indonesian
 it iso8859-1 Italian
-ja iso8859-1 Japanese
-ko iso8859-1 Korean
+ja euc-jp Japanese
+ko euc-kr Korean
 mk utf-8 Macedonian
 mk2 iso8859-1 Macedonish
 nl iso8859-1 Nederlands
@@ -34,6 +34,6 @@ sr iso8859-5 Srpski
 sw iso8859-1 Swedish
 swa iso8859-1 Swahili
 ta iso8859-1 Tamil
-zh-tw iso8859-1 Traditional Chinese(Taiwan)
+zh-tw big5 Traditional Chinese(Taiwan)
 tr iso8859-1 Turkish
 va iso8859-1 Valencià
