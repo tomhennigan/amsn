@@ -998,12 +998,20 @@ proc gethomes {} {
 # entrypath : Path to the combobox containing the profiles list in preferences
 proc DeleteProfile { email entrypath } {
 	global config HOME2
+	if { $email == "" } {
+		return
+	}
 	if { $email == $config(login) } {
+		status_log "Case0\n"
 		msg_box [trans cannotdeleteprofile]
 		return
 	} else {
 	
-	      set answer [tk_messageBox -message "[trans confirmdelete ${email}]" -type yesno -icon question]
+		set focus [focus]
+		if { $focus == "" } {
+			set focus ".cfg"
+		}
+	      set answer [tk_messageBox -message "[trans confirmdelete ${email}]" -type yesno -icon question -parent $focus]
 
 	      if {$answer == "no"} {
 	      	return
@@ -1015,11 +1023,13 @@ proc DeleteProfile { email entrypath } {
 		
 		# Make sure profile isn't locked
 		if { [CheckLock $email] == -1 } {
+			status_log "case1\n"
 			msg_box [trans cannotdeleteprofile]
 			return
 		}
 
 		if {[$entrypath curselection] == "" } {
+			status_log "case2\n"
 			msg_box [trans cannotdeleteprofile]
 			return
 		}
