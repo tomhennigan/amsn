@@ -1,3 +1,5 @@
+#	Microsoft Messenger Protocol Implementation
+# $Id$
 #=======================================================================
 for {set i 0} {$i < 256} {incr i} {
    set c [format %c $i]
@@ -25,9 +27,10 @@ for {set i 256} {$i < 65536} {incr i} {
 }
 
 namespace eval ::MSN {
+   variable myState FLN;
 
    namespace export changeName logout changeStatus connect blockUser \
-   unblockUser addUser deleteUser login
+   unblockUser addUser deleteUser login myStateIs
 
    proc login { username password } {
       if [catch { cmsn_ns_connect $username $password } res] {
@@ -57,8 +60,15 @@ namespace eval ::MSN {
 
 
    proc changeStatus {new_status} {
+      variable myState
       ::MSN::WriteNS "CHG" $new_status
       status_log "Changing state to $new_status\n" red
+      set myState $new_status
+   }
+
+   proc myStateIs {} {
+       variable myState
+       return $myState
    }
 
    proc blockUser { userlogin } {
@@ -529,6 +539,11 @@ proc cmsn_invite_user {name user} {
 
 proc cmsn_chat_user {user} {
    set name [cmsn_draw_msgwin]
+
+   if { ([::MSN::myStateIs] == "HDN") || ([::MSN::myStateIs] == "FLN") } {
+       msg_box "[trans needonline]"
+       return
+   }
 
    sb set $name stat "r"
    sb set $name invite $user
