@@ -1017,18 +1017,9 @@ namespace eval ::ChatWindow {
 
 	}
 
-	proc CalcSashPos { paned input output } {
-		if { $::bottomsize($input) < [$paned panecget $input -minsize] } {
-			set ::bottomsize($input) [$paned panecget $input -minsize]
-		}
-		return [expr {[winfo height $paned] - ($::bottomsize($input) + (2 * [$input cget -pady]) + [$paned cget -sashpad ] + [$paned cget -sashwidth])}]
-	}
-
 	proc InputPaneConfigured { paned input output W newh } {
 		#only run this if the window is the outer frame
 		if { ![string equal $input $W]} { return }
-		
-		set ::bottomsize($input) $newh
 
 		if { [::config::getKey savechatwinsize] } {
 			if { $::tcl_version >= 8.4 } {
@@ -1040,13 +1031,23 @@ namespace eval ::ChatWindow {
 	proc PanedWindowConfigured { paned input output W newh } {
 		#only run this if the window is the outer frame
 		if { ![string equal $paned $W]} { return }
-		
+
 		#keep the input pane the same size, only change the output		
 		#dont call the first time it is created
 		#as the input size hasnt been checked yet
-		if { [info exists ::bottomsize($input)] } {
-			$paned sash place 0 0 [::ChatWindow::CalcSashPos $paned $input $output]
+		if { [info exists ::panedsize($paned)] } {
+			#ensure that the input window is minimum size if there is room for it
+			if { [winfo height $input] < [$paned panecget $input -minsize] } {
+				$paned sash mark 0 0 [$paned panecget $input -minsize]
+				$paned sash dragto 0 0 [winfo height $input]
+				incr ::panedsize($paned) [$paned panecget $input -minsize]
+				incr ::panedsize($paned) -[winfo height $input]
+			}
+			$paned sash mark 0 0 $::panedsize($paned)
+			$paned sash dragto 0 0 $newh
 		}
+		
+		set ::panedsize($paned) $newh
 	}
 
 	proc CreateOutputWindow { w paned } {
