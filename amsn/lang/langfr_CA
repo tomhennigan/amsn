@@ -578,3 +578,7 @@ removeempty Enlever les groupes vides de la liste de contacte
 sngdblclick Simple clique pour ouvrir une nouvelle fenêtre de message
 useother Utiliser un programme différent
 usesnack Utiliser la librairie Snak (TCL interne)
+globalnick Insérez un modèle afin de former les pseudonymes de vos contacts.Vous pouvez utiliser ces variables : \$user_login pour les adresses de vos contacts, \$nick pour les pseudonymes de vos contacts et enfin \$customnick pour les pseudonymes personnalisés de vos contacts. Par exemple : "\$user_login est \$nick" donnera "contact@msn.com est Contact"
+globaloverride Modèles de pseudonymes devant remplacer les pseudonymes personnalisés
+p4contextprefix	Préfixe du champ P4-Context
+soundactive Jouer un son même lorsque le message arrive dans la fenêtre active

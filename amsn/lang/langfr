@@ -483,7 +483,7 @@ smileintro2 Veuillez editer les champs obligatoires pour personnaliser cet émoti
 smileintro Veuillez remplir les champs obligatoires pour créer un nouvel émoticon (voir la FAQ pour l'aide)
 sngdblclick Un click simple ouvre une nouvelle fenêtre de discussion
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
-soundactive Jouer le son même lorsque le message arrive dans la fenêtre en cours
+soundactive Jouer un son même lorsque le message arrive dans la fenêtre active
 soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
 sound Événements sonores
 soundexample (\$sound = fichier audio qui sera joué) Ex: esdplay \$sound
@@ -574,3 +574,11 @@ ignoreerrors Ignore silencieusement les autres erreurs de aMsn jusqu'à la fin de
 justonce Juste une fois
 never Jamais
 webcaminvite $1 vous invite à démarrer un conversation par Webcam, mais aMSN ne supporte pas cette option.
+disableuserfonts Ignorer la police de l'utilisateur distant dans les discussions, et utiliser sa propre police
+groups Groupes
+customstyle Style personnalisé
+nogap Aucun espace entre les groupes
+reconnect2 Se reconnecter en cas de déconnexion
+removeempty Retirer les groupes vides de la liste des contacts
+useother Utiliser un programme différent
+usesnack Utiliser la librairie Snack (interne à Tcl)
