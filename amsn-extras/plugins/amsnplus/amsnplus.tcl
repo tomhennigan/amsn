@@ -8,9 +8,9 @@
 namespace eval ::amsnplus {
 
 
-	##########################################################################
-	                           CORE PROCEDURES
-	##########################################################################
+	#//////////////////////////////////////////////////////////////////////////
+	#                          CORE PROCEDURES
+	#//////////////////////////////////////////////////////////////////////////
 	
 	################################################
 	# this starts amsnplus
@@ -35,26 +35,35 @@ namespace eval ::amsnplus {
 			allow_commands {1}
 		}
 		if {[string equal $::version "0.94"]} {
-			set ::amsnplus::configlist [list [list bool "Do you want to parse nicks?" parse_nicks] [list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] [list bool "Do you want to allow commands in the chat window?" allow_commands] ]
+			set ::amsnplus::configlist [ list \
+				[list bool "Do you want to parse nicks?" parse_nicks] \
+				[list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \
+				[list bool "Do you want to allow commands in the chat window?" allow_commands] \
+			]
 		} else {
-			set ::amsnplus::configlist [list [list bool "[trans parsenicks]" parse_nicks] [list bool "[trans colournicks]" colour_nicks] [list bool "[trans allowcommands]" allow_commands] ]
+			set ::amsnplus::configlist [ list \
+				[list bool "[trans parsenicks]" parse_nicks] \
+				[list bool "[trans colournicks]" colour_nicks] \
+				[list bool "[trans allowcommands]" allow_commands] \
+			]
 		}
 		#register events
 		::plugins::RegisterEvent "aMSN Plus" parse_nick parse_nick
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_send parseCommand
 	}
+
+		
 	
-	
-	############################################################################
-	                       GENERAL PURPOSE FUNCTIONS
-	############################################################################
+	#//////////////////////////////////////////////////////////////////////////
+	#                      GENERAL PURPOSE PROCEDURES
+	#//////////////////////////////////////////////////////////////////////////
 		
 	####################################################
 	# returns 1 if the char is a numbar, otherwise 0
 	proc is_a_number { char } {
 		return [string match \[0-9\] $char]
 	}
-		
+	
 	#####################################################
 	# this returns the first word read in a string
 	proc readWord { i msg strlen } {
@@ -70,7 +79,7 @@ namespace eval ::amsnplus {
 		}
 		return $str
 	}
-		
+	
 	####################################################################
 	# this is a proc to parse description to state in order to make
 	# more easier to the user to change the state
@@ -83,7 +92,7 @@ namespace eval ::amsnplus {
 		if {[string equal $newstate "gonelunch"]} { return "LUN" }
 		return $newstate
 	}
-	
+
 	###################################################################
 	# this detects if the state user want to change is valid
 	proc stateIsValid { state } {
@@ -97,9 +106,10 @@ namespace eval ::amsnplus {
 	}
 	
 	
-	############################################################################
-	                  ALL ABOUT PARSING AND COLORING NICKS
-	############################################################################
+	
+	#//////////////////////////////////////////////////////////////////////////
+	#                 ALL ABOUT PARSING AND COLORING NICKS
+	#//////////////////////////////////////////////////////////////////////////
 
 	################################################
 	# this proc deletes ·$<num> codification
@@ -150,11 +160,19 @@ namespace eval ::amsnplus {
 		if {[string equal $num "4"]} {return "#FF0000"}
 		return $default
 	}
+
+		
 	
-	
-	#############################################################################
-	                        ALL ABOUT AMSNPLUS COMMANDS
-	#############################################################################
+	#//////////////////////////////////////////////////////////////////////////
+	#                     ALL ABOUT AMSNPLUS COMMANDS
+	#//////////////////////////////////////////////////////////////////////////
+
+	################################################
+	# this proc add external commands to amsnplus
+	# (useful for other plugins)
+	proc add_command { keyword proc parameters } {
+		set ::amsnplus::external_commands($keyword) [list $proc $parameters]
+	}
 	
 	#####################################################
 	# this looks chat text for a command
@@ -417,13 +435,10 @@ namespace eval ::amsnplus {
 						::amsn::WinWrite $chatid "[trans cnotvalid]" green
 					}
 				} else {
-					set result [exec $command]
-					if {![string equal $result ""]} {
-						if {[string equal $::version "0.94"]} {
-							::amsn::WinWrite $chatid "\nThis is the result of the command:\n$result" green
-						} else {
-							::amsn::WinWrite $chatid "[trans cresult $result]" green
-						}
+					if {[string equal $::version "0.94"]} {
+						::amsn::WinWrite $chatid "\nThis is the result of the command:\n$catch" green
+					} else {
+						::amsn::WinWrite $chatid "[trans cresult $catch]" green
 					}
 				}
 				set incr 0
@@ -508,13 +523,6 @@ namespace eval ::amsnplus {
 			if {[string equal $incr "1"]} { incr i }
 			set incr 1
 		}
-	}
-
-	################################################
-	# this proc add external commands to amsnplus
-	# (useful for other plugins)
-	proc add_command { keyword proc parameters } {
-		set ::amsnplus::external_commands($keyword) [list $proc $parameters]
 	}
 
 	###################################################################
