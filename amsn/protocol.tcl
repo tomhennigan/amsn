@@ -4793,7 +4793,7 @@ namespace eval ::MSNP2P {
 			# File already open and being written to (fd exists)
 			# Lets write data to file
 			puts -nonewline $fd [string range $data $headend [expr $headend + $cMsgSize - 1]]
-			status_log "FD EXISTS, file already open... with fd = $fd --- $cOffset + $cMsgSize + $cTotalDataSize\n\nwe have $headend which gives us :[string range $data $headend [expr $headend + $cMsgSize]]\n" red
+			status_log "FD EXISTS, file already open... with fd = $fd --- $cOffset + $cMsgSize + $cTotalDataSize . Writing DATA to file\n" red
 			# Check if this is last part if splitted
 			if { [expr $cOffset + $cMsgSize] >= $cTotalDataSize } {
 			    close $fd
