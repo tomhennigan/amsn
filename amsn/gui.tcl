@@ -1285,6 +1285,8 @@ namespace eval ::amsn {
       .${win_name}.f.out.text tag configure url -foreground #000080 -background white -font bboldf -underline true
 
 
+      bind .${win_name}.f.out.text <Configure> "adjust_yscroll .${win_name}.f.out.text .${win_name}.f.out.ys 0 1"
+
       bind .${win_name}.f.in.input <Tab> "focus .${win_name}.f.in.f.send; break"
 
       bind  .${win_name}.f.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y .${win_name}.f.in.input"
@@ -1952,6 +1954,8 @@ namespace eval ::amsn {
       set tagid $tagname
       
       if { $tagid == "user" || $tagid == "yours" } {
+
+      	set txt " $txt"
       
          set size [expr {[lindex $config(basefont) 1]+$config(textsize)}]
          set font "\"$fontname\" $size $fontstyle"
