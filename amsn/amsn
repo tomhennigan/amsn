@@ -425,6 +425,8 @@ proc cmsn_draw_main {} {
 
 
    image create photo butsmile -file [file join ${images_folder} butsmile.gif]
+   image create photo butfont -file [file join ${images_folder} butfont.gif]
+   image create photo butblock -file [file join ${images_folder} butblock.gif]
 
 
    text .main.text -background white -width 30 -height 30 -wrap none \
@@ -986,11 +988,11 @@ proc cmsn_draw_msgwin {} {
    .${win_name} conf -menu .${win_name}.menu
 
    frame .${win_name}.top
-   text .${win_name}.top.text  -borderwidth 0 -width 30 \
+   text .${win_name}.top.text  -borderwidth 0 -width 40 \
       -height 1 -wrap word -yscrollcommand ".${win_name}.top.ys set"
    scrollbar .${win_name}.top.ys -command ".${win_name}.top.text yview" \
       
-   text .${win_name}.text -background white -width 50 -height 15 -wrap word \
+   text .${win_name}.text -background white -width 40 -height 15 -wrap word \
       -yscrollcommand ".${win_name}.ys set" -exportselection 1
       #-selectforeground white \
       #-selectbackground darkblue -selectborderwidth 1 
@@ -1007,8 +1009,10 @@ proc cmsn_draw_msgwin {} {
 
    frame .${win_name}.buttons 
 
-   button .${win_name}.buttons.smileys  -image butsmile -relief flat
-   pack .${win_name}.buttons.smileys -side left
+   button .${win_name}.buttons.smileys  -image butsmile -relief flat -padx 5
+   button .${win_name}.buttons.fontsel -image butfont -relief flat -padx 5
+   button .${win_name}.buttons.block -image butblock -relief flat -padx 5
+   pack .${win_name}.buttons.block .${win_name}.buttons.fontsel .${win_name}.buttons.smileys -side left
 
    pack .${win_name}.top -side top -fill x
    pack .${win_name}.status -side bottom -fill x
