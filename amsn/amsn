@@ -409,9 +409,9 @@ proc cmsn_draw_main {} {
    set dummy_user "recipient@somewhere.com"
    menu .main_menu.actions -tearoff 0 -type normal 
    .main_menu.actions add command -label "[trans sendmsg]..." -command \
-     "user_choose \"[trans sendmsg]\" online cmsn_chat_user 1"
+     "user_choose \"[trans sendmsg]\" online cmsn_chat_user 1 0"
    .main_menu.actions add command -label "[trans sendmail]..." -command \
-     "user_choose \"[trans sendmail]\" both send_mail 1"
+     "user_choose \"[trans sendmail]\" both send_mail 1 0"
    .main_menu.actions add command -label "[trans changenick]..." -command cmsn_change_name
    .main_menu.actions add separator
    .main_menu.actions add command -label "[trans checkver]..." -command "check_version"
@@ -431,9 +431,9 @@ proc cmsn_draw_main {} {
    
    menu .admin_contacts_menu -tearoff 0 -type normal   
    .admin_contacts_menu add command -label "[trans delete]..." \
-      -command  "user_choose \"[trans delete]\" both delete_user 0"
+      -command  "user_choose \"[trans delete]\" both delete_user 0 0"
    .admin_contacts_menu add command -label "[trans properties]..." \
-      -command "user_choose \"[trans properties]\" both ::abookGui::showEntry 0"
+      -command "user_choose \"[trans properties]\" both ::abookGui::showEntry 0 1"
 
    ::groups::Init .main_menu.tools
    set ::groups::bShowing(online) $config(showonline)
@@ -684,7 +684,7 @@ proc show_encodingchoose {} {
 	 status_log "$enc\n" blue
   }
   set enclist [linsert $enclist 0 [list auto "Automatic" 0]]
-  user_choose "[trans encoding]" both set_encoding 0 $enclist
+  user_choose "[trans encoding]" both set_encoding 0 1 $enclist
 }
 
 proc set_encoding {enc} {
@@ -1262,7 +1262,7 @@ proc menuCmdMove {newgid {paramlist ""}} {
     puts "menuCmdMove $passport from $currgid to $newgid"
 }
 
-proc user_choose {title online command other {userslist ""}} {
+proc user_choose {title online command other skip {userslist ""}} {
    global list_users list_bl list_states userchoose_req
 
    if { $userslist == "" } {
@@ -1284,15 +1284,12 @@ proc user_choose {title online command other {userslist ""}} {
 
    }
 
-   if { $usercount == 1 } {
+   if { $usercount == 1 && $skip == 1} {
 
      eval $command $user_login
      return 0
 
    }
-
-
-
 
    set wname "[focus]_userchoose"
 
@@ -1324,7 +1321,7 @@ proc user_choose {title online command other {userslist ""}} {
    pack $wname.list -side top -expand true -fill both
 
    if { $other == 1 } {
-     button  $wname.buttons.other -text "[trans other]..." -command "status_log Other\n" -font sboldf
+     button  $wname.buttons.other -text "[trans other]..." -command "cmsn_draw_otherwindow \"$title\" \"$command\"; destroy $wname" -font sboldf
      pack $wname.buttons.other $wname.buttons.cancel $wname.buttons.ok -padx 10 -side right
    } else {
      pack $wname.buttons.cancel $wname.buttons.ok -padx 10 -side right
@@ -1480,7 +1477,7 @@ proc cmsn_draw_msgwin {email} {
    .${win_name}.menu.actions add command -label "[trans properties]" \
       -command "show_chatuserlist \"[trans properties]\" $name ::abookGui::showEntry"
    .${win_name}.menu.actions add separator
-   .${win_name}.menu.actions add command -label "[trans invite]..." -command "user_choose \"[trans invite]\" online \"cmsn_invite_user $name\" 1"
+   .${win_name}.menu.actions add command -label "[trans invite]..." -command "show_invitelist \"[trans invite]\" $name \"cmsn_invite_user $name\""
    .${win_name}.menu.actions add command -label "[trans sendfile]..." \
       -command "::amsn::fileTransferSend ${name} ${name} "  -state disabled
    .${win_name}.menu.actions add separator
@@ -1916,10 +1913,10 @@ proc cmsn_draw_addcontact {} {
       }
    }
 
-   wm geometry .addcontact -0+100
+#   wm geometry .addcontact -0+100
    wm title .addcontact "[trans addacontact] - [trans title]"
-   wm transient .addcontact .
-   canvas .addcontact.c -width 320 -height 150 
+#   wm transient .addcontact .
+   canvas .addcontact.c -width 320 -height 160 
    pack .addcontact.c -expand true -fill both
 
    entry .addcontact.c.email -width 30 -bg #FFFFFF -bd 1 \
@@ -1931,18 +1928,19 @@ proc cmsn_draw_addcontact {} {
 
    .addcontact.c create text 5 10 -font sboldf -anchor nw \
 	-text "[trans entercontactemail]:"
-   .addcontact.c create text 70 60 -font examplef -anchor ne \
+   .addcontact.c create text 80 60 -font examplef -anchor ne \
          -text "[trans examples]: "
-   .addcontact.c create text 70 60 -font examplef -anchor nw \
+   .addcontact.c create text 80 60 -font examplef -anchor nw \
          -text "gudidu@hotmail.com\nmyname@msn.com\nexample@passport.com"
    .addcontact.c create window 5 35 -window .addcontact.c.email -anchor nw
    .addcontact.c create window 195 120 -window .addcontact.c.next -anchor ne
    .addcontact.c create window 205 120 -window .addcontact.c.cancel -anchor nw
 
    bind .addcontact.c.email <Return> "addcontact_next"
+   focus .addcontact.c.email
 
    tkwait visibility .addcontact
-   grab set .addcontact
+#   grab set .addcontact
 }
 
 
@@ -1957,48 +1955,43 @@ proc addcontact_next {} {
    } 
 }
 
-proc cmsn_draw_otherwindow {} {
+proc cmsn_draw_otherwindow { title command } {
 
 ##hehe, here it's, nearly done ;)
 
-   global addcontact_request lang
+   global lang
 
-   if {[info exists addcontact_request]} {
-      raise .addcontact
-      return 0
-   }
+   toplevel .otherwindow -width 300 -height 100 
 
-   set addcontact_request true
-   toplevel .addcontact -width 300 -height 100 
-   bind .addcontact <Destroy> {
-      if {"%W" == ".addcontact"} {
-         unset addcontact_request
-      }
-   }
+   wm title .otherwindow "$title"
+   canvas .otherwindow.c -width 270 -height 100 
+   pack .otherwindow.c -expand true -fill both
 
-   wm geometry .addcontact -0+100
-   wm title .addcontact "[trans addacontact] - [trans title]"
-   wm transient .addcontact .
-   canvas .addcontact.c -width 270 -height 100 
-   pack .addcontact.c -expand true -fill both
-
-   entry .addcontact.c.email -width 30 -bg #FFFFFF -bd 1 \
+   entry .otherwindow.c.email -width 30 -bg #FFFFFF -bd 1 \
       -font splainf
-   button .addcontact.c.next -text "[trans ok]" \
-     -command addcontact_next -font sboldf
-   button .addcontact.c.cancel -text [trans cancel]  \
-      -command "grab release .addcontact;destroy .addcontact" -font sboldf
+   button .otherwindow.c.next -text "[trans ok]" \
+     -command "run_command_otherwindow \"$command\"" -font sboldf
+   button .otherwindow.c.cancel -text [trans cancel]  \
+      -command "grab release .otherwindow;destroy .otherwindow" -font sboldf
 
-   .addcontact.c create text 5 10 -font sboldf -anchor nw \
+   .otherwindow.c create text 5 10 -font sboldf -anchor nw \
 	-text "[trans entercontactemail]:"
-   .addcontact.c create window 5 35 -window .addcontact.c.email -anchor nw
-   .addcontact.c create window 163 65 -window .addcontact.c.next -anchor ne
-   .addcontact.c create window 173 65 -window .addcontact.c.cancel -anchor nw
+   .otherwindow.c create window 5 35 -window .otherwindow.c.email -anchor nw
+   .otherwindow.c create window 163 65 -window .otherwindow.c.next -anchor ne
+   .otherwindow.c create window 173 65 -window .otherwindow.c.cancel -anchor nw
 
-   bind .addcontact.c.email <Return> "addcontact_next"
+   bind .otherwindow.c.email <Return> "run_command_otherwindow \"$command\""
+   focus .otherwindow.c.email
 
-   tkwait visibility .addcontact
-   grab set .addcontact
+   tkwait visibility .otherwindow
+}
+
+proc run_command_otherwindow { command } {
+	set tmp [.otherwindow.c.email get]
+	if { $tmp != "" } {
+		eval $command $tmp
+		destroy .otherwindow
+	}
 }
 
 
@@ -2211,9 +2204,32 @@ proc show_chatuserlist {title name command} {
    }
 
    if { [llength $userlist] > 0 } {
-   	user_choose $title both $command 1 $userlist
+   	user_choose $title both $command 0 1 $userlist
    }
 }
+
+proc show_invitelist { title name command } {
+	global list_users
+
+	set userlist [list]
+
+	foreach user_info $list_users {
+     		set user_login [lindex $user_info 0]
+      		set user_state_no [lindex $user_info 2]
+      		if {($user_state_no < 7) &&
+          	([sb search $name users "$user_login *"] == -1)} {
+          		set user_name [lindex $user_info 1]
+	  		lappend userlist [list $user_login $user_name $user_state_no]
+      		}
+   	}
+
+	if { [llength $userlist] > 0 } {
+   		user_choose $title both $command 1 0 $userlist
+  	} else {
+		cmsn_draw_otherwindow \"$title\" \"$command\"
+	}
+}
+
 
 proc show_useraddlist {title name command} {
     global list_users
@@ -2232,7 +2248,7 @@ proc show_useraddlist {title name command} {
    }
    
    if { [llength $userlist] > 0 } {
-   	user_choose $title both $command 1 $userlist
+   	user_choose $title both $command 1 1 $userlist
    } else {
    	msg_box "[trans useralreadyonlist]"
    }
