@@ -1761,8 +1761,8 @@ if { $config(getdisppic) != 0 } {
 
 
       .${win_name}.f.out.text tag configure green -foreground darkgreen -background white -font sboldf
-      .${win_name}.f.out.text tag configure red -foreground red -background white -font sboldff
-      .${win_name}.f.out.text tag configure blue -foreground blue -background white -font sboldff
+      .${win_name}.f.out.text tag configure red -foreground red -background white -font sboldf
+      .${win_name}.f.out.text tag configure blue -foreground blue -background white -font sboldf
       .${win_name}.f.out.text tag configure gray -foreground #404040 -background white -font splainf
       .${win_name}.f.out.text tag configure white -foreground white -background black -font sboldf
       .${win_name}.f.out.text tag configure url -foreground #000080 -background white -font splainf -underline true
