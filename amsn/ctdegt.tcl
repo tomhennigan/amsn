@@ -1617,7 +1617,6 @@ proc RestorePreferences {} {
 
 ###################### Other Features     ###########################
 proc ChooseFilename { twn title } {
-    puts $title
 
     # TODO File selection box, use nickname as filename (caller)
     set w .form$title
