@@ -6087,6 +6087,9 @@ proc show_umenu {user_login grId x y} {
 	}
 	
 	.user_menu add separator
+	
+	#.user_menu add command -label "[trans customnick]" \
+	#-command "::abookGui::showCustomNickScreen $user_login"
 	.user_menu add command -label "[trans properties]" \
 	-command "::abookGui::showUserProperties $user_login"
 
@@ -6741,37 +6744,60 @@ proc reloadAvailablePics { } {
 	} else {
 		set image_names [list]	
 	}
+	set image_order [list]
 
-
+	#status_log "files: \n$cachefiles\n"
 	foreach filename [lsort -dictionary $files] {
 		set skin_file "[::skin::GetSkinFile displaypic [file tail [filenoext $filename].gif]]"
 		if { [file exists $skin_file] } {
-			set the_image [image create photo -file $skin_file ]	
-			addPicture $the_image "[getPictureDesc $filename]" [file tail $filename]
-			lappend image_names $the_image
+			#set the_image [image create photo -file $skin_file ]	
+			#addPicture $the_image "[getPictureDesc $filename]" [file tail $filename]
+			#lappend image_names $the_image
+			lappend image_order [list "" ${filename}]
 		}
 	}
-	.picbrowser.pics.text insert end "___________________________\n\n"	
+	#.picbrowser.pics.text insert end "___________________________\n\n"	
+	lappend image_order "--break--"
 
 	foreach filename [lsort -dictionary $myfiles] {
 		if { [file exists "[filenoext $filename].gif"] } {
-			set the_image [image create photo -file "[filenoext $filename].gif" ]	
-			addPicture $the_image "[getPictureDesc $filename]" [file tail $filename]
-			lappend image_names $the_image
+			#set the_image [image create photo -file "[filenoext $filename].gif" ]	
+			#addPicture $the_image "[getPictureDesc $filename]" [file tail $filename]
+			#lappend image_names $the_image
+			lappend image_order [list "" ${filename}]
 		}
 	}
 
-	.picbrowser.pics.text insert end "___________________________\n\n"	
-
+	#.picbrowser.pics.text insert end "___________________________\n\n"	
+	lappend image_order "--break--"
+	
 	if { $show_cached_pics } {
+		set cached_order [list]
 		foreach filename $cachefiles {
 			if { [file exists "[filenoext $filename].gif"] } {
-				set the_image [image create photo -file "[filenoext $filename].gif" ]
-				addPicture $the_image "[getPictureDesc $filename]" "cache/[file tail $filename]"
-				lappend image_names $the_image
+				#set the_image [image create photo -file "[filenoext $filename].gif" ]
+				#addPicture $the_image "[getPictureDesc $filename]" "cache/[file tail $filename]"
+				#lappend image_names $the_image
+				lappend cached_order [list [lindex [getPictureDesc $filename] 1] ${filename}]
 			}
 		}
-	} else {
+		foreach pic [lsort -dictionary $cached_order] {
+			lappend image_order [list "cache/" [lindex $pic 1]]
+		}
+	}
+
+	foreach file $image_order {
+		if {$file == "--break--"} {
+			.picbrowser.pics.text insert end "___________________________\n\n" 
+		} else {
+			set filename [lindex $file 1]
+			set the_image [image create photo -file "[filenoext $filename].gif" ]
+			addPicture $the_image "[getPictureDesc $filename]" "[lindex $file 0][file tail $filename]"
+			lappend image_names $the_image
+		}
+	}
+	
+	if { !$show_cached_pics } {
 		.picbrowser.pics.text tag configure morepics -font bplainf -underline true
 		.picbrowser.pics.text tag bind morepics <Enter> ".picbrowser.pics.text conf -cursor hand2"
 		.picbrowser.pics.text tag bind morepics <Leave> ".picbrowser.pics.text conf -cursor left_ptr"
