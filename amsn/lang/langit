@@ -97,6 +97,7 @@ close Chiudi
 closed La conversazione con $1 è chiusa per inattività.
 closingdocks Pulsante per chiudere
 command Comando
+commandstatus Esegui comando
 confirmdelete Sei sicuro di voler cancellare $1?
 confirm Sei sicuro?
 connected Adesso sei connesso
