@@ -2225,7 +2225,7 @@ proc cmsn_sb_msg {sb_name recv} {
 
       # Send automessage once to each user
       	if { [info exists automessage] } {
-	if { $automessage != "-1" } {
+	if { $automessage != "-1" && [lindex $automessage 4] != ""} {
 		if { [info exists automsgsent($typer)] } {
 			if { $automsgsent($typer) != 1 } {
 				::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [parse_exec [lindex $automessage 4]]
