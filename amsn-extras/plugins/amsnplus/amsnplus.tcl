@@ -21,11 +21,12 @@ namespace eval ::amsnplus {
 		load_lang $lang $langdir
 		#plugin config
 		array set ::amsnplus::config {
+			parse_nicks {1}
 			colour_nicks {0}
 			allow_commands {1}
 		}
 		set ::amsnplus::configlist [ \
-		#	list [list bool "Colour Nicks?" colour_nicks]
+			list [list bool "[trans parsenicks]" parse_nicks] \
 			list [list bool "[trans allowcommands]" allow_commands] \  
 		]
 		#register events
@@ -45,6 +46,7 @@ namespace eval ::amsnplus {
 	# and colours nick if enabled
 	# should parse ALSO MULTIPLE COLORS ·$(num,num,num)
 	proc parse_nick {event epvar} {
+		if {!$::amsnplus::config(parse_nicks)} {return}
 		upvar 2 data data
 		#upvar 2 colour colour
 		set strlen [string length $data]
@@ -64,8 +66,7 @@ namespace eval ::amsnplus {
 					#set colour [::amsnplus::getColor $num $colour]
 					
 					incr i
-				}
-				if {!$::amsnplus::config(colour_nicks)} {
+				} else {
 					set last [expr $i + 3]
 					set char [string index $data [expr $i + 3]]
 					if {![::amsnplus::is_a_number $char]} {
@@ -73,8 +74,7 @@ namespace eval ::amsnplus {
 					}
 					set data [string replace $data $i $last ""]
 				}
-			}
-			if {![string equal $str "·\$"]} {
+			} else {
 				incr i
 			}
 		}
