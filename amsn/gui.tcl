@@ -6659,14 +6659,23 @@ proc purgePictures {} {
 
 	set answer [::amsn::messageBox [trans confirmpurge] yesno question [trans purge] .picbrowser]
 	if { $answer == "yes"} {
-		foreach filename [glob -nocomplain -directory [file join $HOME displaypic cache] *.png] {
+		set folder [file join $HOME displaypic cache]
+		deleteDisplayPicsInDir $folder
+
+	}
+
+}
+
+proc deleteDisplayPicsInDir { folder } {
+		foreach filename [glob -nocomplain -directory $folder *.png] {
 			catch { file delete $filename }
 			catch { file delete "[filenoext $filename].gif" }
 			catch { file delete "[filenoext $filename].dat" }
 		}
-
-	}
-
+		
+		foreach dir [glob -nocomplain -directory $folder -type {d} *] {
+			deleteDisplayPicsInDir [file join $folder $dir]
+		}
 }
 
 proc getPictureDesc {filename} {
