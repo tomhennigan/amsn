@@ -35,8 +35,8 @@
 ###
 
 
-set version "0.491"
-set date "06/01/2002"
+set version "0.50"
+set date "06/04/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -2445,11 +2445,13 @@ proc sb_enter { sbn name } {
 
    set sock [sb get $sbn sock]
    if {[string index $txt 0] == "/"} {
-      set cmd [string range $txt 1 [string length $txt]]
-      puts $sock $cmd
+#      set cmd [string range $txt 1 [string length $txt]]
+#      puts $sock $cmd
 
 
-   } elseif {[sb length $sbn users]} {
+   }
+
+   if {[sb length $sbn users]} {
       set txt_send [string map {"\n" "\r\n"} $txt]
       set msg "MIME-Version: 1.0\r\nContent-Type: text/plain\r\n\r\n"
       set msg "$msg$txt_send"

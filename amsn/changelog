@@ -2,6 +2,67 @@
 compu		Dave Mifsud <dave at CompuCreations dot com>
 ###############################################################################
 
+Version 0.50
+20020604	o Clear lists on connect bug fix
+		o Deutchsland translation
+		o Swedish translation
+		o Fixed sentences beginning with '/' in chat window
+
+Version 0.49
+20020528	o Hotmail autologin (beta).
+		o Bug fixes in nick changes.
+		o Begin "code modularization".
+		o Auto check new versions on internet.
+		o Catch connection errors.
+		o Bug in flickering window fixed.
+		o Advertisement banners (beta).
+		o New languages: french, italian, danish, dutch(nederland).
+		o Clear lists on disconnect bug.
+
+
+
+Version 0.48
+20020526	o Portuguese translation.
+		o Fixed bugs that didn't allow nicks to contain $ or [ ].
+		o Many minor bug fixes.
+		o Rainbow (R) and shining sun (#) emoticons added.
+		o Application icon (in i/amsn.gif).
+
+
+Version 0.46
+20020525	o Bug fix in typing notification
+
+Version 0.45
+20020524 AIM	o Messages with multiple line don't have \r at the end
+		  of each line.
+		o Some bug fixes in email notification.
+		o Some raised errors are now fixed (when closing a
+		  flickering window).
+		o Window manager icon for the application.
+		o Turkish translation.
+		o New format of translation files, more flexible, and
+		  automatic scanning of language files.
+		o Now the "user is typing a message" notification works,
+		  incoming and outgoing.
+
+Version 0.44
+20020522 AIM	o Fixed bug in nick change that didn't allow to use
+		  right parenthesis ;-)
+		o Fixed the contact list bugs.
+		o Fixed original nick change bug.
+		o Now it can be launched from any directory.
+		o No text selection allowed in contact list.
+		o User deletion bug fixed.
+		o 'esd' and some premature closed windows that raised
+		  errors are now fixed.
+		o Event sound player can be changed via the config file.
+		  (by default 'esdplay')
+		o Fixed some translation mistakes.
+		o Clickable urls in chat window
+		o Important bugs fixed
+		o Language and sound configurable from menu
+		o Some other minor improvements 
+
 Version 0.3p3aim
 20020430 AIM    o visual improvements
                 o new emoticons
