@@ -255,6 +255,7 @@ msn aMSN
 mustrestart Has de reiniciar el programa per a que els canvis tinguin efecte
 myhomephone El meu telèfon a casa
 mymobilephone El meu telèfon mòbil
+mypic La meva Imatge Mostrada:
 mystatus El meu estat
 myworkphone El meu telèfon a la feina
 natip Detecció d'IP a través de pàgina web
@@ -301,6 +302,7 @@ pass Contrasenya
 paste Enganxa
 personal Personal
 phone Telèfon
+picbrowser Navegador d'Imatge Mostrada
 picfile Fitxer d'imatge per a l'alarma (GIF < 500 x 500)
 picstatus Imatge per a l'alarma
 playing Reproduint: $1
@@ -347,6 +349,7 @@ proxyconfhttp Configuració del suport per al servidor intermediari HTTP
 proxyconnection Em connecto a Internet a través d'un servidor intermediari (proxy):
 proxy Estic darrera un servidor intermediari (HTTP o SOCKS5)
 publishphones Publicar els meus números de telèfon
+purge Purgar
 raised Elevada/desiconificada
 readonlymsgbox La transferència ha estat cancel·lada perquè no tens permís d'escriptura al directori destí.
 readonlywarn ATENCIÓ: Probablement, el fitxer no serà desat correctament. Comprova els permisos que tens al directori destí ($1).
@@ -389,7 +392,7 @@ smileintro2 Edita els camps per personalitzar aquesta emoticona (a les FAQ tens 
 smileintro Emplena els camps per crear una nova emoticona personalitzada (a les FAQ tens més ajuda)
 sound2 Reprodueix sons quan els contactes es connectin o enviïn missatges
 soundcommand La comanda per reproduir el so (ex: esdplay)
-soundexample (\$sound = fitxer sonor per ser reproduït) Ex: esdplay \$sound
+soundexample (\$sound és el fitxer sonor per ser reproduït) Ex: esdplay \$sound
 soundfile Fitxer de so de l'alarma
 soundloop Reproducció contínua del so
 soundserver Servidor de so
