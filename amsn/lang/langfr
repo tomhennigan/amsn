@@ -498,7 +498,7 @@ textsize Taille du texte
 timeremaining Temps restant
 timestamps Activation de l'horodateur des fenêtres de chat
 title Al's Messenger ;)
-tkerror TK a rapporté une erreur, il ya un bogue dans AMSN, s'il vous plait rapportez la. Envoyez le fichier $1 à amns-bug@lists.sf.netcd
+tkerror TK a rapporté une erreur, il ya un bogue dans AMSN, s'il vous plait rapportez la. Envoyez le fichier $1 à amsn-bugs@lists.sf.net
 tlsdowncompleted Le fichier $1 a été téléchargé dans le répertoire $2. Vous devez l'extraire, le compiler (si vous avez téléchargé le code source) et l'installer dans $3.
 tlsexplain Dossier où se trouve le module TLS. Si AMSN ne peut pas le trouver, merci de le préciser.\n(Requis pour l'authentification SSL).
 tlsinstall Assistant d'installation du module TLS
