@@ -1,39 +1,39 @@
 amsn_lang_version 2
-about Info over aMSN
+about Over aMSN
 accept Accepteren
-acceptfile Accepteer bestand $1, grootte $2? opgeslagen in $3
+acceptfile Accepteer het bestand $1, grootte $2? Opgeslagen in $3
 actions Acties
 addacontact Contactpersoon toevoegen
 addedyou U bent toegevoegd aan de contactpersonenlijst van $1 ($2)
-addprofiledesc Geef de aanmeldingsnaam waarvoor u een nieuw profiel wilt aanmaken\n aanmeldingsnamen met een profiel laten u toe verschillende configuraties te hebben voor iedere aanmeldingsnaam.\n Zonder profielen kunt u geen wachtwoorden onthouden of gebruik maken van geschiedenis en alarms
+addprofiledesc Geef de aanmeldingsnaam waarvoor u een nieuw profiel wilt aanmaken\nProfielen maken het mogelijk om verschillende configuraties te hebben voor iedere aanmeldingsnaam.\nZonder profielen kunt u geen wachtwoorden onthouden of gebruik maken van geschiedenis en alarms
 addprofile Nieuw profiel toevoegen
-addstate Toevoegen
-addtocontacts Aan contactpersonenlijst toevoegen
+addstate Nieuwe status toevoegen
+addtocontacts Toevoegen aan contactpersonenlijst
 addtoo Voeg deze persoon toe als nieuwe contactpersoon
 addto Toevoegen aan $1
 admincontacts Contactpersonen beheren
 admingroups Groepen beheren
 advanced Geavanceerd
-advancedprefs Uitgebreide opties instellen
+advancedprefs Geavanceerde opties instellen
 adverts Advertenties
-alarmonconnect Alarm weergeven bij online komen
-alarmondisconnect Alarm weergeven bij offline gaan
-alarmonmsg Alarm weergeven bij ontvangen bericht
-alarmonstatus Alarm weergeven bij veranderen status
-alarmpref Alarm
+alarmonconnect Alarm laten afgaan als deze contactpersoon online komt
+alarmondisconnect Alarm laten afgaan als deze contactpersoon offline gaat
+alarmonmsg Alarm laten afgaan als deze contactpersoon je een bericht stuurt
+alarmonstatus Alarm laten afgaan als deze contactpersoon van status verandert
+alarmpref Alarminstellingen voor gebruiker
 alarms Alarm
 alarmstatus Alarm inschakelen
 allfiles Alle bestanden
-allowallbutbl Iedereen die ik niet geblokkeerd heb kan mij berichten sturen en mijn status zien
+allowallbutbl Iedereen die ik niet geblokkeerd heb kan contact met mij opnemen
 allowbadwords Ongecensureerde schermnamen weergeven
 allowlist [AL] Geaccepteerd
-allowonlyinal Alleen personen die ik geaccepteerd heb kunnen mij berichten sturen en mijn status zien
-allowseen Deze persoon toestaan om mijn online-status te zien, en contact met mij op te nemen
+allowonlyinal Alleen personen die ik geaccepteerd heb kunnen contact met mij opnemen
+allowseen Deze persoon toestaan om te zien of ik online ben en contact met mij op te nemen
 allprofilesinuse Alle profielen zijn op dit moment in gebruik
 animatedemoticon Dit is een bewegende emoticon
 animatedsmileys Bewegende emoticons gebruiken
-animatenotify Bewegend mededelingenvenster
-appearance Berichten
+animatenotify Bewegend meldingsvenster
+appearance Weergave
 appearoff Offline weergeven
 areacode Netnummer
 aretyping $1 zijn bezig met typen
@@ -51,10 +51,10 @@ automessage Automatisch bericht
 autonoact Status op "Geen Activiteit" zetten als ik niet actief ben gedurende
 avoidseen Voorkom dat deze persoon kan zien of ik online ben en contact met mij opneemt.
 away Afwezig
-awaymsg1 Vragen naar persoonlijke status als de status veranderd wordt naar Afwezig/Ben zo terug/Bezet
-awaymsg2 Niet vragen. Gebruik altijd het onderstaande bericht bij afwezigheid
+awaymsg1 Altijd om een afwezigheidsbericht vragen als ik mijn status verander in Afwezig/Ben zo terug/Bezet
+awaymsg2 Vraag niets, maar gebruik altijd het onderstaande afwezigheidsbericht
 baduserpass Gebruikersnaam of wachtwoord onjuist
-bgcolor Achtergrondkleur (werkt pas goed na opnieuw opstarten)
+bgcolor Verander de achtergrondkleur van aMSN
 blankdirect Leeg laten voor directe verbinding
 block Blokkeer
 blocked Geblokkeerd
@@ -70,9 +70,9 @@ blockusers Controleer gelijktijdig
 bouncedock Laat aMSN's icoontje in het systeemvak op en neer gaan wanneer er een bericht is ontvangen
 broughtby Aangeboden door de volgende ontwikkelaars
 browserexample ( \$url wordt vervangen door de URL ). Vb: mozilla \$url
-browser Webrowser
+browser Webbrowser
 browse Verkennen
-busy Bezet
+busy Bezig
 cachedpics $1 opgeslagen plaatjes
 cancel Annuleren
 cannotdeleteprofile Het profiel kan niet verwijderd worden. Het wordt mogelijk gebruikt door een andere aMSN sessie
@@ -80,7 +80,7 @@ cantexec Kan het programma $1 niet starten, controleer uw instellingen
 cantremoveothers De groep "Andere contactpersonen" kan niet verwijderd worden
 casesensitive Gebruik hoofdlettergevoelige triggers
 cfgalarm Alarminstellingen
-cfgalarmall Alle alarminstellingen
+cfgalarmall Algemene alarminstellingen
 changecustomstate Verander status in
 changedisplaypic Schermafbeelding wijzigen
 changefont Lettertype instellen
@@ -96,8 +96,8 @@ chatreq Indienen van verzoek voor gesprek
 chatsmileys2 Emoticons in berichten weergeven
 chatsmileys Emoticons weergeven
 checkblocking Blijven controleren of gebruikers u blokkeren
-checkemail Laat email berichten (inbox) zien in contactenlijst
-checkfilman Ontvangen bestanden worden bewaard in de map $1.\nKies extra ==> opties om dit te wijzigen.
+checkemail Het aantal berichten in uw Postvak IN weergeven in de contactpersonenlijst
+checkfilman Ontvangen bestanden worden bewaard in de map $1.\nKies Extra > Opties > Geavanceerd om dit te wijzigen.
 checkingver Bezig te zoeken naar een nieuwere versie van aMSN
 checkonfln Controleer of een contactpersoon u heeft geblokkeerd wanneer hij offline gaat
 checkver aMSN Versiecontrole
@@ -108,17 +108,17 @@ choosecontact Selecteer een contactpersoon uit de lijst
 choosefontcolor Tekstkleur
 chooseskin Selecteer de skin die u wilt gebruiken
 ch_to_state Activeer nieuwe status
-clearlog2 Verwijder Geschiedenis voor alle contactpersonen
+clearlog2 Verwijder Geschiedenis voor al je contactpersonen
 clearlog3 Verwijder alle logboeken
 clearlog Logboek legen
 clicktologin Klik hier om u aan te melden
-closed Gesprek met $1 is wegens inactiviteit afgesloten
+closed Het gesprek met $1 is wegens inactiviteit afgesloten
 close Sluiten
-closingdocks Minimaliseren ipv sluiten
+closingdocks Minimaliseren i.p.v. sluiten
 command Commando
 commandstatus Commandoregel uitvoeren
 confirmdelete Weet u zeker dat u $1 wilt verwijderen?
-confirmpurge Alle opgeslagen chatplaatjes van je contactpersonen zullen verwijderd worden. Weet je het zeker?
+confirmpurge Alle opgeslagen schermafbeeldingen van je contactpersonen zullen verwijderd worden. Weet je het zeker?
 confirm Weet u het zeker?
 connected U bent nu verbonden
 connecterror Fout bij verbinden met server
@@ -138,10 +138,10 @@ countrycode Landnunummer
 cprofile Maak profiel
 credits De makers
 currentdate Huidige datum
-custnotifymsg Geef mededelingenvenster weer als een nieuw bericht aankomt
-custnotifyoffline Geef mededelingenvenster weer als deze contactpersoon offline gaat
-custnotifyonline Geef mededelingenvenster weer als deze contactpersoon online komt
-custnotifystatus Geef mededelingenvenster weer als deze contactpersoon van status verandert
+custnotifymsg Geef meldingsvenster weer als een nieuw bericht aankomt
+custnotifyoffline Geef meldingsvenster weer als deze contactpersoon offline gaat
+custnotifyonline Geef meldingsvenster weer als deze contactpersoon online komt
+custnotifystatus Geef meldingsvenster weer als deze contactpersoon van status verandert
 customcolor Aangepaste kleur
 custom_edit Bewerk zelfgemaakte emoticon
 custom_new Maak een nieuwe emoticon
@@ -185,12 +185,11 @@ editvalue Wijzig waarde
 email E-mail
 emailsinlist E-mail adressen weergeven in de contactpersonenlijst
 emotisounds Geluid bij emoticons gebruiken
-enablebanner aMSN Banner weergeven (werkt pas na opnieuw opstarten)
 enabled Actief
 enableproxy Gebruik proxy
 enableremote Beheer op afstand toestaan
 enablesound Geluid afspelen
-encoding2 Tekencodering (bijvoorbeeld unicode)
+encoding2 Tekencodering
 encoding Codering instellen
 entercontactemail Voer het e-mailadres van de contactpersoon in
 enterfilename Voer een bestandsnaam in
@@ -328,8 +327,10 @@ msgmode Kies hoe meerdere gespreksvensters worden weergegeven
 msn AMSN
 msnstyle Gesprek in MSN-stijl
 mustrestart U moet het programma herstarten voordat de veranderingen effect hebben
+myfriendlyname Mijn schermnaam tijdens een gesprek
 myhomephone Mijn telefoonnummer (thuis)
 mymobilephone Mijn mobiele nummer
+mynick Mijn schermnaam
 mypic Mijn afbeelding
 mystatus Mijn status
 myworkphone Mijn telefoonnummer (werk)
@@ -366,7 +367,7 @@ notify2 Melding weergeven wanneer er een bericht wordt ontvangen
 notify3 Melding weergeven wanneer er een e-mail wordt ontvangen
 notify Licht in
 notifyoffset Afstand meldingsvenster vanaf de hoek van het scherm
-notifytimeout Aantal milliseconden tot het venster verdwijnt
+notifytimeout Het aantal miliseconden voordat het meldingsvenster verdwijnt
 notifytyping Laat anderen in een gesprek zien of je aan het typen bent
 notifywin Meldingsvenster
 notinlist Je staat niet in zijn/haar contactenlijst
@@ -406,7 +407,7 @@ prefconnection Verbindingsinstellingen
 prefemotic Emoticons
 preferences Opties
 preffont2 Het lettertype voor berichten wijzigen
-preffont3 Lettertype en lettergrootte
+preffont3 Lettertype en -grootte van aMSN wijzigen
 preffont Berichttekst
 prefft Bestandsoverdracht, peer-to-peer en NAT instellingen
 preflibs Zoekpad voor libraries
@@ -480,7 +481,7 @@ showcachedpics Opgeslagen plaatjes laten zien/verbergen
 showdisplaypic2 Schermafbeelding standaard tonen bij het openen van een gespreksvenster
 showdisplaypic Toon schermafbeelding
 showmypic Mijn Afbeelding
-shownotify Geef mededelingenvenster weer bij bepaalde gebeurtenissen
+shownotify Geef meldingsvenster weer bij bepaalde gebeurtenissen
 showuserpic Afbeelding van $1
 skinselector Skin selecteren
 skin Skin
@@ -571,4 +572,3 @@ yoffset verticaal
 youblocked U bent geblokkeerd
 yousay U zegt
 youwant U wilt
-
