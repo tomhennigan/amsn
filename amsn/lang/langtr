@@ -28,7 +28,7 @@ gonelunch Yemege cikti
 help Yardim
 ident Tanimlaniyor
 invite Cagir
-is 
+is  
 joins $1 $2 sohbete katiliyor
 language Dil
 leaves $1 sohbetten ayriliyor
@@ -76,4 +76,3 @@ uonline Cevirim ici
 user Kullanici
 version Surum
 willjoin $1 sohbete katilmasi bekleniyor
-

@@ -34,6 +34,7 @@ clicktologin Haga click aquí para iniciar la sesión
 close Cerrar
 closingdocks Botón de cerrar minimiza
 command Comando
+connecterror Error conectandose al servidor
 contactadded Contacto añadido
 date Fecha
 delete Eliminar
@@ -57,6 +58,7 @@ groupnewname Nuevo nombre
 groupunknown Grupo desconocido
 groupexists El grupo ya existe
 groupmissing No se puede encontrar el grupo
+handle Nick
 help Ayuda
 helpcontents Temas de ayuda
 home Casa
