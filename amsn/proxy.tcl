@@ -175,12 +175,7 @@ proc ClosePOST { name } {
 
 proc ConnectedPOST { name } {
 
-   variable proxy_session_id
-   variable proxy_gateway_ip
-   variable proxy_queued_data
-
-   ReadPOST $name
-   set proxy_queued_data($name) ""   
+   ReadPOST $name   
    sb set $name write_proc "::Proxy::WritePOST $name"
    #sb set $name read_proc "::Proxy::ReadPOST $name"
    #catch { fileevent [sb get $name sock] readable [sb get $name readable] } res      
@@ -201,18 +196,21 @@ proc PollPOST { name } {
       return
    }
    
-      
-   if { $proxy_session_id($name) == ""} {
+   #TODO: Race condition!! A write can happen here
+   set old_proxy_session_id $proxy_session_id($name)
+   set proxy_session_id($name) ""
    
-      status_log "ERROR, THIS SHOULD'T HAPPEN IN ::proxy::PollPOST!!!!\n" white
+      
+   if { $old_proxy_session_id == ""} {
+   
+      status_log "ERROR, RACE CONDITION, THIS SHOULD'T HAPPEN IN ::proxy::PollPOST!!!!\n" white
 	 
 	 
    } else {
    
-      if { $proxy_session_id($name) != ""} {
+      if { $old_proxy_session_id != ""} {
             
-         set tmp_data "POST http://$proxy_gateway_ip($name)/gateway/gateway.dll?Action=poll&SessionID=$proxy_session_id($name) HTTP/1.1"      
-         set proxy_session_id($name) ""	 
+         set tmp_data "POST http://$proxy_gateway_ip($name)/gateway/gateway.dll?Action=poll&SessionID=$old_proxy_session_id HTTP/1.1"      
          set tmp_data "$tmp_data\r\nAccept: */*"
          set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
          set tmp_data "$tmp_data\r\nUser-Agent: MSMSGS"
@@ -245,6 +243,7 @@ proc WritePOST { name {msg ""} } {
    variable proxy_gateway_ip
    
    after cancel "::Proxy::PollPOST $name"
+   after cancel "::Proxy::WritePOST $name"    
    
    if {![info exists proxy_queued_data($name)]} {
       set proxy_queued_data($name) ""
@@ -253,6 +252,9 @@ proc WritePOST { name {msg ""} } {
    if { ![info exists proxy_session_id($name)]} {
       return
    }
+   
+   set old_proxy_session_id $proxy_session_id($name)    
+   set proxy_session_id($name) ""      
    
    if { $msg != "" } {
    
@@ -266,14 +268,13 @@ proc WritePOST { name {msg ""} } {
    }	 
    
    
-   if { $proxy_session_id($name) != "" } {
+   if { $old_proxy_session_id != "" } {
    
  
       set size [string length $proxy_queued_data($name)]
       set strend [expr {$size -1 }]
 
-      set tmp_data "POST http://$proxy_gateway_ip($name)/gateway/gateway.dll?SessionID=$proxy_session_id($name) HTTP/1.1"            
-      set proxy_session_id($name) ""           
+      set tmp_data "POST http://$proxy_gateway_ip($name)/gateway/gateway.dll?SessionID=$old_proxy_session_id HTTP/1.1"                 
       set tmp_data "$tmp_data\r\nAccept: */*"
       set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
       set tmp_data "$tmp_data\r\nUser-Agent: MSMSGS"
@@ -294,8 +295,7 @@ proc WritePOST { name {msg ""} } {
 
 	    
    } else {
-	
-      after cancel "::Proxy::WritePOST $name" 
+      set proxy_session_id($name) $old_proxy_session_id
       after 500 "::Proxy::WritePOST $name"
 	    
    }
@@ -387,8 +387,9 @@ proc ReadPOST { name } {
          if { $session_id != ""} {
 	    after 5000 "::Proxy::PollPOST $name"
 	 }
+	 
+	 set proxy_gateway_ip($name) $gateway_ip	 
 	 set proxy_session_id($name) $session_id
-	 set proxy_gateway_ip($name) $gateway_ip
 	 
       }
    }   
@@ -431,6 +432,9 @@ proc Read { name } {
 }
 ###################################################################
 # $Log$
+# Revision 1.13  2003/06/09 11:43:48  airadier
+# Minor changes in gui.tcl (added a catch) and some improvements in http proxy code.
+#
 # Revision 1.12  2003/06/05 15:56:53  airadier
 # Proxy finished, including preferences and minor things.
 # Begin to do password encryption

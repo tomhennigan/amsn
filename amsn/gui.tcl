@@ -1151,7 +1151,7 @@ namespace eval ::amsn {
       .${win_name}.f.out.text tag configure green -foreground darkgreen -background white -font bboldf
       .${win_name}.f.out.text tag configure red -foreground red -background white -font bboldf
       .${win_name}.f.out.text tag configure blue -foreground blue -background white -font bboldf
-      .${win_name}.f.out.text tag configure gray -foreground #808080 -background white
+      .${win_name}.f.out.text tag configure gray -foreground #404040 -background white
       .${win_name}.f.out.text tag configure white -foreground white -background black
       .${win_name}.f.out.text tag configure url -foreground #000080 -background white -font bboldf -underline true
       .${win_name}.f.out.text tag configure url -foreground #000080 -background white -font bboldf -underline true
@@ -2193,7 +2193,8 @@ proc cmsn_draw_main {} {
    wm title . "[trans title] - [trans offline]"
    wm command . [concat $argv0 $argv]
    wm group . .
-   wm geometry . $config(wingeometry)
+   catch {wm geometry . $config(wingeometry)}
+   
    wm iconname . "[trans title]"
    wm iconbitmap . @[file join ${images_folder} amsn.xbm]
    wm iconmask . @[file join ${images_folder} amsnmask.xbm]
