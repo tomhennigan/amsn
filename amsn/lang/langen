@@ -624,6 +624,7 @@ tlsinstallexp aMSN now uses MSNP9, which requires the use of a secure\nconnectio
 tlsinstcompleted TLS module installation was sucessful - you should now be able to use MSNP9. If this doesn't work, then you probably didn't select the right module, or a compiled module is not available for your system.
 to To
 today Today
+tomobile To Mobile
 tools Tools
 tooltips Enable tooltips
 transnotexists The requested file has not been translated into the current language yet.
