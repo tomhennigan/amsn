@@ -782,7 +782,7 @@ proc sb_enter { sbn name } {
       puts $sock "MSG $trid N $msg_len"
       puts -nonewline $sock $msg
 #      cmsn_win_write $sbn "\[$timestamp\] [trans yousay]:\n" gray
-      cmsn_win_write $sbn "\[$timestamp\][lindex $user_info 4] [trans says]:\n" gray
+      cmsn_win_write $sbn "\[$timestamp\][trans says [urldecode [lindex $user_info 4]]]:\n" gray
       cmsn_win_write $sbn "$txt\n" blue
    } else {
       status_log "$sbn: trying to send, but no users in this session\n" white
