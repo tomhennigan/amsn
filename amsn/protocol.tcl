@@ -3714,6 +3714,7 @@ proc recreate_contact_lists {} {
 	::MSN::clearList FL
 	::MSN::clearList RL
 	foreach user [::abook::getAllContacts] {
+		::abook::setVolatileData $user state FLN
 		foreach list_name [::abook::getLists $user] {
 			::MSN::addToList $list_name $user
 		}
@@ -4151,7 +4152,8 @@ proc cmsn_listupdate {recv} {
 		::abook::unsetConsistent
 
 		#Remove user from all lists while receiving List data
-		::abook::setContactData $username lists ""		
+		::abook::setContactData $username lists ""
+		::abook::setVolatileData $username state "FLN"
 		
 	}
 

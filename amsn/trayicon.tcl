@@ -12,9 +12,7 @@ proc iconify_proc {} {
 	global statusicon config systemtray_exist
 	if { [focus] == "."} {
 		wm iconify .
-		if { $config(closingdocks) } {
-		   wm state . withdrawn
-		}
+		wm state . withdrawn
 	} else {
 		wm deiconify .
 		wm state . normal
@@ -160,7 +158,7 @@ proc statusicon_proc {status} {
 		if { $systemtray_exist == 1 && $statusicon == 0 && $config(dock) == 3} {
 			set pixmap "[GetSkinFile pixmaps doffline.xpm]"
 			set statusicon [newti $icon -pixmap $pixmap -tooltip offline]
-			bind $icon <Double-Button-1> iconify_proc
+			bind $icon <Button1-ButtonRelease> iconify_proc
 			bind $icon <Button3-ButtonRelease> "tk_popup $iconmenu %X %Y"
 		}
 	}
