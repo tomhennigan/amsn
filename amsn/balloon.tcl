@@ -97,7 +97,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	toplevel .balloon -relief flat  \
     -class Balloonhelp ; ::tk::unsupported::MacWindowStyle\
     style .balloon help none
-    set bg_balloon #ffffff
+    set bg_balloon #ffffca
 	} else {
 	wm overrideredirect .balloon 1
 	set bg_balloon #ffffaa
