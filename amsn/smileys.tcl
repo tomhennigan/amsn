@@ -156,8 +156,11 @@ namespace eval ::smiley {
 			set emotion($field_sort) [string trim $sdata($field)]
 		}
 		
+		#Add to the list of custom emoticons
 		lappend [::config::getVar customsmileys] $emotion(name)
+		#Store the emoticon data in the custom_emoticons array
 		set custom_emotions($emotion(name)) [array get emotion]
+		#Create the image, and associate it
 		set custom_images($emotion(name)) [image create photo -file $emotion(file) -format gif]
 
 		
@@ -187,7 +190,6 @@ namespace eval ::smiley {
 		
 		#Search for all possible emotions
 		foreach symbol $sortedemotions {
-			set chars [string length $symbol]
 			
 			#Get the name for this symbol
 			set emotion_name $emotions($symbol)
@@ -199,25 +201,12 @@ namespace eval ::smiley {
 			#Keep searching umtil no matches
 			while {[set pos [$tw search -exact $nocase -- $symbol $start $end]] != ""} {
 		
-				set posyx [split $pos "."]
-				set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $chars}]"
-				#status_log "Begin=$pos, end=$endpos\n" green
-		
-				if { [lsearch -exact [$tw tag names $pos] "dont_replace_smileys"] != -1 } {
-					set start $endpos
-					#status_log "Skipping in $pos\n"
-					continue
-				}
-		
-				$tw tag configure smiley -elide true
-				$tw tag add smiley $pos $endpos
-		
 				set animated [ValueForSmiley $emotion_name animated 1]
 				if { $contact_list == 0 && [ValueForSmiley $emotion_name sound] != "" } {
 					set sound [ValueForSmiley $emotion_name sound]
 				} else { set sound "" }
 				
-				::smiley::SubstSmiley $tw $endpos [::skin::loadSmiley $symbol] [ValueForSmiley $emotion_name file] $animated $sound
+				set start [::smiley::SubstSmiley $tw $pos $symbol [::skin::loadSmiley $symbol] [ValueForSmiley $emotion_name file] $animated $sound]
 		
 		
 			}
@@ -225,7 +214,20 @@ namespace eval ::smiley {
 	
 	}
 	
-	proc SubstSmiley { tw endpos image file animated { sound "" }} {
+	#Replace one smiley in the given $tw (text window)
+	proc SubstSmiley { tw pos symbol image file animated { sound "" }} {
+
+		set chars [string length $symbol]
+
+		set posyx [split $pos "."]
+		set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $chars}]"
+	
+		if { [lsearch -exact [$tw tag names $pos] "dont_replace_smileys"] != -1 } {
+			return $endpos
+		}
+
+		$tw tag configure smiley -elide true
+		$tw tag add smiley $pos $endpos	
 	
 		if { $animated && [::config::getKey animatedsmileys] } {
 			global smileys_drawn
@@ -258,6 +260,8 @@ namespace eval ::smiley {
 		if { [::config::getKey emotisounds] == 1 && $sound != "" } {
 			play_sound $sound
 		}
+		
+		return $pos
 	}
 	
 	# proc substYourSmileys { tw {start "0.0"} {end "end"} {contact_list 0} }
@@ -271,7 +275,6 @@ namespace eval ::smiley {
 	
 			array set emotion $custom_emotions($name)
 			set symbol $emotion(text)
-			set chars [string length $symbol]
 			
 			if { [info exists emotion(casesensitive)] && [is_true $emotion(casesensitive)]} {set nocase "-exact"} else {set nocase "-nocase"}
 			
@@ -279,26 +282,13 @@ namespace eval ::smiley {
 			
 			#Keep searching umtil no matches
 			while {[set pos [$tw search -exact $nocase -- $symbol $start $end]] != ""} {
-		
-				set posyx [split $pos "."]
-				set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $chars}]"
-				#status_log "Begin=$pos, end=$endpos\n" green
-		
-				if { [lsearch -exact [$tw tag names $pos] "dont_replace_smileys"] != -1 } {
-					set start $endpos
-					#status_log "Skipping in $pos\n"
-					continue
-				}
-		
-				$tw tag configure smiley -elide true
-				$tw tag add smiley $pos $endpos
-				
+			
 				set animated [expr {[info exists emotion(animated)] && [is_true $emotion(animated)]}]
 				if { $contact_list == 0 && [info exists emotion(sound)] && $emotion(sound) != "" } {
 					set sound $emotion(sound)
 				} else { set sound "" }
 				
-				::smiley::SubstSmiley $tw $endpos $custom_images($name) $emotion(file) $animated $sound
+				set start [::smiley::SubstSmiley $tw $pos $symbol $custom_images($name) $emotion(file) $animated $sound]
 		
 			}
 		}
@@ -482,7 +472,7 @@ namespace eval ::smiley {
 				bind $w.text.$temp <Leave> [list $w.text.$temp configure -relief flat]
 
 				#Toolstip
-				if { [::config::getKey tooltips] } {set_balloon $w.text.$temp "$name $symbol"}
+				if { [::config::getKey tooltips] } {set_balloon $w.text.$temp "$name $emotion(text)"}
 				$w.text window create end -window $w.text.$temp -padx 1 -pady 1
 			#}
 			incr temp
