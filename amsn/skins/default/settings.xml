@@ -62,6 +62,7 @@
 			<underline_contact>1</underline_contact>
 			<balloonfont>sboldf</balloonfont>
 			<showdisplaycontactlist>1</showdisplaycontactlist>
+			<emailabovecolorbar>1</emailabovecolorbar>
 		</Options>
 	</ContactList>
 

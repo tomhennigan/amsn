@@ -71,6 +71,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey menuactivebackground #565672
 	::skin::setKey menuactiveforeground #ffffff
 	::skin::setKey showdisplaycontactlist 0
+	::skin::setKey emailabovecolorbar 0
 	::skin::setKey x_dp_top 4
 	::skin::setKey y_dp_top 4
 	::skin::setKey balloontext #000000 
@@ -4554,7 +4555,11 @@ proc cmsn_draw_online_wrapped {} {
 		text $pgBuddyTop.mail -font bboldf -height 1 -background white -borderwidth 0 -wrap none\
 			-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
 			-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
-		pack $pgBuddyTop.mail -expand true -fill x -before $colorbar -side bottom -padx 0 -pady 0
+		if {[::skin::getKey emailabovecolorbar]} {
+			pack $pgBuddyTop.mail -expand true -fill x -after $colorbar -side bottom -padx 0 -pady 0
+		} else {
+			pack $pgBuddyTop.mail -expand true -fill x -before $colorbar -side bottom -padx 0 -pady 0
+		}
 
 		$pgBuddyTop.mail configure -state normal
 

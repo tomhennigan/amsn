@@ -436,7 +436,11 @@ namespace eval ::pop3 {
 			text $textb -font bboldf -height 1 -background white -borderwidth 0 -wrap none\
 				-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
 				-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
-			pack $textb -expand true -fill x -before $clbar -side bottom -padx 0 -pady 0
+			if {[::skin::getKey emailabovecolorbar]} {
+				pack $textb -expand true -fill x -after $clbar -side bottom -padx 0 -pady 0
+			} else {
+				pack $textb -expand true -fill x -before $clbar -side bottom -padx 0 -pady 0
+			}
 
 			$textb configure -state normal
 
@@ -469,17 +473,14 @@ namespace eval ::pop3 {
 			set short_mailmsg [trunc $mailmsg $textb $maxw splainf]
 		}
 
+		$textb tag conf pop3mail -fore black -underline false -font splainf
 		if { $::pop3::config(loadMailProg) } {
-			#Set up TAGS for mail notification
-			$textb tag conf pop3mail -fore black -underline true -font splainf
+			$textb tag conf pop3mail -underline true
 			$textb tag bind pop3mail <Button1-ButtonRelease> "$textb conf -cursor watch; after 1 ::pop3::loadDefaultEmail"
 			$textb tag bind pop3mail <Enter> "$textb tag conf pop3mail -under false;$textb conf -cursor hand2"
 			$textb tag bind pop3mail <Leave> "$textb tag conf pop3mail -under true;$textb conf -cursor left_ptr"
-
-			$textb insert end "$short_mailmsg" {pop3mail dont_replace_smileys}
-		} else {
-			$textb insert end "$short_mailmsg" dont_replace_smileys
 		}
+		$textb insert end "$short_mailmsg" {pop3mail dont_replace_smileys}
 		
 		$textb configure -state disabled
 	}
