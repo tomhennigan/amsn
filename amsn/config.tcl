@@ -78,6 +78,8 @@ proc ConfigDefaults {} {
 	set config(newmsgwinstate) 1
         set config(newchatwinstate) 1
 	set config(receiveddir) ""
+	# automaticly change nick to custom state
+	set config(autochangenick) 1
         set config(initialftport) 6891
         set config(remotepassword) ""
         set config(enableremote) 0
@@ -195,6 +197,9 @@ proc load_config {} {
      }
      
     close $file_id
+
+	# Load up the personal states
+	LoadStateList
 }
 
 

@@ -157,6 +157,7 @@ source [file join $program_dir loging.tcl]	;# Euh yeh it's for loging :P
 source [file join $program_dir combobox.tcl]	;# The all mighty combobox is here! (B. Oakley)
 source [file join $program_dir blocking.tcl]    ;# The blocking users feature
 source [file join $program_dir remote.tcl  ]    ;# The remote control procedures
+source [file join $program_dir automsg.tcl]
 source [file join $program_dir plugins.tcl]	;# Plugins system
 
 
@@ -329,6 +330,7 @@ proc close_cleanup {} {
 	}
   }
   SaveLoginList
+  SaveStateList
 
   ::MSN::logout
   
@@ -656,5 +658,5 @@ if { $config(autoconnect) == 1 } {
   ::MSN::connect $config(login) password
 }
 
-init_dock
 init_remote_DS
+init_dock

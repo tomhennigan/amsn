@@ -859,7 +859,6 @@ namespace eval ::MSN {
       } else {
          ::MSN::WriteSB ns "REA" "$userlogin $name"
       }
-
    }
 
 
@@ -1905,7 +1904,7 @@ proc cmsn_msg_parse {msg hname bname} {
 
 proc cmsn_sb_msg {sb_name recv} {
    #TODO: A little cleaning on all this
-   global filetoreceive files_dir
+   global filetoreceive files_dir automessage automsgsent
 
    set msg [sb index $sb_name data 0]
    sb ldel $sb_name data 0
@@ -1996,6 +1995,22 @@ proc cmsn_sb_msg {sb_name recv} {
       #TODO: Remove the font style transformation from here and put it inside messageFrom or gui.tcl
       ::amsn::messageFrom $chatid $typer "$body" user [list $fontfamily $style $fontcolor]
       sb set $sb_name lastmsgtime [clock format [clock seconds] -format %H:%M:%S]
+      
+      # Send automessage once to each user
+      	if { [info exists automessage] } {
+	if { $automessage != "-1" } {
+		if { [info exists automsgsent($typer)] } {
+			if { $automsgsent($typer) != 1 } {
+				::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [lindex $automessage 3]
+				set automsgsent($typer) 1
+			}
+		} else {
+				::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [lindex $automessage 3]
+				set automsgsent($typer) 1
+			}
+	}
+	}
+
 
       set idx [sb search $sb_name typers $typer]
       sb ldel $sb_name typers $idx

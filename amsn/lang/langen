@@ -5,6 +5,7 @@ acceptfile Accept file $1, size $2? Saved in $3
 actions Actions
 addacontact Add a contact
 addedyou $1 ($2) has added you to his/her contact list
+addstate Add New State
 addtocontacts Add to contact list
 addtoo Add this person to my contact list
 admincontacts Admin contacts
@@ -93,6 +94,8 @@ dockingoff Docking Off
 dockkde KDE Dock
 edit Edit
 editprofile Edit Profile
+editnewstate New Personal Automessage State
+editstate Edit Existing Automessage State
 enableproxy Enable proxy
 enableremote Enable remote controling
 encoding2 Change the way your characters are encoded
@@ -182,6 +185,7 @@ maximised Maximised
 minimised Minimised/Iconified
 mins minutes
 mobile Mobile
+morepersonal More States ->
 movetogroup Move to Group
 msgmaxmin When a new message arrives I want it to be :
 msg Message
@@ -297,6 +301,12 @@ soundserver Sound Server
 soundstatus Sound Alarm
 startoffline2 Sign In silently as "Appear Offline"
 startoffline Start Offline
+stateautomsg AutoMessage to Send
+state I want to appear as
+stateedittext Please edit the fields you would like \n to have modified and press Save
+statename Name of Personal State
+statenewtext Please fill the required information to create \n your new Personal State and press Save
+stateinfo Personal State Configuration
 status Status
 stopalarm Stop Alarm
 stylechat Same look as chats

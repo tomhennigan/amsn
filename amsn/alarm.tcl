@@ -64,7 +64,7 @@ proc save_alarms {} {
    
    } else {
        #puts "erasing alarms file"
-	catch { exec rm [file join ${HOME} alarms] } res
+	#catch { exec rm [file join ${HOME} alarms] } res
    }
 }
 

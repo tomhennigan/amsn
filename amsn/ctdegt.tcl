@@ -483,11 +483,22 @@ proc Preferences { { settings ""} } {
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
 	label $lfname.psession -image prefaway
 	pack $lfname.psession -anchor nw -side left
-	radiobutton $lfname.awaymsg1 -text [trans awaymsg1] -value 1 -variable config(awaymsg) -state disabled
-	radiobutton $lfname.awaymsg2 -text [trans awaymsg2] -value 2 -variable config(awaymsg) -state disabled
-	text $lfname.awayentry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 60 -height 3 -state disabled
-	pack $lfname.awaymsg1 $lfname.awaymsg2 -anchor w -side top
-	pack $lfname.awayentry -anchor w -side top -padx 10
+	frame $lfname.statelist -relief sunken -borderwidth 3
+	listbox $lfname.statelist.box -yscrollcommand "$lfname.statelist.ys set" -font splainf -background \
+	white -relief flat -highlightthickness 0 -height 5
+	scrollbar $lfname.statelist.ys -command "$lfname.statelist.box yview" -highlightthickness 0 \
+         -borderwidth 1 -elementborderwidth 2
+	pack $lfname.statelist.ys -side right -fill y
+	pack $lfname.statelist.box -side left -expand true -fill both
+	frame $lfname.buttons -borderwidth 0
+	button $lfname.buttons.add -text [trans addstate] -font sboldf -command "EditNewState 0" -width 20
+	button $lfname.buttons.del -text [trans delete] -font sboldf -command "DeleteState \[$lfname.statelist.box curselection\]" -width 20
+	button $lfname.buttons.edit -text [trans edit] -font sboldf -command "EditNewState 2 \[$lfname.statelist.box curselection\]" -width 20
+	pack $lfname.buttons.add -side top
+	pack $lfname.buttons.del -side top
+	pack $lfname.buttons.edit -side top
+	pack $lfname.statelist -anchor w -side left -padx 10 -pady 10 -expand 1 -fill both
+	pack $lfname.buttons -anchor w -side right -padx 10 -pady 10 -expand 1 -fill both
 
 	## Messaging Interface Frame ##
 	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefmsging]]
@@ -830,6 +841,12 @@ proc InitPref {} {
 		$lfname.log configure -state disabled
 	}
 
+	# Let's fill our list of States
+	set lfname [Rnotebook:frame $nb 3]
+	for { set idx 0 } { $idx < [StateList size] } {incr idx } {
+		$lfname.lfname2.f.f.statelist.box insert end [lindex [StateList get $idx] 0]
+	}
+
         # Init remote preferences
         set lfname [Rnotebook:frame $nb 5]
         $lfname.lfname3.f.f.2.pass delete 0 end
@@ -1111,6 +1128,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.48  2003/06/12 00:07:08  burgerman
+# Custom states are here, meaning you can create states with away auto messages. have fun
+#
 # Revision 1.47  2003/06/10 23:48:55  airadier
 # Added option for initial file transfers port
 #

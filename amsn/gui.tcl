@@ -904,7 +904,7 @@ namespace eval ::amsn {
    # - 'usr_name' is the user email to show in the status message
    proc userLeaves { chatid usr_name } {
 
-      global config
+      global config automsgsent
 
       if {[WindowFor $chatid] == 0} {
          return 0
@@ -916,6 +916,11 @@ namespace eval ::amsn {
 
 	if { $config(keep_logs) } {
 		::log::LeavesConf $chatid $usr_name
+	}
+
+	# Unset automsg if he leaves so that it sends again on next msg
+	if { [info exists automsgsent($usr_name)] } {
+		unset automsgsent($usr_name)
 	}
 
    }
@@ -1460,7 +1465,7 @@ namespace eval ::amsn {
    # Called from a window the the user enters a message to send to the chat. It will
    # just queue the message to send in the chat associated with 'win_name', and set
    # a timeout for the message
-   proc MessageSend { win_name input } {
+   proc MessageSend { win_name input {custom_msg ""}} {
 
       global user_info config
 
@@ -1471,14 +1476,19 @@ namespace eval ::amsn {
 	 return 0
       }
      
-
-      set msg [$input get 0.0 end-1c]
+	if { $custom_msg != "" } {
+		set msg $custom_msg
+	} else {
+		set msg [$input get 0.0 end-1c]
+	}
 
       #Blank message
       if {[string length $msg] < 1} { return 0 }
 
-      $input delete 0.0 end
-      focus ${input}
+ 	if { $input != 0 } {
+		$input delete 0.0 end
+		focus ${input}
+	}
 
       if { [string length $msg] > 400 } {
       	set first 0
@@ -2019,16 +2029,19 @@ proc cmsn_draw_main {} {
 
    #User status menu
    menu .my_menu -tearoff 0 -type normal
-   .my_menu add command -label [trans online] -command "::MSN::changeStatus NLN"
-   .my_menu add command -label [trans noactivity] -command "::MSN::changeStatus IDL"
-   .my_menu add command -label [trans busy] -command "::MSN::changeStatus BSY"
-   .my_menu add command -label [trans rightback] -command "::MSN::changeStatus BRB"
-   .my_menu add command -label [trans away] -command "::MSN::changeStatus AWY"
-   .my_menu add command -label [trans onphone] -command "::MSN::changeStatus PHN"
-   .my_menu add command -label [trans gonelunch] -command "::MSN::changeStatus LUN"
-   .my_menu add command -label [trans appearoff] -command "::MSN::changeStatus HDN"
+   .my_menu add command -label [trans online] -command "ChCustomState NLN"
+   .my_menu add command -label [trans noactivity] -command "ChCustomState IDL"
+   .my_menu add command -label [trans busy] -command "ChCustomState BSY"
+   .my_menu add command -label [trans rightback] -command "ChCustomState BRB"
+   .my_menu add command -label [trans away] -command "ChCustomState AWY"
+   .my_menu add command -label [trans onphone] -command "ChCustomState PHN"
+   .my_menu add command -label [trans gonelunch] -command "ChCustomState LUN"
+   .my_menu add command -label [trans appearoff] -command "ChCustomState HDN"
    .my_menu add separator
    .my_menu add command -label "[trans changenick]..." -command cmsn_change_name
+
+   # Add the personal states to this menu
+   CreateStatesMenu .my_menu
 
    #Preferences dialog/menu
    #menu .pref_menu -tearoff 0 -type normal
@@ -2882,7 +2895,7 @@ proc clickableImage {tw name image command {padx 0} {pady 0}} {
 # TODO: move into ::amsn namespace, and maybe improve it
 proc cmsn_draw_online {} {
    global emotions user_stat login list_users list_states user_info list_bl\
-    config showonline password pgBuddy bgcolor
+    config showonline password pgBuddy bgcolor automessage
 
    set my_name [urldecode [lindex $user_info 4]]
    set my_state_no [lsearch $list_states "$user_stat *"]
@@ -2975,6 +2988,9 @@ proc cmsn_draw_online {} {
    $pgBuddy.text.mystatus tag conf mystatuslabel -fore gray -underline false \
      -font splainf
 
+   $pgBuddy.text.mystatus tag conf mystatuslabel2 -fore gray -underline false \
+     -font bboldf
+
    $pgBuddy.text.mystatus tag conf mystatus -fore $my_colour -underline false \
      -font bboldf
 
@@ -2987,7 +3003,16 @@ proc cmsn_draw_online {} {
    $pgBuddy.text.mystatus tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
    $pgBuddy.text.mystatus tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
 
-   $pgBuddy.text.mystatus insert end "[trans mystatus]:\n" mystatuslabel
+   if { [info exists automessage] } {
+   	if { $automessage != -1 } {
+		$pgBuddy.text.mystatus insert end "[trans mystatus]: " mystatuslabel
+		$pgBuddy.text.mystatus insert end "[lindex $automessage 0]\n" mystatuslabel2
+	} else {
+		$pgBuddy.text.mystatus insert end "[trans mystatus]:\n" mystatuslabel
+	}
+   } else {
+   	$pgBuddy.text.mystatus insert end "[trans mystatus]:\n" mystatuslabel
+   }
    $pgBuddy.text.mystatus insert end "$my_name " mystatus
    $pgBuddy.text.mystatus insert end "($my_state_desc)" mystatus
 
