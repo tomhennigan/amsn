@@ -522,4 +522,13 @@ yoffset Spostamento sull'asse delle Y
 youblocked Sei stato bloccato
 yousay Tu dici
 youwant Tu vuoi
-
+cachedpics $1 immagini in cache
+currentdate Data di oggi
+invalidgroup Gruppo non valido
+lastlogin Ultimo accesso
+lastlogout Ultima disconnessione
+leavejoinsinchat Mostra le notifiche di "esce/entra nella conversazione" nella finestra della chat
+logsbydate Ordina i log per data (velocizza il caricamento dell'History)
+nogroup Nessun gruppo
+notinlist Non sei nella sua lista di contatti
+showcachedpics Mostra le immagini salvate nella cache
