@@ -6708,7 +6708,7 @@ proc convert_image { filename destdir size } {
 	status_log "Resized image size is $neww $newh\n" blue
 
 	status_log "Center of image is $centerx,$centery, will crop from $x1,$y1 to $x2,$y2 \n" blue
-	$img write "${destfile}.gif" -from $x1 $y1 $x2 $y2
+	$img write "${destfile}.gif" -from $x1 $y1 $x2 $y2 -format gif
 	image delete $img
 
 	catch {file delete ${tempfile}.gif}
