@@ -2214,11 +2214,11 @@ proc cmsn_sb_msg {sb_name recv} {
 	if { $automessage != "-1" } {
 		if { [info exists automsgsent($typer)] } {
 			if { $automsgsent($typer) != 1 } {
-				::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [parse_exec [lindex $automessage 3]]
+				::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [parse_exec [lindex $automessage 4]]
 				set automsgsent($typer) 1
 			}
 		} else {
-				::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [parse_exec [lindex $automessage 3]]
+				::amsn::MessageSend [::amsn::WindowFor $chatid] 0 [parse_exec [lindex $automessage 4]]
 				set automsgsent($typer) 1
 			}
 	}

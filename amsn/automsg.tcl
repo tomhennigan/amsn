@@ -421,7 +421,7 @@ proc new_state {cstack cdata saved_data cattr saved_attr args} {
 	# that doesn't support custom nicknames per custom status:
 	# If the states:newstate contains :nick, append it to the
 	# matrix, else append "", as a non-change nick
-	if { [array exists sdata(${cstack}:nick)] } {
+	if { [info exists sdata(${cstack}:nick)] } {
 		lappend newstate "$sdata(${cstack}:nick)"
 	} else {
 		lappend newstate ""
