@@ -54,6 +54,14 @@ Features:
       You have to note that the first is resolved are the commands and then the text is sent
       and the commands are resolved in order.
       So if you send /color blue text /color red, you'll see text in red.
+  Multiple colours in chat window:
+    Status: now the preset colours and (rrr,ggg,bbb) colours work perfectly
+    Mini How-To:
+      You can add colour to your text by predefined colors (!FC followed by a number from 0 to 15 and closed by ) f.e. (!FC3)
+      or by an rgb colour format (red,green,blue) f.e. (255,000,000) is red
+      You can notice that the 2nd way can be used by the button on the chat window (at right, just above the text input). If
+      you click, you'll see a colour chooser, when you're done, click ok and you'll see that some text has been added, don't
+      remove this text or you won't see the color. That's all!
 
 Contact:
   If you have a suggestion or some else, write to markitus@catmail.homelinux.org
