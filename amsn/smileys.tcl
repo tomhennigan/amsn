@@ -552,7 +552,7 @@ proc process_custom_smileys_SB { txt } {
     global emotions config 
     
 
-    if { $config(custom_smileys) == 0 } { return "" }
+#    if { $config(custom_smileys) == 0 } { return "" }
 
     set msg ""
 
@@ -571,12 +571,12 @@ proc process_custom_smileys_SB { txt } {
 
 	    if { $cases == 1} {
 		if {  [string first $symbol $txt] != -1 } {
-		    set msg "$msg$symbol	[create_msnobj $config(login) 2 [GetSkinFile smileys [filenoext $file]]]	"
+		    set msg "$msg$symbol	[create_msnobj $config(login) 2 [GetSkinFile smileys [filenoext $file].png]]	"
 		    
 		}
 	    } else {
 		if {  [string first $symbol2 $txt2] != -1 } {
-		    set msg "$msg$symbol	[create_msnobj $config(login) 2 [GetSkinFile smileys [filenoext $file]]]	"
+		    set msg "$msg$symbol	[create_msnobj $config(login) 2 [GetSkinFile smileys [filenoext $file].png]]	"
 		}
 	    }
 	}
