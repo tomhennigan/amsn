@@ -88,7 +88,6 @@ mustrestart You must restart the program to apply changes
 mystatus My status
 msg Message
 msn AMSN
-name Name
 needonline You still are/appear offline!
 newmail $1 new messages in In-Box
 newmailfrom New mail from
@@ -138,6 +137,7 @@ server Server
 servergoingdown Disconnected: Server is going down
 sound Event Sound
 startoffline Start Offline
+status Status
 syntaxerror  Syntax Error
 textsize Text size
 title Al's Messenger
