@@ -130,7 +130,7 @@ proc save_config {} {
             set file_id [open "[file join ${HOME} config.xml]" w]
 	    set file_id2 [open "[file join ${HOME} config]" w]
          }
-      } res] {
+      } res]} {
 		return 0
 	}
 
