@@ -673,6 +673,10 @@ namespace eval ::amsn {
 
       PutMessage $chatid $user $msg $type $fontformat
       
+      set evPar [list $user [lindex [::MSN::getUserInfo $user] 1] $msg]
+      
+      ::plugins::postEvent chat_msg_received $evPar
+      
             
    }
    #///////////////////////////////////////////////////////////////////////////////

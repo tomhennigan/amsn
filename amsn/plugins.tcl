@@ -2,7 +2,7 @@
 
 #List of available event types, and their parameters:
 #
-# chat_msg_received
+# chat_msg_received { userlogin userName msgText }
 #
 # chat_msg_sent
 
@@ -14,7 +14,18 @@ namespace eval ::plugins {
       #Here, we should check registered plugins listening for
       #the incoming event. For the moment, let's just switch
       
-      switch evID {
+      switch $evID {
+         chat_msg_received {
+	    global config
+	    
+	    #Ircha plugin
+	    if {[info exists config(ircha)]} {
+  	       if { $config(ircha) } {
+	          status_log "Running text2speech: \n" 
+	          catch {exec lee "\"[trans says [lindex $evParam 1]]: [lindex $evParam 2]\"" &}
+	       }
+	    }
+	 }
          default {
 	    status_log "::plugins::postEvent: Unknown event type: $evID\n" red
 	 }
