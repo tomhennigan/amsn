@@ -608,8 +608,8 @@ proc Preferences { { settings "personal"} } {
 	## Contact Selection Frame ##
 	label $lfcontact.contact -image prefprofilec
 	pack $lfcontact.contact -side left
-	frame $lfcontact.lbcontact -padx 10
-	pack $lfcontact.lbcontact -side left -anchor n -expand 1 -fill x
+	frame $lfcontact.lbcontact 
+	pack $lfcontact.lbcontact -side left -anchor n -expand 1 -fill x -padx 10
 	frame $lfcontact.lbcontact.fix
 	pack $lfcontact.lbcontact.fix -side left -anchor n -expand 1 -fill x
 	
