@@ -151,6 +151,7 @@ if {$tcl_platform(platform) == "unix"} {
 }
 
 set log_dir "${HOME}/logs"
+set files_dir "${HOME}/myfiles"
 
 #=======================================================================
 
@@ -226,7 +227,7 @@ proc close_cleanup {} {
 
 proc cmsn_draw_main {} {
    global images_folder emotion_files version date weburl lang_list \
-     password config HOME
+     password config HOME files_dir
 
    #User status menu
    menu .my_menu -tearoff 0 -type normal -background #D0D0E0 
@@ -291,7 +292,7 @@ proc cmsn_draw_main {} {
    .main_menu.file add separator
    .main_menu.file add command -label "[trans sendfile]..." -state disabled
    .main_menu.file add command -label "[trans openreceived]" \
-      -command "msg_box \"Received files in ${HOME}\""
+      -command "msg_box \"Received files in\n$files_dir\""
    .main_menu.file add separator
    .main_menu.file add command -label "[trans close]" -command "close_cleanup;exit"
 
@@ -870,7 +871,7 @@ proc copypaste_menu {text x y delete} {
 
 
 proc cmsn_draw_msgwin {} {
-   global images_folder sb_num sb_list config HOME
+   global images_folder sb_num sb_list config HOME files_dir
 
    incr sb_num
    set name "sb$sb_num"
@@ -910,7 +911,7 @@ proc cmsn_draw_msgwin {} {
    .${win_name}.menu.msn add command -label "[trans sendfile]..." \
       -command " SelectFileToTransfer ${name} ${name} " 
    .${win_name}.menu.msn add command -label "[trans openreceived]..." \
-      -command "msg_box \"Files saved in ${HOME}\"" 
+      -command "msg_box \"Files saved in\n$files_dir\"" 
    .${win_name}.menu.msn add separator
    .${win_name}.menu.msn add command -label "[trans close]" \
       -command "destroy .${win_name}" 
@@ -1830,6 +1831,7 @@ proc show_list {list_name} {
 ###############################################################
 create_dir $HOME
 create_dir $log_dir
+create_dir $files_dir
 
 sb set ns name ns
 sb set ns sock ""
