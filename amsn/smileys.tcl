@@ -14,7 +14,7 @@ set emotions {{":-)" smile} {":)" smile} {":-D" smiled} {":D" smiled}
 	{"(A)" angel} {"(6)" devil} {"(^)" cake} {"(O)" clk} {":-@" angry}
 	{":@" angry} {"(&)" dog} {"(W)" rosew} {":`(" smilec} {":'(" smilec}
 	{":$" smilemb} {":-$" smilemb} {"(#)" sun} {"(R)" rainbow}
-	{"(%)" handcuffs} {"(~)" film} {"(?)" asl}}
+	{"(%%)" handcuffs} {"(~)" film} {"(?)" asl}}
 
 set emotion_files {smile smiled smileo smilep wink sad crooked disgust thumbu
 	thumbd love unlove lips gift rose emgirl emboy photo beer coctail
@@ -53,11 +53,15 @@ proc smile_subst {tw {start "0.0"}} {
 
 }
 
+
 proc smile_menu { {x 0} {y 0} {text text}} {
    global emotions
 
    set w .smile_selector
-   toplevel $w
+   if {[catch [toplevel $w] res]} {
+      destroy $w
+      toplevel $w     
+   }
    set x [expr {$x-10}]
    set y [expr {$y-10}]
    wm geometry $w 215x146+$x+$y
@@ -83,18 +87,21 @@ proc smile_menu { {x 0} {y 0} {text text}} {
       catch {
          label $w.text.$file -image $file
          $w.text.$file configure -cursor hand2 -borderwidth 1 -relief flat
+
+	 if { [string match {*[\}\{]*} $symbol] != 0 } {
+           bind $w.text.$file <Button1-ButtonRelease> "catch {$text insert insert \"$symbol\"; destroy $w} res"
+         } elseif { [string match {(%)} $symbol] != 0 } {
+
+	 } else {
+           bind $w.text.$file <Button1-ButtonRelease> "catch {$text insert insert \{$symbol\}; destroy $w} res"
+	 }
+     
+
          bind $w.text.$file <Enter> "$w.text.$file configure -relief raised"
          bind $w.text.$file <Leave> "$w.text.$file configure -relief flat"
          $w.text window create end -window $w.text.$file -padx 1 -pady 1
       }
-	 if { [string match {*[\}\{]*} $symbol] != 0 } {
-           bind $w.text.$file <Button1-ButtonRelease> "$text insert insert \"CACA$symbol\"; destroy $w"
-         } elseif { [string match {(%)} $symbol] != 0 } {
 
-	 } else {
-           bind $w.text.$file <Button1-ButtonRelease> "$text insert insert \{$symbol\}; destroy $w"
-	 }
-     
 
    }
 
