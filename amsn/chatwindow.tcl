@@ -2040,7 +2040,7 @@ namespace eval ::ChatWindow {
 		    -activebackground [::skin::getKey sendbuttonbg] -activeforeground black -text $win \
 		    -font sboldf -highlightthickness 0 -pady 0 -padx 0
 		if { $::tcl_version >= 8.4 } {
-			$tab -overrelief flat -compound center
+			$tab configure -overrelief flat -compound center
 		}
 
 
