@@ -111,6 +111,7 @@ checkemail Näita e-kirjast teavitavat rida kontaktide nimekirjas
 checkfilman Saadud failid salvestatakse $1. Palun kontrollige failihalduri seadeid Sätted-aknas
 checkingver Kontrollin uuendusi
 checkonfln Kontrolli kas kasutaja blokeeris sind kui ta läheb välja
+checkopenfilecommand Palun kontrolli Sätete aknas faili avamis käsku
 checkver Kontrolli uuendusi
 choosearq Vali oma süsteemi arhitektuur
 choosebasefont Vali fondi tüüp
@@ -372,6 +373,8 @@ maximised Maksimeeritud
 minimised Minimeeritud/Ikoniseeritud
 mins minutit
 mobile Mobiil
+mobilegrp1 Mobiili grupp
+mobilegrp2 Mitte kätesaadavad kasutajad pane Mobiili gruppi (oleku järgi järjestatud)
 modified Muudetud
 month Kuu
 morepersonal Veel staatuseid ->
@@ -445,6 +448,9 @@ ok Olgu
 onenewmail 1 uus sõnum postkastis
 online Online
 onphone Telefonil
+opendir Ava kataloog
+openfile Ava
+openfilecommand Ava faili käsk
 openreceived Ava saadud failid
 options Seaded
 ordercontactsby Sorteeri sõpru
