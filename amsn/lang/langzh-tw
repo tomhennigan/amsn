@@ -1,62 +1,208 @@
 amsn_lang_version 2
 about 關於
 acceptfile 接收檔案 $1, 大小 $2 儲存到 $3
+accept 接受
 actions 執行
-addacontact 新增聯絡人
+addacontact 新增連絡人
 addedyou $1 ($2) 已加入到他/她的清單
+addprofiledesc 輸入您所想要新增的個人設定檔名稱.\n使用個人設定檔的登入,允許您於使用各個設定檔名稱中的設定.\n如果沒有使用個人設定檔,歷史紀錄、顯示通知或是永遠記得密碼的功能將無法使用.
+addprofile 新增個人設定檔
+addstate 新增新的狀態
 addtocontacts 加入清單
-addtoo 新增聯絡人到我的清單
-admincontacts 管理聯絡人
+addtoo 新增連絡人到我的清單
+addto 新增到 $1
+admincontacts 管理連絡人
 admingroups 管理群組
+advanced 進階
+advancedprefs 進階設定
 adverts 廣告
+alarmonconnect 連絡人上線時顯示通知
+alarmondisconnect 連絡人下線或隱形時顯示通知
+alarmonmsg 當收到訊息時顯示通知
+alarmonstatus 連絡人改變狀態時顯示通知
+alarmpref 連絡人通知設定
+alarmstatus 開啟或關閉該連絡人通知
+allfiles 所有檔案
+allowallbutbl  封鎖清單以外的人可以看見我的狀態和傳送訊息給我
+allowbadwords Disable censorship on nicknames 
+allowlist 我的允許清單 (AL):
+allowonlyinal 只有在允許清單上的人可以看見我的狀態和傳送訊息給我
 allowseen 當您在線上時允許這個人看到您和聯絡您
+allprofilesinuse 所有的個人設定檔都在使用中
+animatedemoticon 這是個動態的表情符號
+animatedsmileys 啟動動態表情符號
+animatenotify 動畫通知視窗
+appearance 外觀 
 appearoff 隱形
+areacode 區碼
 aretyping $1 正在輸入訊息
+autoaccepted 檔案傳送已經被自動接受 
+autoacceptft 自動接受檔案傳送要求
+autoaway 當我閒置時,將我的狀態顯示為「離開」
+autocheckver 程式啟動時自動檢查是否有新的版本
+autoconnect2 當aMSN啟動時自動登入
+autoconnect aMSN啟動時自動連線
 autohotmaillog 自動登入 Hotmail
+autoidle 自動發呆
 autoip Automatic IP
+autonoact 當我閒置時,將我的狀態顯示為「發呆」
 avoidseen 當您在線上時封鎖這個人看到您和聯絡您
 away 離開
+awaymsg1 每次詢問我的離開訊息當我把我的狀態更改為：離開/馬上回來/忙碌
+awaymsg2 永不詢問且永遠使用下列離開訊息
 baduserpass 使用者名稱或密碼錯誤
+bgcolor 更換aMSN的背景顏色
 blankdirect 預留空白為直接連線
 block 封鎖
 blocked 已封鎖
+blockedyougroup 將封鎖您的連絡人顯示在獨立的群組
+blocking 封鎖中
+blockinter1 當您的狀態為線上每
+blockinter2 秒檢查一次, 否則每
+blockinter3 每
+blockinter4 秒檢查一次
+blocklist 封鎖清單 (BL): 
+blockmessage 這些連絡人現在在線上而且將您封鎖
+blockusers 每次檢查使用者數目
 broughtby 作者群
+browse 瀏覽
 browser 瀏覽
+browserexample ( \$url 將會被更換為URL). Ex: mozilla \$url 
 busy 忙碌
 cancel 取消
-changenick 更改匿名
+cannotdeleteprofile 不能刪除個人設定檔,因為aMSN正在使用它.
+cantexec 不能執行應用程式: $1. 請檢查偏好設定
+cantremoveothers 不能移除 "其他" 群組
+casesensitive 使用大小寫敏感觸發
+cfgalarmall 設定/增加/移除全域通知
+cfgalarm 設定/增加/移除通知
+changecustomstate 切換到
+changedisplaypic 變更顯示圖片
+changefont 變更字型
+changenick 更改暱名
+changestate $1 切換狀態至 $2 
 chatack 正在接受聊天從
 chat 交談
+chatmaxmin 當連絡人開始跟我聊天我希望變成: 
 chatreq 邀請交談
+chatsmileys2 顯示表情符號於聊天視窗
 chatsmileys 啟用表情符號
+checkblocking 持續檢查是否有連絡人封鎖您
+checkfilman 已接收的檔案將會被儲存在 $1. 請檢查偏好設定中的檔案管理員設定
 checkingver 正在檢查新版本
+checkonfln 檢查離線的使用者是否有人封鎖您
 checkver 檢查新版本
+choosearq 選擇您的系統架構
 choosebasefont 選擇字型
 choosebgcolor 選擇背景顏色
-choosefontcolor :  ??????????? 
+choosecontact 請於清單中選擇一衛連絡人
+choosefontcolor :  選擇字型顏色
+chooseskin 請選擇您想使用的面板
+ch_to_state 切換到新的狀態
+clearlog2 清除所有連絡人的歷史紀錄
+clearlog3 清除所有記錄
+clearlog 清除紀錄
 clicktologin 請按這裡登入
 close 關閉
+closed 因為發呆所以與 $1 的對話已經被關閉
 closingdocks 關閉docks視窗
+commandstatus 執行命令
 command 指令
+confirm 你確定要？
 confirmdelete 您確定要刪除 $1?
+confirmpurge 所有連絡人的圖片將會被刪除？ 你確定嗎？
+connected 您現在已經連接成功
 connecterror 連結到伺服器時發生錯誤
-contactadded 聯絡人被加入
-contactdoesnotexist 聯絡人不存在!
+connecting 連線中
+connectionlost 斷線: 與伺服器關閉連線
+connection 連線
+contactadded 連絡人被加入
+contactdoesnotexist 連絡人不存在!
+contactlist 連絡人清單 (FL):
+convertexplain ImageMagick的CONVERT路徑（用來顯示圖片用）.\n如果已經存在於path中請保持空白.
+copy 複製
 copytogroup 複製到群組
+corruptconfig 設定檔已失效.建立一個新的.舊的檔案將會被儲存於$1.請將他寄給我們讓我們檢查錯誤原因.
+corruptstates 個人狀態設定檔已失效.建立一個新的.舊的檔案將會被儲存於$1.請將他寄給我們讓我們檢查錯誤原因.
+countrycode 我的國家/地區碼 
+cprofile 建立個人設定檔
+custom_edit 編輯個人表情符號
+custom_new 新增個人表情符號
+cut 剪下
 date 日期
+days 天
+dcprofile 不要建立個人設定檔
+defaultloginradio 使用預設值登入
+default 預設值
+defchatwinsize 預設的聊天視窗大小 (XSIZExYSIZE) 
+deletecustomstate 刪除個人狀態
 delete 刪除
+delimiters Timestamps' delimiters: 
+deliverfail 傳遞下列訊息時發生錯誤
+delprofile2 請選擇您要刪除的個人設定檔
+delprofile 刪除個人設定檔
+description 描述
+directconnection 我的電腦直接連線到Internet (使用 port 1863)
+disabled 關閉
+disableprofiles 關閉個人設定檔 (在網咖或是公用電腦特別有用) 
+disablessl 關閉SSL連線
+disconnect $1 已經斷線.
+displaychat 顯示文字選項
+dockfreedesktop FreeDesktop (KDE3/Gnome2) 
+dockgtk Gnome Dock 
+docking Docking 
+dockingoff Docking Off 
+dockkde KDE Dock 
+dontdownload 不要下載 TLS, 我要自己安裝
+dontshow 不要顯示
+downloadingtls 下載 TLS 模組於:\n $1 
+editcustomstate 編輯個人狀態
+editnewstate 新的個人自動訊息狀態
+editprofile 編輯個人設定檔
+edit 編輯
+editstate 編輯已經有的自動訊息狀態
+editvalue 設定值
+emailsinlist 在連絡人清單中顯示email而不顯示暱稱
+emotisounds 於特定表情符號播放音效
+enablebanner 顯示 aMSN's 廣告列 (需要重新啟動 aMSN) 
+enabled 開啟
 enableproxy 啟動 proxy
+enableremote 開啟遠端遙控
+enablesound 播放聲音
+encoding2 更改字元編碼方式
 encoding 編碼
-entercontactemail 輸入聯絡人的 e-mail
+entercontactemail 輸入連絡人的 e-mail
 enterfilename 請輸入一個檔案名稱
 enternick 輸入您的匿名
+errortls 安裝TLS 模組錯誤: 
 examples 範例
 exitamsn 您確定要關閉?
 extras 增益集
+faileddeleteperso 此圖片不能被刪除因為它不是個人的圖片檔. 只有屬於您個人設定檔的圖片才能這樣的刪除它.
+faileddelete 刪除失敗
+failed 失敗
+faq FAQ (常見問答集) 
+file 檔案
 filedoesnotexist 檔案不存在
+fileman 檔案管理員
+filemanexample ( \$location 將會取代為目錄 ) Ex: nautilus \$location
 filename 檔案名稱
 filetransfercancelled 檔案傳送已取消
 filetransfercomplete 檔案傳送完畢
+followtext 往下捲,當新的文字被輸入
+ftaccepted 檔案傳送被接收
+ftacceptedby $1 接受了檔案'$2'的檔案傳送邀請.
+ftaccepting 正在接收檔案傳送邀請
+ftconnecterror 連線到遠端節點發生錯誤
+ftconnecting 連線到 $1 port $2 
+ftconnectionlost 與遠端節點連線遺失
+ftgotinvitation $1 想要傳送 '$2' 給您($3 bytes). 它將會被儲存到 $4. 您想要接收這個檔案嗎?
+ftportpref 開啟檔案傳送所需要的連接埠
+ftrejected 檔案傳送被拒絕
+ftrejectedby $1 拒絕了 '$2' 檔案的檔案傳送要求. 
+ftsendinvitation 檔案'$2' ($3 bytes) 的檔案傳送邀請已經送到 $1. 
+fullcontactlist 對不起, 您的連絡人清單已經滿了. 您必須移除一些連絡人才能增加新的連絡人. 
+getdisppic 開啟接收其他使用者的顯示圖片
 gonelunch 外出用餐
 groupadd 新增群組
 groupdelete 刪除群組
@@ -66,50 +212,119 @@ groupnewname 新名稱
 groupnotempty 群組不是空白!
 groupoldname 舊名稱
 grouprename 重新命名群組
-groupunknown 未知群組
 group 群組
+groupunknown 未知群組
 handle 顯示名稱
 helpcontents 說明主題
 help 說明
+hidedisplaypic 隱藏顯示圖片
+hiden Hide the 表情符號目錄
+hidewindow 隱藏視窗
+history 檢視歷史紀錄
 home 住家
-identity 身份
+httpconnection 使用HTTP的方式連接 (使用 HTTP 通訊協定 連接埠:80) 
+hybrid 混合模式
 ident 正在確認
+identity 身份
+imagefiles 圖片檔
 inbox 收件匣
+insertsmiley 插入表情符號
+installconvert 您必須安裝 ImageMagick (convert program) 才能夠使用 Buddy 圖示 以及個人的表情符號. 您可以從 ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ 下載適合您作業系統的Binary檔. 如果您已經安裝, 那這應該是個bug, 請回報給我們. 這個功能現在將會被關閉, 等您安裝好ImageMagick後請到偏好設定中做設定.
+internalerror 內部伺服器發生錯誤
+invalidfile 於欄位 "$1" 中輸入的檔案 $2 並不存在或是它不可被讀取
 invalidusername 使用者名稱無效
+invitationcancelled 邀請已經被取消
 invite 邀請
 ipaddress IP 位址
+ipdetect 使用HTTP偵測檔案傳送時的正確ip
 istyping $1 正在輸入訊息
 joins $1 加入交談
+keepalive 保持連線 (NAT) 
+keeplog2 將所有的對話紀錄到aMSN的的歷史紀錄以便以後檢視
+keeplog 紀錄所有聊天紀錄
 language 語言
 lastmsgtime 最後訊息時間 $1
+lclosedwin $1 已經於 $2 關閉視窗
+lconftopriv 公開會議已經由$1更改為私人的聊天
+lconvstarted 對話開始於 $1 
 leaveblankforhotmail 預留空白為Hotmail網路郵件程式
 leaves $1 離開聊天
+lenteredconf $1已經進入會議 $2
+lineflushlog 每次輸入後就將該行寫入紀錄檔
+linprivate 私底下
 listeningon Listening on port $1
+listsmileys2 顯示表情符號於aMSN的主要連絡人清單
 listsmileys 表情符號
-loadcontacts 匯入聯絡人清單
+ljoinedconf $1 已經加入會議
+lleftconf $1 已經離開會議
+loadcontacts 匯入連絡人清單
+logbigger 每位連絡人的紀錄檔案大小沒有上限
+logfandexp 紀錄檔過大或是歷史紀錄過期
 loggedotherlocation 離線. 已於其他電腦登入
 loggingin 正在登入
 loginas 以不同帳號登入
+loging 紀錄
 login 登入
+logolder 只記錄最近一次的聊天紀錄
 logout 登出
 logsin 剛登入
+logsmileys 顯示表情符號於aMSN的歷史紀錄視窗
+logsout 剛好登出
+longnick 您的暱稱長度超過130個字元組. 這不被官方的MSN通訊協定所接受. 您確定要設定嗎? 
+lprivtoconf 私人的聊天由 $1 更改為公開的會議
+luclosedwin 您已經於 $1 關閉視窗
+mailerexample ( \$recipient = 收件者 ) 請保持空白如果您使用Hotmail
 mailer 郵件程式
+maximised 最大化
+minimised 最小化/圖示化
+mins 分鐘
 mobile 大哥大
+morepersonal 更多狀態 -> 
+move 搬移
 movetogroup 移至群組
+msgflicker 當非焦點視窗收到新的訊息閃爍聊天視窗的標題列. 
+msgmaxmin 當收到新的訊息我希望變成: 
+msgmode 選擇如何操縱多個訊息視窗: 
 msg 訊息
-msn AMSN
+msn aMSN
 mustrestart 您必須重新啟動程式
+myhomephone 住家電話號碼
+mymobilephone 行動電話號碼
+mypic 我的顯示圖片: 
 mystatus 我的狀態
+myworkphone 公司電話號碼
+natip IP detection by web page  
+natkeepalive 如果您會定時被斷線, 請開啟保持連線
 needonline 您還是在離線中!
 newmail $1 封新郵件在收件匣中
 newmailfrom 新郵件從 $1 ($2)
 newmsg 新訊息
+newstate 新增個人狀態
 newveravailable 已有較新的版本 $1 可以下載
 next 下一步
+no 否
 noactivity 閒置
+nodataavailable $1 沒有任何的資料
+nologfile $1 沒有任何紀錄
+noneavailable None Available 
 nonewmail 沒有新郵件
 nonewver 這已是最新版本
+nopic 沒有圖片
+noprofileexists 現在沒有任何的個人設定檔, \n您必須新增一個如果您想使用個人設定檔方式登入. \n請點選視窗中新增個人設定檔按鈕來新增一個.
+normal 一般
+noskins 無法在 skin/資料夾中找到預設的面板. 無法啟動AMSN
+nosystemtray 無法使用系統狀態列
+notificationserver 起始化MSN伺服器 (MSN Messenger Server) 
+notify1_5 連絡人下線時顯示通知視窗
+notify1_75 連絡人變更狀態時顯示通知視窗
+notify1 連絡人上線時顯示通知視窗
+notify2 當收到新訊息時顯示通知視窗
+notify3 收到新的email時顯示通知視窗
+notifyoffset 跳出型通知視窗位置
 notify 通知
+notifytyping 輸入時通知其他的使用者
+notifywin 通知視窗
+notls MSN通訊協定第九版需要使用TLS 套件. 這個套件似乎還沒有被安裝到這台機器. 如果他已經被安裝, 那該程式庫的路徑應該在偏好設定視窗中被指定 (ex: /opt/tls/lib). \n \n 您可以由此處 http://tls.sf.net 下載TLS安裝.
 nousersinsession 沒有使用者在開會
 offline 離線
 ok 確定
@@ -118,54 +333,181 @@ online 線上
 onphone 電話中
 openreceived 開啟已接收的檔案
 options 選項
-ordercontactsby 聯絡人的排序依據
+ordercontactsby 連絡人的排序依據
+ordergroupsby 由群組排序
 other 其他
+others 其他
 pager 傳呼機
 pass 密碼
+paste 貼上
+personal 個人
 phone 電話
+picbrowser 顯示圖片瀏覽器
+picfile 圖片檔案 (GIF < 500 x 500) 
+picstatus 圖片警告
+playing 播放: $1 
+pluginselector 選擇 Plugins 
 port Port
+prefalerts 我的事件警示及聲音
 prefapps 程式
+prefawaymsg 我的離開訊息
+prefblock1 斷線時檢查
+prefblock2 持續檢查
+prefblock3 "你已經被封鎖" 群組
+prefconnection 連線設定
+prefemotic 表情符號
 preferences 偏好設定
+preffont2 聊天時改變別人所看到文字方式
+preffont3 變更 aMSN的介面字型及大小 
+preffont 我的訊息文字
+preflibs 程式庫目錄
+preflog1 我的歷史紀錄及登入選項
+preflook 我的 aMSN Messenger 畫面
+prefmsging 我的訊息介面 
+prefname 我的 MSN Messenger 姓名/暱稱
+prefphone2 請輸入您的電話號碼,\n讓您允許清單中的連絡人看見
+prefphone 我的電話號碼
+prefprivacy2 使用者的連絡/保留清單
+prefprivacy 使用者的允許/封鎖清單
+prefprofile2 建立或修改您的公開資訊 (描述你自己讓大家都可以看到)
+prefprofile3 aMSN's User Configuration Profiles 
+prefprofile 我的公開個人資訊
+prefproxy 我的Proxy設定
+prefremote 遠端連線偏好設定
+prefsession 我的登入及狀態
+prefshared 分享連線 (only for NAT) 
 prefsound 聲音
+privacy 隱私
+profiledconfig 個人設定檔設定
+profileexists 您不能在這個登入建立個人設定檔 \n 因為已經有一個存在了. 請選擇其他的登入.
+profileinuse 這個個人設定檔被其他的aMSN使用中, 請選擇其他的
+profileloginradio 使用已經存在的個人設定檔登入
+profiles 個人設定檔
 properties 內容
 proxyconfhttp HTTP proxy 設定
 proxyconf Proxy 設定
+proxyconnection 我使用proxy伺服器連接到Internet: 
+proxy 我在proxy伺服器之後 (HTTP or SOCKS5) 
 publishphones 公佈我的電話號碼
+purge 清除
+raised Raised/Deiconified 
+readonlymsgbox 檔案傳送已經倍取消因為接收的資料夾是唯讀的. 請更正資料夾權限.
+readonlywarn 警告: 這個檔案沒有正確的被存入 "我已接收的資料夾中,該目錄似乎是設定成防寫. 請在檔案傳送前檢查目標 ($1) 的目錄權限已經正確的被設定.
 receivedbytes 已收到 $1 of $2 bytes
+receiveddir 我已接收的檔案資料夾
 receivefile 接收檔案
 reconnecting 重新連結伺服器
 reconnect 等待 $1 重新連結
+reject 拒絕
 rememberpass 儲存密碼
+removefromlist 從清單中移除
+reversed 反向
+reverselist 保留清單 (RL): 
 rightback 馬上回來
 saveas 另存
 save 儲存
-savecontacts 儲存聯絡人清單
+savechatwinsize 變更視窗大小時自動紀錄
+savecontacts 儲存連絡人清單
+savetofile 儲存到檔案中
 says $1 說
 sbcon 轉接中
+selectplugins 請選擇您想啟動的Plugins
+selectskin 請從清單中選擇一個面板
 send 傳送
 sendfile 傳送檔案
 sendmail 傳送郵件
 sendmsg 傳送訊息
 sentbytes 傳送 $1 of $2 bytes
+serverbusy 伺服器忙碌
 servergoingdown 離線: 連結伺服器失敗
 server 伺服器
+serverunavailable 無法連接到伺服器
+session Session
+showblockedlist 顯示封鎖您的清單
+showdisplaypic2 當聊天視窗開啟時,自動顯示圖片
+showdisplaypic 顯示圖片
+showmypic 我的顯示圖片
+shownotify 當事件發生時顯示提示視窗
+showuserpic $1'的顯示圖片
+skin 面板
+skinselector 選擇面板
+smileconfig 自訂表情符號設定
+smilefile 表情符號檔名
+smileintro2 請編輯所需的欄位來自訂此表情符號 (請參考常見問答集)
+smileintro 請完成所需的欄位來建立新的自訂表情符號 (請參考常見問答集)
+sound2 當連絡人登入或傳送訊息時播放聲音
 sound 事件音效
+soundcommand 這必須是播放的指令 (ex: esdplay) 
+soundexample ( \$sound = 被播放的聲音檔) Ex: esdplay \$sound 
+soundfile 聲音檔
+soundfiles 聲音檔
+soundloop 重複播放
+soundserver 聲音伺服器
+soundstatus 聲音警示
+sourcecode 原始程式碼 (需要編譯及安裝)
+sslwarning 警告!! 關閉SSL連線將會關閉加密, 您的密碼將會以明碼於網路上傳送. 只用在非常難對付的proxy伺服器或是網路設定. 
+startoffline2 安靜模式登入,將顯示為"離線"
 startoffline 以隱形狀態登入
+startontray 開啟aMSN時只在系統工具列
+stateautomsg 要傳送的自動訊息
+statechange 狀態更改為:
+stateedittext 請編輯您所想要修改的欄位後按儲存
+stateinfo 個人狀態設定
+statename 個人狀態名稱
+statenewtext 請填入所需要的資訊來建立您新的個人狀態後按儲存
+state 我希望顯示為
 status 狀態
+stopalarm 停止警示
+storenickname 在自訂狀態指定特定暱稱後還原為原始暱稱
+strictfonts 限制所有字型為我所選定的 (狀態列及其他)
+stylechat Same look as chats
+stylehist aMSN's history look
+stylelog 請選擇您瀏覽歷史紀錄時所想要的格式
 syntaxerror  句法錯誤
+tabbed Tabbed Windows
+temp_state 不要儲存 (暫時的狀態, 在AMSN關閉後即會消失)
 textsize 字型大小
+timeremaining 剩餘時間
+timestamps 在聊天視窗開啟時間戳印
 title Al's Messenger
+tkerror TK發生錯誤, amsn發生一個bug, 請回報它. 請把檔案 $1 寄到 amsn-bugs@lists.sf.net
+tlsdowncompleted 檔案 $1 已經被下載到 $2. 您必須解壓縮並且編譯它 (如果您下載的是程式原始碼) 而且被安裝到 $3.
+tlsexplain tcl TLS模組已經被設定. 如果AMSN無法自動設定它, 請自行指定.\n(需要SSL認證).
+tlsinstallexp aMSN現在使用MSN通訊協定第九版, 該協定需要使用SSL安全連線.\n 為了能夠使用SSL, aMSN必須安裝一個名為TLS的模組,\n而您的系統卻沒有安裝. 本安裝精靈將會協助您下載並且\n安裝TLS模組. 請選擇您的系統型態以便於自動下載所需的TLS檔案. 
+tlsinstall TLS模組安裝精靈
+tlsinstcompleted TLS 模組安裝成功 - 您現在應該可以順利使用MSN通訊協定第九版. 如果還是不行, 那您大概是沒有安裝正確的模組, 或是該模組不適合您的系統.
 to 給
 tools 工具
+tooltips 開啟工具提示
+transnotexists 所要求的檔案尚未被翻譯成現在使用的語言
+traynotcompiled 常駐工具列plugin尚未被編譯. 請檢查 plugins/traydock 
+triggers 文字觸發
+truncatenames1 將暱稱超過視窗標題寬度及連絡人清單的部分截去
+truncatenames2 於對話中將暱稱超過視窗寬度的部分截去
+truncatenicks 將暱稱超過視窗寬度的部分截去
+twonewmail $1 封新郵件在收件匣中
 unblock 解除封鎖
 uoffline 離線
 uonline 線上
-useralreadyonlist 聯絡人已經在清單上
+useralreadyonlist 連絡人已經在清單上
+userblocked 這名連絡人是在線上卻把您封鎖
 user 使用者
+usernotonline 這名連絡人不在線上
+useryourself 您不可以跟自己聊天
+verifyblocked 檢查封鎖您的人
 version 版本
 view 檢視
+viewprofile 檢視個人資訊
 willjoin 等待 $1 加入聊天
 work 工作
+wrongfields "$1", "$2" and/or "$3" 欄位是無效的
+wrongprofileversion 錯誤的個人設定檔版本. 為了要修復它, 請移除目錄$1, 或是升級aMSN
+xmmscurrent 顯示現在正在播放的歌曲
+xmmserr 沒有在播放, 或是您沒有安裝xmms-infopipe.
+xmmssend 傳送現正播放的歌曲
+xoffset X軸位置
+yes 同意
+yoffset Y軸位置
+youblocked 你已經被他封鎖
 yousay 您說
 youwant 您要
-twonewmail $1 封新郵件在收件匣中

@@ -22,6 +22,7 @@ alarmonmsg Attiva un allarme quando un utente ti manda un messaggio
 alarmonstatus Attiva un allarme quando un utente cambia il suo stato
 alarmpref Impostazioni dell'allarme dell'utente
 alarmstatus (Dis)Abilita l'allarme per questo utente
+allfiles Tutti i files
 allowallbutbl Permetti a tutti gli utenti tranne quelli nella lista dei bloccati di contattarmi
 allowbadwords Disabilita la censura sui nicknames
 allowlist Permetti la lista:
@@ -71,9 +72,11 @@ busy Ho da fare
 cancel Cancella
 cannotdeleteprofile Non posso concellare il profilo perché sembra essere usato da una sessione di aMSN
 cantexec Non posso eseguire l'applicazione: $1. Controlla nelle preferenze
+cantremoveothers Non posso rimuovere il gruppo "Altri"
 casesensitive Usa comandi discriminanti tra maiuscole e minuscole
 cfgalarmall Configura/Aggiungi/Rimuovi l'allarme globale
 cfgalarm Configura/Aggiungi/Rimuovi l'allarme
+changecustomstate Passa a
 changedisplaypic Cambia l'immagine personale
 changefont Cambia font
 changenick Cambia nick
@@ -95,6 +98,7 @@ choosebgcolor Cambia il colore di sfondo
 choosecontact Per favore scegli un contatto dalla lista
 choosefontcolor Scegliere il colore del font
 chooseskin Scegli la Skin che preferisci usare
+ch_to_state Passa a nuovo stato
 clearlog2 Cancella l'Hisotry per tutti i tuoi contatti
 clearlog3 Cancella tutti i Log
 clearlog Cancella il Log
@@ -105,6 +109,7 @@ closingdocks Pulsante per chiudere
 command Comando
 commandstatus Esegui comando
 confirmdelete Sei sicuro di voler cancellare $1?
+confirmpurge Tutte le immagini salvate dei contatti eccetto le proprie saranno rimosse. Continuare?
 confirm Sei sicuro?
 connected Adesso sei connesso
 connecterror Errore durante la connessione al server
@@ -116,6 +121,8 @@ contactdoesnotexist Il contatto non esiste
 contactlist Lista dei contatti:
 copy Copia
 copytogroup Copia nel gruppo
+corruptconfig Il file della configurazione è corrotto. Ne creo uno nuovo. Il vecchio file verrà salvato in $1. Per favore invialo ai programmatori che cercheranno di capire cosa è successo.
+corruptstates La configurazione degli Stati personali è corrotta. Ne creo una nuova. Il vecchio file verrà salvato in $1. Per favore invialo ai programmatori che cercheranno di capire cosa è successo.
 countrycode Il mio codice Regionale/Nazionale
 cprofile Crea un profilo
 custom_edit Crea una faccina personalizzata
@@ -126,7 +133,9 @@ days Giorni
 dcprofile Non creare un profilo
 default Configurazione di default
 defaultloginradio Entra con la configurazione di default
+defchatwinsize Dimensione predefinita delle finestre di chat (XSIZExYSIZE)
 delete Cancella
+deletecustomstate Elimina Stato personale
 delimiters Delimitatori del campo Ora:
 deliverfail Si è verificato un problema nell'inoltro del seguente messaggio
 delprofile2 Seleziona il profilo che ti piacerebbe rimuovere
@@ -147,11 +156,13 @@ dontdownload Non scaricare TLS, verrà installato automaticamente
 dontshow Non mostrare
 downloadingtls Download del modulo TLS in corso da:\n $1
 editcurrentstate Modifica il corrente
+editcustomstate Modifica Stato personale
 edit Modifica
 editnewstate Nuove impostazioni personali di auto-risposta
 editprofile Modifica il Profilo
 editstate Modifica delle impostazioni di auto-risposta esistenti
 editvalue Modifica valore
+emailsinlist Mostra indirizzi e-mail al posto dei nicks nella lista contatti
 emotisounds Emetti un suono per alcune Emoticons
 enablebanner Mostra il banner di aMSN (Sarà necessario riavviare aMSN)
 enabled Attivato
@@ -167,6 +178,9 @@ errortls Errore durante l'installazione del modulo TLS:
 examples Esempi
 exitamsn Sei sicuro di voler uscire ?
 extras Servizi extra
+faileddelete Eliminazione non riuscita
+faileddeleteperso Questo file non può essere rimosso perchè non è un'immagine personale. Solo le immagini appartenenti al proprio profilo possono essere rimosse in questo modo.
+failed Non riuscito
 faq FAQ (Risposte alle domande più frequenti)
 file Archivio
 filedoesnotexist Il file non esiste
@@ -187,6 +201,7 @@ ftportpref Porta iniziale per il trasferimento file
 ftrejectedby $1 ha rifiutato l'invito al trasferimento del file '$2'.
 ftrejected Trasferimento del file respinto
 ftsendinvitation L'invito al trasferimento del file '$2' ($3 bytes) è stato mandato a $1.
+fullcontactlist Spiacente, la tua lista dei contatti è piena. E' necessario rimuoverne qualcuno per aggiungerne altri.
 getdisppic Attiva la ricezione delle immagini personali dagli utenti
 gonelunch A pranzo
 groupadd Aggiungi un gruppo
@@ -211,7 +226,9 @@ httpconnection Connessione usando il metodo HTTP (usa il protocollo HTTP sulla p
 hybrid Modo ibrido
 ident Identificazione
 identity Identità
+imagefiles Files immagine
 inbox In Arrivo
+insertsmiley Inserisci emoticon
 installconvert E' necessario installare il programma ImageMagick per convertire le immagini in un formato riconosciuto dai servers di MSN. I files binari per il proprio Sistema Operativo si trovano su ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Se il programma è già installato questo messaggio può essere dovuto ad un bug, in tal caso, per favore, segnalatelo.
 internalerror Errore interno del server
 invalidfile Il file $2 inserito nel campo "$1" non esiste o non è leggibile
@@ -253,6 +270,7 @@ logout Abbandona
 logsin si e' appena connesso
 logsmileys Mostra le emoticon e le facine nella finestra dell'History di aMSN
 logsout è appena uscito
+longnick Il tuo nick è lungo più di 130 caratteri. Il protocollo ufficiale di MSN non lo consente. Vuoi impostarlo ugualmente?
 lprivtoconf Chat privata divenuta conversazione con $1
 luclosedwin Hai chiuso la finestra su $1
 mailer Client di posta
@@ -281,6 +299,7 @@ needonline Sembra che tu sia scollegato!
 newmail $1 nuovi messaggi di posta
 newmailfrom Nuova email da $1 ($2)
 newmsg Nuovo messaggio
+newstate Aggiungi uno Stato personale
 newveravailable La nuova versione $1 è disponibile per il download
 next Prossimo
 noactivity Nessuna attività
@@ -293,6 +312,7 @@ no No
 nopic Nessuna immagine
 noprofileexists Non ci sono profili correnti, \n devi crearne one se vuoi usare i login con il profilo. \nUsa il pulsante Aggiungi nuovo profilo su questa finestra per aggiungere un nuovo profilo.
 normal Normale
+noskins Non sono riuscito a trovare la skin predefinita nella cartella skins/. Non posso avviare AMSN.
 nosystemtray System tray non disponibile
 notificationserver Server di notifica iniziale di MSN (Server di MSN Messenger)
 notify1_5 Mostra una finestra di notifica quando i contatti vanno fuori linea
@@ -302,6 +322,7 @@ notify2 Mostra una finestra di notifica quando viene ricevuto un nuovo messaggio
 notify3 Mostra una finestra di notifica quando una email raggiunge la tua casella di posta
 notify notifica
 notifyoffset Selziona la posizione della finestra di notifica dandogli delle coordinate di posizione
+notifytyping Invia agli altri utenti una notifica mentre digito
 notifywin Finestra di Notifica
 notls Il protocollo MSN 9 richiede il pacchetto tls. Al momento è impossibile trovarlo. Se è installato, è necessario specificare il percorso delle librerie nella finestra Preferenze (es: /opt/tls/lib). \n \n Il pacchetto tls può essere scaricato da http://tls.sf.net.
 nousersinsession Nessun utente nella sessione
@@ -384,6 +405,7 @@ reversed Invertito
 reverselist Invertire la lista (RL)
 rightback Torno subito
 saveas Salva come
+savechatwinsize Salva la dimensione della finestra di chat come predefinita ad ogni ridimensionamento
 savecontacts Salva la lista contatti
 save Salva
 savetofile Salva nel file
@@ -418,6 +440,7 @@ sound Attiva suoni
 soundcommand Questo deve essere il comando per emettere il suono (es.: esdplay)
 soundexample (\$sound = Suono da riprodurre) Es: esdplay \$sound
 soundfile File del suono dell'allarme
+soundfiles Files audio
 soundloop Loop Suono
 soundserver Server sonoro
 soundstatus (Dis)Abilita il suono dell'allarme
@@ -435,17 +458,21 @@ statenewtext Per favore inserisci le informazioni richieste per creare \n il tuo
 state Voglio apparire come
 status Stato
 stopalarm Ferma l'allarme
+storenickname Ripristina il nick originale dopo una sessione personalizzata con nick diverso
+strictfonts Imposta tutti i fonts (barra di stato e altri) alla dimensione che ho scelto
 stylechat Stesso aspetto delle chat
 stylehist Aspetto dell'History di aMSN
 stylelog Seleziona il formato nel quale vorresti vedere la tua History
 syntaxerror Errore di sintassi
 tabbed Finestre con Barra
+temp_state Non salvare (Stato temporaneo, si perderà alla chiusura di AMSN)
 textsize Dimensione del testo
 timeremaining Tempo rimanente
 timestamps Mostra il campo Ora nelle finestre di chat
 title Al's Messenger
 tkerror TK ha incontrato un possibile bug. Segnalatelo, per favore, inviando il file $1 a amsn-bugs@lists.sf.net
 tlsdowncompleted Il file $1 è stato scaricato nella cartella $2. Estrailo, compilalo (se hai scaricato i sorgenti) e installalo in $3.
+tlsexplain Cartella in cui è localizzato il modulo TLS. Se AMSN non riesce a localizzarla, specificarla.\n (E' richiesto per l'autenticazione SSL).
 tlsinstallexp AMSN utilizza ora MSNP9. Questo richiede l'uso di una\nconnessione sicura con SSL. Per sfruttare SSL, AMNS necessita la presenza del modulo TLS,\nil quale non è al momento installato. Questo wizard ti guiderà nel recupero\n e nell'installazione di TLS. Per favore seleziona il tipo di sistema in uso per\n passare al download dei files richiesti.
 tlsinstall Wizard per l'installazione del modulo TLS
 tlsinstcompleted L'installazione del modulo TLS è andata a buon fine. Dovresti essere in grado di utilizzare MSNP9. Se così non fosse, probabilmente hai selezionato un modulo errato oppure non esiste un modulo precompilato per il tuo sistema.
