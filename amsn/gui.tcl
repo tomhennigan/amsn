@@ -3,7 +3,7 @@ namespace eval ::amsn {
    namespace export fileTransfer fileTransferProgress errorMsg
    
    proc errorMsg { msg } {
-     msg_box msg
+      tk_messageBox -type ok -icon error -message $msg -title "[trans title] Error" 
    }
    
    proc fileTransfer {filename filesize cookie sb_name} {

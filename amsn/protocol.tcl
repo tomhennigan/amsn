@@ -992,19 +992,18 @@ proc cmsn_ns_handler {item} {
 	return 0
       }
       200 {
-          status_log "Error: Sintax error\n" error
+          status_log "Error: Sintax error\n" red
 	  msg_box "[trans sintaxerror]"
           return 0
       }
       201 {
-          status_log "Error: Sintax error\n" error
-	  msg_box "[trans invalidparameter]"
+          status_log "Error: Invalid parameter\n" red
           return 0
       }
       911 {
           status_log "Error: User/Password\n" red
 	  set password ""
-	  msg_box "[trans baduserpass]"
+	  ::amsn::errorMsg "[trans baduserpass]"
           return 0
       }     
       913 {
