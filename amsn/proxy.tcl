@@ -85,6 +85,28 @@ namespace eval ::HTTPConnection {
 	
 	}
 
+	proc authInit {} {
+		catch {http::unregister https}
+		
+		set proxy_host [sb get ns proxy_host]
+		set proxy_port [sb get ns proxy_port]		
+		if {$proxy_host == "" } {
+			::http::config -proxyhost ""
+		} else {
+			if { $proxy_port == "" } {
+				set proxy_port 8080
+			}
+	
+			::http::config -proxyhost $proxy_host -proxyport $proxy_port
+		}
+	
+		set ::login_passport_url "https://login.passport.com/login2.srf"
+	}
+	
+	proc authenticate {str url} {
+		::config::setKey nossl 1
+		::DirectConnection::authenticate $str $url
+	}
 	
 	#Called to close the given connection
 	proc finish {name} {
@@ -125,8 +147,14 @@ namespace eval ::HTTPConnection {
 		variable http_gateway
 		
 		#On direct http connection, use gateway directly as proxy
-		set proxy_host [sb get $sbn proxy_host]
-		set proxy_port [sb get $sbn proxy_port]
+		if { [sb get $sbn proxy_host] == ""} {
+			set proxy_host "gateway.messenger.hotmail.com"
+			set proxy_port 80
+		} else {
+			set proxy_host [sb get $sbn proxy_host]
+			set proxy_port [sb get $sbn proxy_port]
+		}
+		
 			
 		if { [catch {set sock [socket -async $proxy_host $proxy_port]} res ] } {
 			sb set $sbn error_msg $res

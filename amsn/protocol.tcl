@@ -818,8 +818,9 @@ namespace eval ::MSN {
   	#TODO: New abstract connection system
 	proc connect { {passwd ""}} {
 
-		global config tlsinstalled login_passport_url
+		global config
 		set username [::config::getKey login]
+		
 		if { $passwd == "" } {
 			global password
 			set passwd [set password]
@@ -828,51 +829,9 @@ namespace eval ::MSN {
 		sb set ns name ns
 		sb set ns sock ""
 		sb set ns data [list]
-		sb set ns server [split $config(start_ns_server) ":"]
+		sb set ns server [split [::config::getKey start_ns_server] ":"]
 		sb set ns stat "d"
-		
-				
-		if { $tlsinstalled == 0 && [checking_package_tls] == 0 && $config(nossl) == 0} {
-			::amsn::installTLS
-			return
-		}
 
-		if { $config(nossl) == 0 } {
-			http::register https 443 ::tls::socket
-		} else  {
-			catch {http::unregister https}
-		}
-
-		#Log out
-		.main_menu.file entryconfigure 2 -state normal
-
-		::MSN::StartPolling
-		::groups::Reset
-
-		if {$config(connectiontype) == "direct" || $config(connectiontype) == "http" } {
-			::http::config -proxyhost ""
-		} elseif {$config(connectiontype) == "proxy"} {
-			set lproxy [split $config(proxy) ":"]
-			set proxy_host [lindex $lproxy 0]
-			set proxy_port [lindex $lproxy 1]
-
-			if { $proxy_port == "" } {
-				set proxy_port 8080
-				set config(proxy) "$proxy_host:$proxy_port"
-			}
-
-			::http::config -proxyhost $proxy_host -proxyport $proxy_port
-		}
-
-
-		set login_passport_url 0
-		if { $config(nossl) == 1 || ($config(connectiontype) != "direct" && $config(connectiontype) != "http") } {
-			set login_passport_url "https://login.passport.com/login2.srf"
-		} else {
-			set login_passport_url 0
-			after 500 "catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command gotNexusReply}"
-		}
-				
 		cmsn_ns_connect $username $passwd
 
   	 }
@@ -1448,7 +1407,20 @@ namespace eval ::MSN {
 	proc GetNewSB {} {
 		variable sb_num
 		incr sb_num
+		
+		set sbn "sb_${sb_num}"
+		
+		sb set $sbn name $sbn
+		sb set $sbn sock ""
+		sb set $sbn data [list]
+		sb set $sbn users [list]
+		sb set $sbn typers [list]
+		sb set $sbn lastmsgtime 0
+		
+		
 		return "sb_${sb_num}"
+		
+		
 	}
 
 	
@@ -1475,17 +1447,9 @@ namespace eval ::MSN {
 			status_log "::MSN::chatTo: Opening chat to user $user\n"
 			status_log "::MSN::chatTo: No SB available, creating new: $sbn\n"
 	
-			sb set $sbn name $sbn
-			sb set $sbn sock ""
-			sb set $sbn data [list]
-			sb set $sbn users [list]
-			sb set $sbn typers [list]
-			sb set $sbn title [trans chat]
-			sb set $sbn lastmsgtime 0
-
-			sb set $sbn last_user $lowuser
-
 			sb set $sbn stat "d"
+			sb set $sbn title [trans chat]
+			sb set $sbn last_user $lowuser
 
 			AddSBFor $lowuser $sbn
 			lappend sb_list "$sbn"
@@ -2158,7 +2122,120 @@ namespace eval ::DirectConnection {
 		return 0
 	
 	}
+	
+	proc authInit {} {
+		global tlsinstalled login_passport_url
+		
+		#Check if we need to install the TLS module
+		if { $tlsinstalled == 0 && [checking_package_tls] == 0 && [::config::getKey nossl] == 0} {
+			::amsn::installTLS
+			return -1
+		}
 
+		#If SSL is used, register https:// protocol
+		if { [::config::getKey nossl] == 0 } {
+			http::register https 443 ::tls::socket
+		} else  {
+			catch {http::unregister https}
+		}
+
+		#No proxy is used
+		::http::config -proxyhost ""
+		
+		if { [::config::getKey nossl] == 1 } {
+			#If we can't use ssl, avoid getting url from nexus
+			set login_passport_url "https://login.passport.com/login2.srf"
+		} else {
+			#Contact nexus to get login url
+			set login_passport_url 0
+			after 500 "catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command ::DirectConnection::GotNexusReply}"
+		}
+	}
+	
+	proc authenticate {str url} {
+	
+		set head [list Authorization "Passport1.4 OrgVerb=GET,OrgURL=http%3A%2F%2Fmessenger%2Emsn%2Ecom,sign-in=[::config::getKey login],pwd=[urlencode $::password],${str}"]
+		#if { $config(nossl) == 1 || ($config(connectiontype) != "direct" && $config(connectiontype) != "http") } {
+		#	set url [string map { https:// http:// } $url]
+		#}
+		if { [::config::getKey nossl] == 1 } {
+			set url [string map { https:// http:// } $url]
+		}
+		status_log "::DirectConnection::authenticate: Getting $url\n" blue
+		if {[catch {::http::geturl $url -command "::DirectConnection::GotAuthReply [list $str]" -headers $head}]} {
+			msnp9_auth_error
+		}
+	
+	}
+
+	
+	proc GotNexusReply {token {total 0} {current 0}} {
+	
+		global login_passport_url
+		if { [::http::status $token] != "ok" || [::http::ncode $token ] != 200 } {
+			#Nexus connection failed, so let's just set login URL manually
+			set loginurl "https://login.passport.com/login2.srf"
+			status_log "gotNexusReply: error in nexus reply, getting url manually\n" red
+		} else {
+			#We got reply from nexus. Extract login URL
+			upvar #0 $token state
+	
+			set index [expr {[lsearch $state(meta) "PassportURLs"]+1}]
+			set values [split [lindex $state(meta) $index] ","]
+			set index [lsearch $values "DALogin=*"]
+			set loginurl "https://[string range [lindex $values $index] 8 end]"
+			status_log "gotNexusReply: loginurl=$loginurl\n" green
+		}
+		::http::cleanup $token
+	
+		#If $login_passport_url == 0, we got login url before authentication took place
+		if { $login_passport_url == 0 } {
+			#Set loginurl (will be used in authentication), and rest in peace
+			set login_passport_url $loginurl
+			status_log "gotNexusReply: finished before authentication took place\n" green
+		} else {
+			#Authentication is waiting for us to get this url!! Do authentication inmediatly
+			status_log "gotNexusReply: authentication was waiting for me, so I'll do it\n" green
+			::DirectConnection::authenticate $login_passport_url $loginurl
+		}
+	
+	}
+
+	proc GotAuthReply { str token } {
+		if { [::http::status $token] != "ok" } {
+			::http::cleanup $token
+			status_log "::DirectConnection::GotAuthReply error: [::http::error]\n"
+			msnp9_auth_error
+			return
+		}
+	
+		upvar #0 $token state
+	
+		if { [::http::ncode $token] == 200 } {
+			#Authentication done correctly
+			set index [expr {[lsearch $state(meta) "Authentication-Info"]+1}]
+			set values [split [lindex $state(meta) $index] ","]
+			set index [lsearch $values "from-PP=*"]
+			set value [string range [lindex $values $index] 9 end-1]
+			status_log "::DirectConnection::GotAuthReply 200 Ticket= $value\n" green
+			msnp9_authenticate $value
+	
+		} elseif {[::http::ncode $token] == 302} {
+			#Redirected to another URL, try again
+			set index [expr {[lsearch $state(meta) "Location"]+1}]
+			set url [lindex $state(meta) $index]
+			status_log "::DirectConnection::GotAuthReply 302: Forward to $url\n" green
+			::DirectConnection::authenticate $str $url
+		} elseif {[::http::ncode $token] == 401} {
+			msnp9_userpass_error
+		} else {
+			msnp9_auth_error
+		}
+		::http::cleanup $token
+	
+	}
+	
+		
 	#Private callback, called when there's something to be read in the socket	
 	proc Readable {sbn} {
 
@@ -2789,23 +2866,18 @@ proc cmsn_rng {recv} {
 
 	set sbn [::MSN::GetNewSB]
 
-	lappend sb_list "$sbn"
-
 	#Init SB properly
-	sb set $sbn name $sbn
-	sb set $sbn sock ""
 	sb set $sbn stat ""
-	sb set $sbn data [list]
-	sb set $sbn users [list]
-	sb set $sbn typers [list]
-	sb set $sbn lastmsgtime 0
 	sb set $sbn server [split [lindex $recv 2] ":"]
 	sb set $sbn connected [list cmsn_conn_ans $sbn]
 	sb set $sbn auth_cmd "ANS"
 	sb set $sbn auth_param "$config(login) [lindex $recv 4] [lindex $recv 1]"
+	
+	lappend sb_list "$sbn"
 
 	status_log "Accepting conversation from: [lindex $recv 5]... (Got ANS1 in SB $sbn\n" green
 
+	setup_connection $sbn
 	cmsn_socket $sbn
 	return 0
 }
@@ -2842,6 +2914,7 @@ proc cmsn_open_sb {sbn recv} {
 
 
 	::amsn::chatStatus [::MSN::ChatFor $sbn] "[trans sbcon]...\n" miniinfo ready
+	setup_connection $sbn	
 	cmsn_socket $sbn
 	return 0
 }
@@ -3712,7 +3785,11 @@ proc cmsn_auth {{recv ""}} {
 	switch [sb get ns stat] {
 
 		a {
+			#Send three first commands at same time, to it faster
 			::MSN::WriteSB ns "VER" "MSNP9 MSNP8 CVR0"
+			::MSN::WriteSB ns "CVR" "0x0409 winnt 6.0 i386 MSNMSGR 6.0.0602 MSMSGS $config(login)"
+			::MSN::WriteSB ns "USR" "TWN I $config(login)"
+			
 			sb set ns stat "v"
 			return 0
 		}
@@ -3722,7 +3799,7 @@ proc cmsn_auth {{recv ""}} {
 				status_log "cmsn_auth: was expecting VER reply but got a [lindex $recv 0]\n" red
 				return 1
 			} elseif {[lsearch -exact $recv "CVR0"] != -1} {
-				::MSN::WriteSB ns "CVR" "0x0409 winnt 6.0 i386 MSNMSGR 6.0.0602 MSMSGS $config(login)"
+				#::MSN::WriteSB ns "CVR" "0x0409 winnt 6.0 i386 MSNMSGR 6.0.0602 MSMSGS $config(login)"
 				sb set ns stat "i"
 				return 0
 			} else {
@@ -3737,7 +3814,7 @@ proc cmsn_auth {{recv ""}} {
 				return 1
 			} else {
 				global config
-				::MSN::WriteSB ns "USR" "TWN I $config(login)"
+				#::MSN::WriteSB ns "USR" "TWN I $config(login)"
 				sb set ns stat "u"
 				return 0
 			}
@@ -3761,12 +3838,12 @@ proc cmsn_auth {{recv ""}} {
 				global login_passport_url
 				if { $login_passport_url == 0 } {
 					status_log "cmsn_auth_msnp9: Nexus didn't reply yet...\n"
-					set login_passport_url [list $info(all)]
+					set login_passport_url $info(all)
 				} else {
-					#catch {status_log "Error calling nexus: $res\n"}
-					#msnp9_do_auth [list $info(all)] https://login.passport.com/login2.srf
 					status_log "cmsn_auth_msnp9: Nexus has replied so we have login URL...\n"
-					msnp9_do_auth [list $info(all)] $login_passport_url
+					set command [list "::[sb get ns connection_wrapper]::authenticate" $info(all) $login_passport_url]
+					eval $command
+					#msnp9_do_auth [list $info(all)] $login_passport_url
 				}
 			#}
 
@@ -3928,81 +4005,6 @@ proc msnp9_auth_error {} {
 
 }
 
-proc gotNexusReply {token {total 0} {current 0}} {
-
-	global login_passport_url
-	if { [::http::status $token] != "ok" || [::http::ncode $token ] != 200 } {
-		set loginurl "https://login.passport.com/login2.srf"
-		status_log "gotNexusReply: error in nexus reply, getting url manually\n" red
-		#msnp9_do_auth $str "https://login.passport.com/login2.srf"
-	} else {
-		upvar #0 $token state
-
-		set index [expr {[lsearch $state(meta) "PassportURLs"]+1}]
-		set values [split [lindex $state(meta) $index] ","]
-		set index [lsearch $values "DALogin=*"]
-		set loginurl "https://[string range [lindex $values $index] 8 end]"
-		status_log "gotNexusReply: loginurl=$loginurl\n" green
-	}
-	::http::cleanup $token
-
-	if { $login_passport_url == 0 } {
-		set login_passport_url $loginurl
-		status_log "gotNexusReply: finished before authentication took place\n" green
-	} else {
-		status_log "gotNexusReply: authentication was waiting for me, so I'll do it\n" green
-		msnp9_do_auth $login_passport_url $loginurl
-	}
-
-}
-
-
-proc gotAuthReply { str token } {
-	if { [::http::status $token] != "ok" } {
-		::http::cleanup $token
-		status_log "gotAuthReply error: [::http::error]\n"
-		msnp9_auth_error
-		return
-	}
-
-	upvar #0 $token state
-
-	if { [::http::ncode $token] == 200 } {
-		set index [expr {[lsearch $state(meta) "Authentication-Info"]+1}]
-		set values [split [lindex $state(meta) $index] ","]
-		set index [lsearch $values "from-PP=*"]
-		set value [string range [lindex $values $index] 9 end-1]
-		status_log "gotAuthReply 200 Ticket= $value\n" green
-		msnp9_authenticate $value
-
-	} elseif {[::http::ncode $token] == 302} {
-		set index [expr {[lsearch $state(meta) "Location"]+1}]
-		set url [lindex $state(meta) $index]
-		status_log "gotAuthReply 320: Forward to $url\n" green
-		msnp9_do_auth $str $url
-	} elseif {[::http::ncode $token] == 401} {
-		msnp9_userpass_error
-	} else {
-		msnp9_auth_error
-	}
-	::http::cleanup $token
-
-}
-
-
-proc msnp9_do_auth {str url} {
-	global config password
-
-	set head [list Authorization "Passport1.4 OrgVerb=GET,OrgURL=http%3A%2F%2Fmessenger%2Emsn%2Ecom,sign-in=$config(login),pwd=[urlencode ${password}],${str}"]
-	if { $config(nossl) == 1 || ($config(connectiontype) != "direct" && $config(connectiontype) != "http") } {
-		set url [string map { https:// http:// } $url]
-	}
-	status_log "msnp9_do_auth: Getting $url\n" blue
-	if {[catch {::http::geturl $url -command "gotAuthReply [list $str]" -headers $head}]} {
-		msnp9_auth_error
-	}
-
-}
 
 
 proc msnp9_authenticate { ticket } {
@@ -4102,25 +4104,22 @@ proc proxy_callback {event socket_name} {
     }
 }
 
-proc cmsn_socket {name} {
-
-	global config
+proc setup_connection {name} {
 
 	#This is the default read handler, if not changed by proxy
 	sb set $name command_handler [list ::MSN::receivedCommand $name]
 	sb set $name payload_handler [list ::MSN::receivedPayload $name]
 	#This is the default procedure that should be called when an error is detected
 	sb set $name error_handler [list ::MSN::CloseSB $name]
-	
-	
-	if {$config(connectiontype) == "direct" } {
+
+	if {[::config::getKey connectiontype] == "direct" } {
  		sb set $name connection_wrapper DirectConnection
 
-	} elseif {$config(connectiontype) == "http"} {
+	} elseif {[::config::getKey connectiontype] == "http"} {
 	
  		sb set $name connection_wrapper HTTPConnection
-		sb set $name proxy_host "gateway.messenger.hotmail.com"
-		sb set $name proxy_port 80
+		sb set $name proxy_host ""
+		sb set $name proxy_port ""
 
 		#status_log "cmsn_socket: Setting up http connection\n" green
 		#set tmp_serv "gateway.messenger.hotmail.com"
@@ -4134,17 +4133,17 @@ proc cmsn_socket {name} {
 		#::Proxy::Setup next readable_handler $name
 		
 		
-	} elseif {$config(connectiontype) == "proxy" && $config(proxytype) == "http"} {
+	} elseif {[::config::getKey connectiontype] == "proxy" && [::config::getKey proxytype] == "http"} {
 	
 		#TODO: Right now it's always HTTP proxy!!
 		sb set $name connection_wrapper HTTPConnection
-		set proxy [split $config(proxy) ":"]
+		set proxy [split [::config::getKey proxy] ":"]
 		sb set $name proxy_host [lindex $proxy 0]
 		sb set $name proxy_port [lindex $proxy 1]
 		
-		sb set $name proxy_authenticate $config(proxyauthenticate)
-		sb set $name proxy_user $config(proxyuser) 
-		sb set $name proxy_password $config(proxypass)
+		sb set $name proxy_authenticate [::config::getKey proxyauthenticate]
+		sb set $name proxy_user [::config::getKey proxyuser]
+		sb set $name proxy_password [::config::getKey proxypass]
 	
 		#status_log "cmsn_socket: Setting up Proxy connection (type=$config(proxytype))\n" green
 		#::Proxy::Init $config(proxy) $config(proxytype)
@@ -4159,6 +4158,10 @@ proc cmsn_socket {name} {
 		#::Proxy::Setup next readable_handler $name
 	
 	}
+}
+
+proc cmsn_socket {name} {
+
 	
 	sb set $name time [clock seconds]
 	sb set $name stat "cw"
@@ -4211,6 +4214,59 @@ proc cmsn_ns_connected {} {
 #TODO: ::abook system
 proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 
+	if { $nosignin == "" } {
+
+		#if { $tlsinstalled == 0 && [checking_package_tls] == 0 && $config(nossl) == 0} {
+		#	::amsn::installTLS
+		#	return
+		#}
+
+		#if { $config(nossl) == 0 } {
+		#	http::register https 443 ::tls::socket
+		#} else  {
+		#	catch {http::unregister https}
+		#}
+		
+		#Log out
+		#.main_menu.file entryconfigure 2 -state normal
+	
+	
+		#::MSN::StartPolling
+		#::groups::Reset
+	
+		#if {$config(connectiontype) == "direct" || $config(connectiontype) == "http" } {
+		#	::http::config -proxyhost ""
+		#} elseif {$config(connectiontype) == "proxy"} {
+		#	set lproxy [split $config(proxy) ":"]
+		#	set proxy_host [lindex $lproxy 0]
+		#	set proxy_port [lindex $lproxy 1]
+	
+		#	if { $proxy_port == "" } {
+		#		set proxy_port 8080
+		#		set config(proxy) "$proxy_host:$proxy_port"
+		#	}
+	
+		#	::http::config -proxyhost $proxy_host -proxyport $proxy_port
+		#}
+	
+	
+		#set login_passport_url 0
+		#if { $config(nossl) == 1 || ($config(connectiontype) != "direct" && $config(connectiontype) != "http") } {
+		#	set login_passport_url "https://login.passport.com/login2.srf"
+		#} else {
+		#	set login_passport_url 0
+		#	after 500 "catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command gotNexusReply}"
+		#}
+		
+		#Setup the conection
+		setup_connection ns
+		#Call the pre authentication
+		set command [list "::[sb get ns connection_wrapper]::authInit"]
+		if { [eval $command] < 0 } {
+			return -1
+		}
+	}
+
 	if { ($username == "") || ($password == "")} {
 		cmsn_draw_login
 		return -1
@@ -4222,11 +4278,10 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	::MSN::clearList BL
 	::MSN::clearList RL
 
+	
 	if {[sb get ns stat] != "d"} {
-		#catch {fileevent [sb get ns sock] readable {}} res
 		set command [list "::[sb get ns connection_wrapper]::finish" ns]
 		eval $command
-		#catch {close [sb get ns sock]} res
 	}
 
 	if { $nosignin == "" } {
@@ -4236,12 +4291,18 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	#Log in
 	.main_menu.file entryconfigure 0 -state disabled
 	.main_menu.file entryconfigure 1 -state disabled
+	#Log out
+	.main_menu.file entryconfigure 2 -state normal
+
+
+	::MSN::StartPolling
+	::groups::Reset
+	
+	#TODO: Call "on connect" handlers, where hotmail will be registered.
+	set ::hotmail::unread 0
 
 	sb set ns data [list]
 	sb set ns connected "cmsn_ns_connected"
-
-	#TODO: Call "on connect" handlers, where hotmail will be registered.
-	set ::hotmail::unread 0
 
 	cmsn_socket ns
 
