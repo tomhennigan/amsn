@@ -383,8 +383,10 @@ sendmail Een e-mail verzenden
 sendmsg Een bericht verzenden
 send Verzend
 sentbytes $1 van de $2 bytes verzonden
+serverbusy Server is bezet
 servergoingdown Verbinding verbroken: De server wordt uitgeschakeld
 server Server
+serverunavailable Server is niet beschikbaar
 session Sessie
 showblockedlist Toon de lijst van mensen die u geblokkeerd hebben
 showdisplaypic2 Schermafbeelding standaard tonen bij het openen van een discussievenster
