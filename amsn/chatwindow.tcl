@@ -600,7 +600,7 @@ namespace eval ::ChatWindow {
 
 			} else {
 				# Iconify the window unless it was raised by the user already.
-				if { [wm state $top_win] != "normal" } {
+				if { [wm state $top_win] != "normal" && [wm state $top_win] != "zoomed" } {
 					if { [winfo exists .bossmode] } {
 						set ::BossMode(${top_win}) "iconic"
 						wm state ${top_win} withdraw
