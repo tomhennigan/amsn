@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Despre
+accept accepta
 acceptfile Accept fisierul $1, marime $2? Salvat in $3
 actions Actiuni
 addacontact Adauga o persoana noua  
@@ -15,6 +16,7 @@ allowseen  Permite persoanei sa ma vada autentificat si sa ma contacteze.
 appearoff Neautentificat 
 aretyping $1 scrie un mesaj 
 autohotmaillog Autentificare automata la Hotmail
+autoidle mod pasiv automat
 autoip IP automat  
 avoidseen Nu permite persoanei sa ma vada autentificat si sa ma contacteze.
 away Plecat 
@@ -42,13 +44,21 @@ clicktologin Autentificare
 close Inchide 
 closingdocks Minimizare in loc de inchidere
 command Commanda
+confirm confirma
 confirmdelete Sigur vrei sa stergi persoana $1?
 connecterror Conectarea la server a esuat 
 contactadded Persoana adaugata
 contactdoesnotexist Persona nu exista!
+copy copiaza
 copytogroup Copieaza in grupul 
+cut sterge
 date Data
 delete Sterge
+dockgtk ataseaza in Gnome
+docking ataseaza
+dockingoff detaseaza
+dockkde ataseaza in KDE
+edit edita
 enableproxy Activeaza proxy
 encoding Alege codul caracterului
 entercontactemail Introduce email-ul persoanei 
@@ -57,10 +67,13 @@ enternick Introduce nick-ul
 examples Exemple
 exitamsn Sigur vrei sa inchizi?
 extras Servicii suplimentare
+faq intrebari puse frecvente
 filedoesnotexist Fisierul nu exista 
 filename Nume fisier
 filetransfercancelled Transfer de fisier intrerupt 
 filetransfercomplete Transfer de fisier complect
+ftaccepted transfer de fisier acceptat
+ftrejected transfer de fisier refuzat
 gonelunch Sunt la masa 
 groupadd Adauga un grup 
 groupdelete Sterge un grup
@@ -84,6 +97,7 @@ invite Invita
 ipaddress Adresa IP 
 istyping $1 scrie un mesaj
 joins $1 incepe conversatia 
+keepalive conectiune continua
 language Alege limba
 lastmsgtime Ultimul mesaj a sosit la $1
 leaveblankforhotmail Nu complecta cimpul pentru Hotmail!
@@ -104,6 +118,7 @@ msg Mesaj
 msn AMSN
 mustrestart Restarteaza aplicatia  ca schimbarile sa devina active.
 mystatus Apar ca 
+natip detectie de adresa IP prin pagina de web
 needonline Esti sau Apari neautentificat !
 newmail $1 Mesaje noi in casuta postala
 newmailfrom Ai primit e-mail nou de la 
@@ -114,6 +129,7 @@ noactivity Fara activitate
 nonewmail Nu sint mesaje noi in casuta postala
 nonewver Nu este versiune noua disponibila pentru descarcare
 notify atentioneaza
+notifywin notifica fereatra
 nousersinsession Nu sunt persoane in sesiune
 offline Neautentificat
 ok Ok
@@ -126,6 +142,7 @@ ordercontactsby Sorteaza persoanele dupa
 other Altul
 pager Pager
 pass Parola
+paste adauga elementul/elementele copiat in memorie
 phone Detalii
 picfile Fisier imagine (poza) (GIF < 500 x 500)
 picstatus Inchide/Deschide avertizarea cu imagine 
@@ -142,6 +159,7 @@ receivedbytes Receptionat $1 of $2 bytes
 receivefile Fisier receptionat
 reconnect Asteapta ca $1 sa se reconecteze
 reconnecting In curs de reconectare la server
+reject rejectie
 rememberpass Retine parola
 rightback Revin imediat 
 saveas Salveaza ca ... 

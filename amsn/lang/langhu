@@ -44,17 +44,21 @@ clicktologin Kattints ide a bejelentkezéshez
 close Bezárás
 closingdocks Bezáró gomb dokkolása az ablakba
 command Parancs
+confirm Biztos vagy benne?
 confirmdelete Biztos ki akarod ezt törölni: $1?
 connecterror Hiba a szerverhez kapcsolódás közben
 contactadded Kapcsolat hozzáadása
 contactdoesnotexist A kapcsolat nem jött létre!
+copy Másolás
 copytogroup Másolás a csoportokba
+cut Kivágás
 date Dátum
 delete Törlés
 dockgtk Dokkolás a Gnome-ba
 docking Dokkolás
 dockingoff Dokkolás kikapcsolása
 dockkde Dokkolás a KDE-be
+edit Szerkesztés
 enableproxy Proxy engedélyezése
 encoding Enkódolás választása
 entercontactemail Gépeld be a kapcsolat E-mail címét
@@ -114,6 +118,7 @@ msg Üzenet
 msn AMSN
 mustrestart A változtatásokhoz újra kell indítanod a programot
 mystatus Állapotom
+natip Ip felderítés weblappal
 needonline Az állapotod offline!
 newmail $1 új üzeneted van
 newmailfrom Új levél érkezett...
@@ -137,6 +142,7 @@ ordercontactsby Partnerek rendezése
 other Más
 pager Személyi hívó
 pass Jelszó
+paste Beillesztés
 phone Telefon
 picfile Figyelmeztetõ kép fájl (GIF < 500 x 500)
 picstatus Figyelmeztetõ kép KI/BE kapcsolása

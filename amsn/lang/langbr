@@ -45,16 +45,20 @@ close Fechar
 closingdocks Botão fechar envia para a barra de tarefas
 command Comando
 confirmdelete Você tem certeza que quer apagar $1?
+confirm Você tem certeza?
 connecterror Erro ao conectar-se ao servidor!
 contactadded Contato adicionado
 contactdoesnotexist Contato não existe!
+copy Copiar
 copytogroup Copiar para o grupo
+cut Recortar
 date Data
 delete Apagar
 dockgtk Ícone do GTK
 docking Ícone do systray
 dockingoff Desativado
 dockkde Ícone do KDE
+edit Editar
 enableproxy Habilitar proxy
 encoding Escolher codificação
 entercontactemail Digite o e-mail do contato
@@ -114,6 +118,7 @@ msg Mensagem
 msn AMSN
 mustrestart Você precisa reiniciar o programa para efetuar as mudanças
 mystatus Meu status
+natip Detectar IP real
 needonline Você ainda está/aparece desconectado
 newmail $1 nova(s) mensagem(ns) na Caixa de Entrada
 newmailfrom Novo e-mail de 
@@ -137,6 +142,7 @@ ordercontactsby Ordenar contatos por
 other Outros
 pager Pager
 pass Senha
+paste Colar
 phone Telefone
 picfile Imagem a ser exibida em notificações (GIF < 500 x 500)
 picstatus Ativar/Desativar imagem nas notificações

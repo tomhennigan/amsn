@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Informazioni
+accept Accetta
 acceptfile Accetto il file $1, dimensioni $2? Salvato in $3
 actions Azioni
 addacontact Aggiungi un contatto
@@ -9,42 +10,55 @@ addtoo Aggiungi questa persona alla mia lista dei contatti
 admincontacts Amministrazione contatti
 admingroups Amministrazione gruppi
 adverts Avvertimenti
+alarmpref Impostazioni dell'allarme dell'utente
+alarmstatus (Dis)Abilita l'allarme per questo utente
 allowseen Permetti a questa persona di vedermi e di contattarmi quando sono connesso
 appearoff Invisibile
-aretyping $1 sono scrivendo un messaggio
-autohotmaillog Auto Hotmail login
+aretyping $1 stanno scrivendo un messaggio
+autohotmaillog Auto-login Hotmail
+autoidle Nessuna attività automatica
 autoip IP automatico
 avoidseen Impedisci a questa persona di vedermi e di contattarmi quando sono connesso
 away Non al computer
-baduserpass User name o password sbagliate
+baduserpass Username o password sbagliate
 blankdirect Lascia vuoto per connessioni dirette
 block Blocca
 blocked Bloccato
 broughtby  Sviluppato da
 browser Browser
+browse Visualizza
 busy Ho da fare
 cancel Cancella
+cfgalarm Configure/Aggiungi/Rimuovi l'allarme
 changenick Cambia nick
 chatack Sto accentando una chiamata da
 chat Inizia la conversazione
 chatreq Sto chiamando
-chatsmileys Smiley per la chat
+chatsmileys Faccine per la chat
 checkingver Sto verificando una nuova versione
-checkver Controlla nuova versione
+checkver Controlla l'esistenza di nuova versione
 choosebasefont Seleziona il font
 choosebgcolor Cambia il colore di sfondo
-choosefontcolor Scegliere il colore della tipografia
+choosefontcolor Scegliere il colore del font
 clicktologin Clicca qui per accedere
 close Chiudi
-closingdocks Close button docks window
+closingdocks Pulsante per chiudere
 command Comando
 confirmdelete Sei sicuro di voler cancellare $1?
+confirm Sei sicuro?
 connecterror Errore durante la connessione al server
 contactadded Contatto aggiunto
 contactdoesnotexist Il contatto non esiste
-copytogroup Copia al gruppo
+copy Copia
+copytogroup Copia nel gruppo
+cut Taglia
 date Data
 delete Cancella
+dockgtk Dock GNOME
+docking Abilita dock
+dockingoff Disabilita dock
+dockkde Dock KDE
+edit Modifica
 enableproxy Proxy abilitato
 encoding Seleziona la codifica
 entercontactemail Inserisci un contatto per e-mail
@@ -53,14 +67,17 @@ enternick Inserisci il tuo nick
 examples Esempi
 exitamsn Sei sicuro di voler uscire ?
 extras Servizi extra
+faq FAQ (Risposte alle domande più frequenti)
 filedoesnotexist Il file non esiste
 filename Filename
 filetransfercancelled Trasferimento file cancellato
 filetransfercomplete Trasferimento del file completo
+ftaccepted Trasferimento del file accettato
+ftrejected Trasferimento del file respinto
 gonelunch A pranzo
 groupadd Aggiungi un gruppo
 groupdelete Cancella un gruppo
-groupexists IL gruppo esiste già
+groupexists Il gruppo esiste già
 group Gruppo
 groupmissing Non riesco a trovare il gruppo
 groupnewname Nuovo nome
@@ -68,61 +85,67 @@ groupnotempty Il gruppo non è vuoto!
 groupoldname Vecchio nome
 grouprename Rinomina un gruppo
 groupunknown Gruppo sconosciuto
-handle Nick
+handle Gestisci
 help Aiuto
 helpcontents Contenuti help
 home Casa
 ident Identificazione
 identity Identità
-inbox In-Box
-invalidusername User name invalida.
+inbox In Arrivo
+invalidusername Username non valido
 invite Invita
 ipaddress Indirizzo IP
 istyping $1 sta scrivendo un messaggio
 joins $1 si unisce alla conversazione
+keepalive Keepalive (NAT)
 language Linguaggio
 lastmsgtime Ultimo messaggio ricevuto alle $1
 leaveblankforhotmail Lascia in bianco per l'uso di hotmail
 leaves $1 abbandona la conversazione
 listeningon In attesa sulla porta $1
-listsmileys Elenco smiley
+listsmileys Elenco faccine
 loadcontacts Carica la lista contatti
-loggedotherlocation Disconnessione. Loggato da un'altro posto
-loggingin Connessione in corso ...
-loginas Login come
-login Connessione
-logout Disconessione
+loggedotherlocation Disconnesso. Loggato da un'altro posto
+loggingin Connessione in corso...
+login Accedi
+loginas Accedi come
+logout Abbandona
 logsin si e' appena connesso
 mailer Client di posta
 mobile Mobile
 movetogroup Sposta al gruppo
 msg Messaggio
 msn AMSN
-mustrestart Devi far ripartire il programma per attivare le modifiche
+mustrestart Devi riavviare il programma per attivare le modifiche
 mystatus Il mio stato
-needonline Sembri essere/apparire off-line!
-newmail $1 nuove e-mail nella mailbox
+natip La rilevazione dell'IP dalla pagina web
+needonline Sembra che tu sia scollegato!
+newmail $1 nuovi messaggi di posta
 newmailfrom Nuova email da
 newmsg Nuovo messaggio
 newveravailable La nuova versione $1 è disponibile per il download
 next Prossimo
-noactivity Nessuna attivita'
-nonewmail 0 nuove e-mail nella mailbox
+noactivity Nessuna attività
+nonewmail Nessun nuovo messaggio di posta
 nonewver Non ci sono nuove versioni da scaricare
 notify notifica
+notifywin Finestra di Notifica
 nousersinsession Nessun utente nella sessione
-offline Offline
+offline Sconnesso
 ok Ok
-onenewmail 1 nuove e-mail nella mailbox
+onenewmail 1 nuovo messaggio di pasta (la pasta elettronica)
 online Online
 onphone Al telefono
 openreceived Apri un file ricevuto
 options Opzioni
 ordercontactsby Ordina i contatti per
 other Altri
-pager Pager
+pager Impaginatore
 pass Password
+paste Incolla
 phone Telefono
+picfile File dell'immagine dell'allarme (GIF < 500x500)
+picstatus (Dis)Abilita l'immagine per l'allarme
 port Porta
 prefapps Applicazioni
 preferences Preferenze
@@ -135,6 +158,7 @@ receivedbytes Recevuti $1 byte su $2
 receivefile Sto ricevendo il file
 reconnecting Riconnessione al server
 reconnect Sto aspettando che $1 si riconnetta
+reject Respingi
 rememberpass Ricorda password
 rightback Torno subito
 saveas Salva come
@@ -150,13 +174,17 @@ sentbytes Mandati $1 byte su $2
 servergoingdown Disconnesso: il server sta andando giù
 server Server
 sound Attiva suoni
+soundfile File del suono dell'allarme
+soundloop Loop Suono
+soundstatus (Dis)Abilita il suono dell'allarme
 startoffline Inizio Offline
 status Stato
-syntaxerror    Errore di sintassi
+stopalarm Ferma l'allarme
+syntaxerror Errore di sintassi
 textsize Dimensione del testo
 title Al's Messenger
 to A
-tools Tool
+tools Strumenti
 unblock Sblocca
 uoffline Offline
 uonline Online
@@ -164,7 +192,7 @@ useralreadyonlist L'utente è già nella lista contatti
 user Utente
 version Versione
 view Vista
-willjoin Sto aspettando che $1 accetti la conversazione
+willjoin Sto aspettando che $1 si unisca alla conversazione
 work Lavoro
 yousay Tu dici
 youwant Tu vuoi
