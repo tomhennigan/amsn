@@ -64,16 +64,8 @@ proc save_alarms {} {
 proc alarm_cfg { user } {
    global alarms sounds_folder my_alarms images_folder 
 
-   if [ winfo exists .alarm_cfg ] {
+   if { [ winfo exists .alarm_cfg ] } {
         return
-   }
-
-   if { [info exists alarms(${user}_sound)] == 0 } {
-	set my_alarms(${user}_sound) "${sounds_folder}/alarm.wav"
-   }
-
-   if { [info exists alarms(${user}_pic)] == 0 } {
-	set my_alarms(${user}_pic) "${images_folder}/alarm.gif"
    }
 
    if { [info exists alarms(${user})] } {
@@ -83,6 +75,12 @@ proc alarm_cfg { user } {
 	set my_alarms(${user}_pic) $alarms(${user}_pic)
 	set my_alarms(${user}_pic_st) $alarms(${user}_pic_st)
 	set my_alarms(${user}_loop) $alarms(${user}_loop)
+   } else {
+	set my_alarms(${user}) 1
+	set my_alarms(${user}_sound) "${sounds_folder}/alarm.wav"
+	set my_alarms(${user}_sound_st) 1
+	set my_alarms(${user}_pic) "${images_folder}/alarm.gif"
+	set my_alarms(${user}_pic_st) 1
    }
 
    toplevel .alarm_cfg
@@ -92,7 +90,7 @@ proc alarm_cfg { user } {
    frame .alarm_cfg.sound
    LabelEntry .alarm_cfg.sound.entry "[trans soundfile]" my_alarms(${user}_sound) 30
    checkbutton .alarm_cfg.sound.button -text "[trans soundstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_sound_st)
-   checkbutton .alarm_cfg.sound.button2 -text "[trans soundloop]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_loop)  
+   checkbutton .alarm_cfg.sound.button2 -text "[trans soundloop]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_loop)
    pack .alarm_cfg.sound.entry .alarm_cfg.sound.button .alarm_cfg.sound.button2 -side left 
    pack .alarm_cfg.sound -side top -padx 4 -pady 4
 
@@ -111,7 +109,6 @@ proc alarm_cfg { user } {
    button .alarm_cfg.b.delete -text [trans delete] -command "delete_alarm $user; destroy .alarm_cfg"
    pack .alarm_cfg.b.save .alarm_cfg.b.cancel .alarm_cfg.b.delete -side left
    pack .alarm_cfg.b -side top -padx 4 -pady 4
-
 }
 
 #Deletes variable settings for current user.
@@ -127,6 +124,26 @@ proc delete_alarm { user} {
 proc save_alarm_pref { user } {
    global alarms my_alarms sounds_folder images_folder
    
+   if { ($my_alarms(${user}_sound_st) == 1) && ([file exists "$my_alarms(${user}_sound)"] == 0) } {
+	msg_box [trans invalidsound]
+	return
+   }
+
+   if { ($my_alarms(${user}_pic_st) == 1) } {
+	if { ([file exists "$my_alarms(${user}_pic)"] == 0) } {
+		msg_box [trans invalidpic]
+		return
+   	} else {
+		image create photo joanna -file $my_alarms(${user}_pic)
+		if { ([image width joanna] > 300) && ([image height joanna] > 400) } {
+	    		image delete joanna
+	    		msg_box [trans invalidpicsize]
+	    		return
+		}
+		image delete joanna
+	}
+   }
+
    set alarms(${user}) $my_alarms(${user})
    set alarms(${user}_loop) $my_alarms(${user}_loop)
    set alarms(${user}_sound_st) $my_alarms(${user}_sound_st)
@@ -148,8 +165,9 @@ proc save_alarm_pref { user } {
 #Runs the alarm (sound and pic)
 proc run_alarm {user name} {
    global alarms program_dir config
-   frame .mainer
-   pack .mainer
+   
+   toplevel .mainer
+   wm title .mainer "[trans alarm] $user"
    label .mainer.txt -text "${name} [trans logsin]"
    pack .mainer.txt
    if { ($alarms(${user}_pic_st) == 1) } {
