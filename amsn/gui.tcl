@@ -2142,6 +2142,8 @@ namespace eval ::amsn {
 
 		bind $bottom.in.input <Key-Delete> "::amsn::DeleteKeyPressed .${win_name} $bottom.in.input %K"
 		bind $bottom.in.input <Key-BackSpace> "::amsn::DeleteKeyPressed .${win_name} $bottom.in.input %K"
+		bind $bottom.in.input <Key-Up> "::amsn::UpKeyPressed $bottom.in.input"
+		bind $bottom.in.input <Key-Down> "::amsn::DownKeyPressed $bottom.in.input"
 		global skipthistime
 		set skipthistime 0
 
@@ -2612,6 +2614,55 @@ namespace eval ::amsn {
 			CharsTyped $chatid $newlength
 		}
 
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+
+
+
+	#///////////////////////////////////////////////////////////////////////////////
+	# UpKeyPressed (inputbox)
+	# Called by a window when the user uses the up key in a text box. It moves the
+	# cursor up a line
+	proc UpKeyPressed { inputbox } {
+		set xpos [lindex [$inputbox bbox insert] 0]
+		set ypos [lindex [$inputbox bbox insert] 1]
+		set height [lindex [$inputbox bbox insert] 3]
+		if { $ypos > $height } {
+			$inputbox mark set insert "@$xpos,[expr $ypos-$height]"
+		} else {
+			$inputbox yview scroll -1 units
+			update
+			set ypos [lindex [$inputbox bbox insert] 1]
+			set height [lindex [$inputbox bbox insert] 3]
+			if { $ypos > $height } {
+				$inputbox mark set insert "@$xpos,[expr $ypos-$height]"
+			}
+		}
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+
+
+	#///////////////////////////////////////////////////////////////////////////////
+	# DownKeyPressed (inputbox)
+	# Called by a window when the user uses the down key in a text box. It moves the
+	# cursor down a line
+	proc DownKeyPressed { inputbox } {
+		set xpos [lindex [$inputbox bbox insert] 0]
+		set ypos [lindex [$inputbox bbox insert] 1]
+		set height [lindex [$inputbox bbox insert] 3]
+		set inputboxheight [lindex [$inputbox configure -height] end]
+		if { [expr $ypos+$height] < [expr $inputboxheight*$height] } {
+			$inputbox mark set insert "@$xpos,[expr $ypos+$height]"
+		} else {
+			$inputbox yview scroll +1 units
+			update
+			set ypos [lindex [$inputbox bbox insert] 1]
+			set height [lindex [$inputbox bbox insert] 3]
+			set inputboxheight [lindex [$inputbox configure -height] end]
+			if { [expr $ypos+$height] < [expr $inputboxheight*$height] } {
+				$inputbox mark set insert "@$xpos,[expr $ypos+$height]"
+			}
+		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
