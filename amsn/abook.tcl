@@ -768,6 +768,7 @@ namespace eval ::abookGui {
 	unset colorval_$email
 	::MSN::contactListChanged
 	cmsn_draw_online
+	::abook::saveToDisk
    }
          
 }
