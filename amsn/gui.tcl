@@ -46,6 +46,7 @@ namespace eval ::amsn {
 		font create menufont -family $family -size $size -weight normal
 		font create sboldf -family $family -size $size -weight bold
 		font create splainf -family $family -size $size -weight normal
+		font create sbolditalf -family $family -size $size -weight bold -slant italic
 
 		if { $config(strictfonts) } {
 			font create bboldf -family $family -size $size -weight bold
@@ -1872,7 +1873,7 @@ namespace eval ::amsn {
 		.${win_name}.f.out.text tag configure red -foreground red -background white -font sboldf
 		.${win_name}.f.out.text tag configure blue -foreground blue -background white -font sboldf
 		.${win_name}.f.out.text tag configure gray -foreground #404040 -background white -font splainf
-		.${win_name}.f.out.text tag configure gray_italic -foreground #000000 -background white -font splainf -underline true
+		.${win_name}.f.out.text tag configure gray_italic -foreground #000000 -background white -font sbolditalf
 		.${win_name}.f.out.text tag configure white -foreground white -background black -font sboldf
 		.${win_name}.f.out.text tag configure url -foreground #000080 -background white -font splainf -underline true
 
@@ -2487,6 +2488,20 @@ namespace eval ::amsn {
 		set fontstyle [lindex $config(mychatfont) 1]
 		set fontcolor [lindex $config(mychatfont) 2]
 
+
+		if { $friendlyname != "" } {
+			set nick $friendlyname
+			set p4c 1
+		} else {
+			if { $input != 0 && [::config::getKey p4c_name] != ""} {
+		      		set nick [::config::getKey p4c_name]
+				set p4c 1
+			
+			} else {
+				set nick [::abook::getPersonal nick]
+				set p4c 0	
+			}
+		}
 		if { [string length $msg] > 400 } {
 			set first 0
 			while { [expr {$first + 400}] <= [string length $msg] } {
@@ -2499,7 +2514,7 @@ namespace eval ::amsn {
 			set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
 
 			#Draw our own message
-			messageFrom $chatid [::abook::getPersonal login] [::abook::getPersonal nick] "$msg" user [list $fontfamily $fontstyle $fontcolor] 
+			messageFrom $chatid [::abook::getPersonal login] $nick "$msg" user [list $fontfamily $fontstyle $fontcolor] $p4c
 
 			::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
 		} else {
@@ -2507,7 +2522,7 @@ namespace eval ::amsn {
 			#::MSN::chatQueue $chatid [list ::MSN::messageTo $chatid "$msg" $ackid]
 
 			#Draw our own message
-			messageFrom $chatid [::abook::getPersonal login] [::abook::getPersonal nick] "$msg" user [list $fontfamily $fontstyle $fontcolor]   	
+			messageFrom $chatid [::abook::getPersonal login] $nick "$msg" user [list $fontfamily $fontstyle $fontcolor] $p4c
 
 			::MSN::messageTo $chatid "$msg" $ackid $friendlyname
 		}

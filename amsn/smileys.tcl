@@ -596,7 +596,7 @@ proc custom_smile_subst { chatid tw {textbegin "0.0"} {end "end"} } {
 
     if { ![info exists emotions] } { return }
 
-    after 5 "custom_smile_subst2 $chatid $tw $textbegin $end"
+    after 50 "custom_smile_subst2 $chatid $tw $textbegin $end"
 
 } 
 
