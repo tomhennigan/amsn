@@ -12,7 +12,7 @@ proc hotmail_login {userlogin {pass ""}} {
 
     set page_data ""
     while {[gets $read_id tmp_data] != "-1"} {
-      set page_data "$page_data $tmp_data"
+      set page_data "$page_data\n$tmp_data"
     }
 
     close $read_id
@@ -21,7 +21,7 @@ proc hotmail_login {userlogin {pass ""}} {
    
     set user [lindex $userdata 0]
     set domain [lindex $userdata 1]
-    set rru "/cgi-bin/HoTMaiL"
+#    set rru "/cgi-bin/HoTMaiL"
 
     set page_data [subst -nocommands -nobackslashes $page_data]
 
