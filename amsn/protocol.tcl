@@ -4382,7 +4382,7 @@ proc save_contact_list { } {
 
 		puts $file_id "      <user>\n         <email>$user</email>\n         <nickname>[::abook::getNick $user]</nickname>"
 		puts $file_id "         <gid>[join [::abook::getGroups $user] ,]</gid>\n         <PHH>[::sxml::xmlreplace [set userd(PHH)]]</PHH>"
-		puts $file_id "         <PHW>[::sxml::xmlreplace [set userd(PHW)]]</PHW>\n         <PHM>[::sxml::xmlreplace [set userd(PHM)]]</PHM>\n         <MOB>[::sxml::xmlreplace [set userd(MOD)]]</MOB>"
+		puts $file_id "         <PHW>[::sxml::xmlreplace [set userd(PHW)]]</PHW>\n         <PHM>[::sxml::xmlreplace [set userd(PHM)]]</PHM>\n         <MOB>[::sxml::xmlreplace [set userd(MOB)]]</MOB>"
 		puts $file_id "\n      </user>"
 	}
 
