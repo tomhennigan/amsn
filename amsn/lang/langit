@@ -81,6 +81,7 @@ changedisplaypic Cambia l'immagine personale
 changefont Cambia font
 changenick Cambia nick
 changestate $1 cambia stato in $2
+charscounter  Contatore dei caratteri digitati nella finestra di chat
 chatack Sto accentando una chiamata da
 chat Inizia la conversazione
 chatmaxmin Quando un contatto apre una chat con me io voglio essere:
@@ -119,6 +120,7 @@ connectionlost Disconnesso: Connessione con il server chiusa
 contactadded Contatto aggiunto
 contactdoesnotexist Il contatto non esiste
 contactlist Lista dei contatti:
+convertexplain Percorso al file eseguibile CONVERT, da ImageMagick (richiesto per visualizzare foto).\n Lasciare vuoto se CONVERT è già nel percorso
 copy Copia
 copytogroup Copia nel gruppo
 corruptconfig Il file della configurazione è corrotto. Ne creo uno nuovo. Il vecchio file verrà salvato in $1. Per favore invialo ai programmatori che cercheranno di capire cosa è successo.
@@ -231,7 +233,11 @@ inbox In Arrivo
 insertsmiley Inserisci emoticon
 installconvert E' necessario installare il programma ImageMagick per convertire le immagini in un formato riconosciuto dai servers di MSN. I files binari per il proprio Sistema Operativo si trovano su ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Se il programma è già installato questo messaggio può essere dovuto ad un bug, in tal caso, per favore, segnalatelo.
 internalerror Errore interno del server
+invalidfile2 Il file $1 non può essere creato, assicurati di avere i permessi necessari.
 invalidfile Il file $2 inserito nel campo "$1" non esiste o non è leggibile
+invalidpic La foto scelta non esiste
+invalidpicsize La foto scelta è troppo grande, scegline una più piccola
+invalidsound Il file audio scelto non esiste
 invalidusername Username non valido
 invitationcancelled L'invito è stato cancellato
 invite Invita
@@ -455,6 +461,7 @@ stateedittext Per favore modifica i campi che vorresti \n che fossero modificati
 stateinfo Configurazione dello stato personale
 statename Nome dello stato personale
 statenewtext Per favore inserisci le informazioni richieste per creare \n il tuo nuovo Stato Personale e premi Salva
+statenick Personalizza nick (lasciare vuoto per non modificarlo)
 state Voglio apparire come
 status Stato
 stopalarm Ferma l'allarme
