@@ -3170,6 +3170,12 @@ proc cmsn_ns_handler {item} {
 
 				if { [llength $item] == 5 } {
 					status_log "Going to receive contact list\n" blue
+					#First contact in list
+					set list_al [list]
+					set list_bl [list]
+					set list_rl [list]
+					set list_fl [list]
+					set list_users [list]
 					set loading_list_info(version) [lindex $item 2]
 					set loading_list_info(total) [lindex $item 3]
 					set loading_list_info(current) 1
@@ -3425,6 +3431,8 @@ proc cmsn_listdel {recv} {
    
    #lists_compare		;# FIX: hmm, maybe I should not run it always!
    list_users_refresh
+	global contactlist_loaded
+	set contactlist_loaded 1
    #::MSN::WriteSB ns "LST" "[lindex $recv 2]"
 }
 
@@ -4220,16 +4228,10 @@ proc new_contact_list { version } {
 
 	if { $list_version != $version } {
 
-		set list_al [list]
-		set list_bl [list]
-		set list_rl [list]
-		set list_fl [list]
-		set list_users [list]
-
 		set list_version $version
-		set contactlist_loaded 0
 
 	} else {
+
 		set contactlist_loaded 1
 
 	}
