@@ -1891,8 +1891,11 @@ namespace eval ::amsn {
 		$win.picmenu delete 0 end
 
 #Make the picture menu appear on the conversation window instead of having it in the bottom of screen (and sometime lost it if the conversation window is in the bottom of the window)
-set x [expr $x -50]
-set y [expr $y - 115]
+		global tcl_platform
+		if {$tcl_platform(os) == "Darwin"} {
+			set x [expr $x -50]
+			set y [expr $y - 115]
+		}
 
 		set chatid [::amsn::ChatFor $win]
 		set users [::MSN::usersInChat $chatid]
