@@ -5448,10 +5448,14 @@ proc cmsn_draw_online_wrapped {} {
 	$pgBuddy.text yview moveto [lindex $scrollidx 0]
 
 	#Pack what is necessary for event menu
-	pack configure .main.eventmenu.list -fill x -ipadx 10
-	pack configure .main.eventmenu -side bottom -fill x
-	::log::eventlogin
-	.main.eventmenu.list select 0
+	if { [::log::eventdisplay] } {
+		pack configure .main.eventmenu.list -fill x -ipadx 10
+		pack configure .main.eventmenu -side bottom -fill x
+		::log::eventlogin
+		.main.eventmenu.list select 0
+	} else {
+		pack forget .main.eventmenu
+	}
 
 
 }
