@@ -1,5 +1,8 @@
 amsn_lang_version 2
 allowcommands Voulez-vous autoriser les commandes dans la fenêtre de conversation ?
+allowcolours Voulez vous autoriser plusieurs couleurs dans la fenêtre de discutions ?
+allowquicktext Voulez vous utiliser la fonction Texte Rapide ?
+bold Gras
 ccolor \nVotre couleur de texte est $1
 cfont \nVotre police est $1
 cinfo \nInformation sur le contact:\n$1 \nPseudo: $2 \nGroupe: $3
@@ -17,4 +20,10 @@ cstyle \nVotre police est $1
 deleted \nVous avez supprimé $1 de votre liste\nPour ajouter à nouveau ce contact, tappez : /add $1
 groupadded \nAjout du groupe $1.
 groupdeleted \nVous avez supprimé le groupe $1 \nPour ajouter à nouveau ce groupe, tappez : /addgroup $1
+italic Italique
+multiplecolorsbutton Ajouter une nouvelle couleur
 parsenicks Voulez-vous filtrer la codification des couleurs de MSN plus dans les pseudos ?
+qthelp Ici, vous pouvez configurer un Texte Rapide, le mot-clef ainsi que le texte.\nUne fois dans la fenêtre de discutions, taper /mot-clef pour afficher le texte associé
+quicktext Textes rapides
+reset Effacer les styles
+underline Souligné
