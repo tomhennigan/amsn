@@ -2962,7 +2962,7 @@ proc cmsn_change_state {recv} {
 	}
 
 	#TODO: Change this with ::MSN::setUserInfo
-	set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj Caca]]
+	set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj]]
 	set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
 
 	cmsn_draw_online 1
