@@ -3,9 +3,11 @@ about A Propos...
 addacontact Ajouter un contact
 addedyou vous a ajouté dans sa liste de contacts
 addtoo Ajouter cette personne à ma liste de contacts
+adverts Publicité ;)
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis connecté
 appearoff Apparaître déconnecté
 are est
+autohotmaillog Identification automatique à Hotmail
 avoidseen Interdire à cette personne de me voir ou de me contacter quand je suis en ligne
 away Absent
 blankdirect Laisser vide pour une connexion sans proxy
@@ -16,6 +18,8 @@ changenick Changer de pseudonyme
 chat Discuter
 chatreq Inviter à discuter
 chatack Accepter de discuter avec
+checkver Nouvelle version
+checkingver Recherche d'une nouvelle version
 clicktologin Cliquez pour vous connecter
 close Fermer
 contactadded Contact ajouté
@@ -40,11 +44,13 @@ mustrestart Vous devez redémarrer l'application pour que les changements prennen
 mystatus Mon état
 msg Message
 msn AMSN
-newmail $1 nouveau[x] message[s] dans votre boîte aux lettres
+neweravailable nouvelle version disponible ($1)
+newmail $1 nouveau[x] message[s]
 newmailfrom Nouveau message de
 newmsg Nouveau message
 next Suivant
 noactivity Inactif
+nonewver Il n'y a pas de nouvelle version disponible
 notify prévenir
 nousersinsession Pas d'utilisateurs dans cette session
 ok Accepter
@@ -67,7 +73,7 @@ server Serveur
 sound Evénements Sonores
 title Al's Messenger
 to A
-typing $1 tappe un message
+typing $1 en train de tapper un message
 yousay Vous avez dit
 youwant Vous voulez
 unblock Débloquer
@@ -76,3 +82,33 @@ uonline Connectés
 user Utilisateur
 version Version
 willjoin Dans l'attente que $1 rejoigne la conversation
+actions Actions
+admincontacts Gérer le contacts
+admingroups Gérer les groupes
+blocked Bloqué
+browser Navigateur web
+chatsmileys Utiliser les "smileys"
+command Commande
+enableproxy Utiliser un proxy
+helpcontents Contenu de l'aide
+inbox Boite aux lettres
+listsmileys Lister les "smileys"
+loadcontacts Charger la liste de contacts
+loginas Se connecter en tant que
+mailer Programme de courrier
+openreceived Ouvrir les fichiers reçus
+options Options
+ordercontactsby Trier les contacts par
+prefapps Applications
+preferences Préférences
+prefsound Sons
+save Enregistrer
+saveas Enregistrer sous
+savecontacts Enregistrer la liste des contacts
+sendfile Envoyer un fichier
+sendmail Envoyer un email
+sendmsg Envoyer un message
+startoffline Démarrer déconnecté
+textsize Taille du texte
+tools Outils
+view Vue
