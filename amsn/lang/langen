@@ -593,7 +593,7 @@ syntaxerror Syntax Error
 tabbed Tabbed Windows
 tabbedglobal A tabbed window for all users in the contact list
 tabbedgroups A tabbed window for users from the same group
-tabtitlenick Do you want to display nicks in the tabs instead of email?
+tabtitlenick Display nicks in the tabs instead of email
 temp_state Don't save (Temporary state, will be missed when close AMSN)
 textsize Text size
 timeremaining Time remaining
@@ -639,7 +639,7 @@ view View
 webcaminvite $1 invited you to start an webcam session, but aMSN does not support this feature.
 willjoin Waiting $1 joins conversation
 winkreceived You have received a Wink from $1. This feature is not currently supported by aMSN.
-wintitlenick Do you want to display nicks in a tabbed window instead of email?
+wintitlenick Display nicks in a tabbed window instead of email
 work Work
 wrongfields The "$1", "$2" and/or "$3" fields were not valid
 wrongprofileversion Wrong profile configuration file version. In order to fix it, please remove directory $1, or update aMSN
