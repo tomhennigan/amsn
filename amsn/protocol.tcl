@@ -132,13 +132,19 @@ namespace eval ::MSN {
 
    proc changeName { userlogin newname } {
 
+      global config
+   
       set name [urlencode $newname]
       if { [string length $name] > 350} {
         set name [string range $name 0 350]
       }
 
-      ::MSN::WriteNS "REA" "$userlogin $name" \
-      	"::MSN::badNickCheck $userlogin [list $newname]"
+      if { $config(allowbadwords) } {
+         ::MSN::WriteNS "REA" "$userlogin $name" \
+      	   "::MSN::badNickCheck $userlogin [list $newname]"
+      } else {
+         ::MSN::WriteNS "REA" "$userlogin $name"
+      }
 
    }
 

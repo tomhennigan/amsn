@@ -70,6 +70,7 @@ proc ConfigDefaults {} {
 	set config(dock) 0
 	set config(autoconnect) 0
 	set config(showtimestamps) 1
+	set config(allowbadwords) 1
 	set password ""
 }
 
