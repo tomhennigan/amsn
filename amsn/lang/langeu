@@ -11,10 +11,13 @@ admincontacts Kontaktuak administratu
 admingroups Taldeak administratu
 adverts Iragarpen
 alarmpref Erabiltzailearentzat alarma aukerak
+alarmstatus Erabiltzaile honentzako alarma jarri edo kendu
 allowseen Pertsona honek konektatuta nagoela ikusi dezan eta nirekin kontaktatzeko baimendu
 appearoff Konektatuta
 aretyping $1 idazten daude
+autoconnect AMSNra konektatu hasterakoan
 autohotmaillog Hotmailen automatikoki hasi saioa
+autoidle Auto aktibitate eza
 autoip IP automatikoa
 avoidseen Pertsona honek konektatuta nagoela ikusi dezan eta nirekin kontaktatzeko galerazi
 away Ez dago
@@ -43,12 +46,20 @@ close Itzi
 closingdocks Ixteko botoiak minimizatzen du
 command Komandoa
 confirmdelete $1 ezabatzearekin ados zaude?
+confirm Zihur al zaude?
 connecterror Akatsa zerbitzarira konektatzerakoan
 contactadded Kontaktua gehituta
 contactdoesnotexist Kontaktua ez da existitzen
+copy Kopiatu
 copytogroup Taldera kopiatu
+cut Ebaki
 date Data
 delete Ezabatu
+dockgtk Gnome ikonoa
+dockingoff Desaktibatuta
+docking Sistemako bandejan ikonoa
+dockkde KDE ikonoa
+edit Editatu
 enableproxy Proxya gaitu
 encoding Kodeatzen
 entercontactemail Kontaktuaren e-posta sartu
@@ -57,6 +68,7 @@ enternick Zure ezizena sartu
 examples Adibideak
 exitamsn Zihur programatik atera nahi zarela?
 extras Zerbitzu osagarriak
+faq MEG Maiz Egiten diren Galderak
 filedoesnotexist Fitxategia ez da existitzen
 filename Fitxategi-izena
 filetransfercancelled Fitxategien transferentzia bertan behera utzita
@@ -86,6 +98,7 @@ invite Gonbidatu
 ipaddress IP Helbidea
 istyping $1 mezu bat idazten dago
 joins $1 berriketan sartzen da
+keepalive Konexioa ez eten (NAT)
 language Hizkuntza
 lastmsgtime Azken mezuaren ordua
 leaveblankforhotmail Zuriz utzi Hotmailen weba erabiliko baduzu
@@ -106,6 +119,7 @@ msg Mezua
 msn AMSN
 mustrestart Aldaketak aplikatzeko programa berrabiarazi behar duzu
 mystatus Nire egoera
+natip Webaren bitartez IP-a detektaturik
 needonline Oraindik deskonektatuta zaude edo deskonektatuta ematen duzu!
 newmail $1 mezu berri zure sarrera-bandejan
 newmailfrom -ren mezu berria
@@ -116,6 +130,7 @@ noactivity Ez dago aktibitaterik
 nonewmail 0 mezu berri zure sarrera-bandejan
 nonewver Ez dago bertsio berriagorik deskargatzeko erabilgarri
 notify jakinarazi
+notifywin Abisuen leihoa
 nousersinsession Ez dago erabiltzailerik saioan
 offline Deskonektatuta
 ok Ok
@@ -128,6 +143,7 @@ ordercontactsby Kontaktuak ordenatu
 other Beste bat
 pager Bilagailu
 pass Pasahitza
+paste Itsatsi
 phone Telefonoa
 picfile Alarmaren irudiaren fitxategia (GIF < 500 x 500)
 picstatus Alarmaren irudia ON/OFF
@@ -175,6 +191,7 @@ uoffline Deskonektatuta
 uonline Konektatuta
 useralreadyonlist Erabiltzailea kontaktuen zerrendan dago jada
 user Erabiltzaile
+usernotonline Erabiltzailea ez dago konektaturik
 version Bertsioa
 view Ikuspegia
 willjoin $1 berriketan sartzera itxaroten

@@ -67,7 +67,7 @@ entercontactemail Introduce el email del contacto
 enterfilename Introduce el nombre del archivo
 enternick Introduce tu apodo
 examples Ejemplos
-exitamsn ¿Estás seguro de que desear salir?
+exitamsn ¿Está seguro de que desea salir?
 extras Servicios Adicionales
 faq FAQ (Preguntas frecuentes)
 filedoesnotexist El archivo no existe
@@ -136,7 +136,7 @@ nousersinsession No hay usuarios en la sesión
 offline Desconectado
 ok Aceptar
 onenewmail 1 mensaje nuevo en bandeja de entrada
-online Conectado
+online En línea
 onphone Al teléfono
 openreceived Abrir archivos recibidos
 options Opciones
@@ -192,6 +192,7 @@ uoffline Desconectados
 uonline Conectados
 useralreadyonlist El usuario ya se encuentra en la lista de contactos.
 user Usuario
+usernotonline El usuario no se encuentra en línea
 version Versión
 view Ver
 willjoin Esperando que $1 se una a la conversación

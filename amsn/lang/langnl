@@ -15,6 +15,7 @@ alarmstatus Schakel alarm aan/uit voor de huidige gebruiker
 allowseen Sta deze persoon toe om te zien wanneer ik online ben en om mij
 appearoff Doe alsof je offline bent
 aretyping $1 zijn bezig met typen
+autoconnect Automatisch inloggen
 autohotmaillog Automatisch inloggen bij Hotmail
 autoidle Automatisch afwezig
 autoip Automatisch IP
@@ -196,6 +197,7 @@ uoffline Offline
 uonline Online
 useralreadyonlist Gebruiker staat al in uw lijst
 user Gebruiker
+usernotonline De gebruiker is offline
 version Versie
 view Beeld
 willjoin Wachten tot $1 de conversatie zal bijwonen

@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Om
+accept Accepter
 acceptfile Accepter fil $1, størrelse $2? Gemt i $3
 actions Handlinger
 addacontact Tilføj en kontakt
@@ -9,26 +10,32 @@ addtoo Tilføj denne person til min kontakt liste
 admincontacts Admin kontakter
 admingroups Admin grupper
 adverts Reklamer
+alarmpref Alarm instillinger for bruger
+alarmstatus Slå Alarm TIL/FRA på bruger
 allowseen Tillad denne person at se når jeg er online
 appearoff Vis som offline
 aretyping $1 skriver en besked
+autoconnect Log på ved start
 autohotmaillog Hotmail autologin
+autoidle Automatisk IngenAktivitet
 autoip Automatisk IP
 avoidseen Undlad at denne person kan se når jeg er online
 away Ikke til stede
 baduserpass Forkert brugernavn eller password
-blankdirect Forbliv tom for direkte forbindelse
+blankdirect Efterlad blank for direkte forbindelse
 block Bloker
 blocked Blokeret
 broughtby Bragt til dig af følgende udviklere
+browse Browse
 browser Browser
 busy Travlt
 cancel Annuller
-changenick Ændre nick
-chatack Accepter chat fra
+cfgalarm Konfigurer/Tilføj/Fjern Alarm
+changenick Skift kaldenavn
+chatack Accepterer chat fra
 chat Chat
 chatreq Forespørg chat
-chatsmileys Chat smilier
+chatsmileys Chat smileys
 checkingver Tjekker for ny version
 checkver Tjek for ny version
 choosebasefont Vælg skrifttype
@@ -37,14 +44,22 @@ choosefontcolor Vælg skrifttype farve
 clicktologin Klik her for at logge ind
 close Luk
 closingdocks Luk knap minimerer vinduet
-command Program kald
+command Kommando
 confirmdelete Er du sikker på at du vil slette $1?
-connecterror Fejl i forbindelse til server
+confirm Er du sikker?
+connecterror Kunne ikke få forbindelse til server
 contactadded Kontakt tilføjet
 contactdoesnotexist Kontakt eksisterer ikke!
+copy Kopier
 copytogroup Kopier til gruppe
+cut Klip
 date Dato
 delete Slet
+dockgtk Gnome Minimer
+docking Minimer
+dockingoff Minimer Ikke
+dockkde KDE Minimer
+edit Rediger
 enableproxy Tilslut proxy
 encoding Vælg encoding
 entercontactemail Skriv kontakt E-mail
@@ -53,10 +68,13 @@ enternick Skriv dit nick
 examples Eksempler
 exitamsn Er du sikker på at du vil afslutte?
 extras Ekstra Services
+faq FAQ (Ofte Stillede Spørgsmål)
 filedoesnotexist Filen eksisterer ikke
 filename Filnavn
 filetransfercancelled Fil overførsel annulleret
-filetransfercomplete Fil overførsel komplet
+filetransfercomplete Fil overførsel fuldført
+ftaccepted Fil overførsel accepteret
+ftrejected Fil overførsel afvist
 gonelunch Til frokost
 groupadd Tilføj en gruppe
 groupdelete Slet en gruppe
@@ -73,20 +91,21 @@ helpcontents Hjælp indhold
 help Hjælp
 home Hjem
 ident Identificerer
-identity Identitet
-inbox In-Box
+identity Identiter
+inbox Indbakke
 invalidusername Ugyldigt bruger navn
 invite Inviter
 ipaddress IP Adresse
 istyping $1 skriver en besked
-joins $1 tilslutter sig samtale
+joins $1 tilslutter sig samtalen
+keepalive Hold i live (NAT)
 language Sprog
-lastmsgtime Sidste besked er modtaget klokken $1
+lastmsgtime Sidste besked blev modtaget klokken $1
 leaveblankforhotmail Efterlad blank for at bruge hotmail web
-leaves $1 forlader samtale
+leaves $1 forlader samtalen
 listeningon Lytter på port $1
-listsmileys Liste af smilier
-loadcontacts Hent kontakt liste
+listsmileys Liste af smileys
+loadcontacts Hent kontaktliste
 loggedotherlocation Afbrudt. Logget ind fra andet sted
 loggingin Logger Ind
 loginas Log ind som
@@ -98,22 +117,24 @@ mobile Mobil
 movetogroup Flyt til gruppe
 msg Besked
 msn AMSN
-mustrestart Du skal genstarte dit program for at ændringerne træder i kraft
+mustrestart Du skal genstarte programmet for at ændringerne træder i kraft
 mystatus Min status
-needonline Du er/forestiller at være offline!
-newmail $1 nye beskeder i In-Box
+natip Check IP via Internet side
+needonline Du er/forestiller stadig at være offline!
+newmail $1 nye beskeder i Indbakken
 newmailfrom Ny mail fra
 newmsg Ny besked
-newveravailable Ny verson $1 tilgængelig
+newveravailable Det er nu muligt at download den nye version $1
 next Næste
 noactivity Ingen aktivitet
-nonewmail 0 nye beskeder i In-Box
+nonewmail Der er ingen nye beskeder i Indbakken
 nonewver Der er ikke nogen ny version at downloade
 notify giv besked
+notifywin Besked vindue
 nousersinsession Ingen brugere i session
 offline Offline
 ok Ok
-onenewmail 1 ny besked i In-Box
+onenewmail 1 ny besked i Indbakken
 online Online
 onphone I telefon
 openreceived Åben modtaget fil
@@ -122,9 +143,12 @@ ordercontactsby Sorter kontakter efter
 other Andre
 pager Pager
 pass Password
+paste Sæt ind
 phone Telefon
+picfile Billed Fil (GIF < 500 x 500)
+picstatus Billed Alarm
 port Port
-prefapps Applikationer
+prefapps Programmer
 preferences Egenskaber
 prefsound Lyd
 properties Indstillinger
@@ -132,9 +156,10 @@ proxyconfhttp HTTP proxy support konfiguration
 proxyconf Proxy konfiguration
 publishphones Vise mine telefon numre
 receivedbytes Modtaget $1 af $2 bytes
-receivefile Modtager fil
+receivefile Modtag fil
 reconnecting Genforbinder til server
 reconnect Venter på at $1 genforbinder
+reject Afvis
 rememberpass Husk password
 rightback Er straks tilbage
 saveas Gem som
@@ -149,9 +174,13 @@ send Send
 sentbytes Har sendt $1 af $2 bytes
 servergoingdown Afbrudt. Server lukker ned.
 server Server
+soundfile Lydfil
+soundloop Gentag Lyd
 sound Lyd
+soundstatus Lyd Alarm
 startoffline Start Offline
 status Status
+stopalarm Stop Alarm
 syntaxerror Syntax Error
 textsize Tekst størrelse
 title Al's Messenger
@@ -160,11 +189,12 @@ to Til
 unblock Fjern blokkering
 uoffline Offline
 uonline Online
-useralreadyonlist Bruger er allerede på din kontakt liste
+useralreadyonlist Brugeren er allerede på din kontakt liste
 user Bruger
+usernotonline Brugeren er ikke online
 version Version
 view Vis
-willjoin Venter på at $1 joiner samtale
+willjoin Venter på at $1 tilslutter sig til samtalen
 work Arbejde
 yousay Du siger
-youwant Du vil
+youwant Du vil have

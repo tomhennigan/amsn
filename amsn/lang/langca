@@ -15,6 +15,7 @@ alarmstatus Engegar/Parar l'alarma per aquest usuari
 allowseen Deixa que aquesta persona vegi si estic connectat i que contacti amb mi
 appearoff Simula desconnexió
 aretyping $1 estan escrivint un missatge
+autoconnect Connectar-se al iniciar l'AMSN
 autohotmaillog Connectar-se a Hotmail automàticament
 autoidle Canviar a "Sense activitat" de manera automàtica
 autoip IP Automàtica
@@ -179,7 +180,7 @@ soundfile Fitxer de So de l'Alarma
 soundloop So Repetitiu
 sound So en un event
 soundstatus Engegar/Parar el So d'Alarma
-startoffline Començar desconnectat
+startoffline Iniciar la connexió en l'estat "Simula desconnexió"
 status Estat
 stopalarm Parar l'Alarma
 syntaxerror  Error de sintàxi
@@ -191,6 +192,7 @@ unblock Desbloquejar
 uoffline Desconnectats
 uonline Connectats
 useralreadyonlist L'usuari ja és a la llista de contactes
+usernotonline L'usuari no està connectat
 user Ususari
 version Versió
 view Veure

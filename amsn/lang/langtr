@@ -1,7 +1,7 @@
 amsn_lang_version 2
 about Hakkinda
-accept Kabul et
 acceptfile $1 dosyasi aktariliyor; boyut $2 bayt; kaydedilen konum $3  
+accept Kabul et
 actions Eylemler
 addacontact Yeni baglanti ekle
 addedyou sizi baglanti listesine ekledi
@@ -17,15 +17,15 @@ appearoff Çevrimdisi görün
 aretyping $1 ileti yaziyor
 autoconnect Açilista kendiliginden baglan
 autohotmaillog Hotmail'e otomatik giris
-autoidle Otomatik EylemYok ayari 
+autoidle Otomatik EtkinlikYok özelligi 
 autoip Otomatik IP
 avoidseen Bu kisi ben çevrimiçiyken beni göremesin ve bana yazamasin
 away Uzakta
 baduserpass Yanlis kullanici ismi ya da sifresi
 blankdirect Dogrudan baglanti için bos birakin
-block Engelle
 blocked Engellenmis
-broughtby asagidaki gelistirciler tarafindan tasarlanmistir
+block Engelle
+broughtby Yazilimi gelistirenler:
 browse gözat
 browser internet tarayici
 busy Mesgul
@@ -33,9 +33,9 @@ cancel Iptal Et
 cfgalarm Alarmi Düzenle/Ekle/Kaldir
 changenick Kullanici adi degistir
 chatack Sohbet istemi kabul edilen kisi
-chat Sohbet et
 chatreq Sohbet istemi
 chatsmileys Gülen adamlar
+chat Sohbet et
 checkingver Yeni sürüm araniyor
 checkver Yeni sürüm ara
 choosebasefont Yazitipini seç
@@ -43,12 +43,11 @@ choosebgcolor Arkaplan rengini seç
 choosefontcolor Yazi rengini seç
 clicktologin Baglanmak için tiklayin
 close Kapat
-closingdocks Kapatma tusu küçülsün
+closingdocks Kapatma tusu küçültsün
 command komut
-confirm Emin misiniz?
 confirmdelete $1 i silmek istediginizden emin misiniz?
+confirm Emin misiniz?
 connecterror Sunucuya baglanirken hata olustu
-
 contactadded Baglanti eklendi
 contactdoesnotexist Böyle bir baglanti yok!
 copy Kopyala
@@ -56,9 +55,9 @@ copytogroup Gruba kopyala
 cut Kes
 date Tarih
 delete Sil
+dockgtk Gnome'da küçültme
 docking Küçültme 
 dockingoff Küçültme olsun
-dockgtk Gnome'da küçültme
 dockkde KDE'de küçültme
 edit Düzenle
 enableproxy proxy ayarlarini etkinlestir
@@ -75,6 +74,7 @@ filename Dosya adi
 filetransfercancelled Dosya aktarimi iptal edildi
 filetransfercomplete Dosya aktarimi tamamlandi
 ftaccepted Dosya aktarimi kabul edildi
+ftrejected Dosya transferi reddedildi
 gonelunch Yemekte
 groupadd Grup Ekle
 groupdelete Grup Sil
@@ -90,8 +90,8 @@ handle Isim
 helpcontents Yardim içerigi
 help Yardim
 home Ev
-ident Kimlik denetleniyor
 identity Kimlik
+ident Kimlik denetleniyor
 inbox Gelen kutusu
 invalidusername Geçersiz kullanici ismi
 invite Davet et
@@ -121,8 +121,8 @@ mustrestart Yeniliklerin etkinlesmesi için uygulamayi yeniden baslatmalisiniz
 mystatus Durumum
 natip Internet sayfasindan IP belirlenmesi
 needonline Hala çevrimdisi görünüyorsunuz!
-newmail Gelen kutunuzda $1 yeni ileti var
 newmailfrom Yeni ileti gönderen:
+newmail Gelen kutunuzda $1 yeni ileti var
 newmsg Yeni ileti
 newveravailable Yeni $1 sürümü indirilmeye hazir
 next sonraki
@@ -157,8 +157,8 @@ proxyconf Proxy ayarlari
 publishphones Telefon numarami göster
 receivedbytes $2 baytin $1 (s)i alindi
 receivefile Dosyayi al
-reconnecting Sunucuya yeniden baglaniliyor
 reconnect $1 in yeniden baglanmasi bekleniyor
+reconnecting Sunucuya yeniden baglaniliyor
 reject Geri çevir
 rememberpass sifreyi hatirla
 rightback Hemen dönecegim
@@ -168,18 +168,19 @@ save Kaydet
 says $1 diyor ki
 sbcon Switch Board'a baglaniyor
 sendfile Dosya gönder
+send Gönder
 sendmail E-posta gönder
 sendmsg Ileti günder
-send Gönder
 sentbytes $2 baytin $1 (s)i gönderildi
 servergoingdown Sunucu kapaniyor: Baglanti kesildi
 server Sunucu
-sound Ses
 soundfile Alarm ses dosyasi
 soundloop Ses tekrarlasin
+sound Ses
 soundstatus Sesli alarmi aç/kapa
 startoffline Çevrimdisi olarak basla
 status Durum
+stopalarm Alarmi durdur!
 syntaxerror Yazim hatasi
 textsize Metin boyutu
 title Al'in Messenger'i
@@ -190,16 +191,10 @@ uoffline Çevrimdisi
 uonline Çevrimiçi
 useralreadyonlist Kullanici zaten baglanti listesinde
 user Kullanici
+usernotonline Bu kullanici bagli degil
 version Sürüm
 view Görünüm
 willjoin $1 in sohbete katilmasi bekleniyor
 work Is
 yousay Diyorsunuz ki
 youwant Istiyorsunuz ki
-
-
-
-
-
-
-
