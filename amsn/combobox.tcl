@@ -256,6 +256,8 @@ proc ::combobox::Init {} {
 	option add *Combobox.editable            1      widgetDefault
 	option add *Combobox.maxHeight           10     widgetDefault
 	option add *Combobox.height              0
+	#Modified by Jerome, to get a different arrow on combobox
+	option add *Combobox.image "[::skin::loadPixmap arrow]" widgetDefault
     }
 
     # set class bindings
@@ -1647,11 +1649,11 @@ proc ::combobox::Configure {w args} {
 	    
 	    -image {
 		if {[string length $newValue] > 0} {
-		    puts "old button width: [$widgets(button) cget -width]"
+		    #puts "old button width: [$widgets(button) cget -width]"
 		    $widgets(button) configure \
 			-image $newValue \
 			-width [expr {[image width $newValue] + 2}]
-		    puts "new button width: [$widgets(button) cget -width]"
+		    #puts "new button width: [$widgets(button) cget -width]"
 		    
 		} else {
 		    $widgets(button) configure -image ::combobox::bimage

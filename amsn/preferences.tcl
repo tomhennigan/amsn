@@ -975,10 +975,10 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.pname -image [::skin::loadPixmap prefpers]
 	frame $lfname.1.name -class Degt
 	label $lfname.1.name.label -text "[trans enternick] :" -font sboldf -padx 10
-	entry $lfname.1.name.entry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 45
+	entry $lfname.1.name.entry -bg #FFFFFF -font splainf -width 45
 	frame $lfname.1.p4c -class Degt
 	label $lfname.1.p4c.label -text "[trans friendlyname] :" -font sboldf -padx 10
-	entry $lfname.1.p4c.entry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 45
+	entry $lfname.1.p4c.entry -bg #FFFFFF -font splainf -width 45
 	pack $lfname.pname -anchor nw -side left
 	pack $lfname.1 -side top -padx 0 -pady 3 -expand 1 -fill both
 	pack $lfname.1.name.label $lfname.1.name.entry -side left
@@ -999,7 +999,7 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.pfont -image [::skin::loadPixmap preffont]
 	label $lfname.lfont -text [trans preffont2] -padx 10
-	button $lfname.bfont -text [trans changefont] -font sboldf -command "change_myfont cfg"
+	button $lfname.bfont -text [trans changefont] -command "change_myfont cfg"
 	pack $lfname.pfont $lfname.lfont -side left
 	pack $lfname.bfont -side right -padx 15
 
@@ -1013,18 +1013,18 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.1.lphone -text [trans prefphone2] -padx 10
 	pack $lfname.1.lphone -fill both -side left
 	label $lfname.2.lphone1 -text "[trans countrycode] :" -padx 10 -font sboldf
-	entry $lfname.2.ephone1 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5
+	entry $lfname.2.ephone1 -bg #FFFFFF -font splainf  -width 5
 	label $lfname.2.lphone21 -text "[trans areacode]" -pady 3
 	label $lfname.2.lphone22 -text "[trans phone]" -pady 3
 	label $lfname.2.lphone3 -text "[trans myhomephone] :" -padx 10 -font sboldf
-	entry $lfname.2.ephone31 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5	
-	entry $lfname.2.ephone32 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20
+	entry $lfname.2.ephone31 -bg #FFFFFF -font splainf  -width 5	
+	entry $lfname.2.ephone32 -bg #FFFFFF  -font splainf  -width 20
 	label $lfname.2.lphone4 -text "[trans myworkphone] :" -padx 10 -font sboldf
-	entry $lfname.2.ephone41 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5	
-	entry $lfname.2.ephone42 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20
+	entry $lfname.2.ephone41 -bg #FFFFFF  -font splainf  -width 5	
+	entry $lfname.2.ephone42 -bg #FFFFFF  -font splainf  -width 20
 	label $lfname.2.lphone5 -text "[trans mymobilephone] :" -padx 10 -font sboldf
-	entry $lfname.2.ephone51 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5	
-	entry $lfname.2.ephone52 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20
+	entry $lfname.2.ephone51 -bg #FFFFFF  -font splainf  -width 5	
+	entry $lfname.2.ephone52 -bg #FFFFFF  -font splainf  -width 20
     checkbutton $lfname.2.mobphone -text "[trans allow_sms]" -onvalue "Y" -offvalue "N" -variable pager
         
     
@@ -1157,12 +1157,12 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
 	checkbutton $lfname.1.lautonoact -text "[trans autonoact]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoidle] -command UpdatePreferences
-	entry $lfname.1.eautonoact -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -textvariable [::config::getVar idletime]
+	entry $lfname.1.eautonoact -bg #FFFFFF -font splainf   -width 3 -textvariable [::config::getVar idletime]
 	label $lfname.1.lmins -text "[trans mins]" -padx 5
 	pack $lfname.1 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.1.lautonoact $lfname.1.eautonoact $lfname.1.lmins -side left
 	checkbutton $lfname.2.lautoaway -text "[trans autoaway]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoaway] -command UpdatePreferences
-	entry $lfname.2.eautoaway -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -textvariable [::config::getVar awaytime]
+	entry $lfname.2.eautoaway -bg #FFFFFF -font splainf   -width 3 -textvariable [::config::getVar awaytime]
 	label $lfname.2.lmins -text "[trans mins]" -padx 5
 	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.2.lautoaway $lfname.2.eautoaway $lfname.2.lmins -side left
@@ -1483,13 +1483,13 @@ proc Preferences { { settings "personal"} } {
 
 		
 	label $lfname.5.lserver -text "[trans server] :" -padx 5 -font sboldf
-	entry $lfname.5.server -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20 -textvariable proxy_server
+	entry $lfname.5.server -bg #FFFFFF  -font splainf  -width 20 -textvariable proxy_server
 	label $lfname.5.lport -text "[trans port] :" -padx 5 -font sboldf
-	entry $lfname.5.port -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5 -textvariable proxy_port
+	entry $lfname.5.port -bg #FFFFFF  -font splainf  -width 5 -textvariable proxy_port
 	label $lfname.5.luser -text "[trans user] :" -padx 5 -font sboldf
-	entry $lfname.5.user -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20 -textvariable proxy_user
+	entry $lfname.5.user -bg #FFFFFF  -font splainf  -width 20 -textvariable proxy_user
 	label $lfname.5.lpass -text "[trans pass] :" -padx 5 -font sboldf
-	entry $lfname.5.pass -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20 -show "*" -textvariable proxy_pass
+	entry $lfname.5.pass -bg #FFFFFF  -font splainf  -width 20 -show "*" -textvariable proxy_pass
 	grid $lfname.5.lserver -row 2 -column 1 -sticky e
 	grid $lfname.5.server -row 2 -column 2 -sticky w -pady 5
 	grid $lfname.5.lport -row 2 -column 3 -sticky e
@@ -1510,14 +1510,14 @@ proc Preferences { { settings "personal"} } {
         checkbutton $lfname.1.autoaccept -text "[trans autoacceptft]" -onvalue 1 -offvalue 0 -variable [::config::getVar ftautoaccept]
 	frame $lfname.1.ftport -class Deft
 	label $lfname.1.ftport.text -text "[trans ftportpref] :" -padx 5 -font splainf
-	entry $lfname.1.ftport.entry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5 -textvariable [::config::getVar initialftport]
+	entry $lfname.1.ftport.entry -bg #FFFFFF  -font splainf  -width 5 -textvariable [::config::getVar initialftport]
 	grid $lfname.1.ftport.text -row 1 -column 1 -sticky w -pady 5 -padx 0
 	grid $lfname.1.ftport.entry -row 1 -column 2 -sticky w -pady 5 -padx 3
 
         checkbutton $lfname.1.autoip -text "[trans autodetectip]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoftip] -command UpdatePreferences
 	frame $lfname.1.ipaddr -class Deft
 	label $lfname.1.ipaddr.text -text "[trans ipaddress] :" -padx 5 -font splainf
-	entry $lfname.1.ipaddr.entry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 15 -textvariable [::config::getVar manualip]
+	entry $lfname.1.ipaddr.entry -bg #FFFFFF -font splainf  -width 15 -textvariable [::config::getVar manualip]
 	grid $lfname.1.ipaddr.text -row 1 -column 1 -sticky w -pady 5 -padx 0
 	grid $lfname.1.ipaddr.entry -row 1 -column 2 -sticky w -pady 5 -padx 3	
 		
@@ -1536,7 +1536,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.1.eremote  -anchor w -side top -padx 10
 	pack $lfname.1 $lfname.2  -anchor w -side top -padx 0 -pady 0 -expand 1 -fill both
 	label $lfname.2.lpass -text "[trans pass] :" -padx 5 -font sboldf
-	entry $lfname.2.pass -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20 -show "*"
+	entry $lfname.2.pass -bg #FFFFFF  -font splainf  -width 20 -show "*"
 	grid $lfname.2.lpass -row 2 -column 3 -sticky e
 	grid $lfname.2.pass -row 2 -column 4 -sticky w
 
@@ -1579,23 +1579,23 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -expand 0 -fill both
 	label $lfname.1.lbrowser -text "[trans browser] :" -padx 5 -font sboldf
-	entry $lfname.1.browser -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable [::config::getVar browser]
+	entry $lfname.1.browser -bg #FFFFFF   -width 40 -textvariable [::config::getVar browser]
 	label $lfname.1.lbrowserex -text "[trans browserexample]" -font examplef
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		#Empty because we don't change filemanager and open file manager on Mac OS X
 	} else {
 		#file manager
 		label $lfname.1.lfileman -text "[trans fileman] :" -padx 5 -font sboldf
-		entry $lfname.1.fileman -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable [::config::getVar filemanager]
+		entry $lfname.1.fileman -bg #FFFFFF   -width 40 -textvariable [::config::getVar filemanager]
 		label $lfname.1.lfilemanex -text "[trans filemanexample]" -font examplef
 		#open file command
 		label $lfname.1.lopenfile -text "[trans openfilecommand] :" -padx 5 -font sboldf
-		entry $lfname.1.openfile -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable [::config::getVar openfilecommand]
+		entry $lfname.1.openfile -bg #FFFFFF   -width 40 -textvariable [::config::getVar openfilecommand]
 		label $lfname.1.lopenfileex -text "(gnome : gnome-open \$file)(kde : kfmclient exec \$file)" -font examplef
 	}
 	
 	label $lfname.1.lmailer -text "[trans mailer] :" -padx 5 -font sboldf
-	entry $lfname.1.mailer -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable [::config::getVar mailcommand]
+	entry $lfname.1.mailer -bg #FFFFFF  -width 40 -textvariable [::config::getVar mailcommand]
 	label $lfname.1.lmailerex -text "[trans mailerexample]" -font examplef
 	
 	#aMSN for Mac OS X always use "QuickTimeTCL" (except in Alarms) so don't let mac user choose sound player
@@ -1609,7 +1609,7 @@ proc Preferences { { settings "personal"} } {
 		pack $lfname.1.sound.snack -anchor w -side top -padx 10
 		radiobutton $lfname.1.sound.other -text "[trans useother]" -value 0 -variable [::config::getVar usesnack] -command UpdatePreferences
 		pack $lfname.1.sound.other -anchor w -side top -padx 10
-		entry $lfname.1.sound.sound -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable [::config::getVar soundcommand]
+		entry $lfname.1.sound.sound -bg #FFFFFF  -width 40 -textvariable [::config::getVar soundcommand]
 		pack $lfname.1.sound.sound -anchor w -side top -padx 10
 		label $lfname.1.sound.lsoundex -text "[trans soundexample]" -font examplef
 		pack $lfname.1.sound.lsoundex -anchor w -side top -padx 10
@@ -1653,7 +1653,7 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill none
 	label $lfname.1.receivedpath -text [trans receiveddir] -padx 5 -font sboldf
-	entry $lfname.1.receiveddir -bg #FFFFFF -bd 1 -width 45 -highlightthickness 0 -textvariable [::config::getVar receiveddir]
+	entry $lfname.1.receiveddir -bg #FFFFFF -width 45  -textvariable [::config::getVar receiveddir]
 	button $lfname.1.browse -text [trans browse] -command "Browse_Dialog_dir [::config::getVar receiveddir]"
 
 	grid $lfname.1.receivedpath -row 1 -column 1 -sticky w
@@ -1670,7 +1670,7 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill none
 	label $lfname.1.lconvertpath -text "CONVERT" -padx 5 -font sboldf
-	entry $lfname.1.convertpath -bg #FFFFFF -bd 1 -width 45 -highlightthickness 0 -textvariable [::config::getVar convertpath]
+	entry $lfname.1.convertpath -bg #FFFFFF  -width 45 -textvariable [::config::getVar convertpath]
 	label $lfname.1.lconvertpathexp -text [trans convertexplain] -justify left -font examplef
 	button $lfname.1.browseconv -text [trans browse] -command "Browse_Dialog_file [::config::getVar convertpath]"
 
@@ -1704,9 +1704,9 @@ proc Preferences { { settings "personal"} } {
 	frame $path.2 -class Degt
 
 	label $path.2.delimiters -text "[trans delimiters]" -padx 5
-	entry $path.2.ldelimiter -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -textvariable [::config::getVar leftdelimiter]
+	entry $path.2.ldelimiter -bg #FFFFFF  -font splainf   -width 3 -textvariable [::config::getVar leftdelimiter]
 	label $path.2.example -text "HH:MM:SS" -padx 5
-	entry $path.2.rdelimiter -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -textvariable [::config::getVar rightdelimiter]
+	entry $path.2.rdelimiter -bg #FFFFFF -font splainf   -width 3 -textvariable [::config::getVar rightdelimiter]
 	pack $path.2 -side top -padx 0 -fill x
 	pack $path.2.delimiters $path.2.ldelimiter $path.2.example $path.2.rdelimiter -side left
 
@@ -2496,7 +2496,7 @@ proc ChooseFilename { twn title } {
       pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
 
     frame $w.filename -bd 2 -class Degt
-     entry $w.filename.entry -relief sunken -width 40
+     entry $w.filename.entry  -width 40
      label $w.filename.label -text "[trans filename]:"
      pack $w.filename.entry -side right
      pack $w.filename.label -side left
@@ -2536,7 +2536,7 @@ proc LabelEntry { path lbl variable width } {
     frame $path -class Degt
 	label $path.lbl -text $lbl -justify left \
 	    -font splainf
-	entry $path.ent -textvariable $variable -relief sunken \
+	entry $path.ent -textvariable $variable  \
 	    -width $width -font splainf -background #FFFFFF
 	pack $path.lbl -side left -anchor e
 	pack $path.ent -side left -anchor e -expand 1 -fill x -padx 3

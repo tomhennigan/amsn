@@ -148,7 +148,6 @@ namespace eval ::amsn {
 
 	proc initLook { family size bgcolor} {
 		global tcl_platform
-
 		font create menufont -family $family -size $size -weight normal
 		font create sboldf -family $family -size $size -weight bold
 		font create splainf -family $family -size $size -weight normal
@@ -187,6 +186,7 @@ namespace eval ::amsn {
 			option add *Listbox.selectBackground #4a6984 widgetDefault
 
 			option add *Entry.background white widgetDefault
+			option add *Entry.borderWidth 1 widgetDefault
 			option add *Entry.foreground black widgetDefault
 			option add *Entry.selectBorderWidth 0 widgetDefault
 			option add *Entry.selectForeground white widgetDefault
@@ -234,6 +234,7 @@ namespace eval ::amsn {
 		option add *Font splainf userDefault
 		#Use different width for scrollbar on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			option add *Entry.borderWidth 0 widgetDefault
 			option add *background #ECECEC
 			option add *highlightbackground #ECECEC
 			option add *Scrollbar.width 15 userDefault
@@ -3253,8 +3254,10 @@ proc cmsn_draw_main {} {
 	[::skin::loadPixmap nullimage] blank
 	if { $tcl_platform(os) == "Darwin" } {
 		::skin::setPixmap logolinmsn logomacmsn.gif
+		::skin::setPixmap arrow arrowmac.gif
 	} else {
 		::skin::setPixmap logolinmsn logolinmsn.gif
+		::skin::setPixmap arrow arrow.gif
 	}
 	
 	set pgBuddyTop $pgBuddy.top
@@ -4064,7 +4067,7 @@ proc cmsn_draw_login {} {
 
 	radiobutton $mainframe.button -text [trans defaultloginradio] -value 0 -variable loginmode -command "RefreshLogin $mainframe"
 	label $mainframe.loginlabel -text "[trans user]: " -font sboldf
-	entry $mainframe.loginentry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 25
+	entry $mainframe.loginentry -bg #FFFFFF -font splainf -width 25
 	if { [::config::getGlobalKey disableprofiles]!=1} { grid $mainframe.button -row 1 -column 1 -columnspan 2 -sticky w -padx 10 }
 	grid $mainframe.loginlabel -row 2 -column 1 -sticky e -padx 10
 	grid $mainframe.loginentry -row 2 -column 2 -sticky w -padx 10
@@ -4083,8 +4086,8 @@ proc cmsn_draw_login {} {
 	}
 
 	label $mainframe.passlabel -text "[trans pass]: " -font sboldf
-	entry $mainframe.passentry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 25 -show "*"
-	entry $mainframe.passentry2 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 25 -show "*"
+	entry $mainframe.passentry -bg #FFFFFF  -font splainf  -width 25 -show "*"
+	entry $mainframe.passentry2 -bg #FFFFFF  -font splainf  -width 25 -show "*"
 	checkbutton $mainframe.remember -variable [::config::getVar save_password] \
 		-text "[trans rememberpass]" -font splainf -highlightthickness 0 -pady 5 -padx 10
 	#checkbutton $mainframe.offline -variable [::config::getVar startoffline] \
@@ -5396,7 +5399,7 @@ proc cmsn_draw_addcontact {} {
 	wm title .addcontact "[trans addacontact] - [trans title]"
 
 	label .addcontact.l -font sboldf -text "[trans entercontactemail]:"
-	entry .addcontact.email -width 50 -bg #FFFFFF -bd 1 -font splainf
+	entry .addcontact.email -width 50 -bg #FFFFFF -font splainf
 	label .addcontact.example -font examplef -justify left \
 		-text "[trans examples]:\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com"
 
@@ -5598,13 +5601,13 @@ proc cmsn_change_name {} {
 
 	frame $w.fn
 	label $w.fn.label -font sboldf -text "[trans enternick]:"
-	entry $w.fn.name -width 40 -bg #FFFFFF -bd 1 -font splainf
+	entry $w.fn.name -width 40 -bg #FFFFFF -font splainf
 	button $w.fn.smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
 	button $w.fn.newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3 -command "$w.fn.name insert end \"\n\""
 
 	frame $w.p4c
 	label $w.p4c.label -font sboldf -text "[trans friendlyname]:"
-	entry $w.p4c.name -width 40 -bg #FFFFFF -bd 1 -font splainf
+	entry $w.p4c.name -width 40 -bg #FFFFFF -font splainf
 	button $w.p4c.smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
 	button $w.p4c.newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3 -command "$w.p4c.name insert end \"\n\""
 

@@ -304,7 +304,7 @@ namespace eval ::config {
 
 		#Specific configs for Mac OS X (Aqua) first, and for others systems after
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			setGlobalKey basefont [list {Lucida Grande} 11 normal]	;#AMSN Mac OS X base font
+			setGlobalKey basefont [list {Lucida Grande} 12 normal]	;#AMSN Mac OS X base font
 		} elseif {$tcl_platform(platform) == "windows"} {
 			setGlobalKey basefont [list Arial 10 normal]
 		} else {
@@ -586,6 +586,13 @@ proc load_config {} {
 					}
 				}			
 			}
+	}
+	#Sometimes, if there is a bugreport when opening a new window, the size of the window savez will be 1x1
+	if {[::config::getKey winchatsize]=="1x1"} {
+		::config::setKey winchatsize "350x320"
+	}
+	if {[::config::getKey wincontainersize]=="1x1"} {
+		::config::setKey wincontainersize "350x320"
 	}
 
 	#Get the encripted password
