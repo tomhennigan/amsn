@@ -4182,32 +4182,6 @@ proc clickableDisplayPicture {tw name command {padx 0} {pady 0}} {
 	}
 }
 
-#Clickable display picture in place of user's status
-proc clickableDisplayPictureTop {tw name command {padx 0} {pady 0}} {
-	global HOME;
-	#Get actual display pic name
-	set filename [::config::getKey displaypic];
-	#If the display pic doesn't actually exists in format 50x50, take the original one and convert it to 50x50 inside displaypic/small folder
-	if { ![file readable [file join $HOME displaypic small $filename]] } {
-		convert_image_plus "[::skin::GetSkinFile displaypic $filename]" displaypic/small "50x50"
-	}
-	#Load the smaller display picture
-	if {[load_my_smaller_pic]} {
-		#Create the clickable display picture
-		canvas $tw.$name -bg red -width 80 -height 73
-		$tw.$name create image 0 0 -image [::skin::loadPixmap mystatus_bg] -anchor nw
-		$tw.$name create image 11 18 -image my_pic_small -anchor nw
-		$tw.$name configure -cursor hand2 -borderwidth 0
-		bind $tw.$name <Button1-ButtonRelease> $command
-		$tw window create end -window $tw.$name -padx $padx -pady $pady -align center -stretch true
-	} else {
-		#Change key to the skin for to disable clickable display picture
-		status_log "Change key to the skin for to disable clickable display picture" blue
-		::skin::setKey showdisplaycontactlist 0
-		
-	}
-}
-
 proc load_my_smaller_pic {} {
 	
 	#Trying to set smaller display picture
@@ -4382,7 +4356,7 @@ proc cmsn_draw_online_wrapped {} {
 	if { ![::skin::getKey showdisplaycontactlist] } {
 		clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]
 	} else {
-		clickableDisplayPictureTop $pgBuddy.text bigstate {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]
+		clickableDisplayPicture $pgBuddy.text bigstate {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]
 	}
 	bind $pgBuddy.text.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
 
