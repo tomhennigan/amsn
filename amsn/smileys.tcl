@@ -10,11 +10,11 @@ set emotions {{":-)" smile} {":)" smile} {":-D" smiled} {":D" smiled}
 	{"(P)" photo} {"(B)" beer} {"(D)" coctail} {"(T)" emphone} {"(@)" emcat}
 	{"(C)" emcup} {"(I)" embulb} {"(H)" emhottie} {"(S)" emsleep}
 	{"(*)" emstar} {"(8)" emnote} {"(E)" email} {"(M)" messenger}
-	{":-[" vampire} {":[" vampire} {"(\})" girlhug} {"(\{)" boyhug}
+	{":-\[" vampire} {":\[" vampire} {"(\})" girlhug} {"(\{)" boyhug}
 	{"(A)" angel} {"(6)" devil} {"(^)" cake} {"(O)" clk} {":-@" angry}
 	{":@" angry} {"(&)" dog} {"(W)" rosew} {":`(" smilec} {":'(" smilec}
 	{":$" smilemb} {":-$" smilemb} {"(#)" sun} {"(R)" rainbow}
-	{"(%)" handcuffs} {(~) film} {(?) asl}}
+	{"(%)" handcuffs} {"(~)" film} {"(?)" asl}}
 
 set emotion_files {smile smiled smileo smilep wink sad crooked disgust thumbu
 	thumbd love unlove lips gift rose emgirl emboy photo beer coctail
@@ -81,7 +81,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
       set file [lindex $emotion 1]
       set chars [string length $symbol]
 
-     catch [clickableImage $w.text $file $file "$text insert insert {$symbol}; destroy $w" 3 3] res
+     catch [clickableImage $w.text $file $file "$text insert insert \"$symbol\"; destroy $w" 3 3] res
      
      incr num
 

@@ -424,6 +424,9 @@ proc cmsn_draw_main {} {
    image create photo typingimg -file [file join ${images_folder} typing.gif]
 
 
+   image create photo butsmile -file [file join ${images_folder} butsmile.gif]
+
+
    text .main.text -background white -width 30 -height 30 -wrap none \
       -yscrollcommand ".main.ys set" -cursor left_ptr -font splainf \
       -selectbackground white -selectborderwidth 0 -exportselection 0
@@ -1002,9 +1005,9 @@ proc cmsn_draw_msgwin {} {
    button .${win_name}.in.send  -text [trans send] -width 5 \
       -command "sb_enter $name .${win_name}.in.input" -font bboldf
 
-   frame .${win_name}.buttons
+   frame .${win_name}.buttons 
 
-   button .${win_name}.buttons.smileys  -image smile -relief flat
+   button .${win_name}.buttons.smileys  -image butsmile -relief flat
    pack .${win_name}.buttons.smileys -side left
 
    pack .${win_name}.top -side top -fill x
