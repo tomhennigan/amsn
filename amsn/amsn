@@ -1641,17 +1641,24 @@ proc cmsn_win_write {name txt {colour ""} {fontname ""} {fontstyle ""} {fontcolo
    
    #.${win_name}.text mark set new_text_start end
 
+   set tagid $colour
+
    if { $colour == "user" || $colour == "yours" } {
       set size [expr {[lindex $config(basefont) 1]+$config(textsize)}]
       set font "$fontname $size $fontstyle"
+
+      set tagid [::md5::md5 "$font$fontcolor"]
+
+      status_log "Tagid: $tagid\n" red
 #      status_log "Using font: $font\n" red
-      if {[catch {.${win_name}.text tag configure $colour -foreground #$fontcolor -font $font} res] || [string length $fontname] <3} {
+
+      if {[catch {.${win_name}.text tag configure $tagid -foreground #$fontcolor -font $font} res] || [string length $fontname] <3} {
          status_log "Por defecto\n" red
-         .${win_name}.text tag configure $colour -foreground black -font bplainf
+         .${win_name}.text tag configure $tagid -foreground black -font bplainf
       }
    }
 
-   .${win_name}.text insert end "$txt" $colour
+   .${win_name}.text insert end "$txt" $tagid
 
    if {$config(keep_logs) && [sb exists $name log_fcid]} {	;# LOGS!
       puts -nonewline [sb get $name log_fcid] $txt
