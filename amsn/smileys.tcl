@@ -223,7 +223,7 @@ proc new_custom_emoticon_gui {{name ""}} {
 
     toplevel .new_custom
     wm group .new_custom .
-    wm transient .new_custom .
+    ShowTransient .new_custom
     wm geometry .new_custom
 
     set w [LabelFrame:create .new_custom.lfname -text [trans smileconfig]]
@@ -278,25 +278,25 @@ proc new_custom_emoticon_gui {{name ""}} {
 
     pack .new_custom.1.intro -fill both -side left
 
-    grid $w.lname -row 1 -column 0 -padx 2 -pady 2
+    grid $w.lname -row 1 -column 0 -padx 2 -pady 2 -sticky w
     grid $w.name -row 1 -column 1 -padx 2 -pady 2
-    grid $w.ltext -row 1 -column 2 -padx 2 -pady 2
-    grid $w.text -row 1 -column 3 -padx 2 -pady 2
 
-    grid $w.lfile -row 2 -column 0 -padx 2 -pady 2
-    grid $w.file -row 2 -column 1 -padx 2 -pady 2
-    grid $w.browsefile -row 2 -column 2 -padx 2 -pady 2
+    grid $w.ltext -row 2 -column 0 -padx 2 -pady 2 -sticky w
+    grid $w.text -row 2 -column 1 -padx 2 -pady 2 
+    
+    grid $w.lfile -row 3 -column 0 -padx 2 -pady 2 -sticky w
+    grid $w.file -row 3 -column 1 -padx 2 -pady 2
+    grid $w.browsefile -row 3 -column 2 -padx 2 -pady 2 -sticky w
 
-    grid $w.lsound -row 3 -column 0 -padx 2 -pady 2
-    grid $w.sound -row 3 -column 1 -padx 2 -pady 2
-    grid $w.browsesound -row 3 -column 2 -padx 2 -pady 2
+    grid $w.lsound -row 4 -column 0 -padx 2 -pady 2 -sticky w
+    grid $w.sound -row 4 -column 1 -padx 2 -pady 2
+    grid $w.browsesound -row 4 -column 2 -padx 2 -pady 2 -sticky w
+    
+    grid $w.enablesound -row 5 -column 0 -padx 2 -pady 2 -sticky w
+    grid $w.animated -row 5 -column 2 -padx 2 -pady 2
 
-
-    grid $w.enablesound -row 4 -column 0 -padx 2 -pady 2
-    grid $w.animated -row 4 -column 2 -padx 2 -pady 2
-
-    grid $w.hiden -row 5 -column 0 -padx 2 -pady 2
-    grid $w.casesensitive -row 5 -column 2 -padx 2 -pady 2
+    grid $w.hiden -row 6 -column 0 -padx 2 -pady 2 -columnspan 2
+    grid $w.casesensitive -row 6 -column 2 -padx 2 -pady 2
 
     
     pack .new_custom.1 -expand 1 -fill both -side top -pady 15
