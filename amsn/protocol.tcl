@@ -6041,7 +6041,7 @@ namespace eval ::MSN6FT {
 				 $netid $conntype $upnp "false"]
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 		
-		after 5000 "if { \[lindex \[::MSNP2P::SessionList get $sid\] 4\] == \"INVITE1\"} {::MSNP2P::SendDataFile $sid $chatid [lindex [::MSNP2P::SessionList get $sid] 8]}"
+		after 5000 "if { \[lindex \[::MSNP2P::SessionList get $sid\] 4\] == \"INVITE1\"} {::MSNP2P::SendDataFile $sid $chatid [list [lindex [::MSNP2P::SessionList get $sid] 8]]}"
 	}
 	
 	
@@ -6077,10 +6077,10 @@ namespace eval ::MSN6FT {
 			set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 1 $callid 0 2 "TCPv1" "$listening" "$nonce" "$clientip"\
 					 "$port" "$localip" "$port"]
 			::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
-			after 5000 "if { \[lindex \[::MSNP2P::SessionList get $sid\] 4\] == \"INVITE2\"} {::MSNP2P::SendDataFile $sid $chatid [lindex [::MSNP2P::SessionList get $sid] 8]}"	
+			after 5000 "if { \[lindex \[::MSNP2P::SessionList get $sid\] 4\] == \"INVITE2\"} {::MSNP2P::SendDataFile $sid $chatid [list [lindex [::MSNP2P::SessionList get $sid] 8]]}"	
 		} else {
 		
-			after 5000 "::MSNP2P::SendDataFile $sid $chatid [lindex [::MSNP2P::SessionList get $sid] 8]"
+			after 5000 "::MSNP2P::SendDataFile $sid $chatid [list [lindex [::MSNP2P::SessionList get $sid] 8]]"
 		}
 	}
 
