@@ -1,0 +1,169 @@
+amsn_lang_version 2
+about Πληροφορίες για το amsn
+acceptfile Αποδοχή αρχείου $1, μέγεθος $2? Αποθήκευση στο $3
+actions Ενέργειες
+addacontact Προσθήκη επαφής
+addedyou σας πρόσθεσε στην λίστα επαφών του/της
+addtocontacts Πρόσθεσε στην λίστα επαφών
+addtoo Πρόσθεσε αυτό το άτομο στην λίστα επαφών μου
+admincontacts Διαχείριση επαφών
+admingroups Διαχείριση ομάδων
+adverts Διαφημίσεις
+allowseen Επέτρεψε σε αυτό το άτομο να βλέπει πότε είμαι συνδεδεμένος και να επικοινωνεί μαζί μου
+appearoff Εμφάνιση εκτός σύνδεσης
+aretyping Ο/Η $1 τυπώνει ένα μήνυμα
+autohotmaillog Αυτόματη σύνδεση με Hotmail.
+autoip Αυτόματο IP
+avoidseen Απέτρεψε αυτό το άτομο να βλέπει την κατάσταση μου και ενημέρωση με
+away Δεν βρίσκομαι στον υπολογιστή
+baduserpass Λάθος user name ή password
+blankdirect Αφήστε κενό για απευθείας σύνδεση
+block Αποκλεισμός
+blocked Αποκλεισμένος
+browser Browser
+broughtby Αυτό το πρόγραμμα φτιάχτηκε από τους
+busy Απασχολημένος
+cancel Ακύρωση
+changenick Αλλαγή ψευδώνυμου
+chat Συνομιλία
+chatreq Προσπαθώ να δημιουργήσω συνομιλία
+chatsmileys Χαμόγελα συνομιλίας
+chatack Αποδοχή συνομιλίας από
+checkver Αναζήτηση καινούριας έκδοσης
+checkingver Ελέγχω για καινούριες εκδόσεις
+choosebasefont Επιλογή τύπου γραμματοσειράς
+choosebgcolor Επιλογή background χρώματος
+clicktologin Πατήστε εδώ για σύνδεση
+close Κλείσιμο
+closingdocks Το κουμπί κλεισίματος μαζεύει το παράθυρο
+command Εντολή
+confirmdelete Θέλετε πράγματι να σβηστεί το $1?
+contactadded Επαφή προστέθηκε
+contactdoesnotexist Η επαφή δεν υπάρχει
+connecterror Αποτυχία σύνδεσης με τον server
+copytogroup Αντέγραψε στην ομάδα
+date Ημερομηνία
+delete Διαγραφή
+enableproxy Ενεργοποίηση διακομιστή
+encoding Διάλεξε κωδικοποίηση
+entercontactemail Δώστε το e-mail της επαφής
+enterfilename Παρακαλώ δώστε όνομα αρχείου
+enternick Δώστε το ψευδώνυμο σας
+examples Παραδείγματα
+exitamsn Θέλετε πράγματι να φύγετε?
+extras Πρόσθετες λειτουργίες
+filedoesnotexist Το αρχείο δεν υπάρχει
+filename Όνομα αρχείου
+filetransfercancelled Η μεταφορά του αρχείου ακυρώθηκε
+filetransfercomplete Η μεταφορά του αρχείου ολοκληρώθηκε
+gonelunch Λείπω για φαγητό
+group Ομάδα
+groupadd Προσθήκη μίας ομάδας
+groupdelete Διαγραφή μίας ομάδας
+grouprename Μετονομασία μιας ομάδας
+groupoldname Παλιό όνομα
+groupnewname Καινούριο όνομα
+groupunknown Άγνωστη ομάδα
+groupexists Η ομάδα υπάρχει
+groupmissing Η ομάδα δεν υπάρχει
+groupnotempty Η ομάδα δεν είναι άδεια
+handle Χειρισμός
+help Βοήθεια
+helpcontents Θέματα στην βοήθεια
+home Σπίτι
+ident Αναγνωρίζω
+identity Ταυτότητα
+inbox Καλάθι e-mail
+invalidusername Μη αποδεκτό όνομα χρήστη
+invite Προσκάλεσε
+ipaddress IP Διεύθυνση
+istyping Ο/Η $1 τυπώνει ένα μήνυμα
+joins $1 $2 εισέρχεται στην συζήτηση
+language Γλώσσα
+lastmsgtime Το τελευταίο μήνυμα λήφθηκε στις $1
+leaveblankforhotmail ’φησε κενό για χρήση του hotmail
+leaves Ο/Η $1 αποχωρεί από την συζήτηση
+listeningon Περιμένω στο port $1
+listsmileys Λίστα χαμόγελων
+loadcontacts Εισαγωγή επαφών
+loggedotherlocation Αποσύνδεση. Ήδη συνδεδεμένος από άλλη τοποθεσία
+loggingin Συνδέομαι
+login Σύνδεση
+loginas Σύνδεση ως
+logout Αποσύνδεση
+logsin μόλις συνδέθηκε
+mailer Ηλεκτρονικός ταχυδρόμος
+mobile Κινητό
+movetogroup Μετακίνηση στην ομάδα
+mustrestart Χρείαζεται επανεκκίνηση ώστε οι αλλαγές να ισχύσουν
+mystatus Κατάσταση
+msg Άμεσο μήνυμα
+msn AMSN
+needonline Ακόμα είστε/φαίνεστε εκτός σύνδεσης!
+newmail $1 καινούρια μηνύματα ηλεκτρονικού ταχυδρομείου
+newmailfrom Καινούριο mail από τον/την
+newmsg Καινούριο μήνημα
+newveravailable Καινούρια έκδοση $1 διαθέσιμη για κατέβασμα
+next Επόμενο
+noactivity Καμία δραστηριότητα
+nonewmail Δεν υπάρχουν νέα μηνύματα ηλεκτρονικού ταχυδρομείου
+nonewver Δεν υπάρχει καινούρια έκδοση
+notify ανακοίνωσε
+nousersinsession Κανένας χρήστης στην συνεδρίαση
+ok Εντάξει
+offline Εκτός σύνδεσης
+onenewmail 1 καινούριο μήνυμα ηλεκτρονικού ταχυδρομείου
+online Συνδεδεμένος
+onphone Βρίσκομαι στο τηλέφωνο
+openreceived Άνοιγμα ληφθέντων αρχείων
+options Επιλογές
+ordercontactsby Ταξινόμηση επαφών κατα
+other Άλλο
+pager Βομβητής
+pass Κωδικός
+phone Τηλέφωνο
+port port
+prefapps Εφαρμογές
+preferences Προτιμήσεις
+prefsound Ήχοι
+properties Ιδιότητες
+proxyconf Ιδιότητες απομακρυσμένου διακομιστή
+proxyconfhttp Ιδιότητες HTTP απομακρυσμένου διακομιστή
+publishphones Γνωστοποίησε τα τηλέφωνα μου
+receivedbytes Έχω λάβει $1 από $2 bytes
+receivefile Λήψη αρχείου
+reconnect Περιμένω τον/την $1 να επανασυνδεθεί
+reconnecting Επανασύνδεση με απομακρυσμένο υπολογιστή
+rememberpass Θυμήσου το password
+rightback Επιστρέφω αμέσως
+save Αποθήκευση
+saveas Αποθήκευση ως
+savecontacts Αποθήκευση λίστας επαφών
+says Ο/Η $1 λέει
+sbcon Συνδέομαι στο Switch Board
+send Αποστολή
+sendfile Αποστολή αρχείου
+sendmail Αποστολή μηνύματος ηλεκτρονικού ταχυδρομείου
+sendmsg Αποστολή άμεσου μηνύματος
+sentbytes Έχω στείλει $1 από $2 bytes
+server Server
+servergoingdown Αποσυνδέθηκα: O server τερματίζει την λειτουργία του
+sound Ήχος γεγονότων
+startoffline Εκκίνηση αποσυνδεδεμένος
+status Κατάσταση
+syntaxerror Λάθος σύνταξης
+textsize Μέγεθος κειμένου
+title Al's Messenger
+to To
+tools Εργαλεία
+yousay Εσύ λες
+youwant Εσύ θέλεις
+unblock Αποδοχή
+uoffline Αποσυνδεδεμένοι
+uonline Συνδεδεμένοι
+user Χρήστης
+useralreadyonlist Ο χρήστης είναι ήδη στην λίστα επαφών
+version Έκδοση
+view Προβολή
+willjoin Περιμένω τον/την $1 να εισέλθει στην συζήτηση
+work Δουλειά

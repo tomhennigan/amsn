@@ -11,7 +11,7 @@ admingroups 管理群組
 adverts 廣告
 allowseen 當您在線上時允許這個人看到您和聯絡您
 appearoff 隱形
-aretyping $1 是 正在輸入訊息
+aretyping $1 正在輸入訊息
 autohotmaillog 自動登入 Hotmail
 autoip Automatic IP
 avoidseen 當您在線上時封鎖這個人看到您和聯絡您
@@ -77,9 +77,10 @@ inbox 收件匣
 invalidusername 使用者名稱無效
 invite 邀請
 ipaddress IP 位址
-istyping $1 是 正在輸入訊息
+istyping $1 正在輸入訊息
 joins $1 $2 加入交談
 language 語言
+lastmsgtime 最後訊息時間 $1
 leaveblankforhotmail 預留空白為Hotmail網路郵件程式
 leaves $1 離開聊天
 listeningon Listening on port $1
