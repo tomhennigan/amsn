@@ -5,6 +5,8 @@ acceptfile Accepteer bestand $1, grootte $2? opgeslagen in $3
 actions Acties
 addacontact Voeg een contactpersoon toe
 addedyou $1 ($2) Heeft jou toegevoegd aan zijn/haar lijst van contactpersonen
+addprofiledesc Geef de loginnaam waarvoor je een nieuw profiel wilt aanmaken\n logins met een profiel laten je toe verschillende configuraties te hebben voor iedere login.\n Zonder profielen kan je geen wachtwoorden onthouden of gebruik maken van geschiedenis en alarms
+addprofile Nieuw profiel toevoegen
 addstate Voeg nieuwe status toe
 addtocontacts Voeg toe aan lijst van contactpersonen
 addtoo Voeg deze persoon toe als nieuwe contactpersoon
@@ -25,7 +27,8 @@ appearance Status
 appearoff Offline verschijnen
 areacode Regiocode
 aretyping $1 zijn bezig met typen
-askprofile Deze login heeft nog geen profiel. Wil je een nieuw profiel maken? \n Als je dit niet doet, kun je de Geschiedenis niet gebruiken, en kun je je wachtwoord en Alarmen niet bewaren.\n  Als je wel een profiel maakt wordt daar een aparte configuratie voor gemaakt. \n \n Klik op "Maak profiel" om een nieuw profiel te maken voor $1.
+autoaccepted Bestandsoverdracht automatisch geaccepteerd
+autoacceptft Automatisch bestandsoverdrachten accepteren
 autoaway Verschijn als "Afwezig" bij geen activiteit gedurende
 autoconnect2 Automatisch aanmelden wanneer aMSN wordt gestart
 autoconnect Automatisch aanmelden
@@ -42,6 +45,7 @@ bgcolor Verander de achtergrondkleur van aMSN
 blankdirect Leeg laten voor directe verbinding
 block Blokkeer
 blocked Geblokkeerd
+blockedyougroup Toon een apparte groep voor mensen die mij geblokkeerd hebben
 blocking Blokkeren
 blockinter1 Controleer als je online bent elke
 blockinter2 seconden, en controleer anders elke:
@@ -103,6 +107,7 @@ cut     Knippen
 date Datum
 days Dagen
 dcprofile Geen profiel aanmaken
+defaultloginradio Inloggen met de standaardconfiguratie
 default Standaard configuratie
 delete Verwijderen
 deliverfail Er was een probleem bij het bezorgen van de volgende boodschap
@@ -116,6 +121,7 @@ docking Docking
 dockingoff Docking uitschakelen
 dockkde KDE Dock
 edit    Bewerken
+editcurrentstate Huidige bewerken
 editnewstate Nieuwe Persoonlijke Automatische Berichten Status
 editprofile Bewerk profiel
 editstate Verander Bestaande Automatische Berichten Status
@@ -243,6 +249,7 @@ nologfile Geen logboek voor $1
 no Nee
 nonewmail Geen nieuwe berichten in Postvak IN
 nonewver Er zijn geen nieuwere versies beschikbaar
+noprofileexists Er zijn momenteel geen profielen, \nJe moet er een aanmaken als je logins met een profiel wilt gebruiken. \n Gebruik de knop Nieuw profiel aanmaken in dit venster om een nieuw profiel toe te voegen.
 normal Normaal
 nosystemtray Systeemvak niet beschikbaar
 notify1_5 Toon inlichtingenvenster wanneer een contactpersoon zich afmeld
@@ -277,6 +284,7 @@ prefapps Programma's
 prefawaymsg Mijn afwezig-bericht
 prefblock1 Controleer bij het verbreken van de verbinding
 prefblock2 Controleer altijd
+prefblock3 "Je werd geblokkeerd door" groep
 prefconnection Verbindingsinstellingen
 prefemotic Emoticons en smileys
 preferences Instellingen
@@ -301,7 +309,9 @@ prefshared Gedeelde verbindingen (alleen voor NAT)
 prefsound Geluiden
 privacy Privacy
 profiledconfig Profielconfiguratie
+profileexists Je kan geen profiel aanmaken met deze login \n omdat er al een bestaat. Gelieve een andere login te kiezen.
 profileinuse Dit profiel wordt momenteel gebruik door een andere Amsn sessie, kies een andere
+profileloginradio Aanmelden d.m.v. een bestaand profiel.
 profiles Profielen
 properties Eigenschappen
 proxyconfhttp Configuratie voor HTTP proxy ondersteuning
@@ -363,6 +373,7 @@ stylelog Kies het formaat waarin je jouw Geschiedenis wilt bekijken
 syntaxerror Syntaxfout
 tabbed Vensters met tabbladen
 textsize Tekstgrootte
+timeremaining Resterende tijd
 title Al's Messenger
 to Aan
 tools Extra

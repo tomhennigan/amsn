@@ -860,9 +860,6 @@ namespace eval ::MSN {
 
          #Try again urlencoding any character
 	 set name [urlencode_all $newname]
-         if { [string length $name] > 350} {
-           set name [string range $name 0 350]
-         }
          ::MSN::WriteSB ns "REA" "$userlogin $name"
 	 return 0
 
@@ -878,9 +875,6 @@ namespace eval ::MSN {
       global config
 
       set name [urlencode $newname]
-      if { [string length $name] > 350} {
-        set name [string range $name 0 350]
-      }
 
       if { $config(allowbadwords) } {
          ::MSN::WriteSB ns "REA" "$userlogin $name" \
@@ -3586,7 +3580,11 @@ proc urlencode_all {str} {
        }
    }
    #status_log "urlencode: original=$str\n   utf-8=$utfstr\n   encoded=$encode\n"
-   return $encode
+	if  {[string length $encode] <=387 } {
+   	return $encode
+	} else {
+		return [string range $encode 0 349]
+	}
 }
 
 
@@ -3620,7 +3618,12 @@ proc urlencode {str} {
       }
    }
    #status_log "urlencode: original=$str\n   utf-8=$utfstr\n   encoded=$encode\n"
-   return $encode
+	if  {[string length $encode] <=387 } {
+   	return $encode
+	} else {
+		return [string range $encode 0 349]
+	}
+
 }
 
 proc change_BLP_settings { item } {

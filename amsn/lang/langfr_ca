@@ -5,9 +5,11 @@ acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
 actions Actions
 addacontact Ajouter un contact
 addedyou $1 ($2) vous a ajouté dans sa liste de contacts
+addprofile Ajouter nouveau profil
+addprofiledesc \nLes profils vous permettent d'avoir des configurations différentes pour chaque compte.\nSans les profils,
 addstate Ajouter un nouveau statut
-addtocontacts Ajouter aux contacts
 addto Ajouter à $1
+addtocontacts Ajouter aux contacts
 addtoo Ajouter cette personne à ma liste de contacts
 admincontacts Gérer les contacts
 admingroups Gérer les groupes
@@ -19,12 +21,14 @@ allowbadwords Désactiver la censure des noms de contact
 allowlist Liste des personnes autorisées
 allowonlyinal Seulement autoriser les utilisateurs de ma Liste d'acception à me contacter
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
+animatedemoticon Cet émoticon est animé
 animatedsmileys Activer les émoticons animés
 appearance Apparence
 appearoff Apparaître hors ligne
 areacode Code régional
 aretyping $1 tapent un message
-askprofile Cet utilisateur n'a pas encore de profil. Voulez vous en créer un nouveau ? \n Si vous ne le faites pas, vous ne pourrez pas utiliser l'historique, ni sauvegarder vos alertes ou mot de passe. \n Si vous le faites, un nouveau fichier de configuration pour ce profil sera créé. \n \n Cliquez sur "Créer Profil" pour créer un nouveau profil pour $1.
+autoaccepted Transfert de fichier accepté automatiquement
+autoacceptft Accepter automatiquement les transferts de fichiers
 autoaway Me marquer "Absent" quand je suis inactif depuis plus de
 autoconnect2 Me connecter automatiquement quand aMSN est lancé
 autoconnect Connexion automatique au lancement
@@ -41,6 +45,7 @@ bgcolor Changer la couleur de fond de aMSN
 blankdirect Laisser vide pour une connexion sans proxy
 block Bloquer
 blocked Bloqué
+blockedyougroup Créer un groupe séparé pour les gens qui vous ont bloqué.
 blocking En train de bloquer
 blockinter1 Lorsque vous êtes en ligne, vérifier à chaque
 blockinter2 seconde(s), sinon vérifier à chaque:
@@ -55,6 +60,7 @@ busy Occupé
 cancel Annuler
 cannotdeleteprofile le profil ne peut être supprimé car il semble utilisé par une session Amsn
 cantexec Incapable d'exécuter l'application $1. Vérifiez les paramètres.
+casesensitive Utiliser des déclencheurs sensibles à la casse
 cfgalarm Configurer/Ajouter/Supprimer alarme
 changefont Changer la police
 changenick Changer de pseudonyme
@@ -77,12 +83,12 @@ clearlog2 Effacer l'historique de tous les contacts
 clearlog3 Effacer tous les fichiers journaux
 clearlog Effacer les fichiers journaux
 clicktologin Cliquez pour vous connecter
-close Fermer
 closed Conversation avec $1 fermée à cause d'inactivité
+close Fermer
 closingdocks Le bouton fermer réduit l'application
 command Commande
-confirm Êtes vous sûr?
 confirmdelete Êtes vous certain de vouloir supprimer $1?
+confirm Êtes vous sûr?
 connected Vous êtes maintenant connecté(e)
 connecterror Erreur de connexion
 connecting Connectant
@@ -95,29 +101,34 @@ copy Copier
 copytogroup Copier vers groupe
 countrycode Mon code de pays/région
 cprofile Créer un profil
+custom_edit Editer un émoticon personnalisé
+custom_new Créer un nouvel émoticon personnalisé
 cut Couper
 date Date
 days Jours
 dcprofile Ne pas créer de profil
 default Configuration par défaut
+defaultloginradio Identification avec la configuration par défaut
 delete Supprimer
 deliverfail Une erreur est survenue lors de l'envoi du message suivant
 delprofile2 Sélectionner le profil que vous voulez supprimer
 delprofile Supprimer un profil
+description Description
 directconnection J'ai une connexion directe à Internet (utilisation du port 1863)
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Ancrer dans GTK
 docking Ancrage actif
 dockingoff Ancrage inactif
 dockkde Ancrage dans KDE
-edit Édition
 editcurrentstate Modifier message courant
+edit Édition
 editnewstate Nouvel état avec message automatique personnalisé
 editprofile Modifier profil
 editstate Editer un état existant avec message automatique
 emotisounds Jouer un son pour certains émoticons
 enableproxy Utiliser un proxy
 enableremote Permettre le contrôle à distance
+enablesound Activer le son
 encoding2  Changer la méthode d'encodage des caractères
 encoding Choisir l'encodage
 entercontactemail Tapez l'adresse courriel du contact
@@ -158,14 +169,16 @@ groupunknown Groupe inconnu
 handle Pseudonyme
 help Aide
 helpcontents Contenu de l'aide
+hiden Cacher cet émoticon du menu
 history Voir l'historique
-hybrid Mode hybride
 home Domicile
 httpconnection Connexion par la méthode HTTP (utilisation du protocole HTTP par le port 80)
+hybrid Mode hybride
 ident Identification
 identity Identité
 inbox Boîte aux lettres
 internalerror Erreur interne au serveur
+invalidfile Le fichier $2 entré dans le champ "$1" n'existe pas ou n'est pas lisible
 invalidusername Nom d'utilisateur invalide
 invitationcancelled L'invitation a été annulée
 invite Invitation
@@ -201,8 +214,8 @@ login Se connecter
 logolder Seulement conserver les conversation qui ont eu lieu dans les
 logout Se déconnecter
 logsin vient de se connecter
-logsout vient de se déconnecter
 logsmileys Afficher les émoticons dans la fenêtre d'historique de aMSN
+logsout vient de se déconnecter
 lprivtoconf  Conversation privée changée en conférence avec $1
 luclosedwin Vous avez fermé la fenêtre sur $1
 mailer Programme de courrier
@@ -236,11 +249,12 @@ nologfile Pas de fichier journal pour $1
 nonewmail Pas de nouveaux messages
 nonewver Il n'y a pas de nouvelle version disponible
 no Non
+noprofileexists Utiliser les profils... \nUtiliser le boutton Ajouter nouveau profil dans cette fenetre pour en créer un nouveau.
 normal Normal
 nosystemtray La zone de notification n'est pas accessible
-notify1 Afficher un avertissement quand un contact est en ligne
 notify1_5 Afficher un avertissement quand un contact est hors ligne
 notify1_75 Afficher un avertissement quand un contact change d'état
+notify1 Afficher un avertissement quand un contact est en ligne
 notify2 Afficher un avertissement quand de nouveaux messages sont reçus
 notify3 Afficher un avertissement quand des courriels arrivent dans votre boîte de réception
 notify Avertisser
@@ -270,6 +284,7 @@ prefapps Applications
 prefawaymsg Mon message d'absence
 prefblock1 Vérifier à la déconnexion
 prefblock2 Vérifier continuellement
+prefblock3 Groupe "Vous avez été bloqué par"
 prefconnection Préférences de connexion
 prefemotic Émoticons et icônes
 preferences Préférences
@@ -294,11 +309,13 @@ prefshared Connexions partagées (Seulement pour NAT)
 prefsound Sons
 privacy Privé
 profiledconfig Configuration par profils
+profileexists Vous ne pouvez pas créer un profil avec cet identifiant \n car il est déja utilisé par un profil. Choisissez en un autre.
 profileinuse Profil actuellement utilisé par une autre session aMSN. Veuillez en choisir un autre
+profileloginradio S'identifier avec un profil existant
 profiles Profils
 properties Propriétés
-proxyconfhttp Configuration du support proxy HTTP
 proxyconf Configuration du proxy
+proxyconfhttp Configuration du support proxy HTTP
 proxyconnection Je me connecte à Internet par un serveur proxy :
 proxy Je suis derrière un serveur proxy (HTTP ou SOCKS5)
 publishphones Publier mes numéros de téléphone
@@ -328,6 +345,10 @@ servergoingdown Serveur en cours d'arrêt
 server Serveur
 session Session
 showblockedlist Afficher la liste des personnes que vous ont bloqué
+smileconfig Configuration des émoticons personnalisés
+smilefile Nom du fichier de l'émoticon
+smileintro2 Veuillez editer les champs obligatoires pour personnaliser cet émoticon (voir la FAQ pour l'aide)
+smileintro Veuillez remplir les champs obligatoires pour créer un nouvel émoticon (voir la FAQ pour l'aide)
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
 sound Évènements Sonores
@@ -338,10 +359,10 @@ soundstatus Activer ou désactiver l'alarme sonore
 startoffline2 Se connecter en mode invisible
 startoffline Démarrer hors ligne
 stateautomsg Message à envoyer automatiquement
+statechange Statut changer à:
 stateedittext Veuillez éditer les champs que vous \n voulez modifier et cliquez sur Enregistrer
 stateinfo Configuration de mon statut
 state Je veux apparaître
-statechange Statut changer à:
 statename Nom du statut
 statenewtext Veuillez entrer les informations nécessaires \n a la création de votre nouveau statut et cliquez sur Enregistrer
 status Statut
@@ -352,12 +373,14 @@ stylelog Sélectionner le format dans lequel vous voulez voir l'historique
 syntaxerror Erreur de syntaxe
 tabbed Onglets
 textsize Taille du texte
+timeremaining Temps restant
 title Al's Messenger
 to À
 tools Outils
 tooltips Activer les "Tool Tips"
 transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue.
 traynotcompiled Le plugin de l'icone de la zone de notification n'est pas conforme. Sélectionnez plugins/ancrage de la zone de notification
+triggers Textes déclencheurs
 twonewmail $1 nouveaux messages dans votre boîte de réception
 unblock Débloquer
 uoffline Déconnectés
@@ -369,10 +392,11 @@ user Utilisateur
 useryourself Vous ne pouvez pas dialoguer avec vous-même
 verifyblocked Verifier pour des personnes qui vous ont bloqué
 version Version
-viewprofile Afficher le profil
 view Affichage
+viewprofile Afficher le profil
 willjoin Dans l'attente que $1 rejoigne la conversation
 work Travail
+wrongfields Les champs "$1", "$2" et/ou "$3" sont invalides
 wrongprofileversion Mauvaise version du fichier de profil. Afin de la fixer, enlevez svp le répertoire $1, ou mettez à jour aMSN
 xoffset Décalage en X
 yes Oui

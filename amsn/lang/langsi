@@ -4,7 +4,7 @@ acceptfile Ali sprejmes datoteko $1, njena velikost je $2? Shranjeno v $3
 accept sprejmi
 actions Akcije
 addacontact Dodaj stik
-addedyou $1 ($2) vas je dodal/dodala na svoj seznam stikov
+addedyou $1 ($2) vas je dodal/a na svoj seznam stikov
 addprofiledesc Vpisi uporabnisko ime, ki ga bo uporabljal ta profil.\nProfili omogocajo razlicne nastavitve za razlicne prijave.\nBrez profilov ne mores uporabljati zgodovine, alarmov ali shraniti gesla.
 addprofile Dodaj profil
 addstate Dodaj novo stanje
@@ -76,10 +76,12 @@ checkfilman Prejete datoteke bodo shranjene v $1. Preveri nastavitve upravljalca
 checkingver Preverjam za nove verzije
 checkonfln Preveri, ce te je uporabnik blokiral, ko se odjavi
 checkver Preveri za novo verzijo
+choosebackgroundcolor Izberi barvo ozadja
 choosebasefont Izberi vrsto pisave
 choosebgcolor Izberi barvo ozadja
 choosecontact Prosim izberi stik s seznama
 choosefontcolor Izberi barvo pisave
+choosefont Izberi pisavo
 clearlog2 Pocisti zgodovino za vse stike
 clearlog3 Pocisti vse dnevnike
 clearlog Pocisti dnevnik
@@ -255,7 +257,7 @@ noprofileexists Trenutno ni profilov.\nDa jih uporabljas, ustvari novega\nz gumb
 normal Normalno
 nosystemtray Tray ni na voljo
 notify1_5 Prikazi obvestilo, ko se kdo odjavi
-notify1_75 Pokazi obvestilo, ko kdo zamenja stanje
+notify1_75 Prikazi obvestilo, ko kdo zamenja stanje
 notify1 Prikazi obvestilo, ko se kdo prijavi
 notify2 Prikazi obvestilo ob novem sporocilu
 notify3 Prikazi obvestilo ob novem e-mailu
@@ -352,7 +354,7 @@ smileconfig Nastavitve tvojih emotikonov
 smilefile Datoteka
 smileintro2 Uredi potrebna polja, ce zelis spremeniti tega smeska (poglej v FAQ za pomoc)
 smileintro Izpolni potrebna polja, ce zelis ustvariti novega lastnega smeska (poglej v FAQ za pomoc)
-sound2 Predvajaj zvok, ko se kdo prijavi ali poslje sporocilo
+sound2 Predvajaj zvoke ob dogodkih:
 soundcommand To mora biti ukaz play (npr. esdplay)
 soundfile Zvocna datoteka
 soundloop Ponavljaj
@@ -362,7 +364,7 @@ sound Zvok dogodka
 startoffline2 Prijavi se kot "Na videz neprijavljen"
 startoffline Zacni neprijavljen
 stateautomsg Avtomatsko sporocilo
-statechange status spremenjen na:
+statechange je status spremenil/a na:
 stateedittext Prosim uredi polja, ki bi \n jih rad spremenil in pritisni Shrani.
 stateinfo Nastavitev osebnega stanja
 statename Ime osebnega stanja
@@ -376,9 +378,10 @@ stylelog Izberi zapis, v katerem zelis videti zgodovino
 syntaxerror  Napaka v sintaksi
 tabbed Okna z "uhlji"
 textsize Velikost besedila
+timeremaining Cas do konca prenosa
 title Al's Messenger
 tools Orodja
-tooltips Omogoci Nasvete za Orodja
+tooltips Omogoci tooltipe
 to Za
 transnotexists Zahtevana datoteka se ni bila prevedena v slovenscino.
 traynotcompiled Plugin za tray ikono ni preveden. Preveri plugins/traydock.
