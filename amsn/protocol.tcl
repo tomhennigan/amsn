@@ -2351,61 +2351,66 @@ namespace eval ::DirectConnection {
 
 	method receivedData { } {
 
-		#first put available data in the buffer
-		$self appendDataToBuffer
+		set dataRemains 1
+		while { $dataRemains } {
 
-		degt_protocol buffer:$dataBuffer
-		#check for the a newline, if there is we have a command if not return
-		set idx [string first "\r\n" $dataBuffer]
-		if { $idx == -1 } { return }
-		set command [string range $dataBuffer 0 [expr $idx -1]]
+			#put available data in buffer. When buffer is empty dataRemains is set to 0
+			set dataRemains [$self appendDataToBuffer]
 
-		#check for payload commands:
-		if {[lsearch {MSG NOT PAG} [string range $command 0 2]] != -1} {
-			set length [lindex [split $command] 3]
-			degt_protocol thelength:$length
-			set remaining [string range $dataBuffer [expr $idx +2] end]
-			#if the whole payload is in the buffer process the command else return
-			if { [string length $remaining] >= $length } {
-				set payload [string range $remaining 0 [expr $length -1]]
-				set dataBuffer [string range $dataBuffer [string length "$command\r\n$payload"] end]
-				set command [encoding convertfrom utf-8 $command]
-				$self handleCommand $command $payload
-				$self receivedData
+			degt_protocol buffer:$dataBuffer
+			#check for the a newline, if there is we have a command if not return
+			set idx [string first "\r\n" $dataBuffer]
+			if { $idx == -1 } { return }
+			set command [string range $dataBuffer 0 [expr $idx -1]]
+
+			#check for payload commands:
+			if {[lsearch {MSG NOT PAG} [string range $command 0 2]] != -1} {
+				set length [lindex [split $command] 3]
+				degt_protocol thelength:$length
+				set remaining [string range $dataBuffer [expr $idx +2] end]
+				#if the whole payload is in the buffer process the command else return
+				if { [string length $remaining] >= $length } {
+					set payload [string range $remaining 0 [expr $length -1]]
+					set dataBuffer [string range $dataBuffer [string length "$command\r\n$payload"] end]
+					set command [encoding convertfrom utf-8 $command]
+					$self handleCommand $command $payload
+				} else {
+					return
+				}
 			} else {
-				return
+				set dataBuffer [string range $dataBuffer [string length "$command\r\n"] end]
+				set command [encoding convertfrom utf-8 $command]
+				$self handleCommand $command
 			}
-		} else {
-			set dataBuffer [string range $dataBuffer [string length "$command\r\n"] end]
-			set command [encoding convertfrom utf-8 $command]
-			$self handleCommand $command
-			$self receivedData
 		}
 	}
 
+	#if there is data available on the socket put it in the buffer and return 1
+	#if no data is available return 0
 	method appendDataToBuffer { } {
 		set sock $options(-sock)
 		if {[catch {eof $sock} res]} {
 			status_log "Error reading EOF for $self: $res\n" red
 			catch {fileevent $sock readable ""}
 			$self sockError
-			return
+			return 0
 		} elseif {[eof $sock]} {	
 			status_log "Read EOF in $self, closing\n" red
 			catch {fileevent $sock readable ""}
 			$self sockError
-			return
+			return 0
 		} else {
 			set tmp_data "ERROR READING SOCKET !!!"
 			if {[catch {set tmp_data [read $sock]} res]} {	
 				status_log "Read error in $self, closing: $res\n" red
 				catch {fileevent $sock readable ""}
 				$self sockError
-				return
+				return 0
 			}
 			if { $tmp_data == "" } {
 			}
 			append dataBuffer $tmp_data
+			return 1
 		}
 	}
 
