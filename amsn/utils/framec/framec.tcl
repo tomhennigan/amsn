@@ -61,9 +61,9 @@ snit::widget framec {
 		install padding using frame $border.padding -background $options(-background) -relief solid -borderwidth 0
 		install inner using $itstype $padding.inner -border 0
 
-		pack $inner -side left -padx $options(-innerpadx) -pady $options(-innerpady)
-		pack $padding -padx $options(-borderwidth) -pady $options(-borderwidth)
-		pack $border -padx 0 -pady 0
+		pack $inner -padx $options(-innerpadx) -pady $options(-innerpady) -expand true -fill both
+		pack $padding -padx $options(-borderwidth) -pady $options(-borderwidth) -expand true -fill both
+		pack $border -padx 0 -pady 0 -expand true -fill both
 
 		# Apply any options passed at creation time.
 		$self configurelist $args
