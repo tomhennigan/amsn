@@ -828,13 +828,13 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.1.llibtls -text "TLS" -padx 5 -font sboldf
 	entry $lfname.1.libtls -bg #FFFFFF -bd 1 -width 40 -highlightthickness 0 -textvariable libtls_temp
 	label $lfname.1.llibtlsexp -text [trans tlsexplain] -justify left -font examplef
-	button $lfname.1.browsetls -text [trans browse]
+	button $lfname.1.browsetls -text [trans browse] -command "set libtls_temp \[tk_chooseDirectory\]"
 
 	label $lfname.1.lconvertpath -text "CONVERT" -padx 5 -font sboldf
 	entry $lfname.1.convertpath -bg #FFFFFF -bd 1 -width 40 -highlightthickness 0 -textvariable config(convertpath)
 	label $lfname.1.lconvertpathexp -text [trans convertexplain] -justify left -font examplef
-	button $lfname.1.browseconv -text [trans browse]
-	
+	button $lfname.1.browseconv -text [trans browse] -command "set config(convertpath) \[tk_getOpenFile\]"
+
 
 	grid $lfname.1.llibtls -row 1 -column 1 -sticky e
 	grid $lfname.1.libtls  -row 1 -column 2 -sticky we
@@ -1783,6 +1783,9 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.108  2004/01/18 13:52:50  airadier
+# Make browse buttons for tls and convert work.
+#
 # Revision 1.107  2004/01/18 13:32:51  airadier
 # Don't grab preferences window, or you won't be able to change font, and other things in pop-up windows.
 #
