@@ -3721,8 +3721,10 @@ proc recreate_contact_lists {} {
 	::MSN::clearList FL
 	::MSN::clearList RL
 	foreach user [::abook::getAllContacts] {
-		::abook::setVolatileData $user state FLN
 		foreach list_name [::abook::getLists $user] {
+			if { $list_name == "FL" } {
+				::abook::setVolatileData $user state FLN
+			}
 			::MSN::addToList $list_name $user
 		}
 	}
