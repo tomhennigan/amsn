@@ -496,9 +496,11 @@ proc smile_subst {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
 
 				set posyx [split $pos "."]
 				set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $chars}]"
+				#status_log "Begin=$pos, end=$endpos\n" green
 
 				if { [lsearch -exact [$tw tag names $pos] "dont_replace_smileys"] != -1 } {
 					set start $endpos
+					#status_log "Skipping in $pos\n"
 					continue
 				}
 
@@ -534,7 +536,9 @@ proc smile_subst {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
 					play_sound $sound
 				}
 
-				set start $endpos
+				#status_log "Repaced $symbol from $start to $endpos\n" blue
+
+				#set start $endpos
 
 			}
 		}
