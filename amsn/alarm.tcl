@@ -30,13 +30,15 @@ namespace eval ::alarms {
 		global my_alarms
 	
 		if { $window == "" } {
-			if { [ winfo exists .alarm_cfg ] } {
+			set w ".alarm_cfg_[::md5::md5 $user]"
+			if { [ winfo exists $w ] } {
+				catch { raise $w }
+				catch { focus -force $w }
 				return
 			}
-			toplevel .alarm_cfg
-			wm title .alarm_cfg "[trans alarmpref] $user"
-			wm iconname .alarm_cfg [trans alarmpref]
-			set w .alarm_cfg
+			toplevel $w
+			wm title $w "[trans alarmpref] $user"
+			wm iconname $w [trans alarmpref]
 		} else {
 			set w $window
 		}
@@ -59,6 +61,21 @@ namespace eval ::alarms {
 			label $w.title -text "[trans alarmpref]: $user" -font bboldf
 			pack $w.title -side top -padx 15 -pady 15
 		}
+		checkbutton $w.alarm -text "[trans alarmstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_enabled) -font splainf
+		Separator $w.sep1 -orient horizontal
+		checkbutton $w.alarmonconnect -text "[trans alarmonconnect]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onconnect) -font splainf
+		checkbutton $w.alarmonmsg -text "[trans alarmonmsg]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onmsg) -font splainf
+		checkbutton $w.alarmonstatus -text "[trans alarmonstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onstatus) -font splainf
+		checkbutton $w.alarmondisconnect -text "[trans alarmondisconnect]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_ondisconnect) -font splainf
+		Separator $w.sep2 -orient horizontal
+	
+		pack $w.alarm -side top -anchor w -expand true -padx 30
+		pack $w.sep1 -side top -anchor w -expand true -fill x -padx 5 -pady 5
+		pack $w.alarmonconnect -side top -anchor w -expand true -padx 30
+		pack $w.alarmonmsg -side top -anchor w -expand true -padx 30
+		pack $w.alarmonstatus -side top -anchor w -expand true -padx 30
+		pack $w.alarmondisconnect -side top -anchor w -expand true -padx 30
+		pack $w.sep2 -side top -anchor w -expand true -fill x -padx 5 -pady 5
 	
 		frame $w.sound1
 		LabelEntry $w.sound1.entry "[trans soundfile]" my_alarms(${user}_sound) 30
@@ -68,15 +85,20 @@ namespace eval ::alarms {
 		pack $w.sound1 -side top -padx 10 -pady 2 -anchor w -fill x
 		checkbutton $w.button -text "[trans soundstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_sound_st) -font splainf
 		checkbutton $w.button2 -text "[trans soundloop]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_loop) -font splainf
+		Separator $w.sepsound -orient horizontal		
 		pack $w.button -side top -anchor w -expand true -padx 30
 		pack $w.button2 -side top -anchor w -expand true -padx 30
+		pack $w.sepsound -side top -anchor w -expand true -fill x -padx 5 -pady 5
+		
 	
 		frame $w.command1
 		LabelEntry $w.command1.entry "[trans command]" my_alarms(${user}_command) 30
 		pack $w.command1.entry -side left -expand true -fill x
 		pack $w.command1 -side top -padx 10 -pady 2 -anchor w -fill x
 		checkbutton $w.buttoncomm -text "[trans commandstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_oncommand) -font splainf
+		Separator $w.sepcommand -orient horizontal		
 		pack $w.buttoncomm -side top -anchor w -expand true -padx 30
+		pack $w.sepcommand -side top -anchor w -expand true -fill x -padx 5 -pady 5
 	
 		frame $w.pic1
 		LabelEntry $w.pic1.entry "[trans picfile]" my_alarms(${user}_pic) 30
@@ -86,24 +108,12 @@ namespace eval ::alarms {
 		pack $w.pic1 -side top -padx 10 -pady 2 -anchor w -fill x
 		checkbutton $w.buttonpic -text "[trans picstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_pic_st) -font splainf
 		pack $w.buttonpic -side top -anchor w -expand true -padx 30
-	
-		checkbutton $w.alarm -text "[trans alarmstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_enabled) -font splainf
-		checkbutton $w.alarmonconnect -text "[trans alarmonconnect]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onconnect) -font splainf
-		checkbutton $w.alarmonmsg -text "[trans alarmonmsg]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onmsg) -font splainf
-		checkbutton $w.alarmonstatus -text "[trans alarmonstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_onstatus) -font splainf
-		checkbutton $w.alarmondisconnect -text "[trans alarmondisconnect]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_ondisconnect) -font splainf
-	
-		pack $w.alarm -side top -anchor w -expand true -padx 30
-		pack $w.alarmonconnect -side top -anchor w -expand true -padx 30
-		pack $w.alarmonmsg -side top -anchor w -expand true -padx 30
-		pack $w.alarmonstatus -side top -anchor w -expand true -padx 30
-		pack $w.alarmondisconnect -side top -anchor w -expand true -padx 30
-	
+		
 		if { $window == "" } {
 			frame $w.b -class Degt
 			button $w.b.save -text [trans ok] -command "::alarms::SaveAlarm $user; destroy $w" -font sboldf
 			button $w.b.cancel -text [trans close] -command "destroy $w; unset my_alarms" -font sboldf
-			button $w.b.delete -text [trans delete] -command "; destroy $w; ::alarms::DeleteAlarm $user" -font sboldf
+			button $w.b.delete -text [trans delete] -command "destroy $w; ::alarms::DeleteAlarm $user" -font sboldf
 			pack $w.b.save $w.b.cancel $w.b.delete -side right -padx 10
 			pack $w.b -side top -padx 0 -pady 4 -anchor e -expand true -fill both
 		}

@@ -159,6 +159,7 @@ disablessl Disable SSL
 disconnect $1 has disconnected.
 displaychat Display text options
 displayp4context Display P4-Context field content as message sender
+displaypic Display Picture
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
 docking Docking
@@ -367,6 +368,7 @@ pass Password
 paste Paste
 personal Personal
 phone Phone
+phones Phone numbers
 picbrowser Display Pictures browser
 picfile Picture File (GIF < 500 x 500)
 picstatus Picture Alarm

@@ -639,7 +639,6 @@ namespace eval ::abookGui {
 		label $nbPhone.php1 -font splainf -text [::abook::getContactData $email mob] -fg blue \
 		-justify left
 		
-		
 		label $nbIdent.titleothers -text [trans others] -font bboldunderf 
 		
 		label $nbIdent.lastlogin -text "[trans lastlogin]:"
@@ -650,7 +649,19 @@ namespace eval ::abookGui {
 		
 		label $nbIdent.lastmsgedme -text "[trans lastmsgedme]:"
 		label $nbIdent.lastmsgedme1 -text [::abook::getContactData $email last_msgedme] -font splainf -fg blue
-		
+
+		set msnobj [::abook::getVolatileData $email msnobj]
+		set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
+		global HOME
+		if { [file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
+			catch {image create photo user_pic_$email -file "[file join $HOME displaypic cache ${filename}].gif"}
+		} else {
+			image create photo user_pic_$email -file [GetSkinFile displaypic "nopic.gif"]
+		}
+		label $nbIdent.titlepic -text "[trans displaypic]" -font bboldunderf
+		label $nbIdent.displaypic -image user_pic_$email -highlightthickness 2 -highlightbackground black -borderwidth 0
+
+				
 		grid $nbIdent.title1 -row 0 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
 		grid $nbIdent.e -row 1 -column 0 -sticky e
 		grid $nbIdent.e1 -row 1 -column 1 -sticky w
@@ -681,6 +692,10 @@ namespace eval ::abookGui {
 		grid $nbPhone.lastlogout1 -row 17 -column 1 -sticky w
 		grid $nbPhone.lastmsgedme -row 18 -column 0 -sticky e
 		grid $nbPhone.lastmsgedme1 -row 18 -column 1 -sticky w
+		
+		grid $nbPhone.titlepic -row 25 -column 0 -sticky w -columnspan 2 -pady 5 -padx 5
+		grid $nbPhone.displaypic -row 26 -column 0 -sticky w -columnspan 2 -padx 8
+		#grid columnconfigure $nbIdent.fothers 1 -weight 1
 	
 		
 		grid columnconfigure $nbIdent 1 -weight 1
@@ -697,9 +712,12 @@ namespace eval ::abookGui {
 		set nbIdent [$nbIdent.sw.sf getframe]
 		
 		#::alarms::configDialog $email $nbIdent
+		button $nbIdent.butalarm -text "[trans cfgalarm]..." -command [list ::alarms::configDialog $email]
+		pack $nbIdent.butalarm -side top
 		
 		$w.nb compute_size
 		[$w.nb getframe userdata].sw.sf compute_size
+		[$w.nb getframe alarms].sw.sf compute_size
 		$w.nb compute_size
 		$w.nb raise userdata
 		
@@ -715,9 +733,6 @@ namespace eval ::abookGui {
 		#pack $w.nb
 	}
 
-	proc CustomNickMenu { path x y } {
-
-	}
 	
 	proc ChangeColor { email w } {
 		global colorval_$email
@@ -753,150 +768,4 @@ namespace eval ::abookGui {
 	cmsn_draw_online
    }
          
-   proc showEntry { email {edit ""}} {
-   		showUserProperties $email
-		return
-		
-		variable bgcol
-
-		set cd(available) "N"
-		
-		::abook::getContact $email cd
-
-		if { $cd(available) == "N" } {
-			msg_box "[trans nodataavailable $email]"
-			return
-		}
-
-	# Generate a unique (almost) toplevel so that we can
-	# have several open info windows (for different users)
-	set w [string tolower $email]
-	set w [string trim $w]
-	set ends  [string first @ $w]
-	incr ends -1
-	set w [string range $w 0 $ends]
-	#set w [string map { @ "" _ "" - "" . "" } $w]
-	set w [string map { "@" "" } $w]
-	set w [string map { "_" "" } $w]
-	set w [string map { "-" "" } $w]
-	set w [string map { "." "" } $w]
- 	set w ".a$w"	
-
-	if {[winfo exists $w]} {
-	    return 
-	}
-
-	
-	set last_login [::abook::getContactData $email last_login]
-	set last_logout [::abook::getContactData $email last_logout]
-
-	toplevel $w -class ABook
-	wm title $w "[trans about] $email"
-#	wm geometry $w 210x140
-	set nbtIdent "[trans identity]"
-	set nbtPhone "[trans phone]"
-	set nbtOthers "[trans others]"
-	frame $w.n -class ABook
-	    pack [notebook $w.n.p $nbtIdent $nbtPhone $nbtOthers] \
-	    	-expand 1 -fill both -padx 1m -pady 1m
-	#  .----------.
-	# _| Identity |________________________________________________
-	set nbIdent [getNote $w.n.p $nbtIdent]
-	$nbIdent configure 
-   	label $nbIdent.e -text "Email:" -font bboldf 
-   	label $nbIdent.e1 -text $email -font splainf -fg blue 
-	label $nbIdent.h -text "[trans handle]:" -font bboldf 
-	label $nbIdent.h1 -text $cd(handle) -font splainf -fg blue 
-	label $nbIdent.g -text "[trans group]:" -font bboldf 
-	label $nbIdent.g1 -text $cd(group) -font splainf -fg blue 
-	grid $nbIdent.e -row 0 -column 0 -sticky e
-	grid $nbIdent.e1 -row 0 -column 1 -sticky w
-	grid $nbIdent.h -row 1 -column 0 -sticky e
-	grid $nbIdent.h1 -row 1 -column 1 -sticky w
-	grid $nbIdent.g -row 2 -column 0 -sticky e
-	grid $nbIdent.g1 -row 2 -column 1 -sticky w
-        bind $w <Control-i> "pickNote $w.n.p $nbtIdent"
-
-	#  .--------.
-	# _| Phones |________________________________________________
-	set nbPhone [getNote $w.n.p $nbtPhone]
-	$nbPhone configure 
-	if { $edit == "" } {
-	label $nbPhone.h -font bboldf -text "[trans home]:" 
-	label $nbPhone.h1 -font splainf -text $cd(PHH) -fg blue \
-		-justify left
-	label $nbPhone.w -font bboldf -text "[trans work]:"
-	label $nbPhone.w1 -font splainf -text $cd(PHW) -fg blue \
-		-justify left
-	label $nbPhone.m -font bboldf -text "[trans mobile]:" 
-	label $nbPhone.m1 -font splainf -text $cd(PHM) -fg blue \
-		-justify left
-	label $nbPhone.p -font bboldf -text "[trans pager]:" 
-	label $nbPhone.p1 -font splainf -text $cd(MOB) -fg blue \
-		-justify left
-	grid $nbPhone.h -row 0 -column 0 -sticky e
-	grid $nbPhone.h1 -row 0 -column 1 -sticky w
-	grid $nbPhone.w -row 1 -column 0 -sticky e
-	grid $nbPhone.w1 -row 1 -column 1 -sticky w
-	grid $nbPhone.m -row 2 -column 0 -sticky e
-	grid $nbPhone.m1 -row 2 -column 1 -sticky w
-	grid $nbPhone.p -row 3 -column 0 -sticky e
-	grid $nbPhone.p1 -row 3 -column 1 -sticky w
-	} else {
-	label $nbPhone.h -font bboldf -text "[trans home]:"
-	entry $nbPhone.h1 -font splainf -text cd(PHH) -fg blue
-	$nbPhone.h1 insert 1 $cd(PHH)
-	label $nbPhone.w -font bboldf -text "[trans work]:"
-	entry $nbPhone.w1 -font splainf -text cd(PHW) -fg blue 
-	$nbPhone.w1 insert 1 $cd(PHW)
-	label $nbPhone.m -font bboldf -text "[trans mobile]:" 
-	entry $nbPhone.m1 -font splainf -text cd(PHM) -fg blue 
-	$nbPhone.m1 insert 1 $cd(PHM)
-	label $nbPhone.p -font bboldf -text "[trans pager]:" 
-	label $nbPhone.p1 -font splainf -text $cd(MOB) -fg blue \
-		-justify left
-	grid $nbPhone.h -row 0 -column 0 -sticky e
-	grid $nbPhone.h1 -row 0 -column 1 -sticky w
-	grid $nbPhone.w -row 1 -column 0 -sticky e
-	grid $nbPhone.w1 -row 1 -column 1 -sticky w
-	grid $nbPhone.m -row 2 -column 0 -sticky e
-	grid $nbPhone.m1 -row 2 -column 1 -sticky w
-	grid $nbPhone.p -row 3 -column 0 -sticky e
-	grid $nbPhone.p1 -row 3 -column 1 -sticky w
-	}
-        bind $w <Control-p> "pickNote $w.n.p $nbtPhone"
-
-	#  .----------.
-	# _| Others |________________________________________________
-	set nbOthers [getNote $w.n.p $nbtOthers]
-	$nbOthers configure 
-   	label $nbOthers.e -text "[trans lastlogin]:" -font bboldf 
-   	label $nbOthers.e1 -text $last_login -font splainf -fg blue 
-	label $nbOthers.h -text "[trans lastlogout]:" -font bboldf 
-	label $nbOthers.h1 -text $last_logout -font splainf -fg blue 
-        label $nbOthers.h2 -text "[trans lastmsgedme]:" -font bboldf
-        label $nbOthers.h3 -text $last_msgmedme -font splainf -fg blue
-
-	grid $nbOthers.e -row 0 -column 0 -sticky e
-	grid $nbOthers.e1 -row 0 -column 1 -sticky w
-	grid $nbOthers.h -row 1 -column 0 -sticky e
-	grid $nbOthers.h1 -row 1 -column 1 -sticky w	
-        grid $nbOthers.h2 -row 2 -column 0 -sticky e
-        grid $nbOthers.h3 -row 2 -column 1 -sticky w
-
-	
-	frame $w.b -class ABook
-	    button $w.b.ok -text "[trans close]" -command "destroy $w"
-
-	    button $w.b.submit -text "Update" -state disabled \
-		    -command "::abookGui::updatePhones $nbPhone h1 w1 m1 p1; destroy $w"
-	    pack $w.b.ok $w.b.submit -side left
-	    if {$edit != ""} {
-		$w.b.submit configure -state normal
-	    }
-
-#	::themes::ApplyDeep $w {-background} $bgcol
-	pack $w.n $w.b -side top
-	bind $w <Control-c> "destroy $w"
-   }
 }

@@ -160,6 +160,7 @@ disablessl Desactivar SSL
 disconnect $1 se ha desconectado
 displaychat Configuración de mensajes
 displayp4context Mostrar contenido del campo P4-Context como remitente del mensaje
+displaypic Imagen para Mostrar
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Icono Gtk
 docking Icono en bandeja de sistema
@@ -368,6 +369,7 @@ pass Contraseña
 paste Pegar
 personal Personal
 phone Teléfono
+phones Números de teléfono
 picbrowser Navegador de imágenes para mostrar
 picfile Archivo de imagen (GIF < 500 x 500)
 picstatus Imagen para la alarma

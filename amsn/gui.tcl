@@ -1683,7 +1683,7 @@ namespace eval ::amsn {
 		.${win_name}.menu.actions add command -label "[trans viewprofile]" \
 		-command "::amsn::ShowChatList \"[trans viewprofile]\" .${win_name} ::hotmail::viewProfile"
 		.${win_name}.menu.actions add command -label "[trans properties]" \
-		-command "::amsn::ShowChatList \"[trans properties]\" .${win_name} ::abookGui::showEntry"
+		-command "::amsn::ShowChatList \"[trans properties]\" .${win_name} ::abookGui::showUserProperties"
 		.${win_name}.menu.actions add separator
 		.${win_name}.menu.actions add command -label "[trans invite]..." -command "::amsn::ShowInviteList \"[trans invite]\" .${win_name}"
 		.${win_name}.menu.actions add separator
@@ -3386,7 +3386,7 @@ proc cmsn_draw_main {} {
 
 	menu .admin_contacts_menu -tearoff 0 -type normal
 	.admin_contacts_menu add command -label "[trans delete]..." -command [list ::amsn::ShowDeleteList [trans delete] ::amsn::deleteUser]
-	.admin_contacts_menu add command -label "[trans properties]..." -command [list ::amsn::ShowSeePropertiesList [trans properties] ::abookGui::showEntry]
+	.admin_contacts_menu add command -label "[trans properties]..." -command [list ::amsn::ShowSeePropertiesList [trans properties] ::abookGui::showUserProperties]
 
 	::groups::Init .main_menu.tools
 
@@ -3411,7 +3411,7 @@ proc cmsn_draw_main {} {
 	#.options add command -label "[trans changenick]..." -state disabled \
 	#   -command cmsn_change_name -state disabled
 	#   .options add command -label "[trans publishphones]..." -state disabled \
-	#   -command "::abookGui::showEntry $config(login) -edit"
+	#   -command "::abookGui::showUserProperties $config(login) -edit"
 	#.options add separator
 	#.options add command -label "[trans preferences]..." -command Preferences
 
@@ -5594,7 +5594,7 @@ proc create_users_list_popup { path list x y} {
 		$path.${list}popup add separator
 		$path.${list}popup add command -label "[trans addtocontacts]" -command "AddToContactList \"$user\" $path" -state $add
 		$path.${list}popup add command -label "[trans removefromlist]" -command "Remove_from_list $list $user" -state $remove
-		$path.${list}popup add command -label "[trans properties]" -command "::abookGui::showEntry $user"
+		$path.${list}popup add command -label "[trans properties]" -command "::abookGui::showUserProperties $user"
 
 		tk_popup $path.${list}popup $x $y
 	}
@@ -6073,7 +6073,7 @@ proc show_umenu {user_login grId x y} {
 	}
 
 	.user_menu add command -label "[trans properties]" \
-	-command "::abookGui::showEntry $user_login"
+	-command "::abookGui::showUserProperties $user_login"
 
 	# Display Alarm Config settings
 	.user_menu add separator
