@@ -746,6 +746,24 @@ proc cmsn_draw_online {} {
 
    }
 
+   .main.text tag conf online -fore #000000 -font sboldf
+   .main.text tag bind online <Button1-ButtonRelease> \
+      "::groups::ToggleStatus online;cmsn_draw_online"
+   .main.text tag bind online <Enter> \
+      ".main.text tag conf online -under true;.main.text conf -cursor hand2"
+   .main.text tag bind online <Leave> \
+      ".main.text tag conf online -under false;.main.text conf -cursor left_ptr"
+
+
+   .main.text tag conf offline -fore #000000 -font sboldf
+   .main.text tag bind offline <Button1-ButtonRelease> \
+      "::groups::ToggleStatus offline;cmsn_draw_online"
+   .main.text tag bind offline <Enter> \
+      ".main.text tag conf offline -under true;.main.text conf -cursor hand2"
+   .main.text tag bind offline <Leave> \
+      ".main.text tag conf offline -under false;.main.text conf -cursor left_ptr"
+
+
    .main.text insert end "\n"
 
    # Display MSN logo with user's handle. Make it clickable so
