@@ -3677,7 +3677,12 @@ proc cmsn_ns_handler {item} {
 					return 0
 				} else {
 					::MSN::logout
-					msg_box "[trans servergoingdown]"
+					if { $config(reconnect) == 1 } {
+						::MSN::connect
+					}
+					if { $config(reconnect) == 0 } {
+						msg_box "[trans servergoingdown]"
+					}
 					return 0
 				}
 			}
@@ -3731,20 +3736,35 @@ proc cmsn_ns_handler {item} {
 			}
 			600 {
 				::MSN::logout
+				if { $config(reconnect) == 1 } {
+					::MSN::connect
+				}
+				if { $config(reconnect) == 0 } {
+					::amsn::errorMsg "[trans serverbusy]"
+				}
 				status_log "Error: Server is busy\n" red
-				::amsn::errorMsg "[trans serverbusy]"
 				return 0
 			}
 			601 {
 				::MSN::logout
+				if { $config(reconnect) == 1 } {
+					::MSN::connect
+				}
+				if { $config(reconnect) == 0 } {
+					::amsn::errorMsg "[trans serverunavailable]"
+				}
 				status_log "Error: Server is unavailable\n" red
-				::amsn::errorMsg "[trans serverunavailable]"
 				return 0
 			}
 			500 {
 				::MSN::logout
+				if { $config(reconnect) == 1 } {
+					::MSN::connect
+				}
+				if { $config(reconnect) == 0 } {
+					::amsn::errorMsg "[trans internalerror]"
+				}
 				status_log "Error: Internal server error\n" red
-				::amsn::errorMsg "[trans internalerror]"
 				return 0
 			}
 			911 {

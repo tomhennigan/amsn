@@ -291,10 +291,11 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.2.lmins -text "[trans mins]" -padx 5
 	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.2.lautoaway $lfname.2.eautoaway $lfname.2.lmins -side left
+	checkbutton $lfname.3.lreconnect -text "[trans reconnect2]" -onvalue 1 -offvalue 0 -variable config(reconnect)
 	checkbutton $lfname.3.lonstart -text "[trans autoconnect2]" -onvalue 1 -offvalue 0 -variable config(autoconnect)
 	checkbutton $lfname.3.lstrtoff -text "[trans startoffline2]" -onvalue 1 -offvalue 0 -variable config(startoffline)
 	pack $lfname.3 -side top -padx 0 -expand 1 -fill both
-	pack $lfname.3.lonstart $lfname.3.lstrtoff -anchor w -side top
+	pack $lfname.3.lreconnect $lfname.3.lonstart $lfname.3.lstrtoff -anchor w -side top
 
 	## Away Messages Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefawaymsg]]

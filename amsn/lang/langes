@@ -453,6 +453,7 @@ receiveddir Carpeta de Archivos Recibidos
 receivefile Recibir archivo
 recentmsg Prevenir el cierre de la ventana de chat cuando un mensaje acaba de llegar
 reconnect Esperando que $1 se reconecte
+reconnect2 Reconectar en perder la conexion
 reconnecting Reconectando al servidor
 reject Rechazar
 rememberpass Recordar contraseña

@@ -27,6 +27,8 @@ proc ConfigDefaults {} {
 	
 	set config(chatstyle)	"msn"		;#Chat display style
 
+	set config(reconnect) 1			;#Variable for amsn to reconnect on loss
+
 	#Some Autodetected options
 	if {$tcl_platform(os) == "Darwin"} {
 		set osversion [string range "$tcl_platform(osVersion)" 0 0]

@@ -447,6 +447,7 @@ receiveddir Directori de fitxers rebuts
 receivefile Rebent fitxer
 recentmsg Prevenir el tancament de la finestra de conversa quan acabi d'arribar un missatge
 reconnect Esperant a que $1 es reconnecti
+reconnect2 Reconnectar en perdre la connexio
 reconnecting Reconnectant amb el servidor
 reject Rebutjar
 rememberpass Recordar contrasenya

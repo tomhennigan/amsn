@@ -451,6 +451,7 @@ receivefile Receive file
 recentmsg Prevent closing a chat window when a message has just arrived
 reconnecting Reconnecting to server
 reconnect Waiting for $1 to reconnect
+reconnect2 Reconnect on loss
 reject Reject
 rememberpass Remember password
 removeempty Remove empty groups from the contact list
