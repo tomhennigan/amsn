@@ -31,6 +31,9 @@ namespace eval ::Nudge {
         
         #Config to show in configuration window	
        	::Nudge::configlist_values
+       	
+       	#Create amsnplus command /nudge to send nudge
+		after 500 ::Nudge::add_command
         	
 	}
 	
@@ -299,6 +302,23 @@ namespace eval ::Nudge {
 		$newvar(menu_name).actions add command -label "$::Nudge::language(send_nudge)" \
 		-command "::Nudge::send_via_queue $newvar(window_name)"
 		::Nudge::log "Item Send Nudge added to actions menu of window $newvar(window_name)"
+	}
+	
+	################################################
+	# ::Nudge::add_command		                   #
+	# -------------------------------------------  #
+	# Add irc command /nudge for amsnplus users    #
+	# Need last update of aMSNPlus plugin +/- 2.3  #
+	# Verify first if amsnplus plugin is loaded    #
+	################################################
+	proc add_command {} {
+	
+		#If amsnplus plugin is loaded, register the command
+		set pluginidx [lindex [lsearch -all $::plugins::found "*amsnplus*"] 0]
+		if { $pluginidx != "" } {
+			::amsnplus::add_command nudge ::Nudge::SendNudge 0 1
+			::Nudge::log "Register command nudge to amsnplus plugin"
+		}
 	}
 	
 	################################################
