@@ -7123,7 +7123,21 @@ proc bgerror { args } {
 	puts $fd "Bug generated at [clock format [clock seconds] -format "%D - %T"]\n"
 	puts $fd "Error : $args\nStack : $errorInfo\n\nCode : $errorCode\n\n"
 	catch {    puts $fd "tcl version : $tcl_version ||| tk version : $tk_version\n\ntcl_platform array content : [array get tcl_platform]\n\n" }
+
+	set tclfiles [glob -nocomplain *.tcl]
+	set latestmtime 0
+	set latestfile ""
+	foreach tclfile $tclfiles {
+		file stat $tclfile filestat
+		set mtime $filestat(mtime)
+		if { $mtime > $latestmtime } {
+			set latestmtime $mtime
+			set latestfile $tclfile
+		}
+	}
+	puts $fd "Latest modification timne file: $latestfile: [clock format $latestmtime -format %y/%m/%d-%H:%M]\n\n"
 	
+		
 	puts $fd "Status_log: \n [.status.info get $pos $posend]\n\n"		
 	puts $fd "Protocol debug: \n [.degt.mid.txt get $prot_pos $prot_posend]\n\n"		
 	puts $fd "==========================================================================\n\n"
