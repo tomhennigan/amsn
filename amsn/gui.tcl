@@ -1616,7 +1616,7 @@ proc cmsn_draw_main {} {
    if { [string length $config(login)] > 0 } {
      if {$password != ""} {
         .main_menu.file add command -label "[trans login] $config(login)" \
-          -command "::MSN::connect $config(login) $password" -state normal
+          -command "::MSN::connect [list $config(login)] [list $password]" -state normal
      } else {
      	.main_menu.file add command -label "[trans login] $config(login)" \
           -command cmsn_draw_login -state normal
@@ -2106,7 +2106,7 @@ proc cmsn_draw_offline {} {
 	    "$pgBuddy.text tag conf start_login -fore #000000 -underline true;\
 	    $pgBuddy.text conf -cursor left_ptr"
     $pgBuddy.text tag bind start_login <Button1-ButtonRelease> \
-        "::MSN::connect $config(login) $password"
+        "::MSN::connect [list $config(login)] [list $password]"
 
 
    $pgBuddy.text tag conf start_loginas -fore #000000 -underline true \
@@ -2213,7 +2213,7 @@ proc login_ok {} {
    grab release .login
    destroy .login
 
-   ::MSN::connect $config(login) $password
+   ::MSN::connect [list $config(login)] [list $password]
 }
 #///////////////////////////////////////////////////////////////////////
 
