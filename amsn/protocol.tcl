@@ -2296,7 +2296,7 @@ proc cmsn_sb_msg {sb_name recv} {
 
    } elseif { [string range $content 0 23] == "application/x-msnmsgrp2p" } {
    	status_log "Got an MSNP2P Message : \n$msg\n" red
-	status_log "Calling MSNP2P::Read with chatid $chatid msg=\n$msg\n"
+	#status_log "Calling MSNP2P::Read with chatid $chatid msg=\n$msg\n"
 	MSNP2P::ReadData $msg $chatid
       
    } else {
@@ -4849,7 +4849,7 @@ namespace eval ::MSNP2P {
 	# nullsid 	: 0 to add sid to header, 1 to put 0 instead of sid in header (usefull for negot + bye)
 	# Returns the MSNP2P packet (half text half binary)
 	proc MakePacket { sid slpdata {nullsid "0"} {MsgId "0"} {TotalSize "0"} {Offset "0"} {Destination "0"} {AfterAck "0"} } {
-		
+
 		# Let's get our session id variables and put them in a list
 		# If sessionid is 0, means we want to initiate a new session
 		if { $sid != 0 } {
