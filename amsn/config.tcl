@@ -580,16 +580,18 @@ proc LoadLoginList {{trigger 0}} {
 	}
 	close $file_id
 
-	#If profiles are disabled, don't load one
-	if { [::config::getGlobalKey disableprofiles] == 1 } {
-		status_log "LoadLoginList: profiles disabled, ignoring\n" blue		
-		::config::setKey login ""
-		set HOME2 $HOME
-		return
-	}
 	
 	# Modify HOME dir to current profile, chose a non locked profile, if none available go to default
 	if { $trigger == 0 } {
+		
+		#If profiles are disabled, don't load one
+		if { [::config::getGlobalKey disableprofiles] == 1 } {
+			status_log "LoadLoginList: profiles disabled, ignoring\n" blue		
+			::config::setKey login ""
+			set HOME2 $HOME
+			return
+		}		
+		
 		status_log "LoadLoginList: getting an initial profile\n" blue
 		set HOME2 $HOME
 		set flag 0
