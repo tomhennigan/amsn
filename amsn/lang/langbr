@@ -157,7 +157,6 @@ dockkde Minimizar na bandeja do KDE
 dontdownload Não descarregue o TLS, eu mesmo o farei
 dontshow Não exibir
 downloadingtls Descarregando módulo TLS de:\n $1
-editcurrentstate Editar estado Atual
 editcustomstate Editar estado personalizado
 edit Editar
 editnewstate Novo estado pessoal de Automensagem
@@ -518,3 +517,9 @@ yoffset Deslocamento Y
 youblocked Você foi bloqueado
 yousay Você diz
 youwant Você quer
+autodetectip Detectar o endereço IP automaticamente
+checkemail Mostrar linha de notificação de mensagem (Caixa de Entrada) na lista de contatos
+credits Créditos
+notinlist Você não está na lista de contatos dele(a)
+prefft Transferência de arquivos, peer-to-peer e configurações de NAT
+rename Renomear

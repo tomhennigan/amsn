@@ -70,6 +70,7 @@ browse Gözat
 browserexample (\$url URL ile deðiþtirilecek) Örn: mozilla \$url
 browser Ýnternet tarayýcý
 busy Meþgul
+cachedpics $1 saklanmýþ resim
 cancel Ýptal Et
 cannotdeleteprofile Profil kullanýmda olduðu için silinemiyor
 cantexec $1 uygulamasi çalýþtýrýlamýyor. Seçenekleri kontrol edin.
@@ -130,6 +131,7 @@ corruptstates Kiþisel durumlar ayar dosyasý bozulmuþ. Yenisi oluþturulacak. Eski
 countrycode Ülke/Bölge kodum
 cprofile Profil oluþtur
 credits Emeði Geçenler
+currentdate Bugünün Tarihi
 custom_edit Özel gülen adamý düzenle
 custom_new Yeni özel gülen adam ekle
 cut Kes
@@ -275,6 +277,7 @@ login Baðlan
 loging Kayda geçirme
 logolder Yalnýz bu süre öncesine kadar yapýlan sohbetlerin kaydýný tut
 logout Baðlantýyý kes
+logsbydate Kayýtlarý tarihe göre sýrala (Geçmiþ böyle çok daha hýzlý yükleniyor)
 logsin baðlandý
 logsmileys Geçmiþ penceresinde gülen adamlar görünsün
 logsout $1 az önce sohbetten ayrýldý.
@@ -435,6 +438,7 @@ server Sunucu
 serverunavailable Sunucuya eriþilemiyor
 session Oturum
 showblockedlist Sizi engelleyenlerin listesi gösterilsin
+showcachedpics Saklanmýþ kullanýcý resimlerini göster/gizle
 showdisplaypic2 Bir sohbet penceresi açýldýðýnda kullanýcý resmini kendiliðinden göster
 showdisplaypic Kullanýcý resmini göster
 showmypic Kullanýcý Resmim
