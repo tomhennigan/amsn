@@ -1668,7 +1668,7 @@ namespace eval ::amsn {
 		catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}
 		image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
 		label $bottom.pic  -borderwidth 1 -relief solid -image no_pic -background #FFFFFF
-		button $bottom.showpic -bd 0 -padx 0 -pady 0 -text ">" \
+		button $bottom.showpic -bd 0 -padx 0 -pady 0 -image imgshow \
 			-command "::amsn::ToggleShowPicture ${win_name}; ::amsn::ShowOrHidePicture .${win_name}" -font splainf
 		grid $bottom.showpic -row 0 -column 2 -padx 0 -pady 3 -rowspan 2 -sticky ns
 
@@ -1911,7 +1911,7 @@ set y [expr $y - 115]
 		} elseif { $nopack == ""} {
 			grid $win.f.bottom.pic -row 0 -column 1 -padx 0 -pady 3 -rowspan 2
 			#grid forget $win.f.bottom.showpic
-			$win.f.bottom.showpic configure -text "<"
+			$win.f.bottom.showpic configure -image imghide
 
 			set show_pic 1
 		}
@@ -1923,7 +1923,7 @@ set y [expr $y - 115]
 
 		#grid $win.f.bottom.showpic -row 0 -column 1 -padx 0 -pady 0 -rowspan 2
 		#Change here to change the icon, instead of text
-		$win.f.bottom.showpic configure -text ">"
+		$win.f.bottom.showpic configure -image imgshow
 
 		set ${win}_show_picture 0
 
@@ -3260,6 +3260,9 @@ proc cmsn_draw_main {} {
    image create photo blocked -file [GetSkinFile pixmaps blocked.gif]
 
    image create photo colorbar -file [GetSkinFile pixmaps colorbar.gif]
+
+   image create photo imgshow -file [GetSkinFile pixmaps imgshow.gif]
+   image create photo imghide -file [GetSkinFile pixmaps imghide.gif]
 
    set barwidth [image width colorbar]
    set barheight [image height colorbar]
