@@ -454,8 +454,8 @@ proc LabelEntryGet { path } {
 
 ###################### ****************** ###########################
 # $Log$
-# Revision 1.18  2003/01/10 16:57:31  burgerman
-# Fixed some combox box issues, disabled preferences in menu because I am rewriting.
+# Revision 1.19  2003/01/10 18:35:13  burgerman
+# Fixed issues with new multiple config and Alarms and Logs
 #
 # Revision 1.17  2003/01/05 22:37:56  burgerman
 # Save to File in loging implemented

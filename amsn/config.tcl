@@ -272,7 +272,7 @@ proc LoginList { action age {email ""} } {
 # Called when the user selects a combobox item or enters new signin
 # email : email of the new profile/login
 proc ConfigChange { window email } {
-	global HOME HOME2 password config
+	global HOME HOME2 password config log_dir
 	if { $email != "" } {
 		save_config
 	}
@@ -288,6 +288,7 @@ proc ConfigChange { window email } {
 	if { [LoginList exists 0 $email] == 1 } {
 		load_config
 		LoginList add 0 $email
+		set log_dir "[file join ${HOME} logs]"
 	} else {
 		NewProfileAsk $email
 	}
@@ -309,7 +310,7 @@ proc ConfigChange { window email } {
 # email : email of new profile
 # value : If 1 create new profile, if 0 use default profile
 proc CreateProfile { email value } {
-	global HOME HOME2 config
+	global HOME HOME2 config log_dir
 	if { $value == 1 } {
 		status_log "Creating new profile"
 		# Create a new profile with $email
@@ -323,6 +324,7 @@ proc CreateProfile { email value } {
 		# Dosent want to save profile, use/load default config in this case
 		set HOME $HOME2
 		load_config
+		set log_dir ""
 		set config(save_password) 0
 		.login.c.remember configure -state disabled
 	}

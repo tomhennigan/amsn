@@ -34,6 +34,11 @@ proc load_alarms {} {
 proc save_alarms {} {
    global tcl_platform alarms HOME config
 
+   # Only save if current login has a profile
+   if { [LoginList exists 0 $config(login) ] == 0 } {
+	return 1
+   }
+   
    if { ([info exists alarms]) && ([array size alarms] != 0) } {
 
 	puts stdout [array size alarms]

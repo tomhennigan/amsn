@@ -20,13 +20,15 @@ namespace eval ::log {
 proc StartLog { email } {
 
 	global log_dir config
-	status_log "DEBUG: Opening log file for $email\n"
 #       set dirname [split $config(login) "@ ."]
 #        set dirname [join $dirname "_"]
 #        file mkdir [file join ${log_dir} ${dirname}]
 
 	LogArray $email set [open "[file join ${log_dir} ${email}.log]" a+]
 	fconfigure [LogArray $email get] -buffersize 1024
+	if { [LoginList exists 0 $config(login)] == 0 } {
+		LogArray $email set "stdout"
+	}
 }
 
 
@@ -308,10 +310,8 @@ proc OpenLogWin { email } {
       	scrollbar $wname.blueframe.log.ys -command "$wname.blueframe.log.txt yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
 	
-	set dirname [split $config(login) "@ ."]
-	set dirname [join $dirname "_"]
-	if { [file exists [file join ${log_dir} ${dirname} ${email}.log]] == 1 } {
-		set id [open "[file join ${log_dir} ${dirname} ${email}.log]" r]
+	if { [file exists [file join ${log_dir} ${email}.log]] == 1 } {
+		set id [open "[file join ${log_dir} ${email}.log]" r]
 		set logvar [read $id]
 		close $id
 	} else {

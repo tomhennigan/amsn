@@ -48,6 +48,7 @@ WindowsXP issues :
 # Selections dont appear
 # Double Pastes on CTRL-V
 # Ugly program icons (WISH icon, not ours)
+# Fonts dialog all messed up
 
 Others
 # Fix display issue when copying a user in more than 1 group (displays the user twice in the same group)
@@ -58,7 +59,7 @@ Others
 
 ***Extra Features (priority 3)***
 
-# Multiple user accounts combo box + separate user config files
+# ** DONE ** Multiple user accounts combo box + separate user config files
 # Menu accelerators
 # Gnome2 Docking + KDE Docking
 # Autoconnect (when connection detected)
