@@ -2284,7 +2284,7 @@ proc cmsn_sb_msg {sb_name recv} {
    if { [::config::getKey displayp4context] !=1 || $p4context == "" } {
    	set typernick [urldecode [lindex $recv 2]]
 	if { $typernick != [::abook::getNick $typer] } {
-		::abook::setNick $typer $typernick
+		::abook::setContactData $typer nick $typernick
 	}
 	set nick [::abook::getDisplayNick $typer]
    } else {
