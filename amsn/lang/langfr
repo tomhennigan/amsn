@@ -82,6 +82,7 @@ uonline Connectés
 user Utilisateur
 version Version
 willjoin Dans l'attente que $1 rejoigne la conversation
+
 actions Actions
 admincontacts Gérer le contacts
 admingroups Gérer les groupes
@@ -106,9 +107,42 @@ save Enregistrer
 saveas Enregistrer sous
 savecontacts Enregistrer la liste des contacts
 sendfile Envoyer un fichier
-sendmail Envoyer un email
+sendmail Envoyer un couriel
 sendmsg Envoyer un message
 startoffline Démarrer déconnecté
 textsize Taille du texte
 tools Outils
 view Vue
+
+acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
+autoip IP automatique
+baduserpass Mauvais nom d'utilisateur ou mot de passe
+enterfilename Entrez le nom du fichier
+filedoesnotexist Le fichier n'existe pas
+filename Fichier
+filetransfercancelled Transfert de fichier annulé
+filetransfercomplete Transfert de fichier terminé
+group Groupe
+groupadd Ajouter un groupe
+groupdelete Supprimer un groupe
+grouprename Renommer un groupe
+groupoldname Ancien nom
+groupnewname Nouveau nom
+groupunknown Groupe inconnu
+groupexists Le groupe existe déjà
+groupmissing Impossible de trouver le groupe
+handle Pseudonyme
+home Domicile
+identity Identité
+ipaddress Adresse IP
+listeningon A l'écoute sur le port $1
+mobile Mobile
+needonline Vous êtes toujours déconnecté!
+pager Pager
+phone Téléphone
+properties Propriété
+publishphones Publier mes numéros de téléphone
+receivedbytes $1 de $2 octets reçus
+receivefile Fichier reçu
+sentbytes $1 de $2 octets reçus
+work Travail
