@@ -253,7 +253,7 @@ prefprofile3 Perfiles de configuración de los usuarios
 prefprofile Mi perfil público
 prefproxy Configuración de mi proxy
 prefremote Configuración de conexión remota
-prefsession My inicio de sesión y estado
+prefsession Mi inicio de sesión y estado
 prefshared Conexiones compartidas (sólo para NAT)
 prefsound Sonidos
 profiledconfig Información de perfil
