@@ -2171,7 +2171,11 @@ load_config						;# CONFIG
 scan_languages
 load_lang
 
-::amsn::initLook [lindex $config(basefont) 0] [lindex $config(basefont) 1] $config(backgroundcolor)
+set family [lrange $config(basefont) 0 end-2]
+set size [lindex $config(basefont) end-1]
+
+::amsn::initLook $family $size $config(backgroundcolor)
+
 
 if { $config(encoding) != "auto" } {
   set_encoding $config(encoding)
