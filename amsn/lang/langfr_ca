@@ -70,6 +70,7 @@ browse Naviguer
 browser Navigateur web
 browserexample (\$url sera remplacé par l'URL). Ex: mozilla \$url
 busy Occupé
+cachedpics $1 a masqué son avatar
 cancel Annuler
 cannotdeleteprofile le profil ne peut être supprimé car il semble utilisé par une autre session aMSN
 cantexec Incapable d'exécuter l'application $1. Vérifiez les paramètres.
@@ -129,6 +130,7 @@ corruptstates Fichier de configuration des états personalisés corrompu. Création
 countrycode Mon code de pays/région
 cprofile Créer un profil
 credits Crédits
+currentdate Date actuelle
 custom_edit Editer un émoticon personnalisé
 custom_new Créer un nouvel émoticon personnalisé
 cut Couper
@@ -266,6 +268,7 @@ ljoinedconf $1 se joint à la conférence
 lleftconf $1 a quitté la conférence
 loadcontacts Charger la liste de contacts
 logbigger La taille du fichier journal pour chaque contact ne dépasse jamais
+logsbydate Trier les logs par date (Afficher l'historique charge plus rapidement)
 logfandexp La taille des fichiers journaux et l'expiration de l'historique
 loggedotherlocation Déconnecté. Connecté depuis un autre endroit.
 loggingin Connexion en cours...
@@ -434,6 +437,7 @@ servergoingdown Serveur en cours d'arrêt
 serverunavailable Serveur non disponible
 session Session
 showblockedlist Afficher la liste des personnes qui vous ont bloqué
+showcachedpics Afficher les avatars cachés
 showdisplaypic Afficher l'image
 showdisplaypic2 Lorsqu'une fenêtre de conversation est ouverte, afficher l'image par défaut
 showmypic Mon image
