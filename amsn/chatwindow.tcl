@@ -1066,7 +1066,7 @@ namespace eval ::ChatWindow {
 		}
 
 
-		if { $scrolling } { after 100 "[::ChatWindow::GetTopText [winfo toplevel $paned]] yview end" }
+		if { $scrolling } { after 100 "catch {[::ChatWindow::GetTopText [winfo toplevel $paned]] yview end}" }
 
 
 		if { [::config::getKey savechatwinsize] } {
@@ -1549,7 +1549,7 @@ namespace eval ::ChatWindow {
 			wm title ${win_name} ${title}
 		}
 
-		if { $scrolling } { [::ChatWindow::GetTopText ${win_name}] yview end }
+		if { $scrolling } { catch {[::ChatWindow::GetTopText ${win_name}] yview end} }
 
 		#PostEvent 'TopUpdate'
 		set evPar(chatid) "chatid"
