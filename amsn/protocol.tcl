@@ -820,14 +820,14 @@ proc cmsn_sb_msg {sb_name recv} {
    set timestamp [clock format [clock seconds] -format %H:%M]
 
    set typer [lindex $recv 1]
-   after cancel "catch {set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name} res"      
+   after cancel "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name\} res"      
 
    if {[string range $content 0 9] == "text/plain"} {
       cmsn_win_write $sb_name \
         "\[$timestamp\] [trans says [urldecode [lindex $recv 2]]]:\n" gray
       cmsn_win_write $sb_name "$body\n" red
       
-      status_log "llegamsg: $recv\n"
+#      status_log "llegamsg: $recv\n"
       
       set idx [sb search $sb_name typers [lindex $recv 1]]
       sb ldel $sb_name typers $idx
@@ -848,7 +848,7 @@ proc cmsn_sb_msg {sb_name recv} {
       
    } elseif {[string range $content 0 19] == "text/x-msmsgscontrol"} {
 
-      status_log "llegamsgcontrol: $recv\n"
+#      status_log "llegamsgcontrol: $recv\n"
           
       if {[llength $typer]} {
 #         set typer [lindex $typer 1]
@@ -859,7 +859,7 @@ proc cmsn_sb_msg {sb_name recv} {
 	 
          cmsn_show_typers $sb_name
 	 
-	 after 8000 "catch {set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name} res"
+	 after 8000 "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name\} res"
 
       }
 
