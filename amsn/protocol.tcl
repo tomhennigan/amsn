@@ -828,7 +828,7 @@ namespace eval ::MSN {
 		sb set ns name ns
 		sb set ns sock ""
 		sb set ns data [list]
-		sb set ns serv [split $config(start_ns_server) ":"]
+		sb set ns server [split $config(start_ns_server) ":"]
 		sb set ns stat "d"
 		
 				
@@ -884,14 +884,15 @@ namespace eval ::MSN {
 		::MSN::WriteSBRaw ns "OUT\r\n";
 
   		#TODO: New abstract connection system
-		catch {close [sb get ns sock]} res
+		set command [list "::[sb get ns connection_wrapper]::finish" ns]
+		eval $command
 		sb set ns stat "d"
 		
 		CloseSB ns
 		
 		global config automessage
 		
-		sb set ns serv [split $config(start_ns_server) ":"]
+		sb set ns server [split $config(start_ns_server) ":"]
 		
 		set myStatus FLN
 		status_log "Loging out\n"
@@ -1145,7 +1146,7 @@ namespace eval ::MSN {
 
 		#Finally, to write, use a wrapper, so it's transparent to use
 		#a direct connection, a proxy, or anything      
-		set command [list "::[sb get $sbn connection_wrapper]::Write" $sbn $cmd]
+		set command [list "::[sb get $sbn connection_wrapper]::write" $sbn $cmd]
 		catch {eval $command} res
 		
 		if { $res == 0 } {
@@ -1224,7 +1225,8 @@ namespace eval ::MSN {
 		set sock [sb get $sbn sock]
 
 		if {$sock != ""} {
-			catch {close $sock} res
+			set command [list "::[sb get $sbn connection_wrapper]::finish" $sbn]
+			eval $command
 		}
 		
 		#Append an empty string to the SB buffer. This will cause the
@@ -1512,9 +1514,10 @@ namespace eval ::MSN {
 		}
 
 		catch {
-			fileevent [sb get $name sock] readable ""
-			fileevent [sb get $name sock] writable ""
-			close [sb get $name sock]
+			#fileevent [sb get $name sock] readable ""
+			#fileevent [sb get $name sock] writable ""
+			set command [list "::[sb get $name connection_wrapper]::finish" $name]
+			eval $command
 		} res
 
 		set sb_list [lreplace $sb_list $idx $idx ]
@@ -2080,9 +2083,12 @@ namespace eval ::MSN {
 
 }
 
+
+#Connection wrapper for Direct Connection
 namespace eval ::DirectConnection {
 	
-	proc Write { sbn data } {
+	#Called to write some data to the connection
+	proc write { sbn data } {
 	
 		set sb_sock [sb get $sbn sock]
 		if {[catch {puts -nonewline $sb_sock "$data"} res]} {
@@ -2091,6 +2097,50 @@ namespace eval ::DirectConnection {
 		} else {
 			return 0
 		}
+		
+	}
+	
+	#Called to close the given connection
+	proc finish {sbn} {
+		
+		set sock [sb get $sbn sock]
+		
+		catch {
+			fileevent $sock readable ""
+			fileevent $sock writable ""
+		}
+		
+		if {[catch {close $sock}]} {
+			return -1
+		} else {
+			return 0
+		}
+	}
+	
+	#Called to stablish the given connection.
+	#The "server" field in the sbn data must be set to server:port
+	proc connect {sbn} {
+	
+		set tmp_serv [lindex [sb get $sbn server] 0]
+		set tmp_port [lindex [sb get $sbn server] 1]
+	
+		if { [catch {set sock [socket -async $tmp_serv $tmp_port]} res ] } {
+			sb set $sbn error_msg $res
+			return -1
+		}
+	
+		sb set $sbn sock $sock
+		fconfigure $sock -buffering none -translation {binary binary} -blocking 0
+		fileevent $sock readable [list ::DirectConnection::Readable $sbn]
+		fileevent $sock writable [sb get $sbn connected]
+		return 0
+	
+	}
+
+	#Private callback, called when there's something to be read in the socket	
+	proc Readable {sbn} {
+		set command [sb get $sbn readable]
+		eval $command
 		
 	}
 }
@@ -2758,8 +2808,8 @@ proc cmsn_rng {recv} {
 	sb set $sbn users [list]
 	sb set $sbn typers [list]
 	sb set $sbn lastmsgtime 0
-	sb set $sbn serv [split [lindex $recv 2] ":"]
-	sb set $sbn connected "cmsn_conn_ans $sbn"
+	sb set $sbn server [split [lindex $recv 2] ":"]
+	sb set $sbn connected [list cmsn_conn_ans $sbn]
 	sb set $sbn auth_cmd "ANS"
 	sb set $sbn auth_param "$config(login) [lindex $recv 4] [lindex $recv 1]"
 
@@ -2794,8 +2844,8 @@ proc cmsn_open_sb {sbn recv} {
 	
 	status_log "cmsn_open_sb: Opening SB $sbn\n" green
 
-	sb set $sbn serv [split [lindex $recv 3] ":"]
-	sb set $sbn connected "cmsn_conn_sb $sbn"
+	sb set $sbn server [split [lindex $recv 3] ":"]
+	sb set $sbn connected [list cmsn_conn_sb $sbn]
 	sb set $sbn auth_cmd "USR"
 	sb set $sbn auth_param "$config(login) [lindex $recv 5]"
 
@@ -2925,9 +2975,11 @@ proc cmsn_reconnect { name } {
 	
 		if { [expr {[clock seconds] - [sb get $name time]}] > 15 } {
 			status_log "cmsn_reconnect: called again while inviting timeouted for sb $name\n" red
-			catch { fileevent [sb get $name sock] readable "" } res
-			catch { fileevent [sb get $name sock] writable "" } res
-			catch {close [sb get $name sock]} res
+			#catch { fileevent [sb get $name sock] readable "" } res
+			#catch { fileevent [sb get $name sock] writable "" } res
+			set command [list "::[sb get $name connection_wrapper]::finish" $name]
+			eval $command
+			#catch {close [sb get $name sock]} res
 			sb set $name stat "d"
 			cmsn_reconnect $name
 		}
@@ -2938,9 +2990,11 @@ proc cmsn_reconnect { name } {
 	
 		if { [expr {[clock seconds] - [sb get $name time]}] > 10 } {
 			status_log "cmsn_reconnect: called again while reconnect timeouted for sb $name\n" red
-			catch { fileevent [sb get $name sock] readable "" } res
-			catch { fileevent [sb get $name sock] writable "" } res
-			catch {close [sb get $name sock]} res
+			#catch { fileevent [sb get $name sock] readable "" } res
+			#catch { fileevent [sb get $name sock] writable "" } res
+			set command [list "::[sb get $name connection_wrapper]::finish" $name]
+			eval $command
+			#catch {close [sb get $name sock]} res
 			sb set $name stat "d"
 			cmsn_reconnect $name
 		}
@@ -2953,9 +3007,11 @@ proc cmsn_reconnect { name } {
 
 		if { [expr {[clock seconds] - [sb get $name time]}] > 10 } {
 			status_log "cmsn_reconnect: called again while authentication timeouted for sb $name\n" red
-			catch { fileevent [sb get $name sock] readable "" } res
-			catch { fileevent [sb get $name sock] writable "" } res
-			catch {close [sb get $name sock]} res
+			#catch { fileevent [sb get $name sock] readable "" } res
+			#catch { fileevent [sb get $name sock] writable "" } res
+			set command [list "::[sb get $name connection_wrapper]::finish" $name]
+			eval $command
+			#catch {close [sb get $name sock]} res
 			sb set $name stat "d"
 			cmsn_reconnect $name
 		}
@@ -3313,7 +3369,7 @@ proc cmsn_ns_handler {item} {
 			XFR {
 				if {[lindex $item 2] == "NS"} {
 					set tmp_ns [split [lindex $item 3] ":"]
-					sb set ns serv $tmp_ns
+					sb set ns server $tmp_ns
 					status_log "cmsn_ns_handler: got a NS transfer, reconnecting to [lindex $tmp_ns 0]!\n" green
 					cmsn_ns_connect $config(login) $password nosigin
 					return 0
@@ -4046,47 +4102,50 @@ proc cmsn_socket {name} {
 	global config
 
 	#This is the default read handler, if not changed by proxy
-	sb set $name readable "read_sb_sock $name"
+	sb set $name readable [list read_sb_sock $name]
+	#This is the default procedure that should be called when an error is detected
+	sb set $name errorhandler [list ::MSN::CloseSB $name"]
 	
- 	sb set $name connection_wrapper DirectConnection
 	
 	if {$config(connectiontype) == "direct" } {
+ 		sb set $name connection_wrapper DirectConnection
 
-		set tmp_serv [lindex [sb get $name serv] 0]
-		set tmp_port [lindex [sb get $name serv] 1]
-		set readable_handler "read_sb_sock $name"
-		set read_procedure "::MSN::ReadSB"
-		set next [sb get $name connected]
+		#set tmp_serv [lindex [sb get $name server] 0]
+		#set tmp_port [lindex [sb get $name server] 1]
+		#set next [sb get $name connected]
 
 	} elseif {$config(connectiontype) == "http"} {
+	
+ 		sb set $name connection_wrapper HTTPConnection
+		sb set $name proxy_server "gateway.messenger.hotmail.com"
+		sb set $name proxy_port 80
 
-		status_log "cmsn_socket: Setting up http connection\n" green
-		set tmp_serv "gateway.messenger.hotmail.com"
-		set tmp_port 80
+		#status_log "cmsn_socket: Setting up http connection\n" green
+		#set tmp_serv "gateway.messenger.hotmail.com"
+		#set tmp_port 80
 
-		::Proxy::Init "$tmp_serv:$tmp_port" "http"
+		#::Proxy::Init "$tmp_serv:$tmp_port" "http"
 
-		::Proxy::OnCallback "dropped" "proxy_callback"
+		#::Proxy::OnCallback "dropped" "proxy_callback"
 
-		status_log "cmsn_socket: Calling proxy::Setup now\n" green
-		::Proxy::Setup next readable_handler $name
+		#status_log "cmsn_socket: Calling proxy::Setup now\n" green
+		#::Proxy::Setup next readable_handler $name
 		
 		
 	} elseif {$config(connectiontype) == "proxy"} {
+		sb set name $name connection_wrapper HTTPProxy
 	
-		status_log "cmsn_socket: Setting up Proxy connection (type=$config(proxytype))\n" green
-		::Proxy::Init $config(proxy) $config(proxytype)
-		#::Proxy::Init $config(proxy) "post"
+		#status_log "cmsn_socket: Setting up Proxy connection (type=$config(proxytype))\n" green
 		#::Proxy::Init $config(proxy) $config(proxytype)
-		::Proxy::LoginData $config(proxyauthenticate) $config(proxyuser) $config(proxypass)
+		#::Proxy::LoginData $config(proxyauthenticate) $config(proxyuser) $config(proxypass)
 	
-		set proxy_serv [split $config(proxy) ":"]
-		set tmp_serv [lindex $proxy_serv 0]
-		set tmp_port [lindex $proxy_serv 1]        
-		::Proxy::OnCallback "dropped" "proxy_callback"
+		#set proxy_serv [split $config(proxy) ":"]
+		#set tmp_serv [lindex $proxy_serv 0]
+		#set tmp_port [lindex $proxy_serv 1]        
+		#::Proxy::OnCallback "dropped" "proxy_callback"
 		
-		status_log "cmsn_connect: Calling proxy::Setup now\n" green
-		::Proxy::Setup next readable_handler $name
+		#status_log "cmsn_connect: Calling proxy::Setup now\n" green
+		#::Proxy::Setup next readable_handler $name
 	
 	}
 	
@@ -4094,16 +4153,23 @@ proc cmsn_socket {name} {
 	sb set $name stat "cw"
 	sb set $name error_msg ""
 	
-	if { [catch {set sock [socket -async $tmp_serv $tmp_port]} res ] } {
-		sb set $name error_msg $res
+	set command [list "::[sb get $name connection_wrapper]::connect" $name]
+	if {[eval $command]<0} {
 		::MSN::CloseSB $name
-		return
 	}
+	 
 	
-	sb set $name sock $sock
-	fconfigure $sock -buffering none -translation {binary binary} -blocking 0
-	fileevent $sock readable $readable_handler
-	fileevent $sock writable $next
+	
+	#if { [catch {set sock [socket -async $tmp_serv $tmp_port]} res ] } {
+	#	sb set $name error_msg $res
+	#	::MSN::CloseSB $name
+	#	return
+	#}
+	
+	#sb set $name sock $sock
+	#fconfigure $sock -buffering none -translation {binary binary} -blocking 0
+	#fileevent $sock readable $readable_handler
+	#fileevent $sock writable $next
 }
 
 proc cmsn_ns_connected {} {
@@ -4146,8 +4212,10 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	::MSN::clearList RL
 
 	if {[sb get ns stat] != "d"} {
-		catch {fileevent [sb get ns sock] readable {}} res
-		catch {close [sb get ns sock]} res
+		#catch {fileevent [sb get ns sock] readable {}} res
+		set command [list "::[sb get ns connection_wrapper]::finish" ns]
+		eval $command
+		#catch {close [sb get ns sock]} res
 	}
 
 	if { $nosignin == "" } {
