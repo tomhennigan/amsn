@@ -10,6 +10,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey mainwindowbg #7979f2
 	::skin::setKey chatwindowbg #EAEAEA
 	::skin::setKey buttonbarbg #eeeeff
+	::skin::setKey sendbuttonbg #c3c2d2
 	::skin::setKey topbarbg #5050e5
 	::skin::setKey topbartext #ffffff
 	::skin::setKey topbarawaybg #00AB00

@@ -1268,14 +1268,14 @@ namespace eval ::ChatWindow {
 			# New pixmap-skinnable button (For Windows and Unix > Tcl/Tk 8.3)
 			button $sendbutton -image [::skin::loadPixmap sendbutton] \
 				-command "::amsn::MessageSend $w $text" \
-				-fg black -bg [::skin::getKey buttonbarbg] -bd 0 -relief flat -overrelief flat \
-				-activebackground [::skin::getKey buttonbarbg] -activeforeground black -text [trans send] \
+				-fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat -overrelief flat \
+				-activebackground [::skin::getKey sendbuttonbg] -activeforeground black -text [trans send] \
 				-font sboldf -compound center -highlightthickness 0 -height 2 -pady 0 -padx 0
 		} else {
 			# Standard grey flat button (For Tcl/Tk < 8.4 and Mac OS X)
 			button $sendbutton  -text [trans send] -width 6 -borderwidth 1 \
 				-relief solid -command "::amsn::MessageSend $w $text" \
-				-font bplainf -highlightthickness 0 -highlightbackground [::skin::getKey chatwindowbg] -height 2
+				-font bplainf -highlightthickness 0 -highlightbackground [::skin::getKey sendbuttonbg] -height 2
 		}
 
 
