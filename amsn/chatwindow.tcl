@@ -490,13 +490,15 @@ namespace eval ::ChatWindow {
 
 		# Remove thin border on Mac OS X to improve the appearance (padx)
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			pack $top -side top -expand false -fill x -padx 0 -pady 0
-			pack $statusbar -side bottom -expand false -fill x
-			pack $paned -side top -expand true -fill both -padx 0 -pady 0
+			pack $top -side top -expand false -fill x -padx 0 -pady [::skin::getColor chat_top_pady]
+			pack $statusbar -side bottom -expand false -fill x -padx 0 -pady [::skin::getColor chat_status_pady]
+			pack $paned -side top -expand true -fill both -padx 0 -pady [::skin::getColor chat_paned_pady]
 		} else {
-			pack $top -side top -expand false -fill x -padx [::skin::getColor chatpadx] -pady [::skin::getColor chatpady]
-			pack $statusbar -side bottom -expand false -fill x
-			pack $paned -side top -expand true -fill both -padx [::skin::getColor chatpadx] -pady 0
+			pack $top -side top -expand false -fill x -padx [::skin::getColor chat_top_padx]\
+			 -pady [::skin::getColor chat_top_pady]
+			pack $statusbar -side bottom -expand false -fill x -padx [::skin::getColor chat_status_padx] -pady [::skin::getColor chat_status_pady]
+			pack $paned -side top -expand true -fill both -padx [::skin::getColor chat_paned_padx]\
+			 -pady [::skin::getColor chat_paned_pady]
 		}
 
 		focus $paned
@@ -889,7 +891,7 @@ namespace eval ::ChatWindow {
 		set text $top.text
 
 		# Create our frame
-		frame $top -class amsnChatFrame -relief solid -borderwidth [::skin::getColor chatborders] -background [::skin::getColor topbarbg]
+		frame $top -class amsnChatFrame -relief solid -borderwidth [::skin::getColor chat_top_border] -background [::skin::getColor topbarbg]
 		
 		# Create the to widget
 		text $to  -borderwidth 0 -width [string length "[trans to]:"] \
@@ -933,7 +935,7 @@ namespace eval ::ChatWindow {
 		set charstyped $statusbar.charstyped
 
 		#Create the frame
-		frame $statusbar -class Amsn -borderwidth [::skin::getColor chatborders] -relief solid -background [::skin::getColor statusbarbg]
+		frame $statusbar -class Amsn -borderwidth [::skin::getColor chat_status_border] -relief solid -background [::skin::getColor statusbarbg]
 
 		#Create text insert frame
 		text $status  -width 5 -height 1 -wrap none \
@@ -979,12 +981,14 @@ namespace eval ::ChatWindow {
 		} else {
 			#Remove thin border on Mac OS X (padx)
 			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-				pack $output -expand true -fill both -padx 0 -pady 0
+				pack $output -expand true -fill both -padx 0 -pady [::skin::getColor chat_output_pady]
 			} else {
-				pack $output -expand true -fill both -padx 3 -pady 0
+				pack $output -expand true -fill both -padx [::skin::getColor chat_output_padx]\
+				 -pady [::skin::getColor chat_output_pady]
 			}
 
-			pack $input -side top -expand false -fill both -padx 0 -pady [::skin::getColor chatpady]
+			pack $input -side top -expand false -fill both -padx [::skin::getColor chat_input_padx]\
+			 -pady [::skin::getColor chat_input_pady]
 		}
 
 		# Bind on focus, so we always put the focus on the input window
@@ -1098,7 +1102,7 @@ namespace eval ::ChatWindow {
 		frame $fr -class Amsn -borderwidth 0 -relief solid \
 			-background [::skin::getColor chatwindowbg] -height [::config::getKey winchatoutheight]
 		ScrolledWindow $out -auto vertical -scrollbar vertical
-		text $text -borderwidth [::skin::getColor chatborders] -foreground white -background white -width 45 -height 3 \
+		text $text -borderwidth [::skin::getColor chat_output_border] -foreground white -background white -width 45 -height 3 \
 			-setgrid 0 -wrap word -exportselection 1  -relief solid -highlightthickness 0 -selectborderwidth 1
 
 		$out setwidget $text
@@ -1153,10 +1157,12 @@ namespace eval ::ChatWindow {
 		set input [CreateInputFrame $w $leftframe]
 		set picture [CreatePictureFrame $w $bottom]
 
-		pack $buttons -side top -expand false -fill x -padx [::skin::getColor chatpadx] -pady 0 -anchor n
-		pack $input -side top -expand true -fill both -padx [::skin::getColor chatpadx] -pady [::skin::getColor chatpady] -anchor n
-		pack $leftframe -side left -expand true -fill both -padx [::skin::getColor chatpadx] -pady [::skin::getColor chatpady]
-		pack $picture -side right -expand false -padx [::skin::getColor chatpadx] -pady 0 -anchor ne
+		pack $buttons -side top -expand false -fill x -padx [::skin::getColor chat_buttons_padx] -pady 0 -anchor n
+		pack $input -side top -expand true -fill both -padx [::skin::getColor chat_input_padx]\
+		 -pady [::skin::getColor chat_input_pady] -anchor n
+		pack $leftframe -side left -expand true -fill both -padx [::skin::getColor chat_leftframe_padx] -pady [::skin::getColor chat_leftframe_pady]
+		pack $picture -side right -expand false -padx [::skin::getColor chat_dp_padx]\
+		 -pady [::skin::getColor chat_dp_pady] -anchor ne
 
 		# Bind the focus
 		bind $bottom <FocusIn> "focus $input"
@@ -1175,7 +1181,7 @@ namespace eval ::ChatWindow {
 
 
 		# Create The input frame
-		frame $input -class Amsn -background [::skin::getColor buttonbarbg] -relief solid -borderwidth [::skin::getColor chatborders]
+		frame $input -class Amsn -background [::skin::getColor buttonbarbg] -relief solid -borderwidth [::skin::getColor chat_input_border]
 		
 		# Create the text widget and the send button widget
 		text $text -background white -width 15 -height 3 -wrap word -font bboldf \
@@ -1187,9 +1193,9 @@ namespace eval ::ChatWindow {
 			# New pixmap-skinnable button (For Windows and Unix > Tcl/Tk 8.3)
 			button $sendbutton -image [::skin::loadPixmap sendbutton] \
 				-command "::amsn::MessageSend $w $text" \
-				-fg black -bg white -bd 0 -relief flat -overrelief flat \
-				-activebackground white -activeforeground #8c8c8c -text [trans send] \
-				-font sboldf -compound center -highlightthickness 0 -height 2
+				-fg black -bg [::skin::getColor buttonbarbg] -bd 0 -relief flat -overrelief flat \
+				-activebackground [::skin::getColor buttonbarbg] -activeforeground black -text [trans send] \
+				-font sboldf -compound center -highlightthickness 0 -height 2 -pady 0 -padx 0
 		} else {
 			# Standard grey flat button (For Tcl/Tk < 8.4 and Mac OS X)
 			button $sendbutton  -text [trans send] -width 6 -borderwidth 1 \
@@ -1274,9 +1280,10 @@ namespace eval ::ChatWindow {
 		# Pack My input frame widgets
 		pack $text -side left -expand true -fill both -padx 1 -pady 1
 		if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
-			pack $sendbutton -side left -padx [::skin::getColor chatpadx] -pady 4	
+			pack $sendbutton -side left -padx 0 -pady 0	
 		} else {
-			pack $sendbutton -fill y -side left -padx [::skin::getColor chatpadx] -pady 4	
+			pack $sendbutton -fill y -side left -padx [::skin::getColor chat_sendbutton_padx]\
+			 -pady [::skin::getColor chat_sendbutton_pady]
 		}
 		
 		return $input
@@ -1298,41 +1305,41 @@ namespace eval ::ChatWindow {
 
 
 		# Create them along with their respective tooltips
-		frame $buttons -class Amsn -borderwidth [::skin::getColor chatborders] -relief solid -background [::skin::getColor buttonbarbg]	
+		frame $buttons -class Amsn -borderwidth [::skin::getColor chat_buttons_border] -relief solid -background [::skin::getColor buttonbarbg]	
 
 		#Smiley button
-		button $smileys  -image [::skin::loadPixmap butsmile] -relief flat -padx 5 \
+		button $smileys  -image [::skin::loadPixmap butsmile] -relief flat -padx 0 \
 			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0 \
 			-highlightbackground [::skin::getColor buttonbarbg]  -activebackground [::skin::getColor buttonbarbg]
 		set_balloon $smileys [trans insertsmiley]
 
 		#Font button
-		button $fontsel -image [::skin::loadPixmap butfont] -relief flat -padx 5 \
+		button $fontsel -image [::skin::loadPixmap butfont] -relief flat -padx 0 \
 			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0\
 			-highlightbackground [::skin::getColor buttonbarbg] -activebackground [::skin::getColor buttonbarbg]
 		set_balloon $fontsel [trans changefont]
 		
 		#Block button
-		button $block -image [::skin::loadPixmap butblock] -relief flat -padx 5 \
+		button $block -image [::skin::loadPixmap butblock] -relief flat -padx 0 \
 			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0\
 			-highlightbackground [::skin::getColor buttonbarbg] -activebackground [::skin::getColor buttonbarbg]
 		set_balloon $block [trans block]
 		
 		#Send file button
-		button $sendfile -image [::skin::loadPixmap butsend] -relief flat -padx 5 \
+		button $sendfile -image [::skin::loadPixmap butsend] -relief flat -padx 0 \
 			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0\
 			-highlightbackground [::skin::getColor buttonbarbg] -activebackground [::skin::getColor buttonbarbg]
 		set_balloon $sendfile [trans sendfile]
 
 		#Invite another contact button
-		button $invite -image [::skin::loadPixmap butinvite] -relief flat -padx 5 \
+		button $invite -image [::skin::loadPixmap butinvite] -relief flat -padx 0 \
 			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0\
 			-highlightbackground [::skin::getColor buttonbarbg] -activebackground [::skin::getColor buttonbarbg]
 		set_balloon $invite [trans invite]
 
 		# Pack them
-		pack $fontsel $smileys -side left -pady 2
-		pack $block $sendfile $invite -side right -pady 2
+		pack $fontsel $smileys -side left -padx 0 -pady 0
+		pack $block $sendfile $invite -side right -padx 0 -pady 0
 
 		# Configure our commands for onclick
 		$smileys  configure -command "::smiley::smileyMenu \[winfo pointerx $w\] \[winfo pointery $w\] $input"
@@ -1382,7 +1389,7 @@ namespace eval ::ChatWindow {
 
 		# Pack them 
 		#pack $picture -side left -padx 0 -pady [::skin::getColor chatpady] -anchor w
-		pack $showpic -side right -expand true -fill y -padx 0 -pady [::skin::getColor chatpady] -anchor e
+		pack $showpic -side right -expand true -fill y -padx 0 -pady 0 -anchor e
 
 		# Create our bindings
 		bind $picture <Button1-ButtonRelease> "::amsn::ShowPicMenu $w %X %Y\n"

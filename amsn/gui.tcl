@@ -20,9 +20,30 @@ if { $initialize_amsn == 1 } {
 	::skin::setDefaultColor topbarofflinetext #ffffff
 	::skin::setDefaultColor statusbarbg #eeeeee
 	::skin::setDefaultColor statusbartext #000000
-	::skin::setDefaultColor chatborders 0
-	::skin::setDefaultColor chatpadx 0
-	::skin::setDefaultColor chatpady 0
+
+	
+	::skin::setDefaultColor chat_top_padx 0
+	::skin::setDefaultColor chat_top_pady 0
+	::skin::setDefaultColor chat_paned_padx 0
+	::skin::setDefaultColor chat_paned_pady 0
+	::skin::setDefaultColor chat_buttons_padx 0
+	::skin::setDefaultColor chat_buttons_pady 0
+	::skin::setDefaultColor chat_input_padx 0
+	::skin::setDefaultColor chat_input_pady 0
+	::skin::setDefaultColor chat_dp_padx 0
+	::skin::setDefaultColor chat_dp_pady 0
+	::skin::setDefaultColor chat_leftframe_padx 0
+	::skin::setDefaultColor chat_leftframe_pady 0
+	::skin::setDefaultColor chat_sendbutton_padx 0
+	::skin::setDefaultColor chat_sendbutton_pady 0
+	::skin::setDefaultColor chat_status_padx 0
+	::skin::setDefaultColor chat_status_pady 0	
+	
+	::skin::setDefaultColor chat_top_border 0
+	::skin::setDefaultColor chat_output_border 0
+	::skin::setDefaultColor chat_buttons_border 0
+	::skin::setDefaultColor chat_input_border 0
+	::skin::setDefaultColor chat_status_border 0
 	
 	::skin::setDefaultColor menuforeground #000000 
 	::skin::setDefaultColor menuactivebackground #565672
@@ -1715,7 +1736,7 @@ namespace eval ::amsn {
 			change_balloon $win.f.bottom.pic.image [trans nopic]
 		} elseif { $nopack == "" } {
 			#grid $win.f.bottom.pic.image -row 0 -column 1 -padx 0 -pady 3 -rowspan 2
-			pack $win.f.bottom.pic.image -side left -padx 0 -pady [::skin::getColor chatpady] -anchor w
+			pack $win.f.bottom.pic.image -side left -padx 0 -pady [::skin::getColor chat_dp_pady] -anchor w
 			set h [image height $picture]
 			if { $h < 100 } {
 				set h 100
@@ -6284,7 +6305,7 @@ proc amsn_install_windows { savedir fname } {
 #		set success [catch { [exec cp "$::program_dir/plugins/*" "$savedir/msn/plugins"] }]
 #		#copiar els skins
 #		set success [catch { [exec cp "$::program_dir/skins/*" "$savedir/msn/skins"] }]
-#		#moure la versió nova a la carpeta on estava
+#		#moure la versiï¿½nova a la carpeta on estava
 #		if { !$success } {
 #			if { [catch { [exec mv "$savedir/msn" "$::program_dir"] }] } {
 #				#missatge d'error
