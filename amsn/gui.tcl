@@ -4843,17 +4843,9 @@ if {$tcl_platform(os) == "Darwin"} {
      }
 bind $pgBuddy.text.$imgname <<Button3>> "show_umenu $user_login $grId %X %Y"
 
-         if { $state_code !="FLN" } {
             bind $pgBuddy.text.$imgname <Double-Button-1> "::amsn::chatUser $user_login"
             $pgBuddy.text tag bind $user_unique_name <Double-Button-1> \
 	        "::amsn::chatUser $user_login"
-         } else {
-            #Delete all binding or we will be able to double click the offline user
-	    #and get a chat window
-            bind $pgBuddy.text.$imgname <Double-Button-1> ""
-            $pgBuddy.text tag bind $user_unique_name <Double-Button-1> \
-	        ""
-	 }
 
 }
 #///////////////////////////////////////////////////////////////////////
