@@ -375,7 +375,7 @@ name Ime
 natip IP poizvedba s spletne strani
 natkeepalive èe te velikokrat odjavi, oznaèi to mo¾nost
 needonline ©e vedno si/izgleda¹ neprijavljen!
-needwinico Da bi pristaja delovala v Oknih, potrebuje¹ datoteko winico05.dll v mapi utils/windows
+needwinico2 Da bi pristaja delovala v Oknih, potrebuje¹ datoteko winico05.dll v mapi utils/windows
 never Nikoli
 new_ft_protocol Uporabi nov protokol za prenos datotek (¹e nekaj hro¹èev)
 newmail $1 novih sporoèil v Inboxu
@@ -629,6 +629,7 @@ xmmssend Po¹lji trenutno pesem
 xoffset X odstopanje
 year Leto
 yes Ja
+yesblock Ja in blokiraj
 yesterday Vèeraj
 yoffset Y odstopanje
 youblocked Blokirajo te
