@@ -10,6 +10,29 @@
 ###########################
 namespace eval ::Nudge {
 
+        ###############################################
+        # ::Nudge::Init (dir)                         #
+        # ------------------------------------------- #
+        # Registration & initialization of the plugin #
+        ###############################################
+	proc Init { dir } {
+        	::plugins::RegisterPlugin Nudge
+        	::plugins::RegisterEvent Nudge PacketReceived received
+	        ::plugins::RegisterEvent Nudge chatwindowbutton sendbutton
+        	::plugins::RegisterEvent Nudge chatmenu itemmenu
+	        array set ::Nudge::config {
+        	        notify {1}
+	                shake {0}
+                	shakes {5}
+        	}
+	        set ::Nudge::configlist [list \
+        	        [list bool "Notify nudges" notify] \
+	                [list bool "Shake the window:" shake] \
+                	[list str "Shakes per nudge:" shakes] \
+        	]
+	}
+
+
 	###############################################
 	# ::Nudge::received event evpar               #
 	# ------------------------------------------- #
