@@ -3701,23 +3701,41 @@ proc cmsn_draw_main {} {
 }
 #///////////////////////////////////////////////////////////////////////
 
+package require BWidget
 
+proc choose_font { parent title {initialfont ""} } {
+	if { [winfo exists .fontsel] } {
+		raise .fontsel
+		return
+	}
+		
+	status_log "$initialfont\n"
+	status_log "[::config::getKey basefont]\n"
+	
+	set selected_font [SelectFont .fontsel -parent $parent -title $title -font $initialfont]
+	status_log "$selected_font\n"
+	return $selected_font
+}
 
 
 #///////////////////////////////////////////////////////////////////////
 proc change_myfont {win_name} {
 	global config
 
+	set fontname [lindex $config(mychatfont) 0] 
 	set fontsize [expr {[lindex $config(basefont) end-1] + $config(textsize)}]
+	set fontstyle [lindex $config(mychatfont) 1]	
 	set fontcolor [lindex $config(mychatfont) 2]
 
-	set selfont [tk_chooseFont -title [trans choosebasefont] -parent .${win_name} -initialfont "\{[lindex $config(mychatfont) 0]\} $fontsize \{[lindex $config(mychatfont) 1]\}"] 
+	
+	set selfont [choose_font .${win_name} [trans choosechatfont] [list $fontname $fontsize $fontstyle]]
+	#set selfont [tk_chooseFont -title [trans choosebasefont] -parent .${win_name} -initialfont "\{[lindex $config(mychatfont) 0]\} $fontsize \{[lindex $config(mychatfont) 1]\}"] 
 	if { [string length $selfont] <1} {
 		return
 	}
 
 	set config(textsize) [expr {[lindex $selfont 1]- [lindex $config(basefont) 1]}]
-	set config(mychatfont) "\{[lindex $selfont 0]\} \{[lindex $selfont 2]\} $fontcolor"
+	set config(mychatfont) [list [lindex $selfont 0] [lrange $selfont 2 end] $fontcolor]
 
 	set color [tk_chooseColor -title "[trans choosefontcolor]" -parent .${win_name} \
 		-initialcolor #$fontcolor]
@@ -3810,30 +3828,6 @@ proc play_sound {sound_name} {
 #///////////////////////////////////////////////////////////////////////
 
 
-
-
-#///////////////////////////////////////////////////////////////////////
-proc choose_basefont { } {
-	global config
-
-	set font "[tk_chooseFont -title [trans choosebasefont] -initialfont $config(basefont)]"
-
-	if { [llength $font] < 2 } {
-		return 0
-	}
-
-	set family [lindex $font 0]
-	set size [lindex $font 1]
-
-	set newfont "\"$family\" $size normal"
-
-	if { $newfont != $config(basefont)} {
-		set config(basefont) $newfont
-		msg_box [trans mustrestart]
-	}
-
-}
-#///////////////////////////////////////////////////////////////////////
 
 
 

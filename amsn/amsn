@@ -138,7 +138,6 @@ proc reload_files { } {
     #source [file join $program_dir notebook1.tcl]	;# Notebook Megawidget
     source [file join $program_dir rnotebook.tcl]	;# Notebook Megawidget
     source [file join $program_dir progressbar.tcl]	;# Progressbar Megawidget
-    source [file join $program_dir dkffont.tcl]	;# Font selection megawidget
     source [file join $program_dir migmd5.tcl]
     source [file join $program_dir des.tcl]		;# DES encryption
     source [file join $program_dir sxml.tcl]   	;# Simple XML parser
