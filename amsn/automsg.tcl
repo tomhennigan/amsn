@@ -170,7 +170,7 @@ proc CreateStatesMenu { path } {
 		}
 		$path add cascade -label "[trans morepersonal]" -menu $path.otherstates
 		$path add separator
-		$path add command -label "[trans newstate]" -command "EditNewState 0"
+		$path add command -label "[trans newstate]..." -command "EditNewState 0"
 		$path add cascade -label "[trans editcustomstate]" -menu $path.editstates
 		$path add cascade -label "[trans deletecustomstate]" -menu $path.deletestates
 	} else {
@@ -319,7 +319,7 @@ proc EditNewState { mode { idx "" } } {
 		if { [info exists stemp] } {
 			unset stemp
 		}
-		checkbutton .editstate.options.stemp -text "[trans temp_state]" -onvalue 1 -offvalue 0
+		checkbutton .editstate.options.stemp -text "[trans temp_state]" -onvalue 1 -offvalue 0 -font sboldf
 		pack .editstate.options.stemp -anchor w -side top -padx 10 -pady 0
 	} elseif { $mode == 2 } {
 		set stemp 2
