@@ -1,5 +1,6 @@
 set lang_list [list]
 set langenc "iso8859-1"
+set langlong "English"
 
 proc scan_languages {} {
    global lang_list program_dir
@@ -42,7 +43,7 @@ global lang
 
 #Lectura del idioma
 proc load_lang {} {
-   global config lang program_dir lang_list langenc
+   global config lang program_dir lang_list langenc langlong
 
    set file_id [open "[file join $program_dir lang/lang$config(language)]" r]
 
@@ -51,6 +52,7 @@ proc load_lang {} {
    foreach langdata $lang_list {
    	if { [string compare [lindex $langdata 0]  $config(language)] == 0 } {
 	  set langenc [lindex $langdata 2]
+	  set langlong [lindex $langdata 1]
 	}
    }
 

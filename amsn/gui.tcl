@@ -1819,7 +1819,7 @@ namespace eval ::amsn {
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_main {} {
    global images_folder program_dir emotion_files version date weburl lang_list \
-     password config HOME files_dir pgBuddy pgNews bgcolor bgcolor2 argv0 argv
+     password config HOME files_dir pgBuddy pgNews bgcolor bgcolor2 argv0 argv langlong
 
    #User status menu
    menu .my_menu -tearoff 0 -type normal
@@ -1978,15 +1978,25 @@ proc cmsn_draw_main {} {
    #Help menu
    menu .main_menu.help -tearoff 0 -type normal
 
-   .main_menu.help add command -label "[trans helpcontents] ([trans translated])..." \
-      -command "::amsn::showTranslatedHelpFile HELP [list [trans helpcontents]]"
-   .main_menu.help add command -label "[trans helpcontents] (English)..." \
-      -command "::amsn::showHelpFile HELP [list [trans helpcontents]]"
+   if { $config(language) != "en" } {
+      .main_menu.help add command -label "[trans helpcontents] - $langlong..." \
+         -command "::amsn::showTranslatedHelpFile HELP [list [trans helpcontents]]"
+      .main_menu.help add command -label "[trans helpcontents] - English..." \
+         -command "::amsn::showHelpFile HELP [list [trans helpcontents]]"
+   } else {
+      .main_menu.help add command -label "[trans helpcontents]..." \
+         -command "::amsn::showHelpFile HELP [list [trans helpcontents]]"
+   }
    .main_menu.help add separator
-   .main_menu.help add command -label "FAQ ([trans translated])" \
-      -command "::amsn::showTranslatedHelpFile FAQ [list [trans faq]]"
-   .main_menu.help add command -label "FAQ (English)" \
-      -command "::amsn::showHelpFile FAQ [list [trans faq]]"
+   if { $config(language) != "en" } {
+      .main_menu.help add command -label "[trans faq] - $langlong..." \
+         -command "::amsn::showTranslatedHelpFile FAQ [list [trans faq]]"
+      .main_menu.help add command -label "[trans faq] - English..." \
+         -command "::amsn::showHelpFile FAQ [list [trans faq]]"
+   } else {
+      .main_menu.help add command -label "[trans faq]..." \
+         -command "::amsn::showHelpFile FAQ [list [trans faq]]"
+   }
    .main_menu.help add separator
    .main_menu.help add command -label "[trans about]..." -command ::amsn::aboutWindow
    .main_menu.help add command -label "[trans version]..." -command \
