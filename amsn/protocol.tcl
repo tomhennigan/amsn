@@ -2504,6 +2504,14 @@ proc cmsn_reconnect { name } {
 
 
 
+      if { [sb get ns stat] != "o" } {
+         set chatid [::MSN::ChatFor $name]
+         ::MSN::ClearQueue $chatid
+         ::MSN::CleanChat $chatid
+         ::amsn::chatStatus $chatid "[trans needonline]\n" miniwarning
+         
+	 return
+      }
       ::MSN::WriteSB ns "XFR" "SB" "cmsn_open_sb $name"
 
       ::amsn::chatStatus [::MSN::ChatFor $name] "[trans chatreq]..." miniinfo ready
