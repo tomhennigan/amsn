@@ -2,7 +2,7 @@ FAQ 1.0
 --------
 
 Q: Vad är Amsn?
-A: Amsn är en Microsoft Messenger-klon. Du kan hålla kontakten med och 
+A: Amsn är en Microsoft Messenger-klon. Du kan hålla kontakten med, och 
 skicka filer till dina kompisar, din familj med flera.
 
 INSTALLERING OCH KÖRNING
@@ -10,8 +10,7 @@ INSTALLERING OCH KÖRNING
 Q: Vad behöver jag för att köra Amsn?
 A: Amsn är skrivet i tcl/tk, så du behöver bara fungerande tcl/tk version 
 8.3 (eller en nyare version).
-Tcl/tk finns till Linux, Macintosh och Windows.
-and macintosh.
+Tcl/tk finns till Linux, Macintosh och Windows och macintosh.
 
 Q: Hur skapar jag en genväg till Amsn på skrivbordet?
 A: 1. Skapa en icon till ditt gnome/kde skrivbord som kör 
@@ -35,7 +34,7 @@ Gnomedockning i Alternativ.
 ANVÄNDANDET
 ===========
 
-Q: Vad betyder det när någons nick är rosa?
+Q: Vad betyder det när någons namn är rosa?
 A: Det betyder att du inte finns i den personens kontaktlista. (Du kan vara 
 borttagen eller inte tillagd ännu)
 
@@ -53,7 +52,7 @@ A: Det beror oftast på att det är ett problem med ljudkonfigurationen.
    Testa stäng av ljud eller ställ in rätt Play kommando i Alternativ -> 
 Inställningar
 
-Q: Jag försöker köra Amsn men jhag får detta felmeddelandet:
+Q: Jag försöker köra Amsn men jag får detta felmeddelande:
    bash: ./amsn: bad interpreter: No such file or directory
 A: Du måste installera tcl/tk. Försök starta amsn med "wish amsn" istället.
    Om det funkar så ändra /usr/bin/amsn (eller 
@@ -209,7 +208,7 @@ titta på forumet
 och Tk versionen och
    skicka gärna med eventuella felmeddelanden
 
-   Om du fortfarande har problem så kan du maila på
+   Om du fortfarande har problem så kan du maila
 airadier@users.sourceforge.net
 
-(Swedish translation by Richard.S - lordanger@come-to-chat.com)
+(Swedish translation by Richard.S - Richard.Strand@FirstInternetServices.com)

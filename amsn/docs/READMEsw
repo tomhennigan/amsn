@@ -1,0 +1,238 @@
+
+
+========================================================
+=== Alvaro's Messenger==================================
+
+CCMSN var bra men tyvärr så lade skaparan ner projektet.
+Även fast det var väldigt funktionellt så behövdes det
+en massa jobb för att förbättra utseendet och för att
+färdigställa protokollsupporten och andra saker.
+Det var då vi, ursprungligen två personer som jobbade
+med projektet, valde att börja jobba tillsammans för att
+ge er detta underbara (hoppas vi) projektet ;)
+
+Alvaro J. Iradier
+D. Emilio Grimaldo T.
+
+Skicka buggar, kommentarer, feedback eller frågor till
+
+Source Forge projektsidan:
+
+http://sourceforge.net/projects/amsn
+
+Nya versioner och hemsida finns på:
+
+http://amsn.sourceforge.net
+
+
+
+========================================================
+=== Programmerare ===============================
+
+Alvaro J. Iradier Muro - airadier@users.sourceforge.net
+Didimo E. Grimaldo T. - lordofscripts@users.sourceforge.net
+Khalaf G. Philippe - burgerman@users.sourceforge.net
+Alaoui Youness - kakaroto@users.sourceforge.net
+
+========================================================
+=== Flerspråks-support ==============================
+
+Tillagt av Alvaro J. Iradier.
+
+Översättningar:
+
+Albanska: av Fatos Shema
+	Astrit Zhushi
+
+Brazilianska: av Cristiano Leivas
+	Aurélio Couto Arruda
+	Henrique Cesar Ulbrich
+	Fernando Meyer Camargo
+	Mauricio Maciel
+
+Bulgariska: av Ioan Stoimenov Iliavanov
+	https://sourceforge.net/projects/gtlt
+
+Català: Agusti Dosaiguas
+	Albert Astals Cid
+	Lacetani
+	Miquel Serralta
+
+Danska: Anders Bach Nielsen
+	Thomas Petersen
+	Søren Louring
+	Kim H. Hansen
+	Kenneth Johansen
+	Alexander Dan Bartholdy
+
+Tyska: Jose H. Freidhof
+	Bernhard Heger
+	Harald Freidhof
+	Leo Spalteholz
+	Lars Ermert
+	Philipp Winter
+
+Engelska: av Alvaro J. Iradier
+	Gareth Ignatius
+	Jody Branter
+	D. Emilio Grimaldo
+
+Spanska: av Alvaro J. Iradier
+	D. Emilio Grimaldo
+	Luis Llorente Campo
+
+Esperanto: av Mike Mintz
+
+Estländska: av Martin Leo-Kisand
+	Uwe Tallmeister
+
+Euskera: av galder@users.sourceforge.net
+	OBS: Endast test, vissa ord stämmer inte, det behövs
+	fortfarande förbättringar. Maila galder era bidrag.
+
+Franska: av Guillaume Vaillant
+	Charles Castelain
+	JM Billaud
+	Frédéric Delrieu
+        Bernard Nauwelaerts
+	Raphael Michel
+	Alain Cabiran
+	Valère
+	Valéry Norrant
+	Kami Rousseau
+	Raphaël Slinckx
+	Aurélien Christman
+
+
+Franska (Kanada): av Dominic Genest
+	Frédéric Delrieu
+	Olivier Lussier
+	Gavin Sharp
+	Martin Bchale
+
+Finska: av Kalle Kilpinen
+	Jonni Henttinen
+	Otto Parantainen
+
+Frisian: av Jurjen Huisman
+	Lyts Famke
+
+Gallego: av David G. Outes
+
+Grekiska: av Michail Dimitris
+
+Greeklish: av noki[a]
+
+Ungerska: av Albert Szoldán
+
+Isländska: av Einar Th. Einarsson
+	Ísak Ben
+
+Indonesiska: av Rai S. Regawa
+
+Italienska: av Andrea Di Mento
+	Goffredo Baroncelli
+	Giuseppe Lanni
+	Adriano Varoli
+	Jacopo Lorenzini
+	Patrizio Silvestri
+	Isidoro Russo
+
+Japanska: Michimoto Nakahara
+
+Koreanska: av Baek, Seungsoon
+
+Macedonian: av Todor Tanevski
+
+Mongoliska: av Zayabaatar Dagvatur
+
+Holländska: av Jan Keirse
+	D. Emilio Grimaldo
+	Stèphan Eizinga
+	Wouter de Bie
+	Jurgen De Backer
+	R. Neleman
+	Jeroen Schaeken
+	Mernout
+        Lyts Famke
+	Harry Vennik
+	Olivier Jacquet
+	Koen Casier
+	Thijs Bruneel
+
+Norska: Gunnar Tjomlid
+	Erik Tørrissen / MrIron
+
+Polska: Michael Swoboda
+	Adrian Dzikowski
+
+Portuguese: av Gustavo J.A.M. Carneiro
+	Mario Joao
+	Paulo Almeida
+	Manuel Silva
+	Francisco Neto
+	Joao Soares
+	Luis Filipe
+
+Rumänska: av Craciun Attila
+	Arny - http://www.arny.ro/html/amsnro.html
+
+Ryska: av Andrey Zakirov
+	Dr. Vladimir Dontsov, DDS
+	Vladimir Lazarenko
+
+Serbiska: av Marko Kocic
+
+Simplifierad Kinesiska: av Changchun Zhao
+
+Slovak: av Nico Kovac
+
+Slovenska: av Kostko
+	Janos Vidali
+
+Syd-Afrikanska: av Jaco Roeloffs
+
+Swahili: av Nsubis
+
+Svenska: av Tom Widerström
+	Jimmy Svensson
+	Richard Strand
+
+Tamil: av S. Muguntharaj
+
+Traditionell Kinesiska (Taiwan): av Stanley Chu
+
+Turskiska: av Baris Cicek
+	Gurkan Bebek
+	Kemal Ilgar Eroglu
+
+Valenciano: Juan Arnal Arlandis
+	Juan José García Amaya
+
+
+========================================================
+=== Grafik och ikoner =============================
+
+Josué Rivera Ríos
+LadyMariu
+Henry Damewood
+James Houston
+
+
+========================================================
+=== Speciella tack går till ====================
+
+Juan Araya Robles (MSN6 animerade smileys)
+Ignacio Armenteros (plwav.exe till windows)
+Pieter van Beek ("imagee label name" bugpatch)
+Baris Cicek
+Trevor Feney
+Daniel Gardner (Visa Profil)
+Gareth Hughes (MSN6 emoticons)
+Gareth Ignatius
+Guillermo Lapresta
+David G. Outes (Debian Paketen)
+Rafael Rodriguez
+Egbert van der Wal (Sortera grupper efter namn)
+Lee Olson (Webdesign)
+Kenneth Henderick (Holländska FAQ-översättning)
