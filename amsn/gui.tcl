@@ -5025,7 +5025,7 @@ proc tk_textPaste { w } {
 proc copy { cut w } {
 
 #Try this (for chat windows)
-	set window $w.f.bottom.in.input
+	set window $w.f.bottom.left.in.text
 
 	if { [ catch {$window tag ranges sel}]} {
 		set window $w
@@ -5061,14 +5061,14 @@ proc paste { window {middle 0} } {
 	if { [catch {selection get} res] != 0 } {
 		catch {
 			set contents [ selection get -selection CLIPBOARD ]
-			$window.f.bottom.in.input insert insert $contents
+			$window.f.bottom.left.in.text insert insert $contents
 		}
 		#puts "CLIPBOARD selection enabled"
 	} else {
 		if { $middle == 0} {
 			catch {
 				set contents [ selection get -selection CLIPBOARD ]
-				$window.f.bottom.in.input insert insert $contents
+				$window.f.bottom.left.in.text insert insert $contents
 			}
 			#puts "CLIPBOARD selection enabled"
 		} else {
@@ -7173,7 +7173,7 @@ proc lastKeytyped {typed bottom} {
 
 		if {[regexp \[a-zA-Z\] $typed]} {
 			
-			focus -force $bottom.in.input;$bottom.in.input insert insert $typed
+			focus -force $bottom.left.in.text;$bottom.left.in.text insert insert $typed
 		}
 }
 
