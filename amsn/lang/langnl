@@ -110,6 +110,7 @@ checkemail Het aantal berichten in je Postvak IN weergeven in de contactpersonen
 checkfilman Ontvangen bestanden worden bewaard in de map $1.\nKies Extra > Opties > Geavanceerd om dit te wijzigen.
 checkingver Bezig te zoeken naar een nieuwere versie van aMSN
 checkonfln Controleer of een contactpersoon je heeft geblokkeerd wanneer hij offline gaat
+checkopenfilecommand Controleer het 'commando voor bestand openen' in het venster 'Opties'
 checkver aMSN Versiecontrole
 choosearq Selecteer je systeem
 choosebasefont Lettertype
@@ -444,6 +445,9 @@ nousersinsession Geen gebruiker in sessie
 nudge $1 vraagt je aandacht
 offline Offline
 ok Ok
+opendir Map openen
+openfile Openen
+openfilecommand Commando voor bestand openen
 onenewmail Je hebt 1 nieuw bericht in Postvak IN
 online Online
 onphone Aan de telefoon

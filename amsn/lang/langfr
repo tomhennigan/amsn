@@ -110,6 +110,7 @@ checkemail Afficher une ligne de notification d'email (Boîte aux lettres) dans l
 checkfilman Les fichiers reçus seront sauvegardés dans $1. Veuillez vérifier les propriétés du gestionnaire de fichier dans la fenêtre de préférences.
 checkingver Recherche d'une nouvelle version
 checkonfln Verifier si un contact vous a bloqué lorsqu'il se déconnecte
+checkopenfilecommand Merci de vérifier que la commande d'ouverture des fichiers dans la fenêtre des préférences
 checkver Nouvelle version
 choosearq Veuillez choisir votre architecture système
 choosebasefont Choisir la police de caractère
@@ -322,7 +323,7 @@ keepalive Garder la connexion ouverte (NAT)
 keeplog2 Enregistrer toutes les conversations dans l'historique de aMSN pour une visualisation ultérieure
 keeplog Garder l'historique des conversations
 language Langue
-language_manager Superviseur des traductions
+language_manager Gestionnaire des traductions
 lastlogin Dernière connexion
 lastlogout Dernière déconnexion
 lastmsgedme Dernier message
@@ -447,6 +448,9 @@ ok Accepter
 onenewmail un nouveau message
 online Connecté[e]
 onphone Au téléphone
+opendir Ouvrir le répertoire
+openfile Ouvrir
+openfilecommand Commande d'ouverture des fichiers
 openreceived Ouvrir les fichiers reçus
 options Options
 ordercontactsby Trier les contacts
