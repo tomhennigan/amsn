@@ -67,8 +67,10 @@ closingdocks Stäng-knappen dockar fönster
 command Kommando
 confirmdelete Bekräfta radering av $1
 confirm Konfirmera
+connected Du är nu ansluten
 connecterror Fel uppstod när servern kontaktades
 connecterror Uppkopplingen misslyckades
+connecting Ansluter
 connection Anslutning
 contactadded Lagt till kontakt
 contactdoesnotexist Kontakten finns inte!
@@ -95,6 +97,7 @@ editprofile Editera Profil
 edit Redigera
 eller spara alarm eller lösenord. $1 Om du väljer att skapa profil för denna 
 enableproxy Aktivera proxy
+enableremote Aktivera fjärranslutning
 encoding2 Välj vilken charmap du ska använda
 encoding Kodning
 en ny profil? $1 Om du väljer att itne göra det så kan du inte se Historia 
@@ -199,6 +202,7 @@ nologfile Ingen log för $1
 nonewmail Inga nya meddelanden i Inkorgen
 nonewver Det finns inga nya versioner att ladda ner
 normal Normal
+nosystemtray Aktivitetsfältet är inte tillängligt
 notify1 Visa meddelanderuta när någon loggar in
 notify2 Visa meddelanderuta när någon skickar ett meddelande till dej
 notify3 Visa meddelanderuta när nya e-mails ankommer
@@ -242,6 +246,7 @@ prefprofile2 Skapa eller ändra din profil (Den \n beskrivning av dejsjälv
 prefprofile3 aMSN's Användarkonfigurations Profiler
 prefprofile Min Profil
 prefproxy Mina proxyinställningar
+prefremote Fjärranslutningsinställningar
 prefsession Mitt inloggningsnamn och Status
 prefshared Delade anslutningar (endast för NAT)
 prefsound Ljudinställningar
