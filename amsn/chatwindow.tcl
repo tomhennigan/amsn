@@ -646,7 +646,6 @@ namespace eval ::ChatWindow {
 		#If no focus, and it's a message event, do something to the window
 		if { (([::config::getKey soundactive] == "1" && $usr_name != [::config::getKey login]) || \
 			[string first ${win_name} [focus]] != 0) && $msg != "" } {
-			status_log "Win name: $win_name. Focus: [focus]\n" white
 			play_sound type.wav
 		}
 
