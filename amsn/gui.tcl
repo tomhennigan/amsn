@@ -4552,7 +4552,7 @@ proc cmsn_draw_online_wrapped {} {
 
 	if { [::config::getKey checkemail] } {
 		# Show Mail Notification status
-		text $pgBuddyTop.mail -font bboldf -height 1 -background white -borderwidth 0 -wrap none\
+		text $pgBuddyTop.mail -height 1 -background white -borderwidth 0 -wrap none\
 			-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
 			-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
 		if {[::skin::getKey emailabovecolorbar]} {
@@ -4570,6 +4570,13 @@ proc cmsn_draw_online_wrapped {} {
 		$pgBuddyTop.mail tag bind mail <Leave> "$pgBuddyTop.mail tag conf mail -under true;$pgBuddyTop.mail conf -cursor left_ptr"
 
 		clickableImage $pgBuddyTop.mail mailbox mailbox [list hotmail_login [::config::getKey login] $password] [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
+		#need the -2 is to include the 1 pixel above and below extra in a font
+		set mailheight [expr [$pgBuddyTop.mail.mailbox cget -height]+(2*[::skin::getKey mailbox_ypad])-2]
+		set textheight [font metrics splainf -linespace]
+		if { $mailheight < $textheight } {
+			set mailheight $textheight
+		}
+		$pgBuddyTop.mail configure -font "{} -$mailheight"
 
 		set unread [::hotmail::unreadMessages]
 

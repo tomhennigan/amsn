@@ -445,6 +445,14 @@ namespace eval ::pop3 {
 			$textb configure -state normal
 
 			clickableImage $textb popmailpic mailbox {after cancel ::pop3::check; after 1 ::pop3::check} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
+			
+			#need the -2 is to include the 1 pixel above and below extra in a font
+			set mailheight [expr [$textb.popmailpic cget -height]+(2*[::skin::getKey mailbox_ypad])-2]
+			set textheight [font metrics splainf -linespace]
+			if { $mailheight < $textheight } {
+				set mailheight $textheight
+			}
+			$textb configure -font "{} -$mailheight"
 		}
 
 		#TODO: needs translation
