@@ -91,6 +91,30 @@
       <file> smilec2 </file>
    </emoticon>
 
+  <emoticon>
+      <name> 11 angry </name>
+      <text> ":@" </text>
+      <text> ":-@" </text>
+      <file> angry </file>
+   </emoticon>
+
+  <emoticon>
+      <name> 12 aggresive </name>
+      <text> "8ol" </text>
+      <file> aggresive </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 13 smilemb </name>
+      <text> ":$" </text>
+      <text> ":-$" </text>
+      <file> smilemb </file>
+   </emoticon>
+   
+   
+   
+   
+
 
  <!--Those were took from the trillian skin, and were only meant for testings...-->
    <emoticon>
@@ -114,7 +138,7 @@
 <!--
         Remaining smileys to add to this file as xml... plz help :(
 
-	{":@" angry}  {":-@" angry}  {"8o|" aggresive} {":$" smilemb} {":-$" smilemb} {":-#" zip} 
+	{":-#" zip} 
 	{":-*" kiss} {":^)" new7} {"8-|" glasses} {"8-)" new5} {"|-)" new4} {"+o(" new3}
 	{"*-)" new2} {"^o)" new1} {"(h)" emhottie} {"(brb)" brb} {"<:o)" party} {"(a)" angel}  {"(6)" devil}
 	{"(l)" love} {"(u)" unlove} {"(k)" lips} {"(F)" rose} {"(W)" rosew} 
