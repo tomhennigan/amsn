@@ -1165,7 +1165,6 @@ namespace eval ::amsn {
 	    } else {
 		::plugins::PostEvent chat_msg_received evPar [info level]
 	    }
-	    puts $evPar(0)
 	    
 	}
 	#///////////////////////////////////////////////////////////////////////////////

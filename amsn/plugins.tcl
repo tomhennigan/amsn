@@ -19,7 +19,7 @@ namespace eval ::plugins {
 	set selection(id) ""            
 	# Name of the current selected plugin
 	set selection(name) ""          
-	# The file that will be sourced of teh currently selected plugin
+	# The file that will be sourced of the currently selected plugin
 	set selection(file) ""          
 	# Currently selected plugin's description, default to 'No Plugin Selected'
 	set selection(desc) "No Plugin Selected" 
@@ -29,17 +29,31 @@ namespace eval ::plugins {
 	variable loadedplugins [list]   
     }
 
-    proc PostEvent { event var level } {
-		variable pluginslist 
-		variable pluginsevents 
-		
-		status_log "Plugin System: Calling event $event with variable $var in the level $level\n"
-		foreach plugin $pluginslist {
-		    status_log "Next plugin: $plugin\n"
-		    set plugin [lindex $plugin 0]
-		    if { [info exists pluginsevents(${plugin}_${event}) ] } {
-				catch { eval ::${plugin}::$pluginsevents(${plugin}_${event}) $var $level } res
-			status_log "Return $res from event $event of plugin $plugin\n"
+    proc PostEvent { event var level} {
+	variable pluginslist 
+	variable pluginsevents 
+	
+	status_log "Plugin System: Calling event $event with variable $var in the level $level\n"
+	
+	foreach plugin $pluginslist {
+	    status_log "Next plugin: $plugin\n"
+	    set plugin [lindex $plugin 0]
+	    if { [info exists pluginsevents(${plugin}_${event}) ] } {
+		set listlength [info args "::${plugin}::$pluginsevents(${plugin}_${event})"]
+		set listlength [llength $listlength]
+		if {$listlength==1} {
+		    status_log "Plugin System: Old system for event handler detected...\n"
+		    upvar "#$level" $var locvar
+		    set args [list]
+		    for {set x 0} {$x<[array size locvar]} {incr x} {
+			lappend $args $locvar($x)
+		    }
+		    status_log "Plugin System: The list I will pass to the old plugin is '$args'\n"
+		    catch { eval ::${plugin}::$pluginsevents(${plugin}_${event}) $args } res
+		} elseif {$listlength==2} {
+		    catch { eval ::${plugin}::$pluginsevents(${plugin}_${event}) $var $level } res
+		}
+		status_log "Return $res from event $event of plugin $plugin\n"
 	    }
 	}
     }
