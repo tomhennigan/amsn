@@ -3283,6 +3283,8 @@ proc cmsn_listdel {recv} {
 proc cmsn_auth {{recv ""}} {
    global config list_version protocol
 
+   status_log "cmsn_auth starting for protocol $protocol\n" blue
+
     if {($protocol == "9") && ([info exist recv])} { return [cmsn_auth_msnp9 $recv]}
     if {($protocol == "9") && (![info exist recv])} { return [cmsn_auth_msnp9]}
 
@@ -3759,11 +3761,12 @@ proc cmsn_socket {name} {
 proc cmsn_ns_connected {} {
    global config
 
-   
+
    set error_msg ""
    set therewaserror [catch {set error_msg [fconfigure [sb get ns sock] -error]} res]
    if { ($error_msg != "") || $therewaserror == 1 } {
       sb set ns error_msg $error_msg
+      status_log "cmsn_ns_connected ERROR: $error_msg\n" red
       ::MSN::CloseSB ns
       return
    }   

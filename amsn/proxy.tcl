@@ -339,74 +339,75 @@ namespace eval ::Proxy {
 	set sock [sb get $name sock]
 	if {[catch {eof $sock} res]} {      
 
-	    ClosePOST $name
-	    
-	} elseif {[eof $sock]} {
+	status_log "Proxy::ReadPOST: Error, closing\n" red
+	ClosePOST $name
 
-	    ClosePOST $name
-	    
+	} elseif {[eof $sock]} {
+	status_log "Proxy::ReadPOST: EOF, closing\n" red
+	ClosePOST $name
+
 	} else {
-	    
+
 	    set tmp_data "ERROR READING POST PROXY !!\n"
-	    
+
 	    catch {gets $sock tmp_data} res
-	    
+
 	    if { $tmp_data == "" } {
 	    	return
 	    }
-	    
+
 	    if { ([string range $tmp_data 9 11] != "200") && ([string range $tmp_data 9 11] != "100")} {
 		#if { ($tmp_data != "HTTP/1.0 200 OK") && ($tmp_data != "HTTP/1.1 100 Continue") } {}
 		status_log "Proxy POST connection closed for $name:\n$tmp_data\n" red
 		ClosePOST $name
 	    } else {
-		
+
 		set headers $tmp_data
 		while { $tmp_data != "\r"  } {
-		    catch {gets $sock tmp_data} res        
+		    catch {gets $sock tmp_data} res
 		    set headers "$headers\n$tmp_data"
 		}
 		set info "[::MSN::GetHeaderValue $headers X-MSN-Messenger]\n"
-		
+
 		set start [expr {[string first "SessionID=" $info] + 10}]
 		set end [expr {[string first ";" $info $start]-1}]
 		if { $end < 0 } { set end [expr {[string first "\n" $info $start]-1}] }
 		set session_id "[string range $info $start $end]"
-		
+
 		set start [expr {[string first "GW-IP=" $info] + 6}]
 		set end [expr {[string first ";" $info $start]-1}]
 		if { $end < 0 } { set end [expr {[string first "\n" $info $start]-1}] }
 		set gateway_ip "[string range $info $start $end]"
-		
-		set content_length "[::MSN::GetHeaderValue $headers Content-Length]\n"	 
+
+		set content_length "[::MSN::GetHeaderValue $headers Content-Length]\n"
 		set content_data ""
-		if { $content_length > 0 } {	    
+		if { $content_length > 0 } {
 		    fconfigure $sock -blocking 1
 		    set content_data [read $sock $content_length]
-		    fconfigure $sock -blocking 0	    
+		    fconfigure $sock -blocking 0
 		}
 
 		#set log [stringmap {\r ""} $content_data]
 		set log $content_data
-		
-		#status_log "Proxy POST Received ($name):\n$headers\n " green
+
+		status_log "Proxy POST Received ($name):\n$headers\n " green
 		while { $log != "" } {
 		    set endofline [string first "\n" $log]
 		    set command [string range $log 0 [expr {$endofline-1}]]
 		    set log [string range $log [expr {$endofline +1}] end]
 		    sb append $name data $command
-		    
-		    degt_protocol "<-Proxy($name) $command" nsrecv      
-		    
+
+		    degt_protocol "<-Proxy($name) $command" nsrecv
+
 		    if {[string range $command 0 2] == "MSG"} {
          		set recv [split $command]
 	 		set msg_data [string range $log 0 [expr {[lindex $recv 3]-1}]]
 			set log [string range $log [expr {[lindex $recv 3]}] end]
 
 	 		degt_protocol " Message contents:\n$msg_data" msgcontents
-			
-         		sb append $name data $msg_data	
-		    }	 
+
+         		sb append $name data $msg_data
+		    }
 		    
 		}
 		
@@ -458,6 +459,9 @@ namespace eval ::Proxy {
 }
 ###################################################################
 # $Log$
+# Revision 1.23  2003/10/16 23:51:29  airadier
+# Enabled some proxy debugging again
+#
 # Revision 1.22  2003/10/14 14:55:25  kakaroto
 # Added SHA1 module..
 # changed controler filename to amsn-remote
