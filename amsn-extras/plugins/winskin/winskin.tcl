@@ -18,8 +18,10 @@ namespace eval ::winskin {
 			hidemenu {1}
 			removetop {0}
 			removeicons {0}
+			removestates {0}
 			startskinned {0}
 			topmost {0}
+			titleheight {19}
 		}
 
 		set ::winskin::configlist [list \
@@ -27,8 +29,10 @@ namespace eval ::winskin {
 			[list bool "Hide the menu bar" hidemenu] \
 			[list bool "Remove the top section" removetop] \
 			[list bool "Remove the icons at the start of each line (0.95b or later only)" removeicons] \
+			[list bool "Remove the state (in brackets) at the end of each line (0.95b or later only)" removestates] \
 			[list bool "Start Skinned (on connection)" startskinned] \
 			[list bool "Always On Top" topmost] \
+			[list str "Height of titlebar in pixels (should not need to be changed)" titleheight] \
 		]
 
 		::skin::setPixmap winskin_move move.gif
@@ -83,18 +87,17 @@ namespace eval ::winskin {
 			scan [wm geometry .] "%dx%d+%d+%d" width height wx wy
 			set contentsleft [expr {[winfo rootx .] - ($wx)}]
 			set titlemenuheight [expr {[winfo rooty .] - ($wy)}]
+			set titleheight $::winskin::config(titleheight)
 			if { $::winskin::config(hidemenu) == 1 } {
-				set menuheight [expr {[.main_menu yposition 1] - [.main_menu yposition 0]}]
+				set menuheight [expr {$titlemenuheight - $titleheight - $contentsleft}]
 			} else {
 				set menuheight 0
 			}
-			set titleheight [expr {$titlemenuheight - $menuheight}]
 			set width [expr {$width - (2 * $contentsleft)}]
-			#contents left for bottom, +1 for black line
-			set height [expr {$height - $titleheight - $contentsleft + 1}]
+			#contentsleft for bottom
+			set height [expr {$height - $titleheight - $contentsleft}]
 			set wx [expr {$wx + $contentsleft}]
-			#-1 for black line
-			set wy [expr {$wy + $titleheight - 1}]
+			set wy [expr {$wy + $titleheight + $contentsleft}]
 			wm geometry . "${width}x${height}+${wx}+${wy}"
 			update idletasks
 
@@ -111,9 +114,9 @@ namespace eval ::winskin {
 			update idletasks
 			scan [wm geometry .] "%dx%d+%d+%d" width height wx wy
 			set width [expr {$width + (2 * $contentsleft)}]
-			set height [expr {$height + $titleheight + $contentsleft - 1}]
+			set height [expr {$height + $titleheight + $contentsleft}]
 			set wx [expr {$wx - $contentsleft}]
-			set wy [expr {$wy - $titleheight + 1}]
+			set wy [expr {$wy - $titleheight - $contentsleft}]
 			wm geometry . "${width}x${height}+${wx}+${wy}"
 
 			#Some verions of tk don't support this
@@ -159,17 +162,25 @@ namespace eval ::winskin {
 			}
 
 			#remove spaces
-			set last [$vars(text) index end]
-			set cline 1
 			$vars(text) configure -state normal
-			while { "$last" != "${cline}.0" } {
-				if { [string equal [$vars(text) get $cline.0 $cline.4] "    "] == 1 } {
-					$vars(text) delete $cline.0 $cline.4
-				}
-				incr cline
+			set pos 1.0
+			while { [set pos [$vars(text) search -regexp "^    " $pos end]] != "" } {
+				$vars(text) delete $pos $pos+4chars
 			}
 			$vars(text) configure -state disabled
-		}		
+		}
+
+		if { ($::winskin::config(removestates) == 1) && ($skinned == 1) } {
+			$vars(text) configure -state normal
+			set x {}
+			foreach a [set ::MSN::list_states] {lappend x (\\([trans [lindex $a 1]]\\)$)}
+			set x [join $x "|"]
+			while { [set start [$::pgBuddy.text search -regexp $x 1.0 end]] != "" } {
+				set end [$::pgBuddy.text search -regexp "\\)" $start end]
+				$vars(text) delete $start-1chars $end+1chars
+			}
+			$vars(text) configure -state disabled
+		}
 	}
 
 
