@@ -4434,6 +4434,7 @@ proc create_msnobj { Creator type filename } {
 
     if { [file exists $filename] == 0 } { return "" }
     set fd [open $filename r]
+    fconfigure $fd -translation binary
     set data [read $fd]
     close $fd
 
@@ -4782,9 +4783,6 @@ namespace eval ::MSNP2P {
 		} else {
 			# This is a split message
 			append bheader "[binary format w $TotalSize][binary format i $CurrentSize]"
-			if { $Offset == 0 } {
-				incr Offset
-			}
 			incr Offset $CurrentSize
 			if { $Offset >= $TotalSize } {
 				# We have finished sending the last part of the message
@@ -4938,9 +4936,11 @@ namespace eval ::MSNP2P {
 		SessionList set $sid [list -1 [file size "/home/burger/buddy.png"] -1 -1 -1 -1]
 		if { [info exists fd] == 0 } {
 			set fd [open "/home/burger/buddy.png"]
+			fconfigure $fd -translation binary
 		}
 		set chunk [read $fd 1200]
 		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $chunk]
+		unset chunk
 
 		status_log "[SessionList get $sid]\n"
 		if { [lindex [SessionList get $sid] 1] == 0 } {
