@@ -4402,7 +4402,6 @@ proc cmsn_draw_online_wrapped {} {
 	config password pgBuddy bgcolor automessage emailBList tcl_platform
 
 	set scrollidx [$pgBuddy.text yview]
-	status_log "scrollidx is $scrollidx\n" white
 
 	set my_name [::abook::getPersonal nick]
 	set my_state_no [::MSN::stateToNumber [::MSN::myStatusIs]]
