@@ -319,7 +319,7 @@ proc cmsn_draw_main {} {
    .main_menu.file add command -label "[trans openreceived]" \
       -command "msg_box \"$files_dir\""
    .main_menu.file add separator
-   .main_menu.file add command -label "[trans close]" -command "destroy ."
+   .main_menu.file add command -label "[trans close]" -command "close_cleanup;exit"
 
    #Actions menu
    set dummy_user "recipient@somewhere.com"
@@ -988,11 +988,11 @@ proc cmsn_draw_msgwin {} {
    .${win_name} conf -menu .${win_name}.menu
 
    frame .${win_name}.top
-   text .${win_name}.top.text  -borderwidth 0 -width 40 \
+   text .${win_name}.top.text  -borderwidth 0 -width 45 \
       -height 1 -wrap word -yscrollcommand ".${win_name}.top.ys set"
    scrollbar .${win_name}.top.ys -command ".${win_name}.top.text yview" \
       
-   text .${win_name}.text -background white -width 40 -height 15 -wrap word \
+   text .${win_name}.text -background white -width 45 -height 15 -wrap word \
       -yscrollcommand ".${win_name}.ys set" -exportselection 1
       #-selectforeground white \
       #-selectbackground darkblue -selectborderwidth 1 
@@ -1001,7 +1001,7 @@ proc cmsn_draw_msgwin {} {
    text .${win_name}.status  -width 30 -height 1 -wrap none\
    -font bplainf
    frame .${win_name}.in
-   text .${win_name}.in.input -background white -width 25 -height 3 -wrap word\
+   text .${win_name}.in.input -background white -width 15 -height 3 -wrap word\
    -font bboldf
   
    button .${win_name}.in.send  -text [trans send] -width 5 \
