@@ -1,6 +1,7 @@
 
 namespace eval ::amsn {
-   namespace export fileTransferSend fileTransferRecv fileTransferProgress errorMsg 
+   namespace export fileTransferSend fileTransferRecv fileTransferProgress \
+   errorMsg notifyAdd
    
    proc errorMsg { msg } {
       tk_messageBox -type ok -icon error -message $msg -title "[trans title] Error" 
@@ -169,6 +170,83 @@ namespace eval ::amsn {
 	 $w.progress configure -text "[trans sentbytes $bytes2 $filesize2]"
 	 ::dkfprogress::SetProgress $w.prbar $percent
       }
+   }
+   
+   variable NotifID 0
+   variable NotifPos [list]
+   variable im [image create photo -width 180 -height 110]
+
+   for {set i 0} {$i < 110} {incr i} {
+      set rg [expr {35+$i*2}]
+      set col [format "%2.2X%2.2XFF" $rg $rg]
+      $im put "#$col" -to 0 $i 180 [expr {$i + 1}]
+   }
+
+   
+   proc notifyAdd { msg command {sound ""}} {
+      variable NotifID
+      variable NotifPos
+      variable im
+      global images_folder
+
+      set w .notif$NotifID
+      incr NotifID
+      
+      toplevel $w -width 1 -height 1
+      wm state $w withdraw
+            
+      set ypos 0      
+      while { [lsearch -exact $NotifPos $ypos] >=0 } {
+        set ypos [expr {$ypos+105}]
+      }      
+      lappend NotifPos $ypos
+      
+      wm geometry $w -0-$ypos      
+         
+      canvas $w.c -bg #EEEEFF -width 150 -height 100 \
+         -relief ridge -borderwidth 2
+      pack $w.c
+
+      $w.c create image 75 50 -image $im 
+      $w.c create image 20 25 -image notifico
+
+      if {[string length $msg] >100} {
+         set msg "[string range $msg 0 100]..."
+      } 
+   
+      set notify_id [$w.c create text 75 50 -font splainf \
+         -justify center -width 145 -text "$msg"]
+
+      $w.c bind $notify_id <Enter> \
+         "$w.c conf -cursor hand2"
+
+      $w.c bind $notify_id <Leave> \
+         "$w.c conf -cursor left_ptr"
+      
+      set after_id [after 8000 "::amsn::KillNotify $w $ypos"]
+
+      $w.c bind $notify_id <Button-1> "after cancel $after_id;\
+        ::amsn::KillNotify $w $ypos; $command"
+      
+      wm title $w "[trans msn] [trans notify]"
+      wm overrideredirect $w 1
+      wm transient $w
+      wm state $w normal
+      
+      raise $w
+      
+      if { $sound != ""} {
+         sonido $sound
+      }
+
+
+   }
+   
+   proc KillNotify { w ypos } {
+      variable NotifPos
+      destroy $w
+      set lpos [lsearch -exact $NotifPos $ypos]
+      set NotifPos [lreplace $NotifPos $lpos $lpos]
    }
    
 }

@@ -164,7 +164,7 @@ if {$tcl_platform(platform) == "unix"} {
    set files_dir "$env(HOME)/amsn_received"
 } elseif {$tcl_platform(platform) == "windows"} {
    set HOME "$env(USERPROFILE)/amsn"
-   set files_dir "$env(USERPROFILE)/amsn_received
+   set files_dir "$env(USERPROFILE)/amsn_received"
 } else {
    set HOME "amsn"
    set files_dir "amsn_received
@@ -1452,94 +1452,6 @@ proc newcontact {new_login new_name} {
    grab set .newc
 }
 
-proc cmsn_draw_notify {} {
-   global notify_id images_folder
-
-   set im [image create photo -width 180 -height 110]
-
-   for {set i 0} {$i < 110} {incr i} {
-      set rg [expr {35+$i*2}]
-      set col [format "%2.2X%2.2XFF" $rg $rg]
-      $im put "#$col" -to 0 $i 180 [expr {$i + 1}]
-   }
-
-
-   toplevel .notify -width 154 -height 104
-   wm title .notify "[trans msn] [trans notify]"
-   wm overrideredirect .notify 1
-   wm geometry .notify -0-0
-   wm transient .notify .
-   wm state .notify withdraw
-   
-   canvas .notify.c -bg #EEEEFF -width 150 -height 100 \
-      -relief ridge -borderwidth 2
-   pack .notify.c
-
-   .notify.c create image 75 50 -image $im 
-   .notify.c create image 20 25 -image notifico
-   
-   set notify_id [.notify.c create text 75 50 -font splainf \
-      -justify center -width 145]
-
-   .notify.c bind $notify_id <Enter> \
-     ".notify.c conf -cursor hand2"
-#     ".notify.c itemconfigure $notify_id -font sboldf;\
-
-   .notify.c bind $notify_id <Leave> \
-     ".notify.c conf -cursor left_ptr"
-#     ".notify.c itemconfigure $notify_id -font splainf; \
-
-   .notify.c bind $notify_id <Button-1> ""   
-
-}
-
-proc cmsn_update_notify {} {
-   global list_notify notify_id emotions
-
-   set notify_text ""
-   set cursec [clock seconds]
-   set items [expr {[llength $list_notify] -1}]
-   for {set idx $items} {$idx >= 0} {incr idx -1} {
-      set notify_item [lindex $list_notify $idx]
-      set msg [lindex $notify_item 0]
-      set msgsec [lindex $notify_item 1]
-      if {$msgsec < $cursec} {
-         set list_notify [lreplace $list_notify $idx $idx]
-      } else {
-         set notify_text \n\n$msg${notify_text}
-      }
-
-   }
-   set notify_text [string range ${notify_text} 2 end]
-   .notify.c dchars $notify_id 0 end
-
-   .notify.c insert $notify_id 0 $notify_text
-
-   if {[string length $notify_text] > 0} {
-      wm state .notify normal
-   } else {
-      wm state .notify withdraw
-   }
-
-   wm geometry .notify -0-0
-   raise .notify
-   after 1000 cmsn_update_notify
-}
-
-proc cmsn_notify_add {msg {command ""}} {
-   global list_notify notify_id
-
-   if {[string length $msg] >100} {
-	    lappend list_notify [list [string range $msg 0 100]... [expr {[clock seconds] + 7}]]
-   } else {
-	   lappend list_notify [list $msg [expr {[clock seconds] + 7}]]   
-   }
-
-#new by AIM
-   .notify.c bind $notify_id <Button-1> $command
-#end AIM
-
-}
 
 proc cmsn_change_name {} {
    global change_name user_info
@@ -1744,8 +1656,9 @@ proc cmsn_change_state {recv} {
 #	   status_log " ERROR deleting <$oldusername> from message menu\n" white
 #	 }
       } elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
-            cmsn_notify_add $user_name\n[trans logsin]. "cmsn_chat_user $user"
-	    sonido online
+         ::amsn::notifyAdd "$user_name\n[trans logsin]." "cmsn_chat_user $user" online
+#            cmsn_notify_add $user_name\n[trans logsin]. "cmsn_chat_user $user"
+#	    sonido online
       }
 
       if {$substate != "FLN"} {
@@ -1874,15 +1787,13 @@ scan_languages
 load_lang
 
 cmsn_draw_main
-cmsn_draw_notify
+#cmsn_draw_notify
 
 degt_protocol_win
 degt_ns_command_win
 
 after 500 proc_ns
 after 750 proc_sb
-
-after 1000 cmsn_update_notify
 
 if {$version != $config(last_client_version)} {
    cmsn_draw_about
