@@ -884,7 +884,7 @@ namespace eval ::MSN {
 		::MSN::clearList AL
 		::MSN::clearList BL
 		::MSN::clearList FL
-		::MSN::clearList rL
+		::MSN::clearList RL
 		
 		set list_BLP -1
 		if { [info exists emailBList] } {
