@@ -3798,52 +3798,62 @@ proc ButtonCancelLogin { window {email ""} } {
 	cmsn_draw_offline
 }
 
-#///////////////////////////////////////////////////////////////////////////////
-# AddProfileWin ()
-# Small dialog window with entry to create new profile
-proc AddProfileWin { } {
-	
-	if {[winfo exists .add_profile]} {
-		raise .add_profile
-		return 0
-	}
-	 	
-	toplevel .add_profile
-	wm group .add_profile .login
-	
-	wm title .add_profile "[trans addprofile]"
-	wm transient .add_profile .
 
-	label .add_profile.desc -text "[trans addprofiledesc]" -font splainf -justify left
-	entry .add_profile.login -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 35
-	label .add_profile.example -text "[trans examples] :\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com" -font examplef -padx 10
-	button .add_profile.cancel -text [trans cancel] -command "grab release .add_profile; destroy .add_profile" -font sboldf
-	button .add_profile.ok -text [trans ok] -command "AddProfileOk"  -font sboldf
-	grid .add_profile.desc -row 1 -column 1 -sticky w -columnspan 2 -padx 5 -pady 5
-	grid .add_profile.login -row 2 -column 1 -padx 5 -pady 5
-	grid .add_profile.example -row 2 -column 2 -sticky e
-	grid .add_profile.cancel -row 3 -column 2 -sticky e -padx 5 -pady 5
-	grid .add_profile.ok -row 3 -column 2 -sticky w -padx 5 -pady 5
+#////////////////////////////////////////////////////////////////////// ///////// 
+# AddProfileWin () 
+# Small dialog window with entry to create new profile 
+proc AddProfileWin {} { 
 
-	bind .add_profile <Return> "AddProfileOk"
-	bind .add_profile <Escape> "grab release .add_profile; destroy .add_profile"
+    if {[winfo exists .add_profile]} { 
+	raise .add_profile 
+	return 0 
+    } 
 
-	grab .add_profile
-}
+    toplevel .add_profile 
+    wm group .add_profile .login 
 
-#///////////////////////////////////////////////////////////////////////////////
-# AddProfileOk ()
+    wm title .add_profile "[trans addprofile]" 
+    wm transient .add_profile . 
+    set mainframe [LabelFrame:create .add_profile.main -text [trans  addprofile] -font splainf] 
+    label $mainframe.desc -text "[trans addprofiledesc]" -font splainf  -justify left 
+    entry $mainframe.login -bg #FFFFFF -bd 1 -font splainf  -highlightthickness 0 -width 35 
+    label $mainframe.example -text "[trans examples]  :\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com"  -font examplef -padx 10 
+    grid $mainframe.desc -row 1 -column 1 -sticky w -columnspan 2 -padx 5  -pady 5 
+    grid $mainframe.login -row 2 -column 1 -padx 5 -pady 5 
+    grid $mainframe.example -row 2 -column 2 -sticky e 
+
+    set buttonframe [frame .add_profile.buttons -class Degt] 
+    button $buttonframe.cancel -text [trans cancel] -command "grab release  .add_profile; destroy .add_profile" -font sboldf 
+    button $buttonframe.ok -text [trans ok] -command "AddProfileOk  $mainframe"  -font sboldf 
+
+    AddProfileOk $mainframe 
+
+    pack  $buttonframe.cancel $buttonframe.ok -side right -padx 10 
+
+
+    bind .add_profile <Return> "AddProfileOk $mainframe" 
+    bind .add_profile <Escape> "grab release .add_profile; destroy  .add_profile" 
+
+
+    pack .add_profile.main .add_profile.buttons -side top -anchor n -expand  true -fill both -padx 10 -pady 10 
+    #grab $mainframe 
+} 
+
+#////////////////////////////////////////////////////////////////////// ///////// 
+# AddProfileOk (mainframe) 
 # 
-proc AddProfileOk {} {
-	set login [.add_profile.login get]
-	if { $login == "" } {
-		return
-	}
-	
-	if { [CreateProfile $login] != -1 } {
-		grab release .add_profile
-		destroy .add_profile
-	}
+proc AddProfileOk {mainframe} { 
+    wm group .add_profile .login 
+    set login [$mainframe.login get] 
+    if { $login == "" } { 
+	return 
+    } 
+
+    if { [CreateProfile $login] != -1 } { 
+	grab release .add_profile 
+	destroy .add_profile 
+    } 
+
 }
 
 #///////////////////////////////////////////////////////////////////////
