@@ -3697,7 +3697,7 @@ proc cmsn_msgwin_sendmail {name} {
 
 #///////////////////////////////////////////////////////////////////////
 proc play_sound {sound_name} {
-    global config program_dir
+    global config program_dir tcl_platform
 
 	if { [string first "\$sound" $config(soundcommand)] == -1 } {
 		set config(soundcommand) "$config(soundcommand) \$sound"
