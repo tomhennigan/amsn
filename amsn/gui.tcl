@@ -404,6 +404,8 @@ namespace eval ::amsn {
    # - 'usr_name' is the user email to show in the status message
    proc userJoins { chatid usr_name } {
 
+	global config
+
       if {[WindowFor $chatid] == 0} {
          return 0
       }
@@ -411,6 +413,10 @@ namespace eval ::amsn {
       set statusmsg "[timestamp] [trans joins $usr_name]\n"
       WinStatus [ WindowFor $chatid ] $statusmsg
       WinTopUpdate $chatid
+
+	if { $config(keep_logs) } {
+		::log::JoinsConf $chatid $usr_name
+	}	
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -434,6 +440,10 @@ namespace eval ::amsn {
       set statusmsg "[timestamp] [trans leaves $usr_name]\n"
       WinStatus [ WindowFor $chatid ] $statusmsg
       WinTopUpdate $chatid
+
+	if { $config(keep_logs) } {
+		::log::LeavesConf $chatid $usr_name
+	}		
      
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -541,9 +551,9 @@ namespace eval ::amsn {
          -command "destroy .${win_name}"
 
       menu .${win_name}.menu.edit -tearoff 0 -type normal
-      .${win_name}.menu.edit add command -label "[trans cut]" -command "copy 1 ${win_name}" -accelerator "CTRL+X"
-      .${win_name}.menu.edit add command -label "[trans copy]" -command "copy 0 ${win_name}" -accelerator "CTRL+C"
-      .${win_name}.menu.edit add command -label "[trans paste]" -command "paste ${win_name}" -accelerator "CTRL+V"
+      .${win_name}.menu.edit add command -label "[trans cut]" -command "copy 1 ${win_name}" -accelerator "Ctrl+X"
+      .${win_name}.menu.edit add command -label "[trans copy]" -command "copy 0 ${win_name}" -accelerator "Ctrl+C"
+      .${win_name}.menu.edit add command -label "[trans paste]" -command "paste ${win_name}" -accelerator "Ctrl+V"
 
       menu .${win_name}.menutextsize -tearoff 0 -type normal
       .${win_name}.menutextsize add command -label "+8" -command "change_myfontsize 8 ${win_name}"
@@ -561,12 +571,16 @@ namespace eval ::amsn {
       .${win_name}.menu.view add separator
       .${win_name}.menu.view add checkbutton -label "[trans chatsmileys]" \
         -onvalue 1 -offvalue 0 -variable config(chatsmileys)
+      .${win_name}.menu.view add separator
+      .${win_name}.menu.view add command -label "[trans history]" -command "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin" -accelerator "Ctrl+H"
 
       menu .${win_name}.menu.actions -tearoff 0 -type normal
       .${win_name}.menu.actions add command -label "[trans addtocontacts]" \
          -command "::amsn::ShowAddList \"[trans addtocontacts]\" .${win_name} ::MSN::addUser"
       .${win_name}.menu.actions add command -label "[trans block]/[trans unblock]" \
          -command "::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} blockun_user"
+      .${win_name}.menu.actions add command -label "[trans viewprofile]" \
+         -command "::amsn::ShowChatList \"[trans viewprofile]\" .${win_name} view_profile"
       .${win_name}.menu.actions add command -label "[trans properties]" \
          -command "::amsn::ShowChatList \"[trans properties]\" .${win_name} ::abookGui::showEntry"
       .${win_name}.menu.actions add separator
@@ -588,7 +602,7 @@ namespace eval ::amsn {
 
       text .${win_name}.f.out.text -borderwidth 0 -background white -width 45 -height 15 -wrap word \
          -yscrollcommand ".${win_name}.f.out.ys set" -exportselection 1  -relief solid -highlightthickness 0 \
-	  -selectborderwidth 1 -exportselection 1
+	  -selectborderwidth 1
 
 
       frame .${win_name}.f.top -class Amsn -relief flat -borderwidth 0 -background $bgcolor
@@ -682,10 +696,13 @@ namespace eval ::amsn {
 
       bind .${win_name}.f.in.input <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
       bind .${win_name}.f.out.text <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
+      
       bind .${win_name} <Control-x> "status_log cut\n;copy 1 ${win_name}"
       bind .${win_name} <Control-c> "status_log copy\n;copy 0 ${win_name}"
       bind .${win_name} <Control-v> "status_log paste\n;paste ${win_name}"
 
+      bind .${win_name} <Control-h> "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin"
+      
       bind .${win_name} <Destroy> "::amsn::closeWindow .${win_name} %W"
 
       focus .${win_name}.f.in.input
@@ -1045,8 +1062,8 @@ namespace eval ::amsn {
       unset window_titles(${win_name})
 
       ::MSN::leaveChat $chatid
-
-}
+   
+   }
    #///////////////////////////////////////////////////////////////////////////////
 
 
@@ -1071,16 +1088,7 @@ namespace eval ::amsn {
 	WinFlicker $chatid
 
 	if {$config(keep_logs)} {
-		set user_list [::MSN::usersInChat $chatid]
-		foreach user_info $user_list {
-			set user_login [lindex $user_info 0]
-			status_log "DEBUGG: $user_login\n"
-			if { [llength $user_list] > 1 } {
-				::log::WriteLog $user_login "$user : $msg\n" 1
-			} else {
-				::log::WriteLog $user_login "$user : $msg\n"
-			}
-		}
+		::log::PutLog $chatid $user $msg
 	}
 
    }
@@ -1743,6 +1751,7 @@ proc cmsn_draw_main {} {
    .options add checkbutton -label "[trans chatsmileys]" -onvalue 1 -offvalue 0 -variable config(chatsmileys)
    .options add checkbutton -label "[trans listsmileys]" -onvalue 1 -offvalue 0 -variable config(listsmileys)
    .options add checkbutton -label "[trans keepalive]" -onvalue 1 -offvalue 0 -variable config(keepalive) -command "::MSN::TogglePolling"
+   .options add checkbutton -label "[trans keeplog]" -onvalue 1 -offvalue 0 -variable config(keep_logs)
    .options add checkbutton -label "[trans natip]" -onvalue 1 -offvalue 0 -variable config(natip)
    .options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable config(closingdocks) 
 

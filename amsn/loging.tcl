@@ -4,6 +4,12 @@
 ################################################################################
 
 # TODO Implement some sort of log file size limit or date limit (remove any log entries older than date)
+# TODO Save to FILE (all of history for example)
+# TODO Save to LOG (if loging disabled, allows to log certain conversations only)
+# TODO "Clear all logs" button
+# TODO Selective loging (only log or don't log certain users)
+# TODO Compress log files with optimal algorithm for txt files
+# TODO Loging syntax options (timestamps, email or nics, etc)
 
 namespace eval ::log {
 
@@ -113,59 +119,143 @@ proc ConfArray { email action {conf 0}} {
 
 		
 #///////////////////////////////////////////////////////////////////////////////
-# StopLog (email)
+# StopLog (email (who))
 # Closes the log file for given user, called when closing chat window or when
 # user leaves conference
 # If user leaves conference and already has a chat window open, it'll close and
 # reopen file on next message send/receive
-proc StopLog {email} {
+# If who = 1 means user leaves conference
+# If who = 0 means YOU have closed window
+proc StopLog {email {who 0} } {
 
 	status_log "DEBUG: Closing log file for $email\n"
 	if { [LogArray $email get] != 0 } {
-		puts -nonewline [LogArray $email get] "\[Window closed on [clock format [clock seconds] -format "%d %b %T"]\]\n\n"
+		if { $who == 1 } {
+			puts -nonewline [LogArray $email get] "\|\"LRED\[$email has closed the window on [clock format [clock seconds] -format "%d %b %T"]\]\n\n"
+		} else {
+			puts -nonewline [LogArray $email get] "\|\"LRED\[You have closed the window on [clock format [clock seconds] -format "%d %b %T"]\]\n\n"
+		}
 		close [LogArray $email get]
 	}
 	LogArray $email unset
 	ConfArray $email unset
 }
 
+
+#///////////////////////////////////////////////////////////////////////////////
+# PutLog (chatid user msg)
+# Writes messages sent to PutMessage into the appropriate log files
+# Checks for conferences and fixes conflicts if we have 2 windows for same user (1 private 1 conference)
+# chatid : the chatid where the message was typed/sent
+# user : user who sent message
+# msg : msg
+
+proc PutLog { chatid user msg } {
+	
+		set user_list [::MSN::usersInChat $chatid]
+		foreach user_info $user_list {
+			set user_login [lindex $user_info 0]
+			if { [llength $user_list] > 1 } {
+				::log::WriteLog $user_login "\|\"LITA$user \|\"LNOR: $msg\n" 1 $user_list
+			} else {
+				# for 2 windows (1 priv 1 conf)
+				# if conf exists for current user & current chatid is not a conf
+				if { [ConfArray $user_login get] == 1 && $chatid == $user_login} {
+					::log::WriteLog $user_login "\|\"LITA\[IN PRIVATE\] $user \|\"LNOR: $msg\n" 2 $user_list
+				} else {
+					::log::WriteLog $user_login "\|\"LITA$user \|\"LNOR: $msg\n" 0 $user_list
+				}
+			}
+		}
+}
+
 	
 #///////////////////////////////////////////////////////////////////////////////
-# WriteLog (email txt)
+# WriteLog (email txt (conf) (userlist))
 # Writes txt to logfile of user given by email
 # Checks if a fileid for current user already exists before writing
-# conf 0 is used for conference messages
+# conf 1 is used for conference messages
 
-proc WriteLog { email txt {conf 0}} {
+proc WriteLog { email txt {conf 0} {user_list ""}} {
 
 	set fileid [LogArray $email get]
 
 	ConfArray $email newset $conf
 	set last_conf [ConfArray $email get]
-
-	status_log "$conf $last_conf"
 	
+	foreach user_info $user_list {
+		if { [info exists users] } {
+			set users "$users, [lindex $user_info 0]"
+		} else {
+			set users [lindex $user_info 0]
+		}
+	}	
+
 	if { $fileid != 0 } {
-		if { $last_conf != $conf } {
+		if { $last_conf != $conf && $conf != 2} {
 			if { $conf == 1 } {
-				puts -nonewline $fileid "\[Private chat turned into Conference\]\n"
+				puts -nonewline $fileid "\|\"LRED\[Private chat turned into Conference with ${users}\]\n"
 				ConfArray $email set $conf
-			} else {
-				puts -nonewline $fileid "\[Conference turned into Private chat\]\n"
+			} elseif { [llength $user_list] == 1 } {
+				puts -nonewline $fileid "\|\"LRED\[Conference turned into Private chat with ${users}\]\n"
 				ConfArray $email set $conf
 			}
 		}
-		puts -nonewline $fileid "[timestamp] $txt"
+		puts -nonewline $fileid "\|\"LGRA[timestamp] $txt"
 	} else {
-		status_log "DEBUG : Opening log file for $email from WriteLog\n"
 		StartLog $email
 		set fileid [LogArray $email get]
 		if { $conf == 0 } {
-			puts -nonewline $fileid "\[Conversation started on [clock format [clock seconds] -format "%d %b %T"]\]\n"
+			puts -nonewline $fileid "\|\"LRED\[Conversation started on [clock format [clock seconds] -format "%d %b %T"]\]\n"
 		} else {
-			puts -nonewline $fileid "\[Conference started on [clock format [clock seconds] -format "%d %b %T"]\]\n"
+			puts -nonewline $fileid "\|\"LRED\[$email has entered into a conference on [clock format [clock seconds] -format "%d %b %T"] \(${users}\) \]\n"
 		}
-		puts -nonewline $fileid "[timestamp] $txt"
+		puts -nonewline $fileid "\|\"LGRA[timestamp] $txt"
+	}
+}
+
+
+#///////////////////////////////////////////////////////////////////////////////
+# LeavesConf (usr_name user_list)
+# Handles loging for when a user leaves a conference
+# usr_name : email of person who has left
+
+proc LeavesConf { chatid usr_name } {
+
+	set user_list [::MSN::usersInChat $chatid]
+	# If was in conference before this user leaves
+	if { [llength $user_list] >= 1 && $usr_name != [lindex [lindex $user_list 0] 0] } {
+		foreach user_info $user_list {
+			set fileid [LogArray [lindex $user_info 0] get]
+			if { $fileid != 0 } {
+				puts -nonewline $fileid "\|\"LRED\[$usr_name has left conference\]\n"
+			}
+			if { [llength $user_list] == 1 } {
+				ConfArray [lindex $user_info 0] set 3
+			}
+		}
+	StopLog $usr_name 1
+	}
+}	
+
+
+#///////////////////////////////////////////////////////////////////////////////
+# JoinsConf (usr_name user_list)
+# Handles loging for when a user joins a conference
+# usr_name : email of person who has joined
+
+proc JoinsConf { chatid usr_name } {
+
+	set user_list [::MSN::usersInChat $chatid]
+	# If there is already 1 user in chat
+	if { [llength $user_list] > 1  } {
+		foreach user_info $user_list {
+			set login [lindex $user_info 0]
+			set fileid [LogArray $login get]
+			if { $login != $usr_name && $fileid != 0} {
+				puts -nonewline $fileid "\|\"LRED\[$usr_name has joined conference\]\n"
+			}
+		}
 	}
 }
 
@@ -179,4 +269,159 @@ proc WriteLog { email txt {conf 0}} {
 # chat window open... So it will be static and contain what has been said before
 # history button was pressed
 
+proc OpenLogWin { email } {
+
+	global bgcolor config log_dir
+	
+	set fileid [LogArray $email get]
+	if { $fileid != 0 } {
+		flush $fileid
+	}
+	unset fileid
+	
+	set wname [split $email "@ ."]
+	set wname [join $wname "_"]
+	set wname ".${wname}_hist"
+
+	if { [catch {toplevel ${wname} -width 600 -height 400 -borderwidth 0 -highlightthickness 0 } res ] } {
+        	raise ${wname}
+        	focus ${wname}
+		wm deiconify ${wname}
+        	return 0
+      	}
+
+	wm group ${wname} .
+
+	wm title $wname "[trans history] (${email})"
+      	wm geometry $wname 600x400
+
+	frame $wname.blueframe -background $bgcolor
+
+	frame $wname.blueframe.log -class Amsn -borderwidth 0
+      	frame $wname.buttons -class Amsn
+
+
+      	text $wname.blueframe.log.txt -yscrollcommand "$wname.blueframe.log.ys set" -font splainf \
+         -background white -relief flat -highlightthickness 0 -height 1 -exportselection 1 -selectborderwidth 1 \
+	 -wrap word
+      	scrollbar $wname.blueframe.log.ys -command "$wname.blueframe.log.txt yview" -highlightthickness 0 \
+         -borderwidth 1 -elementborderwidth 2
+	
+	set dirname [split $config(login) "@ ."]
+	set dirname [join $dirname "_"]
+	if { [file exists [file join ${log_dir} ${dirname} ${email}.log]] == 1 } {
+		set id [open "[file join ${log_dir} ${dirname} ${email}.log]" r]
+		set logvar [read $id]
+		close $id
+	} else {
+		set logvar "\|\"LRED[trans nologfile] $email"
+	}
+
+	ParseLog $wname $logvar
+	
+	button $wname.buttons.close -text "[trans close]" -command "destroy $wname" -font sboldf
+  	button $wname.buttons.clear -text "[trans clearlog]" -command "destroy $wname; ::log::ClearLog $email" -font sboldf
+
+	menu ${wname}.copypaste -tearoff 0 -type normal
+      	${wname}.copypaste add command -label [trans copy] -command "copy 0 ${wname}"
+      	
+ 	pack $wname.blueframe.log.ys -side right -fill y
+	pack $wname.blueframe.log.txt -side left -expand true -fill both
+ 	pack $wname.blueframe.log -side top -expand true -fill both -padx 4 -pady 4
+	pack $wname.blueframe -side top -expand true -fill both
+	pack $wname.buttons.close -padx 0 -side left
+	pack $wname.buttons.clear -padx 0 -side right
+	pack $wname.buttons -side bottom -fill x -pady 3
+	bind $wname <Escape> "destroy $wname"
+	bind ${wname}.blueframe.log.txt <Button3-ButtonRelease> "tk_popup ${wname}.copypaste %X %Y"
+	bind ${wname} <Control-c> "copy 0 ${wname}"
 }
+
+
+
+
+#///////////////////////////////////////////////////////////////////////////////
+# ParseLog (wname logvar)
+# Decodes the log file and writes to log window
+#
+# wname : Log window
+# logvar : variable containing the whole log file (sure need to setup log file limits)
+
+proc ParseLog { wname logvar } {
+
+	set aidx 0
+
+	while {1} {
+		set color [string range $logvar [expr $aidx + 3] [expr $aidx + 5]]
+		set aidx [expr $aidx + 6]
+		set bidx [string first "\|\"L" $logvar $aidx]
+		if { $bidx != -1 } {
+			set string [string range $logvar [expr $aidx] [expr $bidx - 1]]
+			LogWrite $wname $string $color
+			set aidx $bidx
+		} else {
+			set string [string range $logvar [expr $aidx] end]
+			LogWrite $wname $string $color
+			break
+		}
+	}
+
+	${wname}.blueframe.log.txt yview moveto 1.0
+      	${wname}.blueframe.log.txt configure -state disabled
+}
+
+
+#///////////////////////////////////////////////////////////////////////////////
+# LogWrite (wname string color)
+# Writes each string to log window with given color/style and subs the smileys
+#
+# wname : Log window
+# string : variable containing the string to output
+# color : varibale containing color/style information (RED, GRA, ITA, NOR)
+
+proc LogWrite { wname string color } {
+	
+	${wname}.blueframe.log.txt tag configure red -foreground red
+	${wname}.blueframe.log.txt tag configure gray -foreground gray
+	${wname}.blueframe.log.txt tag configure normal -foreground black
+	${wname}.blueframe.log.txt tag configure italic -foreground blue
+
+	switch $color {
+		RED {
+			${wname}.blueframe.log.txt insert end "$string" red
+		}
+		GRA {
+			${wname}.blueframe.log.txt insert end "$string" gray
+		}
+		NOR {
+			${wname}.blueframe.log.txt insert end "$string" normal
+		}
+		ITA {
+			${wname}.blueframe.log.txt insert end "$string" italic
+		}
+	}
+
+	# This makes rendering long log files slow, maybe should make it optional?
+	#smile_subst ${wname}.blueframe.log.txt
+}
+
+
+#///////////////////////////////////////////////////////////////////////////////
+# ClearLog (email)
+# Deletes the current log file
+#
+# email : email of log to delete
+
+proc ClearLog { email } {
+	
+	global config log_dir
+	set dirname [split $config(login) "@ ."]
+	set dirname [join $dirname "_"]
+	
+	catch { file delete [file join ${log_dir} ${dirname} ${email}.log] }
+
+	OpenLogWin $email
+}
+	
+
+}	

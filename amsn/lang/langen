@@ -41,6 +41,7 @@ checkver Check for new version
 choosebasefont Choose font type
 choosebgcolor Choose background color
 choosefontcolor Choose font color
+clearlog Clear Log
 clicktologin Click here to log in
 close Close
 closingdocks Close button Minimizes
@@ -90,6 +91,7 @@ groupunknown Unknown group
 handle Handle
 helpcontents Help contents
 help Help
+history View History
 home Home
 ident Identifying
 identity Identity
@@ -100,6 +102,7 @@ ipaddress IP Address
 istyping $1 is typing a message
 joins $1 joins conversation
 keepalive Keepalive (NAT)
+keeplog Keep Logs of Chats
 language Language
 lastmsgtime Last message received at $1
 leaveblankforhotmail Leave blank for using hotmail web
@@ -128,6 +131,7 @@ newmsg New message
 newveravailable Newer version $1 available for download
 next Next
 noactivity No activity
+nologfile No Log file for
 nonewmail No new messages in In-Box
 nonewver There are no new versions available to download
 normal Normal

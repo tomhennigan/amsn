@@ -533,6 +533,8 @@ proc show_umenu {user_login x y} {
       -command "send_mail $user_login"
    .user_menu add command -label "[trans viewprofile]" \
       -command "view_profile ${user_login}"
+   .user_menu add command -label "[trans history]" \
+      -command "::log::OpenLogWin ${user_login}"	
    .user_menu add separator
    if {$blocked == -1} {
       .user_menu add command -label "[trans block]" -command  "block_user ${user_login}"

@@ -1,42 +1,62 @@
 BugList / TODO list
 
-It's big, it's bad! It's the all mighty bug/todo list! 
-Here are the stuff we wanna implement and bugs we want to fix...
-Feel free to tell us about any options that aren't here that would interest you...
-Feel free to inform us of any bugs that aren't here (we just ordered 4 boxes of ZAP!)
+Ok here is a new version of the TODO list (04/01/03)
+
+>It's big, it's bad! It's the all mighty bug/todo list! 
+>Here are the stuff we wanna implement and bugs we want to fix...
+>Feel free to tell us about any options that aren't here that would interest you...
+>Feel free to inform us of any bugs that aren't here (we just ordered 4 boxes of ZAP!)
 
 Burger * burger@mwvision.com
 
 
-Bug Fixes(priority 1):
+***Bug Fixes(priority 1)***
 
 # Check Makefile and amsn.spec now that HELP and FAQ files are added. Make sure everything is installed correctly and FAQ and HELP are in the amsn directory.
 # Make good RPMs, for Redhat, Suse, Mandrake, etc.
-# ** FIXED ** Try and find a quickfix until protocol rewrite for -> Just one chat per user, not open many windows for the same user
-# ** FIXED ** If login from other location, have to restart amsn before being able to reconnect
-# ** FIXED ** Sometimes can't rejoin a conversation after other person leaves conversation (closes chat window)
-# ** FIXED ** Add FAQ to Help Menu
+# Long messages (> than 1200) knock out remote user from chat (check if from us or from server, limit size anyhows)
 
 
-Existing Feature Improvements (priority 2):
+***Existing Feature Improvements (priority 2)***
 
-# ** FIXED ** Send file behind NAT (get correct IP with http, add option to force http for wierd local ips)
+File Transfer issues :
 # File Transfer AUTH protocol fix (and add the nick of person sending file to transfer window)
-# ** FIXED ** Improve file transfers: non blocking negotiation
+# Multiple File receive at once, either allow but fix saved filenames or disallow multiple recv at once
+# Fix conference messaging issues (mass file send)
 # Display link to received file and click to open
-# ** FIXED ** Unblock dosen't work from chat window
+
+Alarm system improvements and bugs :
+# URL Decode names when displaying alarm
+# Config seems to automagically disapear sometimes
+# On Connect/ On Msg / On status / On disconnect change alarms
+# Allow alarms to run a command
+# JPG Support
+
+Loging system improvements and bugs :
+# Add date limit or file size limit for log files
+# Add option for partial loging of only certain users
+# Save to FILE (all of history for example)
+# Save to LOG (if loging disabled, allows to log certain conversations only)
+# "Clear all logs" button
+# Compress log files with optimal algorithm for txt files
+# Loging syntax options (timestamps, email or nics, etc)
+
+WindowsXP issues :
+# Fix profiles (got a fix from gazizi i beleive)
+# Problem with URLs and top user status in main window on mouse over (spacing under mouse cursour)
+# Problem with sound
+# Selections dont appear
+# Double Pastes on CTRL-V
+# Ugly program icons (WISH icon, not ours)
+
+Others
 # Fix display issue when copying a user in more than 1 group (displays the user twice in the same group)
 # Reenable copy option for contact list (currently commented out)
-# ** FIXED ** Copy/Paste in message windows + Right click popup menu for copy/paste
 # Improve font selection (unify with color selection)
-# Fix conference messaging issues (mass file send)
-# Add status of person chatting with in msg window
-# Improve Logging (maybe even add a msg history option?)
-# Fix Makefile for gnome1 dock (dock dosent work on gnome2 yet)
-# Add option to receive new messages in maximized state instead of iconified
-# Multiple File send at once, either allow but fix saved filename or disallow multiple send at once
+# Make status change dynamic in chat window and disable input window when goes offline
 
-Extra Features (priority 3):
+
+***Extra Features (priority 3)***
 
 # Multiple user accounts combo box + separate user config files
 # Menu accelerators
@@ -44,41 +64,19 @@ Extra Features (priority 3):
 # Autoconnect (when connection detected)
 # Notebook like chat windows (as an option)
 # AutoAway Messages
-# ** DONE ** Login as Appear Offline (if possible)
-# ** FIXED ** Send message to someone not on list
-# ** FIXED **Make sound working on windows (perhaps using pages.infinit.net/cclient/files/sound1.0.html
 # New unified preferences dialog with tabs
-# Encrypt password? (do we really need to?)
+# Encrypt password? (do we really need to? I think not)
 # Resume File Transfers
-# ** FIXED HTTP PROXY ** Proxy Support (http and socks5)
-# Add View MSN Profile : http://members.msn.com/?pgmarket=en-us&mem=user@hotmail.com or http://svcs.microsoft.com/svcs/mms/profile.asp?Country=AU&BrandID=MSMSGS&passport=user@hotmail.com or just http://profiles.msn.com/user@hotmail.com
+# Socks5 Proxy Support
+http://svcs.microsoft.com/svcs/mms/profile.asp?Country=AU&BrandID=MSMSGS&passport=user@hotmail.com or just http://profiles.msn.com/user@hotmail.com
 # Option to popup/raise/unminimize message window on message receive
 # Option to have local window appear before remote user sends message (only when remote double clicks your name). Some people asked for this... even begged.. so here it is
 
-Graphical Interface (priority 4):
+
+***Graphical Interface (priority 4)***
 
 # Background image, animation when logging in
 # Transparent background message windows (is it possible now with 8.4?)
 # Skin\Themes selection
 # ... at the end of nicks that don't fit in the contact list
 # AutoUpgrade AMSN
-
-
-Alarm system improvements and bugs (priority 5):
-
-# ** FIXED ** Multiple alarm windows can't open at once (need unique window names .mainer)
-# URL Decode names when displaying alarm
-# Config seems to automagically disapear sometimes
-# On Connect/ On Msg / On status / On disconnect change alarms
-# Allow alarms to run a command
-# Run command
-# JPG Support
-# ** DONE ** Windows sound support
-
-
-######################################################################################
-Rewrite of entire old ccmsn protocol! (no priority yet, probably branch at some time):
-## Will probably fix alot of socket blocking bugs, all non blocking protocol
-## Add logout option will logging in
-## Catch all network/socket errors 
-######################################################################################

@@ -236,12 +236,13 @@ namespace eval ::dkfFontSel {
 
 	# OK, Cancel and (partially) Apply.  See also 'configure_apply
 	frame $w.butnframe
-	grid $w.butnframe -row 0 -column 7 -rowspan 4 -columnspan 2 \
+	grid $w.butnframe -row 0 -column 0 -rowspan 4 -columnspan 2 \
 		-sticky nsew -pady $gap
 	foreach {but code} {
 	    ok  0
 	    can 1
 	} {
+	    status_log "making buttons"
 	    button $w.butnframe.$but -command \
 		    [namespace code [list set Done $code]]
 	    pack $w.butnframe.$but -side top -fill x -padx [expr {$gap/2}] \
@@ -297,9 +298,11 @@ namespace eval ::dkfFontSel {
     # apply button into the dialog.  This is not part of 'make_UI
     # since it happens at a different stage of initialisation.
     proc 'configure_apply {w script} {
+	status_log "Calling apply"
 	set b $w.butnframe.apl
 	set binding [list $b invoke]
 	if {[string length $script]} {
+	    status_log "first if"
 	    # There is a script, so map the button
 	    array set packinfo [pack info $w.butnframe.ok]
 	    $b configure -command [namespace code [list 'do_apply $w $script]]
@@ -319,6 +322,7 @@ namespace eval ::dkfFontSel {
 	    }
 
 	} else {
+	    status_log "taking else"
 	    # No script => no button
 	    set manager [winfo manager $b]
 	    if {[string length $manager]} {
@@ -461,7 +465,7 @@ namespace eval ::dkfFontSel {
 	    set y [expr {[winfo y $pw]+
                          ([winfo height $pw]-[winfo reqheight $w])/2}]
 	}
-	wm geometry $w +$x+$y
+	wm geometry $w +$x+$y	
 	update idletasks
 	wm deiconify $w
 	tkwait visibility $w

@@ -3,7 +3,7 @@
 #
 set config(login) ""			;# These are defaults for users without
 set config(save_password) 0		;# a config file
-set config(keep_logs) 0
+set config(keep_logs) 1
 set config(proxy) ""
 set config(withproxy) 0			;# 1 to enable proxy settings
 set config(proxytype) "http"		;# http|socks
@@ -92,7 +92,7 @@ proc save_config {} {
    if {$tcl_platform(platform) == "unix"} {
 		set file_id [open "[file join ${HOME} config]" w 00600]
    } else {
-      set file_id [open "[file join ${HOME} config]" w]
+      		set file_id [open "[file join ${HOME} config]" w]
    }
    puts $file_id "amsn_config_version 1"
    set config(last_client_version) $version
