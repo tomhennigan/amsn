@@ -572,6 +572,7 @@ stylehist Aparença de l'històric de l'aMSN
 stylelog Escull l'estil en que desitjes veure l'històric
 syntaxerror Error de sintaxi
 tabbed Finestres sobreposades
+tabtitlenick Vols veure els sobrenoms a les pestanyes en comptes del mail?
 temp_state Sense desar (estat temporal que serà eliminat quan tanquis l'aMSN)
 textsize Mida del text
 timeremaining Temps restant
@@ -615,6 +616,7 @@ viewprofile Mostrar perfil
 webcaminvite $1 t'ha convidat a iniciar una conversa amb webcam però l'aMSN encara no ho suporta.
 willjoin Esperant que $1 s'uneixi a la conversa
 winkreceived Has rebut un Wink de $1. Aquesta característica no està suportada actualment per l'aMSN.
+wintitlenick Vols veure els sobrenoms en les finestres sobreposades en comptes del mail?
 work Treball
 wrongfields Els camps "$1", "$2" i/o "$3" no són vàlids
 wrongprofileversion Versió incorrecta del fitxer de configuració del perfil. Per arreglar-ho, esborra el directori $1 o actualitza l'aMSN
