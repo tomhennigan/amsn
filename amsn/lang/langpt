@@ -226,15 +226,15 @@ history Ver Histórico
 home Casa
 httpconnection Ligar usando método HTTP (usa o protocolo HTTP na porta 80)
 hybrid Modo híbrido
-imagefiles Ficheiros de imagem
 ident Identificando
 identity Identidade
+imagefiles Ficheiros de imagem
 inbox Caixa de entrada
 insertsmiley Inserir emoticon
 installconvert É necessário instalar o ImageMagick (programa de conversão) para poder ícones "Buddy" e ícones de emoção criados. Pode descarregar os ficheiros binários para o seu Sistema Operativo em ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Se já possuir o programa, então trata-se de uma falha, por favor reporte-a. Estas características serão agora desactivadas, se instalar ImageMagick mais tarde active-as em Preferências.
 internalerror Erro Interno do Servidor
-invalidfile Ficheiro $2 do campo "$1" não existe ou não pode ser lido
 invalidfile2 Ficheiro $1 não pode ser creado. Verifique as permissões
+invalidfile Ficheiro $2 do campo "$1" não existe ou não pode ser lido
 invalidpic A ficheiro de imagem escolhido não existe
 invalidpicsize A imagem escolhida é demasiado grande, escolha uma mais pequena
 invalidsound O ficheiro de som escolhido nao existe
@@ -462,6 +462,7 @@ state Eu quero aparecer como
 stateinfo Configuração do Estado Pessoal
 statename Nome do Estado Pessoal
 statenewtext Por favor introduza a informação necessária para criar \n o seu novo Estado Pessoal e escolha Guardar
+statenick Nick (deixar em branco para não alterar)
 status Estado
 stopalarm Alarme para Parar
 storenickname Regressar ao nick original

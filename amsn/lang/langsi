@@ -464,7 +464,7 @@ stateedittext Prosim uredi polja, ki bi \n jih rad spremenil in pritisni Shrani.
 stateinfo Nastavitev osebnega stanja
 statename Ime osebnega stanja
 statenewtext Prosim vpisi potrebne podatke za \n tvoje novo osebno stanje in pritisni Shrani.
-statenick Nick v tem stanju
+statenick Nick v tem stanju (pusti prazno, ce naj se ne spremeni)
 state Zelim biti viden kot
 status Stanje
 stopalarm Ustavi alarm
