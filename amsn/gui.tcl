@@ -4400,6 +4400,10 @@ proc cmsn_draw_online_wrapped {} {
 		}
 
 		if {[::config::getKey orderbygroup] == 2 } {
+			if { $my_mobilegroup == 1 } {
+				lappend glist "mobile"
+				incr gcnt
+			}
 			lappend glist "offline"
 			incr gcnt
 		}
@@ -4650,6 +4654,10 @@ proc cmsn_draw_online_wrapped {} {
 						set gtitle "[trans uoffline]"
 						set gtag "offline"
 					}
+					if { $gname == "mobile" } {
+						set gtitle "[trans Mobile]"
+						set gtag "mobile"
+					}
 				}
 
 			if { $gname == "blocked" } {
@@ -4774,7 +4782,8 @@ proc cmsn_draw_online_wrapped {} {
 			# 2) or we're in group mode and there're no contacts (online or offline)
 			if { ($gname == 0 || ([::config::getKey removeempty] && $gname != "offline")) &&
 				(($::groups::uMemberCnt_online($gname) == 0 && [::config::getKey orderbygroup] == 2) ||
-				 ($::groups::uMemberCnt($gname) == 0 && [::config::getKey orderbygroup] == 1))} {
+				 ($::groups::uMemberCnt($gname) == 0 && [::config::getKey orderbygroup] == 1)) ||
+				(($::groups::uMemberCnt(mobile) == 0) && ($my_mobilegroup == 1))} {
 				set endidx [split [$pgBuddy.text index $gtag.last] "."]
 				if { [::config::getKey nogap] } {
 					$pgBuddy.text delete $gtag.first [expr {[lindex $endidx 0]+1}].0
@@ -4797,16 +4806,16 @@ proc cmsn_draw_online_wrapped {} {
 				} elseif { $gname == "blocked" } {
 					$pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))" blocked
 					$pgBuddy.text tag add dont_replace_smileys blocked.first blocked.last
+				} elseif { $gname == "mobile" && $my_mobilegroup == 1 } {
+					$pgBuddy.text insert mobile.last " ($::groups::uMemberCnt(mobile))" mobile
+					$pgBuddy.text tag add dont_replace_smileys mobile.first mobile.last
 				} else {
 					$pgBuddy.text insert ${gtag}.last \
 						" ($::groups::uMemberCnt_online(${gname}))" $gtag
 					$pgBuddy.text tag add dont_replace_smileys $gtag.first $gtag.last
 				}
 			} else {
-				if { $gname == "mobile" && $my_mobilegroup == 1 } {
-					$pgBuddy.text insert mobile.last " ($::groups::uMemberCnt(mobile))" mobile
-					$pgBuddy.text tag add dont_replace_smileys mobile.first mobile.last
-				} elseif { $gname == "blocked" } {
+				if { $gname == "blocked" } {
 					$pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))" blocked
 					$pgBuddy.text tag add dont_replace_smileys blocked.first blocked.last
 				} else {
