@@ -67,11 +67,46 @@ namespace eval ::ChatWindow {
 
 
 	#///////////////////////////////////////////////////////////////////////////////
+	# ::ChatWindow::GetTopFrame (window)
+	# Returns the path to the top frame (containing "To: ...") for a given window 
+	# Arguments:
+	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
+	proc GetTopFrame { window } {
+		return $window.top
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+
+
+	#///////////////////////////////////////////////////////////////////////////////
+	# ::ChatWindow::GetTopToText (window)
+	# Returns the path to the text widget containing the "To:" in the top frame
+	# for a given window 
+	# Arguments:
+	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
+	proc GetTopToText { window } {
+		return [::ChatWindow::GetTopFrame $window].to
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+
+
+	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::GetTopText (window)
-	# Returns the path to the output text widget in a given window 
+	# Returns the path to the text widget containing the names of the users in the top frame
+	# for a given window 
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc GetTopText { window } {
+		return [::ChatWindow::GetTopFrame $window].text
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+
+
+	#///////////////////////////////////////////////////////////////////////////////
+	# ::ChatWindow::GetOutText (window)
+	# Returns the path to the output text widget in a given window 
+	# Arguments:
+	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
+	proc GetOutText { window } {
 		return $window.f.out.scroll.text
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -83,9 +118,9 @@ namespace eval ::ChatWindow {
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc Clear { window } {
-		[::ChatWindow::GetTopText $window] configure -state normal
-		[::ChatWindow::GetTopText $window] delete 0.0 end
-		[::ChatWindow::GetTopText $window] configure -state disabled
+		[::ChatWindow::GetOutText $window] configure -state normal
+		[::ChatWindow::GetOutText $window] delete 0.0 end
+		[::ChatWindow::GetOutText $window] configure -state disabled
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -666,7 +701,7 @@ namespace eval ::ChatWindow {
 		menu $msnmenu -tearoff 0 -type normal
 
 		$msnmenu add command -label "[trans savetofile]..." \
-		    -command " ChooseFilename [::ChatWindow::GetTopText $w] $w"
+		    -command " ChooseFilename [::ChatWindow::GetOutText $w] $w"
 		$msnmenu add separator
 		$msnmenu add command -label "[trans sendfile]..." \
 		    -command "::amsn::FileTransferSend $w"
@@ -1018,7 +1053,7 @@ namespace eval ::ChatWindow {
 		#only run this if the window is the outer frame
 		if { ![string equal $input $W]} { return }
 
-		if { [lindex [[::ChatWindow::GetTopText [winfo toplevel $paned]] yview] 1] == 1.0 } {
+		if { [lindex [[::ChatWindow::GetOutText [winfo toplevel $paned]] yview] 1] == 1.0 } {
 			set scrolling 1
 		} else {
 			set scrolling 0
@@ -1036,7 +1071,7 @@ namespace eval ::ChatWindow {
 		}
 
 
-		if { $scrolling } { after 100 "catch {[::ChatWindow::GetTopText [winfo toplevel $paned]] yview end}" }
+		if { $scrolling } { after 100 "catch {[::ChatWindow::GetOutText [winfo toplevel $paned]] yview end}" }
 
 
 		if { [::config::getKey savechatwinsize] } {
@@ -1466,15 +1501,16 @@ namespace eval ::ChatWindow {
 		}
 
 		set win_name [::ChatWindow::For $chatid]
+		set toptext [::ChatWindow::GetTopText ${win_name}]
 
-		if { [lindex [[::ChatWindow::GetTopText ${win_name}] yview] 1] == 1.0 } {
+		if { [lindex [[::ChatWindow::GetOutText ${win_name}] yview] 1] == 1.0 } {
 		   set scrolling 1
 		} else {
 		   set scrolling 0
 		}
 
-		${win_name}.top.text configure -state normal -font sboldf -height 1 -wrap none
-		${win_name}.top.text delete 0.0 end
+		$toptext configure -state normal -font sboldf -height 1 -wrap none
+		$toptext delete 0.0 end
 
 		foreach user_login $user_list {
 			set user_name [string map {"\n" " "} [::abook::getDisplayNick $user_login]]
@@ -1491,27 +1527,27 @@ namespace eval ::ChatWindow {
 
 			if {[::config::getKey truncatenames]} {
 				#Calculate maximum string width
-				set maxw [winfo width ${win_name}.top.text]
+				set maxw [winfo width $toptext]
 
 				if { "$user_state" != "" && "$user_state" != "online" } {
-					incr maxw [expr 0-[font measure sboldf -displayof ${win_name}.top.text " \([trans $user_state]\)"]]
+					incr maxw [expr 0-[font measure sboldf -displayof $toptext " \([trans $user_state]\)"]]
 				}
 
-				incr maxw [expr 0-[font measure sboldf -displayof ${win_name}.top.text " <${user_login}>"]]
-				${win_name}.top.text insert end "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
+				incr maxw [expr 0-[font measure sboldf -displayof $toptext " <${user_login}>"]]
+				$toptext insert end "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
 			} else {
-				${win_name}.top.text insert end "${user_name} <${user_login}>"
+				$toptext insert end "${user_name} <${user_login}>"
 			}
 
 			set title "${title}${user_name}, "
 
 			#TODO: When we have better, smaller and transparent images, uncomment this
-			#${win_name}.top.text image create end -image [::skin::loadPixmap $user_image] -pady 0 -padx 2
+			#$toptext image create end -image [::skin::loadPixmap $user_image] -pady 0 -padx 2
 
 			if { "$user_state" != "" && "$user_state" != "online" } {
-				${win_name}.top.text insert end "\([trans $user_state]\)"
+				$toptext insert end "\([trans $user_state]\)"
 			}
-			${win_name}.top.text insert end "\n"
+			$toptext insert end "\n"
 		}
 		
 		#Change color of top background by the status of the contact
@@ -1520,14 +1556,14 @@ namespace eval ::ChatWindow {
 		set title [string replace $title end-1 end " - [trans chat]"]
 
 		#Calculate number of lines, and set top text size
-		set size [${win_name}.top.text index end]
+		set size [$toptext index end]
 		set posyx [split $size "."]
 		set lines [expr {[lindex $posyx 0] - 2}]
 		set ::ChatWindow::titles(${win_name}) ${title}
 		
-		${win_name}.top.text delete [expr {$size - 1.0}] end
-		${win_name}.top.text configure -state normal -font sboldf -height $lines -wrap none
-		${win_name}.top.text configure -state disabled
+		$toptext delete [expr {$size - 1.0}] end
+		$toptext configure -state normal -font sboldf -height $lines -wrap none
+		$toptext configure -state disabled
 
 		if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == 1 } {
 			wm title ${win_name} "*${title}"
@@ -1535,7 +1571,7 @@ namespace eval ::ChatWindow {
 			wm title ${win_name} ${title}
 		}
 
-		if { $scrolling } { catch {[::ChatWindow::GetTopText ${win_name}] yview end} }
+		if { $scrolling } { catch {[::ChatWindow::GetOutText ${win_name}] yview end} }
 
 		#PostEvent 'TopUpdate'
 		set evPar(chatid) "chatid"
@@ -1569,10 +1605,10 @@ namespace eval ::ChatWindow {
 			}
 		}
 		#set the areas to the colour
-		${win_name}.top configure -background $colour
-		${win_name}.top.to configure -background $colour -foreground $tcolour \
+		[::ChatWindow::GetTopFrame ${win_name}] configure -background $colour
+		[::ChatWindow::GetTopToText ${win_name}] configure -background $colour -foreground $tcolour \
 						-selectbackground $colour -selectforeground $tcolour
-		${win_name}.top.text configure -background $colour -foreground $tcolour \
+		[::ChatWindow::GetTopText ${win_name}] configure -background $colour -foreground $tcolour \
 						-selectbackground $colour -selectforeground $tcolour
 	}
 
