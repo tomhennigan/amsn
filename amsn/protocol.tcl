@@ -210,7 +210,7 @@ namespace eval ::MSNFT {
       set msg "${msg}Invitation-Command: CANCEL\r\n"
       set msg "${msg}Invitation-Cookie: $cookie\r\n"
       set msg "${msg}Cancel-Code: REJECT\r\n\r\n"
-
+      set msg [encoding convertto utf-8 $msg]
       set msg_len [string length $msg]
       ::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
 
@@ -563,7 +563,7 @@ namespace eval ::MSNFT {
       set msg "${msg}AuthCookie: $authcookie\r\n"
       set msg "${msg}Launch-Application: FALSE\r\n"
       set msg "${msg}Request-Data: IP-Address:\r\n\r\n"
-
+      set msg [encoding convertto utf-8 $msg]
 
       set msg_len [string length $msg]
       ::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
@@ -1743,6 +1743,7 @@ namespace eval ::MSN {
 		set msg "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n"
 		set msg "${msg}X-MMS-IM-Format: FN=[urlencode $fontfamily]; EF=$style; CO=$color; CS=0; PF=22\r\n\r\n"
 		set msg "$msg$txt_send"
+		#set msg_len [string length $msg]
 		set msg_len [string length $msg]
 
 		#WriteSB $sbn "MSG" "A $msg_len"
@@ -2118,7 +2119,13 @@ proc proc_sb {} {
 	#status_log "Processing SB\n"	
 	foreach sbn $sb_list {
 		while {[sb length $sbn data]} {
-			set item [split [sb index $sbn data 0]]
+			set item [sb index $sbn data 0]
+			
+			set item [encoding convertfrom utf-8 $item]
+			
+			set item [string map {\r ""} $item]
+			set item [split $item]
+			
 			sb ldel $sbn data 0
 			set result [cmsn_sb_handler $sbn $item]
 			if {$result == 0} {
@@ -2151,7 +2158,7 @@ proc proc_ns {} {
 	while {[sb length ns data]} {
 		set item [sb index ns data 0]
 
-		#set item [encoding convertfrom utf-8 $item]
+		set item [encoding convertfrom utf-8 $item]
 		
 		set item [string map {\r ""} $item]
 		set item [split $item]
@@ -2179,7 +2186,7 @@ proc cmsn_msg_parse {msg hname bname} {
 	set head [string range $msg 0 [expr {$head_len - 1}]]
 	set body [string range $msg [expr {$head_len + 4}] [string length $msg]]
 
-	#set body [encoding convertfrom utf-8 $body]
+	set body [encoding convertfrom utf-8 $body]
 	set body [string map {"\r" ""} $body]
 
 	set head [string map {"\r" ""} $head]
@@ -2465,13 +2472,13 @@ proc CALReceived {sb_name user item} {
 			return 0
 		}
 	}
-	cmsn_sb_handler $sb_name [encoding convertto utf-8 $item]
+	#cmsn_sb_handler $sb_name [encoding convertto utf-8 $item]
 }
 
 proc cmsn_sb_handler {sb_name item} {
 	global list_cmdhnd msgacks config
 
-	set item [encoding convertfrom utf-8 $item]
+	#set item [encoding convertfrom utf-8 $item]
 
 	set ret_trid [lindex $item 1]
 	set idx [lsearch $list_cmdhnd "$ret_trid *"]
@@ -3047,7 +3054,7 @@ proc cmsn_change_state {recv} {
 	if {$user_name != [::abook::getNick $user]} {
 		#Nick differs from the one on our list, so change it
 		#in the server list too
-		::MSN::changeName $user $encoded_user_name 1
+		::MSN::changeName $user [encoding convertto utf-8 $encoded_user_name] 1
 	}
 
 	set maxw [expr {$config(notifwidth)-20}]
@@ -3922,9 +3929,6 @@ proc cmsn_socket {name} {
 	
 	sb set $name sock $sock
 	fconfigure $sock -buffering none -translation {binary binary} -blocking 0
-	if { $name == "ns" } {
-		fconfigure $sock -encoding utf-8
-	}
 	fileevent $sock readable $readable_handler
 	fileevent $sock writable $next
 }
