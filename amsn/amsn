@@ -539,17 +539,7 @@ proc cmsn_draw_offline {} {
    #Change nick
    .main_menu.actions entryconfigure 2 -state disabled
    .options entryconfigure 0 -state disabled
-   #Proxy Config
-   .options entryconfigure 1 -state normal
 
-#OLD MENUS
-#   .main_menu entryconfigure 0 -state disabled
-#   .main_menu.msn entryconfigure 0 -state normal
-#   .main_menu.msn entryconfigure 1 -state disabled
-#   .main_menu.msn entryconfigure 2 -state disabled
-#   .main_menu.msn entryconfigure 4 -state disabled
-#   .main_menu.msn entryconfigure 5 -state disabled
-#   .main_menu.msn entryconfigure 7 -state normal
 }
 
 proc cmsn_draw_signin {} {
@@ -623,6 +613,13 @@ proc cmsn_draw_login {} {
    grab set .login
 }
 
+proc clickableImage {tw name image command {padx 0} {pady 0}} {
+   label $tw.$name -image $image
+   $tw.$name configure -cursor hand2 -borderwidth 0 
+   bind $tw.$name <Button-1> $command
+   $tw window create end -window $tw.$name -padx $padx -pady $pady
+}
+
 proc cmsn_draw_online {} {
    global emotions user_stat login list_users list_states user_info list_bl\
     unread config showonline password
@@ -672,32 +669,35 @@ proc cmsn_draw_online {} {
    	".main.text tag conf offline -under true;.main.text conf -cursor hand2"
    .main.text tag bind offline <Leave> \
    	".main.text tag conf offline -under false;.main.text conf -cursor left_ptr"
-
-
+  
    .main.text insert end "\n"
-   .main.text image create end -image $my_image_type -pady 0 -padx 0 
-   .main.text insert end "   $my_name " mystatus
+
+   clickableImage .main.text bigstate $my_image_type {tk_popup .my_menu %X %Y}
+   
+   .main.text insert end "   "
+   .main.text insert end "$my_name " mystatus
    .main.text insert end "($my_state_desc)\n" mystatus
-   .main.text image create end -image colorbar
+   .main.text image create end -image colorbar 
    .main.text insert end "\n"
-   .main.text image create end -image mailbox -pady 0 -padx 5
+
+   clickableImage .main.text mailbox mailbox {hotmail_login $config(login) $password} 5 0
 
    .main.text insert end "[trans newmail $unread]\n" mail
 #end AIM
 
    .main.text insert end "\n"
    if { $config(showonline) } {
-       .main.text image create end -image contract -pady 0 -padx 5
+       clickableImage .main.text contracton contract {set config(showonline) [expr !$config(showonline)];cmsn_draw_online} 5 0
    } else {
-       .main.text image create end -image expand -pady 0 -padx 5
+       clickableImage .main.text expandon expand {set config(showonline) [expr !$config(showonline)];cmsn_draw_online} 5 0
    }
    .main.text insert end "[trans uonline]" online
 
    .main.text insert end "\n"
    if { $config(showoffline) } {
-       .main.text image create end -image contract -pady 0 -padx 5
+       clickableImage .main.text contractoff contract {set config(showoffline) [expr !$config(showoffline)];cmsn_draw_online} 5 0
    } else {
-       .main.text image create end -image expand -pady 0 -padx 5
+       clickableImage .main.text expandoff expand {set config(showoffline) [expr !$config(showoffline)];cmsn_draw_online} 5 0
    }
    .main.text insert end "[trans uoffline]" offline
 
@@ -741,15 +741,25 @@ proc cmsn_draw_online {} {
 
          .main.text mark set new_text_start end
          .main.text insert $section.last "$user_name$state_desc\n" $user_login
+	
+	 set imgname "img[expr {$onlinenum+$offlinenum}]"
+         label .main.text.$imgname -image $image_type
+         .main.text.$imgname configure -cursor hand2 -borderwidth 0 
+         .main.text window create $section.last -window .main.text.$imgname -padx 3 -pady 1
 
-         .main.text image create $section.last -image $image_type -pady 1 -padx 3
+#         .main.text image create $section.last -image $image_type -pady 1 -padx 3
          .main.text insert $section.last "      "
+
          .main.text tag bind $user_login <Enter> \
              ".main.text tag conf $user_login -under true;.main.text conf -cursor hand2"
          .main.text tag bind $user_login <Leave> \
             ".main.text tag conf $user_login -under false;.main.text conf -cursor left_ptr"
+
          .main.text tag bind $user_login <Button-3> "show_umenu $user_login %X %Y"
+          bind .main.text.$imgname <Button-3> "show_umenu $user_login %X %Y"
+
           if { $state_code !="FLN" } {
+             bind .main.text.$imgname <Double-Button-1> "cmsn_chat_user $user_login"
             .main.text tag bind $user_login <Double-Button-1> \
 	        "cmsn_chat_user $user_login"
          }
