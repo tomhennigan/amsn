@@ -2,10 +2,9 @@
 #=======================================================================
 
 if { $initialize_amsn == 1 } {
-	global list_BLP list_cmdhnd sb_list contactlist_loaded oldstatus
+	global list_BLP list_cmdhnd sb_list contactlist_loaded
 	
 	set contactlist_loaded 0
-	set oldstatus "NLN"
 	
 	#To be deprecated and replaced with ::abook thing
 	set list_BLP -1
@@ -1229,6 +1228,9 @@ namespace eval ::MSN {
 		sb set $sbn stat "d"
 		
 		if { $sbn == "ns" } {
+	
+
+			set mystatus [::MSN::myStatusIs]
 		
 			#If we were not disconnected or authenticating, logout
 			if { ("$oldstat" != "d") && ("$oldstat" != "u") } {
@@ -1238,6 +1240,14 @@ namespace eval ::MSN {
 			#If we're not disconnected, connected, or authenticating, then
 			#we have a connection error.
 			if { ("$oldstat"!="d") && ("$oldstat" !="o") && ("$oldstat" !="u") && ("$oldstat" !="closed")} {
+				
+				#Reconnect if necessary
+				if { [::config::getKey reconnect] == 1 } {
+					set ::oldstatus $mystatus
+					::MSN::connect
+					return
+				}
+				
 				set error_msg [sb get ns error_msg]
 				if { $error_msg != "" } {
 					msg_box "[trans connecterror]: [sb get ns error_msg]"
@@ -1248,12 +1258,20 @@ namespace eval ::MSN {
 		
 			#If we were connected, we have lost the connection
 			if { ("$oldstat"=="o") } {
+				
+				#Reconnect if necessary
+				if { [::config::getKey reconnect] == 1 } {
+					set ::oldstatus $mystatus
+					::MSN::connect
+					return
+				}
+				
 				set error_msg [sb get ns error_msg]
 				if { $error_msg != "" } {
 					msg_box "[trans connectionlost]: [sb get ns error_msg]"
 				} else {
 					msg_box "[trans connectionlost]"
-				}
+s				}
 				status_log "Connection lost\n" red
 			}
 			
@@ -3550,7 +3568,7 @@ proc cmsn_change_state {recv} {
 
 
 proc cmsn_ns_handler {item} {
-	global list_cmdhnd password oldstatus
+	global list_cmdhnd password
 
 	set ret_trid [lindex $item 1]
 	set idx [lsearch $list_cmdhnd "$ret_trid *"]
@@ -3632,6 +3650,7 @@ proc cmsn_ns_handler {item} {
 				if { [::MSN::myStatusIs] != [lindex $item 2] } {
 					::abook::setVolatileData myself msnobj [lindex $item 4]
 					::MSN::setMyStatus [lindex $item 2]
+
 					cmsn_draw_online 1
 
 				#Alert dock of status change
@@ -3741,7 +3760,7 @@ proc cmsn_ns_handler {item} {
 					return 0
 				} else {
 					if { [::config::getKey reconnect] == 1 } {
-						set oldstatus [::MSN::myStatusIs]
+						set ::oldstatus [::MSN::myStatusIs]
 						::MSN::logout
 						::MSN::connect
 					}
@@ -3801,7 +3820,7 @@ proc cmsn_ns_handler {item} {
 			}
 			600 {
 				if { [::config::getKey reconnect] == 1 } {
-					set oldstatus [::MSN::myStatusIs]
+					set ::oldstatus [::MSN::myStatusIs]
 					::MSN::logout
 					::MSN::connect
 				}
@@ -3814,7 +3833,7 @@ proc cmsn_ns_handler {item} {
 			}
 			601 {
 				if { [::config::getKey reconnect] == 1 } {
-					set oldstatus [::MSN::myStatusIs]
+					set ::oldstatus [::MSN::myStatusIs]
 					::MSN::logout
 					::MSN::connect
 				}
@@ -3827,7 +3846,7 @@ proc cmsn_ns_handler {item} {
 			}
 			500 {
 				if { [::config::getKey reconnect] == 1 } {
-					set oldstatus [::MSN::myStatusIs]
+					set ::oldstatus [::MSN::myStatusIs]
 					::MSN::logout
 					::MSN::connect
 				}
@@ -4118,7 +4137,7 @@ proc recreate_contact_lists {} {
 
 proc initial_syn_handler {recv} {
 
-	global HOME oldstatus
+	global HOME
 
 	# Switch to our cached nickname if the server's one is different that ours
 	if { [file exists [file join ${HOME} "nick.cache"]] && [::config::getKey storename] } {
@@ -4141,12 +4160,16 @@ proc initial_syn_handler {recv} {
 	}
 
 
-	if {[::config::getKey startoffline]} {
+	if {[info exists ::oldstatus]} {
+		::MSN::changeStatus $::oldstatus
+		send_dock "STATUS" $::oldstatus
+		unset ::oldstatus
+	} elseif {[::config::getKey startoffline]} {
 		::MSN::changeStatus "HDN"
 		send_dock "STATUS" "HDN"
 	} else {
-		::MSN::changeStatus $oldstatus
-		send_dock "STATUS" $oldstatus
+		::MSN::changeStatus "NLN"
+		send_dock "STATUS" "NLN"
 	}
 
 	cmsn_ns_handler $recv
@@ -4177,8 +4200,16 @@ proc msnp9_authenticate { ticket } {
 		::MSN::WriteSB ns "USR" "TWN S $ticket"
 		sb set ns stat "us"
 	} else {
+		
 		status_log "Connection timeouted\n" white
 		::MSN::logout
+		
+		#Reconnect if necessary
+		if { [::config::getKey reconnect] == 1 } {
+			::MSN::connect
+			return
+		}
+		
 		msg_box "[trans connecterror]: Connection timed out"
 	}
 	return
