@@ -68,6 +68,7 @@ cannotdeleteprofile Utashi hauwezi kufutwa kwani unaonekana ukitumika kwenye kip
 cantexec Siwezi kuendesha programu: $1. Angalia mapendeleo
 casesensitive Tumia case-sensitive triggers
 cfgalarm Panga/Ongeza/Ondoa Sauti
+changedisplaypic Badilisha Picha itakayoonekana mbele
 changefont Badilisha Maandishi
 changenick Badilisha jina
 changestate $1 inabadilika kuwa to $2

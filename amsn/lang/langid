@@ -68,6 +68,7 @@ cannotdeleteprofile Tidak bisa menghapus profil karena tampaknya masih digunakan
 cantexec Aplikasi tidak bisa dijalankan: $1. Periksa pilihan
 casesensitive Gunakan pemicu yang sensitif terhadap bentuk huruf (besar/kecil)
 cfgalarm Rubah Pengaturan/Tambah/Hapus alarm
+changedisplaypic Rubah Gambar Tampilan
 changefont Rubah Huruf
 changenick Ganti alias
 changestate $1 merubah keadaan menjadi $2
