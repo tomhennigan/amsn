@@ -365,8 +365,6 @@ proc load_smileys { } {
     set emotions_names [list]
     if { [info exists emotions] } {unset emotions}
 
-    puts "XML"
-
     set skin_id [sxml::init [GetSkinFile "" settings.xml]]
 
     sxml::register_routine $skin_id "skin:smileys:emoticon" new_emoticon
