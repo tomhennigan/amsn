@@ -149,7 +149,7 @@ namespace eval ::autoupdate {
 			::dkfprogress::SetProgress $w.prbar 0
 
 			if {[ catch {set tok [::http::geturl $downloadurl -progress "::autoupdate::downloadTLSProgress $downloadurl" -command "::autoupdate::downloadTLSCompleted $downloadurl"]} res ]} {
-				errorDownloadingTLS $res
+				::autoupdate::errorDownloadingTLS $res
 				catch {::http::cleanup $tok}
 			} else {
 				$w.close configure -command "::http::reset $tok"
@@ -172,7 +172,7 @@ namespace eval ::autoupdate {
 		}
 
 		if { [::http::status $token] != "ok" || [::http::ncode $token] != 200} {
-			errorDownloadingTLS "Couldn't get $downloadurl"
+			::autoupdate::errorDownloadingTLS "Couldn't get $downloadurl"
 			return
 		}
 
@@ -207,7 +207,7 @@ namespace eval ::autoupdate {
 					::amsn::infoMsg "[trans tlsinstcompleted]"
 				} res ] } {
 
-					errorDownloadingTLS $res
+					::autoupdate::errorDownloadingTLS $res
 				}
 			}
 			default {
@@ -222,7 +222,7 @@ namespace eval ::autoupdate {
 	proc downloadTLSProgress {url token {total 0} {current 0} } {
 
 		if { $total == 0 } {
-			errorDownloadingTLS "Couldn't get $url"
+			::autoupdate::errorDownloadingTLS "Couldn't get $url"
 			return
 		}
 		::dkfprogress::SetProgress .tlsprogress.prbar [expr {$current*100/$total}]
@@ -256,7 +256,7 @@ namespace eval ::autoupdate {
 		label $w.top.bitmap -image [::skin::loadPixmap download]
 		label $w.top.text -text "Downloading new amsn version. Please Wait..." -font bigfont
 		#Get the download URL
-		set amsn_url [get_download_link $new_version]
+		set amsn_url [::autoupdate::get_download_link $new_version]
 		
 		#Add button at the bottom
 		button $w.bottom.cancel -text "Cancel"
@@ -274,7 +274,7 @@ namespace eval ::autoupdate {
 		pack $w.bottom -side bottom -fill x
 		
 		#Start download
-		set amsn_tarball [::http::geturl $amsn_url -progress "amsn_download_progress $amsn_url" -command "amsn_choose_dir $amsn_url"]
+		set amsn_tarball [::http::geturl $amsn_url -progress "::autoupdate::amsn_download_progress $amsn_url" -command "::autoupdate::amsn_choose_dir $amsn_url"]
 		
 		moveinscreen $w 30
 	}
@@ -308,7 +308,7 @@ namespace eval ::autoupdate {
 		label $w.bottom.bitmap -image [::skin::loadPixmap greyline]
 		label $w.bottom.q -text "Would you like to update aMSN immediatly?" -font bigfont
 		button $w.bottom.buttons.update -text "Update" -command "::autoupdate::amsn_update $tmp_data;destroy $w" -default active
-		button $w.bottom.buttons.cancel -text "Cancel" -command "dont_ask_before;destroy $w"
+		button $w.bottom.buttons.cancel -text "Cancel" -command "::autoupdate::dont_ask_before;destroy $w"
 		label $w.bottom.lastbar -image [::skin::loadPixmap greyline]
 		#Checkbox to verify if the user want to have an alert again or just in one week
 		checkbutton $w.bottom.ignoreoneweek -text "Don't ask update again for one week" -variable "dont_ask_for_one_week" -font sboldf
@@ -331,9 +331,9 @@ namespace eval ::autoupdate {
 		pack $w.bottom.ignoreoneweek
 		pack $w.bottom -side bottom -pady 15
 		
-		bind $w <<Escape>> "dont_ask_before;destroy .update"
-		bind $w <<Destroy>> "dont_ask_before;destroy .update"
-		wm protocol $w WM_DELETE_WINDOW "dont_ask_before;destroy .update"
+		bind $w <<Escape>> "::autoupdate::dont_ask_before;destroy .update"
+		bind $w <<Destroy>> "::autoupdate::dont_ask_before;destroy .update"
+		wm protocol $w WM_DELETE_WINDOW "::autoupdate::dont_ask_before;destroy .update"
 		moveinscreen $w 30
 	}
 
@@ -402,27 +402,27 @@ namespace eval ::autoupdate {
 		destroy $w.bottom.cancel
 		
 		#Get default location for each platform
-		set location [get_default_location]
+		set location [::autoupdate::get_default_location]
 		set namelocation [lindex $location 0]
 		set defaultlocation [lindex $location 1]
 		
 		$w.top.text configure -text "Save file on $namelocation?"
 		#Create 2 buttons, save and save as
-		button $w.bottom.save -command "amsn_save $url $token $defaultlocation" -text "Save" -default active
-		button $w.bottom.saveas -command "amsn_save_as $url $token $defaultlocation" -text "Save in another directory" -default normal
+		button $w.bottom.save -command "::autoupdate::amsn_save $url $token $defaultlocation" -text "Save" -default active
+		button $w.bottom.saveas -command "::autoupdate::amsn_save_as $url $token $defaultlocation" -text "Save in another directory" -default normal
 		pack $w.bottom.save
 		pack $w.bottom.saveas -pady 5
 		#If user try to close the window, just save in default directory
-		bind $w <<Escape>> "amsn_save $url $token $defaultlocation"
-		bind $w <<Destroy>> "amsn_save $url $token $defaultlocation"
-		wm protocol $w WM_DELETE_WINDOW "amsn_save $url $token $defaultlocation"
+		bind $w <<Escape>> "::autoupdate::amsn_save $url $token $defaultlocation"
+		bind $w <<Destroy>> "::autoupdate::amsn_save $url $token $defaultlocation"
+		wm protocol $w WM_DELETE_WINDOW "::autoupdate::amsn_save $url $token $defaultlocation"
 	}
 
 	#When user click on save in another directory, he gets a window to choose the directory
 	proc amsn_save_as {url token defaultlocation} {
 		set location [tk_chooseDirectory -initialdir $defaultlocation]
 		if { $location !="" } {
-			amsn_save $url $token $location
+			::autoupdate::amsn_save $url $token $location
 		} else {
 			return
 		}
@@ -436,7 +436,7 @@ namespace eval ::autoupdate {
 			set namelocation "Desktop"
 			set defaultlocation "[file join $env(HOME) Desktop]"
 		} elseif { $::tcl_platform(platform)=="windows" } {
-			set namelocation "Desktop"
+			set namelocation "Received files folder"
 			set defaultlocation "$files_dir"
 		} else { 
 			set namelocation "Home folder"
@@ -473,17 +473,17 @@ namespace eval ::autoupdate {
 		}]} {
 			#Can't save the file at this place
 			#Get informations of the default location for this system
-			set location [get_default_location]
+			set location [::autoupdate::get_default_location]
 			set namelocation [lindex $location 0]
 			set defaultlocation [lindex $location 1]
 			#Show the button to choose a new file location or use default location
 			$w.top.text configure -text "File can't be saved at this place."
-			$w.bottom.save configure -command "amsn_save $url $token $defaultlocation" -text "Save in default location" -default active
-			$w.bottom.saveas configure -command "amsn_save_as $url $token $defaultlocation" -text "Choose new file location" -default normal
+			$w.bottom.save configure -command "::autoupdate::amsn_save $url $token $defaultlocation" -text "Save in default location" -default active
+			$w.bottom.saveas configure -command "::autoupdate::amsn_save_as $url $token $defaultlocation" -text "Choose new file location" -default normal
 			
-			bind $w <<Escape>> "amsn_save $url $token $defaultlocation"
-			bind $w <<Destroy>> "amsn_save $url $token $defaultlocation"
-			wm protocol $w WM_DELETE_WINDOW "amsn_save $url $token $defaultlocation"
+			bind $w <<Escape>> "::autoupdate::amsn_save $url $token $defaultlocation"
+			bind $w <<Destroy>> "::autoupdate::amsn_save $url $token $defaultlocation"
+			wm protocol $w WM_DELETE_WINDOW "::autoupdate::amsn_save $url $token $defaultlocation"
 		} else {
 			#The saving is a sucess, show a button to open directory of the saved file and close button
 			$w.top.text configure -text "Done\n Saved $fname in $savedir."
@@ -550,7 +550,7 @@ namespace eval ::autoupdate {
 			if { $newer == 1 && $diff_time > $three_days} {
 				::autoupdate::update_window $tmp_data
 			} else {
-				status_log "Not yet 3 days\n" red 
+				status_log "Not yet 3 days or no new version\n" red 
 			}
 
 
@@ -596,7 +596,7 @@ namespace eval ::autoupdate {
 		status_log "Getting ${weburl}/amsn_latest\n" blue
 		if { [catch {
 			set token [::http::geturl ${weburl}/amsn_latest -timeout 10000]
-			if {[check_web_version $token]==0} {
+			if {[::autoupdate::check_web_version $token]==0} {
 				msg_box "[trans nonewver]"
 			}
 		} res ]} {
@@ -612,7 +612,7 @@ namespace eval ::autoupdate {
 		global weburl
 
 		catch {
-			::http::geturl ${weburl}/amsn_latest -timeout 10000 -command check_web_version
+			::http::geturl ${weburl}/amsn_latest -timeout 10000 -command ::autoupdate::check_web_version
 		}
 
 	}
