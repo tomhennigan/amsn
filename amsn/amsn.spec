@@ -73,6 +73,7 @@ if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 /usr/share/amsn/lang.tcl
 /usr/share/amsn/migmd5.tcl
 /usr/share/amsn/notebook.tcl
+/usr/share/amsn/notebook1.tcl
 /usr/share/amsn/progressbar.tcl
 /usr/share/amsn/protocol.tcl
 /usr/share/amsn/smileys.tcl
