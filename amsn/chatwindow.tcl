@@ -800,6 +800,11 @@ namespace eval ::ChatWindow {
 		set container [CreateContainerWindow]
 		set mainmenu [CreateMainMenu $container]
 		$container conf -menu $mainmenu
+
+		#we bind <Escape> to close the current tab
+		#set current [GetCurrentWindow $container]
+		#set currenttab [set win2tab($current)]
+		bind $container <Escape> "::ChatWindow::CloseTab \[set ::ChatWindow::win2tab(\[::ChatWindow::GetCurrentWindow $container\])\]"
 		
 		#Send a postevent for the creation of menu
 		set evPar(window_name) "$container"
@@ -2077,14 +2082,39 @@ namespace eval ::ChatWindow {
 
 		if { $win == [GetCurrentWindow [winfo toplevel $win]] } { return }
 
+		set tab $win2tab($win)
+		set container [string range $tab 0 [expr [string last "." $tab] - 1] ]
+		set container [string range $container 0 [expr [string last "." $container] -1] ]
+
 		#if tab is not visible, then we should change the color of the < or > button
 		#to let know there is an invisible tab flickering (an incoming message)
-		#if { ![info exists visibletabs($win)] } {
-			#${containercurrent}.bar.less
-			#${containercurrent}.bar.more
-		#}
-
-		set tab $win2tab($win)
+		if { [info exists visibletabs($container)] } {
+			foreach window containerwindows($container)] {
+				set visible 0
+				foreach winvisible [set visibletabs($container)] {
+					if { ![string equal $window $winvisible] } {
+					if { !$visible && [string equal $window $win] } {
+							set right 0
+						} elseif { [string equal $window $win] } {
+							set right 1
+						}
+					} else {
+						set visible 1
+					}
+				}
+			}
+			if { [info exists right] } {
+				if { $right == 0 } {
+					#we change the less color
+					status_log ">>>>>>>>>>> coloring button less: ${container}.bar.less\n"
+					catch { ${container}.bar.less configure -bg green }
+				} else {
+					#we flicker the more button
+					status_log ">>>>>>>>>>> coloring button more: ${container}.bar.more\n"
+					catch { ${container}.bar.more configure -bg green }
+				}
+			}
+		}
 
 		after cancel "::ChatWindow::FlickerTab $win 0"
 		if { $new == 1 || ![info exists winflicker($win)]} {
