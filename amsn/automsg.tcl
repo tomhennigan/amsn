@@ -212,13 +212,18 @@ proc CreateStatesMenu { path } {
 # idx indicates the index of the personal state in the StateList, 
 # otherwise it indicates a normal state change (AWY, BSY, etc)
 proc ChCustomState { idx } {
-	global automessage user_info config automsgsent list_states user_stat original_nick
+	global HOME automessage user_info config automsgsent list_states user_stat
 	set automessage "-1"
 	set redraw 0
 	if { [string is digit $idx] == 1 } {
 		if { [lindex [StateList get $idx] 2] != "" } {
 			if {![info exists original_nick] && $config(storename)} {
 				set original_nick [urldecode [lindex $user_info 4]]
+				if { ![file exists [file join ${HOME} "nick.cache"]] } {
+					set nickcache [open [file join ${HOME} "nick.cache"] w]
+					puts $nickcache $original_nick
+					close $nickcache
+				} 
 			}
 			set new_state [lindex [lindex $list_states [lindex [StateList get $idx] 2]] 0]
 			if { $new_state == $user_stat } {
@@ -227,7 +232,7 @@ proc ChCustomState { idx } {
 			set automessage [StateList get $idx]
 			set newname "[lindex [StateList get $idx] 1]"
 			if { $newname != "" } {
-				::MSN::changeName $config(login) $newname
+				::MSN::changeName $config(login) $newname 1
 				StateList promote $idx
 			}
 			::MSN::changeStatus $new_state
@@ -238,7 +243,7 @@ proc ChCustomState { idx } {
 			set redraw 1
 		}
 		if {[info exists original_nick] && $config(storename)} {
-			::MSN::changeName $config(login) $original_nick
+			::MSN::changeName $config(login) $original_nick 1
 			unset original_nick
 		}
 		::MSN::changeStatus $idx

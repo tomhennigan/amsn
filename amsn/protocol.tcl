@@ -847,14 +847,6 @@ namespace eval ::MSN {
 
    proc logout {} {
 
-		# Change back from customized status nick to original one
-      global original_nick config
-      if {[info exists original_nick] && $config(storename)} {
-        ::MSN::changeName $config(login) $original_nick
-        unset original_nick
-      }
-
-
       ::MSN::WriteSBRaw ns "OUT\r\n";
 
       catch {close [sb get ns sock]} res
@@ -918,11 +910,17 @@ namespace eval ::MSN {
       }
    }
 
-   proc changeName { userlogin newname } {
+   proc changeName { userlogin newname nocache } {
 
-      global config
+      global HOME config
 
       set name [urlencode $newname]
+      
+      if { !$nocache && $config(storename) } {
+          set nickcache [open [file join ${HOME} "nick.cache"] w]
+          puts $nickcache $newname
+          close $nickcache
+      }
 
       if { $config(allowbadwords) } {
          ::MSN::WriteSB ns "REA" "$userlogin $name" \
@@ -3005,7 +3003,7 @@ proc cmsn_change_state {recv} {
 	if {$user_name != [lindex $user_data 1]} {
 		#Nick differs from the one on our list, so change it
 		#in the server list too
-		::MSN::changeName $user $user_name
+		::MSN::changeName $user $user_name 1
 	}
 
 	set maxw [expr {$config(notifwidth)-20}]
@@ -3634,7 +3632,7 @@ proc msnp9_authenticate { ticket } {
 }
 
 proc cmsn_auth_msnp9 {{recv ""}} {
-	global config list_version info
+	global HOME config list_version info
 
 	switch [sb get ns stat] {
 
@@ -3716,6 +3714,15 @@ proc cmsn_auth_msnp9 {{recv ""}} {
 			global user_info
 			set user_info $recv
 			sb set ns stat "o"
+			# Switch to our cached nickname if the server's one is different that ours
+			if { [file exists [file join ${HOME} "nick.cache"]] && $config(storename) } {
+				set nickcache [open [file join ${HOME} "nick.cache"] r]
+				gets $nickcache storednick
+				if { $storednick != [urldecode [lindex $user_info 4]] && $storednick != "" } {
+					::MSN::changeName $config(login) $storednick 1
+				}
+				close $nickcache
+			} 
 			save_config						;# CONFIG
 			load_contact_list
 

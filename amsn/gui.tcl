@@ -5248,7 +5248,7 @@ proc change_name_ok {} {
 				return
 			}
 		}
-      ::MSN::changeName $config(login) $new_name
+      ::MSN::changeName $config(login) $new_name 0
 
    }
    destroy .change_name

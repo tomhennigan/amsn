@@ -1491,7 +1491,7 @@ proc SavePreferences {} {
     set lfname "$lfname.lfname.f.f.1"
     set new_name [$lfname.name get]
     if {$new_name != "" && $new_name != [urldecode [lindex $user_info 4]] && $user_stat != "FLN"} {
-	::MSN::changeName $config(login) $new_name
+	::MSN::changeName $config(login) $new_name 0
     }
 
 	 #Check if convertpath was left blank, set it to "convert"
@@ -1790,6 +1790,9 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.110  2004/01/18 17:25:23  yozko
+# New nick-cache implemented, it fix the restore-nick bug.
+#
 # Revision 1.109  2004/01/18 16:12:36  airadier
 # If convertpath set to "", set it to "convert"
 #
