@@ -1334,6 +1334,12 @@ proc Preferences { { settings "personal"} } {
 
 #check if a window is outside the screen and move it in
 proc moveinscreen {window {mindist 0}} {
+	
+	#Small check to verify the window really exist
+	if { ![winfo exists $window] } {
+ 		return
+ 	}
+ 	
 	update
 
 	set winx [winfo width $window]
