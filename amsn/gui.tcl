@@ -19,6 +19,8 @@ if { $initialize_amsn == 1 } {
         ::skin::setKey tab_text_width 80
         ::skin::setKey tab_close_x 85
         ::skin::setKey tab_close_y 5
+    ::skin::setKey chat_tabbar_padx 0
+    ::skin::setKey chat_tabbar_pady 0
 	::skin::setKey buttonbarbg #eeeeff
 	::skin::setKey sendbuttonbg #c3c2d2
 	::skin::setKey topbarbg #5050e5
@@ -2272,7 +2274,7 @@ namespace eval ::amsn {
 		if { $font == "" } { set font "Helvetica"}		
 
 		set customfont [list $font $style $color]
-		
+	
 		if {[::config::getKey truncatenicks]} {
 			set oldnick $nick
 			set nick ""
@@ -2310,7 +2312,7 @@ namespace eval ::amsn {
 				
 			}
 		}
-
+		
 		::plugins::PostEvent chat_msg_received evPar
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -2465,6 +2467,7 @@ namespace eval ::amsn {
 	proc WinWrite {chatid txt tagname {fontformat ""} {flicker 1} {user ""}} {
 
 		set win_name [::ChatWindow::For $chatid]
+
 		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}
@@ -7301,6 +7304,8 @@ proc PictureConvert {original destination} {
 		if { [catch { ::CxImage::Convert "$original" "$destination" } res ] } {
 			status_log "Unable to convert picture with TkCximage \n$res" blue
 			return
+		} else {
+			return $destination
 		}
 	} else {
 		#Use Imagemagick
@@ -7313,6 +7318,8 @@ proc PictureConvert {original destination} {
 		if { [catch { exec [::config::getKey convertpath] "$original" "$destination" } res] } {
 			status_log "Unable to convert picture with ImageMagick: $res" blue
 			return
+		} else {
+			return $destination
 		}
 
 	}
@@ -7325,13 +7332,15 @@ proc PictureResize {photo width height} {
 		if { [catch { ::CxImage::Resize $photo $width $height } res ] } {
 			status_log "Unable to resize picture with TkCximage \n$res"r
 			return
+		} else {
+			return $photo
 		}
 	} else {
 		#ImageMagick
-		if { [catch { exec [::config::getKey convertpath] "${filename}" -resize "${width}x${height}" "${tempfile}.gif"} res] } {
-			status_log "CONVERT ERROR IN CONVERSION 2: $res" white
-			return ""
-		}
+		#if { [catch { exec [::config::getKey convertpath] "${filename}" -resize "${width}x${height}" "${tempfile}.gif"} res] } {
+		#	status_log "CONVERT ERROR IN CONVERSION 2: $res" white
+		#	return ""
+		#}
 	}
 	
 }
@@ -7344,12 +7353,16 @@ proc PictureThumbnail { photo width height bordercolor {alpha ""} } {
 			if { [catch {::CxImage::Thumbnail $photo $width $height $bordercolor} res] != 0 } {
 				status_log "Unable to create thumbnail with TkCximage \n$res" blue
 				return
-			}	
+			}	else {
+				return $photo
+			}
 		} else {
 			
 			if { [catch {::CxImage::Thumbnail $photo $width $height $bordercolor -alpha $alpha} res ] != 0 } {
 				status_log "Unable to create thumbnail with TkCximage \n$res" blue
 				return
+			} else {
+				return $photo
 			}
 			
 		}
@@ -7364,6 +7377,8 @@ proc PictureCrop {photo x1 y1 x2 y2} {
 		if { [catch {$temp copy $photo -from $x1 $y1 $x2 $y2} res ] != 0 } {
 			status_log "Unable to crop image with TkCxImage\n$res" blue
 			return
+		} else {
+			return $temp
 		}
 	}
 }
@@ -7375,11 +7390,15 @@ proc PictureSave {photo destination {format ""}} {
 			if { [catch {$photo write $destination -format $format} res] != 0} {
 				status_log "Error Saving to the file with TkCximage : \n$res" blue
 				return
+			} else {
+				return $destination
 			}
 		} else {
 			if { [catch {$photo write $destination} res] != 0} {
 				status_log "Error Saving to the file with TkCximage : \n$res" blue
 				return
+			} else {
+				return $destination
 			}
 		}
 	} else {
@@ -7388,26 +7407,21 @@ proc PictureSave {photo destination {format ""}} {
 		if { [catch {$photo write $destination -format gif} res] != 0} {
 				status_log "Error Saving to the file without TkCximage : \n$res" blue
 				return
+		} else {
+			return $destination
 		}
 	}
 }
-
 proc PictureGetSkinFile {directory file {format "gif"}} {
-	
 	if {[PictureCxImageLoaded]} {
 		#With TkCximage
-		if { [catch {image create photo -file [::skin::GetSkinFile "$directory" "[filenoext [file tail $file]].$format"]} res] != 0} {
-			status_log "Error while getting SkinFile with TkCximage : \n$res" blue
-			return
-		}
+		set photo [image create photo -file [::skin::GetSkinFile "$directory" "[filenoext [file tail $file]].$format"]]
+		return $photo
 	} else {
 		#Without TkCximage
-		if { [catch {image create photo -file [::skin::GetSkinFile "$directory" "[filenoext [file tail $file]].gif"]} res] != 0} {
-			status_log "Error while getting SkinFile without TkCximage : \n$res" blue
-			return
-		}
+		set photo [image create photo -file [::skin::GetSkinFile "$directory" "[filenoext [file tail $file]].gif"]]
+		return $photo
 	}
-
 }
 
 ###################### Protocol Debugging ###########################
@@ -7973,7 +7987,6 @@ proc webcampicture_save {preview} {
 		
 		#Set image_name
 		set image_name [PictureGetSkinFile displaypic $file png]
-		
 		#Change picture in .mypic frame of .picbrowser
 		.picbrowser.mypic configure -image $image_name
 		
@@ -7991,7 +8004,7 @@ proc webcampicture_save {preview} {
 		lappend image_names $image_name
 		#status_log "Created $image_name\n"
 		destroy .webcampicturedoyoulikeit
-
+		raise .picbrowser
 	} else {
 		status_log "Error converting $file: $res\n"
 	}
