@@ -17,7 +17,7 @@ appearance Görünüs
 appearoff Çevrimdisi görün
 areacode Alan kodu
 aretyping $1 ileti yaziyor
-askprofile Bu kullanici icin profil olusturulmamis. Yeni profil olusturmak ister misiniz? \n Eger olusturmazsaniz Geçmis özelligini kullanamaz, alarm ve sifreleri kaydedemezsiniz. Eger olusturursaniz bu yeni profilin ayri ayarlari olacaktir. \n \n $1 icin yeni profil olusturmak istiyorsaniz "Profil olustur"a tiklayiniz.
+askprofile Bu kullanici için profil olusturulmamis. Yeni profil olusturmak ister misiniz? \n Eger olusturmazsaniz Geçmis özelligini kullanamaz, alarm ve sifreleri kaydedemezsiniz. Eger olusturursaniz bu yeni profilin ayri ayarlari olacaktir. \n \n $1 için yeni profil olusturmak istiyorsaniz "Profil olustur"a tiklayiniz.
 autoaway Bu sure kadar eylemsiz kalirsam beni disarida goster
 autoconnect2 aMSN baslayinca kendiliginden baglan
 autoconnect Açilista kendiliginden baglan
@@ -34,9 +34,9 @@ bgcolor aMSN'in arkaplan rengini degistir
 blankdirect Dogrudan baglanti için bos birakin
 blocked Engellenmis
 block Engelle
-broughtby Yazilimi gelistirenler:
+broughtby Yazilimi gelistirenler
 browse gözat
-browser internet tarayici
+browser Internet tarayici
 busy Mesgul
 cancel Iptal Et
 cfgalarm Alarmi Düzenle/Ekle/Kaldir
@@ -124,11 +124,11 @@ inbox Gelen kutusu
 invalidusername Geçersiz kullanici ismi
 invite Davet et
 ipaddress IP adresi
-ipdetect HTTP dosya aktarimlari icin dogru IP'yi belirle
+ipdetect HTTP dosya aktarimlari için dogru IP'yi belirle
 istyping $1 ileti yaziyor
 joins $1 sohbete katiliyor
 keepalive Canli tut (NAT)
-keeplog2 Daha sonra bakmak icin tüm sohbetleri Geçmis'e kaydet
+keeplog2 Daha sonra bakmak için tüm sohbetleri Geçmis'e kaydet
 keeplog Sohbetlerin kaydini tut
 language Dil
 lastmsgtime Son iletinin alindigi zaman: $1
@@ -145,7 +145,7 @@ listsmileys Gülen adamlari listele
 ljoinedconf $1 konferansa katildi
 lleftconf $1 konferanstan ayrildi
 loadcontacts Baglanti listesi yükle
-logbigger Her baglanti icin kayit dosyasi boyutu ust siniri
+logbigger Her baglanti için kayit dosyasi boyutu ust siniri
 logfandexp Kayit dosya boyutlari ve Geçmis kayitlarinin silinme zamani 
 loggedotherlocation Baska bir yerden baglandiginiz için baglanti kesildi
 loggingin Baglaniyor
@@ -174,7 +174,7 @@ mymobilephone Cep telefonum
 mystatus Durumum
 myworkphone Ev telefonum
 natip Internet sayfasindan IP belirlenmesi
-natkeepalive Eger baglantiniz sürekli kopuyorsa, Canli tut secenegini isaretleyiniz
+natkeepalive Eger baglantiniz sürekli kopuyorsa, Canli tut seçenegini isaretleyiniz
 needonline Hala çevrimdisi görünüyorsunuz!
 newmailfrom Yeni ileti gönderen:
 newmail Gelen kutunuzda $1 yeni ileti var
@@ -204,7 +204,7 @@ ordercontactsby Baglantilari siralama ölçütü
 ordergroupsby Gruplari siralama ölçütü
 other Diger
 pager Çagri cihazi
-pass sifre
+pass Sifre
 paste Yapistir
 personal Kisisel
 phone Telefon
@@ -225,7 +225,7 @@ prefmsging Ileti arayüzüm
 prefname MSN Messenger adim/rumuzum
 prefphone2 Izin verdiginiz kisilerin görmesini \n istediginiz telefon numaralarini girin
 prefphone Telefon numaralarim
-prefprofile2 Aç	ik profilinizi (digerlerinin \n görecegi bilgiler) yaratin/degistirin
+prefprofile2 Açik profilinizi (digerlerinin \n görecegi bilgiler) yaratin/degistirin
 prefprofile3 aMSN kullanici ayar profili
 prefprofile Açik profilim 
 prefproxy proxy ayarlarim
@@ -274,13 +274,14 @@ status Durum
 stopalarm Alarmi durdur!
 stylechat Sohbetler ile ayni görünüs
 stylehist aMSN Geçmis görünüsü
-stylelog Geçmisinizin görünüs seklini secin
+stylelog Geçmisinizin görünüs seklini seçin
 syntaxerror Yazim hatasi
 tabbed Içiçe pencereler
 textsize Metin boyutu
 title Al'in Messenger'i
 to Kime
 tools Araçlar
+transnotexists Bu dosyanin seçili dile çevirisi henüz yok
 unblock Engeli kaldir
 uoffline Çevrimdisi
 uonline Çevrimiçi
