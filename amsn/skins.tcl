@@ -385,14 +385,14 @@ proc GetDisplayPicture { filename {skin_override ""}} {
 	} elseif { [file readable [file join $HOME2 skins $skin displaypic $filename]] } {
 		return "[file join $HOME2 skins $skin displaypic $filename]"
 	#Get file from ~/.amsn/profile/skins folder
-	} elseif { [file readable [file join $HOME skins $skin $type $filename]] } {
+	} elseif { [file readable [file join $HOME skins $skin displaypic $filename]] } {
 		return "[file join $HOME skins $skin displaypic $filename]"
 	#Get file from default skin
-	} elseif { [file readable [file join [set ::program_dir] skins $defaultskin $type $filename]] } {
+	} elseif { [file readable [file join [set ::program_dir] skins $defaultskin displaypic $filename]] } {
 		return "[file join [set ::program_dir] skins $defaultskin displaypic $filename]"
 	} else {
-	#	status_log "File [file join  [set ::program_dir]skins $skin $type $filename] not found!!!\n"
-		return "[file join [set ::program_dir] skins $defaultskin $type null]"
+	#	status_log "File [file join  [set ::program_dir]skins $skin displaypic $filename] not found!!!\n"
+		return "[file join [set ::program_dir] skins $defaultskin displaypic null]"
 	}
 	
 }
