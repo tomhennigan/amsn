@@ -431,7 +431,7 @@ proc ButtonSaveState { lfname { idx "" } } {
 	# reset menus and listbox
 	CreateStatesMenu .my_menu
 	if { ($mode == 0 || $mode == 2) && [winfo exists .cfg] } {
-		set cfgname [.cfg.notebook.nn getframe session]
+		set cfgname [[.cfg.notebook.nn getframe session].sw.sf getframe]
 		$cfgname.lfname2.f.f.statelist.box delete 0 end
 		for { set idx 0 } { $idx < [StateList size] } {incr idx } {
 			$cfgname.lfname2.f.f.statelist.box insert end [lindex [StateList get $idx] 0]
