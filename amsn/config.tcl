@@ -64,7 +64,6 @@ proc ConfigDefaults {} {
 
 	set config(autoftip) 1				;#Detect IP for file transfers automatically
 	set config(myip) "127.0.0.1"		;#Your IP
-	set config(natip) 1					;#Use HTTP for guessing IP. Useful for NAT connections
 
 	set config(wingeometry) 275x400-0+0			;#Main window geometry
 	set config(closingdocks) 0						;#Close button minimizes (or docks) main window
@@ -123,7 +122,6 @@ proc ConfigDefaults {} {
 	set config(animatenotify) 1		;#Animate notify window
 	set config(disableprofiles) 0		;#Disable profiles (useful for cybercafes or similar)
 	set config(disableuserfonts) 0	;#Disable custom fonts for other users (use always yours).
-	set config(keepalive) 1				;#Keep alive connection (ping every minute)
 	set config(autoconnect) 0			;#Automatically connect when amsn starts
 	set config(receiveddir) ""			;#Directory where received files are stored
 	set config(lineflushlog) 1			;#Flush log files after each line
@@ -131,6 +129,7 @@ proc ConfigDefaults {} {
 	set config(truncatenames) 1		;#Truncate nicknames longer than window width
 	set config(notifwidth) 150			;#Notify window width
 	set config(notifheight) 100		;#Notify window height
+	set config(keepalive) 1				;#Keep alive connection (ping every minute)	
 	set password ""
 
 

@@ -747,7 +747,6 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.pshared -side left -anchor nw
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
-	checkbutton $lfname.1.keepalive -text "[trans natkeepalive]" -onvalue 1 -offvalue 0 -variable config(keepalive)
     
         checkbutton $lfname.1.autoaccept -text "[trans autoacceptft]" -onvalue 1 -offvalue 0 -variable config(ftautoaccept)
 	frame $lfname.1.ftport -class Deft
@@ -756,7 +755,7 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.1.ftport.text -row 1 -column 1 -sticky w -pady 5 -padx 0
 	grid $lfname.1.ftport.entry -row 1 -column 2 -sticky w -pady 5 -padx 3
 	
-	pack $lfname.1.keepalive $lfname.1.autoaccept $lfname.1.ftport -anchor w -side top -padx 10
+	pack $lfname.1.autoaccept $lfname.1.ftport -anchor w -side top -padx 10
 	
 	    
         ## Remote Control Frame ##
@@ -1616,6 +1615,9 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.94  2003/11/10 08:33:42  airadier
+# Removed "keepalive" from simple preferences, will be in advanced.
+#
 # Revision 1.93  2003/11/10 08:29:58  airadier
 # Removed "Nat IP" (http detection) option.
 #
