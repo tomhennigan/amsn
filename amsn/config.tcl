@@ -449,10 +449,8 @@ proc load_config {} {
 				if { $bgcolormac=="#D8D8E0" } {
 					::config::setKey backgroundcolor #ECECEC
 					}
-			set soundmac [::config::getKey soundcommand]
-			set soundmac2 [string range "$soundmac" 1 11]
-			puts $soundmac2
-				if { $soundmac2=="program_dir" } {
+			set soundmac [string range "[::config::getKey soundcommand]" 1 11]
+				if { $soundmac=="program_dir" } {
 					::config::setKey soundcommand "./sndplay \$sound"
 					}
 		}
