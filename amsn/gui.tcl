@@ -1840,6 +1840,14 @@ namespace eval ::amsn {
 		bind $bottom.in.input <<Button2>> "paste .${win_name} 1"
 		bind .${win_name}.f.out.text <<Button3>> "tk_popup .${win_name}.copy %X %Y"
 		bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
+			
+		#When someone type something in out.text, regive the focus to in.input and insert that key
+		#On Mac OS X (Aqua) only	
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			bind .${win_name}.f.out.text <Key> "focus -force $bottom.in.input;$bottom.in.input insert insert %A"
+		}
+
+		
 
 		#Define this events, in case they were not defined by Tk
 		event add <<Paste>> <Control-v> <Control-V>
