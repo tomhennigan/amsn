@@ -1,1 +1,521 @@
-ÿþa
+amsn_lang_version 2
+about Perihal
+accept Terima
+acceptfile Terima berkas $1, sebesar $2? Simpan di $3
+actions Perintah
+addacontact Tambahkan nama baru
+addedyou $1 ($2) telah menambahkan anda dalam daftar namanya
+addprofile Tambahkan Profil Baru
+addprofiledesc Masukkan Daftar-Masuk untuk yang mana anda ingin menciptakan profil baru. \nDaftar-Masuk dengan profil memungkinkan anda memiliki pengaturan yang berbeda untuk setiap Daftar-Masuk. \nTanpa profile anda tidak dapat menggunakan Sejarah, Alarm dan mengingat kata sandi.
+addstate Tambahkan Keadaan Baru
+addto Tambahkan Kepada $1
+addtocontacts Masukkan dalam daftar nama
+addtoo Masukkan orang ini dalam daftar nama saya
+admincontacts Atur daftar nama
+admingroups Atur kelompok-kelompok
+advanced Lanjutan
+advancedprefs Konfigurasi Pilihan Lanjutan
+adverts Iklan
+alarmonconnect Aktifkan alarm saat pengguna muncul tersambung
+alarmondisconnect Aktifkan alarm saat pengguna tidak tersambung lagi atau tidak tampak
+alarmonmsg Aktifkan alarm saat pengguna mengirimkan anda pesan
+alarmonstatus Aktifkan alarm saat pengguna merubah keadaan
+alarmpref Pengaturan alarm
+alarmstatus Matikan/Nyalakan alarm untuk dia
+allfiles Semua Berkas
+allowallbutbl Ijinkan semua pengguna menghubungi saya kecuali mereka dalam Daftar Blokir
+allowbadwords Matikan sensor terhadap nama panggilan
+allowlist Daftar Boleh (yang dibolehkan)
+allowonlyinal Ijinkan hanya pengguna dalam Daftar Terima untuk menghubungi saya
+allowseen Perbolehkan orang ini untuk melihat status saya dan menghubungi saya
+allprofilesinuse Semua profil yang ada sedang dipakai
+animatedemoticon Emotikon ini memiliki animasi
+animatedsmileys Mungkinkan smiley dengan animasi
+animatenotify Jendela Pemberitahuan dengan Animasi
+appearance Tampilan
+appearoff Sembunyi
+areacode Kode Area
+aretyping $1 sedang mengetik pesan
+autoaccepted Transmisi Berkas diterima secara otomatis
+autoacceptft Terima permintaan Transmisi Berkas secara otomatis
+autoaway Tunjukkan saya sebagai 'Tidak Ada' apabila tidak aktif selama
+autocheckver Periksa secara otomatis akan versi baru pada start
+autoconnect Hubungi server saat a'MSN dinyalakan
+autoconnect2 Register masuk secara otomatis pada saat a'MSN dinyalakan
+autohotmaillog Otomatis terhubung ke Hotmail
+autoidle Otomatis ganti status ke 'Tidak Ada Aktivitas'
+autoip IP otomatis
+autonoact Tunjukkan sebagai 'Tidak Aktif' setelah tidak aktif selama
+avoidseen Orang ini dilarang melihat status saya maupun menghubungi saya
+away Tidak ada ditempat
+awaymsg1 Tanyakan untuk pesan ?tidak ada? setiap kali saya merubah status ke tidak ada/segera kembali/sibuk
+awaymsg2 Jangan pernah menanyakan dan selalu gunakan pesan tidak ada berikut
+baduserpass Nama pengguna atau kata sandi salah
+bgcolor Rubah warna latar belakang a'MSN
+blankdirect Kosongkan untuk sambungan langsung
+block Blokir
+blocked Diblokir
+blockedyougroup Tunjukkan secara terpisah kelompok orang-orang yang memblokir anda
+blocking Memblokir
+blockinter1 Saat status anda tersambung, periksa setiap
+blockinter2 detik, jika tidak periksa setiap :
+blockinter3 setiap
+blockinter4 detik.
+blocklist Daftar Blokir :
+blockmessage Orang-orang ini sedang tersambung dan memblokir anda
+blockusers Nomer pengguna agar diperiksa saat ini juga
+broughtby Dipersembahkan oleh
+browse Mengamati
+browser Browser
+browserexample (\$url akan digantikan dengan URL). Contoh: mozilla \$url
+busy Sibuk
+cancel Batalkan
+cannotdeleteprofile Tidak bisa menghapus profil karena tampaknya masih digunakan
+cantexec Aplikasi tidak bisa dijalankan: $1. Periksa pilihan
+"cantremoveothers Tidak dapat mengilangkan group ""Lain-lain"""
+casesensitive Gunakan pemicu yang sensitif terhadap bentuk huruf (besar/kecil)
+cfgalarm Rubah Pengaturan/Tambah/Hapus alarm
+cfgalarmall Atur/Tambahkan/Hilangkan Alarm Global
+ch_to_state Alihkan ke kondisi baru
+changecustomstate Alihkan ke
+changedisplaypic Rubah Gambar Tampilan
+changefont Rubah Huruf
+changenick Ganti alias
+changestate $1 merubah keadaan menjadi $2
+charscounter Karakter yang diketik beradu dalam jendela percakapan
+chat Percakapan
+chatack Terima ajakan percakapan dari
+chatmaxmin Saat seorang kontak membuka percakapan dengan saya, saya mau itu menjadi :
+chatreq Mengajak bercakap-cakap
+chatsmileys Tamplikan ekspresi saat percakapan
+chatsmileys2 Tampilkan Emoticon dan Smiley dalam window percakapan
+checkblocking Periksa secara berkelanjutan apakah para pengguna memblokir anda
+checkfilman Berkas yang diterima akan disimpan dalam $1. Mohon periksa aturan pengelolaan berkas dalam window anjuran.
+checkingver Sedang memeriksa versi terbaru
+checkonfln Periksa apakah pengguna tersebut memblokir anda saat dia pergi offline
+checkver Periksa apakah ada versi baru
+choosearq Pilih arsitektur sistem anda
+choosebasefont Pilih jenis huruf
+choosebgcolor Pilih warna latar belakang
+choosecontact Mohon pilih sebuah kontak dari daftar
+choosefontcolor Pilih warna tekst
+chooseskin Silahkan pilih Kulit yang ingin anda gunakan
+clearlog Bersihkan Register
+clearlog2 Bersihkan sejarah untuk semua kontak
+clearlog3 Bersihkan semua register
+clicktologin Klik disini untuk Daftar-Masuk
+close Tutup
+closed Percakapan dengan $1 ditutup karena tidak aktif
+closingdocks Tombol Tutup mengecilkan window
+command Perintah
+commandstatus Jalankan Perintah
+confirm Apakah anda yakin?
+confirmdelete Apakah anda yakin untuk menghapus $1?
+confirmpurge Semua gambar tampilan tersimpan dari kontak lain (bukan gambar tampilan anda) akan dihapus. Apakah anda yakin?
+connected Sekarang anda tersambung
+connecterror Ada masalah saat menghubungi server
+connecting Sedang menyambung
+connection Sambungan
+connectionlost Terputus: Sambungan dengan server tertutup
+contactadded Nama baru telah dimasukkan
+contactdoesnotexist Detail kontak tidak dapat ditemukan!
+contactlist Daftar Kontak :
+convertexplain Jalur untuk MERUBAH file yang dapat dijalankan, dari ImageMagick (diperlukan untuk Menampilkan Gambar).\n Kosongkan bila MERUBAH terdapat dalam jalur
+copy Salin
+copytogroup Salin ke kelompok
+corruptconfig Susunan berkas rusak. Menciptakan yang baru. Berkas lama akan disimpan ke $1. Mohon kirim berkas tersebut kepada kami untuk kami periksa apa yang terjadi.
+corruptstates Susunan kondisi tertentu rusak. Menciptakan yang baru. Berkas yang lama akan disimpan ke $1. Mohon kirim berkas tersebut kepada kami untuk kami periksa apa yang terjadi.
+countrycode Kode negara/daerah
+cprofile Ciptakan Profil
+custom_edit Rubah smiley sesuai kehendak
+custom_new Tambahkan smiley baru sesuai kehendak
+cut Potong
+date Tanggal
+days Hari
+dcprofile Jangan Ciptakan Profil
+default Pengaturan Dasar
+defaultloginradio Daftar-Masuk aturan pengaturan dasar
+defchatwinsize Ukuran standard untuk jendela percakapan (XUKURANxYUKURAN)
+delete Hapus
+deletecustomstate Hapus kondisi tertentu
+delimiters Pemisah penanda waktu:
+deliverfail Ada masalah dalam pengiriman pesan berikut
+delprofile Hapus Profil
+delprofile2 Pilih profil yang ingin dihilangkan
+description Gambaran
+directconnection Saya memiliki sambugan langsung ke internet (menggunakan port 1863)
+disabled Dimatikan
+disableprofiles Profil Dimatikan (Berguna untuk Kafe Internet dan lingkungan berbagi-pakai)
+disablessl Matikan SSL
+disconnect $1 memutuskan sambungan.
+displaychat Tampilkan Pilihan untuk Tekst
+dockfreedesktop Desktop gratis (KDE/Gnome2)
+dockgtk Labuhan model Gnome
+docking Labuhan
+dockingoff Jangan dilabuhkan
+dockkde Labuhan model KDE
+dontdownload Jangan download TLS, saya akan memasangnya sendiri
+dontshow Jangan Ditampilkan
+downloadingtls Sedang mendownload modul TLS dari:\n $1
+edit Ubah
+editcurrentstate Ubah keadaan saat ini
+editcustomstate Ubah kondisi tertentu
+editcustomstate Rubah
+editnewstate Kondisi untuk Pesan-otomatis Pribadi Baru
+editprofile Ubah Profil
+editstate Rubah Keadaan Pesan-otomatis yang sudah ada
+editvalue Rubah Nilai/Makna
+emailsinlist Tampilkan email sebagai ganti dari nama panggilan dalam daftar kontak
+emotisounds Mainkan suara pada emoticon tertentu
+enablebanner Tampilkan spanduk aMSN (aMSN perlu di-restart)
+enabled Memungkinkan
+enableproxy Nyalakan proxy
+enableremote Mungkinkan pengedalian jarak jauh
+enablesound Mainkan suara
+encoding Pilih jenis pengkodean
+encoding2 Pilih Pengkodean
+entercontactemail Masukkan alamat e-mail teman
+enterfilename Masukkan nama berkas
+enternick Masukkan alias yang anda inginkan
+errortls Masalah dalam menginstal modul TLS:
+examples Contoh
+exitamsn Apakah anda ingin keluar?
+extras Fungsi tambahan
+failed Gagal
+faileddelete Gagal menghapus
+faileddeleteperso Gambar ini tidak bisa dihapus karena bukan merupakan berkas gambar pribadi. Hanya gambar yang merupakan milik profil secara pribadi dapat dihapus dengan cara ini.
+faq PSD (Pertanyaan yang Sering Ditanyakan)
+file Berkas
+filedoesnotexist Berkas tidak ditemukan
+fileman Pengatur Berkas
+filemanexample (\$lokasi akan digantikan dengan direktori) Contoh: nautilus \$lokasi
+filename Nama Berkas
+filetransfercancelled Transmisi berkas dibatalkan
+filetransfercomplete Transmisi berkas telah usai
+followtext Gulung ke bawah saat tekst baru dimasukkan
+ftaccepted Transmisi berkas diterima
+ftacceptedby $1 menerima undangan pengalihan berkas untuk berkas ?$2?.
+ftaccepting Menerima undangan pengalihan berkas
+ftconnecterror Kesalahan dalam peyambungan ke peer jarak jauh
+ftconnecting Menyambung ke $1 port $2
+ftconnectionlost Sambungan ke peer jarak jauh terputus
+ftgotinvitation $1 ingin mengirim berkas ?$2? ($3 bytes). Berkas akan tersimpan dalam direktori $4. Apakah anda ingin menerima berkas ini?
+ftportpref Memulai port untuk pengalihan berkas
+ftrejected Transmisi berkas ditolak
+ftrejectedby $1 menolak undangan pengalihan berkas untuk berkas ?$2?.
+ftsendinvitation Undangan pengalihan berkas untuk berkas ?$2? ($3 bytes) telah dikirim kepada $1.
+fullcontactlist Maar, daftar kontak anda penuh. Anda harus menghapus sebagian kontak untuk dapat menambahkan yang baru.
+getdisppic Mungkinkan penerimaan Gambar Tampilan dari pengguna yang lain
+gonelunch Sedang makan siang
+group Kelompok
+groupadd Tambah kelompok
+groupdelete Hapus kelompok
+groupexists Nama kelompok sudah ada
+groupmissing Kelompok tidak dapat ditemukan
+groupnewname Nama baru
+groupnotempty Kelompok tidak kosong
+groupoldname Nama lama
+grouprename Ganti nama kelompok
+groupunknown Kelompok lain
+handle Pegangan
+help Bantuan
+helpcontents Isi manual
+hidedisplaypic Sembunyikan Gambar Tampilan
+hiden Sembunyikan emoticon dari menu smiley
+hidewindow Sembunyikan Window
+history Lihat Sejarah
+home Rumah
+httpconnection Sambung menggunakan metode HTTP (menggunakan protokol HTTP melalui port 80)
+hybrid Modus hybrid
+ident Sedang mengidentifikasi
+identity Identitas
+imagefiles Berkas-berkas Gambar
+inbox Kotak-Masuk
+insertsmiley Masukkan emotikon
+installconvert Anda harus menginstalasi ImageMagick (program konversi) untuk dapat merubah gambar ke dalam format yang diperlukan oleh server MSN. Anda bisa men-download binari untuk Sistem Operasi anda di ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Apabila anda sudah memilikinya, maka itu adalah gangguan (bug) dan mohon dilaporkan.
+internalerror Kesalahan Server Internal
+invalidfile Berkas $2 yang dimasukkan dalam bidang “$1” tidak ada atau tidak dapat dibaca
+invalidfile2 Nama berkas $1 tidak dapat diciptakan, pastikan anda memiliki ijin yang tepat untuk sasaran tersebut.
+invalidpic Berkas gambar yang diberikan tidak ada
+invalidpicsize Gambar yang diberikan terlalu besar, mohon pilih yang lebih kecil
+invalidsound Berkas suara yang diberikan tidak ada
+invalidusername Nama pengguna salah
+invitationcancelled Undangan telah dibatalkan
+invite Undang
+ipaddress Alamat IP
+ipdetect Cari IP yang betul untuk pertukaran berkas melalui HTTP
+istyping $1 sedang mengetik
+joins $1 ikut dalam percakapan
+keepalive Biarkan Menyala (NAT)
+keeplog Simpan register percakapan
+keeplog2 Simpan semua percakapan ke dalam sejarah a'MSN untuk dilihat di masa yang akan datang
+language Bahasa
+lastmsgtime Pesan terakhir diterima pada $1
+lclosedwin $1 telah menutup window atas $2
+lconftopriv Konferensi berubah menjadi percakapan pribadi dengan $1
+lconvstarted Percakapan dimulai pada $1
+leaveblankforhotmail Kosongkan untuk menggunakan Hotmail lewat web
+leaves $1 telah meninggalkan percakapan ini
+lenteredconf $1 telah memasuki konferensi pada $2
+lineflushlog Ratakan Berkas Catatan setelah tiap baris
+linprivate SECARA PRIBADI
+listeningon Mengawasi port $1
+listsmileys Daftar Smiley
+listsmileys2 Tampilkan Emoticon dan Smiley dalam daftar kontak a'MSN utama
+ljoinedconf $1 bergabung dalam konferensi
+lleftconf $1 meninggalkan konferensi
+loadcontacts Baca daftar nama
+logbigger Ukuran register berkas untuk setiap kontak tidak pernah melewati batas
+logfandexp Ukuran register berkas dan masa berlaku sejarah
+loggedotherlocation Terputus. Ada yang Daftar-Masuk dari tempat lain
+loggingin Meregister Masuk
+login Daftar-Masuk
+loginas Register sebagai
+loging Mendaftar
+logolder Hanya register percakapan yang mengambil tempat dalam terakhir
+logout Daftar-Keluar
+logsin baru saja register
+logsmileys Tampilkan Emoticon dan Smiley dalam sejarah a'MSN
+logsout baru saja daftar-keluar
+longnick Nama panggilan anda lebih panjang dari 130 huruf. Hal tersebut tidak didukung secara resmi oleh protokol MSN. Apakah anda yakin anda ingin memasangnya?
+lprivtoconf Percakapan pribadi berubah menjadi konferensi dengan $1
+luclosedwin Anda telah menutup jendal pada $1
+mailer Aplikasi email
+mailerexample (\$penerima = Penerima) Biarkan kosong untuk menggunakan Hotmail
+maximised Dimaksimalkan
+minimised Diminimalkan/Di-ikon-kan
+mins menit
+mobile Bergerak
+morepersonal Lebih banyak kondisi ->
+move Pindah
+movetogroup Pindah ke kelompok
+msg Pesan
+msgflicker Kedipkan window percakapan saat pesan baru diterima pada window yang tidak fokus.
+msgmaxmin Saat pesan baru tiba saya menginginkannya untuk:
+msgmode Pilih bagaimana menangani banyak window percakapan
+msn a'MSN
+mustrestart Program ini harus dijalankan ulang supaya perubahannya kelihatan
+myhomephone Telpon rumah saya
+mymobilephone Telpon seluler saya
+mypic Gambar Tampilan Saya:
+mystatus Status Saya
+myworkphone Telpon kantor saya
+natip Deteksi IP melalui halaman web
+natkeepalive Apabila sambungan anda sering terputus, mungkinkan Biarkan Menyala
+needonline Anda masih tidak tersambung atau sedang sembunyi!
+newmail $1 email baru dalam Kotak-Masuk
+newmailfrom Email baru dari $1 ($2)
+newmsg Pesan baru
+newstate Tambahkan kondisi tertentu
+newveravailable Telah ada versi baru $1
+next Berikutnya
+no Tidak
+noactivity Tidak ada aktivitas
+nodataavailable Tidak ada data yang tersedia untuk $1
+nologfile Tidak ada register untuk $1
+noneavailable Tidak Tersedia
+nonewmail Tidak ada email baru di Kotak-Masuk anda
+nonewver Belum ada versi baru
+nopic Gambar Tidak Ada
+noprofileexists Tidak ada profil aktif, \n anda harus menciptakan satu apabila anda ingin daftar-masuk berprofil. \nGunakan tombol Tambahkan Profil Baru dalam window ini untuk menambahkan profil baru.
+normal Normal
+noskins Tidak dapat menemukan kulit mendasar dalam direktori kulit. Tidak bisa menyalakan AMSN.
+nosystemtray Baki Sistem tidak tersedia
+notificationserver Server Pemberitahuan MSN Permulaan (Server Pesan MSN)
+notify beri tahu
+notify1 Tampilkan jendel pemberitahuan saat kontak mulai tersambung
+notify1_5 Tampilkan window pemberitahuan saat kontak daftar-keluar
+notify1_75 Tampilkan window pemberitahuan saat kontak merubah kondisi
+notify2 Tampilkan jendel pemberitahuan saat pesan baru diterima
+notify3 Tampilkan jendel pemberitahuan saat e-mail masuk ke dalam Kotak-Masuk
+notifyoffset Atur window pemberitahuan dengan memberikannya aturan keseimbangan posisi
+notifytyping Kirimkan pemberitahuan kepapda pengguna lain saat mengetik
+notifywin Window pemberitahuan
+notls Protokol MSN 9 memerlukan paket tls. Paket ini tampaknya tidak terinstal pada mesin ini. Apabila terinstalasi, cantumkan letak direktori kepustakaan dalam window Anjuran (contoh: /opt/tls/lib). \n \n Tls bisa didownload dari http://tls.sf.net.
+nousersinsession Tidak ada orang lain
+offline Tidak Tersambung
+ok Ok
+onenewmail Ada email baru di Kotak-Masuk
+online Tersambung
+onphone Sedang telepon
+openreceived Buka berkas yang telah diterima
+options Pilihan
+ordercontactsby Urutkan daftar berdasarkan
+ordergroupsby Atur kelompok berdasarkan
+other Lain-lain
+others Lain-lain
+pager Penyeranta
+pass Kata sandi
+paste Tempelkan
+personal Pribadi
+phone Telepon
+picbrowser Tampilkan Browser Gambar
+picfile Berkas gambar (GIF < 500 x 500)
+picstatus Alarm bergambar
+playing Memainkan: $1
+pluginselector Pilih Tambahan-tambahan (plugins)
+port Pintu
+prefalerts Signal dan Bunyi kegiatan saya
+prefapps Aplikasi
+prefawaymsg Pesan Tidak Ada saya
+prefblock1 Periksa saat pemutusan sambungan
+prefblock2 Periksa secara berkelanjutan
+prefblock3 “Anda telah diblokir oleh” kelompok 
+prefconnection Aturan sambungan
+prefemotic Emoticon dan Smiley
+preferences Pilihan
+preffont Tekst Pesan Saya
+preffont2 Rubah cara orang lain melihat tekst saya dalam percakapan
+preffont3 Rubah huruf dan ukuran tampilan muka a'MSN
+preflibs Direktori kepustakaan
+preflog1 Pilihan Registrasi dan Sejarah Saya
+preflook Tampilan Pembawa Pesan a'MSN Saya
+prefmsging Tampilan Muka Pesan Saya
+prefname Nama/Nama Panggilan Pembawa Pesan a'MSN Saya
+prefphone Nomor-nomor Telpon Saya
+prefphone2 Ketik nomor telpon yang anda inginkan dilihat orang-orang pada Daftar Boleh anda
+prefprivacy Daftar Boleh/Blokir milik pengguna
+prefprivacy2 Daftar Kontak/Terbalik milik pengguna
+prefprofile Profil Umum Saya
+prefprofile2 Ciptakan atau Rubah profil umum anda (penjelasan tentang anda yang bisa dilihat orang lain)
+prefprofile3 Aturan Profil Pengguna a'MSN
+prefproxy Aturan Proxy Saya
+prefremote Pilihan Sambungan Jarak jauh
+prefsession Daftar-Masuk dan Status Saya
+prefshared Sambungan yang Dibagi (hanya untuk NAT)
+prefsound Suara
+privacy Privasi
+profiledconfig Aturan Profil
+profileexists Anda tidak bisa menciptakan profil dengan dafar-masuk ini \n karena sudah ada. Tolong pilih daftar-masuk yang lain.
+profileinuse Profil ini digunakan oleh sesi a'MSN yang lain, tolong pilih yang lain
+profileloginradio Daftar-masuk menggunakan Profil yang sudah ada
+profiles Profil-profil
+properties Data diri
+proxy Saya berada di belakang Server Proxy (HTTP atau SOCKS5)
+proxyconf Pengaturan proxy
+proxyconfhttp Pengaturan proxy HTTP
+proxyconnection Saya menyambung ke internet menggunakan server proxy:
+publishphones Publikasikan telepon saya
+purge Bersihkan
+raised Diangkat/Ikon dihilangkan
+readonlymsgbox Transmisi berkas dibatalkan karena daftar tujuan berstatus baca-saja. Mohon rubah status di daftar tujuan tersebut.
+readonlywarn PERINGATAN: Berkas kemungkinan TIDAK akan tersimpan dengan benar karena daftar “Berkas yang Diterima” tampaknya dilindungi terhadap penulisan. Mohon pastikan ijin pada daftar sasaran ($1) telah diatur dengan benar sebelum memindahkan berkas.
+receivedbytes Telah diterima $1 dari $2 byte
+receiveddir Map Berkas yang Diterima
+receivefile Terima berkas
+reconnect Menunggu $1 untuk bergabung kembali
+reconnecting Memulihkan sambungan ke server
+reject Tolak
+rememberpass Simpan kata sandi
+removefromlist Hilangkan dari daftar ini
+reversed Dibalik
+reverselist Daftar Terbalik:
+rightback Segera kembali
+save Simpan
+saveas Simpan dengan nama
+savechatwinsize Simpan ukuran jendela percakapan sebagai standard saat merubah ukurannya
+savecontacts Simpan daftar nama
+savetofile Simpan ke dalam Berkas
+says $1 bilang
+sbcon Mencoba mengontak Papan Pengendali
+selectplugins Silahkan pilih tambahan-tambahan yang ingin anda mungkinkan.
+selectskin Silahkan pilih kulit dari daftar
+send Kirim
+sendfile Kirim berkas
+sendmail Kirim e-mail
+sendmsg Kirim pesan
+sentbytes $1 dari $2 byte telah dikirim
+server Server
+serverbusy Server sedang Sibuk
+servergoingdown Terputus: Server sedang bermasalah
+serverunavailable Server sedang tidak tersedia
+session Bagian
+showblockedlist Tunjukkan daftar orang-orang yang memblokir anda
+showdisplaypic Tunjukkan Gambar Tampilan
+showdisplaypic2 Tunjukkan Gambar Tampilan sebagai default pada saat window chat terbuka
+showmypic Gambar Tampilan Saya
+shownotify Tampilkan jendela pemberitahuan saat kejadian tersjadi
+showuserpic Gambar Tampilan $1
+skin Kulit
+skinselector Pilih Kulit
+smileconfig Pengaturan emoticon sesuai kehendak
+smilefile Nama berkas smiley
+smileintro Tolong isi bidang yang diperlukan untuk menciptakan smiley baru sesuai kehendak (lihat PSD untuk bantuan)
+smileintro2 Tolong isi bidang yang diperlukan untuk merubah smiley sesuai kehendak (lihat PSD untuk bantuan)
+sound Suara Perisitwa
+sound2 Mainkan Bunyi saat kontak meregister masuk atau mengirim pesan
+soundcommand Ini harus menjadi perintah bermain (contoh: esdplay)
+soundexample (\$bunyi = Berkas bunyi yang dimainkan) Ex: esdplay \$bunyi
+soundfile Berkas suara
+soundfiles Berkas-berkas Suara
+soundloop Putar suara berulang-ulang
+soundserver Server Bunyi
+soundstatus Bunyikan alarm
+sourcecode Kode Sumber (perlu kompilasi dan instalasi)
+sslwarning PERINGATAN!! Mematikan SSL akan mematikan enkripsi, sehingga kata sandi anda akan terlihat sebagai tekst biasa pada jaringan. Gunakan hanya untuk pengaturan proxy dan jaringan yang rumit.
+startoffline Daftar-Masuk dengan status Offline
+startoffline2 Register Masuk secara diam-diam sebagai 'Tampak Tidak Tersambung'
+startontray Jalankan AMSN pada baki ikon saja
+state Saya ingin tampil sebagai
+stateautomsg Pesan-otomatis untuk Kirim
+statechange status berubah menjadi:
+stateedittext Mohon rubah bagian-bagian yang anda ingin modifikasi dan tekan Simpan
+stateinfo Aturan Keadaan Pribadi
+statename Nama dari Keadaan Pribadi
+statenewtext Mohon masukkan informasi yang diwajibkan untuk menciptakan Kondisi Pribadi baru anda dan tekan Simpan
+statenick Nama panggilan pilihan (tinggalkan kosong bila tidak diganti)
+status Status
+stopalarm Stop alarm
+storenickname Kembali ke nama panggilan asli setelah kondisi tertentu dengan nama panggilan tertentu
+strictfonts Batasi ukuran semua huruf kepada satu yang saya pilih (Status bar dan lainnya)
+stylechat Tampilan sama seperti pada percakapan
+stylehist Sejarah tampilan a'MSN
+stylelog Pilih bentuk di dalam mana anda ingin melihat sejarah anda
+syntaxerror Kesalahan Sintaks
+tabbed Window yang ditandai
+temp_state Jangan disimpan (Kondisi sementara, akan terlewatkan saat menutup AMSN)
+textsize Besar huruf
+timeremaining Waktu yang tersisa
+timestamps Mungkinkan penanda waktu pada jendela percakapan
+title Al's Messenger
+tkerror TK membawa error, terdapat bug dalam amsn, mohon dilaporkan. Kirim berkas $1 ke amsn-bugs@lists.sf.net
+tlsdowncompleted Berkas $1 didownload ke direktori $2. Anda harus mengurainya, membangunnya (apabila anda mendownload kode sumber) dan menginstalasinya dalam $3.
+tlsexplain Direktori dimana modul tcl TLS berlokasi. Apabila AMSN tidak dapat menemukannya, tolong dijelaskan.\n(Diperlukan untuk autentikasi SSL).
+tlsinstall Penyulap instalasi Modul TLS
+tlsinstallexp AMSN sekarang menggunakan MSNP9, yang memerlukan penggunaan \nsambungan aman menggunakan SSL. Untuk dapat menggunakan SSL, AMSN memerlukan untuk menginstalasi modul yang dinamakan TLS,\nyang tidak terdapat dalam sistem anda. Penyulap ini akan membantu anda dalam mendownload dan\nmenginstalasi TLS. Mohon pilih jenis sistem anda sehingga kami bisa secara otomatis mendownload\n berkas-berkas TLS yang diperlukan.
+tlsinstcompleted Instalasi modul TLS telah berhasil, sekarang anda seharusnya dapat menggunakan MSNP9. Apabila tidak bekerja dengan baik, maka kemungkinan anda tidak memilih modul yang tepat, atau modul yang terkompilasi tidak tersedia untuk sistem anda.
+to Kepada
+tools Peralatan
+tooltips Aktifkan Tips untuk Peralatan
+transnotexists Berkas yang diminta belum diterjemahkan ke dalam bahasa tersebut.
+traynotcompiled Baki icon tambahan belum dipatuhi. Periksa tambahan/bakilabuhan
+triggers Pemicu-pemicu tekst
+truncatenames1 Potong nama panggilan yang lebih panjang dari lebar jendela dalam jendela judul dan daftar nama
+truncatenames2 Potong nama panggilan yang lebih panjang dari lebar jendela dalam pecakapan
+truncatenicks Potong nama panggilan yang lebih panjang dari lebar jendela
+twonewmail $1 email baru dalam Kotak-Masuk
+unblock Cabut blokiran
+uoffline Tidak Tersambung
+uonline Tersambung
+user Pengguna
+useralreadyonlist Nama sudah ada dalam daftar nama
+userblocked Pengguna sedang tersambung tetapi memblokir anda
+usernotonline Pengguna sedang tidak tersambung
+useryourself Anda tidak bisa bercakap-cakap dengan anda sendiri
+verifyblocked Periksa untuk orang-orang yang memblokir anda
+version Versi
+view Tampilan
+viewprofile Lihat Profil Pemakai
+willjoin Menunggu $1 untuk bergabung
+work Kerja
+wrongfields Bidang “$1”, “$2” dan/atau “$3” tidak dapat diterima
+wrongprofileversion Versi berkas pengaturan profil yang salah. Untuk memperbaikinya mohon hapus direktori $1 atau perbaharui a'MSN
+xmmscurrent Tampilkan lagu yang sekarang ini
+xmmserr Tidak ada yang dimainkan, atau anda tidak memiliki xmms-infopipe terinstalasi
+xmmssend Kirim lagu yang sekarang inis
+xoffset Keseimbangan Posisi X
+yes Iya
+yoffset Keseimbangan Posisi Y
+youblocked Anda telah diblokir
+yousay Anda Katakan
+youwant Anda Inginkan
