@@ -5,7 +5,10 @@ acceptfile $3 に $2 のファイル $1 を受信しますか？
 actions 操作
 addacontact メンバの追加
 addedyou $1 ($2) あなたは次の人のメンバリストに追加されました。
+addprofile 新しいプロフィールを追加する
+addprofiledesc 新しいプロフィールを作成するために、アカウントを入力してください。\nプロフィールを作成すると、アカウント毎に別々の設定ができます。\nプロフィールを作成しないと、履歴/アラーム/パスワード保存機能が使えません            
 addstate 追加
+addto $1 に追加する
 addtocontacts メンバリストに追加する
 addtoo この人を自分のメンバリストにも追加する
 admincontacts メンバ管理
@@ -51,7 +54,6 @@ changefont フォント変更
 changenick 名前変更
 chat 会話
 chatack 次のメンバからのチャットを開いています
-chatack 次の人からの会話を承諾する
 chatmaxmin 新しい会話が始まったとき:
 chatreq 会話に招待しています
 chatsmileys 絵文字
@@ -108,7 +110,7 @@ enableremote リモートからの操作を有効にする
 encoding 文字コード選択
 encoding2 あなたの文字コードを変換する方法
 entercontactemail 連絡メールアドレスを入力
-enterfilename ファイル名を入力You have been blockedしてください
+enterfilename ファイル名を入力してください
 enternick 名前を入力してください
 examples 例
 exitamsn 本当に終了してよろしいですか？
@@ -157,7 +159,7 @@ invitationcancelled 要求はキャンセルされました。
 invite 招待
 ipaddress IPアドレス
 ipdetect HTTPを使用して正確なIPを検出する
-istyping $1 はメッセージを入力いています
+istyping $1 はメッセージを入力しています
 joins $1 が会話に参加しました
 keepalive Keepalive (NAT)
 keeplog ログを保存する
@@ -165,7 +167,7 @@ keeplog2 全会話をAMSN履歴に保存する
 language 言語
 lastmsgtime 最後のメッセージは $1 に受信しました
 lclosedwin $1 は $2 との会話を閉じました
-lconftopriv 会議が $1 とYou have been blockedの会話に変更されました。
+lconftopriv 会議が $1 との会話に変更されました。
 lconvstarted $1 で会話が始まりました
 leaveblankforhotmail HotmailをWebで使うにはここを空白にしてください
 leaves $1 は会話から抜けました
