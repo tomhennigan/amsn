@@ -13,15 +13,24 @@ adverts Reklamoj
 alarmpref Elektoj de Alarmilo por uzulo
 alarmstatus Ekfunkciigu/Malfunkciigu Alarmilon por tiu ĉi uzulo
 allowseen Permesu tiun ĉi homon vidi kiam mi estas enreta kaj kontakti min
+appearance Aspekto
 appearoff Sxajnu esti malenreta
+areacode Regiono-
 aretyping $1 estas tajpanta mesaĝon
+askprofile Tiu ĉi uzulo ne nuntempe havas profilon. Ĉu vi amus krei novan profilon? \n Se vi ne faras, vi ne povos uzi la Historion, aŭ konservi viajn Alarmojn kaj Pasvorton \n Se vi faras, vi havos aparton konfiguron por tiu ĉi nova profilo. \n \n Alklaku "Kreu Profilon" por krei novan profilon por $1.
+autoaway Montru min kiel "Fora" kiam senfara por
 autoconnect Konektu kiam amsn komenciĝas
+autoconnect2 Salutu aŭtomate kiam aMSN ekas
 autohotmaillog Aŭtomata Hotmail salutado
 autoidle Aŭtomata senfareco
 autoip Aŭtomata IP
+autonoact Montru min kiel "Neaktiva" kiam senfara por
 avoidseen Malpermesu tiun ĉi homon vidi kiam mi estas enreta kaj kontakti min
 away Fora
+awaymsg1 Demandu fora-mesaĝon je ĉiu fojo, kiam mi ŝanĝas mian staton al Fora/BRB/Okupata
+awaymsg2 Neniam demandu kaj ĉiam uzu la fora-mesaĝon sube
 baduserpass Malprava kaŝnomo aŭ pasvorto
+bgcolor Ŝanĝu fono-koloron de aMSN
 blankdirect Restigu blanka por rekta konekto
 block Barumu (Block)
 blocked Barumita (Blocked)
@@ -31,37 +40,54 @@ browser Folumilo
 busy Okupata
 cancel Nuligu
 cfgalarm Ŝanĝu/Aldonu/Elprenu Alarmilon
+changefont Ŝanĝu tiparon
 changenick Ŝanĝu kaŝnomon
-chatack Akceptanta babilon de
 chat Babilu
+chatack Akceptanta babilon de
 chatreq Petanta babilon
 chatsmileys Babilo-mienvinjetoj
+chatsmileys2 Vidigu mienvinjetojn kaj ridetojn en babilo-fenestroj
+checkfilman Ricevataj dosieroj konserviĝos je $1. Bonvolu kontroli elektojn de dosiero-administranto je elektoj-fenestro.
 checkingver Ŝerĉanta por novaj versioj
 checkver Ŝerĉu por novaj versioj
 choosebasefont Elektu tiparon
 choosebgcolor Elektu fono-koloron
 choosefontcolor Elektu tiparo-koloron
+clearlog Viŝu Protokolon
+clearlog2 Viŝu la historion por ĉiuj viaj kontaktuloj
+clearlog3 Viŝu ĉiujn historiojn
 clicktologin Klaku tie ĉi por saluti
 close Fermu
 closingdocks Fermo-butono Minimumigas
 command Komando
 confirm Ĉu vi estas certe?
-confirmdelete Ĉu vi vere volas forpreni $1?
+confirmdelete Ĉu vi vere volas viŝi $1?
 connecterror Eraro je konektado al servilo
+connection Konekto
 contactadded Kontaktulo estas aldonita
 contactdoesnotexist Kontaktulo ne ekzistas!
 copy Kopiu
 copytogroup Kopiu al grupo
+countrycode Mia Kodo de Lando/Regiono
+cprofile Kreu Profilon
 cut Movu en la poŝon
 date Dato
-delete Elprenu
+days Tagoj
+dcprofile Ne Kreu Profilon
+default Defaŭlta Konfiguro
+delete Viŝu
+deliverfail Estis problemo kiam liveradas la sekvontan mesaĝon
+delprofile Viŝu Profilon
+delprofile2 Apartigu la profilon, kiun vi amus viŝi
+dockgtk Gnome-Doko
 docking Dokado
 dockingoff Dokado Invalida
-dockgtk Gnome-Doko
 dockkde KDE-Doko
 edit Redaktu
-enableproxy Enable proxy
+editprofile Redaktu Profilon
+enableproxy Kapabligu proxy
 encoding Elektu ĉifron
+encoding2 Ŝanĝu la manieron, per kiu viaj signoj enkodiĝas
 entercontactemail Tajpu retadreson de kontaktulo
 enterfilename Bonvolu tajpi dosiero-nomon
 enternick Tajpu vian kaŝnomon
@@ -70,16 +96,17 @@ exitamsn Ĉu vi estas certa, ke vi volas eliri?
 extras Pliaj Servoj
 faq OD (Oftaj Demandoj)
 filedoesnotexist Dosiero ne ekzistas
+fileman Dosiero-Administranto
 filename Dosiero-nomo
 filetransfercancelled Dosiero-translokado nuligas
 filetransfercomplete Dosiero-translokado estas finita
 ftaccepted Dosiero-translokado akceptiĝas
 ftrejected Dosiero-translokado malakceptiĝas
 gonelunch Fora por lunĉo
-groupadd Aldonu grupon
-groupdelete Elprenu grupon
-groupexists Grupo jam ekzistas
 group Grupo
+groupadd Aldonu grupon
+groupdelete Viŝi grupon
+groupexists Grupo jam ekzistas
 groupmissing Ne povas trovi grupon
 groupnewname Nova nomo
 groupnotempty Grupo ne estas malplena!
@@ -87,8 +114,9 @@ groupoldname Malnova nomo
 grouprename Renomu grupon
 groupunknown Nekonata grupo
 handle Kromnomo
-helpcontents Helpo-indekso
 help Helpo
+helpcontents Helpo-indekso
+history Rigardu Historion
 home Hejmo
 ident Identanta
 identity Idento
@@ -96,30 +124,57 @@ inbox LeterKesto
 invalidusername Malvalida uzulo-nomo
 invite Invitu
 ipaddress IP-Adreso
+ipdetect Malkovru korektan IP por Dosiero-Translokadoj uzanta HTTP
 istyping $1 tajpadas mesaĝon
 joins $1 envenas konversacion
 keepalive Keepalive (NAT)
+keeplog Konservu Historiojn de Babiloj
+keeplog2 Protokoli ĉiujn konversaciojn al la historio de aMSN por estonta rigardado
 language Lingvo
 lastmsgtime Lasta mesaĝo receviĝis je $1
+lclosedwin $1 fermis la fenestron de $2
+lconftopriv Konferenco iĝis nepublikan babilon kun $1
+lconvstarted Konversacio ekas je $1
 leaveblankforhotmail Lasu blanka por uzado de Hotmail-TTT
 leaves $1 elrias konversacion
+lenteredconf $1 ĵus eniris konferencon je $2
+linprivate NEPUBLIKE
 listeningon Aŭskultas je konektejo $1
 listsmileys Listigu ridetumojn
+listsmileys2 Vidigu mienvinjetojn kaj ridetojn en la ĉefa kontaktulo-listo de aMSN
+ljoinedconf $1 envenas en konferenco
+lleftconf $1 eliras el konferenco
 loadcontacts Ŝarĝu kontaktulo-liston
+logbigger Grandoj de protokolo-dosiero por ĉiu kontaktulo neniam superu
+logfandexp Grandoj de Protokolo-Dosiero kaj Finiĝado de Historio
 loggedotherlocation Malkonektita. Salutita de alia loko
 loggingin Salutanta
-loginas Salutu kiel
 login Salutu
+loginas Salutu kiel
+loging Protokolado
+logolder Protokolu nur babilojn, kiuj okazis dum la pasinta[j]
 logout Adiaŭu
 logsin ĵus salutis
+logsmileys Vidigu mienvinjetojn kaj ridetojn en la historio-fenestroj de aMSN
+lprivtoconf Nepublika babilo iĝas konferencon kun $1
+luclosedwin Vi fermis la fenestron de $1
 mailer Poŝtanto
+maximised Maksimumigita
+minimised Minimumigita/Piktogramigita
+mins minutoj
 mobile Moveblo
 movetogroup Movu al Grupo
 msg Mesaĝo
+msgmaxmin Kiam nova mesaĝo alvenas, mi volas, ke ĝi estu :
+msgmode Elektu kiel trakti multoblajn mesaĝo-fenestrojn :
 msn AMSN
 mustrestart Vi devas rekomenci la programon por apliki ŝanĝojn
+myhomephone Mia Hejmpaĝo
+mymobilephone Mia Movebla Telefono
 mystatus Mia stato
+myworkphone Mia Laboreja Telefono
 natip IP malkovrado far retpaĝo
+natkeepalive Se vi malkonektiĝas ofte, kapibligu tiu ĉi KeepAlive
 needonline Vi ankoraŭ estas/ŝajnas malenreta!
 newmail $1 novaj mesaĝoj en LeterKesto
 newmailfrom Nova retletero de
@@ -127,11 +182,17 @@ newmsg Nova mesaĝo
 newveravailable Pli nova versio $1 haveblas por elŝutado
 next Venonta
 noactivity Neniu agado
+nologfile Neniu Historio-dosiero por $1
 nonewmail Neniu novaj mesaĝoj en LeterKesto
 nonewver Estas neniu novaj versioj haveblaj por elŝutado
+normal Normala
 notify Avizu
+notify1 Vidigu avizo-fenestron kiam kontaktuloj venas enreta
+notify2 Vidigu avizo-fenestron kiam novaj mesaĝoj riceviĝas
+notify3 Vidigu avizo-fenestron kiam retleteroj estas en via LeterKesto
+notifyoffset Agordu la pozicion de la avizo-fenestro per donado al ĝi la pozicio-deŝovojn
 notifywin Avizu fenestron
-nousersinsession Neniuj uzuloj estas en sesio
+nousersinsession Neniuj uzuloj estas en seanco
 offline Malenreta
 ok Bone
 onenewmail 1 nova mesaĝo en LeterKesto
@@ -140,60 +201,98 @@ onphone Je telefono
 openreceived Malfermu ricevitajn dosierojn
 options Elektoj
 ordercontactsby Ordigu kontaktuloj per
+ordergroupsby Klasu grupojn per
 other Alia
 pager Peĝer (Pager)
 pass Pasvorto
 paste Elpoŝigu
+personal Persona
 phone Telefono
 picfile Bildo-Dosiero (GIF < 500 x 500)
 picstatus Bilda Alarmo
 port Konektejo
+prefalerts Miaj Alarmoj kaj Sonoj de Eventoj
 prefapps Programoj
+prefawaymsg Mia Fora-Mesaĝo
+prefemotic Mienvinjetoj kaj Ridetoj
 preferences Elektoj
+preffont Mia Mesaĝo-Teksto
+preffont2 Ŝanĝu la manieron, per kiu aliaj vidas mian tekston en babiloj
+preffont3 Ŝanĝu la tiparon kaj grandon de la interfaco de aMSN
+preflog1 Mia Elektoj de Historio kaj Protokolado
+preflook Mia aMSN Messenger Aspekto
+prefmsging Mia Mesaĝado-Interfaco
+prefname Mia Nomo/Kaŝnomo por MSN Messenger
+prefphone Miaj Telefonnumeroj
+prefphone2 Tajpu la telefonnumerojn, kiujn vi amus homoj \n en via Permeso-Listo vidu \n
+prefprofile Mia Publika Profilo
+prefprofile2 Kreu aŭ modifu vian publikan profilon (la \n priskribo de vi, kiun alioj povas vidi)
+prefprofile3 Uzulo-Konfiguro-Profiloj de aMSN
+prefproxy Miaj Elektoj por Proxy
+prefsession Mia salutado kaj stato
+prefshared Opuzaj Konektoj (nur por NAT)
 prefsound Sonoj
+profiledconfig Profilo-Konfiguro
+profiles Profiloj
 properties Atributoj
-proxyconfhttp HTTP proxy subteno elektado
+proxy Mi estas malantaŭ Proxy-Servilo (HTTP aŭ SOCKS5)
 proxyconf Konfiguro de proxy
+proxyconfhttp HTTP proxy subteno elektado
 publishphones Eldonu miajn telefonnumerojn
 receivedbytes Ricevinta $1 de $2 bajtoj
 receivefile Ricevu dosieron
-reconnecting Rekonektanta al servilo
 reconnect Atendanta, ke $1 rekonektu
+reconnecting Rekonektanta al servilo
 reject Malakceptu
 rememberpass Memoru pasvorton
+reversed Inversita
 rightback Baldaŭ Revenos Baldaŭ
+save Konservu
 saveas Konservu al
 savecontacts Konservu kontakto-liston
-save Konservu
+savetofile Konservu al Dosiero
 says $1 diras
 sbcon Konektanta al Switch-Board
+send Sendu
 sendfile Sendu dosieron
 sendmail Sendu retleteron
 sendmsg Sendu mesaĝon
-send Sendu
 sentbytes Sentinta $1 de $2 bajtoj
-servergoingdown Malkonektita: Servilo estas subiranta
 server Servilo
+servergoingdown Malkonektita: Servilo estas subiranta
+session Seanco
 sound Evento-Sono
+sound2 Ludu sonojn kiam kontaktuloj salutas aŭ sendas mesaĝon
+soundcommand Tiu devas esti la "play" komando (ekz: esdplay)
 soundfile Sono-dosiero
 soundloop Ripetu Sonon
+soundserver Sono-Servilo
 soundstatus Sonigu Alarmon
 startoffline Komencu Malenrete
+startoffline2 Salutu silente kiel "Ŝajnanta Malenreta"
 status Stato
 stopalarm Haltigu Alarmon
+stylechat Sama aspekto kiel babiloj
+stylehist Aspekto de historio
+stylelog Elektu la formaton, per kiu vi amus rigardi vian historion
 syntaxerror Sintaska Eraro
+tabbed "Tabbed" Fenestroj
 textsize Teksto-grando
 title Al's Messenger
-tools Iloj
 to Al
+tools Iloj
 unblock Malbarumu (Unblock)
 uoffline Malenreta
 uonline Enreta
-useralreadyonlist Uzulo estas jam en kontaktulo-listo
 user Uzulo
+useralreadyonlist Uzulo estas jam en kontaktulo-listo
+usernotonline La uzulo ne estas enreta
 version Versio
 view Rigardu
+viewprofile Rigardu Profilon
 willjoin Atendas $1 enveni konversacion
 work Laboro
+xoffset X Deŝovo
+yoffset Y Deŝovo
 yousay Vi diras
 youwant Vi volas
