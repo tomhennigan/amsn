@@ -262,6 +262,7 @@ server Server
 session Session
 sound2 Play sounds when contacts sign in or send a message
 sound Event Sound'
+soundcommand This has the be the play command (ex: esdplay)
 soundfile Sound File
 soundloop Loop Sound
 soundserver Sound Server

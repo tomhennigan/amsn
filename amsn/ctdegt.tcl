@@ -255,7 +255,7 @@ proc PreferencesMenu {m} {
 }
 
 proc Preferences { settings } {
-    global config myconfig proxy_server proxy_port images_folder nb user_info user_stat
+    global config myconfig proxy_server proxy_port images_folder
 
     if {[ winfo exists .cfg ]} {
         return
@@ -306,13 +306,7 @@ proc Preferences { settings } {
 	label $lfname.lname -text "[trans enternick] :" -font sboldf -padx 10
 	entry $lfname.name -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 45
 	pack $lfname.pname $lfname.lname $lfname.name -side left
-	# Insert nickname if online, disable if offline
-	if { $user_stat == "FLN" } {
-		$lfname.name configure -state disabled
-	} else {
-		$lfname.name insert 0 [urldecode [lindex $user_info 4]]
-	}
-
+	
 	## Public Profile Frame ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefprofile]]
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
@@ -368,26 +362,7 @@ proc Preferences { settings } {
 	grid $lfname.2.lphone5 -row 5 -column 1 -sticky w
 	grid $lfname.2.ephone51 -row 5 -column 2 -sticky w
 	grid $lfname.2.ephone52 -row 5 -column 3 -sticky w
-	# Get My Phone numbers and insert them
-	if { $user_stat == "FLN" } {
-		$lfname.2.ephone1 configure -state disabled
-		$lfname.2.ephone31 configure -state disabled
-		$lfname.2.ephone32 configure -state disabled
-		$lfname.2.ephone41 configure -state disabled
-		$lfname.2.ephone42 configure -state disabled
-		$lfname.2.ephone51 configure -state disabled
-		$lfname.2.ephone52 configure -state disabled
-	} else {
-		::abook::getPersonal phones
-		$lfname.2.ephone1 insert 0 [lindex [split $phones(phh) " "] 0]
-		$lfname.2.ephone31 insert 0 [lindex [split $phones(phh) " "] 1]
-		$lfname.2.ephone32 insert 0 [lindex [split $phones(phh) " "] 2]
-		$lfname.2.ephone41 insert 0 [lindex [split $phones(phw) " "] 1]
-		$lfname.2.ephone42 insert 0 [lindex [split $phones(phw) " "] 2]
-		$lfname.2.ephone51 insert 0 [lindex [split $phones(phm) " "] 1]
-		$lfname.2.ephone52 insert 0 [lindex [split $phones(phm) " "] 2]
-	}
-	
+		
 	frame $frm.dummy -class Degt
 	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 	
@@ -476,12 +451,12 @@ proc Preferences { settings } {
 	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
 	checkbutton $lfname.1.lautonoact -text "[trans autonoact]" -onvalue 1 -offvalue 0 -variable myconfig(autoidle)
-	entry $lfname.1.eautonoact -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3
+	entry $lfname.1.eautonoact -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -state disabled
 	label $lfname.1.lmins -text "[trans mins]" -padx 5
 	pack $lfname.1 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.1.lautonoact $lfname.1.eautonoact $lfname.1.lmins -side left
-	checkbutton $lfname.2.lautoaway -text "[trans autoaway]" -onvalue 1 -offvalue 0 -variable myconfig(autoaway)
-	entry $lfname.2.eautoaway -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3
+	checkbutton $lfname.2.lautoaway -text "[trans autoaway]" -onvalue 1 -offvalue 0 -variable myconfig(autoaway) -state disabled
+	entry $lfname.2.eautoaway -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -state disabled
 	label $lfname.2.lmins -text "[trans mins]" -padx 5
 	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.2.lautoaway $lfname.2.eautoaway $lfname.2.lmins -side left
@@ -495,9 +470,9 @@ proc Preferences { settings } {
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
 	label $lfname.psession -image prefaway
 	pack $lfname.psession -anchor nw -side left
-	radiobutton $lfname.awaymsg1 -text [trans awaymsg1] -value 1 -variable myconfig(awaymsg)
-	radiobutton $lfname.awaymsg2 -text [trans awaymsg2] -value 2 -variable myconfig(awaymsg)
-	text $lfname.awayentry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 60 -height 3
+	radiobutton $lfname.awaymsg1 -text [trans awaymsg1] -value 1 -variable myconfig(awaymsg) -state disabled
+	radiobutton $lfname.awaymsg2 -text [trans awaymsg2] -value 2 -variable myconfig(awaymsg) -state disabled
+	text $lfname.awayentry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 60 -height 3 -state disabled
 	pack $lfname.awaymsg1 $lfname.awaymsg2 -anchor w -side top
 	pack $lfname.awayentry -anchor w -side top -padx 10
 
@@ -509,13 +484,13 @@ proc Preferences { settings } {
 	frame $lfname.1 -class Degt
 	frame $lfname.2 -class Degt
 	label $lfname.1.lmsgmaxmin -text [trans msgmaxmin] -padx 10
-	radiobutton $lfname.1.max -text [trans maximised] -value 1 -variable myconfig(msgmaxmin)
-	radiobutton $lfname.1.min -text [trans minimised] -value 2 -variable myconfig(msgmaxmin)
+	radiobutton $lfname.1.max -text [trans maximised] -value 1 -variable myconfig(msgmaxmin) -state disabled
+	radiobutton $lfname.1.min -text [trans minimised] -value 2 -variable myconfig(msgmaxmin) -state disabled
 	pack $lfname.1.lmsgmaxmin -anchor w -side top -padx 10
 	pack $lfname.1.max $lfname.1.min -side left -padx 10
 	label $lfname.2.lmsgmode -text [trans msgmode] -padx 10
-	radiobutton $lfname.2.normal -text [trans normal] -value 1 -variable myconfig(msgmode)
-	radiobutton $lfname.2.tabbed -text [trans tabbed] -value 2 -variable myconfig(msgmode)
+	radiobutton $lfname.2.normal -text [trans normal] -value 1 -variable myconfig(msgmode) -state disabled
+	radiobutton $lfname.2.tabbed -text [trans tabbed] -value 2 -variable myconfig(msgmode) -state disabled
 	pack $lfname.2.lmsgmode -anchor w -side top -padx 10
 	pack $lfname.2.normal $lfname.2.tabbed -side left -padx 10
 	pack $lfname.1 $lfname.2 -anchor w -side top
@@ -540,8 +515,8 @@ proc Preferences { settings } {
 	pack $lfname.log -anchor w -side top
 	frame $lfname.2 -class Degt
 	label $lfname.2.lstyle -text "[trans stylelog]" -padx 10
-	radiobutton $lfname.2.hist -text [trans stylechat] -value 1 -variable myconfig(logstyle)
-	radiobutton $lfname.2.chat -text [trans stylehist] -value 2 -variable myconfig(logstyle)
+	radiobutton $lfname.2.hist -text [trans stylechat] -value 1 -variable myconfig(logstyle) -state disabled
+	radiobutton $lfname.2.chat -text [trans stylehist] -value 2 -variable myconfig(logstyle) -state disabled
 	pack $lfname.2.lstyle -anchor w -side top -padx 10
 	pack $lfname.2.hist $lfname.2.chat -side left -padx 10
 	pack $lfname.2 -anchor w -side top -expand 1 -fill x
@@ -553,7 +528,7 @@ proc Preferences { settings } {
 	pack $lfname.plog1 -anchor nw -side left
 	frame $lfname.1 -class Degt
 	label $lfname.1.lclear -text "[trans clearlog2]" -padx 10
-	button $lfname.1.bclear -text [trans clearlog3] -font sboldf -command "::log::ClearAll"
+	button $lfname.1.bclear -text [trans clearlog3] -font sboldf -command "::log::ClearAll" -state disabled
 	pack $lfname.1.lclear -side left	
 	pack $lfname.1.bclear -side right -padx 15
 	pack $lfname.1 -anchor w -side top -expand 1 -fill x
@@ -564,20 +539,20 @@ proc Preferences { settings } {
 	label $lfname.plog1 -image prefhist3
 	pack $lfname.plog1 -anchor nw -side left
 	frame $lfname.1 -class Degt
-	checkbutton $lfname.1.lolder -text "[trans logolder]" -onvalue 1 -offvalue 0 -variable myconfig(logexpiry)
-	entry $lfname.1.eolder -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3
+	checkbutton $lfname.1.lolder -text "[trans logolder]" -onvalue 1 -offvalue 0 -variable myconfig(logexpiry) -state disabled
+	entry $lfname.1.eolder -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -state disabled
 	label $lfname.1.ldays -text "[trans days]" -padx 5
 	pack $lfname.1 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.1.lolder $lfname.1.eolder $lfname.1.ldays -side left
 	frame $lfname.2 -class Degt
-	checkbutton $lfname.2.lbigger -text "[trans logbigger]" -onvalue 1 -offvalue 0 -variable myconfig(logmaxsize)
-	entry $lfname.2.ebigger -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3
+	checkbutton $lfname.2.lbigger -text "[trans logbigger]" -onvalue 1 -offvalue 0 -variable myconfig(logmaxsize) -state disabled
+	entry $lfname.2.ebigger -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -state disabled
 	label $lfname.2.lmbs -text "MBs" -padx 5
 	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.2.lbigger $lfname.2.ebigger $lfname.2.lmbs -side left
 	frame $frm.dummy -class Degt
 	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
-
+	
 	#  .------------.
 	# _| Connection |________________________________________________
 	image create photo prefnat -file [file join ${images_folder} prefnat.gif]
@@ -607,13 +582,13 @@ proc Preferences { settings } {
 	checkbutton $lfname.1.proxy -text "[trans proxy]" -onvalue 1 -offvalue 0 -variable myconfig(withproxy)
 	pack $lfname.1.proxy -anchor w -side top -padx 10
 	radiobutton $lfname.2.http -text "HTTP" -value http -variable myconfig(proxytype)
-	radiobutton $lfname.2.socks5 -text "SOCKS5" -value socks -variable myconfig(proxytype)	
+	radiobutton $lfname.2.socks5 -text "SOCKS5" -value socks -variable myconfig(proxytype) -state disabled	
 	pack $lfname.2.http $lfname.2.socks5 -anchor w -side left -padx 10
 	pack $lfname.1 $lfname.2 $lfname.3 -anchor w -side top -padx 0 -pady 0 -expand 1 -fill both
 	label $lfname.3.lserver -text "[trans server] :" -padx 5 -font sboldf
-	entry $lfname.3.server -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20
+	entry $lfname.3.server -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20 -textvariable proxy_server
 	label $lfname.3.lport -text "[trans port] :" -padx 5 -font sboldf
-	entry $lfname.3.port -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5
+	entry $lfname.3.port -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5 -textvariable proxy_port
 	label $lfname.3.luser -text "[trans user] :" -padx 5 -font sboldf
 	entry $lfname.3.user -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 20
 	label $lfname.3.lpass -text "[trans pass] :" -padx 5 -font sboldf
@@ -644,14 +619,16 @@ proc Preferences { settings } {
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -expand 1 -fill both
 	label $lfname.1.lbrowser -text "[trans browser] :" -padx 5 -font sboldf
-	entry $lfname.1.browser -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20
+	entry $lfname.1.browser -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable myconfig(browser)
 	label $lfname.1.lfileman -text "[trans fileman] :" -padx 5 -font sboldf 
-	entry $lfname.1.fileman -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20
+	entry $lfname.1.fileman -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable myconfig(filemanager)
 	label $lfname.1.lmailer -text "[trans mailer] :" -padx 5 -font sboldf
-	entry $lfname.1.mailer -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20
-	label $lfname.1.lhot -text "[trans leaveblankforhotmail]" -padx 5
+	entry $lfname.1.mailer -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable myconfig(mailcommand)
+	label $lfname.1.lhot -text "[trans leaveblankforhotmail]" -font examplef -padx 5 
 	label $lfname.1.lsound -text "[trans soundserver] :" -padx 5 -font sboldf
-	entry $lfname.1.sound -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20
+	entry $lfname.1.sound -bg #FFFFFF -bd 1 -highlightthickness 0 -width 20 -textvariable myconfig(soundcommand)
+	label $lfname.1.sound2 -text "[trans soundcommand]" -font examplef -padx 5
+
 	grid $lfname.1.lbrowser -row 1 -column 1 -sticky w
 	grid $lfname.1.browser -row 1 -column 2 -sticky w
 	grid $lfname.1.lfileman -row 2 -column 1 -sticky w
@@ -661,6 +638,7 @@ proc Preferences { settings } {
 	grid $lfname.1.lhot -row 3 -column 3 -sticky w
 	grid $lfname.1.lsound -row 4 -column 1 -sticky w
 	grid $lfname.1.sound -row 4 -column 2 -sticky w
+	grid $lfname.1.sound2 -row 4 -column 3 -sticky w
 
 	frame $frm.dummy -class Degt
 	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
@@ -677,8 +655,8 @@ proc Preferences { settings } {
 	pack $lfname.pprofile -side left -anchor nw
 	label $lfname.ldelprofile -text "[trans delprofile2]" -padx 5
 	frame $lfname.1 -class Degt
-	combobox::combobox $lfname.1.profile -editable false -highlightthickness 0 -width 25 -bg #FFFFFF -font splainf 
-	button $lfname.1.bdel -text [trans delprofile] -font sboldf -command "DeleteProfile"
+	combobox::combobox $lfname.1.profile -editable true -highlightthickness 0 -width 25 -bg #FFFFFF -font splainf 
+	button $lfname.1.bdel -text [trans delprofile] -font sboldf -command "status_log \"[$lfname.1.profile get]\"; DeleteProfile [${lfname}.1.profile get]"
 	pack $lfname.ldelprofile -anchor w -side top
 	pack $lfname.1.profile -anchor w -side left -padx 10
 	pack $lfname.1.bdel -anchor e -side left -padx 15
@@ -688,9 +666,10 @@ proc Preferences { settings } {
 
     Rnotebook:totalwidth $nb
 
-    wm geometry .cfg [expr [Rnotebook:totalwidth $nb] + 50]x595
-    status_log "[Rnotebook:totalwidth $nb]"
+    InitPref
 
+    wm geometry .cfg [expr [Rnotebook:totalwidth $nb] + 50]x595
+ 
     switch $settings {
         personal { Rnotebook:raise $nb 1 }
 	appearance { Rnotebook:raise $nb 2 }
@@ -706,12 +685,63 @@ proc Preferences { settings } {
     grab set .cfg
 }
 
+# This is where we fill in the Entries of the Preferences
+proc InitPref {} {
+	global user_stat user_info
+	set nb .cfg.notebook.nn
+	
+	# Insert nickname if online, disable if offline
+	set lfname [Rnotebook:frame $nb 1]
+	if { $user_stat == "FLN" } {
+		$lfname.lfname.f.f.name configure -state disabled
+	} else {
+		$lfname.lfname.f.f.name insert 0 [urldecode [lindex $user_info 4]]
+	}
+
+	# Get My Phone numbers and insert them
+	set lfname "$lfname.lfname4.f.f"
+	if { $user_stat == "FLN" } {
+		$lfname.2.ephone1 configure -state disabled
+		$lfname.2.ephone31 configure -state disabled
+		$lfname.2.ephone32 configure -state disabled
+		$lfname.2.ephone41 configure -state disabled
+		$lfname.2.ephone42 configure -state disabled
+		$lfname.2.ephone51 configure -state disabled
+		$lfname.2.ephone52 configure -state disabled
+	} else {
+		::abook::getPersonal phones
+		$lfname.2.ephone1 insert 0 [lindex [split $phones(phh) " "] 0]
+		$lfname.2.ephone31 insert 0 [lindex [split $phones(phh) " "] 1]
+		$lfname.2.ephone32 insert 0 [join [lrange [split $phones(phh) " "] 2 end]]
+		$lfname.2.ephone41 insert 0 [lindex [split $phones(phw) " "] 1]
+		$lfname.2.ephone42 insert 0 [join [lrange [split $phones(phw) " "] 2 end]]
+		$lfname.2.ephone51 insert 0 [lindex [split $phones(phm) " "] 1]
+		$lfname.2.ephone52 insert 0 [join [lrange [split $phones(phm) " "] 2 end]]
+	}
+
+	# Lets fill our profile combobox
+	set lfname [Rnotebook:frame $nb 7]
+	set lfname "$lfname.lfname.f.f"
+   	set idx 0
+   	set tmp_list ""
+   	while { [LoginList get $idx] != 0 } {
+		lappend tmp_list [LoginList get $idx]
+		incr idx
+	}
+   	eval $lfname.1.profile list insert end $tmp_list
+	$lfname.1.profile insert 0 [lindex $tmp_list 0]
+   	unset idx
+   	unset tmp_list
+	$lfname.1.profile configure -editable false
+}
+
+	
 # This function sets all fonts to plain instead of bold, 
-# excluding the ones that are set to sboldf
+# excluding the ones that are set to sboldf or examplef
 proc setCfgFonts {path value} {
 	catch {set res [$path cget -font]}
 	if { [info exists res] } {
-	        if { $res != "sboldf" } {         
+	        if { $res != "sboldf" && $res != "examplef" } {         
 		    catch { $path config -font $value }
         	}
 	}
@@ -723,17 +753,76 @@ proc setCfgFonts {path value} {
 
 
 proc SavePreferences {} {
-    global config myconfig proxy_server proxy_port
+    global config myconfig proxy_server proxy_port user_info user_stat
+
+    set nb .cfg.notebook.nn
 
     # I. Data Validation & Metavariable substitution
-    # a) Proxy settings
+    # Proxy settings
     set p_server [string trim $proxy_server]
     set p_port [string trim $proxy_port]
-    if { ($p_server != "") && ($p_port != "") } {
+    if { ($p_server != "") && ($p_port != "") && [string is digit $proxy_port] } {
        set myconfig(proxy) [join [list $p_server $p_port] ":"]
     } else {
        set myconfig(proxy) ""
        set myconfig(withproxy) 0
+    }
+
+    # Make sure x and y offsets are digits, if not revert to old values
+    if { [string is digit $myconfig(notifyXoffset)] == 0 } {
+    	set myconfig(notifyXoffset) $config(notifyXoffset)
+    }
+    if { [string is digit $myconfig(notifyYoffset)] == 0 } {
+    	set myconfig(notifyYoffset) $config(notifyYoffset)
+    }
+    
+    # Check and save phone numbers
+    if { $user_stat != "FLN" } {
+	    set lfname [Rnotebook:frame $nb 1]
+	    set lfname "$lfname.lfname4.f.f"
+ 	   ::abook::getPersonal phones
+    
+	    set cntrycode [$lfname.2.ephone1 get]
+	    if { [string is digit $cntrycode] == 0 } {
+	    	set cntrycode [lindex [split $phones(phh) " "] 0]
+	    }
+
+	    append home [$lfname.2.ephone31 get] " " [$lfname.2.ephone32 get]
+	    if { [string is digit [$lfname.2.ephone31 get]] == 0 } {
+	    	set home [join [lrange [split $phones(phh) " "] 1 end]]
+	    }
+	    append work [$lfname.2.ephone41 get] " " [$lfname.2.ephone42 get]
+	    if { [string is digit [$lfname.2.ephone41 get]] == 0 } {
+	 	set work [join [lrange [split $phones(phw) " "] 1 end]]
+	    }
+	    append mobile [$lfname.2.ephone51 get] " " [$lfname.2.ephone52 get]
+	    if { [string is digit [$lfname.2.ephone51 get]] == 0 } {
+	  	set mobile [join [lrange [split $phones(phm) " "] 1 end]]
+	    }
+
+	    set home [urlencode [set home "$cntrycode $home"]]
+	    set work [urlencode [set work "$cntrycode $work"]]
+	    set mobile [urlencode [set mobile "$cntrycode $mobile"]]
+	    if { $home != $phones(phh) } {
+		::abook::setPhone home $home
+	    }
+	    if { $work != $phones(phw) } {    
+		::abook::setPhone work $work
+	    }
+	    if { $work != $phones(phm) } {
+		::abook::setPhone mobile $mobile
+	    }
+	    if { $home != $phones(phh) || $work != $phones(phw) || $work != $phones(phm) } {
+		::abook::setPhone pager N
+	    }
+    }
+        
+    # Change name
+    set lfname [Rnotebook:frame $nb 1]
+    set lfname "$lfname.lfname.f.f"
+    set new_name [$lfname.name get]
+    if {$new_name != "" && $new_name != [urldecode [lindex $user_info 4]]} {
+	::MSN::changeName $config(login) $new_name
     }
 
     # II. Copy back into current/active configuration. This
@@ -882,6 +971,10 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.28  2003/01/25 05:36:22  burgerman
+# Prefs nearly done, gotta work on clear all logs and delete profile
+# updated TODO
+#
 # Revision 1.27  2003/01/23 06:38:14  burgerman
 # more work on prefs
 # reomved status_log from UsersInChat

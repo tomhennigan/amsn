@@ -27,15 +27,17 @@ Burger * burger@mwvision.com
 # Fix new profile issues for existing users, should ask them to add profile even if they dont go to "login as"
 # Check for connection state, make sure amsn disconnects if connection goes down.
 # Authorisation request dialogs halt all AMSN, and queue all events, then kaboom when dialog is closed, not good.
+# Fix use of default config for non profile logins (currently uses hard coded default config)
+# Improve enabling/disabling menu entries procedure, make language independant
+# When notify window is for a file transfer, clicking on it triggers a bug! 
+
+***Existing Feature Improvements (priority 2)***
 
 File Transfer issues :
 # File Transfer AUTH protocol fix (and add the nick of person sending file to transfer window)
 # Multiple File receive at once, either allow but fix saved filenames or disallow multiple recv at once
 # Fix conference messaging issues (mass file send)
 # Display link to received file and click to open
-
-
-***Existing Feature Improvements (priority 2)***
 
 Alarm system improvements and bugs :
 # URL Decode names when displaying alarm

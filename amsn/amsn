@@ -777,6 +777,6 @@ if { $config(autoconnect) == 1 } {
   ::MSN::connect $config(login) password
 }
 
-#Preferences session
+Preferences session
 
 init_dock

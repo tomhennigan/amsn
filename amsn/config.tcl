@@ -170,7 +170,7 @@ proc LoadLoginList {} {
 
 #///////////////////////////////////////////////////////////////////////////////
 # SaveLoginList ()
-# Saves the list of logins/profiles from the profiles file in the HOME dir
+# Saves the list of logins/profiles to the profiles file in the HOME dir
 proc SaveLoginList {} {
 	global HOME2 tcl_platform
 
@@ -329,5 +329,19 @@ proc CreateProfile { email value } {
 		set config(save_password) 0
 		set config(keep_logs) 0
 		.login.c.remember configure -state disabled
+	}
+}
+
+#///////////////////////////////////////////////////////////////////////////////
+# DeleteProfile ( email )
+# Delete profile given by email, has to be different than the current profile
+proc DeleteProfile { email } {
+	global config HOME2
+	if { $email == $config(login) } {
+		msg_box [trans cannotdeleteprofile]
+		return
+	} else {
+		LoginList unset 0 $email
+		file delete -force [file join $HOME2 $email]
 	}
 }

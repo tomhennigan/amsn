@@ -19,7 +19,7 @@ namespace eval ::amsn {
       font create bboldf -family $family -size [expr {$size+1}] -weight bold
       font create bplainf -family $family -size [expr {$size+1}] -weight normal
       font create bigfont -family $family -size [expr {$size+2}] -weight bold
-      font create examplef -family $family -size [expr {$size-1}] -weight normal
+      font create examplef -family $family -size [expr {$size-2}] -weight normal
 
       tk_setPalette $bgcolor
       option add *Menu.font menufont
