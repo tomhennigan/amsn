@@ -73,6 +73,17 @@ Features:
 	(!FR) resets the style to none of them
       Try it and you'll get it in a while.
       You also can do this by the action menu in the chat window.
+  Quick Texts:
+    Status: the configurator gui needs improvement
+    Mini How-To:
+      To enter the configurator you have to use the /qtconfig command. In the configurator you have 10 rows of 2 inputs
+      for each row. The left input is the keyword and the right one is the text that will be displayed for that keyword.
+      Let's see an example:
+        if you have "hi" as a keyword and "hi guys!!" as a text
+	if you type "/hi" in the chat window and click enter
+	"/hi" will be replaced by "hi guys!!" like emotes plugin does with "/me" occurrences
+      None of that quick texts can replace any existing command so check your keyword is not a command, otherwise
+      you would execute the command and not the quick text.
 
 Contact:
   If you have a suggestion or some else, write to markitus@catmail.homelinux.org
