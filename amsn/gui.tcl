@@ -1465,6 +1465,17 @@ namespace eval ::amsn {
       .${win_name}.menu add cascade -label "[trans view]" -menu .${win_name}.menu.view
       .${win_name}.menu add cascade -label "[trans actions]" -menu .${win_name}.menu.actions
 
+	#Apple menu, only on Mac OS X
+	if {$tcl_platform(os) == "Darwin"} {
+   	.${win_name}.menu add cascade -label "Apple" -menu .${win_name}.menu.apple
+	menu .${win_name}.menu.apple -tearoff 0 -type normal
+	.${win_name}.menu.apple add command -label "[trans about] aMSN" -command ::amsn::aboutWindow
+	.${win_name}.menu.apple add separator
+	.${win_name}.menu.apple add command -label "[trans preferences]..." -command Preferences -accelerator "Command-,"
+	.${win_name}.menu.apple add separator
+	} else {
+	}
+	
       menu .${win_name}.menu.msn -tearoff 0 -type normal
       .${win_name}.menu.msn add command -label "[trans save]" \
          -command " ChooseFilename .${win_name}.f.out.text ${win_name} "
@@ -1479,10 +1490,17 @@ namespace eval ::amsn {
       .${win_name}.menu.msn add command -label "[trans close]" \
          -command "destroy .${win_name}"
 
-      menu .${win_name}.menu.edit -tearoff 0 -type normal
+	menu .${win_name}.menu.edit -tearoff 0 -type normal
+#Change the accelerator on Mac OS X
+	if {$tcl_platform(os) == "Darwin"} {
+      .${win_name}.menu.edit add command -label "[trans cut]" -command "copy 1 .${win_name}" -accelerator "Command+X"
+      .${win_name}.menu.edit add command -label "[trans copy]" -command "copy 0 .${win_name}" -accelerator "Command+C"
+      .${win_name}.menu.edit add command -label "[trans paste]" -command "paste .${win_name}" -accelerator "Command+V"
+	} else {
       .${win_name}.menu.edit add command -label "[trans cut]" -command "copy 1 .${win_name}" -accelerator "Ctrl+X"
       .${win_name}.menu.edit add command -label "[trans copy]" -command "copy 0 .${win_name}" -accelerator "Ctrl+C"
       .${win_name}.menu.edit add command -label "[trans paste]" -command "paste .${win_name}" -accelerator "Ctrl+V"
+      }
 
       menu .${win_name}.menutextsize -tearoff 0 -type normal
       .${win_name}.menutextsize add command -label "+8" -command "change_myfontsize 8 ${win_name}"
@@ -1714,9 +1732,14 @@ namespace eval ::amsn {
 		bind $bottom.in.input <Return> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
 		bind $bottom.in.input <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
 		bind $bottom.in.input <Alt-s> "window_history add %W; ::amsn::MessageSend .${win_name} %W; break"
-
+		
+		#Differents shorcuts on Mac OS X
+		if {$tcl_platform(os) == "Darwin"} {
+		bind .${win_name}.f.in.input <Command-w> "destroy .${win_name} %W; break"
+		bind .${win_name} <Command-,> "Preferences"
+		} else {
 		bind $bottom.in.input <Escape> "destroy .${win_name} %W; break"
-
+		}
 
 		bind $bottom.in.input <Control-Up> "window_history previous %W; break"
 		bind $bottom.in.input <Control-Down> "window_history next %W; break"
@@ -2856,6 +2879,19 @@ proc cmsn_draw_main {} {
 
    .main_menu add cascade -label "[trans tools]" -menu .main_menu.tools
    .main_menu add cascade -label "[trans help]" -menu .main_menu.help
+   
+	   	
+	#.main_menu.tools add separator
+	
+	#Apple menu, only on Mac OS X
+	if {$tcl_platform(os) == "Darwin"} {
+	.main_menu add cascade -label "Apple" -menu .main_menu.apple
+	menu .main_menu.apple -tearoff 0 -type normal
+	.main_menu.apple add command -label "[trans about] aMSN" -command ::amsn::aboutWindow
+	.main_menu.apple add separator
+	.main_menu.apple add command -label "[trans preferences]..." -command Preferences -accelerator "Command-,"
+	.main_menu.apple add separator
+	}
 
 
    #File menu
