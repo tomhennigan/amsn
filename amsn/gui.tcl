@@ -839,7 +839,7 @@ namespace eval ::amsn {
       }
 
       variable window_titles
-      global list_states
+      global list_states config
 
       #set topmsg ""
       set title ""
@@ -876,13 +876,19 @@ namespace eval ::amsn {
 	  set user_state [lindex [lindex $list_states $user_state_no] 1]
           set user_image [lindex [lindex $list_states $user_state_no] 4]
 
-	  set title "${title}${user_name}, "
+      if {$config(truncatenames)} {
+	     set title "${title}[trunc ${user_name}], "
+	     ${win_name}.f.top.text insert end "[trunc ${user_name}] <${user_login}>"
+      } else {
+	     set title "${title}${user_name}, "
+	     ${win_name}.f.top.text insert end "[trunc ${user_name}] <${user_login}>"
+      }
 	  
 	  #TODO: When we have better, smaller and transparent images, uncomment this
 	  #${win_name}.f.top.text image create end -image $user_image -pady 0 -padx 2
 
  	  #set topmsg "${topmsg}${user_name} <${user_login}> "
-	  ${win_name}.f.top.text insert end "${user_name} <${user_login}>"
+	  #${win_name}.f.top.text insert end "${user_name} <${user_login}>"
 
 	  if { "$user_state" != "" && "$user_state" != "online" } {
             #set topmsg "${topmsg} \([trans $user_state]\) "
@@ -992,7 +998,11 @@ namespace eval ::amsn {
       #   return 0
       #}
 
-      set statusmsg "[timestamp] [trans joins [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
+      if {$config(truncatenames)} {
+          set statusmsg "[timestamp] [trans joins [trunc [lindex [::MSN::getUserInfo $usr_name] 1]]]\n"
+      } else {
+          set statusmsg "[timestamp] [trans joins [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
+      }
       WinStatus [ WindowFor $chatid ] $statusmsg minijoins
       WinTopUpdate $chatid
 
@@ -1019,11 +1029,16 @@ namespace eval ::amsn {
          return 0
       }
 
+      set username [lindex [::MSN::getUserInfo $usr_name] 1]
+      if {$config(truncatenames)} {
+         set username [trunc $username]
+      }
+
       if { $closed } {
-	  set statusmsg "[timestamp] [trans leaves [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
+	  set statusmsg "[timestamp] [trans leaves $username]\n"
 	  set icon minileaves
       } else {
-	  set statusmsg "[timestamp] [trans closed [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
+	  set statusmsg "[timestamp] [trans closed $username]\n"
 	  set icon minileaves
       }
       WinStatus [ WindowFor $chatid ] $statusmsg $icon
@@ -1050,6 +1065,7 @@ namespace eval ::amsn {
    # a message in the status bar.
    # - 'chatid' is the name of the chat
    proc updateTypers { chatid } {
+      global config
 
 
       if {[WindowFor $chatid] == 0} {
@@ -1062,6 +1078,9 @@ namespace eval ::amsn {
 
       foreach login $typers_list {
          set user_name [lindex [::MSN::getUserInfo $login] 1]
+         if {$config(truncatenames)} {
+            set user_name [trunc $user_name]
+         }
          set typingusers "${typingusers}${user_name}, "
       }
 
@@ -3660,7 +3679,7 @@ proc cmsn_draw_online { {force 0} } {
          }
 
          if {$myGroupExpanded} {
-	     ShowUser $user_name $user_login $state $state_code $colour $section $user_group
+            ShowUser $user_name $user_login $state $state_code $colour $section $user_group
          }
 	 
 	 if { !$config(orderbygroup) } {
@@ -3675,7 +3694,7 @@ proc cmsn_draw_online { {force 0} } {
 	   ::groups::UpdateCount blocked +1
 	   set myGroupExpanded [::groups::IsExpanded blocked]
 	   if {$myGroupExpanded} {
-	       ShowUser $user_name $user_login $state $state_code $colour "blocked" $user_group
+          ShowUser $user_name $user_login $state $state_code $colour "blocked" $user_group
 	   }
        }
    }
@@ -3792,7 +3811,10 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	    } else {
 	       set current_line " [lindex $user_lines $i]"
 	    }
-	    $pgBuddy.text insert $section.last "$current_line" $user_unique_name
+        if {$config(truncatenames)} {
+           set current_line [trunc $current_line]
+        }
+        $pgBuddy.text insert $section.last "$current_line" $user_unique_name
 	    if { $i != 0} {
 	       $pgBuddy.text insert $section.last "      "
 	    }

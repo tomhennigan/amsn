@@ -493,7 +493,9 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.3.llook -side left	
 	pack $lfname.3.bfont -side right -padx 15
         checkbutton $lfname.tooltips -text "[trans tooltips]" -onvalue 1 -offvalue 0 -variable config(tooltips)
-        pack $lfname.tooltips -side left -padx 10
+        pack $lfname.tooltips -side top -anchor w -padx 10
+	#checkbutton $lfname.truncate -text "[trans truncatenames]" -onvalue 1 -offvalue 0 -variable config(truncatenames)
+	#pack $lfname.truncate -side top -anchor w -padx 10
     
 	
 	## Emoticons Frame ##
@@ -1603,6 +1605,10 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.84  2003/09/24 04:49:36  ahamelin
+# Implemented the truncation of nicknames in the contact list, the alerts and the
+# chat window. Added a FAQ that tells how to change it to the old behavior.
+#
 # Revision 1.83  2003/09/23 23:43:19  airadier
 # Some work on improving alarm configuration dialog, and alarm icon drawing.
 #

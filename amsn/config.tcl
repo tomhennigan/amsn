@@ -4,7 +4,7 @@
 
 proc ConfigDefaults {} {
 	global config tcl_platform password auto_path
-	set config(protocol) "7"		;# Witch MSN Protocol do you prefeer too use
+	set config(protocol) "7"		;# Which MSN Protocol do you prefeer too use
 	set config(login) ""			;# These are defaults for users without
 	set config(save_password) 0		;# a config file
 	set config(keep_logs) 1
@@ -104,6 +104,7 @@ proc ConfigDefaults {} {
         set config(lineflushlog) 1
 	set config(flicker) 1
 	set config(autocheckver) 1
+	set config(truncatenames) 1
 	set password ""
 }
 

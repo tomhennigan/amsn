@@ -96,6 +96,17 @@ The "case sensitive" option, means that the triggers should be considered case s
 When you finished your settings, press the OK button, it will prompt errors if you forgot to set one of the 3 first option (description, triggers and GIF file) or if the files (GIF and/or sound) does not exist or are not readable by the user. if no error message is shown, then you can already use your new smileys.
 have fun.
 
+Q: Nicknames are now truncated. Is it possible to revert back to full nicknames?
+A: Yes. To have nicknames be displayed in their full length on the contact
+list, in the alerts and the chat window, one should go into the configuration
+file and manually change the option there. The option responsible for this
+behavior is called "truncatenames". Search for this string in the configuration
+file of the concerned profile then change its value from 1 to 0. Restart amsn.
+There is no easy way to enable the feature only on the contact list, only in
+the chat windows or in the alerts -- this option affects them all at the same
+time.
+This option cannot be changed with the Preferences window. This might be added
+at some time in the future.
 
 
 TROUBLESHOOTING
