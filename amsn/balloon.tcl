@@ -89,7 +89,7 @@ proc balloon {target message {cx 0} {cy 0} } {
 	    set y [expr $cy + 2]
 	}
 	
-	if { [catch { toplevel .balloon -bg [::skin::getColor balloonbackground]}] != 0 } {
+	if { [catch { toplevel .balloon -bg [::skin::getColor balloonborder]}] != 0 } {
 		destroy .balloon
 		toplevel .balloon -bg [::skin::getColor balloonborder]
 	}
