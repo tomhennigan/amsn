@@ -7386,6 +7386,11 @@ proc chooseFileDialog { {initialfile ""} {title ""} {parent ""} {entry ""} {oper
 	}
 	
 	global  starting_dir
+	
+	if { ![file isdirectory $starting_dir] } {
+		set starting_dir [pwd]
+	}
+	
 	if { $operation == "open" } {
 		set selfile [tk_getOpenFile -filetypes $types -parent $parent -initialdir $starting_dir -initialfile $initialfile -title $title]
 	} else {

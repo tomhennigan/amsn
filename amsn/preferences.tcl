@@ -1873,6 +1873,10 @@ proc Browse_Dialog_dir {configitem {initialdir ""}} {
 		set initialdir [set $configitem]
 	}
 	
+	if { ![file isdirectory $initialdir]} {
+		set initialdir [pwd]
+	}
+	
 	set browsechoose [tk_chooseDirectory -parent [focus] -initialdir $initialdir]
 	if { $browsechoose !="" } {
 		set $configitem $browsechoose
