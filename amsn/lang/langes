@@ -38,6 +38,7 @@ baduserpass Nombre de usuario o contraseña incorrectos
 bgcolor Cambia el color de fondo de aMSN
 blankdirect Dejar en blanco para conexión directa
 blocked Bloqueado
+blocking Bloqueo
 blocklist Lista de Bloqueados:
 blockmessage Los siguientes contactos están conectados y bloqueandote
 block No admitir
@@ -359,3 +360,12 @@ youblocked Has sido bloqueado
 yousay Tú dices
 youwant Quieres
 twonewmail $1 mensajes nuevos en bandeja de entrada
+blockinter1 Cuando estás en estado Conectado, comprobar cada:
+blockinter2 segundos, si no comprobar cada :
+blockinter3 cada
+blockusers Numero de contactos a comprobar cada vez
+checkblocking Comprobar continuamente si te están bloqueando
+checkonfln Comprobar si un usuario te bloquea cuando aparentemente se desconecta
+emotisounds Reproducir sonidos asociados a ciertos emoticonos
+prefblock1 Comprobar cuando se desconecta
+prefblock2 Comprobar continuamente
