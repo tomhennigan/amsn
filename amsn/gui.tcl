@@ -4,8 +4,10 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	package require QuickTimeTcl
 } else {
 	#Use Snack on other OSs to play sounds
-	package require snack
-	snack::audio playLatency 750
+	if {![catch {package require snack}]} {
+	   snack::audio playLatency 750
+	} 
+	
 }
 
 if { $initialize_amsn == 1 } {
