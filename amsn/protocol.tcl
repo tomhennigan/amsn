@@ -934,7 +934,14 @@ namespace eval ::MSN {
 	     return 0
 	  }
 
-	  if {[catch {[eof $sb_sock]} res]} {
+	  if {[catch {eof $sb_sock} res]} {
+	     status_log "Error in the EOF command\n"
+	     cmsn_sb_sessionclosed $sbn
+	     return 0
+	  }
+
+	  if {[eof $sb_sock]} {
+	     status_log "Closing from chatready\n"
             close $sb_sock
             #TODO: Check what to do when session is closed, remove sb from candidates,
             #update chatid_sb and sb_chatid
@@ -1076,7 +1083,7 @@ namespace eval ::MSN {
 	     status_log "processQueue: No SB for chat, creating chat\n"
 	     chatTo $chatid
 	  } else {
-	     status_log "processQueue: chat is NOT ready, trying to reconnect\n"
+	     #status_log "processQueue: chat is NOT ready, trying to reconnect\n"
 	     cmsn_reconnect $sbn
 	  }
 

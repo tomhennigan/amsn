@@ -953,7 +953,7 @@ namespace eval ::amsn {
       $input delete 0.0 end
       focus ${input}
 
-      set ackid [after 30000 ::amsn::DeliveryFailed $chatid [list $msg]]
+      set ackid [after 50000 ::amsn::DeliveryFailed $chatid [list $msg]]
       ::MSN::chatQueue $chatid [list ::MSN::messageTo $chatid "$msg" $ackid]
       
       set fontfamily [lindex $config(mychatfont) 0]
