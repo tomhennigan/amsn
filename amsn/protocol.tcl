@@ -3158,8 +3158,8 @@ proc cmsn_listdel {recv} {
 proc cmsn_auth {{recv ""}} {
    global config list_version
 
-   if {($config(protocol) == "9") && ([info exist recv])} { cmsn_auth_msnp9 $recv; return 0 }
-   if {($config(protocol) == "9") && (![info exist recv])} { cmsn_auth_msnp9; return 0 }
+   if {($config(protocol) == "9") && ([info exist recv])} { return [cmsn_auth_msnp9 $recv] }
+   if {($config(protocol) == "9") && (![info exist recv])} { return [cmsn_auth_msnp9] }
 
    switch [sb get ns stat] {
       c {
@@ -3267,7 +3267,19 @@ proc cmsn_auth {{recv ""}} {
 proc cmsn_auth_msnp9 {{recv ""}} {
    global config list_version info
 
-   if {$config(protocol) == "9"} { package require tls }
+   if {$config(protocol) == "9"} {
+      if [catch {package require tls}] {
+         # Either tls is not installed, or $auto_path does not point to it.
+
+         # TODO: We should be able to specify the location of tls in the
+         #       settings (at least I use non-standard app paths). -AH
+
+         # TODO: Maybe use ::amsn::infoMsg() instead of a log message (?).
+
+         status_log "Could not find the package tls on this system.\n"
+         return -1
+      }
+   }
 
    switch [sb get ns stat] {
       c {
