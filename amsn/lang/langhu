@@ -3,13 +3,13 @@ about Rólunk
 accept Elfogad
 acceptfile Fogadott fájl $1, méret $2? Lementve $3
 actions Mûveletek
-activeautoupdate Aktív automata-frissítés
+activeautoupdate Auto-frissítés akiválása
 addacontact Partner hozzáadása
 addedyou $1 ($2) Téged hozzáadott a partnerlistájához
 addprofile Új Profil hozzáadása
 addprofiledesc Add meg a létrehozandó profil nevét. \nA Profilok használatával különbözõ beállításokat alkalmazhatsz minden profilra.\nA Profilok nélkül nem használhatod az Elõzményeket, a Figyelmeztetõ jelzéseket vagy a ,Jelszó megjegyzése' funkciót.
 addstate Saját állapot hozzáadása
-addto addto add a $1 -hez
+addto addto addto add a $1 -hez
 addtocontacts Hozzáadás a partnerlistához
 addtoo Ennek a személynek hozzáadása a partnerlistához
 admincontacts Partnerek szerkesztése
@@ -17,7 +17,7 @@ admingroups Csoportok szerkesztése
 advanced Haladó
 advancedprefs Haladó beállítások
 adverts Hírdetések
-agotinvitation Felkérés beszélgetésre (hanggal): $1 
+agotinvitation Hangos beszélgetésre felkért: $1
 alarmonconnect Riasztás amikor egy felhasználó bejelentkezik
 alarmondisconnect Riasztás amikor egy felhasználó kijelentkezik / kapcsolat elrejtése módba kapcsol
 alarmonmsg Riasztás amikor egy felhasználó üzenetet küldd neked
@@ -31,6 +31,7 @@ allowbadwords Nevek cenzúrázásának kikapcsolása
 allowlist Engedélyezettek listája (EL):
 allowonlyinal Csak az EngedélyezettekListáján szereplõ felhasználóek beszélhessenek velem
 allowseen Ez a személy mindig láthat ha bejelentkezem
+allow_sms Engedélyezem, hogy az MSN mobil készülékemen is elérhessenek.
 allprofilesinuse Minden létezõ profil használatban van
 animatedemoticon Ez a mosolyjel animált
 animatedsmileys Animált mosolyok bekapcsolása
@@ -52,10 +53,10 @@ autoidle Inaktivitás érzékelõ
 autoip Automatikus IP
 automessage Automata üzenet
 autonoact "Nem elérhetö"-ként jelenits meg, ha inaktív vagyok
-avaccepted Video konferencia felkérés fogadva
+avaccepted Video konferencia felkérés elfogadva
 avcanceled Video konferencia felkérés elutasítva
-avgotinvitation Video konferencia felkérés: $1
-avinitfailed Az Audio/Video plugin indítása sikertelen. Hívás megszakítva
+avgotinvitation Video konferencia felkérés érkezett: $1
+avinitfailed Audio/Video Plugin elindítása sikertelen. Hívás visszavonva
 avoidseen Ez a személy nem láthat ha bejelentkeztem
 away Elmentem itthonról
 awaymsg1 Kérjen "nem vagyok itt" üzenetet mindig, amikor Állapotomat Nemvagyok itt/Elfoglalt -ra állítom.
@@ -196,7 +197,6 @@ displayeventemail Megjelenítés, ha egy E-Mail érkezett
 displayeventstate Megjelenítés, ha egy partner állapotot vált
 displayp4context Jelenítsd meg a P4-Tartalom mezõt mint üzenet küldõt
 displaypic Kép megjelenítése
-dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Dokkolás a Gnome-ba
 docking Dokkolás
 dockingoff Dokkolás kikapcsolása
@@ -528,6 +528,7 @@ selectskin Légyszíves válassz egy felületet a listából
 send Küldés
 sendfile Fájl küldése
 sendmail Levél küldése
+sendmobmsg $1 Küldés mobil eszközre
 sendmsg Üzenet küldése
 sentbytes Küldve $1 -ból $2 bájt
 server Szerver
@@ -585,6 +586,7 @@ stylehist Elõzmények kinézete
 stylelog Válaszd ki az elõzmények megtekintési formáját
 syntaxerror Szintaktikai hiba
 tabbed Füles ablakok
+tabtitlenick Becenevek jelenjenek meg E-mail címek helyett a fülön?
 temp_state Ne mentsd (Ideiglenes állás, elveszik az aMSN bezárásával)
 textsize Szöveg méret
 timeremaining Hátralevõ idõ
@@ -630,6 +632,7 @@ viewprofile Profil megtekintése
 webcaminvite $1 Webkamerás csatlakozásra hív de az AMSN ezt nem támogatja.
 willjoin Várakozok $1 csatlakozására a beszélgetéshez
 winkreceived Egy kacsintást küldött $1. De ezt az aMSN nem támogatja teljesen.
+wintitlenick Becenevek jelenjenek meg E-mail címek helyett egy füles ablakban?
 work Foglalkozás
 wrongfields A "$1", "$2" és/vagy "$3" mezõket rosszul adtad meg
 wrongprofileversion Rossz profil beállítás verzió. Hogy kijavíthasd töröld a $1 könyvtárat, vagy frissítsd az aMSN-t
@@ -645,9 +648,3 @@ yoffset Y eltolás
 youblocked Letiltott
 yousay Te mondtad
 youwant Te akartad
-activeautoupdate Aktív automata-frissítés
-agotinvitation Felkérés beszélgetésre (hanggal): $1 
-avaccepted Video konferencia felkérés fogadva
-avcanceled Video konferencia felkérés elutasítva
-avgotinvitation Video konferencia felkérés: $1
-avinitfailed Az Audio/Video plugin indítása sikertelen. Hívás megszakítva
