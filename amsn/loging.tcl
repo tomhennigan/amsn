@@ -910,6 +910,7 @@ proc eventlogout { } {
 
 	if { [::log::checkeventdisplay] } {
 		.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : [trans disconnectedfrom [::config::getKey login]]"
+		.main.eventmenu.list select 0
 	}
 	if { [::log::checkeventlog] } {
 		::log::OpenLogEvent
