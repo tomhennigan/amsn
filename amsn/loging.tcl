@@ -590,7 +590,7 @@ proc ChangeLogWin {w contact widget email} {
 
 	global log_dir logvar date
 
-	status_log "Switch to $contact\n\n" blue
+	status_log "Switch to $email\n\n" blue
 
 	::log::Fileexist $email "."
 
@@ -605,7 +605,7 @@ proc ChangeLogWin {w contact widget email} {
 
 	ParseLog $w $logvar
 
-	$w.top.date.list select 0
+	catch {$w.top.date.list select 0}
 
 }	
 
