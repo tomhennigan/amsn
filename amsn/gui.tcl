@@ -2501,16 +2501,14 @@ namespace eval ::amsn {
 		if { $friendlyname != "" } {
 			set nick $friendlyname
 			set p4c 1
+		} elseif { [::config::getKey p4c_name] != ""} {
+			set nick [::config::getKey p4c_name]
+			set p4c 1
 		} else {
-			if { $input != 0 && [::config::getKey p4c_name] != ""} {
-		      		set nick [::config::getKey p4c_name]
-				set p4c 1
-			
-			} else {
-				set nick [::abook::getPersonal nick]
-				set p4c 0	
-			}
+			set nick [::abook::getPersonal nick]
+			set p4c 0	
 		}
+		
 		if { [string length $msg] > 400 } {
 			set first 0
 			while { [expr {$first + 400}] <= [string length $msg] } {
