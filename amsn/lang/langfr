@@ -113,6 +113,7 @@ clearlog2 Effacer l'historique de tous mes contacts
 clearlog3 Effacer tous les historiques
 clearlog Effacer les historiques
 clicktologin Cliquez ici pour vous connecter
+clientname Nom du client
 closed Conversation fermée pour inactivité ($1)
 close Fermer
 closingdocks Le bouton Fermer ancre l'application
@@ -146,6 +147,7 @@ customnick Pseudo personnalisé
 cut Couper
 date Date
 dateformat Changer le format de la date
+day Jour
 days Jours
 dcprofile Ne pas créer de profil
 default Configuration par défaut
@@ -349,6 +351,7 @@ needonline Vous êtes toujours déconnecté(e)!
 needwinico Winico03.dll doit figurer dans le dossier de Plug-ins afin que l'icône dans la Barre des tâches fonctionne
 newmail $1 nouveaux messages
 newmailfrom Nouveau message de $1 ($2)
+newmailfromother Nouveau message dans un autre dossier de $1 ($2)
 newmailfolder $1 nouveaux messages dans les autres dossiers Hotmail
 newmsg Nouveau message
 newstate Ajouter un état personnel
