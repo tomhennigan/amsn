@@ -311,6 +311,7 @@ Luis Quesada: Cubic skin
 ========================================================
 === More special thanks and credits ====================
 
+Stefan Becker (localhost only sockets for profile locks patch)
 Mauricio Teixeira (a.k.a. netmask) (Conectiva Linux packages)
 Danny Campbell (Some bugs in remote.tcl)
 Rakesh 'arky' Ambati. (Typos patch)
