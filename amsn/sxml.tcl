@@ -142,7 +142,7 @@ namespace eval sxml {
 	 #Added by Alvaro Iradier. Use this instead of putting directly to the file, to
 	 #replace special characters
 	 proc xmlreplace {string} {
-	 	return [string map { "<" "&lt;" ">" "&gt;" "&" "&amp;" "\"" "&quot;" "'" "&apos;"} $string]
+	 	return [string map { "<" "&lt;" "&" "&amp;" "\"" "&quot;" "'" "&apos;"} $string]
 	 }
 
     proc init {file} {
