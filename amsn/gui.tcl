@@ -2757,8 +2757,8 @@ namespace eval ::amsn {
 				-justify left -width [expr [::skin::getKey notifwidth]-52] -anchor nw -text "$msg"]
 		} else {
 			#Just add the text and use full width
-			set notify_id [$w.c create text [expr [::config::getKey notifwidth]/2] 35 -font splainf \
-				-justify center -width [expr [::config::getKey notifwidth]-20] -anchor n -text "$msg"]
+			set notify_id [$w.c create text [expr [::skin::getKey notifwidth]/2] 35 -font splainf \
+				-justify center -width [expr [::skin::getKey notifwidth]-20] -anchor n -text "$msg"]
 		}
 		
 		$w.c create image [::skin::getKey x_notifyclose] [::skin::getKey y_notifyclose] -anchor nw -image [::skin::loadPixmap notifclose]
