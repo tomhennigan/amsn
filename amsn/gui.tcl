@@ -2822,7 +2822,7 @@ namespace eval ::amsn {
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_main {} {
 	global emotion_files date weburl lang_list \
-	password HOME files_dir pgBuddy pgNews argv0 argv langlong tcl_platform
+	password HOME files_dir pgBuddy pgBuddyTop pgNews argv0 argv langlong tcl_platform
 
 	#User status menu
 	menu .my_menu -tearoff 0 -type normal
@@ -3196,7 +3196,11 @@ proc cmsn_draw_main {} {
 	} else {
 		::skin::setPixmap logolinmsn logolinmsn.gif
 	}
-		
+	
+	set pgBuddyTop $pgBuddy.top
+	frame $pgBuddyTop -background white -width 30 -height 30 -cursor left_ptr \
+		-borderwidth 0 -relief flat -padx 0 -pady 0
+	
 	ScrolledWindow $pgBuddy.sw -auto vertical -scrollbar vertical
 	pack $pgBuddy.sw -expand true -fill both
 	set pgBuddy $pgBuddy.sw
@@ -3681,12 +3685,13 @@ proc cmsn_draw_offline {} {
 
 	after cancel "cmsn_draw_online"
 
-	global sboldf password pgBuddy
+	global sboldf password pgBuddy pgBuddyTop
 
 	bind $pgBuddy.text <Configure>  ""
 
 	wm title . "[trans title] - [trans offline]"
 
+	pack forget $pgBuddyTop
 	$pgBuddy.text configure -state normal
 	$pgBuddy.text delete 0.0 end
 	
@@ -3828,8 +3833,9 @@ proc cmsn_draw_offline {} {
 proc cmsn_draw_reconnect { error_msg } {
 	bind . <Configure> ""
 
-	global pgBuddy
+	global pgBuddy pgBuddyTop
 
+	pack forget $pgBuddyTop
 	$pgBuddy.text configure -state normal -font splainf
 	$pgBuddy.text delete 0.0 end
 	$pgBuddy.text tag conf signin -fore #000000 \
@@ -3884,13 +3890,14 @@ proc cmsn_draw_reconnect { error_msg } {
 proc cmsn_draw_signin {} {
 	bind . <Configure> ""
 
-	global pgBuddy eventdisconnected
+	global pgBuddy pgBuddyTop eventdisconnected
 
 	set eventdisconnected 1
 
 	wm title . "[trans title] - [::config::getKey login]"
 
 
+	pack forget $pgBuddyTop
 	$pgBuddy.text configure -state normal -font splainf
 	$pgBuddy.text delete 0.0 end
 	$pgBuddy.text tag conf signin -fore #000000 \
@@ -4206,36 +4213,37 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 		convert_image_plus "[::skin::GetSkinFile displaypic $filename]" displaypic/small$cache "50x50"
 	}
 	#Load the smaller display picture
-	if {[load_my_smaller_pic]} {
+	if {[load_my_smaller_pic $tw.$name]} {
 		#Create the clickable display picture
 		#If we are drawing this display picture at the top of the contact list, ie for the logged in user, use a canvas to give it a bg image.
 		#If not (ie for contacts _on_ list), then just draw as label.
 		if {$type == "mystatus"} {
-			canvas $tw.$name -width [image width [::skin::loadPixmap mystatus_bg]] -height [image height [::skin::loadPixmap mystatus_bg]] -bg white
+			canvas $tw.$name -width [image width [::skin::loadPixmap mystatus_bg]] -height [image height [::skin::loadPixmap mystatus_bg]] \
+					-bg white -highlightthickness 0
 			#There's a strange bug on Mac OS X, we need to move the picture and the border at the position 2+2 to see it completely
-			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-				$tw.$name create image "[expr {[::skin::getKey x_dp_top]+2}]" "[expr {[::skin::getKey y_dp_top]+2}]" -anchor nw -image my_pic_small
-				$tw.$name create image +2 +2 -anchor nw -image [::skin::loadPixmap mystatus_bg]
-			} else {
+			#if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			#	$tw.$name create image "[expr {[::skin::getKey x_dp_top]+2}]" "[expr {[::skin::getKey y_dp_top]+2}]" -anchor nw -image my_pic_small
+			#	$tw.$name create image +2 +2 -anchor nw -image [::skin::loadPixmap mystatus_bg]
+			#} else {
 				$tw.$name create image [::skin::getKey x_dp_top] [::skin::getKey y_dp_top] -anchor nw -image my_pic_small
 				$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg]
-			}
+			#}
 		} 
 		#else {
 			#label $tw.$name -image my_pic_small -background white -bd 1 -relief solid
 		#}
 		$tw.$name configure -cursor hand2 -borderwidth 0
 		bind $tw.$name <Button1-ButtonRelease> $command
-		$tw window create end -window $tw.$name -padx $padx -pady $pady -align center -stretch true
+		#$tw window create end -window $tw.$name -padx $padx -pady $pady -align center -stretch true
 	} else {
 		#Change key to the skin for to disable clickable display picture
 		status_log "Change key to the skin for to disable clickable display picture" blue
 		::skin::setKey showdisplaycontactlist 0
-		
 	}
+	return $tw.$name
 }
 
-proc load_my_smaller_pic {} {
+proc load_my_smaller_pic {path} {
 	
 	#Trying to set smaller display picture
 	if {[file readable [filenoext [::skin::GetSkinFile displaypic/small [::config::getKey displaypic]]].gif]} {
@@ -4246,7 +4254,9 @@ proc load_my_smaller_pic {} {
 		global pgBuddy
 		status_log "load_my_smaller_pic: Picture not found!!Show the default amsn status icon instead\n" blue
 		set my_image_type [::MSN::stateToBigImage [::MSN::myStatusIs]]
-		clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]
+		label $path -image [::skin::loadPixmap $my_image_type] -background white -border 0
+		$path configure -cursor hand2 -borderwidth 0
+		bind $path <Button1-ButtonRelease> {tk_popup .my_menu %X %Y}
 		return 0
 	}
 }
@@ -4315,7 +4325,7 @@ proc cmsn_draw_online { {delay 0} } {
 proc cmsn_draw_online_wrapped {} {
 
 	global login \
-		password pgBuddy automessage emailBList tcl_platform
+		password pgBuddy pgBuddyTop automessage emailBList tcl_platform
 
 	set scrollidx [$pgBuddy.text yview]
 
@@ -4389,6 +4399,12 @@ proc cmsn_draw_online_wrapped {} {
 
 	set list_users [::MSN::sortedContactList]
 
+	#Clear the children of top to avoid memory leaks:
+	foreach child [winfo children $pgBuddyTop] {
+		destroy $child
+	}
+	pack $pgBuddyTop -expand false -fill x -before $pgBuddy
+
 	$pgBuddy.text configure -state normal -font splainf
 	$pgBuddy.text delete 0.0 end
 
@@ -4435,97 +4451,96 @@ proc cmsn_draw_online_wrapped {} {
 		$pgBuddy.text tag bind $gtag <Leave> \
 			"$pgBuddy.text tag conf $gtag -under false;$pgBuddy.text conf -cursor left_ptr"
 	}
-
-	#$pgBuddy.text insert end "\n"
 	
 	# Display MSN logo with user's handle. Make it clickable so
 	# that the user can change his/her status that way
 	# Verify if the skinner wants to replace the status picture for the display picture
 	if { ![::skin::getKey showdisplaycontactlist] } {
-		clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]
+		label $pgBuddyTop.bigstate -image [::skin::loadPixmap $my_image_type] -background white -border 0
+		$pgBuddyTop.bigstate configure -cursor hand2 -borderwidth 0
+		bind $pgBuddyTop.bigstate <Button1-ButtonRelease> {tk_popup .my_menu %X %Y}
+		set disppic $pgBuddyTop.bigstate
 	} else {
-		clickableDisplayPicture $pgBuddy.text mystatus bigstate {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]
+		set disppic [clickableDisplayPicture $pgBuddyTop mystatus bigstate {tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]]
 	}
-	bind $pgBuddy.text.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
+	bind $pgBuddyTop.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
+	pack $disppic -side left -padx [::skin::getKey bigstate_xpad] -pady [::skin::getKey bigstate_ypad]
 
-	text $pgBuddy.text.mystatus -font bboldf -height 2 \
-		-width [expr {([winfo width $pgBuddy.text]-45)/[font measure bboldf -displayof $pgBuddy.text "0"]}] \
+	text $pgBuddyTop.mystatus -font bboldf -height 2 \
+		-width [expr {[winfo width $pgBuddy]/[font measure bboldf -displayof $pgBuddyTop "0"]}] \
 		-background white -borderwidth 0 \
 		-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
 		-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
-	pack $pgBuddy.text.mystatus -expand true -fill x
+	pack $pgBuddyTop.mystatus -expand true -fill x -side left
 
-	$pgBuddy.text.mystatus configure -state normal
+	$pgBuddyTop.mystatus configure -state normal
 
-	$pgBuddy.text.mystatus tag conf mystatuslabel -fore gray -underline false \
+	$pgBuddyTop.mystatus tag conf mystatuslabel -fore gray -underline false \
 		-font splainf
 
-	$pgBuddy.text.mystatus tag conf mystatuslabel2 -fore gray -underline false \
+	$pgBuddyTop.mystatus tag conf mystatuslabel2 -fore gray -underline false \
 		-font bboldf
 
-	$pgBuddy.text.mystatus tag conf mystatus -fore $my_colour -underline false \
+	$pgBuddyTop.mystatus tag conf mystatus -fore $my_colour -underline false \
 		-font bboldf
 
-	$pgBuddy.text.mystatus tag bind mystatus <Enter> \
-		"$pgBuddy.text.mystatus tag conf mystatus -under true;$pgBuddy.text.mystatus conf -cursor hand2"
+	$pgBuddyTop.mystatus tag bind mystatus <Enter> \
+		"$pgBuddyTop.mystatus tag conf mystatus -under true;$pgBuddyTop.mystatus conf -cursor hand2"
 
-	$pgBuddy.text.mystatus tag bind mystatus <Leave> \
-		"$pgBuddy.text.mystatus tag conf mystatus -under false;$pgBuddy.text.mystatus conf -cursor left_ptr"
+	$pgBuddyTop.mystatus tag bind mystatus <Leave> \
+		"$pgBuddyTop.mystatus tag conf mystatus -under false;$pgBuddyTop.mystatus conf -cursor left_ptr"
 
-	$pgBuddy.text.mystatus tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
+	$pgBuddyTop.mystatus tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
 	#Change button mouse on Mac OS X
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		$pgBuddy.text.mystatus tag bind mystatus <Button2-ButtonRelease> "tk_popup .my_menu %X %Y"
-		$pgBuddy.text.mystatus tag bind mystatus <Control-ButtonRelease> "tk_popup .my_menu %X %Y"
+		$pgBuddyTop.mystatus tag bind mystatus <Button2-ButtonRelease> "tk_popup .my_menu %X %Y"
+		$pgBuddyTop.mystatus tag bind mystatus <Control-ButtonRelease> "tk_popup .my_menu %X %Y"
 	} else {
-		$pgBuddy.text.mystatus tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
+		$pgBuddyTop.mystatus tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
 	}
-	$pgBuddy.text.mystatus insert end "[trans mystatus]: " mystatuslabel
+	$pgBuddyTop.mystatus insert end "[trans mystatus]: " mystatuslabel
 
 	if { [info exists automessage] && $automessage != -1} {
-		$pgBuddy.text.mystatus insert end "[lindex $automessage 0]\n" mystatuslabel2
+		$pgBuddyTop.mystatus insert end "[lindex $automessage 0]\n" mystatuslabel2
 	} else {
-		$pgBuddy.text.mystatus insert end "\n" mystatuslabel
+		$pgBuddyTop.mystatus insert end "\n" mystatuslabel
 	}
 
 	set maxw [expr [winfo width $pgBuddy.text] - 50]
 	incr maxw [expr 0-[font measure bboldf -displayof $pgBuddy.text " ($my_state_desc)" ]]
-	set my_short_name [trunc $my_name $pgBuddy.text.mystatus $maxw bboldf]
-	$pgBuddy.text.mystatus insert end "$my_short_name " mystatus
-	$pgBuddy.text.mystatus insert end "($my_state_desc)" mystatus
+	set my_short_name [trunc $my_name $pgBuddyTop.mystatus $maxw bboldf]
+	$pgBuddyTop.mystatus insert end "$my_short_name " mystatus
+	$pgBuddyTop.mystatus insert end "($my_state_desc)" mystatus
 
 	set balloon_message "[string map {"%" "%%"} "$my_name\n [::config::getKey login]\n [trans status] : $my_state_desc"]"
 
-	$pgBuddy.text.mystatus tag bind mystatus <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+	$pgBuddyTop.mystatus tag bind mystatus <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 
-	$pgBuddy.text.mystatus tag bind mystatus <Leave> \
+	$pgBuddyTop.mystatus tag bind mystatus <Leave> \
 		"+set Bulle(first) 0; kill_balloon"
 
-	$pgBuddy.text.mystatus tag bind mystatus <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+	$pgBuddyTop.mystatus tag bind mystatus <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
-	bind $pgBuddy.text.bigstate <Enter> +[list balloon_enter %W %X %Y $balloon_message]
-	bind $pgBuddy.text.bigstate <Leave> \
+	bind $pgBuddyTop.bigstate <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+	bind $pgBuddyTop.bigstate <Leave> \
 		"+set Bulle(first) 0; kill_balloon;"
-	bind $pgBuddy.text.bigstate <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+	bind $pgBuddyTop.bigstate <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
 	if {[::config::getKey listsmileys]} {
-		::smiley::substSmileys $pgBuddy.text.mystatus
+		::smiley::substSmileys $pgBuddyTop.mystatus
 	}
 	#Calculate number of lines, and set my status size (for multiline nicks)
-	set size [$pgBuddy.text.mystatus index end]
+	set size [$pgBuddyTop.mystatus index end]
 	set posyx [split $size "."]
 	set lines [expr {[lindex $posyx 0] - 1}]
-	if { [expr [llength [$pgBuddy.text.mystatus image names]] + [llength [$pgBuddy.text.mystatus window names]]] } { incr lines }
+	if { [expr [llength [$pgBuddyTop.mystatus image names]] + [llength [$pgBuddyTop.mystatus window names]]] } { incr lines }
 
-	$pgBuddy.text.mystatus configure -state normal -height $lines -wrap none
-	$pgBuddy.text.mystatus configure -state disabled
+	$pgBuddyTop.mystatus configure -state normal -height $lines -wrap none
+	$pgBuddyTop.mystatus configure -state disabled
 
-	$pgBuddy.text window create end -window $pgBuddy.text.mystatus -padx [::skin::getKey mystatus_xpad] -pady [::skin::getKey mystatus_ypad] -align bottom -stretch false
-	$pgBuddy.text insert end "\n"
-
-	$pgBuddy.text image create end -image [::skin::getColorBar]
-	$pgBuddy.text tag conf colorbar -font "normal 1"
-	$pgBuddy.text insert end "\n" colorbar
+	set colorbar $pgBuddyTop.colorbar
+	label $colorbar -image [::skin::getColorBar] -background white -borderwidth 0
+	pack $colorbar -before $disppic -side bottom
 
   	set evpar(text) $pgBuddy.text
   	::plugins::PostEvent ContactListColourBarDrawn evpar

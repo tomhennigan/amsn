@@ -139,7 +139,7 @@ namespace eval ::skin {
 	proc getColorBar { {skin_name ""} } {
 		# Get the contact list width
 		global pgBuddy
-		set width [expr {[winfo width $pgBuddy.text]} - 1 ]
+		set width [winfo width $pgBuddy]
 		if { $width < 160 } {
 			set width 160
 		}
