@@ -1767,6 +1767,9 @@ proc cmsn_sb_handler {sb_name item} {
 	 return 0
       }
       NAK {
+         if { ! [info exists msgacks($ret_trid)]} {
+	    return 0
+	 }
          set ackid $msgacks($ret_trid)
 	  ::amsn::nackMessage $ackid
 	  unset msgacks($ret_trid)
@@ -1978,7 +1981,8 @@ proc cmsn_reconnect { name } {
 
       if { [expr {[clock seconds] - [sb get $name time]}] > 10 } {
          status_log "--cmsn_reconnect: called again while inviting timeouted\n" red
-	 sb set $name stat "n"
+	 catch {close [sb get $name sock]} res
+	 sb set $name stat "d"
 	 cmsn_reconnect $name
       }
 
@@ -1996,7 +2000,7 @@ proc cmsn_reconnect { name } {
 
       if { [expr {[clock seconds] - [sb get $name time]}] > 10 } {
          status_log "cmsn_reconnect: called again while authentication timeouted\n" red
-	 close [sb get $name sock]
+	 catch {close [sb get $name sock]} res
 	 sb set $name stat "d"
 	 cmsn_reconnect $name
       }

@@ -50,6 +50,7 @@ proc degt_protocol_win { } {
         label .degt.top.name -text "Protocol" -justify left
 	pack .degt.top.name -side left -anchor w
 
+    #font create debug -family Verdana -size 24 -weight bold
     frame .degt.mid -class Degt
 	text   .degt.mid.txt -height 20 -width 85 -font splainf \
 		-wrap none -background white -foreground black \
@@ -1027,6 +1028,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.35  2003/04/09 17:38:44  airadier
+# Added a check in msgacks()
+#
 # Revision 1.34  2003/04/07 16:50:35  airadier
 # Fixed font config saving issues (now we save a config backup in the preferences window, and restore it when window is destroyed, instead of modyfing a copy and saving it to $config when clicking "Save).
 #
