@@ -1068,6 +1068,8 @@ proc send_mail {user_login} {
       set mail_param "--compose=$user_login"
   } elseif {[string first "mozilla" $config(mailcommand)] != -1} {
       set mail_param "-compose mailto:$user_login"
+  } elseif {[string first "evolution" $config(mailcommand)] != -1} {
+      set mail_param "mailto:$user_login"
   } elseif {[string first "sylpheed" $config(mailcommand)] != -1} {
       set mail_param "--compose $user_login"
   } elseif {[string length $config(mailcommand)]==0} {
@@ -1919,8 +1921,8 @@ proc cmsn_sb_sessionclosed {sbn} {
       cmsn_msgwin_title $sbn
       bind .${win_name}.in.input <Key> "cmsn_reconnect ${sbn}"
       bind .${win_name}.in.input <Return> "cmsn_reconnect ${sbn}; break"
-      bind .${win_name}.in.input <Key-KP_Enter> "cmsn_reconnect ${sb_name}; break"
-      bind .${win_name}.in.input <Alt-s> "cmsn_reconnect ${sb_name}; break"
+      bind .${win_name}.in.input <Key-KP_Enter> "cmsn_reconnect ${sbn}; break"
+      bind .${win_name}.in.input <Alt-s> "cmsn_reconnect ${sbn}; break"
 
 
 
