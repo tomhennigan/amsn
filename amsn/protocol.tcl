@@ -3077,6 +3077,9 @@ proc cmsn_ns_handler {item} {
 
 }
 
+proc amsn_ssl_handler {} {
+}
+
 proc cmsn_ns_msg {recv} {
 
    set msg_data [sb index ns data 0]
@@ -3262,7 +3265,7 @@ proc cmsn_auth {{recv ""}} {
 }
 
 proc cmsn_auth_msnp9 {{recv ""}} {
-   global config list_version
+   global config list_version info
 
    if {$config(protocol) == "9"} { package require tls }
 
@@ -3307,13 +3310,11 @@ proc cmsn_auth_msnp9 {{recv ""}} {
 	 foreach x [split [lrange $recv 4 end] ","] { set info([lindex [split $x "="] 0]) [lindex [split $x "="] 1] }
 	 set info(all) [lrange $recv 4 end]
 
-         sb set ns stat "ssl"
-         return 0
-      }
-      ssl {
-puts "rott"
-	 # Need some work here to open the SSL connection, using tls::socket host port..
-	 status_log "Not finished, bailing out.. :(" red
+	 set auth [amsn_ssl_connect $info(all)]
+	 set auth [split [lrange $auth 2 end] ","]
+	 set auth [lindex [split [lindex $auth 4] "'"] 1]
+
+	 ::MSN::WriteSB ns "USR" "TWN S $auth"
          sb set ns stat "us"
          return 0
       }
@@ -3587,6 +3588,43 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
    load_alarms		;# Load alarms config on login
 
    return 0
+}
+
+proc amsn_ssl_connect {string} {
+   global config password info
+#   set socket [tls::socket nexus.passport.com 443]
+#   puts $socket "GET /rdr/pprdr.asp"
+#   flush $socket; gets $socket; flush $socket; gets $socket
+#   flush $socket; gets $socket; flush $socket
+#   set recv [gets $socket]
+
+#   set host [split [lindex [split [lindex [split [lrange $recv 1 end] ","] 1] "="] 1] "/"]
+#   set host [lindex $host 0]
+
+#   close $socket
+#   unset socket
+
+   set socket [tls::socket loginnet.passport.com 443]
+   puts $socket "GET /login2.srf?lc=$info(lc)"
+   puts $socket "Authorization: Passport1.4 OrgVerb=GET,OrgURL=http%3A%2F%2Fmessenger%2Emsn%2Ecom,sign-in=$config(login),pwd=$password,$string"
+   puts $socket "User-Agent: MSMSGS"
+   puts $socket "Host: login.passport.com"
+   puts $socket "Connection: Keep-Alive"
+   puts $socket "Cache-Control: no-cache"
+
+  # TODO: Make a proc who handle those :)
+
+   flush $socket; gets $socket; flush $socket; gets $socket
+   flush $socket; gets $socket; flush $socket; gets $socket
+   flush $socket; gets $socket; flush $socket; gets $socket
+   flush $socket; gets $socket; flush $socket; gets $socket
+   flush $socket; gets $socket; flush $socket; gets $socket
+   flush $socket; gets $socket; flush $socket; gets $socket
+   flush $socket; gets $socket; flush $socket; gets $socket
+   flush $socket; gets $socket; flush $socket; gets $socket
+   flush $socket; gets $socket; flush $socket; set recv [gets $socket]
+
+   return $recv
 }
 
 proc get_password {method data} {
