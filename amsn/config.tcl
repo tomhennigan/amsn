@@ -219,7 +219,7 @@ proc ConfigDefaults {} {
 	set config(leavejoinsinchat)	1	;#Display leave/join notifications in chat text area
 	set config(charscounter)	1	;#Display typed characters counter
 	set config(checkemail)	1	;#Show inbox email notification line
-	set config(recentmsg) 1		;#Recent message window closing protection
+	set config(recentmsg) 0		;#Recent message window closing protection
 
 
 	#System options, not intended to be edited (unless you know what you're doing)
