@@ -22,12 +22,12 @@ namespace eval ::plugins {
 	    if {[info exists config(ircha)]} {
   	       if { $config(ircha) } {
 	          status_log "Running text2speech: \n" 
-	          catch {exec lee "\"[trans says [lindex $evParam 1]]: [lindex $evParam 2]\"" &}
+	          catch {exec artsdsp lee "\"[trans says [lindex $evParam 1]]: [lindex $evParam 2]\"" &}
 	       }
 	    }
 	 }
          default {
-	    status_log "::plugins::postEvent: Unknown event type: $evID\n" red
+	    #status_log "::plugins::postEvent: Unknown event type: $evID\n" red
 	 }
       }
    }
