@@ -102,7 +102,7 @@ namespace eval ::guiContactList {
 		set clbox [list 0 0 1000 1000]
 
 		toplevel .contactlist
-
+		wm title .contactlist "[trans title] - [::config::getKey login]"
 		frame .contactlist.fr
 		
 		canvas $clcanvas -width [lindex $clbox 2] -height [lindex $clbox 3] -background white \
@@ -115,6 +115,12 @@ namespace eval ::guiContactList {
 		pack .contactlist.fr
 
 		drawCL $clcanvas
+		
+		catch {wm geometry .contactlist [::config::getKey wingeometry]}
+		#To avoid the bug of window behind the bar menu on Mac OS X
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			moveinscreen .contactlist 30
+		}
 	}
 
 	# This is the main contactList drawing procedure, it clears the canvas and draws a brand new
@@ -128,6 +134,7 @@ namespace eval ::guiContactList {
 		set bgimg [image create photo -file "" -format gif]
 		
 		$canvas create image 0 0 -image [::skin::loadPixmap back] -anchor nw
+		#$canvas create image 0 0 -image $bgimg -anchor nw
 
 		# Now let's get a contact list
 		set contactList [generateCL]
