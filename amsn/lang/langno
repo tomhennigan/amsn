@@ -10,7 +10,7 @@ addprofile Legg til profil
 addstate Legg til ny
 addtocontacts Legg til kontaktliste
 addto Legg til i $1
-addtoo Legg denne personen til i min kontaktliste
+addtoo Legg til denne personen i kontaktlisten
 admincontacts Administrer kontakter
 admingroups Administrer grupper
 adverts Reklame
@@ -67,6 +67,7 @@ cancel Avbryt
 cannotdeleteprofile Kan ikke slette profil, den ser ut til å være i bruk av en amsn session
 cantexec Kan ikke kjøre program $1, sjekk instillingene
 casesensitive Skill mellom store og små bokstaver
+cfgalarmall Konfigurer/Legg til/Fjern Global Alarm
 cfgalarm  Konfiguer/Legg til/Fjern Alarm
 changedisplaypic Endre Personlig Bilde
 changefont Skift skrifttype
@@ -126,26 +127,42 @@ deliverfail Det var problemer med å levere følgende melding
 delprofile2 Velg hvilken profil du vil fjerne
 delprofile Slett Profil
 description Beskrivelse
+directconnection Direkte tilkobling til internett (bruker port 1863)
 disablessl Deaktiver SSL
+disconnect $1 har koblet fra.
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
+dockgtk Gnome-dokk
+docking Dokking
+dockingoff Dokking Av
+dockkde KDE-dokk
 dontdownload ikke last ned TLS, jeg vil installere det selv
+downloadingtls Laster ned TLS-modul fra:\n $1
 editprofile Rediger Profil
 edit Rediger
+emotisounds Spill av lyder for certain uttrykksikoner
 enableproxy Bruk proxy
+enableremote Aktiver fjernkontrollering
+enablesound Spill av lyd
 encoding2 Endre tegnkoding
 encoding Velg koding
 entercontactemail Oppgi kontakt e-post
 enterfilename Vennligst oppgi et filnavn
-enternick Oppgi ditt nick
+enternick Oppgi nytt kallenavn
 errortls Problemer med installasjon av TLS-modul:
 examples Eksempler
 exitamsn Er du sikker på at du vil avslutte?
 extras Ekstra tjenester
+faq FAQ (Jevnlig Besvarte Spørsmål)
 filedoesnotexist Filen eksisterer ikke
+filemanexample ( \$location vil bli byttet ut med mappeny ) F.eks: nautilus \$location
 fileman Filhåndterer
 filename Filnavn
 filetransfercancelled Filoverføringen ble avbrutt
 filetransfercomplete Filoverføringen er fullført
+followtext Scroll ned når ny tekst blir skrevet inn
+ftacceptedby $1 aksepterte invitasjonen til filoverføring av '$2'.
 ftaccepted Sending av fil akseptert
+ftaccepting Aksepterer ivitasjon til filoverføring
 ftrejected Sending av fil avslått
 getdisppic Aktiver mottak av Personlige Bilder fra andre brukere
 gonelunch Ute til lunsj
@@ -241,7 +258,7 @@ preferences Innstillinger
 preffont2 Endre min meldingstekst og størrelse
 preffont3 Endre aMSN's skrift og størrelse
 preffont Min meldingstekst
-prefname Mitt MSN Messenger Navn/Kallenavn
+prefname Mitt kallenavn
 prefphone2 Skriv inn telefonnummerene som du vil at personer \n på din Tillatte-liste skal se\n
 prefphone Mine Telefonnummer
 prefprofile2 Opprett eller modifiser min offentlige profil \n(beskrivelse av meg selv som andre kan se)
