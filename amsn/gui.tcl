@@ -1236,7 +1236,12 @@ namespace eval ::amsn {
       WinStatus [ WindowFor $chatid ] $statusmsg minijoins
       WinTopUpdate $chatid
 
-		::amsn::ChangePicture $win_name user_pic_$usr_name
+		if { $config(showdisplaypic) } {
+			::amsn::ChangePicture $win_name user_pic_$usr_name
+		} else {
+			::amsn::ChangePicture $win_name user_pic_$usr_name nopack
+		}
+
 
 	if { $config(keep_logs) } {
 		::log::JoinsConf $chatid $usr_name
@@ -1418,8 +1423,8 @@ namespace eval ::amsn {
       .${win_name}.menu.view add separator
       .${win_name}.menu.view add checkbutton -label "[trans chatsmileys]" \
         -onvalue 1 -offvalue 0 -variable config(chatsmileys)
-		  global .${win_name}.show_picture
-		  set .${win_name}.show_picture $config(showdisplaypic)
+		  global .${win_name}_show_picture
+		  set .${win_name}_show_picture 0
 		  .${win_name}.menu.view add checkbutton -label "[trans showdisplaypic]" -command "::amsn::ShowOrHidePicture .${win_name}" -onvalue 1 -offvalue 0 -variable ".${win_name}_show_picture"
       .${win_name}.menu.view add separator
       .${win_name}.menu.view add command -label "[trans history]" -command "::amsn::ShowChatList \"[trans history]\" .${win_name} ::log::OpenLogWin" -accelerator "Ctrl+H"
@@ -1529,10 +1534,6 @@ namespace eval ::amsn {
 		#pack $bottom.pic -side left -padx 2 -pady 2
 		grid $bottom.in -row 1 -column 0 -padx 3 -pady 3 -sticky nsew
 		grid $bottom.buttons -row 0 -column 0 -padx 3 -pady 0 -sticky ewns
-		if { $config(showdisplaypic) } {
-			grid $bottom.pic -row 0 -column 1 -padx 2 -pady 2 -rowspan 2
-			::amsn::ChangePicture .${win_name} my_pic
-		}
 		grid column $bottom 0 -weight 1
 
 		pack .${win_name}.f.out -expand true -fill both -padx 3 -pady 0
@@ -1599,6 +1600,8 @@ namespace eval ::amsn {
       focus $bottom.in.input
 
       change_myfontsize $config(textsize) ${win_name}
+		#::amsn::ChangePicture .${win_name} my_pic
+
 
 
       #TODO: We always want these menus and bindings enabled? Think it!!
@@ -1692,17 +1695,18 @@ namespace eval ::amsn {
 
 	}
 
-	proc ChangePicture {win picture} {
+	proc ChangePicture {win picture {nopack ""}} {
+		global config
 		#pack $win.bottom.pic -side left -padx 2 -pady 2
 		upvar #0 ${win}_show_picture show_pic
 
-		if { $show_pic } {
-			grid $win.f.bottom.pic -row 0 -column 1 -padx 2 -pady 2 -rowspan 2
-		}
 		if { [catch {$win.f.bottom.pic configure -image $picture}] } {
 			status_log "Failed to set picture, using no_pic\n" red
 			image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
 			$win.f.bottom.pic configure -image no_pic
+		} elseif { $nopack == ""} {
+			grid $win.f.bottom.pic -row 0 -column 1 -padx 2 -pady 2 -rowspan 2
+			set show_pic 1
 		}
 	}
 
@@ -1715,7 +1719,6 @@ namespace eval ::amsn {
 
 	proc ShowOrHidePicture { win } {
 		upvar #0 ${win}_show_picture value
-		status_log "Here value=$value\n"
 		if { $value == 1} {
 			::amsn::ChangePicture $win [$win.f.bottom.pic cget -image]
 		} else {
