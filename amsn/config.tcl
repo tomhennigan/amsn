@@ -1003,12 +1003,14 @@ proc DeleteProfile { email entrypath } {
 	if { $email == "" } {
 		return
 	}
+	#Reload profiles file
+	LoadLoginList 1
 	# Make sure profile isn't locked
-	if { [CheckLock $email] == -1 } {
+	if { $email == $config(login) } {
 		msg_box [trans cannotdeleteprofile]
 		return
 	}
-	if { $email == $config(login) } {
+	if { [CheckLock $email] == -1 } {
 		msg_box [trans cannotdeleteprofile]
 		return
 	}
