@@ -76,7 +76,7 @@
    <lang>
       <langcode>en</langcode>
       <name>English</name>
-      <version>1.266</version>
+      <version>1.267</version>
       <encoding>iso8859-1</encoding>
    </lang>
    <lang>
@@ -106,7 +106,7 @@
    <lang>
       <langcode>fr</langcode>
       <name>French (France)</name>
-      <version>1.109</version>
+      <version>1.110</version>
       <encoding>iso8859-1</encoding>
    </lang>
    <lang>
@@ -154,7 +154,7 @@
    <lang>
       <langcode>id</langcode>
       <name>Indonesian (Bahasa Indonesia)</name>
-      <version>1.43</version>
+      <version>1.44</version>
       <encoding>iso8859-1</encoding>
    </lang>
    <lang>
