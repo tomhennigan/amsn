@@ -249,7 +249,6 @@ proc ChCustomState { idx } {
 				::MSN::changeName [::config::getKey login] $newname
 				StateList promote $idx
 			}
-			::MSN::changeStatus $new_state
 		}
 	} else {
 		set automessage "-1"
@@ -261,8 +260,21 @@ proc ChCustomState { idx } {
 			unset original_nick
 			catch { file delete [file join ${HOME} "nick.cache"] }
 		}
-		::MSN::changeStatus $idx
+		set new_state $idx
 	}
+
+	if { [info exists new_state] } {
+		::MSN::changeStatus $new_state
+
+		#PostEvent 'ChangeMyState' when the user changes his/her state
+		set evPar(automessage) $automessage
+		set evPar(idx) $new_state
+		::plugins::PostEvent ChangeMyState evPar
+	} else {
+		status_log "ChCustomState where state didnt exist !!!" red
+	}
+
+
 	CreateStatesMenu .my_menu
 	if { [info exists automsgsent] } {
 		unset automsgsent

@@ -3918,14 +3918,14 @@ proc initial_syn_handler {recv} {
 
 	#Don't use oldstatus if it was "FLN" (disconnectd) or we will get a 201 error
 	if {[info exists ::oldstatus] && $::oldstatus != "FLN" } {
-		::MSN::changeStatus $::oldstatus
+		ChCustomState $::oldstatus
 		send_dock "STATUS" $::oldstatus
 		unset ::oldstatus
 	} elseif {[::config::getKey startoffline]} {
-		::MSN::changeStatus "HDN"
+		ChCustomState "HDN"
 		send_dock "STATUS" "HDN"
 	} else {
-		::MSN::changeStatus "NLN"
+		ChCustomState "NLN"
 		send_dock "STATUS" "NLN"
 	}
 

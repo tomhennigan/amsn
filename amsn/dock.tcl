@@ -32,21 +32,21 @@ proc dock_handler { sock } {
 			wm iconify .
 		}
 	} elseif { $l == "GO_ONLINE"} {
-		::MSN::changeStatus NLN
+		ChCustomState NLN
 	} elseif { $l == "GO_NOACT" } {
-		::MSN::changeStatus IDL
+		ChCustomState IDL
 	} elseif { $l == "GO_BUSY" } {
-		::MSN::changeStatus BSY
+		ChCustomState BSY
 	} elseif { $l == "GO_BRB" } {
-			::MSN::changeStatus BRB
+		ChCustomState BRB
 	} elseif { $l == "GO_AWAY" } {
-			::MSN::changeStatus AWY
+		ChCustomState AWY
 	} elseif { $l == "GO_ONPHONE" } {
-		::MSN::changeStatus PHN
+		ChCustomState PHN
 	} elseif { $l == "GO_LUNCH" } {
-		::MSN::changeStatus LUN
+		ChCustomState LUN
 	} elseif { $l == "GO_APP_OFFLINE" } {
-		::MSN::changeStatus HDN
+		ChCustomState HDN
 	} elseif { $l == "OPEN_INBOX" } {
 		global password
 		hotmail_login [::config::getKey login] $password

@@ -6166,21 +6166,36 @@ proc idleCheck {} {
 	#Avoid running this if the settings are not digits, which can happen while changing preferences
 		set second [expr {[::config::getKey awaytime] * 60}]
 		set first [expr [::config::getKey idletime] * 60]
-	
+		
+		set changed 0
+		
 		if { $idletime >= $second && [::config::getKey autoaway] == 1 && \
 			(([::MSN::myStatusIs] == "IDL" && $autostatuschange == 1) || \
 			([::MSN::myStatusIs] == "NLN"))} {
 			#We change to Away if time has passed, and if IDL was set automatically
 			::MSN::changeStatus AWY
 			set autostatuschange 1
+
+			set changed "AWY"
 		} elseif {$idletime >= $first && [::MSN::myStatusIs] == "NLN" && [::config::getKey autoidle] == 1} {
 			#We change to idle if time has passed and we're online
 			::MSN::changeStatus IDL
 			set autostatuschange 1
+
+			set changed "IDL"
 		} elseif { $idletime == 0 && $autostatuschange == 1} {
 			#We change to only if mouse movement, and status change was automatic
 			::MSN::changeStatus NLN
 			#Status change always resets automatic change to 0
+
+			set changed "NLN"
+		}
+
+		if { $changed != "0" } {
+			#PostEvent 'ChangeMyState' when the user changes his/her state
+			set evPar(automessage) $::automessage
+			set evPar(idx) $changed
+			::plugins::PostEvent ChangeMyState evPar
 		}
 	}
 
