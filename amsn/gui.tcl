@@ -443,7 +443,12 @@ namespace eval ::amsn {
       if { "[wm state $win_name]" == "withdrawn" } {
 
 	 wm state ${win_name} normal
-	 wm iconify ${win_name}
+
+	 if { $config(newmsgwinstate) == 0 } {
+	 	raise ${win_name}
+	 } else {
+	 	wm iconify ${win_name}
+	 }
 
          if { $config(notifymsg) == 1 } {
 	 	notifyAdd "[trans says [lindex [::MSN::getUserInfo $user] 1]]:\n$msg" \
@@ -1902,8 +1907,8 @@ proc cmsn_draw_main {} {
      "::amsn::ChooseList \"[trans sendmsg]\" online ::amsn::chatUser 1 0"
    .main_menu.actions add command -label "[trans sendmail]..." -command \
      "::amsn::ChooseList \"[trans sendmail]\" both \"launch_mailer\" 1 0"
-    .main_menu.actions add command -label "[trans verifyblocked]..." -command "VerifyBlocked"
-    .main_menu.actions add command -label "[trans showblockedlist]..." -command "VerifyBlocked ; show_blocked"
+    #.main_menu.actions add command -label "[trans verifyblocked]..." -command "VerifyBlocked"
+    #.main_menu.actions add command -label "[trans showblockedlist]..." -command "VerifyBlocked ; show_blocked"
    .main_menu.actions add command -label "[trans changenick]..." -command cmsn_change_name
    .main_menu.actions add separator
    .main_menu.actions add command -label "[trans checkver]..." -command "check_version"
@@ -2961,7 +2966,7 @@ proc cmsn_draw_online {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc ShowUser {user_name user_login state state_code colour section} {
-    global list_bl list_rl pgBuddy alarms emailBlist
+    global list_bl list_rl pgBuddy alarms emailBList
 
          if {($state_code != "NLN") && ($state_code !="FLN")} {
             set state_desc " ([trans [lindex $state 1]])"

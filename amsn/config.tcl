@@ -76,6 +76,7 @@ proc ConfigDefaults {} {
 	set config(autoconnect) 0
 	set config(showtimestamps) 1
 	set config(allowbadwords) 1
+	set config(newmsgwinstate) 1
 	set config(receiveddir) ""
 	set password ""
 }

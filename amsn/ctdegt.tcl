@@ -497,8 +497,8 @@ proc Preferences { settings } {
 	frame $lfname.1 -class Degt
 	frame $lfname.2 -class Degt
 	label $lfname.1.lmsgmaxmin -text [trans msgmaxmin] -padx 10
-	radiobutton $lfname.1.max -text [trans maximised] -value 1 -variable config(msgmaxmin) -state disabled
-	radiobutton $lfname.1.min -text [trans minimised] -value 2 -variable config(msgmaxmin) -state disabled
+	radiobutton $lfname.1.max -text [trans maximised] -value 0 -variable config(newmsgwinstate)
+	radiobutton $lfname.1.min -text [trans minimised] -value 1 -variable config(newmsgwinstate)
 	pack $lfname.1.lmsgmaxmin -anchor w -side top -padx 10
 	pack $lfname.1.max $lfname.1.min -side left -padx 10
 	label $lfname.2.lmsgmode -text [trans msgmode] -padx 10
@@ -1036,6 +1036,10 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.39  2003/05/23 20:16:57  burgerman
+# removed the blocking feature for now, could ban account for spaming, still to be tested further
+# small features
+#
 # Revision 1.38  2003/05/22 21:49:39  burgerman
 # autoidle + autoaway + preferences
 #
