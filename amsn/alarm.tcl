@@ -213,26 +213,26 @@ proc run_alarm {user msg} {
 	wm title .${wind_name} "[trans alarm] $user"
 	label .${wind_name}.txt -text "$msg"
 	pack .${wind_name}.txt
-	if { [getAlarmItem ${user} pic_st] == 1 } {
-		image create photo joanna -file [getAlarmItem ${user} pic]
+	if { [::alarms::getAlarmItem ${user} pic_st] == 1 } {
+		image create photo joanna -file [::alarms::getAlarmItem ${user} pic]
 		if { ([image width joanna] < 1024) && ([image height joanna] < 768) } {
 			label .${wind_name}.jojo -image joanna
 			pack .${wind_name}.jojo
 		}
 	}
 
-	if { [getAlarmItem ${user} oncommand] == 1 } {
-		string map [list "\$msg" "$msg" "\\" "\\\\" "\$" "\\\$" "\[" "\\\[" "\]" "\\\]" "\(" "\\\(" "\)" "\\\)" "\{" "\\\}" "\"" "\\\"" "\'" "\\\'" ] [getAlarmItem ${user} command]
-		catch { eval exec [getAlarmItem ${user} command] & } res 
+	if { [::alarms::getAlarmItem ${user} oncommand] == 1 } {
+		string map [list "\$msg" "$msg" "\\" "\\\\" "\$" "\\\$" "\[" "\\\[" "\]" "\\\]" "\(" "\\\(" "\)" "\\\)" "\{" "\\\}" "\"" "\\\"" "\'" "\\\'" ] [::alarms::getAlarmItem ${user} command]
+		catch { eval exec [::alarms::getAlarmItem ${user} command] & } res 
 	}
 
 	status_log "${wind_name}"
-	if { [getAlarmItem ${user} sound_st] == 1 } {
+	if { [::alarms::getAlarmItem ${user} sound_st] == 1 } {
 		#need different commands for windows as no kill or bash etc
 		if { $tcl_platform(platform) == "windows" } {
 			#Some verions of tk don't support this
 			catch { wm attributes .${wind_name} -topmost 1 }
-			if { [getAlarmItem ${user} loop] == 1 } {
+			if { [::alarms::getAlarmItem ${user} loop] == 1 } {
 				global stoploopsound
 				set stoploopsound 0
 				button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; set stoploopsound 1"
@@ -240,22 +240,22 @@ proc run_alarm {user msg} {
 				while { $stoploopsound == 0 } {
 					update
 					after 100
-					catch { eval exec "[regsub -all {\\} $command {\\\\}] [regsub -all {/} [getAlarmItem ${user} sound] {\\\\}]" & } res 
+					catch { eval exec "[regsub -all {\\} $command {\\\\}] [regsub -all {/} [::alarms::getAlarmItem ${user} sound] {\\\\}]" & } res 
 					update
 				}
 			} else {
 				button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}"
 				pack .${wind_name}.stopmusic -padx 2
 				update
-				catch { eval exec "[regsub -all {\\} $command {\\\\}] [regsub -all {/} [getAlarmItem ${user} sound] {\\\\}]" & } res 
+				catch { eval exec "[regsub -all {\\} $command {\\\\}] [regsub -all {/} [::alarms::getAlarmItem ${user} sound] {\\\\}]" & } res 
 			}			
 		} else {
-			if { [getAlarmItem ${user} loop] == 1 } {
+			if { [::alarms::getAlarmItem ${user} loop] == 1 } {
 				button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; catch { eval exec killall jwakeup } ; catch { eval exec killall -TERM $command }"
 				pack .${wind_name}.stopmusic -padx 2
-				catch { eval exec ${program_dir}/jwakeup $command [getAlarmItem ${user} sound] & } res
+				catch { eval exec ${program_dir}/jwakeup $command [::alarms::getAlarmItem ${user} sound] & } res
 			} else {
-				catch { eval exec $command [getAlarmItem ${user} sound] & } res 
+				catch { eval exec $command [::alarms::getAlarmItem ${user} sound] & } res 
 				button .${wind_name}.stopmusic -text [trans stopalarm] -command "catch { eval exec killall -TERM $command } res ; destroy .${wind_name}"
 				pack .${wind_name}.stopmusic -padx 2
 			}
@@ -285,7 +285,7 @@ proc switch_alarm { user icon} {
 # Redraws the alarm icon for current user ONLY without redrawing full list of contacts
 proc redraw_alarm_icon { user icon } {
 
-	if { [getAlarmItem $user enabled] == 1 } {
+	if { [::alarms::getAlarmItem $user enabled] == 1 } {
 		$icon configure -image bell
 	} else {
 		$icon configure -image belloff
