@@ -249,11 +249,7 @@ if { [catch {package require tls}] } {
 set log_dir "[file join ${HOME} logs]"
 #create_dir $log_dir
 
-sb set ns name ns
-sb set ns sock ""
-sb set ns data [list]
-sb set ns serv [split [::config::getKey start_ns_server] ":"]
-sb set ns stat "d"
+NS create ns -stat d -server [split [::config::getKey start_ns_server] ":"]
 
 set family [lindex [::config::getGlobalKey basefont] 0]
 set size [lindex [::config::getGlobalKey basefont] 1]

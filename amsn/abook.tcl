@@ -150,7 +150,7 @@ namespace eval ::abook {
 
 	# This proc will get the localip (private ip, NAT or not)
 	proc getLocalIP { } {
-		set sk [sb get ns sock]
+		set sk [ns cget -sock]
 
 		if { $sk != "" } {
 			set ip ""

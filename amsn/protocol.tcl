@@ -19,6 +19,7 @@ if { $initialize_amsn == 1 } {
 	
 	package require base64
 	package require sha1
+	package require snit
 }
 
 
@@ -187,7 +188,7 @@ namespace eval ::MSNFT {
          return 0
       }
 
-      set sock [sb get $sbn sock]
+      set sock [$sbn cget -sock]
       ::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
 
       after 20000 "::MSNFT::timeoutedFT $cookie"
@@ -789,6 +790,7 @@ namespace eval ::MSNFT {
 }
 
 namespace eval ::MSN {
+
    #TODO: Export missing procedures (the one whose starts with lowercase)
    namespace export changeName logout changeStatus connect blockUser \
    unblockUser addUser deleteUser login myStatusIs \
@@ -818,9 +820,9 @@ namespace eval ::MSN {
 			{HDN appearoff #404040 offline offline boffline}
 			{FLN offline #404040 offline offline boffline}
 		}
-		
 	}
-	
+
+
 	proc reconnect { error_msg } {
 	
 		cmsn_draw_reconnect $error_msg
@@ -842,7 +844,7 @@ namespace eval ::MSN {
 		after cancel ::MSN::connect
 
 		
-		if { [sb get ns stat] != "d" } {
+		if { [ns cget -stat] != "d" } {
 			return
 		}
 		
@@ -853,16 +855,13 @@ namespace eval ::MSN {
 			set passwd [set password]
 		}
 
-		sb set ns name ns
-		sb set ns sock ""
-		sb set ns data [list]
-		sb set ns server [split [::config::getKey start_ns_server] ":"]
-		sb set ns stat "d"
+		ns configure -data [list] -stat "d" -sock "" \
+			-server [split [::config::getKey start_ns_server] ":"]
 		
 		#Setup the conection
 		setup_connection ns
 		#Call the pre authentication
-		set command [list "::[sb get ns connection_wrapper]::authInit"]
+		set command [list "::[ns cget -connection_wrapper]::authInit"]
 		if { [eval $command] < 0 } {
 			return -1
 		}
@@ -880,7 +879,7 @@ namespace eval ::MSN {
 		
 		::MSN::WriteSBRaw ns "OUT\r\n";
 
-		set command [list "::[sb get ns connection_wrapper]::finish" ns]
+		set command [list "::[ns cget -connection_wrapper]::finish" ns]
 		eval $command
 		sb set ns stat "d"
 		
@@ -1149,14 +1148,14 @@ namespace eval ::MSN {
 
 		#Finally, to write, use a wrapper, so it's transparent to use
 		#a direct connection, a proxy, or anything      
-		set command [list "::[sb get $sbn connection_wrapper]::write" $sbn $cmd]
+		set command [list "::[$sbn cget -connection_wrapper]::write" $sbn $cmd]
 		catch {eval $command} res
 		
 		if { $res == 0 } {
 			if {$sbn != "ns" } {
-				degt_protocol "->$sbn-[sb get $sbn sock] $cmd" sbsend
+				degt_protocol "->$sbn-[$sbn cget -sock] $cmd" sbsend
 			} else {
-				degt_protocol "->$sbn-[sb get $sbn sock] $cmd" nssend
+				degt_protocol "->$sbn-[$sbn cget -sock] $cmd" nssend
 			}
 		} else {
 			::MSN::CloseSB $sbn
@@ -1168,47 +1167,51 @@ namespace eval ::MSN {
 	########################################################################	
 	# Check if the old closed preferred SB is still the preferred SB, or
 	# close it if not.
-	proc CheckKill { sbn } {
+	proc CheckKill { sb } {
 	
 		#Kill any remaining timers
-		after cancel "::MSN::CheckKill $sbn"
+		after cancel "::MSN::CheckKill $sb"
 	
-		if { [sb get $sbn stat] != "d" } {
+		if { ![info exists $sb] } {
+			#The SB was destroyed
+			return
+		}
+		if { [$sb cget -stat] != "d" } {
 			#The SB is connected again, forget about killing
 			return
 		} else {
 		
 			#Get the chatid
-			set chatid [::MSN::ChatFor $sbn]
+			set chatid [::MSN::ChatFor $sb]
 
 			if { $chatid == 0 } {
 				#If SB is not in any chat, we can just kill it
-				status_log "Session $sbn killed with no chatid associated\n"
-				::MSN::KillSB $sbn
+				status_log "Session $sb killed with no chatid associated\n"
+				::MSN::KillSB $sb
 				return 0
 			}
 
 			#If we're the preferred chatid
-			if { [::MSN::SBFor $chatid] == $sbn } {
+			if { [::MSN::SBFor $chatid] == $sb } {
 
 				#It's the preferred SB, so keep it for the moment
-				set items [expr {[sb length $sbn users] -1}]
-				status_log "Session $sbn closed, there are [expr {$items+1}] users: [sb get $sbn users]\n" blue
+				set items [expr {[llength [$sb cget -users]] -1}]
+				status_log "Session $sb closed, there are [expr {$items+1}] users: [$sb cget -users]\n" blue
 				
 				for {set idx $items} {$idx >= 0} {incr idx -1} {
-					set user_info [sb index $sbn users $idx]
-					sb ldel $sbn users $idx
-					amsn::userLeaves [::MSN::ChatFor $sbn] [list $user_info] 0
+					set user_info [lindex [$sb cget -users] $idx]
+					$sb delUser $idx
+					amsn::userLeaves [::MSN::ChatFor $sb] [list $user_info] 0
 				}
 				
 				#Try to kill it again in 5 minutes
-				after 300000 "::MSN::CheckKill $sbn"
+				after 300000 "::MSN::CheckKill $sb"
 				
 			} else {
 				#It's not the preferred SB,so we can safely delete it from the
 				#chat and Kill it
-				DelSBFor $chatid $sbn
-				::MSN::KillSB $sbn
+				DelSBFor $chatid $sb
+				::MSN::KillSB $sb
 			}
 		}		
 	}
@@ -1219,23 +1222,23 @@ namespace eval ::MSN {
 	# reading a SB. It closes the sock.
 	# For NS connection, call only when an error happens. To manually log out,
 	# call ::MSN::logout
-	proc CloseSB { sbn } {
+	proc CloseSB { sb } {
 
-		status_log "::MSN::CloseSB $sbn Called\n" green
-		catch {fileevent [sb get $sbn sock] readable "" } res
-		catch {fileevent [sb get $sbn sock] writable "" } res
+		status_log "::MSN::CloseSB $sb Called\n" green
+		catch {fileevent [$sb cget -sock] readable "" } res
+		catch {fileevent [$sb cget -sock] writable "" } res
 		
-		set sock [sb get $sbn sock]
+		set sock [$sb cget -sock]
 
 		if {$sock != ""} {
-			set command [list "::[sb get $sbn connection_wrapper]::finish" $sbn]
+			set command [list "::[$sb cget -connection_wrapper]::finish" $sb]
 			eval $command
 		}
 		
 		#Append an empty string to the SB buffer. This will cause the
 		#actual SB cleaning, but will allow to process all buffer
 		#before doing the cleaning
-		sb append $sbn data ""
+		$sb addData ""
 
 	}
 	#///////////////////////////////////////////////////////////////////////
@@ -1243,16 +1246,16 @@ namespace eval ::MSN {
 	########################################################################
 	#Called when we find a "" (empty string) in the SB buffer. This means
 	#the SB is closed. Proceed to clear everything related to it
-	proc ClearSB { sbn } {
+	proc ClearSB { sb } {
 
-		status_log "::MSN::ClearSB $sbn called\n" green
+		status_log "::MSN::ClearSB $sb called\n" green
 		
-		set oldstat [sb get $sbn stat]
-		sb set $sbn data ""
-		sb set $sbn sock ""
-		sb set $sbn stat "d"
+		set oldstat [$sb cget -stat]
+		$sb configure -data ""
+		$sb configure -sock ""
+		$sb configure -stat "d"
 		
-		if { $sbn == "ns" } {
+		if { $sb == "ns" } {
 	
 
 			set mystatus [::MSN::myStatusIs]
@@ -1266,12 +1269,12 @@ namespace eval ::MSN {
 			#we have a connection error.
 			if { ("$oldstat"!="d") && ("$oldstat" !="o") && ("$oldstat" !="u") && ("$oldstat" !="closed")} {
 				
-				set error_msg [sb get ns error_msg]
+				set error_msg [ns cget -error_msg]
 				#Reconnect if necessary
 				if { [::config::getKey reconnect] == 1 } {
 					set ::oldstatus $mystatus
 					if { $error_msg != "" } {
-						::MSN::reconnect "[trans connecterror]: [sb get ns error_msg]"
+						::MSN::reconnect "[trans connecterror]: [ns cget -error_msg]"
 					} else {
 						::MSN::reconnect "[trans connecterror]"
 					}
@@ -1279,7 +1282,7 @@ namespace eval ::MSN {
 				}
 				
 				if { $error_msg != "" } {
-					msg_box "[trans connecterror]: [sb get ns error_msg]"
+					msg_box "[trans connecterror]: [ns cget -error_msg]"
 				} else {
 					msg_box "[trans connecterror]"
 				}
@@ -1288,12 +1291,12 @@ namespace eval ::MSN {
 			#If we were connected, we have lost the connection
 			if { ("$oldstat"=="o") } {
 				
-				set error_msg [sb get ns error_msg]
+				set error_msg [ns cget -error_msg]
 				#Reconnect if necessary
 				if { [::config::getKey reconnect] == 1 } {
 					set ::oldstatus $mystatus
 					if { $error_msg != "" } {
-						::MSN::reconnect "[trans connectionlost]: [sb get ns error_msg]"
+						::MSN::reconnect "[trans connectionlost]: [ns cget -error_msg]"
 					} else {
 						::MSN::reconnect "[trans connectionlost]"
 					}
@@ -1301,7 +1304,7 @@ namespace eval ::MSN {
 				}
 				
 				if { $error_msg != "" } {
-					msg_box "[trans connectionlost]: [sb get ns error_msg]"
+					msg_box "[trans connectionlost]: [ns cget -error_msg]"
 				} else {
 					msg_box "[trans connectionlost]"
 				}
@@ -1310,7 +1313,7 @@ namespace eval ::MSN {
 			
 		} else {
 			#Check if we can kill the SB (clear all related info
-			CheckKill $sbn	
+			CheckKill $sb	
 		}
 		
 	}
@@ -1423,20 +1426,20 @@ namespace eval ::MSN {
 	# Return a list of users in chat, or last user in chat is chat is closed
 	proc usersInChat { chatid } {
 
-		set sb_name [SBFor $chatid]
+		set sb [SBFor $chatid]
 
-		if { $sb_name == 0 } {
+		if { $sb == 0 } {
 			status_log "usersInChat: no SB for chat $chatid!! (shouldn't happen?)\n" white
 			return [list]
 		}
 	
 	
-		set user_list [sb get $sb_name users]
+		set user_list [$sb cget -users]
 	
 		if { [llength $user_list] } {
 			return $user_list
 		} else {
-			return [list [sb get $sb_name last_user]]
+			return [list [$sb cget -last_user]]
 		}
 	
 	}
@@ -1444,21 +1447,21 @@ namespace eval ::MSN {
 	########################################################################
 	#Set the given $typer as a typing user. He will be removed after 6
 	#seconds.
-	proc addSBTyper { sb_name typer } {
+	proc addSBTyper { sb typer } {
 		
-		set idx [sb search $sb_name typers $typer]
+		set idx [$sb search -typers $typer]
 		if {$idx == -1} {
 			#Add if not already typing
-			sb append $sb_name typers $typer
+			$sb addTyper $typer
 		}
 	
 		#Cancel last DelSBTyper timer
-		after cancel [list ::MSN::DelSBTyper $sb_name $typer]
+		after cancel [list ::MSN::DelSBTyper $sb $typer]
 		#Remove typer after 6 seconds without a new notification
-		after 6000 [list ::MSN::DelSBTyper $sb_name $typer]
+		after 6000 [list ::MSN::DelSBTyper $sb $typer]
 		
 		#TODO: Call CHAT layer instead of GUI layer
-		set chatid [::MSN::ChatFor $sb_name]
+		set chatid [::MSN::ChatFor $sb]
 		if { $chatid != "" } {
 			::amsn::updateTypers $chatid
 		}
@@ -1467,14 +1470,14 @@ namespace eval ::MSN {
 	
 	########################################################################
 	#Remove the given typer from the chat typers list
-	proc DelSBTyper {sb_name typer} {
-		after cancel [list ::MSN::DelSBTyper $sb_name $typer]
+	proc DelSBTyper {sb typer} {
+		after cancel [list ::MSN::DelSBTyper $sb $typer]
 		catch {
-			set idx [sb search $sb_name typers $typer]
-			sb ldel $sb_name typers $idx
+			set idx [$sb search -typers $typer]
+			$sb delTyper $idx
 		
 			#TODO: Call CHAT layer instead of GUI layer
-			set chatid [::MSN::ChatFor $sb_name]
+			set chatid [::MSN::ChatFor $sb]
 			if { $chatid != "" } {
 				::amsn::updateTypers $chatid
 			}
@@ -1486,16 +1489,16 @@ namespace eval ::MSN {
 	#Return a list of users currently typing in the given chat
 	proc typersInChat { chatid } {
 
-		set name [SBFor $chatid]
-		if { $name == 0 } {
+		set sb [SBFor $chatid]
+		if { $sb == 0 } {
 			status_log "typersInChat: no SB for chat $chatid!!\n" white        
 			return [list]
 		}
 
-		set num_typers [sb length $name typers]
+		set num_typers [llength [$sb cget -typers]]
 
 		if {$num_typers > 0} {
-			return [sb get $name typers]
+			return [$sb cget -typers]
 		} else {
 			return [list]
 		}
@@ -1504,9 +1507,9 @@ namespace eval ::MSN {
 
 	
 	proc lastMessageTime { chatid } {
-		set sbn [SBFor $chatid]
-		if {$sbn != 0} {
-			return [sb get [SBFor $chatid] lastmsgtime]
+		set sb [SBFor $chatid]
+		if {$sb != 0} {
+			return [$sb cget -lastmsgtime]
 		} else {
 			return 0
 		}
@@ -1519,24 +1522,8 @@ namespace eval ::MSN {
 
 	
 	proc GetNewSB {} {
-		variable sb_num
-		incr sb_num
-		
-		set sbn "sb_${sb_num}"
-		
-		sb set $sbn name $sbn
-		sb set $sbn sock ""
-		sb set $sbn data [list]
-		sb set $sbn users [list]
-		sb set $sbn typers [list]
-		sb set $sbn lastmsgtime 0
-		
-		
-		return "sb_${sb_num}"
-		
-		
+		return [SB create %AUTO%]
 	}
-
 	
 	proc chatTo { user } {
 
@@ -1551,25 +1538,25 @@ namespace eval ::MSN {
 		}
 
 		#Get SB for that chatid, if it exists
-		set sbn [SBFor $lowuser]
+		set sb [SBFor $lowuser]
 
-		if { $sbn == 0 } {
+		if { $sb == 0 } {
 			#If no SB exists, get a new one and
 			#configure it
-			set sbn [GetNewSB]
+			set sb [GetNewSB]
 
 			status_log "::MSN::chatTo: Opening chat to user $user\n"
-			status_log "::MSN::chatTo: No SB available, creating new: $sbn\n"
+			status_log "::MSN::chatTo: No SB available, creating new: $sb\n"
 	
-			sb set $sbn stat "d"
-			sb set $sbn title [trans chat]
-			sb set $sbn last_user $lowuser
+			$sb configure -stat "d"
+			$sb configure -title [trans chat]
+			$sb configure -last_user $lowuser
 
-			AddSBFor $lowuser $sbn
-			lappend sb_list "$sbn"
+			AddSBFor $lowuser $sb
+			lappend sb_list "$sb"
 		}
 		#Now we have a SB ready for reconnection
-		cmsn_reconnect $sbn
+		cmsn_reconnect $sb
 		
 		return $lowuser
 	}
@@ -1577,13 +1564,12 @@ namespace eval ::MSN {
 
 	########################################################################
 	#Totally remove the given SB
-	proc KillSB { name } {
+	proc KillSB { sb } {
 		global sb_list
-		global ${name}_info
+		
+		status_log "::MSN::KillSB: Killing SB $sb\n"
 
-		status_log "::MSN::KillSB: Killing SB $name\n"
-
-		set idx [lsearch -exact $sb_list $name]
+		set idx [lsearch -exact $sb_list $sb]
 
 		if {$idx == -1} {
 			return 0
@@ -1592,34 +1578,33 @@ namespace eval ::MSN {
 		catch {
 			#fileevent [sb get $name sock] readable ""
 			#fileevent [sb get $name sock] writable ""
-			set command [list "::[sb get $name connection_wrapper]::finish" $name]
+			set command [list "::[$sb cget -connection_wrapper]::finish" $sb]
 			eval $command
 		} res
 
 		set sb_list [lreplace $sb_list $idx $idx ]
 
-		unset ${name}_info
+		$sb destroy
 	}
 
    
 	########################################################################
 	#Totally clean a chat. Remove all associated SBs
 	proc CleanChat { chatid } {
-		global sb_list
 
 		status_log "::MSN::CleanChat: Cleaning chat $chatid\n"
 
 		while { [SBFor $chatid] != 0 } {
 
-			set name [SBFor $chatid]
-			DelSBFor $chatid ${name}
+			set sb [SBFor $chatid]
+			DelSBFor $chatid ${sb}
 
 			#We leave the switchboard if it exists
-			if {[sb get $name stat] != "d"} {
-				WriteSBRaw $name "OUT\r\n"
+			if {[$sb cget -stat] != "d"} {
+				WriteSBRaw $sb "OUT\r\n"
 			}
 
-			after 60000 "::MSN::KillSB ${name}"
+			after 60000 "::MSN::KillSB ${sb}"
 		}
 
 		::amsn::chatDisabled $chatid
@@ -1640,36 +1625,37 @@ namespace eval ::MSN {
 	# Returns 0 if it's not ready.
 	proc chatReady { chatid } {
 
-		set sbn [SBFor $chatid]
-		set sb_sock [sb get $sbn sock]
+		set sb [SBFor $chatid]
 
-		if { "$sbn" == "0" } {
+		if { "$sb" == "0" } {
 			return 0
 		}
-	
+
+		set sb_sock [$sb cget -sock]	
+
 		if { "$sb_sock" == "" } {
 			return 0
 		}
 		
 		# This next two are necessary because SBFor doesn't
 		# always return a ready SB
-		if { "[sb get $sbn stat]" != "o" } {
+		if { "[$sb cget -stat]" != "o" } {
 			return 0
 		}
 
 		if {[catch {eof $sb_sock} res]} {
-			status_log "::MSN::chatReady: Error in the EOF command for $sbn socket($sb_sock): $res\n" red
-			::MSN::CloseSB $sbn
+			status_log "::MSN::chatReady: Error in the EOF command for $sb socket($sb_sock): $res\n" red
+			::MSN::CloseSB $sb
 			return 0
 		}
 
 		if {[eof $sb_sock]} {
-			status_log "::MSN::chatReady: EOF in $sbn socket($sb_sock)\n"
-			::MSN::CloseSB $sbn
+			status_log "::MSN::chatReady: EOF in $sb socket($sb_sock)\n"
+			::MSN::CloseSB $sb
 			return 0
 		}
 
-		if {[sb length $sbn users]} {
+		if {[llength [$sb cget -users]]} {
 			return 1
 		}
 
@@ -1688,20 +1674,20 @@ namespace eval ::MSN {
 			if { [llength $sb_chatid($chatid)] > 0 } {
 	
 				#Try to find a connected SB, return it and move to front
-				for {set idx 0} {$idx<[llength $sb_chatid($chatid)]} {incr idx} {
-					set sbn [lindex $sb_chatid($chatid) $idx]
+				set idx -1
+				foreach sb $sb_chatid($chatid) {
+					incr idx 
+					if {![catch {$sb cget -stat} res ]} {
+						if { "[$sb cget -stat]" == "o" } {
 	
-					if {![catch {sb get $sbn stat} res ]} {
-						if { "[sb get $sbn stat]" == "o" } {
-	
-							set sb_sock [sb get $sbn sock]
+							set sb_sock [$sb cget -sock]
 		
 							if { "$sb_sock" != "" } {
 								if {$idx!=0} {
 									set sb_chatid($chatid) [lreplace $sb_chatid($chatid) $idx $idx]
-									set sb_chatid($chatid) [linsert $sb_chatid($chatid) 0 $sbn]
+									set sb_chatid($chatid) [linsert $sb_chatid($chatid) 0 $sb]
 								}
-								return $sbn
+								return $sb
 							}
 						}
 					}
@@ -1932,7 +1918,7 @@ namespace eval ::MSN {
 		}
 
 
-		#set sock [sb get $sbn sock]
+		#set sock [$sbn cget -sock]
 
 		set txt_send [encoding convertto utf-8 [string map {"\n" "\r\n"} $txt]]
 
@@ -2168,8 +2154,7 @@ namespace eval ::MSN {
 		} else {
 			set debugcolor "sbrecv"
 		}
-		
-		sb append $sbn data $command
+		$sbn addData $command
 		degt_protocol "<-$sbn $command" $debugcolor
 	}
 	
@@ -2179,15 +2164,13 @@ namespace eval ::MSN {
 		} else {
 			set debugcolor "sbrecv"
 		}	
-		
-		sb append $sbn data $command
-		sb append $sbn data $data
+		$sbn addData $command
+		$sbn addData $data
 		degt_protocol "<-$sbn $command" $debugcolor
 		degt_protocol "Message Contents:\n$data" msgcontents
 	}
 
 }
-
 
 #Connection wrapper for Direct Connection
 namespace eval ::DirectConnection {
@@ -2195,7 +2178,7 @@ namespace eval ::DirectConnection {
 	#Called to write some data to the connection
 	proc write { sbn data } {
 	
-		set sb_sock [sb get $sbn sock]
+		set sb_sock [$sbn cget -sock]
 		if {[catch {puts -nonewline $sb_sock "$data"} res]} {
 			status_log "::DirectConnectin::Write: SB $sbn problem when writing to the socket: $res...\n" red
 			return -1
@@ -2208,7 +2191,7 @@ namespace eval ::DirectConnection {
 	#Called to close the given connection
 	proc finish {sbn} {
 		
-		set sock [sb get $sbn sock]
+		set sock [$sbn cget -sock]
 		
 		catch {
 			fileevent $sock readable ""
@@ -2226,18 +2209,18 @@ namespace eval ::DirectConnection {
 	#The "server" field in the sbn data must be set to server:port
 	proc connect {sbn} {
 	
-		set tmp_serv [lindex [sb get $sbn server] 0]
-		set tmp_port [lindex [sb get $sbn server] 1]
+		set tmp_serv [lindex [$sbn cget -server] 0]
+		set tmp_port [lindex [$sbn cget -server] 1]
 	
 		if { [catch {set sock [socket -async $tmp_serv $tmp_port]} res ] } {
-			sb set $sbn error_msg $res
+			$sbn configure -error_msg $res
 			return -1
 		}
 	
-		sb set $sbn sock $sock
+		$sbn configure -sock $sock
 		fconfigure $sock -buffering none -translation {binary binary} -blocking 0
 		fileevent $sock readable [list ::DirectConnection::Readable $sbn $sock]
-		set connected_command [sb get $sbn connected]
+		set connected_command [$sbn cget -connected]
 		lappend connected_command $sock
 		fileevent $sock writable $connected_command
 		return 0
@@ -2284,7 +2267,7 @@ namespace eval ::DirectConnection {
 		}
 		status_log "::DirectConnection::authenticate: Getting $url\n" blue
 		if {[catch {::http::geturl $url -command "::DirectConnection::GotAuthReply [list $str]" -headers $head}]} {
-			eval [sb get ns autherror_handler]
+			eval [ns cget -autherror_handler]
 			#msnp9_auth_error
 		}
 	
@@ -2327,7 +2310,7 @@ namespace eval ::DirectConnection {
 		if { [::http::status $token] != "ok" } {
 			::http::cleanup $token
 			status_log "::DirectConnection::GotAuthReply error: [::http::error]\n"
-			eval [sb get ns autherror_handler]
+			eval [ns cget -autherror_handler]
 			#msnp9_auth_error
 			return
 		}
@@ -2342,7 +2325,7 @@ namespace eval ::DirectConnection {
 			set value [string range [lindex $values $index] 9 end-1]
 			status_log "::DirectConnection::GotAuthReply 200 Ticket= $value\n" green
 			
-			set command [list [sb get ns ticket_handler] $value]
+			set command [list [ns cget -ticket_handler] $value]
 			eval $command
 			#msnp9_authenticate $value
 	
@@ -2354,9 +2337,9 @@ namespace eval ::DirectConnection {
 			::DirectConnection::authenticate $str $url
 		} elseif {[::http::ncode $token] == 401} {
 			#msnp9_userpass_error
-			eval [sb get ns passerror_handler]
+			eval [ns cget -passerror_handler]
 		} else {
-			eval [sb get ns autherror_handler]
+			eval [ns cget -autherror_handler]
 			#msnp9_auth_error
 		}
 		::http::cleanup $token
@@ -2370,12 +2353,12 @@ namespace eval ::DirectConnection {
 		if {[catch {eof $sb_sock} res]} {
 			status_log "::DirectConnection::Read: Error reading EOF for $sbn: $res\n" red
 			catch {fileevent $sb_sock readable ""}
-			eval [sb get $sbn error_handler]
+			eval [$sbn cget -error_handler]
 			return
 		} elseif {[eof $sb_sock]} {	
 			status_log "::DirectConnection::Read: EOF in $sbn, closing\n" red
 			catch {fileevent $sb_sock readable ""}
-			eval [sb get $sbn error_handler]
+			eval [$sbn cget -error_handler]
 			return
 		} else {
 	
@@ -2383,7 +2366,7 @@ namespace eval ::DirectConnection {
 			if {[catch {gets $sb_sock tmp_data} res]} {	
 				status_log "::DirectConnection::Read: Read error in $sbn, closing: $res\n" red
 				catch {fileevent $sb_sock readable ""}
-				eval [sb get $sbn error_handler]
+				eval [$sbn cget -error_handler]
 				return
 			} elseif  { "$tmp_data" == "" } {
 				update idletasks
@@ -2393,12 +2376,12 @@ namespace eval ::DirectConnection {
 					set old_handler "[fileevent $sb_sock readable]"
 					ReadNonBlocking $sbn [lindex $recv 3] [list ::DirectConnection::FinishedReadingPayload $sbn $old_handler $tmp_data]
 				} else {
-					set command [sb get $sbn command_handler]
+					set command [$sbn cget -command_handler]
 					lappend command $tmp_data
 					if {[catch {eval $command}]} {
 						status_log "::DirectConnection::Read: Read error in $sbn, no command handler, closing\n" red
 						catch {fileevent $sb_sock readable ""}
-						eval [sb get $sbn error_handler]
+						eval [$sbn cget -error_handler]
 					}
 				}
 			}
@@ -2408,17 +2391,17 @@ namespace eval ::DirectConnection {
 	
 	proc ReadNonBlocking { sbn amount finish_proc {read 0}} {
 	
-		set sock [sb get $sbn sock]
+		set sock [$sbn cget -sock]
 	
 		fileevent $sock readable ""
 	
 		if {[catch {eof $sock} res]} {
 			status_log "::DirectConnection::ReadNonBlocking: Error reading EOF for sock $sock ($sbn): $res\n" red
-			eval [sb get $sbn error_handler]
+			eval [$sbn cget -error_handler]
 			return
 		} elseif {[eof $sock]} {
 			status_log "::DirectConnection::ReadNonBlocking: Eof in sock $sock ($sbn), closing\n" red
-			eval [sb get $sbn error_handler]
+			eval [$sbn cget -error_handler]
 			return
 		}
 	
@@ -2451,12 +2434,12 @@ namespace eval ::DirectConnection {
 	
 	proc FinishedReadingPayload {sbn old_handler msg_data} {
 	
-		set sock [sb get $sbn sock]
+		set sock [$sbn cget -sock]
 	
 		set buffer_name "read_buffer_$sock"
 		upvar #0 $buffer_name read_buffer
 	
-		set command [sb get $sbn payload_handler]
+		set command [$sbn cget -payload_handler]
 		lappend command $msg_data
 		lappend command $read_buffer
 		eval $command
@@ -2468,72 +2451,83 @@ namespace eval ::DirectConnection {
 		
 }
 
+::snit::type Connection {
+
+	option -data [list]
+	option -server ""
+	option -stat ""
+	option -sock ""
+	option -connected ""
+	option -command_handler
+	option -payload_handler ""
+	option -error_handler ""
+	option -connection_wrapper ""
+	option -time ""
+	option -error_msg ""
 
 
-
-#Manages the SwitchBoard (SB) structure
-#$do parameter is the action to perform over $sbn
-proc sb {do sbn var {value ""}} {
-
-	global ${sbn}_info
-	set sb_tmp "${sbn}_info(${var})"
-	upvar #0 $sb_tmp sb_data
-
-	switch $do {
-		name {
-			return $sb_tmp
-		}
-		set {
-			set sb_data $value
-			return 0
-		}
-		get {
-			if {![info exists sb_data]} {
-				return ""
-			}
-			return $sb_data
-		}
-		append {
-			if {![info exists sb_data]} {
-				return ""
-			}
-			lappend sb_data $value
-		}
-		index {
-			if {![info exists sb_data]} {
-				return ""
-			}
-			return [lindex $sb_data $value]
-		}
-		ldel {
-			if {![info exists sb_data]} {
-				return
-			}
-			set sb_data [lreplace $sb_data $value $value]
-		}
-		length {
-			if {![info exists sb_data]} {
-				status_log "BIG ERROR???? TRYING TO GET LENGTH FROM AN UNEXISTING SB: $sbn $var\n" red
-				return 0
-			}
-
-			return [llength $sb_data]
-		}
-		search {
-			if {![info exists sb_data]} {
-				return ""
-			}
-
-			return [lsearch $sb_data $value]
-		}
-		exists {
-			return [info exists $sb_tmp]
-		}
-		unset {
-			unset $sb_tmp
-		}
+	method addData { value } {
+		lappend options(-data) $value
 	}
-	return 0
+
+	method delData { idx } {
+		set options(-data) [lreplace $options(-data) $idx $idx]
+	}
+
+}
+
+::snit::type NS {
+
+	delegate option * to connection
+	delegate method * to connection
+	option -autherror_handler ""
+	option -passerror_handler ""
+	option -ticket_handler ""
+
+	constructor {args} {
+		install connection using Connection %AUTO%
+		$self configurelist $args
+	}
+}
+
+::snit::type SB {
+
+	delegate option * to connection
+	delegate method * to connection
+	option -users [list]
+	option -typers [list]
+	option -lastmsgtime 0
+	option -title ""
+	option -last_user ""
+	option -invite ""
+	option -auth_cmd ""
+	option -auth_param ""
+
+
+	constructor {args} {
+		install connection using Connection %AUTO%
+		$self configurelist $args
+	}
+
+	method addUser { user } {
+		lappend options(-users) $user
+	}
+
+	method delUser { idx } {
+		set options(-users) [lreplace $options(-users) $idx $idx]
+	}
+
+	method addTyper { typer } {
+		lappend options(-typers) $typer
+	}
+
+	method delTyper { idx } {
+		set options(-typers) [lreplace $options(-typers) $idx $idx]
+	}
+
+	method search { option index } {
+		return [lsearch $options($option) $index]
+	}
 }
 
 proc proc_sb_watchdog {} {
@@ -2542,31 +2536,27 @@ proc proc_sb_watchdog {} {
 	proc_sb
 }
 
-
 proc proc_sb {} {
 	global sb_list
 
 	after cancel proc_sb
 	after 4000 proc_sb_watchdog
-	
 	#status_log "Processing SB\n"	
-	foreach sbn $sb_list {
-		while {[sb length $sbn data]} {
-			set item [sb index $sbn data 0]
-			
+	foreach sb $sb_list {
+		while {[llength [$sb cget -data]]} {
+			set item [lindex [$sb cget -data] 0]
 			set item [encoding convertfrom utf-8 $item]
 			
 			set item [string map {\r ""} $item]
 			set item [split $item]
 			
-			sb ldel $sbn data 0
+			$sb delData 0
 			
 			if { $item == "" } {
-				::MSN::ClearSB $sbn
+				::MSN::ClearSB $sb
 				break
 			}
-			
-			set result [cmsn_sb_handler $sbn $item]
+			set result [cmsn_sb_handler $sb $item]
 			if {$result == 0} {
 		
 			} else {
@@ -2593,17 +2583,16 @@ proc proc_ns {} {
 	
 	after cancel proc_ns
 	after 4000 proc_ns_watchdog
-
-	#status_log "Processing NS\n"	
-	while {[sb length ns data]} {
-		set item [sb index ns data 0]
+	#status_log "Processing NS\n"
+	while {[llength [ns cget -data]]} {
+		set item [lindex [ns cget -data] 0]
 		
 
 		set item [encoding convertfrom utf-8 $item]
 		
 		set item [string map {\r ""} $item]
 		set item [split $item]
-		sb ldel ns data 0
+		ns delData 0
 
 		if { $item == "" } {
 			status_log "proc_ns: NS Socket was closed\n" green
@@ -2676,13 +2665,13 @@ proc parse_exec {text} {
 	return [string trimright $outtext "\n"]
 }
 
-proc cmsn_sb_msg {sb_name recv} {
+proc cmsn_sb_msg {sb recv} {
 	#TODO: A little cleaning on all this
 	global filetoreceive files_dir automessage automsgsent
 
 	#Get the msg headers from the SB
-	set msg [sb index $sb_name data 0]
-	sb ldel $sb_name data 0
+	set msg [lindex [$sb cget -data] 0]
+	$sb delData 0
 
 	#Call cmsn_msg_parse to parse headers and get message
 	array set headers [list]
@@ -2702,22 +2691,22 @@ proc cmsn_sb_msg {sb_name recv} {
 	}
 	#Notice that we're ignoring the nick sent in the own MSG command, and using the one in ::abook
 
-	set users_list [sb get $sb_name users]
+	set users_list [$sb cget -users]
 
 	#Look what should be our chatID, depending on the number of users
 	if { [llength $users_list] == 1 } {
 		set desiredchatid $typer
 	} else {
-		set desiredchatid $sb_name ;#For conferences, use sb_name as chatid
+		set desiredchatid $sb ;#For conferences, use sb_name as chatid
 	}
 
 	#Get the current chatid
-	set chatid [::MSN::ChatFor $sb_name]
+	set chatid [::MSN::ChatFor $sb]
 
 	if { $chatid != 0} {
 		if { "$chatid" != "$desiredchatid" } {
 			#Our chatid is different than the desired one!! try to change
-			status_log "cmsn_sb_msg: Trying to change chatid from $chatid to $desiredchatid for SB $sb_name\n"
+			status_log "cmsn_sb_msg: Trying to change chatid from $chatid to $desiredchatid for SB $sb\n"
 			set newchatid [::ChatWindow::Change $chatid $desiredchatid]
 			if { "$newchatid" != "$desiredchatid" } {
 				#The GUI doesn't accept the change, as there's another window for that chatid
@@ -2725,18 +2714,18 @@ proc cmsn_sb_msg {sb_name recv} {
 			} else {
 				#The GUI accepts the change, so let's change
 				status_log "sb_msg: change accepted\n"
-				::MSN::DelSBFor $chatid $sb_name
+				::MSN::DelSBFor $chatid $sb
 				set chatid $desiredchatid
-				::MSN::AddSBFor $chatid $sb_name
+				::MSN::AddSBFor $chatid $sb
 			}
 		} else {
 			#Add it so it's moved to front
-			::MSN::AddSBFor $chatid $sb_name
+			::MSN::AddSBFor $chatid $sb
 		}
 	} else {
 		status_log "cmsn_sb_msg: NO chatid in cmsn_sb_msg, please check this!!\n" white
 		set chatid $desiredchatid
-		::MSN::AddSBFor $chatid $sb_name
+		::MSN::AddSBFor $chatid $sb
 	}
 
 
@@ -2781,7 +2770,7 @@ proc cmsn_sb_msg {sb_name recv} {
 		}
 
 		::amsn::messageFrom $chatid $typer $nick "$body" user [list $fontfamily $style $fontcolor] $p4c_enabled
-		sb set $sb_name lastmsgtime [clock format [clock seconds] -format %H:%M:%S]
+		$sb configure -lastmsgtime [clock format [clock seconds] -format %H:%M:%S]
 		::abook::setContactData $typer last_msgedme [clock format [clock seconds] -format "%D - %H:%M:%S"]
 
 		#if alarm_onmsg is on run it
@@ -2810,12 +2799,12 @@ proc cmsn_sb_msg {sb_name recv} {
 		}
 
 
-		::MSN::DelSBTyper $sb_name $typer
+		::MSN::DelSBTyper $sb $typer
 
 
 	} elseif {[string range $content 0 19] == "text/x-msmsgscontrol"} {
 
-		::MSN::addSBTyper $sb_name $typer
+		::MSN::addSBTyper $sb $typer
 
 	} elseif {[string range $content 0 18] == "text/x-msmsgsinvite"} {
 
@@ -2916,7 +2905,7 @@ proc cmsn_sb_msg {sb_name recv} {
 }
 
 
-proc cmsn_sb_handler {sb_name item} {
+proc cmsn_sb_handler {sb item} {
 	global list_cmdhnd msgacks
 
 	#set item [encoding convertfrom utf-8 $item]
@@ -2925,7 +2914,7 @@ proc cmsn_sb_handler {sb_name item} {
 	set idx [lsearch $list_cmdhnd "$ret_trid *"]
 	
 	if {$idx != -1} {		;# Command has a handler associated!
-		status_log "cmsn_sb_handler: Evaluating handler for $ret_trid in SB $sb_name\n"
+		status_log "cmsn_sb_handler: Evaluating handler for $ret_trid in SB $sb\n"
 		set command "[lindex [lindex $list_cmdhnd $idx] 1] {$item}"
 		set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
 		eval "$command"
@@ -2933,13 +2922,13 @@ proc cmsn_sb_handler {sb_name item} {
 	} else {
 		switch [lindex $item 0] {
 			MSG {
-				cmsn_sb_msg $sb_name $item
+				cmsn_sb_msg $sb $item
 				return 0
 			}
 			BYE -
 			JOI -
 			IRO {
-				cmsn_update_users $sb_name $item
+				cmsn_update_users $sb $item
 				return 0
 			}
 			CAL {
@@ -2947,15 +2936,15 @@ proc cmsn_sb_handler {sb_name item} {
 				return 0
 			}
 			ANS {
-				status_log "cmsn_sb_handler: ANS Chat started. [sb length $sb_name users] users: [sb get $sb_name users]\n" green
-				if { [sb length $sb_name users] == 1 } {
-					set chatid [sb index $sb_name users 0]
+				status_log "cmsn_sb_handler: ANS Chat started. [llength [$sb cget -users]] users: [$sb cget -users]\n" green
+				if { [llength [$sb cget -users]] == 1 } {
+					set chatid [lindex [$sb cget -users] 0]
 				} else {
-					set chatid $sb_name
+					set chatid $sb
 				}
-				::MSN::AddSBFor $chatid $sb_name
+				::MSN::AddSBFor $chatid $sb
 	
-				foreach usr_login [sb get $sb_name users] {
+				foreach usr_login [$sb cget -users] {
 					::MSNP2P::loadUserPic $chatid $usr_login
 					::amsn::userJoins $chatid $usr_login
 				}
@@ -2986,7 +2975,7 @@ proc cmsn_sb_handler {sb_name item} {
 			}
 			215 {
 				#if you try to begin a chat session with yourself
-				set chatid [::MSN::ChatFor $sb_name]
+				set chatid [::MSN::ChatFor $sb]
 				::MSN::ClearQueue $chatid
 				::amsn::chatStatus $chatid "[trans useryourself]\n" miniwarning
 				return 0
@@ -2995,8 +2984,8 @@ proc cmsn_sb_handler {sb_name item} {
 				return 0
 			}
 			default {
-				if { "[sb get $sb_name stat ]" == "d" } {
-					status_log "$sb_name: UNKNOWN SB ENTRY! --> [join $item]\n" red
+				if { "[$sb cget -stat ]" == "d" } {
+					status_log "$sb: UNKNOWN SB ENTRY! --> [join $item]\n" red
 				}
 				return 0
 			}
@@ -3005,13 +2994,13 @@ proc cmsn_sb_handler {sb_name item} {
 }
 
 
-proc cmsn_invite_user {name user} {
+proc cmsn_invite_user {sb user} {
 
-	if { ("[sb get $name stat]" == "o") \
-		|| ("[sb get $name stat]" == "n") \
-		|| ("[sb get $name stat]" == "i")} {
+	if { ("[$sb cget -stat]" == "o") \
+		|| ("[$sb cget -stat]" == "n") \
+		|| ("[$sb cget -stat]" == "i")} {
 
-		::MSN::WriteSB $name "CAL" $user "::MSN::CALReceived $name $user"
+		::MSN::WriteSB $sb "CAL" $user "::MSN::CALReceived $sb $user"
 
 	} else {
 
@@ -3028,34 +3017,34 @@ proc cmsn_rng {recv} {
 
 	set emaill [string tolower [lindex $recv 5]]
 
-	set sbn [::MSN::GetNewSB]
+	set sb [::MSN::GetNewSB]
 
 	#Init SB properly
-	sb set $sbn stat ""
-	sb set $sbn server [split [lindex $recv 2] ":"]
-	sb set $sbn connected [list cmsn_conn_ans $sbn]
-	sb set $sbn auth_cmd "ANS"
-	sb set $sbn auth_param "[::config::getKey login] [lindex $recv 4] [lindex $recv 1]"
+	$sb configure -stat ""
+	$sb configure -server [split [lindex $recv 2] ":"]
+	$sb configure -connected [list cmsn_conn_ans $sb]
+	$sb configure -auth_cmd "ANS"
+	$sb configure -auth_param "[::config::getKey login] [lindex $recv 4] [lindex $recv 1]"
 	
-	lappend sb_list "$sbn"
+	lappend sb_list "$sb"
 
-	status_log "Accepting conversation from: [lindex $recv 5]... (Got ANS1 in SB $sbn\n" green
+	status_log "Accepting conversation from: [lindex $recv 5]... (Got ANS1 in SB $sb\n" green
 
-	setup_connection $sbn
-	cmsn_socket $sbn
+	setup_connection $sb
+	cmsn_socket $sb
 	return 0
 }
 
-proc cmsn_open_sb {sbn recv} {
+proc cmsn_open_sb {sb recv} {
 
 	#TODO: I hope this works. If stat is not "c" (trying to connect), ignore
-	if { [sb get $sbn stat] != "c" } {
+	if { [$sb cget -stat] != "c" } {
 		return 0
 	}
 
 	if {[lindex $recv 0] == "913"} {
 		#Not allowed when offline
-		set chatid [::MSN::ChatFor $sbn]
+		set chatid [::MSN::ChatFor $sb]
 		::MSN::ClearQueue $chatid
 		::MSN::CleanChat $chatid
 		::amsn::chatStatus $chatid "[trans needonline]\n" miniwarning
@@ -3064,79 +3053,80 @@ proc cmsn_open_sb {sbn recv} {
 	}
 
 	if {[lindex $recv 4] != "CKI"} {
-		status_log "cmsn_open_sb: SB $sbn: Unknown SP requested!\n" red
+		status_log "cmsn_open_sb: SB $sb: Unknown SP requested!\n" red
 		return 1
 	}
 	
-	status_log "cmsn_open_sb: Opening SB $sbn\n" green
+	status_log "cmsn_open_sb: Opening SB $sb\n" green
 
-	sb set $sbn server [split [lindex $recv 3] ":"]
-	sb set $sbn connected [list cmsn_conn_sb $sbn]
-	sb set $sbn auth_cmd "USR"
-	sb set $sbn auth_param "[::config::getKey login] [lindex $recv 5]"
+	$sb configure -server [split [lindex $recv 3] ":"]
+	$sb configure -connected [list cmsn_conn_sb $sb]
+	$sb configure -auth_cmd "USR"
+	$sb configure -auth_param "[::config::getKey login] [lindex $recv 5]"
 
 
-	::amsn::chatStatus [::MSN::ChatFor $sbn] "[trans sbcon]...\n" miniinfo ready
-	setup_connection $sbn	
-	cmsn_socket $sbn
+	::amsn::chatStatus [::MSN::ChatFor $sb] "[trans sbcon]...\n" miniinfo ready
+	setup_connection $sb	
+	cmsn_socket $sb
 	return 0
 }
 
 
 
-proc cmsn_conn_sb {name sock} {
+proc cmsn_conn_sb {sb sock} {
    
 	catch { fileevent $sock writable "" } res
 
 	#Reset timeout timer
-	sb set $name time [clock seconds]
+	$sb configure -time [clock seconds]
 
-	sb set $name stat "a"
+	$sb configure -stat "a"
 
-	set cmd [sb get $name auth_cmd]
-	set param [sb get $name auth_param]
+	set cmd [$sb cget -auth_cmd]
+	set param [$sb cget -auth_param]
 	
-	::MSN::WriteSB $name $cmd $param "cmsn_connected_sb $name"
+	::MSN::WriteSB $sb $cmd $param "cmsn_connected_sb $sb"
 	
-	::amsn::chatStatus [::MSN::ChatFor $name] "[trans ident]...\n" miniinfo ready
+	::amsn::chatStatus [::MSN::ChatFor $sb] "[trans ident]...\n" miniinfo ready
 
 }
 
 
-proc cmsn_conn_ans {name sock} {
+proc cmsn_conn_ans {sb sock} {
 
 	#status_log "cmsn_conn_ans: Connected to invitation SB $name...\n" green
 	
 	catch {fileevent $sock writable {}} res
 
-	sb set $name time [clock seconds]
-	sb set $name stat "a"
+	$sb configure -time [clock seconds]
+	$sb configure -stat "a"
 
-	set cmd [sb get $name auth_cmd]; set param [sb get $name auth_param]
-	::MSN::WriteSB $name $cmd $param
+	set cmd [$sb cget -auth_cmd]
+	set param [$sb cget -auth_param]
+	::MSN::WriteSB $sb $cmd $param
 
 	#status_log "cmsn_conn_ans: Authenticating in $name...\n" green
 
 }
 
 
-proc cmsn_connected_sb {name recv} {
+proc cmsn_connected_sb {sb recv} {
 
 	#status_log "cmsn_connected_sb: SB $name connected\n" green
 	
-	sb set $name time [clock seconds]
-	sb set $name stat "i"
+	$sb configure -time [clock seconds]
+	$sb configure -stat "i"
 
-	if {[sb exists $name invite]} {
+	if {[$sb cget -invite] != ""} {
 
-		cmsn_invite_user $name [sb get $name invite]
+		cmsn_invite_user $sb [$sb cget -invite]
 
-		::amsn::chatStatus [::MSN::ChatFor $name] \
-			"[trans willjoin [sb get $name invite]]...\n" miniinfo ready
+		::amsn::chatStatus [::MSN::ChatFor $sb] \
+			"[trans willjoin [$sb cget -invite]]...\n" miniinfo ready
 
 	} else {
 
-		status_log "cmsn_connected_sb: got SB $name stat=i but no one to invite!!! CHECK!!\n" white
+		status_log "cmsn_connected_sb: got SB $sb stat=i but no one to invite!!! CHECK!!\n" white
 
 	}
 
@@ -3152,49 +3142,49 @@ proc cmsn_connected_sb {name recv} {
 #  "n" - Nobody. The SB is connected but there's nobody at the conversation
 
 
-proc cmsn_reconnect { name } {
+proc cmsn_reconnect { sb } {
 
-	switch [sb get $name stat] {
+	switch [$sb cget -stat] {
 		"n" {
 			
-			status_log "cmsn_reconnect: stat = n , SB= $name, user=[sb get $name last_user]\n" green
+			status_log "cmsn_reconnect: stat = n , SB= $sb, user=[$sb cget -last_user]\n" green
 			
-			sb set $name time [clock seconds]
-			sb set $name stat "i"
+			$sb configure -time [clock seconds]
+			$sb configure -stat "i"
 	
-			cmsn_invite_user $name [sb get $name last_user]
+			cmsn_invite_user $sb [$sb cget -last_user]
 	
-			::amsn::chatStatus [::MSN::ChatFor $name] \
-				"[trans willjoin [sb get $name last_user]]..." miniinfo ready
+			::amsn::chatStatus [::MSN::ChatFor $sb] \
+				"[trans willjoin [$sb cget -last_user]]..." miniinfo ready
 	
 		} 
 		
 		"d" {
 	
-			status_log "cmsn_reconnect: stat = d , SB= $name, user=[sb get $name last_user]\n" green
+			status_log "cmsn_reconnect: stat = d , SB= $sb, user=[$sb cget -last_user]\n" green
 			
-			sb set $name time [clock seconds]
+			$sb configure -time [clock seconds]
 	
-			sb set $name sock ""
-			sb set $name data [list]
-			sb set $name users [list]
-			sb set $name typers [list]
-			sb set $name title [trans chat]
-			sb set $name lastmsgtime 0
+			$sb configure -sock ""
+			$sb configure -data [list]
+			$sb configure -users [list]
+			$sb configure -typers [list]
+			$sb configure -title [trans chat]
+			$sb configure -lastmsgtime 0
 	
-			sb set $name stat "c"
-			sb set $name invite [sb get $name last_user]
+			$sb configure -stat "c"
+			$sb configure -invite [$sb cget -last_user]
 	
-			if { [sb get ns stat] != "o" } {
-				set chatid [::MSN::ChatFor $name]
+			if { [ns cget -stat] != "o" } {
+				set chatid [::MSN::ChatFor $sb]
 				::MSN::ClearQueue $chatid
 				::MSN::CleanChat $chatid
 				::amsn::chatStatus $chatid "[trans needonline]\n" miniwarning	
 				return
 			}
 			
-			::MSN::WriteSB ns "XFR" "SB" "cmsn_open_sb $name"
-			::amsn::chatStatus [::MSN::ChatFor $name] "[trans chatreq]..." miniinfo ready
+			::MSN::WriteSB ns "XFR" "SB" "cmsn_open_sb $sb"
+			::amsn::chatStatus [::MSN::ChatFor $sb] "[trans chatreq]..." miniinfo ready
 	
 		} 
 		
@@ -3202,15 +3192,15 @@ proc cmsn_reconnect { name } {
 	
 			#status_log "cmsn_reconnect: stat = i , SB= $name\n" green   
 		
-			if { [expr {[clock seconds] - [sb get $name time]}] > 15 } {
-				status_log "cmsn_reconnect: called again while inviting timeouted for sb $name\n" red
+			if { [expr {[clock seconds] - [$sb cget -time]}] > 15 } {
+				status_log "cmsn_reconnect: called again while inviting timeouted for sb $sb\n" red
 				#catch { fileevent [sb get $name sock] readable "" } res
 				#catch { fileevent [sb get $name sock] writable "" } res
-				set command [list "::[sb get $name connection_wrapper]::finish" $name]
+				set command [list "::[$sb cget -connection_wrapper]::finish" $sb]
 				eval $command
 				#catch {close [sb get $name sock]} res
-				sb set $name stat "d"
-				cmsn_reconnect $name
+				$sb configure -stat "d"
+				cmsn_reconnect $sb
 			}
 	
 		}
@@ -3219,12 +3209,12 @@ proc cmsn_reconnect { name } {
 	
 			#status_log "cmsn_reconnect: stat = c , SB= $name\n" green      
 		
-			if { [expr {[clock seconds] - [sb get $name time]}] > 10 } {
-				status_log "cmsn_reconnect: called again while reconnect timeouted for sb $name\n" red
+			if { [expr {[clock seconds] - [$sb cget -time]}] > 10 } {
+				status_log "cmsn_reconnect: called again while reconnect timeouted for sb $sb\n" red
 				#set command [list "::[sb get $name connection_wrapper]::finish" $name]
 				#eval $command
-				sb set $name stat "d"
-				cmsn_reconnect $name
+				$sb configure -stat "d"
+				cmsn_reconnect $sb
 			}
 	
 		} 
@@ -3235,29 +3225,29 @@ proc cmsn_reconnect { name } {
 			
 			#status_log "cmsn_reconnect: stat =[sb get $name stat] , SB= $name\n" green         
 	
-			if { [expr {[clock seconds] - [sb get $name time]}] > 10 } {
-				status_log "cmsn_reconnect: called again while authentication timeouted for sb $name\n" red
+			if { [expr {[clock seconds] - [$sb cget -time]}] > 10 } {
+				status_log "cmsn_reconnect: called again while authentication timeouted for sb $sb\n" red
 				#catch { fileevent [sb get $name sock] readable "" } res
 				#catch { fileevent [sb get $name sock] writable "" } res
-				set command [list "::[sb get $name connection_wrapper]::finish" $name]
+				set command [list "::[$sb cget -connection_wrapper]::finish" $sb]
 				eval $command
 				#catch {close [sb get $name sock]} res
-				sb set $name stat "d"
-				cmsn_reconnect $name
+				$sb configure -stat "d"
+				cmsn_reconnect $sb
 			}
 		} 
 		"" {
 			status_log "cmsn_reconnect: SB $name stat is [sb get $name stat]. This is bad, should delete it and create a new one\n" red
 			catch {
-				set chatid [::MSN::ChatFor $name]
-				::MSN::DelSBFor $chatid $name
-				::MSN::KillSB $name
+				set chatid [::MSN::ChatFor $sb]
+				::MSN::DelSBFor $chatid $sb
+				::MSN::KillSB $sb
 				::MSN::chatTo $chatid
 			}
 			
 		} 
 		default {
-			status_log "cmsn_reconnect: SB $name stat is [sb get $name stat]\n" red
+			status_log "cmsn_reconnect: SB $sb stat is [$sb cget -stat]\n" red
 		}
 	}
 
@@ -3268,21 +3258,21 @@ proc cmsn_reconnect { name } {
 
 
 #///////////////////////////////////////////////////////////////////////
-proc cmsn_update_users {sb_name recv} {
+proc cmsn_update_users {sb recv} {
 
 	switch [lindex $recv 0] {
 
 		BYE {
 
-			set chatid [::MSN::ChatFor $sb_name]
+			set chatid [::MSN::ChatFor $sb]
 
-			set leaves [sb search $sb_name users "[lindex $recv 1]"]
-			sb set $sb_name last_user [sb index $sb_name users $leaves]
-			sb ldel $sb_name users $leaves
+			set leaves [$sb search -users "[lindex $recv 1]"]
+			$sb configure -last_user [lindex [$sb cget -users] $leaves]
+			$sb delUser $leaves
 
-			set usr_login [sb index $sb_name users 0]
+			set usr_login [lindex [$sb cget -users] 0]
 
-			if { [sb length $sb_name users] == 1 } {
+			if { [llength [$sb cget -users]] == 1 } {
 				#We were a conference! try to become a private
 
 				set desiredchatid $usr_login
@@ -3296,18 +3286,18 @@ proc cmsn_update_users {sb_name recv} {
 				} else {
 					#The GUI accepts the change, so let's change
 					status_log "cmsn_update_users: change accepted from $chatid to $desiredchatid\n"
-					::MSN::DelSBFor $chatid $sb_name
-					::MSN::AddSBFor $newchatid $sb_name                  
+					::MSN::DelSBFor $chatid $sb
+					::MSN::AddSBFor $newchatid $sb                  
 					set chatid $newchatid
 				}
 
-			} elseif { [sb length $sb_name users] == 0 && [sb get $sb_name stat] != "d" } {
-				sb set $sb_name stat "n"
+			} elseif { [llength [$sb cget -users]] == 0 && [$sb cget -stat] != "d" } {
+				$sb configure -stat "n"
 			}
 	
 			#Another option for the condition:
 			# "$chatid" != "[lindex $recv 1]" || ![MSN::chatReady $chatid]
-			if { [::MSN::SBFor $chatid] == $sb_name } {
+			if { [::MSN::SBFor $chatid] == $sb } {
 				if { [lindex $recv 2] == "1" } {
 					::amsn::userLeaves $chatid [list [lindex $recv 1]] 0
 				} else {
@@ -3320,33 +3310,33 @@ proc cmsn_update_users {sb_name recv} {
 
 			#You get an IRO message when you're invited to some chat. The chatid name won't be known
 			#until the first message comes
-			sb set $sb_name stat "o"
+			$sb configure -stat "o"
 
 			set usr_login [string tolower [lindex $recv 4]]
 			set usr_name [urldecode [lindex $recv 5]]
 
-			sb append $sb_name users [list $usr_login]
+			$sb addUser [list $usr_login]
 
 			::abook::setContactData $usr_login nick $usr_name
 
-			sb set $sb_name last_user $usr_login
+			$sb configure -last_user $usr_login
 
 		}
 
 		JOI {
-			sb set $sb_name stat "o"
+			$sb configure -stat "o"
 
 			set usr_login [string tolower [lindex $recv 1]]
 			set usr_name [urldecode [lindex $recv 2]]
 		
-			sb append $sb_name users [list $usr_login]
+			$sb addUser [list $usr_login]
 
 			::abook::setContactData $usr_login nick $usr_name
 		
 		
-			if { [sb length $sb_name users] == 1 } {
+			if { [llength [$sb cget -users]] == 1 } {
 
-				sb set $sb_name last_user $usr_login
+				$sb configure -last_user $usr_login
 				set chatid $usr_login
 
 			} else {
@@ -3354,18 +3344,18 @@ proc cmsn_update_users {sb_name recv} {
 				#More than 1 user, change into conference
 		
 				#Procedure to change chatid-sb correspondences
-				set oldchatid [::MSN::ChatFor $sb_name]
+				set oldchatid [::MSN::ChatFor $sb]
 	
 				if { $oldchatid == 0 } {
 					status_log "cmsn_update_users: JOI - VERY BAD ERROR, oldchatid = 0. CHECK!!\n" white
 					return 0
 				}
 	
-				set chatid $sb_name
+				set chatid $sb
 	
 				#Remove old chatid correspondence
-				::MSN::DelSBFor $oldchatid $sb_name
-				::MSN::AddSBFor $chatid $sb_name
+				::MSN::DelSBFor $oldchatid $sb
+				::MSN::AddSBFor $chatid $sb
 		
 				status_log "cmsn_update_users: JOI - Another user joins, Now I'm chatid $chatid (I was $oldchatid)\n"
 				::ChatWindow::Change $oldchatid $chatid
@@ -3380,7 +3370,7 @@ proc cmsn_update_users {sb_name recv} {
 			#and get a fake "user joins" message if we don't check it
 			::MSNP2P::loadUserPic $chatid $usr_login
 			
-			if {[::MSN::SBFor $chatid] == $sb_name} {
+			if {[::MSN::SBFor $chatid] == $sb} {
 				::amsn::userJoins $chatid $usr_login
 			}
 		}
@@ -3580,7 +3570,7 @@ proc cmsn_change_state {recv} {
 
 		global sb_list
 		foreach sb $sb_list {
-			set users_in_chat [sb get $sb users]
+			set users_in_chat [$sb cget -users]
 			if { [lsearch $users_in_chat $user] != -1 } {
 				status_log "User changed image while image in use!! Updating!!\n" white
 				::MSNP2P::loadUserPic [::MSN::ChatFor $sb] $user
@@ -3626,7 +3616,7 @@ proc cmsn_ns_handler {item} {
 			XFR {
 				if {[lindex $item 2] == "NS"} {
 					set tmp_ns [split [lindex $item 3] ":"]
-					sb set ns server $tmp_ns
+					ns configure -server $tmp_ns
 					status_log "cmsn_ns_handler: got a NS transfer, reconnecting to [lindex $tmp_ns 0]!\n" green
 					cmsn_ns_connect [::config::getKey login] $password nosigin
 					set recon 1
@@ -3904,8 +3894,8 @@ proc cmsn_ns_handler {item} {
 
 proc cmsn_ns_msg {recv} {
 
-	set msg_data [sb index ns data 0]
-	sb ldel ns data 0
+	set msg_data [lindex [ns cget -data] 0]
+	ns delData 0
 	#status_log "cmsn_ns_msg:\n$msg_data\n" red
 
 	if { [lindex $recv 1] != "Hotmail" && [lindex $recv 2] != "Hotmail"} {
@@ -3981,11 +3971,11 @@ proc cmsn_listdel {recv} {
 
 proc cmsn_auth {{recv ""}} {
 
-	status_log "cmsn_auth starting, stat=[sb get ns stat]\n" blue
+	status_log "cmsn_auth starting, stat=[ns cget -stat]\n" blue
 
 	global HOME info
 
-	switch [sb get ns stat] {
+	switch [ns cget -stat] {
 
 		a {
 			#Send three first commands at same time, to it faster
@@ -3993,7 +3983,7 @@ proc cmsn_auth {{recv ""}} {
 			::MSN::WriteSB ns "CVR" "0x0409 winnt 6.0 i386 MSNMSGR 6.0.0602 MSMSGS [::config::getKey login]"
 			::MSN::WriteSB ns "USR" "TWN I [::config::getKey login]"
 
-			sb set ns stat "v"
+			ns configure -stat "v"
 			return 0
 		}
 
@@ -4003,7 +3993,7 @@ proc cmsn_auth {{recv ""}} {
 				return 1
 			} elseif {[lsearch -exact $recv "CVR0"] != -1} {
 				#::MSN::WriteSB ns "CVR" "0x0409 winnt 6.0 i386 MSNMSGR 6.0.0602 MSMSGS [::config::getKey login]"
-				sb set ns stat "i"
+				ns configure -stat "i"
 				return 0
 			} else {
 				status_log "cmsn_auth: could not negotiate protocol!\n" red
@@ -4017,7 +4007,7 @@ proc cmsn_auth {{recv ""}} {
 				return 1
 			} else {
 				#::MSN::WriteSB ns "USR" "TWN I [::config::getKey login]"
-				sb set ns stat "u"
+				ns configure -stat "u"
 				return 0
 			}
 		}
@@ -4043,7 +4033,7 @@ proc cmsn_auth {{recv ""}} {
 					set login_passport_url $info(all)
 				} else {
 					status_log "cmsn_auth_msnp9: Nexus has replied so we have login URL...\n"
-					set command [list "::[sb get ns connection_wrapper]::authenticate" $info(all) $login_passport_url]
+					set command [list "::[ns cget -connection_wrapper]::authenticate" $info(all) $login_passport_url]
 					eval $command
 					#msnp9_do_auth [list $info(all)] $login_passport_url
 				}
@@ -4065,7 +4055,7 @@ proc cmsn_auth {{recv ""}} {
 				return 1
 			}
 
-			sb set ns stat "o"
+			ns configure -stat "o"
 
 			save_config						;# CONFIG
 			::config::saveGlobal
@@ -4225,9 +4215,9 @@ proc msnp9_auth_error {} {
 
 proc msnp9_authenticate { ticket } {
 
-	if {[sb get ns stat] == "u" } {
+	if {[ns cget -stat] == "u" } {
 		::MSN::WriteSB ns "USR" "TWN S $ticket"
-		sb set ns stat "us"
+		ns configure -stat "us"
 	} else {
 		
 		status_log "Connection timeouted\n" white
@@ -4249,26 +4239,26 @@ proc msnp9_authenticate { ticket } {
 proc sb_change { chatid } {
 	global typing
 
-	set sbn [::MSN::SBFor $chatid]
+	set sb [::MSN::SBFor $chatid]
 
-	if { $sbn == 0 } {
+	if { $sb == 0 } {
 		status_log "sb_change: VERY BAD ERROR - SB=0\n" error
 		return 0
 	}
 
-	if { ![info exists typing($sbn)] } {
-		set typing($sbn) 1
+	if { ![info exists typing($sb)] } {
+		set typing($sb) 1
 
-		after 4000 "unset typing($sbn)"
+		after 4000 "unset typing($sb)"
 
-		set sock [sb get $sbn sock]
+		set sock [$sb cget -sock]
 
 		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgscontrol\r\nTypingUser: [::config::getKey login]\r\n\r\n\r\n"
 		set msg_len [string length $msg]
 
 		#::MSN::WriteSB $sbn "MSG" "U $msg_len"
 		#::MSN::WriteSBRaw $sbn "$msg"
-		::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
+		::MSN::WriteSBNoNL $sb "MSG" "U $msg_len\r\n$msg"
 	}
 }
 
@@ -4282,7 +4272,7 @@ proc ns_enter {} {
 	.status.enter delete 0 end
 	status_log "Executing : $command\n"
 	if { [string range $command 0 0] == "/"} {
-		#puts -nonewline [sb get ns sock] "[string range $command 1 [string length $command]]\r\n"
+		#puts -nonewline [ns cget -sock] "[string range $command 1 [string length $command]]\r\n"
 		::MSN::WriteSBRaw ns "[string range $command 1 [string length $command]]\r\n"
 	} elseif {$command != ""} {
 		if {[catch {eval $command} res]} {
@@ -4297,19 +4287,19 @@ proc ns_enter {} {
 proc setup_connection {name} {
 
 	#This is the default read handler, if not changed by proxy
-	sb set $name command_handler [list ::MSN::receivedCommand $name]
-	sb set $name payload_handler [list ::MSN::receivedPayload $name]
+	$name configure -command_handler [list ::MSN::receivedCommand $name]
+	$name configure -payload_handler [list ::MSN::receivedPayload $name]
 	#This is the default procedure that should be called when an error is detected
-	sb set $name error_handler [list ::MSN::CloseSB $name]
+	$name configure -error_handler [list ::MSN::CloseSB $name]
 
 	if {[::config::getKey connectiontype] == "direct" } {
- 		sb set $name connection_wrapper DirectConnection
+ 		$name configure -connection_wrapper DirectConnection
 
 	} elseif {[::config::getKey connectiontype] == "http"} {
 	
- 		sb set $name connection_wrapper HTTPConnection
-		sb set $name proxy_host ""
-		sb set $name proxy_port ""
+ 		$name configure -connection_wrapper HTTPConnection
+		$name configure -proxy_host ""
+		$name configure -proxy_port ""
 
 		#status_log "cmsn_socket: Setting up http connection\n" green
 		#set tmp_serv "gateway.messenger.hotmail.com"
@@ -4326,14 +4316,13 @@ proc setup_connection {name} {
 	} elseif {[::config::getKey connectiontype] == "proxy" && [::config::getKey proxytype] == "http"} {
 	
 		#TODO: Right now it's always HTTP proxy!!
-		sb set $name connection_wrapper HTTPConnection
+		$name configure -connection_wrapper HTTPConnection
 		set proxy [::config::getKey proxy]
-		sb set $name proxy_host [lindex $proxy 0]
-		sb set $name proxy_port [lindex $proxy 1]
-		
-		sb set $name proxy_authenticate [::config::getKey proxyauthenticate]
-		sb set $name proxy_user [::config::getKey proxyuser]
-		sb set $name proxy_password [::config::getKey proxypass]
+		$name configure -proxy_host [lindex $proxy 0]
+		$name configure -proxy_port [lindex $proxy 1]
+		$name configure -proxy_authenticate [::config::getKey proxyauthenticate]
+		$name configure -proxy_user [::config::getKey proxyuser]
+		$name configure -proxy_password [::config::getKey proxypass]
 	
 		#status_log "cmsn_socket: Setting up Proxy connection (type=[::config::getKey proxytype])\n" green
 		#::Proxy::Init [::config::getKey proxy] [::config::getKey proxytype]
@@ -4349,18 +4338,18 @@ proc setup_connection {name} {
 	
 	} else {
 		::config::setKey connectiontype "direct"
- 		sb set $name connection_wrapper DirectConnection
+ 		$name configure -connection_wrapper DirectConnection
 	}
 }
 
 proc cmsn_socket {name} {
 
 	
-	sb set $name time [clock seconds]
-	sb set $name stat "cw"
-	sb set $name error_msg ""
+	$name configure -time [clock seconds]
+	$name configure -stat "cw"
+	$name configure -error_msg ""
 	
-	set command [list "::[sb get $name connection_wrapper]::connect" $name]
+	set command [list "::[$name cget -connection_wrapper]::connect" $name]
 	if {[eval $command]<0} {
 		::MSN::CloseSB $name
 	}
@@ -4368,12 +4357,12 @@ proc cmsn_socket {name} {
 	
 	
 	#if { [catch {set sock [socket -async $tmp_serv $tmp_port]} res ] } {
-	#	sb set $name error_msg $res
+	#	$sb configure -error_msg $res
 	#	::MSN::CloseSB $name
 	#	return
 	#}
 	
-	#sb set $name sock $sock
+	#$sb configure -sock $sock
 	#fconfigure $sock -buffering none -translation {binary binary} -blocking 0
 	#fileevent $sock readable $readable_handler
 	#fileevent $sock writable $next
@@ -4383,15 +4372,15 @@ proc cmsn_ns_connected {sock} {
 
 	fileevent $sock writable ""
 	set error_msg ""
-	set therewaserror [catch {set error_msg [fconfigure [sb get ns sock] -error]} res]
+	set therewaserror [catch {set error_msg [fconfigure [ns cget -sock] -error]} res]
 	if { ($error_msg != "") || $therewaserror == 1 } {
-		sb set ns error_msg $error_msg
+		ns configure -error_msg $error_msg
 		status_log "cmsn_ns_connected ERROR: $error_msg\n" red
 		::MSN::CloseSB ns
 		return
 	}   
 	
-	sb set ns stat "a"
+	ns configure -stat "a"
 	
 
 	cmsn_auth
@@ -4415,12 +4404,12 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	::MSN::clearList BL
 	::MSN::clearList RL
 	
-	if {[sb get ns stat] != "d"} {
-		set command [list "::[sb get ns connection_wrapper]::finish" ns]
+	if {[ns cget -stat] != "d"} {
+		set command [list "::[ns cget -connection_wrapper]::finish" ns]
 		eval $command
 	}
 	
-	sb set ns stat "c"
+	ns configure -stat "c"
 
 	if { $nosignin == "" } {
 		cmsn_draw_signin
@@ -4439,11 +4428,11 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	#TODO: Call "on connect" handlers, where hotmail will be registered.
 	set ::hotmail::unread 0
 
-	sb set ns autherror_handler "msnp9_auth_error"
-	sb set ns passerror_handler "msnp9_userpass_error"
-	sb set ns ticket_handler "msnp9_authenticate"
-	sb set ns data [list]
-	sb set ns connected "cmsn_ns_connected"
+	ns configure -autherror_handler "msnp9_auth_error"
+	ns configure -passerror_handler "msnp9_userpass_error"
+	ns configure -ticket_handler "msnp9_authenticate"
+	ns configure -data [list]
+	ns configure -connected "cmsn_ns_connected"
 
 	cmsn_socket ns
 	
@@ -4936,8 +4925,6 @@ namespace eval ::MSN6FT {
 	namespace export SendFT AcceptFT RejectFT handleMsnFT
 	
 	
-
-	
 	proc SendFT { chatid filename filesize} {
 
 		status_log "Sending File $filename with size $filesize to $chatid\n"
@@ -4949,9 +4936,14 @@ namespace eval ::MSN6FT {
 		
 		set dest [lindex [::MSN::usersInChat $chatid] 0]
 		
-		::MSNP2P::SessionList set $sid [list 0 $filesize 0 $dest 0 $callid 0 "filetransfer" "$filename" "$branchid"]
+#		set session [::MSNP2P::Session %AUTO% -totalsize $filesize -dest $dest -callid $callid \
+#		-type "filetransfer" -filename $filename -branchid $branchid]
+#		::MSNP2P::putSession $sid $session
+#		status_log "branchid : [::MSNP2P::$sessions($sid) cget -branchid]\n"
 
+		::MSNP2P::SessionList set $sid [list 0 $filesize 0 $dest 0 $callid 0 "filetransfer" "$filename" "$branchid"]
 		status_log "branchid : [lindex [::MSNP2P::SessionList get $sid] 9]\n"
+
 		set ext [string tolower [string range [fileext $filename] 1 end]]
 		if { $ext == "jpg" || $ext == "gif" || $ext == "png" || $ext == "bmp" || $ext == "jpeg" || $ext == "tga" } {
 			set nopreview 0
