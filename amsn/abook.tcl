@@ -447,8 +447,8 @@ namespace eval ::abook {
 	proc parseCustomNick { input nick user_login customnick } {
 		#If there's no customnick set, default to user_login
 		if { $customnick == "" } { set customnick $user_login }
-		#By default, quote backslashes and variables
-		set input [string map {"\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } $input]
+		#By default, quote backslashes, angle brackets and variables
+		set input [string map {"\\" "\\\\" "\$" "\\\$" "\(" "\\\("} $input]
 		#Now, let's unquote the variables we want to replace
 		set input [string map {"\\\$nick" "\${nick}" "\\\$user_login" "\${user_login}" "\\\$customnick" "\${customnick}"} $input]
 		#Return the custom nick, replacing backslashses and variables
@@ -999,6 +999,48 @@ namespace eval ::abookGui {
 		bind $w <Destroy> [list ::abookGui::PropDestroyed $email $w %W]
 		
 		moveinscreen $w 30
+	}
+	
+	proc showCustomNickScreen { email } {
+		set w ".user_[::md5::md5 $email]_cnick"
+		if { [winfo exists $w] } {
+			raise $w
+			return
+		}
+		toplevel $w
+		wm title $w "[trans customnick]: $email"
+	
+		label $w.customnickl -text "[trans customnick]:"
+		frame $w.customnick
+		entry $w.customnick.ent -font splainf -bg white
+		menubutton $w.customnick.help -font sboldf -text "<-" -menu $w.customnick.help.menu
+		menu $w.customnick.help.menu -tearoff 0
+		$w.customnick.help.menu add command -label [trans nick] -command "$w.customnick.ent insert insert \\\$nick"
+		$w.customnick.help.menu add command -label [trans email] -command "$w.customnick.ent insert insert \\\$user_login"
+		$w.customnick.help.menu add separator
+		$w.customnick.help.menu add command -label [trans delete] -command "$w.customnick.ent delete 0 end"
+		$w.customnick.ent insert end [::abook::getContactData $email customnick]
+		pack $w.customnick.ent -side left -expand true -fill x
+		pack $w.customnick.help -side left
+		label $w.customfnickl -text "[trans friendlyname]:"
+		frame $w.customfnick
+		entry $w.customfnick.ent -font splainf -bg white
+		menubutton $w.customfnick.help -font sboldf -text "<-" -menu $w.customfnick.help.menu
+		menu $w.customfnick.help.menu -tearoff 0
+		$w.customfnick.help.menu add command -label [trans nick] -command "$w.customfnick.ent insert insert \\\$nick"
+		$w.customfnick.help.menu add command -label [trans email] -command "$w.customfnick.ent insert insert \\\$user_login"
+		$w.customfnick.help.menu add separator
+		$w.customfnick.help.menu add command -label [trans delete] -command "$w.customfnick.ent delete 0 end"
+		$w.customfnick.ent insert end [::abook::getContactData $email customfnick]
+		pack $w.customfnick.ent -side left -expand true -fill x
+		pack $w.customfnick.help -side left
+		
+		grid $w.customnickl -row 0 -column 0 -sticky ne
+		grid $w.customnick -row 0 -column 1 -sticky we -padx 6
+		grid $w.customfnickl -row 1 -column 0 -sticky ne
+		grid $w.customfnick -row 1 -column 1 -sticky we -padx 6
+		
+		grid columnconfigure $w 1 -weight 1
 	}
 	
 	#Ask the user if he wants to save or not the user properties window
