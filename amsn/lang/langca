@@ -1,7 +1,7 @@
 amsn_lang_version 2
 about Sobre
 accept Acceptar
-acceptfile Acceptes l'arxiu $1, de tamany $2? Guardat a $3
+acceptfile Acceptes l'arxiu $1, de mida $2? Guardat a $3
 actions Accions
 addacontact Afegeix un contacte
 addedyou t'ha inclòs a la seva llista de contactes
@@ -13,9 +13,10 @@ adverts Anuncis
 alarmpref Preferències de l'alarma per l'usuari
 alarmstatus Engegar/Parar l'alarma per aquest usuari
 allowseen Deixa que aquesta persona vegi si estic connectat i que contacti amb mi
-appearoff Simula Desconnexió
+appearoff Simula desconnexió
 aretyping $1 estan escrivint un missatge
 autohotmaillog Connectar-se a Hotmail automàticament
+autoidle Canviar a Sense Activitat de manera automàtica
 autoip IP Automàtica
 avoidseen No deixis que aquesta persona vegi si estic connectat i que contacti amb mi
 away No hi és
@@ -46,12 +47,20 @@ close Tanca
 closingdocks El botó tancar minimitza la finestra
 command Reproductor
 confirmdelete ¿Estàs segur de voler eliminar a $1?
+confirm Estàs segur?
 connecterror Error connectant-se amb el servidor
 contactadded Contacte inclòs
 contactdoesnotexist ¡El contacte que intentes afegir no existeix!
+copy Copia
 copytogroup Copia al grup
+cut Talla
 date Data
 delete Esborrar
+dockgtk Acoplament amb el Gnome
+docking Acoplant
+dockingoff Desacoplant
+dockkde Acoplament amb el KDE
+edit Edita
 enableproxy Habilitar el servidor intermediari (Proxy)
 encoding Escull la codificació
 entercontactemail Escriu l'adreça de correu del contacte
@@ -60,6 +69,7 @@ enternick Escriu el teu nick
 examples Exemples
 exitamsn ¿Estàs segur de voler sortir?
 extras Serveis extra
+faq Preguntes freqüents (FAQ)
 filedoesnotexist L'arxiu no existeix
 filename Nom de l'arxiu
 filetransfercancelled S'ha cancel·lat la transferència
@@ -89,6 +99,7 @@ invite Convida
 ipaddress Adreça IP
 istyping $1 està escrivint un missatge
 joins $1 s'uneix a la conversa
+keepalive Mantenir connexió activa (NAT)
 language Idioma
 lastmsgtime Últim missatge rebut a les $1
 leaveblankforhotmail Deixa en blanc per usar hotmail
@@ -109,7 +120,8 @@ msg Missatge
 msn AMSN
 mustrestart Has de reiniciar el programa per a que els canvis tinguin efecte
 mystatus El meu estat
-needonline Encara ets/sembles desconectat!
+natip Detecció d'IP a través de pàgina web
+needonline Encara ets/sembles desconnectat!
 newmail $1 missatges nous a la bústia
 newmailfrom Nou missatge de correu de
 newmsg Nou missatge
@@ -119,6 +131,7 @@ noactivity Sense activitat
 nonewmail No hi ha missatges nous a la bústia
 nonewver No hi ha cap versió nova per a baixar-se
 notify notificar
+notifywin Finestra d'avís
 nousersinsession No hi ha usuaris a la sessió
 offline Desconnectat
 ok Bé
@@ -131,6 +144,7 @@ ordercontactsby Ordenar els contactes per
 other Un altre
 pager Paginador
 pass Contrasenya
+paste Enganxa
 phone Telèfon
 picfile Fitxer d'Imatge per a l'Alarma (GIF < 500 x 500)
 picstatus Engegar/Parar Imatge per a l'Alarma
@@ -169,7 +183,7 @@ startoffline Començar desconnectat
 status Estat
 stopalarm Parar l'Alarma
 syntaxerror  Error de sintàxi
-textsize Tamany del text
+textsize Mida del text
 title Al's Messenger
 to A
 tools Eines
