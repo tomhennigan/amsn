@@ -29,16 +29,16 @@ namespace eval ::plugins {
 	variable loadedplugins [list]   
     }
 
-    proc PostEvent { event args } {
+    proc PostEvent { event var level } {
 		variable pluginslist 
 		variable pluginsevents 
 		
-		status_log "Plugin System: Calling event $event with $args\n"
+		status_log "Plugin System: Calling event $event with variable $var in the level $level\n"
 		foreach plugin $pluginslist {
 		    status_log "Next plugin: $plugin\n"
 		    set plugin [lindex $plugin 0]
 		    if { [info exists pluginsevents(${plugin}_${event}) ] } {
-				catch { eval ::${plugin}::$pluginsevents(${plugin}_${event}) $args } res
+				catch { eval ::${plugin}::$pluginsevents(${plugin}_${event}) $var $level } res
 			status_log "Return $res from event $event of plugin $plugin\n"
 	    }
 	}
@@ -46,8 +46,8 @@ namespace eval ::plugins {
     proc RegisterPlugin { plugin  description } {
 	variable pluginslist
 	
-	status_log "Plugin System: RegisterPlugin called with $plugin and $description"
-	status_log "Plugin System: This is the pluginslist: $pluginslist"
+	status_log "Plugin System: RegisterPlugin called with $plugin and $description\n"
+	status_log "Plugin System: This is the pluginslist: $pluginslist\n"
 	if { [lsearch $pluginslist "$plugin"] != -1} {
 	    status_log "Trying to register a plugin twice..\n"
 	    return 0
@@ -65,7 +65,7 @@ namespace eval ::plugins {
 	variable pluginslist
 	variable pluginsevents
 	
-	status_log "Plugin System: UnRegisterPlugin called"
+	status_log "Plugin System: UnRegisterPlugin called\n"
 	if { [lsearch $pluginslist "$plugin"] == -1 } {
 	    status_log "Trying to unregister an unregistered plugin..\n"
 	    return 0
@@ -75,7 +75,7 @@ namespace eval ::plugins {
 	
 	foreach event [array names pluginsevents] {
 	    if { [string match "${plugin}_"  $event] } {
-		status_log "Plugin System: unregistering $event"
+		status_log "Plugin System: unregistering $event\n"
 		array unset pluginsevents $event
 	    }
 	}
@@ -86,22 +86,21 @@ namespace eval ::plugins {
     proc RegisterEvent { plugin event cmd } {
 	variable pluginslist
 	variable pluginsevents
-	status_log "Plugin System: RegisterEvent called with $plugin $event $cmd"
+	status_log "Plugin System: RegisterEvent called with $plugin $event $cmd\n"
 	set x [lsearch $pluginslist $plugin]
-	status_log "Plugin System: The result of lsearch was $x"
+	status_log "Plugin System: The result of lsearch was $x\n"
 	    if { $x != -1 } {
 		status_log "Binding $event to $cmd\n"
 		set pluginsevents(${plugin}_${event}) $cmd
 	    } else {
 		status_log "Registering an event for an unknown plugin...\n"
 	    }
-	status_log "Plugin System: Event registered"
+	status_log "Plugin System: Event registered\n"
     }
     
     proc findplugins { } {
 	global HOME
 	
-	status_log "Plugin System: findplugins called"
 	set search_path [list] 
 	lappend search_path [file join [set ::program_dir plugins]]
 	lappend search_path [file join $HOME plugins]
@@ -162,7 +161,7 @@ namespace eval ::plugins {
             set plugins(${idx}_name) $name
             set plugins(${idx}_desc) $desc
 	    
-            status_log "Adding plugin to selector: $name"
+            status_log "Adding plugin to selector: $name\n"
             $w.select.plugin_list insert $idx $name
             if {[lsearch "$loadedplugins" $name] != -1} {
                 $w.select.plugin_list itemconfigure $idx -background "$bgcolor2"
@@ -205,7 +204,7 @@ namespace eval ::plugins {
         $w.desc.name configure -text $selection(name)
         set selection(file) $plugins(${selection(id)}_file)
         set selection(desc) $plugins(${selection(id)}_desc)
-        status_log "Plugin System: these plugins are loaded: $loadedplugins"
+        status_log "Plugin System: these plugins are loaded: $loadedplugins\n"
         if {[lsearch "$loadedplugins" $selection(name)] != -1 } {
 	    $w.command.load configure -state active -text "Unload" -command "::plugins::GUI_Unload"
             if {[info exists ::${selection(name)}::configlist] == 1} {
@@ -223,7 +222,7 @@ namespace eval ::plugins {
 	global bgcolor2
         variable selection
         variable w
-        status_log "Plugin System: Load Button clicked!"
+        status_log "Plugin System: Load Button clicked!\n"
         if { $selection(file) != "" } {
             LoadPlugin $selection(name) $selection(file)
             $w.select.plugin_list itemconfigure $selection(id) -background "$bgcolor2"
@@ -235,7 +234,7 @@ namespace eval ::plugins {
 	 global bgcolor
 	 variable selection
 	 variable w
-	 status_log "Plugin System: Unload Button clicked!"
+	 status_log "Plugin System: Unload Button clicked!\n"
 	 $w.select.plugin_list itemconfigure $selection(id) -background "$bgcolor"
 	 UnLoadPlugin $selection(name)
 	 GUI_NewSel
@@ -288,7 +287,7 @@ namespace eval ::plugins {
 
     proc UnLoadPlugin {plugin} {
 	variable loadedplugins
-        status_log "Unloading plugin $plugin"
+        status_log "Unloading plugin $plugin\n"
 	set loadedplugins [lreplace $loadedplugins [lsearch $loadedplugins "$plugin"] [lsearch $loadedplugins "$plugin"]]
 	UnRegisterPlugin $plugin
 	if {[info procs "::${plugin}::DeInitPlugin"] == "::${plugin}::DeInitPlugin"} {
@@ -310,13 +309,13 @@ namespace eval ::plugins {
     proc LoadPlugin {plugin file} {
 	variable pluginslist
 	variable loadedplugins
-	status_log "Plugin System: LoadPlugin called with $plugin $file"
-	status_log "Plugin System: Trying to source $file for $plugin"
+	status_log "Plugin System: LoadPlugin called with $plugin $file\n"
+	status_log "Plugin System: Trying to source $file for $plugin\n"
 	catch { source $file }
 	lappend loadedplugins $plugin
 	lappend pluginslist $file
 	if {[info procs "InitPlugin"] == "InitPlugin"} {
-	    status_log "Plugin System: Initializing plugin with InitPlugin [file dirname $file]"
+	    status_log "Plugin System: Initializing plugin with InitPlugin [file dirname $file]\n"
 	    InitPlugin [file dirname $file]
 	}
     }

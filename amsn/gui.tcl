@@ -1156,13 +1156,17 @@ namespace eval ::amsn {
 
 		PutMessage $chatid $user $nick $msg $type $fontformat $p4c
 
-		set evPar [list $user [::abook::getDisplayNick $user] $msg]
-		if { "$user" != "$chatid" } {
-			::plugins::PostEvent chat_msg_sent $evPar
-		} else {
-			::plugins::PostEvent chat_msg_received $evPar
-		}
-
+#		set evPar [list $user [::abook::getDisplayNick $user] $msg]
+	    set evPar(0) $user
+	    set evPar(1) [::abook::getDisplayNick $user]
+	    set evPar(2) $msg
+	    if { "$user" != "$chatid" } {
+		::plugins::PostEvent chat_msg_send evPar [info level]
+	    } else {
+		::plugins::PostEvent chat_msg_received evPar [info level]
+	    }
+	    puts $evPar(0)
+	    
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
