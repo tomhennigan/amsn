@@ -22,6 +22,8 @@ DONE	Multiple user accounts combo box + separate user config files
 DONE	Refinements to queuing and reconnection issues
 -	Improve filetransfers, allow more than one at once. Fix progress bar, and special characters on filenames.
 -	Improve font selection (unify with color selection)
+-	When selecting a new color for the font in a chat, don't change only
+        the color of the text send but the color of the text being writen too.
 DONE	Make status change dynamic in chat window
 DONE	Disable input window when USER is offline (after offline error)
 -	When queue is cleared, NAK every message in queue
@@ -70,6 +72,7 @@ DONE	Bug with font selection in preferences window. Saved if "close" clicked, bu
 -	On Connect/ On Msg / On status / On disconnect change alarms
 -	Allow alarms to run a command
 -	JPG Support
+-	Alarms must be saved in a file.
 
 	**Loging system improvements and bugs :
 -	Add date limit or file size limit for log files
