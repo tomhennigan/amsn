@@ -1674,9 +1674,10 @@ namespace eval ::amsn {
 		catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}
 		image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
 		label $bottom.pic  -borderwidth 1 -relief solid -image no_pic -background #FFFFFF
-		button $bottom.showpic -bd 0 -padx 0 -pady 0 -image imgshow \
+		button $bottom.showpic -bd 0 -padx 0 -pady 0 -image imgshow -bg $bgcolor2 -highlightthickness 0\
 			-command "::amsn::ToggleShowPicture ${win_name}; ::amsn::ShowOrHidePicture .${win_name}" -font splainf
 		grid $bottom.showpic -row 0 -column 2 -padx 0 -pady 3 -rowspan 2 -sticky ns
+		grid columnconfigure $bottom 3 -minsize 3
 
 		bind $bottom.pic <Button1-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
 		bind $bottom.pic <<Button3>> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
@@ -1896,9 +1897,6 @@ set y [expr $y - 115]
 		}
 		$win.picmenu add separator
 		$win.picmenu add command -label "[trans changedisplaypic]..." -command pictureBrowser
-		$win.picmenu add separator
-		$win.picmenu add command -label "[trans hidedisplaypic]" \
-         -command "::amsn::HidePicture $win"
 
 		tk_popup $win.picmenu $x $y
 
