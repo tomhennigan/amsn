@@ -243,7 +243,12 @@ namespace eval ::abook {
 		if { [::config::getKey emailsincontactlist] } {
 			return $user_login
 		} else {
-			return [::abook::getNick $user_login]
+			set customnick [::abook::getContactData $user_login customnick]
+			if { $customnick != ""} {
+				return $customnick
+			}  else {
+				return [::abook::getNick $user_login]
+			}
 		}
 	}
 	
