@@ -791,7 +791,7 @@ proc cmsn_draw_online {} {
 
 
          .main.text mark set new_text_start end
-         .main.text insert $section.last "$user_name$state_desc\n" $user_login
+         .main.text insert $section.last " $user_name$state_desc \n" $user_login
 	
 	 set imgname "img[expr {$onlinenum+$offlinenum}]"
          label .main.text.$imgname -image $image_type
@@ -917,7 +917,6 @@ proc copypaste_menu {text x y delete} {
    tk_popup $text.copypaste $x $y
 }
 
-
 proc cmsn_draw_msgwin {} {
    global images_folder sb_num sb_list config HOME files_dir
 
@@ -948,7 +947,7 @@ proc cmsn_draw_msgwin {} {
    .${win_name}.menu add cascade -label "[trans view]" -menu .${win_name}.menu.view
    .${win_name}.menu add cascade -label "[trans actions]" -menu .${win_name}.menu.actions
    .${win_name}.menu add cascade -label "[trans invite]" -menu .${win_name}.menu.invite \
-      -state disabled
+      -state disabled   
 
    menu .${win_name}.menu.msn -tearoff 0 -type normal  
    .${win_name}.menu.msn add command -label "[trans save]" \
@@ -999,12 +998,19 @@ proc cmsn_draw_msgwin {} {
    frame .${win_name}.in
    text .${win_name}.in.input -background white -width 25 -height 3 -wrap word\
    -font bboldf
+  
    button .${win_name}.in.send  -text [trans send] -width 5 \
       -command "sb_enter $name .${win_name}.in.input" -font bboldf
+
+   frame .${win_name}.buttons
+
+   button .${win_name}.buttons.smileys  -image smile -relief flat
+   pack .${win_name}.buttons.smileys -side left
 
    pack .${win_name}.top -side top -fill x
    pack .${win_name}.status -side bottom -fill x
    pack .${win_name}.in -side bottom -fill x
+   pack .${win_name}.buttons -side bottom -fill x
    pack .${win_name}.ys -side right -fill y
    pack .${win_name}.text -expand true -fill both
 
@@ -1026,13 +1032,16 @@ proc cmsn_draw_msgwin {} {
    .${win_name}.text tag configure gray -foreground #808080 -background white
    .${win_name}.text tag configure white -foreground white -background black
    .${win_name}.text tag configure url -foreground darkblue -background white -font bboldf -underline true
-   
+
 
    bind .${win_name}.in.input <Return> "sb_enter $name %W; break"
    bind .${win_name}.in.input <Key-KP_Enter> "sb_enter $name %W; break"
 
    bind .${win_name}.in.input <Alt-s> "sb_enter $name %W; break"
    bind .${win_name}.in.input <Tab> "focus .${win_name}.in.send; break"
+
+   bind  .${win_name}.buttons.smileys  <Button-1> "smile_menu %X %Y .${win_name}.in.input"   
+
    bind .${win_name}.in.send <Return> \
       "sb_enter $name .${win_name}.in.input; break"
    bind .${win_name}.in.input <Control-Return> {%W insert end "\n"; break}

@@ -53,3 +53,43 @@ proc smile_subst {tw {start "0.0"}} {
 
 }
 
+proc smile_menu { {x 0} {y 0} {text text}} {
+   global emotions
+
+   set w .smile_selector
+   toplevel $w
+   set x [expr {$x-10}]
+   set y [expr {$y-10}]
+   wm geometry $w 236x160+$x+$y
+   wm title $w "[trans msn]"
+   wm overrideredirect $w 1
+   wm transient $w
+   wm state $w normal
+   
+
+   text $w.text -background white -borderwidth 2 -relief ridge \
+      -selectbackground white -selectborderwidth 0 -exportselection 0
+                     
+   pack $w.text
+
+   $w.text configure -state normal
+
+   set num 0 
+
+   foreach emotion $emotions {
+      set symbol [lindex $emotion 0]
+      set file [lindex $emotion 1]
+      set chars [string length $symbol]
+
+     catch [clickableImage $w.text $file $file "$text insert insert {$symbol}; destroy $w" 3 3] res
+     
+     incr num
+
+   }
+
+   $w.text configure -state disabled
+      
+   bind $w <Leave> "destroy $w"
+   bind $w <Enter> "bind $w <Leave> \"bind $w <Leave> \\\"destroy $w\\\"\""
+   
+}

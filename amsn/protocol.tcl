@@ -1156,7 +1156,6 @@ proc cmsn_ns_handler {item} {
 	} else {
 	  msg_box "[trans servergoingdown]"
 	}
-	::MSN::logout
       }
       200 {
           status_log "Error: Syntax error\n" red
