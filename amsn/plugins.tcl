@@ -1201,9 +1201,9 @@ namespace eval ::plugins {
 		set program_dir [set ::program_dir]
 
 		if { [string first $HOME $path] != -1 | [string first $HOME2 $path] != -1 } {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text" -timeout 10000]
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text/plain" -timeout 10000]
 		} elseif { [string first $program_dir $path] != -1} {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text" -timeout 10000]
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text/plain" -timeout 10000]
 		} else {
 			return
 		}
@@ -1268,9 +1268,9 @@ namespace eval ::plugins {
 		set program_dir [set ::program_dir]
 
 		if { [string first $HOME $path] != -1 | [string first $HOME2 $path] != -1 } {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/$plugin.tcl?rev=$version&content-type=text" -timeout 10000]
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/$plugin.tcl?rev=$version&content-type=text/plain" -timeout 10000]
 		} elseif { [string first $program_dir $path] != -1} {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/$plugin.tcl?rev=$version&content-type=text" -timeout 10000]
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/$plugin.tcl?rev=$version&content-type=text/plain" -timeout 10000]
 		} else {
 			return
 		}
@@ -1298,9 +1298,9 @@ namespace eval ::plugins {
 		set program_dir [set ::program_dir]
 
 		if { [string first $HOME $path] != -1 | [string first $HOME2 $path] != -1 } {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text" -timeout 10000]
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text/plain" -timeout 10000]
 		} elseif { [string first $program_dir $path] != -1} {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text" -timeout 10000]
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text/plain" -timeout 10000]
 		} else {
 			return
 		}
