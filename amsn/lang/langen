@@ -131,6 +131,7 @@ corruptstates Custom states config is corrupt. Creating new one. Old file will b
 countrycode My Country/Region code
 cprofile Create Profile
 credits Credits
+currentdate Current Date
 custom_edit Edit custom smiley
 custom_new Add new custom smiley
 cut Cut
@@ -276,6 +277,7 @@ loginas Login as
 loging Logging
 logolder Only log chats that have taken place in the last
 logout Log Out
+logsbydate Sort logs by date (View history loads alot faster)
 logsin has just logged in
 logsmileys Displays Emoticons and Smileys in aMSN's history windows
 logsout has just logged out

@@ -622,7 +622,11 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.plog1 -image prefhist
 	pack $lfname.plog1 -anchor nw -side left
 	checkbutton $lfname.log -text "[trans keeplog2]" -onvalue 1 -offvalue 0 -variable config(keep_logs)
+	checkbutton $lfname.date -text "[trans logsbydate]" -onvalue 1 -offvalue 0 -variable config(logsbydate)
 	pack $lfname.log -anchor w
+	pack $lfname.date -anchor w
+
+
 #/////////TODO Add style log feature
 #	frame $lfname.2 -class Degt
 #	label $lfname.2.lstyle -text "[trans stylelog]" -padx 10

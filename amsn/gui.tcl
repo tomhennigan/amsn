@@ -1550,6 +1550,11 @@ namespace eval ::amsn {
 			::config::setKey winchatsize 350x390
 			status_log "No config(winchatsize). Setting default size for chat window\n" red
 		}
+
+		if {$tcl_platform(platform) == "windows"} {
+		    wm geometry .${win_name} +0+0
+		}
+	
 		#wm state .${win_name} withdrawn
 		wm state .${win_name} iconic
 			wm title .${win_name} "[trans chat]"

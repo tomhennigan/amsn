@@ -19,19 +19,117 @@ namespace eval ::log {
 
 proc StartLog { email } {
 
-	global log_dir config
+	global config
 
 	# if we got no profile, set fileid to 0
 	if { [LoginList exists 0 $config(login)] == 0 } {
 		LogArray $email set 0
 	} else {
-		LogArray $email set [open "[file join ${log_dir} ${email}.log]" a+]
+	    LogArray $email set [CheckLogDate $email]
+
 	    if { $config(lineflushlog) == 1 } {
 		fconfigure [LogArray $email get] -buffering none -encoding utf-8 
 	    } else {
 		fconfigure [LogArray $email get] -buffersize 1024 -encoding utf-8
 	    }
 	}
+}
+
+
+#///////////////////////////////////////////////////////////////////////////////
+# CheckLogDate (email)
+# Opens the log file by email adress, called from StartLog
+# Checks if the date the file was created is older than a month, and moves file if necessary
+#
+
+proc CheckLogDate { email } {
+    global log_dir
+    
+    set fd [open "[file join ${log_dir} ${email}.log]" a+]
+    if { [::config::getKey logsbydate] == 0 } {
+	return $fd
+    }
+    fconfigure  $fd -blocking 0
+    seek $fd 0 start
+    gets $fd line1
+    
+    seek $fd 0 end
+#    set line1 [string map {"\"" "\\\"" "\[" "\\\[" "\]" "\\\]"} $line1]
+    
+    if { [string first "\|\"LRED\[" "$line1"]  != 0 } {
+	status_log "$line1 \ndoes not begin with the appropriate pattern\n" red
+	return $fd
+    }
+    
+    
+    set digit 0
+    set date1 -1
+    set date2 -1
+    foreach s [split $line1] {
+	status_log "$s\n"
+	if { $digit == 2 } {
+	    set date2 "${date1} $s"
+	    set digit 3
+	}
+	if {$digit == 1} {
+	    set date1 "${date1} $s"
+	    set digit 2
+	} 
+	
+	if {[string is digit $s] && $digit == 0} {
+	    set date1 $s
+	    set digit 1 
+	} 
+
+    }
+
+    if {$date1 != -1 } {
+	status_log "Found date : $date1\n" red
+    }
+
+    if { [catch {clock scan $date1} ] } {
+	status_log "Date found not valid\n"
+	return $fd
+    }
+
+    if { $date2 != -1 && [catch {clock scan $date2} ] } {
+	status_log "Date found is from old format\n"
+	set date [lindex $date1 1]
+	set format "%b"
+    } else {
+	set date [lrange $date2 1 2]
+	set format "%b %Y"
+    }
+
+    
+    if { $date != [clock format [clock seconds] -format "$format"] } {
+	status_log "Log was begun in a different month, moving logs\n\n" red
+	close $fd
+	
+	set date [clock format [clock scan "1 $date"] -format "%B %Y"]
+
+	if { [clock scan "1 $date"] > [clock seconds]} {
+	    set date "[lindex $date 0] [expr [lindex $date 1] - 1]"
+	}
+
+	set idx 0
+	while {[file isdirectory [file join ${log_dir} $date]] } {
+	    status_log "Directory already used.. .bug? anyways, we don't want to overwrite\n"
+	    set date "${date}.$idx"
+	    incr idx
+	}
+	create_dir [file join ${log_dir} $date]
+
+	foreach file [glob -nocomplain -types f "${log_dir}/*.log"] {
+	    status_log "moving $file\n" blue
+	    file rename $file [file join ${log_dir} $date]
+	}
+	set fd [open "[file join ${log_dir} ${email}.log]" a+]
+	
+    }
+    
+    return $fd
+
 }
 
 
@@ -135,9 +233,9 @@ proc StopLog {email {who 0} } {
 	status_log "DEBUG: Closing log file for $email\n"
 	if { [LogArray $email get] != 0 } {
 		if { $who == 1 } {
-			puts -nonewline [LogArray $email get] "\|\"LRED\[[trans lclosedwin $email [clock format [clock seconds] -format "%d %b %T"]]\]\n\n"
+			puts -nonewline [LogArray $email get] "\|\"LRED\[[trans lclosedwin $email [clock format [clock seconds] -format "%d %b %Y %T"]]\]\n\n"
 		} else {
-			puts -nonewline [LogArray $email get] "\|\"LRED\[[trans luclosedwin [clock format [clock seconds] -format "%d %b %T"]]\]\n\n"
+			puts -nonewline [LogArray $email get] "\|\"LRED\[[trans luclosedwin [clock format [clock seconds] -format "%d %b %Y %T"]]\]\n\n"
 		}
 		close [LogArray $email get]
 	}
@@ -211,9 +309,9 @@ proc WriteLog { email txt {conf 0} {user_list ""}} {
 		set fileid [LogArray $email get]
 		if { $fileid != 0 } {
 		if { $conf == 0 } {
-			puts -nonewline $fileid "\|\"LRED\[[trans lconvstarted [clock format [clock seconds] -format "%d %b %T"]]\]\n"
+			puts -nonewline $fileid "\|\"LRED\[[trans lconvstarted [clock format [clock seconds] -format "%d %b %Y %T"]]\]\n"
 		} else {
-			puts -nonewline $fileid "\|\"LRED\[[trans lenteredconf $email [clock format [clock seconds] -format "%d %b %T"]] \(${users}\) \]\n"
+			puts -nonewline $fileid "\|\"LRED\[[trans lenteredconf $email [clock format [clock seconds] -format "%d %b %Y %T"]] \(${users}\) \]\n"
 		}
 		puts -nonewline $fileid "\|\"LGRA[timestamp] $txt"
 		}
@@ -277,7 +375,7 @@ proc JoinsConf { chatid usr_name } {
 
 proc OpenLogWin { email } {
 
-	global bgcolor config log_dir langenc
+	global bgcolor log_dir langenc
 	
 	set fileid [LogArray $email get]
 	if { $fileid != 0 && $fileid != "stdout"} {
@@ -302,7 +400,6 @@ proc OpenLogWin { email } {
       	wm geometry $wname 600x400
 
 	frame $wname.blueframe -background $bgcolor
-
 	frame $wname.blueframe.log -class Amsn -borderwidth 0
       	frame $wname.buttons -class Amsn
 
@@ -322,6 +419,31 @@ proc OpenLogWin { email } {
 		set logvar "\|\"LRED[trans nologfile $email]"
 	}
 
+	if { [::config::getKey logsbydate] == 1 } {
+	    frame $wname.date  -class Amsn -borderwidth 0
+	    combobox::combobox $wname.date.list -editable true -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
+	    set date_list ""
+	    $wname.date.list list delete 0 end
+	    foreach date [glob -nocomplain -types f [file join ${log_dir} * ${email}.log]] {
+		set date [getfilename [file dirname $date]]
+		status_log "Found date $date for log of $email\n"
+	  
+		lappend date_list [clock scan "1 $date"]
+	    }
+	    set sorteddate_list [lsort -integer $date_list]
+
+	    $wname.date.list list insert end "[trans currentdate]"
+	    foreach date $sorteddate_list {
+		status_log "Adding date [trans [clock format $date -format "%B"]] [clock format $date -format "%Y"]\n" blue
+		$wname.date.list list insert end "[trans [clock format $date -format "%B"]] [clock format $date -format "%Y"]"
+	    }
+	    $wname.date.list select 0
+
+	    $wname.date.list configure -command "::log::ChangeLogToDate $wname $email"
+	    $wname.date.list configure -editable false
+	    pack $wname.date.list -side right -fill x
+	    pack $wname.date -side top -fill x
+	}
 
 	ParseLog $wname $logvar
 
@@ -332,6 +454,7 @@ proc OpenLogWin { email } {
 	menu ${wname}.copypaste -tearoff 0 -type normal
       	${wname}.copypaste add command -label [trans copy] -command "tk_textCopy ${wname}.blueframe.log.txt"
       	
+
  	pack $wname.blueframe.log.ys -side right -fill y
 	pack $wname.blueframe.log.txt -side left -expand true -fill both
  	pack $wname.blueframe.log -side top -expand true -fill both -padx 4 -pady 4
@@ -343,6 +466,32 @@ proc OpenLogWin { email } {
 	bind $wname <Escape> "destroy $wname"
 	bind ${wname}.blueframe.log.txt <Button3-ButtonRelease> "tk_popup ${wname}.copypaste %X %Y"
 	bind ${wname} <Control-c> "tk_textCopy ${wname}.blueframe.log.txt"
+}
+
+
+proc ChangeLogToDate { w email widget date } {
+
+    global log_dir
+
+    status_log "Changing log for $w to $date\n\n"
+
+    if { $date == "[trans currentdate]" } {
+	set date "."
+    }
+
+    if { [file exists [file join ${log_dir} $date ${email}.log]] == 1 } {
+	set id [open "[file join ${log_dir} $date ${email}.log]" r]
+	fconfigure $id -encoding utf-8
+	set logvar [read $id]
+	close $id
+    } else {
+	set logvar "\|\"LRED[trans nologfile $email]"
+    }
+
+    $w.blueframe.log.txt configure -state normal
+    $w.blueframe.log.txt delete 0.0 end
+
+    ParseLog $w $logvar
 }
 
 
