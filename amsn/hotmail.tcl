@@ -200,16 +200,19 @@ proc hotmail_viewmsg {msgurl userlogin {pass ""}} {
 proc aim_get_str { bodywithr str } {
 
     set body [stringmap {"\r" ""} $bodywithr]
-    set pos [string first $str $body]
-    
+    #set pos [string first $str $body]
+    set pos [string first "${str}:" $body]
+
     if { $pos < 0 } {
       status_log "aim_get_str not found\n"
       return ""
     } else {
+
 	    set inicio [expr { $pos + [string length $str] + 2 } ]
 	    set fin [expr { $inicio + [string first "\n" [string range $body $inicio end]] - 1 } ]
+	    status_log "aim_get_str found ${str}: [string range $body $inicio $fin]\n"
 	    return [string range $body $inicio $fin]
-    }	   
+    }
 
 }
 
