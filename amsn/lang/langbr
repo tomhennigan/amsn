@@ -81,6 +81,7 @@ changedisplaypic Mudar figura da tela
 changefont Mudar a fonte
 changenick Trocar Apelido
 changestate $1 Muda o estado para $2
+charscounter Contador de caracteres digitados na janela de conversa
 chatack Aceitando pedido de conversa de
 chat Conversa
 chatmaxmin Quando um contato abre uma janela de chat eu quero que ele seja:
@@ -234,6 +235,10 @@ installconvert Você deve instalar ImageMagick (programa conversor) para converte
 installconvert Você deve instalar o ImageClick (programa de conversão) para usar Buddy Icons e Emotions personalizados. Você pode baixar os binários para o seu Sistema Operaciona
 internalerror Erro Interno do Servidor
 invalidfile Arquivo $2 no campo "$1" não existe ou não pode ser lido
+invalidfile2 O Arquivo $1 não pôde ser salvo. Certifique-se que você tem as permissões corretas para o diretório de destino.
+invalidpicsize A imagem selecionada é muito grande. Favor escolher uma menor.
+invalidpic O arquivo de imagem selecionado não existe.
+invalidsound O arquivo de som selecionado não existe.
 invalidusername Nome de usuário inválido
 invitationcancelled O convite foi cancelado
 invite Convidar
@@ -457,6 +462,7 @@ stateedittext Por favor edite os campos que gostaria \n de modificar e tecle Sal
 stateinfo Configuração do Estado Pessoal
 statename Nome do estado atual
 statenewtext Por favor preencha as informações necessárias para criar \n o seu novo Estado Pessoal e tecle Salvar
+statenick Apelido personalizado (deixar em branco para não alterar)
 state Quero aparecer como
 status Estado
 stopalarm Desligar avisos

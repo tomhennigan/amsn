@@ -233,8 +233,8 @@ inbox Posteingang
 insertsmiley Smiley einfügen
 installconvert Sie müssen das Konvertierprogramm ImageMagick installieren, um die Grafiken in das von den MSN-Servern benötigte Format konvertieren zu können. Sie können die Binärdateien für Ihr Betriebssystem unter ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ herunterladen. Sollten Sie ImageMagick bereits installiert haben, ist dies ein Fehler, bitte informieren Sie die Entwickler.
 internalerror Interner Server Fehler
-invalidfile2 Dateiname $1 kann nicht erstellt werden. Stellen Sie sicher, dass Sie die erforderlichen Berechtigungen besitzen.
 invalidfile Die Datei $2, die im Feld $1 eingegeben wurde, existiert nicht oder ist nicht lesbar.
+invalidfile2 Dateiname $1 kann nicht erstellt werden. Stellen Sie sicher, dass Sie die erforderlichen Berechtigungen besitzen.
 invalidpic Die angegebene Bilddatei existiert nicht.
 invalidpicsize Das angegebene Bild ist zu groß. Bitte wählen Sie ein anderes.
 invalidsound Die angegebene Sounddatei existiert nicht.

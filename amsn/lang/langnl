@@ -5,12 +5,12 @@ acceptfile Accepteer bestand $1, grootte $2? opgeslagen in $3
 actions Acties
 addacontact Contactpersoon toevoegen
 addedyou U bent toegevoegd aan de contactpersonenlijst van $1 ($2)
-addprofiledesc Geef de aanmeldingsnaam waarvoor u een nieuw profiel wilt aanmaken\n aanmeldingsnamen met een profiel laten u toe verschillende configuraties te hebben voor iedere aanmeldingsnaam.\n Zonder profielen kunt u geen wachtwoorden onthouden of gebruik maken van geschiedenis en alarms
 addprofile Nieuw profiel toevoegen
+addprofiledesc Geef de aanmeldingsnaam waarvoor u een nieuw profiel wilt aanmaken\n aanmeldingsnamen met een profiel laten u toe verschillende configuraties te hebben voor iedere aanmeldingsnaam.\n Zonder profielen kunt u geen wachtwoorden onthouden of gebruik maken van geschiedenis en alarms
 addstate Toevoegen
+addto Toevoegen aan $1
 addtocontacts Aan contactpersonenlijst toevoegen
 addtoo Voeg deze persoon toe als nieuwe contactpersoon
-addto Toevoegen aan $1
 admincontacts Contactpersonen beheren
 admingroups Groepen beheren
 advanced Geavanceerd
@@ -40,8 +40,8 @@ autoaccepted Bestandsoverdracht automatisch geaccepteerd
 autoacceptft Automatisch bestandsoverdrachten accepteren
 autoaway Status op "Afwezig" zetten als ik niet actief ben gedurende
 autocheckver Controleer automatisch op nieuwere versies bij het opstarten
-autoconnect2 Automatisch aanmelden wanneer aMSN wordt gestart
 autoconnect Automatisch aanmelden
+autoconnect2 Automatisch aanmelden wanneer aMSN wordt gestart
 autohotmaillog Automatisch aanmelden bij Hotmail
 autoidle Automatisch "Geen Activiteit"
 autoip Automatisch IP
@@ -65,9 +65,9 @@ blocklist [BL] Geblokkeerd
 blockmessage Deze mensen zijn online en hebben u geblokkeerd
 blockusers Controleer gelijktijdig
 broughtby Aangeboden door de volgende ontwikkelaars
-browserexample ( \$url wordt vervangen door de URL ). Vb: mozilla \$url
-browser Webrowser
 browse Verkennen
+browser Webrowser
+browserexample ( \$url wordt vervangen door de URL ). Vb: mozilla \$url
 busy Bezet
 cancel Annuleren
 cannotdeleteprofile Het profiel kan niet verwijderd worden. Het wordt mogelijk gebruikt door een andere aMSN sessie
@@ -82,12 +82,12 @@ changefont Lettertype instellen
 changenick Schermnaam wijzigen
 changestate $1 heeft de status veranderd in $2
 charscounter Getypte tekens-teller in gespreksvenster
-chatack Gesprek aanvaarden van
 chat Gesprek
+chatack Gesprek aanvaarden van
 chatmaxmin Weergave gespreksvenster wanneer ik word aangesproken
 chatreq Indienen van verzoek voor gesprek
-chatsmileys2 Emoticons in berichten weergeven
 chatsmileys Emoticons weergeven
+chatsmileys2 Emoticons in berichten weergeven
 checkblocking Blijven controleren of gebruikers u blokkeren
 checkfilman Ontvangen bestanden worden bewaard in de map $1.\nKies extra ==> opties om dit te wijzigen.
 checkingver Bezig te zoeken naar een nieuwere versie van aMSN
@@ -100,23 +100,23 @@ choosecontact Selecteer een contactpersoon uit de lijst
 choosefontcolor Tekstkleur
 chooseskin Selecteer de skin die u wilt gebruiken
 ch_to_state Activeer nieuwe status
+clearlog Logboek legen
 clearlog2 Verwijder Geschiedenis voor alle contactpersonen
 clearlog3 Verwijder alle logboeken
-clearlog Logboek legen
 clicktologin Klik hier om u aan te melden
-closed Gesprek met $1 is wegens inactiviteit afgesloten
 close Sluiten
+closed Gesprek met $1 is wegens inactiviteit afgesloten
 closingdocks Minimaliseren ipv sluiten
 command Commando
 commandstatus Commandoregel uitvoeren
+confirm Weet u het zeker?
 confirmdelete Weet u zeker dat u $1 wilt verwijderen?
 confirmpurge Alle opgeslagen chatplaatjes van je contactpersonen zullen verwijderd worden. Weet je het zeker?
-confirm Weet u het zeker?
 connected U bent nu verbonden
 connecterror Fout bij verbinden met server
 connecting Bezig met verbinden
-connectionlost De verbinding met de server is gesloten
 connection Verbinding
+connectionlost De verbinding met de server is gesloten
 contactadded Aan uw contactenlijst is toegevoegd
 contactdoesnotexist Contactpersoon bestaat niet!
 contactlist [FL] Mijn contactpersonen
@@ -133,15 +133,15 @@ cut Knippen
 date Datum
 days Dagen
 dcprofile Geen profiel aanmaken
-defaultloginradio Inloggen met de standaardconfiguratie
 default Standaard configuratie
+defaultloginradio Inloggen met de standaardconfiguratie
 defchatwinsize Standaard grootte voor chatvensters (Xgrootte x Ygrootte)
-deletecustomstate Verwijder aangepaste instelling
 delete Verwijderen
+deletecustomstate Verwijder aangepaste instelling
 delimiters Haakjes om tijden heen:
 deliverfail Er was een probleem bij het bezorgen van de volgende boodschap
-delprofile2 Selecteer het profiel waarvan u de locale configuratiebestanden wilt verwijderen
 delprofile Verwijder profiel
+delprofile2 Selecteer het profiel waarvan u de locale configuratiebestanden wilt verwijderen
 description Omschrijving
 directconnection Directe verbonden met het internet (gebruik poort 1863)
 disabled Uitgeschakeld
@@ -151,8 +151,8 @@ disconnect $1 is offline gegaan
 displaychat Discussies
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome systeemvak
-dockingoff Geen systeemvak gebruiken
 docking Systeemvak
+dockingoff Geen systeemvak gebruiken
 dockkde KDE Systeemvak
 dontdownload Download TLS niet. Ik installeer het zelf.
 dontshow Verberg
@@ -170,8 +170,8 @@ enabled Actief
 enableproxy Gebruik proxy
 enableremote Beheer op afstand toestaan
 enablesound Geluid afspelen
-encoding2 Tekencodering (bijvoorbeeld unicode)
 encoding Codering instellen
+encoding2 Tekencodering (bijvoorbeeld unicode)
 entercontactemail Voer het e-mailadres van de contactpersoon in
 enterfilename Voer een bestandsnaam in
 enternick De naam in waaronder u voor andere gebruikers zichtbaar bent
@@ -179,9 +179,9 @@ errortls Er is een fout opgetreden bij het installeren van de module TLS:
 examples Voorbeelden
 exitamsn Weet u zeker dat u aMSN wilt afsluiten?
 extras Extra diensten
-faileddeleteperso Dit plaatje kan niet verwijderd worden omdat het geen persoonlijk beeldbestand is. Alleen plaatjes die bij je persoonlijke profiel horen kun je op deze manier verwijderen.
-faileddelete Verwijderen mislukt
 failed Mislukt
+faileddelete Verwijderen mislukt
+faileddeleteperso Dit plaatje kan niet verwijderd worden omdat het geen persoonlijk beeldbestand is. Alleen plaatjes die bij je persoonlijke profiel horen kun je op deze manier verwijderen.
 faq FAQ (Veel gestelde vragen)
 file Bestand
 filedoesnotexist Bestand bestaat niet
@@ -205,10 +205,10 @@ ftsendinvitation De uitnodiging voor de overdracht van het bestand '$2' ($3 byte
 fullcontactlist Het spijt me, je contactpersonenlijst is vol. Je moet eerst iemand verwijderen voordat je weer anderen kunt toevoegen.
 getdisppic De schermafbeelding van anderen weergeven in gesprekken
 gonelunch Lunchpauze
+group Groep
 groupadd Nieuwe groep maken
 groupdelete Een groep verwijderen
 groupexists Groep bestaat al
-group Groep
 groupmissing Kan de groep niet vinden
 groupnewname Nieuwe naam
 groupnotempty Deze groep is niet leeg!
@@ -216,8 +216,8 @@ groupoldname Oude naam
 grouprename Groepsnaam wijzigen
 groupunknown Onbekende groep
 handle Schermnaam
-helpcontents Help-onderwerpen
 help Help
+helpcontents Help-onderwerpen
 hidedisplaypic Schermafbeelding verbergen
 hiden Deze emoticon niet in het menu weergeven
 hidewindow Venster verbergen
@@ -232,8 +232,8 @@ inbox Postvak IN
 insertsmiley Voeg smiley in
 installconvert U moet het conversie-programma "ImageMagick" installeren om afbeeldingen te converteren naar de opmaak dat door de MSN-servers wordt gebruikt. U kunt een versie van ImageMagick voor uw besturingssysteem downloaden van ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Als deze melding verschijnt terwijl u het al hebt geïnstalleerd, dan is er mogelijk sprake van een bug. Meld dit dan alstublieft.
 internalerror Interne Serverfout
-invalidfile2 Het bestand $1 kan niet aangemaakt worden. Heeft u wel de juiste toegangsrechten?
 invalidfile Het bestand "$2", ingevoerd in het veld "$1", bestaat niet of is onleesbaar
+invalidfile2 Het bestand $1 kan niet aangemaakt worden. Heeft u wel de juiste toegangsrechten?
 invalidpic Het opgegeven afbeeldingsbestand bestaat niet.
 invalidpicsize Het opgegeven plaatje is te groot. Zoek alsjeblieft een kleinere uit.
 invalidsound Het opgegeven geluidsbestand bestaat niet.
@@ -245,8 +245,8 @@ ipdetect Detecteer het IP-adres voor bestandsoverdracht via HTTP
 istyping $1 is bezig met typen
 joins $1 neemt deel aan het gesprek
 keepalive Verbinding in stand houden (NAT)
-keeplog2 In een logboek automatisch een geschiedenis bijhouden van de gesprekken
 keeplog Logboek van gesprekken bijhouden
+keeplog2 In een logboek automatisch een geschiedenis bijhouden van de gesprekken
 language Taal
 lastmsgtime Laatste bericht ontvangen om $1
 lclosedwin $1 heeft het venster gesloten op $2
@@ -258,8 +258,8 @@ lenteredconf $1 kwam de vergadering binnen op $2
 lineflushlog Werk logfiles bij na elke regel
 linprivate PRIVE
 listeningon Bezig met luisteren op poort $1
-listsmileys2 Emoticons in de contactpersonenlijst weergeven
 listsmileys Toon emoticons in lijst
+listsmileys2 Emoticons in de contactpersonenlijst weergeven
 ljoinedconf $1 nam deel aan de vergadering
 lleftconf $1 heeft de vergadering verlaten
 loadcontacts Laad de lijst van contactpersonen
@@ -285,8 +285,8 @@ minimised Gespreksvenster niet activeren
 mins minuten
 mobile Mobiel
 morepersonal Meer persoonlijke statussen ->
-movetogroup Contactpersoon verplaatsten naar
 move Verplaats
+movetogroup Contactpersoon verplaatsten naar
 msg Bericht
 msgflicker Laat titel van gespreksvenster knipperen als een bericht aankomt in een inactief venster.
 msgmaxmin Weergave binnenkomend bericht in een bestaande discussie
@@ -301,17 +301,17 @@ myworkphone Mijn telefoonnummer (werk)
 natip  IP detectie via website
 natkeepalive Verbinding in stand houden (Selecteren als de verbinding regelmatig wegvalt)
 needonline U bent niet online
-newmailfrom Nieuwe e-mail van $1 ($2)
 newmail U hebt $1 nieuwe berichten in Postvak IN
+newmailfrom Nieuwe e-mail van $1 ($2)
 newmsg Nieuw bericht
 newstate Voeg nieuwe aangepaste status toe
 newveravailable Versie $1 is beschikbaar voor downloaden.
 next Volgende
+no Nee
 noactivity Geen activiteit
 nodataavailable Geen gegevens beschikbaar voor $1
 nologfile Geen logboek voor $1
 noneavailable Geen beschikbaar.
-no Nee
 nonewmail Geen nieuwe berichten in Postvak IN
 nonewver Er zijn geen nieuwere versies beschikbaar
 nopic Geen afbeelding
@@ -320,12 +320,12 @@ normal Oplopend
 noskins Kan AMSN niet starten omdat er geen skins zijn geïnstalleerd in de map skins/.
 nosystemtray Systeemvak niet beschikbaar
 notificationserver Initiële MSN Notificatie Server (MSN Messenger server)
+notify Licht in
+notify1 Melding weergeven wanneer een contactpersoonen online komt
 notify1_5 Melding weergeven wanneer een contactpersoon offline gaat
 notify1_75 Melding weergeven wanneer de status van een contactpersoon wijzigt
-notify1 Melding weergeven wanneer een contactpersoonen online komt
 notify2 Melding weergeven wanneer er een bericht wordt ontvangen
 notify3 Melding weergeven wanneer er een e-mail wordt ontvangen
-notify Licht in
 notifyoffset Afstand meldingsvenster vanaf de hoek van het scherm
 notifytyping Laat anderen in een gesprek zien of je aan het typen bent
 notifywin Meldingsvenster
@@ -362,21 +362,21 @@ prefblock3 "U werd geblokkeerd door" groep
 prefconnection Verbindingsinstellingen
 prefemotic Emoticons
 preferences Opties
+preffont Berichttekst
 preffont2 Het lettertype voor berichten wijzigen
 preffont3 Lettertype en lettergrootte
-preffont Berichttekst
 preflibs Zoekpad voor libraries
 preflog1 Logboeken en geschiedenis
 preflook Weergave
 prefmsging Inkomende berichten
 prefname Schermnaam
-prefphone2 De telefoonnummers die zichtbaar moeten zijn voor geaccepteerde contactpersonen
 prefphone Telefoonnummers
-prefprivacy2 Contactpersonen
+prefphone2 De telefoonnummers die zichtbaar moeten zijn voor geaccepteerde contactpersonen
 prefprivacy Zichtbaarheid en aanspreekbaarheid
+prefprivacy2 Contactpersonen
+prefprofile Openbaar profiel
 prefprofile2 Maak of wijzig uw profiel
 prefprofile3 Configuratieprofielen
-prefprofile Openbaar profiel
 prefproxy Mijn Proxy-instellingen
 prefremote Remote beheer
 prefsession Aanmelden en Status
@@ -389,10 +389,10 @@ profileinuse Dit profiel wordt momenteel gebruik door een andere Amsn sessie, ki
 profileloginradio Aanmelden d.m.v. een bestaand profiel.
 profiles Profielen
 properties Eigenschappen
-proxyconfhttp Configuratie voor HTTP proxy ondersteuning
-proxyconf Proxy configuratie
-proxyconnection Gebruik de onderstaande proxyserver
 proxy Gebruik een Proxy Server (HTTP of SOCKS5)
+proxyconf Proxy configuratie
+proxyconfhttp Configuratie voor HTTP proxy ondersteuning
+proxyconnection Gebruik de onderstaande proxyserver
 publishphones Mijn telefoonnummers publiceren
 purge Legen
 raised Gespreksvenster activeren
@@ -401,59 +401,60 @@ readonlywarn WAARSCHUWING: Het bestand zal waarschijnlijk NIET correct worden op
 receivedbytes $1 van de $2 bytes ontvangen
 receiveddir Map voor ontvangen bestanden
 receivefile Ontvang bestand
-reconnecting Bezig met opnieuw verbinden met de server
 reconnect Wachten tot $1 opnieuw verbindt
+reconnecting Bezig met opnieuw verbinden met de server
 reject Afwijzen
 rememberpass Onthoud wachtwoord
 removefromlist Verwijder uit deze lijst
 reversed Aflopend
 reverselist Omgekeerde lijst
 rightback Ben zo terug
+save Opslaan
 saveas Opslaan als
 savechatwinsize Chatvenster grootte opslaan na het resizen
 savecontacts Contactpersonenlijst opslaan
-save Opslaan
 savetofile Opslaan in bestand
 says $1 zegt
 sbcon Bezig met verbinden met schakelbord
 selectplugins Selecteer de plugins die u wilt activeren
 selectskin Kies een skin uit de lijst
+send Verzend
 sendfile Een bestand of foto verzenden
 sendmail Een e-mail verzenden
 sendmsg Een bericht verzenden
-send Verzend
 sentbytes $1 van de $2 bytes verzonden
+server Server
 serverbusy Server is bezet
 servergoingdown Verbinding verbroken: De server wordt uitgeschakeld
-server Server
 serverunavailable Server is niet beschikbaar
 session Sessie
 showblockedlist Toon de lijst van mensen die u geblokkeerd hebben
-showdisplaypic2 Schermafbeelding standaard tonen bij het openen van een gespreksvenster
 showdisplaypic Toon schermafbeelding
+showdisplaypic2 Schermafbeelding standaard tonen bij het openen van een gespreksvenster
 showmypic Mijn Afbeelding
 shownotify Geef mededelingenvenster weer bij bepaalde gebeurtenissen
 showuserpic Afbeelding van $1
-skinselector Skin selecteren
 skin Skin
+skinselector Skin selecteren
 smileconfig Configuratie voor zelfgemaakte emoticons
 smilefile Bestandsnaam van de emoticon
-smileintro2 Pas de nodige velden aan om deze emoticon te bewerken
 smileintro Vul de nodige velden in om een nieuwe emoticon te creëren
+smileintro2 Pas de nodige velden aan om deze emoticon te bewerken
+sound Geluiden gebuiken
 sound2 Geluid afspelen wanneer contactpersonen zich aanmelden of een bericht verzenden
 soundcommand Dit moet het afspeelcommando zijn (vb: esdplay)
 soundexample  ( \$sound = te spelen geluidsbestand) Vb: esdplay \$sound
 soundfile Alarmgeluid
 soundfiles Geluidsbestanden
-sound Geluiden gebuiken
 soundloop Geluid in een lus herhalen
 soundserver Geluidsserver
 soundstatus Alarmgeluid gebruiken
 sourcecode Broncode (moet gecompileerd en geïnstalleerd worden)
 sslwarning WAARSCHUWING!! Als SSL wordt uitgeschakeld, wordt uw wachtwoord bij het verzenden niet versleuteld. Schakel SSL dus alleen uit als dit noodzakelijk blijkt te zijn om verbinding te kunnen maken.
-startoffline2 Stil aanmelden met "Offline weergeven"
 startoffline Stil aanmelden
+startoffline2 Stil aanmelden met "Offline weergeven"
 startontray Start aMSN alleen als icoon in het systeemvak
+state Weer te geven status
 stateautomsg Automatisch bericht
 statechange status is veranderd in:
 stateedittext Pas de velden aan die u wilt \n veranderen en druk op Opslaan
@@ -461,7 +462,6 @@ stateinfo Configuratie persoonlijke status
 statename Personlijke statusnaam
 statenewtext Vul de benodigde informatie in om uw persoonlijke status\nte creëren en klik op Opslaan
 statenick Aangepaste schermnaam (laat het leeg voor geen verandering)
-state Weer te geven status
 status Status
 stopalarm Stop het alarm
 storenickname Herstel de oorspronkelijke schermnaam na een aangepaste status met aangepaste schermnaam.
@@ -479,8 +479,8 @@ title Al's Messenger
 tkerror TK heeft een error gegeven, er zit een bug in amsn, reporteer het astublieft. stuur het bestand $1 naar amsn-bugs@lists.sf.net
 tlsdowncompleted Het bestand $1 is opgeslagen in $2. Pak dit bestand uit, maak er een build van (als u broncode hebt gedownload), en installeer het in $3.
 tlsexplain De map waar de tcl TLS module staat. A.u.b. opgeven als AMSN het zelf niet kan vinden.\n(Dit is nodig voor beveiligd aanmelden met SSL)
-tlsinstallexp AMSN gebruikt nu versie 9 van het MSN protocol.\nDaarvoor is een met SSL beveiligde verbinding vereist. AMSN heeft hierbij een module\nnodig met de naam TLS, die niet aanwezig is op uw systeem. Deze wizard helpt u bij\nhet downloaden en installeren van TLS. Selecteer het type systeem dat u gebruikt\nzodat de benodigde bestanden automatisch gedownload kunnen worden.
 tlsinstall TLS Module installatie wizard
+tlsinstallexp AMSN gebruikt nu versie 9 van het MSN protocol.\nDaarvoor is een met SSL beveiligde verbinding vereist. AMSN heeft hierbij een module\nnodig met de naam TLS, die niet aanwezig is op uw systeem. Deze wizard helpt u bij\nhet downloaden en installeren van TLS. Selecteer het type systeem dat u gebruikt\nzodat de benodigde bestanden automatisch gedownload kunnen worden.
 tlsinstcompleted De TLS module is geïnstalleerd. U zou versie 9 van het MSN protocol nu moeten kunnen gebruiken. Als dit niet werkt, dan heb u vermoedelijk niet de juiste module gekozen, of er bestaat geen kant-en-klare module voor uw systeem.
 to Aan
 tools Extra
@@ -495,9 +495,9 @@ twonewmail U hebt $1 nieuwe berichten in Postvak IN
 unblock Deblokkeer
 uoffline Offline
 uonline Online
+user Gebruiker
 useralreadyonlist Gebruiker staat al in uw lijst
 userblocked De gebruiker is online maar heeft u geblokkeerd
-user Gebruiker
 usernotonline De gebruiker is offline
 useryourself U kan niet met uzelf chatten
 verifyblocked Controleer welke mensen u blokkeren

@@ -22,7 +22,6 @@ alarmonmsg Activar o alarme quando um utilizador lhe envia uma mensagem
 alarmonstatus Activar o alarme quando o utilizador muda de estado
 alarmpref Definições de alarme para o utilizador
 alarmstatus Ligar/Desligar alarme para este utilizador
-allfiles Todos os ficheiros
 allowallbutbl Permitir ser contactado por todos os utilizadores excepto os da "lista de bloqueados"
 allowbadwords Desactivar censura nas alcunhas (“nicknames”) 
 allowlist Lista de Autorizados (LA):
@@ -81,7 +80,6 @@ changedisplaypic Mudar a imagem de utilizador
 changefont Mudar o tipo de letra
 changenick Mudar a alcunha (nickname)
 changestate $1 muda o estado para $2
-charscounter Caracteres escritos na janela de chat
 chatack Aceitando uma conversação de
 chat Conversação
 chatmaxmin Quando um contacto quer conversar comigo eu quero que seja:
@@ -228,16 +226,11 @@ httpconnection Ligar usando método HTTP (usa o protocolo HTTP na porta 80)
 hybrid Modo híbrido
 ident Identificando
 identity Identidade
-imagefiles Ficheiros de imagem
 inbox Caixa de entrada
 insertsmiley Inserir emoticon
 installconvert É necessário instalar o ImageMagick (programa de conversão) para poder ícones "Buddy" e ícones de emoção criados. Pode descarregar os ficheiros binários para o seu Sistema Operativo em ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Se já possuir o programa, então trata-se de uma falha, por favor reporte-a. Estas características serão agora desactivadas, se instalar ImageMagick mais tarde active-as em Preferências.
 internalerror Erro Interno do Servidor
-invalidfile2 Ficheiro $1 não pode ser creado. Verifique as permissões
 invalidfile Ficheiro $2 do campo "$1" não existe ou não pode ser lido
-invalidpic A ficheiro de imagem escolhido não existe
-invalidpicsize A imagem escolhida é demasiado grande, escolha uma mais pequena
-invalidsound O ficheiro de som escolhido nao existe
 invalidusername Nome de utilizador inválido
 invitationcancelled O pedido foi cancelado
 invite Convidar
@@ -445,7 +438,6 @@ sound2 Reproduzir sons quando os contactos iniciam sessão ou enviam uma mensagem
 soundcommand Isto tem de ser o comando de reprodução de som (ex: esdplay)
 soundexample (\$sound = Ficheiro de som a ser reproduzido) Ex: esdplay \$sound
 soundfile Ficheiro de Som
-soundfiles Ficheiros de Som
 soundloop Som Repetido
 soundserver Servidor de Som
 sound Sons de Eventos
