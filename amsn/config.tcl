@@ -26,7 +26,7 @@ proc ConfigDefaults {} {
 
 	#Some Autodetected options
 	if {$tcl_platform(os) == "Darwin"} {
-	   set config(soundcommand) "sndplay \$sound"
+	   set config(soundcommand) "./sndplay \$sound"
 	   set config(browser) "open \$url"
 	   set config(notifyXoffset) 100
 	   set config(notifyYoffset) 75
@@ -441,12 +441,17 @@ proc load_config {} {
 			file copy [file join ${HOME} "config.xml"] [file join ${HOME} "config.xml.old"]
 		}
 		
-		#Force the change of the default background color for Mac OS X users
-		#Happen only if they had the standard blue by default in 0.90
+		#Force the change of the default background color and the default sound command
+		# For Mac OS X users who used aMSN 0.90 at the beggining
+		
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			set bgcolormac [::config::getKey backgroundcolor]
 				if { $bgcolormac=="#D8D8E0" } {
 					::config::setKey backgroundcolor #ECECEC
+					}
+			set soundmac2 [string range "[::config::getKey soundcommand]" 2 12]
+				if { $soundmac2=="program_dir" } {
+					::config::setKey soundcommand "./sndplay \$sound"
 					}
 		}
 	}
