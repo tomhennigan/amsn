@@ -7313,7 +7313,7 @@ proc bgerror { args } {
 	
 		
 	status_log "\n\n\n\n\n" error
-	status_log "GOT TCL/TK ERROR : $args\n$errorInfo\n$errorCode\n" red
+	status_log "GOT TCL/TK ERROR : $args\n$errorInfo\n$errorCode\n" error
 	catch { status_log    "\ntcl version : $tcl_version ||| tk version : $tk_version\n\ntcl_platform array content : [array get tcl_platform]\n" }
 	status_log "\n\n\n\n\n" error
 

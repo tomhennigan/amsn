@@ -1464,7 +1464,6 @@ namespace eval ::MSN {
 			return $lowuser
 		}
 
-
 		#Get SB for that chatid, if it exists
 		set sbn [SBFor $lowuser]
 
@@ -2919,104 +2918,111 @@ proc cmsn_connected_sb {name recv} {
 
 proc cmsn_reconnect { name } {
 
-	if {[sb get $name stat] == "n"} {
-		
-		status_log "cmsn_reconnect: stat = n , SB= $name, user=[sb get $name last_user]\n" green
-		
-		sb set $name time [clock seconds]
-		sb set $name stat "i"
-
-		cmsn_invite_user $name [sb get $name last_user]
-
-		::amsn::chatStatus [::MSN::ChatFor $name] \
-			"[trans willjoin [sb get $name last_user]]..." miniinfo ready
-
-	} elseif {[sb get $name stat] == "d"} {
-
-		status_log "cmsn_reconnect: stat = d , SB= $name, user=[sb get $name last_user]\n" green
-		
-		sb set $name time [clock seconds]
-
-		sb set $name sock ""
-		sb set $name data [list]
-		sb set $name users [list]
-		sb set $name typers [list]
-		sb set $name title [trans chat]
-		sb set $name lastmsgtime 0
-
-		sb set $name stat "c"
-		sb set $name invite [sb get $name last_user]
-
-
-
-		if { [sb get ns stat] != "o" } {
-			set chatid [::MSN::ChatFor $name]
-			::MSN::ClearQueue $chatid
-			::MSN::CleanChat $chatid
-			::amsn::chatStatus $chatid "[trans needonline]\n" miniwarning	
-			return
-		}
-		
-		::MSN::WriteSB ns "XFR" "SB" "cmsn_open_sb $name"
-		::amsn::chatStatus [::MSN::ChatFor $name] "[trans chatreq]..." miniinfo ready
-
-	} elseif {[sb get $name stat] == "i"} {
-
-		#status_log "cmsn_reconnect: stat = i , SB= $name\n" green   
+	switch [sb get $name stat] {
+		"n" {
+			
+			status_log "cmsn_reconnect: stat = n , SB= $name, user=[sb get $name last_user]\n" green
+			
+			sb set $name time [clock seconds]
+			sb set $name stat "i"
 	
-		if { [expr {[clock seconds] - [sb get $name time]}] > 15 } {
-			status_log "cmsn_reconnect: called again while inviting timeouted for sb $name\n" red
-			#catch { fileevent [sb get $name sock] readable "" } res
-			#catch { fileevent [sb get $name sock] writable "" } res
-			set command [list "::[sb get $name connection_wrapper]::finish" $name]
-			eval $command
-			#catch {close [sb get $name sock]} res
-			sb set $name stat "d"
-			cmsn_reconnect $name
-		}
-
-	} elseif {[sb get $name stat] == "c"} {
-
-		#status_log "cmsn_reconnect: stat = c , SB= $name\n" green      
+			cmsn_invite_user $name [sb get $name last_user]
 	
-		if { [expr {[clock seconds] - [sb get $name time]}] > 10 } {
-			status_log "cmsn_reconnect: called again while reconnect timeouted for sb $name\n" red
-			#catch { fileevent [sb get $name sock] readable "" } res
-			#catch { fileevent [sb get $name sock] writable "" } res
-			set command [list "::[sb get $name connection_wrapper]::finish" $name]
-			eval $command
-			#catch {close [sb get $name sock]} res
-			sb set $name stat "d"
-			cmsn_reconnect $name
-		}
-
-	} elseif {([sb get $name stat] == "cw") \
-		|| ([sb get $name stat] == "pw") \
-		|| ([sb get $name stat] == "a")} {
+			::amsn::chatStatus [::MSN::ChatFor $name] \
+				"[trans willjoin [sb get $name last_user]]..." miniinfo ready
+	
+		} 
 		
-		#status_log "cmsn_reconnect: stat =[sb get $name stat] , SB= $name\n" green         
-
-		if { [expr {[clock seconds] - [sb get $name time]}] > 10 } {
-			status_log "cmsn_reconnect: called again while authentication timeouted for sb $name\n" red
-			#catch { fileevent [sb get $name sock] readable "" } res
-			#catch { fileevent [sb get $name sock] writable "" } res
-			set command [list "::[sb get $name connection_wrapper]::finish" $name]
-			eval $command
-			#catch {close [sb get $name sock]} res
-			sb set $name stat "d"
-			cmsn_reconnect $name
-		}
-	} elseif {[sb get $name stat] == ""} {
-		status_log "cmsn_reconnect: SB $name stat is [sb get $name stat]. This is bad, should delete it and create a new one\n" red
-		catch {
-			set chatid [::MSN::ChatFor $name]
-			::MSN::DelSBFor $chatid $name
-			::MSN::KillSB $name
-			::MSN::chatTo $chatid
+		"d" {
+	
+			status_log "cmsn_reconnect: stat = d , SB= $name, user=[sb get $name last_user]\n" green
+			
+			sb set $name time [clock seconds]
+	
+			sb set $name sock ""
+			sb set $name data [list]
+			sb set $name users [list]
+			sb set $name typers [list]
+			sb set $name title [trans chat]
+			sb set $name lastmsgtime 0
+	
+			sb set $name stat "c"
+			sb set $name invite [sb get $name last_user]
+	
+			if { [sb get ns stat] != "o" } {
+				set chatid [::MSN::ChatFor $name]
+				::MSN::ClearQueue $chatid
+				::MSN::CleanChat $chatid
+				::amsn::chatStatus $chatid "[trans needonline]\n" miniwarning	
+				return
+			}
+			
+			::MSN::WriteSB ns "XFR" "SB" "cmsn_open_sb $name"
+			::amsn::chatStatus [::MSN::ChatFor $name] "[trans chatreq]..." miniinfo ready
+	
+		} 
+		
+		"i" {
+	
+			#status_log "cmsn_reconnect: stat = i , SB= $name\n" green   
+		
+			if { [expr {[clock seconds] - [sb get $name time]}] > 15 } {
+				status_log "cmsn_reconnect: called again while inviting timeouted for sb $name\n" red
+				#catch { fileevent [sb get $name sock] readable "" } res
+				#catch { fileevent [sb get $name sock] writable "" } res
+				set command [list "::[sb get $name connection_wrapper]::finish" $name]
+				eval $command
+				#catch {close [sb get $name sock]} res
+				sb set $name stat "d"
+				cmsn_reconnect $name
+			}
+	
 		}
 		
-	} else {
-		status_log "cmsn_reconnect: SB $name stat is [sb get $name stat]\n" red
+		"c" {
+	
+			#status_log "cmsn_reconnect: stat = c , SB= $name\n" green      
+		
+			if { [expr {[clock seconds] - [sb get $name time]}] > 10 } {
+				status_log "cmsn_reconnect: called again while reconnect timeouted for sb $name\n" red
+				#set command [list "::[sb get $name connection_wrapper]::finish" $name]
+				#eval $command
+				sb set $name stat "d"
+				cmsn_reconnect $name
+			}
+	
+		} 
+		
+		"cw" -
+		"pw" -
+		"a" {
+			
+			#status_log "cmsn_reconnect: stat =[sb get $name stat] , SB= $name\n" green         
+	
+			if { [expr {[clock seconds] - [sb get $name time]}] > 10 } {
+				status_log "cmsn_reconnect: called again while authentication timeouted for sb $name\n" red
+				#catch { fileevent [sb get $name sock] readable "" } res
+				#catch { fileevent [sb get $name sock] writable "" } res
+				set command [list "::[sb get $name connection_wrapper]::finish" $name]
+				eval $command
+				#catch {close [sb get $name sock]} res
+				sb set $name stat "d"
+				cmsn_reconnect $name
+			}
+		} 
+		"" {
+			status_log "cmsn_reconnect: SB $name stat is [sb get $name stat]. This is bad, should delete it and create a new one\n" red
+			catch {
+				set chatid [::MSN::ChatFor $name]
+				::MSN::DelSBFor $chatid $name
+				::MSN::KillSB $name
+				::MSN::chatTo $chatid
+			}
+			
+		} 
+		default {
+			status_log "cmsn_reconnect: SB $name stat is [sb get $name stat]\n" red
+		}
 	}
 
 }
