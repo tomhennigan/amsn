@@ -87,6 +87,7 @@ cachedpics $1 imágenes para mostrar almacenadas
 cancel Cancelar
 cannotdeleteprofile No se puede borrar este perfil porque parece que está siendo usado por otra sesión de amsn
 cantexec No se puede ejecutar la aplicación: $1. Comprueba las preferencias
+cantloadonlineversion No se pudo descargar de internet la lista actualizada de lenguajes
 cantremoveothers No se puede borrar el grupo "Otros"
 casesensitive Diferenciar may/minusculas en disparador
 cfgalarmall Cambiar/Añadir/Quitar alarma global
