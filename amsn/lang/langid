@@ -21,7 +21,6 @@ alarmonstatus Aktifkan alarm saat pengguna merubah keadaan
 alarmpref Pengaturan alarm
 alarmstatus Matikan/Nyalakan alarm untuk dia
 allowallbutbl Ijinkan semua pengguna menghubungi saya kecuali mereka dalam Daftar Blokir
-allowbadwords Emoticon ini memiliki animasi
 allowbadwords Matikan sensor terhadap nama panggilan
 allowlist Daftar Boleh (yang dibolehkan)
 allowonlyinal Ijinkan hanya pengguna dalam Daftar Terima untuk menghubungi saya
@@ -61,6 +60,7 @@ blockmessage Orang-orang ini sedang tersambung dan memblokir anda
 blockusers Nomer pengguna agar diperiksa saat ini juga
 broughtby Dipersembahkan oleh
 browse Mengamati
+browserexample (\$url akan digantikan dengan URL). Contoh: mozilla \$url
 browser Pengamat
 busy Sibuk
 cancel Batalkan
@@ -82,6 +82,7 @@ checkfilman Arsip yang diterima akan disimpan dalam $1. Mohon periksa aturan pen
 checkingver Sedang memeriksa versi terbaru
 checkonfln Periksa apakah pengguna tersebut memblokir anda saat dia pergi offline
 checkver Periksa apakah ada versi baru
+choosearq Pilih arsitektur sistem anda
 choosebasefont Pilih jenis huruf
 choosebgcolor Pilih warna latar belakang
 choosecontact Mohon pilih sebuah kontak dari daftar
@@ -90,7 +91,7 @@ chooseskin Silahkan pilih Kulit yang ingin anda gunakan
 clearlog2 Bersihkan sejarah untuk semua kontak
 clearlog3 Bersihkan semua register
 clearlog Bersihkan Register
-clicktologin Klik disini buat Daftar-Masuk
+clicktologin Klik disini untuk Daftar-Masuk
 closed Percakapan dengan $1 ditutup karena tidak aktif
 close Tutup
 closingdocks Tombol Tutup mengecilkan jendela
@@ -123,12 +124,15 @@ delprofile2 Pilih profil yang ingin dihilangkan
 delprofile Hapus Profil
 description Gambaran
 directconnection Saya memiliki sambugan langsung ke internet (menggunakan port 1863)
+disablessl Matikan SSL
 disconnect $1 memutuskan sambungan.
 dockfreedesktop Desktop gratis (KDE/Gnome2)
 dockgtk Labuhan model Gnome
 docking Labuhan
 dockingoff Jangan dilabuhkan
 dockkde Labuhan model KDE
+dontdownload Jangan download TLS, saya akan memasangnya sendiri
+downloadingtls Sedang mendownload modul TLS dari:\n $1
 editcurrentstate Ubah keadaan saat ini
 editnewstate Kondisi untuk Pesan-otomatis Pribadi Baru
 editprofile Ubah Profil
@@ -143,11 +147,13 @@ encoding Pilih jenis pengkodean
 entercontactemail Masukkan alamat e-mail teman
 enterfilename Masukkan nama arsip
 enternick Masukkan alias yang anda inginkan
+errortls Masalah dalam menginstal modul TLS:
 examples Contoh
 exitamsn Apakah anda ingin keluar?
 extras Fungsi tambahan
 faq PSD (Pertanyaan yang Sering Ditanyakan)
 filedoesnotexist Arsip tidak ditemukan
+filemanexample (\$lokasi akan digantikan dengan direktori) Contoh: nautilus \$lokasi
 fileman Pengatur Arsip
 filename Nama Arsip
 filetransfercancelled Transmisi arsip dibatalkan
@@ -179,6 +185,7 @@ handle Pegangan
 help Bantuan
 helpcontents Isi manual
 hiden Sembunyikan emoticon dari menu smiley
+hidewindow Sembunyikan Jendela
 history Lihat Sejarah
 home Rumah
 httpconnection Sambung menggunakan metode HTTP (menggunakan protokol HTTP melalui port 80)
@@ -210,7 +217,6 @@ linprivate SECARA PRIBADI
 listeningon Mengawasi port $1
 listsmileys2 Tampilkan Emoticon dan Smiley dalam daftar kontak a'MSN utama
 listsmileys Daftar Smiley
-listsmileys Tampilkan ekspresi di daftar nama
 ljoinedconf $1 bergabung dalam konferensi
 lleftconf $1 meninggalkan konferensi
 loadcontacts Baca daftar nama
@@ -229,6 +235,7 @@ logsout baru saja daftar-keluar
 lprivtoconf Percakapan pribadi berubah menjadi konferensi dengan $1
 luclosedwin Anda telah menutup jendal pada $1
 mailer Aplikasi email
+mailerexample (\$penerima = Penerima) Biarkan kosong untuk menggunakan Hotmail
 maximised Dimaksimalkan
 minimised Diminimalkan/Di-ikon-kan
 mins menit
@@ -272,6 +279,7 @@ notify3 Tampilkan jendel pemberitahuan saat e-mail masuk ke dalam Kotak-Masuk
 notify beri tahu
 notifyoffset Atur jendela pemberitahuan dengan memberikannya aturan keseimbangan posisi
 notifywin Jendela pemberitahuan
+notls Protokol MSN 9 memerlukan paket tls. Paket ini tampaknya tidak terinstal pada mesin ini. Apabila terinstalasi, cantumkan letak direktori kepustakaan dalam jendela Anjuran (contoh: /opt/tls/lib). \n \n Tls bisa didownload dari http://tls.sf.net.
 nousersinsession Tidak ada orang lain
 offline Tidak Tersambung
 ok Ok
@@ -304,6 +312,7 @@ preferences Pilihan
 preffont2 Rubah cara orang lain melihat tekst saya dalam percakapan
 preffont3 Rubah huruf dan ukuran tampilan muka a'MSN
 preffont Tekst Pesan Saya
+preflibs Direktori kepustakaan
 preflog1 Pilihan Registrasi dan Sejarah Saya
 preflook Tampilan Pembawa Pesan a'MSN Saya
 prefmsging Tampilan Muka Pesan Saya
@@ -370,11 +379,14 @@ smileintro2 Tolong isi bidang yang diperlukan untuk merubah smiley sesuai kehend
 smileintro Tolong isi bidang yang diperlukan untuk menciptakan smiley baru sesuai kehendak (lihat PSD untuk bantuan)
 sound2 Mainkan Bunyi saat kontak meregister masuk atau mengirim pesan
 soundcommand Ini harus menjadi perintah bermain (contoh: esdplay)
+soundexample (\$bunyi = Arsip bunyi yang dimainkan) Ex: esdplay \$bunyi
 soundfile Arsip suara
 soundloop Putar suara berulang-ulang
 soundserver Server Bunyi
 soundstatus Bunyikan alarm
 sound Suara Perisitwa
+sourcecode Kode Sumber (perlu kompilasi dan instalasi)
+sslwarning PERINGATAN!! Mematikan SSL akan mematikan enkripsi, sehingga kata sandi anda akan terlihat sebagai tekst biasa pada jaringan. Gunakan hanya untuk pengaturan proxy dan jaringan yang rumit.
 startoffline2 Register Masuk secara diam-diam sebagai 'Tampak Tidak Tersambung'
 startoffline Daftar-Masuk dengan status Offline
 stateautomsg Pesan-otomatis untuk Kirim
@@ -394,6 +406,10 @@ tabbed Jendela yang ditandai
 textsize Besar huruf
 timeremaining Waktu yang tersisa
 title Al's Messenger
+tlsdowncompleted Arsip $1 didownload ke direktori $2. Anda harus mengurainya, membangunnya (apabila anda mendownload kode sumber) dan menginstalasinya dalam $3.
+tlsinstallexp AMSN sekarang menggunakan MSNP9, yang memerlukan penggunaan \nsambungan aman menggunakan SSL. Untuk dapat menggunakan SSL, AMSN memerlukan untuk menginstalasi modul yang dinamakan TLS,\nyang tidak terdapat dalam sistem anda. Penyulap ini akan membantu anda dalam mendownload dan\nmenginstalasi TLS. Mohon pilih jenis sistem anda sehingga kami bisa secara otomatis mendownload\n arsip-arsip TLS yang diperlukan.
+tlsinstall Penyulap instalasi Modul TLS
+tlsinstcompleted Instalasi modul TLS telah berhasil, sekarang anda seharusnya dapat menggunakan MSNP9. Apabila tidak bekerja dengan baik, maka kemungkinan anda tidak memilih modul yang tepat, atau modul yang terkompilasi tidak tersedia untuk sistem anda.
 to Kepada
 tools Peralatan
 tooltips Aktifkan Tips untuk Peralatan

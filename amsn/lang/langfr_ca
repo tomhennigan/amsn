@@ -82,6 +82,7 @@ checkfilman Les fichiers reçus seront sauvegardés dans $1. Veuillez vérifier les
 checkingver Recherche d'une nouvelle version
 checkonfln Vérifier si un utilisateur vous a bloqué lorsqu'il va hors ligne
 checkver Vérifier pour une nouvelle version
+choosearq Veuillez sélectionner votre système d'exploitation
 choosebasefont Choisir la police de caractères
 choosebgcolor Choisir la couleur de fond
 choosecontact Veuillez choisir un contact dans la liste
@@ -123,12 +124,15 @@ delprofile2 Sélectionner le profil que vous voulez supprimer
 delprofile Supprimer un profil
 description Description
 directconnection J'ai une connexion directe à Internet (utilisation du port 1863)
+disablessl Désactiver le protocol sécurisé (SSL)
 disconnect Déconnecté ($1)
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Ancrer dans GTK
 docking Ancrage actif
 dockingoff Ancrage inactif
 dockkde Ancrage dans KDE
+dontdownload Ne pas télécharger le module TLS, je l'installerai moi-même
+downloadingtls Téléchargement du module TLS à partir de:\n $1
 editcurrentstate Editer l'etat actuel
 edit Édition
 editnewstate Nouvel état avec message automatique personnalisé
@@ -143,6 +147,7 @@ encoding Choisir l'encodage
 entercontactemail Tapez l'adresse courriel du contact
 enterfilename Entrez le nom du fichier
 enternick Donner votre pseudonyme
+errortls Erreur lors de l'installation du module TLS
 examples Exemples
 exitamsn Quitter aMSN?
 extras Services Additionnels
@@ -380,6 +385,8 @@ soundfile Fichier de son associé à l'alarme
 soundloop Jouer le son en boucle
 soundserver Serveur de Sons
 soundstatus Activer ou désactiver l'alarme sonore
+sourcecode Code source (besoin d'être compilé et installé)
+sslwarning ATTENTION!! La désactivation de SSL désactivera l'encryption des données, votre mot de passe sera envoyé en clair sur le réseau. À n'utiliser que sur des serveurs proxy ou des configurations réseautiques bien spéciaux.
 startoffline2 Se connecter en mode invisible
 startoffline Démarrer hors ligne
 stateautomsg Message à envoyer automatiquement
@@ -399,6 +406,10 @@ tabbed Onglets
 textsize Taille du texte
 timeremaining Temps restant
 title Al's Messenger
+tlsdowncompleted Le fichier $1 a été téléchargé dans le répertoire $2. Vous devez l'extraire, le compiler (si vous avez téléchargé le code source) et l'installer dans le répertoire $3.
+tlsinstall Assistant d'installation du module TLS
+tlsinstallexp AMSN utilise maintenant le protocole MSNP9, qui requiert maintenant l'utilisation d'une connexion sécurisée (SSL). AMSN doit, par conséquent, procéder à l'installation d'un module appelé TLS, qui est manquant dans votre système. Cet assistant vous aidera à télécharger le module et à son installation. Choisissez votre système d'exploitation dans la liste suivante afin de télecharger automatiquement les fichiers du module TLS.
+tlsinstcompleted L'installation du module TLS a été complétée avec succès, vous devriez maintenant être en mesure d'utiliser le nouveau protocole MSNP9. Si vous rencontrez des problèmes, vous avez probablement choisi le mauvais système d'exploitation, ou un module requis est manquant dans votre système.
 to À
 tools Outils
 tooltips Activer les "Tool Tips"
