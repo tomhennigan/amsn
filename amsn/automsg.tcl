@@ -412,12 +412,21 @@ proc new_state {cstack cdata saved_data cattr saved_attr args} {
 	upvar $saved_data sdata
 
 	if { ! [info exists sdata(${cstack}:name)] } { return 0 }	
-	if { ! [info exists sdata(${cstack}:nick)] } { return 0 }
 	if { ! [info exists sdata(${cstack}:state)] } { return 0 }
 	if { ! [info exists sdata(${cstack}:message)] } { return 0 }
 
 	lappend newstate "$sdata(${cstack}:name)"
-	lappend newstate "$sdata(${cstack}:nick)"
+	
+	# This if, for compatibility with previous versions of amsn
+	# that doesn't support custom nicknames per custom status:
+	# If the states:newstate contains :nick, append it to the
+	# matrix, else append "", as a non-change nick
+	if { [array exists sdata(${cstack}:nick)] } {
+		lappend newstate "$sdata(${cstack}:nick)"
+	} else {
+		lappend newstate ""
+	}
+	
 	lappend newstate "$sdata(${cstack}:state)"
 	set message "$sdata(${cstack}:message)"
 	set numlines [llength [split $message "\n"]]
