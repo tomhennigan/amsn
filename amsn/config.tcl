@@ -145,20 +145,31 @@ proc LoadLoginList {{trigger 0}} {
 	if { $trigger != 0 } {
 	status_log "getting profiles"
 	}
-	
+
 	if {([file readable "[file join ${HOME} profiles]"] != 0) || ([file isfile "[file join ${HOME}/profiles]"] != 0)} {
+		set HOMEE $HOME
+	} elseif {([file readable "[file join ${HOME2} profiles]"] != 0) || ([file isfile "[file join ${HOME2}/profiles]"] != 0)} {
+		set HOMEE $HOME2
+	} else {
+		return 1
+	}
 		
-	set file_id [open "${HOME}/profiles" r]
+	set file_id [open "${HOMEE}/profiles" r]
 	gets $file_id tmp_data
 	if {$tmp_data != "amsn_profiles_version 1"} {	;# config version not supported!
       		return 1
    	}
 
+	#LoginList show 0
+	#LoginList clear 0
+	#LoginList show 0
 	while {[gets $file_id tmp_data] != "-1"} {
 		LoginList add 0 $tmp_data
+		#puts stdout "Read $tmp_data\n"
 	}
 	close $file_id
-	}
+	#LoginList show 0
+	
 	
 	if { $trigger == 0 } {
 		set HOME2 $HOME
@@ -208,6 +219,7 @@ proc SaveLoginList {} {
 #	show : Dumps list to status_log, for debugging purposes only
 proc LoginList { action age {email ""} } {
 	variable ProfileList
+	#global ProfileList
 
 	switch $action {
 		add {
@@ -265,6 +277,12 @@ proc LoginList { action age {email ""} } {
 		show {
 			for {set idx 0} {$idx < [array size ProfileList]} {incr idx} {
 				status_log "$idx : $ProfileList($idx)\n"
+				#puts stdout "$idx : $ProfileList($idx)\n"
+			}
+		}
+		clear {
+			for {set idx 0} {$idx < [expr [array size ProfileList] -1]} {incr idx} {
+				unset ProfileList($idx)
 			}
 		}
 	}
@@ -399,5 +417,8 @@ proc DeleteProfile { email entrypath } {
 		catch { file delete -force [file join $HOME2 $email] }
 		$entrypath list delete [$entrypath curselection]
 		$entrypath select 0
+
+		# Lets save it into the file
+		SaveLoginList
 	}
 }

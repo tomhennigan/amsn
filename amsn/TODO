@@ -51,6 +51,10 @@ DONE	Add timeouts when reconnecting or inviting a user to a switchboard, to avoi
 -	Fix focus and children things with list window. (For example add_user from chat window), and dialogs in general.
 DONE	Ctrl, alt and other special keys shouldn't send typing notification.
 DONE	Bug with font selection in preferences window. Saved if "close" clicked, but not if "save" clicked.
+DONE	Read/write profiles on login window for multiple AMSN's
+-	Implement lock system to make sure you don't delete profile open on another AMSN window
+-	Write Profiles as soon as Save is pressed in Preferences
+-	Only change font preferences if save is pressed, revert to old if cancel pressed
 
 	***Existing Feature Improvements (priority 2)***
 
@@ -82,6 +86,7 @@ DONE	Save to FILE (all of history for example)
 DONE	"Clear all logs" button (in preferences)
 -	Compress log files with optimal algorithm for txt files
 -	Loging syntax options (timestamps, email or nics, etc)
+DONE	Chinese dosen't work (GB2312)
 
 	**WindowsXP issues :
 -	Problem with URLs and top user status in main window on mouse over (spacing under mouse cursour)
