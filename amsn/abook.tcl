@@ -3,7 +3,8 @@
 # $Id$
 #=======================================================================
 namespace eval ::abook {
-   namespace export setGroup getGroup setContact getContact
+   namespace export setGroup getGroup setContact getContact \
+   		    setPhone
 
    #
    # P R I V A T E
@@ -105,6 +106,21 @@ namespace eval ::abook {
 	set data(mob)    [urldecode [lindex $contacts($email) 5]]
 	set data(available) Y
    }
+
+   # Sends a message to the notification server with the
+   # new set of phone numbers. Notice this can only be done
+   # for the user and not for the buddies!
+   # The value is urlencoded by this routine
+   proc setPhone { item value } {
+#   	set value [urlencode $value]
+	switch $item {
+	    home { ::MSN::WriteNS PRP "PHH $value" }
+	    work { ::MSN::WriteNS PRP "PHW $value" }
+	    mobile { ::MSN::WriteNS PRP "PHM $value" }
+	    pager { ::MSN::WriteNS PRP "MOB $value" }
+	    default { puts "setPhone error, unknown $item $value" }
+	}
+   }
 }
 
 namespace eval ::abookGui {
@@ -117,11 +133,21 @@ namespace eval ::abookGui {
    #
    # P R O T E C T E D
    #
+    proc updatePhones { t h w m p} {
+	set phome [urlencode [$t.$h get]]
+	set pwork [urlencode [$t.$w get]]
+	set pmobile [urlencode [$t.$m get]]
+    #    set ppager [urlencode [$t.$p get]]
+	::abook::setPhone home $phome
+	::abook::setPhone work $pwork
+	::abook::setPhone mobile $pmobile
+	::abook::setPhone pager N
+    }
 
    #
    # P U B L I C
    #
-   proc showEntry { email } {
+   proc showEntry { email {edit ""}} {
 	set cd(available) N
 	::abook::getContact $email cd
 
@@ -156,11 +182,11 @@ namespace eval ::abookGui {
 	# _| Identity |________________________________________________
 	set nbIdent [getNote $w.n.p $nbtIdent]
    	label $nbIdent.e -text "Email:" -font bboldf
-   	label $nbIdent.e1 -text $email -font splainf
+   	label $nbIdent.e1 -text $email -font splainf -foreground blue
 	label $nbIdent.h -text "[trans handle]:" -font bboldf
-	label $nbIdent.h1 -text $cd(handle) -font splainf
+	label $nbIdent.h1 -text $cd(handle) -font splainf -foreground blue
 	label $nbIdent.g -text "[trans group]:" -font bboldf
-	label $nbIdent.g1 -text $cd(group) -font splainf
+	label $nbIdent.g1 -text $cd(group) -font splainf -foreground blue
 	grid $nbIdent.e -row 0 -column 0 -sticky e
 	grid $nbIdent.e1 -row 0 -column 1
 	grid $nbIdent.h -row 1 -column 0 -sticky e
@@ -172,14 +198,19 @@ namespace eval ::abookGui {
 	#  .--------.
 	# _| Phones |________________________________________________
 	set nbPhone [getNote $w.n.p $nbtPhone]
+	if { $edit == "" } {
 	label $nbPhone.h -font bboldf -text "[trans home]:"
-	label $nbPhone.h1 -font splainf -text $cd(phh)
+	label $nbPhone.h1 -font splainf -text $cd(phh) -foreground blue \
+		-justify left
 	label $nbPhone.w -font bboldf -text "[trans work]:"
-	label $nbPhone.w1 -font splainf -text $cd(phw)
+	label $nbPhone.w1 -font splainf -text $cd(phw) -foreground blue \
+		-justify left
 	label $nbPhone.m -font bboldf -text "[trans mobile]:"
-	label $nbPhone.m1 -font splainf -text $cd(phm)
+	label $nbPhone.m1 -font splainf -text $cd(phm) -foreground blue \
+		-justify left
 	label $nbPhone.p -font bboldf -text "[trans pager]:"
-	label $nbPhone.p1 -font splainf -text $cd(mob)
+	label $nbPhone.p1 -font splainf -text $cd(mob) -foreground blue \
+		-justify left
 	grid $nbPhone.h -row 0 -column 0 -sticky e
 	grid $nbPhone.h1 -row 0 -column 1
 	grid $nbPhone.w -row 1 -column 0 -sticky e
@@ -188,17 +219,50 @@ namespace eval ::abookGui {
 	grid $nbPhone.m1 -row 2 -column 1
 	grid $nbPhone.p -row 3 -column 0 -sticky e
 	grid $nbPhone.p1 -row 3 -column 1
+	} else {
+	label $nbPhone.h -font bboldf -text "[trans home]:"
+	entry $nbPhone.h1 -font splainf -text cd(phh) -foreground blue 
+	$nbPhone.h1 insert 1 $cd(phh)
+	label $nbPhone.w -font bboldf -text "[trans work]:"
+	entry $nbPhone.w1 -font splainf -text cd(phw) -foreground blue 
+	$nbPhone.w1 insert 1 $cd(phw)
+	label $nbPhone.m -font bboldf -text "[trans mobile]:"
+	entry $nbPhone.m1 -font splainf -text cd(phm) -foreground blue
+	$nbPhone.m1 insert 1 $cd(phm)
+	label $nbPhone.p -font bboldf -text "[trans pager]:"
+	label $nbPhone.p1 -font splainf -text $cd(mob) -foreground blue \
+		-justify left
+	grid $nbPhone.h -row 0 -column 0 -sticky e
+	grid $nbPhone.h1 -row 0 -column 1
+	grid $nbPhone.w -row 1 -column 0 -sticky e
+	grid $nbPhone.w1 -row 1 -column 1
+	grid $nbPhone.m -row 2 -column 0 -sticky e
+	grid $nbPhone.m1 -row 2 -column 1
+	grid $nbPhone.p -row 3 -column 0 -sticky e
+	grid $nbPhone.p1 -row 3 -column 1
+	}
         bind $w <Control-p> "pickNote $w.n.p $nbtPhone"
 
 	frame $w.b
 	    button $w.b.ok -text "[trans close]" -command "destroy $w"
-	    pack $w.b.ok
+	    button $w.b.submit -text "Update" -state disabled \
+		    -command "::abookGui::updatePhones $nbPhone h1 w1 m1 p1; destroy $w"
+	    pack $w.b.ok $w.b.submit -side left
+	    if {$edit != ""} {
+		$w.b.submit configure -state normal
+	    }
 
 	pack $w.n $w.b -side top
 	bind $w <Control-c> { destroy $w }
    }
 }
 # $Log$
+# Revision 1.5  2002/06/19 14:34:58  lordofscripts
+# Added facility window (Ctrl+M) to enter commands to be issued to the
+# Notification Server. Abook now allows to either show (read only)
+# information about a buddy, or to publish (showEntry email -edit) the
+# user's phone numbers so that other buddies can see them.
+#
 # Revision 1.4  2002/06/18 14:28:12  lordofscripts
 # Implemented dialog for address book. Namespace abookGui
 #

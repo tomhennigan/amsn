@@ -9,6 +9,7 @@
 
 ###################### Protocol Debugging ###########################
 set degt_protocol_window_visible 0
+set degt_command_window_visible 0
 
 proc degt_protocol { str } {
     .degt.mid.txt insert end "$str\n"
@@ -63,6 +64,48 @@ proc degt_protocol_win { } {
     bind . <Control-d> { degt_protocol_win_toggle }
     wm protocol .degt WM_DELETE_WINDOW { degt_protocol_win_toggle }
 }    
+
+proc degt_ns_command_win_toggle {} {
+    global degt_command_window_visible
+
+    if { $degt_command_window_visible } {
+	wm state .nscmd withdraw
+	set degt_command_window_visible 0
+    } else {
+	wm state .nscmd normal
+	set degt_command_window_visible 1
+    }
+}
+
+# Ctrl-M to toggle raise/hide. This window is for developers only 
+# to issue commands manually to the Notification Server
+proc degt_ns_command_win {} {
+    if [winfo exists .nscmd] {
+        return
+    }
+    toplevel .nscmd
+    wm title .nscmd "MSN Command"
+    wm iconname .nscmd "MSNCmd"
+    wm state .nscmd withdraw
+    label .nscmd.l -text "NS Command:" -font bboldf
+    entry .nscmd.e -width 20 
+    pack .nscmd.l .nscmd.e -side left
+
+    bind .nscmd.e <Return> {
+    	set cmd [string trim [.nscmd.e get]]
+	if { [string length $cmd] > 0 } {
+	    # There is actually a command typed. If %T found in
+	    # the string replace it by a transaction ID
+	    set nsclst [split $cmd]
+	    set nscmd [lindex $nsclst 0]
+	    set nspar [lreplace $nsclst 0 0]
+	    # Send command to the Notification Server
+	    ::MSN::WriteNS $nscmd $nspar
+	}
+    }
+    bind . <Control-m> { degt_ns_command_win_toggle }
+    wm protocol .nscmd WM_DELETE_WINDOW { degt_ns_command_win_toggle }
+}
 ###################### Preferences Window ###########################
 array set myconfig {}   ; # Cached configuration 
 set proxy_server ""
@@ -284,6 +327,12 @@ proc LabelEntryGet { path } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.5  2002/06/19 14:34:58  lordofscripts
+# Added facility window (Ctrl+M) to enter commands to be issued to the
+# Notification Server. Abook now allows to either show (read only)
+# information about a buddy, or to publish (showEntry email -edit) the
+# user's phone numbers so that other buddies can see them.
+#
 # Revision 1.4  2002/06/18 11:57:32  airadier
 # Fixed bug when closing protocol_win not using the close button
 #
