@@ -897,7 +897,7 @@ namespace eval ::MSN {
 
          if { [string tolower [lindex $recv 3]] == [string tolower $config(login)] } {
             set user_info $recv
-            cmsn_draw_online 1
+				cmsn_draw_online 1
          }
 
    }
@@ -3163,6 +3163,7 @@ proc cmsn_ns_handler {item} {
 				global user_stat
 				if { $user_stat != [lindex $item 2] } {
 					set user_stat [lindex $item 2]
+
 					cmsn_draw_online 1
 
 				#Alert dock of status change
@@ -3440,6 +3441,7 @@ proc cmsn_listdel {recv} {
    
    #lists_compare		;# FIX: hmm, maybe I should not run it always!
    list_users_refresh
+	cmsn_draw_online 1
 	global contactlist_loaded
 	set contactlist_loaded 1
    #::MSN::WriteSB ns "LST" "[lindex $recv 2]"
@@ -3948,7 +3950,6 @@ proc list_users_refresh {} {
 
    #set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users_new]]
 	set list_users $list_users_new
-   cmsn_draw_online 1
 
 }
 
@@ -4088,6 +4089,7 @@ proc cmsn_listupdate {recv} {
 	if {$current == $total} {
 		lists_compare		;# FIX: hmm, maybe I should not run it always!
 		list_users_refresh
+		cmsn_draw_online 1
 
 		set contactlist_loaded 1
 	}
