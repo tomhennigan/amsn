@@ -2942,7 +2942,7 @@ proc cmsn_draw_main {} {
    .main_menu add cascade -label "[trans actions]" -menu .main_menu.actions
 
    .main_menu add cascade -label "[trans tools]" -menu .main_menu.tools
-   .main_menu add cascade -label "[trans help]" -menu .main_menu.help
+   .main_menu add cascade -label "[trans help]" -menu .main_menu.helping
    
 	   	
 	#.main_menu.tools add separator
@@ -3110,30 +3110,30 @@ proc cmsn_draw_main {} {
    .main_menu.tools add command -label "[trans preferences]..." -command Preferences
 
    #Help menu
-   menu .main_menu.help -tearoff 0 -type normal
+   menu .main_menu.helping -tearoff 0 -type normal
 
    if { $config(language) != "en" } {
-      .main_menu.help add command -label "[trans helpcontents] - $langlong..." \
+      .main_menu.helping add command -label "[trans helpcontents] - $langlong..." \
          -command "::amsn::showTranslatedHelpFile HELP [list [trans helpcontents]]"
-      .main_menu.help add command -label "[trans helpcontents] - English..." \
+      .main_menu.helping add command -label "[trans helpcontents] - English..." \
          -command "::amsn::showHelpFile HELP [list [trans helpcontents]]"
    } else {
-      .main_menu.help add command -label "[trans helpcontents]..." \
+      .main_menu.helping add command -label "[trans helpcontents]..." \
          -command "::amsn::showHelpFile HELP [list [trans helpcontents]]"
    }
-   .main_menu.help add separator
+   .main_menu.helping add separator
    if { $config(language) != "en" } {
-      .main_menu.help add command -label "[trans faq] - $langlong..." \
+      .main_menu.helping add command -label "[trans faq] - $langlong..." \
          -command "::amsn::showTranslatedHelpFile FAQ [list [trans faq]]"
-      .main_menu.help add command -label "[trans faq] - English..." \
+      .main_menu.helping add command -label "[trans faq] - English..." \
          -command "::amsn::showHelpFile FAQ [list [trans faq]]"
    } else {
-      .main_menu.help add command -label "[trans faq]..." \
+      .main_menu.helping add command -label "[trans faq]..." \
          -command "::amsn::showHelpFile FAQ [list [trans faq]]"
    }
-   .main_menu.help add separator
-   .main_menu.help add command -label "[trans about]..." -command ::amsn::aboutWindow
-   .main_menu.help add command -label "[trans version]..." -command \
+   .main_menu.helping add separator
+   .main_menu.helping add command -label "[trans about]..." -command ::amsn::aboutWindow
+   .main_menu.helping add command -label "[trans version]..." -command \
      "msg_box \"[trans version]: $version\n[trans date]: $date\n$weburl\""
 
 
@@ -3251,7 +3251,11 @@ proc cmsn_draw_main {} {
 	# This one is not a banner but a branding. When adverts are enabled
 	# they share this space with the branding image. The branding image
 	# is cycled in between adverts.
+	if {$tcl_platform(os) == "Darwin"} {
+	adv_show_banner file [GetSkinFile pixmaps logomacmsn.gif]
+	} else {
 	adv_show_banner file [GetSkinFile pixmaps logolinmsn.gif]
+	}
    }
 
    pack $pgBuddy.text -side right -expand true -fill both -padx 0 -pady 0   
