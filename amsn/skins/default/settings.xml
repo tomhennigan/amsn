@@ -91,16 +91,16 @@
       <file> smilec2 </file>
    </emoticon>
 
-  <emoticon>
+   <emoticon>
       <name> 11 angry </name>
       <text> ":@" </text>
       <text> ":-@" </text>
       <file> angry </file>
    </emoticon>
 
-  <emoticon>
+   <emoticon>
       <name> 12 aggresive </name>
-      <text> "8ol" </text>
+      <text> "8o|" </text>
       <file> aggresive </file>
    </emoticon>
 
@@ -110,10 +110,414 @@
       <text> ":-$" </text>
       <file> smilemb </file>
    </emoticon>
-   
-   
-   
-   
+
+   <emoticon>
+      <name> 14 zip </name>
+      <text> ":-#" </text>
+      <file> zip </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 15 kiss </name>
+      <text> ":-*" </text>
+      <file> kiss </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 16 new7 </name>
+      <text> ":^)" </text>
+      <file> new7 </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 17 glasses </name>
+      <text> "8-|" </text>
+      <file> glasses </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 18 new5 </name>
+      <text> "8-)" </text>
+      <file> new5 </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 19 new4 </name>
+      <text> "|-)" </text>
+      <file> new4 </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 20 new3 </name>
+      <text> "+o(" </text>
+      <file> new3 </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 21 new2 </name>
+      <text> "*-)" </text>
+      <file> new2 </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 22 new1 </name>
+      <text> "^o)" </text>
+      <file> new1 </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 23 emhottie </name>
+      <text> "(h)" </text>
+      <file> emhottie </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 24 brb </name>
+      <text> "(brb)" </text>
+      <file> brb </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 25 party </name>
+      <!--      <text> "<:o)" </text>  NEED TO FIX THE XML PARSER FOR THIS TO WORK -->
+      <text> ">:o)" </text>
+      <file> party </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 26 angel </name>
+      <text> "(a)" </text>
+      <file> angel </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 27 devil </name>
+      <text> "(6)" </text>
+      <file> devil </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 28 love </name>
+      <text> "(l)" </text>
+      <file> love </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 29 unlove </name>
+      <text> "(u)" </text>
+      <file> unlove </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 30 lips </name>
+      <text> "(k)" </text>
+      <file> lips </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 31 rose </name>
+      <text> "(F)" </text>
+      <file> rose </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 32 rosew </name>
+      <text> "(W)" </text>
+      <file> rosew </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 33 beer </name>
+      <text> "(b)" </text>
+      <file> beer </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 34 coctail </name>
+      <text> "(D)" </text>
+      <file> coctail </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 35 emcup </name>
+      <text> "(C)" </text>
+      <file> emcup </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 36 cake </name>
+      <text> "(^)" </text>
+      <file> cake </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 37 toilet </name>
+      <text> "(pl)" </text>
+      <file> toilet </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 38 pizza </name>
+      <text> "(pi)" </text>
+      <file> pizza </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 39 emphone </name>
+      <text> "(t)" </text>
+      <file> emphone </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 40 mobphone </name>
+      <text> "(mp)" </text>
+      <file> mobphone </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 41 email </name>
+      <text> "(e)" </text>
+      <file> email </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 42 computer </name>
+      <text> "(co)" </text>
+      <file> computer </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 43 clk </name>
+      <text> "(o)" </text>
+      <file> clk </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 44 photo </name>
+      <text> "(p)" </text>
+      <file> photo </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 45 film </name>
+      <text> "(~)" </text>
+      <file> film </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 46 embulb </name>
+      <text> "(i)" </text>
+      <file> embulb </file>
+      <sound> beep </sound>
+   </emoticon>
+
+   <emoticon>
+      <name> 47 handcuffs </name>
+      <text> "(%)" </text>
+      <file> handcuffs </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 48 chopsticks </name>
+      <text> "(||)" </text>
+      <file> chopsticks </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 49 umbrella </name>
+      <text> "(um)" </text>
+      <file> umbrella </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 50 xbox </name>
+      <text> "(xx)" </text>
+      <file> xbox </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 51 money </name>
+      <text> "(mo)" </text>
+      <file> money </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 52 gift </name>
+      <text> "(g)" </text>
+      <file> gift </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 53 cigarette </name>
+      <text> "(ci)" </text>
+      <file> cigarette </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 54 car </name>
+      <text> "(au)" </text>
+      <file> car </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 55 plane </name>
+      <text> "(ap)" </text>
+      <file> plane </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 56 football </name>
+      <text> "(so)" </text>
+      <file> football </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 57 emnote </name>
+      <text> "(8)" </text>
+      <file> emnote </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 58 asl </name>
+      <text> "(?)" </text>
+      <file> asl </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 59 emstar </name>
+      <text> "(*)" </text>
+      <file> emstar </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 60 emsleep </name>
+      <text> "(s)" </text>
+      <file> emsleep </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 61 rainbow </name>
+      <text> "(r)" </text>
+      <file> rainbow </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 62 rain </name>
+      <text> "(st)" </text>
+      <file> rain </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 63 sun </name>
+      <text> "(#)" </text>
+      <file> sun </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 64 storm </name>
+      <text> "(li)" </text>
+      <file> storm </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 65 island </name>
+      <text> "(ip)" </text>
+      <file> island </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 66 dog </name>
+      <text> "(&)" </text>
+      <file> dog </file>
+      <sound> woof </sound>
+   </emoticon>
+
+   <emoticon>
+      <name> 67 emcat </name>
+      <text> "(@)" </text>
+      <file> emcat </file>
+      <sound> meow </sound>
+   </emoticon>
+
+   <emoticon>
+      <name> 68 turtle </name>
+      <text> "(tu)" </text>
+      <file> turtle </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 69 snail </name>
+      <text> "(sn)" </text>
+      <file> snail </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 70 sheep </name>
+      <text> "(bah)" </text>
+      <file> sheep </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 71 vampire </name>
+      <text> ":-[" </text>
+     <text> ":[" </text>
+      <file> vampire </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 72 messenger </name>
+      <text> "(m)" </text>
+      <file> messenger </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 73 boyhug </name>
+      <text> "({)" </text>
+      <file> boyhug </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 74 emboy </name>
+      <text> "(Z)" </text>
+      <file> emboy </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 75 girlhug </name>
+      <text> "(})" </text>
+      <file> girlhug </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 76 emgirl </name>
+      <text> "(x)" </text>
+      <file> emgirl </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 77 thumbu </name>
+      <text> "(y)" </text>
+      <file> thumbu </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 78 thumbd </name>
+      <text> "(n)" </text>
+      <file> thumbd </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 79 fingerscrossed </name>
+      <text> "(yn)" </text>
+      <file> fingerscrossed </file>
+   </emoticon>
+
+   <emoticon>
+      <name> 80 hifive </name>
+      <text> "(h5)" </text>
+      <file> hifive </file>
+   </emoticon>
+
 
 
  <!--Those were took from the trillian skin, and were only meant for testings...-->
@@ -134,27 +538,3 @@
    </emoticon>
 
 </smileys>
-
-<!--
-        Remaining smileys to add to this file as xml... plz help :(
-
-	{":-#" zip} 
-	{":-*" kiss} {":^)" new7} {"8-|" glasses} {"8-)" new5} {"|-)" new4} {"+o(" new3}
-	{"*-)" new2} {"^o)" new1} {"(h)" emhottie} {"(brb)" brb} {"<:o)" party} {"(a)" angel}  {"(6)" devil}
-	{"(l)" love} {"(u)" unlove} {"(k)" lips} {"(F)" rose} {"(W)" rosew} 
-	
-	
-	{"(b)" beer} {"(D)" coctail} {"(C)" emcup} {"(^)" cake} {"(pl)" toilet} {"(pi)" pizza}
-	
-	{"(t)" emphone} {"(mp)" mobphone} {"(e)" email} {"(co)" computer} {"(o)" clk} {"(p)" photo} {"(~)" film} 
-	{"(i)" embulb beep} {"(%)" handcuffs} {"(||)" chopsticks} {"(um)" umbrella} {"(xx)" xbox} {"(mo)" money}
-	{"(g)" gift} {"(ci)" cigarette} {"(au)" car} {"(ap)" plane} {"(so)" football} {"(8)" emnote} {"(?)" asl}
-	
-	{"(*)" emstar} {"(s)" emsleep} {"(r)" rainbow} {"(st)" rain} {"(#)" sun} {"(li)" storm} {"(ip)" island}
-	
-	 {"(&)" dog woof} {"(@)" emcat meow} {"(tu)" turtle} {"(sn)" snail} {"(bah)" sheep} {":-\[" vampire} {":\[" vampire}
-	 
-	 {"(m)" messenger} {"(\{)" boyhug} {"(Z)" emboy} {"(\})" girlhug} {"(x)" emgirl} {"(y)" thumbu} {"(n)" thumbd} 
-	{"(yn)" fingerscrossed} {"(h5)" hifive} 
-
--->
