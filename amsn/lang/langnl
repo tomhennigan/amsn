@@ -124,6 +124,7 @@ delprofile2 Kies het profiel dat je wilt verwijderen
 delprofile Verwijder profiel
 description Omschrijving
 directconnection Ik heb een directe verbinding met het internet (gebruik poort 1863)
+disablessl SSL niet gebruiken
 disconnect $1 is offline gegaan
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
@@ -131,6 +132,7 @@ docking Docking
 dockingoff Docking uitschakelen
 dockkde KDE Dock
 dontdownload Download TLS niet. Ik installeer het zelf.
+downloadingtls Bezig met downloaden van TLS vanaf:\n $1
 edit    Bewerken
 editcurrentstate Huidige bewerken
 editnewstate Nieuwe Persoonlijke Automatische Berichten Status
@@ -145,6 +147,7 @@ encoding Kies codering
 entercontactemail Voer het e-mailadres van de contactpersoon in
 enterfilename Voer een bestandsnaam in
 enternick Voer uw schermnaam in
+errortls Er is een fout opgetreden bij het installeren van de module TLS:
 examples Voorbeelden
 exitamsn Weet je zeker dat je aMSN wilt afsluiten?
 extras Extra diensten
@@ -383,6 +386,7 @@ soundloop Geluid blijven herhalen
 soundserver Geluidserver
 soundstatus Schakel alarm geluid aan/uit
 sourcecode Broncode (moet gecompileerd en geinstalleerd worden)
+sslwarning WAARSCHUWING!! Als SSL wordt uitgeschakeld, wordt uw wachtwoord bij het verzenden niet versleuteld. Schakel SSL dus alleen uit als dit noodzakelijk blijkt te zijn om verbinding te kunnen maken.
 startoffline2 Stil aanmelden met "Offline verschijnen"
 startoffline Begin offline
 stateautomsg Automatisch Bericht om te versturen
@@ -402,8 +406,10 @@ tabbed Vensters met tabbladen
 textsize Tekstgrootte
 timeremaining Resterende tijd
 title Al's Messenger
+tlsdowncompleted Het bestand $1 is opgeslagen in $2. Pak dit bestand uit, maak er een build van (als u broncode hebt gedownload), en installeer het in $3.
 tlsinstallexp AMSN gebruikt nu versie 9 van het MSN protocol.\nDaarvoor is een met SSL beveiligde verbinding vereist. AMSN heeft hierbij een module\nnodig met de naam TLS, die niet aanwezig is op uw systeem. Deze wizard helpt u bij\nhet downloaden en installeren van TLS. Selecteer het type systeem dat je gebruikt\nzodat de benodigde bestanden automatisch gedownload kunnen worden.
 tlsinstall TLS Module installatie wizard
+tlsinstcompleted De TLS module is geïnstalleerd. Je zou versie 9 van het MSN protocol nu moeten kunnen gebruiken. Als dit niet werkt, dan heb je vermoedelijk niet de juiste module gekozen, of er bestaat geen kant-en-klare module voor jouw systeem.
 to Aan
 tools Extra
 tooltips Tooltips weergeven

@@ -106,7 +106,6 @@ namespace eval ::abook {
         switch $field {
 	    group {	;# From LST.FL command, contains email, groupId
 		#set value [adjustGroup $value]
-		set value [split $value ,]
 		set contacts($email) [lreplace $contacts($email) 0 0 $value]
 		
 		#status_log "Added groups $value for $email\n" white
@@ -413,6 +412,10 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.28  2003/10/08 12:18:12  airadier
+# Fixed copy to group (wasn't working fine).
+# Updated languages.
+#
 # Revision 1.27  2003/09/23 00:31:26  airadier
 # Removed some "puts" in the code.
 #

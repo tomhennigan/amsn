@@ -22,7 +22,7 @@ if { $initialize_amsn == 1 } {
     set list_cmdhnd [list]
     
     set sb_list [list]
-    
+
     #Double array containing:
     # CODE NAME COLOR ONLINE/OFFLINE  SMALLIMAGE BIGIMAGE
     set list_states {
@@ -2965,13 +2965,19 @@ proc cmsn_ns_handler {item} {
 	 return 0
       }
       ADD {
-	  new_contact_list "[lindex $item 3]"
+		status_log "Before: [lindex $item 4] is now in groups: [::abook::getGroup [lindex $item 4] -id]\n"
+		new_contact_list "[lindex $item 3]"
+		status_log "After 1: [lindex $item 4] is now in groups: [::abook::getGroup [lindex $item 4] -id]\n"
 	 set curr_list [lindex $item 2]
+	 status_log "curr_list=$curr_list\n"
 	 if { ($curr_list == "FL") } {
 	     ::abook::setContact [lindex $item 4] nick [lindex $item 5]
-	     ::abook::addContactToGroup [lindex $item 4] [lindex $item 6]	     
+	     ::abook::addContactToGroup [lindex $item 4] [lindex $item 6]
+		  status_log "Adding contact to group [lindex $item 6]\n"
+		  status_log "After 2: [lindex $item 4] is now in groups: [::abook::getGroup [lindex $item 4] -id]\n"
 	 }
          cmsn_listupdate $item
+			status_log "After 3: [lindex $item 4] is now in groups: [::abook::getGroup [lindex $item 4] -id]\n"
          return 0
       }
       LST {
@@ -3047,7 +3053,7 @@ proc cmsn_ns_handler {item} {
 	      #status_log "$item --- protocol 7 --- $protocol\n"
 	      new_contact_list "[lindex $item 1]"
 	      # Update entry in address book setContact(email,PH*/M*,phone/setting)
-	      ::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4] 
+	      ::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4]
 	  }
 	 return 0
       }
@@ -3884,119 +3890,121 @@ proc process_msnp9_lists { bin } {
 }
 
 proc cmsn_listupdate {recv} {
-   global list_fl list_al list_bl list_rl protocol contactlist_loaded
+	global list_fl list_al list_bl list_rl protocol contactlist_loaded
 
-    set contactlist_loaded 0
+	set contactlist_loaded 0
 
-    if { [lindex $recv 0] == "ADD" } {
-	set list_names "list_[string tolower [lindex $recv 2]]"
-	set version [lindex $recv 3]
+	if { [lindex $recv 0] == "ADD" } {
+		set list_names "list_[string tolower [lindex $recv 2]]"
+		set version [lindex $recv 3]
 
-	set command ADD
+		set command ADD
 
-	set current 1
-	set total 1
-	
-	set username [lindex $recv 4]
-	set nickname [lindex $recv 5]
-	set groups [lindex $recv 6]
-	
+		set current 1
+		set total 1
 
-    } elseif { $protocol == "9" } {
-	global loading_list_info
-
-	set command LST
-
-	set current $loading_list_info(current)
-	set total $loading_list_info(total)
-
-	incr loading_list_info(current)
-
-	set username [lindex $recv 1]
-	set nickname [lindex $recv 2]
-
-	set list_names [process_msnp9_lists [lindex $recv 3]]
-	#puts "$username --- $list_names"
-	set groups [lindex $recv 4]
-
-    } else {
-
-	set command LST
-
-	set list_names "list_[string tolower [lindex $recv 2]]"
-	set version [lindex $recv 3]
-
-	set current [lindex $recv 4]
-	set total [lindex $recv 5]
-	
-	if {$current != 0} {
-	    set username [lindex $recv 6]
-	    set nickname [lindex $recv 7]
-	    set groups [lindex $recv 8]
-	}
-	    
-    } 
+		set username [lindex $recv 4]
+		set nickname [lindex $recv 5]
+		#set groups [lindex $recv 6]
+		set groups [::abook::getGroup $username -id]
 
 
+	} elseif { $protocol == "9" } {
+		global loading_list_info
 
-    foreach list_name $list_names {
-   
-	#List is empty or first user in list
-	if {($current <= 1) && ($command == "LST")} {
-	    set $list_name [list]
-	    status_log "cmsn_listupdate: Clearing $list_name\n"
-	    if {$list_name == "list_al"} { # Here we have the groups already
-		::groups::Enable
-	    }
-	}
+		set command LST
 
+		set current $loading_list_info(current)
+		set total $loading_list_info(total)
 
-	#If list is not empty, get user information
-	if {$current != 0} {
-	    set contact_info ""
-	    set user $username
-	
-	    #Add only if user is not already in list
-	    upvar #0 $list_name the_list
-	    if { [lsearch $the_list "$user *"] == -1 } {      
-		lappend contact_info $user
-		lappend contact_info [urldecode $nickname]
-		lappend $list_name $contact_info
-		
-		#status_log "cmsn_listupdate: adding to $list_name $contact_info\n"
-	    } 
+		incr loading_list_info(current)
 
-	    # New entry in address book setContact(email,FL,groupID)
-	    # NOTE: IF a user belongs to several groups, the group part
-	    #       of this packet will have the group ids separated
-	    #       by commas:  0,5  (group 0 & 5).
-	    # It could be that it is in the FL but not in RL or viceversa.
-	    # Everything that is in AL or BL is in either of the above.
-	    # Only FL contains the group membership though...
-	    if { ($list_name == "list_fl") } {
-		::abook::setContact $username group $groups
-		::abook::setContact $username nick $nickname
-		if { $protocol == "9" } {
-		    set loading_list_info(last) $username
-		}
-	    }
-	}
-	 
-    }
+		set username [lindex $recv 1]
+		set nickname [lindex $recv 2]
 
-    #Last user in list
-    if {$current == $total} {
-	lists_compare		;# FIX: hmm, maybe I should not run it always!
-	list_users_refresh
-	if { $protocol != "9" } {
-	    new_contact_list "$version"
-	    set contactlist_loaded 1
+		set list_names [process_msnp9_lists [lindex $recv 3]]
+		#puts "$username --- $list_names"
+		set groups [split [lindex $recv 4] ,]
+
 	} else {
-	    if { $list_name == "list_rl" } {
-		set contactlist_loaded 1
-	    }
+
+		set command LST
+
+		set list_names "list_[string tolower [lindex $recv 2]]"
+		set version [lindex $recv 3]
+
+		set current [lindex $recv 4]
+		set total [lindex $recv 5]
+
+		if {$current != 0} {
+			set username [lindex $recv 6]
+			set nickname [lindex $recv 7]
+			set groups [split [lindex $recv 8] ,]
+		}
+
 	}
-    }
+
+	status_log "Here groups is $groups\n"
+
+
+	foreach list_name $list_names {
+
+		#List is empty or first user in list
+		if {($current <= 1) && ($command == "LST")} {
+			set $list_name [list]
+			status_log "cmsn_listupdate: Clearing $list_name\n"
+			if {$list_name == "list_al"} { # Here we have the groups already
+				::groups::Enable
+			}
+		}
+
+
+		#If list is not empty, get user information
+		if {$current != 0} {
+			set contact_info ""
+			set user $username
+
+			#Add only if user is not already in list
+			upvar #0 $list_name the_list
+			if { [lsearch $the_list "$user *"] == -1 } {
+				lappend contact_info $user
+				lappend contact_info [urldecode $nickname]
+				lappend $list_name $contact_info
+
+				#status_log "cmsn_listupdate: adding to $list_name $contact_info\n"
+			}
+
+			# New entry in address book setContact(email,FL,groupID)
+			# NOTE: IF a user belongs to several groups, the group part
+			#       of this packet will have the group ids separated
+			#       by commas:  0,5  (group 0 & 5).
+			# It could be that it is in the FL but not in RL or viceversa.
+			# Everything that is in AL or BL is in either of the above.
+			# Only FL contains the group membership though...
+			if { ($list_name == "list_fl") } {
+				::abook::setContact $username group $groups
+				::abook::setContact $username nick $nickname
+				if { $protocol == "9" } {
+					set loading_list_info(last) $username
+				}
+			}
+		}
+	}
+
+	#Last user in list
+	if {$current == $total} {
+		lists_compare		;# FIX: hmm, maybe I should not run it always!
+		list_users_refresh
+
+		if { $protocol != "9" } {
+			new_contact_list "$version"
+			set contactlist_loaded 1
+		} else {
+			if { $list_name == "list_rl" } {
+				set contactlist_loaded 1
+			}
+		}
+	}
 
 }
 
@@ -4291,7 +4299,7 @@ proc create_contact_list {cstack cdata saved_data cattr saved_attr args } {
     set list "list_[string range $cstack end-6 end-5]"
 
     if { $list == "list_fl" } {
-	::abook::setContact $sdata(${cstack}:email) group $sdata(${cstack}:gid)
+	::abook::setContact $sdata(${cstack}:email) group [split $sdata(${cstack}:gid) ,]
 	::abook::setContact $sdata(${cstack}:email) nick $sdata(${cstack}:nickname)
 	::abook::setContact $sdata(${cstack}:email) PHH $sdata(${cstack}:phh)
 	::abook::setContact $sdata(${cstack}:email) PHW $sdata(${cstack}:phw)
