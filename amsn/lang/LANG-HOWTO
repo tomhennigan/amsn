@@ -5,12 +5,12 @@ This little document is a guide to translator and translators' manager that work
 1. For Translators
 ------------------
 
-When you add new keys, you should do a diff file or send the entire langXX file to the translators' manager. If not possible, or you're just translation a few keys, you can send them directly inside the mail, in the form:
+When you add new keys, you should do a diff file or send the entire updated langXX file to the translators' manager. If not possible, or you're just translation a few keys, you can just send a text file attached to the mail, in the form:
 
 keyname1 translation1
 keyname2 translation2
 
-that is, the keyname, followed by ONE BLANK SPACE (no tabs or similar), and followed by the translated string, no need to include the original english string, or similar. One key per line, no extra blank lines in the middle (if the mail program splits a long translation into multiple lines, it doesn't matter, but it would be nice to advise about it, in order to avoid mistakes because of copy-pasting without noticing the split.
+that is, the keyname, followed by ONE BLANK SPACE (no tabs or similar), and followed by the translated string, no need to include the original english string, or similar. One key per line, no extra blank lines in the middle. Including the keys directly in the email text is a bad idea, as mail clients usually split long lines, which leads to mistakes. 
 
 Other kinds of contribution will be rejected, in order to make the job easier to the manager. 
 

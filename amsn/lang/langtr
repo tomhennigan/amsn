@@ -27,7 +27,7 @@ allowbadwords Kullanýcý isimlerinde sansürü kaldýr
 allowlist Ýzin verilenler
 allowonlyinal Yalnýzca izin verilenler listesindekiler bana ulaþabilsin
 allowseen Bu kiþi ben çevrim içiyken beni görebilsin ve bana yazabilsin
-allprofileinuse Var olan tüm profiller kullanýmda
+allprofilesinuse Var olan tüm profiller kullanýmda
 animatedemoticon Bu gülen adam hareketlidir
 animatedsmileys Hareketli gülen adamlarý etkinleþtir
 animatenotify Canlandýrmalý uyarý penceresi
@@ -129,6 +129,7 @@ dcprofile Profil oluþturma
 defaultloginradio Varsayýlan ayarlarla baðlan
 default Varsayýlan ayar
 delete Sil
+deletecustomstate Özel durumu sil
 delimiters Tarih ayraçlarý:
 deliverfail Aþagýdaki iletinin gönderilmesinde hata oluþtu
 delprofile2 Sileceðiniz profili seçiniz
@@ -154,6 +155,7 @@ editnewstate Yeni Kiþisel Otomatik Mesaj Durumu
 editprofile Profili düzenle
 editstate Var olan otomatik mesaj durumunu düzenle
 editvalue Deðeri deðiþtir
+emailsinlist Baðlantý listesinde kullanýcý isimleri yerine e-posta adreslerini göster
 emotisounds Bazý gülen adamlarda ses çýkar
 enablebanner Amblem gözüksün
 enabled Etkin
@@ -172,7 +174,8 @@ extras Ek Hizmetler
 faq SYS (Sýkça Yanýtlanan Sorular)
 failed Baþar?lamad?
 faileddelete Silinemedi
-faileddeleteperso Bu resim silinemiyor çünkü ki?isel resim dosyas? deðil. Yaln?zca sizin profilinize ait resimler silinebilirç
+faileddeleteperso Bu resim silinemiyor çünkü ki?isel resim dosyas? deðil. Yaln?zca sizin profilinize ait resimler silinebilir.
+file dosya
 filedoesnotexist Dosya bulunamadý
 fileman Dosya yöneticisi
 filemanexample (\$location dizin ile deðiþtirilecek) Örn: nautilus \$location
@@ -191,6 +194,7 @@ ftportpref Dosya aktarýmlarý için baþlangýç portu
 ftrejectedby $1, '$2' dosyasý için yapýlan aktarým davetini geri çevirdi
 ftrejected Dosya aktarýmý reddedildi
 ftsendinvitation '$2' dosyasý ($3 bayt) için aktarým daveti $1'e gönderildi
+fullcontactlist Baðlantý listeniz dolu. Yeni baðlantý eklemek için bazýlarýný silmeniz gerek
 getdisppic Diðer kullanýcýlardan kullanýcý resmi alýnabilsin
 gonelunch Yemekte
 groupadd Grup Ekle
@@ -216,6 +220,7 @@ hybrid Melez kip
 identity Kimlik
 ident Kimlik denetleniyor
 inbox Gelen kutusu
+insertsmiley Gülen adam koy
 installconvert Kullanýcý resimlerini ve özel gülen adamlarý kullanabilmek için ImageMagick ('convert' programý) kurulmuþ olmalýdýr. Sisteminiz için gereken çaýlýþtýrýlabilir dosyalarý ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ adresinden indirebilirsiniz. Eðer program zaten kuruluysa bu bir hatadýr, lütfen bize bildirin. Bu özellikler þimdilik devredýþýdýr, daha sonra Image Magick'i kurduðunuzda bunlarý Seçenekler'den etkinleþtirebilirsiniz.
 internalerror Ýç sunucu hatasý
 invalidfile "$1" alanýna girilen $2 dosyasý yok ya da okunamýyor
@@ -285,6 +290,7 @@ needonline Hala çevrim dýþý görünüyorsunuz!
 newmailfrom Yeni ileti gönderen: $1 ($2)
 newmail Gelen kutunuzda $1 yeni ileti var
 newmsg Yeni ileti
+newstate Yeni özel durum ekle
 newveravailable Yeni $1 sürümü indirilmeye hazýr
 next sonraki
 noactivity Etkinlik yok
@@ -306,6 +312,7 @@ notify2 Yeni ileti gelince uyarý penceresi göster
 notify3 Yeni e-posta iletisi gelince uyarý penceresi göster
 notifyoffset Uyarý penceresinin konumunu giriniz
 notify uyar
+notifytyping Klavyeyi kullandýðým	 karþý tarafa gözüksün
 notifywin Uyarý Penceresi
 notls MSN 9 protokolü tls paketini gerektirir. Bu bilgisayarda tls kurulu görünmüyor. Eðer kuruluysa, tls kütüphanesi dizini Seçenekler bölümünde belirtilmelidir (örn: /opt/tls/lib). \n\n tls'yi http://tls.sf.net'ten indirebilirsiniz.
 nousersinsession Ortamda kullanýcý yok
@@ -440,6 +447,7 @@ statenewtext Lütfen yeni Kiþisel Durumunuzu yaratmak için \n gerekli bilgileri g
 status Durum
 stopalarm Alarmý durdur!
 storenickname Deðiþik kullanýcý ismi olan özelleþtirilmiþ durumdan sonra asýl kullanýcý ismine dön
+strictfonts Tüm metinler için (durum çubuðu ve diðerleri) yalnýzca seçtiðim yaztipi boyutunu kullan
 stylechat Sohbetler ile ayný görünüþ
 stylehist aMSN Geçmiþ görünüþü
 stylelog Geçmiþinizin görünüþ þeklini seçin
@@ -462,7 +470,7 @@ transnotexists Bu dosyanýn seçili dile çevirisi henüz yok
 traynotcompiled Görev çubuðu simgesi derlenmemiþ, plugins/traydock'a bakýn
 triggers Yazýlý karþýlýðý
 truncatenames1 Pencere baþlýðý ve baðlantý listelerinde pencere geniþliðinden uzun isimleri kýsalt
-turncatenames2 Sohbetlerde pencere geniþliðinden uzun isimleri kýsalt
+truncatenames2 Sohbetlerde pencere geniþliðinden uzun isimleri kýsalt
 truncatenicks Pencere geniþliðinden uzun isimleri kýsalt
 twonewmail Gelen kutunuzda $1 yeni ileti var
 unblock Engeli kaldir
