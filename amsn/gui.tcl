@@ -335,8 +335,8 @@ namespace eval ::amsn {
 #Insert the text in .about.middle.list.text
       set id [open "[file join $program_dir README]" r]
       .about.middle.list.text insert 1.0 [read $id]
-
-      close $id
+	  close $id
+	  
       .about.middle.list.text configure -state disabled
       update idletasks
       wm state .about normal
@@ -371,32 +371,44 @@ namespace eval ::amsn {
    #///////////////////////////////////////////////////////////////////////////////
    # showHelpFile(filename,windowsTitle)
    proc showHelpFile {file title} {
-      global program_dir tcl_platform
+      global program_dir
       toplevel .show
       wm title .show "$title"
       
     ShowTransient .show
+	grab .show
+	
+#Top frame (Help text area)
+	  frame .show.info
+	  frame .show.info.list -class Amsn -borderwidth 0
+	  text .show.info.list.text -background white -width 60 -height 30 -wrap word \
+         -yscrollcommand ".show.info.list.ys set" -font   examplef
+      scrollbar .show.info.list.ys -command ".show.info.list.text yview"
+      pack .show.info.list.ys 	-side right -fill y
+      pack .show.info.list.text -expand true -fill both -padx 1 -pady 1
+      pack .show.info.list 		-side top -expand true -fill both -padx 1 -pady 1
+      pack .show.info 			-expand true -fill both -side top
 
-      text .show.info -background white -width 60 -height 30 -wrap word \
-         -yscrollcommand ".show.ys set" -font   examplef
-      scrollbar .show.ys -command ".show.info yview"
-      pack .show.ys -side right -fill y
-      pack .show.info -expand true -fill both
-      set id [open "[file join $program_dir $file]" r]
-      .show.info insert 1.0 [read $id]
-      close $id
-      .show.info configure -state disabled
-      update idletasks
-      set x [expr {([winfo vrootwidth .show] - [winfo width .show]) / 2}]
-      set y [expr {([winfo vrootheight .show] - [winfo height .show]) / 2}]
-      wm geometry .show +${x}+${y}
-
+#Bottom frame (Close button)
       frame .show.bottom -class Amsn
       button .show.bottom.close -text "[trans close]" -font splainf -command "destroy .show"
       pack .show.bottom.close
       pack .show.bottom -expand 1
 
-      grab .show
+#Insert FAQ text 
+      set id [open "[file join $program_dir $file]" r]
+      .show.info.list.text insert 1.0 [read $id]
+      close $id
+      
+      .show.info.list.text configure -state disabled
+      update idletasks
+      
+      set x [expr {([winfo vrootwidth .show] - [winfo width .show]) / 2}]
+      set y [expr {([winfo vrootheight .show] - [winfo height .show]) / 2}]
+      wm geometry .show +${x}+${y}
+      
+      #Should we disable resizable? Since when we make the windows smaller (in y), we lost the "Close button"
+      #wm resizable .about 0 0
    }
    #///////////////////////////////////////////////////////////////////////////////
 
