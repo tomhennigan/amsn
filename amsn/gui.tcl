@@ -4075,6 +4075,7 @@ proc cmsn_draw_online { {delay 0} } {
 
 		if { $config(showblockedgroup) == 1 && [llength [array names emailBList]] } {
 			$pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))\n" blocked
+			$pgBuddy.text tag add dont_replace_smileys blocked.first blocked.last
 		}
 	}
 
