@@ -1445,6 +1445,12 @@ namespace eval ::ChatWindow {
 
 		if { $scrolling } { ${win_name}.f.out.text yview end }
 
+		#PostEvent 'TopUpdate'
+		set evPar(chatid) "chatid"
+		set evPar(win_name) "win_name"
+		set evPar(user_list) "user_list"
+		::plugins::PostEvent TopUpdate evPar
+
 		update idletasks
 
 		after cancel "::ChatWindow::TopUpdate $chatid"
