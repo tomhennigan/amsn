@@ -78,7 +78,7 @@ while {[catch {file readlink [file join $program_dir $program]} program]== 0} {
 set starting_dir [pwd]
 cd $program_dir
 unset program
-unset program_dir
+#unset program_dir
 
 ############################################################
 ### Setup other important directory paths

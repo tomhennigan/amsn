@@ -6688,8 +6688,8 @@ namespace eval ::MSN6FT {
 			#set filename [string map { "\x00" "" } $filename]
 		#} else {
 		binary scan $context x20A[expr $size - 24] filename
-		set filename [ToBigEndian $filename 2]
-		set filename [encoding convertfrom unicode "$filename\x00"]
+		set filename [ToBigEndian "$filename\x00" 2]
+		set filename [encoding convertfrom unicode "$filename"]
 
 
 #			set filename [string range $filename 0 [expr [string first "\x00" $filename] -1]]

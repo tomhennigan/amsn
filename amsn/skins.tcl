@@ -309,17 +309,17 @@ proc GetSkinFile { type filename {skin_override ""} } {
 
     if { "[string range $filename 0 1]" == "/" && [file readable  $filename] } {
 	return "$filename"
-    } elseif { [file readable [file join skins $skin $type $filename]] } {
-	return "[file join skins $skin $type $filename]"
+    } elseif { [file readable [file join [set ::program_dir] skins $skin $type $filename]] } {
+	    return "[file join [set ::program_dir] skins $skin $type $filename]"
     } elseif { [file readable [file join $HOME2 skins $skin $type $filename]] } {
 	return "[file join $HOME2 skins $skin $type $filename]"
     } elseif { [file readable [file join $HOME $type $filename]] } {
 	return "[file join $HOME $type $filename]"
-    } elseif { [file readable [file join skins $defaultskin $type $filename]] } {
-	return "[file join skins $defaultskin $type $filename]"
+    } elseif { [file readable [file join [set ::program_dir] skins $defaultskin $type $filename]] } {
+	return "[file join [set ::program_dir] skins $defaultskin $type $filename]"
     } else {
-#	status_log "File [file join skins $skin $type $filename] not found!!!\n"
-	return "[file join skins $defaultskin $type null]"
+#	status_log "File [file join  [set ::program_dir]skins $skin $type $filename] not found!!!\n"
+	return "[file join [set ::program_dir] skins $defaultskin $type null]"
     }
 
 }

@@ -843,7 +843,7 @@ proc CloseLogEvent { } {
 proc EventLog { txt } {
 	::log::OpenLogEvent
 	set fileid [LogArray eventlog get]
-	puts -nonewline $fileid "\|\"LGRA[timestamp] \|\"LNOR: $txt\n"
+	catch {puts -nonewline $fileid "\|\"LGRA[timestamp] \|\"LNOR: $txt\n" }
 	::log::CloseLogEvent
 }
 
@@ -917,7 +917,7 @@ proc eventlogin { } {
 		if { [::log::checkeventlog] } {
 			::log::OpenLogEvent
 			set fileid [LogArray eventlog get]
-			puts -nonewline $fileid "\|\"LRED\[[clock format [clock seconds] -format "%d %b %Y %T"]\] [trans connectedwith [::config::getKey login]]\n"
+			catch {puts -nonewline $fileid "\|\"LRED\[[clock format [clock seconds] -format "%d %b %Y %T"]\] [trans connectedwith [::config::getKey login]]\n"}
 			::log::CloseLogEvent
 		}
 	}
