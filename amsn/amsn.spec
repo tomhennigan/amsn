@@ -63,6 +63,9 @@ make  proot=%{prefix} prefix=${RPM_BUILD_ROOT}%{prefix} version=%{version} wmapp
 /usr/share/amsn/langlist
 /usr/share/amsn/lang.tcl
 /usr/share/amsn/migmd5.tcl
+/usr/share/amsn/notebook.tcl
+/usr/share/amsn/progressbar.tcl
+/usr/share/amsn/protocol.tcl
 /usr/share/amsn/smileys.tcl
 /usr/share/amsn/i/amsn.png
 /usr/share/amsn/i/amsn.xbm
@@ -103,6 +106,7 @@ make  proot=%{prefix} prefix=${RPM_BUILD_ROOT}%{prefix} version=%{version} wmapp
 /usr/share/amsn/i/gift.gif
 /usr/share/amsn/i/girlhug.gif
 /usr/share/amsn/i/globe.gif
+/usr/share/amsn/i/handcuffs.gif
 /usr/share/amsn/i/lips.gif
 /usr/share/amsn/i/logolinmsn.gif
 /usr/share/amsn/i/love.gif
