@@ -523,3 +523,7 @@ xmmserr Nic sa nehra, alebo nemas nainstalovany xmms-infopipe.
 xmmssend Odoslat terajsiu pesnicku.
 corruptstates Subor kde su ulozene vlastne statusy nie je pristupny. Vytvaram novy. Stary bol ulozeny ako $1. Prosim, posli nam ho aby sme sa pozreli co sa stalo.
 notinlist Nie si v jej/jeho kontaktnej knizke
+cachedpics Pocet fotiek v CACHE: $1
+currentdate Dnesny datum
+logsbydate Ukladat logy podla datumu (Nacitanie Historie je ovela rychlejsie)
+showcachedpics Ukazat fotky ulozene v CACHE
