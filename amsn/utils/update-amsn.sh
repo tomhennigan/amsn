@@ -8,8 +8,8 @@
 #v0.1: 18/01/03
 ##############################################################################
 
-AMSNPATH=~/msn
-EXTRASPATH=~/msn/amsn-extras
+AMSNPATH=~/coding/msn
+EXTRASPATH=~/coding/msn/amsn-extras
 
 cd ${AMSNPATH}
 echo "Updating amsn..."

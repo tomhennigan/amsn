@@ -777,12 +777,15 @@ namespace eval ::amsn {
 
    proc RejectFT {chatid cookie {varlist ""} } {
 
-      if { $cookie != -1 } {
+      if { $cookie != -1 && $cookie != -2 } {
       	::MSNFT::rejectFT $chatid $cookie
-      } else {
+      } elseif { $cookie == - 1 } {
   	::MSNP2P::RejectFT $chatid [lindex $varlist 0] [lindex $varlist 1] [lindex $varlist 2]
         set cookie [lindex $varlist 0]
-      }	
+      }	elseif { $cookie == -2 } {
+      	set cookie [lindex $varlist 0]
+	set txt [trans filetransfercancelled]
+      }
    
       set win_name [WindowFor $chatid]
       if { [WindowFor $chatid] == 0} {
@@ -803,7 +806,9 @@ namespace eval ::amsn {
 
      ${win_name}.f.out.text conf -cursor left_ptr
 
-     set txt [trans ftrejected]
+     if { [info exists txt] == 0 } {
+     	set txt [trans ftrejected]
+     }
      
      WinWrite $chatid  "----------\n" green
      WinWriteIcon $chatid ftreject 3 2
@@ -898,7 +903,7 @@ namespace eval ::amsn {
 		}
 
 		if {[winfo exists $w] == 0} {
-			return
+			return -1
 		}
 
 		switch $mode {

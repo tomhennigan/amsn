@@ -4918,7 +4918,10 @@ namespace eval ::MSNP2P {
 
 				# If it's a file transfer, advise the user it has been canceled
 				if { [lindex [SessionList get $sid] 7] == "filetransfer" } {
-				    	::amsn::FTProgress ca $sid [lindex [SessionList get $sid] 6]
+					status_log "File transfer canceled\n"
+				    	if { [::amsn::FTProgress ca $sid [lindex [SessionList get $sid] 6]] == -1 } {
+						::amsn::RejectFT $chatid "-2" $sid
+					}
 				}
 
 				# Delete SessionID Data
@@ -4990,6 +4993,7 @@ namespace eval ::MSNP2P {
 				# Display message that file transfer is finished...
 				status_log "File transfer finished!\n"
 				::amsn::FTProgress fr $cSid [lindex [SessionList get $cSid] 6] $cOffset $cTotalDataSize
+				SessionList set $cSid [list -1 -1 -1 -1 -1 -1 -1 "filetransfersuccessfull" -1]
 				#::amsn::WinWrite $chatid "----------\n" green
 				#::amsn::WinWriteIcon $chatid fticon 3 2
 				#::amsn::WinWrite $chatid " [trans filetransfercomplete]\n\n" green
