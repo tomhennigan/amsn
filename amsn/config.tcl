@@ -605,7 +605,7 @@ proc load_config {} {
 	#MSN 6.0 ClientID:
 	#set clientid "268435500"
 	#MSN 7.0 ClientID:
-	set clientid 1073741868
+	set clientid 1073791012
 
 	# Load up the personal states
 	LoadStateList
