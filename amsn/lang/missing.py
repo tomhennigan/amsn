@@ -74,7 +74,7 @@ header=langen.next().strip()
 #Load all master keys
 for num,line in enumerate(langen):
     
-    line=line.strip("\n")
+    line=line.strip()
     
     if len(line)<=0:
         print esc(" ERROR:",RED)+esc(" blank line in 'langen', you should remove it",BOLD)
@@ -82,6 +82,12 @@ for num,line in enumerate(langen):
         continue
     
     i = string.find(line, ' ')
+    tabs = string.find(line,'\t')
+    
+    if tabs>0:
+        print esc(" ERROR:",RED)+esc(" found TAB \\t character in 'langen'",BOLD)
+        print " -->",esc("Line "+str(num+2),YELLOW,True)
+	continue
     
     if i < 0:
         print esc(" ERROR:",RED)+esc(" invalid key in 'langen', you should remove it",BOLD)
@@ -104,19 +110,28 @@ if not line==header:
         print esc(" ERROR:",RED)+esc(" Header in file should be "+header,BOLD)
 	print " --> ",esc(line,YELLOW,True)
 for num,line in enumerate(f):
-    tokens = string.split(line)
     
-    if len(tokens)<=0:
+    line=line.strip()
+    
+    i = string.find(line, ' ')
+    tabs = string.find(line,'\t')
+
+    if len(line)<=0:
         print esc(" ERROR:",RED)+esc(" blank line, you should remove it",BOLD)
         print " -->",esc("Line "+str(num+2),YELLOW,True)
         continue
 
-    if len(tokens)<2:
+    if tabs>0:
+        print esc(" ERROR:",RED)+esc(" found TAB \\t character",BOLD)
+        print " -->",esc("Line "+str(num+2),YELLOW,True)
+	continue	
+	
+    if i < 0:
         print esc(" ERROR:",RED)+esc(" invalid key, you should remove it",BOLD)
         print " Line "+str(num+2)+" -->",esc(line.strip(),YELLOW,True)
         continue
 
-    key = tokens[0]
+    key = line[:i]
     if key in loaded_keys:
         print esc(" ERROR:",RED)+esc(" found duplicated key",BOLD)
         print " Line "+str(num+2)+" -->'"+esc(key,YELLOW,True)+"'. Please remove one of the ocurrences"
