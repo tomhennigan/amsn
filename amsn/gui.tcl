@@ -5854,7 +5854,7 @@ proc show_umenu {user_login grId x y} {
 	} else {
 		.user_menu add cascade -label "[trans movetogroup]"  -state disabled
 		.user_menu add cascade -label "[trans copytogroup]"  -state disabled
-		.user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login}"
+		.user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login} $grId"
 	}
 	
 	.user_menu add separator
