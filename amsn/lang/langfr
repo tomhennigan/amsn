@@ -5,7 +5,7 @@ acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
 actions Actions
 addacontact Ajouter un contact
 addedyou $1 ($2) vous a ajouté dans sa liste de contacts
-addprofile Ajouter nouveau profil
+addprofile Ajouter un nouveau profil
 addprofiledesc \nLes profils vous permettent d'avoir des configurations différentes pour chaque compte.\nSans les profils, vous ne pourrez pas utiliser l'historique, les alarmes et les recupérations de mot de passe.
 addstate Ajouter un nouveau statut
 addto Ajouter à $1
@@ -20,12 +20,12 @@ alarmonconnect Activer l'alarme quand l'utilisateur se connecte
 alarmondisconnect Activer l'alarme quand l'utilisateur se déconnecte ou passe en mode invisible
 alarmonmsg Activer l'alarme quand l'utilisateur m'envoie un message
 alarmonstatus Activer l'alarme quand l'utilisateur change de statut
-alarmpref Configuration alarme utilisateur
+alarmpref Configuration de l'alarme de l'utilisateur
 alarms Alarmes
 alarmstatus Activer/désactiver l'alarme pour cet utilisateur
 allfiles Tous les fichiers
 allowallbutbl Autoriser tout le monde à me contacter sauf les personnes que j'ai bloquées
-allowbadwords Désactiver la censure des pseudos
+allowbadwords Désactiver la censure des pseudonymes
 allowlist Liste des personnes autorisées :
 allowonlyinal N'autoriser que les utilisateurs de ma liste d'acception à me contacter
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
@@ -34,13 +34,13 @@ animatedemoticon Cet émoticon est animé
 animatedsmileys Activer les émoticons animés
 animatenotify Animer la fenêtre de notifications
 appearance Apparence
-appearoff Apparaître déconnecté
+appearoff Apparaître déconnecté|e
 areacode Code régional
 aretyping $1 sont en train de taper un message
 author Auteur
 autoaccepted Transfert de fichier accepté automatiquement
 autoacceptft Accepter automatiquement les transferts de fichiers
-autoaway Me marquer "Absent" quand inactif plus de
+autoaway Me marquer "Absent|e" quand inactif plus de
 autocheckver Vérification automatique de la version au démarrage
 autoconnect2 Me connecter automatiquement quand aMSN est lancé
 autoconnect Connexion automatique au lancement
@@ -51,14 +51,14 @@ autoip IP Automatique
 automessage Message-automatique
 autonoact Me marquer "Inactif" quand inactif plus de
 avoidseen Interdire à cette personne de me voir ou de me contacter quand je suis en ligne
-away Absent
-awaymsg1 Demander un message d'absence chaque fois que je change de statut pour Absent/DRB/Occupé
+away Absent|e
+awaymsg1 Demander un message d'absence chaque fois que je change de statut pour Absent|e/Bientôt de retour/Occupé|e
 awaymsg2 Ne jamais demander et toujours utiliser le message ci-dessous
 baduserpass Mauvais nom d'utilisateur ou mot de passe
 bgcolor Changer la couleur de fond de aMSN
 blankdirect Laisser vide pour une connexion sans proxy
 block Bloquer
-blocked Bloqué
+blocked Bloqué|e
 blockedyougroup Créer un groupe séparé pour les gens qui vous ont bloqué.
 blocking Bloquer
 blockinter1 Lorsque vous êtes en ligne, vérifier à chaque
@@ -71,13 +71,13 @@ blockusers Nombre d'utilisateurs à cocher à la fois
 bouncedock Faire rebondir l'icone de aMSN dans le dock lorsque vous recevez un message
 broughtby Développé pour vous par
 browse Parcourir...
-browserexample (\$url sera remplacé par l'URL) Ex: mozilla \$url
+browserexample (\$url sera remplacée par l'URL) Ex: mozilla \$url
 browser Navigateur web
 busy Occupé
 cachedpics $1 icônes masquées
 cancel Annuler
-cannotdeleteprofile le profil ne peut être supprimé car il semble utilisé par une session aMSN
-cantexec Impossible d'exécuter l'application : $1. Vérifiez les préférences.
+cannotdeleteprofile le profil ne peut être supprimé car il semble être utilisé par une session aMSN
+cantexec Impossible d'exécuter l'application : $1. Vérifiez les préférences et/ou les droits sur cette application.
 cantremoveothers Impossible de supprimer le groupe "Autres".
 casesensitive Utiliser des déclencheurs sensibles à la casse
 cfgalarmall Configurer/Ajouter/Supprimer toutes les alarmes
@@ -109,7 +109,7 @@ choosebgcolor Choisir la couleur de fond
 choosecontact Veuillez choisir un contact dans la liste
 choosefontcolor Choisir la couleur de police
 chooseskin Sélectionnez l'apparence que vous souhaitez utiliser dans la liste
-ch_to_state Changer vers ce nouvel état immédiatement
+ch_to_state Changer vers ce nouveau statut immédiatement
 clear Effacer
 clearlog2 Effacer l'historique de tous mes contacts
 clearlog3 Effacer tous les historiques
@@ -124,19 +124,19 @@ command Commande
 commandstatus Exécuter la commande
 configure Configurer
 confirmdelete Confirmer suppression
-confirm Êtes-vous sûr ?
-confirmbl  Êtes-vous sûr de vouloir bloquer ce contact ?
-confirmdg Êtes-vous sûr de vouloir supprimer ce groupe ?
-confirmdu Êtes-vous sûr de vouloir supprimer ce contact ?
-confirmeg Êtes-vous sûr de vouloir vider ce groupe ?
-confirmpurge Toutes les icônes de vos contacts vont être supprimées. Êtes-vous sur de vouloir le faire ?
-confirmrfl Êtes-vous sûr de vouloir effacer ce contact de ce groupe ?
-connected Vous êtes maintenant connecté(e)
-connectedwith Connecté avec $1
+confirm Etes-vous sûr ?
+confirmbl  Etes-vous sûr de vouloir bloquer ce contact ?
+confirmdg Etes-vous sûr de vouloir supprimer ce groupe ?
+confirmdu Etes-vous sûr de vouloir supprimer ce contact ?
+confirmeg Etes-vous sûr de vouloir vider ce groupe ?
+confirmpurge Toutes les icônes de vos contacts vont être supprimées. Etes-vous sur de vouloir le faire ?
+confirmrfl Etes-vous sûr de vouloir effacer ce contact de ce groupe ?
+connected Vous êtes maintenant connecté|e
+connectedwith Connecté|e avec $1
 connecterror Erreur de connexion
 connecting Se connecter
 connection Connexion
-connectionlost Déconnecté : la connexion avec le serveur a été perdue
+connectionlost Déconnecté|e : la connexion avec le serveur a été perdue
 contactadded Contact ajouté
 contactdoesnotexist Personne introuvable
 contactlist Liste de contacts :
@@ -145,9 +145,9 @@ convertexplain  Chemin vers l'exécutable CONVERT, de ImageMagick (requis pour af
 copy Copier
 copytogroup Copier vers groupe
 corruptconfig Fichier de configuration corrompu. Créez-en un nouveau. L'ancien fichier sera sauvegardé vers $1. Envoyez-le nous afin que nous regardions ce qui s'est passé.
-corruptstates  Fichier de configuration des états corrompu. Créez-en un nouveau. L'ancien fichier sera sauvegardé vers $1. Envoyez-le nous afin que nous regardions ce qui s'est passé.
+corruptstates  Fichier de configuration des status corrompu. Créez-en un nouveau. L'ancien fichier sera sauvegardé vers $1. Envoyez-le nous afin que nous regardions ce qui s'est passé.
 countrycode Mon pays/code région
-cprofile Créer profil
+cprofile Créer un profil
 credits Crédits
 custnotifymsg Affiche une notification quand vous recevez un message d'un de vos contacts
 custnotifyoffline Affiche une notification quand un de vos contact se déconnecte.
@@ -167,8 +167,8 @@ days Jours
 dcprofile Ne pas créer de profil
 default Configuration par défaut
 defaultloginradio Connexion avec la configuration par défaut
-defchatwinsize Taille par défaut pour les fenêtres de discussion (LargeurxHauteur)
-deletecustomstate Suppression de l'état personnel 
+defchatwinsize Taille par défaut des fenêtres de discussion (Largeur x Hauteur)
+deletecustomstate Suppression du statut personnel 
 delete Supprimer
 delimiters Délimiteurs de l'horodateur
 deliverfail Une erreur est survenue lors de l'envoi du message suivant
@@ -181,12 +181,12 @@ disableprofiles Désactiver les profils (utile pour la cyber-cafés ou pour les en
 disablessl Désactiver SSL
 disableuserfonts Ignorer la police de l'utilisateur distant dans les discussions, et utiliser sa propre police
 disconnect $1 s'est déconnecté.
-disconnectedfrom Déconnecté de $1
+disconnectedfrom Déconnecté|e de $1
 displaychat Options d'affichage du texte
 displayeventconnect Afficher les connexions
 displayeventdisconnect Afficher les déconnexions
 displayeventemail Afficher les E-Mails
-displayeventstate Afficher les changements d'état
+displayeventstate Afficher les changements de statut
 displayp4context Afficher le contenu du champ P4-Context en tant qu'envoyeur du message
 displaypic Icône
 dockfreedesktop Bureau de travail libre (KDE3/Gnome2)
@@ -197,14 +197,14 @@ dockkde Ancrage dans KDE
 dontdownload Ne pas télécharger TLS, je l'installerai moi-même
 dontshow Ne pas montrer
 downloadingtls Téléchargement du module TLS à partir de :\n $1
-editcustomstate Editer l'état personnel
+editcustomstate Editer le statut personnel
 edit Edition
-editnewstate Nouvel état avec message automatique personnalisé
+editnewstate Nouveau statut avec message automatique personnalisé
 editprofile Modifier profil
-editstate Editer un état existant avec message automatique
-editvalue Éditer la valeur
+editstate Editer un statut existant avec message automatique
+editvalue Editer la valeur
 email E-Mail
-emailsinlist Afficher les emails au lieu du pseudonyme dans la liste de contact.
+emailsinlist Afficher l'email au lieu du pseudonyme dans la liste de contact.
 emotisounds Jouer un son pour certains émoticons
 emptygroup Vider le groupe
 enabled Activé
@@ -215,15 +215,15 @@ encoding2 Changer la manière dont les caractères sont encodés
 encoding Choisir l'encodage
 entercontactemail Ajouter un contact de messagerie
 enterfilename Entrez le nom du fichier
-enternick Mon pseudo
+enternick Mon pseudonyme
 errortls Erreur lors de l'installation du module TLS:
 eventhistory Voir l'historique des événements
 examples Exemples
-exitamsn Quitter aMSN ?
+exitamsn Etes-vous sûr de voulloir quitter aMSN ?
 extras Services Additionnels
-faileddelete Échec de l'effacement
+faileddelete Echec de l'effacement
 faileddeleteperso Cette photo ne peut pas être effacée parce qu'elle n'est pas un fichier de photo personnelle. Seules les photos qui appartiennent à votre profil personnel peuvent être effacées de cette façon.
-failed Échec
+failed Echec
 faq Questions les plus fréquentes
 filedoesnotexist Le fichier n'existe pas
 file Fichier
@@ -233,6 +233,9 @@ filename Fichier
 filetransfer Transfert de fichier
 filetransfercancelled Transfert de fichier annulé
 filetransfercomplete Transfert de fichier terminé
+filters Filtres
+filtersx Sélection des filtres
+filtersselect Sélectionnez les filtres que vous souhaitez voir appliqué\n(Note : ne rien sélectionner implique de tous les appliquer)
 followtext Faire défiler lorsque du texte est entré
 friendlyname Pseudo de conversation
 ftacceptedby $1 accepte l'invitation de transfert de fichier pour le fichier '$2'.
@@ -252,7 +255,7 @@ getdisppic Permettre la réception d'icônes des autres utilisateurs
 globalnick Insérez un modèle afin de former les pseudonymes de vos contacts.Vous pouvez utiliser ces variables : \$user_login pour les adresses de vos contacts, \$nick pour les pseudonymes de vos contacts et enfin \$customnick pour les pseudonymes personnalisés de vos contacts. Par exemple : "\$user_login est \$nick" donnera "contact@msn.com est Contact"
 globalnicktitle Pseudonyme général
 globaloverride Modèles de pseudonymes devant remplacer les pseudonymes personnalisés
-gonelunch Parti déjeuner
+gonelunch Parti|e manger
 groupadd Ajouter un groupe
 groupdelete Supprimer un groupe
 groupexists Le groupe existe déjà
@@ -326,7 +329,7 @@ logbigger Taille du fichier Log pour chaque contact ne dépasse jamais
 logeventconnect Enregistrer les connexions
 logeventdisconnect Enregistrer les déconnexions
 logeventemail Enregistrer les E-Mails
-logeventstate Enregistrer les changements d'état
+logeventstate Enregistrer les changements de statut
 logfandexp Taille fichiers Log et expiration Historique
 loggedotherlocation Déconnecté. Connecté depuis un autre endroit.
 loggingin en cours de connexion
@@ -339,8 +342,8 @@ logsbydate Trier les historiques par date (affichage de l'historique plus rapide
 logsin vient de se connecter
 logsmileys Afficher les émoticons et les smileys dans la fenêtre d'historique de aMSN
 logsout vient juste de se déconnecter
-longnick Votre pseudo est supérieur à 130 caractères. Ce n'est pas supporté officiellement par le protocol MSN. Etes-vous sûrs de voulloir le mettre ?
-longp4c Votre pseudo de conversation dépasse les 130 caractères. Le client MSN officiel affichera $1. Voulez-vous continuer ?
+longnick Votre pseudonyme est supérieur à 130 caractères. Ce n'est pas supporté officiellement par le protocol MSN. Etes-vous sûrs de voulloir le mettre ?
+longp4c Votre pseudonyme de conversation dépasse les 130 caractères. Le client MSN officiel affichera $1. Voulez-vous continuer ?
 lprivtoconf  Conversation privée changée en conférence avec $1
 luclosedwin Vous avez fermé la fenêtre sous $1
 maintenance Le serveur sera hors-service pour cause de maintenance dans $1 minutes
@@ -351,7 +354,7 @@ minimised Minimisé/Icônifié
 mins minutes
 mobile Mobile
 month Mois
-morepersonal Autres états ->
+morepersonal Autres statuts ->
 move Déplacer
 movetogroup Déplacer vers groupe
 msgflicker Faire clignoter la barre de titre d'une fenêtre inactive quand un message est reçu
@@ -366,24 +369,25 @@ myhomephone Mon numéro personnel
 mymobilephone Mon numéro de portable
 mynick Mon pseudonyme
 mypic Mon icône
-mystatus Mon état
+mystatus Mon statut
 myworkphone Mon numéro professionnel
 name Nom
 natip Détection de l'adresse IP par page web
 natkeepalive Si vous êtes souvent déconnecté involontairement, activez cet option
-needonline Vous êtes toujours déconnecté(e)!
+needonline Vous êtes toujours déconnecté|e!
 needwinico Winico03.dll doit figurer dans le dossier de Plug-ins afin que l'icône dans la Barre des tâches fonctionne
+needwinico2 Winico05.dll doit figurer dans le dossier utilitaires/windows pour que l'intégration dans le dock fonctionne
 never Jamais
-new_ft_protocol Utiliser le nouveau protocol de téléchargement de fichiers (certains bogues subsistent)
+new_ft_protocol Utiliser le nouveau protocol de téléchargement de fichiers (certains peuvent bogues subsistent)
 newmail $1 nouveaux messages
 newmailfrom Nouveau message de $1 ($2)
 newmailfromother Nouveau message dans un autre dossier de $1 ($2)
 newmailfolder $1 nouveaux messages dans les autres dossiers Hotmail
 newmsg Nouveau message
-newstate Ajouter un état personnel
+newstate Ajouter un statut personnel
 newveravailable Nouvelle version disponible ($1)
 next Suivant
-nick Pseudo
+nick Pseudonyme
 noactivity Inactif
 nodataavailable Pas de données disponibles pour $1
 nogap Aucun espace entre les groupes
@@ -414,10 +418,10 @@ notinlist Vous ne figurez pas dans sa liste de contact
 notls Le protocole 9 de MSN requiert le module tls. Celui-ci ne semble pas être installé sur le système. S'il est installé,
 nousersinsession Pas d'utilisateur dans cette session
 nudge $1 réclame votre attention
-offline Déconnecté
+offline Déconnecté|e
 ok Accepter
 onenewmail un nouveau message
-online Connecté
+online Connecté|e
 onphone Au téléphone
 openreceived Ouvrir les fichiers reçus
 options Options
@@ -457,7 +461,7 @@ preflog1 Mon historique et ses options
 preflogevent Mon historique d'événements
 preflook Apparence de aMSN
 prefmsging Mes fenêtres de discussion
-prefname Mon nom/pseudo MSN Messenger
+prefname Mon nom/pseudonyme MSN Messenger
 prefphone2 Entrer les numéros de téléphone visibles par la liste des personnes autorisées\n
 prefphone Mes numéros de téléphone
 prefprivacy2 Listes de contacts/à l'envers
@@ -538,7 +542,7 @@ smileintro2 Veuillez editer les champs obligatoires pour personnaliser cet émoti
 smileintro Veuillez remplir les champs obligatoires pour créer un nouvel émoticon (voir la FAQ pour l'aide)
 snackfailed Snack n'a pas pu se lancer, retour à la valeur par défaut
 sngdblclick Un click simple ouvre une nouvelle fenêtre de discussion
-sound Événements sonores
+sound Evénements sonores
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 soundactive Jouer un son même lorsque le message arrive dans la fenêtre active
 soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
@@ -551,7 +555,7 @@ soundstatus Activer/Désactiver l'alarme sonore
 sourcecode Code source (requiert une compilation et une installation)
 sslwarning ATTENTION !! Désactiver SSL désactivera l'encryptage, votre mot de passe sera alors envoyé en clair sur le réseau. A n'utiliser qu'avec des proxies ou des configurations de réseau très sûres.
 splashstart Démarrage
-startoffline2 Se connecter directement en : "Apparaître hors ligne"
+startoffline2 Se connecter directement en : "Apparaître déconnecté"
 startoffline Démarrer déconnecté
 startontray Démarrer aMSN en arrière plan seulement
 stateautomsg Message à envoyer automatiquement
@@ -561,10 +565,10 @@ stateinfo Configuration de mon statut
 state Je veux apparaître
 statename Nom du statut
 statenewtext Veuillez entrer les informations nécessaires\nà la création de votre nouveau statut et cliquez sur Enregistrer
-statenick pseudo personnalisé (laisser vierge pour aucun changement)
+statenick pseudonyme personnalisé (laisser vierge pour aucun changement)
 status Statut
 stopalarm Stopper l'alarme
-storenickname Remettre le pseudo original après un état personnel avec un pseudo différent
+storenickname Remettre le pseudonyme original après un statut personnel avec un pseudonyme différent
 strictfonts Force l'usage de toutes les polices de caractères à celle sélectionnée (barre d'état et autres)
 style Style
 stylechat Même apparence que les conversations
@@ -590,15 +594,16 @@ tooltips Activer les info-bulles
 transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue.
 traynotcompiled Le plugiciel de l'icône de la corbeille n'est pas conforme. Sélectionnez plugiciel/ancrage de la corbeille
 triggers Textes déclencheurs
-truncatenames1 Tronquer les pseudos plus long que la largeur de la fenêtre dans le titre et la liste de contacts
-truncatenames2 Tronquer les pseudos plus long que la largeur de la fenêtre dans les conversations
-truncatenicks Tronquer les pseudos plus long que la largeur de la fenêtre
+truncatenames1 Tronquer les pseudonymes plus long que la largeur de la fenêtre dans le titre et la liste de contacts
+truncatenames2 Tronquer les pseudonymes plus long que la largeur de la fenêtre dans les conversations
+truncatenicks Tronquer les pseudonymes plus long que la largeur de la fenêtre
 twonewmail $1 nouveaux messages dans votre boîte de réception
 unblock Débloquer
 unknown Inconnu
 unload Désactiver
 uoffline Déconnectés
 uonline Connectés
+update Mise à jour
 useralreadyonlist Utilisateur déjà présent dans la liste
 userblocked Cet utilisateur est en ligne mais vous l'avez bloqué
 userdata Données de l'utilisateur

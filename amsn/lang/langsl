@@ -233,6 +233,9 @@ filename Ime datoteke
 filetransfer Prenos datoteke
 filetransfercancelled Prenos datoteke preklican
 filetransfercomplete Prenos datoteke konèan
+filters Filtri
+filtersx Izbira filtrov
+filtersselect Izberi ¾elene filtre\n(Èe ni noben izbran, bo prikazano vse)
 followtext Sledi novemu besedilu
 friendlyname Prijazno ime
 ftacceptedby $1 je sprejel/a povabilo za prenos datoteke '$2'
@@ -372,7 +375,7 @@ name Ime
 natip IP poizvedba s spletne strani
 natkeepalive èe te velikokrat odjavi, oznaèi to mo¾nost
 needonline ©e vedno si/izgleda¹ neprijavljen!
-needwinico Da bi pristaja delovala v Oknih, potrebuje¹ datoteko winico05.dll v mapi plugins
+needwinico Da bi pristaja delovala v Oknih, potrebuje¹ datoteko winico05.dll v mapi utils/windows
 never Nikoli
 new_ft_protocol Uporabi nov protokol za prenos datotek (¹e nekaj hro¹èev)
 newmail $1 novih sporoèil v Inboxu
@@ -599,6 +602,7 @@ unknown Neznan
 unload Ustavi
 uoffline Neprijavljeni
 uonline Prijavljeni
+update Posodobi
 useother Uporabi drugi program
 user Uporabnik
 useralreadyonlist Uporabnik je ¾e na seznamu stikov

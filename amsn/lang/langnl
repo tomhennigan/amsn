@@ -233,6 +233,9 @@ filename Bestandsnaam
 filetransfer Bestandsoverdracht
 filetransfercancelled Bestandsoverdracht geannuleerd
 filetransfercomplete Bestandsoverdracht voltooid
+filters Filters
+filtersx Filter keuze
+filtersselect Kies de filters die je wilt toepassen\n(NB: Indien geen filter is gekozen, wordt alles weegegeven)
 followtext Scroll naar beneden als er nieuwe tekst is ingevoerd
 friendlyname Schermnaam tijdens gesprek
 ftaccepted Bestandsoverdracht geaccepteerd
@@ -373,6 +376,7 @@ natip  IP detectie via website
 natkeepalive Verbinding in stand houden (Selecteren als de verbinding regelmatig wegvalt)
 needonline Je bent niet online
 needwinico Het bestand winico03.dll moet in de map plugins staan om het Windows systeemvak te kunnen gebruiken.
+needwinico2 Het bestand winico05.dll moet in de map utils/windows om het Windows systeemvak te kunnen gebruiken.
 never Nooit
 new_ft_protocol Gebruik het nieuwe protocol voor bestandsoverdracht (er zijn nog enkele bugs)
 newmail Je hebt $1 nieuwe berichten in Postvak IN
@@ -599,6 +603,7 @@ unknown Onbekend
 unload Deactiveren
 uoffline Offline
 uonline Online
+update Bijwerken
 useother Gebruik een ander programma
 usesnack Gebruik de Snack functie-bibliotheek (ingebouwd in Tcl)
 useralreadyonlist Deze gebruiker staat al in je lijst

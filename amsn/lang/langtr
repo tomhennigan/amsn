@@ -233,11 +233,15 @@ filename Dosya adý
 filetransfer Dosya aktarýmý
 filetransfercancelled Dosya aktarýmý iptal edildi
 filetransfercomplete Dosya aktarýmý tamamlandý
+filters Süzgeçler
+filtersselect Görmek istediðiniz süzgeçleri seçin\n(Hiçbiri seçilmediyse hepsi gösterilecektir)
+filtersx Süzgeç seçimi
 followtext Yeni metin girilince aþaði kaydýr
 friendlyname Sohbet içi rumuz
 ftaccepted Dosya aktarýmý kabul edildi
 ftacceptedby $1, '$2' dosyasý için yapýlan aktarým davetini kabul etti
 ftaccepting Dosya aktarým davetini kabul ediyor
+ftautoclose Dosya aktarýmý bitince pecereyi kapa
 ftconnecterror Karþý tarafa baðlanmada hata oluþtu
 ftconnecting $1 port $2 e baðlanýlýyor
 ftconnectionlost Karþý tarafla olan baðlantý koptu
@@ -371,7 +375,7 @@ name Ýsim
 natip ýnternet sayfasýndan IP belirlenmesi
 natkeepalive Eðer baðlantýnýz sürekli kopuyorsa, bu seçeneði (canlý tut - Keepalive) iþaretleyiniz
 needonline Hala çevrim dýþý görünüyorsunuz!
-needwinico Windows'ta küçülme için plugins dizininde winico03.dll olmasý gerekmektedir.
+needwinico2  Windows'ta küçülme için winico05.dll'in utils/windows dizininde bulunmasý gerekmektedir.
 never Asla
 new_ft_protocol Yeni dosya aktarým protokolü (hala bazý hatalarý var)
 newmail Gelen kutunuzda $1 yeni ileti var
@@ -469,6 +473,7 @@ prefremote Uzaktan denetim ayarlarý
 prefsession Baðlantý durumum
 prefshared Paylaþýlan baðlantýlar (yalnýz NAT için)
 prefsound Sesler
+preview Önizleme
 privacy Gizlilik
 profiledconfig Ayarlarýn profili çýkarýldý
 profileexists Bu kullanýcý ismi için bir profil zaten var.\n Lütfen baþka isim seçiniz. 
@@ -597,6 +602,7 @@ unknown Bilinmiyor
 unload Kaldýr
 uoffline Çevrim dýþý
 uonline Çevrim içi
+update Güncelle
 useother Baþka bir yazýlým kullan
 user Kullanýcý
 useralreadyonlist Kullanýcý zaten baðlantý listesinde
