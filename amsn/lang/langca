@@ -27,6 +27,7 @@ alarmpref Preferències de l'alarma per l'usuari
 alarms Avisos
 alarmstatus Activar l'alarma per aquest usuari
 allfiles Tots els fitxers
+allmonths Tots els mesos
 allowallbutbl Permet que tots els usuaris, llevat dels bloquejats, contactin amb mi
 allowbadwords Desactiva la censura als sobrenoms
 allowlist Llista d'acceptats (AL):
@@ -86,6 +87,7 @@ cachedpics $1 imatges agafades
 cancel Cancel·la
 cannotdeleteprofile No es pot eliminar el perfil, sembla que s'està utilitzant en una altra sessió aMSN
 cantexec No puc executar l'aplicació $1. Comprova les preferències.
+cantloadonlineversion No es pot recuperar la llista d'idiomes actualitzada
 cantremoveothers No puc esborrar el grup "Altres"
 casesensitive Diferenciar les majúscules i les minúscules
 cfgalarmall Configura, afegeix o elimina l'alarma global
@@ -129,6 +131,7 @@ clientcaps Enviar paquets x-clientcaps a altres clients
 clientname Nom del client
 closed Conversa amb $1 tancada per inactivitat
 close Tancar
+closeall Tancar totes les pestanyes de la finestra?
 closingdocks El botó tancar minimitza la finestra
 command Reproductor
 commandstatus Executar comanda
@@ -191,6 +194,7 @@ deliverfail Hi ha hagut un problema a l'enviar el missatge
 delprofile2 Selecciona el perfil a eliminar
 delprofile Esborrar perfil
 description Descripció
+detach Separar
 directconnection Tinc una connexió directa a Internet (utilitza el port 1863)
 disabled Desactivat
 disableprofiles Desactiva els perfils (útil en entorn públics i sistemes compartits)
@@ -310,6 +314,7 @@ internalerror Error intern del servidor
 invalidfile2 No es pot crear el fitxer $1. Comprova que tinguis els permisos necessaris.
 invalidfile El fitxer $2 introduït al camp "$1" no existeix o no es pot llegir
 invalidgroup Grup no vàlid
+invalidparameter Error connectant amb el servidor: parÃ?Â metre invÃ?Â lid
 invalidpic El fitxer d'imatge no existeix.
 invalidpicsize La imatge és massa gran. Escull-ne una de més petita.
 invalidsound El fitxer de so no existeix.
@@ -546,6 +551,7 @@ save Desar
 savetofile Desar en fitxer
 says $1 diu
 sbcon Connectant amb la Switch Board
+selectall Seleccionar tot
 selectplugins Selecciona els connectors que vols activar
 selectskin Selecciona una aparença de la llista
 send Enviar
@@ -566,7 +572,9 @@ showdisplaypic2 Mostra l'avatar quan s'obri una nova conversa
 showdisplaypic Mostra l'avatar
 showmypic El meu avatar
 shownotify Mostra una finestra de notificació quan succeeixin diversos events
+showpicnotify Mostrar imatges dels usuaris a les finestres de notificaciÃ?Â³
 showuserpic Avatar del contacte $1
+signinstatus Estat de l'inici de sessiÃ?Â³
 skin Aparença
 skinselector Selector d'aparences
 smileconfig Configura l'emoticona personalitzada
@@ -599,6 +607,7 @@ statename Nom de l'estat personalitzat
 statenewtext Emplena la informació necessària per crear\nel nou estat personalitzat i prem "Desar"
 statenick Sobrenom personalitzat (deixa'l en blanc per no canviar res)
 state Vull aparèixer com
+stats EstadÃ?Â­stique
 status Estat
 stopalarm Parar l'alarma
 storenickname Retorna al sobrenom original al sortir d'un estat personalitzat
@@ -614,8 +623,10 @@ tabbed Finestres sobreposades
 tabbedglobal Una finestra amb solapes per tots els usuaris de la llista
 tabbedgroups Una finestra amb solapes per usuaris del mateix grup
 tabtitlenick Vols veure els sobrenoms a les pestanyes en lloc del correu?
+takesnapshot Fer captura
 temp_state Sense desar (estat temporal que serà eliminat quan tanquis l'aMSN)
 textsize Mida del text
+thismonth Aquest mes
 timeremaining Temps restant
 timestamps Mostra l'hora a les converses
 title aMSN
@@ -627,6 +638,7 @@ tlsinstallexp Ara l'aMSN utilitza MSNP9, que requereix un connexió segura a\ntra
 tlsinstcompleted La instal·lació del mòdul TLS ha estat satisfactòria, ara hauries de poder utilitzar el protocol MSNP9. Si no et funciona, segurament serà perquè no has escollir el mòdul corresponent al teu sistema.
 to A
 today Avui
+tomobile Al mÃ?Â²bil
 tools Eines
 tooltips Activa el rètol indicador de funcions
 transnotexists Aquest fitxer encara no ha estat traduït
@@ -642,6 +654,8 @@ unload Descarregar
 uoffline Desconnectats
 uonline Connectats
 update Actualització
+updating Actualitzant
+useasdp Fer servir com avatar
 useother Utilitza un altre programa
 useralreadyonlist L'usuari ja és a la llista de contactes
 userblocked Aquest usuari està connectat però t'ha bloquejat a la seva llista
@@ -657,6 +671,8 @@ viewcontactsby Mostra els contactes per
 viewprofile Mostrar perfil
 view Veure
 webcaminvite $1 t'ha convidat a iniciar una conversa amb webcam però l'aMSN encara no ho suporta.
+webcamshot Captura des de la webcam
+whatsize La imatge que has demanat no tÃ?Â© el tamany normal\nd'avatar(96x96) A quin tamany vols que es mostri la imatge? 
 willjoin Esperant que $1 s'uneixi a la conversa
 winkreceived Has rebut un Wink de $1. Aquesta característica no està suportada actualment per l'aMSN.
 wintitlenick Vols veure els sobrenoms a les finestres sobreposades en lloc del correu?

@@ -27,6 +27,7 @@ alarmpref Configurar avís
 alarms Alarmes
 alarmstatus Avís encés/apagat per este usuari
 allfiles Tots els arxius
+allmonths Tots els mesos
 allow_sms Permetre als usuaris contactar-me pel meu mòbil amb MSN
 allowallbutbl Permetre a tots els usuaris, llevat els de la Llista de bloqueig, contactar-me
 allowbadwords Desconnectar la censura de malnoms.
@@ -86,6 +87,7 @@ cachedpics Imatges per a Mostrar emmagatzemades
 cancel Cancelar
 cannotdeleteprofile No es pot esborrar el perfil perquè pareix que està utilitzant-se per una sessió de aMSN
 cantexec No es pot executar l'aplicació: $1. Comprova les preferències
+cantloadonlineversion No s'ha pogut descarregar d'internet la llista actualitzada d'idiomes
 cantremoveothers No puc esborrar el grup "Altres"
 casesensitive Usar disparadors sensibles a maj/min
 cfgalarmall Canviar/Afegir/Llevar avís global
@@ -127,8 +129,9 @@ clicktoadd Fes clic en Afegir per a crear una nova nota
 clicktologin Fes click ací per a iniciar la sessió
 clientcaps Enviar paquets x-clientcaps a altres clients
 clientname Nom del client
-closed Conversa amb $1 tancada per inactivitat
 close Tancar
+closeall Vols tancar totes les pestanyes de la finestra?
+closed Conversa amb $1 tancada per inactivitat
 closingdocks Botó de tancar/minimitzar
 command Ordre
 commandstatus Executar ordre
@@ -191,6 +194,7 @@ deliverfail Hi ha hagut un problema al enviar el següent missatge
 delprofile2 Selecciona el perfil que vols esborrar
 delprofile Esborrar Perfil
 description Descripció
+detach Desunir
 directconnection Tinc una connexió directa a internet (usa el port 1863)
 disabled Desactivat
 disableprofiles Desactivar perfils (útil per a cibercafés o entorns compartits)
@@ -308,6 +312,7 @@ internalerror Error Intern del Servidor
 invalidfile El fitxer $2 introduït al camp "$1" no existix o no es llegible
 invalidfile2 L'arxiu $1 no es pot crear, assegurat que tens els permisos correctes per a eixe destí. 
 invalidgroup Grup invàlid
+invalidparameter Error connectant al servidor: paràmetre no vàlid
 invalidpicsize La imatge és molt gran, per favor tria altra més menuda
 invalidpic La imatge no existix
 invalidsound El fitxer de so no existix
@@ -543,6 +548,7 @@ save Guardar
 savetofile Guardar en arxiu
 says $1 diu
 sbcon Connectant a Switch Board
+selectall Seleccionar tots
 selectplugins Per favor, selecciona els plug-ins que vols activar
 selectskin Per favor, selecciona una pell (skin) de la llista
 send Enviar
@@ -563,7 +569,9 @@ showdisplaypic Vore Imatge per a Mostar
 showdisplaypic2 Per defecte, vore la Imatge per a Mostrar al obrir una finestra de conversa
 showmypic La meua Imatge de Mostra
 shownotify Mostrar finestra d'avís al produïr-se diferents events
+showpicnotify Mostrar les imatges dels usuaris a les finestres d'alerta
 showuserpic La Imatge de Mostra de $1
+signinstatus Estat inicial
 skin Pell
 skinselector Selector de pell
 smileconfig Configuració personalitzada d'emoticons
@@ -596,6 +604,7 @@ statename Nom de l'estat personalitzat
 statenewtext Per favor, reompli la informació requerida per a crear \n el teu nou Estat personal i polsa Guardar
 statenick Mot personalitzat (deixar en blanc per a no canviar-lo)
 state Vull aparentar com
+stats Estadístiques
 status Estat
 stopalarm Parar el so de l'avís
 storenickname Tornar al mot original després d'un estat personalitzat
@@ -611,8 +620,10 @@ tabbed Finestres en pestanyes
 tabbedglobal Una finestra amb pestanyes per a tots els contactes
 tabbedgroups Una finestra amb pestanyes per a usuaris del mateix grup
 tabtitlenick Vols vore els nicks a les pestanyes en comptes del mail?
+takesnapshot Capturar la imatge
 temp_state No emmagatzemar (Estat temporal, es perdrà en reiniciar AMSN)
 textsize Tamany del text
+thismonth Este mes
 timeremaining Temps restant
 timestamps Activar hora en els missatges
 title aMSN
@@ -624,6 +635,7 @@ tlsinstallexp aMSN ara gasta MSNP9, que requerix l'us d'una connexio\nsegura uti
 tlsinstcompleted El modul TLS s'ha instalat correctament, deuries poder usar MSNP9. Si no funciona, aleshores probablement no seleccionares el mòdul correcte, o no hi ha un mòdul compilat per al teu sistema.
 to Per a
 today Hui
+tomobile Al mòbil
 tools Ferramentes
 tooltips Activar informació de ferramentes
 transnotexists Este fitxer encara no ha estat traduït
@@ -639,6 +651,8 @@ unload Descarregar
 uoffline Desconnectats
 uonline Connectats
 update Actualitzar
+updating Actualizant
+useasdp Utilitzar com la imatge per a mostrar
 useother Utiltzar un altre programa
 useralreadyonlist L'usuari ja es troba en la llista de contactes.
 userblocked L'usuari està en línia pero t'ha bloquejat
@@ -654,6 +668,8 @@ viewprofile Vore perfil
 viewcontactsby Mostra els contactes per
 view Vore
 webcaminvite $1 t'ha convidat a iniciar una conversa amb webcam però l'aMSN encara no ho suporta.
+webcamshot Captura de webcam
+whatsize La imatge seleccionada no és de la mida predefinida (96x96).\n Amb quina mida vols que es mostre?
 willjoin Esperant que $1 s'unixca a la conversa
 winkreceived Has rebut un Wink de $1. Esta característica no està suportada per aMSN.
 wintitlenick Vols veure els nicks en les finestres amb pestanyes en comptes del mail?

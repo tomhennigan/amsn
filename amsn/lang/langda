@@ -313,6 +313,7 @@ internalerror Intern Server-Fejl
 invalidfile Filen $2, der er indtastet i feltet "$1", eksisterer ikke eller er ikke læselig
 invalidfile2 Filnavnet $1 kunne ikke oprettes, tjek om du har de rigtige rettigheder til denne destination.
 invalidgroup Forkert gruppe
+invalidparameter Fejl ved forbindelsen til serveren: ugyldig parameter
 invalidpic Den givne billedfil eksisterer ikke
 invalidpicsize Det givne billede er for stort, vælg venligst et mindre ét
 invalidsound Den givne lydfil eksisterer ikke
@@ -688,3 +689,4 @@ yoffset Y-koordinat
 youblocked Du er blevet blokeret
 yousay Du siger
 youwant Du vil have
+zoom Zoom

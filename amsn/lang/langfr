@@ -87,6 +87,7 @@ cachedpics $1 icônes masquées
 cancel Annuler
 cannotdeleteprofile leteprofile le profil ne peut être supprimé car il semble être utilisé par une session aMSN
 cantexec Impossible d'exécuter l'application : $1. Vérifiez les préférences et/ou les droits sur cette application.
+cantloadonlineversion N'arrive pas à récupérer la nouvelle liste des langues depuis l'Internet.
 cantremoveothers Impossible de supprimer le groupe "Autres".
 casesensitive Utiliser des déclencheurs sensibles à la casse
 cfgalarmall Configurer/Ajouter/Supprimer toutes les alarmes
@@ -311,6 +312,7 @@ internalerror Erreur interne du serveur
 invalidfile2 Le fichier $1 ne peut pas être créée, assurez vous d'avoir les permissions nécessaires.
 invalidfile Le fichier $2 entré dans le champ "$1" n'existe pas ou n'est pas lisible
 invalidgroup Groupe invalide
+invalidparameter Erreur lors de la connexion au serveur: paramètre invalide
 invalidpic Le fichier "image" n'existe pas
 invalidpicsize La taille du fichier "image" est trop importante, choisissez-en un fichier de taille inférieure
 invalidsound Le fichier "son" n'existe pas
@@ -546,6 +548,7 @@ save Enregistrer
 savetofile Sauvegarder dans un fichier
 says $1 dit
 sbcon Connexion au "Switch Board"
+selectall Tout sélectionner
 selectplugins Sélectionnez un plug-in
 selectskin Sélectionnez dans la liste l'apparence que vous souhaitez utiliser
 send Envoyer
@@ -616,7 +619,8 @@ syntaxerror Erreur de syntaxe
 tabbedglobal Une fenêtre à onglets pour tous les contacts se trouvant dans votre liste de contacts
 tabbedgroups Une fenêtre à onglets pour tous les contacts se trouvant dans une même groupe
 tabbed Onglets
-tabtitlenick Afficher le pseudonyme dans les onglets au lieu de l'email
+tabtitlenick Afficher, dans les onglets, le pseudonyme au lieu de l'email
+takesnapshot Prendre une impression d'écran
 temp_state Ne pas enregistrer (état temporaire, sera perdu à la fermeture d'aMSN)
 textsize Taille du texte
 thismonth Ce mois-ci
@@ -647,6 +651,8 @@ unload Désactiver
 uoffline Déconnectés
 uonline Connectés
 update Mise à jour
+updating Mise à jour
+useasdp Utiliser en tant qu'icône
 useother Utiliser un programme différent
 useralreadyonlist Utilisateur déjà présent dans la liste
 userblocked Ce contact est en ligne mais vous l'avez bloqué
@@ -662,6 +668,7 @@ viewcontactsby Afficher les contacts par
 viewprofile Afficher le profil
 view Vue
 webcaminvite $1 vous invite à démarrer un conversation par Webcam, mais aMSN ne supporte pas cette option.
+webcamshot Image de la webcam
 willjoin Dans l'attente que $1 rejoigne la conversation
 winkreceived Vous avez reçu un 'clin d'oeil' provenant de $1. Cette fonctionnalité n'est pas encore supporté par aMSN.
 wintitlenick Afficher le pseudonyme dans les fenêtres à onglets au lieu de l'email
