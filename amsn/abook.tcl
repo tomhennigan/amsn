@@ -304,7 +304,7 @@ namespace eval ::abook {
 		} else { 
 			set user_data($field) $data
 		}
-		
+
 		#We store the array as a plain list, as we can't have an array of arrays
 		set users_data($user_login) [array get user_data]
 		

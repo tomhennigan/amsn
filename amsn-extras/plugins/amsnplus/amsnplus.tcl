@@ -3,9 +3,6 @@
 ########################################################
 # Maintainer: markitus (markitus@catmail.homelinux.org)
 # Created: 13/09/2004
-#
-# New features:
-#   - Save nicks: with xml? how-to?
 ########################################################
 
 namespace eval ::amsnplus {
