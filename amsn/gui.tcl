@@ -5200,7 +5200,15 @@ proc change_name_ok {} {
 
    set new_name [.change_name.fn.name get]
    if {$new_name != ""} {
+		if { [string length $new_name] > 130} {
+			set parent .change_name
+			set answer [tk_messageBox -message [trans longnick] -type yesno -icon question -title [trans confirm] -parent $parent]
+			if { $answer != "yes" } {
+				return
+			}
+		}
       ::MSN::changeName $config(login) $new_name
+
    }
    destroy .change_name
 }
