@@ -116,10 +116,13 @@ proc trans {msg args} {
 
 
 #Lectura del idioma
-proc load_lang { {langcode "en"} } {
+proc load_lang { {langcode "en"} {plugindir ""} } {
    global lang lang_list langenc langlong
 
-   set file_id [open "[file join lang lang$langcode]" r]
+   if {[string equal $plugindir ""]} { set plugindir "lang" }
+   if { [catch {set file_id [open "[file join $plugindir lang$langcode]" r]}] } {
+   	return 0
+   }
 
    set langenc ""
 
@@ -156,7 +159,9 @@ proc load_lang { {langcode "en"} } {
       }
       set l_msg [string range $tmp_data 0 [expr {$pos -1}]]
       set l_trans [string range $tmp_data [expr {$pos +1}] $posend]
-      set lang($l_msg) $l_trans
+      if { ![info exists lang($l_msg)] } {
+      	set lang($l_msg) $l_trans
+      }
    }
    close $file_id
    return 0
