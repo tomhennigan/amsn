@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Sobre
+accept Aceitar
 acceptfile Aceitar arquivo $1, tamanho $2? Salvo em $3
 actions Ações
 addacontact Adicionar um contato
@@ -9,10 +10,13 @@ addtoo Adicionar esta pessoa à minha lista de contatos
 admincontacts Gerenciar contatos
 admingroups Gerenciar grupos
 adverts Anúncios
+alarmpref Configuração de notificação para o usuário
+alarmstatus Ativar/Desativar notificações para este usuário
 allowseen Permitir que o usuário veja quando eu estou on-line e possa me contactar
 appearoff Aparecer off-line
 aretyping $1 está digitando uma mensagem
 autohotmaillog Logar automaticamente no Hotmail
+autoidle Detectar quando eu ficar inativo
 autoip Endereço IP automático
 avoidseen Evitar que esta pessoa veja quando eu estou on-line e não permitir que ela me contacte
 away Ausente
@@ -21,9 +25,11 @@ blankdirect Deixar em branco para conexão direta
 block Bloquear
 blocked Bloqueado
 broughtby  Desenvolvido, para você, pelos seguintes programadores
-browser Navegar
+browse Listar
+browser Navegador
 busy Ocupado
 cancel Cancelar
+cfgalarm Configurar/desativar notificações
 changenick Trocar Apelido
 chatack Aceitando pedido de conversa de
 chat Conversa
@@ -33,6 +39,7 @@ checkingver Checando por novas versões
 checkver Checar se existe nova versão do AMSN
 choosebasefont Escolher fonte do texto
 choosebgcolor Escolher cor de fundo
+choosefontcolor Escolher cor da fonte
 clicktologin Clique aqui para entrar
 close Fechar
 closingdocks Botão fechar envia para a barra de tarefas
@@ -44,6 +51,10 @@ contactdoesnotexist Contato não existe!
 copytogroup Copiar para o grupo
 date Data
 delete Apagar
+dockgtk Ícone do GTK
+docking Ícone do systray
+dockingoff Desativado
+dockkde Ícone do KDE
 enableproxy Habilitar proxy
 encoding Escolher codificação
 entercontactemail Digite o e-mail do contato
@@ -52,10 +63,13 @@ enternick Digite seu apelido
 examples Exemplos
 exitamsn Você tem certeza que deseja sair?
 extras Serviços adicionais
+faq FAQ (Perguntas frequentemente feitas)
 filedoesnotexist Arquivo não existe
 filename Nome do Arquivo
 filetransfercancelled Transferência de arquivo cancelada
 filetransfercomplete Transferência de arquivo completa
+ftaccepted Transferência de arquivo aceita
+ftrejected Transferência de arquivo cancelada
 gonelunch Entrando
 groupadd Adicionar um grupo
 groupdelete Apagar um grupo
@@ -70,7 +84,7 @@ groupunknown Grupo desconhecido
 handle Manipular
 help Ajuda
 helpcontents Conteúdo da Ajuda
-home Home
+home Casa
 ident Identificando
 identity Identificar
 inbox Caixa de Entrada
@@ -79,7 +93,9 @@ invite Convidar
 ipaddress Endereço IP
 istyping $1 está digitando uma mensagem
 joins $1 $2 entra na conversa
+keepalive Manter conexão ativa (NAT)
 language Idioma
+lastmsgtime Última mensagem recibida em $1
 leaveblankforhotmail Deixar em branco para utilizar a rede hotmail
 leaves $1 saiu da conversa
 listeningon Escutando na porta $1
@@ -108,6 +124,7 @@ noactivity Sem atividade
 nonewmail Sem novas mensagens na Caixa de Entrada
 nonewver Não existe versão mais recente do programa disponível para download
 notify notificar
+notifywin Janela de avisos
 nousersinsession Nenhum usuário na sessão
 offline Desconectado
 ok Ok
@@ -121,6 +138,8 @@ other Outros
 pager Pager
 pass Senha
 phone Telefone
+picfile Imagem a ser exibida em notificações (GIF < 500 x 500)
+picstatus Ativar/Desativar imagem nas notificações
 port Porta
 prefapps Programas
 preferences Preferências
@@ -133,13 +152,14 @@ receivedbytes Recebidos $1 de $2 bytes
 receivefile Arquivo recebido
 reconnect Esperando por $1 para reconectar
 reconnecting Reconectando ao servidor
+reject Recusar
 rememberpass Lembrar senha
 rightback Volto logo
 saveas Salvar como
 savecontacts Salvar lista de contatos
 save Salvar
 says $1 diz
-sbcon Connecting to Switch Board
+sbcon Conectando ao Switch Board
 send Enviar
 sendfile Enviar arquivo
 sendmail Enviar e-mail
@@ -147,17 +167,21 @@ sendmsg Enviar mensagem
 sentbytes Enviados $1 de $2 bytes
 servergoingdown Desconectado: Servidor está sendo desligado
 server Servidor
+soundfile Arquivo de som para notificações
+soundloop Repetir Som
 sound Som de evento
+soundstatus Ativar/Desativar sons de notificação
 startoffline Iniciar desconectado
 status Status
+stopalarm Desligar notificações
 syntaxerror  Erro de sintaxe
 textsize Tamanho do texto
 title Al's Messenger
 tools Ferramentas
 to Para
 unblock Desbloquear
-uoffline Offline
-uonline Online
+uoffline Desconectado
+uonline Conectado
 useralreadyonlist Usuário já está na lista de contatos
 user Usuário
 version Versão
