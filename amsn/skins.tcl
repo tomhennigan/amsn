@@ -243,7 +243,7 @@ proc selectskinok { w } {
 	set skin [lindex [lindex [findskins] $skinidx] 0]
 	status_log "Chose skin No $skinidx : $skin\n"
 	set config(skin) $skin
-
+	save_config
 	msg_box [trans mustrestart]
 
 	destroy $w

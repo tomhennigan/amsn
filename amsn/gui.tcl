@@ -2231,7 +2231,8 @@ catch {exec killall -c sndplay}
 			}
 
 		}
-
+		
+		
 		bind $wname.blueframe.list.userlist <Double-Button-1> "$command \[string range \[lindex \[$wname.blueframe.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname"
 		focus $wname.buttons.ok
 		bind $wname <Escape> "destroy $wname"
@@ -3767,6 +3768,7 @@ proc set_language { langname } {
    set config(language) $oldlang
    load_lang
 	set config(language) $langname
+	save_config
 	 return
 
    ::MSN::logout
