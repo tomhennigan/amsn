@@ -1,0 +1,128 @@
+FAQ 1.2
+-----
+
+V: Wat is Amsn?
+A: Amsn is een Microsoft Messenger cloon. Het laat je toe contact te houden met je vrienden en bestanden en boodschappen uit te wisselen.
+
+INSTALLEREN EN UITVOEREN
+---------------------
+
+V: Wat moet ik doen om Amsn te starten?
+A: Amsn is geschreven in tcl/tk, dus je moet een werkende tcl/tk interpreter hebben, namelijk versie 8.3 of later. Je kan het halen op http://tcl.sf.net. De interpreter is beschikbaar voor Linux, Windows en Macintosh.
+
+V: Hoe installeer en star je Amsn?
+A: Download het amsn-x_xx.tar.gz bestand. Untar het met het commando:
+ tar -xvzf amsn-x_xx.tar.gz
+Dit zal een directory maken genaamd: msn/, en Amsn is geinstalleerd en klaar om gestart te worden. Om het te starten, doe:
+ cd msn
+ ./amsn
+Of, als dat niet werkt, probeer:
+ wish amsn
+Als het wish commando niet bestaat, dan heb je tcl/tk niet correct geinstalleerd. Als "wish amsn" werkt, maar "./amsn" niet, pas het "amsn" bestand aan, en stel het correcte pad naar "wish" in in de laatse lijn. Normaal is het ingesteld naar: /usr/bin/wish
+
+V: Hoe kan ik een snelkoppeling maken op mijn desktop?
+A: 1. Voeg een icoon op je gnome/kde desktop of menu toe dat het commando "/waar/je/ook/amsn/hebt/geinstalleerd/amsn" uitvoert. Bijvoorbeeld:
+ /home/gebruikersnaam/msn/amsn
+2. Een andere manier: Als root maak je een link in /usr/bin naar het amsn bestand:
+ ln -s /waar/je/ook/amsn/hebt/geinstalleerd/amsn amsn
+Op die manier kan je Amsn starten door gewoon amsn te typen. Dan voeg je een snelkoppeling toe die gewoon het commando "amsn" uitvoert.
+
+V: Hoe kan ik de gnome/kde docking werkende krijgen?
+A: Je moet dan "make" uitvoeren in de plugin-directory, om DE OUDE GNOME1 plugin te maken. Je hebt de gnome devlopment libraries nodig daarvoor. Wanneer de plugin is gemaakt, voer amsn uit en selecteer Gnome Docking in het opties-menu. Om de NIEUWERE freedesktop (Gnome2 en KDE3 compatibel) docking te maken, lees README in de plugins/tratdoc directory.
+
+GEBRUIK HET
+-----------
+
+V: Wat betekenen de roze contacten in mijn lijst?
+A: Het betekend dat je niet op die persoon zijn/haar lijst staat.
+
+V: Kan ik adressen copieren naar het klembord?
+A: Ja, klik met de rechtermuisknop op de contactnaam in de contactlijst, en klik op het adres in het pop-up menu. De contact zijn/haar email adres zal gecopierd zijn naar het klembord.
+
+V: Hoe kan ik de geschiedenis van de berichten bekijken die ik in mijn chatvensters heb getypt?
+A: Als je de vorige berichten wil bereiken die je in het chatvenster hebt verzonden, moet je enkel de CTRL toets gebruiken samen met de pijltjes. Het werkt net hetzelfde als in een shell. CTRL+UP geeft je het vorige bericht, en CTRL+DOWN het volgende.
+
+V: Op de Instellingen > Privacy tab, wat betekenen die lijsten?
+A: Er zijn 4 lmijsten, gekend als (AL)low list, (BL)ock list, (R)everse (L)ist en de Contact lijst. De laatste is vanzelfsprekend, hieronder uitleg van de andere drie:
+AL (Allow List of Toegestane lijst): Deze lijst bevan de email van mensen die toegestaan zijn om te zien wanneer je online bent, en deze kunne ook met je chatten wanneer je niet offline bent.
+BL (Block List of Blokkeer lijst): Deze lijst bevat de mensen die je hebt geblokkeerd. Deze mensen kunnen je niet zien wanneer je online bent, en kunnn ook niet chatten met je.
+RL (Reverse List of Omgekeerde lijst): Deze lijst bevat het email adres van de mensen die jou op hun contactlijst hebben staan. Mensen die in het groen staan, zijn mensen die nog niet op jouw lijst staan, hoewel jij wel in die van hun staat.
+
+V: Ik wil mijn eigen smilies toevoegen, hoe doe ik dat?
+A: Er is een nieuwe knop in de smilies menu dat je dit toestaat. Klik op het "Maak een nieuwe smiley" knop en er zal een venster verschijnen. Je moet de vereiste velden invullen. Het omschrijvingsveld mag zijn wat je wil, het is enkel de omschrijving die in de tooltiptekst komt. 
+Het tekst triggers veld is wat je moet typen om de smiley te tonen. Bvb de gewone smiley heeft als trigger iets als :) of :-)... Om deze toe te voegen moet je ze een na een typen, met een spatie ertussen. Wanneer je een trigger wilt die een spatie bevat, moet je het tussen " zetten. Bijvoorbeeld als je wilt dat een smiley verschijnt wanneer je hallo daar zegt, dan moet je deze toevoegen als "hallo daar" zo zullen bvb "Hallo daar" hey "Hallo jij" 3 triggers zijn voor dezelfde smiley.
+Het smiley veld is de bestandsnaam voor het gif bestand. Het moet van de grote 19 x 19 zijn zodat het menu niet overhoop gehaald wordt. Je kan groter gaan, maar dan kunnen er rare dingen gebeuren die de werking van amsn kunnen verhinderen. Je kan het volledige pad ingeven door de bladeren knop te gebruiken, of voeg enkel de bestandsnaam toe als het bestand zich in de directory ~/.amsn/<profiel>/smileys of msn/skins/smileys bevind. Het bestand zal in je profieldirectory worden gecopierd wanneer het originele bestand gerenamed word of verplaatst.
+De zelfde eigenschappen gelden voor het Geluidsbestand veld. Dit word gebruikt om een geluid af te spelen wanneer de smiley wordt getoond. Wanneer bvb de LOL smiley word getypt, zal er een lach geluid komen. Het geluid moet een .wav bestand zijn of een geluid dat door je gelduisspeler word ondersteund. (Deze speler kan je installen in de Instellingen > Toepassingen tab; play, esdpay, mpg132...) Om deze functie te gebruiken moet je eerst de knop "Speel geluid" indrukken.
+De knop "geanimeerd" betekend dat de GIF is geanimeerd. als de gif is geanimeerd en je vinkt deze optie niet aan, zal de gif niet bewegen.
+De "verberg van smiley menu" optie betekend dat de smiley niet in het menu zal verschijnen, maar nog steeds zal reageren op triggers.
+De "hoofdletter gevoelig" optie betekend dat de triggers hoefdlettergevoelig zijn. dus LOL kan ook verkregen worden door lol te typen
+Als de instellingen klaar zijn, druk op de OK knop. Het zal errors geven als je een van de 3 vereiste nummers zal vergeten zijn of er iets anders is misgelopen. Als er geen error is verschenen, zal de nieuwe smiley werken. Have fun.
+
+PROBLEEMOPLOSSING
+---------------
+
+V: Soms "hangt" amsn opeens, waarom?
+A: Amsn hangt vaak wanneer er een geluidsprobleem is. Misschien en je naar muziek aan het luisteren en is je geluidskaart geblokkeerd, probeer het geluid te disabelen of verander het gelduiscommando.
+
+V: Ik probeer Amsn uit te voeren maar ik krijg deze error:
+ bash: ./amsn: bad interpreter: No such file or directory
+A: Je moet de tcl/tk pakketten installeren, omdat je de wish interpreter nodig hebt. Als je denkt deze toch te hebben, probeer wish amsn ipv ./amsn. Als dat werkt, verander te eerste lijn in #!/usr/bin/wish naar de juiste locatie van de wish interpreter.
+
+V: Wanner ik Amsn start, krijg ik de volgende error:
+Error in startup script: bad option "map": must be comare, first, index, last, lenght, match, range, tolower, toupper, trim, trimleft, trimright, wordend or wordstart
+while executing
+"string map $map $md5body"
+(in namespace eval "::md5" script line 65)
+invokend from within
+"namedspace eval ::md5 { ... etc
+A: Je gebruikt een oudere tcl/tk versie dan 8.3, updaten.
+
+V: Achter het updaten van amsn, is dat wat ik krijg wanneer ik het uitvoer:
+Error in startup script: expected integer but got ""
+while executing
+"font create menufont -family $family -size $size -weight normal"
+(procedure "::amsn::initLook" line 5)
+invoked from within
+"::amsn::initLook $family $size $config(backgroundcolor)"
+(file "amsn" line 2184)
+A: Er zijn veranderingen in het configuratiebestand. Een snelle oplossing om de nieuwe versie werkend te krijgen is het oude bestand te deleten in je home directory. Delete /home/gebruikersnaam/.amsn/config en het zou moeten werken.
+
+V: I kan geen chinese/Japanese/andere talen in amsn typen. Wat moet ik doen?
+A: Het ziet er naar uit dat xcin of gelijkaardige programma's niet ondersteund worden in de huidige versie van tcl/tk. Dus amsn kan er ook niet met werken. Je zal moete wachten tot er een nieuwe versie van tcl/tk is en hopen dat het xcin ondersteund. Ondertussen kan je de text in een andere editor typen het het copieren. Als je daarmee problemen hebt, download en installeer deze versie van tcl/tk van deze site:
+http://jfontain.free.fr/tcl-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tk-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tcl-thread-8.4a3-2.i386.rpm
+Let op dat dit omslachtig kan zijn.
+
+V: Kan ik amsn achter een proxy server gebruiken?
+A: Sinds de versie achter 0.61, is er HTTP proxy ondersteuning. Dit betekend dat je achter een HTTP proxy (zoals squid bvb) kan verbinden. Als je sock5 hebt, zal je dat misschien nog niet kunnen, maar daar wordt aan gewerkt.
+
+V: Amsn lijkt verbonden maar als ik met iemand wil chatten of ik verander mijn status, wordt mijn verbinding verbroken. Dit gebeurt achter enkelme minuten van inactiviteit. Het zou wel kunnen dat ik achter een router of firewall zit.
+A: Probeer eens met de optie aan te vinken om je verbindin in stand te houden in het Optie menu. Dit is een oplossing voor gedeelde internetverbindingen die paketten zend om de 2 minuten om de verbinding actief te houden.
+
+V: De geluiden herhalen zich altijd; als bvb XMMS werkt, en iemand logt in of je chat met iemand, en je sluit XMMS af, dan beginnen de geluiden die amsn niet kon afspelen door XMMS nu op een vervelende manier toch te spelen.
+A: Je hebt veel oplossingen. Als je KDE gebruikt, kan je XMMS configureren om geluid te spelen door arts. En dan gebruik je artsplay als geluidsprogramma voor amsn. Op die manier zullen de geluiden worden gemixt. Als je GNOME hebt, kan je xmms gewoon door ESD laten spelen. Je kan ook een script maken dat kijkt of /dev/dsp bezet is voor dat hij play aanroept.
+
+V: Ik gebruik amsn achter een firewall of ik maak gebruik van IP-masquerade. Het verzenden van bestanden werkte niet, kan ik dat oplossen?
+A:Misschien blokkeert de firewall inkomende verbindingen. Bestandsverzendingen werken op deze manier: Je wilt iemand een bestand zenden, je zend een uitnodiging met je IP adres en poort nummer. De andere computer moet verbinden naar IP:poort om het verzenden te starten. De gebruikte poort is meestal 6891, 6892,... Dus als je een firewall hebt, moet je zorgen dat inkomende verbindingen met poort 6891, ... worden toegelaten. Als je binne een privaat netwerk werkt dat private adressen zoals 192.168.0.x gebruikt, zal het moeilijker zijn om dit op te lossen. Je moet je publieke IP adres meezenden ipv je private. En je moet de gateway zeggen dat hij de connecties die binnekomen op poort 6891 moet doorzenden naar jouw pc.
+
+AMSN ONDER WINDOWS
+-----------------
+V: Kan ik geluid krijgen onder windows?
+A: Ja, we hebben een klein programma, plwav.exe gemaakt dat een wav afspeelt onder windows. Je kan dit dan gebruiken in de Instellingen > toepassingen tabblad.
+
+V: Waneer de gebeurtenissenvenstertjes verschijnen verbergt de taakbalk zich gedeeltelijk. Kan ik dit oplossen?
+A: Ja, je kan dit venster verplaatsten aan de hand van de X en Y pixels tov de top. Je kan dit in het menu Instellingen > Verschijning doen.
+
+ANDERE
+------
+
+V: Ik heb nog een vraagn maar deze staat hier niet tussen, kan je me toch helpen?
+A: Ja, dat kunnen we, maar eerst, neem een kijkje op de sourcefoge project pagina op http://sourceforge.net/projects/amsn en bekijk alle bugs, support, requests en general forums om te kijken of het probleem misschien al is beschreven. Kijk niet enkel naar de open berichten, maar naar allemaal. Voor je dan eventueel een vraag stelt, zog ervoor dat je de volgende informatie vermeld:
+Amsn versie
+Tcl/tk versie
+Stack trace van de error (als die er is)
+Laatste error berichten in het debud venster (CTRL+D en CTRL+S in de contactlijst).
+Als je dan nog een vraag hebt, mail me op airadier@users.sourceforge.net (english only!)
+
+Translated by Kenneth Henderick
