@@ -867,14 +867,17 @@ proc amsn_connectfiletransfer {ipaddr port authcookie} {
 		
 	
 	while {$recvbytes < $filesize } {
-		set cabecera [read $sockid 3]
+		set header [read $sockid 3]
 
-		status_log "[binary scan $cabecera ccc packet1 packet2 packet3] bytes\n"
+		status_log "[binary scan $header ccc packet1 packet2 packet3] bytes\n"
+	
+		#If packet1 is 1 -- Transfer canceled by the other
+		#If you want to cancel, send "CCL\n"
 	
 		set packet2 [expr ($packet2 + 0x100) % 0x100]
 		set packet3 [expr ($packet3 + 0x100) % 0x100]
 	
-		set packetsize [expr $packet2 + ($packet3*256)]
+		set packetsize [expr $packet2 + ($packet3<<8)]
 	
 		status_log "packetsize: $packetsize\n"
 		
@@ -885,6 +888,8 @@ proc amsn_connectfiletransfer {ipaddr port authcookie} {
 		status_log "Received $recvbytes of $filesize\n"
 	
 	}
+	
+	puts $sockid "BYE 16777989\r"
 	
 	status_log "File received\n"
 	
@@ -934,12 +939,12 @@ proc amsn_acceptconnection {sockid hostaddr hostport} {
 
 
 	set fileid [open $filename r]
+	fconfigure $fileid -translation {binary binary}
 	status_log "Sending file $filename size $filesize\n"
 
 	set sentbytes 0
 	
 	while {$sentbytes < $filesize} {
-	  status_log "sending $sentbytes of $filesize bytes\n"
 	  
 	  if {[expr $filesize-$sentbytes >2045]} {
 	    set packetsize 2045
@@ -952,9 +957,10 @@ proc amsn_acceptconnection {sockid hostaddr hostport} {
 	  set byte1 [expr $packetsize & 0xFF]
 	  set byte2 [expr $packetsize >> 8]
 	  
-	  puts -nonewline $sockid \0[format %c $byte1][format %c $byte2]
+	  puts -nonewline $sockid "\0[format %c $byte1][format %c $byte2]"
 	  puts -nonewline $sockid $datos
-	  set sentbytes [expr $sentbytes + 2045]
+	  set sentbytes [expr $sentbytes + $packetsize]
+	  status_log "sending $sentbytes of $filesize bytes\n"
 	}
 	
 	status_log "File sent complete\n"
