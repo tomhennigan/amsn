@@ -1847,9 +1847,9 @@ proc cmsn_draw_main {} {
    #Order Groups By submenu
    #Added by Trevor Feeney
    menu .ordergroups_by -tearoff 0 -type normal
-   .ordergroups_by add radio -label "[trans reversed]" -value 0 \
-   	-variable config(ordergroupsbynormal) -command "cmsn_draw_online"
    .ordergroups_by add radio -label "[trans normal]" -value 1 \
+   	-variable config(ordergroupsbynormal) -command "cmsn_draw_online"
+   .ordergroups_by add radio -label "[trans reversed]" -value 0 \
    	-variable config(ordergroupsbynormal) -command "cmsn_draw_online"
 
 
@@ -2609,17 +2609,29 @@ proc cmsn_draw_online {} {
 
    # Decide which grouping we are going to use
    if {$config(orderbygroup)} {
-       #Reverse group lists to match true MSN
-       #Added by Trevor Feeney
-       if {$config(ordergroupsbynormal)} {
-           set glist [lsort [::groups::GetList]]
-       } else {
-           set glist [lsort -decreasing [::groups::GetList]]
+   
+       #Order alphabetically
+       set thelist [::groups::GetList]
+       set thelistnames [list]
+       
+       foreach gid $thelist {
+	  set thename [::groups::GetName $gid]
+	  lappend thelistnames [list "$thename" $gid]
        }
+            
+       if {$config(ordergroupsbynormal)} {     
+          set sortlist [lsort -dictionary -index 0 $thelistnames ]
+       } else {
+          set sortlist [lsort -decreasing -dictionary -index 0 $thelistnames ]       
+       }
+       set glist [list]
        
-       #set glist [lsort [::groups::GetList]]
-       
+       foreach gdata $sortlist {
+          lappend glist [lindex $gdata 1]
+       }
+
        set gcnt [llength $glist]
+       
        # Now setup each of the group's defaults
        for {set i 0} {$i < $gcnt} {incr i} {
 	   set gid [lindex $glist $i]
@@ -2881,7 +2893,10 @@ proc ShowUser {user_name user_login state state_code colour section} {
 
 #	Draw alarm icon if alarm is set
 	if { [info exists alarms(${user_login})] } {
-	    set imagee [string range [string tolower $user_login] 0 end-8] ;#trying to make it non repetitive without the . in it
+	    #set imagee [string range [string tolower $user_login] 0 end-8]
+	    #trying to make it non repetitive without the . in it
+	    #Patch from kobasoft
+	    regsub -all "\[^\[:alnum:\]\]" [string tolower $user_login] "_" imagee
 
 	    if { $alarms(${user_login}) == 1 } {
   	 	label $pgBuddy.text.$imagee -image bell
