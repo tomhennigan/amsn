@@ -596,8 +596,10 @@ proc load_config {} {
 		#puts "Password is: [::config::getKey remotepassword]\nHi\n"
 	}
 
-	# WebCam: clientid is 268435508, but since we dont support webcam, this is the default:
-	set clientid "268435500"
+	#MSN 6.0 ClientID:
+	#set clientid "268435500"
+	#MSN 7.0 ClientID:
+	set clientid 1073741868
 
 	# Load up the personal states
 	LoadStateList
