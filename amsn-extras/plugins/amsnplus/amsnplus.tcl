@@ -52,7 +52,7 @@ namespace eval ::amsnplus {
 				[list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \
 				[list bool "Do you want to allow commands in the chat window?" allow_commands] \
 				[list bool "Do you want to use the quick text feature?" allow_quicktext] \
-				[list str "Which state you want to switch on on connect?" on_connect] \
+				[list str "Which state you want to switch on connect?" on_connect] \
 			]
 		} else {
 			array set ::amsnplus::config {
@@ -75,7 +75,7 @@ namespace eval ::amsnplus {
 			}
 			set ::amsnplus::configlist [ list \
 				[list bool "[trans parsenicks]" parse_nicks] \
-				[list bool "[trans colournicks]" colour_nicks] \
+	[list bool "[trans colournicks]" colour_nicks] \
 				[list bool "[trans allowcommands]" allow_commands] \
 				[list bool "[trans allowcolours]" allow_colours] \
 				[list bool "[trans allowquicktext]" allow_quicktext] \

@@ -8,6 +8,7 @@
 	<plugin_file>amsnplus.tcl</plugin_file>
 	<plugin_namespace>amsnplus</plugin_namespace>
 	<init_procedure>amsnplusStart</init_procedure>
+	<cvs_version>1.86</cvs_version>
 
 	<lang>
 		<langcode>ca</langcode>
