@@ -37,11 +37,10 @@
 ### along with this program; if not, write to the Free Software
 ### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ###
-### $Id$
 ###
 
-set version "0.70"
-set date "11/26/2002"
+set version "0.71"
+set date "11/27/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -601,7 +600,7 @@ proc cmsn_draw_main {} {
    cmsn_draw_status
    cmsn_draw_offline
 
-   status_log "Proxy is : $config(proxy)\n"
+   status_log "Proxy is : $config(proxy)"
 
 }
 
@@ -1658,14 +1657,6 @@ proc cmsn_destroyed_msgwin {name winpath email} {
 
    status_log "MWB: Entering cmsn_destroyed_msgwin\n" white
 
-   if { [info exists msg_windows([string tolower ${email}])] } {
-      status_log "MWB:   msg_windows([string tolower ${email}]) exists\n" white
-      if {"${name}" == "$msg_windows([string tolower ${email}])"} {
-        status_log "MWB:   and its value is ${name} (same of this window), unsetting msg_windows\n" white
-	 unset msg_windows([string tolower ${email}])
-      }
-   }   
-
    set idx [lsearch -exact $sb_list $name]
    if {$idx == -1} {
       status_log "tried to destroy unknown SB $name\n" white
@@ -1686,7 +1677,13 @@ proc cmsn_destroyed_msgwin {name winpath email} {
    }
    unset ${name}_info
 
-
+   if { [info exists msg_windows([string tolower ${email}])] } {
+      status_log "MWB:   msg_windows([string tolower ${email}]) exists\n" white
+      if {"${name}" == "$msg_windows([string tolower ${email}])"} {
+        status_log "MWB:   and its value is ${name} (same of this window), unsetting msg_windows\n" white
+	 unset msg_windows([string tolower ${email}])
+      }
+   }
    status_log "MWB: returning cmsn_destroyed_msgwin with no return value\n" white
 }
 
@@ -1758,7 +1755,7 @@ proc cmsn_msgwin_sendmail {name} {
 proc cmsn_msgwin_title {name} {
    global list_states
    upvar #0 [sb name $name users] users_list
-   set win_name "msg_[string tolower [sb get ${name} window]]"
+   set win_name "msg_[string tolower ${name}]"
 
    if {[llength $users_list]} {
       set title ""
@@ -1788,7 +1785,7 @@ proc cmsn_msgwin_title {name} {
    wm title .${win_name} ${title}
    sb set $name title ${title}
 
-   cmsn_msgwin_top [sb get $name window] $topmsg
+   cmsn_msgwin_top $name $topmsg
 
 }
 
@@ -1801,7 +1798,7 @@ proc sonido {sound} {
 }
 
 proc cmsn_msgwin_flicker {name count} {
-   set win_name "msg_[string tolower [sb get $name window]]"
+   set win_name "msg_[string tolower ${name}]"
 
   after cancel cmsn_msgwin_flicker $name 0
   after cancel cmsn_msgwin_flicker $name 1
@@ -1829,12 +1826,8 @@ proc cmsn_msgwin_flicker {name count} {
 proc cmsn_msgwin_top {name txt} {
    set win_name "msg_[string tolower ${name}]"
    upvar #0 [sb name $name users] users
-   set nbusers 0
-
-   if { [info exists users] } {
-     set nbusers [llength $users]
-   }
-
+   set nbusers [llength $users]
+   
    if { $nbusers > 0 } {
 	.${win_name}.top.text configure -state normal -font splainf -height $nbusers
    } else {
@@ -2322,12 +2315,11 @@ proc cmsn_sb_sessionclosed {sbn} {
 
    status_log "$sbn: SESSION CLOSED\n" red
    sb set $sbn stat "d"
-
+   
    .${win_name}.menu.msn entryconfigure 3 -state disabled
    .${win_name}.menu.actions entryconfigure 5 -state disabled
-
+   
    set items [expr {[sb length $sbn users] -1}]
-
    sb set $sbn last_user [sb index $sbn users 0]
    for {set idx $items} {$idx >= 0} {incr idx -1} {
       set user_info [sb index $sbn users $idx]
@@ -2694,11 +2686,7 @@ if {$version != $config(last_client_version)} {
   
 }
 
-status_log "Before init_dock\n"
-
 init_dock
-
-status_log "After init_dock\n"
 
 if { $config(autoconnect) == 1 } {
   ::MSN::connect $config(login) password
