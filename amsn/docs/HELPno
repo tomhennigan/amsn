@@ -1,26 +1,38 @@
-Hjelpfil for amsn
+Hjelpefil for aMSN
 
 Systemkrav:
-Amsn er skrevet i tcl/tk, så du trenger kun en fungerende tcl/tk-tolk,
-versjon 8.3 eller nyere. Du kan skaffe tcl/tk på http://tcl.sourceforge.net. 
-Tcl/tk er tilgjengelig for linux, windows og macintosh. Noen 
-tillegsfunksjoner kan kreve ekstra programmer eller biblioteker, som f.eks 
-dokkingikonet, Display Pictures eller SSL-tilkobling for MSN Protocol 9.
+aMSN fungerer i både Linux, Microsoft Windows og Macintosh, og er skrevet
+i TCL/TK. Det eneste du behøver er en fungerende TCL/TK-tolk som må være i
+versjon 8.3 eller høyere. Du finner TCL/TK her: http://tcl.sourceforge.net/.
+Noe av tilleggsprogramvaren, som dokkingikonet, kan kreve andre typer
+programmer, vennligst les dokumentasjonen for disse.
 
-Installasjonsguide:
-Last ned amsn-x_xx.tar.gz fra http://sourceforge.net/projects/amsn. 
-Pakk filen ut med følgende kommandoer:
-  gzip -d amsn-x_xx.tar.gz
-  tar xvf amsn-x_xx.tar
-Dette vil opprette en mappe kalt /msn.
-For å starte amsn, skriv:
-  cd msn
-  ./amsn
-hvis ikke dette fungerer, prøv
-  wish amsn
-Hvis wish-kommandoen ikke eksisterer har du ikke tcl/tk riktig installert.
-Hvis "wish amsn" fungerer men ikke "./amsn" må du redigere 'amsn' filen og skrive inn 
-den korrekte adressen til 'wish' på den første linja. Som standard er den satt til:
-/usr/bin/wish
+Installasjonsveiledning:
 
-Hvis du fortsatt har et problem kan du prøve å bruke FAQ'en.
+Last ned siste versjon av aMSN fra http://amsn.sourceforge.net/
+Åpne et konsollvindu (også kjent som et shell) og pakk ut filen:
+*    tar xvfz amsn-x-xx.tar.gz (hvor x-xx symboliserer versjonsnummeret)
+
+Du vil nå ha en ny mappe som heter msn. For å komme inn i denne mappen 
+skriver du:
+*    cd msn/
+
+For å starte programmet skriver du bare:
+*    ./amsn
+
+Tips: Ved å legge til et og-tegn (&) etter ./amsn, så vil prosessen bli lagt
+i bakgrunnen, slikt at konsollvinduet ditt ikke blir "opptatt" med aMSN. Du 
+kan også enkelt lage et ikon på skrivebordet ditt. 
+
+Om du opplever problemer med å kjøre aMSN, forsøk følgende kommando:
+*    wish amsn
+
+Om wish-kommandoen ikke eksisterer, er ikke TCL/TK riktig installert.
+Om wish amsn fungerer, men ikke ./amsn må du åpne amsn-filen i en
+tekstbehandler, eksempelvis kwrite for KDE eller gnotepad for Gnome, og
+endre stien til wish i den første linjen. Som standard er denne satt til
+/usr/bin/wish. For å finne riktig sti til wish kan du skrive:
+*    which wish
+
+Opplever du fremdeles problemer, så konsulter først FAQen, dernest kan du
+forsøke hjelpesidene på http://amsn.sourceforge.net/
