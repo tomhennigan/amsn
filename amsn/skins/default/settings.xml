@@ -55,7 +55,8 @@
 			<statusbarbg>#fcfcee</statusbarbg>
 			<statusbartext>#000000</statusbartext>
 			<chat_status_border_color>#6b5600</chat_status_border_color>
-
+			<groupcolorextend>#000080</groupcolorextend>
+			<groupcolorcontract>#000080</groupcolorcontract>
 		</Colors>
 		
 		<Geometry>

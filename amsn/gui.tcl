@@ -30,7 +30,9 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey statusbarbg #eeeeee
 	::skin::setKey statusbarbg_sel #d3d0ce
 	::skin::setKey statusbartext #000000
-	
+	::skin::setKey groupcolorextend #000080
+	::skin::setKey groupcolorcontract #000080
+
 	::skin::setKey chat_top_padx 0
 	::skin::setKey chat_top_pady 0
 	::skin::setKey chat_paned_padx 0
@@ -4312,8 +4314,13 @@ proc cmsn_draw_online_wrapped {} {
 		} else {
 			set gtag $gname
 		}
-
-		$pgBuddy.text tag conf $gtag -fore #000080 -font sboldf
+		
+		if { [::groups::IsExpanded $gname] } {
+			$pgBuddy.text tag conf $gtag -fore [::skin::getKey groupcolorextend] -font sboldf
+		} else {
+			$pgBuddy.text tag conf $gtag -fore [::skin::getKey groupcolorcontract] -font sboldf
+		}
+		
 		$pgBuddy.text tag bind $gtag <Button1-ButtonRelease> \
 			"::groups::ToggleStatus $gname;cmsn_draw_online"
 			
