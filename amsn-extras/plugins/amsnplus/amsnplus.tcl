@@ -91,6 +91,7 @@ namespace eval ::amsnplus {
 	# this proc removes every menu in every chat window
 	# and also the pixmap of amsnplus to choose a color
 	proc remove_from_chatwindow { } {
+		#the path of the menu is always $w.menu
 	}
 
 
