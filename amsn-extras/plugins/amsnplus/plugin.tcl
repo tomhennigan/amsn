@@ -15,7 +15,9 @@ proc InitPlugin { dir } {
 	array set ::amsnplus::config {
 		colour_nicks {0}
 	}
-	set ::amsnplus::configlist [list [list str "Colour Nicks?" colour_nicks]]
+	#set ::amsnplus::configlist [ \
+	#	list [list bool "Colour Nicks?" colour_nicks] \
+	#]
 	#register events
 	::plugins::RegisterEvent amsnplus UserNameWritten parse_nick
 	::plugins::RegisterEvent amsnplus chat_msg_send parseCommand
