@@ -1,7 +1,23 @@
 #	Microsoft Messenger Protocol Implementation
 #=======================================================================
 
+
+set user_info ""
+set user_stat "FLN"
+set list_fl [list]
+set list_rl [list]
+set list_al [list]
+set list_bl [list]
+set list_users [list]
+set list_cmdhnd [list]
+
+set sb_list [list]
+#TODO: Remove this as probably it's not used
+set sb_list_cal [list]
+
+
 namespace eval ::MSN {
+   #TODO: Export missing procedures (the one whose starts with lowercase)
    namespace export changeName logout changeStatus connect blockUser \
    unblockUser addUser deleteUser login myStatusIs inviteFT acceptFT rejectFT \
    cancelReceiving cancelSending getMyIP moveUser
@@ -60,7 +76,6 @@ namespace eval ::MSN {
    proc changeStatus {new_status} {
       variable myStatus
       ::MSN::WriteNS "CHG" $new_status
-      status_log "Changing state to $new_status\n" red
       set myStatus $new_status
    }
 
@@ -106,12 +121,17 @@ namespace eval ::MSN {
    
    proc deleteUser { userlogin } {
       ::MSN::WriteNS REM "FL $userlogin"
-   }   
+   }
 
-   proc inviteFT { sbn filename cookie ipaddr} {
+   proc inviteFT { chatid filename cookie ipaddr} {
       #Invitation to filetransfer, initial message
-      variable trid 
+      variable trid
       variable atransfer
+      
+      set sbn [SBFor $chatid]
+      if {$sbn == 0 } {
+         return 0
+      }
 
       if { [catch {set filesize [file size $filename]} res]} {
 	::amsn::errorMsg "[trans filedoesnotexist]"
@@ -141,9 +161,15 @@ namespace eval ::MSN {
 
    }
 
-   proc acceptFT {sbn filename filesize cookie} {
+   proc acceptFT {chatid filename filesize cookie} {
       #Send the acceptation for a file transfer, request IP
       variable atransfer
+      
+      set sbn [SBFor $chatid]
+      if {$sbn == 0 } {
+         return 0
+      }
+
       set sock [sb get $sbn sock]
 
       set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
@@ -157,12 +183,18 @@ namespace eval ::MSN {
       puts $sock "MSG $::MSN::trid N $msg_len"
       puts -nonewline $sock $msg
 
-      set atransfer($cookie) [list $sbn $filename $filesize $cookie]      
+      set atransfer($cookie) [list $sbn $filename $filesize $cookie]
 
    }
 
 
-   proc rejectFT {sbn cookie} {
+   proc rejectFT {chatid cookie} {
+   
+      set sbn [SBFor $chatid]
+      if {$sbn == 0 } {
+         return 0
+      }
+
       #Send the cancelation for a file transfer
       set sock [sb get $sbn sock]
 
@@ -174,7 +206,7 @@ namespace eval ::MSN {
       set msg_len [string length $msg]
       incr ::MSN::trid
       puts $sock "MSG $::MSN::trid N $msg_len"
-      puts -nonewline $sock $msg      
+      puts -nonewline $sock $msg
 
       status_log "Rejecting filetransfer sent\n" red
 
@@ -183,6 +215,7 @@ namespace eval ::MSN {
 
    proc cancelReceiving {cookie} {
       variable atransfer
+
       status_log "Canceling receiving (TO-DO)\n"
       set sockid [lindex $atransfer($cookie) 4]
       set sbn [lindex $atransfer($cookie) 0]
@@ -292,6 +325,7 @@ namespace eval ::MSN {
 
       if {$handler != ""} {
          global list_cmdhnd
+	  status_log "WriteSB: Appending handler $handler\n"
          lappend list_cmdhnd [list $trid $handler]
       }
    }
@@ -659,16 +693,419 @@ namespace eval ::MSN {
       }
    }
 
+   proc usersInChat { chatid } {
 
+	set sb_name [SBFor $chatid]
+	
+	if { $sb_name == 0 } {
+	   return [list]
+	}
+	
+	status_log "Getting users in chat from $sb_name\n" red
+
+	set user_list [sb get $sb_name users]
+
+       if { [llength $user_list] } {
+	  return $user_list
+	} else {
+	  return [list [sb get $sb_name last_user]]
+	}
+	
+   }
+
+   proc typersInChat { chatid } {
+
+      set name [SBFor $chatid]
+
+      set num_typers [sb length $name typers]
+      set typers [list]
+
+      if {$num_typers > 0} {
+
+         upvar #0 [sb name $name typers] typers_list
+
+
+         foreach login $typers_list {
+            set idx [sb search $name users "$login *"]
+            set usrinfo [sb index $name users $idx]
+            set user_login [lindex $usrinfo 0]
+            set user_name [lindex $usrinfo 1]
+            lappend typers [list ${user_login} ${user_name}]
+         }
+      }
+
+      return $typers
+
+   }
+
+   proc lastMessageTime { chatid } {
+      return [sb get [SBFor $chatid] lastmsgtime]
+   }
+
+   proc userName { chatid user } {
+
+       global user_info
+
+	set sb_name [SBFor $chatid]
+	set usernum [sb search $sb_name users "$user *"]
+
+	if { "$user" == "[lindex $user_info 3]" } {
+	   return [urldecode [lindex $user_info 4]]
+	} elseif { $usernum != -1 } {
+	   return [lindex [sb index $sb_name users $usernum] 1]
+	} else {
+	   status_log "User $user not found in chat $chatid\n"
+	   return $user
+	}
+
+   }
+
+   proc getUserInfo { user } {
+      global list_users list_states
+
+      set idx [lsearch $list_users "${user} *"]
+
+      if { $idx != -1} {
+         set user_info [lindex $list_users $idx]
+	  
+	  status_log "user_info is $user_info\n"
+
+         set user_login [lindex $user_info 0]
+         set user_name [lindex $user_info 1]
+	  set state [lindex $user_info 2]
+         #set user_state_no [lindex $user_info 2]
+
+         #set state [lindex [lindex $list_states $user_state_no] 1]
+
+      } else {
+         set user_login $user
+	  set user_name ""
+	  set state 7
+      }
+
+      return [list $user_login $user_name $state]
+
+   }
+
+   variable sb_num 0
+
+   proc GetNewSB {} {
+      variable sb_num
+      incr sb_num
+      return "sb_$sb_num"
+   }
+
+   proc chatTo { user } {
+
+      global sb_list 
+
+      if { ([::MSN::myStatusIs] == "HDN") || ([::MSN::myStatusIs] == "FLN") } {
+         msg_box "[trans needonline]"
+         return 0
+      }
+
+      set lowuser [string tolower ${user}]
+
+      if { [chatReady $user ] } {
+        return $user
+      }
+
+      if { [SBFor $user] != 0 } {
+         cmsn_reconnect [SBFor $user]
+	  return $user
+      }
+
+      ::amsn::chatStatus $user "[trans chatreq]...\n"
+
+      set sbn [GetNewSB]
+
+      sb set $sbn name $sbn
+      sb set $sbn sock ""
+      sb set $sbn data [list]
+      sb set $sbn users [list]
+      sb set $sbn typers [list]
+      sb set $sbn title [trans chat]
+      sb set $sbn lastmsgtime 0
+      sb set $sbn flickering 0
+
+      sb set $sbn last_user [getUserInfo $user]
+
+      lappend sb_list "$sbn"
+
+      sb set $sbn stat "r"
+      sb set $sbn invite $user
+
+      #TODO check if a sb exists for that ID!!
+      set chatid $user
+
+      AddSBFor $chatid $sbn
+
+      status_log "MWB:   $sbn: CHAT1 Talking with $user\n" white
+      ::MSN::WriteNS "XFR" "SB" "cmsn_open_sb $sbn"
+
+      status_log "MWB: Exiting cmsn_chat_user($user)\n" white
+
+      return $chatid
+
+   }
+
+   proc leaveChat { chatid } {
+      global config sb_list
+
+      while { [SBFor $chatid] != 0 } {
+         set name [SBFor $chatid]
+         global ${name}_info
+
+         status_log "Entering leavechat\n"
+
+         set idx [lsearch -exact $sb_list $name]
+         if {$idx == -1} {
+            status_log "tried to destroy unknown SB $name\n" white
+            return 0
+         }
+
+         #We leave the switchboard if it exists
+         set sb_list [lreplace $sb_list $idx $idx]
+
+         if {[sb get $name stat] != "d"} {
+            catch {
+            puts [sb get $name sock] "OUT"
+            close [sb get $name sock]
+            } res
+         }
+
+         if {$config(keep_logs) && [sb exists $name log_fcid]} {		;# LOGS!
+           close [sb get $name log_fcid]
+         }
+
+         DelSBFor $chatid ${name}
+         unset ${name}_info
+
+      }
+
+
+   }
+
+
+
+   #///////////////////////////////////////////////////////////////////////////////
+   # chatReady (chatid)
+   # Returns 1 if the given chat 'chatid' is ready for delivering a message.
+   # Returns 0 if it's not ready.
+   proc chatReady { chatid } {
+
+         set sbn [SBFor $chatid]
+
+	  if { "$sbn" == "0" } {
+	     return 0
+	  }
+
+	  if { "[sb get $sbn stat]" != "o" } {
+	     return 0
+	  }
+
+	  set sb_sock [sb get $sbn sock]
+
+	  if { "$sb_sock" == "" } {
+	     return 0
+	  }
+
+         if {[eof $sb_sock]} {
+            close $sb_sock
+            #TODO: Check what to do when session is closed, remove sb from candidates,
+            #update chatid_sb and sb_chatid
+            cmsn_sb_sessionclosed $sbn
+	     return 0
+         }
+
+
+         if {[sb length $sbn users]} {
+	     return 1
+	  }
+
+	  return 0;
+   }
+   #///////////////////////////////////////////////////////////////////////////////
+
+
+
+   proc SBFor { chatid } {
+
+      variable sb_chatid
+
+      if { [info exists sb_chatid($chatid)]} {
+	  if {[llength $sb_chatid($chatid)] >0 } {
+	     return [lindex $sb_chatid($chatid) 0]
+	  }
+      }
+
+      #TODO:Known small bug. If we have a crossed chat, then we will have 2 SBs for the chatid.
+      # If we chat amsn to amsn, then each amsn will use the first SB to send (the SB that it started)
+      # but it will receive in the second SB, as it's the one it was invited and the other amsn is using
+      # it for sending. We won't see typers and last message time correctly. 
+      # One fix could be change SetSBFor to insert at the beginning instead of appending, but there will
+      # be bigger problems with IROs and chat name changes.
+      # We could also make procedures like lastMessageTime and typersInChat to get the full list of SBs 
+      # instead of just the first (make a SBForList), and proccess every SB in the list. Maybe this is 
+      # the best option.
+
+      return 0
+
+   }
+
+
+   proc ChatFor { sb_name } {
+      variable chatid_sb
+
+      if {[info exists chatid_sb($sb_name)]} {
+         return $chatid_sb($sb_name)
+      }
+
+      return 0
+   }
+
+   proc AddSBFor { chatid sb_name} {
+         variable sb_chatid
+	  #TODO: quit it from global, and use ::MSN::ChatFor
+	  variable chatid_sb
+
+	  if {![info exists sb_chatid($chatid)]} {
+	     set sb_chatid($chatid) [list]
+	  }
+
+	  set index [lsearch $sb_chatid($chatid) $sb_name]
+
+	  if { $index == -1 } {
+	     #TODO: Should we insert at the beggining? Newer SB's are probably better
+	     #set sb_chatid($chatid) [linsert $sb_chatid($chatid) 0 $sb_name]
+	     #difference if sb stat ="o" (already a chat opened)
+	     lappend sb_chatid($chatid) $sb_name
+	  }
+
+         set chatid_sb($sb_name) $chatid
+
+	  status_log "AddSBFor: sb_chatid ($chatid) is now $sb_chatid($chatid)\n" blue
+   }
+
+   proc DelSBFor { chatid sb_name} {
+      variable sb_chatid
+
+      set index [lsearch $sb_chatid($chatid) $sb_name]
+      set sb_chatid($chatid) [lreplace $sb_chatid($chatid) $index $index]
+
+      if {[llength $sb_chatid($chatid)] == 0 } {
+        unset sb_chatid($chatid)
+      }
+   }
+
+
+   proc inviteUser { chatid user } {
+
+      set sb_name [::MSN::SBFor $chatid]
+      cmsn_invite_user $sb_name $user
+
+   }
+
+
+   proc chatQueue { chatid command } {
+
+      if {[chatReady $chatid]} {
+	   eval "$command"
+      } else {
+      
+         set sbn [SBFor $chatid]
+
+         if { $sbn == 0 } {
+	     #TODO: Probably this will never happen? Check where SBs leave a chatid
+	     status_log "chatQueue: No SB for chat, creating chat\n"
+	     chatTo $chatid
+	  } else {
+	     status_log "chatQueue: chat is NOT ready, reconnecting\n"
+	     cmsn_reconnect $sbn
+	  }
+      }
+
+   }
+
+   #///////////////////////////////////////////////////////////////////////////////
+   # messageTo (chatid,txt,ackid)
+   # Sends the message 'txt' to the given 'chatid'. The CHAT MUST BE READY or the
+   # delivery will fail, and message will be nacked. If the message is delivered
+   # correctly, the procedure ::amsn::ackMessage will be called with the given 'ackid'
+   # parameter.
+   proc messageTo { chatid txt ackid} {
+      global config user_info msgacks
+
+      set sbn [SBFor $chatid]
+
+      #TODO: In call to messageTo, the chat has to be ready, or we have problems
+      if { $sbn == 0 } {
+         ::amsn::nackMessage $ackid
+      }
+
+      set sock [sb get $sbn sock]
+
+      if {[sb length $sbn users]} {
+
+         set txt_send [encoding convertto utf-8 [string map {"\n" "\r\n"} $txt]]
+
+         set fontfamily [lindex $config(mychatfont) 0]
+         set fontstyle [lindex $config(mychatfont) 1]
+         set fontcolor [lindex $config(mychatfont) 2]
+
+         set color "000000$fontcolor"
+         set color "[string range $color end-1 end][string range $color end-3 end-2][string range $color end-5 end-4]"
+
+         set style ""
+
+         if { [string first "bold" $fontstyle] >= 0 } {
+           set style "${style}B"
+         }
+         if { [string first "italic" $fontstyle] >= 0 } {
+           set style "${style}I"
+         }
+         if { [string first "overstrike" $fontstyle] >= 0 } {
+           set style "${style}S"
+         }
+         if { [string first "underline" $fontstyle] >= 0 } {
+           set style "${style}U"
+         }
+
+         set msg "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n"
+         set msg "${msg}X-MMS-IM-Format: FN=[urlencode $fontfamily]; EF=$style; CO=$color; CS=0; PF=22\r\n\r\n"
+         set msg "$msg$txt_send"
+         set msg_len [string length $msg]
+
+
+
+         incr ::MSN::trid
+         puts $sock "MSG $::MSN::trid A $msg_len"
+         puts -nonewline $sock $msg
+
+	  #Setting trid - ackid correspondence
+	  set msgacks($::MSN::trid) $ackid
+
+	  ::amsn::messageFrom $chatid [lindex $user_info 3] "$txt" user [list $fontfamily $fontstyle $fontcolor]
+
+      } else {
+         status_log "$sbn: trying to send, but no users in this session\n" white
+         return 0
+      }
+
+   }
+   #///////////////////////////////////////////////////////////////////////////////
 }
 
 
 
 proc read_sb_sock {sbn} {
 
+
    set sb_sock [sb get $sbn sock]
    if {[eof $sb_sock]} {
       close $sb_sock
+      #TODO: Check what to do when session is closed, remove sb from candidates,
+      #update chatid_sb and sb_chatid
       cmsn_sb_sessionclosed $sbn
    } else {
       gets $sb_sock tmp_data
@@ -745,20 +1182,21 @@ proc read_ns_sock {} {
 
       degt_protocol "<-NS $tmp_data"
 
-      sb append ns data $tmp_data		 
+      sb append ns data $tmp_data
 
       if {[string range $tmp_data 0 2] == "MSG"} {
 
          set recv [split $tmp_data]
 	 fconfigure $ns_sock -blocking 1
 	 set msg_data [read $ns_sock [lindex $recv 3]]
-	 status_log "MSGDATA: $msg_data " green
+	 #status_log "MSGDATA: $msg_data " green
+	 degt_protocol "$msg_data"
 
 	 # Demographic Information about subscriber/user. Can be used
-	 # for a variety of things. 
+	 # for a variety of things.
 	 set content [aim_get_str $msg_data Content-Type]
 	 if {[string range $content 0 19] == "text/x-msmsgsprofile"} {
-             status_log "Getting demographic and auth information" black
+             status_log "Getting demographic and auth information\n"
 	     # 1033 is English. See XXXX for info
 	     set d(langpreference) [aim_get_str $msg_data lang_preference]
 	     set d(preferredemail) [aim_get_str $msg_data preferredEmail]
@@ -853,35 +1291,43 @@ proc cmsn_sb_msg {sb_name recv} {
    global filetoreceive files_dir
 
    set msg [sb index $sb_name data 1]
- 
+
    sb ldel $sb_name data 1
    array set headers {}
    set body ""
    cmsn_msg_parse $msg headers body
 
    set content [lindex [array get headers content-type] 1]
-   set timestamp [clock format [clock seconds] -format %H:%M]
 
    set typer [string tolower [lindex $recv 1]]
-   after cancel "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name\} res"      
+   upvar #0 [sb name $sb_name users] users_list
+   if { [llength $users_list] == 1 } {
+      set chatid $typer
+   } else {
+      set chatid $sb_name ;#For conferences, use sb_name as chatid
+   }
+
+   #after cancel "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name\} res"
+   #TODO: better use afterID
+   after cancel "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;::amsn::updateTypers $chatid\} res"
 
    if {[string range $content 0 9] == "text/plain"} {
 
       set fonttype [lindex [array get headers x-mms-im-format] 1]
-      
+
       set begin [expr {[string first "FN=" $fonttype]+3}]
-      set end   [expr {[string first ";" $fonttype $begin]-1}]      
+      set end   [expr {[string first ";" $fonttype $begin]-1}]
       set fontfamily \{[urldecode [string range $fonttype $begin $end]]\}
 
       set begin [expr {[string first "EF=" $fonttype]+3}]
-      set end   [expr {[string first ";" $fonttype $begin]-1}]     
+      set end   [expr {[string first ";" $fonttype $begin]-1}]
       set fontstyle "[urldecode [string range $fonttype $begin $end]]"
 
       set begin [expr {[string first "CO=" $fonttype]+3}]
-      set end   [expr {[string first ";" $fonttype $begin]-1}]     
+      set end   [expr {[string first ";" $fonttype $begin]-1}]
       set fontcolor "000000[urldecode [string range $fonttype $begin $end]]"
       set fontcolor "[string range $fontcolor end-1 end][string range $fontcolor end-3 end-2][string range $fontcolor end-5 end-4]"
-      
+
       set style [list]
       if {[string first "B" $fontstyle] >= 0} {
         lappend style "bold"
@@ -895,46 +1341,34 @@ proc cmsn_sb_msg {sb_name recv} {
       if {[string first "S" $fontstyle] >= 0} {
         lappend style "overstrike"
       }
-      
-
-      cmsn_win_write $sb_name \
-        "\[$timestamp\] [trans says [urldecode [lindex $recv 2]]]:\n" gray
-
-
-      cmsn_win_write $sb_name "$body\n" user $fontfamily $style $fontcolor      
 
 
 
+
+      #TODO: Remove the font style transformation from here and put it inside messageFrom or gui.tcl
+      ::amsn::messageFrom $chatid $typer "$body" user [list $fontfamily $style $fontcolor]
       sb set $sb_name lastmsgtime [clock format [clock seconds] -format %H:%M:%S]
-      
+
       set idx [sb search $sb_name typers $typer]
       sb ldel $sb_name typers $idx
-      cmsn_show_typers $sb_name
-      
-      cmsn_msgwin_flicker $sb_name 20     
-      set win_name "msg_[string tolower ${sb_name}]"
+      ::amsn::updateTypers $chatid
 
-      if { [string compare [wm state .${win_name}] "withdrawn"] == 0 } {
-        wm state .${win_name} iconic
-	::amsn::notifyAdd "[trans says [urldecode [lindex $recv 2]]]:\n$body" \
-	   "wm state .${win_name} normal; focus -force .${win_name}.in.input"; #; grab .${win_name}"
-      }            
 
-      if { [string first $win_name [focus]] != 1 } {
-        sonido type
-      }
-      
    } elseif {[string range $content 0 19] == "text/x-msmsgscontrol"} {
-    
+
       if {[llength $typer]} {
 	 set idx [sb search $sb_name typers $typer]
 	 if {$idx == -1} {
             sb append $sb_name typers $typer
 	 } 
 	 
-         cmsn_show_typers $sb_name
-	 
-	 after 8000 "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name\} res"
+         #cmsn_show_typers $sb_name
+
+
+	 #after 8000 "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name\} res"
+	 #We have to catch it as the sb can be closed before the 8 seconds to delete the typing user
+	 after 8000 "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;::amsn::updateTypers $chatid\} res"
+        ::amsn::updateTypers $chatid
 
       }
 
@@ -943,7 +1377,7 @@ proc cmsn_sb_msg {sb_name recv} {
       set invcommand [aim_get_str $body Invitation-Command]
       set cookie [aim_get_str $body Invitation-Cookie]
       if { $invcommand == "ACCEPT" } {
-      
+
       	set requestdata [aim_get_str $body Request-Data]
 	set requestdata [string range $requestdata 0 [expr {[string length requestdata] -2}]]
 	
@@ -980,7 +1414,7 @@ proc cmsn_sb_msg {sb_name recv} {
          set fromnick "[urldecode [lindex $recv 2]]"
 	 
 	 if {[string range $guid 0 37] == "{5D3E02AB-6190-11d3-BBBB-00C04F795683}"}	 {
-  	   ::amsn::fileTransferRecv $filename $filesize $cookie $sb_name $fromlogin $fromnick
+  	   ::amsn::fileTransferRecv $filename $filesize $cookie [::MSN::ChatFor $sb_name] $fromlogin $fromnick
   	   set filetoreceive [list $filename $filesize]
          }
 	
@@ -995,7 +1429,8 @@ proc cmsn_sb_msg {sb_name recv} {
 
 
 proc cmsn_sb_handler {sb_name item} {
-   global list_cmdhnd
+   global list_cmdhnd msgacks
+   
 
    set item [encoding convertfrom utf-8 $item]
 
@@ -1024,92 +1459,46 @@ proc cmsn_sb_handler {sb_name item} {
          status_log "$sb_name: [join $item]\n" green
 	 return 0
       }
+      NAK {
+         set ackid $msgacks($ret_trid)
+	  ::amsn::nackMessage $ackid
+	  unset msgacks($ret_trid)
+	  return 0
+      }
+      ACK {
+         set ackid $msgacks($ret_trid)
+	  ::amsn::ackMessage $ackid
+	  unset msgacks($ret_trid)
+	  return 0
+      }
+      217 {
+          #TODO: Check what we do with sb stat "?", disable chat window?
+	   # this should be related to user state changes
+          status_log "Error: user is not online [join $item]\n" red
+	   msg_box "[trans usernotonline]"
+          return 0
+      }
+
+      "" {
+         return 0
+      }
       default {
-         status_log "$sb_name: UNKNOWN SB ENTRY! --> [join $item]\n" red
+         if { "[sb get $sb_name stat ]" == "d" } {
+            status_log "$sb_name: UNKNOWN SB ENTRY! --> [join $item]\n" red
+	  }
 	 return 0
       }
    }
    }
 }
 
+
 proc cmsn_invite_user {name user} {
    status_log "MWB:   $name: Inviting $user (in cmsn_invite_user)\n" white
+
    ::MSN::WriteSB $name "CAL" $user
 }
 
-proc cmsn_chat_user {user} {
-   global msg_windows
-
-   status_log "MWB: Entering cmsn_chat_user($user)\n" white
-
-   if { ([::MSN::myStatusIs] == "HDN") || ([::MSN::myStatusIs] == "FLN") } {
-       msg_box "[trans needonline]"
-       return
-   }
-
-   set lowuser [string tolower ${user}]
-
-   if { [info exists msg_windows(${lowuser})] } {
-       status_log "MWB:   msg_windows(${lowuser}) exists, value = $msg_windows(${lowuser})\n" white
-	wm state .msg_$msg_windows($lowuser) normal
-	wm deiconify .msg_$msg_windows($lowuser)
-   	raise .msg_$msg_windows($lowuser)
-   	focus .msg_$msg_windows($lowuser).in.input
-	upvar #0 [sb name $msg_windows($lowuser) users] users_list
-	if { [llength $users_list] == 0 } {
-              status_log "MWB:   no users, reconnecting\n" white
-		cmsn_reconnect $msg_windows($lowuser)
-	}
-	status_log "MWB: Exiting cmsn_chat_user($user)\n" white
-	return 0
-   }
-
-   set name [cmsn_draw_msgwin $user]
-
-   status_log "MWB:   msg_windows(${lowuser}) didn't exist, got new sb = $name \n" white
-   if { $name == 0 } {
-   	return
-   }
- 
-   sb set $name stat "r"
-   sb set $name invite $user
-
-   status_log "MWB:   $name: CHAT1 Talking with $user\n" white
-   ::MSN::WriteNS "XFR" "SB" "cmsn_open_sb $name"
-   
-   cmsn_msgwin_top $name "[trans chatreq]..."
-#   if [catch { cmsn_msgwin_top $name "[trans chatreq]..."} res]  {
-#     msg_box "Ventana de chat ya cerrada"
-#      puts [sb get $name sock] "OUT"
-#      close [sb get $name sock]
-#   }
-
-   set win_name "msg_[string tolower ${name}]"
-   wm state .${win_name} normal
-
-   status_log "MWB: Exiting cmsn_chat_user($user)\n" white
-
-}
-
-proc cmsn_open_sb {sbn recv} {
-   global config
-
-   if {[lindex $recv 4] != "CKI"} {
-      status_log "$sbn: Unknown SP requested!\n" red
-      return 1
-   }teNS "XFR" "SB" "cmsn_open_sb $name"
-   
-   cmsn_msgwin_top $name "[trans chatreq]..."
-#   if [catch { cmsn_msgwin_top $name "[trans chatreq]..."} res]  {
-#     msg_box "Ventana de chat ya cerrada"
-#      puts [sb get $name sock] "OUT"
-#      close [sb get $name sock]
-#   } 
-
-   set win_name "msg_[string tolower ${name}]"
-   wm state .${win_name} normal
-
-}
 
 proc cmsn_rng {recv} {
    global config msg_windows sb_list
@@ -1118,40 +1507,19 @@ proc cmsn_rng {recv} {
 
    status_log "MWB: entering cmsn_rng($recv)\n" white
 
-   if { [info exists msg_windows($emaill)] } {
+   set sbn [::MSN::GetNewSB]
 
-   	set sbn $msg_windows($emaill)
-       status_log "MWB:   A window for that user already exists: $sbn\n" white
-	catch { close [sb get $sbn sock] }
-       #We leave the switchboard if it exists
+   lappend sb_list "$sbn"
 
-       #set idx [lsearch -exact $sb_list $sbn]
-
-       #if {$idx == -1} {
-       #  status_log "MWB:   tried to destroy unknown SB $sbn\n" white
- #
- #      } else {
- #
- #        set sb_list [lreplace $sb_list $idx $idx]
- #        if {[sb get $name stat] != "d"} {
- #          catch {
- #          puts [sb get $name sock] "OUT"
- #          close [sb get $name sock]
- #          } res
- #        }
-
-         #if {$config(keep_logs) && [sb exists $name log_fcid]} {		;# LOGS!
-         #  close [sb get $name log_fcid]
-         #}
-#	  global ${name}_info
-#         unset ${name}_info
-#       }
-
-   } else {
-   	set sbn [cmsn_draw_msgwin $emaill]
-       status_log "MWB:   Getting a new window: $sbn\n" white
-   }
-
+   #Init SB properly
+   sb set $sbn name $sbn
+   sb set $sbn sock ""
+   sb set $sbn stat ""
+   sb set $sbn data [list]
+   sb set $sbn users [list]
+   sb set $sbn typers [list]
+   sb set $sbn lastmsgtime 0
+   sb set $sbn flickering 0
    sb set $sbn serv [split [lindex $recv 2] ":"]
    sb set $sbn connected "cmsn_conn_ans $sbn"
    sb set $sbn readable "read_sb_sock $sbn"
@@ -1159,7 +1527,8 @@ proc cmsn_rng {recv} {
    sb set $sbn auth_param "$config(login) [lindex $recv 4] [lindex $recv 1]"
 
    status_log "$sbn: ANS1 answering [lindex $recv 5]\n" green
-   cmsn_msgwin_top $sbn "[trans chatack] [lindex $recv 5]..."
+   #cmsn_msgwin_top $sbn "[trans chatack] [lindex $recv 5]..."
+   status_log "[trans chatack] [lindex $recv 5]...\n"
 
    cmsn_socket $sbn
    return 0
@@ -1179,61 +1548,406 @@ proc cmsn_open_sb {sbn recv} {
    sb set $sbn auth_cmd "USR"
    sb set $sbn auth_param "$config(login) [lindex $recv 5]"
 
-   status_log "MWB:   $sbn: CHAT2: connecting to Switch Board [lindex $recv 3]\n"   
+   status_log "MWB:   $sbn: CHAT2: connecting to Switch Board [lindex $recv 3]\n"
 
 
-   if {[catch { cmsn_msgwin_top $sbn "[trans sbcon]..."} res]}  {
-     status_log "Ignoring: Chat window $sbn has been closed\n"
-   } else {
-     cmsn_socket $sbn
-   }
+   #status_log "[trans sbcon]...\n"
+   ::amsn::chatStatus [::MSN::ChatFor $sbn] "[trans sbcon]...\n"
+   cmsn_socket $sbn
    return 0
 }
 
 proc cmsn_conn_sb {name} {
+
+   status_log "cmsn_conn_sb\n"
    fileevent [sb get $name sock] writable {}
    sb set $name stat "a"
    set cmd [sb get $name auth_cmd]; set param [sb get $name auth_param]
    ::MSN::WriteSB $name $cmd $param "cmsn_connected_sb $name"
-   cmsn_msgwin_top $name "[trans ident]..."
+   #cmsn_msgwin_top $name "[trans ident]..."
+   #status_log "[trans ident]...\n"
+   ::amsn::chatStatus [::MSN::ChatFor $name] "[trans ident]...\n"
 }
 
 proc cmsn_conn_ans {name} {
+   status_log "cmsn_conn_ans\n"
    fileevent [sb get $name sock] writable {}
    sb set $name stat "a"
    set cmd [sb get $name auth_cmd]; set param [sb get $name auth_param]
    ::MSN::WriteSB $name $cmd $param
-   cmsn_msgwin_top $name "[trans ident]..."
+   #cmsn_msgwin_top $name "[trans ident]..."
+   status_log "[trans ident]...\n"
 }
 
 proc cmsn_connected_sb {name recv} {
+
+   status_log "cmsn_connected_sb\n"
    sb set $name stat "i"
    if {[sb exists $name invite]} {
       cmsn_invite_user $name [sb get $name invite]
-      cmsn_msgwin_top $name \
-        "[trans willjoin [sb get $name invite]]..."
+      #cmsn_msgwin_top $name \
+      #  "[trans willjoin [sb get $name invite]]..."
+      #status_log "[trans willjoin [sb get $name invite]]...\n"
+      ::amsn::chatStatus [::MSN::ChatFor $name] "[trans willjoin [sb get $name invite]]...\n"
    }
 }
 
-proc cmsn_reconnect {name} {
+proc cmsn_reconnect { name } {
+
+
    if {[sb get $name stat] == "n"} {
+
       sb set $name stat "i"
       cmsn_invite_user $name [lindex [sb get $name last_user] 0]
-      cmsn_msgwin_top $name \
-         "[trans reconnect [sb get $name last_user]]..."
+
+      ::amsn::chatStatus [::MSN::ChatFor $name] "[trans reconnect [lindex [sb get $name last_user] 0]]..."
    } elseif {[sb get $name stat] == "d"} {
 
  	status_log "Calling reconnect with d tag\n"
-   
+
       sb set $name stat "rc"
       sb set $name invite [lindex [sb get $name last_user] 0]
       ::MSN::WriteNS "XFR" "SB" "cmsn_open_sb $name"
-      cmsn_msgwin_top $name "[trans reconnecting]..."
+
+      ::amsn::chatStatus [::MSN::ChatFor $name] "[trans reconnecting]..."
+
    }
+
 }
 
 
+#///////////////////////////////////////////////////////////////////////
+proc cmsn_sb_sessionclosed {sbn} {
 
+   status_log "$sbn: SESSION CLOSED\n" red
+   sb set $sbn stat "d"
+
+   if {[::MSN::ChatFor $sbn] == 0} {
+      status_log "Session closed but was not connected yet\n"
+      return 0
+   }
+
+
+   #.${win_name}.menu.msn entryconfigure 3 -state disabled
+   #.${win_name}.menu.actions entryconfigure 5 -state disabled
+
+   set items [expr {[sb length $sbn users] -1}]
+   #TODO: Check if this works
+   #sb set $sbn last_user [sb index $sbn users 0]
+   for {set idx $items} {$idx >= 0} {incr idx -1} {
+      set user_info [sb index $sbn users $idx]
+      sb ldel $sbn users $idx
+      #.${win_name}.in.send configure -state disabled
+
+      #set timestamp [clock format [clock seconds] -format %H:%M]
+      #set statusmsg "\[$timestamp\] [trans leaves [lindex $user_info 0]]\n"
+      #::amsn::chatStatus [::MSN::ChatFor $sbn] $statusmsg
+      ::amsn::userLeaves [::MSN::ChatFor $sbn] [list [lindex $user_info 0]]
+
+      #TODO: Activate/deactivate menus?
+      #cmsn_msgwin_title $sbn
+      #bind .${win_name}.in.input <Key> "cmsn_reconnect ${sbn}"
+      #bind .${win_name}.in.input <Return> "cmsn_reconnect ${sbn}; break"
+      #bind .${win_name}.in.input <Key-KP_Enter> "cmsn_reconnect ${sbn}; break"
+      #bind .${win_name}.in.input <Alt-s> "cmsn_reconnect ${sbn}; break"
+
+   }
+
+   #::MSN::DelSBFor [::MSN::ChatFor $sbn] $sbn
+
+}
+#///////////////////////////////////////////////////////////////////////
+
+
+
+#///////////////////////////////////////////////////////////////////////
+proc cmsn_update_users {sb_name recv} {
+   global config msg_windows  
+
+   status_log "MWB: entering cmsn_update_users(${sb_name},$recv)\n" white
+
+
+   switch [lindex $recv 0] {
+
+      BYE {
+         if {[sb get $sb_name stat] != "d"} {
+
+            set leaves [sb search $sb_name users "[lindex $recv 1] *"]
+	     status_log "Leaves is [sb index $sb_name users $leaves]\n"
+
+	     sb set $sb_name last_user [sb index $sb_name users $leaves]
+	     sb ldel $sb_name users $leaves
+	     status_log "BYE - User [lindex $recv 1] leaves. Setting it as last user\n" white
+	        
+            #TODO: change chatid_sb and sb_chatid
+            #look if there exists a window for that user
+
+	     set usr_login [lindex [sb index $sb_name users 0] 0]
+
+	     status_log "BYE - Trying to find an existing window for $usr_login\n"
+
+         } else {
+	     status_log "BYE but sb is in \"d\" state, so the close event has been catch before the BYE...\n"
+	  }
+
+	  set chatid [::MSN::ChatFor $sb_name]
+         set newchatid $chatid
+
+         #set timestamp [clock format [clock seconds] -format %H:%M]
+         #set statusmsg "\[$timestamp\] [trans leaves [lindex $recv 1]]\n"
+	  ::amsn::userLeaves $chatid [list [lindex $recv 1]]
+	  #::amsn::chatStatus $chatid $statusmsg
+      }
+
+      IRO {
+
+         #TODO: Be careful when reusing a window!!! Only if sb is the same
+	  #I'll get an IRO message when I JOIN a conversation, one IRO for
+	  #every user already in the conversation
+         sb set $sb_name stat "o"
+	  
+	  set usr_login [string tolower [lindex $recv 4]]
+	  set usr_name [urldecode [lindex $recv 5]]
+
+	  sb append $sb_name users [list $usr_login $usr_name [lindex [::MSN::getUserInfo $usr_login] 2]]
+
+         sb set $sb_name last_user [list $usr_login $usr_name]
+	  status_log "Setting last_user as [list $usr_login $usr_name] in IRO\n"
+
+	  if { [sb length $sb_name users] == 1 } {
+  	     status_log "Here in IRO, creating new sb_chatid($usr_login) and killing old one if existed\n"
+	     #TODO: Kill sb in sb_chatid if it exists?? keep it? check this again
+	     #Funny thing! You can have two sb attached to the same window, but it works perfect! It
+	     #will use the second one (the one in sb_chatid(CHATID)) to send messages, and the other
+	     #will hopefully timeout
+
+	     set chatid $usr_login
+	     set newchatid $usr_login
+
+	     ::MSN::AddSBFor $chatid $sb_name
+
+	     status_log "IRO - I'm now chatid $chatid (first user)\n"
+
+
+	  } else {
+
+	     #TODO: Probably will have to check if there's a private chat
+	     # here, and don't change it (so it won't change the existing window).
+
+	     #More than 1 user, change into conference
+            set chatid [::MSN::ChatFor $sb_name]
+            set newchatid $sb_name
+
+	     #Remove old chatid correspondence
+	     ::MSN::DelSBFor $chatid $sb_name
+	     ::MSN::AddSBFor $newchatid $sb_name
+
+	     status_log "IRO - Now i become conference chatid $newchatid (I was $chatid)\n"
+	  }
+
+	  # TODO: The only problem I can see is when you're invited to a conference. A private window for
+	  # the first user will open (but will be hidden) because of this call to userJoins if it doesn't
+	  # exists, or it will show "user XXXjoins the chat if it's already opened". This sb=[sbFor chatid]
+	  # should fix the thing when the window exists. If the SBFor $chatid is not this SB, it means that
+	  # there's a window already opened, so don't show the "userJoins" message.
+	  # To fix the thing when there's no opened window (avoid opening it) we should have some kind of
+	  # ::amsn::windowReady $chatid in the GUI layer. It's not worth it.
+
+	  if { [::MSN::SBFor $newchatid] == $sb_name} {
+	     ::amsn::userJoins $newchatid $usr_name
+	  }
+
+      }
+
+      JOI {
+         sb set $sb_name stat "o"
+
+	  set usr_login [string tolower [lindex $recv 1]]
+	  set usr_name [urldecode [lindex $recv 2]]
+	  sb append $sb_name users [list $usr_login $usr_name [lindex [::MSN::getUserInfo $usr_login] 2]]
+	  status_log "Here in JOI, .............\n"
+
+	  if { [sb length $sb_name users] == 1 } {
+
+  	     status_log "Here in JOI, setting chatid_sb ($sb_name) = $usr_login \n"
+	     #TODO: Kill sb in sb_chatid if it exists?? keep it? check this again
+
+	     set chatid $usr_login
+	     set newchatid $usr_login
+
+            ::MSN::AddSBFor $chatid $sb_name
+	     status_log "JOI - User joins, I'm chatid $chatid\n"
+
+	  } else {
+
+	     #More than 1 user, change into conference
+
+	     #Procedure to change chatid-sb correspondences
+	     set chatid [::MSN::ChatFor $sb_name]
+	     set newchatid $sb_name
+
+	     #Remove old chatid correspondence
+	     ::MSN::DelSBFor $chatid $sb_name
+	     ::MSN::AddSBFor $newchatid $sb_name
+
+
+	     status_log "JOI - Another user joins, Now I'm chatid $newchatid (I was $chatid)\n"
+	     ::amsn::chatChange $chatid $newchatid
+
+	  }
+
+	  ::amsn::userJoins $newchatid $usr_name
+      }
+   }
+
+
+   if {[sb exists $sb_name log_fcid]} {
+      close [sb get $sb_name log_fcid]
+      sb unset $sb_name log_fcid
+   }
+
+   if {$config(keep_logs) && [sb length $sb_name users]} {	;# LOGS!
+      global log_dir
+      upvar #0 [sb name $sb_name users] tmp_users_list
+      set users_list [lsort $tmp_users_list]
+      set file_name ""
+      foreach usrinfo $users_list {
+         set user_email [split [lindex $usrinfo 0] "@"]
+	 set user_login [lindex $user_email 0]
+         set file_name "${file_name}-${user_login}"
+      }
+      set file_name [string range ${file_name} 1 end]
+      sb set $sb_name log_fcid [open "[file join ${log_dir} ${file_name}]" a+]
+   }
+
+   #set win_name "msg_[string tolower ${sb_name}]"
+
+   if {[sb length $sb_name users] > 0} {
+
+      #TODO: in.input and so on
+      #.${win_name}.in.input configure -state normal
+      #.${win_name}.in.send configure -state normal
+
+     #.${win_name}.menu.msn entryconfigure 3 -state normal
+     #.${win_name}.menu.actions entryconfigure 5 -state normal
+
+      #bind .${win_name}.in.input <Key> "sb_change $sb_name"
+      #bind .${win_name}.in.input <Return> "sb_enter $sb_name %W; break"
+      #bind .${win_name}.in.input <Key-KP_Enter> "sb_enter $sb_name %W; break"
+      #bind .${win_name}.in.input <Alt-s> "sb_enter $sb_name %W; break"
+   } else {
+
+     #.${win_name}.menu.msn entryconfigure 3 -state disabled
+     #.${win_name}.menu.actions entryconfigure 5 -state disabled
+
+      if {[sb get $sb_name stat] != "d"} { sb set $sb_name stat "n" }
+      
+      #.${win_name}.in.send configure -state disabled
+      #bind .${win_name}.in.input <Key> "cmsn_reconnect ${sb_name}"
+      #bind .${win_name}.in.input <Return> "cmsn_reconnect ${sb_name}; break"
+      #bind .${win_name}.in.input <Key-KP_Enter> "cmsn_reconnect ${sb_name}; break"
+      #bind .${win_name}.in.input <Alt-s> "cmsn_reconnect ${sb_name}; break"
+   }
+
+   upvar #0 [sb name $sb_name users] sb_users
+
+   #if { [llength $sb_users] > 1 } {
+   #  status_log "MWB:   more than 1 user in chat\n" white
+   #  foreach usrinfo $sb_users {
+   #   	set temp [lindex $usrinfo 0]
+   #	status_log "MWB:   temp is : $temp \n"
+   #	if { [info exists msg_windows([string tolower ${temp}])]} {
+   #      status_log "MWB:   msg_windows([string tolower ${temp}]) exists\n" white
+   #      if { $msg_windows([string tolower ${temp}]) == $sb_name } {
+   #        status_log "MWB:   msg_windows([string tolower ${temp}]) value is the same as window ($sb_name), unsetting\n" white
+   #        unset msg_windows([string tolower ${temp}])
+   #      }
+   #	}
+   #  }
+   #} elseif { [llength $sb_users] == 1 } {
+   #  status_log "MWB:   just 1 user in chat\n" white
+   #  foreach usrinfo $sb_users {
+   #	set temp [lindex $usrinfo 0]
+   #	if {[info exists msg_windows([string tolower ${temp}])] == 0} {
+   #	  status_log "MWB:   msg_windows([string tolower ${temp}]) doesn't exist, setting to this window ($sb_name)\n" white
+   #	  set msg_windows([string tolower ${temp}]) $sb_name
+   #	} else {
+   #	  status_log "MWB:   msg_windows([string tolower ${temp}]) exists, don't touch it\n" white
+   #	}
+   #  }
+   #} else {
+   #  status_log "MWB:   no users in chat\n" white
+   #}
+
+   status_log "MWB: exiting cmsn_update_users(${sb_name},$recv)\n" white
+}
+#///////////////////////////////////////////////////////////////////////
+
+
+
+proc cmsn_change_state {recv} {
+   global list_fl list_users
+
+   if {[lindex $recv 0] == "FLN"} {
+      set user [lindex $recv 1]
+      set user_name ""
+      set substate "FLN"
+   } else {
+      if {[lindex $recv 0] == "ILN"} {
+         set user [lindex $recv 3]
+         set user_name [urldecode [lindex $recv 4]]
+         set substate [lindex $recv 2]
+      } else {
+         set user [lindex $recv 2]
+         set user_name [urldecode [lindex $recv 3]]
+         set substate [lindex $recv 1]
+      }
+   }
+
+   set idx [lsearch $list_users "$user *"]
+   if {$idx != -1} {
+      global list_users list_states alarms
+
+      set user_data [lindex $list_users $idx]
+      if {$user_name == ""} {
+         set user_name [urldecode [lindex $user_data 1]]
+      }
+
+      if {$user_name != [lindex $user_data 1]} {
+      	#Nick differs from the one on our list, so change it
+	#in the server list too
+	::MSN::changeName $user $user_name
+      }
+
+      
+      if {[lindex $user_data 2] < 7} {		;# User was online before
+         set oldusername [string map {\\ \\\\ \[ \\\[ * \\* ? \\?} \
+	   [urldecode [lindex $user_data 1]]]
+
+      } elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
+         ::amsn::notifyAdd "$user_name\n[trans logsin]." "::amsn::chatUser $user" online
+         if { ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1) } {
+             run_alarm [lindex $recv 2] [lindex $recv 3]        ;# Run Alarm using EMAIL ADDRESS (Burger)
+         }
+      }
+
+      if {$substate != "FLN"} {
+#      	 status_log "Inserting <$user_name> in menu\n" white
+#         .main_menu.msg insert 0 command -label "$user_name <$user>" \
+#            -command "::amsn::chatUser $user"
+      }
+
+      set state_no [lsearch $list_states "$substate *"]
+
+      set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no]]
+      set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
+
+      cmsn_draw_online
+   } else {
+      puts "PANIC!"
+   }
+
+}
 
 proc cmsn_ns_handler {item} {
    global list_cmdhnd password config
@@ -1331,6 +2045,9 @@ proc cmsn_ns_handler {item} {
 	       set user_stat [lindex $item 2]
 	       cmsn_draw_online
 	    
+		#TODO: Look if the user is in any chat, then alert that window
+		#about the status chage
+
 	       #Alert dock of status change
 	       send_dock [lindex $item 2]
 	     }
@@ -1425,12 +2142,15 @@ proc cmsn_ns_handler {item} {
 	  set password ""
 	  ::amsn::errorMsg "[trans baduserpass]"
           return 0
-      }     
+      }
       913 {
           status_log "Error: Not allowed when offline\n" red
 	  msg_box "[trans notallowedoffline]"
           return 0
       }     
+      "" {
+         return 0
+      }
       default {
          status_log "Got unknown NS input!! --> [lindex $item 0]\n" red
 	 return 0
@@ -1579,8 +2299,13 @@ proc sb_change_fake { sbn } {
 
 }
 
-proc sb_change { sbn } {
+
+set typing ""
+
+proc sb_change { chatid } {
 	global typing config
+
+	set sbn [::MSN::SBFor $chatid]
 	
 	if { $typing != $sbn } {
 		set typing $sbn	
@@ -1597,71 +2322,6 @@ proc sb_change { sbn } {
 		puts -nonewline $sock $msg
 	}
 }
-
-proc sb_enter { sbn name } {
-   global user_info config
-
-   set txt [$name get 0.0 end-1c]
-   if {[string length $txt] < 1} { return 0 }
-
-   set sock [sb get $sbn sock]
-   if {[string index $txt 0] == "/"} {
-
-   } 
-   
-   if {[sb length $sbn users]} {
-      set txt_send [string map {"\n" "\r\n"} $txt]
-
-      set txt_send [encoding convertto utf-8 $txt_send]      
-
-      set fontfamily [lindex $config(mychatfont) 0]
-      set fontstyle [lindex $config(mychatfont) 1]
-      set fontcolor [lindex $config(mychatfont) 2]
-
-      set color "000000$fontcolor"
-      set color "[string range $color end-1 end][string range $color end-3 end-2][string range $color end-5 end-4]"
-      
-      set style ""
-      
-      if { [string first "bold" $fontstyle] >= 0 } {
-        set style "${style}B"
-      }
-      if { [string first "italic" $fontstyle] >= 0 } {
-        set style "${style}I"
-      }
-      if { [string first "overstrike" $fontstyle] >= 0 } {
-        set style "${style}S"
-      }
-      if { [string first "underline" $fontstyle] >= 0 } {
-        set style "${style}U"
-      }
-
-      set msg "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n"
-      set msg "${msg}X-MMS-IM-Format: FN=[urlencode $fontfamily]; EF=$style; CO=$color; CS=0; PF=22\r\n\r\n"
-      set msg "$msg$txt_send"
-      set msg_len [string length $msg]
-      set timestamp [clock format [clock seconds] -format %H:%M]
-
-      incr ::MSN::trid
-      puts $sock "MSG $::MSN::trid N $msg_len"
-      puts -nonewline $sock $msg
-
-      cmsn_win_write $sbn "\[$timestamp\] [trans says [urldecode [lindex $user_info 4]]]:\n" gray
-      cmsn_win_write $sbn "$txt\n" yours \{$fontfamily\} \{$fontstyle\} $fontcolor      
-   } else {
-      status_log "$sbn: trying to send, but no users in this session\n" white
-      return 0
-   }
-   $name delete 0.0 end
-   focus ${name}
-   return 0
-}
-
-
-
-
-
-
 
 
 
@@ -1737,7 +2397,7 @@ proc cmsn_socket {name} {
       sb set $name stat "cw"
    }
 
-     status_log "MWB:  Readable handler in cmn_socket: $readable_handler\n" white
+     #status_log "MWB:  Readable handler in cmsn_socket: $readable_handler\n" white
 
      set sock [socket -async $tmp_serv $tmp_port]
      sb set $name sock $sock
@@ -1759,16 +2419,19 @@ proc cmsn_ns_connected {} {
  
 }
 
-proc cmsn_sb_connected {name} {
-   fileevent [sb get $name sock] writable {}
-   sb set $name stat "c"
-   ::MSN::WriteSB $name [sb get $name auth_cmd] [sb get $name auth_param]
-   cmsn_msgwin_top $name "[trans indent]..."
-}
+#TODO: Can we delete this?
+#proc cmsn_sb_connected {name} {
+#   fileevent [sb get $name sock] writable {}
+#   sb set $name stat "c"
+#   ::MSN::WriteSB $name [sb get $name auth_cmd] [sb get $name auth_param]
+#   #cmsn_msgwin_top $name "[trans indent]..."
+#   status_log "[trans indent]\n"
+#}
+
 
 proc cmsn_ns_connect { username {password ""}} {
    global unread list_al list_bl list_fl list_rl config
-   status_log "Here"
+
    if { ($username == "") || ($password == "")} {
      cmsn_draw_login
      return -1
@@ -1778,7 +2441,6 @@ proc cmsn_ns_connect { username {password ""}} {
    set list_bl [list]
    set list_fl [list]
    set list_rl [list]      
-   status_log "Clearing lists\n"
 
    if {[sb get ns stat] != "d"} {
       fileevent [sb get ns sock] readable {}
