@@ -63,7 +63,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
    }
    set x [expr {$x-10}]
    set y [expr {$y-10}]
-   wm geometry $w 215x146+$x+$y
+   wm geometry $w 238x146+$x+$y
    wm title $w "[trans msn]"
    wm overrideredirect $w 1
    wm transient $w
