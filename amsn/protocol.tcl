@@ -2963,6 +2963,7 @@ proc cmsn_change_state {recv} {
 	set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj]]
 	set list_users [lsort -decreasing -index 2 [lsort -decreasing -index 1 $list_users]]
 
+	status_log "old is $oldmsnobj new is $msnobj\n"
 	if { $oldmsnobj != $msnobj} {
 		#TODO: Improve this, using usersInChat for every chat... useful if user in conference, but not private
 		if {![catch {image inuse user_pic_$user}] && [::MSN::SBFor $user] != 0 && [image inuse user_pic_$user]} {
@@ -4478,9 +4479,6 @@ proc filenoext { filename } {
 namespace eval ::MSNP2P {
 	namespace export loadUserPic SessionList ReadData MakePacket MakeACK MakeSLP
 
-	global fd
-	set fd -1
-
 	#Get picture from $user, if cached, or sets image as "loading", and request it
 	#using MSNP2P
 	proc loadUserPic { chatid user } {
@@ -4620,7 +4618,7 @@ namespace eval ::MSNP2P {
 	# For now only manages buddy and emoticon transfer
 	# TODO : Error checking on fields (to, from, sizes, etc)
 	proc ReadData { data chatid } {
-		global config fd HOME
+		global config HOME
 
 		status_log "called ReadData with $data\n" red
 
@@ -4764,7 +4762,7 @@ namespace eval ::MSNP2P {
 			# File already open and being written to (fd exists)
 			# Lets write data to file
 			puts -nonewline $fd [string range $data $headend [expr $headend + $cMsgSize - 1]]
-#			status_log "In the receiving thing... with fd = $fd --- $cOffset + $cMsgSize + $cTotalDataSize\n\nwe have $headend which gives us :[string range $data $headend [expr $headend + $cMsgSize]]\n" error
+			status_log "In the receiving thing... with fd = $fd --- $cOffset + $cMsgSize + $cTotalDataSize\n\nwe have $headend which gives us :[string range $data $headend [expr $headend + $cMsgSize]]\n" error
 			# Check if this is last part if splitted
 			if { [expr $cOffset + $cMsgSize] >= $cTotalDataSize } {
 			    close $fd
@@ -5041,7 +5039,7 @@ namespace eval ::MSNP2P {
 	# SendData ( sid chatid )
 	# This procedure sends the data given by the filename in the Session vars given by SessionID
 	proc SendData { sid chatid filename } {
-		global fd config
+		global config
 		SessionList set $sid [list -1 [file size "${filename}"] -1 -1 -1 -1 -1]
 		set fd [lindex [SessionList get $sid] 6]
 		if { $fd == 0 } {
