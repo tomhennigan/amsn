@@ -354,9 +354,10 @@ namespace eval ::pop3 {
 	#	The name in the "From:" section.
 	proc ::pop3::from {chan id} {
 		set from "unknown"
+		set subject ""
 
 		if {![catch {
-			set data [::pop3::send $chan "TOP $id"]
+			set data [::pop3::send $chan "TOP $id 0"]
 		} errorStr]} {
 			while {1} {
 				set line [string trimright [gets $chan] \r]
@@ -368,13 +369,15 @@ namespace eval ::pop3 {
 					set line [string range $line 1 end]
 				}
 
-				if {[string equal -length 5 $line "From: "]} {
+				if {[string equal -nocase -length 5 $line "From: "]} {
 					set from [::pop3mime::field_decode [string range $line 6 end]]
+				} elseif {[string equal -nocase -length 8 $line "Subject: "]} {
+					set subject [::pop3mime::field_decode [string range $line 9 end]]
 				}
 			}
 		}
 
-		return $from
+		return [list $from $subject]
 	}
 
 
@@ -393,7 +396,10 @@ namespace eval ::pop3 {
 		if {$first <= $last} {
 			set ::pop3::balloontext "\n\nNew mail from:"
 			for {set x $first} {$x <= $last} {incr x} {
-				set ::pop3::balloontext "$::pop3::balloontext\n[::pop3::from $chan $x]"
+				set info [::pop3::from $chan $x]
+				set from [lindex $info 0]
+				set subject [lindex $info 1] 
+				set ::pop3::balloontext "$::pop3::balloontext\n$from\n$subject\n"
 			}
 		}
 	}
@@ -906,7 +912,7 @@ namespace eval ::pop3mime {
 		# of the trimleft above)
 
 		if {[string length $field]} {
-			append result " "
+#			append result " "
 			append result $field
 		}
 
