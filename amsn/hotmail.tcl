@@ -197,25 +197,6 @@ proc hotmail_viewmsg {msgurl userlogin {pass ""}} {
 
 }
 
-proc aim_get_str { bodywithr str } {
-
-    set body [stringmap {"\r" ""} $bodywithr]
-    #set pos [string first $str $body]
-    set pos [string first "${str}:" $body]
-
-    if { $pos < 0 } {
-      status_log "aim_get_str not found\n"
-      return ""
-    } else {
-
-	    set inicio [expr { $pos + [string length $str] + 2 } ]
-	    set fin [expr { $inicio + [string first "\n" [string range $body $inicio end]] - 1 } ]
-	    #status_log "aim_get_str found ${str}: [string range $body $inicio $fin]\n"
-	    return [string range $body $inicio $fin]
-    }
-
-}
-
 
 
 proc hotmail_procmsg {msg} {
@@ -223,13 +204,13 @@ proc hotmail_procmsg {msg} {
 
 	#Nuevo by AIM
 	
-	set content [aim_get_str $msg Content-Type]
+	set content [::MSN::GetHeaderValue $msg Content-Type]
 
 	if {[string range $content 0 29] == "text/x-msmsgsemailnotification"} {					     
-	  if {[aim_get_str $msg From] != ""} {				
-	    set from [aim_get_str $msg From]
-	    set fromaddr [aim_get_str $msg From-Addr]
-	    set msgurl [aim_get_str $msg Message-URL]
+	  if {[::MSN::GetHeaderValue $msg From] != ""} {				
+	    set from [::MSN::GetHeaderValue $msg From]
+	    set fromaddr [::MSN::GetHeaderValue $msg From-Addr]
+	    set msgurl [::MSN::GetHeaderValue $msg Message-URL]
 	    status_log "Hotmail: New mail from $from - $fromaddr\n"
 
             ::hotmail::setUnreadMessages [expr { [::hotmail::unreadMessages] + 1}]
@@ -241,7 +222,7 @@ proc hotmail_procmsg {msg} {
 	  } 
 	}
 	if {[string range $content 0 36]  == "text/x-msmsgsinitialemailnotification"} {
-  	  set noleidos [aim_get_str $msg Inbox-Unread]
+  	  set noleidos [::MSN::GetHeaderValue $msg Inbox-Unread]
 	  status_log "Hotmail: $noleidos unread emails\n"
 	  if { [string length $noleidos] > 0 } {
 	    ::hotmail::setUnreadMessages $noleidos
@@ -249,9 +230,9 @@ proc hotmail_procmsg {msg} {
 	  }
 	}
 	if {[string range $content 0 34]  == "text/x-msmsgsactivemailnotification"} {
-	  set source [aim_get_str $msg Src-Folder]
-	  set dest [aim_get_str $msg Dest-Folder]
-	  set delta [aim_get_str $msg Message-Delta]
+	  set source [::MSN::GetHeaderValue $msg Src-Folder]
+	  set dest [::MSN::GetHeaderValue $msg Dest-Folder]
+	  set delta [::MSN::GetHeaderValue $msg Message-Delta]
 	  if { $source == "ACTIVE" } {
   	    set noleidos [expr {[::hotmail::unreadMessages] - $delta}]
 	  } elseif {$dest == "ACTIVE"} {

@@ -43,7 +43,7 @@ namespace eval ::MSN {
 
         sb set ns stat "d"
         cmsn_draw_offline
-	 
+
 	 return 0
 
       }
@@ -580,7 +580,7 @@ namespace eval ::MSN {
       } else {
          close $fileid
          variable atransfer
-         array unset atransfer $cookie      
+         array unset atransfer $cookie
          ::amsn::fileTransferProgress s $cookie $filesize $filesize
 	 status_log "All file content sent\n"
 
@@ -1272,6 +1272,29 @@ namespace eval ::MSN {
    }
    #///////////////////////////////////////////////////////////////////////////////
 
+
+   #///////////////////////////////////////////////////////////////////////////////
+   #Parses "name: value\nname: value\n..." headers and returns the "value" for "name"
+   #///////////////////////////////////////////////////////////////////////////////
+   proc GetHeaderValue { bodywithr name } {
+
+      set body "\n[stringmap {"\r" ""} $bodywithr]"
+      set pos [string first "\n${name}:" $body]
+
+      if { $pos < 0 } {
+         return ""
+      } else {
+
+      set strstart [expr { $pos + [string length $name] + 3 } ]
+      set strend [expr { $strstart + [string first "\n" [string range $body $strstart end]] - 1 } ]
+      return [string range $body $strstart $strend]
+
+   }
+   #///////////////////////////////////////////////////////////////////////////////
+
+}
+
+
 }
 
 proc read_sb_sock {sbn} {
@@ -1369,20 +1392,20 @@ proc read_ns_sock {} {
 
 	 # Demographic Information about subscriber/user. Can be used
 	 # for a variety of things.
-	 set content [aim_get_str $msg_data Content-Type]
+	 set content [::MSN::GetHeaderValue $msg_data Content-Type]
 	 if {[string range $content 0 19] == "text/x-msmsgsprofile"} {
              status_log "Getting demographic and auth information\n"
 	     # 1033 is English. See XXXX for info
-	     set d(langpreference) [aim_get_str $msg_data lang_preference]
-	     set d(preferredemail) [aim_get_str $msg_data preferredEmail]
-	     set d(country) [aim_get_str $msg_data country]
-	     set d(gender) [aim_get_str $msg_data Gender]
-	     set d(kids) [aim_get_str $msg_data Kid]
-	     set d(age) [aim_get_str $msg_data Age]
+	     set d(langpreference) [::MSN::GetHeaderValue $msg_data lang_preference]
+	     set d(preferredemail) [::MSN::GetHeaderValue $msg_data preferredEmail]
+	     set d(country) [::MSN::GetHeaderValue $msg_data country]
+	     set d(gender) [::MSN::GetHeaderValue $msg_data Gender]
+	     set d(kids) [::MSN::GetHeaderValue $msg_data Kid]
+	     set d(age) [::MSN::GetHeaderValue $msg_data Age]
 	     #Used for authentication
-	     set d(mspauth) [aim_get_str $msg_data MSPAuth]
-	     set d(kv) [aim_get_str $msg_data kv]
-	     set d(sid) [aim_get_str $msg_data sid]
+	     set d(mspauth) [::MSN::GetHeaderValue $msg_data MSPAuth]
+	     set d(kv) [::MSN::GetHeaderValue $msg_data kv]
+	     set d(sid) [::MSN::GetHeaderValue $msg_data sid]
 	     set d(sessionstart) [clock seconds]
 	     ::abook::setDemographics d
 	 }
@@ -1573,22 +1596,22 @@ proc cmsn_sb_msg {sb_name recv} {
 
    } elseif {[string range $content 0 18] == "text/x-msmsgsinvite"} {
 #File transfers
-      set invcommand [aim_get_str $body Invitation-Command]
-      set cookie [aim_get_str $body Invitation-Cookie]
+      set invcommand [::MSN::GetHeaderValue $body Invitation-Command]
+      set cookie [::MSN::GetHeaderValue $body Invitation-Cookie]
       if { $invcommand == "ACCEPT" } {
 
-      	set requestdata [aim_get_str $body Request-Data]
+      	set requestdata [::MSN::GetHeaderValue $body Request-Data]
 	set requestdata [string range $requestdata 0 [expr {[string length requestdata] -2}]]
 
-	set data [aim_get_str $body $requestdata]
+	set data [::MSN::GetHeaderValue $body $requestdata]
 
 	if { $data == "" } {
   	  status_log "Invitation cookie $cookie ACCEPTED\n" black
 	  ::MSN::SendFile $cookie $sb_name
 	} else {
 	  set ipaddr $data
-	  set port [aim_get_str $body Port]
-	  set authcookie [aim_get_str $body AuthCookie]
+	  set port [::MSN::GetHeaderValue $body Port]
+	  set authcookie [::MSN::GetHeaderValue $body AuthCookie]
 	  status_log "Body: $body\n"
           ::MSN::ConnectMSNFTP $ipaddr $port $authcookie [lindex $filetoreceive 0] $cookie
 
@@ -1597,15 +1620,15 @@ proc cmsn_sb_msg {sb_name recv} {
 
 
       } elseif {$invcommand =="CANCEL" } {
-        set cancelcode [aim_get_str $body Cancel-Code]
+        set cancelcode [::MSN::GetHeaderValue $body Cancel-Code]
 	::MSN::SendFileRejected $cookie $cancelcode
       } elseif {$invcommand == "INVITE" } {
          set body [encoding convertfrom utf-8 $body]
-         set app [aim_get_str $body Application-Name]
-         set guid [aim_get_str $body Application-GUID]
-	 set cookie [aim_get_str $body Invitation-Cookie]
-	 set filename [aim_get_str $body Application-File]
-	 set filesize [aim_get_str $body Application-FileSize]
+         set app [::MSN::GetHeaderValue $body Application-Name]
+         set guid [::MSN::GetHeaderValue $body Application-GUID]
+	 set cookie [::MSN::GetHeaderValue $body Invitation-Cookie]
+	 set filename [::MSN::GetHeaderValue $body Application-File]
+	 set filesize [::MSN::GetHeaderValue $body Application-FileSize]
 	 status_log "Invited to $app\n" black
 	 status_log "$body\n" black
 
@@ -2151,7 +2174,7 @@ proc cmsn_ns_handler {item} {
 	       set addtrid [lindex $item 3]	;# Transaction ID
 	       msg_box "[trans contactadded]\n$contact"
 	   }
-      
+
 	 set curr_list [lindex $item 2]
 	 if { ($curr_list == "FL") } {
 	     status_log "PRUEBA1: $item\n" blue
@@ -2579,9 +2602,9 @@ proc cmsn_ns_connected {} {
    sb set ns stat "c"
    cmsn_auth
    if {$config(adverts)} {
-     adv_resume   
+     adv_resume
    }
- 
+
 }
 
 
@@ -2596,7 +2619,9 @@ proc cmsn_ns_connect { username {password ""}} {
    set list_al [list]
    set list_bl [list]
    set list_fl [list]
-   set list_rl [list]      
+   set list_rl [list]
+   #TODO: I hope this breaks nothing
+   set list_users [list]
 
    if {[sb get ns stat] != "d"} {
       fileevent [sb get ns sock] readable {}
