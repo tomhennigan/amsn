@@ -7,6 +7,9 @@ set config(keep_logs) 0
 set config(proxy) ""
 set config(withproxy) 0			;# 1 to enable proxy settings
 set config(proxytype) "http"		;# http|socks
+set config(proxyuser) ""		;# SOCKS5
+set config(proxypass) ""		;# SOCKS5
+set config(proxyauthenticate) 0		;# SOCKS5 use username/password
 set config(start_ns_server) "messenger.hotmail.com:1863"
 set config(last_client_version) ""
 #by AIM
