@@ -4342,7 +4342,7 @@ proc cmsn_draw_online { {delay 0} } {
 	# Display MSN logo with user's handle. Make it clickable so
 	# that the user can change his/her status that way
 	if {![winfo exists $pgBuddy.text0.bigstate]} {
-		clickableImage $pgBuddy.text0 bigstate $my_image_type {tk_popup .my_menu %X %Y}
+		clickableImage $pgBuddy.text0 bigstate $my_image_type {tk_popup .my_menu %X %Y} 0 6
 	}
 
 
@@ -4352,11 +4352,9 @@ proc cmsn_draw_online { {delay 0} } {
 		-width [expr {([winfo width $pgBuddy.text]-45)/[font measure bboldf -displayof $pgBuddy.text "0"]}] \
 		-background white -borderwidth 0 \
 		-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
-		-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
+		-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 6
 	}
 
-
-	pack $pgBuddy.text0.mystatus -expand true -fill x
 
 	$pgBuddy.text0.mystatus configure -state normal
 
