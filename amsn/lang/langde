@@ -5,6 +5,7 @@ acceptfile Datei $1 (Größe: $2) annehmen? In $3 gespeichert
 actions Aktionen
 addacontact Kontakt hinzufügen
 addedyou $1 ($2) hat dich ihrer/seiner Kontaktliste hinzugefügt
+addstate Neuen Status hinzufügen
 addtocontacts In die Kontaktliste einfügen
 addtoo Diese Person meiner Kontaktliste hinzufügen
 admincontacts Verwaltung - Kontakte
@@ -12,6 +13,9 @@ admingroups Verwaltung - Gruppen
 adverts Werbung
 alarmpref Benachrichtigung für diesen Benutzer konfigurieren
 alarmstatus Benachrichtigung für diesen Benutzer an/ausschalten
+allowallbutbl Erlaube allen, ausser den Benutzern der Blockieren - Liste, mich zu kontaktieren
+allowlist Akzeptieren - Liste :
+allowonlyinal Erlaube nur Benutzern aus meiner Akzeptieren - Liste mich zu kontaktieren
 allowseen Dieser Person ermöglichen, zu sehen, wenn ich online bin, und Kontakt mit mir aufzunehmen
 appearance Erscheinung
 appearoff Als offline anzeigen
@@ -34,6 +38,7 @@ bgcolor Die Hintergrundfarbe von aMSN ändern
 blankdirect Bei direkter Verbindung leer lassen
 block Blockieren
 blocked Blockiert
+blocklist Blockieren - Liste :
 blockmessage Diese Personen sind Online und blocken Sie
 broughtby Von diesen Entwickler für dich gebracht
 browse Navigieren
@@ -46,6 +51,7 @@ changefont Die Schriftart ändern
 changenick Namen ändern
 chatack Chat annehmen von
 chat Chat
+chatmaxmin Wen ein Kontakt einen Chat mit mir beginnt, möchte ich das dieser :
 chatreq Einladung zum Chat
 chatsmileys2 Smileys und Emoticons im Chat-Fenster anzeigen
 chatsmileys Smileys während Chat
@@ -54,6 +60,7 @@ checkingver Auf neue Versionen prüfen
 checkver Auf neue Version prüfen
 choosebasefont Schriftart auswählen
 choosebgcolor Hintergrundfarbe Auswählen
+choosecontact Bitte wählen Sie einen Kontakt aus der Liste
 choosefontcolor Schriftfarbe auswählen
 clearlog2 Alle Historys zurücksetzen
 clearlog3 Alle Logs leeren
@@ -64,11 +71,14 @@ closingdocks Schaltfläche "Schließen" koppelt Fenster
 command Befehl
 confirmdelete $1 wirklich löschen?
 confirm Sind Sie sicher?
+connected Sie sind jetzt Verbunden
 connecterror Verbindungsaufbau zum Server fehlgeschlagen!
+connecting Verbinde
 connection Verbindung
 connectionlost Getrennt : Verbindung mit Server beendet
 contactadded Kontakt hinzugefügt
 contactdoesnotexist Kontakt nicht vorhanden!
+contactlist Kontakt - Liste :
 copy Kopieren
 copytogroup Kopieren zur Gruppe
 countrycode Meine Landesvorwahl
@@ -89,6 +99,8 @@ dockingoff Festankern ausgeschaltet
 dockkde In KDE festankern
 dockfreedesktop In freiem Desktop festankern (KDE3/Gnome2)
 edit Ändern
+editnewstate Neuer persönlicher Autonachrichten - Status
+editstate Vorhandenen Autonachrichten - Status bearbeiten
 editprofile Profil ändern
 enableproxy Proxy aktivieren
 enableremote Aktiviere Fernkontrolle
@@ -106,6 +118,7 @@ fileman Dateimanager
 filename Dateiname
 filetransfercancelled Übertragung abgebrochen
 filetransfercomplete Übertragung abgeschlossen
+followtext Herunterrollen wenn neuer Text eingegeben wird
 ftaccepted Übertragung angenommen
 ftacceptedby $1 akzeptiert die Einladung zum Transfer der Datei '$2'.
 ftaccepting Akzeptiere Einladung zum Dateitransfer
@@ -113,6 +126,7 @@ ftconnecterror Fehler beim Verbinden mit Gegenüber
 ftconnecting Verbinde mit $1 Port $2
 ftconnectionlost Verbindung mit Gegenüber verloren
 ftgotinvitation $1 möchte Ihnen die Datei '$2' ($3 Bytes) schicken. Sie würde im Verzeichnis $4 gespeichert. Möchten Sie diese Datei empfangen?
+ftportpref Anfangsport für Dateiübertragungen
 ftrejected Übertragung abgewiesen
 ftrejectedby $1 lehnt die Einladung zum Transfer der Datei '$2' ab.
 ftsendinvitation Einladung zum Transfer der Datei '$2' ($3 Bytes) wurde an $1 gesendet.
@@ -136,6 +150,7 @@ httpconnection Verbinde mit der HTTP Methode (verwendet das HTTP Protokoll mit P
 ident Identifiziere
 identity Identität
 inbox Posteingang
+internalerror Interner Server Fehler
 invalidusername Benutzername ungültig
 invitationcancelled Die Einladung wurde abgebrochen
 invite Einladen
@@ -179,6 +194,8 @@ maximised Maximiert
 minimised Minimiert
 mins Minuten
 mobile Mobil
+morepersonal Mehr Zustände (Status) ->
+move Bewegen
 movetogroup Zur Gruppe bewegen
 msg Nachricht
 msgmaxmin Wenn eine neue Nachricht eintrifft wird sie :
@@ -199,6 +216,7 @@ newveravailable Neuere Version $1 steht zur Verfügung
 next Weiter
 no Nein
 noactivity inaktiv
+nodataavailable Keine Daten verfügbar für $1
 nologfile Keine Log-Datei für $1
 nonewmail 0 neue Nachrichten im Posteingang
 nonewver Zurzeit keine neue Version verfügbar
@@ -244,6 +262,8 @@ prefmsging Aussehen des Chat-Fensters
 prefname MSN Name/Spitzname
 prefphone2 Telefonnummern, die Kontakte aus \n deiner Allow Liste sehen dürfen \n
 prefphone Telefonnummern
+prefprivacy2 Kontakt/Reverse Listen des Benutzers
+prefprivacy Aktzeptieren/Blockieren Listen des Benutzers
 prefprofile2 Erstelle oder verändere dein MSN-Profil
 prefprofile3 aMSN's Benutzer-Profileinstellungen
 prefprofile Mein öffentliches Profil
@@ -252,6 +272,7 @@ prefremote Fernverbindungseinstellungen
 prefsession Anmeldung und Status
 prefshared Gemeinsame Verbindung (nur NAT)
 prefsound Akustische Signale
+privacy Privatsphäre
 profiledconfig Profilabhängige Einstellungen
 profiles Profile
 profileinuse Dieses Profil wird von einer anderer AMSN Session verwendet, bitte wählen Sie ein Anderes
@@ -268,7 +289,9 @@ reconnecting Erneute Anmeldung beim Server
 reconnect Warte, bis $1 wieder angemeldet ist
 reject Abweisen
 rememberpass Passwort speichern
+removefromlist Aus dieser Liste entfernen
 reversed Umgekehrt
+reverselist Reverse Liste :
 rightback Bin gleich zurück
 saveas Speichern unter
 savecontacts Kontaktliste speichern
@@ -294,6 +317,12 @@ soundserver Klangserver
 soundstatus Akustisches Signal ein/ausschalten
 startoffline2 Als "Als offline anzeigen" anmelden
 startoffline Offline-Modus beim Start
+stateautomsg Autonachricht die gesendet werden soll
+stateedittext Bitte ändern sie die Felder die Sie gerne\n bearbeitet haben nmöchten und drücken Sie Speichern
+stateinfo Persönliche Status Konfiguration
+state Ich möchte erscheinen als
+statename Name des Persönlichen Status
+statenewtext Bitte füllen Sie die benötigten Felder aus um Ihren\n Persönlichen Status zu erstellen und drücken Sie Speichern
 status Status
 stopalarm Benachrichtigung stoppen
 stylechat Wie in den Chats
