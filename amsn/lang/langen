@@ -85,7 +85,7 @@ change Change
 changecustomstate Switch to
 changedisplaypic Change Display picture
 changefont Change font
-changeglobnick Change Gloabal Nick
+changeglobnick Change Global Nick
 changenick Change nick
 changestate $1 changes state to $2
 charscounter Typed characters counter in chat window
