@@ -243,7 +243,7 @@ proc ChCustomState { idx } {
 						puts $nickcache [lindex $user_info 3]
 						close $nickcache
 					}
-				::MSN::changeName $config(login) $newname 1
+				::MSN::changeName $config(login) $newname 0
 				StateList promote $idx
 			}
 			::MSN::changeStatus $new_state
@@ -254,7 +254,7 @@ proc ChCustomState { idx } {
 			set redraw 1
 		}
 		if {[info exists original_nick] && $config(storename)} {
-			::MSN::changeName $config(login) $original_nick 1
+			::MSN::changeName $config(login) $original_nick 0
 			unset original_nick
 			catch { file delete [file join ${HOME} "nick.cache"] }
 		}

@@ -32,7 +32,7 @@ proc degt_protocol { str {colour ""}} {
 	global followtext_degt
 	
 	.degt.mid.txt insert end "[timestamp] $str\n" $colour
-	puts "$str"
+#	puts "$str"
 	if { $followtext_degt == 1} {
 		.degt.mid.txt yview moveto 1.0
 	}    
