@@ -3,12 +3,14 @@ about Om
 addacontact Tilføj
 addedyou har tilføjet dig til hans/hendes kontakt liste
 addtoo Tilføj denne person til min kontakt liste
+adverts Reklamer
 allowseen Tillad denne person at se når jeg er online
 appearoff Forstil at være offline
 are er
+autohotmaillog Hotmail autologin
 avoidseen Undlad denne person at se når jeg er online
 away Væk
-blankdirect Forbliv blank for direkte forbindelse
+blankdirect Forbliv tom for direkte forbindelse
 block Blokker
 busy Travlt
 cancel Annuller
@@ -16,9 +18,12 @@ changenick Ændre nick
 chat Chat
 chatreq Forespørg chat
 chatack Accepter chat fra
+checkver Tjek for ny version
+checkingver Tjekker for ny version
 clicktologin Klik her for at logge ind
 close Luk
 contactadded Kontakt tilføjet
+connecterror Fejl i forbindelse til server
 date Dato
 delete Slet
 entercontactemail Skriv kontakt E-mail
@@ -43,8 +48,10 @@ msn AMSN
 newmail $1 nye beskeder i In-Box
 newmailfrom Nye mail fra
 newmsg Nye besked
+newveravailable Ny verson $1 tilgængelig
 next Næste
 noactivity Ingen aktivitet
+nonewver Der er ikke nogen ny version at downloade
 notify giv besked
 nousersinsession Ingen brugere i session
 ok Ok
@@ -76,3 +83,4 @@ uonline Online
 user Bruger
 version Version
 willjoin Venter på  $1 joiner samtale
+
