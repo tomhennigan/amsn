@@ -484,7 +484,7 @@ textsize Taille du texte
 timeremaining Temps restant
 timestamps Activation de l'horodateur des fenêtres de clavardage
 title Al's Messenger
-tkerror TK a rapporté une erreur, il ya un bogue dans AMSN, s'il vous plait rapportez la. Envoyez le fichier $1 à amsn-bugs@lists.sf.net
+tkerror TK a rapporté une erreur, il ya un bogue dans AMSN, s'il vous plait rapportez la. Envoyez le fichier $1 à amns-bug@lists.sf.netcd
 tlsdowncompleted Le fichier $1 a été téléchargé dans le répertoire $2. Vous devez l'extraire, le compiler (si vous avez téléchargé le code source) et l'installer dans le répertoire $3.
 tlsexplain Dossier ou le module TSL de tcl est localisé. Si aMSN ne peut le localiser, veuillez le spécifier.\n Requis pour l'autentification SSL.
 tlsinstall Assistant d'installation du module TLS
@@ -537,3 +537,7 @@ nick pseudonyme
 nogroup Aucun groupe 
 userdata Données de l'utilisateur
 userproperties Propriétés de l'utilisateur $1
+change Change 
+customcolor Couleur personnalisée
+lastmsgedme Dernier message
+recentmsg Empêcher la fermeture de la fenêtre de discussion lors de la réception d'un message
