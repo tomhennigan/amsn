@@ -2003,6 +2003,7 @@ proc cmsn_sb_msg {sb_name recv} {
    set content [lindex [array get headers content-type] 1]
 
    set typer [string tolower [lindex $recv 1]]
+
    #upvar #0 [sb name $sb_name users] users_list
    set users_list [sb get $sb_name users]
 
@@ -2311,6 +2312,13 @@ proc cmsn_rng {recv} {
    global config sb_list
 
    set emaill [string tolower [lindex $recv 5]]
+
+	#Quick fix to avoid annoying messages from Microsoft
+
+	if { $emaill == "messenger@microsoft.com" } {
+		status_log "Received chat from messenger@microsoft.com. Ignoring!!" white
+		return 0
+	}
 
    set sbn [::MSN::GetNewSB]
 
