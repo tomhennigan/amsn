@@ -1451,10 +1451,16 @@ proc UpdatePreferences {} {
 	set lfname [$nb.nn getframe others]
 	set lfname [$lfname.sw.sf getframe]
 	set lfname "${lfname}.lfname.f.f"
-	if { $config(usesnack) == 1 } {
-		$lfname.1.sound.sound configure -state disabled
+	#Disabled that if we are on Mac OS X because we can't choose Snack
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	#Empty
 	} else {
-		$lfname.1.sound.sound configure -state normal 
+		
+		if { $config(usesnack) == 1 } {
+			$lfname.1.sound.sound configure -state disabled
+		} else {
+			$lfname.1.sound.sound configure -state normal 
+		}
 	}
 
 }
