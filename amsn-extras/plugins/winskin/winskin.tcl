@@ -52,12 +52,21 @@ namespace eval ::winskin {
 			]
 		}
 
-		::skin::setPixmap winskin_move winskin_move.gif pixmaps [file join $dir pixmaps]
-		::skin::setPixmap winskin_remove winskin_remove.gif pixmaps [file join $dir pixmaps]
-		::skin::setPixmap winskin_replace winskin_replace.gif pixmaps [file join $dir pixmaps]
-		::skin::setPixmap winskin_resize winskin_resize.gif pixmaps [file join $dir pixmaps]
-		::skin::setPixmap winskin_resize2 winskin_resize2.gif pixmaps [file join $dir pixmaps]
-		::skin::setPixmap winskin_close winskin_close.gif pixmaps [file join $dir pixmaps]
+		if {[string equal $::version "0.94"]} {
+			::skin::setPixmap winskin_move [file join $dir pixmaps winskin_move.gif]
+			::skin::setPixmap winskin_remove [file join $dir pixmaps winskin_remove.gif]
+			::skin::setPixmap winskin_replace [file join $dir pixmaps winskin_replace.gif]
+			::skin::setPixmap winskin_resize [file join $dir pixmaps winskin_resize.gif]
+			::skin::setPixmap winskin_resize2 [file join $dir pixmaps winskin_resize2.gif]
+			::skin::setPixmap winskin_close [file join $dir pixmaps winskin_close.gif]
+		} else {
+			::skin::setPixmap winskin_move winskin_move.gif pixmaps [file join $dir pixmaps]
+			::skin::setPixmap winskin_remove winskin_remove.gif pixmaps [file join $dir pixmaps]
+			::skin::setPixmap winskin_replace winskin_replace.gif pixmaps [file join $dir pixmaps]
+			::skin::setPixmap winskin_resize winskin_resize.gif pixmaps [file join $dir pixmaps]
+			::skin::setPixmap winskin_resize2 winskin_resize2.gif pixmaps [file join $dir pixmaps]
+			::skin::setPixmap winskin_close winskin_close.gif pixmaps [file join $dir pixmaps]
+		}
 	}
 
 	# ::winskin::switchskin
@@ -409,6 +418,7 @@ namespace eval ::winskin {
 			if { $newheight < 10 } { set newheight 10 }
 			wm geometry . "${newwidth}x${newheight}+${winxpos}+${wy}"
 
+			#need to reset the size of the encompassing box if using winspecs
 			if { ($::winskin::config(usewinspecs) == 1) && ($borderremoved == 1)} {
 				variable contentsleft
 
