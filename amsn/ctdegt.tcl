@@ -368,6 +368,26 @@ proc Preferences { settings } {
 	grid $lfname.2.lphone5 -row 5 -column 1 -sticky w
 	grid $lfname.2.ephone51 -row 5 -column 2 -sticky w
 	grid $lfname.2.ephone52 -row 5 -column 3 -sticky w
+	# Get My Phone numbers and insert them
+	if { $user_stat == "FLN" } {
+		$lfname.2.ephone1 configure -state disabled
+		$lfname.2.ephone31 configure -state disabled
+		$lfname.2.ephone32 configure -state disabled
+		$lfname.2.ephone41 configure -state disabled
+		$lfname.2.ephone42 configure -state disabled
+		$lfname.2.ephone51 configure -state disabled
+		$lfname.2.ephone52 configure -state disabled
+	} else {
+		::abook::getPersonal phones
+		$lfname.2.ephone1 insert 0 [lindex [split $phones(phh) " "] 0]
+		$lfname.2.ephone31 insert 0 [lindex [split $phones(phh) " "] 1]
+		$lfname.2.ephone32 insert 0 [lindex [split $phones(phh) " "] 2]
+		$lfname.2.ephone41 insert 0 [lindex [split $phones(phw) " "] 1]
+		$lfname.2.ephone42 insert 0 [lindex [split $phones(phw) " "] 2]
+		$lfname.2.ephone51 insert 0 [lindex [split $phones(phm) " "] 1]
+		$lfname.2.ephone52 insert 0 [lindex [split $phones(phm) " "] 2]
+	}
+	
 	frame $frm.dummy -class Degt
 	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 	
@@ -862,6 +882,10 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.27  2003/01/23 06:38:14  burgerman
+# more work on prefs
+# reomved status_log from UsersInChat
+#
 # Revision 1.26  2003/01/22 06:50:55  burgerman
 # More work on prefs...
 # set user_stat to FLN on disconnect

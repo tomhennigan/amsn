@@ -5,7 +5,7 @@
 namespace eval ::abook {
    namespace export setContact getContact getGroup getName \
    		    setPhone setDemographics getDemographics \
-		    setPersonal getPersonal
+		    setPersonal getPersonal showPersonal
 
    #
    # P R I V A T E
@@ -85,6 +85,11 @@ namespace eval ::abook {
 	set data(mob)    [urldecode [lindex $myself 3]]
 	set data(mbe)    [urldecode [lindex $myself 4]]
 	set data(available) Y
+   }
+
+   proc showPersonal {} {
+   	variable myself
+	status_log "home : [urldecode [lindex $myself 0]]\nwork : [urldecode [lindex $myself 1]]\nmobile : [urldecode [lindex $myself 2]]"
    }
 
    proc setContact { email field value } {
@@ -374,6 +379,10 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.19  2003/01/23 06:38:14  burgerman
+# more work on prefs
+# reomved status_log from UsersInChat
+#
 # Revision 1.18  2002/12/16 02:42:52  airadier
 # Some fixes.
 # Syntax checking passed.

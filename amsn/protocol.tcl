@@ -703,7 +703,7 @@ namespace eval ::MSN {
 	   return [list]
 	}
 
-	status_log "Getting users in chat from $sb_name\n" blue
+	#status_log "Getting users in chat from $sb_name\n" blue
 
 	set user_list [sb get $sb_name users]
 
