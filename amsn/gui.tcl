@@ -28,7 +28,7 @@ namespace eval ::amsn {
       font create bigfont -family $family -size [expr {$size+2}] -weight bold
       font create examplef -family $family -size [expr {$size-2}] -weight normal
 
-      tk_setPalette $bgcolor
+      catch {tk_setPalette $bgcolor}
       option add *Menu.font menufont
       option add *background $bgcolor
       option add *selectColor #DD0000
@@ -3082,6 +3082,7 @@ proc set_language { langname } {
    msg_box [trans mustrestart]
    set config(language) $oldlang
    load_lang
+	set config(language) $langname
 	 return
 
    ::MSN::logout
