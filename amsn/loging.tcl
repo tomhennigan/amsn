@@ -342,7 +342,7 @@ proc JoinsConf { chatid usr_name } {
 
 proc OpenLogWin { {email ""} } {
 
-	global bgcolor log_dir langenc logvar
+	global log_dir langenc logvar
 
 	#Get all the contacts
 	foreach contact [::abook::getAllContacts] {
@@ -383,7 +383,7 @@ proc OpenLogWin { {email ""} } {
       	wm geometry $wname 600x400
 
 	frame $wname.top
-	frame $wname.blueframe -background $bgcolor
+	frame $wname.blueframe -background [::skin::getColor background1]
 	frame $wname.blueframe.log -class Amsn -borderwidth 0
       	frame $wname.buttons -class Amsn
 

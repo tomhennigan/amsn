@@ -74,7 +74,7 @@ proc kill_balloon {} {
 }
 
 proc balloon {target message {cx 0} {cy 0} } {
-    global Bulle tcl_platform balloontextcolor balloonbgcolor balloonbordercolor
+    global Bulle tcl_platform
     #Last focus variable for "Mac OS X focus bug" with balloon
     set lastfocus [focus]
     
@@ -89,9 +89,9 @@ proc balloon {target message {cx 0} {cy 0} } {
 	    set y [expr $cy + 2]
 	}
 	
-	if { [catch { toplevel .balloon -bg ${balloonbordercolor}}] != 0 } {
+	if { [catch { toplevel .balloon -bg [::skin::getColor balloonbackground]}] != 0 } {
 		destroy .balloon
-		toplevel .balloon -bg ${balloonbordercolor}
+		toplevel .balloon -bg [::skin::getColor balloonborder]
 	}
 	
 	#Standard way to show balloon on Mac OS X (aqua), show balloon in white for Mac OS X and skinnable balloons for others platforms
@@ -104,7 +104,6 @@ proc balloon {target message {cx 0} {cy 0} } {
 		wm overrideredirect .balloon 1
 	}
 	
-	set bg_balloon ${balloonbgcolor}
 	set wlength [expr {[winfo screenwidth .] - $x - 5}]
 	#If available width is less than 200 pixels, make the balloon
 	#200 pixels width, and move it to the left so it's inside the screen
@@ -116,7 +115,7 @@ proc balloon {target message {cx 0} {cy 0} } {
 
         label .balloon.l \
 	    -text ${message} -relief flat \
-	    -bg ${bg_balloon} -fg ${balloontextcolor} -padx 2 -pady 0 -anchor w -font sboldf -justify left -wraplength $wlength
+	    -bg [::skin::getColor balloonbackground] -fg [::skin::getColor balloontext] -padx 2 -pady 0 -anchor w -font sboldf -justify left -wraplength $wlength
 	pack .balloon.l -side left -padx 1 -pady 1
         wm geometry .balloon +${x}+${y}
         

@@ -5,41 +5,23 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 }
 
 if { $initialize_amsn == 1 } {
-	global bgcolor bgcolor2 menubgcolor menufgcolor menuactivebgcolor menuactivefgcolor balloontextcolor balloonbgcolor balloonbordercolor
-	
 	init_ticket putmessage
 
-	if { ![info exists bgcolor] } {
-		set bgcolor #0050C0
+	::skin::setDefaultColor background1 #0050C0
+	::skin::setDefaultColor background2 #D0D0F0
+	::skin::setDefaultColor menubackground #eae7e4 
+	::skin::setDefaultColor menuforeground #000000 
+	::skin::setDefaultColor menuactivebackground #565672
+	::skin::setDefaultColor menuactiveforeground #ffffff
+	::skin::setDefaultColor balloontext #000000 
+
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		::skin::setDefaultColor balloonbackground #ffffca
+	} else {
+		::skin::setDefaultColor balloonbackground #ffffaa
 	}
-	if { ![info exists bgcolor2] } {
-		set bgcolor2 #D0D0F0
-	}
-	if { ![info exists menubgcolor] } {
-		set menubgcolor #eae7e4 
-	}
-	if { ![info exists menufgcolor] } {
-		set menufgcolor #000000 
-	}
-	if { ![info exists menuactivebgcolor] } {
-		set menuactivebgcolor #565672
-	}
-	if { ![info exists menuactivefgcolor] } {
-		set menuactivefgcolor #ffffff
-	}
-	if { ![info exists balloontextcolor] } {
-		set balloontextcolor #000000 
-	}
-	if { ![info exists balloonbgcolor] } {
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			set balloonbgcolor #ffffca
-		} else {
-			set balloonbgcolor #ffffaa
-		}
-	}
-	if { ![info exists balloonbordercolor] } {
-		set balloonbordercolor #000000
-	}
+
+	::skin::setDefaultColor balloonborder #000000
 
 	#Virtual events used by Button-click
 	#On Mac OS X, Control emulate the "right click button"
@@ -70,7 +52,7 @@ namespace eval ::amsn {
 	##PUBLIC
 
 	proc initLook { family size bgcolor} {
-		global tcl_platform menubgcolor menufgcolor menuactivebgcolor menuactivefgcolor
+		global tcl_platform
 
 		font create menufont -family $family -size $size -weight normal
 		font create sboldf -family $family -size $size -weight bold
@@ -92,9 +74,9 @@ namespace eval ::amsn {
 			font create examplef -family $family -size [expr {$size-2}] -weight normal
 		}
 
-		catch {tk_setPalette $menubgcolor}
+		catch {tk_setPalette [::skin::getColor menubackground]}
 		option add *Menu.font menufont
-		option add *background $menubgcolor
+		option add *background [::skin::getColor menubackground]
 		option add *selectColor #DD0000
 
 		if { ![catch {tk windowingsystem} wsystem] && $wsystem  == "x11" } {
@@ -125,10 +107,10 @@ namespace eval ::amsn {
 			option add *Menu.activeBorderWidth 0 widgetDefault
 			option add *Menu.highlightThickness 0 widgetDefault
 			option add *Menu.borderWidth 1 widgetDefault
-			option add *Menu.background $menubgcolor
-			option add *Menu.foreground $menufgcolor
-			option add *Menu.activeBackground $menuactivebgcolor
-			option add *Menu.activeForeground $menuactivefgcolor
+			option add *Menu.background [::skin::getColor menubackground]
+			option add *Menu.foreground [::skin::getColor menuforeground] 
+			option add *Menu.activeBackground [::skin::getColor menuactivebackground]
+			option add *Menu.activeForeground [::skin::getColor menuactiveforeground]
 
 			option add *Menubutton.activeBackground #4a6984 widgetDefault
 			option add *Menubutton.activeForeground white widgetDefault
@@ -968,8 +950,6 @@ namespace eval ::amsn {
 
 	#PRIVATE: Opens Receiving Window
 	proc FTWin {cookie filename user {chatid 0}} {
-		global bgcolor
-
 		status_log "Creating receive progress window\n"
 
 		# Set appropriate Cancel command
@@ -984,7 +964,7 @@ namespace eval ::amsn {
 		wm group $w .
 		wm geometry $w 350x160
 
-		#frame $w.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -relief flat
+		#frame $w.f -class amsnChatFrame -background [::skin::getColor background1] -borderwidth 0 -relief flat
 		#set w $ww.f
 
 		label $w.user -text "[trans user]: $user" -font splainf
@@ -1802,7 +1782,7 @@ namespace eval ::amsn {
 		variable window_titles
 		variable first_message
 		variable recent_message
-		global  HOME files_dir bgcolor bgcolor2 tcl_platform xmms
+		global  HOME files_dir tcl_platform xmms
 
 		set win_name "msg_$winid"
 		incr winid
@@ -1974,7 +1954,7 @@ namespace eval ::amsn {
 			.${win_name}.copy.itunes add command -label [trans xmmssend] -command "catch {exec osascript plugins/applescript/display_and_send.scpt &}; after 5000 itunes ${win_name} 2"
 		}
 
-		frame .${win_name}.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -relief flat
+		frame .${win_name}.f -class amsnChatFrame -background [::skin::getColor background1] -borderwidth 0 -relief flat
 
 		ScrolledWindow .${win_name}.f.out -auto vertical -scrollbar vertical
 		
@@ -1984,30 +1964,30 @@ namespace eval ::amsn {
 		.${win_name}.f.out setwidget .${win_name}.f.out.text
 		
 
-		frame .${win_name}.f.top -class Amsn -relief flat -borderwidth 0 -background $bgcolor
+		frame .${win_name}.f.top -class Amsn -relief flat -borderwidth 0 -background [::skin::getColor background1]
 
 
 		text .${win_name}.f.top.textto  -borderwidth 0 -width [string length "[trans to]:"] -relief solid \
-		-height 1 -wrap none -background $bgcolor -foreground $bgcolor2 -highlightthickness 0 \
-		-selectbackground $bgcolor -selectforeground $bgcolor2 -selectborderwidth 0 -exportselection 0 -padx 5
+		-height 1 -wrap none -background [::skin::getColor background1] -foreground [::skin::getColor background2] -highlightthickness 0 \
+		-selectbackground [::skin::getColor background1] -selectforeground [::skin::getColor background2] -selectborderwidth 0 -exportselection 0 -padx 5
 		.${win_name}.f.top.textto configure -state normal -font bplainf
 		.${win_name}.f.top.textto insert end "[trans to]:"
 		.${win_name}.f.top.textto configure -state disabled
 
 		text .${win_name}.f.top.text  -borderwidth 0 -width 45 -relief flat \
-			-height 1 -wrap none -background $bgcolor -foreground $bgcolor2 -highlightthickness 0 \
-			-selectbackground $bgcolor -selectborderwidth 0 -selectforeground $bgcolor2 -exportselection 1
+			-height 1 -wrap none -background [::skin::getColor background1] -foreground [::skin::getColor background2] -highlightthickness 0 \
+			-selectbackground [::skin::getColor background1] -selectborderwidth 0 -selectforeground [::skin::getColor background2] -exportselection 1
 
 		#Change color of border on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			frame .${win_name}.f.bottom -class Amsn -borderwidth 0 -relief solid -background $bgcolor2
+			frame .${win_name}.f.bottom -class Amsn -borderwidth 0 -relief solid -background [::skin::getColor background2]
 		} else {
-			frame .${win_name}.f.bottom -class Amsn -borderwidth 0 -relief solid -background $bgcolor
+			frame .${win_name}.f.bottom -class Amsn -borderwidth 0 -relief solid -background [::skin::getColor background1]
 		}
 			
 		set bottom .${win_name}.f.bottom
 
-		frame $bottom.buttons -class Amsn -borderwidth 0 -relief solid -background $bgcolor2
+		frame $bottom.buttons -class Amsn -borderwidth 0 -relief solid -background [::skin::getColor background2]
 
 
 		frame $bottom.in -class Amsn -background white -relief solid -borderwidth 0
@@ -2035,7 +2015,7 @@ namespace eval ::amsn {
 
 		label $bottom.pic  -borderwidth 1 -relief solid -image [::skin::getNoDisplayPicture] -background #FFFFFF
 		set_balloon $bottom.pic [trans nopic]
-		button $bottom.showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] -bg $bgcolor -highlightthickness 0 \
+		button $bottom.showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] -bg [::skin::getColor background1] -highlightthickness 0 \
 		-command "::amsn::ToggleShowPicture ${win_name}; ::amsn::ShowOrHidePicture .${win_name}" -font splainf
 			set_balloon $bottom.showpic [trans showdisplaypic]
 		grid $bottom.showpic -row 0 -column 2 -padx 0 -pady 3 -rowspan 2 -sticky ns
@@ -2055,15 +2035,15 @@ namespace eval ::amsn {
 
 
 
-		button $bottom.buttons.smileys  -image [::skin::loadPixmap butsmile] -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
+		button $bottom.buttons.smileys  -image [::skin::loadPixmap butsmile] -relief flat -padx 5 -background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.smileys [trans insertsmiley]
-		button $bottom.buttons.fontsel -image [::skin::loadPixmap butfont] -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
+		button $bottom.buttons.fontsel -image [::skin::loadPixmap butfont] -relief flat -padx 5 -background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.fontsel [trans changefont]
-		button $bottom.buttons.block -image [::skin::loadPixmap butblock] -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
+		button $bottom.buttons.block -image [::skin::loadPixmap butblock] -relief flat -padx 5 -background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.block [trans block]
-		button $bottom.buttons.sendfile -image [::skin::loadPixmap butsend] -relief flat -padx 3 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
+		button $bottom.buttons.sendfile -image [::skin::loadPixmap butsend] -relief flat -padx 3 -background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.sendfile [trans sendfile]
-		button $bottom.buttons.invite -image [::skin::loadPixmap butinvite] -relief flat -padx 3 -background $bgcolor2 -highlightthickness 0 -borderwidth 0
+		button $bottom.buttons.invite -image [::skin::loadPixmap butinvite] -relief flat -padx 3 -background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0
 		set_balloon $bottom.buttons.invite [trans invite]
 		pack $bottom.buttons.fontsel $bottom.buttons.smileys -side left
 		pack $bottom.buttons.block $bottom.buttons.sendfile $bottom.buttons.invite -side right
@@ -2563,7 +2543,7 @@ namespace eval ::amsn {
 	#itemlist: Array,or list, with two columns and N rows. Column 0 is the one to be
 	#shown in the list. Column 1 is the use used to parameter to the command
 	proc listChoose {title itemlist command {other 0} {skip 1}} {
-		global userchoose_req bgcolor tcl_platform
+		global userchoose_req tcl_platform
 
 		set itemcount [llength $itemlist]
 
@@ -2591,7 +2571,7 @@ namespace eval ::amsn {
 
 #		wm geometry $wname 320x350
 
-		frame $wname.blueframe -background $bgcolor
+		frame $wname.blueframe -background [::skin::getColor background]
 
 		frame $wname.blueframe.list -class Amsn -borderwidth 0
 		frame $wname.buttons -class Amsn
@@ -3691,7 +3671,7 @@ namespace eval ::amsn {
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_main {} {
 	global emotion_files date weburl lang_list \
-	password HOME files_dir pgBuddy pgNews bgcolor bgcolor2 argv0 argv langlong tcl_platform
+	password HOME files_dir pgBuddy pgNews argv0 argv langlong tcl_platform
 
 	#User status menu
 	menu .my_menu -tearoff 0 -type normal
@@ -3962,7 +3942,7 @@ proc cmsn_draw_main {} {
 		frame .fake
 	} else {
 		#Put the color of the border around the contact list (from the skin)	
-		frame .main -class Amsn -relief flat -background $bgcolor
+		frame .main -class Amsn -relief flat -background [::skin::getColor background1]
 	}
 	
 	
@@ -5038,7 +5018,7 @@ proc cmsn_draw_online { {delay 0} } {
 proc cmsn_draw_online_wrapped {} {
 
 	global login \
-		password pgBuddy bgcolor automessage emailBList tcl_platform
+		password pgBuddy automessage emailBList tcl_platform
 
 	set scrollidx [$pgBuddy.text yview]
 

@@ -6,6 +6,31 @@
 
 namespace eval ::skin {
 
+	##################################
+	#  Colors Management Procedures  #
+	##################################
+	
+	proc getColor {color {default ""}} {
+		if { [info exists ::skin($color)] } {
+			return [set ::skin($color)]
+		} else {
+			status_log "OOPS, trying to get a color that don't exists: $color\n" red
+			return $default
+		}
+	}
+
+	proc setColor {color value} {
+		set ::skin($color) $value
+	}
+
+	proc setDefaultColor {color value} {
+		if { [info exists ::skin($color)] } {
+			return [set ::skin($color)]
+		} else {
+			return [set ::skin($color) $value]
+		}
+	}
+	
 	###############################
 	# Standard Pixmaps
 	###############################
@@ -171,8 +196,7 @@ namespace eval ::skin {
 		#Change frame color
 		#For All Platforms (except Mac)
 		if {[catch {tk windowingsystem} wsystem] || $wsystem != "aqua"} {
-			global bgcolor
-			catch {.main configure -background $bgcolor}
+			catch {.main configure -background [::skin::getColor background1]}
 		}
 		
 	}
@@ -217,7 +241,7 @@ namespace eval ::skin {
 		
 		set ::loading_skin $skin_name
 		sxml::register_routine $skin_id "skin:Description" skin_description
-		sxml::register_routine $skin_id "skin:Colors" SetBackgroundColors
+		sxml::register_routine $skin_id "skin:Colors" SetColors
 		sxml::register_routine $skin_id "skin:smileys:emoticon" ::smiley::newEmoticon
 		sxml::register_routine $skin_id "skin:smileys:size" ::skin::SetEmoticonSize
 		sxml::parse $skin_id
@@ -319,8 +343,6 @@ proc findskins { } {
 }
 
 proc SelectSkinGui { } {
-	global bgcolor2
-
 	set w .skin_selector
 
 	if { [winfo exists $w] } {
@@ -340,7 +362,7 @@ proc SelectSkinGui { } {
 	frame $w.main.left -relief flat
 	frame $w.main.right -relief flat
 	frame $w.main.left.images -relief flat
-	text $w.main.left.desc -height 6 -width 40 -relief flat -background $bgcolor2 -font sboldf -wrap word
+	text $w.main.left.desc -height 6 -width 40 -relief flat -background [::skin::getColor background2] -font sboldf -wrap word
 	listbox $w.main.right.box -yscrollcommand "$w.main.right.ys set" -font splainf -background \
 	white -relief flat -highlightthickness 0  -height 8 -width 30
 	scrollbar $w.main.right.ys -command "$w.main.right.box yview" -highlightthickness 0 \
@@ -490,19 +512,18 @@ proc selectskincancel { w } {
 }
 
 
-proc SetBackgroundColors {cstack cdata saved_data cattr saved_attr args} {
-    global bgcolor bgcolor2 menubgcolor menufgcolor menuactivebgcolor menuactivefgcolor balloontextcolor balloonbgcolor balloonbordercolor
+proc SetColors {cstack cdata saved_data cattr saved_attr args} {
     upvar $saved_data sdata
     
-    if { [info exists sdata(${cstack}:background1)] } { set bgcolor [string trim $sdata(${cstack}:background1)] }
-    if { [info exists sdata(${cstack}:background2)] } { set bgcolor2 [string trim $sdata(${cstack}:background2)] }
-    if { [info exists sdata(${cstack}:menubgcolor)] } { set menubgcolor [string trim $sdata(${cstack}:menubgcolor)] }
-    if { [info exists sdata(${cstack}:menufgcolor)] } { set menufgcolor [string trim $sdata(${cstack}:menufgcolor)] }
-    if { [info exists sdata(${cstack}:menuactivebgcolor)] } { set menuactivebgcolor [string trim $sdata(${cstack}:menuactivebgcolor)] }
-    if { [info exists sdata(${cstack}:menuactivefgcolor)] } { set menuactivefgcolor [string trim $sdata(${cstack}:menuactivefgcolor)] }
-    if { [info exists sdata(${cstack}:balloontextcolor)] } { set balloontextcolor [string trim $sdata(${cstack}:balloontextcolor)] }
-    if { [info exists sdata(${cstack}:balloonbgcolor)] } { set balloonbgcolor [string trim $sdata(${cstack}:balloonbgcolor)] }
-    if { [info exists sdata(${cstack}:balloonbordercolor)] } { set balloonbordercolor [string trim $sdata(${cstack}:balloonbordercolor)] }
+    if { [info exists sdata(${cstack}:background1)] } { ::skin::setColor background1 [string trim $sdata(${cstack}:background1)] }
+    if { [info exists sdata(${cstack}:background2)] } { ::skin::setColor background2 [string trim $sdata(${cstack}:background2)] }
+    if { [info exists sdata(${cstack}:menubgcolor)] } { ::skin::setColor menubackground [string trim $sdata(${cstack}:menubgcolor)] }
+    if { [info exists sdata(${cstack}:menufgcolor)] } { ::skin::setColor menuforeground [string trim $sdata(${cstack}:menufgcolor)] }
+    if { [info exists sdata(${cstack}:menuactivebgcolor)] } { ::skin::setColor menuactivebackground [string trim $sdata(${cstack}:menuactivebgcolor)] }
+    if { [info exists sdata(${cstack}:menuactivefgcolor)] } { ::skin::setColor menuactiveforeground [string trim $sdata(${cstack}:menuactivefgcolor)] }
+    if { [info exists sdata(${cstack}:balloontextcolor)] } { ::skin::setColor balloontext [string trim $sdata(${cstack}:balloontextcolor)] }
+    if { [info exists sdata(${cstack}:balloonbgcolor)] } { ::skin::setColor balloonbackground [string trim $sdata(${cstack}:balloonbgcolor)] }
+    if { [info exists sdata(${cstack}:balloonbordercolor)] } { ::skin::setColor balloonborder [string trim $sdata(${cstack}:balloonbordercolor)] }
     return 0
 }
 

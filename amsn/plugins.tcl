@@ -134,7 +134,6 @@ namespace eval ::plugins {
      }
 
      proc PluginGui { } {
-	 global bgcolor bgcolor2
 	 variable plugins
 	 variable w
 	 variable loadedplugins
@@ -175,9 +174,9 @@ namespace eval ::plugins {
 
 		 $w.select.plugin_list insert $idx $name
 		 if {[lsearch "$loadedplugins" $name] != -1} {
-		     $w.select.plugin_list itemconfigure $idx -background "$bgcolor2"
+		     $w.select.plugin_list itemconfigure $idx -background [::skin::getColor background2]
 		 } else {
-		     $w.select.plugin_list itemconfigure $idx -background "$bgcolor"
+		     $w.select.plugin_list itemconfigure $idx -background [::skin::getColor background1]
 		 }
 		 incr idx
 	     }
@@ -233,22 +232,20 @@ namespace eval ::plugins {
      }
 
      proc GUI_Load {} {
-	 global bgcolor2
 	 variable selection
 	 variable w
 	 if { $selection(file) != "" } {
 	     LoadPlugin $selection(name) $selection(file)
-	     $w.select.plugin_list itemconfigure $selection(id) -background "$bgcolor2"
+	     $w.select.plugin_list itemconfigure $selection(id) -background [::skin::getColor background2]
 	     GUI_NewSel
 	 }
 	 ::plugins::save_config
      }
 
      proc GUI_Unload {} {
-	 global bgcolor
 	 variable selection
 	 variable w
-	 $w.select.plugin_list itemconfigure $selection(id) -background "$bgcolor"
+	 $w.select.plugin_list itemconfigure $selection(id) -background [::skin::getColor background1]
 	 UnLoadPlugin $selection(name)
 	 GUI_NewSel
 	 ::plugins::save_config

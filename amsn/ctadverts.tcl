@@ -39,7 +39,7 @@ package require http
 # Initialize the Advertisement module (hey! need bread on the table!)
 #
 proc adv_initialize { win } {
-    global adv_cycle adv_enable adv_paused adv_after_id bgcolor
+    global adv_cycle adv_enable adv_paused adv_after_id
 
     label ${win}.banner -bd 0 -relief flat -background #FFFFFF
     pack ${win}.banner -side bottom -fill x
@@ -58,15 +58,13 @@ proc adv_initialize { win } {
 
 # Reset the banner, either showing it or hiding it
 proc resetBanner {} {
-	global bgcolor
-
 	if {[::config::getKey enablebanner]} {
 		# This one is not a banner but a branding. When adverts are enabled
 		# they share this space with the branding image. The branding image
 		# is cycled in between adverts.
 		.main.banner configure -background #FFFFFF -image [::skin::loadPixmap logolinmsn]
 	} else {
-		.main.banner configure -background $bgcolor -image [::skin::loadPixmap nullimage]
+		.main.banner configure -background [::skin::getColor background1] -image [::skin::loadPixmap nullimage]
 	}
 }
 
