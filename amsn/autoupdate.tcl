@@ -652,7 +652,7 @@ namespace eval ::autoupdate {
 
 		frame $w.text
 		label $w.text.img -image [::skin::loadPixmap download]
-		label $w.text.txt -text "New updates available for aMSN" -font bold
+		label $w.text.txt -text "New updates available for aMSN" -font sboldf
 		pack configure $w.text.img -side left
 		pack configure $w.text.txt -expand true -side right
 		pack $w.text -side top -fill x
