@@ -2903,7 +2903,7 @@ proc cmsn_sb_msg {sb_name recv} {
 	
 	} elseif { [string range $content 0 33] == "application/x-msmsgssystemmessage" } {
 		#Packet we receive when MSN server going down for maintenance
-		if {[string first "Type: 1" $msg] != "-1"} {
+		if {[::MSN::GetHeaderValue $body Type] == 1} {
 			system_message $msg
 		}
 	
@@ -4867,9 +4867,7 @@ proc system_message {msg} {
 		
 	if {[string first "Arg1:" $msg] != "-1"} {
 		#Find the minute variable
-		set begin [expr {[string first "Arg1:" $msg]+6}]
-		set end   [expr {[string first "\r" $msg $begin]}]
-		set minute "[urldecode [string range $msg $begin $end]]"
+		set minute [::MSN::GetHeaderValue $body Arg1]
 		status_log "Server close for maintenance in -$minute- minutes"
 		#Show the alert
 		::amsn::messageBox [trans maintenance $minute] ok error
@@ -5985,7 +5983,6 @@ namespace eval ::MSN6FT {
 		
 		set file [getfilename $filename]
 		set context "$context[encoding convertto unicode $file]"
-
 		set remaining_length [expr 574 - [string length $context] - 4]
 		set context "$context[string repeat "\x00" $remaining_length]"
 		set context "$context\xFF\xFF\xFF\xFF"
