@@ -347,8 +347,8 @@ proc GetSkinFile { type filename {skin_override ""} } {
 	    return "[file join [set ::program_dir] skins $skin $type $filename]"
     } elseif { [file readable [file join $HOME2 skins $skin $type $filename]] } {
 	return "[file join $HOME2 skins $skin $type $filename]"
-    } elseif { [file readable [file join $HOME $type $filename]] } {
-	return "[file join $HOME $type $filename]"
+    } elseif { [file readable [file join $HOME skins $skin $type $filename]] } {
+	return "[file join $HOME skins $skin $type $filename]"
     } elseif { [file readable [file join [set ::program_dir] skins $defaultskin $type $filename]] } {
 	return "[file join [set ::program_dir] skins $defaultskin $type $filename]"
     } else {
@@ -367,12 +367,13 @@ proc skin_description {cstack cdata saved_data cattr saved_attr args} {
 }
 
 proc findskins { } {
-	global HOME2
+	global HOME HOME2
 
 	set skins [glob -directory skins */settings.xml]
-	set skins_in_home [glob -nocomplain -directory [file join $HOME2 skins] */settings.xml]
+	set skins_in_home [glob -nocomplain -directory [file join $HOME skins] */settings.xml]
+    	set skins_in_home2 [glob -nocomplain -directory [file join $HOME2 skins] */settings.xml]
 
-	set skins [concat $skins $skins_in_home]
+	set skins [concat $skins $skins_in_home $skins_in_home2]
 
 
 	set skinlist [list]
