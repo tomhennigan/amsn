@@ -40,8 +40,7 @@ browse Examinar
 browser Navegador
 busy No disponible
 cancel Cancelar
-cannotdeleteprofile No se puede borrar este perfil porque parece que está siendo
-usado por otra sesión de amsn
+cannotdeleteprofile No se puede borrar este perfil porque parece que está siendo usado por otra sesión de amsn
 cfgalarm Configurar/quitar alarma
 changefont Cambiar fuente
 changenick Cambiar apodo
@@ -236,8 +235,7 @@ prefsession My inicio de sesión y estado
 prefshared Conexiones compartidas (sólo para NAT)
 prefsound Sonidos
 profiledconfig Información de perfil
-profileinuse Este perfil está siendo usado por otra sesión de amsn, por favor
-elige otro.
+profileinuse Este perfil está siendo usado por otra sesión de amsn, por favor elige otro.
 profiles Perfiles
 properties Propiedades
 proxyconf Configuración proxy

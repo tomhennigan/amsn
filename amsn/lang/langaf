@@ -42,7 +42,6 @@ confirmdelete Is jy seker jy wil $1 skrap?
 connecterror Verbindingsfout
 contactadded Kontakpersoon toegevoeg
 contactdoesnotexist Kontakpersoon bestaan nie
-contacterror Fout tydens verbinding met die bediener(server)
 copytogroup kopieër na groep
 date Datum
 delete Verwyder
@@ -73,16 +72,13 @@ handle Handle
 helpcontents Help inhoud
 help Help
 het
-home Tuis
-hy/sy my kan kontak
+home Tuis hy/sy my kan kontak
 ident Besig met identifisering
 identity Identiteit
 inbox Inbox
-in In-Box
 invalidusername U Aliasnaam is verkeerd.
 invite Nodig uit
 ipaddress IP adres
-ipadress IP adres
 istyping $1 is besig om te skryf
 joins $1 neem deel aan gesprek
 language Taal
@@ -158,7 +154,6 @@ sound Geluid
 startoffline Begin offline
 status Status
 syntaxerror Sintaksfout
-te kontak
 textsize Teksgrootte
 title Al's Messenger
 to Aan

@@ -177,7 +177,7 @@ myworkphone Mon numéro professionnel
 natip Détection de l'adresse IP par page web
 natkeepalive Si vous vous déconnectez régulièrement, activez cet option
 needonline Vous êtes toujours déconnecté(e)!
-neweravailable Nouvelle version disponible ($1)
+newveravailable Nouvelle version disponible ($1)
 newmail $1 nouveaux messages
 newmailfrom Nouveau message de
 newmsg Nouveau message
@@ -284,7 +284,7 @@ textsize Taille du texte
 title Al's Messenger
 to A
 tools Outils
-transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue.
+transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue.
 unblock Débloquer
 uoffline Déconnectés
 uonline Connectés

@@ -1,5 +1,4 @@
 amsn_lang_version 2
-Dizze oersetting is makke troch Jurjen Huisman.
 about Ynformaasje
 accept Oannimme
 acceptfile Nim bestân $1 oan, grute $2? Bware yn $3
@@ -13,12 +12,12 @@ admingroups Behear groepen
 adverts Advertinsjes
 alarmpref Alarmynstellings foar dizze gebrûker
 alarmstatus Doch alarm oan/út foar dizze gebrûker
-allowsin Stea dizze persoan ta om te sjen wannear't ik oanmeld bin, en om my te sprekke
+allowseen Stea dizze persoan ta om te sjen wannear't ik oanmeld bin, en om my te sprekke
 appearance Status
 appearoff Ferskyn "Net oanmeld"
 areacode Geakode
 aretyping $1 binne oan't type
-askprofile Dizze oanmelding hat gjin profyl. Wolst in profyl oanmeitsje? \n Ast it net wols, kist de Skiednis net brûke of dyn alarmen en wachtwurden bewarje.\n Ast it wol wolst, hast in aparte konfiguraasje foar dit neie profyl.  \n \n Klik op "Meitsje Profyl" om in nei profyl te meitsje foar $1. 
+askprofile Dizze oanmelding hat gjin profyl. Wolst in profyl oanmeitsje? \n Ast it net wols, kist de Skiednis net brûke of dyn alarmen en wachtwurden bewarje.\n Ast it wol wolst, hast in aparte konfiguraasje foar dit neie profyl.  \n \n Klik op "Meitsje Profyl" om in nei profyl te meitsje foar $1.
 autoaway Feroarje myn status yn "Net oanwêzich" as't ik net warber bin nei
 autoconnect2 Automatysk oanmelde wannear't aMSN start wurdt
 autoconnect Automatysk oanmelde
@@ -26,7 +25,7 @@ autohotmaillog Automatysk oanmelde by Hotmail
 autoidle Automatysk "Net oanwêzich" 
 autoip Automatysk IP
 autonoact Automatysk "Net oanwêzich" as't ik net warber bin nei
-avoidsin Foarkom dat dizze persoan sjen kin wannear't ik oanmeld bin en dat hy my sprekke kin.
+avoidseen Foarkom dat dizze persoan sjen kin wannear't ik oanmeld bin en dat hy my sprekke kin.
 away Net oanwêzich
 awaymsg1 Freagje om berjocht foar "Net oanwêzich" as de status feroarje wurdt naar "Net oanwêzich".
 awaymsg2 Net freagje en altiid it ondersteande berjocht foar "Net oanwêzich" brûke.

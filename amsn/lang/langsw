@@ -55,7 +55,6 @@ checkver Kolla efter ny version
 choosebasefont Välj teckensnitt
 choosebgcolor Välj bakgrundsfärg
 choosefontcolor Välj textfärg
-choosefont Välj Font
 clearlog2 Radera historian för Alla kontakter
 clearlog3 Radera alla loggar
 clearlog Radera log
@@ -108,7 +107,6 @@ fileman Filhanterare
 filename Filnamn
 filetransfercancelled Filöverföringen avbröts
 filetransfercomplete Filöverföringen klar
-ftaccept Accepterade fil.
 ftaccepted Filöverföring accepterad.
 ftrejected Filöverföring nekades.
 gonelunch På lunch
@@ -294,7 +292,7 @@ textsize Textstorlek
 title Al's Messenger
 tools Verktyg
 to Till
-transnontexist Filen har inte blivit översatt till det nuvarande språket än.
+transnotexists Filen har inte blivit översatt till det nuvarande språket än.
 unblock Ta bort blockering
 uoffline Nedkopplad
 uonline Uppkopplad

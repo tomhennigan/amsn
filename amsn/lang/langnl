@@ -3,6 +3,9 @@ $1.
 Afwezig/Ben zo terug/In Bezet
 Alleen met een profiel is het mogelijk gebruik te maken van \n een wachtwoord,
 Geschiedenis en Alarm. Als je een profiel aanmaakt word er een \n aparte
+hij mij kan contacteren
+toekomstig bekijken
+worden ingeschakeld
 about Informatie
 accept Accepteren
 acceptfile Accepteer bestand $1, grootte $2? opgeslagen in $3
@@ -67,11 +70,10 @@ command Programma
 configuratie opgeslagen. Klik op "Maak Profiel" om een profiel aan te maken voor
 confirm Weet je het zeker?
 confirmdelete Wilt je echt $1 verwijderen?
-connecterror Verbindingsfout
+connecterror Fout tijdens het verbinden met de server
 connection Verbinding
 contactadded Contactpersoon toegevoegd
 contactdoesnotexist Contactpersoon bestaat niet
-contacterror Fout tijdens het verbinden met de server
 copy    Kopiëren
 copytogroup kopiëren naar groep
 countrycode Mijn Land/Regiocode
@@ -124,17 +126,14 @@ handle Nick
 hebben
 help Help
 helpcontents Help inhoud
-hij mij kan contacteren
 history Geschiedenis
 home Thuis
 ident Bezig met identificeren
 identity Identiteit
-in In-Box
 inbox Inbox
 invalidusername Uw gebruikersnaam is fout.
 invite Nodig uit
 ipaddress IP adres
-ipadress IP adres
 ipdetect Detecteer correcte IP-adres voor Bestandsoverdracht via HTTP
 istyping $1 is bezig met typen
 joins $1 neemt deel aan conversatie
@@ -294,7 +293,6 @@ tabbed 'Tabbed' vensters
 textsize Tekstgrootte
 title Al's Messenger
 to Aan
-toekomstig bekijken
 tools Systeem
 transnotexists Het opgevraagde bestand is nog niet vertaald in de gebruikte taal.
 unblock Deblokkeer
@@ -307,7 +305,6 @@ version Versie
 view Beeld
 viewprofile Profiel Weergeven
 willjoin Wachten tot $1 de conversatie zal bijwonen
-worden ingeschakeld
 work werk
 xoffset X-positie
 yoffset Y-positie
