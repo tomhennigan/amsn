@@ -1010,21 +1010,42 @@ namespace eval ::ChatWindow {
 
 		# Bind on focus, so we always put the focus on the input window
 		bind $paned <FocusIn> "focus $input"
-		bind $output <Configure> "::ChatWindow::PanedWindowConfigured $output %W %h"
+		bind $input <Configure> "::ChatWindow::InputPaneConfigured $paned $input $output %W %h"
+		bind $paned <Configure> "::ChatWindow::PanedWindowConfigured $paned $input $output %W %h"
 
 		return $paned
 
 	}
 
-	proc PanedWindowConfigured { output W newh } {
+	proc CalcSashPos { paned input output } {
+		if { $::bottomsize($input) < [$paned panecget $input -minsize] } {
+			set ::bottomsize($input) [$paned panecget $input -minsize]
+		}
+		return [expr {[winfo height $paned] - ($::bottomsize($input) + (2 * [$input cget -pady]) + [$paned cget -sashpad ] + [$paned cget -sashwidth])}]
+	}
+
+	proc InputPaneConfigured { paned input output W newh } {
 		#only run this if the window is the outer frame
-		if { ![string equal $output $W]} { return }
+		if { ![string equal $input $W]} { return }
+		
+		set ::bottomsize($input) $newh
 
 		if { [::config::getKey savechatwinsize] } {
 			if { $::tcl_version >= 8.4 } {
-				#::config::setKey winchatoutheight [winfo height $output]
-				::config::setKey winchatoutheight $newh
+				::config::setKey winchatoutheight [winfo height $output]
 			}
+		}
+	}
+
+	proc PanedWindowConfigured { paned input output W newh } {
+		#only run this if the window is the outer frame
+		if { ![string equal $paned $W]} { return }
+		
+		#keep the input pane the same size, only change the output		
+		#dont call the first time it is created
+		#as the input size hasnt been checked yet
+		if { [info exists ::bottomsize($input)] } {
+			$paned sash place 0 0 [::ChatWindow::CalcSashPos $paned $input $output]
 		}
 	}
 
