@@ -3407,6 +3407,23 @@ proc login_ok {} {
 }
 #///////////////////////////////////////////////////////////////////////
 
+proc SSLToggled {} {
+	global config
+	if {$config(nossl) == 1 } {
+		::amsn::infoMsg "[trans sslwarning]"
+	}
+}
+
+proc ProtocolToggled { mainframe } {
+	global config
+	if {$config(protocol) == 9 } {
+		$mainframe.nossl configure -state normal
+	} else {
+		$mainframe.nossl configure -state disabled
+	}
+}
+
+
 #///////////////////////////////////////////////////////////////////////
 # Main login window, separated profiled or default logins  
 # cmsn_draw_login {}
@@ -3433,9 +3450,9 @@ proc cmsn_draw_login {} {
 	radiobutton $mainframe.button -text [trans defaultloginradio] -value 0 -variable loginmode -command "RefreshLogin $mainframe"
 	label $mainframe.loginlabel -text "[trans user]: " -font sboldf
 	entry $mainframe.loginentry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 25
-	if { $config(disableprofiles)!=1} { grid $mainframe.button -row 1 -column 2 -sticky w }
-	grid $mainframe.loginlabel -row 2 -column 1 -sticky w
-	grid $mainframe.loginentry -row 2 -column 2 -sticky w
+	if { $config(disableprofiles)!=1} { grid $mainframe.button -row 1 -column 1 -columnspan 2 -sticky w -padx 10 }
+	grid $mainframe.loginlabel -row 2 -column 1 -sticky e -padx 10
+	grid $mainframe.loginentry -row 2 -column 2 -sticky w -padx 10
 
 	radiobutton $mainframe.button2 -text [trans profileloginradio] -value 1 -variable loginmode -command "RefreshLogin $mainframe"
 	combobox::combobox $mainframe.box \
@@ -3457,8 +3474,10 @@ proc cmsn_draw_login {} {
 	-text "[trans rememberpass]" -font splainf -highlightthickness 0 -pady 5 -padx 10
 	checkbutton $mainframe.offline -variable config(startoffline) \
 	-text "[trans startoffline]" -font splainf -highlightthickness 0 -pady 5 -padx 10
-	radiobutton $mainframe.msnp7 -text "MSN Protocol 7" -value 7 -variable config(protocol) -padx 10
-	radiobutton $mainframe.msnp9 -text "MSN Protocol 9" -value 9 -variable config(protocol) -padx 10
+	radiobutton $mainframe.msnp7 -text "MSN Protocol 7" -value 7 -variable config(protocol) -padx 10 -command "ProtocolToggled $mainframe"
+	radiobutton $mainframe.msnp9 -text "MSN Protocol 9" -value 9 -variable config(protocol) -padx 10 -command "ProtocolToggled $mainframe"
+	checkbutton $mainframe.nossl -text "[trans disablessl]" -variable config(nossl) -padx 10 -command SSLToggled
+
 	label $mainframe.example -text "[trans examples] :\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com" -font examplef -padx 10
 	
 	set buttonframe [frame .login.buttons -class Degt]
@@ -3471,16 +3490,20 @@ proc cmsn_draw_login {} {
 		pack $buttonframe.ok $buttonframe.cancel -side right -padx 10
 	}
 
-	grid $mainframe.passlabel -row 3 -column 1 -sticky w
-	grid $mainframe.passentry -row 3 -column 2 -sticky w
+	grid $mainframe.passlabel -row 3 -column 1 -sticky e -padx 10
+	grid $mainframe.passentry -row 3 -column 2 -sticky w -padx 10
 	if { $config(disableprofiles)!=1} {
 		grid $mainframe.passentry2 -row 3 -column 3 -sticky w
 	}
-	grid $mainframe.remember -row 4 -column 2 -sticky ws
-	grid $mainframe.offline -row 4 -column 1 -sticky wn
+	grid $mainframe.remember -row 5 -column 2 -sticky wn
+	grid $mainframe.offline -row 6 -column 2 -sticky wn
 	grid $mainframe.example -row 1 -column 4 -rowspan 4
-	grid $mainframe.msnp7 -row 5 -column 1 -sticky wn
-	grid $mainframe.msnp9 -row 5 -column 2 -sticky ws
+
+	if { $config(disableprofiles) != 1 } {
+		grid $mainframe.msnp7 -row 5 -column 1 -sticky en -columnspan 4
+		grid $mainframe.msnp9 -row 6 -column 1 -sticky en -columnspan 4
+		grid $mainframe.nossl -row 7 -column 1 -sticky en -columnspan 4
+	}
 
 	pack .login.main .login.buttons -side top -anchor n -expand true -fill both -padx 10 -pady 10
 
@@ -4492,7 +4515,7 @@ proc newcontact {new_login new_name} {
   radiobutton ${wname}.c.block -value "0" -variable newc_allow_block \
      -text [trans avoidseen] \
       -highlightthickness 0 \
-     -activeforeground #FFFFFF -selectcolor #FFFFFF 
+     -activeforeground #FFFFFF -selectcolor #FFFFFF
    checkbutton ${wname}.c.add -var newc_add_to_list -state $add_stat \
       -text [trans addtoo] \
       -highlightthickness 0 -activeforeground #FFFFFF -selectcolor #FFFFFF

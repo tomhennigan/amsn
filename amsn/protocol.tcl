@@ -794,27 +794,36 @@ namespace eval ::MSN {
    proc connect { username password } {
 
       global config tlsinstalled
-      
-      if { $config(protocol) == 9 && $tlsinstalled == 0 && [checking_package_tls] == 0} {
+
+      if { $config(protocol) == 9 && $tlsinstalled == 0 && [checking_package_tls] == 0 && $config(nossl) == 0} {
          ::amsn::installTLS
-          #::amsn::infoMsg [trans notls]
-          #set config(protocol) 7
-	  #global protocol
-	  #set protocol 7
           return
       }
 
-      http::register https 443 ::tls::socket
+		if { $config(nossl) == 0 } {
+			http::register https 443 ::tls::socket
+		} else  {
+			catch {http::unregister https}
+		}
 
       #Log out
       .main_menu.file entryconfigure 2 -state normal
 
       ::MSN::StartPolling
       ::groups::Reset
-      
-      cmsn_ns_connect $username $password
+		if {$config(connectiontype) == "direct" || $config(connectiontype) == "http" } {
+			::http::config -proxyhost ""
+		} elseif {$config(connectiontype) == "proxy"} {
+			set lproxy [split $config(proxy) ":"]
+			set proxy_host [lindex $lproxy 0]
+			set proxy_port [lindex $lproxy 1]
 
-		getMyIPSilent
+			::http::config -proxyhost $proxy_host -proxyport $proxy_port
+		}
+
+
+
+      cmsn_ns_connect $username $password
 
    }
 
@@ -3370,7 +3379,8 @@ proc msnp9_auth_error {} {
 proc gotNexusReply {str token {total 0} {current 0}} {
 	if { [::http::status $token] != "ok" || [::http::ncode $token ] != 200 } {
 		::http::cleanup $token
-		msnp9_auth_error
+		status_log "gotNexysReply: error in nexus reply, getting url manually\n"
+		msnp9_do_auth $str "https://login.passport.com/login2.srf"
 		return
 	}
 	upvar #0 $token state
@@ -3389,6 +3399,7 @@ proc gotNexusReply {str token {total 0} {current 0}} {
 proc gotAuthReply { str token } {
 	if { [::http::status $token] != "ok" } {
 		::http::cleanup $token
+		status_log "gotAuthReply error: [::http::error]\n"
 		msnp9_auth_error
 		return
 	}
@@ -3406,6 +3417,7 @@ proc gotAuthReply { str token } {
 	} elseif {[::http::ncode $token] == 302} {
 		set index [expr {[lsearch $state(meta) "Location"]+1}]
 		set url [lindex $state(meta) $index]
+		status_log "gotAuthReply 320: Forward to $url\n"		
 		msnp9_do_auth $str $url
 	} elseif {[::http::ncode $token] == 401} {
 		msnp9_userpass_error
@@ -3423,9 +3435,13 @@ proc msnp9_do_auth {str url} {
 	global config password
 
 	set head [list Authorization "Passport1.4 OrgVerb=GET,OrgURL=http%3A%2F%2Fmessenger%2Emsn%2Ecom,sign-in=$config(login),pwd=$password,$str"]
-	#set url [string map { https:// http:// } $url]
+	if { $config(nossl) == 1 } {
+		set url [string map { https:// http:// } $url]
+	}
 	status_log "msnp9_do_auth: Getting $url\n"
-	::http::geturl $url -command "gotAuthReply [list $str]" -headers $head
+	if {[catch {::http::geturl $url -command "gotAuthReply [list $str]" -headers $head}]} {
+		msnp9_auth_error
+	}
 
 }
 
@@ -3487,8 +3503,8 @@ proc cmsn_auth_msnp9 {{recv ""}} {
 			foreach x [split [lrange $recv 4 end] ","] { set info([lindex [split $x "="] 0]) [lindex [split $x "="] 1] }
 			set info(all) [lrange $recv 4 end]
 
-			if {[catch {::http::geturl https://nexus.passport.com/rdr/pprdr.asp -command "gotNexusReply [list $info(all)]"}]} {
-				msnp9_auth_error
+			if {$config(nossl) || [catch {::http::geturl https://nexus.passport.com/rdr/pprdr.asp -command "gotNexusReply [list $info(all)]"}]} {
+				msnp9_do_auth [list $info(all)] https://login.passport.com/login2.srf
 			}
 
 			return 0
@@ -3546,6 +3562,9 @@ proc cmsn_auth_msnp9 {{recv ""}} {
 			configureMenuEntry .main_menu.actions "[trans sendmsg]..." normal
 
 			configureMenuEntry .main_menu.file "[trans savecontacts]..." normal
+
+
+			::MSN::getMyIPSilent
 
 			return 0
 		}
@@ -3648,24 +3667,24 @@ proc cmsn_socket {name} {
    sb set $name write_proc "::MSN::DirectWrite $name"
    
    if {$config(connectiontype) == "direct" } {
-   
+
       set tmp_serv [lindex [sb get $name serv] 0]
       set tmp_port [lindex [sb get $name serv] 1]
       set readable_handler "read_sb_sock $name"
       set read_procedure "::MSN::ReadSB"
-      set next [sb get $name connected]  
-       
-   } elseif {$config(connectiontype) == "http"} { 
-      
+      set next [sb get $name connected]
+
+   } elseif {$config(connectiontype) == "http"} {
+
       status_log "cmsn_socket: Setting up http connection\n" green
       set tmp_serv "gateway.messenger.hotmail.com"
       set tmp_port 80
-      
+
       ::Proxy::Init "$tmp_serv:$tmp_port" "http"
-      
+
       ::Proxy::OnCallback "dropped" "proxy_callback"
-      
-      status_log "cmsn_socket: Calling proxy::Setup now\n" green  
+
+      status_log "cmsn_socket: Calling proxy::Setup now\n" green
       ::Proxy::Setup next readable_handler $name
       
       

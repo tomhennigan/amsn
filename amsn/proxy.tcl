@@ -47,11 +47,9 @@ namespace eval ::Proxy {
 	    set lproxy [split $proxy ":"]
 	    set proxy_host [lindex $lproxy 0]
 	    set proxy_port [lindex $lproxy 1]
-	    ::http::config -proxyhost $proxy_host -proxyport $proxy_port
 	} else {
 	    set proxy_host ""
 	    set proxy_port ""
-	    ::http::config -proxyhost ""
 	}
     };# Proxy::Init
 
@@ -444,6 +442,10 @@ namespace eval ::Proxy {
 }
 ###################################################################
 # $Log$
+# Revision 1.18  2003/10/06 15:14:33  airadier
+# Added option to disable SSL.
+# Proxy and http connection should work with MSNP9 now (disabling SSL).
+#
 # Revision 1.17  2003/09/17 09:32:41  kakaroto
 # "maybe" fixed the socks5 authentication issue... also corrected the ;-) smiley bug..
 #
