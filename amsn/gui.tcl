@@ -469,6 +469,10 @@ namespace eval ::amsn {
       global config
 
       set w ${win_name}_sendfile
+      if { [ winfo exists $w ] } {
+         return
+      }
+
       toplevel $w
       wm group $w .
       wm title $w "[trans sendfile]"
