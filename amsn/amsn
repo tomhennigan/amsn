@@ -13,6 +13,7 @@
 ###						###############
 ### Version 0.3p3 20010926			###############
 ### Modified 20020430 by Alvaro Iradier Muro    ###############
+###                   and D. Emilio Grimaldo T. ###############
 ###############################################################
 ###
 ###
@@ -39,7 +40,7 @@
 ###
 
 set version "0.52beta"
-set date "06/29/2002"
+set date "06/30/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -68,6 +69,12 @@ set images_folder "[file join $program_dir i]"
 set sounds_folder "[file join $program_dir s]"
 #=======================================================================
 
+#-----------------------------------------------------------------------
+#Notebook Pages (Buddies,News,Calendar,etc.)
+set pgBuddy ""
+set pgNews  ""
+#-----------------------------------------------------------------------
+
  proc Splash { { art tclpower.gif } { delay 2500 } { artdir "" } } {
       catch { [ winfo ] } errmsg
       if { [ string match invalid* $errmsg ] } {
@@ -94,6 +101,7 @@ set sounds_folder "[file join $program_dir s]"
 
 #Load program modules
 source [file join $program_dir notebook.tcl]	;# Notebook Megawidget
+source [file join $program_dir notebook1.tcl]	;# Notebook Megawidget
 source [file join $program_dir progressbar.tcl]	;# Progressbar Megawidget
 source [file join $program_dir migmd5.tcl]
 source [file join $program_dir config.tcl]
@@ -251,7 +259,7 @@ proc close_cleanup {} {
 
 proc cmsn_draw_main {} {
    global images_folder emotion_files version date weburl lang_list \
-     password config HOME files_dir
+     password config HOME files_dir pgBuddy pgNews
 
    #User status menu
    menu .my_menu -tearoff 0 -type normal  
@@ -381,6 +389,8 @@ proc cmsn_draw_main {} {
      -variable config(listsmileys) 
    .options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 \
      -variable config(closingdocks) 
+   .options add checkbutton -label "[trans extras]" -onvalue 1 -offvalue 0 \
+     -variable config(withnotebook) 
 
    #Help menu
    menu .main_menu.help -tearoff 0 -type normal  
@@ -403,6 +413,21 @@ proc cmsn_draw_main {} {
 
    frame .main 
    pack .main -expand true -fill both
+   # Create the Notebook and initialize the page paths. These
+   # page paths must be used for adding new widgets to the
+   # notebook tabs.
+   if {$config(withnotebook)} {
+   	notebook:create .main.nb -bgcolor #AABBCC -font sboldf \
+		-pappend "Buddies" -pappend "News"
+       set pgBuddy [notebook:getpage .main.nb 0]
+       set pgNews  [notebook:getpage .main.nb 1]
+       pack .main.nb -fill both -expand 1
+   } else {
+       set pgBuddy .main
+       set pgNews  ""
+       pack .main -fill both -expand 1
+   }
+   # End of Notebook Creation/Initialization
 
    image create photo online -file [file join ${images_folder} online.gif]
    image create photo offline -file [file join ${images_folder} offline.gif]
@@ -434,10 +459,10 @@ proc cmsn_draw_main {} {
    image create photo butblock -file [file join ${images_folder} butblock.gif]
 
 
-   text .main.text -background white -width 30 -height 30 -wrap none \
-      -yscrollcommand ".main.ys set" -cursor left_ptr -font splainf \
+   text $pgBuddy.text -background white -width 30 -height 30 -wrap none \
+      -yscrollcommand "$pgBuddy.ys set" -cursor left_ptr -font splainf \
       -selectbackground white -selectborderwidth 0 -exportselection 0
-   scrollbar .main.ys -command ".main.text yview" 
+   scrollbar $pgBuddy.ys -command "$pgBuddy.text yview" 
 #   text .main.status  -width 30 -height 1 -wrap none
 
    adv_initialize .main $config(proxy)
@@ -447,8 +472,8 @@ proc cmsn_draw_main {} {
    adv_show_banner  file ${images_folder}/logolinmsn.gif
 
 #   pack .main.status -side bottom -fill x
-   pack .main.ys -side right -fill y
-   pack .main.text -expand true -fill both
+   pack $pgBuddy.ys -side right -fill y
+   pack $pgBuddy.text -expand true -fill both
 
 #   .main.status configure -state disabled
 #   bind .main.status <Double-Button-3> toggle_status
@@ -486,7 +511,7 @@ proc cmsn_draw_status {} {
 
 proc cmsn_draw_offline {} {
 
-   global sboldf config password
+   global sboldf config password pgBuddy
 
    wm title . "[trans title] - [trans offline]"
 
@@ -497,87 +522,87 @@ proc cmsn_draw_offline {} {
 
 #   .main.status configure -state disabled 
 
-   .main.text configure -state normal 
-   .main.text delete 0.0 end
+   $pgBuddy.text configure -state normal 
+   $pgBuddy.text delete 0.0 end
 
    #Iniciar sesion
 
-   .main.text tag conf check_ver -fore #777777 -underline true \
+   $pgBuddy.text tag conf check_ver -fore #777777 -underline true \
    -font splainf -justify left
-   .main.text tag bind check_ver <Enter> \
-	    ".main.text tag conf check_ver -fore #0000A0 -underline false;\
-	    .main.text conf -cursor hand2"
-   .main.text tag bind check_ver <Leave> \
-	    ".main.text tag conf check_ver -fore #000000 -underline true;\
-	    .main.text conf -cursor left_ptr"
-   .main.text tag bind check_ver <Button1-ButtonRelease> \
+   $pgBuddy.text tag bind check_ver <Enter> \
+	    "$pgBuddy.text tag conf check_ver -fore #0000A0 -underline false;\
+	    $pgBuddy.text conf -cursor hand2"
+   $pgBuddy.text tag bind check_ver <Leave> \
+	    "$pgBuddy.text tag conf check_ver -fore #000000 -underline true;\
+	    $pgBuddy.text conf -cursor left_ptr"
+   $pgBuddy.text tag bind check_ver <Button1-ButtonRelease> \
 	    "check_version"
 
-   .main.text tag conf lang_sel -fore #777777 -underline true \
+   $pgBuddy.text tag conf lang_sel -fore #777777 -underline true \
    -font splainf -justify left
-   .main.text tag bind lang_sel <Enter> \
-	    ".main.text tag conf lang_sel -fore #0000A0 -underline false;\
-	    .main.text conf -cursor hand2"
-   .main.text tag bind lang_sel <Leave> \
-	    ".main.text tag conf lang_sel -fore #000000 -underline true;\
-	    .main.text conf -cursor left_ptr"
-   .main.text tag bind lang_sel <Button1-ButtonRelease> \
+   $pgBuddy.text tag bind lang_sel <Enter> \
+	    "$pgBuddy.text tag conf lang_sel -fore #0000A0 -underline false;\
+	    $pgBuddy.text conf -cursor hand2"
+   $pgBuddy.text tag bind lang_sel <Leave> \
+	    "$pgBuddy.text tag conf lang_sel -fore #000000 -underline true;\
+	    $pgBuddy.text conf -cursor left_ptr"
+   $pgBuddy.text tag bind lang_sel <Button1-ButtonRelease> \
 	    "tk_popup .lang_menu %X %Y"
 
 
-   .main.text tag conf start_login -fore #000000 -underline true \
+   $pgBuddy.text tag conf start_login -fore #000000 -underline true \
       -font sboldf -justify center
-   .main.text tag bind start_login <Enter> \
-	    ".main.text tag conf start_login -fore #0000A0 -underline false;\
-	    .main.text conf -cursor hand2"
-   .main.text tag bind start_login <Leave> \
-	    ".main.text tag conf start_login -fore #000000 -underline true;\
-	    .main.text conf -cursor left_ptr"
-    .main.text tag bind start_login <Button1-ButtonRelease> \
+   $pgBuddy.text tag bind start_login <Enter> \
+	    "$pgBuddy.text tag conf start_login -fore #0000A0 -underline false;\
+	    $pgBuddy.text conf -cursor hand2"
+   $pgBuddy.text tag bind start_login <Leave> \
+	    "$pgBuddy.text tag conf start_login -fore #000000 -underline true;\
+	    $pgBuddy.text conf -cursor left_ptr"
+    $pgBuddy.text tag bind start_login <Button1-ButtonRelease> \
         "cmsn_ns_connect $config(login) $password"
 
 
-   .main.text tag conf start_loginas -fore #000000 -underline true \
+   $pgBuddy.text tag conf start_loginas -fore #000000 -underline true \
    -font sboldf -justify center
-   .main.text tag bind start_loginas <Enter> \
-	    ".main.text tag conf start_loginas -fore #0000A0 -underline false;\
-	    .main.text conf -cursor hand2"
-   .main.text tag bind start_loginas <Leave> \
-	    ".main.text tag conf start_loginas -fore #000000 -underline true;\
-	    .main.text conf -cursor left_ptr"
-    .main.text tag bind start_loginas <Button1-ButtonRelease> \
+   $pgBuddy.text tag bind start_loginas <Enter> \
+	    "$pgBuddy.text tag conf start_loginas -fore #0000A0 -underline false;\
+	    $pgBuddy.text conf -cursor hand2"
+   $pgBuddy.text tag bind start_loginas <Leave> \
+	    "$pgBuddy.text tag conf start_loginas -fore #000000 -underline true;\
+	    $pgBuddy.text conf -cursor left_ptr"
+    $pgBuddy.text tag bind start_loginas <Button1-ButtonRelease> \
         "cmsn_draw_login"    
 
-   .main.text image create end -image globe -pady 5 -padx 5
-   .main.text insert end "[trans language]\n" lang_sel
+   $pgBuddy.text image create end -image globe -pady 5 -padx 5
+   $pgBuddy.text insert end "[trans language]\n" lang_sel
 
 
 
-   .main.text insert end "\n\n\n\n"
+   $pgBuddy.text insert end "\n\n\n\n"
  
    if { $config(login) != "" } {
-     .main.text insert end "$config(login)\n" start_login
-     .main.text insert end "[trans clicktologin]" start_login
-     .main.text tag bind start_login <Button1-ButtonRelease> \
+     $pgBuddy.text insert end "$config(login)\n" start_login
+     $pgBuddy.text insert end "[trans clicktologin]" start_login
+     $pgBuddy.text tag bind start_login <Button1-ButtonRelease> \
 	"cmsn_ns_connect $config(login) $password"
 
-     .main.text insert end "\n\n\n\n\n"
+     $pgBuddy.text insert end "\n\n\n\n\n"
  
-     .main.text insert end "[trans loginas]...\n" start_loginas
-     .main.text insert end "\n\n\n\n\n\n\n\n\n"
+     $pgBuddy.text insert end "[trans loginas]...\n" start_loginas
+     $pgBuddy.text insert end "\n\n\n\n\n\n\n\n\n"
      
    } else {
-     .main.text insert end "[trans clicktologin]..." start_loginas
+     $pgBuddy.text insert end "[trans clicktologin]..." start_loginas
 
-     .main.text insert end "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"	
+     $pgBuddy.text insert end "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"	
 
    }
 
 
-   .main.text insert end "   "
-   .main.text insert end "[trans checkver]...\n" check_ver
+   $pgBuddy.text insert end "   "
+   $pgBuddy.text insert end "[trans checkver]...\n" check_ver
    
-   .main.text configure -state disabled
+   $pgBuddy.text configure -state disabled
 
 
    #Log in
@@ -597,7 +622,7 @@ proc cmsn_draw_offline {} {
 }
 
 proc cmsn_draw_signin {} {
-    global config
+    global config pgBuddy
 #   .main.status configure -state normal -font splainf
 #   .main.status delete 0.0 end
 #   .main.status insert end "[trans loggingin]..."
@@ -605,14 +630,14 @@ proc cmsn_draw_signin {} {
 
    wm title . "[trans title] - $config(login)"
 
-   .main.text configure -state normal -font splainf
-   .main.text delete 0.0 end
-   .main.text tag conf signin -fore #000000 \
+   $pgBuddy.text configure -state normal -font splainf
+   $pgBuddy.text delete 0.0 end
+   $pgBuddy.text tag conf signin -fore #000000 \
    -font sboldf -justify center
-   .main.text insert end "\n\n\n\n\n\n\n"
-   .main.text insert end "[trans loggingin]..." signin
-   .main.text insert end "\n"
-   .main.text configure -state disabled
+   $pgBuddy.text insert end "\n\n\n\n\n\n\n"
+   $pgBuddy.text insert end "[trans loggingin]..." signin
+   $pgBuddy.text insert end "\n"
+   $pgBuddy.text configure -state disabled
 
 }
 
@@ -685,7 +710,7 @@ proc toggleGroup {tw name image id {padx 0} {pady 0}} {
 
 proc cmsn_draw_online {} {
    global emotions user_stat login list_users list_states user_info list_bl\
-    unread config showonline password
+    unread config showonline password pgBuddy
 
    set my_name [urldecode [lindex $user_info 4]]
    set my_state_no [lsearch $list_states "$user_stat *"]
@@ -709,28 +734,28 @@ proc cmsn_draw_online {} {
        set gcnt 2
    }
 
-   .main.text configure -state normal -font splainf
-   .main.text delete 0.0 end
+   $pgBuddy.text configure -state normal -font splainf
+   $pgBuddy.text delete 0.0 end
 
 
-   .main.text tag conf mystatus -fore $my_colour -underline false \
+   $pgBuddy.text tag conf mystatus -fore $my_colour -underline false \
      -font bboldf
 
-    .main.text tag bind mystatus <Enter> \
-      ".main.text tag conf mystatus -under true;.main.text conf -cursor hand2"
-    .main.text tag bind mystatus <Leave> \
-      ".main.text tag conf mystatus -under false;.main.text conf -cursor left_ptr"
+    $pgBuddy.text tag bind mystatus <Enter> \
+      "$pgBuddy.text tag conf mystatus -under true;$pgBuddy.text conf -cursor hand2"
+    $pgBuddy.text tag bind mystatus <Leave> \
+      "$pgBuddy.text tag conf mystatus -under false;$pgBuddy.text conf -cursor left_ptr"
 
-   .main.text tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
-   .main.text tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
+   $pgBuddy.text tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
+   $pgBuddy.text tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
 
 
-   .main.text tag conf mail -fore black -underline true -font splainf
-   .main.text tag bind mail <Button1-ButtonRelease> "hotmail_login $config(login) $password"
-   .main.text tag bind mail <Enter> \
-   	".main.text tag conf mail -under false;.main.text conf -cursor hand2"
-   .main.text tag bind mail <Leave> \
-   	".main.text tag conf mail -under true;.main.text conf -cursor left_ptr"
+   $pgBuddy.text tag conf mail -fore black -underline true -font splainf
+   $pgBuddy.text tag bind mail <Button1-ButtonRelease> "hotmail_login $config(login) $password"
+   $pgBuddy.text tag bind mail <Enter> \
+   	"$pgBuddy.text tag conf mail -under false;$pgBuddy.text conf -cursor hand2"
+   $pgBuddy.text tag bind mail <Leave> \
+   	"$pgBuddy.text tag conf mail -under true;$pgBuddy.text conf -cursor left_ptr"
 
    # Configure bindings/tags for each named group in our scheme
    for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
@@ -740,36 +765,36 @@ proc cmsn_draw_online {} {
        } else {
            set gtag $gname
        }
-       .main.text tag conf $gtag -fore #000000 -font sboldf
-       .main.text tag bind $gtag <Button1-ButtonRelease> \
+       $pgBuddy.text tag conf $gtag -fore #000000 -font sboldf
+       $pgBuddy.text tag bind $gtag <Button1-ButtonRelease> \
 	 "::groups::ToggleStatus $gname;cmsn_draw_online"
-       .main.text tag bind $gtag <Enter> \
-	    ".main.text tag conf $gtag -under true;.main.text conf -cursor hand2"
-       .main.text tag bind $gtag <Leave> \
-	    ".main.text tag conf $gtag -under false;.main.text conf -cursor left_ptr"
+       $pgBuddy.text tag bind $gtag <Enter> \
+	    "$pgBuddy.text tag conf $gtag -under true;$pgBuddy.text conf -cursor hand2"
+       $pgBuddy.text tag bind $gtag <Leave> \
+	    "$pgBuddy.text tag conf $gtag -under false;$pgBuddy.text conf -cursor left_ptr"
 
    }
 
-   .main.text insert end "\n"
+   $pgBuddy.text insert end "\n"
 
    # Display MSN logo with user's handle. Make it clickable so
    # that the user can change his/her status that way
-   clickableImage .main.text bigstate $my_image_type {tk_popup .my_menu %X %Y}
-   bind .main.text.bigstate <Button3-ButtonRelease> {tk_popup .my_menu %X %Y}
+   clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y}
+   bind $pgBuddy.text.bigstate <Button3-ButtonRelease> {tk_popup .my_menu %X %Y}
    
-   .main.text insert end "   "
-   .main.text insert end "$my_name " mystatus
-   .main.text insert end "($my_state_desc)\n" mystatus
-   .main.text image create end -image colorbar 
-   .main.text insert end "\n"
+   $pgBuddy.text insert end "   "
+   $pgBuddy.text insert end "$my_name " mystatus
+   $pgBuddy.text insert end "($my_state_desc)\n" mystatus
+   $pgBuddy.text image create end -image colorbar 
+   $pgBuddy.text insert end "\n"
 
    # Show Mail Notification status 
-   clickableImage .main.text mailbox mailbox {hotmail_login $config(login) $password} 5 0
+   clickableImage $pgBuddy.text mailbox mailbox {hotmail_login $config(login) $password} 5 0
 
-   .main.text insert end "[trans newmail $unread]\n" mail
+   $pgBuddy.text insert end "[trans newmail $unread]\n" mail
 #end AIM
 
-   .main.text insert end "\n"
+   $pgBuddy.text insert end "\n"
    # For each named group setup its heading where >><< image
    # appears together with the group name and total nr. of handles
    # [<<] My Group Name (n)
@@ -777,24 +802,24 @@ proc cmsn_draw_online {} {
        set gname [lindex $glist $gidx]
        set gtag  "tg$gname"
        if { [::groups::IsExpanded $gname] } {
-	   toggleGroup .main.text contract$gname contract $gname 5 0
+	   toggleGroup $pgBuddy.text contract$gname contract $gname 5 0
        } else {
-	   toggleGroup .main.text expand$gname expand $gname 5 0
+	   toggleGroup $pgBuddy.text expand$gname expand $gname 5 0
        }
 
        # Show the group's name/title
        if {$config(orderbygroup)} {
            # For user defined groups we don't have/need translations
 	   set gtitle [::groups::GetName $gname]
-           .main.text insert end $gtitle $gtag
+           $pgBuddy.text insert end $gtitle $gtag
        } else {
 	    if {$gname == "online"} {
-	        .main.text insert end "[trans uonline]" online
+	        $pgBuddy.text insert end "[trans uonline]" online
 	    } else {
-	        .main.text insert end "[trans uoffline]" offline
+	        $pgBuddy.text insert end "[trans uoffline]" offline
 	    }
        }
-       .main.text insert end "\n"
+       $pgBuddy.text insert end "\n"
    }
 
    ::groups::UpdateCount online clear
@@ -838,25 +863,25 @@ proc cmsn_draw_online {} {
    }
 
    if {$config(listsmileys)} {
-     smile_subst .main.text
+     smile_subst $pgBuddy.text
    }  
 
    if {$config(orderbygroup)} {
         for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
 	    set gname [lindex $glist $gidx]
 	    set gtag  "tg$gname"
-	   .main.text insert $gtag.last " ($::groups::uMemberCnt($gname))\n" $gtag
+	   $pgBuddy.text insert $gtag.last " ($::groups::uMemberCnt($gname))\n" $gtag
  	}
    } else {
-       .main.text insert online.last " ($::groups::uMemberCnt(online))\n" online
-       .main.text insert offline.last " ($::groups::uMemberCnt(offline))\n" offline
+       $pgBuddy.text insert online.last " ($::groups::uMemberCnt(online))\n" online
+       $pgBuddy.text insert offline.last " ($::groups::uMemberCnt(offline))\n" offline
    }
 
-   .main.text configure -state disabled
+   $pgBuddy.text configure -state disabled
 }
 
 proc ShowUser {user_name user_login state state_code colour section} {
-    global list_bl list_rl
+    global list_bl list_rl pgBuddy
 
          if {($state_code != "NLN") && ($state_code !="FLN")} {
             set state_desc " ([trans [lindex $state 1]])"
@@ -878,31 +903,31 @@ proc ShowUser {user_name user_login state state_code colour section} {
             set image_type "blocked"
       	    if {$state_desc == ""} {set state_desc " ([trans blocked])"}
          }
-           .main.text tag conf $user_login -fore $colour
+           $pgBuddy.text tag conf $user_login -fore $colour
 
 
-         .main.text mark set new_text_start end
-         .main.text insert $section.last " $user_name$state_desc \n" $user_login
+         $pgBuddy.text mark set new_text_start end
+         $pgBuddy.text insert $section.last " $user_name$state_desc \n" $user_login
 	
 	 set imgname "img[expr {$::groups::uMemberCnt(online)+$::groups::uMemberCnt(offline)}]"
-         label .main.text.$imgname -image $image_type
-         .main.text.$imgname configure -cursor hand2 -borderwidth 0 
-         .main.text window create $section.last -window .main.text.$imgname -padx 3 -pady 1
+         label $pgBuddy.text.$imgname -image $image_type
+         $pgBuddy.text.$imgname configure -cursor hand2 -borderwidth 0 
+         $pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname -padx 3 -pady 1
 
-#         .main.text image create $section.last -image $image_type -pady 1 -padx 3
-         .main.text insert $section.last "      "
+#         $pgBuddy.text image create $section.last -image $image_type -pady 1 -padx 3
+         $pgBuddy.text insert $section.last "      "
 
-         .main.text tag bind $user_login <Enter> \
-             ".main.text tag conf $user_login -under true;.main.text conf -cursor hand2"
-         .main.text tag bind $user_login <Leave> \
-            ".main.text tag conf $user_login -under false;.main.text conf -cursor left_ptr"
+         $pgBuddy.text tag bind $user_login <Enter> \
+             "$pgBuddy.text tag conf $user_login -under true;$pgBuddy.text conf -cursor hand2"
+         $pgBuddy.text tag bind $user_login <Leave> \
+            "$pgBuddy.text tag conf $user_login -under false;$pgBuddy.text conf -cursor left_ptr"
 
-         .main.text tag bind $user_login <Button3-ButtonRelease> "show_umenu $user_login %X %Y"
-          bind .main.text.$imgname <Button3-ButtonRelease> "show_umenu $user_login %X %Y"
+         $pgBuddy.text tag bind $user_login <Button3-ButtonRelease> "show_umenu $user_login %X %Y"
+          bind $pgBuddy.text.$imgname <Button3-ButtonRelease> "show_umenu $user_login %X %Y"
 
           if { $state_code !="FLN" } {
-             bind .main.text.$imgname <Double-Button-1> "cmsn_chat_user $user_login"
-            .main.text tag bind $user_login <Double-Button-1> \
+             bind $pgBuddy.text.$imgname <Double-Button-1> "cmsn_chat_user $user_login"
+            $pgBuddy.text tag bind $user_login <Double-Button-1> \
 	        "cmsn_chat_user $user_login"
          }
 }
