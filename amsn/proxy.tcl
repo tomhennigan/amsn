@@ -202,7 +202,10 @@ namespace eval ::Proxy {
 	variable proxy_session_id
 	variable proxy_gateway_ip 
 	variable proxy_queued_data  
-	
+	variable proxy_username
+	variable proxy_password
+	variable proxy_with_authentication
+
 	if { ![info exists proxy_session_id($name)]} {
 	    return
 	}
@@ -231,6 +234,11 @@ namespace eval ::Proxy {
 		set tmp_data "$tmp_data\r\nPragma: no-cache"
 		set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
 		set tmp_data "$tmp_data\r\nContent-Length: 0"
+		if {$proxy_with_authentication == 1 } {
+		    if { [catch {package require base64}] == 0 } {
+			set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode ${proxy_username}:${proxy_password}]"
+		    }
+		}
 		set tmp_data "$tmp_data\r\n\r\n"
 		
 		#status_log "PROXY POST polling connection ($name):\n$tmp_data\n" blue      
@@ -252,7 +260,11 @@ namespace eval ::Proxy {
 	variable proxy_queued_data
 	variable proxy_session_id
 	variable proxy_gateway_ip
-	
+	variable proxy_username
+	variable proxy_password
+	variable proxy_with_authentication
+
+
 	after cancel "::Proxy::PollPOST $name"
 	after cancel "::Proxy::WritePOST $name"    
 	
@@ -295,6 +307,11 @@ namespace eval ::Proxy {
 	    set tmp_data "$tmp_data\r\nPragma: no-cache"
 	    set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
 	    set tmp_data "$tmp_data\r\nContent-Length: $size"
+	    if {$proxy_with_authentication == 1 } {
+		if { [catch {package require base64}] == 0 } {
+		    set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode ${proxy_username}:${proxy_password}]"
+		}
+	    }
 	    set tmp_data "$tmp_data\r\n\r\n[string range $proxy_queued_data($name) 0 $strend]"
 	    
 	    #status_log "PROXY POST Sending: ($name)\n$tmp_data\n" blue
@@ -447,6 +464,9 @@ namespace eval ::Proxy {
 }
 ###################################################################
 # $Log$
+# Revision 1.20  2003/10/08 09:35:59  kakaroto
+# Authentication with proxy on every packet (needs improvement with the pacakge require)
+#
 # Revision 1.19  2003/10/08 09:29:39  kakaroto
 # Added base64 support and now HTTP proxy with username/password works with Basic authentication
 #
