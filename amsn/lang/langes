@@ -43,6 +43,7 @@ copytogroup Copiar al grupo
 date Fecha
 delete Eliminar
 enableproxy Activar proxy
+encoding Codificación de caracteres
 entercontactemail Introduce el email del contacto
 enterfilename Introduce el nombre del archivo
 enternick Introduce tu nick

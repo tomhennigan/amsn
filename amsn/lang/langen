@@ -42,6 +42,7 @@ copytogroup Copy to group
 date Date
 delete Delete
 enableproxy Enable proxy
+encoding Choose encoding
 entercontactemail Enter contact e-mail
 enterfilename Please enter a filename
 enternick Enter your nick
