@@ -66,6 +66,7 @@ home Home
 ident Identifying
 identity Identity
 inbox In-Box
+invalidusername Invalid user name
 invite Invite
 ipaddress IP Address
 is is
@@ -75,6 +76,7 @@ leaves $1 leaves conversation
 listeningon Listening on port $1
 listsmileys List smileys
 loadcontacts Load contact list
+loggedotherlocation Disconnected. Logged in other location
 loggingin Logging In
 login Log In
 loginas Login as
@@ -132,6 +134,7 @@ sendmail Send mail
 sendmsg Send message
 sentbytes Sent $1 of $2 bytes
 server Server
+servergoingdown Disconnected: Server is going down
 sound Event Sound
 startoffline Start Offline
 syntaxerror  Syntax Error
@@ -146,6 +149,7 @@ unblock Unblock
 uoffline Offline
 uonline Online
 user User
+useralreadyonlist User is already on contact list
 version Version
 view View
 willjoin Waiting $1 joins conversation

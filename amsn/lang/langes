@@ -67,6 +67,7 @@ home Casa
 ident Identificándose
 identity Identificación
 inbox Bandeja de entrada
+invalidusername Nombre de usuario no válido
 invite Invitar
 ipaddress Dirección IP
 is está
@@ -76,6 +77,7 @@ leaves $1 deja la conversación
 listeningon Escuchando en el puerto $1
 listsmileys Smileys en contactos
 loadcontacts Cargar lista de contactos
+loggedotherlocation Desconectado: Se inició la sesión en otra ubicación
 loggingin Iniciando sesión
 loginas Iniciar sesión como 
 login Iniciar sesión
@@ -133,6 +135,7 @@ sendmail Enviar email
 sendmsg Enviar mensaje
 sentbytes Enviados $1 de $2 bytes totales
 server Servidor
+servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
 sound Sonido eventos
 startoffline Comenzar Desconectado
 textsize Tamaño del texto
@@ -145,6 +148,7 @@ unblock Admitir
 uoffline Desconectados
 uonline Conectados
 user Usuario
+useralreadyonlist El usuario ya se encuentra en la lista de contactos.
 version Versión
 view Ver
 willjoin Esperando que $1 se una a la conversación
