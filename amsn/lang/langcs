@@ -198,9 +198,18 @@ filetransfercancelled U¾ivatel zru¹il odesílání
 filetransfercomplete Odesílání skonèilo správnì
 filetransfer Pøenos souboru
 friendlyname Zkrácené jméno
+ftacceptedby $1 povolil pøenos souboru '$2'.
 ftaccepted Odeslání souboru pøijaté
+ftaccepting Pøenos souboru potvrzen
+ftautoclose Po skonèení pøenosu zavøi okno
+ftconnecterror Pokusu o pøipojení selhal
+ftconnecting Spojení s $1 navázáno (port $2)
+ftconnectionlost Spojení pøeru¹eno
+ftgotinvitation $1 ti chce poslat soubor '$2' ($3 bytù) do adresáøe $4. Chce¹ pøijmout tento soubor?
 ftportpref Poèáteèní port pro pøenos souborù
+ftrejectedby $1 odmítl pøijmout soubor $2
 ftrejected Odesílání souboru nepøijaté
+ftsendinvitation Oznamuji pøenos souboru '$2' ($3 bytù) u¾ivateli $1
 fullcontactlist Lituji, ale tvùj kontakt list je plný. Bude¹ muset vymazat nìjaký kontakt aby jsi mohl pøidat dal¹í. 
 getdisppic Ukládat do pamìti obrázky jiných u¾ivatelù. 
 globalnicktitle Maska na zobrazení kontaktù
@@ -261,15 +270,18 @@ inbox E-mailová schránka na Hotmail
 insertsmiley Vlo¾ smajlík
 installconvert Pokud chce¹ pou¾ívat vlastní ikony a emotikony, musí¹ instalovat ImageMagick (program convert). Binární formu pro tvùj operaèní systém najde¹ na ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Pokud ji¾ má¹ program convert nainstalovaný, je toto hlá¹ení chybné a nahla¹ jej jako bug (anglicky!). Jmenované vymo¾enosti budou nyní zakázány, a¾ si ImageMagick nainstaluje¹, mù¾e¹ si je povolit v Nastavení programu.
 internalerror Chyba serveru
+invalidfile Soubor '$2' vlo¾ený do pole "$1" neexisuje, nebo není èitelný
 invalidfile2 Chyba pøi vytváøení souboru $1, zjisti jestli má¹ oprávnìní. 
 invalidgroup Nesprávná skupina 
 invalidpicsize Obrázek je pøíli¹ velký, prosím vyber si nìjaký men¹í. 
 invalidpic Tento soubor neexistuje. 
 invalidsound Tento soubor neexistuje. 
 invalidusername Nepovolené jméno
+invitationcancelled Pozvání bylo odmítnuto
 invite Pozvat
 ipaddress IP Adresa
 ipdetect Zjistit správnou IP adresu pro odesílání s pomocí HTTP
+ircstyle Chat stylu IRC
 istyping $1 ti právì pí¹e vzkaz
 joins $1 se pøipojil do konverzace
 justonce Právì jednou
@@ -321,6 +333,7 @@ lprivtoconf Privátní okno se zmìnilo na konferenci s $1
 luclosedwin Zavøel(a)s okno o $1
 mailerexample (\$recipient = pøíjemce) Ponech prázdné má¹-li konto na Hotmail
 mailer Mailer
+maintenance Server bude zastaven za $1 minut kvùli údr¾bì
 maximised Zvìt¹ené okno
 minimised Zmen¹ené okno
 mins minut
@@ -443,6 +456,8 @@ proxy Pou¾ívám proxy server (HTTP alebo SOCKS5)
 publishphones Ukázat moje telefonní èísla
 purge Vyèistit 
 p4contextprefix Zobrazit tento øetìzec pøed odesílatelem P4 
+readonlymsgbox Pøenos souboru byl zru¹en, proto¾e cílový adresáø je urèen pouze pro ètení. Oprav si prosím práva tohoto adresáøe.
+readonlywarn POZOR: Soubor asi nebude ulo¾en mezi pøijaté soubory, proto¾e cílový adresáø je pravdìpodobnì chránìn proti zápisu. Pøed pøenosem souboru si ovìø, ¾e adresáø $1 má správnì nastavená pøístupová práva.
 receivedbytes Stáhnuto $1 z $2 bytù
 receiveddir Adresáø pøijatých souborù
 receivefile Soubor byl sta¾en
@@ -465,6 +480,7 @@ savetofile Ulo¾it do souboru
 save Ulo¾it
 says $1 øekl/a:
 sbcon Pøipojuji se na Switch Board
+selectplugins Vyber plug-iny, které chce¹ povolit
 sendfile Poslat soubor
 sendmail Poslat mail
 sendmsg Zaèít konverzaci
@@ -500,6 +516,9 @@ startoffline2 Pøipojit se tichým zpùsobem, po pøipojení tì ostatní neuvidí.
 startontray Nastartovat AMSN jen v Trayi 
 statechange Stav zmìnìn na:
 state Chci abych byl vidìn jako
+stateinfo Vlastní status
+statename Název
+statenewtext Vyplò prosím po¾adované informace nutné pro vytvoøení \n vlastního statusu a stiskni OK
 statenick Vlastní pøezdívka (vynechej kdy¾ ji nechce¹ mìnit) 
 status podle stavu
 stopalarm Zastavit alarm
@@ -510,7 +529,7 @@ stylechat Ten samý vzhled jako pro chat
 stylelog Zvol formát ve kterém chce¹ vidìt tvoji "Historii"
 syntaxerror Chyba v pøíkaze
 tabbed Okna s informací
-temp_state Neukládej (Pøechodný stav, zmizí po ukonèení AMSN)
+temp_state Neukládej (Pøechodný status, zmizí po ukonèení AMSN)
 textsize Velikost textu
 timeremaining Zbývající èas
 timestamps Povol èasové znaèky v konverzaèním oknì
@@ -547,6 +566,7 @@ version Verze
 viewcontactsby Formát zobrazení kontaktù
 viewprofile Zobrazit profil
 view Zobrazit
+webcaminvite $1 tì pozval do své videorelace, ov¹em aMSN toto nepodporuje
 willjoin Èekám na konverzaci s $1
 work Práce
 wrongfields Pole "$1", "$2" nebo "$3" nemají platné hodnoty
