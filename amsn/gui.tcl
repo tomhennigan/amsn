@@ -5579,8 +5579,6 @@ proc Reverse_to_Contact { path } {
 
 		set user [$path.reverselist.box get active]
 
-		set user [NickToEmail "$user" "reverse"]
-
 		AddToContactList "$user" "$path"
 
 	}
@@ -5597,8 +5595,6 @@ proc Remove_Contact { path } {
 
 		set user [$path.contactlist.box get active]
 
-		set user [NickToEmail "$user" "contact"]
-
 		Remove_from_list "contact" $user
 	}
 }
@@ -5609,11 +5605,9 @@ proc Allow_to_Block { path } {
 
 		$path.status configure -text ""
 
-		set username [$path.allowlist.box get active]
+		set user [$path.allowlist.box get active]
 
-		set user [NickToEmail "$username" "allow"]
-
-		::MSN::blockUser "$user" [urlencode $username]
+		::MSN::blockUser "$user" [urlencode $user]
 
 	}
 
@@ -5625,11 +5619,9 @@ proc Block_to_Allow  { path } {
 
 		$path.status configure -text ""
 
-		set username [$path.blocklist.box get active]
+		set user [$path.blocklist.box get active]
 
-		set user [NickToEmail "$username" "block"]
-
-		::MSN::unblockUser "$user" [urlencode $username]
+		::MSN::unblockUser "$user" [urlencode $user]
 
 	}
 
@@ -5667,19 +5659,6 @@ proc VerifySelect { path list } {
 
 }
 
-proc NickToEmail { nick list } {
-
-	set users ::abook::getAllContacts
-	
-	foreach user $users {
-		if { $nick == [::abook::getNick $user]} {
-			return $nick
-		}
-	}
-	
-	return ""
-
-}
 
 proc NotInContactList { user } {
 
