@@ -1,56 +1,143 @@
 ############################################
-#        ::nudge => Nudges for aMSN        #
+#        ::Nudge => Nudges for aMSN        #
 #  ======================================  #
 # Nudge is  a kind of notification	   	   #
 # that was introduced in MSN 7             #
-# TODO: Use lang system for keys		   #
 ############################################
 
 ###########################
 # All nudges related code #
 ###########################
 namespace eval ::Nudge {
-
         ###############################################
         # ::Nudge::Init (dir)                         #
         # ------------------------------------------- #
         # Registration & initialization of the plugin #
         ###############################################
 	proc Init { dir } {
-        	::plugins::RegisterPlugin Nudge
-        	::plugins::RegisterEvent Nudge PacketReceived received
+    	::plugins::RegisterPlugin Nudge
+		
+		#Register the events to the plugin system
+		::Nudge::RegisterEvent
+       	
+       	#Save in a config key where is the Nudge plugin
+    	::config::setKey nudgepluginpath $dir
+    	
+    	#Get default value for config
+    	::Nudge::config_array
+       	
+       	#Loads language files
+		::Nudge::load_nudge_languages $dir
+        
+        #Config to show in configuration window	
+       	::Nudge::configlist_values
+        	
+	}
+	
+	#####################################
+	# ::Nudge::RegisterEvent            #
+	# --------------------------------- #
+	# Register events to plugin system  #
+	#####################################
+	proc RegisterEvent {} {
+	        ::plugins::RegisterEvent Nudge PacketReceived received
 	        ::plugins::RegisterEvent Nudge chatwindowbutton sendbutton
         	::plugins::RegisterEvent Nudge chatmenu itemmenu
         	::plugins::RegisterEvent Nudge right_menu clitemmenu
-        	
-        	#Save in a config key where is the Nudge plugin
-    		::config::setKey nudgepluginpath $dir
-    	
-	        array set ::Nudge::config {
-        	notify {1}
-       		notsentinwin {1}
- 			notrecdinwin {1}
-			soundnotsend {1}
-			soundnotrec {1}
-			shake {0}
-        	shakes {10}
-           	shaketoo {0}
-			addbutton {1}
+	}
+	
+	########################################
+	# ::Nudge::config_array                #
+	# -------------------------------------#
+	# Add config array with default values #
+	########################################
+	proc config_array {} {
+	    	array set ::Nudge::config {
+        		notify {1}
+       			notsentinwin {1}
+ 				notrecdinwin {1}
+				soundnotsend {1}
+				soundnotrec {1}
+				shake {0}
+        		shakes {10}
+        	   	shaketoo {0}
+				addbutton {1}
         	}
-	        set ::Nudge::configlist [list \
-			[list bool "Shake the window when receiving a nudge." shake] \
-      		    	[list bool "Shake the window when sending a nudge." shaketoo] \
-                	[list str "\tShakes per nudge:" shakes] \
-                	[list bool "Notify nudges with popup-window." notify] \
-        	        [list bool "Notify sent nudges in the chatwindow." notsentinwin] \
-        	        [list bool "Notify received nudges in the chatwindow." notrecdinwin] \
-	                [list bool "Play a sound upon sending a nudge." soundnotrec] \
-	                [list bool "Play a sound upon receiving a nudge." soundnotsend] \
-					[list bool "Add a button to send a nudge in the chatwindows." addbutton] \
+	}
+	
+	########################################
+	# ::Nudge::configlist_values           #
+	# -------------------------------------#
+	# List of items for config window      #
+	########################################
+	proc configlist_values {} {
+		set ::Nudge::configlist [list \
+		[list bool "$::Nudge::language(shake_receive)" shake] \
+      	[list bool "$::Nudge::language(shake_send)" shaketoo] \
+       	[list str "\t$::Nudge::language(shake_nudge):" shakes] \
+       	[list bool "$::Nudge::language(popup_nudge)" notify] \
+        [list bool "$::Nudge::language(notify_send)" notsentinwin] \
+        [list bool "$::Nudge::language(notify_receive)" notrecdinwin] \
+	    [list bool "$::Nudge::language(sound_send)" soundnotrec] \
+	    [list bool "$::Nudge::language(sound_receive)" soundnotsend] \
+		[list bool "$::Nudge::language(add_button)" addbutton] \
         	]
 	}
-
-
+	########################################
+	# ::Nudge::load_nudge_languages dir    #
+	# -------------------------------------#
+	# Load languages files                 #
+	# Compatible with aMSN >0.94           #
+	########################################
+	proc load_nudge_languages {dir} {
+		#Verify if aMSN version is 0.94 or better
+		if {[::Nudge::version_094]} {
+			#If 0.94, use only english keys because 0.94 is not compatible with langfiles in plugins
+			::Nudge::language_array_094
+		} else {
+			#Load lang files
+			set langdir [append dir "/lang"]
+			set lang [::config::getGlobalKey language]
+			load_lang $lang $langdir
+			#Create array ::Nudge::language
+			::Nudge::language_array
+		}
+	}
+	########################################
+	# ::Nudge::language_array_094          #
+	# -------------------------------------#
+	# Load default english keys in array   #
+	# For aMSN 0.94 only                   #
+	########################################	
+	proc language_array_094 {} {
+		array set ::Nudge::language [list shake_receive "Shake the window when receiving a nudge" \
+		shake_send "Shake the window when sending a nudge" \
+		shake_nudge "Shakes per nudge" \
+		popup_nudge "Notify nudges with popup-window" \
+		notify_send "Notify sent nudges in the chatwindow" \
+		notify_receive "Notify received nudges in the chatwindow" \
+		sound_send "Play a sound upon sending a nudge" \
+		sound_receive "Play a sound upon receiving a nudge." \
+		add_button "Add a button to send a nudge in the chatwindow" \
+		send_nudge "Send nudge" \
+		no_nudge_support "You cannot sent a nudge to your contact because he or she doesn't use a client that supports nudges" \
+		nudge_sent "You have just sent a Nudge"]
+	}
+	
+	########################################
+	# ::Nudge::language_array              #
+	# -------------------------------------#
+	# Create ::Nudge::language array       #
+	# Compatible with lang files           #
+	########################################
+	proc language_array {} {
+			array set ::Nudge::language [list shake_receive "[trans shake_receive]" shake_send "[trans shake_send]" \
+			shake_nudge "[trans shake_nudge]" popup_nudge "[trans popup_nudge]" notify_send "[trans notify_send]" \
+			notify_receive "[trans notify_receive]" sound_send "[trans sound_send]" sound_receive "[trans sound_receive]" \
+			add_button "[trans add_button]" send_nudge "[trans send_nudge]" no_nudge_support "[trans no_nudge_support]" \
+			nudge_sent "[trans nudge_sent]"]
+	}
+	
 	###############################################
 	# ::Nudge::received event evpar               #
 	# ------------------------------------------- #
@@ -172,13 +259,11 @@ namespace eval ::Nudge {
 		if { $::Nudge::config(addbutton) == 1 } {
 			upvar 2 evpar newvar
 			upvar 2 bottom bottom
-			global version
 			
 			#Create the button with an actual Pixmal
 			#Use after 1 to avoid a bug on Mac OS X when we close the chatwindow before the end of the nudge
 			#Keep compatibility with 0.94 for the getColor
-			scan $version "%d.%d" y1 y2;
-			if { $y2 == "94" } {
+			if {[::Nudge::version_094]} {
 				button $bottom.buttons.nudge -image [::skin::loadPixmap bell] -relief flat -padx 3 \
 				-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0 \
 				-highlightbackground [::skin::getColor background2] \
@@ -191,7 +276,7 @@ namespace eval ::Nudge {
 			}
 			
 			#Define baloon info
-			set_balloon $bottom.buttons.nudge "Send Nudge"
+			set_balloon $bottom.buttons.nudge "$::Nudge::language(send_nudge)"
 		
 			#Pack the button in the right area
 			pack $bottom.buttons.nudge -side right
@@ -211,7 +296,7 @@ namespace eval ::Nudge {
 		#Add a separator to the menu
 		$newvar(menu_name).actions add separator
 		#Add label in the menu
-		$newvar(menu_name).actions add command -label "Send Nudge" \
+		$newvar(menu_name).actions add command -label "$::Nudge::language(send_nudge)" \
 		-command "::Nudge::send_via_queue $newvar(window_name)"
 		::Nudge::log "Item Send Nudge added to actions menu of window $newvar(window_name)"
 	}
@@ -230,7 +315,7 @@ namespace eval ::Nudge {
 		$newvar(menu_name) add separator
 		
 		#Add label in the menu
-		$newvar(menu_name) add command -label "Send Nudge" \
+		$newvar(menu_name) add command -label "$::Nudge::language(send_nudge)" \
 		-command "::Nudge::ClSendNudge $newvar(user_login)"
 		::Nudge::log "Create Send Nudge item in right click menu"
 	}
@@ -291,7 +376,7 @@ namespace eval ::Nudge {
 		#Check if the user can accept the nudge (MSN 7 protocol needed), if not, stop here.
 			if {![::Nudge::check_clientid $chatid]} {
 				::Nudge::winwrite $chatid \
-				"You cannot sent a Nudge to your contact because he or she doesn't use a client that supports Nudges." belloff red
+				"$::Nudge::language(no_nudge_support)" belloff red
 				::Nudge::log "\n\t\tCan't send a Nudge to <[::abook::getDisplayNick $chatid]> because he doesn't use MSN 7 protocol\n"
 				return
 			}
@@ -299,7 +384,7 @@ namespace eval ::Nudge {
 		
 		#If the user choosed to have the nudge notified in the window
 		if { $::Nudge::config(notrecdinwin) == 1 } {
-			::Nudge::winwrite $chatid "You have just sent a Nudge!" bell
+			::Nudge::winwrite $chatid "$::Nudge::language(nudge_sent)!" bell
 		}
 		
 		#If the user choosed to have a sound-notify
@@ -344,10 +429,8 @@ namespace eval ::Nudge {
 	# 0.95 use the skinnable separation instead of "--"  # 
 	######################################################
 	proc winwrite {chatid text iconname {color "green"} } {
-		global version
 		#Look at the version of aMSN to know witch kind of separation we use
-		scan $version "%d.%d" y1 y2;
-		if { $y2 == "94" } {
+		if {[::Nudge::version_094]} {
 			amsn::WinWrite $chatid "\n----------\n" $color 
 			amsn::WinWriteIcon $chatid $iconname 3 2
 			amsn::WinWrite $chatid "[timestamp] $text\n----------" $color
@@ -388,15 +471,13 @@ namespace eval ::Nudge {
 	# Not compatible with 0.94                 #
 	############################################
 	proc log {message} {
-		global version
-		scan $version "%d.%d" y1 y2;
-		if { $y2 == "94" } {
+		if {[::Nudge::version_094]} {
 			return
 		} else {
 			plugins_log Nudge $message
 		}
 	}
-	
+		
 	############################################
 	# ::Nudge::sound                           #
 	# -----------------------------------------#
@@ -409,5 +490,20 @@ namespace eval ::Nudge {
 		play_sound $dir/nudge.wav 1
 		::Nudge::log "Play sound for nudge, directory of nudge plugin: [::config::getKey nudgepluginpath]"
 	}
-
+	
+	############################################
+	# ::Nudge::version_094                     #
+	# -----------------------------------------#
+	# Verify if the version of aMSN is 0.94    #
+	# Useful if we want to keep compatibility  #
+	############################################
+	proc version_094 {} {
+		global version
+		scan $version "%d.%d" y1 y2;
+		if { $y2 == "94" } {
+			return 1
+		} else {
+			return 0
+		}
+	}
 }
