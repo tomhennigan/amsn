@@ -211,6 +211,17 @@ namespace eval ::autoupdate {
 					::autoupdate::errorDownloadingTLS $res
 				}
 			}
+			"src" {
+			if { [catch {
+					set file_id [open [file join $files_dir $fname] w]
+					fconfigure $file_id -translation {binary binary} -encoding binary
+					puts -nonewline $file_id [::http::data $token]
+					close $file_id
+					::amsn::infoMsg "[trans tlsdowncompleted $fname $files_dir [file join $HOME2 plugins]]"
+				} res ] } {
+					::autoupdate::errorDownloadingTLS $res
+				}
+			}
 			default {
 				::amsn::infoMsg "[trans tlsdowncompleted $fname $files_dir [file join $HOME2 plugins]]"
 			}
