@@ -4566,72 +4566,72 @@ namespace eval ::MSNP2P {
 	#Get picture from $user, if cached, or sets image as "loading", and request it
 	#using MSNP2P
 	proc loadUserPic { chatid user } {
-	    global config
-	    if { $config(getdisppic) != 1 } {
-		status_log "Display Pics disabled, exiting loadUserPic\n" red
-		return
-	    }
-	    
-	    #status_log "::MSNP2P::GetUser: Checking if picture for user $user exists\n" blue
+		global config
+		if { $config(getdisppic) != 1 } {
+			status_log "Display Pics disabled, exiting loadUserPic\n" red
+			return
+		}
 
-	    set userinfo [::MSN::getUserInfo $user]
-	    set msnobj [lindex $userinfo 3]
-	    
-	    #status_log "::MSNP2P::GetUser: MSNOBJ is $msnobj\n" blue
-	    
-	    set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
-	    status_log "::MSNP2P::GetUser: filename is $filename\n" white
-	    
-	    if { $filename == "" } {
-		return
-	    }
-	    
-	    global HOME
-	    if { ![file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
-		status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic cache ${filename}] doesn't exist!!\n" white
-		image create photo user_pic_$user -file [GetSkinFile displaypic "loading.gif"]
-		
-		create_dir [file join $HOME displaypic]
-		create_dir [file join $HOME displaypic cache]
-		::MSNP2P::RequestObject $chatid $user $msnobj
-	    } else {
-		catch {image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].gif"}
-		
-	    }
+		#status_log "::MSNP2P::GetUser: Checking if picture for user $user exists\n" blue
+
+		set userinfo [::MSN::getUserInfo $user]
+		set msnobj [lindex $userinfo 3]
+
+		#status_log "::MSNP2P::GetUser: MSNOBJ is $msnobj\n" blue
+
+		set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
+		status_log "::MSNP2P::GetUser: filename is $filename\n" white
+
+		if { $filename == "" } {
+			return
+		}
+
+		global HOME
+		if { ![file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
+			status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic cache ${filename}] doesn't exist!!\n" white
+			image create photo user_pic_$user -file [GetSkinFile displaypic "loading.gif"]
+
+			create_dir [file join $HOME displaypic]
+			create_dir [file join $HOME displaypic cache]
+			::MSNP2P::RequestObject $chatid $user $msnobj
+		} else {
+			catch {image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].gif"}
+
+		}
 	}
 
-     	proc loadUserSmiley { chatid user msnobj } {
-	    global config
-	    if { $config(getdisppic) != 1 } {
-		status_log "Display Pics disabled, exiting loadUserSmiley\n" red
+	proc loadUserSmiley { chatid user msnobj } {
+		global config
+		if { $config(getdisppic) != 1 } {
+			status_log "Display Pics disabled, exiting loadUserSmiley\n" red
 		return
-	    }
-	    
-	    set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
+		}
 
-	    status_log "Got filename $filename for $chatid with $user and $msnobj\n" red
+		set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
 
-	    if { $filename == "" } {
+		status_log "Got filename $filename for $chatid with $user and $msnobj\n" red
+
+		if { $filename == "" } {
 		return
-	    }
+		}
 
-	    image create photo custom_smiley_$filename -width 19 -height 19
+		image create photo custom_smiley_$filename -width 19 -height 19
 
-	    status_log "::MSNP2P::GetUserPic: filename is $filename\n" white
-	    
-	    
-	    global HOME
-	    if { ![file readable "[file join $HOME smileys cache ${filename}].gif"] } {
+		status_log "::MSNP2P::GetUserPic: filename is $filename\n" white
+
+
+		global HOME
+		if { ![file readable "[file join $HOME smileys cache ${filename}].gif"] } {
 		status_log "::MSNP2P::GetUser: FILE [file join $HOME smileys cache ${filename}] doesn't exist!!\n" white
 		image create photo custom_smiley_$filename -width 19 -height 19
-		
+
 		create_dir [file join $HOME smileys]
 		create_dir [file join $HOME smileys cache]
 		::MSNP2P::RequestObject $chatid $user $msnobj
-	    } else {
+		} else {
 		catch {image create photo custom_smiley_$filename -file "[file join $HOME smileys cache ${filename}].gif"}
-		
-	    }
+
+		}
 	}
 
 
@@ -4650,8 +4650,8 @@ namespace eval ::MSNP2P {
 
     proc GetFilenameFromContext { context } {
 	global msnobjcontext
-	
-	if { [info exists msnobjcontext($context)] } { 
+
+	if { [info exists msnobjcontext($context)] } {
 	    status_log "Found filename\n" red
 	    return $msnobjcontext($context)
 	} else {
@@ -5004,8 +5004,15 @@ namespace eval ::MSNP2P {
 				    status_log "Closed file $filename.. finished writing\n" red
 				    set file [convert_image [file join $HOME displaypic cache ${filename}.png] 96x96]
 				    if { $file != "" } {
-					set file [filenoext $file].gif
-					image create photo user_pic_${user_login} -file "[file join $HOME displaypic cache ${filename}.gif]"
+							set file [filenoext $file].gif
+							image create photo user_pic_${user_login} -file "[file join $HOME displaypic cache ${filename}.gif]"
+
+							set desc_file "[file join $HOME displaypic cache ${filename}.dat]"
+							set fd [open [file join $HOME displaypic $desc_file] w]
+							status_log "Writing description to $desc_file\n"
+							puts $fd "[clock format [clock seconds] -format %x]\n$user_login"
+							close $fd
+
 				    }
 				} else {
 				    set file [convert_image [file join $HOME smileys cache ${filename}.png] 19x19]
