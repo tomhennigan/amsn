@@ -22,7 +22,7 @@ namespace eval ::sayit {
 	proc newmessage {event evpar} {
 		variable config
 		upvar 2 $evpar newvar
-		upvar 2 $newvar(message) msg
+		upvar 2 $newvar(msg) msg
 		upvar 2 $newvar(user) user
 
 		#Define the 3 variables, email, nickname and message
