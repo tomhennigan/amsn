@@ -179,6 +179,8 @@ namespace eval ::lang {
 			set name [::lang::ReadLang $langcode name]
 			lappend languages [list "$name" "$langcode"]
 		}
+		
+		set languages [lsort -index 0 -dictionary $languages] 
 
 		set wname ".langchoose"
 
@@ -258,11 +260,19 @@ namespace eval ::lang {
 		pack $frm.selection.box -side left -expand true -fill both
 
 		# Add the lang into the previous list
+		set languages2 [list]
 		foreach langcode $::lang::OnlineLang {
-			set langname [::lang::ReadOnlineLang $langcode name]
+			set name [::lang::ReadOnlineLang $langcode name]
+			lappend languages2 [list "$name" "$langcode"]
+		}
+		set languages2 [lsort -index 0 -dictionary $languages2] 
+		
+		
+		foreach item $languages2 {
+			set langname [lindex $item 0]
 			$frm.selection.box insert end "$langname"
 			# Choose the background according to the fact lang is available or not
-			if { [lsearch $::lang::Lang $langcode] != -1 } {
+			if { [lsearch $::lang::Lang [lindex $item 0]] != -1 } {
 				$frm.selection.box itemconfigure end -background #DDF3FE
 			} else {
 				$frm.selection.box itemconfigure end -background #FFFFFF
@@ -299,7 +309,7 @@ namespace eval ::lang {
 		} else {
 
 		frame $frm.txt
-		label $frm.txt.text -text "[trans cantloadonlineversion]" -foreground red
+		label $frm.txt.text -text "[trans cantloadonlineversion]" -foreground red -wraplength 200
 		pack configure $frm.txt.text
 
 		frame $frm.command
