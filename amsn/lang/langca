@@ -14,6 +14,7 @@ addtoo Afegeix aquesta persona a la meva llista de contactes
 admincontacts Administrar la llista de contactes
 admingroups Administrar grups
 advanced Avançades
+advancedprefs Configuració de les opcions avançades
 adverts Anuncis
 alarmonconnect Activa l'alarma quan l'usuari es connecti
 alarmondisconnect Activa l'alarma quan l'usuari canviï a l'estat "Desconnectat"
@@ -26,8 +27,10 @@ allowbadwords Desactiva la censura als sobrenoms
 allowlist Llista d'acceptats (AL):
 allowonlyinal Permet que contactin amb mi només els usuaris acceptats
 allowseen Deixa que aquesta persona vegi si estic connectat i que contacti amb mi
+allprofilesinuse Tots els perfils existents s'estan utilitzant
 animatedemoticon Aquesta emoticona és animada
 animatedsmileys Activa les emoticones animades
+animatenotify Finestra de notificació animada
 appearance Aparença
 appearoff Simula desconnexió
 areacode Codi d'àrea
@@ -35,6 +38,7 @@ aretyping $1 estan escrivint un missatge
 autoaccepted Transferència del fitxer acceptada automàticament
 autoacceptft Accepta automàticament les transferències de fitxers
 autoaway Mostra'm en l'estat "Absent" quan no hi hagi activitat en
+autocheckver Busca una nova versió a l'inici
 autoconnect2 Connectar-se automàticament al iniciar l'aMSN
 autoconnect Connectar-se al iniciar l'aMSN
 autohotmaillog Connectar-se a Hotmail automàticament
@@ -128,10 +132,12 @@ deliverfail Hi ha hagut un problema al enviar el missatge
 delprofile2 Selecciona el perfil que t'agradaria eliminar
 delprofile Esborrar perfil
 description Descripció
-displaychat Opcions del text mostrat
 directconnection Tinc una connexió directa a Internet (utilitza el port 1863)
+disabled Desactivat
+disableprofiles Desactiva els perfils (útil en entorn públics i sistemes compartits)
 disablessl Desactiva l'SSL
 disconnect $1 s'ha desconnectat.
+displaychat Opcions del text mostrat
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Acoplament amb el Gnome
 docking Acoplament
@@ -144,8 +150,10 @@ edit Edita
 editnewstate Nou missatge automàtic per a un estat personalitzat
 editprofile Editar perfil
 editstate Editar missatge automàtic per a un estat personalitzat
+editvalue Editar valor
 emotisounds Reproduir sons associats a certes emoticones
 enablebanner Mostra la imatge de l'aMSN (requereix tornar a iniciar l'aMSN)
+enabled Activat
 enableproxy Habilitar el servidor intermediari (proxy)
 enableremote Activar control remot
 enablesound Reproduir sons
@@ -223,6 +231,7 @@ lconvstarted Conversa iniciada a les $1
 leaveblankforhotmail Deixa-ho buit per utilitzar hotmail
 leaves $1 deixa la conversa
 lenteredconf $1 s'uneix a la canversa a les $2
+lineflushlog Escriure els històrics a disc sense buffer (línia a línia)
 linprivate EN PRIVAT
 listeningon Escoltant el port $1
 listsmileys2 Mostrar emoticones a la llista de contactes de l'aMSN
@@ -283,6 +292,7 @@ nopic Sense imatge
 noprofileexists No hi ha perfils definits.\nN'has de crear un, si vols utilitzar-los per iniciar la sessió.\nUtilitza el botó "Afegeix un nou perfil" per afegir un nou perfil.
 normal Normal
 nosystemtray Safata del sistema no disponible
+notificationserver Servidor inicial de notificacions MSN (Servidor MSN Messenger)
 notify1_5 Mostrar una finestra d'avís quan un contacte es desconnecti
 notify1_75 Mostrar una finestra d'avís quan un contacte canviï d'estat
 notify1 Mostrar una finestra d'avís quan un contacte es connecti
@@ -302,8 +312,8 @@ openreceived Obrir fitxers rebuts
 options Opcions
 ordercontactsby Ordenar els contactes per
 ordergroupsby Ordenar grups per
-other Un altre
 others Altres
+other Un altre
 pager Paginador
 pass Contrasenya
 paste Enganxa
@@ -361,6 +371,7 @@ raised Elevada/desiconificada
 readonlymsgbox La transferència ha estat cancel·lada perquè no tens permís d'escriptura al directori destí.
 readonlywarn ATENCIÓ: Probablement, el fitxer no serà desat correctament. Comprova els permisos que tens al directori destí ($1).
 receivedbytes Rebuts $1 de $2 bytes
+receiveddir Directori de fitxers rebuts
 receivefile Rebent fitxer
 reconnect Esperant a que $1 es reconnecti
 reconnecting Reconnectant amb el servidor
@@ -383,15 +394,16 @@ sendfile Enviar fitxer
 sendmail Enviar correu electrònic
 sendmsg Enviar missatge
 sentbytes Enviats $1 de $2 bytes
+serverbusy El servidor està ocupat
 servergoingdown Desconnectat: El servidor s'apagarà per manteniment
 server Servidor
-serverbusy El servidor està ocupat
 serverunavailable El servidor no contesta
 session Sessió
 showblockedlist Mostra'm la llista de la gent que em té bloquejat a la seva llista de contactes
 showdisplaypic2 Mostra la Imatge Mostrada quan s'obri una nova conversa
 showdisplaypic Mostra la Imatge Mostrada
 showmypic La meva Imatge Mostrada
+shownotify Mostra una finestra de notificació quan succeeixin diversos events
 showuserpic Imatge Mostrada del contacte $1
 skin Aparença
 skinselector Selector d'aparences
@@ -439,6 +451,8 @@ tooltips Activa el rètol indicador de funcions
 transnotexists Aquest fitxer encara no ha estat traduït
 traynotcompiled La icona de la safata de connexió no s'ha compilat. Comprova el directori plugins/traydock
 triggers Text disparador
+truncatenames1 Escurça els sobrenoms més llargs que l'amplada de la finestra en els títols de finestra i la llista de contactes
+truncatenames2 Escurça els sobrenoms més llargs que l'amplada de la finestra a les converses
 truncatenicks Escurça els sobrenoms més llargs que l'amplada de la finestra
 twonewmail $1 missatges nous a la bústia
 unblock Desbloquejar

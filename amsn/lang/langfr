@@ -14,6 +14,7 @@ addtoo Ajouter cette personne à ma liste de contacts
 admincontacts Gérer les contacts
 admingroups Gérer les groupes
 advanced Avancé
+advancedprefs Option de configurations avancées
 adverts Publicité
 alarmonconnect Activer l'alarme quand l'utilisateur se connecte
 alarmondisconnect Activer l'alarme quand un utilisateur se déconnecte ou passe en mode invisible
@@ -26,8 +27,10 @@ allowbadwords Désactiver la censure des surnoms
 allowlist Liste des personnes autorisées
 allowonlyinal Seulement autoriser les utilisateurs de ma Liste d'acception à me contacter
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
+allprofilesinuse Tous les profiles existants sont présentement utilisés
 animatedemoticon Cet émoticon est animé
 animatedsmileys Activer les émoticons animés
+animatenotify Animer la fenêtre de notifications
 appearance Apparition
 appearoff Apparaître déconnecté
 areacode Code de la Zone
@@ -35,6 +38,7 @@ aretyping $1 est en train de taper un message
 autoaccepted Transfert de fichier accepté automatiquement
 autoacceptft Accepter automatiquement les transferts de fichiers
 autoaway Me marquer "Absent" quand inactif plus de
+autocheckver Vérification automatique au démarrage de la verion
 autoconnect2 Me connecter automatiquement quand aMSN est lancé
 autoconnect Connexion automatique au lancement
 autohotmaillog Identification automatique à Hotmail
@@ -129,6 +133,8 @@ delprofile2 Sélectionner le profil que vous voulez supprimer
 delprofile Supprimer un profil
 description Description
 directconnection J'ai une connexion directe à Internet (utilisation du port 1863)
+disabled Désactivé
+disableprofiles Désactiver les profiles (utile pour la cyber-cafés ou pour les environements partagés)
 disablessl Désactiver SSL
 disconnect $1 s'est déconnecté.
 displaychat Options d'affichage du texte
@@ -144,8 +150,10 @@ edit Edition
 editnewstate Nouvel état avec message automatique personnalisé
 editprofile Modifier profil
 editstate Editer un état existant avec message automatique
+editvalue Éditer la valeur
 emotisounds Jouer un son pour certains émoticons
 enablebanner Visualiser le bandeau aMSN (Nécessite de relancer aMSN)
+enabled Activé
 enableproxy Permettre de passer par un proxy
 enableremote Permettre le contrôle à distance
 enablesound Activer le son
@@ -223,6 +231,7 @@ lconvstarted Conversation commencée le $1
 leaveblankforhotmail Laisser vide pour un compte Hotmail
 leaves Départ de $1
 lenteredconf $1 a rejoint la conférence sur $2
+lineflushlog Effacer les journaux après chaque ligne
 linprivate En privé
 listeningon A l'écoute sur le port $1
 listsmileys2 Afficher les Emoticons et les Smileys dans la liste de contacts principale d'aMSN
@@ -283,6 +292,7 @@ nopic Pas d'icône
 noprofileexists Utiliser les profils... \nUtiliser le boutton Ajouter nouveau profil dans cette fenetre pour en créer un nouveau.
 normal Normal
 nosystemtray La poubelle n'est pas accessible
+notificationserver Serveur MSN initial de notification (Serveur MSN Messenger)
 notify1_5 Afficher une fenêtre d'information quand les contacts se déconnectent
 notify1_75 Afficher une fenêtre d'information quand les contacts changent de status
 notify1 Afficher une notification quand un contact est en ligne
@@ -361,6 +371,7 @@ raised Maximiser/Déiconifier
 readonlymsgbox Le tranfert de fichier a été annulé, car le répertoire de réception est en lecture seule. Veillez modifier les droits d'accès de ce répertoire.
 readonlywarn AVERTISSEMENT: Le fichier ne sera probablement PAS sauvegardé correctement, car le répertoire de réception de fichiers semble être protégé en écriture. Veillez vous assurer que les droits d'accès du répertoire $1 sont configurés correctement avant de transférer le fichier.
 receivedbytes $1 de $2 octets reçus
+receiveddir Dossier de fichiers reçus
 receivefile Fichier reçu
 reconnect Dans l'attente de la reconnexion de $1
 reconnecting Reconnexion au serveur
@@ -384,13 +395,16 @@ sendfile Envoyer un fichier
 sendmail Envoyer un courrier
 sendmsg Envoyer un message
 sentbytes $1 de $2 octets reçus
+serverbusy Le serveur est occupé
 servergoingdown Serveur en cours d'arrêt
 server Serveur
+serverunavailable Serveur non disponible
 session Session
 showblockedlist Voir la liste des personnes que vous avez bloqué
 showdisplaypic2 Afficher icône par défaut à l'ouverture d'une fenêtre de discussion
 showdisplaypic Afficher l'icône
 showmypic Mon icône
+shownotify Affiche le fenêtre de notification quand certains evénements se produisent
 showuserpic Icône de $1
 skin apparence
 skinselector Changer l'apparence
@@ -438,6 +452,8 @@ tooltips Activer les info-bulles
 transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue.
 traynotcompiled Le plugiciel de l'icône de la corbeille n'est pas conforme. Sélectionnez plugiciel/ancrage de la corbeille
 triggers Textes déclencheurs
+truncatenames1 Raccourcir les surnoms plus long que la largeur de la fenêtre dans le titre et la liste de contacts
+truncatenames2 Raccourcir les surnoms plus long que la largeur de la fenêtre dans les conversations
 truncatenicks Raccourcir les surnoms plus long que la largeur de la fenêtre
 twonewmail $1 nouveaux messages dans votre boîte de réception
 unblock Débloquer

@@ -423,6 +423,7 @@ sourcecode Source Code (needs compiling and installing)
 sslwarning WARNING!! Disabling SSL will disable encryption, so your password will be sent as plain text over the network. Use only for really tricky proxies or network configurations.
 startoffline2 Sign in silently as "Appear Offline"
 startoffline Start Offline
+startontray Start AMSN on tray icon only
 stateautomsg AutoMessage to Send
 statechange status changed to: 
 stateedittext Please edit the fields you would like \n to modify and press Save

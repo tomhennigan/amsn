@@ -3142,7 +3142,9 @@ proc cmsn_draw_main {} {
    wm iconbitmap . @[GetSkinFile pixmaps amsn.xbm]
    wm iconmask . @[GetSkinFile pixmaps amsnmask.xbm]
    . conf -menu .main_menu
-   
+
+	wm state . withdraw
+
 
 }
 #///////////////////////////////////////////////////////////////////////
@@ -4772,23 +4774,24 @@ proc newcontact {new_login new_name} {
     canvas ${wname}.c -width 500 -height 150
     pack ${wname}.c -expand true -fill both
 
-   button ${wname}.c.ok -text [trans ok]  \
+   button ${wname}.c.ok -text [trans ok]  -font sboldf \
        -command "set newc_exit OK; newcontact_ok \"OK\" $newc_add_to_list \"$new_login\" [list $new_name];destroy ${wname}"
-   button ${wname}.c.cancel -text [trans cancel]  \
+   button ${wname}.c.cancel -text [trans cancel]  -font sboldf \
       -command "newcontact_ok \"CANCEL\" 0 \"$new_login\" [list $new_name];destroy ${wname}"
 
   radiobutton ${wname}.c.allow  -value "1" -variable newc_allow_block \
      -text [trans allowseen] \
       -highlightthickness 0 \
-     -activeforeground #FFFFFF -selectcolor #FFFFFF
+     -activeforeground #FFFFFF -selectcolor #FFFFFF -font sboldf
   radiobutton ${wname}.c.block -value "0" -variable newc_allow_block \
      -text [trans avoidseen] \
       -highlightthickness 0 \
-     -activeforeground #FFFFFF -selectcolor #FFFFFF
+     -activeforeground #FFFFFF -selectcolor #FFFFFF  -font sboldf
    checkbutton ${wname}.c.add -var newc_add_to_list -state $add_stat \
-      -text [trans addtoo] \
+      -text [trans addtoo] -font sboldf \
       -highlightthickness 0 -activeforeground #FFFFFF -selectcolor #FFFFFF
 
+   ${wname}.c.add select
 
    ${wname}.c create text 30 5 -font splainf -anchor nw -justify left \
         -text "[trans addedyou $new_name $new_login]" \

@@ -137,7 +137,8 @@ proc ConfigDefaults {} {
 		[list enablebanner bool enablebanner] \
 		[list truncatenames bool truncatenames1] \
 		[list truncatenicks bool truncatenames2] \
-		[list showtimestamps bool timestamps]\
+		[list showtimestamps bool timestamps] \
+		[list startontray bool startontray] \
 		[list "" notifyoffset] \
 		[list notifyXoffset int xoffset] \
 		[list notifyYoffset int yoffset] \
@@ -176,6 +177,7 @@ proc ConfigDefaults {} {
 	set config(start_ns_server) "messenger.hotmail.com:1863"
 	set config(allowbadwords) 1		;#Disable censure on nicks
 	set config(enablebanner) 1		;#Show or Hide AMSN Banner (By default Show)
+	set config(startontray) 0		;#Start amsn on tray icon only (hide contact list)
 
 
 

@@ -423,6 +423,7 @@ sourcecode Código fuente
 sslwarning ¡¡CUIDADO!! Al desactivar SSL, se desactiva la encriptación, y tu contraseña será enviada a través de la red como texto sin encriptar. Utilizar sólo si es imprescindible, como en algunos servidores proxy, o configuraciones de red muy estrictas.
 startoffline2 Conectarse sigilosamente pareciendo "Desconectado"
 startoffline Comenzar Desconectado
+startontray Iniciar AMSN sólo con el icono de la bandeja del sistema
 stateautomsg Mensaje automático a enviar
 statechange cambia su estado a :
 stateedittext Edita los campos que desees modificar\ny después pulsa Guardar
