@@ -3681,8 +3681,8 @@ proc cmsn_draw_main {} {
 	#menu .pref_menu -tearoff 0 -type normal
 
 	menu .user_menu -tearoff 0 -type normal
-	menu .move_group_menu -tearoff 0 -type normal
-	menu .copy_group_menu -tearoff 0 -type normal
+	menu .user_menu.move_group_menu -tearoff 0 -type normal
+	menu .user_menu.copy_group_menu -tearoff 0 -type normal
 
 	#Main menu
 	menu .main_menu -tearoff 0 -type menubar -borderwidth 0 -activeborderwidth -0
@@ -5619,11 +5619,11 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 			set balloon_message3 ""
 		}
 		if {$state_code == "FLN"} {
-			set balloon_message4 "\n[trans lastseen] : [::abook::getContactData $user_login last_seen]"
+			set balloon_message4 "\n[trans lastseen] : [::abook::dateconvert "[::abook::getContactData $user_login last_seen]"]"
 		} else {
 			set balloon_message4 ""
 		}
-		set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n$user_login\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 $balloon_message4\n[trans lastmsgedme] : [::abook::getContactData $user_login last_msgedme]"
+		set balloon_message "[string map {"%" "%%"} [::abook::getNick $user_login]]\n$user_login\n[trans status] : [trans [::MSN::stateToDescription $state_code]] $balloon_message2 $balloon_message3 $balloon_message4\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $user_login last_msgedme]"]"
 		$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 
 		$pgBuddy.text tag bind $user_unique_name <Leave> \
@@ -6619,17 +6619,17 @@ proc show_umenu {user_login grId x y} {
 			-command  "::amsn::unblockUser ${user_login}"
 	}
 
-	::groups::updateMenu menu .move_group_menu ::groups::menuCmdMove [list $grId $user_login]
-	::groups::updateMenu menu .copy_group_menu ::groups::menuCmdCopy $user_login
+	::groups::updateMenu menu .user_menu.move_group_menu ::groups::menuCmdMove [list $grId $user_login]
+	::groups::updateMenu menu .user_menu.copy_group_menu ::groups::menuCmdCopy $user_login
 
 
 	if {$config(orderbygroup)} {
-		.user_menu add command -label "[trans movetogroup]..." -command "tk_popup .move_group_menu $x $y"
-		.user_menu add command -label "[trans copytogroup]..." -command "tk_popup .copy_group_menu $x $y"
+		.user_menu add cascade -label "[trans movetogroup]" -menu .user_menu.move_group_menu
+		.user_menu add cascade -label "[trans copytogroup]" -menu .user_menu.copy_group_menu
 		.user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login} $grId"
 	} else {
-		.user_menu add command -label "[trans movetogroup]..." -command "tk_popup .move_group_menu $x $y" -state disabled
-		.user_menu add command -label "[trans copytogroup]..." -command "tk_popup .copy_group_menu $x $y" -state disabled
+		.user_menu add cascade -label "[trans movetogroup]"  -state disabled
+		.user_menu add cascade -label "[trans copytogroup]"  -state disabled
 		.user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login}"
 	}
 	

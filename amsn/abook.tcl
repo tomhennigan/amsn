@@ -408,6 +408,37 @@ namespace eval ::abook {
 		}
 	}
 
+	proc dateconvert {time} {
+		set date [clock format [clock seconds] -format "%D"]
+		if {$time == ""} {
+			return ""
+		} else {
+			#Checks if the time is today, and in this case puts today instead of the date
+			if {[clock scan $date] == [clock scan [string range $time 0 7]]} {
+				return "[trans today][string range $time 8 end]"
+				#Checks if the time is yesterday, and in this case puts yesterday instead of the date
+			} elseif { [expr { [clock scan $date] - [clock scan [string range $time 0 7]] }] == "86400"} {
+				return "[trans yesterday][string range $time 8 end]"
+			} else {
+				set month [string range $time 0 1]
+				set day [string range $time 3 4]
+				set year [string range $time 6 7]
+				set end [string range $time 8 end]
+				#Month/Day/Year
+				if {[::config::getKey dateformat]=="MDY"} {
+					return $time
+				#Day/Month/Year
+				} elseif {[::config::getKey dateformat]=="DMY"} {
+					return "$day/$month/$year$end"
+				#Year/Month/Day
+				} elseif {[::config::getKey dateformat]=="YMD"} {
+					return "$year/$month/$day$end"
+				}
+			}
+		}
+	}
+
+
 	#Parser to replace special characters and variables in the right way
 	proc parseCustomNick { input nick user_login customnick } {
 		#By default, quote backslashes and variables
@@ -775,16 +806,20 @@ namespace eval ::abookGui {
 		label $nbIdent.titleothers -text [trans others] -font bboldunderf 
 		
 		label $nbIdent.lastlogin -text "[trans lastlogin]:"
-		label $nbIdent.lastlogin1 -text [::abook::getContactData $email last_login] -font splainf -fg blue 
+		label $nbIdent.lastlogin1 -text [::abook::dateconvert "[::abook::getContactData $email last_login]"] -font splainf -fg blue 
 		
 		label $nbIdent.lastlogout -text "[trans lastlogout]:"
-		label $nbIdent.lastlogout1 -text [::abook::getContactData $email last_logout] -font splainf -fg blue 
+		label $nbIdent.lastlogout1 -text [::abook::dateconvert "[::abook::getContactData $email last_logout]"] -font splainf -fg blue 
 
 		label $nbIdent.lastseen -text "[trans lastseen]:"
-		label $nbIdent.lastseen1 -text [::abook::getContactData $email last_seen] -font splainf -fg blue
+		if { [::abook::getVolatileData $email state] == "FLN"} {
+			label $nbIdent.lastseen1 -text [::abook::dateconvert "[::abook::getContactData $email last_seen]"] -font splainf -fg blue
+		} else {
+			label $nbIdent.lastseen1 -text [trans online] -font splainf -fg blue
+		}
 		
 		label $nbIdent.lastmsgedme -text "[trans lastmsgedme]:"
-		label $nbIdent.lastmsgedme1 -text [::abook::getContactData $email last_msgedme] -font splainf -fg blue
+		label $nbIdent.lastmsgedme1 -text [::abook::dateconvert "[::abook::getContactData $email last_msgedme]"] -font splainf -fg blue
 		
 		#Client-name of the user (from Gaim, dMSN, etc)
 		label $nbIdent.clientname -text "[trans clientname]:"
@@ -997,8 +1032,16 @@ namespace eval ::abookGui {
 		frame .globalnick.frm -bd 1 
 		label .globalnick.frm.lbl -text "[trans globalnick]" -font sboldf -justify left -wraplength 400
 		entry .globalnick.frm.nick -width 50 -bg #FFFFFF -font splainf
+		menubutton .globalnick.frm.help -font splainf -text "<-" -menu .globalnick.frm.help.menu
+		menu .globalnick.frm.help.menu -tearoff 0
+		.globalnick.frm.help.menu add command -label [trans nick] -command ".globalnick.frm.nick insert insert \\\$nick"
+		.globalnick.frm.help.menu add command -label [trans email] -command ".globalnick.frm.nick insert insert \\\$user_login"
+		.globalnick.frm.help.menu add separator
+		.globalnick.frm.help.menu add command -label [trans delete] -command ".globalnick.frm.nick delete 0 end"
+
 		pack .globalnick.frm.lbl -pady 2 -side top
-		pack .globalnick.frm.nick -pady 2 -side bottom
+		pack .globalnick.frm.nick -pady 2 -side left
+		pack .globalnick.frm.help -side left
 		bind .globalnick.frm.nick <Return> {
 			::config::setKey globalnick "[.globalnick.frm.nick get]";
 			::MSN::contactListChanged;

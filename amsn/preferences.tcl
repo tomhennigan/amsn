@@ -386,13 +386,14 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.sw -anchor n -side top -expand true -fill both
 	set frm [$frm.sw.sf getframe]	
 	
-	## General aMSN Look Options (Encoding, BGcolor, General Font)
+	## General aMSN Look Options (Encoding, BGcolor, General Font, Clock Format)
 	set lfname [LabelFrame:create $frm.lfname -text [trans preflook]]
 	pack $frm.lfname -anchor n -side top -expand 0 -fill x
 	label $lfname.plook -image preflook
 	frame $lfname.1 -class Degt
 	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
+	frame $lfname.4 -class Degt
 	label $lfname.1.llook -text "[trans encoding2]" -padx 10
 	button $lfname.1.bencoding -text [trans encoding] -font sboldf -command "show_encodingchoose"
 	pack $lfname.plook -anchor nw -side left
@@ -409,6 +410,13 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.3 -side top -padx 0 -pady 0 -expand 1 -fill both
 	pack $lfname.3.llook -side left
 	pack $lfname.3.bfont -side right -padx 15
+	label $lfname.4.llook -text "[trans dateformat]" -padx 10
+	pack $lfname.4 -side top -padx 0 -pady 0 -expand 1 -fill both
+	pack $lfname.4.llook -anchor w -side top -padx 10
+	radiobutton $lfname.4.mdy -text "[trans month]/[trans day]/[trans year]" -value MDY -variable config(dateformat)
+	radiobutton $lfname.4.dmy -text "[trans day]/[trans month]/[trans year]" -value DMY -variable config(dateformat)
+	radiobutton $lfname.4.ymd -text "[trans year]/[trans month]/[trans day]" -value YMD -variable config(dateformat)
+	pack $lfname.4.mdy $lfname.4.dmy $lfname.4.ymd -side left -padx 10
 
 
 	## Emoticons Frame ##

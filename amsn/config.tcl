@@ -74,6 +74,8 @@ proc ConfigDefaults {} {
 	set config(orderbygroup) 0			;#Order contacts by group: 0=No | 1=Groups | 2=Hybrid
 	set config(ordergroupsbynormal) 1		;#Order groups normal or inverted
 
+	set config(dateformat) MDY			;#Change date format (eg Month/Day/Year)
+
 	set config(listsmileys) 1			;#Show smileys in contact list
 	set config(chatsmileys) 1			;#Show smileys in chat window
 
