@@ -976,7 +976,12 @@ namespace eval ::ChatWindow {
 	proc CreatePanedWindow { w } {
 		
 		set paned $w.f
-		panedwindow $paned -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat -orient vertical ;#-opaqueresize true -showhandle false
+		#panedwindow $paned -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat -orient vertical ;#-opaqueresize true -showhandle false
+		if { $::tcl_version >= 8.4 } {
+			panedwindow $paned -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat -orient vertical ;#-opaqueresize true -showhandle false
+		} else {
+			frame $paned -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat 
+		}
 		set output [CreateOutputWindow $w $paned]
 		set input [CreateInputWindow $w $paned]
 
@@ -990,10 +995,12 @@ namespace eval ::ChatWindow {
 
 		pack $input -side top -expand true -fill both -padx 0 -pady [::skin::getColor chatpady]
 
-		$paned add $output $input
-		$paned paneconfigure $output -minsize 150 
-		$paned paneconfigure $input -minsize 100 -height 120
-
+		if { $::tcl_version >= 8.4 } {
+			$paned add $output $input
+			$paned paneconfigure $output -minsize 150 
+			$paned paneconfigure $input -minsize 100 -height 120
+		}
+		
 		# Bind on focus, so we always put the focus on the input window
 		bind $paned <FocusIn> "focus $input"
 		#bind $paned <Configure> "::ChatWindow::PanedWindowConfigured $paned %w %h"
