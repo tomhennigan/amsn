@@ -111,6 +111,7 @@ DONE	"Clear all logs" button (in preferences)
 
 -	Background image
 DONE	Animation when logging in
+-	Make notify window size configurable
 -	Transparent background message windows (is it possible now with 8.4?)
 -	Skin\Themes selection
 -	... at the end of nicks that don't fit in the contact list
