@@ -197,7 +197,7 @@ filename Bestandsnaam
 filetransfercancelled Bestandsoverdracht geannuleerd
 filetransfercomplete Bestandsoverdracht voltooid
 followtext Scroll naar beneden als er nieuwe tekst is ingevoerd
-friendlyname Vriendschappelijke naam
+friendlyname Schermnaam tijdens gesprek
 ftaccepted Bestandsoverdracht geaccepteerd
 ftacceptedby $1 accepteert de overdracht van het bestand '$2'
 ftaccepting Bestandsoverdracht accepteren
@@ -283,6 +283,7 @@ logsin heeft zich aangemeld
 logsmileys Toon emoticons in aMSN's geschiedenisvensters
 logsout heeft zich afgemeld 
 longnick De naam die je hebt ingesteld is langer dan 130 tekens, dit is eigenlijk te lang. Wil je het toch proberen?
+longp4c Je hebt voor 'Schermnaam tijdens gesprek' meer dan 130 tekens opgegeven. Dit wordt niet ondersteund door de originele MSN client, die zal de naam daarom weergeven als $1. Wil je de opgegeven naam toch gebruiken?
 lprivtoconf Privé-gesprek veranderde in vergadering met $1
 luclosedwin U hebt het venster gesloten op $1
 mailer E-mail programma

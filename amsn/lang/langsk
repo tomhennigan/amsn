@@ -545,3 +545,6 @@ lastmsgedme Posledny odkaz
 p4contextprefix Zobrazit tento retazec pred odosielatelom P4 
 phones Telefonne cisla 
 recentmsg Nezatvarat konverzacie pri prichode noveho odkazu
+automessage Odkazovac
+friendlyname Kamaratske Meno
+longp4c Tvoje Kamaratske Meno ma viac ako 130 pismen. Retazec ktory sa objavi v oficialnom MSN kliente bude $1. Si si isty ze chces aby sa zobrazil?
