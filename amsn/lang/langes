@@ -37,12 +37,23 @@ date Fecha
 delete Eliminar
 enableproxy Activar proxy
 entercontactemail Introduce el email del contacto
+enterfilename Introduce el nombre del archivo
 enternick Introduce tu nick
 examples Ejemplos
+filedoesnotexist El archivo no existe
+filename Nombre de Archivo
 filetransfercancelled Transferencia de archivo cancelada
 filetransfercomplete Transferencia de archivo completada
 gonelunch Salí a comer
 group Grupo
+groupadd Añadir un grupo
+groupdelete Borrar un grupo
+grouprename Cambiar nombre a grupo
+groupoldname Nombre antiguo
+groupnewname Nuevo nombre
+groupunknown Grupo desconocido
+groupexists El grupo ya existe
+groupmissing No se puede encontrar el grupo
 help Ayuda
 helpcontents Temas de ayuda
 home Casa
@@ -50,10 +61,12 @@ ident Identificándose
 identity Identificación
 inbox Bandeja de entrada
 invite Invitar
+ipaddress Dirección IP
 is está
 joins $1 $2 se une a la conversación
 language Lenguaje
 leaves $1 deja la conversación
+listeningon Escuchando en el puerto $1
 listsmileys Smileys en contactos
 loadcontacts Cargar lista de contactos
 loggingin Iniciando sesión

@@ -12,6 +12,7 @@ allowseen Allow this person to see when I'm online and contact me
 appearoff Appear offline
 are are
 autohotmaillog Auto Hotmail login
+autoip Automatic IP
 avoidseen Avoid this person can see when I'm online and contact me
 away Away
 baduserpass Wrong user name or password
@@ -37,8 +38,11 @@ date Date
 delete Delete
 enableproxy Enable proxy
 entercontactemail Enter contact e-mail
+enterfilename Please enter a filename
 enternick Enter your nick
 examples Examples
+filedoesnotexist File does not exist
+filename Filename
 filetransfercancelled File transfer cancelled
 filetransfercomplete File transfer complete
 gonelunch Gone to lunch
@@ -59,10 +63,12 @@ ident Identifying
 identity Identity
 inbox In-Box
 invite Invite
+ipaddress IP Address
 is is
 joins $1 $2 joins conversation
 language Language
 leaves $1 leaves conversation
+listeningon Listening on port $1
 listsmileys List smileys
 loadcontacts Load contact list
 loggingin Logging In
