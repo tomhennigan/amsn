@@ -2214,7 +2214,7 @@ proc CALReceived {sb_name user item} {
 	  #sb get $sb_name stat
 	  set chatid [::MSN::ChatFor $sb_name]
 	  ::MSN::ClearQueue $chatid
-	  #::MSN::CleanChat $chatid
+	  ::MSN::CleanChat $chatid
           ::amsn::chatStatus $chatid "$user: [trans usernotonline]\n" miniwarning
 	  #msg_box "[trans usernotonline]"
 	  user_not_blocked $user
