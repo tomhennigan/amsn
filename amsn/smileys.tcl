@@ -24,7 +24,7 @@ set emotion_files {smile smiled smileo smilep wink sad crooked disgust thumbu
 
 
 foreach img_name $emotion_files {
-   image create photo $img_name -file ${images_folder}/${img_name}.gif
+   image create photo $img_name -file [file join ${images_folder} ${img_name}.gif]
 }
 
 
