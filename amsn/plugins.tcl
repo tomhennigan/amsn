@@ -97,17 +97,18 @@ namespace eval ::plugins {
      }
 
      proc findplugins { } {
-	 global HOME
+	 global HOME HOME2
 	 set search_path [list] 
 	 lappend search_path [file join [set ::program_dir plugins]]
 	 lappend search_path [file join $HOME plugins]
+	 lappend search_path [file join $HOME2 plugins]
 
 	 set ret [list]
 	 foreach dir $search_path {
 
 	     foreach file [glob -nocomplain -directory $dir */plugin.tcl] {
 		 status_log "Plugins System: Found plugin files in $file\n"
-		 set plugin $file
+		 #set plugin $file
 		 set dirname [string map [list "$dir/" ""] [file dirname $file] ]
 		 set desc ""
 		 if { [file readable [file join [file dirname $file] desc.txt] ] } {
@@ -116,9 +117,10 @@ namespace eval ::plugins {
 		     status_log "Plugins System: plugin $dirname has description : $desc\n"
 		     close $fd
 		 }
-		 lappend plugin $dirname
-		 lappend plugin $desc
-		 lappend ret $plugin
+		 #lappend plugin $dirname
+		 #lappend plugin $desc
+		 #lappend ret $plugin
+		 lappend ret [list $file $dirname $desc]
 	     }
 	 }
 
