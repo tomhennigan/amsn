@@ -39,6 +39,7 @@ browse Browse
 browser Browser
 busy Travlt
 cancel Annuller
+cannotdeleteprofile Kan ikke slette profilen da det ser ud til, at profilen er i brug af en Amsn session
 cfgalarm Konfigurer/Tilføj/Fjern Alarm
 changefont Skift font
 changenick Skift kaldenavn
@@ -79,6 +80,7 @@ delete Slet
 deliverfail Der var et problem med at levere følgende besked
 delprofile2 Vælg den profil du vil have fjernet
 delprofile Slet profil
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Minimer
 docking Minimer
 dockingoff Minimer Ikke
@@ -233,6 +235,7 @@ prefsession Min log ind og status
 prefshared Delte Forbindelser (kun for NAT)
 prefsound Lyd
 profiledconfig Profilerede konfigurationer
+profileinuse Denne profil er i brug af en anden Amsn session, vælg venligst en anden
 profiles Profiler
 properties Indstillinger
 proxyconfhttp HTTP proxy support konfiguration
@@ -281,6 +284,8 @@ textsize Tekststørrelse
 title Al's Messenger
 tools Værktøjer
 to Til
+transnotexists Den kaldte fil er ikke blevet oversat til det valgte sprog endnu
+traynotcompiled Tray icon plugin'et er ikke blev kompileret endnu. Check plugin/traydock
 unblock Fjern blokkering
 uoffline Offline
 uonline Online
@@ -292,6 +297,7 @@ viewprofile Vis profil
 view Vis
 willjoin Venter på at $1 tilslutter sig til samtalen
 work Arbejde
+wrongprofileversion Forkert version på profil-instillingsfilen. For at reparere det, fjern da venligst mappen $1, eller updater amsn
 xoffset X Offset
 yoffset Y Offset
 yousay Du siger
