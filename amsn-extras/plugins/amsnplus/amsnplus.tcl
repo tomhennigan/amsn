@@ -33,27 +33,27 @@ namespace eval ::amsnplus {
 			parse_nicks {1}
 			colour_nicks {0}
 			allow_commands {1}
-			allow_received_commands {1}
+			allow_colours {1}
 		}
 		if {[string equal $::version "0.94"]} {
 			set ::amsnplus::configlist [ list \
 				[list bool "Do you want to parse nicks?" parse_nicks] \
 				[list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \
 				[list bool "Do you want to allow commands in the chat window?" allow_commands] \
-				[list bool "Do you want to get commands from other contacts with aMSN Plus?" allow_received_commands] \ 
+				[list bool "Do you want to allow multiple colours in the chat window?" allow_colours] \ 
 			]
 		} else {
 			set ::amsnplus::configlist [ list \
 				[list bool "[trans parsenicks]" parse_nicks] \
 				[list bool "[trans colournicks]" colour_nicks] \
 				[list bool "[trans allowcommands]" allow_commands] \
-				[list bool "[trans allowreceived]" allow_received_commands] \
+				[list bool "[trans allowcolours]" allow_colours] \
 			]
 		}
 		#register events
 		::plugins::RegisterEvent "aMSN Plus" parse_nick parse_nick
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_send parseCommand
-		::plugins::RegisterEvent "aMSN Plus" chat_msg_receive parseReceived
+		::plugins::RegisterEvent "aMSN Plus" chat_msg_receive parse_colours
 	}
 
 		
@@ -65,7 +65,14 @@ namespace eval ::amsnplus {
 	####################################################
 	# returns 1 if the char is a numbar, otherwise 0
 	proc is_a_number { char } {
-		return [string match \[0-9\] $char]
+		set clen [string length $char]
+		set i 0
+		while {$i < $clen} {
+			set digit [string index $char $i]
+			if {![string match \[0-9\] $digit]} { return 0 }
+			incr i
+		}
+		return 1
 	}
 	
 	#####################################################
@@ -112,12 +119,8 @@ namespace eval ::amsnplus {
 	###################################################################
 	# this procs writes msg to the window with chatid and checks the
 	# the config if its a received command (env)
-	proc write_window { chatid msg env } {
-		if {!$env && $::amsnplus::config(allow_received_commands)} {
-			::amsn::WinWrite $chatid $msg green
-			return
-		}
-		::amsn::WinWrite $chatid $msg green
+	proc write_window { chatid msg env {colour "green"} } {
+		::amsn::WinWrite $chatid $msg $colour
 	}
 
 
@@ -168,34 +171,153 @@ namespace eval ::amsnplus {
 	####################################################
 	# returns an rbg color with <num> code
 	proc getColor { num default } {
-		if {[string equal $num "0"]} {return "#FFFFFF"}
-		if {[string equal $num "1"]} {return "#000000"}
-		if {[string equal $num "2"]} {return "#00FF00"}
-		if {[string equal $num "3"]} {return "#0000FF"}
-		if {[string equal $num "4"]} {return "#FF0000"}
+		if {[string equal $num "0"]} {return "FFFFFF"}
+		if {[string equal $num "1"]} {return "000000"}
+		if {[string equal $num "2"]} {return "00FF00"}
+		if {[string equal $num "3"]} {return "0000FF"}
+		if {[string equal $num "4"]} {return "FF0000"}
 		return $default
 	}
 	
 	
 	
 	#//////////////////////////////////////////////////////////////////////////
-	#                     ALL ABOUT RECEIVING COMMANDS
+	#                ALL ABOUT MULTIPLE COLOURS IN CHAT WINDOW
 	#//////////////////////////////////////////////////////////////////////////
 
 	###############################################
-	# this manages received commands
-	proc parseReceived {event epvar} {
-		upvar 2 user user
+	# this colours received messages
+	# there are two ways to colorize text:
+	#   - preset colors -> (!FC<num>) or (!FG<num>) for background -> there are from 0 to 15
+	#   - any colour -> (r,g,b) or (r,g,b),(r,g,b) to add background -> palette to choose (take a look at tk widgeds)
+	proc parse_colours {event epvar} {
+		if { !$::amsnplus::config(allow_colours) } { return }
 		upvar 2 msg msg
 		upvar 2 chatid chatid
+		upvar 2 fontformat fontformat
+		set color [lindex $fontformat 2]
+		set style [lindex $fontformat 1]
+		set font [lindex $fontformat 0]
 		set strlen [string length $msg]
 		set i 0
-		set incr 1
 		while {$i<$strlen} {
-			set char [::amsnplus::readWord $i $msg $strlen]
-			#amsnplus commands
-			if {[string equal $incr "1"]} { incr i }
-			set incr 1
+			set char [string range $msg $i [expr $i + 3]]
+			if {[string equal $char "(!FC"]} {
+				if {[::amsnplus::is_a_number [string index $msg [expr $i + 5]]]} {
+					set new_color [string range $msg [expr $i + 4] [expr $i + 5]]
+					set msg [string replace $msg $i [expr $i + 5] ""]
+					set strlen [string length $msg]
+				} else {
+					set new_color [string index $msg [expr $i + 4]]
+					set msg [string replace $msg $i [expr $i + 4] ""]
+					set strlen [string length $msg]
+				}
+				set str [string range $msg 0 [expr $i - 1]]
+				set slen [string length $str]
+				set msg [string replace $msg 0 $slen ""]
+				set i -1
+				set strlen [string length $msg]
+				set customfont [list $font $style $color]
+				::amsn::WinWrite $chatid $str "user" $customfont
+				if {$new_color < 15} {
+					set color [::amsnplus::RGBToHex [::amsnplus::colourToRGB $new_color]]
+				}
+			}
+			set char [string index $msg $i]
+			if {[string equal $char "("]} {
+				if {[::amsnplus::is_a_number [string range $msg [expr $i + 1] [expr $i + 3]]]} {
+					if {[::amsnplus::is_a_number [string range $msg [expr $i + 5] [expr $i + 7]]]} {
+						if {[::amsnplus::is_a_number [string range $msg [expr $i + 9] [expr $i + 11]]]} {
+							set rgb [string range $msg $i [expr $i + 11]]
+							set msg [string replace $msg $i [expr $i + 11] ""]
+							set strlen [string length $msg]
+							set str [string range $msg 0 [expr $i - 1]]
+							set slen [string length $str]
+							set msg [string replace $msg 0 $slen ""]
+							set i -1
+							set strlen [string length $msg]
+							set customfont [list $font $style $color]
+							::amsn::WinWrite $chatid $str "user" $customfont
+							set color [::amsnplus::RGBToHex $rgb]
+						}
+					}
+				}
+			}
+			incr i
+		}
+		set customfont [list $font $style $color]
+		::amsn::WinWrite $chatid $msg "user" $customfont
+		set msg ""
+	}
+
+	###############################################
+	# converts decimal digit into hex
+	proc digitToHex { digit } {
+		if {[string equal $digit "10"]} {
+			return "a"
+		} elseif {[string equal $digit "11"]} {
+			return "b"
+		} elseif {[string equal $digit "12"]} {
+			return "c"
+		} elseif {[string equal $digit "13"]} {
+			return "d"
+		} elseif {[string equal $digit "14"]} {
+			return "e"
+		} elseif {[string equal $digit "15"]} {
+			return "f"
+		} else { return $digit }
+	}
+
+	###############################################
+	# converts decimal number into hex
+	proc decToHex { number } {
+		set hex ""
+		while { $number > 16 } {
+			set rest [expr $number % 16]
+			set number [expr $number / 16]
+			set rest [::amsnplus::digitToHex $rest]
+			set hex "$hex$rest"
+		}
+		set number [::amsnplus::digitToHex $number]
+		set hex "$hex$number"
+		set hlen [expr [string length $hex] -1]
+		set reversed_hex ""
+		while {$hlen >= 0} {
+			set reversed_hex "$reversed_hex[string index $hex $hlen]"
+			set hlen [expr $hlen - 1]
+		}
+		if {[string length $reversed_hex] > 2} {
+			set reversed_hex [string range $reversed_hex 1 2]
+		}
+		return $reversed_hex
+	}
+
+	###############################################
+	# this proc converts rgb colours into hex colours
+	proc RGBToHex { colour } {
+		set red [::amsnplus::decToHex [string range $colour 1 3]]
+		set green [::amsnplus::decToHex [string range $colour 5 7]]
+		set blue [::amsnplus::decToHex [string range $colour 9 11]]
+		set dec_colour "$red$green$blue"
+		return $dec_colour
+	}
+
+	################################################
+	# this proc converts msn plus predef. colours
+	# into rgb colours
+	proc colourToRGB { colour } {
+		if {[string equal $colour "0"]} {
+			return "(255,255,255)"
+		} elseif {[string equal $colour "1"]} {
+			return "(000,000,000)"
+		} elseif {[string equal $colour "2"]} {
+			return "(000,000,255)"
+		} elseif {[string equal $colour "3"]} {
+			return "(000,255,000)"
+		} elseif {[string equal $colour "4"]} {
+			return "(255,000,000)"
+		} else {
+			return "(000,000,000)"
 		}
 	}
 

@@ -1,6 +1,6 @@
 amsn_lang_version 2
 allowcommands Vols permetre l'ús de comandes en la conversa?
-allowreceived Vols permetre que els altres t'enviïn comandes?
+allowcolours Vols permetre múltiples colors en la conversa?
 ccolor \nEl teu color de text és $1.
 cfont \nLa teva font és $1.
 cinfo \nInformació sobre $1: \nNick: $2 \nGrup: $3.
@@ -20,4 +20,3 @@ deleted \nHas eliminat $1 de la llista de contactes\nPer afegir-lo de nou, fes: 
 groupadded \nAfegit el grup $1.
 groupdeleted \nHas eliminat el grup $1 \nPer afegir-lo de nou, fes: /addgroup $1.
 parsenicks Vols filtrar la codificació de colors del messenger plus als nicks?
-usersays L'usuari $1 et diu en privat:
