@@ -71,7 +71,7 @@ namespace eval ::HTTPConnection {
 			status_log "::HTTPConnection::Write: PROXY POST Sending: ($name)\n$tmp_data\n" blue
 			if { [catch {puts -nonewline [sb get $name sock] "$tmp_data"} res] } {
 				sb set $name error_msg $res
-				eval [sb get $name errorhandler]
+				eval [sb get $name error_handler]
 			}
 	    
 		} else {
@@ -154,7 +154,7 @@ namespace eval ::HTTPConnection {
 		set error_msg [fconfigure $sock -error]   		
 		if { $error_msg != "" } {
 			sb set $sbn error_msg $error_msg
-			eval [sb get $sbn errorhandler]
+			eval [sb get $sbn error_handler]
 			return
 		}
 
@@ -174,7 +174,7 @@ namespace eval ::HTTPConnection {
 		set tmp_data "$tmp_data\r\n\r\n"
 		status_log "::HTTPConnection::Connected: PROXY SEND ($sbn)\n$tmp_data\n" blue
 		if { [catch {puts -nonewline $sock "$tmp_data"} res]} {
-			eval [sb get $sbn errorhandler]
+			eval [sb get $sbn error_handler]
 		}
 		
 		fileevent $sock readable [list ::HTTPConnection::ConnectReply $sbn]
@@ -201,10 +201,10 @@ namespace eval ::HTTPConnection {
 		set sock [sb get $name sock]
 		if {[catch {eof $sock} res]} {      
 			status_log "::HTTPConnection::HTTPRead: Error, closing\n" red
-			eval [sb get $name errorhandler]
+			eval [sb get $name error_handler]
 		} elseif {[eof $sock]} {
 			status_log "::HTTPConnection::HTTPRead: EOF, closing\n" red
-			eval [sb get $name errorhandler]
+			eval [sb get $name error_handler]
 		} else {
 			set tmp_data "ERROR READING POST PROXY !!\n"
 
@@ -216,7 +216,7 @@ namespace eval ::HTTPConnection {
 
 			if { ([string range $tmp_data 9 11] != "200") && ([string range $tmp_data 9 11] != "100")} {
 				status_log "::HTTPConnection::HTTPRead: Proxy POST connection closed for $name:\n$tmp_data\n" red
-				eval [sb get $name errorhandler]
+				eval [sb get $name error_handler]
 			} else {
 
 				set headers $tmp_data
@@ -254,18 +254,26 @@ namespace eval ::HTTPConnection {
 					set endofline [string first "\n" $log]
 					set command [string range $log 0 [expr {$endofline-1}]]
 					set log [string range $log [expr {$endofline +1}] end]
-					sb append $name data $command
+					#sb append $name data $command
 
-					degt_protocol "<-Proxy($name) $command" nsrecv
+					#degt_protocol "<-Proxy($name) $command" nsrecv
 
 					if {[string range $command 0 2] == "MSG"} {
 						set recv [split $command]
 						set msg_data [string range $log 0 [expr {[lindex $recv 3]-1}]]
 						set log [string range $log [expr {[lindex $recv 3]}] end]
 
-						degt_protocol " Message contents:\n$msg_data" msgcontents
+						set evcommand [sb get $name payload_handler]
+						lappend evcommand $command
+						lappend evcommand $msg_data
+						eval $evcommand
+						#degt_protocol " Message contents:\n$msg_data" msgcontents
 
-						sb append $name data $msg_data
+						#sb append $name data $msg_data
+					} else {
+						set evalcomm [sb get $name command_handler]
+						lappend evalcomm $command
+						eval $evalcomm
 					}
 
 				}
@@ -317,7 +325,7 @@ namespace eval ::HTTPConnection {
 				#status_log "PROXY POST polling connection ($name):\n$tmp_data\n" blue      
 				if { [catch {puts -nonewline [sb get $name sock] "$tmp_data" } res]} {
 					sb set $name error_msg $res
-					eval [sb get $name errorhandler]
+					eval [sb get $name error_handler]
 				}
 
 			} 

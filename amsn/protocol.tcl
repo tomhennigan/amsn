@@ -2080,6 +2080,29 @@ namespace eval ::MSN {
 		return [lindex $state 5]	
 	}	
 
+	proc receivedCommand { sbn command } {
+		if { $sbn == "ns" } {
+			set debugcolor "nsrecv"
+		} else {
+			set debugcolor "sbrecv"
+		}
+		
+		sb append $sbn data $command
+		degt_protocol "<-$sbn $command\\n" $debugcolor
+	}
+	
+	proc receivedPayload { sbn command data } {
+		if { $sbn == "ns" } {
+			set debugcolor "nsrecv"
+		} else {
+			set debugcolor "sbrecv"
+		}	
+		
+		sb append $sbn data $command
+		sb append $sbn data $data
+		degt_protocol "<-$sbn $command\\n" $debugcolor
+		degt_protocol "Message Contents:\n$data" msgcontents
+	}
 
 }
 
@@ -2139,136 +2162,105 @@ namespace eval ::DirectConnection {
 
 	#Private callback, called when there's something to be read in the socket	
 	proc Readable {sbn} {
-		set command [sb get $sbn readable]
-		eval $command
-		
-	}
-}
 
-proc read_sb_sock {sbn} {
-
-	set sb_sock [sb get $sbn sock]
-
-	if { $sbn == "ns" } {
-		set debugcolor "nsrecv"
-	} else {
-		set debugcolor "sbrecv"
-	}
-
-
-	if {[catch {eof $sb_sock} res]} {
-
-		status_log "read_sb_sock: Error reading EOF for $sbn: $res\n" red
-		::MSN::CloseSB $sbn
-
-	} elseif {[eof $sb_sock]} {
-
-		degt_protocol "<-$sbn CLOSED" $debugcolor
-		::MSN::CloseSB $sbn
-
-	} else {
-
-		set tmp_data "ERROR READING SB !!!"
-		if {[catch {gets $sb_sock tmp_data} res]} {
-
-			degt_protocol "<-$sbn Read Error, Closing: $res" error
-			::MSN::CloseSB $sbn
-
-		} elseif  { "$tmp_data" == "" } {
-
-			update idletasks
-
+		set sb_sock [sb get $sbn sock]
+	
+		if {[catch {eof $sb_sock} res]} {
+			status_log "::DirectConnection::Read: Error reading EOF for $sbn: $res\n" red
+			eval [sb get $sbn error_handler]
+			return
+		} elseif {[eof $sb_sock]} {	
+			status_log "::DirectConnection::Read: EOF in $sbn, closing\n" red
+			eval [sb get $sbn error_handler]
+			return
 		} else {
-
-
-			if {[string range $tmp_data 0 2] == "MSG"} {
-
-				set recv [split $tmp_data]
-
-				set old_handler "[fileevent $sb_sock readable]"
-				read_non_blocking $sbn [lindex $recv 3] [list finished_reading_msg $sbn $old_handler $tmp_data]
-
+	
+			set tmp_data "ERROR READING SB !!!"
+			if {[catch {gets $sb_sock tmp_data} res]} {	
+				status_log "::DirectConnection::Read: Read error in $sbn, closing: $res\n" red
+				eval [sb get $sbn error_handler]
+				return
+			} elseif  { "$tmp_data" == "" } {
+				update idletasks
 			} else {
-				sb append $sbn data $tmp_data
-				degt_protocol "<-$sbn $tmp_data\\n" $debugcolor
+				if {[string range $tmp_data 0 2] == "MSG"} {
+					set recv [split $tmp_data]
+					set old_handler "[fileevent $sb_sock readable]"
+					ReadNonBlocking $sbn [lindex $recv 3] [list ::DirectConnection::FinishedReadingPayload $sbn $old_handler $tmp_data]
+				} else {
+					set command [sb get $sbn command_handler]
+					lappend command $tmp_data
+					eval $command
+				}
 			}
 		}
 	}
 
-}
-
-proc read_non_blocking { sbn amount finish_proc {read 0}} {
-
-	set sock [sb get $sbn sock]
-
-	fileevent $sock readable ""
-
-	if {[catch {eof $sock} res]} {
-
-		status_log "read_non_blocking: Error reading EOF for sock $sock ($sbn): $res\n" red
-		::MSN::CloseSB $sbn
-		return
-
-	} elseif {[eof $sock]} {
-
-		status_log "read_non_blocking: Eof in sock $sock ($sbn), closing\n" red
-		::MSN::CloseSB $sbn
-		return
-
-	}
-
-	set buffer_name "read_buffer_$sock"
-   upvar #0 $buffer_name read_buffer
-
-	if { $read == 0 } {
-		set read_buffer ""
-	}
-
-	set to_read [expr {$amount - $read}]
-	set data [read $sock $to_read]
-
-	if  { "$data" == "" } {
-
-		status_log "read_non_block: Blank read!! Why does this happen??\n" red
-		update idletasks
-	}
-
-
-	set read_buffer "${read_buffer}$data"
-
-	set read_bytes [string length ${data}]
-	set read_until_now [expr {$read + $read_bytes}]
-
-	if { $read_until_now < $amount } {
-		fileevent $sock readable [list read_non_blocking $sbn $amount $finish_proc $read_until_now]
-	} else {
-		eval $finish_proc
-	}
-}
-
-
-proc finished_reading_msg {sbn old_handler msg_data} {
-
-	set sock [sb get $sbn sock]
-
-	set buffer_name "read_buffer_$sock"
-	upvar #0 $buffer_name read_buffer
-
-	if { $sbn == "ns" } {
-		set debugcolor "nsrecv"
-	} else {
-		set debugcolor "sbrecv"
-	}	
 	
-	sb append $sbn data $msg_data
-	sb append $sbn data ${read_buffer}
-	degt_protocol "<-$sbn $msg_data\\n" $debugcolor
-	degt_protocol "Message Contents:\n$read_buffer" msgcontents
+	proc ReadNonBlocking { sbn amount finish_proc {read 0}} {
+	
+		set sock [sb get $sbn sock]
+	
+		fileevent $sock readable ""
+	
+		if {[catch {eof $sock} res]} {
+			status_log "::DirectConnection::ReadNonBlocking: Error reading EOF for sock $sock ($sbn): $res\n" red
+			eval [sb get $sbn error_handler]
+			return
+		} elseif {[eof $sock]} {
+			status_log "::DirectConnection::ReadNonBlocking: Eof in sock $sock ($sbn), closing\n" red
+			eval [sb get $sbn error_handler]
+			return
+		}
+	
+		set buffer_name "read_buffer_$sock"
+		upvar #0 $buffer_name read_buffer
+	
+		if { $read == 0 } {
+			set read_buffer ""
+		}
+	
+		set to_read [expr {$amount - $read}]
+		set data [read $sock $to_read]
+	
+		if  { "$data" == "" } {
+			status_log "::DirectConnection::ReadNonBlocking: Blank read!! Why does this happen??\n" red
+			update idletasks
+		}
 
-	unset read_buffer
+		set read_buffer "${read_buffer}$data"	
+		set read_bytes [string length ${data}]
+		set read_until_now [expr {$read + $read_bytes}]
+	
+		if { $read_until_now < $amount } {
+			fileevent $sock readable [list ::DirectConnection::ReadNonBlocking $sbn $amount $finish_proc $read_until_now]
+		} else {
+			eval $finish_proc
+		}
+	}
+	
+	
+	proc FinishedReadingPayload {sbn old_handler msg_data} {
+	
+		set sock [sb get $sbn sock]
+	
+		set buffer_name "read_buffer_$sock"
+		upvar #0 $buffer_name read_buffer
+	
+		set command [sb get $sbn payload_handler]
+		lappend command $msg_data
+		lappend command $read_buffer
+		eval $command
 
-	fileevent $sock readable $old_handler
+		unset read_buffer
+
+		fileevent $sock readable $old_handler
+	}
+		
 }
+
+
+
 
 #Manages the SwitchBoard (SB) structure
 #$do parameter is the action to perform over $sbn
@@ -2917,9 +2909,8 @@ proc cmsn_connected_sb {name recv} {
 
 #SB stat values:
 #  "d" - Disconnected, the SB is not connected to the server
-#  "c" - The SB is trying to get a socket to the server.
+#  "c" - The SB is going to get a socket to connect to the server.
 #  "cw" - "Connect wait" The SB is trying to connect to the server.
-#  "pw" - "Proxy wait" The SB is trying to connect to the server using a proxy.
 #  "a" - Authenticating. The SB is authenticating to the server
 #  "i" - Inviting first person to the chat. Successive invitations will be while in "o" status
 #  "o" - Opened. The SB is connected and ready for chat
@@ -3706,7 +3697,7 @@ proc cmsn_auth {{recv ""}} {
 
 	switch [sb get ns stat] {
 
-		c {
+		a {
 			::MSN::WriteSB ns "VER" "MSNP9 MSNP8 CVR0"
 			sb set ns stat "v"
 			return 0
@@ -4102,17 +4093,14 @@ proc cmsn_socket {name} {
 	global config
 
 	#This is the default read handler, if not changed by proxy
-	sb set $name readable [list read_sb_sock $name]
+	sb set $name command_handler [list ::MSN::receivedCommand $name]
+	sb set $name payload_handler [list ::MSN::receivedPayload $name]
 	#This is the default procedure that should be called when an error is detected
-	sb set $name errorhandler [list ::MSN::CloseSB $name]
+	sb set $name error_handler [list ::MSN::CloseSB $name]
 	
 	
 	if {$config(connectiontype) == "direct" } {
  		sb set $name connection_wrapper DirectConnection
-
-		#set tmp_serv [lindex [sb get $name server] 0]
-		#set tmp_port [lindex [sb get $name server] 1]
-		#set next [sb get $name connected]
 
 	} elseif {$config(connectiontype) == "http"} {
 	
@@ -4195,7 +4183,7 @@ proc cmsn_ns_connected {} {
 	}   
 	
 	fileevent [sb get ns sock] writable {}
-	sb set ns stat "c"
+	sb set ns stat "a"
 	
 
 	cmsn_auth
