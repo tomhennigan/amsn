@@ -1875,8 +1875,8 @@ namespace eval ::amsn {
 		if {$tcl_platform(os) == "Darwin"} {
 			.${win_name}.copy add cascade -label "iTunes" -menu .${win_name}.copy.itunes
 			menu .${win_name}.copy.itunes -tearoff 0 -type normal
-			.${win_name}.copy.itunes add command -label [trans xmmscurrent] -command "itunes ${win_name} 1"
-			.${win_name}.copy.itunes add command -label [trans xmmssend] -command "itunes ${win_name} 2"
+			.${win_name}.copy.itunes add command -label [trans xmmscurrent] -command "catch {exec osascript plugins/applescript/display_and_send.scpt &}; after 5000 itunes ${win_name} 1"
+			.${win_name}.copy.itunes add command -label [trans xmmssend] -command "catch {exec osascript plugins/applescript/display_and_send.scpt &}; after 5000 itunes ${win_name} 2"
 		}
 
 		frame .${win_name}.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -relief flat
@@ -6181,7 +6181,7 @@ proc configureMenuEntry {m e s} {
 # close_cleanup()
 # Makes some cleanup and config save before closing
 proc close_cleanup {} {
-	global HOME config lockSock tcl_platform
+	global HOME config lockSock
 	catch { ::MSN::logout}
 	set config(wingeometry) [wm geometry .]
 
