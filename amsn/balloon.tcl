@@ -28,7 +28,8 @@
 bind Bulle <Enter> {
     set Bulle(set) 0
     set Bulle(first) 1
-    set Bulle(id) [after 1000 [list balloon %W $Bulle(%W) %X %Y]]
+    set win %W 
+    set Bulle(id) [after 1000 [list balloon ${win} $Bulle(${win}) %X %Y]]
 }
 
 bind Bulle <Button> {
@@ -44,20 +45,21 @@ bind Bulle <Leave> {
 bind Bulle <Motion> {
     if {$Bulle(set) == 0} {
         after cancel $Bulle(id)
-        set Bulle(id) [after 1000 [list balloon %W $Bulle(%W) %X %Y]]
+	set win %W
+        set Bulle(id) [after 1000 [list balloon ${win} $Bulle(${win}) %X %Y]]
     }
 }
 
 proc set_balloon {target message} {
     global Bulle
-    set Bulle($target) $message
-    bindtags $target "[bindtags $target] Bulle"
+    set Bulle(${target}) ${message}
+    bindtags ${target} "[bindtags ${target}] Bulle"
 }
 
 proc change_balloon {target message} {
 	kill_balloon
 	global Bulle
-	set Bulle($target) $message
+    set Bulle(${target}) ${message}
 }
 
 proc kill_balloon {} {
@@ -72,7 +74,7 @@ proc kill_balloon {} {
 }
 
 proc balloon {target message {cx 0} {cy 0} } {
-    global Bulle
+    global Bulle tcl_platform
     #Last focus variable for "Mac OS X focus bug" with balloon
     set lastfocus [focus]
     
@@ -80,8 +82,8 @@ proc balloon {target message {cx 0} {cy 0} } {
     if {$Bulle(first) == 1 } {
         set Bulle(first) 2
 	if { $cx == 0 && $cy == 0 } {
-	    set x [expr [winfo rootx $target] + ([winfo width $target]/2)]
-	    set y [expr [winfo rooty $target] + [winfo height $target] + 2]
+	    set x [expr [winfo rootx ${target}] + ([winfo width ${target}]/2)]
+	    set y [expr [winfo rooty ${target}] + [winfo height ${target}] + 2]
 	} else {
 	    set x [expr $cx + 12]
 	    set y [expr $cy + 2]
@@ -92,33 +94,33 @@ proc balloon {target message {cx 0} {cy 0} } {
 	}
 
 	#Standard way to show baloon on Mac OS X (aqua), show balloon in white for Mac OS X and yellow for others platforms
-if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-	destroy .balloon
-	toplevel .balloon -relief flat -bg #C3C3C3 \
-    -class Balloonhelp ; ::tk::unsupported::MacWindowStyle\
-    style .balloon help none
-    set bg_balloon #ffffca
+	if {$tcl_platform(os) == "Darwin"} {
+	    destroy .balloon
+	    toplevel .balloon -relief flat -bg #C3C3C3 \
+		-class Balloonhelp ; ::tk::unsupported::MacWindowStyle\
+		style .balloon help none
+	    set bg_balloon #ffffca
 	} else {
-	wm overrideredirect .balloon 1
-	set bg_balloon #ffffaa
+	    wm overrideredirect .balloon 1
+	    set bg_balloon #ffffaa
 	}
-
+	
 	set wlength [expr {[winfo screenwidth .] - $x - 5}]
 	if { $wlength < 100 } {
-	   set wlength 100
+	    set wlength 100
 	}
-
+	
         label .balloon.l \
-            -text $message -relief flat \
-            -bg $bg_balloon -fg black -padx 2 -pady 0 -anchor w -font sboldf -justify left -wraplength $wlength
+	    -text ${message} -relief flat \
+	    -bg ${bg_balloon} -fg black -padx 2 -pady 0 -anchor w -font sboldf -justify left -wraplength $wlength
 	pack .balloon.l -side left -padx 1 -pady 1
         wm geometry .balloon +${x}+${y}
         
-   #Focus last windows , in AquaTK ("Mac OS X focus bug")
-if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" && $lastfocus !="" } {
-	after 50 "focus -force $lastfocus"  
+	#Focus last windows , in AquaTK ("Mac OS X focus bug")
+	if {$tcl_platform(os) == "Darwin" && $lastfocus !="" } {
+	    after 50 "focus -force $lastfocus"  
 	}
-
+	
 	set Bulle(set) 1
 	after 10000 "kill_balloon"
     }

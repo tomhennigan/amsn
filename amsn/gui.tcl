@@ -201,9 +201,10 @@ namespace eval ::amsn {
 
 			::dkfprogress::SetProgress $w.prbar 0
 
-			set tok 0
+
 			if {[ catch {set tok [::http::geturl $downloadurl -progress "::amsn::downloadTLSProgress $downloadurl" -command "::amsn::downloadTLSCompleted $downloadurl"]} res ]} {
-				errorDownloadingTLS $res $tok
+				errorDownloadingTLS $res
+			    	catch {::http::cleanup $tok}
 			} else {
 				$w.close configure -command "::http::reset $tok"
 				wm protocol $w WM_DELETE_WINDOW "::http::reset $tok"
@@ -288,10 +289,10 @@ namespace eval ::amsn {
 
 	}
 
-	proc errorDownloadingTLS { errormsg token} {
+	proc errorDownloadingTLS { errormsg} {
 		errorMsg "[trans errortls]: $errormsg"
 		catch { destroy .tlsprogress }
-		catch {::http::cleanup $token}
+	
 	}
 
    #///////////////////////////////////////////////////////////////////////////////
@@ -518,8 +519,11 @@ namespace eval ::amsn {
 
       set w ${win_name}_sendfile
       if { [ winfo exists $w ] } {
-         if {$filename == ""} { fileDialog2 $w $w.top.fields.file open "" }\
-         else { $w.top.fields.file insert 0 $filename }
+         if {$filename == ""} { 
+	     fileDialog2 $w $w.top.fields.file open "" 
+	 } else { 
+	     $w.top.fields.file insert 0 $filename
+	 }
          return
       }
 
@@ -559,8 +563,12 @@ namespace eval ::amsn {
 
       focus $w.top.fields.file
 
-      if {$filename == ""} { fileDialog2 $w $w.top.fields.file open "" }\
-      else { $w.top.fields.file insert 0 $filename }
+      if {$filename == ""} { 
+	  fileDialog2 $w $w.top.fields.file open "" 
+	  ::amsn::FileTransferSendOk $w $win_name
+      } else {
+	  $w.top.fields.file insert 0 $filename 
+      }
    }
 
    #PRIVATE: called by the FileTransferSend Dialog
@@ -2835,7 +2843,7 @@ catch {exec killall -c sndplay}
 
 	   set final 0
 	   set caracter [string range $urltext $final $final]
-	   while { $caracter != " " && $caracter != "\n" && $caracter != "," \
+	   while { $caracter != " " && $caracter != "\n" \
 	   	&& $caracter != ")" && $caracter != "("} {
 		set final [expr {$final+1}]
 		set caracter [string range $urltext $final $final]
@@ -4992,7 +5000,7 @@ proc balloon_enter {window x y msg} {
 	#"+set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message)] %X %Y]\]"
 	set Bulle(set) 0
 	set Bulle(first) 1
-	set Bulle(id) [after 1000 [list balloon $window $msg $x $y]]
+    set Bulle(id) [after 1000 [list balloon ${window} ${msg} $x $y]]
 }
 
 proc balloon_motion {window x y msg} {
@@ -5001,7 +5009,7 @@ proc balloon_motion {window x y msg} {
    #         set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]\} "
 	if {[set Bulle(set)] == 0} {
 		after cancel [set Bulle(id)]
-		set Bulle(id) [after 1000 [list balloon $window $msg $x $y]]
+	    set Bulle(id) [after 1000 [list balloon ${window} ${msg} $x $y]]
 	}
 }
 
