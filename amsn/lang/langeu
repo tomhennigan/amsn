@@ -5,20 +5,40 @@ accept Onartu
 actions Ekintzak
 addacontact Kontaktua gehitu
 addedyou $1 ($2) k bere kontaktuen zerrendara gehitu zaitu
+addprofiledesc Hasiera saioa zeinarentzako profil bat sortu nahi duzun idatzi.  \n Profil bakoitzeko konfigurazio desberdinak eduki ditzakezu \n Historia,Alarmak  edota “Gakoa gogoratu” ezin duzu Profilik gabe erabili.
+addprofile Profil berria sortu
+addstate Egoera berria sortu
+addto $1-era gehitu
 addtocontacts Kontaktu zerrendara gehitu
 addtoo Pertsona hau zure kontaktuen zerrendara gehitu
 admincontacts Kontaktuak administratu
 admingroups Taldeak administratu
+advanced Aurreratua
+advancedprefs Aukera aurreratuen konfigurazioa
 adverts Iragarpen
+alarmonconnect Erabiltzailea konektatzerakoan alarma aktibatu
+alarmondisconnect Erabiltzailea deskonektatu edo ikusezina gelditzerakoan alarma aktibatu
+alarmonmsg Erabiltzaile batek mezu bat bidaltzen dizunean alarma aktibatu
+alarmonstatus Erabiltzaile batek egoera aldatzen duenean aktibatu alarma
 alarmpref Erabiltzailearentzat alarma aukerak
 alarmstatus Erabiltzaile honentzako alarma jarri edo kendu
+allowallbutbl Nire Blokeo Zerrendan dauden hauetatik aparte guztiak ni kontaktatzeko baimena eman
+allowbadwords Ezizenetan zentsura desgaitu
+allowlist Zerrenda Baimendu (ZB):
+allowonlyinal Onartze Zerrendan dauden erabiltzaileak bakarrik ni kontaktatzeko gaitu 
 allowseen Pertsona honek konektatuta nagoela ikusi dezan eta nirekin kontaktatzeko baimendu
+allprofilesinuse Esistitzen diren profil guztiak momentu honetan erabiliak izaten ari dira
+animatedemoticon Begitarte hau animatua da
+animatedsmileys Begitarte animatuak gaitu
+animatenotify Jakinarazpenen Leiho Animatua
 appearance Itxura
 appearoff Konektatuta
 areacode Kode eremua
-aretyping $1 idazten daude
-askprofile Erabili Historia, edo zure alarmak eta pasahitzak gorde. \n Egiten baduzu, profil honentzako konfigurazio desberdinak edukiko dituzu profil honentzako. \n Sakatu "Profila sortu"-n $1 -rentzat profil berria sortzeko.
-autoaway Erakutsi "Ez dago" ez-aktibo nagoenean honengaitik: 
+aretyping $1 idazten daude desberdinak edukiko dituzu profil honentzako. \n Sakatu "Profila sortu"-n $1 -rentzat profil berria sortzeko.
+autoaccepted Fitxategi Transferentzia automatikoki onartua
+autoacceptft Fitxategi Transferentzia eskaerak automatikoki onartu
+autoaway Erakutsi "Ez dago" ez-aktibo nagoenean honengaitik:
+autocheckver Abiazterakoan bertsio berriagoak dauden egiaztatu
 autoconnect2 aMSN abiarazita izaten denean sinatu automatikoki
 autoconnect AMSNra konektatu hasterakoan
 autohotmaillog Hotmailen automatikoki hasi saioa
@@ -34,74 +54,138 @@ bgcolor Aldatu aMSN-ren atzeko planoaren kolorea
 blankdirect Konexio zuzena erabiltzeko zuriz utzi
 block Blokeatu
 blocked Blokeatuta
+blockedyougroup Ni blokeatu nauten pertsonentzako talde berezi bat erakutsi
+blocking Blokeatzen
+blockinter1 Zure egoera Konektatuta denean, egiaztatu
+blockinter2 segunduero, eta egiaztatu ere:
+blockinter3 Bakoitzan
+blockinter4 Segunduero.
+blocklist Blokeo Zerrenda (BZ):
+blockmessage Pertsona hauek konektatu daude eta zu blokeatu zaituzte
+blockusers Momentuan konprobatzeko erabiltzaileen kopurua
 broughtby Honako progamatzaile hauei esker AMSN erabili dezakezu
 browse Nabigatu
+browserexample ( \$url URL-arekin ordezkatua izango da). Adibidez:: mozilla \$url
 browser Nabigatzailea
 busy Okupatuta
 cancel Utzi
+cannotdeleteprofile Ezin da profila ezabatu, aMSN beste sesio batean erabilia izaten omen ari delako
+cantexec $1 aplikazioa ezin izan da exekutatua izan. Konfigurazioa egiaztatu
+casesensitive Maiuskulu/Minuskula disparadoreak erabili
 cfgalarm Alarma Konfiguratu/Gehitu/Ezabatu
+cfgalarmall Alarma Globala Konfiguratu/Gehitu/Ezabatu
+changedisplaypic Konfiguratu/Gehitu/Ezabatu Alarma
 changefont Letra-tipoa aldatu
 changenick Ezizena aldatu
+changestate $1-k $2 egoerara aldaketa egiten du
 chatack -ren txata onartzen
+chatmaxmin Kontaktu batek nirekin txat bat irekitzen duenean, txat hori honelakoa izatea nahi dut:
 chatreq Txat eskakizuna
 chatsmileys2 Emotikonak eta Smile-ak erakutsi txat leihoetan
 chatsmileys Smiley-ak txatean
 chat Txat
+checkblocking Erabiltzaileek ni blokeatzen ari direla etengabe egiaztatu
 checkfilman Jasotako fitxategiak $1-an gordeak izango dira. Egiaztatu fitxategi-kudeatzailearen ezarpenak fitxategi hobespen leihoetan.
 checkingver Bertsio berriagorik dagoen egiaztatzen
+checkonfln Jasotako fitxategiak$1-n gordeak izango dira. Fitxategi kudeatzailearen aukeren leihoan egiaztatu
 checkver Bertsio berria dagoen egiaztatu
+choosearq Zure ordenagailuaren arkitektura hautatu
 choosebasefont Letra-mota hautatu
 choosebgcolor Atzeko planoko kolorea hautatu
+choosecontact Zerrendatik kontaktu bat hautatu
 choosefontcolor letrako kolorea hautatu
+chooseskin Erabiltzea gustatuko litzaizuken azala hautatu
 clearlog2 Ezabatu zure kontaktu guztien historia
 clearlog3 Log guztiak ezabatu
 clearlog Log-a ezabatu
 clicktologin Klik egin hemen saioa hasteko
+closed Aktibitate eza dela eta $1[e]-kin zeneukan elkarrizketa itxita
 close Itzi
 closingdocks Ixteko botoiak minimizatzen du
 command Komandoa
+commandstatus Komandoa exekutatu
 confirmdelete $1 ezabatzearekin ados zaude?
 confirm Zihur al zaude?
+connected Orain konektaturik zaude
 connecterror Akatsa zerbitzarira konektatzerakoan
+connecting Konektatzen
 connection Konekzioa
+connectionlost Deskonektaturik.: Zerbitzariarekin konekzioa itxirik
 contactadded Kontaktua gehituta
 contactdoesnotexist Kontaktua ez da existitzen
+contactlist Kontaktuen zerrenda (KZ):
 copy Kopiatu
 copytogroup Taldera kopiatu
 countrycode Nire estatu/eskualde kodea
 cprofile Sortu profila
+custom_edit Pertsonalizatutako begitartea editatu
+custom_new Pertsonalizatutako begitarte berria gehitu
 cut Ebaki
 date Data
 days Egunak
 dcprofile Profila ez sortu
 default Konfigurazio lehenetsia
+defaultloginradio Lehenetsitako konfigurazioarekin sartu
 delete Ezabatu
+delimiters Data-zigiluen mugatzaileak:
 deliverfail Hurrengo mezua bidaltzen arazoa egon da
 delprofile2 Ezabatu nahi duzun profila aukeratu
 delprofile Profila ezabatu
+description Deskripzioa
+directconnection Internetera zuzeneko konexioa daukat (1863. ataka erabiltzen du)
+disabled Desgaituta
+disableprofiles Profilak desgaitu (Cyber-kafetegi eta ingurune publikoetarako erabilgarria)
+disablessl SSL desgaitu
+disconnect $1 deskonektatu egin da
+displaychat Testu aukeraketak erakutsi
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome ikonoa
 dockingoff Desaktibatuta
 docking Sistemako bandejan ikonoa
 dockkde KDE ikonoa
+dontdownload TLS ez deskargatu, ni neuk nere kasa instalatuko dut
+downloadingtls $1-tik TLS modulua deskargatzen
+editcurrentstate Unekoa editatu
 edit Editatu
+editnewstate Automezu Pertsonalaren Egoera berria
 editprofile Profila editatu
+editstate Esistitzen den Automezu pertsonalaren Egoera editatu
+editvalue Balioa editatu
+emotisounds Zenbait begitarteentzako soinuak erreproduzitu
+enablebanner AMSN-ren banerra erakutsi (aMSN berrabiarazi behar duzu)
+enabled Gaituta
 enableproxy Proxya gaitu
+enableremote Urruneko kontrola gaitu
+enablesound Soinuak erreproduzitu
 encoding2 Aldatu zure karaktereak kodetzen diren modua
 encoding Kodeatzen
 entercontactemail Kontaktuaren e-posta sartu
 enterfilename Fitxategi-izena sartu mesedez
 enternick Zure ezizena sartu
+errortls TLS modulua instalatzerakoan errorea:
 examples Adibideak
 exitamsn Zihur programatik atera nahi zarela?
 extras Zerbitzu osagarriak
 faq MEG Maiz Egiten diren Galderak
 filedoesnotexist Fitxategia ez da existitzen
+filemanexample \$location direktoriarekin ordeztua izango da Ex: nautilus \$location 
 fileman Fitxategi-kudeatzailea
 filename Fitxategi-izena
 filetransfercancelled Fitxategien transferentzia bertan behera utzita
 filetransfercomplete Fitxategien transferentzia osatuta
+followtext Testu berria sartzen denean korritu behera
+ftacceptedby $1 [e]-k $2 fitxategia jasotzea onartu du
 ftaccepted Fitxategi transferentzia onartuta
+ftaccepting Fitxategi transferentzia onartuta
+ftconnecterror Urruneko parera konektatzerakoan akatsa
+ftconnecting $1 -era ataka $2 -ra konektatzen
+ftconnectionlost Urruneko parearekin konekxioa galduta
+ftgotinvitation $1 [e]-k $2 fitxategia bidali nahi dizu. ($3 byte) $1 -[r]i bidaliak izan dira
+ftportpref Fitxategi transferentzietarako ataka abiarazten
+ftrejectedby $1 -ek $2 fitxategia jasotzeari uko egin dio
 ftrejected Fitxategi transferentzia gaitzetsita
+ftsendinvitation $2 fitxategiaren transmisiorako gonbidapena ($3 byte) $1 -era bidalia izan da
+getdisppic Beste erabiltzaileetatik Pantaila Irudiak jasotzea baimendu
 gonelunch Jatera joanda
 groupadd Talde bat gehitu
 groupdelete Talde bat ezabatu
@@ -116,12 +200,21 @@ groupunknown Talde ezezaguna
 handle Heldulekua
 helpcontents Laguntzaren edukiak
 help Laguntza
+hidedisplaypic Pantaila irudia ezkutatu
+hiden Begitarteen menutik begitartea ezkutatu
+hidewindow Leihoa ezkutatu
 history Historia
 home Etxea
+httpconnection HTTP metodoa erabiliz konektatu (80. atakan HTTP protokoloa erabili)
+hybrid Modu hibridoa
 ident Identifikatzen
 identity Identitatea
 inbox Sarrera-bandeja
+installconvert ImageMagick (programa bihurtzailea) instalatu behar duzu, Buddy ikonoak eta Pertsonalizatutako Begitarteak erabiltzeko. Zure Sistema eragilearentzako binarioak  ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ helbidean deskargatu ditzakezuz. Dagoeneko
+internalerror Zerbitzariaren barne akatsa
+invalidfile $1 eremuan sartutako $2 fitxategia ez da esistitzen edo ez da irakurgarria
 invalidusername Erabiltzaile izen ez zuzena
+invitationcancelled Gonbidapena bertan behera utzi da
 invite Gonbidatu
 ipaddress IP Helbidea
 ipdetect HTTP fitxategien transferentziarako IP zuzena detektatu 
@@ -138,6 +231,7 @@ lconvstarted $1-n hasitako solasaldia
 leaveblankforhotmail Zuriz utzi Hotmailen weba erabiliko baduzu
 leaves $1 berriketatik ateratzen da
 lenteredconf $1 $2 solasaldian sartu da
+lineflushlog Flush log fitxategiak lerro bat eta gero
 linprivate Pribatuan
 listeningon $1 ataka entzuten
 listsmileys2 aMSN-ren kontaktu zerrendan Emoticon eta Smileyk erakutsi
@@ -156,14 +250,19 @@ logolder Iraganean egon diren solasaldiak logean gorde bakarrik
 logout Saioa amaitu
 logsin oraintxe bertan saioa hasi du
 logsmileys Historia leihoan aMSN-ren Emoticonak eta Smiley-ak erakutsi
+logsout Oraintxe bertan atera egin da
 lprivtoconf Txat pribatua, $1ekin konferentzia bilakatu da
 luclosedwin $1n leihoa itxi duzu
 mailer Bidalketa-funtzioa
+mailerexample ( \$recipient = Hartzailea) Hotmail erabiltzeko utzi zuriz
 maximised Maximizatu
 minimised Minimizatu
 mins minutuak
 mobile Mugikorra
+morepersonal Egoera gehiago ->
+move Mugitu
 movetogroup Taldera mugitu
+msgflicker Jarri leihoaren izenburua mezu berri bat bigarren mailan dagoen leiho baten jasotzen denean
 msgmaxmin Mezu berri bat jasotzen dudanean hura honako hau izatea nahi dut:
 msg Mezua
 msgmode Mezu anitzen leihoak nola erabili hautatu:
@@ -171,6 +270,7 @@ msn AMSN
 mustrestart Aldaketak aplikatzeko programa berrabiarazi behar duzu
 myhomephone Nire Etxeko telefonoa
 mymobilephone Nire Telefono Mugikorra
+mypic Nire Pantaila Irudia:
 mystatus Nire egoera
 myworkphone Nire Laneko Telefonoa
 natip Webaren bitartez IP-a detektaturik
@@ -182,16 +282,26 @@ newmsg Mezu berria
 newveravailable $1 bertsio berria deskargatzeko erabilgarri
 next Hurrengoa
 noactivity Ez dago aktibitaterik
+nodataavailable $1 -erako ez dago data erabilgarririk
+no Ez
 nologfile $1rako ez dago log fitxategirik
+noneavailable Ez dago erabilgarri
 nonewmail 0 mezu berri zure sarrera-bandejan
 nonewver Ez dago bertsio berriagorik deskargatzeko erabilgarri
+nopic Ez dago irudirik
+noprofileexists Momentu honetan ez daude profilik, \n profilak erabili nahi badituzu sortu behar dituzu.  \nErabili Profil Berria Gehitu botoia leiho honetan profil berri bat sortzeko.
 normal Normala
+nosystemtray Aska sistema ez erabilgarria
+notificationserver MSN jakinarazpen zerbitzariaren hasiera (MSN Messenger zerbitzaria)
+notify1_5 Jakinarazpen Leihoa erakutsi kontaktuak deskonektatzen direnean
+notify1_75 Jakinarazpen Leihoa erakutsi kontaktuak egoeraz aldatzen dutenean
 notify1 Jakinarazketa leihoa erakutsi kontaktuak konektatzen direnean
 notify2 Mezu berriak jasotzen direnean jakinarazketa leihoan erakutsi
 notify3 Mezu berriak zure sarrera-bandejan jasotzerakoan
 notify jakinarazi
 notifyoffset Jakinarazketa leihoaren posizioa aldatu bere posizioa emanez
 notifywin Abisuen leihoa
+notls MSN 9 protokoloak TLS paketea behar du. Pakete hau ordenagailu honetan instalatuta ez dagoela ematen du. Instalatuta ez badago, programategien direktoriorainoko datu-bidea Aukeraketa Leihoan idatzia izan behar da (adib.: /opt/tls/lib). \n \n TLS http://tl
 nousersinsession Ez dago erabiltzailerik saioan
 offline Deskonektatuta
 ok Ok
@@ -203,49 +313,73 @@ options Aukerak
 ordercontactsby Kontaktuak ordenatu
 ordergroupsby Taldeak ordenatu honen arabera
 other Beste bat
+others Beste batzuk
 pager Bilagailu
 pass Pasahitza
 paste Itsatsi
 personal Pertsonala
 phone Telefonoa
+picbrowser Erakutsi Irudien arakatzailea
 picfile Alarmaren irudiaren fitxategia (GIF < 500 x 500)
 picstatus Alarmaren irudia ON/OFF
+playing Erreproduzitzen: $1
+pluginselector Plugin-a aukeratu
 port Ataka
 prefalerts Nire gertaeren alertak eta soinuak
 prefapps Aplikazioak
 prefawaymsg Nire ez-nago motako mezua
+prefblock1 Deskonektatzerakoan egiaztatu
+prefblock2 Etengabe egiaztatu
+prefblock3 “Hauek blokeatuta izan zara” taldea
+prefconnection Konekzioen ezarpena
 prefemotic Emozio ikonoak eta Smiley-ak
 preferences Hobespenak
 preffont2 Aldatu besteek txatetan nire testuak ikusten duten modua
 preffont3 Aldatu aMSN-ren interfazearen letra-mota eta letra-tamaina
 preffont Nire mezuaren testua
+preflibs Programategien direktorioak
 preflog1 Nire Historia eta Logen aukerak
 preflook Nire aMSN mezulariaren kanpo-itxura
 prefmsging Nire mezuen interfazea
 prefname MSN Messenger-en Izena/Ezizena
 prefphone2 Idatzi jendeak bere onarpen zerrendetan \n ikusiko dituen telefono zenbakiak \n
 prefphone Nire Telefono Zenbakiak
+prefprivacy2 Erabiltzaileen Kontaktu zerrendak
+prefprivacy Erabiltzaileen Baimendu/Blokeatu zerrendak
 prefprofile2 Sortu edo aldatu zure profil publikoa (besteek \n ikusten duten zeure buruaren deskribapena)
 prefprofile3 aMSN-ren Erabiltzaileen Konfigurazio Profilak
 prefprofile Nire Profil Publikoa
 prefproxy Nire Proxy Ezarpenak
+prefremote Urruneko konexioen ezarpenak
 prefsession Nire sarrera-sinadura eta egoera
 prefshared Konpartitutako konexioak (NATerako soilik)
 prefsound Soinuak
+privacy Pribatutasuna
 profiledconfig Konfigurazio profilak
+profileexists Hasi saio honekin ezin duzu profil berria sortu \n zeren eta dagoeneko bat sortuta dago. Bestelako hasi saio bat hautatu.
+profileinuse Profil hau beste aMSN sesio batengaitik erabilia izaten ari da, hautatu besteren bat
+profileloginradio Hasi saioa esistitzen den Profil bat erabiliz
 profiles Profilak
 properties Propietateak
 proxyconfhttp HTTP proxyaren konfigurazioa
 proxyconf Proxyaren konfigurazioa
+proxyconnection Proxy zerbitzari bat erabiliz Internetera konektatzen naiz:
 proxy Proxy baten atzean nago (HTTP edo Socks5)
 publishphones Nire telefono zenbakiak argitara eman
+purge Purgatu
+raised Tolestuta
+readonlymsgbox Fitxategi transferentzia hau bertan behera utzi da, zeren eta direktorio hartzailea irakurri-soilik egoera dauka. Direktorio honetako aukeraketak aldatu
+readonlywarn KONTUZ: Fitxategia seguraski EZ da ondo gordeko zeren eta “Jasotako fitxategiak” direktorioa idatzi-babestua dago. Hartzaile direktorioko ( $1 ) baimenak ono daudela begiratu
 receivedbytes $2 byteetako $1 jasota
+receiveddir Jasotako Fitxategien direktorioa
 receivefile Fitxategia jaso
 reconnect $1 birkonektatzera itxaroten
 reconnecting Zerbitzariara birkonektatzen
 reject Ezeztatu
 rememberpass Pasahitza gogoratu
+removefromlist Zerrenda honetatik ezabatu
 reversed Alderantzikatuta
+reverselist Aldirantzizko Zerrenda
 rightback Oraintxe bueltan nago
 saveas Gorde Honela
 savecontacts Kontaktu zerrenda gorde
@@ -253,23 +387,47 @@ save Gorde
 savetofile Gorde fitxategian
 says $1[e]k dio
 sbcon Switch Board-era konektatzen
+selectplugins Gaitu nahi dituzun plugin-ak hautatu
+selectskin Zerrendatik azal bat aukeratu
 send Bidali
 sendfile Fitxategia bidali
 sendmail E-posta bidali
 sendmsg Mezua bidali
 sentbytes $2 bytetako $1 bidaliak
+serverbusy Zerbitzaria okupatuta dago
 servergoingdown Deskonektaturik: Zerbitzaria mantentze lanetarako itzaliko da
+serverunavailable Zerbitzaria erabilezina dago
 server Zerbitzaria
 session Sesioa
+showblockedlist Zu blokeatu zaituzten pertsonen zerrenda erakutsi
+showdisplaypic2 Pantaila Irudia erakutsi lehenetsita txat leiho bat irekitzen denean
+showdisplaypic Pantaila Irudia erakutsi
+showmypic Nire Pantaila Irudia
+shownotify Gertaera batzuk gertatzen direnean jakinarazpen leihoa erakutsi
+showuserpic $1 Pantaila Irudia
+skin Azala
+skinselector Azalen aukeratzailea
+smileconfig Pertsonalizatutako begitartearen konfigurazioa
+smilefile Begitartearen fitxategia
+smileintro2 Behar diren eremuak bete, begitarte hau pertsonalizatzeko (MEG-FAQ ikusi laguntza behar baduzu)
+smileintro Begitarte hau sortzeko behar diren eremuak bete (MEG-FAQ ikusi laguntza behar baduzu)
 sound2 Kontaktuak sartzen direnean edo mezu bat jasotzerakoan soinu bat jo
 soundcommand Hau martxan jartzeko komandoa izan behar da (ex: esdplay)
+soundexample ( \$sound = Soinu fitxategia erreproduzitua izateko) Adibidez:: esdplay \$sound
 soundfile Alarmaren Soinuaren Fitxategia
 sound Gertaeren soinuak
 soundloop Etengabeko soinua
 soundserver Soinu zerbitzaria
 soundstatus Alarmaren soinua jarri edo kendu
+sourcecode Iturburu-kodea (Konpilazioa eta instalazioa behar du)
+sslwarning KONTUZ: SSL desgaitzen baduzu enkripzioa desgaituko duzu ere, beraz zure gakoa testu arrunta bezalaxe bidalia izango da interneten bidez.
 startoffline2 "Deskonektatuta ematen du" bezala sarrera-sinadura egin
 startoffline Deskonektatuta hasi
+stateedittext Mesedez editatu aldatu nahi dituzun \n eremuak eta gero Gorde sakatu
+state Honako egoera honetan agertu nahi dut: 
+stateinfo Egoera pertsonalaren konfigurazioa
+statename Egoera Pertsonalaren izena
+statenewtext Behar den informazioa bete zure Egoera Pertsonal \n berria sortzeko eta gero Gorde sakatu
 status Egoera
 stopalarm Alarma gelditu
 stylechat Txateko kanpo-itxura bera
@@ -278,22 +436,43 @@ stylelog Zure historia ikusi nahi duzun formatua aukeratu
 syntaxerror Akats sintaktikoa
 tabbed Tabbed Windows
 textsize Testuaren tamaina
+timeremaining Falta den denpora
+timestamps Data-zigilua gaitu
 title Al's Messenger
+tlsdowncompleted $1 fitxategia $2 direktorioan gorde izan da. Atera eta eraiki behar duzu (kode iturburua deskargatu bazenuen) eta $3 -ren barruan instalatu.
+tlsinstallexp AMSn-k MSNP9 erabiltzen du orain, zeinak SSL konexio \n seguru bat erabili behar du. SSL erabiltzeko TLS izena duen modulu bat instalatu behar du aMSN-k, \n zeina zure sisteman ez dago. Morroi honek TLS deskargatu eta instalatzen lagunduko zaitu. \n Zure 
+tlsinstall TLS modulua instalatzeko morroia
+tlsinstcompleted TLS moduluaren instalazioa primeran egin da – orain MSNP9 erabiltzeko ez zenuke arazorik eduki behar. Hau ez badabil, orduan seguraski ez zenuela modulu egokia hautatu edo konpilatutako modulu bat zure sisteman ez dago erabilgarria.
 to Nori
 tools Tresnak
+tooltips Argibideak gaitu
+transnotexists Eskatutako fitxategia erabiltzen ari zaren hizkuntzara ez da momentuz itzulia izan
+traynotcompiled Erretilu ikonoaren plugin-a ez da momentuz konpilatua izan. Begiratu Plugins/traydoc
+triggers Disparadoreen testua
+truncatenames1 Kontaktu zerrenda baino luzeago diren erabiltzaileen izaneak trunkatu leihoaren izenburuan eta Kontaktu zerrendan
+truncatenames2 Kontaktu zerrenda baino luzeago diren erabiltzaileen izaneak trunkatu barru bihurgailuekin
+truncatenicks Leihoa baino zabalagoak diren erabiltzaile izenak trunkatu
+twonewmail $1 mezu berri zure sarrera-bandejan
 unblock Desblokeatu
 uoffline Deskonektatuta
 uonline Konektatuta
 useralreadyonlist Erabiltzailea kontaktuen zerrendan dago jada
+userblocked Erabiltzailea konektatuta dago, baina zu blokeatu zaitu
 user Erabiltzaile
 usernotonline Erabiltzailea ez dago konektaturik
+useryourself Zeure buruarekin ezin duzu txateatu
+verifyblocked Begiratu nork blokeatuta zaituen
 version Bertsioa
 view Ikuspegia
 viewprofile Profila ikusi
 willjoin $1 berriketan sartzera itxaroten
 work Lana
+wrongfields " ""$1"", ""$2"" eta ""$3"" eremuak ez zuzenak izan dira"
+wrongprofileversion Profil konfigurazio fitxategi okerra. Zuzentzeko $1 direktorioa ezabatu edo aMSN berritu
+xmmserr Ez dago ezer erreproduzitzen. Xmss-infopipe instalaturik
 xoffset X desplazaketa
+yes Bai
 yoffset Y desplazaketa
+youblocked Honako honek blokeatu zaitu:
 yousay Zuk diozu
 youwant Zu itxaroten duzu
-twonewmail $1 mezu berri zure sarrera-bandejan
