@@ -4,8 +4,8 @@ accept Accept
 acceptfile Accept file $1, size $2? Saved in $3
 actions Actions
 activeautoupdate Active auto-update
-add Add
 addacontact Add a contact
+add Add
 addedyou $1 ($2) has added you to his/her contact list
 addprofile Add New Profile
 addprofiledesc Enter the login which you would like to create a new profile for. \nProfiled logins allow you to have different configurations for each login.\nWithout profiles you cannot use the History, Alarms or "Remember Password" function.
@@ -28,12 +28,12 @@ alarms Alarms
 alarmstatus Turn ON/OFF Alarm for this user
 allfiles All Files
 allmonths All Months
-allow_sms Allow users to contact me on my MSN mobile device
 allowallbutbl Allow all users apart from those in my Block List to contact me
 allowbadwords Disable censorship on nicknames
 allowlist Allow list (AL):
 allowonlyinal Only allow users in my Accept List to contact me
 allowseen Allow this person to see when I'm online and contact me
+allow_sms Allow users to contact me on my MSN mobile device
 allprofilesinuse All existing profiles are currently in use
 animatedemoticon This emoticon is animated
 animatedsmileys Enable animated smileys
@@ -47,8 +47,8 @@ autoaccepted File transfer accepted automatically
 autoacceptft Automatically accept File Transfer requests
 autoaway Show me as "Away" when inactive for
 autocheckver Automatically check for newer versions on startup
-autoconnect Connect on amsn start
 autoconnect2 Sign In automatically when aMSN is launched
+autoconnect Connect on amsn start
 autodetectip Detect IP address automatically
 autohotmaillog Auto Hotmail login
 autoidle Auto NoActivity
@@ -89,9 +89,8 @@ cannotdeleteprofile Cannot delete profile because it seems to be in use by an aM
 cantexec Can't execute application: $1. Check preferences
 cantremoveothers Can't remove "Others" group
 casesensitive Use case-sensitive triggers
-cfgalarm Configure/Add/Remove Alarm
 cfgalarmall Configure/Add/Remove Global Alarm
-ch_to_state Switch to new state
+cfgalarm Configure/Add/Remove Alarm
 change Change
 changecustomstate Switch to
 changedisplaypic Change Display picture
@@ -101,12 +100,12 @@ changenick Change nick
 changesize Change size
 changestate $1 changes state to $2
 charscounter Typed characters counter in chat window
-chat Chat
 chatack Accepting chat from
+chat Chat
 chatmaxmin When a contact opens a chat with me I want it to be:
 chatreq Requesting chat
-chatsmileys Chat smileys
 chatsmileys2 Display Emoticons and Smileys in chat windows
+chatsmileys Chat smileys
 checkblocking Continuously check if users are blocking you
 checkemail Show mail notification line (inbox) in contact list
 checkfilman Received files will be saved in $1. Please check file manager settings in preferences window.
@@ -120,14 +119,16 @@ choosebgcolor Choose background color
 choosecontact Please choose a contact from the list
 choosefontcolor Choose font color
 chooseskin Please select the skin you would like to use
+ch_to_state Switch to new state
 clear Clear
-clearlog Clear Log
 clearlog2 Clear the history for all your contacts
 clearlog3 Clear All Logs
+clearlog Clear Log
 clicktoadd Click on Add button for a new note
 clicktologin Click here to log in
 clientcaps Send x-clientcaps packet to others clients
 clientname Client Name
+closeall Close all the tabs in the window?
 close Close
 closed Conversation with $1 closed due to inactivity
 closingdocks Close button minimizes
@@ -142,14 +143,14 @@ confirmdu Are you sure you want to delete this user?
 confirmeg Are you sure you want to empty this group?
 confirmpurge All stored display pictures from other contacts (not your display pictures) will be erased. Are you sure?
 confirmrfl Are you sure you want to delte this user from this group?
-connected You are now connected
 connectedwith Connected with $1
+connected You are now connected
 connecterror Error connecting to server
 connecting Connecting
 connection Connection
 connectionlost Disconnected: Connection with server closed
-contact Contact
 contactadded Contact added
+contact Contact
 contactdoesnotexist Contact does not exist!
 contactlist Contact list (FL):
 continuously Continuously
@@ -170,9 +171,9 @@ custnotifymsg Display notify window when a new user message is received
 custnotifyoffline Display notify window when this contact goes offline
 custnotifyonline Display notify window when this contact comes online
 custnotifystatus Display notify window when this contact changes status
+customcolor Custom color
 custom_edit Edit custom smiley
 custom_new Add new custom smiley
-customcolor Custom color
 customnick Custom Nick
 customstyle Customized style
 cut Cut
@@ -184,14 +185,15 @@ dcprofile Don't Create Profile
 default Default Config
 defaultloginradio Login with default configuration
 defchatwinsize Default size for chat windows (XSIZExYSIZE)
-delete Delete
 deleteall Delete all
 deletecustomstate Delete custom state
+delete Delete
 delimiters Timestamps' delimiters:
 deliverfail There was a problem delivering the following message
-delprofile Delete Profile
 delprofile2 Select the profile that you would like to remove 
+delprofile Delete Profile
 description Description
+detach Detach
 directconnection I have a direct connection to the internet (uses port 1863)
 disabled Disabled
 disableprofiles Disable profiles (Useful for cyber-cafes or shared environments)
@@ -215,8 +217,8 @@ dontdownload Don't download TLS, I'll install it myself
 dontshow Don't show
 download Download
 downloadingtls Downloading TLS module from:\n $1
-edit Edit
 editcustomstate Edit custom state
+edit Edit
 editnewstate New Personal Automessage State
 editprofile Edit Profile
 editstate Edit Existing Automessage State
@@ -229,8 +231,8 @@ enabled Enabled
 enableproxy Enable proxy
 enableremote Enable remote controlling
 enablesound Play sound
-encoding Choose encoding
 encoding2 Change the way your characters are encoded
+encoding Choose encoding
 entercontactemail Enter contact e-mail
 enterfilename Please enter a filename
 enternick Enter your nick
@@ -239,26 +241,26 @@ eventhistory View events history
 examples Examples
 exitamsn Are you sure you want to quit?
 extras Extra Services
-failed Failed
 faileddelete Failed to delete
 faileddeleteperso This picture cannot be deleted because it is not a personal picture file. Only pictures that belong to your personal profile can be removed this way.
+failed Failed
 faq FAQ (Frequently Answered Questions)
-file File
 filedoesnotexist File does not exist
-fileman File Manager
+file File
 filemanexample ( \$location will be replaced with the directory ) Ex: nautilus \$location
+fileman File Manager
 filename Filename
 filenotwritable This file can't be deleted
-filetransfer File Transfer
 filetransfercancelled File transfer cancelled
 filetransfercomplete File transfer complete
+filetransfer File Transfer
 filters Filters
 filtersselect Select the filters you want to see\n(Note none selected means show all)
 filtersx Filter Selection
 followtext Scroll down when new text is entered
 friendlyname Friendly Name
-ftaccepted File transfer accepted
 ftacceptedby $1 accepted file transfer invitation for file '$2'.
+ftaccepted File transfer accepted
 ftaccepting Accepting file transfer invitation
 ftautoclose Close the window when the file transfer is finished
 ftconnecterror Error connecting to remote peer
@@ -266,8 +268,8 @@ ftconnecting Connecting to $1 port $2
 ftconnectionlost Connection with remote peer lost
 ftgotinvitation $1 wants to send you the file '$2' ($3 bytes). It will be saved in directory $4. Do you want to receive this file?
 ftportpref Starting port for file transfers
-ftrejected File transfer rejected
 ftrejectedby $1 rejected file transfer invitation for file '$2'.
+ftrejected File transfer rejected
 ftsendinvitation File transfer invitation for file '$2' ($3 bytes) has been sent to $1.
 fullcontactlist Sorry, your contact list if full. You'll need to remove some contacts in order to add new ones.
 getdisppic Enable receiving Display Pictures from other users
@@ -276,10 +278,10 @@ globalnick Insert a pattern to form all your contacts' nicknames. You can use th
 globalnicktitle Global Nickname
 globaloverride Global nicknames pattern should override custom nicknames
 gonelunch Gone to lunch
-group Group
 groupadd Add a group
 groupdelete Delete a group
 groupexists Group already exists
+group Group
 groupmissing Cannot find group
 groupnewname New name
 groupnotempty Group is not empty!
@@ -288,8 +290,8 @@ grouprename Rename a group
 groups Groups
 groupunknown Unknown group
 handle Handle
-help Help
 helpcontents Help contents
+help Help
 hidedisplaypic Hide Display Picture
 hiden Hide the emoticon from the smileys menu
 hidewindow Hide Window
@@ -306,11 +308,11 @@ insertsmiley Insert emoticon
 inserttextnote Insert text inside the subject field and the note field, then click on Save
 installconvert You must install ImageMagick (convert program) in order to use Buddy Icons and Custom Emoticons. You can download the binaries for your Operating System ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . If you already have it, then it is a bug, please report it. These features will now be disabled, if you install ImageMagik later on reenable these options from the Preferences. 
 internalerror Internal Server Error
-invalidfile File $2 entered in field "$1" does not exist or is not readable
 invalidfile2 Filename $1 could not be created, make sure you have the correct permissions for that target.
+invalidfile File $2 entered in field "$1" does not exist or is not readable
 invalidgroup Invalid group
-invalidpic The given picture file doesn't exist
 invalidpicsize The given picture is too big, please choose a smaller one
+invalidpic The given picture file doesn't exist
 invalidsound The given sound file doesn't exist
 invalidusername Invalid user name
 invitationcancelled The invitation was cancelled
@@ -322,8 +324,8 @@ istyping $1 is typing a message
 joins $1 joins conversation
 justonce Just once
 keepalive Keepalive (NAT)
-keeplog Keep Logs of Chats
 keeplog2 Log all conversations to aMSN's History for future viewing
+keeplog Keep Logs of Chats
 language Language
 language_manager Language manager
 lastlogin Last Log In
@@ -341,12 +343,12 @@ lenteredconf $1 has entered into a conference on $2
 lineflushlog Flush log files after each line
 linprivate IN PRIVATE
 listeningon Listening on port $1
-listsmileys List smileys
 listsmileys2 Display Emoticons and Smileys in aMSN's main contact list
+listsmileys List smileys
 ljoinedconf $1 has joined conference
 lleftconf $1 has left conference
-load Load
 loadcontacts Load contact list
+load Load
 logbigger Log file sizes for each contact never exceeds 
 logeventconnect Log the connections
 logeventdisconnect Log the disconnections
@@ -355,9 +357,9 @@ logeventstate Log the changements of status
 logfandexp Log File Sizes and History Expiry
 loggedotherlocation Disconnected. Logged in other location
 loggingin Logging In
-login Log In
 loginas Login as
 loging Logging
+login Log In
 logolder Only log chats that have taken place in the last
 logout Log Out
 logsbydate Sort logs by date (View history loads alot faster)
@@ -368,23 +370,23 @@ longnick Your nickname is longer than 130 characters. This is not officially sup
 longp4c Your Friendly Name is longer than 130 characters. The Friendly Name that will appear on the official MSN client will be $1. Are you sure you want to set it?
 lprivtoconf Private chat turned into Conference with $1
 luclosedwin You have closed the window on $1
-mailer Mailer
 mailerexample ( \$recipient = Recipient ) Leave blank to use Hotmail
+mailer Mailer
 maintenance The server is going down for maintenance in $1 minutes
 maximised Maximised
 minimised Minimised/Iconified
 mins minutes
-mobile Mobile
 mobilegrp1 Mobile group
 mobilegrp2 Put users in "Mobile" group when offline (and sorted by status)
+mobile Mobile
 modified Modified
 month Month
 morepersonal More States ->
 move Move
 movetogroup Move to Group
-msg Message
 msgflicker Flicker chat window title when new message is received on unfocused window.
 msgmaxmin When a new message arrives I want it to be:
+msg Message
 msgmode Select how to handle multiple message windows:
 msn aMSN
 msnstyle MSN style chat
@@ -413,7 +415,6 @@ newtabbedfeature aMSN has a new feature for managing conversation, you can now h
 newveravailable Newer version $1 available for download
 next Next
 nick Nick
-no No
 noactivity No activity
 nodataavailable No data available for $1
 nogap No space between groups
@@ -422,6 +423,7 @@ nologfile No Log file for $1
 noneavailable None Available
 nonewmail No new messages in Inbox
 nonewver There are no new versions available to download
+no No
 nopic No picture
 noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
 normal Normal
@@ -429,13 +431,13 @@ noskins Couldn't found default skin in skins/ folder. Can't start AMSN
 nosystemtray System tray not available
 note Note
 notificationserver Initial MSN Notification Server (MSN Messenger Server)
-notify notify
-notify1 Display notify window when contacts come online
 notify1_5 Display notify window when contacts go offline
 notify1_75 Display notify window when contacts change status
+notify1 Display notify window when contacts come online
 notify2 Display notify window when new messages are received
 notify3 Display notify window when new emails arrive
 notify4 Display notify window when new emails arrive in other folders
+notify notify
 notifyoffset Offset the position of the notification pop-up
 notifytimeout Number of miliseconds before notify window dissapears
 notifytyping Send other users notifications when typing
@@ -451,8 +453,8 @@ onenewmail 1 new message in Inbox
 online Online
 onphone On phone
 opendir Open directory
-openfile Open
 openfilecommand Open file command
+openfile Open
 openreceived Open received files
 options Options
 ordercontactsby Order contacts by
@@ -482,9 +484,9 @@ prefblock3 "You have been blocked by" group
 prefconnection Connection settings
 prefemotic Emotions Icons and Smileys 
 preferences Preferences
-preffont My Message Text
 preffont2 Change the way others see my text in chat sessions
 preffont3 Change aMSN's interface font and size
+preffont My Message Text
 prefft File transfer, peer-to-peer and NAT settings
 preflibs Libraries directories
 preflog1 My History and Logging Options
@@ -492,13 +494,13 @@ preflogevent My Events History
 preflook My aMSN Messenger Look
 prefmsging My Messaging Interface
 prefname My MSN Messenger Name/NickName
-prefphone My Phone Numbers
 prefphone2 Type the phone numbers that you would like people \n on your Allow List to see \n
-prefprivacy User's Allow/Block lists
+prefphone My Phone Numbers
 prefprivacy2 User's Contact/Reverse lists
-prefprofile My Public Profile
+prefprivacy User's Allow/Block lists
 prefprofile2 Create or modify your public profile (the \n description of yourself that others can see)
 prefprofile3 aMSN's User Configuration Profiles
+prefprofile My Public Profile
 prefproxy My Proxy Settings
 prefremote Remote Connection Preferences
 prefsession My Sign In and Status
@@ -512,10 +514,10 @@ profileinuse This Profile is being used by another aMSN session, please choose a
 profileloginradio Login using an existing Profile
 profiles Profiles
 properties Properties
-proxy I am behind a proxy server (HTTP or SOCKS5)
-proxyconf Proxy configuration
 proxyconfhttp HTTP proxy support configuration
+proxyconf Proxy configuration
 proxyconnection I connect to the internet using a proxy server:
+proxy I am behind a proxy server (HTTP or SOCKS5)
 publishphones Publish my phone numbers
 purge Purge
 raised Raised/Deiconified
@@ -525,9 +527,9 @@ receivedbytes Received $1 of $2 bytes
 receiveddir Received Files folder
 receivefile Receive file
 recentmsg Prevent closing a chat window when a message has just arrived
-reconnect Waiting for $1 to reconnect
 reconnect2 Reconnect on loss
 reconnecting Reconnecting to server
+reconnect Waiting for $1 to reconnect
 reject Reject
 rememberpass Remember password
 removeempty Remove empty groups from the contact list
@@ -537,46 +539,46 @@ required_version Unable to load this plugin. It requires, at least, aMSN version
 reversed Reversed
 reverselist Reverse list (RL):
 rightback Be right back
-save Save
 saveas Save as
 savechatwinsize Save chat window size as default when resizing it
 savecontacts Save contact list
+save Save
 savetofile Save to File
 says $1 says
 sbcon Connecting to Switch Board
 selectplugins Please select the plugins you want enabled
 selectskin Please choose a skin from the list
-send Send
 sendfile Send file
 sendmail Send mail
 sendmobmsg $1 Send to Mobile device
 sendmsg Send message
+send Send
 sentbytes Sent $1 of $2 bytes
-server Server
 serverbusy Server is busy
 servergoingdown Disconnected: Server is going down
+server Server
 serverunavailable Server is unavailable
 session Session
 showbanner Show aMSN's banner
 showblockedlist Show list of people who blocked you
 showcachedpics Show cached display pictures
-showdisplaypic Show Display Picture
 showdisplaypic2 Show Display Picture by default when a chat window is opened
+showdisplaypic Show Display Picture
 showmypic My Display Picture
 shownotify Show notify window when some events happen
 showuserpic $1's Display Picture
-skin Skin
 skinselector Select Skin
+skin Skin
 smileconfig Custom emoticon configuration
 smilefile Smiley filename
-smileintro Please complete the required fields to create a new custom smiley (see the FAQ for help)
 smileintro2 Please edit the required fields to customize this smiley (see the FAQ for help)
+smileintro Please complete the required fields to create a new custom smiley (see the FAQ for help)
 snackfailed Snack failed to load, reverting to default
 sngdblclick Single click to open a new message window
-sound Event Sounds
 sound2 Play sounds when contacts sign in or send a message
 soundactive Play sounds when receiving incoming messages also in active windows
 soundcommand This has to be the play command (ex: esdplay)
+sound Event Sounds
 soundexample ( \$sound = Sound file to be played) Ex: esdplay \$sound
 soundfile Sound File
 soundfiles Sound Files
@@ -586,14 +588,14 @@ soundstatus Sound Alarm
 sourcecode Source Code (needs compiling and installing)
 splashstart Start
 sslwarning WARNING!! Disabling SSL will disable encryption, so your password will be sent as plain text over the network. Use only for really tricky proxies or network configurations.
-startoffline Start Offline
 startoffline2 Sign in silently as "Appear Offline"
+startoffline Start Offline
 startontray Start AMSN on tray icon only
-state I want to appear as
 stateautomsg AutoMessage to Send
 statechange status changed to: 
 stateedittext Please edit the fields you would like \n to modify and press Save
 stateinfo Personal State Configuration
+state I want to appear as
 statename Name of Personal State
 statenewtext Please fill the required information to create \n your new Personal State and press Save
 statenick Custom nick (leave blank for no change)
@@ -602,16 +604,16 @@ status Status
 stopalarm Stop Alarm
 storenickname Return to original nickname after a custom state with custom nickname
 strictfonts Restrict all fonts' size to the one I selected (Status bar and others)
-style Style
 stylechat Same look as chats
 stylehist aMSN's history look
 stylelog Select the format in which you would like to view your History
-subject Subject
+style Style
 subjectrequired Subject required
+subject Subject
 syntaxerror Syntax Error
-tabbed Tabbed Windows
 tabbedglobal A tabbed window for all users in the contact list
 tabbedgroups A tabbed window for users from the same group
+tabbed Tabbed Windows
 tabtitlenick Display nicks in the tabs instead of email
 temp_state Don't save (Temporary state, will be missed when close AMSN)
 textsize Text size
@@ -621,14 +623,14 @@ title aMSN
 tkerror TK has brought an error, there is a bug in amsn, please report it. Send the file $1 to amsn-bugs@lists.sf.net
 tlsdowncompleted File $1 was downloaded to directory $2. You must extract it, build it (if you downloaded source code) and install it inside $3.
 tlsexplain Folder where the tcl TLS module is located. If AMSN can't locate it, please specify.\n(Required for SSL authentication).
-tlsinstall TLS Module installation wizard
 tlsinstallexp aMSN now uses MSNP9, which requires the use of a secure\nconnection using SSL. In order to use SSL, aMSN needs to install a module called TLS,\nwhich is missing from your system. This wizard will help you to download and\ninstall TLS. Please choose your system type so we can automatically download\nthe required TLS files.
+tlsinstall TLS Module installation wizard
 tlsinstcompleted TLS module installation was sucessful - you should now be able to use MSNP9. If this doesn't work, then you probably didn't select the right module, or a compiled module is not available for your system.
-to To
 today Today
 tomobile To Mobile
 tools Tools
 tooltips Enable tooltips
+to To
 transnotexists The requested file has not been translated into the current language yet.
 traynotcompiled Tray icon plugin is not compiled. Check plugins/traydock
 triggers Text triggers
@@ -643,19 +645,19 @@ uoffline Offline
 uonline Online
 update Update
 useother Use a different program
-user User
 useralreadyonlist User is already on contact list
 userblocked The user is online but blocked you
 userdata User Data
 usernotonline The user is not online
 userproperties User properties of $1
+user User
 useryourself You can't chat with yourself
 usesnack Use the Snack library (Tcl internal)
 verifyblocked Check for people blocking you
 version Version
-view View
 viewcontactsby View contacts by
 viewprofile View Profile
+view View
 webcaminvite $1 invited you to start an webcam session, but aMSN does not support this feature.
 willjoin Waiting $1 joins conversation
 winkreceived You have received a Wink from $1. This feature is not currently supported by aMSN.
@@ -668,9 +670,9 @@ xmmserr Nothing is playing, or you dont have xmms-infopipe installed.
 xmmssend Send current song
 xoffset X Offset
 year Year
-yes Yes
 yesblock Yes and block
 yesterday Yesterday
+yes Yes
 yoffset Y Offset
 youblocked You have been blocked by
 yousay You say
