@@ -93,8 +93,8 @@ docking Docking
 dockingoff Docking Off
 dockkde KDE Dock
 edit Edit
-editprofile Edit Profile
 editnewstate New Personal Automessage State
+editprofile Edit Profile
 editstate Edit Existing Automessage State
 enableproxy Enable proxy
 enableremote Enable remote controling
@@ -119,6 +119,7 @@ ftconnecterror Error connecting to remote peer
 ftconnecting Connecting to $1 port $2
 ftconnectionlost Connection with remote peer lost
 ftgotinvitation $1 wants to send you the file '$2' ($3 bytes). It will be saved in directory $4. Do you want to receive this file?
+ftportpref Use this port and succesives for filetransfers
 ftrejectedby $1 rejected file transfer invitation for file '$2'.
 ftrejected File transfer rejected
 ftsendinvitation File transfer invitation for file '$2' ($3 bytes) was be sent to $1.
@@ -302,11 +303,11 @@ soundstatus Sound Alarm
 startoffline2 Sign In silently as "Appear Offline"
 startoffline Start Offline
 stateautomsg AutoMessage to Send
-state I want to appear as
 stateedittext Please edit the fields you would like \n to have modified and press Save
+stateinfo Personal State Configuration
+state I want to appear as
 statename Name of Personal State
 statenewtext Please fill the required information to create \n your new Personal State and press Save
-stateinfo Personal State Configuration
 status Status
 stopalarm Stop Alarm
 stylechat Same look as chats
@@ -341,4 +342,3 @@ yoffset Y Offset
 youblocked You have been blocked
 yousay You say
 youwant You want
-ftportpref Use this port and succesives for filetransfers

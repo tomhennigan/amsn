@@ -116,6 +116,7 @@ ftconnecterror Erro de ligação ao par remoto
 ftconnecting A ligar para $1 porta $2
 ftconnectionlost Perdida a ligação com o par remoto
 ftgotinvitation $1 quer enviar-lhe o ficheiro '$2' ($3 bytes). Ele será guardado na pasta $4. Quer receber este ficheiro?
+ftportpref Use esta porta e as seguintes para transferência de ficheiros
 ftrejectedby $1 rejeita o pedido de transferência do ficheiro $2
 ftrejected Trnsferência de Ficheiro rejeitada
 ftsendinvitation O ficheiro '$2' ($3 bytes) foi enviado para $1

@@ -6,6 +6,7 @@ actions Acciones
 actions Acciones
 addacontact Añadir un contacto
 addedyou $1 ($2) te ha añadido a su lista de contactos
+addstate Añadir nuevo estado
 addtocontacts Añadir a contactos
 addtoo Añadir esta persona a mi lista de contactos
 admincontacts Administrar contactos
@@ -93,7 +94,9 @@ docking Icono en bandeja de sistema
 dockingoff Desactivado
 dockkde Icono KDE
 edit Edición
+editnewstate Nuevo mensaje automático para estado personalizado
 editprofile Editar Perfil
+editstate Editar mensaje automático para estado personalizado
 enableproxy Activar proxy
 enableremote Activar servidor de control remoto
 encoding2 Cambia la forma en la que los caracteres se codifican
@@ -117,6 +120,7 @@ ftconnecterror Error conectando con el usuario remoto
 ftconnecting Conectándose a $1 puerto $2
 ftconnectionlost Conexión perdida con el usuario remoto
 ftgotinvitation $1 desea enviarle el archivo '$2' ($3 bytes). Será guardado en el directorio $4. ¿Desea aceptar este archivo?
+ftportpref Usar este puerto y los sucesivos para transferencias de archivos
 ftrejectedby $1 ha rechazado la invitación a la transferencia del archivo '$2'.
 ftrejected Transferencia de archivo cancelada
 ftsendinvitation Una invitación para la transferencia del archivo '$2' ($3 bytes) ha sido enviada a $1.
@@ -183,6 +187,7 @@ maximised Maximizada
 minimised Minimizada/Iconificada
 mins minutos
 mobile Celular
+morepersonal Más estados ->
 movetogroup Mover al grupo
 msgmaxmin Cuando un nuevo mensaje llega quiero que sea :
 msg Mensaje
@@ -298,6 +303,12 @@ sound Sonido eventos
 soundstatus Sonido para la alarma
 startoffline2 Conectarse sigilosamente pareciendo "Desconectado"
 startoffline Comenzar Desconectado
+stateautomsg Mensaje automático a enviar
+stateedittext Edita los campos que desees modificar\ny después pulsa Guardar
+stateinfo Configuración de estados personalizados
+statename Nombre del estado personalizado
+statenewtext Rellena la información requerida para crear \nel nuevo estado personalizado, y pulsa Guardar
+state Quiero aparecer como
 status Estado
 stopalarm Detener alarma
 stylechat El mismo que los chats
@@ -332,4 +343,3 @@ yoffset Desplazamiento Y
 youblocked Has sido bloqueado
 yousay Tú dices
 youwant Quieres
-ftportpref Usar este puerto y los sucesivos para transferencias de archivos

@@ -109,15 +109,16 @@ fileman Gestor de fitxers
 filename Nom del fitxer
 filetransfercancelled S'ha cancel·lat la transferència
 filetransfercomplete La transferència del fitxer ha finalitzat
-ftaccepted Transferència de fitxers acceptada
 ftacceptedby $1 ha acceptat la invitació per la transferència del fitxer '$2'.
+ftaccepted Transferència de fitxers acceptada
 ftaccepting Acceptant la invitació per la transferència de fitxers
 ftconnecterror Error connectant amb l'usuari remot
 ftconnecting Connectant amb $1 pel port $2
 ftconnectionlost S'ha perdut la connexió amb l'usuari remot
 ftgotinvitation $1 et vol enviar el fitxer '$2' ($3 bytes). Serà desat al directori $4. Vols rebre el fitxer?
-ftrejected Transferència de fitxers rebutjada
+ftportpref Utilitza aquest port, i els que venen a continuació, per les transferències de fitxers
 ftrejectedby $1 ha rebutjat la invitació per la transferència del fitxer '$2'.
+ftrejected Transferència de fitxers rebutjada
 ftsendinvitation La invitació per la transferència del fitxer '$2' ($3 bytes) ha sigut enviada a $1.
 gonelunch Estic menjant
 groupadd Afegir un grup
@@ -200,11 +201,11 @@ newmailfrom Nou missatge de correu de $1 ($2)
 newmsg Nou missatge
 newveravailable La versió $1 està disponible per a baixar-se
 next Següent
-no No
 noactivity Sense activitat
 nologfile No existeix fitxer d'historial per $1
 nonewmail No hi ha missatges nous a la bústia
 nonewver No hi ha cap versió nova per a baixar-se
+no No
 normal Normal
 nosystemtray Safata del sistema no disponible
 notify1 Mostrar una finestra d'avís quan un contacte es connecti
@@ -261,8 +262,8 @@ profiles Perfils
 properties Propietats
 proxyconf Configuració del servidor intermediari (proxy)
 proxyconfhttp Configuració del suport per al servidor intermediari HTTP
-proxy Estic darrera un servidor intermediari (HTTP o SOCKS5)
 proxyconnection Em connecto a Internet a través d'un servidor intermediari (proxy):
+proxy Estic darrera un servidor intermediari (HTTP o SOCKS5)
 publishphones Publicar els meus números de telèfon
 raised Elevada/desiconificada
 receivedbytes Rebuts $1 de $2 bytes
@@ -313,10 +314,10 @@ traynotcompiled La icona de la safata de connexió no s'ha compilat. Comprova el 
 unblock Desbloquejar
 uoffline Desconnectats
 uonline Connectats
-user Usuari
 useralreadyonlist L'usuari ja és a la llista de contactes
 userblocked Aquest usuari està connectat però t'ha bloquejat a la seva llista
 usernotonline L'usuari no està connectat
+user Usuari
 useryourself No pots xatejar amb tu mateix
 verifyblocked Comprova la gent que em té bloquejat a la seva llista
 version Versió
