@@ -659,14 +659,15 @@ proc ParseLog { wname logvar } {
 	${wname}.blueframe.log.txt tag configure normal -foreground black
 	${wname}.blueframe.log.txt tag configure NOR -foreground black
 	${wname}.blueframe.log.txt tag configure italic -foreground blue
-	set nbline 0
 	${wname}.blueframe.log.txt tag configure ITA -foreground blue
 	${wname}.blueframe.log.txt tag configure GRE -foreground darkgreen
-		set nbline [expr $nbline + 1]
+
+	set nbline 0
 
 	set loglines [split $logvar "\n"]
 	set result [list]
 	foreach line $loglines {
+		set nbline [expr $nbline + 1]
 		set aidx 0
 		while {$aidx != -1} {
 			# Checks if the line begins by |"L (it happens when we go to the line in the chat window).
