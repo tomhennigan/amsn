@@ -132,6 +132,7 @@ days Days
 dcprofile Don't Create Profile
 default Default Config
 defaultloginradio Login with default configuration
+defchatwinsize Default size for chat windows (XSIZExYSIZE)
 deletecustomstate Delete custom state
 delete Delete
 delimiters Timestamps' delimiters:
@@ -401,6 +402,7 @@ reversed Reversed
 reverselist Reverse list (RL):
 rightback Be right back
 saveas Save as
+savechatwinsize Save chat window size as default when resizing it
 savecontacts Save contact list
 save Save
 savetofile Save to File

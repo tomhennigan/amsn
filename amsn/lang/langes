@@ -132,6 +132,7 @@ days Días
 dcprofile No Crear Perfil
 default Configuración por defecto
 defaultloginradio Usar configuración por defecto
+defchatwinsize Tamaño por defecto para las ventanas de chat (HORIZONTALxVERTICAL)
 deletecustomstate Eliminar estado personalizado
 delete Eliminar
 delimiters Delimitadores de la hora:
@@ -401,6 +402,7 @@ reversed Invertido
 reverselist Lista Inversa(RL):
 rightback Vuelvo enseguida
 saveas Guardar como
+savechatwinsize Al cambiar el tamaño de las ventanas de chat, guardarlo como tamaño por defecto
 savecontacts Guardar lista de contactos
 save Guardar
 savetofile Guardar en archivo
