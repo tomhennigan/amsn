@@ -116,6 +116,7 @@ connectionlost Disconnected: Connection with server closed
 contactadded Contact added
 contactdoesnotexist Contact does not exist!
 contactlist Contact list (FL):
+convertexplain Path to CONVERT executable file, from ImageMagick (required for Display Pictures).\n Leave blanck if CONVERT is in the path
 copy Copy
 copytogroup Copy to group
 corruptconfig Configuration file is corrupt. Creating new one. Old file will be saved to $1. Please send it to us to check what happened.
@@ -464,6 +465,7 @@ timestamps Enable timestamps on chat windows
 title Al's Messenger
 tkerror TK has brought an error, there is a bug in amsn, please report it. Send the file $1 to amsn-bugs@lists.sf.net
 tlsdowncompleted File $1 was downloaded to directory $2. You must extract it, build it (if you downloaded source code) and install it inside $3.
+tlsexplain Folder where the tcl TLS module is located. If AMSN can't locate it, please specify.\n(Required for SSL authentication).
 tlsinstallexp aMSN now uses MSNP9, which requires the use of a secure\nconnection using SSL. In order to use SSL, aMSN needs to install a module called TLS,\nwhich is missing from your system. This wizard will help you to download and\ninstall TLS. Please choose your system type so we can automatically download\nthe required TLS files.
 tlsinstall TLS Module installation wizard
 tlsinstcompleted TLS module installation was sucessful - you should now be able to use MSNP9. If this doesn't work, then you probably didn't select the right module, or a compiled module is not available for your system.
