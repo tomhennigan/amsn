@@ -488,19 +488,12 @@ namespace eval ::ChatWindow {
 
 		# Pack them
 
-		# Remove thin border on Mac OS X to improve the appearance (padx)
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			pack $top -side top -expand false -fill x -padx 0 -pady [::skin::getKey chat_top_pady]
-			pack $statusbar -side bottom -expand false -fill x -padx 0 -pady [::skin::getKey chat_status_pady]
-			pack $paned -side top -expand true -fill both -padx 0 -pady [::skin::getKey chat_paned_pady]
-		} else {
-			pack $top -side top -expand false -fill x -padx [::skin::getKey chat_top_padx]\
-			 -pady [::skin::getKey chat_top_pady]
-			pack $statusbar -side bottom -expand false -fill x -padx [::skin::getKey chat_status_padx] -pady [::skin::getKey chat_status_pady]
-			pack $paned -side top -expand true -fill both -padx [::skin::getKey chat_paned_padx]\
-			 -pady [::skin::getKey chat_paned_pady]
-		}
-
+		pack $top -side top -expand false -fill x -padx [::skin::getKey chat_top_padx]\
+		 -pady [::skin::getKey chat_top_pady]
+		pack $statusbar -side bottom -expand false -fill x -padx [::skin::getKey chat_status_padx] -pady [::skin::getKey chat_status_pady]
+		pack $paned -side top -expand true -fill both -padx [::skin::getKey chat_paned_padx]\
+		 -pady [::skin::getKey chat_paned_pady]
+		
 		focus $paned
 
 		# Sets the font size to the one stored in our configuration file
@@ -1100,16 +1093,11 @@ namespace eval ::ChatWindow {
 
 		$out setwidget $text
 
-		#Remove thin border on Mac OS X (padx)
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			pack $out -expand true -fill both \
-				-padx 0 \
-				-pady [::skin::getKey chat_output_pady]
-		} else {
-			pack $out -expand true -fill both \
-				-padx [::skin::getKey chat_output_padx] \
-				-pady [::skin::getKey chat_output_pady]
-		}
+
+		pack $out -expand true -fill both \
+			-padx [::skin::getKey chat_output_padx] \
+			-pady [::skin::getKey chat_output_pady]
+		
 
 		# Configure our widgets
 		$text configure -state disabled
@@ -1288,12 +1276,10 @@ namespace eval ::ChatWindow {
 
 		# Pack My input frame widgets
 		pack $text -side left -expand true -fill both -padx 1 -pady 1
-		if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
-			pack $sendbutton -side left -padx 0 -pady 0	
-		} else {
-			pack $sendbutton -fill y -side left -padx [::skin::getKey chat_sendbutton_padx]\
-			 -pady [::skin::getKey chat_sendbutton_pady]
-		}
+
+		pack $sendbutton -fill y -side left -padx [::skin::getKey chat_sendbutton_padx]\
+		 -pady [::skin::getKey chat_sendbutton_pady]
+		
 		
 		return $input
 	}

@@ -395,7 +395,6 @@ namespace eval ::skin {
 		}
 
 		# This bits are used to override certain keys loaded before with specific values for MacOS X (TkAqua)
-		# Don't use buttonbarbg on Mac OS X and put 0 value to chatborders.
 		if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
 			if { [info exists sdata(${cstack}:chatwindowbg)] } { ::skin::setKey buttonbarbg [string trim $sdata(${cstack}:chatwindowbg)] }
 				::skin::setKey chat_top_border 0
@@ -403,9 +402,21 @@ namespace eval ::skin {
 				::skin::setKey chat_buttons_border 0
 				::skin::setKey chat_input_border 0
 				::skin::setKey chat_status_border 0
-				::skin::setKey chat_top_pady 0
-				::skin::setKey chat_status_pady 0
+				
+				::skin::setKey chat_paned_padx 0
 				::skin::setKey chat_paned_pady 0
+				
+				::skin::setKey chat_status_padx 0
+				::skin::setKey chat_status_pady 0
+				
+				::skin::setKey chat_top_padx 0
+				::skin::setKey chat_top_pady 0
+				
+				::skin::setKey chat_output_padx 0
+				::skin::setKey chat_output_pady 0
+				
+				::skin::setKey chat_sendbutton_padx 0
+				::skin::setKey chat_sendbutton_pady 0
 		}
 
 		# Procedures binded to the XML parser must ALWAYS return 0
