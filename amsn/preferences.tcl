@@ -4,7 +4,7 @@ package require AMSN_BWidget
 
 
 if { $initialize_amsn == 1 } {
-	global myconfig proxy_server proxy_port proxy_user proxy_pass
+	global myconfig proxy_server proxy_port proxy_user proxy_pass rbsel rbcon pgc
 	
 	###################### Preferences Window ###########################
 	array set myconfig {}   ; # configuration backup
@@ -12,7 +12,8 @@ if { $initialize_amsn == 1 } {
 	set proxy_port ""
 	set proxy_pass ""
 	set proxy_user ""
-    
+    	
+	set pgc 1
 }
 
 proc PreferencesCopyConfig {} {
@@ -35,9 +36,198 @@ proc PreferencesCopyConfig {} {
 	set proxy_port [lindex $proxy_data 1]
 }
 
+## Function that makes the group list in the preferences ##
+proc MakeGroupList { lfgroup lfcontact } {
+	global rbsel
+	array set groups [::abook::getContactData contactlist groups]
+	catch "frame $lfgroup.lbgroup.fix"
+	catch "pack $lfgroup.lbgroup.fix -side left -anchor n -expand 1 -fill x"
+	label $lfgroup.lbgroup.fix.l -text "[trans groups]" -font sboldf
+	pack $lfgroup.lbgroup.fix.l -side top -anchor w -pady 5
+	foreach gr [array names groups] {
+		if {$groups($gr) != "Individuals"} {
+			radiobutton $lfgroup.lbgroup.fix.$gr -text "$groups($gr)" -value $gr -variable rbsel \
+				-command "MakeContactList $lfcontact" -justify left
+			pack $lfgroup.lbgroup.fix.$gr -side top -anchor w
+		}
+	}
+	## special group 'nogroup' ##
+	radiobutton $lfgroup.lbgroup.fix.ng -text "[trans nogroup]" -value -1 -variable rbsel \
+		-command "MakeContactList $lfcontact" -justify left
+	pack $lfgroup.lbgroup.fix.ng -side top -anchor w
+}
+
+## Function to be called after pressing delete/rename/add group button ##
+proc RefreshGroupList { lfgroup lfcontact } {
+	global pgc pgcd
+	if { $pgc == 1 } {
+		vwait pgc
+	}
+	set pgc 1
+	destroy $lfgroup.lbgroup.fix
+	MakeGroupList $lfgroup $lfcontact
+}
+
+## Function to be called when a group is selected ##
+proc MakeContactList { lfcontact } {
+	global rbsel rbcon
+	catch "DeleteContactList $lfcontact"
+	label $lfcontact.lbcontact.fix.l -text "[::groups::GetName $rbsel]" -font sboldf
+	pack $lfcontact.lbcontact.fix.l -side top -pady 5 -anchor w
+	if { ![::groups::Exists [::groups::GetName $rbsel]] || $rbsel == -1 } {
+		DeleteContactList $lfcontact
+		if { $rbsel == -1 } {
+			## list contacts that don't have a group ##
+			set contacts [::MSN::getList FL]
+			set i 0
+			while { $i < [llength $contacts] } {
+				set c [lindex $contacts $i]
+				set g [::abook::getGroups $c]
+				if { [lindex $g 0] == 0 } {
+					radiobutton $lfcontact.lbcontact.fix.$i -text "$c" -value $c \
+						-variable rbcon -justify left
+					pack $lfcontact.lbcontact.fix.$i -side top -anchor w
+				}
+				incr i
+			}
+		}
+		return
+	}
+	set groups [::abook::getContactData contactlist groups]
+	set contacts [::MSN::getList FL]
+	set i 0
+	while { $i < [llength $contacts] } {
+		set contact [lindex $contacts $i]
+		set group [::abook::getGroups $contact]
+		set j 0
+		while { $j < [llength $group] } {
+			set g [lindex $group $j]
+			if { $g == $rbsel } {
+				radiobutton $lfcontact.lbcontact.fix.$i -text "$contact" -value $contact -variable rbcon \
+					-justify left
+				pack $lfcontact.lbcontact.fix.$i -side top -anchor w
+			}
+			incr j
+		}
+		incr i
+	}
+}
+
+## Function to be called when the selected group becomes unvalid ##
+proc DeleteContactList { lfcontact } {
+	destroy $lfcontact.lbcontact.fix
+	frame $lfcontact.lbcontact.fix
+	pack $lfcontact.lbcontact.fix -side left -anchor n -expand 1 -fill x
+}
+
+## Function to be called when the selected group is deleted/renamed or a contact deleted/moved/copied/added ##
+proc RefreshContactList { lfcontact } {
+	global pcc
+	if { $pcc == 1 } {
+		vwait pcc
+	}
+	set pcc 1
+	DeleteContactList $lfcontact
+	MakeContactList $lfcontact
+}
+
+proc dlgMoveUser {} {
+	global rbcon rbsel gsel pcc
+	## check if window exists ##
+	if { [winfo exists .dlgmu] } {
+		set pcc 0
+		return 0
+	}
+	## if no contact is selected -- return ##
+	if { $rbcon == "" } {
+		set pcc 0
+		return 0
+	}
+	## calculate oldgid - now we get the first group int the group list - we have to improve it ##
+	set oldgid [::abook::getGroups $rbcon]
+	set oldgid [lindex $oldgid 0]
+	## variable for the selected group -- we set to oldgid to avoid bugs ##
+	set gsel $oldgid
+	
+	set bgcol2 #ABC8D2
+	toplevel .dlgmu -highlightcolor $bgcol2
+	wm title .dlgmu "[trans moveuser]"
+	## radiobuttons for newgid ##
+	frame .dlgmu.d
+	array set groups [::abook::getContactData contactlist groups]
+	foreach gr [array names groups] {
+		if { $groups($gr) != "Individuals" } {
+			radiobutton .dlgmu.d.$gr -text "$groups($gr)" -value $gr -variable gsel
+			pack .dlgmu.d.$gr -side left
+		}
+	}
+	pack .dlgmu.d -side top -pady 3 -padx 5
+	## button options ##
+	frame .dlgmu.b 
+	button .dlgmu.b.ok -text "[trans ok]"  -font sboldf \
+		-command " ::MSN::moveUser \$rbcon $oldgid \$gsel; \
+			destroy .dlgmu; "
+	button .dlgmu.b.cancel -text "[trans cancel]"  -font sboldf \
+		-command "destroy .dlgmu; set pcc 0;"
+	pack .dlgmu.b.ok .dlgmu.b.cancel -side right -padx 5
+	pack .dlgmu.b  -side top -anchor e -pady 3
+}
+
+proc dlgCopyUser {} {
+	global rbcon rbsel gsel pcc
+	if { [winfo exists .dlgcu] } {
+		set pcc 0
+		return 0
+	}
+	## if no contact is selected -- return ##
+	if { $rbcon == "" } {
+		set pcc 0
+		return 0
+	}
+	## calculate oldgid - now we get the first group int the group list - we have to improve it ##
+	set oldgid [::abook::getGroups $rbcon]
+	set oldgid [lindex $oldgid 0]
+	## protection --> the contacts who are in 'nogroup' will be moved, not copied ##
+	set move 0
+	if { $oldgid == 0 } {
+		set move 1
+	}
+	## variable for the selected group -- we set to oldgid to avoid bugs ##
+	set gsel $oldgid
+	
+	set bgcol2 #ABC8D2
+	toplevel .dlgcu -highlightcolor $bgcol2
+	wm title .dlgcu "[trans moveuser]"
+	## radiobuttons for newgid ##
+	frame .dlgcu.d
+	array set groups [::abook::getContactData contactlist groups]
+	foreach gr [array names groups] {
+		if { $groups($gr) != "Individuals" } {
+			radiobutton .dlgcu.d.$gr -text "$groups($gr)" -value $gr -variable gsel
+			pack .dlgcu.d.$gr -side left
+		}
+	}
+	pack .dlgcu.d -side top -pady 3 -padx 5
+	## button options ##
+	frame .dlgcu.b 
+	if { $move == 0 } {
+		button .dlgcu.b.ok -text "[trans ok]"  -font sboldf \
+			-command " ::MSN::copyUser \$rbcon \$gsel; \
+				destroy .dlgcu; "
+	}
+	if { $move == 1 } {
+		button .dlgcu.b.ok -text "[trans ok]" -font sboldf \
+			-command " ::MSN::moveUser \$rbcon $oldgid \$gsel; \
+				destroy .dlgcu; "
+	}
+	button .dlgcu.b.cancel -text "[trans cancel]"  -font sboldf \
+		-command "destroy .dlgcu; set pcc 0;"
+	pack .dlgcu.b.ok .dlgcu.b.cancel -side right -padx 5
+	pack .dlgcu.b  -side top -anchor e -pady 3
+}
 
 proc Preferences { { settings "personal"} } {
-    global config myconfig proxy_server proxy_port temp_BLP list_BLP Preftabs libtls_temp libtls proxy_user proxy_pass
+    global config myconfig proxy_server proxy_port temp_BLP list_BLP Preftabs libtls_temp libtls proxy_user proxy_pass rbsel rbcon
 
     set temp_BLP $list_BLP
     set libtls_temp $libtls
@@ -82,6 +272,7 @@ proc Preferences { { settings "personal"} } {
 	$nb.nn insert end personal -text [trans personal]
 	$nb.nn insert end appearance -text [trans appearance]
 	$nb.nn insert end session -text [trans session]
+	$nb.nn insert end groups -text [trans groups]
 	$nb.nn insert end privacy -text [trans privacy]
 	$nb.nn insert end loging -text [trans loging]
 	$nb.nn insert end connection -text [trans connection]
@@ -372,6 +563,81 @@ proc Preferences { { settings "personal"} } {
 
 	$nb.nn compute_size
 	[$nb.nn getframe session].sw.sf compute_size
+
+	
+	#  .------------------.
+	# _| Group Management |_______________________________________
+	
+	image create photo prefpersc -file [GetSkinFile pixmaps prefpers.gif]
+	image create photo prefprofilec -file [GetSkinFile pixmaps prefprofile.gif]
+	
+	set frm [$nb.nn getframe groups]
+	ScrolledWindow $frm.sw
+	ScrollableFrame $frm.sw.sf -constrainedwidth 1
+	$frm.sw setwidget $frm.sw.sf
+	pack $frm.sw -anchor n -side top -expand true -fill both
+	set frm [$frm.sw.sf getframe]
+
+	## frames ##
+	set lfgroup [LabelFrame:create $frm.lfgroup -text [trans groups] -font splainf]
+	pack $frm.lfgroup -anchor n -side top -expand 1 -fill x
+	set lfcontact [LabelFrame:create $frm.lfcontact -text [trans contactlist] -font splainf]
+	pack $frm.lfcontact -anchor n -side top -expand 1 -fill x
+
+	## Group Selection Frame ##
+	label $lfgroup.group -image prefpersc
+	pack $lfgroup.group -side left
+	frame $lfgroup.lbgroup
+	pack $lfgroup.lbgroup -side left -anchor n -expand true -fill both -padx 10
+	MakeGroupList $lfgroup $lfcontact
+	frame $lfgroup.lbgroup.b
+	pack $lfgroup.lbgroup.b -side right -anchor n -expand false
+	label $lfgroup.lbgroup.b.op -text "[trans options]" -font sboldf
+	pack $lfgroup.lbgroup.b.op -side top -pady 3
+	
+	button $lfgroup.lbgroup.b.bdel -text [trans groupdelete] -width 25 -justify right \
+		-command "::groups::Delete \$rbsel dlgMsg; RefreshGroupList $lfgroup $lfcontact;"
+	button $lfgroup.lbgroup.b.bren -text [trans grouprename] -width 25 -justify right \
+		-command "::groups::dlgRenameThis \$rbsel; tkwait window .dlgthis; RefreshGroupList $lfgroup $lfcontact;"
+	button $lfgroup.lbgroup.b.badd -text [trans groupadd] -width 25 -justify right \
+		-command "::groups::dlgAddGroup; tkwait window .dlgag; RefreshGroupList $lfgroup $lfcontact;"
+	pack $lfgroup.lbgroup.b.badd -side top -pady 2 -anchor w
+	pack $lfgroup.lbgroup.b.bren -side top -pady 2 -anchor w
+	pack $lfgroup.lbgroup.b.bdel -side top -pady 2 -anchor w
+
+	## Contact Selection Frame ##
+	label $lfcontact.contact -image prefprofilec
+	pack $lfcontact.contact -side left
+	frame $lfcontact.lbcontact -padx 10
+	pack $lfcontact.lbcontact -side left -anchor n -expand 1 -fill x
+	frame $lfcontact.lbcontact.fix
+	pack $lfcontact.lbcontact.fix -side left -anchor n -expand 1 -fill x
+	
+	frame $lfcontact.lbcontact.b
+	pack $lfcontact.lbcontact.b -side right -anchor n -expand 0
+	label $lfcontact.lbcontact.b.op -text "[trans options]" -font sboldf
+	pack $lfcontact.lbcontact.b.op -side top -pady 3
+	
+	button $lfcontact.lbcontact.b.badd -text [trans addacontact] -width 25 -justify right \
+		-command "cmsn_draw_addcontact; tkwait window .addcontact; RefreshContactList $lfcontact;"
+	button $lfcontact.lbcontact.b.bmov -text [trans movetogroup] -width 25 -justify right \
+		-command "dlgMoveUser; tkwait window .dlgmu; RefreshContactList $lfcontact;"
+	button $lfcontact.lbcontact.b.bcopy -text [trans copytogroup] -width 25 -justify right \
+		-command "dlgCopyUser; tkwait window .dlgcu;"
+	button $lfcontact.lbcontact.b.brfg -text [trans removefromlist] -width 25 -justify right \
+		-command "if { \$rbsel \!= -1 } {::MSN::deleteUser \$rbcon \$rbsel; RefreshContactList $lfcontact;}"
+	button $lfcontact.lbcontact.b.bdel -text [trans delete] -width 25 -justify right \
+		-command "::MSN::deleteUser \$rbcon; RefreshContactList $lfcontact;"
+	pack $lfcontact.lbcontact.b.badd -side top -pady 2 -anchor w
+	pack $lfcontact.lbcontact.b.bmov -side top -pady 2 -anchor w
+	pack $lfcontact.lbcontact.b.bcopy -side top -pady 2 -anchor w
+	pack $lfcontact.lbcontact.b.brfg -side top -pady 2 -anchor w
+	pack $lfcontact.lbcontact.b.bdel -side top -pady 2 -anchor w
+	
+	#compute_size
+	$nb.nn compute_size
+	[$nb.nn getframe groups].sw.sf compute_size
+
 
 	#  .--------.
 	# _| Loging |________________________________________________

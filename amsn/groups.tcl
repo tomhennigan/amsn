@@ -29,6 +29,7 @@ namespace eval ::groups {
 		variable uMemberCnt;		# (array) member count for that group
 		variable uMemberCnt_online;	# (array) member count for that group
 		
+		global pgc
 	}
 
 	#
@@ -57,7 +58,10 @@ namespace eval ::groups {
    
 	#<dlgAddGroup> Dialog to add a group
 	proc dlgAddGroup {} {
+		global pgc
+		
 		if {[winfo exists .dlgag]} {
+			set pgc 0
 			return
 		}
 	
@@ -80,15 +84,21 @@ namespace eval ::groups {
 				destroy .dlgag
 			}
 		button .dlgag.b.cancel -text "[trans cancel]"  -font sboldf \
-			-command "destroy .dlgag"
+			-command {
+				set pgc 0
+				destroy .dlgag;
+			}
 		pack .dlgag.b.ok .dlgag.b.cancel -side right -padx 5
 		pack .dlgag.d -side top -pady 3 -padx 5
 		pack .dlgag.b  -side top -anchor e -pady 3
 	}
 
 	proc dlgRenGroup {} {
+		global pgc
+		
 		if {[winfo exists .dlgrg]} {
-		return
+			set pgc 0
+			return
 		}
 
 		set bgcol2 #ABC8D2
@@ -112,7 +122,7 @@ namespace eval ::groups {
 			::groups::Rename $::groups::groupname "[.dlgrg.n.ent get]" dlgMsg;\
 			destroy .dlgrg }
 		button .dlgrg.b.cancel -text "[trans cancel]" -font sboldf \
-			-command "destroy .dlgrg"
+			-command "set pgc 0; destroy .dlgrg"
 		pack .dlgrg.b.ok .dlgrg.b.cancel -side right -padx 5
 			
 		pack .dlgrg.d .dlgrg.n -side top
@@ -131,8 +141,10 @@ namespace eval ::groups {
    
 	# New simplified renaming dialog
 	proc dlgRenameThis {gid} {
-	
+		global pgc
+		
 		if {[winfo exists .dlgthis]} {
+			set pgc 0
 			destroy .dlgthis
 		}
 		set bgcol2 #ABC8D2
@@ -148,7 +160,8 @@ namespace eval ::groups {
 		
 		frame .dlgthis.buttons 
 		button .dlgthis.buttons.ok -text "[trans ok]" -command "::groups::ThisOkPressed $gid" -font sboldf
-		button .dlgthis.buttons.cancel -text "[trans cancel]" -command "destroy .dlgthis" -font sboldf
+		button .dlgthis.buttons.cancel -text "[trans cancel]" \
+			-command "set pgc 0; destroy .dlgthis" -font sboldf
 		pack .dlgthis.buttons.ok .dlgthis.buttons.cancel -side left -pady 5
 			
 		pack .dlgthis.data .dlgthis.buttons -side top
@@ -476,6 +489,8 @@ namespace eval ::groups {
 	}
 
 	proc Rename { old new {ghandler ""}} {
+		global pgc
+		
 		set old [string trim $old]
 		set new [string trim $new]
 	
@@ -485,6 +500,7 @@ namespace eval ::groups {
 		if {$ghandler != ""} {
 			set retval [eval "$ghandler \"$old : [trans groupunknown]\""]
 		}
+		set pgc 0
 		return 0
 		}
 	
@@ -492,6 +508,7 @@ namespace eval ::groups {
 		if {$ghandler != ""} {
 			set retval [eval "$ghandler \"$new : [trans groupexists]\""]
 		}
+		set pgc 0
 		return 0
 		}
 	
@@ -500,6 +517,7 @@ namespace eval ::groups {
 		if {$ghandler != ""} {
 			set retval [eval "$ghandler \"[trans groupmissing]: $old\""]
 		}
+		set pgc 0
 		return 0
 		}
 	
@@ -512,10 +530,13 @@ namespace eval ::groups {
 	}
 
 	proc Add { gname {ghandler ""}} {
+		global pgc
+		
 		if {[::groups::Exists $gname]} {
 		if {$ghandler != ""} {
 		set retval [eval "$ghandler \"[trans groupexists]!\""]
 		}
+		set pgc 0
 		return 0
 		}
 	
@@ -528,11 +549,14 @@ namespace eval ::groups {
 	}
         
 	proc Delete { gid {ghandler ""}} {
+		global pgc
+		
 		set gname [::groups::GetName $gid]
 		if {![::groups::Exists $gname]} {
 		if {$ghandler != ""} {
 		set retval [eval "$ghandler \"[trans groupunknown]!\""]
 		}
+		set pgc 0
 		return 0
 		}
 	
@@ -541,6 +565,7 @@ namespace eval ::groups {
 		if {$ghandler != ""} {
 		set retval [eval "$ghandler \"[trans groupnotempty]!\""]
 		}
+		set pgc 0
 		return 0
 		}
 		

@@ -238,6 +238,7 @@ groupnewname New name
 groupnotempty Group is not empty!
 groupoldname Old name
 grouprename Rename a group
+groups Groups
 groupunknown Unknown group
 handle Handle
 helpcontents Help contents
@@ -449,9 +450,9 @@ receivedbytes Received $1 of $2 bytes
 receiveddir Received Files folder
 receivefile Receive file
 recentmsg Prevent closing a chat window when a message has just arrived
+reconnect2 Reconnect on loss
 reconnecting Reconnecting to server
 reconnect Waiting for $1 to reconnect
-reconnect2 Reconnect on loss
 reject Reject
 rememberpass Remember password
 removeempty Remove empty groups from the contact list

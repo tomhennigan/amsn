@@ -18,7 +18,8 @@ namespace eval ::abook {
 		#When set to 1, the information is in safe state and can be
 		#saved to disk without breaking anything
 		
-		variable consistent 0; 
+		variable consistent 0
+		global pgc pcc
 	}
 	
 	#########################
@@ -282,6 +283,7 @@ namespace eval ::abook {
 	#field: the field you want to set
 	#data: the data that will be contained in the given field
 	proc setContactData { user_login field data } {
+		global pgc
 		variable users_data
 		
 		set field [string tolower $field]
@@ -305,6 +307,9 @@ namespace eval ::abook {
 		
 		#We store the array as a plain list, as we can't have an array of arrays
 		set users_data($user_login) [array get user_data]
+		
+		#We make this to notify preferences > groups to be refreshed
+		set pgc 1
 	}
 
 	#Sets some volatile data to a user. Volatile data won't be written to disk
@@ -442,20 +447,27 @@ namespace eval ::abook {
 	}
    
 	proc addContactToGroup { email grId } {
+		global pcc
+		
 		set groups [getContactData $email group]
 		set idx [lsearch $groups $grId]
 		if { $idx == -1 } {
 			setContactData $email group [linsert $groups 0 $grId]
 		}
+		#we make this to notify preferences > groups to be refreshed
+		set pcc 1
 	}
 
 	proc removeContactFromGroup { email grId } {
+		global pcc
+		
 		set groups [getContactData $email group]
 		set idx [lsearch $groups $grId]
 		
 		if { $idx != -1 } {
 			setContactData $email group [lreplace $groups $idx $idx]
 		}
+		set pcc 1
 	}	
 
 	proc getLists {passport} {
@@ -463,20 +475,26 @@ namespace eval ::abook {
 	}
    
 	proc addContactToList { email listId } {
+		global pcc
+		
 		set lists [getContactData $email lists]
 		set idx [lsearch $lists $listId]
 		if { $idx == -1 } {
 			setContactData $email lists [linsert $lists 0 $listId]
 		}
+		set pcc 1
 	}
 
 	proc removeContactFromList { email listId } {
+		global pcc
+		
 		set lists [getContactData $email lists]
 		set idx [lsearch $lists $listId]
 		
 		if { $idx != -1 } {
 			setContactData $email lists [lreplace $lists $idx $idx]
 		}
+		set pcc 1
 	}	
 	
 	proc setConsistent {} {
