@@ -1065,6 +1065,7 @@ namespace eval ::amsn {
       }
 
       variable window_titles
+		variable new_message_on
       global list_states config
 
       #set topmsg ""
@@ -1153,7 +1154,11 @@ namespace eval ::amsn {
       ${win_name}.f.top.text configure -state disabled
 
       set window_titles(${win_name}) ${title}
-      wm title ${win_name} ${title}
+		if { [info exists new_message_on(${win_name})] && $new_message_on(${win_name}) == 1 } {
+			wm title ${win_name} "*${title}"
+		} else {
+			wm title ${win_name} ${title}
+		}
 
       update idletasks
       if { $scrolling } { ${win_name}.f.out.text yview moveto 1.0 }
@@ -2214,6 +2219,16 @@ namespace eval ::amsn {
    #///////////////////////////////////////////////////////////////////////////////
 
 
+	proc GotFocus { win_name } {
+      variable window_titles
+		variable new_message_on
+
+		if { [info exists new_message_on(${win_name})] && $new_message_on(${win_name}) == 1 } {
+			unset new_message_on(${win_name})
+			catch {wm title ${win_name} "$window_titles(${win_name})"} res
+			status_log "Here win_name=$win_name\n"
+		}
+	}
 
    #///////////////////////////////////////////////////////////////////////////////
    # WinFlicker (chatid,[count])
@@ -2225,24 +2240,30 @@ namespace eval ::amsn {
 
       global config
       variable window_titles
+		variable new_message_on
 
-      if { $config(flicker) == 0 } {
-      	return 0
-      }
-      
-      after cancel ::amsn::WinFlicker $chatid 0
-      after cancel ::amsn::WinFlicker $chatid 1      
-      
+
       if { [WindowFor $chatid] != 0} {
          set win_name [WindowFor $chatid]
       } else {
          return 0
       }
 
+
+      if { $config(flicker) == 0 } {
+			catch {wm title ${win_name} "*$window_titles($win_name)"} res
+			set new_message_on(${win_name}) 1
+			bind ${win_name} <FocusIn> "::amsn::GotFocus ${win_name}"
+      	return 0
+      }
+
+      after cancel ::amsn::WinFlicker $chatid 0
+      after cancel ::amsn::WinFlicker $chatid 1
+
       if { [string first $win_name [focus]] != 0 } {
 
       set count  [expr {( $count +1 ) % 2}]
-      
+
       if {![catch {
 	     if { $count == 1 } {
   	        wm title ${win_name} "[trans newmsg]"
