@@ -1492,7 +1492,7 @@ proc sb_enter { sbn name } {
       puts $sock "MSG $::MSN::trid N $msg_len"
       puts -nonewline $sock $msg
 
-      status_log "Font: \{$fontfamily\}, \{$fontstyle\}, $fontcolor\n" blue
+#      status_log "Font: \{$fontfamily\}, \{$fontstyle\}, $fontcolor\n" blue
 
       cmsn_win_write $sbn "\[$timestamp\] [trans says [urldecode [lindex $user_info 4]]]:\n" gray
       cmsn_win_write $sbn "$txt\n" yours \{$fontfamily\} \{$fontstyle\} $fontcolor      
