@@ -24,6 +24,8 @@ set config(autoftip) 1
 set config(myip) "127.0.0.1"
 set config(wingeometry) 275x400-0+0
 set config(closingdocks) 1
+set config(yourfont) "Helvetiva 12 bold"
+set config(yourcolor) "red"
 #end AIM
 set config(orderbygroup) 0
 set config(withnotebook) 1
