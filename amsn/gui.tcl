@@ -4279,7 +4279,8 @@ proc play_sound {sound {absolute_path 0} {force_play 0}} {
 
 proc snack_play_sound {snd {loop 0}} {
 	if { $loop } {
-		$snd play -command [list snack_play_sound $snd 1]
+		#When 2 sounds play at the same time callback doesnt get deleted unless both are stopped so requires a catch
+		catch { $snd play -command [list snack_play_sound $snd 1] } { }
 	} else {
 		$snd play
 	}
