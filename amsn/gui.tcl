@@ -5724,7 +5724,7 @@ proc convert_image { filename size } {
 
     status_log "converting $filename to $filename.gif with size $size\n"
 
-    if { [catch { exec convert -size $size -resize ${size} \"$filename\" \"${filename}.gif\" } res] } {
+    if { [catch { exec convert -size $size -resize ${size} "$filename" "${filename}.gif" } res] } {
 	msg_box "[trans installconvert]"
 	status_log "converting returned error : $res\n"
 	return 0
@@ -5751,7 +5751,7 @@ proc convert_image { filename size } {
     file delete $filename.gif
 
 
-    catch { exec convert \"${filename2}.gif\"  \"${filename2}.png\"}
+    catch { exec convert "${filename2}.gif"  "${filename2}.png"}
     
     return ${filename2}.png
 
