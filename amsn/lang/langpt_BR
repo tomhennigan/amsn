@@ -612,7 +612,7 @@ textsize Tamanho do texto
 timeremaining Tempo restante
 timestamps Habilitar "timestamps" nas janelas de chat
 title aMSN
-tkerror O TK trouxe um erro, existem um bug no amsn, por favor, informe ele. Envie o arquivo $1 para amsn-bugs@lists.sf.net
+tkerror Um erro ocorreu e foi informado pelo interpretador Tk. Normalmente, isso quer dizer que existe um bug no aMSN. Por favor, informe o erro aos desenvolvedores enviando o arquivo $1 para amsn-bugs@lists.sf.net. Obrigado.
 tlsdowncompleted Arquivo $1 foi descarregado no diretório $2. Você deve extraí-lo, compilá-lo (se você pegou o código-fonte) e instalá-lo em $3.
 tlsexplain Diretório onde o módulo tcl TLS é encontrado. Se o AMSN não puder encontrar, favor especificar manualmente.\n(Requerido para autenticação SSL)
 tlsinstall Assistente de Instalação do Módulo TLS
