@@ -297,15 +297,15 @@ proc EditNewState { mode { idx "" } } {
 	::skin::setPixmap prefaway [file join [GetSkinFile pixmaps prefaway.gif]]
 
 	toplevel .editstate
-	wm group .editstate .
+	#wm group .editstate .
     
-	wm geometry .editstate
+	#wm geometry .editstate
 	if { $mode == 0 || $mode == 1 } {
 		wm title .editstate "[trans editnewstate]"
 	} else {
 		wm title .editstate "[trans editstate]"
 	}
-	ShowTransient .editstate
+	#ShowTransient .editstate
 
 	set lfname [LabelFrame:create .editstate.lfname -text [trans stateinfo] -font splainf]
 	pack $lfname -anchor n -side top -expand 1 -fill x
@@ -388,6 +388,7 @@ proc EditNewState { mode { idx "" } } {
 	pack .editstate.buttons.save .editstate.buttons.cancel -side right -padx 10 -pady 5
 	pack .editstate.buttons -side top -fill x -pady 10
 	moveinscreen .editstate
+	catch {focus .editstate}
 }
 
 #///////////////////////////////////////////////////////////////////////////////
