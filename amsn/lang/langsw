@@ -41,6 +41,7 @@ checkver Kolla efter ny version
 choosebasefont Välj teckensnitt
 choosebgcolor Välj bakgrundsfärg
 choosefontcolor Välj textfärg
+clearlog Rensa logg
 clicktologin Klicka för att logga in
 close Stäng
 closingdocks Stäng-knappen dockar fönster
@@ -92,6 +93,7 @@ groupunknown Okänd grupp
 handle Hantera
 helpcontents Innehåll
 help Hjälp
+history Se historia
 home Hem
 ident Identifiering
 identity Identitet
@@ -102,12 +104,20 @@ ipaddress IP Adress
 istyping $1 skriver ett meddelande
 joins $1 kommer in i konversationen
 keepalive Stäng aldrig av förbindelse till NAT/Proxy server
+keeplog Spara chatt-loggar
 language Språk
 lastmsgtime Senaste meddelandet mottaget $1
+lclosedwin $1 stängde $2 's fönster
+lconftopriv Konferensen blev privatchatt med $1
+lconvstarted Konversation startad $1
 leaveblankforhotmail Lämnas tom för hotmail
 leaves $1 lämnar konversationen
+lenteredconf $1 kom in i konversationen med $2
+linprivate I PRIVAT
 listeningon lyssnar på $1
 listsmileys Visa smileys
+ljoinedconf $1 anslöts till konversationen
+lleftconf $1 kom in i koversationen
 loadcontacts Ladda kontakter
 loggedotherlocation Nedkopplad! Du är inloggad på ett annat ställe!
 loggingin Loggar in
@@ -115,6 +125,8 @@ loginas Logga in som
 login Logga in
 logout Logga ut
 logsin har just loggat in
+lprivtoconf Privatchatt blev Konferens med $1
+luclosedwin Du stängde fönstret $1
 mailer Avsändare
 mobile Mobil
 movetogroup Flytta till grupp
@@ -130,8 +142,10 @@ newmsg Nytt meddelande
 newveravailable Ny version $1 finns att ladda ner
 next Nästa
 noactivity Ingen aktivitet
+nologfile Ingen log för $1
 nonewmail Inga nya meddelanden i Inkorgen
 nonewver Det finns inga nya versioner att ladda ner
+normal Normal
 notify Meddela
 notifywin Visa meddelanderuta när någon loggar in
 nousersinsession Inga användare i konversationen
@@ -143,6 +157,7 @@ onphone Pratar i telefon
 openreceived Öppna mottagna filer
 options Alternativ
 ordercontactsby Sortera användare efter
+ordergroupsby Sortera grupp efter
 other Annat
 pager Personsökare
 pass Lösenord
@@ -164,10 +179,12 @@ reconnecting Återansluter till server
 reconnect Väntar på att $1 ska komma tillbaka
 reject Avslå
 rememberpass Kom ihåg lösenordet
+reversed Omvänd
 rightback Strax tillbaka
 saveas Spara som
 savecontacts Spara kontaktlista
 save Spara
+savetofile Spara som
 says $1 säger
 sbcon Ansluter till Switch Board
 sendfile Skicka fil

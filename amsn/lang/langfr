@@ -18,10 +18,8 @@ aretyping $1 est en train de taper un message
 autoconnect Connection automatique au lancement
 autohotmaillog Identification automatique à Hotmail
 autoidle diminution automatique de la consommation processeur lors 
-d'inactivité
 autoip IP automatique
 avoidseen Interdire à cette personne de me voir ou de me contacter quand je 
-suis en ligne
 away Absent
 baduserpass Mauvais nom d'utilisateur ou mot de passe
 blankdirect Laisser vide pour une connexion sans proxy
@@ -43,6 +41,7 @@ checkver Nouvelle version
 choosebasefont Choisir la police de caractere
 choosebgcolor Choisir la couleur de fond
 choosefontcolor Choisir la couleur de police
+clearlog Effacer les logs
 clicktologin Cliquez pour vous connecter
 close Fermer
 closingdocks Le bouton fermer ancre l'application
@@ -58,6 +57,7 @@ cut couper
 date Date
 delete Effacer
 deliverfail Une erreur est survenue lors de l'envoi du message suivant
+d'inactivité
 dockgtk Ancrer dans GTK
 docking Ancrage actif
 dockingoff Ancrage inactif
@@ -92,6 +92,7 @@ groupunknown Groupe inconnu
 handle Pseudonyme
 help Aide
 helpcontents Contenu de l'aide
+history Voir l'historique
 home Domicile
 ident Identification
 identity Identité
@@ -102,12 +103,20 @@ ipaddress Adresse IP
 istyping $1 est en train de taper un message
 joins $1 a rejoint la conversation
 keepalive Garder la connection ouverte
+keeplog Garder les logs des conversations
 language Langage
 lastmsgtime Dernier message reçu à $1
+lclosedwin $1 a fermé la fenêtre sur $2
+lconftopriv Conférence changée en conversation privée avec $1
+lconvstarted Conversation commencée le $1
 leaveblankforhotmail Laisser vide pour un compte Hotmail
 leaves $1 a quitté la conversation
+lenteredconf $1 a rejoint la conférence sur $2
+linprivate EN PRIVEE
 listeningon A l'écoute sur le port $1
 listsmileys Liste des "smileys"
+ljoinedconf $1 a rejoint la conférence
+lleftconf $1 a quitté(e) la conférence
 loadcontacts Charger la liste de contacts
 loggedotherlocation Deconnecté. Connecté depuis un autre endroit.
 loggingin est en cours de connexion
@@ -115,6 +124,8 @@ loginas Se connecter en tant que
 login Se connecter
 logout Se déconnecter
 logsin vient de se connecter
+lprivtoconf  Conversation privée changée en conférence avec $1
+luclosedwin Vous avez fermé la fenêtre sous $1
 mailer Programme de courrier
 mobile Mobile
 movetogroup Deplacer vers groupe
@@ -131,6 +142,7 @@ newmsg Nouveau message
 newveravailable Nouvelle version disponible
 next Suivant
 noactivity Inactif
+nologfile Pas de fichier log pour $1
 nonewmail 0 nouveau[x] message[s]
 nonewver Il n'y a pas de nouvelle version disponible
 normal Normal
@@ -173,6 +185,7 @@ rightback Bientôt de retour
 saveas Enregistrer sous
 savecontacts Enregistrer la liste des contacts
 save Enregistrer
+savetofile Sauvegarder dans un fichier
 says $1 dit
 sbcon Connexion au "Switch Board"
 send Envoyer
@@ -190,6 +203,7 @@ startoffline Démarrer déconnecté
 status Statut
 stopalarm Stopper l'alarme
 suis connecté
+suis en ligne
 syntaxerror Erreur de syntaxe
 textsize Taille du texte
 title Al's Messenger
@@ -202,8 +216,8 @@ useralreadyonlist Utilisateur déjà présent dans la liste
 usernotonline L'utilisateur n'est pas en ligne
 user Utilisateur
 version Version
-view Vue
 viewprofile Afficher le profil
+view Vue
 willjoin Dans l'attente que $1 rejoigne la conversation
 work Travail
 yousay Vous avez dit

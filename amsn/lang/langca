@@ -43,6 +43,7 @@ choosebasefont Escull el tipus de lletra
 choosebgcolor Escull el color de fons
 choosefontcolor Escull el color del tipus de lletra
 choosefont Escull el tipus de lletra
+clearlog Netejar historial
 clicktologin Fes clic aquí per connectar-te
 close Tanca
 closingdocks El botó tancar minimitza la finestra
@@ -92,6 +93,7 @@ groupunknown Grup desconegut
 handle Nick
 help Ajuda
 helpcontents Contiguts
+history Mostrar historial
 home Casa
 ident Identifica
 identity Identitat
@@ -102,12 +104,20 @@ ipaddress Adreça IP
 istyping $1 està escrivint un missatge
 joins $1 s'uneix a la conversa
 keepalive Mantenir connexió activa (NAT)
+keeplog Conservar l'historial de les converses
 language Idioma
 lastmsgtime Últim missatge rebut a les $1
+lclosedwin $1 ha tancat la finestra a les $2
+lconftopriv La conversa múltiple canvia a conversa
+lconvstarted Conversa iniciada a les $1
 leaveblankforhotmail Deixa en blanc per usar hotmail
 leaves $1 deixa la conversa
+lenteredconf $1 s'uneix a la canversa a les $2
+linprivate EN PRIVAT
 listeningon Escoltant el port $1
 listsmileys Llista d'emoticones
+ljoinedconf $1 s'uneix a la conversa
+lleftconf $1 deixa la conversa
 loadcontacts Obrir una llista de contactes
 loggedotherlocation Desconnectat. S'ha iniciat la sessió en un altre lloc
 loggingin Connectant-se
@@ -115,11 +125,14 @@ loginas Connectar-se com
 login Connectar-se
 logout Desconnectar-se
 logsin s'acaba de connectar
+lprivtoconf La conversa privada canvia a conversa
+luclosedwin Has tancat la finestra a les $1
 mailer Gestor de correu
 mobile Mòbil
 movetogroup Moure al grup
 msg Missatge
 msn AMSN
+múltiple amb $1
 mustrestart Has de reiniciar el programa per a que els canvis tinguin efecte
 mystatus El meu estat
 natip Detecció d'IP a través de pàgina web
@@ -130,8 +143,10 @@ newmsg Nou missatge
 newveravailable La versió $1 està disponible per a baixar-se
 next Següent
 noactivity Sense activitat
+nologfile No existeix fitxer d'historial per $1
 nonewmail No hi ha missatges nous a la bústia
 nonewver No hi ha cap versió nova per a baixar-se
+normal Normal
 notify notificar
 notifywin Finestra d'avís
 nousersinsession No hi ha usuaris a la sessió
@@ -143,6 +158,7 @@ onphone Al telèfon
 openreceived Obrir fitxers rebuts
 options Opcions
 ordercontactsby Ordenar els contactes per
+ordergroupsby Ordenar grups per
 other Un altre
 pager Paginador
 pass Contrasenya
@@ -154,6 +170,7 @@ port Port
 prefapps Aplicacions
 preferences Preferències
 prefsound So
+privada amb $1
 properties Propietats
 proxyconf Configuració del servidor intermediari (Proxy)
 proxyconfhttp Configuració del suport per al servidor intermediari HTTP
@@ -164,10 +181,13 @@ reconnect Esperant a que $1 es reconnecti
 reconnecting Reconnectant-se al servidor
 reject Rebutjar
 rememberpass Recordar contrasenya
+reversed Invertit
+reversed Invertit
 rightback Un moment
 saveas Desar com
 savecontacts Desar la llista de contactes
 save Desar
+savetofile Desar en fitxer
 says $1 diu
 sbcon Connectant-se a la Switch Board
 send Enviar
@@ -196,12 +216,9 @@ useralreadyonlist L'usuari ja és a la llista de contactes
 usernotonline L'usuari no està connectat
 user Ususari
 version Versió
-view Veure
 viewprofile Mostrar perfil
+view Veure
 willjoin Esperant que $1  s'uneixi a la conversa
 work Treball
 yousay Dius
 youwant Vols
-normal Normal
-ordergroupsby Ordenar grups per
-reversed Invertit

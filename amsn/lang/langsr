@@ -1,7 +1,7 @@
 amsn_lang_version 2
 about O...
-accept Prihvati
 acceptfile Prihvati fajl $1, velicina $2? Snimljen u $3
+accept Prihvati
 actions Akcije
 addacontact Dodaj kontakt
 addedyou vas je dodao u svoju kontakt listu
@@ -41,6 +41,7 @@ checkver Provera nove verzije
 choosebasefont Izaberi tip fonta
 choosebgcolor Izaberi boju pozadine
 choosefontcolor Izaberi boju fonta
+clearlog Ocisti Log
 clicktologin Klikni ovde da bi se ulogovao
 close Zatvori
 closingdocks Close dugme Minimizuje
@@ -55,9 +56,10 @@ copytogroup Kopiraj u grupu
 cut Iseci
 date Datum
 delete Brisi
+deliverfail Problem prilikom isporuke sledece poruke
+dockgtk Gnome Dock
 docking Docking
 dockingoff Docking Isklucen
-dockgtk Gnome Dock
 dockkde KDE Dock
 edit Edituj
 enableproxy Dozvoli proksi
@@ -89,6 +91,7 @@ groupunknown Nepoznata grupa
 handle Handle
 helpcontents Sadrzaj pomoci
 help Pomoc
+history Vidi Istriju
 home Home
 ident Identifikujem
 identity Identitet
@@ -99,12 +102,20 @@ ipaddress IP Adresa
 istyping $1 kuca poruku
 joins $1 se prikljucuje razgovoru
 keepalive Keepalive (NAT)
+keeplog Sacuvaj Logove Chatova
 language Jezik
 lastmsgtime Poslednja poruka primljena u $1
+lclosedwin $1 je zatvorio prozor u $2
+lconftopriv Konferencija presla u Privatni chat sa $1
+lconvstarted Razgovor zapocet u $1
 leaveblankforhotmail Ostavi prazno da bi koristio hotmail web
 leaves $1 napusta razgovor
+lenteredconf $1 je usao na konferenciju u $2
+linprivate  PRIVATNO
 listeningon Osluskuje na portu $1
 listsmileys Izlistaj smajlije
+ljoinedconf $1 se prikljucio konferenciji
+lleftconf $1 je napustion konferenciju
 loadcontacts Ucitaj kontakt listu
 loggedotherlocation Diskonektovan. Logovao se na drugom mestu
 loggingin Logujem se
@@ -112,6 +123,8 @@ loginas Loguj se kao
 login Loguj se
 logout Izloguj se
 logsin se upravo logovao
+lprivtoconf Privatni chat presao u Konferenciju sa $1
+luclosedwin Zatvorio si prozor u $1
 mailer Mailer
 mobile Mobilni
 movetogroup Pomeri u Grupu
@@ -127,8 +140,10 @@ newmsg Nova poruka
 newveravailable Novija verzija $1 na raspolaganju za daunload
 next Sledece
 noactivity Neaktivan
+nologfile Nema log fajla za $1
 nonewmail Nema novih porukau inbox-u
 nonewver Nema nove verzije na raspolaganju za daunload
+normal Normalno
 notify Obavesti
 notifywin Notify Window
 nousersinsession Nema korisnika u sesiji
@@ -140,6 +155,7 @@ onphone Na telefonu
 openreceived Otvori primljene fajlove
 options Opcije
 ordercontactsby Uredi kontakte prema
+ordergroupsby Uredi grupe prema
 other Drugo
 pager Pejdzer
 pass Sifra
@@ -157,14 +173,16 @@ proxyconf Podesavanje Proksija
 publishphones Objavi  moje telefonske brojeve
 receivedbytes Primio $1 od $2 bajtova
 receivefile Primi fajl
-reconnecting Rekonektujem se na server
 reconnect Cekam $1 da se  rekonektujem
+reconnecting Rekonektujem se na server
 reject Odbij
 rememberpass Zapamti sifru
+reversed Obrnuto
 rightback Odmah se vracam
 saveas Snimi kao
 savecontacts Snimi kontakt listu
 save Snimi
+savetofile Snimi u Fajl
 says $1 kaze
 sbcon Konektujem se na Switch Board
 sendfile Posalji fajl
@@ -191,8 +209,10 @@ uoffline Oflajn
 uonline Onlajn
 useralreadyonlist Korisnik je vec u kontakt listi
 user Korisnik
+usernotonline Korisnik nije onlajn
 version Verzija
 view Pogled
+viewprofile Pregledaj Profil
 willjoin Cekamg $1 da se prikljuci razgovoru
 work Posao
 yousay Ti kazes

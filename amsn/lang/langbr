@@ -15,6 +15,7 @@ alarmstatus Ativar/Desativar notificações para este usuário
 allowseen Permitir que o usuário veja quando eu estou on-line e possa me contactar
 appearoff Aparecer off-line
 aretyping $1 está digitando uma mensagem
+autoconnect - Conectar automaticamente
 autohotmaillog Logar automaticamente no Hotmail
 autoidle Detectar quando eu ficar inativo
 autoip Endereço IP automático
@@ -40,6 +41,7 @@ checkver Checar se existe nova versão do AMSN
 choosebasefont Escolher fonte do texto
 choosebgcolor Escolher cor de fundo
 choosefontcolor Escolher cor da fonte
+clearlog - Limpar log
 clicktologin Clique aqui para entrar
 close Fechar
 closingdocks Botão fechar envia para a barra de tarefas
@@ -54,6 +56,7 @@ copytogroup Copiar para o grupo
 cut Recortar
 date Data
 delete Apagar
+deliverfail - Falha no envio da mensagem
 dockgtk Ícone do GTK
 docking Ícone do systray
 dockingoff Desativado
@@ -88,6 +91,7 @@ groupunknown Grupo desconhecido
 handle Manipular
 help Ajuda
 helpcontents Conteúdo da Ajuda
+history - Ver histórico
 home Casa
 ident Identificando
 identity Identificar
@@ -98,12 +102,20 @@ ipaddress Endereço IP
 istyping $1 está digitando uma mensagem
 joins $1 entra na conversa
 keepalive Manter conexão ativa (NAT)
+keeplog - Manter log da conversação 
 language Idioma
 lastmsgtime Última mensagem recibida em $1
+lclosedwin - $1 fechou a janela em $2
+lconftopriv - Conferência privada com $1
+lconvstarted - Conversação iniciada com $1
 leaveblankforhotmail Deixar em branco para utilizar a rede hotmail
 leaves $1 saiu da conversa
+lenteredconf - $1 adicionado à conversa em $2
+linprivate - EM MODO PRIVATIVO
 listeningon Escutando na porta $1
 listsmileys Ver emoticons
+ljoinedconf - $1 entrou na conferência
+lleftconf - $1 deixou a conferência
 loadcontacts Carregar lista de contatos
 loggedotherlocation Você saiu do Messenger porque se conectou em outro local
 loggingin Entrando
@@ -111,6 +123,8 @@ loginas Entrar como
 login Entrar
 logout Sair
 logsin acabou de entrar
+lprivtoconf - Conversa particular convertida em conferência com $1
+luclosedwin - Você fechou a janela em $1
 mailer Cliente de e-mail
 mobile Celular
 movetogroup Mover para o grupo
@@ -126,8 +140,10 @@ newmsg Nova mensagem
 newveravailable Nova versão $1 disponível para download
 next Próximo
 noactivity Sem atividade
+nologfile - Sem log para $1
 nonewmail Sem novas mensagens na Caixa de Entrada
 nonewver Não existe versão mais recente do programa disponível para download
+normal - Normal
 notify notificar
 notifywin Janela de avisos
 nousersinsession Nenhum usuário na sessão
@@ -139,6 +155,7 @@ onphone No telefone
 openreceived Abrir arquivos recebidos
 options Opções
 ordercontactsby Ordenar contatos por
+ordergroupsby - ordenar grupos por
 other Outros
 pager Pager
 pass Senha
@@ -160,10 +177,12 @@ reconnect Esperando por $1 para reconectar
 reconnecting Reconectando ao servidor
 reject Recusar
 rememberpass Lembrar senha
+reversed - Inverso
 rightback Volto logo
 saveas Salvar como
 savecontacts Salvar lista de contatos
 save Salvar
+savetofile - Salvar para arquivo
 says $1 diz
 sbcon Conectando ao Switch Board
 send Enviar
@@ -189,8 +208,10 @@ unblock Desbloquear
 uoffline Desconectado
 uonline Conectado
 useralreadyonlist Usuário já está na lista de contatos
+usernotonline - Usuário não está online
 user Usuário
 version Versão
+viewprofile - Ver Perfil
 view Visualizar
 willjoin Aguardando $1 entar na conversa
 work Ocupado
