@@ -313,8 +313,10 @@ namespace eval ::groups {
 	# display by user-defined groups
 	set uMemberCnt(online)	0
 	set uMemberCnt(offline) 0
+	set uMemberCnt(blocked) 0
 	set bShowing(online)	1
 	set bShowing(offline)	1
+	set bShowing(blocked)   1
 
 
 	#Clear list of groups

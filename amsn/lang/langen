@@ -27,6 +27,7 @@ appearance Appearance
 appearoff Appear offline
 areacode Area Code
 aretyping $1 are typing a message
+autoacceptft Automatically accept File Transfer requests
 autoaway Show me as "Away" when inactive for
 autoconnect2 Sign In automatically when aMSN is launched
 autoconnect Connect on amsn start
@@ -34,6 +35,7 @@ autohotmaillog Auto Hotmail login
 autoidle Auto NoActivity
 autoip Automatic IP
 autonoact Show me as "Not Active" when inactive for
+autoaccepted File transfer accepted automatically
 avoidseen Avoid this person can see when I'm online and contact me
 away Away
 awaymsg1 Ask for away message each time I change my status to Away/BRB/Busy
@@ -43,6 +45,7 @@ bgcolor Change aMSN's background color
 blankdirect Leave blank for direct connection
 block Block
 blocked Blocked
+blockedyougroup Show a separate group for people who have blocked you
 blocking Blocking
 blockinter1 When your status is online check every 
 blockinter2 seconds, else check every :
@@ -281,6 +284,7 @@ prefapps Applications
 prefawaymsg My Away Message
 prefblock1 Check on disconnect
 prefblock2 Continuously check
+prefblock3 "You have been blocked by" group
 prefconnection Connection settings
 prefemotic Emotions Icons and Smileys 
 preferences Preferences
@@ -396,6 +400,6 @@ wrongfields The "$1", "$2" and/or "$3" fields were not valid
 xoffset X Offset
 yes Yes
 yoffset Y Offset
-youblocked You have been blocked
+youblocked You have been blocked by
 yousay You say
 youwant You want

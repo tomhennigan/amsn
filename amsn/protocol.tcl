@@ -45,9 +45,9 @@ namespace eval ::MSNFT {
    proc invitationReceived { filename filesize cookie chatid fromlogin } {
       variable filedata
 
-      ::amsn::fileTransferRecv $filename $filesize $cookie $chatid $fromlogin
       set filedata($cookie) [list "$filename" $filesize $chatid $fromlogin "receivewait" "ipaddr"]
       after 300000 "::MSNFT::DeleteFT $cookie"
+       ::amsn::fileTransferRecv $filename $filesize $cookie $chatid $fromlogin
       #set filetoreceive [list "$filename" $filesize]
 
    }
@@ -178,7 +178,7 @@ namespace eval ::MSNFT {
 
 
       if { ![info exists filedata($cookie)]} {
-         return 0
+         return -1
       }
 
       after cancel "::MSNFT::DeleteFT $cookie"
@@ -204,6 +204,7 @@ namespace eval ::MSNFT {
       after 20000 "::MSNFT::timeoutedFT $cookie"
       ::amsn::FTProgress a $cookie [lindex $filedata($cookie) 0]
 
+      return 1
    }
 
 

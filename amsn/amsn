@@ -162,6 +162,7 @@ proc reload_files { } {
     source [file join $program_dir plugins.tcl]	;# Plugins system
     source [file join $program_dir balloon.tcl]       ;# For the balloons tooltip
 
+    load_lang
 }
 
 reload_files

@@ -743,14 +743,15 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
 	checkbutton $lfname.1.keepalive -text "[trans natkeepalive]" -onvalue 1 -offvalue 0 -variable config(keepalive)
 	checkbutton $lfname.1.ip -text "[trans ipdetect]" -onvalue 1 -offvalue 0 -variable config(natip)
-	
+    
+        checkbutton $lfname.1.autoaccept -text "[trans autoacceptft]" -onvalue 1 -offvalue 0 -variable config(ftautoaccept)
 	frame $lfname.1.ftport -class Deft
 	label $lfname.1.ftport.text -text "[trans ftportpref] :" -padx 5 -font splainf
 	entry $lfname.1.ftport.entry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5 -textvariable config(initialftport)
 	grid $lfname.1.ftport.text -row 1 -column 1 -sticky w -pady 5 -padx 0
 	grid $lfname.1.ftport.entry -row 1 -column 2 -sticky w -pady 5 -padx 3
 	
-	pack $lfname.1.keepalive $lfname.1.ip $lfname.1.ftport -anchor w -side top -padx 10
+	pack $lfname.1.keepalive $lfname.1.ip $lfname.1.autoaccept $lfname.1.ftport -anchor w -side top -padx 10
 	
 	    
         ## Remote Control Frame ##
@@ -948,6 +949,14 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.ppref1 -side left -padx 5 -pady 5 
 	checkbutton $lfname.enable -text "[trans checkonfln]" -onvalue 1 -offvalue 0 -variable config(checkonfln)
 	pack $lfname.enable  -anchor w -side left -padx 0 -pady 5 
+
+	## "You have been blocked" group ##
+	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefblock3]]
+	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
+	label $lfname.ppref3 -image prefapps
+	pack $lfname.ppref3 -side left -padx 5 -pady 5 
+	checkbutton $lfname.group -text "[trans blockedyougroup]" -onvalue 1 -offvalue 0 -variable config(showblockedgroup)
+	pack $lfname.group  -anchor w -side left -padx 0 -pady 5 
 
 	## Continuously check ##
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefblock2]]
@@ -1520,6 +1529,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.72  2003/08/27 05:41:30  kakaroto
+# Added auto accept file transfer support + show blocked group...
+#
 # Revision 1.71  2003/08/10 06:19:45  kakaroto
 # Added skin support
 # Added notify windows on offline/state change

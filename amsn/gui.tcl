@@ -387,14 +387,19 @@ namespace eval ::amsn {
        "::amsn::RejectFT $chatid $cookie" ftno$cookie
      WinWrite $chatid ")\n" gray 
      WinWrite $chatid "----------\n" gray
-     
+
+       if { $config(ftautoaccept) == 1 } {
+	   WinWrite $chatid "[trans autoaccepted]\n" gray
+	   ::amsn::AcceptFT $chatid $cookie
+       }
+
    }
 
 
    proc AcceptFT { chatid cookie } {
    
       #::amsn::RecvWin $cookie
-      ::MSNFT::acceptFT $chatid $cookie
+       ::MSNFT::acceptFT $chatid $cookie
 
       set win_name [WindowFor $chatid]
       if { [WindowFor $chatid] == 0} {
@@ -3105,7 +3110,7 @@ proc cmsn_draw_online { {force 0} } {
 
    #puts "Drawing. Leveel: [info level] Previous: [info level [expr {[info level]-1}]]"
    global emotions user_stat login list_users list_states user_info list_bl\
-    config showonline password pgBuddy bgcolor automessage
+    config showonline password pgBuddy bgcolor automessage emailBList
 
    set my_name [urldecode [lindex $user_info 4]]
    set my_state_no [lsearch $list_states "$user_stat *"]
@@ -3167,6 +3172,10 @@ proc cmsn_draw_online { {force 0} } {
        ::groups::Disable
    }
 
+   if { $config(showblockedgroup) == 1 && [llength [array names emailBList] ] != 0 } {
+       lappend glist "blocked"
+       incr gcnt
+   }
 
    $pgBuddy.text configure -state normal -font splainf
    $pgBuddy.text delete 0.0 end
@@ -3182,7 +3191,7 @@ proc cmsn_draw_online { {force 0} } {
    # Configure bindings/tags for each named group in our scheme
    for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
        set gname [lindex $glist $gidx]
-       if {$gname != "online" && $gname != "offline"} {
+       if {$gname != "online" && $gname != "offline" && $gname != "blocked" } {
            set gtag  "tg$gname"
        } else {
            set gtag $gname
@@ -3330,15 +3339,22 @@ proc cmsn_draw_online { {force 0} } {
 		   set gtag "offline"
 	       }
 	   }
+	   if { $gname == "blocked" } {
+	       set gtitle "[trans youblocked]"
+	       set gtag "blocked"
+	   }
            $pgBuddy.text insert end $gtitle $gtag
 
        } else {
 
 	    if {$gname == "online"} {
 	        $pgBuddy.text insert end "[trans uonline]" online
-	    } else {
+	    } elseif {$gname == "offline" } {
 	        $pgBuddy.text insert end "[trans uoffline]" offline
+	    } elseif { $config(showblockedgroup) == 1 && [llength [array names emailBList] ] != 0 } {
+		$pgBuddy.text insert end "[trans youblocked]" blocked
 	    }
+	    
 
        }
        $pgBuddy.text insert end "\n"
@@ -3347,6 +3363,7 @@ proc cmsn_draw_online { {force 0} } {
 
    ::groups::UpdateCount online clear
    ::groups::UpdateCount offline clear
+   ::groups::UpdateCount blocked clear
 
    foreach user $list_users {
       set user_login [lindex $user 0]
@@ -3367,6 +3384,15 @@ proc cmsn_draw_online { {force 0} } {
 
        set breaking ""
 
+       if { $config(showblockedgroup) == 1 && [info exists emailBList($user_login)]} {
+	   ::groups::UpdateCount blocked +1
+	   set myGroupExpanded [::groups::IsExpanded blocked]
+	   if {$myGroupExpanded} {
+	       ShowUser $user_name $user_login $state $state_code $colour "blocked" $user_group
+	   }
+       }
+
+       
       # Rename the section if we order by group
       foreach user_group [::abook::getGroup $user_login -id] {
          if {$config(orderbygroup)} {
@@ -3374,6 +3400,7 @@ proc cmsn_draw_online { {force 0} } {
             set section $user_group
 	    set section "tg$section"
 	    #::groups::UpdateCount $user_group +1
+	    if { $section == "tgblocked" } {set section "blocked" }
 	    ::groups::UpdateCount $user_group +1 [lindex $state 3]
 
 	    if { $config(orderbygroup) == 2 } {
@@ -3418,19 +3445,28 @@ proc cmsn_draw_online { {force 0} } {
 	    if {$config(orderbygroup) == 2 } {
 	       if { $gname == "offline" } {
 		$pgBuddy.text insert offline.last " ($::groups::uMemberCnt(offline))\n" offline
+	       } elseif { $gname == "blocked" } {
+		   $pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))\n" blocked
 	       } else {
 		$pgBuddy.text insert ${gtag}.last \
 		    " ($::groups::uMemberCnt_online(${gname}))\n" $gtag
 	       }
 	    } else {
 	   #$pgBuddy.text insert $gtag.last " ($::groups::uMemberCnt($gname))\n" $gtag
-		$pgBuddy.text insert ${gtag}.last \
-		    " ($::groups::uMemberCnt_online(${gname})/$::groups::uMemberCnt($gname))\n" $gtag
+		if { $gname == "blocked" } {
+		    $pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))\n" blocked
+		} else { 
+		    $pgBuddy.text insert ${gtag}.last \
+			" ($::groups::uMemberCnt_online(${gname})/$::groups::uMemberCnt($gname))\n" $gtag
+		}
 	    }
  	}
    } else {
        $pgBuddy.text insert online.last " ($::groups::uMemberCnt(online))\n" online
        $pgBuddy.text insert offline.last " ($::groups::uMemberCnt(offline))\n" offline
+       if { $config(showblockedgroup) == 1 && [llength [array names emailBList]] } {
+	   $pgBuddy.text insert blocked.last " ($::groups::uMemberCnt(blocked))\n" blocked
+       }
    }
 
    $pgBuddy.text configure -state disabled

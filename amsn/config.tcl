@@ -96,8 +96,10 @@ proc ConfigDefaults {} {
         set config(animatedsmileys) 1
         set config(tooltips) 1
         set config(skin) "default"
+        set config(ftautoaccept) 0
         set config(customsmileys) [list]
         set config(customsmileys2) [list]
+        set config(showblockedgroup) 0
 	set password ""
 }
 
@@ -329,6 +331,7 @@ proc LoadLoginList {{trigger 0}} {
 		LoginList add 0 [lindex $tmp_data 0] $locknum
 	}
 	close $file_id
+
 	
 	# Modify HOME dir to current profile, chose a non locked profile, if none available go to default
 	if { $trigger == 0 } {
