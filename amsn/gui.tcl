@@ -6852,6 +6852,175 @@ proc clear_disp { } {
 }
 
 
+###################### Protocol Debugging ###########################
+if { $initialize_amsn == 1 } {
+	global degt_protocol_window_visible degt_command_window_visible
+	
+	set degt_protocol_window_visible 0
+	set degt_command_window_visible 0
+}
+
+proc degt_protocol { str {colour ""}} {
+	global followtext_degt
+	
+	.degt.mid.txt insert end "[timestamp] $str\n" $colour
+#	puts "$str"
+	if { $followtext_degt == 1} {
+		.degt.mid.txt yview moveto 1.0
+	}    
+}
+
+proc degt_protocol_win_toggle {} {
+	global degt_protocol_window_visible
+	
+	if { $degt_protocol_window_visible } {
+		wm state .degt withdraw
+		set degt_protocol_window_visible 0
+	} else {
+		wm state .degt normal
+		set degt_protocol_window_visible 1
+	}
+}
+
+proc degt_protocol_win { } {
+	global followtext_degt
+	
+	set followtext_degt 1
+	
+	toplevel .degt
+	wm title .degt "MSN Protocol Debug"
+	wm iconname .degt "MSNProt"
+	wm state .degt withdraw
+	
+	frame .degt.top -class Degt
+		label .degt.top.name -text "Protocol" -justify left -font sboldf
+		pack .degt.top.name -side left -anchor w 
+	
+	#font create debug -family Verdana -size 24 -weight bold
+	frame .degt.mid -class Degt
+		text   .degt.mid.txt -height 20 -width 85 -font splainf \
+			-wrap none -background white -foreground black \
+			-yscrollcommand ".degt.mid.sy set" \
+			-xscrollcommand ".degt.mid.sx set"
+		scrollbar .degt.mid.sy -command ".degt.mid.txt yview"
+		scrollbar .degt.mid.sx -orient horizontal -command ".degt.mid.txt xview"
+	
+	.degt.mid.txt tag configure error -foreground #ff0000 -background white
+	.degt.mid.txt tag configure nssend -foreground #888888 -background white
+	.degt.mid.txt tag configure nsrecv -foreground #000000 -background white
+	.degt.mid.txt tag configure sbsend -foreground #006666 -background white
+	.degt.mid.txt tag configure sbrecv -foreground #000088 -background white
+	.degt.mid.txt tag configure msgcontents -foreground #004400 -background white
+	.degt.mid.txt tag configure red -foreground red -background white
+	.degt.mid.txt tag configure white -foreground white -background black
+	.degt.mid.txt tag configure blue -foreground blue -background white
+	
+	
+		pack .degt.mid.sy -side right -fill y
+		pack .degt.mid.sx -side bottom -fill x
+		pack .degt.mid.txt -anchor nw  -expand true -fill both
+	
+	pack .degt.mid -expand true -fill both
+	
+	checkbutton .degt.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable followtext_degt -font sboldf
+	
+	frame .degt.bot -relief sunken -borderwidth 1 -class Degt
+	button .degt.bot.save -text "[trans savetofile]" -command degt_protocol_save -font sboldf
+		button .degt.bot.clear  -text "Clear" -font sboldf \
+			-command ".degt.mid.txt delete 0.0 end"
+		button .degt.bot.close -text [trans close] -command degt_protocol_win_toggle -font sboldf
+		pack .degt.bot.save .degt.bot.close .degt.bot.clear -side left
+	
+	pack .degt.top .degt.mid .degt.follow .degt.bot -side top
+	
+	bind . <Control-d> { degt_protocol_win_toggle }
+	wm protocol .degt WM_DELETE_WINDOW { degt_protocol_win_toggle }
+}
+
+proc degt_ns_command_win_toggle {} {
+    global degt_command_window_visible
+
+    if { $degt_command_window_visible } {
+	wm state .nscmd withdraw
+	set degt_command_window_visible 0
+    } else {
+	wm state .nscmd normal
+	set degt_command_window_visible 1
+    }
+}
+
+proc degt_protocol_save { } {
+	set w .protocol_save
+		
+	toplevel $w
+	wm title $w \"[trans savetofile]\"
+	label $w.msg -justify center -text "Please give a filename"
+	pack $w.msg -side top
+	
+	frame $w.buttons -class Degt
+	pack $w.buttons -side bottom -fill x -pady 2m
+	button $w.buttons.dismiss -text Cancel -command "destroy $w"
+	button $w.buttons.save -text Save -command "degt_protocol_save_file $w.filename.entry; destroy $w"
+	pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
+	
+	frame $w.filename -bd 2 -class Degt
+	entry $w.filename.entry -relief sunken -width 40
+	label $w.filename.label -text "Filename:"
+	pack $w.filename.entry -side right 
+	pack $w.filename.label -side left
+	pack $w.msg $w.filename -side top -fill x
+	focus $w.filename.entry
+	
+	fileDialog $w $w.filename.entry save "protocol_log.txt"
+	grab $w
+
+}
+
+proc degt_protocol_save_file { filename } {
+
+	set fd [open [${filename} get] a+]
+	fconfigure $fd -encoding utf-8
+	puts $fd "[.degt.mid.txt get 0.0 end]"
+	close $fd
+
+
+}
+
+# Ctrl-M to toggle raise/hide. This window is for developers only
+# to issue commands manually to the Notification Server
+proc degt_ns_command_win {} {
+	if {[winfo exists .nscmd]} {
+		return
+	}
+	
+	toplevel .nscmd
+	wm title .nscmd "MSN Command"
+	wm iconname .nscmd "MSNCmd"
+	wm state .nscmd withdraw
+	frame .nscmd.f -class Degt
+	label .nscmd.f.l -text "NS Command:" -font bboldf 
+	entry .nscmd.f.e -width 20
+	pack .nscmd.f.l .nscmd.f.e -side left
+	pack .nscmd.f
+	
+	bind .nscmd.f.e <Return> {
+		set cmd [string trim [.nscmd.f.e get]]
+		if { [string length $cmd] > 0 } {
+		# There is actually a command typed. If %T found in
+		# the string replace it by a transaction ID
+		set nsclst [split $cmd]
+		set nscmd [lindex $nsclst 0]
+		set nspar [lreplace $nsclst 0 0]
+		# Send command to the Notification Server
+		::MSN::WriteSB ns $nscmd $nspar
+		}
+	}
+	bind . <Control-m> { degt_ns_command_win_toggle }
+	wm protocol .nscmd WM_DELETE_WINDOW { degt_ns_command_win_toggle }
+}
+
+
+
 proc bgerror { args } {
 	global errorInfo errorCode HOME tcl_platform tk_version tcl_version
 
