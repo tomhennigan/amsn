@@ -2005,6 +2005,19 @@ namespace eval ::amsn {
 		eval "$command [lindex [lindex $itemlist $sel] 1]"
 	}
 
+	#///////////////////////////////////////////////////////////////////////////////
+
+	proc listChooseUpdate { itemlist } {
+
+		set wname "._listchoose"
+
+		#$wname.blueframe.list.items list delete 0 end
+
+		foreach item $itemlist {
+			$wname.blueframe.list.items insert end [lindex $item 0]
+		}
+
+	}
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# TypingNotification (win_name inputbox)
@@ -3625,15 +3638,73 @@ proc show_languagechoose {} {
 	global lang_list
 
 	set languages [list]
+	set available [get_available_language]
 
-	for {set i 0} {$i < [llength $lang_list]} {incr i} {
-		set langelem [lindex $lang_list $i]
-		set langshort [lindex $langelem 0]
-		set langlong [lindex $langelem 1]
-		lappend languages [list "$langlong" $langshort ]
+	foreach langelem $lang_list {
+		set langcode [lindex $langelem 0]
+		if { [lsearch $available $langcode] != -1 } {
+			set langlong [lindex $langelem 1]
+			lappend languages [list "$langlong" "$langcode"]
+		}
 	}
 
-	::amsn::listChoose "[trans language]" $languages set_language 0 1
+	set wname ".langchoose"
+
+	if {[winfo exists $wname]} {
+		raise $wname
+		return
+	}
+
+	toplevel $wname
+	wm title $wname "[trans language]"
+	
+	#No ugly blue frame on Mac OS X, system already use a border around window
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		frame $wname.blueframe
+	} else {
+		frame $wname.blueframe -background [::skin::getColor mainwindowbg]
+	}
+
+	frame $wname.blueframe.list -class Amsn -borderwidth 0
+	frame $wname.buttons -class Amsn
+
+	listbox $wname.blueframe.list.items -yscrollcommand "$wname.blueframe.list.ys set" -font splainf \
+			-background white -relief flat -highlightthickness 0 -height 20 -width 60
+	scrollbar $wname.blueframe.list.ys -command "$wname.blueframe.list.items yview" -highlightthickness 0 \
+			-borderwidth 1 -elementborderwidth 1 
+
+	button $wname.buttons.langmanager -text "[trans langmanager]" -command language_manager
+	button $wname.buttons.ok -text "[trans ok]" -command [list ::amsn::listChooseOk $wname $languages set_language]
+	button $wname.buttons.cancel -text "[trans cancel]" -command [list destroy $wname]
+
+
+	pack $wname.blueframe.list.ys -side right -fill y
+	pack $wname.blueframe.list.items -side left -expand true -fill both
+	pack $wname.blueframe.list -side top -expand true -fill both -padx 4 -pady 4
+	pack $wname.blueframe -side top -expand true -fill both
+
+	pack $wname.buttons.langmanager -padx 5 -side left
+	pack $wname.buttons.ok -padx 5 -side right
+	pack $wname.buttons.cancel -padx 5 -side right
+	pack $wname.buttons -side bottom -fill x -pady 3
+
+	foreach item $languages {
+		$wname.blueframe.list.items insert end [lindex $item 0]
+	}
+
+
+	bind $wname.blueframe.list.items <Double-Button-1> [list ::amsn::listChooseOk $wname $languages set_language]
+
+	catch {
+		raise $wname
+		focus $wname.buttons.ok
+	}
+		
+		
+	bind $wname <<Escape>> [list destroy $wname]
+	bind $wname <Return> [list ::amsn::listChooseOk $wname languages set_language]
+	moveinscreen $wname 30
+
 }
 #///////////////////////////////////////////////////////////////////////
 

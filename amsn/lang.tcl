@@ -169,13 +169,17 @@ proc load_lang { {langcode "en"} {plugindir ""} } {
    return 0
 }
 
-proc get_language_encodage { lang } {
+
+# Get the encoding of a language
+proc get_language_encoding { lang } {
 
 	global lang_list
 
+	# Search in the lang_list list the lang we want, and return its encoding
 	foreach langdata $lang_list {
 		if { "lang[lindex $langdata 0]" == $lang } {
 			set langenc [lindex $langdata 2]
+			break
 		}
 	}
 
@@ -183,14 +187,33 @@ proc get_language_encodage { lang } {
 
 }
 
+
+# Return the directory of the lang files
+proc get_language_dir { } {
+
+	if { [file isdirectory "[pwd]/lang"] } {
+		return "[pwd]/lang"
+	} else {
+		::amsn::errorMsg "[trans dirdontexist]"
+		return "0"
+	}
+
+}
+
+
+# Return the lang that are saved on the disk
 proc get_available_language {} {
 
 	global lang_list
 
-	set dir "[pwd]/lang"
+	set dir [get_language_dir]
+	if { $dir == 0 } {
+		return
+	}
 
 	set available [list]
 
+	# Search the files on the disk
 	foreach lang $lang_list {
 		set file [lindex $lang 0]
 		if { [file exists "$dir/lang$file"] } {
@@ -198,23 +221,38 @@ proc get_available_language {} {
 		}
 	}
 
-	set available_lang_list $available
+	return $available
 }
 
 
+# Download the lang file
 proc getlanguage { lang selection } {
 
 	global lang_list weburl
 
-	set dir "[pwd]/lang"
+	set dir [get_language_dir]
+	if { $dir == 0 } {
+		return
+	}
 
-	set fid [open "[file join ${dir} $lang]" w]
+	set file "[file join ${dir} $lang]"
 
-	fconfigure $fid -encoding "[get_language_encodage $lang]"
+	# If the file already exists, stop the proc
+	if { [file exists $file] } {
+		return
+	}
 
+	# Create a new file
+	set fid [open $file w]
+
+	# Choose the encoding of the file according to the encoding of the lang
+	fconfigure $fid -encoding "[get_language_encoding $lang]"
+
+	# Download the content of the file from the web
 	set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/lang/$lang?rev=HEAD&content-type=text" -timeout 10000]
 	set content [::http::data $token]
 
+	# Puts the content into the file
 	puts -nonewline $fid "$content"
 
 	close $fid
@@ -228,9 +266,13 @@ proc getlanguage { lang selection } {
 }
 
 
+# Delete a lang file
 proc deletelanguage { lang selection } {
 	
-	set dir "[pwd]/lang"
+	set dir [get_language_dir]
+	if { $dir == 0 } {
+		return
+	}
 
 	file delete "$dir/$lang"
 
@@ -241,9 +283,14 @@ proc deletelanguage { lang selection } {
 }
 
 
+# Open the language manager
 proc language_manager { } {
 
 	global lang_list
+
+	if { [get_language_dir] == 0 } {
+		return 0
+	}
 
 	set available [get_available_language]
 
@@ -259,19 +306,21 @@ proc language_manager { } {
 	wm geometry $w 260x200+30+30
 
 	label $w.text -text "[trans selectlanguage] :"
-
 	pack configure $w.text -side top
 
+	# Create a list box where we will put the lang
 	frame $w.selection -relief sunken -borderwidth 3
 	listbox $w.selection.box -yscrollcommand "$w.selection.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 10
 	scrollbar $w.selection.ys -command "$w.selection.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
 	pack $w.selection.ys -side right -fill y
 	pack $w.selection.box -side left -expand true -fill both
-	
+
+	# Add the lang into the previous list
 	foreach lang $lang_list {
 		set langcode [lindex $lang 0]
 		set langname [lindex $lang 1]
 		$w.selection.box insert end "$langname"
+		# Choose the background according to the fact lang is available or not
 		if { [lsearch $available $langcode] != -1 } {
 			$w.selection.box itemconfigure end -background #DDF3FE
 		} else {
@@ -279,34 +328,89 @@ proc language_manager { } {
 		}
 	}
 
+	# When a language is selected, execute language_manager_selected
 	bind $w.selection.box <<ListboxSelect>> "language_manager_selected"
 
 	frame $w.command
 	button $w.command.load -text "[trans load]" -command "language_manager_load" -state disabled
-	button $w.command.close -text "[trans close]" -command "destroy $w"
+	label $w.command.text
 	pack configure $w.command.load -side top
+	pack configure $w.command.text -side top
+
+	button $w.command.close -text "[trans close]" -command "language_manager_close"
 	pack configure $w.command.close -side bottom
 
 	pack configure $w.selection -side left -fill y
-	pack configure $w.command -side right
+	pack configure $w.command -side right -fill y -pady 10
+
 }	
+
 
 proc language_manager_selected { } {
 
-	global lang_list
+	global gui_language lang_list
+
+	set dir [get_language_dir]
+	if { $dir == 0 } {
+		return
+	}
 
 	set w ".langmanager"
 
+	# Get the selected item
 	set selection [$w.selection.box curselection]
 	set langcode [lindex [lindex $lang_list $selection] 0]
+	set lang "lang$langcode"
 
 	set available [get_available_language]
 
-	if {[lsearch $available $langcode] != -1 } {
-		$w.command.load configure -state normal -text "[trans unload]" -command "[list deletelanguage "lang$langcode" $selection]"
-	} else {
+	# If the lang selected is the used lang
+	if { $langcode == [::config::getGlobalKey language]} {
+		$w.command.load configure -state disabled -text "[trans unload]"
+		$w.command.text configure -text "[trans currentlanguage]"
+	# If the file is not available
+	} elseif {[lsearch $available $langcode] == -1 } {
 		$w.command.load configure -state normal -text "[trans load]" -command "[list getlanguage "lang$langcode" $selection]"
+		$w.command.text configure -text ""
+	# If the file is protected
+	} elseif { ![file writable "$dir/$lang"] } {
+		$w.command.load configure -state disabled -text "[trans unload]"
+		$w.command.text configure -text "[trans filenotwritable]"
+	# If the file is available
+	} elseif {[lsearch $available $langcode] != -1 } {
+		$w.command.load configure -state normal -text "[trans unload]" -command "[list deletelanguage "lang$langcode" $selection]"
+		$w.command.text configure -text ""
 	}
 
 }
 
+
+proc language_manager_close { } {
+
+	global lang_list
+
+	if { [winfo exists .langchoose] } {
+
+		.langchoose.blueframe.list.items delete 0 end
+
+		set languages [list]
+		set available [get_available_language]
+
+		foreach langelem $lang_list {
+			set langcode [lindex $langelem 0]
+			if { [lsearch $available $langcode] != -1 } {
+				set langlong [lindex $langelem 1]
+				lappend languages [list "$langlong" "$langcode"]
+			}
+		}
+
+		foreach item $languages {
+			.langchoose.blueframe.list.items insert end [lindex $item 0]
+		}
+
+	}
+
+
+	destroy ".langmanager"
+
+}
