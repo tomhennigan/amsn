@@ -1,56 +1,79 @@
+BugList / TODO list
 
-This stuff is mainly here for me! to know what's left to be done :)
-so some of them may not make sense to you :p
+It's big, it's bad! It's the all mighty bug/todo list! 
+Here are the stuff we wanna implement and bugs we want to fix...
+Feel free to tell us about any options that aren't here that would interest you...
+Feel free to inform us of any bugs that aren't here (we ordered 4 cases of ZAP!)
 
-dave a.k.a. Compu
-<dave at CompuCreations dot com>
+Burger * burger@mwvision.com
 
-# TODO create a msg window "Talking to" area - there, but needs update
-# TODO ACKs!!!
-# TODO colour chats
-# TODO do not assume :'s in XFRs!
-# TODO do handle errors!
-# TODO anti-idle
-# TODO parse for errors from proxy etc!!
-# TODO think of how logs should be saved - and implement it :)
-# TODO proxy auth
-
-and more... by AIM
 
 Bug Fixes(priority 1):
-# TODO Just one chat per user, not open many windows for the same user
-# TODO Improve proxy support
-# TODO Add contact to AL (Accept list) when adding to FL (necessary?)
-# TODO Check high cpu usage when flickering chat window
-# TODO Check possible memory leak
-# TODO Non-blocking sockets
-# TODO Avoid blocking the messenger when reading from the socket
-# TODO Show "mustrestart" when changing proxy settings
-# TODO Encrypt password in config file (is possible)
-# TODO Improve file transfers:
-          not blocking negotiation
+
+# Try and find a quickfix until protocol rewrite for -> Just one chat per user, not open many windows for the same user
+# Freezing windows issue with tcl/tk8.4 (everything freezes until window is closed)
+# If login from other location, have to restart amsn before being able to reconnect
+# Sometimes can't rejoin a conversation after other person leaves conversation (closes chat window)
+# Add FAQ to Help Menu
+
 
 Existing Feature Improvements (priority 2):
-# TODO Copy to group / a contact can be in more than one groups at once
-# TODO Auto connect when connection deteced
-# TODO A contact can be in more than one group at once / Copy to group
-# TODO Windows-like copy-paste
-# TODO Block / unblock fully working in chat windows
-# TODO Improve block / unblock mechanism
-# TODO Improve logging
-# TODO Improve file transfers:
-          resuming
-          auths / nick verification
+
+# Send file behind NAT (get correct IP with http, add option to force http for wierd local ips)
+# File Transfer AUTH protocol fix (and add the nick of person sending file to transfer window)
+# Improve file transfers: non blocking negotiation
+# Display link to received file and click to open
+# Unblock dosen't work from chat window
+# Fix display issue when copying a user in more than 1 group (displays the user twice in the same group)
+# Reenable copy option for contact list (currently commented out)
+# Copy/Paste in message windows + Right click popup menu for copy/paste
+# Improve font selection (unify with color selection)
+# Fix conference messaging issues (mass file send + add contact not on ur list)
+# Add status of person chatting with in msg window
+# Improve Logging (maybe even add a msg history option?)
+# Fix Makefile for gnome1 dock (dock dosent work on gnome2 yet)
+# Add option to receive new messages in maximized state instead of iconified
 
 Extra Features (priority 3):
-# TODO Multiple user accounts combo box
-# TODO Menu accelerators
-# TODO Docking?
-# TODO Option for autoconnect (when connection detected)
-# TODO Notebook like chat windows (as an option)
+
+# Multiple user accounts combo box + separate user config files 
+# Menu accelerators
+# Gnome2 Docking + KDE Docking
+# Autoconnect (when connection detected)
+# Notebook like chat windows (as an option)
+# AutoAway Messages
+# Login as Appear Offline (if possible)
+# Send message to someone not on list
+# Make sound working on windows (perhaps using pages.infinit.net/cclient/files/sound1.0.html
+# New unified preferences dialog with tabs
+# Encrypt password? (do we really need to?)
+# Resume File Transfers
+# Proxy Support (dunno how big or hard this can be, but needs to be checked out)
+
 
 Graphical Interface (priority 4):
-# TODO Background image, animation when logging in
-# TODO Unified option window (browser, fonts, use smileys, AL/BL/RL lists...)
-# TODO Skin selection
-# TODO ... at the end of nicks that don't fit in the contact list	
+
+# Background image, animation when logging in
+# Transparent background message windows (is it possible now with 8.4?)
+# Skin\Themes selection
+# ... at the end of nicks that don't fit in the contact list
+# AutoUpgrade AMSN
+
+
+Alarm system improvements and bugs (priority 5):
+
+# Multiple alarm windows can't open at once (need unique window names .mainer)
+# URL Decode names when displaying alarm
+# Config seems to automagically disapear sometimes
+# On Connect/ On Msg / On status change alarms
+# Run command
+# JPG Support
+# Windows sound support
+
+
+######################################################################################
+Rewrite of entire old ccmsn protocol! (no priority yet, probably branch at some time):
+## Will probably fix alot of socket blocking bugs, all non blocking protocol
+## Add logout option will logging in
+## Catch all network/socket errors 
+######################################################################################

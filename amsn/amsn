@@ -213,7 +213,7 @@ proc cmsn_draw_about {} {
    wm title .about "[trans about] [trans title]"
    wm transient .about .
 
-   set developers "\nDidimo Grimaldo\nAlvaro J. Iradier\nDave Mifsud"
+   set developers "\nDidimo Grimaldo\nAlvaro J. Iradier\nKhalaf Philippe\nDave Mifsud"
    frame .about.top -class Amsn
        label .about.top.i -image msndroid
        label .about.top.l -font splainf -text "[trans broughtby]:$developers" 
