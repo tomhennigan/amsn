@@ -141,7 +141,7 @@ proc load_smileys { } {
 
     
     foreach img_name $emotion_files {
-	image create photo $img_name -file [file join ${smileys_folder} ${img_name}.gif]
+	image create photo $img_name -file [file join ${smileys_folder} ${img_name}]
     }
 
     if { [winfo exists .smile_selector]} {destroy .smile_selector} 
@@ -196,7 +196,7 @@ proc valueforemot { emotion var } {
 # a sound if necessary, etc... It scans the widget for every smiley that exists
 
 proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
-    global emotions sortedemotions config smileys_folder smileys_drawn sounds_folder
+    global emotions sortedemotions config smileys_folder smileys_drawn sounds_folder ;# smileys_end_subst
     
   
     foreach emotion $sortedemotions {
@@ -225,15 +225,21 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
 		$tw delete $pos $endpos
 
 		if { $animated } {
+		    
+# 		    if { [llength [$tw bbox $pos]] == 0 } {
+# 			$tw image create $pos -name anigif_$file -image $file -pady 1 -padx 1
+# 		    }
 		    set emoticon $tw.${smileys_drawn}_anigif_$file
 		    set smileys_drawn [expr $smileys_drawn + 1]		      
 		    
 		    label $emoticon -bd 0 -background [$tw cget -background]
-		    ::anigif::anigif  [file join $smileys_folder ${file}.gif] $emoticon
+		    ::anigif::anigif  [file join $smileys_folder ${file}] $emoticon
 		    
 		    $tw window create $pos -window $emoticon       
 		    bind $emoticon <Destroy> "::anigif::destroy $emoticon"		    
 #		    bind $emoticon <Visibility> "VisibilityChangeEmot $emoticon 1 %s $tw $pos $file"
+
+		    anigif_info set $emoticon 1
 
 #		    puts "animated gif"
 		} else {
@@ -247,7 +253,7 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
 		# 	  $tw tag configure elided_smiley -elide true
 		
 		if { $config(emotisounds) == 1 && $enable_sound == 1 && $sound != "" } {
-		    catch {eval exec $config(soundcommand) [file join $sounds_folder ${sound}.wav] &} res
+		    catch {eval exec $config(soundcommand) [file join $sounds_folder ${sound}] &} res
 		}
 
 #		break
@@ -256,6 +262,9 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
 	    }
 	}
     }
+
+
+#    set smileys_end_subst 1
 }
 
 
@@ -303,61 +312,110 @@ proc ScrollChange { from w args } {
 	# For every animated gif check if it's displayed
 	foreach window [$tw window names] {
 	    #	puts "$window"
-	    
-	    if { [llength [$tw bbox $window]] == 0 } {
+
+	    set pos [$tw index $window]
+	    set file [string range $window [expr [string first "anigif_" $window] + 7] end]   
+
+
+	    if { [anigif_info get $window] && [llength [$tw bbox $window]] == 0 } {
 		
-		set pos [$tw index $window]
-		set file [string range $window [expr [string first "anigif_" $window] + 7] end]
-		
+		anigif_info set $window 0
+
 		puts "animated gif disappears -- pos : $pos --- file : $file "
-		::anigif::stop $window				
-		$tw image create $pos -name anigif_$file -image $file -pady 1 -padx 1
-		destroy $window
-		::anigif::destroy $window
+		::anigif::stop $window	
+			
+
+# 		$tw image create $pos -name anigif_$file -image $file -pady 1 -padx 1
+
+# 		destroy $window
+# 		::anigif::destroy $window
+
+
+	    } elseif { ![anigif_info get $window] && [llength [$tw bbox $window]] != 0 } {
+
+		anigif_info set $window 1
+
+		puts "animated gif appears -- pos : $pos --- file : $file "
+
+		::anigif::restart $window
+
 	    }
 	    
 	}
 	
 	# For every static image, check if it was an animated one that is now displayed
-	foreach window [$tw image names] {
-	    #	puts "$window"
+# 	foreach window [$tw image names] {
+# 	    #	puts "$window"
 	    
 	    
-	    if { [string match "anigif_*" $window] == 0 } {continue}
+# 	    if { [string match "anigif_*" $window] == 0 } {continue}
 	    
-	    if { [llength [$tw bbox $window]] != 0 } {
-		global smileys_drawn smileys_folder
+# 	    if { [llength [$tw bbox $window]] != 0 } {
+# 		global smileys_drawn smileys_folder
 
-		$tw configure -state normal
+# 		$tw configure -state normal
 
-		set pos [$tw index $window]
-		if { [string last "\#" $window] != -1 } {
-		    set file [string range $window [expr [string first "anigif_" $window] + 7] [expr [string last "\#" $window] - 1]]
-		} else {
-		    set file [string range $window [expr [string first "anigif_" $window] + 7] end]
-		}
+# 		set pos [$tw index $window]
+# 		if { [string last "\#" $window] != -1 } {
+# 		    set file [string range $window [expr [string first "anigif_" $window] + 7] [expr [string last "\#" $window] - 1]]
+# 		} else {
+# 		    set file [string range $window [expr [string first "anigif_" $window] + 7] end]
+# 		}
 
 		
 		
-		puts "animated gif appears -- pos : $pos --- file : $file "
+# 		puts "animated gif appears -- pos : $pos --- file : $file "
 		
-		$tw delete $pos 
-		set emoticon $tw.${smileys_drawn}_anigif_$file
-		set smileys_drawn [expr $smileys_drawn + 1]		      
+# 		$tw delete $pos 
+# 		set emoticon $tw.${smileys_drawn}_anigif_$file
+# 		set smileys_drawn [expr $smileys_drawn + 1]		      
 		
-		label $emoticon -bd 0 -background [$tw cget -background]
-		::anigif::anigif  [file join $smileys_folder ${file}.gif] $emoticon
+# 		label $emoticon -bd 0 -background [$tw cget -background]
+# 		::anigif::anigif  [file join $smileys_folder ${file}] $emoticon
 		
-		$tw window create $pos -window $emoticon       
-		bind $emoticon <Destroy> "::anigif::destroy $emoticon"
+# 		$tw window create $pos -window $emoticon       
+# 		bind $emoticon <Destroy> "::anigif::destroy $emoticon"
 		
-		$tw configure -state disabled
-	    }
+# 		$tw configure -state disabled
+# 	    }
 	    
-	} 
+# 	} 
     }
     
 }
+
+
+#///////////////////////////////////////////////////////////////////////////////
+# proc anigif_info { w } 
+#
+# simple function to verify if an animated gif is animated or stoped
+# returns 1 if animated and 0 if not
+
+proc anigif_info { command w args} {
+    global anigif_info
+
+    switch  $command {
+	set {
+	    set anigif_info($w) [lindex $args 0]
+	} 
+	get {
+	    if { [info exists anigif_info($w)] } {
+		return $anigif_info($w)
+	    } else { return 0 }
+		 
+	}
+    }
+	    
+
+
+#     if { [catch { after info [set ${window}(loop)] }] != 0 } {
+# 	return 0
+#     } else {return 1}
+
+    
+}
+
+
 
 
 # proc VisibilityChangeEmot { emoticon emstate state tw pos file } {
@@ -471,7 +529,7 @@ proc create_smile_menu { {x 0} {y 0} } {
 	catch {
  	    if { $animated } {
  		label $w.text.$file -background [$w.text cget -background]
-  		::anigif::anigif  [file join $smileys_folder ${file}.gif] $w.text.$file
+  		::anigif::anigif  [file join $smileys_folder ${file}] $w.text.$file
  		bind $w.text.$file <Destroy> "::anigif::destroy $w.text.$file"	
  	    } else {
 		label $w.text.$file -image $file

@@ -10,20 +10,21 @@
 	     To define a new emoticon, you must put it between the statements <emoticon> and </emoticon>
 	     You must define the 3 variables : <name>, <text> and <file> in order to successfully create the emoticon
 	     You may have as many text statements but only one for name and one for file
-	     <name> will be the name of the smiley 
-	     <text> is the text binded to be replaced by the emoticon
-	     <file> is the filename of the emoticon image without extension (extension must be .gif)
+	     <name> will be the name of the smiley  </name>
+	     <text> is the text binded to be replaced by the emoticon </text>
+	     <text> several text attributes can be set </text>
+	     <file> is the filename of the emoticon image with the extension </file>
 	     
 	     A "TRUE" value is either "yes", "y", "true" or "1", a FALSE value is any other value
 	     The smileys are sorted in the smileys menu depending on their position in this file
 
 	     Here are the other options available... maybe more to come :
-	     <animated> : set it to TRUE to specify it's an animated gif
-	     <sound> : sets the filename for playing an emotisound for that smiley without extension (must be .wav)
-	     <casesensitive> : set it to TRUE if you want to trigger that smiley on a case sensitive text
-	     <disabled> : set it to TRUE and the smiley will be disabled.. same effect as if the whole
+	     <animated> : set it to TRUE to specify it's an animated gif </animated>
+	     <sound> : sets the filename for playing an emotisound for that smiley with the extension </sound>
+	     <casesensitive> : set it to TRUE if you want to trigger that smiley on a case sensitive text </casesensitive>
+	     <disabled> : set it to TRUE and the smiley will be disabled.. same effect as if the whole </disabled>
 	     emoticon statements were commented
-	     <hiden> : set it to TRUE if you want to hide the smiley from the smileys menu
+	     <hiden> : set it to TRUE if you want to hide the smiley from the smileys menu  </hiden>
 
 	     any suggestions, or questions... write to amsn-devel mailing list
 -->
@@ -31,319 +32,318 @@
 <smileys>
 
    <emoticon>
-      <name> smile </name>
+      <name> Smiley </name>
       <text> ":)" </text>
       <text> ":-)" </text>
-      <file> smile </file>
+      <file> regular_smile.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> wink </name>
+      <name> Winking smiley </name>
       <text> ";)" </text>
-      <file> wink </file>
+      <file> wink_smile.gif </file>
       <animated> yes </animated>
    </emoticon>
 
    <emoticon>
-      <name> smiled </name>
+      <name> Open-mouthed smiley </name>
       <text> ":D" </text>
       <text> ":-D" </text>
       <text> ":>" </text>
       <text> ":->" </text>
-      <file> smiled </file>
+      <file> teeth_smile.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> smilep </name>
+      <name> Smiley with tongue out </name>
       <text> ":P" </text>
       <text> ":-P" </text>
-      <file> smilep </file>
+      <file> tongue_smile.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> sad </name>
+      <name> Sad smiley </name>
       <text> ":(" </text>
       <text> ":-(" </text>
       <text> ":&lt;" </text>  
       <text> ":-&lt;" </text> 
-      <file> sad </file>
+      <file> sad_smile.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> disgust </name>
+      <name> Disappointed smiley </name>
       <text> ":|" </text>
       <text> ":-|" </text>
-      <file> disgust </file>
+      <file> what_smile.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> crooked </name>
+      <name> Confused smiley </name>
       <text> ":S" </text>
       <text> ":-S" </text>
-      <file> crooked </file>
+      <file> confused_smile.gif </file>
    </emoticon>
 
   <emoticon>
-      <name> smileo </name>
+      <name> Surprised smiley </name>
       <text> ":O" </text>
       <text> ":-O" </text>
-      <file> smileo </file>
+      <file> omg_smile.gif </file>
    </emoticon>
 
   <emoticon>
-      <name> smilec </name>
+      <name> smilec not in msn webpage </name>
       <text> ":`(" </text>
-      <file> smilec </file>
+      <file> smilec.gif </file>
    </emoticon>
 
   <emoticon>
-      <name> cry </name>
+      <name> Crying smiley </name>
       <text> ":'(" </text>
-      <file> cry </file>
+      <file> cry_smile.gif </file>
       <animated> 1 </animated>
    </emoticon>
 
    <emoticon>
-      <name> angry </name>
+      <name> Angry smiley </name>
       <text> ":@" </text>
       <text> ":-@" </text>
-      <file> angry </file>
+      <file> angry_smile.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> aggresive </name>
+      <name> Baring teeth smiley </name>
       <text> "8o|" </text>
-      <file> aggresive </file>
+      <file> teeth_smile.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> smilemb </name>
+      <name> Embarrassed smiley </name>
       <text> ":$" </text>
       <text> ":-$" </text>
-      <file> smilemb </file>
+      <file> red_smile.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> zip </name>
+      <name> Don't tell anyone smiley </name>
       <text> ":-#" </text>
-      <file> zip </file>
+      <file> dont_tell_smile.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> kiss </name>
+      <name> Secret telling smiley </name>
       <text> ":-*" </text>
-      <file> kiss </file>
+      <file> secret_smile.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> new7 </name>
+      <name> I don't know smiley </name>
       <text> ":^)" </text>
-      <file> new7 </file>
+      <file> dont_know_smile.gif </file>
       <animated> yes </animated>
    </emoticon>
 
    <emoticon>
-      <name> glasses </name>
+      <name> Nerd smiley </name>
       <text> "8-|" </text>
-      <file> glasses </file>
+      <file> nerd_smile.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> new5 </name>
+      <name> Eye-rolling smiley </name>
       <text> "8-)" </text>
-      <file> new5 </file>
+      <file> roll_smile.gif </file>
       <animated> 1 </animated>
    </emoticon>
 
    <emoticon>
-      <name> new4 </name>
+      <name> Sleepy smiley </name>
       <text> "|-)" </text>
-      <file> new4 </file>
+      <file> sleepy_smile.gif </file>
       <animated> 1 </animated>
    </emoticon>
 
    <emoticon>
-      <name> new3 </name>
+      <name> Sick smiley </name>
       <text> "+o(" </text>
-      <file> new3 </file>
+      <file> sick_smile.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> new2 </name>
+      <name> Thinking smiley </name>
       <text> "*-)" </text>
-      <file> new2 </file>
+      <file> thinking_smile.gif </file>
       <animated> 1 </animated>
    </emoticon>
 
    <emoticon>
-      <name> new1 </name>
+      <name> Sarcastic smiley </name>
       <text> "^o)" </text>
-      <file> new1 </file>
+      <file> sarcastic_smile.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> emhottie </name>
+      <name> Hot smiley </name>
       <text> "(h)" </text>
-      <file> emhottie </file>
+      <file> shades_smile.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> brb </name>
+      <name> brb not in msn webpage</name>
       <text> "(brb)" </text>
-      <file> brb </file>
+      <file> brb.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> party </name>
+      <name> Party smiley </name>
       <text> "&lt;:o)" </text>
-      <file> party </file>
+      <file> party_smile.gif </file>
       <animated> yes </animated>
    </emoticon>
 
    <emoticon>
-      <name> angel </name>
+      <name> Angel smiley </name>
       <text> "(a)" </text>
-      <file> angel </file>
+      <file> angel_smile.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> devil </name>
+      <name> Devil smiley</name>
       <text> "(6)" </text>
-      <file> devil </file>
+      <file> devil_smile.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> love </name>
+      <name> Red heart </name>
       <text> "(l)" </text>
-      <file> love </file>
+      <file> heart.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> unlove </name>
+      <name> Broken heart </name>
       <text> "(u)" </text>
-      <file> unlove </file>
+      <file> broken_heart.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> lips </name>
+      <name> Red lips </name>
       <text> "(k)" </text>
-      <file> lips </file>
+      <file> kiss.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> rose </name>
-      <text> "(F)" </text>
-      <file> rose </file>
+      <name> Red rose </name>
+      <text> "(f)" </text>
+      <file> rose.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> rosew </name>
+      <name> Wilted rose </name>
       <text> "(W)" </text>
-      <file> rosew </file>
+      <file> wilted_rose.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> beer </name>
+      <name> Beer mug </name>
       <text> "(b)" </text>
-      <file> beer </file>
+      <file> beer_mug.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> coctail </name>
+      <name> Martini glass </name>
       <text> "(D)" </text>
-      <file> coctail </file>
+      <file> martini.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> emcup </name>
+      <name> Coffee cup </name>
       <text> "(C)" </text>
-      <file> emcup </file>
+      <file> coffee.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> cake </name>
+      <name> Birthday cake </name>
       <text> "(^)" </text>
-      <file> cake </file>
+      <file> cake.gif </file>
       <animated> true </animated>
    </emoticon>
 
    <emoticon>
-      <name> toilet </name>
+      <name> Dinner plate </name>
       <text> "(pl)" </text>
-      <file> toilet </file>
+      <file> plate.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> pizza </name>
+      <name> Pizza </name>
       <text> "(pi)" </text>
-      <file> pizza </file>
+      <file> pizza.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> emphone </name>
+      <name> Telephone receiver </name>
       <text> "(t)" </text>
-      <file> emphone </file>
+      <file> phone.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> mobphone </name>
+      <name> Mobile Phone </name>
       <text> "(mp)" </text>
-      <file> mobphone </file>
+      <file> mobile_phone.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> email </name>
+      <name> Envelope </name>
       <text> "(e)" </text>
-      <file> email </file>
+      <file> envelope.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> computer </name>
+      <name> Computer </name>
       <text> "(co)" </text>
-      <file> computer </file>
+      <file> computer.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> clk </name>
+      <name> Clock </name>
       <text> "(o)" </text>
-      <file> clk </file>
+      <file> clock.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> photo </name>
+      <name> Camera </name>
       <text> "(p)" </text>
-      <file> photo </file>
+      <file> camera.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> film </name>
+      <name> Film Strip </name>
       <text> "(~)" </text>
-      <file> film </file>
+      <file> film.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> embulb </name>
+      <name> Light bulb </name>
       <text> "(i)" </text>
-      <file> embulb </file>
-      <sound> beep </sound>
+      <file> lightbulb.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> handcuffs </name>
+      <name> handcuffs not in msn webpage</name>
       <text> "(%)" </text>
-      <file> handcuffs </file>
+      <file> handcuffs.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> chopsticks </name>
+      <name> Bowl </name>
       <text> "(||)" </text>
-      <file> chopsticks </file>
+      <file> bowl.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> umbrella </name>
+      <name> Umbrella </name>
       <text> "(um)" </text>
-      <file> umbrella </file>
+      <file> umbrella.gif </file>
    </emoticon>
 
    <emoticon>
@@ -353,211 +353,209 @@
    </emoticon>
 
    <emoticon>
-      <name> money </name>
+      <name> Money </name>
       <text> "(mo)" </text>
-      <file> money </file>
+      <file> money.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> gift </name>
+      <name> Gift with bow </name>
       <text> "(g)" </text>
-      <file> gift </file>
+      <file> present.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> cigarette </name>
+      <name> cigarette not in msn webpage</name>
       <text> "(ci)" </text>
-      <file> cigarette </file>
+      <file> cigarette.gif </file>
       <animated> yes </animated>
    </emoticon>
 
    <emoticon>
-      <name> car </name>
+      <name> Auto </name>
       <text> "(au)" </text>
-      <file> car </file>
+      <file> auto.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> plane </name>
+      <name> Airplane </name>
       <text> "(ap)" </text>
-      <file> plane </file>
+      <file> airplane.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> football </name>
+      <name> Soccer Ball </name>
       <text> "(so)" </text>
-      <file> football </file>
+      <file> soccer_ball.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> emnote </name>
+      <name> Musical eighth note </name>
       <text> "(8)" </text>
-      <file> emnote </file>
+      <file> note.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> asl </name>
+      <name> asl not in msn webpage </name>
       <text> "(?)" </text>
-      <file> asl </file>
+      <file> asl.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> emstar </name>
+      <name> Star </name>
       <text> "(*)" </text>
-      <file> emstar </file>
+      <file> star.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> emsleep </name>
+      <name> Half-moon </name>
       <text> "(s)" </text>
-      <file> emsleep </file>
+      <file> moon.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> rainbow </name>
+      <name> rainbow not in msn webpage </name>
       <text> "(r)" </text>
-      <file> rainbow </file>
+      <file> rainbow.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> rain </name>
+      <name> Stormy </name>
       <text> "(st)" </text>
-      <file> rain </file>
+      <file> stormy.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> sun </name>
+      <name> sun not in msn webpage</name>
       <text> "(#)" </text>
-      <file> sun </file>
+      <file> sun.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> storm </name>
+      <name> Lightning </name>
       <text> "(li)" </text>
-      <file> storm </file>
+      <file> lightning.gif </file>
       <animated> yes </animated>
    </emoticon>
 
    <emoticon>
-      <name> island </name>
+      <name> Island with palm tree </name>
       <text> "(ip)" </text>
-      <file> island </file>
+      <file> island_palm.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> dog </name>
+      <name> Dog </name>
       <text> "(&)" </text>
-      <file> dog </file>
-      <sound> woof </sound>
+      <file> dog.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> emcat </name>
+      <name> Cat </name>
       <text> "(@)" </text>
-      <file> emcat </file>
-      <sound> meow </sound>
+      <file> cat.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> turtle </name>
+      <name> turtle not in msn webpage </name>
       <text> "(tu)" </text>
-      <file> turtle </file>
+      <file> turtle.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> snail </name>
+      <name> Snail </name>
       <text> "(sn)" </text>
-      <file> snail </file>
+      <file> snail.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> sheep </name>
+      <name> Black Sheep </name>
       <text> "(bah)" </text>
-      <file> sheep </file>
+      <file> black_sheep.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> vampire </name>
+      <name> Vampire bat </name>
       <text> ":-[" </text>
      <text> ":[" </text>
-      <file> vampire </file>
+      <file> bat.gif </file>
       <animated> yes </animated>
    </emoticon>
 
    <emoticon>
-      <name> messenger </name>
+      <name> MSN Messenger icon </name>
       <text> "(m)" </text>
-      <file> messenger </file>
+      <file> messenger.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> boyhug </name>
+      <name> Left hug </name>
       <text> "({)" </text>
-      <file> boyhug </file>
+      <file> guy_hug.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> emboy </name>
+      <name> Boy </name>
       <text> "(Z)" </text>
-      <file> emboy </file>
+      <file> guy.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> girlhug </name>
+      <name> Right hug </name>
       <text> "(})" </text>
-      <file> girlhug </file>
+      <file> girl_hug.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> emgirl </name>
+      <name> Girl </name>
       <text> "(x)" </text>
-      <file> emgirl </file>
+      <file> girl.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> thumbu </name>
+      <name> Thumbs up </name>
       <text> "(y)" </text>
-      <file> thumbu </file>
+      <file> thumbs_up.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> thumbd </name>
+      <name> Thumbs down </name>
       <text> "(n)" </text>
-      <file> thumbd </file>
+      <file> thumbs_down.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> fingerscrossed </name>
+      <name> fingerscrossed not in msn webpage </name>
       <text> "(yn)" </text>
-      <file> fingerscrossed </file>
+      <file> fingerscrossed.gif </file>
    </emoticon>
 
    <emoticon>
-      <name> hifive </name>
+      <name> hifive not in msn webpage </name>
       <text> "(h5)" </text>
-      <file> hifive </file>
+      <file> hifive.gif </file>
    </emoticon>
 
 
  <!--Those were took from the trillian skin, and were only meant for testings...-->
    <emoticon>
-      <name> rolling eyes </name>
+      <name> rolling eyes from Trillian skin </name>
       <text> "I-'" </text>
-      <file> emroll </file>
+      <file> trillian_roll.gif </file>
       <animated> 1 </animated>
       <hiden> yes </hiden>
-      <disabled> yes </disabled>
+      <disabled> no </disabled>
    </emoticon>
 
    <emoticon>
-      <name> lol </name>
+      <name> lol from Trillian skin</name>
       <text> "LOL" </text>
-      <file> emlol </file>
+      <file> trillian_lol.gif </file>
       <animated> 1 </animated>
       <casesensitive> true </casesensitive>
-      <sound> lol </sound>
+      <sound> lol.wav </sound>
       <hiden> yes </hiden>
-      <disabled> yes </disabled> 
+      <disabled> no </disabled> 
    </emoticon>
 
 </smileys>

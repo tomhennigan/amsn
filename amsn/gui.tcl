@@ -1183,8 +1183,11 @@ namespace eval ::amsn {
 
       bind .${win_name}.f.in.f.send <Return> \
          "::amsn::MessageSend .${win_name} .${win_name}.f.in.input; break"
-      bind .${win_name}.f.in.input <Control-Return> {%W insert end "\n"; break}
-      bind .${win_name}.f.in.input <Shift-Return> {%W insert end "\n"; break}
+      bind .${win_name}.f.in.input <Control-Return> {%W insert insert "\n"; break}
+      bind .${win_name}.f.in.input <Shift-Return> {%W insert insert "\n"; break}
+      bind .${win_name}.f.in.input <Control-KP_Enter> {%W insert insert "\n"; break}
+      bind .${win_name}.f.in.input <Shift-KP_Enter> {%W insert insert "\n"; break}
+      bind .${win_name}.f.in.input <Control-Alt-space> BossMode
 
       bind .${win_name}.f.in.input <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
       bind .${win_name}.f.out.text <Button3-ButtonRelease> "tk_popup .${win_name}.copy %X %Y"
@@ -1781,7 +1784,7 @@ namespace eval ::amsn {
    # 'fontname', 'fontstyle' and 'fontcolor' as from fontformat
    proc WinWrite {chatid txt tagname {fontformat ""} } {
    
-      global emotions config
+       global emotions config ;#smileys_end_subst
 
       set win_name [WindowFor $chatid]
 
@@ -1868,10 +1871,11 @@ namespace eval ::amsn {
       }
 
       if {$config(chatsmileys)} {
-         smile_subst ${win_name}.f.out.text $text_start 1
+	  smile_subst ${win_name}.f.out.text $text_start 1
       }
 
-
+#      vwait smileys_end_subst
+		  
       ${win_name}.f.out.text yview moveto 1.0
       ${win_name}.f.out.text configure -state disabled
       
@@ -4404,7 +4408,7 @@ proc BossMode { } {
 	    
 	    wm title .bossmode "Clock"
 
-	    label .bossmode.time -text "133139"
+	    label .bossmode.time -text ""
 	    
 	    updatebossmodetime
 	    
