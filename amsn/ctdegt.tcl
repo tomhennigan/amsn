@@ -774,15 +774,17 @@ proc Preferences { { settings "personal"} } {
 	# First Tab
 	#set lfname [LabelFrame:create $frm.lfname -text caca]
 	pack $frm.lfname -anchor n -side top -expand true -fill both
-	frame $lfname.2 -class Degt
+	frame $path.2 -class Degt
 
-	label $lfname.2.delimiters -text "[trans delimiters]" -padx 5
-	entry $lfname.2.ldelimiter -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -textvariable config(leftdelimiter)
-	label $lfname.2.example -text "HH:MM:SS" -padx 5
-	entry $lfname.2.rdelimiter -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -textvariable config(rightdelimiter)
-	pack $lfname.2 -side top -padx 0 -fill x
-	pack $lfname.2.delimiters $lfname.2.ldelimiter $lfname.2.example $lfname.2.rdelimiter -side left
+	label $path.2.delimiters -text "[trans delimiters]" -padx 5
+	entry $path.2.ldelimiter -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -textvariable config(leftdelimiter)
+	label $path.2.example -text "HH:MM:SS" -padx 5
+	entry $path.2.rdelimiter -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -textvariable config(rightdelimiter)
+	pack $path.2 -side top -padx 0 -fill x
+	pack $path.2.delimiters $path.2.ldelimiter $path.2.example $path.2.rdelimiter -side left
 
+	
+	
 	#  .----------.
 	# _| Privacy |________________________________________________
 	set frm [Rnotebook:frame $nb $Preftabs(privacy)]
@@ -1130,23 +1132,6 @@ proc InitPref {} {
         $lfname.lfname3.f.f.2.pass delete 0 end
         $lfname.lfname3.f.f.2.pass insert 0 "$config(remotepassword)"
 
-	# Enable Timestamps' delimiters if showtimestamps is enabled
- 	set lfname [Rnotebook:frame $nb $Preftabs(advanced)]
- 	set lfname "${lfname}.lfname.f.f"
- 	if { $config(showtimestamps) == 1 } {
- 		$lfname.2.delimiters configure -state normal
- 		$lfname.2.ldelimiter configure -state normal
- 		$lfname.2.example configure -state normal
- 		$lfname.2.rdelimiter configure -state normal
-
- 	} else {
- 		$lfname.2.delimiters configure -state disabled
- 		$lfname.2.ldelimiter configure -state disabled
- 		$lfname.2.example configure -state disabled
- 		$lfname.2.rdelimiter configure -state disabled
-
- 	}
-
 }
 
 
@@ -1215,40 +1200,6 @@ proc UpdatePreferences {} {
 		$lfname.2.pass configure -state disabled 
 	}
 
-
-	# blocking
- 	#set lfname [Rnotebook:frame $nb $Preftabs(blocking)]
- 	#set lfname "${lfname}.lfname2.f.f"
- 	#if { $config(checkblocking) == 1 } {
- 		#$lfname.check.inter1 configure -state normal
- 		#$lfname.check.inter2 configure -state normal
- 		#$lfname.check.inter3 configure -state normal
- 		#$lfname.check.users configure -state normal
-
- 	#} else {
- 		#$lfname.check.inter1 configure -state disabled
- 		#$lfname.check.inter2 configure -state disabled
- 		#$lfname.check.inter3 configure -state disabled
- 		#$lfname.check.users configure -state disabled
-
- 	#}
-
-	# Advanced preferences - Timestamps' delimiters
- 	set lfname [Rnotebook:frame $nb $Preftabs(advanced)]
- 	set lfname "${lfname}.lfname.f.f"
- 	if { $config(showtimestamps) == 1 } {
- 		$lfname.2.delimiters configure -state normal
- 		$lfname.2.ldelimiter configure -state normal
- 		$lfname.2.example configure -state normal
- 		$lfname.2.rdelimiter configure -state normal
-
- 	} else {
- 		$lfname.2.delimiters configure -state disabled
- 		$lfname.2.ldelimiter configure -state disabled
- 		$lfname.2.example configure -state disabled
- 		$lfname.2.rdelimiter configure -state disabled
-
- 	}
 }
 	
 
