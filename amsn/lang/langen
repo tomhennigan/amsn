@@ -497,7 +497,7 @@ rememberpass Remember password
 removeempty Remove empty groups from the contact list
 removefromlist Remove from this list
 rename Rename
-required_version Unable to load this plugin. This plugin requires aMSN version $1
+required_version Unable to load this plugin. It requires, at least, aMSN version $1
 reversed Reversed
 reverselist Reverse list (RL):
 rightback Be right back
