@@ -379,7 +379,13 @@ proc OpenLogWin { {email ""} } {
 
 	wm group ${wname} .
 
-	wm title $wname "[trans history] (${email})"
+	if { [file exists [file join ${log_dir} ${email}.log]] } {
+		set size "[::amsn::sizeconvert [file size "[file join ${log_dir} ${email}.log]"]]o"
+	} else {
+		set size "0Ko"
+	}
+
+	wm title $wname "[trans history] (${email} - $size)"
       	wm geometry $wname 600x400
 
 	frame $wname.top
@@ -596,7 +602,12 @@ proc ChangeLogWin {w contact widget email} {
 
 	$w.blueframe.log.txt configure -state normal
 	$w.blueframe.log.txt delete 0.0 end
-	wm title $w "[trans history] (${email})"
+	if { [file exists [file join ${log_dir} ${email}.log]] } {
+		set size "[::amsn::sizeconvert [file size "[file join ${log_dir} ${email}.log]"]]o"
+	} else {
+		set size "0Ko"
+	}
+	wm title $w "[trans history] (${email} - $size)"
 
 	::log::LogsByDate $w $email "0"	
 
