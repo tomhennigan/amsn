@@ -4275,7 +4275,7 @@ proc play_sound_other {sound} {
 #Play sound in a loop
 proc play_loop { sound_file {id ""} } {
 	global looping_sound
-
+	
 	#Prepare the sound command for variable substitution
 	set command [::config::getKey soundcommand]
 	set command [string map {"\[" "\\\[" "\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } $command]
@@ -4301,7 +4301,11 @@ proc play_loop { sound_file {id ""} } {
 
 proc cancel_loop { id } {
 	global looping_sound
-	unset looping_sound($id)
+	if { ![info exists looping_sound($id)] } {
+		after 3000 [list unset looping_sound($id)]
+	} else {
+		unset looping_sound($id)
+	}
 }
 
 proc play_finished {pipe sound id} {
@@ -4311,11 +4315,23 @@ proc play_finished {pipe sound id} {
 		fileevent $pipe readable {}
 		catch {close $pipe}
 		if { [info exist looping_sound($id)] } {
-			play_loop $sound $id
+			update
+			#after 1000 [list play_loop $sound $id]
+			after 1000 [list replay_loop $sound $id]
 		}
 	} else {
 		gets $pipe
 	}
+}
+
+proc replay_loop {sound id} {
+	global looping_sound
+
+	if { ![info exist looping_sound($id)] } {
+		return
+	}
+	
+	play_loop $sound $id
 }
 #///////////////////////////////////////////////////////////////////////
 

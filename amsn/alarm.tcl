@@ -284,10 +284,11 @@ proc run_alarm {user nick msg} {
 			
 			if { [::alarms::getAlarmItem ${user} loop] == 1 } {
 			
-				set id [play_loop $sound]
-				button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; cancel_loop $id"
-				wm protocol .${wind_name} WM_DELETE_WINDOW "destroy .${wind_name}; cancel_loop $id"
+				button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; cancel_loop $wind_name"
+				wm protocol .${wind_name} WM_DELETE_WINDOW "destroy .${wind_name}; cancel_loop $wind_name"
 				pack .${wind_name}.stopmusic -padx 2
+				#Delay it a bit so window users can have the window painted
+				after 1000 [list play_loop $sound $wind_name]
 				
 			} else {
 				play_sound $sound 1
