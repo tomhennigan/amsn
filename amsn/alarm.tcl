@@ -119,7 +119,7 @@ proc alarm_cfg { user } {
 
    frame .alarm_cfg.sound1
    LabelEntry .alarm_cfg.sound1.entry "[trans soundfile]" my_alarms(${user}_sound) 30
-   button .alarm_cfg.sound1.browse -text [trans browse] -command {fileDialog2 .alarm_cfg .alarm_cfg.entry.ent open "" } -font sboldf
+   button .alarm_cfg.sound1.browse -text [trans browse] -command {fileDialog2 .alarm_cfg .alarm_cfg.sound1.entry.ent open "" } -font sboldf
    pack .alarm_cfg.sound1.entry -side left -expand true -fill x
    pack .alarm_cfg.sound1.browse -side left
    pack .alarm_cfg.sound1 -side top -padx 10 -pady 2 -anchor w -fill x
