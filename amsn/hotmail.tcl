@@ -68,7 +68,7 @@ namespace eval ::hotmail {
 			if {$tcl_platform(os) != "Darwin"} {
 				launch_browser "file://${HOME}/hotlog.htm" 1
 			} else {
-				launch_browser "${HOME}/hotlog.htm" 1
+				launch_browser [file join ${HOME} hotlog.htm] 1
 			}
 
 		} else {
@@ -136,7 +136,7 @@ proc hotmail_login {userlogin {pass ""}} {
 		if {$tcl_platform(os) != "Darwin"} {
 			launch_browser "file://${HOME}/hotlog.htm" 1
 		} else {
-			launch_browser "${HOME}/hotlog.htm" 1
+			launch_browser [file join ${HOME} hotlog.htm] 1
 		}
 
 	} else {
@@ -199,7 +199,7 @@ proc hotmail_viewmsg {msgurl userlogin {pass ""}} {
 		if {$tcl_platform(os) != "Darwin"} {
 			launch_browser "file://${HOME}/hotlog.htm" 1
 		} else {
-			launch_browser "${HOME}/hotlog.htm" 1
+			launch_browser [file join ${HOME} hotlog.htm] 1
 		}
 
 	} else {
