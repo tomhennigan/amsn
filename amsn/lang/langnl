@@ -60,6 +60,7 @@ blockmessage Deze mensen zijn online en hebben jou geblokkeerd
 blockusers Aantal tegelijk te controleren gebruikers
 broughtby Aangeboden door de volgende ontwikkelaars
 browser Browser
+browserexample ( \$url wordt vervangen door de URL ). Vb: mozilla \$url
 browse Verkennen
 busy Bezet
 cancel Annuleren
@@ -148,6 +149,7 @@ extras Extra diensten
 faq FAQ (Veel gestelde vragen)
 filedoesnotexist Bestand bestaat niet
 fileman Bestandsbeheer
+filemanexample  ( \$location wordt vervangen door het pad ) Vb: nautilus \$location
 filename Bestandsnaam
 filetransfercancelled Bestandsoverdracht geannuleerd
 filetransfercomplete Bestandsoverdracht voltooid
@@ -227,6 +229,7 @@ logsout heeft zich afgemeld
 lprivtoconf Privegesprek veranderde in vergadering met $1
 luclosedwin Je hebt het venster gesloten op $1
 mailer E-mail programma
+mailerexample ( \$recipient = Geadresseerde ) Laat dit veld leeg als je hotmail wilt gebruiken
 maximised Gemaximaliseerd
 minimised Geminimaliseerd/Pictogram
 mins minuten
@@ -370,6 +373,7 @@ smileintro2 Pas de nodige velden aan om deze smiley te bewerken
 smileintro Vul de nodige velden in om een nieuwe smiley te maken
 sound2 Speel geluid als contacten zich aanmelden of een bericht verzenden
 soundcommand Dit moet het afspeelcommando zijn (vb: esdplay)
+soundexample  ( \$sound = te spelen geluidsbestand) Vb: esdplay \$sound
 soundfile Geluidsbestand
 sound Geluid
 soundloop Geluid blijven herhalen
