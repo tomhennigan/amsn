@@ -13,6 +13,12 @@ package require http
 # This should be converted to a proper package, to use with package require
 source socks.tcl	;# SOCKS5 proxy support
 
+namespace eval ::ProxyPOST {
+	proc Write {sbn data} {
+		::Proxy::WritePOST $sbn $data
+	}
+}
+
 namespace eval ::Proxy {
 	namespace export Init LoginData Setup Connect Read OnCallback
 
@@ -195,8 +201,9 @@ namespace eval ::Proxy {
 	
 	proc ConnectedPOST { name } {
 		ReadPOST $name   
-		sb set $name write_proc [list ::Proxy::WritePOST $name]
+		#sb set $name write_proc [list ::Proxy::WritePOST $name]
 		#sb set $name read_proc [list ::Proxy::ReadPOST $name"]
+		sb set $name connection_wrapper "ProxyPOST"
 		#catch { fileevent [sb get $name sock] readable [sb get $name readable] } res      
 		catch { fileevent [sb get $name sock] readable "::Proxy::ReadPOST $name" } res   
 		status_log "Evaluating: [sb get $name connected]\n" white

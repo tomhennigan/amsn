@@ -1114,25 +1114,6 @@ namespace eval ::MSN {
 		variable trid 0
 	}
 
-	#TODO: New abstract connection system
-	proc DirectWrite { sbn cmd } {
-	
-		set sb_sock [sb get $sbn sock]
-
-		if {[catch {puts -nonewline $sb_sock "$cmd"} res]} {
-			status_log "::MSN::DirectWrite: SB $sbn problem when writing to the socket: $res...\n" red
-			::MSN::CloseSB $sbn
-			degt_protocol "->$sbn FAILED: $cmd" error
-		} else {
-			if {$sbn != "ns" } {
-				degt_protocol "->$sbn-$sb_sock $cmd" sbsend
-			} else {
-				degt_protocol "->$sbn-$sb_sock $cmd" nssend
-			}
-		}
-		
-	}
-
 	#Write a string to the given SB, followed by a NewLine character, adding the transfer ID
 	proc WriteSB {sbn cmd param {handler ""}} {
 		WriteSBNoNL $sbn $cmd "$param\r\n" $handler
@@ -1158,10 +1139,21 @@ namespace eval ::MSN {
 
 	proc WriteSBRaw {sbn cmd} {
 
-		#Finally, to write, use write_proc (by default ::MSN::DirectWrite)      
-		set command [sb get $sbn write_proc]
-		lappend command $cmd
-		catch {eval $command}
+		#Finally, to write, use a wrapper, so it's transparent to use
+		#a direct connection, a proxy, or anything      
+		set command [list "::[sb get $sbn connection_wrapper]::Write" $sbn $cmd]
+		catch {eval $command} res
+		
+		if { $res == 0 } {
+			if {$sbn != "ns" } {
+				degt_protocol "->$sbn-[sb get $sbn sock] $cmd" sbsend
+			} else {
+				degt_protocol "->$sbn-[sb get $sbn sock] $cmd" nssend
+			}
+		} else {
+			::MSN::CloseSB $sbn
+			degt_protocol "->$sbn FAILED: $cmd" error
+		}
 	}
 
 
@@ -2082,6 +2074,21 @@ namespace eval ::MSN {
 	}	
 
 
+}
+
+namespace eval ::DirectConnection {
+	
+	proc Write { sbn data } {
+	
+		set sb_sock [sb get $sbn sock]
+		if {[catch {puts -nonewline $sb_sock "$data"} res]} {
+			status_log "::DirectConnectin::Write: SB $sbn problem when writing to the socket: $res...\n" red
+			return -1
+		} else {
+			return 0
+		}
+		
+	}
 }
 
 proc read_sb_sock {sbn} {
@@ -4037,9 +4044,7 @@ proc cmsn_socket {name} {
 	#This is the default read handler, if not changed by proxy
 	sb set $name readable "read_sb_sock $name"
 	
-	#read_proc not yet used, maybe in the future (by Alvaro)
-	#sb set $name read_proc "::MSN::DirectRead $name"
-	sb set $name write_proc [list ::MSN::DirectWrite $name]
+ 	sb set $name connection_wrapper DirectConnection
 	
 	if {$config(connectiontype) == "direct" } {
 
