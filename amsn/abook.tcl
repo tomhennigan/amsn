@@ -670,7 +670,6 @@ namespace eval ::abookGui {
 		$nbIdent.customnick.help.menu add command -label "Email" -command "$nbIdent.customnick.ent insert insert \\\$user_login"
 		$nbIdent.customnick.help.menu add separator
 		$nbIdent.customnick.help.menu add command -label [trans delete] -command "$nbIdent.customnick.ent delete 0 end"
-		
 		$nbIdent.customnick.ent insert end [::abook::getContactData $email customnick]
 		pack $nbIdent.customnick.ent -side left -expand true -fill x
 		pack $nbIdent.customnick.help -side left
@@ -684,10 +683,15 @@ namespace eval ::abookGui {
 		$nbIdent.customfnick.help.menu add command -label "Email" -command "$nbIdent.customfnick.ent insert insert \\\$user_login"
 		$nbIdent.customfnick.help.menu add separator
 		$nbIdent.customfnick.help.menu add command -label [trans delete] -command "$nbIdent.customfnick.ent delete 0 end"
-		
 		$nbIdent.customfnick.ent insert end [::abook::getContactData $email customfnick]
 		pack $nbIdent.customfnick.ent -side left -expand true -fill x
 		pack $nbIdent.customfnick.help -side left
+	
+		label $nbIdent.ycustomfnickl -text "[trans mynick]:"
+		frame $nbIdent.ycustomfnick
+		entry $nbIdent.ycustomfnick.ent -font splainf -bg white
+		$nbIdent.ycustomfnick.ent insert end [::abook::getContactData $email cust_p4c_name]
+		pack $nbIdent.ycustomfnick.ent -side left -expand true -fill x
 	
 		# The custom color frame
 		label $nbIdent.customcolor -text "[trans customcolor]:"
@@ -767,32 +771,34 @@ namespace eval ::abookGui {
 		grid $nbIdent.customnick -row 3 -column 1 -sticky wne
 		grid $nbIdent.customfnickl -row 4 -column 0 -sticky en
 		grid $nbIdent.customfnick -row 4 -column 1 -sticky wne
-		grid $nbIdent.customcolor -row 5 -column 0 -sticky e
-		grid $nbIdent.customcolorf -row 5 -column 1 -sticky w
+		grid $nbIdent.ycustomfnickl -row 5 -column 0 -sticky en
+		grid $nbIdent.ycustomfnick -row 5 -column 1 -sticky wne
+		grid $nbIdent.customcolor -row 6 -column 0 -sticky e
+		grid $nbIdent.customcolorf -row 6 -column 1 -sticky w
 	
-		grid $nbIdent.g -row 6 -column 0 -sticky en
-		grid $nbIdent.g1 -row 6 -column 1 -sticky wn
+		grid $nbIdent.g -row 7 -column 0 -sticky en
+		grid $nbIdent.g1 -row 7 -column 1 -sticky wn
 		
-		grid $nbIdent.titlephones -row 7 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
-		grid $nbPhone.phh -row 8 -column 0 -sticky e
-		grid $nbPhone.phh1 -row 8 -column 1 -sticky w
-		grid $nbPhone.phw -row 9 -column 0 -sticky e
-		grid $nbPhone.phw1 -row 9 -column 1 -sticky w
-		grid $nbPhone.phm -row 10 -column 0 -sticky e
-		grid $nbPhone.phm1 -row 10 -column 1 -sticky w
-		grid $nbPhone.php -row 11 -column 0 -sticky e
-		grid $nbPhone.php1 -row 11 -column 1 -sticky w
+		grid $nbIdent.titlephones -row 8 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
+		grid $nbPhone.phh -row 9 -column 0 -sticky e
+		grid $nbPhone.phh1 -row 9 -column 1 -sticky w
+		grid $nbPhone.phw -row 10 -column 0 -sticky e
+		grid $nbPhone.phw1 -row 10 -column 1 -sticky w
+		grid $nbPhone.phm -row 11 -column 0 -sticky e
+		grid $nbPhone.phm1 -row 11 -column 1 -sticky w
+		grid $nbPhone.php -row 12 -column 0 -sticky e
+		grid $nbPhone.php1 -row 12 -column 1 -sticky w
 		
-		grid $nbIdent.titleothers -row 16 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
-		grid $nbPhone.lastlogin -row 17 -column 0 -sticky e
-		grid $nbPhone.lastlogin1 -row 17 -column 1 -sticky w
-		grid $nbPhone.lastlogout -row 18 -column 0 -sticky e
-		grid $nbPhone.lastlogout1 -row 18 -column 1 -sticky w
-		grid $nbPhone.lastmsgedme -row 19 -column 0 -sticky e
-		grid $nbPhone.lastmsgedme1 -row 19 -column 1 -sticky w
+		grid $nbIdent.titleothers -row 17 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
+		grid $nbPhone.lastlogin -row 18 -column 0 -sticky e
+		grid $nbPhone.lastlogin1 -row 18 -column 1 -sticky w
+		grid $nbPhone.lastlogout -row 19 -column 0 -sticky e
+		grid $nbPhone.lastlogout1 -row 19 -column 1 -sticky w
+		grid $nbPhone.lastmsgedme -row 20 -column 0 -sticky e
+		grid $nbPhone.lastmsgedme1 -row 20 -column 1 -sticky w
 		
-		grid $nbPhone.titlepic -row 26 -column 0 -sticky w -columnspan 2 -pady 5 -padx 5
-		grid $nbPhone.displaypic -row 27 -column 0 -sticky w -columnspan 2 -padx 8
+		grid $nbPhone.titlepic -row 27 -column 0 -sticky w -columnspan 2 -pady 5 -padx 5
+		grid $nbPhone.displaypic -row 28 -column 0 -sticky w -columnspan 2 -padx 8
 		#grid columnconfigure $nbIdent.fothers 1 -weight 1
 	
 		
@@ -957,6 +963,7 @@ namespace eval ::abookGui {
 		set nbIdent [$nbIdent.sw.sf getframe]
 		::abook::setContactData $email customnick [$nbIdent.customnick.ent get]
 		::abook::setContactData $email customfnick [$nbIdent.customfnick.ent get]
+		::abook::setContactData $email cust_p4c_name [$nbIdent.ycustomfnick.ent get]
 		::abook::setContactData $email customcolor [set colorval_$email]
 		
 		#Store custom notification options
