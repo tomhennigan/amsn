@@ -1171,13 +1171,14 @@ namespace eval ::plugins {
 		set ::plugins::plgversion ""
 		set ::plugins::plglang ""
 		set ::plugins::plgfile ""
-
+		set ::plugins::URL_plugininfo ""
 
 		set id [::sxml::init $path]
 
 		sxml::register_routine $id "plugin" "::plugins::XML_Plugin_CVS"
 		sxml::register_routine $id "plugin:lang" "::plugins::XML_Plugin_Lang"
 		sxml::register_routine $id "plugin:file" "::plugins::XML_Plugin_File"
+		sxml::register_routine $id "plugin:URL" "::plugins::XML_Plugin_URL"
 
 		sxml::parse $id
 
@@ -1217,12 +1218,21 @@ namespace eval ::plugins {
 		return 0
 
 	}
+	
+	
+	proc XML_Plugin_URL { cstack cdata saved_data cattr saved_attr args } {
+	
+		upvar $saved_data sdata
+		
+		catch {set ::plugins::URL_plugininfo "$sdata(${cstack}:plugininfo)"}
+		
+	}
 
 
 #/////////////////////////////////////////////////////
 # Get the plugininfo.xml on the CVS, and load it
 
-	proc get_OnlineVersion { path plugin } {
+	proc get_OnlineVersion { path plugin {URL ""} } {
 
 		global HOME HOME2
 		
@@ -1230,21 +1240,41 @@ namespace eval ::plugins {
 		set ::plugins::plgonlineversion ""
 		set ::plugins::plgonlinelang ""
 		set ::plugins::plgonlinefile ""
+		set ::plugins::plgonlineURLmain ""
+		set ::plugins::plgonlineURLlang ""
+		set ::plugins::plgonlineURLfile ""
 		
 		set program_dir [set ::program_dir]
 
-		if { [string first $HOME $path] != -1 | [string first $HOME2 $path] != -1 } {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text/plain" -timeout 10000 -binary 1]
-		} elseif { [string first $program_dir $path] != -1} {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text/plain" -timeout 10000 -binary 1]
-		} else {
-			return
-		}
+		# If no URL is given, look at the CVS URL
+		if { $URL == "" } {
 
-		set content [::http::data $token]
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text/plain" -timeout 10000 -binary 1]
+			set content [::http::data $token]
+			if { [string first "<html>" "$content"] != -1 } {
+				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text/plain" -timeout 10000 -binary 1]
+				set content [::http::data $token]
+				if { [string first "<html>" "$content"] != -1 } {
+					return 0
+				} else {
+					set place 2
+				}
+			} else {
+				set place 1
+			}
+
+
+		# Else, look at the URL given
+		} else {
 		
-		if { [string first "<html>" "$content"] != -1 } {
-			return 0
+			set token [::http::geturl "$URL" -timeout 10000 -binary 1]
+			set content [::http::data $token]
+			if { [string first "<html>" "$content"] != -1 } {
+				return 0
+			}
+			
+			set place 3
+			
 		}
 
 		set filename "[file join $HOME2 $plugin.xml]"
@@ -1260,10 +1290,11 @@ namespace eval ::plugins {
 		sxml::register_routine $id "plugin" "::plugins::XML_OnlinePlugin_CVS"
 		sxml::register_routine $id "plugin:lang" "::plugins::XML_OnlinePlugin_Lang"
 		sxml::register_routine $id "plugin:file" "::plugins::XML_OnlinePlugin_File"
+		sxml::register_routine $id "plugin:URL" "::plugins::XML_OnlinePlugin_URL"
 		sxml::parse $id
 		sxml::end $id
 		
-		return 1
+		return $place
 
 	}
 
@@ -1301,10 +1332,24 @@ namespace eval ::plugins {
 
 	}
 
+
+	proc XML_OnlinePlugin_URL { cstack cdata saved_data cattr saved_attr args } {
+
+		upvar $saved_data sdata
+
+		catch {set ::plugins::plgonlineURLmain "$sdata(${cstack}:main)"}
+		catch {set ::plugins::plgonlineURLlang "$sdata(${cstack}:lang)"}
+		catch {set ::plugins::plgonlineURLfile "$sdata(${cstack}:file)"}
+		
+		return 0
+
+	}
+
+
 #/////////////////////////////////////////////////////
 # Update the plugin (.tcl file)
 
-	proc UpdateMain { plugin path version } {
+	proc UpdateMain { plugin path version place URL } {
 
 		global HOME HOME2
 
@@ -1315,16 +1360,23 @@ namespace eval ::plugins {
 		if { [winfo exists $w] } {
 			$w.update.txt configure -text "Updating $plugin..."
 		}
-
-		if { [string first $HOME $path] != -1 | [string first $HOME2 $path] != -1 } {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/$plugin.tcl?rev=$version&content-type=text/plain" -timeout 10000]
-		} elseif { [string first $program_dir $path] != -1} {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/$plugin.tcl?rev=$version&content-type=text/plain" -timeout 10000]
+		
+		if { $place == 1 } {
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/$plugin.tcl?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
+		} elseif { $place == 2 } {
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/$plugin.tcl?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
+		} elseif { $place == 3 && $URL != "" } {
+			set URL "[subst $URL]"
+			set token [::http::geturl "$URL" -timeout 10000 -binary 1]
 		} else {
 			return
 		}
 
 		set content [::http::data $token]
+		
+		if { [string first "<html>" "$content"] != -1 } {
+			return 0
+		}
 
 		set filename [file join $path $plugin.tcl]
 
@@ -1332,13 +1384,15 @@ namespace eval ::plugins {
 		fconfigure $fid -encoding binary
 		puts -nonewline $fid "$content"
 		close $fid
+		
+		return 1
 
 	}
 
 #/////////////////////////////////////////////////////
 # Update the language files
 
-	proc UpdateLangs { plugin path langcodes } {
+	proc UpdateLangs { plugin path langcodes place URL } {
 
 		global HOME HOME2
 
@@ -1353,15 +1407,22 @@ namespace eval ::plugins {
 				$w.update.txt configure -text "Updating $plugin : lang$langcode..."
 			}
 
-			if { [string first $HOME $path] != -1 | [string first $HOME2 $path] != -1 } {
-				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text/plain" -timeout 10000]
-			} elseif { [string first $program_dir $path] != -1} {
-				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text/plain" -timeout 10000]
+			if { $place == 1 } {
+				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
+			} elseif { $place == 2 } {
+				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/lang/lang$langcode?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
+			} elseif { $place == 3 && $URL != "" } {
+				set URL "[subst $URL]"
+				set token [::http::geturl "$URL" -timeout 10000 -binary 1]
 			} else {
 				return
 			}
 
 			set content [::http::data $token]
+			
+			if { [string first "<html>" "$content"] != -1 } {
+				return 0
+			}
 
 			set filename [file join $path "lang" lang$langcode]
 
@@ -1371,6 +1432,8 @@ namespace eval ::plugins {
 			close $fid
 
 		}
+		
+		return 1
 		
 	}
 
@@ -1394,7 +1457,7 @@ namespace eval ::plugins {
 #/////////////////////////////////////////////////////
 # Update all the others files (pictures, sounds...)
 
-	proc UpdateFiles { plugin path files } {
+	proc UpdateFiles { plugin path files place URL } {
 
 		global HOME HOME2
 
@@ -1408,15 +1471,22 @@ namespace eval ::plugins {
 				$w.update.txt configure -text "Updating $plugin : $file..."
 			}
 
-			if { [string first $HOME $path] != -1 | [string first $HOME2 $path] != -1 } {
+			if { $place == 1 } {
 				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/$file?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
-			} elseif { [string first $program_dir $path] != -1} {
+			} elseif { $place == 2} {
 				set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/$file?rev=$version&content-type=text/plain" -timeout 10000 -binary 1]
+			} elseif { $place == 3 && $URL != "" } {
+				set URL "[subst $URL]"
+				set token [::http::geturl "$URL" -timeout 10000 -binary 1]
 			} else {
 				return
 			}
 
 			set content [::http::data $token]
+			
+			if { [string first "<html>" "$content"] != -1 } {
+				return 0
+			}
 
 			set filename [file join $path $file]
 
@@ -1432,6 +1502,8 @@ namespace eval ::plugins {
 			close $fid
 			
 		}
+		
+		return 1
 
 	}
 
@@ -1439,27 +1511,47 @@ namespace eval ::plugins {
 # Update a plugin
 
 	proc UpdatePlugin { plugin } {
+	
+		variable loadedplugins
 
-		set path [lindex $plugin 5]
+		set namespace [lindex $plugin 0]
+		set required_version [lindex $plugin 3]
+		set file [lindex $plugin 5]
 		set name [lindex $plugin 6]
+		set init_proc [lindex $plugin 7]
+		set place [lindex $plugin 9]
+		
+		set path "$file"
 		set path "[string range $path 0 end-[expr [string length $name] + 5]]"
 		set pathinfo "$path/plugininfo.xml"
 		
 		set main [::plugins::ReadPluginUpdates $name main]
 		set langs [::plugins::ReadPluginUpdates $name lang]
 		set files [::plugins::ReadPluginUpdates $name file]
+		set URLmain [::plugins::ReadPluginUpdates $name URLmain]
+		set URLlang [::plugins::ReadPluginUpdates $name URLlang]
+		set URLfile [::plugins::ReadPluginUpdates $name URLfile]
 
 		# if no error occurs while updating the plugin, save the plugininfo.xml file		
 		if { [catch {
-			::plugins::UpdateMain $name $path $main
-			::plugins::UpdateLangs $name $path $langs
-			::plugins::UpdateFiles $name $path $files
+			set mainstate [::plugins::UpdateMain $name $path $main $place $URLmain]
+			set langstate [::plugins::UpdateLangs $name $path $langs $place $URLlang]
+			set filestate [::plugins::UpdateFiles $name $path $files $place $URLfile]
 			}] } {
 			status_log "Error while updating $name\n" red
-		} else {
+		} elseif { $mainstate == 1 && $langstate == 1 && $filestate == 1 } {
 			SavePlugininfo "$plugin" "$pathinfo"
+			
+			# Reload the plugin if it was loaded
+			if { [lsearch $loadedplugins $name] != -1 } {
+				::plugins::UnLoadPlugin $plugin
+				::plugins::LoadPlugin $namespace $required_version $file $name $init_proc
+			}
+			
+		} else {
+			status_log "Error while updating $name : main $mainstate, lang $langstate, file $filestate\n" red
 		}
-
+		
 	}
 
 
@@ -1484,10 +1576,13 @@ namespace eval ::plugins {
 				continue
 			}
 			
-			if { [::plugins::get_OnlineVersion "$pathinfo" "$name"] == 0 } {
+			set place [::plugins::get_OnlineVersion "$pathinfo" "$name" "$::plugins::URL_plugininfo"]
+			
+			if { $place == 0 } {
 				continue
 			}
 			
+			set plugin [lappend plugin $place]
 			
 			# If the online plugin is compatible with the current version of aMSN
 			if { [::plugins::CheckRequirements $::plugins::plgonlinerequire] } {
@@ -1565,9 +1660,7 @@ namespace eval ::plugins {
 					}
 				}
 				
-
-				array set ::plugins::UpdatedPlugin$name [list main "$main" lang "$langlist" file "$filelist"]
-				
+				array set ::plugins::UpdatedPlugin$name [list main "$main" lang "$langlist" file "$filelist" URLmain "$::plugins::plgonlineURLmain" URLlang "$::plugins::plgonlineURLlang" URLfile "$::plugins::plgonlineURLfile"]
 
 				# If the plugin has been updated and no file is protected, add it to the updated plugin list
 				if { $updated == 1 && $protected == 0 } {
