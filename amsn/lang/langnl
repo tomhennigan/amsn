@@ -35,6 +35,7 @@ bgcolor Verander aMSN's achtergrondkleur
 blankdirect Laat leeg voor directe connectie
 block Blokkeer
 blocked Geblokkeerd
+blockmessage Deze mensen zijn online en blokkeren jou
 broughtby Aangeboden door de volgende ontwikkelaars
 browser Browser
 browse Verkennen
@@ -81,6 +82,7 @@ delete Wis
 deliverfail Er was een problem bij het bezorgen van de volgende boodschap
 delprofile2 Kies het profiel dat je wilt verwijderen
 delprofile Verwijder profiel
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Verbergen voor gnome
 dockingoff Verbergen uit
 docking Verberg
@@ -265,6 +267,7 @@ sentbytes $1 van $2 bytes verzonden
 servergoingdown De server gaat offline
 server Server
 session Sessie
+showblockedlist Toon de lijst van mensen die jou geblokkeerd hebben
 sound2 Speel geluid als contacten zich aanmelden of een bericht verzenden
 soundcommand Dit moet het afspeelcommando zijn (vb: esdplay)
 soundfile Alarm geluidsbestand
@@ -287,18 +290,24 @@ title Al's Messenger
 to Aan
 tools Systeem
 transnotexists Het opgevraagde bestand is nog niet vertaald in de gebruikte taal.
+traynotcompiled Taakbalk icoon plugin is niet gecompileerd. Bekijk plugins/traydock
 unblock Deblokkeer
 uoffline Offline
 uonline Online
 useralreadyonlist Gebruiker staat al in uw lijst
+userblocked De gebruiker is online maar heeft je geblokkeerd
 user Gebruiker
 usernotonline De gebruiker is offline
+useryourself Je kan niet met jezelf chatten
+verifyblocked Check de mensen die je blokkeren
 version Versie
 view Beeld
 viewprofile Profiel Weergeven
 willjoin Wachten tot $1 de conversatie zal bijwonen
 work werk
+wrongprofileversion Verkeerde profiel configuratiebestand versie. Om te repareren, gelieve directorie $1 te verwijderen, of Amsn te updaten.
 xoffset X-positie
 yoffset Y-positie
+youblocked Je bent geblokkeerd geworden
 yousay Jij zegt
 youwant Jij wilt

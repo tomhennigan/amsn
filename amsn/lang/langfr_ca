@@ -34,6 +34,7 @@ bgcolor Changer la couleur de fond de aMSN
 blankdirect Laisser vide pour une connexion sans proxy
 block Bloquer
 blocked Bloqué
+blockmessage Ces personnes sont en ligne mais vous bloquent
 broughtby Développé pour vous par
 browse Naviguer
 browser Navigateur web
@@ -265,6 +266,7 @@ sentbytes $1 de $2 octets reçus
 servergoingdown Serveur en cours d'arrêt
 server Serveur
 session Session
+showblockedlist Voir la liste des personnes que vous avez bloqué
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 sound Évènements Sonores
 soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
@@ -290,9 +292,12 @@ traynotcompiled Le plugin de l'icone de la corbeille n'est pas conforme. Sélecti
 unblock Débloquer
 uoffline Déconnectés
 uonline Connectés
-useralreadyonlist Utilisateur déjà présent dans la liste
-usernotonline L'utilisateur n'est pas en ligne
 user Utilisateur
+useralreadyonlist Utilisateur déjà présent dans la liste
+userblocked Cet utilisateur est en ligne mais il vous a bloqué
+usernotonline L'utilisateur n'est pas en ligne
+useryourself Vous ne pouvez pas dialoguer avec vous-même
+verifyblocked Contrôler les personnes qui vous ont bloqué
 version Version
 viewprofile Afficher le profil
 view Vue
@@ -301,5 +306,6 @@ work Travail
 wrongprofileversion Mauvaise version du fichier de profil. Afin de la fixer, enlevez svp le répertoire $1, ou mettez à jour amsn
 xoffset Position en X
 yoffset Position en Y
+youblocked Vous avez été bloqué
 yousay Vous avez dit
 youwant Vous voulez
