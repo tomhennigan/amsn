@@ -145,8 +145,8 @@ pager Paginador
 pass Contraseña
 paste Pegar
 phone Telefono
-picfile Archivo de imagen de la alarma (GIF < 500 x 500)
-picstatus Activar/Desactivar imagen para la alarma
+picfile Archivo de imagen (GIF < 500 x 500)
+picstatus Imagen para la alarma
 port Puerto
 prefapps Aplicaciones
 preferences Preferencias
@@ -174,10 +174,10 @@ sendmsg Enviar mensaje
 sentbytes Enviados $1 de $2 bytes totales
 servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
 server Servidor
-soundfile Archivo de sonido de la alarma
+soundfile Archivo de sonido
 soundloop Sonido repetitivo
 sound Sonido eventos
-soundstatus Encender/Apagar el sonido de la alarma
+soundstatus Sonido para la alarma
 startoffline Comenzar Desconectado
 status Estado
 stopalarm Detener alarma

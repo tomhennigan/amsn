@@ -144,8 +144,8 @@ pager Pager
 pass Password
 paste Paste
 phone Phone
-picfile Alarm Picture File (GIF < 500 x 500)
-picstatus Turn ON/OFF Picture Alarm
+picfile Picture File (GIF < 500 x 500)
+picstatus Picture Alarm
 port Port
 prefapps Applications
 preferences Preferences
@@ -174,9 +174,9 @@ sentbytes Sent $1 of $2 bytes
 servergoingdown Disconnected: Server is going down
 server Server
 sound Event Sound
-soundfile Alarm Sound File
+soundfile Sound File
 soundloop Loop Sound
-soundstatus Turn ON/OFF Sound Alarm
+soundstatus Sound Alarm
 startoffline Start Offline
 status Status
 stopalarm Stop Alarm
