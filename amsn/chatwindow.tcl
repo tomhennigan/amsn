@@ -113,6 +113,17 @@ namespace eval ::ChatWindow {
 
 
 	#///////////////////////////////////////////////////////////////////////////////
+	# ::ChatWindow::GetInputText (window)
+	# Returns the path to the input text widget in a given window 
+	# Arguments:
+	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
+	proc GetInputText { window } {
+		return $window.f.bottom.left.in.text
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+
+
+	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::Clear (window)
 	# Deletes all the text in the chat window's input widget
 	# Arguments:
@@ -1154,7 +1165,7 @@ namespace eval ::ChatWindow {
 		}
 
 		# When someone type something in out.text, regive the focus to in.input and insert that key
-		bind $text <KeyPress> "lastKeytyped %A $bottom"
+		bind $text <KeyPress> "::ChatWindow::lastKeytyped %A $w"
 
 
 		#Added to stop amsn freezing when control-up pressed in the output window
@@ -1162,6 +1173,15 @@ namespace eval ::ChatWindow {
 		bind $text <Control-Up> "break"
 
 		return $fr
+	}
+
+	#lastkeytyped 
+	#Force the focus to the input text box when someone try to write something in the output
+	proc lastKeytyped {typed w} {
+		if {[regexp \[a-zA-Z\] $typed]} {
+			focus -force [::ChatWindow::GetInputText $w]
+			[::ChatWindow::GetInputText $w] insert insert $typed
+		}
 	}
 
 	proc CreateInputWindow { w paned } {
@@ -1336,7 +1356,7 @@ namespace eval ::ChatWindow {
 		set invite $buttons.invite
 
 		# widget name from another proc
-		set input $bottom.in.text
+		set input [::ChatWindow::GetInputText $w]
 
 
 		# Create them along with their respective tooltips

@@ -2321,7 +2321,7 @@ namespace eval ::amsn {
 		#We have a window for that chatid, raise it
 		raise ${win_name}
 
-		focus ${win_name}.f.bottom.left.in.text
+		focus [::ChatWindow::GetInputText ${win_name}]
 
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -3298,8 +3298,8 @@ proc change_myfontsize { size {windows ""}} {
 	foreach w  $windows {
 
 		[::ChatWindow::GetOutText $w] tag configure yours -font [list $fontfamily $fontsize $fontstyle]
-		$w.f.bottom.left.in.text configure -font [list $fontfamily $fontsize $fontstyle]
-		$w.f.bottom.left.in.text configure -foreground "#$fontcolor"
+		[::ChatWindow::GetInputText $w] configure -font [list $fontfamily $fontsize $fontstyle]
+		[::ChatWindow::GetInputText $w] configure -foreground "#$fontcolor"
 	
 		#Get old user font and replace its size
 		catch {
@@ -4920,7 +4920,7 @@ proc tk_textPaste { w } {
 proc copy { cut w } {
 
 #Try this (for chat windows)
-	set window $w.f.bottom.left.in.text
+	set window [::ChatWindow::GetInputText $w]
 
 	if { [ catch {$window tag ranges sel}]} {
 		set window $w
@@ -4956,14 +4956,14 @@ proc paste { window {middle 0} } {
 	if { [catch {selection get} res] != 0 } {
 		catch {
 			set contents [ selection get -selection CLIPBOARD ]
-			$window.f.bottom.left.in.text insert insert $contents
+			[::ChatWindow::GetInputText $window] insert insert $contents
 		}
 		#puts "CLIPBOARD selection enabled"
 	} else {
 		if { $middle == 0} {
 			catch {
 				set contents [ selection get -selection CLIPBOARD ]
-				$window.f.bottom.left.in.text insert insert $contents
+				[::ChatWindow::GetInputText $window] insert insert $contents
 			}
 			#puts "CLIPBOARD selection enabled"
 		} else {
@@ -7004,16 +7004,6 @@ proc ShowTransient {win {parent "."}} {
 		}
 }
 
-
-#lastkeytyped 
-#Force the focus to bottom.in.input when someone try to write something in out.text
-proc lastKeytyped {typed bottom} {
-
-		if {[regexp \[a-zA-Z\] $typed]} {
-			
-			focus -force $bottom.left.in.text;$bottom.left.in.text insert insert $typed
-		}
-}
 
 # taken from ::tk::TextSetCursor
 # Move the insertion cursor to a given position in a text.  Also
