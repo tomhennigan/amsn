@@ -1,17 +1,28 @@
 amsn_lang_version 2
 about Um aMSN
-accept Samþykkja
 acceptfile Móttaka skrána $1, stærð $2? Vista í $3
+accept Samþykkja
 actions Gjörðir
 addacontact Bæta við tengilið
 addedyou $1 ($2) hefur bætt þér í tengiliðalistann sinn
+addprofile Bæta við nýju sniði
+addprofiledesc Skrifaðu niður skráningarnafnið sem þú vilt nota til að búa til nýtt snið.\nSniðskráningar leyfa þér að notast við mismunandi stillingar fyrir hverja skráningu.\nÞú getur ekki notast við Sögu, Vakningu eða "Muna lykilorð" eiginleikana nema þú sért að nota snið.
+addstate Bæta við nýjum ham.
+addto Bæta við $1 
 addtocontacts Bæta við tengilið í lista
 addtoo Setja þessa manneskju sem tengilið
 admincontacts Tengiliðir kerfisstjóra
 admingroups Grúppur kerfisstjóra
 adverts Auglýsingar
+alarmonconnect Setja vakningu í gang þegar notandi tengist.
+alarmondisconnect Setja vakningu í gang þegar notandi aftengist/verður ósýnilegur
+alarmonmsg Setja vakningu í gang þegar notandi sendir þér skilaboð
+alarmonstatus Setja vakningu í gang þegar notandi skiptir um ham.
 alarmpref Stillingar fyrir vakningu/viðvörun
 alarmstatus Slökkva/Kveikja á vakning/viðvörun fyrir þennan notanda
+allfiles Allar skrár
+allowallbutbl Leyfa alla notendur fyrir utan þá sem eru í höfnunarlistanum að hafa samband við mig 
+allowlist Listi yfir þá sem eru leyfðir (AL): 
 allowseen Leyfa þessari manneskju að sjá mig og hafa samband við mig
 appearance Staða
 appearoff Sýnast aftengdur
@@ -32,11 +43,13 @@ awaymsg2 Spyrja aldrei og alltaf nota skilaboðin hér að neðan
 baduserpass Rangt notendanafn eða lykilorð
 bgcolor Breyta lit á aMSN bakgrunni
 blankdirect Leave blank for direct connection
-block Hafna
 blocked Hafnað
+block Hafna
+blocklist Listi yfir þá sem eru hafnaðir (BL): 
+blockmessage Þetta fólk er tengt en hafa hafnað þér
 broughtby  Eftirfarandi hönnuðir lögðu hönd á plóg
-browse Vafra
 browser Vafri
+browse Vafra
 busy Upptekinn
 cancel Hætta við
 cannotdeleteprofile Get ekki eytt stillingum því aMSN er að nota þær
@@ -44,26 +57,35 @@ cfgalarm Stilla/Bæta við/Eyða vakningu/viðvörun
 changefont Breyta Leturgerð
 changenick Breyta heiti mínu
 chatack Samþykki spjall frá
-chat Spjall
+chatmaxmin Þegar tengiliður opnar samtalsglugga þá vill ég vera :
 chatreq Fer fram á spjall
 chatsmileys2 Sýna Skapbrigði og Broskalla í spjall glugga
 chatsmileys Broskallar
+chat Spjall
+checkblocking Athuga stöðugt hvort að notandi sé að hafna mér
 checkfilman Mótteknar skrár verða vistaðar í $1. Vinsamlega athugið skráarþjóns stillingar í stillingar glugganum.
 checkingver Leita eftir nýrri útgáfu
+checkonfln Athuga hvort að notandi sé að hafna mér þegar hann aftengist
 checkver Leita eftir nýrri útgáfu
 choosebasefont Veldu stafasett
 choosebgcolor Veldu bakgrunn
+choosecontact Vinsamlegast veldu tengiliða frá listanum
 choosefontcolor Veldu stafalit
 clearlog2 Hreinsa sögu allra tengiliða
 clearlog3 Hreinsa alla annála
 clearlog Hreinsa annál
 clicktologin Smelltu hér til að tengjast
+closed Samtali við $1 var lokað vegna óvirkni
 close Loka
 closingdocks Loka-hnappur minnkar glugga
 command Skipun
-confirm Ertu viss?
+commandstatus Framkvæma skipun
 confirmdelete Ertu viss um að þú viljir eyða $1?
+confirm Ertu viss?
+connected Þú ert núna tengdur
 connecterror Villa við tengingu við netþjón
+connecting Er að tengjast...
+connectionlost Aftengdist: Tengingu við þjónin var lokað
 connection Tenging
 contactadded Bætti við tengilið
 contactdoesnotexist Tengiliður er ekki til!
@@ -71,6 +93,8 @@ copy Afrita
 copytogroup Afrita í grúppu
 countrycode Svæðisnúmer
 cprofile Búa til stillingar
+custom_edit Breyta mínum broskörlum 
+custom_new Bæta við nýjum broskarli
 cut Klippa
 date Dagsetning
 days Dagar
@@ -80,29 +104,43 @@ delete Eyða
 deliverfail Upp kom vandamál við sendingu skilaboðanna
 delprofile2 Veldu stillingarhaminn sem á að fjarlægja
 delprofile Eyða stillingarham
-dockgtk Gnome-taðsetning
-docking Staðsetning
-dockingoff Staðsetning óvirk
-dockkde KDE-staðsetning
+description Lýsing 
+directconnection Ég er með beina tengingu við internetið (notar port 1863)
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
+dockgtk Gnome-taðsetning
+dockingoff Staðsetning óvirk
+docking Staðsetning
+dockkde KDE-staðsetning
+dontdownload Ekki hala niður TLS, ég ætla að setja það upp sjálfur
+dontshow Ekki sýna 
+downloadingtls Er að hala niður TLS frá:\n $1 
 edit Breyta
 editprofile Breyta stillingarham
+emailsinlist Sýna netföng í staðin fyrir gælunöfn í tengiliðalista
+enablebanner Sýna aMSN auglýsingaborða (krefst þess að endurræsa aMSN)
+enabled Virkt
 enableproxy Virkja proxy
+enablesound Spila hljóð 
 encoding2 Breyta hvernig textin er kóðaður
 encoding Veldu kóðun
 entercontactemail Sláðu inn netfang tengiliðs
 enterfilename Skráðu skráarnafn
 enternick Sláðu inn heitið þitt
+errortls Það kom upp villa þegar var verið að setja upp TLS forritseininguna: 
 examples Sýnidæmi
 exitamsn Viltu örugglega hætta?
 extras Viðbótarþjónustur
+faileddelete Tókst ekki að eyða
 faq FAQ (Algengar Spurningar)
 filedoesnotexist Skrá finnst ekki
 fileman Skráarþjónn
 filename Skráarnafn
+file Skrá 
 filetransfercancelled Skráarflutningi slitið
 filetransfercomplete Skráarflutningi lokið
 ftaccepted Skráarflutningur samþykktur
+ftgotinvitation $1 vill senda þér skránna '$2' ($3 bæti). Skráin verður vistuð í möppuna $4.  Viltu taka á móti þessari skrá?
+ftrejectedby $1 hafnaði skráarflutnings boði fyrir skránna '$2'
 ftrejected Skráarflutningi hafnað
 gonelunch Farin(n) í mat
 groupadd Bæta við grúppu
@@ -118,12 +156,14 @@ groupunknown Óþekkt grúppa
 handle Kenninafn
 helpcontents Yfirlit yfir hjálp
 help Hjálp
+hidewindow Fela glugga 
 history Sjá sögu
 home Heima
 ident Auðkenni
 identity Auðkenni
 inbox Innhólf
 invalidusername Rangt notendanafn
+invitationcancelled Hætt var við boðið 
 invite Bjóða
 ipaddress IP Tala
 ipdetect Finna rétta IP Tölu fyrir skráarflutning gegnum HTTP
@@ -158,6 +198,7 @@ logolder Vista í annála spjöll sem voru síðustu
 logout Aftengjast
 logsin var að tengjast
 logsmileys Sýna Skapbrigði og Broskalla í sögu gluggum aMSN
+logsout er búinn að aftengjast 
 lprivtoconf Einka spjalli breytt í fund með $1
 luclosedwin Þú hefur lokað glugganum á $1
 mailer Póstforrit
@@ -165,10 +206,11 @@ maximised full stærð
 minimised minnkuð stærð
 mins mínútur
 mobile Farsími
+move Færa
 movetogroup Færa í grúppu
 msgmaxmin Þegar ný skilaboð berast þá vil ég að þau séu
-msg Skilaboð
 msgmode Veldu hvernig á að meðhöndla skilaboðaglugga :
+msg Skilaboð
 msn AMSN
 mustrestart Þú verður að endurræsa forritið til að virkja breytingarnar
 myhomephone Heimasíminn minn
@@ -185,14 +227,19 @@ newveravailable Til er nýrri útgáfa $1
 next Áfram
 noactivity Ekkert lífsmark
 nologfile Enginn annálaskrá fyrir $1
+no Nei 
 nonewmail Engin nýr póstur í innhólfinu
 nonewver Engar uppfærslur fáanlegar
+nopic Engin mynd
 normal Eðlilegt
+notify1_5 Sýna tilkynninga glugga þegar tengiliður aftengist
+notify1_75 Sýna tilkynninga glugga þegar tengiliður breytir um ham
 notify1 Láta vita þegar tengiliður tengir sig
 notify2 Láta vita þegar ný skilaboð berast
 notify3 Láta vita þegar póstur berst í innhólfið
 notify láta vita
 notifyoffset Breyta hvar "tilkynningargluggar" eru staðsettir
+notifytyping Senda öðrum notendum tilkynningu þegar þú ert að slá á lyklaborðið
 notifywin Láta vita
 nousersinsession Engir tengiliðir í samræðum
 offline Útskráður
@@ -205,6 +252,7 @@ options Valmöguleikar
 ordercontactsby Raða tengiliðum eftir
 ordergroupsby Raða grúppum eftir
 other Annað
+others Aðrir 
 pager Símboði
 pass Lykilorð
 paste Líma
@@ -216,6 +264,8 @@ port Port
 prefalerts Atburðaviðvaranir og hljóð
 prefapps Forrit
 prefawaymsg Í burtu skilaboð
+prefblock2 Athuga stöðugt 
+prefblock3 "Þér hefur verið hafnað af" group
 prefemotic Skaprigðatákn og broskallar
 preferences Stillingar
 preffont2 Breyta textanum sem aðrir sjá í spjall glugga
@@ -242,18 +292,22 @@ proxyconfhttp HTTP proxy stillingar
 proxyconf Proxy stillingar
 proxy Ég er bakvið Proxy þjón (HTTP eða SOCKS5)
 publishphones Sýna símanúmerin mín
+readonlymsgbox Skráarflutningi hefur verið hafnað vegna þess að móttekna mappan er "aðeins-lesa".  Vinsamlegast lagaðu réttindin á þessari möppu.
+readonlywarn VIÐVÖRUN: Skráin verður líklega EKKI vistuð rétt þar sem "Mótteknar skrár" mappan virðist vera óskrifanlega (ekki með skrif réttindi).  Vinsamlegast gangið úr skugga um að réttindin á þeirri möppu sem á að sækja ($1) séu rétt stillt áður en skráin er flutt.
 receivedbytes Hef móttekið $1 af $2 bætum
+receiveddir Mappa fyrir mótteknar skrár
 receivefile Móttek skrá
-reconnecting Endurtengist netþjóni
 reconnect Bíð eftir að $1 endurtengist
+reconnecting Endurtengist netþjóni
 reject Hafna
 rememberpass Muna lykilorð
+removefromlist Fjarlæga frá þessum lista
 reversed frátekið
 rightback Kem eftir augnablik
 saveas Vista sem
 savecontacts Vista lista yfir tengiliði
-save Vista
 savetofile Vista í skrá
+save Vista
 says $1 segir
 sbcon Tengist skiptiborði
 sendfile Senda skrá
@@ -264,15 +318,17 @@ sentbytes Hef sent $1 af $2 bætum
 servergoingdown Aftengdur: Netþjónn verður keyrður niður
 server Netþjónn
 session lota
+showblockedlist Sýna lista yfir fólk sem hefur hafnað þér
 sound2 Spila hljóð þegar tengiliður tengist eða sendir skilaboð
 soundcommand Þetta verður að vera spilunarskipunin (t.d.: esdplay)
-sound Hljóð og atburðir
 soundfile Hljóðskrá
+sound Hljóð og atburðir
 soundloop Endurtaka hljóð
 soundserver Hljóð Þjónn
 soundstatus Hljóða vakning/viðvörun
 startoffline2 Tengja sig inn leynilega sem "ekki tengdur"
 startoffline Byrja útskráður
+state Ég vill birtast sem 
 status Staða
 stopalarm Stöðva vakning/viðvörun
 stylechat Sama útlit og í spjalli
@@ -280,18 +336,24 @@ stylehist aMSN sögu útlit
 stylelog Velja skrársniðið sem þú vilt skoða sögu þína í
 syntaxerror  Villa í forriti
 tabbed flibbaðir gluggar
+temp_state Ekki vista (bráðabirgðaástand, glatast þegar aMSN lokast)
 textsize Stærð texta
+timeremaining Tími sem er eftir
 title Skilaboði Als
 tools Tól
 to Til
 transnotexists Skráin sem beðið var um hefur enn ekki verið þýdd í þetta tungumál.
 traynotcompiled Bakka merki ekki enn þýtt. Athugaðu viðbætur/bakkastilingar
+twonewmail $1 ný skeyti í innhólfinu
 unblock afhafna
 uoffline Útskráður
 uonline Innskráður
 useralreadyonlist Tengiliður er nú þegar í listanum
-usernotonline Tengiliður ekki tengdur
+userblocked Notandinn er tengdur en hefur hafnað þér
 user Notandi
+usernotonline Tengiliður ekki tengdur
+useryourself Þú getur ekki talað við sjálfan þig
+verifyblocked Leita að fólki sem hefur hafnað þér
 version Útgáfa
 viewprofile Sýna stilliham
 view Sýn
@@ -299,7 +361,8 @@ willjoin Bíð eftir að $1 komi inn í samræðurnar
 work Vinna
 wrongprofileversion Röng útgáfa af stillihams skrá. Til að lagfæra þetta fjarlægðu þá möppuna $1, eða uppfærðu aMSN
 xoffset X staða
+yes Já 
 yoffset Y staða
+youblocked Þér hefur verið hafnað af
 yousay Þú segir
 youwant Þú vilt
-twonewmail $1 ný skeyti í innhólfinu
