@@ -3856,6 +3856,8 @@ proc cmsn_draw_offline {} {
    $pgBuddy.text insert end "[trans checkver]...\n" check_ver
    
    $pgBuddy.text configure -state disabled
+	$pgBuddy.text0 configure -state disabled
+
 
 
    #Log in
@@ -4294,6 +4296,7 @@ proc cmsn_draw_online { {delay 0} } {
 	} else {
 		::MSN::sortContactList 2 1
 	}
+	$pgBuddy.text0 configure -state normal
 
 	$pgBuddy.text configure -state normal -font splainf
 	$pgBuddy.text delete 0.0 end
@@ -4337,6 +4340,7 @@ proc cmsn_draw_online { {delay 0} } {
 		$pgBuddy.text tag bind $gtag <Leave> \
 			"$pgBuddy.text tag conf $gtag -under false;$pgBuddy.text conf -cursor left_ptr"
 	}
+
 
 
 	# Display MSN logo with user's handle. Make it clickable so
@@ -4615,6 +4619,8 @@ proc cmsn_draw_online { {delay 0} } {
 	}
 
 	$pgBuddy.text configure -state disabled
+	$pgBuddy.text0 configure -state disabled
+
 
 	#Init Preferences if window is open
 	if { [winfo exists .cfg] } {
