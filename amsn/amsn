@@ -319,7 +319,7 @@ proc cmsn_draw_main {} {
    .main_menu.file add command -label "[trans openreceived]" \
       -command "msg_box \"$files_dir\""
    .main_menu.file add separator
-   .main_menu.file add command -label "[trans close]" -command "::amsn::close"
+   .main_menu.file add command -label "[trans close]" -command "destroy ."
 
    #Actions menu
    set dummy_user "recipient@somewhere.com"
@@ -348,7 +348,7 @@ proc cmsn_draw_main {} {
      cmsn_draw_addcontact
    .main_menu.tools add cascade -label "[trans admincontacts]" -command \
      "" -state disabled
-   ::groups::Init .main_menu.tools
+   ::groups::Init .main_menu.tools 2
    .main_menu.tools add separator
    .main_menu.tools add cascade -label "[trans ordercontactsby]" \
      -menu .order_by
