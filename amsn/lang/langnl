@@ -146,6 +146,7 @@ customcolor Aangepaste kleur
 custom_edit Bewerk zelfgemaakte emoticon
 custom_new Maak een nieuwe emoticon
 customnick Aangepaste Schermnaam
+customstyle Aangepaste stijl
 cut Knippen
 date Datum
 days Dagen
@@ -233,6 +234,7 @@ groupadd Nieuwe groep maken
 groupdelete Een groep verwijderen
 groupexists Groep bestaat al
 group Groep
+groups Groepen
 groupmissing Kan de groep niet vinden
 groupnewname Nieuwe naam
 groupnotempty Deze groep is niet leeg!
@@ -451,6 +453,7 @@ receivefile Ontvang bestand
 recentmsg Voorkom sluiten van een gespreksvenster wanneer er net een bericht aankomt
 reconnecting Bezig met opnieuw verbinden met de server
 reconnect Wachten tot $1 opnieuw verbindt
+reconnect2 Opnieuw verbinden als de verbinding wegvalt
 reject Afwijzen
 rememberpass Wachtwoord onthouden
 removeempty Lege groepen verwijderen uit de contactpersonenlijst

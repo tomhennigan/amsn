@@ -146,6 +146,7 @@ customcolor Özel renk
 custom_edit Özel gülen adamý düzenle
 custom_new Yeni özel gülen adam ekle
 customnick Özel rumuz
+customstyle Özel stil
 cut Kes
 date Tarih
 days Gün
@@ -238,6 +239,7 @@ groupnewname Yeni isim
 groupnotempty Grup boþ deðil!
 groupoldname Grubun eski adý
 grouprename Grubu yeniden isimlendir
+groups Gruplar
 groupunknown Bilinmeyen grup
 handle Ýsim
 help Yardým

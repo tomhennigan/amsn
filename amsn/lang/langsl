@@ -146,6 +146,7 @@ customcolor Barva
 custom_edit Uredi svoje smeske
 custom_new Dodaj svojega smeska
 customnick Prikazni nick
+customstyle Uporabniski nacin pogovora
 cut Izrezi
 date Datum
 days Dni
@@ -229,6 +230,7 @@ globalnick Vnesi vzorec za tvorbo nickov vseh tvojih stikov. Lahko uporabljas te
 globalnicktitle Globalni nick
 globaloverride Prikazi globalni nick namesto prikaznega
 gonelunch Na kosilu
+group Skupina
 groupadd Dodaj v skupino
 groupdelete Izbrisi skupino
 groupexists Skupina ze obstaja
@@ -237,7 +239,7 @@ groupnewname Novo ime
 groupnotempty Skupina ni prazna!
 groupoldname Staro ime
 grouprename Preimenuj skupino
-group Skupina
+groups Skupine
 groupunknown Neznana skupina
 handle Ime
 helpcontents Vsebina pomoci
