@@ -1911,8 +1911,10 @@ namespace eval ::amsn {
 		
 		#Do not bind copy command on button 1 on Mac OS X 
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
-		} 
+			#Empty
+		} else {
+		bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
+		}
 		
 		#When someone type something in out.text, regive the focus to in.input and insert that key
 		#On Mac OS X (Aqua) only	
