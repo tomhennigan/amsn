@@ -46,7 +46,7 @@ namespace eval ::plugins {
 	if { [info exists pluginsevents(${event}) ] } { # do we have any procs for the event?
 	    foreach cmd $pluginsevents(${event}) { # let's call all of them
 		status_log "Plugins System: Executing $cmd\n"
-		catch { eval $cmd $event $var } res # call
+		catch { eval $cmd $event $var } res ; # call
 		status_log "Plugins System: Return $res from event handler $cmd\n"
 	    }
 	}
@@ -70,14 +70,14 @@ namespace eval ::plugins {
 	status_log "Plugins System: RegisterPlugin called with $plugin\n"
 	if { [lsearch $knownplugins "$plugin"] != -1} { # Already registered?
 	    status_log "Plugin System: Trying to register a plugin twice..\n"
-	    return 0 # Yup, no need to do it again.
+	    return 0 ; #Yup, no need to do it again.
 	}
 	
 	lappend knownplugins [lindex $plugin 0] # Actual registration
 	
 	
 	status_log "Plugins System: New plugin :\nName : [lindex $plugin 0]\n                            "
-	return 1 # First timer :D
+	return 1; # First timer :D
 	
     }
     
@@ -100,16 +100,16 @@ namespace eval ::plugins {
 	status_log "Plugin Systems: RegisterEvent called with $plugin $event $cmd\n"
 	if { [lsearch $knownplugins $plugin] == -1 } { # UnRegistered?
 	    status_log "Plugins System: Registering an event for an unknown plugin...\n"
-	    return # Bye Bye
+	    return; # Bye Bye
 	}
 	if {[array names pluginsevents -exact $event] == "$event"} { # Will error if I search with empty key
 	    if {[lsearch $pluginsevents(${event}) "\:\:$plugin\:\:$cmd"] != -1 } { # Event already registered?
 		status_log "Plugins System: Trying to register a event twice"
-		return # Bye Bye
+		return; # Bye Bye
 	    }
 	}
 	status_log "Plugins System: Binding $event to $cmd\n"
-	lappend pluginsevents(${event}) "\:\:$plugin\:\:$cmd" # Add the command to the list
+	lappend pluginsevents(${event}) "\:\:$plugin\:\:$cmd"; # Add the command to the list
     }
     
     proc UnRegisterEvent {plugin event cmd} {
