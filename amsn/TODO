@@ -37,15 +37,15 @@ Existing Feature Improvements (priority 2):
 
 Extra Features (priority 3):
 
-# Multiple user accounts combo box + separate user config files 
+# Multiple user accounts combo box + separate user config files
 # Menu accelerators
 # Gnome2 Docking + KDE Docking
 # Autoconnect (when connection detected)
 # Notebook like chat windows (as an option)
 # AutoAway Messages
-# Login as Appear Offline (if possible)
+# ** DONE ** Login as Appear Offline (if possible)
 # ** FIXED ** Send message to someone not on list
-# Make sound working on windows (perhaps using pages.infinit.net/cclient/files/sound1.0.html
+# ** FIXED **Make sound working on windows (perhaps using pages.infinit.net/cclient/files/sound1.0.html
 # New unified preferences dialog with tabs
 # Encrypt password? (do we really need to?)
 # Resume File Transfers
@@ -70,7 +70,7 @@ Alarm system improvements and bugs (priority 5):
 # Allow alarms to run a command
 # Run command
 # JPG Support
-# Windows sound support
+# ** DONE ** Windows sound support
 
 
 ######################################################################################
