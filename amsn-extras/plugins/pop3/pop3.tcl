@@ -305,16 +305,16 @@ namespace eval ::pop3 {
 		upvar 2 $evPar vars
 
 		label $vars(text).popmailpic -image [::skin::loadPixmap mailbox] -background white
-		$vars(text) window create end -window $vars(text).popmailpic -padx 5 -pady 0 -align center -stretch true
+		$vars(text) window create end -window $vars(text).popmailpic -padx 3 -pady 0 -align center -stretch true
 
 		if { $::pop3::emails == 0 } {
-			set mailmsg "POP3: [trans nonewmail]"
+			set mailmsg "[trans nonewmail] (POP3)"
 		} elseif {$::pop3::emails == 1} {
-			set mailmsg "POP3: [trans onenewmail]"
+			set mailmsg "[trans onenewmail] (POP3)"
 		} elseif {$::pop3::emails == 2} {
-			set mailmsg "POP3: [trans twonewmail 2]"
+			set mailmsg "[trans twonewmail 2] (POP3)"
 		} else {
-			set mailmsg "POP3: [trans newmail $::pop3::emails]"
+			set mailmsg "[trans newmail $::pop3::emails] (POP3)"
 		}
 
 		set maxw [expr [winfo width $vars(text)] -30]
