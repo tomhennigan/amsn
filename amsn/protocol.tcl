@@ -3513,15 +3513,10 @@ proc cmsn_auth {{recv ""}} {
 			save_config						;# CONFIG
 			load_contact_list
 
-			::MSN::WriteSB ns "SYN" "$list_version"
+			#We need to wait until the SYN reply comes, or we can send the CHG request before
+			#the server sends the list, and then it won't work (all contacts offline)
+			::MSN::WriteSB ns "SYN" "$list_version" initial_syn_handler
 
-			if {$config(startoffline)} {
-				::MSN::changeStatus "HDN"
-				send_dock "STATUS" "HDN"
-			} else {
-				::MSN::changeStatus "NLN"
-				send_dock "STATUS" "NLN"
-			}
 			#Alert dock of status change
 			#      send_dock "NLN"
 			send_dock "MAIL" 0
@@ -3556,6 +3551,18 @@ proc cmsn_auth {{recv ""}} {
 
 }
 
+proc initial_syn_handler {recv} {
+
+	if {[::config::getKey startoffline]} {
+		::MSN::changeStatus "HDN"
+		send_dock "STATUS" "HDN"
+	} else {
+		::MSN::changeStatus "NLN"
+		send_dock "STATUS" "NLN"
+	}
+
+	cmsn_ns_handler $recv
+}
 
 proc msnp9_userpass_error {} {
 
