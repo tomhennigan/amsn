@@ -112,9 +112,26 @@ namespace eval ::plugins {
 	lappend pluginsevents(${event}) "\:\:$plugin\:\:$cmd"; # Add the command to the list
     }
     
+    ################################################################
+    # UnRegisterEvent (plugin event cmd)
+    # 
+    # Unregisters a event from a plugin
+    #
+    # Arguments
+    # plugin - the plugin to unregister for
+    # event - the event to unregister from
+    # cmd - the command to unregister
+    #
+    # Return
+    # none
+    #
     proc UnRegisterEvent {plugin event cmd} {
+	# get the event list
 	variable pluginsevents
+	# do stuff only if there is a such a command for the event
+	#TODO: do we need to check if such a event exists?
 	if {[lsearch $pluginsevents(${event}) "\:\:$plugin\:\:$cmd"] != -1} {
+	    # the long erase way to remove a item from the list
 	    set pluginsevents(${event}) [lreplace $pluginsevents(${event}) [lsearch $pluginsevents(${event}) "\:\:$plugin\:\:$cmd"] [expr [lsearch $pluginsevents(${event}) "\:\:$plugin\:\:$cmd"] +1] ""]
 	    status_log "Plugins System: Event \:\:$plugin\:\:$cmd on $event unregistered ...\n"
 	} else {
@@ -122,215 +139,377 @@ namespace eval ::plugins {
 	}
     }
     
+    ######################################################################
+    # UnRegisterEvents (plugin)
+    #
+    # Unregistres all the events for a plugin. It is used when unloading a plugin
+    #
+    # Arguments
+    # plugin - the plugin to unregister for
+    #
+    # Return
+    # none
+    #
     proc UnRegisterEvents {plugin} {
+	# event list
 	variable pluginsevents
+	# go through each event
 	foreach {event} [array names pluginsevents] {
+	    # while there is a command in the list that belongs to the plugins namespace, give it's index to x and delete it
 	    while { [set x [lsearch -regexp $pluginsevents(${event}) "\:\:$plugin\:\:*" ]] != -1 } {
 		status_log "Plugins System: UnRegistering command $x from $pluginsevents(${event})...\n"
+		# the long remove item procedure
+		#TODO: move this into a proc?
 		set pluginsevents(${event}) [lreplace $pluginsevents(${event}) $x [expr $x +1] ""]
 	    }
 	}
      }
 
-     proc findplugins { } {
-	 global HOME HOME2
-	 set search_path [list] 
-	 lappend search_path [file join [set ::program_dir plugins]]
-	 lappend search_path [file join $HOME plugins]
-	 lappend search_path [file join $HOME2 plugins]
+    #################################################
+    # findplugins ()
+    #
+    # searches possible plugin directories and returns a list of plugins it found. Each plugin in the list is a list also, with the following indexes
+    # 0 - name
+    # 1 - directory
+    # 2 - description
+    #
+    # Arguments
+    # none
+    #
+    # Return
+    # a list of plugins
+    #
+    proc findplugins { } {
+	global HOME HOME2
+	# make a list of all the possible places to search
+	#TODO: Allow user to choose where to search
+	set search_path [list] 
+	lappend search_path [file join [set ::program_dir plugins]]
+	lappend search_path [file join $HOME plugins]
+	lappend search_path [file join $HOME2 plugins]
+	
+	# decrare the list to return
+	set ret [list]
+	# loop through each directory to search
+	foreach dir $search_path {
+	    # for each file names plugin.tcl that is in any directory, do stuff
+	    # -nocomplain is used to shut errors up if no plugins found
+	    foreach file [glob -nocomplain -directory $dir */plugin.tcl] {
+		status_log "Plugins System: Found plugin files in $file\n"
+		#set plugin $file
+		#calculate the dirname
+		set dirname [string map [list "$dir/" ""] [file dirname $file] ]
+		set desc ""
+		# if desc.txt exists, create description
+		if { [file readable [file join [file dirname $file] desc.txt] ] } {
+		    set fd [open [file join [file dirname $file] desc.txt]]
+		    set desc [string trim [read $fd]]
+		    status_log "Plugins System: plugin $dirname has description : $desc\n"
+		    close $fd
+		}
+		#lappend plugin $dirname
+		#lappend plugin $desc
+		#lappend ret $plugin
+		lappend ret [list $file $dirname $desc]
+	    }
+	}
+	
+	return $ret
+    }
 
-	 set ret [list]
-	 foreach dir $search_path {
+    ###############################################################
+    # PluginGui ()
+    #
+    # The Plugin Selector, allows users to load, unload, and configure plugins
+    #
+    # Arguments
+    # none
+    #
+    # Return
+    # none
+    #
+    proc PluginGui { } {
+	# array that will hold information of plugins
+	variable plugins
+	# the variable that holds the path to the selection window
+	variable w
+	# list of all the loaded plugins
+	variable loadedplugins
+	# array that holds info about currently selected plugin
+	variable selection
+	# clear the selection
+	set selection(id) ""
+	set selection(name) ""
+	set selection(file) ""
+	set selection(desc) ""
+	# set the window path
+	set w .plugin_selector
+	# if the window already exists, focus it, otherwise create it
+	if {[winfo exists $w]==1} {
+	    focus $w
+	} else {
+	    # create window and give it it's title
+	    toplevel $w
+	    wm title $w [trans pluginselector]
+	    # create widgets
+	    # frame that holds the selection dialog
+	    frame $w.select
+	    # listbox with all the plugins
+	    listbox $w.select.plugin_list -background "white" -height 15
+	    # frame that holds the plugins info like name and description
+	    frame $w.desc
+	    #TODO: translate "name"
+	    label $w.desc.name_title -text "Name" -font sboldf
+	    label $w.desc.name
+	    label $w.desc.desc_title -text [trans description] -font sboldf
+	    label $w.desc.desc -textvariable ::plugins::selection(desc) -width 40 -wraplength 250 -justify left -anchor w
+	    # frame that holds the 'command center' buttons
+	    frame $w.command
+	    #TODO: translate "load"
+	    button $w.command.load -text "Load" -command "::plugins::GUI_Load" -state disabled
+	    button $w.command.config -text "Configure" -command "::plugins::GUI_Config" ;#-state disabled
+	    button $w.command.close -text [trans close] -command "::plugins::GUI_Close"
+	    
+	    # add the plugins to the list
+	    # idx will be used as a counter
+	    set idx 0
+	    # loop through all the found plugins
+	    foreach plugin [findplugins] {
+		# extract the info
+		set file [lindex $plugin 0]
+		set name [lindex $plugin 1]
+		set desc [lindex $plugin 2]
+		
+		# add the info to our plugins array in the form counterid_infotype
+		# the counterid is the same as the id of the plugin in the listbox
+		set plugins(${idx}_file) $file
+		set plugins(${idx}_name) $name
+		set plugins(${idx}_desc) $desc
+		
+		# add the plugin name to the list at counterid position
+		$w.select.plugin_list insert $idx $name
+		# if the plugin is loaded, color it one color. otherwise use other colors
+		#TODO: Why not use skins?
+		if {[lsearch "$loadedplugins" $name] != -1} {
+		    $w.select.plugin_list itemconfigure $idx -background #DDF3FE
+		} else {
+		    $w.select.plugin_list itemconfigure $idx -background #FFFFFF
+		}
+		# increase the counter
+		incr idx
+	    }
+	    
+	    #do the bindings
+	    bind $w.select.plugin_list <<ListboxSelect>> "::plugins::GUI_NewSel"
+	    bind $w <<Escape>> "::plugins::GUI_Close"
+	    
+	    # display the widgets
+	    grid $w.select.plugin_list -row 1 -column 1 -sticky nsew
+	    grid $w.desc.name_title -row 1 -column 1 -sticky w -padx 10
+	    grid $w.desc.name -row 2 -column 1 -sticky w -padx 20
+	    grid $w.desc.desc_title -row 3 -column 1 -sticky w -padx 10
+	    grid $w.desc.desc -row 4 -column 1 -sticky w -padx 20
+	    grid $w.command.load -column 1 -row 1 -sticky e -padx 5 -pady 5
+	    grid $w.command.config -column 2 -row 1 -sticky e -padx 5 -pady 5
+	    grid $w.command.close -column 3 -row 1 -sticky e -padx 5 -pady 5
+	    #grid the frames
+	    grid $w.select -column 1 -row 1 -rowspan 2 -sticky nw
+	    grid $w.desc -column 2 -row 1 -sticky n
+	    grid $w.command -column 1 -row 2 -columnspan 2 -sticky se
+	}
+	# not really sure what this does...
+	moveinscreen $w 30
+	return
+    }
 
-	     foreach file [glob -nocomplain -directory $dir */plugin.tcl] {
-		 status_log "Plugins System: Found plugin files in $file\n"
-		 #set plugin $file
-		 set dirname [string map [list "$dir/" ""] [file dirname $file] ]
-		 set desc ""
-		 if { [file readable [file join [file dirname $file] desc.txt] ] } {
-		     set fd [open [file join [file dirname $file] desc.txt]]
-		     set desc [string trim [read $fd]]
-		     status_log "Plugins System: plugin $dirname has description : $desc\n"
-		     close $fd
-		 }
-		 #lappend plugin $dirname
-		 #lappend plugin $desc
-		 #lappend ret $plugin
-		 lappend ret [list $file $dirname $desc]
-	     }
+    ##########################################################
+    # GUI_NewSel ()
+    #
+    # This handles new selections in the listbox aka updates the selection array
+    #
+    # Arguments
+    # none
+    #
+    # Return
+    # none
+    #
+    proc GUI_NewSel {} {
+	# window path
+	variable w
+	# selection array
+	variable selection
+	# plugins' info
+	variable plugins
+	# the loaded plugins
+	variable loadedplugins
+
+	# find the id of the currently selected plugin
+	set selection(id) [$w.select.plugin_list curselection]
+	# if the selection is empty, end proc
+	if { $selection(id) == "" } {
+	    return
+	}
+	# get the info from plugins array using the current selection id
+	set selection(name) $plugins(${selection(id)}_name)
+	set selection(file) $plugins(${selection(id)}_file)
+	set selection(desc) $plugins(${selection(id)}_desc)
+
+	# update the description
+	$w.desc.name configure -text $selection(name)
+
+	# update the buttons
+	if {[lsearch "$loadedplugins" $selection(name)] != -1 } {
+	    # if the plugin is loaded, enable the Unload button
+	    $w.command.load configure -state normal -text "Unload" -command "::plugins::GUI_Unload"
+	    # if the plugin has a configlist, then enable configuration. Otherwise disable it
+	    if {[info exists ::${selection(name)}::configlist] == 1} {
+		$w.command.config configure -state normal
+	    } else {
+		$w.command.config configure -state disabled
+	    }
+	} else { # plugin is not loaded
+	    # enable the load button and disable config button
+	    $w.command.load configure -state normal -text "Load" -command "::plugins::GUI_Load"
+	    $w.command.config configure -state disabled
 	 }
+    }
 
-	 return $ret
-     }
-
-     proc PluginGui { } {
-	 variable plugins
-	 variable w
-	 variable loadedplugins
-	 variable selection
-	 set selection(id) ""
-	 set selection(name) ""
-	 set selection(file) ""
-	 set selection(desc) ""
-	 set w .plugin_selector
-	 if {[winfo exists $w]==1} {
-	     focus $w
-	 } else {
-	     toplevel $w
-	     wm title $w [trans pluginselector]
-	     #create widgets
-	     frame $w.select
-	     listbox $w.select.plugin_list -background "white" -height 15
-	     frame $w.desc
-	     label $w.desc.name_title -text "Name" -font sboldf
-	     label $w.desc.name
-	     label $w.desc.desc_title -text [trans description] -font sboldf
-	     label $w.desc.desc -textvariable ::plugins::selection(desc) -width 40 -wraplength 250 -justify left -anchor w
-	     frame $w.command
-	     button $w.command.load -text "Load" -command "::plugins::GUI_Load" -state disabled
-	     button $w.command.config -text "Configure" -command "::plugins::GUI_Config" ;#-state disabled
-	     button $w.command.close -text [trans close] -command "::plugins::GUI_Close"
-
-	     #add the plugins
-	     set idx 0
-	     foreach plugin [findplugins] {
-		 set file [lindex $plugin 0]
-		 set name [lindex $plugin 1]
-		 set desc [lindex $plugin 2]
-
-		 set plugins(${idx}_file) $file
-		 set plugins(${idx}_name) $name
-		 set plugins(${idx}_desc) $desc
-
-		 $w.select.plugin_list insert $idx $name
-		 if {[lsearch "$loadedplugins" $name] != -1} {
-		     $w.select.plugin_list itemconfigure $idx -background #DDF3FE
-		 } else {
-		     $w.select.plugin_list itemconfigure $idx -background #FFFFFF
-		 }
-		 incr idx
-	     }
-
-	     #do the bindings
-	     bind $w.select.plugin_list <<ListboxSelect>> "::plugins::GUI_NewSel"
-	     bind $w <<Escape>> "::plugins::GUI_Close"
-
-	     #display the widgets
-	     grid $w.select.plugin_list -row 1 -column 1 -sticky nsew
-	     grid $w.desc.name_title -row 1 -column 1 -sticky w -padx 10
-	     grid $w.desc.name -row 2 -column 1 -sticky w -padx 20
-	     grid $w.desc.desc_title -row 3 -column 1 -sticky w -padx 10
-	     grid $w.desc.desc -row 4 -column 1 -sticky w -padx 20
-	     grid $w.command.load -column 1 -row 1 -sticky e -padx 5 -pady 5
-	     grid $w.command.config -column 2 -row 1 -sticky e -padx 5 -pady 5
-	     grid $w.command.close -column 3 -row 1 -sticky e -padx 5 -pady 5
-	     #grid the frames
-	     grid $w.select -column 1 -row 1 -rowspan 2 -sticky nw
-	     grid $w.desc -column 2 -row 1 -sticky n
-	     grid $w.command -column 1 -row 2 -columnspan 2 -sticky se
-	 }
-	 moveinscreen $w 30
-	 return
-     }
-
-     proc GUI_NewSel {} {
-	 variable w
-	 variable selection
-	 variable plugins
-	 variable loadedplugins
-
-	 set selection(id) [$w.select.plugin_list curselection]
-	 if { $selection(id) == "" } {
-	     return
-	 }
-	 set selection(name) $plugins(${selection(id)}_name)
-	 $w.desc.name configure -text $selection(name)
-	 set selection(file) $plugins(${selection(id)}_file)
-	 set selection(desc) $plugins(${selection(id)}_desc)
-
-	 if {[lsearch "$loadedplugins" $selection(name)] != -1 } {
-	     $w.command.load configure -state normal -text "Unload" -command "::plugins::GUI_Unload"
-	     if {[info exists ::${selection(name)}::configlist] == 1} {
-		 $w.command.config configure -state normal
-	     } else {
-		 $w.command.config configure -state disabled
-	     }
-	 } else {
-	     $w.command.load configure -state normal -text "Load" -command "::plugins::GUI_Load"
-	     $w.command.config configure -state disabled
-	 }
-     }
-
-     proc GUI_Load {} {
-	 variable selection
-	 variable w
-	 if { $selection(file) != "" } {
-	     LoadPlugin $selection(name) $selection(file)
-	     $w.select.plugin_list itemconfigure $selection(id) -background #DDF3FE
-	     GUI_NewSel
-	 }
-	 ::plugins::save_config
-     }
-
-     proc GUI_Unload {} {
-	 variable selection
-	 variable w
-	 $w.select.plugin_list itemconfigure $selection(id) -background #FFFFFF
-	 UnLoadPlugin $selection(name)
-	 GUI_NewSel
-	 ::plugins::save_config
-     }
-     proc GUI_Config {} {
-	 variable selection
-	 variable w
-	 variable cur_config
-	 set name $selection(name)
-	 if {$name != ""} {
-	     status_log "Plugins System: Calling ConfigPlugin in the $name namespace\n"
-	     if {[info exists ::${name}::configlist] == 0} {
-		 status_log "Plugins System: No Configuration variable for $name.\n"
-		 set x [toplevel $w.error]
-		 label $x.title -text "Error in Plugin!"
-		 label $x.label -text "No Configuration variable for $name.\n"
-		 button $x.ok -text [trans ok] -command "destroy $x"
-		 grid $x.title -column 1 -row 1
-		 grid $x.label -column 1 -row 2
-		 grid $x.ok -column 1 -row 3
-	     } else {
-		 array set cur_config [array get ::${name}::config]
-		 set winconf [toplevel $w.winconf]
-		 set confwin [frame $winconf.area]
-		 set i 0
-		 set row 0
-		 foreach confitem [set ::${name}::configlist] {
-		     incr i
-		     incr row
-		     #status_log "confitem: $confitem\n"	red
-		     if {[lindex $confitem 0] == "label"} {
-			 label $confwin.$i -text [lindex $confitem 1]
-			 grid $confwin.$i -column 1 -row $row -sticky w -padx 10
-		     } elseif {[lindex $confitem 0] == "bool"} {
-			 checkbutton $confwin.$i -text [lindex $confitem 1] -variable ::${name}::config([lindex $confitem 2])
-			 grid $confwin.$i -column 1 -row $row -sticky w -padx 20
-		     } elseif {[lindex $confitem 0] == "ext"} {
-			 button $confwin.$i -text [lindex $confitem 1] -command ::${name}::[lindex $confitem 2]
-			 grid $confwin.$i -column 1 -row $row -sticky w -padx 20 -pady 5
-		     } elseif {[lindex $confitem 0] == "str"} {
-			 entry $confwin.${i}e -textvariable ::${name}::config([lindex $confitem 2])
-			 label $confwin.${i}l -text [lindex $confitem 1]
-			 grid $confwin.${i}l -column 1 -row $row -sticky w -padx 20
-			 grid $confwin.${i}e -column 2 -row $row	-sticky w	    }
-		 }
-	     }
-	     grid $confwin -column 1 -row 1
-	     button $winconf.save -text [trans save] -command "::plugins::GUI_SaveConfig $winconf"
-	     button $winconf.cancel -text [trans cancel] -command "::plugins::GUI_CancelConfig $winconf $name"
-	     grid $winconf.save -column 1 -row 2 -sticky e -pady 5 -padx 5
-	     grid $winconf.cancel -column 2 -row 2 -sticky e -pady 5 -padx 5
-	     moveinscreen $winconf 30
-	 }
-     }
-     proc GUI_SaveConfig {w} {
+    ###############################################################
+    # GUI_Load ()
+    # 
+    # This proc is called when the Load button is clicked. It loads a plugin
+    #
+    # Arguments
+    # none
+    #
+    # Return
+    # none
+    #
+    proc GUI_Load {} {
+	# selected info, it will load this plugin
+	variable selection
+	# window path
+	variable w
+	# don't do anything is there is no selection
+	if { $selection(file) != "" } {
+	    # do the actual loading
+	    LoadPlugin $selection(name) $selection(file)
+	    # change the color in the listbox
+	    $w.select.plugin_list itemconfigure $selection(id) -background #DDF3FE
+	    # and upate other info
+	    GUI_NewSel
+	}
+	# save the configuraion?
+	#TODO: check if this is really needed
+	::plugins::save_config
+    }
+    
+    #################################################################
+    # GUI_Unload ()
+    #
+    # Unload the currently selected plugin. Called by the Unload button
+    #
+    # Arguments
+    # none
+    #
+    # Return
+    # none
+    #
+    proc GUI_Unload {} {
+	# the selection, will unload the plugin
+	variable selection
+	# window path
+	variable w
+	# change the color
+	$w.select.plugin_list itemconfigure $selection(id) -background #FFFFFF
+	# do the actual unloading
+	UnLoadPlugin $selection(name)
+	# update info in selection
+	GUI_NewSel
+	# save config
+	#TODO: check if needed
+	::plugins::save_config
+    }
+    
+    ###################################################################
+    # GUI_Config ()
+    #
+    # The Configure button is cliecked. Genereates the configure dialog
+    #
+    # Aruments
+    # none
+    #
+    # Return
+    # none
+    #
+    proc GUI_Config {} {
+	# selection, will configure it
+	variable selection
+	# window path
+	variable w
+	# current config, see it's declaration for more info
+	variable cur_config
+	# get the name
+	set name $selection(name)
+	# continue if something is selected
+	if {$name != ""} {
+	    status_log "Plugins System: Calling ConfigPlugin in the $name namespace\n"
+	    # is there a config list?
+	    if {[info exists ::${name}::configlist] == 0} {
+		# no config list, do a error.
+		#TODO: instead a error, just put a label "Nothing to configure" in the configure dialog
+		status_log "Plugins System: No Configuration variable for $name.\n"
+		set x [toplevel $w.error]
+		label $x.title -text "Error in Plugin!"
+		label $x.label -text "No Configuration variable for $name.\n"
+		button $x.ok -text [trans ok] -command "destroy $x"
+		grid $x.title -column 1 -row 1
+		grid $x.label -column 1 -row 2
+		grid $x.ok -column 1 -row 3
+	    } else { # configlist exists
+		# backup the current config
+		array set cur_config [array get ::${name}::config]
+		# create the window
+		set winconf [toplevel $w.winconf]
+		set confwin [frame $winconf.area]
+		# id used for the item name in the widget
+		set i 0
+		# row to be used
+		set row 0
+		# loop through all the items
+		foreach confitem [set ::${name}::configlist] {
+		    # incr both
+		    incr i
+		    incr row
+		    #status_log "confitem: $confitem\n"	red
+		    # check type and create it
+		    if {[lindex $confitem 0] == "label"} { # label
+			label $confwin.$i -text [lindex $confitem 1]
+			grid $confwin.$i -column 1 -row $row -sticky w -padx 10
+		    } elseif {[lindex $confitem 0] == "bool"} { # checkbox
+			checkbutton $confwin.$i -text [lindex $confitem 1] -variable ::${name}::config([lindex $confitem 2])
+			grid $confwin.$i -column 1 -row $row -sticky w -padx 20
+		    } elseif {[lindex $confitem 0] == "ext"} { # button
+			button $confwin.$i -text [lindex $confitem 1] -command ::${name}::[lindex $confitem 2]
+			grid $confwin.$i -column 1 -row $row -sticky w -padx 20 -pady 5
+		    } elseif {[lindex $confitem 0] == "str"} { # label
+			entry $confwin.${i}e -textvariable ::${name}::config([lindex $confitem 2])
+			label $confwin.${i}l -text [lindex $confitem 1]
+			grid $confwin.${i}l -column 1 -row $row -sticky w -padx 20
+			grid $confwin.${i}e -column 2 -row $row	-sticky w	    }
+		}
+	    }
+	    # grid the frame
+	    grid $confwin -column 1 -row 1
+	    # create and grid the buttons
+	    button $winconf.save -text [trans save] -command "::plugins::GUI_SaveConfig $winconf"
+	    button $winconf.cancel -text [trans cancel] -command "::plugins::GUI_CancelConfig $winconf $name"
+	    grid $winconf.save -column 1 -row 2 -sticky e -pady 5 -padx 5
+	    grid $winconf.cancel -column 2 -row 2 -sticky e -pady 5 -padx 5
+	    moveinscreen $winconf 30
+	}
+    }
+    proc GUI_SaveConfig {w} {
 	 ::plugins::save_config
 	 destroy $w;
      }
@@ -433,7 +612,7 @@ namespace eval ::plugins {
 	    }
 	    if {[array exists ::${plugin}::config]==1} {
 		status_log "Plugins System: save_config: Saving from $plugin's namespace\n" black
-		# TODO: Find a better way to copy arrays
+		#TODO: Find a better way to copy arrays
 		array set aval [array get ::${plugin}::config];
 	    } else {
 		status_log "Plugins System: save_config: Saving from $plugin's global place\n" black
