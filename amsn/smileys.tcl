@@ -728,7 +728,7 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 #///////////////////////////////////////////////////////////////////////////////
 # proc create_smile_menu { {x 0} {y 0} }
 #
-# Create the smile menu... it first calls [calcul_geometry_smileys] 
+# Create the smile menu... it first calls [calcul_geometry_smileys]
 # To get the width and height of the menu, then it creates the menu withdrawn with 
 # the animated smileys and static smielys in the correct order
 
@@ -739,11 +739,19 @@ proc create_smile_menu { {x 0} {y 0} } {
     set w .smile_selector
     if {[catch {[toplevel $w]} res]} {
 	destroy $w
-	toplevel $w     
+	toplevel $w
     }
     set xy_geo [calcul_geometry_smileys]
-    set x_geo [expr 23*[lindex $xy_geo 0]+12]
-    set y_geo [expr 23*[lindex $xy_geo 1]+12]
+
+	 #Smiley width and eight. Maybe we should load it from the skin settings
+	 set smiw 19
+	 set smih 19
+
+	 incr smiw 4
+	 incr smih 4
+
+    set x_geo [expr $smiw*[lindex $xy_geo 0]+12]
+    set y_geo [expr $smiw*[lindex $xy_geo 1]+12]
     set x [expr $x - 15]
     set y [expr $y + 15 - $y_geo]
     
@@ -754,7 +762,7 @@ proc create_smile_menu { {x 0} {y 0} } {
     wm state $w normal
     
     
-    text $w.text -background white -borderwidth 2 -relief ridge \
+    text $w.text -background white -borderwidth 2 -relief flat \
 	-selectbackground white -selectborderwidth 0 -exportselection 0
     
     pack $w.text
@@ -821,7 +829,7 @@ proc create_smile_menu { {x 0} {y 0} } {
 
 
 #///////////////////////////////////////////////////////////////////////////////
-# proc calcul_geometry_smileys {  } 
+# proc calcul_geometry_smileys {  }
 #
 # This function is used to calculate the optimal width and height for the
 # smileys menu. it calculs 5 different possibilities for width/height then searchs 

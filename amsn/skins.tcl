@@ -97,7 +97,7 @@ proc SelectSkinGui { } {
 		return
 	}
 	toplevel $w
-	wm geometry $w 450x250
+#	wm geometry $w 450x250
 	wm resizable $w 0 0
 	wm title $w "[trans chooseskin]"
 
@@ -108,13 +108,13 @@ proc SelectSkinGui { } {
 	frame $w.main.left -relief flat
 	frame $w.main.right -relief flat
 	frame $w.main.left.images -relief flat
-	text $w.main.left.desc -height 5 -width 40 -relief flat -background $bgcolor2 -font sboldf -wrap word
+	text $w.main.left.desc -height 6 -width 40 -relief flat -background $bgcolor2 -font sboldf -wrap word
 	listbox $w.main.right.box -yscrollcommand "$w.main.right.ys set" -font splainf -background \
-	white -relief flat -highlightthickness 0  -height 5 -width 30
+	white -relief flat -highlightthickness 0  -height 8 -width 30
 	scrollbar $w.main.right.ys -command "$w.main.right.box yview" -highlightthickness 0 \
 	-borderwidth 1 -elementborderwidth 2
     
-	pack $w.main.left.images -in $w.main.left -side top -expand 1 -fill both
+	pack $w.main.left.images -in $w.main.left -side top -expand 0 -fill both
 	pack $w.main.left.desc -in $w.main.left -side bottom -expand 1 -fill both
 	pack $w.main.left -in $w.main -side left -expand 1 -fill both
 	pack $w.main.right.ys -side right -fill both
@@ -125,13 +125,19 @@ proc SelectSkinGui { } {
 	label $w.status -text ""
 	pack $w.status -side bottom
 
+	image create photo blank -width 1 -height 75
+	label $w.main.left.images.blank -image blank
+
+	image create photo blank2 -width 400 -height 1
+	label $w.main.left.images.blank2 -image blank2
+
 	set select -1
 	set idx 0
 
 	button $w.ok -text "[trans ok]" -command "selectskinok $w" -font sboldf
 	button $w.cancel -text "[trans cancel]" -command "destroy $w" -font sboldf
 
-	pack $w.ok $w.cancel -side right
+	pack $w.cancel $w.ok -side right
 
 	foreach skin [findskins] {
 		if { [lindex $skin 0] == $config(skin) } { set select $idx } 
@@ -195,6 +201,12 @@ proc applychanges { } {
 	grid $w.main.left.images.3 -in $w.main.left.images -row 1 -column 3
 	grid $w.main.left.images.4 -in $w.main.left.images -row 1 -column 4
 	grid $w.main.left.images.5 -in $w.main.left.images -row 1 -column 5
+
+	grid $w.main.left.images.blank -in $w.main.left.images -row 1 -column 10
+
+	grid $w.main.left.images.blank2 -in $w.main.left.images -row 2 -column 1 -columnspan 5
+
+
 	$w.main.left.desc configure -state normal
 	$w.main.left.desc delete 0.0 end
 	$w.main.left.desc insert end "[trans description]\n\n$currentdesc"
@@ -204,9 +216,13 @@ proc applychanges { } {
 
 proc clear_exampleimg { } {
 	if {[winfo exists .skin_selector.main.left.images]} {
-		destroy .skin_selector.main.left.images
-		frame .skin_selector.main.left.images -relief flat
-		pack .skin_selector.main.left.images -in .skin_selector.main.left -side top -expand 1 -fill both
+		destroy .skin_selector.main.left.images.1
+		destroy .skin_selector.main.left.images.2
+		destroy .skin_selector.main.left.images.3
+		destroy .skin_selector.main.left.images.4
+		destroy .skin_selector.main.left.images.5
+		#frame .skin_selector.main.left.images -relief flat
+		#pack .skin_selector.main.left.images -in .skin_selector.main.left -side top -expand 1 -fill both
 	}
 }
 
@@ -220,7 +236,7 @@ proc selectskinok { w } {
 	$w.status configure -text ""
 
 	set skinidx [$w.main.right.box curselection]
-	
+
 	set skin [lindex [lindex [findskins] $skinidx] 0]
 	status_log "Chose skin No $skinidx : $skin\n"
 	set config(skin) $skin
