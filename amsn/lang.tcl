@@ -107,11 +107,19 @@ global lang
  for {set i 1} {$i <= [llength $args]} {incr i} {
     set $i [lindex $args [expr $i-1]]
  }
-if { [string length $lang($msg)] > 0 } {
-	return [subst -nobackslashes -nocommands $lang($msg)]
- } else {
-   return $msg
- }
+ 
+if {[ catch {
+          if { [string length $lang($msg)] > 0 } {
+            return [subst -nobackslashes -nocommands $lang($msg)]
+          } else {
+            return $msg
+          }
+       }  res] == 1} {
+    return $msg
+  } else {
+    return $res
+  }
+
 }
 
 
