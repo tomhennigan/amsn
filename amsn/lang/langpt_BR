@@ -37,6 +37,7 @@ appearance Aparência
 appearoff Aparecer off-line
 areacode DDD
 aretyping $1 está digitando uma mensagem
+author Autor
 autoaccepted Transferência de arquivos aceita automaticamente
 autoacceptft Aceitar automaticamente pedidos de transferência de arquivos
 autoaway Me apresente como "Ausente" quando inativo por
@@ -70,8 +71,8 @@ blockusers Número de usuários para marcar de uma vez
 bouncedock Alterar o ícone do aMSN quando receber uma mensagem
 broughtby  Desenvolvido, para você, pelos seguintes programadores
 browse Pesquisar
-browser Navegador Web
 browserexample (\$url será modificada com a URL). Ex: mozilla \$url
+browser Navegador Web
 busy Ocupado
 cachedpics $1 figuras em cache
 cancel Cancelar
@@ -116,20 +117,22 @@ clearlog Limpar log
 clicktologin Clique aqui para entrar
 clientcaps Enviar pacote x-clientcaps para outros clientes
 clientname Nome do cliente
-close Fechar
 closed Conversa com $1 fechada por inatividade
+close Fechar
 closingdocks Botão fechar minimiza janela
 command Comando
 commandstatus Executar comando
-confirm Você tem certeza?
+configure Configure
+confirmbl Tem certeza de que quer bloquear esse contato? 
 confirmdelete Você tem certeza que quer apagar $1?
 confirmdg Você tem certeza que deseja deletar este grupo?
 confirmdu Você tem certeza que deseja deletar este usuário?
 confirmeg Você tem certeza que deseja esvaziar este grupo?
 confirmpurge Todas as figuras de tela armazenadas de outros contatos (não as suas figuras) serão apagadas. Tem Certeza?
 confirmrfl Você tem certeza que deseja deletar este usuário deste grupo?
-connectedwith Conectado a $1
+confirm Você tem certeza?
 connected Você está conectado
+connectedwith Conectado a $1
 connecterror Erro ao conectar-se ao servidor!
 connecting Conectando
 connection Conexão
@@ -165,8 +168,8 @@ dcprofile Não criar Perfil
 default Configuração Padrão
 defaultloginradio Entrar com a configuração normal
 defchatwinsize Tamanho padrão para as janelas de conversa (XSIZExYSIZE)
-deletecustomstate Excluir estado personalizado
 delete Apagar
+deletecustomstate Excluir estado personalizado
 delimiters Delimitadores de "timestamps":
 deliverfail Houve um problema ao enviar esta mensagem
 delprofile2 Selecione o Perfil que você gostaria de remover
@@ -204,7 +207,6 @@ email E-mail
 emailsinlist Exibir o e-mail ao invés do apelido na lista de contato
 emotisounds Reproduzir sons com certos emoticons
 emptygroup Esvaziar grupo
-enablebanner Mostrar banner aMSN (É preciso reiniciar o aMSN)
 enabled Habilitado
 enableproxy Habilitar proxy
 enableremote Ativar controle remoto
@@ -223,13 +225,14 @@ faileddelete Falha na exclusão
 faileddeleteperso Esta imagem não pôde ser excluída porque ela não é um arquivo de imagem pessoal. Apenas imagens que pertençam ao seu perfil pessoal podem ser removidas.
 failed Falha
 faq FAQ (Perguntas freqüentemente feitas)
-filedoesnotexist Arquivo não existe
 file Arquivo
+filedoesnotexist Arquivo não existe
 filemanexample ( \$local será substituído pelo diretório ) Ex: nautilus \$location
 fileman Gerenciador de Arquivos
 filename Nome do Arquivo
 filetransfercancelled Transferência de arquivo cancelada
 filetransfercomplete Transferência de arquivo completa
+filetransfer Transferência de arquivo.
 followtext Deslocar para baixo quando novo texto é inserido
 friendlyname Nome Amigável
 ftacceptedby $1 aceitou pedido de transferência do arquivo '$2'.
@@ -261,8 +264,8 @@ grouprename Renomear um grupo
 groups Grupos
 groupunknown Grupo desconhecido
 handle Manipular
-helpcontents Conteúdo da Ajuda
 help Ajuda
+helpcontents Conteúdo da Ajuda
 hidedisplaypic Esconder Imagem de Exibição
 hiden Esconde os emoticons do menu de smileys
 hidewindow Esconder a Janela
@@ -281,8 +284,8 @@ internalerror Erro Interno do Servidor
 invalidfile2 O Arquivo $1 não pôde ser salvo. Certifique-se que você tem as permissões corretas para o diretório de destino.
 invalidfile Arquivo $2 no campo "$1" não existe ou não pode ser lido
 invalidgroup Grupo inválido
-invalidpicsize A imagem selecionada é muito grande. Favor escolher uma menor.
 invalidpic O arquivo de imagem selecionado não existe.
+invalidpicsize A imagem selecionada é muito grande. Favor escolher uma menor.
 invalidsound O arquivo de som selecionado não existe.
 invalidusername Nome de usuário inválido
 invitationcancelled O convite foi cancelado
@@ -316,6 +319,7 @@ listsmileys2 Permitir Emoticons e Smileys na janela principal do aMSN
 listsmileys Listar emoticons
 ljoinedconf $1 entrou na conferência
 lleftconf $1 deixou a conferência
+load Carregar
 loadcontacts Carregar lista de contatos
 logbigger Tamanho dos arquivos para cada contato nunca deve exceder
 logeventconnect Registrar conexões
@@ -340,6 +344,7 @@ lprivtoconf Conversa particular convertida em conferência com $1
 luclosedwin Você fechou a janela em $1
 mailer Cliente de e-mail
 mailerexample ( \$recipient = Receptor ) Deixe em branco ao usar o hotmail
+maintenance O servidor sairá do ar para manutenção em $1 minutos.
 maximised Maximizado
 minimised Minimizado
 mins minutos
@@ -362,11 +367,13 @@ mynick Meu apelido
 mypic Minha foto:
 mystatus Meu estado
 myworkphone Meu telefone comercial
+name Nome
 natip Detectar IP pela web
 natkeepalive Estou sendo desconectado com freqüência (manter conexão ativa)
 needonline Você ainda está/aparece desconectado
 needwinico Necessário o arquivo winico03.dll no diretório de plugins Para o traydocking do windows funcionar
 never Nunca
+new_ft_protocol Novo protoclo de transferência de arquivos (ainda possui alguns bugs)
 newmail $1 nova(s) mensagem(ns) na Caixa de Entrada
 newmailfolder Você tem $1 nova(s) mensage(ns) em outras pastas do Hotmail
 newmailfrom Novo e-mail de $1 ($2)
@@ -405,6 +412,7 @@ notifywin Janela de avisos
 notinlist Você não está na lista de contatos dele(a)
 notls O protocolo MSN 9 requer o pacote tls. Aparentemente ele não está instalado em sua máquina. Se estiver, o caminho para a biblioteca deve ser especificado na janela Preferences (ex: /opt/tls/lib). É possível descarregar o tls de http://tls.sf.net.
 nousersinsession Nenhum usuário na sessão
+nudge $1 pede sua atenção!
 offline Desconectado
 ok Ok
 onenewmail 1 nova mensagem na Caixa de Entrada
@@ -489,6 +497,7 @@ rememberpass Lembrar senha
 removeempty Remover grupos vazios da lista de contatos
 removefromlist Remover desta lista
 rename Renomear
+required_version Impossível carregar plugin. Necessário aMSN versão $1 ou superior.
 reversed Inverso
 reverselist Lista de reversos (RL):
 rightback Volto logo
@@ -547,16 +556,16 @@ stateautomsg Automensagem para Enviar
 statechange Estado mudado para:
 stateedittext Por favor edite os campos que gostaria \n de modificar e clique em Salvar
 stateinfo Configuração do Estado Pessoal
-state Quero aparecer como
 statename Nome do estado atual
 statenewtext Por favor preencha as informações necessárias para criar \n o seu novo Estado Pessoal e tecle Salvar
 statenick Apelido personalizado (deixar em branco para não alterar)
+state Quero aparecer como
 status Estado
 stopalarm Desligar avisos
 storenickname Retornar ao apelido original depois de um estado personalizado com um apelido personalizado
 strictfonts Restringir todos os tamanhos de fontes à uma que eu escolher (Barra de Status e outros)
-style Estilo
 stylechat Mesma aparência que as janelas de bate-papo
+style Estilo
 stylehist Aparência do Histórico do aMSN
 stylelog Selecione o formato no qual você gostaria de visualizar seu Histórico
 syntaxerror  Erro de sintaxe
@@ -584,6 +593,8 @@ truncatenames2 O apelido truncado é maior que a largura da janela dentro da conv
 truncatenicks O apelido truncado é maior que a largura da janela
 twonewmail $1 nova(s) mensagem(ns) na Caixa de Entrada
 unblock Desbloquear
+unknown Desconhecido
+unload Descarregar
 uoffline Desconectado
 uonline Conectado
 useother Usar um programa diferente
@@ -602,6 +613,7 @@ viewprofile Ver Perfil
 view Visualizar
 webcaminvite $1 convidou você à iniciar uma sessão com webcam, mas o aMSN não suporta esta característica 
 willjoin Aguardando $1 entrar na conversa
+winkreceived $1 piscou pra você. (Piscadelas ainda não são completamente suportadas pelo aMSN)
 work Ocupado
 wrongfields O "$1", "$2" e/ou "$3" campos não estão validos
 wrongprofileversion Versão errada do arquivo de configuração do perfil. Para consertar, por favor remova-o do diretório $1, ou atualize o amsn

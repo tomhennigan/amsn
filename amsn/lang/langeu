@@ -627,5 +627,6 @@ author Egilea
 filetransfer Fitxategien transferentzia
 name Izena
 required_version Plugin hau ezin da kargatu. Gutxienez $1 bertsioa behar du
+unknown Ezezaguna
 unload Deskargatu
 winkreceived $1-tik Wink bat jaso duzu. Ezaugarri hau aMSN-n ez dago momentuz.
