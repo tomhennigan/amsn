@@ -4804,6 +4804,61 @@ proc cmsn_draw_offline {} {
 #///////////////////////////////////////////////////////////////////////
 
 
+#///////////////////////////////////////////////////////////////////////
+proc cmsn_draw_reconnect { error_msg } {
+	bind . <Configure> ""
+
+	global pgBuddy
+
+	$pgBuddy.text configure -state normal -font splainf
+	$pgBuddy.text delete 0.0 end
+	$pgBuddy.text tag conf signin -fore #000000 \
+		-font sboldf -justify center
+	$pgBuddy.text tag conf errormsg -fore #000000 \
+		-font splainf -justify center -wrap word
+	
+	
+	$pgBuddy.text insert end "\n\n\n\n\n"
+
+	$pgBuddy.text tag conf cancel_reconnect -fore #000000 -underline true \
+		-font splainf -justify center
+	$pgBuddy.text tag bind cancel_reconnect <Enter> \
+		"$pgBuddy.text tag conf cancel_reconnect -fore #0000A0 -underline false;\
+		$pgBuddy.text conf -cursor hand2"
+	$pgBuddy.text tag bind cancel_reconnect <Leave> \
+		"$pgBuddy.text tag conf cancel_reconnect -fore #000000 -underline true;\
+		$pgBuddy.text conf -cursor left_ptr"
+	$pgBuddy.text tag bind cancel_reconnect <Button1-ButtonRelease> \
+		"::MSN::cancelReconnect"
+		
+	catch {
+
+		label .loginanim -background [$pgBuddy.text cget -background]
+		::anigif::anigif [GetSkinFile pixmaps loganim.gif] .loginanim
+
+		$pgBuddy.text insert end " " signin
+		$pgBuddy.text window create end -window .loginanim
+		$pgBuddy.text insert end " " signin
+
+		bind .loginanim <Destroy> "::anigif::destroy .loginanim"
+		tkwait visibility .loginanim
+
+	}
+
+	$pgBuddy.text insert end "\n\n"
+	$pgBuddy.text insert end "$error_msg" errormsg
+	$pgBuddy.text insert end "\n\n"
+	$pgBuddy.text insert end "\n\n"
+	$pgBuddy.text insert end "[trans reconnecting]..." signin
+	$pgBuddy.text insert end "\n\n\n"
+	$pgBuddy.text insert end "[trans cancel]" cancel_reconnect
+	$pgBuddy.text configure -state disabled
+
+
+}
+#///////////////////////////////////////////////////////////////////////
+
+
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_signin {} {

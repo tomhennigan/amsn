@@ -813,8 +813,26 @@ namespace eval ::MSN {
 		}
 		
 	}
+	
+	proc reconnect { error_msg } {
+	
+		cmsn_draw_reconnect $error_msg
+		after 5000 ::MSN::connect
+		
+	}
 
+	proc cancelReconnect { } {
+	
+		after cancel ::MSN::connect
+		::MSN::logout
+		
+	}
+	
+	
 	proc connect { {passwd ""}} {
+	
+		#Cancel any pending reconnect
+		after cancel ::MSN::connect
 
 		
 		if { [sb get ns stat] != "d" } {
@@ -1241,14 +1259,18 @@ namespace eval ::MSN {
 			#we have a connection error.
 			if { ("$oldstat"!="d") && ("$oldstat" !="o") && ("$oldstat" !="u") && ("$oldstat" !="closed")} {
 				
+				set error_msg [sb get ns error_msg]
 				#Reconnect if necessary
 				if { [::config::getKey reconnect] == 1 } {
 					set ::oldstatus $mystatus
-					::MSN::connect
+					if { $error_msg != "" } {
+						::MSN::reconnect "[trans connecterror]: [sb get ns error_msg]"
+					} else {
+						::MSN::reconnect "[trans connecterror]"
+					}
 					return
 				}
 				
-				set error_msg [sb get ns error_msg]
 				if { $error_msg != "" } {
 					msg_box "[trans connecterror]: [sb get ns error_msg]"
 				} else {
@@ -1259,14 +1281,18 @@ namespace eval ::MSN {
 			#If we were connected, we have lost the connection
 			if { ("$oldstat"=="o") } {
 				
+				set error_msg [sb get ns error_msg]
 				#Reconnect if necessary
 				if { [::config::getKey reconnect] == 1 } {
 					set ::oldstatus $mystatus
-					::MSN::connect
+					if { $error_msg != "" } {
+						::MSN::reconnect "[trans connectionlost]: [sb get ns error_msg]"
+					} else {
+						::MSN::reconnect "[trans connectionlost]"
+					}
 					return
 				}
 				
-				set error_msg [sb get ns error_msg]
 				if { $error_msg != "" } {
 					msg_box "[trans connectionlost]: [sb get ns error_msg]"
 				} else {
@@ -3782,9 +3808,8 @@ proc cmsn_ns_handler {item} {
 					if { [::config::getKey reconnect] == 1 } {
 						set ::oldstatus [::MSN::myStatusIs]
 						::MSN::logout
-						::MSN::connect
-					}
-					if { [::config::getKey reconnect] == 0 } {
+						::MSN::reconnect "[trans servergoingdown]"
+					} else {
 						::MSN::logout
 						msg_box "[trans servergoingdown]"
 					}
@@ -3842,9 +3867,8 @@ proc cmsn_ns_handler {item} {
 				if { [::config::getKey reconnect] == 1 } {
 					set ::oldstatus [::MSN::myStatusIs]
 					::MSN::logout
-					::MSN::connect
-				}
-				if { [::config::getKey reconnect] == 0 } {
+					::MSN::reconnect "[trans serverbusy]"
+				} else {
 					::MSN::logout
 					::amsn::errorMsg "[trans serverbusy]"
 				}
@@ -3855,9 +3879,8 @@ proc cmsn_ns_handler {item} {
 				if { [::config::getKey reconnect] == 1 } {
 					set ::oldstatus [::MSN::myStatusIs]
 					::MSN::logout
-					::MSN::connect
-				}
-				if { [::config::getKey reconnect] == 0 } {
+					::MSN::reconnect "[trans serverunavailable]"
+				} else {
 					::MSN::logout
 					::amsn::errorMsg "[trans serverunavailable]"
 				}
@@ -3868,9 +3891,8 @@ proc cmsn_ns_handler {item} {
 				if { [::config::getKey reconnect] == 1 } {
 					set ::oldstatus [::MSN::myStatusIs]
 					::MSN::logout
-					::MSN::connect
-				}
-				if { [::config::getKey reconnect] == 0 } {
+					::MSN::reconnect "[trans internalerror]"
+				} else {
 					::MSN::logout
 					::amsn::errorMsg "[trans internalerror]"
 				}
@@ -4231,7 +4253,7 @@ proc msnp9_authenticate { ticket } {
 		
 		#Reconnect if necessary
 		if { [::config::getKey reconnect] == 1 } {
-			::MSN::connect
+			::MSN::reconnect "[trans connecterror]: Connection timed out"
 			return
 		}
 		
