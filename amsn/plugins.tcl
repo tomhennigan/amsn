@@ -43,9 +43,11 @@ namespace eval ::plugins {
 		variable cur_config
 	}
 
-proc lset { list index1 index2 newvalue } {
-        return [list [lrange $list 0 [expr $index1 -1]] $newvalue [lrange $list [expr $index2 + 1] end] ]
-}
+	if {[package vcompare [package provide Tcl] 8.4] < 0} {
+		proc lset { list index1 index2 newvalue } {
+			return [list [lrange $list 0 [expr $index1 -1]] $newvalue [lrange $list [expr $index2 + 1] end] ]
+		}
+	}
 
 
 	###############################################################

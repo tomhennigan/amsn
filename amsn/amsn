@@ -210,13 +210,13 @@ proc check_imagemagick {} {
 
 }
 
-if {[package vcompare [package provide Tcl] 8.4] < 0} {
-	proc tcl::K {a b} {return $a}
-       	proc lset {listName index val} {
-        	upvar $listName list
-	        set list [lreplace [tcl::K $list [set list {}]] $index $index $val]
-	}
-}
+#if {[package vcompare [package provide Tcl] 8.4] < 0} {
+#	proc K {a b} {return $a}
+#	proc lset {listName index val} {
+#		upvar $listName list
+#		set list [lreplace [K $list [set list {}]] $index $index $val]
+#	}
+#}
 
 reload_files
 
