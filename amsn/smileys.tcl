@@ -149,7 +149,7 @@ proc new_custom_emoticon_from_gui { {name ""} } {
     }
 
     if { "$name" == "" || "$new_custom_cfg(file)" == "" || "$new_custom_cfg(text)" == "" } {
-	msg_box "[trans wrongfeilds [trans description] [trans triggers] [trans smilefile] ]"
+	msg_box "[trans wrongfields [trans description] [trans triggers] [trans smilefile] ]"
 	return
     }
 

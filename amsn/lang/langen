@@ -108,7 +108,7 @@ delete Delete
 deliverfail There was a problem delivering the following message
 delprofile2 Select the Profile that you would like to have removed 
 delprofile Delete Profile
-description Descrition
+description Description
 directconnection I have direct connection to the internet (uses port 1863)
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
@@ -172,7 +172,7 @@ ident Identifying
 identity Identity
 inbox Inbox
 internalerror Internal Server Error
-invalidfile File $2 entered in feild "$1" does not exist or is not readable
+invalidfile File $2 entered in field "$1" does not exist or is not readable
 invalidusername Invalid user name
 invitationcancelled The invitation was cancelled
 invite Invite
@@ -386,7 +386,7 @@ view View
 willjoin Waiting $1 joins conversation
 work Work
 wrongprofileversion Wrong profile config file version. In order to fix it, please remove directory $1, or update amsn
-wrongfeilds The "$1", "$2" and/or "$3" feilds were not valid
+wrongfields The "$1", "$2" and/or "$3" fields were not valid
 xoffset X Offset
 yes Yes
 yoffset Y Offset

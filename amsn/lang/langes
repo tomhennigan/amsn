@@ -20,6 +20,7 @@ allowbadwords Saltarse la censura en los apodos
 allowlist Lista de Aceptados(AL):
 allowonlyinal Permitir sólo a los usuarios Aceptados contactar conmigo
 allowseen Permitir a esta persona ver cuándo estás conectado y contactar
+animatedemoticon Emoticono con animación
 animatedsmileys Activar emoticonos animados
 appearance Apariencia
 appearoff Sin conexión
@@ -56,6 +57,7 @@ busy No disponible
 cancel Cancelar
 cannotdeleteprofile No se puede borrar este perfil porque parece que está siendo usado por otra sesión de amsn
 cantexec No se puede ejecutar la aplicación: $1. Comprueba las preferencias
+casesensitive Diferenciar may/minusculas en disparador
 cfgalarm Configurar/quitar alarma
 changefont Cambiar fuente
 changenick Cambiar apodo
@@ -96,6 +98,8 @@ copy Copiar
 copytogroup Copiar al grupo
 countrycode Código de país/región
 cprofile Crear Perfil
+custom_edit Editar emoticono personalizado
+custom_new Añadir emoticono personalizado
 cut Cortar
 date Fecha
 days Días
@@ -105,6 +109,7 @@ delete Eliminar
 deliverfail Ocurrió un problema al enviar el siguiente mensaje
 delprofile2 Elige el perfil que te gustaría borrar
 delprofile Borrar Perfil
+description Descripción
 directconnection Tengo una conexión directa a internet (usa el puerto 1863)
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Icono Gtk
@@ -118,6 +123,7 @@ editstate Editar mensaje automático para estado personalizado
 emotisounds Reproducir sonidos asociados a ciertos emoticonos
 enableproxy Activar proxy
 enableremote Activar servidor de control remoto
+enablesound Reproducir sonido
 encoding2 Cambia la forma en la que los caracteres se codifican
 encoding Codificación de caracteres
 entercontactemail Introduce el email del contacto
@@ -158,6 +164,7 @@ groupunknown Grupo desconocido
 handle Nick
 help Ayuda
 helpcontents Temas de ayuda
+hiden No mostrar en el menú de emoticonos
 history Ver historial
 home Casa
 httpconnection Conectar usando el método HTTP (usa protocolo HTTP por el puerto 80)
@@ -166,6 +173,7 @@ ident Identificándose
 identity Identificación
 inbox Bandeja de entrada
 internalerror Error interno del servidor
+invalidfile El archivo $2 introducido en el campo "$1" no existe o no se pudo leer
 invalidusername Nombre de usuario no válido
 invitationcancelled La invitación ha sido cancelada
 invite Invitar
@@ -328,6 +336,10 @@ servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
 server Servidor
 session Sesión
 showblockedlist Mostrar contactos que te bloquean
+smileconfig Configuración de emoticono personalizado
+smilefile Nombre del archivo
+smileintro2 Edita los siguientes campos para personalizar el emoticono (ver FAQ para más información)
+smileintro Rellena los siguientes campos para crear un emoticono personalizado (ver FAQ para más información)
 sound2 Reproducir sonidos cuando los contactos se conectan o envían mensajes
 soundcommand El comando para reproducir un sonido (por ej: esdplay)
 soundfile Archivo de sonido
@@ -358,6 +370,7 @@ tooltips Activar globos de ayuda
 to Para
 transnotexists El archivo solicitado no se encuentra traducido a su idioma.
 traynotcompiled Icono de bandeja no compilado. Mira en plugins/traydock
+triggers Texto disparador
 twonewmail $1 mensajes nuevos en bandeja de entrada
 unblock Admitir
 uoffline Desconectados
@@ -373,6 +386,7 @@ viewprofile Ver perfil
 view Ver
 willjoin Esperando que $1 se una a la conversación
 work Trabajo
+wrongfields Los campos "$1", "$2" y/o "$3" no son valido(s)
 wrongprofileversion Versión del archivo de perfiles incorrecta. Por favor borre el directorio $1 para solucionarlo, o actualice amsn.
 xoffset Desplazamiento X
 yes Si
