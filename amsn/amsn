@@ -3,7 +3,7 @@
 ### Alvaro's Messenger			        ###############
 ###						###############
 ### http://aim.homelinux.com/msn.htm            ###############
-### airadier@able.es                            ###############
+### airadier@users.sourceforge.net              ###############
 ###############################################################
 ### grimaldo@panama.iaehv.nl (LordOfScripts)    ###############
 ###############################################################
@@ -103,6 +103,7 @@ set pgNews  ""
 source [file join $program_dir notebook.tcl]	;# Notebook Megawidget
 source [file join $program_dir notebook1.tcl]	;# Notebook Megawidget
 source [file join $program_dir progressbar.tcl]	;# Progressbar Megawidget
+source [file join $program_dir dkffont.tcl]	;# Font selection megawidget
 source [file join $program_dir migmd5.tcl]
 source [file join $program_dir config.tcl]
 source [file join $program_dir protocol.tcl]
@@ -1172,6 +1173,8 @@ proc cmsn_draw_msgwin {} {
    bind .${win_name}.in.input <Tab> "focus .${win_name}.in.send; break"
 
    bind  .${win_name}.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y .${win_name}.in.input"   
+   bind  .${win_name}.buttons.fontsel  <Button1-ButtonRelease> "tk_chooseFont"   
+
 
    bind .${win_name}.in.send <Return> \
       "sb_enter $name .${win_name}.in.input; break"
@@ -1336,7 +1339,7 @@ proc cmsn_win_write {name txt {colour ""}} {
 
    set win_name "msg_[string tolower ${name}]"
 
-  .${win_name}.text configure -state normal -font splainf
+  .${win_name}.text configure -state normal 
 
 
    set text_start [.${win_name}.text index end]
