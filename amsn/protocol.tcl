@@ -1181,7 +1181,7 @@ namespace eval ::MSN {
             #It's not the preferred SB,so we can safely delete it from the
 	    #chat and Kill it
             DelSBFor $chatid $sbn
-            ::MSN::KillSB $sbn	 
+            ::MSN::KillSB $sbn
          }
       }
       
@@ -1410,7 +1410,7 @@ namespace eval ::MSN {
         return $lowuser
       }
 
-      status_log "::MSN::chatTo: Opening chat to user $user\n"       
+      status_log "::MSN::chatTo: Opening chat to user $user\n"
             
       set sbn [SBFor $lowuser]
 
@@ -1643,7 +1643,7 @@ namespace eval ::MSN {
          status_log "::MSN::DelSBFor: sb_chatid($chatid) doesn't exist\n" red
 	 return 0
       }
-      
+
       status_log "::MSN::DelSBFor: sb_chatid ($chatid) was $sb_chatid($chatid)\n" blue
 
 
@@ -2619,6 +2619,15 @@ proc cmsn_reconnect { name } {
 	 sb set $name stat "d"
 	 cmsn_reconnect $name
       }
+   } elseif {[sb get $name stat] == ""} {
+      status_log "cmsn_reconnect: SB $name stat is [sb get $name stat]. This is bad, should delete it and create a new one\n" red
+      catch {
+          set chatid [::MSN::ChatFor $name]
+          ::MSN::DelSBFor $chatid $name
+          ::MSN::KillSB $name
+          ::MSN::chatTo $name
+      }
+
 
    } else {
 
