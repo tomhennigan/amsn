@@ -181,6 +181,7 @@ proc ConfigDefaults {} {
 		[list local notifystate bool notify1_75] \
 		[list local notifymsg bool notify2] \
 		[list local notifyemail bool notify3] \
+                [list local soundactive bool soundactive] \
 		[list local recentmsg bool recentmsg] \
 		[list title connection] \
 		[list local getdisppic bool getdisppic] \
@@ -198,7 +199,6 @@ proc ConfigDefaults {} {
 		[list local lineflushlog bool lineflushlog] \
 		[list local autocheckver bool autocheckver] \
 		[list local storename bool storenickname] \
-                [list local soundactive bool soundactive] \
 		[list global disableprofiles bool disableprofiles] \
 	]
 	set config(tooltips) 1				;#Enable/disable tooltips
