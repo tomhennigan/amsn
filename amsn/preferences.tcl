@@ -1065,7 +1065,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill none
 	label $lfname.1.receivedpath -text [trans receiveddir] -padx 5 -font sboldf
 	entry $lfname.1.receiveddir -bg #FFFFFF -bd 1 -width 45 -highlightthickness 0 -textvariable [::config::getVar receiveddir]
-	button $lfname.1.browse -text [trans browse] -command "Browse_Dialog_file [::config::getVar receiveddir]"
+	button $lfname.1.browse -text [trans browse] -command "Browse_Dialog_dir [::config::getVar receiveddir]"
 
 	grid $lfname.1.receivedpath -row 1 -column 1 -sticky w
 	grid $lfname.1.receiveddir -row 1 -column 2 -sticky w
