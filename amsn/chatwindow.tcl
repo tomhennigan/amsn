@@ -379,7 +379,6 @@ namespace eval ::ChatWindow {
 
 		set container [GetContainerFromWindow $window]
 		if { $container != "" } {
-			status_log "Calling flickertab\n" red
 			FlickerTab $window 
 			Flicker $container
 			return
