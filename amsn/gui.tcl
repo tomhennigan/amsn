@@ -130,7 +130,6 @@ namespace eval ::amsn {
       set filesize2 "[expr {$filesize/1024}] Kb"      
       set cien 100
       set percent [expr {$bytes*100/$filesize}]
-      status_log "precent: $percent\n"
       
       if { ($bytes >= $filesize) || ($bytes<0)} {
 	 $w.close configure -text "[trans close]" -command "destroy $w"
