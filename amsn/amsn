@@ -1909,7 +1909,7 @@ proc cmsn_draw_addcontact {} {
    }
 
    set addcontact_request true
-   toplevel .addcontact -width 400 -height 150 
+   toplevel .addcontact -width 300 -height 100 
    bind .addcontact <Destroy> {
       if {"%W" == ".addcontact"} {
          unset addcontact_request
@@ -1919,25 +1919,21 @@ proc cmsn_draw_addcontact {} {
    wm geometry .addcontact -0+100
    wm title .addcontact "[trans addacontact] - [trans title]"
    wm transient .addcontact .
-   canvas .addcontact.c -width 320 -height 150 
+   canvas .addcontact.c -width 270 -height 100 
    pack .addcontact.c -expand true -fill both
 
    entry .addcontact.c.email -width 30 -bg #FFFFFF -bd 1 \
       -font splainf
-   button .addcontact.c.next -text "[trans next]->" \
+   button .addcontact.c.next -text "[trans ok]" \
      -command addcontact_next -font sboldf
    button .addcontact.c.cancel -text [trans cancel]  \
       -command "grab release .addcontact;destroy .addcontact" -font sboldf
 
    .addcontact.c create text 5 10 -font sboldf -anchor nw \
 	-text "[trans entercontactemail]:"
-   .addcontact.c create text 70 60 -font examplef -anchor ne \
-	-text "[trans examples]: "
-   .addcontact.c create text 70 60 -font examplef -anchor nw \
-	-text "gudidu@hotmail.com\nmyname@msn.com\nexample@passport.com"
    .addcontact.c create window 5 35 -window .addcontact.c.email -anchor nw
-   .addcontact.c create window 195 120 -window .addcontact.c.next -anchor ne
-   .addcontact.c create window 205 120 -window .addcontact.c.cancel -anchor nw
+   .addcontact.c create window 163 65 -window .addcontact.c.next -anchor ne
+   .addcontact.c create window 173 65 -window .addcontact.c.cancel -anchor nw
 
    bind .addcontact.c.email <Return> "addcontact_next"
 
