@@ -3,7 +3,7 @@
 # $Id$
 #=======================================================================
 namespace eval ::abook {
-   namespace export setContact getContact getGroup\
+   namespace export setContact getContact getGroup getName \
    		    setPhone setDemographics getDemographics \
 		    setPersonal getPersonal
 
@@ -150,6 +150,16 @@ namespace eval ::abook {
 	set data(available) Y
    }
 
+   proc getName {passport} {
+	variable contacts
+	if { ![info exists contacts($passport)] } {
+	    status_log "getContact ERROR: unknown contact $passport!" red
+	    return ""
+	}
+
+	return [urldecode [lindex $contacts($passport) 1]]
+   }
+   
    # Used to fetch the group ID so that the caller can order by
    # group if needed. Returns -1 on error.
    # ::abook::getGroup my@passport.com -id    : returns group id
@@ -370,6 +380,13 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.13  2002/07/02 10:32:50  lordofscripts
+# - Added getName in abook. It only returns the screen name, otherwise
+#   use getContact which returns all the info
+# - Corrected menuCopyCmd and menuMoveCmd to retrieve the screenname from
+#   abook and use it to invoke ::MSN::userMove/Copy so that the screen
+#   name is preserved in the operation.
+#
 # Revision 1.12  2002/07/01 23:03:27  airadier
 # Standard background for all widgets
 #

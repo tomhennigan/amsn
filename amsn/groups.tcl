@@ -55,16 +55,18 @@ namespace eval ::groups {
    proc menuCmdCopy {newgid {paramlist ""}} {
     set passport [lindex $paramlist 0]
     set currgid  [::abook::getGroup $passport -id]
-#    puts "menuCmdMove $passport from $currgid to $newgid"
-    ::MSN::copyUser $passport $currgid $newgid
+    set name [::abook::getName $passport]
+#    puts "menuCmdCopy $passport from $currgid to $newgid"
+    ::MSN::copyUser $passport $currgid $newgid $name
    }
 
 
    proc menuCmdMove {newgid {paramlist ""}} {
     set passport [lindex $paramlist 0]
     set currgid  [::abook::getGroup $passport -id]
+    set name [::abook::getName $passport]
 #    puts "menuCmdMove $passport from $currgid to $newgid"
-    ::MSN::moveUser $passport $currgid $newgid
+    ::MSN::moveUser $passport $currgid $newgid $name
    }
 
    #<dlgMsg>
