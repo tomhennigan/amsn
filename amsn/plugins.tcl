@@ -846,6 +846,7 @@ namespace eval ::plugins {
 				LoadPlugin $name $required_version $file $plugin_namespace $init_proc
 			}
 		}
+		::plugins::PostEvent AllPluginsLoaded evPar
 	}
 
 

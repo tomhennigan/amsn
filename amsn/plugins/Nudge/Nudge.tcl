@@ -32,9 +32,11 @@ namespace eval ::Nudge {
         #Config to show in configuration window	
        	::Nudge::configlist_values
        	
-       	#Create amsnplus command /nudge to send nudge
-		after 500 ::Nudge::add_command
-        	
+       	#On 0.94, wait 5 seconds after all the plugins are loaded to register
+       	#the command /nudge to amsnplus plugin
+		if {[::Nudge::version_094]} {
+			after 5000 ::Nudge::add_command 0 0
+        }
 	}
 	
 	#####################################
@@ -47,6 +49,7 @@ namespace eval ::Nudge {
 	        ::plugins::RegisterEvent Nudge chatwindowbutton sendbutton
         	::plugins::RegisterEvent Nudge chatmenu itemmenu
         	::plugins::RegisterEvent Nudge right_menu clitemmenu
+        	::plugins::RegisterEvent Nudge AllPluginsLoaded add_command
 	}
 	
 	########################################
@@ -154,10 +157,10 @@ namespace eval ::Nudge {
 		upvar 2 msg msg
 
 		if {[::MSN::GetHeaderValue $msg Content-Type] == "text/x-msnmsgr-datacast" && [::MSN::GetHeaderValue $msg ID] == "1"} {
-			::Nudge::log "\n\t\tStart receiving nudge from <[::abook::getDisplayNick $chatid]>\n"
+			::Nudge::log "\nStart receiving nudge from <[::abook::getDisplayNick $chatid]>\n"
 			#If the user choosed to have the nudge notified in the window
 			if { $::Nudge::config(notsentinwin) == 1 } {
-				::Nudge::winwrite $chatid "[trans nudge $nick]!" bell
+				::Nudge::winwrite $chatid "[trans nudge $nick]!" nudge
 			}
 			
 			#If the user choosed to have a sound-notify
@@ -186,7 +189,7 @@ namespace eval ::Nudge {
 				::Nudge::log "Show growl notification"
 			}
 			
-			::Nudge::log "\n\t\tReceiving nudge from <[::abook::getDisplayNick $chatid]> is finished\n"		
+			::Nudge::log "\nReceiving nudge from <[::abook::getDisplayNick $chatid]> is finished\n"		
 		
 		}
 	
@@ -267,12 +270,12 @@ namespace eval ::Nudge {
 			#Use after 1 to avoid a bug on Mac OS X when we close the chatwindow before the end of the nudge
 			#Keep compatibility with 0.94 for the getColor
 			if {[::Nudge::version_094]} {
-				button $bottom.buttons.nudge -image [::skin::loadPixmap bell] -relief flat -padx 3 \
+				button $bottom.buttons.nudge -image [::Nudge::getPixmap nudge] -relief flat -padx 3 \
 				-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0 \
 				-highlightbackground [::skin::getColor background2] \
 				-command "after 1 ::Nudge::send_via_queue $newvar(window_name)"
 			} else {
-				button $bottom.buttons.nudge -image [::skin::loadPixmap bell] -relief flat -padx 3 \
+				button $bottom.buttons.nudge -image [::Nudge::getPixmap nudge] -relief flat -padx 3 \
 				-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0 \
 				-highlightbackground [::skin::getColor buttonbarbg] \
 				-command "after 1 ::Nudge::send_via_queue $newvar(window_name)"
@@ -311,7 +314,7 @@ namespace eval ::Nudge {
 	# Need last update of aMSNPlus plugin +/- 2.3  #
 	# Verify first if amsnplus plugin is loaded    #
 	################################################
-	proc add_command {} {
+	proc add_command {event evpar} {
 	
 		#If amsnplus plugin is loaded, register the command
 		set pluginidx [lindex [lsearch -all $::plugins::found "*amsnplus*"] 0]
@@ -393,19 +396,19 @@ namespace eval ::Nudge {
 	
 		#Find the SB
 		set chatid [::ChatWindow::Name $window_name]
-		::Nudge::log "\n\t\tStart sending Nudge to <[::abook::getDisplayNick $chatid]>\n"
+		::Nudge::log "\nStart sending Nudge to <[::abook::getDisplayNick $chatid]>\n"
 		#Check if the user can accept the nudge (MSN 7 protocol needed), if not, stop here.
 			if {![::Nudge::check_clientid $chatid]} {
 				::Nudge::winwrite $chatid \
-				"$::Nudge::language(no_nudge_support)" belloff red
-				::Nudge::log "\n\t\tCan't send a Nudge to <[::abook::getDisplayNick $chatid]> because he doesn't use MSN 7 protocol\n"
+				"$::Nudge::language(no_nudge_support)" nudgeoff red
+				::Nudge::log "\nCan't send a Nudge to <[::abook::getDisplayNick $chatid]> because he doesn't use MSN 7 protocol\n"
 				return
 			}
 	
 		
 		#If the user choosed to have the nudge notified in the window
 		if { $::Nudge::config(notrecdinwin) == 1 } {
-			::Nudge::winwrite $chatid "$::Nudge::language(nudge_sent)!" bell
+			::Nudge::winwrite $chatid "$::Nudge::language(nudge_sent)!" nudge
 		}
 		
 		#If the user choosed to have a sound-notify
@@ -438,11 +441,11 @@ namespace eval ::Nudge {
     	#Send the packet
     	::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
     	::Nudge::log "Nudge packet sent"
-    	::Nudge::log "\n\t\tFinished sending Nudge to <[::abook::getDisplayNick $chatid]>\n"
+    	::Nudge::log "\nFinished sending Nudge to <[::abook::getDisplayNick $chatid]>\n"
 	}
 	
 	######################################################
-	# ::Nudge::winwrite chatid text iconname             #
+	# ::Nudge::winwrite chatid text iconname (color)     #
 	# ---------------------------------------------------#
 	# Use ::amsn::WinWrite to add text in a chat         #
 	# window when we send/receive a nudge                #	
@@ -453,18 +456,51 @@ namespace eval ::Nudge {
 		#Look at the version of aMSN to know witch kind of separation we use
 		if {[::Nudge::version_094]} {
 			amsn::WinWrite $chatid "\n----------\n" $color 
-			amsn::WinWriteIcon $chatid $iconname 3 2
+			Nudge::WinWriteIcon $chatid $iconname 3 2
 			amsn::WinWrite $chatid "[timestamp] $text\n----------" $color
 		} else {
 			amsn::WinWrite $chatid "\n" $color
 			amsn::WinWriteIcon $chatid greyline 3
 			amsn::WinWrite $chatid "\n" $color
-			amsn::WinWriteIcon $chatid $iconname 3 2
+			Nudge::WinWriteIcon $chatid $iconname 3 2
 			amsn::WinWrite $chatid "[timestamp] $text\n" $color
 			amsn::WinWriteIcon $chatid greyline 3
 			::Nudge::log "Seperation and message wrote in chatwindow"
 		}
 	}
+	
+	######################################################
+	# ::Nudge::winwriteicon chatid imagename             #
+	# ---------------------------------------------------#
+	# Replacement for ::amsn::WinWriteIcon               #
+	# The only difference is that we use the Nudge icon  #	
+	# from the plugin with ::Nudge::getPixmap            #	
+	# Instead of using skin system                       # 
+	######################################################
+	proc WinWriteIcon { chatid imagename {padx 0} {pady 0}} {
+
+		set win_name [::ChatWindow::For $chatid]
+
+		if { [::ChatWindow::For $chatid] == 0} {
+			return 0
+		}
+
+		if { [lindex [[::ChatWindow::GetTopText ${win_name}] yview] 1] == 1.0 } {
+			set scrolling 1
+		} else {
+			set scrolling 0
+		}
+
+
+		[::ChatWindow::GetTopText ${win_name}] configure -state normal
+		[::ChatWindow::GetTopText ${win_name}] image create end -image [::Nudge::getPixmap $imagename] -pady $pady -padx $pady
+
+		if { $scrolling } { [::ChatWindow::GetTopText ${win_name}] yview end }
+
+
+		[::ChatWindow::GetTopText ${win_name}] configure -state disabled
+	}
+
 	
 	############################################
 	# ::Nudge::check_clientid email            #
@@ -509,7 +545,7 @@ namespace eval ::Nudge {
 	proc sound {} {
 		set dir [::config::getKey nudgepluginpath]
 		play_sound $dir/nudge.wav 1
-		::Nudge::log "Play sound for nudge, directory of nudge plugin: [::config::getKey nudgepluginpath]"
+		::Nudge::log "Play sound for nudge, Directory: [::config::getKey nudgepluginpath]"
 	}
 	
 	############################################
@@ -526,5 +562,20 @@ namespace eval ::Nudge {
 		} else {
 			return 0
 		}
+	}
+	############################################
+	# ::Nudge::getPixmap name                  #
+	# -----------------------------------------#
+	# Get the nudge or nudgeoff pixmap from    #
+	# pixmaps folder inside plugin directory   #
+	############################################	
+	proc getPixmap {name} {
+		#Set the path to the pixmap
+		set dir [::config::getKey nudgepluginpath]
+		append pixmap $dir "/pixmaps/$name.gif"
+		#Create the image
+		set img [image create photo -file $pixmap -format gif]
+		::Nudge::log "Get $name.gif from $pixmap"
+		return $img
 	}
 }
