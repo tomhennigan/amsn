@@ -2185,6 +2185,8 @@ proc cmsn_draw_main {} {
    	-variable config(orderbygroup) -command "cmsn_draw_online"
    .order_by add radio -label "[trans group]" -value 1 \
    	-variable config(orderbygroup) -command "cmsn_draw_online"
+  .order_by add radio -label "[trans hybrid]" -value 2 \
+   	-variable config(orderbygroup) -command "cmsn_draw_online"
 
    #Order Groups By submenu
    #Added by Trevor Feeney
@@ -3076,7 +3078,9 @@ proc cmsn_draw_online { {force 0} } {
    
    # Decide which grouping we are going to use
    if {$config(orderbygroup)} {
-   
+
+       ::groups::Enable
+
        #Order alphabetically
        set thelist [::groups::GetList]
        set thelistnames [list]
@@ -3107,10 +3111,16 @@ proc cmsn_draw_online { {force 0} } {
 	   #set ::groups::uMemberCnt($gid) 0
 	   #set ::groups::uMemberCnt_online($gid) 0
        }
+
+       if {$config(orderbygroup) == 2 } {
+	   lappend glist "offline"
+	   incr gcnt
+       }
    } else {	# Order by Online/Offline
        # Defaults already set in setup_groups
        set glist [list online offline]
        set gcnt 2
+       ::groups::Disable
    }
    
 
@@ -3263,6 +3273,12 @@ proc cmsn_draw_online { {force 0} } {
 
            # For user defined groups we don't have/need translations
 	   set gtitle [::groups::GetName $gname]
+	   if { $config(orderbygroup) == 2 } {
+	       if { $gname == "offline" } { 
+		   set gtitle "[trans uoffline]"
+		   set gtag "offline"
+	       }
+	   }
            $pgBuddy.text insert end $gtitle $gtag
 
        } else {
@@ -3307,11 +3323,20 @@ proc cmsn_draw_online { {force 0} } {
 	    #::groups::UpdateCount $user_group +1
 	    ::groups::UpdateCount $user_group +1 [lindex $state 3]
 
+	    if { $config(orderbygroup) == 2 } {
+		if { $state_code == "FLN" } {set section "offline"}
+	    }
+
          }
 
          # Check if the group/section is expanded, display accordingly
          if {$config(orderbygroup)} {
 	    set myGroupExpanded [::groups::IsExpanded $user_group]
+	     if { $config(orderbygroup) == 2 } {
+		 if { $state_code == "FLN" } {
+		     set myGroupExpanded [::groups::IsExpanded offline]
+		 }
+	     }
          } else {
 	    set myGroupExpanded [::groups::IsExpanded $section]
          }
@@ -3324,6 +3349,7 @@ proc cmsn_draw_online { {force 0} } {
 	    #Avoid adding users more than once when ordering by online/offline!!
 	    break
 	 }
+	  if { $config(orderbygroup) && $state_code == "FLN" } { break  }
       }
    }
 
@@ -3335,6 +3361,7 @@ proc cmsn_draw_online { {force 0} } {
         for {set gidx 0} {$gidx < $gcnt} {incr gidx} {
 	    set gname [lindex $glist $gidx]
 	    set gtag  "tg$gname"
+	    if {$config(orderbygroup) == 2 && $gname == "offline" } { set gtag "offline" }
 	   #$pgBuddy.text insert $gtag.last " ($::groups::uMemberCnt($gname))\n" $gtag
 	   $pgBuddy.text insert ${gtag}.last \
 	      " ($::groups::uMemberCnt_online(${gname})/$::groups::uMemberCnt($gname))\n" $gtag
