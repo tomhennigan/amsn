@@ -485,7 +485,7 @@ namespace eval ::amsn {
         set ipaddr [ $w.top.fields.ip get ]
         destroy $w
 		  if { $ipaddr != $config(myip) } {
-           set ipaddr [ ::MSN::getMyIP ]
+           set ipaddr [ ::abook::getDemographicField clientip ]
         }
       }
 

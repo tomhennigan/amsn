@@ -232,7 +232,17 @@ namespace eval ::abook {
 	set demographics(kv) $data(kv)
         set demographics(sid) $data(sid)
 	set demographics(sessionstart) $data(sessionstart)
+	set demographics(clientip) $data(clientip)
 	set demographics(valid) Y
+    }
+
+    proc getDemographicField { field } {
+        variable demographics
+        if { [info exists demographics($field)]} {
+            return $demographics($field)
+        } else {
+            return ""
+        }
     }
 
     proc getDemographics { cdata } {
@@ -250,6 +260,7 @@ namespace eval ::abook {
             set d(kv) $demographics(kv)
             set d(sid) $demographics(sid)
 	    set d(sessionstart) $demographics(sessionstart)
+		 set d(clientip) $demographics(clientip)
 	    set d(valid) Y
 	} else {
 	    set d(valid) N
@@ -412,6 +423,9 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.29  2003/11/10 00:28:20  airadier
+# Get rid of GetMyIP, now we get IP from initial profile from server.
+#
 # Revision 1.28  2003/10/08 12:18:12  airadier
 # Fixed copy to group (wasn't working fine).
 # Updated languages.

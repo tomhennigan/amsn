@@ -787,7 +787,7 @@ namespace eval ::MSN {
    #TODO: Export missing procedures (the one whose starts with lowercase)
    namespace export changeName logout changeStatus connect blockUser \
    unblockUser addUser deleteUser login myStatusIs \
-   cancelReceiving cancelSending getMyIP moveUser
+   cancelReceiving cancelSending moveUser
 
    if { $initialize_amsn == 1 } {
 
@@ -1007,79 +1007,6 @@ namespace eval ::MSN {
    }
 
 
-   proc getMyIP { } {
-
-      global config
-
-      set sock [sb get ns sock]
-
-      set localip [lindex [fconfigure $sock -sockname] 0]
-
-      status_log "Called getmyIP, local: $localip\n"
-
-      if { [string compare -length 3 $localip "10."] == 0 \
-      || [string compare -length 4 $localip "127."] == 0 \
-      || [string compare -length 8 $localip "192.168."] == 0 \
-      || $config(natip) == 1 } {
-        if { [catch {set token [::http::geturl "http://www.showmyip.com/simple/" -timeout 10000]} res]} {
-           return $localip
-        }
-
-        if { [::http::status $token] == "ok" && [::http::ncode $token] == 200 } {
-           set httpip [lindex [split [::http::data $token]] 0]
-        } else {
-           set httpip $localip
-        }
-        ::http::cleanup $token
-        status_log "Called get http ip: $httpip, $token\n"
-
-		  return $httpip
-      } else {
-         return $localip
-      }
-
-   }
-
-
-   proc getMyIPSilent { } {
-
-      global config
-
-		if { $config(autoftip) } {
-			set sock [sb get ns sock]
-			if { $sock == "" } return
-
-			set localip [lindex [fconfigure $sock -sockname] 0]
-
-			status_log "Called getmyIPSilent, local: $localip\n"
-
-			if { [string compare -length 3 $localip "10."] == 0 \
-			|| [string compare -length 4 $localip "127."] == 0 \
-			|| [string compare -length 8 $localip "192.168."] == 0 \
-			|| $config(natip) == 1 } {
-				catch {set token [::http::geturl "http://www.showmyip.com/simple/" \
-					-timeout 10000 -command "::MSN::GotMyIPSilent"]}
-			} else {
-				set config(myip) $localip
-				status_log "IP automatically set to: $config(myip)\n" blue
-			}
-
-		} else {
-			status_log "No autoftip - IP manually set to: $config(myip)\n" blue
-		}
-
-   }
-
-	proc GotMyIPSilent { token } {
-		global config
-		if { [::http::status $token] == "ok" && [::http::ncode $token] == 200 } {
-			set ip [lindex [split [::http::data $token]] 0]
-			::http::cleanup $token
-			status_log "Called GotMyIPSilent, http ip: $ip, $token\n"
-			set config(myip) $ip
-		}
-		::http::cleanup $token
-	}
 
 
    #Internal procedures
@@ -3334,7 +3261,13 @@ proc cmsn_ns_msg {recv} {
       set d(kv) [::MSN::GetHeaderValue $msg_data kv]
       set d(sid) [::MSN::GetHeaderValue $msg_data sid]
       set d(sessionstart) [clock seconds]
-      ::abook::setDemographics d
+		set d(clientip) [::MSN::GetHeaderValue $msg_data ClientIP]		      
+		::abook::setDemographics d
+		
+		
+		global config
+		set config(myip) $d(clientip)
+		status_log "My IP is $config(myip)\n"
    } else {
       hotmail_procmsg $msg_data	 
    }
@@ -3720,9 +3653,6 @@ proc cmsn_auth_msnp9 {{recv ""}} {
 			configureMenuEntry .main_menu.actions "[trans sendmsg]..." normal
 
 			configureMenuEntry .main_menu.file "[trans savecontacts]..." normal
-
-
-			::MSN::getMyIPSilent
 
 			return 0
 		}
