@@ -2771,6 +2771,12 @@ catch {exec killall -c sndplay}
       if { [WindowFor $chatid] == 0} {
          return 0
       }
+
+	  #Avoid problems if the windows was closed
+	  if {![winfo exists $win_name]} {
+			return
+	  }
+
 		
 
        if { [lindex [${win_name}.f.out.ys get] 1] == 1.0 } {
@@ -3709,8 +3715,8 @@ proc play_sound {sound_name} {
 	catch {eval exec $config(soundcommand) &} res
  		#Kill soundplayer on Mac OS X (sometimes he stays open and eat your CPU)
 	if { $tcl_platform(os) == "Darwin" } {
-		#after 30000
-		#catch {exec killall -c sndplay}
+		after 30000
+		catch {exec killall -c sndplay}
 	}
     }
 }
@@ -6033,6 +6039,11 @@ proc check_web_version { token } {
 proc check_version {} {
 	global weburl tcl_platform
 
+
+	if { [winfo exists .checking] } {
+		raise .checking
+		return
+	}
    toplevel .checking
 
    wm title .checking "[trans title]"
