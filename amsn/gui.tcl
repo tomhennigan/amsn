@@ -299,7 +299,8 @@ namespace eval ::amsn {
       #status_log "sending FT invitation to chatid [ChatFor $win_name] (win_name is $win_name)\n"
       #::MSN::inviteFT [ChatFor $win_name] $filename $cookie $ipaddr
 
-      ::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie      
+      ::MSN::ChatQueue $chatid "::MSNFT::sendFTInvitation $chatid [list $filename] $filesize $ipaddr $cookie"
+      #::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie      
       
       return 0
    }
@@ -1252,9 +1253,9 @@ namespace eval ::amsn {
 	global list_users
 
 
-	if {![::MSN::chatReady [ChatFor $win_name]]} {
-	   return 0
-	}
+	#if {![::MSN::chatReady [ChatFor $win_name]]} {
+	#   return 0
+	#}
 
 	set userlist [list]
 	set chatusers [::MSN::usersInChat [ChatFor $win_name]]
@@ -1267,16 +1268,24 @@ namespace eval ::amsn {
 	  		lappend userlist [list $user_login $user_name $user_state_no]
       		}
    	}
+	
+	set chatid [ChatFor $win_name]
 
 	if { [llength $userlist] > 0 } {
 		#TODO: Should queue invitation until chat is ready, to fix some problems when
 		# inviting a user while the first one hasn't joined yet
-   		ChooseList $title both "::MSN::inviteUser [ChatFor $win_name]" 1 0 $userlist
-  	} else {
-		cmsn_draw_otherwindow $title "::MSN::inviteUser [ChatFor $win_name]"
+   		#ChooseList $title both "::MSN::inviteUser [ChatFor $win_name]" 1 0 $userlist
+		ChooseList $title both "::amsn::queueinviteUser [ChatFor $win_name]" 1 0 $userlist
+  	} else {	        
+		#cmsn_draw_otherwindow $title "::MSN::inviteUser [ChatFor $win_name]"
+		cmsn_draw_otherwindow $title "::amsn::queueinviteUser [ChatFor $win_name]"
 	}
    }
 
+   proc queueinviteUser { chatid user } {
+      ::MSN::ChatQueue $chatid "::MSN::inviteUser $chatid $user"
+   }
+   
    proc ShowChatList {title win_name command} {
       global list_users
 
