@@ -94,7 +94,7 @@
 	<lang>
 		<langcode>eu</langcode>
 		<name>Basque (Euskera)</name>
-		<version>1.24</version>
+		<version>1.25</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -196,7 +196,7 @@
 	<lang>
 		<langcode>nl</langcode>
 		<name>Dutch</name>
-		<version>1.106</version>
+		<version>1.107</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
