@@ -171,6 +171,7 @@ ftportpref Memulai port untuk pengalihan berkas
 ftrejectedby $1 menolak undangan pengalihan berkas untuk berkas ?$2?.
 ftrejected Transmisi berkas ditolak
 ftsendinvitation Undangan pengalihan berkas untuk berkas ?$2? ($3 bytes) telah dikirim kepada $1.
+getdisppic Mungkinkan penerimaan Gambar Tampilan dari pengguna yang lain
 gonelunch Sedang makan siang
 groupadd Tambah kelompok
 groupdelete Hapus kelompok
@@ -254,6 +255,7 @@ msn a'MSN
 mustrestart Program ini harus dijalankan ulang supaya perubahannya kelihatan
 myhomephone Telpon rumah saya
 mymobilephone Telpon seluler saya
+mypic Gambar Tampilan Saya:
 mystatus Status Saya
 myworkphone Telpon kantor saya
 natip Deteksi IP melalui halaman web
@@ -300,6 +302,7 @@ pass Kata sandi
 paste Tempelkan
 personal Pribadi
 phone Telepon
+picbrowser Tampilkan Browser Gambar
 picfile Berkas gambar (GIF < 500 x 500)
 picstatus Alarm bergambar
 playing Memainkan: $1
@@ -346,6 +349,7 @@ proxyconf Pengaturan proxy
 proxyconnection Saya menyambung ke internet menggunakan server proxy:
 proxy Saya berada di belakang Server Proxy (HTTP atau SOCKS5)
 publishphones Publikasikan telepon saya
+purge Bersihkan
 raised Diangkat/Ikon dihilangkan
 readonlymsgbox Transmisi berkas dibatalkan karena daftar tujuan berstatus baca-saja. Mohon rubah status di daftar tujuan tersebut.
 readonlywarn PERINGATAN: Berkas kemungkinan TIDAK akan tersimpan dengan benar karena daftar “Berkas yang Diterima” tampaknya dilindungi terhadap penulisan. Mohon pastikan ijin pada daftar sasaran ($1) telah diatur dengan benar sebelum memindahkan berkas.

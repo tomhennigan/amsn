@@ -14,16 +14,25 @@ addtoo この人を自分のメンバリストにも追加する
 admincontacts メンバ管理
 admingroups グループ管理
 adverts 広告
+alarmonconnect ユーザーがオンラインになった時にアラーム
+alarmondisconnect ユーザーがオフライン/不可視になった時にアラーム
+alarmonmsn メッセージが届いたときにアラーム
+alarmonstatus 他のユーザーのステータスが変わった時にアラーム
 alarmpref この人にアラームを設定
 alarmstatus アラームのオン/オフ
 allowallbutbl ブロックリストに入っていないメンバからのメッセージを全て受け取る
+allowbadwords ニックネームの検閲を無効にする
 allowlist 許可リスト :
 allowonlyinal 許可リストに入っているメンバからのメッセージのみ受け取る
 allowseen この人にオンライン状況を伝え、IMを受信する
+animatedemoticon この絵文字はアニメーション表示可能
+animetedsmileys スマイリーをアニメーション表示する
 appearance 外観
 appearoff オフラインに見せる
 areacode エリアコード
 aretyping $1 がメッセージを入力しています
+autoaccepted 自動的に許可されたファイル転送
+autoacceptft ファイル転送要求を自動的に受け入れる
 askprofile このログインにはまだプロフィールが設定されていません。新しいプロフィールを作成しますか？ \n 作成新しいプロフィールを作成しない場合履歴やアラーム、パスワードが保存できません。 \n このプロフィールのために別のプロフィールを作成しますか？ \n \n $1 の新しいプロフィールを作成するには『プロフィールを作成する』をクリックしてください
 autoaway 次の間アクティブではなかった場合『退席中』にする
 autoconnect AMSN起動時に接続する
@@ -41,35 +50,51 @@ bgcolor 背景色
 blankdirect 直接接続するにはここを空白にしてください
 block 禁止
 blocked 禁止済み
+blocking 禁止中
 blocklist ブロックリスト :
+blockinter1 オンライン時のチェック間隔
+blockinter2 秒, オンラインでないときのチェック間隔:
+blockinter3 間隔
+blockinter4 秒。
 blockmessage メンバはオンラインですが、あなたをブロックしています
+blockusers 同時にチェックするユーザー数
 broughtby AMSNは次の開発者によって提供されています。
 browse ブラウズ
 browser ブラウザ
+browserexample ( \$url はURLに置き換えられます)。 例: mozilla \$url
 busy 取り込み中
 cancel キャンセル
 cannotdeleteprofile そのプロフィールはAMSNで利用中のようなので消去できません
+cantexec 以下のアプリケーションが実行できません: $1. 設定を確認してください
+casesensitive ケースごとに異なるトリガを使用する
 cfgalarm アラーム 設定/追加/削除
+changedisplaypic 表示画像の変更
 changefont フォント変更
 changenick 名前変更
+changestate $1 のステータスが $2 になりました
 chat 会話
 chatack 次のメンバからのチャットを開いています
 chatmaxmin 新しい会話が始まったとき:
 chatreq 会話に招待しています
 chatsmileys 絵文字
 chatsmileys2 会話に絵文字を表示する
+checkblocking メンバが自分をブロックしているかを常にチェックする
 checkfilman 受信したファイルは $1 に保存されます。ファイルマネージャを確認してください
 checkingver 新バージョンを確認しています
+checkonfln 他のユーザーがオフラインになった時にそのユーザーにブロックされているかをかをチェックする
 checkver 新バージョンを確認
+choosearq 使用システムのアーキテクチャ選択
 choosebasefont フォント選択
 choosebgcolor 背景色選択
 choosecontact リストからメンバを選んでください
+chooseskin 使いたいスキンを選択してください
 choosefontcolor 文字色選択
 clearlog ログ削除
 clearlog2 全メンバの履歴を削除
 clearlog3 全ログを削除
 clicktologin ここをクリックするとサインインします
 close 閉じる
+closed アクティブでなくなったので $1 との会話を終了しました
 closingdocks 閉じるボタンを押したときも最小化する
 command コマンド
 confirm 本当によろしいですか？
@@ -86,37 +111,50 @@ copy コピー
 copytogroup グループにコピー
 countrycode 自分の国/地域番号
 cprofile プロフィールを作成する
+custom_edit カスタムスマイリーの編集
+custom_new 新しいカスタムスマイリーを追加
 cut 切り取り
 date 日付
 days 日
 dcprofile プロフィールを作成しない
 default 標準設定
+defaultloginradio デフォルトの設定でログインする
 delete 削除
 deliverfail 次のメッセージを配信する際、問題が発生しました
 delprofile プロフィール削除
 delprofile2 削除したいプロフィールを選択してください
+description 詳細
 directconnection インターネットに直接接続しています(ポート1863を使用)
+disablessl SSLを無効にする
+disconnect $1 は切断されました
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnomeドック
 docking ドッキング
 dockingoff ドッキングしない
 dockkde KDEドック
+dontdownload TLSをダウンロードしない。手動でインストールします。
+downloadingtls TLSモジュールを以下からダウンロードする:\n $1
+editcurrentstate 現在の設定を編集する
 edit 編集
 editnewstate 新しい自動返信メッセージ
 editprofile プロフィール編集
 editstate 自動返信メッセージの編集
+emotisounds 特定の絵文字に対してサウンドを再生する
 enableproxy プロキシを有効に
+enablesound サウンドを有効にする
 enableremote リモートからの操作を有効にする
 encoding 文字コード選択
 encoding2 あなたの文字コードを変換する方法
 entercontactemail 連絡メールアドレスを入力
 enterfilename ファイル名を入力してください
 enternick 名前を入力してください
+errortls TLS モジュールのインストール中にエラーが発生しました:
 examples 例
 exitamsn 本当に終了してよろしいですか？
 extras 追加サービス
 faq FAQ (質問と回答)
 filedoesnotexist ファイルが存在しません
+filemanexample ( \$location はディレクトリ名に置き換えられます ) 例: nautilus \$location
 fileman ファイルマネージャ
 filename ファイル名
 filetransfercancelled ファイル転送を中止しました
@@ -133,6 +171,7 @@ ftportpref ファイル転送のポートを開いています
 ftrejected ファイル転送を拒否しました
 ftrejectedby $1 はファイル $2 の転送を拒否しました
 ftsendinvitation ファイル $2 ($3 バイト)の転送が完了しました
+getdisppic 他のユーザーの表示画像を受信する
 gonelunch 昼休み
 group グループ
 groupadd グループ追加
@@ -146,13 +185,19 @@ grouprename グループ名変更
 groupunknown 不明なグループ
 handle 名前
 help ヘルプ
+hidedisplaypic 表示画像を隠す
+hiden この絵文字をスマイリーメニューに表示しない
+hidewindow ウィンドウを表示しない
 helpcontents ヘルプの内容
 history 履歴を参照
 home 家
 httpconnection HTTP(ポート80)を使用して接続する
+hybrid ハイブリッドモード
 ident 個人情報を読み込んでいます
 identity 個人情報
 inbox 受信箱
+installconvert Buddyアイコンやカスタムの絵文字を使用するには ImageMagick (変換プログラム) をインストールする必要があります。各OS用のバイナリを以下のサイトからダウンロードできます(ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/)。すでにインストールしてある場合はプログラムのバグですので、ご一報下さい。ImageMagik をインストールして、設定からこのオプションを有効にしなければ、この機能は使えません。 
+invalidfile "$1" に入力された $2 というファイルは存在しないか、読むことができません
 internalerror サーバエラー(Interal Server Error)
 invalidusername その名前は無効です
 invitationcancelled 要求はキャンセルされました。
@@ -190,9 +235,11 @@ logolder 最後の会話のみログする
 logout サインアウト
 logsin がログインしました
 logsmileys 履歴で絵文字を表示する
+logsout がログアウトしました
 lprivtoconf 会話が $1 との会議に変更されました
 luclosedwin $1 のウィンドウを閉じました
 mailer メーラ
+mailerexample ( \$recipient = 宛て先 ) Hotmail を利用する場合は空欄のまま
 maximised 最大化
 minimised 最小化/アイコン化
 mins 分
@@ -200,6 +247,7 @@ mobile 携帯
 morepersonal 詳細 →
 move Move
 movetogroup グループに移動
+msgflicker フォーカスされていないウィンドウにメッセージが届いた時に、ウィンドウのタイトルを点滅させる。
 msg メッセージ
 msgmaxmin 新しいメッセージが届いたとき:
 msgmode どのように次のウィンドウを扱うか選択してください
