@@ -1703,7 +1703,7 @@ namespace eval ::amsn {
 
 		}
 		$win.picmenu add separator
-		$win.picmenu add command -label "[trans changedisplaypic]..." -command change_displaypic
+		$win.picmenu add command -label "[trans changedisplaypic]..." -command pictureBrowser
 		$win.picmenu add separator
 		$win.picmenu add command -label "[trans hidedisplaypic]" \
          -command "::amsn::HidePicture $win"
@@ -5724,6 +5724,11 @@ proc window_history { command w } {
 }
 
 
+
+########################################################################
+#### ALL ABOUT CONVERTING AND CHOOSING DISPLAY PICTURES 
+########################################################################
+
 proc convert_image { filename size } {
 
 	if { ![file exists $filename] } {
@@ -5886,18 +5891,9 @@ proc convert_display_picture { filename } {
 
 
 proc pictureBrowser {} {
-	global HOME program_dir
-		
-    if { [catch { set skin "[::config::get skin]" } ] != 0 } {
-        set skin "default"
-    }
-
-	set files [glob -directory [file join $HOME displaypic] *.png]
-	lappend files [glob -directory [file join $program_dir skins $skin displaypic] *.png]
-	
 	toplevel .picbrowser
 	
-	frame .picbrowser.pics	
+	frame .picbrowser.pics
 	text .picbrowser.pics.text -width 5 -font sboldf -background white -yscrollcommand ".picbrowser.pics.ys set" \
 		-cursor left_ptr -font splainf -selectbackground white -selectborderwidth 0 -exportselection 0 \
 		-relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
@@ -5917,7 +5913,7 @@ proc pictureBrowser {} {
 	label .picbrowser.mypic -image my_pic -background white -borderwidth 2 -relief solid
 	label .picbrowser.mypic_label -text "[trans mypic]" -font splainf
 	
-	button .picbrowser.browse -command "destroy .picbrowser" -text "[trans browse]..." -font sboldf
+	button .picbrowser.browse -command "pictureChooseFile; reloadAvailablePics" -text "[trans browse]..." -font sboldf
 	button .picbrowser.delete -command "destroy .picbrowser" -text "[trans delete]" -font sboldf -state disabled
 	button .picbrowser.purge -command "destroy .picbrowser" -state disabled -text "[trans purge]..." -font sboldf
 	button .picbrowser.ok -command "set_displaypic \[file tail \$selected_image\];\
@@ -5940,10 +5936,40 @@ proc pictureBrowser {} {
 	grid column .picbrowser 2 -weight 1	
 	grid row .picbrowser 3 -weight 1		
 
+	
+	reloadAvailablePics
+		
+	#Liberar memoria!!!! (imagenes)
+	
+	.picbrowser.pics.text configure -state disabled
+		
+	wm title .picbrowser "[trans picbrowser]"
+	grab .picbrowser
+}
 
+proc reloadAvailablePics { } {
+	global HOME program_dir	
+
+	set windows [.picbrowser.pics.text window names]
+	foreach window $windows {
+		destroy $window
+	}
+	
+	if { [catch { set skin "[::config::get skin]" } ] != 0 } {
+		set skin "default"
+	}
+	
+	set files [list]
+	catch {set files [glob -directory [file join $program_dir skins $skin displaypic] *.png] }
+	if { $skin != "default" } {
+		catch {set files [concat $files [glob -directory [file join $program_dir skins default displaypic] *.png]]}
+	}
+	catch {set files [concat $files [glob -directory [file join $HOME displaypic] *.png]]}
+
+	#Reload images		
 	frame .picbrowser.pics.text.nopic -borderwidth 0 -highlightthickness 1 -background white -highlightbackground black
-	label .picbrowser.pics.text.nopic.pic -image no_pic -relief flat -borderwidth 1 -highlightthickness 0 \
-		-background white 
+	label .picbrowser.pics.text.nopic.pic -image no_pic -relief flat -borderwidth 0 -highlightthickness 2 \
+		-background white -highlightbackground black
 	label .picbrowser.pics.text.nopic.desc -text "[trans nopic]" -font splainf -background white
 	pack .picbrowser.pics.text.nopic.pic -side top
 	pack .picbrowser.pics.text.nopic.desc -side top
@@ -5954,15 +5980,15 @@ proc pictureBrowser {} {
 	bind .picbrowser.pics.text.nopic.pic <Button1-ButtonRelease> ".picbrowser.mypic configure -image no_pic; set selected_image \"\""	
 	.picbrowser.pics.text window create end -window .picbrowser.pics.text.nopic -padx 3 -pady 3	
 	
-		
+			
 	set image_names [list]
 	foreach filename $files {
 		if { [file exists [filenoext $filename].gif] } {
-			set the_image [image create photo -file "[filenoext $filename].gif"]
+			set the_image [image create photo -file "[filenoext $filename].gif" ]
 			frame .picbrowser.pics.text.$the_image -borderwidth 0 -highlightthickness 1 -background white -highlightbackground black
 			label .picbrowser.pics.text.$the_image.pic -image $the_image -relief flat -borderwidth 0 -highlightthickness 2 \
 				-background white -highlightbackground black
-			label .picbrowser.pics.text.$the_image.desc -text "$the_image" -font splainf -background white
+			label .picbrowser.pics.text.$the_image.desc -text "[trunc [filenoext [file tail $filename]] .picbrowser.pics.text 90 splainf]" -font splainf -background white
 			pack .picbrowser.pics.text.$the_image.pic -side top
 			pack .picbrowser.pics.text.$the_image.desc -side top				
 			bind .picbrowser.pics.text.$the_image <Enter> ".picbrowser.pics.text.$the_image configure -highlightbackground red"
@@ -5975,84 +6001,26 @@ proc pictureBrowser {} {
 			lappend image_names $the_image
 		}
 	}
-	
-	#Liberar memoria!!!! (imagenes)
-	
-	.picbrowser.pics.text configure -state disabled
-		
-	wm title .picbrowser "[trans picbrowser]"
-	grab .picbrowser
 }
 
-proc change_displaypic { } {
-    global config
+proc chooseFileDialog {basename {initialfile ""} {types {{"All files"         *}} }} {
 
-    set w .change_disp
-
-   if {[winfo exists $w]} {
-      raise $w
-      return 0
-   }
-
-   toplevel $w
-   wm group $w .
-
-   wm geometry $w -0+100
-   wm title $w "[trans changedisplaypic] - [trans title]"
-   wm transient $w .
-
-    set f $w.buttons
-
-    frame $f
-   button $f.ok -text [trans ok] -command change_disp_ok
-   button $f.cancel -text [trans cancel] \
-      -command "destroy $w"
-    button $f.clear -text [trans nopic] -command "clear_disp"
-    pack $f.ok $f.clear $f.cancel -side left
-
-
-    set f $w.filename
-    frame $f
-    label $f.lfile -text "[trans filename]"
-    entry $f.file -textvariable new_custom_cfg(file)  -background white
-    button $f.browse -text "[trans browse]" -command "fileDialog2 .change_disp $f.file open \"\" {{\"Image Files\" {*.gif *.jpg *.jpeg *.bmp *.png} }} " -width 10
-
-    $f.file delete 0 end
-    if { $config(displaypic) != "" } {
-	$f.file insert 0 [GetSkinFile displaypic $config(displaypic)]
-    }
-
-    bind $f.file <Return> "change_disp_ok"
-
-    pack  $f.lfile $f.file $f.browse -side left
-
-    pack $w.filename $w.buttons -side top
-    tkwait visibility $w
-    grab set $w
-
+	set parent "."
+	catch {set parent [focus]}
+	 
+	return [tk_getOpenFile -filetypes $types -parent $parent -initialfile ""]
+    
 }
 
-
-proc change_disp_ok { } {
-    global config
-
-    set w .change_disp
-
-    set file [$w.filename.file get]
-
-    if { $file != "" } {
-	 	set_displaypic [file tail [convert_display_picture [$w.filename.file get]]]
-    } else {
-		set config(displaypic) ""
-		catch {image create photo my_pic -file "[GetSkinFile displaypic nopic.gif]"}
-    }
-
-
-
-    ::MSN::changeStatus [set ::MSN::myStatus]
-
-    destroy $w
-
+proc pictureChooseFile { } {
+	set file [chooseFileDialog {{\"Image Files\" {*.gif *.jpg *.jpeg *.bmp *.png} }}]
+    
+	 if { $file != "" } {
+	 	convert_display_picture $file
+    }    
+	 
+	 return [file tail $file]
+	
 }
 
 proc set_displaypic { file } {
@@ -6068,7 +6036,7 @@ proc set_displaypic { file } {
 		status_log "set_displaypic: File set to $file\n" blue
 		::MSN::changeStatus [set ::MSN::myStatus]
 	} else {
-		status_log "set_displaypic: Setting displaypic to no_pic\n" blue
+		status_log "set_displaypic: Setting displaypic to no_pic\n" blue	
 		clear_disp
 	}
 }
@@ -6081,5 +6049,4 @@ proc clear_disp { } {
 	 catch {image create photo my_pic -file "[GetSkinFile displaypic nopic.gif]"}
     ::MSN::changeStatus [set ::MSN::myStatus]
 
-    destroy .change_disp
 }

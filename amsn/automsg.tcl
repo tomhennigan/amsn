@@ -220,9 +220,9 @@ proc CreateStatesMenu { path } {
     $path add separator
     $path add command -label "[trans changenick]..." -command cmsn_change_name
     if { $config(getdisppic) == 1 } {
-	$path add command -label "[trans changedisplaypic]..." -command change_displaypic
+	$path add command -label "[trans changedisplaypic]..." -command pictureBrowser 
     } else {
-	$path add command -label "[trans changedisplaypic]..." -command change_displaypic -state disabled
+	$path add command -label "[trans changedisplaypic]..." -command pictureBrowser -state disabled
     }
 }
 
