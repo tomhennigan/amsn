@@ -2131,7 +2131,9 @@ namespace eval ::DirectConnection {
 		sb set $sbn sock $sock
 		fconfigure $sock -buffering none -translation {binary binary} -blocking 0
 		fileevent $sock readable [list ::DirectConnection::Readable $sbn $sock]
-		fileevent $sock writable [list [sb get $sbn connected] $sock]
+		set connected_command [sb get $sbn connected]
+		lappend connected_command $sock
+		fileevent $sock writable $connected_command
 		return 0
 	
 	}
@@ -2942,9 +2944,9 @@ proc cmsn_open_sb {sbn recv} {
 
 
 
-proc cmsn_conn_sb {name} {
+proc cmsn_conn_sb {name sock} {
    
-	catch { fileevent [sb get $name sock] writable "" } res
+	catch { fileevent $sock writable "" } res
 
 	#Reset timeout timer
 	sb set $name time [clock seconds]
@@ -2961,11 +2963,11 @@ proc cmsn_conn_sb {name} {
 }
 
 
-proc cmsn_conn_ans {name} {
+proc cmsn_conn_ans {name sock} {
 
 	#status_log "cmsn_conn_ans: Connected to invitation SB $name...\n" green
 	
-	catch {fileevent [sb get $name sock] writable {}} res
+	catch {fileevent $sock writable {}} res
 
 	sb set $name time [clock seconds]
 	sb set $name stat "a"
