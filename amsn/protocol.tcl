@@ -270,10 +270,11 @@ namespace eval ::MSN {
       #don't do send or receive something for a long time
 
       if { $myStatus != "FLN" } {
-         ::MSN::WriteNS "CHG" $myStatus
+         #::MSN::WriteNS "CHG" $myStatus
+	::MSN::WriteNS "REA" "dummy@dummy.com"
       }
-      
-      after 60000 "::MSN::PollConnection"
+
+      after 120000 "::MSN::PollConnection"
    }
 
    variable trid 0
