@@ -167,7 +167,7 @@ if {$tcl_platform(platform) == "unix"} {
    set files_dir "$env(USERPROFILE)/amsn_received"
 } else {
    set HOME "amsn"
-   set files_dir "amsn_received
+   set files_dir "amsn_received"
 }
 
 set log_dir "${HOME}/logs"
@@ -220,7 +220,7 @@ proc toggle_status {} {
    global status_show
 
    if {$status_show} {
-      wm state .status withdraw
+      wm state .status withdrawn
       set status_show 0
    } else {
       wm state .status normal
@@ -242,7 +242,7 @@ proc close_cleanup {} {
   global HOME config
   set config(wingeometry) [wm geometry .]
   save_config
-  catch {file delete $HOME/hotlog.htm} res
+  catch {file delete [file join $HOME hotlog.htm]} res
 }
 
 proc cmsn_draw_main {} {
@@ -377,41 +377,41 @@ proc cmsn_draw_main {} {
      "msg_box \"[trans version]: $version - [trans date]: $date\n$weburl\""
 
 
-   image create photo mainback -file ${images_folder}/back.gif   
+   image create photo mainback -file [file join ${images_folder} back.gif]
 
 #   toplevel .main
    wm title . "[trans title] - [trans offline]"
    wm geometry . $config(wingeometry)
    wm iconname . "[trans title]"
-   wm iconbitmap . @${images_folder}/amsn.xbm
+   wm iconbitmap . @[file join ${images_folder} amsn.xbm]
    . conf -menu .main_menu
 
    frame .main 
    pack .main -expand true -fill both
 
-   image create photo online -file ${images_folder}/online.gif
-   image create photo offline -file ${images_folder}/offline.gif
-   image create photo away -file ${images_folder}/away.gif
-   image create photo busy -file ${images_folder}/busy.gif
+   image create photo online -file [file join ${images_folder} online.gif]
+   image create photo offline -file [file join ${images_folder} offline.gif]
+   image create photo away -file [file join ${images_folder} away.gif]
+   image create photo busy -file [file join ${images_folder} busy.gif]
 
-   image create photo bonline -file ${images_folder}/bonline.gif
-   image create photo boffline -file ${images_folder}/boffline.gif
-   image create photo baway -file ${images_folder}/baway.gif
-   image create photo bbusy -file ${images_folder}/bbusy.gif
+   image create photo bonline -file [file join ${images_folder} bonline.gif]
+   image create photo boffline -file [file join ${images_folder} boffline.gif]
+   image create photo baway -file [file join ${images_folder} baway.gif]
+   image create photo bbusy -file [file join ${images_folder} bbusy.gif]
 
-   image create photo notifico -file ${images_folder}/notifico.gif
+   image create photo notifico -file [file join ${images_folder} notifico.gif]
 
-   image create photo blocked -file ${images_folder}/blocked.gif
+   image create photo blocked -file [file join ${images_folder} blocked.gif]
    
-   image create photo colorbar -file ${images_folder}/colorbar.gif
-   image create photo mailbox -file ${images_folder}/unread.gif   
+   image create photo colorbar -file [file join ${images_folder} colorbar.gif]
+   image create photo mailbox -file [file join ${images_folder} unread.gif]
 
-   image create photo contract -file ${images_folder}/contract.gif
-   image create photo expand -file ${images_folder}/expand.gif   
+   image create photo contract -file [file join ${images_folder} contract.gif]
+   image create photo expand -file [file join ${images_folder} expand.gif]
 
-   image create photo globe -file ${images_folder}/globe.gif   
+   image create photo globe -file [file join ${images_folder} globe.gif]
 
-   image create photo typingimg -file ${images_folder}/typing.gif   
+   image create photo typingimg -file [file join ${images_folder} typing.gif]
 
 
    text .main.text -background white -width 30 -height 30 -wrap none \
@@ -443,7 +443,7 @@ proc cmsn_draw_main {} {
 
 proc cmsn_draw_status {} {
    toplevel .status
-   wm state .status withdraw
+   wm state .status withdrawn
    wm title .status "status log - [trans title]"
 
    text .status.info -background white -width 60 -height 30 -wrap word \
@@ -692,7 +692,7 @@ proc cmsn_draw_online {} {
 
    .main.text tag conf online -fore #000000 -font sboldf
    .main.text tag bind online <Button-1> \
-     "set config(showonline) [expr !$config(showonline)];cmsn_draw_online"
+     "set config(showonline) [expr {!$config(showonline)}];cmsn_draw_online"
    .main.text tag bind online <Enter> \
    	".main.text tag conf online -under true;.main.text conf -cursor hand2"
    .main.text tag bind online <Leave> \
@@ -700,7 +700,7 @@ proc cmsn_draw_online {} {
 
    .main.text tag conf offline -fore #000000 -font sboldf
    .main.text tag bind offline <Button-1> \
-     "set config(showoffline) [expr !$config(showoffline)];cmsn_draw_online"
+     "set config(showoffline) [expr {!$config(showoffline)}];cmsn_draw_online"
    .main.text tag bind offline <Enter> \
    	".main.text tag conf offline -under true;.main.text conf -cursor hand2"
    .main.text tag bind offline <Leave> \
@@ -805,7 +805,7 @@ proc cmsn_draw_online {} {
       }
    }
 
-   if $config(listsmileys) {
+   if {$config(listsmileys)} {
      smile_subst .main.text
    }  
 
@@ -885,7 +885,7 @@ proc copypaste_menu {text x y delete} {
    $text.copypaste add command -label "Copy" \
       -command "clipboard clear; catch { \"\[$text get \[lindex \[$text tag ranges sel\] 0\] \[lindex \[$text tag ranges sel\] 1\]\]\" } res"
 
-    if !$delete {
+    if {!$delete} {
      $text.copypaste add command -label "Cut" \
         -command "msg_box cy" -state disabled
      $text.copypaste add command -label "Delete" \
@@ -924,7 +924,7 @@ proc cmsn_draw_msgwin {} {
    toplevel .${win_name}
    wm title .${win_name} "[trans chat]"
    wm iconify .${win_name}
-   wm state .${win_name} withdraw
+   wm state .${win_name} withdrawn
    wm group .${win_name} ""
    wm iconbitmap . @${images_folder}/amsn.xbm
    
@@ -1150,13 +1150,13 @@ proc cmsn_msgwin_flicker {name count} {
    if { [string first $win_name [focus]] != 1 } {
 
         set count  [expr {( $count +1 ) % 2}]
-	if ![catch {
+	if {![catch {
 	  if { $count == 1 } {
   	     wm title .${win_name} "[trans newmsg]"
   	  } else {
 	     wm title .${win_name} [sb get $name title]
 	  }
-	} res] {	
+	} res]} {	
  	  after 300 cmsn_msgwin_flicker $name $count
 	} 
   } else {
@@ -1186,7 +1186,7 @@ proc cmsn_win_write {name txt {colour ""}} {
 
    set text_start [.${win_name}.text index end]
    set posyx [split $text_start "."]   
-   set text_start "[expr [lindex $posyx 0]-1].[lindex $posyx 1]"
+   set text_start "[expr {[lindex $posyx 0]-1}].[lindex $posyx 1]"
    
    #.${win_name}.text mark set new_text_start end
 
@@ -1216,11 +1216,11 @@ proc cmsn_win_write {name txt {colour ""}} {
 	set final 0
 	set caracter [string range $urltext $final $final]
 	while { $caracter != " " && $caracter != "\n" } {
-		set final [expr $final+1]
+		set final [expr {$final+1}]
 		set caracter [string range $urltext $final $final]
 	}
 	
-	set urltext [string range $urltext 0 [expr $final-1]]
+	set urltext [string range $urltext 0 [expr {$final-1}]]
 
         set posyx [split $pos "."]
         set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $final}]"
@@ -1228,7 +1228,7 @@ proc cmsn_win_write {name txt {colour ""}} {
 
 	#puts "    Encontrado url $urltext en $pos-$endpos"
 
-	set urlcount "[expr $urlcount+1]"
+	set urlcount "[{expr $urlcount+1}]"
 	set urlname "url_$urlcount"
 
 	.${win_name}.text tag configure $urlname \
@@ -1251,7 +1251,7 @@ proc cmsn_win_write {name txt {colour ""}} {
    }
 #end by AIM
  
-   if $config(chatsmileys) {
+   if {$config(chatsmileys)} {
      smile_subst .${win_name}.text $text_start
    }  
 
@@ -1592,7 +1592,7 @@ proc cmsn_update_users {sb_name recv} {
          set file_name "${file_name}-${user_login}"
       }
       set file_name [string range ${file_name} 1 end]
-      sb set $sb_name log_fcid [open "${log_dir}/${file_name}" a+]
+      sb set $sb_name log_fcid [open "[file join ${log_dir} ${file_name}]" a+]
    }
 
    cmsn_msgwin_title $sb_name

@@ -25,9 +25,9 @@ proc hotmail_login {userlogin {pass ""}} {
     set page_data [subst -nocommands -nobackslashes $page_data]
 
     if {$tcl_platform(platform) == "unix"} {
-      set file_id [open "${HOME}/hotlog.htm" w 00600]
+      set file_id [open "[file join ${HOME} hotlog.htm]" w 00600]
     } else {
-      set file_id [open "${HOME}/hotlog.htm" w]
+      set file_id [open "[file join ${HOME} hotlog.htm]" w]
     }
 
      puts $file_id $page_data

@@ -32,9 +32,9 @@ proc save_config {} {
    global tcl_platform config HOME version password
 
    if {$tcl_platform(platform) == "unix"} {
-      set file_id [open "${HOME}/config" w 00600]
+      set file_id [open "[file join ${HOME} config]" w 00600]
    } else {
-      set file_id [open "${HOME}/config" w]
+      set file_id [open "[file join ${HOME} config]" w]
    }
    puts $file_id "amsn_config_version 1"
    set config(last_client_version) $version
@@ -55,8 +55,8 @@ proc save_config {} {
 proc load_config {} {
    global config HOME password
 
-   if {([file readable "${HOME}/config"] == 0) ||
-       ([file isfile "${HOME}/config"] == 0)} {
+   if {([file readable "[file join ${HOME} config]"] == 0) ||
+       ([file isfile "[file join ${HOME}/config]"] == 0)} {
       return 1
    }
    set file_id [open "${HOME}/config" r]

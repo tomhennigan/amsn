@@ -16,7 +16,7 @@ proc checking_ver {} {
 
      gets $sock tmp_data
      set end [string length $tmp_data]
-     set ok [string range $tmp_data [expr $end -3] [expr $end -2]]
+     set ok [string range $tmp_data [expr {$end -3}] [expr {$end -2}]]
 
      if { $ok == "OK" } {
      	while { [string length $tmp_data] > 1 } {
@@ -38,7 +38,7 @@ proc checking_ver {} {
 	   }
      }
      
-     if !$newer {
+     if {!$newer} {
        msg_box "[trans nonewver]"
      } else {
        msg_box "[trans newveravailable $tmp_data]\n$weburl"

@@ -195,7 +195,7 @@ namespace eval ::amsn {
       incr NotifID
       
       toplevel $w -width 1 -height 1
-      wm state $w withdraw
+      wm state $w withdrawn
             
       set ypos 0      
       while { [lsearch -exact $NotifPos $ypos] >=0 } {

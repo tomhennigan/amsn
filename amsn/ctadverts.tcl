@@ -87,7 +87,7 @@ proc adv_fetch {} {
     global adv_url adv_timeout adv_cycle adv_enable adv_paused
     global adv_fetched adv_recycle adv_lastfile adv_after_id
 
-    set mod [expr $adv_fetched % $adv_recycle]
+    set mod [expr {$adv_fetched % $adv_recycle}]
 #    puts "F $adv_fetched R $adv_recycle M $mod"
     if { $adv_fetched > 0 && $mod == 0 } {
         adv_show_banner file $adv_lastfile
