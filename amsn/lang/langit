@@ -42,7 +42,7 @@ autoaway Mostrami come "Assente" quando sono inattivo per
 autocheckver Controlla automaticamente all'avvio se ci sono nuove versioni
 autoconnect2 Accedi automaticamente quando aMSN viene lanciato
 autoconnect Connetti immediatamente all'esecuzione di asmn 
-autodetectip:Ottieni indirizzo IP automaticamente
+autodetectip Ottieni indirizzo IP automaticamente
 autohotmaillog Auto-login Hotmail
 autoidle Nessuna attività automatica
 autoip IP automatico
@@ -92,7 +92,7 @@ chatsmileys Faccine per la chat
 checkblocking Controlla continuamente se gli utenti ti stanno bloccando
 checkfilman I files ricevuti saranno salvati in $1. Per favore controlla le impostazioni del file manager nella finestra delle preferenze.
 checkingver Sto verificando una nuova versione
-checkemail:Visualizza riga notifica mail(posta in arrivo) nella lista dei contatti
+checkemail Visualizza riga notifica mail(posta in arrivo) nella lista dei contatti
 checkonfln Controlla se un utente ti blocca quando va fuori linea.
 checkver Controlla l'esistenza di nuove versioni
 choosearq Scegli l'architettura del tuo sistema
@@ -129,7 +129,7 @@ corruptconfig Il file della configurazione è corrotto. Ne creo uno nuovo. Il vec
 corruptstates La configurazione degli Stati personali è corrotta. Ne creo una nuova. Il vecchio file verrà salvato in $1. Per favore invialo ai programmatori che cercheranno di capire cosa è successo.
 countrycode Il mio codice Regionale/Nazionale
 cprofile Crea un profilo
-credits: credits
+credits credits
 custom_edit Crea una faccina personalizzata
 custom_new Aggiungi una nuova faccina personalizzata
 cut Taglia
@@ -369,7 +369,7 @@ preferences Preferenze
 preffont2 Cambia il modo in cui gli altri vedono il mio testo nelle chat
 preffont3 Cambia la dimensione e il tipo dei caratteri dell'interfaccio di aMSN
 preffont Il mio testo del mio messaggio
-prefft: Settaggi trasferimento file, peer-to-peer e NAS
+prefft Settaggi trasferimento file, peer-to-peer e NAS
 preflibs Cartelle delle librerie
 preflog1 Le mio opzioni di History e registrazione
 preflook L'aspetto del mio aMSN
@@ -411,7 +411,7 @@ reconnect Sto aspettando che $1 si riconnetta
 reject Respingi
 rememberpass Ricorda password
 removefromlist Rimuovi da questa lista
-rename: rinomina
+rename rinomina
 reversed Invertito
 reverselist Invertire la lista (RL)
 rightback Torno subito

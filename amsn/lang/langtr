@@ -80,8 +80,8 @@ cantremoveothers "Diðer" grubu silinemiyor
 casesensitive Yazýlý karþýlýklarda büyük/küçük harfe duyarlý ol
 cfgalarm Alarmý Düzenle/Ekle/Kaldýr
 cfgalarmall Genel Alarmý Düzenle/Ekle/Kaldýr
-changecustomstate Þu duruma geç:
 change Deðiþtir
+changecustomstate Þu duruma geç:
 changedisplaypic Kullanýcý resmini deðiþtir
 changefont Yazitipi deðiþtir
 changenick Kullanýcý ismini deðiþtir
@@ -136,9 +136,9 @@ cprofile Profil oluþtur
 credits Emeði Geçenler
 currentdate Bugünün Tarihi
 customcolor Özel renk
+customnick Özel kullanýcý ismi
 custom_edit Özel gülen adamý düzenle
 custom_new Yeni özel gülen adam ekle
-customnick Özel kullanýcý ismi
 cut Kes
 date Tarih
 days Gün
@@ -203,7 +203,7 @@ filename Dosya adý
 filetransfercancelled Dosya aktarýmý iptal edildi
 filetransfercomplete Dosya aktarýmý tamamlandý
 followtext Yeni metin girilince aþaði kaydýr
-friendlyname Dost Ýsmi 
+friendlyname Sohbetlerdeki kullanýcý ismi
 ftacceptedby $1, '$2' dosyasý için yapýlan aktarým davetini kabul etti
 ftaccepted Dosya aktarýmý kabul edildi
 ftaccepting Dosya aktarým davetini kabul ediyor
@@ -295,6 +295,7 @@ logsin baðlandý
 logsmileys Geçmiþ penceresinde gülen adamlar görünsün
 logsout $1 az önce sohbetten ayrýldý.
 longnick Kullanýcý isminiz 130 harften uzun. Bu, resmi MSN protokolünce desteklenmiyor. Bu ismi kullanmak istediðinizden emin misiniz?
+longp4c Sohbetteki kullanýcý isminiz 130 harften uzun. Resmi MSN Messenger sürümlerinde isminiz $1 olarak gözükecek. Bu ismi seçmek istediðinizden emin misiniz?
 lprivtoconf $1 ile özel görüþme konferansa çevrildi
 luclosedwin $1 de pencereyi kapadýnýz
 mailer E-posta uygulamasý
@@ -329,8 +330,8 @@ next sonraki
 nick Kullanýcý Ýsmi
 noactivity Etkinlik yok
 nodataavailable $1 hakkýnda bilgi yok
-nogroup Grup yok
 no Hayýr
+nogroup Grup yok
 nologfile $1 ile sohbet kaydý yok
 noneavailable Hiçbiri yok
 nonewmail Gelen kutusunda yeni ileti yok
@@ -369,8 +370,8 @@ pager Çaðrý cihazý
 pass þifre
 paste Yapýþtýr
 personal Kiþisel
-phones Telefon numaralarý
 phone Telefon
+phones Telefon numaralarý
 picbrowser Kullanýcý resmi tarayýcýsý
 picfile Alarm resmi dosyasý (GIF < 500 x 500)
 picstatus Resimli alarmý aç/kapa
@@ -469,6 +470,7 @@ smilefile Gülen adam dosya ismi
 smileintro2 Bu gülen adamý özelleþtirmek için ilgili alanlarý düzenleyiniz \n(yardým için SSS'a bakýnýz)
 smileintro Özel bir gülen adam yaratmak için ilgili alanlarý doldurunuz \n(yardým için SSS'a bakýnýz)
 sound2 Baðlantýlar girince ya da ileti gönderince ses çýkar
+soundactive Etkin sohbet penceresine ileti gelince de ses çýkar
 soundcommand Ses çalma komutu (örn: esdplay)
 soundexample (\$sound = Çalýnacak ses dosyasý) Örn: esdplay \$sound
 soundfile Alarm ses dosyasý
@@ -524,8 +526,8 @@ unblock Engeli kaldir
 uoffline Çevrim dýþý
 uonline Çevrim içi
 useralreadyonlist Kullanýcý zaten baðlantý listesinde
-userblocked Bu kullanýcý baðli ama sizi engellemiþ
 userdata Kullanýcý Bilgileri
+userblocked Bu kullanýcý baðli ama sizi engellemiþ
 user Kullanýcý
 usernotonline Bu kullanýcý baðlý deðil
 userproperties $'in kullanýcý özellikleri

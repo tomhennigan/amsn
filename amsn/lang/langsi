@@ -294,7 +294,8 @@ logsbydate Razvrsti loge po datumu (Hitrejse nalaganje zgodovine)
 logsin se je ravnokar prijavil/a
 logsmileys Prikazi emotikone in smeske v zgodovini
 logsout se je ravnokar odjavil/a
-longnick Tvoj nick je daljsi od 130 zankov. To ni uradno podprto v MSNjevem protokolu. Si preprican, da hoces imeti tak nick?
+longnick Tvoj nick je daljsi od 130 znakov. To ni uradno podprto v MSNjevem protokolu. Si preprican, da hoces imeti tak nick?
+longp4c Tvoje prijazno ime je daljse od 130 znakov. Prijazno ime, ki bo prikazano na uradnem MSNjevem odjemalcu, bo $1. Si preprican, da hoces imeti tako prijazno ime?
 lprivtoconf Zasebni pogovor spremenjen v konferenco na $1
 luclosedwin Zaprli ste okno ($1)
 mailerexample ( \$recipient = prejemnik ) Pusti prazno za uporabo Hotmaila
@@ -469,6 +470,7 @@ smilefile Datoteka
 smileintro2 Uredi potrebna polja, ce zelis spremeniti tega smeska (poglej v FAQ za pomoc)
 smileintro Izpolni potrebna polja, ce zelis ustvariti novega lastnega smeska (poglej v FAQ za pomoc)
 sound2 Predvajaj zvoke ob nekaterih dogodkih
+soundactive Predvajaj zvok tudi ob prejetem sporocilu v aktivnem oknu
 soundcommand To mora biti ukaz play (npr. esdplay)
 soundexample ( \$sound = Zvocna datoteka) Npr.: esdplay \$sound
 soundfiles Zvoki

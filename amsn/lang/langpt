@@ -548,3 +548,4 @@ phones Numeros de telefone
 automessage Mensagem automática
 friendlyname Nome amigavél
 longp4c O nome amigavél que escolheu tem mais de 130 caracteres. O nome amigavél que vai aparecer na versão oficial do MSN vai ser $1. Confirma este nome?
+soundactive Reproduz som quando recebe mensagens mesmo na janela activa
