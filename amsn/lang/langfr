@@ -54,6 +54,7 @@ blocking Bloquer
 blockinter1 Lorsque vous êtes en ligne, vérifier à chaque
 blockinter2 seconde(s), sinon vérifier à chaque:
 blockinter3 à chaque
+blockinter4 secondes.
 blocklist Liste de personnes bloquées
 blockmessage Ces personnes sont en ligne mais vous bloquent
 blockusers Nombre d'utilisateurs à cocher à la fois
@@ -331,13 +332,18 @@ proxyconnection Je me connecte à Internet par un serveur proxy :
 proxy Je suis derrière un serveur proxy (HTTP ou SOCKS5)
 publishphones Publier mes numéros de téléphone
 raised Maximiser/Déiconifier
+readonlymsgbox Le tranfert de fichier a été annulé, car le répertoire de
+readonlymsgbox Le tranfert de fichier a été annulé, car le répertoire de réception est en lecture seule. Veillez modifier les droits d'accès de ce répertoire. 
+readonlywarn AVERTISSEMENT: Le fichier ne sera probablement PAS sauvegardé correctement, car le répertoire de réception de fichiers semble être protégé en écriture. Veillez vous assurer que les droits d'accès du répertoire $1 sont configurés correctement avant de transférer le fichier.
 receivedbytes $1 de $2 octets reçus
 receivefile Fichier reçu
+réception est en lecture seule. Veillez modifier les droits d'accès de ce
 reconnect Dans l'attente de la reconnexion de $1
 reconnecting Reconnexion au serveur
 reject Refuser
 rememberpass Enregistrer le mot de passe
 removefromlist Supprimer de cette liste
+répertoire.
 reversed Inverser
 reverselist Liste inversée :
 rightback Bientôt de retour
@@ -394,7 +400,7 @@ to A
 tools Outils
 tooltips Activer les info-bulles
 transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue.
-traynotcompiled Le plugin de l'icone de la corbeille n'est pas conforme. Sélectionnez plugins/ancrage de la corbeille
+traynotcompiled Le plugiciel de l'icône de la corbeille n'est pas conforme. Sélectionnez plugiciel/ancrage de la corbeille
 triggers Textes déclencheurs
 twonewmail $1 nouveaux messages dans votre boîte de réception
 unblock Débloquer
