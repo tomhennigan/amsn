@@ -125,29 +125,29 @@ namespace eval ::amsnplus {
 		set incr 1
 		while {$i<$strlen} {
 			set char [::amsnplus::readWord $i $msg $strlen]
-			if {[string equal $char "/all"]} {
-				set msg [string replace $msg $i [expr $i + 4] ""]
-				set strlen [string length $msg]
-				set i 0
-				while {![string equal $i [array size $::ChatWindow::chat_ids]]} {
-					set chat_id $::ChatWindow::chat_ids($i)
-					set win_name [::ChatWindow::For $chat_id]
-					status_log "\nMessageSend $win_name $msg\n"
-					::amsn::MessageSend $win_name $msg
-				}
-				set msg ""
-				set strlen 0
-				set incr 0
-			}
-			#if {[string equal $char "/add"]} {
+			#if {[string equal $char "/all"]} {
 			#	set msg [string replace $msg $i [expr $i + 4] ""]
 			#	set strlen [string length $msg]
-			#	set userlogin [::amsnplus::readWord $i $msg $strlen]
-			#	set llen [string length $userlogin]
-			#	set msg [string replace $msg $i [expr $i + $llen] ""]
-			#	::MSN::addUser $userlogin
+			#	set i 0
+			#	while {![string equal $i [array size $::ChatWindow::chat_ids]]} {
+			#		set chat_id $::ChatWindow::chat_ids($i)
+			#		set win_name [::ChatWindow::For $chat_id]
+			#		status_log "\nMessageSend $win_name $msg\n"
+			#		::amsn::MessageSend $win_name $msg
+			#	}
+			#	set msg ""
+			#	set strlen 0
 			#	set incr 0
 			#}
+			if {[string equal $char "/add"]} {
+				set msg [string replace $msg $i [expr $i + 4] ""]
+				set strlen [string length $msg]
+				set userlogin [::amsnplus::readWord $i $msg $strlen]
+				set llen [string length $userlogin]
+				set msg [string replace $msg $i [expr $i + $llen] ""]
+				::MSN::addUser $userlogin
+				set incr 0
+			}
 			if {[string equal $char "/addgroup"]} {
 				set msg [string replace $msg $i [expr $i + 9] ""]
 				set strlen [string length $msg]
