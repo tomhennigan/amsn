@@ -8,33 +8,44 @@
 	     
 	     file should begin with <smileys> and end with </smileys>
 	     To define a new emoticon, you must put it between the statements <emoticon> and </emoticon>
-	     You must define the 3 variables : name, text and file in order to successfully create the emoticon
+	     You must define the 3 variables : <name>, <text> and <file> in order to successfully create the emoticon
 	     You may have as many text statements but only one for name and one for file
-	     Here are the other options available... maybe more to come :
-	     animated : set it to 1, true, or yes to specify it's an animated gif
-	     sound : sets the filename for playing an emotisound for that smiley
-	     casesensitive : set it to 1, true or yes if you want to trigger that smiley on a the case sensitive text
+	     <name> will be the name of the smiley 
+	     <text> is the text binded to be replaced by the emoticon
+	     <file> is the filename of the emoticon image without extension (extension must be .gif)
 	     
-	     any suggestions, or questions... you know what you have to do :P     
+	     A "TRUE" value is either "yes", "y", "true" or "1", a FALSE value is any other value
+	     The smileys are sorted in the smileys menu depending on their position in this file
+
+	     Here are the other options available... maybe more to come :
+	     <animated> : set it to TRUE to specify it's an animated gif
+	     <sound> : sets the filename for playing an emotisound for that smiley without extension (must be .wav)
+	     <casesensitive> : set it to TRUE if you want to trigger that smiley on a case sensitive text
+	     <disabled> : set it to TRUE and the smiley will be disabled.. same effect as if the whole
+	     emoticon statements were commented
+	     <hiden> : set it to TRUE if you want to hide the smiley from the smileys menu
+
+	     any suggestions, or questions... write to amsn-devel mailing list
 -->
 
 <smileys>
 
    <emoticon>
       <name> smile </name>
-      <text> ":)"</text>
-      <text> ":-)"</text>
-      <file> smile</file>
+      <text> ":)" </text>
+      <text> ":-)" </text>
+      <file> smile </file>
    </emoticon>
 
    <emoticon>
       <name> wink </name>
       <text> ";)" </text>
-      <file> wink</file>
+      <file> wink </file>
+      <animated> yes </animated>
    </emoticon>
 
    <emoticon>
-      <name> big smile </name>
+      <name> smiled </name>
       <text> ":D" </text>
       <text> ":-D" </text>
       <text> ":>" </text>
@@ -43,7 +54,7 @@
    </emoticon>
 
    <emoticon>
-      <name> smile thong </name>
+      <name> smilep </name>
       <text> ":P" </text>
       <text> ":-P" </text>
       <file> smilep </file>
@@ -59,36 +70,37 @@
    </emoticon>
 
    <emoticon>
-      <name> disgusted </name>
+      <name> disgust </name>
       <text> ":|" </text>
       <text> ":-|" </text>
       <file> disgust </file>
    </emoticon>
 
    <emoticon>
-      <name> feeling weird </name>
+      <name> crooked </name>
       <text> ":S" </text>
       <text> ":-S" </text>
       <file> crooked </file>
    </emoticon>
 
   <emoticon>
-      <name> opened mouth </name>
+      <name> smileo </name>
       <text> ":O" </text>
       <text> ":-O" </text>
       <file> smileo </file>
    </emoticon>
 
   <emoticon>
-      <name> feel down </name>
+      <name> smilec </name>
       <text> ":`(" </text>
       <file> smilec </file>
    </emoticon>
 
   <emoticon>
-      <name> crying </name>
+      <name> cry </name>
       <text> ":'(" </text>
-      <file> smilec2 </file>
+      <file> cry </file>
+      <animated> 1 </animated>
    </emoticon>
 
    <emoticon>
@@ -127,6 +139,7 @@
       <name> new7 </name>
       <text> ":^)" </text>
       <file> new7 </file>
+      <animated> yes </animated>
    </emoticon>
 
    <emoticon>
@@ -139,12 +152,14 @@
       <name> new5 </name>
       <text> "8-)" </text>
       <file> new5 </file>
+      <animated> 1 </animated>
    </emoticon>
 
    <emoticon>
       <name> new4 </name>
       <text> "|-)" </text>
       <file> new4 </file>
+      <animated> 1 </animated>
    </emoticon>
 
    <emoticon>
@@ -157,6 +172,7 @@
       <name> new2 </name>
       <text> "*-)" </text>
       <file> new2 </file>
+      <animated> 1 </animated>
    </emoticon>
 
    <emoticon>
@@ -180,8 +196,8 @@
    <emoticon>
       <name> party </name>
       <text> "&lt;:o)" </text>
-      <text> ">:o)" </text>
       <file> party </file>
+      <animated> yes </animated>
    </emoticon>
 
    <emoticon>
@@ -248,6 +264,7 @@
       <name> cake </name>
       <text> "(^)" </text>
       <file> cake </file>
+      <animated> true </animated>
    </emoticon>
 
    <emoticon>
@@ -351,6 +368,7 @@
       <name> cigarette </name>
       <text> "(ci)" </text>
       <file> cigarette </file>
+      <animated> yes </animated>
    </emoticon>
 
    <emoticon>
@@ -417,6 +435,7 @@
       <name> storm </name>
       <text> "(li)" </text>
       <file> storm </file>
+      <animated> yes </animated>
    </emoticon>
 
    <emoticon>
@@ -462,6 +481,7 @@
       <text> ":-[" </text>
      <text> ":[" </text>
       <file> vampire </file>
+      <animated> yes </animated>
    </emoticon>
 
    <emoticon>
