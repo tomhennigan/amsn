@@ -1,10 +1,10 @@
-# Copyright (c) 1998-2002, Bryan Oakley
+# Copyright (c) 1998-2003, Bryan Oakley
 # All Rights Reservered
 #
 # Bryan Oakley
 # oakley@bardo.clearlight.com
 #
-# combobox v2.2.1 September 22, 2002
+# combobox v2.3 August 16, 2003
 #
 # a combobox / dropdown listbox (pick your favorite name) widget 
 # written in pure tcl
@@ -18,7 +18,7 @@
 # Scott Beasley     Alexandre Ferrieux      Todd Helfter
 # Matt Gushee       Laurent Duperval        John Jackson
 # Fred Rapp         Christopher Nelson
-# Eric Galluzzo     Jean-Francois Moine
+# Eric Galluzzo     Jean-Francois Moine	    Oliver Bienert
 #
 # A special thanks to Martin M. Hunt who provided several good ideas, 
 # and always with a patch to implement them. Jean-Francois Moine, 
@@ -28,7 +28,7 @@
 # ... and many others over the years.
 
 package require Tk 8.0
-package provide combobox 2.2.1
+package provide combobox 2.3
 
 namespace eval ::combobox {
 
@@ -115,6 +115,7 @@ proc ::combobox::Init {} {
 	    -bd                  -borderwidth \
 	    -bg                  -background \
 	    -borderwidth         {borderWidth         BorderWidth} \
+	    -buttonbackground    {buttonBackground    Background} \
 	    -command             {command             Command} \
 	    -commandstate        {commandState        State} \
 	    -cursor              {cursor              Cursor} \
@@ -122,6 +123,7 @@ proc ::combobox::Init {} {
 	    -disabledforeground  {disabledForeground  DisabledForeground} \
             -dropdownwidth       {dropdownWidth       DropdownWidth} \
 	    -editable            {editable            Editable} \
+	    -elementborderwidth  {elementBorderWidth  BorderWidth} \
 	    -fg                  -foreground \
 	    -font                {font                Font} \
 	    -foreground          {foreground          Foreground} \
@@ -130,6 +132,7 @@ proc ::combobox::Init {} {
 	    -highlightcolor      {highlightColor      HighlightColor} \
 	    -highlightthickness  {highlightThickness  HighlightThickness} \
 	    -image               {image               Image} \
+	    -listvar             {listVariable        Variable} \
 	    -maxheight           {maxHeight           Height} \
 	    -opencommand         {opencommand         Command} \
 	    -relief              {relief              Relief} \
@@ -150,7 +153,7 @@ proc ::combobox::Init {} {
 	    delete    get      icursor      index        \
 	    insert    list     scan         selection    \
 	    xview     select   toggle       open         \
-            close     \
+            close    subwidget  \
     ]
 
     set listCommands [list \
@@ -160,7 +163,7 @@ proc ::combobox::Init {} {
 
     set scanCommands [list mark dragto]
 
-    # why check for the Tk package? This lets us be source d into 
+    # why check for the Tk package? This lets us be sourced into 
     # an interpreter that doesn't have Tk loaded, such as the slave
     # interpreter used by pkg_mkIndex. In theory it should have no
     # side effects when run 
@@ -212,6 +215,7 @@ proc ::combobox::Init {} {
 	# exist... 
 	scrollbar $tmpWidget
 	set sb_width [winfo reqwidth $tmpWidget]
+	set bbg [$tmpWidget cget -background]
 	destroy $tmpWidget
 
 	# steal options from the entry widget
@@ -242,6 +246,8 @@ proc ::combobox::Init {} {
 	destroy $tmpWidget
 
 	# these are unique to us...
+	option add *Combobox.elementBorderWidth  1	widgetDefault
+	option add *Combobox.buttonBackground    $bbg	widgetDefault
 	option add *Combobox.dropdownWidth       {}     widgetDefault
 	option add *Combobox.openCommand         {}     widgetDefault
 	option add *Combobox.cursor              {}     widgetDefault
@@ -292,7 +298,8 @@ proc ::combobox::SetClassBindings {} {
     # this helps (but doesn't fully solve) focus issues. The general
     # idea is, whenever the frame gets focus it gets passed on to
     # the entry widget
-    bind Combobox <FocusIn> {::combobox::tkTabToWindow [::combobox::convert %W -W].entry}
+    bind Combobox <FocusIn> {::combobox::tkTabToWindow \
+				 [::combobox::convert %W -W].entry}
 
     # this closes the listbox if we get hidden
     bind Combobox <Unmap> {[::combobox::convert %W -W] close}
@@ -485,8 +492,8 @@ proc ::combobox::Build {w args } {
     set widgets(frame) ::combobox::${w}::$w
 
     # gotta do this sooner or later. Might as well do it now
-    pack $widgets(entry)  -side left  -fill both -expand yes
     pack $widgets(button) -side right -fill y    -expand no
+    pack $widgets(entry)  -side left  -fill both -expand yes
 
     # I should probably do this in a catch, but for now it's
     # good enough... What it does, obviously, is put all of
@@ -511,12 +518,14 @@ proc ::combobox::Build {w args } {
     # to appear "inside" the entry widget.
 
     $widgets(vsb) configure \
+	    -borderwidth 1 \
 	    -command "$widgets(listbox) yview" \
 	    -highlightthickness 0
 
     $widgets(button) configure \
+	    -background $options(-buttonbackground) \
 	    -highlightthickness 0 \
-	    -borderwidth 1 \
+	    -borderwidth $options(-elementborderwidth) \
 	    -relief raised \
 	    -width [expr {[winfo reqwidth $widgets(vsb)] - 2}]
 
@@ -526,7 +535,7 @@ proc ::combobox::Build {w args } {
 	    -highlightthickness 0 
 
     $widgets(dropdown) configure \
-	    -borderwidth 1 \
+	    -borderwidth $options(-elementborderwidth) \
 	    -relief sunken
 
     $widgets(listbox) configure \
@@ -752,20 +761,16 @@ proc ::combobox::HandleEvent {w event args} {
 
 proc ::combobox::DestroyHandler {w} {
 
-    # if the widget actually being destroyed is of class Combobox,
-    # crush the namespace and kill the proc. Get it? Crush. Kill. 
-    # Destroy. Heh. Danger Will Robinson! Oh, man! I'm so funny it
-    # brings tears to my eyes.
-    if {[string compare [winfo class $w] "Combobox"] == 0} {
-	upvar ::combobox::${w}::widgets  widgets
-	upvar ::combobox::${w}::options  options
-
-	# delete the namespace and the proc which represents
-	# our widget
-	namespace delete ::combobox::$w
-	rename $w {}
-    }   
-
+    catch {
+	# if the widget actually being destroyed is of class Combobox,
+	# remove the namespace and associated proc.
+	if {[string compare [winfo class $w] "Combobox"] == 0} {
+	    # delete the namespace and the proc which represents
+	    # our widget
+	    namespace delete ::combobox::$w
+	    rename $w {}
+	}   
+    }
     return ""
 }
 
@@ -927,6 +932,7 @@ proc ::combobox::Select {w index} {
 
     }
     $widgets(entry) selection range 0 end
+    $widgets(entry) icursor end
 
     $widgets(this) close
 
@@ -960,7 +966,9 @@ proc ::combobox::HandleScrollbar {w {action "unknown"}} {
     switch $action {
 	"grow" {
 	    if {$hlimit > 0 && [$widgets(listbox) size] > $hlimit} {
+		pack forget $widgets(listbox)
 		pack $widgets(vsb) -side right -fill y -expand n
+		pack $widgets(listbox) -side left -fill both -expand y
 	    }
 	}
 
@@ -973,12 +981,16 @@ proc ::combobox::HandleScrollbar {w {action "unknown"}} {
 	"crop" {
 	    # this means the window was cropped and we definitely 
 	    # need a scrollbar no matter what the user wants
+	    pack forget $widgets(listbox)
 	    pack $widgets(vsb) -side right -fill y -expand n
+	    pack $widgets(listbox) -side left -fill both -expand y
 	}
 
 	default {
 	    if {$hlimit > 0 && [$widgets(listbox) size] > $hlimit} {
+		pack forget $widgets(listbox)
 		pack $widgets(vsb) -side right -fill y -expand n
+		pack $widgets(listbox) -side left -fill both -expand y
 	    } else {
 		pack forget $widgets(vsb)
 	    }
@@ -1086,7 +1098,7 @@ proc ::combobox::ComputeGeometry {w} {
 		# pop it up. Y is zero; that parts easy. The height
 		# is simply the y coordinate of our widget, minus
 		# a pixel for some visual separation. The y coordinate
-		# will be the top of the screen.
+		# will be the topof the screen.
 		set y 1
 		set height [expr {$rooty - 1 - $y}]
 
@@ -1143,7 +1155,7 @@ proc ::combobox::DoInternalWidgetCommand {w subwidget command args} {
 	regsub $widgets($subwidget) $result $widgets(this) result
 
 	# replace specific instances of the subwidget command
-	# with out megawidget command
+	# with our megawidget command
 	switch $subwidget,$subcommand {
 	    listbox,index  {regsub "index"  $result "list index"  result}
 	    listbox,insert {regsub "insert" $result "list insert" result}
@@ -1151,7 +1163,7 @@ proc ::combobox::DoInternalWidgetCommand {w subwidget command args} {
 	    listbox,get    {regsub "get"    $result "list get"    result}
 	    listbox,size   {regsub "size"   $result "list size"   result}
 	}
-	status_log "ERROR, ERROR, combobox.tcl :  $result\n\n" red
+	status_log "ERROR, ERROR, combobox.tcl: $result\n\n" red
 
     } else {
 	return $result
@@ -1284,7 +1296,7 @@ proc ::combobox::WidgetProc {w command args} {
 	    if {$options(-editable)} {
 		focus $widgets(entry)
 		$widgets(entry) select range 0 end
-		$widgets(entry) icur end
+		$widgets(entry) icursor end
 	    }
 
 	    # if we are disabled, we won't allow this to happen
@@ -1323,8 +1335,9 @@ proc ::combobox::WidgetProc {w command args} {
 	    # ok, tweak the visual appearance of things and 
 	    # make the list pop up
 	    $widgets(button) configure -relief sunken
-	    raise $widgets(dropdown) [winfo parent $widgets(this)]
 	    wm deiconify $widgets(dropdown) 
+	    update idletasks
+	    raise $widgets(dropdown) 
 
 	    # force focus to the entry widget so we can handle keypress
 	    # events for traversal
@@ -1371,9 +1384,9 @@ proc ::combobox::WidgetProc {w command args} {
 	    catch {
 		set status [lindex $oldGrab 1]
 		if {$status == "global"} {
-		    catch {grab -global [lindex $oldGrab 0]}
+		   catch {grab -global [lindex $oldGrab 0]}
 		} elseif {$status == "local"} {
-		    catch {grab [lindex $oldGrab 0]}
+		   catch {grab [lindex $oldGrab 0]}
 		}
 		unset status
 	    }
@@ -1521,6 +1534,9 @@ proc ::combobox::Configure {w args} {
 	}
 
 	switch -- $option {
+	    -buttonbackground {
+		$widgets(button) configure -background $newValue
+	    }
 	    -background {
 		set updateVisual 1
 		set options($option) $newValue
@@ -1570,16 +1586,23 @@ proc ::combobox::Configure {w args} {
 
 	    -editable {
 		set updateVisual 1
-		if {$newValue} {
-		    # it's editable...
-		    $widgets(entry) configure \
-			    -state normal \
-			    -cursor $defaultEntryCursor
-		} else {
-		    $widgets(entry) configure \
-			    -state disabled \
-			    -cursor $options(-cursor)
-		}
+ 		if {$newValue} {
+ 		    # it's editable...
+ 		    $widgets(entry) configure \
+ 			    -state normal \
+ 			    -cursor $defaultEntryCursor
+ 		} else {
+ 		    $widgets(entry) configure \
+ 			    -state disabled \
+ 			    -cursor $options(-cursor)
+ 		}
+		set options($option) $newValue
+	    }
+
+	    -elementborderwidth {
+		$widgets(button) configure -borderwidth $newValue
+		$widgets(vsb) configure -borderwidth $newValue
+		$widgets(dropdown) configure -borderwidth $newValue
 		set options($option) $newValue
 	    }
 
@@ -1617,10 +1640,24 @@ proc ::combobox::Configure {w args} {
 	    
 	    -image {
 		if {[string length $newValue] > 0} {
-		    $widgets(button) configure -image $newValue
+		    puts "old button width: [$widgets(button) cget -width]"
+		    $widgets(button) configure \
+			-image $newValue \
+			-width [expr {[image width $newValue] + 2}]
+		    puts "new button width: [$widgets(button) cget -width]"
+		    
 		} else {
 		    $widgets(button) configure -image ::combobox::bimage
 		}
+		set options($option) $newValue
+	    }
+
+	    -listvar {
+		if {[catch {$widgets(listbox) cget -listvar}]} {
+		    return -code error \
+			"-listvar not supported with this version of tk"
+		}
+		$widgets(listbox) configure -listvar $newValue
 		set options($option) $newValue
 	    }
 
@@ -1842,7 +1879,6 @@ proc ::combobox::SetValue {w newValue} {
 
     # call the associated command. The proc will handle whether or 
     # not to actually call it, and with what args
-    $w close
     CallCommand $w $newValue
 
     return ""
@@ -2124,31 +2160,30 @@ proc ::combobox::HumanizeList {list} {
     }
 }
 
+if { $initialize_amsn == 1} {
+# This is some backwards-compatibility code to handle TIP 44
+# (http://purl.org/tcl/tip/44.html). For all private tk commands
+# used by this widget, we'll make duplicates of the procs in the
+# combobox namespace. 
+#
+# I'm not entirely convinced this is the right thing to do. I probably
+# shouldn't even be using the private commands. Then again, maybe the
+# private commands really should be public. Oh well; it works so it
+# must be OK...
+foreach command {TabToWindow CancelRepeat ListboxUpDown} {
+    if {[llength [info commands ::combobox::tk$command]] == 1} break;
 
-if { $initialize_amsn == 1 } {
-    # This is some backwards-compatibility code to handle TIP 44
-    # (http://purl.org/tcl/tip/44.html). For all private tk commands
-    # used by this widget, we'll make duplicates of the procs in the
-    # combobox namespace. 
-    #
-    # I'm not entirely convinced this is the right thing to do. I probably
-    # shouldn't even be using the private commands. Then again, maybe the
-    # private commands really should be public. Oh well; it works so it
-    # must be OK...
-    foreach command {TabToWindow CancelRepeat ListboxUpDown} {
-	if {[llength [info commands ::combobox::tk$command]] == 1} break;
-	
-	set tmp [info commands tk$command]
-	set proc ::combobox::tk$command
-	if {[llength [info commands tk$command]] == 1} {
-	    set command [namespace which [lindex $tmp 0]]
-	    proc $proc {args} "uplevel $command \$args"
-	} else {
-	    if {[llength [info commands ::tk::$command]] == 1} {
-		proc $proc {args} "uplevel ::tk::$command \$args"
-	    }
-	}
+    set tmp [info commands tk$command]
+    set proc ::combobox::tk$command
+    if {[llength [info commands tk$command]] == 1} {
+        set command [namespace which [lindex $tmp 0]]
+        proc $proc {args} "uplevel $command \$args"
+    } else {
+        if {[llength [info commands ::tk::$command]] == 1} {
+            proc $proc {args} "uplevel ::tk::$command \$args"
+        }
     }
+}
 }
 
 # end of combobox.tcl
