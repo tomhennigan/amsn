@@ -13,7 +13,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setDefaultColor topbarbg #ffffff
 	::skin::setDefaultColor topbartext #000000
 	::skin::setDefaultColor statusbarbg #eeeeee
-	::skin::setDefaultColor statusbarbg #000000
+	::skin::setDefaultColor statusbartext #000000
 	::skin::setDefaultColor chatborders 0
 	::skin::setDefaultColor chatpadx 0
 	::skin::setDefaultColor chatpady 0
