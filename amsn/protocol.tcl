@@ -2528,7 +2528,6 @@ proc cmsn_sb_msg {sb recv message} {
 
 
 	#A standard message
-	puts cont:$content
 	if {[string range $content 0 9] == "text/plain"} {
 
 		#TODO: Process fonts in other place
