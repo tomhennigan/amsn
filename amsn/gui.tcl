@@ -1247,7 +1247,11 @@ namespace eval ::amsn {
 				}
 				#wm state ${win_name} normal
 				wm deiconify ${win_name}
-				raise ${win_name}
+				if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+					lower ${win_name}
+				} else {
+					raise ${win_name}
+				}
 			} else {
 				# Iconify the window unless it was raised by the user already.
 				if {[wm state $win_name] != "normal"} {
