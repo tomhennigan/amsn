@@ -3824,7 +3824,7 @@ proc create_users_list_popup { path list x y} {
 	}
 
 	menu $path.${list}popup -tearoff 0 -type normal
-	$path.${list}popup add command -label "$user" -command "clipboard clear;clipboard append [NickToEmail \"${user}\" $list]"
+	$path.${list}popup add command -label "$user" -command "clipboard clear;clipboard append $user"
         $path.${list}popup add separator
 	$path.${list}popup add command -label "[trans addtocontacts]" -command "AddToContactList \"$user\" $path" -state $add
         $path.${list}popup add command -label "[trans removefromlist]" -command "Remove_from_list $list $user" -state $remove

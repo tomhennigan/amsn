@@ -9,7 +9,7 @@
 
 ###################### Protocol Debugging ###########################
 if { $initialize_amsn == 1 } {
-    global degt_protocol_window_visible egt_command_window_visible
+    global degt_protocol_window_visible degt_command_window_visible
 
     set degt_protocol_window_visible 0
     set degt_command_window_visible 0
@@ -1518,6 +1518,10 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.70  2003/08/09 10:03:54  kakaroto
+# contact list cached!!! works :) now time for testing... :S
+# corrected little bug with reload_files
+#
 # Revision 1.69  2003/08/09 04:42:39  kakaroto
 # oufff, at last, the "reload_files" proc is working...
 #

@@ -826,6 +826,9 @@ namespace eval ::MSN {
 
       StopPolling
 
+      save_contact_list
+      clean_contact_lists
+
       cmsn_draw_offline
       #Alert dock of status change
 #      send_dock "FLN"
@@ -2777,7 +2780,7 @@ proc cmsn_ns_handler {item} {
 	 return 0
       }
       ADD {
-
+	  new_contact_list "[lindex $item 3]"
 	 set curr_list [lindex $item 2]
 	 if { ($curr_list == "FL") } {
 	     status_log "PRUEBA1: $item\n" blue
@@ -2789,6 +2792,7 @@ proc cmsn_ns_handler {item} {
          return 0
       }
       LST {
+	  new_contact_list "[lindex $item 3]"
 	 # New entry in address book setContact(email,FL,groupID)
 	 # NOTE: IF a user belongs to several groups, the group part
 	 #       of this packet will have the group ids separated
@@ -2805,6 +2809,7 @@ proc cmsn_ns_handler {item} {
          return 0
       }
       REM {
+	  new_contact_list "[lindex $item 3]"
          cmsn_listdel $item
          return 0
       }
@@ -2826,11 +2831,15 @@ proc cmsn_ns_handler {item} {
 	     }
          return 0
       }
-      GTC -
+      GTC {
+	 return 0
+      }
       SYN {
+	  new_contact_list "[lindex $item 2]" 1
 	 return 0
       }
       BLP {
+	  new_contact_list "[lindex $item 2]"
 	  change_BLP_settings "$item"	
 	  return 0  
       }
@@ -2844,32 +2853,38 @@ proc cmsn_ns_handler {item} {
 	  return 0
       }
       BPR {
+	  new_contact_list "[lindex $item 1]"
 	 # Update entry in address book setContact(email,PH*/M*,phone/setting)
 	 ::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4] 
 	 return 0
       }
       PRP {
+	  new_contact_list "[lindex $item 2]"
 	 ::abook::setPersonal [lindex $item 3] [lindex $item 4]
 	return 0
       }
       LSG {
+	  new_contact_list "[lindex $item 2]"
       	status_log "$item\n" blue
 	::groups::Set [lindex $item 5] [lindex $item 6]
 	return 0
       }
       REG {	# Rename Group
+	  new_contact_list "[lindex $item 2]"
       	status_log "$item\n" blue
 	::groups::RenameCB [lrange $item 0 5]
 	cmsn_draw_online
 	return 0
       }
       ADG {	# Add Group
+	  new_contact_list "[lindex $item 2]"
       	status_log "$item\n" blue
 	::groups::AddCB [lrange $item 0 5]
    	cmsn_draw_online
 	return 0
       }
       RMG {	# Remove Group
+	  new_contact_list "[lindex $item 2]"
       	status_log "$item\n" blue
 	::groups::DeleteCB [lrange $item 0 5]
    	cmsn_draw_online
@@ -3034,7 +3049,7 @@ proc cmsn_listdel {recv} {
 }
 
 proc cmsn_auth {{recv ""}} {
-   global config
+   global config list_version
 
 
    switch [sb get ns stat] {
@@ -3095,7 +3110,8 @@ proc cmsn_auth {{recv ""}} {
          set user_info $recv
          sb set ns stat "o"
 	 save_config						;# CONFIG
-	 ::MSN::WriteSB ns "SYN" "0"
+	  load_contact_list
+	 ::MSN::WriteSB ns "SYN" "$list_version"
 
          if {$config(startoffline)} {
             ::MSN::changeStatus "HDN"
@@ -3576,4 +3592,210 @@ proc change_BLP_settings { item } {
 	set list_BLP -1
     }
     
+}
+
+proc new_contact_list { version {load 0} } {
+    global list_version HOME list_al list_fl list_bl list_rl list_users
+
+    if { $list_version == $version } {
+	if { $load } {
+
+	    if {[file readable "[file join ${HOME} contacts.ver]"] == 0} {
+		return 0
+	    }
+	    set list_al [list]
+	    set list_bl [list]
+	    set list_rl [list]
+	    set list_fl [list] 
+	    set list_users [list] 
+	    
+	    set contact_id [sxml::init [file join ${HOME} contacts.xml]]
+	    
+	    sxml::register_routine $contact_id "contactlist_${list_version}:AL:user" "create_contact_list"
+	    sxml::register_routine $contact_id "contactlist_${list_version}:BL:user" "create_contact_list"
+	    sxml::register_routine $contact_id "contactlist_${list_version}:FL:user" "create_contact_list"
+	    sxml::register_routine $contact_id "contactlist_${list_version}:RL:user" "create_contact_list"
+	    sxml::register_routine $contact_id "contactlist_${list_version}:Group" "create_group"
+	    sxml::register_routine $contact_id "contactlist_${list_version}" "finished_loading_list"
+	    
+	    sxml::parse $contact_id
+	    sxml::end $contact_id
+	}
+
+    } else {
+	set list_version $version
+    }
+   
+}
+
+
+proc load_contact_list { } {
+    global list_version HOME
+    
+    if {[file readable "[file join ${HOME} contacts.xml]"] == 0} {
+	set list_version "0"
+	return 0
+    }
+
+    if {[file readable "[file join ${HOME} contacts.ver]"] == 0} {
+	set list_version "0"
+	return 0
+    }
+
+    set file_id [open [file join ${HOME} contacts.ver] r]
+    gets $file_id version
+
+    set list_version $version
+
+}
+
+proc save_contact_list { } {
+    global HOME list_version list_al list_fl list_rl list_bl list_BLP
+	
+    if {[file readable "[file join ${HOME} contacts.ver]"] != 0} {
+
+	set file_id [open [file join ${HOME} contacts.ver] r]
+	gets $file_id version
+
+	if { $version == $list_version } {
+	    close $file_id
+	    return 
+	}
+    } 
+
+#     if {[file readable "[file join ${HOME} contacts.xml]"] == 0} {
+# 	set file_id [open "[file join ${HOME} contacts.xml]" w]
+	
+# 	puts $file_id "<?xml version=\"1.0\"?>"
+# 	close $file_id
+#     }
+
+
+
+
+    set file_id [open "[file join ${HOME} contacts.ver]" w]
+    
+    puts $file_id "$list_version"
+
+    close $file_id
+    
+    set file_id [open "[file join ${HOME} contacts.xml]" w]
+
+    puts $file_id "<?xml version=\"1.0\"?>"
+
+    ::abook::getPersonal perso
+
+    puts $file_id "<contactlist_${list_version}>\n   <BLP>${list_BLP}</BLP>\n   <PHH>[set perso(phh)]</PHH>\n   <PHW>[set perso(phw)]</PHW>"
+    puts $file_id "   <PHM>[set perso(phm)]</PHM>\n   <MOB>[set perso(mob)]</MOB>\n   <MBE>[set perso(mbe)]</MBE>"
+
+    foreach group [::groups::GetList] {
+	puts $file_id "   <Group>\n      <gid>${group}</gid>\n      <name>[::groups::GetName $group]</name>\n   </Group>"
+    }
+
+    puts $file_id "   <AL>"
+
+
+    foreach user $list_al { 
+	set user [string map { "<" "&lt;" "&" "&amp;" "\"" "&quot;" "'" "&apos"} $user]
+	puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>\n      </user>"
+    }
+
+    puts $file_id "   </AL>\n\n   <BL>"
+
+    foreach user $list_bl { 
+	set user [string map { "<" "&lt;" "&" "&amp;" "\"" "&quot;" "'" "&apos"} $user]
+	puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>\n      </user>"
+    }
+    
+    puts $file_id "   </BL>\n\n   <RL>"
+
+    foreach user $list_rl { 
+	set user [string map { "<" "&lt;" "&" "&amp;" "\"" "&quot;" "'" "&apos"} $user]
+	puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>\n      </user>"
+    }
+
+    puts $file_id "   </RL>\n\n   <FL>"
+
+    foreach user $list_fl { 
+	::abook::getContact [lindex $user 0] userd
+       	set user [string map { "<" "&lt;" "&" "&amp;" "\"" "&quot;" "'" "&apos"} $user]
+	puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>"
+	puts $file_id "         <gid>[join [::abook::getGroup [lindex $user 0] -id] ,]</gid>\n         <PHH>[set userd(phh)]</PHH>"
+	puts $file_id "         <PHW>[set userd(phw)]</PHW>\n         <PHM>[set userd(phm)]</PHM>\n         <MOB>[set userd(mob)]</MOB>"
+	puts $file_id "\n      </user>"
+    }
+
+    puts $file_id "   </FL>\n</contactlist_${list_version}>\n"
+
+    close $file_id
+
+
+}
+
+
+proc create_contact_list {cstack cdata saved_data cattr saved_attr args } {
+    global list_al list_bl list_rl list_fl
+
+    upvar $saved_data sdata 
+    
+    set list "list_[string range $cstack end-6 end-5]"
+
+    if { $list == "list_fl" } {
+	::abook::setContact $sdata(${cstack}:email) group $sdata(${cstack}:gid)
+	::abook::setContact $sdata(${cstack}:email) nick $sdata(${cstack}:nickname)
+	::abook::setContact $sdata(${cstack}:email) PHH $sdata(${cstack}:phh)
+	::abook::setContact $sdata(${cstack}:email) PHW $sdata(${cstack}:phw)
+	::abook::setContact $sdata(${cstack}:email) PHM $sdata(${cstack}:phm)
+	::abook::setContact $sdata(${cstack}:email) MOB $sdata(${cstack}:mob)
+    }
+
+    lappend ${list} "$sdata(${cstack}:email) {$sdata(${cstack}:nickname)}"
+
+
+    return 0
+}
+
+proc create_group { cstack cdata saved_data cattr saved_attr args } {
+    upvar $saved_data sdata 
+
+    ::groups::Set $sdata(${cstack}:gid) "$sdata(${cstack}:name)"
+    return 0
+}
+
+
+proc create_null { cstack cdata saved_data cattr saved_attr args } {
+
+    puts "mv $cstack > /dev/null"
+    return 0
+}
+
+
+proc finished_loading_list { cstack cdata saved_data cattr saved_attr args } { 
+    global list_BLP
+    upvar $saved_data sdata 
+
+    set list_BLP $sdata(${cstack}:blp)
+
+    ::abook::setPersonal PHH $sdata(${cstack}:phh)
+    ::abook::setPersonal PHW $sdata(${cstack}:phw)
+    ::abook::setPersonal PHM $sdata(${cstack}:phm)
+    ::abook::setPersonal MOB $sdata(${cstack}:mob)
+    ::abook::setPersonal MBE $sdata(${cstack}:mbe)
+
+
+    list_users_refresh
+    return 0
+}
+
+
+proc clean_contact_lists {} {
+    global list_version list_al list_fl list_bl list_rl list_users list_BLP
+
+    set list_version 0
+    set list_al [list]
+    set list_bl [list]
+    set list_fl [list]
+    set list_rl [list]
+    set list_users [list]
+    set list_BLP -1
 }
