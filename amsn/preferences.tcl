@@ -1057,7 +1057,7 @@ proc UpdatePreferences {} {
 		$lfname.4.socks5 configure -state normal
 		$lfname.5.server configure -state normal
 		$lfname.5.port configure -state normal
-		if { $config(proxytype) == "socks5" } {
+		if { $config(proxytype) == "socks5" || $config(proxytype) == "http"} {
 			$lfname.5.user configure -state normal
 			$lfname.5.pass configure -state normal
 		} else {
