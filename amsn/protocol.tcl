@@ -6609,7 +6609,7 @@ namespace eval ::MSN6FT {
 		set data [read $fd 1352]
 		set out "[binary format iiiiiiiiiiii $sid $MsgId $Offset 0 $DataSize 0 [string length $data] 16777264 [expr int([expr rand() * 1000000000])%125000000 + 4] 0 0 0]$data"
 
-		puts -nonewline $sock  "[binary format i [string length $out]]$out"
+		catch { puts -nonewline $sock  "[binary format i [string length $out]]$out" }
 
 		::amsn::FTProgress s $sid "" [expr $Offset + [string length $data]] $DataSize
 		#status_log "Writing file to socket $sock, send $Offset of $DataSize\n" red
