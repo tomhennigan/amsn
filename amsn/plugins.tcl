@@ -236,7 +236,7 @@ namespace eval ::plugins {
 		lappend search_path [file join [set ::program_dir] plugins]
 		lappend search_path [file join $HOME plugins]
 		lappend search_path [file join $HOME2 plugins]
-		lappend search_path [file join $HOME2 amsn-extras]
+		lappend search_path [file join $HOME2 amsn-extras plugins]
 	    
 		# decrare the list to return
 		set ::plugins::found [list]
@@ -249,8 +249,8 @@ namespace eval ::plugins {
 			foreach file [glob -nocomplain -directory $dir */plugininfo.xml] {
 				plugins_log core "Found plugin files in $file\n"
 				if { [::plugins::LoadInfo $file] } {
-					lset ::plugins::found $idx 5 [file join [file dirname $file] \
-						[lindex [lindex $::plugins::found $idx] 5]]
+					set newdir [lindex [lindex $::plugins::found $idx] 5]
+					lset ::plugins::found $idx 5 [file join [file dirname $file] $newdir]
 					incr idx
 				}
 			}

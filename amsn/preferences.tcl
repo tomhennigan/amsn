@@ -952,14 +952,16 @@ proc Preferences { { settings "personal"} } {
 		pack $lfname.2.max $lfname.2.min -side left -padx 10
 	}
 	
-	#label $lfname.3.lmsgmode -text [trans msgmode] -padx 10
-	#radiobutton $lfname.3.normal -text [trans normal] -value 1 -variable [::config::getVar msgmode] -state disabled
-	#radiobutton $lfname.3.tabbed -text [trans tabbed] -value 2 -variable [::config::getVar msgmode] -state disabled
+	label $lfname.3.lmsgmode -text [trans msgmode] -padx 10
+	radiobutton $lfname.3.nottabbed -text [trans nottabbed] -value 0 -variable [::config::getVar tabbedchat]
+	radiobutton $lfname.3.tabbedglobal -text [trans tabbedglobal] -value 1 -variable [::config::getVar tabbedchat]
+	radiobutton $lfname.3.tabbedgroups -text [trans tabbedgroups] -value 2 -variable [::config::getVar tabbedchat] 
+
 	checkbutton $lfname.winflicker -text "[trans msgflicker]" -onvalue 1 -offvalue 0 -variable [::config::getVar flicker]
 	checkbutton $lfname.showdisplaypic -text "[trans showdisplaypic2]" -onvalue 1 -offvalue 0 -variable [::config::getVar showdisplaypic]
 
-	#pack $lfname.3.lmsgmode -anchor w -side top -padx 10
-	#pack $lfname.3.normal $lfname.3.tabbed -side left -padx 10
+	pack $lfname.3.lmsgmode -anchor w -side top -padx 10
+	pack $lfname.3.nottabbed $lfname.3.tabbedglobal $lfname.3.tabbedgroups -side left -padx 10
 
 	pack $lfname.1 $lfname.2 $lfname.3 $lfname.winflicker $lfname.showdisplaypic -anchor w -side top
 

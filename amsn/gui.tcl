@@ -2320,7 +2320,12 @@ namespace eval ::amsn {
 
 		if { $win_name == 0 } {
 
-			set win_name [::ChatWindow::Open]
+			if { [::config::getKey tabbedchat] == 0 } {
+				set win_name [::ChatWindow::Open]
+			} else {
+				set container [::ChatWindow::GetContainerFor $user]
+				set win_name [::ChatWindow::Open $container]
+			}
 			::ChatWindow::SetFor $lowuser $win_name
 			set ::ChatWindow::first_message($win_name) 0
 			set chatid [::MSN::chatTo $lowuser]
@@ -2338,18 +2343,20 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		if { [winfo exists .bossmode] } {
-			set ::BossMode(${win_name}) "normal"
-			wm state ${win_name} withdraw
-		} else {
-			wm state ${win_name} normal
+		if { [::config::getKey tabbedchat] == 0 } {
+			if { [winfo exists .bossmode] } {
+				set ::BossMode(${win_name}) "normal"
+				wm state ${win_name} withdraw
+			} else {
+				wm state ${win_name} normal
+			}
+			
+			wm deiconify ${win_name}
 		}
-
-		wm deiconify ${win_name}
 
 		update idletasks
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-		::ChatWindow::MacPosition ${win_name}
+			::ChatWindow::MacPosition ${win_name}
 		}
 		::ChatWindow::TopUpdate $chatid
 

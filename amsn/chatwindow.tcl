@@ -11,21 +11,26 @@ namespace eval ::ChatWindow {
 	# Namespace variables, relative to chat windows' data. In the code are accessible
 	# through '::namespace::variable' syntax (to avoid local instances of the variable
 	# and have the scope more clear).
-	variable chat_ids
-	variable first_message
-	variable msg_windows
-	variable new_message_on
-	variable recent_message
-	variable titles
-	variable windows [list]
 
-	if { ![info exists ::ChatWindow::winid] } {
-		# As ::ChatWindow::winid is the index used in the
-		# window widgets for chat windows, we only initialize
-		# it at the first time, to avoid problems with proc
-		# reload_files wich will cause some bugs related to
-		# winid being 0 after some windows have been created.
+	# As ::ChatWindow::winid is the index used in the
+	# window widgets for chat windows, we only initialize
+	# it at the first time, to avoid problems with proc
+	# reload_files wich will cause some bugs related to
+	# winid being 0 after some windows have been created.
+	if { $initialize_amsn == 1  } {
+		variable chat_ids
+		variable first_message
+		variable msg_windows
+		variable new_message_on
+		variable recent_message
+		variable titles
+		variable windows [list]
 		variable winid 0
+		variable containers
+		variable containerwindows
+		variable tabtowin
+		variable containercurrent
+		variable containerid 0
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -179,6 +184,65 @@ namespace eval ::ChatWindow {
 		}
 		
 	}
+
+	proc ContainerClose { window } {
+		set nodot [string map { "." "_"} $window]
+		set w .close$nodot
+
+		if { [winfo exists $w] } {
+			return
+		}
+		toplevel $w
+		label $w.l -text "[trans detachall]"
+		set f $w.f
+		frame $f
+		button $f.yes -text "[trans yes]" -command "::ChatWindow::DetachAll $window; destroy $window; destroy $w"
+		button $f.no -text "[trans no]" -command "::ChatWindow::CloseAll $window; destroy $window; destroy $w" 
+		pack $f.yes $f.no -side left
+		pack $w.l $w.f -side top
+
+	}
+
+	proc DetachAll { w } {
+		CloseAll $w
+		return
+
+		foreach window [winfo children $w] {
+			set chatid [::ChatWindow::Name $window]
+			::ChatWindow::UnsetFor $chatid $window
+		}
+	}
+
+	proc CloseAll { w } {
+		variable containerwindows
+		variable containers
+		variable containercurrent
+
+		if {![info exists containerwindows($w)] || [winfo toplevel $w] != $w} {
+			return
+		}
+
+		status_log "destroying containerwindows $w\n" red
+		foreach window [set containerwindows($w)] {
+			status_log "destroy $window\n" red
+			destroy $window
+		}
+
+		status_log "unsetting containerwindow and containercurrent\n" red
+		unset containerwindows($w)
+		unset containercurrent($w)
+
+		status_log "unsetting containers array...\n" red
+		foreach { key value } [array get containers] {
+			if { $value == $w } {
+				status_log "found containers $key $value\n" red
+				unset containers($key)
+			}
+		}
+		
+		
+	}
+
 	#///////////////////////////////////////////////////////////////////////////////
 
 
@@ -257,6 +321,25 @@ namespace eval ::ChatWindow {
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
+	proc ContainerConfigured { window } {
+		#only run this if the window is the outer window
+		if { ![string equal $window [winfo toplevel $window]]} { return }
+
+		set chatid [::ChatWindow::Name $window]
+
+		if { $chatid != 0 } {
+			after cancel "::ChatWindow::TopUpdate $chatid"
+			after 200 "::ChatWindow::TopUpdate $chatid"
+		}
+
+
+		if { [::config::getKey savechatwinsize] } {
+			set geometry [wm geometry $window]
+			set pos_start [string first "+" $geometry]
+
+			::config::setKey wincontainersize  [string range $geometry 0 [expr {$pos_start-1}]]
+		}
+	}
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::Flicker (chatid, [count])
@@ -525,13 +608,68 @@ namespace eval ::ChatWindow {
 	#///////////////////////////////////////////////////////////////////////////////
 
 
+	proc TabbedWindowsInfo { } {
+		set w .tabbedinfo
+
+		if { [winfo exists $w] } {
+			tkwait window $w
+			return
+		}
+		toplevel $w
+
+		label $w.l -text "[trans newtabbedfeature]"
+		set f $w.f
+		frame $f 
+		radiobutton $f.r1 -text "[trans tabbedglobal]" -variable ::config(tabbedchat) -value 1
+		radiobutton $f.r2 -text "[trans tabbedgroups]" -variable ::config(tabbedchat) -value 2
+		radiobutton $f.r3 -text "[trans nottabbed]" -variable ::config(tabbedchat) -value 0
+
+
+		button $w.ok -text "[trans ok]" -command "destroy $w"
+
+		::config::setKey tabbedchat 2
+		
+		pack $f.r1 $f.r2 $f.r3 -side top -expand true -fill both -anchor nw
+		pack $w.l $w.f $w.ok -side top -expand true -fill both
+		
+		tkwait window $w
+
+		return
+	}
+
+
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::Open () 
 	# Creates a new chat window and returns its name (.msg_n - Where n is winid)
-	proc Open { } {
+	proc Open { {container ""} } {
 		global  HOME tcl_platform
 
-		set w [CreateTopLevelWindow]
+		#::config::setKey tabbedchat -1
+		if { [::config::getKey tabbedchat] == -1} {
+			TabbedWindowsInfo
+		}
+
+		if { [::config::getKey tabbedchat] == 0 || $container == "" } {
+			set w [CreateTopLevelWindow]
+	
+			set mainmenu [CreateMainMenu $w]
+			$w conf -menu $mainmenu
+			
+			#Send a postevent for the creation of menu
+			set evPar(window_name) "$w"
+			set evPar(menu_name) "$mainmenu"
+			::plugins::PostEvent chatmenu evPar
+
+			#bind on configure for saving the window shape
+			bind $w <Configure> "::ChatWindow::Configured %W"
+
+			wm state $w withdraw
+		} else {
+			set w [CreateTabbedWindow $container]
+		} 
+
+		set copypastemenu [CreateCopyPasteMenu $w]
+		set copymenu [CreateCopyMenu $w]
 
 		# Test on Mac OS X(TkAqua) if ImageMagick is installed   
 		if {$tcl_platform(os) == "Darwin"} {
@@ -539,18 +677,6 @@ namespace eval ::ChatWindow {
 				check_imagemagick
 			}
 		}
-
-		set mainmenu [CreateMainMenu $w]
-		$w conf -menu $mainmenu
-
-		set copypastemenu [CreateCopyPasteMenu $w]
-		set copymenu [CreateCopyMenu $w]
-
-		
-		#Send a postevent for the creation of menu
-		set evPar(window_name) "$w"
-		set evPar(menu_name) "$mainmenu"
-		::plugins::PostEvent chatmenu evPar
 
 		# Create the window's elements
 		set top [CreateTopFrame $w]
@@ -578,19 +704,164 @@ namespace eval ::ChatWindow {
 		set ::ChatWindow::recent_message($w) 0
 		lappend ::ChatWindow::windows "$w"
 
-		#bind on configure for saving the window shape
-		bind $w <Configure> "::ChatWindow::Configured %W"
 
 		# PostEvent 'new_chatwindow' to notify plugins that the window was created
 		set evPar(win) "$w"
 		::plugins::PostEvent new_chatwindow evPar
 
-		wm state $w withdraw
+		if { !([::config::getKey tabbedchat] == 0 || $container == "" )} {
+			AddWindowToContainer $container $w
+		}
+
 		return "$w"
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
 
+	proc CreateNewContainer { } { 
+		
+		set container [CreateContainerWindow]
+		set mainmenu [CreateMainMenu $container]
+		$container conf -menu $mainmenu
+		
+		#Send a postevent for the creation of menu
+		set evPar(window_name) "$container"
+		set evPar(menu_name) "$mainmenu"
+		::plugins::PostEvent chatmenu evPar
+		
+		
+		#bind on configure for saving the window shape
+		bind $container <Configure> "::ChatWindow::ContainerConfigured %W"
+
+		set tabbar [CreateTabBar $container] 
+		pack $tabbar -side top -fill both -expand false
+
+		return $container
+
+	}
+
+
+	proc CreateTabBar { w } {
+		set bar $w.bar
+		::skin::setPixmap tab tab.gif
+		frame $bar -class Amsn -relief solid
+
+		return $bar
+	}
+
+	###################################################
+	# CreateContainerWindow
+	# This proc should create the toplevel window for a chat window
+	# container and configure it and then return it's pathname
+	#
+	proc CreateContainerWindow { } {
+		global tcl_platform
+			
+		set w ".container_$::ChatWindow::containerid"
+		incr ::ChatWindow::containerid
+			
+		toplevel $w -class Amsn -background [::skin::getKey chatwindowbg]	
+		
+		# If there isn't a configured size for Chat Windows, use the default one and store it.
+		if {[catch { wm geometry $w [::config::getKey wincontainersize] } res]} {
+			wm geometry $w 350x390
+			::config::setKey wincontainersize 350x390
+			status_log "No config(winchatsize). Setting default size for chat window\n" red
+		}
+
+		if {$tcl_platform(platform) == "windows"} {
+		    wm geometry $w +0+0
+		}
+
+		if { [winfo exists .bossmode] } {
+			set ::BossMode($w) "iconic"
+			wm state $w withdraw
+		} else {
+			wm state $w iconic
+		}
+
+		wm title $w "[trans chat]"
+		wm group $w .
+
+		# If the platform is NOT windows, set the windows' icon to our xbm
+		if {$tcl_platform(platform) != "windows"} {
+			catch {wm iconbitmap $w @[::skin::GetSkinFile pixmaps amsn.xbm]}
+			catch {wm iconmask $w @[::skin::GetSkinFile pixmaps amsnmask.xbm]}
+		}
+
+
+		# Create the necessary bindings
+		bind $w <<Cut>> "status_log cut\n;tk_textCut \[::ChatWindow::GetCurrentWindow $w\]"
+		bind $w <<Copy>> "status_log copy\n;tk_textCopy \[::ChatWindow::GetCurrentWindow $w\]"
+		bind $w <<Paste>> "status_log paste\n;tk_textPaste \[::ChatWindow::GetCurrentWindow $w\]"
+
+		#Change shortcut for history on Mac OS X
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			bind $w <Command-Option-h> \
+			    "::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin"
+		} else {
+			bind $w <Control-h> \
+			    "::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin"
+		}
+
+		bind $w <<Escape>> "::ChatWindow::ContainerClose $w; break"
+		bind $w <Destroy> "::ChatWindow::DetachAll %W"
+
+		#Different shortcuts on Mac OS X
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			bind $w <Command-,> "Preferences"
+			bind all <Command-q> {
+				close_cleanup;exit
+			}
+		}
+
+
+		# These bindings are handlers for closing the window (Leave the SB, store settings...)
+		wm protocol $w WM_DELETE_WINDOW "::ChatWindow::ContainerClose $w"
+
+
+		return $w
+	}
+
+
+	proc CreateTabbedWindow { container } {
+		global tcl_platform
+
+		set w "${container}.msg_${::ChatWindow::winid}"
+		incr ::ChatWindow::winid
+
+		status_log "tabbed window is : $w\n" red
+
+		frame $w
+
+		# If the platform is NOT windows, set the windows' icon to our xbm
+		if {$tcl_platform(platform) != "windows"} {
+			catch {wm iconbitmap $w @[::skin::GetSkinFile pixmaps amsn.xbm]}
+			catch {wm iconmask $w @[::skin::GetSkinFile pixmaps amsnmask.xbm]}
+		}
+
+
+		# Create the necessary bindings
+		bind $w <<Cut>> "status_log cut\n;tk_textCut $w"
+		bind $w <<Copy>> "status_log copy\n;tk_textCopy $w"
+		bind $w <<Paste>> "status_log paste\n;tk_textPaste $w"
+
+		#Change shortcut for history on Mac OS X
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			bind $w <Command-Option-h> \
+				"::amsn::ShowChatList \"[trans history]\" $w ::log::OpenLogWin"
+		} else {
+			bind $w <Control-h> \
+				"::amsn::ShowChatList \"[trans history]\" $w ::log::OpenLogWin"
+		}
+
+		bind $w <<Escape>> "::ChatWindow::Close $w; break"
+		bind $w <Destroy> "window_history clear %W; ::ChatWindow::Closed $w %W"
+
+
+		return $w
+
+	}
 	###################################################
 	# CreateTopLevelWindow
 	# This proc should create the toplevel window for a chat window
@@ -598,11 +869,12 @@ namespace eval ::ChatWindow {
 	#
 	proc CreateTopLevelWindow { } {
 		global tcl_platform
+		
 		set w ".msg_$::ChatWindow::winid"
 		incr ::ChatWindow::winid
-
-		toplevel $w -class Amsn -background [::skin::getKey chatwindowbg]
-
+			
+		toplevel $w -class Amsn -background [::skin::getKey chatwindowbg]	
+		
 		# If there isn't a configured size for Chat Windows, use the default one and store it.
 		if {[catch { wm geometry $w [::config::getKey winchatsize] } res]} {
 			wm geometry $w 350x390
@@ -1097,7 +1369,12 @@ namespace eval ::ChatWindow {
 		#only run this if the window is the outer frame
 		if { ![string equal $input $W]} { return }
 
-		if { [lindex [[::ChatWindow::GetOutText [winfo toplevel $paned]] yview] 1] == 1.0 } {
+		set win [string first "msg" $paned]
+		set win [string first "." $paned $win]
+		incr win -1
+		set win [string range $paned 0 $win]
+		status_log "window is : $win\n"
+		if { [lindex [[::ChatWindow::GetOutText $win] yview] 1] == 1.0 } {
 			set scrolling 1
 		} else {
 			set scrolling 0
@@ -1115,7 +1392,7 @@ namespace eval ::ChatWindow {
 		}
 
 
-		if { $scrolling } { after 100 "catch {[::ChatWindow::GetOutText [winfo toplevel $paned]] yview end}" }
+		if { $scrolling } { after 100 "catch {[::ChatWindow::GetOutText $win] yview end}" }
 
 
 		if { [::config::getKey savechatwinsize] } {
@@ -1283,12 +1560,12 @@ namespace eval ::ChatWindow {
 				-command "::amsn::MessageSend $w $text" \
 				-fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat -overrelief flat \
 				-activebackground [::skin::getKey sendbuttonbg] -activeforeground black -text [trans send] \
-				-font sboldf -compound center -highlightthickness 0 -height 2 -pady 0 -padx 0
+				-font sboldf -compound center -highlightthickness 0 -pady 0 -padx 0
 		} else {
 			# Standard grey flat button (For Tcl/Tk < 8.4 and Mac OS X)
 			button $sendbutton  -text [trans send] -width 6 -borderwidth 1 \
 				-relief solid -command "::amsn::MessageSend $w $text" \
-				-font bplainf -highlightthickness 0 -highlightbackground [::skin::getKey sendbuttonbg] -height 2
+				-font bplainf -highlightthickness 0 -highlightbackground [::skin::getKey sendbuttonbg]
 		}
 
 
@@ -1630,10 +1907,12 @@ namespace eval ::ChatWindow {
 		$toptext configure -state normal -font sboldf -height $lines -wrap none
 		$toptext configure -state disabled
 
-		if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == 1 } {
-			wm title ${win_name} "*${title}"
-		} else {
-			wm title ${win_name} ${title}
+		if { [::config::getKey tabbedchat] == 0 } {
+			if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == 1 } {
+				wm title ${win_name} "*${title}"
+			} else {
+				wm title ${win_name} ${title}
+			}
 		}
 
 		if { $scrolling } { catch {[::ChatWindow::GetOutText ${win_name}] yview end} }
@@ -1698,4 +1977,80 @@ namespace eval ::ChatWindow {
 		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
+
+
+	proc GetContainerFor { user } {
+		variable containers
+		 
+		if { [::config::getKey tabbedchat] == 0 } {
+			return ""
+		} elseif { [::config::getKey tabbedchat] == 1 } {
+			if { [info exists containers(global)] && $containers(global) != ""} {
+				return $containers(global)
+			} else {
+				set containers(global) [CreateNewContainer]
+				return $containers(global)
+			}
+
+		} else {
+			set gid [lindex [::abook::getContactData $user group] 0]
+			if { [info exists containers($gid)] && $containers($gid) != ""} {
+				return $containers($gid)
+			} else {
+				set containers($gid) [CreateNewContainer]
+				return $containers($gid)
+			}
+		}
+		
+
+	}
+
+	proc AddWindowToContainer { container win } {
+		variable containerwindows
+		variable tabtowin
+
+		if { ![info exists containerwindows($container)] } {
+			set containerwindows($container) $win
+			SwitchToTab $container $win
+		} else {
+			if { [lsearch [set containerwindows($container)] $win] == -1 } {
+				lappend containerwindows($container) $win
+			} else {
+				return
+			}
+		}
+
+		set tab [CreateTabButton $container $win]
+		pack $tab -side left -expand false -fill both
+
+	}
+
+	proc CreateTabButton { container win} {
+		set w [string map { "." "_"} $win]
+		set tab $container.bar.$w
+
+		button $tab -image [::skin::loadPixmap tab] \
+		    -command "::ChatWindow::SwitchToTab $container $win" \
+		    -fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat -overrelief flat \
+		    -activebackground [::skin::getKey sendbuttonbg] -activeforeground black -text $win \
+		    -font sboldf -compound center -highlightthickness 0 -pady 0 -padx 0
+
+		return $tab
+		
+	}
+
+	proc SwitchToTab { container win } {
+		variable containercurrent
+
+		if { [info exists containercurrent($container)] && [set containercurrent($container)] != "" } {
+			pack forget [set containercurrent($container)]
+		}
+
+		set  containercurrent($container) $win
+		pack $win -side top -expand true -fill both
+	}
+
+
+
+
 }
