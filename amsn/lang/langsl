@@ -16,6 +16,7 @@ admingroups Uredi skupine
 advanced Dodatno
 advancedprefs Dodatne nastavitve
 adverts Reklame
+agotinvitation $1 te vabi na zvoèni pogovor
 alarmonconnect Vklopi alarm, ko se stik prijavi
 alarmondisconnect Vklopi alarm, ko se stik odjavi
 alarmonmsg Vklopi alarm, ko ti stik po¹lje sporoèilo
@@ -50,6 +51,10 @@ autoidle Samodejno neaktivno stanje
 autoip Samodejni IP
 automessage Samodejno sporoèilo
 autonoact Prika¾i me kot "Neaktiven", ko sem neaktiven
+avaccepted Video konferenca sprejeta
+avcanceled Video konferenca preklicana
+avgotinvitation $1 te vabi na video konferenco
+avinitfailed Zagon avdio/video plugina ni uspel. Klic preklican
 avoidseen Ne dovoli tej osebi, da vidi moj status, ko sem prijavljen
 away Odsoten
 awaymsg1 Vpra¹am za away sporoèilo vsakiè, ko zamenjam stanje na Odsoten/Zaposlen?
@@ -517,6 +522,7 @@ savecontacts Shrani seznam stikov
 savetofile Shrani v datoteko
 says $1 pravi
 sbcon Povezujem se na Switch Board
+selectlanguage Izberi jezik
 selectplugins Izberi plugin, ki ga ¾eli¹ omogoèiti
 selectskin Izberi skin s seznama
 send Po¹lji
@@ -639,4 +645,3 @@ yoffset Y odstopanje
 youblocked Blokirajo te
 yousay Pravi¹
 youwant Hoèe¹
-
