@@ -46,7 +46,7 @@
 	<lang>
 		<langcode>da</langcode>
 		<name>Danish</name>
-		<version>1.33</version>
+		<version>1.34</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -58,7 +58,7 @@
 	<lang>
 		<langcode>nl</langcode>
 		<name>Dutch (Nederlands)</name>
-		<version>1.116</version>
+		<version>1.117</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -70,13 +70,13 @@
 	<lang>
 		<langcode>en</langcode>
 		<name>English</name>
-		<version>1.290</version>
+		<version>1.291</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
 		<langcode>es</langcode>
-		<name>Español (Spanish)</name>
-		<version>1.224</version>
+		<name>EspaÃ±ol (Spanish)</name>
+		<version>1.226</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -106,7 +106,7 @@
 	<lang>
 		<langcode>fr</langcode>
 		<name>French (France)</name>
-		<version>1.125</version>
+		<version>1.126</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -274,7 +274,7 @@
 	<lang>
 		<langcode>tr</langcode>
 		<name>Turkish</name>
-		<version>1.48</version>
+		<version>1.49</version>
 		<encoding>iso8859-9</encoding>
 	</lang>
 	<lang>
