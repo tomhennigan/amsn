@@ -1476,9 +1476,9 @@ proc cmsn_draw_msgwin {email} {
    .${win_name} conf -menu .${win_name}.menu
 
    menu .${win_name}.copypaste -tearoff 0 -type normal
-   .${win_name}.copypaste add command -label [trans cut] -command "copy 1 ${win_name}"
-   .${win_name}.copypaste add command -label [trans copy] -command "copy 0 ${win_name}"
-   .${win_name}.copypaste add command -label [trans paste] -command "paste ${win_name}"
+   .${win_name}.copypaste add command -label [trans cut] -command "status_log cut\n;copy 1 ${win_name}"
+   .${win_name}.copypaste add command -label [trans copy] -command "status_log copy\n;copy 0 ${win_name}"
+   .${win_name}.copypaste add command -label [trans paste] -command "status_log paste\n;paste ${win_name}"
 
    frame .${win_name}.top -class Amsn
    text .${win_name}.top.text  -borderwidth 0 -width 45 \
@@ -1530,30 +1530,31 @@ proc cmsn_draw_msgwin {email} {
    .${win_name}.text tag configure white -foreground white -background black
    .${win_name}.text tag configure url -foreground darkblue -background white -font bboldf -underline true
 
-   
+
    #after 270000 sb_change_fake $name
-   
+
    bind .${win_name}.in.input <Tab> "focus .${win_name}.in.send; break"
 
-   bind  .${win_name}.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y .${win_name}.in.input"   
-   bind  .${win_name}.buttons.fontsel  <Button1-ButtonRelease> "change_myfont ${win_name}"   
+   bind  .${win_name}.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y .${win_name}.in.input"
+   bind  .${win_name}.buttons.fontsel  <Button1-ButtonRelease> "change_myfont ${win_name}"
    bind  .${win_name}.buttons.block  <Button1-ButtonRelease> "show_chatuserlist \"[trans block]/[trans unblock]\" $name blockun_user"
 
    bind .${win_name}.in.send <Return> \
       "sb_enter $name .${win_name}.in.input; break"
    bind .${win_name}.in.input <Control-Return> {%W insert end "\n"; break}
-   
+   bind .${win_name}.in.input <Shift-Return> {%W insert end "\n"; break}
+
    bind .${win_name}.in.input <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
    bind .${win_name}.text <Button3-ButtonRelease> "tk_popup .${win_name}.copypaste %X %Y"
-   bind .${win_name} <Control-x> "copy 1 ${win_name}"
-   bind .${win_name} <Control-c> "copy 0 ${win_name}"
-   bind .${win_name} <Control-v> "paste ${win_name}"
+   bind .${win_name} <Control-x> "status_log cut\n;copy 1 ${win_name}"
+   bind .${win_name} <Control-c> "status_log copy\n;copy 0 ${win_name}"
+   bind .${win_name} <Control-v> "status_log paste\n;paste ${win_name}"
 
 
 
-   
+
    bind .${win_name} <Destroy> "cmsn_destroyed_msgwin $name %W $email"
-   
+
    focus .${win_name}.in.input
 
    change_myfontsize $config(textsize) ${win_name}
