@@ -85,6 +85,15 @@ A: It looks like xcin or similar programs are not supported in the current
 version of tcl/tk, so amsn doesn't work with them either. You should wait for
 next version of tcl/tk and hope it supports xcin. Meanwhile, you can type the
 text in another editor, and copy-paste it into the chat window .
+New:Internationalization copy and paste. If you have problems pasting characters
+in to AMSN, download and install this version of Tcl/Tk from this site: 
+http://jfontain.free.fr/tcl-8.4a3-2.i386.rpm 
+http://jfontain.free.fr/tk-8.4a3-2.i386.rpm 
+http://jfontain.free.fr/tcl-thread-8.4a3-2.i386.rpm 
+Please note that this could be a work around in case 
+you can't type your language directly in to AMSN, for 
+example Traditional Chinese using xcin. 
+
 
 Q: I have another question, can you help me?
 A: Yes, we can. But first, take a look at the sourceforge project page, located
