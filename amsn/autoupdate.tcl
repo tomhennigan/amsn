@@ -660,7 +660,7 @@ namespace eval ::autoupdate {
 		ScrolledWindow $w.list
 		ScrollableFrame $w.list.sf -constrainedwidth 1
 		$w.list setwidget $w.list.sf
-		pack $w.list -anchor n -side top -fill both
+		pack $w.list -anchor n -side top -fill both -expand true
 		set frame [$w.list.sf getframe]
 		
 		#Language label
@@ -691,8 +691,10 @@ namespace eval ::autoupdate {
 		pack configure $w.update -side top -fill x
 
 		frame $w.button
+		button $w.button.selectall -text "[trans selectall]" -command "::autoupdate::UpdateLangPlugin_selectall"
 		button $w.button.close -text "[trans close]" -command "::autoupdate::UpdateLangPlugin_close"
 		button $w.button.update -text "[trans update]" -command "::autoupdate::UpdateLangPlugin_update" -default active
+		pack configure $w.button.selectall -side left -padx 3 -pady 3
 		pack configure $w.button.update -side right -padx 3 -pady 3
 		pack configure $w.button.close -side right -padx 3 -pady 3
 
@@ -760,6 +762,23 @@ namespace eval ::autoupdate {
 		
 	}
 
+
+	#///////////////////////////////////////////////////////////////////////
+	proc UpdateLangPlugin_selectall { } {
+	
+		set frame [.updatelangplugin.list.sf getframe]
+	
+		foreach langcode $::lang::UpdatedLang {
+			set ::autoupdate::lang($langcode) 1
+		}
+
+		foreach plugin $::plugins::UpdatedPlugins {
+			set name [lindex $plugin 6]
+			set ::autoupdate::plugin($name) 1
+		}
+		
+	}
+		
 
 	#///////////////////////////////////////////////////////////////////////
 	proc ReadLangSelected { langcode } {
