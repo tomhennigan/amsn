@@ -2519,12 +2519,14 @@ namespace eval ::ChatWindow {
 		set bar_w [winfo width ${container}.bar]
 		set tab_w [image width [::skin::loadPixmap tab]]
 
-		set less_w [font measure sboldf <]
-		set more_w [font measure sboldf >]
+		set less_w [image width [::skin::loadPixmap moretabs]] 
+		set more_w [image width [::skin::loadPixmap lesstabs]]
+                
+                #set less_w [font measure sboldf <]
+		#set more_w [font measure sboldf >]
 
 		set bar_w [expr $bar_w - $less_w - $more_w]
-		#[image width [::skin::loadPixmap moretabs]] 
-		#- [image width [::skin::loadPixmap lesstabs]]]
+		
 
 		set max_tabs [expr int(floor($bar_w / $tab_w))]
 		set number_tabs [llength [set containerwindows($container)]]
@@ -2550,19 +2552,19 @@ namespace eval ::ChatWindow {
 		if { $max_tabs > 0 && $number_tabs > $max_tabs } {
 			#-image [::skin::loadPixmap lesstabs] 
 			#[image width [::skin::loadPixmap lesstabs]] 
-			button $less -text "<" \
-			    -width 1 \
+			button $less -image [::skin::loadPixmap lesstabs] \
+			    -width $less_w \
 			    -command "::ChatWindow::LessTabs $container $less $more" \
-			    -fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
-			    -activebackground [::skin::getKey sendbuttonbg] -activeforeground black \
+			    -fg black -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
+			    -activebackground [::skin::getKey tabbarbg] -activeforeground black \
 			    -highlightthickness 0 -pady 0 -padx 0
 			#-image [::skin::loadPixmap moretabs] 
 			#[image width [::skin::loadPixmap lesstabs]] 
-			button $more -text ">" \
-			    -width 1 \
+			button $more -image [::skin::loadPixmap moretabs] \
+			    -width $more_w \
 			    -command "::ChatWindow::MoreTabs $container $less $more" \
-			    -fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
-			    -activebackground [::skin::getKey sendbuttonbg] -activeforeground black \
+			    -fg black -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
+			    -activebackground [::skin::getKey tabbarbg] -activeforeground black \
 			    -highlightthickness 0 -pady 0 -padx 0
 			if { $::tcl_version >= 8.4 } {
 				$less configure -overrelief flat -compound center
