@@ -3292,6 +3292,9 @@ proc cmsn_draw_main {} {
 	#	}
 	#}
 
+	#delete F10 binding that crashes amsn
+	bind all <F10> ""
+
 	#Command-key for "key shortcut" in Mac OS X
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		bind . <Command-s> toggle_status
