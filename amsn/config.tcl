@@ -1001,47 +1001,43 @@ proc DeleteProfile { email entrypath } {
 	if { $email == "" } {
 		return
 	}
-	if { $email == $config(login) } {
-		status_log "Case0\n"
+	# Make sure profile isn't locked
+	if { [CheckLock $email] == -1 } {
 		msg_box [trans cannotdeleteprofile]
 		return
-	} else {
-	
-		set focus [focus]
-		if { $focus == "" } {
-			set focus ".cfg"
-		}
-	      set answer [tk_messageBox -message "[trans confirmdelete ${email}]" -type yesno -icon question -parent $focus]
-
-	      if {$answer == "no"} {
-	      	return
-	      }
-	
-	
-		set dir [split $email "@ ."]
-		set dir [join $dir "_"]
-		
-		# Make sure profile isn't locked
-		if { [CheckLock $email] == -1 } {
-			status_log "case1\n"
-			msg_box [trans cannotdeleteprofile]
-			return
-		}
-
-		if {[$entrypath curselection] == "" } {
-			status_log "case2\n"
-			msg_box [trans cannotdeleteprofile]
-			return
-		}
-		
-		catch { file delete -force [file join $HOME2 $dir] }
-		$entrypath list delete [$entrypath curselection]
-		$entrypath select 0
-		LoginList unset 0 $email
-		
-		# Lets save it into the file
-		SaveLoginList
 	}
+	if { $email == $config(login) } {
+		msg_box [trans cannotdeleteprofile]
+		return
+	}
+	
+	set focus [focus]
+	if { $focus == "" } {
+		set focus ".cfg"
+	}
+	set answer [tk_messageBox -message "[trans confirmdelete ${email}]" -type yesno -icon question -parent $focus]
+
+	if {$answer == "no"} {
+	return
+	}
+
+
+	set dir [split $email "@ ."]
+	set dir [join $dir "_"]
+	
+
+	set entryidx [$entrypath curselection]
+	if {$entryidx == "" } {
+		set entryidx 0
+	}
+	
+	catch { file delete -force [file join $HOME2 $dir] }
+	$entrypath list delete $entryidx
+	$entrypath select 0
+	LoginList unset 0 $email
+	
+	# Lets save it into the file
+	SaveLoginList
 }
 
 #///////////////////////////////////////////////////////////////////////////////
