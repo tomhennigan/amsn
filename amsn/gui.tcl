@@ -5714,46 +5714,102 @@ proc window_history { command w } {
 
 proc convert_image { filename size } {
 
-    if { ![file exists $filename] } {
-	status_log "Tring to convert file $filename that does not exist\n" error
-	return 0
-    }
-
-   
-    set filename2 [filenoext $filename]
-
-    status_log "converting $filename to $filename.gif with size $size\n"
-
-    if { [catch { exec convert -size $size -resize ${size} "$filename" "${filename}.gif" } res] } {
-	msg_box "[trans installconvert]"
-	status_log "converting returned error : $res\n"
-	return 0
-    }
-
-    if { [file exists $filename2.png.0] } {
-	set idx 1
-	while { 1 } {
-	    if { [file exists $filename2.png.$idx] } {
-		file delete $filename2.png.$idx
-		incr idx
-	    } else { break }
+	if { ![file exists $filename] } {
+		status_log "Tring to convert file $filename that does not exist\n" error
+		return 0
 	}
-	file rename $filename2.png.0 $filename2.png
-    }
 
-    file delete $filename
+	set filename2 [filenoext $filename]
 
-    set sizexy [split $size "x" ]
-    set img [image create photo -height [lindex $sizexy 0] -width [lindex $sizexy 1] -file "$filename.gif"]
-    $img write "$filename2.gif"
-    image delete $img
+	status_log "converting $filename to $filename.gif with size $size\n"
 
-    file delete $filename.gif
+    #if { [catch { exec convert -size $size -resize ${size} "$filename" "${filename}.gif" } res] } {
+	#msg_box "[trans installconvert]"
+	#status_log "converting returned error : $res\n"
+	#return 0
+    #}
 
+	#First converstion, no size, only .gif
+	if { [catch { exec convert "$filename" "${filename}.gif" } res] } {
+		msg_box "[trans installconvert]"
+		status_log "converting returned error : $res\n"
+		return 0
+	}
+	
+	set img [image create photo -file "${filename}.gif"]
+	set origw [image width $img]
+	set origh [image height $img]
+	status_log "Image size is $origw $origh\n" blue
+	image delete $img
+	file delete "${filename}.gif"
+		 
+	set sizexy [split $size "x" ]
+	if { [lindex $sizexy 1] == "" } {
+		set sizexy [list [lindex $sizexy 0] [lindex $sizexy 0]]
+		set ratio 1.0
+	} else {
+			set ratio [expr { 1.0*[lindex $sizexy 1] / [lindex $sizexy 0] } ]
+	}
+	set origratio [expr { 1.0*$origw / $origh } ]
+	status_log "Original ratio is $origratio, desired ratio is $ratio\n" blue
+	
+	#Depending on ratio, resize to keep smaller dimension to XX pixels
+	if { $origratio > $ratio} {
+		set resizew ""
+		set resizeh [lindex $sizexy 1]
+	} else {
+		set resizeh ""
+		set resizew [lindex $sizexy 0]
+	}
+	
+	status_log "Will resize to $resizew x $resizeh \n" blue
+	
 
-    catch { exec convert "${filename2}.gif"  "${filename2}.png"}
+	if { [catch { exec convert -size "${resizew}x${resizeh}" "$filename" -resize "${resizew}x${resizeh}" "${filename}.gif" } res] } {
+		msg_box "[trans installconvert]"
+		status_log "converting returned error : $res\n"
+		return 0
+	}
+	
+	if { [file exists $filename2.png.0] } {
+		set idx 1
+		while { 1 } {
+			if { [file exists $filename2.png.$idx] } {
+				file delete $filename2.png.$idx
+				incr idx
+	    	} else { break }
+		}
+		file rename $filename2.png.0 $filename2.png
+	}
+
+	file delete $filename
+
+ 
+	#Now let's crop image, from the center
+   #set img [image create photo -file "$filename.gif"]
+	#set centerx [expr { [image width $img] /2 } ]
+	#set centery [expr { [image height $img] /2 } ]
+	#set halfw [expr [lindex $sizexy 0] / 2]
+	#set halfh [expr [lindex $sizexy 1] / 2]
+	#set x1 [expr {$centerx-halfw}]
+	#set y1 [expr {$centery-halfh}]
+	#set x2 [expr {$centerx+halfw}]
+	#set y2 [expr {$centery+halfh}]
+	 
+	if { [catch { exec convert "${filename}.gif" -gravity Center -crop "[lindex $sizexy 0]x[lindex $sizexy 1]" "${filename2}.gif" } res] } {
+		msg_box "[trans installconvert]"
+		status_log "converting returned error : $res\n"
+		return 0
+	}
+	 
+	#status_log "Center of image is $centerx,$centery, will crop from $x1,$y1 to $x2,$y2 \n" blue
+	#$img write "$filename2.gif" -from $x1 $y1 $x2 $y2
+	#image delete $img
+	file delete $filename.gif	 
+
+	catch { exec convert "${filename2}.gif"  "${filename2}.png"}
     
-    return ${filename2}.png
+	return ${filename2}.png
 
 }
 
@@ -5778,6 +5834,28 @@ proc convert_image_plus { filename type size } {
 
     return $file
 }
+
+
+proc convert_display_picture { filename } {
+
+	global HOME
+
+
+	catch {
+		create_dir [file join $HOME displaypic]
+		file copy $filename [file join $HOME displaypic] 
+		status_log "Copied $filename to [file join $HOME displaypic]\n"
+	}
+
+	set endfile [getfilename $filename]
+
+	set file [convert_image [GetSkinFile displaypic $endfile] 96]
+
+	if { $file == 0 } { return 0 }
+	return $file
+	
+}
+
 
 
 proc change_displaypic { } {
@@ -5837,7 +5915,7 @@ proc change_disp_ok { } {
     set file [$w.filename.file get]
 
     if { $file != "" } {
-		set config(displaypic) [convert_image_plus [$w.filename.file get] displaypic 96x96]
+		set config(displaypic) [convert_display_picture [$w.filename.file get]]
 		catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}
     } else {
 		set config(displaypic) ""
