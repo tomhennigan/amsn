@@ -24,7 +24,7 @@ set config(startoffline) 0
 set config(autoftip) 1
 set config(myip) "127.0.0.1"
 set config(wingeometry) 275x400-0+0
-set config(closingdocks) 1
+set config(closingdocks) 0
 set config(yourfont) "Helvetiva 12 bold"
 set config(yourcolor) "red"
 set config(encoding) auto
