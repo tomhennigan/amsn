@@ -3,7 +3,7 @@
 #
 
 proc ConfigDefaults {} {
-	global config tcl_platform password auto_path
+	global config tcl_platform password auto_path advanced_options
 	set config(protocol) "9"		;# Which MSN Protocol do you prefeer too use: 7|9
 	set config(nossl) 0				;#Disable the use of SSL, so it doesn't requite TLS package: 0|1
 
@@ -118,6 +118,31 @@ proc ConfigDefaults {} {
 	set config(custom_smileys) 1
 
 	#Advanced options, not in preferences window
+	#List like:
+	#	"" trans_section_name_1
+	#  optionname1 type1 trans_name1 trans_desc1(optional)
+	#  optionname2 type2 trans_name2 trans_desc2(optional)
+	#  ...
+	#
+	# type can be: bool | int | str
+	set advanced_options [list \
+		[list "" appearance] \
+		[list tooltips bool tooltips] \
+		[list animatenotify bool animatenotify] \
+		[list truncatenames bool truncatenames1] \
+		[list truncatenicks bool truncatenames2] \
+		[list showtimestamps bool timestamps]\
+		[list "" connection] \
+		[list autoconnect bool autoconnect autoconnect2] \
+		[list keepalive bool keepalive natkeepalive]\
+		[list start_ns_server str notificationserver]\
+		[list "" others] \
+		[list disableprofiles bool disableprofiles] \
+		[list receiveddir str receiveddir] \
+		[list lineflushlog bool lineflushlog] \
+		[list autocheckver bool autocheckver] \
+
+	]
 	set config(tooltips) 1				;#Enable/disable tooltips
 	set config(animatenotify) 1		;#Animate notify window
 	set config(disableprofiles) 0		;#Disable profiles (useful for cybercafes or similar)
@@ -128,23 +153,24 @@ proc ConfigDefaults {} {
 	set config(autocheckver) 1			;#Automatically check for newer versions on startup
 	set config(truncatenames) 1		;#Truncate nicknames longer than window width in winows' title
 	set config(truncatenicks) 0		;#Truncate nicknames longer than window width in chat windows
-	set config(notifwidth) 150			;#Notify window width
-	set config(notifheight) 100		;#Notify window height
 	set config(keepalive) 1				;#Keep alive connection (ping every minute)
 	set config(showtimestamps) 1		;#Show timestamps on messages ("Yes" by default)
 	set config(leftdelimiter) \[		;#Left Timestamps' delimiter  '[' by default
 	set config(rightdelimiter) \]		;#Right Timestamps' delimiter ']' by default
-	set password ""
+	set config(start_ns_server) "messenger.hotmail.com:1863"
 
 
 	#System options, not intended to be edited (unless you know what you're doing)
-	set config(start_ns_server) "messenger.hotmail.com:1863"
+	set password ""
+
 	set config(last_client_version) ""
 	set config(withnotebook) 0			;#Use notebook tabs in contact lsit
 
 	set config(adverts) 0				;#Enable banner advertisements
         set config(displaypic) "amsn.png"                   ;# Diplay picture
         set config(getdisppic) 1
+	set config(notifwidth) 150			;#Notify window width
+	set config(notifheight) 100		;#Notify window height
 }
 
 namespace eval ::config {

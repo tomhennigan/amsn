@@ -14,6 +14,7 @@ addtoo Añadir esta persona a mi lista de contactos
 admincontacts Administrar contactos
 admingroups Administrar grupos
 advanced Avanzadas
+advancedprefs Configuración de opciones avanzadas
 adverts Anuncios
 alarmonconnect Activar/Desactivar alarma para este usuario cuando se conecte
 alarmondisconnect Activar/Desactivar alarma para este usuario cuando se desconecte
@@ -28,6 +29,7 @@ allowonlyinal Permitir sólo a los usuarios Aceptados contactar conmigo
 allowseen Permitir a esta persona ver cuándo estás conectado y contactar
 animatedemoticon Emoticono con animación
 animatedsmileys Activar emoticonos animados
+animatenotify Ventana de Notificaciones con animación
 appearance Apariencia
 appearoff Sin conexión
 areacode Código de area
@@ -35,6 +37,7 @@ aretyping $1 están escribiendo un mensaje
 autoaccepted Transferencia de archivo aceptada automáticamente
 autoacceptft Aceptar archivos automáticamente en transferencias
 autoaway Mostrarme "Ausente" cuando no hay actividad en
+autocheckver Buscar versions nuevas automáticamente al iniciar AMSN
 autoconnect2 Conectarse automáticamente cuando se inicia aMSN
 autoconnect Conectar al arrancar amsn
 autohotmaillog Login hotmail automático
@@ -129,6 +132,8 @@ delprofile2 Elige el perfil que te gustaría borrar
 delprofile Borrar Perfil
 description Descripción
 directconnection Tengo una conexión directa a internet (usa el puerto 1863)
+disabled Desactivado
+disableprofiles Desactivar perfiles (Útil para cibercafés o entornos compartidos)
 disablessl Desactivar SSL
 disconnect $1 se ha desconectado
 displaychat Configuración de mensajes
@@ -144,8 +149,10 @@ edit Edición
 editnewstate Nuevo mensaje automático para estado personalizado
 editprofile Editar Perfil
 editstate Editar mensaje automático para estado personalizado
+editvalue Editar valor
 emotisounds Reproducir sonidos asociados a ciertos emoticonos
 enablebanner Mostrar banner de aMSN (Requiere reiniciar aMSN)
+enabled Activado
 enableproxy Activar proxy
 enableremote Activar servidor de control remoto
 enablesound Reproducir sonido
@@ -223,6 +230,7 @@ lconvstarted Comienza la conversación a las $1
 leaveblankforhotmail Dejar en blanco para usar hotmail
 leaves $1 deja la conversación
 lenteredconf $1 se une a la conversación a las $2
+lineflushlog Escribir históricos a disco línea a línea (sin buffer)
 linprivate EN PRIVADO
 listeningon Escuchando en el puerto $1
 listsmileys2 Mostrar emoticonos y smileys en la lista de contactos de aMSN
@@ -283,6 +291,7 @@ nopic Sin imagen
 noprofileexists Actualmente no existe ningún perfil. \n Debes crear uno si quieres usar los perfiles de usuario. \nUsa el botón "Añadir un perfil" en esta ventana para crearlo.
 normal Normal
 nosystemtray Bandeja del sistema no disponible
+notificationserver Servidor inicial de notificaciones MSN (Servidor MSN Messenger)
 notify1_5 Mostrar ventana de aviso cuando un contacto se desconecte
 notify1_75 Mostrar ventana de aviso cuando un contacto cambia de estado
 notify1 Mostrar ventana de aviso cuando un contacto se conecte
@@ -361,6 +370,7 @@ raised Elevada/Desiconificada
 readonlymsgbox La transferencia de archivos se ha cancelado porque el directorio de recepción es sólo lectura. Comprueba los permisos de este directorio.
 readonlywarn AVISO: El archivo puede NO ser guardado correctamente porque el directorio de archivos recibidos parece estar protegido contra escritura. Comprueba que los permisos en el directorio ($1) son correctos antes de la transferencia
 receivedbytes Recibidos $1 de $2 bytes totales
+receiveddir Carpeta de Archivos Recibidos
 receivefile Recibir archivo
 reconnect Esperando que $1 se reconecte
 reconnecting Reconectando al servidor
@@ -439,6 +449,8 @@ to Para
 transnotexists El archivo solicitado no se encuentra traducido a su idioma.
 traynotcompiled Icono de bandeja no compilado. Mira en plugins/traydock
 triggers Texto disparador
+truncatenames1 Cortar apodos más largos que el ancho de la ventana en títulos y lista de contactos
+truncatenames2 Cortar apodos más largos que el ancho de la ventana en las conversaciones
 truncatenicks Truncar apodos más largos que el ancho de la ventana
 twonewmail $1 mensajes nuevos en bandeja de entrada
 unblock Admitir

@@ -14,6 +14,7 @@ addtoo Add this person to my contact list
 admincontacts Admin contacts
 admingroups Admin groups
 advanced Advanced
+advancedprefs Advanced options configuration
 adverts Advertisements
 alarmonconnect Activate alarm when user comes online
 alarmondisconnect Activate alarm when user goes offline/invisible 
@@ -28,6 +29,7 @@ allowonlyinal Only allow users in my Accept List to contact me
 allowseen Allow this person to see when I'm online and contact me
 animatedemoticon This emoticon is animated
 animatedsmileys Enable animated smileys
+animatenotify Animated Notify Window
 appearance Appearance
 appearoff Appear offline
 areacode Area Code
@@ -35,6 +37,7 @@ aretyping $1 are typing a message
 autoaccepted File transfer accepted automatically
 autoacceptft Automatically accept File Transfer requests
 autoaway Show me as "Away" when inactive for
+autocheckver Automatically check for newer versions on startup
 autoconnect2 Sign In automatically when aMSN is launched
 autoconnect Connect on amsn start
 autohotmaillog Auto Hotmail login
@@ -129,6 +132,8 @@ delprofile2 Select the profile that you would like to remove
 delprofile Delete Profile
 description Description
 directconnection I have a direct connection to the internet (uses port 1863)
+disabled Disabled
+disableprofiles Disable profiles (Useful for cyber-cafes or shared environments)
 disablessl Disable SSL
 disconnect $1 has disconnected.
 displaychat Display text options
@@ -144,8 +149,10 @@ edit Edit
 editnewstate New Personal Automessage State
 editprofile Edit Profile
 editstate Edit Existing Automessage State
+editvalue Edit value
 emotisounds Play sounds for certain emoticons
 enablebanner Show aMSN's banner (Requires restart aMSN)
+enabled Enabled
 enableproxy Enable proxy
 enableremote Enable remote controling
 enablesound Play sound
@@ -223,6 +230,7 @@ lconvstarted Conversation started on $1
 leaveblankforhotmail Leave blank to use Hotmail
 leaves $1 leaves conversation
 lenteredconf $1 has entered into a conference on $2
+lineflushlog Flush log files after each line
 linprivate IN PRIVATE
 listeningon Listening on port $1
 listsmileys2 Display Emoticons and Smileys in aMSN's main contact list
@@ -283,6 +291,7 @@ nopic No picture
 noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
 normal Normal
 nosystemtray System tray not available
+notificationserver Initial MSN Notification Server (MSN Messenger Server)
 notify1_5 Display notify window when contacts goes offline
 notify1_75 Display notify window when contacts changes status
 notify1 Display notify window when contacts come online
@@ -361,6 +370,7 @@ raised Raised/Deiconified
 readonlymsgbox The file transfer has been canceled due to the received directory being read-only. Please fix the permissions on this directory.
 readonlywarn WARNING: The file will probably NOT be saved correctly as the "Received files" directory seems to be write-protected. Please ensure that the permissions on the target directory ($1) are set correctly before transfering the file.
 receivedbytes Received $1 of $2 bytes
+receiveddir Received Files folder
 receivefile Receive file
 reconnecting Reconnecting to server
 reconnect Waiting for $1 to reconnect
@@ -439,6 +449,8 @@ to To
 transnotexists The requested file has not been translated into the current language yet.
 traynotcompiled Tray icon plugin is not complied. Check plugins/traydock
 triggers Text triggers
+truncatenames1 Truncate nicknames longer than window width in window titles and contact list
+truncatenames2 Truncate nicknames longer than window width inside conversations
 truncatenicks Truncate nicknames longer than window width
 twonewmail $1 new messages in Inbox
 unblock Unblock

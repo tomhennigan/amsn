@@ -176,7 +176,7 @@ proc statusicon_proc {status} {
 				set tooltip "$my_name ($config(login)): [trans appearoff]"
 				#$iconmenu entryconfigure 0 -label $tooltip
 			  }
-			  - {
+			  default {
 				set pixmap "null"
 			  }
 			}

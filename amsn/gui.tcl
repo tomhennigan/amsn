@@ -145,7 +145,7 @@ namespace eval ::amsn {
 				"src" {
 					set downloadurl "$baseurl-src.tar.gz"
 				}
-				- {
+				default {
 					set downloadurl "none"
 				}
 			}

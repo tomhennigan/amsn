@@ -856,28 +856,31 @@ proc Preferences { { settings "personal"} } {
 
 	set frm [Rnotebook:frame $nb $Preftabs(advanced)]
 
+	set lfname [LabelFrame:create $frm.lfname -text [trans advancedprefs]]
+	frame $lfname.f
+	scrollbar $lfname.f.ys -command "$lfname.f.opt_list yview"
+	listbox $lfname.f.opt_list -yscrollcommand "$lfname.f.ys set" -font splainf \
+		-background white -highlightthickness 0 -height 1
+	pack $lfname.f.opt_list -side left -expand true -fill both -padx 0 -pady 0
+	pack $lfname.f.ys -side left -fill y -padx 0 -pady 0
+	pack $lfname.f -side top -padx 5 -pady 3 -expand true -fill both
+	set opt_list $lfname.f.opt_list
+
+	reload_advanced_options $opt_list
+
+	bind $opt_list <Double-Button-1> "change_advanced_option $opt_list"
+
 	# First Tab
-	set lfname [LabelFrame:create $frm.lfname -text [trans displaychat]]
-	pack $frm.lfname -anchor n -side top -expand 1 -fill x
-	label $lfname.prefdisplay -image prefstatus
-	pack $lfname.prefdisplay -anchor nw -side left
-	frame $lfname.1 -class Degt
+	#set lfname [LabelFrame:create $frm.lfname -text caca]
+	pack $frm.lfname -anchor n -side top -expand true -fill both
 	frame $lfname.2 -class Degt
-	frame $lfname.3 -class Degt
-	checkbutton $lfname.1.timestamp -text "[trans timestamps]" -offvalue 0 -variable config(showtimestamps) -command UpdatePreferences
-	pack $lfname.1 -side top -padx 0 -expand 1 -fill both
-	pack $lfname.1.timestamp -side left
 
 	label $lfname.2.delimiters -text "[trans delimiters]" -padx 5
 	entry $lfname.2.ldelimiter -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -textvariable config(leftdelimiter)
 	label $lfname.2.example -text "HH:MM:SS" -padx 5
 	entry $lfname.2.rdelimiter -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -textvariable config(rightdelimiter)
-	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
+	pack $lfname.2 -side top -padx 0 -fill x
 	pack $lfname.2.delimiters $lfname.2.ldelimiter $lfname.2.example $lfname.2.rdelimiter -side left
-
-	checkbutton $lfname.3.truncatenicknames -text "[trans truncatenicks]" -onvalue 1 -offvalue 0 -variable config(truncatenicks) -command UpdatePreferences
-	pack $lfname.3 -side top -padx 0 -expand 1 -fill both
-	pack $lfname.3.truncatenicknames -anchor w -side top
 
 	#  .----------.
 	# _| Privacy |________________________________________________
@@ -1073,6 +1076,98 @@ proc Preferences { { settings "personal"} } {
 
     #tkwait visibility .cfg
     #grab set .cfg
+}
+
+proc reload_advanced_options {opt_list} {
+	global advanced_options config
+
+	$opt_list delete 0 end
+	foreach opt $advanced_options {
+		if {[lindex $opt 0] == "" } {
+			$opt_list insert end " ---- [trans [lindex $opt 1]] ----"
+		} elseif {![info exists config([lindex $opt 0])]} {
+			$opt_list insert end " ERROR: Non-existing option \"[lindex $opt 0]\""
+		} else {
+			switch [lindex $opt 1] {
+				bool {
+					if { $config([lindex $opt 0]) } {
+						$opt_list insert end " [trans [lindex $opt 2]]: *[trans enabled]*"
+					} else {
+						$opt_list insert end " [trans [lindex $opt 2]]: *[trans disabled]*"
+					}
+				}
+				default {
+					$opt_list insert end " [trans [lindex $opt 2]]: $config([lindex $opt 0])"
+				}
+			}
+		}
+
+	}
+}
+
+proc change_advanced_option {opt_list} {
+	global advanced_options config
+	status_log "Going to change [$opt_list curselection]\n" red
+	set sel [$opt_list curselection]
+	set opt [lindex $advanced_options $sel]
+	if { [lindex $opt 0] != "" } {
+		toplevel .value_change
+		wm title .value_change [trans editvalue]
+		label .value_change.name -text [trans [lindex $opt 2]] -font sboldf
+		pack .value_change.name -side top -padx 5 -pady 2 -expand true -fill both
+		if { [lindex $opt 3] != ""} {
+			label .value_change.desc -text [trans [lindex $opt 3]] -font splainf
+			pack .value_change.desc -side top -padx 5 -pady 2 -expand true -fill both -anchor e
+		}
+
+		frame .value_change.b
+
+		switch [lindex $opt 1] {
+			bool {
+				checkbutton .value_change.value -font splainf -text [trans enabled] -variable option_value
+				if { $config([lindex $opt 0])} {
+					.value_change.value select
+				} else {
+					.value_change.value deselect
+				}
+				pack .value_change.value -side top -padx 5 -pady 2 -expand true -fill x
+
+				button .value_change.b.ok -text "[trans accept]" -command "set config([lindex $opt 0]) \$option_value;destroy .value_change; reload_advanced_options $opt_list" -font sboldf
+
+			}
+			int {
+				entry .value_change.value -font splainf -width 50 -validate focus -validatecommand "check_int %W" -invalidcommand ".value_change.value delete 0 end; .value_change.value insert end $config([lindex $opt 0])"
+				.value_change.value insert end $config([lindex $opt 0])
+				pack .value_change.value -side top -padx 5 -pady 2 -expand true -fill x
+				button .value_change.b.ok -text "[trans accept]" -command "set config([lindex $opt 0]) \[.value_change.value get\];destroy .value_change; reload_advanced_options $opt_list" -font sboldf
+			}
+			default {
+				entry .value_change.value -font splainf -width 50
+				.value_change.value insert end $config([lindex $opt 0])
+				pack .value_change.value -side top -padx 5 -pady 2 -expand true -fill x
+				button .value_change.b.ok -text "[trans accept]" -command "set config([lindex $opt 0]) \[.value_change.value get\];destroy .value_change; reload_advanced_options $opt_list" -font sboldf
+			}
+		}
+		button .value_change.b.cancel -text "[trans cancel]" -command "destroy .value_change" -font sboldf
+		pack .value_change.b.ok -side left -padx 0
+		pack .value_change.b.cancel -side left -padx 5
+		pack .value_change.b -side top -pady 2 -expand true -fill x -anchor w -padx 5
+
+		tkwait visibility .value_change
+		grab set .value_change
+
+	}
+}
+
+proc check_int {text} {
+	set int_val "0"
+	catch { expr {int([$text get])} } int_val
+	if { $int_val != [$text get] } {
+		status_log "Bad!!\n"
+		return false
+	}
+	status_log "Good!!\n"
+	return true
 }
 
 # This is where we fill in the Entries of the Preferences
@@ -1675,6 +1770,9 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.98  2003/12/12 02:33:45  airadier
+# Advanced preferences done.
+#
 # Revision 1.97  2003/12/08 17:35:09  yozko
 # New 'Advanced Preferences' tab. First advanced options. Try it
 #
