@@ -123,6 +123,7 @@ command Ordre
 commandstatus Executar ordre
 confirmdelete Segur que vols esborrar a $1?
 confirm Estàs segur?
+confirmbl Segur que vols blocar este contacte?
 confirmdg Segur que vols eliminar este grup?
 confirmdu Segur que vols eliminar este usuari?
 confirmeg Segur que vols buidar este grup?
@@ -340,6 +341,7 @@ lprivtoconf La conversa privada canvia a conversa múltiple amb $1
 luclosedwin Has tancat la finestra a les $1
 mailerexample (\$recipient indica l'adreça del contacte) Deixar en blanc per a utilitzar Hotmail
 mailer Ordre de correu-e
+maintenance El servidor estarà fora de servici en $1 minuts per feines de manteniment
 maximised Maximitzada
 minimised Minimitzada/Iconificada
 mins minuts
@@ -405,6 +407,7 @@ notifywin Finestra de notificació
 notinlist No està en la seua llista de contactes
 notls El Protocol 9 de MSN requerix el paquet TLS. Este paquet no pareix que estiga instal·lat en el teu ordenador. Si està instal·lat, el camí al directori de la llibreria deu ser especificat en la finestra de preferències (ex: /opt/tls/lib). \n \n Pots descarregar TLS des de http://tls.sf.net.
 nousersinsession No hi han usuaris en la sessió
+nudge $1 reclama la teua atenció
 offline Desconnectat
 ok Acceptar
 onenewmail 1 missatge nou en safata d'entrada

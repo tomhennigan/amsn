@@ -122,6 +122,8 @@ closingdocks 關閉docks視窗
 commandstatus 執行命令
 command 指令
 confirm 你確定要？
+confirmbl 您確定要封鎖該名使用者?
+confirmrfl 您確定要從本群組中刪除這名聯絡人嗎?
 confirmdelete 您確定要刪除 $1?
 confirmdg 您確定要刪除這個群組嗎?
 confirmdu 您確定要刪除這個使用者嗎?
@@ -338,6 +340,7 @@ longp4c 您的友善稱呼已經超過130個字元. 友善稱呼將會被顯示在正式的MSN中被顯示為 $
 lprivtoconf 私人的聊天由 $1 更改為公開的會議
 luclosedwin 您已經於 $1 關閉視窗
 mailerexample ( \$recipient = 收件者 ) 請保持空白如果您使用Hotmail
+maintenance 伺服器將會暫停服務$1分鐘進行維修,
 mailer 郵件程式
 maximised 最大化
 minimised 最小化/圖示化
@@ -404,6 +407,7 @@ notifywin 通知視窗
 notinlist 您不在對方的聯絡人名單中
 notls MSN通訊協定第九版需要使用TLS 套件. 這個套件似乎還沒有被安裝到這台機器. 如果他已經被安裝, 那該程式庫的路徑應該在偏好設定視窗中被指定 (ex: /opt/tls/lib). \n \n 您可以由此處 http://tls.sf.net 下載TLS安裝.
 nousersinsession 沒有使用者在開會
+nudge $1 要求您的出席
 offline 離線
 ok 確定
 onenewmail 1 封新郵件在收件匣中
@@ -554,6 +558,7 @@ status 狀態
 stopalarm 停止警示
 storenickname 在自訂狀態指定特定暱稱後還原為原始暱稱
 strictfonts 限制所有字型為我所選定的 (狀態列及其他)
+style 風格
 stylechat Same look as chats
 stylehist aMSN's history look
 stylelog 請選擇您瀏覽歷史紀錄時所想要的格式
