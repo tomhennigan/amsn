@@ -94,7 +94,7 @@ namespace eval ::remote {
 	}
 
 	set input "${win_name}.f.in.input"
-	$input  insert end [list $message]
+	$input  insert end "${message}"
 	
 	::amsn::MessageSend $win_name $input 
 	
