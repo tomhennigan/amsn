@@ -103,6 +103,7 @@ proc ConfigDefaults {} {
         set config(showblockedgroup) 0
         set config(lineflushlog) 1
 	set config(flicker) 1
+	set config(autocheckver) 1
 	set password ""
 }
 
@@ -202,7 +203,7 @@ proc new_config_entry  {cstack cdata saved_data cattr saved_attr args} {
 }
 
 proc load_config {} {
-    global config HOME password
+    global config HOME password protocol
 
     set use_xml 1
 
@@ -279,6 +280,8 @@ proc load_config {} {
  	#puts "Password is: $config(remotepassword)\nHi\n"      
     }
      
+
+    set protocol $config(protocol)
 
 	# Load up the personal states
 	LoadStateList

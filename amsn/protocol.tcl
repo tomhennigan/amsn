@@ -2892,23 +2892,6 @@ proc cmsn_ns_handler {item} {
          return 0
       }
       LST {
-      
-          if { [lindex $item 4] == [lindex $item 5] } {
-	     #Do it only in last list item
-	     new_contact_list "[lindex $item 3]"
-	  }
-	 # New entry in address book setContact(email,FL,groupID)
-	 # NOTE: IF a user belongs to several groups, the group part
-	 #       of this packet will have the group ids separated
-	 #       by commas:  0,5  (group 0 & 5).
-	 set curr_list [lindex $item 2]
-	 # It could be that it is in the FL but not in RL or viceversa.
-	 # Everything that is in AL or BL is in either of the above.
-	 # Only FL contains the group membership though...
-	 if { ($curr_list == "FL") } {
-	     ::abook::setContact [lindex $item 6] group [lindex $item 8]
-	     ::abook::setContact [lindex $item 6] nick [lindex $item 7]
-	 }
          cmsn_listupdate $item
          return 0
       }
@@ -2940,6 +2923,15 @@ proc cmsn_ns_handler {item} {
       }
       SYN {
 	  new_contact_list "[lindex $item 2]" 1
+	  global protocol
+	  if { $protocol == "9" } {
+	      global loading_list_info
+	      
+	      set loading_list_info(version) [lindex $item 2]
+	      set loading_list_info(total) [lindex $item 3]
+	      set loading_list_info(current) 1
+	      set loading_list_info(gtotal) [lindex $item 4]
+	  }
 	 return 0
       }
       BLP {
@@ -2959,7 +2951,14 @@ proc cmsn_ns_handler {item} {
       BPR {
 	  new_contact_list "[lindex $item 1]"
 	 # Update entry in address book setContact(email,PH*/M*,phone/setting)
-	 ::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4] 
+	  global protocol
+	  if { $protocol == "9" } {
+	      global loading_list_info
+	      ::abook::setContact $loading_list_info(last) [lindex $item 2] [lindex $item 3]
+
+	  } else {
+	      ::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4] 
+	  }
 	 return 0
       }
       PRP {
@@ -2970,7 +2969,12 @@ proc cmsn_ns_handler {item} {
       LSG {
 	  new_contact_list "[lindex $item 2]"
       	#status_log "$item\n" blue
-	::groups::Set [lindex $item 5] [lindex $item 6]
+	  global protocol
+	  if { $protocol == "9" } {
+	      ::groups::Set [lindex $item 1] [lindex $item 2]
+	  } else {
+	      ::groups::Set [lindex $item 5] [lindex $item 6]
+	  }
 	return 0
       }
       REG {	# Rename Group
@@ -3156,10 +3160,10 @@ proc cmsn_listdel {recv} {
 }
 
 proc cmsn_auth {{recv ""}} {
-   global config list_version
+   global config list_version protocol
 
-   if {($config(protocol) == "9") && ([info exist recv])} { return [cmsn_auth_msnp9 $recv] }
-   if {($config(protocol) == "9") && (![info exist recv])} { return [cmsn_auth_msnp9] }
+    if {($protocol == "9") && ([info exist recv])} { return [cmsn_auth_msnp9 $recv] }
+    if {($protocol == "9") && (![info exist recv])} { return [cmsn_auth_msnp9]}
 
    switch [sb get ns stat] {
       c {
@@ -3265,9 +3269,9 @@ proc cmsn_auth {{recv ""}} {
 }
 
 proc cmsn_auth_msnp9 {{recv ""}} {
-   global config list_version info
+   global config list_version info protocol
 
-   if {$config(protocol) == "9"} {
+   if {$protocol == "9"} {
       if [catch {package require tls}] {
          # Either tls is not installed, or $auto_path does not point to it.
 
@@ -3280,6 +3284,7 @@ proc cmsn_auth_msnp9 {{recv ""}} {
          return -1
       }
    }
+
 
    switch [sb get ns stat] {
       c {
@@ -3700,47 +3705,141 @@ proc newcontact_ok { newc_exit newc_add_to_list x0 x1} {
     }
 }
 
+proc process_msnp9_lists { bin } {
+
+    set lists [list]
+    
+    if { [expr $bin % 2] } {
+	lappend lists "list_fl"
+    }
+    set bin [expr $bin / 2]
+
+    if { [expr $bin % 2] } {
+	lappend lists "list_al"
+    }
+
+    set bin [expr $bin / 2]
+
+    if { [expr $bin % 2] } {
+	lappend lists "list_bl"
+    }
+    set bin [expr $bin / 2]
+
+    if { [expr $bin % 2] } {
+	lappend lists "list_rl"
+    }
+
+    return $lists
+}
+
 proc cmsn_listupdate {recv} {
-   global list_fl list_al list_bl list_rl
+   global list_fl list_al list_bl list_rl protocol 
 
-   set list_name "list_[string tolower [lindex $recv 2]]"
 
-   #If we have an ADD command, convert it to a list of only one user
-   if {[lindex $recv 0] == "ADD"} {		;# FIX: guess I should really
-      set recv [linsert $recv 4 "1" "1"]	;# get it out of here!!
-      #status_log "ADDING...\n" blue
-   }   
+    
+    if { [lindex $recv 0] == "ADD" } {
+	set list_names "list_[string tolower [lindex $recv 2]]"
+	set version [lindex $recv 3]
+
+	set command ADD
+
+	set current 1
+	set total 1
+	
+	set username [lindex $recv 4]
+	set nickname [lindex $recv 5]
+	set groups [lindex $recv 6]
+	
+
+    } elseif { $protocol == "9" } {
+	global loading_list_info
+
+	set command LST
+
+	set current $loading_list_info(current)
+	set total $loading_list_info(total)
+	set version $loading_list_info(version)
+
+	incr loading_list_info(current)
+
+	set username [lindex $recv 1]
+	set nickname [lindex $recv 2]
+
+	set list_names [process_msnp9_lists [lindex $recv 3]]
+	puts "$username --- $list_names"
+	set groups [lindex $recv 4]
+
+    } else {
+
+	set command LST
+
+	set list_names "list_[string tolower [lindex $recv 2]]"
+	set version [lindex $recv 3]
+
+	set current [lindex $recv 4]
+	set total [lindex $recv 5]
+	
+	if {$current != 0} {
+	    set username [lindex $recv 6]
+	    set nickname [lindex $recv 7]
+	    set groups [lindex $recv 8]
+	}
+	    
+    } 
+
+
+
+    foreach list_name $list_names {
    
-   #List is empty or first user in list
-   if {([lindex $recv 4] <= 1) && ([lindex $recv 0] == "LST")} {
-      set $list_name [list]
-      status_log "cmsn_listupdate: Clearing $list_name\n"
-       if {$list_name == "list_al"} { # Here we have the groups already
-	   ::groups::Enable
-       }
-   }
+	#List is empty or first user in list
+	if {($current <= 1) && ($command == "LST")} {
+	    set $list_name [list]
+	    status_log "cmsn_listupdate: Clearing $list_name\n"
+	    if {$list_name == "list_al"} { # Here we have the groups already
+		::groups::Enable
+	    }
+	}
 
-   #If list is not empty, get user information
-   if {[lindex $recv 4] != 0} {
-      set contact_info ""
-      set user [lindex $recv 6]
-      
-      #Add only if user is not already in list
-      upvar #0 $list_name the_list
-      if { [lsearch $the_list "$user *"] == -1 } {      
-         lappend contact_info $user
-         lappend contact_info [urldecode [lindex $recv 7]]
-         lappend $list_name $contact_info
+
+	#If list is not empty, get user information
+	if {$current != 0} {
+	    set contact_info ""
+	    set user $username
+	
+	    #Add only if user is not already in list
+	    upvar #0 $list_name the_list
+	    if { [lsearch $the_list "$user *"] == -1 } {      
+		lappend contact_info $user
+		lappend contact_info [urldecode $nickname]
+		lappend $list_name $contact_info
+		
+		#status_log "cmsn_listupdate: adding to $list_name $contact_info\n"
+	    } 
+	}
 	 
-         #status_log "cmsn_listupdate: adding to $list_name $contact_info\n"
-      } 
-   }
+	# New entry in address book setContact(email,FL,groupID)
+	# NOTE: IF a user belongs to several groups, the group part
+	#       of this packet will have the group ids separated
+	#       by commas:  0,5  (group 0 & 5).
+	# It could be that it is in the FL but not in RL or viceversa.
+	# Everything that is in AL or BL is in either of the above.
+	# Only FL contains the group membership though...
+	if { ($list_name == "list_fl") } {
+	    ::abook::setContact $username group $groups
+	    ::abook::setContact $username nick $nickname
+	    if { $protocol == "9" } {
+		set loading_list_info(last) $username
+	    }
+	}
+    }
 
-   #Last user in list
-   if {[lindex $recv 4] == [lindex $recv 5]} {
-      lists_compare		;# FIX: hmm, maybe I should not run it always!
-      list_users_refresh
-   }
+    #Last user in list
+    if {$current == $total} {
+	lists_compare		;# FIX: hmm, maybe I should not run it always!
+	list_users_refresh
+	new_contact_list "$version"
+    }
+
 }
 
 proc urldecode {str} {
@@ -3874,7 +3973,7 @@ proc change_BLP_settings { item } {
 }
 
 proc new_contact_list { version {load 0} } {
-    global list_version HOME list_al list_fl list_bl list_rl list_users
+    global list_version HOME list_al list_fl list_bl list_rl list_users protocol
 
     if { $load} {
        status_log "new_contact_list: new contact list version : $version --- previous was : $list_version\n"

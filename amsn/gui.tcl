@@ -2489,7 +2489,7 @@ proc cmsn_draw_main {} {
    .main_menu.help add separator
    .main_menu.help add command -label "[trans about]..." -command ::amsn::aboutWindow
    .main_menu.help add command -label "[trans version]..." -command \
-     "msg_box \"[trans version]: $version - [trans date]: $date\n$weburl\""
+     "msg_box \"[trans version]: $version\n[trans date]: $date\n$weburl\""
 
 
    #image create photo mainback -file [GetSkinFile pixmaps back.gif]
@@ -3119,7 +3119,7 @@ proc login_ok {} {
 # cmsn_draw_login {}
 # 
 proc cmsn_draw_login {} {
-	global config password loginmode HOME HOME2
+	global config password loginmode HOME HOME2 protocol
 
 	if {[winfo exists .login]} {
 		raise .login
@@ -3204,6 +3204,10 @@ proc cmsn_draw_login {} {
 
 	bind .login <Return> "login_ok"
 	bind .login <Escape> "ButtonCancelLogin .login"
+    bind .login <Destroy> { 
+	global config protocol
+	set protocol $config(protocol)
+    }
 }
 
 #///////////////////////////////////////////////////////////////////////
@@ -4735,41 +4739,22 @@ proc show_umenu {user_login grId x y} {
 package require http 2.3
 
 proc checking_ver {} {
-   global version weburl
+    global weburl
+    
+    set newer [check_version_silent]
 
+    set ver [lindex $newer 1]
+    set newer [lindex $newer 0]
 
-   if {[catch {
-         set token [::http::geturl {amsn.sourceforge.net/amsn_latest} -timeout 10000]
-         set tmp_data [ ::http::data $token ]
-
-         ::http::cleanup $token
-
-         set lastver [split $tmp_data "."]
-         set yourver [split $version "."]    
-
-         if { [lindex $lastver 0] > [lindex $yourver 0] } {
-            set newer 1
-         } else {	
-            # Major version is at least the same
-	    if { [lindex $lastver 1] > [lindex $yourver 1] } {
-	       set newer 1
-	    } else {
-	       set newer 0
-	    }
-         }
+    if { $newer == 0} {
+	msg_box "[trans nonewver]"
+    } elseif  { $newer == 1 } {
+	msg_box "[trans newveravailable $ver]\n$weburl"
+    } else {
+	msg_box "[trans connecterror]"
+    }
      
-         if {!$newer} {
-            msg_box "[trans nonewver]"
-         } else {
-            msg_box "[trans newveravailable $tmp_data]\n$weburl"
-         }
-     
-      } res ]} {
-     
-      msg_box "[trans connecterror]"
-   }
-	
-   destroy .checking
+    destroy .checking
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -4796,6 +4781,39 @@ proc check_version {} {
 }
 #///////////////////////////////////////////////////////////////////////
 
+
+#///////////////////////////////////////////////////////////////////////
+proc check_version_silent {} {
+    global version
+
+    set newer -1
+
+    set tmp_data 0
+
+    catch {
+	set token [::http::geturl {amsn.sourceforge.net/amsn_latest} -timeout 10000]
+	set tmp_data [ ::http::data $token ]
+	
+	::http::cleanup $token
+	
+	set lastver [split $tmp_data "."]
+	set yourver [split $version "."]    
+
+         if { [lindex $lastver 0] > [lindex $yourver 0] } {
+            set newer 1
+         } else {	
+            # Major version is at least the same
+	    if { [lindex $lastver 1] > [lindex $yourver 1] } {
+	       set newer 1
+	    } else {
+	       set newer 0
+	    }
+         }
+     
+    }
+
+    return "$newer $tmp_data"
+}
 
 #///////////////////////////////////////////////////////////////////////
 proc run_command_otherwindow { command } {

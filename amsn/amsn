@@ -222,6 +222,13 @@ if { $config(autoconnect) == 1 } {
   ::MSN::connect $config(login) password
 }
 
+if { $config(autocheckver) == 1 } {
+    set new [check_version_silent]
+    if { [lindex $new 0] == 1 } {
+	msg_box "[trans newveravailable [lindex $new 1]]\n$weburl"
+    }
+}
+
 # BeginVerifyBlocked
 init_remote_DS
 init_dock
