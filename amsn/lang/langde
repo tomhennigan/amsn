@@ -23,7 +23,6 @@ appearance Erscheinung
 appearoff Als offline anzeigen
 areacode Vorwahl 
 aretyping $1 geben Nachrichten ein
-askprofile Dieser Login hat noch kein Profil. Wollen Sie ein neues für ihn erstellen? \n Wenn nicht werden Sie die History oder das Speichern ihrer Alarme und Passwörter nicht benutzen können. \n Wenn sie es tun, haben Sie eine eigene Einstellung in dem neuen Profil. \n \n Klicken Sie auf "Profil erstellen" um ein neues Profil für $1 zu erstellen.
 autoaway Setze mich "Away" nach Inaktivität von
 autoconnect2 Automatisch Einloggen wenn aMSN gestartet wird
 autoconnect Automatische Anmeldung beim Starten
@@ -370,3 +369,29 @@ yoffset Y Offset
 youblocked Sie wurden blockiert
 yousay Du sagst
 youwant Du willst
+alarmonconnect Alamiere, wenn der Benutzer online kommt
+alarmondisconnect Alamiere, wenn der Benutzer sich abmeldet
+alarmonmsg Alamiere, wenn der Benutzer dir eine Nachricht sendet
+alarmonstatus Alamiere, wenn der Benutzer den Status ändert
+allowbadwords Nicknames nicht zensieren
+autoaccepted Dateitransfers automatisch akzeptieren
+autoacceptft Dateianfragen automatisch akzeptieren
+blockedyougroup Seperate Gruppe anzeigen für die Leute, die dich geblockt haben
+blockinter4 Sekunden.
+cantexec Kann $1 nicht ausführen. Überprüfe die Einstellungen
+changestate $1 geändert in $2
+chooseskin Bitte wähle einen Skin aus
+closed Geschlossen
+custom_edit Bearbeite den eigenen Smiley
+custom_new Neuen Smiley hinzufügen
+defaultloginradio Einloggen mit Standardkonfiguration
+description Beschreibung
+disconnect $1 hat sich abgemeldet.
+editcurrentstate Veränder den derzeitigen 
+enablesound Sounds aktivieren
+hybrid Hybridmodus
+invalidfile Die Datei $2, die im Feld $1 eingegeben wurde, existiert nicht oder ist nicht lesbar.
+logsout hat sich so eben abgemeldet.
+noneavailable Nicht verfügbar.
+notify1_5 Zeige Statusfenster an, wenn der Kontakt offlien geht
+notify1_75 Zeige Statusfenster an, wenn der Kontakt den Zustand ändert
