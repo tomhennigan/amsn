@@ -274,17 +274,19 @@ namespace eval ::Nudge {
 			#Use after 1 to avoid a bug on Mac OS X when we close the chatwindow before the end of the nudge
 			#Keep compatibility with 0.94 for the getColor
 			if {[::Nudge::version_094]} {
-				button $nudgebutton -image [::skin::loadPixmap nudge] -relief flat -padx 3 \
+				button $nudgebutton -image [::skin::loadPixmap nudgebutton] -relief flat -padx 3 \
 				-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0 \
 				-highlightbackground [::skin::getColor background2] \
 				-command "after 1 ::Nudge::send_via_queue $newvar(window_name)"
 			} else {
-				button $nudgebutton -image [::skin::loadPixmap nudge] -relief flat -padx 3 \
+				button $nudgebutton -image [::skin::loadPixmap nudgebutton] -relief flat -padx 3 \
 				-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
 				-highlightbackground [::skin::getKey buttonbarbg] \
 				-command "after 1 ::Nudge::send_via_queue $newvar(window_name)"
 			}
-			
+			#Configure hover button
+			bind $nudgebutton <Enter> "$nudgebutton configure -image [::skin::loadPixmap nudgebutton_hover]"
+			bind $nudgebutton <Leave> "$nudgebutton configure -image [::skin::loadPixmap nudgebutton]"
 			#Define baloon info
 			set_balloon $nudgebutton "$::Nudge::language(send_nudge)"
 		
@@ -405,7 +407,7 @@ namespace eval ::Nudge {
 			if {![::Nudge::check_clientid $chatid]} {
 				::Nudge::winwrite $chatid \
 				"$::Nudge::language(no_nudge_support)" nudgeoff red
-				::Nudge::log "\nCan't send a Nudge to <[::abook::getDisplayNick $chatid]> because he doesn't use MSN 7 protocol\n"
+				::Nudge::log "Can't send a Nudge to <[::abook::getDisplayNick $chatid]> because he doesn't use MSN 7 protocol"
 				return
 			}
 	
@@ -445,7 +447,7 @@ namespace eval ::Nudge {
 		#Send the packet
 		::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
 		::Nudge::log "Nudge packet sent"
-		::Nudge::log "\nFinished sending Nudge to <[::abook::getDisplayNick $chatid]>\n"
+		::Nudge::log "Finished sending Nudge to <[::abook::getDisplayNick $chatid]>"
 	}
 	
 	######################################################
@@ -537,24 +539,12 @@ namespace eval ::Nudge {
 	############################################
 	# ::Nudge::setPixmap                       #
 	# -----------------------------------------#
-	# Load the nudge pixmaps from plugin in    #
-	# the skin system. Use the pixmap inside   #
-	# the actual_skin_name directory if 	   #
-	# available                                #
+	# Define the nudge pixmaps from the skin   #
 	############################################	
 	proc setPixmap {} {
-		#Get current directory of the plugin
-		set dir [::config::getKey nudgepluginpath]
-		#Get the name of the current skin
-		set actualskin [::config::getGlobalKey skin]
-		#Verify if the files are inside /pixmaps/name_of_plugin
-		#If yes use them, if not use the default pictures in /pixmaps
-		if {[file readable [file join $dir pixmaps $actualskin nudge.gif]] & [file readable [file join $dir pixmaps $actualskin nudgeoff.gif]]} {
-			::skin::setPixmap nudge [file join $dir pixmaps $actualskin nudge.gif]
-			::skin::setPixmap nudgeoff [file join $dir pixmaps $actualskin nudgeoff.gif]
-		} else {
-			::skin::setPixmap nudge [file join $dir pixmaps nudge.gif]
-			::skin::setPixmap nudgeoff [file join $dir pixmaps nudgeoff.gif]
-		}
+			::skin::setPixmap nudge nudge.gif
+			::skin::setPixmap nudgeoff nudgeoff.gif
+			::skin::setPixmap nudgebutton nudgebutton.gif
+			::skin::setPixmap nudgebutton_hover nudgebutton_hover.gif
 	}
 }
