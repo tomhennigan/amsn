@@ -1,4 +1,8 @@
 package require AMSN_BWidget
+#Use QuickeTimeTcl on Mac OS X to play sounds
+if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+package require QuickTimeTcl
+}
 
 if { $initialize_amsn == 1 } {
 	global bgcolor bgcolor2 menubgcolor menufgcolor menuactivebgcolor menuactivefgcolor
@@ -1742,7 +1746,6 @@ namespace eval ::amsn {
 			if { $config(getdisppic) != 0 } {
 				check_imagemagick
 			}
-			catch {exec killall -c sndplay}
 		}
 		menu .${win_name}.menu -tearoff 0 -type menubar  \
 			-borderwidth 0 -activeborderwidth -0
@@ -3724,6 +3727,8 @@ proc cmsn_draw_main {} {
 	#For All Platforms (except Mac)
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		frame .main -class Amsn -relief flat -background white
+		#Create the frame for play_Sound_Mac
+		frame .fake
 	} else {
 		#Put the color of the border around the contact list (from the skin)	
 		frame .main -class Amsn -relief flat -background $bgcolor
@@ -4037,10 +4042,12 @@ proc play_sound {sound_name} {
 		set soundcommand [string map {"\\" "\\\\" "\[" "\\\[" "\$" "\\\$"} $soundcommand]
 		#Unquote the $sound variable so it's replaced
 		set soundcommand [string map {"\\\$sound" "\$sound" } $soundcommand]
-		catch {eval exec $soundcommand &} res
-		#Kill soundplayer on Mac OS X (sometimes he stays open and eat your CPU)
-		if { $tcl_platform(os) == "Darwin" } {
-			after 30000 [list catch [list exec killall -c sndplay]]
+		
+	#If Mac OS X, use play_Sound_Mac to play sounds
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			play_Sound_Mac $sound_name $sound	
+		} else {
+			catch {eval exec $soundcommand &} res
 		}
 	}
 }
@@ -6159,10 +6166,6 @@ proc close_cleanup {} {
 	SaveLoginList
 	SaveStateList
 
-	#Kill soundplayer when we quit aMSN-Mac (sometime he stay open and eat your CPU)
-	if { $tcl_platform(os) == "Darwin" } {
-		catch {exec killall -c sndplay}
-	}
 
 	close_dock    ;# Close down the dock socket
 	catch {file delete [file join $HOME hotlog.htm]} res
@@ -7486,4 +7489,17 @@ proc lastKeytyped {typed bottom} {
 			focus -force $bottom.in.input;$bottom.in.input insert insert $typed
 		}
 }
-
+#play_Sound_Mac Play sounds on Mac OS X with the extension "QuickTimeTcl"
+proc play_Sound_Mac {sound_name sound} {
+			#Find the name of the sound
+			set sound_small [string first "." "$sound_name"]
+			set sound_small [expr {$sound_small -1}]
+			set sound_small_name [string range $sound_name 0 $sound_small]
+			#Destroy previous song if he already play
+			destroy .fake.$sound_small_name
+			#Create the ""movie"" in QuickTime TCL to play the sound
+			catch {movie .fake.$sound_small_name -file $sound -controller 0}
+			#Play the sound
+			catch {.fake.$sound_small_name play}
+			return
+}
