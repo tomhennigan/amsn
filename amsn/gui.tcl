@@ -1551,6 +1551,12 @@ namespace eval ::amsn {
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
+	
+	#///////////////////////////////////////////////////////////////////////////////
+	# enterCustomStyle ()
+	# Dialog window to edit the custom chat style
+	proc enterCustomStyle {} {
+	}
 
 
 	#///////////////////////////////////////////////////////////////////////////////
@@ -1858,6 +1864,7 @@ namespace eval ::amsn {
 		.${win_name}.menu.view add separator
 		.${win_name}.menu.view add radiobutton -label "[trans msnstyle]" -value "msn" -variable "config(chatstyle)"
 		.${win_name}.menu.view add radiobutton -label "[trans ircstyle]" -value "irc" -variable "config(chatstyle)"
+		.${win_name}.menu.view add radiobutton -label "[trans customstyle]..." -value "custom" -variable "config(chatstyle)" -command "::amsn::enterCustomStyle"
 
 		menu .${win_name}.menu.actions -tearoff 0 -type normal
 		.${win_name}.menu.actions add command -label "[trans addtocontacts]" \
@@ -2907,26 +2914,37 @@ namespace eval ::amsn {
 	proc PutMessageWrapped { chatid user nick msg type fontformat {p4c 0 }} {
 
 		global config
-		set tstamp [timestamp]
-
-		if {$config(truncatenicks)} {
-			if {$config(showtimestamps)} {
-				set says "$tstamp [trans says [list]]:"
-			} else {
-				set says "[trans says [list]]:"
-			}
-			set win_name [WindowFor $chatid]
-			set maxw [winfo width $win_name.f.out.text]
-			incr maxw [expr -10-[font measure splainf -displayof $win_name "$says"]]
-			set nick [trunc $nick $win_name $maxw splainf]
+		
+		if { [::config::getKey showtimestamps] } {
+			set tstamp [timestamp]
+		} else {
+			set tstamp ""
 		}
 
+		
+		switch [::config::getKey chatstyle] {
+			msn {
+				::config::setKey customchatstyle "\$tstamp [trans says \$nick]:\n"
+			}
+			
+			irc {
+				::config::setKey customchatstyle "\$tstamp <\$nick> "
+			}
+			- {
+			}
+		}
+		
+		#By default, quote backslashes and variables
+		set customchat [string map {"\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } [::config::getKey customchatstyle]]
+		#Now, let's unquote the variables we want to replace
+		set customchat [string map { "\\\$nick" "\${nick}" "\\\$tstamp" "\${tstamp}" } $customchat]
+		
 		if { [::abook::getContactData $user customcolor] != "" } {
 			set color [string trim [::abook::getContactData $user customcolor] "#"]
 		} else {
 			set color 404040
 		}
-
+		
 		if { $p4c == 1 } {
 			if { $color == 404040 } { set color 000000 }
 			set style [list "bold" "italic"]
@@ -2938,22 +2956,26 @@ namespace eval ::amsn {
 		if { $font == "" } { set font "Helvetica"}		
 
 		set customfont [list $font $style $color]
-
-		if {$config(showtimestamps)} {
-			WinWrite $chatid "$tstamp " "says" $customfont
-		} 
-
-		switch [::config::getKey chatstyle] {
-			msn {
-				WinWrite $chatid "[trans says $nick]:\n" "says" $customfont
-				WinWrite $chatid "$msg\n" $type $fontformat
-			}
+		
+		if {$config(truncatenicks)} {
+			set oldnick $nick
+			set nick ""
+			set says [subst -nocommands $customchat]
 			
-			irc {
-				WinWrite $chatid "<$nick> " "says" $customfont
-				WinWrite $chatid "$msg\n" $type $fontformat
-			}
+			set measurefont [list $font [lindex [::config::getGlobalKey basefont] 1] $style]
+			
+			set win_name [WindowFor $chatid]
+			set maxw [winfo width $win_name.f.out.text]
+			status_log "Custom font is $customfont\n" red
+			incr maxw [expr -10-[font measure $measurefont -displayof $win_name "$says"]]
+			set nick [trunc $oldnick $win_name $maxw splainf]
 		}
+
+		#Return the custom nick, replacing backslashses and variables
+		set customchat [subst -nocommands $customchat]
+				
+		WinWrite $chatid "$customchat" "says" $customfont
+		WinWrite $chatid "$msg\n" $type $fontformat
 
 		if {$config(keep_logs)} {
 			::log::PutLog $chatid $nick $msg
@@ -3180,6 +3202,7 @@ namespace eval ::amsn {
 		variable urlcount 0
 		set urlstarts { "http://" "https://" "ftp://" "www." }
 	}
+	
 	#///////////////////////////////////////////////////////////////////////////////
 	# WinWrite (chatid,txt,tagid,[format])
 	# Writes 'txt' into the window related to 'chatid'
@@ -3226,11 +3249,7 @@ namespace eval ::amsn {
 		if { $tagid == "user" || $tagid == "yours" || $tagid == "says" } {
 
 		if { $tagid == "says" } {
-			if { [::config::getKey strictfonts] } {
-				set size [lindex [::config::getGlobalKey basefont] 1]
-			} else {
-				set size 11
-			}
+			set size [lindex [::config::getGlobalKey basefont] 1]
 		} else {
 			set size [expr {[lindex [::config::getGlobalKey basefont] 1]+[::config::getKey textsize]}]
 		}

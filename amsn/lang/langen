@@ -270,6 +270,7 @@ invite Invite
 ipaddress IP Address
 ipdetect Detect correct IP for File Transfers using HTTP
 ircstyle IRC style chat
+customstyle Customized style
 istyping $1 is typing a message
 joins $1 joins conversation
 justonce Just once
