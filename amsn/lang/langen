@@ -223,12 +223,14 @@ prefphone My Phone Numbers
 prefphone2 Type the phone numbers that you would like people $1 on your Allow List to see $1
 prefprofile My Public Profile
 prefprofile2 Create or Modify your public profile (the $1 description of yourself that others can see)
+prefproxy My Proxy Settings
 prefsession My Sign In and Status
 prefshared Shared Connections (only for NAT)
 prefsound Sounds
 profiledconfig Profiled Config
 profiles Profiles
 properties Properties
+proxy I am behind a Proxy Server (HTTP or SOCKS5)
 proxyconfhttp HTTP proxy support configuration
 proxyconf Proxy configuration
 publishphones Publish my phone numbers
