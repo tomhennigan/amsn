@@ -61,7 +61,7 @@ clicktologin Apreta aquí per iniciar la sessió
 close Tancar
 closingdocks El botó tancar minimitza la finestra
 command Reproductor
-confirmdelete ¿Estàs segur de voler eliminar a $1?
+confirmdelete Estàs segur de voler eliminar a $1?
 confirm Estàs segur?
 connecterror Error connectant-se amb el servidor
 connection Connexió
@@ -80,6 +80,7 @@ delete Esborrar
 deliverfail Hi ha hagut un problema al enviar el missatge
 delprofile2 Selecciona el perfil que t'agradaria eliminar
 delprofile Esborrar perfil
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Acoplament amb el Gnome
 docking Acoplament
 dockingoff Desactivat
@@ -93,9 +94,9 @@ entercontactemail Escriu l'adreça de correu del contacte
 enterfilename Introdueix el nom del fitxer
 enternick Escriu el teu sobrenom
 examples Exemples
-exitamsn ¿Estàs segur de voler sortir?
+exitamsn Estàs segur de voler sortir?
 extras Serveis extra
-faq Preguntes freqüents (FAQ)
+faq Preguntes més freqüents (FAQ)
 filedoesnotexist El fitxer no existeix
 fileman Gestor de fitxers
 filename Nom del fitxer
@@ -280,10 +281,11 @@ stylelog Escull l'estil en que desitjes veure l'historial
 syntaxerror Error de sintaxi
 tabbed Finestres sobreposades
 textsize Mida del text
-title Al's Messenger
+title aMSN
 to A
 tools Eines
 transnotexists Aquest fitxer encara no ha estat traduït
+traynotcompiled La icona de la safata de connexió no s'ha compilat. Comprova el directori plugins/traydock 
 unblock Desbloquejar
 uoffline Desconnectats
 uonline Connectats
