@@ -300,7 +300,7 @@ namespace eval ::amsn {
 	# Draws the about window
 	proc aboutWindow {{localized 0}} {
 
-		global tcl_platform
+		global tcl_platform langenc
 
 		if { [winfo exists .about] } {
 			raise .about
@@ -357,8 +357,10 @@ namespace eval ::amsn {
 
 		#Insert the text in .about.middle.list.text
 		set id [open $filename r]
+		if { $localized } {
+			fconfigure $id -encoding $langenc
+		}
 		.about.middle.list.text insert 1.0 [read $id]
-
 		close $id
 
 		.about.middle.list.text configure -state disabled
@@ -377,13 +379,13 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 	# showHelpFile(filename,windowsTitle)
 	proc showTranslatedHelpFile {file title} {
-		global config
+		global config langenc
 
 		set filename [file join "docs" "${file}[::config::getGlobalKey language]"]
 
 		if {[file exists $filename]} {
 			status_log "File $filename exists!!\n" blue
-			showHelpFile $filename "$title"
+			showHelpFile $filename "$title" $langenc
 		} else {
 			status_log "File $filename NOT exists!!\n" red
 			msg_box "[trans transnotexists]"
@@ -392,7 +394,7 @@ namespace eval ::amsn {
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# showHelpFile(filename,windowsTitle)
-	proc showHelpFile {file title} {
+	proc showHelpFile {file title {encoding "iso8859-1"}} {
 
 		if { [winfo exists .show] } {
 			raise .show
@@ -424,6 +426,7 @@ namespace eval ::amsn {
 
 		#Insert FAQ text 
 		set id [open $file r]
+		fconfigure $id -encoding $encoding
 		.show.info.list.text insert 1.0 [read $id]
 		close $id
 
