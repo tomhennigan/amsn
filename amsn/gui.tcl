@@ -1739,6 +1739,12 @@ namespace eval ::amsn {
 			.${win_name}.copy.xmms add command -label [trans xmmscurrent] -command "xmms ${win_name} 1"
 			.${win_name}.copy.xmms add command -label [trans xmmssend] -command "xmms ${win_name} 2"
 		}
+		#Create iTunes menu on Mac OS X, to send message for current playing song
+		if {$tcl_platform(os) == "Darwin"} {
+			.${win_name}.copy add cascade -label "iTunes" -menu .${win_name}.copy.itunes
+			menu .${win_name}.copy.itunes -tearoff 0 -type normal
+			.${win_name}.copy.itunes add command -label [trans xmmscurrent] -command "itunes ${win_name} 1"
+		}
 
 		frame .${win_name}.f -class amsnChatFrame -background $bgcolor -borderwidth 0 -relief flat
 
@@ -7262,3 +7268,4 @@ proc lastKeytyped {typed bottom} {
 			focus -force $bottom.in.input;$bottom.in.input insert insert $typed
 		}
 }
+
