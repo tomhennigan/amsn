@@ -488,8 +488,9 @@ namespace eval ::ChatWindow {
 			pack $top -side top -expand false -fill x -padx [::skin::getColor chatpadx] -pady [::skin::getColor chatpady]
 		}
 		
+		pack $statusbar -side bottom -expand false -fill x 
 		pack $paned -side top -expand true -fill both -padx 0 -pady 0
-		pack $statusbar -side top -expand false -fill x
+
 
 
 		focus $paned
@@ -970,10 +971,10 @@ namespace eval ::ChatWindow {
 	proc CreatePanedWindow { w } {
 		
 		set paned $w.f
-		panedwindow $paned -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat -orient vertical
+		panedwindow $paned -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat -orient vertical ;#-opaqueresize true -showhandle false
+		
 		set output [CreateOutputWindow $w $paned]
 		set input [CreateInputWindow $w $paned]
-
 
 		#Remove thin border on Mac OS X (padx)
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
@@ -990,9 +991,32 @@ namespace eval ::ChatWindow {
 
 		# Bind on focus, so we always put the focus on the input window
 		bind $paned <FocusIn> "focus $input"
+		#bind $paned <Configure> "::ChatWindow::PanedWindowConfigured $paned %w %h"
 
 
 		return $paned
+
+	}
+	
+	proc PanedWindowConfigured {paned neww newh } {
+		
+		set toph [$paned panecget $paned.out -height]
+		set bottomh [$paned panecget $paned.bottom -height]
+
+		set h [$paned cget -height]
+		#$paned configure -height $newh
+		if { $h == "" } { return }
+
+		set diff [expr $newh - $h]
+
+		status_log "Pane configured, new width : $neww\nnewheight : $newh\ntoph : $toph\nbottomh : $bottomh\nh : $h\ndiff : $diff\n"
+
+		if { $diff > 0 } {
+			$paned paneconfigure $paned.out -height [expr $toph + $diff]
+		} else {
+			$paned paneconfigure $paned.out -height [expr $toph - abs($diff)]
+		}
+
 
 	}
 
@@ -1059,7 +1083,7 @@ namespace eval ::ChatWindow {
 		}
 
 		# Create The left frame
-		frame $leftframe -class Amsn -background blue -relief solid -borderwidth [::skin::getColor chatborders]
+		frame $leftframe -class Amsn -background white -relief solid -borderwidth [::skin::getColor chatborders]
 
 		# Create the other widgets for the bottom frame
 		set buttons [CreateButtonBar $w $leftframe]

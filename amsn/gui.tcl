@@ -1590,6 +1590,13 @@ namespace eval ::amsn {
 		convert_image_plus "[file join $HOME displaypic cache ${filename}].gif" displaypic/cache $size
 		#Create the new photo with the new picture
 		catch {image create photo user_pic_$user -file "[file join $HOME displaypic cache ${filename}].gif"}
+		set h [image height user_pic_$user]
+		if { $h < 100 } {
+			set h 100
+		}
+		status_log "setting bottom pane misize to $h\n"
+		$win.f paneconfigure $win.f.bottom -minsize $h		
+		
 		}
 
 	proc ChangePicture {win picture balloontext {nopack ""}} {
@@ -1611,13 +1618,19 @@ namespace eval ::amsn {
 		} elseif { $nopack == "" } {
 			#grid $win.f.bottom.pic.image -row 0 -column 1 -padx 0 -pady 3 -rowspan 2
 			pack $win.f.bottom.pic.image -side left -padx 0 -pady [::skin::getColor chatpady] -anchor w
+			set h [image height $picture]
+			if { $h < 100 } {
+				set h 100
+			}
+			status_log "setting bottom pane misize to $h\n"
+			$win.f paneconfigure $win.f.bottom -minsize $h
 			#grid forget $win.f.bottom.pic.showpic
 			$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imghide]
 			#unset_balloon $win.f.bottom.pic.showpic
 			change_balloon $win.f.bottom.pic.showpic [trans hidedisplaypic]
 			set show_pic 1
 		}
-
+		
 		if {$yview == 1} {
 			update idletasks
 			${win}.f.out.text see end 
