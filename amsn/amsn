@@ -39,8 +39,8 @@
 ### $Id$
 ###
 
-set version "0.52beta"
-set date "07/01/2002"
+set version "0.60alpha"
+set date "07/02/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
@@ -993,16 +993,42 @@ proc menuCmdMove {newgid {paramlist ""}} {
 }
 
 proc user_choose {online command} {
-   global list_users list_states
+   global list_users list_states userchoose_req
 
-   msg_box TODO
-   return 0
 
-   menu .onlineusers_menu -tearoff 0 -type normal  
+   if {[info exists userchoose_req]} {
+      raise .userchoose
+      return 0
+   }
 
-   set w .chooseuser
-   toplevel $w
-   .onlineusers_menu delete 0 end
+   set userchoose_req true
+   
+   toplevel .userchoose -width 400 -height 300
+   bind .userchoose <Destroy> {
+      if {"%W" == ".userchoose"} {
+         unset userchoose_req
+      }
+   }
+
+   wm title .userchoose "[trans userchoose]"
+   wm transient .userchoose .
+   wm geometry .userchoose 400x300
+ 
+   frame .userchoose.list
+   frame .userchoose.buttons
+
+    
+   listbox .userchoose.list.userlist -yscrollcommand ".userchoose.list.ys set"
+   scrollbar .userchoose.list.ys -command ".userchoose.list.userlist yview" 
+   
+   button  .userchoose.buttons.ok -text "[trans ok]" -command "$command \[string range \[lindex \[.userchoose.list.userlist get active\] end\] 1 end-1\]\n;destroy .userchoose"
+   button  .userchoose.buttons.cancel -text "[trans cancel]" -command "destroy .userchoose"
+
+   pack .userchoose.list.ys -side right -fill y   
+   pack .userchoose.list.userlist -side left -expand true -fill both
+   pack .userchoose.list -side top -expand true -fill both
+   pack .userchoose.buttons -side bottom
+   pack .userchoose.buttons.cancel .userchoose.buttons.ok -padx 10 -side right   
 
    foreach user $list_users {
       set user_login [lindex $user 0]
@@ -1011,10 +1037,11 @@ proc user_choose {online command} {
       set state [lindex $list_states $user_state_no]
       set state_code [lindex $state 0]
       
-     .onlineusers_menu add command -label {$user_name}
+      if {($online != "online") || ($state_code != "FLN")} {
+         .userchoose.list.userlist insert end "$user_name <$user_login>"
+      }	 
 
    }
-   tk_popup .onlineusers_menu 200 200
 }
 
 proc show_umenu {user_login x y} {
@@ -1157,8 +1184,8 @@ proc cmsn_draw_msgwin {} {
    .${win_name}.menu.actions add separator
    .${win_name}.menu.actions add command -label [trans sendmail] -command "cmsn_msgwin_sendmail $name"
    menu .${win_name}.menu.actions.invite -tearoff 0 -type normal 
-   .${win_name}.menu.actions.invite add separator
-   .${win_name}.menu.actions.invite add command -label "[trans other]..." -state disabled
+#   .${win_name}.menu.actions.invite add separator
+#   .${win_name}.menu.actions.invite add command -label "[trans other]..." -state disabled
 
    
    bind .${win_name}.menu.actions <Enter> "cmsn_msgwin_umenu $name"
@@ -1731,8 +1758,8 @@ proc cmsn_msgwin_umenu {name} {
    set win_name "msg_[string tolower ${name}]"
 
    .${win_name}.menu.actions.invite delete 0 end
-   .${win_name}.menu.actions.invite add separator
-   .${win_name}.menu.actions.invite add command -label "[trans other]..." -state disabled
+#   .${win_name}.menu.actions.invite add separator
+#   .${win_name}.menu.actions.invite add command -label "[trans other]..." -state disabled
 
    foreach user_info $list_users {
       set user_login [lindex $user_info 0]
