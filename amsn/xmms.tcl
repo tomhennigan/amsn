@@ -67,10 +67,10 @@ if {[info exist found]} {
 				set newnick [::config::getKey songnick]
 				if { $newnick == "" } {
 					# should this tell the user to set a nick? or shall it set the nick to the song??
-					::MSN::changeName [lindex $user_info 3] $song 1
+					::MSN::changeName [lindex $user_info 3] $song
 				} else {
 					# We must find a solution to remove the song if someone use this function twice!
-					::MSN::changeName [lindex $user_info 3] "$newnick - $song" 1
+					::MSN::changeName [lindex $user_info 3] "$newnick - $song"
 				}
 			}
 		}

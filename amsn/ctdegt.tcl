@@ -1364,7 +1364,7 @@ proc SavePreferences {} {
     set lfname "$lfname.lfname.f.f.1"
     set new_name [$lfname.name get]
     if {$new_name != "" && $new_name != [::abook::getPersonal nick] && [::MSN::myStatusIs] != "FLN"} {
-	::MSN::changeName $config(login) $new_name 0
+	::MSN::changeName $config(login) $new_name
     }
 
 	 #Check if convertpath was left blank, set it to "convert"

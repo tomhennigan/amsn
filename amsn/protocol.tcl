@@ -178,7 +178,7 @@ namespace eval ::MSNFT {
       set msg "${msg}Invitation-Cookie: $cookie\r\n"
       set msg "${msg}Launch-Application: FALSE\r\n"
       set msg "${msg}Request-Data: IP-Address:\r\n\r\n"
-
+      set msg [encoding convertto utf-8 $msg]
       set msg_len [string length $msg]
 
       set sbn [::MSN::SBFor $chatid]
@@ -481,9 +481,9 @@ namespace eval ::MSNFT {
       set msg "${msg}Invitation-Cookie: $cookie\r\n"
       set msg "${msg}Application-File: [file tail $filename]\r\n"
       set msg "${msg}Application-FileSize: $filesize\r\n\r\n"
+      set msg [encoding convertto utf-8 $msg]      
       set msg_len [string length $msg]
 
-      set msg [encoding convertto utf-8 $msg]      
       ::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
 
       status_log "Invitation to $filename sent: $msg\n" red
@@ -953,7 +953,7 @@ namespace eval ::MSN {
 
 		if { $config(allowbadwords) } {
 			::MSN::WriteSB ns "REA" "$userlogin $name" \
-				"::MSN::badNickCheck $userlogin [list $newname]"
+				"::MSN::badNickCheck $userlogin [list $name]"
 		} else {
 			::MSN::WriteSB ns "REA" "$userlogin $name"
 		}
@@ -2150,7 +2150,9 @@ proc proc_ns {} {
 	#status_log "Processing NS\n"	
 	while {[sb length ns data]} {
 		set item [sb index ns data 0]
-		set item [encoding convertfrom utf-8 $item]
+
+		#set item [encoding convertfrom utf-8 $item]
+		
 		set item [string map {\r ""} $item]
 		set item [split $item]
 		sb ldel ns data 0
@@ -2177,7 +2179,7 @@ proc cmsn_msg_parse {msg hname bname} {
 	set head [string range $msg 0 [expr {$head_len - 1}]]
 	set body [string range $msg [expr {$head_len + 4}] [string length $msg]]
 
-	set body [encoding convertfrom utf-8 $body]
+	#set body [encoding convertfrom utf-8 $body]
 	set body [string map {"\r" ""} $body]
 
 	set head [string map {"\r" ""} $head]
@@ -3651,7 +3653,7 @@ proc initial_syn_handler {recv} {
 		close $nickcache
 
 		if { ($custom_nick == [::abook::getPersonal nick]) && ($stored_login == [::abook::getPersonal login]) && ($storednick != "") } {
-			::MSN::changeName [::abook::getPersonal login] $storednick 0
+			::MSN::changeName [::abook::getPersonal login] $storednick
 		}
 
 		catch { file delete [file join ${HOME} "nick.cache"] }
@@ -3920,6 +3922,9 @@ proc cmsn_socket {name} {
 	
 	sb set $name sock $sock
 	fconfigure $sock -buffering none -translation {binary binary} -blocking 0
+	if { $name == "ns" } {
+		fconfigure $sock -encoding utf-8
+	}
 	fileevent $sock readable $readable_handler
 	fileevent $sock writable $next
 }
@@ -4131,7 +4136,7 @@ proc cmsn_listupdate {recv} {
 proc urldecode {str} {
 
 	#New version, no need of url_unmap
-	set str [encoding convertto utf-8 $str]
+	#set str [encoding convertto utf-8 $str]
 
 	set begin 0
 	set end [string first "%" $str $begin]
@@ -4216,7 +4221,7 @@ proc urlencode {str} {
 	for {set i 0} {$i<[string length $utfstr]} {incr i} {
 		set character [string range $utfstr $i $i]
 
-		if {[string match {[^a-zA-Z0-9]} $character]==0} {
+		if {[string match {[^a-zA-Z0-9()]} $character]==0} {
 			binary scan $character c charval
 			#binary scan $character s charval
 			set charval [expr {($charval + 0x100) % 0x100}]
