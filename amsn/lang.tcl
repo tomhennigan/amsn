@@ -1,6 +1,6 @@
 set lang_list [list]
 
-proc scan_languages {} { 
+proc scan_languages {} {
    global lang_list program_dir
    set lang_list [list]
 
@@ -9,8 +9,11 @@ proc scan_languages {} {
    while {[gets $file_id tmp_data] != "-1"} {
       set pos [string first " " $tmp_data]
       set langshort [string range $tmp_data 0 [expr {$pos -1}]]
-      set langlong [string range $tmp_data [expr {$pos +1}] [string length $tmp_data]]
-      lappend lang_list "{$langshort} {$langlong}"
+      set pos [expr {$pos + 1}]
+      set pos2 [string first " " $tmp_data $pos]
+      set langenc [string range $tmp_data $pos [expr {$pos2 -1}]]
+      set langlong [string range $tmp_data [expr {$pos2 +1}] [string length $tmp_data]]
+      lappend lang_list "{$langshort} {$langlong} {$langenc}"
    }
    close $file_id
 
@@ -38,9 +41,20 @@ global lang
 
 #Lectura del idioma
 proc load_lang {} {
-   global config lang program_dir
+   global config lang program_dir lang_list
 
    set file_id [open "[file join $program_dir lang/lang$config(language)]" r]
+
+   set langenc ""
+
+   foreach langdata $lang_list {
+   	if { [string compare [lindex $langdata 0]  $config(language)] == 0 } {
+	  set langenc [lindex $langdata 2]
+	}
+   }
+
+   fconfigure $file_id -encoding $langenc
+
    gets $file_id tmp_data
    if {$tmp_data != "amsn_lang_version 2"} {	;# config version not supported!
       return 1
