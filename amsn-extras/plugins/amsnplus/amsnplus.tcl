@@ -179,6 +179,12 @@ namespace eval ::amsnplus {
 		set overstrike [binary format c 6]
 		set reset [binary format c 15]
 		set screenshot "/screenshot"
+
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			set key "Command"
+		} else {
+			set key "Ctrl"
+		}
 	
 		set menu_name $newvar(menu_name)
 		menu ${menu_name}.plusmenu -tearoff 0
@@ -187,11 +193,11 @@ namespace eval ::amsnplus {
 		
 		if { $::amsnplus::config(allow_colours) } {
 			$plusmenu add command -label "[trans choosecolor]" -command "::amsnplus::choose_color $newvar(window_name)"
-			$plusmenu add command -label "[trans bold]" -command "::amsnplus::insert_text $newvar(window_name) $bold"
-			$plusmenu add command -label "[trans italic]" -command "::amsnplus::insert_text $newvar(window_name) $italic"
-			$plusmenu add command -label "[trans underline]" -command "::amsnplus::insert_text $newvar(window_name) $underline"
-			$plusmenu add command -label "[trans overstrike]" -command "::amsnplus::insert_text $newvar(window_name) $overstrike"
-			$plusmenu add command -label "[trans reset]" -command "::amsnplus::insert_text $newvar(window_name) $reset"
+			$plusmenu add command -label "[trans bold]" -command "::amsnplus::insert_text $newvar(window_name) $bold" -accelerator "${key}+B"
+			$plusmenu add command -label "[trans italic]" -command "::amsnplus::insert_text $newvar(window_name) $italic" -accelerator "${key}+I"
+			$plusmenu add command -label "[trans underline]" -command "::amsnplus::insert_text $newvar(window_name) $underline" -accelerator "${key}+U"
+			$plusmenu add command -label "[trans overstrike]" -command "::amsnplus::insert_text $newvar(window_name) $overstrike" -accelerator "${key}+O"
+			$plusmenu add command -label "[trans reset]" -command "::amsnplus::insert_text $newvar(window_name) $reset" -accelerator "${key}+R"
 		}
 
 		$plusmenu add command -label "[trans screenshot]" -command "::amsnplus::insert_text $newvar(window_name) $screenshot"
@@ -471,14 +477,20 @@ namespace eval ::amsnplus {
 	# should parse ALSO MULTIPLE COLORS $(num,num,num)
 	proc parse_nick {event epvar} {
 		if {!$::amsnplus::config(parse_nicks)} {return}
-		upvar 2 data data
-		#upvar 2 colour colour
+		upvar 2 data data user_login user_login user_data user_data
 		set strlen [string length $data]
 		set i 0
 		while {$i < $strlen} {
 			set str [string range $data $i [expr $i + 1]]
-			if {[string equal $str "\$"]} {
+			if {[string equal $str "·\$"]} {
 				if {$::amsnplus::config(colour_nicks)} {
+					if {[string equal [string index $data [expr $i + 2]] "#"]} {
+						#The color is in RGB
+						set last [expr $i + 8]
+
+						set color [string tolower [string range $data [expr $i + 2] $last]]
+						set user_data(customcolor) $color
+					} else {
 					#know if the number has 1 or 2 digits
 					set last [expr $i + 3]
 					set char [string index $data [expr $i + 3]]
@@ -486,18 +498,26 @@ namespace eval ::amsnplus {
 						set last [expr $i + 2]
 					}
 					#obtain rbg color
-					set num [string range $data [expr $i + 2] $last]
-					set colour [::amsnplus::getColor $num $colour]
 					
-					incr i
+						set num [string range $data [expr $i + 2] $last]
+						set user_data(customcolor) [::amsnplus::getColor $num [::abook::getContactData $user_login customcolor]]
+					}
+					set data [string replace $data $i $last ""]
 				} else {
 					set last [expr $i + 3]
 					set char [string index $data [expr $i + 3]]
 					if {![::amsnplus::is_a_number $char]} {
 						set last [expr $i + 2]
 					}
+
 					set data [string replace $data $i $last ""]
 				}
+			} elseif {[string equal $str "·\#"]} {
+				#Bold text : as we can't render, we only remove
+				set data [string replace $data $i [expr $i + 1] ""]
+			} elseif {[string equal $str "·0"]} {
+				#End of styles : as we render color for all the line and not bold, we only remove
+				set data [string replace $data $i [expr $i + 1] ""]
 			} else {
 				incr i
 			}
