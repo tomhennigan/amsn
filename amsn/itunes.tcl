@@ -28,7 +28,7 @@
 		set song [lindex $info 0]
 		set file [lindex $info 1]
 
-		if {$info == "0"} { msg_box [trans xmmserr]; return 0 }
+		if {$info == "{} {}"} { ::amsn::MessageSend .${win_name} 0 "[trans playing "Nothing actually in iTunes"]"; return 0 }
 
 
 		switch -- $action {
