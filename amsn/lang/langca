@@ -124,6 +124,7 @@ delprofile2 Selecciona el perfil que t'agradaria eliminar
 delprofile Esborrar perfil
 description Descripció
 directconnection Tinc una connexió directa a Internet (utilitza el port 1863)
+disablessl Desactiva l'SSL
 disconnect $1 s'ha desconnectat.
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Acoplament amb el Gnome
@@ -131,6 +132,7 @@ docking Acoplament
 dockingoff Desactivat
 dockkde Acoplament amb el KDE
 dontdownload No obtinguis d'Internet el mòdul TLS. L'instal·laré jo.
+downloadingtls Obté el mòdul TLS de:\n$1
 editcurrentstate Edita l'estat actual
 edit Edita
 editnewstate Nou missatge automàtic per a un estat personalitzat
@@ -145,6 +147,7 @@ encoding Canviar la codificació
 entercontactemail Escriu l'adreça de correu del contacte
 enterfilename Introdueix el nom del fitxer
 enternick Escriu el teu sobrenom
+errortls Error instal·lant el mòdul TLS:
 examples Exemples
 exitamsn Estàs segur de voler sortir?
 extras Serveis extra
@@ -383,6 +386,7 @@ soundserver Servidor de so
 sound So en un event
 soundstatus So a l'alarma
 sourcecode Codi font (necessita ser compilat i instal·lat)
+sslwarning ATENCIÓ!! Desactivant l'SSL, es desactiva el xifrat de la teva contrasenya i serà enviada sense cap protecció per la xarxa.
 startoffline2 Connectar-se silenciosament apareixent en l'estat "Desconnectat"
 startoffline Inicia en l'estat "Simula desconnexió"
 stateautomsg Missatge automàtic a enviar
@@ -402,8 +406,10 @@ tabbed Finestres sobreposades
 textsize Mida del text
 timeremaining Temps restant
 title aMSN
+tlsdowncompleted El fitxer $1 ha estat desat al directori $2. L'has de descomprimir, compilar (si és el codi font) i instal·lar-lo a dins de $3.
 tlsinstall Assistent d'instal·lació del mòdul TLS
 tlsinstallexp Ara l'aMSN utilitza MSNP9, que requereix un connexió segura a\ntravés del protocol SSL. Per tal d'utilitzar-lo, necessites tenir instal·lat\nel mòdul TLS i no l'he trobat al sistema. Aquest assistent t'ajudarà a obtenir\ni a instal·lar el mòdul. Escull quin tipus de sistema tens per poder obtenir el\nmòdul TLS de manera automàtica
+tlsinstcompleted La instal·lació del mòdul TLS ha estat satisfactòria, ara hauries de poder utilitzar el protocol MSNP9. Si no et funciona, segurament serà perquè no has escollir el mòdul corresponent al teu sistema.
 to A
 tools Eines
 tooltips Activa el rètol indicador de funcions
