@@ -1257,8 +1257,8 @@ namespace eval ::MSN {
 		$sb configure -sock ""
 		$sb configure -stat "d"
 		
-		if { $sb == "ns" } {	
-
+		if { [string first NS $sb] != -1 || $sb == "ns" } {	
+			status_log "clearing sb $sb. oldstat=$oldstat"
 			set mystatus [::MSN::myStatusIs]
 
 			#If we were not disconnected or authenticating, logout
