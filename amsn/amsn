@@ -218,6 +218,8 @@ set size [lindex $config(basefont) 1]
 
 ::themes::Init
 degt_Init
+if { $family == "" } { set family "Helvetica"}
+if { $size == "" } { set size "11"}
 ::amsn::initLook $family $size $config(backgroundcolor)
 
 
