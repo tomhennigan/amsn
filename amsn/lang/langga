@@ -39,6 +39,7 @@ browse Examinar
 browser Navegador
 busy Non dispoñible
 cancel Cancelar
+cannotdeleteprofile Non se puido borra-lo perfil. Semella que está sendo utilizado por unha sesión AMSN.
 cfgalarm Configurar/Quitar alarma
 changefont Cambiar fonte
 changenick Cambiar alcume
@@ -235,6 +236,7 @@ prefsession Meu inicio de sesión e estado
 prefshared Conexións compartidas (sólo para NAT)
 prefsound Sons
 profiledconfig Información do perfil
+profileinuse Este perfil está sendo utilizado por outra sesión de AMSN, por favor elixe outro.
 profiles Perfiles
 properties Propiedades
 proxyconf Configuración proxy
@@ -284,6 +286,7 @@ textsize Tamaño do texto
 title Al's Messenger
 tools Ferramentas
 to Para
+transnotexists O ficheiro en cuestión todavía non foi traducido ó idioma actual.
 unblock Admitir
 uoffline Desconectados
 uonline Conectados
