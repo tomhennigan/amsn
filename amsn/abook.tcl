@@ -130,17 +130,17 @@ namespace eval ::abook {
 		status_log "Getting local IP\n"
 		set demographics(localip) [getLocalIP]
 		status_log "Finished\n"
-		set demographics(upnpnat) "false"
+		set demographics(upnpnat) "FALSE"
 		set demographics(conntype) [getConnectionType [getDemographicField localip] [getDemographicField clientip]]
 		if { $demographics(conntype) == "Direct-Connect" || $demographics(conntype) == "Firewall" } {
 			set demographics(netid) 0
-			set demographics(upnpnat) "false"
+			set demographics(upnpnat) "FALSE"
 		} else {
 			set demographics(netid) [GetNetID [getDemographicField clientip]]
 			if { [getFirewalled [::config::getKey initialftport]] == "Firewall" } {
-				set demographics(upnpnat) "false"
+				set demographics(upnpnat) "FALSE"
 			} else {
-				set demographics(upnpnat) "true"	
+				set demographics(upnpnat) "TRUE"	
 			}
 		}
 

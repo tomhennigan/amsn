@@ -464,7 +464,7 @@ namespace eval ::MSNFT {
 
    proc sendFTInvitation { chatid filename filesize ipaddr cookie} {
       #Invitation to filetransfer, initial message
-      variable filedata
+      variable filedatasendFTInvitation
 
 #       ::MSNP2P::SendFT $chatid $filename $filesize
 #       return 0
@@ -2732,22 +2732,39 @@ proc cmsn_sb_msg {sb_name recv} {
 
 	    ::MSNFT::invitationReceived $filename $filesize $cookie $chatid $fromlogin
 
+	 } elseif { $guid == "{02D3C01F-BF30-4825-A83A-DE7AF41648AA}" } {
+		# We got an audio only invitation or audio/video invitation
+		set context [::MSN::GetHeaderValue $body Context-Data]
+		
+		::MSNAV::invitationReceived $cookie $context $chatid $fromlogin
 	 }
 
       } elseif { $invcommand == "ACCEPT" } {
+		# let's see if it's an A/V session cancel
+		if { [::MSNAV::CookieList get $cookie] != 0 } {
+			set ip [::MSN::GetHeaderValue $body IP-Address]
+			::MSNAV::readAccept $cookie $ip $chatid
+		
+		} else {
+		
+			#Generate "accept" event
+			::MSNFT::acceptReceived $cookie $chatid $fromlogin $body
+		}
 
-            #Generate "accept" event
-	    ::MSNFT::acceptReceived $cookie $chatid $fromlogin $body
+      } elseif { $invcommand =="CANCEL" } {
 
-      } elseif {$invcommand =="CANCEL" } {
-
-         set cancelcode [::MSN::GetHeaderValue $body Cancel-Code]
-
-	 if { $cancelcode == "FTTIMEOUT" } {
-	    ::MSNFT::timeoutedFT $cookie
-	 } elseif { $cancelcode == "REJECT" } {
-	    ::MSNFT::rejectedFT $chatid $fromlogin $cookie
-	 }
+		# let's see if it's an A/V session cancel
+	      if { [::MSNAV::CookieList get $cookie] != 0 } {
+		      ::MSNAV::cancelSession $cookie $chatid "TIMEOUT"
+	      } else {
+		# prolly an FT
+		      set cancelcode [::MSN::GetHeaderValue $body Cancel-Code]
+		      if { $cancelcode == "FTTIMEOUT" } {
+			      ::MSNFT::timeoutedFT $cookie
+		      } elseif { $cancelcode == "REJECT" } {
+			      ::MSNFT::rejectedFT $chatid $fromlogin $cookie
+		      }
+	      }
 
       } else {
 
@@ -4582,7 +4599,7 @@ proc filenoext { filename } {
 #"
 
 namespace eval ::MSNP2P {
-	namespace export loadUserPic SessionList ReadData MakePacket MakeACK MakeSLP  AcceptFT RejectFT
+	namespace export loadUserPic SessionList ReadData MakePacket MakeACK MakeSLP AcceptFT RejectFT
 
 	#Get picture from $user, if cached, or sets image as "loading", and request it
 	#using MSNP2P
@@ -5511,12 +5528,6 @@ namespace eval ::MSNP2P {
 	}
 
 
-
-
-
-
-
-
 	proc SendFT { chatid filename filesize} {
 		global config
 		
@@ -5734,3 +5745,413 @@ proc int2word { int1 int2 } {
 	return $int1
 	#return [expr $int2 * 4294967296 + $int1]
 }
+
+# all audio/video functions go here
+namespace eval ::MSNAV {
+	namespace export invitationReceived acceptInvite cancelSession readAccept
+
+	#//////////////////////////////////////////////////////////////////////////////
+	# CookieList (action cookie [varlist])
+	# Data Structure for MSNAV Sessions, contains :
+	# 0 - Local Session ID
+	# 1 - Did we invite? 1 if yes, 0 if no
+	# 2 - Type of session either A or AV
+	# 2 - Remote Session ID		will see if i need
+	# 3 - Local port		will see if i need
+	# 4 - Remote port		will see if i need
+	#
+	# action can be :
+	#	get : This method returns a list with all the array info, 0 if non existent
+	#	set : This method sets the variables for the given cookie, takes a list as argument.
+	#	unset : This method removes the given cookie variables
+	proc CookieList {action cookie {varlist ""} } {
+		variable LocalSID
+		variable Invite
+		variable Type
+		
+		switch $action {
+			get {
+				if { [info exists LocalSID($cookie)] } {
+					# Session found, return values
+					return [list $LocalSID($cookie) $Invite($cookie) $Type($cookie)]
+				} else {
+					# Session not found, return 0
+					return 0
+				}
+			}
+
+			set {
+				# This overwrites previous vars if they are set to something else than -1
+				if { [lindex $varlist 0] != -1 } {
+					set LocalSID($cookie) [lindex $varlist 0]
+				}
+				if { [lindex $varlist 1] != -1 } {
+					set Invite($cookie) [lindex $varlist 1]
+				}
+				if { [lindex $varlist 2] != -1 } {
+					set Type($cookie) [lindex $varlist 2]
+				}
+			}
+
+			unset {
+				if { [info exists LocalSID($cookie)] } {
+					unset LocalSID($cookie)
+				} else {
+					status_log "Trying to unset LocalSID($cookie) but do not exist\n" red
+				}
+				if { [info exists Invite($cookie)] } {
+					unset Invite($cookie)
+				} else {
+					status_log "Trying to unset Invite($cookie) but do not exist\n" red
+				}
+				if { [info exists Type($cookie)] } {
+					unset Type($cookie)
+				} else {
+					status_log "Trying to unset Type($cookie) but do not exist\n" red
+				}
+			}
+		}
+	}
+
+	#//////////////////////////////////////////////////////////////////////////////
+	# invitationReceived ( cookie context chatid fromlogin )
+	# This function is called when we received an A/V invitation
+	# cookie :		invitation cookie
+	# context:		Requested:SIP_A,SIP_V;Capabilities:SIP_A,SIP_V;
+	# dosen't return nothing
+	proc invitationReceived {cookie context chatid fromlogin} {		
+		
+		# Now we write the request to the screen
+		set fromname [::abook::getDisplayNick $fromlogin]
+
+		# Let's get the requested part from our context
+		set idx [expr [string first "Capabilities:" $context] - 1]
+		set requested [string range $context 0 $idx]
+
+		# Check if it's Audio only or AV
+		if { [string first "SIP_V" $requested] == -1 } {
+			set txt [trans agotinvitation $fromname]
+			CookieList set $cookie [list 0 0 "A"]
+		} else {
+			set txt [trans avgotinvitation $fromname]
+			CookieList set $cookie [list 0 0 "AV"]
+		}
+
+		set win_name [::amsn::MakeWindowFor $chatid $txt $fromlogin]
+
+		::amsn::WinWrite $chatid "----------\n" green
+		::amsn::WinWrite $chatid $txt green
+		::amsn::WinWrite $chatid " - (" green
+		::amsn::WinWriteClickable $chatid "[trans accept]" "::MSNAV::acceptInvite $cookie [list $requested] $chatid" avyes$cookie
+		::amsn::WinWrite $chatid " / " green
+		::amsn::WinWriteClickable $chatid "[trans reject]" "::MSNAV::cancelSession $cookie [list $requested] $chatid" avno$cookie
+		::amsn::WinWrite $chatid ")\n" green
+		::amsn::WinWrite $chatid "----------\n" green
+
+		#::MSNAV::acceptInvite $cookie [list $requested] $chatid
+	}
+	
+	#//////////////////////////////////////////////////////////////////////////////
+	# acceptInvite ( cookie requested chatid )
+	# This function is called when we the user accepts an A/V invitation
+	# cookie :		invitation cookie
+	# requested :		Requested:SIP_A,SIP_V;
+	# dosen't return nothing
+	proc acceptInvite {cookie requested chatid} {
+		
+		# let's fix the visuals
+		set win_name [::amsn::WindowFor $chatid]
+		if { [::amsn::WindowFor $chatid] == 0} {
+			return 0
+		}
+
+		${win_name}.f.out.text tag configure avyes$cookie \
+			-foreground #808080 -background white -font bplainf -underline false
+		${win_name}.f.out.text tag bind avyes$cookie <Enter> ""
+		${win_name}.f.out.text tag bind avyes$cookie <Leave> ""
+		${win_name}.f.out.text tag bind avyes$cookie <Button1-ButtonRelease> ""
+
+
+		${win_name}.f.out.text tag configure avno$cookie \
+			-foreground #808080 -background white -font bplainf -underline false
+		${win_name}.f.out.text tag bind avno$cookie <Enter> ""
+		${win_name}.f.out.text tag bind avno$cookie <Leave> ""
+		${win_name}.f.out.text tag bind avno$cookie <Button1-ButtonRelease> ""
+
+		${win_name}.f.out.text conf -cursor left_ptr
+
+		set txt [trans avaccepted]
+
+		
+		::amsn::WinWrite $chatid "----------\n" green
+		::amsn::WinWrite $chatid " $txt\n" green
+		::amsn::WinWrite $chatid "----------\n" green
+		
+		# We accepted let's init linphone
+		set type [lindex [CookieList get $cookie] 2]
+		if { [prepareLinphone $chatid $type] == -1 } {
+			return
+		}
+
+		# Let's send our accept
+		acceptInvitationPacket $cookie $requested $chatid
+	}
+
+	#//////////////////////////////////////////////////////////////////////////////
+	# sendAcceptPacket ( cookie requested chatid )
+	# This function makes and sends the acceptance packet of an A/V invitation
+	# cookie :		invitation cookie
+	# requested:		Requested:SIP_A,SIP_V;
+	# returns -1 if something is missing
+	proc acceptInvitationPacket {cookie requested chatid} {
+		
+		set sessionid "[format %X [::MSNP2P::myRand 4369 65450]][format %X [::MSNP2P::myRand 4369 65450]]-[format %X [::MSNP2P::myRand 4369 65450]]-[format %X [::MSNP2P::myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [::MSNP2P::myRand 4369 65450]][format %X [::MSNP2P::myRand 4369 65450]][format %X [::MSNP2P::myRand 4369 65450]]"
+		CookieList set $cookie [list $sessionid -1 -1]
+		
+		# we need the connection type
+		set conntype [::abook::getDemographicField conntype]
+		if { $conntype == "" } {
+			return -1
+		}
+		#set conntype "DIRECT-CONNECT"
+		
+		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+		set msg "${msg}Invitation-Command: ACCEPT\r\n"
+		set msg "${msg}Context-Data: $requested\r\n"
+		set msg "${msg}Invitation-Cookie: $cookie\r\n"
+		set msg "${msg}Session-ID: {$sessionid}\r\n"
+		set msg "${msg}Session-Protocol: SM1\r\n"
+		
+		set msg "${msg}[MakeConnType $conntype]"
+		
+		set msg "${msg}Launch-Application: TRUE\r\n"
+		set msg "${msg}Request-Data: IP-Address:\r\n"
+		set msg "${msg}[MakeIP]"
+		
+		set msg [encoding convertto utf-8 $msg]
+		set msg_len [string length $msg]
+		
+		::MSN::WriteSBNoNL [::MSN::SBFor $chatid] "MSG" "A $msg_len\r\n$msg"
+
+	}
+	
+	#//////////////////////////////////////////////////////////////////////////////
+	# cancelSession ( cookie chatid code)
+	# This function cancels the A/V session of the given cookie
+	# cookie :		session cookie
+	# code :		the cancel code (TIMEOUT, REJECT, ..what else)
+	# returns nothing
+	proc cancelSession {cookie chatid code}	{
+		
+		set win_name [::amsn::WindowFor $chatid]
+		if { [::amsn::WindowFor $chatid] == 0} {
+			return 0
+		}   
+
+		# Disable accept/Cancel
+		${win_name}.f.out.text tag configure avyes$cookie \
+			-foreground #808080 -background white -font bplainf -underline false
+		${win_name}.f.out.text tag bind avyes$cookie <Enter> ""
+		${win_name}.f.out.text tag bind avyes$cookie <Leave> ""
+		${win_name}.f.out.text tag bind avyes$cookie <Button1-ButtonRelease> ""
+
+
+		${win_name}.f.out.text tag configure avno$cookie \
+			-foreground #808080 -background white -font bplainf -underline false
+		${win_name}.f.out.text tag bind avno$cookie <Enter> ""
+		${win_name}.f.out.text tag bind avno$cookie <Leave> ""
+		${win_name}.f.out.text tag bind avno$cookie <Button1-ButtonRelease> ""
+
+		${win_name}.f.out.text conf -cursor left_ptr
+
+
+		# Show on screen
+		set txt [trans avcanceled]
+		::amsn::WinWrite $chatid "----------\n" green
+		::amsn::WinWrite $chatid " $txt\n" green
+		::amsn::WinWrite $chatid "----------\n" green
+
+		
+		set conntype [::abook::getDemographicField conntype]
+		#set conntype "Direct-Connect"
+
+		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+		set msg "${msg}Invitation-Command: CANCEL\r\n"
+		#set msg "${msg}Cancel-Code: $code\r\n"
+		set msg "${msg}Cancel-Code: USER_CANCEL\r\n"
+		set msg "${msg}Invitation-Cookie: $cookie\r\n"
+		set msg "${msg}Session-ID: {[lindex [CookieList get $cookie] 0]}\r\n"
+		
+		set msg "${msg}[MakeConnType $conntype]"
+		
+		set msg [encoding convertto utf-8 $msg]
+		set msg_len [string length $msg]
+		
+		::MSN::WriteSBNoNL [::MSN::SBFor $chatid] "MSG" "A $msg_len\r\n$msg"
+
+		# kill linphone
+		catch { lp_terminate_dialog }
+		catch { lp_uninit }
+		
+		CookieList unset $cookie
+	}
+
+	#//////////////////////////////////////////////////////////////////////////////
+	# readAccept ( cookie ip chatid )
+	# This function handles Accepts, there can be 2 kinds of ACCEPT
+	# we receive an ACCEPT after we invite
+	# we receive an ACCEPT after we accept a remote invitation
+	# cookie :		session cookie
+	# ip :			ip that shows on the ACCEPT
+	# returns nothing
+	proc readAccept {cookie ip chatid} {
+
+		# let's check our type
+		if { [lindex [CookieList get $cookie] 1] == 0 } {
+			# ok this is a 2nd accept
+						
+			# now connect to him
+			lp_invite "<sip:${ip}>"
+		} else {
+			# ok so we invited, and this is his ACCEPT to our invite
+			# we need to send our own accept
+					
+			# get our session id
+			set sessionid [lindex [CookieList get $cookie] 0]
+			
+			# we need the connection type
+			set conntype [::abook::getDemographicField conntype]
+			#set conntype "Direct-Connect"
+			if { $conntype == "" } {
+				return -1
+			}
+
+			set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+			set msg "${msg}Invitation-Command: ACCEPT\r\n"
+			set msg "${msg}Invitation-Cookie: $cookie\r\n"
+			set msg "${msg}Session-ID: {$sessionid}\r\n"
+		
+			set msg "${msg}[MakeConnType $conntype]"
+			
+			set msg "${msg}Launch-Application: TRUE\r\n"
+		
+			set msg "${msg}[MakeIP]"
+
+			set msg [encoding convertto utf-8 $msg]
+			set msg_len [string length $msg]
+
+			::MSN::WriteSBNoNL [::MSN::SBFor $chatid] "MSG" "A $msg_len\r\n$msg"
+		}
+	}
+
+	#//////////////////////////////////////////////////////////////////////////////
+	# inviteAV ( chatid type )
+	# This function creates new invitations for A/V
+	# chatid :		chatid to send invitation to
+	# type :		A, AV
+	# returns nothing
+	proc inviteAV { chatid type } {
+
+		if { [prepareLinphone $chatid $type] == -1 } {
+			return
+		}
+
+		# make new sessionid
+		set sessionid "[format %X [::MSNP2P::myRand 4369 65450]][format %X [::MSNP2P::myRand 4369 65450]]-[format %X [::MSNP2P::myRand 4369 65450]]-[format %X [::MSNP2P::myRand 4369 65450]]-[format %X [expr [expr int([expr rand() * 1000000])%65450]] + 4369]-[format %X [::MSNP2P::myRand 4369 65450]][format %X [::MSNP2P::myRand 4369 65450]][format %X [::MSNP2P::myRand 4369 65450]]"
+		# make new cookie
+		set cookie [expr {([clock clicks]) % (65536 * 8)}]
+
+		CookieList set $cookie [list $sessionid 1 $type]
+		
+		# we need the connection type
+		set conntype [::abook::getDemographicField conntype]
+		if { $conntype == "" } {
+			return -1
+		}
+		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+		set msg "${msg}Application-Name: an audio conversation\r\n"
+		set msg "${msg}Application-GUID: {02D3C01F-BF30-4825-A83A-DE7AF41648AA}\r\n"
+		set msg "${msg}Session-Protocol: SM1\r\n"
+		
+		if { $type == "A" } {
+			set msg "${msg}Context-Data: Requested:SIP_A,;Capabilities:SIP_A,SIP_V,;\r\n"
+		} else {
+			set msg "${msg}Context-Data: Requested:SIP_A,SIP_V,;Capabilities:SIP_A,SIP_V,;\r\n"
+		}
+
+		set msg "${msg}Invitation-Command: INVITE\r\n"
+		set msg "${msg}Invitation-Cookie: $cookie\r\n"
+		set msg "${msg}Session-ID: {$sessionid}\r\n"
+		
+		set msg "${msg}[MakeConnType $conntype]"
+				
+		set msg [encoding convertto utf-8 $msg]
+		set msg_len [string length $msg]
+		
+		::MSN::WriteSBNoNL [::MSN::SBFor $chatid] "MSG" "S $msg_len\r\n$msg"
+
+	}
+
+	
+	proc MakeConnType { conntype } {
+		#set conntype "Direct-Connect"
+		set msg "Conn-Type: $conntype\r\n"
+		set msg "${msg}Sip-Capability: 1\r\n"
+
+		# I don't really know what other conn types there are and what to do
+		# TODO test with other types of connections that direct and IP-Restricted-NAT
+		if { $conntype == "IP-Restrict-NAT" } {
+			set msg "${msg}Private-IP: [::abook::getDemographicField localip]\r\n"
+			set msg "${msg}Public-IP: [::abook::getDemographicField clientip]\r\n"
+			set msg "${msg}UPnP: [abook::getDemographicField upnpnat]\r\n"
+		}
+
+		return $msg
+	}
+
+	proc MakeIP { } { 
+		set msg "IP-Address: [::abook::getDemographicField clientip]:5060\r\n"
+		set msg "${msg}IP-Address-Enc64: [::base64::encode [::abook::getDemographicField clientip]:5060 ]\r\n\r\n"
+		#set msg "IP-Address: [::abook::getDemographicField localip]:5060\r\n"
+		#set msg "${msg}IP-Address-Enc64: [::base64::encode [::abook::getDemographicField localip]:5060 ]\r\n\r\n"
+
+		return $msg
+	}
+	
+	proc prepareLinphone { chatid type } {
+		
+		catch { lp_init } res
+		# Check if init works good
+		if { $res == -1 } {
+			#display error
+			set win_name [::amsn::WindowFor $chatid]
+			if { [::amsn::WindowFor $chatid] == 0} {
+				return 0
+			}   
+		
+			# Show on screen
+			set txt [trans avinitfailed]
+			::amsn::WinWrite $chatid "----------\n" green
+			::amsn::WinWrite $chatid " $txt\n" green
+			::amsn::WinWrite $chatid "----------\n" green
+			return
+		}
+			
+		if { $type == "A" } {
+			lp_disable_video
+			lp_show_local_video 0
+		} else {
+			status_log "laaaaaaaaaaaaaaaaaaa"
+			lp_enable_video
+			lp_show_local_video 1
+		}
+		
+		lp_set_sip_port 5060
+		lp_set_audio_port 7078
+		lp_set_video_port 9078
+		lp_set_primary_contact "sip:myusername@myhostname"
+		lp_set_nat_address [::abook::getDemographicField clientip]
+		#lp_set_nat_address [::abook::getDemographicField localip]
+	}
+}
+

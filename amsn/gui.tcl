@@ -2853,6 +2853,7 @@ namespace eval ::amsn {
 			WinWrite $chatid "$tstamp " gray
 		} 
 		
+		status_log "goooo [::config::getKey chatstyle]\n"
 		switch [::config::getKey chatstyle] {
 			msn {
 				if { $p4c == 1 } {
