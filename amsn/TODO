@@ -54,7 +54,7 @@ DONE	Bug with font selection in preferences window. Saved if "close" clicked, bu
 DONE	Read/write profiles on login window for multiple AMSN's
 DONE	Implement lock system to make sure you don't delete profile open on another AMSN window
 DONE	Only change font preferences if save is pressed, revert to old if cancel pressed
--	Add receivedir and allowbadword options in preferences
+-	Add receivedir, animatednotify and allowbadword options in preferences
 -	Add disable window flicker in preferences
 
 	***Existing Feature Improvements (priority 2)***
