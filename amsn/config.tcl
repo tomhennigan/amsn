@@ -549,7 +549,7 @@ proc load_config {} {
     if { $initialize_amsn != 1 } {
 	resetBanner
     }
-    
+    ::plugins::LoadPlugins
 }
 
 

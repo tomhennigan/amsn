@@ -147,6 +147,7 @@ proc reload_files { } {
 	source skins.tcl	;# Used for skinning purposes
 	source remote.tcl	;# The remote control procedures
 	source gui.tcl		;#gui.tcl must be at the beginning to make msg_box procedure available for errors
+        source plugins.tcl	;# Plugins system must be loaded before config
 	source config.tcl
 	source proxy.tcl
 	source abook.tcl	;# Handle buddy address book    
@@ -169,9 +170,10 @@ proc reload_files { } {
 	source combobox.tcl	;# The all mighty combobox is here! (B. Oakley)
 	source blocking.tcl	;# The blocking users feature
 
-	source plugins.tcl	;# Plugins system
 	source balloon.tcl	;# For the balloons tooltip
 	source png.tcl		;# PNG Parser and zlib deflate in pure TCL (KaKaRoTo)
+
+
 }
 
 proc check_imagemagick {} {

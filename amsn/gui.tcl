@@ -3715,7 +3715,7 @@ proc cmsn_draw_main {} {
 	#.options add separator
 	#.options add command -label "[trans language]..." -command show_languagechoose
 	# .options add command -label "[trans skinselector]..." -command SelectSkinGui
-	#    .options add command -label "[trans pluginselector]..." -command ::plugins::PluginGui
+
 
 	.main_menu.tools add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable config(sound)
 
@@ -3727,6 +3727,7 @@ proc cmsn_draw_main {} {
 
 	.main_menu.tools add separator
 	.main_menu.tools add command -label "[trans language]..." -command show_languagechoose
+ 	.main_menu.tools add command -label "[trans pluginselector]..." -command ::plugins::PluginGui
 	.main_menu.tools add command -label "[trans skinselector]..." -command SelectSkinGui
 	.main_menu.tools add command -label "[trans preferences]..." -command Preferences
 

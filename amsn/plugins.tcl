@@ -312,6 +312,9 @@ namespace eval ::plugins {
 	 if {[info procs "::${plugin}::DeInitPlugin"] == "::${plugin}::DeInitPlugin"} {
 	     ::${plugin}::DeInitPlugin
 	 }
+	 if {[array exists ::${plugin}::config] == 1} {
+	     array set ::${plugin}_cfg [array get ::${plugin}::config]
+	 }
 	 ::plugins::save_config
      }
 
@@ -402,6 +405,11 @@ namespace eval ::plugins {
 
     proc load_config {} {
 	global HOME password protocol clientid tcl_platform
+	variable loadedplugins
+	foreach {plugin} $loadedplugins {
+	    ::plugins::UnLoadPlugin $plugin
+	}
+	set loadedplugins [list]
 
 	if { [file exists [file join ${HOME} "plugins.xml"]] } {
 	    status_log "Plugins System: load_config: loading file [file join ${HOME} plugins.xml]\n" blue
