@@ -3120,7 +3120,7 @@ proc cmsn_ns_handler {item} {
 				set curr_list [lindex $item 2]
 				status_log "curr_list=$curr_list\n"
 				if { ($curr_list == "FL") } {
-					::abook::setContactData [lindex $item 4] nick [lindex $item 5]
+					::abook::setContactData [lindex $item 4] nick [urldecode [lindex $item 5]]
 					::abook::addContactToGroup [lindex $item 4] [lindex $item 6]
 					status_log "Adding contact to group [lindex $item 6]\n"
 					status_log "After 2: [lindex $item 4] is now in groups: [::abook::getGroups [lindex $item 4]]\n"
@@ -4043,7 +4043,7 @@ proc cmsn_listupdate {recv} {
 		set total 1
 
 		set username [lindex $recv 4]
-		set nickname [lindex $recv 5]
+		set nickname [urldecode [lindex $recv 5]]
 		#set groups [lindex $recv 6]
 		set groups [::abook::getGroups $username]
 
