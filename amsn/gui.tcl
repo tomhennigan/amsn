@@ -286,14 +286,10 @@ namespace eval ::amsn {
       status_log "Random generated cookie: $cookie\n"            
       WinWrite $chatid "----------\n" gray     
       WinWriteIcon $chatid fticon 3 2 
-      WinWrite $chatid $txt gray
-      WinWrite $chatid " - (" gray
-      #WinWriteClickable $chatid "[trans yes]" \
-      #  "::amsn::SendFTInvitation $chatid [list $filename] $filesize $ipaddr $cookie" ftyes$cookie
-      #WinWrite $chatid " / " gray
+      WinWrite $chatid "$txt " gray
       WinWriteClickable $chatid "[trans cancel]" \
         "::amsn::CancelFTInvitation $chatid $cookie" ftno$cookie
-      WinWrite $chatid ")\n" gray 
+      WinWrite $chatid "\n" gray 
       WinWrite $chatid "----------\n" gray
           
       
@@ -307,43 +303,6 @@ namespace eval ::amsn {
       
       return 0
    }
-   
-   proc SendFTInvitation { chatid filename filesize ipaddr cookie } {
-   
-      #::MSNFT::acceptFT $chatid $cookie
-
-      set win_name [WindowFor $chatid]
-      if { [WindowFor $chatid] == 0} {
-         return 0
-      }
-      
-     ${win_name}.f.out.text tag configure ftyes$cookie \
-       -foreground #808080 -background white -font bplainf -underline false
-     ${win_name}.f.out.text tag bind ftyes$cookie <Enter> ""
-     ${win_name}.f.out.text tag bind ftyes$cookie <Leave> ""
-     ${win_name}.f.out.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
-
-
-     ${win_name}.f.out.text tag configure ftno$cookie \
-       -foreground #808080 -background white -font bplainf -underline false
-     ${win_name}.f.out.text tag bind ftno$cookie <Enter> ""
-     ${win_name}.f.out.text tag bind ftno$cookie <Leave> ""
-     ${win_name}.f.out.text tag bind ftno$cookie <Button1-ButtonRelease> ""
-
-     ${win_name}.f.out.text conf -cursor left_ptr
-
-     set txt [trans invitationsent [::MSN::usersInChat $chatid]]
-
-     WinWrite $chatid "----------\n" gray
-     WinWriteIcon $chatid fticon 3 2 
-     WinWrite $chatid " $txt\n" gray
-     WinWrite $chatid "----------\n" gray
-     
-     ::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie
-     
-
-   }
-   
 
    proc CancelFTInvitation { chatid cookie } {
    
@@ -353,12 +312,6 @@ namespace eval ::amsn {
       if { [WindowFor $chatid] == 0} {
          return 0
       }
-      
-     #${win_name}.f.out.text tag configure ftyes$cookie \
-     #  -foreground #808080 -background white -font bplainf -underline false
-     #${win_name}.f.out.text tag bind ftyes$cookie <Enter> ""
-     #${win_name}.f.out.text tag bind ftyes$cookie <Leave> ""
-     #${win_name}.f.out.text tag bind ftyes$cookie <Button1-ButtonRelease> ""
 
      ::MSNFT::cancelFTInvitation $chatid $cookie
 
@@ -382,7 +335,10 @@ namespace eval ::amsn {
    }   
 
    proc acceptedFT { chatid who filename } {
-   
+      set win_name [WindowFor $chatid]
+      if { [WindowFor $chatid] == 0} {
+         return 0
+      }   
      set txt [trans ftacceptedby $who $filename]
      WinWrite $chatid "----------\n" gray
      WinWriteIcon $chatid fticon 3 2 
@@ -392,7 +348,10 @@ namespace eval ::amsn {
    }   
    
    proc rejectedFT { chatid who filename } {
-   
+      set win_name [WindowFor $chatid]
+      if { [WindowFor $chatid] == 0} {
+         return 0
+      }   
      set txt [trans ftrejectedby $who $filename]
      WinWrite $chatid "----------\n" gray
      WinWriteIcon $chatid ftreject 3 2 
@@ -405,6 +364,11 @@ namespace eval ::amsn {
    proc fileTransferRecv {filename filesize cookie chatid fromlogin} {
       global files_dir config
 
+      set win_name [WindowFor $chatid]
+      if { [WindowFor $chatid] == 0} {
+         return 0
+      }
+            
       set fromname [lindex [::MSN::getUserInfo $fromlogin] 1]
       set txt [trans ftgotinvitation $fromname '$filename' $filesize $files_dir]      
       
@@ -493,28 +457,6 @@ namespace eval ::amsn {
 
    }
 
-   #PRIVATE: Opens Sending Window
-   proc SendWin {filename cookie} {
-      status_log "Creating send progress window\n"
-      set w .ft$cookie
-      toplevel $w
-      wm group $w .
-      wm title $w "[trans sendfile] $filename"
-      wm geometry $w 300x100
-
-      label $w.file -text "$filename"
-      pack $w.file -side top
-      label $w.progress -text "Waiting for file transfer to start"
-      pack $w.progress -side top
-      
-      button $w.close -text "[trans cancel]" -command "::MSN::cancelSending $cookie"
-      pack $w.close -side bottom
-      
-      pack [::dkfprogress::Progress $w.prbar] -fill x -expand 1 -padx 5 -pady 5
-
-
-      wm protocol $w WM_DELETE_WINDOW "::MSN::cancelSending $cookie"
-   }
 
    #PRIVATE: Opens Receiving Window
    proc FTWin {cookie filename user} {
@@ -542,7 +484,12 @@ namespace eval ::amsn {
       button $w.close -text "[trans cancel]" -command "::MSNFT::cancelFT $cookie" -font sboldf
       pack $w.close -side bottom -pady 5
                         
-      wm title $w "$filename - [trans receivefile]"
+      #TODO: sendfile or receive file, depending on FT type
+      if { [::MSNFT::getTransferType $cookie] == "received" } {
+         wm title $w "$filename - [trans receivefile]"
+      } else {
+         wm title $w "$filename - [trans sendfile]"
+      }
       wm protocol $w WM_DELETE_WINDOW "::MSNFT::cancelFT $cookie"
    }
 
@@ -638,43 +585,7 @@ namespace eval ::amsn {
       }
       
       ::dkfprogress::SetProgress $w.prbar $percent
-
-
-      return
       
-      if { $mode == "p" } {
-       $w.progress configure -text "[trans listeningon $bytes]"
-	 return
-      } 
-      
-      
-
-      
-      if { $bytes <0 } {
-	 $w.progress configure -text "[trans filetransfercancelled]"
-      } elseif { $bytes >= $filesize } {
-	 ::dkfprogress::SetProgress $w.prbar 100
-	 $w.progress configure -text "[trans filetransfercomplete]"
-      }
-
-      set bytes2 [expr {$bytes/1024}]
-      set filesize2 [expr {$filesize/1024}]
-      if { $filesize2 != 0 } {
-        set percent [expr {($bytes2*100)/$filesize2}]
-      } else {
-        set percent 100
-      }
-
-      if { ($bytes >= $filesize) || ($bytes<0)} {
-	 $w.close configure -text "[trans close]" -command "destroy $w"
-         wm protocol $w WM_DELETE_WINDOW "destroy $w"
-      } elseif { $mode == "r" } {
-	 $w.progress configure -text "[trans receivedbytes $bytes2 [list $filesize2 Kb]]"
-	 ::dkfprogress::SetProgress $w.prbar $percent
-      } else {
-	 $w.progress configure -text "[trans sentbytes $bytes2 [list $filesize2 Kb]]"
-	 ::dkfprogress::SetProgress $w.prbar $percent
-      }
    }
 
 

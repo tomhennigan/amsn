@@ -98,6 +98,13 @@ namespace eval ::MSNFT {
       return ""
    }
 
+   proc getTransferType { cookie } {
+      variable filedata        
+      if {[info exists filedata($cookie)]} {        
+         return [lindex $filedata($cookie) 4]
+      }
+      return ""
+   }
    
    
 

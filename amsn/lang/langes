@@ -110,8 +110,16 @@ fileman Administrador de Archivos
 filename Nombre de Archivo
 filetransfercancelled Transferencia de archivo cancelada
 filetransfercomplete Transferencia de archivo completada
+ftacceptedby $1 ha aceptado la invitación a la transferencia del archivo '$2'.
 ftaccepted Transferencia de archivo aceptada
+ftaccepting Aceptando invitación a transferencia de archivos
+ftconnecterror Error conectando con el usuario remoto
+ftconnecting Conectándose a $1 puerto $2
+ftconnectionlost Conexión perdida con el usuario remoto
+ftgotinvitation $1 desea enviarle el archivo '$2' ($3 bytes). Será guardado en el directorio $4. ¿Desea aceptar este archivo?
+ftrejectedby $1 ha rechazado la invitación a la transferencia del archivo '$2'.
 ftrejected Transferencia de archivo cancelada
+ftsendinvitation Una invitación para la transferencia del archivo '$2' ($3 bytes) ha sido enviada a $1.
 gonelunch Salí a comer
 groupadd Añadir un grupo
 groupdelete Borrar un grupo
@@ -133,6 +141,7 @@ ident Identificándose
 identity Identificación
 inbox Bandeja de entrada
 invalidusername Nombre de usuario no válido
+invitationcancelled La invitación ha sido cancelada
 invite Invitar
 ipaddress Dirección IP
 ipdetect Detectar la IP correcta para transferencias usando HTTP
@@ -196,6 +205,7 @@ noactivity Sin actividad
 nologfile No existe archivo de historial para $1
 nonewmail No hay mensajes nuevos en bandeja de entrada
 nonewver No hay versiones más actuales disponibles
+no No
 normal Normal
 nosystemtray Bandeja del sistema no disponible
 notify1 Mostrar ventana de aviso cuando un contacto se conecte
@@ -317,6 +327,7 @@ willjoin Esperando que $1 se una a la conversación
 work Trabajo
 wrongprofileversion Versión del archivo de perfiles incorrecta. Por favor borre el directorio $1 para solucionarlo, o actualice amsn.
 xoffset Desplazamiento X
+yes Si
 yoffset Desplazamiento Y
 youblocked Has sido bloqueado
 yousay Tú dices

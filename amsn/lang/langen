@@ -109,8 +109,16 @@ fileman File Manager
 filename Filename
 filetransfercancelled File transfer cancelled
 filetransfercomplete File transfer complete
+ftacceptedby $1 accepted file transfer invitation for file '$2'.
 ftaccepted File transfer accepted
+ftaccepting Accepting file transfer invitation
+ftconnecterror Error connecting to remote peer
+ftconnecting Connecting to $1 port $2
+ftconnectionlost Connection with remote peer lost
+ftgotinvitation $1 wants to send you the file '$2' ($3 bytes). It will be saved in directory $4. Do you want to receive this file?
+ftrejectedby $1 rejected file transfer invitation for file '$2'.
 ftrejected File transfer rejected
+ftsendinvitation File transfer invitation for file '$2' ($3 bytes) was be sent to $1.
 gonelunch Gone to lunch
 groupadd Add a group
 groupdelete Delete a group
@@ -132,6 +140,7 @@ ident Identifying
 identity Identity
 inbox In-Box
 invalidusername Invalid user name
+invitationcancelled The invitation was cancelled
 invite Invite
 ipaddress IP Address
 ipdetect Detect correct IP for File Transfers using HTTP
@@ -195,6 +204,7 @@ noactivity No activity
 nologfile No Log file for $1
 nonewmail No new messages in In-Box
 nonewver There are no new versions available to download
+no No
 normal Normal
 nosystemtray System tray not available
 notify1 Display notify window when contacts come online
@@ -316,6 +326,7 @@ willjoin Waiting $1 joins conversation
 work Work
 wrongprofileversion Wrong profile config file version. In order to fix it, please remove directory $1, or update amsn
 xoffset X Offset
+yes Yes
 yoffset Y Offset
 youblocked You have been blocked
 yousay You say
