@@ -80,11 +80,21 @@ namespace eval ::smiley {
 			#propertie was set to "" (loaded when loading default skin first)
 			if { [info exists emotions($text)] && [info exists emotions_data($emotions($text))] && [ValueForSmiley $emotions($text) skin] == "" } {
 				#status_log "Replacing emoticon $emotions($text)\n" blue
+				
+				set name $emotions($text)
+				#Remove all other symbols from that smiley
+				array set emotion_data $emotions_data($name)
+				set symbols $emotion_data(symbols)
+				foreach symbol $symbols {
+					if {[info exists emotions($symbol)]} {
+						unset emotions($symbol)
+					}
+				}
 				#Remove the old smiley daya
-				unset emotions_data($emotions($text))
+				unset emotions_data($name)
 				
 				#Remove from emotions_names
-				set idx [lsearch -exact $emotions_names $emotions($text)]
+				set idx [lsearch -exact $emotions_names $name]
 				set emotions_names [lreplace $emotions_names $idx $idx]
 			}
 			
