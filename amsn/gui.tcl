@@ -1718,9 +1718,14 @@ namespace eval ::amsn {
 			-selectbackground $bgcolor -selectborderwidth 0 -selectforeground $bgcolor2 -exportselection 1
 
 		#-yscrollcommand ".${win_name}.f.top.ys set"
-
-
-		frame .${win_name}.f.bottom -class Amsn -borderwidth 0 -relief solid -background $bgcolor
+		
+		#Change color of border on Mac OS X
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			frame .${win_name}.f.bottom -class Amsn -borderwidth 0 -relief solid -background $bgcolor2
+		} else {
+			frame .${win_name}.f.bottom -class Amsn -borderwidth 0 -relief solid -background $bgcolor
+		}
+			
 		set bottom .${win_name}.f.bottom
 
 		frame $bottom.buttons -class Amsn -borderwidth 0 -relief solid -background $bgcolor2
@@ -1778,8 +1783,13 @@ namespace eval ::amsn {
 		set_balloon $bottom.buttons.invite [trans invite]
 		pack $bottom.buttons.fontsel $bottom.buttons.smileys -side left
 		pack $bottom.buttons.block $bottom.buttons.sendfile $bottom.buttons.invite -side right
-
-		pack .${win_name}.f.top -side top -fill x -padx 3 -pady 0
+		#Remove thin border on Mac OS X (padx)
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+			pack .${win_name}.f.top -side top -fill x -padx 0 -pady 0
+		} else {
+			pack .${win_name}.f.top -side top -fill x -padx 3 -pady 0
+		}
+			
 		pack .${win_name}.statusbar -side bottom -fill x
 		grid .${win_name}.statusbar.status -row 0 -column 0 -padx 0 -pady 0 -sticky we
 		if { [::config::getKey charscounter] } {
@@ -1791,8 +1801,14 @@ namespace eval ::amsn {
 		grid $bottom.in -row 1 -column 0 -padx 3 -pady 3 -sticky nsew
 		grid $bottom.buttons -row 0 -column 0 -padx 3 -pady 0 -sticky ewns
 		grid column $bottom 0 -weight 1
-
-		pack .${win_name}.f.out -expand true -fill both -padx 3 -pady 0
+		
+		#Remove thin border on Mac OS X (padx)
+		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+				pack .${win_name}.f.out -expand true -fill both -padx 0 -pady 0
+			} else {
+				pack .${win_name}.f.out -expand true -fill both -padx 3 -pady 0
+			}
+			
 		pack .${win_name}.f.out.text -side right -expand true -fill both -padx 2 -pady 2
 		pack .${win_name}.f.out.ys -side right -fill y -padx 0
 
@@ -1852,8 +1868,8 @@ namespace eval ::amsn {
 		bind $bottom.in.input <<Button2>> "paste .${win_name} 1"
 		bind .${win_name}.f.out.text <<Button3>> "tk_popup .${win_name}.copy %X %Y"
 		
-		#Do not bind copy command on button 1 on Mac OS X (Tk Aqua)
-		if {![catch {tk windowingsystem} wsystem] || $wsystem == "aqua"} {
+		#Do not bind copy command on button 1 on Mac OS X 
+		if {$tcl_platform(os) != "Darwin"} {
 			bind .${win_name}.f.out.text <Button1-ButtonRelease> "copy 0 .${win_name}"
 		} 
 		
