@@ -6,6 +6,8 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 
 if { $initialize_amsn == 1 } {
 	init_ticket putmessage
+	
+	::skin::setDefaults
 
 	::skin::setDefaultColor mainwindowbg #7979f2
 	::skin::setDefaultColor chatwindowbg #EAEAEA
@@ -1621,9 +1623,11 @@ namespace eval ::amsn {
 			set h 100
 		}
 		status_log "setting bottom pane misize to $h\n"
-		$win.f paneconfigure $win.f.bottom -minsize $h		
-		
+		if { $::tcl_version >= 8.4 } {                   
+			$win.f paneconfigure $win.f.bottom -minsize $h	
 		}
+		
+	}
 
 	proc ChangePicture {win picture balloontext {nopack ""}} {
 		#pack $win.bottom.pic.image -side left -padx 2 -pady 2
@@ -1649,7 +1653,9 @@ namespace eval ::amsn {
 				set h 100
 			}
 			status_log "setting bottom pane misize to $h\n"
-			$win.f paneconfigure $win.f.bottom -minsize $h
+			if { $::tcl_version >= 8.4 } {                   
+				$win.f paneconfigure $win.f.bottom -minsize $h
+			}
 			#grid forget $win.f.bottom.pic.showpic
 			$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imghide]
 			#unset_balloon $win.f.bottom.pic.showpic
@@ -4418,7 +4424,7 @@ proc cmsn_draw_online_wrapped {} {
 
 	# Display MSN logo with user's handle. Make it clickable so
 	# that the user can change his/her status that way
-	clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y} 0 3
+	clickableImage $pgBuddy.text bigstate $my_image_type {tk_popup .my_menu %X %Y} [::skin::get bigstate_xpad] [::skin::get bigstate_ypad]
 	bind $pgBuddy.text.bigstate <<Button3>> {tk_popup .my_menu %X %Y}
 
 	text $pgBuddy.text.mystatus -font bboldf -height 2 \
@@ -4493,7 +4499,7 @@ proc cmsn_draw_online_wrapped {} {
 	$pgBuddy.text.mystatus configure -state normal -height $lines -wrap none
 	$pgBuddy.text.mystatus configure -state disabled
 
-	$pgBuddy.text window create end -window $pgBuddy.text.mystatus -padx 5 -pady 0 -align bottom -stretch false
+	$pgBuddy.text window create end -window $pgBuddy.text.mystatus -padx [::skin::get mystatus_xpad] -pady [::skin::get mystatus_ypad] -align bottom -stretch false
 	$pgBuddy.text insert end "\n"
 
 	$pgBuddy.text image create end -image [::skin::getColorBar]
@@ -4504,7 +4510,7 @@ proc cmsn_draw_online_wrapped {} {
 
 	if { [::config::getKey checkemail] } {
 		# Show Mail Notification status
-		clickableImage $pgBuddy.text mailbox mailbox [list hotmail_login [::config::getKey login] $password] 5 0
+		clickableImage $pgBuddy.text mailbox mailbox [list hotmail_login [::config::getKey login] $password] [::skin::get mailbox_xpad] [::skin::get mailbox_ypad]
 
 		set unread [::hotmail::unreadMessages]
 
@@ -4542,9 +4548,9 @@ proc cmsn_draw_online_wrapped {} {
 		
 
 		if { [::groups::IsExpanded $gname] } {
-			toggleGroup $pgBuddy.text contract$gname contract $gname 5 0
+			toggleGroup $pgBuddy.text contract$gname contract $gname [::skin::get contract_xpad] [::skin::get contract_ypad]
 		} else {
-			toggleGroup $pgBuddy.text expand$gname expand $gname 5 0
+			toggleGroup $pgBuddy.text expand$gname expand $gname [::skin::get expand_xpad] [::skin::get expand_ypad]
 		}
 
 		# Show the group's name/title

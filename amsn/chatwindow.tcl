@@ -1228,31 +1228,31 @@ namespace eval ::ChatWindow {
 		#Smiley button
 		button $smileys  -image [::skin::loadPixmap butsmile] -relief flat -padx 5 \
 			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-			-highlightbackground [::skin::getColor buttonbarbg]
+			-highlightbackground [::skin::getColor buttonbarbg]  -activebackground [::skin::getColor buttonbarbg]
 		set_balloon $smileys [trans insertsmiley]
 
 		#Font button
 		button $fontsel -image [::skin::loadPixmap butfont] -relief flat -padx 5 \
 			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0\
-			-highlightbackground [::skin::getColor buttonbarbg]
+			-highlightbackground [::skin::getColor buttonbarbg] -activebackground [::skin::getColor buttonbarbg]
 		set_balloon $fontsel [trans changefont]
 		
 		#Block button
 		button $block -image [::skin::loadPixmap butblock] -relief flat -padx 5 \
 			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0\
-			-highlightbackground [::skin::getColor buttonbarbg]
+			-highlightbackground [::skin::getColor buttonbarbg] -activebackground [::skin::getColor buttonbarbg]
 		set_balloon $block [trans block]
 		
 		#Send file button
 		button $sendfile -image [::skin::loadPixmap butsend] -relief flat -padx 5 \
 			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0\
-			-highlightbackground [::skin::getColor buttonbarbg]
+			-highlightbackground [::skin::getColor buttonbarbg] -activebackground [::skin::getColor buttonbarbg]
 		set_balloon $sendfile [trans sendfile]
 
 		#Invite another contact button
 		button $invite -image [::skin::loadPixmap butinvite] -relief flat -padx 5 \
 			-background [::skin::getColor buttonbarbg] -highlightthickness 0 -borderwidth 0\
-			-highlightbackground [::skin::getColor buttonbarbg]
+			-highlightbackground [::skin::getColor buttonbarbg] -activebackground [::skin::getColor buttonbarbg]
 		set_balloon $invite [trans invite]
 
 		# Pack them

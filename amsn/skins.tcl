@@ -49,6 +49,41 @@ namespace eval ::skin {
 		}
 	}
 	
+	##################################
+	#  Settings Management Procedures  #
+	##################################
+	
+	proc get {key {default ""}} {
+		if { [info exists ::skin_setting($key)] } {
+			return [::set ::skin_setting($key)]
+		} else {
+			status_log "OOPS, trying to get a setting that don't exists: $key\n" red
+			return $default
+		}
+	}
+
+	proc store {key value} {
+		::set ::skin_setting($key) $value
+	}
+	
+	proc setDefaults {} {
+		store bigstate_xpad 0
+		store bigstate_ypad 3
+		
+		store mystatus_xpad 5
+		store mystatus_ypad 0
+		
+		store mailbox_xpad 5
+		store mailbox_ypad 0
+		
+		store contract_xpad 5
+		store contract_ypad 0
+		
+		store expand_xpad 5
+		store expand_ypad 0
+	}
+
+	
 	###############################
 	# Standard Pixmaps
 	###############################
