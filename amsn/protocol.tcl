@@ -25,7 +25,7 @@ for {set i 256} {$i < 65536} {incr i} {
 }
 
 namespace eval ::MSN {
-   namespace export changeName logout
+   namespace export changeName logout changeStatus
    
    proc changeName { $userlogin newname } {
       write_ns_sock "REA" "$userlogin [urlencode $newname]"     
@@ -35,19 +35,23 @@ namespace eval ::MSN {
       global config
       puts -nonewline [sb get ns sock] "OUT\r\n"
       status_log "Loging out\n"
+
       if {$config(adverts)} {
          adv_pause
       }
+
    }
+
+   proc changeStatus {new_status} {
+      write_ns_sock "CHG" $new_status
+      status_log "Changing state to $new_status\n" red
+   }
+
 }
 
 
 
 
-proc change_my_status {new_status} {
-   write_ns_sock "CHG" $new_status
-   status_log "Changing state to $new_status\n" red
-}
 
 
 proc read_sb_sock {sbn} {
@@ -721,11 +725,6 @@ proc cmsn_auth {{recv ""}} {
    .main_menu.actions entryconfigure 2 -state normal
    .options entryconfigure 0 -state normal
 
-#         .main_menu entryconfigure 0 -state normal
-#         .main_menu.msn entryconfigure 1 -state normal
-#         .main_menu.msn entryconfigure 2 -state normal
-#         .main_menu.msn entryconfigure 4 -state normal
-#         .main_menu.msn entryconfigure 5 -state normal
 	 return 0
       }
    }
@@ -1233,10 +1232,7 @@ proc cmsn_ns_connect {} {
    .main_menu.file entryconfigure 0 -state disabled
    .main_menu.file entryconfigure 1 -state disabled
    #Proxy Config
-   .options entryconfigure 1 -state disabled
-
-#   .main_menu.msn entryconfigure 0 -state disabled
-#   .main_menu.msn entryconfigure 7 -state disabled
+#   .options entryconfigure 1 -state disabled
 
    wm title . "[trans title] - $config(login)"
    cmsn_draw_signin

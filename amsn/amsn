@@ -230,13 +230,15 @@ proc cmsn_draw_main {} {
 
    #User status menu
    menu .my_menu -tearoff 0 -type normal -background #D0D0E0 
-   .my_menu add command -label [trans online] -command "change_my_status NLN"
-   .my_menu add command -label [trans busy] -command "change_my_status BSY"
-   .my_menu add command -label [trans rightback] -command "change_my_status BRB"
-   .my_menu add command -label [trans away] -command "change_my_status AWY"
-   .my_menu add command -label [trans onphone] -command "change_my_status PHN"
-   .my_menu add command -label [trans gonelunch] -command "change_my_status LUN"
-   .my_menu add command -label [trans appearoff] -command "change_my_status HDN"
+   .my_menu add command -label [trans online] -command "::MSN::changeStatus NLN"
+   .my_menu add command -label [trans busy] -command "::MSN::changeStatus BSY"
+   .my_menu add command -label [trans rightback] -command "::MSN::changeStatus BRB"
+   .my_menu add command -label [trans away] -command "::MSN::changeStatus AWY"
+   .my_menu add command -label [trans onphone] -command "::MSN::changeStatus PHN"
+   .my_menu add command -label [trans gonelunch] -command "::MSN::changeStatus LUN"
+   .my_menu add command -label [trans appearoff] -command "::MSN::changeStatus HDN"
+   .my_menu add separator
+   .my_menu add command -label "[trans changenick]..." -command cmsn_change_name
 
    #Preferences dialog/menu
    menu .pref_menu -tearoff 0 -type normal -background #D0D0E0
@@ -298,7 +300,7 @@ proc cmsn_draw_main {} {
    menu .main_menu.actions -tearoff 0 -type normal -background #D0D0E0
    .main_menu.actions add command -label "[trans sendmsg]..." -command \
      send_im_other -state disabled
-   .main_menu.actions add command -label "[trans sendmail]" -command \
+   .main_menu.actions add command -label "[trans sendmail]..." -command \
       "send_mail $dummy_user" 
    .main_menu.actions add command -label "[trans changenick]..." -command \
      cmsn_change_name

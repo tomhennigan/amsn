@@ -1,6 +1,7 @@
 #
 # $Id$
 #
+
 proc checking_ver {} {
    global version weburl
 
