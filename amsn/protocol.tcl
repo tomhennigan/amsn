@@ -325,7 +325,7 @@ namespace eval ::MSN {
 
       if {$handler != ""} {
          global list_cmdhnd
-	  status_log "WriteSB: Appending handler $handler\n"
+	  #status_log "WriteSB: Appending handler $handler\n"
          lappend list_cmdhnd [list $trid $handler]
       }
    }
@@ -427,17 +427,17 @@ namespace eval ::MSN {
 
       lappend atransfer($cookie) $sockid
 
-      status_log "Conexión aceptada sockid: $sockid hostaddr: $hostaddr port: $hostport\n" black
+      status_log "Connection accepted sockid: $sockid hostaddr: $hostaddr port: $hostport\n" black
       fconfigure $sockid -blocking 1 -buffering none -translation {binary binary}
 
       gets $sockid tmpdata
-      status_log "RECIBO: $tmpdata\n"
+      status_log "GOT: $tmpdata\n"
       if { [string range $tmpdata 0 9] == "VER MSNFTP"} {
          puts $sockid "VER MSNFTP\r"
 
-         status_log "ENVIO: VER MSNFTP\n"
+         status_log "SENT: VER MSNFTP\n"
          gets $sockid tmpdata
-         status_log "Recibo: $tmpdata\n"
+         status_log "GOT: $tmpdata\n"
 
 
          #Comprobar authcookie
@@ -447,10 +447,10 @@ namespace eval ::MSN {
             set cookie [lindex $atransfer($cookie) 3]
 
             puts $sockid "FIL $filesize\r"
-            status_log "ENVIO: FIL $filesize\n"
+            status_log "SENT: FIL $filesize\n"
 
             gets $sockid tmpdata
-            status_log "Recibo: $tmpdata\n"
+            status_log "GOT: $tmpdata\n"
             if { [string range $tmpdata 0 2] == "TFR" } {
 
                #Send the file
@@ -470,7 +470,7 @@ namespace eval ::MSN {
             }
          }
       }
-      status_log "Transferencia cancelada\n"
+      status_log "Transfer cancelled\n"
       ::amsn::fileTransferProgress c $cookie -1 -1
       close $sockid
       return 1
@@ -523,7 +523,7 @@ namespace eval ::MSN {
       fconfigure $sockid -blocking 1
       gets $sockid datos
       fconfigure $sockid -blocking 0
-      status_log "Recibido del receptor: $datos\n"
+      status_log "Got from remote side: $datos\n"
       if {[string range $datos 0 2] == "CCL"} {
          status_log "Connection cancelled\n"
 	 cancelSending $cookie

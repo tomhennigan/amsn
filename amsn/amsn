@@ -718,7 +718,6 @@ proc show_encodingchoose {} {
   set enclist [list]
   foreach enc $encodings {
 	 lappend enclist [list $enc "" 0]
-	 status_log "$enc\n" blue
   }
   set enclist [linsert $enclist 0 [list auto "Automatic" 0]]
   ::amsn::ChooseList "[trans encoding]" both set_encoding 0 1 $enclist

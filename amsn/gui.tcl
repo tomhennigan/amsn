@@ -122,7 +122,6 @@ namespace eval ::amsn {
       global files_dir
 
       #Newer version
-      status_log "fileTransferRecv: We are called with chatid $chatid\n"
 
       set win_name [WindowFor $chatid]
 
@@ -222,7 +221,6 @@ namespace eval ::amsn {
       variable chat_ids
       set msg_windows($chatid) $win_name
       set chat_ids($win_name) $chatid
-      status_log "AddWindowFor: msg_windows ($chatid) is now $msg_windows($chatid)\n" blue
    }
    #///////////////////////////////////////////////////////////////////////////////
 
@@ -426,13 +424,11 @@ namespace eval ::amsn {
    # - 'chatid' is the name of the chat
    proc updateTypers { chatid } {
 
-      status_log "Updating typers1\n"
 
       if {[WindowFor $chatid] == 0} {
          return 0
       }
 
-      status_log "Updating typers2\n"
 
 
       set typers_list [::MSN::typersInChat $chatid]
@@ -466,7 +462,6 @@ namespace eval ::amsn {
 
       }
 
-      status_log "Updating typers3, status msg=$statusmsg\n"      
 
       WinStatus [WindowFor $chatid] $statusmsg $icon
    }
@@ -722,7 +717,6 @@ namespace eval ::amsn {
       set userlist2 [list]
       set chatusers [::MSN::usersInChat [ChatFor $win_name]]
 
-      status_log "$chatusers\n"
 
       foreach user_info $list_users {
          set user_login [lindex $user_info 0]
@@ -746,15 +740,15 @@ namespace eval ::amsn {
       foreach user_info $chatusers {
          set user_login [lindex $user_info 0]
          set user_state_no [lindex $user_info 2]
-         
+
 	  if { $user_state_no < 7 } {
       	     set user_name [lindex $user_info 1]
       	     lappend userlist [list $user_login $user_name $user_state_no]
          }
       }
 
-      
-      status_log "ShowChatList: Let's see the difference: one is $userlist\ntwo is $userlist2\n"
+
+      status_log "ShowChatList: Let's see the difference: one is $userlist\ntwo is $userlist2... any?\n"
 
       if { [llength $userlist] > 0 } {
    	   ChooseList $title both $command 0 1 $userlist
@@ -1205,7 +1199,6 @@ namespace eval ::amsn {
 
    proc AcceptedFT { chatid cookie } {
    
-      status_log "AcceptedFT: we're called with chatid: $chatid\n"
 
       set win_name [WindowFor $chatid]
 
