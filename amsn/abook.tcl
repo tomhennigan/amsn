@@ -445,6 +445,8 @@ namespace eval ::abook {
 
 	#Parser to replace special characters and variables in the right way
 	proc parseCustomNick { input nick user_login customnick } {
+		#If there's no customnick set, default to user_login
+		if { $customnick == "" } { set customnick $user_login }
 		#By default, quote backslashes and variables
 		set input [string map {"\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } $input]
 		#Now, let's unquote the variables we want to replace

@@ -4647,7 +4647,16 @@ proc cmsn_draw_online_wrapped {} {
 	#Go thru list in reverse order, as every item is inserted at the beginning, not the end...
 	for {set i [expr {[llength $list_users] - 1}]} {$i >= 0} {incr i -1} {
 		set user_login [lindex $list_users $i]
-		set user_name [::abook::getDisplayNick $user_login]
+		set globalnick [::config::getKey globalnick]
+		if { $globalnick != "" } {
+			set nick [::abook::getNick $user_login]
+			set customnick [::abook::getContactData $user_login customnick]
+			set user_name [::abook::parseCustomNick $globalnick $nick $user_login $customnick]
+		} else {
+			set user_name [::abook::getDisplayNick $user_login]
+		}
+		
+
 		
 		set state_code [::abook::getVolatileData $user_login state FLN]		
 		set colour [::MSN::stateToColor $state_code]
