@@ -2210,7 +2210,7 @@ namespace eval ::DirectConnection {
 		
 		#Check if we need to install the TLS module
 		if { $tlsinstalled == 0 && [checking_package_tls] == 0 && [::config::getKey nossl] == 0} {
-			::amsn::installTLS
+			::autoupdate::installTLS
 			return -1
 		}
 
