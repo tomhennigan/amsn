@@ -2553,7 +2553,7 @@ proc cmsn_reconnect { name } {
       #status_log "cmsn_reconnect: stat =[sb get $name stat] , SB= $name\n" green         
 
       if { [expr {[clock seconds] - [sb get $name time]}] > 10 } {
-         status_log "cmsn_reconnect: called again while authentication timeouted for sb $sbn\n" red
+         status_log "cmsn_reconnect: called again while authentication timeouted for sb $name\n" red
 	 catch { fileevent [sb get $name sock] readable "" } res
 	 catch { fileevent [sb get $name sock] writable "" } res
 	 catch {close [sb get $name sock]} res
