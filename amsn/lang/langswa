@@ -5,6 +5,7 @@ accept Kubali
 actions Vitendo
 addacontact Ongeza muongeaji
 addedyou $1 ($2) amekuongeza kwenye orodha yake ya waongeaji
+addstate Ongeza Hali Mpya
 addtocontacts Ongeza kwenya orodha ya waongeaji
 addtoo Muongeze mtu huyu kwenye orodha yangu ya waongeaji
 admincontacts Panga waongeaji
@@ -92,7 +93,9 @@ docking Inadoki
 dockingoff Doki Imezimwa
 dockkde KDE Doki
 edit Hariri
+editnewstate Hali Binafsi Mpya ya Kutuma-ujumbe-yenyewe
 editprofile Hariri Utashi
+editstate Hariri Hali iliyopo ya Kutuma-ujumbe-yenyewe
 enableproxy Ruhusu proksi
 enableremote Ruhusu kuongoza kutoka sehemu nyingine
 encoding2 Badilisha jinsi herufi zako zinavyoumbwa
@@ -116,6 +119,7 @@ ftconnecterror Tatizo katika kuunganisha kwenye kompyuta ya mbali
 ftconnecting Inaunganisha kwa $1 poti $2
 ftconnectionlost Muunganisho na kompyuta ya mbali umekatika
 ftgotinvitation $1 anataka kukutumia faili '$2' (baiti $3). Litaifadhiwa katika jarada $4. Unataka kupekea faili hili?
+ftportpref Tumia poti hii na zinafuatia kwa matumizi ya kutuma-faili
 ftrejectedby $1 amekataa mualiko wa kuhamisha faili '$2'.
 ftrejected Muamisho wa faili umekataliwa
 ftsendinvitation Mualiko wa kuhamisha faili '$2' (baiti $3) umepelekwa kwa $1.
@@ -182,6 +186,7 @@ maximised Imekuzwa
 minimised Imefupishwa/ImefanywaAikoni
 mins dakika
 mobile simu ya mkononi
+morepersonal Hali zaidi ->
 movetogroup Nenda kwenye Kundi
 msgmaxmin Ujumbe mpya ukija, nataka uwe :
 msgmode Chagua jinsi ya kushughulikia madirisha ya ujumbe zaidi ya mmoja :
@@ -298,6 +303,12 @@ soundserver Programu tumishi ya sauti
 soundstatus Sauti ya alamu
 startoffline2 Saini kimya kimya kama "Onekana Ujaunganishwa"
 startoffline Anza ukiwa ujaunganiswa
+state  Nataka nionekane kama
+stateautomsg Ujumbe-wa-kujituma wa kutuma
+stateedittext Tafadhali hariri nafasi ambazo ungetaka \n zibadilike na bonyeza Hifadhi
+stateinfo  Mipangilio ya Hali Binafsi
+statename Jina la Hali Binafsi
+statenewtext Tafadhili jaza taarifa inayohitajika kutengeneza \n Hali yako binafsi na bonyeza hifadhi
 status Hali
 stopalarm Simamisha alamu
 stylechat Muonekano kama wa maongezi
