@@ -2644,9 +2644,11 @@ namespace eval ::ChatWindow {
 		set dump_in [$in dump 0.0 end]
 
 		foreach tag [$out tag names] {
-			foreach option {-elide -foreground -font -background -underline} {
-				lappend tags_out($tag) $option
-				lappend tags_out($tag) [$out tag cget $tag $option]
+			foreach option [$out tag configure $tag] {
+				if { ([llength $option] == 5) && ([lindex $option 4] != {}) } {
+					lappend tags_out($tag) [lindex $option 0]
+					lappend tags_out($tag) [lindex $option 4]
+				}
 			}
 		}
 
