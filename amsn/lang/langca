@@ -81,7 +81,7 @@ cfgalarmall Configura, afegeix o elimina l'altarma global
 cfgalarm Configurar l'alarma per aquest usuari
 change Canvi
 changecustomstate Canvia a
-changedisplaypic Canviar la Imatge Mostrada 
+changedisplaypic Canviar la Imatge Mostrada
 changefont Canviar font
 changenick Canviar el meu sobrenom
 changestate $1 canvia l'estat a $2
@@ -542,3 +542,9 @@ yoffset Desplaçament Y
 youblocked Has estat bloquejat per
 yousay Dius
 youwant Vols
+automessage Auto-Missatge
+displayp4context Mostra el contingut del camp P4-Context com l'emisor del missatge
+displaypic Mostra l'imatge
+friendlyname Alies
+p4contextprefix Text complementari al P4-Context
+phones Numeros de telèfons

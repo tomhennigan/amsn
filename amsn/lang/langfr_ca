@@ -79,6 +79,7 @@ casesensitive Utiliser des déclencheurs sensibles à la casse
 cfgalarm Configurer/Ajouter/Supprimer alarme
 cfgalarmall Configurer/Ajouter/Supprimer une Alarme Globale
 ch_to_state Changer à un nouvel état
+change Changer
 changecustomstate Changer à
 changedisplaypic Modifier l'image affichée
 changefont Changer la police
@@ -175,7 +176,7 @@ enableproxy Utiliser un proxy
 enableremote Permettre le contrôle à distance
 enablesound Activer le son
 encoding Choisir l'encodage
-encoding2  Changer la méthode d'encodage des caractères
+encoding2  Changer la méthode d'encodage des caractères
 entercontactemail Tapez l'adresse courriel du contact
 enterfilename Entrez le nom du fichier
 enternick Donner votre pseudonyme
@@ -281,7 +282,7 @@ logsin vient de se connecter
 logsmileys Afficher les émoticons dans la fenêtre d'historique de aMSN
 logsout vient de se déconnecter
 longnick Votre surnom est contient plus de 130 charactères. Ce n'est pas supporté officielement supporté par le protocole MSN. Êtes-vous certain de vouloir l'utiliser?
-lprivtoconf  Conversation privée changée en conférence avec $1
+lprivtoconf  Conversation privée changée en conférence avec $1
 luclosedwin Vous avez fermé la fenêtre sur $1
 mailer Programme de courrier
 mailerexample ( \$recipient = Récepteur ) Laisser vide pour utiliser Hotmail
@@ -533,11 +534,13 @@ invalidgroup Groupe invalide
 lastlogin Dernière connexion 
 lastlogout Dernière déconnexion
 leavejoinsinchat Afficher les notifications "part/joint la conversation" à l'intérieur de la fenêtre de discussion 
+recentmsg Pas de fermature de la fenetre de dialogue quand un message vient d'arriber
+customcolor La couleur personnalisé
+lastmsgedme Dernier message
 nick pseudonyme
 nogroup Aucun groupe 
 userdata Données de l'utilisateur
 userproperties Propriétés de l'utilisateur $1
-change Change 
-customcolor Couleur personnalisée
-lastmsgedme Dernier message
-recentmsg Empêcher la fermeture de la fenêtre de discussion lors de la réception d'un message
+automessage Message-automatique
+phones Numéros de téléphone
+displaypic Icône
