@@ -1,3 +1,9 @@
+#TODO:
+#
+# * have an option to have URL's replaced by "URL" for reading
+# * a button or something in the gui to disable/enable the plugin (Arieh said he made this for him locally ?)
+# * incomming messages should be queued, now they play through eachother (linux only?) 
+
 namespace eval ::sayit {
 	variable config
 	variable configlist
@@ -12,10 +18,12 @@ namespace eval ::sayit {
 
 		array set ::sayit::config {
 			voice {}
+			linpath {festival}
 		}
 
 		set ::sayit::configlist [list \
 			[list str "Voice (Mac only)"  voice] \
+			[list str "Path to festival (Linux)"  linpath] \
 		]
 	}
 
@@ -32,6 +40,8 @@ namespace eval ::sayit {
 		if { (($email != [::config::getKey login]) && [focus] == "") && $msg != "" } {
 			if { $::tcl_platform(platform) == "windows" } {
 				after 0 "WinSayit \"$msg\""
+			} elseif { $::tcl_platform(os)== "Linux" } {
+				exec echo \"$msg\" | $config(linpath) --tts &
 			} else {
 				if {$config(voice)!=""} {
 					exec say -v $config(voice) $msg

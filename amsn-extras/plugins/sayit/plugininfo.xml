@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
 <plugin>
 	<name>sayit</name>
-	<author>William Bowling (Mac), Arieh Schneier (Win)</author>
-	<description>Mac OS X or Windows only. Speaks the messages you receive in the background. It will use the default voice set in the system preferences. If you enter a different voice (Mac), make sure you use a capital first letter</description>
+	<author>William Bowling (Mac), Arieh Schneier (Win), Karel Demeyer (Linux)</author>
+	<description>Speaks the messages you receive in the background. It will use the default voice set in the system preferences. If you enter a different voice (Mac), make sure you use a capital first letter. On linux you need festival text2speech, get it from http://www.cstr.ed.ac.uk/projects/festival/
+	</description>
 	<amsn_version>0.94</amsn_version>
-	<plugin_version>1.1</plugin_version>
+	<plugin_version>1.2</plugin_version>
 	<plugin_file>sayit.tcl</plugin_file>
 	<plugin_namespace>sayit</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
