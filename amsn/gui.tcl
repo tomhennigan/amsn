@@ -849,13 +849,20 @@ namespace eval ::amsn {
       if {[llength $user_list] == 0} {
          return 0
       }
-      
+
       set win_name [WindowFor $chatid]
+
+      if { [lindex [${win_name}.f.out.ys get] 1] == 1.0 } {
+         set scrolling 1
+      } else {
+         set scrolling 0
+      }
+
 
       ${win_name}.f.top.text configure -state normal -font sboldf -height 1 -wrap none
       ${win_name}.f.top.text delete 0.0 end
-      
-      
+
+
       foreach user_login $user_list {
 
          #set user_name [lindex $user_info 1]
@@ -909,6 +916,8 @@ namespace eval ::amsn {
       set window_titles(${win_name}) ${title}
       wm title ${win_name} ${title}
 
+      update idletasks
+      if { $scrolling } { ${win_name}.f.out.text yview moveto 1.0 }
 
       after cancel "::amsn::WinTopUpdate $chatid"
       after 5000 "::amsn::WinTopUpdate $chatid"
@@ -2247,21 +2256,39 @@ namespace eval ::amsn {
 proc adjust_yscroll {text bar begin end } {
 
   global scrollbar_packed_$bar
-  
+
+
+  set scrolling 0
   if { $begin == 0 && $end == 1 } {
+
+	  if { [lindex [$bar get] 1] == 1.0 } {
+        set scrolling 1
+     }
+
      pack forget $bar
      if {[info exists scrollbar_packed_$bar]} {
         unset scrollbar_packed_$bar
      }
+
+
   } else {
+
      if { ! [info exists scrollbar_packed_$bar]} {
+
+        if { [lindex [$bar get] 1] == 1.0 } {
+           set scrolling 1
+        }
+
         pack forget $text
-        pack $bar -side right -fill y -padx 0 -pady 0 
+        pack $bar -side right -fill y -padx 0 -pady 0
         pack $text -side right -expand true -fill both
-	set scrollbar_packed_$bar 1
+        set scrollbar_packed_$bar 1
+
      }
-       
+
   }
+
+  if { $scrolling } { $text yview moveto 1.0 }
   $bar set $begin $end   
     
 }
