@@ -24,7 +24,7 @@ proc ConfigDefaults {} {
 
 	#Some Autodetected options
 	if {$tcl_platform(os) == "Darwin"} {
-	   set config(soundcommand) "/sw/bin/esdplay \$sound"
+	   set config(soundcommand) "\$program_dir/sndplay \$sound"
 	   set config(browser) "open \$url"
 	   set config(notifyXoffset) 0
 	   set config(notifyYoffset) 28

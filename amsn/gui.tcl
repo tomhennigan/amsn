@@ -3397,7 +3397,7 @@ proc cmsn_msgwin_sendmail {name} {
 
 #///////////////////////////////////////////////////////////////////////
 proc play_sound {sound_name} {
-    global config 
+    global config program_dir
 
 	if { [string first "\$sound" $config(soundcommand)] == -1 } {
 		set config(soundcommand) "$config(soundcommand) \$sound"
@@ -3407,6 +3407,7 @@ proc play_sound {sound_name} {
     if { $config(sound) == 1 } {
 	set sound [GetSkinFile sounds $sound_name]
 	catch {eval exec $config(soundcommand) &} res
+ 
     }
 }
 #///////////////////////////////////////////////////////////////////////
@@ -6506,7 +6507,7 @@ proc bgerror { args } {
 #ShowTransient  {wintransient}
 #The function try to know if the operating system is Mac OS X or not. If no, enable window in transient. Else, 
 #don't change nothing.
-   proc ShowTransient {wintransient} {
+   proc ShowTransient {} {
    global tcl_platform
    if {$tcl_platform(os) != "Darwin"} {
 	wm transient $wintransient .
