@@ -1592,11 +1592,14 @@ namespace eval ::amsn {
 	 return 0
       }
      
-	if { $custom_msg != "" } {
-		set msg $custom_msg
-	} else {
-		set msg [$input get 0.0 end-1c]
-	}
+      if { $custom_msg != "" } {
+         set msg $custom_msg
+      } else {
+         # Catch in case that $input is not a "text" control (ie: automessage).
+         if { [catch { set msg [$input get 0.0 end-1c] }] } {
+            set msg ""
+         }
+      }
 
       #Blank message
       if {[string length $msg] < 1} { return 0 }
@@ -1980,7 +1983,7 @@ namespace eval ::amsn {
 	      "${win_name}.f.out.text tag conf $urlname -underline true;\
 	      ${win_name}.f.out.text conf -cursor left_ptr"
 	   ${win_name}.f.out.text tag bind $urlname <Button1-ButtonRelease> \
-	      "launch_browser [list $urltext]"
+	      "launch_browser [string map {% %%} [list $urltext]]"
 
   	   ${win_name}.f.out.text delete $pos $endpos
 	   ${win_name}.f.out.text insert $pos "$urltext" $urlname
