@@ -23,7 +23,8 @@ DONE	Multiple user accounts combo box + separate user config files
 -	Make status change dynamic in chat window and disable input window when YOU go offline
 -	Don't save password if login fails becoz of wrong username or password
 -	Fix public profile, use html file for authentication and login to MSN profiles?
-DONE	Notify window is only clickable on the text, should make whole window clickable and add X to close (left and right click)
+DONE	Notify window is only clickable on the text, should make whole window clickable
+-	Add X in corner of notify window to close, maybe make it nicer too (border, etc)
 -	Write procedure to redraw main window for language + font changes
 -	Fix new profile issues for existing users, should ask them to add profile even if they dont go to "login as"
 -	Check for connection state, make sure amsn disconnects if connection goes down.
