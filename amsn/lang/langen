@@ -17,7 +17,7 @@ appearance Appearance
 appearoff Appear offline
 areacode Area Code
 aretyping $1 are typing a message
-askprofile This login dosen't currently have a profile. Would you like to create a new one for it? \n If you don't you will not be able to use the History, or save your Alarms and password. \n If you do you will have a separate configuration for this new profile. \n \n Click on "Create Profile" to create a new profile for $1.
+askprofile This login doesn't currently have a profile. Would you like to create a new one for it? \n If you don't you will not be able to use the History, or save your Alarms and password. \n If you do you will have a separate configuration for this new profile. \n \n Click on "Create Profile" to create a new profile for $1.
 autoaway Show me as "Away" when inactive for
 autoconnect2 Sign In automaticly when aMSN is launched
 autoconnect Connect on amsn start
@@ -274,7 +274,7 @@ status Status
 stopalarm Stop Alarm
 stylechat Same look as chats
 stylehist aMSN's history look
-stylelog Select the format in wich you would like to view your History
+stylelog Select the format in which you would like to view your History
 syntaxerror  Syntax Error
 tabbed Tabbed Windows
 textsize Text size
