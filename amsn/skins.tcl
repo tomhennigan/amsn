@@ -5,11 +5,15 @@
 #########################################################
 
 
-proc GetSkinFile { type filename } {
+proc GetSkinFile { type filename {skin_override ""} } {
     global program_dir HOME2 HOME
 
     if { [catch { set skin "[::config::getGlobalKey skin]" } ] != 0 } {
 	set skin "default"
+    }
+    
+    if { $skin_override != "" } {
+    	set skin $skin_override
     }
     set defaultskin "default"
 
@@ -29,23 +33,6 @@ proc GetSkinFile { type filename } {
 	return "[file join $program_dir skins $defaultskin $type null]"
     }
 
-	 #Remove from this to the end
-	 set pwd ""
-
-    if { "[file normalize $filename]" == "$filename" && [file readable  $filename] } {
-	return "$filename"
-    } elseif { [file readable [file join $pwd $program_dir skins $skin $type $filename]] } {
-	return "[file join $pwd $program_dir skins $skin $type $filename]"
-    } elseif { [file readable [file join $HOME $type $filename]] } {
-	return "[file join $pwd $HOME $type $filename]"
-    } elseif { [file readable [file join $pwd $program_dir skins $defaultskin $type $filename]] } {
-	return "[file join $pwd $program_dir skins $defaultskin $type $filename]"
-    } else {
-
-	return "[file join $pwd $program_dir skins $defaultskin $type null]"
-    }
-
-
 }
 
 
@@ -62,24 +49,19 @@ proc findskins { } {
 
 	set skins [glob -directory [file join $program_dir skins] */settings.xml]
 	set skins_in_home [glob -nocomplain -directory [file join $HOME2 skins] */settings.xml]
-	status_log "$skins_in_home\n" blue
 
 	set skins [concat $skins $skins_in_home]
 
-
-	status_log "Loading skins from [file join $program_dir skins] and [file join $program_dir skins] \n"
 
 	set skinlist [list]
 
 	foreach skin $skins {
 		set dir [file dirname $skin]
-		status_log "Skin: $dir\n"
 		set desc ""
 
 		if { [file readable [file join $dir desc.txt] ] } {
 			set fd [open [file join $dir desc.txt]]
 			set desc [string trim [read $fd]]
-			status_log "$dir has description : $desc\n"
 			close $fd
 		}
 
@@ -169,53 +151,44 @@ proc SelectSkinGui { } {
 proc applychanges { } {
 	variable program_dir
 	set w .skin_selector
+	
+	set the_skins [findskins]
 
-	set currentskin [lindex [lindex [findskins] [$w.main.right.box curselection]] 0]
-	set currentdesc [lindex [lindex [findskins] [$w.main.right.box curselection]] 1]
+	set currentskin [lindex [lindex $the_skins [$w.main.right.box curselection]] 0]
+	set currentdesc [lindex [lindex $the_skins [$w.main.right.box curselection]] 1]
 
 	clear_exampleimg
 	
 	# If our skin hasn't the example images, take them from the default one
-	if { [file exists [file join $program_dir skins $currentskin "pixmaps/prefpers.gif"]] } {
-		image create photo preview1 -file [file join $program_dir skins $currentskin "pixmaps/prefpers.gif"]
-	} else {
-		image create photo preview1 -file [file join $program_dir skins "default/pixmaps/prefpers.gif"]
-	}
-	if { [file exists [file join $program_dir skins $currentskin "pixmaps/butblock.gif"]] } {
-		image create photo preview2 -file [file join $program_dir skins $currentskin "pixmaps/butblock.gif"]
-	} else {
-		image create photo preview2 -file [file join $program_dir skins "default/pixmaps/butblock.gif"]
-	}
-	if { [file exists [file join $program_dir skins $currentskin "pixmaps/amsnicon.gif"]] } {
-		image create photo preview3 -file [file join $program_dir skins $currentskin "pixmaps/amsnicon.gif"]
-	} else {
-		image create photo preview3 -file [file join $program_dir skins "default/pixmaps/amsnicon.gif"]
-	}
-	if { [file exists [file join $program_dir skins $currentskin "pixmaps/butsmile.gif"]] } {
-		image create photo preview4 -file [file join $program_dir skins $currentskin "pixmaps/butsmile.gif"]
-	} else {
-		image create photo preview4 -file [file join $program_dir skins "default/pixmaps/butsmile.gif"]
-	}
-	if { [file exists [file join $program_dir skins $currentskin "pixmaps/butsend.gif"]] } {
-		image create photo preview5 -file [file join $program_dir skins $currentskin "pixmaps/butsend.gif"]
-	} else {
-		image create photo preview5 -file [file join $program_dir skins "default/pixmaps/butsend.gif"]
-	}
+	image create photo preview1 -file [GetSkinFile pixmaps prefpers.gif $currentskin]
+	image create photo preview2 -file [GetSkinFile pixmaps bonline.gif $currentskin]		
+	image create photo preview3 -file [GetSkinFile pixmaps offline.gif $currentskin]		
+	image create photo preview4 -file [GetSkinFile pixmaps baway.gif $currentskin]		
+	image create photo preview5 -file [GetSkinFile pixmaps amsnicon.gif $currentskin]
+	image create photo preview6 -file [GetSkinFile pixmaps butblock.gif $currentskin]	
+	image create photo preview7 -file [GetSkinFile pixmaps butsmile.gif $currentskin]
+	image create photo preview8 -file [GetSkinFile pixmaps butsend.gif $currentskin]
 	
 	label $w.main.left.images.1 -image preview1
 	label $w.main.left.images.2 -image preview2
 	label $w.main.left.images.3 -image preview3
 	label $w.main.left.images.4 -image preview4
 	label $w.main.left.images.5 -image preview5
+	label $w.main.left.images.6 -image preview6
+	label $w.main.left.images.7 -image preview7
+	label $w.main.left.images.8 -image preview8
 	grid $w.main.left.images.1 -in $w.main.left.images -row 1 -column 1
 	grid $w.main.left.images.2 -in $w.main.left.images -row 1 -column 2
 	grid $w.main.left.images.3 -in $w.main.left.images -row 1 -column 3
 	grid $w.main.left.images.4 -in $w.main.left.images -row 1 -column 4
 	grid $w.main.left.images.5 -in $w.main.left.images -row 1 -column 5
+	grid $w.main.left.images.6 -in $w.main.left.images -row 1 -column 6
+	grid $w.main.left.images.7 -in $w.main.left.images -row 1 -column 7
+	grid $w.main.left.images.8 -in $w.main.left.images -row 1 -column 8
 
 	grid $w.main.left.images.blank -in $w.main.left.images -row 1 -column 10
 
-	grid $w.main.left.images.blank2 -in $w.main.left.images -row 2 -column 1 -columnspan 5
+	grid $w.main.left.images.blank2 -in $w.main.left.images -row 2 -column 1 -columnspan 8
 
 
 	$w.main.left.desc configure -state normal
@@ -232,6 +205,10 @@ proc clear_exampleimg { } {
 		destroy .skin_selector.main.left.images.3
 		destroy .skin_selector.main.left.images.4
 		destroy .skin_selector.main.left.images.5
+		destroy .skin_selector.main.left.images.6
+		destroy .skin_selector.main.left.images.7
+		destroy .skin_selector.main.left.images.8
+		
 		#frame .skin_selector.main.left.images -relief flat
 		#pack .skin_selector.main.left.images -in .skin_selector.main.left -side top -expand 1 -fill both
 	}
