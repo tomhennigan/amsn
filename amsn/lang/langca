@@ -146,6 +146,7 @@ custom_edit Editar emoticona personalitzada
 custom_new Afegir emoticona personalitzada
 customcolor Color personalitzat
 customnick Sobrenom personalitzat
+customstyle Estil personalitzat
 cut Talla
 date Data
 days dies
@@ -164,6 +165,7 @@ directconnection Tinc una connexió directa a Internet (utilitza el port 1863)
 disabled Desactivat
 disableprofiles Desactiva els perfils (útil en entorn públics i sistemes compartits)
 disablessl Desactiva l'SSL
+disableuserfonts Ignora et tipus de lletra de l'altre usuari en les converses i utilitza sempre el meu tipus de lletra
 disconnect $1 s'ha desconnectat.
 displaychat Opcions del text mostrat
 displayp4context Mostra el contingut del camp P4-Context com l'emisor del missatge
@@ -239,6 +241,7 @@ groupnewname Nom nou
 groupnotempty El grup no està buit!
 groupoldname Nom antic
 grouprename Reanomenar un grup
+groups Grups
 groupunknown Grup desconegut
 handle Sobrenom
 help Ajuda
@@ -329,8 +332,10 @@ msgmode Escull com gestionar finestres de missatges múltiples:
 msn aMSN
 msnstyle Conversa a l'estil MSN
 mustrestart Has de reiniciar l'aMSN si vols que els canvis tinguin efecte
+myfriendlyname El meu sobrenom de conversa
 myhomephone El meu telèfon a casa
 mymobilephone El meu telèfon mòbil
+mynick El meu sobrenom
 mypic La meva Imatge Mostrada:
 mystatus El meu estat
 myworkphone El meu telèfon a la feina
@@ -354,6 +359,7 @@ noneavailable No disponible
 nonewmail No hi ha missatges nous a la bústia
 nonewver No hi ha cap versió nova per a baixar-se
 no No
+nogap Sense espais entre els grups
 nopic Sense imatge
 noprofileexists No hi ha perfils definits.\nN'has de crear un, si vols utilitzar-los per iniciar la sessió.\nUtilitza el botó "Afegeix un nou perfil" per afegir un nou perfil.
 normal Normal
@@ -367,6 +373,7 @@ notify2 Mostrar una finestra d'avís quan arribin nous missatges
 notify3 Mostrar una finestra d'avís quan arribi un nou correu electrònic
 notify notificar
 notifyoffset Ajusta la posició de la finestra d'avís mitjançant un desplaçament
+notifytimeout Nombre de milisegons que la finestra de notifications resterà oberta
 notifytyping Envia notificacions als altres usuaris al teclejar
 notifywin Finestra d'avís
 notinlist No ets a la seva llista de contactes
@@ -441,16 +448,17 @@ publishphones Publicar els meus números de telèfon
 purge Purgar
 raised Elevada/desiconificada
 readonlymsgbox La transferència ha estat cancel·lada perquè no tens permís d'escriptura al directori destí.
-readonlywarn ATENCIÓ: Probablement, el fitxer no serà desat correctament. Comprova els permisos que tens al directori destí ($1);
+readonlywarn ATENCIÓ: Probablement, el fitxer no serà desat correctament. Comprova els permisos que tens al directori destí ($1)
 receivedbytes Rebuts $1 de $2 bytes
 receiveddir Directori de fitxers rebuts
 receivefile Rebent fitxer
 recentmsg Prevenir el tancament de la finestra de conversa quan acabi d'arribar un missatge
 reconnect Esperant a que $1 es reconnecti
-reconnect2 Reconnectar en perdre la connexio
+reconnect2 Reconnectar en perdre la connexió
 reconnecting Reconnectant amb el servidor
 reject Rebutjar
 rememberpass Recordar contrasenya
+removeempty Elimina els grups buits de la llista de contacte
 removefromlist Suprimeix d'aquesta llista
 rename Renombrar
 reversed Invertit
@@ -489,6 +497,7 @@ smileconfig Configura l'emoticona personalitzada
 smilefile Nom del fitxer de l'emoticona
 smileintro2 Edita els camps per personalitzar aquesta emoticona (a les FAQ tens més ajuda)
 smileintro Emplena els camps per crear una nova emoticona personalitzada (a les FAQ tens més ajuda)
+sngdblclick Obre una nova finestra de conversa amb un sol clic
 sound2 Reprodueix sons quan els contactes es connectin o enviïn missatges
 soundactive Reprodueix so quan es rebi un missatge si la finestra està activa
 soundcommand La comanda per reproduir el so (ex: esdplay)
@@ -546,6 +555,7 @@ twonewmail $1 missatges nous a la bústia
 unblock Desbloquejar
 uoffline Desconnectats
 uonline Connectats
+useother Utilitza un altre programa
 useralreadyonlist L'usuari ja és a la llista de contactes
 userblocked Aquest usuari està connectat però t'ha bloquejat a la seva llista
 usernotonline L'usuari no està connectat
@@ -553,6 +563,7 @@ user Usuari
 userdata Dades d'usuari
 userproperties Propietats de l'usuari $1
 useryourself No pots conversar amb tu mateix
+usesnack Utilitza la llibreria Snack (extensió del TCL)
 verifyblocked Comprova la gent que em té bloquejat a la seva llista
 version Versió
 view Veure
@@ -572,5 +583,3 @@ yoffset Desplaçament Y
 youblocked Has estat bloquejat per
 yousay Dius
 youwant Vols
-mynick El meu Sobrenom
-notifytimeout Nombre de milisegons que la finestra de notifications resterà oberta
