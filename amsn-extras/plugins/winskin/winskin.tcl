@@ -15,9 +15,10 @@ namespace eval ::winskin {
 		::plugins::RegisterEvent winskin OnConnect connected
 
 		array set ::winskin::config {
-			usewinspecs {1}
+			usewinspecs {0}
 			removeborder {1}
 			addbuttons {1}
+			resizetopright {1}
 			hidescroll {0}
 			hidemenu {1}
 			removetop {0}
@@ -30,9 +31,9 @@ namespace eval ::winskin {
 		}
 
 		set ::winskin::configlist [list \
-			[list bool "Use the windows specific code" usewinspecs] \
 			[list bool "Remove the titlebar and borders" removeborder] \
 			[list bool "Add the buttons" addbuttons] \
+			[list bool "Resize from 'top right'/'bottom right')" resizetopright] \
 			[list bool "Make sure the scrollbar is always hidden" hidescroll] \
 			[list bool "Hide the menu bar" hidemenu] \
 			[list bool "Remove the top section" removetop] \
@@ -44,9 +45,16 @@ namespace eval ::winskin {
 			[list str "Height of titlebar in pixels (should not need to be changed)" titleheight] \
 		]
 
-		::skin::setPixmap winskin_move move.gif
-		::skin::setPixmap winskin_remove remove.gif
-		::skin::setPixmap winskin_replace replace.gif
+		if {$::tcl_platform(platform) == "windows"} {
+			set ::winskin::config(usewinspecs) 1
+			set ::winskin::configlist [linsert $::winskin::configlist 0 \
+				[list bool "Use the windows specific code" usewinspecs] \
+			]
+		}
+
+		#::skin::setPixmap winskin_move move.gif
+		#::skin::setPixmap winskin_remove remove.gif
+		#::skin::setPixmap winskin_replace replace.gif
 	}
 
 	# ::winskin::switchskin
@@ -265,12 +273,20 @@ namespace eval ::winskin {
 				label $imag -image [image create photo -file [file join $::winskin::dir pixmaps replace.gif]]
 			}
 			label $imagm -image [image create photo -file [file join $::winskin::dir pixmaps move.gif]]
-			label $imagr -image [image create photo -file [file join $::winskin::dir pixmaps resize.gif]]
+			if { $::winskin::config(resizetopright) == 1 } {
+				label $imagr -image [image create photo -file [file join $::winskin::dir pixmaps resize.gif]]
+			} else {
+				label $imagr -image [image create photo -file [file join $::winskin::dir pixmaps resize2.gif]]
+			}
 			label $imagc -image [image create photo -file [file join $::winskin::dir pixmaps close.gif]]
 
 			$imag configure -cursor hand2 -borderwidth 0 -padx 0 -pady 0
 			$imagm configure -cursor fleur -borderwidth 0 -padx 0 -pady 0
-			$imagr configure -cursor top_right_corner -borderwidth 0 -padx 0 -pady 0
+			if { $::winskin::config(resizetopright) == 1 } {
+				$imagr configure -cursor top_right_corner -borderwidth 0 -padx 0 -pady 0
+			} else {
+				$imagr configure -cursor bottom_right_corner -borderwidth 0 -padx 0 -pady 0
+			}
 			$imagc configure -cursor hand2 -borderwidth 0 -padx 0 -pady 0
 
 			pack $imagc -padx 5 -pady 0 -side right
@@ -308,6 +324,7 @@ namespace eval ::winskin {
 		variable posx
 		variable posy
 		variable winxpos
+		variable winypos
 		variable width
 		variable height
 		variable skinned
@@ -327,6 +344,7 @@ namespace eval ::winskin {
 		set dx [expr {$wx-$posx}]
 		set dy [expr {$wy-$posy}]
 		set winxpos $wx
+		set winypos $wy
 
 		#if skinned need to take borederwidth into account
 		if { ($skinned == 1) && ($::winskin::config(usewinspecs) == 1)} {
@@ -369,6 +387,7 @@ namespace eval ::winskin {
 		variable posx
 		variable posy
 		variable winxpos
+		variable winypos
 		variable width
 		variable height
 
@@ -377,9 +396,14 @@ namespace eval ::winskin {
 			set y [winfo pointery .]
 			set newwidth [expr {$width - $posx + $x}]
 			if { $newwidth < 10 } { set newwidth 10 }
-			set newheight [expr {$height + $posy - $y}]
+			if { $::winskin::config(resizetopright) == 1 } {
+				set newheight [expr {$height + $posy - $y}]
+				set wy [expr {$dy + $y}]
+			} else {
+				set newheight [expr {$height - $posy + $y}]
+				set wy $winypos
+			}
 			if { $newheight < 10 } { set newheight 10 }
-			set wy [expr {$dy + $y}]
 			wm geometry . "${newwidth}x${newheight}+${winxpos}+${wy}"
 
 			if { ($::winskin::config(usewinspecs) == 1) && ($borderremoved == 1)} {
