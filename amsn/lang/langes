@@ -118,6 +118,8 @@ contactdoesnotexist El contacto que intentas añadir no existe
 contactlist Lista de Contactos(FL):
 copy Copiar
 copytogroup Copiar al grupo
+corruptconfig El archivo configuración está corrupto. Creando uno nuevo. El antiguo será salvado como $1. Por favor, envianoslo para ver qué ha ocurrido.
+corruptstates El archivo de la configuración de los autoestados está corrupto. Creando uno nuevo. El antiguo será salvado como $1. Por favor, envianoslo para ver qué ha ocurrido.
 countrycode Código de país/región
 cprofile Crear Perfil
 custom_edit Editar emoticono personalizado
@@ -262,6 +264,7 @@ logout Cerrar sesión
 logsin acaba de iniciar sesión
 logsmileys Mostrar emoticonos y smileys en la ventana de historial de aMSN
 logsout acaba de terminar la sesión
+longnick La longitud de tu apodo es mayor de 130 caracteres. Esto no es soportado oficialmente por el protocolo MSN. ¿Estás seguro de que deseas cambiarlo?
 lprivtoconf El privado se convierte en conversación múltiple con $1
 luclosedwin Tú cierras la ventana a las $1
 mailer Comando de email

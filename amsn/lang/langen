@@ -118,6 +118,8 @@ contactdoesnotexist Contact does not exist!
 contactlist Contact list (FL):
 copy Copy
 copytogroup Copy to group
+corruptconfig Configuration file is corrupt. Creating new one. Old file will be saved to $1. Please send it to us to check what happened.
+corruptstates Custom states config is corrupt. Creating new one. Old file will be saved to $1. Please send it to us to check what happened.
 countrycode My Country/Region code
 cprofile Create Profile
 custom_edit Edit custom smiley
@@ -262,6 +264,7 @@ logout Log Out
 logsin has just logged in
 logsmileys Displays Emoticons and Smileys in aMSN's history windows
 logsout has just logged out
+longnick Your nickname is longer than 130 characters. This is not officially supported by the MSN protocol. Are you sure you want to set it?
 lprivtoconf Private chat turned into Conference with $1
 luclosedwin You have closed the window on $1
 mailerexample ( \$recipient = Recipient ) Leave blank to use Hotmail
