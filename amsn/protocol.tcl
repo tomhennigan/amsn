@@ -2785,12 +2785,12 @@ proc cmsn_sb_msg {sb_name recv} {
 		::abook::setContactData $typer last_msgedme [clock format [clock seconds] -format "%D - %H:%M:%S"]
 
 		#if alarm_onmsg is on run it
-		if { ( [::alarms::isEnabled $chatid] == 1 )&& ( [::alarms::getAlarmItem $chatid onmsg] == 1) } {
-			set username [::abook::getDisplayNick $chatid]
-			run_alarm $chatid  $username "[trans says $username]: $body"
+		if { ( [::alarms::isEnabled $typer] == 1 )&& ( [::alarms::getAlarmItem $typer onmsg] == 1) } {
+			set username [::abook::getDisplayNick $typer]
+			run_alarm $typer  $username "[trans says $username]: $body"
 		} elseif { ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onmsg] == 1) } {
-			set username [::abook::getDisplayNick $chatid]	  
-			run_alarm $chatid  $username "[trans says $username]: $body"
+			set username [::abook::getDisplayNick $typer]	  
+			run_alarm $typer  $username "[trans says $username]: $body"
 		}
 
 
@@ -2896,7 +2896,7 @@ proc cmsn_sb_msg {sb_name recv} {
 
 	} elseif { [string range $content 0 16] == "text/x-clientcaps" } {
 		#Packet we receive from 3rd party client (not by MSN)
-		xclientcaps_received $msg $chatid
+		xclientcaps_received $msg $typer
 	
 	} elseif { [string range $content 0 33] == "application/x-msmsgssystemmessage" } {
 		#Packet we receive when MSN server going down for maintenance
