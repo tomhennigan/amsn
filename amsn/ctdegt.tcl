@@ -318,7 +318,9 @@ proc PreferencesMenu {m} {
 }
 
 proc Preferences { { settings ""} } {
-    global config myconfig proxy_server proxy_port images_folder list_BLP
+    global config myconfig proxy_server proxy_port images_folder temp_BLP list_BLP
+
+    set temp_BLP $list_BLP
 
     if {[ winfo exists .cfg ]} {
         return
@@ -832,8 +834,8 @@ proc Preferences { { settings ""} } {
     
         label $lfname.status -text ""
 	frame $lfname.allowframe
-        radiobutton $lfname.allowframe.allowallbutbl -text "[trans allowallbutbl]" -value 1 -variable list_BLP
-	radiobutton $lfname.allowframe.allowonlyinal -text "[trans allowonlyinal]" -value 0 -variable list_BLP
+        radiobutton $lfname.allowframe.allowallbutbl -text "[trans allowallbutbl]" -value 1 -variable temp_BLP
+	radiobutton $lfname.allowframe.allowonlyinal -text "[trans allowonlyinal]" -value 0 -variable temp_BLP
 	grid $lfname.allowframe.allowallbutbl -row 1 -column 1 -sticky w 
 	grid $lfname.allowframe.allowonlyinal -row 2 -column 1 -sticky w 
         pack $lfname.status $lfname.allowframe -side bottom -anchor w -fill x
@@ -1076,7 +1078,7 @@ proc setCfgFonts {path value} {
 
 
 proc SavePreferences {} {
-    global config myconfig proxy_server proxy_port user_info user_stat
+    global config myconfig proxy_server proxy_port user_info user_stat list_BLP temp_BLP
 
     set nb .cfg.notebook.nn
 
@@ -1177,7 +1179,9 @@ proc SavePreferences {} {
 
 
     # Save configuration of the BLP ( Allow all other users to see me online )
-    updateAllowAllUsers
+    if { $list_BLP != $temp_BLP } {
+	AllowAllUsers $temp_BLP
+    }
 
     # Save configuration.
     save_config
@@ -1200,7 +1204,7 @@ proc RestorePreferences {} {
 #	puts "myCONFIG $var_attribute $var_value"
     }
 
-    ::MSN::WriteSB ns "SYN" "0"
+#    ::MSN::WriteSB ns "SYN" "0"
 
     # Save configuration.
     #save_config
@@ -1337,6 +1341,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.61  2003/06/16 09:21:14  kakaroto
+# disabled the "SYN 0" ns command when the preferences window is closed : no reload of the contact list
+#
 # Revision 1.60  2003/06/15 21:28:57  burgerman
 # pref
 #

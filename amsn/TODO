@@ -125,6 +125,7 @@ DONE	Chinese dosen't work (GB2312)
 	**Others
 -	Fix display issue when copying a user in more than 1 group (displays the user twice in the same group)
 -	Reenable copy option for contact list (currently commented out)
+-	In the Privacy tab, if 2 users have exactly the same nickname in a listbox, we can control only the first user (we can't delete the second user with that nick from the list ...)
 
 
 	***Extra Features (priority 3)***
