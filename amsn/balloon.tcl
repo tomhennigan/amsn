@@ -75,6 +75,7 @@ proc balloon {target message {cx 0} {cy 0} } {
     global Bulle
     #Last focus variable for "Mac OS X focus bug" with balloon
     set lastfocus [focus]
+    
     after cancel "kill_balloon"
     if {$Bulle(first) == 1 } {
         set Bulle(first) 2
@@ -90,7 +91,17 @@ proc balloon {target message {cx 0} {cy 0} } {
 	    toplevel .balloon -bg black
 	}
 
-        wm overrideredirect .balloon 1
+	#Standard way to show baloon on Mac OS X (aqua), show balloon in white for Mac OS X and yellow for others platforms
+if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	destroy .balloon
+	toplevel .balloon -relief flat  \
+    -class Balloonhelp ; ::tk::unsupported::MacWindowStyle\
+    style .balloon help none
+    set bg_balloon #ffffff
+	} else {
+	wm overrideredirect .balloon 1
+	set bg_balloon #ffffaa
+	}
 
 	set wlength [expr {[winfo screenwidth .] - $x - 5}]
 	if { $wlength < 100 } {
@@ -99,13 +110,13 @@ proc balloon {target message {cx 0} {cy 0} } {
 
         label .balloon.l \
             -text $message -relief flat \
-            -bg #ffffaa -fg black -padx 2 -pady 0 -anchor w -font sboldf -justify left -wraplength $wlength
+            -bg $bg_balloon -fg black -padx 2 -pady 0 -anchor w -font sboldf -justify left -wraplength $wlength
 	pack .balloon.l -side left -padx 1 -pady 1
         wm geometry .balloon +${x}+${y}
         
    #Focus last windows , in AquaTK ("Mac OS X focus bug")
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" && $lastfocus !="" } {
-	after 50 "focus -force $lastfocus"  
+	after 25 "focus -force $lastfocus"  
 	}
 
 	set Bulle(set) 1
