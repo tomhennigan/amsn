@@ -2083,16 +2083,17 @@ catch {exec killall -c sndplay}
 
       foreach user_login $chatusers {
          set user_state_no [lindex [::MSN::getUserInfo $user_login] 2]
+			status_log "user_state_no: $user_state_no\n"
 
-         if { $user_state_no < 7 } {
-      	     set user_name [lindex [::MSN::getUserInfo $user_login] 1]
-      	     lappend userlist [list $user_login $user_name $user_state_no]
-         }
+      	set user_name [lindex [::MSN::getUserInfo $user_login] 1]
+   	     lappend userlist [list $user_login $user_name $user_state_no]
       }
 
       if { [llength $userlist] > 0 } {
    	   ChooseList $title both $command 0 1 $userlist
-      }
+      } else {
+			status_log "No users\n"
+		}
 
    }
 
