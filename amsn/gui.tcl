@@ -1805,7 +1805,13 @@ namespace eval ::amsn {
       if { [WindowFor $chatid] == 0} {
          return 0
       }
-      
+
+       if { [lindex [${win_name}.f.out.ys get] 1] == 1.0 } {
+	   set scrolling 1
+       } else {
+	   set scrolling 0
+       }
+
       set fontname [lindex $fontformat 0]
       set fontstyle [lindex $fontformat 1]      
       set fontcolor [lindex $fontformat 2]
@@ -1890,7 +1896,7 @@ namespace eval ::amsn {
 
 #      vwait smileys_end_subst
 		  
-      ${win_name}.f.out.text yview moveto 1.0
+      if { $scrolling } { ${win_name}.f.out.text yview moveto 1.0 }
       ${win_name}.f.out.text configure -state disabled
       
       WinFlicker $chatid
