@@ -19,12 +19,12 @@ allowbadwords Désactiver la censure des surnoms
 allowlist Liste des personnes autorisées
 allowonlyinal Seulement autoriser les utilisateurs de ma Liste d'acception à me contacter
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
+animatedemoticon Cet émoticon est animé
 animatedsmileys Activer les émoticons animés
 appearance Apparition
 appearoff Apparaître déconnecté
 areacode Code de la Zone
 aretyping $1 est en train de taper un message
-askprofile Cet utilisateur n'a pas encore de profil. Voulez vous en créer un nouveau? \n Si vous ne le faites pas, vous ne pourrez utiliser l'Historique, ou encore sauvegarder vos Alertes ou mot de passe. \n Si vous le faites, un nouveau fichier de configuration pour ce profil sera créé. \n \n Cliquez sur "Créer Profil" pour créer un nouveau profil pour $1.
 autoaway Me marquer "Absent" quand inactif plus de
 autoconnect2 Me connecter automatiquement quand aMSN est lancé
 autoconnect Connexion automatique au lancement
@@ -55,6 +55,7 @@ busy Occupé
 cancel Annuler
 cannotdeleteprofile le profil ne peut être supprimé car il semble utilisé par une session Amsn
 cantexec Impossible d'exécuter l'application : $1. Vérifiez les préférences.
+casesensitive Utiliser des déclencheurs sensibles à la casse
 cfgalarm Configurer/Ajouter/Supprimer alarme
 changefont Changer la police
 changenick Changer de pseudonyme
@@ -95,6 +96,8 @@ copy Copier
 copytogroup Copier vers groupe
 countrycode Mon pays/code région
 cprofile Créer profil
+custom_edit Editer un émoticon personnalisé
+custom_new Créer un nouvel émoticon personnalisé
 cut Couper
 date Date
 days Jours
@@ -104,6 +107,7 @@ delete Effacer
 deliverfail Une erreur est survenue lors de l'envoi du message suivant
 delprofile2 Sélectionner le profil que vous voulez supprimer
 delprofile Supprimer un profil
+description Description
 directconnection J'ai une connexion directe à Internet (utilisation du port 1863)
 dockfreedesktop Bureau de travail libre (KDE3/Gnome2)
 dockgtk Ancrer dans GTK
@@ -117,6 +121,7 @@ editstate Editer un état existant avec message automatique
 emotisounds Jouer un son pour certains émoticons
 enableproxy Permettre de passer par un proxy
 enableremote Permettre le contrôle à distance
+enablesound Activer le son
 encoding2  Changer la manière dont les caractères sont encodés
 encoding Choisir l'encodage
 entercontactemail Rajouter un contact de messagerie
@@ -157,6 +162,7 @@ groupunknown Groupe inconnu
 handle Pseudonyme
 help Aide
 helpcontents Contenu de l'aide
+hiden Cacher cet émoticon du menu
 history Voir l'historique
 home Domicile
 httpconnection Connexion par la méthode HTTP (utilisation du protocole HTTP par le port 80)
@@ -165,6 +171,7 @@ ident Identification
 identity Identité
 inbox Boîte aux lettres
 internalerror Erreur interne au serveur
+invalidfile Le fichier $2 entré dans le champ "$1" n'existe pas ou n'est pas lisible
 invalidusername Utilisateur incorrect
 invitationcancelled L'invitation a été annulée
 invite Invitation
@@ -328,6 +335,10 @@ servergoingdown Serveur en cours d'arrêt
 server Serveur
 session Session
 showblockedlist Voir la liste des personnes que vous avez bloqué
+smileconfig Configuration des émoticons personnalisés
+smilefile Nom du fichier de l'émoticon
+smileintro Veuillez remplir les champs obligatoires pour créer un nouvel émoticon (voir la FAQ pour l'aide)
+smileintro2 Veuillez editer les champs obligatoires pour personnaliser cet émoticon (voir la FAQ pour l'aide)
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
 sound Événements Sonores
@@ -358,6 +369,7 @@ tools Outils
 tooltips Activer les info-bulles
 transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue.
 traynotcompiled Le plugin de l'icone de la corbeille n'est pas conforme. Sélectionnez plugins/ancrage de la corbeille
+triggers Textes déclencheurs
 twonewmail $1 nouveaux messages dans votre boîte de réception
 unblock Débloquer
 uoffline Déconnectés
@@ -373,6 +385,7 @@ viewprofile Afficher le profil
 view Vue
 willjoin Dans l'attente que $1 rejoigne la conversation
 work Travail
+wrongfields Les champs "$1", "$2" et/ou "$3" sont invalides
 wrongprofileversion Mauvaise version du fichier de profil. Afin de la fixer, enlevez svp le répertoire $1, ou mettez à jour amsn
 xoffset Position en X
 yes Oui

@@ -6,6 +6,8 @@ actions Acciones
 actions Acciones
 addacontact Añadir un contacto
 addedyou $1 ($2) te ha añadido a su lista de contactos
+addprofile Añadir un perfil
+addprofiledesc Introduce el nombre de usuario para el que quieres crear un perfil. \nLos perfiles permiten tener configuraciones distintas para cada usuario.\nSin un perfil no se puede usar el Historial, Alarmas o recordar contraseña.
 addstate Añadir nuevo estado
 addto Añadir a $1
 addtocontacts Añadir a contactos
@@ -26,7 +28,6 @@ appearance Apariencia
 appearoff Sin conexión
 areacode Código de area
 aretyping $1 están escribiendo un mensaje
-askprofile Este usuario no posee todavía un perfil. Desea crear uno nuevo? \n En caso contrario no se podrá usar el Historial, o guardar la contraseña y alarmas. \n Al crearlo, tendrás una configuración personalizada para este perfil. \n \n Haz click en "Crear Perfil" para crear un nuevo perfil para $1.
 autoaway Mostrarme "Ausente" cuando no hay actividad en
 autoconnect2 Conectarse automáticamente cuando se inicia aMSN
 autoconnect Conectar al arrancar amsn
@@ -105,6 +106,7 @@ date Fecha
 days Días
 dcprofile No Crear Perfil
 default Configuración por defecto
+defaultloginradio Usar configuración por defecto
 delete Eliminar
 deliverfail Ocurrió un problema al enviar el siguiente mensaje
 delprofile2 Elige el perfil que te gustaría borrar
@@ -116,6 +118,7 @@ dockgtk Icono Gtk
 docking Icono en bandeja de sistema
 dockingoff Desactivado
 dockkde Icono KDE
+editcurrentstate Editar actual
 edit Edición
 editnewstate Nuevo mensaje automático para estado personalizado
 editprofile Editar Perfil
@@ -303,6 +306,7 @@ prefsound Sonidos
 privacy Privacidad
 profiledconfig Información de perfil
 profileinuse Este perfil está siendo usado por otra sesión de amsn, por favor elige otro.
+profileloginradio Usar un Perfil existente
 profiles Perfiles
 properties Propiedades
 proxyconf Configuración proxy

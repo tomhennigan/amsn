@@ -5,6 +5,8 @@ accept sprejmi
 actions Akcije
 addacontact Dodaj stik
 addedyou $1 ($2) vas je dodal/dodala na svoj seznam stikov
+addprofiledesc Vpisi uporabnisko ime, ki ga bo uporabljal ta profil.\nProfili omogocajo razlicne nastavitve za razlicne prijave.\nBrez profilov ne mores uporabljati zgodovine, alarmov ali shraniti gesla.
+addprofile Dodaj profil
 addstate Dodaj novo stanje
 addtocontacts Dodaj na seznam stikov
 addto Dodaj na $1
@@ -25,7 +27,6 @@ appearance Izgled
 appearoff Na videz neprijavljen
 areacode Postna stevilka
 aretyping $1 pisejo sporocilo
-askprofile  Ta prijava trenutno nima profila. Bi rad ustvaril novega zanj? \n Ce ne bos, ne bos mogel uporabljati Zgodovine  ali shraniti tvojih Alarmov in gesla. \n Ce bos, bos imel nastavitve za ta nov profil. \n \n Klikni na "Ustavri profil" za nov profil za $1.
 autoaway Prikazi me kot "Odsoten", ko sem neaktiven
 autoconnect2 Prijavi se ob zagonu aMSN
 autoconnect Prijavi se ob zagonu amsn
@@ -104,6 +105,7 @@ cut Izrezi
 date Datum
 days Dni
 dcprofile Ne ustvari profila
+defaultloginradio Prijavi se s privzetimi nastavitvami
 default Privzete nastavitve
 delete Izbrisi
 deliverfail Pri dostavljanju sporocila je prislo do tezave
@@ -117,6 +119,7 @@ dockingoff Pristaja prekinjena
 docking Pristaja
 dockkde kde pomol
 drugi)
+editcurrentstate Uredi trenutno stanje
 editnewstate Novo osebno stanje za avtomatsko sporocilo
 editprofile Uredi profil
 editstate Uredi obstojece stanje za avtomatsko sporocilo
@@ -150,7 +153,7 @@ ftgotinvitation $1 ti zeli poslati datoteko '$2' ($3 bajtov). Shranjena bo v $4.
 ftportpref Uporabi ta in visja vrata za prenos datotek
 ftrejectedby $1 je zavrnil/a povabilo za prenos datoteke '$2'.
 ftrejected Prenos datoteke je bil zavrnjen.
-ftsendinvitation $1 bo prejel/a povabilo za prenos datoteke '$2' ($3 
+ftsendinvitation $1 bo prejel/a povabilo za prenos datoteke '$2' ($3 bajtov).
 gonelunch Na kosilu
 groupadd Dodaj v skupino
 groupdelete Izbrisi skupino
@@ -293,7 +296,7 @@ prefphone2 Vpisi telefonske stevilke za katere zelis da so vidne \n tistim, ki s
 prefphone Moje telefonske stevilke
 prefprivacy2 Seznam stikov
 prefprivacy Allow in Block seznama
-prefprofile2 Ustvari/spremeni javni profil \n (tvoj opis, ki ga lahko vidijo 
+prefprofile2 Ustvari/spremeni javni profil \n (tvoj opis, ki ga lahko vidijo drugi)
 prefprofile3 aMSNjevi uporabniski profili nastavitev
 prefprofile Moj javni profil
 prefproxy Nastavitve proxy streznika
@@ -304,6 +307,7 @@ prefsound Zvoki
 privacy Zasebnost
 profiledconfig Nastavitve profilov
 profileinuse Ta profil uporablja druga seja Amsn. Prosim izberi drugega.
+profileloginradio Prijavi se s profilom
 profiles Profili
 properties Lastnosti
 proxyconfhttp Podpora HTTP proxyu
@@ -353,7 +357,7 @@ startoffline2 Prijavi se kot "Na videz neprijavljen"
 startoffline Zacni neprijavljen
 stateautomsg Avtomatsko sporocilo
 statechange status spremenjen na:
-stateedittext Prosim uredi polja, ki bi \n jih rad spremenil in pritisni 
+stateedittext Prosim uredi polja, ki bi \n jih rad spremenil in pritisni Shrani.
 stateinfo Nastavitev osebnega stanja
 statename Ime osebnega stanja
 statenewtext Prosim vpisi potrebne podatke za \n tvoje novo osebno stanje in pritisni Shrani.
