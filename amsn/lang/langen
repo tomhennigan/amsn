@@ -131,6 +131,7 @@ docking Docking
 dockingoff Docking Off
 dockkde KDE Dock
 dontdownload Don't download TLS, I'll install it myself
+downloadingtls Downloading TLS module from:\n $1
 editcurrentstate Edit current
 edit Edit
 editnewstate New Personal Automessage State
@@ -145,6 +146,7 @@ encoding Choose encoding
 entercontactemail Enter contact e-mail
 enterfilename Please enter a filename
 enternick Enter your nick
+errortls Error installing TLS module:
 examples Examples
 exitamsn Are you sure you want to quit?
 extras Extra Services
@@ -402,8 +404,10 @@ tabbed Tabbed Windows
 textsize Text size
 timeremaining Time remaining
 title Al's Messenger
+tlsdowncompleted File $1 was downloaded to directory $2. You must extract it, build it (if you downloaded source code) and install it inside $3.
 tlsinstallexp AMSN now uses MSNP9, which requires the use of a secure\nconnection using SSL. In order to use SSL, AMSN needs to install a module called TLS,\nwhich is missing in your system. This wizard will help you in downloading and\ninstalling TLS. Please choose your system type so we can automatically download\nthe required TLS files.
 tlsinstall TLS Module installation wizard
+tlsinstcompleted TLS module installation was sucessful, now you should be able to use MSNP9. If this doesn't work, then probably you didn't select the right module, or a compiled module is not available for your system.
 tools Tools
 tooltips Enable tooltips
 to To
@@ -433,7 +437,3 @@ yoffset Y Offset
 youblocked You have been blocked by
 yousay You say
 youwant You want
-downloadingtls Downloading TLS module from:\n $1
-tlsinstcompleted TLS module installation was sucessful, now you should be able to use MSNP9. If this doesn't work, then probably you didn't select the right module, or a compiled module is not available for your system.
-errortls Error installing TLS module:
-tlsdowncompleted File $1 was downloaded to directory $2. You must extract it, build it (if you downloaded source code) and install it inside $3.
