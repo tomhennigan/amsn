@@ -3090,7 +3090,7 @@ proc set_language { langname } {
    #Here instead of destroying, maybe we should call some kind of redraw
    set windows [winfo children .]
    foreach w $windows {
-         puts "Destroying $w"
+         #puts "Destroying $w"
          destroy $w
 	 set windows [winfo children .]
    }
@@ -4377,16 +4377,16 @@ proc paste { window {middle 0} } {
 	    set contents [ selection get -selection CLIPBOARD ]
 	    $window.f.in.input insert insert $contents
 	}
-	puts "CLIPBOARD selection enabled"
+	#puts "CLIPBOARD selection enabled"
     } else {
 	if { $middle == 0} {
 	    catch {
 		set contents [ selection get -selection CLIPBOARD ]
 		$window.f.in.input insert insert $contents
 	    }
-	    puts "CLIPBOARD selection enabled"
+	    #puts "CLIPBOARD selection enabled"
 	} else {
-	    puts "PRIMARY selection enabled"
+	    #puts "PRIMARY selection enabled"
 	}
     }
 }
@@ -5034,7 +5034,7 @@ proc status_log {txt {colour ""}} {
     global followtext_status
 
    .status.info insert end "[timestamp] $txt" $colour
-   #puts "[timestamp] $txt" 
+   #puts "[timestamp] $txt"
    if { $followtext_status == 1 } {
        .status.info yview moveto 1.0
    }
