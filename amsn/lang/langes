@@ -16,6 +16,7 @@ adverts Anuncios
 alarmpref Configuración de alarma para el usuario
 alarmstatus Activar/Desactivar alarma para este usuario
 allowallbutbl Permitir que todos los usuarios excepto los bloqueados me puedan contactar
+allowbadwords Saltarse la censura en los apodos
 allowlist Lista de Aceptados:
 allowonlyinal Permitir sólo a los usuarios Aceptados contactar conmigo
 allowseen Permitir a esta persona ver cuándo estás conectado y contactar
@@ -346,8 +347,8 @@ syntaxerror Error de sintaxis
 tabbed Ventanas con solapas
 textsize Tamaño del texto
 title Al's Messenger
-tooltips Activar globos de ayuda
 tools Herramientas
+tooltips Activar globos de ayuda
 to Para
 transnotexists El archivo solicitado no se encuentra traducido a su idioma.
 traynotcompiled Icono de bandeja no compilado. Mira en plugins/traydock
