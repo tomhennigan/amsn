@@ -65,7 +65,8 @@ Alarm system improvements and bugs (priority 5):
 # Multiple alarm windows can't open at once (need unique window names .mainer)
 # URL Decode names when displaying alarm
 # Config seems to automagically disapear sometimes
-# On Connect/ On Msg / On status change alarms
+# On Connect/ On Msg / On status / On disconnect change alarms
+# Allow alarms to run a command
 # Run command
 # JPG Support
 # Windows sound support
