@@ -81,13 +81,6 @@ if {[catch {file readlink [info script]} res]!=0} {
 
 
 ############################################################
-### And setup where to find optional packages
-############################################################
-
-lappend auto_path "[file join $program_dir plugins]"
-lappend auto_path "[file join ${HOME} plugins]"
-
-############################################################
 ### Setup other important directory paths
 ### depending on the platform
 ############################################################
@@ -107,6 +100,14 @@ if {$tcl_platform(platform) == "unix"} {
    set HOME "[file join ${program_dir} amsn_config]"
    set files_dir "[file join ${program_dir} amsn_received]"
 }
+
+############################################################
+### And setup where to find optional packages
+############################################################
+
+lappend auto_path "[file join $program_dir plugins]"
+lappend auto_path "[file join ${HOME} plugins]"
+
 
 set libtls ""
 
