@@ -753,11 +753,11 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 		
 		#First create binding to edit custom emoticon for all platforms (except Mac)
 		#Next, create specific binding for Mac OS X (AquaTK)
-		if {![catch {tk windowingsystem} wsystem] && $wsystem != "aqua"} {
-			bind $w.text.$filename <Button3-ButtonRelease> "edit_custom_emotion \"$emotion\"; event generate $w <Leave>"
-		} else {
+		if {[catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			bind $w.text.$filename <Button2-ButtonRelease> "edit_custom_emotion \"$emotion\"; event generate $w <Leave>"
 			bind $w.text.$filename <Control-ButtonRelease> "edit_custom_emotion \"$emotion\"; event generate $w <Leave>"
+		} else {
+			bind $w.text.$filename <Button3-ButtonRelease> "edit_custom_emotion \"$emotion\"; event generate $w <Leave>"
 	    }
 	    
 	    }
