@@ -2974,7 +2974,11 @@ catch {exec killall -c sndplay}
       #wm transient $w
       wm state $w normal
 
-      #raise $w
+#Raise $w to correct a bug win "wm geometry" in AquaTK (Mac OS X)     
+if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+         raise $w
+      }
+      
 #Disable Grownotify for Mac OS X Aqua/tk users
       if {![catch {tk windowingsystem} wsystem] && $wsystem != "aqua" && $config(animatenotify) } {
          wm geometry $w -$xpos-[expr {$ypos-100}]
