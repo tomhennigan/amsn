@@ -144,8 +144,8 @@ namespace eval ::amsn {
 
    #///////////////////////////////////////////////////////////////////////////////
    # Shows the error message specified by "msg"
-   proc infoMsg { msg } {
-      tk_messageBox -type ok -icon info -message $msg -title "[trans title]"
+   proc infoMsg { msg {icon "info"} } {
+      tk_messageBox -type ok -icon $icon -message $msg -title "[trans title]"
    }
    #///////////////////////////////////////////////////////////////////////////////
 
@@ -387,6 +387,10 @@ namespace eval ::amsn {
        "::amsn::RejectFT $chatid $cookie" ftno$cookie
      WinWrite $chatid ")\n" gray 
      WinWrite $chatid "----------\n" gray
+     if { ![file writable $files_dir]} {
+        WinWrite $chatid "[trans readonlywarn $files_dir]\n" red
+        WinWrite $chatid "----------\n" gray
+     }
 
        if { $config(ftautoaccept) == 1 } {
 	   WinWrite $chatid "[trans autoaccepted]\n" gray
