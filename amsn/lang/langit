@@ -124,6 +124,7 @@ delprofile2 Seleziona il profilo che ti piacerebbe rimuovere
 delprofile Cancella il profilo
 description Descrizione
 directconnection Ho una connessione diretta ad internet (usa la porta 1863)
+disablessl Disattiva SSL
 disconnect $1 si è sconnesso.
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Dock GNOME
@@ -385,6 +386,7 @@ soundloop Loop Suono
 soundserver Server sonoro
 soundstatus (Dis)Abilita il suono dell'allarme
 sourcecode Codice sorgente (necessita compilazione e installazione)
+sslwarning ATTENZIONE!! Disabilitando la crittografia SSL, la password verrà inviata in chiaro sulla rete. Questa operazione deve essere compiuta solo se si ha a che fare con proxies particolarmente problematici.
 startoffline2 Entra silenziosamente come "Fuori linea"
 startoffline Inizio Offline
 stateautomsg Automessaggio da inviare
