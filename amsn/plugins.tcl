@@ -311,4 +311,95 @@ namespace eval ::plugins {
 	    InitPlugin [file dirname $file]
 	}
     }
+
+
+    # The configuration fun starts bellow
+    # TODO: Clean it of unwanted stuff.
+    proc getKey {plugin key} {
+	global ${plugin}_cfg
+	return [set ${plugin}_cfg($key)]
+    }
+    
+    proc getVar {plugin key} {
+	return "${plugin}_cfg($key)"
+    }
+    
+    proc setKey {plugin key value} {
+	global ${plugin}_cfg plugins_config
+	if {[lsearch plugins_config $plugin] == -1} {
+	    lappend plugins_config $plugin
+	}
+	set ${plugin}_cfg($key) $value
+    }
+    
+    proc save_config {} {
+	global tcl_platform HOME HOME2 version password emotions
+	
+	status_log "save_config: saving plugin config for user [::config::getKey login] in $HOME]\n" black
+	
+	if { [catch {
+	    if {$tcl_platform(platform) == "unix"} {
+		set file_id [open "[file join ${HOME} plugins.xml]" w 00600]
+	    } else {
+		set file_id [open "[file join ${HOME} plugins.xml]" w]
+	    }
+	} res]} {
+	    return 0
+	}
+	
+	status_log "save_config: saving plugin config_file. Opening of file returned : $res\n"
+	set loginback $config(login)
+	set passback $password
+	
+	# using default, make sure to reset config(login)
+	if { $HOME == $HOME2 } {
+	    set config(login) ""
+	    set password ""
+	}
+	
+	
+	puts $file_id  "<?xml version=\"1.0\"?>\n\n<config>"
+	
+	foreach plugin plugins_config {
+	    puts $file_id "<plugin name=\"$plugin\">"
+	    foreach var_attribute [array names ${plugin}_cfg] {
+		set var_value ${plugin}_cfg($var_attribute)
+		set var_value [::sxml::xmlreplace $var_value]
+		puts $file_id "   <entry>\n      <attribute>$var_attribute</attribute>\n      <value>$var_value</value>\n   </entry>"
+	    }
+	    puts $file_id "</plugin>"
+	}
+	puts $file_id "</config>"
+	
+	close $file_id
+	
+	set config(login) $loginback
+	set password $passback
+	
+	status_log "save_config: Plugins config saved\n" black
+    }
+    
+    proc load_config {} {
+	global HOME password protocol clientid tcl_platform
+
+	set user_login [::config::getKey login]
+	status_log "Plugins System: load_config: Started. HOME=$HOME, config(login)=$user_login\n"
+	if { [file exists [file join ${HOME} "plugins.xml"]] } {
+	    status_log "Plugins System: load_config: loading file [file join ${HOME} plugins.xml]\n" blue
+	    
+	    if { [catch {
+		set file_id [sxml::init [file join ${HOME} "plugins.xml"]]
+		
+		sxml::register_routine $file_id "config:entry" "new_config_entry"
+		sxml::register_routine $file_id "config:emoticon" "new_custom_emoticon"
+		set val [sxml::parse $file_id]
+		sxml::end $file_id
+		status_log "Plugins System: load_config: Config loaded\n" green
+		
+	    } res] } {
+		::amsn::errorMsg "[trans corruptconfig [file join ${HOME} "config.xml.old"]]"
+		file copy [file join ${HOME} "plugins.xml"] [file join ${HOME} "plugins.xml.old"]
+	    }
+	}
+    }
 }
