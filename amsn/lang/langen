@@ -265,7 +265,7 @@ lclosedwin $1 has closed the window on $2
 lconftopriv Conference turned into Private chat with $1
 lconvstarted Conversation started on $1
 leaveblankforhotmail Leave blank to use Hotmail
-leavejoinsinchat Show "leaves/joins converstation" notifications inside the chat window
+leavejoinsinchat Show "leaves/joins conversation" notifications inside the chat window
 leaves $1 leaves conversation
 lenteredconf $1 has entered into a conference on $2
 lineflushlog Flush log files after each line
