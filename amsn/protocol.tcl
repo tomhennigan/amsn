@@ -3410,8 +3410,9 @@ proc gotAuthReply { str token } {
 		set index [expr {[lsearch $state(meta) "Authentication-Info"]+1}]
 		set values [split [lindex $state(meta) $index] ","]
 		set index [lsearch $values "from-PP=*"]
-		set value [string range [lindex $values $index] 9 end-2]
-		status_log "gotAuthReply 200: $value\n"
+		set value [string range [lindex $values $index] 9 end-1]
+		status_log "gotAuthReply 200 Headers:\n $state(meta)\n"
+		status_log "gotAuthReply 200 Ticket= $value\n"
 		msnp9_authenticate $value
 
 	} elseif {[::http::ncode $token] == 302} {
@@ -3434,7 +3435,7 @@ proc msnp9_do_auth {str url} {
 	status_log "msnp9_do_auth\n"
 	global config password
 
-	set head [list Authorization "Passport1.4 OrgVerb=GET,OrgURL=http%3A%2F%2Fmessenger%2Emsn%2Ecom,sign-in=$config(login),pwd=$password,$str"]
+	set head [list Authorization "Passport1.4 OrgVerb=GET,OrgURL=http%3A%2F%2Fmessenger%2Emsn%2Ecom,sign-in=$config(login),pwd=${password},${str}"]
 	if { $config(nossl) == 1 || ($config(connectiontype) != "direct" && $config(connectiontype) != "http") } {
 		set url [string map { https:// http:// } $url]
 	}
