@@ -399,7 +399,7 @@ namespace eval ::abook {
 		#By default, quote backslashes and variables
 		set input [string map {"\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } $input]
 		#Now, let's unquote the variables we want to replace
-		set input [string map {"\\\${nick}" "\${nick}" "\\\${user_login}" "\${user_login}" "\\\${customnick}" "\${customnick}"} $input]
+		set input [string map {"\\\$nick" "\${nick}" "\\\$user_login" "\${user_login}" "\\\$customnick" "\${customnick}"} $input]
 		#Return the custom nick, replacing backslashses and variables
 		return [subst -nocommands $input]
 	}
@@ -666,8 +666,8 @@ namespace eval ::abookGui {
 		entry $nbIdent.customnick.ent -font splainf -bg white
 		menubutton $nbIdent.customnick.help -font sboldf -text "<-" -menu $nbIdent.customnick.help.menu
 		menu $nbIdent.customnick.help.menu -tearoff 0
-		$nbIdent.customnick.help.menu add command -label [trans nick] -command "$nbIdent.customnick.ent insert insert \\\${nick}"
-		$nbIdent.customnick.help.menu add command -label "Email" -command "$nbIdent.customnick.ent insert insert \\\${user_login}"
+		$nbIdent.customnick.help.menu add command -label [trans nick] -command "$nbIdent.customnick.ent insert insert \\\$nick"
+		$nbIdent.customnick.help.menu add command -label "Email" -command "$nbIdent.customnick.ent insert insert \\\$user_login"
 		$nbIdent.customnick.help.menu add separator
 		$nbIdent.customnick.help.menu add command -label [trans delete] -command "$nbIdent.customnick.ent delete 0 end"
 		
@@ -680,8 +680,8 @@ namespace eval ::abookGui {
 		entry $nbIdent.customfnick.ent -font splainf -bg white
 		menubutton $nbIdent.customfnick.help -font sboldf -text "<-" -menu $nbIdent.customfnick.help.menu
 		menu $nbIdent.customfnick.help.menu -tearoff 0
-		$nbIdent.customfnick.help.menu add command -label [trans nick] -command "$nbIdent.customfnick.ent insert insert \\\${nick}"
-		$nbIdent.customfnick.help.menu add command -label "Email" -command "$nbIdent.customfnick.ent insert insert \\\${user_login}"
+		$nbIdent.customfnick.help.menu add command -label [trans nick] -command "$nbIdent.customfnick.ent insert insert \\\$nick"
+		$nbIdent.customfnick.help.menu add command -label "Email" -command "$nbIdent.customfnick.ent insert insert \\\$user_login"
 		$nbIdent.customfnick.help.menu add separator
 		$nbIdent.customfnick.help.menu add command -label [trans delete] -command "$nbIdent.customfnick.ent delete 0 end"
 		
