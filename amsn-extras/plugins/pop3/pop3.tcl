@@ -8,8 +8,8 @@
 
 #TODO:
 #  * add translation
+#  * add autoupdate
 #  * allow for multiple emails
-#  * create a right click menu to delete mails
 
 
 namespace eval ::pop3 {
@@ -40,6 +40,7 @@ namespace eval ::pop3 {
 			minute {5}
 			notify {1}
 			loadMailProg {0}
+			rightdeletemenu {1}
 			mailProg {msimn}
 			caption {POP3}
 			leavemails {0}
@@ -52,8 +53,9 @@ namespace eval ::pop3 {
 			[list pass "Your password" pass] \
 			[list str "Port (optional)" port] \
 			[list bool "Show notify window" notify] \
-			[list bool "Load mail program on click" loadMailProg] \
+			[list bool "Load mail program on left click" loadMailProg] \
 			[list str "          Mail Program" mailProg] \
+			[list bool "Load delete menu on right click" rightdeletemenu] \
 			[list bool "Your mail program leaves mails on server" leavemails] \
 			[list str "Display name" caption] \
 		]
@@ -366,9 +368,16 @@ namespace eval ::pop3 {
 	#	1st element : The name in the "From:" section.
 	#	2nd element : The subject.
 	proc ::pop3::getinfo {chan id} {
-		if {![catch {
+		set from "unknown"
+		set subject ""
+
+		if {[catch {
 			set data [::pop3::send $chan "TOP $id 0"]
 		} errorStr]} {
+			#error, most likely incorrect id number
+			set from -1
+			set subject -1
+		} else {
 			set ::pop3::chanreturn_from_$chan "unknown"
 			set ::pop3::chanreturn_subject_$chan ""
 			set ::pop3::chanreturn_complete_$chan "somethingtodelete"
@@ -460,9 +469,11 @@ namespace eval ::pop3 {
 			set ::pop3::balloontext "\n\nNew mail from:"
 			for {set x $first} {$x <= $last} {incr x} {
 				set info [::pop3::getinfo $chan $x]
-				set from [lindex $info 0]
-				set subject [lindex $info 1] 
-				set ::pop3::balloontext "$::pop3::balloontext\n$from : \"$subject\""
+				if { $info != "-1 -1" } {
+					set from [lindex $info 0]
+					set subject [lindex $info 1] 
+					set ::pop3::balloontext "$::pop3::balloontext\n$from : \"$subject\""
+				}
 			}
 		}
 	}
@@ -619,7 +630,7 @@ namespace eval ::pop3 {
 	# Arguments:
 	#	event   -> The event wich runs the proc (Supplied by Plugins System)
 	#     evPar   -> The array of parameters (Supplied by Plugins System)
-	proc draw {event evPar} {		
+	proc draw {event evPar} {
 		upvar 2 $evPar vars
 
 		if {[string equal $::version "0.94"]} {
@@ -683,11 +694,16 @@ namespace eval ::pop3 {
 		}
 
 		$textb tag conf pop3mail -fore black -underline false -font splainf
-		if { $::pop3::config(loadMailProg) } {
+		if { $::pop3::config(loadMailProg) || $::pop3::config(rightdeletemenu) } {
 			$textb tag conf pop3mail -underline true
-			$textb tag bind pop3mail <Button1-ButtonRelease> "$textb conf -cursor watch; after 1 ::pop3::loadDefaultEmail"
 			$textb tag bind pop3mail <Enter> "$textb tag conf pop3mail -under false;$textb conf -cursor hand2"
 			$textb tag bind pop3mail <Leave> "$textb tag conf pop3mail -under true;$textb conf -cursor left_ptr"
+		}
+		if { $::pop3::config(loadMailProg) } {
+			$textb tag bind pop3mail <Button1-ButtonRelease> "$textb conf -cursor watch; after 1 ::pop3::loadDefaultEmail"
+		}
+		if { $::pop3::config(rightdeletemenu) } {
+			$textb tag bind pop3mail <Button3-ButtonRelease> "after 1 ::pop3::rightclick %X %Y"
 		}
 		set balloon_message "$mailmsg$::pop3::balloontext"
 		$textb tag bind pop3mail <Enter> +[list balloon_enter %W %X %Y $balloon_message]
@@ -706,7 +722,7 @@ namespace eval ::pop3 {
 	# Arguments:
 	#	event   -> The event wich runs the proc (Supplied by Plugins System)
 	#     evPar   -> The array of parameters (Supplied by Plugins System)
-	proc addhotmail {event evPar} {		
+	proc addhotmail {event evPar} {
 		upvar 2 $evPar vars
 		upvar 2 $vars(msg) msg
 
@@ -715,6 +731,74 @@ namespace eval ::pop3 {
 		} else {
 			set msg "[string range $msg 0 end] (Hotmail)"
 		}
+	}
+
+
+	# ::pop3::rightclick
+	# Description:
+	#	Creates a right click menu to delete an email
+	# Arguments:
+	#	x  -> x position where to display
+	#	y  -> y position where to display
+	proc rightclick { X Y } {
+		set rmenu .pop3rightmenu
+		destroy $rmenu
+
+		menu $rmenu -tearoff 0 -type normal
+
+		$rmenu add command -label "Select an email to delete"
+		$rmenu add separator
+
+		set i 0
+		foreach line [split [string range $::pop3::balloontext 17 end] \n] { 
+			incr i
+			$rmenu add command -label "$line" -command [list ::pop3::deletemail $i $line]
+		}
+
+		if { $i != 0 } {
+			tk_popup $rmenu $X $Y
+		}
+	}
+
+
+	# ::pop3::deletemail
+	# Description:
+	#	Deletes email at index i, but checking that the name/subject match first
+	# Arguments:
+	#	index        -> index of the email to delete
+	#	namesubject  -> the name/subject as displayed in the balloon
+	proc deletemail { index namesubject } {
+		#dont run check during delete
+		after cancel ::pop3::check
+
+		set chan [::pop3::open $::pop3::config(host) $::pop3::config(user) $::pop3::config(pass) $::pop3::config(port)]
+
+		set info [::pop3::getinfo $chan $index]
+		set from [lindex $info 0]
+		set subject [lindex $info 1] 
+		set info "$from : \"$subject\""
+
+		set failed 0
+		if { $info == $namesubject } {
+			set answer [::amsn::messageBox "Are you sure you want to delete the email:\n$info" yesno question "Delete"]
+			if { $answer == "yes" } {
+				if {[catch {
+					set data [::pop3::send $chan "DELE $index"]
+				} errorStr]} {
+					set failed 1
+				}
+			}
+		} else {
+			set failed 1
+		}
+
+		::pop3::close $chan
+
+		if { $failed == 1 } {
+			msg_box "Delete failed\nYour email may have changed since last update\nUpdating now."
+		}
+
+		after 1 ::pop3::check
 	}
 }
 
