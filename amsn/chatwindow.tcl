@@ -2,6 +2,9 @@
 #    Chat Window code abstraction       #
 #           By Alberto D�z            #
 #########################################
+
+package require framec
+
 namespace eval ::ChatWindow {
 
 	#///////////////////////////////////////////////////////////////////////////////
@@ -84,7 +87,7 @@ namespace eval ::ChatWindow {
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc GetTopToText { window } {
-		return [::ChatWindow::GetTopFrame $window].to
+		return [[::ChatWindow::GetTopFrame $window] getinnerframe].to
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -96,7 +99,7 @@ namespace eval ::ChatWindow {
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc GetTopText { window } {
-		return [::ChatWindow::GetTopFrame $window].text
+		return [[::ChatWindow::GetTopFrame $window] getinnerframe].text
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -118,7 +121,7 @@ namespace eval ::ChatWindow {
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc GetInputText { window } {
-		return $window.f.bottom.left.in.text
+		return [$window.f.bottom.left.in getinnerframe].text
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -129,7 +132,7 @@ namespace eval ::ChatWindow {
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc GetStatusText { window } {
-		return $window.statusbar.status
+		return [$window.statusbar getinnerframe].status
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -140,7 +143,7 @@ namespace eval ::ChatWindow {
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc GetStatusCharsTypedText { window } {
-		return $window.statusbar.charstyped
+		return [$window.statusbar getinnerframe].charstyped
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -946,14 +949,18 @@ namespace eval ::ChatWindow {
 	#
 	proc CreateTopFrame { w } {
 
-		# set our widget's names
-		set top $w.top
-		set to $top.to
-		set text $top.text
-
 		# Create our frame
-		frame $top -class amsnChatFrame -relief solid -borderwidth [::skin::getKey chat_top_border] -background [::skin::getKey topbarbg]
+		set top $w.top
+			 # -class amsnChatFrame (need to fix class option and re-add below)
+		framec $top -relief solid\
+				-borderwidth [::skin::getKey chat_top_border] \
+				-bordercolor [::skin::getKey chat_top_border_color] \
+				-background [::skin::getKey topbarbg]
 		
+		# set our inner widget's names
+		set to [$top getinnerframe].to
+		set text [$top getinnerframe].text
+
 		# Create the to widget
 		text $to  -borderwidth 0 -width [string length "[trans to]:"] \
 		    -relief solid -height 1 -wrap none -background [::skin::getKey topbarbg] \
@@ -990,13 +997,17 @@ namespace eval ::ChatWindow {
 	#
 	proc CreateStatusBar { w } {
 		
-		# Name our widgets
-		set statusbar $w.statusbar
-		set status $statusbar.status
-		set charstyped $statusbar.charstyped
-
 		#Create the frame
-		frame $statusbar -class Amsn -borderwidth [::skin::getKey chat_status_border] -relief solid -background [::skin::getKey statusbarbg]
+		set statusbar $w.statusbar
+			# -class Amsn (need to fix class option and re-add below)
+		framec $statusbar -relief solid\
+				-borderwidth [::skin::getKey chat_status_border] \
+				-bordercolor [::skin::getKey chat_status_border_color] \
+				-background [::skin::getKey statusbarbg]
+
+		# set our inner widget's names
+		set status [$statusbar getinnerframe].status
+		set charstyped [$statusbar getinnerframe].charstyped
 
 		#Create text insert frame
 		text $status  -width 5 -height 1 -wrap none \
@@ -1149,16 +1160,15 @@ namespace eval ::ChatWindow {
 		set fr $paned.out
 		set out $fr.scroll
 		set text $out.text
-		
-		# Widget name from another proc
-		set bottom $paned.bottom
 
 		# Create the widgets
 		frame $fr -class Amsn -borderwidth 0 -relief solid \
 			-background [::skin::getKey chatwindowbg] -height [::config::getKey winchatoutheight]
 		ScrolledWindow $out -auto vertical -scrollbar vertical
-		text $text -borderwidth [::skin::getKey chat_output_border] -foreground white -background white -width 45 -height 3 \
-			-setgrid 0 -wrap word -exportselection 1  -relief solid -highlightthickness 0 -selectborderwidth 1
+		framec $text text -relief solid -foreground white -background white -width 45 -height 3 \
+			-setgrid 0 -wrap word -exportselection 1 -highlightthickness 0 -selectborderwidth 1 \
+			-borderwidth [::skin::getKey chat_output_border] \
+			-bordercolor [::skin::getKey chat_output_border_color]
 
 		$out setwidget $text
 
@@ -1222,8 +1232,8 @@ namespace eval ::ChatWindow {
 		frame $leftframe -class Amsn -background [::skin::getKey chatwindowbg] -relief solid -borderwidth 0
 
 		# Create the other widgets for the bottom frame
-		set buttons [CreateButtonBar $w $leftframe]
 		set input [CreateInputFrame $w $leftframe]
+		set buttons [CreateButtonBar $w $leftframe]
 		set picture [CreatePictureFrame $w $bottom]
 
 		pack $buttons -side top -expand false -fill x -anchor n \
@@ -1249,15 +1259,18 @@ namespace eval ::ChatWindow {
 	proc CreateInputFrame { w bottom} { 
 		global tcl_platform
 
-		# Name our widgets
-		set input $bottom.in
-		set sendbutton $input.send
-		set text $input.text
-
-
 		# Create The input frame
-		frame $input -class Amsn -background [::skin::getKey buttonbarbg] -relief solid -borderwidth [::skin::getKey chat_input_border]
+		set input $bottom.in
+			# -class Amsn (need to fix class option and re-add below)
+		framec $input -relief solid \
+				-background [::skin::getKey buttonbarbg] \
+				-borderwidth [::skin::getKey chat_input_border] \
+				-bordercolor [::skin::getKey chat_input_border_color]
 		
+		# set our inner widget's names
+		set sendbutton [$input getinnerframe].send
+		set text [$input getinnerframe].text
+
 		# Create the text widget and the send button widget
 		text $text -background white -width 15 -height 3 -wrap word -font bboldf \
 			-borderwidth 0 -relief solid -highlightthickness 0 -exportselection 1
@@ -1369,20 +1382,27 @@ namespace eval ::ChatWindow {
 	proc CreateButtonBar { w bottom } {
 
 		status_log "Creating button bar\n"
-		# Name our widgets
+		# create the frame
 		set buttons $bottom.buttons
-		set smileys $buttons.smileys
-		set fontsel $buttons.fontsel
-		set block $buttons.block
-		set sendfile $buttons.sendfile
-		set invite $buttons.invite
+			# -class Amsn (need to fix class option and re-add below)
+		framec $buttons -relief solid \
+				-borderwidth [::skin::getKey chat_buttons_border] \
+				-bordercolor [::skin::getKey chat_buttons_border_color] \
+				-background [::skin::getKey buttonbarbg]	
+
+		# Name our widgets
+		set buttonsinner [$buttons getinnerframe]
+		set smileys $buttonsinner.smileys
+		set fontsel $buttonsinner.fontsel
+		set block $buttonsinner.block
+		set sendfile $buttonsinner.sendfile
+		set invite $buttonsinner.invite
 
 		# widget name from another proc
 		set input [::ChatWindow::GetInputText $w]
 
 
 		# Create them along with their respective tooltips
-		frame $buttons -class Amsn -borderwidth [::skin::getKey chat_buttons_border] -relief solid -background [::skin::getKey buttonbarbg]	
 
 		#Smiley button
 		button $smileys  -image [::skin::loadPixmap butsmile] -relief flat -padx 0 \
@@ -1438,7 +1458,7 @@ namespace eval ::ChatWindow {
 		bind $invite <Leave> "$invite configure -image [::skin::loadPixmap butinvite]"
 		
 		#send chatwindowbutton postevent
-		set evpar(bottom) $buttons
+		set evpar(bottom) $buttonsinner
 		set evpar(window_name) "$w"
 		::plugins::PostEvent chatwindowbutton evPar
 
@@ -1455,9 +1475,13 @@ namespace eval ::ChatWindow {
 
 		# Create them
 		frame $frame -class Amsn -borderwidth 0 -relief solid -background [::skin::getKey chatwindowbg]
-		label $picture -borderwidth 1 -relief solid -image [::skin::getNoDisplayPicture] -background [::skin::getKey chatwindowbg]
+		framec $picture label -relief solid -image [::skin::getNoDisplayPicture] \
+				-borderwidth [::skin::getKey chat_dp_border] \
+				-bordercolor [::skin::getKey chat_dp_border_color] \
+				-background [::skin::getKey chatwindowbg]
+		set pictureinner [$picture getinnerframe]
 
-		set_balloon $picture [trans nopic]
+		set_balloon $pictureinner [trans nopic]
 		button $showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] \
 			-bg [::skin::getKey chatwindowbg] -highlightthickness 0 -font splainf \
 			-command "::amsn::ToggleShowPicture $w; ::amsn::ShowOrHidePicture $w" \
@@ -1469,8 +1493,8 @@ namespace eval ::ChatWindow {
 		pack $showpic -side right -expand true -fill y -padx 0 -pady 0 -anchor e
 
 		# Create our bindings
-		bind $picture <Button1-ButtonRelease> "::amsn::ShowPicMenu $w %X %Y\n"
-		bind $picture <<Button3>> "::amsn::ShowPicMenu $w %X %Y\n"
+		bind $pictureinner <Button1-ButtonRelease> "::amsn::ShowPicMenu $w %X %Y\n"
+		bind $pictureinner <<Button3>> "::amsn::ShowPicMenu $w %X %Y\n"
 
 
 		# This proc is called to load the Display Picture if exists and is readable

@@ -42,12 +42,20 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey chat_status_pady 0
 	::skin::setKey chat_sash_showhandle 0
 	::skin::setKey chat_sash_pady 0
-	
+
+	::skin::setKey chat_top_border_color #000000
+	::skin::setKey chat_status_border_color #000000
+	::skin::setKey chat_output_border_color #000000
+	::skin::setKey chat_input_border_color #000000
+	::skin::setKey chat_buttons_border_color #000000
+	::skin::setKey chat_dp_border_color #000000
+
 	::skin::setKey chat_top_border 0
 	::skin::setKey chat_output_border 0
 	::skin::setKey chat_buttons_border 0
 	::skin::setKey chat_input_border 0
 	::skin::setKey chat_status_border 0
+	::skin::setKey chat_dp_border 1
 	
 	::skin::setKey menuforeground #000000 
 	::skin::setKey menuactivebackground #565672
