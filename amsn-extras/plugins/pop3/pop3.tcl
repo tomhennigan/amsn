@@ -510,14 +510,9 @@ namespace eval ::pop3 {
 	proc ::pop3::notify { } {
 		if { $::pop3::config(notify) == 1 && $::pop3::newMails != 0 } {
 			::amsn::notifyAdd "POP3\n[trans newmail $::pop3::newMails]" "" "" plugins
-
-			#If Growl plugin is loaded, show the notification
-			if {$::tcl_version > 8.3} {
-				set pluginidx [lindex [lsearch -all $::plugins::found "*growl*"] 0]
-			} else {
-				set pluginidx [lindex [lsearchall $::plugins::found "*growl*"] 0]
-			}
-			if { $pluginidx != "" } {
+			
+			#If Growl plugin is loaded, show the notification, Mac OS X only
+			if { [info proc ::growl::InitPlugin] != "" } {
 				catch {growl post Pop POP3 [trans newmail $::pop3::newMails]}
 			}
 		}
