@@ -1541,7 +1541,7 @@ proc cmsn_draw_msgwin {email} {
    .${win_name}.text tag configure gray -foreground #808080 -background white
    .${win_name}.text tag configure white -foreground white -background black
    .${win_name}.text tag configure url -foreground darkblue -background white -font bboldf -underline true
-
+   #.${win_name}.text tag configure sel -foreground white -background darkblue
 
    #after 270000 sb_change_fake $name
 

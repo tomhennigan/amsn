@@ -370,9 +370,9 @@ namespace eval ::amsn {
    #Adds a message to the notify, that executes "command" when clicked, and
    #plays "sound"
    proc notifyAdd { msg command {sound ""}} {
-   
+
       global config
-      
+
       if { $config(notifywin) == 0 } {
         return;
       }
@@ -383,18 +383,24 @@ namespace eval ::amsn {
 
       set w .notif$NotifID
       incr NotifID
-      
+
       toplevel $w -width 1 -height 1
       wm state $w withdrawn
-            
-      set ypos 0      
+
+      set xpos $config(notifyXoffset)    
+      set ypos $config(notifyYoffset)
+
       while { [lsearch -exact $NotifPos $ypos] >=0 } {
         set ypos [expr {$ypos+105}]
-      }      
+      }
       lappend NotifPos $ypos
-      
-      wm geometry $w -0-$ypos      
-         
+
+
+      if { $xpos < 0 } { set xpos 0 }
+      if { $ypos < 0 } { set ypos 0 }
+
+      wm geometry $w -$xpos-$ypos
+
       canvas $w.c -bg #EEEEFF -width 150 -height 100 \
          -relief ridge -borderwidth 2
       pack $w.c
@@ -406,8 +412,8 @@ namespace eval ::amsn {
 
       if {[string length $msg] >100} {
          set msg "[string range $msg 0 100]..."
-      } 
-   
+      }
+
       set notify_id [$w.c create text 78 40 -font splainf \
          -justify center -width 148 -anchor n -text "$msg"]
 

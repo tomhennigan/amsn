@@ -15,18 +15,26 @@ set config(last_client_version) ""
 #by AIM
 set config(sound) 1
 set config(mailcommand) ""
-set config(filemanager) ""
 
 
 if {$tcl_platform(platform) == "unix"} {
    set config(soundcommand) "play"
    set config(browser) "mozilla"
+   set config(notifyXoffset) 0
+   set config(notifyYoffset) 0
+   set config(filemanager) ""
 } elseif {$tcl_platform(platform) == "windows"} {
    set config(soundcommand) "plwav.exe"
    set config(browser) "explorer"
+   set config(notifyXoffset) 0
+   set config(notifyYoffset) 28
+   set config(filemanager) "start"
 } else {
    set config(soundcommand) ""
    set config(browser) ""
+   set config(notifyXoffset) 0
+   set config(notifyYoffset) 0
+   set config(filemanager) ""
 }
 
 
