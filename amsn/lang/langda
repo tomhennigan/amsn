@@ -4,6 +4,7 @@ acceptfile Aksepterer fil $1, størrelse $2? Gem i $3
 actions Handlinger
 addacontact Tilføj
 addedyou har tilføjet dig til hans/hendes kontakt liste
+addtocontacts Tilføj til kontaktpersoner
 addtoo Tilføj denne person til min kontakt liste
 admincontacts Admin kontakter
 admingroups Admin grupper
@@ -20,6 +21,7 @@ blankdirect Forbliv tom for direkte forbindelse
 block Blokker
 blocked Blokkeret
 browser Browser
+broughtby Bragt af
 busy Travlt
 cancel Annuller
 changenick Ændre nick
@@ -29,18 +31,27 @@ chatsmileys Chat smilier
 chatack Accepter chat fra
 checkver Tjek for ny version
 checkingver Tjekker for ny version
+choosebasefont Vælg grund font
+choosebgcolor Vælg baggrundsfarve $1?
 clicktologin Klik her for at logge ind
 close Luk
+closingdocks Lukker dokument
 command Program kald
+confirmdelete Bekræft sletning
 contactadded Kontakt tilføjet
+contactdoesnotexist Kontaktperson eksistere ikke
 connecterror Fejl i forbindelse til server
+copytogroup Kopier til gruppe
 date Dato
 delete Slet
 enableproxy Tilslut proxy
+encoding Kodning
 entercontactemail Skriv kontakt E-mail
 enterfilename Skriv filnavnet
 enternick Skriv dit nick
 examples Eksempler
+exitamsn Afslut amsn
+extras Ekstra
 filedoesnotexist Filen eksisterer ikke
 filename Filnavn
 filetransfercancelled Fil overførsel annulleret
@@ -55,6 +66,7 @@ groupnewname Nyt navn
 groupunknown Ukendt gruppe
 groupexists Gruppen eksisterer allerede
 groupmissing Kan ikke finde gruppen
+groupnotempty Gruppen er ikke tom
 handle Handle
 help Hjælp
 helpcontents Hjælp indhold
@@ -62,11 +74,13 @@ home Hjem
 ident Identificerer
 identity Identitet
 inbox In-Box
+invalidusername Ugyldigt brugernavn
 invite Inviter
 ipaddress IP Adresse
 istyping $1 er skriver en besked
 joins $1 $2 tilslutter sig samtale
 language Sprog
+leaveblankforhotmail Blank for hotmail
 leaves $1 forlader samtale
 listeningon Lytter på port $1
 listsmileys Liste af smilier
@@ -78,6 +92,7 @@ logout Log Ud
 logsin er lige logget ind
 mailer Mailer
 mobile Mobil
+movetogroup Flyt til gruppe
 mustrestart Du skal genstarte dit program for at ændringerne træder i kraft
 mystatus Min status
 msg Besked
@@ -130,8 +145,11 @@ sendmail Send mail
 sendmsg Send besked
 sentbytes Har sendt $1 af $2 bytes
 server Server
+servergoingdown Serveren lukkes
 sound Event Sound
 startoffline Start Offline
+status Status
+syntaxerror Syntaxfejl
 textsize Tekst størrelse
 title Al's Messenger
 to Til
@@ -142,6 +160,7 @@ unblock Fjern blokkering
 uoffline Offline
 uonline Online
 user Bruger
+useralreadyonlist Kontaktpersonen eksistere
 version Version
 view Vis
 willjoin Venter på  $1 joiner samtale
