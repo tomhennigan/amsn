@@ -193,6 +193,7 @@ hybrid Mode híbrid
 ident Identifica
 identity Identitat
 inbox Bústia
+installconvert Instal·lar conversor: Has d'instal·lar ImageMagick (un programa de conversió) per tal de convertir les imatges al format usat pels servidors de MSN. Pots descarregar els binaris per al teu sistema operatiu a ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ Si ja els tens, llavors és un error, sisplau comunica'l.
 internalerror Error intern del servidor
 invalidfile El fitxer $2 introduït al camp "$1" no existeix o no es pot llegir
 invalidusername Nom d'usuari invàlid

@@ -193,6 +193,7 @@ hybrid Hybridmodus
 ident Identifiziere
 identity Identität
 inbox Posteingang
+installconvert Sie müssen das Konvertierprogramm ImageMagick installieren, um die Grafiken in das von den MSN-Servern benötigte Format konvertieren zu können. Sie können die Binärdateien für Ihr Betriebssystem unter ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ herunterladen. Sollten Sie ImageMagick bereits installiert haben, ist dies ein Fehler, bitte informieren Sie die Entwickler.
 internalerror Interner Server Fehler
 invalidfile Die Datei $2, die im Feld $1 eingegeben wurde, existiert nicht oder ist nicht lesbar.
 invalidusername Benutzername ungültig
