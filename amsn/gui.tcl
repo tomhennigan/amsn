@@ -6422,7 +6422,8 @@ proc chooseFileDialog {basename {initialfile ""} {types {{"All files"         *}
 	set parent "."
 	catch {set parent [focus]}
 	 
-	return [tk_getOpenFile -filetypes $types -parent $parent -initialfile ""]
+	    if { "$initialfile" == "" } { set initialfile "." }
+    return [tk_getOpenFile -filetypes $types -parent $parent -initialfile $initialfile ]
     
 }
 
