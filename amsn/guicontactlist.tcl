@@ -183,20 +183,22 @@ namespace eval ::guiContactList {
 			set xpad [::skin::getKey contract_xpad]
 			set ypad [::skin::getKey contract_ypad]
 			set img [::skin::loadPixmap contract]
+			set groupcolor [::skin::getKey groupcolorextend]
 		} else {
 			set xpad [::skin::getKey expand_xpad]
 			set ypad [::skin::getKey expand_ypad]
 			set img [::skin::loadPixmap expand]
+			set groupcolor [::skin::getKey groupcolorcontract]
 		}
 		# First we draw our little group toggle button
 		$canvas create image [expr $xpos + $xpad] $ypos -image $img -anchor nw \
 			-tags [list group toggleimg [lindex $element 1]]
 
 		$canvas create text [expr $xpos + [image width $img] + (2*$xpad)] $ypos -text [lindex $element 1] -anchor nw \
-			-fill darkblue -font sboldf -tags [list group title [lindex $element 1]]
+			-fill $groupcolor -font sboldf -tags [list group title [lindex $element 1]]
 		
 		set gid [lindex $element 1]
-		$canvas bind $gid <Button1-ButtonRelease> "::groups::ToggleStatus [lindex $element 0];guiContactList::createCLWindow"
+		$canvas bind $gid <<Button1>> "::groups::ToggleStatus [lindex $element 0];guiContactList::createCLWindow"
 		return [list $xpos [expr $ypos + 20]]
 	}
 
