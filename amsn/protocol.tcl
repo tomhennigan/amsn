@@ -2283,10 +2283,7 @@ proc cmsn_auth {{recv ""}} {
 
 	 configureMenuEntry .main_menu.file "[trans savecontacts]..." normal
 
-         #Publish Phone Numbers
-	 configureMenuEntry .options "[trans publishphones]..." normal
-
-	 return 0
+         return 0
       }
    }
    return -1
