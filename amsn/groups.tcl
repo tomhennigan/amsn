@@ -624,6 +624,7 @@ namespace eval ::groups {
 		return $g_list
 	    }
 
+	#Tests if a contact belong to a group or not
 	proc Belongtogp {email gid} {
 
 		if {[lsearch [::abook::getGroups $email] $gid] == -1} {
@@ -644,7 +645,7 @@ namespace eval ::groups {
 
 		toplevel $w
 		wm title $w "[trans groups] ($email)"
-		wm geometry $w 350x200+30+30
+		#wm geometry $w 350x200+30+30
 		wm protocol $w WM_DELETE_WINDOW "::groups::GroupmanagerClose $email"
 
 		label $w.txt -text "[trans groups] :"
@@ -655,11 +656,13 @@ namespace eval ::groups {
 
 		set thelistnames [list]
 
+		#Create a list with the names of the groups the contact belong to
 		foreach gid $gidlist {
 			set thename [::groups::GetName $gid]
 			lappend thelistnames [list "$thename" $gid]
 		}
 
+		#Sort the list by names (sortlist is a list of lists with name and gid of a group)
 		set sortlist [lsort -dictionary -index 0 $thelistnames]
 		set sortlist2 [list]
 
@@ -685,6 +688,8 @@ namespace eval ::groups {
 		pack configure $w.box -side top -fill x
 		pack configure $w.button -side bottom -fill x -ipady 10 -ipadx 10
 
+		moveinscreen $w 30
+
 	}
 
 	proc GroupmanagerOk {email {winpref ""}} {
@@ -696,6 +701,7 @@ namespace eval ::groups {
 		set gidlistyes [list]
 		set gidlistno [list]
 
+		#Check which groups the contact belong to (gidlistyes) and which he doesn't (gidlistno)
 		foreach gid $gidlist {
 			set state [::config::getKey tempgroup_[::md5::md5 $email]($gid)]
 			if {$state == 1} {
@@ -706,6 +712,7 @@ namespace eval ::groups {
 			::config::unsetKey tempgroup_[::md5::md5 $email]($gid)
 		}
 
+		#If the contact doesn't belong to any groups, put it in the "Nogroup" group
 		if {$gidlistyes == ""} {
 			lappend gidlistyes 0
 			set gidlistno [lrange $gidlistno 1 end]
@@ -713,6 +720,7 @@ namespace eval ::groups {
 
 		set timer 0
 
+		#First add the contact to the new groups
 		foreach gid $gidlistyes {
 			if {[lsearch [::abook::getGroups $email] $gid] == -1} {
 				after $timer [list ::MSN::WriteSB ns "ADD" "FL $email [urlencode $name] $gid"]
@@ -720,6 +728,7 @@ namespace eval ::groups {
 			}
 		}
 
+		#Then remove their from the former groups
 		foreach gid $gidlistno {
 			if {[lsearch [::abook::getGroups $email] $gid] != -1} {
 				after $timer [list ::MSN::WriteSB ns "REM" "FL $email $gid"]
@@ -729,6 +738,7 @@ namespace eval ::groups {
 
 		destroy .gpmanage_[::md5::md5 $email]
 
+		#If the properties window is open, change the groups of the contact in it
 		if {$winpref != ""} {
 			set groups ""
 			foreach gid $gidlistyes {

@@ -788,7 +788,7 @@ namespace eval ::abookGui {
 		pack $nbIdent.customcolorf.bset -side left -padx 3 -pady 2
 		pack $nbIdent.customcolorf.brem -side left -padx 3 -pady 2
 		
-		label $nbIdent.g -text "[trans group]:"
+		label $nbIdent.g -text "[trans group]" -font bboldunderf
 		label $nbIdent.g1 -text "[::abook::getGroupsname $email]" -font splainf -fg blue -justify left -wraplength 300
 		button $nbIdent.g2 -text [trans change] -command "::groups::Groupmanager $email $nbIdent"
 		
@@ -859,36 +859,36 @@ namespace eval ::abookGui {
 		grid $nbIdent.customcolor -row 6 -column 0 -sticky e
 		grid $nbIdent.customcolorf -row 6 -column 1 -sticky w
 	
-		grid $nbIdent.g -row 7 -column 0 -sticky en
-		grid $nbIdent.g1 -row 7 -column 1 -sticky wn
-		grid $nbIdent.g2 -row 7 -column 2
+		grid $nbIdent.g -row 7 -column 0 -pady 5 -padx 5 -sticky w
+		grid $nbIdent.g1 -row 8 -column 0 -sticky e
+		grid $nbIdent.g2 -row 8 -column 1 -sticky w
 		
-		grid $nbIdent.titlephones -row 8 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
-		grid $nbPhone.phh -row 9 -column 0 -sticky e
-		grid $nbPhone.phh1 -row 9 -column 1 -sticky w
-		grid $nbPhone.phw -row 10 -column 0 -sticky e
-		grid $nbPhone.phw1 -row 10 -column 1 -sticky w
-		grid $nbPhone.phm -row 11 -column 0 -sticky e
-		grid $nbPhone.phm1 -row 11 -column 1 -sticky w
-		grid $nbPhone.php -row 12 -column 0 -sticky e
-		grid $nbPhone.php1 -row 12 -column 1 -sticky w
+		grid $nbIdent.titlephones -row 9 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
+		grid $nbPhone.phh -row 10 -column 0 -sticky e
+		grid $nbPhone.phh1 -row 10 -column 1 -sticky w
+		grid $nbPhone.phw -row 11 -column 0 -sticky e
+		grid $nbPhone.phw1 -row 11 -column 1 -sticky w
+		grid $nbPhone.phm -row 12 -column 0 -sticky e
+		grid $nbPhone.phm1 -row 12 -column 1 -sticky w
+		grid $nbPhone.php -row 13 -column 0 -sticky e
+		grid $nbPhone.php1 -row 13 -column 1 -sticky w
 		
-		grid $nbIdent.titleothers -row 17 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
-		grid $nbPhone.lastlogin -row 18 -column 0 -sticky e
-		grid $nbPhone.lastlogin1 -row 18 -column 1 -sticky w
-		grid $nbPhone.lastlogout -row 18 -column 2 -sticky e
-		grid $nbPhone.lastlogout1 -row 18 -column 3 -sticky w
-		grid $nbPhone.lastmsgedme -row 20 -column 0 -sticky e
-		grid $nbPhone.lastmsgedme1 -row 20 -column 1 -sticky w
-		grid $nbPhone.lastseen -row 20 -column 2 -sticky e
-		grid $nbPhone.lastseen1 -row 20 -column 3 -sticky w
-		grid $nbPhone.clientname -row 21 -column 0 -sticky e
-		grid $nbPhone.clientname1 -row 21 -column 1 -sticky w
-		grid $nbPhone.chatlogging -row 21 -column 2 -sticky e
-		grid $nbPhone.chatlogging1 -row 21 -column 3 -sticky w
+		grid $nbIdent.titleothers -row 18 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
+		grid $nbPhone.lastlogin -row 19 -column 0 -sticky e
+		grid $nbPhone.lastlogin1 -row 19 -column 1 -sticky w
+		grid $nbPhone.lastlogout -row 19 -column 2 -sticky e
+		grid $nbPhone.lastlogout1 -row 19 -column 3 -sticky w
+		grid $nbPhone.lastmsgedme -row 21 -column 0 -sticky e
+		grid $nbPhone.lastmsgedme1 -row 21 -column 1 -sticky w
+		grid $nbPhone.lastseen -row 21 -column 2 -sticky e
+		grid $nbPhone.lastseen1 -row 21 -column 3 -sticky w
+		grid $nbPhone.clientname -row 22 -column 0 -sticky e
+		grid $nbPhone.clientname1 -row 22 -column 1 -sticky w
+		grid $nbPhone.chatlogging -row 22 -column 2 -sticky e
+		grid $nbPhone.chatlogging1 -row 22 -column 3 -sticky w
 		
-		grid $nbPhone.titlepic -row 27 -column 0 -sticky w -columnspan 2 -pady 5 -padx 5
-		grid $nbPhone.displaypic -row 28 -column 0 -sticky w -columnspan 2 -padx 8
+		grid $nbPhone.titlepic -row 28 -column 0 -sticky w -columnspan 2 -pady 5 -padx 5
+		grid $nbPhone.displaypic -row 29 -column 0 -sticky w -columnspan 2 -padx 8
 		#grid columnconfigure $nbIdent.fothers 1 -weight 1
 		
 		grid columnconfigure $nbIdent 1 -weight 1
@@ -975,7 +975,6 @@ namespace eval ::abookGui {
 		bind $w <Destroy> [list ::abookGui::PropDestroyed $email $w %W]
 		
 		moveinscreen $w 30
-		status_log YOYOYO
 	}
 	
 	#Ask the user if he wants to save or not the user properties window
