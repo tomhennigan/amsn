@@ -1,9 +1,11 @@
 Commands available :
-connect { username password }
-	Connects you to the account "username" with the password "password"
-logout
-	Disconnects you from the currents session
 help
 	Prints this help
+logout
+	Disconnects you from the currents session
+reconnect 
+	reconnects you to your account
 online
-	Prints the online users and their states
+	Shows you all online users and their states
+msg { user message }
+	Sends the message "message" to the user with the email "user" 

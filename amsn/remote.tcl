@@ -9,11 +9,14 @@ set remote_sock 0
 
 namespace eval ::remote {
 
-    #// connect { username password }
-    #// connects you to an account with the username and password entered
-    #//
-    proc connect { username password } {
+    # reconnect 
+    # reconnects you to your account
+    #
+    proc reconnect { } {
 	
+	set username "null"
+	set password "null"
+
 	write_remote "[trans connecting] ..." 
 
 	if { [string match "*@*" $username] == 0 } {
@@ -29,17 +32,17 @@ namespace eval ::remote {
 	
     }
 
-    #// logout
-    #// logs you out from the current session
-    #//
+    # logout
+    # logs you out from the current session
+    #
     proc logout { } {
 	write_remote "[trans logout]"
 	::MSN::logout
     }
 
-    #// help
-    #// prints this help 
-    #//
+    # help
+    # prints the help message from the remote.help file
+    #
     proc help { } {
 	global program_dir
 
@@ -50,6 +53,9 @@ namespace eval ::remote {
   
     }
     
+    # online
+    # Shows list of users connected
+    #
     proc online { } {
 	global list_users list_states
 
@@ -66,7 +72,34 @@ namespace eval ::remote {
 	}
 
     }
-  
+
+    # msg { user message }
+    # sends a message to a user
+    #
+    proc msg { user message } {
+
+	if { [string match "*@*" $user] == 0 } {
+	    set user [split $user "@"]
+	    set user "[lindex $user 0]@hotmail.com"
+	}
+
+	set lowuser [string tolower $user]
+   
+	set win_name [::amsn::WindowFor $lowuser]
+
+	if { $win_name == 0 } {
+	    ::amsn::chatUser "$user"
+	    
+	    while { [set win_name [::amsn::WindowFor $lowuser]] == 0 } { }
+	}
+
+	set input "${win_name}.f.in.input"
+	$input  insert end [list $message]
+	
+	::amsn::MessageSend $win_name $input 
+	
+	
+    }
 
 }
 

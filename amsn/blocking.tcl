@@ -92,9 +92,9 @@ proc warn_blocked { email } {
 # VerifyBlocked { }
 # tests every offline user in your contact list
 proc VerifyBlocked {} {
-    global list_users list_states emailBList
+    global list_users list_states emailBList counter
 
- #   set counter 0
+    set counter 0
 
    for {set idx [expr [array size emailBList] - 1]} {$idx >= 0} {incr idx -1} {
        unset emailBList($idx)
@@ -111,16 +111,77 @@ proc VerifyBlocked {} {
 
 	#TODO : set a counter to test a limited amount of people to avoid flooding
 
-# 	set counter [expr $counter + 1 ]
-# 	if { $counter > 10 } {
-# 	    after 200 
-# 	    set counter 0
-# 	}
+ 	set counter [expr $counter + 1 ]
+ 	if { $counter > 5 } {
+ 	    after 5000 reset_counter
+	    vwait counter
+  	}
 
-         if { $state_code =="FLN" } {
-	     ::MSN::chatTo "[lindex $user 0]"
-	 }
 
+	if { $counter < 6 } {
+	    if { $state_code =="FLN" } {
+		::MSN::chatTo "[lindex $user 0]"
+	    }
+	}
    }
 }
 
+proc reset_counter { } {
+    global counter
+    set counter 0
+}
+
+
+proc show_RL { } {
+    global list_rl list_users
+
+    set list(0) ""
+    unset list(0)
+
+   puts "$list_rl ----- $list_users"
+
+    foreach user $list_rl {
+
+	puts "$user"
+	if {[lsearch $list_users "$user *"] == -1} {
+	    set tmp_list [array get list]
+    
+	    for {set idx [expr [array size list] - 1]} {$idx >= 0} {incr idx -1} {
+		set list([expr $idx + 1]) $list($idx)
+	    } 
+	    set list(0) $user    
+	}
+	
+    }
+    set wname ".reverse_list"
+
+
+    # Update window if exists
+     if { [catch {toplevel ${wname} -borderwidth 0 -highlightthickness 0 } res ] } {
+	 destroy ${wname}
+	 toplevel ${wname} -borderwidth 0 -highlightthickness 0
+     }
+    
+    wm group ${wname} .
+    wm title ${wname}  "reverse list"
+    frame ${wname}.c -relief flat -highlightthickness 0
+    pack ${wname}.c -expand true -fill both -padx 10 -pady 0
+    
+    label ${wname}.c.txt -text "These people have added you to their list and are no longer in yours "
+    grid ${wname}.c.txt -row 1 -column 1 -sticky w -pady 10
+
+
+    for {set idx [expr [array size list] - 1]} {$idx >= 0} {incr idx -1} {
+	set row [expr 2 + $idx]
+
+	label ${wname}.c.txt${idx} -text "$list($idx)"
+	grid ${wname}.c.txt${idx} -row $row -column 1 -sticky w -pady 10
+    } 
+    
+    
+    button ${wname}.c.ok -text [trans ok] -command "destroy ${wname}"
+    
+    set row [expr [expr [array size list]] + 2]
+    grid ${wname}.c.ok -row $row -column 0 -pady 10
+
+}

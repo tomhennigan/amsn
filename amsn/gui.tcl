@@ -424,7 +424,7 @@ namespace eval ::amsn {
    # The procedure will open a window if it does not exists, add a notifyWindow and
    # play a sound if it's necessary
    proc messageFrom { chatid user msg type {fontformat ""} } {
-   	global config
+   	global config remote_auth
       variable first_message
 
       set win_name [WindowFor $chatid]
@@ -437,7 +437,17 @@ namespace eval ::amsn {
 
       }
 
-      PutMessage $chatid $user $msg $type $fontformat
+       if { $remote_auth == 1 } {
+	   if { "$user" == "$config(login)" } {
+	       set message "Sending message to : $chatid"
+	   } else { 
+	       set message "Received message from : $user"
+	   }
+	   write_remote "$message \n$msg"
+       } 
+       
+
+       PutMessage $chatid $user $msg $type $fontformat
 
       #If window is withdran (Created but not visible) show notify, and change
       #the window state
