@@ -275,49 +275,26 @@ proc run_alarm {user nick msg} {
 			
 		} else {
 		
+			set sound [::alarms::getAlarmItem ${user} sound]
 			#Prepare the sound command for variable substitution
 			set command [::config::getKey soundcommand]
 			set command [string map {"\[" "\\\[" "\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } $command]
 			#Now, let's unquote the variables we want to replace
 			set command "[string map {"\\\$sound" "\${sound}" } $command]"
-			set sound [::alarms::getAlarmItem ${user} sound]
-	
-			#need different commands for windows as no kill or bash etc
-			if { $tcl_platform(platform) == "windows" } {
-				
-				#Some verions of tk don't support this
-				catch { wm attributes .${wind_name} -topmost 1 }
-				if { [::alarms::getAlarmItem ${user} loop] == 1 } {
-					global stoploopsound
-					set stoploopsound 0
-					button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; set stoploopsound 1"
-					wm protocol .${wind_name} WM_DELETE_WINDOW "destroy .${wind_name}; set stoploopsound 1"
-					pack .${wind_name}.stopmusic -padx 2
-					while { $stoploopsound == 0 } {
-						update
-						after 1000
-						catch { eval exec $command } res 
-						update
-					}
-					
-				} else {
-					catch { eval exec "$command &" } res 
-				}
 			
-			} else {
+			if { [::alarms::getAlarmItem ${user} loop] == 1 } {
+			
+				set id [play_loop $sound]
+				button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; cancel_loop $id"
+				wm protocol .${wind_name} WM_DELETE_WINDOW "destroy .${wind_name}; cancel_loop $id"
+				pack .${wind_name}.stopmusic -padx 2
 				
-				#Not using snack, unix version
-				if { [::alarms::getAlarmItem ${user} loop] == 1 } {
-					button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; catch { eval exec killall jwakeup } ; catch { eval exec killall -TERM $command }"
-					pack .${wind_name}.stopmusic -padx 2
-					catch { eval exec ${program_dir}/jwakeup $command & } res
-				} else {
-					catch { eval exec $command & } res 
-					button .${wind_name}.stopmusic -text [trans stopalarm] -command "catch { eval exec killall -TERM $command } res ; destroy .${wind_name}"
-					pack .${wind_name}.stopmusic -padx 2
-				}
+			} else {
+				eval exec "$command &"
 			}
+			
 		}
+		
 	} elseif { [::alarms::getAlarmItem ${user} pic_st] == 1 } {
 		button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}"
 		pack .${wind_name}.stopmusic -padx 2
@@ -366,3 +343,4 @@ proc redraw_alarm_icon { user icon } {
 		$icon configure -image belloff
 	}
 }
+

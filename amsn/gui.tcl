@@ -4253,17 +4253,54 @@ proc play_sound_other {sound_name} {
 		#Unquote the $sound variable so it's replaced
 		set soundcommand [string map {"\\\$sound" "\$sound" } $soundcommand]
 		
-	#If Mac OS X, use play_Sound_Mac to play sounds
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-			play_Sound_Mac $sound_name $sound	
-		} else {
-			catch {eval exec $soundcommand &} res
+		catch {eval exec $soundcommand &} res
+	}
+}
+
+set loop_id 0
+
+#Play sound in a loop
+proc play_loop { sound_file {id ""} } {
+	global loop_id looping_sound
+
+	#Prepare the sound command for variable substitution
+	set command [::config::getKey soundcommand]
+	set command [string map {"\[" "\\\[" "\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } $command]
+	#Now, let's unquote the variables we want to replace
+	set command "|[string map {"\\\$sound" "\${sound_file}" } $command]"
+	set command [subst -nocommands $command]
+	
+	#Launch command, connecting stdout to a pipe
+	set pipe [open $command r]
+	
+	#Get a new ID
+	if { $id == "" } {
+		set id [incr loop_id]
+	}
+	set looping_sound($id) $pipe
+	fileevent $pipe readable [list play_finished $pipe $sound_file $id]
+	return $id
+}
+
+proc cancel_loop { id } {
+	global looping_sound
+	unset looping_sound($id)
+}
+
+proc play_finished {pipe sound id} {
+	global looping_sound
+	
+	if { [eof $pipe] } {
+		fileevent $pipe readable {}
+		catch {close $pipe}
+		if { [info exist looping_sound($id)] } {
+			play_loop $sound $id
 		}
+	} else {
+		gets $pipe
 	}
 }
 #///////////////////////////////////////////////////////////////////////
-
-
 
 
 
