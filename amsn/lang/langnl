@@ -12,12 +12,13 @@ admingroups Beheer groepen
 adverts Advertenties
 alarmpref Alarm instellingen voor de huidige gebruiker
 alarmstatus Schakel alarm aan/uit voor de huidige gebruiker
-allowseen Sta deze persoon toe om te zien wanneer ik online ben en om mij 
+allowseen Sta deze persoon toe om te zien wanneer ik online ben en om mij
 appearoff Doe alsof je offline bent
 aretyping $1 zijn bezig met typen
 autohotmaillog Automatisch inloggen bij Hotmail
+autoidle Automatisch afwezig
 autoip Automatisch IP
-avoidseen Vermijd dat deze persoon kan zien wanneer ik online ben en dat 
+avoidseen Vermijd dat deze persoon kan zien wanneer ik online ben en dat
 away Afwezig
 baduserpass Foutieve gebruikersnaam of wachtwoord
 blankdirect Laat leeg voor directe connectie
@@ -51,6 +52,10 @@ contacterror Fout tijdens het verbinden met de server
 copytogroup kopiëren naar groep
 date Datum
 delete Wis
+dockgtk Verbergen voor gnome
+dockingoff Verbergen uit
+docking Verberg
+dockkde Verbergen voor KDE
 enableproxy Gebruik proxy
 encoding Encoding
 entercontactemail Geef contact-email in
@@ -59,6 +64,7 @@ enternick Geef uw schermnaam in
 examples Voorbeelden
 exitamsn Sluit amsn
 extras Extra's
+faq FAQ (Veel gestelde vragen)
 filedoesnotexist Bestand bestaat niet
 filename Bestandsnaam
 filetransfercancelled Bestandsverzending geannuleerd
@@ -91,7 +97,8 @@ invite Nodig uit
 ipaddress IP adres
 ipadress IP adres
 istyping $1 is bezig met typen
-joins $1 $2 neemt deel aan conversatie
+joins $1 neemt deel aan conversatie
+keepalive Hou verbinding in stand
 language Taal
 lastmsgtime Laatste bericht ontvangen om $1
 leaveblankforhotmail Laat leeg voor gebruiken van Hotmail web
@@ -122,6 +129,7 @@ noactivity Geen activiteit
 nonewmail 0 nieuwe berichten in In-Box
 nonewver Er zijn geen nieuwere versies beschikbaar
 notify Licht in
+notifywin Inlichtingenvenster
 nousersinsession Geen gebruiker in sessie
 offline Offline
 ok Ok

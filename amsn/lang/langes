@@ -93,7 +93,7 @@ invalidusername Nombre de usuario no válido
 invite Invitar
 ipaddress Dirección IP
 istyping $1 está escribiendo un mensaje
-joins $1 $2 se une a la conversación
+joins $1 se une a la conversación
 keepalive Mantener conexión activa (NAT)
 language Idioma
 lastmsgtime Ultimo mensaje recibido a las $1

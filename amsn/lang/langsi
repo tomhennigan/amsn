@@ -78,7 +78,7 @@ invalidusername Napacno uporabnisko ime
 invite Povabi
 ipaddress IP Naslov
 istyping $1 pise sporocilo
-joins $1 $2 se je pridruzil pogovoru
+joins $1 se je pridruzil pogovoru
 language Jezik
 leaveblankforhotmail Pusti prazno za uporabo Hotmail storitev
 leaves $1 je zapustil pogovor

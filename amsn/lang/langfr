@@ -92,7 +92,7 @@ invalidusername Utilisateur incorrect
 invite Invitation
 ipaddress Adresse IP
 istyping $1 est en train de taper un message
-joins $1 $2 a rejoint la conversation
+joins $1 a rejoint la conversation
 keepalive Garder la connection ouverte
 language Langage
 lastmsgtime Dernier message reçu à $1

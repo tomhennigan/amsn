@@ -88,7 +88,7 @@ invalidusername Nom d'usuari invàlid
 invite Convida
 ipaddress Adreça IP
 istyping $1 està escrivint un missatge
-joins $1 $2 s'uneix a la conversa
+joins $1 s'uneix a la conversa
 language Idioma
 lastmsgtime Últim missatge rebut a les $1
 leaveblankforhotmail Deixa en blanc per usar hotmail

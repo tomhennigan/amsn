@@ -89,7 +89,7 @@ invalidusername Ogiltigt användarnamn
 invite Bjud in
 ipaddress IP Adress
 istyping $1 skriver ett meddelande
-joins $1 $2 kommer in i konversationen
+joins $1 kommer in i konversationen
 language Språk
 lastmsgtime Senaste meddelandet mottaget $1
 leaveblankforhotmail Lämnas tom för hotmail

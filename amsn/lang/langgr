@@ -80,7 +80,7 @@ invalidusername Μη αποδεκτό όνομα χρήστη
 invite Προσκάλεσε
 ipaddress IP Διεύθυνση
 istyping ο/η $1 τυπώνει ένα μήνυμα
-joins $1 $2 εισέρχεται στην συζήτηση
+joins $1 εισέρχεται στην συζήτηση
 language Γλώσσα
 lastmsgtime Το τελευταίο μήνυμα λήφθηκε στις $1
 leaveblankforhotmail ¶φησε κενό για χρήση του hotmail

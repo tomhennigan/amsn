@@ -51,6 +51,10 @@ contactdoesnotexist A kapcsolat nem jött létre!
 copytogroup Másolás a csoportokba
 date Dátum
 delete Törlés
+dockgtk Dokkolás a Gnome-ba
+docking Dokkolás
+dockingoff Dokkolás kikapcsolása
+dockkde Dokkolás a KDE-be
 enableproxy Proxy engedélyezése
 encoding Enkódolás választása
 entercontactemail Gépeld be a kapcsolat E-mail címét
@@ -59,6 +63,7 @@ enternick Gépeld be a beceneved
 examples Példák
 exitamsn Biztosan ki akarsz lépni?
 extras Extra szolgáltatások
+faq Gyakran Ismételt Kérdések
 filedoesnotexist A fájl nem jött létre
 filename Fájlnév
 filetransfercancelled Fájl átvitel megszakítva
@@ -87,7 +92,8 @@ invalidusername Hibás felhasználó név
 invite Meghívás
 ipaddress IP Cím
 istyping $1 üzenetet gépel be.
-joins $1 $2 csatlakozott a beszélgetéshez
+joins $1 csatlakozott a beszélgetéshez
+keepalive Életbentartás (NAT)
 language Nyelv
 lastmsgtime Az utolsó üzenet beérkezett:
 leaveblankforhotmail Hagyd üresen a hotmail web használatához

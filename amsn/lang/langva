@@ -1,5 +1,6 @@
 amsn_lang_version 2
 about Sobre 
+accept Aceptar
 acceptfile ¿Aceptar archiu $1, tamany $2 bytes? Es guardara en $3
 actions Accions
 actions Accions
@@ -10,10 +11,13 @@ addtoo Afegir ad esta persona a la meua llista de contactes
 admincontacts Administrar contactes
 admingroups Administrar grups
 adverts Anuncis
+alarmpref Configurar avis
+alarmstatus Avis ences/apagat per ad este usuari
 allowseen Permetre ad esta persona vore quan estas conectat i contactar
 appearoff Sense conexio
 aretyping $1 esta escrvint un mensage
 autohotmaillog Login hotmail automatic
+autoidle Marcar com inactiu automaticament
 autoip IP Automatica
 avoidseen Evitar que esta persona veja la teua conexio i te contacte
 away Ausent
@@ -21,10 +25,12 @@ baduserpass Nom d'usuari o contrasenya incorrectes
 blankdirect Dixar en blanc per a la conexio directa
 blocked Bloquejat
 block No admetre
-browser Navegador
 broughtby Portat a voste per els siguients programadors
+browse Explorar
+browser Navegador
 busy No disponible
 cancel Cancelar
+cfgalarm Configurar/afegir/borrar avis
 changenick Canviar mot
 chatack Aceptant conversacio de
 chat Conversacio
@@ -46,6 +52,10 @@ contactdoesnotexist El contacte que intentes afegir no existix
 copytogroup Copiar al grup
 date Data
 delete Eliminar
+dockgtk Icono GTK
+docking Icono en la safata del sistema
+dockingoff Desactivar
+dockkde Icono KDE
 enableproxy Activar proxy
 encoding Codificacio de caracters
 entercontactemail Introduix el correu-e del contacte
@@ -54,21 +64,24 @@ enternick Introduix el teu mot
 examples Eixemples
 exitamsn ¿Estas segur que desiges eixir?
 extras Servicis Adicionals
+faq Questions usualment preguntades
 filedoesnotexist L'archiu no existix
 filename Nom d'Archiu
 filetransfercancelled Transferencia de ficher cancelada
 filetransfercomplete Transferencia de ficher completada
+ftaccepted Transferencia d'archiu aceptada
+ftrejected Transferencia d'archiu denegada
 gonelunch Estic dinant
-group Grup
 groupadd Afegir un grup
 groupdelete Borrar un grup
-grouprename Canviar nom a grup
-groupoldname Nom antic
-groupnewname Nou nom
-groupunknown Grup desconegut
 groupexists El grup ya existix
+group Grup
 groupmissing No es pot trobar el grup
+groupnewname Nou nom
 groupnotempty El grup no esta buit
+groupoldname Nom antic
+grouprename Canviar nom a grup
+groupunknown Grup desconegut
 handle Mot
 help Ajuda
 helpcontents Temes d'ajuda
@@ -80,7 +93,8 @@ invalidusername Nom d'usuari no valit
 invite Invitar
 ipaddress Direccio IP
 istyping $1 esta escrivint un mensage
-joins $1 $2 s'unix a la conversacio
+joins $1 s'unix a la conversacio
+keepalive Mantindre conectat
 language Idioma
 lastmsgtime Ultim mensage rebut a les $1
 leaveblankforhotmail Deixar en blanc per a usar hotmail
@@ -96,9 +110,9 @@ logout Tancar sessio
 logsin acaba de iniciar sessio
 mailer Ordre de correu-e
 mobile Mobil
+movetogroup Moure al grup
 msg Mensage
 msn AMSN
-movetogroup Moure al grup
 mustrestart Deus reiniciar el programa per a aplicar els canvis
 mystatus El meu estat
 needonline Encara estas/aparentes desconectat
@@ -111,10 +125,11 @@ noactivity Sense activitat
 nonewmail No hi han mensages nous en safata d'entrada
 nonewver No hi han versions mes actuals disponibles
 notify avis
+notifywin Finestra d'avisos
 nousersinsession No hi han usuaris en la sessio
 offline Desconectat
 ok Aceptar
-onenewmail $1 mensages nous en safata d'entrada
+onenewmail 1 mensage nou en safata d'entrada
 online Conectat
 onphone Al telefon
 openreceived Obrir archius rebuts
@@ -124,6 +139,8 @@ other Atre
 pager Paginador
 pass Contrasenya
 phone Telefon
+picfile Triar ficher d'image per a l'avis (GIF <500x500)
+picstatus Activar/desactivar image per a l'avis
 port Port
 prefapps Aplicacions
 preferences Preferencies
@@ -136,11 +153,12 @@ receivedbytes Recibuts $1 de $2 bytes totals
 receivefile Rebre archiu
 reconnect Esperant que $1 es reconecte
 reconnecting Reconectant al servidor
+reject Denegar
 rememberpass Recordar contrasenya
 rightback Torne enseguida
+saveas Guardar com
 savecontacts Guardar llista de contactes
 save Guardar
-saveas Guardar com
 says $1 diu
 sbcon Conectant a Switch Board
 send Enviar
@@ -148,11 +166,15 @@ sendfile Enviar archiu
 sendmail Enviar correu-e
 sendmsg Enviar mensage
 sentbytes Enviats $1 de $2 bytes totals
-server Servidor
 servergoingdown Desconectat: El servidor s'apagara per a manteniment
+server Servidor
+soundfile Archiu de so per a l'avis
+soundloop Reproduir el so continuament
 sound So events
+soundstatus Encendre/Apagar el so de l'avis
 startoffline Esomençar Desconectat
 status Estat
+stopalarm Parar el so de l'avis
 syntaxerror Error de sintaxis
 textsize Tamany del text
 title Al's Messenger
@@ -162,8 +184,8 @@ to Per a
 unblock Admetre
 uoffline Desconectats
 uonline Conectats
-user Usuari
 useralreadyonlist L'usuario ya es troba en la llista de contactes.
+user Usuari
 version Versio
 view Vore
 willjoin Esperant que $1 s'unixca a la conversacio

@@ -83,7 +83,7 @@ invalidusername Nume gresit
 invite Invita
 ipaddress Adresa IP 
 istyping $1 scrie un mesaj
-joins $1 $2 incepe conversatia 
+joins $1 incepe conversatia 
 language Alege limba
 lastmsgtime Ultimul mesaj a sosit la $1
 leaveblankforhotmail Nu complecta cimpul pentru Hotmail!

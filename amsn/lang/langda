@@ -79,7 +79,7 @@ invalidusername Ugyldigt bruger navn
 invite Inviter
 ipaddress IP Adresse
 istyping $1 skriver en besked
-joins $1 $2 tilslutter sig samtale
+joins $1 tilslutter sig samtale
 language Sprog
 lastmsgtime Sidste besked er modtaget klokken $1
 leaveblankforhotmail Efterlad blank for at bruge hotmail web

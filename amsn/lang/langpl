@@ -86,7 +86,7 @@ invalidusername Nieprawidlowa nazwa uzytkownika
 invite Zapros
 ipaddress Adres IP
 istyping $1 pisze wiadomosc
-joins $1 $2 wlaczyl sie do rozmowy
+joins $1 wlaczyl sie do rozmowy
 language Jezyk
 lastmsgtime Ostatnia wiadomosc przyjeta o $1
 leaveblankforhotmail Zostaw puste do uzywania sieci Hotmail

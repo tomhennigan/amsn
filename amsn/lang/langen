@@ -92,7 +92,7 @@ invalidusername Invalid user name
 invite Invite
 ipaddress IP Address
 istyping $1 is typing a message
-joins $1 $2 joins conversation
+joins $1 joins conversation
 keepalive Keepalive (NAT)
 language Language
 lastmsgtime Last message received at $1

@@ -79,7 +79,7 @@ invalidusername Utilizador inválido
 invite Convidar
 ipaddress Endereço IP
 istyping $1 está escrevendo uma mensagem
-joins $1 $2 junta-se à conversação
+joins $1 junta-se à conversação
 language Linguagem
 lastmsgtime Hora da última mensagem $1
 leaveblankforhotmail Deixar vazio para hotmail 

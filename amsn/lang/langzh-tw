@@ -79,7 +79,7 @@ invalidusername 使用者名稱無效
 invite 邀請
 ipaddress IP 位址
 istyping $1 正在輸入訊息
-joins $1 $2 加入交談
+joins $1 加入交談
 language 語言
 lastmsgtime 最後訊息時間 $1
 leaveblankforhotmail 預留空白為Hotmail網路郵件程式

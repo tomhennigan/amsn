@@ -79,7 +79,7 @@ invalidusername Benutzername ungültig
 invite Einladen
 ipaddress IP-Adresse
 istyping $1 gibt eine Nachricht ein
-joins $1 $2 wurde dem Chat hinzugefügt
+joins $1 wurde dem Chat hinzugefügt
 language Sprache
 lastmsgtime Letzte Nachricht angekommen am $1
 leaveblankforhotmail Leer lassen, um Hotmail zu benutzen

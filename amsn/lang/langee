@@ -78,7 +78,7 @@ invalidusername Halb kasutajanimi
 invite Kutsu
 ipaddress IP Aadress
 istyping $1 kirjutab sõnumit
-joins $1 $2 liitub vestlusega
+joins $1 liitub vestlusega
 language Keel
 leaveblankforhotmail Jäta tühjaks et kasutada Hotmaili veebi
 leaves $1 lahkub vestluselt

@@ -72,7 +72,7 @@ invalidusername sucsuz kulllanici ismi
 invite Cagir
 ipaddress ip adresi
 istyping $1 mesaj yaziyor
-joins $1 $2 sohbete katiliyor
+joins $1 sohbete katiliyor
 language Dil
 lastmsgtime son mesaj zamani
 leaveblankforhotmail bosluk birakmak hotmail icin

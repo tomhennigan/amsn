@@ -79,7 +79,7 @@ invalidusername User name invalida.
 invite Invita
 ipaddress Indirizzo IP
 istyping $1 sta scrivendo un messaggio
-joins $1 $2 si unisce alla conversazione
+joins $1 si unisce alla conversazione
 language Linguaggio
 lastmsgtime Ultimo messaggio ricevuto alle $1
 leaveblankforhotmail Lascia in bianco per l'uso di hotmail

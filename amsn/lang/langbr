@@ -92,7 +92,7 @@ invalidusername Nome de usuário inválido
 invite Convidar
 ipaddress Endereço IP
 istyping $1 está digitando uma mensagem
-joins $1 $2 entra na conversa
+joins $1 entra na conversa
 keepalive Manter conexão ativa (NAT)
 language Idioma
 lastmsgtime Última mensagem recibida em $1

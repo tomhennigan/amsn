@@ -86,7 +86,7 @@ invalidusername Ugyldig brukernavn
 invite Inviter
 ipaddress IP addresse
 istyping $1 skriver en beskjed
-joins $1 $2 blir med i samtalen
+joins $1 blir med i samtalen
 language Språk
 lastmsgtime Siste melding ble mottatt: $1
 leaveblankforhotmail La stå tom for å bruke Hotmail web

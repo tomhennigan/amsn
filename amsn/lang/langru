@@ -74,7 +74,7 @@ invalidusername Неправильное имя пользователя
 invite Пригласить
 ipaddress IP адрес
 istyping $1 печатает сообщение
-joins $1 $2 присоединяется к беседе
+joins $1 присоединяется к беседе
 language Язык
 leaveblankforhotmail Оставьте путым для использования почты Hotmail
 leaves $1 покидает беседу

@@ -79,7 +79,7 @@ invalidusername そのユーザ名は無効です
 invite 招待
 ipaddress IPアドレス
 istyping $1 がメッセージを入力しています
-joins $1 $2 が会話に参加しました
+joins $1 が会話に参加しました
 language 言語
 lastmsgtime 最後のメッセージは $1 に受信しました。
 leaveblankforhotmail ホットメールを使うにはここを空白にしてください

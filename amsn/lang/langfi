@@ -85,7 +85,7 @@ invalidusername Virheellinen käyttäjänimi
 invite Kutsu
 ipaddress IP-osoite
 istyping $1 kirjoittaa viestiä
-joins $1 $2 liittyy keskusteluun
+joins $1 liittyy keskusteluun
 language Kieli
 lastmsgtime Viimeisin viesti saapunut $1
 leaveblankforhotmail Jätä tyhjäksi Hotmail web-palvelua varten
