@@ -4,6 +4,7 @@ acceptfile Hyväksy tiedosto $1, koko $2? Tallennettu $3
 actions Toiminnot
 addacontact Lisää henkilö
 addedyou $1 ($2) on lisännyt sinut yhteystietoihinsa
+addprofile Lisää uusi profiili
 addtocontacts Lisää yhteystietoihin
 addtoo Lisää henkilö yhteystietoluettelooni
 admincontacts Hallitse yhteystietoja
@@ -12,7 +13,9 @@ adverts Mainokset
 alarmpref Hälytysasetukset käyttäjälle
 alarmstatus Aseta hälytys päälle/pois 
 allowseen Anna tämän henkilön nähdä online-tilani ja ottaa yhteyttä minuun
+appearance Olemus
 appearoff Näyttäydy muille offline-tilaisena
+areacode Suuntanumero
 aretyping $1 kirjoittavat viestiä
 autohotmaillog Automaattinen kirjautuminen Hotmail-palveluun
 autoidle Poissa-tila päälle määräajan kuluttua (5min) 
@@ -20,6 +23,7 @@ autoip Automaattinen IP
 avoidseen Estä tätä henkilöä näkemästä yhteystilaani ja ottamasta yhteyttä minuun
 away Poissa
 baduserpass Virheellinen käyttäjänimi tai salasana
+bgcolor Vaihda aMSN:n taustaväri
 blankdirect Jätä tyhjäksi, jos käytät suoraa yhteyttä
 blocked Estetty
 block Estä
@@ -29,6 +33,7 @@ browse Selaa
 busy Varattu
 cancel Peruuta
 cfgalarm Aseta/Lisää/Poista hälytys
+changefont Vaihda fontti
 changenick Vaihda lempinimi
 chatack Hyväksytään keskustelupyyntöä
 chat Keskustele
@@ -39,6 +44,7 @@ checkver Tarkista uusin versio
 choosebasefont Valitse fontti
 choosebgcolor Valitse taustaväri
 choosefontcolor Valitse fontin väri
+chooseskin Valitse käytettävä olemus
 clicktologin Klikkaa tästä kirjautuaksesi
 close Sulje
 closingdocks Sulje-painike pienentää ikkunan
@@ -47,9 +53,15 @@ confirmdelete Haluatko varmasti poistaa $1?
 connecterror Virhe yhdistettäessä palvelimelle
 contactadded Yhteystieto lisätty
 contactdoesnotexist Yhteystietoa ei ole!
+connecting Yhdistää
+connection Yhteys
+connectionlost Yhteys katkesi: Yhteys palvelimeen suljettu
 copytogroup Kopio ryhmään
+cprofile Luo profiili
 date Päiväys
 delete Poista
+default Oletusasetukset
+editprofile Muokkaa profiilia
 enableproxy Ota välityspalvelin käyttöön
 encoding Valitse tekstin koodaus
 entercontactemail Anna henkilön sähköpostiosoite
@@ -58,6 +70,7 @@ enternick Anna lempinimesi
 examples Esimerkit
 exitamsn Haluatko varmasti lopettaa?
 extras Lisäpalvelut
+faileddelete Poistaminen epäonnistui
 filedoesnotexist Tiedostoa ei ole
 fileman Tiedostonhallintaohjelma
 filename Tiedoston nimi
@@ -97,24 +110,31 @@ loggedotherlocation Yhteys katkesi. Olet kirjautuneena toisesta paikasta.
 loggingin Kirjaudutaan sisälle
 loginas Kirjaudu lempinimellä
 login Kirjaudu sisälle
+longnick Lempinimesi on yli 130 merkin pituinen. MSN -protokolla ei virallisesti tue näin pitkiä nimiä. Oletko varma, että haluat jatkaa? 
 logout Kirjaudu ulos
 logsin on juuri kirjautunut sisään
+logsout kirjautui juuri ulos
 mailer Sähköpostiohjelma
 mobile Matkapuhelin
 movetogroup Siirrä ryhmään
 msg Viesti
 msn AMSN
 mustrestart Sinun täytyy käynnistää ohjelma uudestaan, että muutokset tulevat voimaan
+myhomephone Oma kotipuhelin
+mymobilephone Oma matkapuhelin
 mystatus Oma tila
+myworkphone Oma työpuhelin
 needonline Sinä olet/näyt vieläkin offline-tilaisena!
 newmail $1 uutta viestiä saapunut Saapuneisiin
 newmailfrom Uusi viesti $1 ($2)
 newmsg Uusi viesti
 newveravailable Uudempi versio $1 ladattavissa
 next Seuraava
+no Ei
 noactivity Ei toimintaa
 nonewmail Ei uusia viestejä Saapuneissa
 nonewver Uudempaa versiota ei ole saatavilla
+nopic Ei kuvaa
 notify muistuta
 notifywin Muistutus-ikkuna
 nousersinsession Ei käyttäjiä
@@ -136,9 +156,11 @@ port Portti
 prefapps Sovellukset
 preferences Valinnat
 prefsound Äänet
+profiles Profiilit
 properties Ominaisuudet
 proxyconfhttp HTTP-välityspalvelin asetukset
 proxyconf Välityspalvelimen asetukset
+proxyconnection Olen yhteydessä internetiin välityspalvelimen kautta:
 publishphones Julkaise puhelinnumeroni
 receivedbytes Vastaanotettu $1 / $2 tavusta
 receivefile Vastaanota tiedosto
@@ -151,6 +173,7 @@ savecontacts Tallenna yhteystiedot
 save Tallenna
 says $1 sanoo
 sbcon Otetaan yhteys Kytkintauluun
+selectskin Valitse ulkoasu:
 sendfile Lähetä tiedosto
 send Lähetä
 sendmail Lähetä sähköpostiviesti
@@ -158,13 +181,17 @@ sendmsg Lähetä viesti
 sentbytes Lähetetty $1 / $2 tavusta
 servergoingdown Yhteys katkaistu: palvelin sammutetaan
 server Palvelin
+skin Ulkoasu
+skinselector Valitse ulkoasu
 soundfile Hälytyksen äänitiedosto
 soundloop Soita ääntä silmukassa
 sound Tapahtumien äänimerkki
+sourcecode Lähdekoodi (vaatii sekä kääntämisen että asentamisen) 
 startoffline Aloita offline-tilassa
 status Tila
 syntaxerror Muotoiluvirhe
 textsize Tekstin koko
+timeremaining Aikaa jäljellä
 title Al's Messenger
 tools Työkalut
 to Vastaanottaja
@@ -172,11 +199,13 @@ unblock Päästä
 uoffline Offline-tilassa
 uonline Online-tilassa 
 useralreadyonlist Käyttäjä on jo yhteystiedoissa
+useryourself Et voi keskustella itsesi kanssa!
 user Käyttäjä
 version Versio
 view Näkymä
 willjoin Odottaa $1 liittymistä keskusteluun
 work Työ
+yes Kyllä
 yousay Sanot
 youwant Haluat
 accept Hyväksy
