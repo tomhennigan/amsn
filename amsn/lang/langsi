@@ -1,7 +1,7 @@
 amsn_lang_version 2
 about O programu
-acceptfile Ali sprejmes datoteko $1, njena velikost je $2? Shranjeno v $3
 accept sprejmi
+acceptfile Ali sprejmes datoteko $1, njena velikost je $2? Shranjeno v $3
 actions Akcije
 addacontact Dodaj stik
 addedyou vas je dodal/dodala na svoj seznam stikov
@@ -13,15 +13,23 @@ adverts Reklame
 alarmpref Nastavitve alarma
 alarmstatus Alarm omogocen
 allowseen Dovoli tej osebi da vidi moj status ko sem prijavljen
+appearance Izgled
 appearoff Na izgled neprijavljen
+areacode Postna stevilka
 aretyping $1 pisejo sporocilo
+autoaway Prikazi me kot "Odsoten" ko sem neaktiven
 autoconnect Prijavi se ob zagonu amsn
+autoconnect2 Prijavi se ob zagonu aMSN
 autohotmaillog Samodejna prijava v Hotmail
 autoidle Samodejno idle stanje
 autoip Samodejni IP
+autonoact Prikazi me kot "Neaktiven" ko sem neaktiven
 avoidseen Ne dovoli tej osebi da vidi moj status ko sem prijavljen
 away Odsoten
+awaymsg1 Vprasam za away sporocilo vsakic ko zamenjam stanje na Odsoten/Zaposlen ?
+awaymsg2 Vedno uporabi to sporocilo
 baduserpass Napacno uporabnisko ime ali geslo
+bgcolor Zamenjaj barvo ozadja
 blankdirect Pustite prazno za neposredno povezavo
 block Blokiraj
 blocked Blokiran
@@ -31,17 +39,21 @@ browser Brskalnik
 busy Zaposlen
 cancel Preklici
 cfgalarm Nastavi zvocni/slikovni alarm
+changefont Zamenjaj pisavo
 changenick Zamenjaj nick
-chatack Sprejemam pogovor od
 chat Pogovor
+chatack Sprejemam pogovor od
 chatreq Zahtevam pogovor
 chatsmileys Smeskoti
+chatsmileys2 Prikazi emotikone in smeske v pogovornih oknih
 checkingver Preverjam za nove verzije
 checkver Preveri za novo verzijo
 choosebasefont Izberi vrsto pisave
 choosebgcolor Izberi barvo ozadja
 choosefontcolor Izberi barvo pisave
 clearlog Pocisti dnevnik
+clearlog2 Pocisti zgodovino za vse stike
+clearlog3 Pocisti vse dnevnike
 clicktologin Pritisni tukaj za prijavo
 close Zapri
 closingdocks Gumb za zaprtje minimira okno
@@ -49,21 +61,31 @@ command Ukaz
 confirm Ali si preprican ?
 confirmdelete Ali si preprican, da bos zbrisal $1?
 connecterror Napaka pri povezavi na streznik
+connection Povezava
 contactadded Stik dodan
 contactdoesnotexist Stik ne obstaja!
 copy Kopiraj
 copytogroup Dodaj v skupino
+countrycode Oznaka moje drzave
+cprofile Ustvari profil
 cut Izrezi
 date Datum
+days Dni
+dcprofile Ne ustvari profila
+default Privzete nastavitve
 delete Izbrisi
 deliverfail Pri dostavljanju sporocila je prislo do tezave
+delprofile Izbrisi profil
+delprofile2 Izberi profil, ki bi ga rad izbrisal
 dockgtk gtk pomol
-dockingoff pristaja prekinjena
 docking pristaja
+dockingoff pristaja prekinjena
 dockkde kde pomol
 edit Uredi
+editprofile Uredi profil
 enableproxy Omogoci proxy
 encoding Izberi kodiranje
+encoding2 Spremeni nacin kodiranja znakov
 entercontactemail Vnesi e-mail osebe
 enterfilename Prosim vnesi ime datoteke
 enternick Vnesi svoj nick
@@ -72,12 +94,14 @@ exitamsn Ali si preprican da zelis zapustiti program?
 extras Dodatne storitve
 faq Faq
 filedoesnotexist Datoteka ne obstaja
+fileman Urejevalnik datotek
 filename Ime datoteke
 filetransfercancelled Prenos datoteke preklican
 filetransfercomplete Prenos datoteke koncan
 ftaccepted Sprejemam datoteko...
 ftrejected Prenos datoteke je bil zavrnjen.
 gonelunch Na kosilu
+group Skupina
 groupadd Dodaj v skupino
 groupdelete Izbrisi skupino
 groupexists Skupina ze obstaja
@@ -86,11 +110,10 @@ groupnewname Novo ime
 groupnotempty Skupina ni prazna!
 groupoldname Staro ime
 grouprename Preimenuj skupino
-group Skupina
 groupunknown Neznana skupina
 handle Handle
-helpcontents Vsebina pomoci
 help Pomoc
+helpcontents Vsebina pomoci
 history Prikazi zgodovino
 home Domov
 ident Identifying
@@ -99,10 +122,12 @@ inbox In-Box
 invalidusername Napacno uporabnisko ime
 invite Povabi
 ipaddress IP Naslov
+ipdetect Zaznaj IP za prenose datotek preko HTTP
 istyping $1 pise sporocilo
 joins $1 se je pridruzil pogovoru
 keepalive zad?i ?ivo
 keeplog Hrani dnevnik pogovorov
+keeplog2 Belezi vse pogovore v aMSN dnevnik za kasnejsi pregled
 language Jezik
 lastmsgtime Zadnje sporocilo prejeto ob $1
 lclosedwin $1 je zaprl okno $2
@@ -114,25 +139,40 @@ lenteredconf $1 je vstopil v konferenca na $2
 linprivate ZASEBNO
 listeningon Poslusam na vratih $1
 listsmileys Seznam smeskov
+listsmileys2 Prikazi emotikone in smeske v seznamu stikov
 ljoinedconf $1 se je pridruzil konferenci
 lleftconf $1 je zapustil konferenco
 loadcontacts Nalozi seznam stikov
+logbigger Dnevniska datoteka za vsak stik je lahko velika najvec
+logfandexp Velikost dnevniskih datotek in izteka zgodovine
 loggedotherlocation Disconnected. Logged in other location
 loggingin Prijavljam
-loginas Prijavi se kot
 login Prijavi se
+loginas Prijavi se kot
+loging Belezim
+logolder Belezi samo pogovore, ki so izpred
 logout Odjavi se
 logsin se je ravnokar prijavil
+logsmileys Prikazi emotikone in smeske v zgodovini
 lprivtoconf Zasebni pogovor spremenjen v konferenco na $1
 luclosedwin Zaprli ste okno za $1
 mailer Mailer
+maximised Maksimiran
+minimised Minimiran
+mins minut
 mobile Mobilni
 movetogroup Premakni v skupino
 msg Sporocilo
+msgmaxmin Ko prispe novo sporocilo, hocem da je:
+msgmode Izberi nacin prikazovanja vecih pogovornih oken:
 msn AMSN
 mustrestart Da bi spremembe prisle v veljavo, moras program ponovno zagnati
+myhomephone Domaci telefon
+mymobilephone Mobilni telefon
 mystatus Moje stane
+myworkphone Sluzbeni telefon
 natip IP detekcija od mre?ne strani
+natkeepalive Ce si velikokrat odjavljen, oznaci to moznost
 needonline Se zmeraj izgleda/si nepovezan
 newmail $1 novih sporocil v In-Boxu
 newmailfrom Novo sporocilo od
@@ -145,6 +185,10 @@ nonewmail Ni novih sporocil v In-Boxu
 nonewver Ni novih verzij na voljo za prenos
 normal Normalno
 notify obvesti
+notify1 Prikazi obvestilo ko se kdo prijavi
+notify2 Prikazi obvestilo ob novem sporocilu
+notify3 Prikazi obvestilo ob novem e-mailu
+notifyoffset Nastavi pozicijo obvestilnega okna
 notifywin Prikazi opozorilo ob dogodkih
 nousersinsession Ni uporabnikov v sessionu
 offline Neprijavljen
@@ -160,16 +204,36 @@ other Ostalo
 pager Pager
 pass Geslo
 paste Prilepi
+personal Zasebno
 phone Telefon
 picfile Slikovna datoteka
 picstatus Slika omogocena
 port Vrata
+prefalerts Alarmi in zvoki
 prefapps Aplikacije
+prefapps Aplikacije
+prefawaymsg Sporocilo ob odsotnosti
+prefemotic Emotikoni in smeski
 preferences Nastavitve
+preffont2 Spremeni pisavo, kot jo vidijo drugi
+preffont3 Spremeni pisavo uporabniskega vmesnika
+preflog1 Zgodovina in dnevnik
+preflook Izgled uporabniskega vmesnika
+prefname Moje ime/nickname
+prefphone Moje telefonske stevilke
+prefphone2 Vpisi telefonske stevilke za katere zelis da so vidne $1, ki so na Allow seznamu.
+prefprofile Moj javni profil
+prefprofile2 Ustvari/spremeni javni profil
+prefproxy Nastavitve proxy streznika
+prefsession Moja prijava in stanje
+prefshared Deljena povezava (samo NAT)
 prefsound Zvoki
+profiledconfig Nastavitve profilov
+profiles Profili
 properties Lastnosti
-proxyconfhttp Podpora HTTP proxyu
+proxy Sem za proxy streznikom (HTTP ali SOCKS5)
 proxyconf Nastavitve proxya
+proxyconfhttp Podpora HTTP proxyu
 publishphones Objavi moje tel. stevilke
 receivedbytes Prejeto $1 od $2 bajtov
 receivefile Sprejmi datoteko
@@ -179,41 +243,50 @@ reject zavrni
 rememberpass Shrani geslo
 reversed Zamenjano
 rightback Takoj bom nazaj
+save Shrani
 saveas Shrani kot
 savecontacts Shrani seznam stikov
-save Shrani
 savetofile Shrani v datoteko
 says $1 pravi
 sbcon Connecting to Switch Board
+send Poslji
 sendfile Poslji datoteko
 sendmail Poslji e-mail
 sendmsg Poslji sporocilo
-send Poslji
 sentbytes Poslano $1 od $2 bajtov
-servergoingdown Povezava prekinjena
 server Streznik
+servergoingdown Povezava prekinjena
+session Seja
+sound Zvok dogodka
+sound2 Predvaja zvok ko se kdo prijavi ali poslje sporocilo
 soundfile Zvocna datoteka
 soundloop Ponavljaj
 soundstatus Zvok omogocen
-sound Zvok dogodka
 startoffline Zacni neprijavljen
+startoffline2 Prijavi se kot "Na izgled neprijavljen"
 status Stanje
 stopalarm Ustavi alarm
+stylechat Enak izgled kot pogovori
+stylehist Izgled zgodovine
+stylelog Izberi zapis v katerem zelis videti zgodovino
 syntaxerror  Napaka v sintaksi
+tabbed Okna z "uhlji"
 textsize Velikost besedila
 title Al's Messenger
-tools Orodja
 to Za
+tools Orodja
 unblock Odblokiraj
 uoffline Neprijavljeni
 uonline Prijavljeni
+user Uporabnik
 useralreadyonlist Uporabnik je ze na seznamu stikov
 usernotonline Uporabnik ni prijavljen
-user Uporabnik
 version Verzija
 view Pogled
 viewprofile Poglej profil
 willjoin Cakam da se $1 pridruzi pogovoru
 work Delo
+xoffset X odstopanje
+yoffset Y odstopanje
 yousay Pravis
 youwant Hoces
