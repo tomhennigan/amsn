@@ -6705,12 +6705,12 @@ proc getPictureDesc {filename} {
 proc addPicture {the_image pic_text filename} {
 	frame .picbrowser.pics.text.$the_image -borderwidth 0 -highlightthickness 0 -background white -highlightbackground black
 	label .picbrowser.pics.text.$the_image.pic -image $the_image -relief flat -borderwidth 0 -highlightthickness 2 \
-		-background white -highlightbackground black
+		-background black -highlightbackground black -highlightcolor black
 	label .picbrowser.pics.text.$the_image.desc -text "$pic_text" -font splainf -background white
 	pack .picbrowser.pics.text.$the_image.pic -side left -padx 3 -pady 0
 	pack .picbrowser.pics.text.$the_image.desc -side left -padx 5 -pady 0
-	bind .picbrowser.pics.text.$the_image <Enter> ".picbrowser.pics.text.$the_image.pic configure -highlightbackground red"
-	bind .picbrowser.pics.text.$the_image <Leave> ".picbrowser.pics.text.$the_image.pic configure -highlightbackground black"
+	bind .picbrowser.pics.text.$the_image <Enter> ".picbrowser.pics.text.$the_image.pic configure -highlightbackground red -background red"
+	bind .picbrowser.pics.text.$the_image <Leave> ".picbrowser.pics.text.$the_image.pic configure -highlightbackground black -background black"
 	bind .picbrowser.pics.text.$the_image <Button1-ButtonRelease> "[list .picbrowser.mypic configure -image $the_image];[list set selected_image $filename]"
 	bind .picbrowser.pics.text.$the_image.pic <Button1-ButtonRelease> "[list .picbrowser.mypic configure -image $the_image];[list set selected_image $filename]"
 	.picbrowser.pics.text window create end -window .picbrowser.pics.text.$the_image -padx 3 -pady 3
