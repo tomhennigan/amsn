@@ -574,7 +574,9 @@ proc cmsn_draw_main {} {
 
    #This shouldn't go here
    if ($config(withproxy)) {
-     ::Proxy::Init $config(proxy) $config(proxytype)
+     
+     ::Proxy::Init $config(proxy) "http"
+     #::Proxy::Init $config(proxy) $config(proxytype)
      ::Proxy::LoginData $config(proxyauthenticate) $config(proxyuser) $config(proxypass)
    }
    
@@ -594,6 +596,9 @@ proc cmsn_draw_main {} {
 
    cmsn_draw_status
    cmsn_draw_offline
+
+   status_log "Proxy is : $config(proxy)"
+
 }
 
 proc cmsn_open_received {location} {
@@ -2121,7 +2126,13 @@ proc cmsn_sb_sessionclosed {sbn} {
       set user_info [sb index $sbn users $idx]
       sb ldel $sbn users $idx
       .${win_name}.in.send configure -state disabled
-      cmsn_win_write $sbn "[trans leaves [lindex $user_info 0]]\n" green
+      
+      set statusmsg "[trans leaves [lindex $user_info 0]]\n"
+      .${win_name}.status configure -state normal
+      .${win_name}.status delete 0.0 end
+      .${win_name}.status insert end $statusmsg
+      .${win_name}.status configure -state disabled
+
       cmsn_msgwin_title $sbn
       bind .${win_name}.in.input <Key> "cmsn_reconnect ${sbn}"
       bind .${win_name}.in.input <Return> "cmsn_reconnect ${sbn}; break"
@@ -2141,24 +2152,43 @@ proc cmsn_update_users {sb_name recv} {
 
    switch [lindex $recv 0] {
       BYE { if {[sb get $sb_name stat] != "d"} {
-         cmsn_win_write $sb_name "[trans leaves [lindex $recv 1]]\n" green
-	 set leaves [sb search $sb_name users "[lindex $recv 1] *"]
+         set leaves [sb search $sb_name users "[lindex $recv 1] *"]
 	 sb ldel $sb_name users $leaves
 	 sb set $sb_name last_user [lindex $recv 1]
+	 
+	 set win_name "msg_[string tolower ${sb_name}]"
+	 set statusmsg "[trans leaves [lindex $recv 1]]\n"
+	 .${win_name}.status configure -state normal
+	 .${win_name}.status delete 0.0 end
+	 .${win_name}.status insert end $statusmsg
+	 .${win_name}.status configure -state disabled
       } }
       IRO {
          sb set $sb_name stat "o"
 	 set usr_login [string tolower [lindex $recv 4]]
 	 set usr_name [urldecode [lindex $recv 5]]
 	 sb append $sb_name users [list $usr_login $usr_name]
-         cmsn_win_write $sb_name "[trans joins $usr_name ($usr_login)]\n" green
+         
+	 set win_name "msg_[string tolower ${sb_name}]"
+	 set statusmsg "[trans joins $usr_name ($usr_login)]\n"
+	 .${win_name}.status configure -state normal
+   	 .${win_name}.status delete 0.0 end
+	 .${win_name}.status insert end $statusmsg
+	 .${win_name}.status configure -state disabled
+
       }
       JOI {
          sb set $sb_name stat "o"
 	 set usr_login [string tolower [lindex $recv 1]]
 	 set usr_name [urldecode [lindex $recv 2]]
 	 sb append $sb_name users [list $usr_login $usr_name]
-         cmsn_win_write $sb_name "[trans joins $usr_name ($usr_login)]\n" green
+         
+	 set win_name "msg_[string tolower ${sb_name}]"
+	 set statusmsg "[trans joins $usr_name ($usr_login)]\n"
+	 .${win_name}.status configure -state normal
+	 .${win_name}.status delete 0.0 end
+	 .${win_name}.status insert end $statusmsg
+	 .${win_name}.status configure -state disabled
       }
    }
 

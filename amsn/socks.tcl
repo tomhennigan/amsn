@@ -35,12 +35,23 @@
 #set socks_idlist(stat,$sck) ...
 #set socks_idlist(data,$sck) ...
 
-proc socks:init {sck addr port auth user pass} {
+namespace eval ::Socks5 {
+namespace export Init Readable
+
+proc Init {name addr port auth user pass} {
 global socks_freeid socks_idlist
 
 #  if { [catch {fconfigure $sck}] != 0 } {return "ERROR:Connection closed with Socks Server!"}    ;# Socket doesn't exist
 
   set ver "\x05"               ;#Socks version
+  
+  set sck [sb get $name sock]  ;# Put socket name of socks5 server into sck
+  
+  status_log "$sck    $addr\n"
+  set addr [split $addr " "]   ;# Remove port from address
+  set addr [lindex $addr 0]
+  status_log "$addr\n"
+  
   if {$auth==0} {set method "\x00"; set nmethods "\x01"} \
 	elseif {$auth==1} {set method "\x00\x02"; set nmethods "\x02"} \
 	else {return "ERROR:"}
@@ -61,12 +72,16 @@ global socks_freeid socks_idlist
   set socks_idlist(stat,$sck) 0
   set socks_idlist(data,$sck) ""
 
+  status_log "doing fconfigure now in socks5\n"	
   fconfigure $sck -translation {binary binary} -blocking 0
-  fileevent $sck readable "socks:readable $sck"
+  status_log "doing fileevent now in socks5\n"
+  fileevent $sck readable "::Socks5::Readable $sck"
 
+  status_log "writing to socket in socks5 writing : $ver$nmethods$method\n"
   puts -nonewline $sck "$ver$nmethods$method"
   flush $sck
 
+  status_log "going into vwait\n"
   vwait socks_idlist(stat,$sck)
   set a $socks_idlist(data,$sck)
   if {[eof $sck]} {catch {close $sck}; return "ERROR:Connection closed with Socks Server!"}
@@ -104,6 +119,8 @@ global socks_freeid socks_idlist
 #
 # We send request4connect
 #
+
+  status_log "second write\n"
   puts -nonewline $sck "$ver$cmd_connect$rsv$atyp$dlen$addr$port"
   flush $sck
 
@@ -129,13 +146,17 @@ global socks_freeid socks_idlist
     elseif {$rep==7} {catch {close $sck}; return "ERROR:Socks server responded:\nCommand not supported"} \
     elseif {$rep==8} {catch {close $sck}; return "ERROR:Socks server responded:\nAddress type not supported"} \
       else {catch {close $sck}; return "ERROR:Socks server responded:\nUnknown Error"}
+
+
+	status_log "finished sock5 init"
 }
 
 #
 # Change the variable value, so 'vwait' loop will end in socks:init procedure.
 #
-proc socks:readable {sck} {
+proc Readable {sck} {
 global socks_idlist
   incr socks_idlist(stat,$sck)
   set socks_idlist(data,$sck) [read $sck]
+}
 }

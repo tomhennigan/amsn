@@ -10,6 +10,9 @@ namespace eval ::MSN {
    variable myStatus FLN
 
    proc connect { username password } {
+      
+      #cmsn_ns_connect $username $password
+      
       if {[catch { cmsn_ns_connect $username $password } res]} {
         msg_box "[trans connecterror]"
 	
@@ -1665,8 +1668,12 @@ proc cmsn_socket {name} {
       set tmp_serv [lindex $proxy_serv 0]
       set tmp_port [lindex $proxy_serv 1]
       ::Proxy::OnCallback "dropped" "proxy_callback"
+
+      status_log "Calling proxy::Setup now"
       ::Proxy::Setup next readable_handler $name
+      status_log "Before sb set"
       sb set $name stat "pw"
+      status_log "After sbset"
    } else {
       set tmp_serv [lindex [sb get $name serv] 0]
       set tmp_port [lindex [sb get $name serv] 1]
@@ -1674,6 +1681,8 @@ proc cmsn_socket {name} {
       set next [sb get $name connected]
       sb set $name stat "cw"
    }
+
+     status_log "HSiiiiiiit\n$readable_handler"
 
      set sock [socket -async $tmp_serv $tmp_port]
       sb set $name sock $sock
@@ -1704,7 +1713,7 @@ proc cmsn_sb_connected {name} {
 
 proc cmsn_ns_connect { username {password ""}} {
    global unread list_al list_bl list_fl list_rl config
-
+   status_log "Here"
    if { ($username == "") || ($password == "")} {
      cmsn_draw_login
      return -1

@@ -71,12 +71,13 @@ proc Setup {next_handler readable_handler name} {
 
     switch $proxy_type {
         http {
-	    set next_handler "::Proxy::Connect $name"
+	    status_log "next handler is ::Proxy::Connect $name"
+	    set next "::Proxy::Connect $name"
 	    set read "::Proxy::Read $name"
 	}
 	socks5 {
-	    set next_handler "::Proxy::Connect $name"
-	    set read "socks::readable $name"
+	    set next "::Proxy::Connect $name"
+	    set read "::Socks5::Readable $name"
 	}
     }
     status_log "Proxy::Setup $proxy_type $name"
@@ -88,10 +89,12 @@ proc Connect {name} {
    variable proxy_password
    variable proxy_with_authentication
    
+   status_log "Calliinnnggggg Connect !!"
+   
    fileevent [sb get $name sock] writable {}
    sb set $name stat "pc"
    set remote_server [sb get $name serv]
-   set remote_port 80
+   set remote_port 1863
    switch $proxy_type {
        http {
 	   set tmp_data "CONNECT [join $remote_server ":"] HTTP/1.0"
@@ -105,7 +108,7 @@ proc Connect {name} {
 	       set pusername ""
 	       set ppassword ""
 	   }
-   	   set pstat [socks:init $name $remote_server $remote_port $proxy_with_authentication $pusername $ppassword]
+   	   set pstat [::Socks5::Init $name $remote_server $remote_port $proxy_with_authentication $pusername $ppassword]
 	   if {$pstat != "OK"} {
 	        status_log "SOCKS5: $pstat"
 		# DEGT Use a callback mechanism to keep code pure
@@ -154,6 +157,10 @@ proc Read { name } {
 }
 ###################################################################
 # $Log$
+# Revision 1.3  2002/11/09 03:49:44  burgerman
+# HTTP proxy seems to works now! there where only minor changes to do!
+# Leaves/Joins messages now added to statusbar
+#
 # Revision 1.2  2002/07/08 00:06:41  lordofscripts
 # - Added LoginData to set proxy authentication parameters (when needed)
 # - Added Setup which is used during the setup phase of proxy connection
