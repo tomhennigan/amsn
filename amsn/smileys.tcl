@@ -234,7 +234,14 @@ proc new_custom_emoticon_from_gui { {name ""} } {
 proc new_custom_emoticon_gui {{name ""}} {
     global new_custom_cfg
 
+	if { [winfo exists .new_custom] } {
+		raise .new_custom
+		return
+	}
+
+
     if { [info exists new_custom_cfg] } {unset new_custom_cfg}
+
 
     toplevel .new_custom
     wm group .new_custom .
