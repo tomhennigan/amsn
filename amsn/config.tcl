@@ -29,7 +29,7 @@ proc ConfigDefaults {} {
 	   set config(soundcommand) "\$program_dir/sndplay \$sound"
 	   set config(browser) "open \$url"
 	   set config(notifyXoffset) 100
-	   set config(notifyYoffset) 0
+	   set config(notifyYoffset) 75
 	   set config(filemanager) "open \$location"   
 	} elseif {$tcl_platform(platform) == "unix"} {
 	   set config(soundcommand) "play \$sound"
