@@ -573,7 +573,7 @@ namespace eval ::amsn {
 
 #		set filename [ $w.top.fields.file get ]
 		if { $filename == "" } {
-			set filename [tk_getOpenFile -filetypes  {{"All Files" {*.*}}} -parent $win_name]
+			set filename [tk_getOpenFile -filetypes  {{"All Files" {*.*}}} -parent $win_name -title "File Transfer"]
 		}
 		
 		if { $filename == "" } { return }
