@@ -566,6 +566,7 @@ showdisplaypic2 Por defecto, ver la Imagen para Mostrar al abrir una ventana de 
 showdisplaypic Ver Imagen para Mostrar
 showmypic Mostrar mi imagen
 shownotify Mostrar ventana de avisos al producirse diversos eventos
+showpicnotify Mostrar imágenes de usuarios en las ventanas de avisos
 showuserpic Imagen de $1
 skinselector Elegir tema (skin)
 skin Tema (skin)

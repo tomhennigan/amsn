@@ -2785,7 +2785,7 @@ namespace eval ::amsn {
 			}
 		}
 		#If it's a notification with user variable and we get a sucessful image create, show the display picture in the notification
-		if {$user != "" && [getpicturefornotification $user]} {
+		if {$user != "" && [getpicturefornotification $user] && [::config::getKey showpicnotify]} {
 			#Create image	
 			$w.c create image [::skin::getKey x_notifydp] [::skin::getKey y_notifydp] -anchor nw -image smallpicture$user
 			#Add text

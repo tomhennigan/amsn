@@ -566,6 +566,7 @@ showdisplaypic2 Show Display Picture by default when a chat window is opened
 showdisplaypic Show Display Picture
 showmypic My Display Picture
 shownotify Show notify window when some events happen
+showpicnotify Show users' pictures on notify windows
 showuserpic $1's Display Picture
 skinselector Select Skin
 skin Skin

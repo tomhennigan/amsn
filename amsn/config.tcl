@@ -212,6 +212,7 @@ namespace eval ::config {
 			[list local nogap bool nogap] \
 			[list local removeempty bool removeempty] \
 			[list local tabtitlenick bool tabtitlenick] \
+			[list local showpicnotify bool showpicnotify] \
 			[list title notifyoffset] \
 			[list local notifyXoffset int xoffset] \
 			[list local notifyYoffset int yoffset] \
@@ -271,6 +272,7 @@ namespace eval ::config {
 		::config::setKey nogap 0			;#Remove the empty line between groups
 		::config::setKey removeempty 0		;#Remove empty groups from the contact list
 		::config::setKey tabtitlenick 1		;#Whether nick or mail is displayed in the tab
+		::config::setKey showpicnotify 1		;#Whether we show users pictures (if we have them) on the notify windows
 		::config::setKey emailsincontactlist 0	;#Display emails instead of nicks in the contact list
 		::config::setKey leavejoinsinchat	1	;#Display leave/join notifications in chat text area
 		::config::setKey charscounter	1	;#Display typed characters counter
