@@ -173,27 +173,6 @@ proc reload_files { } {
     load_lang
 }
 
-# trunc(str, nchars)
-#
-# Truncates a string to at most nchars characters and places an ellipsis "..."
-# at the end of it. nchars should include the three characters of the ellipsis.
-# If the string is too short or nchars is too small, the ellipsis is not
-# appended to the truncated string.
-#
-# FIXME: Should this function go into a different file ???
-proc trunc {str {nchars 25}} {
-    set elen 3  ;# The three characters of "..."
-    set slen [string length $str]
-
-    if {$nchars <= $elen || $slen <= $elen || $nchars >= $slen} {
-        set s [string range $str 0 [expr $nchars - 1]]
-    } else {
-        set s "[string range $str 0 [expr $nchars - $elen - 1]]..."
-    }
-
-    return $s
-}
-
 
 reload_files
 

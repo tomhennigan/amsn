@@ -795,8 +795,9 @@ namespace eval ::amsn {
       if { $win_name == 0 } {
 
           set win_name [OpenChatWindow]
-	  SetWindowFor $chatid $win_name
-	  WinTopUpdate $chatid
+          SetWindowFor $chatid $win_name     
+			 update idletasks     
+          WinTopUpdate $chatid
 
       }       
 
@@ -877,13 +878,20 @@ namespace eval ::amsn {
           set user_image [lindex [lindex $list_states $user_state_no] 4]
 
       if {$config(truncatenames)} {
-	     set title "${title}[trunc ${user_name}], "
-	     ${win_name}.f.top.text insert end "[trunc ${user_name}] <${user_login}>"
+	     #Calculate maximum string width
+	     set maxw [winfo width ${win_name}.f.top.text]
+	     if { "$user_state" != "" && "$user_state" != "online" } {
+	        incr maxw [expr 0-[font measure sboldf -displayof ${win_name}.f.top.text " \([trans $user_state]\)"]]
+	     }		  
+		  incr maxw [expr 0-[font measure sboldf -displayof ${win_name}.f.top.text " <${user_login}>"]]
+		  
+	     ${win_name}.f.top.text insert end "[trunc ${user_name} ${win_name}.f.top.text $maxw sboldf] <${user_login}>"
       } else {
-	     set title "${title}${user_name}, "
-	     ${win_name}.f.top.text insert end "[trunc ${user_name}] <${user_login}>"
+	     ${win_name}.f.top.text insert end "${user_name} <${user_login}>"
       }
-	  
+     set title "${title}${user_name}, "
+
+			  
 	  #TODO: When we have better, smaller and transparent images, uncomment this
 	  #${win_name}.f.top.text image create end -image $user_image -pady 0 -padx 2
 
@@ -998,11 +1006,7 @@ namespace eval ::amsn {
       #   return 0
       #}
 
-      if {$config(truncatenames)} {
-          set statusmsg "[timestamp] [trans joins [trunc [lindex [::MSN::getUserInfo $usr_name] 1]]]\n"
-      } else {
-          set statusmsg "[timestamp] [trans joins [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
-      }
+      set statusmsg "[timestamp] [trans joins [lindex [::MSN::getUserInfo $usr_name] 1]]\n"
       WinStatus [ WindowFor $chatid ] $statusmsg minijoins
       WinTopUpdate $chatid
 
@@ -1030,9 +1034,6 @@ namespace eval ::amsn {
       }
 
       set username [lindex [::MSN::getUserInfo $usr_name] 1]
-      if {$config(truncatenames)} {
-         set username [trunc $username]
-      }
 
       if { $closed } {
 	  set statusmsg "[timestamp] [trans leaves $username]\n"
@@ -1078,9 +1079,6 @@ namespace eval ::amsn {
 
       foreach login $typers_list {
          set user_name [lindex [::MSN::getUserInfo $login] 1]
-         if {$config(truncatenames)} {
-            set user_name [trunc $user_name]
-         }
          set typingusers "${typingusers}${user_name}, "
       }
 
@@ -1936,6 +1934,8 @@ namespace eval ::amsn {
 
       wm state $win_name normal
       wm deiconify ${win_name}
+		
+		update idletasks
 
       WinTopUpdate $chatid
 
@@ -3805,15 +3805,42 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 	 set last_element [expr {[llength $user_lines] -1 }]
 
 	 $pgBuddy.text insert $section.last " $state_desc \n" $user_unique_name
+	 
+	#Set maximum width for nick string, with some margin
+	set maxw [winfo width $pgBuddy.text]
+	incr maxw -20
+	#Decrement status text out of max line width
+	set statew [font measure splainf -displayof $pgBuddy.text " $state_desc "]
+	set blanksw [font measure splainf -displayof $pgBuddy.text "      "]
+	incr maxw [expr {-25-$statew-$blanksw}]
+	if { [info exists alarms(${user_login})] } {
+		incr maxw -25
+	}
+	 
 	 for {set i $last_element} {$i >= 0} {set i [expr {$i-1}]} {
 	    if { $i != $last_element} {
 	       set current_line " [lindex $user_lines $i]\n"
 	    } else {
 	       set current_line " [lindex $user_lines $i]"
 	    }
-        if {$config(truncatenames)} {
-           set current_line [trunc $current_line]
+	    
+        if {$config(truncatenames)} {	
+           if { $i == $last_element && $i == 0} {
+              #First and only line
+				  set strw $maxw
+           } elseif { $i == $last_element } {
+              #Last line, not status icon
+				  set strw [expr {$maxw+25}]
+           } elseif {$i == 0} {
+              #First line of a multiline nick, so no status description
+				  set strw [expr {$maxw+$statew}]
+           } else {
+              #Middle line, no status description and no status icon
+				  set strw [expr {$maxw+$statew+25}]
+           } 
+			  set current_line [trunc $current_line $pgBuddy.text $strw splainf]
         }
+	
         $pgBuddy.text insert $section.last "$current_line" $user_unique_name
 	    if { $i != 0} {
 	       $pgBuddy.text insert $section.last "      "
@@ -3845,9 +3872,13 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 
 	 #set imgname "img[expr {$::groups::uMemberCnt(online)+$::groups::uMemberCnt(offline)}]"
 	 set imgname "img[getUniqueValue]"
-         label $pgBuddy.text.$imgname -image $image_type
-         $pgBuddy.text.$imgname configure -cursor hand2 -borderwidth 0
-         $pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname -padx 3 -pady 1
+	label $pgBuddy.text.$imgname -image $image_type
+	$pgBuddy.text.$imgname configure -cursor hand2 -borderwidth 0
+	if { $last_element > 0 } {
+		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname -padx 3 -pady 1 -align baseline
+	} else {
+		$pgBuddy.text window create $section.last -window $pgBuddy.text.$imgname -padx 3 -pady 1 -align center
+	}
 
     $pgBuddy.text insert $section.last "      "
 
@@ -3909,6 +3940,41 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 #///////////////////////////////////////////////////////////////////////
 
 
+# trunc(str, nchars)
+#
+# Truncates a string to at most nchars characters and places an ellipsis "..."
+# at the end of it. nchars should include the three characters of the ellipsis.
+# If the string is too short or nchars is too small, the ellipsis is not
+# appended to the truncated string.
+#
+proc trunc {str {window ""} {maxw 0 } {font ""}} {
+	if { $window == "" || $font == "" } {
+		return $str
+	}
+          
+	for {set idx 0} { $idx <= [string length $str]} {incr idx} {
+		if { [font measure $font -displayof $window "[string range $str 0 $idx]..."] > $maxw } {
+			if { [string index $str end] == "\n" } {
+				return "[string range $str 0 [expr {$idx-1}]]...\n"
+			} else {
+				return "[string range $str 0 [expr {$idx-1}]]..."
+			}
+		}
+	}
+    
+	return $str
+    
+    set elen 3  ;# The three characters of "..."
+    set slen [string length $str]
+
+    if {$nchars <= $elen || $slen <= $elen || $nchars >= $slen} {
+        set s [string range $str 0 [expr $nchars - 1]]
+    } else {
+        set s "[string range $str 0 [expr $nchars - $elen - 1]]..."
+    }
+
+    return $s
+}
 
 
 #///////////////////////////////////////////////////////////////////////
