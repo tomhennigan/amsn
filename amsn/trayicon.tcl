@@ -32,13 +32,23 @@ proc taskbar_icon_handler { msg x y } {
 	}
 	if { $msg=="WM_LBUTTONDBLCLK" } {
 		if { $ishidden == 0 } {
-			wm iconify .
+			#wm iconify .
+			if { [wm state .] == "zoomed" } {
+				set ishidden 2
+			} else {
+				set ishidden 1
+			}
 			wm state . withdrawn
-			set ishidden 1
+			#set ishidden 1
 		} else {
-			wm deiconify .
-			wm state . normal
-			raise .
+			#wm deiconify .
+			#wm state . normal
+			#raise .
+			if { $ishidden == 2 } {
+				wm state . zoomed
+			} else {
+				wm state . normal
+			}
 			focus -force .
 			set ishidden 0
 		}
