@@ -46,9 +46,9 @@ namespace eval ::amsn {
 
 		if { $tcl_platform(os) == "Linux" } {
 			set tlsplatform "linuxx86"
-		} elseif { [string compare $tcl_platform(platform) "Solaris"]} {
+		} elseif { $tcl_platform(os) == "Solaris"} {
 			set tlsplatform "solaris266"
-		} elseif { [string compare $tcl_platform(platform) "windows"]} {
+		} elseif { $tcl_platform(os) == "windows"} {
 			set tlsplatform "win32"
 		} else {
 			set tlsplatform "src"
@@ -98,7 +98,7 @@ namespace eval ::amsn {
 	proc downloadTLS {} {
 		global tlsplatform
 
-		set baseurl "http://belnet.dl.sourceforge.net/sourceforge/tls/tls1.4.1"
+		set baseurl "http://osdn.dl.sourceforge.net/sourceforge/amsn/tls1.4.1"
 
 		if { $tlsplatform == "nodown" } {
 			::amsn::infoMsg [trans notls]
@@ -112,7 +112,7 @@ namespace eval ::amsn {
 					set downloadurl "$baseurl-solaris26-sparc.tar.gz"
 				}
 				"win32" {
-					set downloadurl "$baseurl-win32.zip"
+					set downloadurl "$baseurl-win32.exe"
 				}
 				"src" {
 					set downloadurl "$baseurl-src.tar.gz"
@@ -176,8 +176,8 @@ namespace eval ::amsn {
 
 		switch $tlsplatform {
 			"solaris26" -
-			"linuxx86" {
-				status_log "Here on linux/solaris\n"
+			"linuxx86" -
+			"win32" {
 				if { [catch {
 					set file_id [open [file join $files_dir $fname] w]
 					fconfigure $file_id -translation {binary binary} -encoding binary
@@ -187,7 +187,11 @@ namespace eval ::amsn {
 					set olddir [pwd]
 					cd [file join $HOME2 plugins]
 
-					exec tar xvzf [file join $files_dir $fname]
+					if { $tlsplatform == "win32" } {
+						exec [file join $files_dir $fname] "x" "-o" "-y"
+					} else {
+						exec tar xvzf [file join $files_dir $fname]
+					}
 
 					cd $olddir
 					::amsn::infoMsg "[trans tlsinstcompleted]"
@@ -3059,9 +3063,13 @@ proc show_languagechoose {} {
 
 proc set_language { langname } {
    global config
+	set oldlang $config(language)
+	set config(language) $langname
+   load_lang
    msg_box [trans mustrestart]
-   set config(language) $langname
-    return
+   set config(language) $oldlang
+   load_lang
+	 return
 
    ::MSN::logout
    set config(language) $langname
