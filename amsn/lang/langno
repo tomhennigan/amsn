@@ -232,11 +232,14 @@ filename Filnavn
 filetransfer Filoverføring
 filetransfercancelled Filoverføringen ble avbrutt
 filetransfercomplete Filoverføringen er fullført
+filters Filtere
+filtersx Valg av Filtere
 followtext Bla nedover når ny tekst blir skrevet inn
 friendlyname Kallenavn
 ftaccepted Sending av fil akseptert
 ftacceptedby $1 aksepterte invitasjonen til filoverføring av '$2'.
 ftaccepting Aksepterer invitasjon til filoverføring
+ftautoclose Lukk vinduet når filoverføringen er fullført
 ftconnecterror Feil under tilkobling til vert
 ftconnecting Kobler til $1 port $2
 ftconnectionlost Forbindelsen med verten ble brutt
@@ -465,6 +468,7 @@ prefremote Fjerninnloggingsinnstillinger
 prefsession Min innkobling og status
 prefshared Delte forbindelse (kun for NAT)
 prefsound Lyder
+preview Forhåndsvisning
 privacy Personvern
 profiledconfig Profilkonfigurasjon
 profileexists Du kan ikke opprette en profil med denne adressen \n fordi det allerede finnes en profil for adressen. Velg en annen adresse.
@@ -591,6 +595,7 @@ unblock ta bort blokkering
 unknown Ukjent
 uoffline Frakoblet
 uonline Tilkoblet
+update Oppdater
 useother Bruk et annet program
 user Bruker
 useralreadyonlist Brukeren er allerede i kontaktlisten
@@ -607,6 +612,7 @@ viewcontactsby Vis kontakter med
 viewprofile Vis profil
 webcaminvite $1 inviterte deg til å starte en webkameraøkt, men aMSN støtter ikke denne funksjonen
 willjoin Venter $1 blir med i samtalen
+winkreceived Du har mottatt et Wink fra $1. Denne funksjonen støttes for øyeblikket ikke av aMSN.
 work Arbeid
 wrongfields "$1", "$2" og/eller "$3" feltene er ikke gyldig
 wrongprofileversion Feil profilkonfigurasjon eller filversion. For å fikse dette, vennligst slett mappen $1, eller oppdater aMSN
