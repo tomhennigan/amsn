@@ -5783,7 +5783,7 @@ proc convert_image { filename size } {
 	
 
 	if { [catch { exec convert -size "${resizew}x${resizeh}" "$filename" -resize "${resizew}x${resizeh}" "${filename}.gif" } res] } {
-		msg_box "[trans installconvert]"
+		msg_box "[trans installconvert] --- $res"
 		status_log "converting returned error : $res\n"
 		return 0
 	}
