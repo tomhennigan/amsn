@@ -1131,9 +1131,9 @@ namespace eval ::amsn {
 			WinTopUpdate $chatid
 
 			if { $config(showdisplaypic) && $usr_name != ""} {
-				::amsn::ChangePicture $win_name user_pic_$usr_name
+				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name]
 			} else {
-				::amsn::ChangePicture $win_name user_pic_$usr_name nopack
+				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name] nopack
 			}
 
 		}
@@ -1363,9 +1363,9 @@ namespace eval ::amsn {
 			WinTopUpdate $chatid
 
 			if { $config(showdisplaypic) && $usr_name != ""} {
-				::amsn::ChangePicture $win_name user_pic_$usr_name
+				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name]
 			} else {
-				::amsn::ChangePicture $win_name user_pic_$usr_name nopack
+				::amsn::ChangePicture $win_name user_pic_$usr_name [trans showuserpic $usr_name] nopack
 			}
 		}
 
@@ -1677,6 +1677,7 @@ namespace eval ::amsn {
 		catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}
 		image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
 		label $bottom.pic  -borderwidth 1 -relief solid -image no_pic -background #FFFFFF
+		#set_balloon $bottom.pic [trans nopic]
 		button $bottom.showpic -bd 0 -padx 0 -pady 0 -image imgshow -bg $bgcolor2 -highlightthickness 0\
 			-command "::amsn::ToggleShowPicture ${win_name}; ::amsn::ShowOrHidePicture .${win_name}" -font splainf
 		grid $bottom.showpic -row 0 -column 2 -padx 0 -pady 3 -rowspan 2 -sticky ns
@@ -1697,11 +1698,16 @@ namespace eval ::amsn {
 
 
       button $bottom.buttons.smileys  -image butsmile -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
-      button $bottom.buttons.fontsel -image butfont -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
+		set_balloon $bottom.buttons.smileys [trans insertsmiley]      
+		button $bottom.buttons.fontsel -image butfont -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
+		set_balloon $bottom.buttons.fontsel [trans changefont]
       button $bottom.buttons.block -image butblock -relief flat -padx 5 -background $bgcolor2 -highlightthickness 0
+		set_balloon $bottom.buttons.block [trans block]
       button $bottom.buttons.sendfile -image butsend -relief flat -padx 3 -background $bgcolor2 -highlightthickness 0
+		set_balloon $bottom.buttons.sendfile [trans sendfile]
       button $bottom.buttons.invite -image butinvite -relief flat -padx 3 -background $bgcolor2 -highlightthickness 0
-      pack $bottom.buttons.fontsel $bottom.buttons.smileys -side left
+      set_balloon $bottom.buttons.invite [trans invite]
+		pack $bottom.buttons.fontsel $bottom.buttons.smileys -side left
       pack $bottom.buttons.block $bottom.buttons.sendfile $bottom.buttons.invite -side right
 
       pack .${win_name}.f.top -side top -fill x -padx 3 -pady 0
@@ -1793,7 +1799,6 @@ namespace eval ::amsn {
       focus $bottom.in.input
 
       change_myfontsize $config(textsize) ${win_name}
-		#::amsn::ChangePicture .${win_name} my_pic
 
 
 
@@ -1892,10 +1897,10 @@ set y [expr $y - 115]
 		set users [::MSN::usersInChat $chatid]
 
 		$win.picmenu add command -label "[trans showmypic]" \
-         -command "::amsn::ChangePicture $win my_pic"
+         -command [list ::amsn::ChangePicture $win my_pic [trans mypic]]
 		foreach user $users {
 			$win.picmenu add command -label "[trans showuserpic $user]" \
-   	      -command "::amsn::ChangePicture $win user_pic_$user"
+   	      -command [list ::amsn::ChangePicture $win user_pic_$user [trans showuserpic $user]]
 
 		}
 		$win.picmenu add separator
@@ -1906,20 +1911,23 @@ set y [expr $y - 115]
 
 	}
 
-	proc ChangePicture {win picture {nopack ""}} {
+	proc ChangePicture {win picture balloontext {nopack ""}} {
 		global config
 		#pack $win.bottom.pic -side left -padx 2 -pady 2
 		upvar #0 ${win}_show_picture show_pic
 
+		if { $balloontext != "" } {
+			#set_balloon $win.f.bottom.pic $balloontext
+		}
 		if { [catch {$win.f.bottom.pic configure -image $picture}] } {
 			status_log "Failed to set picture, using no_pic\n" red
 			image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
 			$win.f.bottom.pic configure -image no_pic
-		} elseif { $nopack == ""} {
+			#set_balloon $win.f.bottom.pic [trans nopic]
+		} elseif { $nopack == "" } {
 			grid $win.f.bottom.pic -row 0 -column 1 -padx 0 -pady 3 -rowspan 2
 			#grid forget $win.f.bottom.showpic
-			$win.f.bottom.showpic configure -image imghide
-
+			$win.f.bottom.showpic configure -image imghide			
 			set show_pic 1
 		}
 	}
@@ -1939,7 +1947,7 @@ set y [expr $y - 115]
 	proc ShowOrHidePicture { win } {
 		upvar #0 ${win}_show_picture value
 		if { $value == 1} {
-			::amsn::ChangePicture $win [$win.f.bottom.pic cget -image]
+			::amsn::ChangePicture $win [$win.f.bottom.pic cget -image] ""
 		} else {
 			::amsn::HidePicture $win
 		}
