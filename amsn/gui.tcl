@@ -2869,7 +2869,6 @@ namespace eval ::amsn {
 	proc closeWindow { win_name} {
 		variable recent_message
 		
-		status_log "Going to close window $win_name\n" white
 		if { $recent_message($win_name) == 1  && [::config::getKey recentmsg] == 1} {
 			status_log "Recent message exists\n" white
 			set recent_message($win_name) 0
