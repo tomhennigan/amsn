@@ -223,7 +223,7 @@ proc new_custom_emoticon_gui {{name ""}} {
 
     toplevel .new_custom
     wm group .new_custom .
-    ShowTransient .new_custom
+    
     wm geometry .new_custom
 
     set w [LabelFrame:create .new_custom.lfname -text [trans smileconfig] -font splainf]
