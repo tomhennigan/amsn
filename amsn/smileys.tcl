@@ -253,7 +253,7 @@ proc new_custom_emoticon_gui {{name ""}} {
     set w [LabelFrame:create .new_custom.lfname -text [trans smileconfig] -font splainf]
     pack $w -anchor n -side top -expand 1 -fill x
 
-    image create photo regular_smile -file [GetSkinFile smileys regular_smile.gif] 
+    image create photo regular_smile -file [GetSkinFile smileys regular_smile.gif] -format gif
 
     frame .new_custom.1 -class Degt
     label .new_custom.1.smile -image regular_smile
@@ -332,9 +332,10 @@ proc new_custom_emoticon_gui {{name ""}} {
 
     bind .new_custom <Destroy> "grab release .new_custom"
  
-
+	
 
     after 2000 "catch {wm state .new_custom normal}"
+    moveinscreen .new_custom 30
 }
 
 proc update_enabled_sound_smileys { } {
