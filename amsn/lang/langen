@@ -37,6 +37,7 @@ confirmdelete Are you sure you want to delete $1?
 contactadded Contact added
 contactdoesnotexist Contact does not exist!
 connecterror Error connecting to server
+copytogroup Copy to group
 date Date
 delete Delete
 enableproxy Enable proxy

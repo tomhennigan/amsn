@@ -38,6 +38,7 @@ confirmdelete ¿Seguro que deseas borrar a $1?
 connecterror Error conectandose al servidor
 contactadded Contacto añadido
 contactdoesnotexist El contacto que intentas añadir no existe
+copytogroup Copiar al grupo
 date Fecha
 delete Eliminar
 enableproxy Activar proxy
@@ -90,7 +91,7 @@ mailer Comando de email
 mobile Celular
 msg Mensaje
 msn AMSN
-movetogroup Mover al Grupo
+movetogroup Mover al grupo
 mustrestart Debes reiniciar el programa para aplicar los cambios
 mystatus Mi estado
 needonline Todavía estas/apareces desconectado 
