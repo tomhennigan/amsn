@@ -3757,6 +3757,7 @@ proc cmsn_draw_main {} {
 
 	image create photo globe -file [GetSkinFile pixmaps globe.gif]
 	image create photo download -file [GetSkinFile pixmaps download.gif]
+	image create photo warning -file [GetSkinFile pixmaps warning.gif]
 
 	image create photo typingimg -file [GetSkinFile pixmaps typing.gif]
 	image create photo miniinfo -file [GetSkinFile pixmaps miniinfo.gif]
@@ -3772,7 +3773,7 @@ proc cmsn_draw_main {} {
 	image create photo butinvite -file [GetSkinFile pixmaps butinvite.gif]
 	image create photo sendbutton -file [GetSkinFile pixmaps sendbut.gif]
 
-	
+
 	image create photo fticon -file [GetSkinFile pixmaps fticon.gif]
 	image create photo ftreject -file [GetSkinFile pixmaps ftreject.gif]
 
@@ -7365,42 +7366,42 @@ proc bgerror { args } {
 proc show_bug_dialog {} {
 
 	set w ".bug_dialog"
-	
+
 	catch {destroy $w}
 	toplevel $w -class Dialog
 	wm title $w "AMSN Error"
 	wm iconname $w Dialog
 	wm protocol $w WM_DELETE_WINDOW "set closed_bug_window 1"
-	
+
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		#Empty, NO TRANSIENT ON MAC OS X!!! Plz use ShowTransient when it's possible
 	} else {
 		if {[winfo viewable [winfo toplevel [winfo parent $w]]] } {
 			wm transient $w [winfo toplevel [winfo parent $w]]
 		}
-	}        
-		
-	frame $w.bot -background white
-	frame $w.med -background white
-	frame $w.top -background white
+	}
+
+	frame $w.bot
+	frame $w.med
+	frame $w.top
 	pack $w.bot -side bottom -fill both
 	pack $w.med -side bottom -fill both
 	pack $w.top -side top -fill both -expand 1
-	
-	label $w.msg -justify left -text [trans tkerror [file join $::HOME2 bugreport.amsn]] -wraplength 300 -background white -font sboldf
+
+	label $w.msg -justify left -text [trans tkerror [file join $::HOME2 bugreport.amsn]] -wraplength 300 -font sboldf
 	pack $w.msg -in $w.top -side right -expand 1 -fill both -padx 3m -pady 3m
-	
-	label $w.bitmap -bitmap error -background white
+
+	label $w.bitmap -image warning
 	pack $w.bitmap -in $w.top -side left -padx 3m -pady 3m
-	
-	checkbutton $w.ignoreerrors -text [trans ignoreerrors] -variable "dont_give_bug_reports" -background white -font sboldf
+
+	checkbutton $w.ignoreerrors -text [trans ignoreerrors] -variable "dont_give_bug_reports" -font sboldf
 	pack $w.ignoreerrors -in $w.med -side left -padx 10 -pady 5
-	
-	button $w.button -text [trans ok] -command "set closed_bug_window 1" -default active -highlightbackground white
+
+	button $w.button -text [trans ok] -command "set closed_bug_window 1" -default active -highlightbackground #e8e8e8 -activeforeground #5b76c6
 	pack $w.button -in $w.bot
-	
+
 	bind $w <Return> "set closed_bug_window 1"
-	
+
 	wm withdraw $w
 	update idletasks
 	set x [expr {[winfo screenwidth $w]/2 - [winfo reqwidth $w]/2 \
@@ -7419,9 +7420,9 @@ proc show_bug_dialog {} {
 	wm maxsize $w [winfo screenwidth $w] [winfo screenheight $w]
 	wm geom $w +$x+$y
 	wm deiconify $w
-	
+
 	# 7. Set a grab and claim the focus too.
-	
+
 	set oldFocus [focus]
 	set oldGrab [grab current $w]
 	if {[string compare $oldGrab ""]} {
@@ -7430,16 +7431,16 @@ proc show_bug_dialog {} {
 	grab $w
 	raise $w
 	focus $w.button
-	
+
 	# 8. Wait for the user to respond, then restore the focus and
 	# return the index of the selected button.  Restore the focus
 	# before deleting the window, since otherwise the window manager
 	# may take the focus away so we can't redirect it.  Finally,
 	# restore any grab that was in effect.
-	
+
 	vwait closed_bug_window
 	catch {focus $oldFocus}
-	catch {	
+	catch {
 		bind $w <Destroy> {}
 		destroy $w
 	}
