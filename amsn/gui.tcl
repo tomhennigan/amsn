@@ -3715,7 +3715,8 @@ proc play_sound {sound_name} {
 	catch {eval exec $config(soundcommand) &} res
  		#Kill soundplayer on Mac OS X (sometimes he stays open and eat your CPU)
 	if { $tcl_platform(os) == "Darwin" } {
-		after 30000 [list catch [list exec killall -c sndplay]]
+	    after 30000 "catch {exec killall -c [lindex $config(soundcommand) 0]}"
+	    
 	}
     }
 }
@@ -6847,16 +6848,18 @@ proc clear_disp { } {
 
 
 proc bgerror { args } {
-    global errorInfo errorCode HOME
+    global errorInfo errorCode HOME tcl_platform tk_version tcl_version
     
     status_log "\n\n\n\n\n" error
     status_log "GOT TCL/TK ERROR : $args\n$errorInfo\n$errorCode\n" red
+    catch { status_log    "\ntcl version : $tcl_version ||| tk version : $tk_version\n\ntcl_platform array content : [array get tcl_platform]\n" }
     status_log "\n\n\n\n\n" error
     
     set fd [open [file join $HOME bugreport.amsn] a]
     
     puts $fd "Bug generated at [clock format [clock seconds] -format "%D - %T"]\n"
     puts $fd "Error : $args\nStack : $errorInfo\n\nCode : $errorCode\n\n"
+    catch {    puts $fd "tcl version : $tcl_version ||| tk version : $tk_version\n\ntcl_platform array content : [array get tcl_platform]\n\n" }
     puts $fd "==========================================================================\n\n"
     
 
