@@ -1,19 +1,20 @@
+amsn_lang_version 2
 about Ynghylch
 accept Derbyn
 acceptfile Derbyn ffeil $1, maint $2? Cadwyd yn $3
 actions Gweithredu
 addacontact Ychwanegu cyswllt
 addedyou Mae $1 ($2) wedi eich ychwanegu i'w r/hestr cyswllt
-addprofile Ychwanegu Proffil Newydd
 addprofiledesc Rhowch fewngofnod yr hoffech greu proffil newydd ar ei gyfer. \nMae proffil mewngofnodi'n caniat u i chi gael ffurfweddiad gwahanol i bob mewngofnod.\nHeb broffiliau nid oes modd defnyddio Hanes, Larymau na chofio cyfrineiriau.
+addprofile Ychwanegu Proffil Newydd
 addstate Cyflwr Newydd
-addto Ychwanegu at $1
 addtocontacts Ychwanegu i'r cyswllt
 addtoo Ychwanegu'r person yma i fy rhestr gyswllt
+addto Ychwanegu at $1
 admincontacts Cyswllt gweinyddol
 admingroups Grwpiau gweinyddol
-advanced Uwch
 advancedprefs Ffurfweddu dewisiadau uwch
+advanced Uwch
 adverts Hysbysebion
 alarmonconnect Seinio larwm pan ddaw defnyddiwr ar-lein
 alarmondisconnect Seinio larwm pan fydd defnyddiwr yn mynd all-lein/anweledig 
@@ -28,7 +29,6 @@ allowlist Rhestr Caniatáu (AL):
 allowonlyinal Caniatáu dim ond defnyddwyr ar fy Rhestr Caniatu i gysylltu â mi
 allowseen Caniat u i'r person yma i weld pryd rwyf ar-lein a chysylltu â mi
 allprofilesinuse Mae'r holl broffiliau presennol yn cael eu defnyddio
-amsn_lang_version 2
 animatedemoticon Mae'r emoticon wedi ei animeiddio
 animatedsmileys Galluogi gwenogluniau byw
 animatenotify Ffenestr Hysbysu Byw
@@ -40,8 +40,8 @@ autoaccepted Mae trosglwyddo ffeiliau'n cael eu derbyn yn awtomatig
 autoacceptft Derbyn ceisiadau am Drosglwyddo Ffeiliau'n awtomatig
 autoaway Dangos fi fel "Allan" pan yn dawel am
 autocheckver Gwirio'n awtomatig am fersiwn newydd wrth gychwyn
-autoconnect Cysylltu wrth i aMSN gychwyn
 autoconnect2 Mewngofnodi'n awtomatig pan fo aMSN yn cychwyn
+autoconnect Cysylltu wrth i aMSN gychwyn
 autodetectip Canfod cyfeiriad IP yn awtomatig
 autohotmaillog Mewngofnodi Hotmail yn Awtomatig
 autoidle Dim Gweithgaredd Awtomatig
@@ -54,7 +54,6 @@ awaymsg2 Peidio gofyn a defnyddio'r neges allan islaw
 baduserpass Enw defnyddiwr a chyfrinair anghywir
 bgcolor Newid lliw cefndir aMSN 
 blankdirect Gadael yn wag ar gyfer cysylltiad uniongyrchol
-block Rhwystro
 blocked Rhwystrwyd
 blockedyougroup Dangos grwp ar wahân o bobl sydd wedi eich rhwystro
 blocking Rhwystro
@@ -64,11 +63,12 @@ blockinter3 bob
 blockinter4 eiliad.
 blocklist Rhestr Rhwystro (BL):
 blockmessage Mae'r rhain ar-lein ac yn eich rhwystro
+block Rhwystro
 blockusers Nifer o ddefnyddwyr i'w gwirio ar unwaith 
 broughtby Crëwyd gan y datblygwyr canlynol
 browse Pori
-browser Porwr
 browserexample (Bydd \$url yn cael ei amnewid gan URL), ee: mozilla \$url
+browser Porwr
 busy Prysur
 cachedpics $1 o luniau'n y storfa
 cancel Diddymu
@@ -76,21 +76,20 @@ cannotdeleteprofile Methu dileu proffil am ei fod yn cael ei ddefnyddio mewn ses
 cantexec Methu cychwyn rhaglen: $1. Gwiriwch y dewisiadau
 cantremoveothers Methu tynnu grwp "Eraill"
 casesensitive Defnyddiwrch gychwynwyr llythyren ymwybodol
-cfgalarm Ffurfweddu/Ychwanegu/Tynnu Larwm
 cfgalarmall Ffurfweddu/Ychwanegu/Tynnu Larwm Eang
-ch_to_state Newid i gyflwr newydd
+cfgalarm Ffurfweddu/Ychwanegu/Tynnu Larwm
 changecustomstate Newid i
 changedisplaypic Newid darlun arddangos
 changefont Newid ffont
 changenick Newid llysenw
 changestate $1 yn newid cyflwr i $2
 charscounter Cyfri'r nodau yn ffenestr sgwrsio
-chat Sgwrs
 chatack Derbyn sgwrs gan
 chatmaxmin Pan fo cyswllt yn cychwyn sgwrsio dwi eisiau bod yn:
 chatreq Gofyn am sgwrs
-chatsmileys Gwenogluniau sgwrs
+chat Sgwrs
 chatsmileys2 Dangos Emoticons a Gwenogluniau mewn ffenestr sgwrs
+chatsmileys Gwenogluniau sgwrs
 checkblocking Gwirio'n barhaus os yw defnyddwyr yn eich rhwystro
 checkemail Dangos llinell hysbysu e-bost (blwch derbyn) yn rhestr cyswllt
 checkfilman Bydd ffeiliau sydd wedi eu derbyn yn cael eu cadw yn $1. Gwiriwch osodiadau'r rheolwr ffeiliau yn ffenestr eich dewisiadau.
@@ -103,18 +102,19 @@ choosebgcolor Dewis cefndir lliw
 choosecontact Dewiswch gyswllt o'r rhestr
 choosefontcolor Dewis lliw ffont
 chooseskin Dewis y math o Groen i'w ddefnyddio
-clearlog Clirio Cofnod
+ch_to_state Newid i gyflwr newydd
 clearlog2 Clirio Hanes eich cysylltiadau
 clearlog3 Clirio pob Cofnod
+clearlog Clirio Cofnod
 clicktologin Clicio i fewngofnodi
 close Cau
 closed Sgwrs gyda $1 wedi ei gau oherwydd diffyg gweithgaredd
 closingdocks Lleihau botwm Cau
 command Gorchymyn
 commandstatus Gweithredu gorchymyn
-confirm Ydych chi'n siwr?
 confirmdelete Ydych chi'n siwr eich bod am ddileu $1?
 confirmpurge Bydd pob darlun arddangos gan gysylltiadau eraill (nid eich darluniau arddangos chi) yn cael eu dileu. Ydych chi'n siwr?
+confirm Ydych chi'n siwr?
 connected Rydych wedi eich cysylltu
 connecterror Gwall wrth gysylltu â'r gweinydd
 connecting Cysylltu
@@ -141,12 +141,12 @@ dcprofile Peidio creu Proffil
 default Ffurfweddiad Rhagosodedig
 defaultloginradio Mewngofnodi gyda'r ffurfweddiad rhagosodedig
 defchatwinsize Maint rhagosodedig ar gyfer ffenestr sgwrsio (XSIZExYSIZE)
-delete Dileu
 deletecustomstate Dileu cyflwr arddullion state
+delete Dileu
 delimiters Amffinydd stamp amser:
 deliverfail Bu problem anfon y neges ganlynol
-delprofile Dileu Proffil
 delprofile2 Dewiswch y Proffil i'w dynnu 
+delprofile Dileu Proffil
 description Disgrifiad
 directconnection Mae gennyf gyswllt uniongyrchol â'r rhyngrwyd (porth 1863)
 disabled Analluogwyd
@@ -162,9 +162,9 @@ dockkde Docio KDE
 dontdownload Peidio llwytho TLS, mi wna i ei osod fy hun
 dontshow Peidio dangos
 downloadingtls Llwytho modiwl TLS i lawr o:\n $1
-edit Golygu
 editcurrentstate Golygu'r presennol
 editcustomstate Golygu statws addasu
+edit Golygu
 editnewstate Cyflwr AwtoNeges Personol Newydd
 editprofile Golygu Proffil
 editstate Golygu Cyflwr AwtoNeges Presennol
@@ -176,8 +176,8 @@ enabled Galluogwyd
 enableproxy Galluogi dirprwy
 enableremote Galluogi rheoli pell
 enablesound Seinio
-encoding Dewis amgodiad
 encoding2 Newid y ffordd mae eich nodau wedi eu hamgodio
+encoding Dewis amgodiad
 entercontactemail Rhowch e-bost cyswllt
 enterfilename Rhowch enw ffeil
 enternick Rhowch eich llysenw
@@ -185,36 +185,36 @@ errortls Gwall wrth osod modiwl TLS:
 examples Esiamplau
 exitamsn Ydych chi'n siwr eich bod am adael?
 extras Gwasanaethau Ychwanegol
-failed Methu
 faileddelete Methu dileu
 faileddeleteperso Nid oes modd dileu'r darlun am nad yw'n ffeil darlun personol. Dim ond lluniau sy'n perthyn i'ch proffil personol y mae modd eu tynnui fel hyn..
+failed Methu
 faq Cwestiynnau poblogaidd
-file Ffeil
 filedoesnotexist Nid yw'r ffeil yn bodoli
-fileman Rheolwr Ffeiliau
+file Ffeil
 filemanexample ( \$bydd y lleoliad yn cael ei amnewid gyda'r cyfeiriadur ) Ee: nautilus \$location
+fileman Rheolwr Ffeiliau
 filename Enw ffeil
 filetransfercancelled Diddymu trosglwyddo ffeil
 filetransfercomplete Trosglwyddo ffeil yn llwyddiannus
 followtext Sgrolio i lawr pan yw'r testun nesaf yn cael ei rhoi
-ftaccepted Trosglwyddo ffeil wedi ei dderbyn
 ftacceptedby Mae $1 wedi derbyn gwahoddiad i drosglwyddo ffeil '$2'.
+ftaccepted Trosglwyddo ffeil wedi ei dderbyn
 ftaccepting Derbyn gwahoddiad i drosglwyddo ffeil
 ftconnecterror Gwall cysylltu i cyfoed pell
 ftconnecting Cysylltu â $1 porth $2
 ftconnectionlost Collwyd y cyswllt gyda'r cyfoed pell
 ftgotinvitation Mae $1 eisiau anfon y ffeil '$2' ($3 beit) atoch. Bydd yn cael ei gadw yng nghyfeiriadur $4. Ydych chi am dderbyn y ffeil?
 ftportpref Cychwyn y porth ar gyfer trosglwyddo ffeiliau
-ftrejected Gwrthodwyd trosglwyddo ffeil
 ftrejectedby Mae $1 wedi gwrthod y gwahoddiad i drosglwyddo ffeil '$2'.
+ftrejected Gwrthodwyd trosglwyddo ffeil
 ftsendinvitation Mae gwahoddiad i drosglwyddo ffeil '$2' ($3 beit) wedi ei anfon at $1.
 fullcontactlist Yn anffodus mae eich rhestr cyswllt yn llawn. Bydd angen tynnu rhywfaint er mwyn ychwanegu rhai newydd. Ni fydd modd derbyn Lluniau Arddangos gan eraill
 getdisppic Galluogi derbyn Lluniau Dangos gan ddefnyddwyr eraill
 gonelunch Wedi mynd am ginio
-group Grwp
 groupadd Ychwanegu i grwp
 groupdelete Dileu grwp
 groupexists Grwp yn bod yn barod
+group Grwp
 groupmissing Methu canfod grwp
 groupnewname Enw newydd
 groupnotempty Nid yw'r grwp yn wag!
@@ -222,8 +222,8 @@ groupoldname Hen enw
 grouprename Ailenwi grwp
 groupunknown Grwp anhysbys
 handle Dolen
-help Cymorth
 helpcontents Cynnwys Cymorth
+help Cymorth
 hidedisplaypic Cuddio Darlun Arddangos
 hiden Cuddio'r emoticon o ddewislen y gwenogluniau
 hidewindow Cuddio'r Ffenestr
@@ -238,8 +238,8 @@ inbox Mewnflwch
 insertsmiley Mewnosod Gwenoglun
 installconvert Rhaid gosod ImageMagick (rhaglen trosi) er mwyn defnyddio Eicon Ffrind a Gwenogluniau Addasu. Mae modd llwytho'r ffeilliau ar gyfer eich system weithredu o ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Os ydyw gennych eisioes mae hwn yn walI, anfonwch neges at yr awdur. Bydd y nodweddion hyn yn cael eu hanablu os fyddwch yn gosod ImageMagik yn nes ymlaen. Mae modd eu hail-osod drwy Dewisiadau.
 internalerror Gwall Gweinydd Mewnol
-invalidfile Nid yw ffeil $2 roddwyd ym maes "$1" yn bod neu nid yw'n ddarllenadwy
 invalidfile2 Methu creu enw ffeil $1, gwnewch yn siwr fod gennych y caniatâd angenrheidiol.
+invalidfile Nid yw ffeil $2 roddwyd ym maes "$1" yn bod neu nid yw'n ddarllenadwy
 invalidpic Nid yw'r llun yn bod
 invalidpicsize Mae'r llun yn rhy fawr, dewiswch un llai.
 invalidsound Nid yw'r ffeil sain yn bod
@@ -251,8 +251,8 @@ ipdetect Canfod yr IP cywir ar gyfer Trosglwyddo Ffeiliau gan ddefnyddio HTTP
 istyping Mae $1 yn teipio neges
 joins Mae $1 yn ymuno â'r sgwrs
 keepalive Cadw'n fyw (NAT)
-keeplog Cadw Cofnod o Sgyrsiau
 keeplog2 Cofnodi pob sgwrs i Hanes aMSN ar gyfer darllen yn y dyfodol
+keeplog Cadw Cofnod o Sgyrsiau
 language Iaith
 lastmsgtime Derbyniwyd y neges olaf am $1
 lclosedwin Mae $1 wedi cau'r ffenestr ar $2
@@ -264,8 +264,8 @@ lenteredconf Mae $1 wedi cychwyn Cynhadledd ar $2
 lineflushlog Clirio'r ffeil cofnod ar ôl pob llinell
 linprivate PREIFAT
 listeningon Gwrando ar borth $1
-listsmileys Rhestri gwenogluniau
 listsmileys2 Dangos Emoticons a Gwenogluniau ar brif restr gyswllt aMSN
+listsmileys Rhestri gwenogluniau
 ljoinedconf Mae $1 wedi ymuno â'r Gynhadledd
 lleftconf Mae $1 wedi gadael y Gynhadledd
 loadcontacts Llwytho rhestr gyswllt
@@ -273,9 +273,9 @@ logbigger Cofnodi maint ffeiliau ar gyfer pob cyswllt
 logfandexp Cofnodi Maint Ffeiliau a Hanes Dod i Ben
 loggedotherlocation Datgysylltwyd. Mewngofnodwyd mewn man arall
 loggingin Mewngofnodi
-login Mewngofnodi
 loginas Mewngofnodi fel
 loging Cofnodi
+login Mewngofnodi
 logolder Dim ond cofnodi sgyrsiau digwyddodd yn ystod y
 logout Allgofnodi
 logsbydate Trefnu cofnod yn ôl dyddiad (Mae darllen hanes yn llwytho'n gynt)
@@ -294,10 +294,10 @@ mobile Symudol
 morepersonal Rhagor o Gyflyrau ->
 move Symud
 movetogroup Symud i Grwp
-msg Neges
 msgflicker Fflachio teitl ffenestr sgwrs pan fo neges newydd yn cael ei dderbyn ar ffenestr ymylol.
 msgmaxmin Pan fydd neges newydd yn cyrraedd rwyf eisiau bod yn :
 msgmode Dewis sut i drin ffenestri neges niferus :
+msg Neges
 msn aMSN
 mustrestart Rhaid ailgychwyn y rhaglen i'r newidiadau ddod i rym
 myhomephone Ffôn Cartref
@@ -308,16 +308,16 @@ myworkphone Ffôn Gwaith
 natip canfod IP yn ôl tudalen we 
 natkeepalive Os ydych yn cael eich datgysylltu'n aml, cychwynnwch Cadw'n Fyw
 needonline Rydych all-lein/ymddangos all-lein!
-newmail Mae yna $1 neges yn eich Blwch Derbyn
 newmailfrom E-bost newydd gan $1 ($2)
+newmail Mae yna $1 neges yn eich Blwch Derbyn
 newmsg Neges Newydd
 newstate Ychwanegu cyflwr addasu
 newveravailable Fersiwn diweddaraf $1 ar gael
 next Nesaf
-no Na
 noactivity Dim gweithgaredd
 nodataavailable Dim data ar gael ar gyfer $1
 nologfile Dim ffeil Cofnod ar gyfer $1
+no Na
 noneavailable Dim ar Gael
 nonewmail Dim negeseuon yn y Blwch Derbyn
 nonewver Does dim fersiwn mwy diweddar ar gael
@@ -327,12 +327,12 @@ normal Normal
 noskins Methu canfod croen rhagosodedig yn skins/ folder. Methu cychwyn aMSN
 nosystemtray Clifan system ddim ar gael
 notificationserver Cychwyn MSN Notification Server (Gweinydd MSN Messenger)
-notify hysbysu
-notify1 Dangos ffenestr hysbysu pan fydd cysylltiadau'n dod ar-lein
 notify1_5 Dangos ffenestr hysbysu pan fydd cysylltiadau'n mynd all-lein
 notify1_75 Dangos ffenestr hysbysu pan fydd cysylltiadau'n newid cyflwr
+notify1 Dangos ffenestr hysbysu pan fydd cysylltiadau'n dod ar-lein
 notify2 Dangos ffenestr hysbysu pan fydd neges newydd yn cael ei dderbyn
 notify3 Dangos ffenestr hysbysu pan fydd negeseuon yn cyrraedd eich Blwch Derbyn
+notify hysbysu
 notifyoffset Gosod safle'r ffenestr hysbysu wrth osod atred ei safle
 notifytyping Anfon hysbysiad i ddefnyddwyr eraill pan yn teipio
 notifywin Ffenestr Hysbysu
@@ -370,22 +370,22 @@ prefblock3 Grwp "Rydych wedi cael eich rhwystro gan"
 prefconnection Gosodiadau Cyswllt
 prefemotic Eiconau Emosiwn a Gwenogluniau
 preferences Dewisiadau
-preffont Testun fy Neges
 preffont2 Newid y ffordd mae eraill yn gweld fy nhestun mewn sgyrsiau
 preffont3 Newid ffont a maint rhyngwyneb aMSN
+preffont Testun fy Neges
 prefft Gosodiadau trosglwyddo ffeiliau, cyfoed i gyfoed a NAT
 preflibs Cyfeiriadur llyfrgelloedd
 preflog1 Dewisiadau Hanes a Mewngofnodi
 preflook Gwedd Negesydd aMSN
 prefmsging Rhyngwyneb Negesydd
 prefname Enw/Llysenw fy Negesydd
-prefphone Rhifau Ffôn
 prefphone2 Teipio'r rhif ffôn yr hoffech i bobl\nar eich Rhestr Caniat u ei weld \n
-prefprivacy Caniat u Defnyddwyr/Rhestr Rhwystro
+prefphone Rhifau Ffôn
 prefprivacy2 Cyswllt Defnyddwyr/Gwrthdroi Rhestr
-prefprofile Proffil Cyhoeddus
+prefprivacy Caniat u Defnyddwyr/Rhestr Rhwystro
 prefprofile2 Creu neu newid eich proffil cyhoeddus\n(y disgrifiad ohonoch mae eraill yn ei weld)
 prefprofile3 Proffiliau Ffurfweddu Defnyddwyr aMSN
+prefprofile Proffil Cyhoeddus
 prefproxy Gosodiadau Dirprwyol
 prefremote Dewisiadau Cyswllt Pell
 prefsession Mewngofnodi a Statws
@@ -398,10 +398,10 @@ profileinuse Mae'r Proffil hwn yn cael ei ddefnyddio gan sesiwn aMSN arall, dewi
 profileloginradio Mewngofnodi gan ddefnyddio Proffil presennol
 profiles Proffiliau
 properties Priodweddau
-proxy Rwyf tu ôl i Wasanaethwr Dirprwyol (HTTP neu SOCKS5)
 proxyconf Ffurfweddiad dirprwy
 proxyconfhttp Ffurfweddiad cynnal dirprwy HTTP
 proxyconnection Rwy'n cysylltu â'r we drwy wasanaethwr dirprwyol:
+proxy Rwyf tu ôl i Wasanaethwr Dirprwyol (HTTP neu SOCKS5)
 publishphones Cyhoeddi fy rhifau ffôn
 purge Gwagio
 raised Copog/Dadeiconeiddio
@@ -419,8 +419,8 @@ rename Ailenwi
 reversed Gwrthdroi
 reverselist Rhestr Gwrthdroi (RL):
 rightback Nôl mewn eiliad
-save Cadw
 saveas Cadw fel
+save Cadw
 savechatwinsize Cadw maint ffenestr sgwrsio fel y rhagosodedig wrth ei ail-lunio
 savecontacts Cadw'r rhestr gyswllt
 savetofile Cadw i ffeil
@@ -433,15 +433,15 @@ sendfile Anfon ffeil
 sendmail Anfon e-bost
 sendmsg Anfon neges
 sentbytes Anfon $1 o $2 beit
-server Gweinydd
 serverbusy Gweinydd yn brysur
 servergoingdown Datgysylltwyd: Mae'r gweinydd yn torri
+server Gweinydd
 serverunavailable Nid yw'r gweinydd ar gael
 session Sesiwn
 showblockedlist Dangos rhestr o'r rhai sydd wedi eich rhwystro
 showcachedpics Dangos lluniau yn y storfa
-showdisplaypic Dangos Darlun Arddangos
 showdisplaypic2 Dangos Darlun Arddangos trwy rhagosodiad pan mae'r ffenestr sgwrsio yn agor
+showdisplaypic Dangos Darlun Arddangos
 showmypic Darlun Arddangos
 shownotify Dangos ffenestr hysbysu pan mae digwyddiad yn digwydd
 showuserpic Darlun Arddangos $1
@@ -449,23 +449,22 @@ skin Croen
 skinselector Dewis Croen
 smileconfig Ffurfweddu gwenogluniau
 smilefile Enw ffeil gwenoglun
-smileintro Llanwch y meysydd angenrheidiol i greu gwenoglun newydd (gw. Cwestiynnau poblogaidd am gymorth)
 smileintro2 Golygwch y meysydd angenrheidiol i addasu'r gwenoglun (gw. Cwestiynnau poblogaidd am gymorth)
-sound Sain Digwyddiad
+smileintro Llanwch y meysydd angenrheidiol i greu gwenoglun newydd (gw. Cwestiynnau poblogaidd am gymorth)
 sound2 Seinio wrth i gysylltiadau fewngofnodi neu anfon neges
 soundcommand Rhaid i hyn fod yn orchymyn chwarae (ee: esdplay)
 soundexample ( \$sound = Chwarae ffeil sain ee: esdplay \$sound
 soundfile Ffeil Sain
 soundfiles Ffeiliau Sain
 soundloop Cylch sain
+sound Sain Digwyddiad
 soundserver Gweinydd Sain
 soundstatus Canu'r Larwm
 sourcecode Cod Ffynhonnell (angen ei grynhoi a'i osod)
 sslwarning RHYBUDD!! Bydd analluogi SSL yn analluogi amgryptio, felly bydd eich cyfrinair yn cael ei anfon ar draws y rhwydwaith fel testun plaen. Defnyddiwch hyn ar gyfer dirprwyon lletchwith neu ffurfweddiad rhwydwaith.
-startoffline Cychwyn All-lein
 startoffline2 Mewngofnodi fel "Ymddangos yn All-lein"
+startoffline Cychwyn All-lein
 startontray Cychwyn aMSN yn y gilfach yn unig
-state Rwyf eisiau ymddangos fel
 stateautomsg AwtoNeges i'w Anfon
 statechange statws wedi newid i: 
 stateedittext Golygwch y meysydd rydych \nam eu newid a phwyso Cadw
@@ -473,6 +472,7 @@ stateinfo Ffurfweddiad Cyflwr Personol
 statename Enw'r Cyflwr Personol
 statenewtext Llanwch y wybodaeth angenrheidiol i greu\n eich Cyflwr Personol a phwyso Cadw
 statenick Addasu llys enw  (gadael yn wag am ddim newid)
+state Rwyf eisiau ymddangos fel
 status Statws
 stopalarm Larwm Atal
 storenickname Dychwelyd i'r llysenw gwreiddiol ar ôl cyflwr a llysenw dros dro
@@ -506,9 +506,9 @@ twonewmail $1 neges newydd yn y Blwch Derbyn
 unblock Dadrwystro
 uoffline All-lein
 uonline Ar-lein
-user Defnyddiwr
 useralreadyonlist Mae'r defnyddiwr eisoes yn eich rhestr gyswllt
 userblocked Mae'r defnyddiwr ar-lein ond wedi eich rhwystro
+user Defnyddiwr
 usernotonline Nid yw'r defnyddiwr ar-lein
 useryourself Does dim modd sgwrsio gyda'ch hun
 verifyblocked Gwirio am bobl sy'n eich rhwystro
