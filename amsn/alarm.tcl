@@ -262,7 +262,6 @@ proc run_alarm {user nick msg} {
 	}
 
 	#Play sound
-	#TODO: Is windows code working? What's that $command thing??
 	if { [::alarms::getAlarmItem ${user} sound_st] == 1 } {
 	
 		if { [::config::getKey usesnack] } {
@@ -275,9 +274,17 @@ proc run_alarm {user nick msg} {
 			pack .${wind_name}.stopmusic -padx 2
 			
 		} else {
-			#TODO: Is this working???
+		
+			#Prepare the sound command for variable substitution
+			set command [::config::getKey soundcommand]
+			set command [string map {"\[" "\\\[" "\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } $command]
+			#Now, let's unquote the variables we want to replace
+			set command "[string map {"\\\$sound" "\${sound}" } $command]"
+			set sound [::alarms::getAlarmItem ${user} sound]
+	
 			#need different commands for windows as no kill or bash etc
 			if { $tcl_platform(platform) == "windows" } {
+				
 				#Some verions of tk don't support this
 				catch { wm attributes .${wind_name} -topmost 1 }
 				if { [::alarms::getAlarmItem ${user} loop] == 1 } {
@@ -288,22 +295,24 @@ proc run_alarm {user nick msg} {
 					pack .${wind_name}.stopmusic -padx 2
 					while { $stoploopsound == 0 } {
 						update
-						after 100
-						catch { eval exec "[regsub -all {\\} $command {\\\\}] [regsub -all {/} [::alarms::getAlarmItem ${user} sound] {\\\\}]" & } res 
+						after 1000
+						catch { eval exec $command } res 
 						update
 					}
+					
 				} else {
-					catch { eval exec "[regsub -all {\\} $command {\\\\}] [regsub -all {/} [::alarms::getAlarmItem ${user} sound] {\\\\}]" & } res 
-				}			
+					catch { eval exec "$command &" } res 
+				}
+			
 			} else {
 				
 				#Not using snack, unix version
 				if { [::alarms::getAlarmItem ${user} loop] == 1 } {
 					button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}; catch { eval exec killall jwakeup } ; catch { eval exec killall -TERM $command }"
 					pack .${wind_name}.stopmusic -padx 2
-					catch { eval exec ${program_dir}/jwakeup $command [::alarms::getAlarmItem ${user} sound] & } res
+					catch { eval exec ${program_dir}/jwakeup $command & } res
 				} else {
-					catch { eval exec $command [::alarms::getAlarmItem ${user} sound] & } res 
+					catch { eval exec $command & } res 
 					button .${wind_name}.stopmusic -text [trans stopalarm] -command "catch { eval exec killall -TERM $command } res ; destroy .${wind_name}"
 					pack .${wind_name}.stopmusic -padx 2
 				}
