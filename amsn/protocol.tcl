@@ -1041,8 +1041,9 @@ namespace eval ::MSN {
 
 
 	proc addUser { userlogin {username ""}} {
+		set userlogin [string map {" " ""} $userlogin]
 		if { $username == "" } {
-		set username $userlogin
+			set username $userlogin
 		}
 		::MSN::WriteSB ns "ADD" "FL $userlogin $username 0" "::MSN::ADDHandler"
 	}
@@ -4079,25 +4080,6 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	return 0
 }
 
-
-
-
-proc newcontact_ok { newc_exit newc_add_to_list x0 x1} {
-	global newc_allow_block
-
-	if {$newc_exit == "OK"} {
-		if {$newc_allow_block == "1"} {
-			::MSN::WriteSB ns "ADD" "AL $x0 [urlencode $x1]"
-		} else {
-			::MSN::WriteSB ns "ADD" "BL $x0 [urlencode $x1]"
-		}
-		if {$newc_add_to_list} {
-			::MSN::addUser $x0 [urlencode $x1]
-		}
-	} else {;# if clicked on OK, by default Accept List
-		#	       ::MSN::WriteSB ns "ADD" "AL [lindex $x 0] [urlencode [lindex $x 1]]"
-	}
-}
 
 
 proc process_msnp9_lists { bin } {

@@ -5267,53 +5267,43 @@ proc paste { window {middle 0} } {
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_addcontact {} {
-	global addcontact_request lang
+	global lang
 
-		if {[info exists addcontact_request]} {
+	if {[winfo exists .addcontact]} {
+		catch {
 			raise .addcontact
-			return 0
+			focus .addcontact.email
 		}
-
-	set addcontact_request true
-	toplevel .addcontact -width 400 -height 150
-	wm group .addcontact .
-	bind .addcontact <Destroy> {
-		if {"%W" == ".addcontact"} {
-			unset addcontact_request
-		}
+		return 0
 	}
 
-#   wm geometry .addcontact -0+100
+	toplevel .addcontact
+	wm group .addcontact .
+
 	wm title .addcontact "[trans addacontact] - [trans title]"
-#   wm transient .addcontact .
-	canvas .addcontact.c -width 320 -height 160
-	pack .addcontact.c -expand true -fill both
 
-	entry .addcontact.c.email -width 30 -bg #FFFFFF -bd 1 \
-	-font splainf
-	button .addcontact.c.next -text "[trans next]->" \
-		-command addcontact_next -font sboldf
-	button .addcontact.c.cancel -text [trans cancel]  \
-		-command "grab release .addcontact;destroy .addcontact" -font sboldf
+	label .addcontact.l -font sboldf -text "[trans entercontactemail]:"
+	entry .addcontact.email -width 50 -bg #FFFFFF -bd 1 -font splainf
+	label .addcontact.example -font examplef -justify left \
+		-text "[trans examples]:\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com"
 
-	.addcontact.c create text 5 10 -font sboldf -anchor nw \
-		-text "[trans entercontactemail]:"
-	.addcontact.c create text 80 60 -font examplef -anchor ne \
-		-text "[trans examples]: "
-	.addcontact.c create text 80 60 -font examplef -anchor nw \
-		-text "copypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com"
-	.addcontact.c create window 5 35 -window .addcontact.c.email -anchor nw
-	.addcontact.c create window 195 120 -window .addcontact.c.next -anchor ne
-	.addcontact.c create window 205 120 -window .addcontact.c.cancel -anchor nw
+	frame .addcontact.b	
+	button .addcontact.b.next -text "[trans next]->" -command addcontact_next -font sboldf
+	button .addcontact.b.cancel -text [trans cancel] -command "destroy .addcontact" -font sboldf
+	pack .addcontact.b.next .addcontact.b.cancel -side right -padx 5
 
-	bind .addcontact.c.email <Return> "addcontact_next"
+	
+	pack .addcontact.l -side top -anchor sw -padx 10 -pady 3
+	pack .addcontact.email -side top -fill x -padx 10 -pady 3
+	pack .addcontact.example -side top -anchor nw -padx 10 -pady 3
+	pack .addcontact.b -side top -pady 3 -expand true -fill x -anchor se
+
+	bind .addcontact.email <Return> "addcontact_next"
 	catch {
 		raise .addcontact
-		focus .addcontact.c.email
+		focus .addcontact.email
 	}
 
-#   tkwait visibility .addcontact
-#   grab set .addcontact
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -5321,7 +5311,7 @@ proc cmsn_draw_addcontact {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc addcontact_next {} {
-	set tmp_email [.addcontact.c.email get]
+	set tmp_email [.addcontact.email get]
 	if { $tmp_email != ""} {
 		::MSN::addUser "$tmp_email"
 		grab release .addcontact
@@ -5335,32 +5325,31 @@ proc addcontact_next {} {
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_otherwindow { title command } {
 
-	##hehe, here it's, nearly done ;)
-
-	global lang
-
-	toplevel .otherwindow -width 300 -height 100
+	if {[winfo exists .otherwindow] } {
+		destroy .otherwindow
+	}
+	toplevel .otherwindow
 	wm group .otherwindow .
-
 	wm title .otherwindow "$title"
-	canvas .otherwindow.c -width 270 -height 100
-	pack .otherwindow.c -expand true -fill both
-
-	entry .otherwindow.c.email -width 30 -bg #FFFFFF -bd 1 \
+	
+	label .otherwindow.l -font sboldf -text "[trans entercontactemail]:"
+	entry .otherwindow.email -width 50 -bg #FFFFFF -bd 1 \
 		-font splainf
-	button .otherwindow.c.next -text "[trans ok]" \
+		
+	frame .otherwindow.b
+	button .otherwindow.b.ok -text "[trans ok]" \
 		-command "run_command_otherwindow \"$command\"" -font sboldf
-	button .otherwindow.c.cancel -text [trans cancel]  \
+	button .otherwindow.b.cancel -text [trans cancel]  \
 		-command "grab release .otherwindow;destroy .otherwindow" -font sboldf
+		
+	pack .otherwindow.b.ok .otherwindow.b.cancel -side right -padx 5
 
-	.otherwindow.c create text 5 10 -font sboldf -anchor nw \
-		-text "[trans entercontactemail]:"
-	.otherwindow.c create window 5 35 -window .otherwindow.c.email -anchor nw
-	.otherwindow.c create window 163 65 -window .otherwindow.c.next -anchor ne
-	.otherwindow.c create window 173 65 -window .otherwindow.c.cancel -anchor nw
+	pack .otherwindow.l -side top -anchor sw -padx 10 -pady 3
+	pack .otherwindow.email -side top -expand true -fill x -padx 10 -pady 3
+	pack .otherwindow.b -side top -pady 3 -expand true -anchor se
 
-	bind .otherwindow.c.email <Return> "run_command_otherwindow \"$command\""
-	focus .otherwindow.c.email
+	bind .otherwindow.email <Return> "run_command_otherwindow \"$command\""
+	focus .otherwindow.email
 
 	tkwait visibility .otherwindow
 }
@@ -5370,21 +5359,10 @@ proc cmsn_draw_otherwindow { title command } {
 
 
 
-
-
 #///////////////////////////////////////////////////////////////////////
 proc newcontact {new_login new_name} {
-	global newc_allow_block tcl_platform
+	global tcl_platform
 
-	set newc_allow_block "1"
-
-	if {[lsearch [::abook::getLists $new_login] FL] != -1} {
-		set add_stat "disabled"
-		set newc_add_to_list 0
-	} else {
-		set add_stat "normal"
-		set newc_add_to_list 1
-	}
 
 	set login [split $new_login "@ ."]
 	set login [join $login "_"]
@@ -5399,46 +5377,66 @@ proc newcontact {new_login new_name} {
 	wm title ${wname} "$new_name - [trans title]"
 
 
-	#ShowTransient ${wname}
-	canvas ${wname}.c -width 500 -height 150
-	pack ${wname}.c -expand true -fill both
+	global newc_add_to_list_${wname}
+	if {[lsearch [::abook::getLists $new_login] FL] != -1} {
+		set add_stat "disabled"
+		set newc_add_to_list_${wname} 0
+	} else {
+		set add_stat "normal"
+		set newc_add_to_list_${wname} 1
+	}
+	global newc_allow_block_${wname}
+	set newc_allow_block_${wname} 1
 
-	button ${wname}.c.ok -text [trans ok]  -font sboldf \
-		-command "set newc_exit OK; newcontact_ok \"OK\" \$newc_add_to_list \"$new_login\" [list $new_name];destroy ${wname}"
-	button ${wname}.c.cancel -text [trans cancel]  -font sboldf \
-		-command "newcontact_ok \"CANCEL\" 0 \"$new_login\" [list $new_name];destroy ${wname}"
-
-	radiobutton ${wname}.c.allow  -value "1" -variable newc_allow_block \
+	label ${wname}.l1 -font splainf -justify left -wraplength 300 \
+		-text "[trans addedyou $new_name $new_login]"
+	label ${wname}.l2 -font splainf -text "[trans youwant]:"
+	radiobutton ${wname}.allow  -value "1" -variable newc_allow_block_${wname} \
 		-text [trans allowseen] \
 		-highlightthickness 0 \
 		-activeforeground #FFFFFF -selectcolor #FFFFFF -font sboldf
-	radiobutton ${wname}.c.block -value "0" -variable newc_allow_block \
+	radiobutton ${wname}.block -value "0" -variable newc_allow_block_${wname} \
 		-text [trans avoidseen] \
 		-highlightthickness 0 \
 		-activeforeground #FFFFFF -selectcolor #FFFFFF  -font sboldf
-	checkbutton ${wname}.c.add -var newc_add_to_list -state $add_stat \
+	checkbutton ${wname}.add -var newc_add_to_list_${wname} -state $add_stat \
 		-text [trans addtoo] -font sboldf \
 		-highlightthickness 0 -activeforeground #FFFFFF -selectcolor #FFFFFF
 
-	${wname}.c.add select
+	frame ${wname}.b
+	button ${wname}.b.ok -text [trans ok]  -font sboldf \
+		-command [list newcontact_ok ${wname} $new_login $new_name]
+	button ${wname}.b.cancel -text [trans cancel]  -font sboldf \
+		-command [list destroy ${wname}]
+	pack ${wname}.b.ok ${wname}.b.cancel -side right -padx 5
+	
+	pack ${wname}.l1 -side top -pady 3 -padx 5 -anchor nw
+	pack ${wname}.l2 -side top -pady 3 -padx 5 -anchor w
+	pack ${wname}.allow -side top -pady 0 -padx 15 -anchor w
+	pack ${wname}.block -side top -pady 0 -padx 15 -anchor w
+	pack ${wname}.add -side top -pady 3 -padx 5 -anchor w
+	pack ${wname}.b -side top -pady 3 -anchor se -expand true -fill x
 
-	${wname}.c create text 30 5 -font splainf -anchor nw -justify left \
-		-text "[trans addedyou $new_name $new_login]" \
-		-width 460
-	${wname}.c create text 30 40 -font splainf -anchor nw \
-		-text "[trans youwant]:"
-	${wname}.c create window 40 58 -window ${wname}.c.allow -anchor nw
-	${wname}.c create window 40 76 -window ${wname}.c.block -anchor nw
-	${wname}.c create window 30 94 -window ${wname}.c.add -anchor nw
-	${wname}.c create window 245 120 -window ${wname}.c.ok -anchor ne
-	${wname}.c create window 255 120 -window ${wname}.c.cancel -anchor nw
-
-	bind ${wname} <Destroy> "newcontact_ok \"DESTROY\" 0 \"$new_login\" [list $new_name]"
-#   tkwait visibility ${wname}
-#   grab set ${wname}
 }
 #///////////////////////////////////////////////////////////////////////
 
+proc newcontact_ok { w x0 x1 } {
+	
+	global newc_allow_block_$w newc_add_to_list_$w
+	set newc_allow_block [set newc_allow_block_$w]
+	set newc_add_to_list [set newc_add_to_list_$w]
+	
+	if {$newc_allow_block == "1"} {
+		::MSN::WriteSB ns "ADD" "AL $x0 [urlencode $x1]"
+	} else {
+		::MSN::WriteSB ns "ADD" "BL $x0 [urlencode $x1]"
+	}
+	if {$newc_add_to_list} {
+		::MSN::addUser $x0 [urlencode $x1]
+	}
+	
+	destroy $w
+}
 
 
 #///////////////////////////////////////////////////////////////////////
@@ -5865,6 +5863,7 @@ proc toggle_status {} {
 	} else {
 		wm state .status normal
 		set status_show 1
+		focus .status.enter
 	}
 }
 #///////////////////////////////////////////////////////////////////////
@@ -6195,9 +6194,9 @@ proc check_version_silent {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc run_command_otherwindow { command } {
-	set tmp [.otherwindow.c.email get]
+	set tmp [.otherwindow.email get]
 	if { $tmp != "" } {
-		eval $command $tmp
+		eval $command [list $tmp]
 		destroy .otherwindow
 	}
 }
