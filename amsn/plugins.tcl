@@ -118,6 +118,9 @@ namespace eval ::plugins {
 			return; # Bye Bye
 		}
 		set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin *"] 0]
+		if { $pluginidx == "" } {
+			return
+		}
 		set namespace [lindex $::plugins::found $pluginidx 6]
 
 		if {[array names pluginsevents -exact $event] == "$event"} { # Will error if I search with empty key
@@ -150,6 +153,9 @@ namespace eval ::plugins {
 		variable pluginsevents
 
 		set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin *"] 0]
+		if { $pluginidx == "" } {
+			return
+		}
 		set namespace [lindex $::plugins::found $pluginidx 6]
 
 		# do stuff only if there is a such a command for the event
@@ -180,6 +186,9 @@ namespace eval ::plugins {
 		# event list
 		variable pluginsevents
 		set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin *"] 0]
+		if { $pluginidx == "" } {
+			return
+		}
 		set namespace [lindex $::plugins::found $pluginidx 6]
 
 		# go through each event
@@ -769,6 +778,9 @@ namespace eval ::plugins {
 		set loadedplugins [lreplace $loadedplugins [lsearch $loadedplugins "$plugin"] [lsearch $loadedplugins "$plugin"]]
 		UnRegisterEvents $plugin
 		set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin *"] 0]
+		if { $pluginidx == "" } {
+			return
+		}
 		set namespace [lindex $::plugins::found $pluginidx 6]
 		set deinit [lindex $::plugins::found $pluginidx 8]
 		if {[info procs "::${namespace}::${deinit}"] == "::${namespace}::${deinit}"} {
@@ -911,26 +923,30 @@ namespace eval ::plugins {
 		status_log "Plugins System: I will save the folowing: $knownplugins\n"
 		foreach {plugin} $knownplugins {
 			set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin *"] 0]
-			set namespace [lindex $::plugins::found $pluginidx 6]
-			puts $file_id "<plugin>\n<name>${plugin}</name>"
-			if {[lsearch $loadedplugins $plugin]!=-1} {
-				status_log "Plugins System: $plugin loaded...\n"
-				puts $file_id "<loaded>true</loaded>"
+			if { $pluginidx != "" } {
+				set namespace [lindex $::plugins::found $pluginidx 6]
+				status_log "NAMESPACE: $namespace\n"
+				puts $file_id "<plugin>\n<name>${plugin}</name>"
+				if {[lsearch $loadedplugins $plugin]!=-1} {
+					status_log "Plugins System: $plugin loaded...\n"
+					puts $file_id "<loaded>true</loaded>"
+				}
+				if {[array exists ::${namespace}::config]==1} {
+					status_log "Plugins System: save_config: Saving from $plugin's namespace\n" black
+					array set aval [array get ::${namespace}::config];
+				} else {
+					status_log "Plugins System: save_config: Saving from $plugin's global place\n" black
+					array set aval [array get ::${plugin}_cfg]
+				}
+				foreach var_attribute [array names aval] {
+					set var_value $aval($var_attribute)
+					set var_value [::sxml::xmlreplace $var_value]
+					puts $file_id \
+					"   <entry>\n      <key>$var_attribute</key>\n      <value>$var_value</value>\n   </entry>"
+				}
+				puts $file_id "</plugin>"
+				array unset aval
 			}
-			if {[array exists ::${namespace}::config]==1} {
-				status_log "Plugins System: save_config: Saving from $plugin's namespace\n" black
-				array set aval [array get ::${namespace}::config];
-			} else {
-				status_log "Plugins System: save_config: Saving from $plugin's global place\n" black
-				array set aval [array get ::${plugin}_cfg]
-			}
-			foreach var_attribute [array names aval] {
-				set var_value $aval($var_attribute)
-				set var_value [::sxml::xmlreplace $var_value]
-				puts $file_id "   <entry>\n      <key>$var_attribute</key>\n      <value>$var_value</value>\n   </entry>"
-			}
-			puts $file_id "</plugin>"
-			array unset aval
 		}
 		puts $file_id "</config>"
 		close $file_id
