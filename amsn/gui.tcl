@@ -1600,7 +1600,6 @@ namespace eval ::amsn {
 		}
 
 		return ".${win_name}"
-
 	}
 
 	proc ConfiguredChatWin {win} {

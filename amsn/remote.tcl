@@ -116,12 +116,12 @@ namespace eval ::remote {
 	global config
 	
 
-	if {$new_name != ""} {
+	if {$nickname != ""} {
 	    ::MSN::changeName $config(login) "$nickname"
 	    write_remote "New nick set to : $nickname"
 	} else {
-	    ::MSN::changeName $config(login) "$nickname"
-	    write_remote "New nick set to $config(login)"
+	    # ::MSN::changeName $config(login) "$nickname"
+	    write_remote "New nick not entered"
 	}
 
     
