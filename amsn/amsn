@@ -1198,6 +1198,15 @@ proc ShowUser {user_name user_login state state_code colour section} {
          }
 }
 
+proc blockun_user { user_login } {
+   global list_bl
+   if {[lsearch $list_bl "$user_login *"] != -1} {
+	unblock_user $user_login
+   } else {
+   	block_user $user_login
+   }
+}   
+
 proc block_user {user_login} {
     set name [::abook::getName ${user_login}]
    ::MSN::blockUser ${user_login} [urlencode $name]
@@ -1250,7 +1259,7 @@ proc menuCmdMove {newgid {paramlist ""}} {
 }
 
 proc user_choose {title online command {userslist ""}} {
-   global list_users list_states userchoose_req
+   global list_users list_bl list_states userchoose_req
 
    if { $userslist == "" } {
      set userslist $list_users
@@ -1298,7 +1307,11 @@ proc user_choose {title online command {userslist ""}} {
       set state_code [lindex $state 0]
       
       if {($online != "online") || ($state_code != "FLN")} {
-         .userchoose.list.userlist insert end "$user_name <$user_login>"
+         if {[lsearch $list_bl "$user_login *"] != -1} {
+	 	.userchoose.list.userlist insert end "BLOCKED -> $user_name <$user_login>"
+	 } else {
+	 	.userchoose.list.userlist insert end "$user_name <$user_login>"
+      	 }
       }	 
 
    }
@@ -1442,9 +1455,9 @@ proc cmsn_draw_msgwin {email} {
    
    menu .${win_name}.menu.actions -tearoff 0 -type normal  
    .${win_name}.menu.actions add command -label "[trans addtocontacts]" \
-      -command "show_chatuserlist \"[trans addtocontacts]\" $name ::MSN::addUser" 
-   .${win_name}.menu.actions add command -label "[trans block]" \
-      -command "show_chatuserlist \"[trans block]\" $name block_user" 
+      -command "show_useraddlist \"[trans addtocontacts]\" $name ::MSN::addUser" 
+   .${win_name}.menu.actions add command -label "[trans block]/[trans unblock]" \
+      -command "show_chatuserlist \"[trans block]/[trans unblock]\" $name blockun_user" 
    .${win_name}.menu.actions add command -label "[trans properties]" \
       -command "show_chatuserlist \"[trans properties]\" $name ::abookGui::showEntry"
    .${win_name}.menu.actions add separator
@@ -1512,7 +1525,7 @@ proc cmsn_draw_msgwin {email} {
 
    bind  .${win_name}.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y .${win_name}.in.input"   
    bind  .${win_name}.buttons.fontsel  <Button1-ButtonRelease> "change_myfont ${win_name}"   
-   bind  .${win_name}.buttons.block  <Button1-ButtonRelease> "show_chatuserlist \"[trans block]\" $name block_user"
+   bind  .${win_name}.buttons.block  <Button1-ButtonRelease> "show_chatuserlist \"[trans block]/[trans unblock]\" $name blockun_user"
 
    bind .${win_name}.in.send <Return> \
       "sb_enter $name .${win_name}.in.input; break"
@@ -2072,8 +2085,7 @@ proc change_name_ok {} {
 
 proc show_chatuserlist {title name command} {
    global list_users
-   set win_name "msg_[string tolower ${name}]"
-
+   
    set userlist [list]
 
    foreach user_info $list_users {
@@ -2093,6 +2105,28 @@ proc show_chatuserlist {title name command} {
    }
 
 }
+
+proc show_useraddlist {title name command} {
+    global list_users
+  
+   upvar #0 [sb name $name users] users_list
+   set userlist [list]
+
+   foreach user_info $users_list {
+      set user_login [lindex $user_info 0]
+      set user_state_no [lindex $user_info 2]
+      status_log "first is $user_login \n second is $user_state_no"      
+      if {($user_state_no < 7) && 
+          ([lsearch $list_users "$user_login *"] == -1)} {
+	  status_log "adding $user_login to userlist"
+          set user_name [lindex $user_info 1]
+	  lappend userlist [list $user_login $user_name $user_state_no]
+      }
+   }
+   
+   user_choose $title both $command $userlist
+}
+
 
 #obsolete proc
 proc cmsn_msgwin_umenu {name} {

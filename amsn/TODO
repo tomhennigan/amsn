@@ -23,7 +23,7 @@ Existing Feature Improvements (priority 2):
 # File Transfer AUTH protocol fix (and add the nick of person sending file to transfer window)
 # Improve file transfers: non blocking negotiation
 # Display link to received file and click to open
-# Unblock dosen't work from chat window
+# ** FIXED ** Unblock dosen't work from chat window
 # Fix display issue when copying a user in more than 1 group (displays the user twice in the same group)
 # Reenable copy option for contact list (currently commented out)
 # Copy/Paste in message windows + Right click popup menu for copy/paste
