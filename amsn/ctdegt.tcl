@@ -637,7 +637,7 @@ proc Preferences { { settings ""} } {
 	grid $lfname.5.lpass -row 3 -column 3 -sticky e
 	grid $lfname.5.pass -row 3 -column 4 -sticky w
 
-	## NAT Frame ##
+	## NAT (or similar) Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefshared]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.pshared -image prefnat
@@ -646,7 +646,14 @@ proc Preferences { { settings ""} } {
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
 	checkbutton $lfname.1.keepalive -text "[trans natkeepalive]" -onvalue 1 -offvalue 0 -variable config(keepalive)
 	checkbutton $lfname.1.ip -text "[trans ipdetect]" -onvalue 1 -offvalue 0 -variable config(natip)
-	pack $lfname.1.keepalive $lfname.1.ip -anchor w -side top -padx 10
+	
+	frame $lfname.1.ftport -class Deft
+	label $lfname.1.ftport.text -text "[trans ftportpref] :" -padx 5 -font splainf
+	entry $lfname.1.ftport.entry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5 -textvariable config(initialftport)
+	grid $lfname.1.ftport.text -row 1 -column 1 -sticky w -pady 5 -padx 0
+	grid $lfname.1.ftport.entry -row 1 -column 2 -sticky w -pady 5 -padx 3
+	
+	pack $lfname.1.keepalive $lfname.1.ip $lfname.1.ftport -anchor w -side top -padx 10
 	
 	    
         ## Remote Control Frame ##
@@ -1104,6 +1111,9 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.47  2003/06/10 23:48:55  airadier
+# Added option for initial file transfers port
+#
 # Revision 1.46  2003/06/07 08:14:01  kakaroto
 # added color support for remote shell and added new functions
 #
