@@ -46,9 +46,9 @@
      <chatborders>1</chatborders>
      <statusbarbg>#fcfcee</statusbarbg>
      <statusbartext>#000000</statusbartext>
-     <chatpady>3</chatpady>
      <chatpadx>3</chatpadx>
-    </Colors>
+     <chatpady>3</chatpady>
+   </Colors>
 
 
    <smileys>

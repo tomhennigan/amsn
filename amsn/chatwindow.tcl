@@ -488,9 +488,8 @@ namespace eval ::ChatWindow {
 			pack $top -side top -expand false -fill x -padx [::skin::getColor chatpadx] -pady [::skin::getColor chatpady]
 		}
 		
-		pack $statusbar -side bottom -expand false -fill x 
-		pack $paned -side top -expand true -fill both -padx 0 -pady 0
-
+		pack $paned -side top -expand true -fill both -padx [::skin::getColor chatpadx] -pady 0
+		pack $statusbar -side top -expand false -fill x
 
 
 		focus $paned
@@ -971,52 +970,29 @@ namespace eval ::ChatWindow {
 	proc CreatePanedWindow { w } {
 		
 		set paned $w.f
-		panedwindow $paned -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat -orient vertical ;#-opaqueresize true -showhandle false
-		
+		panedwindow $paned -background [::skin::getColor chatwindowbg] -borderwidth 0 -relief flat -orient vertical
 		set output [CreateOutputWindow $w $paned]
 		set input [CreateInputWindow $w $paned]
+
 
 		#Remove thin border on Mac OS X (padx)
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			pack $output -expand true -fill both -padx 0 -pady 0
 		} else {
-			pack $output -expand true -fill both -padx [::skin::getColor chatpadx] -pady 0
+			pack $output -expand true -fill both -padx 3 -pady 0
 		}
 
 		pack $input -side top -expand true -fill both -padx 0 -pady [::skin::getColor chatpady]
 
 		$paned add $output $input
 		$paned paneconfigure $output -minsize 150 
-		$paned paneconfigure $input -minsize 100 -height 150
+		$paned paneconfigure $input -minsize 100 -height 120
 
 		# Bind on focus, so we always put the focus on the input window
 		bind $paned <FocusIn> "focus $input"
-		#bind $paned <Configure> "::ChatWindow::PanedWindowConfigured $paned %w %h"
 
 
 		return $paned
-
-	}
-	
-	proc PanedWindowConfigured {paned neww newh } {
-		
-		set toph [$paned panecget $paned.out -height]
-		set bottomh [$paned panecget $paned.bottom -height]
-
-		set h [$paned cget -height]
-		#$paned configure -height $newh
-		if { $h == "" } { return }
-
-		set diff [expr $newh - $h]
-
-		status_log "Pane configured, new width : $neww\nnewheight : $newh\ntoph : $toph\nbottomh : $bottomh\nh : $h\ndiff : $diff\n"
-
-		if { $diff > 0 } {
-			$paned paneconfigure $paned.out -height [expr $toph + $diff]
-		} else {
-			$paned paneconfigure $paned.out -height [expr $toph - abs($diff)]
-		}
-
 
 	}
 
@@ -1083,17 +1059,17 @@ namespace eval ::ChatWindow {
 		}
 
 		# Create The left frame
-		frame $leftframe -class Amsn -background white -relief solid -borderwidth [::skin::getColor chatborders]
+		frame $leftframe -class Amsn -background [::skin::getColor chatwindowbg] -relief solid -borderwidth 0
 
 		# Create the other widgets for the bottom frame
 		set buttons [CreateButtonBar $w $leftframe]
 		set input [CreateInputFrame $w $leftframe]
 		set picture [CreatePictureFrame $w $bottom]
 
-		pack $buttons -side top -expand false -fill x -padx [::skin::getColor chatpadx] -pady 0 -anchor n
+		pack $buttons -side top -expand true -fill x -padx [::skin::getColor chatpadx] -pady 0 -anchor n
 		pack $input -side top -expand true -fill both -padx [::skin::getColor chatpadx] -pady [::skin::getColor chatpady] -anchor n
-		pack $leftframe -side left -expand true -fill both -padx 0 -pady 0
-		pack $picture -side right -expand false -fill y -padx [::skin::getColor chatpadx] -pady 0 -anchor c
+		pack $leftframe -side left -expand true -fill both -padx [::skin::getColor chatpadx] -pady [::skin::getColor chatpady]
+		pack $picture -side right -expand false -padx [::skin::getColor chatpadx] -pady 0 -anchor ne
 
 		# Bind the focus
 		bind $bottom <FocusIn> "focus $input"
@@ -1136,7 +1112,7 @@ namespace eval ::ChatWindow {
 
 
 		# Configure my widgets
-		$sendbutton configure -state disabled
+		$sendbutton configure -state normal
 		$text configure -state normal
 
 		# Create my bindings
@@ -1277,8 +1253,8 @@ namespace eval ::ChatWindow {
 		set showpic $frame.showpic
 
 		# Create them
-		frame $frame -class Amsn -borderwidth 0 -relief solid -background white	
-		label $picture -borderwidth 1 -relief solid -image [::skin::getNoDisplayPicture] -background #FFFFFF
+		frame $frame -class Amsn -borderwidth 0 -relief solid -background [::skin::getColor chatwindowbg]
+		label $picture -borderwidth 1 -relief solid -image [::skin::getNoDisplayPicture] -background [::skin::getColor chatwindowbg]
 
 		set_balloon $picture [trans nopic]
 		button $showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] \
