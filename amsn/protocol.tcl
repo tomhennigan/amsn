@@ -808,11 +808,30 @@ proc cmsn_sb_msg {sb_name recv} {
    after cancel "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name\} res"      
 
    if {[string range $content 0 9] == "text/plain"} {
+
+#      status_log "llegamsg: $msg\n"
+
+      set fonttype [lindex [array get headers x-mms-im-format] 1]
+      
+      set begin [expr {[string first "FN=" $fonttype]+3}]
+      set end   [expr {[string first ";" $fonttype $begin]-1}]      
+      set fontfamily "[urldecode [string range $fonttype $begin $end]]"
+
+      set begin [expr {[string first "EF=" $fonttype]+3}]
+      set end   [expr {[string first ";" $fonttype $begin]-1}]     
+      set fontstyle "[urldecode [string range $fonttype $begin $end]]"
+
+      set begin [expr {[string first "CO=" $fonttype]+3}]
+      set end   [expr {[string first ";" $fonttype $begin]-1}]     
+      set fontcolor "000000[urldecode [string range $fonttype $begin $end]]"
+      set fontcolor "[string range $fontcolor end-1 end][string range $fontcolor end-3 end-2][string range $fontcolor end-5 end-4]"
+      
+      status_log "Font: $fontfamily, $fontstyle, $fontcolor\n" blue
+
       cmsn_win_write $sb_name \
         "\[$timestamp\] [trans says [urldecode [lindex $recv 2]]]:\n" gray
-      cmsn_win_write $sb_name "$body\n" red
-      
-#      status_log "llegamsg: $recv\n"
+
+      cmsn_win_write $sb_name "$body\n" red    
 
       sb set $sb_name lastmsgtime [clock format [clock seconds] -format %H:%M:%S]
       
