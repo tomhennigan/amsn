@@ -778,10 +778,17 @@ namespace eval ::abookGui {
 		label $nbIdent.yes -font sboldf -text [trans yes] -justify center
 		label $nbIdent.no -font sboldf -text [trans no] -justify center
 		
-		AddOption $nbIdent nofifonline caca [trans custnotifyonline] 1
-		AddOption $nbIdent nofifoffline caca [trans custnotifyoffline] 2
-		AddOption $nbIdent nofifstatus caca [trans custnotifystatus] 3
-		AddOption $nbIdent nofifmsg caca [trans custnotifymsg] 4
+		#Set default values
+		set ::notifyonline($email) [::abook::getContactData $email notifyonline -1]
+		set ::notifyoffline($email) [::abook::getContactData $email notifyoffline -1]
+		set ::notifystatus($email) [::abook::getContactData $email notifystatus -1]
+		set ::notifymsg($email) [::abook::getContactData $email notifymsg -1]
+		
+		#Add the checkboxes
+		AddOption $nbIdent notifyonline notifyonline($email) [trans custnotifyonline] 1
+		AddOption $nbIdent notifyoffline notifyoffline($email) [trans custnotifyoffline] 2
+		AddOption $nbIdent notifystatus notifystatus($email) [trans custnotifystatus] 3
+		AddOption $nbIdent notifymsg notifymsg($email) [trans custnotifymsg] 4
 		
 		grid $nbIdent.default -row 0 -column 0 -sticky we -padx 5
 		grid $nbIdent.yes -row 0 -column 1 -sticky we -padx 5
@@ -820,6 +827,19 @@ namespace eval ::abookGui {
 		pack $w.buttons -fill x -side bottom
 		pack $w.nb -expand true -fill both -side bottom -padx 3 -pady 3
 		#pack $w.nb
+		
+		bind $w <Destroy> [list ::abookGui::PropDestroyed $email $w %W]
+	}
+	
+	proc PropDestroyed { email w win } {
+		if { $w == $win } {
+			#Clean temporal variables
+			unset ::notifyonline($email)
+			unset ::notifyoffline($email)
+			unset ::notifystatus($email)
+			unset ::notifymsg($email)
+			
+		}
 	}
 	
 	proc AddOption { nbIdent name var text row} {
@@ -863,6 +883,13 @@ namespace eval ::abookGui {
 		set nbIdent [$nbIdent.sw.sf getframe]
 		::abook::setContactData $email customnick [$nbIdent.customnick.ent get]
 		::abook::setContactData $email customcolor [set colorval_$email]
+		
+		#Store custom notification options
+		::abook::setContactData $email notifyonline [set ::notifyonline($email)]
+		::abook::setContactData $email notifyoffline [set ::notifyoffline($email)]
+		::abook::setContactData $email notifystatus [set ::notifystatus($email)]
+		::abook::setContactData $email notifymsg [set ::notifymsg($email)]
+		
 		destroy $w
 		unset colorval_$email
 		::MSN::contactListChanged
