@@ -1014,9 +1014,11 @@ proc sortalllog { } {
 	foreach email $contactlist {
 	
 		set size 0
+		
+		set file "[file join ${log_dir} ${email}.log]]"
 	
-		if { [file exists [file join ${log_dir} ${email}.log]] == 1 } {
-			set size [file size [file join ${log_dir} ${email}.log]]
+		if { [file exists $file] == 1 } {
+			set size [file size $file]
 		}
 		
 		if { [::config::getKey logsbydate] == 1 } {
@@ -1040,7 +1042,74 @@ proc sortalllog { } {
 	
 }
 
+
+proc sortmonthlog { month } {
+
+	global log_dir
 	
+	set contactlist [::abook::getAllContacts]
+	
+	set contactsize [list]
+	
+	foreach email $contactlist {
+	
+		set file [file join ${log_dir} ${month} ${email}.log]
+			
+		if { [file exists $file] == 1 } {
+			set size [file size $file]
+		} else {
+			set size 0
+		}
+		
+		set contactsize [lappend contactsize [list $email $size]]
+		
+	}
+	
+	set contactsize [lsort -integer -index 1 -decreasing $contactsize]
+	
+	return $contactsize
+	
+}
+
+
+
+proc getAllDates { } {
+
+	if { [::config::getKey logsbydate] == 1 } {
+
+		global log_dir
+		
+		set datelist [list]
+	
+		foreach date [glob -nocomplain -types d -path "${log_dir}/" *] {
+			set idx [expr [string last "/" $date] + 1]
+			set date2 [string range $date $idx end]
+		
+			set date2 [clock scan "1 $date2"]
+		
+			set datelist [lappend datelist $date2]
+		}
+	
+		set datelist [lsort -integer -decreasing $datelist]
+
+		set datelist2 [list]
+
+		foreach date $datelist {
+			set date "[clock format $date -format "%B"] [clock format $date -format "%Y"]"
+			set datelist2 [lappend datelist2 $date]
+		}
+	
+		return $datelist2
+
+	} else {
+	
+		return ""
+		
+	}
+	
+}
+
+
 #///////////////////////////////////////////////////////////////////////////////
 # Make a stat window
 
@@ -1057,6 +1126,23 @@ proc stat { } {
 	
 	wm title $w "[trans stat]"
 	wm geometry $w 300x300
+		
+	set months [::log::getAllDates]
+	
+	frame $w.select
+	combobox::combobox $w.select.list -editable true -highlightthickness 0 -width 15 -bg #FFFFFF -font splainf
+	$w.select.list list delete 0 end
+		
+	$w.select.list list insert end "[trans all]"
+	
+	$w.select.list select "0"
+	
+	foreach month $months {
+		$w.select.list list insert end "$month"
+	}
+		
+	pack configure $w.select.list -side right
+	pack configure $w.select -side top -fill x -expand true
 	
 	ScrolledWindow $w.list
 	ScrollableFrame $w.list.sf -constrainedwidth 1
@@ -1065,6 +1151,51 @@ proc stat { } {
 	set frame [$w.list.sf getframe]
 	
 	set contactsize [::log::sortalllog]
+	
+	set id 0
+
+	foreach contact $contactsize {
+		set email [lindex $contact 0]
+		set size [lindex $contact 1]
+		if { $size == 0 } {
+			break
+		}
+		incr id
+		set wlabel "label_$id"
+		label $frame.$wlabel -text "$id) $email ([::amsn::sizeconvert $size]o)"
+		pack configure $frame.$wlabel -side top
+	}
+	
+	$w.select.list configure -editable false -command "::log::stat_select $id"
+
+	frame $w.button
+	button $w.button.close -text "[trans close]" -command "destroy $w"
+	pack configure $w.button.close -side right -padx 10 -pady 10
+	pack configure $w.button -side bottom -fill x -expand true
+	
+	bind $w <<Escape>> "destroy $w"
+	moveinscreen $w 30
+	
+	
+}
+
+
+proc stat_select { id wname month} {
+
+	set w .stat
+	
+	set frame [$w.list.sf getframe]
+	
+	for {set i 1} {$i<=$id} {incr i} {
+		set wlabel "label_$i"
+		destroy $frame.$wlabel
+	}
+	
+	if { $month == "[trans all]" } {
+		set contactsize [::log::sortalllog]
+	} else {
+		set contactsize [::log::sortmonthlog $month]
+	}
 	
 	set id 0
 	
@@ -1080,16 +1211,11 @@ proc stat { } {
 		pack configure $frame.$wlabel -side top
 	}
 	
-	frame $w.button
-	button $w.button.close -text "[trans close]" -command "destroy $w"
-	pack configure $w.button.close -side right -padx 10 -pady 10
-	pack configure $w.button -side bottom -fill x -expand true
-	
-	bind $w <<Escape>> "destroy $w"
-	moveinscreen $w 30
+	$w.select.list configure -editable false -command "::log::stat_select $id"
 	
 	
 }
+
 
 
 
