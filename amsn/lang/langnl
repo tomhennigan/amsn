@@ -42,6 +42,7 @@ autoaway Status op "Afwezig" zetten als ik niet actief ben gedurende
 autocheckver Controleer automatisch op nieuwere versies bij het opstarten
 autoconnect Automatisch aanmelden
 autoconnect2 Automatisch aanmelden wanneer aMSN wordt gestart
+autodetectip Detecteer het IP adres automatisch
 autohotmaillog Automatisch aanmelden bij Hotmail
 autoidle Automatisch "Geen Activiteit"
 autoip Automatisch IP
@@ -89,6 +90,7 @@ chatreq Indienen van verzoek voor gesprek
 chatsmileys Emoticons weergeven
 chatsmileys2 Emoticons in berichten weergeven
 checkblocking Blijven controleren of gebruikers u blokkeren
+checkemail Laat postberichten in contact lijst zien
 checkfilman Ontvangen bestanden worden bewaard in de map $1.\nKies extra ==> opties om dit te wijzigen.
 checkingver Bezig te zoeken naar een nieuwere versie van aMSN
 checkonfln Controleer of een contactpersoon u heeft geblokkeerd wanneer hij offline gaat
@@ -127,6 +129,7 @@ corruptconfig Het configuratiebestand is beschadigd. Er wordt een nieuw bestand 
 corruptstates Het aangepaste statussen bestand is beschadigd. Er wordt een nieuw bestand aangemaakt. Het oude wordt opgeslagen in $1. Wilt u het oude bestand a.u.b. naar ons opsturen zodat wij kunnen nagaan wat er fout is gegaan?
 countrycode Landnunummer
 cprofile Maak profiel
+credits De makers
 custom_edit Bewerk zelfgemaakte emoticon
 custom_new Maak een nieuwe emoticon
 cut Knippen
@@ -329,6 +332,7 @@ notify3 Melding weergeven wanneer er een e-mail wordt ontvangen
 notifyoffset Afstand meldingsvenster vanaf de hoek van het scherm
 notifytyping Laat anderen in een gesprek zien of je aan het typen bent
 notifywin Meldingsvenster
+notinlist U bent niet in zijn/haar lijst
 notls Versie 9 van het MSN protocol vereist het pakket tls. Dit pakket lijkt niet geïnstalleerd te zijn op deze machine. Als het wel geïnstalleerd is, moet het pad naar de map, waarin de tls-library is geïnstalleerd, worden opgegeven in het instellingen venster. (bijv. /opt/tls/lib). \n \n Tls is te downloaden van http://tls.sf.net
 nousersinsession Geen gebruiker in sessie
 offline Offline
@@ -365,6 +369,7 @@ preferences Opties
 preffont Berichttekst
 preffont2 Het lettertype voor berichten wijzigen
 preffont3 Lettertype en lettergrootte
+prefft Bestand verzenden, P2P en NAT instellingen
 preflibs Zoekpad voor libraries
 preflog1 Logboeken en geschiedenis
 preflook Weergave
@@ -406,6 +411,7 @@ reconnecting Bezig met opnieuw verbinden met de server
 reject Afwijzen
 rememberpass Onthoud wachtwoord
 removefromlist Verwijder uit deze lijst
+rename Hernoem
 reversed Aflopend
 reverselist Omgekeerde lijst
 rightback Ben zo terug
