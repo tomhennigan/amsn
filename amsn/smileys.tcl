@@ -66,7 +66,7 @@ proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
  
     if { ! ( [info exists sdata(${cstack}:hiden)] && 
 	     [is_true $sdata(${cstack}:hiden)] ) } {
-       set name [format " %03i %s" "$emoticon_number" "$name"]
+       set name [format "%03i %s" "$emoticon_number" "$name"]
        set emoticon_number [expr $emoticon_number + 1]
    }
     
@@ -127,12 +127,18 @@ proc new_custom_emoticon {cstack cdata saved_data cattr saved_attr args} {
 # previously saved options
 
 proc new_custom_emoticon_from_gui { {name ""} } {
-    global custom_emotions config new_custom_cfg
+    global custom_emotions config new_custom_cfg HOME
 
 
     set w .new_custom
+    set quit 0
 
     if { [info exists new_custom_cfg(disabled)] && $new_custom_cfg(disabled) == 1 } {
+	set idx [lsearch $config(customsmileys) $name]
+	if { $idx != -1 } {
+	    set config(customsmileys) [lreplace $config(customsmileys) $idx $idx]
+	}
+	load_smileys
 	return
     }
     if { $name == "" } {
@@ -143,16 +149,38 @@ proc new_custom_emoticon_from_gui { {name ""} } {
     }
 
     if { "$name" == "" || "$new_custom_cfg(file)" == "" || "$new_custom_cfg(text)" == "" } {
-	msg_box "[trans wrongfeilds]"
+	msg_box "[trans wrongfeilds [trans description] [trans triggers] [trans smilefile] ]"
 	return
     }
 
-    if { $edit == 0} {
-	lappend config(customsmileys) "$name"
+    if { $new_custom_cfg(enablesound) && "$new_custom_cfg(sound)" != "" } {
+	set filename "[string map [list [file dirname [GetSkinFile sounds $new_custom_cfg(sound)]]/ "" ] [GetSkinFile sounds $new_custom_cfg(sound)]]"
+	puts "sound : $filename"
+	if { "$filename" == "null" } {
+	    if { [info exists custom_emotions(${name}_sound)] } {unset custom_emotions(${name}_sound)}
+	    msg_box "[trans invalidfile [trans soundfile] \"$new_custom_cfg(sound)\"]"
+	    set quit 1
+	} else {
+	    create_dir [file join $HOME sounds]
+	    catch { file copy [GetSkinFile sounds "$new_custom_cfg(sound)"] [file join $HOME sounds]}
+	}
+	set custom_emotions(${name}_sound) "$filename"
+    } else {
+	if { [info exists custom_emotions(${name}_sound)] } {unset custom_emotions(${name}_sound)}
     }
 
+    set filename "[string map [list [file dirname [GetSkinFile smileys $new_custom_cfg(file)]]/ "" ] [GetSkinFile smileys $new_custom_cfg(file)]]"
+    puts "smiley : $filename"
+    if { "$filename" == "null" } {
+	msg_box "[trans invalidfile [trans smilefile] \"$new_custom_cfg(file)\"]"
+	return
+    } else {
+	if { $quit == 1 } { return }
+	create_dir [file join $HOME smileys]
+	catch {file copy [GetSkinFile smileys "$new_custom_cfg(file)"] [file join $HOME smileys]}
+    }
+    set custom_emotions(${name}_file) "$filename"
     set custom_emotions(${name}_name) "$name"
-    set custom_emotions(${name}_file) "$new_custom_cfg(file)"
     set custom_emotions(${name}_text) "$new_custom_cfg(text)"
 
     if { $new_custom_cfg(hiden) } {
@@ -172,10 +200,8 @@ proc new_custom_emoticon_from_gui { {name ""} } {
 	if { [info exists custom_emotions(${name}_animated)] } {unset custom_emotions(${name}_animated)}
     }
 
-    if { $new_custom_cfg(enablesound) && "$new_custom_cfg(sound)" != "" } {
-	set custom_emotions(${name}_sound) "$new_custom_cfg(sound)"
-    } else {
-	if { [info exists custom_emotions(${name}_sound)] } {unset custom_emotions(${name}_sound)}
+    if { $edit == 0} {
+	lappend config(customsmileys) "$name"
     }
 
     load_smileys
@@ -206,17 +232,17 @@ proc new_custom_emoticon_gui {{name ""}} {
     pack .new_custom.1.smile -side left -anchor nw
 
     label $w.lname -text "[trans description]"
-    entry $w.name -textvariable new_custom_cfg(name)
+    entry $w.name -textvariable new_custom_cfg(name) -background white
 
     label $w.ltext -text "[trans triggers]"
-    entry $w.text -textvariable new_custom_cfg(text)
+    entry $w.text -textvariable new_custom_cfg(text)  -background white
  
     label $w.lfile -text "[trans smilefile] (GIF 19 x 19)"
-    entry $w.file -textvariable new_custom_cfg(file)
+    entry $w.file -textvariable new_custom_cfg(file)  -background white
     button $w.browsefile -text "[trans browse]" -command "fileDialog2 .new_custom $w.file open \"\" {{\"Gif Files\" *.gif}} " -width 10
   
     label $w.lsound -text "[trans soundfile]"
-    entry $w.sound -textvariable new_custom_cfg(sound)
+    entry $w.sound -textvariable new_custom_cfg(sound)  -background white
     button $w.browsesound -text "[trans browse]" -command "fileDialog2 .new_custom $w.sound open \"\" {{\"Gif Files\" *.gif}} " -width 10
     checkbutton $w.enablesound -text "[trans enablesound]" -onvalue 1 -offvalue 0 -variable new_custom_cfg(enablesound) -command update_enabled_sound_smileys
     checkbutton $w.animated -text "[trans animatedemoticon]" -onvalue 1 -offvalue 0 -variable new_custom_cfg(animated)
@@ -376,8 +402,10 @@ proc add_custom_emoticons { } {
 
 	if { ! ( [info exists custom_emotions(${x}_hiden)] && 
 		 [is_true $custom_emotions(${x}_hiden)] ) } {
-	    set name [format " %03i %s" "$emoticon_number" "$x"]
+	    set name [format "%03i %s" "$emoticon_number" "$x"]
 	    set emoticon_number [expr $emoticon_number + 1]
+	} else {
+	    set name "$x"
 	}
     
 	puts "new custom emoticon $name"
@@ -524,13 +552,15 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
 # if the smile menu doesn't exist it created it first with [create_smile_menu $x $y]
 
 proc smile_menu { {x 0} {y 0} {text text}} {
-    global emotions_names emotions
+    global emotions_names emotions emoticonbinding
 
     set w .smile_selector
 
     if { ! [winfo exists $w]} {
 	create_smile_menu $x $y
     }
+    
+    if { [info exists emoticonbinding ] } {unset emoticonbinding}
 
     set x [expr $x - 15]
     set y [expr $y - 15]
@@ -542,7 +572,15 @@ proc smile_menu { {x 0} {y 0} {text text}} {
 	set symbol [lindex $emotions(${emotion}_text) 0]
 	set file $emotions(${emotion}_file)
 	set filename [string map { " " "_" "/" "_" "." "_"} $file]
+	set temp 0
+	
+	while { [info exists emoticonbinding($filename) ] } {
+	    set filename "${filename}$temp"
+	    incr temp
+	}
+	unset temp
 
+	set emoticonbinding($filename) 0
 	catch { 
 	    if { [string match {(%)} $symbol] != 0 } {
 		bind $w.text.$filename <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; wm state $w withdrawn} res"
@@ -604,6 +642,14 @@ proc create_smile_menu { {x 0} {y 0} } {
 	set symbol [lindex $emotions(${emotion}_text) 0]
 	set file $emotions(${emotion}_file)
 	set filename [string map { " " "_" "/" "_" "." "_"} $file]
+	set temp 0
+	
+	while { [winfo exists $w.text.$filename ] } {
+	    set filename "${filename}$temp"
+	    incr temp
+	}
+	unset temp
+
 	set chars [string length $symbol]
 	set hiden [valueforemot "$emotion" hiden]
 	set animated [valueforemot "$emotion" animated]

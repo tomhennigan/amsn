@@ -201,6 +201,8 @@ proc load_config {} {
 	return 1
     }
     
+    create_dir "[file join ${HOME} smileys]"
+
     ConfigDefaults
     
     if { $using_xml == 0 } {
@@ -617,7 +619,6 @@ proc CreateProfile { email value } {
 		create_dir $HOME
 		set log_dir "[file join ${HOME} logs]"
 		create_dir $log_dir
-		create_dir "[file join ${HOME} smileys]"
 		
 		# Load default config initially
 		set temphome $HOME
