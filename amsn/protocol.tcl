@@ -1188,12 +1188,18 @@ namespace eval ::MSN {
       if { [lindex $item 1] != 0 } {
         status_log "Invalid challenge\n" red
       } else {
-        set str [lindex $item 2]Q1P7W2E4J9R8U3S5
-        set str [::md5::md5 $str]
-        #::MSN::WriteSB ns "QRY" "msmsgs@msnmsgr.com 32"
-	#::MSN::WriteSBRaw ns "$str"
-	::MSN::WriteSBNoNL ns "QRY" "msmsgs@msnmsgr.com 32\r\n$str"
-      }
+			#set str [lindex $item 2]Q1P7W2E4J9R8U3S5
+			#set str [::md5::md5 $str]
+
+			#::MSN::WriteSBNoNL ns "QRY" "msmsgs@msnmsgr.com 32\r\n$str"
+
+			#Let's test MSN6 challenge strings
+			set str [lindex $item 2]JXQ6J@TUOGYV@N0M
+			set str [::md5::md5 $str]
+
+			::MSN::WriteSBNoNL ns "QRY" "PROD0061VRRZH@4F 32\r\n$str"
+
+		}
    }
 
 
