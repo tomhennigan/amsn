@@ -561,9 +561,8 @@ namespace eval ::autoupdate {
 		::http::cleanup $token
 
 		# Auto-update for language files
-		if { [::config::getKey activeautoupdate] && $::cvs == 0 } {
-			::lang::UpdateLang
-			::plugins::UpdatePlugins
+		if { [::config::getKey activeautoupdate] } {
+			::autoupdate::UpdateLangPlugin
 		}
 
 		return $newer
@@ -616,5 +615,112 @@ namespace eval ::autoupdate {
 		}
 
 	}
+
+
+	#///////////////////////////////////////////////////////////////////////
+	proc UpdateLangPlugin {} {
+
+
+		::lang::UpdateLang
+		::plugins::UpdatedPlugins
+
+		if { ($::lang::UpdatedLang == "") && ($::plugins::UpdatedPlugins == "") } {
+			return
+		}
+
+		set w ".updatelangplugin"
+
+		if { [winfo exists $w] } {
+			raise $w
+			return
+		}
+
+		toplevel $w
+		wm title $w "[trans update]"
+		wm geometry $w 300x300
+
+		frame $w.text
+		label $w.text.img -image [::skin::loadPixmap download]
+		label $w.text.txt -text "New updates available for aMSN" -font bold
+		pack configure $w.text.img -side left
+		pack configure $w.text.txt -expand true -side right
+		pack $w.text -side top -fill x
+
+		ScrolledWindow $w.list
+		ScrollableFrame $w.list.sf -constrainedwidth 1
+		$w.list setwidget $w.list.sf
+		pack $w.list -anchor n -side top -fill both
+		set frame [$w.list.sf getframe]
+
+		foreach langcode $::lang::UpdatedLang {
+			set langname [::lang::ReadLang $langcode name]
+			checkbutton $frame.lang$langcode -onvalue 1 -offvalue 0 -text "$langname" -variable ::autoupdate::lang($langcode) -anchor w
+			pack configure $frame.lang$langcode -side top -fill x -expand true
+		}
+
+		foreach plugin $::plugins::UpdatedPlugins {
+			set name [lindex $plugin 6]
+			checkbutton $frame.plugin$name -onvalue 1 -offvalue 0 -text "$name" -variable ::autoupdate::plugin($name) -anchor w
+			pack configure $frame.plugin$name -side top -fill x -expand true
+		}
+
+		frame $w.button
+		button $w.button.close -text "[trans close]" -command "destroy $w"
+		button $w.button.update -text "[trans update]" -command "::autoupdate::UpdateLangPlugin_update" -default active
+		pack configure $w.button.update -side right -padx 3 -pady 3
+		pack configure $w.button.close -side right -padx 3 -pady 3
+
+		pack configure $w.button -side top -fill x
+
+	}
+
+
+	#///////////////////////////////////////////////////////////////////////
+	proc UpdateLangPlugin_update { } {
+
+		foreach langcode $::lang::UpdatedLang {
+			if { [::autoupdate::ReadLangSelected $langcode] == 1} {
+				set onlineversion [::lang::ReadOnlineLang $langcode version]
+				set name $::lang::OnlineLang"$langcode"(name)
+				set encoding $::lang::OnlineLang"$langcode"(encoding)
+				::lang::deletelanguage $langcode
+				::lang::getlanguage $langcode
+				set ::lang::Lang"$langcode"(version) $onlineversion
+				set ::lang::Lang"$langcode"(name) $name
+				set ::lang::Lang"$langcode"(encoding) $encoding
+			}
+		}
+
+		::lang::SaveVersions
+
+
+		foreach plugin $::plugins::UpdatedPlugins {
+			::plugins::UpdatePlugin $plugin
+		}
+
+		destroy ".updatelangplugin"
+
+	}
+
+
+	#///////////////////////////////////////////////////////////////////////
+	proc ReadLangSelected { langcode } {
+
+		set lang [array get ::autoupdate::lang]
+		set id [expr [lsearch $lang $langcode] + 1]
+		return [lindex $lang $id]
+
+	}
+
+
+	#///////////////////////////////////////////////////////////////////////
+	proc ReadPluginSelected { plugin } {
+
+		set plugins [array get ::autoupdate::plugin]
+		set id [expr [lsearch $plugins $plugin] + 1]
+		return [lindex $plugins $id]
+
+	}
+
 
 }

@@ -1201,18 +1201,21 @@ namespace eval ::plugins {
 		set program_dir [set ::program_dir]
 
 		if { [string first $HOME $path] != -1 | [string first $HOME2 $path] != -1 } {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text/plain" -timeout 10000]
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/amsn-extras/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text/plain" -timeout 10000 -binary 1]
 		} elseif { [string first $program_dir $path] != -1} {
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text/plain" -timeout 10000]
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/plugins/$plugin/plugininfo.xml?rev=HEAD&content-type=text/plain" -timeout 10000 -binary 1]
 		} else {
 			return
 		}
 
 		set content [::http::data $token]
 
-		set filename "plugininfo.xml"
+		set filename "[file join $HOME plugininfo.xml]"
 
 		set fid [open $filename w]
+
+		fconfigure $fid -encoding binary
+
 		puts -nonewline $fid "$content"
 		close $fid
 
@@ -1222,8 +1225,6 @@ namespace eval ::plugins {
 		sxml::register_routine $id "plugin:file" "::plugins::XML_OnlinePlugin_File"
 		sxml::parse $id
 		sxml::end $id
-
-		file delete "plugininfo.xml"
 
 	}
 
@@ -1374,33 +1375,91 @@ namespace eval ::plugins {
 #/////////////////////////////////////////////////////
 # Update all the plugins
 
-	proc UpdatePlugins { } {
+	proc UpdatePlugin { plugin } {
 
-		if { $::cvs == 1 } {
-			return
+		set path [lindex $plugin 5]
+		set name [lindex $plugin 6]
+		set path "[string range $path 0 end-[expr [string length $name] + 5]]"
+		set pathinfo "$path/plugininfo.xml"
+		if { ![catch {
+			get_Version "$pathinfo" "$name"
+			get_OnlineVersion "$pathinfo" "$name"
+			if { [::plugins::CheckRequirements $::plugins::plgonlinerequire] } {
+				set version [DetectNewCVS "$::plugins::plgversion" "$::plugins::plgonlineversion" "$name" "$path"]
+				set lang [DetectNewLang "$name" "$path"]
+				set file [DetectNewFile "$name" "$path"]
+			} else {
+				status_log "Can't update $name : required version $::plugins::plgonlinerequire\n" red
+			}
+		}] } {
+			SavePlugininfo "$plugin" "$pathinfo"
+		} else {
+			status_log "Error while updating $name : don't save Plugininfo.xml\n" red
 		}
 
-		foreach plugin [findplugins] {
+	}
+
+
+#/////////////////////////////////////////////////////
+
+	proc UpdatedPlugins { } {
+
+		set ::plugins::UpdatedPlugins [list]
+
+		foreach plugin [::plugins::findplugins] {
+
+			set updated 0
+
 			set path [lindex $plugin 5]
 			set name [lindex $plugin 6]
 			set path "[string range $path 0 end-[expr [string length $name] + 5]]"
 			set pathinfo "$path/plugininfo.xml"
-			if { ![catch {
-				get_Version "$pathinfo" "$name"
-				get_OnlineVersion "$pathinfo" "$name"
-				if { [::plugins::CheckRequirements $::plugins::plgonlinerequire] } {
-					set version [DetectNewCVS "$::plugins::plgversion" "$::plugins::plgonlineversion" "$name" "$path"]
-					set lang [DetectNewLang "$name" "$path"]
-					set file [DetectNewFile "$name" "$path"]
+			get_Version "$pathinfo" "$name"
+			get_OnlineVersion "$pathinfo" "$name"
+
+			if { [::plugins::CheckRequirements $::plugins::plgonlinerequire] } {
+
+				if { [::plugins::DetectNew "$::plugins::plgversion" "$::plugins::plgonlineversion"] } {
+					set updated 1
 				} else {
-					status_log "Can't update $name : required version $::plugins::plgonlinerequire\n" red
+
+					foreach onlinelang $::plugins::plgonlinelang {
+						set langcode [lindex $onlinelang 0]
+						set onlineversion [lindex $onlinelang 1]
+						if { [::lang::LangExists $langcode] } {
+							set id [expr [lsearch $::plugins::plglang $langcode] + 1]
+							if { $id == 0 } {
+								set version "0.0"
+							} else {
+								set version [lindex $::plugins::plglang $id]
+							}
+							if { [::plugins::DetectNew $version $onlineversion] } {
+								set updated 1
+							}
+						}
+					}
+
+
+					foreach onlinefile $::plugins::plgonlinefile {
+						set file [lindex $onlinefile 0]
+						set onlineversion [lindex $onlinefile 1]
+						set id [expr [lsearch $::plugins::plgfile $file] + 1]
+						if { $id == 0 } {
+							set version "0.0"
+						} else {
+							set version [lindex $::plugins::plgfile $id]
+						}
+						if { [::plugins::DetectNew $version $onlineversion] } {
+							set updated 1
+						}
+					}
 				}
-			}] } {
-				SavePlugininfo "$plugin" "$pathinfo" "$version" "$lang" "$file"
-			} else {
-				status_log "Error while updating $name : don't save Plugininfo.xml\n" red
+
 			}
 
+			if { $updated == 1} {
+				set ::plugins::UpdatedPlugins [lappend ::plugins::UpdatedPlugins $plugin]
+			}
 		}
 
 	}
@@ -1502,46 +1561,14 @@ namespace eval ::plugins {
 #/////////////////////////////////////////////////////
 # Save plugininfo.xml
 
-	proc SavePlugininfo { plugin path version lang file } {
+	proc SavePlugininfo { plugin path} {
 
-		set name [lindex $plugin 0]
-		set author [lindex $plugin 1]
-		set description [lindex $plugin 2]
-		set amsn_version [lindex $plugin 3]
-		set plugin_version [lindex $plugin 4]
-		set plugin_file [lindex $plugin 5]
-		set id [expr [string last "/" $plugin_file] + 1]
-		set plugin_file [string range $plugin_file $id end]
-		set plugin_namespace [lindex $plugin 6]
-		set init_procedure [lindex $plugin 7]
-		set deinit_procedure [lindex $plugin 8]
+		global HOME
 
-		set file_id [open $path w]
-
-		puts $file_id  "<?xml version=\"1.0\"?>\n<plugin>"
-
-		puts $file_id "\t<name>$name</name>\n\t<author>$author</author>\n\t<description>$description</description>\n\t<amsn_version>$amsn_version</amsn_version>\n\t<plugin_version>$plugin_version</plugin_version>\n\t<plugin_file>$plugin_file</plugin_file>\n\t<plugin_namespace>$plugin_namespace</plugin_namespace>\n\t<init_procedure>$init_procedure</init_procedure>"
-
-		if { $deinit_procedure != "none" } {
-			puts $file_id "\t<deinit_procedure>$deinit_procedure</deinit_procedure>"
-		}
-
-		if { $version != ""} {
-			puts $file_id "\n\t<cvs_version>$version</cvs_version>"
-		}
-
-		foreach {langcode version} $lang {
-			puts $file_id "\n\t<lang>\n\t\t<langcode>$langcode</langcode>\n\t\t<version>$version</version>\n\t</lang>"
-		}
-
-		foreach {path version} $file {
-			puts $file_id "\n\t<file>\n\t\t<path>$path</path>\n\t\t<version>$version</version>\n\t</file>"
-		}
-
-
-		puts $file_id </plugin>
-
-		close $file_id
+		file delete $path
+		set file "[file join $HOME plugininfo.xml]"
+		file copy $file $path
+		file delete $file
 
 	}
 

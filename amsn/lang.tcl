@@ -12,10 +12,9 @@ proc scan_languages { } {
 	global lang_list
 	set lang_list [list]
 
-	::lang::LoadVersions
-	set list $::lang::Lang
+	::lang::LoadVersions	 
 
-	foreach langcode $list {
+	foreach langcode $::lang::Lang {
 		set name [::lang::ReadLang $langcode name]
 		set encoding [::lang::ReadLang $langcode encoding]
 		lappend lang_list "{$langcode} {$name} {$encoding}"
@@ -191,7 +190,7 @@ namespace eval ::lang {
 		toplevel $wname
 		wm title $wname "[trans language]"
 		wm geometry $wname 300x350
-		wm protocol $wname DELETE_WINDOW "::lang::language_manager_close"
+		wm protocol $wname WM_DELETE_WINDOW "::lang::language_manager_close"
 
 		frame $wname.notebook -borderwidth 3
 
@@ -326,9 +325,7 @@ namespace eval ::lang {
 	#///////////////////////////////////////////////////////////////////////
 	proc language_manager_close { } {
 
-		if { $::lang::LoadOK == 1 } {
-			::lang::SaveVersions
-		}
+		catch {::lang::SaveVersions}
 		destroy .langchoose
 
 	}
@@ -512,8 +509,10 @@ namespace eval ::lang {
 		::lang::AddLang "$langcode" "$name" "$version" "$encoding"
 
 		if { $selection != "" } {
-			.langchoose.notebook.nn.fmanager.selection.box itemconfigure $selection -background #DDF3FE
-			::lang::language_manager_selected
+			catch {
+				.langchoose.notebook.nn.fmanager.selection.box itemconfigure $selection -background #DDF3FE
+				::lang::language_manager_selected
+			}
 		}
 	}
 
@@ -532,8 +531,10 @@ namespace eval ::lang {
 		::lang::RemoveLang $langcode
 
 		if { $selection != "" } {
-			.langchoose.notebook.nn.fmanager.selection.box itemconfigure $selection -background #FFFFFF
-			::lang::language_manager_selected
+			catch {
+				.langchoose.notebook.nn.fmanager.selection.box itemconfigure $selection -background #FFFFFF
+				::lang::language_manager_selected
+			}
 		}
 	}
 
@@ -543,7 +544,7 @@ namespace eval ::lang {
 
 	proc LoadVersions { } {
 
-		global HOME
+		global HOME2
 
 		# Reinitialise all the versions
 		if { [info exists ::lang::Lang] } {
@@ -554,20 +555,24 @@ namespace eval ::lang {
 
 		set ::lang::Lang ""
 
-		set file_id [open "langlist"]
-		set file_id2 [open "[file join $HOME langlist.xml]" w]
-		puts $file_id2 [read $file_id]
-		close $file_id
-		close $file_id2
+		set check 0
 
-		set filename "[file join $HOME langlist.xml]"
+		set filename "[file join $HOME2 langlist.xml]"
+
+		# If langlist.xml doesn't exist, or if langlist was modified after langlist.xml
+		if { ![file exists $filename] || [file mtime $filename] < [file mtime "langlist"] } {
+			file copy -force "langlist" "$filename"
+			set check 1
+		}
 
 		set id [::sxml::init $filename]
 		sxml::register_routine $id "version:lang" "::lang::XMLLang"
 		sxml::parse $id
 		sxml::end $id
 
-		file delete [file join $HOME langlist.xml]
+		if { $check == 1 } {
+			::lang::CheckLangList
+		}
 
 	}
 
@@ -614,6 +619,21 @@ namespace eval ::lang {
 
 	}
 
+
+	#///////////////////////////////////////////////////////////////////////
+	# Initialize the langlist.xml file
+
+	proc CheckLangList { } {
+
+		foreach langcode $::lang::Lang {
+			if { ![file exists [file join lang lang$langcode]] } {
+				::lang::RemoveLang $langcode
+			}
+		}
+
+		::lang::SaveVersions
+
+	}
 
 	#///////////////////////////////////////////////////////////////////////
 	# Check if a lang is loaded
@@ -663,8 +683,10 @@ namespace eval ::lang {
 	# Save the XML file
 
 	proc SaveVersions {} {
+
+		global HOME2
 	
-		set file_id [open "langlist" w]
+		set file_id [open "[file join $HOME2 langlist.xml]" w]
 
 		fconfigure $file_id -encoding utf-8
 
@@ -683,21 +705,23 @@ namespace eval ::lang {
 	}
 
 
-
 	#///////////////////////////////////////////////////////////////////////
 	# Load the online version and read the XML file
 
 	proc LoadOnlineVersions { } {
 
+		global HOME2
+
 		if { [catch {
 
 			set ::lang::OnlineLang ""
 
-			set filename "langlistnew.xml"
+			set filename "[file join $HOME2 langlistnew.xml]"
 
 			set fid [open $filename w]
-			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/langlist?rev=HEAD&content-type=text/plain" -timeout 10000]
+			set token [::http::geturl "http://cvs.sourceforge.net/viewcvs.py/*checkout*/amsn/msn/langlist?rev=HEAD&content-type=text/plain" -timeout 10000 -binary 1]
 			set content [::http::data $token]
+			fconfigure $fid -encoding binary
 			puts -nonewline $fid "$content"
 			close $fid
 
@@ -707,14 +731,13 @@ namespace eval ::lang {
 			sxml::parse $id
 			sxml::end $id
 
-			file delete "langlistnew.xml"
-
 		}]} {
 			set ::lang::LoadOk 0
 		} else {
 			set ::lang::LoadOk 1
 		}
 
+		file delete $filename
 
 	}
 
@@ -743,10 +766,6 @@ namespace eval ::lang {
 
 	proc UpdateLang { } {
 
-		if { $::cvs == 1 } {
-			return
-		}
-
 		set ::lang::UpdatedLang [list]
 
 		::lang::LoadVersions
@@ -769,19 +788,9 @@ namespace eval ::lang {
 				set newer 1
 			}
 			if { $newer == 1 } {
-				set name $::lang::OnlineLang"$langcode"(name)
-				set encoding $::lang::OnlineLang"$langcode"(encoding)
-				::lang::deletelanguage $langcode
-				::lang::getlanguage $langcode
-				set ::lang::Lang"$langcode"(version) $onlineversion
-				set ::lang::Lang"$langcode"(name) $name
-				set ::lang::Lang"$langcode"(encoding) $encoding
 				lappend ::lang::UpdatedLang $langcode
-				::amsn::notifyAdd "Lang$langcode updated" ""
 			}
 		}
-
-		status_log "Update : $::lang::UpdatedLang\n" blue
 
 		::lang::SaveVersions
 	}
