@@ -490,7 +490,6 @@ namespace eval ::ChatWindow {
 				set win_name [::ChatWindow::Open $container]
 				::ChatWindow::SetFor $chatid $win_name
 				::ChatWindow::NameTabButton $container $win_name $chatid
-				::ChatWindow::NameTabbedWindow $container $chatid
 			}
 			#update idletasks
 			::ChatWindow::TopUpdate $chatid
@@ -2042,7 +2041,6 @@ namespace eval ::ChatWindow {
 			$tab configure -overrelief flat -compound center
 		}
 
-		::ChatWindow::SwitchToTab $container $win
 
 		return $tab
 		
@@ -2081,6 +2079,7 @@ namespace eval ::ChatWindow {
 	proc NameTabbedWindow { container chatid } {
 		wm title $container "$chatid"
 	}
+
 
 	proc UseContainer { } {
 		set istabbed [::config::getKey tabbedchat]
