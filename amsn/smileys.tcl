@@ -537,7 +537,7 @@ proc smile_subst {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
 		    }
 
 		} else {
-		    $tw image create $endpos -image $file -pady 1 -padx 1
+		    $tw image create $endpos -image $file -pady 0 -padx 0
 		    $tw tag remove smiley $endpos
 		}
 
@@ -593,7 +593,7 @@ proc custom_smile_subst2 { chatid tw textbegin end } {
 	    $tw tag configure smiley -elide true
 	    $tw tag add smiley $pos $endpos
 
-	    $tw image create $endpos -image custom_smiley_$file -pady 1 -padx 1
+	    $tw image create $endpos -image custom_smiley_$file -pady 0 -padx 0
 	    $tw tag remove smiley $endpos
 	    
 	}
