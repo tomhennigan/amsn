@@ -34,6 +34,7 @@ close Close
 closingdocks Close button docks window
 command Command
 contactadded Contact added
+contactdoesnotexist Contact does not exist!
 connecterror Error connecting to server
 date Date
 delete Delete
@@ -132,6 +133,7 @@ sentbytes Sent $1 of $2 bytes
 server Server
 sound Event Sound
 startoffline Start Offline
+syntaxerror  Syntax Error
 textsize Text size
 title Al's Messenger
 to To
