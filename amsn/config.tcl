@@ -132,6 +132,8 @@ proc ConfigDefaults {} {
 	set config(notifheight) 100		;#Notify window height
 	set config(keepalive) 1				;#Keep alive connection (ping every minute)
 	set config(showtimestamps) 1		;#Show timestamps on messages ("Yes" by default)
+	set config(leftdelimiter) \[		;#Left Timestamps' delimiter  '[' by default
+	set config(rightdelimiter) \]		;#Right Timestamps' delimiter ']' by default
 	set password ""
 
 

@@ -365,7 +365,7 @@ proc Preferences { { settings "personal"} } {
 
 	# Preferences Notebook
 	# Modified Rnotebook to translate automaticly those keys in -tabs {}
-	Rnotebook:create $nb -tabs {personal appearance session privacy loging blocking connection prefapps profiles} -borderwidth 2
+	Rnotebook:create $nb -tabs {personal appearance session privacy loging blocking connection others advanced} -borderwidth 2
         set Preftabs(personal) 1
         set Preftabs(appearance) 2
         set Preftabs(session) 3
@@ -373,8 +373,8 @@ proc Preferences { { settings "personal"} } {
         set Preftabs(loging) 5
         set Preftabs(blocking) 6
         set Preftabs(connection) 7
-        set Preftabs(prefapps) 8
-        set Preftabs(profiles) 9
+        set Preftabs(others) 8
+        set Preftabs(advanced) 9
 
 
 	pack $nb -fill both -expand 1 -padx 10 -pady 10
@@ -782,10 +782,10 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 
 	#  .--------------.
-	# _| Applications |________________________________________________
+	# _| Others |________________________________________________
 	image create photo prefapps -file [GetSkinFile pixmaps prefpers.gif]
 
-	set frm [Rnotebook:frame $nb $Preftabs(prefapps)]
+	set frm [Rnotebook:frame $nb $Preftabs(others)]
 	
 	## Applications Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans prefapps]]
@@ -820,41 +820,64 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.1.sound -row 4 -column 2 -sticky w
 	grid $lfname.1.lsoundex -row 4 -column 3 -sticky w
 
-    ## Library directories frame ##
-    set lfname [LabelFrame:create $frm.lfname2 -text [trans preflibs]]
-    pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
-    label $lfname.pshared -image prefapps
-    pack $lfname.pshared -side left -anchor nw
+	## Library directories frame ##
+	set lfname [LabelFrame:create $frm.lfname2 -text [trans preflibs]]
+	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
+	label $lfname.pshared -image prefapps
+	pack $lfname.pshared -side left -anchor nw
 
-    frame $lfname.1 -class Degt
-    pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill both
-    label $lfname.1.llibtls -text "TLS" -padx 5 -font sboldf
-    entry $lfname.1.libtls -bg #FFFFFF -bd 1 -width 40 -highlightthickness 0 -textvariable libtls_temp
+	frame $lfname.1 -class Degt
+	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill both
+	label $lfname.1.llibtls -text "TLS" -padx 5 -font sboldf
+	entry $lfname.1.libtls -bg #FFFFFF -bd 1 -width 40 -highlightthickness 0 -textvariable libtls_temp
 
-    grid $lfname.1.llibtls -row 1 -column 1 -sticky w
-    grid $lfname.1.libtls  -row 1 -column 2 -sticky w
+	grid $lfname.1.llibtls -row 1 -column 1 -sticky w
+	grid $lfname.1.libtls  -row 1 -column 2 -sticky w
 
-	frame $frm.dummy -class Degt
-	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
-
-	#  .----------.
-	# _| Profiles |________________________________________________
-	image create photo prefapps -file [GetSkinFile pixmaps prefpers.gif]
-	
 	## Delete Profiles Frame ##
-	set frm [Rnotebook:frame $nb $Preftabs(profiles)]
-	set lfname [LabelFrame:create $frm.lfname -text [trans prefprofile3]]
-	pack $frm.lfname -anchor n -side top -expand 1 -fill x
+	set lfname [LabelFrame:create $frm.lfname3 -text [trans prefprofile3]]
+	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.pprofile -image prefapps
 	pack $lfname.pprofile -side left -anchor nw
 	label $lfname.ldelprofile -text "[trans delprofile2]" -padx 5
 	frame $lfname.1 -class Degt
-	combobox::combobox $lfname.1.profile -editable true -highlightthickness 0 -width 25 -bg #FFFFFF -font splainf 
+	combobox::combobox $lfname.1.profile -editable true -highlightthickness 0 -width 25 -bg #FFFFFF -font splainf
 	button $lfname.1.bdel -text [trans delprofile] -font sboldf -command "DeleteProfile \[${lfname}.1.profile get\] $lfname.1.profile"
 	pack $lfname.ldelprofile -anchor w -side top
 	pack $lfname.1.profile -anchor w -side left -padx 10
 	pack $lfname.1.bdel -anchor e -side left -padx 15
 	pack $lfname.1 -anchor w -side top -expand 1 -fill x
+
+	frame $frm.dummy -class Degt
+	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
+
+	#  .----------.
+	# _| Advanced |________________________________________________
+
+	set frm [Rnotebook:frame $nb $Preftabs(advanced)]
+
+	# First Tab
+	set lfname [LabelFrame:create $frm.lfname -text [trans displaychat]]
+	pack $frm.lfname -anchor n -side top -expand 1 -fill x
+	label $lfname.prefdisplay -image prefstatus
+	pack $lfname.prefdisplay -anchor nw -side left
+	frame $lfname.1 -class Degt
+	frame $lfname.2 -class Degt
+	frame $lfname.3 -class Degt
+	checkbutton $lfname.1.timestamp -text "[trans timestamps]" -offvalue 0 -variable config(showtimestamps) -command UpdatePreferences
+	pack $lfname.1 -side top -padx 0 -expand 1 -fill both
+	pack $lfname.1.timestamp -side left
+
+	label $lfname.2.delimiters -text "[trans delimiters]" -padx 5
+	entry $lfname.2.ldelimiter -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -textvariable config(leftdelimiter)
+	label $lfname.2.example -text "HH:MM:SS" -padx 5
+	entry $lfname.2.rdelimiter -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -textvariable config(rightdelimiter)
+	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
+	pack $lfname.2.delimiters $lfname.2.ldelimiter $lfname.2.example $lfname.2.rdelimiter -side left
+
+	checkbutton $lfname.3.truncatenicknames -text "[trans truncatenicks]" -onvalue 1 -offvalue 0 -variable config(truncatenicks) -command UpdatePreferences
+	pack $lfname.3 -side top -padx 0 -expand 1 -fill both
+	pack $lfname.3.truncatenicknames -anchor w -side top
 
 	#  .----------.
 	# _| Privacy |________________________________________________
@@ -875,7 +898,7 @@ proc Preferences { { settings "personal"} } {
         pack $lfname.allowlist.label $lfname.allowlist.box -side top -expand false
 	pack $lfname.allowlist.ys -side right -fill y
         pack $lfname.allowlist.box -side left -expand true -fill both
- 
+
 
         frame $lfname.blocklist -relief sunken -borderwidth 3
         label $lfname.blocklist.label -text "[trans blocklist]"
@@ -892,19 +915,19 @@ proc Preferences { { settings "personal"} } {
 	button $lfname.buttons.right -text "[trans move] -->" -font sboldf -command "Allow_to_Block $lfname" -width 10
 	button $lfname.buttons.left -text "<-- [trans move]" -font sboldf -command "Block_to_Allow $lfname" -width 10
 	pack $lfname.buttons.right $lfname.buttons.left  -side top
-    
+
         label $lfname.status -text ""
 	frame $lfname.allowframe
         radiobutton $lfname.allowframe.allowallbutbl -text "[trans allowallbutbl]" -value 1 -variable temp_BLP
 	radiobutton $lfname.allowframe.allowonlyinal -text "[trans allowonlyinal]" -value 0 -variable temp_BLP
-	grid $lfname.allowframe.allowallbutbl -row 1 -column 1 -sticky w 
-	grid $lfname.allowframe.allowonlyinal -row 2 -column 1 -sticky w 
+	grid $lfname.allowframe.allowallbutbl -row 1 -column 1 -sticky w
+	grid $lfname.allowframe.allowonlyinal -row 2 -column 1 -sticky w
         pack $lfname.status $lfname.allowframe -side bottom -anchor w -fill x
 	pack $lfname.allowlist $lfname.buttons $lfname.blocklist -anchor w -side left -padx 10 -pady 10 -expand 1 -fill both
 
         bind $lfname.allowlist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"allow\" %X %Y"
         bind $lfname.blocklist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"block\" %X %Y"
-    
+
 
         # Contact/Reverse lists
 	set lfname [LabelFrame:create $frm.lfname2 -text [trans prefprivacy2]]
@@ -1106,8 +1129,8 @@ proc InitPref {} {
 	}
 
 	# Lets fill our profile combobox
-	set lfname [Rnotebook:frame $nb $Preftabs(profiles)]
-	set lfname "$lfname.lfname.f.f"
+	set lfname [Rnotebook:frame $nb $Preftabs(others)]
+	set lfname "$lfname.lfname3.f.f"
    	set idx 0
    	set tmp_list ""
 	$lfname.1.profile list delete 0 end
@@ -1145,13 +1168,30 @@ proc InitPref {} {
         $lfname.lfname3.f.f.2.pass delete 0 end
         $lfname.lfname3.f.f.2.pass insert 0 "$config(remotepassword)"
 
+	# Enable Timestamps' delimiters if showtimestamps is enabled
+ 	set lfname [Rnotebook:frame $nb $Preftabs(advanced)]
+ 	set lfname "${lfname}.lfname.f.f"
+ 	if { $config(showtimestamps) == 1 } {
+ 		$lfname.2.delimiters configure -state normal
+ 		$lfname.2.ldelimiter configure -state normal
+ 		$lfname.2.example configure -state normal
+ 		$lfname.2.rdelimiter configure -state normal
+
+ 	} else {
+ 		$lfname.2.delimiters configure -state disabled
+ 		$lfname.2.ldelimiter configure -state disabled
+ 		$lfname.2.example configure -state disabled
+ 		$lfname.2.rdelimiter configure -state disabled
+
+ 	}
+
 }
 
 
 # This is where the preferences entries get enabled disabled
 proc UpdatePreferences {} {
 	global config Preftabs
-	
+
 	set nb .cfg.notebook.nn
 	
 	# autoaway checkbuttons and entries
@@ -1221,6 +1261,22 @@ proc UpdatePreferences {} {
 
  	}
 
+	# Advanced preferences - Timestamps' delimiters
+ 	set lfname [Rnotebook:frame $nb $Preftabs(advanced)]
+ 	set lfname "${lfname}.lfname.f.f"
+ 	if { $config(showtimestamps) == 1 } {
+ 		$lfname.2.delimiters configure -state normal
+ 		$lfname.2.ldelimiter configure -state normal
+ 		$lfname.2.example configure -state normal
+ 		$lfname.2.rdelimiter configure -state normal
+
+ 	} else {
+ 		$lfname.2.delimiters configure -state disabled
+ 		$lfname.2.ldelimiter configure -state disabled
+ 		$lfname.2.example configure -state disabled
+ 		$lfname.2.rdelimiter configure -state disabled
+
+ 	}
 }
 	
 
@@ -1619,6 +1675,12 @@ proc getdisppic_clicked {} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.97  2003/12/08 17:35:09  yozko
+# New 'Advanced Preferences' tab. First advanced options. Try it
+#
+# Revision 1.97  2003/12/07 19:36:23  yozko
+# Merged "Applications" and "Profiles" into "Others", created "Advanced" tab
+#
 # Revision 1.96  2003/12/02 00:15:18  airadier
 # Enable or disable AMSN banner
 #

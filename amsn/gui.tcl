@@ -552,7 +552,7 @@ namespace eval ::amsn {
      set txt [trans invitationcancelled]
 
      WinWrite $chatid "----------\n" gray
-     WinWriteIcon $chatid ftreject 3 2 
+     WinWriteIcon $chatid ftreject 3 2
      WinWrite $chatid " $txt\n" gray
      WinWrite $chatid "----------\n" gray
      
@@ -567,7 +567,7 @@ namespace eval ::amsn {
       }   
      set txt [trans ftacceptedby $who $filename]
      WinWrite $chatid "----------\n" gray
-     WinWriteIcon $chatid fticon 3 2 
+     WinWriteIcon $chatid fticon 3 2
      WinWrite $chatid " $txt\n" gray
      WinWrite $chatid "----------\n" gray
      
@@ -636,8 +636,8 @@ namespace eval ::amsn {
       set win_name [MakeWindowFor $chatid $txt]
       
       
-     WinWrite $chatid "----------\n" gray     
-     WinWriteIcon $chatid fticon 3 2 
+     WinWrite $chatid "----------\n" gray
+     WinWriteIcon $chatid fticon 3 2
      WinWrite $chatid $txt gray
      WinWrite $chatid " - (" gray
      WinWriteClickable $chatid "[trans accept]" \
@@ -645,7 +645,7 @@ namespace eval ::amsn {
      WinWrite $chatid " / " gray
      WinWriteClickable $chatid "[trans reject]" \
        "::amsn::RejectFT $chatid $cookie" ftno$cookie
-     WinWrite $chatid ")\n" gray 
+     WinWrite $chatid ")\n" gray
      WinWrite $chatid "----------\n" gray
      if { ![file writable $files_dir]} {
         WinWrite $chatid "[trans readonlywarn $files_dir]\n" red
@@ -697,7 +697,7 @@ namespace eval ::amsn {
      set txt [trans ftaccepted]
 
      WinWrite $chatid "----------\n" gray
-     WinWriteIcon $chatid fticon 3 2 
+     WinWriteIcon $chatid fticon 3 2
      WinWrite $chatid " $txt\n" gray
      WinWrite $chatid "----------\n" gray
      
@@ -2204,7 +2204,7 @@ namespace eval ::amsn {
    #///////////////////////////////////////////////////////////////////////////////
    # PutMessage (chatid,user,msg,type,fontformat)
    # Writes a message into the window related to 'chatid'
-   # - 'user' is the user login. 
+   # - 'user' is the user login.
    # - 'msg' is the message itself to be displayed.
    # - 'type' can be red, gray... or any tag defined for the textbox when the windo
    #   was created, or just "user" to use the fontformat parameter
@@ -5263,8 +5263,9 @@ proc toggle_status {} {
 # timestamp()
 # Returns a timestamp like [HH:MM:SS]
 proc timestamp {} {
-   set stamp [clock format [clock seconds] -format %H:%M:%S]
-   return "\[$stamp\]"
+	global config
+	set stamp [clock format [clock seconds] -format %H:%M:%S]
+	return $config(leftdelimiter)$stamp$config(rightdelimiter)
 }
 #///////////////////////////////////////////////////////////////////////
 

@@ -13,6 +13,7 @@ addtocontacts Añadir a contactos
 addtoo Añadir esta persona a mi lista de contactos
 admincontacts Administrar contactos
 admingroups Administrar grupos
+advanced Avanzadas
 adverts Anuncios
 alarmonconnect Activar/Desactivar alarma para este usuario cuando se conecte
 alarmondisconnect Activar/Desactivar alarma para este usuario cuando se desconecte
@@ -122,6 +123,7 @@ dcprofile No Crear Perfil
 default Configuración por defecto
 defaultloginradio Usar configuración por defecto
 delete Eliminar
+delimiters Delimitadores de la hora:
 deliverfail Ocurrió un problema al enviar el siguiente mensaje
 delprofile2 Elige el perfil que te gustaría borrar
 delprofile Borrar Perfil
@@ -129,6 +131,7 @@ description Descripción
 directconnection Tengo una conexión directa a internet (usa el puerto 1863)
 disablessl Desactivar SSL
 disconnect $1 se ha desconectado
+displaychat Configuración de mensajes
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Icono Gtk
 docking Icono en bandeja de sistema
@@ -300,6 +303,7 @@ options Opciones
 ordercontactsby Ordenar contactos por
 ordergroupsby Ordenar grupos por
 other Otro
+others Otras
 pager Paginador
 pass Contraseña
 paste Pegar
@@ -421,6 +425,7 @@ syntaxerror Error de sintaxis
 tabbed Ventanas con solapas
 textsize Tamaño del texto
 timeremaining Tiempo restante
+timestamps Activar hora en los mensajes
 title Al's Messenger
 tlsdowncompleted El archovo $1 se ha descargado en el directorio $2. Ahora debes descomprimirlo, compilarlo (si has bajado el código fuente) y instalarlo en $3.
 tlsinstall Asistente de instalación del módulo TLS
@@ -432,6 +437,7 @@ to Para
 transnotexists El archivo solicitado no se encuentra traducido a su idioma.
 traynotcompiled Icono de bandeja no compilado. Mira en plugins/traydock
 triggers Texto disparador
+truncatenicks Truncar apodos más largos que el ancho de la ventana
 twonewmail $1 mensajes nuevos en bandeja de entrada
 unblock Admitir
 uoffline Desconectados

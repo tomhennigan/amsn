@@ -122,6 +122,7 @@ dcprofile Don't Create Profile
 default Default Config
 defaultloginradio Login with default configuration
 delete Delete
+delimiters Timestamps' delimiters:
 deliverfail There was a problem delivering the following message
 delprofile2 Select the profile that you would like to remove 
 delprofile Delete Profile
@@ -129,6 +130,7 @@ description Description
 directconnection I have a direct connection to the internet (uses port 1863)
 disablessl Disable SSL
 disconnect $1 has disconnected.
+displaychat Display text options
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
 docking Docking
@@ -300,6 +302,7 @@ options Options
 ordercontactsby Order contacts by
 ordergroupsby Order groups by
 other Other
+others Others
 pager Pager
 pass Password
 paste Paste
@@ -421,6 +424,7 @@ syntaxerror Syntax Error
 tabbed Tabbed Windows
 textsize Text size
 timeremaining Time remaining
+timestamps Enable timestamps on chat windows
 title Al's Messenger
 tlsdowncompleted File $1 was downloaded to directory $2. You must extract it, build it (if you downloaded source code) and install it inside $3.
 tlsinstallexp aMSN now uses MSNP9, which requires the use of a secure\nconnection using SSL. In order to use SSL, aMSN needs to install a module called TLS,\nwhich is missing from your system. This wizard will help you to download and\ninstall TLS. Please choose your system type so we can automatically download\nthe required TLS files.
@@ -432,6 +436,7 @@ to To
 transnotexists The requested file has not been translated into the current language yet.
 traynotcompiled Tray icon plugin is not complied. Check plugins/traydock
 triggers Text triggers
+truncatenicks Truncate nicknames longer than window width
 twonewmail $1 new messages in Inbox
 unblock Unblock
 uoffline Offline
