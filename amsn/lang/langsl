@@ -226,7 +226,7 @@ fullcontactlist Tvoj seznam stikov je poln. Da bi dodal novega, moras izbrisati 
 getdisppic Omogoci prejemanje osebne slike od drugih uporabnikov
 globalnick Vnesi vzorec za tvorbo nickov vseh tvojih stikov. Lahko uporabljas te spremenljivke: \$user_login za naslov stika, \$nick za njegov nick in \$customnick za njegov prikazni nick. Primer: '\$user_login je \$nick' bo prikazano kot 'stik@msn.com je Stik'
 globalnicktitle Globalni nick
-globaloverride Veljajo naj vzorci za globalne nicke
+globaloverride Prikazi globalni nick namesto prikaznega
 gonelunch Na kosilu
 groupadd Dodaj v skupino
 groupdelete Izbrisi skupino
@@ -489,6 +489,7 @@ smileconfig Nastavitve tvojih emotikonov
 smilefile Datoteka
 smileintro2 Uredi potrebna polja, ce zelis spremeniti tega smeska (poglej v FAQ za pomoc)
 smileintro Izpolni potrebna polja, ce zelis ustvariti novega lastnega smeska (poglej v FAQ za pomoc)
+sngdblclick Enojni klik odpre okno s pogovorom
 sound2 Predvajaj zvoke ob nekaterih dogodkih
 soundactive Predvajaj zvok tudi ob prejetem sporocilu v aktivnem oknu
 soundcommand To mora biti ukaz play (npr. esdplay)
