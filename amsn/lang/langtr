@@ -85,8 +85,8 @@ change Deðiþtir
 changecustomstate Þu duruma geç:
 changedisplaypic Kullanýcý resmini deðiþtir
 changefont Yazitipi deðiþtir
-changeglobnick Ýsimlendirme þablonunu deðiþtir
-changenick Kullanýcý ismini deðiþtir
+changeglobnick Rumuz þablonunu deðiþtir
+changenick Rumuz deðiþtir
 changestate $1, $2 durumuna geçti
 charscounter Sohbet penceresinde girilen harf sayacý
 chatack Sohbet istemi kabul edilen kiþi
@@ -143,7 +143,7 @@ custnotifyoffline Bu kullanýcý baðlantýsýný kesince uyarý penceresi göster
 custnotifyonline Bu kullanýcý baðlanýnca uyarý penceresi göster
 custnotifystatus Bu kullanýcý durum deðiþtirince uyarý penceresi göster
 customcolor Özel renk
-customnick Özel kullanýcý ismi
+customnick Özel rumuz
 custom_edit Özel gülen adamý düzenle
 custom_new Yeni özel gülen adam ekle
 cut Kes
@@ -193,7 +193,7 @@ encoding2 Alfabe deðiþtirin
 encoding Alfabe seçimi
 entercontactemail Baðlantýnýn e-posta adresini girin
 enterfilename Lütfen bir dosya adý girin
-enternick Kullanýcý isminizi girin
+enternick Rumuzunuzu girin
 errortls TLS kurulumunda hata oluþtu:
 examples Örnekler
 exitamsn Çýkmak istediðinizden emin misiniz?
@@ -307,7 +307,7 @@ logsbydate Kayýtlarý tarihe göre sýrala (Geçmiþ böyle çok daha hýzlý yükleniyor)
 logsin baðlandý
 logsmileys Geçmiþ penceresinde gülen adamlar görünsün
 logsout $1 az önce sohbetten ayrýldý.
-longnick Kullanýcý isminiz 130 harften uzun. Bu, resmi MSN protokolünce desteklenmiyor. Bu ismi kullanmak istediðinizden emin misiniz?
+longnick Rumuzunuz 130 harften uzun. Bu, resmi MSN protokolünce desteklenmiyor. Bu ismi kullanmak istediðinizden emin misiniz?
 longp4c Sohbetteki kullanýcý isminiz 130 harften uzun. Resmi MSN Messenger sürümlerinde isminiz $1 olarak gözükecek. Bu ismi seçmek istediðinizden emin misiniz?
 lprivtoconf $1 ile özel görüþme konferansa çevrildi
 luclosedwin $1 de pencereyi kapadýnýz
@@ -329,6 +329,7 @@ msnstyle MSN tarzý sohbet
 mustrestart Yeniliklerin etkinleþmesi için uygulamayý yeniden baþlatmalýsýnýz
 myhomephone Ev telefonum
 mymobilephone Cep telefonum
+mynick Rumuzum
 mypic Kullanýcý resmim:
 mystatus Durumum
 myworkphone Ev telefonum
@@ -343,7 +344,7 @@ newstate Yeni özel durum ekle
 newveravailable Yeni $1 sürümü indirilmeye hazýr
 never Asla
 next sonraki
-nick Kullanýcý Ýsmi
+nick Rumuz
 noactivity Etkinlik yok
 nodataavailable $1 hakkýnda bilgi yok
 no Hayýr
@@ -366,6 +367,7 @@ notify3 Yeni e-posta iletisi gelince uyarý penceresi göster
 notifyoffset Uyarý penceresinin konumunu giriniz
 notifytyping Klavyeyi kullandýðým karþý tarafa gözüksün
 notify uyar
+notifytimeout Uyarý penceresi kaybolmadan önce geçecek milisaniye sayýsý
 notifywin Uyarý Penceresi
 notinlist Siz onun baðlantý listesinde deðilsiniz
 notls MSN 9 protokolü tls paketini gerektirir. Bu bilgisayarda tls kurulu görünmüyor. Eðer kuruluysa, tls kütüphanesi dizini Seçenekler bölümünde belirtilmelidir (örn: /opt/tls/lib). \n\n tls'yi http://tls.sf.net'ten indirebilirsiniz.
@@ -509,10 +511,10 @@ stateedittext Lütfen deðiþtirmek istediðiniz\nkýsýmlarý deðiþtirip Kaydet'e týkl
 stateinfo Kiþisel Durum ayarlarý
 statename Kiþisel Durumun adý
 statenewtext Lütfen yeni Kiþisel Durumunuzu yaratmak için \n gerekli bilgileri girip Kaydet'e týklayýnýz
-statenick Özel kullancý ismi (deðiþtirmemek için boþ býrakýnýz).
+statenick Bu duruma özel rumuz (deðiþtirmemek için boþ býrakýnýz).
 status Durum
 stopalarm Alarmý durdur!
-storenickname Deðiþik kullanýcý ismi olan özelleþtirilmiþ durumdan sonra asýl kullanýcý ismine dön
+storenickname Deðiþik rumuzu olan özelleþtirilmiþ durumdan sonra asýl rumuza
 strictfonts Tüm metinler için (durum çubuðu ve diðerleri) yalnýzca seçtiðim yaztipi boyutunu kullan
 stylechat Sohbetler ile ayný görünüþ
 stylehist aMSN Geçmiþ görünüþü
@@ -538,7 +540,7 @@ traynotcompiled Görev çubuðu simgesi derlenmemiþ, plugins/traydock'a bakýn
 triggers Yazýlý karþýlýðý
 truncatenames1 Pencere baþlýðý ve baðlantý listelerinde pencere geniþliðinden uzun isimleri kýsalt
 truncatenames2 Sohbetlerde pencere geniþliðinden uzun isimleri kýsalt
-truncatenicks Pencere geniþliðinden uzun isimleri kýsalt
+truncatenicks Pencere geniþliðinden uzun rumuzlarý kýsalt
 twonewmail Gelen kutunuzda $1 yeni ileti var
 unblock Engeli kaldir
 uoffline Çevrim dýþý
