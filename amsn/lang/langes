@@ -14,16 +14,24 @@ adverts Anuncios
 alarmpref Configuración de alarma para el usuario
 alarmstatus Activar/Desactivar alarma para este usuario
 allowseen Permitir a esta persona ver cuándo estás conectado y contactar
+appearance Apariencia
 appearoff Sin conexión
+areacode Código de area
 aretyping $1 están escribiendo un mensaje
 askprofile Este usuario no posee todavía un perfil. Desea crear uno nuevo? $1 En caso contrario no se podrá usar el Historial, o guardar la contraseña y alarmas. $1 Al crearlo, tendrás una configuración personalizada para este perfil. $1 $1 Haz click en "Crear Perfil" para crear un nuevo perfil para $2.
+autoaway Mostrarme "Ausente" cuando no hay actividad en
+autoconnect2 Conectarse automáticamente cuando se inicia aMSN
 autoconnect Conectar al arrancar amsn
 autohotmaillog Login hotmail automático
 autoidle Detección de inactividad
 autoip IP Automática
+autonoact Mostrarme como "Sin actividad" cuando no hay actividad en
 avoidseen Evitar que esta persona vea tu conexión y te contacte
 away Ausente
+awaymsg1 Preguntar cuando cambie el estado a Ausente/Vuelvo Enseguida/Ocupado
+awaymsg2 No preguntar nunca y usar el mensaje a continuación
 baduserpass Nombre de usuario o contraseña incorrectos
+bgcolor Cambia el color de fondo de aMSN
 blankdirect Dejar en blanco para conexión directa
 blocked Bloqueado
 block No admitir
@@ -38,28 +46,35 @@ changenick Cambiar apodo
 chatack Aceptando conversación de
 chat Conversación
 chatreq Solicitando una conversación
+chatsmileys2 Mostrar emoticonos y smileys en ventanas de chat
 chatsmileys Smileys en chat
 checkingver Buscando si hay disponible una nueva versión
 checkver Buscar nuevas versiones
 choosebasefont Elegir tipo de letra
 choosebgcolor Elegir color de fondo
 choosefontcolor Elegir color de la letra
+clearlog2 Limpiar historial para todos los contactos
+clearlog3 Limpiar todos los registros
 clearlog Limpiar historial
 clicktologin Haga click aquí para iniciar la sesión
 close Cerrar
 closingdocks Botón de cerrar minimiza
 command Comando
-confirm ¿ Estás seguro ?
 confirmdelete ¿Seguro que deseas borrar a $1?
+confirm ¿ Estás seguro ?
 connecterror Error conectándose al servidor
+connection Conexión
 contactadded Contacto añadido
 contactdoesnotexist El contacto que intentas añadir no existe
 copy Copiar
 copytogroup Copiar al grupo
+countrycode Código de país/región
 cprofile Crear Perfil
 cut Cortar
 date Fecha
+days Días
 dcprofile No Crear Perfil
+default Configuración por defecto
 delete Eliminar
 deliverfail Ocurrió un problema al enviar el siguiente mensaje
 dockgtk Icono Gtk
@@ -69,6 +84,7 @@ dockkde Icono KDE
 edit Edición
 editprofile Editar Perfil
 enableproxy Activar proxy
+encoding2 Cambia la forma en la que los caracteres se codifican
 encoding Codificación de caracteres
 entercontactemail Introduce el email del contacto
 enterfilename Introduce el nombre del archivo
@@ -105,9 +121,11 @@ inbox Bandeja de entrada
 invalidusername Nombre de usuario no válido
 invite Invitar
 ipaddress Dirección IP
+ipdetect Detectas la IP correcta para transferencias usando HTTP
 istyping $1 está escribiendo un mensaje
 joins $1 se une a la conversación
 keepalive Mantener conexión activa (NAT)
+keeplog2 Registrar las conversaciones en el historial para verlas más tarde
 keeplog Guardar historial de las conversaciones
 language Idioma
 lastmsgtime Último mensaje recibido a las $1
@@ -119,27 +137,42 @@ leaves $1 deja la conversación
 lenteredconf $1 se une a la conversación a las $2
 linprivate EN PRIVADO
 listeningon Escuchando en el puerto $1
+listsmileys2 Mostrar emoticonos y smileys en la lista de contactos de aMSN
 listsmileys Smileys en contactos
 ljoinedconf $1 se une a la conversación
 lleftconf $1 deja la conversación
 loadcontacts Cargar lista de contactos
+logbigger Archivos de registro de un contacto no superan los
+logfandexp Tamaño de archivos de registro y expiración de historial
 loggedotherlocation Desconectado: Se inició la sesión en otra ubicación
 loggingin Iniciando sesión
-loginas Iniciar sesión como 
+loginas Iniciar sesión como
+loging Historial
 login Iniciar sesión
+logolder Registrar sólamente conversaciones ocurridas en el último
 logout Cerrar sesión
 logsin acaba de iniciar sesión
+logsmileys Mostrar emoticonos y smileys en la ventana de historial de aMSN
 lprivtoconf El privado se convierte en conversación múltiple con $1
 luclosedwin Tú cierras la ventana a las $1
 mailer Comando de email
+maximised Maximizada
+minimised Minimizada/Iconoficada
+mins minutos
 mobile Celular
 movetogroup Mover al grupo
+msgmaxmin Cuando un nuevo mensaje llega quiero que sea :
 msg Mensaje
+msgmode Elige como manejar ventanas de múltiples mensajes :
 msn AMSN
 mustrestart Debes reiniciar el programa para aplicar los cambios
+myhomephone Mi teléfono de casa
+mymobilephone Mi teléfono móvil
 mystatus Mi estado
+myworkphone Mi teléfono de trabajo
 natip Detección de IP por Web
-needonline Todavía estás/apareces desconectado 
+natkeepalive Si sufres desconexiones continuamente, activa esta opción
+needonline Todavía estás/apareces desconectado
 newmail $1 mensajes nuevos en bandeja de entrada
 newmailfrom Nuevo correo de
 newmsg Nuevo mensaje
@@ -150,7 +183,11 @@ nologfile No existe archivo de historial para $1
 nonewmail No hay mensajes nuevos en bandeja de entrada
 nonewver No hay versiones más actuales disponibles
 normal Normal
+notify1 Mostrar ventana de aviso cuando un contacto se conecte
+notify2 Mostrar ventana de aviso cuando llegan nuevos mensajes
+notify3 Mostrar ventana de aviso al recibir un nuevo correo electrónico
 notify aviso
+notifyoffset Ajusta la posición de la ventana de aviso mediante un desplazamiento
 notifywin Ventana de avisos
 nousersinsession No hay usuarios en la sesión
 offline Desconectado
@@ -166,21 +203,37 @@ other Otro
 pager Paginador
 pass Contraseña
 paste Pegar
+personal Personal
 phone Teléfono
 picfile Archivo de imagen (GIF < 500 x 500)
 picstatus Imagen para la alarma
 port Puerto
+prefalerts Mis alertas y sonidos de eventos
 prefapps Aplicaciones
+prefawaymsg Mi mensajes de ausente
+prefemotic Emoticonos y smileys.
 preferences Preferencias
-preffont Texto de mis mensajes
 preffont2 Cambia la forma en que otros ven mi texto en la conversación
+preffont3 Cambiar el tipo de letra y tamaño del interface de aMSN
+preffont Texto de mis mensajes
+preflog1 Mis opciones de historial y registros
+preflook Apariencia de mi aMSN Messenger
+prefmsging Interfaz de mis mensajes
 prefname Mi nombre/apodo en MSN Messenger
-prefprofile Mi perfil público
+prefphone2 Escribe los números que quieras permitir ver a los contactos $1 en tu lista de Permitidos $1
+prefphone Mis números de teléfono
 prefprofile2 Crea o modifica tu perfil público (la $1 descripción de ti mismo que otros puede ver)
+prefprofile Mi perfil público
+prefproxy Configuración de mi proxy
+prefsession My inicio de sesión y estado
+prefshared Conexiones compartidas (sólo para NAT)
 prefsound Sonidos
+profiledconfig Información de perfil
+profiles Perfiles
 properties Propiedades
 proxyconf Configuración proxy
 proxyconfhttp Configurar soporte de proxy http
+proxy Estoy detrás de un servidor proxy (HTTP o SOCKS5)
 publishphones Publicar mis números telefónicos
 receivedbytes Recibidos $1 de $2 bytes totales
 receivefile Recibir archivo
@@ -203,14 +256,21 @@ sendmsg Enviar mensaje
 sentbytes Enviados $1 de $2 bytes totales
 servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
 server Servidor
+session Sesión
+sound2 Reproducir sonidos cuando los contactos se conectan o envían mensajes
 soundfile Archivo de sonido
 soundloop Sonido repetitivo
 sound Sonido eventos
 soundstatus Sonido para la alarma
+startoffline2 Conectarse sigilosamente pareciendo "Desconectado"
 startoffline Comenzar Desconectado
 status Estado
 stopalarm Detener alarma
+stylechat El mismo que los chats
+stylehist apariencia de historial de aMSN
+stylelog Elige el estilo en el que deseas ver el historial
 syntaxerror Error de sintaxis
+tabbed Ventanas con solapas
 textsize Tamaño del texto
 title Al's Messenger
 tools Herramientas
@@ -219,12 +279,14 @@ unblock Admitir
 uoffline Desconectados
 uonline Conectados
 useralreadyonlist El usuario ya se encuentra en la lista de contactos.
-user Usuario
 usernotonline El usuario no se encuentra en línea
+user Usuario
 version Versión
-view Ver
 viewprofile Ver perfil
+view Ver
 willjoin Esperando que $1 se una a la conversación
 work Trabajo
+xoffset Desplazamiento X
+yoffset Desplazamiento Y
 yousay Tú dices
 youwant Quieres

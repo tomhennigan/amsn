@@ -17,7 +17,7 @@ appearoff Apparaître déconnecté
 aretyping $1 est en train de taper un message
 autoconnect Connection automatique au lancement
 autohotmaillog Identification automatique à Hotmail
-autoidle diminution automatique de la consommation processeur lors 
+autoidle Absence automatique après une période d'inactivité
 autoip IP automatique
 avoidseen Interdire à cette personne de me voir ou de me contacter quand je 
 away Absent
@@ -51,9 +51,9 @@ confirm êtes vous sûr?
 connecterror Erreur de connection
 contactadded Contact ajouté
 contactdoesnotexist Personne introuvable
-copy copier
+copy Copier
 copytogroup Copier vers groupe
-cut couper
+cut Couper
 date Date
 delete Effacer
 deliverfail Une erreur est survenue lors de l'envoi du message suivant
@@ -62,7 +62,7 @@ dockgtk Ancrer dans GTK
 docking Ancrage actif
 dockingoff Ancrage inactif
 dockkde Ancrage dans KDE
-edit édition
+edit Edition
 enableproxy Utiliser un proxy
 encoding Choisir l'encodage
 entercontactemail Rajouter un contact de messagerie
@@ -96,13 +96,13 @@ history Voir l'historique
 home Domicile
 ident Identification
 identity Identité
-inbox Boite aux lettres
+inbox Boîte au lettres
 invalidusername Utilisateur incorrect
 invite Invitation
 ipaddress Adresse IP
 istyping $1 est en train de taper un message
 joins $1 a rejoint la conversation
-keepalive Garder la connection ouverte
+keepalive Garder la connection ouverte (NAT)
 keeplog Garder les logs des conversations
 language Langage
 lastmsgtime Dernier message reçu à $1
@@ -133,7 +133,7 @@ msg Message
 msn AMSN
 mustrestart Vous devez redémarrer l'application pour que les changements
 mystatus Mon état
-natip détection de l'adresse IP par page web
+natip Détection de l'adresse IP par page web
 needonline Vous êtes toujours déconnecté!
 neweravailable nouvelle version disponible ($1)
 newmail $1 nouveaux messages
@@ -147,7 +147,7 @@ nonewmail 0 nouveau[x] message[s]
 nonewver Il n'y a pas de nouvelle version disponible
 normal Normal
 notify prévenir
-notifywin fenêtre de notification
+notifywin Fenêtre de notification
 nousersinsession Pas d'utilisateurs dans cette session
 offline Déconnecté
 ok Accepter
@@ -161,7 +161,7 @@ ordergroupsby Trier les groupes par
 other Autre
 pager Pager
 pass Mot de passe
-paste coller
+paste Coller
 phone Téléphone
 picfile Image associée à l'alarme (GIF < 500 x 500)
 picstatus Activer/Désactiver image associée à l'alarme

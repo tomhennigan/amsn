@@ -13,18 +13,18 @@ adverts Advertisements
 alarmpref Alarm Settings for user
 alarmstatus Turn ON/OFF Alarm for this user
 allowseen Allow this person to see when I'm online and contact me
-appearoff Appear offline
 appearance Appearance
+appearoff Appear offline
 areacode Area Code
 aretyping $1 are typing a message
-autoconnect Connect on amsn start
+askprofile This login dosen't currently have a profile. Would you like to create a new one for it? $1 If you don't you will not be able to use the History, or save your Alarms and password. $1 If you do you will have a separate configuration for this new profile. $1 $1 Click on "Create Profile" to create a new profile for $2.
+autoaway Show me as "Away" when inactive for
 autoconnect2 Sign In automaticly when aMSN is launched
+autoconnect Connect on amsn start
 autohotmaillog Auto Hotmail login
 autoidle Auto NoActivity
 autoip Automatic IP
-autoaway Show me as "Away" when inactive for
 autonoact Show me as "Not Active" when inactive for
-askprofile This login dosen't currently have a profile. Would you like to create a new one for it? $1 If you don't you will not be able to use the History, or save your Alarms and password. $1 If you do you will have a separate configuration for this new profile. $1 $1 Click on "Create Profile" to create a new profile for $2.
 avoidseen Avoid this person can see when I'm online and contact me
 away Away
 awaymsg1 Ask for away message each time I change my status to Away/BRB/Busy
@@ -45,16 +45,16 @@ changenick Change nick
 chatack Accepting chat from
 chat Chat
 chatreq Requesting chat
-chatsmileys Chat smileys
 chatsmileys2 Display Emoticons and Smileys in chat windows
+chatsmileys Chat smileys
 checkingver Checking for new versions
 checkver Check for new version
 choosebasefont Choose font type
 choosebgcolor Choose background color
 choosefontcolor Choose font color
-clearlog Clear Log
 clearlog2 Clear the history for all your contacts
 clearlog3 Clear All Logs
+clearlog Clear Log
 clicktologin Click here to log in
 close Close
 closingdocks Close button Minimizes
@@ -76,15 +76,15 @@ dcprofile Don't Create Profile
 default Default Config
 delete Delete
 deliverfail There was a problem delivering the following message
+dockgtk Gnome Dock
 docking Docking
 dockingoff Docking Off
-dockgtk Gnome Dock
 dockkde KDE Dock
 edit Edit
 editprofile Edit Profile
 enableproxy Enable proxy
-encoding Choose encoding
 encoding2 Change the way your characters are encoded
+encoding Choose encoding
 entercontactemail Enter contact e-mail
 enterfilename Please enter a filename
 enternick Enter your nick
@@ -124,8 +124,8 @@ ipdetect Detect correct IP for File Transfers using HTTP
 istyping $1 is typing a message
 joins $1 joins conversation
 keepalive Keepalive (NAT)
-keeplog Keep Logs of Chats
 keeplog2 Log all Conversations to aMSN's History for future viewing
+keeplog Keep Logs of Chats
 language Language
 lastmsgtime Last message received at $1
 lclosedwin $1 has closed the window on $2
@@ -136,8 +136,8 @@ leaves $1 leaves conversation
 lenteredconf $1 has entered into a conference on $2
 linprivate IN PRIVATE
 listeningon Listening on port $1
-listsmileys List smileys
 listsmileys2 Display Emoticons and Smileys in aMSN's main contact list
+listsmileys List smileys
 ljoinedconf $1 has joined conference
 lleftconf $1 has left conference
 loadcontacts Load contact list
@@ -146,8 +146,8 @@ logfandexp Log File Sizes and History Expiry
 loggedotherlocation Disconnected. Logged in other location
 loggingin Logging In
 loginas Login as
-login Log In
 loging Loging
+login Log In
 logolder Only log chats that have taken place in the last
 logout Log Out
 logsin has just logged in
@@ -160,15 +160,15 @@ minimised Minimised/Iconified
 mins minutes
 mobile Mobile
 movetogroup Move to Group
-msg Message
 msgmaxmin When a new message arrives I want it to be :
+msg Message
 msgmode Select how to handle multiple message windows :
 msn AMSN
 mustrestart You must restart the program to apply changes
 myhomephone My Home Phone
 mymobilephone My Mobile Phone
-myworkphone My Work Phone
 mystatus My status
+myworkphone My Work Phone
 natip IP detection by web page 
 natkeepalive If you are getting disconnected regularly, enable this KeepAlive
 needonline You still are/appear offline!
@@ -182,10 +182,10 @@ nologfile No Log file for $1
 nonewmail No new messages in In-Box
 nonewver There are no new versions available to download
 normal Normal
-notify notify
 notify1 Display notify window when contacts come online
 notify2 Display notify window when new messages are received
 notify3 Display notify window when e-mails reach your InBox
+notify notify
 notifyoffset Set the position of the notify window by giving it position offsets
 notifywin Notify Window
 nousersinsession No users in session
@@ -212,17 +212,17 @@ prefapps Applications
 prefawaymsg My Away Message
 prefemotic Emotions Icons and Smileys 
 preferences Preferences
-preffont My Message Text
 preffont2 Change the way others see my text in chats
 preffont3 Change aMSN's interface font and size
-prefmsging My Messaging Interface
+preffont My Message Text
 preflog1 My History and Loging Options
 preflook My aMSN Messenger Look
+prefmsging My Messaging Interface
 prefname My MSN Messenger Name/NickName
-prefphone My Phone Numbers
 prefphone2 Type the phone numbers that you would like people $1 on your Allow List to see $1
-prefprofile My Public Profile
+prefphone My Phone Numbers
 prefprofile2 Create or Modify your public profile (the $1 description of yourself that others can see)
+prefprofile My Public Profile
 prefproxy My Proxy Settings
 prefsession My Sign In and Status
 prefshared Shared Connections (only for NAT)
@@ -230,9 +230,9 @@ prefsound Sounds
 profiledconfig Profiled Config
 profiles Profiles
 properties Properties
-proxy I am behind a Proxy Server (HTTP or SOCKS5)
 proxyconfhttp HTTP proxy support configuration
 proxyconf Proxy configuration
+proxy I am behind a Proxy Server (HTTP or SOCKS5)
 publishphones Publish my phone numbers
 receivedbytes Received $1 of $2 bytes
 receivefile Receive file
@@ -256,18 +256,18 @@ sentbytes Sent $1 of $2 bytes
 servergoingdown Disconnected: Server is going down
 server Server
 session Session
-sound Event Sound'
 sound2 Play sounds when contacts sign in or send a message
+sound Event Sound'
 soundfile Sound File
 soundloop Loop Sound
 soundstatus Sound Alarm
-startoffline Start Offline
 startoffline2 Sign In silently as "Appear Offline"
+startoffline Start Offline
 status Status
 stopalarm Stop Alarm
-stylelog Select the format in wich you would like to view your History
 stylechat Same look as chats
 stylehist aMSN's history look
+stylelog Select the format in wich you would like to view your History
 syntaxerror  Syntax Error
 tabbed Tabbed Windows
 textsize Text size
@@ -278,11 +278,11 @@ unblock Unblock
 uoffline Offline
 uonline Online
 useralreadyonlist User is already on contact list
-user User
 usernotonline The user is not online
+user User
 version Version
-view View
 viewprofile View Profile
+view View
 willjoin Waiting $1 joins conversation
 work Work
 xoffset X Offset
