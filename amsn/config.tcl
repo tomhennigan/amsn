@@ -277,6 +277,7 @@ proc save_config {} {
     foreach var_attribute [array names config] { 
       set var_value $config($var_attribute)
        if { "$var_attribute" != "remotepassword" && "$var_attribute" != "customsmileys" && "$var_attribute" != "customsmileys2"} {
+		set var_value [::sxml::xmlreplace $var_value]
 	   puts $file_id "   <entry>\n      <attribute>$var_attribute</attribute>\n      <value>$var_value</value>\n   </entry>"
        }
     }
@@ -296,8 +297,8 @@ proc save_config {} {
 	puts $file_id "   <emoticon>"
 	foreach attribute [array names emotions] {
 	    if { [string match "${custom}_*" $attribute ] } {
-		set var_attribute [string map [list "${custom}_" ""] $attribute ]
-		set var_value $emotions($attribute)
+		set var_attribute [::sxml::xmlreplace [string map [list "${custom}_" ""] $attribute ]]
+		set var_value [::sxml::xmlreplace $emotions($attribute)]
 		puts $file_id "      <$var_attribute>$var_value</$var_attribute>"
 	    }
 	}

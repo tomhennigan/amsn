@@ -38,8 +38,12 @@ proc SaveStateList {} {
 	set idx 0
 	while { $idx <= [expr {[StateList size] - 1}] } {
 		set tmp [StateList get $idx]
-		puts $file_id "   <newstate>\n      <name>[lindex $tmp 0]</name>\n      <nick>[lindex $tmp 1]</nick>"
-		puts $file_id "      <state>[lindex $tmp 2]</state>\n      <message>[lindex $tmp 4]</message>\n   </newstate>\n"
+		set tmp0 [::sxml::xmlreplace [lindex $tmp 0]]
+		set tmp1 [::sxml::xmlreplace [lindex $tmp 1]]
+		set tmp2 [::sxml::xmlreplace [lindex $tmp 2]]
+		set tmp4 [::sxml::xmlreplace [lindex $tmp 4]]
+		puts $file_id "   <newstate>\n      <name>$tmp0</name>\n      <nick>$tmp1</nick>"
+		puts $file_id "      <state>$tmp2</state>\n      <message>$tmp4</message>\n   </newstate>\n"
 		incr idx 1
 	}
 	puts $file_id "</states>"

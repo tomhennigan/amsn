@@ -120,7 +120,7 @@
 
 namespace eval sxml {
 
-    namespace export init end register_routine parse set_attr
+    namespace export init end register_routine parse set_attr puts
 
     if { $initialize_amsn == 1 } {
 	variable xml_invoc
@@ -138,6 +138,12 @@ namespace eval sxml {
 	set xml_cdata_end {]]>}
 	set xml_invoc 0
     }
+
+	 #Added by Alvaro Iradier. Use this instead of putting directly to the file, to
+	 #replace special characters
+	 proc xmlreplace {string} {
+	 	return [string map { "<" "&lt;" ">" "&gt;" "&" "&amp;" "\"" "&quot;" "'" "&apos;"} $string]
+	 }
 
     proc init {file} {
 	variable xml_invoc

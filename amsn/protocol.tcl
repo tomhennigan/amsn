@@ -4398,36 +4398,37 @@ proc save_contact_list { } {
     puts $file_id "   <PHM>[set perso(phm)]</PHM>\n   <MOB>[set perso(mob)]</MOB>\n   <MBE>[set perso(mbe)]</MBE>"
 
     foreach group [::groups::GetList] {
-	puts $file_id "   <Group>\n      <gid>${group}</gid>\n      <name>[::groups::GetName $group]</name>\n   </Group>"
+	puts $file_id "   <Group>\n      <gid>${group}</gid>\n      <name>[::sxml::xmlreplace [::groups::GetName $group]]</name>\n   </Group>"
     }
 
     puts $file_id "   <AL>"
 
 
     foreach user $list_al { 
-	set user [string map { "<" "&lt;" "&" "&amp;" "\"" "&quot;" "'" "&apos;"} $user]
+	set user [::sxml::xmlreplace $user]
 	puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>\n      </user>"
     }
 
     puts $file_id "   </AL>\n\n   <BL>"
 
-    foreach user $list_bl { 
-	set user [string map { "<" "&lt;" "&" "&amp;" "\"" "&quot;" "'" "&apos;"} $user]
+    foreach user $list_bl {
+	set user [::sxml::xmlreplace $user]
 	puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>\n      </user>"
     }
-    
+
     puts $file_id "   </BL>\n\n   <RL>"
 
-    foreach user $list_rl { 
-	set user [string map { "<" "&lt;" "&" "&amp;" "\"" "&quot;" "'" "&apos;"} $user]
+    foreach user $list_rl {
+	set user [::sxml::xmlreplace $user]
 	puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>\n      </user>"
     }
 
     puts $file_id "   </RL>\n\n   <FL>"
 
-    foreach user $list_fl { 
+    foreach user $list_fl {
 	::abook::getContact [lindex $user 0] userd
-       	set user [string map { "<" "&lt;" "&" "&amp;" "\"" "&quot;" "'" "&apos;"} $user]
+	set user [::sxml::xmlreplace $user]
+
 	puts $file_id "      <user>\n         <email>[lindex $user 0]</email>\n         <nickname>[lindex $user 1]</nickname>"
 	puts $file_id "         <gid>[join [::abook::getGroup [lindex $user 0] -id] ,]</gid>\n         <PHH>[set userd(phh)]</PHH>"
 	puts $file_id "         <PHW>[set userd(phw)]</PHW>\n         <PHM>[set userd(phm)]</PHM>\n         <MOB>[set userd(mob)]</MOB>"
@@ -4445,7 +4446,7 @@ proc save_contact_list { } {
 proc create_contact_list {cstack cdata saved_data cattr saved_attr args } {
     global list_al list_bl list_rl list_fl
 
-    upvar $saved_data sdata 
+    upvar $saved_data sdata
     
     set list "list_[string range $cstack end-6 end-5]"
 
