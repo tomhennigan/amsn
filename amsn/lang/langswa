@@ -185,6 +185,7 @@ groupunknown Kundi lisilijulikana
 handle Hendo
 helpcontents Yaliyomo kwenye msaada
 help Msaada
+hidedisplaypic Ficha Picha ya Kuonyeshwa
 hiden Ficha visura-hisia kutoka orodha ya visura
 hidewindow Hide Window
 history Ongalia Historia
@@ -270,6 +271,7 @@ nologfile Hakuna Faili ya Hesabu ya $1
 noneavailable Haipatikani
 nonewmail Hakuna ujumbe mpya katika sanduku-kuingia
 nonewver Hakuna toleo jipya kwa ajili kutelemsha
+nopic Hakuna picha
 noprofileexists Kwa sasa hakuna profaili, \n lazima utengeneze moja kama ungependa kutumia profaili sasa. \nTumia funguo ya Ongeza Profaili katika dirisha hili ili kuongeza profaili mpya.
 normal Kawaida
 nosystemtray Trei ya mfumo haipatikani
@@ -300,6 +302,7 @@ personal Pesono
 phone Simu
 picfile Faili ya picha (GIF < 500 x 500)
 picstatus Sauti ya picha
+playing $1 :inachezwa
 pluginselector Chagua Viingizo
 port Poti
 prefalerts Ving'ora Tukio vyangu na Sauti
@@ -374,6 +377,10 @@ servergoingdown Imekatishwa: Progamu-tumishi inazimwa
 server Progamu-tumishi
 session Kipindi
 showblockedlist Onyesha orodha ya watu waliokuzuia kupiga soga nao
+showdisplaypic2 Onyesha Picha ya Konyeshwa kama chaguo la awali wakati dirisha la kuchati linafunguliwa
+showdisplaypic Onyesha Picha ya Kuonyeshwa
+showmypic Picha yangu ya Kuonyeshwa
+showuserpic Picha ya kuonyeshwa ya $1
 skin Muonekano
 skinselector Chagua muonekano
 smileconfig Mapangilio binafsi ya visura-hisia
@@ -436,6 +443,7 @@ willjoin Subiri $1 ajiunge na mazungumzo
 work Kazi
 wrongfields nafasi "$1", "$2" na/au "$3" hazikuwa sahihi
 wrongprofileversion Faili ya mipangilio ya utashi si sahihi. Ili kulirekebisha, tafadhali ondoa jarada $1, au tumia Amsn ya sasa
+xmmserr Hakuna kinachocheza, au hauna xmms-infopipe katika mashine yako.
 xoffset nafasi X
 yes Ndio
 yoffset nafasi Y
