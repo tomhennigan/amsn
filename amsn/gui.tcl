@@ -516,9 +516,20 @@ namespace eval ::amsn {
    # cookie: ID for the filetransfer
    # bytes: bytes sent/received (-1 if cancelling)
    # filesize: total bytes in the file
+   ####
+   # The following constant is the interval in milliseconds at which (roughly)
+   # the transfer speed will be updated on the file transfer window.
+   variable TX_UPDATE_INTERVAL 1000
+   #
    proc FTProgress {mode cookie filename {bytes 0} {filesize 1000}} {
       # -1 in bytes to transfer cancelled
       # bytes >= filesize for connection finished
+
+      variable TX_UPDATE_INTERVAL
+      variable lasttimes    ;# Array. Times in ms since the last interval.
+      variable lastbytes    ;# Array. Bytes since the last interval.
+      variable rates        ;# Array. Last rates.
+
       set w .ft$cookie
 
       if { ([winfo exists $w] == 0) && ($mode != "ca")} {
@@ -559,11 +570,55 @@ namespace eval ::amsn {
 	    $w.close configure -text "[trans close]" -command "destroy $w"
             wm protocol $w WM_DELETE_WINDOW "destroy $w"
 	 }	
-         r {
-            $w.progress configure -text "[trans receivedbytes $bytes $filesize]"
-	 }	
+         r -
          s {
-            $w.progress configure -text "[trans sentbytes $bytes $filesize]"
+            # Keep the last values in three arrays: one for the bytes, one for
+            # the time and a last for the transfer rate itself. (These are
+            # cookie-indexed arrays since we might have multiple transfers at
+            # the same time and they should not interfere with each other.) The
+            # time counter is used to calculate the intervals in milliseconds.
+            # The purpose of the byte counter is to keep track of how many
+            # bytes we transfered in the last interval. Transfer rates are
+            # updated every TX_UPDATE_INTERVAL milliseconds, based on the
+            # values stored in both arrays.
+
+            if {![info exists lasttimes] || ![info exists lasttimes($cookie)]} {
+                set lasttimes($cookie) 0
+            }
+            if {![info exists lastbytes] || ![info exists lastbytes($cookie)]} {
+                set lastbytes($cookie) 0
+            }
+
+            set currtime  [clock clicks -milliseconds]
+            set difftime  [expr $currtime - $lasttimes($cookie)]
+
+            if {![info exists rates] || ![info exists rates($cookie)]} {
+                set rates($cookie) "??? K/s"
+            }
+
+            if {$difftime >= $TX_UPDATE_INTERVAL} {
+                # How many bytes did we transfer in the last second?
+                set diffbytes [expr $bytes - $lastbytes($cookie)]
+
+                # Times a thousand because we used milliseconds and we want
+                # the speed in seconds. Divides by 1024 to get it in KBs.
+                # "K" is more polyglot than "KB", right?
+                set r [expr (1.0*$TX_UPDATE_INTERVAL*$diffbytes/$difftime)/1024]
+                set rates($cookie) "[format %.2f $r] K/s"
+                unset r
+
+                # Update time and byte counters with new values.
+                set lasttimes($cookie) $currtime
+                set lastbytes($cookie) $bytes
+            }
+
+            if {$mode == "r"} {
+                $w.progress configure -text \
+                    "[trans receivedbytes $bytes $filesize] ($rates($cookie))"
+            } elseif {$mode == "s"} {
+                $w.progress configure -text \
+                    "[trans sentbytes $bytes $filesize] ($rates($cookie))"
+            }
 	 }	
          ca {
             $w.progress configure -text "[trans filetransfercancelled]"
@@ -578,7 +633,18 @@ namespace eval ::amsn {
             wm protocol $w WM_DELETE_WINDOW "destroy $w"
 	    set bytes 1024
 	    set filesize 1024
+
 	 }	
+      }
+
+      switch $mode {
+         e - l  - ca - fs - fr {
+            # Whenever a file transfer is terminated in a way or in another,
+            # remove the counters for this cookie.
+            if {[info exists lastbytes($cookie)]} { unset lastbytes($cookie) }
+            if {[info exists lasttimes($cookie)]} { unset lasttimes($cookie) }
+            if {[info exists rates($cookie)]}     { unset rates($cookie) }
+         }
       }
       
       set bytes2 [expr {int($bytes/1024)}]
@@ -3118,6 +3184,8 @@ proc cmsn_draw_online { {force 0} } {
    global emotions user_stat login list_users list_states user_info list_bl\
     config showonline password pgBuddy bgcolor automessage emailBList
 
+   set scrollidx [$pgBuddy.ys get]
+
    set my_name [urldecode [lindex $user_info 4]]
    set my_state_no [lsearch $list_states "$user_stat *"]
    set my_state [lindex $list_states $my_state_no]
@@ -3389,15 +3457,6 @@ proc cmsn_draw_online { {force 0} } {
 
 
        set breaking ""
-
-       if { $config(showblockedgroup) == 1 && [info exists emailBList($user_login)]} {
-	   ::groups::UpdateCount blocked +1
-	   set myGroupExpanded [::groups::IsExpanded blocked]
-	   if {$myGroupExpanded} {
-	       ShowUser $user_name $user_login $state $state_code $colour "blocked" $user_group
-	   }
-       }
-
        
       # Rename the section if we order by group
       foreach user_group [::abook::getGroup $user_login -id] {
@@ -3438,6 +3497,15 @@ proc cmsn_draw_online { {force 0} } {
 	 }
 	  if { $config(orderbygroup) == 2 && $state_code == "FLN" } { set breaking $user}
       }
+   
+
+       if { $config(showblockedgroup) == 1 && [info exists emailBList($user_login)]} {
+	   ::groups::UpdateCount blocked +1
+	   set myGroupExpanded [::groups::IsExpanded blocked]
+	   if {$myGroupExpanded} {
+	       ShowUser $user_name $user_login $state $state_code $colour "blocked" $user_group
+	   }
+       }
    }
 
     if {$config(listsmileys)} {
@@ -3475,6 +3543,9 @@ proc cmsn_draw_online { {force 0} } {
        }
    }
 
+   $pgBuddy.ys set [lindex $scrollidx 0] [lindex $scrollidx 1]
+   $pgBuddy.text yview moveto [lindex $scrollidx 0]
+
    $pgBuddy.text configure -state disabled
 
    #bind $pgBuddy.text <Configure>  "after cancel cmsn_draw_online; after 100 cmsn_draw_online"
@@ -3483,6 +3554,7 @@ proc cmsn_draw_online { {force 0} } {
    if { [winfo exists .cfg] } {
    	InitPref
    }
+
 
 }
 #///////////////////////////////////////////////////////////////////////
