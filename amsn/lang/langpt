@@ -21,6 +21,7 @@ alarmondisconnect Activar o alarme quando um utilizador se desliga (ou fica invi
 alarmonmsg Activar o alarme quando um utilizador lhe envia uma mensagem
 alarmonstatus Activar o alarme quando o utilizador muda de estado
 alarmpref Definições de alarme para o utilizador
+alarms Alarmes/Notificações
 alarmstatus Ligar/Desligar alarme para este utilizador
 allfiles Todos os ficheiros
 allowallbutbl Permitir ser contactado por todos os utilizadores excepto os da "lista de bloqueados"
@@ -46,6 +47,7 @@ autodetectip Detectar endereço IP automaticamente
 autohotmaillog Ligação Automática ao Hotmail
 autoidle Sem Actividade Automática
 autoip IP Automático
+automessage Mensagem automática
 autonoact Mostrar-me como "Não Activo" se estiver inactivo por
 avoidseen Evitar que esta pessoa me veja e me contacte
 away Ausente
@@ -65,6 +67,7 @@ blockinter4 segundos.
 blocklist Lista de Bloqueados (LB):
 blockmessage Estes utilizadores estão ligados e bloquearam-no
 blockusers Número de utilizadores a verificar de uma vez
+bouncedock Animar o icon do aMsn quando receber novas mensagens
 broughtby Trazido até si pelos seguintes programadores
 browse Explorar
 browserexample (\$url será substituído por URL). Ex: mozilla \$url
@@ -78,9 +81,11 @@ cantremoveothers Não é possível remover o grupo "Outros"
 casesensitive Usar actuadores de "case-sensitive" (sensibilidade ao CAPS)
 cfgalarmall Configurar/Adicionar/Remover Alarme Global
 cfgalarm Configurar/Adicionar/Remover Alarme
+change Alterar	
 changecustomstate Mudar para
 changedisplaypic Mudar a imagem de utilizador
 changefont Mudar o tipo de letra
+changeglobnick Modificar o nick global
 changenick Mudar a alcunha (nickname)
 changesize Mudar o tamanho
 changestate $1 muda o estado para $2
@@ -109,13 +114,19 @@ clearlog2 Apagar o histórico de todos o contactos
 clearlog3 Apagar todos os registos
 clearlog Apagar registo
 clicktologin Clique aqui para iniciar a sessão
+clientcaps Enviar pacote x-clientcaps para outros clientes?
+clientname Nome do cliente
 closed Conversação com $1 fechada devido a inactividade
 close Fechar
 closingdocks Botão de terminar minimiza
 command Comando
 commandstatus Executar comando
 confirmdelete Tem a certeza que quer apagar $1?
+confirmdg Tem a certeza que deseja apagar este grupo?
+confirmdu Tem a certeza que deseja apagar este utilizador?
+confirmeg Tem a certeza que deseja esvaziar este grupo?
 confirmpurge Todos os retratos armazenados de outros contactos (não os seus retratos) serão apagados. Tem a certeza?
+confirmrfl Tem a certeza que deseja apagar este utilizador deste grupo?
 confirm Tem a certeza?
 connected Você está ligado
 connectedwith Ligado com $1
@@ -126,6 +137,7 @@ connectionlost Desligado: Ligação com o servidor desligada
 contactadded Contacto adicionado
 contactdoesnotexist Contacto não existe!
 contactlist Lista de Contactos (LC):
+continuously Continuadamente
 convertexplain (Necessário para Mostrar Imagens).\n Deixe em branco se CONVERT estiver no seu directório.
 copy Copiar
 copytogroup Copiar para grupo
@@ -135,8 +147,15 @@ countrycode Código do meu País/Região
 cprofile Criar Perfil
 credits Créditos
 currentdate Data actual
+custnotifymsg  Mostrar janela de notificação quando uma nova mensagem chegar
+custnotifyoffline Mostrar janela de notificação quando este contacto terminar sessão
+custnotifyonline Mostrar janela de notificação quando este contacto iniciar sessão
+custnotifystatus Mostrar janela de notificação quando este contacto mudar de estado
+customcolor Cor personalisada	
 custom_edit Criar "smiley"
 custom_new Adicionar novos "smileys" criados
+customnick Nick personalisado
+customstyle Estilo personalizado
 cut Cortar
 date Data
 dateformat Mudar o formato da hora
@@ -157,6 +176,7 @@ directconnection Ligação directa à Internet (usa a porta 1863)
 disabled Desactivado
 disableprofiles Desactivar perfis (Util para cyber-cafés or ambientes partilhados)
 disablessl Desactivar SSL
+disableuserfonts Ignorar a fonte do utilzador remoto nos chats e usar a minha fonte
 disconnect $1 terminou a sessão.
 disconnectedfrom Desligado de $1
 displaychat Mostrar opções de texto
@@ -164,6 +184,8 @@ displayeventconnect Mostrar quando um contacto se liga
 displayeventdisconnect Mostrar quando um contacto se desliga
 displayeventemail Mostrar quando um e-mail é recebido
 displayeventstate Mostrar quando um contacto muda de estado
+displayp4context Mostrar o campo P4-Context como remetente da mensagem
+displaypic Mostrar imagem
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
 docking Atracando
@@ -178,8 +200,10 @@ editnewstate Novo Estado Pessoal de Automensagem
 editprofile Editar Perfil
 editstate Editar o Estado de Automensagem Existente
 editvalue Editar valor
+email	Email
 emailsinlist Mostrar e-mails ao invés dos nicks na lista de contactos
 emotisounds Reproduzir sons para certos ícones de emoção
+emptygroup Esvaziar grupo
 enablebanner Mostrar imagem do aMSN (Requer re-inicialização do aMSN)
 enabled Activado
 enableproxy Activar "proxy"
@@ -207,6 +231,7 @@ filename Nome de ficheiro
 filetransfercancelled Transferência de ficheiro cancelada
 filetransfercomplete Transferência de ficheiro concluída
 followtext Deslizar para baixo quando novo texto é inserido
+friendlyname Nome amigavél
 ftacceptedby $1 aceitou o pedido de transferência para o ficheiro '$2'.
 ftaccepted Transferência de ficheiro aceite
 ftaccepting Aceitando o pedido de transferência de ficheiro
@@ -220,6 +245,9 @@ ftrejected Transferência de ficheiro rejeitada
 ftsendinvitation O pedido para transferência do ficheiro '$2' ($3 bytes) foi enviado para $1.
 fullcontactlist Desculpe: a sua lista de contactos está cheia. Necessita de remover alguns contactos para poder adicionar os novos.
 getdisppic Activar recepção das Imagens de Exibição dos outros utilizadores
+globalnick Insere um padrão para formar todas as alcunhas dos teus contactos. Podes utilizar as seguintes variáveis: \$user_login para o endereço do teu contacto, \$nick para o nick do teu contacto e \$customnick para o nick escolhido para o teu contacto. Por exemplo: '\$user_login é o \$nick' ficará definido como 'contacto@msn.com é o Contacto'
+globalnicktitle Alcunha (nickname) global
+globaloverride Padrões de alcunhas globais devem sobrepor-se as alcunhas escolhidas
 gonelunch A almoçar
 groupadd Adicionar um grupo
 groupdelete Eliminar um grupo
@@ -230,6 +258,7 @@ groupnewname Novo nome
 groupnotempty Grupo não está vazio!
 groupoldname Nome anterior
 grouprename Renomear grupo
+groups Grupos
 groupunknown Grupo desconhecido
 handle Manejar
 help Ajuda
@@ -243,6 +272,7 @@ httpconnection Ligar usando método HTTP (usa o protocolo HTTP na porta 80)
 hybrid Modo híbrido
 ident Identificando
 identity Identidade
+ignoreerrors Ignorar todos os erros até ao fim da sessão
 imagefiles Ficheiros de imagem
 inbox Caixa de entrada
 insertsmiley Inserir emoticon
@@ -250,6 +280,7 @@ installconvert É necessário instalar o ImageMagick (programa de conversão) para 
 internalerror Erro Interno do Servidor
 invalidfile2 Ficheiro $1 não pode ser creado. Verifique as permissões
 invalidfile Ficheiro $2 do campo "$1" não existe ou não pode ser lido
+invalidgroup Grupo inválido
 invalidpic A ficheiro de imagem escolhido não existe
 invalidpicsize A imagem escolhida é demasiado grande, escolha uma mais pequena
 invalidsound O ficheiro de som escolhido nao existe
@@ -258,17 +289,24 @@ invitationcancelled O pedido foi cancelado
 invite Convidar
 ipaddress Endereço IP
 ipdetect Detectar IP correcto para Transferências de Ficheiros por HTTP
+ircstyle Chat ao estilo do IRC
 istyping $1 está a escrever uma mensagem
 joins $1 junta-se à conversação
+justonce Só uma vez
 keepalive Manter vivo (NAT)
 keeplog2 Registar todas as conversas no Histórico do aMSN para visualização futura
 keeplog Manter o Registo das Conversações
 language Linguagem
+lastlogin Último login	
+lastlogout Último logout	
+lastmsgedme Última mensagem
 lastmsgtime Última mensagem recebida em $1
+lastseen Ultima vez online
 lclosedwin $1 fechou a janela em $2
 lconftopriv Conferência tornou-se conversação Privada com $1
 lconvstarted Conversação iniciada em $1
 leaveblankforhotmail Deixar vazio para usar Hotmail
+leavejoinsinchat Mostar notificação "entradas/saidas na conversação" na janela de conversação
 leaves $1 deixa a conversação
 lenteredconf $1 entrou numa conferência em $2
 lineflushlog Limpar os ficheiros de log após cada linha
@@ -297,6 +335,7 @@ logsin acabou de iniciar sessão
 logsmileys Mostrar Ícones de Emoções e "Smileys" nas janelas de histórico do aMSN
 logsout acabou de sair
 longnick O seu "nickname" é maior que 130 caractéres. Esta função não é officialmente sportada pelo protocolo MSN. Tem a certeza que o quer usar?
+longp4c O nome amigavél que escolheu tem mais de 130 caracteres. O nome amigavél que vai aparecer na versão oficial do MSN vai ser $1. Confirma este nome?
 lprivtoconf Conversação privada tornou-se Conferência com $1
 luclosedwin Fechou a janela de $1
 mailerexample (\$recipient = Recipiente ) Deixar em branco para usar Hotmail
@@ -314,15 +353,20 @@ msgmaxmin Quando uma nova mensagem chegar eu quero que seja:
 msg Mensagem
 msgmode Seleccionar como gerir janelas múltiplas:
 msn aMSN
+msnstyle Chat ao estilo do MSN
 mustrestart Deve reiniciar o programa para aplicar as modificações
+myfriendlyname Meu nome amigável
 myhomephone O meu Telefone de casa
 mymobilephone O meu Telemóvel
+mynick Minha alcunha (nickname)
 mypic A minha Imagem de Exibição:
 mystatus O meu estado
 myworkphone O meu Telefone de Trabalho
 natip Detecção de IP por página Internet
 natkeepalive Se anda a ser desligado(a) com frequência, ligue este "Manter Vivo"
 needonline Você ainda está/aparece como desligado!
+needwinico Necessitas de colocar o ficheiro winico03.dll no directório dos plugins para a funcionalidade de "windows traydocking" funcionar
+never Nunca
 newmail $1 novas mensagens na Caixa de Entrada
 newmailfolder Tem $1 novas mensagens noutros directórios Hotmail
 newmailfrom Novo correio de $1 ($2)
@@ -331,8 +375,11 @@ newmsg Nova mensagem
 newstate Adicionar um estado configurado
 newveravailable Nova versão disponível para descarga
 next Seguinte
+nick Nick	
 noactivity Sem actividade
 nodataavailable Sem dados disponíveis para $1
+nogap Sem espaços entre grupos
+nogroup Sem grupo
 nologfile Sem Ficheiro de Registo para $1
 no Não
 noneavailable Nada Disponível
@@ -344,7 +391,6 @@ normal Normal
 noskins Não foi possivel encontrar o "skin" por usado por omissão no directório skins/ . Não é possível iniciar o AMSN.      
 nosystemtray Bandeja do sistema não disponível
 notificationserver Servidor MSN Inicial de Notificação (Servidor de MSN Messenger)
-notinlist Você não está na lista de contactos dele/dela
 notify1_5 Mostrar uma janela de notificação quando um contacto se desliga
 notify1_75 Mostrar uma janela de notificação quando um contacto muda o seu estado
 notify1 Mostrar janela de notificação quando são recebidas novas mensagens
@@ -353,8 +399,10 @@ notify3 Mostrar janela de notificação quando recebe correio electrónico
 notify4	Mostrar janela de notificação quando recebe novas mensagens de outros directórios
 notify avisar
 notifyoffset Colocar a janela de aviso por forma a ter espaço lateral
+notifytimeout Numero de milisegundos antes da janela de notificação deparecer
 notifytyping Enviar ao outros utilizadores notificações de que está a escrever
 notifywin Janela de notificação
+notinlist Você não está na lista de contactos dele/dela
 notls O Protocolo 9 da MSN requer o pacote TLS. Este pacote não parece estar instalado nesta máquina. Se está instalado, o caminho para a directoria da biblioteca deve ser especificado na janela de Preferências (ex: /opt/tls/lib). \n \n É possível descarregar o TLS em http://tls.sf.net.
 nousersinsession Sem utilizadores na sessão
 offline Desligado
@@ -369,10 +417,12 @@ ordergroupsby Ordenar grupos por
 original Original
 other Outro
 others Outros
+p4contextprefix Adicionar este prefixo aos remetentes P4-Context
 pager Pager
 pass Palavra-chave
 paste Colar
 personal Pessoal
+phones Numeros de telefone
 phone Telefone
 picbrowser Mostrar explorador de Imagens
 picfile Ficheiro de Imagem (GIF < 500 x 500)
@@ -430,10 +480,13 @@ readonlywarn AVISO: Provavelmente, o ficheiro NÃO será guardado correctamente de
 receivedbytes $1 bytes recebidos (de $2)
 receiveddir Pasta dos Ficheiros Recebidos
 receivefile Receber ficheiro
+recentmsg Impede o fecho da janela de conversação quando chega uma nova mensagem
+reconnect2 Voltar a ligar na perda de ligação
 reconnect Esperando que $1 volte a ligar-se
 reconnecting Ligando de novo ao servidor
 reject Rejeitar
 rememberpass Guardar palavra-chave
+removeempty Remover grupos vazios da lista de contactos
 removefromlist Remover desta lista
 rename	Renomear
 reversed Revertido
@@ -458,6 +511,7 @@ servergoingdown Desligado: O servidor está a desligar-se
 server Servidor
 serverunavailable O servidor não está disponível
 session Sessão
+showbanner Mostrar o banner do aMSN
 showblockedlist Mostra lista de utilizadores que o bloquearam
 showcachedpics Mostrar imagens em cache
 showdisplaypic2 Mostrar imagem de utilizador sempre que uma janela de conversação for aberta
@@ -471,7 +525,10 @@ smileconfig Configuração de ícones de emoção criados
 smilefile Nome do ficheiro de "smiley"
 smileintro2 Por favor edite os campos requeridos para modificar este "smiley" (leia o FAQ para obter ajuda)
 smileintro Por favor complete os campos requeridos para criar um novo "smiley" (leia o FAQ para obter ajuda)
+snackfailed Snack falhou a carregar, voltado para default
+sngdblclick Único clique para abrir nova janela de mensagem
 sound2 Reproduzir sons quando os contactos iniciam sessão ou enviam uma mensagem
+soundactive Reproduz som quando recebe mensagens mesmo na janela activa
 soundcommand Isto tem de ser o comando de reprodução de som (ex: esdplay)
 soundexample (\$sound = Ficheiro de som a ser reproduzido) Ex: esdplay \$sound
 soundfile Ficheiro de Som
@@ -481,6 +538,7 @@ soundserver Servidor de Som
 sound Sons de Eventos
 soundstatus Alarme Sonoro
 sourcecode Código Fonte (necessita de compilação e instalação)
+splashstart	Iniciar
 sslwarning AVISO!! Desactivar o SSL irá desactivar a encriptação, tal que a sua palavra-chave irá ser enviada simplesmente como texto através da rede. Usar apenas em caso de "proxies" ou configurações de rede seguras!
 startoffline2 Início de sessão silencioso ("Aparentar Desligado")
 startoffline Começar Desligado
@@ -527,15 +585,21 @@ twonewmail $1 novas mensagens na Caixa de Entrada
 unblock Desbloquear
 uoffline Desligado
 uonline Ligado
+useother Usar um programa diferente
 useralreadyonlist Utilizador já se encontra na lista de contactos
 userblocked O utilizador está ligado mas bloqueou-o
+userdata Dados do utilizador
 usernotonline O utilizador não está ligado
+userproperties Propriedades do utilizador $1
 user Utilizador
 useryourself Você não pode conversar consigo próprio
+usesnack Utilizar Snack Library (Tcl interna)
 verifyblocked Verificar utilizadores que o estão a bloquear
 version Versão
+viewcontactsby Visualizar contactos por
 viewprofile Ver Perfil
 view Ver
+webcaminvite $1 convidou-te para uma sessão de video, mas o aMsn não suporta esta funcionalidade
 willjoin Esperando que $1 se junte à conversação
 work Trabalho
 wrongfields Os campos "$1", "$2" e/ou "$3" não eram válidos.
@@ -551,61 +615,3 @@ yoffset Margem vertical
 youblocked Você foi bloqueado por
 yousay Você diz
 youwant Você quer
-alarms Alarmes/Notificações
-change Alterar	
-customcolor Cor personalisada	
-customnick Nick personalisado
-invalidgroup Grupo inválido
-lastlogin Último login	
-lastlogout Último logout	
-lastmsgedme Última mensagem
-leavejoinsinchat Mostar notificação "entradas/saidas na conversação" na janela de conversação
-nick Nick	
-nogroup Sem grupo
-recentmsg Impede o fecho da janela de conversação quando chega uma nova mensagem
-userdata Dados do utilizador
-userproperties Propriedades do utilizador $1
-displayp4context Mostrar o campo P4-Context como remetente da mensagem
-displaypic Mostrar imagem
-p4contextprefix Adicionar este prefixo aos remetentes P4-Context
-phones Numeros de telefone
-automessage Mensagem automática
-friendlyname Nome amigavél
-longp4c O nome amigavél que escolheu tem mais de 130 caracteres. O nome amigavél que vai aparecer na versão oficial do MSN vai ser $1. Confirma este nome?
-soundactive Reproduz som quando recebe mensagens mesmo na janela activa
-custnotifymsg  Mostrar janela de notificação quando uma nova mensagem chegar
-custnotifyoffline Mostrar janela de notificação quando este contacto terminar sessão
-custnotifyonline Mostrar janela de notificação quando este contacto iniciar sessão
-custnotifystatus Mostrar janela de notificação quando este contacto mudar de estado
-webcaminvite $1 convidou-te para uma sessão de video, mas o aMsn não suporta esta funcionalidade
-bouncedock Animar o icon do aMsn quando receber novas mensagens
-continuously Continuadamente
-ignoreerrors Ignorar todos os erros até ao fim da sessão
-ircstyle Chat ao estilo do IRC
-justonce Só uma vez
-msnstyle Chat ao estilo do MSN
-never Nunca
-changeglobnick Modificar o nick global
-email	Email
-globalnick Insere um padrão para formar todas as alcunhas dos teus contactos. Podes utilizar as seguintes variáveis: \$user_login para o endereço do teu contacto, \$nick para o nick do teu contacto e \$customnick para o nick escolhido para o teu contacto. Por exemplo: '\$user_login é o \$nick' ficará definido como 'contacto@msn.com é o Contacto'
-globalnicktitle Alcunha (nickname) global
-globaloverride Padrões de alcunhas globais devem sobrepor-se as alcunhas escolhidas
-needwinico Necessitas de colocar o ficheiro winico03.dll no directório dos plugins para a funcionalidade de "windows traydocking" funcionar
-showbanner Mostrar o banner do aMSN
-splashstart	Iniciar
-viewcontactsby Visualizar contactos por
-clientname Nome do cliente
-customstyle Estilo personalizado
-disableuserfonts Ignorar a fonte do utilzador remoto nos chats e usar a minha fonte
-groups Grupos
-lastseen Ultima vez online
-myfriendlyname Meu nome amigável
-mynick Minha alcunha (nickname)
-nogap Sem espaços entre grupos
-notifytimeout Numero de milisegundos antes da janela de notificação deparecer
-reconnect2 Voltar a ligar na perda de ligação
-removeempty Remover grupos vazios da lista de contactos
-snackfailed Snack falhou a carregar, voltado para default
-sngdblclick Único clique para abrir nova janela de mensagem
-useother Usar um programa diferente
-usesnack Utilizar Snack Library (Tcl interna)
