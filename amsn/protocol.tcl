@@ -48,6 +48,7 @@ namespace eval ::MSN {
       if {$config(adverts)} {
          adv_pause
       }
+      ::groups::Disable
 
    }
 
@@ -1103,12 +1104,12 @@ proc cmsn_ns_handler {item} {
 	return 0
       }
       LSG {
-      	status_log "LSG: TODO $item\n" white
-	::abook::setGroup [lindex $item 5] [lindex $item 6]
+      	status_log "LSG: DONE $item\n" white
+	::groups::Set [lindex $item 5] [lindex $item 6]
 	return 0
       }
       200 {
-          status_log "Error: Sintax error\n" red
+          status_log "Error: Syntax error\n" red
 	  msg_box "[trans sintaxerror]"
           return 0
       }
@@ -1416,6 +1417,7 @@ proc cmsn_ns_connected {} {
    if {$config(adverts)} {
      adv_resume   
    }
+#   ::groups::Enable
    
 }
 
