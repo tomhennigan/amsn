@@ -144,6 +144,7 @@ dockingoff Geen systeemvak gebruiken
 docking Systeemvak
 dockkde KDE Systeemvak
 dontdownload Download TLS niet. Ik installeer het zelf.
+dontshow Verberg
 downloadingtls Bezig met downloaden van TLS vanaf:\n $1
 edit Bewerken
 editcurrentstate Huidige bewerken
