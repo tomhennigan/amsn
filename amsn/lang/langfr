@@ -26,7 +26,7 @@ alarmstatus Activer/désactiver l'alarme pour cet utilisateur
 allfiles Tous les fichiers
 allowallbutbl Autoriser tout le monde à me contacter sauf les personnes que j'ai bloquées
 allowbadwords Désactiver la censure des pseudos
-allowlist Liste des personnes autorisées
+allowlist Liste des personnes autorisées :
 allowonlyinal N'autoriser que les utilisateurs de ma Liste d'acception à me contacter
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
 allprofilesinuse Tous les profils existants sont présentement utilisés
@@ -64,7 +64,7 @@ blockinter1 Lorsque vous êtes en ligne, vérifier à chaque
 blockinter2 seconde(s), sinon vérifier à chaque:
 blockinter3 à chaque
 blockinter4 secondes.
-blocklist Liste des personnes bloquées
+blocklist Liste des personnes bloquées :
 blockmessage Ces personnes sont en ligne mais vous bloquent
 blockusers Nombre d'utilisateurs à cocher à la fois
 broughtby Développé pour vous par
@@ -136,7 +136,7 @@ connection Connexion
 connectionlost Déconnecté : la connexion avec le serveur a été perdue
 contactadded Contact ajouté
 contactdoesnotexist Personne introuvable
-contactlist Liste de contacts
+contactlist Liste de contacts :
 convertexplain  Chemin vers l'exécutable CONVERT, de ImageMagick (requis pour afficher des images).\n Laisser le blanc si CONVERT est dans le PATH
 copy Copier
 copytogroup Copier vers groupe
@@ -168,7 +168,7 @@ delprofile Supprimer un profil
 description Description
 directconnection J'ai une connexion directe à Internet (utilisation du port 1863)
 disabled Désactivé
-disableprofiles Désactiver les profils (utile pour la cyber-cafés ou pour les environements partagés)
+disableprofiles Désactiver les profils (utile pour la cyber-cafés ou pour les environnements partagés)
 disablessl Désactiver SSL
 disconnect $1 s'est déconnecté.
 disconnectedfrom Déconnecté de $1
@@ -605,7 +605,7 @@ custnotifymsg Affiche une notification quand vous recevez un message d'un de vos
 custnotifyoffline Affiche une notification quand un de vos contact se déconnecte.
 custnotifyonline Affiche une notification quand un de vos contact se connecte
 custnotifystatus Affiche une notification quand un de vos contact change de status
-ignoreerrors Ignore silencieusement les autres erreurs de aMsn jusqu'à la fin de la session
+ignoreerrors Ignorer silencieusement les autres erreurs de aMsn jusqu'à la fin de la session
 justonce Juste une fois
 never Jamais
 webcaminvite $1 vous invite à démarrer un conversation par Webcam, mais aMSN ne supporte pas cette option.
