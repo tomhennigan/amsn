@@ -23,9 +23,9 @@ namespace eval ::TeXIM {
                 array set ::TeXIM::config {
 			showtex {0}
 			showerror {0}
-			path_latex {"latex"}
-			path_dvips {"dvips"}
-			path_convert {"convert"}
+			path_latex {latex}
+			path_dvips {dvips}
+			path_convert {convert}
 			dummy {0}
 	        }
 		
