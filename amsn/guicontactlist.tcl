@@ -90,7 +90,7 @@ namespace eval ::guiContactList {
 
 	# Draws the contact list, for now in a new windows
 	proc createCLWindow {} {
-		
+	
 		set clcanvas ".contactlist.fr.c"
 
 		if { [winfo exists .contactlist] } {
@@ -106,10 +106,11 @@ namespace eval ::guiContactList {
 		frame .contactlist.fr
 		
 		canvas $clcanvas -width [lindex $clbox 2] -height [lindex $clbox 3] -background white \
-			-scrollregion $clbox -xscrollcommand ".contactlist.fr.xs set" -yscrollcommand ".contactlist.fr.ys set"
+			-scrollregion [list 0 0 1000 1000] -xscrollcommand ".contactlist.fr.xs set" -yscrollcommand ".contactlist.fr.ys set"
 		scrollbar .contactlist.fr.ys -command ".contactlist.fr.c yview" 
 		scrollbar .contactlist.fr.xs -orient horizontal -command ".contactlist.fr.c xview"
-				
+		
+		
 		pack .contactlist.fr.ys -side right -fill y
 		pack $clcanvas -expand true -fill both
 		pack .contactlist.fr
@@ -121,6 +122,7 @@ namespace eval ::guiContactList {
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			moveinscreen .contactlist 30
 		}
+		puts $curPos
 	}
 
 	# This is the main contactList drawing procedure, it clears the canvas and draws a brand new
@@ -168,10 +170,18 @@ namespace eval ::guiContactList {
 		
 		set text "[::abook::getDisplayNick $email] \([trans [::MSN::stateToDescription $state_code]]\)"
 		
+		set xnickpos [expr $xpos + [image width $img] + 5]
+		set ynickpos [expr $ypos + [image height $img]/2]
+
+		#Set up underline co-ords
+		set xuline1 $xnickpos
+		set xuline2 [expr $xuline1 + [font measure splainf $text]]
+		set yuline [expr $ynickpos + [font configure splainf -size] / 2]
+		
 		$canvas create image $xpos $ypos -image $img -anchor nw \
 			-tags [list contact icon $email]
 		
-		$canvas create text [expr $xpos + [image width $img] + 5] [expr $ypos + [image height $img]/2] -text $text -anchor w \
+		$canvas create text $xnickpos $ynickpos -text $text -anchor w \
 			-fill $colour -font splainf -tags [list contact $email]
 		
 		set grId [getGroupId $email]
@@ -184,15 +194,18 @@ namespace eval ::guiContactList {
 				"+set Bulle(first) 0; kill_balloon"
 		}
 		
-		#Add binding for click / right click
+		#Add binding for click / right click (remebering to get config key for single/dbl click on contacts to open chat)
 		if { [::config::getKey sngdblclick] } {
 			set singordblclick <Button-1>
 		} else {
 			set singordblclick <Double-Button-1>
 		}
+		 
 		$canvas bind $email <<Button3>> "show_umenu $email $grId %X %Y;"
 		$canvas bind $email $singordblclick "::amsn::chatUser $email"
-			
+		$canvas bind $email <Enter> "$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $colour -tag uline"
+		#$canvas bind $email <Leave> "$canvas delete uline"
+		
 		return [list [expr $xpos - 15] [expr $ypos + [image height $img] + 3]]
 	}
 	
@@ -216,16 +229,29 @@ namespace eval ::guiContactList {
 		#Get the number of user for this group
 		set groupcount [getGroupCount $element]
 		
+		#Store group name and groupcount as string, for measuring length of underline
+		set groupheader "[lindex $element 1] $groupcount"
+		
+		#Setup co-ords for underline on hover
+		set xuline1 [expr $xpos + [image width $img] + (2*$xpad)]
+		set xuline2 [expr $xuline1 + [font measure sboldf $groupheader]]
+		set yuline [expr $ypos + [font configure sboldf -size] + 2 ]
+		
 		# First we draw our little group toggle button
 		$canvas create image [expr $xpos + $xpad] $ypos -image $img -anchor nw \
 			-tags [list group toggleimg [lindex $element 1]]
 		
-		$canvas create text [expr $xpos + [image width $img] + (2*$xpad)] $ypos -text "[lindex $element 1] $groupcount" -anchor nw \
+		$canvas create text $xuline1 $ypos -text $groupheader -anchor nw \
 			-fill $groupcolor -font sboldf -tags [list group title [lindex $element 1]]
 		
+		#Set variable gid to group name (index 1) - group ID (index 0) doesn't seem to "exist" (tags of above canvas elements used to be index 0).
 		set gid [lindex $element 1]
+		
+		#Create mouse event bindings
 		$canvas bind $gid <<Button1>> "::groups::ToggleStatus [lindex $element 0];guiContactList::createCLWindow"
 		$canvas bind $gid <<Button3>> "::groups::GroupMenu $gid %X %Y"
+		$canvas bind $gid <Enter> "$canvas create line $xuline1 $yuline $xuline2 $yuline -fill $groupcolor -tag uline"
+		#$canvas bind $gid <Leave> "$canvas delete uline"
 		
 		return [list $xpos [expr $ypos + 20]]
 	}
