@@ -296,7 +296,9 @@ if { $config(autocheckver) == 1 } {
 }
 
 # BeginVerifyBlocked
-init_remote_DS
+if { $config(enableremote) } {
+	init_remote_DS
+}
 init_dock
 
 if {$config(startontray)} {
