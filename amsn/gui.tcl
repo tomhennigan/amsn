@@ -2722,6 +2722,11 @@ if { $config(getdisppic) != 0 } {
 		  
 	  update
 
+	  #Avoid problems if the windows was closed in the middle...
+	  if {![winfo exists $win_name]} {
+			return
+	  }
+
       if {$config(chatsmileys)} {
           custom_smile_subst $chatid ${win_name}.f.out.text $text_start end
           smile_subst ${win_name}.f.out.text $text_start end 0
