@@ -360,6 +360,15 @@ namespace eval ::smiley {
 					bind $w.c.$temp <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn} res" 
 				}
 			}
+			#Add binding for custom emoticons
+			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+				
+				bind $w.c.$temp <Button2-ButtonRelease> [list ::smiley::editCustomEmotion $name]
+				bind $w.c.$temp <Control-ButtonRelease> [list ::smiley::editCustomEmotion $name]
+			} else {
+				bind $w.c.$temp <Button3-ButtonRelease> [list ::smiley::editCustomEmotion $name]
+			}
+			
 			incr temp
 		}
 		
@@ -469,16 +478,7 @@ namespace eval ::smiley {
 			
 			CreateSmileyInMenu $w.c $cols $rows $smiw $smih \
 				$emot_num $name [lindex $emotion(text) 0] $emotion(image_name) $emotion(file) $animated
-			
-			#Add binding for custom emoticons
-			if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
-				
-				bind $w.c.$emot_num <Button2-ButtonRelease> [list ::smiley::editCustomEmotion $name]
-				bind $w.c.$emot_num <Control-ButtonRelease> [list ::smiley::editCustomEmotion $name]
-			} else {
-				bind $w.c.$emot_num <Button3-ButtonRelease> [list ::smiley::editCustomEmotion $name]
-			}
-			
+	
 			incr emot_num
 		}
 
