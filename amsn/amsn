@@ -531,6 +531,8 @@ proc show_umenu {user_login x y} {
       -command "::amsn::chatUser ${user_login}"
    .user_menu add command -label "[trans sendmail] \($user_login\)" \
       -command "send_mail $user_login"
+   .user_menu add command -label "[trans viewprofile]" \
+      -command "view_profile ${user_login}"
    .user_menu add separator
    if {$blocked == -1} {
       .user_menu add command -label "[trans block]" -command  "block_user ${user_login}"
@@ -688,6 +690,10 @@ proc cmsn_listupdate {recv} {
       lists_compare		;# FIX: hmm, maybe I should not run it always!
       list_users_refresh
    }
+}
+
+proc view_profile {user_login} {
+     launch_browser "http://members.msn.com/default.msnw?mem=${user_login}&pgmarket="
 }
 
 
