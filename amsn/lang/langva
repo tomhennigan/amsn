@@ -1,5 +1,5 @@
 amsn_lang_version 2
-about Sobre 
+about Sobre
 accept Aceptar
 acceptfile ¿Aceptar archiu $1, tamany $2 bytes? Es guardara en $3
 actions Accions
@@ -14,15 +14,24 @@ adverts Anuncis
 alarmpref Configurar avis
 alarmstatus Avis ences/apagat per ad este usuari
 allowseen Permetre ad esta persona vore quan estas conectat i contactar
+appearance Apariencia
 appearoff Sense conexio
+areacode Codic d'area
 aretyping $1 esta escrvint un mensage
-autoconnect Conectar al iniciar amsn
+askprofile Este usuari no te encara perfil.¿Desija crear uno nou?\n En cas contrari no es podra usar l'Historial, o guardar la contrasenya i alarmes.\nAl crear-lo, tindras una configuracio personalisada per ad este perfil.\n\nFes click en "Crear Perfil" per a crear un nou perfil per a
+autoaway Mostrar-me com Absent quan no hi ha activitat en
+autoconnect2 Conectar-se automaticament quan s'inicia aMSN
+autoconnect Conectar al arrancar AMSN
 autohotmaillog Login hotmail automatic
 autoidle Marcar com inactiu automaticament
 autoip IP Automatica
+autonoact Mostar-me com Sense Activitat quan no hi ha activitat en
 avoidseen Evitar que esta persona veja la teua conexio i te contacte
 away Ausent
+awaymsg1 Preguntar quan canvie l'estat a Absent/Torne Enseguida/Ocupat
+awaymsg2 No preguntar mai i gastar el mensage a continuacio
 baduserpass Nom d'usuari o contrasenya incorrectes
+bgcolor Canvia el color de fondo de aMSN
 blankdirect Dixar en blanc per a la conexio directa
 blocked Bloquejat
 block No admetre
@@ -32,36 +41,54 @@ browser Navegador
 busy No disponible
 cancel Cancelar
 cfgalarm Configurar/afegir/borrar avis
+changefont Canviar font
 changenick Canviar mot
 chatack Aceptant conversacio de
 chat Conversacio
 chatreq Solicitant una conversacio
+chatsmileys2 Mostrar els emoticons i smileys en finestres de chat
 chatsmileys Smileys en chat
+checkfilman Els archius rebuts es guardaran en . Comprova l'opcio d'administrador d'archius en la finestra de preferencies.
 checkingver Buscant si hi ha disponible una nova versio
 checkver Buscar noves versions
 choosebasefont Triar tipo de lletra
 choosebgcolor Triar color de fondo
 choosefontcolor Triar color de la lletra
+clearlog2 Netejar l'historial per a tots els contactes
+clearlog3 Netejar tots els registres
+clearlog Netejar historial
 clicktologin Fes click aci per a iniciar la sessio
 close Tancar
 closingdocks Boto de tancar/minimisar
 command Ordre
 confirmdelete ¿Segur que desiges borrar a $1?
-confirm ¿Estas segur?
+confirm ¿Estas sergur/a?
 connecterror Error conectant-se al servidor
+connection Conexio
 contactadded Contacte afegit
 contactdoesnotexist El contacte que intentes afegir no existix
-copy copiar
+copy Copiar
 copytogroup Copiar al grup
-cut tallar
+copytogroup Copiar al grup
+countrycode Codic de païs/regio
+cprofile Crear Perfil
+cut Tallar
 date Data
+days Dies
+dcprofile No Crear Perfil
+default Configuracio per defecte
 delete Eliminar
+deliverfail Ha ocorregut un problema al enviar el siguient mensage
+delprofile2 Tria el perfil que t'agradaria borrar
+delprofile Borrar Perfil
 dockgtk Icono GTK
 docking Icono en la safata del sistema
 dockingoff Desactivar
 dockkde Icono KDE
-edit Edicio
+edit Editar
+editprofile Editar Perfil
 enableproxy Activar proxy
+encoding2 Canvia la forma en a que els caracters es codifiquen
 encoding Codificacio de caracters
 entercontactemail Introduix el correu-e del contacte
 enterfilename Introduix el nom de l'archiu
@@ -71,6 +98,7 @@ exitamsn ¿Estas segur que desiges eixir?
 extras Servicis Adicionals
 faq Questions usualment preguntades
 filedoesnotexist L'archiu no existix
+fileman Administrador d'archius
 filename Nom d'Archiu
 filetransfercancelled Transferencia de ficher cancelada
 filetransfercomplete Transferencia de ficher completada
@@ -90,6 +118,7 @@ groupunknown Grup desconegut
 handle Mot
 help Ajuda
 helpcontents Temes d'ajuda
+history Vore Historial
 home Casa
 ident Identificant-se
 identity Identificacio
@@ -97,30 +126,57 @@ inbox Safata d'entrada
 invalidusername Nom d'usuari no valit
 invite Invitar
 ipaddress Direccio IP
+ipdetect Detectar la IP correcta per a transferencies gastant HTTP
 istyping $1 esta escrivint un mensage
 joins $1 s'unix a la conversacio
 keepalive Mantindre conectat
+keeplog2 Registrar les conversacions en l'historial per a vore-les mes tart
+keeplog Guardar historal de les conversacion
 language Idioma
 lastmsgtime Ultim mensage rebut a les $1
+lclosedwin $1 ha tancat la finestra a les $2
+lconftopriv La conversacio passa a ser un privat en $1
+lconvstarted Escomença la conversacio en $1
 leaveblankforhotmail Deixar en blanc per a usar hotmail
 leaves $1 deixa la conversacio
+lenteredconf $1 s'unix a la conversacio a les $2
+linprivate EN PRIVAT
 listeningon Escoltant en el port $1
+listsmileys2 Mostrar emoticons i smileys en la llista de contactes d'aMSN
 listsmileys Smileys en contactes
+ljoinedconf s'unix a la conversacio
+lleftconf deixa la conversacio
 loadcontacts Carregar llista de contactes
+logbigger Archius d'un contacte no superen els
+logfandexp Tamany d'archius de registre i expiracio de l'historial
 loggedotherlocation Desconectat: S'ha iniciat la sessio en atra ubicacio
 loggingin Iniciant sessio
 loginas Iniciar sessio com 
+loging Historial
 login Iniciar sessio
+logolder Registrar nomes conversacions fetes en l'ultim
 logout Tancar sessio
 logsin acaba de iniciar sessio
+logsmileys Mostrar emoticons i smileys en la finestra d'historial de aMSN
+lprivtoconf en privat es convertix en una conversacio multiple en $1
+luclosedwin Tu tanques la finestra a les $1
 mailer Ordre de correu-e
+maximised Maximizada
+minimised Minimizada/Iconificada
+mins minuts
 mobile Mobil
 movetogroup Moure al grup
+msgmaxmin Quan un nou mensage arriva vullc que siga:
 msg Mensage
+msgmode Tria com manejar finestres de multiples mensages:
 msn AMSN
 mustrestart Deus reiniciar el programa per a aplicar els canvis
+myhomephone El telefon de ma casa
+mymobilephone El meu telefon mobil
 mystatus El meu estat
-natip Detectar la IP a traves de la web
+myworkphone El telefon del meu treball
+natip Detectar IP des d'una web
+natkeepalive Si sofrixes desconexions continuament, activa esta opcio
 needonline Encara estas/aparentes desconectat
 newmail $1 mensages nous en safata d'entrada
 newmailfrom Nou correu de
@@ -128,10 +184,17 @@ newmsg Nou mensage
 newveravailable Nova versio $1 disponible per a descarrega
 next Siguient
 noactivity Sense activitat
+nologfile No existix archiu d'historial per a $1
 nonewmail No hi han mensages nous en safata d'entrada
 nonewver No hi han versions mes actuals disponibles
+normal Normal
+notify1 Mostrar finestra d'avis quan un contacte es conecte
+notify2 Mostrar finestra d'avis quan arriben nous mensages
+notify3 Mostrar finestra d'avis al rebre un nou correu electronic
 notify avis
+notifyoffset Ajusta la posicio de la finestra d'avis mijançant un desplaçament
 notifywin Finestra d'avisos
+nousersinsession No hi han usuaris en la sesio
 nousersinsession No hi han usuaris en la sessio
 offline Desconectat
 ok Aceptar
@@ -141,20 +204,45 @@ onphone Al telefon
 openreceived Obrir archius rebuts
 options Opcions
 ordercontactsby Ordenar contactes per
+ordergroupsby Ordenar grups per
 other Atre
 pager Paginador
 pass Contrasenya
-paste pegar
+paste Pegar
+personal Personal
 phone Telefon
 picfile Triar ficher d'image per a l'avis (GIF <500x500)
 picstatus Activar/desactivar image per a l'avis
 port Port
+prefalerts Les meues alertes i sons d'events
 prefapps Aplicacions
+prefawaymsg El meu mensage d'absent
+prefemotic Emoticons i smileys
 preferences Preferencies
+preffont2 Canvia la forma en la que atres veuen el meu text en la conversacio
+preffont3 Canviar el tipo de lletra i tamany de l'interfas de aMSN
+preffont Text dels meus mensages
+preflog1 Les meues opcions d'Historial i registres
+preflook Apariencia del meu aMSN Messenger
+prefmsging Interfas dels meus mensages
+prefname El meu nom/malnom en MSN Messenger
+prefphone2 Escriu els numeros que vullgues permetre vore als contactes \n en la teua llista de Permitits \n
+prefphone Els meus numeros de telefon
+prefprofile2 Crea o modifica el teu perfil public (la \n descripcio de tu mateixa que atres poden vore)
+prefprofile3 Perfils de configuracio dels usuaris
+prefprofile El meu perfil public
+prefproxy Configuracio del meu proxy
+prefsession El meu inici de sessio i estat
+prefshared Conexions compartides (nomes NAT)
 prefsound Sons
+profiledconfig Informacio de perfil
+profiles Perfils
 properties Propietats
 proxyconf Configuracio proxy
+proxyconf Configuracio proxy
 proxyconfhttp Configurar soport de proxy http
+proxyconfhttp Configurar soport de proxy http
+proxy Estic darrere d'un servidor proxy (HTTP o SOCKS5)
 publishphones Publicar els meus numeros telefonics
 receivedbytes Recibuts $1 de $2 bytes totals
 receivefile Rebre archiu
@@ -162,10 +250,12 @@ reconnect Esperant que $1 es reconecte
 reconnecting Reconectant al servidor
 reject Denegar
 rememberpass Recordar contrasenya
+reversed Invertit
 rightback Torne enseguida
 saveas Guardar com
 savecontacts Guardar llista de contactes
 save Guardar
+savetofile Guardar en archiu
 says $1 diu
 sbcon Conectant a Switch Board
 send Enviar
@@ -175,14 +265,23 @@ sendmsg Enviar mensage
 sentbytes Enviats $1 de $2 bytes totals
 servergoingdown Desconectat: El servidor s'apagara per a manteniment
 server Servidor
+session Sessio
+sound2 Reproduir sons quan els contactes es conecten o envien mensages
+soundcommand En comando per a reproduir un so (i.e: esdplay)
 soundfile Archiu de so per a l'avis
 soundloop Reproduir el so continuament
+soundserver Servidor de so
 sound So events
 soundstatus Encendre/Apagar el so de l'avis
+startoffline2 Conectarse sigilosament aparentat "Desconectat"
 startoffline Esomençar Desconectat
 status Estat
 stopalarm Parar el so de l'avis
+stylechat El mateix que els chats
+stylehist apariencia de l'historial de aMSN
+stylelog Tria l'estil en el que vols vore l'historial
 syntaxerror Error de sintaxis
+tabbed Finestres en solapes
 textsize Tamany del text
 title Al's Messenger
 tools Ferramentes
@@ -192,11 +291,14 @@ unblock Admetre
 uoffline Desconectats
 uonline Conectats
 useralreadyonlist L'usuario ya es troba en la llista de contactes.
-usernotonline L'usuari esta desconectat en este moment
+usernotonline L'usuari no es troba en llinea
 user Usuari
 version Versio
+viewprofile Vore perfil
 view Vore
 willjoin Esperant que $1 s'unixca a la conversacio
 work Treball
+xoffset Desplaçament X
+yoffset Desplaçament Y
 yousay Tu dius
 youwant Vols
