@@ -234,11 +234,15 @@ filename 檔案名稱
 filetransfer 檔案傳送
 filetransfercancelled 檔案傳送已取消
 filetransfercomplete 檔案傳送完畢
+filters 過濾器
+filtersselect 選擇您想要看見的過濾器\n(如果沒有任何選擇則表示顯示全部)
+filtersx 過濾器選擇
 followtext 往下捲,當新的文字被輸入
 friendlyname 友善稱呼
 ftaccepted 檔案傳送被接收
 ftacceptedby $1 接受了檔案'$2'的檔案傳送邀請.
 ftaccepting 正在接收檔案傳送邀請
+ftautoclose 當檔案傳送完畢時關閉視窗
 ftconnecterror 連線到遠端節點發生錯誤
 ftconnecting 連線到 $1 port $2 
 ftconnectionlost 與遠端節點連線遺失
@@ -373,6 +377,7 @@ natip IP detection by web page
 natkeepalive 如果您會定時被斷線, 請開啟保持連線
 needonline 您還是在離線中!
 needwinico 需要winico03.dll於plugin資料夾中才能縮小於工具列
+needwinico2 需要winico05.dll於utils/windows資料夾中才能縮小於工具列
 never 從不
 new_ft_protocol 使用新的檔案傳輸協定(目前仍有bug)
 newmail $1 封新郵件在收件匣中
@@ -470,6 +475,7 @@ prefremote 遠端連線偏好設定
 prefsession 我的登入及狀態
 prefshared 分享連線 (only for NAT) 
 prefsound 聲音
+preview 預覽
 privacy 隱私
 profiledconfig 個人設定檔設定
 profileexists 您不能在這個登入建立個人設定檔 \n 因為已經有一個存在了. 請選擇其他的登入.
@@ -594,9 +600,11 @@ truncatenames2 於對話中將暱稱超過視窗寬度的部分截去
 truncatenicks 將暱稱超過視窗寬度的部分截去
 twonewmail $1 封新郵件在收件匣中
 unblock 解除封鎖
+unknown 未知
 unload 卸除
 uoffline 離線
 uonline 線上
+update 更新
 useother 使用一個不同程式
 useralreadyonlist 連絡人已經在清單上
 userblocked 這名連絡人是在線上卻把您封鎖
