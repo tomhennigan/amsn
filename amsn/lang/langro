@@ -22,6 +22,7 @@ alarmonmsg Activeaza sunetele de avertizare cind cineva iti trimite un mesaj
 alarmonstatus Activeaza sunetele de avertizare cind cineva isi schimba starea
 alarmpref Setari de sunet pentru utilizator
 alarmstatus Opreste/Porneste sunetele
+allfiles Toate fisierele
 allowallbutbl  Permite tuturor sa ma contactaze in afara de cei din lista celor blocati
 allowbadwords Dezactiveaza cenzura de pe porecle
 allowlist Lista cu cei acceptati:
@@ -71,9 +72,11 @@ busy Ocupat
 cancel Renunta
 cannotdeleteprofile Nu se poate sterge profilul deoarece este folosit de o sesiune aMSN
 cantexec Nu pot executa aplicatia: $1. Verifica preferintele
+cantremoveothers Nu pot sterge grupul "Others"
 casesensitive Foloseste declansatoarele cu majuscule semnificative
 cfgalarmall Configureaza/Adauga/Sterge sunetul general
 cfgalarm Configureaza/Adauga/Sterge sunete
+changecustomstate Schimba pe
 changedisplaypic Schimba poza afisata
 changefont Schimba caracterul
 changenick Schimba nick-ul
@@ -95,6 +98,7 @@ choosebgcolor Alege culoarea
 choosecontact Alege un contact (persoana) din lista
 choosefontcolor Alege culoarea caracterului
 chooseskin Alege Skin-ul
+ch_to_state Treci intr-o noua stare
 clearlog2 Sterge jurnalul pentru toate contactele
 clearlog3 Sterge toate jurnalele
 clearlog Sterge jurnalul
@@ -105,6 +109,7 @@ closingdocks Minimizare in loc de inchidere
 command Commanda
 commandstatus Executa comanda
 confirmdelete Sigur vrei sa stergi persoana $1?
+confirmpurge Toate imaginile stocate de la celelalte persoane vor fi sterse (nu si imaginile tale). Esti sigur?
 confirm Sunteti sigur?
 connected Conectat
 connecterror Conectarea la server a esuat
@@ -114,8 +119,11 @@ connectionlost Deconectat: Conexia cu serverul sa inchis
 contactadded Persoana adaugata
 contactdoesnotexist Persona nu exista!
 contactlist Lista contactelor:
+convertexplain Calea catre fisierul executabil CONVERT de la ImageMagick (necesar pentru Afisarea Imaginilor).\n Nu completati atunci cand CONVERT este in PATH
 copy Copiaza
 copytogroup Copieaza in grupul
+corruptconfig Fisierul de configurare este corupt. Creez unul nou. Vechiul fisier va fi salvat ca si $1. Te rog sa ni-l trimiti pentru a vedea ce s-a intamplat.
+corruptstates Configurarea starilor personalizate este corupta. Creez una noua. Vechiul fisier va fi salvat ca si $1. Te rog sa ni-l trimiti pentru a vedea ce s-a intamplat.
 countrycode Tara / Cod postal
 cprofile Creare Profil
 custom_edit Editeaza semnele de conversatie create
@@ -126,6 +134,8 @@ days Zile
 dcprofile Nu crea profil
 default Configurarea implicita
 defaultloginradio Autentificare cu configuratia implicita
+defchatwinsize Dimensiune implicita pentru fereastra de chat (LATIME x INALTIME)
+deletecustomstate Sterge stare personalizata
 delete Sterge
 delimiters Separatoarele de timp:
 deliverfail Eroare la trimiterea mesajului
@@ -144,13 +154,16 @@ docking Ataseaza
 dockingoff Detaseaza
 dockkde Ataseaza in KDE
 dontdownload Nu descarca TLS, O sa il instalez manual
+dontshow Nu arata
 downloadingtls In curs de descarcare modulul TLS de la:\n $1
 editcurrentstate Editare curenta
+editcustomstate Editeaza stare personalizata
 edit Editare
 editnewstate Creeaza o noua stare pentru mesajului automat
 editprofile Editeaza profilul
 editstate Editeaza starea mesajului automat existent
 editvalue Seteaza valoarea
+emailsinlist Arata adresele email in loc de nick-uri in lista de contacte.
 emotisounds Semne in conversatie cu sunet
 enablebanner Afiseaza banerul aMSN (necesita restart la aMSN)
 enabled Activat
@@ -166,8 +179,12 @@ errortls Eroare la instalarea modulului TLS:
 examples Exemple
 exitamsn Sigur vrei sa inchizi?
 extras Servicii suplimentare
+faileddelete Nu am putut sterge
+faileddeleteperso Aceasta imagine nu poate fi stearsa deoarece nu este un fisier personal de imagini. Doar imaginile care apartin profilului tau pot fi sterse astfel.
+failed Esuare
 faq Intrebari puse frecvent(FAQ)
 filedoesnotexist Fisierul nu exista
+file Fisier
 filemanexample ( \$location va fi inlocuit cu directorul ) Ex: nautilus \$location
 fileman Manager de fisiere
 filename Nume fisier
@@ -185,6 +202,7 @@ ftportpref Foloseste acest port pentru transferurile de fisier
 ftrejectedby $1 a refuzat transferul de fisier pentru fisierul '$2'.
 ftrejected Transfer de fisier refuzat
 ftsendinvitation Inviatatia de transfer pentru fisierul '$2' ($3 bytes) a fost trimis la $1.
+fullcontactlist Din pacate lista ta de contacte este plina. Va trebui sa stergi cateva contacte pentru a putea adauga altele noi.
 getdisppic Vizualizare poza afisata de la alti utilizatori
 gonelunch Sunt la masa
 groupadd Adauga un grup
@@ -209,8 +227,11 @@ httpconnection Conectare folosind protocolul HTTP (portul 80)
 hybrid Modul Hybrid
 ident In curs de identificare
 identity Identitate
+imagefiles Fisiere imagini
 inbox Casuta postala
+insertsmiley Inserare emoticon
 installconvert Trebuie instalat ImageMagick ( program de conversie ) pentru a folosi icoanele Buddy si semnele de conversatie create. Se poate descarca de la ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . 
+internalerror Eroare interna a server-ului
 invalidfile Fisierul $2 introdus in campul "$1" nu exista sau nu poate fi citit
 invalidusername Nume gresit
 invitationcancelled Invitattia a fost intrerupta
@@ -250,6 +271,7 @@ logout Deautentificare
 logsin tocmai s-a autentificat
 logsmileys Afiseaza semnele de converatie in fereastra jurnal
 logsout tocmai s-a deautentificat
+longnick Nick-ul tau este mai lung de 130 de caractere. Aceasta nu este suportata oficial de catre protocolul MSN. Sigur vrei sa il modifici?
 lprivtoconf Conversatiile private au devenit conferinte cu $1
 luclosedwin Ai inchis fereastra pe (la) $1
 mailerexample ( \$recipient = Recipient ) Nu completa pentru Hotmail
@@ -278,6 +300,7 @@ needonline Esti sau Apari neautentificat !
 newmail $1 Mesaje noi in casuta postala
 newmailfrom Ai primit e-mail nou de la $1 ($2)
 newmsg Mesaj nou
+newstate Adaugare stare personalizata
 newveravailable Versiune noua de $1 este disponibil pentru descarcare.
 next Urmatorul
 noactivity Fara activitate
@@ -290,6 +313,7 @@ no Nu
 nopic Fara poza
 noprofileexists Nu exista profile, \n trebuie sa creati unul daca vreti sa folositi autentificare cu profil. \nFolositi butonul "Adauga un profil nou" pentru a crea un profil nou.
 normal Normal
+noskins Nu am putut gasi skin in directorul skins/. Nu pot porni AMSN
 nosystemtray System tray-ul nu este disponibil
 notificationserver Server MSN de informare (MSN Messenger Server)
 notify1_5 Afiseaza fereastra de atentionare cind cineva se deautentifica
@@ -299,6 +323,7 @@ notify2 Afiseaza fereastra de atentionare cind primesc mesaje noi
 notify3 Afiseaza fereastra de atentionare cind este e-mail nou in casuta postala
 notify Atentioneaza
 notifyoffset Stabileste unde sa apara fereastra de avertizare folosind coordonatele
+notifytyping Trimite notificare utilizatorilor cand se tasteaza
 notifywin notifica fereatra
 notls Protocolul MSN 9 necesita pachetul TLS. Se pare ca acest pachet nu este instalat pe calculator. Daca este instalat, calea catre directorul cu biblioteci trebuie specificat in fereastra de Preferinte (ex: /opt/tls/lib). \n \n Se poate descarca TLS de la http://tls.sf.net.
 nousersinsession Nu sunt persoane in sesiune
@@ -381,6 +406,7 @@ reversed Ordine inversa
 reverselist Cei opusi:
 rightback Revin imediat
 saveas Salveaza ca
+savechatwinsize Salvare dimensiune ferestra de chat ca si dimensiune implicita la redimensionare
 savecontacts Salveaza lista
 save Salveaza
 savetofile Salveaza in fisier
@@ -414,6 +440,7 @@ sound2 Avertizare sonora cind peroanele se autentifica sau trimit mesaj
 soundcommand Ar trebui sa fie comanda pentru redare(ex: esdplay)
 soundexample ( \$sound = Sunet care sa fie redat ) Ex: esdplay \$sound
 soundfile Fisierul de avertizare (sunet)
+soundfiles Fisiere de sunet
 soundloop Roteste sunetul
 soundserver Server de sunet
 soundstatus Inchide/Deschide avertizarile
@@ -432,16 +459,21 @@ statenewtext Introdu informatia pentru a crea \n starea personala si apasa Salve
 state Vreau sa apar ca
 status Stare
 stopalarm Opreste avertizarea
+storenickname Revenire la nick-ul original dupa o stare personalizata cu un nick personalizat
+strictfonts Restrictionare a tuturor marimilor fonturilor la dimensiunea selectata de mine (Bara de stare si celelalte)
 stylechat La fel ca si conversatiile
 stylehist Cum arata jurnalele
 stylelog Alege formatul in care vrei sa vizualizezi jurnalul
 syntaxerror Eroare de sintaxa
 tabbed In fereastra ingrosata
+temp_state Nu salva (Stare temporara, nu se va salva cand este inchis AMSN)
 textsize Marime text
 timeremaining Timp ramas
 timestamps Activeaza delimitarile de timp in fereastra de conversatie
 title aMSN Messanger
+tkerror TK a lansat o eroare. Este un bug in AMSN - te rog anunta-l. Trimite fisierul $1 la amsn-bugs@lists.sf.net
 tlsdowncompleted Fisierul $1 a fost salvat in directorul $2. Trebuie dezarhivat, compilat (daca e codul sursa) si instalat in $3.
+tlsexplain Directorul in care se afla modulul tcl TLS. Daca AMSN nu il poate gasi, te rog specifica.\n(Necesar pentru autentificare SSL).
 tlsinstallexp aMSN necesita MSNP9, care necesita conexie \nsecurizata folosind SSL. Pentru a folosi SSL, aMSN trebuie sa instaleze un modul numit TLS,\ncare lipseste din sistem. Acest utilitar va ajuta sa descarcati si \nsa instalati TLS. Selectati tipul sistemului pentru a putea descarca automat \nfisierele TLS.
 tlsinstall Instalarea Modulului TLS
 tlsinstcompleted Instalarea modulului TLS a reusit, acum ar trebui sa folositi  MSNP9. Daca nu functioneaza MSNP9, atunci probabil nu ati selectat modulul corespunzator sistemului, sau nu exista modul compilat pentru sistemul pe care il folositi
@@ -471,7 +503,9 @@ willjoin Asteapta ca $1 sa se alature conversatiei
 work Lucru
 wrongfields Campurile "$1", "$2" si/sau "$3" nu sunt valide
 wrongprofileversion Versiunea fisierului de configurarea a profilului este gresit. Pentru remediere sterge directorul $1 sau descarca o
+xmmscurrent Afiseaza melodia curenta
 xmmserr Nu se reda nimic, sau nu aveti instalat xmms-infopipe.
+xmmssend Trimite melodia curenta
 xoffset Coordonata X
 yes Da
 yoffset Coordonata Y

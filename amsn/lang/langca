@@ -22,6 +22,7 @@ alarmonmsg Activa l'alarma quan l'usuari t'enviï un missatge
 alarmonstatus Activa l'alarma quan l'usuari canviï d'estat
 alarmpref Preferències de l'alarma per l'usuari
 alarmstatus Activar l'alarma per aquest usuari
+allfiles Tots els fitxers
 allowallbutbl Permet que tots els usuaris, llevat dels bloquejats, contactin amb mi
 allowbadwords Desactiva la censura als sobrenoms
 allowlist Llista d'acceptats (AL):
@@ -71,7 +72,7 @@ busy Ocupat
 cancel Cancel·la
 cannotdeleteprofile No es pot eliminar el perfil, sembla que s'està utilitzant en una altra sessió aMSN
 cantexec No puc executar l'aplicació $1. Comprova les preferències.
-cantremoveothers	 No puc esborrar es grup "altres"
+cantremoveothers No puc esborrar el grup "Altres"
 casesensitive Diferenciar les majúscules i les minúscules als disparadors
 cfgalarmall Configura, afegeix o elimina l'altarma global
 cfgalarm Configurar l'alarma per aquest usuari
@@ -109,7 +110,7 @@ command Reproductor
 commandstatus Executar comanda
 confirmdelete Estàs segur de voler eliminar a $1?
 confirm Estàs segur?
-confirmpurge	 Totes ses imatges guardades de's teus contactes (no ses teues) estan a punt de ser esborrades. Estàs segur?
+confirmpurge Totes les imatges mostrades dels teus contactes (però no la teva) estan a punt de ser esborrades. Estàs segur?
 connected Ara estàs connectat
 connecterror Error connectant amb el servidor
 connecting Connectant
@@ -118,7 +119,7 @@ connectionlost Desconnectat: connexió amb el servidor tancada
 contactadded Contacte inclòs
 contactdoesnotexist ¡El contacte que intentes afegir no existeix!
 contactlist Llista de contactes (FL):
-convertexplain	 On es troba s'arxiu executable CONVERT, d'ImageMagick (Es necessita per vore ses imatges).\n Deixa-ho en blanc si CONVERT està a es path.
+convertexplain Camí al fitxer executable CONVERT, d'ImageMagick (es necessita per veure les imatges).\nDeixa-ho en blanc si CONVERT està al path.
 copy Copia
 copytogroup Copia al grup
 corruptconfig El fitxer de configuració conté errors. Ara en crearé un de nou i desaré l'antic a $1. Si vols ajudar-nos, envia'ns el fitxer erroni.
@@ -133,7 +134,7 @@ days dies
 dcprofile No crear perfil
 defaultloginradio Configuració per defecte
 default Utilitza la configuració predeterminada
-defchatwinsize	 Es tamany predeterminat per ses finestres (tamany_de_Xxtamany_de_Y)
+defchatwinsize Mida predeterminada per les finestres (MIDAXxMIDAY)
 deletecustomstate Esborrar estat personalitzat
 delete Esborrar
 delimiters Delimitadors de temps:
@@ -226,6 +227,7 @@ httpconnection Connectar-se amb el mètode HTTP (utilitza el protocol HTTP pel po
 hybrid Mode híbrid
 ident Identifica
 identity Identitat
+imagefiles Fitxers d'imatges
 inbox Bústia
 insertsmiley Insereix emoticona
 installconvert Instal·lar conversor: Has d'instal·lar ImageMagick (un programa de conversió) per tal de convertir les imatges al format usat pels servidors de MSN. Pots descarregar els binaris per al teu sistema operatiu a ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ Si ja els tens, llavors és un error, sisplau comunica'l.
@@ -404,7 +406,7 @@ reversed Invertit
 reverselist Llista inversa:
 rightback Ara torno
 saveas Desar com
-savechatwinsize	 Guardar sa mida de sa finestra de xerrada quan es redimensioni
+savechatwinsize Desar la mida de la finestra de conversa quan es redimensioni
 savecontacts Desar la llista de contactes
 save Desar
 savetofile Desar en fitxer
@@ -438,6 +440,7 @@ sound2 Reprodueix sons quan els contactes es connectin o enviïn missatges
 soundcommand La comanda per reproduir el so (ex: esdplay)
 soundexample (\$sound és el fitxer sonor per ser reproduït) Ex: esdplay \$sound
 soundfile Fitxer de so de l'alarma
+soundfiles Fitxers de so
 soundloop Reproducció contínua del so
 soundserver Servidor de so
 sound So en un event
@@ -470,7 +473,7 @@ timestamps Mostra l'hora a les converses
 title aMSN
 tkerror Hi ha hagut un error de TK, segurament perquè hi ha un error a l'aMSN. Si ens vols ajudar, envia'ns el fitxer $1 a l'adreça amsn-bugs@lists.sf.net 
 tlsdowncompleted El fitxer $1 ha estat desat al directori $2. L'has de descomprimir, compilar (si és el codi font) i instal·lar-lo a dins de $3.
-tlsexplain	 Directori on està es módul de tcl. Si s'AMSN no pot trobar-lo, per favor posa'l.\n(Es necessita per sa autenticació SSL).
+tlsexplain Directori del mòdul tcl. Si l'aMSN no pot trobar-lo, especifica'l.\n(es necessita per l'autenticació SSL).
 tlsinstall Assistent d'instal·lació del mòdul TLS
 tlsinstallexp Ara l'aMSN utilitza MSNP9, que requereix un connexió segura a\ntravés del protocol SSL. Per tal d'utilitzar-lo, necessites tenir instal·lat\nel mòdul TLS i no l'he trobat al sistema. Aquest assistent t'ajudarà a obtenir\ni a instal·lar el mòdul. Escull quin tipus de sistema tens per poder obtenir el\nmòdul TLS de manera automàtica
 tlsinstcompleted La instal·lació del mòdul TLS ha estat satisfactòria, ara hauries de poder utilitzar el protocol MSNP9. Si no et funciona, segurament serà perquè no has escollir el mòdul corresponent al teu sistema.
