@@ -9,6 +9,7 @@ cnewstate \nTu nuevo estado es: $1.
 cnewstatenotvalid \n$1 no es válido.
 cnick \nTu nick es $1.
 cnotvalid \nTu comando no es válido.
+colournicks Quieres colorear los nicks? (no completado)
 cresult \nResultado del comando:\n$1
 cshell \nEjecutando en la consola: $1
 cspecify \nTienes que especificar un contacto.

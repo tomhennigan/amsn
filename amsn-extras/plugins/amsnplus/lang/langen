@@ -9,6 +9,7 @@ cnewstate \nYour new state is: $1
 cnewstatenotvalid \n$1 is not valid
 cnick \nYour nick is $1
 cnotvalid \nYour command is not valid
+colournicks Would you like to colour nicks? (not fully feature)
 cresult \nResult of the command:\n$1
 cshell \nExecuting in the shell: $1
 cspecify \nYou must specify a contact

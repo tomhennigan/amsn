@@ -31,17 +31,9 @@ namespace eval ::amsnplus {
 			allow_commands {1}
 		}
 		if {[string equal $::version "0.94"]} {
-			set ::amsnplus::configlist [ \
-				list [list bool "Do you want to parse nicks?" parse_nicks] \
-				list [list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \ 
-				list [list bool "Do you want to allow commands in the chat window?" allow_commands] \
-			]
+			set ::amsnplus::configlist [list [list bool "Do you want to parse nicks?" parse_nicks] [list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] [list bool "Do you want to allow commands in the chat window?" allow_commands] ]
 		} else {
-			set ::amsnplus::configlist [ \
-				list [list bool "[trans parsenicks]" parse_nicks] \
-				list [list bool "[trans colournicks]" colour_nicks] \ 
-				list [list bool "[trans allowcommands]" allow_commands] \  
-			]
+			set ::amsnplus::configlist [list [list bool "[trans parsenicks]" parse_nicks] [list bool "[trans colournicks]" colour_nicks] [list bool "[trans allowcommands]" allow_commands] ]
 		}
 		#register events
 		::plugins::RegisterEvent "aMSN Plus" parse_nick parse_nick

@@ -9,6 +9,7 @@ cnewstate \nEl teu nou estat és: $1.
 cnewstatenotvalid \n$1 no és vàlid.
 cnick \nEl teu nick és $1.
 cnotvalid \nLa teva comanda no és vàlida.
+colournicks Vols colorejar els sobrenoms? (no completat)
 cresult \nResultat de la comanda:\n$1
 cshell \nExecutant a la consola: $1
 cspecify \nHas d'especificar un contacte.
