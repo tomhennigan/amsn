@@ -31,6 +31,7 @@
 		</Geometry>
 		<Options>
 			<balloonfont>splainf</balloonfont>
+			<balloonborderwidth>1</balloonborderwidth>
 		</Options>
 	</General>
 	<ContactList>
