@@ -3174,6 +3174,7 @@ proc cmsn_ns_handler {item} {
 					set list_rl [list]
 					set list_fl [list]
 					set list_users [list]
+					::groups::Reset
 					set loading_list_info(version) [lindex $item 2]
 					set loading_list_info(total) [lindex $item 3]
 					set loading_list_info(current) 1
