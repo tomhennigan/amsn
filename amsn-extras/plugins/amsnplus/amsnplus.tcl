@@ -55,7 +55,7 @@ namespace eval ::amsnplus {
 			}
 			set ::amsnplus::configlist [ list \
 				[list bool "[trans parsenicks]" parse_nicks] \
-	[list bool "[trans colournicks]" colour_nicks] \
+				[list bool "[trans colournicks]" colour_nicks] \
 				[list bool "[trans allowcommands]" allow_commands] \
 				[list bool "[trans allowcolours]" allow_colours] \
 				[list bool "[trans allowquicktext]" allow_quicktext] \
@@ -64,7 +64,8 @@ namespace eval ::amsnplus {
 		}
 
 		#creating the menus
-		catch { ::amsnplus::add_plus_menu }
+		catch { after 100 ::amsnplus::add_plus_menu }
+		catch { after 100 ::amsnplus::add_chat_menu }
 
 		#register events
 		::plugins::RegisterEvent "aMSN Plus" parse_nick parse_nick
@@ -83,7 +84,7 @@ namespace eval ::amsnplus {
 	# deinit procedure, all to do when unloading the plugin
 	proc amsnplusStop { } {
 		#removing the plus menu and chat window pixmap
-		.main_menu delete 4
+		.main_menu delete last
 		::amsnplus::remove_from_chatwindow
 	}
 
@@ -92,6 +93,12 @@ namespace eval ::amsnplus {
 	# and also the pixmap of amsnplus to choose a color
 	proc remove_from_chatwindow { } {
 		#the path of the menu is always $w.menu
+		#for non-tabbed windows -> .msg_${winid}.menu
+		#for tabbed windows -> .container_${containerid}.msg_${winid}.menu
+		foreach win $::ChatWindow::windows {
+			status_log "Destroying plusmenu on $win\n"
+			${win}.menu delete last
+		}
 	}
 
 
@@ -103,13 +110,54 @@ namespace eval ::amsnplus {
 	####################################################
 	# creates the plus sub menu in the main gui menu
 	proc add_plus_menu { } {
-		catch { menu .main_menu.plusmenu -tearoff 0 }
-		.main_menu add cascade -label "Plus!" -menu .main_menu.plusmenu
-		set plusmenu .main_menu.plusmenu
+		catch {
+			menu .main_menu.plusmenu -tearoff 0
+			set plusmenu .main_menu.plusmenu
 
-		#entries for the plus menu
-		$plusmenu add command -label "[trans preferences]" -command "::amsnplus::preferences"
-	}	
+			#entries for the plus menu
+			$plusmenu add command -label "[trans preferences]" -command "::amsnplus::preferences"
+		}
+		.main_menu add cascade -label "Plus!" -menu .main_menu.plusmenu
+	}
+
+	###############################################
+	# creates the menu on opened chats
+	proc add_chat_menu { } {
+		foreach win $::ChatWindow::windows {
+			catch {
+				menu ${win}.menu.plusmenu -tearoff 0
+				set plusmenu ${menu_name}.plusmenu
+		
+				if { $::amsnplus::config(allow_colours) } {
+					$plusmenu add command -label "[trans choosecolor]" -command "::amsnplus::choose_color $newvar(window_name)"
+					$plusmenu add command -label "[trans bold]" -command "::amsnplus::insert_text $newvar(window_name) $bold"
+					$plusmenu add command -label "[trans italic]" -command "::amsnplus::insert_text $newvar(window_name) $italic"
+					$plusmenu add command -label "[trans underline]" -command "::amsnplus::insert_text $newvar(window_name) $underline"
+					$plusmenu add command -label "[trans overstrike]" -command "::amsnplus::insert_text $newvar(window_name) $overstrike"
+					$plusmenu add command -label "[trans reset]" -command "::amsnplus::insert_text $newvar(window_name) $reset"
+					$plusmenu add separator
+				}
+
+				$plusmenu add command -label "[trans screenshot]" -command "::amsnplus::insert_text $newvar(window_name) $screenshot"
+				if {$::amsnplus::config(allow_quicktext)} {
+					$plusmenu add separator
+					#Menu item to edit the currents quick texts
+					$plusmenu add command -label "[trans quicktext]" -command "::amsnplus::qtconfig"
+					set i 0
+					#Show all the currents quick texts in the menu
+					while {$i < 10} {
+						set str [lindex $::amsnplus::config(quick_text_$i) 1]
+						set keyword "/[lindex $::amsnplus::config(quick_text_$i) 0]"
+						if { ![string equal $str ""] && ![string equal $keyword ""] } {
+							$plusmenu add command -label $str -command "::amsnplus::insert_text $newvar(window_name) $keyword"
+						}
+						incr i
+					}
+				}
+			}
+			${win}.menu add cascade -label "Plus!" -menu ${win}.menu.plusmenu
+		}
+	}
 
 	###############################################
 	# this creates some commands for editing in the
@@ -122,7 +170,8 @@ namespace eval ::amsnplus {
 		set overstrike [binary format c 6]
 		set reset [binary format c 15]
 		set screenshot "/screenshot"
-		
+	
+		status_log "\n\n\n$newvar(menu_name)\n\n\n"
 		set menu_name $newvar(menu_name)
 		menu ${menu_name}.plusmenu -tearoff 0
 		$newvar(menu_name) add cascade -label "Plus!" -menu ${menu_name}.plusmenu
