@@ -59,10 +59,10 @@ namespace eval ::amsn {
      
    proc fileTransferRecv {filename filesize cookie sb_name} {
       global files_dir
-      set answer [tk_messageBox -message "[trans acceptfile $filename $filesize $files_dir]" -type yesno -icon question]
+      set answer [tk_messageBox -message "[trans acceptfile $filename $filesize $files_dir]" -type yesno -icon question -title [trans receivefile]]
       if {$answer == "yes"} {
-         ::amsn::RecvWin $sb_name $cookie $filename
-         ::MSN::acceptFT $cookie $sb_name
+         ::amsn::RecvWin $filename $cookie 
+         ::MSN::acceptFT $sb_name $filename $filesize $cookie
       } else {
          ::MSN::rejectFT $sb_name $cookie
       }
@@ -85,9 +85,9 @@ namespace eval ::amsn {
       wm protocol $w WM_DELETE_WINDOW "::MSN::cancelSending $cookie"
    }
    
-   proc RecvWin {sbn cookie filename} {
+   proc RecvWin {filename cookie} {
      status_log "Creating receive progress window\n"
-      set w .ft$sbn
+      set w .ft$cookie
       toplevel $w
       wm title $w "[trans receivefile] $filename"
 
@@ -96,17 +96,17 @@ namespace eval ::amsn {
       label $w.progress -text "Waiting for file transfer to start"
       pack $w.progress -side top
       
-      button $w.close -text "[trans cancel]" -command "::MSN::cancelReceiving $sbn"
+      button $w.close -text "[trans cancel]" -command "::MSN::cancelReceiving $cookie"
       pack $w.close -side bottom
       
-      wm protocol $w WM_DELETE_WINDOW "::MSN::cancelReceiving $sbn"     
+      wm protocol $w WM_DELETE_WINDOW "::MSN::cancelReceiving $cookie"     
    }
 
    
-   proc fileTransferProgress {mode sbn bytes filesize} {
+   proc fileTransferProgress {mode cookie bytes filesize} {
       # -1 in bytes to transfer cancelled
       # bytes >= filesize for connection finished
-      set w .ft$sbn
+      set w .ft$cookie
       
       if { [winfo exists $w] == 0} {
         return 1
