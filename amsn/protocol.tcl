@@ -1601,8 +1601,10 @@ namespace eval ::MSN {
 			DelSBFor $chatid ${sb}
 
 			#We leave the switchboard if it exists
-			if {[$sb cget -stat] != "d"} {
-				WriteSBRaw $sb "OUT\r\n"
+			if {[info procs $sb] == ""} {
+				if {[$sb cget -stat] != "d"} {
+					WriteSBRaw $sb "OUT\r\n"
+				}
 			}
 
 			after 60000 "::MSN::KillSB ${sb}"
