@@ -482,7 +482,7 @@ namespace eval ::plugins {
 		# update the buttons
 		if {[lsearch "$loadedplugins" $selection(name)] != -1 } {
 			# if the plugin is loaded, enable the Unload button
-			$w.command.load configure -state normal -text "Unload" -command "::plugins::GUI_Unload"
+			$w.command.load configure -state normal -text [trans unload] -command "::plugins::GUI_Unload"
 			# if the plugin has a configlist, then enable configuration. Otherwise disable it
 			if {[info exists ::${selection(namespace)}::configlist] == 1} {
 				$w.command.config configure -state normal
