@@ -3143,6 +3143,7 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap offline offline.gif
 	::skin::setPixmap away away.gif
 	::skin::setPixmap busy busy.gif
+	::skin::setPixmap mobile mobile.gif
 
 	::skin::setPixmap bonline bonline.gif
 	::skin::setPixmap boffline boffline.gif
@@ -4899,6 +4900,10 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		if {$state_desc == ""} {set state_desc " ([trans blocked])"}
 	}
 	
+	if { [::abook::getContactData $user_login MOB] == "Y" && $state_code == "FLN"} {
+	    set image_type mobile
+	    set state_desc " ([trans Mobile])"
+	}
 
 	$pgBuddy.text tag conf $user_unique_name -fore $colour
 
@@ -5086,6 +5091,13 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 		}
 		$pgBuddy.text tag bind $user_unique_name $singordblclick \
 			"::amsn::chatUser $user_login"
+	} elseif {[::abook::getContactData $user_login MOB] == "Y" && $state_code == "FLN"} {
+		#If the user is offline and support mobile (SMS)
+		bind $pgBuddy.text.$imgname $singordblclick "::MSNMobile::OpenMobileWindow ${user_login}"
+		if {$not_in_reverse} {
+			bind $pgBuddy.text.$imgname2 $singordblclick "::MSNMobile::OpenMobileWindow ${user_login}"
+		}
+		$pgBuddy.text tag bind $user_unique_name $singordblclick "::MSNMobile::OpenMobileWindow ${user_login}"
 	} else {
 		bind $pgBuddy.text.$imgname $singordblclick ""
 		if {$not_in_reverse} {
