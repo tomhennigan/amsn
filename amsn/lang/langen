@@ -348,6 +348,7 @@ next Next
 nick Nick
 noactivity No activity
 nodataavailable No data available for $1
+nogap No space between groups
 nogroup No group
 nologfile No Log file for $1
 noneavailable None Available

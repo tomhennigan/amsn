@@ -5037,7 +5037,12 @@ proc cmsn_draw_online_wrapped {} {
 			}
 
 		}
-		$pgBuddy.text insert end "\n\n"
+		
+		if { [::config::getKey nogap] } {
+			$pgBuddy.text insert end "\n"
+		} else {
+			$pgBuddy.text insert end "\n\n"
+		}
 	}
 
 	::groups::UpdateCount online clear
@@ -5119,8 +5124,11 @@ proc cmsn_draw_online_wrapped {} {
 				(($::groups::uMemberCnt_online($gname) == 0 && [::config::getKey orderbygroup] == 2) ||
 				 ($::groups::uMemberCnt($gname) == 0 && [::config::getKey orderbygroup] == 1))} {
 				set endidx [split [$pgBuddy.text index $gtag.last] "."]
-				set startidx [split [$pgBuddy.text index $gtag.first] "."]
-				$pgBuddy.text delete [expr {[lindex $startidx 0]-1}].0 [expr {[lindex $endidx 0]+1}].0
+				if { [::config::getKey nogap] } {
+					$pgBuddy.text delete $gtag.first [expr {[lindex $endidx 0]+1}].0
+				} else {
+					$pgBuddy.text delete $gtag.first [expr {[lindex $endidx 0]+2}].0
+				}
 				if { [::groups::IsExpanded $gname] } {
 					destroy $pgBuddy.text.contract$gname
 				} else {
