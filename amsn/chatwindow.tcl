@@ -2068,6 +2068,11 @@ namespace eval ::ChatWindow {
 		if { [info exists containercurrent($container)] && [set containercurrent($container)] != "" } {
 			pack forget [set containercurrent($container)]
 
+			#un-highlighting the old current tab of the current container
+			set current $containercurrent($container)
+			set wcurrent [string map { "." "_"} $current]
+			$container.bar.$wcurrent configure -fg black -bg white -activebackground white -activeforeground black
+
 			#hightlighting the current tab of the current container
 			$tab configure -fg white -bg black -activebackground black -activeforeground white
 
