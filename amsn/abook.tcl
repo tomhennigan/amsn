@@ -394,6 +394,16 @@ namespace eval ::abook {
 		return $nick
 	}
 	
+	#Parser to replace special characters and variables in the right way
+	proc parseCustomNick { customnick nick user_login globalnick } {
+		#By default, quote backslashes and variables
+		set customnick [string map {"\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } $customnick]
+		#Now, let's unquote the variables we want to replace
+		set customnick [string map {"\\\$nick" "\$nick" "\\\$user_login" "\$user_login" "\\\$customnick" "\$customnick"} $customnick]
+		#Return the custom nick, replacing backslashses and variables
+		return [subst -nocommands $customnick]
+	}
+	
 	#Returns the user nickname, or just email, or custom nick,
 	#depending on configuration
 	proc getDisplayNick { user_login } {
@@ -406,37 +416,17 @@ namespace eval ::abook {
 			
 			if { [::config::getKey globaloverride] == 0 } {
 				if { $customnick != "" } {
-					#By default, quote backslashes and variables
-					set customnick [string map {"\\" "\\\\" "\$" "\\\$"} $customnick]
-					#Now, let's unquote the variables we want to replace
-					set customnick [string map {"\\\$nick" "\$nick" "\\\$user_login" "\$user_login"} $customnick]
-					#Return the custom nick, replacing backslashses and variables
-					return [subst -nocommands $customnick]
+					return [parseCustomNick $customnick $nick $user_login $globalnick]
 				} elseif { $globalnick != "" && $customnick == "" } {
-					#By default, quote backslashes and variables
-					set globalnick [string map {"\\" "\\\\" "\$" "\\\$"} $globalnick]
-					#Now, let's unquote the variables we want to replace
-					set globalnick [string map {"\\\$nick" "\$nick" "\\\$user_login" "\$user_login" "\\\$customnick" "\$customnick"} $globalnick]
-					#Return the custom nick, replacing backslashses and variables
-					return [subst -nocommands $globalnick]
+					return [parseCustomNick $globalnick $nick $user_login $globalnick]
 				} else {
 					return $nick
 				}
 			} elseif { [::config::getKey globaloverride] == 1 } {
 				if { $customnick != "" && $globalnick == "" } {
-					#By default, quote backslashes and variables
-					set customnick [string map {"\\" "\\\\" "\$" "\\\$"} $customnick]
-					#Now, let's unquote the variables we want to replace
-					set customnick [string map {"\\\$nick" "\$nick" "\\\$user_login" "\$user_login"} $customnick]
-					#Return the custom nick, replacing backslashses and variables
-					return [subst -nocommands $customnick]
+					return [parseCustomNick $customnic $nick $user_login $globalnickk]
 				} elseif { $globalnick != "" } {
-					#By default, quote backslashes and variables
-					set globalnick [string map {"\\" "\\\\" "\$" "\\\$"} $globalnick]
-					#Now, let's unquote the variables we want to replace
-					set globalnick [string map {"\\\$nick" "\$nick" "\\\$user_login" "\$user_login" "\\\$customnick" "\$customnick"} $globalnick]
-					#Return the custom nick, replacing backslashses and variables
-					return [subst -nocommands $globalnick]
+					return [parseCustomNick $globalnick $nick $user_login $globalnick]
 				} else {
 					return $nick
 				}
