@@ -219,3 +219,84 @@ willjoin Väntar på att $1 ska ansluta sig till konversationen
 work Arbete
 yousay Du säger
 youwant Du vill
+appearance Utseende
+areacode Riktnummer
+askprofile Denna användaren har för närvarande ingen profil. Vill du skapa 
+en ny profil? $1 Om du väljer att itne göra det så kan du inte se Historia 
+eller spara alarm eller lösenord. $1 Om du väljer att skapa profil för denna 
+användare så kommer du få en separat konfiguration för denna profil. $1 $1 
+Klicka på "Skapa Profil" för att skapa en ny profil för $2
+autoaway Visa som "Inte Vid Datorn" efter
+autoconnect2 Logga in automatiskt när aMSN startas
+autonoact Visa som "Ingen Aktivitet" efter
+awaymsg1 Fråga efter meddelande varje gång jag sätter min status till ingen 
+Aktivitet/Strax Tillbaka/Upptagen
+awaymsg2 Fråga aldrig och använd alltid nedanstående meddelande
+bgcolor Ändra aMSN's bakgrundsfärg
+changefont Ändra Font
+chatsmileys2 Visa 'Emoticons' och Smileys i chat-fönster
+choosefont Välj Font
+clearlog Radera log
+clearlog2 Radera historian för Alla kontakter
+clearlog3 Radera alla loggar
+connection Anslutning
+countrycode Min landskod
+cprofile Skapa profil
+date Datum
+days Dagar
+dcprofile Skapa inte profil
+default Standart konfiguration
+editprofile Editera Profil
+ipdetect Sök efter korrekt IP-adress för Filöversändelser via HTTP
+keeplog2 Spara alla aMSN loggar
+listsmileys2 Lista smileys
+logbigger Individuella log-filer får inte bli större än
+logfandexp Logfilsstorlek och utgångstid av loggar
+loggingin Spara historia/loggar i
+logolder Spara bara chat-loggar som är äldre än
+logsmileys Visa grafiska smileys i aMSN's logfönster
+maximised Maximerad
+minimised Minimerad
+mins minuter
+msgmaxmin När ett nytt meddelande kommer så vill jag att det ska vara :
+msg Meddelande
+msgmode Välj hur meddelanderutor ska hanteras :
+myhomephone Mitt hemtelefonnummer
+mymobilephone Mitt mobilnummer
+myworkphone Mitt arbetstelefonnummer
+natkeepalive Om du blir nedkopplad ofta, välj detta alternativ
+notify1 Visa meddelanderuta när någon loggar in
+notify2 Visa meddelanderuta när någon skickar ett meddelande till dej
+notify3 Visa meddelanderuta när nya e-mails ankommer
+notifyoffset Välj meddelanderutans position
+personal Personligt
+prefalerts Ljud och Varningsmeddelanden
+prefawaymsg Mitt upptagetmeddelande
+prefemotic Smileys/ikoner
+preffont2 Ändra hur andra ser min text i chat
+preffont3 Ändra aMSN's GUI font och storlek
+preffont Min meddelandetext
+preflog1 Logg-inställningar
+preflook aMSN Messenger utseende
+prefmsging Meddelandeutseende
+prefname Mitt aMSN Messenger Namn/Smeknamn/Nickname
+prefphone2 Välj vilka nummer personer $1 ska få se $1
+prefphone Mina telefonnummer
+prefprofile2 Skapa eller ändra din profil (Den $1 beskrivning av dejsjälv 
+som andra kan se)
+prefprofile Min Profil
+prefproxy Mina proxyinställningar
+prefsession Mitt inloggningsnamn och Status
+prefshared Delade anslutningar (endast för NAT)
+profiledconfig Profilkonfiguration
+profiles Profiler
+proxy Jag använder en proxyserver (HTTP eller SOCKS5)
+session Session
+sound2 Spela upp ljud när en kontakt loggar in eller skickar meddelande
+startoffline2 Logga in som "Visa som offline"
+stylechat Samma utseende som chat
+stylehist aMSN's logutseende
+stylelog Välj i vilket format du vill se din historia
+tabbed Tabbade fönsnter
+xoffset X position
+yoffset Y position
