@@ -24,7 +24,13 @@ proc ConfigDefaults {} {
 	set config(enablebanner) 1		;#Show or Hide AMSN Banner (By default Show)
 
 	#Some Autodetected options
-	if {$tcl_platform(platform) == "unix"} {
+	if {[tk windowingsystem] == "aqua"} {
+	   set config(soundcommand) "/sw/bin/esdplay \$sound"
+	   set config(browser) "open \$url"
+	   set config(notifyXoffset) 0
+	   set config(notifyYoffset) 28
+	   set config(filemanager) "open \$location"   
+	} elseif {$tcl_platform(platform) == "unix"} {
 	   set config(soundcommand) "play \$sound"
 	   set config(browser) "mozilla \$url"
 	   set config(notifyXoffset) 0
@@ -44,7 +50,7 @@ proc ConfigDefaults {} {
 	   set config(notifyXoffset) 0	;#Notify window offsets
 	   set config(notifyYoffset) 0
 	}
-
+	
 	set config(language) "en"			;#Default language
 
 	set config(autoidle) 1				;#Enable/disable auto-idle feature: 0|1
