@@ -12,6 +12,17 @@ namespace eval ::alarms {
 		return [getAlarmItem $user enabled]
 	}
 
+	#Set an alarm configuration item for the given user
+	proc setAlarmItem { user item value} {
+	
+		#We convert the stored data (a list) into an array
+		array set alarms [::abook::getContactData $user alarms]
+		
+		set alarms($item) $value
+		::abook::setContactData $user alarms [array get alarms]
+	}
+	
+	
 	#Return an alarm configuration item for the given user
 	proc getAlarmItem { user item } {
 	
@@ -23,6 +34,18 @@ namespace eval ::alarms {
 		} else {
 			return ""
 		}
+	}
+	
+	proc messageFailed {user msg} {
+		set newmsg [::alarms::getAlarmItem $user msg]
+		status_log "Alarm msg delivery failed! Reenabling\n" blue
+		
+		#Check if the user didn't change any settings
+		if { $msg != $newmsg } {
+			status_log "Alarm msg changd before reenabling." blue
+			return 
+		}
+		::alarms::setAlarmItem $user msg_st 1
 	}
 	
 	proc InitMyAlarms {user} {
@@ -39,6 +62,8 @@ namespace eval ::alarms {
 			set my_alarms(${user}_pic) [GetSkinFile pixmaps alarm.gif]
 		}
 		set my_alarms(${user}_pic_st) [getAlarmItem $user pic_st]
+		set my_alarms(${user}_msg) [getAlarmItem $user msg]
+		set my_alarms(${user}_msg_st) [getAlarmItem $user msg_st]
 		set my_alarms(${user}_loop) [getAlarmItem $user loop]
 		set my_alarms(${user}_onconnect) [getAlarmItem $user onconnect]
 		set my_alarms(${user}_onmsg) [getAlarmItem $user onmsg]
@@ -133,6 +158,18 @@ namespace eval ::alarms {
 		pack $w.pic1 -side top -padx 10 -pady 2 -anchor w -fill x
 		checkbutton $w.buttonpic -text "[trans picstatus]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_pic_st) -font splainf
 		pack $w.buttonpic -side top -anchor w -expand true -padx 30
+
+		Separator $w.seppic -orient horizontal		
+		pack $w.seppic -side top -anchor w -expand true -fill x -padx 5 -pady 5
+		
+				
+		frame $w.msg
+		LabelEntry $w.msg.entry "[trans msg]" my_alarms(${user}_msg) 30
+		pack $w.msg.entry -side left -expand true -fill x
+		pack $w.msg -side top -padx 10 -pady 2 -anchor w -fill x
+		checkbutton $w.buttonmsg -text "[trans sendmsg]" -onvalue 1 -offvalue 0 -variable my_alarms(${user}_msg_st) -font splainf
+		pack $w.buttonmsg -side top -anchor w -expand true -padx 30
+		
 		
 		if { $window == "" } {
 			#Window mode
@@ -227,6 +264,8 @@ namespace eval ::alarms {
 		set alarms(pic_st) $my_alarms(${user}_pic_st)
 		set alarms(sound) $my_alarms(${user}_sound)
 		set alarms(pic) $my_alarms(${user}_pic)
+		set alarms(msg) $my_alarms(${user}_msg)
+		set alarms(msg_st) $my_alarms(${user}_msg_st)
 		set alarms(onconnect) $my_alarms(${user}_onconnect)
 		set alarms(onmsg) $my_alarms(${user}_onmsg)
 		set alarms(onstatus) $my_alarms(${user}_onstatus)
@@ -325,6 +364,17 @@ proc run_alarm {user nick msg} {
 	} elseif { [::alarms::getAlarmItem ${user} pic_st] == 1 } {
 		button .${wind_name}.stopmusic -text [trans stopalarm] -command "destroy .${wind_name}"
 		pack .${wind_name}.stopmusic -padx 2
+	}
+	
+	#Send message and disable it after sending
+	if { [::alarms::getAlarmItem $user msg_st] == 1 } {
+		set msg [::alarms::getAlarmItem $user msg]
+		#This will reenable the message sending if delivery failed
+		set ackid [after 60000 [list ::alarms::messageFailed $user $msg]]
+		::alarms::setAlarmItem $user msg_st 0
+		::MSN::messageTo $user $msg $ackid
+		
+		#Disable sending the message again
 	}
 	
 	#Replace variables in command
