@@ -99,7 +99,7 @@ proc Preferences { { settings "personal"} } {
 	set frm [$nb.nn getframe personal]
 	#Scrollable frame that will contain options
 	ScrolledWindow $frm.sw
-	ScrollableFrame $frm.sw.sf 
+	ScrollableFrame $frm.sw.sf -constrainedwidth 1
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
 	set frm [$frm.sw.sf getframe]	
@@ -171,8 +171,9 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.2.ephone51 -row 5 -column 2 -sticky w
 	grid $lfname.2.ephone52 -row 5 -column 3 -sticky w
 		
-	#frame $frm.dummy -class Degt
-	#pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
+	
+	$nb.nn compute_size
+	[$nb.nn getframe personal].sw.sf compute_size
 	
 	#  .------------.
 	# _| Appearance |________________________________________________
@@ -184,7 +185,7 @@ proc Preferences { { settings "personal"} } {
 	set frm [$nb.nn getframe appearance]
 	#Scrollable frame that will contain options
 	ScrolledWindow $frm.sw
-	ScrollableFrame $frm.sw.sf
+	ScrollableFrame $frm.sw.sf -constrainedwidth 1
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
 	set frm [$frm.sw.sf getframe]	
@@ -239,8 +240,10 @@ proc Preferences { { settings "personal"} } {
 	checkbutton $lfname.1.sound -text "[trans sound2]" -onvalue 1 -offvalue 0 -variable config(sound)
 	pack $lfname.1 -anchor w -side top -padx 0 -pady 5 -expand 1 -fill both
 	pack $lfname.1.alert1 $lfname.1.sound -anchor w -side top -padx 10 -pady 0
-	#frame $frm.dummy -class Degt
-	#pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 0
+	
+	$nb.nn compute_size
+	[$nb.nn getframe appearance].sw.sf compute_size
+	
 
 	#  .---------.
 	# _| Session |________________________________________________
@@ -252,7 +255,7 @@ proc Preferences { { settings "personal"} } {
 	set frm [$nb.nn getframe session]
 	#Scrollable frame that will contain options
 	ScrolledWindow $frm.sw
-	ScrollableFrame $frm.sw.sf
+	ScrollableFrame $frm.sw.sf -constrainedwidth 1
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
 	set frm [$frm.sw.sf getframe]	
@@ -335,8 +338,8 @@ proc Preferences { { settings "personal"} } {
 
 	pack $lfname.1 $lfname.2 $lfname.3 $lfname.winflicker $lfname.showdisplaypic -anchor w -side top
 
-	#frame $frm.dummy -class Degt
-	#pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
+	$nb.nn compute_size
+	[$nb.nn getframe session].sw.sf compute_size
 
 	#  .--------.
 	# _| Loging |________________________________________________
@@ -349,7 +352,7 @@ proc Preferences { { settings "personal"} } {
 
 	## Loging Options Frame ##
 	set lfname [LabelFrame:create $frm.lfname -text [trans preflog1]]
-	pack $frm.lfname -anchor n -side top -expand 1 -fill x
+	pack $frm.lfname -anchor n -side top -expand 0 -fill x
 	label $lfname.plog1 -image prefhist
 	pack $lfname.plog1 -anchor nw -side left
 	checkbutton $lfname.log -text "[trans keeplog2]" -onvalue 1 -offvalue 0 -variable config(keep_logs)
@@ -377,7 +380,7 @@ proc Preferences { { settings "personal"} } {
 	button $lfname.1.bclear -text [trans clearlog3] -font sboldf -command "::log::ClearAllLogs"
 	pack $lfname.1.lclear -side left	
 	pack $lfname.1.bclear -side right -padx 15
-	pack $lfname.1 -anchor w -side top -expand 1 -fill x
+	pack $lfname.1 -anchor w -side top -expand 0 -fill x
 #////////TODO: Add logs expiry feature
 	## Logs Expiry Frame ##
 #	set lfname [LabelFrame:create $frm.lfname3 -text [trans logfandexp]]
@@ -396,8 +399,6 @@ proc Preferences { { settings "personal"} } {
 #	label $lfname.2.lmbs -text "MBs" -padx 5
 #	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
 #	pack $lfname.2.lbigger $lfname.2.ebigger $lfname.2.lmbs -side left
-	frame $frm.dummy -class Degt
-	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 	
 	#  .------------.
 	# _| Connection |________________________________________________
@@ -409,7 +410,7 @@ proc Preferences { { settings "personal"} } {
 	set frm [$nb.nn getframe connection]
 	#Scrollable frame that will contain options
 	ScrolledWindow $frm.sw
-	ScrollableFrame $frm.sw.sf
+	ScrollableFrame $frm.sw.sf -constrainedwidth 1
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
 	set frm [$frm.sw.sf getframe]	
@@ -508,8 +509,8 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.2.lpass -row 2 -column 3 -sticky e
 	grid $lfname.2.pass -row 2 -column 4 -sticky w
 
-	#frame $frm.dummy -class Degt
-	#pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
+	$nb.nn compute_size
+	[$nb.nn getframe connection].sw.sf compute_size
 
 	#  .--------------.
 	# _| Others |________________________________________________
@@ -520,7 +521,7 @@ proc Preferences { { settings "personal"} } {
 	
 	#Scrollable frame that will contain options
 	ScrolledWindow $frm.sw
-	ScrollableFrame $frm.sw.sf
+	ScrollableFrame $frm.sw.sf -constrainedwidth 1
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
 	set frm [$frm.sw.sf getframe]	
@@ -602,8 +603,8 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.1.lconvertpathexp  -row 4 -column 2 -columnspan 3 -sticky w
 
 
-	#frame $frm.dummy -class Degt
-	#pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
+	$nb.nn compute_size
+	[$nb.nn getframe others].sw.sf compute_size
 
 	#  .----------.
 	# _| Advanced |________________________________________________
@@ -616,7 +617,7 @@ proc Preferences { { settings "personal"} } {
 	
 	#Scrollable frame that will contain advanced optoins
 	ScrolledWindow $lfname.sw
-	ScrollableFrame $lfname.sw.sf
+	ScrollableFrame $lfname.sw.sf -constrainedwidth 1
 	$lfname.sw setwidget $lfname.sw.sf
 	set path [$lfname.sw.sf getframe]	
 	pack $lfname.sw -anchor n -side top -expand true -fill both
@@ -632,6 +633,8 @@ proc Preferences { { settings "personal"} } {
 	pack $path.2 -side top -padx 0 -fill x
 	pack $path.2.delimiters $path.2.ldelimiter $path.2.example $path.2.rdelimiter -side left
 
+	$nb.nn compute_size
+	$lfname.sw.sf compute_width
 	
 	
 	#  .----------.
@@ -740,7 +743,7 @@ proc Preferences { { settings "personal"} } {
 
         bind $lfname.contactlist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"contact\" %X %Y"
         bind $lfname.reverselist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"reverse\" %X %Y"
-
+	
   
 
 	#  .----------.

@@ -578,7 +578,7 @@ namespace eval ::abookGui {
 		label $nbIdent.e1 -text $email -font splainf -fg blue 
 		
 		label $nbIdent.h -text "[trans nick]:"
-		label $nbIdent.h1 -text [::abook::getNick $email] -font splainf -fg blue 
+		label $nbIdent.h1 -text [::abook::getNick $email] -font splainf -fg blue -wraplength 300 -justify left
 		
 		label $nbIdent.customnickl -text "[trans customnick]:"
 		frame $nbIdent.customnick
@@ -596,7 +596,7 @@ namespace eval ::abookGui {
 	
 		# The custom color frame
 		label $nbIdent.customcolor -text "[trans customcolor]:"
-		frame $nbIdent.customcolorf
+		frame $nbIdent.customcolorf -relief groove -borderwidth 2
 		set colorval_$email [::abook::getContactData $email customcolor] 
 		#frame $nbIdent.customcolorf.col -width 40 -bd 0 -relief flat\
 		#	-highlightthickness 1 -takefocus 0 \
@@ -698,8 +698,10 @@ namespace eval ::abookGui {
 		
 		#::alarms::configDialog $email $nbIdent
 		
-		$w.nb raise userdata
 		$w.nb compute_size
+		[$w.nb getframe userdata].sw.sf compute_size
+		$w.nb compute_size
+		$w.nb raise userdata
 		
 		frame $w.buttons
 		
@@ -709,8 +711,8 @@ namespace eval ::abookGui {
 		pack $w.buttons.ok $w.buttons.cancel -side right -padx 5 -pady 3
 		
 		pack $w.buttons -fill x -side bottom
-		pack $w.nb -expand true -fill both -side top
-		
+		pack $w.nb -expand true -fill both -side bottom -padx 3 -pady 3
+		#pack $w.nb
 	}
 
 	proc CustomNickMenu { path x y } {
