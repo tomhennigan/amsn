@@ -7049,6 +7049,7 @@ proc degt_protocol_win_toggle {} {
 	} else {
 		wm state .degt normal
 		set degt_protocol_window_visible 1
+		raise .degt
 	}
 }
 
