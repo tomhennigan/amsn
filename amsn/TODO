@@ -95,6 +95,7 @@ DONE	Chinese dosen't work (GB2312)
 -	Double Pastes on CTRL-V
 -	Ugly program icons (WISH icon, not ours)
 -	Fonts dialog all messed up
+-	Dosen't connect if msn installed in path with spaces (ex. Documents and Settings), add quotes
 
 	**Others
 -	Fix display issue when copying a user in more than 1 group (displays the user twice in the same group)
