@@ -22,7 +22,7 @@ alarmpref Preferències de l'alarma per l'usuari
 alarmstatus Activar l'alarma per aquest usuari
 allowallbutbl Permet que tots els usuaris, llevat dels bloquejats, contactin amb mi
 allowbadwords Desactiva la censura als sobrenoms
-allowlist Llista d'acceptats:
+allowlist Llista d'acceptats (AL):
 allowonlyinal Permet que contactin amb mi només els usuaris acceptats
 allowseen Deixa que aquesta persona vegi si estic connectat i que contacti amb mi
 animatedemoticon Aquesta emoticona és animada
@@ -55,7 +55,7 @@ blockinter1 Quan el meu estat sigui Connectat, comprova-ho cada
 blockinter2 segons, sinó comprova-ho cada
 blockinter3 de cada
 blockinter4 segons.
-blocklist Llista de bloquejats:
+blocklist Llista de bloquejats (BL):
 blockmessage Aquesta gent estan connectats i t'han bloquejat
 blockusers Número de contactes a comprovar cada vegada:
 broughtby Desenvolupat per
@@ -103,7 +103,7 @@ connection Connexió
 connectionlost Desconnectat: connexió amb el servidor tancada
 contactadded Contacte inclòs
 contactdoesnotexist ¡El contacte que intentes afegir no existeix!
-contactlist Llista de contactes:
+contactlist Llista de contactes (FL):
 copy Copia
 copytogroup Copia al grup
 countrycode Codi de país o regió
@@ -114,8 +114,8 @@ cut Talla
 date Data
 days dies
 dcprofile No crear perfil
-default Configuració predeterminada
-defaultloginradio Inicia la sessió amb la configuració per defecte
+defaultloginradio Configuració per defecte
+default Utilitza la configuració predeterminada
 delete Esborrar
 deliverfail Hi ha hagut un problema al enviar el missatge
 delprofile2 Selecciona el perfil que t'agradaria eliminar
@@ -234,9 +234,9 @@ mobile Mòbil
 morepersonal Més estats ->
 move Moure
 movetogroup Moure al grup
+msgflicker Fes pampalluguejar el títol de la conversa quan arribi un missatge en una finestra no seleccionada
 msgmaxmin Quan arribi un nou missatge, vull que la finestra sigui:
 msg Missatge
-msgflicker Fes pampalluguejar el títol de la conversa quan arribi un missatge en una finestra no seleccionada
 msgmode Escull com gestionar finestres de missatges múltiples:
 msn aMSN
 mustrestart Has de reiniciar el programa per a que els canvis tinguin efecte
@@ -322,7 +322,7 @@ privacy Privacitat
 profiledconfig Configuració de perfil
 profileexists No pots crear perfil amb aquest identificador\nperquè ja existeix. Escull un altre identificador.
 profileinuse Aquest perfil està sent utilitzat per una altra sessió aMSN. Per favor, escull-ne un altre
-profileloginradio Inicia la sessió amb un perfil existent
+profileloginradio Utilitza un perfil existent
 profiles Perfils
 properties Propietats
 proxyconf Configuració del servidor intermediari (proxy)
@@ -331,6 +331,8 @@ proxyconnection Em connecto a Internet a través d'un servidor intermediari (prox
 proxy Estic darrera un servidor intermediari (HTTP o SOCKS5)
 publishphones Publicar els meus números de telèfon
 raised Elevada/desiconificada
+readonlymsgbox La transferència ha estat cancel·lada perquè no tens permís d'escriptura al directori destí.
+readonlywarn ATENCIÓ: Probablement, el fitxer no serà desat correctament. Comprova els permisos que tens al directori destí ($1).
 receivedbytes Rebuts $1 de $2 bytes
 receivefile Rebent fitxer
 reconnect Esperant a que $1 es reconnecti
@@ -372,7 +374,7 @@ soundserver Servidor de so
 sound So en un event
 soundstatus So a l'alarma
 startoffline2 Connectar-se silenciosament apareixent en l'estat "Desconnectat"
-startoffline Iniciar la connexió en l'estat "Simula desconnexió"
+startoffline Inicia en l'estat "Simula desconnexió"
 stateautomsg Missatge automàtic a enviar
 statechange estat canviat a:
 stateedittext Edita els camps que vulguis modificar\ni prem "Desar"

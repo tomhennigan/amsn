@@ -1,0 +1,141 @@
+FAQ 1.2
+--------
+
+D: Cos'e' Amsn?
+R: Amsn e' un clone di Microsoft Messenger. Ti permette di contattare i tuoi amici e scambiare messaggi e file.
+
+INSTALLAZIONE ED ESECUZIONE
+===========================
+
+D: Di cosa ho bisogno per utilizzare amsn?
+R: Amsn e' scritto in tcl/tk, quindi tu hai bisogno di un interprete tcl/tk funzionante, versione 8.3 o successiva. Puoi reperirne una copia su http://tcl.sourceforge.net. L'interprete e' disponibile per sistemi linux, windows e macintosh.
+
+D: Come installo ed eseguo amsn?
+A: Scarica il file amsn-x_xx.tar.gz. Decomprimilo utilizzando i seguenti comandi:
+  gzip -d amsn-x_xx.tar.gz
+  tar xvf amsn-x_xx.tar
+Verra' creata una directory avente nome msn/, ed amsn e' installato e pronto per essere utilizzato.
+Per eseguirlo:
+  cd msn
+  ./amsn
+oppure se non funziona, prova
+  wish amsn
+se il comando wish non esiste, significa che l'interprete tcl/tk non e' installato correttamante sul tuo sistema.
+Se "wish amsn" funziona, ma "./amsn" no, modifica il file 'amsn' ed imposta, nella prima riga, il percorso corretto per il programma 'wish'. Per impostazione predefinita viene impostato come:
+/usr/bin/wish
+
+D: Come posso creare una scorciatoia ad amsn sul mio desktop?
+R: 1.- Aggiungi un'icona al tuo desktop gnome/kde o al menu, che esegue il comando:
+   /dove/tu/hai/installato/amsn
+   per esempio
+   /home/iltuonomeutente/msn/amsn
+   2.- Alternativamente:
+   Come root, crea un collegamento simbolico all'interno della directory /usr/bin che punti al file eseguibile amsn
+   ln -s /dove/tu/hai/installato/amsn /usr/bin/amsn
+   In questo modo, tu hai la possibilita' di eseguire amsn solamente digitando 'amsn' da qualsiasi punto ti trovi.
+   Ora aggiungi un'icona che esegue il comando 'amsn'.
+
+D: Come posso far funzionare l'integrazione con Gnome/KDE?
+R: Devi eseguire il comando 'make' all'interno della directory plugins, per compilare il VECCHIO GNOME1 plugin. Hai bisogno delle librerie di sviluppo di gnome. Una volta che il plugin e' compilato con successo, devi semplicemente eseguire amsn e selezionare Gnome Docking, (o Integrazione a Gnome), dal menu delle opzioni.
+Per compilare il PIU' RECENTE freedesktop (compatibile con Gnome2 e KDE3) docking, leggi il file README contenuto all'interno della directory plugins/traydoc.
+
+UTILIZZO
+========
+
+D: Cosa significano i contatti in magenta presenti nella lista dei contatti?
+R: Significa che non sei presente nella lista dei contatti di quella persona.
+
+Q: Posso copiare l'indirizzo di un contatto negli appunti?
+R: Si, tasto destro sul contatto presente nella lista dei contatti, e click sull'indirizzo che compare nel pop-up menu. L'indirizzo email del contatto sara' copiato negli appunti.
+
+D: Come posso accedere allo storico dei messaggi che ho inviato nelle mie finestre di chat?
+R: Se tu vuoi accedere ai messaggi che hai precedentemente inviato nelle tue finestre di chat devi semplicemente utilizzare il tasto Control insieme alle frecce direzionali. Funziona in maniera simile a quanto succede nelle shell, poiche' Ctrl-Up consente di accedere al messaggio precedente e Ctrl-Down al successivo.
+
+D: Nel tab delle preferenze sulla privacy, qual'e' il significato delle quattro liste?
+R: Ci sono quattro liste, conosciute con nome Allow List (AL), Block List (BL), Reverse List (RL) e Contact List. L'ultima e' ovvia, spieghero' il significato delle altre tre:
+AL : Questa lista contiene le emails delle persone che sono abilitate a vedervi quando siete connessi e possono comunicare con voi finche' non vi disconnettete.
+BL : Questa e' la block list, ovvero la lista che raccoglie le email delle persone che avete bloccato.
+Poiche' questo significa che loro non possono vedervi quando siete connessi, non potranno contattarvi.
+RL : Questa e' la reverse list, contiene gli indirizzi email delle persone che non sono nella tua lista dei contatti ma tu risulti essere nella loro.
+
+PROBLEMI RISOLTI
+================
+
+D: A volte amsn "hangs"(si blocca, non risponde), perche'?
+R: Spesso, quando amsn si blocca, il problema e' dipeso dalla configurazione audio. Potrebbe dipendere dal fatto che stai tentando di riprodurre un suono ma il tuo sistema audio e' occupato, e l'istruzione di riproduzione si arresta fin quando la sceda audio non torna disponibile. Prova a disabilitare il suono oppure a modificare la configurazione del comando per la riproduzione audio.
+
+D: Sto tentando di eseguire amsn ma mi viene restituito il seguente errore:
+bash: ./amsn: bad interpreter: No such file or directory
+R: Devi installare i pacchetti tcl/tk, perche' hai bisogno dell'interprete wish.Se credi di averlo gia' installato prova ad eseguire il comando "wish amsn" al posto di "./amsn". Se in questo modo funziona, modifica la prima riga del file amsn:
+ #!/usr/bin/wish
+ con la posizione dell'interprete wish.
+
+D: Quando eseguo amsn prendo quest'errore:
+Error in startup script: bad option "map": must be
+compare, first, index, last, length, match, range,
+tolower, toupper, trim, trimleft, trimright, wordend,
+or wordstart
+while executing
+"string map $map $md5body"
+(in namespace eval "::md5" script line 65)
+invoked from within
+"namespace eval ::md5 { ... etc
+R: Stai adottando una versione di tcl/tk piu' vecchia della 8.3. Aggiorna il tcl/tk.
+
+D: Dopo aver aggiornato amsn, questo e' quanto ottengo una volta eseguito:
+Error in startup script: expected integer but got ""
+while executing
+"font create menufont -family $family -size $size
+-weight normal"
+(procedure "::amsn::initLook" line 5)
+invoked from within
+"::amsn::initLook $family $size $config(backgroundcolor)"
+(file "amsn" line 2184)
+R: Ci sono state delle modifiche al file di configurazione. La maniera piu' veloce per risolvere il problema e' eliminare il file di configurazione presente nella tua home directory.
+Elimina il file /home/nomedeltuoutente/.amsn/config e dovrebbe funzionare.
+
+D: Non posso scrivere in cinese / giapponese / altri linguaggi in amsn. Cosa posso fare?
+R: Sembra che xcin o simili non siano supportati nella versione di tcl/tk, quindi non funzionano neanche con amsn. Devi attendere la prossima versione di tcl/tk e sperare che supporti xcin. Alternativamente, puoi scrivere il testo con un altro editor, ed effettuare il copia-incolla nella finestra di chat.
+Notizia: Internazionalizzazione e copia-incolla. Se hai problemi nell'incollare caratteri in AMSN, scarica ed installa la versione di Tcl/Tk da questo sito:
+http://jfontain.free.fr/tcl-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tk-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tcl-thread-8.4a3-2.i386.rpm
+Nota che questa potrebbe essere un'alternativa nel caso in cui non riuscissi a scrivere direttamente in AMSN nel tuo linguaggio, ad esempio il Cinese Tradizionale utilizzando xcin.
+
+D: Posso utilizzare AMSN dietro ad un proxy server?
+R: A partire dalla versioni successive alla 0.61, e' disponibile il supporto HTTP proxy. Questo significa che ti puoi connettere solo se ti trovi dietro un HTTP proxy (come lo e' squid, ad esempio). Se il tuo server proxy e' di tipo socks5 allora non ti sara' possibile connetterti, ma il supporto al socks5 e' in arrivo.
+
+D: Amsn sembra essere connesso, ma durante i tentativi di chat con qualcuno oppure se tento di cambiare il mio stato vengo disconnesso. Cio' accade spesso, dopo alcuni minuti di inattivita'.
+Probabilmente mi trovo dietro ad un router o ad un firewall.
+R: Prova ad selezionare la voce "Keepalive (NAT)" contenuta all'interno del menu' tools->options. E' una soluzione per le connessioni ad internet condivise che invia, ogni due minuti, un pacchetto fittizio al server, al fine di mantenere attiva la connessione.
+
+D: Ritardo nei suoni. Ad esempio, se XMMS e' attivo e qualcuno si logga oppure stai chattando con qualcuno, dopo che XMMS viene chiuso oppure quando il file audio che sta suonando finisce, tutti i suoni degli eventi che non potevano essere riprodotti a causa di XMMS vengono suonati in modo fastidioso.
+R: Hai diverse soluzioni. Se stai utilizzando KDE, puoi configurare XMMS affinche' esegua i suoni tramite arts, e utilizzare artsplay come comando per la riproduzione dei suoni per amsn.
+In questo modo i suoni saranno miscelati. Se stai utilizzando Gnome, tu puoi utilizzare edsplay e configurare xmms per riprodurre tramite ESD. In alternativa per utilizzare il comando play, tu puoi crearti uno script che controlla se il dispositivo /dev/dsp e' occupato, o disponibile, prima di eseguire il comando "play".
+
+D: Utilizzo amsn stando dietro ad un firewall, oppure sto utilizzando IP-Masquerade. L'invio dei file non vuole funzionare, posso rimediare?
+R: Forse il firewall blocca la connessioni in ingresso. I trasferimenti di file funzionano nel seguente modo: Quando tu voui inviare un file a qualcuno, di fatto viene inviato un invito contenente il tuo indirizzo IP e il numero di porta. A questo punto il client remoto deve connettersi al tuo IP:porta per avviare il trasferimento.
+Le porte comunemente utilizzate sono la 6891, 6892 e così via (il primo trasferimento avviene sulla porta 6891, ma se tu dai inizio ad un nuovo trasferimento mentre il primo e' ancora in atto, allora sara' utilizzata la porta 6892, e via dicendo).
+Così, se tu stai utilizzando un firewall, devi assicurarti che accetti connessioni in ingresso sulla porta 6891 (e le altre, se tu vuoi avere la possibilita' di effettuare piu' trasferimenti di file simultaneamente).
+Se ti trovi all'interno di una rete privata con gli indirizzi privati, del tipo 192.168.0.x, allora sara' molto difficile far funzionare il trasferimento file. Tu hai bisogno di inviare il vero indirizzo internet (puoi inserirlo manualmente oppure puoi chiedere a amsn di recuperarlo da una pagina web), al posto dell'indirizzo interno, e chiedere al gateway (il computer direttamente connesso ad internet) di inoltrare le connessioni in ingresso alla porta 6891 verso il tuo computer all'interno della rete privata.
+
+ESECUZIONE IN WINDOWS
+=====================
+
+D: Posso far si che i suoni vengano riprodotti in ambiente Windows?
+R: Si, abbiamo un piccolo programma chiamato plwav.exe che non fa altro che suonare i wav sotto windows. Puoi utilizzarlo come comando per i suoni (amsn necessita di un qualche programma esterno per poter riprodurre i suoni). Seleziona il menu Tools->options->preferences->applications ed inserisci "plwav" come server audio.
+
+D: Quando appare una finestra di notifica, la taskbar di windows ne copre una parte, posso porre rimedio?
+R: Si, puoi muovere la finestra di notifica di X pixels verso destra e di Y pixels verso l'alto. Puoi cambiare queste impostazioni accedendo a Tools->Options->Preferences->Appearance.
+
+ALTRO
+=====
+D: Ho altre domande, mi potete aiutare?
+A: Si, noi possiamo. Ma prima, controlla le pagine del progetto sourceforge, disponibili all'indirizzo http://sourceforge.net/projects/amsn, e verifica tutti i bugs, richieste di supporto e forums generici al fine di controllare se il tuo problema sia gia' stato risolto. Non controllare solo i messaggi marcati come "Open". C'e' un menu a tendina dal quale puoi selezionare "Closed", oppure "Pending" all'inizio della lista dei messaggi. Le questioni gia' risolte vengono solitamente marcate come Closed.
+Prima di sottomettere un bug o di chiedere supporto, raccogli le seguenti informazioni:
+- Versione di Amsn.
+- Versione dell'interprete Tcl e Tk.
+- Stack trace relativo all'errore sottomesso (se applicabile).
+- L'ultimo messaggio di errore contenuto nelle finestre di debug (accessibili via Ctrl+D e Ctrl+S dalla lista dei contatti).
+Se continui ad avere questioni irrisolte su amsn, puoi contattarmi a:
+airadier@users.sourceforge.net (in inglese).

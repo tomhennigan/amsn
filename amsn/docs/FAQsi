@@ -1,0 +1,184 @@
+FAQ 1.2
+--------
+
+Q: Kaj je Amsn?
+A: Amsn je klon Microsoft Messengerja. Omogoca ti, da ostanes v stiku s
+prijatelji ter si izmenjujete sporocila in datoteke.
+
+NAMESTITEV IN ZAGON
+===================
+
+Q: Kaj potrebujem za uporabo amsn-ja?
+A: Amsn je napisan v tcl/tk, torej rabis le delujoc tcl/tk tolmac
+verzije 8.3 ali visje. Dobis ga na http://tcl.sourceforge.net.
+Tolmac je na voljo za linux, windows in macintosh.
+
+Q: Kako namestim in pozenem amsn?
+A: Poberi datoteko amsn-x_xx.tar.gz. Razsiri jo z ukazom:
+  gzip -d amsn-x_xx.tar.gz
+  tar xvf amsn-x_xx.tar
+Ustvaril se bo imenik msn/ . Amsn je namescen in pripravljen za zagon.
+Da pozenes amsn, napisi:
+  cd msn
+  ./amsn
+Ce ne deluje, poskusi z
+  wish amsn
+Ce ukaz wish ne obstaja, tcl/tk ni pravilno namescen.
+Ce "wish amsn" deluje, "./amsn" pa ne, uredi datoteko 'amsn' in nastavi
+pravo pot do 'wish' v prvi vrstici. Privzeta nastavitev je:
+/usr/bin/wish
+
+Q: Kako ustvarim bliznjico do amsn na namizju?
+A: 1.- Dodaj ikono na namizje ali menu gnome/kde, ki
+pozene ukaz:
+/tam/kjer/je/amsn/namescen/amsn
+ na primer
+ /home/yourusername/msn/amsn
+ 2. Ali:
+ Kot root, ustvari povezavo do datoteke amsn v /usr/bin
+ ln -s /wherever/you/have/amsn/installed/amsn amsn
+ Tako lahko zazenes amsn tako, da kjerkoli napises 'amsn'.
+ Nato dodaj ikono, ki pozene ukaz 'amsn'.
+
+Q: Kako usposobim Gnome/KDE pristajo?
+A: Pozeni 'make' v imeniku plugins, da zgradis
+plugin OLD GNOME1. Potrebujes gnome razvojne knjiznice. Ko
+je plugin zgrajen, pozeni amsn in izberi Gnome pristajo v
+menuju Nastavitve.
+Da zgradis NEWER freedesktop (zdruzljiv z Gnome2 in KDE3)
+pristajo, preberi datoteko README v plugins/traydock.
+
+UPORABA
+=======
+
+Q: Kaj pomenijo magenta stiki v mojem seznamu stikov?
+A: Pomeni, da nisi v njihovem seznamu stikov.
+
+Q: Lahko prepisem naslov stika na odlozisce?
+A: Ja, klikni z desno na ime stika v seznamu stikov in
+klikni njegov naslov v menuju. E-postni naslov stika
+bo prepisan na odlozisce.
+
+ODPRAVLJANJE TEZAV
+==================
+
+Q: Vcasih se amsn "obesi"; zakaj?
+A: Ponavadi se amsn obesi zaradi tezav z nastavitvami zvoka. Mogoce se
+predvaja zvok, a je zvocna kartica blokirana in ukaz play pocaka, dokler
+ne postane dostopna. Poskusi onemogociti zvok ali spremeniti nastavitve zvoka.
+
+Q: Ko pozenem amsn, dobim to sporocilo:
+bash: ./amsn: bad interpreter: No such file or directory
+A: Moras namestiti tcl/tk paket, ker potrebujes tolmac wish.
+Ce mislis, da ga imas, poskusi z "wish amsn" namesto "./amsn". Ce
+to deluje, uredi amsn in zamenjaj prvo vrstico:
+ #!/usr/bin/wish
+ z lokacijo tolmaca wish.
+
+Q: Ko pozenem amsn, dobim to sporocilo:
+Error in startup script: bad option "map": must be
+compare, first, index, last, length, match, range,
+tolower, toupper, trim, trimleft, trimright, wordend,
+or wordstart
+while executing
+"string map $map $md5body"
+(in namespace eval "::md5" script line 65)
+invoked from within
+"namespace eval ::md5 { ... etc
+A: Uporabljas verzijo tcl/tk, ki je starejsa od 8.3. Posodobi tcl/tk.
+
+Q: Po posodobitvi amsn-ja dobim to sporocilo:
+Error in startup script: expected integer but got ""
+while executing
+"font create menufont -family $family -size $size
+-weight normal"
+(procedure "::amsn::initLook" line 5)
+invoked from within
+"::amsn::initLook $family $size $config(backgroundcolor)"
+(file "amsn" line 2184)
+A: Prislo je do sprememb v nastavitveni datoteki. Na hitro se to da
+popraviti tako, da zbrises staro nastavitveno datoteko v domacem imeniku.
+Izbrisi /home/tvojeuporabniskoime/.amsn/config in moralo bi delati.
+
+Q: Ne morem pisati kitajsko/japonsko/drugih jezikov v amsn-ju. Kaj naj naredim?
+A: xcin in podobni programi niso podprti v trenutni verziji tcl/tk-ja, tako
+da tudi amsn ne bo delal. Pocakaj na naslednjo verzijo tcl/tk-ja in upaj, da podpira
+xcin. Do takrat lahko tipkas besedilo v drugem urejevalniku in ga prepises v
+okno s pogovorom.
+Novo: Internacionalizacija prepisovanja and lepljenja.
+Ce imas tezave pri lepljenju znakov v AMSN, si poberi in namesti to verzijo Tcl/Tk-ja
+s te strani:
+http://jfontain.free.fr/tcl-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tk-8.4a3-2.i386.rpm
+http://jfontain.free.fr/tcl-thread-8.4a3-2.i386.rpm
+Pozor: lahko se pojavijo nezdruzljivosti.
+
+Q: Lahko uporabljam AMSN za proxy streznikom?
+A: Po verziji 0.61, je HTTP proxy podprt. To pomeni, da se lahko povezes le za
+HTTP proxyjem (npr. squid). Ce je tvoj proxy server socks5, se se ne bos mogel
+povezati; pac pa je podpora za socks5 v izdelavi.
+
+Q: Izgleda, da je amsn povezan, a ko skusam govoriti s kom ali spremeniti
+stanje, prekine povezavo. To se dogaja pogosto po nekaj minutah neaktivnosti.
+Verjetno sem za routerjem ali firewallom.
+A: Poskusi omogociti "Drzi zivo (NAT)" v menuju orodja->nastavitve. To je popravek
+za deljene internetne povezave, ki posilja dummy paket strezniku vsaki 2 minuti,
+da obdrzi povezavo zivo.
+
+Q: Zvok se ponavlja. Ce je na primer zagnan XMMS in se nekdo prijavi ali
+govorim z nekom, se potem, ko zaprem XMMS ali se konca datoteka zavrtijo
+vsi zvoki, ki zaradi XMMS-a niso bili predvajani, kar je motece.
+A: Obstaja vec resitev. Ce uporabljas KDE, lahko nastavis XMMS, da igra zvok
+preko arts-a, in uporabljas artsplay za igranje zvoka na amsn.
+Tako bodo zvokovi pomesani. Ce uporabljas gnome, lahko uporabis esdplay in
+nastavis xmms, da igra prek ESD. Ali pa namesti play ukaza napises kratko
+skripto, ki preveri, ce je /dev/dsp zaseden ali prost, preden klice "play".
+
+Q: Uporabljam amsn za firewallom ali z IP-Masquerade. Posiljanje datotek ne
+deluje; ga lahko popravim?
+A: Morda firewall blokira vhodne povezave. Prenosi datotek delujejo tako:
+ko zelis poslati nekomu datoteko, mu posljes vabilo s svojim IP naslovom
+in stevilko vrat. Nato se mora odjemalec na drugi strani povezati na tvoj
+IP:vrata, da se zacne prenos.
+Ponavadi se uporabljajo vrata 6891, 6892 in tako naprej (prvi prenos je na
+vratih 6891, naslednji prenos, ki zacne, preden se prejsnji konca, bo uporabil
+vrata 6892 in tako naprej).
+Torej, ce uporabljas firewall, se moras prepricati, da dovoli vhodne povezave
+na vratih 6891 (in sledecih, ce zelis omogociti vec hkratnih prenosov).
+Ce si znotraj privatnega omrezja s privatnimi naslovi, kot 192.168.0.x,
+je tezje usposobiti prenose datotek. Poslati moras pravi internetni naslov
+(lahko ga vneses rocno ali poves amsn-ju, naj ga ugotovi s spletne strani),
+namesto notranjega, in povedati gateway (racunalnik z neposredno povezavo na
+internet), da preusmeri vhodne povezave na vrata 6891 tvojega racunalnika znotraj
+privatnega omrezja.
+
+Delovanje v Oknih
+=================
+
+Q: Lahko zvok deluje v Oknih?
+A: Ja, programcek plwav.exe igra wav datoteke v Oknih. Lahko ga uporabis kot
+zvocni ukaz (amsn potrebuje zunanji program za igranje zvokov).
+Pojdi v menu Orodja->nastavitve->nastavitve->aplikacije in napisi "plwav" kot
+ukaz za zvocni streznik.
+
+Q: Ko se prikaze okno z obvestilom, ga okenska opravilna vrstica delno skrije.
+Lahko to popravim?
+A: Ja, lahko premaknes X-piksle okna z obvestilom na levo and Y-piksle na
+vrh. To lahko spremenis v menuju Orodja->Nastavitve->Nastavitve->Izgled.
+
+OSTALO
+======
+Q: Imam drugo vprasanje, lahko pomagate?
+A: Ja, lahko. Ampak prej poglej na sourceforge projektno stran
+na http://sourceforge.net/projects/amsn in preveri vse hrosce, zahteve za
+podporo in forume, da vidis, ce je tvoj problem ze resen. Ne preglej le
+sporocil, oznacenih kot "Open". V seznamu na vrhu seznama sporocil lahko
+izberes tudi "Closed" ali "Pending". Ze odgovorjena vprasanja so ponavadi
+oznacena kot Closed.
+Preden poves o hroscu ali vprasas za podporo, dobi naslednje podatke:
+- Verzijo amsn-ja.
+- Verzijo Tcl-ja in Tk-ja.
+- Stack trace of poslane napake (ce je mogoce).
+- Zadnja sporocila o napakah v debug oknih (Ctrl+D in Ctrl+S v seznamu stikov).
+Ce imas se vedno vprasanje, mi poslji posto na
+airadier@users.sourceforge.net.
