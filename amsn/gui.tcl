@@ -609,7 +609,7 @@ namespace eval ::amsn {
 
 	#///////////////////////////////////////////////////////////////////////////////
 	proc deleteUser { user_login { grId ""} } {
-		set answer [::amsn::messageBox [trans confirmdelete] yesno question]
+		set answer [::amsn::messageBox [trans confirmdelete $user_login] yesno question]
 		if { $answer == "yes"} {
 			::MSN::deleteUser ${user_login} $grId
 			::abook::setContactData $user_login alarms ""
