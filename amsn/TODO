@@ -19,24 +19,33 @@ DONE	Long messages knock out remote user from chat (if > 400, separate into 400 
 DONE	New unified preferences dialog with tabs
 DONE	Multiple user accounts combo box + separate user config files
 -	Refinements to queuing and reconnection issues
+-	Improve filetransfers, allow more than one at once. Fix progress bar, and special characters on filenames.
 -	Improve font selection (unify with color selection)
--	Make status change dynamic in chat window and disable input window when YOU go offline
+-	Make status change dynamic in chat window and disable input window when USER is offline (after offline error)
+-	After user offline error, clean chat queue for that user.
 -	Don't save password if login fails becoz of wrong username or password
--	Fix public profile, use html file for authentication and login to MSN profiles?
+-	Fix public profile, use html file for authentication and login to MSN profiles? -> use same system as hotmail login
 DONE	Notify window is only clickable on the text, should make whole window clickable
 -	Add X in corner of notify window to close, maybe make it nicer too (border, etc)
 -	Write procedure to redraw main window for language + font changes
 -	Fix new profile issues for existing users, should ask them to add profile even if they dont go to "login as"
--	Check for connection state, make sure amsn disconnects if connection goes down.
+-	Check for connection state, make sure amsn disconnects if connection goes down. -> add timeouts to changestates and keepalive
 -	Authorisation request dialogs halt all AMSN, and queue all events, then kaboom when dialog is closed, not good.
 DONE	Fix use of default config for non profile logins (currently uses hard coded default config)
 -	Improve enabling/disabling menu entries procedure, make language independant
-DONE	When notify window is for a file transfer, clicking on it triggers a bug! 
+DONE	When notify window is for a file transfer, clicking on it triggers a bug!
 -	Add "Make this config default profile" button in Preferences
 DONE	Bug fixes in urlencode/decode procedure that didn't allow some characters in nicks and would cause bogus "Invalid nick" messages.
 DONE	Fixed bug when adding a user from a chat window.
 -	Write/Read profiles file on opening/closing login window, not start/stop amsn.
-	
+-	Add timeouts when reconnecting or inviting a user to a switchboard, to avoid blocking on it.
+-	Same window name bug for filetransfers and help windows
+-	Possible bug if the password has a semicolon (at the end?). Check.
+-	Be able to manually change status to "No activity" - Bug B657836 
+-	When we get a NAK from a message, try to enqueue it again, as probably it will success.
+-	Fix focus and children things with list window. (For example add_user from chat window).
+-	Ctrl, alt and other special keys shouldn't send typing notification.
+
 	***Existing Feature Improvements (priority 2)***
 
 	**File Transfer issues :
@@ -44,6 +53,12 @@ DONE	Fixed bug when adding a user from a chat window.
 -	Multiple File receive at once, either allow but fix saved filenames or disallow multiple recv at once
 -	Fix conference messaging issues (mass file send)
 -	Display link to received file and click to open
+-	Option to display or not the chat button bar
+-	Remember chat window positions
+-	Option to enable/disable showing timestamps
+-	Ability to see and edit AL and BL lists, and to check RL list
+-	Add a "typed characters" counter in chat window.
+-	Add an option to remove the amsn banner on contact list.
 
 	**Alarm system improvements and bugs :
 -	URL Decode names when displaying alarm
