@@ -291,7 +291,7 @@ namespace eval ::ChatWindow {
  		#If the result is smaller than 25 (on small screen) then use 25 
  		if { $info2 < 25 } { set info2 25 }
  		#Replace the window to the new position on the screen 	
- 		wm geometry $win +${info1}+${info2}
+ 		wm geometry $window +${info1}+${info2}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
