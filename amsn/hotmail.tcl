@@ -213,6 +213,55 @@ if {$tcl_platform(os) != "Darwin"} {
 }
 
 
+proc QPDecode {str} {
+
+	#New version, no need of url_unmap
+
+	set begin 0
+	set end [string first "=" $str $begin]
+	set decode ""
+
+
+	while { $end >=0 } {
+		set decode "${decode}[string range $str $begin [expr {$end-1}]]"
+
+		set carval [format %d 0x[string range $str [expr {$end+1}] [expr {$end+2}]]]
+		if {$carval > 128} {
+			set carval [expr { $carval - 0x100 }]
+		}
+
+		set car [binary format c $carval]
+
+		set decode "${decode}$car"
+
+		set begin [expr {$end+3}]
+		set end [string first "=" $str $begin]
+	}
+
+	set decode ${decode}[string range $str $begin [string length $str]]
+
+}
+
+
+proc decode_from_field { from } {
+	set from [string map {"\r" ""} $from]
+	set from_list [split $from "?"]
+	
+	if { [llength $from_list] == 1 } {
+		return $from
+	}
+	
+	set encoding [string tolower [lindex $from_list 1]]
+	set sender [string map {"_" " " "= " ""} [join [lrange $from_list 3 end]]]
+	set sender [QPDecode $sender]
+	if { [catch {set sender [encoding convertfrom $encoding $sender]}]} {
+		status_log "decode_from_field: Wrong encoding - $encoding\n" red
+		return $sender 
+	}
+	
+	return $sender
+	
+}
 
 proc hotmail_procmsg {msg} {
 	global config password
@@ -225,6 +274,10 @@ proc hotmail_procmsg {msg} {
 	  if {[::MSN::GetHeaderValue $msg From] != ""} {				
 	    set from [::MSN::GetHeaderValue $msg From]
 	    set fromaddr [::MSN::GetHeaderValue $msg From-Addr]
+	    if {[catch {set from [decode_from_field $from]} res]} {
+	    	status_log "Fail to decode from field: $res\n" res
+		set from $fromaddr
+	    }
 	    set msgurl [::MSN::GetHeaderValue $msg Message-URL]
 	    status_log "Hotmail: New mail from $from - $fromaddr\n"
 
