@@ -100,7 +100,7 @@ namespace eval ::amsnplus {
 				set win [split $win .]
 				set win ".[lindex $win 1]"
 			}
-			${win}.menu delete last
+			catch { ${win}.menu delete last }
 		}
 	}
 
@@ -118,6 +118,7 @@ namespace eval ::amsnplus {
 			set plusmenu .main_menu.plusmenu
 
 			#entries for the plus menu
+			$plusmenu add command -label "[trans quicktext]" -command "::amsnplus::qtconfig"
 			$plusmenu add command -label "[trans preferences]" -command "::amsnplus::preferences"
 		}
 		.main_menu add cascade -label "Plus!" -menu .main_menu.plusmenu
@@ -162,7 +163,7 @@ namespace eval ::amsnplus {
 					}
 				}
 			}
-			${win}.menu add cascade -label "Plus!" -menu ${win}.menu.plusmenu
+			catch { ${win}.menu add cascade -label "Plus!" -menu ${win}.menu.plusmenu }
 		}
 	}
 
