@@ -269,40 +269,15 @@ code of your language. Example: Valenciano = langva.
 The tools are:
 
 
-- untranslated.py: will list the missing keys in langXX file. That
+- missing.py: will list the missing keys in langXX file, that
 is, the keys that exist in langen (the master language), but not in
-langXX file. This is an updated version of the old missing.py file, 
-which is still necessary for the website automation.
+langXX file. It will also warn about errors.
 
 Usage in Linux:
-./untranslated.py langXX
+./missing.py langXX
 
 Usage in Windows (must have the Python interpreter installed):
-python unstranslated.py langXX
-
-
-- errors.py: will list the possible errors in langXX. That is,
-the apparent keys that are in langXX but not in langen. This
-usually happens when a key name is mistyped, or when there are
-spplited lines (a translation is spplited into multiple lines
-instead of being just one line), or when a key was removed from the
-langen file because it's no longer used.
-
-Usage in Linux:
-./errors.py langXX
-
-Usage in Windows (must have the Python interpreter installed):
-python errors.py langXX
-
-
-- dups.sh: will tell you the keys that are duplicated inside
-the file.
-
-Usage in Linux:
-./dups.sh langXX
-
-To use it in Windows you must have Cygwin installed. 
-The syntax is identical. http://www.cygwin.com
+python missing.py langXX
 
 
 - sortlang: will sort the language file. BE CAREFUL. Don't apply
@@ -327,6 +302,6 @@ Usage in Linux:
 source_encoding dest_file dest_encoding
 
 Usage in Windows:
-whish convert.tcl source_file source_encoding dest_file dest_encoding
+wish convert.tcl source_file source_encoding dest_file dest_encoding
 
 If you are in Linux using bash, remember that the auto completion is your friend...
