@@ -8,7 +8,7 @@
 	     
 	     file should begin with <smileys> and end with </smileys>
 	     To define a new emoticon, you must put it between the statements <emoticon> and </emoticon>
-	     You must define the 3 variables name, text and file in order to successfully create the emoticon
+	     You must define the 3 variables : name, text and file in order to successfully create the emoticon
 	     You may have as many text statements but only one for name and one for file
 	     Here are the other options available... maybe more to come :
 	     animated : set it to 1, true, or yes to specify it's an animated gif
@@ -21,20 +21,20 @@
 <smileys>
 
    <emoticon>
-      <name> smile </name>
-      <text> ":-)"</text>
+      <name> 01 smile </name>
       <text> ":)"</text>
+      <text> ":-)"</text>
       <file> smile</file>
    </emoticon>
 
    <emoticon>
-      <name> wink </name>
+      <name> 02 wink </name>
       <text> ";)" </text>
       <file> wink</file>
    </emoticon>
 
    <emoticon>
-      <name> big smile </name>
+      <name> 03 big smile </name>
       <text> ":D" </text>
       <text> ":-D" </text>
       <text> ":>" </text>
@@ -43,14 +43,14 @@
    </emoticon>
 
    <emoticon>
-      <name> smile thong </name>
-      <text> ":-P" </text>
+      <name> 04 smile thong </name>
       <text> ":P" </text>
+      <text> ":-P" </text>
       <file> smilep </file>
    </emoticon>
 
    <emoticon>
-      <name> sad </name>
+      <name> 05 sad </name>
       <text> ":(" </text>
       <text> ":-(" </text>
  <!--     <text> ":<" </text>  NEED TO FIX THE XML PARSER FOR THIS TO WORK -->
@@ -59,34 +59,34 @@
    </emoticon>
 
    <emoticon>
-      <name> disgusted </name>
+      <name> 06 disgusted </name>
       <text> ":|" </text>
       <text> ":-|" </text>
       <file> disgust </file>
    </emoticon>
 
    <emoticon>
-      <name> feeling weird </name>
-      <text> ":-S" </text>
+      <name> 07 feeling weird </name>
       <text> ":S" </text>
+      <text> ":-S" </text>
       <file> crooked </file>
    </emoticon>
 
   <emoticon>
-      <name> opened mouth </name>
+      <name> 08 opened mouth </name>
       <text> ":O" </text>
       <text> ":-O" </text>
       <file> smileo </file>
    </emoticon>
 
   <emoticon>
-      <name> feel down </name>
+      <name> 09 feel down </name>
       <text> ":`(" </text>
       <file> smilec </file>
    </emoticon>
 
   <emoticon>
-      <name> crying </name>
+      <name> 10 crying </name>
       <text> ":'(" </text>
       <file> smilec2 </file>
    </emoticon>

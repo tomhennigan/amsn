@@ -146,7 +146,7 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
 
 
 proc smile_menu { {x 0} {y 0} {text text}} {
-   global emotions
+   global emotions emotions_names
 
    set w .smile_selector
    if {[catch {[toplevel $w]} res]} {
