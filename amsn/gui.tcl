@@ -1395,46 +1395,50 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 
 
-   #///////////////////////////////////////////////////////////////////////////////
-   # userLeaves (chatid, user_name)
-   # called from the protocol layer when a user LEAVES a chat.
-   # It will show the status message. No need to show it if the window is already
-   # closed, right?
-   # - 'chatid' is the chat name
-   # - 'usr_name' is the user email to show in the status message
-   proc userLeaves { chatid usr_name closed } {
+	#///////////////////////////////////////////////////////////////////////////////
+	# userLeaves (chatid, user_name)
+	# called from the protocol layer when a user LEAVES a chat.
+	# It will show the status message. No need to show it if the window is already
+	# closed, right?
+	# - 'chatid' is the chat name
+	# - 'usr_name' is the user email to show in the status message
+	proc userLeaves { chatid usr_name closed } {
 
-      global config automsgsent
+		global config automsgsent
 
 		set win_name [WindowFor $chatid]
-      if { $win_name == 0} {
-         return 0
-      }
+		if { $win_name == 0} {
+			return 0
+		}
 
-      set username [lindex [::MSN::getUserInfo $usr_name] 1]
+		set username [lindex [::MSN::getUserInfo $usr_name] 1]
 
-      if { $closed } {
-	  set statusmsg "[timestamp] [trans leaves $username]\n"
-	  set icon minileaves
+
+
+		if { $closed } {
+			set statusmsg "[timestamp] [trans leaves $username]\n"
+			set icon minileaves
 			::amsn::WinWriteIcon $chatid minileaves 5 0
-		::amsn::WinWrite $chatid " [trans leaves $username]\n" green "" 0
+			::amsn::WinWrite $chatid " [trans leaves $username]\n" green "" 0
+
+		} else {
+			set statusmsg "[timestamp] [trans closed $username]\n"
+			set icon minileaves
+		}
+
+		WinStatus $win_name $statusmsg $icon
 
 
-      } else {
-	  set statusmsg "[timestamp] [trans closed $username]\n"
-	  set icon minileaves
-      }
-      WinStatus [ WindowFor $chatid ] $statusmsg $icon
-      WinTopUpdate $chatid
+		WinTopUpdate $chatid
 
-	if { $config(keep_logs) } {
-		::log::LeavesConf $chatid $usr_name
-	}
+		if { $config(keep_logs) } {
+			::log::LeavesConf $chatid $usr_name
+		}
 
-	# Unset automsg if he leaves so that it sends again on next msg
-	if { [info exists automsgsent($usr_name)] } {
-		unset automsgsent($usr_name)
-	}
+		# Unset automsg if he leaves so that it sends again on next msg
+		if { [info exists automsgsent($usr_name)] } {
+			unset automsgsent($usr_name)
+		}
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -2517,28 +2521,33 @@ catch {exec killall -c sndplay}
    #///////////////////////////////////////////////////////////////////////////////
 
 
-   proc chatDisabled {chatid} {
-   	chatStatus $chatid ""
-   }
+	proc chatDisabled {chatid} {
+		chatStatus $chatid ""
+	}
 
-   #///////////////////////////////////////////////////////////////////////////////
-   # WinStatus (win_name,msg,[icon])
-   # Writes the message 'msg' in the window 'win_name' status bar. It will add the
-   # icon 'icon' at the beginning of the message, if specified.
-   proc WinStatus { win_name msg {icon ""}} {
+	#///////////////////////////////////////////////////////////////////////////////
+	# WinStatus (win_name,msg,[icon])
+	# Writes the message 'msg' in the window 'win_name' status bar. It will add the
+	# icon 'icon' at the beginning of the message, if specified.
+	proc WinStatus { win_name msg {icon ""}} {
 
-      set msg [stringmap {"\n" " "} $msg]
-   
-      ${win_name}.statusbar.status configure -state normal
-      ${win_name}.statusbar.status delete 0.0 end
-      if { "$icon"!=""} {
-	  ${win_name}.statusbar.status image create end -image $icon -pady 0 -padx 1
-      }
-      ${win_name}.statusbar.status insert end $msg
-      ${win_name}.statusbar.status configure -state disabled
+		set msg [stringmap {"\n" " "} $msg]
 
-   }
-   #///////////////////////////////////////////////////////////////////////////////
+		if { [winfo exists $win_name] } {
+
+			${win_name}.statusbar.status configure -state normal
+			${win_name}.statusbar.status delete 0.0 end
+			
+			if { "$icon"!=""} {
+				${win_name}.statusbar.status image create end -image $icon -pady 0 -padx 1
+			}
+
+			${win_name}.statusbar.status insert end $msg
+			${win_name}.statusbar.status configure -state disabled
+
+		}
+	}
+	#///////////////////////////////////////////////////////////////////////////////
 
    #///////////////////////////////////////////////////////////////////////////////
    # CharsTyped (chatid,msg)
