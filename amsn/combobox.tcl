@@ -1346,7 +1346,7 @@ proc ::combobox::WidgetProc {w command args} {
 	    # *gasp* do a global grab!!! Mom always told me not to
 	    # do things like this, but sometimes a man's gotta do
 	    # what a man's gotta do.
-	    grab -global $widgets(this)
+	    catch {grab -global $widgets(this)}
 
 	    # fake the listbox into thinking it has focus. This is 
 	    # necessary to get scanning initialized properly in the
@@ -1842,6 +1842,7 @@ proc ::combobox::SetValue {w newValue} {
 
     # call the associated command. The proc will handle whether or 
     # not to actually call it, and with what args
+    $w close
     CallCommand $w $newValue
 
     return ""
