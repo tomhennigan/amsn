@@ -1493,8 +1493,9 @@ proc cmsn_socket {name} {
       set tmp_serv [lindex $proxy_serv 0]
       set tmp_port [lindex $proxy_serv 1]
       ::Proxy::OnCallback "dropped" "proxy_callback"
-      set next "::Proxy::Connect $name"
-      set readable_handler "::Proxy::Read $name"
+      ::Proxy::Setup next readable_handler $name
+#      set next "::Proxy::Connect $name"
+#      set readable_handler "::Proxy::Read $name"
       sb set $name stat "pw"
    } else {
       set tmp_serv [lindex [sb get $name serv] 0]
