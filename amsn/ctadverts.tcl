@@ -37,7 +37,7 @@ proc adv_initialize { win proxy } {
     image create photo banner
 #    banner blank
 
-    label ${win}.banner -bd 1 -relief sunken
+    label ${win}.banner -bd 1 -relief sunken -background #FFFFFF
     pack ${win}.banner -side bottom -fill x
     ${win}.banner configure -image banner
 
