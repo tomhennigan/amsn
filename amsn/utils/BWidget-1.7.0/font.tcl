@@ -191,7 +191,7 @@ proc SelectFont::create { path args } {
         LabelFrame::configure $labf3 -focus $subf.[lindex $_styles 0]
 
         pack $labf1 -side left -anchor n -fill both -expand yes
-	puts [Widget::getoption "$path#SelectFont" -nosizes]
+	#puts [Widget::getoption "$path#SelectFont" -nosizes]
 	if { ![Widget::getoption "$path#SelectFont" -nosizes] } {
 	        pack $labf2 -side left -anchor n -fill both -expand yes -padx 8
 	}	

@@ -3285,7 +3285,8 @@ proc change_myfont {win_name} {
 	}
 	
 	::config::setKey mychatfont [list $sel_fontfamily $sel_fontstyle $selcolor]
-	
+
+		
 	change_myfontsize [::config::getKey textsize]
 	
 }
