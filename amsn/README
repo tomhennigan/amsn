@@ -176,6 +176,7 @@ James Houston
 === More special thanks and credits ====================
 
 Ignacio Armenteros (plwav.exe for windows)
+Pieter van Beek (imagee label name bug patch)
 Baris Cicek
 Trevor Feney
 Daniel Gardner (View profile feature)
@@ -183,3 +184,4 @@ Gareth Ignatius
 Guillermo Lapresta
 David G. Outes (Debian Packages)
 Rafael Rodriguez
+Egbert van der Wal (Sort groups alphabetically patch)
