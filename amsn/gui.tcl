@@ -58,14 +58,14 @@ namespace eval ::amsn {
 	##PUBLIC
 
 	proc initLook { family size bgcolor} {
-		global config tcl_platform menubgcolor menufgcolor menuactivebgcolor menuactivefgcolor
+		global tcl_platform menubgcolor menufgcolor menuactivebgcolor menuactivefgcolor
 
 		font create menufont -family $family -size $size -weight normal
 		font create sboldf -family $family -size $size -weight bold
 		font create splainf -family $family -size $size -weight normal
 		font create sbolditalf -family $family -size $size -weight bold -slant italic
 
-		if { $config(strictfonts) } {
+		if { [::config::getKey strictfonts] } {
 			font create bboldf -family $family -size $size -weight bold
 			font create bboldunderf -family $family -size $size -weight bold -underline true
 			font create bplainf -family $family -size $size -weight normal
@@ -3157,10 +3157,15 @@ namespace eval ::amsn {
 		if { $tagid == "user" || $tagid == "yours" || $tagid == "says" } {
 
 		if { $tagid == "says" } {
-			set size 11
+			if { [::config::getKey strictfonts] } {
+				set size [lindex [::config::getGlobalKey basefont] 1]
+			} else {
+				set size 11
+			}
 		} else {
 			set size [expr {[lindex [::config::getGlobalKey basefont] 1]+[::config::getKey textsize]}]
 		}
+
 		set font "\"$fontname\" $size $fontstyle"
 		set tagid [::md5::md5 "$font$fontcolor"]
 
