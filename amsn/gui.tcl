@@ -2049,125 +2049,121 @@ namespace eval ::amsn {
 
 
 
-   #///////////////////////////////////////////////////////////////////////////////
-   proc ChooseList {title online command other skip {userslist ""}} {
-      global list_users list_bl list_states userchoose_req bgcolor tcl_platform
+	#///////////////////////////////////////////////////////////////////////////////
+	proc ChooseList {title online command other skip {userslist ""}} {
+		global list_users list_bl list_states userchoose_req bgcolor tcl_platform
 
-      if { $userslist == "" } {
-         set userslist $list_users
-      }
+		if { $userslist == "" } {
+			set userslist $list_users
+		}
 
-      set usercount 0
+		set usercount 0
 
-      #Count users. Ignore offline ones if $online=="online"
-      foreach user $userslist {
-         set user_login [lindex $user 0]
-         set user_state_no [lindex $user 2]
-	 if { "$user_state_no" == "" } {
-	    set user_state_no 0
-	 }
-         set state [lindex $list_states $user_state_no]
-         set state_code [lindex $state 0]
+		#Count users. Ignore offline ones if $online=="online"
+		foreach user $userslist {
+		
+			set user_login [lindex $user 0]
+			set user_state_no [lindex $user 2]
+			
+			if { "$user_state_no" == "" } {
+				set user_state_no 0
+			}
+			
+			set state [lindex $list_states $user_state_no]
+			set state_code [lindex $state 0]
 
-         if {($online != "online") || ($state_code != "FLN")} {
-      	     set usercount [expr {$usercount + 1}]
-         }
+			if {($online != "online") || ($state_code != "FLN")} {
+				set usercount [expr {$usercount + 1}]
+			}
 
-      }
+		}
 
-      #If just 1 user, and $skip flag set to one, just run command on that user
-      if { $usercount == 1 && $skip == 1} {
-         eval $command $user_login
-         return 0
-      }
+		#If just 1 user, and $skip flag set to one, just run command on that user
+		if { $usercount == 1 && $skip == 1} {
+			eval $command $user_login
+			return 0
+		}
 
-      if { [focus] == "" } {
-      	set wname "._userchoose"
-	status_log "focus null\n"
-      } else {
-      	set wname "[focus]_userchoose"
-	status_log "focus non null\n"
-      }
+		if { [focus] == "" } {
+			set wname "._userchoose"
+			status_log "focus null\n"
+		} else {
+			set wname "[focus]_userchoose"
+			status_log "focus non null\n"
+		}
 
-      if { [catch {toplevel $wname -width 400 -height 300 -borderwidth 0 -highlightthickness 0 } res ] } {
-         raise $wname
-	 focus $wname
-         return 0
-      }
+		if { [catch {toplevel $wname -borderwidth 0 -highlightthickness 0 } res ] } {
+			raise $wname
+			focus $wname
+			return 0
+		}
 
-      wm group $wname .
+		wm group $wname .
 
+		#ShowTransient $wname
+                  
+		wm geometry $wname 280x300
 
-    ShowTransient $wname
-      
-      
-      
-      wm geometry $wname 280x300
+		frame $wname.blueframe -background $bgcolor
 
-      frame $wname.blueframe -background $bgcolor
-
-      frame $wname.blueframe.list -class Amsn -borderwidth 0
-      frame $wname.buttons -class Amsn
-
-
-      listbox $wname.blueframe.list.userlist -yscrollcommand "$wname.blueframe.list.ys set" -font splainf \
-         -background white -relief flat -highlightthickness 0 -height 1
-      scrollbar $wname.blueframe.list.ys -command "$wname.blueframe.list.userlist yview" -highlightthickness 0 \
-         -borderwidth 1 -elementborderwidth 1 
-
-      button  $wname.buttons.ok -text "[trans ok]" -command "$command \[string range \[lindex \[$wname.blueframe.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname" -font sboldf
-      button  $wname.buttons.cancel -text "[trans cancel]" -command "destroy $wname" -font sboldf
+		frame $wname.blueframe.list -class Amsn -borderwidth 0
+		frame $wname.buttons -class Amsn
 
 
-      pack $wname.blueframe.list.ys -side right -fill y
-      pack $wname.blueframe.list.userlist -side left -expand true -fill both
-      pack $wname.blueframe.list -side top -expand true -fill both -padx 4 -pady 4
-      pack $wname.blueframe -side top -expand true -fill both
+		listbox $wname.blueframe.list.userlist -yscrollcommand "$wname.blueframe.list.ys set" -font splainf \
+			-background white -relief flat -highlightthickness 0 -height 1
+		scrollbar $wname.blueframe.list.ys -command "$wname.blueframe.list.userlist yview" -highlightthickness 0 \
+			-borderwidth 1 -elementborderwidth 1 
 
-      if { $other == 1 } {
-         button  $wname.buttons.other -text "[trans other]..." -command "cmsn_draw_otherwindow \"$title\" \"$command\"; destroy $wname" -font sboldf
-         #pack $wname.buttons.other $wname.buttons.cancel $wname.buttons.ok -padx 10 -side right
-         pack $wname.buttons.ok -padx 0 -side left
-	  pack $wname.buttons.cancel -padx 0 -side right
-         pack $wname.buttons.other -padx 10 -side left
-
-      } else {
-         pack $wname.buttons.ok -padx 0 -side left
-	  pack $wname.buttons.cancel -padx 0 -side right
-
-      }
-
-      pack $wname.buttons -side bottom -fill x -pady 3
+		button  $wname.buttons.ok -text "[trans ok]" -command "$command \[string range \[lindex \[$wname.blueframe.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname" -font sboldf
+		button  $wname.buttons.cancel -text "[trans cancel]" -command [list destroy $wname] -font sboldf
 
 
-      foreach user $userslist {
-         set user_login [lindex $user 0]
-         set user_name [lindex $user 1]
-         set user_state_no [lindex $user 2]
-	 if { "$user_state_no" == "" } {
-	    set user_state_no 0
-	 }
-	 set state [lindex $list_states $user_state_no]
-         set state_code [lindex $state 0]
+		pack $wname.blueframe.list.ys -side right -fill y
+		pack $wname.blueframe.list.userlist -side left -expand true -fill both
+		pack $wname.blueframe.list -side top -expand true -fill both -padx 4 -pady 4
+		pack $wname.blueframe -side top -expand true -fill both
 
-         if {($online != "online") || ($state_code != "FLN")} {
-            if {[lsearch $list_bl "$user_login *"] != -1} {
-               $wname.blueframe.list.userlist insert end "([trans blocked]) $user_name <$user_login>"
+		if { $other == 1 } {
+			button  $wname.buttons.other -text "[trans other]..." -command "cmsn_draw_otherwindow \"$title\" \"$command\"; destroy $wname" -font sboldf
+			pack $wname.buttons.ok -padx 0 -side left
+			pack $wname.buttons.cancel -padx 0 -side right
+			pack $wname.buttons.other -padx 10 -side left
+		} else {
+			pack $wname.buttons.ok -padx 0 -side left
+			pack $wname.buttons.cancel -padx 0 -side right
+		}
 
-            } else {
-               $wname.blueframe.list.userlist insert end "$user_name <$user_login>"
-            }
-         }
+		pack $wname.buttons -side bottom -fill x -pady 3
 
-      }
+		foreach user $userslist {
+			set user_login [lindex $user 0]
+			set user_name [lindex $user 1]
+			set user_state_no [lindex $user 2]
+			if { "$user_state_no" == "" } {
+				set user_state_no 0
+			}
+			set state [lindex $list_states $user_state_no]
+			set state_code [lindex $state 0]
 
-      bind $wname.blueframe.list.userlist <Double-Button-1> "$command \[string range \[lindex \[$wname.blueframe.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname"
-      focus $wname.buttons.ok
-      bind $wname <Escape> "destroy $wname"
-      bind $wname <Return> "$command \[string range \[lindex \[$wname.blueframe.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname"
+			if {($online != "online") || ($state_code != "FLN")} {
+				if {[lsearch $list_bl "$user_login *"] != -1} {
+					$wname.blueframe.list.userlist insert end "([trans blocked]) $user_name <$user_login>"
 
-   }
-   #///////////////////////////////////////////////////////////////////////////////
+				} else {
+					$wname.blueframe.list.userlist insert end "$user_name <$user_login>"
+				}
+			}
+
+		}
+
+		bind $wname.blueframe.list.userlist <Double-Button-1> "$command \[string range \[lindex \[$wname.blueframe.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname"
+		focus $wname.buttons.ok
+		bind $wname <Escape> "destroy $wname"
+		bind $wname <Return> "$command \[string range \[lindex \[$wname.blueframe.list.userlist get active\] end\] 1 end-1\]\n;destroy $wname"
+
+	}
+	#///////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -6608,10 +6604,10 @@ proc bgerror { args } {
 #The function try to know if the operating system is Mac OS X or not. If no, enable window in transient. Else,
 #don't change nothing.
 proc ShowTransient {win} {
-global tcl_platform
-if {$tcl_platform(os) != "Darwin"} {
-wm transient $win .
-}
+	global tcl_platform
+	if {$tcl_platform(os) != "Darwin"} {
+		wm transient $win .
+	}
 }
 
 #proc prueba {} {
