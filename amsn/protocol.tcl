@@ -924,6 +924,10 @@ proc cmsn_ns_handler {item} {
       ADD -
       LST {
          cmsn_listupdate $item
+	 # New entry in address book setContact(email,FL,groupID)
+	 if { [lindex $item 2] == "FL" } {
+	     ::abook::setContact [lindex $item 6] FL [lindex $item 8]
+	 }
          return 0
       }
       REM {
@@ -962,7 +966,9 @@ proc cmsn_ns_handler {item} {
       }
       BPR {
       	status_log "BPR: TODO $item\n" white
-	return 0
+	 # Update entry in address book setContact(email,PH*/M*,phone/setting)
+	 ::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4] 
+	 return 0
       }
       PRP {
       	status_log "PRP: TODO $item\n" white
@@ -970,6 +976,7 @@ proc cmsn_ns_handler {item} {
       }
       LSG {
       	status_log "LSG: TODO $item\n" white
+	::abook::setGroup [lindex $item 5] [lindex $item 6]
 	return 0
       }
       200 {
