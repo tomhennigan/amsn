@@ -4,9 +4,13 @@ actions Taken
 addacontact Voeg een contact toe
 addedyou Heeft jou toegevoegd aan zijn/haar contactenlijst
 addtoo Voeg deze persoon toe aan mijn contactenlijst
+admincontacts Beheer contacten
+admingroups Beheer groepen
+adverts Advertenties
 allowseen Laat deze persoon toe om te zien wanneer ik online ben en om mij te contacteren
 appearoff Doe alsof je offline bent
 are ben
+autohotmaillog Automatisch inloggen in hotmail
 avoidseen Vermijd dat deze persoon kan zien wanneer ik online ben en dat hij mij kan contacteren
 away Afwezig
 blankdirect Laat leeg voor directe connectie
@@ -17,25 +21,32 @@ cancel Annuleer
 changenick Verander nickname
 chat Chat
 chatreq Verzoek om te chatten
+chatsmileys Toon smileys
 chatack Aanvaard chat van
 checkver Controleer of er een nieuwe versie is
 checkingver Aan het controleren op een nieuwe versie
 clicktologin Klik hier om in te loggen
 close Afsluiten 
 contactadded Contact toegevoegd
+contacterror Fout tijdens het verbinden met de server
 date Datum
 delete Wis
+enableproxy Gebruik proxy
 entercontactemail Geef contact-email in
 enternick Geef uw nickname in
 examples Voorbeelden
 gonelunch Gaan eten
 help Help
+helpcontents Help inhoud
 ident Aan het identificeren
 invite Nodig uit
+inbox Inbox
 is is
 joins $1 $2 neemt deel aan conversatie
 language Taal
 leaves $1 verlaat conversatie
+listsmileys Lijst smileys
+loadcontacts Laad contactenlijst
 loggingin Aan het inloggen
 login Log In
 loginas Inloggen als
@@ -48,14 +59,19 @@ msn AMSN
 newmail $1 nieuw bericht in In-Box
 newmailfrom Nieuwe mail van
 newmsg Nieuw bericht
+newveravailable Nieuwere versie $1 beschikbaar
 next Volgende
 noactivity Geen activiteit
+nonewver Er zijn geen nieuwere versies beschikbaar
 notify Licht in
 nousersinsession Geen gebruiker in sessie
 ok Ok
 offline Offline
 online Online
 onphone Aan het telefoneren
+openreceived Open ontvangen bestanden
+options Opties
+ordercontactsby Sorteer contacten op
 other Andere
 pass Paswoord
 port Poort
@@ -68,14 +84,21 @@ reconnect Wachten opdat $1 opnieuw zou verbinden
 reconnecting Opnieuw aan het verbinden met de server
 rememberpass Onthoud paswoord
 rightback Onmiddelijk terug
-save Bewaren
+save Opslaan
+saveas Opslaan als
+savecontacts Contactenlijst opslaan
 says $1 zegt
 sbcon Aan het verbinden met Switch Board
-send Zend
+send Verzend
+sendfile Verzend een bestand
+sendmail Zend email
+sendmsg Zend bericht
 server Server
 sound Geluid 
+textsize Tekstgrootte
 title Al's Messenger
 to Aan
+tools Systeem
 typing $1 geeft een bericht in
 yousay Jij zegt
 youwant Jij wil
@@ -84,4 +107,5 @@ uoffline Offline
 uonline Online
 user Gebruiker
 version Versie
+view Beeld
 willjoin Wachten opdat $1 de conversatie zou bijwonen
