@@ -21,7 +21,7 @@ namespace eval ::growl {
     	
     	#Command to Growl, register application aMSN with 4 kinds of notification
     	#Use default icon inside the growl folder
-    	catch {growl register aMSN "Online Newstate Offline Newmessage Pop" $dir/growl.png}
+    	catch {growl register aMSN "Online Newstate Offline Newmessage Pop Nudge" $dir/growl.png}
     	#Register events for witch Growl, when someone come online and when we receive a message
     	::plugins::RegisterEvent growl UserConnect online
     	::plugins::RegisterEvent growl chat_msg_received newmessage
