@@ -26,7 +26,7 @@ allowlist 許可リスト :
 allowonlyinal 許可リストに入っているメンバからのメッセージのみ受け取る
 allowseen この人にオンライン状況を伝え、IMを受信する
 animatedemoticon この絵文字はアニメーション表示可能
-animetedsmileys スマイリーをアニメーション表示する
+animatedsmileys スマイリーをアニメーション表示する
 appearance 外観
 appearoff オフラインに見せる
 areacode エリアコード
