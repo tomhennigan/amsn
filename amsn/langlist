@@ -148,7 +148,7 @@
 	<lang>
 		<langcode>hu</langcode>
 		<name>Hungary</name>
-		<version>1.16</version>
+		<version>1.17</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
@@ -196,7 +196,7 @@
 	<lang>
 		<langcode>nl</langcode>
 		<name>Dutch</name>
-		<version>1.111</version>
+		<version>1.112</version>
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
