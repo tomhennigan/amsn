@@ -5,10 +5,10 @@ acceptfile O aceti il file $1, dimensions $2? Salvât in $3
 actions Azions
 addacontact Zonte un contat
 addedyou $1 ($2) a ti a zontât a le so liste dai contats
-addprofiledesc Insede il login par il cuâl tu varessis voie di creâ un gnûf profîl. \nI login cuntun profîl ti permetin di vê diferentis configurazions par ogni login.\n Cence profii no tu puedis doprâ le History, i Alarmis o visâti le password.
+addprofiledesc Insede il login par il cuâl tu varessis voe di creâ un gnûf profîl. \nI login cunt'un profîl a ti permetin di vê diferentis configurazions par ogni login.\n Cence profii no tu puedis doprâ le Storie, i Alarmis o visâti le password.
 addprofile Zonte un gnûf profîl
 addstate Zonte Gnûf Stât
-addtocontacts Zontâ un contat a le liste
+addtocontacts Zonte un contat a le liste
 addtoo Zonte chestis personis te me liste dai contats
 addto Zonte a $1
 admincontacts Aministrazion contats
@@ -20,13 +20,13 @@ alarmonconnect Ative un alarm cuant che un utent al devente online
 alarmondisconnect Ative un alarm cuant che un utent al devente disunît/invisibil
 alarmonmsg Ative un alarm cuant che un utent ti mande un mes
 alarmonstatus Ative un alarm cuant che un utent al cambie il so stât
-alarmpref Impostazions dal alarm dal utent
+alarmpref Impostazions dal alarm utent
 alarms Alarmis
 alarmstatus (Dis)Abilite l'alarm par chest utent
 allfiles Ducj i files
 allowallbutbl Permet a ducj i utents fûr di chei te liste dai blocâts di contatâmi
-allowbadwords Disabilite le censure tai nicknames
-allowlist Permet le liste:
+allowbadwords Disabilite le censure tai sorenons
+allowlist Liste permitûts:
 allowonlyinal Permet dome ai utents te me liste dai Permetûts di contatâmi
 allowseen Permet a chestis personis di viodîmi e di contatâmi cuant co soi conetût
 allprofilesinuse Ducj i profii esistints e son ore presint in vore
@@ -44,16 +44,16 @@ autocheckver Controle automatichementri tal inviament se e son gnovis versions
 autoconnect2 Jentre automatichementri cuant che aMSN al ven inviât
 autoconnect Conetiti daurman a le esecuzion di asmn 
 autodetectip Rileve il recapit IP automatichementri
-autohotmaillog Auto-login Hotmail
+autohotmaillog Jentre in Hotmail automatichementri
 autoidle Nissune ativitât automatiche
 autoip IP automatic
-automessage Auto Mes
-autonoact Conetiti automatichementri al inviament di aMSN
+automessage Mes automatic
+autonoact Conetiti automatichementri tal inviament di aMSN
 avoidseen impedìs a chestis personis di viodimi e di contatâmi cuant che o soi conetût
 awaymsg1 Domande di impostâ un mes di "assent" ogni volte che o cambii il gno stât in Assent/O Torni Subite/O ai ce fâ
-awaymsg2 No sta a domandâ mai e dopre simpri il mes di assent chi sot
-away No al computer
-baduserpass Username o password faladis
+awaymsg2 No sta a domandâ mai e dopre simpri il mes di assent ca sot
+away No soi al computer
+baduserpass Non utent o password falâs
 bgcolor Cambie il colôr di sfont di aMSN
 blankdirect Lasse vueit par conessions diretis
 block Bloche
@@ -65,13 +65,13 @@ blockinter2 seconts, altrimentri controle ogni :
 blockinter3 ogni
 blockinter4 seconts.
 blocklist Liste di utents blocâts:
-blockmessage Chestis personis a son online e blocadis di te
+blockmessage Chestis personis a son in linie e blocadis di te
 blockusers Numar di utents di controlâ daurman
 bouncedock Mostre le icone di aMSN cuant che al rive un mes
 broughtby  Dispatusât di
 browse Cîr
-browser Browser
-browserexample (\$url al vignarâ rimplaçât dal URL). Es: mozilla \$url
+browser Navigadôr
+browserexample (\$url al vignarâ rimplaçât dal RECAPIT). Es: mozilla \$url
 busy O ai ce fa
 cachedpics $1 figuris in memorie
 cancel Scancele
@@ -93,30 +93,30 @@ chatack O stoi acetant une clamade di
 chat Comence le conversazion
 chatmaxmin Cuant che un contat al vierç une chat cun me o vuei sedi:
 chatreq O stoi clamant
-chatsmileys2 Mostre les Emoticon e les Musutis tal barcon de chat
+chatsmileys2 Mostre les Emoticon e les Musutis tal barcon di chat
 chatsmileys Musutis pe chat
 checkblocking Controle dal continui se i utents ti stan blocant
 checkemail Mostre le rie di avîs di pueste (inbox) te liste dai contats
-checkfilman I files ricevûts e vignaran salvâts in $1. Par plasè controle les impostazions dal file manager tal barcon des preferencis.
+checkfilman I files ricevûts e vignaran salvâts in $1. Par plasè controle les impostazions dal gjestôr dai files tal barcon des preferencis.
 checkingver O stoi verificant une gnove version
 checkonfln Controle se un utent ti bloche cuant che al va fûr linie.
 checkver Controle le esistence di gnovis versions
 choosearq Sielç le achiteture dal to sisteme
-choosebasefont Selezione il font
+choosebasefont Sielç le sorte di caratars
 choosebgcolor Cambie il colôr di sfont
 choosecontact Par plasè sielç un contat de liste
 choosefontcolor Sielç il colôr dal font
-chooseskin Sielç le Skin che tu as miôr di doprâ
+chooseskin Sielç l'aspiet che tu as miôr di doprâ
 ch_to_state Passe al gnûf stât
-clearlog2 Scancele le Hisotry par ducj i toi contats
+clearlog2 Scancele le Storie par ducj i toi contats
 clearlog3 Scancele ducj i Log
 clearlog Scancele il Log
 clicktologin Frache chi par jentrâ
 closed Le conversazion cun $1 e je stade sierade par inativitât.
 close Siere
-closingdocks Cric par sierâ
+closingdocks Frache par sierâ
 command Comant
-commandstatus Eseguìs il comant
+commandstatus Invie il comant
 confirmdelete Sêstu sigûr di vê voe di scancelâ $1?
 confirmpurge Dutis les figuris salvadis dai contats fûr che les propris e saran rimovudis. Lâ indenant?
 confirm Sêstu sigûr?
@@ -129,7 +129,7 @@ contactadded Contat zontât
 contactdoesnotexist Il contat nol esist
 contactlist Liste dai contats:
 continuously Dal continui
-convertexplain Trate al file eseguibil CONVERT di ImageMagick (domandât par pode viodi fotografiis).\n Lasse vueit se CONVERT al e dizà te trate
+convertexplain Trate al file inviabil CONVERT di ImageMagick (domandât par pode viodi fotografiis).\n Lasse vueit se CONVERT al e dizà te trate
 copy Copie
 copytogroup Copie tal grop
 corruptconfig Il file di configurazion al e vuast. O crei un gnûf. Il vieli file al vignarâ salvât in $1. Par plasè spedissilu ai programatôrs che ciraran di capî ce cal è intravignût.
@@ -145,19 +145,19 @@ custnotifystatus Mostre il barcon di notifiche cuant che l'utent al cambie stât
 customcolor Colôr personalizât
 custom_edit Cree une musute personalizade
 custom_new Zonte una gnove musute personalizade
-customnick Nick Personalizât
+customnick Sorenon Personalizât
 cut Tae
 date Date
 days Diis
 dcprofile No stâ a creâ un profîl
 default Configurazion predefinide
-defaultloginradio Jentre cule configurazion predefinide
+defaultloginradio Jentre cun le configurazion predefinide
 defchatwinsize Dimension predefinide dai barcons di chat (XSIZExYSIZE)
-deletecustomstate Elimine Stât personâl
+deletecustomstate Rimôf Stât personâl
 delete Scancele
 delimiters Limitadôrs dal cjamp Ore:
-deliverfail Al è intravignût un fal tal inviament dal seguint mes
-delprofile2 Selezione il profîl che ti plasares rimovi
+deliverfail Al è intravignût un fal tal inviament di chest mes
+delprofile2 Sielç il profîl che ti plasares rimovi
 delprofile Scancele il profîl
 description Descrizion
 directconnection O ai une conession direte a internet (dopre le puarte 1863)
@@ -175,57 +175,56 @@ dockingoff Disabilite dock
 dockkde Dock KDE
 dontdownload No stâ a scjariâ TLS, al vignarâ instalât automatichementri
 dontshow No stâ a mostrâ
-downloadingtls Download dal modul TLS in vore di:\n $1
+downloadingtls Scjariamint dal modul TLS in vore di:\n $1
 editcustomstate Modifiche Stât personâl
 edit Modifiche
-editnewstate Gnovis impostazions personâlis di auto-rispueste
+editnewstate Gnovis impostazions personâlis di rispueste automatiche
 editprofile Modifiche il Profîl
-editstate Modifiche des impostazions di auto-rispueste esistintis
+editstate Modifiche des impostazions di rispueste automatiche esistintis
 editvalue Modifiche valôr
 email Email
-emailsinlist Mostre recapit email al puest dai nicks te liste dai contats
+emailsinlist Mostre recapit email al puest dai sorenons te liste dai contats
 emotisounds Da fûr un sun par cualchi Emoticon
-enablebanner Mostre il banner di aMSN (Al coventarâ tornâ a inviâ aMSN)
 enabled Ativât
 enableproxy Proxy abilitât
 enableremote Abilite il control rimît
 enablesound Dà fûr un sun
 encoding2 Cambie le maniere che son codificadis les letaris
-encoding Selezione le codifiche
-entercontactemail Insede un contat par e-mail
+encoding Sielç le codifiche
+entercontactemail Insede un contat par email
 enterfilename Insede un non di file
-enternick Insede il to nick
+enternick Insede il to sorenon
 errortls Fal te instalazion dal modul TLS:
 examples Esemplis
 exitamsn Sêstu sigûr di vê voe di jessî ?
-extras Serviziis extra
+extras Serviziis di fûr vie
 faileddelete Eliminazion falade
-faileddeleteperso Chest file nol po sedi rimovût parce che nol è une figure personâl. Dome les figuris partignintis al proprit profîl e puedin sedi rimovudis in cheste maniere.
-failed Falît
+faileddeleteperso Chest file nol po sedi rimovût parce che nol è une figure personâl. Dome les figuris dal proprit profîl e puedin sedi rimovudis in cheste maniere.
+failed Falât
 faq FAQ (Rispuestis a les domandis plui frecuentis)
 filedoesnotexist Il file nol esist
 file file
 filemanexample ( \$location e vignarâ rimplaçâde de cartele ) Es: nautilus \$location
-fileman File Manager
+fileman Gjestôr di file
 filename non dal file
-filetransfercancelled Stramude dal file scancelâde
+filetransfercancelled Stramude dal file cancelâde
 filetransfercomplete Stramude dal file completâde
-followtext Seguis il gnûf test cuant cal ven insedât
+followtext Seguis il gnûf test cuant che al ven insedât
 friendlyname Sorenon
-ftacceptedby $1 al à acetât el invît a stramudâ il file '$2'.
-ftaccepted Stramude dal file acetât
+ftacceptedby $1 al à acetât l'invît a stramudâ il file '$2'.
+ftaccepted Stramude dal file acetâde
 ftaccepting In spiete di acetâ l'invît a le stramude dal file
 ftconnecterror Fal conetintsi al utent rimît
 ftconnecting Conession a $1 puarte $2
 ftconnectionlost Le conession cun l'utent rimît e je colade.
-ftgotinvitation $1 al ûl mandâti il file '$2' ($3 bytes). Al sarâ salvât te cartele $4. Âstu voe di vê chest file?
+ftgotinvitation $1 al ûl mandâti il file '$2' ($3 bytes). Al vignarâ salvât te cartele $4. Vuelistu vê chest file?
 ftportpref Puarte iniziâl par le stramude dal file
 ftrejectedby $1 al a refudât l'invît a le stramude dal file '$2'.
 ftrejected Stramude dal file refudade
 ftsendinvitation L'invît a le stramude dal file '$2' ($3 bytes) al e stât mandât a $1.
-fullcontactlist Mi splâs, ma le to liste dai contats e je plene. Al è necessari rimovi cualchidun par zontâ altris.
-getdisppic Ative le riceziòn des figuris personâlis dai utents
-globalnick Inseris un prefis di zontâ a ducj i sorenons dai toi contats. Tu puedis doprâ chestis variabilis: \$user_login par il recapit dal contat, \$nick par il sorenon dal contat, \$customnick par il sorenon personalizât. Par esempli: '\$user_login al è \$nick' al vignarâ 'contat@msn.com al è Contat'
+fullcontactlist Mi splâs, ma le to liste dai contats e je plene. Al covente rimovi cualchi contat par zontâ altris.
+getdisppic Ative le ricezion des figuris personâlis dai utents
+globalnick Insede un prefis di zontâ a ducj i sorenons dai toi contats. Tu puedis doprâ chestis variabilis: \$user_login par il recapit dal contat, \$nick par il sorenon dal contat, \$customnick par il sorenon personalizât. Par esempli: '\$user_login al è \$nick' al diventarâ 'contat@msn.com al è Contat'
 globalnicktitle Sorenon globâl
 globaloverride I sorenons globâi e sorescrivin i sorenons
 gonelunch A gustâ
@@ -239,13 +238,13 @@ groupnotempty Il grop nol è vueit!
 groupoldname Non vieri
 grouprename Rinomine un grop
 groupunknown Grop disconossût
-handle Ministre
+handle Gjestìs
 helpcontents Contignûts dal jutori
 help Jutori
 hidedisplaypic Plate le figure personâl
-hiden Plate les emoticon dal menu des musutis
+hiden Plate les emoticons dal menu des musutis
 hidewindow Plate Barcon
-history Mostre le History
+history Mostre le Storie
 home Cjase
 httpconnection Conession doprant le maniere HTTP (dopre il protocol HTTP su le puarte 80)
 hybrid Maniere ibride
@@ -255,15 +254,15 @@ ignoreerrors Ignore altris fai di AMSN silenziosamentri fin a le fin de session
 imagefiles File des figuris
 inbox Rivâs
 insertsmiley Insede emoticon
-installconvert Al è necessari instalâ il program ImageMagick par convertî les figuris in un formât ricognossût dai servers di MSN. I file binariis par il proprit Sisteme Operatîf si cjatin su ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Se il program al e dizà instalât chest al po sedi dovût di un bug; in tal câs, par plasè, segnalilu.
+installconvert Bisugne instalâ il program ImageMagick par convertî les figuris in un formât ricognossût dai servers di MSN. I file binariis par il proprit Sisteme Operatîf si cjatin su ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Se il program al e dizà instalât chest al po sedi dovût di un bug; in tal câs, par plasè, segnalilu.
 internalerror Fal interni dal server
-invalidfile2 Il file $1 nol po sedi creât, siguriti di vê i permès che coventin.
-invalidfile Il file $2 insedât tal cjamp "$1" nol esist o nol è leibil
+invalidfile2 Il file $1 nol po sedi creât, viôt di vê i permès che coventin.
+invalidfile Il file $2 insedât tal cjamp "$1" nol esist o nol si rive a lei
 invalidgroup Grop no valevul
 invalidpic Le fotografie sielzude no esist
-invalidpicsize Le fotografie sielzude e je masse grande, sieglç une plui piçule
+invalidpicsize Le fotografie sielzude e je masse grande, sielç une plui piçule
 invalidsound Il file audio sielzût nol esist
-invalidusername Username no valevul
+invalidusername Non utent no valevul
 invitationcancelled L'invît al è stât scancelât
 invite Invite
 ipaddress Recapit IP
@@ -271,45 +270,45 @@ ipdetect Determine l'IP juste pe stramude dal file doprant l'HTTP
 ircstyle Stîl de chat IRC
 istyping $1 al sta scrivint un mes
 joins $1 si zonte a le conversazion
-justonce Dome une volte
-keepalive Keepalive (NAT)
-keeplog2 Regjistre dutis les conversazions in une History di aMSN par une vision venture
+justonce Juste une volte
+keepalive Ten vîf (NAT)
+keeplog2 Regjistre dutis les conversazions in une Storie di aMSN par une vision venture
 keeplog Ten un regjistri des chat
 language Lenghe
-lastlogin Ultin login
-lastlogout Ultin logout
+lastlogin Ultime jentrade
+lastlogout Ultin jessude
 lastmsgedme Ultin mes
-lastmsgtime Ultin mes ricevût al les $1
+lastmsgtime Ultin mes ricevût a les $1
 lclosedwin $1 al a sierât il barcon su $2
 lconftopriv Le conversazion e je diventade une chat privade cun $1
 lconvstarted Le conversazion e je scomenciade su $1
 leaveblankforhotmail Lasse vueit pal ûs di hotmail
 leavejoinsinchat Mostre avîs di "lasse/jentre in conversazion" tal barcon di chat
-leaves $1 bandone le conversazion
+leaves $1 al bandone le conversazion
 lenteredconf $1 al è jentrât in conversazion su $2
 lineflushlog Svuede il buffer dal file di log a ogni gnove rie
 linprivate IN PRIVÂT
 listeningon In spiete su le puarte $1
-listsmileys2 Mostre Emoticon e musutis te liste contats principâl di aMSN
-listsmileys Liste musutis
+listsmileys2 Mostre Emoticon e Musutis te liste contats principâl di aMSN
+listsmileys Liste des musutis
 ljoinedconf $1 al è jentrât a formâ part de conversazion
 lleftconf $1 al a lassât le conversazion
-loadcontacts Cjarie le liste contats
+loadcontacts Cjarie le liste dai contats
 logbigger Il file de regjistrazion par ogni contat nol à nissun limit di misure
-logfandexp Termin prefis de History e dimension dai regjistris
-loggedotherlocation Didisunît. Jentrât di un altri puest
+logfandexp Termin prefis de Storie e dimension dai regjistris
+loggedotherlocation Disunît. Jentrât di un altri puest
 loggingin Conession in vore...
 loginas Jentre sicu
 loging Regjistrazion
 login Jentre
 logolder Regjistre dome les chat che an cjapât puest tal ultin
 logout Bandone
-logsbydate Sorte i log par date (Le Cjale history e cjarie une vore plui svelte)
+logsbydate Sorte i log par date (Le Cjale Storie e cjarie une vore plui svelte)
 logsin a si e juste conetût
-logsmileys Mostre les emoticon e le musute tal barcon de History di aMSN
+logsmileys Mostre les emoticon e le musute tal barcon de Storie di aMSN
 logsout a si è juste disconetût
-longnick Il to nick al è lunc plui di 130 letaris. Il protocol ufiziâl di MSN no lu concêt.Vuelistu impostâlu distès?
-longp4c Il to Sorenon al è plui lunc di 130 letaris. Il Nick che si viodarà tal MSN ufiziâl al sarà $1. Sêstu sigûr di impostalu sicu?
+longnick Il to Sorenon al è plui lunc di 130 letaris. Il protocol ufiziâl di MSN no lu concêt.Vuelistu impostâlu distès?
+longp4c Il to Sorenon al è plui lunc di 130 letaris. Il Sorenon che si viodarà tal MSN ufiziâl al sarà $1. Sêstu sigûr di impostâlu sicu?
 lprivtoconf Chat privade diventade conversazion cun $1
 luclosedwin Tu âs sierât il barcon su $1
 mailer Client di pueste
@@ -324,18 +323,20 @@ movetogroup Môf tal grop
 msgflicker Met in evidence il titul di un barcon di chat cuant che al ven ricevût un gnûf mes e il barcon al è in secont plan.
 msgmaxmin Cuant cal rive un gnûf mes o vuei cal sedi:
 msg Mes
-msgmode Selezione sicu ministrâ i barcons dai mes multiplis:
+msgmode Sielç cemût aministrâ i barcons dai mes multiplis:
 msn AMSN
 msnstyle Stîl di chat MSN
 mustrestart Tu âs di tornâ a inviâ il program par ativâ les modifichis
-myhomephone Il gno telefon di cjase
+myhomephone Il gno numar di telefon di cjase
 mymobilephone Il gno numar di telefonin
+mynick Il gno Sorenon
 mypic Figure personâl:
 mystatus Il gno stât
 myworkphone Il gno numar di ufizi
-natip Le rivelazion dal IP de pagjne web
-natkeepalive Se le conession e cole dal continui abilite chest Auto-Riconetitôr
+natip Le rivelazion dal IP de pagjne internet
+natkeepalive Se le conession e cole dal continui abilite chest Riconetitôr Automatic
 needonline Al somee che tu sedis conetût!
+needwinico O ai bisugne di winico03.dll te cartele plugins par fa lâ windows traydock
 never Mai
 newmail $1 gnûfs mes di pueste
 newmailfrom Gnove email di $1 ($2)
@@ -343,28 +344,29 @@ newmsg Gnûf mes
 newstate Zonte un Stât personâl
 newveravailable Le gnove version $1 e je disponibil par sedi scjariade
 next Prossim
-nick Nick
+nick Sorenon
 noactivity Nissune ativitât
 nodataavailable No son dâts disponibii par $1
 nogroup Nissun grop
-nologfile No l'é un file di regjistri par $1
+nologfile Nol é un file di regjistri par $1
 noneavailable Nie disponibil
 nonewmail Nissun gnûf mes di pueste
-nonewver No son gnovis versions di scjiariâ
+nonewver No son gnovis versions di scjariâ
 no No
 nopic Nissune figure
 noprofileexists No son profii al moment, \n tu âs di creâ un se tu âs voe di doprâ i login cul profîl. \nDopre il boton Zonte gnûf profîl su chest barcon par zontâ un gnûf profîl.
 normal Normâl
-noskins No soi rivât a cjatâ le skin predefinide te cartele skins/. No pues inviâ AMSN.
+noskins No soi rivât a cjatâ l'aspiet predefinît te cartele skins/. No pues inviâ AMSN.
 nosystemtray System tray no disponibil
 notificationserver Server di notifiche iniziâl di MSN (Server di MSN Messenger)
 notify1_5 Mostre un barcon di notifiche cuant che i contats e van fûr linie
 notify1_75 Mostre un barcon di notifiche cuant che i contats e cambiin stât
-notify1 Mostre un barcon di notifiche cuant che i contats e vegnin online
+notify1 Mostre un barcon di notifiche cuant che i contats e jentrin
 notify2 Mostre un barcon di notifiche cuant cal ven ricevût un gnûf mes
 notify3 Mostre un barcon di notifiche cuant che une email e rive te to casele di pueste
 notify notifiche
-notifyoffset Selezione le posizion dal barcon di notifiche cun coordenadis di posizion
+notifyoffset Sielç le posizion dal barcon di notifiche cun coordenadis di posizion
+notifytimeout Numar di milesims di secont prin che al discomparedi il barcon di notifiche
 notifytyping Invie ai altris utents une notifiche tan co scrîf
 notifywin Barcon di notifiche
 notinlist No tu sês te so liste dai contats
@@ -373,7 +375,7 @@ nousersinsession Nissun utent te session
 offline Disconetût
 ok Ok
 onenewmail 1 gnûf mes di pueste te casele In Arîf
-online Online
+online In linie
 onphone Al telefon
 openreceived Vierç un file ricevût
 options Opzions
@@ -391,8 +393,8 @@ phone Telefon
 picbrowser Mostre il selezionatôr des figuris personâlis
 picfile File de figure dal alarm (GIF < 500x500)
 picstatus (Dis)Abilite le figure dal alarm
-playing O stoi scoltant: $1
-pluginselector Selezione i Plugins
+playing O soi in scolte di: $1
+pluginselector Sielç i Plugins
 port Puarte
 prefalerts Suns e Alarmis dai mei events
 prefapps Aplicazions
@@ -401,57 +403,57 @@ prefblock1 Controle a le disconession
 prefblock2 Controle dal continui
 prefblock3 Grop "Tu sês stât blocât di"
 prefconnection Impostazions di conession
-prefemotic Iconis des emoticons e des Musutis
+prefemotic Iconis des Emoticons e des Musutis
 preferences Preferenzis
 preffont2 Cambie le maniere che chei altris e viodin il gno test ta les chat
 preffont3 Cambie le dimension e le fate des letaris de muse di aMSN
 preffont Il test dal gno mes
 prefft Stramude dai file, peer-to-peer e configurazions di NAT
-preflibs Cartelis de librariis
-preflog1 Les mês opzions di History e regjistrazion
-preflook L'aspiet dal gnio aMSN
+preflibs Cartelis des librariis
+preflog1 Les mes opzions di Storie e regjistrazion
+preflook L'aspiet dal gno aMSN
 prefmsging Le muse dai mei mes
-prefname Il non/stranon dal gno MSN messenger
-prefphone2 Insede il numar di telefon che tu âs voe cal sedi vidût da les personis \n su le to liste permitûts \n
+prefname Il non/sorenon dal gno MSN messenger
+prefphone2 Insede il numar di telefon che tu âs voe cal sedi vidût da les personis \n su le to liste dai permitûts \n
 prefphone Il gno numar di telefon
-prefprivacy2 Liste Contats/Rifiutâts dal utent
+prefprivacy2 Liste Contats/Refudâts dal utent
 prefprivacy Liste Permetûts/Blocâts dal utent
-prefprofile2 Crê o modifiche il to profîl public(le \n descrizion di te che chei atris puedin viodi)
-prefprofile3 I Profî di configurazion dal utent di aMSN
-prefprofile Il gnio Profîl Public
-prefproxy Les mês Impuestazions Proxy
-prefremote Preferencis de conesion rimide
-prefsession Le me Regjstrazion e Stât
-prefshared Conesion spartide (solo per NAT)
+prefprofile2 Cree o modifiche il to profîl public(le \n descrizion di te che chei atris puedin viodi)
+prefprofile3 I Profii di configurazion dal utent di aMSN
+prefprofile Il gno Profîl Public
+prefproxy Les mes Impostazions Proxy
+prefremote Preferencis de conession rimide
+prefsession Le me Regjistrazion e il gno Stât
+prefshared Conesion condividude (dome par NAT)
 prefsound Sun
 privacy Privacy
 profiledconfig Configurazion dal Profîl
-profileexists No tu puedis creâ un profîl cun chest login \n parce che al esist digia un atri. Par plase scelc un atri login.
-profileinuse Chest profîl al è digia in vore di une atre session di aMSN, par plase scelc un atri
+profileexists No tu puedis creâ un profîl cun chest non \n parce che al esist dizà un atri. Par plasè sielç un atri non.
+profileinuse Chest profîl al è dizà in vore di une atre session di aMSN, par plase sielç un atri
 profileloginradio Jentre doprant un profîl esistint
-profiles Profî
+profiles Profii
 properties Proprietâts
 proxyconf Configurazion proxy
 proxyconfhttp Configurazion sopuart proxy HTTP
 proxyconnection Mi conet a internet doprant un server proxy:
 proxy O soi daûr di un server proxy (HTTP o SOCKS5)
-publishphones Publiche el gnio numar di telefon
+publishphones Publiche el gno numar di telefon
 purge Elimine
 raised Grant/Cence icone
 readonlymsgbox Le stramude dal file e je stade fermade parce che le cartele di destinazion e a dome permes di letûre. \nPar plasè cambie i permes.
 readonlywarn ATENZION: Il file al podares NO vignî salvât coretementri parce che le cartele "File Rivâs" e somee sedi protete di scriture.\n Par plasè controle che i permes de cartele ($1) e sedin mitûts coretementri prime di stramudâ il file.
-receivedbytes Rivâs $1 byte su $2
+receivedbytes Rivâs $1 byte di $2
 receiveddir Cartele dai file ricevûts
 receivefile O stoi ricevint il file
-recentmsg No sta sierâ il barcon di chat cuant che un mes al e juste rivât
+recentmsg No sta a sierâ il barcon di chat cuant che un mes al e juste rivât
 reconnecting Riconession al server
 reconnect O stoi spietant che $1 a si torni a coneti
 reject Pare indaûr
-rememberpass Visiti password
-removefromlist Rimôf da cheste liste
+rememberpass Visiti le password
+removefromlist Rimôf di cheste liste
 rename Rinomine
 reversed Ledrosât
-reverselist Ledrôse le liste (RL)
+reverselist Liste ledrôse (RL):
 rightback O torni daurman
 saveas Salve sicu
 savechatwinsize Salve le dimension dal barcon di chat sicu predefinît a ogni ridimensionament
@@ -460,27 +462,28 @@ save Salve
 savetofile Salve tal file
 says $1 al dîs
 sbcon Conession a Switch Board
-selectplugins Selezione i Plugins che tu vuelis ativâ
-selectskin Selezione une Skin de liste
+selectplugins Sielç i Plugins che tu vuelis doprâ
+selectskin Sielç un aspiet de liste
 sendfile Invie file
 send Invie
-sendmail Invie e-mail
+sendmail Invie email
 sendmsg Invie un mes
-sentbytes Inviâts $1 byte su $2
-serverbusy Il server al e indafarât
+sentbytes Inviâts $1 byte di $2
+serverbusy Il server al è cjapât
 servergoingdown Disunît: il server al stâ lant jù
 server Server
-serverunavailable Il server no l'è disponibil
+serverunavailable Il server nol è disponibil
 session Session
 showblockedlist Mostre le liste des personis che ti blochin
+showbanner Mostre il banner di aMSN
 showcachedpics Mostre les figuris personâlis in memorie
 showdisplaypic2 Mostre le figure personâl a ogni gnûf barcon di chat
 showdisplaypic Mostre le figure personâl
 showmypic Figure personâl
-shownotify Mostre un barcon di notifiche cuant cal sucêt alc
+shownotify Mostre un barcon di notifiche cuant che al sucêt alc
 showuserpic Figure di $1
-skinselector Selezione Skin
-skin Skin
+skinselector Sielç l'aspiet
+skin Aspiet
 smileconfig Configurazion des emoticon personalizadis
 smilefile Non dal file de musute
 smileintro2 Par plasè modifiche i cjamps che coventin par personalizâ cheste musute (cjale le FAQ par un jutori)
@@ -488,64 +491,64 @@ smileintro Par plasè jemple i cjamps domandâts par creâ une gnove musute persona
 sound2 Fâs un sun cuant che i contats e jentrin o mandin un mes
 soundactive Fâs dai suns cuant che tu ricevis mes ancje tai barcons atîfs
 sound Ative suns
-soundcommand Chest al a di sedi il comant par fâ il sun (es.: esdplay)
+soundcommand Chest al à di sedi il comant par fâ il sun (es.: esdplay)
 soundexample (\$sound = Sun di fâ) Es: esdplay \$sound
 soundfile File dal sun dal alarm
 soundfiles File audio
-soundloop Sun in loop
+soundloop Sun in riproduzion continue
 soundserver Server dal sun
 soundstatus (Dis)Abilite il sun dal alarm
-sourcecode Codis sorzint (e covente le compilazion e instalazion)
+sourcecode Codis sorzint (e coventin le compilazion e le instalazion)
 splashstart Invie
-sslwarning ATENZION!! Disabilitant le critografie SSL, le password e vignarâ mandade in clâr su le rêt. Cheste operazion e a di sedi fate dome se si a a ce fa cun proxies particolarmentri berdeadis.
+sslwarning ATENZION!! Disabilitant le critografie SSL, le password e vignarâ mandade in clâr su le rêt. Cheste operazion e a di sedi fate dome se si à ce fâ cun proxies particolarmentri berdeadis.
 startoffline2 Jentre silenziosamentri come "Fûr linie"
-startoffline Scomence Offline
+startoffline Scomence Fûr Linie
 startontray Invie AMSN diretementri te systray
-stateautomsg Automes di inviâ
+stateautomsg Mes automatic di inviâ
 statechange stât cambiàt in:
 stateedittext Par plasè modifiche i cjamps che tu volaressis \n che fossin cambiâts e frache Salve
 stateinfo Configurazion dal stât personâl
 statename Non dal stât personâl
 statenewtext Par plasè insede les informazions domandadis par creâ \n il to gnûf Stât Personâl e frache Salve
-statenick Personalize nick (lassâ vueit par no cambiâlu)
-state O vuei fâmi viodi come
+statenick Personalize il sorenon (lassâ vueit par no cambiâlu)
+state O vuei fâmi viodi sicu
 status Stât
 stopalarm Ferme l'alarm
-storenickname Ripristine il nick origjinâl daspò di une session personalizade cun nick diferent
-strictfonts Impueste ducj i fonts (strangjie di stât e altris) a le dimension che o ai sielzût
+storenickname Ripristine il sorenon origjinâl daspò di une session personalizade cun sorenon diferent
+strictfonts Impueste ducj i caratars (strangje di stât e altris) a le dimension che o ai sielzût
 stylechat Midiessim aspiet des chat
-stylehist Aspiet de History di aMSN
-stylelog Selezione il formât che tu volaressis viodî te to History
+stylehist Aspiet de Storie di aMSN
+stylelog Sielç il formât che tu volaressis viodî te to Storie
 syntaxerror Fal di sintasse
-tabbed Barcons cun strangjie
+tabbed Barcons cun strangje
 temp_state No sta a salvâ (Stât temporari, si pierdarâ a le sierade di AMSN)
 textsize Dimension dal test
 timeremaining Timp cal reste
 timestamps Mostre il cjamp Ore tai barcons di chat
 title Al's Messenger
-tkerror TK: tu âs cjatât un pussibil bug. Segnalilu, par plasè, inviant il file $1 a amsn-bugs@lists.sf.net
+tkerror TK: tu âs cjatât un possibil fal. Segnalilu, par plasè, inviant il file $1 a amsn-bugs@lists.sf.net
 tlsdowncompleted Il file $1 al è stât scjariât te cartele $2. Tirilu fûr, compililu (se tu âs scjariât le sorzint) e instalilu in $3.
-tlsexplain Cartele là che al è il modul TLS. Se AMSN no rive a cjatâle, specifichile.\n (Al è domandât pe autenticazion SSL).
-tlsinstall Assistent pe instalazion dal modul TLS
-tlsinstallexp AMSN al dopre cumò MSNP9. Chest al a di bisugne di doprâ une \nconession sigure cun SSL. Par podê doprâ SSL, AMNS al a bisugne de presince dal modul TLS,\nche cumò nol è instalât. Chest assistent ti judarâ te ricuperazion\n e te instalazion di TLS. Par plasè sielz le sorte di sisteme in vôre par\n passâ al scjariament dai file che coventin.
+tlsexplain Cartele dulà che al è il modul TLS. Se AMSN no rive a cjatâle, specifichile.\n (Al è domandât pe autenticazion SSL).
+tlsinstall Assistent di instalazion dal modul TLS
+tlsinstallexp AMSN cumò al dopre MSNP9. Chest al à di bisugne di doprâ une \n conession sigure cun SSL. Par podê doprâ SSL, AMNS al à bisugne de presince dal modul TLS,\n che cumò nol è instalât. Chest assistent ti judarâ te ricuperazion\n e te instalazion di TLS. Par plasè sielç le sorte di sisteme in vôre par\n passâ al scjariamint dai files che coventin.
 tlsinstcompleted Le instalazion dal modul TLS e je lade ben. Tu varessis di podê doprâ MSNP9. Se cussì nol è, probabilmentri tu âs sielzût un modul falât o nol esist un modul precompilât pal to sisteme.
 to A
 tools Imprescj
-tooltips Abilite i tooltips
+tooltips Abilite i sugjeriments
 transnotexists Il file domandât nol è ancjemò stât tradusût te lenghe corint.
 traynotcompiled Il plugin pe tray icon nol è compilât. Controle plugin/traydock
 triggers Scurtis di test
-truncatenames1 Tae i nick masse luncs tai titui dai barcons e te liste contats
+truncatenames1 Tae i nick masse luncs tai titui dai barcons e te liste dai contats
 truncatenames2 Tae i nick masse luncs tes conversazions
 truncatenicks Tae i nick che van fûr de largjece dal barcon
 twonewmail $1 gnûfs mes di pueste
 unblock Sbloche
-uoffline Offline
-uonline Online
-useralreadyonlist L'utent al è dizà te liste contats
+uoffline Fûr linie
+uonline In linie
+useralreadyonlist L'utent al è dizà te liste dai contats
 userblocked L'utent al è online ma a ti a blocât
 userdata Dâts Utent
-usernotonline Chest Utent nol è online
+usernotonline Chest Utent nol è in linie
 userproperties Proprietâts dal utent di $1
 user Utent
 useryourself No tu puedis tabaiâ di bessôl
@@ -553,8 +556,8 @@ verifyblocked Controle les personis che ti stan blocant
 version Version
 viewcontactsby Sorte i contats par
 viewprofile Mostre Profîl
-view Viste
-webcaminvite $1 ti a invidât a scomenciâ une session di webcam, ma aMSN no sopuarte cheste fature.
+view Viôt
+webcaminvite $1 ti a invidât a començâ une session doprant le telecjamare internet, ma aMSN no sopuarte cheste fature.
 willjoin O stoi spietant che $1 si zonti a le conversazion
 work Lavôr
 wrongfields I cjamps "$1", "$2" e/o "$3" no erin valevui
