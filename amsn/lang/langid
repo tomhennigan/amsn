@@ -144,6 +144,7 @@ docking Labuhan
 dockingoff Jangan dilabuhkan
 dockkde Labuhan model KDE
 dontdownload Jangan download TLS, saya akan memasangnya sendiri
+dontshow Jangan Ditampilkan
 downloadingtls Sedang mendownload modul TLS dari:\n $1
 editcurrentstate Ubah keadaan saat ini
 editnewstate Kondisi untuk Pesan-otomatis Pribadi Baru
@@ -442,6 +443,7 @@ textsize Besar huruf
 timeremaining Waktu yang tersisa
 timestamps Mungkinkan penanda waktu pada jendela percakapan
 title Al's Messenger
+tkerror TK membawa error, terdapat bug dalam amsn, mohon dilaporkan. Kirim berkas $1 ke amsn-bugs@lists.sf.net
 tlsdowncompleted Berkas $1 didownload ke direktori $2. Anda harus mengurainya, membangunnya (apabila anda mendownload kode sumber) dan menginstalasinya dalam $3.
 tlsinstallexp AMSN sekarang menggunakan MSNP9, yang memerlukan penggunaan \nsambungan aman menggunakan SSL. Untuk dapat menggunakan SSL, AMSN memerlukan untuk menginstalasi modul yang dinamakan TLS,\nyang tidak terdapat dalam sistem anda. Penyulap ini akan membantu anda dalam mendownload dan\nmenginstalasi TLS. Mohon pilih jenis sistem anda sehingga kami bisa secara otomatis mendownload\n berkas-berkas TLS yang diperlukan.
 tlsinstall Penyulap instalasi Modul TLS
@@ -481,4 +483,3 @@ yoffset Keseimbangan Posisi Y
 youblocked Anda telah diblokir
 yousay Anda berkata
 youwant Anda Inginkan
-tkerror TK membawa error, terdapat bug dalam amsn, mohon dilaporkan. Kirim berkas $1 ke amsn-bugs@lists.sf.net

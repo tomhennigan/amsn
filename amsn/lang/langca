@@ -10,7 +10,7 @@ addprofiledesc Introdueix l'identificador amb el que vols crear el nou perfil.\n
 addstate Afegir un nou estat
 addto Afegeix a $1
 addtocontacts Afegir als contactes
-addtoo Afegeix aquesta persona a la meva llista de contactes
+addtoo Afegeix aquesta persona a la llista de contactes
 admincontacts Administrar la llista de contactes
 admingroups Administrar grups
 advanced Avançades
@@ -43,7 +43,7 @@ autoconnect2 Connectar-se automàticament al iniciar l'aMSN
 autoconnect Connectar-se al iniciar l'aMSN
 autohotmaillog Connectar-se a Hotmail automàticament
 autoidle Canviar a "Sense activitat" de manera automàtica
-autoip IP Automàtica
+autoip IP automàtica
 autonoact Mostra'm en l'estat "Sense activitat" quan no hi hagi activitat en
 avoidseen No deixis que aquesta persona vegi si estic connectat i que contacti amb mi
 away Absent
@@ -69,11 +69,13 @@ browserexample (\$url serà substituïda per l'adreça) Ex: mozilla \$url
 browser Navegador
 busy Ocupat
 cancel Cancel·la
-cannotdeleteprofile No es pot eliminar el perfil, sembla que està sent utilitzat per una altra sessió aMSN
+cannotdeleteprofile No es pot eliminar el perfil, sembla que s'està utilitzant en una altra sessió aMSN
 cantexec No puc executar l'aplicació $1. Comprova les preferències.
 casesensitive Diferenciar les majúscules i les minúscules als disparadors
 cfgalarmall Configura, afegeix o elimina l'altarma global
 cfgalarm Configurar l'alarma per aquest usuari
+ch_to_state Canvia al nou estat
+changecustomstate Canvia a
 changedisplaypic Canviar la Imatge Mostrada 
 changefont Canviar font
 changenick Canviar el meu sobrenom
@@ -83,7 +85,7 @@ chatmaxmin Quan un contacte obri una conversa, vull que sigui:
 chatreq Demanant conversa
 chatsmileys2 Mostrar emoticones a la finestra de la conversa
 chatsmileys Emoticones a la conversa
-chat Xat
+chat Conversa
 checkblocking Comprovar contínuament si algun usuari m'ha bloquejant
 checkfilman Els fitxers rebuts es desaran a $1. Comprova l'opció de l'administrador de fitxers a la finestra de preferències.
 checkingver Buscant versions noves
@@ -144,8 +146,10 @@ docking Acoplament
 dockingoff Desactivat
 dockkde Acoplament amb el KDE
 dontdownload No obtinguis d'Internet el mòdul TLS. L'instal·laré jo.
+dontshow No mostrar
 downloadingtls Obté el mòdul TLS de:\n$1
 editcurrentstate Edita l'estat actual
+editcustomstate Edita l'estat personalitzat
 edit Edita
 editnewstate Nou missatge automàtic per a un estat personalitzat
 editprofile Editar perfil
@@ -438,6 +442,7 @@ stylehist Aparença de l'historial de l'aMSN
 stylelog Escull l'estil en que desitjes veure l'historial
 syntaxerror Error de sintaxi
 tabbed Finestres sobreposades
+temp_state Sense desar (estat temporal que serà eliminat quan tanquis l'aMSN)
 textsize Mida del text
 timeremaining Temps restant
 timestamps Mostra l'hora a les converses

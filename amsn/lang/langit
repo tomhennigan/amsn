@@ -13,6 +13,8 @@ addtocontacts Aggiungere un contatto alla lista
 addtoo Aggiungi questa persona alla mia lista dei contatti
 admincontacts Amministrazione contatti
 admingroups Amministrazione gruppi
+advanced Avanzate
+advancedprefs Opzioni di configurazione avanzate
 adverts Avvertimenti
 alarmonconnect Attiva un allarme quando un utente diventa online
 alarmondisconnect Attiva un allarme quando un utente diventa sconnesso/invisibile
@@ -25,8 +27,10 @@ allowbadwords Disabilita la censura sui nicknames
 allowlist Permetti la lista:
 allowonlyinal Permetti soltanto agli utenti nella mia lista dei Permessi di contattarmi
 allowseen Permetti a questa persona di vedermi e di contattarmi quando sono connesso
+allprofilesinuse Tutti i profili esistenti sono attualmente in uso
 animatedemoticon Questa emoticon è animata
 animatedsmileys Abilita le animazioni delle faccine
+animatenotify Finestra di notifica animata
 appearance Apparenza
 appearoff Invisibile
 areacode Codice dell'area
@@ -34,6 +38,7 @@ aretyping $1 stanno scrivendo un messaggio
 autoaccepted Traferimento file accettato automaticamente
 autoacceptft Accetta automaticamente le richieste di trasferimento file
 autoaway Mostrami come "Assente" quando sono inattivo per
+autocheckver Controlla automaticamente all'avvio se ci sono nuove versioni
 autoconnect2 Accedi automaticamente quando aMSN viene lanciato
 autoconnect Connetti immediatamente all'esecuzione di asmn 
 autohotmaillog Auto-login Hotmail
@@ -67,8 +72,8 @@ cancel Cancella
 cannotdeleteprofile Non posso concellare il profilo perché sembra essere usato da una sessione di aMSN
 cantexec Non posso eseguire l'applicazione: $1. Controlla nelle preferenze
 casesensitive Usa comandi discriminanti tra maiuscole e minuscole
-cfgalarm Configura/Aggiungi/Rimuovi l'allarme
 cfgalarmall Configura/Aggiungi/Rimuovi l'allarme globale
+cfgalarm Configura/Aggiungi/Rimuovi l'allarme
 changedisplaypic Cambia l'immagine personale
 changefont Cambia font
 changenick Cambia nick
@@ -122,27 +127,34 @@ dcprofile Non creare un profilo
 default Configurazione di default
 defaultloginradio Entra con la configurazione di default
 delete Cancella
+delimiters Delimitatori del campo Ora:
 deliverfail Si è verificato un problema nell'inoltro del seguente messaggio
 delprofile2 Seleziona il profilo che ti piacerebbe rimuovere
 delprofile Cancella il profilo
 description Descrizione
 directconnection Ho una connessione diretta ad internet (usa la porta 1863)
+disabled Disattivato
+disableprofiles Disattiva i profili (utile per Net-cafè o ambienti condivisi)
 disablessl Disattiva SSL
 disconnect $1 si è sconnesso.
+displaychat Mostra le opzioni del testo
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Dock GNOME
 docking Abilita dock
 dockingoff Disabilita dock
 dockkde Dock KDE
 dontdownload Non scaricare TLS, verrà installato automaticamente
+dontshow Non mostrare
 downloadingtls Download del modulo TLS in corso da:\n $1
 editcurrentstate Modifica il corrente
 edit Modifica
 editnewstate Nuove impostazioni personali di auto-risposta
 editprofile Modifica il Profilo
 editstate Modifica delle impostazioni di auto-risposta esistenti
+editvalue Modifica valore
 emotisounds Emetti un suono per alcune Emoticons
 enablebanner Mostra il banner di aMSN (Sarà necessario riavviare aMSN)
+enabled Attivato
 enableproxy Proxy abilitato
 enableremote Abilita il controllo a distanza
 enablesound Emetti un suono
@@ -220,6 +232,7 @@ lconvstarted La conversazione è cominciata su $1
 leaveblankforhotmail Lascia in bianco per l'uso di hotmail
 leaves $1 abbandona la conversazione
 lenteredconf $1 è entrato in conversazione su $2
+lineflushlog Svuota il buffer del file di log ad ogni nuova riga
 linprivate IN PRIVATO
 listeningon In attesa sulla porta $1
 listsmileys2 Mostra Emoticons e faccine nella lista contatti principale di aMSN
@@ -280,6 +293,7 @@ nopic Nessuna immagine
 noprofileexists Non ci sono profili correnti, \n devi crearne one se vuoi usare i login con il profilo. \nUsa il pulsante Aggiungi nuovo profilo su questa finestra per aggiungere un nuovo profilo.
 normal Normale
 nosystemtray System tray non disponibile
+notificationserver Server di notifica iniziale di MSN (Server di MSN Messenger)
 notify1_5 Mostra una finestra di notifica quando i contatti vanno fuori linea
 notify1_75 Mostra una finestra di notifica quando i contatti cambiano stato
 notify1 Mostra una finestra di notifica quando i contatti vengono online
@@ -300,6 +314,7 @@ options Opzioni
 ordercontactsby Ordina i contatti per
 ordergroupsby Ordina i gruppi per
 other Altri
+others Altri
 pager Impaginatore
 pass Password
 paste Incolla
@@ -357,6 +372,7 @@ raised Grande/Deiconificato
 readonlymsgbox Il trasferimento del file e' stato annullato perche' la directory di destinazione ha permessi di sola lettura. \nPer favore cambia i permessi.
 readonlywarn ATTENZIONE: Il file potrebbe NON venire salvato correttamente poiche' la directory "File Ricevuti" sembra essere protetta da scrittura.\n Per favore assicurati che i permessi della directory ($1) siano impostati correttamente prima di trasferire il file.
 receivedbytes Ricevuti $1 byte su $2
+receiveddir Cartella dei files ricevuti
 receivefile Sto ricevendo il file
 reconnecting Riconnessione al server
 reconnect Sto aspettando che $1 si riconnetta
@@ -379,13 +395,16 @@ send Invia
 sendmail Manda e-mail
 sendmsg Manda un messaggio
 sentbytes Mandati $1 byte su $2
+serverbusy Il server è occupato
 servergoingdown Disconnesso: il server sta andando giù
 server Server
+serverunavailable Il server non è disponibile
 session Sessione
 showblockedlist Mostra la lista delle persone che ti bloccano
 showdisplaypic2 Mostra l'mmagine personale in ogni nuova finestra di chat
 showdisplaypic Mostra l'immagine personale
 showmypic Immagine personale
+shownotify Mostra una finestra di notifica quando accade qualcosa
 showuserpic Immagine di $1
 skinselector Seleziona Skin
 skin Skin
@@ -405,6 +424,7 @@ sourcecode Codice sorgente (necessita compilazione e installazione)
 sslwarning ATTENZIONE!! Disabilitando la crittografia SSL, la password verrà inviata in chiaro sulla rete. Questa operazione deve essere compiuta solo se si ha a che fare con proxies particolarmente problematici.
 startoffline2 Entra silenziosamente come "Fuori linea"
 startoffline Inizio Offline
+startontray Avvia AMSN direttamente nella systray
 stateautomsg Automessaggio da inviare
 statechange stato cambiato in:
 stateedittext Per favore modifica i campi che vorresti \n che fossero modificati e premi Salva
@@ -421,7 +441,9 @@ syntaxerror Errore di sintassi
 tabbed Finestre con Barra
 textsize Dimensione del testo
 timeremaining Tempo rimanente
+timestamps Mostra il campo Ora nelle finestre di chat
 title Al's Messenger
+tkerror TK ha incontrato un possibile bug. Segnalatelo, per favore, inviando il file $1 a amsn-bugs@lists.sf.net
 tlsdowncompleted Il file $1 è stato scaricato nella cartella $2. Estrailo, compilalo (se hai scaricato i sorgenti) e installalo in $3.
 tlsinstallexp AMSN utilizza ora MSNP9. Questo richiede l'uso di una\nconnessione sicura con SSL. Per sfruttare SSL, AMNS necessita la presenza del modulo TLS,\nil quale non è al momento installato. Questo wizard ti guiderà nel recupero\n e nell'installazione di TLS. Per favore seleziona il tipo di sistema in uso per\n passare al download dei files richiesti.
 tlsinstall Wizard per l'installazione del modulo TLS
@@ -432,6 +454,9 @@ tooltips Abilita i tooltips
 transnotexists Il file richiesto non è ancora stato tradotto nel linguaggio corrente.
 traynotcompiled Il plugin per la tray icon non è compilato. Controllare plungins/traydock
 triggers Scorciatoie di testo
+truncatenames1 Tronca i nick troppo lunghi nei titoli delle finestre e nella lista contatti
+truncatenames2 Tronca i nick troppo lunghi nelle conversazioni
+truncatenicks Tronca i nick che eccedono la larghezza della finestra
 twonewmail $1 nuovi messaggi di posta
 unblock Sblocca
 uoffline Offline
@@ -449,7 +474,9 @@ willjoin Sto aspettando che $1 si unisca alla conversazione
 work Lavoro
 wrongfields I campi "$1", "$2" e/o "$3" non erano validi
 wrongprofileversion Risolvere il problema, per favore rimuovere la directory $1, o aggiornare aMSN
+xmmscurrent Mostra il brano in esecuzione
 xmmserr Non ci sono brani in ascolto o non possiedi xmms-infopipe.
+xmmssend Invia il brano in esecuzione
 xoffset spostamento sull'asse delle X
 yes Sì
 yoffset Spostamento sull'asse delle Y
