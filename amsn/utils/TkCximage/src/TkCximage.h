@@ -19,6 +19,8 @@
 
 #include <tkPlatDecls.h>
 
+#include <time.h>
+
 // Defined as described in tcl.tk compiling extension help
 #ifndef STATIC_BUILD
 
@@ -47,41 +49,107 @@
 extern "C"
 #endif
 
-#define AvailableFromats 6
-const char *KnownFormats[] = {"cximage", "cxgif", "cxpng", "cxjpg", "cxtga", "cxbmp"};
 
 
-static int ImageRead(Tcl_Interp *interp, CxImage image, Tk_PhotoHandle imageHandle, int destX, int destY,
+#define ENABLE_LOGS 1
+
+
+
+
+
+EXTERN char currenttime[30];
+EXTERN FILE * logfile;
+
+inline void timestamp() { 
+  time_t t;
+  time(&t);
+  strftime(currenttime, 29, "[%D %T]", localtime(&t));
+};
+
+
+#if ENABLE_LOGS == 1
+#ifndef WINVER
+#define LOGS_ENABLED
+#endif
+#endif
+
+#define LOGPATH "/tmp/TkCximage.log"
+
+inline void LOG (const char * s) {
+#ifdef LOGS_ENABLED
+  if (logfile) {
+    timestamp();
+    fprintf(logfile,"\n%s  %s", currenttime, s);
+    fflush(logfile);
+  }
+#endif
+}
+inline void LOG (const int i) {
+#ifdef LOGS_ENABLED
+  if (logfile) {
+    timestamp();
+    fprintf(logfile,"\n%s  %d", currenttime, i);
+    fflush(logfile);
+  }
+#endif
+}
+
+inline void APPENDLOG (const char * s) {
+#ifdef LOGS_ENABLED
+  if (logfile) {
+    fprintf(logfile," %s", s);
+    fflush(logfile);
+  }
+#endif
+}
+inline void APPENDLOG (const int i) {
+#ifdef LOGS_ENABLED
+  if (logfile) {
+    fprintf(logfile," %d", i);
+    fflush(logfile);
+  }
+#endif
+}
+
+inline void INITLOGS () {
+#ifdef LOGS_ENABLED
+logfile = fopen(LOGPATH, "a");
+#endif
+}
+
+
+
+EXTERN static int ImageRead(Tcl_Interp *interp, CxImage image, Tk_PhotoHandle imageHandle, int destX, int destY,
 					 int width, int height, int srcX, int srcY);
 
-static int ChanMatch (Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format,int *widthPtr,
+EXTERN static int ChanMatch (Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format,int *widthPtr,
 					  int *heightPtr,Tcl_Interp *interp);
-static int ObjMatch (Tcl_Obj *data, Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl_Interp *interp);
-static int ChanRead (Tcl_Interp *interp, Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
+EXTERN static int ObjMatch (Tcl_Obj *data, Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl_Interp *interp);
+EXTERN static int ChanRead (Tcl_Interp *interp, Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
 					 int destX, int destY, int width, int height, int srcX, int srcY);
-static int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
+EXTERN static int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
 					int destX, int destY, int width, int height, int srcX, int srcY);
-static int ChanWrite (Tcl_Interp *interp, CONST char *fileName, Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr);
-static int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr);
+EXTERN static int ChanWrite (Tcl_Interp *interp, CONST char *fileName, Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr);
+EXTERN static int StringWrite (Tcl_Interp *interp, Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr);
 
-int GetFileTypeFromFileName(char * Filename);
-int GetFileTypeFromFormat(char * Format);
-int RGB2BGR(Tk_PhotoImageBlock *data, BYTE * pixelPtr);
+EXTERN int GetFileTypeFromFileName(char * Filename);
+EXTERN int GetFileTypeFromFormat(char * Format);
+EXTERN int RGB2BGR(Tk_PhotoImageBlock *data, BYTE * pixelPtr);
 
 // External functions
 EXTERN int Tkcximage_Init _ANSI_ARGS_((Tcl_Interp *interp));
 EXTERN int Tkcximage_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
 
 
-static int Tk_Convert _ANSI_ARGS_((ClientData clientData,
+EXTERN static int Tk_Convert _ANSI_ARGS_((ClientData clientData,
 								Tcl_Interp *interp,
 								int objc,
 								Tcl_Obj *CONST objv[]));
-static int Tk_Resize _ANSI_ARGS_((ClientData clientData,
+EXTERN static int Tk_Resize _ANSI_ARGS_((ClientData clientData,
 								Tcl_Interp *interp,
 								int objc,
 								Tcl_Obj *CONST objv[]));
-static int Tk_Thumbnail _ANSI_ARGS_((ClientData clientData,
+EXTERN static int Tk_Thumbnail _ANSI_ARGS_((ClientData clientData,
 								Tcl_Interp *interp,
 								int objc,
 								Tcl_Obj *CONST objv[]));

@@ -2728,7 +2728,7 @@ proc cmsn_sb_msg {sb recv payload} {
 				set context [::MSN::GetHeaderValue $body Context-Data]
 			#Remove the # on the next line if you want to test audio/video feature (with Linphone, etc...)
 			#Ask Burger for more details..	
-			#	::MSNAV::invitationReceived $cookie $context $chatid $fromlogin
+				::MSNAV::invitationReceived $cookie $context $chatid $fromlogin
 			}
 		
 		} elseif { $invcommand == "ACCEPT" } {
@@ -5741,6 +5741,9 @@ namespace eval ::MSNAV {
 		# We accepted let's init linphone
 		set type [lindex [CookieList get $cookie] 2]
 		if { [prepareLinphone $chatid $type] == -1 } {
+			# Remove the catch here.. I added it because I'm too lazy to 
+			# test if I made an error in the syntax or anything..
+			catch {cancelSession $cookie $chatid USER_CANCELED}
 			return
 		}
 
@@ -5970,22 +5973,15 @@ namespace eval ::MSNAV {
 	}
 	
 	proc prepareLinphone { chatid type } {
-		
+		if { [LoadExtension] == 0 } {
+			DisplayError $chatid
+			return -1 
+		}
 		catch { lp_init } res
 		# Check if init works good
 		if { $res == -1 } {
-			#display error
-			set win_name [::ChatWindow::For $chatid]
-			if { [::ChatWindow::For $chatid] == 0} {
-				return 0
-			}   
-		
-			# Show on screen
-			set txt [trans avinitfailed]
-			::amsn::WinWrite $chatid "\n----------\n" green
-			::amsn::WinWrite $chatid " $txt\n" green
-			::amsn::WinWrite $chatid "----------" green
-			return
+			DisplayError $chatid
+			return -1
 		}
 			
 		if { $type == "A" } {
@@ -6004,6 +6000,35 @@ namespace eval ::MSNAV {
 		lp_set_nat_address [::abook::getDemographicField clientip]
 		#lp_set_nat_address [::abook::getDemographicField localip]
 	}
-	
+
+	proc LoadExtension { } {
+		if { [ExtensionLoaded] == 0 } {
+			catch { load plugins/linphone/linphone.so} 
+		} 
+		return [ExtensionLoaded]		
+	}
+
+	proc ExtensionLoaded { } {
+		foreach lib [info loaded] {
+			if { [lindex $lib 1] == "Linphone" } {
+				return 1
+			} 
+		}
+		return 0
+	}
+
+	proc DisplayError { chatid } {
+		#display error
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
+			return 0
+		}   
+		
+		# Show on screen
+		set txt [trans avinitfailed]
+		::amsn::WinWrite $chatid "\n----------\n" green
+		::amsn::WinWrite $chatid " $txt\n" green
+		::amsn::WinWrite $chatid "----------" green
+	}
 
 }

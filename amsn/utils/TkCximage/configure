@@ -272,7 +272,7 @@ PACKAGE_STRING=
 PACKAGE_BUGREPORT=
 
 ac_unique_file="src/TkCximage.h"
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS ac_prefix_program NAME TOP_DIR BUILD_DIR TCL_LIB_DIR TCL_INC_SPEC TCL_LIBRARY TK_VERSION TK_LIB TK_LIBS TK_LIB_DIR TK_INC_SPEC TK_LIBRARY X11_LIB_DIR SHARED_LIBS CC CFLAGS LD_FLAGS SHLIB_CFLAGS SHLIB_CXXFLAGS SHLIB_LD SHLIB_LD_LIBS SHLIB_SUFFIX COMPAT_OBJS TCL_VERSION TCL_DEFS TCL_BIN_DIR TCL_LIB_FILE TCL_LIBS TCL_LIB_SPEC TCL_STUB_LIB_SPEC TCL_SHARED_LIBS TCL_SHARED_LIB_FILE TCL_UNSHARED_LIB_FILE TK_SHARED_LIB_FILE TK_UNSHARED_LIB_FILE TK_BIN_DIR TK_LIB_FILE TK_LIB_SPEC TK_STUB_LIB_SPEC TK_XLIBSW TK_XINCLUDES TKCXIMAGE_FILE TKCXIMAGE_VERSION AR AR_OPTIONS RANLIB LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS ac_prefix_program NAME TCLSH TOP_DIR BUILD_DIR TCL_LIB_DIR TCL_INC_SPEC TK_VERSION TK_LIB TK_LIBS TK_LIB_DIR TK_INC_SPEC X11_LIB_DIR SHARED_LIBS CC CFLAGS LD_FLAGS SHLIB_CFLAGS SHLIB_CXXFLAGS SHLIB_LD SHLIB_LD_LIBS SHLIB_SUFFIX COMPAT_OBJS TCL_VERSION TCL_DEFS TCL_BIN_DIR TCL_LIB_FILE TCL_LIBS TCL_LIB_SPEC TCL_STUB_LIB_SPEC TCL_SHARED_LIBS TCL_SHARED_LIB_FILE TCL_UNSHARED_LIB_FILE TK_SHARED_LIB_FILE TK_UNSHARED_LIB_FILE TK_BIN_DIR TK_LIB_FILE TK_LIB_SPEC TK_STUB_LIB_SPEC TK_XLIBSW TK_XINCLUDES TKCXIMAGE_FILE TKCXIMAGE_VERSION RANLIB ac_ct_RANLIB AR AR_OPTIONS LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -783,6 +783,7 @@ if test -n "$ac_init_help"; then
 Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --disable-version-check Disable checking that linked tcl/tk version is the same version that bin program tclsh
   --disable-stubs         disable stub support for tkcximage
 
 Optional Packages:
@@ -1305,11 +1306,21 @@ fi
 
 
 # -------------------------------------------------------------------
+TCLSH=`which tclsh`
+VERSION=`echo "puts $::tcl_version ; exit" | ${TCLSH}`
+# Check whether --enable-version-check or --disable-version-check was given.
+if test "${enable_version_check+set}" = set; then
+  enableval="$enable_version_check"
+  version_ok=$enableval
+else
+  version_ok=yes
+fi;
 
 BUILD_DIR=`pwd`
 cd ${srcdir}
 TOP_DIR=`pwd`
 cd ${BUILD_DIR}
+
 
 
 
@@ -1351,10 +1362,17 @@ for i in $dirs ; do
     if test -d "$i" -a -f "$i/tclConfig.sh"; then
 	file=$i/tclConfig.sh
 	. $file
+
+	if test "x${version_ok}" != "xyes"; then
+	   VERSION=${TCL_VERSION}
+	fi
+
         if  test "x${TCL_INC_DIR}" != "x" -o "x${TCL_INC_SPEC}" != "x" \
             -o "x${TCL_INCLUDE_DIR}" != "x" -o "x${TCL_INCLUDE_SPEC}" != "x"; then
-	    TCL_LIB_DIR=`cd $i; pwd`
-	    break;
+	    if test "x${TCL_VERSION}" == "x${VERSION}" ; then
+	       TCL_LIB_DIR=`cd $i; pwd`
+	       break;
+	    fi
 	elif test -f ${TCL_PREFIX}/include/tcl.h; then
 	    TCL_LIB_DIR=`cd $i; pwd`
 	    break;
@@ -1430,27 +1448,12 @@ esac
 TCL_INC_SPEC=$TCL_INC_DIR
 
 
-if test -d ${TCL_TOP_DIR}/lib/tcl${TCL_VERSION} -a -f ${TCL_TOP_DIR}/lib/tcl${TCL_VERSION}/init.tcl; then
-    TCL_LIBRARY=${TCL_TOP_DIR}/lib/tcl${TCL_VERSION}
-elif test -d ${TCL_TOP_DIR}/lib/tcl${TCL_VERSION} -a -f ${TCL_TOP_DIR}/lib/tcl${TCL_VERSION}/init.tcl; then
-    TCL_LIBRARY=${TCL_TOP_DIR}/lib/tcl${TCL_VERSION}
-elif test -d ${TCL_TOP_DIR}/library -a -f ${TCL_TOP_DIR}/library/init.tcl; then
-    TCL_LIBRARY=${TCL_TOP_DIR}/library
-elif test -d ${TCL_PREFIX}/lib/tcl${TCL_VERSION} -a -f ${TCL_PREFIX}/lib/tcl${TCL_VERSION}/init.tcl; then
-    TCL_LIBRARY=${TCL_PREFIX}/lib/tcl${TCL_VERSION}
-elif test -d ${TCL_PREFIX}/lib/tcl${TCL_VERSION} -a -f ${TCL_PREFIX}/lib/tcl${TCL_VERSION}/init.tcl; then
-    TCL_LIBRARY=${TCL_PREFIX}/lib/tcl${TCL_VERSION}
-else
-    TCL_LIBRARY=$prefix/lib/tcl${TCL_VERSION}
-fi
-
 
 framework=`echo "${TCL_BASE}" | grep -- "-framework"`
 if test "x${framework}" == "x"; then
    TCL_LIB_SPEC="-L${TCL_LIB_DIR} -l${TCL_BASE}"
 fi
 TCL_STUB_LIB_SPEC="-L${TCL_LIB_DIR} -l${TCL_STUB_BASE}"
-VERSION=""
 eval "TCL_UNSHARED_LIB_FILE=lib${TCL_BASE}${TCL_UNSHARED_LIB_SUFFIX}"
 eval "TCL_SHARED_LIB_FILE=lib${TCL_BASE}${TCL_SHARED_LIB_SUFFIX}"
 
@@ -1494,9 +1497,14 @@ else
 	if test -d "$i" -a -f "$i/tkConfig.sh"; then
 	   file=$i/tkConfig.sh
 	   . $file
+
+	   if test "x${version_ok}" != "xyes"; then
+	      VERSION=${TK_VERSION}
+	   fi
+
 	   if  test "x${TK_INC_DIR}" != "x" -o "x${TK_INC_SPEC}" != "x" \
             -o "x${TK_INCLUDE_DIR}" != "x" -o "x${TK_INCLUDE_SPEC}" != "x"; then
-	        if test "x${TK_VERSION}" == "x${TCL_VERSION}"; then
+	        if test "x${TK_VERSION}" == "x${VERSION}"; then
 		   TK_LIB_DIR=`cd $i; pwd`
 		   break;
 		fi
@@ -1566,20 +1574,6 @@ esac
 TK_INC_SPEC=$TK_INC_DIR
 
 
-if test -d ${TK_TOP_DIR}/lib/tk${TK_VERSION} -a -f ${TK_TOP_DIR}/lib/tk${TK_VERSION}/tk.tcl; then
-    TK_LIBRARY=${TK_TOP_DIR}/lib/tk${TK_VERSION}
-elif test -d ${TK_TOP_DIR}/lib/tk${TK_VERSION} -a -f ${TK_TOP_DIR}/lib/tk${TK_VERSION}/tk.tcl; then
-    TK_LIBRARY=${TK_TOP_DIR}/lib/tk${TK_VERSION}
-elif test -d ${TK_TOP_DIR}/library -a -f ${TK_TOP_DIR}/library/tk.tcl; then
-    TK_LIBRARY=${TK_TOP_DIR}/library
-elif test -d ${TK_PREFIX}/lib/tk${TK_VERSION} -a -f ${TK_PREFIX}/lib/tk${TK_VERSION}/tk.tcl; then
-    TK_LIBRARY=${TK_PREFIX}/lib/tk${TK_VERSION}
-elif test -d ${TK_PREFIX}/lib/tk${TK_VERSION} -a -f ${TK_PREFIX}/lib/tk${TK_VERSION}/tk.tcl; then
-    TK_LIBRARY=${TK_PREFIX}/lib/tk${TK_VERSION}
-else
-    TK_LIBRARY=$prefix/lib/tcl${TK_VERSION}
-fi
-
 
 TK_BASE=`echo ${TK_LIB_SPEC} |sed -e "s|^.*-l||"`
 TK_STUB_BASE=`echo ${TK_STUB_LIB_SPEC} |sed -e "s|^.*-l||"`
@@ -1589,7 +1583,6 @@ if test "x${framework}" == "x"; then
    TK_LIB_SPEC="-L${TK_LIB_DIR} -l${TK_BASE}"
 fi
 TK_STUB_LIB_SPEC="-L${TK_LIB_DIR} -l${TK_STUB_BASE}"
-VERSION=""
 eval "TK_UNSHARED_LIB_FILE=lib${TK_BASE}${TCL_UNSHARED_LIB_SUFFIX}"
 eval "TK_SHARED_LIB_FILE=lib${TK_BASE}${TCL_SHARED_LIB_SUFFIX}"
 
@@ -1634,7 +1627,7 @@ case "$SHLIB_LD" in
     ;;
 esac
 
-VERSION=""
+
 
 
 # Note:  in the following variable, it's important to use the absolute
@@ -1701,6 +1694,8 @@ for i in $dirs ; do
     fi
 done
 
+TKCXIMAGE_FILE=${NAME}${TCL_SHLIB_SUFFIX}
+
 
 
 CFLAGS=${TCL_CFLAGS}
@@ -1734,12 +1729,90 @@ SHLIB_LD_LIBS=$TCL_SHLIB_LD_LIBS
 
 
 
-TKCXIMAGE_FILE=${NAME}${TCL_SHLIB_SUFFIX}
 
 
 AR=ar
 AR_OPTIONS=scru
-RANLIB=ranlib
+if test -n "$ac_tool_prefix"; then
+  # Extract the first word of "${ac_tool_prefix}ranlib", so it can be a program name with args.
+set dummy ${ac_tool_prefix}ranlib; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_prog_RANLIB+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$RANLIB"; then
+  ac_cv_prog_RANLIB="$RANLIB" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_RANLIB="${ac_tool_prefix}ranlib"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+
+fi
+fi
+RANLIB=$ac_cv_prog_RANLIB
+if test -n "$RANLIB"; then
+  echo "$as_me:$LINENO: result: $RANLIB" >&5
+echo "${ECHO_T}$RANLIB" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+fi
+if test -z "$ac_cv_prog_RANLIB"; then
+  ac_ct_RANLIB=$RANLIB
+  # Extract the first word of "ranlib", so it can be a program name with args.
+set dummy ranlib; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_prog_ac_ct_RANLIB+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$ac_ct_RANLIB"; then
+  ac_cv_prog_ac_ct_RANLIB="$ac_ct_RANLIB" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_ac_ct_RANLIB="ranlib"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+
+  test -z "$ac_cv_prog_ac_ct_RANLIB" && ac_cv_prog_ac_ct_RANLIB=":"
+fi
+fi
+ac_ct_RANLIB=$ac_cv_prog_ac_ct_RANLIB
+if test -n "$ac_ct_RANLIB"; then
+  echo "$as_me:$LINENO: result: $ac_ct_RANLIB" >&5
+echo "${ECHO_T}$ac_ct_RANLIB" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+  RANLIB=$ac_ct_RANLIB
+else
+  RANLIB="$ac_cv_prog_RANLIB"
+fi
+
 
 
 
@@ -2391,17 +2464,16 @@ s,@ECHO_T@,$ECHO_T,;t t
 s,@LIBS@,$LIBS,;t t
 s,@ac_prefix_program@,$ac_prefix_program,;t t
 s,@NAME@,$NAME,;t t
+s,@TCLSH@,$TCLSH,;t t
 s,@TOP_DIR@,$TOP_DIR,;t t
 s,@BUILD_DIR@,$BUILD_DIR,;t t
 s,@TCL_LIB_DIR@,$TCL_LIB_DIR,;t t
 s,@TCL_INC_SPEC@,$TCL_INC_SPEC,;t t
-s,@TCL_LIBRARY@,$TCL_LIBRARY,;t t
 s,@TK_VERSION@,$TK_VERSION,;t t
 s,@TK_LIB@,$TK_LIB,;t t
 s,@TK_LIBS@,$TK_LIBS,;t t
 s,@TK_LIB_DIR@,$TK_LIB_DIR,;t t
 s,@TK_INC_SPEC@,$TK_INC_SPEC,;t t
-s,@TK_LIBRARY@,$TK_LIBRARY,;t t
 s,@X11_LIB_DIR@,$X11_LIB_DIR,;t t
 s,@SHARED_LIBS@,$SHARED_LIBS,;t t
 s,@CC@,$CC,;t t
@@ -2433,9 +2505,10 @@ s,@TK_XLIBSW@,$TK_XLIBSW,;t t
 s,@TK_XINCLUDES@,$TK_XINCLUDES,;t t
 s,@TKCXIMAGE_FILE@,$TKCXIMAGE_FILE,;t t
 s,@TKCXIMAGE_VERSION@,$TKCXIMAGE_VERSION,;t t
+s,@RANLIB@,$RANLIB,;t t
+s,@ac_ct_RANLIB@,$ac_ct_RANLIB,;t t
 s,@AR@,$AR,;t t
 s,@AR_OPTIONS@,$AR_OPTIONS,;t t
-s,@RANLIB@,$RANLIB,;t t
 s,@LIBOBJS@,$LIBOBJS,;t t
 s,@LTLIBOBJS@,$LTLIBOBJS,;t t
 CEOF

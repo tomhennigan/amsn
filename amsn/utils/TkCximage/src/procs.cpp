@@ -9,6 +9,9 @@
 
 // Include the header file
 
+#include "TkCximage.h"
+
+
 
 /*
   Function : Tk_Convert
@@ -209,7 +212,6 @@ static int Tk_Resize (ClientData clientData,
 #endif
 #endif
 #endif
-
 
   image.FreeMemory(buffer);
 

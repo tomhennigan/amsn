@@ -6,11 +6,14 @@ TCL_STUB_LIB_SPEC = @TCL_STUB_LIB_SPEC@
 TK_INC_SPEC 	= @TK_INC_SPEC@
 TK_STUB_LIB_SPEC = @TK_STUB_LIB_SPEC@
 
-NAME		= @NAME@
+DEFINES		= @TCL_DEFS@
+SHLIB_LD     	= @SHLIB_LD@
 
-SOURCES		= TkCximage.cpp procs.cpp PhotoFormat.cpp
-OBJECTS 	= ${NAME}.o
+NAME		= @NAME@
 OUTPUT		= @TKCXIMAGE_FILE@
+
+SOURCES		= TkCximage.cpp procs.cpp PhotoFormat.cpp TkCximage.h
+OBJECTS 	= TkCximage.o procs.o PhotoFormat.o
 
 
 SUBDIRS		= zlib png jpeg CxImage
@@ -19,13 +22,10 @@ CC		= @CC@
 
 INCLUDES	= -I./CxImage ${TCL_INC_SPEC} ${TK_INC_SPEC} 
 
-DEFINES		= @TCL_DEFS@
-
 CFLAGS    	= -O2 @CFLAGS@ 
 
 CC_SWITCHS 	= ${CFLAGS} ${DEFINES} ${INCLUDES} 
 
-SHLIB_LD     	= @SHLIB_LD@
 
 LIBSN     	=  -L./zlib/ -L./png/ -L./jpeg/ -L./CxImage/ -lCxImage -ljpeg -lpng -lzlib -lz -lstdc++ ${TCL_STUB_LIB_SPEC} ${TK_STUB_LIB_SPEC} 
 
@@ -37,7 +37,7 @@ all : CxImage/libCxImage.a zlib/libzlib.a png/libpng.a jpeg/libjpeg.a ${OUTPUT}
 	$(CC) -c $(CC_SWITCHS) $<
 
 ${OUTPUT}: ${OBJECTS}
-	${SHLIB_LD} $< $(LIBSN) -o $@
+	${SHLIB_LD} $? $(LIBSN) -o $@
 
 ${OBJECTS} : ${SOURCES} 
 
@@ -58,4 +58,3 @@ clean :
 
 distclean :
 	rm -rf *~ ${OBJECTS} ${OUTPUT} Makefile config.* autom4te.cache 2>/dev/null | true
-	for i in ${SUBDIRS}; do cd $$i && make distclean && cd ../; done

@@ -6,7 +6,7 @@
   Author : Youness El Alaoui (KaKaRoTo - kakaroto@users.sourceforge.net)
 */
 
-
+#include "TkCximage.h"
 
 
 static int ChanMatch (Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format,int *widthPtr,
@@ -14,10 +14,20 @@ static int ChanMatch (Tcl_Channel chan, CONST char *fileName, Tcl_Obj *format,in
 {
   CxImage image;
 
+  LOG("Chanel matching"); //
+  LOG("Filename is"); //
+  APPENDLOG(fileName); //
 
   if (image.Load(fileName, CXIMAGE_FORMAT_UNKNOWN)) {
     *widthPtr = image.GetWidth();
     *heightPtr = image.GetHeight();
+
+    LOG("Supported Format"); //
+    LOG("Width :"); //
+    APPENDLOG(*widthPtr); //
+    LOG("Heigth :"); //
+    APPENDLOG(*heightPtr); //
+
     return true;
   } 
 
@@ -32,31 +42,24 @@ static int ObjMatch (Tcl_Obj *data, Tcl_Obj *format, int *widthPtr, int *heightP
 
   CxImage image;
 
+  LOG("Data matching"); //
+
   buffer = Tcl_GetByteArrayFromObj(data, &length);
 
-  if (image.Decode(buffer, length, CXIMAGE_FORMAT_GIF)) {
+  if (image.Decode(buffer, length, CXIMAGE_FORMAT_GIF) || 
+      image.Decode(buffer, length, CXIMAGE_FORMAT_PNG) ||
+      image.Decode(buffer, length, CXIMAGE_FORMAT_JPG) ||
+      image.Decode(buffer, length, CXIMAGE_FORMAT_TGA) ||
+      image.Decode(buffer, length, CXIMAGE_FORMAT_BMP)) {
     *widthPtr = image.GetWidth();
     *heightPtr = image.GetHeight();
-    return true;
-  } 	
-  if (image.Decode(buffer, length, CXIMAGE_FORMAT_PNG)) {
-    *widthPtr = image.GetWidth();
-    *heightPtr = image.GetHeight();
-    return true;
-  } 
-  if (image.Decode(buffer, length, CXIMAGE_FORMAT_JPG)) {
-    *widthPtr = image.GetWidth();
-    *heightPtr = image.GetHeight();
-    return true;
-  } 
-  if (image.Decode(buffer, length, CXIMAGE_FORMAT_TGA)) {
-    *widthPtr = image.GetWidth();
-    *heightPtr = image.GetHeight();
-    return true;
-  } 
-  if (image.Decode(buffer, length, CXIMAGE_FORMAT_BMP)) {
-    *widthPtr = image.GetWidth();
-    *heightPtr = image.GetHeight();
+
+    LOG("Supported Format"); //
+    LOG("Width :"); //
+    APPENDLOG(*widthPtr); //
+    LOG("Heigth :"); //
+    APPENDLOG(*heightPtr); //
+
     return true;
   } 
 
@@ -68,6 +71,8 @@ static int ChanRead (Tcl_Interp *interp, Tcl_Channel chan, CONST char *fileName,
 {
   CxImage image;
 
+  LOG("Reading from file :"); //
+  APPENDLOG(fileName); //
 
   if (!image.Load(fileName, CXIMAGE_FORMAT_UNKNOWN))
     return TCL_ERROR;
@@ -84,6 +89,8 @@ static int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_Photo
 
   CxImage image;
 
+  LOG("Reading data :"); //
+
   buffer = Tcl_GetByteArrayFromObj(data, &length);
 
   if (! image.Decode(buffer, length, CXIMAGE_FORMAT_GIF) && 
@@ -99,34 +106,38 @@ static int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_Photo
 static int ImageRead(Tcl_Interp *interp, CxImage image, Tk_PhotoHandle imageHandle, int destX, int destY,
 		     int width, int height, int srcX, int srcY) 
 {
-
-  printf("reading\n");
   BYTE * buffer = NULL;
-  BYTE * pixelPtr = NULL;
   long size = 0;
 
+
+  LOG("Cropping"); //
 
   if(!image.Crop(srcX, srcY, srcX + width, srcY + height)) {
     Tcl_AppendResult(interp, image.GetLastError(), NULL);
     return TCL_ERROR;
   }
+
+  LOG("Flipping image"); //
+
   if(!image.Flip()) {
     Tcl_AppendResult(interp, image.GetLastError(), NULL);
     return TCL_ERROR;
   }
+
+  LOG("Encoding to RGBA"); //
+
   if(!image.Encode2RGBA(buffer, size)) {
     Tcl_AppendResult(interp, image.GetLastError(), NULL);
     return TCL_ERROR;
   }
 
-  pixelPtr = (BYTE *) malloc(size);
-  memcpy(pixelPtr, buffer, size);
+  LOG("Setting PhotoImageBlock"); //
 
   Tk_PhotoImageBlock block = {
-    pixelPtr,		// pixel ptr
+    buffer,		// pixel ptr
     width,
     height,
-    width*4,	// pitch : number of bytes separating 2 adjacent pixels vertically
+    width*4,	        // pitch : number of bytes separating 2 adjacent pixels vertically
     4,			// pixel size : size in bytes of one pixel .. 4 = RGBA
   };
 
@@ -134,9 +145,12 @@ static int ImageRead(Tcl_Interp *interp, CxImage image, Tk_PhotoHandle imageHand
   block.offset[1] = 1;
   block.offset[2] = 2;
 
-  if (image.AlphaIsValid()) 
+  if (image.AlphaIsValid()) {
+    LOG("Alpha is valid, setting offset[3]"); //
     block.offset[3] = 3;
+  }
 
+  LOG("Putting Block into image"); //
 #if TK_MINOR_VERSION == 3
   Tk_PhotoPutBlock(imageHandle, &block, destX, destY, width, height);
 #else
@@ -149,6 +163,7 @@ static int ImageRead(Tcl_Interp *interp, CxImage image, Tk_PhotoHandle imageHand
 #endif
 #endif
 
+  LOG("Freeing memory used by buffer"); //
   image.FreeMemory(buffer);
 
   return TCL_OK;
@@ -174,8 +189,6 @@ static int ChanWrite (Tcl_Interp *interp, CONST char *fileName, Tcl_Obj *format,
   if (Type == CXIMAGE_FORMAT_UNKNOWN) {
     Type = CXIMAGE_FORMAT_GIF;
   }
-
-  //printf("0 : %d\n1 : %d\n2 : %d\n3 : %d\n", blockPtr->offset[0], blockPtr->offset[1], blockPtr->offset[2], blockPtr->offset[3]);
 
   pixelPtr = (BYTE *) malloc(blockPtr->width * blockPtr->height * blockPtr->pixelSize);
 
