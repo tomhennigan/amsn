@@ -571,7 +571,6 @@ proc smile_subst {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
 		    }
 
 		} else {
-		status_log "YOYOYOYOYYOYOY $endpos /n"
 		    $tw image create $endpos -image $file -pady 0 -padx 0
 		    $tw tag remove smiley $endpos
 		}
