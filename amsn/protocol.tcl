@@ -873,7 +873,7 @@ proc cmsn_sb_msg {sb_name recv} {
       if { [string compare [wm state .${win_name}] "withdrawn"] == 0 } {
         wm state .${win_name} iconic
 	::amsn::notifyAdd "[trans says [urldecode [lindex $recv 2]]]:\n$body" \
-	   "wm state .${win_name} normal; grab .${win_name}"
+	   "wm state .${win_name} normal; focus -force .${win_name}"; #; grab .${win_name}"
       }            
 
       if { [string first $win_name [focus]] != 1 } {

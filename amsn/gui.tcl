@@ -397,7 +397,7 @@ namespace eval ::amsn {
       pack $w.c
 
 
-      $w.c create image 75 50 -image $im 
+      $w.c create image 75 50 -image $im
       $w.c create image 17 22 -image notifico
       $w.c create image 80 97 -image notifybar
 
@@ -416,15 +416,15 @@ namespace eval ::amsn {
       
       set after_id [after 8000 "::amsn::KillNotify $w $ypos"]
 
-      $w.c bind $notify_id <Button1-ButtonRelease> "after cancel $after_id;\
+      $w.c bind $notify_id <ButtonRelease-1> "after cancel $after_id;\
         ::amsn::KillNotify $w $ypos; $command"
 
-      $w.c bind $notify_id <Button3-ButtonRelease> "after cancel $after_id;\
+      $w.c bind $notify_id <ButtonRelease-3> "after cancel $after_id;\
         ::amsn::KillNotify $w $ypos"
       
       wm title $w "[trans msn] [trans notify]"
       wm overrideredirect $w 1
-      wm transient $w
+      #wm transient $w
       wm state $w normal
       
       raise $w
@@ -436,9 +436,11 @@ namespace eval ::amsn {
 
    }
    
-   proc KillNotify { w ypos } {
-      variable NotifPos
-      destroy $w
+   proc KillNotify { w ypos} {
+      variable NotifPos      
+
+      wm state $w withdrawn
+      after 5000 destroy $w
       set lpos [lsearch -exact $NotifPos $ypos]
       set NotifPos [lreplace $NotifPos $lpos $lpos]
    }
