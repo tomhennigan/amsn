@@ -401,8 +401,8 @@ namespace eval ::amsn {
          set msg "[string range $msg 0 100]..."
       } 
    
-      set notify_id [$w.c create text 75 63 -font splainf \
-         -justify center -width 145 -text "$msg"]
+      set notify_id [$w.c create text 75 40 -font splainf \
+         -justify center -width 150 -anchor n -text "$msg"]
 
       $w.c bind $notify_id <Enter> \
          "$w.c conf -cursor hand2"

@@ -85,7 +85,7 @@ if test -x /usr/bin/update-menus; then /usr/bin/update-menus; fi
 /usr/share/amsn/proxy.tcl
 /usr/share/amsn/smileys.tcl
 /usr/share/amsn/socks.tcl
-/usr/share/amsn/i/amsn.png
+/usr/share/amsn/icons/amsn.png
 /usr/share/amsn/i/amsn.xbm
 /usr/share/amsn/i/angel.gif
 /usr/share/amsn/i/angry.gif
