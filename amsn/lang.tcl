@@ -170,6 +170,234 @@ proc load_lang { {langcode "en"} {plugindir ""} } {
 }
 
 
+namespace eval ::lang {
+
+
+#///////////////////////////////////////////////////////////////////////
+proc show_languagechoose {} {
+	global lang_list
+
+	set languages [list]
+	set available [::lang::get_available_language]
+
+	foreach langelem $lang_list {
+		set langcode [lindex $langelem 0]
+		if { [lsearch $available $langcode] != -1 } {
+			set langlong [lindex $langelem 1]
+			lappend languages [list "$langlong" "$langcode"]
+		}
+	}
+
+	set wname ".langchoose"
+
+	if {[winfo exists $wname]} {
+		raise $wname
+		return
+	}
+
+	toplevel $wname
+	wm title $wname "[trans language]"
+	wm geometry $wname 300x350
+
+	frame $wname.notebook -borderwidth 3
+	set nb $wname.notebook
+	NoteBook $nb.nn
+	$nb.nn insert end language -text [trans language]
+	$nb.nn insert end manager -text [trans language_manager]
+
+	#  .__________.
+	# _| Language |____
+	set frm [$nb.nn getframe language]
+
+	frame $frm.list -class Amsn -borderwidth 0
+	frame $frm.buttons -class Amsn
+
+	listbox $frm.list.items -yscrollcommand "$frm.list.ys set" -font splainf \
+			-background white -relief flat -highlightthickness 0 -width 60
+	scrollbar $frm.list.ys -command "$frm.list.items yview" -highlightthickness 0 \
+			-borderwidth 1 -elementborderwidth 1 
+
+	button $frm.buttons.ok -text "[trans ok]" -command [list ::lang::show_languagechoose_Ok $languages]
+	button $frm.buttons.cancel -text "[trans cancel]" -command [list destroy $wname]
+
+
+	pack $frm.list.ys -side right -fill y
+	pack $frm.list.items -side left -expand true -fill both
+	pack $frm.list -side top -expand true -fill both -padx 4 -pady 4
+
+	pack $frm.buttons.ok -padx 5 -side right
+	pack $frm.buttons.cancel -padx 5 -side right
+	pack $frm.buttons -side bottom -fill both -pady 3
+
+	foreach item $languages {
+		$frm.list.items insert end [lindex $item 0]
+	}
+
+
+	bind $frm.list.items <Double-Button-1> [list ::lang::show_languagechoose_Ok $languages]
+	bind $frm <Return> [list ::lang::show_languagechoose_Ok languages]
+
+
+	catch {
+		raise $frm
+		focus $frm.buttons.ok
+	}
+
+	pack $frm -fill both -expand true
+
+	$nb.nn compute_size
+
+
+	#  ._________.
+	# _| Manager |____
+	set frm [$nb.nn getframe manager]
+
+	label $frm.text -text "[trans selectlanguage] :"
+	pack configure $frm.text -side top -fill x
+
+	# Create a list box where we will put the lang
+	frame $frm.selection -class Amsn -borderwidth 0
+	listbox $frm.selection.box -yscrollcommand "$frm.selection.ys set" -font splainf -background white -relief flat -highlightthickness 0
+	scrollbar $frm.selection.ys -command "$frm.selection.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
+	pack $frm.selection.ys -side right -fill y
+	pack $frm.selection.box -side left -expand true -fill both
+
+	# Add the lang into the previous list
+	foreach lang $lang_list {
+		set langcode [lindex $lang 0]
+		set langname [lindex $lang 1]
+		$frm.selection.box insert end "$langname"
+		# Choose the background according to the fact lang is available or not
+		if { [lsearch $available $langcode] != -1 } {
+			$frm.selection.box itemconfigure end -background #DDF3FE
+		} else {
+			$frm.selection.box itemconfigure end -background #FFFFFF
+		}
+	}
+
+	# When a language is selected, execute language_manager_selected
+	bind $frm.selection.box <<ListboxSelect>> "::lang::language_manager_selected"
+
+	frame $frm.txt
+	label $frm.txt.text -text " "
+	pack configure $frm.txt.text
+
+	frame $frm.command
+	button $frm.command.load -text "[trans load]" -command "::lang::language_manager_load" -state disabled
+	pack configure $frm.command.load -side right
+
+	button $frm.command.close -text "[trans close]" -command "::lang::language_manager_close"
+	pack configure $frm.command.close -side right
+
+	pack configure $frm.selection -side top -expand true -fill both -padx 4 -pady 4
+	pack configure $frm.txt -side top -fill x
+	pack configure $frm.command -side top -fill x -padx 10
+
+	pack $frm -fill both -expand true
+
+	$nb.nn compute_size
+
+	$nb.nn raise language
+	$nb.nn compute_size
+	pack $nb.nn -fill both -expand true
+	pack $wname.notebook -fill both -expand true
+
+
+	bind $wname <<Escape>> [list destroy $wname]
+	moveinscreen $wname 30
+
+
+}
+
+
+#///////////////////////////////////////////////////////////////////////
+proc show_languagechoose_Ok { itemlist } {
+	set sel [.langchoose.notebook.nn.flanguage.list.items curselection]
+	if { $sel == "" } { return }
+	destroy .langchoose	
+	::lang::set_language [lindex [lindex $itemlist $sel] 1]
+}
+
+
+#///////////////////////////////////////////////////////////////////////
+proc language_manager_selected { } {
+
+	global gui_language lang_list
+
+	set dir [get_language_dir]
+	if { $dir == 0 } {
+		return
+	}
+
+	set w ".langchoose.notebook.nn.fmanager"
+
+	# Get the selected item
+	set selection [$w.selection.box curselection]
+	set langcode [lindex [lindex $lang_list $selection] 0]
+	set lang "lang$langcode"
+
+	set available [::lang::get_available_language]
+
+	# If the lang selected is the used lang
+	if { $langcode == [::config::getGlobalKey language]} {
+		$w.command.load configure -state disabled -text "[trans unload]"
+		$w.txt.text configure -text "[trans currentlanguage]" -foreground red
+	# If the file is not available
+	} elseif {[lsearch $available $langcode] == -1 } {
+		$w.command.load configure -state normal -text "[trans load]" -command "[list ::lang::getlanguage "lang$langcode" $selection]"
+		$w.txt.text configure -text " "
+	# If the file is protected
+	} elseif { ![file writable "$dir/$lang"] } {
+		$w.command.load configure -state disabled -text "[trans unload]"
+		$w.txt.text configure -text "[trans filenotwritable]" red
+	# If the file is available
+	} elseif {[lsearch $available $langcode] != -1 } {
+		$w.command.load configure -state normal -text "[trans unload]" -command "[list ::lang::deletelanguage "lang$langcode" $selection]"
+		$w.txt.text configure -text " "
+	}
+
+
+	.langchoose.notebook.nn.flanguage.list.items delete 0 end
+
+	set languages [list]
+	set available [::lang::get_available_language]
+
+	foreach langelem $lang_list {
+		set langcode [lindex $langelem 0]
+		if { [lsearch $available $langcode] != -1 } {
+			set langlong [lindex $langelem 1]
+			lappend languages [list "$langlong" "$langcode"]
+		}
+	}
+
+	foreach item $languages {
+		.langchoose.notebook.nn.flanguage.list.items insert end [lindex $item 0]
+	}
+
+
+}
+
+
+#///////////////////////////////////////////////////////////////////////
+proc set_language { langname } {
+	global gui_language
+
+	load_lang $langname
+	msg_box [trans mustrestart]
+	
+	#Reload english to overwrite any missing sentences
+	load_lang en
+	#Reload the current GUI language
+	load_lang $gui_language
+
+	::config::setGlobalKey language $langname
+	::config::saveGlobal
+	
+	return
+}
+
+
+#///////////////////////////////////////////////////////////////////////
 # Get the encoding of a language
 proc get_language_encoding { lang } {
 
@@ -188,6 +416,7 @@ proc get_language_encoding { lang } {
 }
 
 
+#///////////////////////////////////////////////////////////////////////
 # Return the directory of the lang files
 proc get_language_dir { } {
 
@@ -201,6 +430,7 @@ proc get_language_dir { } {
 }
 
 
+#///////////////////////////////////////////////////////////////////////
 # Return the lang that are saved on the disk
 proc get_available_language {} {
 
@@ -225,6 +455,7 @@ proc get_available_language {} {
 }
 
 
+#///////////////////////////////////////////////////////////////////////
 # Download the lang file
 proc getlanguage { lang selection } {
 
@@ -258,14 +489,15 @@ proc getlanguage { lang selection } {
 	close $fid
 
 	catch {
-		.langmanager.selection.box itemconfigure $selection -background #DDF3FE
-		language_manager_selected
+		.langchoose.notebook.nn.fmanager.selection.box itemconfigure $selection -background #DDF3FE
+		::lang::language_manager_selected
 	}
 	
 
 }
 
 
+#///////////////////////////////////////////////////////////////////////
 # Delete a lang file
 proc deletelanguage { lang selection } {
 	
@@ -277,140 +509,11 @@ proc deletelanguage { lang selection } {
 	file delete "$dir/$lang"
 
 	catch {
-		.langmanager.selection.box itemconfigure $selection -background #FFFFFF
-		language_manager_selected
+		.langchoose.notebook.nn.fmanager.selection.box itemconfigure $selection -background #FFFFFF
+		::lang::language_manager_selected
 	}
 }
 
 
-# Open the language manager
-proc language_manager { } {
-
-	global lang_list
-
-	if { [get_language_dir] == 0 } {
-		return 0
-	}
-
-	set available [get_available_language]
-
-	set w ".langmanager"
-	
-	if {[winfo exists $w]} {
-		raise $w
-		return
-	}
-
-	toplevel $w
-	wm title $w "[trans langmanager]"
-	wm geometry $w 260x200+30+30
-
-	label $w.text -text "[trans selectlanguage] :"
-	pack configure $w.text -side top
-
-	# Create a list box where we will put the lang
-	frame $w.selection -relief sunken -borderwidth 3
-	listbox $w.selection.box -yscrollcommand "$w.selection.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 10
-	scrollbar $w.selection.ys -command "$w.selection.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
-	pack $w.selection.ys -side right -fill y
-	pack $w.selection.box -side left -expand true -fill both
-
-	# Add the lang into the previous list
-	foreach lang $lang_list {
-		set langcode [lindex $lang 0]
-		set langname [lindex $lang 1]
-		$w.selection.box insert end "$langname"
-		# Choose the background according to the fact lang is available or not
-		if { [lsearch $available $langcode] != -1 } {
-			$w.selection.box itemconfigure end -background #DDF3FE
-		} else {
-			$w.selection.box itemconfigure end -background #FFFFFF
-		}
-	}
-
-	# When a language is selected, execute language_manager_selected
-	bind $w.selection.box <<ListboxSelect>> "language_manager_selected"
-
-	frame $w.command
-	button $w.command.load -text "[trans load]" -command "language_manager_load" -state disabled
-	label $w.command.text
-	pack configure $w.command.load -side top
-	pack configure $w.command.text -side top
-
-	button $w.command.close -text "[trans close]" -command "language_manager_close"
-	pack configure $w.command.close -side bottom
-
-	pack configure $w.selection -side left -fill y
-	pack configure $w.command -side right -fill y -pady 10
-
-}	
-
-
-proc language_manager_selected { } {
-
-	global gui_language lang_list
-
-	set dir [get_language_dir]
-	if { $dir == 0 } {
-		return
-	}
-
-	set w ".langmanager"
-
-	# Get the selected item
-	set selection [$w.selection.box curselection]
-	set langcode [lindex [lindex $lang_list $selection] 0]
-	set lang "lang$langcode"
-
-	set available [get_available_language]
-
-	# If the lang selected is the used lang
-	if { $langcode == [::config::getGlobalKey language]} {
-		$w.command.load configure -state disabled -text "[trans unload]"
-		$w.command.text configure -text "[trans currentlanguage]"
-	# If the file is not available
-	} elseif {[lsearch $available $langcode] == -1 } {
-		$w.command.load configure -state normal -text "[trans load]" -command "[list getlanguage "lang$langcode" $selection]"
-		$w.command.text configure -text ""
-	# If the file is protected
-	} elseif { ![file writable "$dir/$lang"] } {
-		$w.command.load configure -state disabled -text "[trans unload]"
-		$w.command.text configure -text "[trans filenotwritable]"
-	# If the file is available
-	} elseif {[lsearch $available $langcode] != -1 } {
-		$w.command.load configure -state normal -text "[trans unload]" -command "[list deletelanguage "lang$langcode" $selection]"
-		$w.command.text configure -text ""
-	}
-
-}
-
-
-proc language_manager_close { } {
-
-	global lang_list
-
-	if { [winfo exists .langchoose] } {
-
-		.langchoose.blueframe.list.items delete 0 end
-
-		set languages [list]
-		set available [get_available_language]
-
-		foreach langelem $lang_list {
-			set langcode [lindex $langelem 0]
-			if { [lsearch $available $langcode] != -1 } {
-				set langlong [lindex $langelem 1]
-				lappend languages [list "$langlong" "$langcode"]
-			}
-		}
-
-		foreach item $languages {
-			.langchoose.blueframe.list.items insert end [lindex $item 0]
-		}
-
-	}
-
-
-	destroy ".langmanager"
 
 }
