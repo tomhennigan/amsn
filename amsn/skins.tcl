@@ -13,7 +13,11 @@ namespace eval ::skin {
 		set image_names($image_name) $image_file
 	}
 	
+	# Right now this procedure does nothing, but in the future, we can
+	# delay the actual image loading until it's required, instead of
+	# loading it in setImage
 	proc loadImage {image_name} {
+		return $image_name
 	}
 	
 	proc reloadSkin { {skin_name ""} } {

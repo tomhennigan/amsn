@@ -3819,7 +3819,13 @@ proc cmsn_draw_main {} {
 	::skin::setImage blocked blocked.gif
 	::skin::setImage colorbar colorbar.gif
 	
+	::skin::setImage bell bell.gif
+	::skin::setImage belloff belloff.gif
 
+	::skin::setImage notinlist notinlist.gif
+	::skin::setImage no_pic nopic.gif
+	
+	::skin::loadImage colorbar
 	set barwidth [image width colorbar]
 	set barheight [image height colorbar]
 
@@ -3830,12 +3836,6 @@ proc cmsn_draw_main {} {
 	notifybar copy colorbar -from 5 0 15 $barheight -to 5 0 64 $barheight
 	notifybar copy colorbar -from [expr {$barwidth-125}] 0 $barwidth $barheight -to 64 0 139 $barheight
 
-	image create photo bell -file [GetSkinFile pixmaps bell.gif]
-	image create photo belloff -file [GetSkinFile pixmaps belloff.gif]
-
-	image create photo notinlist -file [GetSkinFile pixmaps notinlist.gif]
-
-	image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
 	
 	ScrolledWindow $pgBuddy.sw -auto vertical -scrollbar vertical
 	pack $pgBuddy.sw -expand true -fill both
@@ -3888,12 +3888,6 @@ proc cmsn_draw_main {} {
 	cmsn_draw_offline
 
 	status_log "Proxy is : $config(proxy)\n"
-
-	#image create photo amsnicon -file [GetSkinFile pixmaps amsnicon.gif]
-	#toplevel .caca
-	#label .caca.winicon -image amsnicon
-	#pack .caca.winicon
-	#wm iconwindow . .caca
 
 	#wm iconname . "[trans title]"
 	if {$tcl_platform(platform) == "windows"} {
@@ -4902,6 +4896,7 @@ proc cmsn_draw_online_wrapped {} {
 	set barwidth [image width colorbar]
 
 	image delete mainbar
+	::skin::loadImage colorbar
 	image create photo mainbar -width $width -height $barheight
 	mainbar blank
 	mainbar copy colorbar -from 0 0 5 $barheight
