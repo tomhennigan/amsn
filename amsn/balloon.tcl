@@ -84,7 +84,7 @@ proc balloon {target message {cx 0} {cy 0} } {
 
         wm overrideredirect .balloon 1
 
-	set wlength [expr {[winfo screenwidth $target] - $x - 5}]
+	set wlength [expr {[winfo screenwidth .] - $x - 5}]
 	if { $wlength < 100 } {
 	   set wlength 100
 	}
