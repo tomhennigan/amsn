@@ -1354,6 +1354,8 @@ proc cmsn_proxy {} {
    canvas .proxy_conf.c -width 400 -height 150 -bg #D0D0E0
    pack .proxy_conf.c -expand true -fill both
 
+   checkbutton .proxy_conf.c.enable -relief flat -text [trans enableproxy] \
+   	-variable config(withproxy)
    entry .proxy_conf.c.server -width 20 -bg #FFFFFF -bd 1 \
       -font splainf
    entry .proxy_conf.c.port -width 5 -bg #FFFFFF -bd 1 \
@@ -1368,10 +1370,11 @@ proc cmsn_proxy {} {
 	-text "[trans server]: "
    .proxy_conf.c create text 133 60 -font sboldf -anchor ne \
 	-text "[trans port]: "
-   .proxy_conf.c create text 133 82 -font splainf -anchor nw \
+   .proxy_conf.c create text 133 105 -font splainf -anchor nw \
 	-text "[trans blankdirect]"
    .proxy_conf.c create window 133 35 -window .proxy_conf.c.server -anchor nw
    .proxy_conf.c create window 133 60 -window .proxy_conf.c.port -anchor nw
+   .proxy_conf.c create window 133 80 -window .proxy_conf.c.enable -anchor nw
    .proxy_conf.c create window 195 120 -window .proxy_conf.c.ok -anchor ne
    .proxy_conf.c create window 205 120 -window .proxy_conf.c.cancel -anchor nw
 
@@ -1386,7 +1389,14 @@ proc cmsn_proxy {} {
 proc proxy_conf_ok {} {
    global config
 
-   set config(proxy) [join [list [.proxy_conf.c.server get] [.proxy_conf.c.port get]] ":"]
+   set p_server [string trim [.proxy_conf.c.server get]]
+   set p_port   [string trim [.proxy_conf.c.port get]]
+   if { ($p_server != "") && ($p_port != "") } {
+       set config(proxy) [join [list $p_server $p_port] ":"]
+   } else {
+       set config(proxy) ""
+       set config(withproxy) 0
+   }
    grab release .proxy_conf
    destroy .proxy_conf
 }
