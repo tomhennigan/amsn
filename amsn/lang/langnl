@@ -129,6 +129,7 @@ dcprofile Geen profiel aanmaken
 defaultloginradio Inloggen met de standaardconfiguratie
 default Standaard configuratie
 delete Verwijderen
+deletecustomstate Verwijder aangepaste instelling
 delimiters Haakjes om tijden heen:
 deliverfail Er was een probleem bij het bezorgen van de volgende boodschap
 delprofile2 Selecteer het profiel waarvan u de locale configuratiebestanden wilt verwijderen
@@ -149,7 +150,7 @@ dontdownload Download TLS niet. Ik installeer het zelf.
 dontshow Verberg
 downloadingtls Bezig met downloaden van TLS vanaf:\n $1
 edit Bewerken
-editcustomstate Bewerken
+editcustomstate Wijzig aangepaste instelling
 editnewstate Persoonlijke status toevoegen
 editprofile Bewerk profiel
 editstate Persoonlijke status wijzigen
