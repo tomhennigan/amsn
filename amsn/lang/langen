@@ -369,6 +369,7 @@ natkeepalive If you are getting disconnected regularly, enable this KeepAlive
 needonline You still are/appear offline!
 needwinico Need winico03.dll in plugins directory for windows traydocking to work
 never Never
+new_ft_protocol Use new File Transfer protocol (some bugs remain)
 newmail $1 new messages in Inbox
 newmailfolder You have $1 new messages in other Hotmail folders
 newmailfrom New mail from $1 ($2)
