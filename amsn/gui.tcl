@@ -7025,6 +7025,7 @@ proc pictureBrowser {} {
 	.picbrowser.pics.text configure -state disabled
 
 	wm title .picbrowser "[trans picbrowser]"
+	moveinscreen .picbrowser 30
 }
 
 proc purgePictures {} {
