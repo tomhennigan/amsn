@@ -18,6 +18,7 @@ namespace eval ::glogs {
 		#loading lang
 		set langdir [append dir "/lang"]
 		set lang [::config::getGlobalKey language]
+		load_lang en $langdir
 		load_lang $lang $langdir
 		#plugin config
 		array set ::glogs::config {
