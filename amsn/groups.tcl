@@ -316,6 +316,9 @@ namespace eval ::groups {
 
 	proc IsExpanded {gid} {
 		variable bShowing
+		if {![info exists bShowing($gid)]} {
+			set bShowing($gid) 1	
+		}
 	
 		return $bShowing($gid)
 	}
