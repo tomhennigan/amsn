@@ -140,14 +140,14 @@ proc reload_files { } {
     source [file join $program_dir sxml.tcl]   	;# Simple XML parser
     source [file join $program_dir lang.tcl]
     source [file join $program_dir automsg.tcl]
-    source [file join $program_dir config.tcl]
+    source [file join $program_dir smileys.tcl]
     source [file join $program_dir skins.tcl]       ;# Used for skinning purposes
+    source [file join $program_dir config.tcl]
     source [file join $program_dir proxy.tcl]
     source [file join $program_dir protocol.tcl]
     source [file join $program_dir ctadverts.tcl]
     source [file join $program_dir ctdegt.tcl]
     source [file join $program_dir hotmail.tcl]
-    source [file join $program_dir smileys.tcl]
     source [file join $program_dir groups.tcl]	;# Handle buddy groups
     source [file join $program_dir abook.tcl]	;# Handle buddy address book
     source [file join $program_dir anigif.tcl]	;# Animated GIFS
@@ -168,9 +168,6 @@ reload_files
 
 set initialize_amsn 0
 #///////////////////////////////////////////////////////////////////////
-
-# Init smileys
-load_smileys
 
 #create_dir $HOME
 set log_dir "[file join ${HOME} logs]"

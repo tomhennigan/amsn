@@ -729,7 +729,7 @@ namespace eval ::amsn {
             raise ${win_name}
          } 
       
-         play_sound type
+         play_sound type.wav
 	 
       }
       
@@ -2071,7 +2071,7 @@ namespace eval ::amsn {
 
 
       if { $sound != ""} {
-         play_sound $sound
+	  play_sound ${sound}.wav
       }
 
 
@@ -2518,7 +2518,7 @@ proc play_sound {sound} {
     global config 
 
     if { $config(sound) == 1 } {
-	set filename [GetSkinFile sounds ${sound}.wav]
+	set filename [GetSkinFile sounds $sound]
 	catch {eval exec $config(soundcommand) $filename &} res
     }
 }
@@ -3209,7 +3209,11 @@ proc cmsn_draw_online { {force 0} } {
    	$pgBuddy.text.mystatus insert end "[trans mystatus]:\n" mystatuslabel
    }
    $pgBuddy.text.mystatus insert end "$my_name " mystatus
-   $pgBuddy.text.mystatus insert end "($my_state_desc)" mystatus
+   $pgBuddy.text.mystatus insert end "($my_state_desc)\n" mystatus
+   
+   if {$config(listsmileys)} {
+	smile_subst $pgBuddy.text.mystatus
+    }
 
    
    #Calculate number of lines, and set my status size (for multiline nicks)

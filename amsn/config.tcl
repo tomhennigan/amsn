@@ -96,6 +96,8 @@ proc ConfigDefaults {} {
         set config(animatedsmileys) 1
         set config(tooltips) 1
         set config(skin) "default"
+        set config(customsmileys) [list]
+        set config(customsmileys2) [list]
 	set password ""
 }
 
@@ -112,13 +114,13 @@ namespace eval ::config {
 }
 
 proc save_config {} {
-   global tcl_platform config HOME HOME2 version password
+   global tcl_platform config HOME HOME2 version password emotions
 
    catch {
          if {$tcl_platform(platform) == "unix"} {
-	    set file_id [open "[file join ${HOME} config]" w 00600]
+	    set file_id [open "[file join ${HOME} config.xml]" w 00600]
          } else {
-            set file_id [open "[file join ${HOME} config]" w]
+            set file_id [open "[file join ${HOME} config.xml]" w]
          }
       } res
 
@@ -131,58 +133,106 @@ proc save_config {} {
 	set password ""
    }
 
-   puts $file_id "amsn_config_version 1"
+   
+    puts $file_id  "<?xml version=\"1.0\"?>\n\n<config>"
    set config(last_client_version) $version
 
-   set config_entries [array get config]
-   set items [llength $config_entries]
-   for {set idx 0} {$idx < $items} {incr idx 1} {
-      set var_attribute [lindex $config_entries $idx]; incr idx 1
-      set var_value [lindex $config_entries $idx]
-       if { "$var_attribute" != "remotepassword" } {
-	   puts $file_id "$var_attribute $var_value"
+
+    foreach var_attribute [array names config] { 
+      set var_value $config($var_attribute)
+       if { "$var_attribute" != "remotepassword" && "$var_attribute" != "customsmileys" && "$var_attribute" != "customsmileys2"} {
+	   puts $file_id "   <entry>\n      <attribute>$var_attribute</attribute>\n      <value>$var_value</value>\n   </entry>"
        }
-   }
+    }
+
+    if { ($config(save_password)) && ($password != "")} {
+      
+	set key [string range "${loginback}dummykey" 0 7]
+	binary scan [::des::encrypt $key "${password}\n"] h* encpass
+	puts $file_id "   <entry>\n      <attribute>encpassword</attribute>\n      <value>$encpass</value>\n   </entry>"
+    }
 
     set key [string range "${loginback}dummykey" 0 7]
     binary scan [::des::encrypt $key "${config(remotepassword)}\n"] h* encpass
-    puts $file_id "remotepassword $encpass"
+    puts $file_id "   <entry>\n      <attribute>remotepassword</attribute>\n      <value>$encpass</value>\n   </entry>\n"
     
-   if { ($config(save_password)) && ($password != "")} {
-      
-      set key [string range "${loginback}dummykey" 0 7]
-      binary scan [::des::encrypt $key "${password}\n"] h* encpass
-      puts $file_id "encpassword $encpass"
-   }
+    foreach custom $config(customsmileys2) {
+	puts $file_id "   <emoticon>"
+	foreach attribute [array names emotions] {
+	    if { [string match "${custom}_*" $attribute ] } {
+		set var_attribute [string map [list "${custom}_" ""] $attribute ]
+		set var_value $emotions($attribute)
+		puts $file_id "      <$var_attribute>$var_value</$var_attribute>"
+	    }
+	}
+	puts $file_id "   </emoticon>\n"
+    }
+
+    puts $file_id "</config>"
+
    close $file_id
    
    set config(login) $loginback
    set password $passback
 }
 
+proc new_config_entry  {cstack cdata saved_data cattr saved_attr args} {
+    global config
+    upvar $saved_data sdata
+
+    set config($sdata(${cstack}:attribute)) $sdata(${cstack}:value)
+
+    return 0    
+
+}
+
 proc load_config {} {
     global config HOME password
 
-    if {([file readable "[file join ${HOME} config]"] == 0) ||
+    set using_xml 1
+
+    if {([file readable "[file join ${HOME} config.xml]"] == 0) ||
+	([file isfile "[file join ${HOME} config.xml]"] == 0)} {
+	set using_xml 0
+    }
+
+    if { $using_xml == 0 && ([file readable "[file join ${HOME} config]"] == 0) ||
 	([file isfile "[file join ${HOME} config]"] == 0)} {
 	return 1
     }
     
     ConfigDefaults
     
-    set file_id [open "${HOME}/config" r ]
-    
-    gets $file_id tmp_data
-    if {$tmp_data != "amsn_config_version 1"} {	;# config version not supported!
-	return 1
+    if { $using_xml == 0 } {
+	set file_id [open "${HOME}/config" r ]
+	
+	gets $file_id tmp_data
+	if {$tmp_data != "amsn_config_version 1"} {	;# config version not supported!
+	    return 1
+	}
+	
+	while {[gets $file_id tmp_data] != "-1"} {
+	    set var_data [split $tmp_data]
+	    set var_attribute [lindex $var_data 0]
+	    set var_value [join [lrange $var_data 1 end]]
+	    set config($var_attribute) $var_value
+	}
+
+	close $file_id
+	
+    } else {
+
+	set file_id [sxml::init [file join ${HOME} "config.xml"]]
+	    
+	sxml::register_routine $file_id "config:entry" "new_config_entry"
+	sxml::register_routine $file_id "config:emoticon" "new_custom_emoticon"
+	    
+	sxml::parse $file_id
+	sxml::end $file_id
+	
     }
+
     
-    while {[gets $file_id tmp_data] != "-1"} {
-	set var_data [split $tmp_data]
-	set var_attribute [lindex $var_data 0]
-	set var_value [join [lrange $var_data 1 end]]
-	set config($var_attribute) $var_value
-    }
 
     #0.80 Compatibility
     if {[info exists config(password)]} {
@@ -211,7 +261,6 @@ proc load_config {} {
  	#puts "Password is: $config(remotepassword)\nHi\n"      
      }
      
-    close $file_id
 
 	# Load up the personal states
 	LoadStateList
@@ -568,6 +617,7 @@ proc CreateProfile { email value } {
 		create_dir $HOME
 		set log_dir "[file join ${HOME} logs]"
 		create_dir $log_dir
+		create_dir "[file join ${HOME} smileys]"
 		
 		# Load default config initially
 		set temphome $HOME
@@ -791,4 +841,7 @@ if { $initialize_amsn == 1 } {
     load_config		;# So this loads the config of this newest dude
     scan_languages
     load_lang
+
+    # Init smileys
+    load_smileys
 }

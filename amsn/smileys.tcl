@@ -54,7 +54,7 @@ proc is_true { data } {
 # having the correct ordrer in the menu) then we add the elements in the array emotions
 
 proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
-    global emotions emotions_names emoticon emoticon_number
+    global emotions emotions_names emoticon_number
     upvar $saved_data sdata
     
     if { ! [info exists sdata(${cstack}:name)] } { return 0 }
@@ -71,6 +71,10 @@ proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
    }
     
     lappend emotions_names "$name"
+    if { [string match "config:emoticon" $cstack] } {
+	puts "custom smiley"
+	lappend config(customsmileys) "$name"
+    }
 
     foreach x [array names sdata] {
 	set x2 [string trim [string map [list "${cstack}:" "" ] $x]]
@@ -81,6 +85,130 @@ proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
      }
 
     return 0
+}
+
+
+#///////////////////////////////////////////////////////////////////////////////
+# proc new_custom_emoticon {cstack cdata saved_data cattr saved_attr args}
+#
+# This is the same procedure as new_emoticon
+# the only difference is that it is used for custom emoticons..
+# we need to do it that way since after calling "load_smileys" it erases the 
+# emotions list...
+
+proc new_custom_emoticon {cstack cdata saved_data cattr saved_attr args} {
+    global custom_emotions config
+    upvar $saved_data sdata
+    
+    if { ! [info exists sdata(${cstack}:name)] } { return 0 }
+    if { ! [info exists sdata(${cstack}:text)] } { return 0 }
+    if { ! [info exists sdata(${cstack}:file)] } { return 0 }
+    if { [info exists sdata(${cstack}:disabled)] && [is_true $sdata(${cstack}:disabled)] } { return 0 }
+
+    set name [string trim $sdata(${cstack}:name)]
+    lappend config(customsmileys) "$name"
+
+
+    foreach x [array names sdata] {
+	set x2 [string trim [string map [list "${cstack}:" "" ] $x]]
+	if { $x2 == "_dummy_" } {continue}
+
+	set custom_emotions(${name}_${x2}) [string trim $sdata($x)]
+
+     }
+
+    return 0
+}
+
+#///////////////////////////////////////////////////////////////////////////////
+# proc new_custom_emoticon_from_gui {}
+#
+# this saves what was entered in the GUI for creating new custom smiley
+
+proc new_custom_emoticon_from_gui { } {
+    global custom_emotions config
+
+    set w .new_custom
+
+    set name "[$w.name.entry get]"
+    lappend config(customsmileys) "$name"
+
+    set custom_emotions(${name}_name) "$name"
+    set custom_emotions(${name}_file) "[string trim [$w.file.entry get]]"
+    set custom_emotions(${name}_text) "[string trim [$w.text.entry get]]"
+
+    load_smileys
+}
+
+#///////////////////////////////////////////////////////////////////////////////
+# proc edit_custom_emoticon_from_gui {}
+#
+# this saves what was entered in the GUI for editing a custom smiley
+
+proc edit_custom_emoticon_from_gui { name } {
+    global custom_emotions emotions
+
+    set w .new_custom
+    set custom_emotions(${name}_file) "[string trim [$w.file.entry get]]"
+    set custom_emotions(${name}_text) "[string trim [$w.text.entry get]]"
+  
+
+    load_smileys
+}
+#///////////////////////////////////////////////////////////////////////////////
+# proc new_custom_emoticon_gui {}
+#
+# This is the GUI proc for adding custom smileys
+
+proc new_custom_emoticon_gui { {edit 0} {name ""}} {
+    set w .new_custom
+    toplevel $w
+    wm geometry $w
+
+    frame $w.name
+    label $w.name.label -text "name"
+    entry $w.name.entry
+    pack $w.name.label $w.name.entry -side left
+    frame $w.text
+    label $w.text.label -text "text"
+    entry $w.text.entry
+    pack $w.text.label $w.text.entry -side left
+    frame $w.file
+    label $w.file.label -text "file"
+    entry $w.file.entry
+    pack $w.file.label $w.file.entry -side left
+
+    pack $w.name $w.text $w.file -side top
+
+    if { $edit == 0 } {
+	button $w.ok -text "OK" -command "new_custom_emoticon_from_gui;destroy $w"
+    } else {
+	button $w.ok -text "OK" -command "edit_custom_emoticon_from_gui \"$name\";destroy $w"
+    }
+    button $w.cancel -text "Cancel" -command "destroy $w"
+
+
+    pack $w.ok $w.cancel -side top
+    bind $w <Destroy> "grab release $w"
+
+    grab set .new_custom
+}
+
+#///////////////////////////////////////////////////////////////////////////////
+# proc new_custom_emoticon_gui {}
+#
+# This is the GUI proc for edditing custom smileys
+proc edit_custom_emotion { emotion } {
+    global emotions
+    new_custom_emoticon_gui 1 "$emotions(${emotion}_name)"
+
+    set w .new_custom
+
+    $w.name.entry insert 0 $emotions(${emotion}_name)
+    $w.text.entry insert 0 $emotions(${emotion}_text)
+    $w.file.entry insert 0 $emotions(${emotion}_file)
+
+    
 }
 
 #///////////////////////////////////////////////////////////////////////////////
@@ -94,7 +222,7 @@ proc new_emoticon {cstack cdata saved_data cattr saved_attr args} {
 # it will be refreshed
 
 proc load_smileys { } {
-    global emoticon_number sortedemotions program_dir smileys_drawn emotions emotions_names 
+    global custom_emotions emoticon_number sortedemotions program_dir smileys_drawn emotions emotions_names 
 
     set emoticon_number 0
 
@@ -107,6 +235,9 @@ proc load_smileys { } {
     sxml::register_routine $skin_id "skin:Description" skin_description
     sxml::parse $skin_id
     sxml::end $skin_id
+
+    add_custom_emoticon
+
 
     if { ! [info exists smileys_drawn] } {
 	set smileys_drawn 0
@@ -127,6 +258,38 @@ proc load_smileys { } {
     if { [winfo exists .smile_selector]} {destroy .smile_selector} 
 }
 
+#///////////////////////////////////////////////////////////////////////////////
+# proc add_custom_emoticon {}
+#
+# This adds the custom smileys to the general smileys
+
+proc add_custom_emoticon { } {
+    global custom_emotions emotions emotions_names emoticon_number config
+
+    foreach x $config(customsmileys) {
+
+	if { ! ( [info exists custom_emotions(${x}_hiden)] && 
+		 [is_true $custom_emotions(${x}_hiden)] ) } {
+	    set name [format " %03i %s" "$emoticon_number" "$x"]
+	    set emoticon_number [expr $emoticon_number + 1]
+	}
+    
+	puts "new custom emoticon $name"
+	lappend emotions_names "$name"
+	lappend config(customsmileys2) "$name"
+
+	foreach emotion [array names custom_emotions] {
+	    if { [string match "${x}_*" $emotion ] } {
+		set x2 [string trim [string map [list "${x}_" "" ] $emotion]]
+		
+		set emotions(${name}_${x2}) $custom_emotions($emotion)
+	    }
+	}
+	set emotions(${name}_custom) "true"
+    }
+    
+}
+
 
 #///////////////////////////////////////////////////////////////////////////////
 # proc valueforemot { emotion var } 
@@ -143,7 +306,7 @@ proc load_smileys { } {
 proc valueforemot { emotion var } {
     global emotions
 
-    set values_on_off "animated casesensitive hiden"
+    set values_on_off "animated casesensitive hiden custom"
 
     if { [lsearch $values_on_off $var] == -1 } {
 	if { [info exists emotions(${emotion}_$var)] } {
@@ -182,7 +345,7 @@ proc smile_subst {tw {start "0.0"} {enable_sound 0}} {
     foreach emotion $sortedemotions {
 	
 	set file $emotions(${emotion}_file)
-	set filename [string map { "." "_"} $file]
+	set filename [string map { " " "_" "/" "_" "." "_"} $file]
 
 	foreach symbol $emotions(${emotion}_text) {
 	    set chars [string length $symbol]
@@ -272,13 +435,17 @@ proc smile_menu { {x 0} {y 0} {text text}} {
     foreach emotion [lsort $emotions_names] {
 	set symbol [lindex $emotions(${emotion}_text) 0]
 	set file $emotions(${emotion}_file)
-	set filename [string map { "." "_"} $file]
+	set filename [string map { " " "_" "/" "_" "." "_"} $file]
 
 	catch { 
 	    if { [string match {(%)} $symbol] != 0 } {
 		bind $w.text.$filename <Button1-ButtonRelease> "catch {$text insert insert \{(%%)\}; wm state $w withdrawn} res"
 	    } else {
 		bind $w.text.$filename <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn} res" 
+	    }
+	    if { [valueforemot "$emotion" custom]  } {
+		puts "creating binding for custom smiley : $emotion"
+		bind $w.text.$filename <Button3-ButtonRelease> "edit_custom_emotion \"$emotion\"; event generate $w <Leave>"
 	    }
 	}
     }
@@ -308,10 +475,10 @@ proc create_smile_menu { {x 0} {y 0} } {
     set x [expr $x - 15]
     set y [expr $y - 15]
     set xy_geo [calcul_geometry_smileys]
-    set x_geo [lindex $xy_geo 0]
-    set y_geo [lindex $xy_geo 1]
+    set x_geo [expr 23*[lindex $xy_geo 0]+8]
+    set y_geo [expr 23*[lindex $xy_geo 1]+8]
     
-    wm geometry $w [expr 23*${x_geo}+8]x[expr 23*${y_geo}+8]+$x+$y
+    wm geometry $w ${x_geo}x${y_geo}+$x+$y
     wm title $w "[trans msn]"
     wm overrideredirect $w 1
     wm transient $w
@@ -330,7 +497,7 @@ proc create_smile_menu { {x 0} {y 0} } {
 	set name $emotions(${emotion}_name)
 	set symbol [lindex $emotions(${emotion}_text) 0]
 	set file $emotions(${emotion}_file)
-	set filename [string map { "." "_"} $file]
+	set filename [string map { " " "_" "/" "_" "." "_"} $file]
 	set chars [string length $symbol]
 	set hiden [valueforemot "$emotion" hiden]
 	set animated [valueforemot "$emotion" animated]
@@ -358,6 +525,15 @@ proc create_smile_menu { {x 0} {y 0} } {
 	
 	
     }
+
+    label $w.text.custom_new -text "[trans custom_new]"  -width [expr 1+[lindex $xy_geo 0]*3] -background [$w.text cget -background]
+    bind $w.text.custom_new <Enter> "$w.text.custom_new configure -relief raised"
+    bind $w.text.custom_new <Leave> "$w.text.custom_new configure -relief flat"
+    bind $w.text.custom_new <Button1-ButtonRelease> "new_custom_emoticon_gui; event generate $w <Leave>"
+ 
+    $w.text insert end "\n"
+    $w.text window create end -window $w.text.custom_new -padx 1 -pady 1 
+ 
 		     
 		     
     $w.text configure -state disabled
@@ -426,7 +602,7 @@ proc calcul_geometry_smileys {  } {
 	
 	set min [lsearch $diff "$min_val" ]
 	
-	return "[lindex $x $min] [lindex $y $min]"
+	return "[lindex $x $min] [expr [lindex $y $min] + 1]"
     }
 
 }

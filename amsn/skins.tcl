@@ -17,6 +17,8 @@ proc GetSkinFile { type filename } {
 	return "$filename"
     } elseif { [file readable [file join $pwd $program_dir skins $skin $type $filename]] } {
 	return "[file join $pwd $program_dir skins $skin $type $filename]"
+    } elseif { [file readable [file join $HOME $type $filename]] } {
+	return "[file join $pwd $HOME $type $filename]"
     } elseif { [file readable [file join $pwd $program_dir skins $defaultskin $type $filename]] } {
 	return "[file join $pwd $program_dir skins $defaultskin $type $filename]"
     } else {
