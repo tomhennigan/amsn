@@ -387,7 +387,8 @@ namespace eval ::skin {
 			}
 
 			set lastslash [expr {[string last "/" $dir]+1}]
-			set skinname [string range $dir $lastslash end]
+			set skinname [list [string range $dir $lastslash end]]
+			status_log "Skin: $skin. Dir is: $dir. Skinname: $skinname. Desc: $desc\n" white
 			lappend skinname $desc
 			lappend skinlist $skinname
 		}
