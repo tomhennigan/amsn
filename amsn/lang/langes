@@ -80,3 +80,18 @@ uonline Conectados
 user Usuario
 version Versión
 willjoin Esperando que $1 se una a la conversación
+actions Acciones
+sendmsg Enviar mensaje
+sendmail Enviar email
+tools Herramientas
+admincontacts Administrar contactos
+admingroups Administrar grupos
+ordercontactsby Ordenar contactos por
+options Opciones
+helpcontents Temas de ayuda
+inbox Bandeja de entrada
+savecontacts Guardar lista de contactos
+loadcontacts Cargar lista de contactos
+sendfile Enviar archivo
+openreceived Abrir archivos recibidos
+loginas Iniciar sesión como
