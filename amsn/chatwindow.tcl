@@ -808,7 +808,7 @@ namespace eval ::ChatWindow {
 		
 		bind $bottom.in.input <Tab> "focus $bottom.in.f.send; break"
 		bind  $bottom.buttons.smileys  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $bottom.in.input"
-		bind  $bottom.buttons.fontsel  <Button1-ButtonRelease> "change_myfont ${win_name}"
+		bind  $bottom.buttons.fontsel  <Button1-ButtonRelease> "after 1 change_myfont ${win_name}"
 		bind  $bottom.buttons.block  <Button1-ButtonRelease> \
 			"::amsn::ShowChatList \"[trans block]/[trans unblock]\" .${win_name} ::amsn::blockUnblockUser"
 		bind $bottom.buttons.sendfile <Button1-ButtonRelease> "::amsn::FileTransferSend .${win_name}"
