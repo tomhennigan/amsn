@@ -1,26 +1,42 @@
 amsn_lang_version 2
-about Informace
+about O ...
 accept Pøijmout
 acceptfile Pøijmout soubor $1, s délkou $2? Ulo¾ený v $3
 actions Akce
 addacontact Pøidat kontakt
-addedyou $1 ($2) vás pøidal do jeho/její kontakt listu
-addtocontacts Pøidat do kontakt listu
-addtoo Pøidat tuto adresu do kontakt listu
+addedyou $1 ($2) si vás pøidal(a) do svého seznamu kontaktù
+addprofile Pøidat nový profil
+addprofiledesc Zadat login pro který chce¹ zalo¾it nový profil.\nLogin s profilem ti umo¾òuje mít rùzné konfigurace pro ka¾dý login.\nBez profilù nelze pou¾ít historii, alarmy a funkci zapamatování hesla.
+addstate Pøidat nový status
+addtocontacts Pøidat do seznamu kontaktù
+addto Pøidat do $1
+addtocontacts Pøidat do seznamu kontaktù
+addtoo Pøidat tuto adresu do seznamu kontaktù
 admincontacts Zmìnit kontakty
 admingroups Zmìnit tøídy
 adverts Reklamy
+alarmonconnect Aktivuj alarm kdy¾ u¾ivatel pøejde do stavu online
+alarmondisconnect Aktivuj alarm kdy¾ u¾ivatel pøejde do stavu offline/neviditelný
+alarmonmsg Aktivuj alarm kdy¾ ti u¾ivatel po¹le zprávu
+alarmonstatus Aktivuj alarm kdy¾ u¾ivatel zmìní status
 alarmpref Nastavení alarmu pro u¾ivatele
-alarmstatus Nastavit alarm ON/OFF pru tohoto uzivatele
-allowseen Dovolit tomuto èloveku sledovat kdy budu pøipojený/á a kontaktovat mì
+alarmstatus Zapni/Vypni alarm pro tohoto u¾ivatele
+allowallbutbl Povolit kontaktování v¹em u¾ivatelùm kteøí nejsou v seznamu blokovaných
+allowbadwords Zakázat cenzuru pøezdívek
+allowonlyinal Povolit kontaktování pouze u¾ivatelùm ze seznamu povolených
+allowseen Dovolit tomuto èloveku sledovat kdy budu pøipojen(a) a kontaktovat mì
+animatedemoticons Tento emotikon je animovaný
+animatedsmileys Povolit animované smajlíky
 appearance Status
-appearoff Nepøipojený
+appearoff Vypadá nepøipojený
 areacode PSÈ
-aretyping $1 ti právì pí¹e odkaz
-autoaway Zmìnit mùj status na "Nepøítomný" kdy¾ budu neaktivní/á víc jak
-autoconnect2 Pøipojit se automaticky kdy¾ se spustí aMSN
-autoconnect Pøipojit se na aMSN hned na zaèátku
-autohotmaillog Automatický Hotmailový login
+aretyping $1 ti právì pí¹e zprávu
+autoaccepted Pøenos souborù potvrzen automaticky
+autoacceptft Automaticky potvrzuj po¾adavky na prenos souborù
+autoaway Zmìnit mùj status na "Nepøítomný" kdy¾ budu neaktivní déle ne¾
+autoconnect2 Pøipojit se automaticky pøi spu¹tìní aMSN
+autoconnect Pøipojit se ihned pøi startu aMSN
+autohotmaillog Automatický Hotmail login
 autoidle Auto Neaktivita
 autoip Automaticky IP
 autonoact Zmìnit status na "Neaktivní" kdy¾ nepromluvím víc ne¾
@@ -33,42 +49,59 @@ bgcolor Zmìnit barvu aMSN
 blankdirect Nechej bez oznaèení pro pøímé pøipojení na internet
 block Zablokovat
 blocked Zablokované
-blockmessage Tito lidé jsou pøipojení a zablokovali vás
+blockedyougroup U¾ivatele kteøí tì blokují zobrazovat ve zvlá¹tní skupinì
+blocking Blokování
+blockinter1 Kdy¾ jsi online kontroluj ka¾dých
+blockinter sekund, jinak ka¾dých:
+blockinter ka¾dých
+blockinter sekund.
+blocklist Seznam zablokovaných:
+blockmessage Tito lidé jsou pøipojení a zablokovali si vás
+blockusers Poèet u¾ivatelù kontrolovaných najednou
 broughtby Programovali
 browse Prohledat
 browser Prohlí¾eè
+browserexample (\$url budu nahrazeno URL). Pøíklad: mozilla \$url
 busy Zaneprázdnìný/á
 cancel Zru¹it
-cannotdeleteprofile Nemohu zmazat profil proto¾e ho momentálnì pouzívá aMSN
+cannotdeleteprofile Nemohu smazat profil, zdá se, ¾e ho právì pou¾ívá aMSN
+cantexec Nemohu spustit aplikaci $1. Zkontroluj preference.
 cfgalarm Nastavit/Pøidat/Zru¹it alarm
 changefont Zmìnit písmo
 changenick Zmìnit jméno
-chatack Pøijímání chatu od
-chat Chat
-chatreq Ptám se na povolení na chat
+changestate $1 zmìnil svùj stav na $2
+chatack Pøíjem konverzace od
+chat Konverzace
+chatreq Ptám se na povolení konverzace
 chatsmileys2 Povolit emotikony a smajlíky v oknech
-chatsmileys Smajlíky pre chat
+chatsmileys Smajlíky pro konverzaci
+checkblocking Pravidelnì kontroluj, zda tì u¾ivatelé blokují
 checkfilman Pøijaté soubory budou ulo¾ené v $1. Prosím prohlédnìte nastavení souborového mana¾era v "Upøednostit"
 checkingver Hledám novìj¹í verzi
 checkver Hledat novìj¹í verzi
+choosearq Vyber architekturu svého syystému
 choosebasefont Vyber písmo
 choosebgcolor Vyber barvu pro aMSN
 choosefontcolor Vyber barvu písma
+chooseskin Vyber si vzhled, který chce¹ pou¾ít
 clearlog2 Vymazat "Historii" pro v¹echny tvoje kontakty
 clearlog3 Vymazat v¹echny logy
 clearlog Vymazat log
 clicktologin Clikni sem na pøipojení
 close Zavøít
+closed Konverzace s $1 byla ukonèena z dùvodu neaktivity
 closingdocks Zru¹it options "Zmen¹it"
 command Pøíkaz
-confirm Jsi si jistý/á?
-confirmdelete Jsi si jistý/á ¾e chcete zmazat $1?
+confirm Jsi si jist(a)?
+confirmdelete Jsi si jist(a) ¾e chce¹ smazat $1?
 connected Nyní jsi pøipojený/á
 connecterror Chyba pøi pøipojení na server
 connecting Pøipojuji se
 connection Pøipojení
-contactadded Kontakt ulo¾ený
+connectionlost Odpojen: Spojení se serverem bylo ukonèeno
+contactadded Kontakt je ulo¾en
 contactdoesnotexist Kontakt neexistuje!
+contactlist Seznam kontaktù:
 copy Kopírovat
 copytogroup Kopírovat do tøídy
 countrycode Mùj kraj/PSC
@@ -291,24 +324,25 @@ tools Slu¾by
 to Pro
 transnotexists Tento soubor je¹tì nebyl pøelo¾ený do tohoto jazyku.
 traynotcompiled Ikona je¹tì nebyla vytvoøená. Nastav Plug-In.
+twonewmail $1 nové/ých maily/ù
 unblock Odblokovat
 uoffline Nepøipojený
 uonline Pøipojený
-useralreadyonlist U¾ivatel u¾ je v kontakt listu
+useralreadyonlist U¾ivatel u¾ je v seznamu kontaktù
 usernotonline U¾ivatel není pøipojený
 user U¾ivatel
 userblocked U¾ivatel je pøipojený, ale zablokoval tì
-useryourself Nemù¾e¹ chatovat sám se sebou...
+useryourself Nemù¾e¹ konverzovat sám se sebou...
 verifyblocked Ukázat lidi kteøí tì zablokovali
 version Verze
 viewprofile Zobrazit profil
 view Zobrazit
 willjoin Èekám na konverzace s $1
 work Práce
-wrongprofileversion ©patný soubor nastavení profilu. Na upravení, vyma¾te archiv $1, a nebo reinstalujte amsn
+wrongprofileversion ©patný soubor nastavení profilu. Oprav výmazem adresáøe $1 nebo pøeinstalováním aMSN
 xoffset Hodnota X
+yes Ano
 yoffset Hodnota Y
-youblocked Byl/a jsi zablokovaný/á!
-yousay Øekl/a jsi
+youblocked Byl(a) jsi zablokován(a)!
+yousay Øekl(a)s
 youwant Chce¹
-twonewmail $1 nových mailù
