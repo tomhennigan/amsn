@@ -1,0 +1,32 @@
+Questo programma e' software libero; puoi distribuirlo e/o modificarlo
+rispettando i termini della Licenza Pubblica Generale GNU (da qui indicata come GPL), 
+come pubblicata dalla Free Software Foundation, dalla versione 2 in poi
+(http://www.softwarelibero.it/gnudoc/gpl.it.txt).
+
+Questo programma e' distribuito nella speranza di esser utile, ma senza alcuna garanzia; 
+e' altresi' esclusa garanzia di perfetta funzionalita' per il compito che si propone 
+di svolgere (vedi il testo della GPL al link sopraindicato per maggiori informazioni).
+
+Essendo questo software regolato dalla GPL, ne hai ricevuto una copia assieme ad esso, 
+se trovi che questo non sia accaduto, segnalalo alla Free Software Foundation (www.fsf.org) 
+(snail mail: Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA)
+
+
+========================================================
+===Alvaro's Messenger===================================
+Il progetto aMSN deriva dall'iniziale CCMSN, che era gia' in se' valido ma che purtroppo, 
+ad un certo punto, fu abbandonato dal suo autore.
+Nonostante la sua bonta' di base mancava ancora di lavoro in alcune parti, come il supporto 
+ai protocolli di connessione, il miglioramento del look dell'interfaccia grafica, 
+e alcune altre cosette. Da qui abbiamo ripreso il progetto in due, 
+lavorandoci sopra inizialmente ognuno per conto proprio, poi unendo i nostri sforzi 
+(l'unione fa la forza!) e giungendo fino al punto attuale 
+(a nostro giudizio molto valido, ma c'e' ancora spazio per migliorare, come sempre ;) )
+
+Alvaro J. Iradier
+D. Emilio Grimaldo T.
+
+Potete segnalare bugs, mandare commenti, denaro, visitando la home page del progetto
+http://sourceforge.net/projects/amsn
+
+Potete controllare l'esistenza di nuove versioni anche visitando http://amsn.sourceforge.net
