@@ -26,6 +26,7 @@ set config(wingeometry) 275x400-0+0
 set config(closingdocks) 1
 #end AIM
 set config(orderbygroup) 0
+set config(withnotebook) 1
 
 set password ""
 
