@@ -729,7 +729,7 @@ proc create_smile_menu { {x 0} {y 0} } {
 	
     }
 
-    label $w.text.custom_new -text "[trans custom_new]"  -width [expr 1+[lindex $xy_geo 0]*3] -background [$w.text cget -background]
+    label $w.text.custom_new -text "[trans custom_new]"  -width [expr 1+[lindex $xy_geo 0]*3] -background [$w.text cget -background] -font splainf
     bind $w.text.custom_new <Enter> "$w.text.custom_new configure -relief raised"
     bind $w.text.custom_new <Leave> "$w.text.custom_new configure -relief flat"
     bind $w.text.custom_new <Button1-ButtonRelease> "new_custom_emoticon_gui; event generate $w <Leave>"
