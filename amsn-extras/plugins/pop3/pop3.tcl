@@ -423,6 +423,32 @@ namespace eval ::pop3 {
 	proc draw {event evPar} {		
 		upvar 2 $evPar vars
 
+		if {[string equal $::version "0.94"]} {
+			set textb $vars(text)
+
+			clickableImage $textb popmailpic mailbox {after cancel ::pop3::check; after 1 ::pop3::check} 5 0
+		} else {
+			#TODO: add parameter to event and get rid of hardcoded variable
+			set pgtop $::pgBuddyTop
+			set clbar $::pgBuddyTop.colorbar
+			
+			set textb $pgtop.pop3mail
+			text $textb -font bboldf -height 1 -background white -borderwidth 0 -wrap none\
+				-relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
+				-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
+			pack $textb -expand true -fill x -before $clbar -side bottom -padx 0 -pady 0
+
+			$textb configure -state normal
+
+			clickableImage $textb popmailpic mailbox {after cancel ::pop3::check; after 1 ::pop3::check} [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
+		}
+
+		#TODO: needs translation
+		set balloon_message "Click here to check the number of messages now."
+		bind $textb.popmailpic <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+		bind $textb.popmailpic <Leave> "+set ::Bulle(first) 0; kill_balloon;"
+		bind $textb.popmailpic <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+
 		if { $::pop3::emails < 0 } {
 			set mailmsg "Not Checked Yet (POP3)"
 		} elseif { $::pop3::emails == 0 } {
@@ -434,32 +460,28 @@ namespace eval ::pop3 {
 		} else {
 			set mailmsg "[trans newmail $::pop3::emails] (POP3)"
 		}
-		set maxw [expr [winfo width $vars(text)] -30]
-		set short_mailmsg [trunc $mailmsg $vars(text) $maxw splainf]
-
-		clickableImage $vars(text) popmailpic mailbox {after cancel ::pop3::check; after 1 ::pop3::check} 5 0
-		#TODO needs translation
-		set balloon_message "Click here to check the number of messages now."
-		bind $vars(text).popmailpic <Enter> +[list balloon_enter %W %X %Y $balloon_message]
-		bind $vars(text).popmailpic <Leave> "+set ::Bulle(first) 0; kill_balloon;"
-		bind $vars(text).popmailpic <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+		
+		if {[string equal $::version "0.94"]} {
+			set maxw [expr [winfo width $vars(text)] -30]
+			set short_mailmsg "[trunc $mailmsg $textb $maxw splainf]\n"
+		} else {
+			set maxw [expr [winfo width [winfo parent $pgtop]]-[$textb.popmailpic cget -width]-(2*[::skin::getKey mailbox_xpad])]
+			set short_mailmsg [trunc $mailmsg $textb $maxw splainf]
+		}
 
 		if { $::pop3::config(loadMailProg) } {
 			#Set up TAGS for mail notification
-			$vars(text) tag conf pop3mail -fore black -underline true -font splainf
-			$vars(text) tag bind pop3mail <Button1-ButtonRelease> "$vars(text) conf -cursor watch; after 1 ::pop3::loadDefaultEmail"
-			$vars(text) tag bind pop3mail <Enter> "$vars(text) tag conf pop3mail -under false;$vars(text) conf -cursor hand2"
-			$vars(text) tag bind pop3mail <Leave> "$vars(text) tag conf pop3mail -under true;$vars(text) conf -cursor left_ptr"
+			$textb tag conf pop3mail -fore black -underline true -font splainf
+			$textb tag bind pop3mail <Button1-ButtonRelease> "$textb conf -cursor watch; after 1 ::pop3::loadDefaultEmail"
+			$textb tag bind pop3mail <Enter> "$textb tag conf pop3mail -under false;$textb conf -cursor hand2"
+			$textb tag bind pop3mail <Leave> "$textb tag conf pop3mail -under true;$textb conf -cursor left_ptr"
 
-			$vars(text) insert end "$short_mailmsg\n"  pop3mail
-			$vars(text) tag add dont_replace_smileys pop3mail.first pop3mail.last
+			$textb insert end "$short_mailmsg" {pop3mail dont_replace_smileys}
 		} else {
-			$vars(text) insert end "$short_mailmsg\n"
+			$textb insert end "$short_mailmsg" dont_replace_smileys
 		}
-
-		if { ![::config::getKey checkemail] } {
-			$vars(text) insert end "\n"
-		}
+		
+		$textb configure -state disabled
 	}
 
 
@@ -473,6 +495,10 @@ namespace eval ::pop3 {
 		upvar 2 $evPar vars
 		upvar 2 $vars(msg) msg
 
-		set msg "[string range $msg 0 end-1] (Hotmail)\n"
+		if {[string equal $::version "0.94"]} {
+			set msg "[string range $msg 0 end-1] (Hotmail)\n"
+		} else {
+			set msg "[string range $msg 0 end] (Hotmail)"
+		}
 	}
 }
