@@ -10,83 +10,86 @@ Ok here is a new version of the TODO list (04/01/03)
 Burger * burger@mwvision.com
 
 
-***Bug Fixes and TODO before next release (priority 1)***
+	***Bug Fixes and TODO before next release (priority 1)***
 
-# Check Makefile and amsn.spec now that HELP and FAQ files are added. Make sure everything is installed correctly and FAQ and HELP are in the amsn directory.
-# Make good RPMs, for Redhat, Suse, Mandrake, etc.
-# Long messages knock out remote user from chat (if > 400, separate into 400 byte long fragments and send)
-# ** DONE ** New unified preferences dialog with tabs
-# ** DONE ** Multiple user accounts combo box + separate user config files
-# Refinements to queuing and reconnection issues
-# Improve font selection (unify with color selection)
-# Make status change dynamic in chat window and disable input window when YOU go offline
-# Don't save password if login fails becoz of wrong username or password
-# Fix public profile, use html file for authentication and login to MSN profiles?
-# Notify window is only clickable on the text, should make whole window clickable and add X to close (left and right click)
-# Write procedure to redraw main window for language + font changes
-# Fix new profile issues for existing users, should ask them to add profile even if they dont go to "login as"
-# Check for connection state, make sure amsn disconnects if connection goes down.
-# Authorisation request dialogs halt all AMSN, and queue all events, then kaboom when dialog is closed, not good.
-# ** DONE ** Fix use of default config for non profile logins (currently uses hard coded default config)
-# Improve enabling/disabling menu entries procedure, make language independant
-# When notify window is for a file transfer, clicking on it triggers a bug! 
+-	Check Makefile and amsn.spec now that HELP and FAQ files are added. 
+-	Make sure everything is installed correctly and FAQ and HELP are in the amsn directory.
+-	Make good RPMs, for Redhat, Suse, Mandrake, etc.
+DONE	Long messages knock out remote user from chat (if > 400, separate into 400 byte long fragments and send)
+DONE	New unified preferences dialog with tabs
+DONE	Multiple user accounts combo box + separate user config files
+-	Refinements to queuing and reconnection issues
+-	Improve font selection (unify with color selection)
+-	Make status change dynamic in chat window and disable input window when YOU go offline
+-	Don't save password if login fails becoz of wrong username or password
+-	Fix public profile, use html file for authentication and login to MSN profiles?
+DONE	Notify window is only clickable on the text, should make whole window clickable and add X to close (left and right click)
+-	Write procedure to redraw main window for language + font changes
+-	Fix new profile issues for existing users, should ask them to add profile even if they dont go to "login as"
+-	Check for connection state, make sure amsn disconnects if connection goes down.
+-	Authorisation request dialogs halt all AMSN, and queue all events, then kaboom when dialog is closed, not good.
+DONE	Fix use of default config for non profile logins (currently uses hard coded default config)
+-	Improve enabling/disabling menu entries procedure, make language independant
+DONE	When notify window is for a file transfer, clicking on it triggers a bug! 
+-	Add "Make this config default profile" button in Preferences
 
-***Existing Feature Improvements (priority 2)***
+	
+	***Existing Feature Improvements (priority 2)***
 
-File Transfer issues :
-# File Transfer AUTH protocol fix (and add the nick of person sending file to transfer window)
-# Multiple File receive at once, either allow but fix saved filenames or disallow multiple recv at once
-# Fix conference messaging issues (mass file send)
-# Display link to received file and click to open
+	**File Transfer issues :
+-	File Transfer AUTH protocol fix (and add the nick of person sending file to transfer window)
+-	Multiple File receive at once, either allow but fix saved filenames or disallow multiple recv at once
+-	Fix conference messaging issues (mass file send)
+-	Display link to received file and click to open
 
-Alarm system improvements and bugs :
-# URL Decode names when displaying alarm
-# Config seems to automagically disapear sometimes
-# On Connect/ On Msg / On status / On disconnect change alarms
-# Allow alarms to run a command
-# JPG Support
+	**Alarm system improvements and bugs :
+-	URL Decode names when displaying alarm
+-	Config seems to automagically disapear sometimes
+-	On Connect/ On Msg / On status / On disconnect change alarms
+-	Allow alarms to run a command
+-	JPG Support
 
-Loging system improvements and bugs :
-# Add date limit or file size limit for log files
-# Add option for partial loging of only certain users
-# ** DONE ** Save to FILE (all of history for example)
-# Save to LOG (if loging disabled, allows to log certain conversations only)
-# "Clear all logs" button (in preferences)
-# Compress log files with optimal algorithm for txt files
-# Loging syntax options (timestamps, email or nics, etc)
+	**Loging system improvements and bugs :
+-	Add date limit or file size limit for log files
+-	Add option for partial loging of only certain users
+DONE	Save to FILE (all of history for example)
+-	Save to LOG (if loging disabled, allows to log certain conversations only)
+DONE	"Clear all logs" button (in preferences)
+-	Compress log files with optimal algorithm for txt files
+-	Loging syntax options (timestamps, email or nics, etc)
 
-WindowsXP issues :
-# Problem with URLs and top user status in main window on mouse over (spacing under mouse cursour)
-# Problem with sound
-# Selections dont appear
-# Double Pastes on CTRL-V
-# Ugly program icons (WISH icon, not ours)
-# Fonts dialog all messed up
+	**WindowsXP issues :
+-	Problem with URLs and top user status in main window on mouse over (spacing under mouse cursour)
+-	Problem with sound
+-	Selections dont appear
+-	Double Pastes on CTRL-V
+-	Ugly program icons (WISH icon, not ours)
+-	Fonts dialog all messed up
 
-Others
-# Fix display issue when copying a user in more than 1 group (displays the user twice in the same group)
-# Reenable copy option for contact list (currently commented out)
+	**Others
+-	Fix display issue when copying a user in more than 1 group (displays the user twice in the same group)
+-	Reenable copy option for contact list (currently commented out)
 
 
-***Extra Features (priority 3)***
+	***Extra Features (priority 3)***
 
-# Menu accelerators
-# Gnome2 Docking + KDE Docking
-# Autoconnect (when connection detected)
-# Notebook like chat windows (as an option)
-# AutoAway Messages
-# Encrypt password? (do we really need to? I think not)
-# Resume File Transfers
-# Socks5 Proxy Support
-# Option to popup/raise/unminimize message window on message receive
-# Option to have local window appear before remote user sends message (only when remote double clicks your name). Some people asked for this... even begged.. so here it is
-# Direct connection between amsn clients, without sb, real time chat.
-# Better management of special characters and \n in nicks
+-	Menu accelerators
+-	Gnome2 Docking + KDE Docking
+-	Autoconnect (when connection detected)
+-	Notebook like chat windows (as an option)
+-	AutoAway Messages
+-	Encrypt password? (do we really need to? I think not)
+-	Resume File Transfers
+-	Socks5 Proxy Support
+-	Option to popup/raise/unminimize message window on message receive
+-	Direct connection between amsn clients, without sb, real time chat.
+-	Better management of special characters and \n in nicks
 
-***Graphical Interface (priority 4)***
+	
+	***Graphical Interface (priority 4)***
 
-# Background image, animation when logging in
-# Transparent background message windows (is it possible now with 8.4?)
-# Skin\Themes selection
-# ... at the end of nicks that don't fit in the contact list
-# AutoUpgrade AMSN
+-	Background image, animation when logging in
+-	Transparent background message windows (is it possible now with 8.4?)
+-	Skin\Themes selection
+-	... at the end of nicks that don't fit in the contact list
+-	AutoUpgrade AMSN

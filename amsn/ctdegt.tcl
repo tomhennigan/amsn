@@ -681,8 +681,8 @@ proc Preferences { settings } {
 	default { return }
     }
 
-    tkwait visibility .cfg
-    grab set .cfg
+    #tkwait visibility .cfg
+    #grab set .cfg
 }
 
 # This is where we fill in the Entries of the Preferences
@@ -695,6 +695,8 @@ proc InitPref {} {
 	if { $user_stat == "FLN" } {
 		$lfname.lfname.f.f.name configure -state disabled
 	} else {
+		$lfname.lfname.f.f.name configure -state normal
+		$lfname.lfname.f.f.name delete 0 end
 		$lfname.lfname.f.f.name insert 0 [urldecode [lindex $user_info 4]]
 	}
 
@@ -709,6 +711,20 @@ proc InitPref {} {
 		$lfname.2.ephone51 configure -state disabled
 		$lfname.2.ephone52 configure -state disabled
 	} else {
+		$lfname.2.ephone1 configure -state normal
+		$lfname.2.ephone31 configure -state normal
+		$lfname.2.ephone32 configure -state normal
+		$lfname.2.ephone41 configure -state normal
+		$lfname.2.ephone42 configure -state normal
+		$lfname.2.ephone51 configure -state normal
+		$lfname.2.ephone52 configure -state normal
+		$lfname.2.ephone1 delete 0 end
+		$lfname.2.ephone31 delete 0 end
+		$lfname.2.ephone32 delete 0 end
+		$lfname.2.ephone41 delete 0 end
+		$lfname.2.ephone42 delete 0 end
+		$lfname.2.ephone51 delete 0 end
+		$lfname.2.ephone52 delete 0 end
 		::abook::getPersonal phones
 		$lfname.2.ephone1 insert 0 [lindex [split $phones(phh) " "] 0]
 		$lfname.2.ephone31 insert 0 [lindex [split $phones(phh) " "] 1]
@@ -724,6 +740,7 @@ proc InitPref {} {
 	set lfname "$lfname.lfname.f.f"
    	set idx 0
    	set tmp_list ""
+	$lfname.1.profile list delete 0 end
    	while { [LoginList get $idx] != 0 } {
 		lappend tmp_list [LoginList get $idx]
 		incr idx
@@ -821,7 +838,7 @@ proc SavePreferences {} {
     set lfname [Rnotebook:frame $nb 1]
     set lfname "$lfname.lfname.f.f"
     set new_name [$lfname.name get]
-    if {$new_name != "" && $new_name != [urldecode [lindex $user_info 4]]} {
+    if {$new_name != "" && $new_name != [urldecode [lindex $user_info 4]] && $user_stat != "FLN"} {
 	::MSN::changeName $config(login) $new_name
     }
 
@@ -971,6 +988,14 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.30  2003/01/28 08:36:05  burgerman
+# New look for TODO :P cant help myself
+# Fixed long messages < 400, now gets separated into small fragments and sends automaticly
+# Fixed notify window clickable thing (still need to add X)
+# Fixed notify on file transfer
+# Made preferences dynamic, can login/logout while pref open, will adapt
+# Lotsa small bug fixes for strange user inputs (empty usernames, password, etc)
+#
 # Revision 1.29  2003/01/26 03:02:31  burgerman
 # +Preferences finished, Delete all Logs and Delete profile working.
 # +Made new profiles use DEFAULT profile initially

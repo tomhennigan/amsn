@@ -275,8 +275,7 @@ proc ConfigChange { window email } {
 	global HOME HOME2 password config log_dir
 	if { $email != "" } {
 		save_config
-	}
-
+	
 	set oldlang $config(language)
 	if { [info exists password] } {
 		set password ""
@@ -302,6 +301,7 @@ proc ConfigChange { window email } {
  
 	.login.c.password delete 0 end
 	.login.c.password insert 0 $password
+	}
 }
 
 

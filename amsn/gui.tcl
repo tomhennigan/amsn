@@ -183,7 +183,7 @@ namespace eval ::amsn {
       if { "[wm state ${win_name}]" == "withdrawn" } {
         wm state ${win_name} iconic
 	::amsn::notifyAdd "[trans says $fromname]:\n$txt" \
-	   "::amsn::chatTo $chatid"
+	   "::amsn::chatUser $chatid"
 	   #"wm state ${win_name} normal"
       }
 
@@ -986,10 +986,23 @@ namespace eval ::amsn {
 
       $input delete 0.0 end
       focus ${input}
-
-      set ackid [after 50000 ::amsn::DeliveryFailed $chatid [list $msg]]
-      #::MSN::chatQueue $chatid [list ::MSN::messageTo $chatid "$msg" $ackid]
-      ::MSN::messageTo $chatid "$msg" $ackid
+      
+      if { [string length $msg] > 400 } {
+      	set first 0
+	while { [expr $first + 400] <= [string length $msg] } {
+		set msgchunk [string range $msg $first [expr $first + 399]]
+		set ackid [after 50000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
+		::MSN::messageTo $chatid "$msgchunk" $ackid
+		incr first 400
+	}
+	set msgchunk [string range $msg $first end]
+	set ackid [after 50000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
+	::MSN::messageTo $chatid "$msgchunk" $ackid
+      } else {
+      	set ackid [after 50000 ::amsn::DeliveryFailed $chatid [list $msg]]
+      	#::MSN::chatQueue $chatid [list ::MSN::messageTo $chatid "$msg" $ackid]
+      	::MSN::messageTo $chatid "$msg" $ackid
+      }
 
       set fontfamily [lindex $config(mychatfont) 0]
       set fontstyle [lindex $config(mychatfont) 1]
@@ -1557,19 +1570,13 @@ namespace eval ::amsn {
       set notify_id [$w.c create text 78 40 -font splainf \
          -justify center -width 148 -anchor n -text "$msg"]
 
-      $w.c bind $notify_id <Enter> \
-         "$w.c conf -cursor hand2"
-
-      $w.c bind $notify_id <Leave> \
-         "$w.c conf -cursor left_ptr"
-
       set after_id [after 8000 "::amsn::KillNotify $w $ypos"]
 
-      $w.c bind $notify_id <ButtonRelease-1> "after cancel $after_id;\
-        ::amsn::KillNotify $w $ypos; $command"
+      bind $w.c <Enter> "$w.c configure -cursor hand2"
+      bind $w.c <Leave> "$w.c configure -cursor left_ptr"
+      bind $w <ButtonRelease-1> "after cancel $after_id; ::amsn::KillNotify $w $ypos; $command"
+      bind $w <ButtonRelease-3> "after cancel $after_id; ::amsn::KillNotify $w $ypos"
 
-      $w.c bind $notify_id <ButtonRelease-3> "after cancel $after_id;\
-        ::amsn::KillNotify $w $ypos"
 
       wm title $w "[trans msn] [trans notify]"
       wm overrideredirect $w 1
@@ -2226,6 +2233,11 @@ proc cmsn_draw_offline {} {
 
    #Publish Phone Numbers
 #   configureMenuEntry .options "[trans publishphones]..." disabled
+
+   #Initialise Preferences if window is open
+   if { [winfo exists .cfg] } {
+   	InitPref
+   }
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -2259,7 +2271,11 @@ proc login_ok {} {
    grab release .login
    destroy .login
 
-   ::MSN::connect [list $config(login)] [list $password]
+   if { $password != "" && $config(login) != "" } {
+	::MSN::connect [list $config(login)] [list $password]
+  } else {
+  	cmsn_draw_login
+  }
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -2366,12 +2382,11 @@ proc NewProfileAsk { email } {
 
 	button .loginask.c.ok -text [trans cprofile] -command "grab release .loginask; destroy .loginask; CreateProfile $email 1"
 	button .loginask.c.cancel -text [trans dcprofile] -command "grab release .loginask; destroy .loginask; CreateProfile $email 0"
-
    
    	grid .loginask.c.ok -row 2 -column 1 -pady 10
   	grid .loginask.c.cancel -row 2 -column 1 -pady 5 -sticky e
 
-	#bind .login <Destroy> {if {"%W" == ".loginask "} {return 0} }
+	bind .loginask <Destroy> "CreateProfile $email 0"
 	tkwait visibility .loginask
 	grab set .loginask
 }
@@ -2599,6 +2614,11 @@ proc cmsn_draw_online {} {
    
    bind $pgBuddy.text <Configure>  "after cancel cmsn_draw_online; after 100 cmsn_draw_online"
 
+   #Init Preferences if window is open
+   if { [winfo exists .cfg] } {
+   	InitPref
+   }
+
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -2743,7 +2763,7 @@ proc cmsn_draw_addcontact {} {
    bind .addcontact.c.email <Return> "addcontact_next"
    focus .addcontact.c.email
 
-   tkwait visibility .addcontact
+#   tkwait visibility .addcontact
 #   grab set .addcontact
 }
 #///////////////////////////////////////////////////////////////////////
@@ -2911,8 +2931,8 @@ proc newcontact {new_login new_name} {
    .newc.c create window 245 120 -window .newc.c.ok -anchor ne
    .newc.c create window 255 120 -window .newc.c.cancel -anchor nw
 
-   tkwait visibility .newc
-   grab set .newc
+#   tkwait visibility .newc
+#   grab set .newc
 }
 #///////////////////////////////////////////////////////////////////////
 
