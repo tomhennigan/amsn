@@ -1,7 +1,7 @@
 amsn_lang_version 2
 about Sobre
 accept Acceptar
-acceptfile Acceptes l'arxiu $1, de mida $2? Guardat a $3
+acceptfile Acceptes el fitxer $1, de mida $2? Desat a $3
 actions Accions
 addacontact Afegeix un contacte
 addedyou t'ha inclòs a la seva llista de contactes
@@ -16,7 +16,7 @@ allowseen Deixa que aquesta persona vegi si estic connectat i que contacti amb m
 appearoff Simula desconnexió
 aretyping $1 estan escrivint un missatge
 autohotmaillog Connectar-se a Hotmail automàticament
-autoidle Canviar a Sense Activitat de manera automàtica
+autoidle Canviar a "Sense activitat" de manera automàtica
 autoip IP Automàtica
 avoidseen No deixis que aquesta persona vegi si estic connectat i que contacti amb mi
 away No hi és
@@ -57,23 +57,23 @@ cut Talla
 date Data
 delete Esborrar
 dockgtk Acoplament amb el Gnome
-docking Acoplant
-dockingoff Desacoplant
+docking Acoplament
+dockingoff Desactivat
 dockkde Acoplament amb el KDE
 edit Edita
 enableproxy Habilitar el servidor intermediari (Proxy)
 encoding Escull la codificació
 entercontactemail Escriu l'adreça de correu del contacte
-enterfilename Introdueix el nom de l'arxiu
+enterfilename Introdueix el nom del fitxer
 enternick Escriu el teu nick
 examples Exemples
 exitamsn ¿Estàs segur de voler sortir?
 extras Serveis extra
 faq Preguntes freqüents (FAQ)
-filedoesnotexist L'arxiu no existeix
-filename Nom de l'arxiu
+filedoesnotexist El fitxer no existeix
+filename Nom del fitxer
 filetransfercancelled S'ha cancel·lat la transferència
-filetransfercomplete La transferència del arxiu ha finalitzat
+filetransfercomplete La transferència del fitxer ha finalitzat
 ftaccepted Transferència de Fitxers acceptada
 ftrejected Transferència de Fitxers rebutjada
 gonelunch Estic dinant
@@ -106,7 +106,7 @@ leaveblankforhotmail Deixa en blanc per usar hotmail
 leaves $1 deixa la conversa
 listeningon Escoltant el port $1
 listsmileys Llista d'emoticones
-loadcontacts Carregar una llista de contactes
+loadcontacts Obrir una llista de contactes
 loggedotherlocation Desconnectat. S'ha iniciat la sessió en un altre lloc
 loggingin Connectant-se
 loginas Connectar-se com
@@ -138,7 +138,7 @@ ok Bé
 onenewmail 1 missatge nou a la bústia
 online Connectat
 onphone Al telèfon
-openreceived Obrir arxius rebuts
+openreceived Obrir fitxers rebuts
 options Opcions
 ordercontactsby Ordenar els contactes per
 other Un altre
@@ -157,19 +157,19 @@ proxyconf Configuració del servidor intermediari (Proxy)
 proxyconfhttp Configuració del suport per al servidor intermediari HTTP
 publishphones Publicar els meus números de telèfon
 receivedbytes Rebuts $1 de $2 bytes
-receivefile Rebent arxiu
+receivefile Rebent fitxer
 reconnect Esperant a que $1 es reconnecti
 reconnecting Reconnectant-se al servidor
 reject Rebutjar
 rememberpass Recordar contrasenya
 rightback Un moment
-saveas Guardar com
-savecontacts Guardar la llista de contactes
-save Guardar
+saveas Desar com
+savecontacts Desar la llista de contactes
+save Desar
 says $1 diu
 sbcon Connectant-se a la Switch Board
 send Enviar
-sendfile Enviar arxiu
+sendfile Enviar fitxer
 sendmail Enviar correu electrònic
 sendmsg Enviar missatge
 sentbytes Enviats $1 de $2 bytes

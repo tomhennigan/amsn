@@ -45,17 +45,21 @@ close Sluiten
 closingdocks Sluit venster
 command Programma
 confirmdelete Wilt u echt $1 verwijderen?
+confirm Weet je het zeker?
 connecterror Verbindingsfout
 contactadded Contactpersoon toegevoegd
 contactdoesnotexist Contactpersoon bestaat niet
 contacterror Fout tijdens het verbinden met de server
+copy    Kopiëren
 copytogroup kopiëren naar groep
+cut     Knippen
 date Datum
 delete Wis
 dockgtk Verbergen voor gnome
 dockingoff Verbergen uit
 docking Verberg
 dockkde Verbergen voor KDE
+edit    Bewerken
 enableproxy Gebruik proxy
 encoding Encoding
 entercontactemail Geef contact-email in
@@ -119,6 +123,7 @@ msg Bericht
 msn AMSN
 mustrestart Je moet het programma herstarten voordat de veranderingen effect 
 mystatus Mijn status
+natip   IP detectie via website
 needonline Je bent offline (of doet alsof)  
 newmail $1 nieuwe berichten 
 newmailfrom Nieuwe email van
@@ -142,6 +147,7 @@ ordercontactsby Sorteer contacten op
 other Andere
 pager Beeper
 pass Paswoord
+paste   Plakken
 phone Telefoon
 picfile Alarm beeldbestand (GIF < 500 x 500 pixels)
 picstatus Schakel alarm beeldbestand aan/uit
