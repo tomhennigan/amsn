@@ -251,6 +251,7 @@ proc cmsn_draw_main {} {
    #User status menu
    menu .my_menu -tearoff 0 -type normal  
    .my_menu add command -label [trans online] -command "::MSN::changeStatus NLN"
+   .my_menu add command -label [trans noactivity] -command "::MSN::changeStatus IDL"
    .my_menu add command -label [trans busy] -command "::MSN::changeStatus BSY"
    .my_menu add command -label [trans rightback] -command "::MSN::changeStatus BRB"
    .my_menu add command -label [trans away] -command "::MSN::changeStatus AWY"
