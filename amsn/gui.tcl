@@ -674,11 +674,14 @@ namespace eval ::amsn {
 
 #		set filename [ $w.top.fields.file get ]
 		if { $filename == "" } {
-			set filename [tk_getOpenFile -filetypes  {{"All Files" {*}}} -parent $win_name -title "[trans sendfile]" -initialdir $starting_dir]
+			set filename [chooseFileDialog "" "" [list [list [trans allfiles] *]] [trans sendfile]]
 			status_log $filename
 		}
 		
 		if { $filename == "" } { return }
+		
+		#Remember last directory
+		set starting_dir [file dirname $filename]
 		
 		if {![file readable $filename]} {
 			msg_box "[trans invalidfile [trans filename] $filename]"
@@ -7105,17 +7108,17 @@ proc reloadAvailablePics { } {
 }
 
 #proc chooseFileDialog {basename {initialfile ""} {types {{"All files"         *}} }} {}
-proc chooseFileDialog {basename {initialfile ""} {types { {"All Files" {*}}} }} {
+proc chooseFileDialog {basename {initialfile ""} {types { {"All Files" {*}}} } {title ""}} {
 	set parent "."
 	catch {set parent [focus]}
 
 	global  starting_dir
-	if { "$initialfile" == "" } {
-		return [tk_getOpenFile -filetypes $types -parent $parent -initialdir $starting_dir]
-	} else {
-		return [tk_getOpenFile -filetypes $types -parent $parent \
-			-initialfile $initialfile]
-	}
+	set selfile [tk_getOpenFile -filetypes $types -parent $parent -initialdir $starting_dir -initialfile $initialfile -title $title]
+	if { $selfile != "" } {
+		#Remember last directory
+		set starting_dir [file dirname $selfile]
+	}		
+	return $selfile
 }
 
 proc pictureDeleteFile {} {
