@@ -1,3 +1,5 @@
+tk_setPalette #D8D8E0
+#tk_setPalette activeForeground #FFFF00
 
 namespace eval ::amsn {
    namespace export fileTransferSend fileTransferRecv fileTransferProgress \
