@@ -1,12 +1,16 @@
 #######################################################
 #             aMSN POP3 Checker Plugin                #
-#        By Alberto Díaz and Arieh Schneier           #
+#                By Arieh Schneier                    #
+#          With small contributions from:             #
+#       Alberto Díaz and Jonas De Meulenaere          #
 #          POP3 Code from Tclib project               #
 #######################################################
+
 namespace eval ::pop3 {
 	variable config
 	variable configlist
-	variable emails -1
+	variable emails 0
+	variable newMails -1
 
 	#######################################################################################
 	#######################################################################################
@@ -30,6 +34,8 @@ namespace eval ::pop3 {
 			notify {1}
 			loadMailProg {0}
 			mailProg {msimn}
+			caption {POP3}
+			leavemails {0}
 		}
 
 		set ::pop3::configlist [list \
@@ -41,6 +47,8 @@ namespace eval ::pop3 {
 			[list bool "Show notify window" notify] \
 			[list bool "Load mail program on click" loadMailProg] \
 			[list str "          Mail Program" mailProg] \
+			[list bool "Your mail program leaves mails on server" leavemails] \
+			[list str "Display name" caption] \
 		]
 
 		#only start checking now if already online
@@ -111,7 +119,7 @@ namespace eval ::pop3 {
 					set value "Illegal option \"$option\""
 					set result -1
 				}
-	    		}
+			}
 
 			default {
 				# Skip ahead
@@ -333,17 +341,26 @@ namespace eval ::pop3 {
 
 				plugins_log pop3 "POP3 messages: $mails\n"
 				if { $::pop3::emails != $mails } {
+					set dontnotifythis 0
+					if { $::pop3::config(leavemails) == 1 } {
+						if { $::pop3::emails < $mails } {
+							set ::pop3::newMails [expr { $pop3::newMails + $mails - $::pop3::emails } ]
+						} else {
+							set dontnotifythis 1
+						}
+					} else {
+						set ::pop3::newMails $mails
+					}
 					set ::pop3::emails $mails
 					cmsn_draw_online
 
-					if { $::pop3::config(notify) == 1 && $mails != 0 } {
-						::amsn::notifyAdd "POP3\n[trans newmail $mails]" "" "" plugins
-					}
-					#If Growl plugin is loaded, show the notification
-					if {$mails !=0} {
+					if { $::pop3::config(notify) == 1 && $::pop3::newMails != 0 && $dontnotifythis == 0 } {
+						::amsn::notifyAdd "POP3\n[trans newmail $::pop3::newMails]" "" "" plugins
+
+						#If Growl plugin is loaded, show the notification
 						set pluginidx [lindex [lsearch -all $::plugins::found "*growl*"] 0]
 						if { $pluginidx != "" } {
-							 catch {growl post Pop POP3 [trans newmail $mails]}
+							catch {growl post Pop POP3 [trans newmail $mails]}
 						}
 					}
 				}
@@ -411,6 +428,10 @@ namespace eval ::pop3 {
 				plugins_log pop3 "Failed to load $::pop3::config(mailProg) with the error: $res\n"
 			}
 		}
+
+		#reset number of new mails
+		set ::pop3::newMails 0
+		cmsn_draw_online
 	}
 
 
@@ -461,16 +482,16 @@ namespace eval ::pop3 {
 		bind $textb.popmailpic <Leave> "+set ::Bulle(first) 0; kill_balloon;"
 		bind $textb.popmailpic <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
-		if { $::pop3::emails < 0 } {
-			set mailmsg "Not Checked Yet (POP3)"
-		} elseif { $::pop3::emails == 0 } {
-			set mailmsg "[trans nonewmail] (POP3)"
-		} elseif {$::pop3::emails == 1} {
-			set mailmsg "[trans onenewmail] (POP3)"
-		} elseif {$::pop3::emails == 2} {
-			set mailmsg "[trans twonewmail 2] (POP3)"
+		if { $::pop3::newMails < 0 } {
+			set mailmsg "Not Checked Yet ($::pop3::config(caption))"
+		} elseif { $::pop3::newMails == 0 } {
+			set mailmsg "[trans nonewmail] ($::pop3::config(caption))"
+		} elseif {$::pop3::newMails == 1} {
+			set mailmsg "[trans onenewmail] ($::pop3::config(caption))"
+		} elseif {$::pop3::newMails == 2} {
+			set mailmsg "[trans twonewmail 2] ($::pop3::config(caption))"
 		} else {
-			set mailmsg "[trans newmail $::pop3::emails] (POP3)"
+			set mailmsg "[trans newmail $::pop3::newMails] ($::pop3::config(caption))"
 		}
 		
 		if {[string equal $::version "0.94"]} {
