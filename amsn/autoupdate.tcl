@@ -183,6 +183,7 @@ namespace eval ::autoupdate {
 		switch $tlsplatform {
 			"solaris26" -
 			"linuxx86" -
+			"linuxppc" -
 			"linuxsparc" -
 			"netbsdx86" -
 			"netbsdsparc64" -
