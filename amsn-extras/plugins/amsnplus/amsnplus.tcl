@@ -665,8 +665,8 @@ namespace eval ::amsnplus {
 	################################################
 	# this proc add external commands to amsnplus
 	# (useful for other plugins)
-	proc add_command { keyword proc parameters } {
-		set ::amsnplus::external_commands($keyword) [list $proc $parameters]
+	proc add_command { keyword proc win_name parameters } {
+		set ::amsnplus::external_commands($keyword) [list $proc $win_name $parameters]
 	}
 	
 	#####################################################
@@ -694,15 +694,26 @@ namespace eval ::amsnplus {
 				set strlen [string length $msg]
 				set kwdlist $::amsnplus::external_commands($keyword)
 				set proc [lindex $kwdlist 0]
-				set parameters [lindex $kwdlist 1]
+				set parameters [lindex $kwdlist 2]
 				set values ""
 				set j 0
 				while { $j < $parameters } {
 					set values [append values [::amsnplus::readWord $i $msg $strlen]]
 					incr j
 				}
-				set result [$proc $values]
-				status_log "$proc $values -> $result\n"
+				if {[lindex $kwdlist 1]} {
+					if {[string equal $values ""]} {
+						$proc $win_name
+					} else {
+						$proc $win_name $values
+					}
+				} else {
+					if {[string equal $values ""]} {
+						$proc
+					} else {
+						$proc $values
+					}
+				}
 				set msg ""
 				set strlen 0
 				set incr 0
