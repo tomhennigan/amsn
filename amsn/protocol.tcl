@@ -5032,7 +5032,10 @@ namespace eval ::MSNP2P {
 			    } elseif { [lindex [SessionList get $cSid] 7] == "filetransfer" } {
 				# Display message that file transfer is finished...
 				status_log "File transfer finished!\n"
-				::amsn::WinWrite $chatid "[trans filetransfercomplete]\n" gray
+				::amsn::WinWrite $chatid "----------\n" green
+				::amsn::WinWriteIcon $chatid fticon 3 2
+				::amsn::WinWrite $chatid " [trans filetransfercomplete]\n\n" green
+				::amsn::WinWrite $chatid "----------\n" green
 			    }
 			}
 		    } elseif { $cMsgSize == 4 } {
