@@ -413,9 +413,9 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.4.llook -text "[trans dateformat]" -padx 10
 	pack $lfname.4 -side top -padx 0 -pady 0 -expand 1 -fill both
 	pack $lfname.4.llook -anchor w -side top -padx 10
-	radiobutton $lfname.4.mdy -text "[trans month]/[trans day]/[trans year]" -value MDY -variable config(dateformat)
-	radiobutton $lfname.4.dmy -text "[trans day]/[trans month]/[trans year]" -value DMY -variable config(dateformat)
-	radiobutton $lfname.4.ymd -text "[trans year]/[trans month]/[trans day]" -value YMD -variable config(dateformat)
+	radiobutton $lfname.4.mdy -text "[trans month]/[trans day]/[trans year]" -value MDY -variable [::config::getVar dateformat]
+	radiobutton $lfname.4.dmy -text "[trans day]/[trans month]/[trans year]" -value DMY -variable [::config::getVar dateformat]
+	radiobutton $lfname.4.ymd -text "[trans year]/[trans month]/[trans day]" -value YMD -variable [::config::getVar dateformat]
 	pack $lfname.4.mdy $lfname.4.dmy $lfname.4.ymd -side left -padx 10
 
 
@@ -426,11 +426,11 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.pemotic -side left -anchor nw
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -side left -padx 0 -pady 0 -expand 1 -fill x
-	checkbutton $lfname.1.chat -text "[trans chatsmileys2]" -onvalue 1 -offvalue 0 -variable config(chatsmileys)
-	checkbutton $lfname.1.list -text "[trans listsmileys2]" -onvalue 1 -offvalue 0 -variable config(listsmileys)
-        checkbutton $lfname.1.sound -text "[trans emotisounds]" -onvalue 1 -offvalue 0 -variable config(emotisounds)
-        checkbutton $lfname.1.animated -text "[trans animatedsmileys]" -onvalue 1 -offvalue 0 -variable config(animatedsmileys)
-	#checkbutton $lfname.1.log -text "[trans logsmileys]" -onvalue 1 -offvalue 0 -variable config(logsmileys) -state disabled
+	checkbutton $lfname.1.chat -text "[trans chatsmileys2]" -onvalue 1 -offvalue 0 -variable [::config::getVar chatsmileys]
+	checkbutton $lfname.1.list -text "[trans listsmileys2]" -onvalue 1 -offvalue 0 -variable [::config::getVar listsmileys]
+        checkbutton $lfname.1.sound -text "[trans emotisounds]" -onvalue 1 -offvalue 0 -variable [::config::getVar emotisounds]
+        checkbutton $lfname.1.animated -text "[trans animatedsmileys]" -onvalue 1 -offvalue 0 -variable [::config::getVar animatedsmileys]
+	#checkbutton $lfname.1.log -text "[trans logsmileys]" -onvalue 1 -offvalue 0 -variable [::config::getVar logsmileys] -state disabled
 	#pack $lfname.1.chat $lfname.1.list $lfname.1.sound  $lfname.1.animated $lfname.1.log -anchor w -side top -padx 10
 	pack $lfname.1.chat $lfname.1.list $lfname.1.sound  $lfname.1.animated -anchor w -side top -padx 10 -pady 0
 
@@ -440,17 +440,17 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.palerts -image prefalerts
 	pack $lfname.palerts -side left -anchor nw
 	frame $lfname.1 -class Degt
-	checkbutton $lfname.1.alert1 -text "[trans shownotify]" -onvalue 1 -offvalue 0 -variable config(shownotify)
-	checkbutton $lfname.1.sound -text "[trans sound2]" -onvalue 1 -offvalue 0 -variable config(sound)
+	checkbutton $lfname.1.alert1 -text "[trans shownotify]" -onvalue 1 -offvalue 0 -variable [::config::getVar shownotify]
+	checkbutton $lfname.1.sound -text "[trans sound2]" -onvalue 1 -offvalue 0 -variable [::config::getVar sound]
 	pack $lfname.1 -anchor w -side top -padx 0 -pady 5 -expand 1 -fill both
 	pack $lfname.1.alert1 $lfname.1.sound -anchor w -side top -padx 10 -pady 0
 	#Bounce icon in the dock preference for Mac OS X
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		label $lfname.1.bouncedock -text "[trans bouncedock]" -padx 10
 		pack $lfname.1.bouncedock -anchor w -side top -padx 10
-		radiobutton $lfname.1.unlimited -text "[trans continuously]" -value unlimited -variable config(dockbounce)
-		radiobutton $lfname.1.once -text "[trans justonce]" -value once -variable config(dockbounce)
-		radiobutton $lfname.1.never -text "[trans never]" -value never -variable config(dockbounce)
+		radiobutton $lfname.1.unlimited -text "[trans continuously]" -value unlimited -variable [::config::getVar dockbounce]
+		radiobutton $lfname.1.once -text "[trans justonce]" -value once -variable [::config::getVar dockbounce]
+		radiobutton $lfname.1.never -text "[trans never]" -value never -variable [::config::getVar dockbounce]
 		pack $lfname.1.unlimited $lfname.1.once $lfname.1.never -side left -padx 10
 	}
 	$nb.nn compute_size
@@ -480,19 +480,19 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.1 -class Degt
 	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
-	checkbutton $lfname.1.lautonoact -text "[trans autonoact]" -onvalue 1 -offvalue 0 -variable config(autoidle) -command UpdatePreferences
+	checkbutton $lfname.1.lautonoact -text "[trans autonoact]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoidle] -command UpdatePreferences
 	entry $lfname.1.eautonoact -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -textvariable config(idletime)
 	label $lfname.1.lmins -text "[trans mins]" -padx 5
 	pack $lfname.1 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.1.lautonoact $lfname.1.eautonoact $lfname.1.lmins -side left
-	checkbutton $lfname.2.lautoaway -text "[trans autoaway]" -onvalue 1 -offvalue 0 -variable config(autoaway) -command UpdatePreferences
+	checkbutton $lfname.2.lautoaway -text "[trans autoaway]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoaway] -command UpdatePreferences
 	entry $lfname.2.eautoaway -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -textvariable config(awaytime)
 	label $lfname.2.lmins -text "[trans mins]" -padx 5
 	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.2.lautoaway $lfname.2.eautoaway $lfname.2.lmins -side left
-	checkbutton $lfname.3.lreconnect -text "[trans reconnect2]" -onvalue 1 -offvalue 0 -variable config(reconnect)
-	checkbutton $lfname.3.lonstart -text "[trans autoconnect2]" -onvalue 1 -offvalue 0 -variable config(autoconnect)
-	checkbutton $lfname.3.lstrtoff -text "[trans startoffline2]" -onvalue 1 -offvalue 0 -variable config(startoffline)
+	checkbutton $lfname.3.lreconnect -text "[trans reconnect2]" -onvalue 1 -offvalue 0 -variable [::config::getVar reconnect]
+	checkbutton $lfname.3.lonstart -text "[trans autoconnect2]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoconnect]
+	checkbutton $lfname.3.lstrtoff -text "[trans startoffline2]" -onvalue 1 -offvalue 0 -variable [::config::getVar startoffline]
 	pack $lfname.3 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.3.lreconnect $lfname.3.lonstart $lfname.3.lstrtoff -anchor w -side top
 
@@ -528,16 +528,16 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.3 -class Degt
 	
 	label $lfname.1.lchatmaxmin -text [trans chatmaxmin] -padx 10
-	radiobutton $lfname.1.max -text [trans raised] -value 0 -variable config(newchatwinstate)
+	radiobutton $lfname.1.max -text [trans raised] -value 0 -variable [::config::getVar newchatwinstate]
 	
 	#Don't show the minimised option on Mac OS X because that does'nt work in TkAqua
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		#Empty 
 	} else {
-		radiobutton $lfname.1.min -text [trans minimised] -value 1 -variable config(newchatwinstate)
+		radiobutton $lfname.1.min -text [trans minimised] -value 1 -variable [::config::getVar newchatwinstate]
 	}
 	
-	radiobutton $lfname.1.no -text [trans dontshow] -value 2 -variable config(newchatwinstate)
+	radiobutton $lfname.1.no -text [trans dontshow] -value 2 -variable [::config::getVar newchatwinstate]
 	pack $lfname.1.lchatmaxmin -anchor w -side top -padx 10
 	
 	#Don't pack the minimised option on Mac OS X because that does'nt work in TkAqua
@@ -552,17 +552,17 @@ proc Preferences { { settings "personal"} } {
 		#empty
 	} else {
 		label $lfname.2.lmsgmaxmin -text [trans msgmaxmin] -padx 10
-		radiobutton $lfname.2.max -text [trans raised] -value 0 -variable config(newmsgwinstate)
-		radiobutton $lfname.2.min -text [trans minimised] -value 1 -variable config(newmsgwinstate)
+		radiobutton $lfname.2.max -text [trans raised] -value 0 -variable [::config::getVar newmsgwinstate]
+		radiobutton $lfname.2.min -text [trans minimised] -value 1 -variable [::config::getVar newmsgwinstate]
 		pack $lfname.2.lmsgmaxmin -anchor w -side top -padx 10
 		pack $lfname.2.max $lfname.2.min -side left -padx 10
 	}
 	
 	#label $lfname.3.lmsgmode -text [trans msgmode] -padx 10
-	#radiobutton $lfname.3.normal -text [trans normal] -value 1 -variable config(msgmode) -state disabled
-	#radiobutton $lfname.3.tabbed -text [trans tabbed] -value 2 -variable config(msgmode) -state disabled
-	checkbutton $lfname.winflicker -text "[trans msgflicker]" -onvalue 1 -offvalue 0 -variable config(flicker)
-	checkbutton $lfname.showdisplaypic -text "[trans showdisplaypic2]" -onvalue 1 -offvalue 0 -variable config(showdisplaypic)
+	#radiobutton $lfname.3.normal -text [trans normal] -value 1 -variable [::config::getVar msgmode] -state disabled
+	#radiobutton $lfname.3.tabbed -text [trans tabbed] -value 2 -variable [::config::getVar msgmode] -state disabled
+	checkbutton $lfname.winflicker -text "[trans msgflicker]" -onvalue 1 -offvalue 0 -variable [::config::getVar flicker]
+	checkbutton $lfname.showdisplaypic -text "[trans showdisplaypic2]" -onvalue 1 -offvalue 0 -variable [::config::getVar showdisplaypic]
 
 	#pack $lfname.3.lmsgmode -anchor w -side top -padx 10
 	#pack $lfname.3.normal $lfname.3.tabbed -side left -padx 10
@@ -661,8 +661,8 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname -anchor n -side top -expand 0 -fill x
 	label $lfname.plog1 -image prefhist
 	pack $lfname.plog1 -anchor nw -side left
-	checkbutton $lfname.log -text "[trans keeplog2]" -onvalue 1 -offvalue 0 -variable config(keep_logs)
-	checkbutton $lfname.date -text "[trans logsbydate]" -onvalue 1 -offvalue 0 -variable config(logsbydate)
+	checkbutton $lfname.log -text "[trans keeplog2]" -onvalue 1 -offvalue 0 -variable [::config::getVar keep_logs]
+	checkbutton $lfname.date -text "[trans logsbydate]" -onvalue 1 -offvalue 0 -variable [::config::getVar logsbydate]
 	pack $lfname.log -anchor w
 	pack $lfname.date -anchor w
 
@@ -670,8 +670,8 @@ proc Preferences { { settings "personal"} } {
 #/////////TODO Add style log feature
 #	frame $lfname.2 -class Degt
 #	label $lfname.2.lstyle -text "[trans stylelog]" -padx 10
-#	radiobutton $lfname.2.hist -text [trans stylechat] -value 1 -variable config(logstyle) -state disabled
-#	radiobutton $lfname.2.chat -text [trans stylehist] -value 2 -variable config(logstyle) -state disabled
+#	radiobutton $lfname.2.hist -text [trans stylechat] -value 1 -variable [::config::getVar logstyle] -state disabled
+#	radiobutton $lfname.2.chat -text [trans stylehist] -value 2 -variable [::config::getVar logstyle] -state disabled
 #	pack $lfname.2.lstyle -anchor w -side top -padx 10
 #	pack $lfname.2.hist $lfname.2.chat -side left -padx 10
 #	pack $lfname.2 -anchor w -side top -expand 1 -fill x
@@ -694,13 +694,13 @@ proc Preferences { { settings "personal"} } {
 #	label $lfname.plog1 -image prefhist3
 #	pack $lfname.plog1 -anchor nw -side left
 #	frame $lfname.1 -class Degt
-#	checkbutton $lfname.1.lolder -text "[trans logolder]" -onvalue 1 -offvalue 0 -variable config(logexpiry) -state disabled
+#	checkbutton $lfname.1.lolder -text "[trans logolder]" -onvalue 1 -offvalue 0 -variable [::config::getVar logexpiry] -state disabled
 #	entry $lfname.1.eolder -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -state disabled
 #	label $lfname.1.ldays -text "[trans days]" -padx 5
 #	pack $lfname.1 -side top -padx 0 -expand 1 -fill both
 #	pack $lfname.1.lolder $lfname.1.eolder $lfname.1.ldays -side left
 #	frame $lfname.2 -class Degt
-#	checkbutton $lfname.2.lbigger -text "[trans logbigger]" -onvalue 1 -offvalue 0 -variable config(logmaxsize) -state disabled
+#	checkbutton $lfname.2.lbigger -text "[trans logbigger]" -onvalue 1 -offvalue 0 -variable [::config::getVar logmaxsize] -state disabled
 #	entry $lfname.2.ebigger -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0  -width 3 -state disabled
 #	label $lfname.2.lmbs -text "MBs" -padx 5
 #	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
@@ -712,14 +712,14 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname3 -anchor n -side top -expand 0 -fill x
 	label $lfname.plog1
 	grid $lfname.plog1 -columnspan 2
-	checkbutton $lfname.displayconnect -text "[trans displayeventconnect]" -onvalue 1 -offvalue 0 -variable config(display_event_connect)
-	checkbutton $lfname.displaydisconnect -text "[trans displayeventdisconnect]" -onvalue 1 -offvalue 0 -variable config(display_event_disconnect)
-	checkbutton $lfname.displayemail -text "[trans displayeventemail]" -onvalue 1 -offvalue 0 -variable config(display_event_email)
-	checkbutton $lfname.displaystate -text "[trans displayeventstate]" -onvalue 1 -offvalue 0 -variable config(display_event_state)
-	checkbutton $lfname.logconnect -text "[trans logeventconnect]" -onvalue 1 -offvalue 0 -variable config(log_event_connect)
-	checkbutton $lfname.logdisconnect -text "[trans logeventdisconnect]" -onvalue 1 -offvalue 0 -variable config(log_event_disconnect)
-	checkbutton $lfname.logemail -text "[trans logeventemail]" -onvalue 1 -offvalue 0 -variable config(log_event_email)
-	checkbutton $lfname.logstate -text "[trans logeventstate]" -onvalue 1 -offvalue 0 -variable config(log_event_state)
+	checkbutton $lfname.displayconnect -text "[trans displayeventconnect]" -onvalue 1 -offvalue 0 -variable [::config::getVar display_event_connect]
+	checkbutton $lfname.displaydisconnect -text "[trans displayeventdisconnect]" -onvalue 1 -offvalue 0 -variable [::config::getVar display_event_disconnect]
+	checkbutton $lfname.displayemail -text "[trans displayeventemail]" -onvalue 1 -offvalue 0 -variable [::config::getVar display_event_email]
+	checkbutton $lfname.displaystate -text "[trans displayeventstate]" -onvalue 1 -offvalue 0 -variable [::config::getVar display_event_state]
+	checkbutton $lfname.logconnect -text "[trans logeventconnect]" -onvalue 1 -offvalue 0 -variable [::config::getVar log_event_connect]
+	checkbutton $lfname.logdisconnect -text "[trans logeventdisconnect]" -onvalue 1 -offvalue 0 -variable [::config::getVar log_event_disconnect]
+	checkbutton $lfname.logemail -text "[trans logeventemail]" -onvalue 1 -offvalue 0 -variable [::config::getVar log_event_email]
+	checkbutton $lfname.logstate -text "[trans logeventstate]" -onvalue 1 -offvalue 0 -variable [::config::getVar log_event_state]
 	grid $lfname.displayconnect -row 0 -column 0 -sticky w
 	grid $lfname.displaydisconnect -row 1 -column 0 -sticky w
 	grid $lfname.displayemail -row 2 -column 0 -sticky w
@@ -757,25 +757,25 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.3 -class Degt
 	frame $lfname.4 -class Degt
 	frame $lfname.5 -class Degt
-	radiobutton $lfname.1.direct -text "[trans directconnection]" -value direct -variable config(connectiontype) -command UpdatePreferences
+	radiobutton $lfname.1.direct -text "[trans directconnection]" -value direct -variable [::config::getVar connectiontype] -command UpdatePreferences
 	pack $lfname.1.direct -anchor w -side top -padx 10
-	radiobutton $lfname.2.http -text "[trans httpconnection]" -value http -variable config(connectiontype) -command UpdatePreferences
+	radiobutton $lfname.2.http -text "[trans httpconnection]" -value http -variable [::config::getVar connectiontype] -command UpdatePreferences
 	pack $lfname.2.http -anchor w -side top -padx 10
-	radiobutton $lfname.3.proxy -text "[trans proxyconnection]" -value proxy -variable config(connectiontype) -command UpdatePreferences
+	radiobutton $lfname.3.proxy -text "[trans proxyconnection]" -value proxy -variable [::config::getVar connectiontype] -command UpdatePreferences
 	pack $lfname.3.proxy -anchor w -side top -padx 10
 
-	#checkbutton $lfname.1.proxy -text "[trans proxy]" -onvalue 1 -offvalue 0 -variable config(withproxy)
+	#checkbutton $lfname.1.proxy -text "[trans proxy]" -onvalue 1 -offvalue 0 -variable [::config::getVar withproxy]
 	#pack $lfname.1.proxy -anchor w -side top -padx 10
 
-	#radiobutton $lfname.2.http -text "HTTP" -value http -variable config(proxytype)
-	#radiobutton $lfname.2.socks5 -text "SOCKS5" -value socks -variable config(proxytype) -state disabled
+	#radiobutton $lfname.2.http -text "HTTP" -value http -variable [::config::getVar proxytype]
+	#radiobutton $lfname.2.socks5 -text "SOCKS5" -value socks -variable [::config::getVar proxytype] -state disabled
 	#pack $lfname.2.http $lfname.2.socks5 -anchor w -side left -padx 10
 
 	pack $lfname.1 $lfname.2 $lfname.3 $lfname.4 $lfname.5 -anchor w -side top -padx 0 -pady 0 -expand 1 -fill both
 
-	radiobutton $lfname.4.post -text "HTTP (POST method)" -value http -variable config(proxytype) -command UpdatePreferences
-	radiobutton $lfname.4.ssl -text "SSL (CONNECT method)" -value ssl -variable config(proxytype) -command UpdatePreferences
-	radiobutton $lfname.4.socks5 -text "SOCKS5" -value socks5 -variable config(proxytype) -command UpdatePreferences 
+	radiobutton $lfname.4.post -text "HTTP (POST method)" -value http -variable [::config::getVar proxytype] -command UpdatePreferences
+	radiobutton $lfname.4.ssl -text "SSL (CONNECT method)" -value ssl -variable [::config::getVar proxytype] -command UpdatePreferences
+	radiobutton $lfname.4.socks5 -text "SOCKS5" -value socks5 -variable [::config::getVar proxytype] -command UpdatePreferences 
 
 	grid $lfname.4.post -row 1 -column 1 -sticky w -pady 5 -padx 10
 	grid $lfname.4.ssl -row 1 -column 2 -sticky w -pady 5 -padx 10
@@ -807,14 +807,14 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
     
-        checkbutton $lfname.1.autoaccept -text "[trans autoacceptft]" -onvalue 1 -offvalue 0 -variable config(autoaccept)
+        checkbutton $lfname.1.autoaccept -text "[trans autoacceptft]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoaccept]
 	frame $lfname.1.ftport -class Deft
 	label $lfname.1.ftport.text -text "[trans ftportpref] :" -padx 5 -font splainf
 	entry $lfname.1.ftport.entry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 5 -textvariable config(initialftport)
 	grid $lfname.1.ftport.text -row 1 -column 1 -sticky w -pady 5 -padx 0
 	grid $lfname.1.ftport.entry -row 1 -column 2 -sticky w -pady 5 -padx 3
 
-        checkbutton $lfname.1.autoip -text "[trans autodetectip]" -onvalue 1 -offvalue 0 -variable config(autoftip) -command UpdatePreferences
+        checkbutton $lfname.1.autoip -text "[trans autodetectip]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoftip] -command UpdatePreferences
 	frame $lfname.1.ipaddr -class Deft
 	label $lfname.1.ipaddr.text -text "[trans ipaddress] :" -padx 5 -font splainf
 	entry $lfname.1.ipaddr.entry -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -width 15 -textvariable config(manualip)
@@ -832,7 +832,7 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.1 -class Degt
         frame $lfname.2 -class Degt
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
-	checkbutton $lfname.1.eremote -text "[trans enableremote]" -onvalue 1 -offvalue 0 -variable config(enableremote) -command UpdatePreferences
+	checkbutton $lfname.1.eremote -text "[trans enableremote]" -onvalue 1 -offvalue 0 -variable [::config::getVar enableremote] -command UpdatePreferences
 	pack $lfname.1.eremote  -anchor w -side top -padx 10
 	pack $lfname.1 $lfname.2  -anchor w -side top -padx 0 -pady 0 -expand 1 -fill both
 	label $lfname.2.lpass -text "[trans pass] :" -padx 5 -font sboldf
@@ -895,9 +895,9 @@ proc Preferences { { settings "personal"} } {
 		label $lfname.1.lsound -text "[trans soundserver] :" -padx 5 -font sboldf
 		frame $lfname.1.sound -class Degt
 	
-		radiobutton $lfname.1.sound.snack -text "[trans usesnack]" -value 1 -variable config(usesnack) -command UpdatePreferences
+		radiobutton $lfname.1.sound.snack -text "[trans usesnack]" -value 1 -variable [::config::getVar usesnack] -command UpdatePreferences
 		pack $lfname.1.sound.snack -anchor w -side top -padx 10
-		radiobutton $lfname.1.sound.other -text "[trans useother]" -value 0 -variable config(usesnack) -command UpdatePreferences
+		radiobutton $lfname.1.sound.other -text "[trans useother]" -value 0 -variable [::config::getVar usesnack] -command UpdatePreferences
 		pack $lfname.1.sound.other -anchor w -side top -padx 10
 		entry $lfname.1.sound.sound -bg #FFFFFF -bd 1 -highlightthickness 0 -width 40 -textvariable config(soundcommand)
 		pack $lfname.1.sound.sound -anchor w -side top -padx 10
@@ -1107,7 +1107,7 @@ proc Preferences { { settings "personal"} } {
 	#pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	#label $lfname.ppref1 -image prefapps
 	#pack $lfname.ppref1 -side left -padx 5 -pady 5 
-	#checkbutton $lfname.enable -text "[trans checkonfln]" -onvalue 1 -offvalue 0 -variable config(checkonfln)
+	#checkbutton $lfname.enable -text "[trans checkonfln]" -onvalue 1 -offvalue 0 -variable [::config::getVar checkonfln]
 	#pack $lfname.enable  -anchor w -side left -padx 0 -pady 5 
 
 	## "You have been blocked" group ##
@@ -1115,7 +1115,7 @@ proc Preferences { { settings "personal"} } {
 	#pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	#label $lfname.ppref3 -image prefapps
 	#pack $lfname.ppref3 -side left -padx 5 -pady 5 
-	#checkbutton $lfname.group -text "[trans blockedyougroup]" -onvalue 1 -offvalue 0 -variable config(showblockedgroup)
+	#checkbutton $lfname.group -text "[trans blockedyougroup]" -onvalue 1 -offvalue 0 -variable [::config::getVar showblockedgroup]
 	#pack $lfname.group  -anchor w -side left -padx 0 -pady 5 
 
 	## Continuously check ##
@@ -1126,7 +1126,7 @@ proc Preferences { { settings "personal"} } {
 
 	#frame $lfname.enable -class Degt
 	#pack $lfname.enable -anchor w -side left 
-	#checkbutton $lfname.enable.cb -text "[trans checkblocking]" -onvalue 1 -offvalue 0 -variable config(checkblocking) -command UpdatePreferences
+	#checkbutton $lfname.enable.cb -text "[trans checkblocking]" -onvalue 1 -offvalue 0 -variable [::config::getVar checkblocking] -command UpdatePreferences
 	#grid $lfname.enable.cb -row 1 -column 1 -sticky w
 
 	#frame $lfname.check -class Degt
