@@ -732,7 +732,8 @@ namespace eval ::abookGui {
 		label $nbIdent.lastmsgedme1 -text [::abook::getContactData $email last_msgedme] -font splainf -fg blue
 
 		set msnobj [::abook::getVolatileData $email msnobj]
-		set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
+		#set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
+		set filename [::abook::getContactData $email displaypicfile ""]
 		global HOME
 		if { [file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
 			catch {image create photo user_pic_$email -file "[file join $HOME displaypic cache ${filename}].gif"}

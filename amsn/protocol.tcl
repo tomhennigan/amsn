@@ -3422,6 +3422,7 @@ proc cmsn_change_state {recv} {
 	
 	::abook::setVolatileData $user state $substate
 	::abook::setVolatileData $user msnobj $msnobj
+	::abook::setContactData $user displaypicfile [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
 
 	#status_log "old is $oldmsnobj new is $msnobj\n"
 	if { $oldmsnobj != $msnobj} {
@@ -4622,7 +4623,8 @@ namespace eval ::MSNP2P {
 
 		#status_log "::MSNP2P::GetUser: MSNOBJ is $msnobj\n" blue
 
-		set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
+		#set filename [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
+		set filename [::abook::getContactData $user displaypicfile ""]
 		status_log "::MSNP2P::GetUser: filename is $filename\n" white
 
 		if { $filename == "" } {
@@ -5168,7 +5170,8 @@ namespace eval ::MSNP2P {
 			    if { [lindex [SessionList get $cSid] 7] == "bicon" } {
 			    	SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" $user_login $config(login) "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex $session_data 5] 0 0] 1]
 				
-				set filename2 [::MSNP2P::GetFilenameFromMSNOBJ [::abook::getVolatileData $user_login msnobj]]
+				#set filename2 [::MSNP2P::GetFilenameFromMSNOBJ [::abook::getVolatileData $user_login msnobj]]
+				set filename2 [::abook::getContactData $user_login displaypicfile ""]
 				status_log "MSNP2P | $sid -> Got picture with file : $filename and $filename2\n" blue
 				if {$filename == $filename2 } {
 				
@@ -5213,7 +5216,8 @@ namespace eval ::MSNP2P {
 			set user_login [lindex $session_data 3]
 			status_log "MSNP2P | $sid $user_login -> Got data preparation message, opening file for writing\n" red
 			set filename [lindex $session_data 8]
-			set filename2 [::MSNP2P::GetFilenameFromMSNOBJ [::abook::getVolatileData $user_login msnobj]]
+			#set filename2 [::MSNP2P::GetFilenameFromMSNOBJ [::abook::getVolatileData $user_login msnobj]]
+			set filename2 [::abook::getContactData $user_login displaypicfile ""]
 			status_log "MSNP2P | $sid $user_login -> opening file $filename for writing with $filename2 as user msnobj\n\n" blue
 			if { $filename == $filename2 } {
 			    create_dir [file join $HOME displaypic cache]
