@@ -497,7 +497,7 @@ proc LogsByDate {wname email init} {
 				lappend erdate_list $date
 			}
 		}
-		set sorteddate_list [lsort -integer $date_list]
+		set sorteddate_list [lsort -integer -decreasing $date_list]
 
 		$wname.top.date.list list insert end "[trans currentdate]"
 		foreach date $sorteddate_list {
