@@ -297,12 +297,16 @@ proc toggle_status {} {
 #///////////////////////////////////////////////////////////////////////
 
 
+proc timestamp {} {
+   set stamp [clock format [clock seconds] -format %H:%M:%S]
+   return "\[$stamp\]"
+}
+
 
 #///////////////////////////////////////////////////////////////////////
 proc status_log {txt {colour ""}} {
 
-   set timestamp [clock format [clock seconds] -format %H:%M:%S]
-   .status.info insert end "\[$timestamp\] $txt" $colour
+   .status.info insert end "[timestamp] $txt" $colour
    .status.info yview moveto 1.0
 }
 #///////////////////////////////////////////////////////////////////////

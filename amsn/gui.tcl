@@ -164,14 +164,12 @@ namespace eval ::amsn {
      ${win_name}.f.out.text tag bind ftno$cookie <Button1-ButtonRelease> \
        "::amsn::RejectedFT $chatid $cookie; ::MSN::rejectFT $chatid $cookie"
 
-     set timestamp [clock format [clock seconds] -format %H:%M]
-
      set txt [trans acceptfile '$filename' $filesize $files_dir]
 
      #TODO: Use Winwrite, os similar, instead of doing it directly
      ${win_name}.f.out.text insert end "----------\n" gray
      ${win_name}.f.out.text image create end -image fticon -pady 2 -padx 3
-     ${win_name}.f.out.text insert end "\[$timestamp\] $fromname: $txt" gray
+     ${win_name}.f.out.text insert end "[timestamp] $fromname: $txt" gray
      ${win_name}.f.out.text insert end " - (" gray
      ${win_name}.f.out.text insert end "[trans accept]" ftyes$cookie
      ${win_name}.f.out.text insert end " / " gray
@@ -405,8 +403,7 @@ namespace eval ::amsn {
          SetWindowFor $chatid $win_name
       }
 
-      set timestamp [clock format [clock seconds] -format %H:%M]
-      set statusmsg "\[$timestamp\] [trans joins $usr_name]\n"
+      set statusmsg "[timestamp] [trans joins $usr_name]\n"
       WinStatus [ WindowFor $chatid ] $statusmsg
       WinTopUpdate $chatid
 
@@ -427,8 +424,7 @@ namespace eval ::amsn {
          return 0
       }
 
-      set timestamp [clock format [clock seconds] -format %H:%M]
-      set statusmsg "\[$timestamp\] [trans leaves $usr_name]\n"
+      set statusmsg "[timestamp] [trans leaves $usr_name]\n"
       WinStatus [ WindowFor $chatid ] $statusmsg
       WinTopUpdate $chatid
 
@@ -512,8 +508,8 @@ namespace eval ::amsn {
       wm state .${win_name} withdrawn
       wm title .${win_name} "[trans chat]"
       wm group .${win_name} .
-#      wm iconbitmap . @${images_folder}/amsn.xbm
-#      wm iconmask . @${images_folder}/amsnmask.xbm
+      wm iconbitmap . @${images_folder}/amsn.xbm
+      wm iconmask . @${images_folder}/amsnmask.xbm
 
       menu .${win_name}.menu -tearoff 0 -type menubar  \
          -borderwidth 0 -activeborderwidth -0
@@ -929,8 +925,6 @@ namespace eval ::amsn {
 
       set chatid [ChatFor $win_name]
 
-      # TODO: Should we queue it? It's fine just to call reconnect if chat not ready,
-      # doesn't mind if we lose this
       ::MSN::chatQueue $chatid [list sb_change $chatid]
 
    }
@@ -944,18 +938,10 @@ namespace eval ::amsn {
    # just queue the message to send in the chat associated with 'win_name', and set
    # a timeout for the message
    proc MessageSend { win_name input } {
-      #TODO: Check if the chat is available before actually sending the message / enqueue
-      #Replaces obsolete proc sb_enter (delete it)
 
       global user_info config
 
       set chatid [ChatFor $win_name]
-
-      #TODO: Remove this when queueing works
-      #if {![ ::MSN::chatReady $chatid]} {
-      #   status_log "Can't send message, chat not ready\n"
-      #   return 0
-      #}
 
       set msg [$input get 0.0 end-1c]
 
@@ -1007,8 +993,7 @@ namespace eval ::amsn {
    # Writes the delivery error message along with the timeouted 'msg' into the
    # window related to 'chatid'
    proc DeliveryFailed { chatid msg } {
-      #TODO: Add translation for this
-      WinWrite $chatid "Message ack timed out, delivery probably failed: " red
+      WinWrite $chatid "[timestamp] [trans deliverfail]: " red
       WinWrite $chatid "$msg\n" gray
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -1052,8 +1037,7 @@ namespace eval ::amsn {
    proc PutMessage { chatid user msg type fontformat } {
 
 	if { "$user" != "msg" } {
-	       set timestamp [clock format [clock seconds] -format %H:%M]
-		WinWrite $chatid "\[$timestamp\] [trans says [::MSN::userName $chatid $user]]:\n" gray
+		WinWrite $chatid "[timestamp] [trans says [::MSN::userName $chatid $user]]:\n" gray
 	}
 
 	WinWrite $chatid "$msg\n" $type [lindex $fontformat 0] [lindex $fontformat 1] [lindex $fontformat 2]
@@ -1075,10 +1059,7 @@ namespace eval ::amsn {
       if { [WindowFor $chatid] == 0} {
          return 0
       } else {
-         #TODO: To show, or not to show?
-         #if {![::MSN::chatReady $chatid]} {
            WinStatus [ WindowFor $chatid ] $msg
-	  #}
       }
 
    }
@@ -1592,19 +1573,6 @@ proc cmsn_draw_main {} {
    menu .pref_menu -tearoff 0 -type normal
 	PreferencesMenu .pref_menu
 
-   #Language selection menu
-   #TODO: Remove this menu, no longer used
-
-   menu .lang_menu -tearoff 0 -type normal
-
-   for {set i 0} {$i < [llength $lang_list]} {incr i} {
-     set langelem [lindex $lang_list $i]
-     set langshort [lindex $langelem 0]
-     set langlong [lindex $langelem 1]
-     .lang_menu add command -label "$langlong" -command \
-       "set config(language) $langshort; load_lang;msg_box \"\[trans mustrestart\]\""
-   }
-
    menu .user_menu -tearoff 0 -type normal
    menu .move_group_menu -tearoff 0 -type normal
    menu .copy_group_menu -tearoff 0 -type normal
@@ -1698,7 +1666,6 @@ proc cmsn_draw_main {} {
       -command "::abookGui::showEntry $config(login) -edit"
    .options add separator
    .options add cascade -label "[trans preferences]..." -menu .pref_menu
-   #.options add cascade -label "[trans language]" -menu .lang_menu
    .options add command -label "[trans language]..." -command "show_languagechoose"
    .options add command -label "[trans encoding]..." -command "show_encodingchoose"
    .options add command -label "[trans choosebasefont]..." -command "choose_basefont"

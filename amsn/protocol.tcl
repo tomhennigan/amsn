@@ -310,7 +310,7 @@ namespace eval ::MSN {
 	::MSN::WriteNS "REA" "dummy@dummy.com"
       }
 
-      after 120000 "::MSN::PollConnection"
+      after 60000 "::MSN::PollConnection"
    }
 
    variable trid 0
@@ -559,7 +559,7 @@ namespace eval ::MSN {
       status_log "Connecting to $ipaddr port $port\n"
 
       set sockid [socket -async $ipaddr $port]
-      set cancelid [after 10000  ::MSN::cancelReceiving $cookie]
+      set cancelid [after 20000  ::MSN::cancelReceiving $cookie]
 
       fconfigure $sockid -blocking 0
       fileevent $sockid writable "::MSN::ConnectedMSNFTP $sockid $cancelid $authcookie \"$filename\" $cookie"
@@ -835,7 +835,6 @@ namespace eval ::MSN {
       sb set $sbn stat "r"
       sb set $sbn invite $user
 
-      #TODO check if a sb exists for that ID!!
       set chatid $user
 
       AddSBFor $chatid $sbn
@@ -876,25 +875,26 @@ namespace eval ::MSN {
    proc leaveChat { chatid } {
       global config sb_list
 
+      status_log "Entering leavechat\n"      
+
       while { [SBFor $chatid] != 0 } {
+
          set name [SBFor $chatid]
-         global ${name}_info
+         DelSBFor $chatid ${name}
 
-         status_log "Entering leavechat\n"
+         #set idx [lsearch -exact $sb_list $name]
 
-         set idx [lsearch -exact $sb_list $name]
+         #if {$idx == -1} {
+         #   status_log "tried to destroy unknown SB $name\n" white
+         #   return 0
+         #}
 
-         if {$idx == -1} {
-            status_log "tried to destroy unknown SB $name\n" white
-            return 0
-         }
-
-	  after 60000 "::MSN::KillSB $name"
+	  after 60000 "::MSN::KillSB ${name}"
 
 	  #We leave the switchboard if it exists
          if {[sb get $name stat] != "d"} {
             catch {
-            puts [sb get $name sock] "OUT"
+	        puts [sb get $name sock] "OUT"
             } res
 
          }
@@ -902,8 +902,6 @@ namespace eval ::MSN {
          if {$config(keep_logs) && [sb exists $name log_fcid]} {		;# LOGS!
            close [sb get $name log_fcid]
          }
-
-         DelSBFor $chatid ${name}
 
       }
 
@@ -943,20 +941,9 @@ namespace eval ::MSN {
 	  if {[eof $sb_sock]} {
 	     status_log "Closing from chatready\n"
             close $sb_sock
-            #TODO: Check what to do when session is closed, remove sb from candidates,
-            #update chatid_sb and sb_chatid
             cmsn_sb_sessionclosed $sbn
 	     return 0
 	  }
-
-         if {[eof $sb_sock]} {
-            close $sb_sock
-            #TODO: Check what to do when session is closed, remove sb from candidates,
-            #update chatid_sb and sb_chatid
-            cmsn_sb_sessionclosed $sbn
-	     return 0
-         }
-
 
          if {[sb length $sbn users]} {
 	     return 1
@@ -978,16 +965,6 @@ namespace eval ::MSN {
 	  }
       }
 
-      #TODO:Known small bug. If we have a crossed chat, then we will have 2 SBs for the chatid.
-      # If we chat amsn to amsn, then each amsn will use the first SB to send (the SB that it started)
-      # but it will receive in the second SB, as it's the one it was invited and the other amsn is using
-      # it for sending. We won't see typers and last message time correctly. 
-      # One fix could be change SetSBFor to insert at the beginning instead of appending, but there will
-      # be bigger problems with IROs and chat name changes.
-      # We could also make procedures like lastMessageTime and typersInChat to get the full list of SBs 
-      # instead of just the first (make a SBForList), and proccess every SB in the list. Maybe this is 
-      # the best option.
-
       return 0
 
    }
@@ -1005,7 +982,6 @@ namespace eval ::MSN {
 
    proc AddSBFor { chatid sb_name} {
          variable sb_chatid
-	  #TODO: quit it from global, and use ::MSN::ChatFor
 	  variable chatid_sb
 
 	  if {![info exists sb_chatid($chatid)]} {
@@ -1015,9 +991,8 @@ namespace eval ::MSN {
 	  set index [lsearch $sb_chatid($chatid) $sb_name]
 
 	  if { $index == -1 } {
-	     #TODO: Should we insert at the beggining? Newer SB's are probably better
+	     #Should we insert at the beggining? Newer SB's are probably better
 	     set sb_chatid($chatid) [linsert $sb_chatid($chatid) 0 $sb_name]
-	     #difference if sb stat ="o" (already a chat opened)
 	     #lappend sb_chatid($chatid) $sb_name
 	  }
 
@@ -1036,9 +1011,12 @@ namespace eval ::MSN {
       set index [lsearch $sb_chatid($chatid) $sb_name]
       set sb_chatid($chatid) [lreplace $sb_chatid($chatid) $index $index]
 
+	status_log "DelSBFor: sb_chatid ($chatid) is now $sb_chatid($chatid)\n" blue      
+
       if {[llength $sb_chatid($chatid)] == 0 } {
         unset sb_chatid($chatid)
       }
+
    }
 
 
@@ -1064,30 +1042,23 @@ namespace eval ::MSN {
          return 0
       }
 
-      if { $count >= 10 } {
+      if { $count >= 15 } {
          return 0
       }
 
 
       if {[chatReady $chatid]} {
+
          set command [lindex $chat_queues($chatid) 0]
          set chat_queues($chatid) [lreplace $chat_queues($chatid) 0 0]
 	  eval $command
 	  ProcessQueue $chatid
+	  
       } else {
 
-         set sbn [SBFor $chatid]
+         chatTo $chatid
+         after 3000 "::MSN::ProcessQueue $chatid [expr {$count + 1}]"
 
-         if { $sbn == 0 } {
-	     #TODO: Probably this will never happen? Check where SBs leave a chatid
-	     status_log "processQueue: No SB for chat, creating chat\n"
-	     chatTo $chatid
-	  } else {
-	     #status_log "processQueue: chat is NOT ready, trying to reconnect\n"
-	     cmsn_reconnect $sbn
-	  }
-
-         after 2000 "::MSN::ProcessQueue $chatid [expr {$count + 1}]"
       }
    }
 
@@ -1121,9 +1092,11 @@ namespace eval ::MSN {
 
       set sbn [SBFor $chatid]
 
-      #TODO: In call to messageTo, the chat has to be ready, or we have problems
+      #In call to messageTo, the chat has to be ready, or we have problems
       if { $sbn == 0 } {
          ::amsn::nackMessage $ackid
+	  #TODO: We should return, right?
+	  return 0
       }
 
       set sock [sb get $sbn sock]
@@ -1188,8 +1161,6 @@ proc read_sb_sock {sbn} {
    set sb_sock [sb get $sbn sock]
    if {[eof $sb_sock]} {
       close $sb_sock
-      #TODO: Check what to do when session is closed, remove sb from candidates,
-      #update chatid_sb and sb_chatid
       cmsn_sb_sessionclosed $sbn
    } else {
       gets $sb_sock tmp_data
@@ -1727,19 +1698,8 @@ proc cmsn_sb_sessionclosed {sbn} {
    for {set idx $items} {$idx >= 0} {incr idx -1} {
       set user_info [sb index $sbn users $idx]
       sb ldel $sbn users $idx
-      #.${win_name}.in.send configure -state disabled
 
-      #set timestamp [clock format [clock seconds] -format %H:%M]
-      #set statusmsg "\[$timestamp\] [trans leaves [lindex $user_info 0]]\n"
-      #::amsn::chatStatus [::MSN::ChatFor $sbn] $statusmsg
-      ::amsn::userLeaves [::MSN::ChatFor $sbn] [list [lindex $user_info 0]]
-
-      #TODO: Activate/deactivate menus?
-      #cmsn_msgwin_title $sbn
-      #bind .${win_name}.in.input <Key> "cmsn_reconnect ${sbn}"
-      #bind .${win_name}.in.input <Return> "cmsn_reconnect ${sbn}; break"
-      #bind .${win_name}.in.input <Key-KP_Enter> "cmsn_reconnect ${sbn}; break"
-      #bind .${win_name}.in.input <Alt-s> "cmsn_reconnect ${sbn}; break"
+      amsn::userLeaves [::MSN::ChatFor $sbn] [list [lindex $user_info 0]]
 
    }
 
@@ -1758,19 +1718,16 @@ proc cmsn_update_users {sb_name recv} {
    switch [lindex $recv 0] {
 
       BYE {
+
          if {[sb get $sb_name stat] != "d"} {
 
             set leaves [sb search $sb_name users "[lindex $recv 1] *"]
-	     status_log "Leaves is [sb index $sb_name users $leaves]\n"
 
 	     sb set $sb_name last_user [sb index $sb_name users $leaves]
 	     sb ldel $sb_name users $leaves
 	     status_log "BYE - User [lindex $recv 1] leaves. Setting it as last user\n" white
 	        
 	     set usr_login [lindex [sb index $sb_name users 0] 0]
-	     #TODO: Maybe try a chatChange if only one user left
-
-	     #status_log "BYE - Trying to find an existing window for $usr_login\n"
 
          } else {
 	     status_log "BYE but sb is in \"d\" state, so the close event has been catch before the BYE...\n"
@@ -1781,13 +1738,11 @@ proc cmsn_update_users {sb_name recv} {
 	  if {[::MSN::SBFor $chatid] == $sb_name} {
   	     ::amsn::userLeaves $chatid [list [lindex $recv 1]]
 	  }
+
       }
 
       IRO {
 
-         #TODO: Be careful when reusing a window!!! Only if sb is the same
-	  #I'll get an IRO message when I JOIN a conversation, one IRO for
-	  #every user already in the conversation
          sb set $sb_name stat "o"
 
 	  set usr_login [string tolower [lindex $recv 4]]
@@ -1799,48 +1754,21 @@ proc cmsn_update_users {sb_name recv} {
 	  status_log "Setting last_user as [list $usr_login $usr_name] in IRO\n"
 
 	  if { [sb length $sb_name users] == 1 } {
-  	     #status_log "Here in IRO, creating new sb_chatid($usr_login) and killing old one if existed\n"
-	     #TODO: Kill sb in sb_chatid if it exists?? keep it? check this again
-	     #Funny thing! You can have two sb attached to the same window, but it works perfect! It
-	     #will use the second one (the one in sb_chatid(CHATID)) to send messages, and the other
-	     #will hopefully timeout
-
 	     set chatid $usr_login
-	     set newchatid $usr_login
 
-	     #::MSN::AddSBFor $chatid $sb_name
-
-	     status_log "IRO - I'm now chatid $chatid (first user)\n"
+	     status_log "IRO - I'll be chatid $chatid when a message comes (first user)\n"
 
 
 	  } else {
 
-	     #TODO: Probably will have to check if there's a private chat
-	     # here, and don't change it (so it won't change the existing window).
-
 	     #More than 1 user, change into conference
-            set chatid [::MSN::ChatFor $sb_name]
-            set newchatid $sb_name
+            set chatid $sb_name
 
-	     #Remove old chatid correspondence
-	     #::MSN::DelSBFor $chatid $sb_name
-	     ::MSN::AddSBFor $newchatid $sb_name
+	     ::MSN::AddSBFor $chatid $sb_name
 
-	     status_log "IRO - Now i become conference chatid $newchatid (I was $chatid)\n"
+	     status_log "IRO - Now i'm conference chatid $chatid \n"
 	  }
 
-	  # TODO: The only problem I can see is when you're invited to a conference. A private window for
-	  # the first user will open (but will be hidden) because of this call to userJoins if it doesn't
-	  # exists, or it will show "user XXXjoins the chat if it's already opened". This sb=[sbFor chatid]
-	  # should fix the thing when the window exists. If the SBFor $chatid is not this SB, it means that
-	  # there's a window already opened, so don't show the "userJoins" message.
-	  # To fix the thing when there's no opened window (avoid opening it) we should have some kind of
-	  # ::amsn::windowReady $chatid in the GUI layer. It's not worth it.
-
-	  if { [::MSN::SBFor $newchatid] == $sb_name} {
-	  #TODO: Quit this?
-	  #   ::amsn::userJoins $newchatid $usr_name
-	  }
 
       }
 
@@ -1849,40 +1777,36 @@ proc cmsn_update_users {sb_name recv} {
 
 	  set usr_login [string tolower [lindex $recv 1]]
 	  set usr_name [urldecode [lindex $recv 2]]
+
 	  sb append $sb_name users [list $usr_login $usr_name [lindex [::MSN::getUserInfo $usr_login] 2]]
-	  status_log "Here in JOI, .............\n"
 
 	  if { [sb length $sb_name users] == 1 } {
 
-  	     status_log "Here in JOI, setting chatid_sb ($sb_name) = $usr_login \n"
-	     #TODO: Kill sb in sb_chatid if it exists?? keep it? check this again
-
 	     set chatid $usr_login
-	     set newchatid $usr_login
-
+  	     
+	     status_log "Here in JOI, setting SBFor ($chatid) to $sb_name \n"
             ::MSN::AddSBFor $chatid $sb_name
-	     status_log "JOI - User joins, I'm chatid $chatid\n"
 
 	  } else {
 
 	     #More than 1 user, change into conference
 
 	     #Procedure to change chatid-sb correspondences
-	     set chatid [::MSN::ChatFor $sb_name]
-	     set newchatid $sb_name
+	     set oldchatid [::MSN::ChatFor $sb_name]
+	     set chatid $sb_name
 
 	     #Remove old chatid correspondence
-	     ::MSN::DelSBFor $chatid $sb_name
-	     ::MSN::AddSBFor $newchatid $sb_name
+	     ::MSN::DelSBFor $oldchatid $sb_name
+	     ::MSN::AddSBFor $chatid $sb_name
 
-
-	     status_log "JOI - Another user joins, Now I'm chatid $newchatid (I was $chatid)\n"
-	     ::amsn::chatChange $chatid $newchatid
+	     status_log "JOI - Another user joins, Now I'm chatid $chatid (I was $oldchatid)\n"
+	     ::amsn::chatChange $oldchatid $chatid
 
 	  }
 
-	  if {[::MSN::SBFor $newchatid] == $sb_name} {
-	     ::amsn::userJoins $newchatid $usr_name
+	  #TODO: Really need to check this condition? Or just call the GUI layer?
+	  if {[::MSN::SBFor $chatid] == $sb_name} {
+	     ::amsn::userJoins $chatid $usr_name
 	  }
       }
    }
@@ -1907,64 +1831,6 @@ proc cmsn_update_users {sb_name recv} {
       sb set $sb_name log_fcid [open "[file join ${log_dir} ${file_name}]" a+]
    }
 
-   #set win_name "msg_[string tolower ${sb_name}]"
-
-   if {[sb length $sb_name users] > 0} {
-
-      #TODO: in.input and so on
-      #.${win_name}.in.input configure -state normal
-      #.${win_name}.in.send configure -state normal
-
-     #.${win_name}.menu.msn entryconfigure 3 -state normal
-     #.${win_name}.menu.actions entryconfigure 5 -state normal
-
-      #bind .${win_name}.in.input <Key> "sb_change $sb_name"
-      #bind .${win_name}.in.input <Return> "sb_enter $sb_name %W; break"
-      #bind .${win_name}.in.input <Key-KP_Enter> "sb_enter $sb_name %W; break"
-      #bind .${win_name}.in.input <Alt-s> "sb_enter $sb_name %W; break"
-   } else {
-
-     #.${win_name}.menu.msn entryconfigure 3 -state disabled
-     #.${win_name}.menu.actions entryconfigure 5 -state disabled
-
-      if {[sb get $sb_name stat] != "d"} { sb set $sb_name stat "n" }
-      
-      #.${win_name}.in.send configure -state disabled
-      #bind .${win_name}.in.input <Key> "cmsn_reconnect ${sb_name}"
-      #bind .${win_name}.in.input <Return> "cmsn_reconnect ${sb_name}; break"
-      #bind .${win_name}.in.input <Key-KP_Enter> "cmsn_reconnect ${sb_name}; break"
-      #bind .${win_name}.in.input <Alt-s> "cmsn_reconnect ${sb_name}; break"
-   }
-
-   upvar #0 [sb name $sb_name users] sb_users
-
-   #if { [llength $sb_users] > 1 } {
-   #  status_log "MWB:   more than 1 user in chat\n" white
-   #  foreach usrinfo $sb_users {
-   #   	set temp [lindex $usrinfo 0]
-   #	status_log "MWB:   temp is : $temp \n"
-   #	if { [info exists msg_windows([string tolower ${temp}])]} {
-   #      status_log "MWB:   msg_windows([string tolower ${temp}]) exists\n" white
-   #      if { $msg_windows([string tolower ${temp}]) == $sb_name } {
-   #        status_log "MWB:   msg_windows([string tolower ${temp}]) value is the same as window ($sb_name), unsetting\n" white
-   #        unset msg_windows([string tolower ${temp}])
-   #      }
-   #	}
-   #  }
-   #} elseif { [llength $sb_users] == 1 } {
-   #  status_log "MWB:   just 1 user in chat\n" white
-   #  foreach usrinfo $sb_users {
-   #	set temp [lindex $usrinfo 0]
-   #	if {[info exists msg_windows([string tolower ${temp}])] == 0} {
-   #	  status_log "MWB:   msg_windows([string tolower ${temp}]) doesn't exist, setting to this window ($sb_name)\n" white
-   #	  set msg_windows([string tolower ${temp}]) $sb_name
-   #	} else {
-   #	  status_log "MWB:   msg_windows([string tolower ${temp}]) exists, don't touch it\n" white
-   #	}
-   #  }
-   #} else {
-   #  status_log "MWB:   no users in chat\n" white
-   #}
 
 }
 #///////////////////////////////////////////////////////////////////////
@@ -2504,15 +2370,6 @@ proc cmsn_ns_connected {} {
    }
  
 }
-
-#TODO: Can we delete this?
-#proc cmsn_sb_connected {name} {
-#   fileevent [sb get $name sock] writable {}
-#   sb set $name stat "c"
-#   ::MSN::WriteSB $name [sb get $name auth_cmd] [sb get $name auth_param]
-#   #cmsn_msgwin_top $name "[trans indent]..."
-#   status_log "[trans indent]\n"
-#}
 
 
 proc cmsn_ns_connect { username {password ""}} {

@@ -66,6 +66,7 @@ set config(notifywin) 1
 set config(natip) 0
 set config(dock) 0
 set config(autoconnect) 0
+set config(showtimestamps) 1
 
 set password ""
 
