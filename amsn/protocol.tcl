@@ -2951,11 +2951,13 @@ proc cmsn_ns_handler {item} {
 	  return 0
       }
       BPR {
-	  if { $protocol == "9" } {
+	  if { $protocol == "9" && [llength $item] == 4} {
 	      global loading_list_info
-	      ::abook::setContact $loading_list_info(last) [lindex $item 2] [lindex $item 3]
+	      puts "$item --- protocol 9 --- $protocol"
+	      ::abook::setContact $loading_list_info(last) [lindex $item 1] [lindex $item 2]
 
 	  } else {
+	      puts "$item --- protocol 7 --- $protocol"
 	      new_contact_list "[lindex $item 1]"
 	      # Update entry in address book setContact(email,PH*/M*,phone/setting)
 	      ::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4] 
@@ -3457,7 +3459,7 @@ proc ns_enter {} {
      ::MSN::WriteSBRaw ns "[string range $command 1 [string length $command]]\r\n"
    } elseif {$command != ""} {
      if {[catch {eval $command} res]} {
-        msg_box "$res"
+        ::amsn::errorMsg "$res"
      } else {
        status_log "$res\n"
      }
