@@ -21,7 +21,7 @@ appearance Izgled
 appearoff Na videz neprijavljen
 areacode Postna stevilka
 aretyping $1 pisejo sporocilo
-askprofile  Ta prijava trenutno nima profila. Bi rad ustvaril novega zanj? \n Ce ne bos, ne bos mogel uporabljati Zgodovine ali shraniti tvojih Alarmov in gesla. \n Ce bos, bos imel nastavitve za ta nov profil. \n \n Klikni na "Ustavri profil" za nov profil za $1.
+askprofile  Ta prijava trenutno nima profila. Bi rad ustvaril novega zanj? \n Ce ne bos, ne bos mogel uporabljati Zgodovine  ali shraniti tvojih Alarmov in gesla. \n Ce bos, bos imel nastavitve za ta nov profil. \n \n Klikni na "Ustavri profil" za nov profil za $1.
 autoaway Prikazi me kot "Odsoten", ko sem neaktiven
 autoconnect Prijavi se ob zagonu amsn
 autoconnect2 Prijavi se ob zagonu aMSN
@@ -31,15 +31,20 @@ autoip Samodejni IP
 autonoact Prikazi me kot "Neaktiven", ko sem neaktiven
 avoidseen Ne dovoli tej osebi, da vidi moj status, ko sem prijavljen
 away Odsoten
-awaymsg1 Vprasam za away sporocilo vsakic ko zamenjam stanje na Odsoten/Zaposlen ?
+awaymsg1 Vprasam za away sporocilo vsakic, ko zamenjam stanje na Odsoten/Zaposlen?
 awaymsg2 Vedno uporabi to sporocilo
 baduserpass Napacno uporabnisko ime ali geslo
 bgcolor Zamenjaj barvo ozadja
 blankdirect Pustite prazno za neposredno povezavo
 block Blokiraj
 blocked Blokiran
+blocking Blokiranje
+blockinter1 Ko si prijavljen, preveri vsakih
+blockinter2 sekund, sicer pa
+blockinter3 ljudi vsakih
 blocklist Block seznam
 blockmessage Ti ljudje so prijavljeni in so te blokirali
+blockusers Hkrati preveri
 broughtby  Naredili naslednji programerji
 browse Prebrskaj
 browser Brskalnik
@@ -55,8 +60,10 @@ chatmaxmin Ko mi stik zacne pogovor z mano, hocem, da je:
 chatreq Zahtevam pogovor
 chatsmileys Smeskoti
 chatsmileys2 Prikazi emotikone in smeske v pogovornih oknih
+checkblocking Preverjaj, ce te ostali blokirajo
 checkfilman Prejete datoteke bodo shranjene v $1. Preveri nastavitve upravljalca datotek v nastavitvah.
 checkingver Preverjam za nove verzije
+checkonfln Preveri, ce te je uporabnik blokiral, ko se odjavi
 checkver Preveri za novo verzijo
 choosebasefont Izberi vrsto pisave
 choosebgcolor Izberi barvo ozadja
@@ -102,6 +109,7 @@ edit Uredi
 editnewstate Novo osebno stanje za avtomatsko sporocilo
 editprofile Uredi profil
 editstate Uredi obstojece stanje za avtomatsko sporocilo
+emotisounds Igraj zvok na dolocene emotikone
 enableproxy Omogoci proxy
 enableremote Omogoci nadzor na daljavo
 encoding Izberi kodiranje
@@ -129,7 +137,8 @@ ftgotinvitation $1 ti zeli poslati datoteko '$2' ($3 bajtov). Shranjena bo v $4.
 ftportpref Uporabi ta in visja vrata za prenos datotek
 ftrejectedby $1 je zavrnil/a povabilo za prenos datoteke '$2'.
 ftrejected Prenos datoteke je bil zavrnjen.
-ftsendinvitation $1 bo prejel/a povabilo za prenos datoteke '$2' ($3 bajtov).
+ftsendinvitation $1 bo prejel/a povabilo za prenos datoteke '$2' ($3 
+bajtov).
 gonelunch Na kosilu
 group Skupina
 groupadd Dodaj v skupino
@@ -145,7 +154,7 @@ handle Ime
 help Pomoc
 helpcontents Vsebina pomoci
 history Prikazi zgodovino
-home Domov
+home Doma
 httpconnection HTTP povezava (vrata 80)
 ident Identificiram
 identity Identiteta
@@ -232,7 +241,7 @@ nousersinsession Ni uporabnikov v seji
 offline Neprijavljen
 ok Ok
 onenewmail 1 novo sporocilo v Inboxu
-online Prijavljen/a
+online Prijavljen
 onphone Na telefonu
 openreceived Odpri sprejete datoteke
 options Nastavitve
@@ -250,6 +259,8 @@ port Vrata
 prefalerts Alarmi in zvoki
 prefapps Aplikacije
 prefawaymsg Sporocilo ob odsotnosti
+prefblock1 Preveri ob odjavi
+prefblock2 Preverjaj
 prefconnection Nastavitve povezave
 prefemotic Emotikoni in smeski
 preferences Nastavitve
@@ -265,7 +276,8 @@ prefphone2 Vpisi telefonske stevilke za katere zelis da so vidne \n tistim, ki s
 prefprivacy2 Seznam stikov
 prefprivacy Allow in Block seznama
 prefprofile Moj javni profil
-prefprofile2 Ustvari/spremeni javni profil \n (tvoj opis, ki ga lahko vidijo drugi)
+prefprofile2 Ustvari/spremeni javni profil \n (tvoj opis, ki ga lahko vidijo 
+drugi)
 prefprofile3 aMSNjevi uporabniski profili nastavitev
 prefproxy Nastavitve proxy streznika
 prefremote Nastavitve nadzora na daljavo
@@ -309,7 +321,7 @@ servergoingdown Povezava prekinjena
 session Seja
 showblockedlist Pokazi seznam ljudi, ki so te blokirali
 sound Zvok dogodka
-sound2 Predvaja zvok ko se kdo prijavi ali poslje sporocilo
+sound2 Predvajaj zvok, ko se kdo prijavi ali poslje sporocilo
 soundcommand To mora biti ukaz play (npr. esdplay)
 soundfile Zvocna datoteka
 soundloop Ponavljaj
@@ -318,7 +330,8 @@ soundstatus Zvok omogocen
 startoffline Zacni neprijavljen
 startoffline2 Prijavi se kot "Na videz neprijavljen"
 stateautomsg Avtomatsko sporocilo
-stateedittext Prosim uredi polja, ki bi \n jih rad spremenil in pritisni Shrani.
+stateedittext Prosim uredi polja, ki bi \n jih rad spremenil in pritisni 
+Shrani.
 stateinfo Nastavitev osebnega stanja
 state Zelim biti viden kot
 statename Ime osebnega stanja
@@ -342,7 +355,7 @@ uoffline Neprijavljeni
 uonline Prijavljeni
 user Uporabnik
 useralreadyonlist Uporabnik je ze na seznamu stikov
-userblocked Uporabnik je na zvezi, a te je blokiral
+userblocked Uporabnik je prijavljen, a te je blokiral
 usernotonline Uporabnik ni prijavljen
 useryourself Ne mores govoriti sam s seboj
 verifyblocked Preveri, kdo te blokira
