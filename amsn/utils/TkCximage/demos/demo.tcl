@@ -48,24 +48,12 @@ proc Load { } {
 	set file [chooseFileDialog "Open Image" "open"]
 	if { $file == "" }  { return } 
 
-	if { [catch {image create photo -file $file} file] != 0} {
-		msg_box "Error opening the file you selected : \n$file"
+	if { [catch {image create photo -file $file} img] != 0} {
+		msg_box "Error opening the file you selected : \n$img"
 		return
 	}
 
-	catch {
-		if { $::loaded != 0 } {
-			image delete $::loaded
-		}
-		destroy .image
-		
-	}
-
-	set ::loaded $file
-	toplevel .image 
-	label .image.img -image $::loaded
-	pack .image.img
-
+	ShowImage $img
 
 }
 
@@ -261,7 +249,12 @@ proc Crop2 { } {
 		msg_box "Unable to crop image\n$res"
 		return
 	}
+	
+	ShowImage $temp
 
+}
+
+proc ShowImage { img } {
 	catch {
 		if { $::loaded != 0 } {
 			image delete $::loaded
@@ -270,7 +263,7 @@ proc Crop2 { } {
 		
 	}
 
-	set ::loaded $temp
+	set ::loaded $img
 	toplevel .image 
 	label .image.img -image $::loaded
 	pack .image.img
@@ -312,6 +305,7 @@ proc Blending { } {
 
 	toplevel .alpha
 	canvas .alpha.c -width [expr $w1 > $w2 ? $w1 : $w2] -height [expr $h1 > $h2 ? $h1 : $h2]
+
 	.alpha.c create image [expr $w2 / 2] [expr $h2 / 2] -image $img2
 	.alpha.c create image [expr $w1 / 2] [expr $h1 / 2] -image $img1
 	pack .alpha.c

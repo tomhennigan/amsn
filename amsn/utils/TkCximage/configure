@@ -1231,7 +1231,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 # @(#) configure.in 1.0 97/2/11 12:50:30
 
 NAME=TkCximage
-TKCXIMAGE_VERSION=0.1
+TKCXIMAGE_VERSION=0.2
 
 if test "x$prefix" = xNONE; then
   echo $ECHO_N "checking for prefix by $ECHO_C" >&6
@@ -1351,6 +1351,8 @@ dirs="	/usr/lib/tcl8.4a* \
 	/Library/Frameworks/Tcl.framework/Versions/8.3 \
 	/Library/Frameworks/Tcl.framework/Versions/8.4 \
 	/Library/Frameworks/Tcl.framework/Versions/8.5 \
+	/usr/local/lib \
+	/usr/lib \
 	`locate tclConfig.sh`"
 
 for i in $dirs ; do
@@ -1485,6 +1487,8 @@ else
 	/Library/Frameworks/Tk.framework/Versions/8.3 \
 	/Library/Frameworks/Tk.framework/Versions/8.4 \
 	/Library/Frameworks/Tk.framework/Versions/8.5 \
+	/usr/local/lib \
+	/usr/lib \
 	`locate tkConfig.sh`"
 
 
@@ -1698,7 +1702,7 @@ TKCXIMAGE_FILE=${NAME}${TCL_SHLIB_SUFFIX}
 
 
 
-CFLAGS=${TCL_CFLAGS}
+CFLAGS="${TCL_CFLAGS} ${TCL_SHLIB_CFLAGS}"
 
 
 

@@ -10,8 +10,10 @@ all :
 
 test : check
 
-check : all
+check : ${TKCXIMAGE_FILE}
 	wish demos/demo.tcl || true
+
+@TKCXIMAGE_FILE@ : all
 
 clean : 
 	for i in ${subdirs}; do cd $$i && make clean && cd ${TOP_DIR}; done

@@ -49,6 +49,8 @@ int ObjMatch (Tcl_Obj *data, Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl
 
   buffer = Tcl_GetByteArrayFromObj(data, &length);
 
+  LOG(""); //
+
   if (image.Decode(buffer, length, CXIMAGE_FORMAT_GIF) || 
       image.Decode(buffer, length, CXIMAGE_FORMAT_PNG) ||
       image.Decode(buffer, length, CXIMAGE_FORMAT_JPG) ||
@@ -65,6 +67,8 @@ int ObjMatch (Tcl_Obj *data, Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl
 
     return true;
   } 
+
+  LOG("Unknown format");
 
   return false;
 }

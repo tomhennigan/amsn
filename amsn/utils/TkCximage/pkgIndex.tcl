@@ -2,4 +2,4 @@
 
 if {[package vcompare [info tclversion] 8.4] < 0} return
 
-package ifneeded TkCximage 0.1 "package require Tk; [list load [file join $dir TkCximage.so] TkCximage]; package provide TkCximage 0.1"
+package ifneeded TkCximage 0.2 "package require Tk; [list load [file join $dir TkCximage.so] TkCximage]; package provide TkCximage 0.2"

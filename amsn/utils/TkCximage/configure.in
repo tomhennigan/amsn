@@ -6,7 +6,7 @@ AC_INIT(src/TkCximage.h)
 # @(#) configure.in 1.0 97/2/11 12:50:30
 
 NAME=TkCximage
-TKCXIMAGE_VERSION=0.1
+TKCXIMAGE_VERSION=0.2
 
 AC_PREFIX_PROGRAM(wish)
 
@@ -51,6 +51,8 @@ dirs="	/usr/lib/tcl8.4a* \
 	/Library/Frameworks/Tcl.framework/Versions/8.3 \
 	/Library/Frameworks/Tcl.framework/Versions/8.4 \
 	/Library/Frameworks/Tcl.framework/Versions/8.5 \
+	/usr/local/lib \
+	/usr/lib \
 	`locate tclConfig.sh`"
 
 for i in $dirs ; do
@@ -174,6 +176,8 @@ else
 	/Library/Frameworks/Tk.framework/Versions/8.3 \
 	/Library/Frameworks/Tk.framework/Versions/8.4 \
 	/Library/Frameworks/Tk.framework/Versions/8.5 \
+	/usr/local/lib \
+	/usr/lib \
 	`locate tkConfig.sh`"
 
 
@@ -372,7 +376,7 @@ TKCXIMAGE_FILE=${NAME}${TCL_SHLIB_SUFFIX}
 
 AC_SUBST(SHARED_LIBS)
 
-CFLAGS=${TCL_CFLAGS}
+CFLAGS="${TCL_CFLAGS} ${TCL_SHLIB_CFLAGS}"
 
 AC_SUBST(CC)
 AC_SUBST(CFLAGS)
