@@ -2466,10 +2466,6 @@ proc cmsn_sb_handler {sb_name item} {
 	  unset msgacks($ret_trid)
 	  return 0
       }
-      206 {
-         status_log "can't remove \"Others\" group" red
-          msg_box "[trans cantremoveothers]"
-      }
       208 {
          status_log "cmsn_sb_handler: invalid user name for chat\n" red
 	  msg_box "[trans invalidusername]"
@@ -3296,6 +3292,11 @@ proc cmsn_ns_handler {item} {
           #status_log "Keeping connection alive\n" blue
           return 0
       }
+      224 {
+         status_log "can't remove \"Others\" group" red
+          msg_box "[trans cantremoveothers]"
+      }
+
       600 {
 	  ::MSN::logout
 	  status_log "Error: Server is busy\n" red
