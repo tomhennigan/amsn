@@ -2923,6 +2923,16 @@ proc cmsn_sb_msg {sb_name recv} {
 			::abook::setContactData $chatid operatingsystem $operatingsystem
 		}
 		
+	} elseif { [string range $content 0 22] == "text/x-msnmsgr-datacast" } {
+	
+	#ID:1 = Confirmation it's a nudge. 
+	#Call the postevent nudge
+	if {[string first "ID: 1" $msg] != "-1"} {
+		set epvar(chatid) $chatid
+		set epvar(nick) $nick
+		::plugins::PostEvent NudgeReceived epvar
+	}
+
 	} else {
 		status_log "cmsn_sb_msg: === UNKNOWN MSG ===\n$msg\n" red
 	}
@@ -3418,7 +3428,7 @@ proc cmsn_change_state {recv} {
 		set msnobj [::abook::getVolatileData $user msnobj ""]
 		::plugins::PostEvent ChangeState epvar
 	} elseif {[lindex $recv 0] == "ILN"} {
-		#Initial status
+		#Initial status when we log in
 		set user [lindex $recv 3]
 		set encoded_user_name [lindex $recv 4]
 		set user_name [urldecode [lindex $recv 4]]
@@ -3431,7 +3441,7 @@ proc cmsn_change_state {recv} {
 		set epvar(user) [lindex $recv 2]
 		set encoded_user_name [lindex $recv 3]
 		set user_name [urldecode [lindex $recv 3]]
-		set epvar(nick) [urldecode [lindex $recv 3]]
+		set epvar(nick) [::abook::getDisplayNick [lindex $recv 2]]
 		set substate [lindex $recv 1]
 		set epvar(substate) [lindex $recv 1]
 		set msnobj [urldecode [lindex $recv 5]]
@@ -4808,6 +4818,8 @@ proc add_Clientid {chatid clientid} {
 		}
 	}
 }
+
+
 
 namespace eval ::MSNP2P {
 	namespace export loadUserPic SessionList ReadData MakePacket MakeACK MakeSLP AcceptFT RejectFT
