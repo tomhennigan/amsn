@@ -142,7 +142,7 @@ proc save_config {} {
       
       set key [string range "${loginback}dummykey" 0 7]
       binary scan [::des::encrypt $key "${password}\n"] h* encpass
-      puts $file_id "password $encpass"
+      puts $file_id "encpassword $encpass"
    }
    close $file_id
    
@@ -175,16 +175,23 @@ proc load_config {} {
 	set var_value [join [lrange $var_data 1 end]]
 	set config($var_attribute) $var_value
     }
-    
+
+    #0.80 Compatibility
     if {[info exists config(password)]} {
-	set key [string range "$config(login)dummykey" 0 7]
 	set password $config(password)
-	catch {set encpass [binary format h* $config(password)]}
+	unset config(password)
+    }
+    
+        
+    if {[info exists config(encpassword)]} {
+	set key [string range "$config(login)dummykey" 0 7]
+	set password $config(encpassword)
+	catch {set encpass [binary format h* $config(encpassword)]}
 	catch {set password [::des::decrypt $key $encpass]}
 	#puts "Password length is: [string first "\n" $password]\n"
 	set password [string range $password 0 [expr { [string first "\n" $password] -1 }]]
 	#puts "Password is: $password\nHi\n"      
-	unset config(password)
+	unset config(encpassword)
     }
     
     if {[info exists config(remotepassword)]} {
