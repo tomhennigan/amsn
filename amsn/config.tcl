@@ -160,25 +160,46 @@ proc LoadLoginList {{trigger 0}} {
       		return 1
    	}
 
-	#LoginList show 0
-	#LoginList clear 0
-	#LoginList show 0
+	# Clear all list, only seems to work this way
+	set idx 0
+	while { [LoginList get $idx] != 0 } {
+		LoginList unset 0 [LoginList get $idx]
+		incr idx
+	}
+
+	# Now add profiles from file to list
 	while {[gets $file_id tmp_data] != "-1"} {
 		LoginList add 0 $tmp_data
-		#puts stdout "Read $tmp_data\n"
 	}
 	close $file_id
-	#LoginList show 0
 	
 	
+	# Modify HOME dir to current profile, chose a non locked profile, if none available go to default
 	if { $trigger == 0 } {
 		set HOME2 $HOME
-		if { [LoginList get 0] != 0 } {
-			set temp [LoginList get 0]
+		set flag 0
+		for { set idx 0 } { $idx <= [LoginList size 0] } {incr idx 1} {
+			set temp [LoginList get $idx]
 			set dirname [split $temp "@ ."]
 			set dirname [join $dirname "_"]
-			set HOME "[file join $HOME2 $dirname]"
+			if { [file exists [file join $HOME2 $dirname lock]] != 1 } {
+				set flag 1
+				break
+			}
 		}
+
+		if { $flag == 1 } {
+			set HOME "[file join $HOME2 $dirname]"
+			open "${HOME}/lock" w
+		}
+		
+		#if { [LoginList get 0] != 0 } {
+		#	set temp [LoginList get 0]
+		#	set dirname [split $temp "@ ."]
+		#	set dirname [join $dirname "_"]
+		#	set HOME "[file join $HOME2 $dirname]"
+		#	set file_id [open "${HOME}/lock" w]
+		#}
 	}
 }
 
@@ -226,12 +247,11 @@ proc LoginList { action age {email ""} } {
 			set tmp_list [array get ProfileList]
 			set idx [lsearch $tmp_list "$email"]
 			if { $idx == -1 } {
+				# User dosen't exist, proceed normaly
 				for {set idx [expr [array size ProfileList] - 1]} {$idx >= 0} {incr idx -1} {
 					set ProfileList([expr $idx + 1]) $ProfileList($idx)
 				} 
 				set ProfileList(0) $email
-				#status_log "$age : $email\n"
-				#status_log "$age : $ProfileList($age)\n"
 			} else {
 				# This means user exists, and we make him newest
 				for {set idx [lindex $tmp_list [expr $idx - 1]]} {$idx > 0} {incr idx -1} {
@@ -275,14 +295,10 @@ proc LoginList { action age {email ""} } {
 		}
 
 		show {
+			puts stdout "List is\n"
 			for {set idx 0} {$idx < [array size ProfileList]} {incr idx} {
-				status_log "$idx : $ProfileList($idx)\n"
-				#puts stdout "$idx : $ProfileList($idx)\n"
-			}
-		}
-		clear {
-			for {set idx 0} {$idx < [expr [array size ProfileList] -1]} {incr idx} {
-				unset ProfileList($idx)
+				#status_log "$idx : $ProfileList($idx)\n"
+				puts stdout "$idx : $ProfileList($idx)\n"
 			}
 		}
 	}
@@ -301,36 +317,69 @@ proc ConfigChange { window email } {
 			save_config
 		}
 
-	if { [info exists password] } {
-		set password ""
-	}
+	#if { [info exists password] } {
+	#	set password ""
+	#}
 
 	status_log "Called ChangeConfig with $email, old is $config(login)\n"
 		
+	if { $email != $config(login) } {
 	if { [LoginList exists 0 $email] == 1 } {
+		# Profile exists, make the switch
+
+		set OLDHOME $HOME
 		set proftrig 0
 		set oldlang $config(language)
 
 		set dirname [split $email "@ ."]
 		set dirname [join $dirname "_"]
 		set HOME "[file join $HOME2 $dirname]"
-		load_config
 
-		LoginList add 0 $email
-		set log_dir "[file join ${HOME} logs]"
+		if { [file exists "${HOME}/lock"] == 1 } {
+			status_log "lock exists\n"
+			msg_box [trans profileinuse]
+			set HOME $OLDHOME
+			
+			# Reselect previous element in combobox
+			set cb [$window list get 0 [LoginList size 0]]
+			set index [lsearch $cb $config(login)]
+			$window select $index
+		} else {
+			status_log "lock dosent exist\n"
+			if { [info exists password] } {
+				set password ""
+			}
+
+			load_config
+			
+			if { [file exists "${OLDHOME}/lock"] == 1 } {
+				file delete "${OLDHOME}/lock"
+			}
+			
+			open "${HOME}/lock" w
+
+			LoginList add 0 $email
+			set log_dir "[file join ${HOME} logs]"
 		
-		#status_log "Profile exists, password is $password\n"
-	
-		load_lang
-		### REPLACE THIS BY MAIN WINDOW REDRAW
-		if { $config(language) != $oldlang } {
-			msg_box [trans mustrestart]		
+			load_lang
+			### REPLACE THIS BY MAIN WINDOW REDRAW
+			if { $config(language) != $oldlang } {
+				msg_box [trans mustrestart]		
+			}
 		}
 	} else {
+		# Profile dosent exist, put proftrig to 1 so it asks to create
+
+		# Make sure we delete old lock
+		if { [file exists "${HOME}/lock"] == 1 } {
+			file delete "${HOME}/lock"
+		}
+
 		set proftrig 1
 		set config(login) $email
 		set config(save_password) 0
 		set config(startoffline) 0
+	}
 	}
 	
 	if { [winfo exists .login] } {
@@ -375,6 +424,9 @@ proc CreateProfile { email value } {
 		set password $oldpass
 		set config(startoffline) $oldoffline
 		LoginList add 0 $email
+
+		# Lock profile
+		open "${HOME}/lock" w
 	} else {
 		status_log "not creating new profile"
 		# Dosent want to save profile, use/load default config in this case
@@ -410,13 +462,20 @@ proc DeleteProfile { email entrypath } {
 		msg_box [trans cannotdeleteprofile]
 		return
 	} else {
-		LoginList unset 0 $email
+		set dir [split $email "@ ."]
+		set dir [join $dir "_"]
 		
-		set email [split $email "@ ."]
-		set email [join $email "_"]
-		catch { file delete -force [file join $HOME2 $email] }
+		# Make sure profile isn't locked
+		if { [file exists [file join $HOME2 $dir lock]] == 1 } {
+			msg_box [trans cannotdeleteprofile]
+			return
+		}
+		
+		catch { file delete -force [file join $HOME2 $dir] }
 		$entrypath list delete [$entrypath curselection]
 		$entrypath select 0
+		LoginList unset 0 $email
+		LoginList show 0
 
 		# Lets save it into the file
 		SaveLoginList

@@ -110,8 +110,10 @@ proc init_dock {} {
 	if { $config(dock) != 0} {
 		set svcPort 11983
 
-		set srvSock [socket -server accept_dock $svcPort]
-
+		if { [catch {socket -server accept_dock $svcPort} srvSock] } {
+			close_dock
+		}
+		
 		if { $config(dock) == 1} {
 
 			if { $docksock != 0 } {

@@ -311,9 +311,9 @@ proc close_cleanup {} {
 
   save_config
   save_alarms   ;# Save alarm settings
-  SaveLoginList ;# Save list of profiles
   close_dock    ;# Close down the dock socket
   catch {file delete [file join $HOME hotlog.htm]} res
+  catch {file delete [file join $HOME lock]} res
 }
 #///////////////////////////////////////////////////////////////////////
 

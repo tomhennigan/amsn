@@ -52,8 +52,7 @@ DONE	Add timeouts when reconnecting or inviting a user to a switchboard, to avoi
 DONE	Ctrl, alt and other special keys shouldn't send typing notification.
 DONE	Bug with font selection in preferences window. Saved if "close" clicked, but not if "save" clicked.
 DONE	Read/write profiles on login window for multiple AMSN's
--	Implement lock system to make sure you don't delete profile open on another AMSN window
--	Write Profiles as soon as Save is pressed in Preferences
+DONE	Implement lock system to make sure you don't delete profile open on another AMSN window
 -	Only change font preferences if save is pressed, revert to old if cancel pressed
 
 	***Existing Feature Improvements (priority 2)***
@@ -69,6 +68,7 @@ DONE	Read/write profiles on login window for multiple AMSN's
 -	Ability to see and edit AL and BL lists, and to check RL list
 -	Add a "typed characters" counter in chat window.
 -	Add an option to remove the amsn banner on contact list.
+-	Files with [] don't work? Check that and make sure.
 
 	**Alarm system improvements and bugs :
 -	URL Decode names when displaying alarm
