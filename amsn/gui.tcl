@@ -4148,7 +4148,7 @@ proc cmsn_draw_main {} {
 
 	# Initialize the event history
 	frame .main.eventmenu
-	combobox::combobox .main.eventmenu.list -editable false -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
+	combobox::combobox .main.eventmenu.list -editable false -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection false
 
 	# Initialize the banner for when the user wants to see aMSN Banner
 	adv_initialize .main

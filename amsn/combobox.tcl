@@ -124,6 +124,7 @@ proc ::combobox::Init {} {
             -dropdownwidth       {dropdownWidth       DropdownWidth} \
 	    -editable            {editable            Editable} \
 	    -elementborderwidth  {elementBorderWidth  BorderWidth} \
+            -exportselection     {exportSelection     ExportSelection} \
 	    -fg                  -foreground \
 	    -font                {font                Font} \
 	    -foreground          {foreground          Foreground} \
@@ -1605,6 +1606,12 @@ proc ::combobox::Configure {w args} {
 		$widgets(dropdown) configure -borderwidth $newValue
 		set options($option) $newValue
 	    }
+
+            -exportselection {
+                # prevents the text to be copied every time the window
+                # gets focused
+                $widgets(entry) configure -exportselection $newValue
+            }
 
 	    -font {
 		$widgets(entry) configure -font $newValue
