@@ -7304,6 +7304,10 @@ proc degt_ns_command_win {} {
 
 proc bgerror { args } {
 	global errorInfo errorCode HOME2 tcl_platform tk_version tcl_version
+	
+	if { [info exists dont_give_bug_reports] && $::dont_give_bug_reports == 1 } {
+		return
+	}
 
 	set posend [split [.status.info index end] "."]
 	set pos "[expr {[lindex $posend 0]-25}].[lindex $posend 1]"
@@ -7314,16 +7318,23 @@ proc bgerror { args } {
 	set prot_posend "[lindex $prot_posend 0].[lindex $prot_posend 1]"
 	
 		
-	status_log "\n\n\n\n\n" error
-	status_log "GOT TCL/TK ERROR : $args\n$errorInfo\n$errorCode\n" error
-	catch { status_log    "\nAMSN version: $::version ||| AMSN date: $::date ||| tcl version : $tcl_version ||| tk version : $tk_version\n\ntcl_platform array content : [array get tcl_platform]\n" }
-	status_log "\n\n\n\n\n" error
+	status_log "-----------------------------------------\n" error
+	status_log ">>> GOT TCL/TK ERROR : $args\n>>> Stack:\n$errorInfo\n>>> Code: $errorCode\n" error
+	status_log "-----------------------------------------\n" error
+	catch { status_log ">>> AMSN version: $::version - AMSN date: $::date\n" error }
+	catch { status_log ">>> TCL version : $tcl_version - TK version : $tk_version\n" error } 
+	catch { status_log ">>> tcl_platform array content : [array get tcl_platform]\n" error }
+	status_log "-----------------------------------------\n\n" error
 
 	set fd [open [file join $HOME2 bugreport.amsn] a]
 
-	puts $fd "Bug generated at [clock format [clock seconds] -format "%D - %T"]\n"
-	puts $fd "Error : $args\nStack : $errorInfo\n\nCode : $errorCode\n\n"
-	catch {    puts $fd "\nAMSN version: $::version ||| AMSN date: $::date ||| tcl version : $tcl_version ||| tk version : $tk_version\n\ntcl_platform array content : [array get tcl_platform]\n\n" }
+	puts $fd "Bug generated at [clock format [clock seconds] -format "%D - %T"]"
+	puts $fd "-----------------------------------------"
+	puts $fd ">>> TCL/TK Error: $args\n>>> Stack:\n$errorInfo\n\n>>> Code : $errorCode"
+	puts $fd "-----------------------------------------"
+	puts $fd ">>> AMSN version: $::version - AMSN date: $::date"
+	catch { puts $fd ">>> TCL version : $tcl_version - TK version : $tk_version"}
+	catch { puts $fd ">>> tcl_platform array content : [array get tcl_platform]" }
 
 	set tclfiles [glob -nocomplain *.tcl]
 	set latestmtime 0
@@ -7336,19 +7347,99 @@ proc bgerror { args } {
 			set latestfile $tclfile
 		}
 	}
-	puts $fd "Latest modification timne file: $latestfile: [clock format $latestmtime -format %y/%m/%d-%H:%M]\n\n"
-	
-		
-	puts $fd "Status_log: \n [.status.info get $pos $posend]\n\n"		
-	puts $fd "Protocol debug: \n [.degt.mid.txt get $prot_pos $prot_posend]\n\n"		
+	puts $fd ">>> Latest modification time file: $latestfile: [clock format $latestmtime -format %y/%m/%d-%H:%M]"
+	puts $fd "-----------------------------------------"
+	puts $fd ">>> Status_log:\n[.status.info get $pos $posend]\n"
+	puts $fd "-----------------------------------------"
+	puts $fd ">>> Protocol debug:\n[.degt.mid.txt get $prot_pos $prot_posend]\n"
 	puts $fd "==========================================================================\n\n"
 
 
 	close $fd
 
-	msg_box "[trans tkerror [file join $HOME2 bugreport.amsn]]"
+	show_bug_dialog
+	#msg_box "[trans tkerror [file join $HOME2 bugreport.amsn]]"
 }
 
+
+proc show_bug_dialog {} {
+
+	set w ".bug_dialog"
+	
+	catch {destroy $w}
+	toplevel $w -class Dialog
+	wm title $w "AMSN Error"
+	wm iconname $w Dialog
+	wm protocol $w WM_DELETE_WINDOW "set closed_bug_window 1"
+	
+	if {[winfo viewable [winfo toplevel [winfo parent $w]]] } {
+		wm transient $w [winfo toplevel [winfo parent $w]]
+	}    
+		
+	frame $w.bot
+	frame $w.med
+	frame $w.top
+	pack $w.bot -side bottom -fill both
+	pack $w.med -side bottom -fill both
+	pack $w.top -side top -fill both -expand 1
+	
+	label $w.msg -justify left -text [trans tkerror [file join $::HOME2 bugreport.amsn]] -wraplength 300
+	pack $w.msg -in $w.top -side right -expand 1 -fill both -padx 3m -pady 3m
+	
+	label $w.bitmap -bitmap error
+	pack $w.bitmap -in $w.top -side left -padx 3m -pady 3m
+	
+	checkbutton $w.ignoreerrors -text [trans ignoreerrors] -variable "dont_give_bug_reports"
+	pack $w.ignoreerrors -in $w.med -side left -padx 10 -pady 5
+	
+	button $w.button -text [trans ok] -command "set closed_bug_window 1" -default active
+	pack $w.button -in $w.bot
+	
+	bind $w <Return> "set closed_bug_window 1"
+	
+	wm withdraw $w
+	update idletasks
+	set x [expr {[winfo screenwidth $w]/2 - [winfo reqwidth $w]/2 \
+		- [winfo vrootx [winfo parent $w]]}]
+	set y [expr {[winfo screenheight $w]/2 - [winfo reqheight $w]/2 \
+		- [winfo vrooty [winfo parent $w]]}]
+	# Make sure that the window is on the screen and set the maximum
+	# size of the window is the size of the screen.  That'll let things
+	# fail fairly gracefully when very large messages are used. [Bug 827535]
+	if {$x < 0} {
+		set x 0
+	}
+	if {$y < 0} {
+		set y 0
+	}
+	wm maxsize $w [winfo screenwidth $w] [winfo screenheight $w]
+	wm geom $w +$x+$y
+	wm deiconify $w
+	
+	# 7. Set a grab and claim the focus too.
+	
+	set oldFocus [focus]
+	set oldGrab [grab current $w]
+	if {[string compare $oldGrab ""]} {
+		set grabStatus [grab status $oldGrab]
+	}
+	grab $w
+	raise $w
+	focus $w.button
+	
+	# 8. Wait for the user to respond, then restore the focus and
+	# return the index of the selected button.  Restore the focus
+	# before deleting the window, since otherwise the window manager
+	# may take the focus away so we can't redirect it.  Finally,
+	# restore any grab that was in effect.
+	
+	vwait closed_bug_window
+	catch {focus $oldFocus}
+	catch {	
+		bind $w <Destroy> {}
+		destroy $w
+	}
+}
 
 
 #ShowTransient Ê{wintransient}
