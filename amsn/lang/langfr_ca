@@ -296,6 +296,7 @@ viewprofile Afficher le profil
 view Vue
 willjoin Dans l'attente que $1 rejoigne la conversation
 work Travail
+wrongprofileversion Mauvaise version du fichier de profil. Afin de la fixer, enlevez svp le répertoire $1, ou mettez à jour amsn
 xoffset Position en X
 yoffset Position en Y
 yousay Vous avez dit
