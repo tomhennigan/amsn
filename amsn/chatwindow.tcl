@@ -1123,6 +1123,8 @@ namespace eval ::ChatWindow {
 		# Create my bindings
 		bind $text <Tab> "focus $sendbutton; break"
 		bind $sendbutton <Return> "::amsn::MessageSend $w $text; break"
+		bind $sendbutton <Enter> "$sendbutton configure -image [::skin::loadPixmap sendbutton_hover]"
+		bind $sendbutton <Leave> "$sendbutton configure -image [::skin::loadPixmap sendbutton]"
 		bind $text <Shift-Return> {%W insert insert "\n"; %W see insert; break}
 		bind $text <Control-KP_Enter> {%W insert insert "\n"; %W see insert; break}
 		bind $text <Shift-KP_Enter> {%W insert insert "\n"; %W see insert; break}
@@ -1255,6 +1257,17 @@ namespace eval ::ChatWindow {
 		bind $sendfile <Button1-ButtonRelease> "::amsn::FileTransferSend $w"
 		bind $invite <Button1-ButtonRelease> "::amsn::ShowInviteMenu $w %X %Y"
 
+		bind  $smileys  <Enter> "$smileys configure -image [::skin::loadPixmap butsmile_hover]"
+		bind  $smileys  <Leave> "$smileys configure -image [::skin::loadPixmap butsmile]"
+		bind  $fontsel  <Enter> "$fontsel configure -image [::skin::loadPixmap butfont_hover]"
+		bind  $fontsel  <Leave> "$fontsel configure -image [::skin::loadPixmap butfont]"
+		bind $block <Enter> "$block configure -image [::skin::loadPixmap butblock_hover]"
+		bind $block <Leave> "$block configure -image [::skin::loadPixmap butblock]"
+		bind $sendfile <Enter> "$sendfile configure -image [::skin::loadPixmap butsend_hover]"
+		bind $sendfile <Leave> "$sendfile configure -image [::skin::loadPixmap butsend]"
+		bind $invite <Enter> "$invite configure -image [::skin::loadPixmap butinvite_hover]"
+		bind $invite <Leave> "$invite configure -image [::skin::loadPixmap butinvite]"
+		
 		#send chatwindowbutton postevent
 		set evpar(bottom) $buttons
 		set evpar(window_name) "$w"

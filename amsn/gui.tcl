@@ -3205,12 +3205,18 @@ proc cmsn_draw_main {} {
 	::skin::setPixmap minileaves minileaves.gif
 
 	::skin::setPixmap butsmile butsmile.gif
+	::skin::setPixmap butsmile_hover butsmile_hover.gif
 	::skin::setPixmap butfont butfont.gif
+	::skin::setPixmap butfont_hover butfont_hover.gif
 	::skin::setPixmap butblock butblock.gif
+	::skin::setPixmap butblock_hover butblock_hover.gif
 	::skin::setPixmap butsend butsend.gif
+	::skin::setPixmap butsend_hover butsend_hover.gif
 	::skin::setPixmap butinvite butinvite.gif
+	::skin::setPixmap butinvite_hover butinvite_hover.gif
 	::skin::setPixmap butnewline newline.gif
 	::skin::setPixmap sendbutton sendbut.gif
+	::skin::setPixmap sendbutton_hover sendbut_hover.gif
  	::skin::setPixmap imgshow imgshow.gif
 	::skin::setPixmap imghide imghide.gif
 
