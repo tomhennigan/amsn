@@ -5,10 +5,15 @@ namespace eval ::amsn {
    namespace export fileTransferSend fileTransferRecv fileTransferProgress \
    errorMsg notifyAdd
    
+   ##PUBLIC
+   
+   #Shows an error message
    proc errorMsg { msg } {
       tk_messageBox -type ok -icon error -message $msg -title "[trans title] Error" 
    }
    
+   #fileTransferSend Switchboardane Windowtitle
+   #Still need to improve
    proc fileTransferSend { twn title } {
       global config
 
@@ -56,6 +61,7 @@ namespace eval ::amsn {
       fileDialog2 $w $w.top.fields.file open ""
    }
   
+   #PRIVATE: called by the fileTransferSend Dialog
    proc FileTransferSendOk { w sbn } {
       global config
       set filename [ $w.top.fields.file get ]  
@@ -82,6 +88,7 @@ namespace eval ::amsn {
       return 0
    }
      
+   #Dialog shown when receiving a file
    proc fileTransferRecv {filename filesize cookie sb_name} {
       global files_dir
       set answer [tk_messageBox -message "[trans acceptfile $filename $filesize $files_dir]" -type yesno -icon question -title [trans receivefile]]
@@ -93,6 +100,7 @@ namespace eval ::amsn {
       }
    }
 
+   #PRIVATE: Opens Sending Window
    proc SendWin {filename cookie} {
       status_log "Creating send progress window\n"
       set w .ft$cookie
@@ -114,6 +122,7 @@ namespace eval ::amsn {
       wm protocol $w WM_DELETE_WINDOW "::MSN::cancelSending $cookie"
    }
    
+   #PRIVATE: Opens Receiving Window
    proc RecvWin {filename cookie} {
      status_log "Creating receive progress window\n"
       set w .ft$cookie
@@ -135,6 +144,14 @@ namespace eval ::amsn {
    }
 
    
+   #Updates filetransfer progress window/baar
+   #fileTransferProgress mode cookie bytes filesize
+   # mode: c=Cancel
+   #       s=Sending
+   #       r=Receiving
+   # cookie: ID for the filetransfer
+   # bytes: bytes sent/received (-1 if cancelling)
+   # filesize: total bytes in the file
    proc fileTransferProgress {mode cookie bytes filesize} {
       # -1 in bytes to transfer cancelled
       # bytes >= filesize for connection finished
@@ -201,6 +218,8 @@ namespace eval ::amsn {
    }
 
    
+   #Adds a message to the notify, that executes "command" when clicked, and
+   #plays "sound"
    proc notifyAdd { msg command {sound ""}} {
       variable NotifID
       variable NotifPos
