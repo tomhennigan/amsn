@@ -3408,7 +3408,7 @@ namespace eval ::amsn {
 		}
 
 		$w.c create image 17 22 -image notifico
-		$w.c create image 80 97 -image notifybar
+#		$w.c create image 80 97 -image notifybar
 		$w.c create image 142 12 -image notifclose
 
 		if {[string length $msg] >100} {
@@ -3830,11 +3830,11 @@ proc cmsn_draw_main {} {
 	set barheight [image height colorbar]
 
 	image create photo mainbar -width 1280 -height $barheight
-	image create photo notifybar -width 140 -height $barheight
+#	image create photo notifybar -width 140 -height $barheight
 
-	notifybar copy colorbar -from 0 0 5 $barheight
-	notifybar copy colorbar -from 5 0 15 $barheight -to 5 0 64 $barheight
-	notifybar copy colorbar -from [expr {$barwidth-125}] 0 $barwidth $barheight -to 64 0 139 $barheight
+#	notifybar copy colorbar -from 0 0 5 $barheight
+#	notifybar copy colorbar -from 5 0 15 $barheight -to 5 0 64 $barheight
+#	notifybar copy colorbar -from [expr {$barwidth-125}] 0 $barwidth $barheight -to 64 0 139 $barheight
 
 	
 	ScrolledWindow $pgBuddy.sw -auto vertical -scrollbar vertical
