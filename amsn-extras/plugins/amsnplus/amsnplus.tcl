@@ -117,7 +117,7 @@ namespace eval ::amsnplus {
 
 			#entries for the plus menu
 			$plusmenu add command -label "[trans quicktext]" -command "::amsnplus::qtconfig"
-			$plusmenu add command -label "[trans preferences]" -command "::amsnplus::preferences"
+			#$plusmenu add command -label "[trans preferences]" -command "::amsnplus::preferences"
 		}
 		.main_menu add cascade -label "Plus!" -menu .main_menu.plusmenu
 	}
@@ -396,7 +396,7 @@ namespace eval ::amsnplus {
 		pack $w.top.top.italicbutton -side left -padx 5
 		pack $w.top.top.overstrikebutton -side left -padx 5
 		pack $w.top.top.underlinebutton -side left -padx 5
-		pack $w.top.top.underlinebutton -side left -padx 5
+		pack $w.top.top.resetbutton -side left -padx 5
 		pack $w.top.top -side top
 		
 		label $w.top.left.txt -text "[trans keyword]"
