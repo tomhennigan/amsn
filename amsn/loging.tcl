@@ -485,8 +485,9 @@ proc ParseToFile { logvar filepath } {
 # email : email of log to delete
 
 proc ClearLog { email } {
-	set parent "."
-	catch {set parent [focus]}
+	if {![catch {set parent [focus]}]} {
+		set parent "."
+	}
 	set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans block] -parent $parent]
 	if {$answer == "yes"} {	
 		global log_dir
