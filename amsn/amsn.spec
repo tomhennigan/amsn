@@ -63,8 +63,8 @@ Copyright:	GPL
 Group:		Productivity/Networking/InstantMessaging
 URL:		http://amsn.sourceforge.net/
 Source:		ftp://ftp.sourceforge.net/projects/amsn/%{name}-%{_src_version}.tar.gz
-Requires:	tcl >= 8.3
-Requires:	tk >= 8.3
+Requires:	tcl >= 8.4
+Requires:	tk >= 8.4
 BuildRoot:	%{_tmppath}/build-%{name}-%{_version}
 Packager:	Pascal Bleser <guru@unixtech.be>
 BuildArch:	noarch

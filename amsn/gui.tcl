@@ -5989,7 +5989,7 @@ proc reloadAvailablePics { } {
 	#Delete all picture	
 	if { [info exists image_names] } {
 		foreach img $image_names {
-			if { ![image inuse $img]} {
+			if { $img != [.picbrowser.mypic cget -image] } {
 				image delete $img
 			} else {
 				lappend images_in_use $img
