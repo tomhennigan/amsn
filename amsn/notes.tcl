@@ -195,18 +195,24 @@ namespace eval ::notes {
 		
 		bind $w.right.subject.txt <Tab> "focus $w.right.note.txt; break"
 
-		# If the E-Mail is given, display its notes
-		set ::notes::email $email
-		if { $email != "" } {
-			::notes::get_Note $email
-  			foreach note $::notes::notes {
-  				set subject [lindex $note 2]
-  				$w.right.notes.box insert end "$subject"
-  			}
-			$w.right.button.new configure -state normal
-			set ::notes::selectedcontact [lsearch $::notes::contacts $email]
-			::notes::Update_Contact_Background
+		# If the E-Mail is not given, display the first contact
+		if { $email == "" } {
+			set email [lindex $::notes::contacts 0]
 		}
+
+		set ::notes::email $email
+		::notes::get_Note $email
+
+  		foreach note $::notes::notes {
+  			set subject [lindex $note 2]
+  			$w.right.notes.box insert end "$subject"
+  		}
+
+		$w.right.button.new configure -state normal
+		set ::notes::selectedcontact [lsearch $::notes::contacts $email]
+		set ::notes::selected "-1"
+
+		::notes::Update_Contact_Background
 
 		bind $w <<Escape>> "::notes::Display_Notes_Close"
 	}
@@ -279,7 +285,7 @@ namespace eval ::notes {
 		
 		#Show created and modified info only if it exists
 		if { $created != "" & $modified != ""} {
-			$w.right.info.date configure -text "[trans created] : $created  -  [trans modified] : $modified"
+			$w.right.info.date configure -text "[trans created] : [::abook::dateconvert $created]  -  [trans modified] : [::abook::dateconvert $modified]"
 		} else {
 			$w.right.info.date configure -text "Click on Add button for a new note"
 		}
@@ -307,6 +313,7 @@ namespace eval ::notes {
 		set selection [$w.contact.box curselection]
 
 		set ::notes::selectedcontact $selection
+		set ::notes::selected "-1"
 
 		set contact [lindex $::notes::contacts $selection]
 
