@@ -341,6 +341,8 @@ set ::alpha 0
 wm title . "Commands"
 button .load -text "Load" -command "Load"
 button .save -text "Save" -command "Save"
+button .play -text "Play" -command "::CxImage::EnableAnimated"
+button .pause -text "Pause" -command "::CxImage::DisableAnimated"
 button .convert -text "Convert" -command "Convert"
 button .res -text "Resize" -command "Resize"
 button .thumbnail -text "Thumbnail" -command "Thumbnail"
@@ -348,6 +350,6 @@ button .crop -text "Crop" -command "Crop"
 button .blending -text "Test Alpha blending" -command "Blending"
 button .exit -text "Exit" -command "exit"
 
-pack .load .save .convert .res .thumbnail .crop .blending .exit -side top
+pack .load .save .play .pause .convert .res .thumbnail .crop .blending .exit -side top
 
 
