@@ -31,8 +31,13 @@ checkingver Recherche d'une nouvelle version
 checkver Nouvelle version
 clicktologin Cliquez pour vous connecter
 close Fermer
+closingdocks Fermer pour docker l'application
 command Commande
+confirmdelete Confirmer suppression
+connecterror Erreur de connection
 contactadded Contact ajouté
+contactdoesnotexist Personne introuvable
+copytogroup Copier vers groupe
 date Date
 delete Effacer
 enableproxy Utiliser un proxy
@@ -40,6 +45,8 @@ entercontactemail Rajouter un contact de messagerie
 enterfilename Entrez le nom du fichier
 enternick Donner votre pseudonyme
 examples Exemples
+exitamsn Quitter amsn?
+extras Services Additionnels
 filedoesnotexist Le fichier n'existe pas
 filename Fichier
 filetransfercancelled Transfert de fichier annulé
@@ -51,6 +58,7 @@ groupexists Le groupe existe déjà
 group Groupe
 groupmissing Impossible de trouver le groupe
 groupnewname Nouveau nom
+groupnotempty Groupe non vide
 groupoldname Ancien nom
 grouprename Renommer un groupe
 groupunknown Groupe inconnu
@@ -61,11 +69,13 @@ home Domicile
 ident Identification
 identity Identité
 inbox Boite aux lettres
+invalidusername Utilisateur incorrect
 invite Invitation
 ipaddress Adresse IP
 is est
 joins $1 $2 a rejoint la conversation
 language Langage
+leaveblankforhotmail Laisse vide pour un compte hotmail
 leaves $1 a quitté la conversation
 listeningon A l'écoute sur le port $1
 listsmileys Lister les "smileys"
@@ -77,6 +87,7 @@ logout Se déconnecter
 logsin vient de se connecter
 mailer Programme de courrier
 mobile Mobile
+movetogroup Deplacer vers groupe
 msg Message
 msn AMSN
 mustrestart Vous devez redémarrer l'application pour que les changements prennent effet
@@ -86,6 +97,7 @@ neweravailable nouvelle version disponible ($1)
 newmail $1 nouveaux messages
 newmailfrom Nouveau message de
 newmsg Nouveau message
+newveravailable Nouvelle version disponible
 next Suivant
 noactivity Inactif
 nonewmail 0 nouveau[x] message[s]
@@ -129,8 +141,11 @@ sendmail Envoyer un couriel
 sendmsg Envoyer un message
 sentbytes $1 de $2 octets reçus
 server Serveur
+servergoingdown Serveur encours d'arret
 sound Evénements Sonores
 startoffline Démarrer déconnecté
+status Statut
+syntaxerror Erreur de syntaxe
 textsize Taille du texte
 title Al's Messenger
 to A
@@ -140,6 +155,7 @@ unblock Débloquer
 uoffline Déconnectés
 uonline Connectés
 user Utilisateur
+useralreadyonlist Utilisateur present dans la liste
 version Version
 view Vue
 willjoin Dans l'attente que $1 rejoigne la conversation
