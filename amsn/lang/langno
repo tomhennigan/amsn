@@ -5,7 +5,9 @@ acceptfile Aksepter fil $1, størrelse $2? Lagret i $3
 actions Hendelser
 addacontact Legg til en kontakt
 addedyou $1 ($2) har lagt deg til sin kontaktliste
+addprofiledesc Skriv inn e-postadressen for profilen du vil opprette. \nInnlogginger med profiler lar deg ha forskjellige konfigurasjoner for hver e-postadresse.\nUten profiler kan du ikke bruke Historie, Alarmer eller "Husk Passord" funksjon.
 addprofile Legg til profil
+addstate Add New State
 addtocontacts Legg til kontaktliste
 addtoo Legg denne personen til i min kontaktliste
 admincontacts Administrer kontakter
@@ -15,7 +17,8 @@ alarmpref Alarm innstillinger for bruker
 alarmstatus Skru alarm på / av for denne brukeren
 allowallbutbl La alle utenom de som er blokkerte kontakte meg
 allowbadwords Slå av sensur av kallenavn
-allowonlyinal La kun de som er i Allow List kontakte meg
+allowlist Tillatelsesliste (TL):
+allowonlyinal La kun godkjente brukere kontakte meg
 allowseen La denne personen se meg når jeg er online og kontakte meg
 animatedsmileys Bruk animerte smilefjes
 appearance Tilgjengelighet
@@ -43,7 +46,7 @@ blocking Blokkering
 blockinter1 Når statusen din er online, sjekk vær
 blockinter2 sekkund, eller sjekk vært: 
 blockinter3 vær
-blocklist Blokkering liste (BL)
+blocklist Blokkeringsliste (BL)
 blockmessage Disse personene er koblet til, men har blokkert deg
 blockusers Brukere som sjekkes på en gang
 broughtby Gitt til deg av følgende utviklere

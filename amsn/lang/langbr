@@ -185,6 +185,7 @@ groupunknown Grupo desconhecido
 handle Manipular
 help Ajuda
 helpcontents Conteúdo da Ajuda
+hidedisplaypic Esconder Figura da Tela
 hiden Esconde os emoticons do menu de smileys
 hidewindow Esconder a Janela
 history Ver histórico
@@ -300,6 +301,7 @@ personal Pessoal
 phone Telefone
 picfile Imagem a ser exibida em avisos (GIF < 500 x 500)
 picstatus Ativar/Desativar imagem nos avisos
+playing Em execução: $1
 pluginselector Seleciona plugins
 port Porta
 prefalerts Sons e alertas dos meus eventos
@@ -373,6 +375,10 @@ servergoingdown Desconectado: Servidor está sendo desligado
 server Servidor
 session Sessão
 showblockedlist Mostra a lista de usuários que bloqueram você
+showdisplaypic2 Mostrar Figura na Tela automaticamente quando uma janela de Conversa é aberta
+showdisplaypic Mostrar Figura na Tela
+showmypic Minha Figura na Tela
+showuserpic Figura do usuario $1
 skinselector Escolha a Skin
 skin Skin 
 smileconfig Configuração normal de emoticon
@@ -435,10 +441,10 @@ willjoin Aguardando $1 entar na conversa
 work Ocupado
 wrongfields O "$1", "$2" e/ou "$3" campos não estão validos
 wrongprofileversion Versão errada do arquivo de configuração do perfil. Para consertar, por favor remova-o do diretório $1, ou atualize o amsn
+xmmserr Nenhum áudio em execução ou você não tem o xmms-infopipe instalado
 xoffset Deslocamento X
 yes Sim
 yoffset Deslocamento Y
 youblocked Você foi bloqueado
 yousay Você diz
 youwant Você quer
-xmmserr Nenhum áudio em execução ou você não tem o xmms-infopipe instalado
