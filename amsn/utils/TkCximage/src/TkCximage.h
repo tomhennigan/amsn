@@ -19,7 +19,6 @@
 
 #include <tkPlatDecls.h>
 
-#include <time.h>
 
 // Defined as described in tcl.tk compiling extension help
 #ifndef STATIC_BUILD
@@ -60,16 +59,18 @@ extern "C"
 EXTERN char currenttime[30];
 EXTERN FILE * logfile;
 
+
+#if ENABLE_LOGS == 1
+#ifndef WINVER
+#define LOGS_ENABLED
+#include <time.h>
+
 inline void timestamp() { 
   time_t t;
   time(&t);
   strftime(currenttime, 29, "[%D %T]", localtime(&t));
 };
 
-
-#if ENABLE_LOGS == 1
-#ifndef WINVER
-#define LOGS_ENABLED
 #endif
 #endif
 

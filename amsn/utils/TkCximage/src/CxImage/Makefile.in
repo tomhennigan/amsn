@@ -6,7 +6,9 @@ OBJECTS		= ximadsp.o  ximaexif.o  ximagif.o   ximainfo.o  ximajpg.o   ximalyr.o 
 
 CC		= @CC@
 
-CFLAGS    	= -O2 @CFLAGS@ 
+INCLUDES	= -I./ -I../ -I../zlib -I../jpeg -I../png
+
+CFLAGS    	= -O2 @CFLAGS@ ${INCLUDES}
 
 AR		= @AR@
 
@@ -19,7 +21,7 @@ RANLIB		= @RANLIB@
 all : ${OUTPUT}
 
 %.o: %.cpp
-	$(CC) -c $(CFLAGS) $<
+	$(CC) -c  $(CFLAGS) $<
 
 ${OUTPUT}: ${OBJECTS}
 	rm -f ${OUTPUT}

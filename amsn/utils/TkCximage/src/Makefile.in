@@ -27,7 +27,7 @@ CFLAGS    	= -O2 @CFLAGS@
 CC_SWITCHS 	= ${CFLAGS} ${DEFINES} ${INCLUDES} 
 
 
-LIBSN     	=  -L./zlib/ -L./png/ -L./jpeg/ -L./CxImage/ -lCxImage -ljpeg -lpng -lzlib -lz -lstdc++ ${TCL_STUB_LIB_SPEC} ${TK_STUB_LIB_SPEC} 
+LIBSN     	=  -L./zlib/ -L./png/ -L./jpeg/ -L./CxImage/ -lCxImage -ljpeg -lpng -lzlib -lstdc++ ${TCL_STUB_LIB_SPEC} ${TK_STUB_LIB_SPEC} 
 
 .PHONY : all clean distclean CxImage/libCxImage.a zlib/libzlib.a png/libpng.a jpeg/libjpeg.a 
 

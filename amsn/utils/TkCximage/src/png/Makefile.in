@@ -6,7 +6,9 @@ OBJECTS		= png.o pnggccrd.o  pngmem.o    pngread.o  pngrtran.o  pngset.o    pngv
 
 CC		= @CC@
 
-CFLAGS    	= -O2 @CFLAGS@ 
+INCLUDES	= -I./ -I../zlib
+
+CFLAGS    	= -O2 @CFLAGS@ ${INCLUDES}
 
 AR		= @AR@
 
