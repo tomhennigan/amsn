@@ -27,8 +27,6 @@ for {set i 256} {$i < 65536} {incr i} {
 }
 
 namespace eval ::MSN {
-   variable myState FLN;
-
    namespace export changeName logout changeStatus connect blockUser \
    unblockUser addUser deleteUser login myStateIs
 
@@ -97,7 +95,7 @@ namespace eval ::MSN {
 
    variable trid 0
    variable atransfer ""
-
+   variable myState FLN
 
    proc WriteSB {sbn cmd param {handler ""}} {
       variable trid
@@ -140,6 +138,9 @@ namespace eval ::MSN {
       }
    }
 
+
+   #All about sending files
+   
    proc InviteFT { sbn file } {
       #Invitation to filetransfer, initial message
       variable trid 
@@ -224,9 +225,9 @@ namespace eval ::MSN {
    }
 
    proc AcceptConnection {sockid hostaddr hostport} {
+      #Someone connects to my host to get the file i offer
       variable atransfer
   
-      #Someone connects to my host to get the file i offer
       status_log "Conexión aceptada sockid: $sockid hostaddr: $hostaddr port: $hostport\n" white  
       fconfigure $sockid -blocking 1 -buffering none -translation {binary binary}
 
@@ -249,42 +250,19 @@ namespace eval ::MSN {
             gets $sockid tmpdata
             status_log "Recibo: $tmpdata\n"
             if { [string range $tmpdata 0 2] == "TFR" } {
-               fconfigure $sockid -blocking 0 -buffering full -buffersize 2048
+
                #Send the file
 
                set fileid [open $filename r]
                fconfigure $fileid -translation {binary binary}
                status_log "Sending file $filename size $filesize\n"
 
+               fconfigure $sockid -blocking 0
 	       fileevent $sockid writable "::MSN::SendPacket $sockid $fileid $filesize"
                fileevent $sockid readable "::MSN::MonitorTransfer $sockid"
 	       	       
 	       return 0
 
-               set sentbytes 0
-	
-               while {$sentbytes < $filesize} {
-	  
-                  if {[expr $filesize-$sentbytes >2045]} {
-                     set packetsize 2045
-                  } else {
-                     set packetsize [expr $filesize-$sentbytes]
-                  }
-	  
-                  set datos [read $fileid $packetsize]
-	  
-                  set byte1 [expr $packetsize & 0xFF]
-                  set byte2 [expr $packetsize >> 8]
-	  
-                  puts -nonewline $sockid "\0[format %c $byte1][format %c $byte2]"
-                  puts -nonewline $sockid $datos
-                  set sentbytes [expr $sentbytes + $packetsize]
-                  status_log "sending $sentbytes of $filesize bytes\n"
-               }
-	
-               status_log "File sent complete\n"
-               close $fileid
-               return 0;
             }
          } 
       } 
@@ -293,6 +271,7 @@ namespace eval ::MSN {
    }
 
    proc SendPacket { sockid fileid filesize } {
+      #Send a packet for the file transfer
 
       set sentbytes [tell $fileid]
 
@@ -314,12 +293,14 @@ namespace eval ::MSN {
          set sentbytes [expr $sentbytes + $packetsize]
          status_log "sending $sentbytes of $filesize bytes\n"
       } else {
-        fclose $fileid
+        close $fileid
 	fileevent $sockid writable ""
+	status_log "All file content sent\n"
       }
    }
 
    proc MonitorTransfer { sockid } {
+      #Monitor messages from the receiving host in a file transfer
       fconfigure $sockid -blocking 1
       gets $sockid datos
       fconfigure $sockid -blocking 0
@@ -342,6 +323,139 @@ namespace eval ::MSN {
          return 0
       }
    }
+
+   
+
+   #All about receiving files
+
+   proc AcceptFT {cookie sbn} {
+      #Send the acceptation for a file transfer, request IP
+      set sock [sb get $sbn sock]
+
+      set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+      set msg "${msg}Invitation-Command: ACCEPT\r\n"
+      set msg "${msg}Invitation-Cookie: $cookie\r\n"
+      set msg "${msg}Launch-Application: FALSE\r\n"
+      set msg "${msg}Request-Data: IP-Address:\r\n\r\n"
+
+      set msg_len [string length $msg]
+      incr ::MSN::trid
+      puts $sock "MSG $::MSN::trid N $msg_len"
+      puts -nonewline $sock $msg
+
+      status_log "Accepting filetransfer sent\n" red
+
+   }
+
+
+   proc ConnectMSNFTP {ipaddr port authcookie filename sbn} {
+      #I connect to a remote host to retrive the file
+      global config files_dir
+
+      status_log "Conectando a $ipaddr puerto $port\n"
+      set sockid [socket $ipaddr $port]
+      fconfigure $sockid -blocking 1 -buffering none -translation {binary binary}   
+
+      status_log "Conectado, voy a enviar\n"
+      puts $sockid "VER MSNFTP\r"
+      status_log "ENVIO: VER MSNFTP\r\n"
+      gets $sockid tmpdata
+      status_log "MEENVIAN: $tmpdata\n"
+      if {[string range $tmpdata 0 9] == "VER MSNFTP"} {
+         puts $sockid "USR $config(login) $authcookie\r"
+         status_log "ENVIO: USR $config(login) $authcookie\r\n"
+   
+         gets $sockid tmpdata
+         status_log "MEENVIAN: $tmpdata\n"
+
+         if {[string range $tmpdata 0 2] == "FIL"} {
+            set filesize [string range $tmpdata 3 [string length $tmpdata]]
+            status_log "Me envian archivo de tamaño $filesize\n"
+
+            puts $sockid "TFR\r"
+	
+            status_log "Recibiendo archivo...\n"
+
+            set fileid [open [file join ${files_dir} $filename] w]
+            fconfigure $fileid -blocking 0 -translation {binary binary}
+
+            #Receive the file
+	
+            fconfigure $sockid -blocking 0	
+            fileevent $sockid readable "::MSN::ReceivePacket $sockid $fileid $filesize $sbn"
+	
+            return 0
+         }
+
+      }
+   
+      status_log "Fallo en la transferencia, conexion cerrada\n"
+      close $sockid
+      return 1
+   }
+
+
+   proc ReceivePacket { sockid fileid filesize sbn} {
+      #Get a packet from the file transfer
+      set packetrest [expr 2045 - ([tell $fileid] % 2045)]
+
+      if {$packetrest == 2045} { 
+         #Need a full packet, header included
+   
+         fconfigure $sockid -blocking 1
+         set header [read $sockid 3]   
+
+         set packet1 1
+         binary scan $header ccc packet1 packet2 packet3
+
+         #If packet1 is 1 -- Transfer canceled by the other
+         if { $packet1 != 0 } {
+            status_log "File transfer cancelled\n"
+	
+            close $fileid
+            close $sockid
+
+         }
+
+         #If you want to cancel, send "CCL\n"
+	
+         set packet2 [expr ($packet2 + 0x100) % 0x100]
+         set packet3 [expr ($packet3 + 0x100) % 0x100]
+         set packetsize [expr $packet2 + ($packet3<<8)]
+      
+         fconfigure $sockid -blocking 0
+
+         set thedata [read $sockid $packetsize]
+         puts -nonewline $fileid $thedata
+		
+         set recvbytes [tell $fileid]
+
+         set win_name "msg_[string tolower ${sbn}]"
+			
+         #Windows closed?
+         .${win_name}.status configure -state normal
+         .${win_name}.status delete 0.0 end
+         .${win_name}.status insert end "Received $recvbytes of $filesize\n"
+         .${win_name}.status configure -state disabled
+
+
+      } else {
+         #A full packet didn't come the previous reading, read the rest
+         set thedata [read $sockid $packetrest]
+         puts -nonewline $fileid $thedata
+         set recvbytes [tell $fileid]     
+      }   
+	
+      if { $recvbytes >= $filesize} {
+         puts $sockid "BYE 16777989\r"	
+         status_log "File received\n"
+	
+         close $fileid
+         close $sockid
+      }
+   }
+
+
 
 }
 
@@ -512,7 +626,7 @@ proc cmsn_msg_parse {msg hname bname} {
 }
 
 proc cmsn_sb_msg {sb_name recv} {
-   global filetoreceive HOME
+   global filetoreceive files_dir
 
    set msg [sb index $sb_name data 1]
 
@@ -584,9 +698,9 @@ proc cmsn_sb_msg {sb_name recv} {
 	  status_log "Going to receive a file..\n" 
 	  status_log "Body: $body\n"
 
-          set answer [tk_messageBox -message "Accept file [lindex $filetoreceive 0], [lindex $filetoreceive 1] bytes?\nSaved to ${HOME}" -type yesno -icon question]
+          set answer [tk_messageBox -message "Accept file [lindex $filetoreceive 0], [lindex $filetoreceive 1] bytes?\nSaved to $files_dir" -type yesno -icon question]
 	  if {$answer == "yes"} {
-	     amsn_connectfiletransfer $ipaddr $port $authcookie \"[lindex $filetoreceive 0]\" $sb_name
+	     ::MSN::ConnectMSNFTP $ipaddr $port $authcookie \"[lindex $filetoreceive 0]\" $sb_name
 	  }
 	  
 	}		
@@ -603,7 +717,7 @@ proc cmsn_sb_msg {sb_name recv} {
 	set filesize [aim_get_str $body Application-FileSize]
 	status_log "Invited to $app\n" white
 	status_log "$body\n" black
-	amsn_acceptfiletransfer $cookie $sb_name
+	::MSN::AcceptFT $cookie $sb_name
 	
 	set filetoreceive [list "$filename" $filesize]
       } else {
@@ -966,21 +1080,21 @@ proc cmsn_auth {{recv ""}} {
          sb set ns stat "a"
 	 save_config						;# CONFIG
 	 ::MSN::WriteNS "SYN" "0"
-# Me pongo online al comenzar
-   if {$config(startoffline)} {
-      ::MSN::WriteNS "CHG" "HDN" ;
-   } else {
-      ::MSN::WriteNS "CHG" "NLN" ;
-   }
-   #Log out
-   .main_menu.file entryconfigure 2 -state normal
-   #My status
-   .main_menu.file entryconfigure 3 -state normal
-   #Add a contact
-   .main_menu.tools entryconfigure 0 -state normal
-   #Change nick
-   .main_menu.actions entryconfigure 2 -state normal
-   .options entryconfigure 0 -state normal
+
+         if {$config(startoffline)} {
+            ::MSN::WriteNS "CHG" "HDN" ;
+         } else {
+            ::MSN::WriteNS "CHG" "NLN" ;
+         }
+         #Log out
+         .main_menu.file entryconfigure 2 -state normal
+         #My status
+         .main_menu.file entryconfigure 3 -state normal
+         #Add a contact
+         .main_menu.tools entryconfigure 0 -state normal
+         #Change nick
+         .main_menu.actions entryconfigure 2 -state normal
+         .options entryconfigure 0 -state normal
 
 	 return 0
       }
@@ -1042,144 +1156,11 @@ proc sb_enter { sbn name } {
    focus ${name}
 }
 
-set atransfer ""
-
-proc amsn_acceptfiletransfer {cookie sbn} {
-
-	set sock [sb get $sbn sock]
-
-	set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
-	set msg "${msg}Invitation-Command: ACCEPT\r\n"
-	set msg "${msg}Invitation-Cookie: $cookie\r\n"
-	set msg "${msg}Launch-Application: FALSE\r\n"
-	set msg "${msg}Request-Data: IP-Address:\r\n\r\n"
-
-	set msg_len [string length $msg]
-	incr ::MSN::trid
-	puts $sock "MSG $::MSN::trid N $msg_len"
-	puts -nonewline $sock $msg
-
-	status_log "Accepting filetransfer sent\n" red
-
-
-}
 
 
 
-proc amsn_connectfiletransfer {ipaddr port authcookie filename sbn} {
-   #I connect to a remote host to retrive the file
-   global config HOME
-
-   status_log "Conectando a $ipaddr puerto $port\n"
-   set sockid [socket $ipaddr $port]
-   fconfigure $sockid -blocking 0 -buffering none -translation {binary binary}   
-   status_log "Conectado, voy a enviar\n"
-   puts $sockid "VER MSNFTP\r"
-   status_log "ENVIO: VER MSNFTP\r\n"
-   fconfigure $sockid -blocking 1
-   gets $sockid tmpdata
-   status_log "MEENVIAN: $tmpdata\n"
-   if {[string range $tmpdata 0 9] == "VER MSNFTP"} {
-     fconfigure $sockid -blocking 0
-     puts $sockid "USR $config(login) $authcookie\r"
-     status_log "ENVIO: USR $config(login) $authcookie\r\n"
-   
-      fconfigure $sockid -blocking 1
-      gets $sockid tmpdata
-      status_log "MEENVIAN: $tmpdata\n"
-      if {[string range $tmpdata 0 2] == "FIL"} {
-        set filesize [string range $tmpdata 3 [string length $tmpdata]]
-	status_log "Me envian archivo de tamaño $filesize\n"
-
-        fconfigure $sockid -blocking 0
-	puts $sockid "TFR\r"
-	
-	status_log "Recibiendo archivo...\n"
-
-	set fileid [open [file join ${HOME} $filename] w]
-	fconfigure $fileid -blocking 0 -translation {binary binary}
-
-	#TODO: Receive the file
-	
-#        fconfigure $sockid -blocking 1
-#	set recvbytes 0
-
-	fconfigure $sockid -blocking 1 -buffersize 2048 -buffering full
-	
-	fileevent $sockid readable "acceptfilepacket $sockid $fileid $filesize $sbn"
-	
-	return 0;
-
-      }
-
-   }
-   
-   status_log "Fallo en la transferencia, conexion cerrada\n"
-   close $sockid
-   return 1;
-}
 
 
-proc acceptfilepacket { sockid fileid filesize sbn} {
-
-   set packetrest [expr 2045 - ([tell $fileid] % 2045)]
-
-   if {$packetrest == 2045} { 
-      #Need a full packet, header included
-   
-      fconfigure $sockid -blocking 1
-      set header [read $sockid 3]   
-
-      set packet1 1
-      binary scan $header ccc packet1 packet2 packet3
-
-      #If packet1 is 1 -- Transfer canceled by the other
-      if { $packet1 != 0 } {
-         status_log "File transfer cancelled\n"
-	
-         close $fileid
-         close $sockid
-
-      }
-
-      #If you want to cancel, send "CCL\n"
-	
-      set packet2 [expr ($packet2 + 0x100) % 0x100]
-      set packet3 [expr ($packet3 + 0x100) % 0x100]
-	
-      set packetsize [expr $packet2 + ($packet3<<8)]
-      
-      fconfigure $sockid -blocking 0
-
-      set thedata [read $sockid $packetsize]
-      puts -nonewline $fileid $thedata
-		
-      set recvbytes [tell $fileid]
-
-      set win_name "msg_[string tolower ${sbn}]"
-			
-      #Windows closed?
-      .${win_name}.status configure -state normal
-      .${win_name}.status delete 0.0 end
-      .${win_name}.status insert end "Received $recvbytes of $filesize\n"
-      .${win_name}.status configure -state disabled
-
-
-   } else {
-      #A full packet didn't come the previous reading, read the rest
-      set thedata [read $sockid $packetrest]
-      puts -nonewline $fileid $thedata
-      set recvbytes [tell $fileid]     
-   }   
-	
-   if { $recvbytes >= $filesize} {
-      puts $sockid "BYE 16777989\r"	
-      status_log "File received\n"
-	
-      close $fileid
-      close $sockid
-   }
-}
 
 
 
@@ -1317,6 +1298,8 @@ proc cmsn_ns_connected {} {
    if {$config(adverts)} {
      adv_resume   
    }
+   
+   set ::MSN::myState NLN
 }
 
 proc cmsn_sb_connected {name} {
