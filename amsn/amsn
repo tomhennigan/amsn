@@ -1230,7 +1230,7 @@ proc cmsn_win_write {name txt {colour ""}} {
 
 	#puts "    Encontrado url $urltext en $pos-$endpos"
 
-	set urlcount "[{expr $urlcount+1}]"
+	set urlcount "[expr {$urlcount+1}]"
 	set urlname "url_$urlcount"
 
 	.${win_name}.text tag configure $urlname \
