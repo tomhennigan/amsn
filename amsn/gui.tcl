@@ -6504,12 +6504,14 @@ proc bgerror { args } {
     msg_box "[trans tkerror [file join $HOME bugreport.amsn]]"
 }
 
-#ShowTransient  {wintransient}
-#The function try to know if the operating system is Mac OS X or not. If no, enable window in transient. Else, 
+
+
+#ShowTransient Ê{wintransient}
+#The function try to know if the operating system is Mac OS X or not. If no, enable window in transient. Else,
 #don't change nothing.
-   proc ShowTransient {} {
-   global tcl_platform
-   if {$tcl_platform(os) != "Darwin"} {
-	wm transient $wintransient .
-	}
-	}
+proc ShowTransient {wintransient} {
+global tcl_platform
+if {$tcl_platform(os) != "Darwin"} {
+wm transient $wintransient .
+}
+}
