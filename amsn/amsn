@@ -40,8 +40,8 @@
 ### $Id$
 ###
 
-set version "0.62beta"
-set date "09/30/2002"
+set version "0.62pre1"
+set date "11/06/2002"
 set weburl "http://amsn.sourceforge.net"
 
 
