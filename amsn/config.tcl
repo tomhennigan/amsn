@@ -182,6 +182,7 @@ proc ConfigDefaults {} {
 		[list local startontray bool startontray] \
 		[list local charscounter bool charscounter] \
                 [list local strictfonts bool strictfonts] \
+                [list local sngdblclick bool sngdblclick] \
 		[list title notifyoffset] \
 		[list local notifyXoffset int xoffset] \
 		[list local notifyYoffset int yoffset] \
@@ -232,6 +233,7 @@ proc ConfigDefaults {} {
 	set config(startontray) 0		;#Start amsn on tray icon only (hide contact list)
 	set config(storename) 1			;#Store original nick in a variable when go to custom states to revert it when go back
 	set config(strictfonts) 0		;#Use strict fonts' size in _ALL_ AMSN's fonts (Disabled by default)
+	set config(sngdblclick) 0		;#Use single or double click to open a message window (0 double, 1 single)
 	set config(emailsincontactlist) 0	;#Display emails instead of nicks in the contact list
 	set config(leavejoinsinchat)	1	;#Display leave/join notifications in chat text area
 	set config(charscounter)	1	;#Display typed characters counter

@@ -5398,19 +5398,25 @@ proc ShowUser {user_name user_login state_code colour section grId} {
 	if {$not_in_reverse} {
 		bind $pgBuddy.text.$imgname2 <<Button3>> "show_umenu $user_login $grId %X %Y"
 	}
+	
+	if { [::config::getKey sngdblclick] } {
+		set singordblclick <Button-1>
+	} else {
+		set singordblclick <Double-Button-1>
+	}
 	if { $state_code != "FLN" } {
-		bind $pgBuddy.text.$imgname <Double-Button-1> "::amsn::chatUser $user_login"
+		bind $pgBuddy.text.$imgname $singordblclick "::amsn::chatUser $user_login"
 		if {$not_in_reverse} {
-			bind $pgBuddy.text.$imgname2 <Double-Button-1> "::amsn::chatUser $user_login"
+			bind $pgBuddy.text.$imgname2 $singordblclick "::amsn::chatUser $user_login"
 		}
-		$pgBuddy.text tag bind $user_unique_name <Double-Button-1> \
+		$pgBuddy.text tag bind $user_unique_name $singordblclick \
 			"::amsn::chatUser $user_login"
 	} else {
-		bind $pgBuddy.text.$imgname <Double-Button-1> ""
+		bind $pgBuddy.text.$imgname $singordblclick ""
 		if {$not_in_reverse} {
-			bind $pgBuddy.text.$imgname2 <Double-Button-1> ""
+			bind $pgBuddy.text.$imgname2 $singordblclick ""
 		}
-		$pgBuddy.text tag bind $user_unique_name <Double-Button-1> ""
+		$pgBuddy.text tag bind $user_unique_name $singordblclick ""
 	}
 
 }
