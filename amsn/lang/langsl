@@ -148,6 +148,7 @@ contactadded Stik dodan
 contactdoesnotexist Stik ne obstaja!
 contactlist Seznam stikov
 continuously Neprestano
+conversationwith $1 uporabnikov v pogovoru
 convertexplain Pot do programa CONVERT iz ImageMagicka (potreben za osebne slike).\n Pusti prazno, èe je pot ¾e doloèena.
 copy Kopiraj
 copytogroup Dodaj v skupino
@@ -263,6 +264,7 @@ ftsendinvitation $1 bo prejel/a povabilo za prenos datoteke '$2' ($3 bajtov).
 fullcontactlist Tvoj seznam stikov je poln. Da bi dodal novega, mora¹ izbrisati katerega od trenutnih stikov.
 getdisppic Omogoèi prejemanje osebne slike od drugih uporabnikov
 globalnick Vnesi vzorec za tvorbo nickov vseh tvojih stikov. Lahko uporablja¹ te spremenljivke: \$user_login za naslov stika, \$nick za njegov nick in \$customnick za njegov prikazni nick. Primer: '\$user_login je \$nick' bo prikazano kot 'stik@msn.com je Stik'
+globalcontainer Globalni vsebovalec
 globalnicktitle Globalni nick
 globaloverride Prika¾i globalni nick namesto prikaznega
 gonelunch Na kosilu
@@ -395,6 +397,7 @@ newmailfrom Novo sporoèilo od $1 ($2)
 newmailfromother Novo sporoèilo v drugem imeniku od $1 ($2)
 newmsg Novo sporoèilo
 newstate Dodaj osebno stanje
+newtabbedfeature aMSN ima nov naèin upravljanja pogovorov: sedaj lahko združi vse pogovore s stiki iz iste skupine oziroma pogovore z vsemi stiki v isto okno z zavihki. Izberi naèin, kako naj aMSN dela s pogovori
 newveravailable Nova razlièica $1 je na voljo za prenos
 next Naslednji
 nick Nick
@@ -426,6 +429,7 @@ notifytyping Po¹iljaj sogovornikom obvestilo o tipkanju
 notifywin Obvestila
 notinlist Nisi na njegovem/njenem seznamu stikov
 notls MSN protokol 9 potrebuje tls. Izgleda, da ni name¹èen na tem raèunalniku. èe je, vnesi pot do njegovega imenika v nastavitvah (npr.: /opt/tls/lib).\n\ntls lahko pobere¹ s http://tls.sf.net.
+nottabbed Navadna okna brez zavihkov
 nousersinsession Ni uporabnikov v seji
 nudge $1 zahteva pozornost
 offline Neprijavljen
@@ -587,7 +591,10 @@ stylechat Enak izgled kot pogovori
 stylehist Izgled zgodovine
 stylelog Izberi zapis, v katerem ¾eli¹ videti zgodovino
 syntaxerror Napaka v sintaksi
-tabbed Okna z "uhlji"
+tabbed Okna z zavihki
+tabbedglobal Okno z zavihki za vse stike
+tabbedgroups Okno z zavihki za stike iz iste skupine
+tabtitlenick Nicki namesto e-po¹tnih naslovov v zavihkih
 temp_state Ne shrani (Trenutno, bo ponastavljeno ob ponovnem zagonu AMSN)
 textsize Velikost besedila
 timeremaining èas do konca prenosa
@@ -633,6 +640,7 @@ viewprofile Poglej profil
 webcaminvite $1 te je povabil/a na videokonferenco, a aMSN tega ne podpira.
 willjoin èakam, da se $1 pridru¾i pogovoru
 winkreceived $1 ti je pome¾iknil/a. aMSN trenutno tega ne podpira.
+wintitlenick Nicki namesto e-po¹tnih naslovov v oknih z zavihki
 work Delo
 wrongfields Polja "$1", "$2" in/ali "$3" niso veljavna
 wrongprofileversion Napaèna datoteka nastavitev profila. Da bi jo popravil, odstrani imenik $1 ali posodobi amsn.
