@@ -1352,6 +1352,7 @@ proc cmsn_auth {{recv ""}} {
          .main_menu.file entryconfigure 3 -state normal
          #Add a contact
          .main_menu.tools entryconfigure 0 -state normal
+         .main_menu.tools entryconfigure 1 -state normal
          .main_menu.tools entryconfigure 4 -state normal
          #Change nick
 	 configureMenuEntry .main_menu.actions "[trans changenick]..." normal

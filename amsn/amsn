@@ -336,9 +336,9 @@ proc cmsn_draw_main {} {
    set dummy_user "recipient@somewhere.com"
    menu .main_menu.actions -tearoff 0 -type normal 
    .main_menu.actions add command -label "[trans sendmsg]..." -command \
-      "user_choose online cmsn_chat_user"
+      "user_choose \"[trans sendmsg]\" online cmsn_chat_user"
    .main_menu.actions add command -label "[trans sendmail]..." -command \
-      "user_choose both send_mail"
+      "user_choose \"[trans sendmail]\" both send_mail"
    .main_menu.actions add command -label "[trans changenick]..." -command \
      cmsn_change_name
    .main_menu.actions add separator
@@ -357,8 +357,13 @@ proc cmsn_draw_main {} {
    menu .main_menu.tools -tearoff 0 -type normal 
    .main_menu.tools add command -label "[trans addacontact]..." -command \
      cmsn_draw_addcontact
-   .main_menu.tools add cascade -label "[trans admincontacts]" -command \
-     "" -state disabled
+   .main_menu.tools add cascade -label "[trans admincontacts]" -menu .admin_contacts_menu
+   
+   menu .admin_contacts_menu -tearoff 0 -type normal   
+   .admin_contacts_menu add command -label "[trans delete]..." \
+      -command  "user_choose \"[trans delete]\" both delete_user "
+   .admin_contacts_menu add command -label "[trans properties]..." \
+      -command "user_choose \"[trans properties]\" both ::abookGui::showEntry"
 
    ::groups::Init .main_menu.tools
    set ::groups::bShowing(online) $config(showonline)
@@ -622,6 +627,7 @@ proc cmsn_draw_offline {} {
    .main_menu.file entryconfigure 3 -state disabled
    #Add a contact
    .main_menu.tools entryconfigure 0 -state disabled
+   .main_menu.tools entryconfigure 1 -state disabled
    .main_menu.tools entryconfigure 4 -state disabled   
    #Change nick
    configureMenuEntry .main_menu.actions "[trans changenick]..." disabled
@@ -963,7 +969,13 @@ proc unblock_user {user_login} {
 }
 
 proc delete_user {user_login} {
-   ::MSN::deleteUser ${user_login}
+
+   set answer [tk_messageBox -message "[trans confirmdelete ${user_login}]" -type yesno -icon question]
+   
+   if {$answer == "yes"} {
+
+      ::MSN::deleteUser ${user_login}
+   } 
 }
 
 proc send_mail {user_login} {
@@ -992,7 +1004,7 @@ proc menuCmdMove {newgid {paramlist ""}} {
 #    ::MSN::moveUser $passport $currgid $newgid
 }
 
-proc user_choose {online command} {
+proc user_choose {title online command} {
    global list_users list_states userchoose_req
 
 
@@ -1010,7 +1022,7 @@ proc user_choose {online command} {
       }
    }
 
-   wm title .userchoose "[trans userchoose]"
+   wm title .userchoose $title
    wm transient .userchoose .
    wm geometry .userchoose 400x300
  
@@ -1077,7 +1089,7 @@ proc show_umenu {user_login x y} {
       .user_menu add command -label "[trans movetogroup]..." -command "tk_popup .move_group_menu $x $y" -state disabled
    #   .user_menu add command -label "[trans deletefromgroup]..." -command "delete_from_group" -state disabled
    }
-   .user_menu add command -label "[trans delete]" -command "set answer \[tk_messageBox -message \"[trans confirmdelete ${user_login}]\" -type yesno -icon question\]; if {\$answer == \"yes\"} {delete_user ${user_login}}"
+   .user_menu add command -label "[trans delete]" -command "delete_user ${user_login}"
    .user_menu add command -label "[trans properties]" \
       -command "::abookGui::showEntry $user_login"
 
@@ -1173,22 +1185,22 @@ proc cmsn_draw_msgwin {} {
      -onvalue 1 -offvalue 0 -variable config(chatsmileys)
    
    menu .${win_name}.menu.actions -tearoff 0 -type normal  
-   .${win_name}.menu.actions add command -label [trans addtocontacts] -command "" -state disabled
-   .${win_name}.menu.actions add command -label [trans block] -command "" -state disabled
-   .${win_name}.menu.actions add command -label [trans seeprofile] -command "" -state disabled
-   .${win_name}.menu.actions add command -label [trans properties] -command "" -state disabled
+   .${win_name}.menu.actions add command -label "[trans addtocontacts]" -command "" -state disabled
+   .${win_name}.menu.actions add command -label "[trans block]" -command "" -state disabled
+   .${win_name}.menu.actions add command -label "[trans seeprofile]" -command "" -state disabled
+   .${win_name}.menu.actions add command -label "[trans properties]" -command "" -state disabled
    .${win_name}.menu.actions add separator
-   .${win_name}.menu.actions add cascade -label [trans invite] -menu .${win_name}.menu.actions.invite
+   .${win_name}.menu.actions add command -label "[trans invite]..." -command "user_choose \"[trans invite]\" online \"cmsn_invite_user $name\""
    .${win_name}.menu.actions add command -label "[trans sendfile]..." \
       -command "::amsn::fileTransferSend ${name} ${name} "  -state disabled
    .${win_name}.menu.actions add separator
    .${win_name}.menu.actions add command -label [trans sendmail] -command "cmsn_msgwin_sendmail $name"
-   menu .${win_name}.menu.actions.invite -tearoff 0 -type normal 
+#   menu .${win_name}.menu.actions.invite -tearoff 0 -type normal 
 #   .${win_name}.menu.actions.invite add separator
 #   .${win_name}.menu.actions.invite add command -label "[trans other]..." -state disabled
 
    
-   bind .${win_name}.menu.actions <Enter> "cmsn_msgwin_umenu $name"
+#   bind .${win_name}.menu.actions <Enter> "cmsn_msgwin_umenu $name"
 
    .${win_name} conf -menu .${win_name}.menu
 
@@ -1753,6 +1765,7 @@ proc change_name_ok {} {
 
 #=======================================================================
 
+#obsolete proc
 proc cmsn_msgwin_umenu {name} {
    global list_users
    set win_name "msg_[string tolower ${name}]"
