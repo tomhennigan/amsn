@@ -138,7 +138,7 @@ namespace eval ::MSN {
       status_log "Invitation to $filename sent\n" red
 
       #Change to allow multiple filetransfer
-      set atransfer($cookie) [list $sbn $filename $filesize $cookie $ipaddr]      
+      set atransfer($cookie) [list $sbn $filename $filesize $cookie $ipaddr]
 
    }
 
@@ -187,10 +187,12 @@ namespace eval ::MSN {
       status_log "Canceling receiving (TO-DO)\n"
       set sockid [lindex $atransfer($cookie) 4]
       set sbn [lindex $atransfer($cookie) 0]
-      
+
       if { $sockid != ""} {
-         puts $sockid "CCL\r"
-	 close $sockid
+         catch {
+	    puts $sockid "CCL\r"
+	    close $sockid
+	  } res
 	 ::amsn::fileTransferProgress c $cookie -1 -1
 	 array unset atransfer $cookie
       } else {
@@ -206,12 +208,14 @@ namespace eval ::MSN {
       status_log "Canceling sending\n"
       set sockid [lindex $atransfer($cookie) 5]
       set sbn [lindex $atransfer($cookie) 0]
-      
+
       #Avoid sending the file
       if { $sockid != "" } {
-         close $sockid
+         catch {
+	    close $sockid
+	 } res
          ::amsn::fileTransferProgress c $cookie -1 -1
-         array unset atransfer $cookie      
+         array unset atransfer $cookie
       } else {
          status_log "unsetting atransfer\n"
          array unset atransfer $cookie
@@ -228,7 +232,7 @@ namespace eval ::MSN {
       set ip [lindex [fconfigure $sock -sockname] 0]
 
       status_log "$ip"
-      
+
       if { [string compare -length 3 $ip "10."] == 0 \
       || [string compare -length 4 $ip "127."] == 0 \
       || [string compare -length 8 $ip "192.168."] == 0 \
@@ -353,7 +357,7 @@ namespace eval ::MSN {
 	
       while {[catch {set sockid [socket -server "::MSN::AcceptConnection $cookie $authcookie" $port]} res]} {
          incr port
-      }     
+      }
 
       after 120000 "status_log \"Closing $sockid\n\";close $sockid"
 
@@ -366,7 +370,7 @@ namespace eval ::MSN {
       set msg "${msg}Launch-Application: FALSE\r\n"
       set msg "${msg}Request-Data: IP-Address:\r\n\r\n"
 
-	
+
       set msg_len [string length $msg]
       incr trid
       puts $sock "MSG $trid N $msg_len"
@@ -389,8 +393,8 @@ namespace eval ::MSN {
       variable atransfer
 
       lappend atransfer($cookie) $sockid
-  
-      status_log "Conexión aceptada sockid: $sockid hostaddr: $hostaddr port: $hostport\n" white  
+
+      status_log "Conexión aceptada sockid: $sockid hostaddr: $hostaddr port: $hostport\n" white
       fconfigure $sockid -blocking 1 -buffering none -translation {binary binary}
 
       gets $sockid tmpdata
@@ -400,12 +404,12 @@ namespace eval ::MSN {
 
          status_log "ENVIO: VER MSNFTP\n"
          gets $sockid tmpdata
-         status_log "Recibo: $tmpdata\n"      
-    
+         status_log "Recibo: $tmpdata\n"
+
 
          #Comprobar authcookie
          if { [string range $tmpdata 0 2] == "USR" } {
-            set filename [lindex $atransfer($cookie) 1]	
+            set filename [lindex $atransfer($cookie) 1]
             set filesize [lindex $atransfer($cookie) 2]
             set cookie [lindex $atransfer($cookie) 3]
 
@@ -418,20 +422,22 @@ namespace eval ::MSN {
 
                #Send the file
 
-               set fileid [open $filename r]
+               if {[catch {set fileid [open $filename r]} res]} {
+	         return 0;
+	       }
                fconfigure $fileid -translation {binary binary} -blocking 1
                status_log "Sending file $filename size $filesize\n"
 
                fconfigure $sockid -blocking 0
 	       fileevent $sockid writable "::MSN::SendPacket $sockid $fileid $filesize $cookie"
                fileevent $sockid readable "::MSN::MonitorTransfer $sockid $cookie"
-	       	       
+
 	       return 0
 
             }
-         } 
-      } 
-      status_log "Transferencia cancelada\n"  
+         }
+      }
+      status_log "Transferencia cancelada\n"
       ::amsn::fileTransferProgress c $cookie -1 -1
       close $sockid
       return 1
@@ -574,7 +580,7 @@ namespace eval ::MSN {
             #Receive the file
 
             fconfigure $sockid -blocking 0
-            fileevent $sockid readable "::MSN::ReceivePacket $sockid $fileid $filesize $cookie"
+            fileevent $sockid readable "catch {::MSN::ReceivePacket $sockid $fileid $filesize $cookie} res"
 
             return 0
          }
