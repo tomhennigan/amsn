@@ -7,6 +7,7 @@ addtoo Add this person to my contact list
 allowseen Allow this person to see when I'm online and contact me
 appearoff Appear offline
 are are
+autohotmaillog Auto Hotmail login
 avoidseen Avoid this person can see when I'm online and contact me
 away Away
 blankdirect Leave blank for direct connection
@@ -17,6 +18,7 @@ cancel Cancel
 changenick Change nick
 chat Chat
 chatreq Requesting chat
+chatsmileys Chat smileys
 chatack Accepting chat from
 checkver Check for new version
 checkingver Checking for new versions
@@ -37,6 +39,7 @@ is is
 joins $1 $2 joins conversation
 language Language
 leaves $1 leaves conversation
+listsmileys List smileys
 loggingin Logging In
 login Log In
 loginas Login as

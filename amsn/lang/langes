@@ -1,23 +1,28 @@
 amsn_lang_version 2
 about Acerca de
 actions Acciones
+actions Acciones
 addacontact Añadir un contacto
 addedyou te ha añadido a su lista de contactos
 addtoo Añadir esta persona a mi lista de contactos
+admincontacts Administrar contactos
+admingroups Administrar grupos
 allowseen Permitir a esta persona ver cuando estás conectado y contactar
 appearoff Sin conexión
 are están
+autohotmaillog Login hotmail automático
 avoidseen Evitar que esta persona vea tu conexión y te contacte
 away Ausente
 blankdirect Dejar en blanco para conexión directa
-block No admitir
 blocked Bloqueado
+block No admitir
 busy No disponible
 cancel Cancelar
 changenick Cambiar apodo
+chatack Aceptando conversación de
 chat Conversación
 chatreq Solicitando una conversación
-chatack Aceptando conversación de
+chatsmileys Smileys en chat
 checkingver Buscando si hay disponible una nueva versión
 checkver Buscar nuevas versiones
 clicktologin Haga click aquí para iniciar la sesión
@@ -30,20 +35,25 @@ enternick Introduce tu nick
 examples Ejemplos
 gonelunch Salí a comer
 help Ayuda
+helpcontents Temas de ayuda
 ident Identificandose
+inbox Bandeja de entrada
 invite Invitar
 is está
 joins $1 $2 se une a la conversación
 language Lenguaje
 leaves $1 deja la conversación
+listsmileys Smileys en contactos
+loadcontacts Cargar lista de contactos
 loggingin Iniciando sesión
+loginas Iniciar sesión como 
 login Iniciar sesión
 logout Cerrar sesión
 logsin acaba de iniciar sesión
-mustrestart Debes reiniciar el programa para aplicar los cambios
-mystatus Mi estado
 msg Mensaje
 msn AMSN
+mustrestart Debes reiniciar el programa para aplicar los cambios
+mystatus Mi estado
 newmail $1 mensajes nuevos en bandeja de entrada
 newmailfrom Nuevo correo de
 newmsg Nuevo mensaje
@@ -53,10 +63,13 @@ noactivity Sin actividad
 nonewver No hay versiones más actuales disponibles
 notify aviso
 nousersinsession No hay usuarios en la sesión
-ok Aceptar
 offline Desconectado
+ok Aceptar
 online Conectado
 onphone Al teléfono
+openreceived Abrir archivos recibidos
+options Opciones
+ordercontactsby Ordenar contactos por
 other Otro
 pass Contraseña
 port Puerto
@@ -69,36 +82,26 @@ reconnect Esperando que $1 se reconecte
 reconnecting Reconectando al servidor
 rememberpass Recordar contraseña
 rightback Vuelvo enseguida
+savecontacts Guardar lista de contactos
 save Grabar
 says $1 dice
 sbcon Conectando a Switch Board
 send Enviar
+sendfile Enviar archivo
+sendmail Enviar email
+sendmsg Enviar mensaje
 server Servidor
 sound Sonido eventos
 title Al's Messenger
-to Para
 tools Herramientas
+tools Herramientas
+to Para
 typing $1 escribiendo un mensaje
-yousay Tú dices
-youwant Quieres
 unblock Admitir
 uoffline Desconectados
 uonline Conectados
 user Usuario
 version Versión
 willjoin Esperando que $1 se una a la conversación
-actions Acciones
-sendmsg Enviar mensaje
-sendmail Enviar email
-tools Herramientas
-admincontacts Administrar contactos
-admingroups Administrar grupos
-ordercontactsby Ordenar contactos por
-options Opciones
-helpcontents Temas de ayuda
-inbox Bandeja de entrada
-savecontacts Guardar lista de contactos
-loadcontacts Cargar lista de contactos
-sendfile Enviar archivo
-openreceived Abrir archivos recibidos
-loginas Iniciar sesión como
+yousay Tú dices
+youwant Quieres
