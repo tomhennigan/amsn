@@ -56,28 +56,21 @@ set files_dir ""
 ### and set the correct working dir
 ############################################################
 
-if {[catch {file readlink [info script]} res]!=0} {
+#Fixed by Tomasz Nguyen
+set program_dir [file dirname [info script]]
+set program [file tail [info script]]
 
-   #Error in readlink, so it's not a symbolic link
-   set program_dir [file dirname [info script]]
+while {[catch {file readlink [file join $program_dir $program]} program]== 0} {
+	if {[file pathtype $program] == "absolute"} {
+		set program_dir [file dirname $program]
+	} else {
+		set program_dir [file join $program_dir [file dirname $program]]
+	}
 
-} else {
-
-   #Recursively update $resdir until it's not a link
-   set program_dir [file dirname $res]
-
-   while {[catch {file readlink $res} res2]==0} {
-      set res $res2
-
-      #Update $program_dir, depending on absolute or relative path
-      if { [string range $res2 0 0]=="/" } {
-         set program_dir [file dirname $res2]
-      } else {
-         set program_dir [file join $resdir [file dirname $res2]]
-      }
-
-   }
+	set program [file tail $program]
 }
+
+unset program
 
 
 ############################################################
