@@ -5685,7 +5685,7 @@ proc launch_browser { url {local 0}} {
 
 	global config tcl_platform
 
-	if { ([string tolower [string range $url 0 6]] != "http://") && ([string tolower [string range $url 0 6]] != "file://") && $local != 1 } {
+	if { ![regexp ^\[\[:alnum:\]\]+:// $url] && $local != 1 } {
 		set url "http://$url"
 	}
 
