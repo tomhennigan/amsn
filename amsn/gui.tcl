@@ -3750,14 +3750,16 @@ proc play_sound {sound_name} {
 		set config(soundcommand) "$config(soundcommand) \$sound"
 	}
 
-
 	if { $config(sound) == 1 } {
 		set sound [GetSkinFile sounds $sound_name]
+		set soundcommand [subst -nocommands -nobackslashes [::config::getKey soundcommand]]
+		string map {"\\" "\\\\" "\[" "\\\[" "\$" "\\\$"} soundcommand
 		if { $tcl_platform(platform) == "windows" } {
 			#added replace \ for \\ in windows as was needed, may be needed for other platforms aswell
-			catch {eval exec [regsub -all {\\} $config(soundcommand) {\\\\}] &} res
+			catch {eval exec $soundcommand &} res
+
 		} else {
-			catch {eval exec $config(soundcommand) &} res
+			catch {eval exec $soundcommand &} res
 		}
 		#Kill soundplayer on Mac OS X (sometimes he stays open and eat your CPU)
 		if { $tcl_platform(os) == "Darwin" } {
