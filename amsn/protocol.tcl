@@ -831,6 +831,14 @@ namespace eval ::MSN {
 		sb set ns data [list]
 		sb set ns server [split [::config::getKey start_ns_server] ":"]
 		sb set ns stat "d"
+		
+		#Setup the conection
+		setup_connection ns
+		#Call the pre authentication
+		set command [list "::[sb get ns connection_wrapper]::authInit"]
+		if { [eval $command] < 0 } {
+			return -1
+		}
 
 		cmsn_ns_connect $username $passwd
 
@@ -2163,7 +2171,8 @@ namespace eval ::DirectConnection {
 		}
 		status_log "::DirectConnection::authenticate: Getting $url\n" blue
 		if {[catch {::http::geturl $url -command "::DirectConnection::GotAuthReply [list $str]" -headers $head}]} {
-			msnp9_auth_error
+			eval [sb get ns autherror_handler]
+			#msnp9_auth_error
 		}
 	
 	}
@@ -2205,7 +2214,8 @@ namespace eval ::DirectConnection {
 		if { [::http::status $token] != "ok" } {
 			::http::cleanup $token
 			status_log "::DirectConnection::GotAuthReply error: [::http::error]\n"
-			msnp9_auth_error
+			eval [sb get ns autherror_handler]
+			#msnp9_auth_error
 			return
 		}
 	
@@ -2218,7 +2228,10 @@ namespace eval ::DirectConnection {
 			set index [lsearch $values "from-PP=*"]
 			set value [string range [lindex $values $index] 9 end-1]
 			status_log "::DirectConnection::GotAuthReply 200 Ticket= $value\n" green
-			msnp9_authenticate $value
+			
+			set command [list [sb get ns ticket_handler] $value]
+			eval $command
+			#msnp9_authenticate $value
 	
 		} elseif {[::http::ncode $token] == 302} {
 			#Redirected to another URL, try again
@@ -2227,9 +2240,11 @@ namespace eval ::DirectConnection {
 			status_log "::DirectConnection::GotAuthReply 302: Forward to $url\n" green
 			::DirectConnection::authenticate $str $url
 		} elseif {[::http::ncode $token] == 401} {
-			msnp9_userpass_error
+			#msnp9_userpass_error
+			eval [sb get ns passerror_handler]
 		} else {
-			msnp9_auth_error
+			eval [sb get ns autherror_handler]
+			#msnp9_auth_error
 		}
 		::http::cleanup $token
 	
@@ -4214,70 +4229,15 @@ proc cmsn_ns_connected {} {
 #TODO: ::abook system
 proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 
-	if { $nosignin == "" } {
-
-		#if { $tlsinstalled == 0 && [checking_package_tls] == 0 && $config(nossl) == 0} {
-		#	::amsn::installTLS
-		#	return
-		#}
-
-		#if { $config(nossl) == 0 } {
-		#	http::register https 443 ::tls::socket
-		#} else  {
-		#	catch {http::unregister https}
-		#}
-		
-		#Log out
-		#.main_menu.file entryconfigure 2 -state normal
-	
-	
-		#::MSN::StartPolling
-		#::groups::Reset
-	
-		#if {$config(connectiontype) == "direct" || $config(connectiontype) == "http" } {
-		#	::http::config -proxyhost ""
-		#} elseif {$config(connectiontype) == "proxy"} {
-		#	set lproxy [split $config(proxy) ":"]
-		#	set proxy_host [lindex $lproxy 0]
-		#	set proxy_port [lindex $lproxy 1]
-	
-		#	if { $proxy_port == "" } {
-		#		set proxy_port 8080
-		#		set config(proxy) "$proxy_host:$proxy_port"
-		#	}
-	
-		#	::http::config -proxyhost $proxy_host -proxyport $proxy_port
-		#}
-	
-	
-		#set login_passport_url 0
-		#if { $config(nossl) == 1 || ($config(connectiontype) != "direct" && $config(connectiontype) != "http") } {
-		#	set login_passport_url "https://login.passport.com/login2.srf"
-		#} else {
-		#	set login_passport_url 0
-		#	after 500 "catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command gotNexusReply}"
-		#}
-		
-		#Setup the conection
-		setup_connection ns
-		#Call the pre authentication
-		set command [list "::[sb get ns connection_wrapper]::authInit"]
-		if { [eval $command] < 0 } {
-			return -1
-		}
-	}
-
 	if { ($username == "") || ($password == "")} {
 		cmsn_draw_login
 		return -1
 	}
 
-
 	::MSN::clearList FL
 	::MSN::clearList AL
 	::MSN::clearList BL
 	::MSN::clearList RL
-
 	
 	if {[sb get ns stat] != "d"} {
 		set command [list "::[sb get ns connection_wrapper]::finish" ns]
@@ -4301,6 +4261,9 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	#TODO: Call "on connect" handlers, where hotmail will be registered.
 	set ::hotmail::unread 0
 
+	sb set ns autherror_handler "msnp9_auth_error"
+	sb set ns passerror_handler "msnp9_userpass_error"
+	sb set ns ticket_handler "msnp9_authenticate"
 	sb set ns data [list]
 	sb set ns connected "cmsn_ns_connected"
 
