@@ -1674,8 +1674,8 @@ namespace eval ::amsn {
 
 
 
-		catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}
-		image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
+		load_my_pic
+
 		label $bottom.pic  -borderwidth 1 -relief solid -image no_pic -background #FFFFFF
 		set_balloon $bottom.pic [trans nopic]
 		button $bottom.showpic -bd 0 -padx 0 -pady 0 -image imgshow -bg $bgcolor2 -highlightthickness 0\
@@ -1926,7 +1926,6 @@ namespace eval ::amsn {
 		}
 		if { [catch {$win.f.bottom.pic configure -image $picture}] } {
 			status_log "Failed to set picture, using no_pic\n" red
-			image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
 			$win.f.bottom.pic configure -image no_pic
 			unset_balloon $win.f.bottom.pic
 			set_balloon $win.f.bottom.pic [trans nopic]
@@ -3331,13 +3330,17 @@ proc cmsn_draw_main {} {
 
    image create photo blockedme -file [GetSkinFile pixmaps blockedme.gif]
 
-   text $pgBuddy.text -background white -width 30 -height 0 -wrap none \
+   image create photo blockedme -file [GetSkinFile pixmaps blockedme.gif]
+   image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
+
+
+	text $pgBuddy.text -background white -width 30 -height 0 -wrap none \
       -yscrollcommand "adjust_yscroll $pgBuddy.text $pgBuddy.ys" -cursor left_ptr -font splainf \
       -selectbackground white -selectborderwidth 0 -exportselection 0 \
       -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
-      
+
    scrollbar $pgBuddy.ys -command "$pgBuddy.text yview" -highlightthickness 0 \
-      -borderwidth 1 -elementborderwidth 1 
+      -borderwidth 1 -elementborderwidth 1
 
 
    #This shouldn't go here
@@ -6318,38 +6321,43 @@ proc convert_display_picture { filename } {
 
 	if { $file == "" } { return "" }
 	return $file
-	
+
 }
 
 
+proc load_my_pic {} {
+	global config
+	if {[file readable [filenoext [GetSkinFile displaypic $config(displaypic)]].gif]} {
+		image create photo my_pic -file "[filenoext [GetSkinFile displaypic $config(displaypic)]].gif"
+	} else {
+		clear_disp
+	}
+}
 
 proc pictureBrowser {} {
 	global config selected_image
-	
+
 	toplevel .picbrowser
-	
+
 	set selected_image $config(displaypic)
-	
+
 	frame .picbrowser.pics
 	text .picbrowser.pics.text -width 5 -font sboldf -background white -yscrollcommand ".picbrowser.pics.ys set" \
 		-cursor left_ptr -font splainf -selectbackground white -selectborderwidth 0 -exportselection 0 \
 		-relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0 -wrap none
 	scrollbar .picbrowser.pics.ys -command ".picbrowser.pics.text yview"
-		
+
 	pack .picbrowser.pics.text -side left -expand true -fill both -padx 0 -pady 0
 	pack .picbrowser.pics.ys -side left -fill y -padx 0 -pady 0
 
-	catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}
-	if { [ catch {image inuse my_pic}]} {
-			image create photo my_pic -file [GetSkinFile displaypic nopic.gif]
-	}
-	image create photo no_pic -file [GetSkinFile displaypic nopic.gif]	
-	
+
+	load_my_pic
+
 	label .picbrowser.mypic -image my_pic -background white -borderwidth 2 -relief solid
 	label .picbrowser.mypic_label -text "[trans mypic]" -font splainf
-	
+
 	button .picbrowser.browse -command "set selected_image \[pictureChooseFile\]; reloadAvailablePics" -text "[trans browse]..." -font sboldf
-	button .picbrowser.delete -command "pictureDeleteFile ;reloadAvailablePics" -text "[trans delete]" -font sboldf 
+	button .picbrowser.delete -command "pictureDeleteFile ;reloadAvailablePics" -text "[trans delete]" -font sboldf
 	button .picbrowser.purge -command "destroy .picbrowser" -state disabled -text "[trans purge]..." -font sboldf
 	button .picbrowser.ok -command "set_displaypic \${selected_image};destroy .picbrowser" -text "[trans ok]" -font sboldf
 	button .picbrowser.cancel -command "destroy .picbrowser" -text "[trans cancel]" -font sboldf
@@ -6562,12 +6570,8 @@ proc set_displaypic { file } {
 	
 	if { $file != "" } {
 		set config(displaypic) $file
-		if { [catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}]} {
-			status_log "set_displaypic: File $file couldn't be found, setting to no_pic\n" blue
-			clear_disp
-			return
-		}
 		status_log "set_displaypic: File set to $file\n" blue
+		load_my_pic
 		::MSN::changeStatus [set ::MSN::myStatus]
 	} else {
 		status_log "set_displaypic: Setting displaypic to no_pic\n" blue
@@ -6578,9 +6582,9 @@ proc set_displaypic { file } {
 proc clear_disp { } {
     global config
 
-    set config(displaypic) ""
+    set config(displaypic) "amsn.png"
 
-	 catch {image create photo my_pic -file "[GetSkinFile displaypic nopic.gif]"}
+	 catch {image create photo my_pic -file "[GetSkinFile displaypic amsn.gif]"}
     ::MSN::changeStatus [set ::MSN::myStatus]
 
 }
