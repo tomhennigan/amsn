@@ -3535,18 +3535,18 @@ proc cmsn_draw_main {} {
 
 	
 	#For All Platforms (except Mac)
-	if {![catch {tk windowingsystem} wsystem] && $wsystem != "aqua"} {
-		#Set the position on the screen and the size for the contact list, from config
-		catch {wm geometry . $config(wingeometry)}
-		#Put the color of the border around the contact list (from the skin)
-		frame .main -class Amsn -relief flat -background $bgcolor
-	} else {
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 	#For Mac OS X (AquaTK) only
 		#Always place the contact list at the same position but keep the size from config
 		catch {wm geometry . $config(wingeometry)}
 		wm geometry . +0+30
 		#Always put a white border around the contact list 
 		frame .main -class Amsn -relief flat -background white
+	} else {
+		#Set the position on the screen and the size for the contact list, from config
+		catch {wm geometry . $config(wingeometry)}
+		#Put the color of the border around the contact list (from the skin)
+		frame .main -class Amsn -relief flat -background $bgcolor
 	}
 
 	
