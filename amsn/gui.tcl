@@ -6412,17 +6412,23 @@ proc pictureDeleteFile {} {
 	catch {set parent [focus]}
 	
 	if { $selected_image!="" && [file exists [file join $HOME displaypic $selected_image]]} {
-		set answer [tk_messageBox -message "[trans confirm]" -type yesno -icon question -title [trans delete] -parent $parent]
+		set answer [tk_messageBox -message [trans confirm] -type yesno -icon question -title [trans delete] -parent $parent]
 		if {$answer == "yes"} {
 			set filename [file join $HOME displaypic $selected_image]
 			catch {file delete $filename}
 			catch {file delete [filenoext $filename].gif}
 			set selected_image ""
 			.picbrowser.mypic configure -image no_pic
-
+			if { [file exists $filename] != 1 } {
+				tk_messageBox -message [trans faileddelete] -type ok -icon error -title [trans failed] -parent $parent
+				status_log "Failed: file [file join $HOME displaypic $selected_image] could not be deleted.\n";
+			}
 		}
 		
-	} 
+	} else {
+		tk_messageBox -message [trans faileddeleteperso] -type ok -icon error -title [trans failed] -parent $parent
+		status_log "Failed: file [file join $HOME displaypic $selected_image] does not exists.\n";
+	}
 }
 
 proc pictureChooseFile { } {
