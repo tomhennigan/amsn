@@ -5457,7 +5457,7 @@ namespace eval ::MSNP2P {
 
 		# Save new Session Variables into SessionList
 		SessionList set $sid [list $MsgId $TotalSize $Offset -1 -1 -1 -1 -1 -1 -1]
-		status_log "ASSHOLE: $packet"
+
 		return $packet
 	}
 
