@@ -84,6 +84,7 @@ change Changer
 changecustomstate Changer à
 changedisplaypic Changer l'icône
 changefont Changer la police
+changeglobnick Changer le pseudonyme général
 changenick Changer de pseudonyme
 changestate $1 a changé de statut : $2
 charscounter Compteur de caractères dans la fenêtre de conversation
@@ -175,6 +176,7 @@ editnewstate Nouvel état avec message automatique personnalisé
 editprofile Modifier profil
 editstate Editer un état existant avec message automatique
 editvalue Éditer la valeur
+email e-mail
 emailsinlist Afficher les emails au lieu du pseudonyme dans la liste de contact.
 emotisounds Jouer un son pour certains émoticons
 enablebanner Visualiser le bandeau aMSN (Nécessite de relancer aMSN)
@@ -217,6 +219,9 @@ ftrejected Transfert de fichier refusé
 ftsendinvitation L'invitation de transfert du fichier '$2' ($3 bytes) a été envoyé à $1.
 fullcontactlist Désolé, votre liste de contact est pleine. Vous devez supprimer des contacts pour en ajouter de nouveaux.
 getdisppic Permettre la réception d'icônes des autres utilisateurs
+globalnick Insérez un modèle afin de former les pseudonymes de vos contacts.Vous pouvez utiliser ces variables : \$user_login pour les adresses de vos contacts, \$nick pour les pseudonymes de vos contacts et enfin \$customnick pour les pseudonymes personnalisés de vos contacts. Par exemple : "\$user_login est \$nick" donnera "contact@msn.com est Contact"
+globalnicktitle Pseudonyme général
+globaloverride Modèles de pseudonymes devant remplacer les pseudonymes personnalisés
 gonelunch Parti déjeuner
 groupadd Ajouter un groupe
 groupdelete Supprimer un groupe
@@ -256,6 +261,7 @@ invitationcancelled L'invitation a été refusée
 invite Invitation
 ipaddress Adresse IP
 ipdetect Détection de l'IP exacte pour les transferts de fichier utilisant HTTP
+ircstyle Chat de type IRC
 istyping Message en cours de frappe ($1)
 joins $1 a rejoint la conversation
 keepalive Garder la connexion ouverte (NAT)
@@ -312,15 +318,19 @@ msgmaxmin Quand un nouveau message arrive, je veux qu'il soit
 msg Message
 msgmode Choisissez comment manier plusieurs fenêtres de messages :
 msn aMSN
+msnstyle Chat de type MSN
 mustrestart Vous devez redémarrer l'application pour que les changements prennent effet
+myfriendlyname Mon pseudonyme de conversation
 myhomephone Mon numéro personnel
 mymobilephone Mon numéro de portable
+mynick Mon pseudonyme
 mypic Mon icône
 mystatus Mon état
 myworkphone Mon numéro professionnel
 natip Détection de l'adresse IP par page web
 natkeepalive Si vous êtes souvent déconnecté involontairement, activez cet option
 needonline Vous êtes toujours déconnecté(e)!
+needwinico Winico03.dll doit figurer dans le dossier de Plug-ins afin que l'icône dans la Barre des tâches fonctionne
 newmail $1 nouveaux messages
 newmailfrom Nouveau message de $1 ($2)
 newmsg Nouveau message
@@ -349,6 +359,7 @@ notify2 Afficher une notification quand de nouveaux messages sont reçus
 notify3 Afficher une notification quand des emails arrivent dans votre boîte de réception
 notifyoffset Sélectionner la position de la fenêtre de notification en précisant ses coordonnées
 notify prévenir
+notifytimeout Nombre de milisecondes écoulées avant que la fenêtre d'annonce ne disparaisse
 notifytyping Envoyer aux autres utilisateurs une notification lors de l'usage du clavier
 notifywin Fenêtre de notification
 notinlist Vous ne figurez pas dans sa liste de contact
@@ -456,6 +467,7 @@ servergoingdown Serveur en cours d'arrêt
 server Serveur
 serverunavailable Serveur non disponible
 session Session
+showbanner Affiche la bannière d'aMSN
 showblockedlist Voir la liste des personnes que vous avez bloqué
 showcachedpics Afficher/Masquer les icônes cachées
 showdisplaypic2 Afficher l'icône par défaut à l'ouverture d'une fenêtre de discussion
@@ -469,6 +481,7 @@ smileconfig Configuration des émoticons personnalisés
 smilefile Nom du fichier de l'émoticon
 smileintro2 Veuillez editer les champs obligatoires pour personnaliser cet émoticon (voir la FAQ pour l'aide)
 smileintro Veuillez remplir les champs obligatoires pour créer un nouvel émoticon (voir la FAQ pour l'aide)
+sngdblclick Un click simple ouvre une nouvelle fenêtre de discussion
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 soundactive Jouer le son même lorsque le message arrive dans la fenêtre en cours
 soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
@@ -481,6 +494,7 @@ soundserver Serveur de Sons
 soundstatus Activer/Désactiver l'alarme sonore
 sourcecode Code source (requiert une compilation et une installation)
 sslwarning ATTENTION !! Désactiver SSL désactivera l'encryptage, votre mot de passe sera alors envoyé en clair sur le réseau. A n'utiliser qu'avec des proxies ou des configurations de réseau très sûres.
+splashstart Démarrage
 startoffline2 Se connecter directement en : "Apparaître hors ligne"
 startoffline Démarrer déconnecté
 startontray Démarrer aMSN en arrière plan seulement
@@ -534,6 +548,7 @@ user Utilisateur
 useryourself Vous ne pouvez pas dialoguer avec vous-même
 verifyblocked Contrôler les personnes qui vous ont bloqué
 version Version
+viewcontactsby Afficher les contacts par
 viewprofile Afficher le profil
 view Vue
 willjoin Dans l'attente que $1 rejoigne la conversation
