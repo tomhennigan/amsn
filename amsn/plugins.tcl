@@ -84,6 +84,7 @@ namespace eval ::plugins {
 	# 1 - first time plugin registered
 	#    
 	proc RegisterPlugin { plugin } {
+		puts stdout "PLUGIN: $plugin\n"
 		variable knownplugins
 	
 		status_log "Plugins System: RegisterPlugin called with $plugin\n"
@@ -91,7 +92,7 @@ namespace eval ::plugins {
 			status_log "Plugin System: Trying to register a plugin twice..\n"
 			return 0 ; #Yup, no need to do it again.
 		}
-		lappend knownplugins [lindex $plugin 0]
+		lappend knownplugins $plugin
 
 		status_log "Plugins System: New plugin :\nName : [lindex $plugin 0]\n                            "
 		return 1; # First timer :D
@@ -121,7 +122,7 @@ namespace eval ::plugins {
 			status_log "Plugins System: Registering an event for an unknown plugin...\n"
 			return; # Bye Bye
 		}
-		set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin *"] 0]
+		set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin*"] 0]
 		if { $pluginidx == "" } {
 			return
 		}
@@ -156,7 +157,7 @@ namespace eval ::plugins {
 		# get the event list
 		variable pluginsevents
 
-		set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin *"] 0]
+		set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin*"] 0]
 		if { $pluginidx == "" } {
 			return
 		}
@@ -189,7 +190,7 @@ namespace eval ::plugins {
 	proc UnRegisterEvents { plugin } {
 		# event list
 		variable pluginsevents
-		set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin *"] 0]
+		set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin*"] 0]
 		if { $pluginidx == "" } {
 			return
 		}
@@ -787,7 +788,7 @@ namespace eval ::plugins {
 		status_log "Plugins System: Unloading plugin $plugin\n"
 		set loadedplugins [lreplace $loadedplugins [lsearch $loadedplugins "$plugin"] [lsearch $loadedplugins "$plugin"]]
 		UnRegisterEvents $plugin
-		set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin *"] 0]
+		set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin*"] 0]
 		if { $pluginidx == "" } {
 			return
 		}
@@ -932,7 +933,7 @@ namespace eval ::plugins {
 		puts $file_id  "<?xml version=\"1.0\"?>\n\n<config>"
 		status_log "Plugins System: I will save the folowing: $knownplugins\n"
 		foreach {plugin} $knownplugins {
-			set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin *"] 0]
+			set pluginidx [lindex [lsearch -all $::plugins::found "*$plugin*"] 0]
 			if { $pluginidx != "" } {
 				set namespace [lindex $::plugins::found $pluginidx 6]
 				status_log "NAMESPACE: $namespace\n"
