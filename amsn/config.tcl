@@ -14,10 +14,23 @@ set config(start_ns_server) "messenger.hotmail.com:1863"
 set config(last_client_version) ""
 #by AIM
 set config(sound) 1
-set config(browser) "mozilla"
 set config(mailcommand) ""
 set config(filemanager) ""
-set config(soundcommand) "play"
+
+
+if {$tcl_platform(platform) == "unix"} {
+   set config(soundcommand) "play"
+   set config(browser) "mozilla"
+} elseif {$tcl_platform(platform) == "windows"} {
+   set config(soundcommand) "plwav.exe"
+   set config(browser) "explorer"
+} else {
+   set config(soundcommand) ""
+   set config(browser) ""
+}
+
+
+
 set config(language) "en"
 set config(adverts) 0
 set config(autohotlogin) 1
