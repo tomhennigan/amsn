@@ -488,6 +488,7 @@ proc cmsn_draw_main {} {
    #This shouldn't go here
    if ($config(withproxy)) {
      ::Proxy::Init $config(proxy) $config(proxytype)
+     ::Proxy::LoginData $config(proxyauthenticate) $config(proxyuser) $config(proxypass)
    }
    
    adv_initialize .main
