@@ -80,7 +80,7 @@ namespace eval ::amsn {
 		option add *background $menubgcolor
 		option add *selectColor #DD0000
 
-		if { [tk windowingsystem] == "x11" } {
+		if { ![catch {tk windowingsystem} wsystem] && $wsystem  == "x11" } {
 			option add *borderWidth 1 widgetDefault
 			option add *activeBorderWidth 1 widgetDefault
 			option add *selectBorderWidth 1 widgetDefault
