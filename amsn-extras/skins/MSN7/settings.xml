@@ -12,8 +12,8 @@
 			<balloonbackground>#ffffe1</balloonbackground>
 			<balloonborder>#dad8c8</balloonborder>
 			<balloontext>#000000</balloontext>
-			<menubackground>#f6f6f6</menubackground>
-			<menuforeground>#262626</menuforeground>
+			<menubackground>#f7f9fd</menubackground>
+			<menuforeground>#3c4d81</menuforeground>
 			<menuactivebackground>#7b96ac</menuactivebackground>
 			<menuactiveforeground>#eef1f4</menuactiveforeground>
 			<balloonfont>splainf</balloonfont>
@@ -65,6 +65,7 @@
 	<ChatWindow>
 		<Colors>
 			<chatwindowbg>#dae4f6</chatwindowbg>
+			<tabbarbg>#f7f9fd</tabbarbg>
 			<buttonbarbg>#cddaef</buttonbarbg>
 			<chat_buttons_border_color>#4f6ba0</chat_buttons_border_color>
 			<chat_input_border_color>#4f6ba0</chat_input_border_color>
