@@ -454,7 +454,7 @@ namespace eval ::MSN {
 
       } else {
 
-	 gets $ns_sock tmp_data
+	 catch {gets $ns_sock tmp_data} res
          degt_protocol "<-NS $tmp_data" nsrecv
 	 return "$tmp_data"
 
@@ -1380,13 +1380,13 @@ proc read_sb_sock {sbn} {
 
    } elseif {[eof $sb_sock]} {
 
-      close $sb_sock
+      catch {close $sb_sock} res
       degt_protocol "<-SB($sbn) CLOSED" sbrecv
       cmsn_sb_sessionclosed $sbn
 
    } else {
 
-      gets $sb_sock tmp_data
+      catch {gets $sb_sock tmp_data res}
       sb append $sbn data $tmp_data
 
       degt_protocol "<-SB($sbn) $tmp_data" sbrecv
