@@ -70,17 +70,19 @@ proc ConfigDefaults {} {
 	set config(manualip) "127.0.0.1"		;#Manual IP
 
 	
-	#Specific for Mac OS X, to not have the main window squeezing in top corner and change the default font for the system default font
-	if {$tcl_platform(os) == "Darwin"} {
-		set config(wingeometry) 275x400-200+200			;#Main window geometry
-		set config(basefont) "{Lucida Grande} 11 normal"	;#AMSN base font
+	#Specific configs for Mac OS X (Aqua) first, and for others systers after
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		set config(wingeometry) 275x400-200+200			;#Main window geometry on Mac OS X
+		set config(basefont) "{Lucida Grande} 11 normal"	;#AMSN Mac OS X base font
+		set config(backgroundcolor)  #ECECEC		;#AMSN Mac OS X background color
 	} else {
 		set config(wingeometry) 275x400-0+0			;#Main window geometry
 		set config(basefont) "Helvetica 11 normal"	;#AMSN base font
+		set config(backgroundcolor)  #D8D8E0		;#AMSN background color
 	}
 	
 	set config(closingdocks) 0						;#Close button minimizes (or docks) main window
-	set config(backgroundcolor)  #D8D8E0		;#AMSN background color
+	
 	
 	
 	set config(encoding) auto						;#ANSN encoding
