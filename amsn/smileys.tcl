@@ -31,9 +31,6 @@ foreach img_name $emotion_files {
 proc smile_subst {tw {start "0.0"}} {
   global emotions
 
-#      tw mark set new_text_start end
-#      tw insert $section.last "$user_name$state_desc\n" $user_login
-
    foreach emotion $emotions {
 	   
       set symbol [lindex $emotion 0]

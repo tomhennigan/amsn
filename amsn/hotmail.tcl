@@ -114,8 +114,7 @@ proc hotmail_procmsg {msg} {
 	global unread config password
 
 	#Nuevo by AIM
-#	status_log "Hotmail me dice: $msg\n" white
-		
+	
 	set content [aim_get_str $msg Content-Type]
 
 	if {[string range $content 0 29] == "text/x-msmsgsemailnotification"} {					     

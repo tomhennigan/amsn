@@ -21,14 +21,6 @@
 #    causes an error. For now assume only one group.
 #  - Move user from one group to another
 
-# Test
-#set program_dir [file dirname [info script]]
-#source [file join $program_dir lang.tcl]
-#set config(language) en
-#scan_languages
-#load_lang
-# End Test Stub
-
 namespace eval ::groups {
    namespace export Init Enable Disable Set Rename Delete Add \
    		    RenameCB DeleteCB AddCB \
@@ -56,7 +48,6 @@ namespace eval ::groups {
     set passport [lindex $paramlist 0]
     set currgid  [::abook::getGroup $passport -id]
     set name [::abook::getName $passport]
-#    puts "menuCmdCopy $passport from $currgid to $newgid"
     ::MSN::copyUser $passport $currgid $newgid $name
    }
 
@@ -65,7 +56,6 @@ namespace eval ::groups {
     set passport [lindex $paramlist 0]
     set currgid  [::abook::getGroup $passport -id]
     set name [::abook::getName $passport]
-#    puts "menuCmdMove $passport from $currgid to $newgid"
     ::MSN::moveUser $passport $currgid $newgid $name
    }
 
@@ -80,7 +70,6 @@ namespace eval ::groups {
             return
 	}
 
-#	set bgcol #ABC8CE
 	set bgcol2 #ABC8D2
 
 	toplevel .dlgag -highlightcolor $bgcol2
@@ -116,8 +105,6 @@ namespace eval ::groups {
 	wm title .dlgrg "[trans grouprename]"
 	frame .dlgrg.d -bd 1 
 	    label .dlgrg.d.lbl -text "[trans groupoldname]:"
-#	    set oldmenu [tk_optionMenu .dlgrg.d.old ::groups::groupname {}]
-#	    $oldmenu add radiobutton -label F -variable ::groups::groupname
 	    ::groups::updateMenu option .dlgrg.d.old
 	    .dlgrg.d.old configure 
 	    pack .dlgrg.d.lbl .dlgrg.d.old -side left -padx 10 -pady 5 
@@ -157,7 +144,6 @@ namespace eval ::groups {
 	     
 	    if {$type == "menu"} {
 	        $path add command -label $gname -command "$cb $gid $pars"
-#	        $path add command -label $gname -command "::groups::Delete $i dlgMsg"
 	    } else {
 	        if {$i == 0} {
 	    	    set mpath [tk_optionMenu $path ::groups::groupname $gname]
@@ -167,7 +153,6 @@ namespace eval ::groups {
 	    }
 	    # To obtain the label of the i'th menu entry
 	    # set ithLabel [$path entrycget $i -label]
-#puts "updating menu for $i $gname (gid $gid) has label $aaa"
        }
    }
 
@@ -351,13 +336,11 @@ namespace eval ::groups {
        variable groups
 
        if {![info exists groups($nr)]} {
-#           puts "TODO: Empty slot $nr in groups"
            return ""
        }
        if { $nr <= $groupCnt } { 
            return $groups($nr) 
        } else { 
-#           puts "TODO: gid $nr too big"
        	   return "" 
        }
    }
@@ -494,23 +477,3 @@ proc TestInitGroups {} {	# ONLY FOR TESTING
     set ::groups::groups(3) "Dummy-3"
     set ::groups::groupCnt 4
 }
-
-# Test
-#set w .menu
-#catch {destroy $w}
-#toplevel $w
-#wm title $w "Test groups.tcl"
-#menu $w.menu -tearoff 0
-#set m $w.menu.test
-#menu $m -tearoff 0
-#$w.menu add cascade -label "Test" -menu $m -underline 0
-## -accelerator Meta+x
-#$m add command -label "Quit" -command "destroy ."
-#$m add separator
-#$m add command -label "Enable" -command ::groups::Enable
-#$m add command -label "Disable" -command ::groups::Disable
-#$w configure -menu $w.menu
-#::groups::Init $m 4
-#TestInitGroups
-#::groups::Enable
-## End Test Stub

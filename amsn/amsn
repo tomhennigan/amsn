@@ -257,8 +257,6 @@ proc status_log {txt {colour ""}} {
    set timestamp [clock format [clock seconds] -format %H:%M:%S]
    .status.info insert end "\[$timestamp\] $txt" $colour
    .status.info yview moveto 1.0
-#   puts -nonewline $txt
-
 }
 
 # configureMenuEntry .main_menu.file "[trans addcontact]" disabled|normal
@@ -315,8 +313,6 @@ proc cmsn_draw_main {} {
    #Main menu
    menu .main_menu -tearoff 0 -type menubar  \
       -borderwidth 0 -activeborderwidth -0 
-#   .main_menu add cascade -label "[trans msn]" -menu .main_menu.msn
-#   .main_menu add cascade -label "[trans msg]" -menu .main_menu.msg -state disabled
    .main_menu add cascade -label "[trans msn]" -menu .main_menu.file
    .main_menu add cascade -label "[trans actions]" -menu .main_menu.actions
    .main_menu add cascade -label "[trans tools]" -menu .main_menu.tools
@@ -420,8 +416,6 @@ proc cmsn_draw_main {} {
      -variable config(listsmileys) 
    .options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 \
      -variable config(closingdocks) 
-#   .options add checkbutton -label "[trans extras]" -onvalue 1 -offvalue 0 \
-#     -variable config(withnotebook) 
 
    #Help menu
    menu .main_menu.help -tearoff 0 -type normal  
@@ -435,7 +429,6 @@ proc cmsn_draw_main {} {
 
    image create photo mainback -file [file join ${images_folder} back.gif]
 
-#   toplevel .main
    wm title . "[trans title] - [trans offline]"
    wm geometry . $config(wingeometry)
    wm iconname . "[trans title]"
@@ -523,7 +516,6 @@ image create photo notifico -file [file join ${images_folder} notifico.gif]
       -yscrollcommand "$pgBuddy.ys set" -cursor left_ptr -font splainf \
       -selectbackground white -selectborderwidth 0 -exportselection 0
    scrollbar $pgBuddy.ys -command "$pgBuddy.text yview"
-#   text .main.status  -width 30 -height 1 -wrap none
 
    #This shouldn't go here
    if ($config(withproxy)) {
@@ -538,14 +530,10 @@ image create photo notifico -file [file join ${images_folder} notifico.gif]
    # is cycled in between adverts.
    adv_show_banner  file ${images_folder}/logolinmsn.gif
 
-#   pack .main.status -side bottom -fill x
    pack $pgBuddy.ys -side right -fill y
    pack $pgBuddy.text -expand true -fill both
 
-#   .main.status configure -state disabled
-#   bind .main.status <Double-Button-3> toggle_status
    bind . <Control-s> toggle_status
-#   bind . <Destroy> "::amsn::close "
 
    wm protocol . WM_DELETE_WINDOW {::amsn::closeOrDock $config(closingdocks)}
 
@@ -567,7 +555,6 @@ proc cmsn_open_received {location} {
 
 proc anti_idle {} {
   global idletime
-#  status_log "Anti_idle\n"
   set idletime 0
 }
 
@@ -587,7 +574,6 @@ proc incr_idle {} {
 proc choose_theme { } {
     global config
     setColor . . background {-background -highlightbackground}
-#    setColor . . background {-foreground}
 }
 
 proc setColor {w button name options} {
@@ -678,13 +664,6 @@ proc cmsn_draw_offline {} {
    bind $pgBuddy.text <Configure>  ""
 
    wm title . "[trans title] - [trans offline]"
-
-#   .main.status configure -state normal -font splainf
-#   .main.status delete 0.0 end
-#   .main.status insert end "[trans offline]"
-
-
-#   .main.status configure -state disabled 
 
    $pgBuddy.text configure -state normal 
    $pgBuddy.text delete 0.0 end
@@ -791,15 +770,10 @@ proc cmsn_draw_offline {} {
 
    #Publish Phone Numbers
    configureMenuEntry .options "[trans publishphones]..." disabled
-#   .options entryconfigure 1 -state disabled	;# Publish
 }
 
 proc cmsn_draw_signin {} {
     global config pgBuddy
-#   .main.status configure -state normal -font splainf
-#   .main.status delete 0.0 end
-#   .main.status insert end "[trans loggingin]..."
-#   .main.status configure -state disabled
 
    wm title . "[trans title] - $config(login)"
 
@@ -1138,9 +1112,6 @@ proc ShowUser {user_name user_login state state_code colour section} {
 	}
 		
 
-
-#         $pgBuddy.text image create $section.last -image $image_type -pady 1 -padx 3
-
          $pgBuddy.text tag bind $user_login <Enter> \
              "$pgBuddy.text tag conf $user_login -under true;$pgBuddy.text conf -cursor hand2"
          $pgBuddy.text tag bind $user_login <Leave> \
@@ -1205,7 +1176,6 @@ proc menuCmdMove {newgid {paramlist ""}} {
     set passport [lindex $paramlist 0]
     set currgid  [::abook::getGroup $passport -id]
     puts "menuCmdMove $passport from $currgid to $newgid"
-#    ::MSN::moveUser $passport $currgid $newgid
 }
 
 proc user_choose {title online command {userslist ""}} {
@@ -1285,16 +1255,9 @@ proc show_umenu {user_login x y} {
 
 
    if {$config(orderbygroup)} {
-
-   #   .user_menu add cascade -label "[trans movetogroup]..." -menu .move_group_menu 
-#      .user_menu add command -label "[trans copytogroup]..." -command "tk_popup .copy_group_menu $x $y"
       .user_menu add command -label "[trans movetogroup]..." -command "tk_popup .move_group_menu $x $y"
-   #   .user_menu add command -label "[trans deletefromgroup]..." -command "delete_from_group"
    } else {
-   #   .user_menu add cascade -label "[trans movetogroup]..." -menu .move_group_menu -state disabled
-#      .user_menu add command -label "[trans copytogroup]..." -command "tk_popup .copy_group_menu $x $y" -state disabled
-      .user_menu add command -label "[trans movetogroup]..." -command "tk_popup .move_group_menu $x $y" -state disabled
-   #   .user_menu add command -label "[trans deletefromgroup]..." -command "delete_from_group" -state disabled
+       .user_menu add command -label "[trans movetogroup]..." -command "tk_popup .move_group_menu $x $y" -state disabled
    }
    .user_menu add command -label "[trans delete]" -command "delete_user ${user_login}"
    .user_menu add command -label "[trans properties]" \
@@ -1408,7 +1371,6 @@ proc cmsn_draw_msgwin {} {
       -command "show_chatuserlist \"[trans addtocontacts]\" $name ::MSN::addUser" 
    .${win_name}.menu.actions add command -label "[trans block]" \
       -command "show_chatuserlist \"[trans block]\" $name block_user" 
-#   .${win_name}.menu.actions add command -label "[trans seeprofile]" -command "" -state disabled
    .${win_name}.menu.actions add command -label "[trans properties]" \
       -command "show_chatuserlist \"[trans properties]\" $name ::abookGui::showEntry"
    .${win_name}.menu.actions add separator
@@ -1417,13 +1379,6 @@ proc cmsn_draw_msgwin {} {
       -command "::amsn::fileTransferSend ${name} ${name} "  -state disabled
    .${win_name}.menu.actions add separator
    .${win_name}.menu.actions add command -label [trans sendmail] -command "cmsn_msgwin_sendmail $name"
-#   menu .${win_name}.menu.actions.invite -tearoff 0 -type normal 
-#   .${win_name}.menu.actions.invite add separator
-#   .${win_name}.menu.actions.invite add command -label "[trans other]..." -state disabled
-
-   
-#   bind .${win_name}.menu.actions <Enter> "cmsn_msgwin_umenu $name"
-
    .${win_name} conf -menu .${win_name}.menu
 
    frame .${win_name}.top -class Amsn
@@ -1433,8 +1388,6 @@ proc cmsn_draw_msgwin {} {
       
    text .${win_name}.text -background white -width 45 -height 15 -wrap word \
       -yscrollcommand ".${win_name}.ys set" -exportselection 1
-      #-selectforeground white \
-      #-selectbackground darkblue -selectborderwidth 1 
    scrollbar .${win_name}.ys -command ".${win_name}.text yview" \
       
    text .${win_name}.status  -width 30 -height 1 -wrap none\
@@ -1471,7 +1424,6 @@ proc cmsn_draw_msgwin {} {
    .${win_name}.in.input configure -state normal
 
 
-#   .${win_name}.text tag configure sel -foreground white -background darkblue
    .${win_name}.text tag configure green -foreground darkgreen -background white -font bboldf 
    .${win_name}.text tag configure red -foreground red -background white -font bboldf
    .${win_name}.text tag configure blue -foreground blue -background white -font bboldf
@@ -1479,11 +1431,6 @@ proc cmsn_draw_msgwin {} {
    .${win_name}.text tag configure white -foreground white -background black
    .${win_name}.text tag configure url -foreground darkblue -background white -font bboldf -underline true
 
-
-#   bind .${win_name}.in.input <Return> "sb_enter $name %W; break"
-#   bind .${win_name}.in.input <Key-KP_Enter> "sb_enter $name %W; break"
-
-#   bind .${win_name}.in.input <Alt-s> "sb_enter $name %W; break"
    bind .${win_name}.in.input <Tab> "focus .${win_name}.in.send; break"
 
    bind  .${win_name}.buttons.smileys  <Button1-ButtonRelease> "smile_menu %X %Y .${win_name}.in.input"   
@@ -1495,12 +1442,6 @@ proc cmsn_draw_msgwin {} {
    bind .${win_name}.in.input <Control-Return> {%W insert end "\n"; break}
    bind .${win_name} <Destroy> "cmsn_destroyed_msgwin $name %W"
    
-#   menu .${win_name}.text.copypaste -tearoff 0 -type normal  
-#   menu .${win_name}.in.copypaste -tearoff 0 -type normal  
-
-#   bind .${win_name}.text <Button-3> "copypaste_menu .${win_name}.text %X %Y 0"
-#   bind .${win_name}.in <Button-3> "copypaste_menu .${win_name}.in %X %Y 1"
-
    focus .${win_name}.in.input
 
    change_myfontsize $config(textsize) ${win_name}
@@ -1524,8 +1465,6 @@ proc change_myfont {win_name} {
 
   set config(textsize) [expr {[lindex $selfont 1]- [lindex $config(basefont) 1]}]
   set config(mychatfont) "\{[lindex $selfont 0]\} \{[lindex $selfont 2]\} $fontcolor"
-
-#  status_log "Font selected: $selfont\n"
 
   set color [tk_chooseColor -title "[trans choosefontcolor]" -parent .${win_name} \
     -initialcolor #$fontcolor]
@@ -1738,8 +1677,6 @@ proc cmsn_win_write {name txt {colour ""} {fontname ""} {fontstyle ""} {fontcolo
    set posyx [split $text_start "."]   
    set text_start "[expr {[lindex $posyx 0]-1}].[lindex $posyx 1]"
    
-   #.${win_name}.text mark set new_text_start end
-
    set tagid $colour
 
    if { $colour == "user" || $colour == "yours" } {
@@ -1747,9 +1684,6 @@ proc cmsn_win_write {name txt {colour ""} {fontname ""} {fontstyle ""} {fontcolo
       set font "$fontname $size $fontstyle"
 
       set tagid [::md5::md5 "$font$fontcolor"]
-
-#      status_log "Tagid: $tagid\n" red
-#      status_log "Using font: $font\n" red
 
       if {[catch {.${win_name}.text tag configure $tagid -foreground #$fontcolor -font $font} res] || [string length $fontname] <3} {
          status_log "Por defecto\n" red
@@ -1772,8 +1706,6 @@ proc cmsn_win_write {name txt {colour ""} {fontname ""} {fontstyle ""} {fontcolo
 
    foreach url $urlstarts {
 
-      #puts "  Buscando $url"
-
       while { $endpos != [.${win_name}.text index end] && [set pos [.${win_name}.text search -forward -exact -nocase \
                               $url $endpos end]] != "" } {
 		
@@ -1791,9 +1723,6 @@ proc cmsn_win_write {name txt {colour ""} {fontname ""} {fontstyle ""} {fontcolo
 
         set posyx [split $pos "."]
         set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $final}]"
-
-
-	#puts "    Encontrado url $urltext en $pos-$endpos"
 
 	set urlcount "[expr {$urlcount+1}]"
 	set urlname "url_$urlcount"
@@ -2090,8 +2019,6 @@ proc cmsn_msgwin_umenu {name} {
    set win_name "msg_[string tolower ${name}]"
 
    .${win_name}.menu.actions.invite delete 0 end
-#   .${win_name}.menu.actions.invite add separator
-#   .${win_name}.menu.actions.invite add command -label "[trans other]..." -state disabled
 
    foreach user_info $list_users {
       set user_login [lindex $user_info 0]
@@ -2248,17 +2175,11 @@ proc cmsn_change_state {recv} {
          set oldusername [string map {\\ \\\\ \[ \\\[ * \\* ? \\?} \
 	   [urldecode [lindex $user_data 1]]]
 
-#         status_log "Deleting <$oldusername> from menu\n" white
-#         if [catch {.main_menu.msg delete "$oldusername <$user>"} res] {
-#	   status_log " ERROR deleting <$oldusername> from message menu\n" white
-#	 }
       } elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
          ::amsn::notifyAdd "$user_name\n[trans logsin]." "cmsn_chat_user $user" online
          if { ([info exists alarms([lindex $recv 2])]) && ($alarms([lindex $recv 2]) == 1) } {
              run_alarm [lindex $recv 2] [lindex $recv 3]        ;# Run Alarm using EMAIL ADDRESS (Burger)
          }
-#            cmsn_notify_add $user_name\n[trans logsin]. "cmsn_chat_user $user"
-#	    sonido online
       }
 
       if {$substate != "FLN"} {
@@ -2418,5 +2339,3 @@ if {$version != $config(last_client_version)} {
    cmsn_draw_about
   
 }
-# These menus are disabled until implemented
-#configureMenuEntry .main_menu.tools "[trans ordercontactsby]" disabled

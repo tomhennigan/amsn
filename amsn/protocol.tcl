@@ -1,31 +1,6 @@
 #	Microsoft Messenger Protocol Implementation
 # $Id$
 #=======================================================================
-#Not necessary loops anymore
-#for {set i 0} {$i < 256} {incr i} {
-#   set c [format %c $i]
-#   set hex [string tolower %[format %.2X $i]]
-#      if { $c == ")" } {
-#      	set url_map() $hex
-#	set url_unmap($hex) "\)"
-#      } elseif { $c == "," } {
-#      	set url_map(\,) $hex
-#	set url_unmap($hex) "\,"
-#      } else {
-#        set url_map($c) $hex
-#        set url_unmap($hex) "$c"
-#      }	
-#
-#}
-
-
-#for {set i 256} {$i < 65536} {incr i} {
-#   set c [format %c $i]
-#   set hex [string tolower %[format %.2X $i]]
-#   set url_map($c) $hex
-#   set url_unmap($hex) "$c"
-#
-#}
 
 namespace eval ::MSN {
    namespace export changeName logout changeStatus connect blockUser \
@@ -95,7 +70,6 @@ namespace eval ::MSN {
    proc unblockUser { userlogin username} {
       ::MSN::WriteNS REM "BL $userlogin"
       ::MSN::WriteNS ADD "AL $userlogin $username"
-#      ::MSN::WriteNS LST "RL"
    }
    
    # Move user from one group to another group
@@ -125,7 +99,6 @@ namespace eval ::MSN {
    
    proc deleteUser { userlogin } {
       ::MSN::WriteNS REM "FL $userlogin"
-   #   ::MSN::WriteNS REM "AL $userlogin"
    }   
 
    proc inviteFT { sbn filename cookie ipaddr} {
@@ -429,7 +402,6 @@ namespace eval ::MSN {
 	  
          if {[catch {
 	    puts -nonewline $sockid "\0[format %c $byte1][format %c $byte2]$datos"
-#            puts -nonewline $sockid $datos
 	 } res]} {
 	   cancelSending $cookie
 	   return
@@ -630,7 +602,6 @@ proc read_sb_sock {sbn} {
       gets $sb_sock tmp_data
       sb append $sbn data $tmp_data
       set log [string map {\r ""} $tmp_data]
-#      status_log "$sbn: RECV: $log\n" green
       degt_protocol "<-SB $tmp_data"
       if {[string range $tmp_data 0 2] == "MSG"} {
          set recv [split $tmp_data]
@@ -697,11 +668,9 @@ proc read_ns_sock {} {
       ::MSN::logout
    } else {
       gets $ns_sock tmp_data
-#      sb append ns data $tmp_data
 
       set log [string map {\r ""} $tmp_data]
 
-#      status_log "RECV: <-$log->\n" green
       degt_protocol "<-NS $tmp_data"
 
       sb append ns data $tmp_data		 
@@ -807,9 +776,6 @@ proc cmsn_sb_msg {sb_name recv} {
    global filetoreceive files_dir
 
    set msg [sb index $sb_name data 1]
-
-#   status_log "LOG: $msg\n" white
-
  
    sb ldel $sb_name data 1
    array set headers {}
@@ -823,8 +789,6 @@ proc cmsn_sb_msg {sb_name recv} {
    after cancel "catch \{set idx [sb search $sb_name typers $typer];sb ldel $sb_name typers \$idx;cmsn_show_typers $sb_name\} res"      
 
    if {[string range $content 0 9] == "text/plain"} {
-
-#      status_log "llegamsg: $msg\n"
 
       set fonttype [lindex [array get headers x-mms-im-format] 1]
       
@@ -856,9 +820,6 @@ proc cmsn_sb_msg {sb_name recv} {
       }
       
 
-      
-#      status_log "Font: $fontfamily, ($fontstyle) $style, $fontcolor\n" blue
-
       cmsn_win_write $sb_name \
         "\[$timestamp\] [trans says [urldecode [lindex $recv 2]]]:\n" gray
 
@@ -887,9 +848,7 @@ proc cmsn_sb_msg {sb_name recv} {
       }
       
    } elseif {[string range $content 0 19] == "text/x-msmsgscontrol"} {
-
-#      status_log "llegamsgcontrol: $recv\n"
-          
+    
       if {[llength $typer]} {
 	 set idx [sb search $sb_name typers $typer]
 	 if {$idx == -1} {
@@ -920,7 +879,6 @@ proc cmsn_sb_msg {sb_name recv} {
 	  set ipaddr $data
 	  set port [aim_get_str $body Port]
 	  set authcookie [aim_get_str $body AuthCookie]
-#	  status_log "Going to receive a file..\n" 
 	  status_log "Body: $body\n"
           ::MSN::ConnectMSNFTP $ipaddr $port $authcookie [lindex $filetoreceive 0] $cookie
 	  
@@ -1179,7 +1137,6 @@ proc cmsn_ns_handler {item} {
 	 # Everything that is in AL or BL is in either of the above.
 	 # Only FL contains the group membership though...
 	 if { ($curr_list == "FL") } {
-#	     status_log "PRUEBA2: $item\n" blue
 	     ::abook::setContact [lindex $item 6] FL [lindex $item 8]
 	     ::abook::setContact [lindex $item 6] nick [lindex $item 7]
 	 }
@@ -1221,13 +1178,11 @@ proc cmsn_ns_handler {item} {
 	  return 0
       }
       BPR {
-#      	status_log "$item\n" white
 	 # Update entry in address book setContact(email,PH*/M*,phone/setting)
 	 ::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4] 
 	 return 0
       }
       PRP {
-#      	status_log "$item\n" white
 	 ::abook::setPersonal [lindex $item 3] [lindex $item 4]
 	return 0
       }
@@ -1302,7 +1257,6 @@ proc cmsn_ns_handler {item} {
           return 0
       }     
       default {
-#         status_log "RECV: -[join $item]-\n" green
          status_log "Got unknown NS input!! --> [lindex $item 0]\n" red
 	 return 0
       }
@@ -1453,9 +1407,6 @@ proc sb_enter { sbn name } {
 
    set sock [sb get $sbn sock]
    if {[string index $txt 0] == "/"} {
-#      set cmd [string range $txt 1 [string length $txt]]
-#      puts $sock $cmd
-
 
    } 
    
@@ -1495,8 +1446,6 @@ proc sb_enter { sbn name } {
       incr ::MSN::trid
       puts $sock "MSG $::MSN::trid N $msg_len"
       puts -nonewline $sock $msg
-
-#      status_log "Font: \{$fontfamily\}, \{$fontstyle\}, $fontcolor\n" blue
 
       cmsn_win_write $sbn "\[$timestamp\] [trans says [urldecode [lindex $user_info 4]]]:\n" gray
       cmsn_win_write $sbn "$txt\n" yours \{$fontfamily\} \{$fontstyle\} $fontcolor      
@@ -1553,7 +1502,6 @@ proc ns_enter {} {
      }
    }
    
-#   status_log "SEND: [.status.enter get]\n" red
 }
 
 # Added by DEGT during creation of Proxy namespace based on original
@@ -1577,8 +1525,6 @@ proc cmsn_socket {name} {
       set tmp_port [lindex $proxy_serv 1]
       ::Proxy::OnCallback "dropped" "proxy_callback"
       ::Proxy::Setup next readable_handler $name
-#      set next "::Proxy::Connect $name"
-#      set readable_handler "::Proxy::Read $name"
       sb set $name stat "pw"
    } else {
       set tmp_serv [lindex [sb get $name serv] 0]
@@ -1605,8 +1551,7 @@ proc cmsn_ns_connected {} {
    if {$config(adverts)} {
      adv_resume   
    }
-#   ::groups::Enable
-   
+ 
 }
 
 proc cmsn_sb_connected {name} {
@@ -1639,7 +1584,6 @@ proc cmsn_ns_connect { username {password ""}} {
    .main_menu.file entryconfigure 0 -state disabled
    .main_menu.file entryconfigure 1 -state disabled
    #Proxy Config
-#   .options entryconfigure 1 -state disabled
 
    cmsn_draw_signin
 
@@ -1665,19 +1609,13 @@ proc get_password {method data} {
 }
 
 proc urldecode {str} {
-#  global url_unmap url_map
-# estracted from ncgi - solves users from needing to install extra packages!
-#    regsub -all {\+} $str { } str
-#    regsub -all {[][\\\$]} $str {\\&} str
-#    regsub -all {%([0-9a-fA-F][0-9a-fA-F])} $str {[format %c 0x\1]} str
 
 #New version, no need of url_unmap
     set begin 0
     set end [string first "%" $str $begin]
     set decode ""
-    
-#    puts "Me llega para decodificar: $str"
-    
+  
+  
     while { $end >=0 } {
       set decode "${decode}[string range $str $begin [expr {$end-1}]]"
 
@@ -1691,24 +1629,13 @@ proc urldecode {str} {
     
     set decode ${decode}[string range $str $begin [string length $str]]
 
-#    puts "Resultado: $decode"
-
     return $decode
-
-#Nuevo a ver si arregla el $ y los corchetes
-#    regsub -all {[\$]} $str {$url_map(&)} str
-#    set str [subst -nocommands -nobackslashes $str]
-#    regsub -all {%([0-9a-fA-F][0-9a-fA-F])} $str {$url_unmap([string tolower &])} str
-
-#    return [subst -nocommands -nobackslashes $str]
 }
 
 proc urlencode {str} {
 #   global url_map
 
    set encode ""
-
-#    puts "Me llega para codificar: $str"
 
    set str [encoding convertto utf-8 $str]
    
@@ -1730,22 +1657,6 @@ proc urlencode {str} {
        set encode "${encode}$character"
      }
    } 
-
-#    puts "Resultado: $encode"
-   
+  
    return $encode
-
-
-#   regsub -all \[^a-zA-Z0-9\)\\\[\\\\]\\\\\] $str {$url_map(&)} str
-#   regsub -all {[^a-zA-Z0-9\)\[\]\\]} $str {$url_map(&)} str
-#   set str [subst -nobackslashes -nocommands $str]
-
-   #Special character with problems
-#   regsub -all {\\} $str $url_map(\\) str
-#   regsub -all {\)} $str $url_map() str
-#   regsub -all {\[} $str $url_map(\[) str
-#   regsub -all {\]} $str $url_map(\]) str
-
-#   return [subst -nobackslashes -nocommands -novariables $str]
-
 }

@@ -100,34 +100,26 @@ namespace eval ::abook {
 	    FL {	;# From LST.FL command, contains email, groupId
 		set value [adjustGroup $value]
 		set contacts($email) [list  $value "" "" "" "" "" ]
-#		puts "ABOOK: creating $email GroupId $value"
-#		puts "size [llength $contacts($email)]"
 	    }
 	    nick {	;# From LST.FL (User handle)
 		set contacts($email) [lreplace $contacts($email) 1 1 $value]
-#		puts "ABOOK: $email Home $value"
 	    }
 	    PHH {	;# From BPR.PHH (Home Phone Number)
 		set contacts($email) [lreplace $contacts($email) 2 2 $value]
-#		puts "ABOOK: $email Home $value"
 	    }
 	    PHW {	;# From BPR.PHW (Work Phone Number)
 		set contacts($email) [lreplace $contacts($email) 3 3 $value]
-#		puts "ABOOK: $email Work $value"
 	    }
 	    PHM {	;# From BPR.PHM (Mobile Phone Number)
 		set contacts($email) [lreplace $contacts($email) 4 4 $value]
-#		puts "ABOOK: $email Mobile $value"
 	    }
 	    MOB {	;# From BPR.MOB (Mobile pager) Y|N
 		set contacts($email) [lreplace $contacts($email) 5 5 $value]
-#		puts "ABOOK: $email MobileSet $value"
 	    }
 	    default {
 	        puts "setContact unknown field $field -> $value"
 	    }
 	}
-#puts "$field -> $contacts($email)"
    }
 
    proc getContact { email cdata } {
@@ -139,7 +131,6 @@ namespace eval ::abook {
 	    return
 	}
 	
-#puts $contacts($email)
 	set groupName    [::groups::GetName [lindex $contacts($email) 0]]
 	set data(group)  [urldecode $groupName]
 	set data(handle) [urldecode [lindex $contacts($email) 1]]
@@ -174,11 +165,9 @@ namespace eval ::abook {
 	
 	set groupId [lindex $contacts($passport) 0]
 	if {$how == "-id"} {
-#puts "ID $groupId"
 	    return $groupId
         }
 	set groupName [::groups::GetName $groupId]
-#puts "Name $groupId $groupName"
 	return $groupName
    }
    
@@ -187,7 +176,6 @@ namespace eval ::abook {
    # for the user and not for the buddies!
    # The value is urlencoded by this routine
    proc setPhone { item value } {
-#   	set value [urlencode $value]
 	switch $item {
 	    home { ::MSN::WriteNS PRP "PHH $value" }
 	    work { ::MSN::WriteNS PRP "PHW $value" }
@@ -247,7 +235,6 @@ namespace eval ::abookGui {
 	set phome [urlencode [$t.$h get]]
 	set pwork [urlencode [$t.$w get]]
 	set pmobile [urlencode [$t.$m get]]
-    #    set ppager [urlencode [$t.$p get]]
 	::abook::setPhone home $phome
 	::abook::setPhone work $pwork
 	::abook::setPhone mobile $pmobile
@@ -308,16 +295,6 @@ namespace eval ::abookGui {
 	label $nbIdent.h1 -text $cd(handle) -font splainf -fg blue 
 	label $nbIdent.g -text "[trans group]:" -font bboldf 
 	label $nbIdent.g1 -text $cd(group) -font splainf -fg blue 
-#	set group_names [::groups::GetList -names]
-#	set group_total [llength $group_names]
-#set cd(newgroup) $cd(group)
-#	set om [tk_optionMenu $nbIdent.g1 $cd(newgroup) [lindex $group_names 0]]
-#	for {set xxx 1} {$xxx < $group_total} {incr xxx} {
-#	  $om add radiobutton -label [lindex $group_names $xxx] \
-#	  	-variable $cd(newgroup)
-#	}
-#set cd(newgroup) $cd(group)
-#	$om configure -font splainf -fg blue -bg $bgcol
 	grid $nbIdent.e -row 0 -column 0 -sticky e
 	grid $nbIdent.e1 -row 0 -column 1 -sticky w
 	grid $nbIdent.h -row 1 -column 0 -sticky e
@@ -391,6 +368,9 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.15  2002/09/07 06:05:03  burgerman
+# Cleaned up source files, removed all commented lines that seemed outdated or used for debugging (outputs)...
+#
 # Revision 1.14  2002/07/09 23:25:25  lordofscripts
 # - T-THEMES the return of color themes
 #

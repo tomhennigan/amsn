@@ -41,19 +41,14 @@ proc degt_protocol_win_toggle {} {
 }
 
 proc degt_protocol_win { } {
-#    global debug_id
     toplevel .degt
     wm title .degt "MSN Protocol Debug"
     wm iconname .degt "MSNProt"
     wm state .degt withdraw
 
-#   .notify.c insert $debug_id 0 $notify_text
-#   set debug_id [.degt.c create text 75 50 -font {Helvetica 10} \ -justify center]
     frame .degt.top -class Degt
         label .degt.top.name -text "Protocol" -justify left
-#        label .degt.top.lines -textvariable lineCnt -justify right
 	pack .degt.top.name -side left -anchor w
-#	pack .degt.top.lines -side right  -anchor e -fill x
 
     frame .degt.mid -class Degt
 	scrollbar .degt.mid.sy -orient vertical -command ".degt.mid.txt yview"
@@ -218,7 +213,6 @@ proc PreferencesCopyConfig {} {
 	# Copy into the cache for modification. We will only
 	# copy back/save if the user chooses to accept new settings.
 	set myconfig($var_attribute) $var_value
-#	puts "CONFIG $var_attribute $var_value"
     }
 
     # Now process certain exceptions. Should be reverted
@@ -248,7 +242,6 @@ proc Preferences { settings } {
     toplevel .cfg
     wm title .cfg [trans preferences]
     wm iconname .cfg [trans preferences]
-#    wm geometry .cfg 200x300-1+0
 
     # Frame to hold the preferences tabs/notebook
     set nbtSounds [trans prefsound]
@@ -327,14 +320,6 @@ proc SavePreferences {} {
 	set config($var_attribute) $var_value
 #	puts "myCONFIG $var_attribute $var_value"
     }
-
-#    puts "Browser $config(browser)"
-#    puts "Mailer $config(mailcommand)"
-#    puts "Proxy $config(proxy)"
-#    puts "Sound $config(soundcommand)"
-#    puts [LabelEntryGet [getNote .cfg.n.p [trans prefapps]].mailer]
-#    puts [LabelEntryGet [getNote .cfg.n.p Proxy].server]
-#    puts [LabelEntryGet [getNote .cfg.n.p Proxy].port]
 
     # Save configuration.
     save_config
@@ -426,6 +411,9 @@ proc LabelEntryGet { path } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.13  2002/09/07 06:05:03  burgerman
+# Cleaned up source files, removed all commented lines that seemed outdated or used for debugging (outputs)...
+#
 # Revision 1.12  2002/08/15 10:03:00  airadier
 # Credits updated for the new banner.
 # Adding file manager support (for opening received files)
