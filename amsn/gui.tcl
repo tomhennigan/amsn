@@ -4270,26 +4270,19 @@ proc cmsn_draw_online { {delay 0} } {
 	$pgBuddy.text.mystatus insert end "$my_short_name " mystatus
 	$pgBuddy.text.mystatus insert end "($my_state_desc)" mystatus
 
-	set balloon_message "$my_name \n $config(login) \n [trans status] : $my_state_desc"
+	set balloon_message "[string map {"%" "%%"} $my_name] \n $config(login) \n [trans status] : $my_state_desc"
 
-	$pgBuddy.text.mystatus tag bind mystatus <Enter> \
-		"+set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]"
+	$pgBuddy.text.mystatus tag bind mystatus <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 
 	$pgBuddy.text.mystatus tag bind mystatus <Leave> \
 		"+set Bulle(first) 0; kill_balloon"
 
-	$pgBuddy.text.mystatus tag bind mystatus <Motion> \
-		"if {\[set Bulle(set)\] == 0} \{after cancel \[set Bulle(id)\]; \
-		set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]\}"
+	$pgBuddy.text.mystatus tag bind mystatus <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
-
-	bind $pgBuddy.text.bigstate <Enter> \
-		"+set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]"
+	bind $pgBuddy.text.bigstate <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 	bind $pgBuddy.text.bigstate <Leave> \
 		"+set Bulle(first) 0; kill_balloon;"
-	bind $pgBuddy.text.bigstate <Motion> \
-		"if {\[set Bulle(set)\] == 0} \{after cancel \[set Bulle(id)\]; \
-		set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]\} "
+	bind $pgBuddy.text.bigstate <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
 
 	#Calculate number of lines, and set my status size (for multiline nicks)
@@ -4727,27 +4720,20 @@ proc ShowUser {user_name user_login state state_code colour section grId} {
 
     if { $config(tooltips) == 1 } {
 
-	set balloon_message "[string map {% %%} $user_name] \n $user_login \n [trans status] : [trans [lindex $state 1]] "
+	set balloon_message "[string map {"%" "%%"} $user_name] \n $user_login \n [trans status] : [trans [lindex $state 1]] "
 
-	$pgBuddy.text tag bind $user_unique_name <Enter> \
-	    "+set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message)] %X %Y]\]"
+	$pgBuddy.text tag bind $user_unique_name <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 
 	$pgBuddy.text tag bind $user_unique_name <Leave> \
 	    "+set Bulle(first) 0; kill_balloon"
 
-	$pgBuddy.text tag bind $user_unique_name <Motion> \
-	    "if {\[set Bulle(set)\] == 0} \{after cancel \[set Bulle(id)\]; \
-            set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]\} "
+	$pgBuddy.text tag bind $user_unique_name <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
-	bind $pgBuddy.text.$imgname <Enter> \
-	    "+set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message)] %X %Y]\]"
-
+	bind $pgBuddy.text.$imgname <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 	bind $pgBuddy.text.$imgname <Leave> \
 	    "+set Bulle(first) 0; kill_balloon"
 
-	bind $pgBuddy.text.$imgname <Motion> \
-	    "if {\[set Bulle(set)\] == 0} \{after cancel \[set Bulle(id)\]; \
-            set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]\} "
+	bind $pgBuddy.text.$imgname <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 
     }
 #Change mouse button and add control-click on Mac OS X
@@ -4774,6 +4760,23 @@ bind $pgBuddy.text.$imgname <<Button3>> "show_umenu $user_login $grId %X %Y"
 }
 #///////////////////////////////////////////////////////////////////////
 
+proc balloon_enter {window x y msg} {
+	global Bulle
+	#"+set Bulle(set) 0;set Bulle(first) 1; set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message)] %X %Y]\]"
+	set Bulle(set) 0
+	set Bulle(first) 1
+	set Bulle(id) [after 1000 [list balloon $window $msg $x $y]]
+}
+
+proc balloon_motion {window x y msg} {
+	global Bulle
+	#"if {\[set Bulle(set)\] == 0} \{after cancel \[set Bulle(id)\]; \
+   #         set Bulle(id) \[after 1000 [list balloon %W [list $balloon_message] %X %Y]\]\} "
+	if {[set Bulle(set)] == 0} {
+		after cancel [set Bulle(id)]
+		set Bulle(id) [after 1000 [list balloon $window $msg $x $y]]
+	}
+}
 
 # trunc(str, nchars)
 #
