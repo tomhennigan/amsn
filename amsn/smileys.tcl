@@ -257,11 +257,8 @@ namespace eval ::smiley {
 	proc substYourSmileys {tw {textbegin "0.0"} {end "end"} {contact_list 0}} {
 		global custom_emotions custom_images
 		
-		status_log "Parsing for custom smileys\n" white
-		
 		#Search for all possible emotions
 		foreach name [::config::getKey customsmileys] {
-			status_log "Parsing for custom $name\n" white
 	
 			array set emotion $custom_emotions($name)
 			set symbol $emotion(text)
@@ -536,9 +533,6 @@ namespace eval ::smiley {
 		}
 
 		toplevel .new_custom
-		wm group .new_custom .
-		
-		wm geometry .new_custom
 		
 		set w [LabelFrame:create .new_custom.lfname -text [trans smileconfig] -font splainf]
 		pack $w -anchor n -side top -expand 1 -fill x
@@ -619,9 +613,9 @@ namespace eval ::smiley {
 		UpdateEnabledSoundSmileys
 		
 		bind .new_custom <Destroy> "catch {unset new_custom_cfg}"
-		
-		after 2000 "catch {wm state .new_custom normal}"
 		moveinscreen .new_custom 30
+		catch {[focus .new_custom]}
+		
 	}
 	
 	proc NewCustomEmoticonGUI_Ok { {name ""}} {
