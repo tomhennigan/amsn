@@ -55,6 +55,7 @@ copytogroup Copier vers groupe
 cut couper
 date Date
 delete Effacer
+deliverfail Une erreur est survenue lors de l'envoi du message suivant
 dockgtk Ancrer dans GTK
 docking Ancrage actif
 dockingoff Ancrage inactif
@@ -193,6 +194,7 @@ unblock Débloquer
 uoffline Déconnectés
 uonline Connectés
 useralreadyonlist Utilisateur déjà présent dans la liste
+usernotonline L'utilisateur n'est pas en ligne
 user Utilisateur
 version Version
 view Vue

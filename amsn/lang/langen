@@ -195,6 +195,7 @@ user User
 usernotonline The user is not online
 version Version
 view View
+viewprofile View Profile
 willjoin Waiting $1 joins conversation
 work Work
 yousay You say

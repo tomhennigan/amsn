@@ -56,6 +56,7 @@ copytogroup kopiëren naar groep
 cut     Knippen
 date Datum
 delete Wis
+deliverfail Er was een problem bij het bezorgen van de volgende boodschap
 dockgtk Verbergen voor gnome
 dockingoff Verbergen uit
 docking Verberg

@@ -191,7 +191,7 @@ void writeMasterKeys() {
 
 	printf("<center><big><big><b><a name=\"en\">English translations</a></b></big></big></center><br>\n");
 
-	printf("<table border=0>\n");
+	printf("<table border=0 valign=top>\n");
 
 	for(i=0;i<keynum;i++) {
 		printf("<tr><td><a name=\"key_%s\"></a><b>%s</b></td><td> %s<br></td></tr>\n",keytable[i]->keyname,keytable[i]->keyname,keytable[i]->translation);

@@ -15,6 +15,7 @@ alarmstatus (Dis)Abilita l'allarme per questo utente
 allowseen Permetti a questa persona di vedermi e di contattarmi quando sono connesso
 appearoff Invisibile
 aretyping $1 stanno scrivendo un messaggio
+autoconnect Connetti immediatamente all'esecuzione di asmn 
 autohotmaillog Auto-login Hotmail
 autoidle Nessuna attività automatica
 autoip IP automatico
@@ -36,7 +37,7 @@ chat Inizia la conversazione
 chatreq Sto chiamando
 chatsmileys Faccine per la chat
 checkingver Sto verificando una nuova versione
-checkver Controlla l'esistenza di nuova versione
+checkver Controlla l'esistenza di nuove versioni
 choosebasefont Seleziona il font
 choosebgcolor Cambia il colore di sfondo
 choosefontcolor Scegliere il colore del font
@@ -54,6 +55,7 @@ copytogroup Copia nel gruppo
 cut Taglia
 date Data
 delete Cancella
+deliverfail Si è verificato un problema nell'inoltro del seguente messaggio
 dockgtk Dock GNOME
 docking Abilita dock
 dockingoff Disabilita dock
@@ -133,7 +135,7 @@ notifywin Finestra di Notifica
 nousersinsession Nessun utente nella sessione
 offline Sconnesso
 ok Ok
-onenewmail 1 nuovo messaggio di pasta (la pasta elettronica)
+onenewmail 1 nuovo messaggio di posta nella casella In Arrivo
 online Online
 onphone Al telefono
 openreceived Apri un file ricevuto
@@ -149,12 +151,12 @@ picstatus (Dis)Abilita l'immagine per l'allarme
 port Porta
 prefapps Applicazioni
 preferences Preferenze
-prefsound Souno
-properties Propietà
+prefsound Suono
+properties Proprietà
 proxyconf Configurazione proxy
 proxyconfhttp Configurazione supporto proxy HTTP
-publishphones Publica il mio numero di telefono
-receivedbytes Recevuti $1 byte su $2
+publishphones Pubblica il mio numero di telefono
+receivedbytes Ricevuti $1 byte su $2
 receivefile Sto ricevendo il file
 reconnecting Riconnessione al server
 reconnect Sto aspettando che $1 si riconnetta
@@ -190,6 +192,7 @@ uoffline Offline
 uonline Online
 useralreadyonlist L'utente è già nella lista contatti
 user Utente
+usernotonline Questo Utente non è online
 version Versione
 view Vista
 willjoin Sto aspettando che $1 si unisca alla conversazione
