@@ -37,6 +37,11 @@ namespace eval ::groups {
 		::groups::Delete $gid dlgMsg
 	}
 
+	proc menuCmdRename {gid} {
+		::groups::dlgRenameThis $gid
+	}
+
+
 	proc menuCmdCopy {newgid {paramlist ""}} {
 		set passport [lindex $paramlist 0]
 		set name [::abook::getNick $passport]
@@ -96,45 +101,6 @@ namespace eval ::groups {
 		pack .dlgag.d -side top -pady 3 -padx 5
 		pack .dlgag.b  -side top -anchor e -pady 3
 		moveinscreen .dlgag 30
-	}
-
-	proc dlgRenGroup {} {
-		global pgc
-		
-		if {[winfo exists .dlgrg]} {
-			set pgc 0
-			return
-		}
-
-		set bgcol2 #ABC8D2
-	
-		toplevel .dlgrg -highlightcolor $bgcol2
-		wm title .dlgrg "[trans grouprename]"
-		frame .dlgrg.d -bd 1 
-		label .dlgrg.d.lbl -text "[trans groupoldname]:" -font sboldf
-		::groups::updateMenu option .dlgrg.d.old
-		.dlgrg.d.old configure 
-		pack .dlgrg.d.lbl .dlgrg.d.old -side left -padx 10 -pady 5 
-	
-		frame .dlgrg.n -bd 1 
-		label .dlgrg.n.lbl -text "[trans groupnewname]:" -font sboldf
-		entry .dlgrg.n.ent -width 20 -bg #FFFFFF -font splainf
-		pack .dlgrg.n.lbl .dlgrg.n.ent -side left
-		
-		frame .dlgrg.b 
-		button .dlgrg.b.ok -text "[trans ok]"  \
-			-command { \
-			::groups::Rename $::groups::groupname "[.dlgrg.n.ent get]" dlgMsg;\
-			destroy .dlgrg }
-		button .dlgrg.b.cancel -text "[trans cancel]"  \
-			-command "set pgc 0; destroy .dlgrg"
-		bind .dlgrg <<Escape>> "set pgc 0; destroy .dlgrg"
-		pack .dlgrg.b.ok .dlgrg.b.cancel -side right -padx 5
-			
-		pack .dlgrg.d .dlgrg.n -side top
-		pack .dlgrg.b -side top -anchor e -pady 3
-		moveinscreen .dlgrg 30
-	
 	}
 
 	# Used to perform the group renaming without special dialogues
@@ -294,7 +260,8 @@ namespace eval ::groups {
 	
 		::abook::setContactData contactlist groups [array get groups]
 		# Update the Delete Group... menu
-		::groups::updateMenu menu .group_list ::groups::menuCmdDelete
+		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
 	}
 
 	proc DeleteCB {pdu} {	# RMG 24 12065 15
@@ -317,7 +284,8 @@ namespace eval ::groups {
 		# a new list
 		abook::setContactData contactlist groups [array get groups]
 		# Update the Delete Group... menu
-		::groups::updateMenu menu .group_list ::groups::menuCmdDelete
+		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
 	}
 
 	proc AddCB {pdu} {	# ADG 23 12064 New%20Group 15 =?Ñ?-CC
@@ -337,7 +305,8 @@ namespace eval ::groups {
 		set uMemberCnt_online($gid) 0
 		set bShowing($gid) 1
 		abook::setContactData contactlist groups [array get groups]	
-		::groups::updateMenu menu .group_list ::groups::menuCmdDelete
+		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
 	}
    
 	proc ToggleStatus {gid} {
@@ -398,16 +367,18 @@ namespace eval ::groups {
 		variable entryid
 	
 		# The submenu with the list of defined groups (to be filled)
-		menu .group_list -tearoff 0 -type normal
+		menu .group_list_delete -tearoff 0 -type normal
+		menu .group_list_rename -tearoff 0 -type normal
 	
 		# The submenu of standard group actions
 		menu .group_menu -tearoff 0 -type normal
 		.group_menu add command -label "[trans groupadd]..." \
 			-command ::groups::dlgAddGroup
+		.group_menu add cascade -label "[trans grouprename]..." \
+			-menu .group_list_rename
 		.group_menu add cascade -label "[trans groupdelete]" \
-			-menu .group_list
-		.group_menu add command -label "[trans grouprename]..." \
-			-command ::groups::dlgRenGroup
+			-menu .group_list_delete
+
 	
 		# Attach the Group Administration entry to the parent menu
 		$p add cascade -label "[trans admingroups]" -state disabled \
@@ -458,7 +429,8 @@ namespace eval ::groups {
 		variable parent
 		variable entryid
 	
-		::groups::updateMenu menu .group_list ::groups::menuCmdDelete
+		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
 		# The entryid of the parent is 0
 		$parent entryconfigure $entryid -state normal
 		#status_log "Groups: menu enabled\n" blue
