@@ -536,4 +536,12 @@ leavejoinsinchat Zobrazovat notifikacie o "vstupoch a vystupoch" v okienkach
 nick Nickname
 nogroup Bez skupiny
 userdata Uzivatelove data
-userproperties Uzivatelove vlastnosti o $1 
+userproperties Uzivatelove vlastnosti o $1
+change Zmenit
+customcolor Vlastna farba 
+displayp4context Zobrazit P4-valutu ako odosielatela odkazu 
+displaypic Fotka
+lastmsgedme Posledny odkaz 
+p4contextprefix Zobrazit tento retazec pred odosielatelom P4 
+phones Telefonne cisla 
+recentmsg Nezatvarat konverzacie pri prichode noveho odkazu
