@@ -1032,7 +1032,7 @@ namespace eval ::amsn {
 		set w .ft$cookie
 		toplevel $w
 		wm group $w .
-		wm geometry $w 350x160
+		wm geometry $w 360x170
 
 		#frame $w.f -class amsnChatFrame -background [::skin::getColor background1] -borderwidth 0 -relief flat
 		#set w $ww.f
@@ -1048,6 +1048,8 @@ namespace eval ::amsn {
 		label $w.time -text "" -font splainf
 		pack $w.progress $w.time -side top
 
+		checkbutton $w.ftautoclose -text "[trans ftautoclose]" -onvalue 1 -offvalue 0 -variable [::config::getVar ftautoclose]
+		pack $w.ftautoclose -side top
 
 		button $w.close -text "[trans cancel]" -command $cancelcmd
 		pack $w.close -side bottom -pady 5
@@ -1212,6 +1214,11 @@ namespace eval ::amsn {
 		if { $filesize2 != 0 } {
 			set percent [expr {int(($bytes2*100)/$filesize2)}]
 			::dkfprogress::SetProgress $w.prbar $percent
+		}
+
+		# Close the window if the filetransfer is finished
+		if {($mode == "fr" | $mode == "fs") & [::config::getKey ftautoclose]} {
+			destroy $w
 		}
 
 	}
@@ -2292,7 +2299,7 @@ namespace eval ::amsn {
 		WinWrite $chatid "$msg" $type $fontformat 1 $user
 
 		if {[::config::getKey keep_logs]} {
-			::log::PutLog $chatid $nick $msg
+			::log::PutLog $chatid $nick $msg $fontformat
 		}
 		
 		::plugins::PostEvent chat_msg_received evPar
