@@ -147,8 +147,6 @@ proc reload_files { } {
  	global $glob
  	}
 	source ctthemes.tcl
-	source [file join notebook.tcl]
-	source [file join rnotebook.tcl]
 	source progressbar.tcl	;# Progressbar Megawidget
 	source migmd5.tcl
 	source des.tcl		;# DES encryption
