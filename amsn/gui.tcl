@@ -1258,17 +1258,17 @@ namespace eval ::amsn {
 
 
    #///////////////////////////////////////////////////////////////////////////////
-   # chatStatus (chatid,msg)
+   # chatStatus (chatid,msg,[icon])
    # Called by the protocol layer to show some information about the chat, that
    # should be shown in the status bar. It will only show it if the chat is not
    # ready, as most information is about connections/reconnections, and we don't
    # mind in case we have a "chat ready to chat".
-   proc chatStatus {chatid msg} {
+   proc chatStatus {chatid msg {icon ""}} {
 
       if { [WindowFor $chatid] == 0} {
          return 0
       } else {
-           WinStatus [ WindowFor $chatid ] $msg
+           WinStatus [ WindowFor $chatid ] $msg $icon
       }
 
    }
@@ -1983,6 +1983,8 @@ proc cmsn_draw_main {} {
    image create photo globe -file [file join ${images_folder} globe.gif]
 
    image create photo typingimg -file [file join ${images_folder} typing.gif]
+   image create photo miniinfo -file [file join ${images_folder} miniinfo.gif]
+   image create photo miniwarning -file [file join ${images_folder} miniwarn.gif]
 
 
    image create photo butsmile -file [file join ${images_folder} butsmile.gif]

@@ -929,7 +929,7 @@ namespace eval ::MSN {
 	  return $lowuser
       }
 
-      ::amsn::chatStatus $lowuser "[trans chatreq]...\n"
+      ::amsn::chatStatus $lowuser "[trans chatreq]...\n" miniinfo
 
       set sbn [GetNewSB]
 
@@ -1681,6 +1681,7 @@ proc cmsn_sb_handler {sb_name item} {
 	  #sb get $sb_name stat
 	  ::MSN::ClearQueue [::MSN::ChatFor $sb_name]
 	  ::MSN::CleanChat [::MSN::ChatFor $sb_name]
+          ::amsn::chatStatus [::MSN::ChatFor $sb_name] "[trans usernotonline]\n" miniwarning
 	  status_log "Error: user is not online [join $item]\n" red
 	   msg_box "[trans usernotonline]"
           return 0
@@ -1743,6 +1744,7 @@ proc cmsn_open_sb {sbn recv} {
           status_log "Error: Not allowed when offline\n" red
           ::MSN::ClearQueue [::MSN::ChatFor $sbn]
           ::MSN::CleanChat [::MSN::ChatFor $sbn]
+          ::amsn::chatStatus [::MSN::ChatFor $sbn] "[trans needonline]\n" miniwarning
           msg_box "[trans needonline]"
           return 1
    }
@@ -1760,7 +1762,7 @@ proc cmsn_open_sb {sbn recv} {
 
 
    #status_log "[trans sbcon]...\n"
-   ::amsn::chatStatus [::MSN::ChatFor $sbn] "[trans sbcon]...\n"
+   ::amsn::chatStatus [::MSN::ChatFor $sbn] "[trans sbcon]...\n" miniinfo
    cmsn_socket $sbn
    return 0
 }
@@ -1772,7 +1774,7 @@ proc cmsn_conn_sb {name} {
    sb set $name stat "a"
    set cmd [sb get $name auth_cmd]; set param [sb get $name auth_param]
    ::MSN::WriteSB $name $cmd $param "cmsn_connected_sb $name"
-   ::amsn::chatStatus [::MSN::ChatFor $name] "[trans ident]...\n"
+   ::amsn::chatStatus [::MSN::ChatFor $name] "[trans ident]...\n" miniinfo
 }
 
 proc cmsn_conn_ans {name} {
@@ -1791,7 +1793,7 @@ proc cmsn_connected_sb {name recv} {
    sb set $name stat "i"
    if {[sb exists $name invite]} {
       cmsn_invite_user $name [sb get $name invite]
-      ::amsn::chatStatus [::MSN::ChatFor $name] "[trans willjoin [sb get $name invite]]...\n"
+      ::amsn::chatStatus [::MSN::ChatFor $name] "[trans willjoin [sb get $name invite]]...\n" miniinfo
    } else {
       status_log "cmsn_connected_sb: got sb stat=i but no one to invite!!!\n" red
    }
@@ -1804,7 +1806,7 @@ proc cmsn_reconnect { name } {
       sb set $name stat "i"
       cmsn_invite_user $name [sb get $name last_user]
 
-      ::amsn::chatStatus [::MSN::ChatFor $name] "[trans willjoin [sb get $name last_user]]..."
+      ::amsn::chatStatus [::MSN::ChatFor $name] "[trans willjoin [sb get $name last_user]]..." miniinfo
 
    } elseif {[sb get $name stat] == "d"} {
 
@@ -1814,7 +1816,7 @@ proc cmsn_reconnect { name } {
       sb set $name invite [sb get $name last_user]
       ::MSN::WriteNS "XFR" "SB" "cmsn_open_sb $name"
 
-      ::amsn::chatStatus [::MSN::ChatFor $name] "[trans reconnecting]..."
+      ::amsn::chatStatus [::MSN::ChatFor $name] "[trans reconnecting]..." miniinfo
 
    } 
 
