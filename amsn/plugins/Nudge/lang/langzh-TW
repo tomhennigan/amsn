@@ -1,0 +1,13 @@
+amsn_lang_version 2
+shake_receive 收到輕輕推時震動視窗
+shake_send 送出輕輕推時震動視窗
+shake_nudge 每次收到輕輕推時都震動
+popup_nudge 收到輕輕推時彈出通知視窗
+notify_send 送出輕輕推時在交談視窗提醒
+notify_receive 收到輕輕推時在交談視窗提醒
+sound_send 送出輕輕推時播放音效
+sound_receive 收到輕輕推時播放音效
+add_button 在交談視窗新增傳送輕輕推的按鈕
+send_nudge 傳送輕輕推
+no_nudge_support 您不能傳送輕輕推給您的聯絡人,因為他所使用的軟體並不支援輕輕推
+nudge_sent 您剛剛才剛傳送了一個輕輕推
