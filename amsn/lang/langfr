@@ -68,6 +68,7 @@ cannotdeleteprofile le profil ne peut être supprimé car il semble utilisé par un
 cantexec Impossible d'exécuter l'application : $1. Vérifiez les préférences.
 casesensitive Utiliser des déclencheurs sensibles à la casse
 cfgalarm Configurer/Ajouter/Supprimer alarme
+changedisplaypic Changer l'icône
 changefont Changer la police
 changenick Changer de pseudonyme
 changestate $1 a changé de statut : $2
@@ -170,6 +171,7 @@ ftportpref Premier port pour le transfert de fichiers
 ftrejectedby $1 a refusé l'invitation de transfert de fichier pour le fichier '$2'.
 ftrejected Transfert de fichier refusé
 ftsendinvitation L'invitation de transfert du fichier '$2' ($3 bytes) a été envoyé à $1.
+getdisppic Permettre la réception d'icônes de la part d'autres utilisateurs
 gonelunch Parti[e] déjeuner
 groupadd Ajouter un groupe
 groupdelete Supprimer un groupe
@@ -183,6 +185,7 @@ grouprename Renommer un groupe
 groupunknown Groupe inconnu
 handle Pseudonyme
 help Aide
+hidedisplaypic Cacher l'icône
 helpcontents Contenu de l'aide
 hiden Cacher cet émoticon du menu
 hidewindow Masquer la fenêtre
@@ -269,6 +272,7 @@ noneavailable Pas disponible
 nonewmail Pas de nouveau message
 nonewver Il n'y a pas de nouvelle version disponible
 no Non
+nopic Pas d'icône
 noprofileexists Utiliser les profils... \nUtiliser le boutton Ajouter nouveau profil dans cette fenetre pour en créer un nouveau.
 normal Normal
 nosystemtray La poubelle n'est pas accessible
@@ -299,6 +303,7 @@ personal Personnel
 phone Téléphone
 picfile Image associée à l'alarme (GIF < 500 x 500)
 picstatus Activer/Désactiver l'image associée à l'alarme
+playing Joue: $1
 pluginselector Sélection d'un plug-in
 port Port
 prefalerts Mes Alertes d'évènements et sons
@@ -373,6 +378,10 @@ servergoingdown Serveur en cours d'arrêt
 server Serveur
 session Session
 showblockedlist Voir la liste des personnes que vous avez bloqué
+showdisplaypic2 Afficher icône par défaut à l'ouverture d'une fenêtre de discussion
+showdisplaypic Afficher l'icône
+showmypic Mon icône
+showuserpic Icône de $1
 skin apparence
 skinselector Changer l'apparence
 smileconfig Configuration des émoticons personnalisés
@@ -435,6 +444,7 @@ willjoin Dans l'attente que $1 rejoigne la conversation
 work Travail
 wrongfields Les champs "$1", "$2" et/ou "$3" sont invalides
 wrongprofileversion Mauvaise version du fichier de profil. Afin de la fixer, enlevez svp le répertoire $1, ou mettez à jour amsn
+xmmserr Rien à jouer, ou vous n'avez pas installé xmms-infopipe.
 xoffset Position en X
 yes Oui
 yoffset Position en Y
