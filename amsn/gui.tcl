@@ -323,7 +323,7 @@ namespace eval ::amsn {
       set bytes2 [expr {$bytes/1024}] 
       set filesize2 "[expr {$filesize/1024}] Kb"      
       set cien 100
-      set percent [expr {($bytes/$filesize)*100}]
+      set percent [expr {(($bytes/1024)*100/($filesize/1024))}]
       
       if { ($bytes >= $filesize) || ($bytes<0)} {
 	 $w.close configure -text "[trans close]" -command "destroy $w"

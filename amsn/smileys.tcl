@@ -12,7 +12,7 @@ set emotions {{":-)" smile} {":)" smile} {":-D" smiled} {":D" smiled}
 	{"(*)" emstar} {"(8)" emnote} {"(E)" email} {"(M)" messenger}
 	{":-\[" vampire} {":\[" vampire} {"(\})" girlhug} {"(\{)" boyhug}
 	{"(A)" angel} {"(6)" devil} {"(^)" cake} {"(O)" clk} {":-@" angry}
-	{":@" angry} {"(&)" dog} {"(W)" rosew} {":`(" smilec} {":'(" smilec}
+	{":@" angry} {"(&)" dog} {"(W)" rosew} {":'(" smilec} {":`(" smilec} 
 	{":$" smilemb} {":-$" smilemb} {"(#)" sun} {"(R)" rainbow}
 	{"(%)" handcuffs} {"(~)" film} {"(?)" asl}}
 
