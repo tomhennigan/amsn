@@ -163,15 +163,14 @@ namespace eval ::HTTPConnection {
 	
 		sb set $sbn sock $sock
 		fconfigure $sock -buffering none -translation {binary binary} -blocking 0
-		fileevent $sock writable [list ::HTTPConnection::Connected $sbn]
+		fileevent $sock writable [list ::HTTPConnection::Connected $sbn $sock]
 		return 0
 	
 	}
 	
-	proc Connected {sbn} {
+	proc Connected {sbn sock} {
 		
 		status_log "::HTTPConnection::Connected: Proxy connected!!\n" green
-		set sock [sb get $sbn sock]
 		
 		fileevent $sock writable {}
 		
@@ -205,16 +204,16 @@ namespace eval ::HTTPConnection {
 			eval [sb get $sbn error_handler]
 		}
 		
-		fileevent $sock readable [list ::HTTPConnection::ConnectReply $sbn]
+		fileevent $sock readable [list ::HTTPConnection::ConnectReply $sbn $sock]
 		
 	}
 	
-	proc ConnectReply {sbn} {
+	proc ConnectReply {sbn sock} {
 		status_log "::HTTPConnection::ConnectReply\n" green
 		HTTPRead $sbn
 		catch {
-			fileevent [sb get $sbn sock] readable [list ::HTTPConnection::HTTPRead $sbn]
-			fileevent [sb get $sbn sock] writable [sb get $sbn connected]
+			fileevent $sock readable [list ::HTTPConnection::HTTPRead $sbn]
+			fileevent $sock writable [list [sb get $sbn connected] $sock]
 		}
 	}	
 

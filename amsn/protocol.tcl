@@ -1225,7 +1225,7 @@ namespace eval ::MSN {
 			
 			#If we're not disconnected, connected, or authenticating, then
 			#we have a connection error.
-			if { ("$oldstat"!="d") && ("$oldstat" !="o") && ("$oldstat" !="u") && ("$oldstat" !="passerror")} {
+			if { ("$oldstat"!="d") && ("$oldstat" !="o") && ("$oldstat" !="u") && ("$oldstat" !="closed")} {
 				set error_msg [sb get ns error_msg]
 				if { $error_msg != "" } {
 					msg_box "[trans connecterror]: [sb get ns error_msg]"
@@ -2059,7 +2059,7 @@ namespace eval ::MSN {
 		}
 		
 		sb append $sbn data $command
-		degt_protocol "<-$sbn $command\\n" $debugcolor
+		degt_protocol "<-$sbn $command" $debugcolor
 	}
 	
 	proc receivedPayload { sbn command data } {
@@ -2071,7 +2071,7 @@ namespace eval ::MSN {
 		
 		sb append $sbn data $command
 		sb append $sbn data $data
-		degt_protocol "<-$sbn $command\\n" $debugcolor
+		degt_protocol "<-$sbn $command" $debugcolor
 		degt_protocol "Message Contents:\n$data" msgcontents
 	}
 
@@ -2125,8 +2125,8 @@ namespace eval ::DirectConnection {
 	
 		sb set $sbn sock $sock
 		fconfigure $sock -buffering none -translation {binary binary} -blocking 0
-		fileevent $sock readable [list ::DirectConnection::Readable $sbn]
-		fileevent $sock writable [sb get $sbn connected]
+		fileevent $sock readable [list ::DirectConnection::Readable $sbn $sock]
+		fileevent $sock writable [list [sb get $sbn connected] $sock]
 		return 0
 	
 	}
@@ -2252,17 +2252,16 @@ namespace eval ::DirectConnection {
 	
 		
 	#Private callback, called when there's something to be read in the socket	
-	proc Readable {sbn} {
-
-		set sb_sock [sb get $sbn sock]
-		#catch {fileevent $sb_sock readable ""}
+	proc Readable {sbn sb_sock } {
 	
 		if {[catch {eof $sb_sock} res]} {
 			status_log "::DirectConnection::Read: Error reading EOF for $sbn: $res\n" red
+			catch {fileevent $sb_sock readable ""}
 			eval [sb get $sbn error_handler]
 			return
 		} elseif {[eof $sb_sock]} {	
 			status_log "::DirectConnection::Read: EOF in $sbn, closing\n" red
+			catch {fileevent $sb_sock readable ""}
 			eval [sb get $sbn error_handler]
 			return
 		} else {
@@ -2270,6 +2269,7 @@ namespace eval ::DirectConnection {
 			set tmp_data "ERROR READING SB !!!"
 			if {[catch {gets $sb_sock tmp_data} res]} {	
 				status_log "::DirectConnection::Read: Read error in $sbn, closing: $res\n" red
+				catch {fileevent $sb_sock readable ""}
 				eval [sb get $sbn error_handler]
 				return
 			} elseif  { "$tmp_data" == "" } {
@@ -2286,7 +2286,6 @@ namespace eval ::DirectConnection {
 				}
 			}
 		}
-		#catch {fileevent $sb_sock readable [list ::DirectConnection::Readable $sbn]}
 	}
 
 	
@@ -3697,7 +3696,7 @@ proc cmsn_ns_handler {item} {
 			}
 			911 {
 				#set password ""
-				sb set ns stat "passerror"
+				sb set ns stat "closed"
 				::MSN::logout
 				status_log "Error: User/Password\n" red
 				::amsn::errorMsg "[trans baduserpass]"
@@ -3807,7 +3806,7 @@ proc cmsn_auth {{recv ""}} {
 			::MSN::WriteSB ns "VER" "MSNP9 MSNP8 CVR0"
 			::MSN::WriteSB ns "CVR" "0x0409 winnt 6.0 i386 MSNMSGR 6.0.0602 MSMSGS $config(login)"
 			::MSN::WriteSB ns "USR" "TWN I $config(login)"
-			
+
 			sb set ns stat "v"
 			return 0
 		}
@@ -4009,7 +4008,7 @@ proc initial_syn_handler {recv} {
 
 proc msnp9_userpass_error {} {
 
-	sb set ns stat "passerror"
+	sb set ns stat "closed"
 	::MSN::logout
 	status_log "Error: User/Password\n" red
 	::amsn::errorMsg "[trans baduserpass]"
@@ -4205,10 +4204,10 @@ proc cmsn_socket {name} {
 	#fileevent $sock writable $next
 }
 
-proc cmsn_ns_connected {} {
+proc cmsn_ns_connected {sock} {
 	global config
 
-
+	fileevent $sock writable ""
 	set error_msg ""
 	set therewaserror [catch {set error_msg [fconfigure [sb get ns sock] -error]} res]
 	if { ($error_msg != "") || $therewaserror == 1 } {
@@ -4218,7 +4217,6 @@ proc cmsn_ns_connected {} {
 		return
 	}   
 	
-	fileevent [sb get ns sock] writable {}
 	sb set ns stat "a"
 	
 
