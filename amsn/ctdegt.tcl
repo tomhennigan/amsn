@@ -819,7 +819,7 @@ proc Preferences { { settings "personal"} } {
 
     frame $lfname.1 -class Degt
     pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill both
-    label $lfname.1.llibtls -text "tls :" -padx 5
+    label $lfname.1.llibtls -text "TLS" -padx 5 -font sboldf
     entry $lfname.1.libtls -bg #FFFFFF -bd 1 -width 40 -highlightthickness 0 -textvariable libtls_temp
 
     grid $lfname.1.llibtls -row 1 -column 1 -sticky w
@@ -1010,6 +1010,9 @@ proc Preferences { { settings "personal"} } {
         grid $lfname.check.users -row 2 -column 2 -sticky w
 
 	pack $lfname.enable $lfname.check -anchor w -side top 
+
+	frame $frm.dummy -class Degt
+	pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 
     setCfgFonts $nb splainf
 
@@ -1578,6 +1581,10 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.79  2003/09/14 16:12:41  ahamelin
+# Modified the "tls :" label to "TLS" and set it bold.
+# Fixed a frame spacing issue in the Blocking tab.
+#
 # Revision 1.78  2003/09/14 00:10:30  kakaroto
 # Better way to find out if TLS package is installed or not. Makes also the path global not user-specific
 #
