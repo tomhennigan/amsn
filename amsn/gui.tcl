@@ -6029,9 +6029,11 @@ proc reloadAvailablePics { } {
 	if { [info exists files] } {			
 		set files [lsort -dictionary $files]
 		foreach filename $files {
-			set the_image [image create photo -file "[filenoext $filename].gif" ]	
-			addPicture $the_image "[trunc [filenoext [file tail $filename]] .picbrowser.pics.text 90 splainf]" [file tail $filename]
-			lappend image_names $the_image
+			if { [file exists "[filenoext $filename].gif"] } {
+				set the_image [image create photo -file "[filenoext $filename].gif" ]	
+				addPicture $the_image "[trunc [filenoext [file tail $filename]] .picbrowser.pics.text 90 splainf]" [file tail $filename]			
+				lappend image_names $the_image
+			}
 		}
 	}
 	.picbrowser.pics.text insert end "___________________________\n\n"	
@@ -6039,9 +6041,11 @@ proc reloadAvailablePics { } {
 	if { [info exists myfiles] } {
 		set myfiles [lsort -dictionary $myfiles]
 		foreach filename $myfiles {
-			set the_image [image create photo -file "[filenoext $filename].gif" ]	
-			addPicture $the_image "[trunc [filenoext [file tail $filename]] .picbrowser.pics.text 90 splainf]" [file tail $filename]
-			lappend image_names $the_image
+			if { [file exists "[filenoext $filename].gif"] } {
+				set the_image [image create photo -file "[filenoext $filename].gif" ]	
+				addPicture $the_image "[trunc [filenoext [file tail $filename]] .picbrowser.pics.text 90 splainf]" [file tail $filename]
+				lappend image_names $the_image
+			}
 		}
 	}
 
@@ -6049,9 +6053,11 @@ proc reloadAvailablePics { } {
 	
 	if { [info exists cachefiles] } {
 		foreach filename $cachefiles {
-			set the_image [image create photo -file "[filenoext $filename].gif" ]	
-			addPicture $the_image "" "cache/[file tail $filename]"
-			lappend image_names $the_image
+			if { [file exists "[filenoext $filename].gif"] } {
+				set the_image [image create photo -file "[filenoext $filename].gif" ]	
+				addPicture $the_image "" "cache/[file tail $filename]"
+				lappend image_names $the_image
+			}
 		}
 	}
 	
