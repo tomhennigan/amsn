@@ -22,6 +22,7 @@ alarmonmsg Vklopi alarm, ko ti stik poslje sporocilo
 alarmonstatus Vklopi alarm, ko stik zamenja stanje
 alarmpref Nastavitve alarma
 alarmstatus Alarm omogocen
+allfiles Vse datoteke
 allowallbutbl Dovoli vsem uporabnikom, razen blokiranim, da me kontaktirajo
 allowbadwords Onemogoci cenzuro nickov
 allowlist Allow seznam
@@ -228,6 +229,7 @@ httpconnection HTTP povezava (vrata 80)
 hybrid Hibridni nacin
 ident Identificiram
 identity Identiteta
+imagefiles Slike
 inbox Inbox
 insertsmiley Vstavi emotikon
 installconvert Namestiti moras ImageMagick (program za pretvarjanje), da bi pretvarjal slike v format, ki ga potrebujejo MSN-jevi strzniki. Binarne datoteke za tvoj operacijski sistem lahko poberes s ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Ce ga ze imas, je to hrosc. Prosim, povej zanj.
@@ -440,6 +442,7 @@ smileintro Izpolni potrebna polja, ce zelis ustvariti novega lastnega smeska (po
 sound2 Predvajaj zvoke ob nekaterih dogodkih
 soundcommand To mora biti ukaz play (npr. esdplay)
 soundexample ( \$sound = Zvocna datoteka) Npr.: esdplay \$sound
+soundfiles Zvoki
 soundfile Zvocna datoteka
 soundloop Ponavljaj
 soundserver Zvocni streznik
