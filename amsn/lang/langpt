@@ -42,6 +42,7 @@ autoaway Mostrar-me como "Ausente" quando estiver inactivo por
 autocheckver Verificar automaticamente se existem novas versões ao iniciar o programa
 autoconnect2 Ligar automaticamente quando aMSN é executado
 autoconnect Iniciar sessão ao iniciar aMSN
+autodetectip Detectar endereço IP automaticamente
 autohotmaillog Ligação Automática ao Hotmail
 autoidle Sem Actividade Automática
 autoip IP Automático
@@ -69,6 +70,7 @@ browse Explorar
 browserexample (\$url será substituído por URL). Ex: mozilla \$url
 browser Explorador
 busy Ocupado
+cachedpics $1 imagens em cache
 cancel Cancelar
 cannotdeleteprofile Não é possível remover o perfil, porque ele parece estar a ser usado numa sessão aMSN
 cantexec Aplicação não executada: $1. Verificar as preferências
@@ -89,6 +91,7 @@ chatreq Requisitando uma conversação
 chatsmileys2 Mostrar ícones de emoção e "smileys" nas janelas de conversação
 chatsmileys "Smileys" de conversação 
 checkblocking Verificar continuamente se há utilizadores a bloqueá-lo
+checkemail Mostrar linha de notificação de e-mail (A Receber) na lista de contactos
 checkfilman Os ficheiros recebidos serão guardados em $1. Por favor verifique o gestor de ficheiros na janela de preferências.
 checkingver Procurando novas versões
 checkonfln Verificar se um utilizador o bloqueou quando este se desliga
@@ -128,6 +131,7 @@ corruptstates A configuração dos estados criados por si está danificada. Crie um
 countrycode Código do meu País/Região
 cprofile Criar Perfil
 credits Créditos
+currentdate Data actual
 custom_edit Criar "smiley"
 custom_new Adicionar novos "smileys" criados
 cut Cortar
@@ -273,6 +277,7 @@ loging Entrando
 login Iniciar sessão
 logolder Registar apenas conversações que tomaram lugar nos últimos
 logout Terminar sessão
+logsbydate Ordenar logs por data (Ver histórico bastante mais rápido)
 logsin acabou de iniciar sessão
 logsmileys Mostrar Ícones de Emoções e "Smileys" nas janelas de histórico do aMSN
 logsout acabou de sair
@@ -321,6 +326,7 @@ normal Normal
 noskins Não foi possivel encontrar o "skin" por usado por omissão no directório skins/ . Não é possível iniciar o AMSN.      
 nosystemtray Bandeja do sistema não disponível
 notificationserver Servidor MSN Inicial de Notificação (Servidor de MSN Messenger)
+notinlist Você não está na lista de contactos dele/dela
 notify1_5 Mostrar uma janela de notificação quando um contacto se desliga
 notify1_75 Mostrar uma janela de notificação quando um contacto muda o seu estado
 notify1 Mostrar janela de notificação quando são recebidas novas mensagens
@@ -366,6 +372,7 @@ preferences Preferências
 preffont2 Mudar a forma como os outros visualizam o meu texto nas sessões de conversação
 preffont3 Mudar a fonte de interface e o tamanho do aMSN
 preffont O Meu Texto de Mensagem
+prefft Transferência de ficheiros, ponto-a-ponto e configurações NAT
 preflibs Directorias das bibliotecas
 preflog1 O Meu Histórico e Opções de Registo
 preflook O Meu Aspecto para o aMSN
@@ -407,6 +414,7 @@ reconnecting Ligando de novo ao servidor
 reject Rejeitar
 rememberpass Guardar palavra-chave
 removefromlist Remover desta lista
+rename	Renomear
 reversed Revertido
 reverselist Lista de Reversos (LR):
 rightback Volto já
@@ -430,6 +438,7 @@ server Servidor
 serverunavailable O servidor não está disponível
 session Sessão
 showblockedlist Mostra lista de utilizadores que o bloquearam
+showcachedpics Mostrar imagens em cache
 showdisplaypic2 Mostrar imagem de utilizador sempre que uma janela de conversação for aberta
 showdisplaypic Mostrar imagem de utilizador
 showmypic A Minha Imagem de Utilizador
