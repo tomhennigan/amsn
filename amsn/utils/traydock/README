@@ -1,0 +1,41 @@
+*****INTRO*****************
+Ok here is the freedesktop dock brought to you in part byyy 
+Angelo Grossini <ennegl@intercom.it>. 
+We are very proud of mister Grossini for donating this nice little dock. 
+Freedesktop means this dock will go in your gnome2 or kde3 notification area.
+
+This thing will give you a little icon to control amsn, it will also show a mail icon when you receive new mail, wich you can click on to open your inbox.
+
+This is a rushed release so it will probably have problems and stuff, let us know about it.
+
+
+******INSTALLATION/COMPILATION***********
+I fixed it all up and gave it a small configure script to compile. here is how it goes :
+- First you need to have Tcl/Tk Dev packages installed.
+- Second you need Imlib Dev packages Installed.
+
+Then you run 
+./configure
+If it says it can't find the tk/tcl stuff, try using 
+./configure --with-tcl=/path/to/tcl --with-tk=/path/to/tk
+
+once thats all nice and done it will create a Makefile, then we do :
+make
+
+If all goes well you will have a nice little libtray.so file :)
+This file has to stay in this directory of course ([amsndir]/plugins/traydock/)
+
+You'll need to enable de KDE3, or Gnome2 system tray applet, or the dock icon won't work.
+
+**********HELP IT DOSEN'T WORK******************
+If for some wierd reason (dosen't really have to be wierd) nothing wants to configure and maketry doing it manually as follows ( subsitute the right paths for your system):
+
+gcc -pipe -c -O -fPIC -DUSE_TCL_STUBS -DUSE_TK_STUBS -DOSS -I/usr/X11R6/include
+-I/usr/include/tcl8.4 -I/usr/include/tcl8.4/tcl-private/generic -I/usr/include/tcl8.4/tk-private/generic   -DTCL_81_API tray.c
+
+gcc -pipe -shared tray.o -lc -L/usr/lib -lImlib -ljpeg -ltiff -lungif -lpng -lz
+-L/usr/X11R6/lib -lSM -lICE -lXext -lX11 -ldl -lpthread -lieee -lm  -L/usr/lib -ltclstub8.4 -L/usr/lib -ltkstub8.4 -o libtray.so
+
+Well enjoy!
+Laterz
+Burger

@@ -1,0 +1,40 @@
+# The path to the tcl.h header file
+
+TCL_INCPATH = @TCL_SRC_DIR@/generic
+
+# The path to the tk.h header file
+
+TK_INCPATH  = @TK_SRC_DIR@/generic
+
+# The path to the X11 include files
+
+XINCLUDES   = @XINCLUDES@
+
+TCL_VERSION = @TCLVER@
+
+CC        = @CC@
+
+INCLUDES  = ${XINCLUDES} @TCL_INCLUDE_SPEC@ -I${TCL_INCPATH} -I${TK_INCPATH}
+
+CFLAGS    = -O @CFLAGS@ @IMLIB_CFLAGS@ ${INCLUDES}
+
+SHLIB_LD     = @SHLIB_LD@
+
+LIBSN     = -lc @TK_LIBS@ @TCL_LIB_SPEC@ @TK_LIB_SPEC@ @IMLIB_LIBS@
+
+.PHONY : all clean distroclean
+
+all : libtray.so
+
+tray.o: tray.c
+	$(CC) -c $(CFLAGS) tray.c
+
+libtray.so: tray.o
+	${SHLIB_LD} tray.o $(LIBSN) -o libtray.so
+
+clean : 
+	rm tray.o libtray.so 2> /dev/null | true
+
+#Distclean thanks to nauj27
+distclean :
+	rm tray.o libtray.so Makefile config.status config.h config.log 2>/dev/null | true
