@@ -109,7 +109,6 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 ### And setup where to find optional packages
 ############################################################
 
-lappend auto_path [file join utils]
 lappend auto_path [file join ${HOME} plugins]
 #Specific folder to check for package on platforms
 if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
@@ -119,7 +118,7 @@ if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 } elseif {$tcl_platform(platform) == "unix"} {
 	lappend auto_path [file join utils linux]
 }
-
+lappend auto_path [file join utils]
 
 set libtls ""
 
