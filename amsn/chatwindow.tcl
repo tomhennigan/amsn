@@ -209,7 +209,7 @@ namespace eval ::ChatWindow {
 			if { [set ::tcl_platform(platform)] == "windows" } {
 				if { [catch {winflash $window -count -1} ] } {
 					if { ![catch { 
-						load [file join utils winflash flash.dll]
+						load [file join utils windows winflash flash.dll]
 						winflash $window -count -1
 					} ] } {
 						bind $window <FocusIn> "catch \" winflash $window -state 0\"; bind $window <FocusIn> \"\""

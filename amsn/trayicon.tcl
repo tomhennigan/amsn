@@ -79,7 +79,7 @@ proc trayicon_init {} {
 		if { $statusicon != 0 } {
 			return
 		}
-		set ext "[file join utils winico05.dll]"
+		set ext "[file join utils windows winico05.dll]"
 		if { [file exists $ext] != 1 } {
 			msg_box "[trans needwinico]"
 			close_dock

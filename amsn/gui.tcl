@@ -5713,7 +5713,7 @@ proc launch_browser { url {local 0}} {
 		#catch { exec rundll32 url.dll,FileProtocolHandler $url & } res
 		#run WinLoadFile, if its not loaded yet then load it
 		if { [catch { WinLoadFile $url } ] } {
-			load [file join utils winutils winutils.dll]
+			load [file join utils windows winutils winutils.dll]
 			WinLoadFile $url
 		}
 	} else {
