@@ -6025,31 +6025,33 @@ proc binword { word } {
 }
 
 proc ToLittleEndian { bin length } {
-	if { $::tcl_platform(byteOrder) == "littleEndian" } { return }
+	if { $::tcl_platform(byteOrder) == "littleEndian" } { return "$bin"}
 	
-	if { $length == 2 } { set type s } elseif {$length == 4} { set type i } else { return }
+	if { $length == 2 } { set type s } elseif {$length == 4} { set type i } else { return "$bin"}
 	
 	set binout ""
+	incr length -1 
 	while { $bin != "" } {
 		set in [string range $bin 0 $length]
 		binary scan $in [string toupper $type] out
-		set out [binary format $out $type]
+		set out [binary format $type $out]
 		set binout "${binout}${out}"
 		set bin [string replace $bin 0 $length]
 	}
 	return $binout
 }
 
-proc ToLittleEndian { bin length } {
-	if { $::tcl_platform(byteOrder) == "littleEndian" } { return }
+proc ToBigEndian { bin length } {
+	if { $::tcl_platform(byteOrder) == "littleEndian" } { return "$bin"}
 	
-	if { $length == 2 } { set type S } elseif {$length == 4} { set type I } else { return }
+	if { $length == 2 } { set type S } elseif {$length == 4} { set type I } else { return "$bin"}
 	
 	set binout ""
+	incr length -1
 	while { $bin != "" } {
 		set in [string range $bin 0 $length]
 		binary scan $in [string tolower $type] out
-		set out [binary format $out $type]
+		set out [binary format $type $out]
 		set binout "${binout}${out}"
 		set bin [string replace $bin 0 $length]
 	}
