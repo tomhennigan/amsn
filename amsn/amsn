@@ -1318,12 +1318,14 @@ proc copypaste_menu {text x y delete} {
    tk_popup $text.copypaste $x $y
 }
 
-proc cmsn_draw_msgwin {} {
-   global images_folder sb_num sb_list config HOME files_dir
+proc cmsn_draw_msgwin {email} {
+   global images_folder sb_num sb_list config HOME files_dir msg_windows
 
    incr sb_num
    set name "sb$sb_num"
    set win_name "msg_[string tolower ${name}]"
+   
+   set msg_windows(${email}) $name
 
    lappend sb_list "$name"
    sb set $name name $name
@@ -1454,12 +1456,12 @@ proc cmsn_draw_msgwin {} {
    bind .${win_name}.in.send <Return> \
       "sb_enter $name .${win_name}.in.input; break"
    bind .${win_name}.in.input <Control-Return> {%W insert end "\n"; break}
-   bind .${win_name} <Destroy> "cmsn_destroyed_msgwin $name %W"
+   status_log "$msg_windows(${email})\n" red
+   bind .${win_name} <Destroy> "cmsn_destroyed_msgwin $name %W $email"
    
    focus .${win_name}.in.input
 
    change_myfontsize $config(textsize) ${win_name}
-
    return ${name}
 
 }
@@ -1517,8 +1519,8 @@ proc change_myfontsize {size name} {
   } res
 }
 
-proc cmsn_destroyed_msgwin {name winpath} {
-   global sb_list ${name}_info config
+proc cmsn_destroyed_msgwin {name winpath email} {
+   global sb_list ${name}_info config msg_windows
    set win_name "msg_[string tolower ${name}]"
 
    if {"${winpath}" != ".${win_name}"} {
@@ -1543,6 +1545,9 @@ proc cmsn_destroyed_msgwin {name winpath} {
    }
    unset ${name}_info
 
+   if { [info exists msg_windows($email)] } {
+      unset msg_windows($email)
+   }
 }
 
 proc cmsn_show_typers {name} {

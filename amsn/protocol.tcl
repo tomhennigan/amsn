@@ -622,6 +622,7 @@ namespace eval ::MSN {
 
 proc read_sb_sock {sbn} {
 
+   status_log "SB is : $sbn\n Socket is : [sb get $sbn sock]\n"
    set sb_sock [sb get $sbn sock]
    if {[eof $sb_sock]} {
       close $sb_sock
@@ -873,7 +874,7 @@ proc cmsn_sb_msg {sb_name recv} {
       if { [string compare [wm state .${win_name}] "withdrawn"] == 0 } {
         wm state .${win_name} iconic
 	::amsn::notifyAdd "[trans says [urldecode [lindex $recv 2]]]:\n$body" \
-	   "wm state .${win_name} normal; focus -force .${win_name}"; #; grab .${win_name}"
+	   "wm state .${win_name} normal; focus -force .${win_name}.in.input"; #; grab .${win_name}"
       }            
 
       if { [string first $win_name [focus]] != 1 } {
@@ -994,8 +995,25 @@ proc cmsn_invite_user {name user} {
 }
 
 proc cmsn_chat_user {user} {
-   set name [cmsn_draw_msgwin]
+   global msg_windows
+   
+   if { [info exists msg_windows($user)] } {
+   	raise .msg_$msg_windows($user)
+   	focus .msg_$msg_windows($user).in.input
+	upvar #0 [sb name $msg_windows($user) users] users_list
+	if { [llength $users_list] == 0 } {
+		cmsn_reconnect $msg_windows($user)
+	}
+	return 0
+   }
+	
+   set name [cmsn_draw_msgwin $user]
 
+   status_log "name is : $name"
+   if { $name == 0 } {
+   	return
+   }
+ 
    if { ([::MSN::myStatusIs] == "HDN") || ([::MSN::myStatusIs] == "FLN") } {
        msg_box "[trans needonline]"
        return
@@ -1019,10 +1037,33 @@ proc cmsn_chat_user {user} {
 
 }
 
-proc cmsn_rng {recv} {
+proc cmsn_open_sb {sbn recv} {
    global config
 
-   set sbn [cmsn_draw_msgwin]
+   if {[lindex $recv 4] != "CKI"} {
+      status_log "$sbn: Unknown SP requested!\n" red
+      return 1
+   }teNS "XFR" "SB" "cmsn_open_sb $name"
+   
+   cmsn_msgwin_top $name "[trans chatreq]..."
+#   if [catch { cmsn_msgwin_top $name "[trans chatreq]..."} res]  {
+#     msg_box "Ventana de chat ya cerrada"
+#      puts [sb get $name sock] "OUT"
+#      close [sb get $name sock]
+#   } 
+
+   set win_name "msg_[string tolower ${name}]"
+   wm state .${win_name} normal
+
+}
+
+proc cmsn_rng {recv} {
+   global config msg_windows
+
+   set emaill [lindex $recv 5]
+   
+   set sbn [cmsn_draw_msgwin $emaill]
+   
    sb set $sbn serv [split [lindex $recv 2] ":"]
    sb set $sbn connected "cmsn_conn_ans $sbn"
    sb set $sbn readable "read_sb_sock $sbn"
@@ -1031,6 +1072,7 @@ proc cmsn_rng {recv} {
 
    status_log "$sbn: ANS1 answering [lindex $recv 5]\n" green
    cmsn_msgwin_top $sbn "[trans chatack] [lindex $recv 5]..."
+   
    cmsn_socket $sbn
    return 0
 }
@@ -1042,6 +1084,7 @@ proc cmsn_open_sb {sbn recv} {
       status_log "$sbn: Unknown SP requested!\n" red
       return 1
    }
+
    sb set $sbn serv [split [lindex $recv 3] ":"]
    sb set $sbn connected "cmsn_conn_sb $sbn"
    sb set $sbn readable "read_sb_sock $sbn"
