@@ -110,6 +110,7 @@ checkemail Baðlantý listesinde posta kutusu satýrý gözüksün
 checkfilman Alýnan dosyalar $1 konumuna kaydedilecek. Lütfen seçenekler penceresinde dosya yöneticisi ayarlarýný yapýnýz.
 checkingver Yeni sürüm aranýyor
 checkonfln Bir kullanýcýnýn beni engelleyip engellemediðini o çevrimdýþý olunca denetle
+checkopenfilecommand Lütfen Seçenekler'de dosya açma komutunu ayarlayýnýz
 checkver Yeni sürüm ara
 choosearq Sistem türünüzü seçin
 choosebasefont Yazýtipini seç
@@ -183,6 +184,7 @@ default Varsayýlan ayar
 defaultloginradio Varsayýlan ayarlarla baðlan
 defchatwinsize Sohbet pencereleri için varsayýlan boyutlar (XBOYUTU x YBOYUTU)
 delete Sil
+deleteall Tümünü sil
 deletecustomstate Özel durumu sil
 delimiters Tarih ayraçlarý:
 deliverfail Aþagýdaki iletinin gönderilmesinde hata oluþtu
@@ -372,6 +374,8 @@ maximised Büyütülmüþ
 minimised Küçültülmüþ
 mins dakika
 mobile Cep
+mobilegrp1 Cep grubu
+mobilegrp2 Kullanýcýlarý çevrim dýþýyken de cep grubuna koy (ve durumlarýna göre sýrala)
 modified Deðiþtirildi
 month Ay
 morepersonal Diðer Durumlar ->
@@ -445,6 +449,9 @@ ok Tamam
 onenewmail Gelen kutusunda 1 yeni ileti var
 online Çevrim içi
 onphone Telefonda
+opendir Dizini aç
+openfile Dosyayý aç
+openfilecommand Dosya açma komutu
 openreceived Alýnan dosyalarý göster
 options Seçenekler
 ordercontactsby Baðlantýlarý sýralama ölçütü
