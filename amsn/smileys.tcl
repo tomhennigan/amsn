@@ -312,15 +312,16 @@ namespace eval ::smiley {
 		
 		set w .smile_selector
 		
-		if { ! [winfo exists $w]} { CreateSmileyMenu $x $y }
 		
+		if { ! [winfo exists $w]} { CreateSmileyMenu }
+		
+		wm state $w normal
 		set x [expr $x - 15]
 		set y [expr $y + 15 - [winfo height $w]]
 		wm geometry $w +$x+$y
 		#It won't work on Windows without this
 		update idletasks
 		
-		wm state $w normal
 		
 		#It won't work on Windows without this
 		raise $w
@@ -396,7 +397,7 @@ namespace eval ::smiley {
 	# Create the smile menu... it first calls [calcul_geometry_smileys]
 	# To get the width and height of the menu, then it creates the menu withdrawn with 
 	# the animated smileys and static smileys in the correct order
-	proc CreateSmileyMenu { {x 0} {y 0} } {
+	proc CreateSmileyMenu { } {
 		global emotions emotions_names skinconfig custom_emotions
 
 		set w .smile_selector
