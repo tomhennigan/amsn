@@ -5154,7 +5154,7 @@ namespace eval ::MSNP2P {
 			} else {
 				set chunkedData($cId) "$chunkedData($cId)[string range $data $headend end-4]"
 			}
-			status_log "Data is now : $chunkedData($cId)\n\n";
+			#status_log "Data is now : $chunkedData($cId)\n\n";
 
 			if { $cTotalDataSize != [string length $chunkedData($cId)] } {
 				return 
