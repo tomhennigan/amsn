@@ -485,6 +485,20 @@ namespace eval ::abook {
 	proc getGroups {passport} {
 		return [getContactData $passport group]
 	}
+
+	proc getGroupsname {passport} {
+
+		set groups ""
+                foreach gid [::abook::getGroups $passport] {
+                        set groups "$groups[::groups::GetName $gid], "
+                }
+                
+                set groups [string range $groups 0 end-2]
+		return $groups
+	}
+
+	
+
    
 	proc addContactToGroup { email grId } {
 		global pcc
@@ -775,13 +789,8 @@ namespace eval ::abookGui {
 		pack $nbIdent.customcolorf.brem -side left -padx 3 -pady 2
 		
 		label $nbIdent.g -text "[trans group]:"
-		set groups ""
-		foreach gid [::abook::getGroups $email] {
-			set groups "$groups[::groups::GetName $gid]\n"
-		}
-		
-		set groups [string range $groups 0 end-1]
-		label $nbIdent.g1 -text $groups -font splainf -fg blue -justify left -wraplength 300 
+		label $nbIdent.g1 -text "[::abook::getGroupsname $email]" -font splainf -fg blue -justify left -wraplength 300
+		button $nbIdent.g2 -text [trans change] -command "::groups::Groupmanager $email $nbIdent"
 		
 		label $nbIdent.titlephones -text [trans phones] -font bboldunderf
 		
@@ -852,6 +861,7 @@ namespace eval ::abookGui {
 	
 		grid $nbIdent.g -row 7 -column 0 -sticky en
 		grid $nbIdent.g1 -row 7 -column 1 -sticky wn
+		grid $nbIdent.g2 -row 7 -column 2
 		
 		grid $nbIdent.titlephones -row 8 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
 		grid $nbPhone.phh -row 9 -column 0 -sticky e

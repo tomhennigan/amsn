@@ -169,13 +169,15 @@ namespace eval ::groups {
 		#If yes
 		if {$answer == "yes"} {
 			#Get all the contacts
+			set timer 0
 			foreach user_login [::abook::getAllContacts] {
 				#Get the group for each contact
 				foreach gp [::abook::getContactData $user_login group] {
 					#If the group is the same at specified, block the user
 					if {$gp == $gid} {
 						set name [::abook::getNick ${user_login}]
-						::MSN::blockUser ${user_login} [urlencode $name]
+						after $timer [list ::MSN::blockUser ${user_login} [urlencode $name]]
+						set timer [expr $timer + 250]
 					}
 				}
 			}
@@ -184,6 +186,7 @@ namespace eval ::groups {
 	#Unblock all the contacts into a group
 	proc unblockgroup {gid} {
 		#For each user in all contacts
+		set timer 0
 		foreach user_login [::abook::getAllContacts] {
 			#Get the group for each contact
 			foreach gp [::abook::getContactData $user_login group] {
@@ -191,7 +194,8 @@ namespace eval ::groups {
 				if {$gp == $gid} {
 					#If yes, block the user
 					set name [::abook::getNick ${user_login}]
-					::MSN::unblockUser ${user_login} [urlencode $name]
+					after $timer [list ::MSN::unblockUser ${user_login} [urlencode $name]]
+					set timer [expr $timer + 250]
 				}
 			}
 		}
@@ -619,6 +623,132 @@ namespace eval ::groups {
 		set g_list [lsort -increasing $g_list]
 		return $g_list
 	    }
+
+	proc Belongtogp {email gid} {
+
+		if {[lsearch [::abook::getGroups $email] $gid] == -1} {
+			return "0"
+		} else {
+			return "1"
+		} 
+	}
+
+	proc Groupmanager {email {winpref ""}} {
+		
+		set w ".gpmanage_[::md5::md5 $email]"
+
+		if {[winfo exists $w]} {
+			raise $w
+			return
+		}
+
+		toplevel $w
+		wm title $w "[trans groups] ($email)"
+		wm geometry $w 350x200+30+30
+		wm protocol $w WM_DELETE_WINDOW "::groups::GroupmanagerClose $email"
+
+		label $w.txt -text "[trans groups] :"
+
+		frame $w.box
+
+		set gidlist [::groups::GetList]
+
+		set thelistnames [list]
+
+		foreach gid $gidlist {
+			set thename [::groups::GetName $gid]
+			lappend thelistnames [list "$thename" $gid]
+		}
+
+		set sortlist [lsort -dictionary -index 0 $thelistnames]
+		set sortlist2 [list]
+
+		foreach group $sortlist {
+			set name [lindex $group 0]
+			set gid [lindex $group 1]
+			lappend glist $name
+			lappend sortlist2 $gid
+			checkbutton $w.box.w$gid -onvalue 1 -offvalue 0 -text " $name" -variable [::config::getVar tempgroup_[::md5::md5 $email]($gid)] -anchor w
+			pack configure $w.box.w$gid -side top -fill x
+			::config::setKey tempgroup_[::md5::md5 $email]($gid) [Belongtogp $email $gid]
+		}
+
+		frame $w.button
+
+		button $w.button.ok -text [trans ok] -command "::groups::GroupmanagerOk $email $winpref"
+		button $w.button.close -text [trans close] -command "::groups::GroupmanagerClose $email"
+		bind $w <<Escape>> "::groups::GroupmanagerClose $email"
+		pack configure $w.button.ok -side right
+		pack configure $w.button.close -side right
+
+		pack configure $w.txt -side top
+		pack configure $w.box -side top -fill x
+		pack configure $w.button -side bottom -fill x -ipady 10 -ipadx 10
+
+	}
+
+	proc GroupmanagerOk {email {winpref ""}} {
+
+		set name [::abook::getNick $email]
+
+		set gidlist [::groups::GetList]
+
+		set gidlistyes [list]
+		set gidlistno [list]
+
+		foreach gid $gidlist {
+			set state [::config::getKey tempgroup_[::md5::md5 $email]($gid)]
+			if {$state == 1} {
+				lappend gidlistyes $gid
+			} elseif {$state == 0} {
+				lappend gidlistno $gid
+			}
+			::config::unsetKey tempgroup_[::md5::md5 $email]($gid)
+		}
+
+		if {$gidlistyes == ""} {
+			lappend gidlistyes 0
+			set gidlistno [lrange $gidlistno 1 end]
+		}
+
+		set timer 0
+
+		foreach gid $gidlistyes {
+			if {[lsearch [::abook::getGroups $email] $gid] == -1} {
+				after $timer [list ::MSN::WriteSB ns "ADD" "FL $email [urlencode $name] $gid"]
+				set timer [expr $timer + 250]
+			}
+		}
+
+		foreach gid $gidlistno {
+			if {[lsearch [::abook::getGroups $email] $gid] != -1} {
+				after $timer [list ::MSN::WriteSB ns "REM" "FL $email $gid"]
+				set timer [expr $timer + 250]
+			}
+		}
+
+		destroy .gpmanage_[::md5::md5 $email]
+
+		if {$winpref != ""} {
+			set groups ""
+			foreach gid $gidlistyes {
+				set groups "$groups[::groups::GetName $gid], "
+			}
+			set groups [string range $groups 0 end-2]
+			$winpref.g1 configure -text "$groups"
+		}
+	}
+
+
+	proc GroupmanagerClose { email } {
+
+		set gidlist [::groups::GetList]
+		foreach gid $gidlist {
+			::config::unsetKey tempgroup_[::md5::md5 $email]($gid)
+		}
+
+		destroy .gpmanage_[::md5::md5 $email]
+	}
 
 
 }
