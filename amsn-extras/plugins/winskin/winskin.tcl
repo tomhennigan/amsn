@@ -52,12 +52,12 @@ namespace eval ::winskin {
 			]
 		}
 
-		::skin::setPixmap winskin_move [file join $dir pixmaps move.gif]
-		::skin::setPixmap winskin_remove [file join $dir pixmaps remove.gif]
-		::skin::setPixmap winskin_replace [file join $dir pixmaps replace.gif]
-		::skin::setPixmap winskin_resize [file join $dir pixmaps resize.gif]
-		::skin::setPixmap winskin_resize2 [file join $dir pixmaps resize2.gif]
-		::skin::setPixmap winskin_close [file join $dir pixmaps close.gif]
+		::skin::setPixmap winskin_move winskin_move.gif pixmaps [file join $dir pixmaps]
+		::skin::setPixmap winskin_remove winskin_remove.gif pixmaps [file join $dir pixmaps]
+		::skin::setPixmap winskin_replace winskin_replace.gif pixmaps [file join $dir pixmaps]
+		::skin::setPixmap winskin_resize winskin_resize.gif pixmaps [file join $dir pixmaps]
+		::skin::setPixmap winskin_resize2 winskin_resize2.gif pixmaps [file join $dir pixmaps]
+		::skin::setPixmap winskin_close winskin_close.gif pixmaps [file join $dir pixmaps]
 	}
 
 	# ::winskin::switchskin
@@ -174,7 +174,7 @@ namespace eval ::winskin {
 	# Arguments:
 	#	event   -> The event wich runs the proc (Supplied by Plugins System)
 	#     evPar   -> The array of parameters (Supplied by Plugins System)
-	proc connected {event evPar} {		
+	proc connected {event evPar} {
 		if { $::winskin::config(startskinned) == 1 } {
 			::winskin::switchskin 1
 		}		
