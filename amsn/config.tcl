@@ -111,15 +111,13 @@ namespace eval ::config {
 proc save_config {} {
    global tcl_platform config HOME HOME2 version password
 
-   if { [catch {
+   catch {
          if {$tcl_platform(platform) == "unix"} {
 	    set file_id [open "[file join ${HOME} config]" w 00600]
          } else {
             set file_id [open "[file join ${HOME} config]" w]
          }
-      } res ]} {
-      ::amsn::errorMsg "[trans openwriteerror [file join ${HOME} config]]"
-   }
+      } res
 
    set loginback $config(login)
    set passback $password
@@ -164,8 +162,6 @@ proc load_config {} {
 
     if {([file readable "[file join ${HOME} config]"] == 0) ||
 	([file isfile "[file join ${HOME} config]"] == 0)} {
-	
-	::amsn::errorMsg "[trans openwriteerror [file join ${HOME} config]]"
 	return 1
     }
     
