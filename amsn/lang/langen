@@ -4,6 +4,7 @@ acceptfile Accept file $1, size $2? Saved in $3
 actions Actions
 addacontact Add a contact
 addedyou has added you to his/her contact list
+addtocontacts Add to contact list
 addtoo Add this person to my contact list
 admincontacts Admin contacts
 admingroups Admin groups
