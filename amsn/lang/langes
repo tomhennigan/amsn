@@ -49,13 +49,16 @@ confirmdelete ¿Seguro que deseas borrar a $1?
 connecterror Error conectandose al servidor
 contactadded Contacto añadido
 contactdoesnotexist El contacto que intentas añadir no existe
+copy Copiar
 copytogroup Copiar al grupo
+cut Cortar
 date Fecha
 delete Eliminar
 dockgtk Icono Gtk
 docking Icono en bandeja de sistema
 dockingoff Desactivado
 dockkde Icono KDE
+edit Edición
 enableproxy Activar proxy
 encoding Codificación de caracteres
 entercontactemail Introduce el email del contacto
@@ -115,6 +118,7 @@ msg Mensaje
 msn AMSN
 mustrestart Debes reiniciar el programa para aplicar los cambios
 mystatus Mi estado
+natip Detección de IP por Web
 needonline Todavía estas/apareces desconectado 
 newmail $1 mensajes nuevos en bandeja de entrada
 newmailfrom Nuevo correo de
@@ -138,6 +142,7 @@ ordercontactsby Ordenar contactos por
 other Otro
 pager Paginador
 pass Contraseña
+paste Pegar
 phone Telefono
 picfile Archivo de imagen de la alarma (GIF < 500 x 500)
 picstatus Activar/Desactivar imagen para la alarma

@@ -42,7 +42,7 @@ choosebgcolor Välj bakgrundsfärg
 choosefontcolor Välj textfärg
 clicktologin Klicka för att logga in
 close Stäng
-closingdocks Minimera fönstret när man trycker på Stäng-knappen
+closingdocks Minimera fönster när man trycker på Stäng-knappen
 command Kommando
 confirmdelete Bekräfta radering av $1
 connecterror Fel uppstod när servern kontaktades
@@ -52,6 +52,10 @@ contactdoesnotexist Kontakten finns inte!
 copytogroup Kopiera till grupp
 date Datum
 delete Ta bort
+dockgtk Aktivera dockning i Gnome
+docking Använd dockning
+dockingoff Använd inte dockning
+dockkde Aktivera dockning i KDE
 enableproxy Aktivera proxy
 encoding Kodning
 entercontactemail Skriv in kontaktens e-postadress
@@ -60,6 +64,7 @@ enternick Skriv in ditt smeknamn
 examples Exempel
 exitamsn Är du säker på att du vill avsluta?
 extras Extra
+faq FAQ (vanliga frågor)
 filedoesnotexist Filen finns inte
 filename Filnamn
 filetransfercancelled Filöverföringen avbröts
@@ -90,6 +95,7 @@ invite Bjud in
 ipaddress IP Adress
 istyping $1 skriver ett meddelande
 joins $1 kommer in i konversationen
+keepalive Stäng aldrig av förbindelse till servern
 language Språk
 lastmsgtime Senaste meddelandet mottaget $1
 leaveblankforhotmail Lämnas tom för hotmail
@@ -115,7 +121,7 @@ newmail $1 nya meddelanden i Inkorgen
 newmailfrom Nytt mail från
 newmsg Nytt meddelande
 newveravailable Ny version $1 finns att ladda ner
-next N=E4sta
+next Nästa
 noactivity Ingen aktivitet
 nonewmail Inga nya meddelanden i Inkorgen
 nonewver Det finns inga nya versioner att ladda ner

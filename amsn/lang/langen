@@ -117,7 +117,7 @@ msg Message
 msn AMSN
 mustrestart You must restart the program to apply changes
 mystatus My status
-natip Force remote IP detection for FTs
+natip IP detection by web page 
 needonline You still are/appear offline!
 newmail $1 new messages in In-Box
 newmailfrom New mail from
