@@ -171,13 +171,16 @@ namespace eval ::groups {
 			#Get all the contacts
 			set timer 0
 			foreach user_login [::abook::getAllContacts] {
-				#Get the group for each contact
-				foreach gp [::abook::getContactData $user_login group] {
-					#If the group is the same at specified, block the user
-					if {$gp == $gid} {
-						set name [::abook::getNick ${user_login}]
-						after $timer [list ::MSN::blockUser ${user_login} [urlencode $name]]
-						set timer [expr $timer + 250]
+				#If the contact is not already blocked
+				if { [lsearch [::abook::getLists $user_login] BL] == -1} {
+					#Get the group for each contact
+					foreach gp [::abook::getContactData $user_login group] {
+						#If the group is the same at specified, block the user
+						if {$gp == $gid} {
+							set name [::abook::getNick ${user_login}]
+							after $timer [list ::MSN::blockUser ${user_login} [urlencode $name]]
+							set timer [expr $timer + 250]
+						}
 					}
 				}
 			}
@@ -188,14 +191,17 @@ namespace eval ::groups {
 		#For each user in all contacts
 		set timer 0
 		foreach user_login [::abook::getAllContacts] {
-			#Get the group for each contact
-			foreach gp [::abook::getContactData $user_login group] {
-				#Compare if the group of the user is the same that the group requested to be blocked
-				if {$gp == $gid} {
-					#If yes, block the user
-					set name [::abook::getNick ${user_login}]
-					after $timer [list ::MSN::unblockUser ${user_login} [urlencode $name]]
-					set timer [expr $timer + 250]
+			#If the contact is blocked
+			if { [lsearch [::abook::getLists $user_login] BL] != -1} {
+				#Get the group for each contact
+				foreach gp [::abook::getContactData $user_login group] {
+					#Compare if the group of the user is the same that the group requested to be blocked
+					if {$gp == $gid} {
+						#If yes, unblock the user
+						set name [::abook::getNick ${user_login}]
+						after $timer [list ::MSN::unblockUser ${user_login} [urlencode $name]]
+						set timer [expr $timer + 250]
+					}
 				}
 			}
 		}
