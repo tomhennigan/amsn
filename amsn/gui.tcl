@@ -73,6 +73,11 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey showdisplaycontactlist 0
 	::skin::setKey balloontext #000000 
 
+	::skin::setKey notifwidth 150
+	::skin::setKey notifheight 100
+	::skin::setKey x_notifyclose 142
+	::skin::setKey y_notifclose 2
+	
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		::skin::setKey balloonbackground #ffffca
 		::skin::setKey menubackground #ECECEC 
