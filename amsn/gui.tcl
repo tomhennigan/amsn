@@ -6041,13 +6041,6 @@ proc amsn_install { url token } {
 	}
 	destroy .update.prbar
 	.update.c configure -command "destroy .update"
-	#if { $::tcl_platform(platform)=="windows" || $::tcl_platform(platform)=="mac" } {
-		.update.q configure -text "Where do you want to save the downloaded file?\n(leave blank to save it in your home)"
-		entry .update.dir
-		bind .update.dir <Return> "amsn_save $url $token"
-		pack .update.dir -side top
-	#} else {
-	#}
 }
 
 #///////////////////////////////////////////////////////////////////////
@@ -6069,6 +6062,16 @@ proc amsn_save { url token } {
 		.update.q configure -text "File can't be saved (check permissions and free space avaiable and path)."
 	} else {
 		.update.q configure -text "Saved $fname in $savedir."
+		if { $::tcl_platform(platform)=="unix" } {
+			set old_dir [pwd]
+			cd $::program_dir
+			cd ..
+			if { [catch { set shell [exec "tar xzfp $savedir/$fname"] }] } {
+				.update.q configure -text "Problems occurred during the installation. Please report it."
+			} else {
+				.update.q configure -text "Installation complete: $shell"
+			}
+			cd $old_dir 
 	}
 }
 
