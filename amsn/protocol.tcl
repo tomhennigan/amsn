@@ -816,8 +816,15 @@ namespace eval ::MSN {
       #Log out
       .main_menu.file entryconfigure 2 -state normal
 
-      ::MSN::StartPolling
-      ::groups::Reset
+		::MSN::StartPolling
+		::groups::Reset
+		if { [info exists config(expanded_group_online)] } {
+			set ::groups::bShowing(online) $config(expanded_group_online)
+		}
+		if { [info exists config(expanded_group_offline)] } {
+			set ::groups::bShowing(offline) $config(expanded_group_offline)
+		}
+
 		if {$config(connectiontype) == "direct" || $config(connectiontype) == "http" } {
 			::http::config -proxyhost ""
 		} elseif {$config(connectiontype) == "proxy"} {
@@ -3199,11 +3206,11 @@ proc cmsn_ns_handler {item} {
 	      ::abook::setContact $loading_list_info(last) [lindex $item 1] [lindex $item 2]
 
 	  } else {
-	  		#TODO: Remove this? It looks from protocol 7
-	      #status_log "$item --- protocol 7 --- $protocol\n"
-	      new_contact_list "[lindex $item 1]"
+			status_log "THIS IS BADLY PROCESSED!!! BPR!!!\n" red
+			status_log "THIS IS BADLY PROCESSED!!! BPR!!!\n" white
+	      #new_contact_list "[lindex $item 1]"
 	      # Update entry in address book setContact(email,PH*/M*,phone/setting)
-	      ::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4]
+	      #::abook::setContact [lindex $item 2] [lindex $item 3] [lindex $item 4]
 	  }
 	 return 0
       }
@@ -3213,6 +3220,11 @@ proc cmsn_ns_handler {item} {
       LSG {
 
 	      ::groups::Set [lindex $item 1] [lindex $item 2]
+			global config
+			if { [info exists config(expanded_group_[lindex $item 1])] } {
+				set ::groups::bShowing([lindex $item 1]) $config(expanded_group_[lindex $item 1])
+			}
+
 	return 0
       }
       REG {	# Rename Group
@@ -3510,6 +3522,7 @@ proc cmsn_auth {{recv ""}} {
 				}
 				close $nickcache
 			}
+
 			save_config						;# CONFIG
 			load_contact_list
 
@@ -4196,68 +4209,31 @@ proc change_BLP_settings { state } {
     } else {
 	set list_BLP -1
     }
-    
+
 }
 
 proc new_contact_list { version {load 0} } {
-    global list_version HOME list_al list_fl list_bl list_rl list_users contactlist_loaded
+	global list_version HOME list_al list_fl list_bl list_rl list_users contactlist_loaded
 
-    if {[string is digit $version] == 0} {return }
+	if {[string is digit $version] == 0} {return }
 
-    if { $load} {
-       status_log "new_contact_list: new contact list version : $version --- previous was : $list_version\n"
-    }
+	status_log "new_contact_list: new contact list version : $version --- previous was : $list_version\n"
 
 
-    if { $list_version == $version } {
-	if { $load } {
+	if { $list_version != $version } {
 
-	    status_log "new_contact_list loading contact list from file\n"
-	    if {[file readable "[file join ${HOME} contacts.ver]"] == 0} {
-		return 0
-	    }
-	    set list_al [list]
-	    set list_bl [list]
-	    set list_rl [list]
-	    set list_fl [list] 
-	    set list_users [list] 
-	    
-	    set contact_id [sxml::init [file join ${HOME} contacts.xml]]
-	    
-	    sxml::register_routine $contact_id "contactlist_${list_version}:AL:user" "create_contact_list"
-	    sxml::register_routine $contact_id "contactlist_${list_version}:BL:user" "create_contact_list"
-	    sxml::register_routine $contact_id "contactlist_${list_version}:FL:user" "create_contact_list"
-	    sxml::register_routine $contact_id "contactlist_${list_version}:RL:user" "create_contact_list"
-	    sxml::register_routine $contact_id "contactlist_${list_version}:Group" "create_group"
-	    sxml::register_routine $contact_id "contactlist_${list_version}" "finished_loading_list"
-	    
-	    status_log "new_contact_list: parsing file\n"
-		 set ret -1
-		 catch {
-			set ret [sxml::parse $contact_id]
-		 }
-	    if { $ret < 0 } {
-		set list_version 0
-		::MSN::WriteSB ns "SYN" "0"
-	    } else {
-		set contactlist_loaded 1
-	    }
+		set list_version $version
 
-	    status_log "new_contact_list ended parsing of file with return code : $ret \n"
-	    sxml::end $contact_id
+	} elseif { $load } {
+
 
 	}
 
-    } else {
-	#status_log "$list_version becomes $version\n"
-	set list_version $version
-    }
-   
 }
 
 
 proc load_contact_list { } {
-    global list_version HOME 
+    global list_version HOME list_al list_bl list_rl list_fl list_users contactlist_loaded
 
     status_log "load_contact_list: checking if contact list files exists\n"
 
@@ -4282,7 +4258,49 @@ proc load_contact_list { } {
 
     status_log "load_contact_list: setting contact list version to $version\n"
 
-    set list_version $version
+	status_log "load_contact_list loading contact list from file\n"
+	if {[file readable "[file join ${HOME} contacts.ver]"] == 0} {
+		return 0
+	}
+
+	set list_version $version
+
+	set list_al [list]
+	set list_bl [list]
+	set list_rl [list]
+	set list_fl [list]
+	set list_users [list]
+
+	set contact_id [sxml::init [file join ${HOME} contacts.xml]]
+
+	sxml::register_routine $contact_id "contactlist_${list_version}:AL:user" "create_contact_list"
+	sxml::register_routine $contact_id "contactlist_${list_version}:BL:user" "create_contact_list"
+	sxml::register_routine $contact_id "contactlist_${list_version}:FL:user" "create_contact_list"
+	sxml::register_routine $contact_id "contactlist_${list_version}:RL:user" "create_contact_list"
+	sxml::register_routine $contact_id "contactlist_${list_version}:Group" "create_group"
+	sxml::register_routine $contact_id "contactlist_${list_version}" "finished_loading_list"
+
+	status_log "load_contact_list: parsing file\n"
+	set ret -1
+	set ret [sxml::parse $contact_id]
+
+
+	if { $ret < 0 } {
+		set list_version 0
+		set list_al [list]
+		set list_bl [list]
+		set list_rl [list]
+		set list_fl [list]
+		set list_users [list]
+		#::MSN::WriteSB ns "SYN" "0"
+	} else {
+		set contactlist_loaded 1
+	}
+
+	status_log "new_contact_list ended parsing of file with return code : $ret \n"
+	sxml::end $contact_id
+
+	return $list_version
 
 }
 
@@ -4298,9 +4316,9 @@ proc save_contact_list { } {
 
 	if { $version == $list_version } {
 	    close $file_id
-	    return 
+	    return
 	}
-    } 
+    }
 
 
     set file_id [open "[file join ${HOME} contacts.ver]" w]
@@ -4370,7 +4388,7 @@ proc create_contact_list {cstack cdata saved_data cattr saved_attr args } {
     global list_al list_bl list_rl list_fl
 
     upvar $saved_data sdata
-    
+
     set list "list_[string range $cstack end-6 end-5]"
 
     if { $list == "list_fl" } {
@@ -4394,9 +4412,13 @@ proc create_contact_list {cstack cdata saved_data cattr saved_attr args } {
 }
 
 proc create_group { cstack cdata saved_data cattr saved_attr args } {
-    upvar $saved_data sdata 
+    upvar $saved_data sdata
+	 global config
 
-    ::groups::Set $sdata(${cstack}:gid) "$sdata(${cstack}:name)"
+  	::groups::Set $sdata(${cstack}:gid) "$sdata(${cstack}:name)"
+	if { [info exists config(expanded_group_$sdata(${cstack}:gid))] } {
+		set ::groups::bShowing($sdata(${cstack}:gid)) $config(expanded_group_$sdata(${cstack}:gid))
+	}
     return 0
 }
 
@@ -4408,9 +4430,10 @@ proc create_null { cstack cdata saved_data cattr saved_attr args } {
 }
 
 
-proc finished_loading_list { cstack cdata saved_data cattr saved_attr args } { 
+proc finished_loading_list { cstack cdata saved_data cattr saved_attr args } {
+
     global list_BLP
-    upvar $saved_data sdata 
+    upvar $saved_data sdata
 
     set list_BLP $sdata(${cstack}:blp)
 
@@ -4419,7 +4442,6 @@ proc finished_loading_list { cstack cdata saved_data cattr saved_attr args } {
     ::abook::setPersonal PHM $sdata(${cstack}:phm)
     ::abook::setPersonal MOB $sdata(${cstack}:mob)
     ::abook::setPersonal MBE $sdata(${cstack}:mbe)
-
 
     list_users_refresh
     return 0

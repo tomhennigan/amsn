@@ -58,8 +58,6 @@ proc ConfigDefaults {} {
 	set config(autoaway) 1				;#Enable/disable auto-away feature: 0|1
 	set config(awaytime) 10				;#Minutes before setting status to away
 
-	set config(showonline) 1			;#Show online users (expand/contract group)
-	set config(showoffline) 1			;#Show offline users (expand/contract group)
 	set config(orderbygroup) 0			;#Order contacts by group: 0=No | 1=Groups | 2=Hybrid
 	set config(ordergroupsbynormal) 1;#Order groups normal or inverted
 

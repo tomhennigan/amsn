@@ -3180,8 +3180,6 @@ proc cmsn_draw_main {} {
       -command "::amsn::ChooseList \"[trans properties]\" both ::abookGui::showEntry 0 1"
 
    ::groups::Init .main_menu.tools
-   set ::groups::bShowing(online) $config(showonline)
-   set ::groups::bShowing(offline) $config(showoffline)
 
    .main_menu.tools add separator
    .main_menu.tools add cascade -label "[trans ordercontactsby]" \
@@ -3369,11 +3367,6 @@ proc cmsn_draw_main {} {
    notifybar copy colorbar -from 0 0 5 $barheight
    notifybar copy colorbar -from 5 0 15 $barheight -to 5 0 64 $barheight
    notifybar copy colorbar -from [expr {$barwidth-125}] 0 $barwidth $barheight -to 64 0 139 $barheight
-
-   image create photo mailbox -file [GetSkinFile pixmaps unread.gif]
-
-   image create photo contract -file [GetSkinFile pixmaps contract.gif]
-   image create photo expand -file [GetSkinFile pixmaps expand.gif]
 
    image create photo bell -file [GetSkinFile pixmaps bell.gif]
    image create photo belloff -file [GetSkinFile pixmaps belloff.gif]
@@ -4210,7 +4203,7 @@ proc cmsn_draw_online { {delay 0} } {
 	}
 
 	global emotions user_stat login list_users list_states user_info list_bl\
-		config showonline password pgBuddy bgcolor automessage emailBList tcl_platform
+		config password pgBuddy bgcolor automessage emailBList tcl_platform
 
 	set scrollidx [$pgBuddy.ys get]
 
@@ -4452,6 +4445,7 @@ proc cmsn_draw_online { {delay 0} } {
 
 		set gname [lindex $glist $gidx]
 		set gtag  "tg$gname"
+
 		if { [::groups::IsExpanded $gname] } {
 			toggleGroup $pgBuddy.text contract$gname contract $gname 5 0
 		} else {
@@ -4549,47 +4543,6 @@ proc cmsn_draw_online { {delay 0} } {
 		} elseif {[::groups::IsExpanded $section]} {
 			ShowUser $user_name $user_login $state $state_code $colour $section 0
 		}
-
-		# Rename the section if we order by group
-		#foreach user_group [::abook::getGroup $user_login -id] {
-
-		#	if {$config(orderbygroup)} {
-
-		#		set section "tg$user_group"
-
-		#		if { $section == "tgblocked" } {set section "blocked" }
-
-		#		::groups::UpdateCount $user_group +1 [lindex $state 3]
-
-		#		if { $config(orderbygroup) == 2 } {
-		#			if { $state_code == "FLN" } { set section "offline"}
-		#			if { $breaking == "$user" } { break }
-		#		}
-
-		#		set myGroupExpanded [::groups::IsExpanded $user_group]
-
-		#		if { $config(orderbygroup) == 2 } {
-		#			if { $state_code == "FLN" } {
-		#				set myGroupExpanded [::groups::IsExpanded offline]
-		#			}
-		#		}
-
-		#	} else {
-		#		set myGroupExpanded [::groups::IsExpanded $section]
-		#	}
-
-		#	if {$myGroupExpanded} {
-		#		ShowUser $user_name $user_login $state $state_code $colour $section $user_group
-		#	}
-
-		#	if { !$config(orderbygroup) } {
-		#		#Avoid adding users more than once when ordering by online/offline!!
-		#		break
-		#	}
-
-		#	if { $config(orderbygroup) == 2 && $state_code == "FLN" } { set breaking $user}
-		#}
-
 
 		if { $config(showblockedgroup) == 1 && [info exists emailBList($user_login)]} {
 			::groups::UpdateCount blocked +1
@@ -5674,8 +5627,6 @@ proc configureMenuEntry {m e s} {
 proc close_cleanup {} {
   global HOME config lockSock tcl_platform
   set config(wingeometry) [wm geometry .]
-  set config(showonline)  [::groups::IsExpanded online]
-  set config(showoffline) [::groups::IsExpanded offline]
 
   save_config
   save_alarms   ;# Save alarm settings

@@ -239,6 +239,7 @@ namespace eval ::groups {
 	} else {
 	    set bShowing($gid) 1
 	}
+		::config::setKey expanded_group_$gid $bShowing($gid)
 
 	return $bShowing($gid)
     }
