@@ -200,7 +200,7 @@ namespace eval ::amsnplus {
 			set str [lindex $::amsnplus::config(quick_text_$i) 1]
 			set keyword "/[lindex $::amsnplus::config(quick_text_$i) 0]"
 			if { ![string equal $str ""] && ![string equal $keyword ""] } {
-				$newvar(menu_name).actions add command -label $str -command "$newvar(window_name).f.bottom.left.in.text insert end $keyword"
+				$newvar(menu_name).actions add command -label $str -command "::amsnplus::insert_text $newvar(window_name) $keyword"
 			}
 			incr i
 		}
@@ -368,12 +368,24 @@ namespace eval ::amsnplus {
 		set underline [binary format c 31]
 		set overstrike [binary format c 6]
 		set reset [binary format c 15]
+		
 		$newvar(menu_name).actions add separator
-		$newvar(menu_name).actions add command -label "[trans bold]" -command "$newvar(window_name).f.bottom.left.in.text insert end $bold"
-		$newvar(menu_name).actions add command -label "[trans italic]" -command "$newvar(window_name).f.bottom.left.in.text insert end $italic"
-		$newvar(menu_name).actions add command -label "[trans underline]" -command "$newvar(window_name).f.bottom.left.in.text insert end $underline"
-		$newvar(menu_name).actions add command -label "[trans overstrike]" -command "$newvar(window_name).f.bottom.left.in.text insert end $overstrike"
-		$newvar(menu_name).actions add command -label "[trans reset]" -command "$newvar(window_name).f.bottom.left.in.text insert end $reset"
+		$newvar(menu_name).actions add command -label "[trans bold]" -command "::amsnplus::insert_text $newvar(window_name) $bold"
+		$newvar(menu_name).actions add command -label "[trans italic]" -command "::amsnplus::insert_text $newvar(window_name) $italic"
+		$newvar(menu_name).actions add command -label "[trans underline]" -command "::amsnplus::insert_text $newvar(window_name) $underline"
+		$newvar(menu_name).actions add command -label "[trans overstrike]" -command "::amsnplus::insert_text $newvar(window_name) $overstrike"
+		$newvar(menu_name).actions add command -label "[trans reset]" -command "::amsnplus::insert_text $newvar(window_name) $reset"
+	}
+	###############################################
+	#This is the proc to be compatible with the new way 
+	#in 0.95 to get path of input text (::ChatWindow::GetInputText)
+	proc insert_text {win character} {
+		if {[::amsnplus::version_094]} {
+			$win.f.bottom.left.in.text insert end $character
+		} else {
+			set input [::ChatWindow::GetInputText $win]
+			$input insert end $character
+		}
 	}
 
 	###############################################
@@ -422,12 +434,7 @@ namespace eval ::amsnplus {
 		if {[string equal $color ""]} { return }
 		set color [::amsnplus::hexToRGB [string replace $color 0 0 ""]];
 		set code "[binary format c 3]$color"
-		if {[::amsnplus::version_094]} {
-			$win.f.bottom.left.in.text insert end $code
-		} else {
-			set input [::ChatWindow::GetInputText $win]
-			$input insert end $code
-		}
+		::amsnplus::insert_text $win $code
 	}
 	
 	###############################################
