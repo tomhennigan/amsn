@@ -1525,7 +1525,7 @@ namespace eval ::amsn {
          #Draw our own message
          messageFrom $chatid [lindex $user_info 3] "$msgchunk" user [list $fontfamily $fontstyle $fontcolor]      	
 	
-	::MSN::messageTo $chatid "$msgchunk" $ackid
+	::MSN::messageTo $chatid "$msg" $ackid
       } else {
       	set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msg]]
       	#::MSN::chatQueue $chatid [list ::MSN::messageTo $chatid "$msg" $ackid]
