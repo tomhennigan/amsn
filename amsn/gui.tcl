@@ -1506,7 +1506,7 @@ namespace eval ::amsn {
 
 		catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}
 		image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
-		label $bottom.pic  -borderwidth 2 -relief solid -image no_pic
+		label $bottom.pic  -borderwidth 2 -relief solid -image no_pic -background #FFFFFF
 
 		bind $bottom.pic <Button1-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
 		bind $bottom.pic <Button3-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
