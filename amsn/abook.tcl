@@ -576,6 +576,10 @@ namespace eval ::abookGui {
 	label $nbIdent.customnickl -text "[trans customnick]:"
 	entry $nbIdent.customnickent -font splainf -bg white
 	$nbIdent.customnickent insert end [::abook::getContactData $email customnick] 
+        label $nbIdent.customcolorl -text "[trans customcolor]:"
+        entry $nbIdent.customcolorent -font splainf -bg white
+        $nbIdent.customcolorent insert end [::abook::getContactData $email customcolor]
+
 	
 	
 	label $nbIdent.g -text "[trans group]:"
@@ -622,18 +626,21 @@ namespace eval ::abookGui {
 	grid $nbIdent.h1 -row 2 -column 1 -sticky w
 	grid $nbIdent.customnickl -row 3 -column 0 -sticky en
 	grid $nbIdent.customnickent -row 3 -column 1 -sticky wne
-	grid $nbIdent.g -row 4 -column 0 -sticky en
-	grid $nbIdent.g1 -row 4 -column 1 -sticky wn
+        grid $nbIdent.customcolorl -row 4 -column 0 -sticky en
+        grid $nbIdent.customcolorent -row 4 -column 1 -sticky wne
+
+	grid $nbIdent.g -row 5 -column 0 -sticky en
+	grid $nbIdent.g1 -row 5 -column 1 -sticky wn
 	
-	grid $nbIdent.titlephones -row 5 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
-	grid $nbPhone.phh -row 6 -column 0 -sticky e
-	grid $nbPhone.phh1 -row 6 -column 1 -sticky w
-	grid $nbPhone.phw -row 7 -column 0 -sticky e
-	grid $nbPhone.phw1 -row 7 -column 1 -sticky w
-	grid $nbPhone.phm -row 8 -column 0 -sticky e
-	grid $nbPhone.phm1 -row 8 -column 1 -sticky w
-	grid $nbPhone.php -row 9 -column 0 -sticky e
-	grid $nbPhone.php1 -row 9 -column 1 -sticky w
+	grid $nbIdent.titlephones -row 6 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
+	grid $nbPhone.phh -row 7 -column 0 -sticky e
+	grid $nbPhone.phh1 -row 7 -column 1 -sticky w
+	grid $nbPhone.phw -row 8 -column 0 -sticky e
+	grid $nbPhone.phw1 -row 8 -column 1 -sticky w
+	grid $nbPhone.phm -row 9 -column 0 -sticky e
+	grid $nbPhone.phm1 -row 9 -column 1 -sticky w
+	grid $nbPhone.php -row 10 -column 0 -sticky e
+	grid $nbPhone.php1 -row 10 -column 1 -sticky w
 
 	grid $nbIdent.titleothers -row 15 -column 0 -pady 5 -padx 5 -columnspan 2 -sticky w 
 	grid $nbPhone.lastlogin -row 16 -column 0 -sticky e
@@ -678,6 +685,7 @@ namespace eval ::abookGui {
 	set nbIdent [$w.nb getframe userdata]
 	set nbIdent [$nbIdent.sw.sf getframe]
    	::abook::setContactData $email customnick [$nbIdent.customnickent get]
+        ::abook::setContactData $email customcolor [$nbIdent.customcolorent get]
    	destroy $w
 	::MSN::contactListChanged
 	cmsn_draw_online

@@ -4764,6 +4764,9 @@ proc cmsn_draw_online_wrapped {} {
 		
 		set state_code [::abook::getVolatileData $user_login state FLN]		
 		set colour [::MSN::stateToColor $state_code]
+		if { [::abook::getContactData $user_login customcolor] != "" } {
+			set colour [::abook::getContactData $user_login customcolor] 
+		}
 		set state_section [::MSN::stateToSection $state_code]; # Used in online/offline grouping
 
 		if { $state_section == "online"} {
