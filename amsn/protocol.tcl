@@ -151,6 +151,7 @@ namespace eval ::MSN {
 
       incr trid
       puts $sock "MSG $trid N $msg_len"
+      set msg [encoding convertto utf-8 $msg]
       puts -nonewline $sock $msg
 
       status_log "Invitation to $filename sent\n" red
@@ -886,9 +887,10 @@ proc cmsn_sb_msg {sb_name recv} {
         set cancelcode [aim_get_str $body Cancel-Code]	
 	::MSN::SendFileRejected $cookie $cancelcode
       } elseif {$invcommand == "INVITE" } {
+         set body [encoding convertfrom utf-8 $body]
          set app [aim_get_str $body Application-Name]	
 	 set cookie [aim_get_str $body Invitation-Cookie]
-	 set filename [aim_get_str $body Application-File]
+	 set filename [aim_get_str $body Application-File]	 
 	 set filesize [aim_get_str $body Application-FileSize]
 	 status_log "Invited to $app\n" white
 	 status_log "$body\n" black
