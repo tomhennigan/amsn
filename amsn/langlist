@@ -64,7 +64,7 @@
 	<lang>
 		<langcode>ee</langcode>
 		<name>Estonian</name>
-		<version>1.31</version>
+		<version>1.32</version>
 		<encoding>iso8859-4</encoding>
 	</lang>
 	<lang>
@@ -226,7 +226,7 @@
 	<lang>
 		<langcode>ro</langcode>
 		<name>Romanian</name>
-		<version>1.35</version>
+		<version>1.36</version>
 		<encoding>iso8859-2</encoding>
 	</lang>
 	<lang>
