@@ -34,7 +34,7 @@ Features:
       /logout			disconnect from server
       /nick new_nick		set nick to new_nick
       /sendfile (file)		if file is set then makes an invitation, otherwise opens a box dialog to choose the file
-      /shell string		executes string in the system shell (see particularities en tcl documentation for windows platform, doesn't work on machintosh)
+      /shell string		executes string in the system shell (see particularities en tcl documentation for windows platform)
       /speak user_login		opens a conversation with user_login
       /state new_state		sets your state to new_state
       /style new_style		changes (only) the sending style to a new_style
