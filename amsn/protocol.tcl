@@ -3613,6 +3613,8 @@ proc initial_syn_handler {recv} {
 	if { [file exists [file join ${HOME} "nick.cache"]] && [::config::getKey storename] } {
 
 		set nickcache [open [file join ${HOME} "nick.cache"] r]
+		fconfigure $nickcache -encoding utf-8
+
 
 		gets $nickcache storednick
 		gets $nickcache custom_nick
