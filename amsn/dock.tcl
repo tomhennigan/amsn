@@ -151,7 +151,12 @@ proc init_dock {} {
 		} elseif { $config(dock) == 4} {
 			trayicon_init
 		}
-		vwait events
+		
+		# this is not needed for windows and causes problems
+		# Im not sure if it causes problems on other systems
+		if { $config(dock) != 4 } {
+			vwait events
+		}
 
 	} elseif { $config(dock) == 0 } {
 		close_dock
