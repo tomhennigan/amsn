@@ -17,7 +17,6 @@ namespace eval ::pop3 {
 	proc Init { dir } {
 		::plugins::RegisterPlugin pop3
 		::plugins::RegisterEvent pop3 OnConnect start
-		::plugins::RegisterEvent pop3 Load start
 		::plugins::RegisterEvent pop3 OnDisconnect stop
 		::plugins::RegisterEvent pop3 ContactListColourBarDrawn draw
 		::plugins::RegisterEvent pop3 ContactListEmailsDraw addhotmail
@@ -43,6 +42,8 @@ namespace eval ::pop3 {
 			[list bool "Load mail program on click" loadMailProg] \
 			[list str "          Mail Program" mailProg] \
 		]
+		
+		::pop3::start
 	}
 
 
