@@ -1187,7 +1187,7 @@ proc cmsn_draw_msgwin {} {
    menu .${win_name}.menu.actions -tearoff 0 -type normal  
    .${win_name}.menu.actions add command -label "[trans addtocontacts]" -command "" -state disabled
    .${win_name}.menu.actions add command -label "[trans block]" -command "" -state disabled
-   .${win_name}.menu.actions add command -label "[trans seeprofile]" -command "" -state disabled
+#   .${win_name}.menu.actions add command -label "[trans seeprofile]" -command "" -state disabled
    .${win_name}.menu.actions add command -label "[trans properties]" -command "" -state disabled
    .${win_name}.menu.actions add separator
    .${win_name}.menu.actions add command -label "[trans invite]..." -command "user_choose \"[trans invite]\" online \"cmsn_invite_user $name\""
@@ -1794,7 +1794,7 @@ proc cmsn_sb_sessionclosed {sbn} {
    sb set $sbn stat "d"
    
    .${win_name}.menu.msn entryconfigure 3 -state disabled
-   .${win_name}.menu.actions entryconfigure 6 -state disabled
+   .${win_name}.menu.actions entryconfigure 5 -state disabled
    
    set items [expr {[sb length $sbn users] -1}]
    sb set $sbn last_user [sb index $sbn users 0]
@@ -1862,14 +1862,14 @@ proc cmsn_update_users {sb_name recv} {
       .${win_name}.in.send configure -state normal
 
      .${win_name}.menu.msn entryconfigure 3 -state normal
-     .${win_name}.menu.actions entryconfigure 6 -state normal
+     .${win_name}.menu.actions entryconfigure 5 -state normal
 
       bind .${win_name}.in.input <Key> "sb_change $sb_name"
       bind .${win_name}.in.input <Return> "sb_enter $sb_name %W; break"
    } else {
 
      .${win_name}.menu.msn entryconfigure 3 -state disabled
-     .${win_name}.menu.actions entryconfigure 6 -state disabled   
+     .${win_name}.menu.actions entryconfigure 5 -state disabled   
 
       if {[sb get $sb_name stat] != "d"} { sb set $sb_name stat "n" }
       .${win_name}.in.send configure -state disabled
