@@ -2282,38 +2282,53 @@ proc cmsn_draw_login {} {
    wm geometry .login
    wm title .login "[trans login] - [trans title]"
    wm transient .login .
-   canvas .login.c -width 400 -height 150 -relief flat -highlightthickness 0
-   pack .login.c -expand true -fill both -padx 0 -pady 0
+   frame .login.c -relief flat -highlightthickness 0
+   pack .login.c -expand true -fill both -padx 10 -pady 10
 
-   entry .login.c.signin -width 20 -bg #FFFFFF -bd 1 -font splainf
-   entry .login.c.password -width 20 -bg #FFFFFF -bd 1 \
-      -font splainf -show "*"
+   label .login.c.user -text "[trans user]: "
+   combobox::combobox .login.c.signin \
+	    -editable true \
+	    -highlightthickness 0 \
+	    -width 25 \
+	    -bg #FFFFFF \
+	    -font splainf \
+	    -command ConfigChange
+   label .login.c.example -text "[trans examples] :\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com"
+
+   grid .login.c.user -row 2 -column 2 -sticky w
+   grid .login.c.signin -row 2 -column 3 -sticky w
+   grid .login.c.example -rowspan 3 -row 2 -column 4 -sticky n
+   # Lets fill our combobox
+   .login.c.signin insert 0 $config(login)
+   set idx 0
+   while { [LoginList get $idx] != 0 } {
+	lappend tmp_list [LoginList get $idx]
+	incr idx
+   }
+   eval .login.c.signin list insert end $tmp_list
+   unset idx
+   unset tmp_list
+
+   label .login.c.lpass -text "[trans pass]: "
+   entry .login.c.password -width 25 -bg #FFFFFF -bd 1 -font splainf -highlightthickness 0 -show "*"
+   checkbutton .login.c.remember -variable config(save_password) \
+      -text "[trans rememberpass]" -font sboldf -highlightthickness 0 -pady 0
+   checkbutton .login.c.offline -variable config(startoffline) \
+      -text "[trans startoffline]" -font sboldf -highlightthickness 0 -pady 0
+   
+   grid .login.c.lpass -row 3 -column 2 -sticky w
+   grid .login.c.password -row 3 -column 3 -sticky w
+   grid .login.c.remember -row 4 -column 3 -sticky ws
+   grid .login.c.offline -row 4 -column 2 -sticky wn
+   .login.c.password insert 0 $password	
 
    button .login.c.ok -text [trans ok] -command login_ok  -font sboldf
-   button .login.c.cancel -text [trans cancel] \
-      -command "grab release .login;destroy .login" -font sboldf
+   button .login.c.cancel -text [trans cancel] -command "grab release .login;destroy .login" -font sboldf
 
-   checkbutton .login.c.remember -variable config(save_password) \
-      -text "[trans rememberpass]" -font sboldf \
-      -highlightthickness 0
-
-   .login.c create text 133 12 -font sboldf -anchor ne \
-	-text "[trans user]: "
-   .login.c create text 133 82 -font sboldf -anchor ne \
-	-text "[trans pass]: "
-   .login.c create text 133 32 -font examplef -anchor ne \
-	-text "[trans examples]: "
-   .login.c create text 133 32 -font examplef -anchor nw \
-	-text "copypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com"
-   .login.c create window 133 10 -window .login.c.signin -anchor nw
-   .login.c create window 133 80 -window .login.c.password -anchor nw
-   .login.c create window 133 100 -window .login.c.remember -anchor nw
-   .login.c create window 195 120 -window .login.c.ok -anchor ne
-   .login.c create window 205 120 -window .login.c.cancel -anchor nw
-
-   .login.c.signin insert 0 $config(login)
-   .login.c.password insert 0 $password
-
+   
+   grid .login.c.ok -row 5 -column 3 -sticky w
+   grid .login.c.cancel -row 5 -column 3
+   
    if { [info exists config(login)] == 0 } {
 	focus .login.c.signin
    } else {
@@ -2325,10 +2340,8 @@ proc cmsn_draw_login {} {
    }
 
    bind .login.c.password <Return> "login_ok; break"
-
    bind .login <Escape> "grab release .login;destroy .login"
    bind .login <Return> "login_ok; break"
-
 
    tkwait visibility .login
    grab set .login

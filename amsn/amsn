@@ -64,30 +64,25 @@ if {[catch {file readlink [info script]} res]!=0} {
 
 #set dirname [split $config(login) "@ ."]
 #set dirname [join $dirname "_"]
+#set HOME "[file join $HOME $dirname]"
 
 if {$tcl_platform(platform) == "unix"} {
    set HOME "[file join $env(HOME) .amsn]"
-#   set HOME "[file join $HOME $dirname]" 
    set files_dir "[file join $env(HOME) amsn_received]"
 } elseif {$tcl_platform(platform) == "windows"} {
   if {[info exists env(USERPROFILE)]} {
      set HOME "[file join $env(USERPROFILE) amsn]"
-#     set HOME "[file join $HOME $dirname]"
      set files_dir "[file join $env(USERPROFILE) amsn_received]"
   } else {
    set HOME "[file join ${program_dir} amsn_config]"
-#   set HOME "[file join $HOME $dirname]"
    set files_dir "[file join ${program_dir} amsn_received]"
   }
 } else {
    set HOME "[file join ${program_dir} amsn_config]"
-#   set HOME "[file join $HOME $dirname]"
    set files_dir "[file join ${program_dir} amsn_received]"
 }
 
-#unset dirname
-
-set log_dir "[file join ${HOME} logs]"
+#set log_dir "[file join ${HOME} logs]"
 
 # And setup where to find optional packages
 lappend auto_path "[file join $program_dir plugins]"
@@ -131,6 +126,7 @@ source [file join $program_dir gui.tcl]
 source [file join $program_dir alarm.tcl]		;# Alarms code (Burger)
 source [file join $program_dir dock.tcl]		;# Docking routines
 source [file join $program_dir loging.tcl]		;# Euh yeh it's for loging :P
+source [file join $program_dir combobox.tcl]		;# The all mighty combobox is here! (B. Oakley)
 #///////////////////////////////////////////////////////////////////////
 
 
@@ -341,6 +337,7 @@ proc close_cleanup {} {
   set config(showoffline) [::groups::IsExpanded offline]
   save_config
   save_alarms   ;# Save alarm settings
+  SaveLoginList ;# Save list of profiles
   close_dock    ;# Close down the dock socket
   catch {file delete [file join $HOME hotlog.htm]} res
 }
@@ -712,8 +709,9 @@ proc view_profile {user_login} {
 ###############################################################
 create_dir $HOME
 create_dir $HOME/plugins
-create_dir $log_dir
+#create_dir $log_dir
 create_dir $files_dir
+ConfigDefaults
 
 sb set ns name ns
 sb set ns sock ""
@@ -724,7 +722,15 @@ sb set ns stat "d"
 set config(language) en
 load_lang
 
-load_config
+LoadLoginList		;# Load of logins/profiles in combobox
+			;# Also sets the newest login as config(login)
+			;# and modifies HOME with the newest user
+
+#create_dir $HOME
+set log_dir "[file join ${HOME} logs]"
+#create_dir $log_dir
+
+load_config		;# So this loads the config of this newest dude
 scan_languages
 load_lang
 

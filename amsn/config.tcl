@@ -1,78 +1,79 @@
 #
 # $Id$
 #
-set config(login) ""			;# These are defaults for users without
-set config(save_password) 0		;# a config file
-set config(keep_logs) 1
-set config(proxy) ""
-set config(withproxy) 0			;# 1 to enable proxy settings
-set config(proxytype) "http"		;# http|socks
-set config(proxyuser) ""		;# SOCKS5
-set config(proxypass) ""		;# SOCKS5
-set config(proxyauthenticate) 0		;# SOCKS5 use username/password
-set config(start_ns_server) "messenger.hotmail.com:1863"
-set config(last_client_version) ""
-#by AIM
-set config(sound) 1
-set config(mailcommand) ""
+
+proc ConfigDefaults {} {
+	global config tcl_platform password
+	set config(login) ""			;# These are defaults for users without
+	set config(save_password) 0		;# a config file
+	set config(keep_logs) 1
+	set config(proxy) ""
+	set config(withproxy) 0			;# 1 to enable proxy settings
+	set config(proxytype) "http"		;# http|socks
+	set config(proxyuser) ""		;# SOCKS5
+	set config(proxypass) ""		;# SOCKS5
+	set config(proxyauthenticate) 0		;# SOCKS5 use username/password
+	set config(start_ns_server) "messenger.hotmail.com:1863"
+	set config(last_client_version) ""
+	#by AIM
+	set config(sound) 1
+	set config(mailcommand) ""
 
 
-if {$tcl_platform(platform) == "unix"} {
-   set config(soundcommand) "play"
-   set config(browser) "mozilla"
-   set config(notifyXoffset) 0
-   set config(notifyYoffset) 0
-   set config(filemanager) ""
-} elseif {$tcl_platform(platform) == "windows"} {
-   set config(soundcommand) "plwav.exe"
-   set config(browser) "explorer"
-   set config(notifyXoffset) 0
-   set config(notifyYoffset) 28
-   set config(filemanager) "start"
-} else {
-   set config(soundcommand) ""
-   set config(browser) ""
-   set config(notifyXoffset) 0
-   set config(notifyYoffset) 0
-   set config(filemanager) ""
+	if {$tcl_platform(platform) == "unix"} {
+	   set config(soundcommand) "play"
+	   set config(browser) "mozilla"
+	   set config(notifyXoffset) 0
+ 	  set config(notifyYoffset) 0
+ 	  set config(filemanager) ""
+	} elseif {$tcl_platform(platform) == "windows"} {
+	  set config(soundcommand) "plwav.exe"
+ 	  set config(browser) "explorer"
+ 	  set config(notifyXoffset) 0
+	   set config(notifyYoffset) 28
+	   set config(filemanager) "start"
+	} else {
+	   set config(soundcommand) ""
+	   set config(browser) ""
+	   set config(notifyXoffset) 0
+	   set config(notifyYoffset) 0
+	   set config(filemanager) ""
+	}
+
+	set config(language) "en"
+	set config(adverts) 0
+	set config(autohotlogin) 1
+	set config(autoidle) 1
+	set config(showonline) 1
+	set config(showoffline) 1
+	set config(listsmileys) 1
+	set config(chatsmileys) 1
+	set config(startoffline) 0
+	set config(autoftip) 1
+	set config(myip) "127.0.0.1"
+	set config(wingeometry) 275x400-0+0
+	set config(closingdocks) 0
+	set config(backgroundcolor)  "#AABBCC"
+	set config(encoding) auto
+	set config(basefont) "Helvetica 11 normal"
+	set config(backgroundcolor) #D8D8E0
+	set config(textsize) 2
+	set config(mychatfont) "{Helvetica} {} 000000"
+	#end AIM
+	set config(orderbygroup) 0
+	#Added by Trevor Feeney
+	#Defaults group order to normal
+	set config(ordergroupsbynormal) 0
+	set config(withnotebook) 0
+	set config(keepalive) 0
+	set config(notifywin) 1
+	set config(natip) 0
+	set config(dock) 0
+	set config(autoconnect) 0
+	set config(showtimestamps) 1
+
+	set password ""
 }
-
-
-
-set config(language) "en"
-set config(adverts) 0
-set config(autohotlogin) 1
-set config(autoidle) 1
-set config(showonline) 1
-set config(showoffline) 1
-set config(listsmileys) 1
-set config(chatsmileys) 1
-set config(startoffline) 0
-set config(autoftip) 1
-set config(myip) "127.0.0.1"
-set config(wingeometry) 275x400-0+0
-set config(closingdocks) 0
-set config(backgroundcolor)  "#AABBCC"
-set config(encoding) auto
-set config(basefont) "Helvetica 11 normal"
-set config(backgroundcolor) #D8D8E0
-set config(textsize) 2
-set config(mychatfont) "{Helvetica} {} 000000"
-#end AIM
-set config(orderbygroup) 0
-#Added by Trevor Feeney
-#Defaults group order to normal
-set config(ordergroupsbynormal) 0
-set config(withnotebook) 0
-set config(keepalive) 0
-set config(notifywin) 1
-set config(natip) 0
-set config(dock) 0
-set config(autoconnect) 0
-set config(showtimestamps) 1
-
-set password ""
-
 
 namespace eval ::config {
    proc get {key} {
@@ -135,3 +136,166 @@ proc load_config {} {
    close $file_id
 }
 
+
+#///////////////////////////////////////////////////////////////////////////////
+# LoadLoginList ()
+# Loads the list of logins/profiles from the profiles file in the HOME dir
+# sets up the first user in list as config(login)
+proc LoadLoginList {} {
+	global HOME HOME2 config
+	
+	if {([file readable "[file join ${HOME} profiles]"] == 0) || ([file isfile "[file join ${HOME}/profiles]"] == 0)} {
+		return 1
+	}
+	set file_id [open "${HOME}/profiles" r]
+	gets $file_id tmp_data
+	if {$tmp_data != "amsn_profiles_version 1"} {	;# config version not supported!
+      		return 1
+   	}
+
+	while {[gets $file_id tmp_data] != "-1"} {
+		LoginList add 0 $tmp_data
+	}
+	close $file_id
+	
+	set HOME2 $HOME
+	if { [LoginList get 0] != 0 } {
+		set temp [LoginList get 0]
+		set dirname [split $temp "@ ."]
+		set dirname [join $dirname "_"]
+		set HOME "[file join $HOME2 $dirname]"
+	}
+}
+
+
+#///////////////////////////////////////////////////////////////////////////////
+# SaveLoginList ()
+# Saves the list of logins/profiles from the profiles file in the HOME dir
+proc SaveLoginList {} {
+	global HOME2 tcl_platform
+
+	if {$tcl_platform(platform) == "unix"} {
+		set file_id [open "[file join ${HOME2} profiles]" w 00600]
+	} else {
+      		set file_id [open "[file join ${HOME2} profiles]" w]
+	}
+	puts $file_id "amsn_profiles_version 1"
+	
+	set idx [LoginList size 0]
+	while { $idx >= 0 } {
+		puts $file_id "[LoginList get $idx]"
+		incr idx -1
+	}
+	close $file_id
+}
+
+
+#///////////////////////////////////////////////////////////////////////////////
+# LoginList (action age [email])
+# Controls information for list of profiles read from the profiles file
+# action can be :
+#	add : Adds new user to list, or if exists makes this user the newest
+#	      (age is ignored)
+#	get : Returns the email by age, returns 0 if no email for age exists
+#	exists : Checks the email if exists returns 1, 0 if dosent (age is ignored)
+#	unset : Removes profile given by email from the list and moves 
+#		all elements up by 1 (age is ignored)
+#       size : Returns [array size ProfileList] - 1
+proc LoginList { action age {email ""} } {
+	variable ProfileList
+
+	switch $action {
+		add {
+			set tmp_list [array get ProfileList]
+			set idx [lsearch $tmp_list "$email"]
+			if { $idx == -1 } {
+				for {set idx [expr [array size ProfileList] - 1]} {$idx >= 0} {incr idx -1} {
+					set ProfileList([expr $idx + 1]) $ProfileList($idx)
+				} 
+				set ProfileList(0) $email
+				#status_log "$age : $email\n"
+				#status_log "$age : $ProfileList($age)\n"
+			} else {
+				# This means user exists, and we make him newest
+				for {set idx [lindex $tmp_list [expr $idx - 1]]} {$idx > 0} {incr idx -1} {
+					set ProfileList($idx) $ProfileList([expr $idx - 1])
+				}
+				set ProfileList(0) $email
+			}
+		}
+
+		unset {
+			set tmp_list [array get ProfileList]
+			set idx [lsearch $tmp_list "$email"]
+			if { $idx != -1 } {
+				for {set idx [lindex $tmp_list [expr $idx - 1]]} {$idx < [expr [array size ProfileList] - 1]} {incr idx} {
+					set ProfileList($idx) $ProfileList([expr $idx + 1])
+				}
+			unset ProfileList([expr [array size ProfileList] - 1])
+			}
+		}
+
+		get {
+			if { [info exists ProfileList($age)] } {
+				return $ProfileList($age)
+			} else {
+				return 0
+			}
+		}
+		
+		exists {
+			set tmp_list [array get ProfileList]
+			set idx [lsearch $tmp_list "$email"]
+			if { $idx == -1 } {
+				return 0
+			} else {
+				return 1
+			}
+		}
+		
+		size {
+			return [expr [array size ProfileList] - 1]
+		}
+
+		show {
+			for {set idx 0} {$idx < [array size ProfileList]} {incr idx} {
+				status_log "$idx : $ProfileList($idx)\n"
+			}
+		}
+	}
+}
+
+
+#///////////////////////////////////////////////////////////////////////////////
+# ConfigChange ( window email)
+# Called when the user selects a combobox item or enters new signin
+# email : email of the new profile/login
+
+proc ConfigChange { window email } {
+	global HOME HOME2 password config
+	save_config
+	set oldlang $config(language)
+	if { [info exists password] } {
+		set password ""
+	}
+	set dirname [split $email "@ ."]
+	set dirname [join $dirname "_"]
+	set HOME "[file join $HOME2 $dirname]"
+	
+	if { [LoginList exists 0 $email] == 1 } {
+		load_config
+		LoginList add 0 $email
+	} else {
+		create_dir $HOME
+		set log_dir "[file join ${HOME} logs]"
+		create_dir $log_dir
+		ConfigDefaults
+		LoginList add 0 $email
+	}
+	if { $config(language) != $oldlang } {
+		msg_box [trans mustrestart]		
+	} 
+	load_lang
+	.login.c.password delete 0 end
+	.login.c.password insert 0 $password
+}

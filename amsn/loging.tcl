@@ -4,7 +4,6 @@
 ################################################################################
 
 # TODO Implement some sort of log file size limit or date limit (remove any log entries older than date)
-# TODO Save to FILE (all of history for example)
 # TODO Save to LOG (if loging disabled, allows to log certain conversations only)
 # TODO "Clear all logs" button
 # TODO Selective loging (only log or don't log certain users)
@@ -22,11 +21,11 @@ proc StartLog { email } {
 
 	global log_dir config
 	status_log "DEBUG: Opening log file for $email\n"
-	set dirname [split $config(login) "@ ."]
-        set dirname [join $dirname "_"]
-        file mkdir [file join ${log_dir} ${dirname}]
+#       set dirname [split $config(login) "@ ."]
+#        set dirname [join $dirname "_"]
+#        file mkdir [file join ${log_dir} ${dirname}]
 
-	LogArray $email set [open "[file join ${log_dir} ${dirname} ${email}.log]" a+]
+	LogArray $email set [open "[file join ${log_dir} ${email}.log]" a+]
 	fconfigure [LogArray $email get] -buffersize 1024
 }
 

@@ -11,11 +11,11 @@ proc load_alarms {} {
  
    set alarm_win_number 0
 
-   if {([file readable "[file join ${HOME} alarms_${config(login)}]"] == 0) ||
-       ([file isfile "[file join ${HOME}/alarms_${config(login)}]"] == 0)} {
+   if {([file readable "[file join ${HOME} alarms]"] == 0) ||
+       ([file isfile "[file join ${HOME}/alarms]"] == 0)} {
 	return 1
    }
-   set file_id [open "${HOME}/alarms_${config(login)}" r]
+   set file_id [open "${HOME}/alarms" r]
 
    gets $file_id tmp_data
    if {$tmp_data != "amsn_alarm_version 1"} {	;# config version not supported!
@@ -39,9 +39,9 @@ proc save_alarms {} {
 	puts stdout [array size alarms]
 
 	if {$tcl_platform(platform) == "unix"} {
-		set file_id [open "[file join ${HOME} alarms_${config(login)}]" w 00600]
+		set file_id [open "[file join ${HOME} alarms]" w 00600]
 	} else {
-	        set file_id [open "[file join ${HOME} alarms_${config(login)}]" w]
+	        set file_id [open "[file join ${HOME} alarms]" w]
 	}
 
 	puts $file_id "amsn_alarm_version 1"
@@ -57,7 +57,7 @@ proc save_alarms {} {
 	unset alarms 
    
    } else {
-	catch { exec rm [file join ${HOME} alarms_${config(login)}] } res
+	catch { exec rm [file join ${HOME} alarms] } res
    }
 }
 
