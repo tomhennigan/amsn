@@ -6540,12 +6540,15 @@ proc reloadAvailablePics { } {
 
 #proc chooseFileDialog {basename {initialfile ""} {types {{"All files"         *}} }} {}
 proc chooseFileDialog {basename {initialfile ""} {types {{"Image Files" {*.gif *.jpg *.jpeg *.bmp *.png} }} }} {
-	set parent "."
-	catch {set parent [focus]}
-	 
-	    if { "$initialfile" == "" } { set initialfile "." }
-    return [tk_getOpenFile -filetypes $types -parent $parent -initialfile $initialfile ]
-    
+    set parent "."
+    catch {set parent [focus]}
+
+    if { "$initialfile" == "" } {
+        return [tk_getOpenFile -filetypes $types -parent $parent]
+    } else {
+        return [tk_getOpenFile -filetypes $types -parent $parent \
+                               -initialfile $initialfile ]
+    }
 }
 
 proc pictureDeleteFile {} {
