@@ -388,7 +388,7 @@ proc edit_custom_emotion { emotion } {
 # it will be refreshed
 
 proc load_smileys { } {
-    global custom_emotions emoticon_number sortedemotions smileys_drawn emotions emotions_names 
+    global custom_emotions emoticon_number sortedemotions smileys_drawn emotions emotions_names tcl_platform
 
     set emoticon_number 0
 
@@ -427,7 +427,11 @@ proc load_smileys { } {
     foreach x $emotions_names {
 	set img_name "$emotions(${x}_file)"
 	#Use QuickTime to display smileys on MacOSX, fix a crashing problem
-	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+	
+	
+	#Use Quicktime to show smileys on Mac OS 10.3 (Panther, OS version 7)
+	set osversion [string range "$tcl_platform(osVersion)" 0 0]
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" && $osversion != "6"} {	
 		image create photo $img_name -file [GetSkinFile smileys ${img_name}] -format quicktime
 	} else {
 		image create photo $img_name -file [GetSkinFile smileys ${img_name}] -format gif
