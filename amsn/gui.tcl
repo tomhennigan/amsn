@@ -5621,6 +5621,7 @@ proc convert_image_plus { filename type size } {
     if { $file == 0 } { return 0}
 
     catch { 
+	create_dir [file join $HOME $type]
 	file copy $file [file join $HOME $type] 
 	status_log "Copied $file to [file join $HOME $type]\n"
     }
@@ -5641,4 +5642,85 @@ proc convert_image_plus { filename type size } {
     } 
 
     return $endfile
+}
+
+
+proc change_displaypic { } {
+    global config 
+
+    set w .change_disp
+    
+   if {[winfo exists $w]} {
+      raise $w
+      return 0
+   }
+ 
+   toplevel $w
+   wm group $w .
+
+   wm geometry $w -0+100
+   wm title $w "[trans changedisplaypic] - [trans title]"
+   wm transient $w .
+
+    set f $w.buttons
+
+    frame $f
+   button $f.ok -text [trans ok] -command change_disp_ok
+   button $f.cancel -text [trans cancel] \
+      -command "destroy $w"
+    button $f.clear -text [trans clear] -command "clear_disp"
+    pack $f.ok $f.clear $f.cancel -side left
+
+
+    set f $w.filename
+    frame $f
+    label $f.lfile -text "[trans filename]"
+    entry $f.file -textvariable new_custom_cfg(file)  -background white
+    button $f.browse -text "[trans browse]" -command "fileDialog2 .change_disp $f.file open \"\" {{\"Image Files\" {*.gif *.jpg *.jpeg *.bmp *.png} }} " -width 10
+
+    $f.file delete 0 end
+    if { $config(displaypic) != "" } {
+	$f.file insert 0 [GetSkinFile displaypic $config(displaypic)]
+    }
+
+    bind $f.file <Return> "change_disp_ok"
+    
+    pack  $f.lfile $f.file $f.browse -side left
+    
+    pack $w.filename $w.buttons -side top
+    tkwait visibility $w
+    grab set $w
+
+}
+
+
+proc change_disp_ok { } {
+    global config
+
+    set w .change_disp
+    
+    set file [$w.filename.file get]
+
+    if { $file != "" } {
+	set config(displaypic) [convert_image_plus [$w.filename.file get] displaypic 96x96]
+    } else {
+	set config(displaypic) ""
+    }
+
+    
+
+    ::MSN::changeStatus [set ::MSN::myStatus]
+
+    destroy $w
+
+}
+
+proc clear_disp { } {
+    global config
+
+    set config(displaypic) ""
+
+    ::MSN::changeStatus [set ::MSN::myStatus]
+
+    destroy .change_disp
 }

@@ -68,6 +68,7 @@ cannotdeleteprofile Cannot delete profile because it seems to be in use by an aM
 cantexec Can't execute application: $1. Check preferences
 casesensitive Use case-sensitive triggers
 cfgalarm Configure/Add/Remove Alarm
+changedisplaypic Change Display picture
 changefont Change font
 changenick Change nick
 changestate $1 changes state to $2

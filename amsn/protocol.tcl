@@ -909,23 +909,15 @@ namespace eval ::MSN {
       }
    }
 
-
-   proc changeStatus {new_status} {
+  proc changeStatus {new_status} {
       variable myStatus
-      global autostatuschange clientid
+      global autostatuschange config clientid
 
-      ::MSN::WriteSB ns "CHG" "$new_status $clientid"
-      set myStatus $new_status
-
-      #Reset automatic status change to 0
-      set autostatuschange 0
-   }
-
-  proc changeStatus2 {new_status} {
-      variable myStatus
-      global autostatuschange config
-
-      ::MSN::WriteSB ns "CHG" "$new_status 268435508 [urlencode [create_msnobj $config(login) 3 /home/burger/buddy.png]]"
+      if { $config(displaypic) != "" } {
+	  ::MSN::WriteSB ns "CHG" "$new_status 268435508 [urlencode [create_msnobj $config(login) 3 [GetSkinFile displaypic $config(displaypic)]]]"
+      } else {
+	  ::MSN::WriteSB ns "CHG" "$new_status $clientid"
+      }
       set myStatus $new_status
 
       #Reset automatic status change to 0
@@ -4590,7 +4582,7 @@ namespace eval ::MSNP2P {
 					}
 					SENDDATA {
 						status_log "SENDING DATA NOW \n"
-						SendData $sid $chatid
+					    SendData $sid $chatid "[GetSkinFile displaypic $config(displaypic)]"
 					}
 				}
 			}
@@ -4722,7 +4714,7 @@ namespace eval ::MSNP2P {
 		SessionList set $sid [list 0 0 0 $dest 0 $callid]
 		
 		# Create and send our packet
-		set slpdata [MakeMSNSLP "INVITE" $dest $config(login) $branchid 0 $callid 0 0 "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" $sid 1 [::base64::encode $msnobject]]
+	    set slpdata [MakeMSNSLP "INVITE" $dest $config(login) $branchid 0 $callid 0 0 "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" $sid 1 [string map { "\n" "" } [::base64::encode [urldecode "${msnobject}%00"]]]]
 		SendPacket $chatid [MakePacket $sid $slpdata 1]
 		status_log "Sent an INVITE to $dest on chatid $chatid of object $msnobject\n"
 	}
@@ -4931,11 +4923,11 @@ namespace eval ::MSNP2P {
 	#//////////////////////////////////////////////////////////////////////////////
 	# SendData ( sid chatid )
 	# This procedure sends the data given by the filename in the Session vars given by SessionID
-	proc SendData { sid chatid } {
-		global fd
-		SessionList set $sid [list -1 [file size "/home/burger/buddy.png"] -1 -1 -1 -1]
+	proc SendData { sid chatid filename } {
+		global fd config
+		SessionList set $sid [list -1 [file size "$filename"] -1 -1 -1 -1]
 		if { [info exists fd] == 0 } {
-			set fd [open "/home/burger/buddy.png"]
+			set fd [open "$filename"]
 			fconfigure $fd -translation binary
 		}
 		set chunk [read $fd 1200]
@@ -4946,11 +4938,12 @@ namespace eval ::MSNP2P {
 		if { [lindex [SessionList get $sid] 1] == 0 } {
 			# All file has been sent
 			close $fd
+			unset fd
 			# We finished sending the data, set appropriate Afterack
 			SessionList set $sid [list -1 -1 -1 -1 0 -1]
 		} else {
 			# Still need to send
-			after 10 "::MSNP2P::SendData $sid $chatid"
+			after 10 "::MSNP2P::SendData $sid $chatid $filename"
 		}
 	}		
 

@@ -219,6 +219,7 @@ proc CreateStatesMenu { path } {
     }
     $path add separator
     $path add command -label "[trans changenick]..." -command cmsn_change_name
+    $path add command -label "[trans changedisplaypic]..." -command change_displaypic
 }
 
 #///////////////////////////////////////////////////////////////////////////////

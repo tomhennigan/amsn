@@ -139,7 +139,7 @@ proc ConfigDefaults {} {
 	set config(withnotebook) 0			;#Use notebook tabs in contact lsit
 	set config(showtimestamps) 1		;#Show timestamps on messages
 	set config(adverts) 0				;#Enable banner advertisements
-
+        set config(displaypic) ""                   ;# Diplay picture
 }
 
 namespace eval ::config {
