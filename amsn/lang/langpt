@@ -420,4 +420,4 @@ smileintro2 Por Favor edite os campos requiridos para normalizar este sorriso (L
 statechange Estado mudado para:
 timeremaining Tempo que falta
 triggers dicas
-wrongfields O "$1", "$2" e/ou "$3" campos não estão validos
+wrongfields Os campos "$1", "$2" e/ou "$3" não são válidos.

@@ -270,6 +270,7 @@ notify3 Mostrar una finestra d'avís quan arribi un nou correu electrònic
 notify notificar
 notifyoffset Ajusta la posició de la finestra d'avís mitjançant un desplaçament
 notifywin Finestra d'avís
+notls La versió 9 del protocol MSN necessita el paquet tls i sembla que no el tingui instal·lat. Si està instal·lat, la ruta s'ha d'especificar a la finestra de Preferències (ex: /opt/tls/lib).\n\nPots descarregar-te el tls des de l'adreça http://tls.sf.net.
 nousersinsession No hi ha usuaris a la sessió
 offline Desconnectat
 ok Bé
@@ -302,6 +303,7 @@ preferences Preferències
 preffont2 Canvia la manera com els altres veuen el meu text en una conversa
 preffont3 Canvia el tipus de lletra i la mida de l'interfície de l'aMSN
 preffont Text dels meus missatges
+preflibs Directori de les biblioteques
 preflog1 Opcions a l'historial i als registres
 preflook Aparença de l'aMSN
 prefmsging Interfície dels missatges
