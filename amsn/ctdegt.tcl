@@ -886,9 +886,9 @@ proc Preferences { { settings "personal"} } {
 
         frame $lfname.adding
         entry $lfname.adding.enter
-        button $lfname.adding.addal -text "Add to AL" -command "Add_To_List $lfname AL"
-        button $lfname.adding.addbl -text "Add to BL" -command "Add_To_List $lfname BL"
-        button $lfname.adding.addfl -text "Add to FL" -command "Add_To_List $lfname FL" 
+        button $lfname.adding.addal -text "[trans addto AL]" -command "Add_To_List $lfname AL"
+        button $lfname.adding.addbl -text "[trans addto BL]" -command "Add_To_List $lfname BL"
+        button $lfname.adding.addfl -text "[trans addto FL]" -command "Add_To_List $lfname FL" 
         pack $lfname.adding.addal $lfname.adding.addbl $lfname.adding.addfl -side left
         pack $lfname.adding.enter -side top
 
@@ -1495,6 +1495,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.65  2003/07/22 15:46:13  airadier
+# Added translation key to "Add to AL/FL/BL"
+#
 # Revision 1.64  2003/07/19 17:56:50  kakaroto
 # added a "disabled animated smileys" option
 # destroying smileys menu everytime
