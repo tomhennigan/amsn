@@ -1,13 +1,13 @@
 amsn_lang_version 2
-shake_receive Chacoalha a janela quando recebe um peteleco (nudge)
-shake_send Chacoalha a janela quando envia um peteleco (nudge)
+shake_receive Chacoalha a janela quando recebe um peteleco                          (Peteleco é a melhor tradução para nudge)
+shake_send Chacoalha a janela quando envia um peteleco
 shake_nudge Chacoalhadas por peteleco
 popup_nudge Avisar que você recebeu um peteleco com uma janelinha de piparote (popup)
 notify_send Avisar que você enviou um peteleco com uma janelinha de piparote (popup)
-notify_receive Avisar na janela de conversas (chat) que você enviou um peteleco (nudge)
-sound_send Tocar um som quando der um peteleco (nudge)
-sound_receive Tocar um som quando levar um peteleco (nudge)
+notify_receive Avisar na janela de conversas (chat) que você enviou um peteleco
+sound_send Tocar um som quando der um peteleco
+sound_receive Tocar um som quando levar um peteleco
 add_button Adicionar na janela de conversas um botão para dar petelecos nas pessoas
-send_nudge Dar um peteleco em alguém (nudge)
+send_nudge Dar um peteleco em alguém
 no_nudge_support Você não pode dar um peteleco em seu contato porque ele (ou ela) não usa um cliente que permite machucar as pessoas
 nudge_sent Você acabou de dar um peteleco (nudge) em alguém. Fuja!
