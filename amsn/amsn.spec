@@ -5,8 +5,8 @@
 
 Summary: MSN Messenger clone for Linux
 Name: amsn
-Version: 0.52
-Release: 0
+Version: 0.60
+Release: 1
 Copyright: GPL
 Group: Applications/Internet
 Source0: ftp://ftp.sourceforge.net/projects/amsn/%{name}-%{version}-%{release}.tar.gz
@@ -15,8 +15,8 @@ BuildRoot: %{_tmppath}/%{name}-root
 
 %description
 This is Tcl/Tk clone that implements the Microsoft Messenger (MSN)
-for Linux platforms. It lacks certain features but what is important
-is already supported. Visit http://amsn.sourceforge.net/ for details.
+for Unix,Windows, or Macintosh platforms. It supports file transfers,
+and many more features. Visit http://amsn.sourceforge.net/ for details.
 This is an ongoing project, and it is already going pretty well.
 
 %prep
