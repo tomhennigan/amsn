@@ -811,7 +811,7 @@ namespace eval ::ChatWindow {
 		set w ".container_$::ChatWindow::containerid"
 		incr ::ChatWindow::containerid
 			
-		toplevel $w -class Amsn -background [::skin::getKey chatwindowbg]	
+		toplevel $w -class Amsn -background [::skin::getKey chatwindowbg]	-borderwidth 0
 		
 		# If there isn't a configured size for Chat Windows, use the default one and store it.
 		if {[catch { wm geometry $w [::config::getKey wincontainersize] } res]} {
@@ -2153,8 +2153,8 @@ namespace eval ::ChatWindow {
 		button $tab -image [::skin::loadPixmap tab] \
 		    -width [image width [::skin::loadPixmap tab]] \
 		    -command "::ChatWindow::SwitchToTab $container $win" \
-		    -fg black -bg [::skin::getKey chatwindowbg] -bd 0 -relief flat \
-		    -activebackground [::skin::getKey chatwindowbg] -activeforeground black -text "$win" \
+		    -fg black -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
+		    -activebackground [::skin::getKey tabbarbg] -activeforeground black -text "$win" \
 		    -font sboldf -highlightthickness 0 -pady 0 -padx 0
 		if { $::tcl_version >= 8.4 } {
 			$tab configure -overrelief flat -compound center
