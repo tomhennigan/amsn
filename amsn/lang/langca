@@ -38,8 +38,13 @@ bgcolor Canvia el color del fons de l'aMSN
 blankdirect Deixa-ho en blanc per a connectar-te directament
 block Bloquejar
 blocked Bloquejat
+blocking Bloqueig
+blockinter1 Quan el meu estat sigui Connectat, comprova-ho cada
+blockinter2 segons, sinó comprova-ho cada
+blockinter3 de cada
 blocklist Llista de bloquejats:
 blockmessage Aquesta gent estan connectats i t'han bloquejat
+blockusers Número de contactes a comprovar cada vegada:
 broughtby Desenvolupat per
 browse Navegar
 browser Navegador
@@ -55,8 +60,10 @@ chatreq Demanant xat
 chatsmileys2 Mostrar emoticones a la finestra del xat
 chatsmileys Emoticones al xat
 chat Xat
+checkblocking Comprovar contínuament si algun usuari m'ha bloquejant
 checkfilman Els fitxers rebuts es desaran a $1. Comprova l'opció de l'administrador de fitxers a la finestra de preferències.
 checkingver Buscant versions noves
+checkonfln Comprovar si un usuari m'ha bloquejat quan aparentment es desconnecta
 checkver Busca una versió nova
 choosebasefont Canviar la font
 choosebgcolor Canviar el color de fons
@@ -102,6 +109,7 @@ edit Edita
 editnewstate Nou missatge automàtic per a un estat personalitzat
 editprofile Editar perfil
 editstate Editar missatge automàtic per a un estat personalitzat
+emotisounds Reproduir sons associats a certes emoticones
 enableproxy Habilitar el servidor intermediari (proxy)
 enableremote Activar control remot
 encoding2 Canvia la codificació utilitzada pels teus caràcters
@@ -250,6 +258,8 @@ port Port
 prefalerts Alertes i sons d'events
 prefapps Aplicacions
 prefawaymsg Missatges d'absent
+prefblock1 Comprovar al desconnectar-se
+prefblock2 Comprovar contínuament
 prefconnection Configuració de la connexió
 prefemotic Emoticones
 preferences Preferències
