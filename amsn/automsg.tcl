@@ -182,7 +182,7 @@ proc ChCustomState { idx } {
 	set redraw 0
 	if { [string is digit $idx] == 1 } {
 		if { [lindex [StateList get $idx] 2] != "" } {
-			if {![info exists original_nick]} {
+			if {![info exists original_nick] && $config(storename)} {
 				set original_nick [urldecode [lindex $user_info 4]]
 			}
 			set new_state [lindex [lindex $list_states [lindex [StateList get $idx] 2]] 0]
@@ -202,7 +202,7 @@ proc ChCustomState { idx } {
 		if { $idx == $user_stat} {
 			set redraw 1
 		}
-		if {[info exists original_nick]} {
+		if {[info exists original_nick] && $config(storename)} {
 			::MSN::changeName $config(login) $original_nick
 			unset original_nick
 		}

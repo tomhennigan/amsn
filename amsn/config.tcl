@@ -172,6 +172,7 @@ if {$tcl_platform(os) == "Darwin"} {
 		[list receiveddir str receiveddir] \
 		[list lineflushlog bool lineflushlog] \
 		[list autocheckver bool autocheckver] \
+		[list storename bool storenickname] \
 
 	]
 	set config(tooltips) 1				;#Enable/disable tooltips
@@ -192,6 +193,7 @@ if {$tcl_platform(os) == "Darwin"} {
 	set config(allowbadwords) 1		;#Disable censure on nicks
 	set config(enablebanner) 1		;#Show or Hide AMSN Banner (By default Show)
 	set config(startontray) 0		;#Start amsn on tray icon only (hide contact list)
+	set config(storename) 1			;#Store original nick in a variable when go to custom states to revert it when go back
 
 
 

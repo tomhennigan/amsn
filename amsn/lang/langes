@@ -440,6 +440,7 @@ statenick Nick personalizado (en blanco para ninguno)
 state Quiero aparecer como
 status Estado
 stopalarm Detener alarma
+storenickname Volver al nick original tras un estado personalizado con nick personalizado
 stylechat El mismo que los chats
 stylehist apariencia de historial de aMSN
 stylelog Elige el estilo en el que deseas ver el historial
