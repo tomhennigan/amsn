@@ -1380,7 +1380,7 @@ proc cmsn_draw_msgwin {email} {
    set name "sb$sb_num"
    set win_name "msg_[string tolower ${name}]"
    
-   set msg_windows(${email}) $name
+   set msg_windows([string tolower ${email}]) $name
 
    lappend sb_list "$name"
    sb set $name name $name
@@ -1514,7 +1514,7 @@ proc cmsn_draw_msgwin {email} {
    bind .${win_name}.in.send <Return> \
       "sb_enter $name .${win_name}.in.input; break"
    bind .${win_name}.in.input <Control-Return> {%W insert end "\n"; break}
-   status_log "$msg_windows(${email})\n" red
+   status_log "$msg_windows([string tolower ${email}])\n" red
    bind .${win_name} <Destroy> "cmsn_destroyed_msgwin $name %W $email"
    
    focus .${win_name}.in.input
@@ -1604,8 +1604,8 @@ proc cmsn_destroyed_msgwin {name winpath email} {
    }
    unset ${name}_info	
 	
-   if { [info exists msg_windows($email)] } {
-      unset msg_windows($email)
+   if { [info exists msg_windows([string tolower ${email})]] } {
+      unset msg_windows([string tolower ${email}])
    }
 }
 
@@ -2159,7 +2159,7 @@ proc cmsn_update_users {sb_name recv} {
 	 
 	 set win_name "msg_[string tolower ${sb_name}]"
          set timestamp [clock format [clock seconds] -format %H:%M]
-         set statusmsg "\[$timestamp\] [trans leaves [lindex $user_info 0]]\n"
+         set statusmsg "\[$timestamp\] [trans leaves [lindex $recv 1]]\n"
 	 .${win_name}.status configure -state normal
 	 .${win_name}.status delete 0.0 end
 	 .${win_name}.status insert end $statusmsg

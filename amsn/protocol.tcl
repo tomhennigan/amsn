@@ -1022,13 +1022,23 @@ proc cmsn_invite_user {name user} {
 
 proc cmsn_chat_user {user} {
    global msg_windows
+
+   if { ([::MSN::myStatusIs] == "HDN") || ([::MSN::myStatusIs] == "FLN") } {
+       msg_box "[trans needonline]"
+       return
+   }
    
-   if { [info exists msg_windows($user)] } {
-   	raise .msg_$msg_windows($user)
-   	focus .msg_$msg_windows($user).in.input
-	upvar #0 [sb name $msg_windows($user) users] users_list
+   set lowuser [string tolower ${user}]
+   
+   if { [info exists msg_windows(${lowuser})] } {
+	if { [string compare [wm state .msg_$msg_windows($lowuser)] "withdrawn"] == 0 } {
+		wm state .msg_$msg_windows($lowuser) normal
+	}	   
+   	raise .msg_$msg_windows($lowuser)
+   	focus .msg_$msg_windows($lowuser).in.input
+	upvar #0 [sb name $msg_windows($lowuser) users] users_list
 	if { [llength $users_list] == 0 } {
-		cmsn_reconnect $msg_windows($user)
+		cmsn_reconnect $msg_windows($lowuser)
 	}
 	return 0
    }
@@ -1040,11 +1050,6 @@ proc cmsn_chat_user {user} {
    	return
    }
  
-   if { ([::MSN::myStatusIs] == "HDN") || ([::MSN::myStatusIs] == "FLN") } {
-       msg_box "[trans needonline]"
-       return
-   }
-
    sb set $name stat "r"
    sb set $name invite $user
 
