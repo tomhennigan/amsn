@@ -4512,11 +4512,7 @@ proc cmsn_draw_online_wrapped {} {
 
 		set unread [::hotmail::unreadMessages]
 
-		if { $unread < 0 } {
-			status_log "number of unread hotmail messages is $unread, setting to 0\n" red
-			::hotmail::setUnreadMessages 0
-			set mailmsg "[trans nonewmail]\n"
-		} elseif {$unread == 0} {
+		if {$unread == 0} {
 			set mailmsg "[trans nonewmail]\n"
 		} elseif {$unread == 1} {
 			set mailmsg "[trans onenewmail]\n"

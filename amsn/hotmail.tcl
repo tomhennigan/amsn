@@ -331,6 +331,10 @@ proc hotmail_procmsg {msg} {
 		set delta [::MSN::GetHeaderValue $msg Message-Delta]
 		if { $source == "ACTIVE" } {
 			set unread [expr {[::hotmail::unreadMessages] - $delta}]
+			if { $unread < 0 } {
+				status_log "number of unread hotmail messages is $unread, setting to 0\n" red
+				set unread 0
+			}
 		} elseif {$dest == "ACTIVE"} {
 			set unread [expr {[::hotmail::unreadMessages] + $delta}]
 		} else {
