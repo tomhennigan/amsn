@@ -327,6 +327,7 @@ namespace eval ::plugins {
 	     button $winconf.cancel -text [trans cancel] -command "::plugins::GUI_CancelConfig $winconf $name"
 	     grid $winconf.save -column 1 -row 2 -sticky e -pady 5 -padx 5
 	     grid $winconf.cancel -column 2 -row 2 -sticky e -pady 5 -padx 5
+	     moveinscreen $winconf 30
 	 }
      }
      proc GUI_SaveConfig {w} {
