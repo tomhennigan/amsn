@@ -807,8 +807,10 @@ namespace eval ::abookGui {
 		label $nbIdent.lastlogout1 -text [::abook::dateconvert "[::abook::getContactData $email last_logout]"] -font splainf -fg blue 
 
 		label $nbIdent.lastseen -text "[trans lastseen]:"
-		if { [::abook::getVolatileData $email state] == "FLN"} {
+		if { [::abook::getVolatileData $email state] == "FLN" || [lsearch [::abook::getContactData $email lists] "FL"] == -1} {
 			label $nbIdent.lastseen1 -text [::abook::dateconvert "[::abook::getContactData $email last_seen]"] -font splainf -fg blue
+		} elseif { [::abook::getContactData $email last_seen] == "" } {		
+			label $nbIdent.lastseen1 -text "" -font splainf -fg blue
 		} else {
 			label $nbIdent.lastseen1 -text [trans online] -font splainf -fg blue
 		}
