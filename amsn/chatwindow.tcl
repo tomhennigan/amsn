@@ -924,9 +924,8 @@ namespace eval ::ChatWindow {
 		#Different shortcuts on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			bind $w <Command-,> "Preferences"
-			bind all <Command-q> {
-				close_cleanup;exit
-			}
+	   		bind $w <Command-m> "catch {carbon::processHICommand mini $w}"
+	   		bind $w <Command-M> "catch {carbon::processHICommand mini $w}"
 		}
 
 
@@ -1037,9 +1036,8 @@ namespace eval ::ChatWindow {
 		#Different shortcuts on Mac OS X
 		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 			bind $w <Command-,> "Preferences"
-			bind all <Command-q> {
-				close_cleanup;exit
-			}
+		 	bind $w <Command-m> "catch {carbon::processHICommand mini $w}"
+	    	bind $w <Command-M> "catch {carbon::processHICommand mini $w}"
 		}
 
 
