@@ -157,6 +157,7 @@ if {$tcl_platform(os) == "Darwin"} {
 		[list truncatenicks bool truncatenames2] \
 		[list showtimestamps bool timestamps] \
 		[list startontray bool startontray] \
+                [list strictfonts bool strictfonts] \
 		[list "" notifyoffset] \
 		[list notifyXoffset int xoffset] \
 		[list notifyYoffset int yoffset] \
@@ -178,7 +179,6 @@ if {$tcl_platform(os) == "Darwin"} {
 		[list lineflushlog bool lineflushlog] \
 		[list autocheckver bool autocheckver] \
 		[list storename bool storenickname] \
-		[list strictfonts bool strictfonts] \
 
 	]
 	set config(tooltips) 1				;#Enable/disable tooltips
