@@ -5,16 +5,20 @@ accept Terima
 actions Perintah
 addacontact Tambahkan nama baru
 addedyou $1 ($2) telah menambahkan anda dalam daftar namanya
+addprofiledesc Masukkan Daftar-Masuk untuk yang mana anda ingin menciptakan profil baru. \nDaftar-Masuk dengan profil memungkinkan anda memiliki pengaturan yang berbeda untuk setiap Daftar-Masuk. \nTanpa profile anda tidak dapat menggunakan Sejarah, Alarm dan mengingat kata sandi.
+addprofile Tambahkan Profil Baru
 addstate Tambahkan Kondisi Baru
-addto Tambahkan Kepada $1
 addtocontacts Masukkan dalam daftar nama
 addtoo Masukkan orang ini dalam daftar nama saya
+addto Tambahkan Kepada $1
 admincontacts Atur daftar nama
 admingroups Atur kelompok-kelompok
 adverts Iklan
 alarmpref Pengaturan alarm
 alarmstatus Matikan/Nyalakan alarm untuk dia
 allowallbutbl Ijinkan semua pengguna menghubungi saya kecuali mereka dalam Daftar Blokir
+allowbadwords Emoticon ini memiliki animasi
+allowbadwords Matikan sensor terhadap nama panggilan
 allowlist Daftar Boleh (yang dibolehkan)
 allowonlyinal Ijinkan hanya pengguna dalam Daftar Terima untuk menghubungi saya
 allowseen Perbolehkan orang ini untuk melihat status saya dan menghubungi saya
@@ -23,7 +27,8 @@ appearance Tampilan
 appearoff Sembunyi
 areacode Kode Area
 aretyping $1 sedang mengetik pesan
-askprofile Register masuk berikut saat ini tidak memiliki profil. Apakah anda ingin menciptakan yang baru? Apabila tidak anda tidak bisa menggunakan Sejarah, atau menyimpan Bunyi Alarm dan Kata Sandi. Apabila iya maka anda akan memiliki aturan terpisah untuk profil baru ini. Klik pada ?Ciptakan Profil? untuk menciptakan profil baru untuk $1.
+autoaccepted Transmisi File diterima secara otomatis
+autoacceptft Terima permintaan Transmisi File secara otomatis
 autoaway Tunjukkan saya sebagai 'Tidak Ada' apabila tidak aktif selama
 autoconnect2 Register masuk secara otomatis pada saat a'MSN dinyalakan
 autoconnect Hubungi server saat a'MSN dinyalakan
@@ -40,6 +45,7 @@ bgcolor Rubah warna latar belakang a'MSN
 blankdirect Kosongkan untuk sambungan langsung
 block Blokir
 blocked Diblokir
+blockedyougroup Tunjukkan secara terpisah kelompok orang-orang yang memblokir anda
 blocking Memblokir
 blockinter1 Saat status anda online, periksa setiap
 blockinter2 detik, jika tidak periksa setiap :
@@ -53,6 +59,8 @@ browser Pengamat
 busy Sibuk
 cancel Batalkan
 cannotdeleteprofile Tidak bisa menghapus profil karena tampaknya masih digunakan
+cantexec Aplikasi tidak bisa dijalankan: $1. Periksa pilihan
+casesensitive Gunakan pemicu yang sensitif terhadap bentuk huruf (besar/kecil)
 cfgalarm Rubah Pengaturan/Tambah/Hapus alarm
 changefont Rubah Huruf
 changenick Ganti alias
@@ -74,7 +82,8 @@ choosefontcolor Pilih warna tekst
 clearlog2 Bersihkan sejarah untuk semua kontak
 clearlog3 Bersihkan semua register
 clearlog Bersihkan Register
-clicktologin Klik disini buat login
+clicktologin Klik disini buat Daftar-Masuk
+closed Percakapan dengan $1 ditutup karena tidak aktif
 close Tutup
 closingdocks Tombol Tutup mengecilkan jendela
 command Perintah
@@ -92,21 +101,26 @@ copy Salin
 copytogroup Salin ke kelompok
 countrycode Kode negara/daerah
 cprofile Ciptakan Profil
+custom_edit Rubah smiley sesuai kehendak
+custom_new Tambahkan smiley baru sesuai kehendak
 cut Potong
 date Tanggal
 days Hari
 dcprofile Jangan Ciptakan Profil
+defaultloginradio Daftar-Masuk aturan pengaturan dasar
 default Pengaturan Dasar
 delete Hapus
 deliverfail Ada masalah dalam pengiriman pesan berikut
 delprofile2 Pilih profil yang ingin dihilangkan
 delprofile Hapus Profil
+description Gambaran
 directconnection Saya memiliki sambugan langsung ke internet (menggunakan port 1863)
 dockfreedesktop Desktop gratis (KDE/Gnome2)
 dockgtk Labuhan model Gnome
 docking Labuhan
 dockingoff Jangan dilabuhkan
 dockkde Labuhan model KDE
+editcurrentstate Ubah kondisi saat ini
 editnewstate Kondisi untuk Pesan-otomatis Pribadi Baru
 editprofile Ubah Profil
 editstate Rubah Kondisi Pesan-otomatis yang sudah ada
@@ -114,6 +128,7 @@ edit Ubah
 emotisounds Mainkan suara pada emoticon tertentu
 enableproxy Nyalakan proxy
 enableremote Mungkinkan pengedalian jarak jauh
+enablesound Mainkan suara
 encoding2 Pilih Pengkodean
 encoding Pilih jenis pengkodean
 entercontactemail Masukkan alamat e-mail teman
@@ -154,13 +169,16 @@ groupunknown Kelompok lain
 handle Pegangan
 help Bantuan
 helpcontents Isi manual
+hiden Sembunyikan emoticon dari menu smiley
 history Lihat Sejarah
 home Rumah
 httpconnection Sambung menggunakan metode HTTP (menggunakan protokol HTTP melalui port 80)
+hybrid Modus hybrid
 identity Identitas
 ident Sedang mengidentifikasi
 inbox Kotak-Masuk
 internalerror Kesalahan Server Internal
+invalidfile Arsip $2 yang dimasukkan dalam bidang “$1” tidak ada atau tidak dapat dibaca
 invalidusername Nama pengguna salah
 invitationcancelled Undangan telah dibatalkan
 invite Undang
@@ -189,15 +207,16 @@ lleftconf $1 meninggalkan konferensi
 loadcontacts Baca daftar nama
 logbigger Ukuran register arsip untuk setiap kontak tidak pernah melewati batas
 logfandexp Ukuran register arsip dan masa berlaku sejarah
-loggedotherlocation Terputus. Ada yang login dari tempat lain
+loggedotherlocation Terputus. Ada yang Daftar-Masuk dari tempat lain
 loggingin Meregister Masuk
 loginas Register sebagai
-loging Meregister
-login Register Masuk
+login Daftar-Masuk
+loging Mendaftar
 logolder Hanya register percakapan yang mengambil tempat dalam terakhir
-logout Register Keluar
+logout Daftar-Keluar
 logsin baru saja register
 logsmileys Tampilkan Emoticon dan Smiley dalam sejarah a'MSN
+logsout baru saja daftar-keluar
 lprivtoconf Percakapan pribadi berubah menjadi konferensi dengan $1
 luclosedwin Anda telah menutup jendal pada $1
 mailer Aplikasi email
@@ -230,9 +249,12 @@ nodataavailable Tidak ada data yang tersedia untuk $1
 nologfile Tidak ada register untuk $1
 nonewmail Tidak ada email baru di Kotak-Masuk anda
 nonewver Belum ada versi baru
+noprofileexists Tidak ada profil aktif, \n anda harus menciptakan satu apabila anda ingin daftar-masuk berprofil. \nGunakan tombol Tambahkan Profil Baru dalam jendela ini untuk menambahkan profil baru.
 normal Normal
 nosystemtray Baki Sistem tidak tersedia
 no Tidak
+notify1_5 Tampilkan jendela pemberitahuan saat kontak daftar-keluar
+notify1_75 Tampilkan jendela pemberitahuan saat kontak merubah kondisi
 notify1 Tampilkan jendel pemberitahuan saat kontak mulai tersambung
 notify2 Tampilkan jendel pemberitahuan saat pesan baru diterima
 notify3 Tampilkan jendel pemberitahuan saat e-mail masuk ke dalam Kotak-Masuk
@@ -263,6 +285,7 @@ prefapps Aplikasi
 prefawaymsg Pesan Tidak Ada saya
 prefblock1 Periksa saat pemutusan sambungan
 prefblock2 Periksa secara berkelanjutan
+prefblock3 “Anda telah diblokir oleh” kelompok 
 prefconnection Aturan sambungan
 prefemotic Emoticon dan Smiley
 preferences Pilihan
@@ -282,12 +305,14 @@ prefprofile3 Aturan Profil Pengguna a'MSN
 prefprofile Profil Umum Saya
 prefproxy Aturan Proxy Saya
 prefremote Pilihan Sambungan Jarak jauh
-prefsession Daftar Masuk dan Status Saya
+prefsession Daftar-Masuk dan Status Saya
 prefshared Sambungan yang Dibagi (hanya untuk NAT)
 prefsound Suara
 privacy Privasi
 profiledconfig Aturan Profil
+profileexists Anda tidak bisa menciptakan profil dengan dafar-masuk ini \n karena sudah ada. Tolong pilih daftar-masuk yang lain.
 profileinuse Profil ini digunakan oleh sesi a'MSN yang lain, tolong pilih yang lain
+profileloginradio Daftar-masuk menggunakan Profil yang sudah ada
 profiles Profil-profil
 properties Data diri
 proxyconfhttp Pengaturan proxy HTTP
@@ -321,6 +346,10 @@ servergoingdown Terputus: Server sedang bermasalah
 server Server
 session Bagian
 showblockedlist Tunjukkan daftar orang-orang yang memblokir anda
+smileconfig Pengaturan emoticon sesuai kehendak
+smilefile Nama file smiley
+smileintro2 Tolong isi bidang yang diperlukan untuk merubah smiley sesuai kehendak (lihat PSD untuk bantuan)
+smileintro Tolong isi bidang yang diperlukan untuk menciptakan smiley baru sesuai kehendak (lihat PSD untuk bantuan)
 sound2 Mainkan Bunyi saat kontak meregister masuk atau mengirim pesan
 soundcommand Ini harus menjadi perintah bermain (contoh: esdplay)
 soundfile Arsip suara
@@ -329,8 +358,9 @@ soundserver Server Bunyi
 soundstatus Bunyikan alarm
 sound Suara Perisitwa
 startoffline2 Register Masuk secara diam-diam sebagai 'Tampak Tidak Tersambung'
-startoffline Login dengan status Offline
+startoffline Daftar-Masuk dengan status Offline
 stateautomsg Pesan-otomatis untuk Kirim
+statechange status berubah menjadi:
 stateedittext Mohon rubah bagian-bagian yang anda ingin modifikasi dan tekan Simpan
 stateinfo Aturan Kondisi Pribadi
 statename Nama dari Kondisi Pribadi
@@ -350,6 +380,7 @@ tools Peralatan
 tooltips Aktifkan Tips untuk Peralatan
 transnotexists Arsip yang diminta belum diterjemahkan ke dalam bahasa tersebut.
 traynotcompiled Baki icon tambahan belum dipatuhi. Periksa tambahan/bakilabuhan
+triggers Pemicu-pemicu tekst
 twonewmail $1 email baru dalam Kotak-Masuk
 unblock Cabut blokiran
 uoffline Tidak Tersambung
@@ -365,6 +396,7 @@ viewprofile Lihat Profil Pemakai
 view Tampilan
 willjoin Menunggu $1 untuk bergabung
 work Kerja
+wrongfields Bidang “$1”, “$2” dan/atau “$3” tidak dapat diterima
 wrongprofileversion Versi arsip pengaturan profil yang salah. Untuk memperbaikinya mohon hapus direktori $1 atau perbaharui a'MSN
 xoffset Keseimbangan Posisi X
 yes Iya

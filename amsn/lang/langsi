@@ -27,6 +27,8 @@ appearance Izgled
 appearoff Na videz neprijavljen
 areacode Postna stevilka
 aretyping $1 pisejo sporocilo
+autoaccepted Prenos datoteke avtomaticno sprejet
+autoacceptft Avtomaticno sprejmi prihajajoce datoteke
 autoaway Prikazi me kot "Odsoten", ko sem neaktiven
 autoconnect2 Prijavi se ob zagonu aMSN
 autoconnect Prijavi se ob zagonu amsn
@@ -44,6 +46,7 @@ bgcolor Zamenjaj barvo ozadja
 blankdirect Pustite prazno za neposredno povezavo
 block Blokiraj
 blocked Blokiran
+blockedyougroup Pokazi posebej stike, ki so te blokirali
 blocking Blokiranje
 blockinter1 Ko si prijavljen, preveri vsakih
 blockinter2 sekund, sicer pa
@@ -248,6 +251,7 @@ nologfile Brez dnevnika za $1
 no Ne
 nonewmail Ni novih sporocil v Inboxu
 nonewver Ni novih verzij na voljo za prenos
+noprofileexists Trenutno ni profilov.\nDa jih uporabljas, ustvari novega\nz gumbom dodaj profil.
 normal Normalno
 nosystemtray Tray ni na voljo
 notify1_5 Prikazi obvestilo, ko se kdo odjavi
@@ -282,6 +286,7 @@ prefapps Aplikacije
 prefawaymsg Sporocilo ob odsotnosti
 prefblock1 Preveri ob odjavi
 prefblock2 Preverjaj
+prefblock3 Skupina "Blokirajo te"
 prefconnection Nastavitve povezave
 prefemotic Emotikoni in smeski
 preferences Nastavitve
@@ -306,6 +311,7 @@ prefshared Deljena povezava (samo NAT)
 prefsound Zvoki
 privacy Zasebnost
 profiledconfig Nastavitve profilov
+profileexists Ne mores ustvariti profila s tem uporabniskim imenom, \nker ze obstaja. Uporabi drugo uporabnisko ime.
 profileinuse Ta profil uporablja druga seja Amsn. Prosim izberi drugega.
 profileloginradio Prijavi se s profilom
 profiles Profili
@@ -397,6 +403,6 @@ wrongprofileversion Napacna datoteka nastavitev profila. Da bi jo popravil, odst
 xoffset X odstopanje
 yes Ja
 yoffset Y odstopanje
-youblocked Bil si blokiran
+youblocked Blokirajo te
 yousay Pravis
 youwant Hoces

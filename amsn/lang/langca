@@ -5,6 +5,8 @@ acceptfile Acceptes el fitxer $1, de mida $2? Desat a $3
 actions Accions
 addacontact Afegeix un contacte
 addedyou $1 ($2) t'ha inclòs a la seva llista de contactes
+addprofile Afegeix un nou perfil
+addprofiledesc Introdueix l'identificador amb el que vols crear el nou perfil.\nCada perfil pot tenir una configuració difierent.\nSense perfils no pots utilitzar l'històric, les alarmes o recordar les contrasenyes.
 addstate Afegir un nou estat
 addto Afegeix a $1
 addtocontacts Afegir als contactes
@@ -25,7 +27,8 @@ appearance Aparença
 appearoff Simula desconnexió
 areacode Codi d'àrea
 aretyping $1 estan escrivint un missatge
-askprofile Aquest usuari encara no té un perfil. Vols crear-ne un de nou? \n Si no el crees, no podràs utilitzar l'historial o desar l'alarma i la contrasenya. \n Si el crees, tindràs una configuració separada per aquest perfil. \n \n Apreta sobre "Crear perfil" per crear un nou perfil per l'usuari $1.
+autoaccepted Transferència del fitxer acceptada automàticament
+autoacceptft Accepta automàticament les transferències de fitxers
 autoaway Mostra'm en l'estat "Absent" quan no hi hagi activitat en
 autoconnect2 Connectar-se automàticament al iniciar l'aMSN
 autoconnect Connectar-se al iniciar l'aMSN
@@ -42,6 +45,7 @@ bgcolor Canvia el color del fons de l'aMSN
 blankdirect Deixa-ho en blanc per a connectar-te directament
 block Bloquejar
 blocked Bloquejat
+blockedyougroup Mostra un nou grup amb la gent que t'ha bloquejat
 blocking Bloqueig
 blockinter1 Quan el meu estat sigui Connectat, comprova-ho cada
 blockinter2 segons, sinó comprova-ho cada
@@ -104,6 +108,7 @@ date Data
 days dies
 dcprofile No crear perfil
 default Configuració predeterminada
+defaultloginradio Inicia la sessió amb la configuració per defecte
 delete Esborrar
 deliverfail Hi ha hagut un problema al enviar el missatge
 delprofile2 Selecciona el perfil que t'agradaria eliminar
@@ -115,6 +120,7 @@ dockgtk Acoplament amb el Gnome
 docking Acoplament
 dockingoff Desactivat
 dockkde Acoplament amb el KDE
+editcurrentstate Edita l'estat actual
 edit Edita
 editnewstate Nou missatge automàtic per a un estat personalitzat
 editprofile Editar perfil
@@ -243,6 +249,7 @@ nologfile No existeix fitxer d'historial per $1
 nonewmail No hi ha missatges nous a la bústia
 nonewver No hi ha cap versió nova per a baixar-se
 no No
+noprofileexists No hi ha perfils definits.\nN'has de crear un, si vols utilitzar-los per iniciar la sessió.\nUtilitza el botó "Afegeix un nou perfil" per afegir un nou perfil.
 normal Normal
 nosystemtray Safata del sistema no disponible
 notify1_5 Mostrar una finestra d'avís quan un contacte es desconnecti
@@ -277,6 +284,7 @@ prefapps Aplicacions
 prefawaymsg Missatges d'absent
 prefblock1 Comprovar al desconnectar-se
 prefblock2 Comprovar contínuament
+prefblock3 Grup "Has estat bloquejat per"
 prefconnection Configuració de la connexió
 prefemotic Emoticones
 preferences Preferències
@@ -301,7 +309,9 @@ prefshared Connexions compartides (només per NAT)
 prefsound So
 privacy Privacitat
 profiledconfig Configuració de perfil
+profileexists No pots crear perfil amb aquest identificador\nperquè ja existeix. Escull un altre identificador.
 profileinuse Aquest perfil està sent utilitzat per una altra sessió aMSN. Per favor, escull-ne un altre
+profileloginradio Inicia la sessió amb un perfil existent
 profiles Perfils
 properties Propietats
 proxyconf Configuració del servidor intermediari (proxy)
@@ -363,6 +373,7 @@ stylelog Escull l'estil en que desitjes veure l'historial
 syntaxerror Error de sintaxi
 tabbed Finestres sobreposades
 textsize Mida del text
+timeremaining Temps restant
 title aMSN
 to A
 tools Eines
@@ -390,6 +401,6 @@ wrongprofileversion Versió incorrecta del fitxer de configuració del perfil. Per
 xoffset Desplaçament X
 yes Sí
 yoffset Desplaçament Y
-youblocked Has estat bloquejat
+youblocked Has estat bloquejat per
 yousay Dius
 youwant Vols
