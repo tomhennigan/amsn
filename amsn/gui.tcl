@@ -1382,7 +1382,7 @@ namespace eval ::amsn {
       set win_name "msg_$winid"
       incr winid
 
-      toplevel .${win_name}
+      toplevel .${win_name} -class Amsn
 
       if {[catch { wm geometry .${win_name} $config(winchatsize)} res]} {
          wm geometry .${win_name} 350x320
