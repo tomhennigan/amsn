@@ -61,7 +61,7 @@ proc findskins { } {
 	global HOME2
 
 	set skins [glob -directory [file join $program_dir skins] */settings.xml]
-	set skins_in_home [glob -directory [file join $HOME2 skins] */settings.xml]
+	set skins_in_home [glob -nocomplain [file join $HOME2 skins] */settings.xml]
 
 	set skins [concat $skins $skins_in_home]
 
