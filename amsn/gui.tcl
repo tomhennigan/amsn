@@ -6168,10 +6168,10 @@ proc pictureChooseFile { } {
 	 	if { ![catch {convert_display_picture $file} res]} {
 			set image_name [image create photo -file [GetSkinFile displaypic "[filenoext [file tail $file]].gif"]]
 			.picbrowser.mypic configure -image $image_name
-			set selected_image "[filenoext [file tail $file]].gif"
+			set selected_image "[filenoext [file tail $file]].png"
 			lappend image_names $image_name
 			status_log "Created $image_name\n"
-			return "[filenoext [file tail $file]].gif"
+			return "[filenoext [file tail $file]].png"
 		} else {
 			status_log "Error converting $file: $res\n"
 		}
