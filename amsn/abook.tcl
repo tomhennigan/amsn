@@ -182,10 +182,10 @@ namespace eval ::abook {
    # The value is urlencoded by this routine
    proc setPhone { item value } {
 	switch $item {
-	    home { ::MSN::WriteNS PRP "PHH $value" }
-	    work { ::MSN::WriteNS PRP "PHW $value" }
-	    mobile { ::MSN::WriteNS PRP "PHM $value" }
-	    pager { ::MSN::WriteNS PRP "MOB $value" }
+	    home { ::MSN::WriteSB ns PRP "PHH $value" }
+	    work { ::MSN::WriteSB ns PRP "PHW $value" }
+	    mobile { ::MSN::WriteSB ns PRP "PHM $value" }
+	    pager { ::MSN::WriteSB ns PRP "MOB $value" }
 	    default { puts "setPhone error, unknown $item $value" }
 	}
    }
@@ -383,6 +383,10 @@ namespace eval ::abookGui {
    }
 }
 # $Log$
+# Revision 1.21  2003/06/01 19:49:36  airadier
+# Very alpha support of POST proxy method.
+# Removed WriteNS, WriteNSRaw, and read_ns_sock, it was same code as WriteSB, WriteSBRaw and read_sb_sock, so now they're the same, always use SB procedures.
+#
 # Revision 1.20  2003/03/01 19:02:07  airadier
 # Now using PNG command for keepalive connection.
 # Trying to change "string map" to "stringmap", our own string map procedure.

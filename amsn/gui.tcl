@@ -346,7 +346,7 @@ namespace eval ::amsn {
       }
 
       if { [string first ${win_name} [focus]] != 0 } {
-        sonido type
+        play_sound type
       }
 
 
@@ -464,7 +464,7 @@ namespace eval ::amsn {
       }
 
       if { [string first ${win_name} [focus]] != 0 } {
-         sonido type
+         play_sound type
       }
       
    }
@@ -485,7 +485,7 @@ namespace eval ::amsn {
       variable window_titles
       global list_states
 
-      set topmsg ""
+      #set topmsg ""
       set title ""
 
       set user_list [::MSN::usersInChat $chatid]
@@ -493,7 +493,13 @@ namespace eval ::amsn {
       if {[llength $user_list] == 0} {
          return 0
       }
+      
+      set win_name [WindowFor $chatid]
 
+      ${win_name}.f.top.text configure -state normal -font sboldf -height 1 -wrap none
+      ${win_name}.f.top.text delete 0.0 end
+      
+      
       foreach user_login $user_list {
 
          #set user_name [lindex $user_info 1]
@@ -505,32 +511,41 @@ namespace eval ::amsn {
 	  }
 
 	  set user_state [lindex [lindex $list_states $user_state_no] 1]
-
+          set user_image [lindex [lindex $list_states $user_state_no] 4]
 
 	  set title "${title}${user_name}, "
+	  
+	  #TODO: When we have better, smaller and transparent images, uncomment this
+	  #${win_name}.f.top.text image create end -image $user_image -pady 0 -padx 2
 
- 	  set topmsg "${topmsg}${user_name} <${user_login}> "
+ 	  #set topmsg "${topmsg}${user_name} <${user_login}> "
+	  ${win_name}.f.top.text insert end "${user_name} <${user_login}>"
 
 	  if { "$user_state" != "" && "$user_state" != "online" } {
-            set topmsg "${topmsg} \([trans $user_state]\) "
+            #set topmsg "${topmsg} \([trans $user_state]\) "
+	    ${win_name}.f.top.text insert end " \([trans $user_state]\)"
 	  }
-	  set topmsg "${topmsg}\n"
+	  ${win_name}.f.top.text insert end "\n"
+	  #set topmsg "${topmsg}\n"
 
       }
 
       set title [string replace $title end-1 end " - [trans chat]"]
-      set topmsg [string replace $topmsg end-1 end]
+      #set topmsg [string replace $topmsg end-1 end]
+      
+      #set win_name [WindowFor $chatid]
 
-      set win_name [WindowFor $chatid]
-
-      ${win_name}.f.top.text configure -state normal -font sboldf -height 1 -wrap none
-      ${win_name}.f.top.text delete 0.0 end
-      ${win_name}.f.top.text insert end $topmsg
+      #${win_name}.f.top.text configure -state normal -font sboldf -height 1 -wrap none
+      #${win_name}.f.top.text delete 0.0 end
+      #${win_name}.f.top.text insert end $topmsg
       
       #Calculate number of lines, and set top text size
       set size [${win_name}.f.top.text index end]
       set posyx [split $size "."]
-      set lines [expr {[lindex $posyx 0] - 1}]
+      set lines [expr {[lindex $posyx 0] - 2}]
+      
+      ${win_name}.f.top.text delete [expr {$size - 1.0}] end
+            
       ${win_name}.f.top.text configure -state normal -font sboldf -height $lines -wrap none
 
       ${win_name}.f.top.text configure -state disabled
@@ -540,7 +555,7 @@ namespace eval ::amsn {
 
 
       after cancel "::amsn::WinTopUpdate $chatid"
-      after 3000 "::amsn::WinTopUpdate $chatid"
+      after 5000 "::amsn::WinTopUpdate $chatid"
 
    }
    #///////////////////////////////////////////////////////////////////////////////
@@ -1825,7 +1840,7 @@ namespace eval ::amsn {
       raise $w
 
       if { $sound != ""} {
-         sonido $sound
+         play_sound $sound
       }
 
 
@@ -2134,7 +2149,8 @@ proc cmsn_draw_main {} {
    #This shouldn't go here
    if {$config(withproxy)} {
 
-     ::Proxy::Init $config(proxy) "http"
+     #::Proxy::Init $config(proxy) "http"
+     ::Proxy::Init $config(proxy) "post"
      #::Proxy::Init $config(proxy) $config(proxytype)
      ::Proxy::LoginData $config(proxyauthenticate) $config(proxyuser) $config(proxypass)
    }
@@ -2249,11 +2265,11 @@ proc cmsn_msgwin_sendmail {name} {
 
 
 #///////////////////////////////////////////////////////////////////////
-proc sonido {sound} {
+proc play_sound {sound} {
   global config sounds_folder config
   if { $config(sound) == 1 } {
-    set archivo [file join $sounds_folder $sound.wav]
-    catch {eval exec $config(soundcommand) $archivo &} res
+    set filename [file join $sounds_folder $sound.wav]
+    catch {eval exec $config(soundcommand) $filename &} res
   }
 }
 #///////////////////////////////////////////////////////////////////////
@@ -2767,7 +2783,7 @@ proc cmsn_draw_online {} {
    $pgBuddy.text configure -state normal -font splainf
    $pgBuddy.text delete 0.0 end
 
-
+   #Set up TAGS for mail notification
    $pgBuddy.text tag conf mail -fore black -underline true -font splainf
    $pgBuddy.text tag bind mail <Button1-ButtonRelease> "hotmail_login $config(login) $password"
    $pgBuddy.text tag bind mail <Enter> \
@@ -2822,7 +2838,6 @@ proc cmsn_draw_online {} {
    $pgBuddy.text.mystatus tag bind mystatus <Button1-ButtonRelease> "tk_popup .my_menu %X %Y"
    $pgBuddy.text.mystatus tag bind mystatus <Button3-ButtonRelease> "tk_popup .my_menu %X %Y"
 
-
    $pgBuddy.text.mystatus insert end "[trans mystatus]:\n" mystatuslabel
    $pgBuddy.text.mystatus insert end "$my_name " mystatus
    $pgBuddy.text.mystatus insert end "($my_state_desc)" mystatus
@@ -2842,7 +2857,9 @@ proc cmsn_draw_online {} {
 
    set barheight [image height colorbar]
    set barwidth [image width colorbar]
-
+   
+   image delete mainbar
+   image create photo mainbar -width $width -height $barheight
    mainbar blank
    mainbar copy colorbar -from 0 0 5 $barheight
    mainbar copy colorbar -from 5 0 15 $barheight -to 5 0 [expr {$width - 150}] $barheight

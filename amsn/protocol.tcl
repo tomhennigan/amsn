@@ -38,19 +38,23 @@ namespace eval ::MSN {
 
    variable myStatus FLN
 
+   proc connectError { } {
+        msg_box "[trans connecterror]"
+
+        sb set ns stat "d"
+        #cmsn_draw_offline
+	logout
+   }
+   
    proc connect { username password } {
 
       #Log out
       .main_menu.file entryconfigure 2 -state normal
 
-
       if {[catch { cmsn_ns_connect $username $password } res]} {
-        msg_box "[trans connecterror]"
-
-        sb set ns stat "d"
-        cmsn_draw_offline
-
-	 return 0
+        
+	connectError
+	return 0
 
       }
 
@@ -71,7 +75,7 @@ namespace eval ::MSN {
       global config user_stat
       variable myStatus
       #catch {puts -nonewline [sb get ns sock] "OUT\r\n"; close [sb get ns sock]} res
-      ::MSN::WriteNSRaw "OUT\r\n";
+      ::MSN::WriteSBRaw ns "OUT\r\n";
       sb set ns stat "d"
 
       catch {close [sb get ns sock]} res
@@ -121,7 +125,7 @@ namespace eval ::MSN {
          if { [string length $name] > 350} {
            set name [string range $name 0 350]
          }
-         ::MSN::WriteNS "REA" "$userlogin $name"
+         ::MSN::WriteSB ns "REA" "$userlogin $name"
 	 return 0
 
       } elseif { "[lindex $recv 0]" == "REA"} {
@@ -141,10 +145,10 @@ namespace eval ::MSN {
       }
 
       if { $config(allowbadwords) } {
-         ::MSN::WriteNS "REA" "$userlogin $name" \
+         ::MSN::WriteSB ns "REA" "$userlogin $name" \
       	   "::MSN::badNickCheck $userlogin [list $newname]"
       } else {
-         ::MSN::WriteNS "REA" "$userlogin $name"
+         ::MSN::WriteSB ns "REA" "$userlogin $name"
       }
 
    }
@@ -154,7 +158,7 @@ namespace eval ::MSN {
       variable myStatus
       global autostatuschange
 
-      ::MSN::WriteNS "CHG" $new_status
+      ::MSN::WriteSB ns "CHG" $new_status
       set myStatus $new_status
 
       #Reset automatic status change to 0
@@ -178,13 +182,13 @@ namespace eval ::MSN {
    }
 
    proc blockUser { userlogin username} {
-     ::MSN::WriteNS REM "AL $userlogin"
-     ::MSN::WriteNS ADD "BL $userlogin $userlogin"
+     ::MSN::WriteSB ns REM "AL $userlogin"
+     ::MSN::WriteSB ns ADD "BL $userlogin $userlogin"
    }
 
    proc unblockUser { userlogin username} {
-      ::MSN::WriteNS REM "BL $userlogin"
-      ::MSN::WriteNS ADD "AL $userlogin $username"
+      ::MSN::WriteSB ns REM "BL $userlogin"
+      ::MSN::WriteSB ns ADD "AL $userlogin $username"
    }
 
    # Move user from one group to another group
@@ -192,8 +196,8 @@ namespace eval ::MSN {
       if { $userName == "" } {
         set userName $passport
       }
-      set rtrid [::MSN::WriteNS "REM" "FL $passport $oldGid"]
-      set atrid [::MSN::WriteNS "ADD" "FL $passport [urlencode $userName] $newGid"]
+      set rtrid [::MSN::WriteSB ns "REM" "FL $passport $oldGid"]
+      set atrid [::MSN::WriteSB ns "ADD" "FL $passport [urlencode $userName] $newGid"]
 
    }
 
@@ -201,7 +205,7 @@ namespace eval ::MSN {
       if { $userName == "" } {
         set userName $passport
       }
-      set atrid [::MSN::WriteNS "ADD" "FL $passport [urlencode $userName] $newGid"]
+      set atrid [::MSN::WriteSB ns "ADD" "FL $passport [urlencode $userName] $newGid"]
    }
 
 
@@ -209,11 +213,11 @@ namespace eval ::MSN {
       if { $username == "" } {
         set username $userlogin
       }
-      ::MSN::WriteNS "ADD" "FL $userlogin $username 0"
+      ::MSN::WriteSB ns "ADD" "FL $userlogin $username 0"
    }
 
    proc deleteUser { userlogin } {
-      ::MSN::WriteNS REM "FL $userlogin"
+      ::MSN::WriteSB ns REM "FL $userlogin"
    }
 
    proc inviteFT { chatid filename cookie ipaddr} {
@@ -401,7 +405,7 @@ namespace eval ::MSN {
 
       if { $myStatus != "FLN" } {
 	#puts -nonewline [sb get ns sock] "PNG\r\n"
-	::MSN::WriteNSRaw "PNG\r\n"
+	::MSN::WriteSBRaw ns "PNG\r\n"
       }
 
       after 60000 "::MSN::PollConnection"
@@ -422,129 +426,105 @@ namespace eval ::MSN {
       if {[catch {puts $sb_sock "$msgtxt"} res]} {
 
          status_log "::MSN::WriteSB: problem when writing to the socket: $res...\n" WHITE
-         cmsn_sb_sessionclosed $sbn
-         degt_protocol "->SB($sbn) FAILED: $msgtxt" error
+         ::MSN::CloseSB $sbn
+         degt_protocol "->$sbn FAILED: $msgtxt" error
          return 0
 
       }
 
-      degt_protocol "->SB($sbn-$sb_sock) $msgtxt" sbsend
+      if {$sbn != "ns" } {
+         degt_protocol "->$sbn-$sb_sock $msgtxt" sbsend
+      } else {
+         degt_protocol "->$sbn-$sb_sock $msgtxt" nssend
+      }
 
       if {$handler != ""} {
          global list_cmdhnd
-	  #status_log "WriteSB: Appending handler $handler\n"
          lappend list_cmdhnd [list $trid $handler]
       }
+      
+      return $msgid
    }
 
    proc WriteSBRaw {sbn cmd} {
 
       set sb_sock [sb get $sbn sock]
 
+      #set command "[sb get ns puts] -nonewline [sb get ns sock] \"$cmd\""
       if {[catch {puts -nonewline $sb_sock "$cmd"} res]} {
-
          status_log "::MSN::WriteSB: problem when writing to the socket: $res...\n" WHITE
-         cmsn_sb_sessionclosed $sbn
-         degt_protocol "->SBRAW($sbn) FAILED: $cmd" error
-         return 0
-      }
+         ::MSN::CloseSB $sbn
+         degt_protocol "->$sbn FAILED: $cmd" error
+      } else {
 
-      degt_protocol "->SBRAW($sbn) $cmd" sbsend
-
-   }
-
-
-   proc ReadNS {} {
-
-      set ns_sock [sb get ns sock]
-
-      if {[catch {eof $ns_sock} res]} {
-
-         set oldstat [sb get ns stat]
-         sb set ns stat "d"
-
-         if { ("$oldstat" != "d") && ("$oldstat" != "u") } {
-            logout
-         }
-
-      } elseif {[eof $ns_sock]} {
-
-
-         set oldstat [sb get ns stat]
-
-         if { ("$oldstat" != "d") && ("$oldstat" != "u") } {
-            logout
+         if {$sbn != "ns" } {
+            degt_protocol "->$sbn-$sb_sock $cmd" sbsend
          } else {
-            status_log "Closing NS socket! (stat= [sb get ns stat])\n" red
-            close $ns_sock
-            sb set ns stat "d"
+            degt_protocol "->$sbn-$sb_sock $cmd" nssend
+         }
 	 
-	 }
-
-      } else {
-
-         set tmp_data "ERROR READING NS !!"
-	 catch {gets $ns_sock tmp_data} res
-         degt_protocol "<-NS $tmp_data\\n" nsrecv
-	 return "$tmp_data"
-
       }
+
    }
 
+   #///////////////////////////////////////////////////////////////////////
+   proc CloseSB { sbn } {
 
-   proc WriteNS {cmd param {handler ""}} {
-      variable trid
-
-      set thistrid [incr trid]
-
-      set msgtxt "$cmd $thistrid $param\r"
-
-      if { [catch {puts [sb get ns sock] "$msgtxt"} res]} {
-         degt_protocol "->NS(FAILED) $msgtxt: $res" error
-
-         catch {close [sb get ns sock]} res
-	          
-         set oldstat [sb get ns stat]
-         sb set ns stat "d"
-
+      status_log "::MSN::CloseSB: $sbn\n" green
+      catch { fileevent [sb get $sbn sock] readable "" } res
+      catch { fileevent [sb get $sbn sock] writable "" } res
+      catch {close [sb get $sbn sock]} res   
+  
+      set oldstat [sb get $sbn stat]
+      sb set $sbn stat "d"   
+      sb set $sbn sock ""
+   
+      
+      if { $sbn == "ns" } {
+   
+         status_log "Closing NS socket! (stat= [sb get ns stat])\n" red      
          if { ("$oldstat" != "d") && ("$oldstat" != "u") } {
             logout
          }
-	 
-	 return 0
-      }
       
-      degt_protocol "->NS $msgtxt" nssend
-
-      if {$handler != ""} {
-         global list_cmdhnd
-         lappend list_cmdhnd [list $thistrid $handler]
-      }
-
-      return $thistrid
-
-   }
-
-   #Write command to the NS without trid, or new line characters
-   proc WriteNSRaw {cmd} {
-
-      if { [catch {puts -nonewline [sb get ns sock] "$cmd"} res]} {
-         degt_protocol "->NSRAW(FAILED) $cmd: $res" error
       } else {
-         degt_protocol "->NSRAW $cmd" nssend
+   
+  
+         set chatid [::MSN::ChatFor $sbn]
+
+         if { $chatid == 0 } {
+            status_log "Session closed but was not connected to a chatid\n"
+            ::MSN::KillSB $sbn
+            return 0
+         }
+
+         if { [::MSN::SBFor $chatid] == $sbn } {
+
+            set items [expr {[sb length $sbn users] -1}]
+            #TODO: Check if this works
+            #sb set $sbn last_user [sb index $sbn users 0]
+            for {set idx $items} {$idx >= 0} {incr idx -1} {
+               set user_info [sb index $sbn users $idx]
+               sb ldel $sbn users $idx
+
+               amsn::userLeaves [::MSN::ChatFor $sbn] [list $user_info]
+            }
+
+         }
       }
-
    }
-
+   #///////////////////////////////////////////////////////////////////////
+   
+   
    proc AnswerChallenge { item } {
       if { [lindex $item 1] != 0 } {
         status_log "Invalid challenge\n" red
       } else {
         set str [lindex $item 2]Q1P7W2E4J9R8U3S5
         set str [::md5::md5 $str]
-        ::MSN::WriteNS "QRY" "msmsgs@msnmsgr.com 32"
+        ::MSN::WriteSB ns "QRY" "msmsgs@msnmsgr.com 32"
         #puts -nonewline [sb get ns sock] $cadenita
-	::MSN::WriteNSRaw "$str"
+	::MSN::WriteSBRaw ns "$str"
       }
    }
 
@@ -936,7 +916,7 @@ namespace eval ::MSN {
       
       global list_users list_states list_otherusers user_info
 
-      set wanted_info [list $user $user ""]
+      set wanted_info [list $user $user 0]
 
       set idx [lsearch $list_users "${user} *"]
 
@@ -1134,13 +1114,13 @@ namespace eval ::MSN {
 
 	  if {[catch {eof $sb_sock} res]} {
 	     status_log "chatReady: Error in the EOF command: $res\n" red
-	     cmsn_sb_sessionclosed $sbn
+	     ::MSN::CloseSB $sbn
 	     return 0
 	  }
 
 	  if {[eof $sb_sock]} {
 	    status_log "Closing from chatready\n"
-            cmsn_sb_sessionclosed $sbn
+            ::MSN::CloseSB $sbn
 	    return 0
 	  }
 
@@ -1456,37 +1436,41 @@ namespace eval ::MSN {
 
 proc read_sb_sock {sbn} {
 
-   #puts "Here in read_sb_sock\n"
-
    set sb_sock [sb get $sbn sock]
+   
+   if { $sbn == "ns" } {
+     set debugcolor "nsrecv"
+   } else {
+     set debugcolor "sbrecv"
+   }
+   
    if {[catch {eof $sb_sock} res]} {
 
       status_log "read_sb_sock: Error reading EOF in read_sb_sock: $res\n" red
-      cmsn_sb_sessionclosed $sbn
+      ::MSN::CloseSB $sbn
 
    } elseif {[eof $sb_sock]} {
 
-      degt_protocol "<-SB($sbn) CLOSED" sbrecv
-      cmsn_sb_sessionclosed $sbn
+      degt_protocol "<-$sbn CLOSED" $debugcolor
+      ::MSN::CloseSB $sbn
 
    } else {
 
       set tmp_data "ERROR READING SB !!!"
       if {[catch {gets $sb_sock tmp_data} res]} {
 
-         degt_protocol "<-SB($sbn) Read Error, Closing: $res" error
-         cmsn_sb_sessionclosed $sbn
+         degt_protocol "<-$sbn Read Error, Closing: $res" error
+         ::MSN::CloseSB $sbn
 
       } elseif  { "$tmp_data" == "" } {
-
+      
          update idletasks
-         degt_protocol "<-SB($sbn) READ NOTHING " error
-
+	 
       } else {
 
          sb append $sbn data $tmp_data
 
-         degt_protocol "<-SB($sbn) $tmp_data\\n" sbrecv
+         degt_protocol "<-$sbn $tmp_data\\n" $debugcolor
 
          if {[string range $tmp_data 0 2] == "MSG"} {
             set recv [split $tmp_data]
@@ -1559,59 +1543,6 @@ proc sb {do sbn var {value ""}} {
    return 0
 }
 
-proc read_ns_sock {} {
-   global ns_data ns_stat config password
-
-
-   set tmp_data [::MSN::ReadNS]
-
-   if { "$tmp_data" != "" } {
-
-      set log [stringmap {\r ""} $tmp_data]
-
-      sb append ns data $tmp_data
-
-      if {[string range $tmp_data 0 2] == "MSG"} {
-
-         set ns_sock [sb get ns sock]
-
-         set recv [split $tmp_data]
-	 fconfigure $ns_sock -blocking 1
-	 set msg_data [read $ns_sock [lindex $recv 3]]
-
-	 degt_protocol " Message contents:\n$msg_data" msgcontents
-
-	 # Demographic Information about subscriber/user. Can be used
-	 # for a variety of things.
-	 set content [::MSN::GetHeaderValue $msg_data Content-Type]
-	 if {[string range $content 0 19] == "text/x-msmsgsprofile"} {
-             status_log "Getting demographic and auth information\n"
-	     # 1033 is English. See XXXX for info
-	     set d(langpreference) [::MSN::GetHeaderValue $msg_data lang_preference]
-	     set d(preferredemail) [::MSN::GetHeaderValue $msg_data preferredEmail]
-	     set d(country) [::MSN::GetHeaderValue $msg_data country]
-	     set d(gender) [::MSN::GetHeaderValue $msg_data Gender]
-	     set d(kids) [::MSN::GetHeaderValue $msg_data Kid]
-	     set d(age) [::MSN::GetHeaderValue $msg_data Age]
-	     #Used for authentication
-	     set d(mspauth) [::MSN::GetHeaderValue $msg_data MSPAuth]
-	     set d(kv) [::MSN::GetHeaderValue $msg_data kv]
-	     set d(sid) [::MSN::GetHeaderValue $msg_data sid]
-	     set d(sessionstart) [clock seconds]
-	     ::abook::setDemographics d
-	 }
-
-	 fconfigure $ns_sock -blocking 0
-         sb append ns data $msg_data
-
-      }
-   }
-
-   return
-
-
-}
-
 
 proc proc_sb {} {
    global sb_list
@@ -1648,7 +1579,6 @@ proc proc_ns {} {
 	 sb ldel ns data 0
       } else {
          status_log "problem processing NS data!\n" red
-	 return 0
       }
 
    }
@@ -2143,7 +2073,7 @@ proc cmsn_reconnect { name } {
 
 
 
-      ::MSN::WriteNS "XFR" "SB" "cmsn_open_sb $name"
+      ::MSN::WriteSB ns "XFR" "SB" "cmsn_open_sb $name"
 
       ::amsn::chatStatus [::MSN::ChatFor $name] "[trans chatreq]..." miniinfo ready
 
@@ -2197,40 +2127,6 @@ proc cmsn_reconnect { name } {
 }
 
 
-#///////////////////////////////////////////////////////////////////////
-proc cmsn_sb_sessionclosed {sbn} {
-
-   status_log "cmsn_sb_sessionclosed: $sbn\n" green
-   catch { fileevent [sb get $sbn sock] readable "" } res
-   catch { fileevent [sb get $sbn sock] writable "" } res
-   catch {close [sb get $sbn sock]} res   
-   sb set $sbn stat "d"   
-   sb set $sbn sock ""
-   
-   set chatid [::MSN::ChatFor $sbn]
-
-   if { $chatid == 0 } {
-      status_log "Session closed but was not connected to a chatid\n"
-      ::MSN::KillSB $sbn
-      return 0
-   }
-
-   if { [::MSN::SBFor $chatid] == $sbn } {
-
-      set items [expr {[sb length $sbn users] -1}]
-      #TODO: Check if this works
-      #sb set $sbn last_user [sb index $sbn users 0]
-      for {set idx $items} {$idx >= 0} {incr idx -1} {
-         set user_info [sb index $sbn users $idx]
-         sb ldel $sbn users $idx
-
-         amsn::userLeaves [::MSN::ChatFor $sbn] [list $user_info]
-      }
-
-   }
-
-}
-#///////////////////////////////////////////////////////////////////////
 
 
 
@@ -2245,10 +2141,10 @@ proc cmsn_update_users {sb_name recv} {
 
          set chatid [::MSN::ChatFor $sb_name]
 
+	 	 
          if {[sb get $sb_name stat] != "d"} {
 
-            set leaves [sb search $sb_name users "[lindex $recv 1]"]
-
+	    set leaves [sb search $sb_name users "[lindex $recv 1]"]
             sb set $sb_name last_user [sb index $sb_name users $leaves]
             sb ldel $sb_name users $leaves
 
@@ -2454,6 +2350,33 @@ proc cmsn_ns_handler {item} {
       return 0
    } else {
    switch [lindex $item 0] {
+      MSG {
+      
+         set msg_data [sb index ns data 1]
+         sb ldel ns data 1
+      
+	 # Demographic Information about subscriber/user. Can be used
+	 # for a variety of things.
+	 set content [::MSN::GetHeaderValue $msg_data Content-Type]
+	 if {[string range $content 0 19] == "text/x-msmsgsprofile"} {
+             status_log "Getting demographic and auth information\n"
+	     # 1033 is English. See XXXX for info
+	     set d(langpreference) [::MSN::GetHeaderValue $msg_data lang_preference]
+	     set d(preferredemail) [::MSN::GetHeaderValue $msg_data preferredEmail]
+	     set d(country) [::MSN::GetHeaderValue $msg_data country]
+	     set d(gender) [::MSN::GetHeaderValue $msg_data Gender]
+	     set d(kids) [::MSN::GetHeaderValue $msg_data Kid]
+	     set d(age) [::MSN::GetHeaderValue $msg_data Age]
+	     #Used for authentication
+	     set d(mspauth) [::MSN::GetHeaderValue $msg_data MSPAuth]
+	     set d(kv) [::MSN::GetHeaderValue $msg_data kv]
+	     set d(sid) [::MSN::GetHeaderValue $msg_data sid]
+	     set d(sessionstart) [clock seconds]
+	     ::abook::setDemographics d
+	 }
+	 
+	 return 0
+      }
       VER -
       INF -
       USR {
@@ -2674,7 +2597,7 @@ proc cmsn_ns_msg {recv} {
 
 
 proc cmsn_listdel {recv} {
-   ::MSN::WriteNS "LST" "[lindex $recv 2]"
+   ::MSN::WriteSB ns "LST" "[lindex $recv 2]"
 }
 
 proc cmsn_auth {{recv ""}} {
@@ -2684,7 +2607,7 @@ proc cmsn_auth {{recv ""}} {
    switch [sb get ns stat] {
       c {
 #New version of protocol
-         ::MSN::WriteNS "VER" "MSNP7 MSNP6 MSNP5 MSNP4 CVR0"
+         ::MSN::WriteSB ns "VER" "MSNP7 MSNP6 MSNP5 MSNP4 CVR0"
 	 sb set ns stat "v"
 	 return 0
       }
@@ -2693,7 +2616,7 @@ proc cmsn_auth {{recv ""}} {
 	    status_log "was expecting VER reply but got a [lindex $recv 0]\n" red
 	    return 1
 	 } elseif {[lsearch -exact $recv "CVR0"] != -1} {
-            ::MSN::WriteNS "INF" ""
+            ::MSN::WriteSB ns "INF" ""
 	    sb set ns stat "i"
 	    return 0
 	 } else {
@@ -2707,7 +2630,7 @@ proc cmsn_auth {{recv ""}} {
             return 1
          } elseif {[lsearch -exact $recv "MD5"] != -1} {
             global config
-            ::MSN::WriteNS "USR" "MD5 I $config(login)"
+            ::MSN::WriteSB ns "USR" "MD5 I $config(login)"
             sb set ns stat "u"
             return 0
          } else {
@@ -2722,7 +2645,7 @@ proc cmsn_auth {{recv ""}} {
             status_log "was expecting USR x MD5 S xxxxx but got something else!\n" red
             return 1
          }
-         ::MSN::WriteNS "USR" "MD5 S [get_password 'MD5' [lindex $recv 4]]"
+         ::MSN::WriteSB ns "USR" "MD5 S [get_password 'MD5' [lindex $recv 4]]"
          sb set ns stat "us"
          return 0
       }
@@ -2739,7 +2662,7 @@ proc cmsn_auth {{recv ""}} {
          set user_info $recv
          sb set ns stat "a"
 	 save_config						;# CONFIG
-	 ::MSN::WriteNS "SYN" "0"
+	 ::MSN::WriteSB ns "SYN" "0"
 
          if {$config(startoffline)} {
             ::MSN::changeStatus "HDN"
@@ -2836,7 +2759,7 @@ proc ns_enter {} {
    .status.enter delete 0 end
    if { [string range $command 0 0] == "/"} {
      #puts -nonewline [sb get ns sock] "[string range $command 1 [string length $command]]\r\n"
-     ::MSN::WriteNSRaw "[string range $command 1 [string length $command]]\r\n"
+     ::MSN::WriteSBRaw ns "[string range $command 1 [string length $command]]\r\n"
    } elseif {$command != ""} {
      if {[catch {eval $command} res]} {
         msg_box "$res"
@@ -2853,7 +2776,7 @@ proc proxy_callback {event socket_name} {
     switch $event {
         dropped {   # Proxy connection dropped/closed during read
 	    if {$socket_name == "ns"} {
-	        cmsn_draw_offline;
+	        ::MSN::connectError
 	    }
 	}
     }
@@ -2870,12 +2793,11 @@ proc cmsn_socket {name} {
       set tmp_port [lindex $proxy_serv 1]
       ::Proxy::OnCallback "dropped" "proxy_callback"
 
-      status_log "Calling proxy::Setup now"
+      status_log "Calling proxy::Setup now\n" white
       ::Proxy::Setup next readable_handler $name
-      status_log "Before sb set"
+
       #TODO: Add timeout for proxy in cmsn_reconnect
-      sb set $name stat "pw"
-      status_log "After sbset"
+      #sb set $name stat "pw"
 
    } else {
 
@@ -2885,11 +2807,15 @@ proc cmsn_socket {name} {
       set next [sb get $name connected]
 
       #Reset timer
-      sb set $name time [clock seconds]
-      sb set $name stat "cw"
+      #sb set $name time [clock seconds]
+      #sb set $name stat "cw"
 
    }
-
+     sb set $name time [clock seconds]
+     sb set $name stat "cw"
+     sb set $name puts "puts"
+     sb set $name gets "gets"     
+   
      set sock [socket -async $tmp_serv $tmp_port]
      sb set $name sock $sock
      fconfigure $sock -buffering none -translation {binary binary} -blocking 0
@@ -2899,7 +2825,6 @@ proc cmsn_socket {name} {
 
 proc cmsn_ns_connected {} {
    global config
-
 
    fileevent [sb get ns sock] writable {}
    sb set ns stat "c"
@@ -2944,7 +2869,7 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 
    sb set ns data [list]
    sb set ns connected "cmsn_ns_connected"
-   sb set ns readable "read_ns_sock"
+   sb set ns readable "read_sb_sock ns"
 
    #TODO: Call "on connect" handlers, where hotmail will be registered.
    set ::hotmail::unread 0
@@ -3007,15 +2932,15 @@ proc newcontact_ok { newc_exit newc_add_to_list x0 x1} {
 
     if {$newc_exit == "OK"} {
 	if {$newc_allow_block == "1"} {
-	    ::MSN::WriteNS "ADD" "AL $x0 [urlencode $x1]"
+	    ::MSN::WriteSB ns "ADD" "AL $x0 [urlencode $x1]"
 	} else {
-	    ::MSN::WriteNS "ADD" "BL $x0 [urlencode $x1]"
+	    ::MSN::WriteSB ns "ADD" "BL $x0 [urlencode $x1]"
 	}
 	if {$newc_add_to_list} {
 	    ::MSN::addUser $x0 [urlencode $x1]
 	}
     } else {;# if clicked on OK, by default Accept List
-	#	       ::MSN::WriteNS "ADD" "AL [lindex $x 0] [urlencode [lindex $x 1]]"
+	#	       ::MSN::WriteSB ns "ADD" "AL [lindex $x 0] [urlencode [lindex $x 1]]"
     }
 }
 

@@ -430,7 +430,7 @@ namespace eval ::groups {
 
 	#TODO Keep track of transaction number
 	set new [urlencode $new]
-	::MSN::WriteNS "REG" "$currentGid $new 0"
+	::MSN::WriteSB ns "REG" "$currentGid $new 0"
 	# RenameCB() should be called when we receive the REG
 	# packet from the server
         return 1
@@ -445,7 +445,7 @@ namespace eval ::groups {
 	}
 
 	set gname [urlencode $gname]
-	::MSN::WriteNS "ADG" "$gname 0"
+	::MSN::WriteSB ns "ADG" "$gname 0"
 	# MSN sends back "ADG %T %M $gname gid junkdata"
 	# AddCB() should be called when we receive the ADG
 	# packet from the server
@@ -469,7 +469,7 @@ namespace eval ::groups {
 	    return 0
 	}
 	
-	::MSN::WriteNS "RMG" $gid
+	::MSN::WriteSB ns "RMG" $gid
 	# MSN sends back "RMG %T %M $gid"
 	# DeleteCB() should be called when we receive the RMG
 	# packet from the server

@@ -26,7 +26,7 @@ proc degt_Init {} {
 
 proc degt_protocol { str {colour ""}} {
    .degt.mid.txt insert end "[timestamp] $str\n" $colour
-   .degt.mid.txt yview moveto 1.0
+   #.degt.mid.txt yview moveto 1.0
     
 }
 
@@ -129,7 +129,7 @@ proc degt_ns_command_win {} {
 	    	debug_interpreter $nscmd $nspar
 	    } else {
 	        # Send command to the Notification Server
-	        ::MSN::WriteNS $nscmd $nspar
+	        ::MSN::WriteSB ns $nscmd $nspar
 	    }
 	}
     }
@@ -1069,6 +1069,10 @@ proc LabelFrame:create {w args} {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.43  2003/06/01 19:49:36  airadier
+# Very alpha support of POST proxy method.
+# Removed WriteNS, WriteNSRaw, and read_ns_sock, it was same code as WriteSB, WriteSBRaw and read_sb_sock, so now they're the same, always use SB procedures.
+#
 # Revision 1.42  2003/05/31 16:51:02  airadier
 # Removed preferences cascade menu, some people asked for it.
 #
@@ -1100,7 +1104,7 @@ proc LabelFrame:create {w args} {
 # Fixed font config saving issues (now we save a config backup in the preferences window, and restore it when window is destroyed, instead of modyfing a copy and saving it to $config when clicking "Save).
 #
 # Revision 1.33  2003/04/02 00:44:45  airadier
-# Every NS or SB network operation is now done thru WriteNS/WriteSB, so everything is logged to the protocol window.
+# Every NS or SB network operation is now done thru WriteSB, so everything is logged to the protocol window.
 #
 # Revision 1.32  2003/03/30 17:47:30  airadier
 # Added timeouts to switchboard reconnections and invitations.
