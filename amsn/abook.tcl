@@ -42,11 +42,11 @@ namespace eval ::abook {
 
 		set groupName    [::groups::GetName [getContactData $email group]]
 		set data(group)  [urldecode $groupName]
-		set data(handle) [urldecode [getContactData $email nick]]
-		set data(PHH) [urldecode [getContactData $email PHH]]
-		set data(PHW) [urldecode [getContactData $email PHW]]
-		set data(PHM) [urldecode [getContactData $email PHM]]
-		set data(MOB) [urldecode [getContactData $email MOB]]
+		set data(handle) [urldecode [getVolatileData $email nick]]
+		set data(PHH) [urldecode [getVolatileData $email PHH]]
+		set data(PHW) [urldecode [getVolatileData $email PHW]]
+		set data(PHM) [urldecode [getVolatileData $email PHM]]
+		set data(MOB) [urldecode [getVolatileData $email MOB]]
 		set data(available) "Y"
 	}
 
@@ -815,16 +815,16 @@ namespace eval ::abookGui {
 		
 		set nbPhone $nbIdent
 		label $nbPhone.phh -text "[trans home]:" 
-		label $nbPhone.phh1 -font splainf -text [::abook::getContactData $email phh] -fg blue \
+		label $nbPhone.phh1 -font splainf -text [::abook::getVolatileData $email phh] -fg blue \
 		-justify left -wraplength 300 
 		label $nbPhone.phw -text "[trans work]:"
-		label $nbPhone.phw1 -font splainf -text [::abook::getContactData $email phw] -fg blue \
+		label $nbPhone.phw1 -font splainf -text [::abook::getVolatileData $email phw] -fg blue \
 			-justify left -wraplength 300 
 		label $nbPhone.phm -text "[trans mobile]:" 
-		label $nbPhone.phm1 -font splainf -text [::abook::getContactData $email phm] -fg blue \
+		label $nbPhone.phm1 -font splainf -text [::abook::getVolatileData $email phm] -fg blue \
 		-justify left -wraplength 300 
 		label $nbPhone.php -text "[trans pager]:" 
-		label $nbPhone.php1 -font splainf -text [::abook::getContactData $email mob] -fg blue \
+		label $nbPhone.php1 -font splainf -text [::abook::getVolatileData $email mob] -fg blue \
 		-justify left -wraplength 300 
 		label $nbIdent.titleothers -text [trans others] -font bboldunderf 
 		

@@ -3527,8 +3527,9 @@ proc cmsn_ns_handler {item {message ""}} {
 			}
 			BPR {
 				if { [llength $item] == 3} {
+					#That's here we receive MOB, PHM,PHW,PHH information
 					global loading_list_info
-					::abook::setContactData $loading_list_info(last) [lindex $item 1] [urldecode [lindex $item 2]]
+					::abook::setVolatileData $loading_list_info(last) [lindex $item 1] [urldecode [lindex $item 2]]
 				} else {
 					# Update entry in address book setContact(email,PH*/M*,phone/setting)
 					::abook::setContactData [lindex $item 2] [lindex $item 3] [urldecode [lindex $item 4]]
