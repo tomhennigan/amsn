@@ -61,7 +61,7 @@ proc CheckLogDate {email} {
 
 
     file stat [file join  $log_dir date] datestat
-    
+
     status_log "stating file $log_dir/date = [array get datestat]\n"
 
     set date [clock format $datestat(mtime) -format "%B %Y"]
@@ -94,7 +94,7 @@ proc CheckLogDate {email} {
 
 
     }
-    
+
     return [open "[file join ${log_dir} ${email}.log]" a+]
 
 }
@@ -399,7 +399,7 @@ proc OpenLogWin { {email ""} } {
 	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
 		frame $wname.blueframe
 	} else {
-		frame $wname.blueframe -background [::skin::getKey background1]
+		frame $wname.blueframe -background [::skin::getColor background1]
 	}
 	frame $wname.blueframe.log -class Amsn -borderwidth 0
       	frame $wname.buttons -class Amsn
@@ -1015,7 +1015,7 @@ proc sortalllog { } {
 	
 		set size 0
 		
-		set file "[file join ${log_dir} ${email}.log]]"
+		set file "[file join ${log_dir} ${email}.log]"
 	
 		if { [file exists $file] == 1 } {
 			set size [file size $file]
@@ -1043,6 +1043,32 @@ proc sortalllog { } {
 }
 
 
+proc sortthismonthlog { } {
+
+	global log_dir
+
+	set contactlist [::abook::getAllContacts]
+
+	foreach email $contactlist {
+
+		set file [file join ${log_dir} ${email}.log]
+
+		if { [file exists $file] } {
+			set size [file size $file]
+		} else {
+			set size 0
+		}
+
+	set contactsize [lappend contactsize [list $email $size]]
+
+	}
+
+	set contactsize [lsort -integer -index 1 -decreasing $contactsize]
+	
+	return $contactsize
+
+}
+
 proc sortmonthlog { month } {
 
 	global log_dir
@@ -1055,7 +1081,7 @@ proc sortmonthlog { month } {
 	
 		set file [file join ${log_dir} ${month} ${email}.log]
 			
-		if { [file exists $file] == 1 } {
+		if { [file exists $file] } {
 			set size [file size $file]
 		} else {
 			set size 0
@@ -1080,14 +1106,18 @@ proc getAllDates { } {
 		global log_dir
 		
 		set datelist [list]
+		set datelisterror [list]
 	
 		foreach date [glob -nocomplain -types d -path "${log_dir}/" *] {
 			set idx [expr [string last "/" $date] + 1]
 			set date2 [string range $date $idx end]
 		
-			set date2 [clock scan "1 $date2"]
-		
-			set datelist [lappend datelist $date2]
+			if { [catch {
+				set date2 [clock scan "1 $date2"]
+				set datelist [lappend datelist $date2]
+			} ] } {
+				set datelisterror [lappend datelisterror $date2]
+			}
 		}
 	
 		set datelist [lsort -integer -decreasing $datelist]
@@ -1098,6 +1128,8 @@ proc getAllDates { } {
 			set date "[clock format $date -format "%B"] [clock format $date -format "%Y"]"
 			set datelist2 [lappend datelist2 $date]
 		}
+	
+		set datelist2 [concat $datelist2 $datelisterror]
 	
 		return $datelist2
 
@@ -1135,8 +1167,9 @@ proc stats { } {
 	$w.select.list list delete 0 end
 		
 	$w.select.list list insert end "[trans allmonths]"
-	
 	$w.select.list select "0"
+
+	$w.select.list list insert end "[trans thismonth]"
 	
 	foreach month $months {
 		$w.select.list list insert end "$month"
@@ -1192,8 +1225,10 @@ proc stats_select { id wname month} {
 		destroy $frame.$wlabel
 	}
 	
-	if { $month == "[trans all]" } {
+	if { [$w.select.list curselection] == 0} {
 		set contactsize [::log::sortalllog]
+	} elseif { [$w.select.list curselection] == 1 } {
+		set contactsize [::log::sortthismonthlog]
 	} else {
 		set contactsize [::log::sortmonthlog $month]
 	}
