@@ -1667,14 +1667,15 @@ namespace eval ::amsn {
 
 		catch {image create photo my_pic -file [filenoext [GetSkinFile displaypic $config(displaypic)]].gif}
 		image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
-		label $bottom.pic  -borderwidth 2 -relief solid -image no_pic -background #FFFFFF
-		button $bottom.showpic -bd 1 -padx 0 -pady 0 -text "" -command "set .${win_name}_show_picture 1; ::amsn::ShowOrHidePicture .${win_name}" -font splainf
-		grid $bottom.showpic -row 0 -column 1 -padx 0 -pady 0 -rowspan 2
+		label $bottom.pic  -borderwidth 1 -relief solid -image no_pic -background #FFFFFF
+		button $bottom.showpic -bd 0 -padx 0 -pady 0 -text ">" \
+			-command "::amsn::ToggleShowPicture ${win_name}; ::amsn::ShowOrHidePicture .${win_name}" -font splainf
+		grid $bottom.showpic -row 0 -column 2 -padx 0 -pady 3 -rowspan 2 -sticky ns
 
 		bind $bottom.pic <Button1-ButtonRelease> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
 		bind $bottom.pic <<Button3>> "::amsn::ShowPicMenu .${win_name} %X %Y\n"
 
-		
+
 		#scrollbar .${win_name}.f.top.ys -command ".${win_name}.f.top.text yview"
 
       scrollbar .${win_name}.f.out.ys -command ".${win_name}.f.out.text yview" \
@@ -1856,7 +1857,17 @@ namespace eval ::amsn {
 	}
 
 
+	proc ToggleShowPicture { win_name } {
+		upvar #0 .${win_name}_show_picture show_pic
 
+		status_log "show pic is $show_pic\n" white
+
+		if { $show_pic } {
+			set show_pic 0
+		} else {
+			set show_pic 1
+		}
+	}
 
 	proc ShowPicMenu { win x y } {
 		status_log "Show menu in window $win, position $x $y\n" blue
@@ -1898,8 +1909,10 @@ set y [expr $y - 115]
 			image create photo no_pic -file [GetSkinFile displaypic nopic.gif]
 			$win.f.bottom.pic configure -image no_pic
 		} elseif { $nopack == ""} {
-			grid $win.f.bottom.pic -row 0 -column 1 -padx 2 -pady 2 -rowspan 2
-			grid forget $win.f.bottom.showpic
+			grid $win.f.bottom.pic -row 0 -column 1 -padx 0 -pady 3 -rowspan 2
+			#grid forget $win.f.bottom.showpic
+			$win.f.bottom.showpic configure -text "<"
+
 			set show_pic 1
 		}
 	}
@@ -1908,7 +1921,9 @@ set y [expr $y - 115]
 		global ${win}_show_picture
 		grid forget $win.f.bottom.pic
 
-		grid $win.f.bottom.showpic -row 0 -column 1 -padx 0 -pady 0 -rowspan 2
+		#grid $win.f.bottom.showpic -row 0 -column 1 -padx 0 -pady 0 -rowspan 2
+		#Change here to change the icon, instead of text
+		$win.f.bottom.showpic configure -text ">"
 
 		set ${win}_show_picture 0
 
