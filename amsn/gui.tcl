@@ -768,9 +768,9 @@ namespace eval ::amsn {
 
       set evPar [list $user [lindex [::MSN::getUserInfo $user] 1] $msg]            
       if { "$user" != "$chatid" } {
-         ::plugins::postEvent chat_msg_sent $evPar
+         ::plugins::PostEvent chat_msg_sent $evPar
       } else { 
-	 ::plugins::postEvent chat_msg_received $evPar
+	 ::plugins::PostEvent chat_msg_received $evPar
       }
 
             
@@ -2367,6 +2367,9 @@ proc cmsn_draw_main {} {
    .options add checkbutton -label "[trans closingdocks]" -onvalue 1 -offvalue 0 -variable config(closingdocks) 
    .options add separator
    .options add command -label "[trans language]..." -command show_languagechoose
+    .options add command -label "[trans skinselector]..." -command SelectSkinGui
+#    .options add command -label "[trans pluginselector]..." -command ::plugins::PluginGui
+
    
    #Help menu
    menu .main_menu.help -tearoff 0 -type normal
@@ -2684,7 +2687,10 @@ proc show_languagechoose {} {
 
 proc set_language { langname } {
    global config
-   #msg_box [trans mustrestart]
+   msg_box [trans mustrestart]
+   set config(language) $langname
+    return
+
    ::MSN::logout
    set config(language) $langname
    load_lang

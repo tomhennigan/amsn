@@ -54,6 +54,7 @@ blocking Blocking
 blockinter1 When your status is online check every 
 blockinter2 seconds, else check every :
 blockinter3 every 
+blockinter4 seconds.
 blocklist Block list (BL):
 blockmessage These people are online and blocked you
 blockusers Number of users to check at once 
@@ -84,6 +85,7 @@ choosebasefont Choose font type
 choosebgcolor Choose background color
 choosecontact Please choose a contact from the list
 choosefontcolor Choose font color
+chooseskin Please select the Skin you would like to use
 clearlog2 Clear the history for all your contacts
 clearlog3 Clear All Logs
 clearlog Clear Log
@@ -253,6 +255,7 @@ next Next
 noactivity No activity
 nodataavailable No data available for $1
 nologfile No Log file for $1
+noneavailable None Available
 nonewmail No new messages in Inbox
 nonewver There are no new versions available to download
 no No
@@ -285,6 +288,7 @@ personal Personal
 phone Phone
 picfile Picture File (GIF < 500 x 500)
 picstatus Picture Alarm
+pluginselector Select Plugins
 port Port
 prefalerts My Event Alerts and Sounds
 prefapps Applications
@@ -343,6 +347,8 @@ save Save
 savetofile Save to File
 says $1 says
 sbcon Connecting to Switch Board
+selectplugins Please select the plugins you want enabled
+selectskin Please choose a skin from the list
 sendfile Send file
 sendmail Send mail
 sendmsg Send message
@@ -352,6 +358,8 @@ servergoingdown Disconnected: Server is going down
 server Server
 session Session
 showblockedlist Show list of people who blocked you
+skin Skin
+skinselector Select Skin
 smileconfig Custom emoticon configuration
 smilefile Smiley filename
 smileintro Please fill the required fields to create a new custom smiley (see the FAQ for help)

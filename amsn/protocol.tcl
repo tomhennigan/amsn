@@ -2688,7 +2688,9 @@ proc cmsn_update_users {sb_name recv} {
 
 
 proc cmsn_change_state {recv} {
-   global list_fl list_users config
+   global list_users config list_states alarms
+
+    ::plugins::PostEvent ChangeState recv list_users list_states
 
    if {[lindex $recv 0] == "FLN"} {
       set user [lindex $recv 1]
@@ -2749,20 +2751,20 @@ proc cmsn_change_state {recv} {
 
    set idx [lsearch $list_users "$user *"]
    if {$idx != -1} {
-      global list_users list_states alarms
 
       set user_data [lindex $list_users $idx]
       if {$user_name == ""} {
          set user_name [urldecode [lindex $user_data 1]]
       }
 
+       set state_no [lsearch $list_states "$substate *"]
+
       if {$user_name != [lindex $user_data 1]} {
       	#Nick differs from the one on our list, so change it
 	#in the server list too
 	::MSN::changeName $user $user_name
-      }
+    }
 
-       set state_no [lsearch $list_states "$substate *"]
 
       if {[lindex $user_data 2] < 7} {		;# User was online before
 
@@ -2789,7 +2791,6 @@ proc cmsn_change_state {recv} {
 	     catch { run_alarm [lindex $recv 2] "$user_name [trans logsin]"}
 	 }
       }
-
 
       if {$substate != "FLN"} {
 

@@ -977,6 +977,7 @@ proc Preferences { { settings "personal"} } {
         label $lfname.check.linter1 -text "[trans blockinter1]"
         label $lfname.check.linter2 -text "[trans blockinter2]"
         label $lfname.check.linter3 -text "[trans blockinter3]"
+        label $lfname.check.linter4 -text "[trans blockinter4]"
         label $lfname.check.lusers -text "[trans blockusers]"
         entry $lfname.check.inter1 -validate all -vcmd "BlockValidateEntry %W %P 1" -invcmd "BlockValidateEntry %W %P 0 15" -width 4 -textvariable config(blockinter1)
         entry $lfname.check.inter2 -validate all -vcmd "BlockValidateEntry %W %P 2" -invcmd "BlockValidateEntry %W %P 0 30"  -width 4 -textvariable config(blockinter2)
@@ -986,6 +987,7 @@ proc Preferences { { settings "personal"} } {
         grid $lfname.check.linter1 -row 1 -column 1 -sticky w
         grid $lfname.check.linter2 -row 1 -column 3 -sticky w
         grid $lfname.check.linter3 -row 2 -column 3 -sticky w
+        grid $lfname.check.linter4 -row 2 -column 5 -sticky w
         grid $lfname.check.lusers -row 2 -column 1 -sticky w
         grid $lfname.check.inter1 -row 1 -column 2 -sticky w
         grid $lfname.check.inter2 -row 1 -column 4 -sticky w
@@ -1531,6 +1533,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 
 ###################### ****************** ###########################
 # $Log$
+# Revision 1.74  2003/09/02 08:31:20  kakaroto
+# Skin selector GUI
+#
 # Revision 1.73  2003/09/02 08:20:49  burgerman
 # Applied and adapted patches sent by KNO for enhanced alarm functionatily (alarms on status change, on disconnect, on connect and on message)
 #
