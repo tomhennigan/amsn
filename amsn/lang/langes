@@ -125,7 +125,7 @@ inbox Bandeja de entrada
 invalidusername Nombre de usuario no válido
 invite Invitar
 ipaddress Dirección IP
-ipdetect Detectas la IP correcta para transferencias usando HTTP
+ipdetect Detectar la IP correcta para transferencias usando HTTP
 istyping $1 está escribiendo un mensaje
 joins $1 se une a la conversación
 keepalive Mantener conexión activa (NAT)
