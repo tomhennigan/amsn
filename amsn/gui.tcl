@@ -6462,14 +6462,14 @@ proc convert_image { filename size } {
 		set idx 1
 		while { 1 } {
 			if { [file exists $filename2.png.$idx] } {
-				file delete $filename2.png.$idx
+				catch {file delete $filename2.png.$idx}
 				incr idx
 			} else { break }
 		}
 		file rename $filename2.png.0 $filename2.png
 	}
 
-	file delete ${filename}
+	catch {file delete ${filename}}
 
 
 	#Now let's crop image, from the center
@@ -6517,11 +6517,11 @@ proc convert_image { filename size } {
 		set idx 1
 		while { 1 } {
 			if { [file exists $filename2.png.$idx] } {
-				file delete $filename2.png.$idx
+				catch {file delete $filename2.png.$idx}
 				incr idx
 			} else { break }
 		}
-		file delete $filename2.png
+		catch {file delete $filename2.png}
 		file rename $filename2.png.0 $filename2.png
 	}
 

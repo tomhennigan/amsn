@@ -264,9 +264,9 @@ after 750 proc_sb
 
 #If you are on any operating system (except Darwin), test if imagemagick is there. For darwin, the verification is in "proc OpenChatWindow {}"
 if {$tcl_platform(os) != "Darwin"} { 
-if { $config(getdisppic) != 0 } {
-	check_imagemagick
-}
+	if { $config(getdisppic) != 0 } {
+		check_imagemagick
+	}
 }
 
 
@@ -274,8 +274,9 @@ if { $config(getdisppic) != 0 } {
 
 if {$version != [::config::getGlobalKey last_client_version]} {
    ::amsn::aboutWindow
-
 }
+
+update idletasks
 
 if { $config(autoconnect) == 1 } {
   ::MSN::connect $config(login) password
@@ -285,7 +286,7 @@ if { $config(autocheckver) == 1 } {
     set new [check_version_silent]
 }
 
-# BeginVerifyBlocked
+
 if { $config(enableremote) } {
 	init_remote_DS
 }
