@@ -47,14 +47,18 @@ namespace eval ::MSNFT {
 
    #TODO: Instead of using a list, use many variables: ft_name, ft_sockid...
 
-   proc invitationReceived { filename filesize cookie chatid fromlogin } {
+   # If type is = 1 then it's an MSNP2P file send
+   proc invitationReceived { filename filesize cookie chatid fromlogin {type "0"}} {
       variable filedata
 
-      set filedata($cookie) [list "$filename" $filesize $chatid $fromlogin "receivewait" "ipaddr"]
-      after 300000 "::MSNFT::DeleteFT $cookie"
-       ::amsn::fileTransferRecv $filename $filesize $cookie $chatid $fromlogin
-      #set filetoreceive [list "$filename" $filesize]
-
+      if { $type == 0 } {
+      	set filedata($cookie) [list "$filename" $filesize $chatid $fromlogin "receivewait" "ipaddr"]
+      	after 300000 "::MSNFT::DeleteFT $cookie"
+       	::amsn::fileTransferRecv $filename $filesize $cookie $chatid $fromlogin
+      	#set filetoreceive [list "$filename" $filesize]
+      } elseif { $type == 1 } {
+      	set filedata($cookie) [list "$filename" $filesize $chatid $fromlogin]
+      }
    }
 
    proc acceptReceived {cookie chatid fromlogin body} {
@@ -4946,6 +4950,7 @@ namespace eval ::MSNP2P {
 					set filename [string map { \x00 "" } [string range $context 19 end]]
 					binary scan [string range $context 8 12] i filesize
 					status_log "context : $context \n [string range $context 8 12]  \nfilename : $filename $filesize \n"
+					::MSNFT::invitationReceived $filename $filesize $sid $chatid $dest 1
 					::amsn::GotFileTransferRequest $chatid $dest $branchuid $cseq $uid $sid $filename $filesize
 				}
 				return
@@ -4989,6 +4994,11 @@ namespace eval ::MSNP2P {
 		if { $cSid != 0 } {
 		    set sid $cSid
 		    set fd [lindex [SessionList get $cSid] 6]
+		    
+		    #If it's a file transfer, display Progress bar
+		    if { [lindex [SessionList get $cSid] 7] == "filetransfer" } {
+		    	::amsn::FTProgress r $cSid [lindex [SessionList get $cSid] 6] $cOffset $cTotalDataSize
+		    }
 		    if { $fd != "" && $fd != 0 && $fd != -1 } {
 			# File already open and being written to (fd exists)
 			# Lets write data to file
@@ -5038,10 +5048,11 @@ namespace eval ::MSNP2P {
 			    } elseif { [lindex [SessionList get $cSid] 7] == "filetransfer" } {
 				# Display message that file transfer is finished...
 				status_log "File transfer finished!\n"
-				::amsn::WinWrite $chatid "----------\n" green
-				::amsn::WinWriteIcon $chatid fticon 3 2
-				::amsn::WinWrite $chatid " [trans filetransfercomplete]\n\n" green
-				::amsn::WinWrite $chatid "----------\n" green
+				::amsn::FTProgress fr $cSid [lindex [SessionList get $cSid] 6] $cOffset $cTotalDataSize
+				#::amsn::WinWrite $chatid "----------\n" green
+				#::amsn::WinWriteIcon $chatid fticon 3 2
+				#::amsn::WinWrite $chatid " [trans filetransfercomplete]\n\n" green
+				#::amsn::WinWrite $chatid "----------\n" green
 			    }
 			}
 		    } elseif { $cMsgSize == 4 } {
@@ -5365,6 +5376,7 @@ namespace eval ::MSNP2P {
 		# Let's make and send a 200 OK Message
 		set slpdata [MakeMSNSLP "OK" $dest $config(login) $branchuid [expr $cseq + 1] $uid 0 0 $sid]
 		SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+		::amsn::FTProgress w $sid $filename1 [trans throughserver]
 		status_log "MSNP2P -> sid : $sid -> Sent 200 OK Message for File Transfer\n" red
 	}
 
