@@ -25,6 +25,7 @@ set config(myip) "127.0.0.1"
 set config(wingeometry) 275x400-0+0
 set config(closingdocks) 1
 #end AIM
+set config(orderbygroup) 0
 
 set password ""
 
