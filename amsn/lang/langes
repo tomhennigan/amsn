@@ -233,6 +233,9 @@ filename Nombre de Archivo
 filetransfercancelled Transferencia de archivo cancelada
 filetransfercomplete Transferencia de archivo completada
 filetransfer Transferencia de archivos
+filters Filtros
+filtersselect Elige los filtros que deseas ver\n(Si no se selecciona ninguno se mostrarán todos)
+filtersx Filtrar selección
 followtext Desplazar hacia abajo cuando aparezca nuevo texto
 friendlyname Apodo en conversación
 ftacceptedby $1 ha aceptado la invitación a la transferencia del archivo '$2'.
@@ -372,6 +375,7 @@ name Nombre
 natip Detección de IP por Web
 natkeepalive Si sufres desconexiones continuamente, activa esta opción
 needonline Todavía estás/apareces desconectado
+needwinico2 Need winico05.dll in the utils/windows directory for windows traydocking to work
 needwinico Se necesita el archivo winico03.dll en el directorio plugins para que el icono de la bandeja funcione
 never Nunca
 new_ft_protocol Usar el nuevo protocolo de transferencias de ficheros (INESTABLE)
@@ -599,6 +603,7 @@ unknown Desconocido
 unload Descargar
 uoffline Desconectados
 uonline Conectados
+update Actualizar
 useother Usar un comando o programa distinto
 useralreadyonlist El usuario ya se encuentra en la lista de contactos.
 userblocked El usuario se encuentra online pero estás bloqueado
