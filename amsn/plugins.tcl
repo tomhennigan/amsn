@@ -358,7 +358,7 @@ namespace eval ::plugins {
 		set w .plugin_selector
 		# if the window already exists, focus it, otherwise create it
 		if {[winfo exists $w]==1} {
-			focus $w
+			raise $w
 		} else {
 			# create window and give it it's title
 			toplevel $w
@@ -367,11 +367,13 @@ namespace eval ::plugins {
 			# frame that holds the selection dialog
 			frame $w.select
 			# listbox with all the plugins
-			listbox $w.select.plugin_list -background "white" -height 15
+			listbox $w.select.plugin_list -background "white" -height 17
 			# frame that holds the plugins info like name and description
 			frame $w.desc
 			label $w.desc.name_title -text [trans name] -font sboldf
 			label $w.desc.name
+			label $w.desc.version_title -text [trans version] -font sboldf
+			label $w.desc.version
 			label $w.desc.author_title -text [trans author] -font sboldf
 			label $w.desc.author
 			label $w.desc.desc_title -text [trans description] -font sboldf
@@ -431,10 +433,12 @@ namespace eval ::plugins {
 			grid $w.select.plugin_list -row 1 -column 1 -sticky nsew
 			grid $w.desc.name_title -row 1 -column 1 -sticky w -padx 10
 			grid $w.desc.name -row 2 -column 1 -sticky w -padx 20
-			grid $w.desc.author_title -row 3 -column 1 -sticky w -padx 10
-			grid $w.desc.author -row 4 -column 1 -sticky w -padx 20
-			grid $w.desc.desc_title -row 5 -column 1 -sticky w -padx 10
-			grid $w.desc.desc -row 6 -column 1 -sticky w -padx 20
+			grid $w.desc.version_title -row 3 -column 1 -sticky w -padx 10
+			grid $w.desc.version -row 4 -column 1 -sticky w -padx 20
+			grid $w.desc.author_title -row 5 -column 1 -sticky w -padx 10
+			grid $w.desc.author -row 6 -column 1 -sticky w -padx 20
+			grid $w.desc.desc_title -row 7 -column 1 -sticky w -padx 10
+			grid $w.desc.desc -row 8 -column 1 -sticky w -padx 20
 			grid $w.command.load -column 1 -row 1 -sticky e -padx 5 -pady 5
 			grid $w.command.config -column 2 -row 1 -sticky e -padx 5 -pady 5
 			grid $w.command.close -column 3 -row 1 -sticky e -padx 5 -pady 5
@@ -485,10 +489,12 @@ namespace eval ::plugins {
 		set selection(init_proc) $plugins(${selection(id)}_init_proc)
 		set selection(author) $plugins(${selection(id)}_author)
 		set selection(desc) $plugins(${selection(id)}_desc)
+		set selection(plugin_version) $plugins(${selection(id)}_plugin_version)
 
 		# update the description
 		$w.desc.name configure -text $selection(name)
 		$w.desc.author configure -text $selection(author)
+		$w.desc.version configure -text $selection(plugin_version)
 		
 		# update the buttons
 		if {[lsearch "$loadedplugins" $selection(name)] != -1 } {
