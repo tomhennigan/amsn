@@ -38,8 +38,11 @@
 
 
    <Colors>
-     <Background1>#8b95de</Background1>
-     <Background2>#fafafa</Background2>
+     <Mainwindowbg>#aaaaaa</Mainwindowbg>
+     <Chatwindowbg>#cccccc</Chatwindowbg>
+     <Buttonbarbg>#fefefe</Buttonbarbg>
+     <Topbarbg>#ffffff</Topbarbg>
+     <Topbartext>#000000</Topbartext>
    </Colors>
 
 
